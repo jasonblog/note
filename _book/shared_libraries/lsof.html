@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
-        <title>Shared Libraries Setup | Jason note</title>
+        <title>10 條 Linux | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.0.1">
@@ -20,10 +20,10 @@
         
     
     
-    <link rel="next" href="../linux_tools/index.html" />
+    <link rel="next" href="../shared_libraries/cntotw.html" />
     
     
-    <link rel="prev" href="../shared_libraries/index.html" />
+    <link rel="prev" href="../shared_libraries/12.html" />
     
 
         
@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="2.1" data-basepath=".." data-revision="Sat May 09 2015 02:52:15 GMT+0800 (CST)">
+    <div class="book" data-level="1.1" data-basepath=".." data-revision="Sat May 09 2015 02:52:15 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -82,7 +82,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.1" data-path="shared_libraries/lsof.html">
+        <li class="chapter active" data-level="1.1" data-path="shared_libraries/lsof.html">
             
                 
                     <a href="../shared_libraries/lsof.html">
@@ -133,7 +133,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="2.1" data-path="shared_libraries/11.html">
+        <li class="chapter " data-level="2.1" data-path="shared_libraries/11.html">
             
                 
                     <a href="../shared_libraries/11.html">
@@ -700,56 +700,105 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="shared-libraries-setup">Shared Libraries Setup</h1>
-<h3 id="linux-%E5%8B%95%E6%85%8B%E8%A3%9D%E8%BC%89%E5%8B%95%E6%85%8B%E5%BA%AB-ldd%EF%BC%8Cldconfig%EF%BC%8Cld-so-conf-ld-so-cache">linux &#x52D5;&#x614B;&#x88DD;&#x8F09;&#x52D5;&#x614B;&#x5EAB; ldd&#xFF0C;ldconfig&#xFF0C;ld.so.conf, ld.so.cache</h3>
-<p>&#x524D;&#x9762;&#x6211;&#x5011;&#x4ECB;&#x7D39;&#x904E;&#xFF0C;GCC&#x7DE8;&#x8B6F;C++&#x7A0B;&#x5E8F;&#x7684;&#x90A3;&#x4E9B;&#x6B65;&#x9A5F;&#xFF0C;&#x5176;&#x4E2D;&#x5305;&#x62EC;&#x7DE8;&#x8B6F;&#x7684;&#x6642;&#x5019;include&#x7684;&#x641C;&#x7D22;&#x76EE;&#x9304;&#xFF0C;&#x93C8;&#x63A5;&#x7684;&#x6642;&#x5019;&#x5EAB;&#x7684;&#x641C;&#x7D22;&#x76EE;&#x9304;&#xFF08;&#x9019;&#x88E1;&#x7684;&#x5EAB;&#x5305;&#x542B;&#x5169;&#x7A2E;&#x5EAB;&#xFF09;&#x3002;&#x9084;&#x6709;&#x4E00;&#x500B;&#x6642;&#x5019;&#xFF0C;&#x9700;&#x8981;&#x641C;&#x7D22;&#x8DEF;&#x5F91;&#xFF0C;&#x90A3;&#x5C31;&#x662F;&#x88DD;&#x8F09;&#x52D5;&#x614B;&#x5EAB;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x9019;&#x500B;&#x6642;&#x5019;&#x8207;GCC&#x7121;&#x95DC;&#x4E86;&#x3002;&#x800C;&#x662F;&#x8207;linux&#x7CFB;&#x7D71;&#x81EA;&#x8EAB;&#x6709;&#x95DC;&#x4FC2;&#x3002;</p>
-<p>&#x52D5;&#x614B;&#x8F49;&#x8F09;&#x52D5;&#x614B;&#x5EAB;&#xFF0C;&#x662F;&#x70BA;&#x57FA;&#x65BC;&#x52D5;&#x614B;&#x5EAB;&#x7DE8;&#x8B6F;&#x93C8;&#x63A5;&#x800C;&#x4F86;&#x7684;&#x53EF;&#x57F7;&#x884C;&#x7A0B;&#x5E8F;&#x8A2D;&#x5B9A;&#x7684;&#x4E00;&#x500B;&#x7A0B;&#x5E8F;&#x57F7;&#x884C;&#x904E;&#x7A0B;&#x4E2D;&#x9700;&#x8981;&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x5C0D;&#x65BC;&#x90A3;&#x4E9B;&#x53EA;&#x57FA;&#x65BC;&#x975C;&#x614B;&#x5EAB;&#x7684;&#x53EF;&#x57F7;&#x884C;&#x7A0B;&#x5E8F;&#x4F86;&#x8AAA;&#xFF0C;&#x9019;&#x500B;&#x529F;&#x80FD;&#x6C92;&#x6709;&#x4EC0;&#x9EBC;&#x7528;&#x3002;</p>
-<pre><code>1)&#x57F7;&#x884C;&#x9019;&#x500B;&#x52D5;&#x4F5C;&#x7684;linux&#x7A0B;&#x5E8F;&#xFF1A;  /usr/bin/ld
-2)&#x9019;&#x500B;&#x7A0B;&#x5E8F;&#x53C3;&#x8003;&#x7684;&#x6587;&#x4EF6;&#x70BA;&#xFF1A;/etc/ld.so.conf&#xFF0C;&#x8A72;&#x6587;&#x4EF6;&#x4FDD;&#x5B58;&#x8457;ld&#x61C9;&#x8A72;&#x641C;&#x7D22;&#x7684;so&#x6587;&#x4EF6;&#x8DEF;&#x5F91;&#x3002;&#x901A;&#x5E38;ld.so.conf.d
-&#x9019;&#x500B;&#x6587;&#x4EF6;&#x593E;&#x4E0B;&#x4E5F;&#x4FDD;&#x5B58;&#x8457;&#x5206;&#x6587;&#x4EF6;&#xFF0C;&#x4EE5;&#x4F9B;&#x5408;&#x6210;ld.so.conf
-3)&#x8A72;&#x7A0B;&#x5E8F;&#x5BE6;&#x969B;&#x53C3;&#x8003;&#x7684;&#x6587;&#x4EF6;&#x70BA;:/etc/ld.so.cache.&#x9019;&#x500B;&#x6587;&#x4EF6;&#x6703;&#x5176;&#x5BE6;&#x57FA;&#x672C;&#x4E0A;&#x5C31;&#x662F;&#x5C0D;/etc/ld.so.cache &#x505A;&#x4E86;&#x7A0D;&#x5FAE;&#x7684;&#x8655;&#x7406;&#x5229;&#x65BC;/usr/bin/ld&#x7A0B;&#x5E8F;&#x7684;&#x53C3;&#x8003;&#x3002;
-4&#xFF09;&#x5C07;/etc/ld.so.conf &#x66F4;&#x65B0;&#x5230;/etc/ld.so.cache.&#x7684;&#x547D;&#x4EE4;&#xFF1A; ldconfig. &#x4F7F;&#x7528; ldconfig -p|less&#x53EF;&#x4EE5;&#x9010;&#x6B65;&#x67E5;&#x770B;&#x5F9E;/usr/bin/ld &#x773C;&#x88E1;&#x7684;/etc/ld.so.cache&#x7684;&#x5167;&#x5BB9;&#xFF08;&#x8DEF;&#x5F91;&#xFF09;&#x3002;
-5&#xFF09;&#x6240;&#x4EE5;&#x5F80;/etc/ld.so.conf&#x5167;&#x505A;&#x6307;&#x5B9A;&#x7684;&#x8DEF;&#x5F91;&#xFF0C;&#x5982;/usr/lib&#x7B49;&#x52A0;&#x5165;&#x4F60;&#x9700;&#x8981;&#x7A0B;&#x5E8F;&#x641C;&#x7D22;&#x7684;&#x52D5;&#x614B;&#x5EAB;.so&#x6587;&#x4EF6;&#xFF0C;
-&#x4E0D;&#x9700;&#x8981;&#x57F7;&#x884C;ldconfig&#x66F4;&#x65B0;&#x3002;&#x56E0;&#x70BA;/etc/ld.so.cache&#x4E2D;&#x4FDD;&#x5B58;&#x7684;&#x5C31;&#x662F;&#x76EE;&#x9304;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x5177;&#x9AD4;&#x7684;so&#x6587;&#x4EF6;&#x3002;
-6&#xFF09;&#x5411;/etc/ld.so.conf&#x6DFB;&#x52A0;&#x8DEF;&#x5F91;&#x3002;&#x5247;&#x9700;&#x8981;&#x8ABF;&#x7528;ldconfig&#x4F86;&#x66F4;&#x65B0;/usr/bin/ld&#x7684;&#x641C;&#x7D22;&#x8DEF;&#x5F91;&#x3002;
-</code></pre><p>&#x904B;&#x884C;&#x6642;&#x52D5;&#x614B;&#x5EAB;&#x7684;&#x641C;&#x7D22;&#x8DEF;&#x5F91;&#xFF1A;</p>
-<pre><code>&#x52D5;&#x614B;&#x5EAB;&#x7684;&#x641C;&#x7D22;&#x8DEF;&#x5F91;&#x641C;&#x7D22;&#x7684;&#x5148;&#x5F8C;&#x9806;&#x5E8F;&#x662F;&#xFF1A;
-&#x2460;&#x7DE8;&#x8B6F;&#x76EE;&#x6A19;&#x4EE3;&#x78BC;&#x6642;&#x6307;&#x5B9A;&#x7684;&#x52D5;&#x614B;&#x5EAB;&#x641C;&#x7D22;&#x8DEF;&#x5F91;&#xFF08;&#x9019;&#x662F;&#x901A;&#x904E;gcc &#x7684;&#x53C3;&#x6578;&quot;-Wl,-rpath,&quot;&#x6307;&#x5B9A;&#x3002;&#x7576;&#x6307;&#x5B9A;&#x591A;&#x500B;&#x52D5;&#x614B;&#x5EAB;&#x641C;&#x7D22;&#x8DEF;&#x5F91;&#x6642;&#xFF0C;&#x8DEF;&#x5F91;&#x4E4B;&#x9593;&#x7528;&#x5192;&#x865F;&quot;&#xFF1A;&quot;&#x5206;&#x9694;&#xFF09;
-&#x2461;&#x74B0;&#x5883;&#x8B8A;&#x91CF;LD_LIBRARY_PATH&#x6307;&#x5B9A;&#x7684;&#x52D5;&#x614B;&#x5EAB;&#x641C;&#x7D22;&#x8DEF;&#x5F91;&#xFF08;&#x7576;&#x901A;&#x904E;&#x8A72;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x6307;&#x5B9A;&#x591A;&#x500B;&#x52D5;&#x614B;&#x5EAB;&#x641C;&#x7D22;&#x8DEF;&#x5F91;&#x6642;&#xFF0C;&#x8DEF;&#x5F91;&#x4E4B;&#x9593;&#x7528;&#x5192;&#x865F;&quot;&#xFF1A;&quot;&#x5206;&#x9694;&#xFF09;
-&#x2462;&#x914D;&#x7F6E;&#x6587;&#x4EF6;/etc/ld.so.conf&#x4E2D;&#x6307;&#x5B9A;&#x7684;&#x52D5;&#x614B;&#x5EAB;&#x641C;&#x7D22;&#x8DEF;&#x5F91;&#xFF1B;
-&#x2463;&#x9ED8;&#x8A8D;&#x7684;&#x52D5;&#x614B;&#x5EAB;&#x641C;&#x7D22;&#x8DEF;&#x5F91;/lib&#xFF1B;
-&#x2464;&#x9ED8;&#x8A8D;&#x7684;&#x52D5;&#x614B;&#x5EAB;&#x641C;&#x7D22;&#x8DEF;&#x5F91;/usr/lib&#x3002;
-</code></pre><p>&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#xFF0C;&#x96D6;&#x7136;linux&#x4EE5;&#x88DD;&#x8F09;&#x52D5;&#x614B;&#x5EAB;&#x6642;&#x641C;&#x7D22;&#x7684;&#x8DEF;&#x5F91;&#x4EE5;/etc/ld.so.conf&#x70BA;&#x4E3B;&#xFF0C;&#x4F46;&#x662F;&#xFF0C;&#x4ECD;&#x7136;&#x6709;&#x5176;&#x5B83;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x4F86;&#x69CB;&#x5EFA;&#x9019;&#x7A2E;&#x88DD;&#x8F09;&#x8DEF;&#x5F91;&#x7684;&#x9748;&#x6D3B;&#x6027;&#x3002;&#x4ECD;&#x7136;&#x662F;&#x9075;&#x5B88;&#x90A3;&#x7A2E;&#x5148;&#x300C;&#x5C08;&#x300D;&#x5F8C;&#x300C;&#x5BEC;&#x300D;&#x7684;&#x6A21;&#x5F0F;&#x53BB;&#x7E2E;&#x77ED;&#x53EF;&#x80FD;&#x7684;&#x641C;&#x7D22;&#x6642;&#x9593;&#x3002;
-&#x7B2C;&#x4E00;&#x500B;&#xFF0C;&#x5C31;&#x662F;&#x5728;&#x7DE8;&#x8B6F;&#x9023;&#x63A5;&#x8A72;&#x7A0B;&#x5E8F;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x5C31;&#x6307;&#x5B9A;&#x5C07;&#x4F86;&#x9700;&#x8981;&#x52D5;&#x614B;&#x5EAB;&#x7684;&#x6642;&#x5019;&#x641C;&#x7D22;&#x7684;&#x4F4D;&#x7F6E;&#x3002;&#x6CE8;&#x610F;&#x9019;&#x500B;&#x8207;&#x7576;&#x6642;&#x7684;&#x93C8;&#x63A5;&#x8DEF;&#x5F91;&#x96D6;&#x7136;&#x6709;&#x5F88;&#x5927;&#x7684;&#x95DC;&#x4FC2;&#xFF0C;&#x4F46;&#x662F;&#x4ED6;&#x5011;&#x7684;&#x6982;&#x5FF5;&#x662F;&#x4E0D;&#x540C;&#x7684;&#x3002;
-&#x7B2C;&#x4E8C;&#x500B;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x5728;&#x4F7F;&#x7528;/etc/ld.so.conf&#x4E4B;&#x524D;&#xFF0C;&#x9084;&#x6709;&#x4E00;&#x500B;&#x8DEF;&#x5F91;&#x8A2D;&#x7F6E;&#x65B9;&#x6CD5;&#x5C31;&#x662F;&#x74B0;&#x5883;&#x8B8A;&#x91CF;LD_LIBRARY_PATH. &#x9019;&#x500B;&#x6771;&#x897F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#xFF1A;
-export LD_LIBRARY_PATH=&#x300D;/usr/lib/old:/opt/lib &#x4F86;&#x5275;&#x5EFA;&#x4FEE;&#x6539;&#x9019;&#x500B;&#x8B8A;&#x91CF;&#x3002;
-&#x7B2C;&#x4E09;&#x500B;&#xFF0C;&#x624D;&#x662F;/etc/ld.so.conf
-&#x6700;&#x5F8C;&#x3002;&#x5247;&#x662F;&#x7CFB;&#x7D71;&#x9ED8;&#x8A8D;&#x8DEF;&#x5F91;&#x3002;</p>
-<h3 id="linux-%E7%92%B0%E5%A2%83%E8%AE%8A%E9%87%8F%E8%A8%AD%E7%BD%AE%E6%96%B9%E6%B3%95%E7%B8%BD%E7%B5%90%EF%BC%88path%EF%BC%8Fld-library-path%EF%BC%89">linux &#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x8A2D;&#x7F6E;&#x65B9;&#x6CD5;&#x7E3D;&#x7D50;&#xFF08;PATH&#xFF0F;LD_LIBRARY_PATH&#xFF09;</h3>
-<p>PATH&#x548C;LD_LIBRARY_PATH&#x672C;&#x8CEA;&#x90FD;&#x662F;&#x8B8A;&#x91CF;&#xFF0C;&#x6240;&#x8B02;&#x8B8A;&#x91CF;&#x7684;&#x610F;&#x601D;&#x5C31;&#x662F;&#x7531;&#x5225;&#x4EBA;&#x8CE6;&#x503C;&#x7522;&#x751F;&#x7684;&#xFF0C;&#x76F4;&#x89BA;&#x5F80;&#x5F80;&#x6703;&#x8B93;&#x6211;&#x5011;&#x6DFB;&#x52A0;&#x548C;&#x6E1B;&#x5C11;&#x9019;&#x500B;&#x8B8A;&#x91CF;&#x672C;&#x8EAB;&#x7684;&#x67D0;&#x4E9B;&#x8DEF;&#x5F91;&#xFF0C;&#x5BE6;&#x969B;&#x4E0A;&#x9019;&#x662F;&#x4E0D;&#x6B63;&#x78BA;&#x7684;&#x3002;&#x6B63;&#x78BA;&#x7684;&#x505A;&#x6CD5;&#x662F;&#x6211;&#x5011;&#x8981;&#x53BB;&#x4FEE;&#x6539;&#x8CE6;&#x4E88;&#x9019;&#x500B;&#x8B8A;&#x91CF;&#x6578;&#x503C;&#x7684;&#x90A3;&#x4E9B;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#xFF0C;&#x52A0;&#x4E00;&#x689D;&#x8DEF;&#x5F91;&#x6216;&#x8005;&#x6E1B;&#x4E00;&#x689D;&#x3002;&#x8AAA;&#x5230;&#x5E95;&#x8B8A;&#x91CF;&#x53EA;&#x95DC;&#x4E4E;&#x986F;&#x793A;&#xFF0C;&#x4E0D;&#x95DC;&#x4E4E;&#x5176;&#x7528;&#x65BC;&#x986F;&#x793A;&#x7684;&#x5167;&#x5BB9;&#x3002;</p>
-<p>PATH:  &#x53EF;&#x57F7;&#x884C;&#x7A0B;&#x5E8F;&#x7684;&#x67E5;&#x627E;&#x8DEF;&#x5F91;
-&#x67E5;&#x770B;&#x7576;&#x524D;&#x74B0;&#x5883;&#x8B8A;&#x91CF;:
-echo $PATH</p>
-<p>&#x8A2D;&#x7F6E;:
-&#x65B9;&#x6CD5;&#x4E00;&#xFF1A; export PATH=PATH:/XXX &#x4F46;&#x662F;&#x767B;&#x51FA;&#x5F8C;&#x5C31;&#x5931;&#x6548;
-&#x65B9;&#x6CD5;&#x4E8C;&#xFF1A;&#x4FEE;&#x6539;~/.bashrc&#x6216;~/.bash_profile&#x6216;&#x7CFB;&#x7D71;&#x7D1A;&#x5225;&#x7684;/etc/profile</p>
-<pre><code>1. &#x5728;&#x5176;&#x4E2D;&#x6DFB;&#x52A0;&#x4F8B;&#x5982;export PATH=/opt/ActivePython-2.7/bin:$PATH
-2. source .bashrc  (Source&#x547D;&#x4EE4;&#x4E5F;&#x7A31;&#x70BA;&#x300C;&#x9EDE;&#x547D;&#x4EE4;&#x300D;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x4E00;&#x500B;&#x9EDE;&#x7B26;&#x865F;&#xFF08;.&#xFF09;&#x3002;source&#x547D;&#x4EE4;&#x901A;&#x5E38;&#x7528;&#x65BC;
-</code></pre><p>&#x91CD;&#x65B0;&#x57F7;&#x884C;&#x525B;&#x4FEE;&#x6539;&#x7684;&#x521D;&#x59CB;&#x5316;&#x6587;&#x4EF6;&#xFF0C;&#x4F7F;&#x4E4B;&#x7ACB;&#x5373;&#x751F;&#x6548;&#xFF0C;&#x800C;&#x4E0D;&#x5FC5;&#x8A3B;&#x92B7;&#x4E26;&#x91CD;&#x65B0;&#x767B;&#x9304;)</p>
-<p>LD_LIBRARY_PATH: &#x52D5;&#x614B;&#x5EAB;&#x7684;&#x67E5;&#x627E;&#x8DEF;&#x5F91; &#x8A2D;&#x7F6E;&#xFF1A;</p>
-<pre><code>&#x65B9;&#x6CD5;&#x4E00;&#xFF1A; export  LD_LIBRARY_PATH=LD_LIBRARY_PATH:/XXX &#x4F46;&#x662F;&#x767B;&#x51FA;&#x5F8C;&#x5C31;&#x5931;&#x6548;
-&#x65B9;&#x6CD5;&#x4E8C;&#xFF1A;  &#x4FEE;&#x6539;~/.bashrc&#x6216;~/.bash_profile&#x6216;&#x7CFB;&#x7D71;&#x7D1A;&#x5225;&#x7684;/etc/profile
+                        <h1 id="lsof">lsof</h1>
+<p>&#x9019; 10 &#x689D; Linux &#x547D;&#x4EE4;&#x4F9D;&#x6B21;&#x662F;&#xFF1A;</p>
+<p>pgrep&#xFF1A;&#x6BD4;&#x5982;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; pgrep -u root &#x4F86;&#x4EE3;&#x66FF; ps -ef | egrep &#x300E;^root &#x300E; | awk &#x300E;{print $2}&#x300F;&#xFF0C;&#x4EE5;&#x4FBF;&#x6293;&#x53D6;&#x5C6C;&#x65BC; root &#x7684; PID&#x3002;</p>
+<p>pstree&#xFF1A;&#x6211;&#x89BA;&#x5F97;&#x9019;&#x500B;&#x547D;&#x4EE4;&#x5F88;&#x9177;&#xFF0C;&#x5B83;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x5217;&#x51FA;&#x9032;&#x7A0B;&#x6A39;&#xFF0C;&#x6216;&#x8005;&#x63DB;&#x53E5;&#x8A71;&#x8AAA;&#x662F;&#x6309;&#x7167;&#x6A39;&#x72C0;&#x7D50;&#x69CB;&#x4F86;&#x5217;&#x51FA;&#x9032;&#x7A0B;&#x3002;</p>
+<p>bc&#xFF1A;&#x9019;&#x500B;&#x547D;&#x4EE4;&#x5728;&#x6211;&#x7684;&#x7CFB;&#x7D71;&#x4E2D;&#x6C92;&#x6709;&#x627E;&#x5230;&#xFF0C;&#x53EF;&#x80FD;&#x9700;&#x8981;&#x5B89;&#x88DD;&#x3002;&#x9019;&#x662F;&#x7528;&#x4F86;&#x57F7;&#x884C;&#x8A08;&#x7B97;&#x7684;&#x4E00;&#x500B;&#x547D;&#x4EE4;&#xFF0C;&#x5982;&#x4F7F;&#x7528;&#x5B83;&#x4F86;&#x958B;&#x5E73;&#x65B9;&#x6839;&#x3002;</p>
+<p>split&#xFF1A;&#x9019;&#x662F;&#x4E00;&#x500B;&#x5F88;&#x6709;&#x7528;&#x7684;&#x547D;&#x4EE4;&#xFF0C;&#x5B83;&#x53EF;&#x4EE5;&#x5C07;&#x4E00;&#x500B;&#x5927;&#x6587;&#x4EF6;&#x5206;&#x5272;&#x6210;&#x5E7E;&#x500B;&#x5C0F;&#x7684;&#x90E8;&#x5206;&#x3002;&#x6BD4;&#x5982;&#xFF1A;split -b 2m largefile LF_ &#x6703;&#x5C07; largefile &#x5206;&#x5272;&#x6210;&#x5E36;&#x6709; LF &#x6587;&#x4EF6;&#x540D;&#x524D;&#x7DB4;&#x4E14;&#x5927;&#x5C0F;&#x70BA; 2 MB &#x7684;&#x5C0F;&#x6587;&#x4EF6;&#x3002;</p>
+<p>nl&#xFF1A;&#x80FD;&#x5920;&#x986F;&#x793A;&#x884C;&#x865F;&#x7684;&#x547D;&#x4EE4;&#x3002;&#x5728;&#x95B1;&#x8B80;&#x8173;&#x672C;&#x6216;&#x4EE3;&#x78BC;&#x6642;&#xFF0C;&#x9019;&#x500B;&#x547D;&#x4EE4;&#x61C9;&#x8A72;&#x975E;&#x5E38;&#x6709;&#x7528;&#x3002;&#x5982;&#xFF1A;nl wireless.h | head&#x3002;
+mkfifo&#xFF1A;&#x4F5C;&#x8005;&#x8AAA;&#x9019;&#x662F;&#x4ED6;&#x6700;&#x559C;&#x6B61;&#x7684;&#x547D;&#x4EE4;&#x3002;&#x8A72;&#x547D;&#x4EE4;&#x4F7F;&#x5F97;&#x5176;&#x4ED6;&#x547D;&#x4EE4;&#x80FD;&#x5920;&#x901A;&#x904E;&#x4E00;&#x500B;&#x547D;&#x540D;&#x7684;&#x7BA1;&#x9053;&#x9032;&#x884C;&#x901A;&#x4FE1;&#x3002;&#x55EF;&#xFF0C;&#x807D;&#x8D77;&#x4F86;&#x6709;&#x9EDE;&#x7A7A;&#x6D1E;&#x3002;&#x8209;&#x4F8B;&#x8AAA;&#x660E;&#xFF0C;&#x5148;&#x5275;&#x5EFA;&#x4E00;&#x500B;&#x7BA1;&#x9053;&#x4E26;&#x5BEB;&#x5165;&#x5167;&#x5BB9;&#xFF1A; mkfifo ive-been-piped ls -al split/* | head &gt; ive-been-piped</p>
+<p>&#x7136;&#x5F8C;&#x5C31;&#x53EF;&#x4EE5;&#x8B80;&#x53D6;&#x4E86;&#xFF1A;head ive-been-piped&#x3002;</p>
+<p>ldd&#xFF1A;&#x5176;&#x4F5C;&#x7528;&#x662F;&#x8F38;&#x51FA;&#x6307;&#x5B9A;&#x6587;&#x4EF6;&#x4F9D;&#x8CF4;&#x7684;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#x3002;&#x6BD4;&#x5982;&#xFF0C;&#x901A;&#x904E; ldd /usr/java/jre1.5.0_11/bin/java &#x53EF;&#x4EE5;&#x77AD;&#x89E3;&#x54EA;&#x4E9B;&#x7DDA;&#x7A0B;&#x5EAB;&#x93C8;&#x63A5;&#x5230;&#x4E86; java &#x4F9D;&#x8CF4;&#xFF08;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#xFF09;&#x4E86;&#x54EA;&#x4E9B;&#x5EAB;&#x3002;&#xFF08;&#x611F;&#x8B1D; NetSnail &#x7684;&#x6307;&#x6B63;&#x3002;&#xFF09;</p>
+<p>col&#xFF1A;&#x53EF;&#x4EE5;&#x5C07; man &#x624B;&#x518A;&#x9801;&#x4FDD;&#x5B58;&#x70BA;&#x7121;&#x683C;&#x5F0F;&#x7684;&#x6587;&#x672C;&#x6587;&#x4EF6;&#x3002;&#x5982;&#xFF1A; PAGER=cat man less | col -b &gt; less.txt</p>
+<p>xmlwf&#xFF1A;&#x80FD;&#x5920;&#x6AA2;&#x6E2C; XML &#x6587;&#x6A94;&#x662F;&#x5426;&#x826F;&#x597D;&#x3002;&#x6BD4;&#x5982;&#xFF1A; curl -s &#x300E;<a href="http://bashcurescancer.com" target="_blank">http://bashcurescancer.com</a>&apos; &gt; bcc.html xmlwf bcc.html perl -i -pe &#x300E;s@
+@
+@g&apos; bcc.html xmlwf bcc.html bcc.html:104:2: mismatched tag</p>
+<p>lsof&#xFF1A;&#x5217;&#x51FA;&#x6253;&#x958B;&#x7684;&#x6587;&#x4EF6;&#x3002;&#x5982;&#xFF1A;&#x901A;&#x904E; lsof | grep TCP &#x53EF;&#x4EE5;&#x627E;&#x5230;&#x6253;&#x958B;&#x7684;&#x7AEF;&#x53E3;&#x3002;</p>
+<p>&#x95DC;&#x65BC;lsof&#xFF0C;&#x7DB2;&#x7BA1;&#x54E1;&#x61C9;&#x8A72;&#x77AD;&#x89E3;&#x4EE5;&#x4E0B;&#x9019;&#x500B;&#x7528;&#x6CD5;&#xFF1A;</p>
+<h1 id="%E9%A1%AF%E7%A4%BA%E7%95%B6%E5%89%8Dssh%E7%9A%84%E9%80%A3%E6%8E%A5%E7%94%A8%E6%88%B6%E5%92%8C%E6%BA%90ip%E5%9C%B0%E5%9D%80">&#x986F;&#x793A;&#x7576;&#x524D;SSH&#x7684;&#x9023;&#x63A5;&#x7528;&#x6236;&#x548C;&#x6E90;IP&#x5730;&#x5740;</h1>
+<p>$ sudo lsof -n | grep sshd | grep TCP | cut -c18-28,70-
+root  TCP <em>:22 (LISTEN)
+root  TCP </em>:22 (LISTEN)
+root  TCP 1.2.3.4:22-&gt;6.7.8.9:2544 (ESTABLISHED)
+huangwei  TCP 1.2.3.4:22-&gt;6.7.8.9:2544 (ESTABLISHED)
+root  TCP 1.2.3.4:22-&gt;6.7.8.9:29340 (ESTABLISHED)
+huangwei  TCP 1.2.3.4:22-&gt;6.7.8.9:29340 (ESTABLISHED)
+root  TCP 1.2.3.4:22-&gt;6.7.8.9:33223 (ESTABLISHED)
+huangwei  TCP 1.2.3.4:22-&gt;6.7.8.9:33223 (ESTABLISHED)
+huangwei  TCP [::1]:cisco-sccp (LISTEN)
+huangwei  TCP 127.0.0.1:cisco-sccp (LISTEN)
+huangwei  TCP 1.2.3.4:40183-&gt;74.125.227.8:https (ESTABLISHED)
+root  TCP 1.2.3.4:22-&gt;6.7.8.9:43698 (ESTABLISHED)
+huangwei  TCP 1.2.3.4:22-&gt;6.7.8.9:43698 (ESTABLISHED)
+root  TCP 1.2.3.4:22-&gt;6.7.8.9:44943 (ESTABLISHED)
+huangwei  TCP 1.2.3.4:22-&gt;6.7.8.9:44943 (ESTABLISHED)
+huangwei  TCP 1.2.3.4:38038-&gt;74.125.227.20:www (ESTABLISHED)
+&#x770B;&#x770B;&#x662F;&#x8AB0;&#x5728;&#x5927;&#x91CF;&#x4E26;&#x767C;&#x9023;&#x63A5;&#x5462;&#xFF1F;</p>
+<p>DDoS&#xFF1F;&#x7DB2;&#x7AD9;&#x7BA1;&#x7406;&#x54E1;&#x7684;&#x5669;&#x5922;&#xFF01;&#x4E00;&#x689D;&#x300D;&#x7C21;&#x55AE;&#x300D;&#x547D;&#x4EE4;&#x5C31;&#x80FD;&#x627E;&#x51FA;script kids&#xFF1F;&#x770B;&#x904E;&#x4F86;&#xFF1A;</p>
+<p>$ sudo netstat -anp |grep &apos;tcp|udp&apos; | awk &apos;{print $5}&apos; | cut -d: -f1 | sort | uniq -c | sort -nr
+      8 192.168.0.218
+      7 192.168.0.38
+      6 192.168.0.14
+      6 0.0.0.0
+      2 192.168.0.166
+      2 192.168.0.110
+      2 192.168.0.10
+      1 192.168.232.223
+      1 192.168.0.70
+      1 192.168.0.6
+      1 192.168.0.50
+      1 192.168.0.22
+      1 192.168.0.210
+      1 192.168.0.194
+&#x770B;&#x770B;&#x73FE;&#x5728;&#x670D;&#x52D9;&#x5668;&#x6253;&#x958B;&#x4E86;&#x591A;&#x5C11;&#x7AEF;&#x53E3;&#xFF1F;&#x770B;&#x904E;&#x4F86;&#xFF1A;</p>
+<p>$ sudo lsof -i
+COMMAND    PID     USER   FD   TYPE  DEVICE SIZE/OFF NODE NAME
+mysqld    1190    mysql   10u  IPv4    5022      0t0  TCP localhost:mysql (LISTEN)
+apache2   1347     root    3u  IPv4    5327      0t0  TCP <em>:www (LISTEN)
+svnserve  1759      svn    3u  IPv4    6612      0t0  TCP ooxx-vpn:svn (LISTEN)
+sshd      2583     root    3r  IPv4 1194924      0t0  TCP 192.168.1.176:8822-&gt;192.168.2.223:40876 (ESTABLISHED)
+sshd      2651 huangwei    3u  IPv4 1194924      0t0  TCP 192.168.1.176:8822-&gt;192.168.2.223:40876 (ESTABLISHED)
+apache2   2714 www-data    3u  IPv4    5327      0t0  TCP </em>:www (LISTEN)
+apache2   2715 www-data    3u  IPv4    5327      0t0  TCP <em>:www (LISTEN)
+apache2   2722 www-data    3u  IPv4    5327      0t0  TCP </em>:www (LISTEN)
+apache2   2722 www-data   11u  IPv4 1198941      0t0  TCP ooxx-vpn:www-&gt;192.168.0.50:4068 (ESTABLISHED)
+apache2   2723 www-data    3u  IPv4    5327      0t0  TCP <em>:www (LISTEN)
+apache2   2725 www-data    3u  IPv4    5327      0t0  TCP </em>:www (LISTEN)
+apache2   2725 www-data   11u  IPv4 1198939      0t0  TCP ooxx-vpn:www-&gt;192.168.0.194:15397 (ESTABLISHED)
+apache2   2734 www-data    3u  IPv4    5327      0t0  TCP <em>:www (LISTEN)
+apache2   2809 www-data    3u  IPv4    5327      0t0  TCP </em>:www (LISTEN)
+apache2   2809 www-data   11u  IPv4 1198940      0t0  TCP ooxx-vpn:www-&gt;192.168.0.218:1521 (ESTABLISHED)
+apache2   2810 www-data    3u  IPv4    5327      0t0  TCP <em>:www (LISTEN)
+apache2   2811 www-data    3u  IPv4    5327      0t0  TCP </em>:www (LISTEN)
+apache2   2818 www-data    3u  IPv4    5327      0t0  TCP <em>:www (LISTEN)
+apache2   2819 www-data    3u  IPv4    5327      0t0  TCP </em>:www (LISTEN)
+apache2   2845 www-data    3u  IPv4    5327      0t0  TCP <em>:www (LISTEN)
+apache2   2845 www-data   11u  IPv4 1198938      0t0  TCP ooxx-vpn:www-&gt;192.168.0.14:36802 (ESTABLISHED)
+proftpd   7191      ftp    0u  IPv4   29954      0t0  TCP ooxx-vpn:ftp (LISTEN)
+sshd      9720     root    3u  IPv4   47070      0t0  TCP </em>:8822 (LISTEN)
+sshd      9720     root    4u  IPv6   47072      0t0  TCP *:8822 (LISTEN)
+svnserve 11217      svn    4u  IPv4 1019658      0t0  TCP ooxx-vpn:svn-&gt;192.168.0.166:6211 (ESTABLISHED)
+svnserve 11350      svn    4u  IPv4 1020389      0t0  TCP ooxx-vpn:svn-&gt;192.168.0.166:6286 (ESTABLISHED)
+svnserve 12706      svn    4u  IPv4  627093      0t0  TCP ooxx-vpn:svn-&gt;192.168.0.22:1084 (ESTABLISHED)
+&#x770B;&#x770B;&#x672C;&#x6A5F;&#x4E0A;&#x6240;&#x6709;&#x4F54;&#x7528; TCP 80&#x7AEF;&#x53E3;&#x7684;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;</p>
+<p>$ sudo lsof -i tcp:80
+&#x6A23;&#x4F8B;&#x8F38;&#x51FA;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>COMMAND   PID     USER   FD   TYPE  DEVICE SIZE/OFF NODE NAME
+apache2  2827 www-data    3u  IPv4 1609898      0t0  TCP <em>:www (LISTEN)
+apache2  2827 www-data   11u  IPv4 2026780      0t0  TCP ooxx-vpn:www-&gt;192.168.0.22:14949 (ESTABLISHED)
+apache2  2875 www-data    3u  IPv4 1609898      0t0  TCP </em>:www (LISTEN)
+apache2  2919 www-data    3u  IPv4 1609898      0t0  TCP <em>:www (LISTEN)
+apache2  2920 www-data    3u  IPv4 1609898      0t0  TCP </em>:www (LISTEN)
+apache2  2921 www-data    3u  IPv4 1609898      0t0  TCP <em>:www (LISTEN)
+apache2  2924 www-data    3u  IPv4 1609898      0t0  TCP </em>:www (LISTEN)
+apache2  2926 www-data    3u  IPv4 1609898      0t0  TCP <em>:www (LISTEN)
+apache2  2928 www-data    3u  IPv4 1609898      0t0  TCP </em>:www (LISTEN)
+apache2  2930 www-data    3u  IPv4 1609898      0t0  TCP <em>:www (LISTEN)
+apache2  2932 www-data    3u  IPv4 1609898      0t0  TCP </em>:www (LISTEN)
+apache2  2933 www-data    3u  IPv4 1609898      0t0  TCP <em>:www (LISTEN)
+apache2 26081     root    3u  IPv4 1609898      0t0  TCP </em>:www (LISTEN)</p>
 
-1. &#x5728;&#x5176;&#x4E2D;&#x6DFB;&#x52A0;&#x4F8B;&#x5982;export PATH=/opt/ActiveP/lib:$LD_LIBRARY_PATH
-2. source .bashrc  (Source&#x547D;&#x4EE4;&#x4E5F;&#x7A31;&#x70BA;&#x300C;&#x9EDE;&#x547D;&#x4EE4;&#x300D;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x4E00;&#x500B;&#x9EDE;&#x7B26;&#x865F;&#xFF08;.&#xFF09;&#x3002;source&#x547D;&#x4EE4;&#x901A;&#x5E38;&#x7528;&#x65BC;&#x91CD;&#x65B0;&#x57F7;&#x884C;&#x525B;&#x4FEE;&#x6539;&#x7684;&#x521D;&#x59CB;&#x5316;&#x6587;&#x4EF6;&#xFF0C;&#x4F7F;&#x4E4B;&#x7ACB;&#x5373;&#x751F;&#x6548;&#xFF0C;&#x800C;&#x4E0D;&#x5FC5;&#x8A3B;&#x92B7;&#x4E26;&#x91CD;&#x65B0;&#x767B;&#x9304;)
-
-&#x65B9;&#x6CD5;&#x4E09;&#xFF1A;&#x9019;&#x500B;&#x6C92;&#x6709;&#x4FEE;&#x6539;LD_LIBRARY_PATH&#x4F46;&#x662F;&#x6548;&#x679C;&#x662F;&#x4E00;&#x6A23;&#x7684;&#x5BE6;&#x73FE;&#x52D5;&#x614B;&#x5EAB;&#x7684;&#x67E5;&#x627E;&#xFF0C;
-1. /etc/ld.so.conf&#x4E0B;&#x9762;&#x52A0;&#x4E00;&#x884C;/usr/local/mysql/lib
-2. &#x4FDD;&#x5B58;&#x904E;&#x5F8C;ldconfig&#x4E00;&#x4E0B;&#xFF08;ldconfig&#x547D;&#x4EE4;&#x7684;&#x7528;&#x9014;,&#x4E3B;&#x8981;&#x662F;&#x5728;&#x9ED8;&#x8A8D;&#x641C;&#x5C0B;&#x76EE;&#x9304;(/lib&#x548C;/usr/lib)&#x4EE5;&#x53CA;&#x52D5;&#x614B;&#x5EAB;&#x914D;&#x7F6E;&#x6587;&#x4EF6;/etc/ld.so.conf&#x5167;&#x6240;&#x5217;&#x7684;&#x76EE;&#x9304;&#x4E0B;,&#x641C;&#x7D22;&#x51FA;&#x53EF;&#x5171;&#x4EAB;&#x7684;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5EAB;(&#x683C;&#x5F0F;&#x5982;&#x524D;&#x4ECB;&#x7D39;,lib*.so*),&#x9032;&#x800C;&#x5275;&#x5EFA;&#x51FA;&#x52D5;&#x614B;&#x88DD;&#x5165;&#x7A0B;&#x5E8F;(ld.so)&#x6240;&#x9700;&#x7684;&#x9023;&#x63A5;&#x548C;&#x7DE9;&#x5B58;&#x6587;&#x4EF6;.&#x7DE9;&#x5B58;&#x6587;&#x4EF6;&#x9ED8;&#x8A8D;&#x70BA;/etc/ld.so.cache,&#x6B64;&#x6587;&#x4EF6;&#x4FDD;&#x5B58;&#x5DF2;&#x6392;&#x597D;&#x5E8F;&#x7684;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#x540D;&#x5B57;&#x5217;&#x8868;.&#xFF09;
-
-&#x65B9;&#x6CD5;&#x4E09;&#x8A2D;&#x7F6E;&#x7A0D;&#x5FAE;&#x9EBB;&#x7169;&#xFF0C;&#x597D;&#x8655;&#x662F;&#x6BD4;&#x8F03;&#x4E0D;&#x53D7;&#x7528;&#x6236;&#x7684;&#x9650;&#x5236;
-`
-</code></pre>
                     
                     </section>
                 
@@ -759,10 +808,10 @@ echo $PATH</p>
         </div>
 
         
-        <a href="../shared_libraries/index.html" class="navigation navigation-prev " aria-label="Previous page: Shared Libraries"><i class="fa fa-angle-left"></i></a>
+        <a href="../shared_libraries/12.html" class="navigation navigation-prev " aria-label="Previous page: Command"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../linux_tools/index.html" class="navigation navigation-next " aria-label="Next page: Linux Tools"><i class="fa fa-angle-right"></i></a>
+        <a href="../shared_libraries/cntotw.html" class="navigation navigation-next " aria-label="Next page: Open Chinese Convert 開放中文轉換"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

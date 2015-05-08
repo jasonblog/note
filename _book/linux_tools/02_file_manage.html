@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
-        <title>Shared Libraries Setup | Jason note</title>
+        <title>文件及目录管理 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.0.1">
@@ -20,10 +20,10 @@
         
     
     
-    <link rel="next" href="../linux_tools/index.html" />
+    <link rel="next" href="../linux_tools/03_text_processing.html" />
     
     
-    <link rel="prev" href="../shared_libraries/index.html" />
+    <link rel="prev" href="../linux_tools/01_use_man.html" />
     
 
         
@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="2.1" data-basepath=".." data-revision="Sat May 09 2015 02:52:15 GMT+0800 (CST)">
+    <div class="book" data-level="3.1.2" data-basepath=".." data-revision="Sat May 09 2015 02:52:15 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -133,7 +133,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="2.1" data-path="shared_libraries/11.html">
+        <li class="chapter " data-level="2.1" data-path="shared_libraries/11.html">
             
                 
                     <a href="../shared_libraries/11.html">
@@ -200,7 +200,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.2" data-path="linux_tools/02_file_manage.html">
+        <li class="chapter active" data-level="3.1.2" data-path="linux_tools/02_file_manage.html">
             
                 
                     <a href="../linux_tools/02_file_manage.html">
@@ -700,56 +700,129 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="shared-libraries-setup">Shared Libraries Setup</h1>
-<h3 id="linux-%E5%8B%95%E6%85%8B%E8%A3%9D%E8%BC%89%E5%8B%95%E6%85%8B%E5%BA%AB-ldd%EF%BC%8Cldconfig%EF%BC%8Cld-so-conf-ld-so-cache">linux &#x52D5;&#x614B;&#x88DD;&#x8F09;&#x52D5;&#x614B;&#x5EAB; ldd&#xFF0C;ldconfig&#xFF0C;ld.so.conf, ld.so.cache</h3>
-<p>&#x524D;&#x9762;&#x6211;&#x5011;&#x4ECB;&#x7D39;&#x904E;&#xFF0C;GCC&#x7DE8;&#x8B6F;C++&#x7A0B;&#x5E8F;&#x7684;&#x90A3;&#x4E9B;&#x6B65;&#x9A5F;&#xFF0C;&#x5176;&#x4E2D;&#x5305;&#x62EC;&#x7DE8;&#x8B6F;&#x7684;&#x6642;&#x5019;include&#x7684;&#x641C;&#x7D22;&#x76EE;&#x9304;&#xFF0C;&#x93C8;&#x63A5;&#x7684;&#x6642;&#x5019;&#x5EAB;&#x7684;&#x641C;&#x7D22;&#x76EE;&#x9304;&#xFF08;&#x9019;&#x88E1;&#x7684;&#x5EAB;&#x5305;&#x542B;&#x5169;&#x7A2E;&#x5EAB;&#xFF09;&#x3002;&#x9084;&#x6709;&#x4E00;&#x500B;&#x6642;&#x5019;&#xFF0C;&#x9700;&#x8981;&#x641C;&#x7D22;&#x8DEF;&#x5F91;&#xFF0C;&#x90A3;&#x5C31;&#x662F;&#x88DD;&#x8F09;&#x52D5;&#x614B;&#x5EAB;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x9019;&#x500B;&#x6642;&#x5019;&#x8207;GCC&#x7121;&#x95DC;&#x4E86;&#x3002;&#x800C;&#x662F;&#x8207;linux&#x7CFB;&#x7D71;&#x81EA;&#x8EAB;&#x6709;&#x95DC;&#x4FC2;&#x3002;</p>
-<p>&#x52D5;&#x614B;&#x8F49;&#x8F09;&#x52D5;&#x614B;&#x5EAB;&#xFF0C;&#x662F;&#x70BA;&#x57FA;&#x65BC;&#x52D5;&#x614B;&#x5EAB;&#x7DE8;&#x8B6F;&#x93C8;&#x63A5;&#x800C;&#x4F86;&#x7684;&#x53EF;&#x57F7;&#x884C;&#x7A0B;&#x5E8F;&#x8A2D;&#x5B9A;&#x7684;&#x4E00;&#x500B;&#x7A0B;&#x5E8F;&#x57F7;&#x884C;&#x904E;&#x7A0B;&#x4E2D;&#x9700;&#x8981;&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x5C0D;&#x65BC;&#x90A3;&#x4E9B;&#x53EA;&#x57FA;&#x65BC;&#x975C;&#x614B;&#x5EAB;&#x7684;&#x53EF;&#x57F7;&#x884C;&#x7A0B;&#x5E8F;&#x4F86;&#x8AAA;&#xFF0C;&#x9019;&#x500B;&#x529F;&#x80FD;&#x6C92;&#x6709;&#x4EC0;&#x9EBC;&#x7528;&#x3002;</p>
-<pre><code>1)&#x57F7;&#x884C;&#x9019;&#x500B;&#x52D5;&#x4F5C;&#x7684;linux&#x7A0B;&#x5E8F;&#xFF1A;  /usr/bin/ld
-2)&#x9019;&#x500B;&#x7A0B;&#x5E8F;&#x53C3;&#x8003;&#x7684;&#x6587;&#x4EF6;&#x70BA;&#xFF1A;/etc/ld.so.conf&#xFF0C;&#x8A72;&#x6587;&#x4EF6;&#x4FDD;&#x5B58;&#x8457;ld&#x61C9;&#x8A72;&#x641C;&#x7D22;&#x7684;so&#x6587;&#x4EF6;&#x8DEF;&#x5F91;&#x3002;&#x901A;&#x5E38;ld.so.conf.d
-&#x9019;&#x500B;&#x6587;&#x4EF6;&#x593E;&#x4E0B;&#x4E5F;&#x4FDD;&#x5B58;&#x8457;&#x5206;&#x6587;&#x4EF6;&#xFF0C;&#x4EE5;&#x4F9B;&#x5408;&#x6210;ld.so.conf
-3)&#x8A72;&#x7A0B;&#x5E8F;&#x5BE6;&#x969B;&#x53C3;&#x8003;&#x7684;&#x6587;&#x4EF6;&#x70BA;:/etc/ld.so.cache.&#x9019;&#x500B;&#x6587;&#x4EF6;&#x6703;&#x5176;&#x5BE6;&#x57FA;&#x672C;&#x4E0A;&#x5C31;&#x662F;&#x5C0D;/etc/ld.so.cache &#x505A;&#x4E86;&#x7A0D;&#x5FAE;&#x7684;&#x8655;&#x7406;&#x5229;&#x65BC;/usr/bin/ld&#x7A0B;&#x5E8F;&#x7684;&#x53C3;&#x8003;&#x3002;
-4&#xFF09;&#x5C07;/etc/ld.so.conf &#x66F4;&#x65B0;&#x5230;/etc/ld.so.cache.&#x7684;&#x547D;&#x4EE4;&#xFF1A; ldconfig. &#x4F7F;&#x7528; ldconfig -p|less&#x53EF;&#x4EE5;&#x9010;&#x6B65;&#x67E5;&#x770B;&#x5F9E;/usr/bin/ld &#x773C;&#x88E1;&#x7684;/etc/ld.so.cache&#x7684;&#x5167;&#x5BB9;&#xFF08;&#x8DEF;&#x5F91;&#xFF09;&#x3002;
-5&#xFF09;&#x6240;&#x4EE5;&#x5F80;/etc/ld.so.conf&#x5167;&#x505A;&#x6307;&#x5B9A;&#x7684;&#x8DEF;&#x5F91;&#xFF0C;&#x5982;/usr/lib&#x7B49;&#x52A0;&#x5165;&#x4F60;&#x9700;&#x8981;&#x7A0B;&#x5E8F;&#x641C;&#x7D22;&#x7684;&#x52D5;&#x614B;&#x5EAB;.so&#x6587;&#x4EF6;&#xFF0C;
-&#x4E0D;&#x9700;&#x8981;&#x57F7;&#x884C;ldconfig&#x66F4;&#x65B0;&#x3002;&#x56E0;&#x70BA;/etc/ld.so.cache&#x4E2D;&#x4FDD;&#x5B58;&#x7684;&#x5C31;&#x662F;&#x76EE;&#x9304;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x5177;&#x9AD4;&#x7684;so&#x6587;&#x4EF6;&#x3002;
-6&#xFF09;&#x5411;/etc/ld.so.conf&#x6DFB;&#x52A0;&#x8DEF;&#x5F91;&#x3002;&#x5247;&#x9700;&#x8981;&#x8ABF;&#x7528;ldconfig&#x4F86;&#x66F4;&#x65B0;/usr/bin/ld&#x7684;&#x641C;&#x7D22;&#x8DEF;&#x5F91;&#x3002;
-</code></pre><p>&#x904B;&#x884C;&#x6642;&#x52D5;&#x614B;&#x5EAB;&#x7684;&#x641C;&#x7D22;&#x8DEF;&#x5F91;&#xFF1A;</p>
-<pre><code>&#x52D5;&#x614B;&#x5EAB;&#x7684;&#x641C;&#x7D22;&#x8DEF;&#x5F91;&#x641C;&#x7D22;&#x7684;&#x5148;&#x5F8C;&#x9806;&#x5E8F;&#x662F;&#xFF1A;
-&#x2460;&#x7DE8;&#x8B6F;&#x76EE;&#x6A19;&#x4EE3;&#x78BC;&#x6642;&#x6307;&#x5B9A;&#x7684;&#x52D5;&#x614B;&#x5EAB;&#x641C;&#x7D22;&#x8DEF;&#x5F91;&#xFF08;&#x9019;&#x662F;&#x901A;&#x904E;gcc &#x7684;&#x53C3;&#x6578;&quot;-Wl,-rpath,&quot;&#x6307;&#x5B9A;&#x3002;&#x7576;&#x6307;&#x5B9A;&#x591A;&#x500B;&#x52D5;&#x614B;&#x5EAB;&#x641C;&#x7D22;&#x8DEF;&#x5F91;&#x6642;&#xFF0C;&#x8DEF;&#x5F91;&#x4E4B;&#x9593;&#x7528;&#x5192;&#x865F;&quot;&#xFF1A;&quot;&#x5206;&#x9694;&#xFF09;
-&#x2461;&#x74B0;&#x5883;&#x8B8A;&#x91CF;LD_LIBRARY_PATH&#x6307;&#x5B9A;&#x7684;&#x52D5;&#x614B;&#x5EAB;&#x641C;&#x7D22;&#x8DEF;&#x5F91;&#xFF08;&#x7576;&#x901A;&#x904E;&#x8A72;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x6307;&#x5B9A;&#x591A;&#x500B;&#x52D5;&#x614B;&#x5EAB;&#x641C;&#x7D22;&#x8DEF;&#x5F91;&#x6642;&#xFF0C;&#x8DEF;&#x5F91;&#x4E4B;&#x9593;&#x7528;&#x5192;&#x865F;&quot;&#xFF1A;&quot;&#x5206;&#x9694;&#xFF09;
-&#x2462;&#x914D;&#x7F6E;&#x6587;&#x4EF6;/etc/ld.so.conf&#x4E2D;&#x6307;&#x5B9A;&#x7684;&#x52D5;&#x614B;&#x5EAB;&#x641C;&#x7D22;&#x8DEF;&#x5F91;&#xFF1B;
-&#x2463;&#x9ED8;&#x8A8D;&#x7684;&#x52D5;&#x614B;&#x5EAB;&#x641C;&#x7D22;&#x8DEF;&#x5F91;/lib&#xFF1B;
-&#x2464;&#x9ED8;&#x8A8D;&#x7684;&#x52D5;&#x614B;&#x5EAB;&#x641C;&#x7D22;&#x8DEF;&#x5F91;/usr/lib&#x3002;
-</code></pre><p>&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#xFF0C;&#x96D6;&#x7136;linux&#x4EE5;&#x88DD;&#x8F09;&#x52D5;&#x614B;&#x5EAB;&#x6642;&#x641C;&#x7D22;&#x7684;&#x8DEF;&#x5F91;&#x4EE5;/etc/ld.so.conf&#x70BA;&#x4E3B;&#xFF0C;&#x4F46;&#x662F;&#xFF0C;&#x4ECD;&#x7136;&#x6709;&#x5176;&#x5B83;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x4F86;&#x69CB;&#x5EFA;&#x9019;&#x7A2E;&#x88DD;&#x8F09;&#x8DEF;&#x5F91;&#x7684;&#x9748;&#x6D3B;&#x6027;&#x3002;&#x4ECD;&#x7136;&#x662F;&#x9075;&#x5B88;&#x90A3;&#x7A2E;&#x5148;&#x300C;&#x5C08;&#x300D;&#x5F8C;&#x300C;&#x5BEC;&#x300D;&#x7684;&#x6A21;&#x5F0F;&#x53BB;&#x7E2E;&#x77ED;&#x53EF;&#x80FD;&#x7684;&#x641C;&#x7D22;&#x6642;&#x9593;&#x3002;
-&#x7B2C;&#x4E00;&#x500B;&#xFF0C;&#x5C31;&#x662F;&#x5728;&#x7DE8;&#x8B6F;&#x9023;&#x63A5;&#x8A72;&#x7A0B;&#x5E8F;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x5C31;&#x6307;&#x5B9A;&#x5C07;&#x4F86;&#x9700;&#x8981;&#x52D5;&#x614B;&#x5EAB;&#x7684;&#x6642;&#x5019;&#x641C;&#x7D22;&#x7684;&#x4F4D;&#x7F6E;&#x3002;&#x6CE8;&#x610F;&#x9019;&#x500B;&#x8207;&#x7576;&#x6642;&#x7684;&#x93C8;&#x63A5;&#x8DEF;&#x5F91;&#x96D6;&#x7136;&#x6709;&#x5F88;&#x5927;&#x7684;&#x95DC;&#x4FC2;&#xFF0C;&#x4F46;&#x662F;&#x4ED6;&#x5011;&#x7684;&#x6982;&#x5FF5;&#x662F;&#x4E0D;&#x540C;&#x7684;&#x3002;
-&#x7B2C;&#x4E8C;&#x500B;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x5728;&#x4F7F;&#x7528;/etc/ld.so.conf&#x4E4B;&#x524D;&#xFF0C;&#x9084;&#x6709;&#x4E00;&#x500B;&#x8DEF;&#x5F91;&#x8A2D;&#x7F6E;&#x65B9;&#x6CD5;&#x5C31;&#x662F;&#x74B0;&#x5883;&#x8B8A;&#x91CF;LD_LIBRARY_PATH. &#x9019;&#x500B;&#x6771;&#x897F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#xFF1A;
-export LD_LIBRARY_PATH=&#x300D;/usr/lib/old:/opt/lib &#x4F86;&#x5275;&#x5EFA;&#x4FEE;&#x6539;&#x9019;&#x500B;&#x8B8A;&#x91CF;&#x3002;
-&#x7B2C;&#x4E09;&#x500B;&#xFF0C;&#x624D;&#x662F;/etc/ld.so.conf
-&#x6700;&#x5F8C;&#x3002;&#x5247;&#x662F;&#x7CFB;&#x7D71;&#x9ED8;&#x8A8D;&#x8DEF;&#x5F91;&#x3002;</p>
-<h3 id="linux-%E7%92%B0%E5%A2%83%E8%AE%8A%E9%87%8F%E8%A8%AD%E7%BD%AE%E6%96%B9%E6%B3%95%E7%B8%BD%E7%B5%90%EF%BC%88path%EF%BC%8Fld-library-path%EF%BC%89">linux &#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x8A2D;&#x7F6E;&#x65B9;&#x6CD5;&#x7E3D;&#x7D50;&#xFF08;PATH&#xFF0F;LD_LIBRARY_PATH&#xFF09;</h3>
-<p>PATH&#x548C;LD_LIBRARY_PATH&#x672C;&#x8CEA;&#x90FD;&#x662F;&#x8B8A;&#x91CF;&#xFF0C;&#x6240;&#x8B02;&#x8B8A;&#x91CF;&#x7684;&#x610F;&#x601D;&#x5C31;&#x662F;&#x7531;&#x5225;&#x4EBA;&#x8CE6;&#x503C;&#x7522;&#x751F;&#x7684;&#xFF0C;&#x76F4;&#x89BA;&#x5F80;&#x5F80;&#x6703;&#x8B93;&#x6211;&#x5011;&#x6DFB;&#x52A0;&#x548C;&#x6E1B;&#x5C11;&#x9019;&#x500B;&#x8B8A;&#x91CF;&#x672C;&#x8EAB;&#x7684;&#x67D0;&#x4E9B;&#x8DEF;&#x5F91;&#xFF0C;&#x5BE6;&#x969B;&#x4E0A;&#x9019;&#x662F;&#x4E0D;&#x6B63;&#x78BA;&#x7684;&#x3002;&#x6B63;&#x78BA;&#x7684;&#x505A;&#x6CD5;&#x662F;&#x6211;&#x5011;&#x8981;&#x53BB;&#x4FEE;&#x6539;&#x8CE6;&#x4E88;&#x9019;&#x500B;&#x8B8A;&#x91CF;&#x6578;&#x503C;&#x7684;&#x90A3;&#x4E9B;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#xFF0C;&#x52A0;&#x4E00;&#x689D;&#x8DEF;&#x5F91;&#x6216;&#x8005;&#x6E1B;&#x4E00;&#x689D;&#x3002;&#x8AAA;&#x5230;&#x5E95;&#x8B8A;&#x91CF;&#x53EA;&#x95DC;&#x4E4E;&#x986F;&#x793A;&#xFF0C;&#x4E0D;&#x95DC;&#x4E4E;&#x5176;&#x7528;&#x65BC;&#x986F;&#x793A;&#x7684;&#x5167;&#x5BB9;&#x3002;</p>
-<p>PATH:  &#x53EF;&#x57F7;&#x884C;&#x7A0B;&#x5E8F;&#x7684;&#x67E5;&#x627E;&#x8DEF;&#x5F91;
-&#x67E5;&#x770B;&#x7576;&#x524D;&#x74B0;&#x5883;&#x8B8A;&#x91CF;:
-echo $PATH</p>
-<p>&#x8A2D;&#x7F6E;:
-&#x65B9;&#x6CD5;&#x4E00;&#xFF1A; export PATH=PATH:/XXX &#x4F46;&#x662F;&#x767B;&#x51FA;&#x5F8C;&#x5C31;&#x5931;&#x6548;
-&#x65B9;&#x6CD5;&#x4E8C;&#xFF1A;&#x4FEE;&#x6539;~/.bashrc&#x6216;~/.bash_profile&#x6216;&#x7CFB;&#x7D71;&#x7D1A;&#x5225;&#x7684;/etc/profile</p>
-<pre><code>1. &#x5728;&#x5176;&#x4E2D;&#x6DFB;&#x52A0;&#x4F8B;&#x5982;export PATH=/opt/ActivePython-2.7/bin:$PATH
-2. source .bashrc  (Source&#x547D;&#x4EE4;&#x4E5F;&#x7A31;&#x70BA;&#x300C;&#x9EDE;&#x547D;&#x4EE4;&#x300D;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x4E00;&#x500B;&#x9EDE;&#x7B26;&#x865F;&#xFF08;.&#xFF09;&#x3002;source&#x547D;&#x4EE4;&#x901A;&#x5E38;&#x7528;&#x65BC;
-</code></pre><p>&#x91CD;&#x65B0;&#x57F7;&#x884C;&#x525B;&#x4FEE;&#x6539;&#x7684;&#x521D;&#x59CB;&#x5316;&#x6587;&#x4EF6;&#xFF0C;&#x4F7F;&#x4E4B;&#x7ACB;&#x5373;&#x751F;&#x6548;&#xFF0C;&#x800C;&#x4E0D;&#x5FC5;&#x8A3B;&#x92B7;&#x4E26;&#x91CD;&#x65B0;&#x767B;&#x9304;)</p>
-<p>LD_LIBRARY_PATH: &#x52D5;&#x614B;&#x5EAB;&#x7684;&#x67E5;&#x627E;&#x8DEF;&#x5F91; &#x8A2D;&#x7F6E;&#xFF1A;</p>
-<pre><code>&#x65B9;&#x6CD5;&#x4E00;&#xFF1A; export  LD_LIBRARY_PATH=LD_LIBRARY_PATH:/XXX &#x4F46;&#x662F;&#x767B;&#x51FA;&#x5F8C;&#x5C31;&#x5931;&#x6548;
-&#x65B9;&#x6CD5;&#x4E8C;&#xFF1A;  &#x4FEE;&#x6539;~/.bashrc&#x6216;~/.bash_profile&#x6216;&#x7CFB;&#x7D71;&#x7D1A;&#x5225;&#x7684;/etc/profile
+                        <h1 id="%E6%96%87%E4%BB%B6%E5%8F%8A%E7%9B%AE%E5%BD%95%E7%AE%A1%E7%90%86">&#x6587;&#x4EF6;&#x53CA;&#x76EE;&#x5F55;&#x7BA1;&#x7406;</h1>
+<p>&#x76EE;&#x5F55;</p>
+<p>&#x6587;&#x4EF6;&#x53CA;&#x76EE;&#x5F55;&#x7BA1;&#x7406;
+&#x521B;&#x5EFA;&#x548C;&#x5220;&#x9664;
+&#x76EE;&#x5F55;&#x5207;&#x6362;
+&#x5217;&#x51FA;&#x76EE;&#x5F55;&#x9879;
+&#x67E5;&#x627E;&#x76EE;&#x5F55;&#x53CA;&#x6587;&#x4EF6; find/locate
+&#x67E5;&#x770B;&#x6587;&#x4EF6;&#x5185;&#x5BB9;
+&#x67E5;&#x627E;&#x6587;&#x4EF6;&#x5185;&#x5BB9;
+&#x6587;&#x4EF6;&#x4E0E;&#x76EE;&#x5F55;&#x6743;&#x9650;&#x4FEE;&#x6539;
+&#x7ED9;&#x6587;&#x4EF6;&#x589E;&#x52A0;&#x522B;&#x540D;
+&#x7BA1;&#x9053;&#x548C;&#x91CD;&#x5B9A;&#x5411;
+&#x8BBE;&#x7F6E;&#x73AF;&#x5883;&#x53D8;&#x91CF;
+Bash&#x5FEB;&#x6377;&#x8F93;&#x5165;&#x6216;&#x5220;&#x9664;
+&#x7EFC;&#x5408;&#x5E94;&#x7528;
+&#x603B;&#x7ED3;
+&#x6587;&#x4EF6;&#x7BA1;&#x7406;&#x4E0D;&#x5916;&#x4E4E;&#x6587;&#x4EF6;&#x6216;&#x76EE;&#x5F55;&#x7684;&#x521B;&#x5EFA;&#x3001;&#x5220;&#x9664;&#x3001;&#x67E5;&#x8BE2;&#x3001;&#x79FB;&#x52A8;&#xFF0C;&#x6709;mkdir/rm/mv</p>
+<p>&#x6587;&#x4EF6;&#x67E5;&#x8BE2;&#x662F;&#x91CD;&#x70B9;&#xFF0C;&#x7528;find&#x6765;&#x8FDB;&#x884C;&#x67E5;&#x8BE2;&#xFF1B;find&#x7684;&#x53C2;&#x6570;&#x4E30;&#x5BCC;&#xFF0C;&#x4E5F;&#x975E;&#x5E38;&#x5F3A;&#x5927;&#xFF1B;</p>
+<p>&#x67E5;&#x770B;&#x6587;&#x4EF6;&#x5185;&#x5BB9;&#x662F;&#x4E2A;&#x5927;&#x7684;&#x8BDD;&#x9898;&#xFF0C;&#x6587;&#x672C;&#x7684;&#x5904;&#x7406;&#x6709;&#x592A;&#x591A;&#x7684;&#x5DE5;&#x5177;&#x4F9B;&#x6211;&#x4EEC;&#x4F7F;&#x7528;&#xFF0C;&#x5728;&#x672C;&#x7AE0;&#x4E2D;&#x53EA;&#x662F;&#x70B9;&#x5230;&#x5373;&#x6B62;&#xFF0C;&#x540E;&#x9762;&#x4F1A;&#x6709;&#x4E13;&#x95E8;&#x7684;&#x4E00;&#x7AE0;&#x6765;&#x4ECB;&#x7ECD;&#x6587;&#x672C;&#x7684;&#x5904;&#x7406;&#x5DE5;&#x5177;&#xFF1B;</p>
+<p>&#x6709;&#x65F6;&#x5019;&#xFF0C;&#x9700;&#x8981;&#x7ED9;&#x6587;&#x4EF6;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x522B;&#x540D;&#xFF0C;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x7528;&#x5230;ln&#xFF0C;&#x4F7F;&#x7528;&#x8FD9;&#x4E2A;&#x522B;&#x540D;&#x548C;&#x4F7F;&#x7528;&#x539F;&#x6587;&#x4EF6;&#x662F;&#x76F8;&#x540C;&#x7684;&#x6548;&#x679C;&#xFF1B;</p>
+<p>2.1. &#x521B;&#x5EFA;&#x548C;&#x5220;&#x9664;
+&#x521B;&#x5EFA;&#xFF1A;mkdir
+&#x5220;&#x9664;&#xFF1A;rm
+&#x5220;&#x9664;&#x975E;&#x7A7A;&#x76EE;&#x5F55;&#xFF1A;rm -rf file&#x76EE;&#x5F55;
+&#x5220;&#x9664;&#x65E5;&#x5FD7; rm <em>log (&#x7B49;&#x4EF7;: $find ./ -name &#x201C;</em>log&#x201D; -exec rm {} ;)
+&#x79FB;&#x52A8;&#xFF1A;mv
+&#x590D;&#x5236;&#xFF1A;cp (&#x590D;&#x5236;&#x76EE;&#x5F55;&#xFF1A;cp -r )
+&#x67E5;&#x770B;&#x5F53;&#x524D;&#x76EE;&#x5F55;&#x4E0B;&#x6587;&#x4EF6;&#x4E2A;&#x6570;:</p>
+<pre><code>$find ./ | wc -l
+</code></pre><p>&#x590D;&#x5236;&#x76EE;&#x5F55;:</p>
+<pre><code>$cp -r source_dir  dest_dir
+</code></pre><p>2.2. &#x76EE;&#x5F55;&#x5207;&#x6362;
+&#x627E;&#x5230;&#x6587;&#x4EF6;/&#x76EE;&#x5F55;&#x4F4D;&#x7F6E;&#xFF1A;cd
+&#x5207;&#x6362;&#x5230;&#x4E0A;&#x4E00;&#x4E2A;&#x5DE5;&#x4F5C;&#x76EE;&#x5F55;&#xFF1A; cd -
+&#x5207;&#x6362;&#x5230;home&#x76EE;&#x5F55;&#xFF1A; cd or cd ~
+&#x663E;&#x793A;&#x5F53;&#x524D;&#x8DEF;&#x5F84;: pwd
+&#x66F4;&#x6539;&#x5F53;&#x524D;&#x5DE5;&#x4F5C;&#x8DEF;&#x5F84;&#x4E3A;path: $cd path
+2.3. &#x5217;&#x51FA;&#x76EE;&#x5F55;&#x9879;
+&#x663E;&#x793A;&#x5F53;&#x524D;&#x76EE;&#x5F55;&#x4E0B;&#x7684;&#x6587;&#x4EF6; ls
+&#x6309;&#x65F6;&#x95F4;&#x6392;&#x5E8F;&#xFF0C;&#x4EE5;&#x5217;&#x8868;&#x7684;&#x65B9;&#x5F0F;&#x663E;&#x793A;&#x76EE;&#x5F55;&#x9879; ls -lrt
+&#x4EE5;&#x4E0A;&#x8FD9;&#x4E2A;&#x547D;&#x4EE4;&#x7528;&#x5230;&#x7684;&#x9891;&#x7387;&#x5982;&#x6B64;&#x4E4B;&#x9AD8;&#xFF0C;&#x4EE5;&#x81F3;&#x4E8E;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x4E3A;&#x5B83;&#x5EFA;&#x7ACB;&#x4E00;&#x4E2A;&#x5FEB;&#x6377;&#x547D;&#x4EE4;&#x65B9;&#x5F0F;:</p>
+<p>&#x5728;.bashrc &#x4E2D;&#x8BBE;&#x7F6E;&#x547D;&#x4EE4;&#x522B;&#x540D;:</p>
+<pre><code>alias lsl=&apos;ls -lrt&apos;
+alias lm=&apos;ls -al|more&apos;
+</code></pre><p>&#x8FD9;&#x6837;&#xFF0C;&#x4F7F;&#x7528;lsl&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x663E;&#x793A;&#x76EE;&#x5F55;&#x4E2D;&#x7684;&#x6587;&#x4EF6;&#x6309;&#x7167;&#x4FEE;&#x6539;&#x65F6;&#x95F4;&#x6392;&#x5E8F;&#xFF1B;&#x4EE5;&#x5217;&#x8868;&#x65B9;&#x5F0F;&#x663E;&#x793A;&#xFF1B;</p>
+<p>&#x6CE8;&#xFF1A;.bashrc &#x5728;/home/&#x4F60;&#x7684;&#x7528;&#x6237;&#x540D;/ &#x6587;&#x4EF6;&#x5939;&#x4E0B;&#xFF0C;&#x4EE5;&#x9690;&#x85CF;&#x6587;&#x4EF6;&#x7684;&#x65B9;&#x5F0F;&#x5B58;&#x50A8;&#xFF1B;&#x53EF;&#x4F7F;&#x7528; ls -a &#x67E5;&#x770B;&#xFF1B;</p>
+<p>2.4. &#x67E5;&#x627E;&#x76EE;&#x5F55;&#x53CA;&#x6587;&#x4EF6; find/locate
+&#x641C;&#x5BFB;&#x6587;&#x4EF6;&#x6216;&#x76EE;&#x5F55;:</p>
+<pre><code>$find ./ -name &quot;core*&quot; | xargs file
+</code></pre><p>&#x67E5;&#x627E;&#x76EE;&#x6807;&#x6587;&#x4EF6;&#x5939;&#x4E2D;&#x662F;&#x5426;&#x6709;obj&#x6587;&#x4EF6;:</p>
+<pre><code>$find ./ -name &apos;*.o&apos;
+</code></pre><p>&#x9012;&#x5F52;&#x5F53;&#x524D;&#x76EE;&#x5F55;&#x53CA;&#x5B50;&#x76EE;&#x5F55;&#x5220;&#x9664;&#x6240;&#x6709;.o&#x6587;&#x4EF6;:</p>
+<pre><code>$find ./ -name &quot;*.o&quot; -exec rm {} \;
+</code></pre><p>find&#x662F;&#x5B9E;&#x65F6;&#x67E5;&#x627E;&#xFF0C;&#x5982;&#x679C;&#x9700;&#x8981;&#x66F4;&#x5FEB;&#x7684;&#x67E5;&#x8BE2;&#xFF0C;&#x53EF;&#x8BD5;&#x8BD5;locate&#xFF1B;locate&#x4F1A;&#x4E3A;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x5EFA;&#x7ACB;&#x7D22;&#x5F15;&#x6570;&#x636E;&#x5E93;&#xFF0C;&#x5982;&#x679C;&#x6709;&#x6587;&#x4EF6;&#x66F4;&#x65B0;&#xFF0C;&#x9700;&#x8981;&#x5B9A;&#x671F;&#x6267;&#x884C;&#x66F4;&#x65B0;&#x547D;&#x4EE4;&#x6765;&#x66F4;&#x65B0;&#x7D22;&#x5F15;&#x5E93;:</p>
+<pre><code>$locate string
+</code></pre><p>&#x5BFB;&#x627E;&#x5305;&#x542B;&#x6709;string&#x7684;&#x8DEF;&#x5F84;:</p>
+<pre><code>$updatedb
+</code></pre><p>&#x4E0E;find&#x4E0D;&#x540C;&#xFF0C;locate&#x5E76;&#x4E0D;&#x662F;&#x5B9E;&#x65F6;&#x67E5;&#x627E;&#x3002;&#x4F60;&#x9700;&#x8981;&#x66F4;&#x65B0;&#x6570;&#x636E;&#x5E93;&#xFF0C;&#x4EE5;&#x83B7;&#x5F97;&#x6700;&#x65B0;&#x7684;&#x6587;&#x4EF6;&#x7D22;&#x5F15;&#x4FE1;&#x606F;&#x3002;</p>
+<p>2.5. &#x67E5;&#x770B;&#x6587;&#x4EF6;&#x5185;&#x5BB9;
+&#x67E5;&#x770B;&#x6587;&#x4EF6;&#xFF1A;cat vi head tail more</p>
+<p>&#x663E;&#x793A;&#x65F6;&#x540C;&#x65F6;&#x663E;&#x793A;&#x884C;&#x53F7;:</p>
+<pre><code>$cat -n
+</code></pre><p>&#x6309;&#x9875;&#x663E;&#x793A;&#x5217;&#x8868;&#x5185;&#x5BB9;:</p>
+<pre><code>$ls -al | more
+</code></pre><p>&#x53EA;&#x770B;&#x524D;10&#x884C;:</p>
+<pre><code>$head - 10 **
+</code></pre><p>&#x663E;&#x793A;&#x6587;&#x4EF6;&#x7B2C;&#x4E00;&#x884C;:</p>
+<pre><code>$head -1 filename
+</code></pre><p>&#x663E;&#x793A;&#x6587;&#x4EF6;&#x5012;&#x6570;&#x7B2C;&#x4E94;&#x884C;:</p>
+<pre><code>$tail -5 filename
+</code></pre><p>&#x67E5;&#x770B;&#x4E24;&#x4E2A;&#x6587;&#x4EF6;&#x95F4;&#x7684;&#x5DEE;&#x522B;:</p>
+<pre><code>$diff file1 file2
+</code></pre><p>&#x52A8;&#x6001;&#x663E;&#x793A;&#x6587;&#x672C;&#x6700;&#x65B0;&#x4FE1;&#x606F;:</p>
+<pre><code>$tail -f crawler.log
+</code></pre><p>2.6. &#x67E5;&#x627E;&#x6587;&#x4EF6;&#x5185;&#x5BB9;
+&#x4F7F;&#x7528;egrep&#x67E5;&#x8BE2;&#x6587;&#x4EF6;&#x5185;&#x5BB9;:</p>
+<pre><code>egrep &apos;03.1\/CO\/AE&apos; TSF_STAT_111130.log.012
+egrep &apos;A_LMCA777:C&apos; TSF_STAT_111130.log.035 &gt; co.out2
+</code></pre><p>2.7. &#x6587;&#x4EF6;&#x4E0E;&#x76EE;&#x5F55;&#x6743;&#x9650;&#x4FEE;&#x6539;
+&#x6539;&#x53D8;&#x6587;&#x4EF6;&#x7684;&#x62E5;&#x6709;&#x8005; chown
+&#x6539;&#x53D8;&#x6587;&#x4EF6;&#x8BFB;&#x3001;&#x5199;&#x3001;&#x6267;&#x884C;&#x7B49;&#x5C5E;&#x6027; chmod
+&#x9012;&#x5F52;&#x5B50;&#x76EE;&#x5F55;&#x4FEE;&#x6539;&#xFF1A; chown -R tuxapp source/
+&#x589E;&#x52A0;&#x811A;&#x672C;&#x53EF;&#x6267;&#x884C;&#x6743;&#x9650;&#xFF1A; chmod a+x myscript
+2.8. &#x7ED9;&#x6587;&#x4EF6;&#x589E;&#x52A0;&#x522B;&#x540D;
+&#x521B;&#x5EFA;&#x7B26;&#x53F7;&#x94FE;&#x63A5;/&#x786C;&#x94FE;&#x63A5;:</p>
+<pre><code>ln cc ccAgain :&#x786C;&#x8FDE;&#x63A5;&#xFF1B;&#x5220;&#x9664;&#x4E00;&#x4E2A;&#xFF0C;&#x5C06;&#x4ECD;&#x80FD;&#x627E;&#x5230;&#xFF1B;
+ln -s cc ccTo :&#x7B26;&#x53F7;&#x94FE;&#x63A5;(&#x8F6F;&#x94FE;&#x63A5;)&#xFF1B;&#x5220;&#x9664;&#x6E90;&#xFF0C;&#x53E6;&#x4E00;&#x4E2A;&#x65E0;&#x6CD5;&#x4F7F;&#x7528;&#xFF1B;&#xFF08;&#x540E;&#x9762;&#x4E00;&#x4E2A;ccTo &#x4E3A;&#x65B0;&#x5EFA;&#x7684;&#x6587;&#x4EF6;&#xFF09;
+</code></pre><p>2.9. &#x7BA1;&#x9053;&#x548C;&#x91CD;&#x5B9A;&#x5411;
+&#x6279;&#x5904;&#x7406;&#x547D;&#x4EE4;&#x8FDE;&#x63A5;&#x6267;&#x884C;&#xFF0C;&#x4F7F;&#x7528; |
+&#x4E32;&#x8054;: &#x4F7F;&#x7528;&#x5206;&#x53F7; ;
+&#x524D;&#x9762;&#x6210;&#x529F;&#xFF0C;&#x5219;&#x6267;&#x884C;&#x540E;&#x9762;&#x4E00;&#x6761;&#xFF0C;&#x5426;&#x5219;&#xFF0C;&#x4E0D;&#x6267;&#x884C;:&amp;&amp;
+&#x524D;&#x9762;&#x5931;&#x8D25;&#xFF0C;&#x5219;&#x540E;&#x4E00;&#x6761;&#x6267;&#x884C;: ||</p>
+<pre><code>ls /proc &amp;&amp; echo  suss! || echo failed.
+</code></pre><p>&#x80FD;&#x591F;&#x63D0;&#x793A;&#x547D;&#x540D;&#x662F;&#x5426;&#x6267;&#x884C;&#x6210;&#x529F;or&#x5931;&#x8D25;&#xFF1B;</p>
+<p>&#x4E0E;&#x4E0A;&#x8FF0;&#x76F8;&#x540C;&#x6548;&#x679C;&#x7684;&#x662F;:</p>
+<pre><code>if ls /proc; then echo suss; else echo fail; fi
+</code></pre><p>&#x91CD;&#x5B9A;&#x5411;:</p>
+<pre><code>ls  proc/*.c &gt; list 2&gt; &amp;l &#x5C06;&#x6807;&#x51C6;&#x8F93;&#x51FA;&#x548C;&#x6807;&#x51C6;&#x9519;&#x8BEF;&#x91CD;&#x5B9A;&#x5411;&#x5230;&#x540C;&#x4E00;&#x6587;&#x4EF6;&#xFF1B;
+</code></pre><p>&#x7B49;&#x4EF7;&#x7684;&#x662F;:</p>
+<pre><code>ls  proc/*.c &amp;&gt; list
+</code></pre><p>&#x6E05;&#x7A7A;&#x6587;&#x4EF6;:</p>
+<pre><code>:&gt; a.txt
+</code></pre><p>&#x91CD;&#x5B9A;&#x5411;:</p>
+<pre><code>echo aa &gt;&gt; a.txt
+</code></pre><p>2.10. &#x8BBE;&#x7F6E;&#x73AF;&#x5883;&#x53D8;&#x91CF;
+&#x542F;&#x52A8;&#x5E10;&#x53F7;&#x540E;&#x81EA;&#x52A8;&#x6267;&#x884C;&#x7684;&#x662F; &#x6587;&#x4EF6;&#x4E3A; .profile&#xFF0C;&#x7136;&#x540E;&#x901A;&#x8FC7;&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#x53EF;&#x8BBE;&#x7F6E;&#x81EA;&#x5DF1;&#x7684;&#x73AF;&#x5883;&#x53D8;&#x91CF;&#xFF1B;</p>
+<p>&#x5B89;&#x88C5;&#x7684;&#x8F6F;&#x4EF6;&#x8DEF;&#x5F84;&#x4E00;&#x822C;&#x9700;&#x8981;&#x52A0;&#x5165;&#x5230;path&#x4E2D;:</p>
+<pre><code>PATH=$APPDIR:/opt/app/soft/bin:$PATH:/usr/local/bin:$TUXDIR/bin:$ORACLE_HOME/bin;export PATH
+</code></pre><p>2.11. Bash&#x5FEB;&#x6377;&#x8F93;&#x5165;&#x6216;&#x5220;&#x9664;
+&#x5FEB;&#x6377;&#x952E;:</p>
+<pre><code>Ctl-U   &#x5220;&#x9664;&#x5149;&#x6807;&#x5230;&#x884C;&#x9996;&#x7684;&#x6240;&#x6709;&#x5B57;&#x7B26;,&#x5728;&#x67D0;&#x4E9B;&#x8BBE;&#x7F6E;&#x4E0B;,&#x5220;&#x9664;&#x5168;&#x884C;
+Ctl-W   &#x5220;&#x9664;&#x5F53;&#x524D;&#x5149;&#x6807;&#x5230;&#x524D;&#x8FB9;&#x7684;&#x6700;&#x8FD1;&#x4E00;&#x4E2A;&#x7A7A;&#x683C;&#x4E4B;&#x95F4;&#x7684;&#x5B57;&#x7B26;
+Ctl-H   backspace,&#x5220;&#x9664;&#x5149;&#x6807;&#x524D;&#x8FB9;&#x7684;&#x5B57;&#x7B26;
+Ctl-R   &#x5339;&#x914D;&#x6700;&#x76F8;&#x8FD1;&#x7684;&#x4E00;&#x4E2A;&#x6587;&#x4EF6;&#xFF0C;&#x7136;&#x540E;&#x8F93;&#x51FA;
+</code></pre><p>2.12. &#x7EFC;&#x5408;&#x5E94;&#x7528;
+&#x67E5;&#x627E;record.log&#x4E2D;&#x5305;&#x542B;AAA&#xFF0C;&#x4F46;&#x4E0D;&#x5305;&#x542B;BBB&#x7684;&#x8BB0;&#x5F55;&#x7684;&#x603B;&#x6570;:</p>
+<pre><code>cat -v record.log | grep AAA | grep -v BBB | wc -l
+</code></pre><p>2.13. &#x603B;&#x7ED3;
+&#x6587;&#x4EF6;&#x7BA1;&#x7406;&#xFF0C;&#x76EE;&#x5F55;&#x7684;&#x521B;&#x5EFA;&#x3001;&#x5220;&#x9664;&#x3001;&#x67E5;&#x8BE2;&#x3001;&#x7BA1;&#x7406;: mkdir rm mv</p>
+<p>&#x6587;&#x4EF6;&#x7684;&#x67E5;&#x8BE2;&#x548C;&#x68C0;&#x7D22;: find locate</p>
+<p>&#x67E5;&#x770B;&#x6587;&#x4EF6;&#x5185;&#x5BB9;&#xFF1A;cat vi tail more</p>
+<p>&#x7BA1;&#x9053;&#x548C;&#x91CD;&#x5B9A;&#x5411;: ; | &amp;&amp; &gt;</p>
 
-1. &#x5728;&#x5176;&#x4E2D;&#x6DFB;&#x52A0;&#x4F8B;&#x5982;export PATH=/opt/ActiveP/lib:$LD_LIBRARY_PATH
-2. source .bashrc  (Source&#x547D;&#x4EE4;&#x4E5F;&#x7A31;&#x70BA;&#x300C;&#x9EDE;&#x547D;&#x4EE4;&#x300D;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x4E00;&#x500B;&#x9EDE;&#x7B26;&#x865F;&#xFF08;.&#xFF09;&#x3002;source&#x547D;&#x4EE4;&#x901A;&#x5E38;&#x7528;&#x65BC;&#x91CD;&#x65B0;&#x57F7;&#x884C;&#x525B;&#x4FEE;&#x6539;&#x7684;&#x521D;&#x59CB;&#x5316;&#x6587;&#x4EF6;&#xFF0C;&#x4F7F;&#x4E4B;&#x7ACB;&#x5373;&#x751F;&#x6548;&#xFF0C;&#x800C;&#x4E0D;&#x5FC5;&#x8A3B;&#x92B7;&#x4E26;&#x91CD;&#x65B0;&#x767B;&#x9304;)
-
-&#x65B9;&#x6CD5;&#x4E09;&#xFF1A;&#x9019;&#x500B;&#x6C92;&#x6709;&#x4FEE;&#x6539;LD_LIBRARY_PATH&#x4F46;&#x662F;&#x6548;&#x679C;&#x662F;&#x4E00;&#x6A23;&#x7684;&#x5BE6;&#x73FE;&#x52D5;&#x614B;&#x5EAB;&#x7684;&#x67E5;&#x627E;&#xFF0C;
-1. /etc/ld.so.conf&#x4E0B;&#x9762;&#x52A0;&#x4E00;&#x884C;/usr/local/mysql/lib
-2. &#x4FDD;&#x5B58;&#x904E;&#x5F8C;ldconfig&#x4E00;&#x4E0B;&#xFF08;ldconfig&#x547D;&#x4EE4;&#x7684;&#x7528;&#x9014;,&#x4E3B;&#x8981;&#x662F;&#x5728;&#x9ED8;&#x8A8D;&#x641C;&#x5C0B;&#x76EE;&#x9304;(/lib&#x548C;/usr/lib)&#x4EE5;&#x53CA;&#x52D5;&#x614B;&#x5EAB;&#x914D;&#x7F6E;&#x6587;&#x4EF6;/etc/ld.so.conf&#x5167;&#x6240;&#x5217;&#x7684;&#x76EE;&#x9304;&#x4E0B;,&#x641C;&#x7D22;&#x51FA;&#x53EF;&#x5171;&#x4EAB;&#x7684;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5EAB;(&#x683C;&#x5F0F;&#x5982;&#x524D;&#x4ECB;&#x7D39;,lib*.so*),&#x9032;&#x800C;&#x5275;&#x5EFA;&#x51FA;&#x52D5;&#x614B;&#x88DD;&#x5165;&#x7A0B;&#x5E8F;(ld.so)&#x6240;&#x9700;&#x7684;&#x9023;&#x63A5;&#x548C;&#x7DE9;&#x5B58;&#x6587;&#x4EF6;.&#x7DE9;&#x5B58;&#x6587;&#x4EF6;&#x9ED8;&#x8A8D;&#x70BA;/etc/ld.so.cache,&#x6B64;&#x6587;&#x4EF6;&#x4FDD;&#x5B58;&#x5DF2;&#x6392;&#x597D;&#x5E8F;&#x7684;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#x540D;&#x5B57;&#x5217;&#x8868;.&#xFF09;
-
-&#x65B9;&#x6CD5;&#x4E09;&#x8A2D;&#x7F6E;&#x7A0D;&#x5FAE;&#x9EBB;&#x7169;&#xFF0C;&#x597D;&#x8655;&#x662F;&#x6BD4;&#x8F03;&#x4E0D;&#x53D7;&#x7528;&#x6236;&#x7684;&#x9650;&#x5236;
-`
-</code></pre>
                     
                     </section>
                 
@@ -759,10 +832,10 @@ echo $PATH</p>
         </div>
 
         
-        <a href="../shared_libraries/index.html" class="navigation navigation-prev " aria-label="Previous page: Shared Libraries"><i class="fa fa-angle-left"></i></a>
+        <a href="../linux_tools/01_use_man.html" class="navigation navigation-prev " aria-label="Previous page: 学会使用命令帮助"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../linux_tools/index.html" class="navigation navigation-next " aria-label="Next page: Linux Tools"><i class="fa fa-angle-right"></i></a>
+        <a href="../linux_tools/03_text_processing.html" class="navigation navigation-next " aria-label="Next page: 文本处理"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

@@ -8,4 +8,4 @@ cp /tmp/_book/* .
 git add .
 git commit -m 'update'
 git push
-git checkout master
+#git checkout master

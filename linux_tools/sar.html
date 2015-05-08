@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
-        <title>Shared Libraries Setup | Jason note</title>
+        <title>sar 找出系统瓶颈的利器 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.0.1">
@@ -20,10 +20,8 @@
         
     
     
-    <link rel="next" href="../linux_tools/index.html" />
     
-    
-    <link rel="prev" href="../shared_libraries/index.html" />
+    <link rel="prev" href="../linux_tools/iostat.html" />
     
 
         
@@ -36,7 +34,7 @@
     
 
         
-    <div class="book" data-level="2.1" data-basepath=".." data-revision="Sat May 09 2015 01:26:27 GMT+0800 (CST)">
+    <div class="book" data-level="3.3.12" data-basepath=".." data-revision="Sat May 09 2015 01:26:27 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -118,7 +116,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="2.1" data-path="shared_libraries/11.html">
+        <li class="chapter " data-level="2.1" data-path="shared_libraries/11.html">
             
                 
                     <a href="../shared_libraries/11.html">
@@ -557,7 +555,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.3.12" data-path="linux_tools/sar.html">
+        <li class="chapter active" data-level="3.3.12" data-path="linux_tools/sar.html">
             
                 
                     <a href="../linux_tools/sar.html">
@@ -685,56 +683,97 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="shared-libraries-setup">Shared Libraries Setup</h1>
-<h3 id="linux-%E5%8B%95%E6%85%8B%E8%A3%9D%E8%BC%89%E5%8B%95%E6%85%8B%E5%BA%AB-ldd%EF%BC%8Cldconfig%EF%BC%8Cld-so-conf-ld-so-cache">linux &#x52D5;&#x614B;&#x88DD;&#x8F09;&#x52D5;&#x614B;&#x5EAB; ldd&#xFF0C;ldconfig&#xFF0C;ld.so.conf, ld.so.cache</h3>
-<p>&#x524D;&#x9762;&#x6211;&#x5011;&#x4ECB;&#x7D39;&#x904E;&#xFF0C;GCC&#x7DE8;&#x8B6F;C++&#x7A0B;&#x5E8F;&#x7684;&#x90A3;&#x4E9B;&#x6B65;&#x9A5F;&#xFF0C;&#x5176;&#x4E2D;&#x5305;&#x62EC;&#x7DE8;&#x8B6F;&#x7684;&#x6642;&#x5019;include&#x7684;&#x641C;&#x7D22;&#x76EE;&#x9304;&#xFF0C;&#x93C8;&#x63A5;&#x7684;&#x6642;&#x5019;&#x5EAB;&#x7684;&#x641C;&#x7D22;&#x76EE;&#x9304;&#xFF08;&#x9019;&#x88E1;&#x7684;&#x5EAB;&#x5305;&#x542B;&#x5169;&#x7A2E;&#x5EAB;&#xFF09;&#x3002;&#x9084;&#x6709;&#x4E00;&#x500B;&#x6642;&#x5019;&#xFF0C;&#x9700;&#x8981;&#x641C;&#x7D22;&#x8DEF;&#x5F91;&#xFF0C;&#x90A3;&#x5C31;&#x662F;&#x88DD;&#x8F09;&#x52D5;&#x614B;&#x5EAB;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x9019;&#x500B;&#x6642;&#x5019;&#x8207;GCC&#x7121;&#x95DC;&#x4E86;&#x3002;&#x800C;&#x662F;&#x8207;linux&#x7CFB;&#x7D71;&#x81EA;&#x8EAB;&#x6709;&#x95DC;&#x4FC2;&#x3002;</p>
-<p>&#x52D5;&#x614B;&#x8F49;&#x8F09;&#x52D5;&#x614B;&#x5EAB;&#xFF0C;&#x662F;&#x70BA;&#x57FA;&#x65BC;&#x52D5;&#x614B;&#x5EAB;&#x7DE8;&#x8B6F;&#x93C8;&#x63A5;&#x800C;&#x4F86;&#x7684;&#x53EF;&#x57F7;&#x884C;&#x7A0B;&#x5E8F;&#x8A2D;&#x5B9A;&#x7684;&#x4E00;&#x500B;&#x7A0B;&#x5E8F;&#x57F7;&#x884C;&#x904E;&#x7A0B;&#x4E2D;&#x9700;&#x8981;&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x5C0D;&#x65BC;&#x90A3;&#x4E9B;&#x53EA;&#x57FA;&#x65BC;&#x975C;&#x614B;&#x5EAB;&#x7684;&#x53EF;&#x57F7;&#x884C;&#x7A0B;&#x5E8F;&#x4F86;&#x8AAA;&#xFF0C;&#x9019;&#x500B;&#x529F;&#x80FD;&#x6C92;&#x6709;&#x4EC0;&#x9EBC;&#x7528;&#x3002;</p>
-<pre><code>1)&#x57F7;&#x884C;&#x9019;&#x500B;&#x52D5;&#x4F5C;&#x7684;linux&#x7A0B;&#x5E8F;&#xFF1A;  /usr/bin/ld
-2)&#x9019;&#x500B;&#x7A0B;&#x5E8F;&#x53C3;&#x8003;&#x7684;&#x6587;&#x4EF6;&#x70BA;&#xFF1A;/etc/ld.so.conf&#xFF0C;&#x8A72;&#x6587;&#x4EF6;&#x4FDD;&#x5B58;&#x8457;ld&#x61C9;&#x8A72;&#x641C;&#x7D22;&#x7684;so&#x6587;&#x4EF6;&#x8DEF;&#x5F91;&#x3002;&#x901A;&#x5E38;ld.so.conf.d
-&#x9019;&#x500B;&#x6587;&#x4EF6;&#x593E;&#x4E0B;&#x4E5F;&#x4FDD;&#x5B58;&#x8457;&#x5206;&#x6587;&#x4EF6;&#xFF0C;&#x4EE5;&#x4F9B;&#x5408;&#x6210;ld.so.conf
-3)&#x8A72;&#x7A0B;&#x5E8F;&#x5BE6;&#x969B;&#x53C3;&#x8003;&#x7684;&#x6587;&#x4EF6;&#x70BA;:/etc/ld.so.cache.&#x9019;&#x500B;&#x6587;&#x4EF6;&#x6703;&#x5176;&#x5BE6;&#x57FA;&#x672C;&#x4E0A;&#x5C31;&#x662F;&#x5C0D;/etc/ld.so.cache &#x505A;&#x4E86;&#x7A0D;&#x5FAE;&#x7684;&#x8655;&#x7406;&#x5229;&#x65BC;/usr/bin/ld&#x7A0B;&#x5E8F;&#x7684;&#x53C3;&#x8003;&#x3002;
-4&#xFF09;&#x5C07;/etc/ld.so.conf &#x66F4;&#x65B0;&#x5230;/etc/ld.so.cache.&#x7684;&#x547D;&#x4EE4;&#xFF1A; ldconfig. &#x4F7F;&#x7528; ldconfig -p|less&#x53EF;&#x4EE5;&#x9010;&#x6B65;&#x67E5;&#x770B;&#x5F9E;/usr/bin/ld &#x773C;&#x88E1;&#x7684;/etc/ld.so.cache&#x7684;&#x5167;&#x5BB9;&#xFF08;&#x8DEF;&#x5F91;&#xFF09;&#x3002;
-5&#xFF09;&#x6240;&#x4EE5;&#x5F80;/etc/ld.so.conf&#x5167;&#x505A;&#x6307;&#x5B9A;&#x7684;&#x8DEF;&#x5F91;&#xFF0C;&#x5982;/usr/lib&#x7B49;&#x52A0;&#x5165;&#x4F60;&#x9700;&#x8981;&#x7A0B;&#x5E8F;&#x641C;&#x7D22;&#x7684;&#x52D5;&#x614B;&#x5EAB;.so&#x6587;&#x4EF6;&#xFF0C;
-&#x4E0D;&#x9700;&#x8981;&#x57F7;&#x884C;ldconfig&#x66F4;&#x65B0;&#x3002;&#x56E0;&#x70BA;/etc/ld.so.cache&#x4E2D;&#x4FDD;&#x5B58;&#x7684;&#x5C31;&#x662F;&#x76EE;&#x9304;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x5177;&#x9AD4;&#x7684;so&#x6587;&#x4EF6;&#x3002;
-6&#xFF09;&#x5411;/etc/ld.so.conf&#x6DFB;&#x52A0;&#x8DEF;&#x5F91;&#x3002;&#x5247;&#x9700;&#x8981;&#x8ABF;&#x7528;ldconfig&#x4F86;&#x66F4;&#x65B0;/usr/bin/ld&#x7684;&#x641C;&#x7D22;&#x8DEF;&#x5F91;&#x3002;
-</code></pre><p>&#x904B;&#x884C;&#x6642;&#x52D5;&#x614B;&#x5EAB;&#x7684;&#x641C;&#x7D22;&#x8DEF;&#x5F91;&#xFF1A;</p>
-<pre><code>&#x52D5;&#x614B;&#x5EAB;&#x7684;&#x641C;&#x7D22;&#x8DEF;&#x5F91;&#x641C;&#x7D22;&#x7684;&#x5148;&#x5F8C;&#x9806;&#x5E8F;&#x662F;&#xFF1A;
-&#x2460;&#x7DE8;&#x8B6F;&#x76EE;&#x6A19;&#x4EE3;&#x78BC;&#x6642;&#x6307;&#x5B9A;&#x7684;&#x52D5;&#x614B;&#x5EAB;&#x641C;&#x7D22;&#x8DEF;&#x5F91;&#xFF08;&#x9019;&#x662F;&#x901A;&#x904E;gcc &#x7684;&#x53C3;&#x6578;&quot;-Wl,-rpath,&quot;&#x6307;&#x5B9A;&#x3002;&#x7576;&#x6307;&#x5B9A;&#x591A;&#x500B;&#x52D5;&#x614B;&#x5EAB;&#x641C;&#x7D22;&#x8DEF;&#x5F91;&#x6642;&#xFF0C;&#x8DEF;&#x5F91;&#x4E4B;&#x9593;&#x7528;&#x5192;&#x865F;&quot;&#xFF1A;&quot;&#x5206;&#x9694;&#xFF09;
-&#x2461;&#x74B0;&#x5883;&#x8B8A;&#x91CF;LD_LIBRARY_PATH&#x6307;&#x5B9A;&#x7684;&#x52D5;&#x614B;&#x5EAB;&#x641C;&#x7D22;&#x8DEF;&#x5F91;&#xFF08;&#x7576;&#x901A;&#x904E;&#x8A72;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x6307;&#x5B9A;&#x591A;&#x500B;&#x52D5;&#x614B;&#x5EAB;&#x641C;&#x7D22;&#x8DEF;&#x5F91;&#x6642;&#xFF0C;&#x8DEF;&#x5F91;&#x4E4B;&#x9593;&#x7528;&#x5192;&#x865F;&quot;&#xFF1A;&quot;&#x5206;&#x9694;&#xFF09;
-&#x2462;&#x914D;&#x7F6E;&#x6587;&#x4EF6;/etc/ld.so.conf&#x4E2D;&#x6307;&#x5B9A;&#x7684;&#x52D5;&#x614B;&#x5EAB;&#x641C;&#x7D22;&#x8DEF;&#x5F91;&#xFF1B;
-&#x2463;&#x9ED8;&#x8A8D;&#x7684;&#x52D5;&#x614B;&#x5EAB;&#x641C;&#x7D22;&#x8DEF;&#x5F91;/lib&#xFF1B;
-&#x2464;&#x9ED8;&#x8A8D;&#x7684;&#x52D5;&#x614B;&#x5EAB;&#x641C;&#x7D22;&#x8DEF;&#x5F91;/usr/lib&#x3002;
-</code></pre><p>&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#xFF0C;&#x96D6;&#x7136;linux&#x4EE5;&#x88DD;&#x8F09;&#x52D5;&#x614B;&#x5EAB;&#x6642;&#x641C;&#x7D22;&#x7684;&#x8DEF;&#x5F91;&#x4EE5;/etc/ld.so.conf&#x70BA;&#x4E3B;&#xFF0C;&#x4F46;&#x662F;&#xFF0C;&#x4ECD;&#x7136;&#x6709;&#x5176;&#x5B83;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x4F86;&#x69CB;&#x5EFA;&#x9019;&#x7A2E;&#x88DD;&#x8F09;&#x8DEF;&#x5F91;&#x7684;&#x9748;&#x6D3B;&#x6027;&#x3002;&#x4ECD;&#x7136;&#x662F;&#x9075;&#x5B88;&#x90A3;&#x7A2E;&#x5148;&#x300C;&#x5C08;&#x300D;&#x5F8C;&#x300C;&#x5BEC;&#x300D;&#x7684;&#x6A21;&#x5F0F;&#x53BB;&#x7E2E;&#x77ED;&#x53EF;&#x80FD;&#x7684;&#x641C;&#x7D22;&#x6642;&#x9593;&#x3002;
-&#x7B2C;&#x4E00;&#x500B;&#xFF0C;&#x5C31;&#x662F;&#x5728;&#x7DE8;&#x8B6F;&#x9023;&#x63A5;&#x8A72;&#x7A0B;&#x5E8F;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x5C31;&#x6307;&#x5B9A;&#x5C07;&#x4F86;&#x9700;&#x8981;&#x52D5;&#x614B;&#x5EAB;&#x7684;&#x6642;&#x5019;&#x641C;&#x7D22;&#x7684;&#x4F4D;&#x7F6E;&#x3002;&#x6CE8;&#x610F;&#x9019;&#x500B;&#x8207;&#x7576;&#x6642;&#x7684;&#x93C8;&#x63A5;&#x8DEF;&#x5F91;&#x96D6;&#x7136;&#x6709;&#x5F88;&#x5927;&#x7684;&#x95DC;&#x4FC2;&#xFF0C;&#x4F46;&#x662F;&#x4ED6;&#x5011;&#x7684;&#x6982;&#x5FF5;&#x662F;&#x4E0D;&#x540C;&#x7684;&#x3002;
-&#x7B2C;&#x4E8C;&#x500B;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x5728;&#x4F7F;&#x7528;/etc/ld.so.conf&#x4E4B;&#x524D;&#xFF0C;&#x9084;&#x6709;&#x4E00;&#x500B;&#x8DEF;&#x5F91;&#x8A2D;&#x7F6E;&#x65B9;&#x6CD5;&#x5C31;&#x662F;&#x74B0;&#x5883;&#x8B8A;&#x91CF;LD_LIBRARY_PATH. &#x9019;&#x500B;&#x6771;&#x897F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#xFF1A;
-export LD_LIBRARY_PATH=&#x300D;/usr/lib/old:/opt/lib &#x4F86;&#x5275;&#x5EFA;&#x4FEE;&#x6539;&#x9019;&#x500B;&#x8B8A;&#x91CF;&#x3002;
-&#x7B2C;&#x4E09;&#x500B;&#xFF0C;&#x624D;&#x662F;/etc/ld.so.conf
-&#x6700;&#x5F8C;&#x3002;&#x5247;&#x662F;&#x7CFB;&#x7D71;&#x9ED8;&#x8A8D;&#x8DEF;&#x5F91;&#x3002;</p>
-<h3 id="linux-%E7%92%B0%E5%A2%83%E8%AE%8A%E9%87%8F%E8%A8%AD%E7%BD%AE%E6%96%B9%E6%B3%95%E7%B8%BD%E7%B5%90%EF%BC%88path%EF%BC%8Fld-library-path%EF%BC%89">linux &#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x8A2D;&#x7F6E;&#x65B9;&#x6CD5;&#x7E3D;&#x7D50;&#xFF08;PATH&#xFF0F;LD_LIBRARY_PATH&#xFF09;</h3>
-<p>PATH&#x548C;LD_LIBRARY_PATH&#x672C;&#x8CEA;&#x90FD;&#x662F;&#x8B8A;&#x91CF;&#xFF0C;&#x6240;&#x8B02;&#x8B8A;&#x91CF;&#x7684;&#x610F;&#x601D;&#x5C31;&#x662F;&#x7531;&#x5225;&#x4EBA;&#x8CE6;&#x503C;&#x7522;&#x751F;&#x7684;&#xFF0C;&#x76F4;&#x89BA;&#x5F80;&#x5F80;&#x6703;&#x8B93;&#x6211;&#x5011;&#x6DFB;&#x52A0;&#x548C;&#x6E1B;&#x5C11;&#x9019;&#x500B;&#x8B8A;&#x91CF;&#x672C;&#x8EAB;&#x7684;&#x67D0;&#x4E9B;&#x8DEF;&#x5F91;&#xFF0C;&#x5BE6;&#x969B;&#x4E0A;&#x9019;&#x662F;&#x4E0D;&#x6B63;&#x78BA;&#x7684;&#x3002;&#x6B63;&#x78BA;&#x7684;&#x505A;&#x6CD5;&#x662F;&#x6211;&#x5011;&#x8981;&#x53BB;&#x4FEE;&#x6539;&#x8CE6;&#x4E88;&#x9019;&#x500B;&#x8B8A;&#x91CF;&#x6578;&#x503C;&#x7684;&#x90A3;&#x4E9B;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#xFF0C;&#x52A0;&#x4E00;&#x689D;&#x8DEF;&#x5F91;&#x6216;&#x8005;&#x6E1B;&#x4E00;&#x689D;&#x3002;&#x8AAA;&#x5230;&#x5E95;&#x8B8A;&#x91CF;&#x53EA;&#x95DC;&#x4E4E;&#x986F;&#x793A;&#xFF0C;&#x4E0D;&#x95DC;&#x4E4E;&#x5176;&#x7528;&#x65BC;&#x986F;&#x793A;&#x7684;&#x5167;&#x5BB9;&#x3002;</p>
-<p>PATH:  &#x53EF;&#x57F7;&#x884C;&#x7A0B;&#x5E8F;&#x7684;&#x67E5;&#x627E;&#x8DEF;&#x5F91;
-&#x67E5;&#x770B;&#x7576;&#x524D;&#x74B0;&#x5883;&#x8B8A;&#x91CF;:
-echo $PATH</p>
-<p>&#x8A2D;&#x7F6E;:
-&#x65B9;&#x6CD5;&#x4E00;&#xFF1A; export PATH=PATH:/XXX &#x4F46;&#x662F;&#x767B;&#x51FA;&#x5F8C;&#x5C31;&#x5931;&#x6548;
-&#x65B9;&#x6CD5;&#x4E8C;&#xFF1A;&#x4FEE;&#x6539;~/.bashrc&#x6216;~/.bash_profile&#x6216;&#x7CFB;&#x7D71;&#x7D1A;&#x5225;&#x7684;/etc/profile</p>
-<pre><code>1. &#x5728;&#x5176;&#x4E2D;&#x6DFB;&#x52A0;&#x4F8B;&#x5982;export PATH=/opt/ActivePython-2.7/bin:$PATH
-2. source .bashrc  (Source&#x547D;&#x4EE4;&#x4E5F;&#x7A31;&#x70BA;&#x300C;&#x9EDE;&#x547D;&#x4EE4;&#x300D;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x4E00;&#x500B;&#x9EDE;&#x7B26;&#x865F;&#xFF08;.&#xFF09;&#x3002;source&#x547D;&#x4EE4;&#x901A;&#x5E38;&#x7528;&#x65BC;
-</code></pre><p>&#x91CD;&#x65B0;&#x57F7;&#x884C;&#x525B;&#x4FEE;&#x6539;&#x7684;&#x521D;&#x59CB;&#x5316;&#x6587;&#x4EF6;&#xFF0C;&#x4F7F;&#x4E4B;&#x7ACB;&#x5373;&#x751F;&#x6548;&#xFF0C;&#x800C;&#x4E0D;&#x5FC5;&#x8A3B;&#x92B7;&#x4E26;&#x91CD;&#x65B0;&#x767B;&#x9304;)</p>
-<p>LD_LIBRARY_PATH: &#x52D5;&#x614B;&#x5EAB;&#x7684;&#x67E5;&#x627E;&#x8DEF;&#x5F91; &#x8A2D;&#x7F6E;&#xFF1A;</p>
-<pre><code>&#x65B9;&#x6CD5;&#x4E00;&#xFF1A; export  LD_LIBRARY_PATH=LD_LIBRARY_PATH:/XXX &#x4F46;&#x662F;&#x767B;&#x51FA;&#x5F8C;&#x5C31;&#x5931;&#x6548;
-&#x65B9;&#x6CD5;&#x4E8C;&#xFF1A;  &#x4FEE;&#x6539;~/.bashrc&#x6216;~/.bash_profile&#x6216;&#x7CFB;&#x7D71;&#x7D1A;&#x5225;&#x7684;/etc/profile
+                        <h1 id="sar-%E6%89%BE%E5%87%BA%E7%B3%BB%E7%BB%9F%E7%93%B6%E9%A2%88%E7%9A%84%E5%88%A9%E5%99%A8">sar &#x627E;&#x51FA;&#x7CFB;&#x7EDF;&#x74F6;&#x9888;&#x7684;&#x5229;&#x5668;</h1>
+<p>sar&#x662F;System Activity Reporter&#xFF08;&#x7CFB;&#x7EDF;&#x6D3B;&#x52A8;&#x60C5;&#x51B5;&#x62A5;&#x544A;&#xFF09;&#x7684;&#x7F29;&#x5199;&#x3002;sar&#x5DE5;&#x5177;&#x5C06;&#x5BF9;&#x7CFB;&#x7EDF;&#x5F53;&#x524D;&#x7684;&#x72B6;&#x6001;&#x8FDB;&#x884C;&#x53D6;&#x6837;&#xFF0C;&#x7136;&#x540E;&#x901A;&#x8FC7;&#x8BA1;&#x7B97;&#x6570;&#x636E;&#x548C;&#x6BD4;&#x4F8B;&#x6765;&#x8868;&#x8FBE;&#x7CFB;&#x7EDF;&#x7684;&#x5F53;&#x524D;&#x8FD0;&#x884C;&#x72B6;&#x6001;&#x3002;&#x5B83;&#x7684;&#x7279;&#x70B9;&#x662F;&#x53EF;&#x4EE5;&#x8FDE;&#x7EED;&#x5BF9;&#x7CFB;&#x7EDF;&#x53D6;&#x6837;&#xFF0C;&#x83B7;&#x5F97;&#x5927;&#x91CF;&#x7684;&#x53D6;&#x6837;&#x6570;&#x636E;&#xFF1B;&#x53D6;&#x6837;&#x6570;&#x636E;&#x548C;&#x5206;&#x6790;&#x7684;&#x7ED3;&#x679C;&#x90FD;&#x53EF;&#x4EE5;&#x5B58;&#x5165;&#x6587;&#x4EF6;&#xFF0C;&#x6240;&#x9700;&#x7684;&#x8D1F;&#x8F7D;&#x5F88;&#x5C0F;&#x3002;sar&#x662F;&#x76EE;&#x524D;Linux&#x4E0A;&#x6700;&#x4E3A;&#x5168;&#x9762;&#x7684;&#x7CFB;&#x7EDF;&#x6027;&#x80FD;&#x5206;&#x6790;&#x5DE5;&#x5177;&#x4E4B;&#x4E00;&#xFF0C;&#x53EF;&#x4EE5;&#x4ECE;14&#x4E2A;&#x5927;&#x65B9;&#x9762;&#x5BF9;&#x7CFB;&#x7EDF;&#x7684;&#x6D3B;&#x52A8;&#x8FDB;&#x884C;&#x62A5;&#x544A;&#xFF0C;&#x5305;&#x62EC;&#x6587;&#x4EF6;&#x7684;&#x8BFB;&#x5199;&#x60C5;&#x51B5;&#x3001;&#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#x7684;&#x4F7F;&#x7528;&#x60C5;&#x51B5;&#x3001;&#x4E32;&#x53E3;&#x3001;CPU&#x6548;&#x7387;&#x3001;&#x5185;&#x5B58;&#x4F7F;&#x7528;&#x72B6;&#x51B5;&#x3001;&#x8FDB;&#x7A0B;&#x6D3B;&#x52A8;&#x53CA;IPC&#x6709;&#x5173;&#x7684;&#x6D3B;&#x52A8;&#x7B49;&#xFF0C;&#x4F7F;&#x7528;&#x4E5F;&#x662F;&#x8F83;&#x4E3A;&#x590D;&#x6742;&#x3002;</p>
+<p>sar&#x662F;&#x67E5;&#x770B;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x62A5;&#x544A;&#x6307;&#x6807;&#x7684;&#x5404;&#x79CD;&#x5DE5;&#x5177;&#x4E2D;&#xFF0C;&#x6700;&#x4E3A;&#x666E;&#x904D;&#x548C;&#x65B9;&#x4FBF;&#x7684;&#xFF1B;&#x5B83;&#x6709;&#x4E24;&#x79CD;&#x7528;&#x6CD5;&#xFF1B;</p>
+<p>&#x8FFD;&#x6EAF;&#x8FC7;&#x53BB;&#x7684;&#x7EDF;&#x8BA1;&#x6570;&#x636E;&#xFF08;&#x9ED8;&#x8BA4;&#xFF09;
+&#x5468;&#x671F;&#x6027;&#x7684;&#x67E5;&#x770B;&#x5F53;&#x524D;&#x6570;&#x636E;</p>
+<h3 id="12-1-%E8%BF%BD%E6%BA%AF%E8%BF%87%E5%8E%BB%E7%9A%84%E7%BB%9F%E8%AE%A1%E6%95%B0%E6%8D%AE">12.1. &#x8FFD;&#x6EAF;&#x8FC7;&#x53BB;&#x7684;&#x7EDF;&#x8BA1;&#x6570;&#x636E;</h3>
+<p>&#x9ED8;&#x8BA4;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;sar&#x4ECE;&#x6700;&#x8FD1;&#x7684;0&#x70B9;0&#x5206;&#x5F00;&#x59CB;&#x663E;&#x793A;&#x6570;&#x636E;&#xFF1B;&#x5982;&#x679C;&#x60F3;&#x7EE7;&#x7EED;&#x67E5;&#x770B;&#x4E00;&#x5929;&#x524D;&#x7684;&#x62A5;&#x544A;&#xFF1B;&#x53EF;&#x4EE5;&#x67E5;&#x770B;&#x4FDD;&#x5B58;&#x5728;/var/log/sysstat/&#x4E0B;&#x7684;sa&#x65E5;&#x5FD7;&#xFF1B; &#x4F7F;&#x7528;sar&#x5DE5;&#x5177;&#x67E5;&#x770B;:</p>
+<pre><code>$sar -f /var/log/sysstat/sa28 \| head sar -r -f
+/var/log/sysstat/sa28
+</code></pre><h3 id="12-2-%E6%9F%A5%E7%9C%8Bcpu%E4%BD%BF%E7%94%A8%E7%8E%87">12.2. &#x67E5;&#x770B;CPU&#x4F7F;&#x7528;&#x7387;</h3>
+<p>sar -u : &#x9ED8;&#x8BA4;&#x60C5;&#x51B5;&#x4E0B;&#x663E;&#x793A;&#x7684;cpu&#x4F7F;&#x7528;&#x7387;&#x7B49;&#x4FE1;&#x606F;&#x5C31;&#x662F;sar -u&#xFF1B;</p>
+<p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x8FD9;&#x53F0;&#x673A;&#x5668;&#x4F7F;&#x7528;&#x4E86;&#x865A;&#x62DF;&#x5316;&#x6280;&#x672F;&#xFF0C;&#x6709;&#x76F8;&#x5E94;&#x7684;&#x65F6;&#x95F4;&#x6D88;&#x8017;&#xFF1B; &#x5404;&#x5217;&#x7684;&#x6307;&#x6807;&#x5206;&#x522B;&#x662F;:</p>
+<ul>
+<li>%user &#x7528;&#x6237;&#x6A21;&#x5F0F;&#x4E0B;&#x6D88;&#x8017;&#x7684;CPU&#x65F6;&#x95F4;&#x7684;&#x6BD4;&#x4F8B;&#xFF1B;</li>
+<li>%nice &#x901A;&#x8FC7;nice&#x6539;&#x53D8;&#x4E86;&#x8FDB;&#x7A0B;&#x8C03;&#x5EA6;&#x4F18;&#x5148;&#x7EA7;&#x7684;&#x8FDB;&#x7A0B;&#xFF0C;&#x5728;&#x7528;&#x6237;&#x6A21;&#x5F0F;&#x4E0B;&#x6D88;&#x8017;&#x7684;CPU&#x65F6;&#x95F4;&#x7684;&#x6BD4;&#x4F8B;</li>
+<li>%system &#x7CFB;&#x7EDF;&#x6A21;&#x5F0F;&#x4E0B;&#x6D88;&#x8017;&#x7684;CPU&#x65F6;&#x95F4;&#x7684;&#x6BD4;&#x4F8B;&#xFF1B;</li>
+<li>%iowait CPU&#x7B49;&#x5F85;&#x78C1;&#x76D8;I/O&#x5BFC;&#x81F4;&#x7A7A;&#x95F2;&#x72B6;&#x6001;&#x6D88;&#x8017;&#x7684;&#x65F6;&#x95F4;&#x6BD4;&#x4F8B;&#xFF1B;</li>
+<li>%steal &#x5229;&#x7528;Xen&#x7B49;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x865A;&#x62DF;&#x5316;&#x6280;&#x672F;&#xFF0C;&#x7B49;&#x5F85;&#x5176;&#x5B83;&#x865A;&#x62DF;CPU&#x8BA1;&#x7B97;&#x5360;&#x7528;&#x7684;&#x65F6;&#x95F4;&#x6BD4;&#x4F8B;&#xFF1B;</li>
+<li>%idle CPU&#x7A7A;&#x95F2;&#x65F6;&#x95F4;&#x6BD4;&#x4F8B;&#xFF1B;<h3 id="12-3-%E6%9F%A5%E7%9C%8B%E5%B9%B3%E5%9D%87%E8%B4%9F%E8%BD%BD">12.3. &#x67E5;&#x770B;&#x5E73;&#x5747;&#x8D1F;&#x8F7D;</h3>
+sar -q: &#x67E5;&#x770B;&#x5E73;&#x5747;&#x8D1F;&#x8F7D;</li>
+</ul>
+<p>&#x6307;&#x5B9A;-q&#x540E;&#xFF0C;&#x5C31;&#x80FD;&#x67E5;&#x770B;&#x8FD0;&#x884C;&#x961F;&#x5217;&#x4E2D;&#x7684;&#x8FDB;&#x7A0B;&#x6570;&#x3001;&#x7CFB;&#x7EDF;&#x4E0A;&#x7684;&#x8FDB;&#x7A0B;&#x5927;&#x5C0F;&#x3001;&#x5E73;&#x5747;&#x8D1F;&#x8F7D;&#x7B49;&#xFF1B;&#x4E0E;&#x5176;&#x5B83;&#x547D;&#x4EE4;&#x76F8;&#x6BD4;&#xFF0C;&#x5B83;&#x80FD;&#x67E5;&#x770B;&#x5404;&#x9879;&#x6307;&#x6807;&#x968F;&#x65F6;&#x95F4;&#x53D8;&#x5316;&#x7684;&#x60C5;&#x51B5;&#xFF1B;</p>
+<ul>
+<li>runq-sz&#xFF1A;&#x8FD0;&#x884C;&#x961F;&#x5217;&#x7684;&#x957F;&#x5EA6;&#xFF08;&#x7B49;&#x5F85;&#x8FD0;&#x884C;&#x7684;&#x8FDB;&#x7A0B;&#x6570;&#xFF09;</li>
+<li>plist-sz&#xFF1A;&#x8FDB;&#x7A0B;&#x5217;&#x8868;&#x4E2D;&#x8FDB;&#x7A0B;&#xFF08;processes&#xFF09;&#x548C;&#x7EBF;&#x7A0B;&#xFF08;threads&#xFF09;&#x7684;&#x6570;&#x91CF;</li>
+<li>ldavg-1&#xFF1A;&#x6700;&#x540E;1&#x5206;&#x949F;&#x7684;&#x7CFB;&#x7EDF;&#x5E73;&#x5747;&#x8D1F;&#x8F7D; ldavg-5&#xFF1A;&#x8FC7;&#x53BB;5&#x5206;&#x949F;&#x7684;&#x7CFB;&#x7EDF;&#x5E73;&#x5747;&#x8D1F;&#x8F7D;</li>
+<li>ldavg-15&#xFF1A;&#x8FC7;&#x53BB;15&#x5206;&#x949F;&#x7684;&#x7CFB;&#x7EDF;&#x5E73;&#x5747;&#x8D1F;&#x8F7D;</li>
+</ul>
+<h3 id="12-4-%E6%9F%A5%E7%9C%8B%E5%86%85%E5%AD%98%E4%BD%BF%E7%94%A8%E7%8A%B6%E5%86%B5">12.4. &#x67E5;&#x770B;&#x5185;&#x5B58;&#x4F7F;&#x7528;&#x72B6;&#x51B5;</h3>
+<p>sar -r&#xFF1A; &#x6307;&#x5B9A;-r&#x4E4B;&#x540E;&#xFF0C;&#x53EF;&#x67E5;&#x770B;&#x7269;&#x7406;&#x5185;&#x5B58;&#x4F7F;&#x7528;&#x72B6;&#x51B5;&#xFF1B;</p>
+<pre><code>sar -r 1 3
 
-1. &#x5728;&#x5176;&#x4E2D;&#x6DFB;&#x52A0;&#x4F8B;&#x5982;export PATH=/opt/ActiveP/lib:$LD_LIBRARY_PATH
-2. source .bashrc  (Source&#x547D;&#x4EE4;&#x4E5F;&#x7A31;&#x70BA;&#x300C;&#x9EDE;&#x547D;&#x4EE4;&#x300D;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x4E00;&#x500B;&#x9EDE;&#x7B26;&#x865F;&#xFF08;.&#xFF09;&#x3002;source&#x547D;&#x4EE4;&#x901A;&#x5E38;&#x7528;&#x65BC;&#x91CD;&#x65B0;&#x57F7;&#x884C;&#x525B;&#x4FEE;&#x6539;&#x7684;&#x521D;&#x59CB;&#x5316;&#x6587;&#x4EF6;&#xFF0C;&#x4F7F;&#x4E4B;&#x7ACB;&#x5373;&#x751F;&#x6548;&#xFF0C;&#x800C;&#x4E0D;&#x5FC5;&#x8A3B;&#x92B7;&#x4E26;&#x91CD;&#x65B0;&#x767B;&#x9304;)
+Linux  shihyu-MS-7758  3.13.0-44-generic  #73-Ubuntu SMP Tue Dec 16 00:22:43 UTC 2014  x86_64  05/09/2015
 
-&#x65B9;&#x6CD5;&#x4E09;&#xFF1A;&#x9019;&#x500B;&#x6C92;&#x6709;&#x4FEE;&#x6539;LD_LIBRARY_PATH&#x4F46;&#x662F;&#x6548;&#x679C;&#x662F;&#x4E00;&#x6A23;&#x7684;&#x5BE6;&#x73FE;&#x52D5;&#x614B;&#x5EAB;&#x7684;&#x67E5;&#x627E;&#xFF0C;
-1. /etc/ld.so.conf&#x4E0B;&#x9762;&#x52A0;&#x4E00;&#x884C;/usr/local/mysql/lib
-2. &#x4FDD;&#x5B58;&#x904E;&#x5F8C;ldconfig&#x4E00;&#x4E0B;&#xFF08;ldconfig&#x547D;&#x4EE4;&#x7684;&#x7528;&#x9014;,&#x4E3B;&#x8981;&#x662F;&#x5728;&#x9ED8;&#x8A8D;&#x641C;&#x5C0B;&#x76EE;&#x9304;(/lib&#x548C;/usr/lib)&#x4EE5;&#x53CA;&#x52D5;&#x614B;&#x5EAB;&#x914D;&#x7F6E;&#x6587;&#x4EF6;/etc/ld.so.conf&#x5167;&#x6240;&#x5217;&#x7684;&#x76EE;&#x9304;&#x4E0B;,&#x641C;&#x7D22;&#x51FA;&#x53EF;&#x5171;&#x4EAB;&#x7684;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5EAB;(&#x683C;&#x5F0F;&#x5982;&#x524D;&#x4ECB;&#x7D39;,lib*.so*),&#x9032;&#x800C;&#x5275;&#x5EFA;&#x51FA;&#x52D5;&#x614B;&#x88DD;&#x5165;&#x7A0B;&#x5E8F;(ld.so)&#x6240;&#x9700;&#x7684;&#x9023;&#x63A5;&#x548C;&#x7DE9;&#x5B58;&#x6587;&#x4EF6;.&#x7DE9;&#x5B58;&#x6587;&#x4EF6;&#x9ED8;&#x8A8D;&#x70BA;/etc/ld.so.cache,&#x6B64;&#x6587;&#x4EF6;&#x4FDD;&#x5B58;&#x5DF2;&#x6392;&#x597D;&#x5E8F;&#x7684;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#x540D;&#x5B57;&#x5217;&#x8868;.&#xFF09;
+01:21:10  memtot memfree buffers   cached  slabmem      swptot swpfree  _mem_
+01:21:10  32125M  23697M    395M    2554M     265M        976M    976M
+01:21:11  32125M  23697M    395M    2554M     265M        976M    976M
+01:21:12  32125M  23697M    395M    2554M     265M        976M    976M
+</code></pre><ul>
+<li>kbmemfree&#xFF1A;&#x8FD9;&#x4E2A;&#x503C;&#x548C;free&#x547D;&#x4EE4;&#x4E2D;&#x7684;free&#x503C;&#x57FA;&#x672C;&#x4E00;&#x81F4;,&#x6240;&#x4EE5;&#x5B83;&#x4E0D;&#x5305;&#x62EC;buffer&#x548C;cache&#x7684;&#x7A7A;&#x95F4;.</li>
+<li>kbmemused&#xFF1A;&#x8FD9;&#x4E2A;&#x503C;&#x548C;free&#x547D;&#x4EE4;&#x4E2D;&#x7684;used&#x503C;&#x57FA;&#x672C;&#x4E00;&#x81F4;,&#x6240;&#x4EE5;&#x5B83;&#x5305;&#x62EC;buffer&#x548C;cache&#x7684;&#x7A7A;&#x95F4;.</li>
+<li>%memused&#xFF1A;&#x7269;&#x7406;&#x5185;&#x5B58;&#x4F7F;&#x7528;&#x7387;&#xFF0C;&#x8FD9;&#x4E2A;&#x503C;&#x662F;kbmemused&#x548C;&#x5185;&#x5B58;&#x603B;&#x91CF;(&#x4E0D;&#x5305;&#x62EC;swap)&#x7684;&#x4E00;&#x4E2A;&#x767E;&#x5206;&#x6BD4;.</li>
+<li>kbbuffers&#x548C;kbcached&#xFF1A;&#x8FD9;&#x4E24;&#x4E2A;&#x503C;&#x5C31;&#x662F;free&#x547D;&#x4EE4;&#x4E2D;&#x7684;buffer&#x548C;cache.</li>
+<li>kbcommit&#xFF1A;&#x4FDD;&#x8BC1;&#x5F53;&#x524D;&#x7CFB;&#x7EDF;&#x6240;&#x9700;&#x8981;&#x7684;&#x5185;&#x5B58;,&#x5373;&#x4E3A;&#x4E86;&#x786E;&#x4FDD;&#x4E0D;&#x6EA2;&#x51FA;&#x800C;&#x9700;&#x8981;&#x7684;&#x5185;&#x5B58;(RAM+swap).</li>
+<li>%commit&#xFF1A;&#x8FD9;&#x4E2A;&#x503C;&#x662F;kbcommit&#x4E0E;&#x5185;&#x5B58;&#x603B;&#x91CF;(&#x5305;&#x62EC;swap)&#x7684;&#x4E00;&#x4E2A;&#x767E;&#x5206;&#x6BD4;.</li>
+</ul>
+<h3 id="12-5-%E6%9F%A5%E7%9C%8B%E9%A1%B5%E9%9D%A2%E4%BA%A4%E6%8D%A2%E5%8F%91%E7%94%9F%E7%8A%B6%E5%86%B5">12.5. &#x67E5;&#x770B;&#x9875;&#x9762;&#x4EA4;&#x6362;&#x53D1;&#x751F;&#x72B6;&#x51B5;</h3>
+<p>sar -W&#xFF1A;&#x67E5;&#x770B;&#x9875;&#x9762;&#x4EA4;&#x6362;&#x53D1;&#x751F;&#x72B6;&#x51B5;</p>
+<pre><code>sar -W 1 3
 
-&#x65B9;&#x6CD5;&#x4E09;&#x8A2D;&#x7F6E;&#x7A0D;&#x5FAE;&#x9EBB;&#x7169;&#xFF0C;&#x597D;&#x8655;&#x662F;&#x6BD4;&#x8F03;&#x4E0D;&#x53D7;&#x7528;&#x6236;&#x7684;&#x9650;&#x5236;
-`
-</code></pre>
+Linux  shihyu-MS-7758  3.13.0-44-generic  #73-Ubuntu SMP Tue Dec 16 00:22:43 UTC 2014  x86_64  05/09/2015
+
+01:20:17  in: dsc/s hder/s ader/s unkp/s ratim/s rfail/s ot: dsc/s nort/s  _ip_
+01:20:17        0.0    0.0    0.0    0.0     0.0     0.0       0.0    0.0
+01:20:18        0.0    0.0    0.0    0.0     0.0     0.0       0.0    0.0
+01:20:19        0.0    0.0    0.0    0.0     0.0     0.0       0.0    0.0
+</code></pre><p>&#x9875;&#x9762;&#x53D1;&#x751F;&#x4EA4;&#x6362;&#x65F6;&#xFF0C;&#x670D;&#x52A1;&#x5668;&#x7684;&#x541E;&#x5410;&#x91CF;&#x4F1A;&#x5927;&#x5E45;&#x4E0B;&#x964D;&#xFF1B;&#x670D;&#x52A1;&#x5668;&#x72B6;&#x51B5;&#x4E0D;&#x826F;&#x65F6;&#xFF0C;&#x5982;&#x679C;&#x6000;&#x7591;&#x56E0;&#x4E3A;&#x5185;&#x5B58;&#x4E0D;&#x8DB3;&#x800C;&#x5BFC;&#x81F4;&#x4E86;&#x9875;&#x9762;&#x4EA4;&#x6362;&#x7684;&#x53D1;&#x751F;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x8FD9;&#x4E2A;&#x547D;&#x4EE4;&#x6765;&#x786E;&#x8BA4;&#x662F;&#x5426;&#x53D1;&#x751F;&#x4E86;&#x5927;&#x91CF;&#x7684;&#x4EA4;&#x6362;&#xFF1B;</p>
+<p>../_images/sar5.png
+pswpin/s&#xFF1A;&#x6BCF;&#x79D2;&#x7CFB;&#x7EDF;&#x6362;&#x5165;&#x7684;&#x4EA4;&#x6362;&#x9875;&#x9762;&#xFF08;swap page&#xFF09;&#x6570;&#x91CF;
+pswpout/s&#xFF1A;&#x6BCF;&#x79D2;&#x7CFB;&#x7EDF;&#x6362;&#x51FA;&#x7684;&#x4EA4;&#x6362;&#x9875;&#x9762;&#xFF08;swap page&#xFF09;&#x6570;&#x91CF;
+&#x8981;&#x5224;&#x65AD;&#x7CFB;&#x7EDF;&#x74F6;&#x9888;&#x95EE;&#x9898;&#xFF0C;&#x6709;&#x65F6;&#x9700;&#x51E0;&#x4E2A; sar &#x547D;&#x4EE4;&#x9009;&#x9879;&#x7ED3;&#x5408;&#x8D77;&#x6765;&#xFF1B;</p>
+<p>&#x6000;&#x7591;CPU&#x5B58;&#x5728;&#x74F6;&#x9888;&#xFF0C;&#x53EF;&#x7528; sar -u &#x548C; sar -q &#x7B49;&#x6765;&#x67E5;&#x770B;
+&#x6000;&#x7591;&#x5185;&#x5B58;&#x5B58;&#x5728;&#x74F6;&#x9888;&#xFF0C;&#x53EF;&#x7528;sar -B&#x3001;sar -r &#x548C; sar -W &#x7B49;&#x6765;&#x67E5;&#x770B;
+&#x6000;&#x7591;I/O&#x5B58;&#x5728;&#x74F6;&#x9888;&#xFF0C;&#x53EF;&#x7528; sar -b&#x3001;sar -u &#x548C; sar -d &#x7B49;&#x6765;&#x67E5;&#x770B;</p>
+<h3 id="12-6-%E5%AE%89%E8%A3%85">12.6. &#x5B89;&#x88C5;</h3>
+<p>&#x6709;&#x7684;linux&#x7CFB;&#x7EDF;&#x4E0B;&#xFF0C;&#x9ED8;&#x8BA4;&#x53EF;&#x80FD;&#x6CA1;&#x6709;&#x5B89;&#x88C5;&#x8FD9;&#x4E2A;&#x5305;&#xFF0C;&#x4F7F;&#x7528;apt-get install sysstat &#x6765;&#x5B89;&#x88C5;&#xFF1B;
+&#x5B89;&#x88C5;&#x5B8C;&#x6BD5;&#xFF0C;&#x5C06;&#x6027;&#x80FD;&#x6536;&#x96C6;&#x5DE5;&#x5177;&#x7684;&#x5F00;&#x5173;&#x6253;&#x5F00;&#xFF1A; vi /etc/default/sysstat
+&#x8BBE;&#x7F6E; ENABLED=&#x201D;true&#x201D;
+&#x542F;&#x52A8;&#x8FD9;&#x4E2A;&#x5DE5;&#x5177;&#x6765;&#x6536;&#x96C6;&#x7CFB;&#x7EDF;&#x6027;&#x80FD;&#x6570;&#x636E;&#xFF1A; /etc/init.d/sysstat start</p>
+<h3 id="12-7-sar%E5%8F%82%E6%95%B0%E8%AF%B4%E6%98%8E">12.7. sar&#x53C2;&#x6570;&#x8BF4;&#x660E;</h3>
+<ul>
+<li>-A &#x6C47;&#x603B;&#x6240;&#x6709;&#x7684;&#x62A5;&#x544A;</li>
+<li>-a &#x62A5;&#x544A;&#x6587;&#x4EF6;&#x8BFB;&#x5199;&#x4F7F;&#x7528;&#x60C5;&#x51B5;</li>
+<li>-B &#x62A5;&#x544A;&#x9644;&#x52A0;&#x7684;&#x7F13;&#x5B58;&#x7684;&#x4F7F;&#x7528;&#x60C5;&#x51B5;</li>
+<li>-b &#x62A5;&#x544A;&#x7F13;&#x5B58;&#x7684;&#x4F7F;&#x7528;&#x60C5;&#x51B5;</li>
+<li>-c &#x62A5;&#x544A;&#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#x7684;&#x4F7F;&#x7528;&#x60C5;&#x51B5;</li>
+<li>-d &#x62A5;&#x544A;&#x78C1;&#x76D8;&#x7684;&#x4F7F;&#x7528;&#x60C5;&#x51B5;</li>
+<li>-g &#x62A5;&#x544A;&#x4E32;&#x53E3;&#x7684;&#x4F7F;&#x7528;&#x60C5;&#x51B5;</li>
+<li>-h &#x62A5;&#x544A;&#x5173;&#x4E8E;buffer&#x4F7F;&#x7528;&#x7684;&#x7EDF;&#x8BA1;&#x6570;&#x636E;</li>
+<li>-m &#x62A5;&#x544A;IPC&#x6D88;&#x606F;&#x961F;&#x5217;&#x548C;&#x4FE1;&#x53F7;&#x91CF;&#x7684;&#x4F7F;&#x7528;&#x60C5;&#x51B5;</li>
+<li>-n &#x62A5;&#x544A;&#x547D;&#x540D;cache&#x7684;&#x4F7F;&#x7528;&#x60C5;&#x51B5;</li>
+<li>-p &#x62A5;&#x544A;&#x8C03;&#x9875;&#x6D3B;&#x52A8;&#x7684;&#x4F7F;&#x7528;&#x60C5;&#x51B5;</li>
+<li>-q &#x62A5;&#x544A;&#x8FD0;&#x884C;&#x961F;&#x5217;&#x548C;&#x4EA4;&#x6362;&#x961F;&#x5217;&#x7684;&#x5E73;&#x5747;&#x957F;&#x5EA6;</li>
+<li>-R &#x62A5;&#x544A;&#x8FDB;&#x7A0B;&#x7684;&#x6D3B;&#x52A8;&#x60C5;&#x51B5;</li>
+<li>-r &#x62A5;&#x544A;&#x6CA1;&#x6709;&#x4F7F;&#x7528;&#x7684;&#x5185;&#x5B58;&#x9875;&#x9762;&#x548C;&#x786C;&#x76D8;&#x5757;</li>
+<li>-u &#x62A5;&#x544A;CPU&#x7684;&#x5229;&#x7528;&#x7387;</li>
+<li>-v &#x62A5;&#x544A;&#x8FDB;&#x7A0B;&#x3001;i&#x8282;&#x70B9;&#x3001;&#x6587;&#x4EF6;&#x548C;&#x9501;&#x8868;&#x72B6;&#x6001;</li>
+<li>-w &#x62A5;&#x544A;&#x7CFB;&#x7EDF;&#x4EA4;&#x6362;&#x6D3B;&#x52A8;&#x72B6;&#x51B5;</li>
+<li>-y &#x62A5;&#x544A;TTY&#x8BBE;&#x5907;&#x6D3B;&#x52A8;&#x72B6;&#x51B5;</li>
+</ul>
+
                     
                     </section>
                 
@@ -744,10 +783,8 @@ echo $PATH</p>
         </div>
 
         
-        <a href="../shared_libraries/index.html" class="navigation navigation-prev " aria-label="Previous page: Shared Libraries"><i class="fa fa-angle-left"></i></a>
+        <a href="../linux_tools/iostat.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: iostat 监视I/O子系统"><i class="fa fa-angle-left"></i></a>
         
-        
-        <a href="../linux_tools/index.html" class="navigation navigation-next " aria-label="Next page: Linux Tools"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

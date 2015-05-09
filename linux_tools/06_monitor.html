@@ -1,0 +1,806 @@
+<!DOCTYPE HTML>
+<html lang="en" >
+    
+    <head>
+        
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
+        <title>性能監控 | Jason note</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 2.0.1">
+        
+        
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+        <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+        
+    
+    
+    <link rel="next" href="../linux_tools/07_network.html" />
+    
+    
+    <link rel="prev" href="../linux_tools/05_process_manage.html" />
+    
+
+        
+    </head>
+    <body>
+        
+        
+    <link rel="stylesheet" href="../gitbook/style.css">
+    
+    
+
+        
+    <div class="book" data-level="3.1.6" data-basepath=".." data-revision="Sat May 09 2015 09:43:11 GMT+0800 (CST)">
+    
+
+<div class="book-summary">
+    <div class="book-search">
+        <input type="text" placeholder="Type to search" class="form-control" />
+    </div>
+    <ul class="summary">
+        
+        
+        
+        
+
+        
+
+        
+    
+        <li class="chapter " data-level="0" data-path="index.html">
+            
+                
+                    <a href="../index.html">
+                        <i class="fa fa-check"></i>
+                        
+                        Introduction
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1" data-path="shared_libraries/12.html">
+            
+                
+                    <a href="../shared_libraries/12.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.</b>
+                        
+                        Command
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1" data-path="shared_libraries/lsof.html">
+            
+                
+                    <a href="../shared_libraries/lsof.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.1.</b>
+                        
+                        10 條 Linux
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="shared_libraries/cntotw.html">
+            
+                
+                    <a href="../shared_libraries/cntotw.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.2.</b>
+                        
+                        Open Chinese Convert 開放中文轉換
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2" data-path="shared_libraries/index.html">
+            
+                
+                    <a href="../shared_libraries/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.</b>
+                        
+                        Shared Libraries
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1" data-path="shared_libraries/11.html">
+            
+                
+                    <a href="../shared_libraries/11.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.1.</b>
+                        
+                        Shared Libraries Setup
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3" data-path="linux_tools/index.html">
+            
+                
+                    <a href="../linux_tools/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.</b>
+                        
+                        Linux Tools
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1" data-path="linux_tools/linux_basic.html">
+            
+                
+                    <a href="../linux_tools/linux_basic.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.</b>
+                        
+                        Linux Basic
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.1" data-path="linux_tools/01_use_man.html">
+            
+                
+                    <a href="../linux_tools/01_use_man.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.1.</b>
+                        
+                        學會使用命令幫助
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.2" data-path="linux_tools/02_file_manage.html">
+            
+                
+                    <a href="../linux_tools/02_file_manage.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.2.</b>
+                        
+                        文件及目錄管理
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3" data-path="linux_tools/03_text_processing.html">
+            
+                
+                    <a href="../linux_tools/03_text_processing.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.3.</b>
+                        
+                        文本處理
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.4" data-path="linux_tools/04_disk.html">
+            
+                
+                    <a href="../linux_tools/04_disk.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.4.</b>
+                        
+                        磁盤管理
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.5" data-path="linux_tools/05_process_manage.html">
+            
+                
+                    <a href="../linux_tools/05_process_manage.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.5.</b>
+                        
+                        進程管理工具
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.1.6" data-path="linux_tools/06_monitor.html">
+            
+                
+                    <a href="../linux_tools/06_monitor.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.6.</b>
+                        
+                        性能監控
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.7" data-path="linux_tools/07_network.html">
+            
+                
+                    <a href="../linux_tools/07_network.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.7.</b>
+                        
+                        網絡工具
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8" data-path="linux_tools/08_user_manage.html">
+            
+                
+                    <a href="../linux_tools/08_user_manage.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.8.</b>
+                        
+                        用戶管理工具
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.9" data-path="linux_tools/09_system_manage.html">
+            
+                
+                    <a href="../linux_tools/09_system_manage.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.9.</b>
+                        
+                        系統管理及IPC資源管理
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="linux_tools/linux_advance.html">
+            
+                
+                    <a href="../linux_tools/linux_advance.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.2.</b>
+                        
+                        Linux工具進階
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.2.1" data-path="linux_tools/01_program_buil.html">
+            
+                
+                    <a href="../linux_tools/01_program_buil.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.2.1.</b>
+                        
+                        程序構建
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.2" data-path="linux_tools/02_program_debug.html">
+            
+                
+                    <a href="../linux_tools/02_program_debug.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.2.2.</b>
+                        
+                        程序調試
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.3" data-path="linux_tools/03_optimization.html">
+            
+                
+                    <a href="../linux_tools/03_optimization.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.2.3.</b>
+                        
+                        性能優化
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="linux_tools/ref_tool.html">
+            
+                
+                    <a href="../linux_tools/ref_tool.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.</b>
+                        
+                        工具參考篇
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.3.1" data-path="linux_tools/gdb.html">
+            
+                
+                    <a href="../linux_tools/gdb.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.1.</b>
+                        
+                        gdb 調試利器
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.2" data-path="linux_tools/ldd.html">
+            
+                
+                    <a href="../linux_tools/ldd.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.2.</b>
+                        
+                        ldd 查看程序依賴庫
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.3" data-path="linux_tools/ldof.html">
+            
+                
+                    <a href="../linux_tools/ldof.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.3.</b>
+                        
+                        lsof 一切皆文件
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.4" data-path="linux_tools/ps.html">
+            
+                
+                    <a href="../linux_tools/ps.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.4.</b>
+                        
+                        ps 進程查看器
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.5" data-path="linux_tools/pstack.html">
+            
+                
+                    <a href="../linux_tools/pstack.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.5.</b>
+                        
+                        pstack 跟蹤進程棧
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.6" data-path="linux_tools/strace.html">
+            
+                
+                    <a href="../linux_tools/strace.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.6.</b>
+                        
+                        strace 跟蹤進程中的系統調用
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.7" data-path="linux_tools/ipcs.html">
+            
+                
+                    <a href="../linux_tools/ipcs.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.7.</b>
+                        
+                        ipcs 查詢進程間通信狀態
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.8" data-path="linux_tools/top.html">
+            
+                
+                    <a href="../linux_tools/top.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.8.</b>
+                        
+                        top linux下的任務管理器
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.9" data-path="linux_tools/free.html">
+            
+                
+                    <a href="../linux_tools/free.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.9.</b>
+                        
+                        free 查詢可用內存
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.10" data-path="linux_tools/vmstat.html">
+            
+                
+                    <a href="../linux_tools/vmstat.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.10.</b>
+                        
+                        vmstat 監視內存使用情況
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.11" data-path="linux_tools/iostat.html">
+            
+                
+                    <a href="../linux_tools/iostat.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.11.</b>
+                        
+                        iostat 監視I/O子系統
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.12" data-path="linux_tools/sar.html">
+            
+                
+                    <a href="../linux_tools/sar.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.12.</b>
+                        
+                        sar 找出系統瓶頸的利器
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+
+        
+        <li class="divider"></li>
+        <li>
+            <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+                Published with GitBook
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="book-header">
+    <!-- Actions Left -->
+    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
+    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
+    
+    <div id="font-settings-wrapper" class="dropdown pull-left">
+        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
+        </a>
+        <div class="dropdown-menu font-settings">
+    <div class="dropdown-caret">
+        <span class="caret-outer"></span>
+        <span class="caret-inner"></span>
+    </div>
+
+    <div class="buttons">
+        <button type="button" id="reduce-font-size" class="button size-2">A</button>
+        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
+    </div>
+
+    <div class="buttons font-family-list">
+        <button type="button" data-font="0" class="button">Serif</button>
+        <button type="button" data-font="1" class="button">Sans</button>
+    </div>
+
+    <div class="buttons color-theme-list">
+        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
+        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
+        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
+    </div>
+</div>
+
+    </div>
+
+    <!-- Actions Right -->
+    
+    <div class="dropdown pull-right">
+        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
+        </a>
+        <div class="dropdown-menu font-settings dropdown-left">
+            <div class="dropdown-caret">
+                <span class="caret-outer"></span>
+                <span class="caret-inner"></span>
+            </div>
+            <div class="buttons">
+                <button type="button" data-sharing="twitter" class="button">
+                    Share on Twitter
+                </button>
+                <button type="button" data-sharing="google-plus" class="button">
+                    Share on Google
+                </button>
+                <button type="button" data-sharing="facebook" class="button">
+                    Share on Facebook
+                </button>
+                <button type="button" data-sharing="weibo" class="button">
+                    Share on Weibo
+                </button>
+                <button type="button" data-sharing="instapaper" class="button">
+                    Share on Instapaper
+                </button>
+            </div>
+        </div>
+    </div>
+    
+
+    
+    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
+    
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../" >Jason note</a>
+    </h1>
+</div>
+
+            <div class="page-wrapper" tabindex="-1">
+                <div class="page-inner">
+                
+                
+                    <section class="normal" id="section-">
+                    
+                        <h1 id="%E6%80%A7%E8%83%BD%E7%9B%A3%E6%8E%A7">&#x6027;&#x80FD;&#x76E3;&#x63A7;</h1>
+<p>&#x76EE;&#x9304;</p>
+<p>&#x6027;&#x80FD;&#x76E3;&#x63A7;
+&#x76E3;&#x63A7;CPU
+&#x67E5;&#x8A62;&#x5167;&#x5B58;
+&#x67E5;&#x8A62;&#x9801;&#x9762;&#x4EA4;&#x63DB;
+&#x67E5;&#x8A62;&#x786C;&#x76E4;&#x4F7F;&#x7528;
+&#x7D9C;&#x5408;&#x61C9;&#x7528;
+&#x7E3D;&#x7D50;
+&#x9644;&#x9304;
+&#x5728;&#x4F7F;&#x7528;&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x7684;&#x904E;&#x7A0B;&#x4E2D;&#xFF0C;&#x6211;&#x5011;&#x7D93;&#x5E38;&#x9700;&#x8981;&#x67E5;&#x770B;&#x7576;&#x524D;&#x7684;&#x6027;&#x80FD;&#x5982;&#x4F55;&#xFF0C;&#x9700;&#x8981;&#x77AD;&#x89E3;CPU&#x3001;&#x5167;&#x5B58;&#x548C;&#x786C;&#x76E4;&#x7684;&#x4F7F;&#x7528;&#x60C5;&#x6CC1;&#xFF1B; &#x672C;&#x7BC0;&#x4ECB;&#x7D39;&#x7684;&#x9019;&#x5E7E;&#x500B;&#x5DE5;&#x5177;&#x80FD;&#x6EFF;&#x8DB3;&#x65E5;&#x5E38;&#x5DE5;&#x4F5C;&#x8981;&#x6C42;&#xFF1B;</p>
+<p>6.1. &#x76E3;&#x63A7;CPU
+&#x67E5;&#x770B;CPU&#x4F7F;&#x7528;&#x7387;</p>
+<pre><code>$sar -u
+
+eg:
+$sar -u 1 2
+[/home/weber#]sar -u 1 2
+Linux 2.6.35-22-generic-pae (MyVPS)     06/28/2014      _i686_  (1 CPU)
+
+09:03:59 AM     CPU     %user     %nice   %system   %iowait    %steal     %idle
+09:04:00 AM     all      0.00      0.00      0.50      0.00      0.00     99.50
+09:04:01 AM     all      0.00      0.00      0.00      0.00      0.00    100.00
+</code></pre><p>&#x5F8C;&#x9762;&#x7684;&#x5169;&#x500B;&#x53C3;&#x6578;&#x8868;&#x793A;&#x76E3;&#x63A7;&#x7684;&#x983B;&#x7387;&#xFF0C;&#x6BD4;&#x5982;&#x4F8B;&#x5B50;&#x4E2D;&#x7684;1&#x548C;2&#xFF0C;&#x8868;&#x793A;&#x6BCF;&#x79D2;&#x63A1;&#x6A23;&#x4E00;&#x6B21;&#xFF0C;&#x7E3D;&#x5171;&#x63A1;&#x6A23;2&#x6B21;&#xFF1B;</p>
+<p>&#x67E5;&#x770B;CPU&#x5E73;&#x5747;&#x8CA0;&#x8F09;</p>
+<pre><code>$sar -q 1 2
+</code></pre><p>sar&#x6307;&#x5B9A;-q&#x5F8C;&#xFF0C;&#x5C31;&#x80FD;&#x67E5;&#x770B;&#x904B;&#x884C;&#x968A;&#x5217;&#x4E2D;&#x7684;&#x9032;&#x7A0B;&#x6578;&#x3001;&#x7CFB;&#x7D71;&#x4E0A;&#x7684;&#x9032;&#x7A0B;&#x5927;&#x5C0F;&#x3001;&#x5E73;&#x5747;&#x8CA0;&#x8F09;&#x7B49;&#xFF1B;</p>
+<p>6.2. &#x67E5;&#x8A62;&#x5167;&#x5B58;
+&#x67E5;&#x770B;&#x5167;&#x5B58;&#x4F7F;&#x7528;&#x72C0;&#x6CC1; sar&#x6307;&#x5B9A;-r&#x4E4B;&#x5F8C;&#xFF0C;&#x53EF;&#x67E5;&#x770B;&#x5167;&#x5B58;&#x4F7F;&#x7528;&#x72C0;&#x6CC1;;</p>
+<pre><code>$sar -r 1 2
+09:08:48 AM kbmemfree kbmemused  %memused kbbuffers  kbcached  kbcommit   %commit  kbactive   kbinact
+09:08:49 AM     17888    359784     95.26     37796     73272    507004     65.42    137400    150764
+09:08:50 AM     17888    359784     95.26     37796     73272    507004     65.42    137400    150764
+Average:        17888    359784     95.26     37796     73272    507004     65.42    137400    150764
+</code></pre><p>&#x67E5;&#x770B;&#x5167;&#x5B58;&#x4F7F;&#x7528;&#x91CF;</p>
+<pre><code>$free -m
+</code></pre><p>6.3. &#x67E5;&#x8A62;&#x9801;&#x9762;&#x4EA4;&#x63DB;
+&#x67E5;&#x770B;&#x9801;&#x9762;&#x4EA4;&#x63DB;&#x767C;&#x751F;&#x72C0;&#x6CC1; &#x9801;&#x9762;&#x767C;&#x751F;&#x4EA4;&#x63DB;&#x6642;&#xFF0C;&#x670D;&#x52D9;&#x5668;&#x7684;&#x541E;&#x5410;&#x91CF;&#x6703;&#x5927;&#x5E45;&#x4E0B;&#x964D;&#xFF1B;&#x670D;&#x52D9;&#x5668;&#x72C0;&#x6CC1;&#x4E0D;&#x826F;&#x6642;&#xFF0C;&#x5982;&#x679C;&#x61F7;&#x7591;&#x56E0;&#x7232;&#x5167;&#x5B58;&#x4E0D;&#x8DB3;&#x800C;&#x5C0E;&#x81F4;&#x4E86;&#x9801;&#x9762;&#x4EA4;&#x63DB;&#x7684;&#x767C;&#x751F;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;sar -W&#x9019;&#x500B;&#x547D;&#x4EE4;&#x4F86;&#x78BA;&#x8A8D;&#x662F;&#x5426;&#x767C;&#x751F;&#x4E86;&#x5927;&#x91CF;&#x7684;&#x4EA4;&#x63DB;&#xFF1B;</p>
+<pre><code>$sar -W 1 3
+</code></pre><p>6.4. &#x67E5;&#x8A62;&#x786C;&#x76E4;&#x4F7F;&#x7528;
+&#x67E5;&#x770B;&#x78C1;&#x76E4;&#x7A7A;&#x9593;&#x5229;&#x7528;&#x60C5;&#x6CC1;</p>
+<pre><code>$df -h
+</code></pre><p>&#x67E5;&#x8A62;&#x7576;&#x524D;&#x76EE;&#x9304;&#x4E0B;&#x7A7A;&#x9593;&#x4F7F;&#x7528;&#x60C5;&#x6CC1;</p>
+<pre><code>du -sh  -h&#x662F;&#x4EBA;&#x6027;&#x5316;&#x986F;&#x793A; s&#x662F;&#x905E;&#x6B78;&#x6574;&#x500B;&#x76EE;&#x9304;&#x7684;&#x5927;&#x5C0F;
+</code></pre><p>&#x67E5;&#x770B;&#x8A72;&#x76EE;&#x9304;&#x4E0B;&#x6240;&#x6709;&#x6587;&#x4EF6;&#x593E;&#x7684;&#x6392;&#x5E8F;&#x5F8C;&#x7684;&#x5927;&#x5C0F;</p>
+<pre><code>for i in `ls`; do du -sh $i; done | sort
+&#x6216;&#x8005;
+du -sh `ls`
+</code></pre><p>6.5. &#x7D9C;&#x5408;&#x61C9;&#x7528;
+&#x7576;&#x7CFB;&#x7D71;&#x4E2D;sar&#x4E0D;&#x53EF;&#x7528;&#x6642;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x4EE5;&#x4E0B;&#x5DE5;&#x5177;&#x66FF;&#x4EE3;&#xFF1A;linux&#x4E0B;&#x6709; vmstat&#x3001;Unix&#x7CFB;&#x7D71;&#x6709;prstat</p>
+<p>eg&#xFF1A; &#x67E5;&#x770B;cpu&#x3001;&#x5167;&#x5B58;&#x3001;&#x4F7F;&#x7528;&#x60C5;&#x6CC1;&#xFF1A; vmstat n m &#xFF08;n &#x7232;&#x76E3;&#x63A7;&#x983B;&#x7387;&#x3001;m&#x7232;&#x76E3;&#x63A7;&#x6B21;&#x6578;&#xFF09;</p>
+<pre><code>[/home/weber#]vmstat 1 3
+procs -----------memory---------- ---swap-- -----io---- -system-- ----cpu----
+r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa
+0  0  86560  42300   9752  63556    0    1     1     1    0    0  0  0 99  0
+1  0  86560  39936   9764  63544    0    0     0    52   66   95  5  0 95  0
+0  0  86560  42168   9772  63556    0    0     0    20  127  231 13  2 84  0
+</code></pre><p>&#x4F7F;&#x7528;watch &#x5DE5;&#x5177;&#x76E3;&#x63A7;&#x8B8A;&#x5316; &#x7576;&#x9700;&#x8981;&#x6301;&#x7E8C;&#x7684;&#x76E3;&#x63A7;&#x61C9;&#x7528;&#x7684;&#x67D0;&#x500B;&#x6578;&#x64DA;&#x8B8A;&#x5316;&#x6642;&#xFF0C;watch&#x5DE5;&#x5177;&#x80FD;&#x6EFF;&#x8DB3;&#x8981;&#x6C42;&#xFF1B; &#x57F7;&#x884C;watch&#x547D;&#x4EE4;&#x5F8C;&#xFF0C;&#x6703;&#x9032;&#x5165;&#x5230;&#x4E00;&#x500B;&#x754C;&#x9762;&#xFF0C;&#x8F38;&#x51FA;&#x7576;&#x524D;&#x88AB;&#x76E3;&#x63A7;&#x7684;&#x6578;&#x64DA;&#xFF0C;&#x4E00;&#x65E6;&#x6578;&#x64DA;&#x8B8A;&#x5316;&#xFF0C;&#x4FBF;&#x6703;&#x9AD8;&#x4EAE;&#x986F;&#x793A;&#x8B8A;&#x5316;&#x60C5;&#x6CC1;&#xFF1B;</p>
+<p>eg&#xFF1A;&#x64CD;&#x4F5C;redis&#x6642;&#xFF0C;&#x76E3;&#x63A7;&#x5167;&#x5B58;&#x8B8A;&#x5316;&#xFF1A;</p>
+<pre><code>$watch -d -n 1 &apos;./redis-cli info | grep memory&apos;
+(&#x4EE5;&#x4E0B;&#x7232;watch&#x5DE5;&#x5177;&#x4E2D;&#x7684;&#x754C;&#x9762;&#x5167;&#x5BB9;&#xFF0C;&#x4E00;&#x65E6;&#x5167;&#x5B58;&#x8B8A;&#x5316;&#xFF0C;&#x5373;&#x5BE6;&#x6642;&#x9AD8;&#x4EAE;&#x986F;&#x793A;&#x8B8A;&#x5316;&#xFF09;
+Every 1.0s: ./redis-cli info | grep memory                                                                  Mon Apr 28 16:10:36 2014
+
+used_memory:45157376
+used_memory_human:43.07M
+used_memory_rss:47628288
+used_memory_peak:49686080
+used_memory_peak_human:47.38M
+</code></pre><p>6.6. &#x7E3D;&#x7D50;
+top / sar / free / watch</p>
+<p>6.7. &#x9644;&#x9304;
+&#x95DC;&#x65BC;sar&#x7684;&#x4F7F;&#x7528;&#x8A73;&#x89E3;&#x53C3;&#x8003;&#xFF1A;sar &#x627E;&#x51FA;&#x7CFB;&#x7D71;&#x74F6;&#x9838;&#x7684;&#x5229;&#x5668;</p>
+
+                    
+                    </section>
+                
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../linux_tools/05_process_manage.html" class="navigation navigation-prev " aria-label="Previous page: 進程管理工具"><i class="fa fa-angle-left"></i></a>
+        
+        
+        <a href="../linux_tools/07_network.html" class="navigation navigation-next " aria-label="Next page: 網絡工具"><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+<script src="../gitbook/app.js"></script>
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    gitbook.start(config);
+});
+</script>
+
+        
+    </body>
+    
+</html>

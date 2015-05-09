@@ -1,0 +1,841 @@
+<!DOCTYPE HTML>
+<html lang="en" >
+    
+    <head>
+        
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
+        <title>性能優化 | Jason note</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 2.0.1">
+        
+        
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+        <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+        
+    
+    
+    <link rel="next" href="../linux_tools/ref_tool.html" />
+    
+    
+    <link rel="prev" href="../linux_tools/02_program_debug.html" />
+    
+
+        
+    </head>
+    <body>
+        
+        
+    <link rel="stylesheet" href="../gitbook/style.css">
+    
+    
+
+        
+    <div class="book" data-level="3.2.3" data-basepath=".." data-revision="Sat May 09 2015 12:34:02 GMT+0800 (CST)">
+    
+
+<div class="book-summary">
+    <div class="book-search">
+        <input type="text" placeholder="Type to search" class="form-control" />
+    </div>
+    <ul class="summary">
+        
+        
+        
+        
+
+        
+
+        
+    
+        <li class="chapter " data-level="0" data-path="index.html">
+            
+                
+                    <a href="../index.html">
+                        <i class="fa fa-check"></i>
+                        
+                        Introduction
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1" data-path="shared_libraries/12.html">
+            
+                
+                    <a href="../shared_libraries/12.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.</b>
+                        
+                        Command
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1" data-path="shared_libraries/lsof.html">
+            
+                
+                    <a href="../shared_libraries/lsof.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.1.</b>
+                        
+                        10 條 Linux
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="shared_libraries/cntotw.html">
+            
+                
+                    <a href="../shared_libraries/cntotw.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.2.</b>
+                        
+                        Open Chinese Convert 開放中文轉換
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2" data-path="shared_libraries/index.html">
+            
+                
+                    <a href="../shared_libraries/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.</b>
+                        
+                        Shared Libraries
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1" data-path="shared_libraries/11.html">
+            
+                
+                    <a href="../shared_libraries/11.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.1.</b>
+                        
+                        Shared Libraries Setup
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3" data-path="linux_tools/index.html">
+            
+                
+                    <a href="../linux_tools/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.</b>
+                        
+                        Linux Tools
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1" data-path="linux_tools/linux_basic.html">
+            
+                
+                    <a href="../linux_tools/linux_basic.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.</b>
+                        
+                        Linux Basic
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.1" data-path="linux_tools/01_use_man.html">
+            
+                
+                    <a href="../linux_tools/01_use_man.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.1.</b>
+                        
+                        學會使用命令幫助
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.2" data-path="linux_tools/02_file_manage.html">
+            
+                
+                    <a href="../linux_tools/02_file_manage.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.2.</b>
+                        
+                        文件及目錄管理
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3" data-path="linux_tools/03_text_processing.html">
+            
+                
+                    <a href="../linux_tools/03_text_processing.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.3.</b>
+                        
+                        文本處理
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.4" data-path="linux_tools/04_disk.html">
+            
+                
+                    <a href="../linux_tools/04_disk.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.4.</b>
+                        
+                        磁盤管理
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.5" data-path="linux_tools/05_process_manage.html">
+            
+                
+                    <a href="../linux_tools/05_process_manage.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.5.</b>
+                        
+                        進程管理工具
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.6" data-path="linux_tools/06_monitor.html">
+            
+                
+                    <a href="../linux_tools/06_monitor.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.6.</b>
+                        
+                        性能監控
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.7" data-path="linux_tools/07_network.html">
+            
+                
+                    <a href="../linux_tools/07_network.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.7.</b>
+                        
+                        網絡工具
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8" data-path="linux_tools/08_user_manage.html">
+            
+                
+                    <a href="../linux_tools/08_user_manage.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.8.</b>
+                        
+                        用戶管理工具
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.9" data-path="linux_tools/09_system_manage.html">
+            
+                
+                    <a href="../linux_tools/09_system_manage.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.9.</b>
+                        
+                        系統管理及IPC資源管理
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="linux_tools/linux_advance.html">
+            
+                
+                    <a href="../linux_tools/linux_advance.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.2.</b>
+                        
+                        Linux工具進階
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.2.1" data-path="linux_tools/01_program_buil.html">
+            
+                
+                    <a href="../linux_tools/01_program_buil.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.2.1.</b>
+                        
+                        程序構建
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.2" data-path="linux_tools/02_program_debug.html">
+            
+                
+                    <a href="../linux_tools/02_program_debug.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.2.2.</b>
+                        
+                        程序調試
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.2.3" data-path="linux_tools/03_optimization.html">
+            
+                
+                    <a href="../linux_tools/03_optimization.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.2.3.</b>
+                        
+                        性能優化
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="linux_tools/ref_tool.html">
+            
+                
+                    <a href="../linux_tools/ref_tool.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.</b>
+                        
+                        工具參考篇
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.3.1" data-path="linux_tools/gdb.html">
+            
+                
+                    <a href="../linux_tools/gdb.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.1.</b>
+                        
+                        gdb 調試利器
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.2" data-path="linux_tools/ldd.html">
+            
+                
+                    <a href="../linux_tools/ldd.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.2.</b>
+                        
+                        ldd 查看程序依賴庫
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.3" data-path="linux_tools/ldof.html">
+            
+                
+                    <a href="../linux_tools/ldof.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.3.</b>
+                        
+                        lsof 一切皆文件
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.4" data-path="linux_tools/ps.html">
+            
+                
+                    <a href="../linux_tools/ps.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.4.</b>
+                        
+                        ps 進程查看器
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.5" data-path="linux_tools/pstack.html">
+            
+                
+                    <a href="../linux_tools/pstack.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.5.</b>
+                        
+                        pstack 跟蹤進程棧
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.6" data-path="linux_tools/strace.html">
+            
+                
+                    <a href="../linux_tools/strace.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.6.</b>
+                        
+                        strace 跟蹤進程中的系統調用
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.7" data-path="linux_tools/ipcs.html">
+            
+                
+                    <a href="../linux_tools/ipcs.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.7.</b>
+                        
+                        ipcs 查詢進程間通信狀態
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.8" data-path="linux_tools/top.html">
+            
+                
+                    <a href="../linux_tools/top.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.8.</b>
+                        
+                        top linux下的任務管理器
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.9" data-path="linux_tools/free.html">
+            
+                
+                    <a href="../linux_tools/free.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.9.</b>
+                        
+                        free 查詢可用內存
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.10" data-path="linux_tools/vmstat.html">
+            
+                
+                    <a href="../linux_tools/vmstat.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.10.</b>
+                        
+                        vmstat 監視內存使用情況
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.11" data-path="linux_tools/iostat.html">
+            
+                
+                    <a href="../linux_tools/iostat.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.11.</b>
+                        
+                        iostat 監視I/O子系統
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.12" data-path="linux_tools/sar.html">
+            
+                
+                    <a href="../linux_tools/sar.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.12.</b>
+                        
+                        sar 找出系統瓶頸的利器
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+
+        
+        <li class="divider"></li>
+        <li>
+            <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+                Published with GitBook
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="book-header">
+    <!-- Actions Left -->
+    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
+    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
+    
+    <div id="font-settings-wrapper" class="dropdown pull-left">
+        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
+        </a>
+        <div class="dropdown-menu font-settings">
+    <div class="dropdown-caret">
+        <span class="caret-outer"></span>
+        <span class="caret-inner"></span>
+    </div>
+
+    <div class="buttons">
+        <button type="button" id="reduce-font-size" class="button size-2">A</button>
+        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
+    </div>
+
+    <div class="buttons font-family-list">
+        <button type="button" data-font="0" class="button">Serif</button>
+        <button type="button" data-font="1" class="button">Sans</button>
+    </div>
+
+    <div class="buttons color-theme-list">
+        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
+        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
+        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
+    </div>
+</div>
+
+    </div>
+
+    <!-- Actions Right -->
+    
+    <div class="dropdown pull-right">
+        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
+        </a>
+        <div class="dropdown-menu font-settings dropdown-left">
+            <div class="dropdown-caret">
+                <span class="caret-outer"></span>
+                <span class="caret-inner"></span>
+            </div>
+            <div class="buttons">
+                <button type="button" data-sharing="twitter" class="button">
+                    Share on Twitter
+                </button>
+                <button type="button" data-sharing="google-plus" class="button">
+                    Share on Google
+                </button>
+                <button type="button" data-sharing="facebook" class="button">
+                    Share on Facebook
+                </button>
+                <button type="button" data-sharing="weibo" class="button">
+                    Share on Weibo
+                </button>
+                <button type="button" data-sharing="instapaper" class="button">
+                    Share on Instapaper
+                </button>
+            </div>
+        </div>
+    </div>
+    
+
+    
+    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
+    
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../" >Jason note</a>
+    </h1>
+</div>
+
+            <div class="page-wrapper" tabindex="-1">
+                <div class="page-inner">
+                
+                
+                    <section class="normal" id="section-">
+                    
+                        <h1 id="%E6%80%A7%E8%83%BD%E5%84%AA%E5%8C%96">&#x6027;&#x80FD;&#x512A;&#x5316;</h1>
+<p>&#x76EE;&#x9304;</p>
+<p>&#x6027;&#x80FD;&#x512A;&#x5316;
+&#x5206;&#x6790;&#x7CFB;&#x7D71;&#x74F6;&#x9838;
+&#x5206;&#x6790;&#x5167;&#x5B58;&#x74F6;&#x9838;
+&#x5206;&#x6790;IO&#x74F6;&#x9838;
+&#x5206;&#x6790;&#x9032;&#x7A0B;&#x8ABF;&#x7528;
+&#x512A;&#x5316;&#x7A0B;&#x5E8F;&#x4EE3;&#x78BC;
+gprof&#x4F7F;&#x7528;&#x6B65;&#x9A5F;
+&#x5176;&#x5B83;&#x5DE5;&#x5177;
+&#x6027;&#x80FD;&#x512A;&#x5316;&#x7684;&#x6838;&#x5FC3;&#x662F;&#x627E;&#x51FA;&#x7CFB;&#x7D71;&#x7684;&#x74F6;&#x9838;&#x9EDE;&#xFF0C;&#x554F;&#x984C;&#x627E;&#x5230;&#x4E86;&#xFF0C;&#x512A;&#x5316;&#x7684;&#x5DE5;&#x4F5C;&#x4E5F;&#x5C31;&#x5B8C;&#x6210;&#x4E86;&#x5927;&#x534A;&#xFF1B; &#x9019;&#x88CF;&#x4ECB;&#x7D39;&#x7684;&#x6027;&#x80FD;&#x512A;&#x5316;&#x4E3B;&#x8981;&#x5F9E;&#x5169;&#x500B;&#x5C64;&#x9762;&#x4F86;&#x4ECB;&#x7D39;&#xFF1A;&#x7CFB;&#x7D71;&#x5C64;&#x9762;&#x548C;&#x7A0B;&#x5E8F;&#x5C64;&#x9762;&#xFF1B;</p>
+<p>3.1. &#x5206;&#x6790;&#x7CFB;&#x7D71;&#x74F6;&#x9838;
+&#x7CFB;&#x7D71;&#x97FF;&#x61C9;&#x8B8A;&#x6162;&#xFF0C;&#x9996;&#x5148;&#x5F97;&#x5B9A;&#x4F4D;&#x5927;&#x81F4;&#x7684;&#x554F;&#x984C;&#x51FA;&#x5728;&#x54EA;&#x88CF;&#xFF0C;&#x662F;IO&#x74F6;&#x9838;&#x3001;CPU&#x74F6;&#x9838;&#x3001;&#x5167;&#x5B58;&#x74F6;&#x9838;&#x9084;&#x662F;&#x7A0B;&#x5E8F;&#x5C0E;&#x81F4;&#x7684;&#x7CFB;&#x7D71;&#x554F;&#x984C;&#xFF1B;</p>
+<p>&#x4F7F;&#x7528;top&#x5DE5;&#x5177;&#x80FD;&#x5920;&#x6BD4;&#x8F03;&#x5168;&#x9762;&#x7684;&#x67E5;&#x770B;&#x6211;&#x5011;&#x95DC;&#x6CE8;&#x7684;&#x9EDE;:</p>
+<pre><code>$top
+    top - 09:14:56 up 264 days, 20:56,  1 user,  load average: 0.02, 0.04, 0.00
+    Tasks:  87 total,   1 running,  86 sleeping,   0 stopped,   0 zombie
+    Cpu(s):  0.0%us,  0.2%sy,  0.0%ni, 99.7%id,  0.0%wa,  0.0%hi,  0.0%si,  0.2%st
+    Mem:    377672k total,   322332k used,    55340k free,    32592k buffers
+    Swap:   397308k total,    67192k used,   330116k free,    71900k cached
+    PID USER      PR  NI  VIRT  RES  SHR S %CPU %MEM    TIME+  COMMAND
+    1 root      20   0  2856  656  388 S  0.0  0.2   0:49.40 init
+    2 root      20   0     0    0    0 S  0.0  0.0   0:00.00 kthreadd
+    3 root      20   0     0    0    0 S  0.0  0.0   7:15.20 ksoftirqd/0
+    4 root      RT   0     0    0    0 S  0.0  0.0   0:00.00 migration/
+</code></pre><p>&#x9032;&#x5165;&#x4EA4;&#x4E92;&#x6A21;&#x5F0F;&#x5F8C;:
+&#x8F38;&#x5165;M&#xFF0C;&#x9032;&#x7A0B;&#x5217;&#x8868;&#x6309;&#x5167;&#x5B58;&#x4F7F;&#x7528;&#x5927;&#x5C0F;&#x964D;&#x5E8F;&#x6392;&#x5E8F;&#xFF0C;&#x4FBF;&#x65BC;&#x6211;&#x5011;&#x89C0;&#x5BDF;&#x6700;&#x5927;&#x5167;&#x5B58;&#x4F7F;&#x7528;&#x8005;&#x4F7F;&#x7528;&#x6709;&#x554F;&#x984C;&#xFF08;&#x6AA2;&#x6E2C;&#x5167;&#x5B58;&#x6CC4;&#x6F0F;&#x554F;&#x984C;&#xFF09;;
+&#x8F38;&#x5165;P&#xFF0C;&#x9032;&#x7A0B;&#x5217;&#x8868;&#x6309;CPU&#x4F7F;&#x7528;&#x5927;&#x5C0F;&#x964D;&#x5E8F;&#x6392;&#x5E8F;&#xFF0C;&#x4FBF;&#x65BC;&#x6211;&#x5011;&#x89C0;&#x5BDF;&#x6700;&#x8017;CPU&#x8CC7;&#x6E90;&#x7684;&#x4F7F;&#x7528;&#x8005;&#x662F;&#x5426;&#x6709;&#x554F;&#x984C;&#xFF1B;
+top&#x7B2C;&#x4E09;&#x884C;&#x986F;&#x793A;&#x7576;&#x524D;&#x7CFB;&#x7D71;&#x7684;&#xFF0C;&#x5176;&#x4E2D;&#x6709;&#x5169;&#x500B;&#x503C;&#x5F88;&#x95DC;&#x9375;:
+%id&#xFF1A;&#x7A7A;&#x9592;CPU&#x6642;&#x9593;&#x767E;&#x5206;&#x6BD4;&#xFF0C;&#x5982;&#x679C;&#x9019;&#x500B;&#x503C;&#x904E;&#x4F4E;&#xFF0C;&#x8868;&#x660E;&#x7CFB;&#x7D71;CPU&#x5B58;&#x5728;&#x74F6;&#x9838;&#xFF1B;
+%wa&#xFF1A;&#x7B49;&#x5F85;I/O&#x7684;CPU&#x6642;&#x9593;&#x767E;&#x5206;&#x6BD4;&#xFF0C;&#x5982;&#x679C;&#x9019;&#x500B;&#x503C;&#x904E;&#x9AD8;&#xFF0C;&#x8868;&#x660E;IO&#x5B58;&#x5728;&#x74F6;&#x9838;&#xFF1B;
+3.2. &#x5206;&#x6790;&#x5167;&#x5B58;&#x74F6;&#x9838;
+&#x67E5;&#x770B;&#x5167;&#x5B58;&#x662F;&#x5426;&#x5B58;&#x5728;&#x74F6;&#x9838;&#xFF0C;&#x4F7F;&#x7528;top&#x6307;&#x4EE4;&#x770B;&#x6BD4;&#x8F03;&#x9EBB;&#x7169;&#xFF0C;&#x800C;free&#x547D;&#x4EE4;&#x66F4;&#x7232;&#x76F4;&#x89C0;:</p>
+<pre><code>[/home/weber#]free
+             total       used       free     shared    buffers     cached
+Mem:        501820     452028      49792      37064       5056     136732
+-/+ buffers/cache:     310240     191580
+Swap:            0          0          0
+[/home/weber#]top
+top - 17:52:17 up 42 days,  7:10,  1 user,  load average: 0.02, 0.02, 0.05
+Tasks:  80 total,   1 running,  79 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  0.0 us,  0.0 sy,  0.0 ni,100.0 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+KiB Mem:    501820 total,   452548 used,    49272 free,     5144 buffers
+KiB Swap:        0 total,        0 used,        0 free.   136988 cached Mem
+</code></pre><p>top&#x5DE5;&#x5177;&#x986F;&#x793A;&#x4E86;free&#x5DE5;&#x5177;&#x7684;&#x7B2C;&#x4E00;&#x884C;&#x6240;&#x6709;&#x4FE1;&#x606F;&#xFF0C;&#x4F46;&#x771F;&#x5BE6;&#x53EF;&#x7528;&#x7684;&#x5167;&#x5B58;&#xFF0C;&#x9084;&#x9700;&#x8981;&#x81EA;&#x5DF1;&#x8A08;&#x7B97;&#x624D;&#x77E5;&#x9053;; &#x7CFB;&#x7D71;&#x5BE6;&#x969B;&#x53EF;&#x7528;&#x7684;&#x5167;&#x5B58;&#x7232;free&#x5DE5;&#x5177;&#x8F38;&#x51FA;&#x7B2C;&#x4E8C;&#x884C;&#x7684;free+buffer+cached&#xFF1B;&#x4E5F;&#x5C31;&#x662F;&#x7B2C;&#x4E09;&#x884C;&#x7684;free&#x503C;191580&#xFF1B;&#x95DC;&#x65BC;free&#x547D;&#x4EE4;&#x5404;&#x500B;&#x503C;&#x7684;&#x8A73;&#x60C5;&#x89E3;&#x8B80;&#xFF0C;&#x8ACB;&#x53C3;&#x8003;&#x9019;&#x7BC7;&#x6587;&#x7AE0; free &#x67E5;&#x8A62;&#x53EF;&#x7528;&#x5167;&#x5B58; ;</p>
+<p>&#x5982;&#x679C;&#x662F;&#x56E0;&#x7232;&#x7F3A;&#x5C11;&#x5167;&#x5B58;&#xFF0C;&#x7CFB;&#x7D71;&#x97FF;&#x61C9;&#x8B8A;&#x6162;&#x5F88;&#x660E;&#x986F;&#xFF0C;&#x56E0;&#x7232;&#x9019;&#x4F7F;&#x5F97;&#x7CFB;&#x7D71;&#x4E0D;&#x505C;&#x7684;&#x505A;&#x63DB;&#x5165;&#x63DB;&#x51FA;&#x7684;&#x5DE5;&#x4F5C;;</p>
+<p>&#x9032;&#x4E00;&#x6B65;&#x7684;&#x76E3;&#x8996;&#x5167;&#x5B58;&#x4F7F;&#x7528;&#x60C5;&#x6CC1;&#xFF0C;&#x53EF;&#x4F7F;&#x7528;vmstat&#x5DE5;&#x5177;&#xFF0C;&#x5BE6;&#x6642;&#x52D5;&#x614B;&#x76E3;&#x8996;&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x7684;&#x5167;&#x5B58;&#x548C;&#x865B;&#x64EC;&#x5167;&#x5B58;&#x7684;&#x52D5;&#x614B;&#x8B8A;&#x5316;&#x3002; &#x53C3;&#x8003;&#xFF1A; vmstat &#x76E3;&#x8996;&#x5167;&#x5B58;&#x4F7F;&#x7528;&#x60C5;&#x6CC1; ;</p>
+<p>3.3. &#x5206;&#x6790;IO&#x74F6;&#x9838;
+&#x5982;&#x679C;IO&#x5B58;&#x5728;&#x6027;&#x80FD;&#x74F6;&#x9838;&#xFF0C;top&#x5DE5;&#x5177;&#x4E2D;&#x7684;%wa&#x6703;&#x504F;&#x9AD8;&#xFF1B;</p>
+<p>&#x9032;&#x4E00;&#x6B65;&#x5206;&#x6790;&#x4F7F;&#x7528;iostat&#x5DE5;&#x5177;:</p>
+<pre><code>/root$iostat -d -x -k 1 1
+Linux 2.6.32-279.el6.x86_64 (colin)   07/16/2014      _x86_64_        (4 CPU)
+
+Device:         rrqm/s   wrqm/s     r/s     w/s    rkB/s    wkB/s avgrq-sz avgqu-sz   await  svctm  %util
+sda               0.02     7.25    0.04    1.90     0.74    35.47    37.15     0.04   19.13   5.58   1.09
+dm-0              0.00     0.00    0.04    3.05     0.28    12.18     8.07     0.65  209.01   1.11   0.34
+dm-1              0.00     0.00    0.02    5.82     0.46    23.26     8.13     0.43   74.33   1.30   0.76
+dm-2              0.00     0.00    0.00    0.01     0.00     0.02     8.00     0.00    5.41   3.28   0.00
+</code></pre><p>&#x5982;&#x679C;%iowait&#x7684;&#x503C;&#x904E;&#x9AD8;&#xFF0C;&#x8868;&#x793A;&#x786C;&#x76E4;&#x5B58;&#x5728;I/O&#x74F6;&#x9838;&#x3002;
+&#x5982;&#x679C; %util &#x63A5;&#x8FD1; 100%&#xFF0C;&#x8AAA;&#x660E;&#x7522;&#x751F;&#x7684;I/O&#x8ACB;&#x6C42;&#x592A;&#x591A;&#xFF0C;I/O&#x7CFB;&#x7D71;&#x5DF2;&#x7D93;&#x6EFF;&#x8CA0;&#x8377;&#xFF0C;&#x8A72;&#x78C1;&#x76E4;&#x53EF;&#x80FD;&#x5B58;&#x5728;&#x74F6;&#x9838;&#x3002;
+&#x5982;&#x679C; svctm &#x6BD4;&#x8F03;&#x63A5;&#x8FD1; await&#xFF0C;&#x8AAA;&#x660E; I/O &#x5E7E;&#x4E4E;&#x6C92;&#x6709;&#x7B49;&#x5F85;&#x6642;&#x9593;&#xFF1B;
+&#x5982;&#x679C; await &#x9060;&#x5927;&#x65BC; svctm&#xFF0C;&#x8AAA;&#x660E;I/O &#x968A;&#x5217;&#x592A;&#x9577;&#xFF0C;io&#x97FF;&#x61C9;&#x592A;&#x6162;&#xFF0C;&#x5247;&#x9700;&#x8981;&#x9032;&#x884C;&#x5FC5;&#x8981;&#x512A;&#x5316;&#x3002;
+&#x5982;&#x679C;avgqu-sz&#x6BD4;&#x8F03;&#x5927;&#xFF0C;&#x4E5F;&#x8868;&#x793A;&#x6709;&#x5927;&#x91CF;io&#x5728;&#x7B49;&#x5F85;&#x3002;
+&#x66F4;&#x591A;&#x53C3;&#x6578;&#x8AAA;&#x660E;&#x8ACB;&#x53C3;&#x8003; iostat &#x76E3;&#x8996;I/O&#x5B50;&#x7CFB;&#x7D71; ;</p>
+<p>3.4. &#x5206;&#x6790;&#x9032;&#x7A0B;&#x8ABF;&#x7528;
+&#x901A;&#x904E;top&#x7B49;&#x5DE5;&#x5177;&#x767C;&#x73FE;&#x7CFB;&#x7D71;&#x6027;&#x80FD;&#x554F;&#x984C;&#x662F;&#x7531;&#x67D0;&#x500B;&#x9032;&#x7A0B;&#x5C0E;&#x81F4;&#x7684;&#x4E4B;&#x5F8C;&#xFF0C;&#x63A5;&#x4E0B;&#x4F86;&#x6211;&#x5011;&#x5C31;&#x9700;&#x8981;&#x5206;&#x6790;&#x9019;&#x500B;&#x9032;&#x7A0B;&#xFF1B;&#x7E7C;&#x7E8C; &#x67E5;&#x8A62;&#x554F;&#x984C;&#x5728;&#x54EA;&#xFF1B;</p>
+<p>&#x9019;&#x88CF;&#x6211;&#x5011;&#x6709;&#x5169;&#x500B;&#x597D;&#x7528;&#x7684;&#x5DE5;&#x5177;&#xFF1A; pstack&#x548C;pstrace</p>
+<p>pstack&#x7528;&#x4F86;&#x8DDF;&#x8E64;&#x9032;&#x7A0B;&#x68E7;&#xFF0C;&#x9019;&#x500B;&#x547D;&#x4EE4;&#x5728;&#x6392;&#x67E5;&#x9032;&#x7A0B;&#x554F;&#x984C;&#x6642;&#x975E;&#x5E38;&#x6709;&#x7528;&#xFF0C;&#x6BD4;&#x5982;&#x6211;&#x5011;&#x767C;&#x73FE;&#x4E00;&#x500B;&#x670D;&#x52D9;&#x4E00;&#x76F4;&#x8655;&#x65BC;work&#x72C0;&#x614B;&#xFF08;&#x5982;&#x5047;&#x6B7B;&#x72C0;&#x614B;&#xFF0C;&#x597D;&#x4F3C;&#x6B7B;&#x5FAA;&#x74B0;&#xFF09;&#xFF0C;&#x4F7F;&#x7528;&#x9019;&#x500B;&#x547D;&#x4EE4;&#x5C31;&#x80FD;&#x8F15;&#x9B06;&#x5B9A;&#x4F4D;&#x554F;&#x984C;&#x6240;&#x5728;&#xFF1B;&#x53EF;&#x4EE5;&#x5728;&#x4E00;&#x6BB5;&#x6642;&#x9593;&#x5167;&#xFF0C;&#x591A;&#x57F7;&#x884C;&#x5E7E;&#x6B21;pstack&#xFF0C;&#x82E5;&#x767C;&#x73FE;&#x4EE3;&#x78BC;&#x68E7;&#x7E3D;&#x662F;&#x505C;&#x5728;&#x540C;&#x4E00;&#x500B;&#x4F4D;&#x7F6E;&#xFF0C;&#x90A3;&#x500B;&#x4F4D;&#x7F6E;&#x5C31;&#x9700;&#x8981;&#x91CD;&#x9EDE;&#x95DC;&#x6CE8;&#xFF0C;&#x5F88;&#x53EF;&#x80FD;&#x5C31;&#x662F;&#x51FA;&#x554F;&#x984C;&#x7684;&#x5730;&#x65B9;&#xFF1B;</p>
+<p>&#x793A;&#x4F8B;&#xFF1A;&#x67E5;&#x770B;bash&#x7A0B;&#x5E8F;&#x9032;&#x7A0B;&#x68E7;:</p>
+<pre><code>/opt/app/tdev1$ps -fe| grep bash
+tdev1   7013  7012  0 19:42 pts/1    00:00:00 -bash
+tdev1  11402 11401  0 20:31 pts/2    00:00:00 -bash
+tdev1  11474 11402  0 20:32 pts/2    00:00:00 grep bash
+/opt/app/tdev1$pstack 7013
+#0  0x00000039958c5620 in __read_nocancel () from /lib64/libc.so.6
+#1  0x000000000047dafe in rl_getc ()
+#2  0x000000000047def6 in rl_read_key ()
+#3  0x000000000046d0f5 in readline_internal_char ()
+#4  0x000000000046d4e5 in readline ()
+#5  0x00000000004213cf in ?? ()
+#6  0x000000000041d685 in ?? ()
+#7  0x000000000041e89e in ?? ()
+#8  0x00000000004218dc in yyparse ()
+#9  0x000000000041b507 in parse_command ()
+#10 0x000000000041b5c6 in read_command ()
+#11 0x000000000041b74e in reader_loop ()
+#12 0x000000000041b2aa in main ()
+</code></pre><p>&#x800C;strace&#x7528;&#x4F86;&#x8DDF;&#x8E64;&#x9032;&#x7A0B;&#x4E2D;&#x7684;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#xFF1B;&#x9019;&#x500B;&#x5DE5;&#x5177;&#x80FD;&#x5920;&#x52D5;&#x614B;&#x7684;&#x8DDF;&#x8E64;&#x9032;&#x7A0B;&#x57F7;&#x884C;&#x6642;&#x7684;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x548C;&#x6240;&#x63A5;&#x6536;&#x7684;&#x4FE1;&#x865F;&#x3002;&#x662F;&#x4E00;&#x500B;&#x975E;&#x5E38;&#x6709;&#x6548;&#x7684;&#x6AA2;&#x6E2C;&#x3001;&#x6307;&#x5C0E;&#x548C;&#x8ABF;&#x8A66;&#x5DE5;&#x5177;&#x3002;&#x7CFB;&#x7D71;&#x7BA1;&#x7406;&#x54E1;&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x8A72;&#x547D;&#x4EE4;&#x5BB9;&#x6613;&#x5730;&#x89E3;&#x6C7A;&#x7A0B;&#x5E8F;&#x554F;&#x984C;&#x3002;</p>
+<p>&#x53C3;&#x8003;&#xFF1A; strace &#x8DDF;&#x8E64;&#x9032;&#x7A0B;&#x4E2D;&#x7684;&#x7CFB;&#x7D71;&#x8ABF;&#x7528; ;</p>
+<p>3.5. &#x512A;&#x5316;&#x7A0B;&#x5E8F;&#x4EE3;&#x78BC;
+&#x512A;&#x5316;&#x81EA;&#x5DF1;&#x958B;&#x767C;&#x7684;&#x7A0B;&#x5E8F;&#xFF0C;&#x5EFA;&#x8B70;&#x63A1;&#x7528;&#x4EE5;&#x4E0B;&#x6E96;&#x5247;:</p>
+<p>&#x4E8C;&#x516B;&#x6CD5;&#x5247;&#xFF1A;&#x5728;&#x4EFB;&#x4F55;&#x4E00;&#x7D44;&#x6771;&#x897F;&#x4E2D;&#xFF0C;&#x6700;&#x91CD;&#x8981;&#x7684;&#x53EA;&#x4F54;&#x5176;&#x4E2D;&#x4E00;&#x5C0F;&#x90E8;&#x5206;&#xFF0C;&#x7D04;20%&#xFF0C;&#x5176;&#x9918;80%&#x7684;&#x5118;&#x7BA1;&#x662F;&#x591A;&#x6578;&#xFF0C;&#x537B;&#x662F;&#x6B21;&#x8981;&#x7684;&#xFF1B;&#x5728;&#x512A;&#x5316;&#x5BE6;&#x8E10;&#x4E2D;&#xFF0C;&#x6211;&#x5011;&#x5C07;&#x7CBE;&#x529B;&#x96C6;&#x4E2D;&#x5728;&#x512A;&#x5316;&#x90A3;20%&#x6700;&#x8017;&#x6642;&#x7684;&#x4EE3;&#x78BC;&#x4E0A;&#xFF0C;&#x6574;&#x9AD4;&#x6027;&#x80FD;&#x5C07;&#x6709;&#x986F;&#x8457;&#x7684;&#x63D0;&#x5347;&#xFF1B;&#x9019;&#x500B;&#x5F88;&#x597D;&#x7406;&#x89E3;&#x3002;&#x51FD;&#x6578;A&#x96D6;&#x7136;&#x4EE3;&#x78BC;&#x91CF;&#x5927;&#xFF0C;&#x4F46;&#x5728;&#x4E00;&#x6B21;&#x6B63;&#x5E38;&#x57F7;&#x884C;&#x6D41;&#x7A0B;&#x4E2D;&#xFF0C;&#x53EA;&#x8ABF;&#x7528;&#x4E86;&#x4E00;&#x6B21;&#x3002;&#x800C;&#x53E6;&#x4E00;&#x500B;&#x51FD;&#x6578;B&#x4EE3;&#x78BC;&#x91CF;&#x6BD4;A&#x5C0F;&#x5F88;&#x591A;&#xFF0C;&#x4F46;&#x88AB;&#x8ABF;&#x7528;&#x4E86;1000&#x6B21;&#x3002;&#x986F;&#x7136;&#xFF0C;&#x6211;&#x5011;&#x66F4;&#x61C9;&#x95DC;&#x6CE8;B&#x7684;&#x512A;&#x5316;&#x3002;
+&#x7DE8;&#x5B8C;&#x4EE3;&#x78BC;&#xFF0C;&#x518D;&#x512A;&#x5316;&#xFF1B;&#x7DE8;&#x78BC;&#x7684;&#x6642;&#x5019;&#x7E3D;&#x662F;&#x8003;&#x616E;&#x6700;&#x4F73;&#x6027;&#x80FD;&#x672A;&#x5FC5;&#x7E3D;&#x662F;&#x597D;&#x7684;&#xFF1B;&#x5728;&#x5F37;&#x8ABF;&#x6700;&#x4F73;&#x6027;&#x80FD;&#x7684;&#x7DE8;&#x78BC;&#x65B9;&#x5F0F;&#x7684;&#x540C;&#x6642;&#xFF0C;&#x53EF;&#x80FD;&#x5C31;&#x640D;&#x5931;&#x4E86;&#x4EE3;&#x78BC;&#x7684;&#x53EF;&#x8B80;&#x6027;&#x548C;&#x958B;&#x767C;&#x6548;&#x7387;&#xFF1B;
+gprof&#x4F7F;&#x7528;&#x6B65;&#x9A5F;
+&#x7528;gcc&#x3001;g++&#x3001;xlC&#x7DE8;&#x8B6F;&#x7A0B;&#x5E8F;&#x6642;&#xFF0C;&#x4F7F;&#x7528;-pg&#x53C3;&#x6578;&#xFF0C;&#x5982;&#xFF1A;g++ -pg -o test.exe test.cpp&#x7DE8;&#x8B6F;&#x5668;&#x6703;&#x81EA;&#x52D5;&#x5728;&#x76EE;&#x6A19;&#x4EE3;&#x78BC;&#x4E2D;&#x63D2;&#x5165;&#x7528;&#x65BC;&#x6027;&#x80FD;&#x6E2C;&#x8A66;&#x7684;&#x4EE3;&#x78BC;&#x7247;&#x65B7;&#xFF0C;&#x9019;&#x4E9B;&#x4EE3;&#x78BC;&#x5728;&#x7A0B;&#x5E8F;&#x904B;&#x884C;&#x6642;&#x63A1;&#x96C6;&#x4E26;&#x8A18;&#x9304;&#x51FD;&#x6578;&#x7684;&#x8ABF;&#x7528;&#x95DC;&#x4FC2;&#x548C;&#x8ABF;&#x7528;&#x6B21;&#x6578;&#xFF0C;&#x4E26;&#x8A18;&#x9304;&#x51FD;&#x6578;&#x81EA;&#x8EAB;&#x57F7;&#x884C;&#x6642;&#x9593;&#x548C;&#x88AB;&#x8ABF;&#x7528;&#x51FD;&#x6578;&#x7684;&#x57F7;&#x884C;&#x6642;&#x9593;&#x3002;
+&#x57F7;&#x884C;&#x7DE8;&#x8B6F;&#x5F8C;&#x7684;&#x53EF;&#x57F7;&#x884C;&#x7A0B;&#x5E8F;&#xFF0C;&#x5982;&#xFF1A;./test.exe&#x3002;&#x8A72;&#x6B65;&#x9A5F;&#x904B;&#x884C;&#x7A0B;&#x5E8F;&#x7684;&#x6642;&#x9593;&#x6703;&#x7A0D;&#x6162;&#x65BC;&#x6B63;&#x5E38;&#x7DE8;&#x8B6F;&#x7684;&#x53EF;&#x57F7;&#x884C;&#x7A0B;&#x5E8F;&#x7684;&#x904B;&#x884C;&#x6642;&#x9593;&#x3002;&#x7A0B;&#x5E8F;&#x904B;&#x884C;&#x7D50;&#x675F;&#x5F8C;&#xFF0C;&#x6703;&#x5728;&#x7A0B;&#x5E8F;&#x6240;&#x5728;&#x8DEF;&#x5F91;&#x4E0B;&#x751F;&#x6210;&#x4E00;&#x500B;&#x7F3A;&#x7701;&#x6587;&#x4EF6;&#x540D;&#x7232;gmon.out&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x9019;&#x500B;&#x6587;&#x4EF6;&#x5C31;&#x662F;&#x8A18;&#x9304;&#x7A0B;&#x5E8F;&#x904B;&#x884C;&#x7684;&#x6027;&#x80FD;&#x3001;&#x8ABF;&#x7528;&#x95DC;&#x4FC2;&#x3001;&#x8ABF;&#x7528;&#x6B21;&#x6578;&#x7B49;&#x4FE1;&#x606F;&#x7684;&#x6578;&#x64DA;&#x6587;&#x4EF6;&#x3002;
+&#x4F7F;&#x7528;gprof&#x547D;&#x4EE4;&#x4F86;&#x5206;&#x6790;&#x8A18;&#x9304;&#x7A0B;&#x5E8F;&#x904B;&#x884C;&#x4FE1;&#x606F;&#x7684;gmon.out&#x6587;&#x4EF6;&#xFF0C;&#x5982;&#xFF1A;gprof test.exe gmon.out&#x5247;&#x53EF;&#x4EE5;&#x5728;&#x986F;&#x793A;&#x5668;&#x4E0A;&#x770B;&#x5230;&#x51FD;&#x6578;&#x8ABF;&#x7528;&#x76F8;&#x95DC;&#x7684;&#x7D71;&#x8A08;&#x3001;&#x5206;&#x6790;&#x4FE1;&#x606F;&#x3002;&#x4E0A;&#x8FF0;&#x4FE1;&#x606F;&#x4E5F;&#x53EF;&#x4EE5;&#x63A1;&#x7528;gprof test.exe gmon.out&gt; gprofresult.txt&#x91CD;&#x5B9A;&#x5411;&#x5230;&#x6587;&#x672C;&#x6587;&#x4EF6;&#x4EE5;&#x4FBF;&#x65BC;&#x5F8C;&#x7E8C;&#x5206;&#x6790;&#x3002;
+&#x95DC;&#x65BC;gprof&#x7684;&#x4F7F;&#x7528;&#x6848;&#x4F8B;&#xFF0C;&#x8ACB;&#x53C3;&#x8003; [f1] ;</p>
+<p>3.6. &#x5176;&#x5B83;&#x5DE5;&#x5177;
+&#x8ABF;&#x8A66;&#x5167;&#x5B58;&#x6CC4;&#x6F0F;&#x7684;&#x5DE5;&#x5177;valgrind&#xFF0C;&#x611F;&#x8208;&#x8DA3;&#x7684;&#x670B;&#x53CB;&#x53EF;&#x4EE5;google&#x77AD;&#x89E3;&#xFF1B;</p>
+<p>OProfile: Linux &#x5E73;&#x81FA;&#x4E0A;&#x7684;&#x4E00;&#x500B;&#x529F;&#x80FD;&#x5F37;&#x5927;&#x7684;&#x6027;&#x80FD;&#x5206;&#x6790;&#x5DE5;&#x5177;,&#x4F7F;&#x7528;&#x53C3;&#x8003; [f2] ;</p>
+<p>&#x9664;&#x4E86;&#x4E0A;&#x9762;&#x4ECB;&#x7D39;&#x7684;&#x5DE5;&#x5177;&#xFF0C;&#x9084;&#x6709;&#x4E00;&#x4E9B;&#x6BD4;&#x8F03;&#x5168;&#x9762;&#x7684;&#x6027;&#x80FD;&#x5206;&#x6790;&#x5DE5;&#x5177;&#xFF0C;&#x6BD4;&#x5982;sar&#xFF08;Linux&#x7CFB;&#x7D71;&#x4E0A;&#x9ED8;&#x8A8D;&#x4E0D;&#x5B89;&#x88DD;&#xFF0C;&#x9700;&#x8981;&#x624B;&#x52D5;&#x5B89;&#x88DD;&#x4E0B;&#xFF09;&#xFF1B; &#x5C07;sar&#x7684;&#x5E38;&#x99D0;&#x76E3;&#x63A7;&#x5DE5;&#x5177;&#x6253;&#x958B;&#x5F8C;&#xFF0C;&#x80FD;&#x5920;&#x6536;&#x96C6;&#x6BD4;&#x8F03;&#x5168;&#x9762;&#x7684;&#x6027;&#x80FD;&#x5206;&#x6790;&#x6578;&#x64DA;&#xFF1B;</p>
+<p>&#x95DC;&#x65BC;sar&#x7684;&#x4F7F;&#x7528;&#xFF0C;&#x53C3;&#x8003; sar &#x627E;&#x51FA;&#x7CFB;&#x7D71;&#x74F6;&#x9838;&#x7684;&#x5229;&#x5668; ;</p>
+<p>[f1]    C++&#x7684;&#x6027;&#x80FD;&#x512A;&#x5316;&#x5BE6;&#x8E10; <a href="http://www.cnblogs.com/me115/archive/2013/06/05/3117967.html" target="_blank">http://www.cnblogs.com/me115/archive/2013/06/05/3117967.html</a>
+[f2]    &#x7528; OProfile &#x5FB9;&#x5E95;&#x77AD;&#x89E3;&#x6027;&#x80FD; <a href="http://www.ibm.com/developerworks/cn/linux/l-oprof/" target="_blank">http://www.ibm.com/developerworks/cn/linux/l-oprof/</a>
+[f3]    Linux&#x4E0A;&#x7684;free&#x547D;&#x4EE4;&#x8A73;&#x89E3; <a href="http://www.cnblogs.com/coldplayerest/archive/2010/02/20/1669949.html" target="_blank">http://www.cnblogs.com/coldplayerest/archive/2010/02/20/1669949.html</a>
+Next  Previous</p>
+
+                    
+                    </section>
+                
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../linux_tools/02_program_debug.html" class="navigation navigation-prev " aria-label="Previous page: 程序調試"><i class="fa fa-angle-left"></i></a>
+        
+        
+        <a href="../linux_tools/ref_tool.html" class="navigation navigation-next " aria-label="Next page: 工具參考篇"><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+<script src="../gitbook/app.js"></script>
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    gitbook.start(config);
+});
+</script>
+
+        
+    </body>
+    
+</html>

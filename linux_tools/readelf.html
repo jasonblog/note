@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
-        <title>Linux Tools | Jason note</title>
+        <title>readelf elf文件格式分析 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.0.1">
@@ -20,10 +20,10 @@
         
     
     
-    <link rel="next" href="../linux_tools/linux_basic.html" />
+    <link rel="next" href="../linux_tools/objdump.html" />
     
     
-    <link rel="prev" href="../shared_libraries/11.html" />
+    <link rel="prev" href="../linux_tools/sar.html" />
     
 
         
@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="3" data-basepath=".." data-revision="Sat May 09 2015 13:09:37 GMT+0800 (CST)">
+    <div class="book" data-level="3.3.13" data-basepath=".." data-revision="Sat May 09 2015 13:09:37 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -153,7 +153,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="3" data-path="linux_tools/index.html">
+        <li class="chapter " data-level="3" data-path="linux_tools/index.html">
             
                 
                     <a href="../linux_tools/index.html">
@@ -587,7 +587,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.3.13" data-path="linux_tools/readelf.html">
+        <li class="chapter active" data-level="3.3.13" data-path="linux_tools/readelf.html">
             
                 
                     <a href="../linux_tools/readelf.html">
@@ -805,7 +805,309 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="linux-tools">Linux Tools</h1>
+                        <h1 id="readelf-elf%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%88%86%E6%9E%90">readelf elf&#x6587;&#x4EF6;&#x683C;&#x5F0F;&#x5206;&#x6790;</h1>
+<p>&#x9019;&#x500B;&#x5DE5;&#x5177;&#x548C;objdump&#x547D;&#x4EE4;&#x63D0;&#x4F9B;&#x7684;&#x529F;&#x80FD;&#x985E;&#x4F3C;&#xFF0C;&#x4F46;&#x662F;&#x5B83;&#x986F;&#x793A;&#x7684;&#x4FE1;&#x606F;&#x66F4;&#x7232;&#x5177;&#x9AD4;&#xFF0C;&#x4E26;&#x4E14;&#x5B83;&#x4E0D;&#x4F9D;&#x8CF4;BFD&#x5EAB;(BFD&#x5EAB;&#x662F;&#x4E00;&#x500B;GNU&#x9805;&#x76EE;&#xFF0C;&#x5B83;&#x7684;&#x76EE;&#x6A19;&#x5C31;&#x662F;&#x5E0C;&#x671B;&#x901A;&#x904E;&#x4E00;&#x7A2E;&#x7D71;&#x4E00;&#x7684;&#x63A5;&#x53E3;&#x4F86;&#x8655;&#x7406;&#x4E0D;&#x540C;&#x7684;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#xFF09;&#xFF1B;</p>
+<h2 id="elf%E6%96%87%E4%BB%B6%E9%A1%9E%E5%9E%8B">ELF&#x6587;&#x4EF6;&#x985E;&#x578B;</h2>
+<p>ELF(Executable and Linking Format)&#x662F;&#x4E00;&#x7A2E;&#x5C0D;&#x8C61;&#x6587;&#x4EF6;&#x7684;&#x683C;&#x5F0F;&#xFF0C;&#x7528;&#x65BC;&#x5B9A;&#x7FA9;&#x4E0D;&#x540C;&#x985E;&#x578B;&#x7684;&#x5C0D;&#x8C61;&#x6587;&#x4EF6;(Object files)&#x4E2D;&#x90FD;&#x653E;&#x4E86;&#x4EC0;&#x9EBC;&#x6771;&#x897F;&#x3001;&#x4EE5;&#x53CA;&#x90FD;&#x4EE5;&#x4EC0;&#x9EBC;&#x6A23;&#x7684;&#x683C;&#x5F0F;&#x53BB;&#x653E;&#x9019;&#x4E9B;&#x6771;&#x897F;&#x3002;&#x5B83;&#x81EA;&#x6700;&#x65E9;&#x5728; System V &#x7CFB;&#x7D71;&#x4E0A;&#x51FA;&#x73FE;&#x5F8C;&#xFF0C;&#x88AB; xNIX &#x4E16;&#x754C;&#x6240;&#x5EE3;&#x6CDB;&#x63A5;&#x53D7;&#xFF0C;&#x4F5C;&#x7232;&#x7F3A;&#x7701;&#x7684;&#x4E8C;&#x9032;&#x5236;&#x6587;&#x4EF6;&#x683C;&#x5F0F;&#x4F86;&#x4F7F;&#x7528;&#x3002;&#x53EF;&#x4EE5;&#x8AAA;&#xFF0C;ELF&#x662F;&#x69CB;&#x6210;&#x8846;&#x591A;xNIX&#x7CFB;&#x7D71;&#x7684;&#x57FA;&#x790E;&#x4E4B;&#x4E00;&#x3002;</p>
+<h3 id="elf%E6%96%87%E4%BB%B6%E6%9C%89%E4%B8%89%E7%A8%AE%E9%A1%9E%E5%9E%8B%EF%BC%9A">ELF&#x6587;&#x4EF6;&#x6709;&#x4E09;&#x7A2E;&#x985E;&#x578B;&#xFF1A;</h3>
+<ol>
+<li><p>&#x53EF;&#x91CD;&#x5B9A;&#x4F4D;&#x7684;&#x5C0D;&#x8C61;&#x6587;&#x4EF6;(Relocatable file)&#x7531;&#x5F59;&#x7DE8;&#x5668;&#x5F59;&#x7DE8;&#x751F;&#x6210;&#x7684; .o &#x6587;&#x4EF6;</p>
+</li>
+<li><p>&#x53EF;&#x57F7;&#x884C;&#x7684;&#x5C0D;&#x8C61;&#x6587;&#x4EF6;(Executable file)&#x53EF;&#x57F7;&#x884C;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;</p>
+</li>
+<li><p>&#x53EF;&#x88AB;&#x5171;&#x4EAB;&#x7684;&#x5C0D;&#x8C61;&#x6587;&#x4EF6;(Shared object file)&#x52D5;&#x614B;&#x5EAB;&#x6587;&#x4EF6;&#xFF0C;&#x4E5F;&#x5373; .so &#x6587;&#x4EF6;</p>
+</li>
+</ol>
+<ul>
+<li>.text section &#x88CF;&#x88DD;&#x8F09;&#x4E86;&#x53EF;&#x57F7;&#x884C;&#x4EE3;&#x78BC;&#xFF1B;</li>
+<li>.data section &#x88CF;&#x9762;&#x88DD;&#x8F09;&#x4E86;&#x88AB;&#x521D;&#x59CB;&#x5316;&#x7684;&#x6578;&#x64DA;&#xFF1B;</li>
+<li>.bss section &#x88CF;&#x9762;&#x88DD;&#x8F09;&#x4E86;&#x672A;&#x88AB;&#x521D;&#x59CB;&#x5316;&#x7684;&#x6578;&#x64DA;&#xFF1B;</li>
+<li>&#x4EE5; .rec &#x6253;&#x982D;&#x7684; sections &#x88CF;&#x9762;&#x88DD;&#x8F09;&#x4E86;&#x91CD;&#x5B9A;&#x4F4D;&#x689D;&#x76EE;&#xFF1B;</li>
+<li>.symtab &#x6216;&#x8005; .dynsym section &#x88CF;&#x9762;&#x88DD;&#x8F09;&#x4E86;&#x7B26;&#x865F;&#x4FE1;&#x606F;&#xFF1B;</li>
+<li>.strtab &#x6216;&#x8005; .dynstr section &#x88CF;&#x9762;&#x88DD;&#x8F09;&#x4E86;&#x5B57;&#x7B26;&#x4E32;&#x4FE1;&#x606F;&#xFF1B;<h3 id="13-1-%E5%8F%83%E6%95%B8%E8%AA%AA%E6%98%8E">13.1. &#x53C3;&#x6578;&#x8AAA;&#x660E;</h3>
+</li>
+<li>-a &#x2013;all &#x5168;&#x90E8; Equivalent to: -h -l -S -s -r -d -V -A -I</li>
+<li>-h &#x2013;file-header &#x6587;&#x4EF6;&#x982D; Display the ELF file header</li>
+<li>-l &#x2013;program-headers &#x7A0B;&#x5E8F; Display the program headers</li>
+<li>&#x2013;segments An alias for &#x2013;program-headers</li>
+<li>-S &#x2013;section-headers &#x6BB5;&#x982D; Display the sections&#x2019; header</li>
+</ul>
+<pre><code>--sections An alias for &#x2013;section-headers
+</code></pre><ul>
+<li>-e &#x2013;headers &#x5168;&#x90E8;&#x982D; Equivalent to: -h -l -S</li>
+<li><p>-s &#x2013;syms &#x7B26;&#x865F;&#x8868; Display the symbol table</p>
+<pre><code>--symbols
+An alias for &#x2013;syms
+</code></pre></li>
+<li><p>-n &#x2013;notes &#x5167;&#x6838;&#x8A3B;&#x91CB; Display the core notes (if present)</p>
+</li>
+<li>-r &#x2013;relocs &#x91CD;&#x5B9A;&#x4F4D; Display the relocations (if present)</li>
+<li>-u &#x2013;unwind Display the unwind info (if present)</li>
+<li>-d &#x2013;dynamic &#x52D5;&#x614B;&#x6BB5; Display the dynamic segment (if present)</li>
+<li>-V &#x2013;version-info &#x7248;&#x672C; Display the version sections (if present)</li>
+<li>-A &#x2013;arch-specific CPU&#x69CB;&#x67B6; Display architecture specific information (if any).</li>
+<li>-D &#x2013;use-dynamic &#x52D5;&#x614B;&#x6BB5; Use the dynamic section info when displaying symbols</li>
+<li>-x &#x2013;hex-dump=<number> &#x986F;&#x793A; &#x6BB5;&#x5167;&#x5167;&#x5BB9;Dump the contents of section <number></number></number></li>
+<li>-w[liaprmfFso] or</li>
+<li>-I &#x2013;histogram Display histogram of bucket list lengths</li>
+<li>-W &#x2013;wide &#x5BEC;&#x884C;&#x8F38;&#x51FA; Allow output width to exceed 80 characters</li>
+<li>-H &#x2013;help Display this information</li>
+<li>-v &#x2013;version Display the version number of readelf<h3 id="13-2-%E7%A4%BA%E4%BE%8B">13.2. &#x793A;&#x4F8B;</h3>
+&#x60F3;&#x77E5;&#x9053;&#x4E00;&#x500B;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x7684;&#x53EF;&#x904B;&#x884C;&#x7684;&#x67B6;&#x69CB;&#x5E73;&#x81FA;:</li>
+</ul>
+<pre><code>$readelf -h main| grep Machine
+</code></pre><p>-h&#x9078;&#x9805;&#x5C07;&#x986F;&#x793A;&#x6587;&#x4EF6;&#x982D;&#x7684;&#x6982;&#x8981;&#x4FE1;&#x606F;&#xFF0C;&#x5F9E;&#x88CF;&#x9762;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;&#x6709;&#x5F88;&#x591A;&#x6709;&#x7528;&#x7684;&#x4FE1;&#x606F;&#xFF1A;</p>
+<pre><code>$readelf -h main
+ELF Header:
+Magic:   7f 45 4c 46 02 01 01 00 00 00 00 00 00 00 00 00
+Class:                             ELF64
+Data:                              2 s complement, little endian
+Version:                           1 (current)
+OS/ABI:                            UNIX - System V
+ABI Version:                       0
+Type:                              EXEC (Executable file)
+Machine:                           Advanced Micro Devices X86-64
+Version:                           0x1
+Entry point address:               0x400790
+Start of program headers:          64 (bytes into file)
+Start of section headers:          5224 (bytes into file)
+Flags:                             0x0
+Size of this header:               64 (bytes)
+Size of program headers:           56 (bytes)
+Number of program headers:         8
+Size of section headers:           64 (bytes)
+Number of section headers:         29
+Section header string table index: 26
+</code></pre><p>&#x4E00;&#x500B;&#x7DE8;&#x8B6F;&#x597D;&#x7684;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#xFF0C;&#x60F3;&#x77E5;&#x9053;&#x5176;&#x7DE8;&#x8B6F;&#x6642;&#x662F;&#x5426;&#x4F7F;&#x7528;&#x4E86;-g&#x9078;&#x9805;&#xFF08;&#x52A0;&#x5165;&#x8ABF;&#x8A66;&#x4FE1;&#x606F;&#xFF09;:</p>
+<pre><code>$readelf -S main| grep debug
+</code></pre><p>&#x7528;-S&#x9078;&#x9805;&#x662F;&#x986F;&#x793A;&#x6240;&#x6709;&#x6BB5;&#x4FE1;&#x606F;&#xFF1B;&#x5982;&#x679C;&#x7DE8;&#x8B6F;&#x6642;&#x4F7F;&#x7528;&#x4E86;-g&#x9078;&#x9805;&#xFF0C;&#x5247;&#x6703;&#x6709;debug&#x6BB5;;</p>
+<p>&#x67E5;&#x770B;.o&#x6587;&#x4EF6;&#x662F;&#x5426;&#x7DE8;&#x5165;&#x4E86;&#x8ABF;&#x8A66;&#x4FE1;&#x606F;&#xFF08;&#x7DE8;&#x8B6F;&#x7684;&#x6642;&#x5019;&#x662F;&#x5426;&#x52A0;&#x4E86;-g):</p>
+<pre><code>$readelf -S Shpos.o | grep debug
+</code></pre><h3 id="13-3-%E5%AE%8C%E6%95%B4%E8%BC%B8%E5%87%BA">13.3. &#x5B8C;&#x6574;&#x8F38;&#x51FA;</h3>
+<p>readelf&#x8F38;&#x51FA;&#x7684;&#x5B8C;&#x6574;&#x5167;&#x5BB9;:</p>
+<pre><code>$readelf -all a.out
+ELF Header:
+  Magic:   7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00
+  Class:                             ELF32
+  Data:                              2&apos;s complement, little endian
+  Version:                           1 (current)
+  OS/ABI:                            UNIX - System V
+  ABI Version:                       0
+  Type:                              EXEC (Executable file)
+  Machine:                           Intel 80386
+  Version:                           0x1
+  Entry point address:               0x8048330
+  Start of program headers:          52 (bytes into file)
+  Start of section headers:          4412 (bytes into file)
+  Flags:                             0x0
+  Size of this header:               52 (bytes)
+  Size of program headers:           32 (bytes)
+  Number of program headers:         9
+  Size of section headers:           40 (bytes)
+  Number of section headers:         30
+  Section header string table index: 27
+
+Section Headers:
+  [Nr] Name              Type            Addr     Off    Size   ES Flg Lk Inf Al
+  [ 0]                   NULL            00000000 000000 000000 00      0   0  0
+  [ 1] .interp           PROGBITS        08048154 000154 000013 00   A  0   0  1
+  [ 2] .note.ABI-tag     NOTE            08048168 000168 000020 00   A  0   0  4
+  [ 3] .note.gnu.build-i NOTE            08048188 000188 000024 00   A  0   0  4
+  [ 4] .gnu.hash         GNU_HASH        080481ac 0001ac 000020 04   A  5   0  4
+  [ 5] .dynsym           DYNSYM          080481cc 0001cc 000050 10   A  6   1  4
+  [ 6] .dynstr           STRTAB          0804821c 00021c 00004c 00   A  0   0  1
+  [ 7] .gnu.version      VERSYM          08048268 000268 00000a 02   A  5   0  2
+  [ 8] .gnu.version_r    VERNEED         08048274 000274 000020 00   A  6   1  4
+  [ 9] .rel.dyn          REL             08048294 000294 000008 08   A  5   0  4
+  [10] .rel.plt          REL             0804829c 00029c 000018 08   A  5  12  4
+  [11] .init             PROGBITS        080482b4 0002b4 00002e 00  AX  0   0  4
+  [12] .plt              PROGBITS        080482f0 0002f0 000040 04  AX  0   0 16
+  [13] .text             PROGBITS        08048330 000330 00018c 00  AX  0   0 16
+  [14] .fini             PROGBITS        080484bc 0004bc 00001a 00  AX  0   0  4
+  [15] .rodata           PROGBITS        080484d8 0004d8 000011 00   A  0   0  4
+  [16] .eh_frame_hdr     PROGBITS        080484ec 0004ec 000034 00   A  0   0  4
+  [17] .eh_frame         PROGBITS        08048520 000520 0000c4 00   A  0   0  4
+  [18] .ctors            PROGBITS        08049f14 000f14 000008 00  WA  0   0  4
+  [19] .dtors            PROGBITS        08049f1c 000f1c 000008 00  WA  0   0  4
+  [20] .jcr              PROGBITS        08049f24 000f24 000004 00  WA  0   0  4
+  [21] .dynamic          DYNAMIC         08049f28 000f28 0000c8 08  WA  6   0  4
+  [22] .got              PROGBITS        08049ff0 000ff0 000004 04  WA  0   0  4
+  [23] .got.plt          PROGBITS        08049ff4 000ff4 000018 04  WA  0   0  4
+  [24] .data             PROGBITS        0804a00c 00100c 000008 00  WA  0   0  4
+  [25] .bss              NOBITS          0804a014 001014 000008 00  WA  0   0  4
+  [26] .comment          PROGBITS        00000000 001014 00002a 01  MS  0   0  1
+  [27] .shstrtab         STRTAB          00000000 00103e 0000fc 00      0   0  1
+  [28] .symtab           SYMTAB          00000000 0015ec 000410 10     29  45  4
+  [29] .strtab           STRTAB          00000000 0019fc 0001f9 00      0   0  1
+Key to Flags:
+  W (write), A (alloc), X (execute), M (merge), S (strings)
+  I (info), L (link order), G (group), T (TLS), E (exclude), x (unknown)
+  O (extra OS processing required) o (OS specific), p (processor specific)
+
+There are no section groups in this file.
+
+Program Headers:
+  Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
+  PHDR           0x000034 0x08048034 0x08048034 0x00120 0x00120 R E 0x4
+  INTERP         0x000154 0x08048154 0x08048154 0x00013 0x00013 R   0x1
+      [Requesting program interpreter: /lib/ld-linux.so.2]
+  LOAD           0x000000 0x08048000 0x08048000 0x005e4 0x005e4 R E 0x1000
+  LOAD           0x000f14 0x08049f14 0x08049f14 0x00100 0x00108 RW  0x1000
+  DYNAMIC        0x000f28 0x08049f28 0x08049f28 0x000c8 0x000c8 RW  0x4
+  NOTE           0x000168 0x08048168 0x08048168 0x00044 0x00044 R   0x4
+  GNU_EH_FRAME   0x0004ec 0x080484ec 0x080484ec 0x00034 0x00034 R   0x4
+  GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x4
+  GNU_RELRO      0x000f14 0x08049f14 0x08049f14 0x000ec 0x000ec R   0x1
+
+ Section to Segment mapping:
+  Segment Sections...
+   00
+   01     .interp
+   02     .interp .note.ABI-tag .note.gnu.build-id .gnu.hash .dynsym .dynstr .gnu.version .gnu.version_r .rel.dyn .rel.plt .init .plt .text .fini .rodata .eh_frame_hdr .eh_frame
+   03     .ctors .dtors .jcr .dynamic .got .got.plt .data .bss
+   04     .dynamic
+   05     .note.ABI-tag .note.gnu.build-id
+   06     .eh_frame_hdr
+   07
+   08     .ctors .dtors .jcr .dynamic .got
+
+Dynamic section at offset 0xf28 contains 20 entries:
+  Tag        Type                         Name/Value
+ 0x00000001 (NEEDED)                     Shared library: [libc.so.6]
+ 0x0000000c (INIT)                       0x80482b4
+ 0x0000000d (FINI)                       0x80484bc
+ 0x6ffffef5 (GNU_HASH)                   0x80481ac
+ 0x00000005 (STRTAB)                     0x804821c
+ 0x00000006 (SYMTAB)                     0x80481cc
+ 0x0000000a (STRSZ)                      76 (bytes)
+ 0x0000000b (SYMENT)                     16 (bytes)
+ 0x00000015 (DEBUG)                      0x0
+ 0x00000003 (PLTGOT)                     0x8049ff4
+ 0x00000002 (PLTRELSZ)                   24 (bytes)
+ 0x00000014 (PLTREL)                     REL
+ 0x00000017 (JMPREL)                     0x804829c
+ 0x00000011 (REL)                        0x8048294
+ 0x00000012 (RELSZ)                      8 (bytes)
+ 0x00000013 (RELENT)                     8 (bytes)
+ 0x6ffffffe (VERNEED)                    0x8048274
+ 0x6fffffff (VERNEEDNUM)                 1
+ 0x6ffffff0 (VERSYM)                     0x8048268
+ 0x00000000 (NULL)                       0x0
+
+Relocation section &apos;.rel.dyn&apos; at offset 0x294 contains 1 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+08049ff0  00000206 R_386_GLOB_DAT    00000000   __gmon_start__
+
+Relocation section &apos;.rel.plt&apos; at offset 0x29c contains 3 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+0804a000  00000107 R_386_JUMP_SLOT   00000000   printf
+0804a004  00000207 R_386_JUMP_SLOT   00000000   __gmon_start__
+0804a008  00000307 R_386_JUMP_SLOT   00000000   __libc_start_main
+
+There are no unwind sections in this file.
+
+Symbol table &apos;.dynsym&apos; contains 5 entries:
+   Num:    Value  Size Type    Bind   Vis      Ndx Name
+     0: 00000000     0 NOTYPE  LOCAL  DEFAULT  UND
+     1: 00000000     0 FUNC    GLOBAL DEFAULT  UND printf@GLIBC_2.0 (2)
+     2: 00000000     0 NOTYPE  WEAK   DEFAULT  UND __gmon_start__
+     3: 00000000     0 FUNC    GLOBAL DEFAULT  UND __libc_start_main@GLIBC_2.0 (2)
+     4: 080484dc     4 OBJECT  GLOBAL DEFAULT   15 _IO_stdin_used
+
+Symbol table &apos;.symtab&apos; contains 65 entries:
+   Num:    Value  Size Type    Bind   Vis      Ndx Name
+     0: 00000000     0 NOTYPE  LOCAL  DEFAULT  UND
+     1: 08048154     0 SECTION LOCAL  DEFAULT    1
+     2: 08048168     0 SECTION LOCAL  DEFAULT    2
+     3: 08048188     0 SECTION LOCAL  DEFAULT    3
+     4: 080481ac     0 SECTION LOCAL  DEFAULT    4
+     5: 080481cc     0 SECTION LOCAL  DEFAULT    5
+     6: 0804821c     0 SECTION LOCAL  DEFAULT    6
+     7: 08048268     0 SECTION LOCAL  DEFAULT    7
+     8: 08048274     0 SECTION LOCAL  DEFAULT    8
+     9: 08048294     0 SECTION LOCAL  DEFAULT    9
+    10: 0804829c     0 SECTION LOCAL  DEFAULT   10
+    11: 080482b4     0 SECTION LOCAL  DEFAULT   11
+    12: 080482f0     0 SECTION LOCAL  DEFAULT   12
+    13: 08048330     0 SECTION LOCAL  DEFAULT   13
+    14: 080484bc     0 SECTION LOCAL  DEFAULT   14
+    15: 080484d8     0 SECTION LOCAL  DEFAULT   15
+    16: 080484ec     0 SECTION LOCAL  DEFAULT   16
+    17: 08048520     0 SECTION LOCAL  DEFAULT   17
+    18: 08049f14     0 SECTION LOCAL  DEFAULT   18
+    19: 08049f1c     0 SECTION LOCAL  DEFAULT   19
+    20: 08049f24     0 SECTION LOCAL  DEFAULT   20
+    21: 08049f28     0 SECTION LOCAL  DEFAULT   21
+    22: 08049ff0     0 SECTION LOCAL  DEFAULT   22
+    23: 08049ff4     0 SECTION LOCAL  DEFAULT   23
+    24: 0804a00c     0 SECTION LOCAL  DEFAULT   24
+    25: 0804a014     0 SECTION LOCAL  DEFAULT   25
+    26: 00000000     0 SECTION LOCAL  DEFAULT   26
+    27: 00000000     0 FILE    LOCAL  DEFAULT  ABS crtstuff.c
+    28: 08049f14     0 OBJECT  LOCAL  DEFAULT   18 __CTOR_LIST__
+    29: 08049f1c     0 OBJECT  LOCAL  DEFAULT   19 __DTOR_LIST__
+    30: 08049f24     0 OBJECT  LOCAL  DEFAULT   20 __JCR_LIST__
+    31: 08048360     0 FUNC    LOCAL  DEFAULT   13 __do_global_dtors_aux
+    32: 0804a014     1 OBJECT  LOCAL  DEFAULT   25 completed.6086
+    33: 0804a018     4 OBJECT  LOCAL  DEFAULT   25 dtor_idx.6088
+    34: 080483c0     0 FUNC    LOCAL  DEFAULT   13 frame_dummy
+    35: 00000000     0 FILE    LOCAL  DEFAULT  ABS crtstuff.c
+    36: 08049f18     0 OBJECT  LOCAL  DEFAULT   18 __CTOR_END__
+    37: 080485e0     0 OBJECT  LOCAL  DEFAULT   17 __FRAME_END__
+    38: 08049f24     0 OBJECT  LOCAL  DEFAULT   20 __JCR_END__
+    39: 08048490     0 FUNC    LOCAL  DEFAULT   13 __do_global_ctors_aux
+    40: 00000000     0 FILE    LOCAL  DEFAULT  ABS a.c
+    41: 08049f14     0 NOTYPE  LOCAL  DEFAULT   18 __init_array_end
+    42: 08049f28     0 OBJECT  LOCAL  DEFAULT   21 _DYNAMIC
+    43: 08049f14     0 NOTYPE  LOCAL  DEFAULT   18 __init_array_start
+    44: 08049ff4     0 OBJECT  LOCAL  DEFAULT   23 _GLOBAL_OFFSET_TABLE_
+    45: 08048480     2 FUNC    GLOBAL DEFAULT   13 __libc_csu_fini
+    46: 08048482     0 FUNC    GLOBAL HIDDEN    13 __i686.get_pc_thunk.bx
+    47: 0804a00c     0 NOTYPE  WEAK   DEFAULT   24 data_start
+    48: 00000000     0 FUNC    GLOBAL DEFAULT  UND printf@@GLIBC_2.0
+    49: 0804a014     0 NOTYPE  GLOBAL DEFAULT  ABS _edata
+    50: 080484bc     0 FUNC    GLOBAL DEFAULT   14 _fini
+    51: 08049f20     0 OBJECT  GLOBAL HIDDEN    19 __DTOR_END__
+    52: 0804a00c     0 NOTYPE  GLOBAL DEFAULT   24 __data_start
+    53: 00000000     0 NOTYPE  WEAK   DEFAULT  UND __gmon_start__
+    54: 0804a010     0 OBJECT  GLOBAL HIDDEN    24 __dso_handle
+    55: 080484dc     4 OBJECT  GLOBAL DEFAULT   15 _IO_stdin_used
+    56: 00000000     0 FUNC    GLOBAL DEFAULT  UND __libc_start_main@@GLIBC_
+    57: 08048410    97 FUNC    GLOBAL DEFAULT   13 __libc_csu_init
+    58: 0804a01c     0 NOTYPE  GLOBAL DEFAULT  ABS _end
+    59: 08048330     0 FUNC    GLOBAL DEFAULT   13 _start
+    60: 080484d8     4 OBJECT  GLOBAL DEFAULT   15 _fp_hw
+    61: 0804a014     0 NOTYPE  GLOBAL DEFAULT  ABS __bss_start
+    62: 080483e4    40 FUNC    GLOBAL DEFAULT   13 main
+    63: 00000000     0 NOTYPE  WEAK   DEFAULT  UND _Jv_RegisterClasses
+    64: 080482b4     0 FUNC    GLOBAL DEFAULT   11 _init
+
+Histogram for `.gnu.hash&apos; bucket list length (total of 2 buckets):
+ Length  Number     % of total  Coverage
+      0  1          ( 50.0%)
+      1  1          ( 50.0%)    100.0%
+
+Version symbols section &apos;.gnu.version&apos; contains 5 entries:
+ Addr: 0000000008048268  Offset: 0x000268  Link: 5 (.dynsym)
+  000:   0 (*local*)       2 (GLIBC_2.0)     0 (*local*)       2 (GLIBC_2.0)
+  004:   1 (*global*)
+
+Version needs section &apos;.gnu.version_r&apos; contains 1 entries:
+ Addr: 0x0000000008048274  Offset: 0x000274  Link: 6 (.dynstr)
+  000000: Version: 1  File: libc.so.6  Cnt: 1
+  0x0010:   Name: GLIBC_2.0  Flags: none  Version: 2
+
+Notes at offset 0x00000168 with length 0x00000020:
+  Owner                 Data size   Description
+  GNU                  0x00000010   NT_GNU_ABI_TAG (ABI version tag)
+    OS: Linux, ABI: 2.6.15
+
+Notes at offset 0x00000188 with length 0x00000024:
+  Owner                 Data size   Description
+  GNU                  0x00000014   NT_GNU_BUILD_ID (unique build ID bitstring)
+    Build ID: 17fb9651029b6a8543bfafec9eea23bd16454e65
+</code></pre><p>&#x95DC;&#x65BC;ELF&#x6587;&#x4EF6;&#x683C;&#x5F0F;&#x7684;&#x53C3;&#x8003;&#xFF1A;<a href="http://www.cnblogs.com/xmphoenix/archive/2011/10/23/2221879.html" target="_blank">http://www.cnblogs.com/xmphoenix/archive/2011/10/23/2221879.html</a></p>
+<p>Next  Previous</p>
 
                     
                     </section>
@@ -816,10 +1118,10 @@
         </div>
 
         
-        <a href="../shared_libraries/11.html" class="navigation navigation-prev " aria-label="Previous page: Shared Libraries Setup"><i class="fa fa-angle-left"></i></a>
+        <a href="../linux_tools/sar.html" class="navigation navigation-prev " aria-label="Previous page: sar 找出系統瓶頸的利器"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../linux_tools/linux_basic.html" class="navigation navigation-next " aria-label="Next page: Linux Basic"><i class="fa fa-angle-right"></i></a>
+        <a href="../linux_tools/objdump.html" class="navigation navigation-next " aria-label="Next page: objdump 二進制文件分析"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

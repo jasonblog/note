@@ -1,8 +1,8 @@
-# strace 跟踪进程中的系统调用
-strace常用来跟踪进程执行时的系统调用和所接收的信号。 在Linux世界，进程不能直接访问硬件设备，当进程需要访问硬件设备(比如读取磁盘文件，接收网络数据等等)时，必须由用户态模式切换至内核态模式，通过系统调用访问硬件设备。strace可以跟踪到一个进程产生的系统调用,包括参数，返回值，执行消耗的时间。
+# strace 跟蹤進程中的系統調用
+strace常用來跟蹤進程執行時的系統調用和所接收的信號。 在Linux世界，進程不能直接訪問硬件設備，當進程需要訪問硬件設備(比如讀取磁盤文件，接收網絡數據等等)時，必須由用戶態模式切換至內核態模式，通過系統調用訪問硬件設備。strace可以跟蹤到一個進程產生的系統調用,包括參數，返回值，執行消耗的時間。
 
-6.1. 输出参数含义
-每一行都是一条系统调用，等号左边是系统调用的函数名及其参数，右边是该调用的返回值。 strace 显示这些调用的参数并返回符号形式的值。strace 从内核接收信息，而且不需要以任何特殊的方式来构建内核。
+6.1. 輸出參數含義
+每一行都是一條系統調用，等號左邊是系統調用的函數名及其參數，右邊是該調用的返回值。 strace 顯示這些調用的參數並返回符號形式的值。strace 從內核接收信息，而且不需要以任何特殊的方式來構建內核。
 
 ```
 $strace cat /dev/null
@@ -14,77 +14,77 @@ access("/etc/ld.so.preload", R_OK)      = -1 ENOENT (No such file or directory)
 ...
 ```
 
-6.2. 参数
+6.2. 參數
 ```
--c 统计每一系统调用的所执行的时间,次数和出错的次数等.
--d 输出strace关于标准错误的调试信息.
--f 跟踪由fork调用所产生的子进程.
--ff 如果提供-o filename,则所有进程的跟踪结果输出到相应的filename.pid中,pid是各进程的进程号.
--F 尝试跟踪vfork调用.在-f时,vfork不被跟踪.
--h 输出简要的帮助信息.
--i 输出系统调用的入口指针.
--q 禁止输出关于脱离的消息.
--r 打印出相对时间关于,,每一个系统调用.
--t 在输出中的每一行前加上时间信息.
--tt 在输出中的每一行前加上时间信息,微秒级.
--ttt 微秒级输出,以秒了表示时间.
--T 显示每一调用所耗的时间.
--v 输出所有的系统调用.一些调用关于环境变量,状态,输入输出等调用由于使用频繁,默认不输出.
--V 输出strace的版本信息.
--x 以十六进制形式输出非标准字符串
--xx 所有字符串以十六进制形式输出.
+-c 統計每一系統調用的所執行的時間,次數和出錯的次數等.
+-d 輸出strace關於標準錯誤的調試信息.
+-f 跟蹤由fork調用所產生的子進程.
+-ff 如果提供-o filename,則所有進程的跟蹤結果輸出到相應的filename.pid中,pid是各進程的進程號.
+-F 嘗試跟蹤vfork調用.在-f時,vfork不被跟蹤.
+-h 輸出簡要的幫助信息.
+-i 輸出系統調用的入口指針.
+-q 禁止輸出關於脫離的消息.
+-r 打印出相對時間關於,,每一個系統調用.
+-t 在輸出中的每一行前加上時間信息.
+-tt 在輸出中的每一行前加上時間信息,微秒級.
+-ttt 微秒級輸出,以秒了表示時間.
+-T 顯示每一調用所耗的時間.
+-v 輸出所有的系統調用.一些調用關於環境變量,狀態,輸入輸出等調用由於使用頻繁,默認不輸出.
+-V 輸出strace的版本信息.
+-x 以十六進制形式輸出非標準字符串
+-xx 所有字符串以十六進制形式輸出.
 -a column
-设置返回值的输出位置.默认 为40.
+設置返回值的輸出位置.默認 爲40.
 -e expr
-指定一个表达式,用来控制如何跟踪.格式如下:
+指定一個表達式,用來控制如何跟蹤.格式如下:
 [qualifier=][!]value1[,value2]...
-qualifier只能是 trace,abbrev,verbose,raw,signal,read,write其中之一.value是用来限定的符号或数字.默认的 qualifier是 trace.感叹号是否定符号.例如:
--eopen等价于 -e trace=open,表示只跟踪open调用.而-etrace!=open表示跟踪除了open以外的其他调用.有两个特殊的符号 all 和 none.
-注意有些shell使用!来执行历史记录里的命令,所以要使用\\.
+qualifier只能是 trace,abbrev,verbose,raw,signal,read,write其中之一.value是用來限定的符號或數字.默認的 qualifier是 trace.感歎號是否定符號.例如:
+-eopen等價於 -e trace=open,表示只跟蹤open調用.而-etrace!=open表示跟蹤除了open以外的其他調用.有兩個特殊的符號 all 和 none.
+注意有些shell使用!來執行歷史記錄裏的命令,所以要使用\\.
 -e trace=set
-只跟踪指定的系统 调用.例如:-e trace=open,close,rean,write表示只跟踪这四个系统调用.默认的为set=all.
+只跟蹤指定的系統 調用.例如:-e trace=open,close,rean,write表示只跟蹤這四個系統調用.默認的爲set=all.
 -e trace=file
-只跟踪有关文件操作的系统调用.
+只跟蹤有關文件操作的系統調用.
 -e trace=process
-只跟踪有关进程控制的系统调用.
+只跟蹤有關進程控制的系統調用.
 -e trace=network
-跟踪与网络有关的所有系统调用.
+跟蹤與網絡有關的所有系統調用.
 -e strace=signal
-跟踪所有与系统信号有关的 系统调用
+跟蹤所有與系統信號有關的 系統調用
 -e trace=ipc
-跟踪所有与进程通讯有关的系统调用
+跟蹤所有與進程通訊有關的系統調用
 -e abbrev=set
-设定 strace输出的系统调用的结果集.-v 等与 abbrev=none.默认为abbrev=all.
+設定 strace輸出的系統調用的結果集.-v 等與 abbrev=none.默認爲abbrev=all.
 -e raw=set
-将指 定的系统调用的参数以十六进制显示.
+將指 定的系統調用的參數以十六進制顯示.
 -e signal=set
-指定跟踪的系统信号.默认为all.如 signal=!SIGIO(或者signal=!io),表示不跟踪SIGIO信号.
+指定跟蹤的系統信號.默認爲all.如 signal=!SIGIO(或者signal=!io),表示不跟蹤SIGIO信號.
 -e read=set
-输出从指定文件中读出 的数据.例如:
+輸出從指定文件中讀出 的數據.例如:
 -e read=3,5
 -e write=set
-输出写入到指定文件中的数据.
+輸出寫入到指定文件中的數據.
 -o filename
-将strace的输出写入文件filename
+將strace的輸出寫入文件filename
 -p pid
-跟踪指定的进程pid.
+跟蹤指定的進程pid.
 -s strsize
-指定输出的字符串的最大长度.默认为32.文件名一直全部输出.
+指定輸出的字符串的最大長度.默認爲32.文件名一直全部輸出.
 -u username
-以username 的UID和GID执行被跟踪的命令
+以username 的UID和GID執行被跟蹤的命令
 ```
 
-6.3. 命令实例
-跟踪可执行程序
+6.3. 命令實例
+跟蹤可執行程序
 ```
 strace -f -F -o ~/straceout.txt myserver
 ```
 
--f -F选项告诉strace同时跟踪fork和vfork出来的进程，-o选项把所有strace输出写到~/straceout.txt里 面，myserver是要启动和调试的程序。
+-f -F選項告訴strace同時跟蹤fork和vfork出來的進程，-o選項把所有strace輸出寫到~/straceout.txt裏 面，myserver是要啓動和調試的程序。
 
-跟踪服务程序
+跟蹤服務程序
 ```
 strace -o output.txt -T -tt -e trace=all -p 28979
 ```
 
-跟踪28979进程的所有系统调用（-e trace=all），并统计系统调用的花费时间，以及开始时间（并以可视化的时分秒格式显示），最后将记录结果存在output.txt文件里面。
+跟蹤28979進程的所有系統調用（-e trace=all），並統計系統調用的花費時間，以及開始時間（並以可視化的時分秒格式顯示），最後將記錄結果存在output.txt文件裏面。

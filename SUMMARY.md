@@ -41,4 +41,5 @@
        * [wget 文件下載](linux_tools/wget.md)
        * [scp 跨機遠程拷貝](linux_tools/scp.md)
        * [crontab 定時任務](linux_tools/crontab.md)
+* [Beej's Quick Guide to GDB](bggdb/README.md)
 

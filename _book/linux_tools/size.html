@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
-        <title>Linux Tools | Jason note</title>
+        <title>size 查看程序內存映像大小 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.0.1">
@@ -20,10 +20,10 @@
         
     
     
-    <link rel="next" href="../linux_tools/linux_basic.html" />
+    <link rel="next" href="../linux_tools/wget.html" />
     
     
-    <link rel="prev" href="../shared_libraries/11.html" />
+    <link rel="prev" href="../linux_tools/nm.html" />
     
 
         
@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="3" data-basepath=".." data-revision="Sat May 09 2015 13:09:37 GMT+0800 (CST)">
+    <div class="book" data-level="3.3.16" data-basepath=".." data-revision="Sat May 09 2015 13:09:37 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -153,7 +153,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="3" data-path="linux_tools/index.html">
+        <li class="chapter " data-level="3" data-path="linux_tools/index.html">
             
                 
                     <a href="../linux_tools/index.html">
@@ -632,7 +632,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.3.16" data-path="linux_tools/size.html">
+        <li class="chapter active" data-level="3.3.16" data-path="linux_tools/size.html">
             
                 
                     <a href="../linux_tools/size.html">
@@ -805,7 +805,24 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="linux-tools">Linux Tools</h1>
+                        <h1 id="size-%E6%9F%A5%E7%9C%8B%E7%A8%8B%E5%BA%8F%E5%85%A7%E5%AD%98%E6%98%A0%E5%83%8F%E5%A4%A7%E5%B0%8F">size &#x67E5;&#x770B;&#x7A0B;&#x5E8F;&#x5167;&#x5B58;&#x6620;&#x50CF;&#x5927;&#x5C0F;</h1>
+<p>&#x4F5C;&#x7528;&#xFF1A;&#x67E5;&#x770B;&#x7A0B;&#x5E8F;&#x88AB;&#x6620;&#x5C04;&#x5230;&#x5167;&#x5B58;&#x4E2D;&#x7684;&#x6620;&#x50CF;&#x6240;&#x4F54;&#x7528;&#x7684;&#x5927;&#x5C0F;&#x4FE1;&#x606F;&#x3002;</p>
+<p>&#x7A0B;&#x5E8F;&#x6620;&#x5C04;&#x5230;&#x5167;&#x5B58;&#x4E2D;&#xFF0C;&#x5F9E;&#x4F4E;&#x5730;&#x5740;&#x5230;&#x9AD8;&#x5730;&#x5740;&#x4F9D;&#x6B21;&#x7232;&#x4E0B;&#x5217;&#x6BB5;:</p>
+<ul>
+<li><p>&#x4EE3;&#x78BC;&#x6BB5;&#xFF1A; &#x53EA;&#x8B80;&#xFF0C;&#x53EF;&#x5171;&#x4EAB;; &#x4EE3;&#x78BC;&#x6BB5;&#xFF08;code segment/text segment &#xFF09;&#x901A;&#x5E38;&#x662F;&#x6307;&#x7528;&#x4F86;&#x5B58;&#x653E;&#x7A0B;&#x5E8F;&#x57F7;&#x884C;&#x4EE3;&#x78BC;&#x7684;&#x4E00;&#x584A;&#x5167;&#x5B58;&#x5340;&#x57DF;&#x3002;&#x9019;&#x90E8;&#x5206;&#x5340;&#x57DF;&#x7684;&#x5927;&#x5C0F;&#x5728;&#x7A0B;&#x5E8F;&#x904B;&#x884C;&#x524D;&#x5C31;&#x5DF2;&#x7D93;&#x78BA;&#x5B9A;&#xFF0C;&#x4E26;&#x4E14;&#x5167;&#x5B58;&#x5340;&#x57DF;&#x901A;&#x5E38;&#x5C6C;&#x65BC;&#x53EA;&#x8B80;, &#x67D0;&#x4E9B;&#x67B6;&#x69CB;&#x4E5F;&#x5141;&#x8A31;&#x4EE3;&#x78BC;&#x6BB5;&#x7232;&#x53EF;&#x5BEB;&#xFF0C;&#x5373;&#x5141;&#x8A31;&#x4FEE;&#x6539;&#x7A0B;&#x5E8F;&#x3002;&#x5728;&#x4EE3;&#x78BC;&#x6BB5;&#x4E2D;&#xFF0C;&#x4E5F;&#x6709;&#x53EF;&#x80FD;&#x5305;&#x542B;&#x4E00;&#x4E9B;&#x53EA;&#x8B80;&#x7684;&#x5E38;&#x6578;&#x8B8A;&#x91CF;&#xFF0C;&#x4F8B;&#x5982;&#x5B57;&#x7B26;&#x4E32;&#x5E38;&#x91CF;&#x7B49;&#x3002;</p>
+</li>
+<li><p>&#x6578;&#x64DA;&#x6BB5;&#xFF1A; &#x5132;&#x5B58;&#x5DF2;&#x88AB;&#x521D;&#x59CB;&#x5316;&#x4E86;&#x7684;&#x975C;&#x614B;&#x6578;&#x64DA;&#x3002;&#x6578;&#x64DA;&#x6BB5;&#xFF08;data segment &#xFF09;&#x901A;&#x5E38;&#x662F;&#x6307;&#x7528;&#x4F86;&#x5B58;&#x653E;&#x7A0B;&#x5E8F;&#x4E2D;&#x5DF2;&#x521D;&#x59CB;&#x5316;&#x7684;&#x5168;&#x5C40;&#x8B8A;&#x91CF;&#x7684;&#x4E00;&#x584A;&#x5167;&#x5B58;&#x5340;&#x57DF;&#x3002;&#x6578;&#x64DA;&#x6BB5;&#x5C6C;&#x65BC;&#x975C;&#x614B;&#x5167;&#x5B58;&#x5206;&#x914D;&#x3002;</p>
+</li>
+<li>BSS &#x6BB5;&#xFF1A;&#x672A;&#x521D;&#x59CB;&#x5316;&#x7684;&#x6578;&#x64DA;&#x6BB5;. BSS &#x6BB5;&#xFF08;bss segment &#xFF09;&#x901A;&#x5E38;&#x662F;&#x6307;&#x7528;&#x4F86;&#x5B58;&#x653E;&#x7A0B;&#x5E8F;&#x4E2D;&#x672A;&#x521D;&#x59CB;&#x5316;&#x7684;&#x5168;&#x5C40;&#x8B8A;&#x91CF;&#x7684;&#x4E00;&#x584A;&#x5167;&#x5B58;&#x5340;&#x57DF;&#x3002;BSS &#x662F;&#x82F1;&#x6587;Block Started by Symbol &#x7684;&#x7C21;&#x7A31;&#x3002;BSS &#x6BB5;&#x5C6C;&#x65BC;&#x975C;&#x614B;&#x5167;&#x5B58;&#x5206;&#x914D;&#x3002;</li>
+<li>&#x5806;&#xFF08;heap &#xFF09;&#xFF1A; &#x5806;&#x662F;&#x7528;&#x65BC;&#x5B58;&#x653E;&#x9032;&#x7A0B;&#x904B;&#x884C;&#x4E2D;&#x88AB;&#x52D5;&#x614B;&#x5206;&#x914D;&#x7684;&#x5167;&#x5B58;&#x6BB5;&#xFF0C;&#x5B83;&#x7684;&#x5927;&#x5C0F;&#x4E26;&#x4E0D;&#x56FA;&#x5B9A;&#xFF0C;&#x53EF;&#x52D5;&#x614B;&#x64F4;&#x5F35;&#x6216;&#x7E2E;&#x6E1B;&#x3002;&#x7576;&#x9032;&#x7A0B;&#x8ABF;&#x7528;malloc &#x7B49;&#x51FD;&#x6578;&#x5206;&#x914D;&#x5167;&#x5B58;&#x6642;&#xFF0C;&#x65B0;&#x5206;&#x914D;&#x7684;&#x5167;&#x5B58;&#x5C31;&#x88AB;&#x52D5;&#x614B;&#x6DFB;&#x52A0;&#x5230;&#x5806;&#x4E0A;&#xFF08;&#x5806;&#x88AB;&#x64F4;&#x5F35;&#xFF09;&#xFF1B;&#x7576;&#x5229;&#x7528;free &#x7B49;&#x51FD;&#x6578;&#x91CB;&#x653E;&#x5167;&#x5B58;&#x6642;&#xFF0C;&#x88AB;&#x91CB;&#x653E;&#x7684;&#x5167;&#x5B58;&#x5F9E;&#x5806;&#x4E2D;&#x88AB;&#x5254;&#x9664;&#xFF08;&#x5806;&#x88AB;&#x7E2E;&#x6E1B;&#xFF09;</li>
+<li>&#x68E7;(stack) &#xFF1A;&#x68E7;&#x53C8;&#x7A31;&#x5806;&#x68E7;&#xFF0C;&#x662F;&#x7528;&#x6236;&#x5B58;&#x653E;&#x7A0B;&#x5E8F;&#x81E8;&#x6642;&#x5275;&#x5EFA;&#x7684;&#x5C40;&#x90E8;&#x8B8A;&#x91CF;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#x6211;&#x5011;&#x51FD;&#x6578;&#x62EC;&#x5F27;&#x201C;{} &#x201D;&#x4E2D;&#x5B9A;&#x7FA9;&#x7684;&#x8B8A;&#x91CF;&#xFF08;&#x4F46;&#x4E0D;&#x5305;&#x62EC;static &#x8072;&#x660E;&#x7684;&#x8B8A;&#x91CF;&#xFF0C;static &#x610F;&#x5473;&#x7740;&#x5728;&#x6578;&#x64DA;&#x6BB5;&#x4E2D;&#x5B58;&#x653E;&#x8B8A;&#x91CF;&#xFF09;&#x3002;&#x9664;&#x6B64;&#x4EE5;&#x5916;&#xFF0C;&#x5728;&#x51FD;&#x6578;&#x88AB;&#x8ABF;&#x7528;&#x6642;&#xFF0C;&#x5176;&#x53C3;&#x6578;&#x4E5F;&#x6703;&#x88AB;&#x58D3;&#x5165;&#x767C;&#x8D77;&#x8ABF;&#x7528;&#x7684;&#x9032;&#x7A0B;&#x68E7;&#x4E2D;&#xFF0C;&#x4E26;&#x4E14;&#x5F85;&#x5230;&#x8ABF;&#x7528;&#x7D50;&#x675F;&#x5F8C;&#xFF0C;&#x51FD;&#x6578;&#x7684;&#x8FD4;&#x56DE;&#x503C;&#x4E5F;&#x6703;&#x88AB;&#x5B58;&#x653E;&#x56DE;&#x68E7;&#x4E2D;&#x3002;&#x7531;&#x65BC;&#x68E7;&#x7684;&#x5148;&#x9032;&#x5148;&#x51FA;&#x7279;&#x9EDE;&#xFF0C;&#x6240;&#x4EE5;&#x68E7;&#x7279;&#x5225;&#x65B9;&#x4FBF;&#x7528;&#x4F86;&#x4FDD;&#x5B58;/ &#x6062;&#x5FA9;&#x8ABF;&#x7528;&#x73FE;&#x5834;&#x3002;&#x5F9E;&#x9019;&#x500B;&#x610F;&#x7FA9;&#x4E0A;&#x8B1B;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x628A;&#x5806;&#x68E7;&#x770B;&#x6210;&#x4E00;&#x500B;&#x5BC4;&#x5B58;&#x3001;&#x4EA4;&#x63DB;&#x81E8;&#x6642;&#x6578;&#x64DA;&#x7684;&#x5167;&#x5B58;&#x5340;&#x3002;
+&#x53E6;&#x5916;, &#x5728;&#x9AD8;&#x5730;&#x5740;&#x9084;&#x5132;&#x5B58;&#x4E86;&#x547D;&#x4EE4;&#x884C;&#x53C3;&#x6578;&#x53CA;&#x74B0;&#x5883;&#x8B8A;&#x91CF;.</li>
+</ul>
+<p>&#x56E0;&#x7232;&#x5167;&#x5B58;&#x7A0B;&#x5E8F;&#x6620;&#x50CF;&#x4E2D;&#x7684;&#x5404;&#x6BB5;&#x53EF;&#x80FD;&#x4F4D;&#x65BC;&#x4E0D;&#x540C;&#x7684;&#x5730;&#x5740;&#x7A7A;&#x9593;&#x4E2D;, &#x5B83;&#x5011;&#x4E0D;&#x4E00;&#x5B9A;&#x4F4D;&#x65BC;&#x9023;&#x7E8C;&#x7684;&#x5167;&#x5B58;&#x584A;&#x4E2D;. &#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x5C07;&#x7A0B;&#x5E8F;&#x6620;&#x50CF;&#x6620;&#x5C04;&#x5230;&#x5730;&#x5740;&#x7A7A;&#x9593;&#x6642;, &#x901A;&#x5E38;&#x5C07;&#x5167;&#x5B58;&#x7A0B;&#x5E8F;&#x6620;&#x50CF;&#x5283;&#x5206;&#x7232;&#x5927;&#x5C0F;&#x76F8;&#x540C;&#x7684;&#x584A;(&#x4E5F;&#x5C31;&#x662F;page, &#x9801;). &#x53EA;&#x6709;&#x8A72;&#x9801;&#x88AB;&#x5F15;&#x7528;&#x6642;, &#x5B83;&#x624D;&#x88AB;&#x52A0;&#x8F09;&#x5230;&#x5167;&#x5B58;&#x4E2D;. &#x4E0D;&#x904E;&#x5C0D;&#x65BC;&#x7A0B;&#x5E8F;&#x54E1;&#x4F86;&#x8AAA;, &#x53EF;&#x4EE5;&#x8996;&#x5167;&#x5B58;&#x7A0B;&#x5E8F;&#x6620;&#x50CF;&#x5728;&#x908F;&#x8F2F;&#x4E0A;&#x662F;&#x9023;&#x7E8C;&#x7684;.</p>
+<pre><code>/opt/app/todeav1/colin/tests#size main
+text    data     bss     dec     hex filename
+1259     540      16    1815     717 main
+</code></pre><p>&#x95DC;&#x65BC;&#x7A0B;&#x5E8F;&#x5167;&#x5B58;&#x6620;&#x50CF;&#xFF0C;&#x9019;&#x7BC7;&#x6587;&#x7AE0;&#x8B1B;&#x7684;&#x5F88;&#x597D;&#xFF1A;<a href="http://blog.chinaunix.net/uid-9012903-id-2011435.html" target="_blank">http://blog.chinaunix.net/uid-9012903-id-2011435.html</a></p>
 
                     
                     </section>
@@ -816,10 +833,10 @@
         </div>
 
         
-        <a href="../shared_libraries/11.html" class="navigation navigation-prev " aria-label="Previous page: Shared Libraries Setup"><i class="fa fa-angle-left"></i></a>
+        <a href="../linux_tools/nm.html" class="navigation navigation-prev " aria-label="Previous page: nm 目標文件格式分析"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../linux_tools/linux_basic.html" class="navigation navigation-next " aria-label="Next page: Linux Basic"><i class="fa fa-angle-right"></i></a>
+        <a href="../linux_tools/wget.html" class="navigation navigation-next " aria-label="Next page: wget 文件下載"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

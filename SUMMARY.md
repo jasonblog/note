@@ -34,4 +34,11 @@
        * [vmstat 監視內存使用情況](linux_tools/vmstat.md)
        * [iostat 監視I/O子系統](linux_tools/iostat.md)
        * [sar 找出系統瓶頸的利器](linux_tools/sar.md)
+       * [readelf elf文件格式分析](linux_tools/readelf.md)
+       * [objdump 二進制文件分析](linux_tools/objdump.md)
+       * [nm 目標文件格式分析](linux_tools/nm.md)
+       * [size 查看程序內存映像大小](linux_tools/size.md)
+       * [wget 文件下載](linux_tools/wget.md)
+       * [scp 跨機遠程拷貝](linux_tools/scp.md)
+       * [crontab 定時任務](linux_tools/crontab.md)
 

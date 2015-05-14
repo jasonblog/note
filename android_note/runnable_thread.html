@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
-        <title>lsof 一切皆文件 | Jason note</title>
+        <title>Android中Handler Runnable與Thread的區別詳解 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.0.1">
@@ -20,10 +20,8 @@
         
     
     
-    <link rel="next" href="../linux_tools/ps.html" />
     
-    
-    <link rel="prev" href="../linux_tools/ldd.html" />
+    <link rel="prev" href="../android_note/handler_looper_message_runnable.html" />
     
 
         
@@ -36,7 +34,7 @@
     
 
         
-    <div class="book" data-level="3.3.3" data-basepath=".." data-revision="Thu May 14 2015 22:46:48 GMT+0800 (CST)">
+    <div class="book" data-level="5.3" data-basepath=".." data-revision="Thu May 14 2015 22:46:48 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -437,7 +435,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="3.3.3" data-path="linux_tools/ldof.html">
+        <li class="chapter " data-level="3.3.3" data-path="linux_tools/ldof.html">
             
                 
                     <a href="../linux_tools/ldof.html">
@@ -763,7 +761,7 @@
             
         </li>
     
-        <li class="chapter " data-level="5.3" data-path="android_note/runnable_thread.html">
+        <li class="chapter active" data-level="5.3" data-path="android_note/runnable_thread.html">
             
                 
                     <a href="../android_note/runnable_thread.html">
@@ -886,140 +884,225 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="lsof-%E4%B8%80%E5%88%87%E7%9A%86%E6%96%87%E4%BB%B6">lsof &#x4E00;&#x5207;&#x7686;&#x6587;&#x4EF6;</h1>
-<ol>
-<li>lsof &#x4E00;&#x5207;&#x7686;&#x6587;&#x4EF6;
-lsof&#xFF08;list open files&#xFF09;&#x662F;&#x4E00;&#x500B;&#x67E5;&#x770B;&#x7576;&#x524D;&#x7CFB;&#x7D71;&#x6587;&#x4EF6;&#x7684;&#x5DE5;&#x5177;&#x3002;&#x5728;linux&#x74B0;&#x5883;&#x4E0B;&#xFF0C;&#x4EFB;&#x4F55;&#x4E8B;&#x7269;&#x90FD;&#x4EE5;&#x6587;&#x4EF6;&#x7684;&#x5F62;&#x5F0F;&#x5B58;&#x5728;&#xFF0C;&#x901A;&#x904E;&#x6587;&#x4EF6;&#x4E0D;&#x50C5;&#x50C5;&#x53EF;&#x4EE5;&#x8A2A;&#x554F;&#x5E38;&#x898F;&#x6578;&#x64DA;&#xFF0C;&#x9084;&#x53EF;&#x4EE5;&#x8A2A;&#x554F;&#x7DB2;&#x7D61;&#x9023;&#x63A5;&#x548C;&#x786C;&#x4EF6;&#x3002;&#x5982;&#x50B3;&#x8F38;&#x63A7;&#x5236;&#x5354;&#x8B70; (TCP) &#x548C;&#x7528;&#x6236;&#x6578;&#x64DA;&#x5831;&#x5354;&#x8B70; (UDP) &#x5957;&#x63A5;&#x5B57;&#x7B49;&#xFF0C;&#x7CFB;&#x7D71;&#x5728;&#x5F8C;&#x81FA;&#x90FD;&#x7232;&#x8A72;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x5206;&#x914D;&#x4E86;&#x4E00;&#x500B;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;&#xFF0C;&#x8A72;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;&#x63D0;&#x4F9B;&#x4E86;&#x5927;&#x91CF;&#x95DC;&#x65BC;&#x9019;&#x500B;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x672C;&#x8EAB;&#x7684;&#x4FE1;&#x606F;&#x3002;</li>
-</ol>
-<p>lsof&#x6253;&#x958B;&#x7684;&#x6587;&#x4EF6;&#x53EF;&#x4EE5;&#x662F;&#xFF1A;</p>
-<p>&#x666E;&#x901A;&#x6587;&#x4EF6;
-&#x76EE;&#x9304;
-&#x7DB2;&#x7D61;&#x6587;&#x4EF6;&#x7CFB;&#x7D71;&#x7684;&#x6587;&#x4EF6;
-&#x5B57;&#x7B26;&#x6216;&#x8A2D;&#x5099;&#x6587;&#x4EF6;
-(&#x51FD;&#x6578;)&#x5171;&#x4EAB;&#x5EAB;
-&#x7BA1;&#x9053;&#xFF0C;&#x547D;&#x540D;&#x7BA1;&#x9053;
-&#x7B26;&#x865F;&#x93C8;&#x63A5;
-&#x7DB2;&#x7D61;&#x6587;&#x4EF6;&#xFF08;&#x4F8B;&#x5982;&#xFF1A;NFS file&#x3001;&#x7DB2;&#x7D61;socket&#xFF0C;unix&#x57DF;&#x540D;socket&#xFF09;
-&#x9084;&#x6709;&#x5176;&#x5B83;&#x985E;&#x578B;&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x7B49;&#x7B49;
-3.1. &#x547D;&#x4EE4;&#x53C3;&#x6578;
--a &#x5217;&#x51FA;&#x6253;&#x958B;&#x6587;&#x4EF6;&#x5B58;&#x5728;&#x7684;&#x9032;&#x7A0B;
--c&lt;&#x9032;&#x7A0B;&#x540D;&gt; &#x5217;&#x51FA;&#x6307;&#x5B9A;&#x9032;&#x7A0B;&#x6240;&#x6253;&#x958B;&#x7684;&#x6587;&#x4EF6;
--g &#x5217;&#x51FA;GID&#x865F;&#x9032;&#x7A0B;&#x8A73;&#x60C5;
--d&lt;&#x6587;&#x4EF6;&#x865F;&gt; &#x5217;&#x51FA;&#x4F54;&#x7528;&#x8A72;&#x6587;&#x4EF6;&#x865F;&#x7684;&#x9032;&#x7A0B;
-+d&lt;&#x76EE;&#x9304;&gt; &#x5217;&#x51FA;&#x76EE;&#x9304;&#x4E0B;&#x88AB;&#x6253;&#x958B;&#x7684;&#x6587;&#x4EF6;
-+D&lt;&#x76EE;&#x9304;&gt; &#x905E;&#x6B78;&#x5217;&#x51FA;&#x76EE;&#x9304;&#x4E0B;&#x88AB;&#x6253;&#x958B;&#x7684;&#x6587;&#x4EF6;
--n&lt;&#x76EE;&#x9304;&gt; &#x5217;&#x51FA;&#x4F7F;&#x7528;NFS&#x7684;&#x6587;&#x4EF6;
--i&lt;&#x689D;&#x4EF6;&gt; &#x5217;&#x51FA;&#x7B26;&#x5408;&#x689D;&#x4EF6;&#x7684;&#x9032;&#x7A0B;&#x3002;&#xFF08;4&#x3001;6&#x3001;&#x5354;&#x8B70;&#x3001;:&#x7AEF;&#x53E3;&#x3001; @ip &#xFF09;
--p&lt;&#x9032;&#x7A0B;&#x865F;&gt; &#x5217;&#x51FA;&#x6307;&#x5B9A;&#x9032;&#x7A0B;&#x865F;&#x6240;&#x6253;&#x958B;&#x7684;&#x6587;&#x4EF6;
--u &#x5217;&#x51FA;UID&#x865F;&#x9032;&#x7A0B;&#x8A73;&#x60C5;
--h &#x986F;&#x793A;&#x5E6B;&#x52A9;&#x4FE1;&#x606F;
--v &#x986F;&#x793A;&#x7248;&#x672C;&#x4FE1;&#x606F;
-3.2. &#x4F7F;&#x7528;&#x5BE6;&#x4F8B;</p>
-<h3 id="%E5%AF%A6%E4%BE%8B1%EF%BC%9A%E7%84%A1%E4%BB%BB%E4%BD%95%E5%8F%83%E6%95%B8">&#x5BE6;&#x4F8B;1&#xFF1A;&#x7121;&#x4EFB;&#x4F55;&#x53C3;&#x6578;</h3>
-<pre><code>$lsof| more
-COMMAND     PID      USER   FD      TYPE             DEVICE SIZE/OFF       NODE NAME
-init          1      root  cwd       DIR              253,0     4096          2 /
-init          1      root  rtd       DIR              253,0     4096          2 /
-init          1      root  txt       REG              253,0   150352    1310795 /sbin/init
-init          1      root  mem       REG              253,0    65928    5505054 /lib64/libnss_files-2.12.so
-init          1      root  mem       REG              253,0  1918016    5521405 /lib64/libc-2.12.so
-init          1      root  mem       REG              253,0    93224    5521440 /lib64/libgcc_s-4.4.6-20120305.so.1
-init          1      root  mem       REG              253,0    47064    5521407 /lib64/librt-2.12.so
-init          1      root  mem       REG              253,0   145720    5521406 /lib64/libpthread-2.12.so
-...
-</code></pre><p>&#x8AAA;&#x660E;&#xFF1A;</p>
-<p>lsof&#x8F38;&#x51FA;&#x5404;&#x5217;&#x4FE1;&#x606F;&#x7684;&#x610F;&#x7FA9;&#x5982;&#x4E0B;&#xFF1A;</p>
-<p>COMMAND&#xFF1A;&#x9032;&#x7A0B;&#x7684;&#x540D;&#x7A31;
-PID&#xFF1A;&#x9032;&#x7A0B;&#x6A19;&#x8B58;&#x7B26;
-PPID&#xFF1A;&#x7236;&#x9032;&#x7A0B;&#x6A19;&#x8B58;&#x7B26;&#xFF08;&#x9700;&#x8981;&#x6307;&#x5B9A;-R&#x53C3;&#x6578;&#xFF09;
-USER&#xFF1A;&#x9032;&#x7A0B;&#x6240;&#x6709;&#x8005;
-PGID&#xFF1A;&#x9032;&#x7A0B;&#x6240;&#x5C6C;&#x7D44;
-FD&#xFF1A;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;&#xFF0C;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x901A;&#x904E;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;&#x8B58;&#x5225;&#x8A72;&#x6587;&#x4EF6;&#x3002;&#x5982;cwd&#x3001;txt&#x7B49;:</p>
-<pre><code>&#xFF08;1&#xFF09;cwd&#xFF1A;&#x8868;&#x793A;current work dirctory&#xFF0C;&#x5373;&#xFF1A;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x7684;&#x7576;&#x524D;&#x5DE5;&#x4F5C;&#x76EE;&#x9304;&#xFF0C;&#x9019;&#x662F;&#x8A72;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x5553;&#x52D5;&#x7684;&#x76EE;&#x9304;&#xFF0C;&#x9664;&#x975E;&#x5B83;&#x672C;&#x8EAB;&#x5C0D;&#x9019;&#x500B;&#x76EE;&#x9304;&#x9032;&#x884C;&#x66F4;&#x6539;
-&#xFF08;2&#xFF09;txt &#xFF1A;&#x8A72;&#x985E;&#x578B;&#x7684;&#x6587;&#x4EF6;&#x662F;&#x7A0B;&#x5E8F;&#x4EE3;&#x78BC;&#xFF0C;&#x5982;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x4E8C;&#x9032;&#x5236;&#x6587;&#x4EF6;&#x672C;&#x8EAB;&#x6216;&#x5171;&#x4EAB;&#x5EAB;&#xFF0C;&#x5982;&#x4E0A;&#x5217;&#x8868;&#x4E2D;&#x986F;&#x793A;&#x7684; /sbin/init &#x7A0B;&#x5E8F;
-&#xFF08;3&#xFF09;lnn&#xFF1A;library references (AIX);
-&#xFF08;4&#xFF09;er&#xFF1A;FD information error (see NAME column);
-&#xFF08;5&#xFF09;jld&#xFF1A;jail directory (FreeBSD);
-&#xFF08;6&#xFF09;ltx&#xFF1A;shared library text (code and data);
-&#xFF08;7&#xFF09;mxx &#xFF1A;hex memory-mapped type number xx.
-&#xFF08;8&#xFF09;m86&#xFF1A;DOS Merge mapped file;
-&#xFF08;9&#xFF09;mem&#xFF1A;memory-mapped file;
-&#xFF08;10&#xFF09;mmap&#xFF1A;memory-mapped device;
-&#xFF08;11&#xFF09;pd&#xFF1A;parent directory;
-&#xFF08;12&#xFF09;rtd&#xFF1A;root directory;
-&#xFF08;13&#xFF09;tr&#xFF1A;kernel trace file (OpenBSD);
-&#xFF08;14&#xFF09;v86  VP/ix mapped file;
-&#xFF08;15&#xFF09;0&#xFF1A;&#x8868;&#x793A;&#x6A19;&#x6E96;&#x8F38;&#x51FA;
-&#xFF08;16&#xFF09;1&#xFF1A;&#x8868;&#x793A;&#x6A19;&#x6E96;&#x8F38;&#x5165;
-&#xFF08;17&#xFF09;2&#xFF1A;&#x8868;&#x793A;&#x6A19;&#x6E96;&#x932F;&#x8AA4;
-&#x4E00;&#x822C;&#x5728;&#x6A19;&#x6E96;&#x8F38;&#x51FA;&#x3001;&#x6A19;&#x6E96;&#x932F;&#x8AA4;&#x3001;&#x6A19;&#x6E96;&#x8F38;&#x5165;&#x5F8C;&#x9084;&#x8DDF;&#x7740;&#x6587;&#x4EF6;&#x72C0;&#x614B;&#x6A21;&#x5F0F;&#xFF1A;r&#x3001;w&#x3001;u&#x7B49;
-&#xFF08;1&#xFF09;u&#xFF1A;&#x8868;&#x793A;&#x8A72;&#x6587;&#x4EF6;&#x88AB;&#x6253;&#x958B;&#x4E26;&#x8655;&#x65BC;&#x8B80;&#x53D6;/&#x5BEB;&#x5165;&#x6A21;&#x5F0F;
-&#xFF08;2&#xFF09;r&#xFF1A;&#x8868;&#x793A;&#x8A72;&#x6587;&#x4EF6;&#x88AB;&#x6253;&#x958B;&#x4E26;&#x8655;&#x65BC;&#x53EA;&#x8B80;&#x6A21;&#x5F0F;
-&#xFF08;3&#xFF09;w&#xFF1A;&#x8868;&#x793A;&#x8A72;&#x6587;&#x4EF6;&#x88AB;&#x6253;&#x958B;&#x4E26;&#x8655;&#x65BC;
-&#xFF08;4&#xFF09;&#x7A7A;&#x683C;&#xFF1A;&#x8868;&#x793A;&#x8A72;&#x6587;&#x4EF6;&#x7684;&#x72C0;&#x614B;&#x6A21;&#x5F0F;&#x7232;unknow&#xFF0C;&#x4E14;&#x6C92;&#x6709;&#x9396;&#x5B9A;
-&#xFF08;5&#xFF09;-&#xFF1A;&#x8868;&#x793A;&#x8A72;&#x6587;&#x4EF6;&#x7684;&#x72C0;&#x614B;&#x6A21;&#x5F0F;&#x7232;unknow&#xFF0C;&#x4E14;&#x88AB;&#x9396;&#x5B9A;
-&#x540C;&#x6642;&#x5728;&#x6587;&#x4EF6;&#x72C0;&#x614B;&#x6A21;&#x5F0F;&#x5F8C;&#x9762;&#xFF0C;&#x9084;&#x8DDF;&#x7740;&#x76F8;&#x95DC;&#x7684;&#x9396;
-&#xFF08;1&#xFF09;N&#xFF1A;for a Solaris NFS lock of unknown type;
-&#xFF08;2&#xFF09;r&#xFF1A;for read lock on part of the file;
-&#xFF08;3&#xFF09;R&#xFF1A;for a read lock on the entire file;
-&#xFF08;4&#xFF09;w&#xFF1A;for a write lock on part of the file;&#xFF08;&#x6587;&#x4EF6;&#x7684;&#x90E8;&#x5206;&#x5BEB;&#x9396;&#xFF09;
-&#xFF08;5&#xFF09;W&#xFF1A;for a write lock on the entire file;&#xFF08;&#x6574;&#x500B;&#x6587;&#x4EF6;&#x7684;&#x5BEB;&#x9396;&#xFF09;
-&#xFF08;6&#xFF09;u&#xFF1A;for a read and write lock of any length;
-&#xFF08;7&#xFF09;U&#xFF1A;for a lock of unknown type;
-&#xFF08;8&#xFF09;x&#xFF1A;for an SCO OpenServer Xenix lock on part      of the file;
-&#xFF08;9&#xFF09;X&#xFF1A;for an SCO OpenServer Xenix lock on the      entire file;
-&#xFF08;10&#xFF09;space&#xFF1A;if there is no lock.
-</code></pre><p>TYPE&#xFF1A;&#x6587;&#x4EF6;&#x985E;&#x578B;&#xFF0C;&#x5982;DIR&#x3001;REG&#x7B49;&#xFF0C;&#x5E38;&#x898B;&#x7684;&#x6587;&#x4EF6;&#x985E;&#x578B;:</p>
-<pre><code>&#xFF08;1&#xFF09;DIR&#xFF1A;&#x8868;&#x793A;&#x76EE;&#x9304;
-&#xFF08;2&#xFF09;CHR&#xFF1A;&#x8868;&#x793A;&#x5B57;&#x7B26;&#x985E;&#x578B;
-&#xFF08;3&#xFF09;BLK&#xFF1A;&#x584A;&#x8A2D;&#x5099;&#x985E;&#x578B;
-&#xFF08;4&#xFF09;UNIX&#xFF1A; UNIX &#x57DF;&#x5957;&#x63A5;&#x5B57;
-&#xFF08;5&#xFF09;FIFO&#xFF1A;&#x5148;&#x9032;&#x5148;&#x51FA; (FIFO) &#x968A;&#x5217;
-&#xFF08;6&#xFF09;IPv4&#xFF1A;&#x7DB2;&#x969B;&#x5354;&#x8B70; (IP) &#x5957;&#x63A5;&#x5B57;
-</code></pre><p>DEVICE&#xFF1A;&#x6307;&#x5B9A;&#x78C1;&#x76E4;&#x7684;&#x540D;&#x7A31;
-SIZE&#xFF1A;&#x6587;&#x4EF6;&#x7684;&#x5927;&#x5C0F;
-NODE&#xFF1A;&#x7D22;&#x5F15;&#x7BC0;&#x9EDE;&#xFF08;&#x6587;&#x4EF6;&#x5728;&#x78C1;&#x76E4;&#x4E0A;&#x7684;&#x6A19;&#x8B58;&#xFF09;
-NAME&#xFF1A;&#x6253;&#x958B;&#x6587;&#x4EF6;&#x7684;&#x78BA;&#x5207;&#x540D;&#x7A31;</p>
-<h3 id="%E5%AF%A6%E4%BE%8B2%EF%BC%9A%E6%9F%A5%E6%89%BE%E6%9F%90%E5%80%8B%E6%96%87%E4%BB%B6%E7%9B%B8%E9%97%9C%E7%9A%84%E9%80%B2%E7%A8%8B">&#x5BE6;&#x4F8B;2&#xFF1A;&#x67E5;&#x627E;&#x67D0;&#x500B;&#x6587;&#x4EF6;&#x76F8;&#x95DC;&#x7684;&#x9032;&#x7A0B;</h3>
-<pre><code>$lsof /bin/bash
-COMMAND     PID USER  FD   TYPE DEVICE SIZE/OFF    NODE NAME
-mysqld_sa  2169 root txt    REG  253,0   938736 4587562 /bin/bash
-ksmtuned   2334 root txt    REG  253,0   938736 4587562 /bin/bash
-bash      20121 root txt    REG  253,0   938736 4587562 /bin/bash
-</code></pre><h3 id="%E5%AF%A6%E4%BE%8B3%EF%BC%9A%E5%88%97%E5%87%BA%E6%9F%90%E5%80%8B%E7%94%A8%E6%88%B6%E6%89%93%E9%96%8B%E7%9A%84%E6%96%87%E4%BB%B6%E4%BF%A1%E6%81%AF">&#x5BE6;&#x4F8B;3&#xFF1A;&#x5217;&#x51FA;&#x67D0;&#x500B;&#x7528;&#x6236;&#x6253;&#x958B;&#x7684;&#x6587;&#x4EF6;&#x4FE1;&#x606F;</h3>
-<pre><code>$lsof -u username
--u &#x9078;&#x9805;&#xFF0C;u&#x662F;user&#x7684;&#x7E2E;&#x5BEB;
-</code></pre><h3 id="%E5%AF%A6%E4%BE%8B4%EF%BC%9A%E5%88%97%E5%87%BA%E6%9F%90%E5%80%8B%E7%A8%8B%E5%BA%8F%E9%80%B2%E7%A8%8B%E6%89%80%E6%89%93%E9%96%8B%E7%9A%84%E6%96%87%E4%BB%B6%E4%BF%A1%E6%81%AF">&#x5BE6;&#x4F8B;4&#xFF1A;&#x5217;&#x51FA;&#x67D0;&#x500B;&#x7A0B;&#x5E8F;&#x9032;&#x7A0B;&#x6240;&#x6253;&#x958B;&#x7684;&#x6587;&#x4EF6;&#x4FE1;&#x606F;</h3>
-<pre><code>$lsof -c mysql
-</code></pre><p>-c &#x9078;&#x9805;&#x5C07;&#x6703;&#x5217;&#x51FA;&#x6240;&#x6709;&#x4EE5;mysql&#x9019;&#x500B;&#x9032;&#x7A0B;&#x958B;&#x982D;&#x7684;&#x7A0B;&#x5E8F;&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x5176;&#x5BE6;&#x4F60;&#x4E5F;&#x53EF;&#x4EE5;&#x5BEB;&#x6210; lsof | grep mysql, &#x4F46;&#x662F;&#x7B2C;&#x4E00;&#x7A2E;&#x65B9;&#x6CD5;&#x660E;&#x986F;&#x6BD4;&#x7B2C;&#x4E8C;&#x7A2E;&#x65B9;&#x6CD5;&#x8981;&#x5C11;&#x6253;&#x5E7E;&#x500B;&#x5B57;&#x7B26;&#xFF1B;</p>
-<h3 id="%E5%AF%A6%E4%BE%8B5%EF%BC%9A%E5%88%97%E5%87%BA%E6%9F%90%E5%80%8B%E7%94%A8%E6%88%B6%E4%BB%A5%E5%8F%8A%E6%9F%90%E5%80%8B%E9%80%B2%E7%A8%8B%E6%89%80%E6%89%93%E9%96%8B%E7%9A%84%E6%96%87%E4%BB%B6%E4%BF%A1%E6%81%AF">&#x5BE6;&#x4F8B;5&#xFF1A;&#x5217;&#x51FA;&#x67D0;&#x500B;&#x7528;&#x6236;&#x4EE5;&#x53CA;&#x67D0;&#x500B;&#x9032;&#x7A0B;&#x6240;&#x6253;&#x958B;&#x7684;&#x6587;&#x4EF6;&#x4FE1;&#x606F;</h3>
-<pre><code>$lsof  -u test -c mysql
-</code></pre><h3 id="%E5%AF%A6%E4%BE%8B6%EF%BC%9A%E9%80%9A%E9%81%8E%E6%9F%90%E5%80%8B%E9%80%B2%E7%A8%8B%E8%99%9F%E9%A1%AF%E7%A4%BA%E8%A9%B2%E9%80%B2%E7%A8%8B%E6%89%93%E9%96%8B%E7%9A%84%E6%96%87%E4%BB%B6">&#x5BE6;&#x4F8B;6&#xFF1A;&#x901A;&#x904E;&#x67D0;&#x500B;&#x9032;&#x7A0B;&#x865F;&#x986F;&#x793A;&#x8A72;&#x9032;&#x7A0B;&#x6253;&#x958B;&#x7684;&#x6587;&#x4EF6;</h3>
-<pre><code>$lsof -p 11968
-</code></pre><h3 id="%E5%AF%A6%E4%BE%8B7%EF%BC%9A%E5%88%97%E5%87%BA%E6%89%80%E6%9C%89%E7%9A%84%E7%B6%B2%E7%B5%A1%E9%80%A3%E6%8E%A5">&#x5BE6;&#x4F8B;7&#xFF1A;&#x5217;&#x51FA;&#x6240;&#x6709;&#x7684;&#x7DB2;&#x7D61;&#x9023;&#x63A5;</h3>
-<pre><code>$lsof -i
-</code></pre><h3 id="%E5%AF%A6%E4%BE%8B8%EF%BC%9A%E5%88%97%E5%87%BA%E6%89%80%E6%9C%89tcp-%E7%B6%B2%E7%B5%A1%E9%80%A3%E6%8E%A5%E4%BF%A1%E6%81%AF">&#x5BE6;&#x4F8B;8&#xFF1A;&#x5217;&#x51FA;&#x6240;&#x6709;tcp &#x7DB2;&#x7D61;&#x9023;&#x63A5;&#x4FE1;&#x606F;</h3>
-<pre><code>$lsof -i tcp
+                        <h1 id="android%E4%B8%ADhandler-runnable%E8%88%87thread%E7%9A%84%E5%8D%80%E5%88%A5%E8%A9%B3%E8%A7%A3">Android&#x4E2D;Handler Runnable&#x8207;Thread&#x7684;&#x5340;&#x5225;&#x8A73;&#x89E3;</h1>
+<p>Android&#x4E2D;Handler&#x53EF;&#x4EE5;&#x7570;&#x6B65;&#x63A7;&#x5236;Runnable&#xFF0C;&#x90A3;&#x9EBC;&#x9019;&#x6A23;&#x505A;&#x65BC;Android&#x4E2D;&#x7684;Thread&#x6709;&#x4EC0;&#x9EBC;&#x5340;&#x5225;&#x5462;&#xFF1F;&#x672C;&#x6587;&#x5C07;&#x901A;&#x904E;&#x591A;&#x500B;&#x89D2;&#x5EA6;&#x4F86;&#x8B1B;&#x89E3;&#x9019;&#x500B;&#x554F;&#x984C;&#xFF0C;&#x8B80;&#x5B8C;&#x6B64;&#x6587;&#xFF0C;&#x76F8;&#x4FE1;&#x4F60;&#x6703;&#x5C0D;Android&#x4E2D;&#x7684;Handler Runnable&#x8207;Thread&#x6709;&#x4E00;&#x500B;&#x975E;&#x5E38;&#x5168;&#x9762;&#x7684;&#x77AD;&#x89E3;&#x3002;</p>
+<p>&#x5728;java&#x4E2D;&#x53EF;&#x6709;&#x5169;&#x7A2E;&#x65B9;&#x5F0F;&#x5BE6;&#x73FE;&#x591A;&#x7DDA;&#x7A0B;&#xFF0C;&#x4E00;&#x7A2E;&#x662F;&#x7E7C;&#x627F;Thread&#x985E;&#xFF0C;&#x4E00;&#x7A2E;&#x662F;&#x5BE6;&#x73FE;Runnable&#x63A5;&#x53E3;&#xFF1B;Thread&#x985E;&#x662F;&#x5728;java.lang&#x5305;&#x4E2D;&#x5B9A;&#x7FA9;&#x7684;&#x3002;&#x4E00;&#x500B;&#x985E;&#x53EA;&#x8981;&#x7E7C;&#x627F;&#x4E86;Thread&#x985E;&#x540C;&#x6642;&#x8986;&#x5BEB;&#x4E86;&#x672C;&#x985E;&#x4E2D;&#x7684;run()&#x65B9;&#x6CD5;&#x5C31;&#x53EF;&#x4EE5;&#x5BE6;&#x73FE;&#x591A;&#x7DDA;&#x7A0B;&#x64CD;&#x4F5C;&#x4E86;&#xFF0C;&#x4F46;&#x662F;&#x4E00;&#x500B;&#x985E;&#x53EA;&#x80FD;&#x7E7C;&#x627F;&#x4E00;&#x500B;&#x7236;&#x985E;&#xFF0C;&#x9019;&#x662F;&#x6B64;&#x65B9;&#x6CD5;&#x7684;&#x4FB7;&#x9650;&#x3002;</p>
+<pre><code>package org.thread.demo;
+class MyThread extends Thread
+{
+    private String name;
+    public MyThread(String name)
+    {
+        super();
+        this.name = name;
+    }
+    public void run()
+    {
+        for (int i = 0; i &lt; 10; i++) {
+            System.out.println(&quot;&#x7DDA;&#x7A0B;&#x958B;&#x59CB;&#xFF1A;&quot; + this.name + &quot;,i=&quot; + i);
+        }
+    }
+}
+package org.thread.demo;
+public class ThreadDemo01
+{
+    public static void main(String[] args)
+    {
+        MyThread mt1 = new MyThread(&quot;&#x7DDA;&#x7A0B;a&quot;);
+        MyThread mt2 = new MyThread(&quot;&#x7DDA;&#x7A0B;b&quot;);
+        mt1.run();
+        mt2.run();
+    }
+}
+</code></pre><p>&#x4F46;&#x662F;&#xFF0C;&#x6B64;&#x6642;&#x7D50;&#x679C;&#x5F88;&#x6709;&#x898F;&#x5F8B;&#xFF0C;&#x5148;&#x7B2C;&#x4E00;&#x500B;&#x5C0D;&#x8C61;&#x57F7;&#x884C;&#xFF0C;&#x7136;&#x5F8C;&#x7B2C;&#x4E8C;&#x500B;&#x5C0D;&#x8C61;&#x57F7;&#x884C;&#xFF0C;&#x4E26;&#x6C92;&#x6709;&#x76F8;&#x4E92;&#x904B;&#x884C;&#x3002;&#x5728;JDK&#x7684;&#x6587;&#x6A94;&#x4E2D;&#x53EF;&#x4EE5;&#x767C;&#x73FE;&#xFF0C;&#x4E00;&#x65E6;&#x8ABF;&#x7528;start()&#x65B9;&#x6CD5;&#xFF0C;&#x5247;&#x6703;&#x901A;&#x904E;JVM&#x627E;&#x5230;run()&#x65B9;&#x6CD5;&#x3002;&#x4E0B;&#x9762;&#x555F;&#x52D5;start()&#x65B9;&#x6CD5;&#x555F;&#x52D5;&#x7DDA;&#x7A0B;&#xFF1A;</p>
+<pre><code>package org.thread.demo;
+public class ThreadDemo01
+{
+    public static void main(String[] args)
+    {
+        MyThread mt1 = new MyThread(&quot;&#x7DDA;&#x7A0B;a&quot;);
+        MyThread mt2 = new MyThread(&quot;&#x7DDA;&#x7A0B;b&quot;);
+        mt1.start();
+        mt2.start();
+    }
+};
+</code></pre><p>&#x9019;&#x6A23;&#x7A0B;&#x5E8F;&#x53EF;&#x4EE5;&#x6B63;&#x5E38;&#x5B8C;&#x6210;&#x4EA4;&#x4E92;&#x5F0F;&#x904B;&#x884C;&#x3002;&#x90A3;&#x9EBC;&#x70BA;&#x5565;&#x975E;&#x8981;&#x4F7F;&#x7528;start();&#x65B9;&#x6CD5;&#x555F;&#x52D5;&#x591A;&#x7DDA;&#x7A0B;&#x5462;&#xFF1F;</p>
+<p>&#x5728;JDK&#x7684;&#x5B89;&#x88DD;&#x8DEF;&#x5F91;&#x4E0B;&#xFF0C;src.zip&#x662F;&#x5168;&#x90E8;&#x7684;java&#x6E90;&#x7A0B;&#x5E8F;&#xFF0C;&#x901A;&#x904E;&#x6B64;&#x4EE3;&#x78BC;&#x627E;&#x5230;Thread&#x4E2D;&#x7684;start()&#x65B9;&#x6CD5;&#x7684;&#x5B9A;&#x7FA9;&#xFF0C;&#x53EF;&#x4EE5;&#x767C;&#x73FE;&#x6B64;&#x65B9;&#x6CD5;&#x4E2D;&#x4F7F;&#x7528;&#x4E86;private native void start0();&#x5176;&#x4E2D;native&#x95DC;&#x9375;&#x5B57;&#x8868;&#x793A;&#x53EF;&#x4EE5;&#x8ABF;&#x7528;&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x7684;&#x5E95;&#x5C64;&#x51FD;&#x6578;&#xFF0C;&#x90A3;&#x9EBC;&#x9019;&#x6A23;&#x7684;&#x6280;&#x8853;&#x6210;&#x70BA;JNI&#x6280;&#x8853;&#xFF08;java Native Interface&#xFF09;</p>
+<h3 id="runnable%E6%8E%A5%E5%8F%A3">Runnable&#x63A5;&#x53E3;</h3>
+<p>&#x5728;&#x5BE6;&#x969B;&#x958B;&#x767C;&#x4E2D;&#x4E00;&#x500B;&#x591A;&#x7DDA;&#x7A0B;&#x7684;&#x64CD;&#x4F5C;&#x5F88;&#x5C11;&#x4F7F;&#x7528;Thread&#x985E;&#xFF0C;&#x800C;&#x662F;&#x901A;&#x904E;Runnable&#x63A5;&#x53E3;&#x5B8C;&#x6210;&#x3002;</p>
+<pre><code>public interface Runnable{
+    public void run();
+}
 
-$lsof -n -i tcp
-COMMAND     PID  USER   FD   TYPE  DEVICE SIZE/OFF NODE NAME
-svnserve  11552 weber    3u  IPv4 3799399      0t0  TCP *:svn (LISTEN)
-redis-ser 25501 weber    4u  IPv4  113150      0t0  TCP 127.0.0.1:6379 (LISTEN)
-</code></pre><h3 id="%E5%AF%A6%E4%BE%8B9%EF%BC%9A%E5%88%97%E5%87%BA%E8%AA%B0%E5%9C%A8%E4%BD%BF%E7%94%A8%E6%9F%90%E5%80%8B%E7%AB%AF%E5%8F%A3">&#x5BE6;&#x4F8B;9&#xFF1A;&#x5217;&#x51FA;&#x8AB0;&#x5728;&#x4F7F;&#x7528;&#x67D0;&#x500B;&#x7AEF;&#x53E3;</h3>
-<pre><code>$lsof -i :3306
-</code></pre><h3 id="%E5%AF%A6%E4%BE%8B10%EF%BC%9A%E5%88%97%E5%87%BA%E6%9F%90%E5%80%8B%E7%94%A8%E6%88%B6%E7%9A%84%E6%89%80%E6%9C%89%E6%B4%BB%E8%BA%8D%E7%9A%84%E7%B6%B2%E7%B5%A1%E7%AB%AF%E5%8F%A3">&#x5BE6;&#x4F8B;10&#xFF1A;&#x5217;&#x51FA;&#x67D0;&#x500B;&#x7528;&#x6236;&#x7684;&#x6240;&#x6709;&#x6D3B;&#x8E8D;&#x7684;&#x7DB2;&#x7D61;&#x7AEF;&#x53E3;</h3>
-<pre><code>$lsof -a -u test -i
-</code></pre><h3 id="%E5%AF%A6%E4%BE%8B11%EF%BC%9A%E6%A0%B9%E6%93%9A%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E5%88%97%E5%87%BA%E5%B0%8D%E6%87%89%E7%9A%84%E6%96%87%E4%BB%B6%E4%BF%A1%E6%81%AF">&#x5BE6;&#x4F8B;11&#xFF1A;&#x6839;&#x64DA;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x5217;&#x51FA;&#x5C0D;&#x61C9;&#x7684;&#x6587;&#x4EF6;&#x4FE1;&#x606F;</h3>
-<pre><code>$lsof -d description(like 2)
-</code></pre><p>&#x793A;&#x4F8B;:</p>
-<pre><code>$lsof -d 3 | grep PARSER1
-tail      6499 tde    3r   REG    253,3   4514722     417798 /opt/applog/open/log/HOSTPARSER1_ERROR_141217.log.001
-</code></pre><p>&#x8AAA;&#x660E;&#xFF1A; 0&#x8868;&#x793A;&#x6A19;&#x6E96;&#x8F38;&#x5165;&#xFF0C;1&#x8868;&#x793A;&#x6A19;&#x6E96;&#x8F38;&#x51FA;&#xFF0C;2&#x8868;&#x793A;&#x6A19;&#x6E96;&#x932F;&#x8AA4;&#xFF0C;&#x5F9E;&#x800C;&#x53EF;&#x77E5;&#xFF1A;&#x6240;&#x4EE5;&#x5927;&#x591A;&#x6578;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x6240;&#x6253;&#x958B;&#x7684;&#x6587;&#x4EF6;&#x7684; FD &#x90FD;&#x662F;&#x5F9E; 3 &#x958B;&#x59CB;</p>
-<h3 id="%E5%AF%A6%E4%BE%8B12%EF%BC%9A%E5%88%97%E5%87%BA%E8%A2%AB%E9%80%B2%E7%A8%8B%E8%99%9F%E7%88%B21234%E7%9A%84%E9%80%B2%E7%A8%8B%E6%89%80%E6%89%93%E9%96%8B%E7%9A%84%E6%89%80%E6%9C%89ipv4-network-files">&#x5BE6;&#x4F8B;12&#xFF1A;&#x5217;&#x51FA;&#x88AB;&#x9032;&#x7A0B;&#x865F;&#x7232;1234&#x7684;&#x9032;&#x7A0B;&#x6240;&#x6253;&#x958B;&#x7684;&#x6240;&#x6709;IPV4 network files</h3>
-<pre><code>$lsof -i 4 -a -p 1234
-</code></pre><h3 id="%E5%AF%A6%E4%BE%8B13%EF%BC%9A%E5%88%97%E5%87%BA%E7%9B%AE%E5%89%8D%E9%80%A3%E6%8E%A5%E4%B8%BB%E6%A9%9Fnf5260i5-td%E4%B8%8A%E7%AB%AF%E5%8F%A3%E7%88%B2%EF%BC%9A20%EF%BC%8C21%EF%BC%8C80%E7%9B%B8%E9%97%9C%E7%9A%84%E6%89%80%E6%9C%89%E6%96%87%E4%BB%B6%E4%BF%A1%E6%81%AF%EF%BC%8C%E4%B8%94%E6%AF%8F%E9%9A%943%E7%A7%92%E9%87%8D%E8%A4%87%E5%9F%B7%E8%A1%8C">&#x5BE6;&#x4F8B;13&#xFF1A;&#x5217;&#x51FA;&#x76EE;&#x524D;&#x9023;&#x63A5;&#x4E3B;&#x6A5F;nf5260i5-td&#x4E0A;&#x7AEF;&#x53E3;&#x7232;&#xFF1A;20&#xFF0C;21&#xFF0C;80&#x76F8;&#x95DC;&#x7684;&#x6240;&#x6709;&#x6587;&#x4EF6;&#x4FE1;&#x606F;&#xFF0C;&#x4E14;&#x6BCF;&#x9694;3&#x79D2;&#x91CD;&#x8907;&#x57F7;&#x884C;</h3>
-<pre><code>lsof -i @nf5260i5-td:20,21,80 -r 3
-</code></pre><p>Next  Previous</p>
+package org.runnable.demo;
+class MyThread implements Runnable
+{
+    private String name;
+    public MyThread(String name)
+    {
+        this.name = name;
+    }
+    public void run()
+    {
+        for (int i = 0; i &lt; 100; i++) {
+            System.out.println(&quot;&#x7DDA;&#x7A0B;&#x958B;&#x59CB;&#xFF1A;&quot; + this.name + &quot;,i=&quot; + i);
+        }
+    }
+};
+</code></pre><p>&#x4F46;&#x662F;&#x5728;&#x4F7F;&#x7528;Runnable&#x5B9A;&#x7FA9;&#x7684;&#x5B50;&#x985E;&#x4E2D;&#x6C92;&#x6709;start()&#x65B9;&#x6CD5;&#xFF0C;&#x53EA;&#x6709;Thread&#x985E;&#x4E2D;&#x624D;&#x6709;&#x3002;&#x6B64;&#x6642;&#x89C0;&#x5BDF;Thread&#x985E;&#xFF0C;&#x6709;&#x4E00;&#x500B;&#x69CB;&#x9020;&#x65B9;&#x6CD5;&#xFF1A;public Thread(Runnable targer)&#x6B64;&#x69CB;&#x9020;&#x65B9;&#x6CD5;&#x63A5;&#x53D7;Runnable&#x7684;&#x5B50;&#x985E;&#x5BE6;&#x4F8B;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#x53EF;&#x4EE5;&#x901A;&#x904E;Thread&#x985E;&#x4F86;&#x555F;&#x52D5;Runnable&#x5BE6;&#x73FE;&#x7684;&#x591A;&#x7DDA;&#x7A0B;&#x3002;&#xFF08;start()&#x53EF;&#x4EE5;&#x5354;&#x8ABF;&#x7CFB;&#x7D71;&#x7684;&#x8CC7;&#x6E90;&#xFF09;&#xFF1A;</p>
+<pre><code>package org.runnable.demo;
+import org.runnable.demo.MyThread;
+public class ThreadDemo01
+{
+    public static void main(String[] args)
+    {
+        MyThread mt1 = new MyThread(&quot;&#x7DDA;&#x7A0B;a&quot;);
+        MyThread mt2 = new MyThread(&quot;&#x7DDA;&#x7A0B;b&quot;);
+        new Thread(mt1).start();
+        new Thread(mt2).start();
+    }
+}
+</code></pre><p>&#x5169;&#x7A2E;&#x5BE6;&#x73FE;&#x65B9;&#x5F0F;&#x7684;&#x5340;&#x5225;&#x548C;&#x806F;&#x7E6B;&#xFF1A;</p>
+<p>&#x5728;&#x7A0B;&#x5E8F;&#x958B;&#x767C;&#x4E2D;&#x53EA;&#x8981;&#x662F;&#x591A;&#x7DDA;&#x7A0B;&#x80AF;&#x5B9A;&#x6C38;&#x9060;&#x4EE5;&#x5BE6;&#x73FE;Runnable&#x63A5;&#x53E3;&#x70BA;&#x4E3B;&#xFF0C;&#x56E0;&#x70BA;&#x5BE6;&#x73FE;Runnable&#x63A5;&#x53E3;&#x76F8;&#x6BD4;&#x7E7C;&#x627F;Thread&#x985E;&#x6709;&#x5982;&#x4E0B;&#x597D;&#x8655;&#xFF1A;</p>
+<p>&#x907F;&#x514D;&#x9EDE;&#x7E7C;&#x627F;&#x7684;&#x4FB7;&#x9650;&#xFF0C;&#x4E00;&#x500B;&#x985E;&#x53EF;&#x4EE5;&#x7E7C;&#x627F;&#x591A;&#x500B;&#x63A5;&#x53E3;&#x3002;
+&#x9069;&#x5408;&#x65BC;&#x8CC7;&#x6E90;&#x7684;&#x5171;&#x4EAB;
+&#x4EE5;&#x8CE3;&#x7968;&#x7A0B;&#x5E8F;&#x70BA;&#x4F8B;&#xFF0C;&#x901A;&#x904E;Thread&#x985E;&#x5B8C;&#x6210;&#xFF1A;</p>
+<pre><code>package org.demo.dff;
+class MyThread extends Thread
+{
+    private int ticket = 10;
+    public void run()
+    {
+        for (int i = 0; i &lt; 20; i++) {
+            if (this.ticket &gt; 0) {
+                System.out.println(&quot;&#x8CE3;&#x7968;&#xFF1A;ticket&quot; + this.ticket--);
+            }
+        }
+    }
+};
+</code></pre><p>&#x4E0B;&#x9762;&#x901A;&#x904E;&#x4E09;&#x500B;&#x7DDA;&#x7A0B;&#x5C0D;&#x8C61;&#xFF0C;&#x540C;&#x6642;&#x8CE3;&#x7968;&#xFF1A;</p>
+<pre><code>package org.demo.dff;
+public class ThreadTicket
+{
+    public static void main(String[] args)
+    {
+        MyThread mt1 = new MyThread();
+        MyThread mt2 = new MyThread();
+        MyThread mt3 = new MyThread();
+        mt1.start();//&#x6BCF;&#x500B;&#x7DDA;&#x7A0B;&#x90FD;&#x5404;&#x8CE3;&#x4E86;10&#x5F35;&#xFF0C;&#x5171;&#x8CE3;&#x4E86;30&#x5F35;&#x7968;
+        mt2.start();//&#x4F46;&#x5BE6;&#x969B;&#x53EA;&#x6709;10&#x5F35;&#x7968;&#xFF0C;&#x6BCF;&#x500B;&#x7DDA;&#x7A0B;&#x90FD;&#x8CE3;&#x81EA;&#x5DF1;&#x7684;&#x7968;
+        mt3.start();//&#x6C92;&#x6709;&#x9054;&#x5230;&#x8CC7;&#x6E90;&#x5171;&#x4EAB;
+    }
+}
+</code></pre><p>&#x5982;&#x679C;&#x7528;Runnable&#x5C31;&#x53EF;&#x4EE5;&#x5BE6;&#x73FE;&#x8CC7;&#x6E90;&#x5171;&#x4EAB;&#xFF0C;&#x4E0B;&#x9762;&#x770B;&#x4F8B;&#x5B50;&#xFF1A;</p>
+<pre><code>package org.demo.runnable;
+class MyThread implements Runnable
+{
+    private int ticket = 10;
+    public void run()
+    {
+        for (int i = 0; i &lt; 20; i++) {
+            if (this.ticket &gt; 0) {
+                System.out.println(&quot;&#x8CE3;&#x7968;&#xFF1A;ticket&quot; + this.ticket--);
+            }
+        }
+    }
+}
+
+package org.demo.runnable;
+public class RunnableTicket
+{
+    public static void main(String[] args)
+    {
+        MyThread mt = new MyThread();
+        new Thread(
+            mt).start();//&#x540C;&#x4E00;&#x500B;mt&#xFF0C;&#x4F46;&#x662F;&#x5728;Thread&#x4E2D;&#x5C31;&#x4E0D;&#x53EF;&#x4EE5;&#xFF0C;&#x5982;&#x679C;&#x7528;&#x540C;&#x4E00;
+        new Thread(mt).start();//&#x500B;&#x5BE6;&#x4F8B;&#x5316;&#x5C0D;&#x8C61;mt&#xFF0C;&#x5C31;&#x6703;&#x51FA;&#x73FE;&#x7570;&#x5E38;
+        new Thread(mt).start();
+    }
+};
+</code></pre><p>&#x96D6;&#x7136;&#x73FE;&#x5728;&#x7A0B;&#x5E8F;&#x4E2D;&#x6709;&#x4E09;&#x500B;&#x7DDA;&#x7A0B;&#xFF0C;&#x4F46;&#x662F;&#x4E00;&#x5171;&#x8CE3;&#x4E86;10&#x5F35;&#x7968;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#x4F7F;&#x7528;Runnable&#x5BE6;&#x73FE;&#x591A;&#x7DDA;&#x7A0B;&#x53EF;&#x4EE5;&#x9054;&#x5230;&#x8CC7;&#x6E90;&#x5171;&#x4EAB;&#x76EE;&#x7684;&#x3002;
+Runnable&#x63A5;&#x53E3;&#x548C;Thread&#x4E4B;&#x9593;&#x7684;&#x806F;&#x7E6B;&#xFF1A;</p>
+<pre><code>public class Thread extends Object implements Runnable
+</code></pre><p>&#x767C;&#x73FE;Thread&#x985E;&#x4E5F;&#x662F;Runnable&#x63A5;&#x53E3;&#x7684;&#x5B50;&#x985E;&#x3002;</p>
+<p>&#x7B2C;&#x4E8C;&#xFF1A;</p>
+<p>Thread&#x662F;&#x7CFB;&#x7D71;&#x7D66;&#x4F60;&#x7684;&#x8CC7;&#x6E90;&#xFF0C;&#x6709;&#x4E86;Thread&#x4F60;&#x624D;&#x6709;&#x5F9E;CPU&#x90A3;&#x88E1;&#x5F97;&#x5230;&#x53EF;&#x57F7;&#x884C;&#x6642;&#x9593;&#x7247;&#x7684;&#x6B0A;&#x529B;&#xFF0C; Thread&#x4E26;&#x4E0D;&#x8A8D;&#x8B58;&#x4F60;&#x7684;&#x7A0B;&#x5E8F;&#xFF0C;&#x4E0D;&#x77E5;&#x9053;&#x6709;test &#x9019;&#x6A23;&#x7684;&#x985E;&#xFF0C;&#x56E0;&#x70BA;&#x7DE8;&#x5E8F;&#x54E1;&#x6709;&#x5343;&#x5343;&#x842C;&#xFF0C;&#x6BCF;&#x500B;&#x4EBA;&#x547D;&#x540D;&#x90FD;&#x4E0D;&#x4E00;&#x6A23;&#xFF0C;&#x60F3;&#x8981;&#x505A;&#x7684;&#x4E8B;&#x90FD;&#x4E0D;&#x4E00;&#x6A23;&#xFF0C; &#x6240;&#x4EE5; Thread&#x53EA;&#x8A8D;&#x8B58;&#x4E00;&#x500B;&#xFF01; &#x90A3;&#x5C31;&#x662F;Runnable &#x3002; Thread&#x8A8D;&#x8B58;Runnable &#x4E26;&#x4E14;&#x77E5;&#x9053;Runnable &#x88E1;&#x9762;&#x6709;&#x4E00;&#x500B;run&#x65B9;&#x6CD5;. &#x4E00;&#x65E6;&#x8ABF;&#x7528;Thread&#x7684;start&#x65B9;&#x6CD5;&#xFF0C;Runnable &#x65B9;&#x6CD5;&#x88E1;&#x7684;run&#x5C31;&#x6703;&#x88AB;Thread&#x81EA;&#x52D5;&#x904B;&#x884C;&#x3002; &#x6240;&#x4EE5;&#xFF0C;&#x7576;&#x6211;&#x5011;&#x628A;&#x6211;&#x5011;&#x7684;&#x985E;&#x7E7C;&#x627F;&#xFF08;&#x9019;&#x88E1;&#x61C9;&#x8A72;&#x53EB;&#x5BE6;&#x73FE;&#x63A5;&#x53E3;&#xFF09;&#x81EA;Runnable &#x7684;&#x6642;&#x5019;&#xFF0C;&#x6211;&#x5011;&#x7684;&#x7A0B;&#x5E8F;&#x5C31;&#x662F;&#x5C6C;&#x65BC;Runnable &#x4E00;&#x500B;&#x985E;&#x578B;&#x7684;&#x4E86;&#x3002; &#x96D6;&#x7136;&#x662F;Runnable &#x7684;&#x5B50;&#x985E;&#xFF0C;&#x4F46;&#x4EBA;&#x5BB6;&#x8A8D;&#x8B58;&#x4F60;&#x7238;&#x7238;&#xFF0C;&#x7576;&#x7136;&#x4E5F;&#x77E5;&#x9053;&#x4E86;&#x4F60;&#x3002; Thread&#x53EF;&#x4EE5;&#x4E0D;&#x7BA1;&#x4F60;&#x5167;&#x90E8;&#x6709;&#x4EC0;&#x9EBC;&#x60C5;&#x6CC1;&#xFF0C;&#x4ED6;&#x53EA;&#x7BA1;&#x4F60;&#x6709;run()&#x65B9;&#x6CD5;&#x5C31;&#x884C;&#x4E86;&#xFF0C;&#x4ED6;&#x5C31;&#x8ABF;start&#x8B93;&#x4F60;&#x53BB;&#x904B;&#x884C;run &#x6240;&#x4EE5;&#x6211;&#x5011;&#x5728;run&#x88E1;&#x9762;&#x5BEB;&#x9EDE;&#x6771;&#x897F;&#xFF0C;&#x9019;&#x6A23;&#x5C31;&#x53EF;&#x4EE5;&#x8B93;&#x7CFB;&#x7D71;&#x904B;&#x884C;&#x6211;&#x5011;&#x60F3;&#x8981;&#x505A;&#x7684;&#x4EE3;&#x78BC;&#x4E86;&#x3002; &#x662F;&#x4E0D;&#x662F;&#x5F88;&#x901A;&#x4FD7;&#x5F88;&#x6613;&#x61C2;&#x5462;&#xFF1F; &#x6240;&#x4EE5;&#x8981;&#x904B;&#x884C;&#x7DDA;&#x7A0B;&#x7684;&#x6B65;&#x9A5F;&#x662F;&#xFF0C; 1&#x3002;&#x751F;&#x6210;&#x6211;&#x5011;&#x81EA;&#x5DF1;&#x7684;&#x985E;&#x5C0D;&#x8C61; 2&#x3002;&#x5F9E;&#x7CFB;&#x7D71;&#x90A3;&#x88E1;&#x5F97;&#x5230;Thread 3&#x3002;&#x8B93;Threa&#x8ABF;&#x6211;&#x5011;&#x7684;&#x985E;&#x5C0D;&#x8C61;&#xFF0C;&#x8B93;&#x5176;start&#x8D77;&#x4F86; &#x4EE3;&#x78BC;: test a=new test(); Thread thread=new Thread(a); //Thread&#x9700;&#x8981;&#x4E00;&#x500B;&#x53C3;&#x6578;&#xFF0C;&#x5C31;&#x662F;&#x4F60;&#x7DE8;&#x7684;&#x7DDA;&#x7A0B;&#x985E;&#xFF0C;&#x9019;&#x6A23;&#x4ED6;&#x5C31;&#x8A8D;&#x8B58;&#x4E86;&#x4F60;&#x7684;&#x7DDA;&#x7A0B;&#xFF0C;&#x4E5F;&#x6709;&#x8CC7;&#x683C;&#x5411;&#x7CFB;&#x7D71;&#x7533;&#x8ACB;&#x62FF;&#x5230;CPU&#x6642;&#x9593;&#x7247;thread.start(); &#x4F60;&#x53EF;&#x4EE5;&#x7C21;&#x55AE;&#x9EDE;&#x5BEB;&#xFF1A; new Thread(a).start();</p>
+<p>&#x7B2C;&#x4E09;&#xFF1A;
+Runnable &#x4E26;&#x4E0D;&#x4E00;&#x5B9A;&#x662F;&#x65B0;&#x958B;&#x4E00;&#x500B;&#x7DDA;&#x7A0B;&#xFF0C;&#x6BD4;&#x5982;&#x4E0B;&#x9762;&#x7684;&#x8ABF;&#x7528;&#x65B9;&#x6CD5;&#x5C31;&#x662F;&#x904B;&#x884C;&#x5728;UI&#x4E3B;&#x7DDA;&#x7A0B;&#x4E2D;&#x7684;&#xFF1A;</p>
+<pre><code>Handler mHandler = new Handler();
+mHandler.post(new Runnable()
+{
+    @Override public void run() {
+        // TODO Auto-generated method stub
+    }
+});
+</code></pre><p>&#x5B98;&#x65B9;&#x5C0D;&#x9019;&#x500B;&#x65B9;&#x6CD5;&#x7684;&#x89E3;&#x91CB;&#x5982;&#x4E0B;&#xFF0C;&#x6CE8;&#x610F;&#x5176;&#x4E2D;&#x7684;&#xFF1A;&#x300C;The runnable will be run on the user interface thread. &#x300D;</p>
+<pre><code>boolean android.view.View .post(Runnable action)
+Causes the Runnable to be added to the message queue. The runnable will be run on the user interface thread.
+Parameters:
+action The Runnable that will be executed.
+Returns:
+Returns true if the Runnable was successfully placed in to the message queue. Returns false on failure, usually because the looper processing the message queue is exiting.
+</code></pre><p>&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x8ABF;&#x7528;handler&#x7684;post&#x65B9;&#x6CD5;&#xFF0C;&#x628A;Runnable&#x5C0D;&#x8C61;&#xFF08;&#x4E00;&#x822C;&#x662F;Runnable&#x7684;&#x5B50;&#x985E;&#xFF09;&#x50B3;&#x904E;&#x53BB;&#xFF1B;handler&#x6703;&#x5728;looper&#x4E2D;&#x8ABF;&#x7528;&#x9019;&#x500B;Runnable&#x7684;Run&#x65B9;&#x6CD5;&#x57F7;&#x884C;&#x3002;</p>
+<p>Runnable&#x662F;&#x4E00;&#x500B;&#x63A5;&#x53E3;&#xFF0C;&#x4E0D;&#x662F;&#x4E00;&#x500B;&#x7DDA;&#x7A0B;&#xFF0C;&#x4E00;&#x822C;&#x7DDA;&#x7A0B;&#x6703;&#x5BE6;&#x73FE;Runnable&#x3002;&#x6240;&#x4EE5;&#x5982;&#x679C;&#x6211;&#x5011;&#x4F7F;&#x7528;&#x533F;&#x540D;&#x5167;&#x90E8;&#x985E;&#x662F;&#x904B;&#x884C;&#x5728;UI&#x4E3B;&#x7DDA;&#x7A0B;&#x7684;&#xFF0C;&#x5982;&#x679C;&#x6211;&#x5011;&#x4F7F;&#x7528;&#x5BE6;&#x73FE;&#x9019;&#x500B;Runnable&#x63A5;&#x53E3;&#x7684;&#x7DDA;&#x7A0B;&#x985E;&#xFF0C;&#x5247;&#x662F;&#x904B;&#x884C;&#x5728;&#x5C0D;&#x61C9;&#x7DDA;&#x7A0B;&#x7684;&#x3002;</p>
+<p>&#x5177;&#x9AD4;&#x4F86;&#x8AAA;&#xFF0C;&#x9019;&#x500B;&#x51FD;&#x6578;&#x7684;&#x5DE5;&#x4F5C;&#x539F;&#x7406;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>View.post(Runnable)&#x65B9;&#x6CD5;&#x3002;&#x5728;post(Runnable action)&#x65B9;&#x6CD5;&#x88E1;&#xFF0C;View&#x7372;&#x5F97;&#x7576;&#x524D;&#x7DDA;&#x7A0B;&#xFF08;&#x5373;UI&#x7DDA;&#x7A0B;&#xFF09;&#x7684;Handler&#xFF0C;&#x7136;&#x5F8C;&#x5C07;action&#x5C0D;&#x8C61;post&#x5230;Handler&#x88E1;&#x3002;&#x5728;Handler&#x88E1;&#xFF0C;&#x5B83;&#x5C07;&#x50B3;&#x905E;&#x904E;&#x4F86;&#x7684;action&#x5C0D;&#x8C61;&#x5305;&#x88DD;&#x6210;&#x4E00;&#x500B;Message&#xFF08;Message&#x7684;callback&#x70BA;action&#xFF09;&#xFF0C;&#x7136;&#x5F8C;&#x5C07;&#x5176;&#x6295;&#x5165;UI&#x7DDA;&#x7A0B;&#x7684;&#x6D88;&#x606F;&#x5FAA;&#x74B0;&#x4E2D;&#x3002;&#x5728;Handler&#x518D;&#x6B21;&#x8655;&#x7406;&#x8A72;Message&#x6642;&#xFF0C;&#x6709;&#x4E00;&#x689D;&#x5206;&#x652F;&#xFF08;&#x672A;&#x89E3;&#x91CB;&#x7684;&#x90A3;&#x689D;&#xFF09;&#x5C31;&#x662F;&#x70BA;&#x5B83;&#x6240;&#x8A2D;&#xFF0C;&#x76F4;&#x63A5;&#x8ABF;&#x7528;runnable&#x7684;run&#x65B9;&#x6CD5;&#x3002;&#x800C;&#x6B64;&#x6642;&#xFF0C;&#x5DF2;&#x7D93;&#x8DEF;&#x7531;&#x5230;UI&#x7DDA;&#x7A0B;&#x88E1;&#xFF0C;&#x56E0;&#x6B64;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x6BEB;&#x7121;&#x9867;&#x616E;&#x7684;&#x4F86;&#x66F4;&#x65B0;UI&#x3002;</p>
+<p>&#x5982;&#x4E0B;&#x5716;&#xFF0C;&#x524D;&#x9762;&#x770B;&#x5230;&#x7684;&#x4EE3;&#x78BC;&#xFF0C;&#x6211;&#x5011;&#x9019;&#x88E1;Message&#x7684;callback&#x70BA;&#x4E00;&#x500B;Runnable&#x7684;&#x533F;&#x540D;&#x5167;&#x90E8;&#x985E;</p>
+<p>&#x9019;&#x7A2E;&#x60C5;&#x6CC1;&#x4E0B;&#xFF0C;&#x7531;&#x65BC;&#x4E0D;&#x662F;&#x5728;&#x65B0;&#x7684;&#x7DDA;&#x7A0B;&#x4E2D;&#x4F7F;&#x7528;&#xFF0C;&#x6240;&#x4EE5;&#x5343;&#x842C;&#x5225;&#x505A;&#x8907;&#x96DC;&#x7684;&#x8A08;&#x7B97;&#x908F;&#x8F2F;&#x3002;
+<img src="images/201305281015122.png" alt="images"></p>
+<p>&#x7B2C;&#x56DB;&#xFF1A;&#x5728;&#x591A;&#x7DDA;&#x7A0B;&#x7DE8;&#x7A0B;&#x9019;&#x584A;&#xFF0C;&#x6211;&#x5011;&#x7D93;&#x5E38;&#x8981;&#x4F7F;&#x7528;Handler&#xFF0C;Thread&#x548C;Runnable&#x9019;&#x4E09;&#x500B;&#x985E;&#xFF0C;&#x90A3;&#x9EBC;&#x4ED6;&#x5011;&#x4E4B;&#x9593;&#x7684;&#x95DC;&#x4FC2;&#x4F60;&#x662F;&#x5426;&#x5F04;&#x6E05;&#x695A;&#x4E86;&#x5462;?
+&#x9996;&#x5148;&#x8AAA;&#x660E;Android&#x7684;CPU&#x5206;&#x914D;&#x7684;&#x6700;&#x5C0F;&#x55AE;&#x5143;&#x662F;&#x7DDA;&#x7A0B;&#xFF0C;Handler&#x4E00;&#x822C;&#x662F;&#x5728;&#x67D0;&#x500B;&#x7DDA;&#x7A0B;&#x88E1;&#x5275;&#x5EFA;&#x7684;&#xFF0C;&#x56E0;&#x800C;Handler&#x548C;Thread&#x5C31;&#x662F;&#x76F8;&#x4E92;&#x7D81;&#x5B9A;&#x7684;&#xFF0C;&#x4E00;&#x4E00;&#x5C0D;&#x61C9;&#x3002;</p>
+<p>&#x800C;Runnable&#x662F;&#x4E00;&#x500B;&#x63A5;&#x53E3;&#xFF0C;Thread&#x662F;Runnable&#x7684;&#x5B50;&#x985E;&#x3002;&#x6240;&#x4EE5;&#x8AAA;&#xFF0C;&#x4ED6;&#x5006;&#x90FD;&#x7B97;&#x4E00;&#x500B;&#x9032;&#x7A0B;&#x3002;</p>
+<p>HandlerThread&#x9867;&#x540D;&#x601D;&#x7FA9;&#x5C31;&#x662F;&#x53EF;&#x4EE5;&#x8655;&#x7406;&#x6D88;&#x606F;&#x5FAA;&#x74B0;&#x7684;&#x7DDA;&#x7A0B;&#xFF0C;&#x4ED6;&#x662F;&#x4E00;&#x500B;&#x64C1;&#x6709;Looper&#x7684;&#x7DDA;&#x7A0B;&#xFF0C;&#x53EF;&#x4EE5;&#x8655;&#x7406;&#x6D88;&#x606F;&#x5FAA;&#x74B0;&#x3002;</p>
+<p>&#x8207;&#x5176;&#x8AAA;Handler&#x548C;&#x4E00;&#x500B;&#x7DDA;&#x7A0B;&#x7D81;&#x5B9A;&#xFF0C;&#x4E0D;&#x5982;&#x8AAA;Handler&#x662F;&#x548C;Looper&#x4E00;&#x4E00;&#x5C0D;&#x61C9;&#x7684;&#x3002;</p>
+<p>&#x6700;&#x5F8C;&#x9700;&#x8981;&#x8AAA;&#x660E;&#x7684;&#x662F;&#xFF0C;&#x5728;UI&#x7DDA;&#x7A0B;(&#x4E3B;&#x7DDA;&#x7A0B;)&#x4E2D;&#xFF1A;</p>
+<pre><code>mHandler = new Handler();
+mHandler.post(new Runnable()
+{
+    void run() {
+        //&#x57F7;&#x884C;&#x4EE3;&#x78BC;...
+
+    }
+
+});
+
+&#x3000;&#x3000;&#x9019;&#x500B;&#x7DDA;&#x7A0B;&#x5176;&#x5BE6;&#x662F;&#x5728;UI&#x7DDA;&#x7A0B;&#x4E4B;&#x5167;&#x904B;&#x884C;&#x7684;&#xFF0C;&#x4E26;&#x6C92;&#x6709;&#x65B0;&#x5EFA;&#x7DDA;&#x7A0B;&#x3002;
+&#x3000;&#x3000;&#x5E38;&#x898B;&#x7684;&#x65B0;&#x5EFA;&#x7DDA;&#x7A0B;&#x7684;&#x65B9;&#x6CD5;&#x662F;&#xFF1A;
+&#x3000;&#x3000;Thread thread = new Thread();
+&#x3000;&#x3000;thread.start();
+&#x3000;&#x3000;HandlerThread thread = new HandlerThread(&quot;string&quot;);
+&#x3000;&#x3000;thread.start();
+</code></pre><p>&#x7B2C;&#x4E94;&#xFF1A;Java Runnable&#x63A5;&#x53E3;&#x5728;&#x9032;&#x884C;&#x76F8;&#x95DC;&#x7DE8;&#x5BEB;&#x7684;&#x6642;&#x5019;&#x9700;&#x8981;&#x6211;&#x5011;&#x4E0D;&#x65B7;&#x7684;&#x5B78;&#x7FD2;&#x76F8;&#x95DC;&#x4EE3;&#x78BC;&#x3002;&#x4E0B;&#x9762;&#x6211;&#x5011;&#x5C31;&#x4F86;&#x770B;&#x70AB;&#x5982;&#x4F55;&#x624D;&#x80FD;&#x4F7F;&#x7528;&#x76F8;&#x95DC;&#x7684;&#x4EE3;&#x78BC;&#x3002;Runnable&#x63A5;&#x53E3;&#x53EA;&#x6709;&#x4E00;&#x500B;&#x65B9;&#x6CD5;run()&#xFF0C;&#x6211;&#x5011;&#x8072;&#x660E;&#x81EA;&#x5DF1;&#x7684;&#x985E;&#x5BE6;&#x73FE;Runnable&#x63A5; &#x53E3;&#x4E26;&#x63D0;&#x4F9B;&#x9019;&#x4E00;&#x65B9;&#x6CD5;&#xFF0C;&#x5C07;&#x6211;&#x5011;&#x7684;&#x7DDA;&#x7A0B;&#x4EE3;&#x78BC;&#x5BEB;&#x5165;&#x5176;&#x4E2D;&#xFF0C;&#x5C31;&#x5B8C;&#x6210;&#x4E86;&#x9019;&#x4E00;&#x90E8;&#x5206;&#x7684;&#x4EFB;&#x52D9;&#x3002;</p>
+<p>&#x4F46;&#x662F;Runnable&#x63A5;&#x53E3;&#x4E26;&#x6C92;&#x6709;&#x4EFB;&#x4F55;&#x5C0D;&#x7DDA;&#x7A0B;&#x7684;&#x652F;&#x6301;&#xFF0C;&#x6211;&#x5011;&#x9084;&#x5FC5;&#x9808;&#x5275;&#x5EFA;Thread&#x985E; &#x7684;&#x5BE6;&#x4F8B;&#xFF0C;&#x9019;&#x4E00;&#x9EDE;&#x901A;&#x904E;Thread&#x985E;&#x7684;&#x69CB;&#x9020;&#x51FD;&#x6578;public Thread(Runnable target);&#x4F86;&#x5BE6;&#x73FE;&#x3002;&#x4E0B;&#x9762;&#x662F;&#x4E00;&#x500B;&#x4F8B;&#x5B50;&#xFF1A;</p>
+<pre><code>public class MyThread implements Runnable
+{
+    int count = 1, number;
+    public MyThread(int num)
+    {
+        numnumber = num;
+        System.out.println(&quot;&#x5275;&#x5EFA;&#x7DDA;&#x7A0B; &quot; + number);
+    }
+    public void run()
+    {
+        while (true) {
+            System.out.println
+            (&quot;&#x7DDA;&#x7A0B; &quot; + number + &quot;:&#x8A08;&#x6578; &quot; + count);
+
+            if (++count == 6) {
+                return;
+            }
+        }
+    }
+    public static void main(String args[])
+    {
+        for (int i = 0; i &#x3008; 5;
+             i++) {
+            new Thread(new MyThread(i + 1)).start();
+        }
+    }
+}
+</code></pre><p>&#x56B4;&#x683C;&#x5730;&#x8AAA;&#xFF0C;&#x5275;&#x5EFA;Thread&#x5B50;&#x985E;&#x7684;&#x5BE6;&#x4F8B;&#x4E5F;&#x662F;&#x53EF;&#x884C;&#x7684;&#xFF0C;&#x4F46;&#x662F;&#x5FC5;&#x9808;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C;&#x8A72;&#x5B50;&#x985E;&#x5FC5;&#x9808;&#x6C92;&#x6709;&#x8986;&#x84CB; Thread &#x985E;&#x7684; run &#x65B9;&#x6CD5;&#xFF0C;&#x5426;&#x5247;&#x8A72;&#x7DDA;&#x7A0B;&#x57F7;&#x884C;&#x7684;&#x5C07;&#x662F;&#x5B50;&#x985E;&#x7684; run &#x65B9;&#x6CD5;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x6211;&#x5011;&#x7528;&#x4EE5;&#x5BE6;&#x73FE;Runnable &#x63A5;&#x53E3;&#x7684;&#x985E;&#x7684; run &#x65B9;&#x6CD5;&#xFF0C;&#x5C0D;&#x6B64;&#x5927;&#x5BB6;&#x4E0D;&#x59A8;&#x8A66;&#x9A57;&#x4E00;&#x4E0B;&#x3002;</p>
+<p>&#x4F7F;&#x7528; Java Runnable&#x63A5;&#x53E3;&#x4F86;&#x5BE6;&#x73FE;&#x591A;&#x7DDA;&#x7A0B;&#x4F7F;&#x5F97;&#x6211;&#x5011;&#x80FD;&#x5920;&#x5728;&#x4E00;&#x500B;&#x985E;&#x4E2D;&#x5305;&#x5BB9;&#x6240;&#x6709;&#x7684;&#x4EE3;&#x78BC;&#xFF0C;&#x6709;&#x5229;&#x65BC;&#x5C01;&#x88DD;&#xFF0C;&#x5B83;&#x7684;&#x7F3A;&#x9EDE;&#x5728;&#x65BC;&#xFF0C;&#x6211;&#x5011;&#x53EA;&#x80FD;&#x4F7F;&#x7528;&#x4E00;&#x5957;&#x4EE3;&#x78BC;&#xFF0C;&#x82E5;&#x60F3;&#x5275;&#x5EFA;&#x591A;&#x500B;&#x7DDA;&#x7A0B;&#x4E26;&#x4F7F;&#x5404;&#x500B;&#x7DDA;&#x7A0B;&#x57F7;&#x884C;&#x4E0D;&#x540C;&#x7684;&#x4EE3; &#x78BC;&#xFF0C;&#x5247;&#x4ECD;&#x5FC5;&#x9808;&#x984D;&#x5916;&#x5275;&#x5EFA;&#x985E;&#xFF0C;&#x5982;&#x679C;&#x9019;&#x6A23;&#x7684;&#x8A71;&#xFF0C;&#x5728;&#x5927;&#x591A;&#x6578;&#x60C5;&#x6CC1;&#x4E0B;&#x4E5F;&#x8A31;&#x9084;&#x4E0D;&#x5982;&#x76F4;&#x63A5;&#x7528;&#x591A;&#x500B;&#x985E;&#x5206;&#x5225;&#x7E7C;&#x627F; Thread &#x4F86;&#x5F97;&#x7DCA;&#x6E4A;&#x3002;</p>
 
                     
                     </section>
@@ -1030,10 +1113,8 @@ tail      6499 tde    3r   REG    253,3   4514722     417798 /opt/applog/open/lo
         </div>
 
         
-        <a href="../linux_tools/ldd.html" class="navigation navigation-prev " aria-label="Previous page: ldd 查看程序依賴庫"><i class="fa fa-angle-left"></i></a>
+        <a href="../android_note/handler_looper_message_runnable.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: android的消息處理機制（圖+源碼分析）——Looper,Handler,Message"><i class="fa fa-angle-left"></i></a>
         
-        
-        <a href="../linux_tools/ps.html" class="navigation navigation-next " aria-label="Next page: ps 進程查看器"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

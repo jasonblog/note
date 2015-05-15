@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
-        <title>gdb 調試利器 | Jason note</title>
+        <title>Android Service與Native Service | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.0.1">
@@ -20,10 +20,8 @@
         
     
     
-    <link rel="next" href="../linux_tools/ldd.html" />
     
-    
-    <link rel="prev" href="../linux_tools/ref_tool.html" />
+    <link rel="prev" href="../android_note/runnable_thread.html" />
     
 
         
@@ -36,7 +34,7 @@
     
 
         
-    <div class="book" data-level="3.3.1" data-basepath=".." data-revision="Fri May 15 2015 23:05:04 GMT+0800 (CST)">
+    <div class="book" data-level="5.4" data-basepath=".." data-revision="Fri May 15 2015 23:05:04 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -407,7 +405,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="3.3.1" data-path="linux_tools/gdb.html">
+        <li class="chapter " data-level="3.3.1" data-path="linux_tools/gdb.html">
             
                 
                     <a href="../linux_tools/gdb.html">
@@ -778,7 +776,7 @@
             
         </li>
     
-        <li class="chapter " data-level="5.4" data-path="android_note/android_service_native_service.html">
+        <li class="chapter active" data-level="5.4" data-path="android_note/android_service_native_service.html">
             
                 
                     <a href="../android_note/android_service_native_service.html">
@@ -901,80 +899,43 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="gdb-%E8%AA%BF%E8%A9%A6%E5%88%A9%E5%99%A8">gdb &#x8ABF;&#x8A66;&#x5229;&#x5668;</h1>
-<p>GDB&#x662F;&#x4E00;&#x500B;&#x7531;GNU&#x958B;&#x6E90;&#x7D44;&#x7E54;&#x767C;&#x4F48;&#x7684;&#x3001;UNIX/LINUX&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x4E0B;&#x7684;&#x3001;&#x57FA;&#x65BC;&#x547D;&#x4EE4;&#x884C;&#x7684;&#x3001;&#x529F;&#x80FD;&#x5F37;&#x5927;&#x7684;&#x7A0B;&#x5E8F;&#x8ABF;&#x8A66;&#x5DE5;&#x5177;&#x3002; &#x5C0D;&#x65BC;&#x4E00;&#x540D;Linux&#x4E0B;&#x5DE5;&#x4F5C;&#x7684;c++&#x7A0B;&#x5E8F;&#x54E1;&#xFF0C;gdb&#x662F;&#x5FC5;&#x4E0D;&#x53EF;&#x5C11;&#x7684;&#x5DE5;&#x5177;&#xFF1B;</p>
-<h3 id="1-1-%E5%95%93%E5%8B%95gdb">1.1. &#x5553;&#x52D5;gdb</h3>
-<p>&#x5C0D;C/C++&#x7A0B;&#x5E8F;&#x7684;&#x8ABF;&#x8A66;&#xFF0C;&#x9700;&#x8981;&#x5728;&#x7DE8;&#x8B6F;&#x524D;&#x5C31;&#x52A0;&#x4E0A;-g&#x9078;&#x9805;:</p>
-<pre><code>$g++ -g hello.cpp -o hello
-</code></pre><p>&#x8ABF;&#x8A66;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;:</p>
-<pre><code>$gdb &lt;program&gt;
-</code></pre><p>program&#x4E5F;&#x5C31;&#x662F;&#x4F60;&#x7684;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#xFF0C;&#x4E00;&#x822C;&#x5728;&#x7576;&#x524D;&#x76EE;&#x9304;&#x4E0B;&#x3002;</p>
-<p>&#x8ABF;&#x8A66;core&#x6587;&#x4EF6;(core&#x662F;&#x7A0B;&#x5E8F;&#x975E;&#x6CD5;&#x57F7;&#x884C;&#x5F8C;core dump&#x5F8C;&#x7522;&#x751F;&#x7684;&#x6587;&#x4EF6;):</p>
-<pre><code>$gdb &lt;program&gt; &lt;core dump file&gt;
-$gdb program core.11127
-</code></pre><p>&#x8ABF;&#x8A66;&#x670D;&#x52D9;&#x7A0B;&#x5E8F;:</p>
-<pre><code>$gdb &lt;program&gt; &lt;PID&gt;
-$gdb hello 11127
-</code></pre><p>&#x5982;&#x679C;&#x4F60;&#x7684;&#x7A0B;&#x5E8F;&#x662F;&#x4E00;&#x500B;&#x670D;&#x52D9;&#x7A0B;&#x5E8F;&#xFF0C;&#x90A3;&#x9EBC;&#x4F60;&#x53EF;&#x4EE5;&#x6307;&#x5B9A;&#x9019;&#x500B;&#x670D;&#x52D9;&#x7A0B;&#x5E8F;&#x904B;&#x884C;&#x6642;&#x7684;&#x9032;&#x7A0B;ID&#x3002;gdb&#x6703;&#x81EA;&#x52D5;attach&#x4E0A;&#x53BB;&#xFF0C;&#x4E26;&#x8ABF;&#x8A66;&#x4ED6;&#x3002;program&#x61C9;&#x8A72;&#x5728;PATH&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x4E2D;&#x641C;&#x7D22;&#x5F97;&#x5230;&#x3002;</p>
-<h3 id="1-2-gdb%E4%BA%A4%E4%BA%92%E5%91%BD%E4%BB%A4">1.2. gdb&#x4EA4;&#x4E92;&#x547D;&#x4EE4;</h3>
-<p>&#x5553;&#x52D5;gdb&#x5F8C;&#xFF0C;&#x9032;&#x5165;&#x5230;&#x4EA4;&#x4E92;&#x6A21;&#x5F0F;&#xFF0C;&#x901A;&#x904E;&#x4EE5;&#x4E0B;&#x547D;&#x4EE4;&#x5B8C;&#x6210;&#x5C0D;&#x7A0B;&#x5E8F;&#x7684;&#x8ABF;&#x8A66;&#xFF1B;&#x6CE8;&#x610F;&#x9AD8;&#x983B;&#x4F7F;&#x7528;&#x7684;&#x547D;&#x4EE4;&#x4E00;&#x822C;&#x90FD;&#x6703;&#x6709;&#x7E2E;&#x5BEB;&#xFF0C;&#x719F;&#x7DF4;&#x4F7F;&#x7528;&#x9019;&#x4E9B;&#x7E2E;&#x5BEB;&#x547D;&#x4EE4;&#x80FD;&#x63D0;&#x9AD8;&#x8ABF;&#x8A66;&#x7684;&#x6548;&#x7387;&#xFF1B;</p>
-<p>&#x904B;&#x884C;
-run&#xFF1A;&#x7C21;&#x8A18;&#x7232; r &#xFF0C;&#x5176;&#x4F5C;&#x7528;&#x662F;&#x904B;&#x884C;&#x7A0B;&#x5E8F;&#xFF0C;&#x7576;&#x9047;&#x5230;&#x65B7;&#x9EDE;&#x5F8C;&#xFF0C;&#x7A0B;&#x5E8F;&#x6703;&#x5728;&#x65B7;&#x9EDE;&#x8655;&#x505C;&#x6B62;&#x904B;&#x884C;&#xFF0C;&#x7B49;&#x5F85;&#x7528;&#x6236;&#x8F38;&#x5165;&#x4E0B;&#x4E00;&#x6B65;&#x7684;&#x547D;&#x4EE4;&#x3002;
-continue &#xFF08;&#x7C21;&#x5BEB;c &#xFF09;&#xFF1A;&#x7E7C;&#x7E8C;&#x57F7;&#x884C;&#xFF0C;&#x5230;&#x4E0B;&#x4E00;&#x500B;&#x65B7;&#x9EDE;&#x8655;&#xFF08;&#x6216;&#x904B;&#x884C;&#x7D50;&#x675F;&#xFF09;
-next&#xFF1A;&#xFF08;&#x7C21;&#x5BEB; n&#xFF09;&#xFF0C;&#x55AE;&#x6B65;&#x8DDF;&#x8E64;&#x7A0B;&#x5E8F;&#xFF0C;&#x7576;&#x9047;&#x5230;&#x51FD;&#x6578;&#x8ABF;&#x7528;&#x6642;&#xFF0C;&#x4E5F;&#x4E0D;&#x9032;&#x5165;&#x6B64;&#x51FD;&#x6578;&#x9AD4;&#xFF1B;&#x6B64;&#x547D;&#x4EE4;&#x540C; step &#x7684;&#x4E3B;&#x8981;&#x5340;&#x5225;&#x662F;&#xFF0C;step &#x9047;&#x5230;&#x7528;&#x6236;&#x81EA;&#x5B9A;&#x7FA9;&#x7684;&#x51FD;&#x6578;&#xFF0C;&#x5C07;&#x6B65;&#x9032;&#x5230;&#x51FD;&#x6578;&#x4E2D;&#x53BB;&#x904B;&#x884C;&#xFF0C;&#x800C; next &#x5247;&#x76F4;&#x63A5;&#x8ABF;&#x7528;&#x51FD;&#x6578;&#xFF0C;&#x4E0D;&#x6703;&#x9032;&#x5165;&#x5230;&#x51FD;&#x6578;&#x9AD4;&#x5167;&#x3002;
-step &#xFF08;&#x7C21;&#x5BEB;s&#xFF09;&#xFF1A;&#x55AE;&#x6B65;&#x8ABF;&#x8A66;&#x5982;&#x679C;&#x6709;&#x51FD;&#x6578;&#x8ABF;&#x7528;&#xFF0C;&#x5247;&#x9032;&#x5165;&#x51FD;&#x6578;&#xFF1B;&#x8207;&#x547D;&#x4EE4;n&#x4E0D;&#x540C;&#xFF0C;n&#x662F;&#x4E0D;&#x9032;&#x5165;&#x8ABF;&#x7528;&#x7684;&#x51FD;&#x6578;&#x7684;
-until&#xFF1A;&#x7576;&#x4F60;&#x53AD;&#x5026;&#x4E86;&#x5728;&#x4E00;&#x500B;&#x5FAA;&#x74B0;&#x9AD4;&#x5167;&#x55AE;&#x6B65;&#x8DDF;&#x8E64;&#x6642;&#xFF0C;&#x9019;&#x500B;&#x547D;&#x4EE4;&#x53EF;&#x4EE5;&#x904B;&#x884C;&#x7A0B;&#x5E8F;&#x76F4;&#x5230;&#x9000;&#x51FA;&#x5FAA;&#x74B0;&#x9AD4;&#x3002;
-until+&#x884C;&#x865F;&#xFF1A; &#x904B;&#x884C;&#x81F3;&#x67D0;&#x884C;&#xFF0C;&#x4E0D;&#x50C5;&#x50C5;&#x7528;&#x4F86;&#x8DF3;&#x51FA;&#x5FAA;&#x74B0;
-finish&#xFF1A; &#x904B;&#x884C;&#x7A0B;&#x5E8F;&#xFF0C;&#x76F4;&#x5230;&#x7576;&#x524D;&#x51FD;&#x6578;&#x5B8C;&#x6210;&#x8FD4;&#x56DE;&#xFF0C;&#x4E26;&#x6253;&#x5370;&#x51FD;&#x6578;&#x8FD4;&#x56DE;&#x6642;&#x7684;&#x5806;&#x68E7;&#x5730;&#x5740;&#x548C;&#x8FD4;&#x56DE;&#x503C;&#x53CA;&#x53C3;&#x6578;&#x503C;&#x7B49;&#x4FE1;&#x606F;&#x3002;
-call &#x51FD;&#x6578;(&#x53C3;&#x6578;)&#xFF1A;&#x8ABF;&#x7528;&#x7A0B;&#x5E8F;&#x4E2D;&#x53EF;&#x898B;&#x7684;&#x51FD;&#x6578;&#xFF0C;&#x4E26;&#x50B3;&#x905E;&#x201C;&#x53C3;&#x6578;&#x201D;&#xFF0C;&#x5982;&#xFF1A;call gdb_test(55)
-quit&#xFF1A;&#x7C21;&#x8A18;&#x7232; q &#xFF0C;&#x9000;&#x51FA;gdb
-&#x8A2D;&#x7F6E;&#x65B7;&#x9EDE;
-break n &#xFF08;&#x7C21;&#x5BEB;b n&#xFF09;:&#x5728;&#x7B2C;n&#x884C;&#x8655;&#x8A2D;&#x7F6E;&#x65B7;&#x9EDE;
-&#xFF08;&#x53EF;&#x4EE5;&#x5E36;&#x4E0A;&#x4EE3;&#x78BC;&#x8DEF;&#x5F91;&#x548C;&#x4EE3;&#x78BC;&#x540D;&#x7A31;&#xFF1A; b OAGUPDATE.cpp:578&#xFF09;</p>
-<p>b fn1 if a&#xFF1E;b&#xFF1A;&#x689D;&#x4EF6;&#x65B7;&#x9EDE;&#x8A2D;&#x7F6E;
-break func&#xFF08;break&#x7E2E;&#x5BEB;&#x7232;b&#xFF09;&#xFF1A;&#x5728;&#x51FD;&#x6578;func()&#x7684;&#x5165;&#x53E3;&#x8655;&#x8A2D;&#x7F6E;&#x65B7;&#x9EDE;&#xFF0C;&#x5982;&#xFF1A;break cb_button
-delete &#x65B7;&#x9EDE;&#x865F;n&#xFF1A;&#x522A;&#x9664;&#x7B2C;n&#x500B;&#x65B7;&#x9EDE;
-disable &#x65B7;&#x9EDE;&#x865F;n&#xFF1A;&#x66AB;&#x505C;&#x7B2C;n&#x500B;&#x65B7;&#x9EDE;
-enable &#x65B7;&#x9EDE;&#x865F;n&#xFF1A;&#x958B;&#x5553;&#x7B2C;n&#x500B;&#x65B7;&#x9EDE;
-clear &#x884C;&#x865F;n&#xFF1A;&#x6E05;&#x9664;&#x7B2C;n&#x884C;&#x7684;&#x65B7;&#x9EDE;
-info b &#xFF08;info breakpoints&#xFF09; &#xFF1A;&#x986F;&#x793A;&#x7576;&#x524D;&#x7A0B;&#x5E8F;&#x7684;&#x65B7;&#x9EDE;&#x8A2D;&#x7F6E;&#x60C5;&#x6CC1;
-delete breakpoints&#xFF1A;&#x6E05;&#x9664;&#x6240;&#x6709;&#x65B7;&#x9EDE;&#xFF1A;
-&#x67E5;&#x770B;&#x6E90;&#x4EE3;&#x78BC;
-list &#xFF1A;&#x7C21;&#x8A18;&#x7232; l &#xFF0C;&#x5176;&#x4F5C;&#x7528;&#x5C31;&#x662F;&#x5217;&#x51FA;&#x7A0B;&#x5E8F;&#x7684;&#x6E90;&#x4EE3;&#x78BC;&#xFF0C;&#x9ED8;&#x8A8D;&#x6BCF;&#x6B21;&#x986F;&#x793A;10&#x884C;&#x3002;
-list &#x884C;&#x865F;&#xFF1A;&#x5C07;&#x986F;&#x793A;&#x7576;&#x524D;&#x6587;&#x4EF6;&#x4EE5;&#x201C;&#x884C;&#x865F;&#x201D;&#x7232;&#x4E2D;&#x5FC3;&#x7684;&#x524D;&#x5F8C;10&#x884C;&#x4EE3;&#x78BC;&#xFF0C;&#x5982;&#xFF1A;list 12
-list &#x51FD;&#x6578;&#x540D;&#xFF1A;&#x5C07;&#x986F;&#x793A;&#x201C;&#x51FD;&#x6578;&#x540D;&#x201D;&#x6240;&#x5728;&#x51FD;&#x6578;&#x7684;&#x6E90;&#x4EE3;&#x78BC;&#xFF0C;&#x5982;&#xFF1A;list main
-list &#xFF1A;&#x4E0D;&#x5E36;&#x53C3;&#x6578;&#xFF0C;&#x5C07;&#x63A5;&#x7740;&#x4E0A;&#x4E00;&#x6B21; list &#x547D;&#x4EE4;&#x7684;&#xFF0C;&#x8F38;&#x51FA;&#x4E0B;&#x908A;&#x7684;&#x5167;&#x5BB9;&#x3002;
-&#x6253;&#x5370;&#x8868;&#x9054;&#x5F0F;
-print &#x8868;&#x9054;&#x5F0F;&#xFF1A;&#x7C21;&#x8A18;&#x7232; p &#xFF0C;&#x5176;&#x4E2D;&#x201C;&#x8868;&#x9054;&#x5F0F;&#x201D;&#x53EF;&#x4EE5;&#x662F;&#x4EFB;&#x4F55;&#x7576;&#x524D;&#x6B63;&#x5728;&#x88AB;&#x6E2C;&#x8A66;&#x7A0B;&#x5E8F;&#x7684;&#x6709;&#x6548;&#x8868;&#x9054;&#x5F0F;&#xFF0C;&#x6BD4;&#x5982;&#x7576;&#x524D;&#x6B63;&#x5728;&#x8ABF;&#x8A66;C&#x8A9E;&#x8A00;&#x7684;&#x7A0B;&#x5E8F;&#xFF0C;&#x90A3;&#x9EBC;&#x201C;&#x8868;&#x9054;&#x5F0F;&#x201D;&#x53EF;&#x4EE5;&#x662F;&#x4EFB;&#x4F55;C&#x8A9E;&#x8A00;&#x7684;&#x6709;&#x6548;&#x8868;&#x9054;&#x5F0F;&#xFF0C;&#x5305;&#x62EC;&#x6578;&#x5B57;&#xFF0C;&#x8B8A;&#x91CF;&#x751A;&#x81F3;&#x662F;&#x51FD;&#x6578;&#x8ABF;&#x7528;&#x3002;
-print a&#xFF1A;&#x5C07;&#x986F;&#x793A;&#x6574;&#x6578; a &#x7684;&#x503C;
-print ++a&#xFF1A;&#x5C07;&#x628A; a &#x4E2D;&#x7684;&#x503C;&#x52A0;1,&#x4E26;&#x986F;&#x793A;&#x51FA;&#x4F86;
-print name&#xFF1A;&#x5C07;&#x986F;&#x793A;&#x5B57;&#x7B26;&#x4E32; name &#x7684;&#x503C;
-print gdb_test(22)&#xFF1A;&#x5C07;&#x4EE5;&#x6574;&#x6578;22&#x4F5C;&#x7232;&#x53C3;&#x6578;&#x8ABF;&#x7528; gdb_test() &#x51FD;&#x6578;
-print gdb_test(a)&#xFF1A;&#x5C07;&#x4EE5;&#x8B8A;&#x91CF; a &#x4F5C;&#x7232;&#x53C3;&#x6578;&#x8ABF;&#x7528; gdb_test() &#x51FD;&#x6578;
-display &#x8868;&#x9054;&#x5F0F;&#xFF1A;&#x5728;&#x55AE;&#x6B65;&#x904B;&#x884C;&#x6642;&#x5C07;&#x975E;&#x5E38;&#x6709;&#x7528;&#xFF0C;&#x4F7F;&#x7528;display&#x547D;&#x4EE4;&#x8A2D;&#x7F6E;&#x4E00;&#x500B;&#x8868;&#x9054;&#x5F0F;&#x5F8C;&#xFF0C;&#x5B83;&#x5C07;&#x5728;&#x6BCF;&#x6B21;&#x55AE;&#x6B65;&#x9032;&#x884C;&#x6307;&#x4EE4;&#x5F8C;&#xFF0C;&#x7DCA;&#x63A5;&#x7740;&#x8F38;&#x51FA;&#x88AB;&#x8A2D;&#x7F6E;&#x7684;&#x8868;&#x9054;&#x5F0F;&#x53CA;&#x503C;&#x3002;&#x5982;&#xFF1A; display a
-watch &#x8868;&#x9054;&#x5F0F;&#xFF1A;&#x8A2D;&#x7F6E;&#x4E00;&#x500B;&#x76E3;&#x8996;&#x9EDE;&#xFF0C;&#x4E00;&#x65E6;&#x88AB;&#x76E3;&#x8996;&#x7684;&#x201C;&#x8868;&#x9054;&#x5F0F;&#x201D;&#x7684;&#x503C;&#x6539;&#x8B8A;&#xFF0C;gdb&#x5C07;&#x5F37;&#x884C;&#x7D42;&#x6B62;&#x6B63;&#x5728;&#x88AB;&#x8ABF;&#x8A66;&#x7684;&#x7A0B;&#x5E8F;&#x3002;&#x5982;&#xFF1A; watch a
-whatis &#xFF1A;&#x67E5;&#x8A62;&#x8B8A;&#x91CF;&#x6216;&#x51FD;&#x6578;
-info function&#xFF1A; &#x67E5;&#x8A62;&#x51FD;&#x6578;
-&#x64F4;&#x5C55;info locals&#xFF1A; &#x986F;&#x793A;&#x7576;&#x524D;&#x5806;&#x68E7;&#x9801;&#x7684;&#x6240;&#x6709;&#x8B8A;&#x91CF;
-&#x67E5;&#x8A62;&#x904B;&#x884C;&#x4FE1;&#x606F;
-where/bt &#xFF1A;&#x7576;&#x524D;&#x904B;&#x884C;&#x7684;&#x5806;&#x68E7;&#x5217;&#x8868;&#xFF1B;
-bt backtrace &#x986F;&#x793A;&#x7576;&#x524D;&#x8ABF;&#x7528;&#x5806;&#x68E7;
-up/down &#x6539;&#x8B8A;&#x5806;&#x68E7;&#x986F;&#x793A;&#x7684;&#x6DF1;&#x5EA6;
-set args &#x53C3;&#x6578;:&#x6307;&#x5B9A;&#x904B;&#x884C;&#x6642;&#x7684;&#x53C3;&#x6578;
-show args&#xFF1A;&#x67E5;&#x770B;&#x8A2D;&#x7F6E;&#x597D;&#x7684;&#x53C3;&#x6578;
-info program&#xFF1A; &#x4F86;&#x67E5;&#x770B;&#x7A0B;&#x5E8F;&#x7684;&#x662F;&#x5426;&#x5728;&#x904B;&#x884C;&#xFF0C;&#x9032;&#x7A0B;&#x865F;&#xFF0C;&#x88AB;&#x66AB;&#x505C;&#x7684;&#x539F;&#x56E0;&#x3002;
-&#x5206;&#x5272;&#x7A97;&#x53E3;
-layout&#xFF1A;&#x7528;&#x65BC;&#x5206;&#x5272;&#x7A97;&#x53E3;&#xFF0C;&#x53EF;&#x4EE5;&#x4E00;&#x908A;&#x67E5;&#x770B;&#x4EE3;&#x78BC;&#xFF0C;&#x4E00;&#x908A;&#x6E2C;&#x8A66;&#xFF1A;
-layout src&#xFF1A;&#x986F;&#x793A;&#x6E90;&#x4EE3;&#x78BC;&#x7A97;&#x53E3;
-layout asm&#xFF1A;&#x986F;&#x793A;&#x53CD;&#x5F59;&#x7DE8;&#x7A97;&#x53E3;
-layout regs&#xFF1A;&#x986F;&#x793A;&#x6E90;&#x4EE3;&#x78BC;/&#x53CD;&#x5F59;&#x7DE8;&#x548C;CPU&#x5BC4;&#x5B58;&#x5668;&#x7A97;&#x53E3;
-layout split&#xFF1A;&#x986F;&#x793A;&#x6E90;&#x4EE3;&#x78BC;&#x548C;&#x53CD;&#x5F59;&#x7DE8;&#x7A97;&#x53E3;
-Ctrl + L&#xFF1A;&#x5237;&#x65B0;&#x7A97;&#x53E3;
-&#x8A3B;&#x89E3;</p>
-<p>&#x4EA4;&#x4E92;&#x6A21;&#x5F0F;&#x4E0B;&#x76F4;&#x63A5;&#x56DE;&#x8ECA;&#x7684;&#x4F5C;&#x7528;&#x662F;&#x91CD;&#x8986;&#x4E0A;&#x4E00;&#x6307;&#x4EE4;&#xFF0C;&#x5C0D;&#x65BC;&#x55AE;&#x6B65;&#x8ABF;&#x8A66;&#x975E;&#x5E38;&#x65B9;&#x4FBF;&#xFF1B;</p>
-<h3 id="1-3-%E6%9B%B4%E5%BC%B7%E5%A4%A7%E7%9A%84%E5%B7%A5%E5%85%B7">1.3. &#x66F4;&#x5F37;&#x5927;&#x7684;&#x5DE5;&#x5177;</h3>
-<p>cgdb
-cgdb&#x53EF;&#x4EE5;&#x770B;&#x4F5C;gdb&#x7684;&#x754C;&#x9762;&#x589E;&#x5F37;&#x7248;,&#x7528;&#x4F86;&#x66FF;&#x4EE3;gdb&#x7684; gdb -tui&#x3002;cgdb&#x4E3B;&#x8981;&#x529F;&#x80FD;&#x662F;&#x5728;&#x8ABF;&#x8A66;&#x6642;&#x9032;&#x884C;&#x4EE3;&#x78BC;&#x7684;&#x540C;&#x6B65;&#x986F;&#x793A;&#xFF0C;&#x9019;&#x7121;&#x7591;&#x589E;&#x52A0;&#x4E86;&#x8ABF;&#x8A66;&#x7684;&#x65B9;&#x4FBF;&#x6027;&#xFF0C;&#x63D0;&#x9AD8;&#x4E86;&#x8ABF;&#x8A66;&#x6548;&#x7387;&#x3002;&#x754C;&#x9762;&#x985E;&#x4F3C;vi&#xFF0C;&#x7B26;&#x5408;unix/linux&#x4E0B;&#x958B;&#x767C;&#x4EBA;&#x54E1;&#x7FD2;&#x6163;;&#x5982;&#x679C;&#x719F;&#x6089;gdb&#x548C;vi&#xFF0C;&#x5E7E;&#x4E4E;&#x53EF;&#x4EE5;&#x7ACB;&#x5373;&#x4F7F;&#x7528;cgdb&#x3002;</p>
+                        <h1 id="android-service%E8%88%87native-service">Android Service&#x8207;Native Service</h1>
+<h3 id="%E5%89%8D%E8%A8%80">&#x524D;&#x8A00;</h3>
+<p>&#x5230;&#x5E95;&#x751A;&#x9EBC;&#x662F;Android Service&#x5462;? &#x5E7E;&#x4E4E;&#x4EBA;&#x4EBA;&#x6240;&#x8AC7;&#x90FD;&#x4E0D;&#x76E1;&#x76F8;&#x540C;&#x3002;&#x6709;&#x4EBA;&#x4F9D;&#x64DA;Java&#x7684;&#x5957;&#x4EF6;&#x800C;&#x5206;&#xFF0C;&#x4F8B;&#x5982;Android 2.1&#x88E1;&#xFF0C;SensorService.java&#x548C;ActivityManagerService.java&#x5C6C;&#x65BC;&#x4E0D;&#x540C;&#x7684;&#x5957;&#x4EF6;&#xFF0C;&#x6709;&#x4EBA;&#x8AAA;SensorService&#x662F;&#x4E00;&#x9805;Android Service&#xFF1B;&#x800C;ActivityManagerService&#x5247;&#x4E0D;&#x662F;&#x3002;&#x53E6;&#x6709;&#x4EBA;&#x8AAA;&#x5169;&#x8005;&#x90FD;&#x5C6C;&#x65BC;Android Service&#x3002;&#x672C;&#x6587;&#x5C31;&#x5F9E;HAL&#x7684;&#x89D2;&#x5EA6;&#x4F86;&#x770B;Android Service&#x8207;&#x5176;&#x4ED6;&#x76F8;&#x95DC;&#x6A21;&#x7D44;&#x7684;&#x95DC;&#x4FC2;&#xFF0C;&#x4F8B;&#x5982;Android Service&#x8207;JNI&#x4E4B;&#x95DC;&#x4FC2;&#x3002;&#x5F9E;&#x9019;&#x4E9B;&#x95DC;&#x4FC2;&#x88E1;&#xFF0C;&#x66F4;&#x80FD;&#x6DF1;&#x523B;&#x638C;&#x63E1;Android Service&#x7684;&#x5B9A;&#x4F4D;&#x548C;&#x89D2;&#x8272;&#x3002;</p>
+<h3 id="%E4%B8%89%E7%A8%AE%E6%9C%8D%E5%8B%99">&#x4E09;&#x7A2E;&#x670D;&#x52D9;</h3>
+<p>&#x53EA;&#x8981;&#x4E00;&#x8AC7;&#x5230;Android Service&#xFF0C;&#x5E7E;&#x4E4E;&#x4EBA;&#x4EBA;&#x6240;&#x8AC7;&#x90FD;&#x4E0D;&#x76E1;&#x76F8;&#x540C;&#x4E86;&#x3002;&#x66F4;&#x4E0D;&#x7528;&#x8AAA;&#x53C8;&#x52A0;&#x4E0A;SDK Service&#x4E86;&#x3002;&#x4F8B;&#x5982;&#xFF0C;Android &#x5C08;&#x5BB6;Jollen&#x5BEB;&#x9053;&#xFF1A;</p>
+<p><strong>
+Android&#x7684;Service&#x5206;&#x70BA;&#x4E8C;&#x7A2E;&#xFF1A;Android Service&#x8207;Native Service</strong></p>
+<h3 id="android-service">Android Service</h3>
+<p>AndroidService&#x53C8;&#x7A31;&#x70BA;Java Service&#xFF0C;&#x662F;&#x5BE6;&#x4F5C;&#x5728;&#x6846;&#x67B6;&#x5C64;&#xFF08;framework&#xFF09;&#x88E1;&#x7684;&#x300C;Server&#x300D;&#x3002;&#x9019;&#x88E1;&#x6240;&#x8B1B;&#x7684;&#x300C;Service&#x300D;&#x662F;System Service&#xFF0C;&#x53C8;&#x7A31;&#x70BA;Server&#xFF0C;&#x8207;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x8A2D;&#x8A08;&#x4E0A;&#x6240;&#x8A0E;&#x8AD6;&#x7684;Service&#xFF08;android.app.Service&#xFF09;&#x4E0D;&#x540C;&#x3002;Android Service&#x4EE5;Java&#x64B0;&#x5BEB;&#x3002;</p>
+<h3 id="native-service">Native Service</h3>
+<p>NativeService&#x5247;&#x662F;&#x5BE6;&#x4F5C;&#x5728;Runtime&#x5C64;&#x88E1;&#x7684;Server&#x3002;&#x67B6;&#x69CB;&#x8A2D;&#x8A08;&#x4E0A;&#xFF0C;&#x6211;&#x5011;&#x6709;&#x4E8C;&#x500B;&#x9078;&#x64C7;&#xFF0C;&#x4E00;&#x500B;&#x662F;&#x5BE6;&#x4F5C;Android Service&#x3001;&#x518D;&#x900F;&#x904E;JNI&#x8207;HAL stub&#x6E9D;&#x901A;&#xFF1B;&#x53E6;&#x4E00;&#x500B;&#x9078;&#x64C7;&#x662F;&#xFF0C;&#x8DF3;&#x904E;Android Service&#xFF0C;&#x8B93;Application&#xFF08;Manager API&#xFF09;&#x76F4;&#x63A5;&#x8207;Native Service&#x6E9D;&#x901A;&#x3002;&#x201D;</p>
+<p>Jollen&#x5728;&#x9019;&#x6BB5;&#x8A71;&#x88E1;&#xFF0C;&#x660E;&#x986F;&#x5730;&#x63D0;&#x5230;&#x5169;&#x7A2E;&#x670D;&#x52D9;&#xFF1A;Android Service&#x548C;Native Service&#x3002;&#x7136;&#x800C;&#xFF0C;&#x4ED6;&#x53C8;&#x63D0;&#x5230;&#xFF1A;&#x201C;&#x8207;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x8A2D;&#x8A08;&#x4E0A;&#x6240;&#x8A0E;&#x8AD6;&#x7684;Service&#xFF08;android.app.Service&#xFF09;&#x4E0D;&#x540C;&#x3002;&#x201D;&#x9019;&#x7A2E;android.app.Service&#x5C31;&#x662F;&#x4E00;&#x822C;&#x901A;&#x7A31;&#x7684;APP Service&#x6216;SDK Service&#x4E86;&#x3002;&#x6240;&#x4EE5;Jollen&#x63D0;&#x5230;&#x4E09;&#x7A2E;&#x670D;&#x52D9;&#xFF1A;1)SDK Service&#x3001;2)Android Service&#x548C;3)Native Service&#x3002;&#x5176;&#x95DC;&#x4FC2;&#x5982;&#x4E0B;&#x5716;&#xFF1A;
+<img src="images/19010401_5dZI.jpg" alt="images">
+&#x5716;1&#x3001;&#x4E09;&#x7A2E;Service</p>
+<h3 id="%EF%BD%81ndroid-service%E8%88%87-jni%E7%AD%89%E5%85%83%E7%B4%A0%E4%B9%8B%E9%97%9C%E4%BF%82">&#xFF21;ndroid Service&#x8207;&#x3000;JNI&#x7B49;&#x5143;&#x7D20;&#x4E4B;&#x95DC;&#x4FC2;</h3>
+<p>&#x90A3;&#x9EBC;&#xFF0C;&#x9019;&#x4E9B;&#x5143;&#x7D20;&#x4E4B;&#x9593;&#x53C8;&#x6709;&#x4F55;&#x95DC;&#x4FC2;&#x5462;? Jollen&#x5728;&#x5176;&#x6587;&#x7AE0;&#x88E1;&#xFF0C;&#x5BEB;&#x9053;&#xFF1A;</p>
+<p>&#x201C;&#x63A1;&#x53D6;Service&#x67B6;&#x69CB;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x662F;&#x5EFA;&#x8B70;&#x7684;&#x505A;&#x6CD5;&#xFF0C;&#x7576;&#x7136;&#x56E0;&#x70BA;&#x9019;&#x662F;&#x6A19;&#x6E96;&#x67B6;&#x69CB;&#xFF0C;&#x4E5F;&#x61C9;&#x8A72;&#x63A1;&#x7528;&#x3002;</p>
+<p>Service&#x5728;Android&#x6846;&#x67B6;&#x88E1;&#x7684;&#x89D2;&#x8272;&#x662F;&#x300C;&#x5B58;&#x53D6;&#x5E95;&#x5C64;&#x786C;&#x9AD4;&#x300D;&#xFF0C;&#x5F80;&#x4E0A;&#x5C64;&#x7684;&#x8A71;&#xFF0C;&#x53EF;&#x4EE5;&#x548C;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x6E9D;&#x901A;&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x63A1;&#x7528;&#x6A19;&#x6E96;&#x7684;Service&#x505A;&#x6CD5;&#xFF0C;&#x597D;&#x8655;&#x662F;&#x5728;&#x8CC7;&#x6599;&#x5B58;&#x53D6;&#xFF08;datacommunication&#xFF09;&#x7684;&#x8655;&#x7406;&#x8F03;&#x70BA;&#x7CFB;&#x7D71;&#x5316;&#x3002;&#x9019;&#x65B9;&#x9762;&#xFF0C;Android&#x63D0;&#x4F9B;&#x4E86;&#x6A19;&#x6E96;&#x7684;&#x8655;&#x7406;&#x67B6;&#x69CB;&#xFF0C;&#x5F8C;&#x7E8C;&#x518D;&#x9032;&#x884C;&#x8A0E;&#x8AD6;&#x3002;&#x5716;&#x4E0A;&#x7684;&#x300C;corelibraries&#x300D;&#x5373;&#x662F;Service&#x7A0B;&#x5F0F;&#x78BC;&#x7684;&#x5BE6;&#x4F5C;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#xFF0C;Android&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x900F;&#x904E;JNI&#xFF08;Dalvik&#xFF09;&#x4F86;&#x5230;Service&#x9019;&#x4E00;&#x5C64;&#xFF0C;&#x518D;&#x900F;&#x904E;Service&#x8F09;&#x5165;<em>.so&#x6A94;&#xFF1B;&#x800C;&#x975E;&#x6A19;&#x6E96;&#x505A;&#x6CD5;&#x5247;&#x662F;&#x8B93;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x76F4;&#x63A5;&#x900F;&#x904E;JNI&#x4F86;&#x8F09;&#x5165;</em>.so&#x6A94;&#x3002;&#x201D;</p>
+<h3 id="%E9%9D%9E%E6%A8%99%E6%BA%96%E5%81%9A%E6%B3%95">&#x975E;&#x6A19;&#x6E96;&#x505A;&#x6CD5;</h3>
+<p>&#x5176;&#x4E2D;&#xFF0C;&#x975E;&#x6A19;&#x6E96;&#x505A;&#x6CD5;&#xFF1A;&#x8B93;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x76F4;&#x63A5;&#x900F;&#x904E;JNI&#x4F86;&#x8F09;&#x5165;*.so&#x6A94;&#x3002;&#x5176;&#x67B6;&#x69CB;&#x5982;&#x4E0B;&#x5716;&#xFF1A;
+<img src="images/19010401_twCZ.jpg" alt="images"></p>
+<p>&#x5716;2&#x3001;&#x975E;&#x6A19;&#x6E96;&#x505A;&#x6CD5;
+&#x975E;&#x6A19;&#x6E96;&#x505A;&#x6CD5;&#x4E5F;&#x662F;&#x53EF;(&#x57F7;)&#x884C;&#x7684;&#x9014;&#x5F91;&#x4E4B;&#x4E00;&#x3002;</p>
+<h3 id="%E6%A8%99%E6%BA%96%E5%81%9A%E6%B3%95">&#x6A19;&#x6E96;&#x505A;&#x6CD5;</h3>
+<p>&#x81F3;&#x65BC;Jollen&#x6240;&#x8AAA;&#x7684;&#x6A19;&#x6E96;&#x505A;&#x6CD5;&#xFF1A;
+&#x201C;Android&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x900F;&#x904E;JNI&#xFF08;Dalvik&#xFF09;&#x4F86;&#x5230;Service&#x9019;&#x4E00;&#x5C64;&#xFF0C;&#x518D;&#x900F;&#x904E;Service&#x8F09;&#x5165;*.so&#x6A94;&#xFF1B;&#x201D;
+&#x5176;&#x67B6;&#x69CB;&#x5982;&#x4E0B;&#x5716;&#xFF1A;
+<img src="images/19010401_6f6I.jpg" alt="images">
+&#x5716;3&#x3001;&#x6A19;&#x6E96;&#x505A;&#x6CD5;</p>
+<h3 id="%EF%BD%8Eative%E5%81%9A%E6%B3%95">&#xFF2E;ative&#x505A;&#x6CD5;</h3>
+<p>&#x4EE5;&#x4E0A;&#x5169;&#x7A2E;&#x505A;&#x6CD5;&#xFF0C;&#x90FD;&#x662F;&#x53EF;&#x884C;&#x7684;&#x3002;&#x6B64;&#x5916;&#xFF0C;&#x9084;&#x6709;&#x53E6;&#x4E00;&#x7A2E;&#x66F4;&#x5177;&#x5F48;&#x6027;&#x7684;&#x505A;&#x6CD5;&#xFF0C;&#x5C31;&#x662F;&#x63A1;&#x53D6;Native Service&#x9014;&#x5F91;&#x3002;&#x5C31;&#x5982;Jollen&#x6700;&#x8FD1;&#xFF08;2011/1/3&#xFF09;&#x66F4;&#x9032;&#x4E00;&#x6B65;&#x8AAA;&#x660E;Native Service&#x626E;&#x6F14;&#x66F4;&#x91CD;&#x8981;&#x7684;&#x89D2;&#x8272;&#xFF1A;</p>
+<p>&#x201C;&#x8FD1;&#x671F;&#x5728;&#x9032;&#x884C; Android 2.3 &#x7684;&#x65B0;&#x6846;&#x67B6;&#x7A0B;&#x5F0F;&#x78BC;&#x7814;&#x7A76;&#xFF0C;Android 2.3 &#x5728; Platform (Framework) &#x90E8;&#x4EFD;&#x5305;&#x542B;&#x4E86;&#x8A31;&#x591A;&#x91CD;&#x5927;&#x7684;&#x66F4;&#x65B0;&#xFF0C;&#x5176;&#x4E2D;&#x4E00;&#x500B;&#x90E8;&#x4EFD;&#x5C31;&#x662F; SensorService &#x6539;&#x5BEB;&#x6210; Native Service &#x5F62;&#x5F0F;&#x3002;&#x5728; Android 2.2 &#x4EE5;&#x524D;&#x7684;&#x6846;&#x67B6;&#xFF0C;SensorService &#x5305;&#x542B;&#x5728; SystemServer &#x88E1;&#xFF0C;&#x5BE6;&#x52D9;&#x4E0A;&#xFF0C;&#x53EF;&#x80FD;&#x4E5F;&#x6703;&#x5C0D; SensorService &#x505A;&#x5C0F;&#x5E45;&#x5EA6;&#x6539;&#x5BEB;&#xFF0C;&#x4EE5;&#x589E;&#x9032;&#x6548;&#x80FD;&#xFF0C;&#x6216;&#x662F;&#x5C07; SensorService &#x7368;&#x7ACB;&#x6210;&#x70BA;&#x4E00;&#x500B; process&#x3002;</p>
+<p>&#x5728; Android2.3 &#x88E1;&#x7684; SystemServer &#x5DF2;&#x7D93;&#x627E;&#x4E0D;&#x5230; SensorService &#x4E86;&#xFF0C;&#x9019;&#x500B;&#x91CD;&#x8981;&#x7684; Android Service &#x88AB;&#x6539;&#x5BEB;&#x6210; Native Service&#x3002;&#x300C;&#x5982;&#x4F55;&#x5C07; AndroidService &#x6539;&#x5BEB;&#x70BA; Native Service&#x300D;&#xFF0C;&#x4EE5;&#x53CA;&#x300C;Native Service&#x300D;&#x7684;&#x958B;&#x767C;&#xFF0C;&#x5F9E; Android 2.3 &#x958B;&#x59CB;&#xFF0C;&#x5C07;&#x6210;&#x70BA;&#x91CD;&#x91CF;&#x7D1A;&#x4E3B;&#x984C;&#x3002;&#x7531;&#x65BC;&#x672C;&#x9031;&#x5373;&#x5C07;&#x9032;&#x884C;&#x300C;Android HAL &amp; Framework: &#x8EDF;&#x786C;&#x6574;&#x5408;&#x5BE6;&#x4F5C;&#x8A13;&#x7DF4;&#x300D;&#x8AB2;&#x7A0B;&#xFF0C;&#x5229;&#x7528;&#x5143;&#x65E6;&#x5047;&#x671F;&#xFF0C;&#x4E5F;&#x9806;&#x5229;&#x5B8C;&#x6210;&#x8AB2;&#x7A0B;&#x4EE5;&#x53CA;&#x6559;&#x6750;&#x7684;&#x66F4;&#x65B0;&#xFF0C;&#x5C07;&#x958B;&#x59CB;&#x8457;&#x91CD; Native Service &#x7684;&#x8B1B;&#x89E3;&#xFF0C;&#x4E26;&#x900F;&#x904E;&#x5BE6;&#x4F8B;&#x89E3;&#x8AAA; Native Service &#x7684;&#x958B;&#x767C;&#x3002;&#x201D;</p>
+<p>&#x5C07;Java&#x7684;SensorService &#x6539;&#x5BEB;&#x6210;C++&#x7684; Native Service &#x5F62;&#x5F0F;&#xFF0C;&#x5176;&#x65B0;&#x7684;&#x67B6;&#x69CB;&#x5C07;&#x66F4;&#x6539;&#x5982;&#x4E0B;&#x5716;&#xFF1A;
+<img src="images/19010401_0m3v.jpg" alt="images">
+&#x5716;4&#x3001;Native Service&#x505A;&#x6CD5;
+&#x6B64;&#x7A2E;Native Service&#x505A;&#x6CD5;&#x4E26;&#x4E0D;&#x662F;&#x65B0;&#x505A;&#x6CD5;&#xFF0C;&#x5176;&#x5BE6;&#x81EA;&#x5F9E;Android&#x554F;&#x5E02;&#x4EE5;&#x4F86;&#xFF0C;MediaPlayerService&#x548C;CameraService&#x7B49;&#x5373;&#x662F;&#x63A1;&#x53D6;Native Service&#x505A;&#x6CD5;&#x4E86;&#x3002;&#x7121;&#x8AD6;&#x54EA;&#x4E00;&#x7A2E;&#x505A;&#x6CD5;&#xFF0C;JNI Native Code&#x90FD;&#x626E;&#x6F14;&#x91CD;&#x8981;&#x89D2;&#x8272;</p>
 
                     
                     </section>
@@ -985,10 +946,8 @@ cgdb&#x53EF;&#x4EE5;&#x770B;&#x4F5C;gdb&#x7684;&#x754C;&#x9762;&#x589E;&#x5F37;&
         </div>
 
         
-        <a href="../linux_tools/ref_tool.html" class="navigation navigation-prev " aria-label="Previous page: 工具參考篇"><i class="fa fa-angle-left"></i></a>
+        <a href="../android_note/runnable_thread.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: Android中Handler Runnable與Thread的區別詳解"><i class="fa fa-angle-left"></i></a>
         
-        
-        <a href="../linux_tools/ldd.html" class="navigation navigation-next " aria-label="Next page: ldd 查看程序依賴庫"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

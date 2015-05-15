@@ -20,7 +20,9 @@ AndroidService又稱為Java Service，是實作在框架層（framework）裡的
 NativeService則是實作在Runtime層裡的Server。架構設計上，我們有二個選擇，一個是實作Android Service、再透過JNI與HAL stub溝通；另一個選擇是，跳過Android Service，讓Application（Manager API）直接與Native Service溝通。”
 
 Jollen在這段話裡，明顯地提到兩種服務：Android Service和Native Service。然而，他又提到：“與應用程式設計上所討論的Service（android.app.Service）不同。”這種android.app.Service就是一般通稱的APP Service或SDK Service了。所以Jollen提到三種服務：1)SDK Service、2)Android Service和3)Native Service。其關係如下圖：
+
 ![images](images/19010401_5dZI.jpg)
+
 圖1、三種Service
 
 
@@ -32,7 +34,8 @@ Jollen在這段話裡，明顯地提到兩種服務：Android Service和Native S
 Service在Android框架裡的角色是「存取底層硬體」，往上層的話，可以和應用程式溝通。因此，採用標準的Service做法，好處是在資料存取（datacommunication）的處理較為系統化。這方面，Android提供了標準的處理架構，後續再進行討論。圖上的「corelibraries」即是Service程式碼的實作，也就是，Android應用程式透過JNI（Dalvik）來到Service這一層，再透過Service載入*.so檔；而非標準做法則是讓應用程式直接透過JNI來載入*.so檔。”
 
 ### 非標準做法
-其中，非標準做法：讓應用程式直接透過JNI來載入*.so檔。其架構如下圖：
+其中，非標準做法：讓應用程式直接透過JNI來載入*.so檔。其架構如下圖:
+
 ![images](images/19010401_twCZ.jpg)
 
 圖2、非標準做法
@@ -40,12 +43,11 @@ Service在Android框架裡的角色是「存取底層硬體」，往上層的話
 
 ### 標準做法
 至於Jollen所說的標準做法：
-“Android應用程式透過JNI（Dalvik）來到Service這一層，再透過Service載入*.so檔；”
-其架構如下圖：
+“Android應用程式透過JNI（Dalvik）來到Service這一層，再透過Service載入*.so檔；”其架構如下
+
 ![images](images/19010401_6f6I.jpg)
+
 圖3、標準做法
-
-
 
 ### Ｎative做法
 以上兩種做法，都是可行的。此外，還有另一種更具彈性的做法，就是採取Native Service途徑。就如Jollen最近（2011/1/3）更進一步說明Native Service扮演更重要的角色：
@@ -56,7 +58,9 @@ Service在Android框架裡的角色是「存取底層硬體」，往上層的話
 
 
 將Java的SensorService 改寫成C++的 Native Service 形式，其新的架構將更改如下圖：
+
 ![images](images/19010401_0m3v.jpg)
+
 圖4、Native Service做法
 此種Native Service做法並不是新做法，其實自從Android問市以來，MediaPlayerService和CameraService等即是採取Native Service做法了。無論哪一種做法，JNI Native Code都扮演重要角色
 

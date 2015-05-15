@@ -81,7 +81,7 @@ class MyThread implements Runnable
 
 ```
 
-但是在使用Runnable定義的子類中沒有start()方法，只有Thread類中才有。此時觀察Thread類，有一個構造方法：public Thread(Runnable targer)此構造方法接受Runnable的子類實例，也就是說可以通過Thread類來啟動Runnable實現的多線程。（start()可以協調系統的資源）：
+但是在使用Runnable定義的子類中沒有start()方法，只有Thread類中纔有。此時觀察Thread類，有一個構造方法：public Thread(Runnable targer)此構造方法接受Runnable的子類實例，也就是說可以通過Thread類來啟動Runnable實現的多線程。（start()可以協調系統的資源）：
 
 ```
 package org.runnable.demo;
@@ -177,7 +177,7 @@ public class Thread extends Object implements Runnable
 
 第二：
 
-Thread是系統給你的資源，有了Thread你才有從CPU那裡得到可執行時間片的權力， Thread並不認識你的程序，不知道有test 這樣的類，因為編序員有千千萬，每個人命名都不一樣，想要做的事都不一樣， 所以 Thread只認識一個！ 那就是Runnable 。 Thread認識Runnable 並且知道Runnable 裡面有一個run方法. 一旦調用Thread的start方法，Runnable 方法裡的run就會被Thread自動運行。 所以，當我們把我們的類繼承（這裡應該叫實現接口）自Runnable 的時候，我們的程序就是屬於Runnable 一個類型的了。 雖然是Runnable 的子類，但人家認識你爸爸，當然也知道了你。 Thread可以不管你內部有什麼情況，他只管你有run()方法就行了，他就調start讓你去運行run 所以我們在run裡面寫點東西，這樣就可以讓系統運行我們想要做的代碼了。 是不是很通俗很易懂呢？ 所以要運行線程的步驟是， 1。生成我們自己的類對象 2。從系統那裡得到Thread 3。讓Threa調我們的類對象，讓其start起來 代碼: test a=new test(); Thread thread=new Thread(a); //Thread需要一個參數，就是你編的線程類，這樣他就認識了你的線程，也有資格向系統申請拿到CPU時間片thread.start(); 你可以簡單點寫： new Thread(a).start();
+Thread是系統給你的資源，有了Thread你纔有從CPU那裡得到可執行時間片的權力， Thread並不認識你的程序，不知道有test 這樣的類，因為編序員有千千萬，每個人命名都不一樣，想要做的事都不一樣， 所以 Thread只認識一個！ 那就是Runnable 。 Thread認識Runnable 並且知道Runnable 裡面有一個run方法. 一旦調用Thread的start方法，Runnable 方法裡的run就會被Thread自動運行。 所以，當我們把我們的類繼承（這裡應該叫實現接口）自Runnable 的時候，我們的程序就是屬於Runnable 一個類型的了。 雖然是Runnable 的子類，但人家認識你爸爸，當然也知道了你。 Thread可以不管你內部有什麼情況，他只管你有run()方法就行了，他就調start讓你去運行run 所以我們在run裡面寫點東西，這樣就可以讓系統運行我們想要做的代碼了。 是不是很通俗很易懂呢？ 所以要運行線程的步驟是， 1。生成我們自己的類對象 2。從系統那裡得到Thread 3。讓Threa調我們的類對象，讓其start起來 代碼: test a=new test(); Thread thread=new Thread(a); //Thread需要一個參數，就是你編的線程類，這樣他就認識了你的線程，也有資格向系統申請拿到CPU時間片thread.start(); 你可以簡單點寫： new Thread(a).start();
 
 第三：
 Runnable 並不一定是新開一個線程，比如下面的調用方法就是運行在UI主線程中的：

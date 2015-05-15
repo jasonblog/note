@@ -48,7 +48,7 @@ public class WalkseeService  extends Service
     {
         public WalkseeService getService()
         {
-            return WalkseeService.this;   //这里返回Service对象
+            return WalkseeService.this;   //這裏返回Service對象
         }
     }
 

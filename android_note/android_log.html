@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
-        <title>objdump 二進制文件分析 | Jason note</title>
+        <title>Android 各層中日誌打印功能的應用 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.0.1">
@@ -20,10 +20,8 @@
         
     
     
-    <link rel="next" href="../linux_tools/nm.html" />
     
-    
-    <link rel="prev" href="../linux_tools/readelf.html" />
+    <link rel="prev" href="../android_note/handler_message_looper_messagequeue.html" />
     
 
         
@@ -36,7 +34,7 @@
     
 
         
-    <div class="book" data-level="3.3.14" data-basepath=".." data-revision="Sat May 16 2015 08:54:28 GMT+0800 (CST)">
+    <div class="book" data-level="5.6" data-basepath=".." data-revision="Sat May 16 2015 08:54:28 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -602,7 +600,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="3.3.14" data-path="linux_tools/objdump.html">
+        <li class="chapter " data-level="3.3.14" data-path="linux_tools/objdump.html">
             
                 
                     <a href="../linux_tools/objdump.html">
@@ -808,7 +806,7 @@
             
         </li>
     
-        <li class="chapter " data-level="5.6" data-path="android_note/android_log.html">
+        <li class="chapter active" data-level="5.6" data-path="android_note/android_log.html">
             
                 
                     <a href="../android_note/android_log.html">
@@ -931,29 +929,184 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="objdump-%E4%BA%8C%E9%80%B2%E5%88%B6%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90">objdump &#x4E8C;&#x9032;&#x5236;&#x6587;&#x4EF6;&#x5206;&#x6790;</h1>
-<p>objdump&#x5DE5;&#x5177;&#x7528;&#x4F86;&#x986F;&#x793A;&#x4E8C;&#x9032;&#x5236;&#x6587;&#x4EF6;&#x7684;&#x4FE1;&#x606F;&#xFF0C;&#x5C31;&#x662F;&#x4EE5;&#x4E00;&#x7A2E;&#x53EF;&#x95B1;&#x8B80;&#x7684;&#x683C;&#x5F0F;&#x8B93;&#x4F60;&#x66F4;&#x591A;&#x5730;&#x77AD;&#x89E3;&#x4E8C;&#x9032;&#x5236;&#x6587;&#x4EF6;&#x53EF;&#x80FD;&#x5E36;&#x6709;&#x7684;&#x9644;&#x52A0;&#x4FE1;&#x606F;&#x3002;</p>
-<h3 id="14-1-%E5%B8%B8%E7%94%A8%E5%8F%83%E6%95%B8%E8%AA%AA%E6%98%8E">14.1. &#x5E38;&#x7528;&#x53C3;&#x6578;&#x8AAA;&#x660E;</h3>
-<ul>
-<li>-f &#x986F;&#x793A;&#x6587;&#x4EF6;&#x982D;&#x4FE1;&#x606F;</li>
-<li>-D &#x53CD;&#x5F59;&#x7DE8;&#x6240;&#x6709;section (-d&#x53CD;&#x5F59;&#x7DE8;&#x7279;&#x5B9A;section)</li>
-<li>-h &#x986F;&#x793A;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#x5404;&#x500B;section&#x7684;&#x982D;&#x90E8;&#x6458;&#x8981;&#x4FE1;&#x606F;</li>
-<li>-x &#x986F;&#x793A;&#x6240;&#x6709;&#x53EF;&#x7528;&#x7684;&#x982D;&#x4FE1;&#x606F;&#xFF0C;&#x5305;&#x62EC;&#x7B26;&#x865F;&#x8868;&#x3001;&#x91CD;&#x5B9A;&#x4F4D;&#x5165;&#x53E3;&#x3002;-x &#x7B49;&#x50F9;&#x65BC; -a -f -h -r -t &#x540C;&#x6642;&#x6307;&#x5B9A;&#x3002;</li>
-<li>-i &#x986F;&#x793A;&#x5C0D;&#x65BC; -b &#x6216;&#x8005; -m &#x9078;&#x9805;&#x53EF;&#x7528;&#x7684;&#x67B6;&#x69CB;&#x548C;&#x76EE;&#x6A19;&#x683C;&#x5F0F;&#x5217;&#x8868;&#x3002;</li>
-<li>-r &#x986F;&#x793A;&#x6587;&#x4EF6;&#x7684;&#x91CD;&#x5B9A;&#x4F4D;&#x5165;&#x53E3;&#x3002;&#x5982;&#x679C;&#x548C;-d&#x6216;&#x8005;-D&#x4E00;&#x8D77;&#x4F7F;&#x7528;&#xFF0C;&#x91CD;&#x5B9A;&#x4F4D;&#x90E8;&#x5206;&#x4EE5;&#x53CD;&#x5F59;&#x7DE8;&#x5F8C;&#x7684;&#x683C;&#x5F0F;&#x986F;&#x793A;&#x51FA;&#x4F86;&#x3002;</li>
-<li>-R &#x986F;&#x793A;&#x6587;&#x4EF6;&#x7684;&#x52D5;&#x614B;&#x91CD;&#x5B9A;&#x4F4D;&#x5165;&#x53E3;&#xFF0C;&#x50C5;&#x50C5;&#x5C0D;&#x65BC;&#x52D5;&#x614B;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#x6709;&#x610F;&#x7FA9;&#xFF0C;&#x6BD4;&#x5982;&#x67D0;&#x4E9B;&#x5171;&#x4EAB;&#x5EAB;&#x3002;</li>
-<li>-S &#x5118;&#x53EF;&#x80FD;&#x53CD;&#x532F;&#x7DE8;&#x51FA;&#x6E90;&#x4EE3;&#x78BC;&#xFF0C;&#x5C24;&#x5176;&#x7576;&#x7DE8;&#x8B6F;&#x7684;&#x6642;&#x5019;&#x6307;&#x5B9A;&#x4E86;-g&#x9019;&#x7A2E;&#x8ABF;&#x8A66;&#x53C3;&#x6578;&#x6642;&#xFF0C;&#x6548;&#x679C;&#x6BD4;&#x8F03;&#x660E;&#x986F;&#x3002;&#x96B1;&#x542B;&#x4E86;-d&#x53C3;&#x6578;&#x3002;</li>
-<li>-t &#x986F;&#x793A;&#x6587;&#x4EF6;&#x7684;&#x7B26;&#x865F;&#x8868;&#x5165;&#x53E3;&#x3002;&#x985E;&#x4F3C;&#x65BC;nm -s&#x63D0;&#x4F9B;&#x7684;&#x4FE1;&#x606F;</li>
-</ul>
-<h3 id="14-2-%E7%A4%BA%E4%BE%8B">14.2. &#x793A;&#x4F8B;</h3>
-<p>&#x67E5;&#x770B;&#x672C;&#x6A5F;&#x76EE;&#x6A19;&#x7D50;&#x69CB;&#xFF08;&#x4F7F;&#x7528;&#x5927;&#x7AEF;&#x9084;&#x662F;&#x5C0F;&#x7AEF;&#x5B58;&#x5132;&#xFF09;:</p>
-<pre><code>$objdump -i
-</code></pre><p>&#x53CD;&#x5F59;&#x7DE8;&#x7A0B;&#x5E8F;:</p>
-<pre><code>$objdump -d main.o
-</code></pre><p>&#x986F;&#x793A;&#x7B26;&#x865F;&#x8868;&#x5165;&#x53E3;:</p>
-<pre><code>$objdump  -t main.o
-</code></pre><p>&#x5E0C;&#x671B;&#x986F;&#x793A;&#x53EF;&#x7528;&#x7684;&#x7C21;&#x6F54;&#x5E6B;&#x52A9;&#x4FE1;&#x606F;&#xFF0C;&#x76F4;&#x63A5;&#x8F38;&#x5165;objdump&#x5373;&#x53EF;&#xFF1B;&#xFF08;objdump -H)</p>
+                        <h1 id="android-%E5%90%84%E5%B1%A4%E4%B8%AD%E6%97%A5%E8%AA%8C%E6%89%93%E5%8D%B0%E5%8A%9F%E8%83%BD%E7%9A%84%E6%87%89%E7%94%A8">Android &#x5404;&#x5C64;&#x4E2D;&#x65E5;&#x8A8C;&#x6253;&#x5370;&#x529F;&#x80FD;&#x7684;&#x61C9;&#x7528;</h1>
+<h3 id="1-hal%E5%B1%A4">1. HAL&#x5C64;</h3>
+<pre><code>&#x982D;&#x6587;&#x4EF6;&#xFF1A;
+#include &lt;utils/Log.h&gt;
 
+&#x5C0D;&#x61C9;&#x7684;&#x7D1A;&#x5225; &#x6253;&#x5370;&#x65B9;&#x6CD5;
+VERBOSE LOGV()
+DEBUG LOGD()
+INFO LOGI()
+WARN LOGW()
+ERROR LOGE()
+
+&#x65B9;&#x6CD5;&#xFF1A;
+LOGD(&quot;%d, %s&quot;, int, char* )
+</code></pre><h3 id="2-jni%E5%B1%A4">2. JNI&#x5C64;</h3>
+<pre><code>&#x982D;&#x6587;&#x4EF6;&#xFF1A;
+#include &lt;utils/Log.h&gt;
+
+&#x5C0D;&#x61C9;&#x7684;&#x7D1A;&#x5225; &#x6253;&#x5370;&#x65B9;&#x6CD5;
+VERBOSE LOGV()
+DEBUG LOGD()
+INFO LOGI()
+WARN LOGW()
+ERROR LOGE()
+
+&#x65B9;&#x6CD5;&#xFF1A;
+LOGD(&quot;%d, %s&quot;, int, char* )
+</code></pre><h3 id="3-framework%E5%B1%A4">3. FRAMEWORK&#x5C64;</h3>
+<pre><code>import android.util.Slog;
+
+&#x5C0D;&#x61C9;&#x7684;&#x7D1A;&#x5225; &#x6253;&#x5370;&#x65B9;&#x6CD5;
+VERBOSE Slog.v()
+DEBUG Slog.d()
+INFO Slog.i()
+WARN Slog.w()
+ERROR Slog.e()
+
+&#x65B9;&#x6CD5;&#xFF1A;
+Slog.d(TAG, &quot;something to say.&quot;);
+</code></pre><h3 id="4-java%E5%B1%A4">4. JAVA&#x5C64;</h3>
+<pre><code>import android.util.Log;
+
+&#x5C0D;&#x61C9;&#x7684;&#x7D1A;&#x5225; &#x6253;&#x5370;&#x65B9;&#x6CD5;
+VERBOSE Log.v()
+DEBUG Log.d()
+INFO Log.i()
+WARN Log.w()
+ERROR Log.e()
+
+&#x65B9;&#x6CD5;&#xFF1A;
+Log.d(TAG, &quot;something to say.&quot;);
+</code></pre><h3 id="java%E6%89%93%E5%8D%B0%E6%96%87%E4%BB%B6%E5%90%8D%E3%80%81%E5%87%BD%E6%95%B8%E5%90%8D%E3%80%81%E8%A1%8C%E8%99%9F">Java&#x6253;&#x5370;&#x6587;&#x4EF6;&#x540D;&#x3001;&#x51FD;&#x6578;&#x540D;&#x3001;&#x884C;&#x865F;</h3>
+<pre><code>Log.d(TAG, new Exception().getStackTrace()[0].getMethodName()); //&#x51FD;&#x6578;&#x540D;
+Log.d(TAG,
+      Thread.currentThread().getStackTrace()[2].getMethodName()); //&#x51FD;&#x6578;&#x540D;
+Log.d(TAG, &quot;&quot; +
+      Thread.currentThread().getStackTrace()[2].getLineNumber()); //&#x884C;&#x865F;
+Log.d(TAG, Thread.currentThread().getStackTrace()[2].getFileName()); //&#x6587;&#x4EF6;&#x540D;
+
+Log.d(TAG, &quot;[&quot; + Thread.currentThread().getStackTrace()[2].getFileName()
+      + &quot;,&quot; + Thread.currentThread().getStackTrace()[2].getLineNumber() +
+      &quot;]&quot;); //&#x6587;&#x4EF6;&#x540D;+&#x884C;&#x865F;
+</code></pre><h3 id="java-%E7%8D%B2%E5%8F%96%E9%A1%9E%E5%90%8D%EF%BC%8C%E5%87%BD%E6%95%B8%E5%90%8D">JAVA &#x7372;&#x53D6;&#x985E;&#x540D;&#xFF0C;&#x51FD;&#x6578;&#x540D;</h3>
+<h3 id="%E7%8D%B2%E5%8F%96%E4%BB%A5%E4%B8%8B%E7%8D%B2%E5%8F%96%E6%96%B9%E6%B3%95%E6%89%80%E5%9C%A8%E5%87%BD%E6%95%B8%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BF%A1%E6%81%AF">&#x7372;&#x53D6;&#x4EE5;&#x4E0B;&#x7372;&#x53D6;&#x65B9;&#x6CD5;&#x6240;&#x5728;&#x51FD;&#x6578;&#x7684;&#x76F8;&#x95DC;&#x4FE1;&#x606F;</h3>
+<ul>
+<li>1.&#x7372;&#x53D6;&#x7576;&#x524D;&#x51FD;&#x6578;&#x540D;&#xFF1A;Thread.currentThread().getStackTrace()[1].getMethodName();</li>
+<li>2.&#x7372;&#x53D6;&#x7576;&#x524D;&#x985E;&#x540D;&#xFF1A;Thread.currentThread().getStackTrace()[1].getClassName();</li>
+<li>3.&#x7372;&#x53D6;&#x7576;&#x524D;&#x985E;&#x7684;&#x6587;&#x4EF6;&#x540D;&#xFF1A;Thread.currentThread().getStackTrace()[1].getFileName();</li>
+</ul>
+<h3 id="%E7%8D%B2%E5%8F%96%E8%AA%BF%E7%94%A8%E6%96%B9%E6%B3%95%E7%9A%84%E6%89%80%E5%9C%A8%E5%87%BD%E6%95%B8%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BF%A1%E6%81%AF">&#x7372;&#x53D6;&#x8ABF;&#x7528;&#x65B9;&#x6CD5;&#x7684;&#x6240;&#x5728;&#x51FD;&#x6578;&#x7684;&#x76F8;&#x95DC;&#x4FE1;&#x606F;</h3>
+<ul>
+<li>1.&#x7372;&#x53D6;&#x7576;&#x524D;&#x51FD;&#x6578;&#x540D;&#xFF1A;Thread.currentThread().getStackTrace()[2].getMethodName();</li>
+<li>2.&#x7372;&#x53D6;&#x7576;&#x524D;&#x985E;&#x540D;&#xFF1A;Thread.currentThread().getStackTrace()[2].getClassName();</li>
+<li>3.&#x7372;&#x53D6;&#x7576;&#x524D;&#x985E;&#x7684;&#x6587;&#x4EF6;&#x540D;&#xFF1A;Thread.currentThread().getStackTrace()[2].getFileName();</li>
+</ul>
+<h3 id="demo-%E9%80%99%E6%98%AF%E7%8D%B2%E5%8F%96%E6%96%B9%E6%B3%95">Demo:&#x9019;&#x662F;&#x7372;&#x53D6;&#x65B9;&#x6CD5;</h3>
+<pre><code>public class NameProxy
+{
+
+    public static void nowMethod()
+    {
+        String clazz = Thread.currentThread().getStackTrace()[1].getClassName();
+        String method = Thread.currentThread().getStackTrace()[1]
+                        .getMethodName();
+        System.out.println(&quot;class name: &quot; + clazz + &quot; Method Name &quot; + method);
+    }
+
+    public static void parentMethod()
+    {
+        String clazz = Thread.currentThread().getStackTrace()[2].getClassName();
+        String method = Thread.currentThread().getStackTrace()[2]
+                        .getMethodName();
+        System.out.println(&quot;class name: &quot; + clazz + &quot; Method Name &quot; + method);
+    }
+
+}
+</code></pre><h3 id="test">Test:</h3>
+<pre><code>public class MethodName
+{
+    @Test
+    public void showMethodName()
+    {
+        LogProxyName.nowMethod();
+        LogProxyName.parentMethod();
+    }
+}
+</code></pre><h3 id="%E9%A1%AF%E7%A4%BA%E7%B5%90%E6%9E%9C%EF%BC%9A">&#x986F;&#x793A;&#x7D50;&#x679C;&#xFF1A;</h3>
+<pre><code>1 class name: com.XXX.name.NameProxy Method Name nowMethod
+2 class name: com.XXX.name.MethodName Method Name showMethodName
+</code></pre><h3 id="insert-log">insert_log</h3>
+<ul>
+<li>find . -name &apos;*.java&apos; -exec python test.py {} \;</li>
+<li>python test.py  xxxx.java</li>
+</ul>
+<pre><code>#! /usr/bin/python
+# -*- coding: utf-8 -*-
+import os
+import sys
+
+def InsertToFunc(lines, funcLines, FileName):
+    #print lines
+    #print funcLines
+
+    for i in funcLines:
+        for j in range(i-1, len(lines)):
+            if str(lines[j]).find(&apos;;&apos;) != -1:
+                break
+
+            if str(lines[j]).find(&apos;{&apos;) != -1:
+                if str(lines[j]).find(&apos;}&apos;) != -1:
+                    break
+
+                if str(FileName).find(&apos;.java&apos;) != -1:
+                    lines.insert(j+1, &apos;\tSlog.d(Thread.currentThread().getStackTrace()[2].getClassName(), &quot;YAO [&quot;+ Thread.currentThread().getStackTrace()[2].getMethodName() +&quot; | &quot;+Thread.currentThread().getStackTrace()[2].getFileName()+&quot;:&quot;+Thread.currentThread().getStackTrace()[2].getLineNumber()+&quot;]&quot;);\n&apos;);
+                elif str(FileName).find(&apos;.cpp&apos;) != -1 or str(FileName).find(&apos;.c&apos;) != -1:
+                    lines.insert(j+1, &apos;\t::printf (&quot;This is line %d of file %s (function %s)\\n&quot;, __LINE__, __FILE__, __func__);\n&apos;)
+
+                break
+    return lines
+
+def main():
+    FileName = sys.argv[1]
+    print FileName
+
+    if str(FileName).find(&apos;.java&apos;) != -1:
+        os.system(&quot;ctags-exuberant -x &quot; + FileName + &quot; | ack -o -w &apos;method\s+.*&apos; | ack -o &apos;\d+\s+.*&apos; | ack -o &apos;^\d+\s+&apos; | sort -k 1 -nr &gt; /tmp/test.txt&quot;)
+    elif str(FileName).find(&apos;.cpp&apos;) != -1 or str(FileName).find(&apos;.c&apos;) != -1:
+        os.system(&quot;ctags-exuberant -x &quot; + FileName + &quot; | ack -o -w &apos;function\s+.*&apos; | ack -o &apos;\d+\s+.*&apos; | ack -o &apos;^\d+\s+&apos; | sort -k 1 -nr &gt; /tmp/test.txt&quot;)
+    else:
+        print &apos;noknow type&apos;
+        sys.exit(0)
+
+    f = open(&apos;/tmp/test.txt&apos;, &apos;r+&apos;)
+    #funcLines = map(int, funcLines)
+    funcLines = [int(i)for i in f.read().splitlines()]
+    f.close()
+
+    f = open(str(FileName), &apos;r+&apos;)
+    lines = [i for i in f.read().splitlines()]
+    f.close()
+
+    InsertListfinish = InsertToFunc(lines, funcLines, FileName)
+
+    newfile = open(str(FileName), &quot;w+&quot;)
+    newfile.truncate()
+
+    for l in InsertListfinish:
+        newfile.write(l + &apos;\n&apos;)
+
+    newfile.close()
+
+if __name__==&apos;__main__&apos;:
+    if len(sys.argv) &gt; 1:
+        main()
+    else:
+        pass
+        print &quot;please input python test.py filename&quot;
+</code></pre>
                     
                     </section>
                 
@@ -963,10 +1116,8 @@
         </div>
 
         
-        <a href="../linux_tools/readelf.html" class="navigation navigation-prev " aria-label="Previous page: readelf elf文件格式分析"><i class="fa fa-angle-left"></i></a>
+        <a href="../android_note/handler_message_looper_messagequeue.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: Handler, Message, Looper, MessageQueue"><i class="fa fa-angle-left"></i></a>
         
-        
-        <a href="../linux_tools/nm.html" class="navigation navigation-next " aria-label="Next page: nm 目標文件格式分析"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

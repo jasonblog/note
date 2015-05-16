@@ -20,6 +20,8 @@
         
     
     
+    <link rel="next" href="../android_note/android_log.html" />
+    
     
     <link rel="prev" href="../android_note/android_service_native_service.html" />
     
@@ -34,7 +36,7 @@
     
 
         
-    <div class="book" data-level="5.5" data-basepath=".." data-revision="Fri May 15 2015 23:46:53 GMT+0800 (CST)">
+    <div class="book" data-level="5.5" data-basepath=".." data-revision="Sat May 16 2015 08:54:28 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -806,6 +808,21 @@
             
         </li>
     
+        <li class="chapter " data-level="5.6" data-path="android_note/android_log.html">
+            
+                
+                    <a href="../android_note/android_log.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.6.</b>
+                        
+                        Android 各層中日誌打印功能的應用
+                    </a>
+                
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -916,11 +933,11 @@
                     
                         <h1 id="handler-message-looper-messagequeue">Handler, Message, Looper, MessageQueue</h1>
 <p>Handler, Message, Looper, MessageQueue &#x662F; android.os &#x4E2D;&#x7684;class
-&#x4E5F;&#x662F;&#x6DF1;&#x5EA6;&#x958B;&#x767C; Application &#x6642;&#xFF0C;&#x5FC5;&#x9808;&#x5177;&#x5099;&#x7684;&#x57FA;&#x672C;&#x89C0;&#x5FF5;&#xFF0C;&#x82E5;&#x6E05;&#x695A;&#x4E86;&#x89E3;&#xFF0C;
+&#x4E5F;&#x662F;&#x6DF1;&#x5EA6;&#x958B;&#x767C; Application &#x6642;&#xFF0C;&#x5FC5;&#x9808;&#x5177;&#x5099;&#x7684;&#x57FA;&#x672C;&#x89C0;&#x5FF5;&#xFF0C;&#x82E5;&#x6E05;&#x695A;&#x77AD;&#x89E3;&#xFF0C;
 &#x4FBF;&#x53EF;&#x904B;&#x7528;&#x7684;&#x7576;&#x3002;</p>
 <p>&#x56E0;&#x70BA;&#x7DB2;&#x8DEF;&#x6709;&#x592A;&#x591A;&#x6A21;&#x7CCA;&#x4E0D;&#x6E05;&#x7684;&#x6587;&#x7AE0;&#xFF0C;&#x5927;&#x5BB6;&#x8AAA;&#x6CD5;&#x770B;&#x8D77;&#x4F86;&#x4E5F;&#x90FD;&#x4E0D;&#x592A;&#x4E00;&#x6A23;&#xFF0C;
 &#x5F88;&#x5BB9;&#x6613;&#x8B93;&#x4EBA;&#x731C;&#x6771;&#x731C;&#x897F;&#xFF0C;&#x60F3;&#x6771;&#x60F3;&#x897F;&#x7684;&#x3002;&#x81F3;&#x65BC;&#xFF0C;&#x4E0D;&#x60F3;&#x778E;&#x731C;&#x7684;&#x8A71;&#xFF0C;&#x5C31;&#x4E0D;&#x5982;&#x76F4;&#x63A5;&#x628A;source code&#x90FD;&#x8B80;&#x61C2;&#x5427;&#x3002;</p>
-<p>&#x56E0;&#x6B64;&#x672C;&#x7BC7;&#x6587;&#x7AE0;&#xFF0C;&#x76EE;&#x5730;&#x5728;&#x65BC;&#xFF0C;&#x5FEB;&#x901F;&#x5F15;&#x5C0E;&#x5927;&#x5BB6;&#x5FEB;&#x901F;&#x300C;&#x6B63;&#x78BA;&#x300D;&#x7684;&#x4E86;&#x89E3;&#xFF0C;&#x91CD;&#x9EDE;&#x5728;&#x65BC;&#x300C;&#x6B63;&#x78BA;&#x6027;&#x300D;
+<p>&#x56E0;&#x6B64;&#x672C;&#x7BC7;&#x6587;&#x7AE0;&#xFF0C;&#x76EE;&#x5730;&#x5728;&#x65BC;&#xFF0C;&#x5FEB;&#x901F;&#x5F15;&#x5C0E;&#x5927;&#x5BB6;&#x5FEB;&#x901F;&#x300C;&#x6B63;&#x78BA;&#x300D;&#x7684;&#x77AD;&#x89E3;&#xFF0C;&#x91CD;&#x9EDE;&#x5728;&#x65BC;&#x300C;&#x6B63;&#x78BA;&#x6027;&#x300D;
 &#x4E26;&#x4E14;&#x900F;&#x904E;&#x975C;&#x614B; trace code  &#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x8DDF;&#x5927;&#x5BB6;&#x89E3;&#x91CB;&#x5B83; source code &#x7684;&#x904B;&#x4F5C;&#x539F;&#x7406;&#x3002;</p>
 <p>&#x56E0;&#x6B64;&#xFF0C;&#x5C0D;&#x65BC;&#x56DB;&#x500B; class&#x6C92;&#x4FE1;&#x5FC3;&#x7684;&#x6642;&#x5019;&#xFF0C;
 &#x5C31;&#x76F4;&#x63A5;&#x5C07;&#x6587;&#x7AE0;&#x770B;&#x4E0B;&#x53BB;&#xFF0C;&#x6587;&#x7AE0;&#x6703;&#x5B8C;&#x6574;&#x4EA4;&#x4EE3; trace source code&#x7684;&#x90E8;&#x4EFD;&#x3002;</p>
@@ -939,7 +956,7 @@ Activity &#x7684;&#x756B;&#x9762;&#x986F;&#x793A;&#x662F;&#x7531; UI Thread&#x62
 &#x4F46;&#x662F;&#x540C;&#x6642;&#x6709;&#x591A;&#x689D; thread &#x4E0D;&#x65B7;&#x7684;&#x5728;&#x7CFB;&#x7D71;&#x4E2D;&#x50B3;&#x905E; Message &#x90A3;&#x9EBC;&#x5982;&#x4F55;&#x7DE9;&#x885D;&#x5462; ?</p>
 </li>
 <li><p>MessageQueue &#x7684;&#x76EE;&#x5730;&#xFF0C;&#x662F;&#x70BA;&#x4E86;&#x8B93; Message &#x80FD;&#x5920;&#x4F5C;&#x7DE9;&#x885D;&#xFF0C;&#x597D;&#x8B93;Message&#x5148;&#x66AB;&#x5B58;&#x8D77;&#x4F86;&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x7576;Message &#x5DF2;&#x7D93;&#x88AB;&#x653E;&#x5728;&#x5176;&#x5B83; Thread&#x4E0A;&#x7684;MessageQueue &#x4E4B;&#x5F8C;,
-&#x5B83;&#x88E1;&#x9762;&#x5305;&#x8457; Handler,&#x800C; Handler&#x4E0A;&#x7684; callback function &#x7E3D;&#x5F97;&#x6709;&#x4EBA;&#x4F86;&#x57F7;&#x884C;&#x5427; ??</p>
+&#x5B83;&#x88E1;&#x9EAA;&#x5305;&#x8457; Handler,&#x800C; Handler&#x4E0A;&#x7684; callback function &#x7E3D;&#x5F97;&#x6709;&#x4EBA;&#x4F86;&#x57F7;&#x884C;&#x5427; ??</p>
 </li>
 <li><p>Looper &#x7684;&#x76EE;&#x5730; &#xFF1A;
 &#x5C31;&#x662F;&#x70BA;&#x4E86;&#x5C07; Message &#x7531; Thread &#x6240;&#x5C0D;&#x61C9;&#x7684; MessageQueue &#x53D6;&#x51FA;&#x4F86;&#xFF0C;&#x4E26;&#x4E14;&#x62FF;&#x51FA; Handler
@@ -948,7 +965,7 @@ Activity &#x7684;&#x756B;&#x9762;&#x986F;&#x793A;&#x662F;&#x7531; UI Thread&#x62
 </ul>
 <p>&#x7576; Looper.java &#x4E2D;&#x7684; loop() &#x88AB;&#x547C;&#x53EB;&#x8D77;&#x4F86;&#x4E4B;&#x5F8C;&#xFF0C;&#x5B83;&#x5C31;&#x662F;&#x5728;&#x53CD;&#x8986;&#x4F5C;&#x9019;&#x4EF6;&#x4E8B;
 &#x4E0D;&#x65B7;&#x5C07;Handler&#x7531;Message&#x62C6;&#x5305;&#x51FA;&#x4F86;&#xFF0C;&#x4E26;&#x4E14;&#x57F7;&#x884C;Handler&#x4E0A;&#x7684;callback function&#x3002;</p>
-<p>&#x4EE5;&#x4E0A;&#xFF0C;&#x5DF2;&#x7D93;&#x5C07;&#x9019;&#x56DB;&#x500B;class&#x7684;&#x95DC;&#x4FC2;&#x5B8C;&#x6574;&#x8AAA;&#x660E;&#x4E86;&#x3002;&#x770B;&#x5230;&#x9019;&#x908A;&#x60A8;&#x9084;&#x6709;&#x7591;&#x616E;&#x55CE; ?
+<p>&#x4EE5;&#x4E0A;&#xFF0C;&#x5DF2;&#x7D93;&#x5C07;&#x9019;&#x56DB;&#x500B;class&#x7684;&#x95DC;&#x4FC2;&#x5B8C;&#x6574;&#x8AAA;&#x660E;&#x77AD;&#x3002;&#x770B;&#x5230;&#x9019;&#x908A;&#x60A8;&#x9084;&#x6709;&#x7591;&#x616E;&#x55CE; ?
 &#x63A5;&#x4E0B;&#x4F86;&#x5C0F;&#x5F1F;&#x5C31;&#x76F4;&#x63A5;&#x8B1B; trace source &#x7684;&#x90E8;&#x4EFD;&#xFF0C;
 &#x6559;&#x4F60;&#x5FEB;&#x901F; trace &#x61C2;&#x9019;&#x4E9B; code&#xFF0C;&#x8FC5;&#x901F;&#x9A57;&#x8B49;&#x51FA;&#x9019;&#x56DB;&#x500B; class &#x7684;&#x7528;&#x9014;&#x3002;</p>
 <p><strong>&#x4EE5;&#x4E0B;&#x958B;&#x59CB; trace source code .. Follow Me ^<em>__</em>^</strong></p>
@@ -1091,8 +1108,10 @@ ha.mLooper = looper &#x4FBF;&#x88AB;&#x7D00;&#x9304;&#x4E0B;&#x4F86;&#xFF0C;&#x8
         </div>
 
         
-        <a href="../android_note/android_service_native_service.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: Android Service與Native Service"><i class="fa fa-angle-left"></i></a>
+        <a href="../android_note/android_service_native_service.html" class="navigation navigation-prev " aria-label="Previous page: Android Service與Native Service"><i class="fa fa-angle-left"></i></a>
         
+        
+        <a href="../android_note/android_log.html" class="navigation navigation-next " aria-label="Next page: Android 各層中日誌打印功能的應用"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

@@ -48,4 +48,5 @@
    * [Android中Handler Runnable與Thread的區別詳解](android_note/runnable_thread.md)
    * [Android Service與Native Service](android_note/android_service_native_service.md)
    * [Handler, Message, Looper, MessageQueue](android_note/handler_message_looper_messagequeue.md)
+   * [Android 各層中日誌打印功能的應用](android_note/android_log.md)
 

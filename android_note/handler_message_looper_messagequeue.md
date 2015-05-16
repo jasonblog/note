@@ -2,13 +2,13 @@
 
 
 Handler, Message, Looper, MessageQueue 是 android.os 中的class
-也是深度開發 Application 時，必須具備的基本觀念，若清楚了解，
+也是深度開發 Application 時，必須具備的基本觀念，若清楚瞭解，
 便可運用的當。
 
 因為網路有太多模糊不清的文章，大家說法看起來也都不太一樣，
 很容易讓人猜東猜西，想東想西的。至於，不想瞎猜的話，就不如直接把source code都讀懂吧。
 
-因此本篇文章，目地在於，快速引導大家快速「正確」的了解，重點在於「正確性」
+因此本篇文章，目地在於，快速引導大家快速「正確」的瞭解，重點在於「正確性」
 並且透過靜態 trace code  的方式，跟大家解釋它 source code 的運作原理。
 
 因此，對於四個 class沒信心的時候，
@@ -32,7 +32,7 @@ OK, 上面四個 class 的共同目地已經說明完畢了，那麼這四個 cl
 但是同時有多條 thread 不斷的在系統中傳遞 Message 那麼如何緩衝呢 ?
 
 - MessageQueue 的目地，是為了讓 Message 能夠作緩衝，好讓Message先暫存起來。因此，當Message 已經被放在其它 Thread上的MessageQueue 之後,
-它裡面包著 Handler,而 Handler上的 callback function 總得有人來執行吧 ??
+它裡麪包著 Handler,而 Handler上的 callback function 總得有人來執行吧 ??
 
 - Looper 的目地 ：
 就是為了將 Message 由 Thread 所對應的 MessageQueue 取出來，並且拿出 Handler
@@ -41,7 +41,7 @@ OK, 上面四個 class 的共同目地已經說明完畢了，那麼這四個 cl
 當 Looper.java 中的 loop() 被呼叫起來之後，它就是在反覆作這件事
 不斷將Handler由Message拆包出來，並且執行Handler上的callback function。
 
-以上，已經將這四個class的關係完整說明了。看到這邊您還有疑慮嗎 ?
+以上，已經將這四個class的關係完整說明瞭。看到這邊您還有疑慮嗎 ?
 接下來小弟就直接講 trace source 的部份，
 教你快速 trace 懂這些 code，迅速驗證出這四個 class 的用途。
 

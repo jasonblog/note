@@ -280,7 +280,7 @@ int main (int argc, char **argv)
 ```
 
 
-- 因为我基本上每次一开始都要执行threads变量，所以我在开始wile循环前加了一句话
+- 因爲我基本上每次一開始都要執行threads變量，所以我在開始wile循環前加了一句話
 
 ```
 else
@@ -301,7 +301,7 @@ all:
 clean:
 	rm -f jdbshell *.o
 ```
-- build/envsetup.sh 仿照gdbclient，在build/envsetup.sh中加入jdbclient函数
+- build/envsetup.sh 仿照gdbclient，在build/envsetup.sh中加入jdbclient函數
 
 ```
 function jdbclient()
@@ -348,25 +348,25 @@ export ANDROID_SRC=/opt/work/android/grepcode.com
 export ANDROID_SRC_PATH=$ANDROID_SRC/frameworks/base/opengl/java:$ANDROID_SRC/frameworks/base/awt/java:$ANDROID_SRC/frameworks/base/core/java:$ANDROID_SRC/frameworks/base/location/java:$ANDROID_SRC/frameworks/base/sax/java:$ANDROID_SRC/frameworks/base/graphics/java:$ANDROID_SRC/frameworks/base/telephony/java:$ANDROID_SRC/frameworks/base/services/java:$ANDROID_SRC/frameworks/base/media/java:$ANDROID_SRC/frameworks/base/wifi/java:$ANDROID_SRC/frameworks/base/im/java:$ANDROID_SRC/dalvik/libcore/suncompat/src/main/java:$ANDROID_SRC/dalvik/libcore/nio_char/src/main/java:$ANDROID_SRC/dalvik/libcore/nio_char/src/main/java/java:$ANDROID_SRC/dalvik/libcore/security-kernel/src/main/java:$ANDROID_SRC/dalvik/libcore/security-kernel/src/main/java/java:$ANDROID_SRC/dalvik/libcore/security/src/main/java:$ANDROID_SRC/dalvik/libcore/security/src/main/java/java:$ANDROID_SRC/dalvik/libcore/archive/src/main/java:$ANDROID_SRC/dalvik/libcore/archive/src/main/java/java:$ANDROID_SRC/dalvik/libcore/awt-kernel/src/main/java:$ANDROID_SRC/dalvik/libcore/awt-kernel/src/main/java/java:$ANDROID_SRC/dalvik/libcore/luni/src/main/java:$ANDROID_SRC/dalvik/libcore/luni/src/main/java/java:$ANDROID_SRC/dalvik/libcore/math/src/main/java:$ANDROID_SRC/dalvik/libcore/math/src/main/java/java:$ANDROID_SRC/dalvik/libcore/x-net/src/main/java:$ANDROID_SRC/dalvik/libcore/openssl/src/main/java:$ANDROID_SRC/dalvik/libcore/dalvik/src/main/java:$ANDROID_SRC/dalvik/libcore/auth/src/main/java:$ANDROID_SRC/dalvik/libcore/concurrent/src/main/java:$ANDROID_SRC/dalvik/libcore/concurrent/src/main/java/java:$ANDROID_SRC/dalvik/libcore/sql/src/main/java:$ANDROID_SRC/dalvik/libcore/sql/src/main/java/java:$ANDROID_SRC/dalvik/libcore/prefs/src/main/java:$ANDROID_SRC/dalvik/libcore/prefs/src/main/java/java:$ANDROID_SRC/dalvik/libcore/xml/src/main/java:$ANDROID_SRC/dalvik/libcore/text/src/main/java:$ANDROID_SRC/dalvik/libcore/text/src/main/java/java:$ANDROID_SRC/dalvik/libcore/luni-kernel/src/main/java:$ANDROID_SRC/dalvik/libcore/luni-kernel/src/main/java/java:$ANDROID_SRC/dalvik/libcore/regex/src/main/java:$ANDROID_SRC/dalvik/libcore/regex/src/main/java/java:$ANDROID_SRC/dalvik/libcore/nio/src/main/java:$ANDROID_SRC/dalvik/libcore/nio/src/main/java/java:$ANDROID_SRC/dalvik/libcore/json/src/main/java:$ANDROID_SRC/dalvik/libcore/crypto/src/main/java:$ANDROID_SRC/dalvik/libcore/icu/src/main/java:$ANDROID_SRC/dalvik/libcore/annotation/src/main/java:$ANDROID_SRC/dalvik/libcore/annotation/src/main/java/java:$ANDROID_SRC/dalvik/libcore/junit/src/main/java:$ANDROID_SRC/dalvik/libcore/logging/src/main/java:$ANDROID_SRC/dalvik/libcore/logging/src/main/java/java:$ANDROID_SRC/dalvik/libcore-disabled/instrument/src/main/java:$ANDROID_SRC/dalvik/libcore-disabled/instrument/src/main/java/java:$ANDROID_SRC/dalvik/libcore-disabled/sound/src/main/java
 ```
 
-- adb jdwp列出支持JDPW的进程ID
+- adb jdwp列出支持JDPW的進程ID
 
 ```
 adb jdwp
 ```
 
-- 启动android模拟器，运行浏览器
+- 啓動android模擬器，運行瀏覽器
 
 ```
-jdbclient packets/app/Browser/src/ :9000 browser 第一个参数是你要load进来的代码的地址，如果你要load多个代码（调试的时候可以看)，可以 export DEBUG_SRC_PATH= 然后jdbclient $DEBUG_SRC_PATH :9000 browser
+jdbclient packets/app/Browser/src/ :9000 browser 第一個參數是你要load進來的代碼的地址，如果你要load多個代碼（調試的時候可以看)，可以 export DEBUG_SRC_PATH= 然後jdbclient $DEBUG_SRC_PATH :9000 browser
 
-第二个参数是attach端口，如果9000有在用，可以用其他端口
-第三个参数是要调试的应用，脚本里面根据
-pid browser来取得进程id，所以你要保证
+第二個參數是attach端口，如果9000有在用，可以用其他端口
+第三個參數是要調試的應用，腳本裏面根據
+pid browser來取得進程id，所以你要保證
 adb shell ps |grep browser
-能够看到对应的进程
+能夠看到對應的進程
 ```
 
-- 用threads查询所有线程：
+- 用threads查詢所有線程：
 
 ```
 Set uncaught java.lang.Throwable
@@ -384,35 +384,35 @@ Group main:
 ```
 
 
-- 选择感兴趣的线程大部分应用跑在main线程里面，browser也不例外命令 thread 线程ID
+- 選擇感興趣的線程大部分應用跑在main線程裏面，browser也不例外命令 thread 線程ID
 
 ```
 thread 0xc14001f1a8
 <1> main[1]
 ```
 
-- 挂起线程命令 suspend 线程ID
+- 掛起線程命令 suspend 線程ID
 
 ```
 <1> main[1] suspend 0xc14001f1a8
 ```
 
 
-- 8)设置断点
+- 8)設置斷點
 命令：
 
 ```
-stop at <类>:<行号> 或
-stop in <类>.<方法名>[(参数类型,...)]
+stop at <類>:<行號> 或
+stop in <類>.<方法名>[(參數類型,...)]
 
 
 <1> main[1] stop at com.android.browser.BrowserActivity:2689
 Set breakpoint com.android.browser.BrowserActivity:2689
 
-这个地方要写类名稍微麻烦一点，哪位大虾可以转化成像gdb那样，直接文件名？
+這個地方要寫類名稍微麻煩一點，哪位大蝦可以轉化成像gdb那樣，直接文件名？
 ```
 
-- 9)继续执行
+- 9)繼續執行
 
 ```
 命令 c(ont)
@@ -422,9 +422,9 @@ Set breakpoint com.android.browser.BrowserActivity:2689
 ```
 
 
-- 10)点击网页中的某一个链接
-就会看到程序在BrowserActivty:2689(shouldOverideUrlLoading)处断住了
-此时可以看堆栈
+- 10)點擊網頁中的某一個鏈接
+就會看到程序在BrowserActivty:2689(shouldOverideUrlLoading)處斷住了
+此時可以看堆棧
 命令:bt/wherei
 
 ```
@@ -444,7 +444,7 @@ Set breakpoint com.android.browser.BrowserActivity:2689
 ```
 
 
-- 看代码命令:l(ist)
+- 看代碼命令:l(ist)
 
 ```
 <1> main[1] l
@@ -461,22 +461,22 @@ Set breakpoint com.android.browser.BrowserActivity:2689
 ```
 
 
-- 看变量命令:print
+- 看變量命令:print
 
 ```
 <1> main[1] print url
  url = "http://m.baidu.com/img?tn=bdidxiphone&ssid=0&from=844b&bd_page_type=1&uid=wiaui_1320452293_7438&pu=sz%401320_480&itj=41"
 
 
-继续执行
-s(tep) – 执行当前行
-step up – 执行到当前方法返回到其调用程序
-s(tep)i – 执行当前指令
-n(ext) – 跳过一行（跨过调用）
-c(ont) – 从断点处继续执行
+繼續執行
+s(tep) – 執行當前行
+step up – 執行到當前方法返回到其調用程序
+s(tep)i – 執行當前指令
+n(ext) – 跳過一行（跨過調用）
+c(ont) – 從斷點處繼續執行
 ```
 
-- 不说了，help是一种美德
+- 不說了，help是一種美德
 
 ```
 <1> main[1] help
@@ -592,7 +592,7 @@ Startup commands can be placed in either "jdb.ini" or ".jdbrc"
 in user.home or user.dir
 ```
 
-- 如果要看别名映射，在终端执行
+- 如果要看別名映射，在終端執行
 
 ```
 tom@tom-laptop:~/work/gingerbread$ jdbshell

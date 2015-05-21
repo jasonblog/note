@@ -52,4 +52,5 @@
    * [Handler, Message, Looper, MessageQueue](android_note/handler_message_looper_messagequeue.md)
    * [Android 各層中日誌打印功能的應用](android_note/android_log.md)
    * [Android指令和命令參數](android_note/android_command.md)
+   * [Android中進程與進程、線程與線程之間如何通信](android_note/prcess_thread_ipc.md)
 

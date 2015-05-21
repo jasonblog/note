@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
-        <title>sar 找出系統瓶頸的利器 | Jason note</title>
+        <title>Jdbshell | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.0.1">
@@ -20,10 +20,10 @@
         
     
     
-    <link rel="next" href="../linux_tools/readelf.html" />
+    <link rel="next" href="../bggdb/index.html" />
     
     
-    <link rel="prev" href="../linux_tools/iostat.html" />
+    <link rel="prev" href="../linux_tools/doxygen.html" />
     
 
         
@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="3.3.12" data-basepath=".." data-revision="Thu May 21 2015 22:12:18 GMT+0800 (CST)">
+    <div class="book" data-level="3.5" data-basepath=".." data-revision="Thu May 21 2015 22:12:18 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -572,7 +572,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="3.3.12" data-path="linux_tools/sar.html">
+        <li class="chapter " data-level="3.3.12" data-path="linux_tools/sar.html">
             
                 
                     <a href="../linux_tools/sar.html">
@@ -712,7 +712,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.5" data-path="linux_tools/jdbshell.html">
+        <li class="chapter active" data-level="3.5" data-path="linux_tools/jdbshell.html">
             
                 
                     <a href="../linux_tools/jdbshell.html">
@@ -976,97 +976,571 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="sar-%E6%89%BE%E5%87%BA%E7%B3%BB%E7%B5%B1%E7%93%B6%E9%A0%B8%E7%9A%84%E5%88%A9%E5%99%A8">sar &#x627E;&#x51FA;&#x7CFB;&#x7D71;&#x74F6;&#x9838;&#x7684;&#x5229;&#x5668;</h1>
-<p>sar&#x662F;System Activity Reporter&#xFF08;&#x7CFB;&#x7D71;&#x6D3B;&#x52D5;&#x60C5;&#x6CC1;&#x5831;&#x544A;&#xFF09;&#x7684;&#x7E2E;&#x5BEB;&#x3002;sar&#x5DE5;&#x5177;&#x5C07;&#x5C0D;&#x7CFB;&#x7D71;&#x7576;&#x524D;&#x7684;&#x72C0;&#x614B;&#x9032;&#x884C;&#x53D6;&#x6A23;&#xFF0C;&#x7136;&#x5F8C;&#x901A;&#x904E;&#x8A08;&#x7B97;&#x6578;&#x64DA;&#x548C;&#x6BD4;&#x4F8B;&#x4F86;&#x8868;&#x9054;&#x7CFB;&#x7D71;&#x7684;&#x7576;&#x524D;&#x904B;&#x884C;&#x72C0;&#x614B;&#x3002;&#x5B83;&#x7684;&#x7279;&#x9EDE;&#x662F;&#x53EF;&#x4EE5;&#x9023;&#x7E8C;&#x5C0D;&#x7CFB;&#x7D71;&#x53D6;&#x6A23;&#xFF0C;&#x7372;&#x5F97;&#x5927;&#x91CF;&#x7684;&#x53D6;&#x6A23;&#x6578;&#x64DA;&#xFF1B;&#x53D6;&#x6A23;&#x6578;&#x64DA;&#x548C;&#x5206;&#x6790;&#x7684;&#x7D50;&#x679C;&#x90FD;&#x53EF;&#x4EE5;&#x5B58;&#x5165;&#x6587;&#x4EF6;&#xFF0C;&#x6240;&#x9700;&#x7684;&#x8CA0;&#x8F09;&#x5F88;&#x5C0F;&#x3002;sar&#x662F;&#x76EE;&#x524D;Linux&#x4E0A;&#x6700;&#x7232;&#x5168;&#x9762;&#x7684;&#x7CFB;&#x7D71;&#x6027;&#x80FD;&#x5206;&#x6790;&#x5DE5;&#x5177;&#x4E4B;&#x4E00;&#xFF0C;&#x53EF;&#x4EE5;&#x5F9E;14&#x500B;&#x5927;&#x65B9;&#x9762;&#x5C0D;&#x7CFB;&#x7D71;&#x7684;&#x6D3B;&#x52D5;&#x9032;&#x884C;&#x5831;&#x544A;&#xFF0C;&#x5305;&#x62EC;&#x6587;&#x4EF6;&#x7684;&#x8B80;&#x5BEB;&#x60C5;&#x6CC1;&#x3001;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x7684;&#x4F7F;&#x7528;&#x60C5;&#x6CC1;&#x3001;&#x4E32;&#x53E3;&#x3001;CPU&#x6548;&#x7387;&#x3001;&#x5167;&#x5B58;&#x4F7F;&#x7528;&#x72C0;&#x6CC1;&#x3001;&#x9032;&#x7A0B;&#x6D3B;&#x52D5;&#x53CA;IPC&#x6709;&#x95DC;&#x7684;&#x6D3B;&#x52D5;&#x7B49;&#xFF0C;&#x4F7F;&#x7528;&#x4E5F;&#x662F;&#x8F03;&#x7232;&#x8907;&#x96DC;&#x3002;</p>
-<p>sar&#x662F;&#x67E5;&#x770B;&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x5831;&#x544A;&#x6307;&#x6A19;&#x7684;&#x5404;&#x7A2E;&#x5DE5;&#x5177;&#x4E2D;&#xFF0C;&#x6700;&#x7232;&#x666E;&#x904D;&#x548C;&#x65B9;&#x4FBF;&#x7684;&#xFF1B;&#x5B83;&#x6709;&#x5169;&#x7A2E;&#x7528;&#x6CD5;&#xFF1B;</p>
-<p>&#x8FFD;&#x6EAF;&#x904E;&#x53BB;&#x7684;&#x7D71;&#x8A08;&#x6578;&#x64DA;&#xFF08;&#x9ED8;&#x8A8D;&#xFF09;
-&#x9031;&#x671F;&#x6027;&#x7684;&#x67E5;&#x770B;&#x7576;&#x524D;&#x6578;&#x64DA;</p>
-<h3 id="12-1-%E8%BF%BD%E6%BA%AF%E9%81%8E%E5%8E%BB%E7%9A%84%E7%B5%B1%E8%A8%88%E6%95%B8%E6%93%9A">12.1. &#x8FFD;&#x6EAF;&#x904E;&#x53BB;&#x7684;&#x7D71;&#x8A08;&#x6578;&#x64DA;</h3>
-<p>&#x9ED8;&#x8A8D;&#x60C5;&#x6CC1;&#x4E0B;&#xFF0C;sar&#x5F9E;&#x6700;&#x8FD1;&#x7684;0&#x9EDE;0&#x5206;&#x958B;&#x59CB;&#x986F;&#x793A;&#x6578;&#x64DA;&#xFF1B;&#x5982;&#x679C;&#x60F3;&#x7E7C;&#x7E8C;&#x67E5;&#x770B;&#x4E00;&#x5929;&#x524D;&#x7684;&#x5831;&#x544A;&#xFF1B;&#x53EF;&#x4EE5;&#x67E5;&#x770B;&#x4FDD;&#x5B58;&#x5728;/var/log/sysstat/&#x4E0B;&#x7684;sa&#x65E5;&#x8A8C;&#xFF1B; &#x4F7F;&#x7528;sar&#x5DE5;&#x5177;&#x67E5;&#x770B;:</p>
-<pre><code>$sar -f /var/log/sysstat/sa28 \| head sar -r -f
-/var/log/sysstat/sa28
-</code></pre><h3 id="12-2-%E6%9F%A5%E7%9C%8Bcpu%E4%BD%BF%E7%94%A8%E7%8E%87">12.2. &#x67E5;&#x770B;CPU&#x4F7F;&#x7528;&#x7387;</h3>
-<p>sar -u : &#x9ED8;&#x8A8D;&#x60C5;&#x6CC1;&#x4E0B;&#x986F;&#x793A;&#x7684;cpu&#x4F7F;&#x7528;&#x7387;&#x7B49;&#x4FE1;&#x606F;&#x5C31;&#x662F;sar -u&#xFF1B;</p>
-<p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x9019;&#x81FA;&#x6A5F;&#x5668;&#x4F7F;&#x7528;&#x4E86;&#x865B;&#x64EC;&#x5316;&#x6280;&#x8853;&#xFF0C;&#x6709;&#x76F8;&#x61C9;&#x7684;&#x6642;&#x9593;&#x6D88;&#x8017;&#xFF1B; &#x5404;&#x5217;&#x7684;&#x6307;&#x6A19;&#x5206;&#x5225;&#x662F;:</p>
-<ul>
-<li>%user &#x7528;&#x6236;&#x6A21;&#x5F0F;&#x4E0B;&#x6D88;&#x8017;&#x7684;CPU&#x6642;&#x9593;&#x7684;&#x6BD4;&#x4F8B;&#xFF1B;</li>
-<li>%nice &#x901A;&#x904E;nice&#x6539;&#x8B8A;&#x4E86;&#x9032;&#x7A0B;&#x8ABF;&#x5EA6;&#x512A;&#x5148;&#x7D1A;&#x7684;&#x9032;&#x7A0B;&#xFF0C;&#x5728;&#x7528;&#x6236;&#x6A21;&#x5F0F;&#x4E0B;&#x6D88;&#x8017;&#x7684;CPU&#x6642;&#x9593;&#x7684;&#x6BD4;&#x4F8B;</li>
-<li>%system &#x7CFB;&#x7D71;&#x6A21;&#x5F0F;&#x4E0B;&#x6D88;&#x8017;&#x7684;CPU&#x6642;&#x9593;&#x7684;&#x6BD4;&#x4F8B;&#xFF1B;</li>
-<li>%iowait CPU&#x7B49;&#x5F85;&#x78C1;&#x76E4;I/O&#x5C0E;&#x81F4;&#x7A7A;&#x9592;&#x72C0;&#x614B;&#x6D88;&#x8017;&#x7684;&#x6642;&#x9593;&#x6BD4;&#x4F8B;&#xFF1B;</li>
-<li>%steal &#x5229;&#x7528;Xen&#x7B49;&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x865B;&#x64EC;&#x5316;&#x6280;&#x8853;&#xFF0C;&#x7B49;&#x5F85;&#x5176;&#x5B83;&#x865B;&#x64EC;CPU&#x8A08;&#x7B97;&#x4F54;&#x7528;&#x7684;&#x6642;&#x9593;&#x6BD4;&#x4F8B;&#xFF1B;</li>
-<li>%idle CPU&#x7A7A;&#x9592;&#x6642;&#x9593;&#x6BD4;&#x4F8B;&#xFF1B;<h3 id="12-3-%E6%9F%A5%E7%9C%8B%E5%B9%B3%E5%9D%87%E8%B2%A0%E8%BC%89">12.3. &#x67E5;&#x770B;&#x5E73;&#x5747;&#x8CA0;&#x8F09;</h3>
-sar -q: &#x67E5;&#x770B;&#x5E73;&#x5747;&#x8CA0;&#x8F09;</li>
-</ul>
-<p>&#x6307;&#x5B9A;-q&#x5F8C;&#xFF0C;&#x5C31;&#x80FD;&#x67E5;&#x770B;&#x904B;&#x884C;&#x968A;&#x5217;&#x4E2D;&#x7684;&#x9032;&#x7A0B;&#x6578;&#x3001;&#x7CFB;&#x7D71;&#x4E0A;&#x7684;&#x9032;&#x7A0B;&#x5927;&#x5C0F;&#x3001;&#x5E73;&#x5747;&#x8CA0;&#x8F09;&#x7B49;&#xFF1B;&#x8207;&#x5176;&#x5B83;&#x547D;&#x4EE4;&#x76F8;&#x6BD4;&#xFF0C;&#x5B83;&#x80FD;&#x67E5;&#x770B;&#x5404;&#x9805;&#x6307;&#x6A19;&#x96A8;&#x6642;&#x9593;&#x8B8A;&#x5316;&#x7684;&#x60C5;&#x6CC1;&#xFF1B;</p>
-<ul>
-<li>runq-sz&#xFF1A;&#x904B;&#x884C;&#x968A;&#x5217;&#x7684;&#x9577;&#x5EA6;&#xFF08;&#x7B49;&#x5F85;&#x904B;&#x884C;&#x7684;&#x9032;&#x7A0B;&#x6578;&#xFF09;</li>
-<li>plist-sz&#xFF1A;&#x9032;&#x7A0B;&#x5217;&#x8868;&#x4E2D;&#x9032;&#x7A0B;&#xFF08;processes&#xFF09;&#x548C;&#x7DDA;&#x7A0B;&#xFF08;threads&#xFF09;&#x7684;&#x6578;&#x91CF;</li>
-<li>ldavg-1&#xFF1A;&#x6700;&#x5F8C;1&#x5206;&#x9418;&#x7684;&#x7CFB;&#x7D71;&#x5E73;&#x5747;&#x8CA0;&#x8F09; ldavg-5&#xFF1A;&#x904E;&#x53BB;5&#x5206;&#x9418;&#x7684;&#x7CFB;&#x7D71;&#x5E73;&#x5747;&#x8CA0;&#x8F09;</li>
-<li>ldavg-15&#xFF1A;&#x904E;&#x53BB;15&#x5206;&#x9418;&#x7684;&#x7CFB;&#x7D71;&#x5E73;&#x5747;&#x8CA0;&#x8F09;</li>
-</ul>
-<h3 id="12-4-%E6%9F%A5%E7%9C%8B%E5%85%A7%E5%AD%98%E4%BD%BF%E7%94%A8%E7%8B%80%E6%B3%81">12.4. &#x67E5;&#x770B;&#x5167;&#x5B58;&#x4F7F;&#x7528;&#x72C0;&#x6CC1;</h3>
-<p>sar -r&#xFF1A; &#x6307;&#x5B9A;-r&#x4E4B;&#x5F8C;&#xFF0C;&#x53EF;&#x67E5;&#x770B;&#x7269;&#x7406;&#x5167;&#x5B58;&#x4F7F;&#x7528;&#x72C0;&#x6CC1;&#xFF1B;</p>
-<pre><code>sar -r 1 3
-
-Linux  shihyu-MS-7758  3.13.0-44-generic  #73-Ubuntu SMP Tue Dec 16 00:22:43 UTC 2014  x86_64  05/09/2015
-
-01:21:10  memtot memfree buffers   cached  slabmem      swptot swpfree  _mem_
-01:21:10  32125M  23697M    395M    2554M     265M        976M    976M
-01:21:11  32125M  23697M    395M    2554M     265M        976M    976M
-01:21:12  32125M  23697M    395M    2554M     265M        976M    976M
+                        <h1 id="jdbshell">Jdbshell</h1>
+<pre><code>https://github.com/xianjimli/jdbshell
 </code></pre><ul>
-<li>kbmemfree&#xFF1A;&#x9019;&#x500B;&#x503C;&#x548C;free&#x547D;&#x4EE4;&#x4E2D;&#x7684;free&#x503C;&#x57FA;&#x672C;&#x4E00;&#x81F4;,&#x6240;&#x4EE5;&#x5B83;&#x4E0D;&#x5305;&#x62EC;buffer&#x548C;cache&#x7684;&#x7A7A;&#x9593;.</li>
-<li>kbmemused&#xFF1A;&#x9019;&#x500B;&#x503C;&#x548C;free&#x547D;&#x4EE4;&#x4E2D;&#x7684;used&#x503C;&#x57FA;&#x672C;&#x4E00;&#x81F4;,&#x6240;&#x4EE5;&#x5B83;&#x5305;&#x62EC;buffer&#x548C;cache&#x7684;&#x7A7A;&#x9593;.</li>
-<li>%memused&#xFF1A;&#x7269;&#x7406;&#x5167;&#x5B58;&#x4F7F;&#x7528;&#x7387;&#xFF0C;&#x9019;&#x500B;&#x503C;&#x662F;kbmemused&#x548C;&#x5167;&#x5B58;&#x7E3D;&#x91CF;(&#x4E0D;&#x5305;&#x62EC;swap)&#x7684;&#x4E00;&#x500B;&#x767E;&#x5206;&#x6BD4;.</li>
-<li>kbbuffers&#x548C;kbcached&#xFF1A;&#x9019;&#x5169;&#x500B;&#x503C;&#x5C31;&#x662F;free&#x547D;&#x4EE4;&#x4E2D;&#x7684;buffer&#x548C;cache.</li>
-<li>kbcommit&#xFF1A;&#x4FDD;&#x8B49;&#x7576;&#x524D;&#x7CFB;&#x7D71;&#x6240;&#x9700;&#x8981;&#x7684;&#x5167;&#x5B58;,&#x5373;&#x7232;&#x4E86;&#x78BA;&#x4FDD;&#x4E0D;&#x6EA2;&#x51FA;&#x800C;&#x9700;&#x8981;&#x7684;&#x5167;&#x5B58;(RAM+swap).</li>
-<li>%commit&#xFF1A;&#x9019;&#x500B;&#x503C;&#x662F;kbcommit&#x8207;&#x5167;&#x5B58;&#x7E3D;&#x91CF;(&#x5305;&#x62EC;swap)&#x7684;&#x4E00;&#x500B;&#x767E;&#x5206;&#x6BD4;.</li>
+<li>jdbshell.c</li>
 </ul>
-<h3 id="12-5-%E6%9F%A5%E7%9C%8B%E9%A0%81%E9%9D%A2%E4%BA%A4%E6%8F%9B%E7%99%BC%E7%94%9F%E7%8B%80%E6%B3%81">12.5. &#x67E5;&#x770B;&#x9801;&#x9762;&#x4EA4;&#x63DB;&#x767C;&#x751F;&#x72C0;&#x6CC1;</h3>
-<p>sar -W&#xFF1A;&#x67E5;&#x770B;&#x9801;&#x9762;&#x4EA4;&#x63DB;&#x767C;&#x751F;&#x72C0;&#x6CC1;</p>
-<pre><code>sar -W 1 3
+<pre><code>/*
+ * File:    jdbshell.c
+ * Author:  Li XianJing &lt;xianjimli@hotmail.com&gt;
+ * Brief:   a shell for gdb.
+ *
+ * Copyright (c) 2009  topwise, Inc.
+ *
+ * Licensed under the Academic Free License version 2.1
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 
-Linux  shihyu-MS-7758  3.13.0-44-generic  #73-Ubuntu SMP Tue Dec 16 00:22:43 UTC 2014  x86_64  05/09/2015
+/*
+ * History:
+ * ================================================================
+ * 2009-07-08 Li XianJing &lt;xianjimli@hotmail.com&gt; created
+ *
+ */
 
-01:20:17  in: dsc/s hder/s ader/s unkp/s ratim/s rfail/s ot: dsc/s nort/s  _ip_
-01:20:17        0.0    0.0    0.0    0.0     0.0     0.0       0.0    0.0
-01:20:18        0.0    0.0    0.0    0.0     0.0     0.0       0.0    0.0
-01:20:19        0.0    0.0    0.0    0.0     0.0     0.0       0.0    0.0
-</code></pre><p>&#x9801;&#x9762;&#x767C;&#x751F;&#x4EA4;&#x63DB;&#x6642;&#xFF0C;&#x670D;&#x52D9;&#x5668;&#x7684;&#x541E;&#x5410;&#x91CF;&#x6703;&#x5927;&#x5E45;&#x4E0B;&#x964D;&#xFF1B;&#x670D;&#x52D9;&#x5668;&#x72C0;&#x6CC1;&#x4E0D;&#x826F;&#x6642;&#xFF0C;&#x5982;&#x679C;&#x61F7;&#x7591;&#x56E0;&#x7232;&#x5167;&#x5B58;&#x4E0D;&#x8DB3;&#x800C;&#x5C0E;&#x81F4;&#x4E86;&#x9801;&#x9762;&#x4EA4;&#x63DB;&#x7684;&#x767C;&#x751F;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x9019;&#x500B;&#x547D;&#x4EE4;&#x4F86;&#x78BA;&#x8A8D;&#x662F;&#x5426;&#x767C;&#x751F;&#x4E86;&#x5927;&#x91CF;&#x7684;&#x4EA4;&#x63DB;&#xFF1B;</p>
-<p>../_images/sar5.png
-pswpin/s&#xFF1A;&#x6BCF;&#x79D2;&#x7CFB;&#x7D71;&#x63DB;&#x5165;&#x7684;&#x4EA4;&#x63DB;&#x9801;&#x9762;&#xFF08;swap page&#xFF09;&#x6578;&#x91CF;
-pswpout/s&#xFF1A;&#x6BCF;&#x79D2;&#x7CFB;&#x7D71;&#x63DB;&#x51FA;&#x7684;&#x4EA4;&#x63DB;&#x9801;&#x9762;&#xFF08;swap page&#xFF09;&#x6578;&#x91CF;
-&#x8981;&#x5224;&#x65B7;&#x7CFB;&#x7D71;&#x74F6;&#x9838;&#x554F;&#x984C;&#xFF0C;&#x6709;&#x6642;&#x9700;&#x5E7E;&#x500B; sar &#x547D;&#x4EE4;&#x9078;&#x9805;&#x7D50;&#x5408;&#x8D77;&#x4F86;&#xFF1B;</p>
-<p>&#x61F7;&#x7591;CPU&#x5B58;&#x5728;&#x74F6;&#x9838;&#xFF0C;&#x53EF;&#x7528; sar -u &#x548C; sar -q &#x7B49;&#x4F86;&#x67E5;&#x770B;
-&#x61F7;&#x7591;&#x5167;&#x5B58;&#x5B58;&#x5728;&#x74F6;&#x9838;&#xFF0C;&#x53EF;&#x7528;sar -B&#x3001;sar -r &#x548C; sar -W &#x7B49;&#x4F86;&#x67E5;&#x770B;
-&#x61F7;&#x7591;I/O&#x5B58;&#x5728;&#x74F6;&#x9838;&#xFF0C;&#x53EF;&#x7528; sar -b&#x3001;sar -u &#x548C; sar -d &#x7B49;&#x4F86;&#x67E5;&#x770B;</p>
-<h3 id="12-6-%E5%AE%89%E8%A3%9D">12.6. &#x5B89;&#x88DD;</h3>
-<p>&#x6709;&#x7684;linux&#x7CFB;&#x7D71;&#x4E0B;&#xFF0C;&#x9ED8;&#x8A8D;&#x53EF;&#x80FD;&#x6C92;&#x6709;&#x5B89;&#x88DD;&#x9019;&#x500B;&#x5305;&#xFF0C;&#x4F7F;&#x7528;apt-get install sysstat &#x4F86;&#x5B89;&#x88DD;&#xFF1B;
-&#x5B89;&#x88DD;&#x5B8C;&#x7562;&#xFF0C;&#x5C07;&#x6027;&#x80FD;&#x6536;&#x96C6;&#x5DE5;&#x5177;&#x7684;&#x958B;&#x95DC;&#x6253;&#x958B;&#xFF1A; vi /etc/default/sysstat
-&#x8A2D;&#x7F6E; ENABLED=&#x201D;true&#x201D;
-&#x5553;&#x52D5;&#x9019;&#x500B;&#x5DE5;&#x5177;&#x4F86;&#x6536;&#x96C6;&#x7CFB;&#x7D71;&#x6027;&#x80FD;&#x6578;&#x64DA;&#xFF1A; /etc/init.d/sysstat start</p>
-<h3 id="12-7-sar%E5%8F%83%E6%95%B8%E8%AA%AA%E6%98%8E">12.7. sar&#x53C3;&#x6578;&#x8AAA;&#x660E;</h3>
-<ul>
-<li>-A &#x5F59;&#x7E3D;&#x6240;&#x6709;&#x7684;&#x5831;&#x544A;</li>
-<li>-a &#x5831;&#x544A;&#x6587;&#x4EF6;&#x8B80;&#x5BEB;&#x4F7F;&#x7528;&#x60C5;&#x6CC1;</li>
-<li>-B &#x5831;&#x544A;&#x9644;&#x52A0;&#x7684;&#x7DE9;&#x5B58;&#x7684;&#x4F7F;&#x7528;&#x60C5;&#x6CC1;</li>
-<li>-b &#x5831;&#x544A;&#x7DE9;&#x5B58;&#x7684;&#x4F7F;&#x7528;&#x60C5;&#x6CC1;</li>
-<li>-c &#x5831;&#x544A;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x7684;&#x4F7F;&#x7528;&#x60C5;&#x6CC1;</li>
-<li>-d &#x5831;&#x544A;&#x78C1;&#x76E4;&#x7684;&#x4F7F;&#x7528;&#x60C5;&#x6CC1;</li>
-<li>-g &#x5831;&#x544A;&#x4E32;&#x53E3;&#x7684;&#x4F7F;&#x7528;&#x60C5;&#x6CC1;</li>
-<li>-h &#x5831;&#x544A;&#x95DC;&#x65BC;buffer&#x4F7F;&#x7528;&#x7684;&#x7D71;&#x8A08;&#x6578;&#x64DA;</li>
-<li>-m &#x5831;&#x544A;IPC&#x6D88;&#x606F;&#x968A;&#x5217;&#x548C;&#x4FE1;&#x865F;&#x91CF;&#x7684;&#x4F7F;&#x7528;&#x60C5;&#x6CC1;</li>
-<li>-n &#x5831;&#x544A;&#x547D;&#x540D;cache&#x7684;&#x4F7F;&#x7528;&#x60C5;&#x6CC1;</li>
-<li>-p &#x5831;&#x544A;&#x8ABF;&#x9801;&#x6D3B;&#x52D5;&#x7684;&#x4F7F;&#x7528;&#x60C5;&#x6CC1;</li>
-<li>-q &#x5831;&#x544A;&#x904B;&#x884C;&#x968A;&#x5217;&#x548C;&#x4EA4;&#x63DB;&#x968A;&#x5217;&#x7684;&#x5E73;&#x5747;&#x9577;&#x5EA6;</li>
-<li>-R &#x5831;&#x544A;&#x9032;&#x7A0B;&#x7684;&#x6D3B;&#x52D5;&#x60C5;&#x6CC1;</li>
-<li>-r &#x5831;&#x544A;&#x6C92;&#x6709;&#x4F7F;&#x7528;&#x7684;&#x5167;&#x5B58;&#x9801;&#x9762;&#x548C;&#x786C;&#x76E4;&#x584A;</li>
-<li>-u &#x5831;&#x544A;CPU&#x7684;&#x5229;&#x7528;&#x7387;</li>
-<li>-v &#x5831;&#x544A;&#x9032;&#x7A0B;&#x3001;i&#x7BC0;&#x9EDE;&#x3001;&#x6587;&#x4EF6;&#x548C;&#x9396;&#x8868;&#x72C0;&#x614B;</li>
-<li>-w &#x5831;&#x544A;&#x7CFB;&#x7D71;&#x4EA4;&#x63DB;&#x6D3B;&#x52D5;&#x72C0;&#x6CC1;</li>
-<li>-y &#x5831;&#x544A;TTY&#x8A2D;&#x5099;&#x6D3B;&#x52D5;&#x72C0;&#x6CC1;</li>
+#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;string.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;readline/readline.h&gt;
+#include &lt;readline/history.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;signal.h&gt;
+
+static const char* commands[] =
+{
+    &quot;class&quot;,
+    &quot;classes&quot;,
+    &quot;classpath&quot;,
+    &quot;clear&quot;,
+    &quot;connectors&quot;,
+    &quot;cont&quot;,
+    &quot;disablegc&quot;,
+    &quot;down&quot;,
+    &quot;dump&quot;,
+    &quot;enablegc&quot;,
+    &quot;eval&quot;,
+    &quot;exit&quot;,
+    &quot;fields&quot;,
+    &quot;help&quot;,
+    &quot;interrupt&quot;,
+    &quot;kill&quot;,
+    &quot;list&quot;,
+    &quot;locals&quot;,
+    &quot;lock&quot;,
+    &quot;methods&quot;,
+    &quot;monitor&quot;,
+    &quot;next&quot;,
+    &quot;pop&quot;,
+    &quot;print&quot;,
+    &quot;read&quot;,
+    &quot;reenter&quot;,
+    &quot;resume&quot;,
+    &quot;run&quot;,
+    &quot;set&quot;,
+    &quot;step&quot;,
+    &quot;stepi&quot;,
+    &quot;stop&quot;,
+    &quot;suspend&quot;,
+    &quot;thread&quot;,
+    &quot;threadgroup&quot;,
+    &quot;threadgroups&quot;,
+    &quot;threadlocks&quot;,
+    &quot;threads&quot;,
+    &quot;trace&quot;,
+    &quot;unmonitor&quot;,
+    &quot;untrace&quot;,
+    &quot;up&quot;,
+    &quot;version&quot;,
+    &quot;where&quot;,
+    &quot;wherei&quot;,
+    NULL
+};
+
+static struct Alias
+{
+    const char* alias;
+    const char* command;
+}g_alias[] =
+{
+    {&quot;c&quot;,  &quot;cont&quot;},
+    {&quot;l&quot;,  &quot;list&quot;},
+    {&quot;n&quot;,  &quot;next&quot;},
+    {&quot;r&quot;,  &quot;run&quot;},
+    {&quot;s&quot;,  &quot;step&quot;},
+    {&quot;si&quot;, &quot;stepi&quot;},
+    {&quot;f&quot;,  &quot;step up&quot;},
+    {&quot;bt&quot;, &quot;wherei&quot;},
+    {NULL, NULL}
+};
+
+static char* command_generator(const char *text, int state)
+{
+    const char *name;
+    static int list_index, len;
+
+    if (!state)
+    {
+        list_index = 0;
+        len = strlen (text);
+    }
+
+    while (name = commands[list_index])
+    {
+        list_index++;
+
+        if (strncmp (name, text, len) == 0)
+            return strdup(name);
+    }
+
+    return ((char *)NULL);
+}
+
+char** command_completion (const char *text, int start, int end)
+{
+    char **matches = NULL;
+
+    if (start == 0)
+        matches = rl_completion_matches (text, command_generator);
+
+    return (matches);
+}
+
+void initialize_readline ()
+{
+    rl_readline_name = &quot;jdbshell&quot;;
+    rl_attempted_completion_function = command_completion;
+
+    return ;
+}
+
+char * stripwhite (char *string)
+{
+    char *s = NULL;
+    char *t = NULL;
+
+    for (s = string; whitespace (*s); s++);
+
+    if (*s == 0) return (s);
+
+    t = s + strlen (s) - 1;
+    while (t &gt; s &amp;&amp; whitespace (*t))t--;
+    *++t = &apos;\0&apos;;
+
+    return s;
+}
+
+void show_usage(void)
+{
+    int i = 0;
+    fprintf(stderr, &quot;usage: jdbshell [jdb args]\n&quot;);
+    fprintf(stderr, &quot;example: ./jdbshell -sourcepath $ANDROID_SRC_PATH -attach 6107\n&quot;);
+    fprintf(stderr, &quot;command alias:\n&quot;);
+
+    for(i = 0; g_alias[i].alias != NULL; i++)
+    {
+        fprintf(stderr, &quot;    %2s -- %s\n&quot;, g_alias[i].alias, g_alias[i].command);
+    }
+
+    return;
+}
+
+int main (int argc, char **argv)
+{
+    int  pid = 0;
+    char *line = NULL;
+    char *s = NULL;
+    char last_cmd[1024] = {0};
+    int  parent_to_child[2] = {0};
+
+    if(argc == 1)
+    {
+        show_usage();
+        return 0;
+    }
+
+    initialize_readline ();
+    pipe(parent_to_child);
+
+    pid = fork();
+    if(pid == 0)
+    {
+        close(parent_to_child[1]);
+        dup2(parent_to_child[0], STDIN_FILENO);
+        strcpy(argv[0], &quot;jdb&quot;);
+        int ret = execvp(&quot;jdb&quot;, argv);
+        fprintf(stderr, &quot;jdb exit: ret=%d\n&quot;, ret);
+    }
+    else
+    {
+        close(parent_to_child[0]);
+        write(parent_to_child[1], &quot;threads\n&quot;,strlen(&quot;threads\n&quot;));
+
+        while(1)
+        {
+            int i = 0;
+            line = readline (&quot;&quot;);
+
+            if (!line) break;
+
+            s = stripwhite (line);
+
+            if(*s)
+            {
+              add_history (s);
+              strncpy(last_cmd, s, sizeof(last_cmd)-1);
+            }
+            else if(last_cmd[0])
+            {
+                s = last_cmd;
+                printf(&quot;&gt;%s\n&quot;, s);
+            }
+            else
+            {
+                free (line);
+                printf(&quot;&gt;&quot;);
+                continue;
+            }
+
+            for(i = 0; g_alias[i].alias != NULL; i++)
+            {
+                int len = strlen(g_alias[i].alias);
+                if(strncmp(g_alias[i].alias, s, len) == 0
+                    &amp;&amp; (s[len] == &apos; &apos; || s[len] == &apos;\0&apos; || s[len] == &apos;\t&apos;))
+                {
+                    write(parent_to_child[1], g_alias[i].command,
+                        strlen(g_alias[i].command));
+                    break;
+                }
+            }
+
+            if(g_alias[i].alias == NULL)
+            {
+                write(parent_to_child[1], s, strlen(s));
+            }
+
+            if(write(parent_to_child[1], &quot;\n&quot;, 1) &lt;= 0)
+            {
+                fprintf(stderr, &quot;jdb exited\n&quot;);
+                break;
+            }
+            free (line);
+        }
+
+        kill(pid, SIGTERM);
+    }
+
+    return 0;
+}
+</code></pre><ul>
+<li>&#x56E0;&#x4E3A;&#x6211;&#x57FA;&#x672C;&#x4E0A;&#x6BCF;&#x6B21;&#x4E00;&#x5F00;&#x59CB;&#x90FD;&#x8981;&#x6267;&#x884C;threads&#x53D8;&#x91CF;&#xFF0C;&#x6240;&#x4EE5;&#x6211;&#x5728;&#x5F00;&#x59CB;wile&#x5FAA;&#x73AF;&#x524D;&#x52A0;&#x4E86;&#x4E00;&#x53E5;&#x8BDD;</li>
 </ul>
+<pre><code>else
+{
+    close(parent_to_child[0]);
+    write(parent_to_child[1], &quot;threads\n&quot;,strlen(&quot;threads\n&quot;));
+</code></pre><ul>
+<li>Makefile</li>
+</ul>
+<pre><code>CFLAGS=-DRL_LIBRARY_VERSION=&apos;&quot;5.1&quot;&apos; -I. -I.. -g -O
+all:
+    gcc $(CFLAGS) jdbshell.c -lreadline -ltermcap -o jdbshell
+clean:
+    rm -f jdbshell *.o
+</code></pre><ul>
+<li>build/envsetup.sh &#x4EFF;&#x7167;gdbclient&#xFF0C;&#x5728;build/envsetup.sh&#x4E2D;&#x52A0;&#x5165;jdbclient&#x51FD;&#x6570;</li>
+</ul>
+<pre><code>function jdbclient()
+{
+    local MY_SRC_PATH=&quot;$1&quot;
+    if [ &quot;$MY_SRC_PATH&quot; ] ; then
+        MY_SRC_PATH=$1
+        echo $MY_SRC_PATH
+    else
+        echo &quot;ROOT&quot; $OUR_ROOT
+        MY_SRC_PATH=&quot;app_process&quot;
+    fi
 
+
+    local PORT=&quot;$2&quot;
+    if [ &quot;$PORT&quot; ] ; then
+        PORT=$2
+    else
+        PORT=&quot;:9000&quot;
+    fi
+
+
+    local PID
+    local PROG=&quot;$3&quot;
+    if [ &quot;$PROG&quot; ] ; then
+        PID=`pid $3`
+        echo tcp$PORT jdwp$PID
+        adb forward &quot;tcp$PORT&quot; &quot;jdwp:$PID&quot;
+        echo jdbshell -sourcepath $MY_SRC_PATH -attach localhost$PORT
+        jdbshell -sourcepath $MY_SRC_PATH -attach localhost$PORT
+        sleep 2
+    else
+        echo &quot;&quot;
+        echo &quot;please specify app you want to debug:&quot;
+        echo &quot;&quot;
+    fi
+}
+</code></pre><ul>
+<li>env.sh</li>
+</ul>
+<pre><code>export ANDROID_SRC=/opt/work/android/grepcode.com
+export ANDROID_SRC_PATH=$ANDROID_SRC/frameworks/base/opengl/java:$ANDROID_SRC/frameworks/base/awt/java:$ANDROID_SRC/frameworks/base/core/java:$ANDROID_SRC/frameworks/base/location/java:$ANDROID_SRC/frameworks/base/sax/java:$ANDROID_SRC/frameworks/base/graphics/java:$ANDROID_SRC/frameworks/base/telephony/java:$ANDROID_SRC/frameworks/base/services/java:$ANDROID_SRC/frameworks/base/media/java:$ANDROID_SRC/frameworks/base/wifi/java:$ANDROID_SRC/frameworks/base/im/java:$ANDROID_SRC/dalvik/libcore/suncompat/src/main/java:$ANDROID_SRC/dalvik/libcore/nio_char/src/main/java:$ANDROID_SRC/dalvik/libcore/nio_char/src/main/java/java:$ANDROID_SRC/dalvik/libcore/security-kernel/src/main/java:$ANDROID_SRC/dalvik/libcore/security-kernel/src/main/java/java:$ANDROID_SRC/dalvik/libcore/security/src/main/java:$ANDROID_SRC/dalvik/libcore/security/src/main/java/java:$ANDROID_SRC/dalvik/libcore/archive/src/main/java:$ANDROID_SRC/dalvik/libcore/archive/src/main/java/java:$ANDROID_SRC/dalvik/libcore/awt-kernel/src/main/java:$ANDROID_SRC/dalvik/libcore/awt-kernel/src/main/java/java:$ANDROID_SRC/dalvik/libcore/luni/src/main/java:$ANDROID_SRC/dalvik/libcore/luni/src/main/java/java:$ANDROID_SRC/dalvik/libcore/math/src/main/java:$ANDROID_SRC/dalvik/libcore/math/src/main/java/java:$ANDROID_SRC/dalvik/libcore/x-net/src/main/java:$ANDROID_SRC/dalvik/libcore/openssl/src/main/java:$ANDROID_SRC/dalvik/libcore/dalvik/src/main/java:$ANDROID_SRC/dalvik/libcore/auth/src/main/java:$ANDROID_SRC/dalvik/libcore/concurrent/src/main/java:$ANDROID_SRC/dalvik/libcore/concurrent/src/main/java/java:$ANDROID_SRC/dalvik/libcore/sql/src/main/java:$ANDROID_SRC/dalvik/libcore/sql/src/main/java/java:$ANDROID_SRC/dalvik/libcore/prefs/src/main/java:$ANDROID_SRC/dalvik/libcore/prefs/src/main/java/java:$ANDROID_SRC/dalvik/libcore/xml/src/main/java:$ANDROID_SRC/dalvik/libcore/text/src/main/java:$ANDROID_SRC/dalvik/libcore/text/src/main/java/java:$ANDROID_SRC/dalvik/libcore/luni-kernel/src/main/java:$ANDROID_SRC/dalvik/libcore/luni-kernel/src/main/java/java:$ANDROID_SRC/dalvik/libcore/regex/src/main/java:$ANDROID_SRC/dalvik/libcore/regex/src/main/java/java:$ANDROID_SRC/dalvik/libcore/nio/src/main/java:$ANDROID_SRC/dalvik/libcore/nio/src/main/java/java:$ANDROID_SRC/dalvik/libcore/json/src/main/java:$ANDROID_SRC/dalvik/libcore/crypto/src/main/java:$ANDROID_SRC/dalvik/libcore/icu/src/main/java:$ANDROID_SRC/dalvik/libcore/annotation/src/main/java:$ANDROID_SRC/dalvik/libcore/annotation/src/main/java/java:$ANDROID_SRC/dalvik/libcore/junit/src/main/java:$ANDROID_SRC/dalvik/libcore/logging/src/main/java:$ANDROID_SRC/dalvik/libcore/logging/src/main/java/java:$ANDROID_SRC/dalvik/libcore-disabled/instrument/src/main/java:$ANDROID_SRC/dalvik/libcore-disabled/instrument/src/main/java/java:$ANDROID_SRC/dalvik/libcore-disabled/sound/src/main/java
+</code></pre><ul>
+<li>adb jdwp&#x5217;&#x51FA;&#x652F;&#x6301;JDPW&#x7684;&#x8FDB;&#x7A0B;ID</li>
+</ul>
+<pre><code>adb jdwp
+</code></pre><ul>
+<li>&#x542F;&#x52A8;android&#x6A21;&#x62DF;&#x5668;&#xFF0C;&#x8FD0;&#x884C;&#x6D4F;&#x89C8;&#x5668;</li>
+</ul>
+<pre><code>jdbclient packets/app/Browser/src/ :9000 browser &#x7B2C;&#x4E00;&#x4E2A;&#x53C2;&#x6570;&#x662F;&#x4F60;&#x8981;load&#x8FDB;&#x6765;&#x7684;&#x4EE3;&#x7801;&#x7684;&#x5730;&#x5740;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x8981;load&#x591A;&#x4E2A;&#x4EE3;&#x7801;&#xFF08;&#x8C03;&#x8BD5;&#x7684;&#x65F6;&#x5019;&#x53EF;&#x4EE5;&#x770B;)&#xFF0C;&#x53EF;&#x4EE5; export DEBUG_SRC_PATH= &#x7136;&#x540E;jdbclient $DEBUG_SRC_PATH :9000 browser
+
+&#x7B2C;&#x4E8C;&#x4E2A;&#x53C2;&#x6570;&#x662F;attach&#x7AEF;&#x53E3;&#xFF0C;&#x5982;&#x679C;9000&#x6709;&#x5728;&#x7528;&#xFF0C;&#x53EF;&#x4EE5;&#x7528;&#x5176;&#x4ED6;&#x7AEF;&#x53E3;
+&#x7B2C;&#x4E09;&#x4E2A;&#x53C2;&#x6570;&#x662F;&#x8981;&#x8C03;&#x8BD5;&#x7684;&#x5E94;&#x7528;&#xFF0C;&#x811A;&#x672C;&#x91CC;&#x9762;&#x6839;&#x636E;
+pid browser&#x6765;&#x53D6;&#x5F97;&#x8FDB;&#x7A0B;id&#xFF0C;&#x6240;&#x4EE5;&#x4F60;&#x8981;&#x4FDD;&#x8BC1;
+adb shell ps |grep browser
+&#x80FD;&#x591F;&#x770B;&#x5230;&#x5BF9;&#x5E94;&#x7684;&#x8FDB;&#x7A0B;
+</code></pre><ul>
+<li>&#x7528;threads&#x67E5;&#x8BE2;&#x6240;&#x6709;&#x7EBF;&#x7A0B;&#xFF1A;</li>
+</ul>
+<pre><code>Set uncaught java.lang.Throwable
+Set deferred uncaught java.lang.Throwable
+Initializing jdb ...
+Group system:
+  (java.lang.Thread)0xc14050d0c0                  &lt;6&gt; Compiler             cond. waiting
+  (java.lang.Thread)0xc14050cf50                  &lt;4&gt; Signal Catcher       cond. waiting
+  (java.lang.Thread)0xc14050cea8                  &lt;3&gt; GC                   cond. waiting
+  (java.lang.Thread)0xc14050cdf0                  &lt;2&gt; HeapWorker           cond. waiting
+Group main:
+  (java.lang.Thread)0xc14001f1a8                  &lt;1&gt; main                 running
+  (java.lang.Thread)0xc140562ad8                  &lt;21&gt; AsyncTask #5        cond. waiting
+  (android.os.HandlerThread)0xc1405528f8          &lt;20&gt; WebViewWorkerThread runnin
+</code></pre><ul>
+<li>&#x9009;&#x62E9;&#x611F;&#x5174;&#x8DA3;&#x7684;&#x7EBF;&#x7A0B;&#x5927;&#x90E8;&#x5206;&#x5E94;&#x7528;&#x8DD1;&#x5728;main&#x7EBF;&#x7A0B;&#x91CC;&#x9762;&#xFF0C;browser&#x4E5F;&#x4E0D;&#x4F8B;&#x5916;&#x547D;&#x4EE4; thread &#x7EBF;&#x7A0B;ID</li>
+</ul>
+<pre><code>thread 0xc14001f1a8
+&lt;1&gt; main[1]
+</code></pre><ul>
+<li>&#x6302;&#x8D77;&#x7EBF;&#x7A0B;&#x547D;&#x4EE4; suspend &#x7EBF;&#x7A0B;ID</li>
+</ul>
+<pre><code>&lt;1&gt; main[1] suspend 0xc14001f1a8
+</code></pre><ul>
+<li>8)&#x8BBE;&#x7F6E;&#x65AD;&#x70B9;
+&#x547D;&#x4EE4;&#xFF1A;</li>
+</ul>
+<pre><code>stop at &lt;&#x7C7B;&gt;:&lt;&#x884C;&#x53F7;&gt; &#x6216;
+stop in &lt;&#x7C7B;&gt;.&lt;&#x65B9;&#x6CD5;&#x540D;&gt;[(&#x53C2;&#x6570;&#x7C7B;&#x578B;,...)]
+
+
+&lt;1&gt; main[1] stop at com.android.browser.BrowserActivity:2689
+Set breakpoint com.android.browser.BrowserActivity:2689
+
+&#x8FD9;&#x4E2A;&#x5730;&#x65B9;&#x8981;&#x5199;&#x7C7B;&#x540D;&#x7A0D;&#x5FAE;&#x9EBB;&#x70E6;&#x4E00;&#x70B9;&#xFF0C;&#x54EA;&#x4F4D;&#x5927;&#x867E;&#x53EF;&#x4EE5;&#x8F6C;&#x5316;&#x6210;&#x50CF;gdb&#x90A3;&#x6837;&#xFF0C;&#x76F4;&#x63A5;&#x6587;&#x4EF6;&#x540D;&#xFF1F;
+</code></pre><ul>
+<li>9)&#x7EE7;&#x7EED;&#x6267;&#x884C;</li>
+</ul>
+<pre><code>&#x547D;&#x4EE4; c(ont)
+
+&lt;1&gt; main[1] c
+&gt;
+</code></pre><ul>
+<li>10)&#x70B9;&#x51FB;&#x7F51;&#x9875;&#x4E2D;&#x7684;&#x67D0;&#x4E00;&#x4E2A;&#x94FE;&#x63A5;
+&#x5C31;&#x4F1A;&#x770B;&#x5230;&#x7A0B;&#x5E8F;&#x5728;BrowserActivty:2689(shouldOverideUrlLoading)&#x5904;&#x65AD;&#x4F4F;&#x4E86;
+&#x6B64;&#x65F6;&#x53EF;&#x4EE5;&#x770B;&#x5806;&#x6808;
+&#x547D;&#x4EE4;:bt/wherei</li>
+</ul>
+<pre><code>&lt;1&gt; main[1]bt
+  [1] com.android.browser.BrowserActivity.shouldOverrideUrlLoading (BrowserActivity.java:2,689), pc = 8
+  [2] com.android.browser.Tab$2.shouldOverrideUrlLoading (Tab.java:552), pc = 44
+  [3] android.webkit.CallbackProxy.uiOverrideUrlLoading (CallbackProxy.java:216), pc = 19
+  [4] android.webkit.CallbackProxy.handleMessage (CallbackProxy.java:323), pc = 347
+  [5] android.os.Handler.dispatchMessage (Handler.java:99), pc = 20
+  [6] android.os.Looper.loop (Looper.java:123), pc = 75
+  [7] android.app.ActivityThread.main (ActivityThread.java:3,683), pc = 31
+  [8] java.lang.reflect.Method.invokeNative (native method)
+  [9] java.lang.reflect.Method.invoke (Method.java:507), pc = 18
+  [10] com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run (ZygoteInit.java:839), pc = 11
+  [11] com.android.internal.os.ZygoteInit.main (ZygoteInit.java:597), pc = 84
+  [12] dalvik.system.NativeStart.main (native method)
+</code></pre><ul>
+<li>&#x770B;&#x4EE3;&#x7801;&#x547D;&#x4EE4;:l(ist)</li>
+</ul>
+<pre><code>&lt;1&gt; main[1] l
+2,685            }
+2,686        }
+2,687
+2,688        boolean shouldOverrideUrlLoading(WebView view, String url) {
+2,689 =&gt;         if (url.startsWith(SCHEME_WTAI)) {
+2,690                // wtai://wp/mc;number
+2,691                // number=string(phone-number)
+2,692                if (url.startsWith(SCHEME_WTAI_MC)) {
+2,693                    Intent intent = new Intent(Intent.ACTION_VIEW,
+2,694                            Uri.parse(WebView.SCHEME_TEL +
+</code></pre><ul>
+<li>&#x770B;&#x53D8;&#x91CF;&#x547D;&#x4EE4;:print</li>
+</ul>
+<pre><code>&lt;1&gt; main[1] print url
+ url = &quot;http://m.baidu.com/img?tn=bdidxiphone&amp;ssid=0&amp;from=844b&amp;bd_page_type=1&amp;uid=wiaui_1320452293_7438&amp;pu=sz%401320_480&amp;itj=41&quot;
+
+
+&#x7EE7;&#x7EED;&#x6267;&#x884C;
+s(tep) &#x2013; &#x6267;&#x884C;&#x5F53;&#x524D;&#x884C;
+step up &#x2013; &#x6267;&#x884C;&#x5230;&#x5F53;&#x524D;&#x65B9;&#x6CD5;&#x8FD4;&#x56DE;&#x5230;&#x5176;&#x8C03;&#x7528;&#x7A0B;&#x5E8F;
+s(tep)i &#x2013; &#x6267;&#x884C;&#x5F53;&#x524D;&#x6307;&#x4EE4;
+n(ext) &#x2013; &#x8DF3;&#x8FC7;&#x4E00;&#x884C;&#xFF08;&#x8DE8;&#x8FC7;&#x8C03;&#x7528;&#xFF09;
+c(ont) &#x2013; &#x4ECE;&#x65AD;&#x70B9;&#x5904;&#x7EE7;&#x7EED;&#x6267;&#x884C;
+</code></pre><ul>
+<li>&#x4E0D;&#x8BF4;&#x4E86;&#xFF0C;help&#x662F;&#x4E00;&#x79CD;&#x7F8E;&#x5FB7;</li>
+</ul>
+<pre><code>&lt;1&gt; main[1] help
+** command list **
+connectors                -- list available connectors and transports in this VM
+
+
+run [class [args]]        -- start execution of application&apos;s main class
+
+
+threads [threadgroup]     -- list threads
+thread &lt;thread id&gt;        -- set default thread
+suspend [thread id(s)]    -- suspend threads (default: all)
+resume [thread id(s)]     -- resume threads (default: all)
+where [&lt;thread id&gt; | all] -- dump a thread&apos;s stack
+wherei [&lt;thread id&gt; | all]-- dump a thread&apos;s stack, with pc info
+up [n frames]             -- move up a thread&apos;s stack
+down [n frames]           -- move down a thread&apos;s stack
+kill &lt;thread id&gt; &lt;expr&gt;   -- kill a thread with the given exception object
+interrupt &lt;thread id&gt;     -- interrupt a thread
+
+
+print &lt;expr&gt;              -- print value of expression
+dump &lt;expr&gt;               -- print all object information
+eval &lt;expr&gt;               -- evaluate expression (same as print)
+set &lt;lvalue&gt; = &lt;expr&gt;     -- assign new value to field/variable/array element
+locals                    -- print all local variables in current stack frame
+
+
+classes                   -- list currently known classes
+class &lt;class id&gt;          -- show details of named class
+methods &lt;class id&gt;        -- list a class&apos;s methods
+fields &lt;class id&gt;         -- list a class&apos;s fields
+
+
+threadgroups              -- list threadgroups
+threadgroup &lt;name&gt;        -- set current threadgroup
+
+
+stop in &lt;class id&gt;.&lt;method&gt;[(argument_type,...)]
+                          -- set a breakpoint in a method
+stop at &lt;class id&gt;:&lt;line&gt; -- set a breakpoint at a line
+clear &lt;class id&gt;.&lt;method&gt;[(argument_type,...)]
+                          -- clear a breakpoint in a method
+clear &lt;class id&gt;:&lt;line&gt;   -- clear a breakpoint at a line
+clear                     -- list breakpoints
+catch [uncaught|caught|all] &lt;class id&gt;|&lt;class pattern&gt;
+                          -- break when specified exception occurs
+ignore [uncaught|caught|all] &lt;class id&gt;|&lt;class pattern&gt;
+                          -- cancel &apos;catch&apos; for the specified exception
+watch [access|all] &lt;class id&gt;.&lt;field name&gt;
+                          -- watch access/modifications to a field
+unwatch [access|all] &lt;class id&gt;.&lt;field name&gt;
+                          -- discontinue watching access/modifications to a field
+trace [go] methods [thread]
+                          -- trace method entries and exits.
+                          -- All threads are suspended unless &apos;go&apos; is specified
+trace [go] method exit | exits [thread]
+                          -- trace the current method&apos;s exit, or all methods&apos; exits
+                          -- All threads are suspended unless &apos;go&apos; is specified
+untrace [methods]         -- stop tracing method entrys and/or exits
+step                      -- execute current line
+step up                   -- execute until the current method returns to its caller
+stepi                     -- execute current instruction
+next                      -- step one line (step OVER calls)
+cont                      -- continue execution from breakpoint
+
+
+list [line number|method] -- print source code
+use (or sourcepath) [source file path]
+                          -- display or change the source path
+exclude [&lt;class pattern&gt;, ... | &quot;none&quot;]
+                          -- do not report step or method events for specified classes
+classpath                 -- print classpath info from target VM
+
+
+monitor &lt;command&gt;         -- execute command each time the program stops
+monitor                   -- list monitors
+unmonitor &lt;monitor#&gt;      -- delete a monitor
+read &lt;filename&gt;           -- read and execute a command file
+
+
+lock &lt;expr&gt;               -- print lock info for an object
+threadlocks [thread id]   -- print lock info for a thread
+
+
+pop                       -- pop the stack through and including the current frame
+reenter                   -- same as pop, but current frame is reentered
+redefine &lt;class id&gt; &lt;class file name&gt;
+                          -- redefine the code for a class
+
+
+disablegc &lt;expr&gt;          -- prevent garbage collection of an object
+enablegc &lt;expr&gt;           -- permit garbage collection of an object
+
+
+!!                        -- repeat last command
+&lt;n&gt; &lt;command&gt;             -- repeat command n times
+# &lt;command&gt;               -- discard (no-op)
+help (or ?)               -- list commands
+version                   -- print version information
+exit (or quit)            -- exit debugger
+
+
+&lt;class id&gt;: a full class name with package qualifiers
+&lt;class pattern&gt;: a class name with a leading or trailing wildcard (&apos;*&apos;)
+&lt;thread id&gt;: thread number as reported in the &apos;threads&apos; command
+&lt;expr&gt;: a Java(tm) Programming Language expression.
+Most common syntax is supported.
+
+
+Startup commands can be placed in either &quot;jdb.ini&quot; or &quot;.jdbrc&quot;
+in user.home or user.dir
+</code></pre><ul>
+<li>&#x5982;&#x679C;&#x8981;&#x770B;&#x522B;&#x540D;&#x6620;&#x5C04;&#xFF0C;&#x5728;&#x7EC8;&#x7AEF;&#x6267;&#x884C;</li>
+</ul>
+<pre><code>tom@tom-laptop:~/work/gingerbread$ jdbshell
+usage: jdbshell [jdb args]
+example: ./jdbshell -sourcepath $ANDROID_SRC_PATH -attach 6107
+command alias:
+c -- cont
+l -- list
+n -- next
+r -- run
+s -- step
+si -- stepi
+f -- step up
+bt -- wherei
+</code></pre>
                     
                     </section>
                 
@@ -1076,10 +1550,10 @@ pswpout/s&#xFF1A;&#x6BCF;&#x79D2;&#x7CFB;&#x7D71;&#x63DB;&#x51FA;&#x7684;&#x4EA4
         </div>
 
         
-        <a href="../linux_tools/iostat.html" class="navigation navigation-prev " aria-label="Previous page: iostat 監視I/O子系統"><i class="fa fa-angle-left"></i></a>
+        <a href="../linux_tools/doxygen.html" class="navigation navigation-prev " aria-label="Previous page: Doxygen"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../linux_tools/readelf.html" class="navigation navigation-next " aria-label="Next page: readelf elf文件格式分析"><i class="fa fa-angle-right"></i></a>
+        <a href="../bggdb/index.html" class="navigation navigation-next " aria-label="Next page: Beej&#39;s Quick Guide to GDB"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
-        <title>Ubuntu | Jason note</title>
+        <title>Ubuntu installer | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.0.1">
@@ -19,8 +19,6 @@
         <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
         
     
-    
-    <link rel="next" href="../ubuntu/ubuntu_setup.html" />
     
     
     <link rel="prev" href="../android_note/bindservice.html" />
@@ -36,7 +34,7 @@
     
 
         
-    <div class="book" data-level="6" data-basepath=".." data-revision="Tue Jul 14 2015 01:20:58 GMT+0800 (CST)">
+    <div class="book" data-level="6.1" data-basepath=".." data-revision="Tue Jul 14 2015 01:39:58 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -933,31 +931,23 @@
             
         </li>
     
-        <li class="chapter active" data-level="6" data-path="ubuntu/index.html">
+        <li class="chapter " data-level="6" data-path="ubuntu/index.html">
             
-                
-                    <a href="../ubuntu/index.html">
-                        <i class="fa fa-check"></i>
-                        
-                            <b>6.</b>
-                        
-                        Ubuntu
-                    </a>
-                
+            <span><b>6.</b> Ubuntu</span>
             
             
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="6.1" data-path="ubuntu/ubuntu_setup.html">
+        <li class="chapter active" data-level="6.1" data-path="ubuntu/ubuntu_installer.html">
             
                 
-                    <a href="../ubuntu/ubuntu_setup.html">
+                    <a href="../ubuntu/ubuntu_installer.html">
                         <i class="fa fa-check"></i>
                         
                             <b>6.1.</b>
                         
-                        Ubuntu Setup
+                        Ubuntu installer
                     </a>
                 
             
@@ -1072,8 +1062,345 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="ubuntu">Ubuntu</h1>
+                        <h1 id="ubuntu-installer">Ubuntu installer</h1>
+<ul>
+<li>&#x9078;&#x64C7;&#x5957;&#x4EF6;&#x4F86;&#x6E90;</li>
+</ul>
+<pre><code>sudo /usr/bin/software-properties-gtk
+</code></pre><pre><code>sudo apt-get install autoconf automake linux-headers-`uname -r` vim-gnome libclang-dev p7zip guake p7zip-full liblzma-dev \
+indicator-multiload filezilla pidgin pcmanx-gtk2 gparted meld speedcrunch vim ssh python-pip id-utils cflow autogen \
+cutecom hexedit ccache clang pbzip2 smplayer plink putty-tools ghex doxygen doxygen-doc libstdc++6 lib32stdc++6 build-essential \
+doxygen-gui graphviz git-core cconv alsa-oss wmctrl terminator curl gnome-tweak-tool qt4-qtconfig cgdb dos2unix libreadline-dev \
+hexedit ccache ruby subversion htop astyle ubuntu-restricted-extras libncurses5-dev quicksynergy xdot python-pycallgraph \
+exuberant-ctags cscope  libsdl1.2-dev gitk libncurses5-dev binutils-dev python-virtualenv  gtkterm libtool \
+gcc-4.4 gcc-4.4-multilib g++-4.4-multilib g++-4.4 mpi-default-dev libbz2-dev libicu-dev python-dev scons csh \
+enca ttf-anonymous-pro libperl4-corelibs-perl cgvg catfish ipython gawk i2c-tools sshfs wavesurfer audacity fcitx fcitx-chewing libswitch-perl bin86 inotify-tools u-boot-tools subversion crash tree mscgen krename umbrello intel2gas kernelshark trace-cmd pppoe
+</code></pre><ul>
+<li>PCMAN &#x5B57;&#x9AD4;</li>
+</ul>
+<pre><code>&#x82F1;&#x6587; ACSII DejaVu Sans Mono
+&#x4E2D;&#x6587;&#x5B57;&#x578B; Serif
+</code></pre><ul>
+<li>gnome-open</li>
+</ul>
+<pre><code>sudo ln -s /usr/bin/gnome-open ~/bin/o
+</code></pre><ul>
+<li>&#x5B89;&#x88DD; ack</li>
+</ul>
+<pre><code>https://github.com/petdance/ack
 
+~/.ackrc
+#--smart-case
+#--follow
+
+--smart-case
+--no-heading
+--no-group
+
+--color-filename=magenta
+--color-lineno=green
+--color-match=red
+
+
+--type-set=mk=.mk
+--type-set=cpp=.cpp
+--type-set=h=.h
+</code></pre><ul>
+<li>slickedit vs</li>
+</ul>
+<pre><code>#!/bin/bash
+
+VSEXEC=
+unset XMODIFIERS
+$VSEXEC $@
+
+
+$ chmod +x vs
+$ sudo mv vs /usr/bin
+</code></pre><ul>
+<li>LiHei Pro &#x5137;&#x9ED1;Pro &#x5B57;&#x578B;</li>
+</ul>
+<pre><code>http://mengko616.googlepages.com/LiHeiProPC.ttf.tar.gz
+/usr/share/fonts/truetype
+sudo mkdir ttf-macosx
+sudo fc-cache -v -f
+</code></pre><ul>
+<li>Install Oracle JDK 6</li>
+</ul>
+<pre><code>&#x4E0B;&#x8F09;&#x4E26;&#x5B89;&#x88DD;JDK 1.6&#xFF08;&#x6211;&#x7528;64&#x4F4D;&#x7684;&#xFF09;
+$ wget http://ghaffarian.net/downloads/Java/JDK/jdk-6u45-linux-x64.bin
+$ chmod u+x jdk-6u45-linux-x64.bin
+$ ./jdk-6u45-linux-x64.bin
+$ sudo mkdir -p /usr/lib/jvm
+$ sudo mv jdk1.6.0_45 /usr/lib/jvm/
+
+
+sudo update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/jdk1.6.0_45/bin/javac 1
+sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/jdk1.6.0_45/bin/java 1
+sudo update-alternatives --install /usr/bin/javaws javaws /usr/lib/jvm/jdk1.6.0_45/bin/javaws 1
+sudo update-alternatives --install /usr/bin/jar jar /usr/lib/jvm/jdk1.6.0_45/bin/jar 1
+sudo update-alternatives --install /usr/bin/javap javap /usr/lib/jvm/jdk1.6.0_45/bin/javap 1
+sudo update-alternatives --install &quot;/usr/bin/javadoc&quot; &quot;javadoc&quot; &quot;/usr/lib/jvm/jdk1.6.0_45/bin/javadoc&quot; 1
+
+
+update-alternatives --config java
+update-alternatives --config javac
+update-alternatives --config javaws
+update-alternatives --config jar
+update-alternatives --config javap
+
+
+$ java -version
+</code></pre><ul>
+<li>ubuntu &#x8072;&#x97F3;&#x5F88;&#x5C0F;&#x97F3;&#x91CF;&#x5C0F;&#x8072;</li>
+</ul>
+<pre><code>&#x89E3;&#x6C7A;&#x4E4B;&#x9053;:
+&#x6253;&#x958B;&#x7D42;&#x7AEF;&#x6A5F;&#xFF0C;&#x8F93;&#x5165;&#xFF1A;alsamixer
+</code></pre><ul>
+<li>PCMan &#x6C92;&#x6709;&#x6E38;&#x6A19;&#x554F;&#x984C;</li>
+</ul>
+<pre><code>deb http://ppa.launchpad.net/fourdollars/pcmanx/ubuntu YOUR_UBUNTU_VERSION_HERE main
+deb-src http://ppa.launchpad.net/fourdollars/pcmanx/ubuntu YOUR_UBUNTU_VERSION_HERE main
+</code></pre><pre><code>- &#x5C07; /tmp &#x8A2D;&#x5230; RamDisk (tmpfs) &#x7684;&#x65B9;&#x6CD5;
+
+&#x57FA;&#x672C;&#x4E0A;&#x53EA;&#x8981;&#x6253;&#x4EE5;&#x4E0B;&#x6307;&#x4EE4;&#xFF0C;&#x5C31;&#x80FD;&#x5C07; /tmp &#x7D81;&#x5B9A;&#x5230; /dev/shm
+mkdir /dev/shm/tmp
+chmod 1777 /dev/shm/tmp
+sudo mount --bind /dev/shm/tmp /tmp
+
+&#x203B; &#x8A3B;&#xFF1A;&#x70BA;&#x4F55;&#x662F;&#x7528; mount --bind &#x7D81;&#x5B9A;&#xFF0C;&#x800C;&#x4E0D;&#x662F; ln -s &#x8EDF;&#x9023;&#x7D50;&#xFF0C;&#x539F;&#x56E0;&#x662F; /tmp &#x76EE;&#x9304;&#xFF0C;&#x7CFB;&#x7D71;&#x4E0D;&#x7D66;&#x522A;&#x9664;&#x3002;
+
+&#x4E0D;&#x904E;&#x6BCF;&#x6B21;&#x958B;&#x6A5F;&#x90FD;&#x8981;&#x6253;&#x6307;&#x4EE4;&#x624D;&#x80FD;&#x7528;&#xFF0C;&#x9019;&#x6A23;&#x662F;&#x884C;&#x4E0D;&#x901A;&#x7684;&#xFF0C;&#x5FC5;&#x9808;&#x8B93;&#x5B83;&#x958B;&#x6A5F;&#x6642;&#x81EA;&#x52D5;&#x57F7;&#x884C;&#xFF0C;&#x624D;&#x6703;&#x65B9;&#x4FBF;&#x3002;
+</code></pre><ul>
+<li>&#x7528;&#x6587;&#x66F8;&#x7DE8;&#x8F2F;&#x5668;&#xFF0C;&#x5EFA;&#x7ACB; /etc/init.d/ramtmp.sh &#x5167;&#x5BB9;&#x5982;&#x4E0B;&#xFF1A;</li>
+</ul>
+<pre><code>#!/bin/sh
+# RamDisk tmp
+PATH=/sbin:/bin:/usr/bin:/usr/sbin
+
+mkdir -p /dev/shm/tmp
+mkdir -p /dev/shm/cache
+mount --bind /dev/shm/tmp /tmp
+mount --bind /dev/shm/cache /home/shihyu/.cache
+chmod 1777 /dev/shm/tmp
+chmod 1777 /dev/shm/cache
+</code></pre><ul>
+<li>&#x5C07;&#x6B64;&#x6A94;&#x6539;&#x6B0A;&#x9650;&#x70BA; 755&#xFF0C;&#x4F7F;&#x5176;&#x53EF;&#x57F7;&#x884C;</li>
+</ul>
+<pre><code>sudo chmod 755 /etc/init.d/ramtmp.sh
+</code></pre><ul>
+<li>&#x5728; /etc/rcS.d &#x4E2D;&#xFF0C;&#x5EFA;&#x7ACB;&#x76F8;&#x95DC;&#x8EDF;&#x9023;&#x7D50;(&#x6377;&#x5F91;)&#xFF0C;&#x4F7F;&#x5176;&#x4E00;&#x958B;&#x6A5F;&#x5C31;&#x57F7;&#x884C; &#x4EE5;&#x4E0B;&#x6307;&#x4EE4;&#x50C5;&#x80FD;&#x7D42;&#x7AEF;&#x6A5F;&#x64CD;&#x4F5C;</li>
+</ul>
+<pre><code>cd /etc/rcS.d
+sudo ln -s ../init.d/ramtmp.sh S50ramtmp.sh
+</code></pre><ul>
+<li>fcitx&#x5B89;&#x88DD; &#x4EE5;&#x524D;&#x66FE;&#x5B89;&#x88DD;&#x904E;fcitx&#x7684;&#x8A71;&#xFF0C;&#x6700;&#x597D;&#x628A;&#x904E;&#x53BB;&#x7684;&#x90FD;&#x6E05;&#x7406;&#x6389;&#xFF0C;&#x5305;&#x62EC; PPA</li>
+</ul>
+<pre><code>sudo apt-get install fcitx
+sudo apt-get install im-config
+sudo add-apt-repository ppa:fcitx-team/nightly
+sudo apt-get update
+</code></pre><ul>
+<li>&#x6AA2;&#x67E5;&#x66F4;&#x65B0; ,&#x66F4;&#x65B0;&#x5B8C;, &#x518D;&#x7E7C;&#x7E8C;&#x5B89;&#x88DD;&#x78BC;&#x8868;</li>
+</ul>
+<pre><code>sudo apt-get install fcitx-table-boshiamy (&#x5638;&#x8766;&#x7C73;&#xFF09;
+sudo apt-get install fcitx-table-cangjie-big &#xFF08;&#x5009;&#x9821;&#x5927;&#x5B57;&#x96C6;&#xFF09;
+sudo apt-get install fcitx-table-zhengma-large &#xFF08;&#x912D;&#x78BC;&#x5927;&#x5B57;&#x96C6;&#xFF09;
+sudo apt-get install fcitx-table-wubi-large &#xFF08;&#x4E94;&#x7B46;&#x5927;&#x5B57;&#x96C6;&#xFF09;
+sudo apt-get install fcitx-chewing &#xFF08;&#x65B0;&#x9177;&#x97F3;&#xFF09;
+sudo apt-get install fcitx-sunpinyin &#xFF08;&#x53CC;&#x62FC;&#xFF09;
+sudo apt-get install fcitx-table-easy-big &#xFF08;&#x8F15;&#x9B06;&#x5927;&#x8A5E;&#x5EAB;&#xFF09;
+sudo apt-get install fcitx-m17n
+sudo apt-get remove ibus
+</code></pre><ul>
+<li>im-config</li>
+</ul>
+<pre><code>&#x9078;fcitx&#x70BA;&#x9810;&#x8A2D;
+&#x91CD;&#x958B;&#x6A5F;&#x6216;&#x767B;&#x5165;
+&#x5728;&#x6709;&#x53EF;&#x8F38;&#x5165;&#x4E2D;&#x6587;&#x7684;&#x6846;&#x4E2D;&#xFF0C;&#x6309;Ctrl+Space&#xFF0C;&#x7136;&#x5F8C;&#x7528;Ctrl+Shift&#x9078;&#x8F38;&#x5165;&#x6CD5;&#x8F38;&#x5165;&#xFF0C;&#x9810;&#x8A2D;&#x7684;&#x7C21;&#x7E41;&#x8F49;&#x63DB;&#x70BA;Ctrl+Shift+F
+</code></pre><ul>
+<li>ubuntu 13.10 &#x8A18;&#x5F97;&#x6E05;&#x9664; Text Entry &#x88E1;&#x9762;&#x5FEB;&#x901F;&#x9375;&#x8A2D;&#x5B9A;, fcitx &#x624D;&#x6703;&#x6709;&#x4F5C;&#x7528; IntelliJ IDEA 13 on Ubuntu Linux 13.10 &#x5B57;&#x578B;&#x7F8E;&#x5316;&#x770B;&#x7FD2;&#x6163; Mac OS X &#x7684;&#x5B57;&#x578B;&#xFF0C;&#x518D;&#x56DE;&#x5230; Ubuntu Linux &#x684C;&#x9762;&#x7E3D;&#x6703;&#x4E0D;&#x7FD2;&#x6163;&#x3002;&#x4E3B;&#x8981;&#x7684;&#x5DEE;&#x7570;&#x662F; Font Rendering &#x7684;&#x6548;&#x679C;&#xFF0C;&#x8B93; Ubuntu &#x9810;&#x8A2D;&#x7684;&#x5B57;&#x578B;&#x770B;&#x8D77;&#x4F86;&#x904E;&#x65BC;&#x92B3;&#x5229;&#x3002;&#x88DD;&#x4E0A; fontconfig-infinality &#x5373;&#x53EF;&#x6539;&#x5584;&#x3002;</li>
+</ul>
+<pre><code>sudo add-apt-repository ppa:no1wantdthisname/ppa
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install fontconfig-infinality
+sudo bash /etc/fonts/infinality/infctl.sh setstyle
+</code></pre><ul>
+<li>&#x6700;&#x5F8C;&#x4E00;&#x9053;&#x6307;&#x4EE4;&#x8981;&#x9078;&#x64C7;&#x98A8;&#x683C;&#xFF0C;&#x5EFA;&#x8B70;&#x7528; 2 &#x6216; 4 &#x9019;&#x5169;&#x7A2E;&#x5176;&#x4E2D;&#x4E00;&#x500B;&#x3002;</li>
+</ul>
+<pre><code>Select a style:
+1) debug       3) linux       5) osx2      7) win98
+2) infinality  4) osx       6) win7      8) winxp
+</code></pre><ul>
+<li>Install NVIDIA GeForce driver in Ubuntu 14.04 / 13.10 / 13.04 / 12.04 using PPA</li>
+</ul>
+<pre><code>To add PPA for Ubuntu 14.04 / 13.10 / 13.04 / 12.10
+
+Ubuntu 14.04 / 13.10 / 13.04 / 12.10 users, Run the following command in the terminal and type the password for the user when prompted.  Others use the Ubuntu-X PPA.
+
+sudo apt-add-repository ppa:xorg-edgers/ppa
+To add PPA for Ubuntu 12.04 / 11.10 / 11.04 / 10.04
+
+sudo apt-add-repository ppa:ubuntu-x-swat/x-updates
+
+To Update
+
+sudo apt-get update
+Now install the NVIDIA GeForce graphics driver 304.108 in your system, as you install other packages by using apt-get.
+
+To Install
+
+sudo apt-get install nvidia-current nvidia-settings
+Above command will install the driver.
+</code></pre><ul>
+<li>Install TeamViewer 9 in Ubuntu 14.04 64bit</li>
+</ul>
+<pre><code>sudo dpkg --add-architecture i386
+sudo apt-get update
+wget http://www.teamviewer.com/download/teamviewer_linux.deb
+sudo dpkg -i teamviewer_linux.deb
+sudo apt-get install -f
+</code></pre><ul>
+<li>Linux &#x958B;&#x6A5F;&#x5C31;&#x639B;&#x8F09;&#x6307;&#x5B9A;&#x7684;&#x78C1;&#x5340;</li>
+</ul>
+<pre><code>Linux &#x7248;&#x672C;&#xFF1A;Linux mint debian edition 64bit
+
+ sudo ls -l /dev/disk/by-uuid
+&#x67E5;&#x8A62;&#x8981;&#x639B;&#x8F09;&#x78C1;&#x5340;&#x7684;UUID
+
+&#x7DE8;&#x8F2F;&#x3000; /etc/fstab  &#x9019;&#x500B;&#x6A94;&#x6848;&#xFF0C;&#x6A94;&#x6848;&#x5167;&#x6703;&#x6709;&#x5DF2;&#x639B;&#x8F09;&#x7684;&#x8CC7;&#x8A0A;&#xFF0E;&#x53EF;&#x4EE5;&#x7167;&#x672C;&#x5BA3;&#x79D1;&#x7684;&#x4F5C;&#xFF0E;&#x7576;&#x7136;&#x8981;&#x5B58;&#x6A94;
+
+ mount -a &#x3000;&#x91CD;&#x65B0;&#x639B;&#x8F09;&#x78C1;&#x5340;
+
+&#x78BA;&#x8A8D;&#x639B;&#x8F09;&#x7D50;&#x679C;&#x3000; df
+
+&#x91CD;&#x958B;&#x6A5F;&#x5F8C;&#xFF0C;&#x61C9;&#x8A72;&#x5C31;&#x6703;&#x81EA;&#x52D5;&#x639B;&#x8F09;&#x6307;&#x5B9A;&#x7684;&#x78C1;&#x5340;&#x4E86;&#xFF0E;
+
+UUID=1f833a4c-b564-4616-bc72-0fc92d62a687 /media/HD         ext4    defaults        0       2
+</code></pre><h1 id="gitbook-%E5%AE%89%E8%A3%9D">Gitbook &#x5B89;&#x88DD;</h1>
+<ul>
+<li>&#x5B89;&#x88DD; Node.js</li>
+</ul>
+<pre><code>sudo apt-get update
+sudo apt-get install nodejs
+sudo apt-get install npm
+</code></pre><ul>
+<li>&#x4E0B;&#x8F09;&#x6700;&#x8FD1;&#x7248;&#x672C;&#x7684;npm</li>
+</ul>
+<pre><code>http://nodejs.org/dist/
+</code></pre><ul>
+<li>&#x4F7F;&#x7528; Global &#x5B89;&#x88DD; gitbook</li>
+</ul>
+<pre><code>sudo npm install gitbook -g
+</code></pre><ul>
+<li>&#x5B89;&#x88DD; nodejs-legacy &#x907F;&#x514D;&#x5F8C;&#x7E8C;&#x57F7;&#x884C; gitbook &#x7684;&#x6642;&#x5F8C;&#x767C;&#x751F;&#x932F;&#x8AA4; &quot;/usr/bin/env: node: No such file or directory&quot;</li>
+</ul>
+<pre><code>sudo apt-get install nodejs-legacy
+</code></pre><ul>
+<li>&#x5B89;&#x88DD; Calibre Tools &#x4EE5;&#x4FBF;&#x9032;&#x884C;&#x8F38;&#x51FA;&#x96FB;&#x5B50;&#x66F8;&#x6A94;&#x6848;  &#x5982;&#x679C;&#x672A;&#x5B89;&#x88DD;&#x5373;&#x57F7;&#x884C; gitbook pdf &#x7B49;&#x8F38;&#x51FA;&#x96FB;&#x5B50;&#x66F8;&#x6A94;&#x6848;&#x6642;&#x6703;&#x51FA;&#x73FE;&#x932F;&#x8AA4; &quot;Need to install ebook-convert from Calibre&quot;&#xFF0C;&#x56E0;&#x6B64;&#x9700;&#x8981;&#x5148;&#x884C;&#x5B89;&#x88DD; Calibre &#x4EE5;&#x4FBF;&#x9032;&#x884C;&#x5F8C;&#x7E8C;&#x7684;&#x8F38;&#x51FA;&#x52D5;&#x4F5C;</li>
+</ul>
+<pre><code>sudo apt-get install Calibre
+</code></pre><ul>
+<li>&#x7576;&#x57F7;&#x884C; gitbook pdf -v &#x51FA;&#x73FE; &quot;RuntimeError: X server required. If you are running on a headless machine, use xvfb&quot;&#xFF0C;&#x6240;&#x4EE5;&#x4E5F;&#x9700;&#x8981;&#x5148;&#x5B89;&#x88DD; xvfb &#x907F;&#x514D;&#x932F;&#x8AA4;</li>
+</ul>
+<pre><code>sudo apt-get install xvfb
+updatedb
+</code></pre><h1 id="%E5%AE%89%E8%A3%9Dgitbook-editor">&#x5B89;&#x88DD;gitbook-editor</h1>
+<ul>
+<li>&#x4E0B;&#x8F09;GITBOOK EDTOR</li>
+</ul>
+<pre><code>https://github.com/GitbookIO/editor-legacy/releases
+wget https://github.com/GitbookIO/editor-legacy/releases/download/1.1.0/gitbook-linux64.tar.gz
+</code></pre><ul>
+<li>&#x89E3;&#x58D3;&#x53CA;&#x5B89;&#x88DD;</li>
+</ul>
+<pre><code>tar -xvzf gitbook-linux64.tar.gz
+cd linux64
+sudo ln -s /lib/x86_64-linux-gnu/libudev.so.1 /lib/x86_64-linux-gnu/libudev.so.0
+bash ./install.sh
+</code></pre><ul>
+<li>Makefile</li>
+</ul>
+<pre><code>files=zh-tw/*.md
+cmd=opencc -c zht2zhs.ini -i
+
+hans:
+    @mkdir -p zh-cn
+    @for name in ${files} ; do \
+        ${cmd} $$name -o $${name//tw/cn} ; \
+    done
+
+init:
+    @cp README.md zh-tw/
+    @$(MAKE) hans
+
+serve:
+    @gitbook serve
+
+build:
+    @gitbook build
+
+clean:
+    rm -fr _book
+
+publish:
+    @ghp-import _book -p -n
+</code></pre><hr>
+<h1 id="%E5%A4%9A%E5%80%8B-ssh-key-%E5%B0%8D%E6%87%89%E5%A4%9A%E5%80%8B-github-%E5%B8%B3%E8%99%9F">&#x591A;&#x500B; SSH Key &#x5C0D;&#x61C9;&#x591A;&#x500B; Github &#x5E33;&#x865F;</h1>
+<ul>
+<li>&#x7522;&#x751F;&#x500B;&#x5225;&#x7684; ssh keys</li>
+</ul>
+<pre><code>$ cd ~/.ssh
+$ ssh-keygen -t rsa -C &quot;account1@email.com&quot; -f id_rsa_account1
+$ ssh-keygen -t rsa -C &quot;account2@email.com&quot; -f id_rsa_account2
+</code></pre><ul>
+<li>github setting Deploy keys</li>
+</ul>
+<pre><code>&#x52FE;&#x9078;
+Allow write access
+Can this key be used to push to this repository? Deploy keys always have pull access.
+</code></pre><ul>
+<li>&#x5EFA;&#x7ACB; config &#x6A94;</li>
+</ul>
+<pre><code>$ cd ~/.ssh
+$ touch config
+$ gedit config
+</code></pre><ul>
+<li>&#x7DE8;&#x8F2F;&#x5167;&#x5BB9;&#x5982;&#x4E0B;</li>
+</ul>
+<pre><code>#account1
+Host github.com-account1
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/id_rsa_account1
+
+#account2
+Host github.com-account2
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/id_rsa_account2
+</code></pre><ul>
+<li>&#x4FEE;&#x6539;&#x76F8;&#x5C0D;&#x61C9; repo &#x7684; remote url&#x3002;&#x4F8B;&#x5982;&#xFF1A;<ul>
+<li>ssh://git@github.com-account1/<strong>github account</strong>/repo1.git</li>
+<li>github account &#x662F;github&#x5E33;&#x865F; <strong>ex : jasonblog , ccccjason , shihyu</strong></li>
+</ul>
+</li>
+</ul>
+<pre><code>$ cd /path/to/repo1
+$ git remote set-url origin ssh://git@github.com-account1/account1/repo1.git
+</code></pre><ul>
+<li>~/.ssh/config</li>
+</ul>
+<pre><code>#account1
+Host github.com-ccccjason
+HostName github.com
+User git
+IdentityFile ~/.ssh/id_rsa_ccccjason
+</code></pre><pre><code>git remote set-url origin ssh://git@github.com-ccccjason/ccccjason/book.git _book
+
+git clone  ssh://git@github.com-ccccjason/ccccjason/book.git _book
+</code></pre>
                     
                     </section>
                 
@@ -1083,10 +1410,8 @@
         </div>
 
         
-        <a href="../android_note/bindservice.html" class="navigation navigation-prev " aria-label="Previous page: service组件-bindService源码分析"><i class="fa fa-angle-left"></i></a>
+        <a href="../android_note/bindservice.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: service组件-bindService源码分析"><i class="fa fa-angle-left"></i></a>
         
-        
-        <a href="../ubuntu/ubuntu_setup.html" class="navigation navigation-next " aria-label="Next page: Ubuntu Setup"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

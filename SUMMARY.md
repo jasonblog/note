@@ -56,4 +56,6 @@
    * [Android中進程與進程、線程與線程之間如何通信](android_note/prcess_thread_ipc.md)
    * [startService的創建過程](android_note/startservice.md)
    * [service组件-bindService源码分析](android_note/bindservice.md)
+* [Ubuntu](ubuntu/README)
+   * [Ubuntu installer](ubuntu/ubuntu_installer.md)
 

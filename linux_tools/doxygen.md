@@ -25,3 +25,10 @@ EXTRACT_PRIVATE        = YES
 EXTRACT_STATIC         = YES
 CALL_GRAPH             = YES
 ```
+
+
+### sed
+
+```
+sed -ri.bak '/^RECURSIVE\s|^HAVE_DOT\s|^EXTRACT_ALL\s|^EXTRACT_PRIVATE\s|^EXTRACT_STATIC\s|^CALL_GRAPH\s|^CALLER_GRAPH\s/s/= NO/= YES/' Doxyfile
+```

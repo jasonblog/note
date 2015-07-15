@@ -58,4 +58,6 @@
    * [service组件-bindService源码分析](android_note/bindservice.md)
 * [Ubuntu](ubuntu/README)
    * [Ubuntu installer](ubuntu/ubuntu_installer.md)
+* [QEMU](qemu/README.md)
+   * [Qemu_KGDB_Ftrace](qemu/qemu_kgdb_ftrace)
 

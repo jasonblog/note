@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
-        <title>Linux Tools | Jason note</title>
+        <title>Qemu_KGDB_Ftrace | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.0.1">
@@ -20,10 +20,8 @@
         
     
     
-    <link rel="next" href="../linux_tools/linux_basic.html" />
     
-    
-    <link rel="prev" href="../shared_libraries/11.html" />
+    <link rel="prev" href="../qemu/index.html" />
     
 
         
@@ -36,7 +34,7 @@
     
 
         
-    <div class="book" data-level="3" data-basepath=".." data-revision="Thu Jul 16 2015 00:21:36 GMT+0800 (CST)">
+    <div class="book" data-level="7.1" data-basepath=".." data-revision="Thu Jul 16 2015 00:21:36 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -153,7 +151,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="3" data-path="linux_tools/index.html">
+        <li class="chapter " data-level="3" data-path="linux_tools/index.html">
             
                 
                     <a href="../linux_tools/index.html">
@@ -985,7 +983,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="7.1" data-path="qemu/qemu_kgdb_ftrace.html">
+        <li class="chapter active" data-level="7.1" data-path="qemu/qemu_kgdb_ftrace.html">
             
                 
                     <a href="../qemu/qemu_kgdb_ftrace.html">
@@ -1108,8 +1106,221 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="linux-tools">Linux Tools</h1>
+                        <h1 id="qemu-kgdb-ftrace">QEMU + KGDB + Ftrace</h1>
+<h3 id="cross-comiler">cross comiler</h3>
+<pre><code>http://releases.linaro.org/14.05/components/toolchain/binaries
 
+arm-linux-gnueabi-linaro_4.9.1-2014.07
+https://github.com/Christopher83/linaro_toolchains_2014
+
+https://launchpad.net/linaro-toolchain-binaries/
+https://launchpad.net/linaro-toolchain-binaries/trunk/2013.10/+download/gcc-linaro-arm-linux-gnueabihf-4.8-2013.10_linux.tar.bz2
+</code></pre><h3 id="gdb-7-9-build-gdbserver-and-gdb">gdb-7.9 build  gdbserver and gdb</h3>
+<pre><code>./configure --target=arm-linux --prefix=/usr/local/arm-gdb
+# --target=arm-linux&#x8868;&#x793A;&#x751F;&#x6210;&#x7684;gdb&#x8ABF;&#x8A66;&#x7684;&#x76EE;&#x6A19;&#x662F;&#x5728;arm&#x6838;&#x5FC3;Linux&#x7CFB;&#x7D71;&#x4E2D;&#x904B;&#x884C;&#x7684;&#x7A0B;&#x5E8F;
+
+make
+sudo make install
+</code></pre><ul>
+<li>Toolchain &#x7121;&#x6CD5;&#x4F7F;&#x7528; android &#x7684; arm &#x7DE8;&#x8B6F;&#x5668;&#x76EE;&#x524D;&#x539F;&#x56E0;&#x4E0D;&#x6E05;&#x695A;</li>
+</ul>
+<pre><code>https://launchpad.net/linaro-toolchain-binaries/trunk/2013.10/+download/gcc-linaro-arm-linux-gnueabihf-4.8-2013.10_linux.tar.bz2
+</code></pre><ul>
+<li>build.env</li>
+</ul>
+<pre><code># -*- shell-script -*-
+TOOLCHAIN=gcc-linaro-arm-linux-gnueabihf-4.8-2013.10_linux
+DIR=$(pushd $(dirname $BASH_SOURCE) &gt; /dev/null; pwd; popd &gt; /dev/null)
+echo $DIR
+export PATH=${PATH}:${DIR}/${TOOLCHAIN}/bin
+export CC=arm-linux-gnueabihf-gcc
+</code></pre><h3 id="gdbserver-%E8%A6%81%E6%B3%A8%E6%84%8Fgdb%E5%92%8Cgdbserver%E7%89%88%E6%9C%AC%E4%B8%80%E8%87%B4">gdbserver , &#x8981;&#x6CE8;&#x610F;gdb&#x548C;gdbserver&#x7248;&#x672C;&#x4E00;&#x81F4;</h3>
+<pre><code>source build.env
+./configure --target=arm-linux --host=arm-linux LDFLAGS=&quot;-static&quot;
+# &#x9019;&#x88E1;&#x7684;--host&#x6307;&#x5B9A;&#x9019;&#x500B;&#x7A0B;&#x5E8F;&#x7684;&#x76EE;&#x6A19;&#x5E73;&#x53F0;&#x3002;&#x9019;&#x4E00;&#x6B65;&#x4E2D;&#x6703;&#x6AA2;&#x67E5;&#x7CFB;&#x7D71;&#x4E2D;&#x662F;&#x5426;&#x6709;&#x4EA4;&#x53C9;&#x7DE8;&#x8B6F;&#x5668;&#x7684;&#x3002;
+# We must add the above LDFLAGS to let gdb statically linked, otherwise it cannot
+run on Android.
+
+time make -j8 2&gt;&amp;1 | tee build.log
+file ./gdbserver
+
+./gdbserver: ELF 32-bit LSB  executable, ARM, EABI5 version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 3.1.1, BuildID[sha1]=4eec8a5a6893ed8ce65eea5d0741a55cc621236a, not stripped
+</code></pre><h1 id="linaro-qemu">linaro qemu</h1>
+<pre><code>git clone git://git.linaro.org/qemu/qemu-linaro.git
+
+$ cd qemu-linaro
+$ mkdir build
+$ cd build
+$ ../configure --prefix=/usr/local/qemu-linaro
+$ make -j8
+$ sudo make install
+</code></pre><h1 id="-bashrc">~/.bashrc</h1>
+<pre><code>export PATH=/usr/local/qemu-linaro/bin:$PATH
+</code></pre><h1 id="busybox">busybox</h1>
+<pre><code>make -j8 ARCH=arm CROSS_COMPILE=arm-eabi- defconfig  // generation .config
+</code></pre><h3 id="%E6%89%93%E9%96%8B-busybox-%E9%81%B8%E9%A0%85">&#x6253;&#x958B; Busybox &#x9078;&#x9805;</h3>
+<pre><code>CONFIG_STATIC=y
+CONFIG_INSTALL_NO_USR=y
+CONFIG_FEATURE_PREFER_APPLETS=y
+CONFIG_FEATURE_SH_STANDALONE=y
+</code></pre><h3 id="build-busybox">build busybox</h3>
+<pre><code>make -j8 ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-
+make -j8 ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- install  // &#x7522;&#x751F; _install &#x8CC7;&#x6599;&#x593E;
+</code></pre><h1 id="%E5%BB%BA%E7%AB%8Broot-filesystem-image">&#x5EFA;&#x7ACB;root filesystem image</h1>
+<pre><code>// arm-linux-gnueabihf-gcc hello.c -o hello
+#include &lt;stdio.h&gt;
+
+int main(int argc, char *argv[])
+{
+    printf(&quot;Hello world\n&quot;);
+    return 0;
+}
+</code></pre><h3 id="%E6%9F%A5%E8%A9%A2-hello-%E6%89%80%E9%9C%80%E8%A6%81%E7%9A%84-share-library">&#x67E5;&#x8A62;  hello &#x6240;&#x9700;&#x8981;&#x7684;&#x3000;share library</h3>
+<pre><code>arm-linux-gnueabihf-readelf -a  hello | ag &apos;\.so&apos;
+
+[Requesting program interpreter: /lib/ld-linux-armhf.so.3]
+ 0x00000001 (NEEDED)                     Shared library: [libc.so.6]
+0001055c  00000216 R_ARM_JUMP_SLOT   00000000   __libc_start_main
+     1: 00000000     0 FUNC    GLOBAL DEFAULT  UND puts@GLIBC_2.4 (2)
+     2: 00000000     0 FUNC    GLOBAL DEFAULT  UND __libc_start_main@GLIBC_2.4 (2)
+     4: 00000000     0 FUNC    GLOBAL DEFAULT  UND abort@GLIBC_2.4 (2)
+    84: 00008431     2 FUNC    GLOBAL DEFAULT   13 __libc_csu_fini
+    93: 00000000     0 FUNC    GLOBAL DEFAULT  UND puts@@GLIBC_2.4
+    94: 00000000     0 FUNC    GLOBAL DEFAULT  UND __libc_start_main@@GLIBC_
+    98: 000083f1    64 FUNC    GLOBAL DEFAULT   13 __libc_csu_init
+   107: 00000000     0 FUNC    GLOBAL DEFAULT  UND abort@@GLIBC_2.4
+  000:   0 (*local*)       2 (GLIBC_2.4)     2 (GLIBC_2.4)     0 (*local*)
+  004:   2 (GLIBC_2.4)
+  000000: Version: 1  File: libc.so.6  Cnt: 1
+  0x0010:   Name: GLIBC_2.4  Flags: none  Version: 2
+</code></pre><ul>
+<li>&#x9700;&#x8981;&#x3000;ld-linux-armhf.so.3&#x3000;&amp; libc.so.6</li>
+<li>&#x5982;&#x679C;&#x7DE8;&#x8B6F;&#x6210; static &#x61C9;&#x8A72;&#x5C31;&#x4E0D;&#x9700;&#x8981; share libray</li>
+</ul>
+<pre><code>[Requesting program interpreter: /lib/ld-linux-armhf.so.3]
+0x00000001 (NEEDED)                     Shared library: [libc.so.6]
+000000: Version: 1  File: libc.so.6  Cnt: 1
+</code></pre><h3 id="%E9%96%8B%E5%A7%8B%E5%BB%BA%E7%AB%8B-filesystem">&#x958B;&#x59CB;&#x5EFA;&#x7ACB; filesystem</h3>
+<pre><code>cd busybox-1.23.2/_install/
+mkdir -p proc sys dev etc etc/init.d lib
+cd gcc-linaro-arm-linux-gnueabihf-4.9-2014.05_linux
+find . -name  &apos;libc.so.6&apos;
+cp -a gcc-linaro-arm-linux-gnueabihf-4.9-2014.05_linux/arm-linux-gnueabihf/libc/* busybox-1.23.2/_install/lib
+
+
+cat &lt;&lt; EOF &gt; etc/fstab
+proc  /proc  proc  defaults  0  0
+sysfs  /sys  sysfs defaults  0  0
+tmpfs  /tmp  tmpfs defaults  0  0
+EOF
+
+
+cat &lt;&lt; EOF &gt; etc/inittab
+::sysinit:/etc/init.d/rcS
+::respawn:-/bin/sh
+tty2::askfirst:-/bin/sh
+::ctrlaltdel:/bin/umount -a -r
+EOF
+
+// etc/init.d/rcS
+#! /bin/sh
+
+MAC=08:90:90:59:62:21
+IP=192.168.100.2
+Mask=255.255.255.0
+Gateway=192.168.100.1
+</code></pre><ul>
+<li>chmod 755 etc/init.d/rcS</li>
+<li>&#x7522;&#x751F; rootfs, &#x53EF;&#x5728;temp &#x4E0B;&#x65B0;&#x589E;&#x4FEE;&#x6539;&#x6A94;&#x6848;</li>
+</ul>
+<pre><code>find ./ | cpio -o -H newc | gzip &gt; ../rootfs.img
+</code></pre><h1 id="build-kernel">build kernel</h1>
+<ul>
+<li>linux-3.18.16  , &#x76EE;&#x524D;4.1&#x7248;&#x672C;&#x597D;&#x50CF;&#x6703;&#x6709;&#x554F;&#x984C;  , qemu &#x7121;&#x6CD5;&#x4F7F;&#x7528;</li>
+</ul>
+<pre><code>make ARCH=arm  vexpress_defconfig
+make ARCH=arm  menuconfig  or  make ARCH=arm  vexpress_defconfig menuconfig
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- -j12
+</code></pre><h1 id="%E5%AE%89%E8%A3%9D-tftp">&#x5B89;&#x88DD; tftp</h1>
+<pre><code>sudo apt-get install tftp-hpa tftpd-hpa
+/etc/default/tftpd-hpa
+# /etc/default/tftpd-hpa
+TFTP_USERNAME=&quot;tftp&quot;
+TFTP_DIRECTORY=&quot;/tftpboot&quot;
+TFTP_ADDRESS=&quot;0.0.0.0:69&quot;
+TFTP_OPTIONS=&quot;-l -c -s&quot;
+</code></pre><h1 id="%E5%BB%BA%E7%AB%8B-tftpboot">&#x5EFA;&#x7ACB; tftpboot</h1>
+<pre><code>sudo mkdir /tftpboot
+sudo chmod 777 /tftpboot
+// restart service
+sudo service tftpd-hpa restart
+// test tftp
+tftp host-ip  // ex tftp localhost
+get or put
+ex: tftp -g -r hello.c  192.168.100.1
+</code></pre><h1 id="%E5%95%9F%E5%8B%95-tap">&#x555F;&#x52D5; tap :</h1>
+<pre><code>sudo apt-get install uml-utilities   // &#x9700;&#x8981;&#x5B89;&#x88DD;
+sudo ./nettap.sh  // &#x5FC5;&#x9808;&#x52A0;&#x4E0A; sudo
+</code></pre><ul>
+<li>nettap.sh</li>
+</ul>
+<pre><code>#! /bin/bash
+tunctl -u jason-yao -t tap0
+ifconfig tap0 192.168.100.1 up
+echo 1 &gt; /proc/sys/net/ipv4/ip_forward
+iptables -t nat -A POSTROUTING -o eth1 -j MASQUERADE
+iptables -I FORWARD 1 -i tap0 -j ACCEPT
+iptables -I FORWARD 1 -o tap0 -m state --state RELATED,ESTABLISHED -j ACCEPT
+</code></pre><h1 id="%E5%95%9F%E5%8B%95-qemu">&#x555F;&#x52D5; QEMU</h1>
+<pre><code>qemu-system-arm -M vexpress-a9 \
+                -kernel zImage \
+                -initrd rootfs.img \
+                -serial stdio \
+                -append &quot;root=/dev/ram rdinit=/sbin/init console=ttyAMA0&quot; \
+                -k en-us \
+                -net nic \
+                -net tap,ifname=tap0,script=no
+
+
+qemu-system-arm -M vexpress-a9 \
+                -kernel zImage \
+                -initrd rootfs.img \
+                -serial stdio \
+                -append &quot;root=/dev/ram rdinit=/sbin/init console=ttyAMA0&quot; \
+                -k en-us \
+                -net nic \
+                -net tap,ifname=tap0,script=no \
+                -gdb tcp::1234 -S
+</code></pre><h1 id="%E5%95%9F%E5%8B%95-gdb">&#x555F;&#x52D5; GDB</h1>
+<pre><code>arm-linux-gnueabihf-gdb  ./vmlinux
+target remote localhost:1234
+</code></pre><h1 id="%E4%BD%BF%E7%94%A8ftrace">&#x4F7F;&#x7528;Ftrace</h1>
+<pre><code>Kernel hacking -&gt; Tracers -&gt; enable/disable ftrace tracepoints dynamically
+Kernel hacking -&gt; Tracers -&gt; Kernel Function Tracer
+
+mount -t debugfs none /sys/kernel/debug
+cd /sys/kernel/debug/tracing
+</code></pre><pre><code>qemu-system-arm -m 1024M -sd armdisk.img \
+                -M vexpress-a9 -cpu cortex-a9 \
+                -kernel vmlinuz-3.2.0-4-vexpress -initrd initrd.gz \
+                -append &quot;root=/dev/ram&quot;  -no-reboot
+</code></pre><ul>
+<li>ftrace_on.sh</li>
+</ul>
+<pre><code>#!/bin/bash
+
+mount -t debugfs none /sys/kernel/debug
+echo 16384 &gt; /sys/kernel/debug/tracing/buffer_size_kb
+echo nop &gt; /sys/kernel/debug/tracing/current_tracer
+
+echo 1 &gt; /sys/kernel/debug/tracing/events/kmem/kmalloc/enable
+echo 1 &gt; /sys/kernel/debug/tracing/events/kmem/kmalloc_node/enable
+echo 1 &gt; /sys/kernel/debug/tracing/events/kmem/kfree/enable
+
+echo 0 &gt; /sys/kernel/debug/tracing/tracing_on
+echo  &gt; /sys/kernel/debug/tracing/trace
+echo 1 &gt; /sys/kernel/debug/tracing/tracing_on
+</code></pre>
                     
                     </section>
                 
@@ -1119,10 +1330,8 @@
         </div>
 
         
-        <a href="../shared_libraries/11.html" class="navigation navigation-prev " aria-label="Previous page: Shared Libraries Setup"><i class="fa fa-angle-left"></i></a>
+        <a href="../qemu/index.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: QEMU"><i class="fa fa-angle-left"></i></a>
         
-        
-        <a href="../linux_tools/linux_basic.html" class="navigation navigation-next " aria-label="Next page: Linux Basic"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

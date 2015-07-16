@@ -65,4 +65,5 @@
    * [Linux 的授權](linux_device_driver_programming/02.md)
    * [準備開發裝置驅動程式](linux_device_driver_programming/03.md)
    * [開發驅動程式的第一步 ](linux_device_driver_programming/04.md)
+   * [開發 driver 需要的基礎知識 ](linux_device_driver_programming/05.md)
 

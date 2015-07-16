@@ -66,4 +66,11 @@
    * [準備開發裝置驅動程式](linux_device_driver_programming/03.md)
    * [開發驅動程式的第一步 ](linux_device_driver_programming/04.md)
    * [開發 driver 需要的基礎知識 ](linux_device_driver_programming/05.md)
+* [fcamel ](fcamel/README.md)
+   * [[轉]ld, ld.so 和 ldconfig 的行為](fcamel/01.md)
+   * [[轉]解決 undefined symbol / reference](fcamel/02.md)
+   * [[轉] 列出用到的 shared library](fcamel/03.md)
+   * [[轉]用 LD_PRELOAD 替換動態連結的函式庫](fcamel/04.md)
+   * [[轉] 用 strace 和 ltrace 找出用到的 system call 和 library call](fcamel/05.md)
+   * [[轉] 加速 linking time](fcamel/[]__linking_time.md)
 

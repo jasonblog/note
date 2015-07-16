@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
-        <title>開發驅動程式的第一步 | Jason note</title>
+        <title>[轉] 用 strace 和 ltrace 找出用到的 system call 和 library call | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.0.1">
@@ -20,10 +20,10 @@
         
     
     
-    <link rel="next" href="../linux_device_driver_programming/05.html" />
+    <link rel="next" href="../fcamel/[]__linking_time.html" />
     
     
-    <link rel="prev" href="../linux_device_driver_programming/03.html" />
+    <link rel="prev" href="../fcamel/04.html" />
     
 
         
@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="8.4" data-basepath=".." data-revision="Fri Jul 17 2015 03:21:47 GMT+0800 (CST)">
+    <div class="book" data-level="9.5" data-basepath=".." data-revision="Fri Jul 17 2015 03:21:47 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1058,7 +1058,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="8.4" data-path="linux_device_driver_programming/04.html">
+        <li class="chapter " data-level="8.4" data-path="linux_device_driver_programming/04.html">
             
                 
                     <a href="../linux_device_driver_programming/04.html">
@@ -1169,7 +1169,7 @@
             
         </li>
     
-        <li class="chapter " data-level="9.5" data-path="fcamel/05.html">
+        <li class="chapter active" data-level="9.5" data-path="fcamel/05.html">
             
                 
                     <a href="../fcamel/05.html">
@@ -1307,214 +1307,62 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E9%96%8B%E7%99%BC%E9%A9%85%E5%8B%95%E7%A8%8B%E5%BC%8F%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AD%A5">&#x958B;&#x767C;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684;&#x7B2C;&#x4E00;&#x6B65;</h1>
-<p>&#x6700;&#x521D;&#x7684;&#x7A0B;&#x5F0F;</p>
-<pre><code>#include &lt;linux/module.h&gt;
-#include &lt;linux/init.h&gt;
+                        <h1 id="%E7%94%A8-strace-%E5%92%8C-ltrace-%E6%89%BE%E5%87%BA%E7%94%A8%E5%88%B0%E7%9A%84-system-call-%E5%92%8C-library-call">&#x7528; strace &#x548C; ltrace &#x627E;&#x51FA;&#x7528;&#x5230;&#x7684; system call &#x548C; library call</h1>
+<p>&#x524D;&#x9762;&#x63D0;&#x5230; host &#x6C92;&#x6709; call gethostbyaddr, &#x9762;&#x60E1;&#x5FC3;&#x5584;&#x7684; Scott &#x5927;&#x6982;&#x662F;&#x67E5;&#x89BA;&#x6211;&#x4E0B;&#x8F09;&#x4E86;&#x539F;&#x59CB;&#x78BC;, &#x537B;&#x6C92;&#x6709;&#x627E;&#x51FA;&#x78BA;&#x8A8D;&#x5B83;&#x7684;&#x65B9;&#x6CD5;&#x3002;&#x65BC;&#x662F;&#x5728;&#x53E6;&#x4E00;&#x7BC7;&#x7559;&#x8A00;&#x88E1;&#x8AAA;&#x53EF;&#x4EE5;&#x7528; strace&#x3001;ltrace &#x6216; gdb &#x8F15;&#x6613;&#x505A;&#x5230;&#x9019;&#x4E8B; (&#x5E78;&#x597D;&#x6211;&#x9084;&#x6C92;&#x958B;&#x59CB;&#x8A66; profiler &#x554A;...)&#x3002;</p>
+<p>strace &#x548C; ltrace &#x9867;&#x540D;&#x601D;&#x8B70;, &#x5B83;&#x5011;&#x6703;&#x5217;&#x51FA;&#x57F7;&#x884C;&#x671F;&#x9593;&#x7528;&#x5230;&#x7684; system / library call&#x3002;&#x82E5;&#x4E0D;&#x78BA;&#x5B9A;&#x6709;&#x8208;&#x8DA3;&#x7684;&#x51FD;&#x5F0F;&#x662F;&#x90A3;&#x500B;, &#x53EF;&#x4EE5;&#x7528; man page &#x7DE8;&#x865F;&#x4F86;&#x5224;&#x5225;&#x3002;&#x6BD4;&#x65B9; man gethostbyaddr &#x986F;&#x793A;&#x88AB;&#x5206;&#x5728;  section 3 &#x4E0B;, &#x6240;&#x4EE5; gethostbyaddr &#x662F; library call [*1]&#x3002;</p>
+<p>&#x5206;&#x5225;&#x62FF; host &#x548C;&#x5C0D;&#x7167;&#x7D44; getent &#x8A66;&#x7684;&#x7D50;&#x679C;, &#x53EF;&#x4EE5;&#x770B;&#x5230; getent &#x6709;&#x6253;&#x958B; /etc/hosts (&#x5F9E; strace &#x90A3;&#x770B;&#x5230;&#x7684;), &#x4E26;&#x547C;&#x53EB; gethostbyaddr&#xFF1B;&#x800C; host &#x537B;&#x5169;&#x8005;&#x7686;&#x7121;&#x3002;&#x89E3;&#x958B;&#x7591;&#x60D1;&#x5BE6;&#x4E43;&#x4EBA;&#x751F;&#x4E00;&#x5927;&#x75DB;&#x5FEB;&#x4E4B;&#x4E8B;, &#x611F;&#x8B1D; Scott &#x7684;&#x6307;&#x9EDE;&#x3002;</p>
+<p>&#x9644;&#x4E0A;&#x53C3;&#x8003;&#x7528;&#x6307;&#x4EE4;&#xFF1A;</p>
+<pre><code>$ ltrace getent hosts 127.0.0.1 2&gt;&amp;1 | grep gethostby
+gethostbyaddr(&quot;\177&quot;, 4, 2)                      = 0xb7ed0aa0
+$ strace getent hosts 127.0.0.1 2&gt;&amp;1 | grep &quot;/etc/hosts&quot;
+open(&quot;/etc/hosts&quot;, O_RDONLY|O_CLOEXEC)  = 3
 
-MODULE_LICENSE(&quot;Dual BSD/GPL&quot;);
+$ strace host 127.0.0.1 2&gt;&amp;1 | grep &quot;/etc/hosts&quot;
+$ ltrace host 127.0.0.1 2&gt;&amp;1 | grep gethostby
+</code></pre><p>&#x53E6;&#x5916;&#x6211;&#x597D;&#x5947;&#x4E4B;&#x4E0B;&#x8A66;&#x4E86;&#x50B3;&#x8AAA;&#x4E2D;&#x4EBA;&#x4EBA;&#x90FD;&#x6703;&#x5BEB;&#x7684; C &#x7248; &#x300C;Hello, world! &#x300D;, &#x7D50;&#x679C;&#x767C;&#x73FE; compiler &#x5F88;&#x8070;&#x660E;&#x5730;&#x7528; puts &#x800C;&#x975E; printf&#x3002;</p>
+<p>&#x53C3;&#x8003;&#x7A0B;&#x5F0F;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code>#include &lt;stdio.h&gt;
 
-static int hello_init(void)
+int main(void)
 {
-    printk(KERN_ALERT &quot;driver loaded\n&quot;);
-
+    printf(&quot;hello, world!\n&quot;);
+    puts(&quot;hello, world!\n&quot;);
+    printf(&quot;hello, world! %d\n&quot;, 3);
     return 0;
 }
-
-static void hello_exit(void)
-{
-    printk(KERN_ALERT &quot;driver unloaded\n&quot;);
-}
-
-module_init(hello_init);
-module_exit(hello_exit);
-</code></pre><p>&#x5EFA;&#x69CB;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;
-Makefile:</p>
-<pre><code>obj-m := hello.o
-
-all:
-    make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
-
-clean:
-    make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
-</code></pre><p>rth
-rtjh
-rtj</p>
-<p><strong>&#x300C;obj-m&#x300D;&#x6307;&#x5B9A;&#x6700;&#x5F8C;&#x8981;&#x5EFA;&#x7ACB;&#x7684; .ko &#x6A94;&#x662F;&#x4EE5;&#x54EA;&#x4E9B; .o &#x6A94;&#x69CB;&#x6210;&#x7684;&#x3002;
-&#x60F3;&#x5EFA;&#x7ACB;&#x300C;hello.ko&#x300D;&#xFF0C;&#x9019;&#x908A;&#x6307;&#x5B9A;&#x7684;&#x5C31;&#x662F;&#x300C;hello.o&#x300D;&#xFF0C;&#x300C;:=&#x300D;&#x70BA; GNU make &#x7684;&#x64F4;&#x5145;&#x6307;&#x6D3E;&#x904B;&#x7B97;&#x5B50;&#x3002;<br><br>
-make &#x6307;&#x4EE4;&#x7684; &#x300C;-C&#x300D;&#x9078;&#x9805;&#xFF0C;&#x662F;&#x6307;&#x5B9A; Makefile &#x7684;&#x4F4D;&#x7F6E;&#xFF0C;&#x6B64;&#x7BC4;&#x4F8B;&#x662F;&#x4EE5; uname &#x53D6;&#x5F97; kernel &#x7248;&#x672C;&#xFF0C;&#x5982;&#x679C;&#x7DE8;&#x8B6F;&#x7D66;&#x5176;&#x5B83; kernel &#x4F7F;&#x7528;&#xFF0C;&#x9700;&#x4FEE;&#x6539;&#x8DEF;&#x5F91;&#x3002;</strong></p>
-<p>&#x57F7;&#x884C; <strong>make</strong> &#x5373;&#x6703;&#x5F97;&#x5230;&#x6240;&#x9700;&#x7684; &#x300C;hello.ko&#x300D;&#x3002;<br></p>
-<p>&#x4EE5; <strong>file hello.ko</strong> &#x6AA2;&#x67E5;&#xFF0C;&#x6703;&#x767C;&#x73FE;&#x5B83;&#x662F;&#x500B; ELF binary &#x6A94;&#x6848;&#x3002;<br>
-&#x4EE5;<strong> modinfo hello.ko</strong> &#x6AA2;&#x67E5;&#xFF0C;&#x53EF;&#x4EE5;&#x53D6;&#x5F97;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684;&#x6388;&#x6B0A;&#x8207;&#x7248;&#x672C;&#x6A19;&#x8A18;&#x3002;<br></p>
-<p>&#x5982;&#x679C;&#x60F3;&#x770B; pre-processor (&#x9810;&#x8655;&#x7406;;cpp) &#x4E4B;&#x5F8C;&#x7684;&#x7D50;&#x679C;&#xFF0C;&#x4E26;&#x5C07;&#x9019;&#x500B;&#x7D50;&#x679C;&#x5B58;&#x6210;&#x6A94;&#x6848;&#x7684;&#x8A71;&#xFF0C;&#x53EF;&#x4EE5;&#x5728; Makefile &#x4E2D;&#x591A;&#x52A0;&#x9019;&#x4E00;&#x884C;&#xFF1A;<br></p>
-<p><strong>CFLAGS += -E</strong><br></p>
-<p>&#x4E0D;&#x9700;&#x8981;&#x884C;&#x865F;&#x7684;&#x8A71;&#xFF0C;&#x53EF;&#x4EE5;&#x518D;&#x52A0;&#x300C;-P&#x300D;&#x3002;<br>
-make &#x4E4B;&#x5F8C;&#xFF0C;&#x5C31;&#x6703;&#x5728; gcc &#x7684; -o &#x6307;&#x5B9A;&#x6A94;&#x6848;&#x5B58;&#x5165; pre-process &#x7D50;&#x679C;&#x3002;</p>
-<p><strong>&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684;&#x8F09;&#x5165;&#x8207;&#x5378;&#x8F09;</strong><br>
-&#x900F;&#x904E; insmod &#x6307;&#x4EE4;&#x53EF;&#x4EE5;&#x8F09;&#x5165; module&#x3002;
-lsmod &#x6307;&#x4EE4;&#x53EF;&#x4EE5;&#x5217;&#x51FA;&#x73FE;&#x5728;&#x8F09;&#x5165;&#x7684;&#x6240;&#x6709; kernel module&#x3002;
-&#x5378;&#x8F09;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684;&#x5DE5;&#x4F5C;&#x53EF;&#x7531; rmmod &#x6307;&#x4EE4;&#x5B8C;&#x6210;&#x3002;
-&#x300C;/proc/modules&#x300D;&#x6703;&#x5217;&#x51FA;&#x6240;&#x6709;&#x5DF2;&#x8F09;&#x5165;&#x7684;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x3002;</p>
-<p>modprobe
-modprobe &#x540C;&#x6A23;&#x53EF;&#x7528;&#x4F86;&#x8F09;&#x5165;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#xFF0C;&#x4F46;&#x6709;&#x4E00;&#x4E9B;&#x4E0D;&#x540C;&#xFF1A;<br>
-&#x5F15;&#x6578;&#x4E0D;&#x662F;&#x6A94;&#x540D;&#xFF0C;&#x800C;&#x662F;&#x300C;module&#x540D;&#x300D;&#x3002;<br>
-&#x6703;&#x81EA;&#x52D5;&#x5230; /lib/modules/&apos;uname -r&apos; &#x641C;&#x5C0B;&#x6A94;&#x6848;&#x6703;&#x53C3;&#x8003; /lib/modules/&apos;uname -r&apos;/modules.dep &#xFF0C;&#x5982;&#x679C;&#x6709;&#x9700;&#x8981;&#x7528;&#x5230;&#x5176;&#x5B83;&#x7684; modules&#xFF0C;&#x5C31;&#x6703;&#x81EA;&#x52D5;&#x4E00;&#x8D77;&#x8F09;&#x5165;</p>
-<h3 id="%E9%96%8B%E6%A9%9F%E6%99%82%E8%BC%89%E5%85%A5%E9%A9%85%E5%8B%95%E7%A8%8B%E5%BC%8F">&#x958B;&#x6A5F;&#x6642;&#x8F09;&#x5165;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;</h3>
-<p>Linux &#x5728;&#x958B;&#x6A5F;&#x6642;&#x81EA;&#x52D5;&#x8F09;&#x5165;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x662F;&#x5728; rc script &#x4E4B;&#x5167;&#x4EE5; insmod &#x8207; modprobe &#x6307;&#x4EE4;&#x5B8C;&#x6210;&#x7684;&#x3002;
-&#x5E38;&#x7528;&#x7684; rc script &#x5982;&#x4E0B;&#xFF1A;</p>
-<pre><code>/etc/rc.local
-/etc/rc.sysinit
-/etc/rc.d/rc?.d
-</code></pre><h3 id="%E8%87%AA%E8%A8%82-makefile">&#x81EA;&#x8A02; Makefile</h3>
-<p>&#x52A0;&#x4E0A; &#x300C;V=1&#x300D;&#x5C31;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x8A73;&#x7D30;&#x7684;&#x5EFA;&#x69CB;&#x904E;&#x7A0B;&#x3002;</p>
-<pre><code>make -C /lib/modules/$(shell uname -r)/build M=$(PWD) V=1 modules
-</code></pre><p>&#x652F;&#x63F4;&#x8A31;&#x591A;&#x500B;&#x539F;&#x59CB;&#x6A94;&#xFF1A;</p>
-<pre><code>CFILES := main.c sub.c
-obj-m := hello.o
-
-hello-objs := $(CFILES:.c=.o)
-
-all:
-make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
-
-clean:
-make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
-</code></pre><p>&#x9019;&#x908A;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F; CFILES &#x4E2D;&#x7684;&#x6A94;&#x6848;&#x540D;&#x7A31;&#xFF0C;&#x4E0D;&#x80FD;&#x8207; obj-m &#x7684;&#x540D;&#x7A31;&#x6709;&#x76F8;&#x540C;&#x7684;&#x60C5;&#x6CC1;&#xFF0C;&#x5426;&#x5247; make &#x6703;&#x7522;&#x751F; confusion&#x3002;</p>
-<h3 id="%E8%A3%9C%E5%85%85%E8%AA%AA%E6%98%8E">&#x88DC;&#x5145;&#x8AAA;&#x660E;</h3>
-<p>&#x5C0D;&#x591A;&#x500B; .c &#x6A94;&#x60C5;&#x6CC1;&#x505A;&#x4E00;&#x500B;&#x8AAA;&#x660E;&#xFF1A;&#x5E0C;&#x671B;&#x5275;&#x5EFA;&#x4E00;&#x500B;&#x540D;&#x53EB; hello &#x7684; module&#xFF0C;&#x6709;&#x4E09;&#x500B; .c &#x6A94;&#xFF0C;&#x5206;&#x5225;&#x70BA; hello.c, file1.c &#x548C; file2.c&#x3002;<br></p>
-<p>&#x9019;&#x6A23;&#x662F;&#x6709;&#x554F;&#x984C;&#x7684;&#xFF0C;&#x56E0;&#x70BA;&#x5728; Makefile &#x4E2D; obj-m := hello.o&#xFF0C;&#x9019;&#x662F;&#x6307;&#x5B9A;&#x6A21;&#x584A;&#x7684;&#x540D;&#x7A31;, hello-objs := file1.o file2.o hello.o&#xFF0C;&#x9019;&#x88E1;&#x662F;&#x8AAA; hello module &#x5305;&#x62EC;&#x7684; .obj &#x6A94;&#xFF0C;&#x5982;&#x679C;&#x5728;&#x88E1;&#x9762;&#x4E0D;&#x586B;&#x5BEB; hello.o&#xFF0C;&#x90A3;&#x9EBC;&#x5BE6;&#x969B;&#x4E26;&#x6C92;&#x6709;&#x7DE8;&#x8B6F;hello.c&#xFF0C;&#x800C;&#x662F;&#x5728; CC[M] file1.o &#x548C; file2.o&#xFF0C;&#x901A;&#x904E; LD[M] &#x5F97;&#x5230;&#x6A21;&#x584A; hello.o&#xFF0C;&#x5982;&#x679C;&#x5728;&#x9019;&#x88E1;&#x586B;&#x5BEB;&#x4E86; hello.o&#xFF0C;&#x90A3;&#x9EBC;&#x5728; obj-m &#x548C; hello-objs &#x4E2D;&#x90FD;&#x542B;&#x6709; hello.o&#xFF0C;&#x5C0D; make &#x4F86;&#x8B1B;&#x6703;&#x7522;&#x751F;&#x5FAA;&#x74B0;&#x548C;&#x6DF7;&#x6DC6;&#xFF0C;&#x56E0;&#x6B64;&#x4E0D;&#x80FD;&#x9019;&#x6A23;&#x5BEB;&#x3002;<br><br>
-&#x5982;&#x679C;&#x6211;&#x5011;&#x7531;&#x591A;&#x500B; .c &#x6A94;&#x4F86;&#x69CB;&#x9020;&#x4E00;&#x500B;&#x6A21;&#x584A;&#xFF0C;&#x90A3;&#x9EBC; .c &#x6A94;&#x7684;&#x540D;&#x5B57;&#x4E0D;&#x80FD;&#x548C; module &#x540D;&#x5B57;&#x4E00;&#x6A23;&#xFF0C; &#x5728;&#x9019;&#x500B;&#x4F8B;&#x5B50;&#x4E2D;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x5C07; hello.c &#x6539;&#x540D;&#x70BA; main.c&#xFF0C;&#x5728;Makefile&#x4E2D;obj-m := hello.o &#xFF0C;hello-objs = file1.o file2.o hello_main.o&#x3002;</p>
+</code></pre><p>&#x57F7;&#x884C;&#x7D50;&#x679C;&#xFF1A;</p>
+<pre><code>$ ltrace ./f &gt; /dev/null
+__libc_start_main(0x80483f4, 1, 0xbf812ab4, 0x8048450, 0x8048440
+puts(&quot;hello, world!&quot;)                            = 14
+puts(&quot;hello, world!\n&quot;)                          = 15
+printf(&quot;hello, world! %d\n&quot;, 3)                  = 16
++++ exited (status 0) +++
+</code></pre><p>&#x63A5;&#x8457;&#x6211;&#x7528; ltrace &#x57F7;&#x884C; python (ltrace python -c &apos;&apos;), &#x7D50;&#x679C; ltrace &#x72C2;&#x5674;&#x8A0A;&#x606F;&#x537B;&#x4E0D;&#x6703;&#x505C;......, &#x4ECA;&#x65E5;&#x9592;&#x6687;&#x6642;&#x9593;&#x7528;&#x76E1;&#x9019;&#x5F85;&#x90A3;&#x5929;&#x6709;&#x7DE3;&#x518D;&#x4F86;&#x7814;&#x7A76;&#x5427;&#x3002;
+2010-02-25 &#x66F4;&#x65B0;</p>
+<p>Scott &#x5728;&#x7559;&#x8A00;&#x88E1;&#x63D0;&#x5230;&#x4E5F;&#x53EF;&#x4EE5;&#x7528; LD_PRELOAD  &#x62BD;&#x63DB;&#x52D5;&#x614B;&#x8F09;&#x5165;&#x7684;&#x51FD;&#x5F0F;&#x4F86;&#x9054;&#x5230;&#x540C;&#x6A23;&#x76EE;&#x7684; (&#x78BA;&#x8A8D;&#x662F;&#x5426;&#x6709;&#x547C;&#x53EB; gethostbyaddr)&#x3002;&#x7BC4;&#x4F8B;&#x7A0B;&#x5F0F;&#x5982;&#x4E0B; (&#x7A0D;&#x5FAE;&#x4FEE;&#x6B63; Scott &#x7684;&#x7BC4;&#x4F8B;&#x8B93;&#x5B83;&#x5728;&#x6211;&#x7684;&#x6A5F;&#x5668;&#x80FD;&#x6B63;&#x5E38; compile)&#xFF1A;</p>
+<pre><code>$ printf &apos;#include &lt;stdio.h&gt;\n#include &lt;assert.h&gt;\nvoid gethostbyaddr(void) { assert(0); }\n&apos; &gt; t.c
+$ gcc -fPIC -shared t.c -o t.so
+$ LD_PRELOAD=./t.so getent hosts 127.0.0.1
+getent: t.c:3: gethostbyaddr: Assertion `0&apos; failed.
+Aborted
+$ LD_PRELOAD=./t.so host 127.0.0.1
+1.0.0.127.in-addr.arpa domain name pointer localhost.
+</code></pre><p>&#x4E0A;&#x9762;&#x7684;&#x7BC4;&#x4F8B;&#x900F;&#x904E; LD_PRELOAD &#x8B93;&#x7A0B;&#x5F0F;&#x6539;&#x7528;&#x81EA;&#x8A02;&#x7684; gethostbyaddr&#x3002;&#x5982;&#x6B64;&#x4E00;&#x4F86;, &#x62BD;&#x63DB;&#x6389;&#x61F7;&#x7591;&#x7684;&#x51FD;&#x5F0F;&#x518D;&#x57F7;&#x884C;&#x6307;&#x4EE4;, &#x5C31;&#x77E5;&#x9053;&#x662F;&#x5426;&#x6709;&#x7528;&#x5230;&#x4E86;&#x3002;LD_PRELOAD &#x7684;&#x8A73;&#x7D30;&#x8AAA;&#x660E;&#x53EF;&#x53C3;&#x8003; jserv &#x7FFB;&#x8B6F;&#x7684; &#x300A;Modifying a Dynamic Library Without Changing the Source Code / &#x5728;&#x4E0D;&#x66F4;&#x52D5;&#x539F;&#x59CB;&#x7A0B;&#x5F0F;&#x78BC;&#x7684;&#x524D;&#x63D0;&#x4E0B;&#xFF0C;&#x4FEE;&#x6539;&#x52D5;&#x614B;&#x7A0B;&#x5F0F;&#x5EAB;&#x300B;&#x3002;</p>
+<p><strong>&#x5099;&#x8A3B;</strong>
+man man &#x53EF;&#x770B;&#x5230;&#x5404; section &#x7684;&#x542B;&#x610F;, &#x6458;&#x9304;&#x5982;&#x4E0B;&#xFF1A;</p>
 <ul>
-<li>main.c</li>
+<li>1 Executable programs or shell commands</li>
+<li>2 System calls (functions provided by the kernel)</li>
+<li>3 Library calls (functions within program libraries)</li>
+<li>4 Special files (usually found in /dev)</li>
+<li>5 File formats and conventions eg /etc/passwd</li>
+<li>6  Games</li>
+<li>7 Miscellaneous (including macro packages and conven-
+tions), e.g. man(7), groff(7)</li>
+<li>8 System administration commands (usually only for root)</li>
+<li>9 Kernel routines [Non standard]</li>
 </ul>
-<pre><code>#include &lt;linux/module.h&gt;
-#include &lt;linux/init.h&gt;
-
-MODULE_LICENSE(&quot;Dual BSD/GPL&quot;);
-
-extern void sub(void);
-
-static int hello_init(void)
-{
-    printk(KERN_ALERT &quot;driver loaded\n&quot;);
-
-    sub();
-
-    return 0;
-}
-
-static void hello_exit(void)
-{
-    printk(KERN_ALERT &quot;driver unloaded\n&quot;);
-}
-
-module_init(hello_init);
-module_exit(hello_exit);
-</code></pre><ul>
-<li>sub.c</li>
-</ul>
-<pre><code>#include &lt;linux/module.h&gt;
-#include &lt;linux/init.h&gt;
-
-void sub(void)
-{
-    printk(&quot;%s: sub() called\n&quot;, __func__);
-}
-</code></pre><ul>
-<li>Makefile</li>
-</ul>
-<pre><code>CFILES = main.c sub.c
-obj-m += hello.o
-hello-objs := $(CFILES:.c=.o)
-
-all:
-    make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
-
-clean:
-    make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
-</code></pre><h3 id="%E5%8A%A0%E5%88%B0-kernel-%E9%85%8D%E7%BD%AE%E9%81%B8%E5%96%AE">&#x52A0;&#x5230; kernel &#x914D;&#x7F6E;&#x9078;&#x55AE;</h3>
-<p>&#x53EF;&#x4EE5;&#x5C07;&#x81EA;&#x5DF1;&#x5BEB;&#x7684;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x52A0;&#x5230; kernel &#x914D;&#x7F6E;&#x9078;&#x55AE;&#x5167;&#xFF0C;&#x9019;&#x908A;&#x8A66;&#x8457;&#x628A;&#x5B83;&#x52A0;&#x5230; &#x300C;Character devices&#x300D;&#x5206;&#x985E;&#x5E95;&#x4E0B;&#x3002;
-&#x9996;&#x5148;&#xFF0C;&#x5230; Linux kernel &#x7684;&#x539F;&#x59CB;&#x78BC;&#x76EE;&#x9304;(/usr/src/kernels/2.6.23.1-42.fc8-i686)&#x5167;&#x7684; devices/char &#x5EFA;&#x7ACB;&#x5B50;&#x76EE;&#x9304;&#xFF0C;&#x7136;&#x5F8C;&#x5C07;&#x539F;&#x59CB;&#x6A94;&#x653E;&#x5230;&#x88E1;&#x9762;&#x3002;</p>
-<pre><code>cd drivers/char
-mkdir hello
-cd hello
-ls
-</code></pre><p>Makefile main.c sub.c
-&#x4E26;&#x4FEE;&#x6539;&#x6B64; Makefile &#x6210;&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre><code>obj-$(CONFIG_HELLO) += hello.o
-hello-objs := main.o sub.o
-</code></pre><p>&#x63A5;&#x8457;&#x4FEE;&#x6539; Character devices &#x672C;&#x8EAB;&#x7684; Makefile &#x8207; Kconfig&#x3002;
-&#x5728; Makefile &#x4E2D;&#xFF0C;&#x65B0;&#x589E;&#x4E00;&#x884C;&#xFF1A;</p>
-<pre><code>obj-$(CONFIG_HELLO) += hello/
-</code></pre><p>&#x5728; Kconfig &#x4E2D;&#xFF0C;&#x65B0;&#x589E;&#x56DB;&#x884C;&#xFF1A;</p>
-<pre><code>config HELLO
-tristate &quot;hello driver&quot;
----help---
-This is a sample driver.
-</code></pre><p>&#x505A;&#x597D;&#x4E0A;&#x8FF0;&#x4FEE;&#x6B63;&#x5F8C;&#xFF0C;&#x5728;&#x914D;&#x7F6E; kernel &#x7684;&#x9078;&#x55AE;&#x4E2D;&#xFF0C;&#x5C31;&#x6703;&#x770B;&#x5230;&#x300C;hello&#x300D;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x4E86;&#x3002;</p>
-<pre><code>make menuconfig
-</code></pre><h3 id="%E9%A9%85%E5%8B%95%E7%A8%8B%E5%BC%8F%E7%9A%84%E4%BE%9D%E8%B3%B4%E9%97%9C%E4%BF%82">&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684;&#x4F9D;&#x8CF4;&#x95DC;&#x4FC2;</h3>
-<p>&#x7576;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x9700;&#x8981;&#x547C;&#x53EB;&#x53E6;&#x4E00;&#x500B;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x63D0;&#x4F9B;&#x7684;&#x51FD;&#x5F0F;&#x6642;&#xFF0C;&#x5C31;&#x662F;&#x300C;&#x9019;&#x5169;&#x500B;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x5F7C;&#x6B64;&#x4F9D;&#x8CF4;&#x300D;&#x3002;</p>
-<p>&#x8981;&#x67E5;&#x95B1; kernel &#x5167;&#x542B;&#x7684; symbol name &#xFF0C;&#x53EF;&#x4EE5;&#x67E5;&#x95B1;<strong> /proc/kallsyms</strong>&#x3002;</p>
-<h3 id="4-2%E3%80%81%E5%BB%BA%E7%AB%8B%E9%9D%9C%E6%85%8B%E8%A3%9D%E7%BD%AE%E9%A9%85%E5%8B%95%E7%A8%8B%E5%BC%8F">4-2&#x3001;&#x5EFA;&#x7ACB;&#x975C;&#x614B;&#x88DD;&#x7F6E;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;</h3>
-<p>&#x76F4;&#x63A5;&#x9023;&#x7D50;&#x5230; vmlinux &#x7684;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x985E;&#x578B;&#xFF0C;&#x5176;&#x5EFA;&#x7ACB;&#x65B9;&#x5F0F;&#x8207; kernel module &#x5E7E;&#x4E4E;&#x76F8;&#x540C;&#xFF0C;&#x53EA;&#x6709;&#x9023;&#x7D50;&#x7684;&#x65B9;&#x5F0F;&#x4E0D;&#x4E00;&#x6A23;&#x3002;<br>
-&#x5728;&#x5F9E; kernel &#x914D;&#x7F6E;&#x9078;&#x55AE;&#x5EFA;&#x69CB;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x6642;&#xFF0C;&#x9700;&#x8981;&#x5728; kernel &#x914D;&#x7F6E;&#x9078;&#x55AE;&#x4E2D;&#xFF0C;&#x5C07;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684;&#x985E;&#x578B;&#x8A2D;&#x70BA;&#x300C;*&#x300D;
-&#x8A2D;&#x6210;&#x300C;*&#x300D;&#x5F8C;&#xFF0C;&#x5C31;&#x6703;&#x975C;&#x614B;&#x9023;&#x7D50;&#x5230; kernel &#x4E4B;&#x5167;&#xFF0C;&#x4E0D;&#x6703;&#x7522;&#x751F;&#x7368;&#x7ACB;&#x7684; .ko &#x6A94;&#x3002;<br>
-&#x4EE5;&#x6B64;&#x7A2E; kernel &#x958B;&#x6A5F;&#xFF0C;&#x6703;&#x5728; runlevel 1 &#x7684;&#x968E;&#x6BB5;&#x5C31;&#x8F09;&#x5165;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x3002;<br>
-&#x555F;&#x52D5;&#x5F8C;&#xFF0C;&#x7528; <strong>lsmod</strong> &#x770B;&#x4E0D;&#x5230;&#x6B64;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#xFF0C;&#x56E0;&#x70BA;&#x5B83;&#x4E0D;&#x662F; kernel module&#x3002;<br></p>
-<h3 id="4-3%E3%80%81%E5%8E%9F%E5%A7%8B%E7%A2%BC%E8%A7%A3%E8%AA%AA">4-3&#x3001;&#x539F;&#x59CB;&#x78BC;&#x89E3;&#x8AAA;</h3>
-<p>&#x6A94;&#x982D;&#x6A94;&#x4F4D;&#x65BC; /lib/modules/<code>uname -r</code>/build/include &#x76EE;&#x9304;&#x5167;&#x3002;<br>
-&#x63A5;&#x8457;&#x900F;&#x904E; MODULE_LICENSE &#x5DE8;&#x96C6;&#x5B9A;&#x7FA9;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684;&#x6388;&#x6B0A;&#x65B9;&#x5F0F;&#x3002;<br>
-&#x8F09;&#x5165;&#x88DD;&#x7F6E;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684;&#x9032;&#x5165;&#x9EDE;&#xFF0C;&#x51FD;&#x5F0F;&#x540D;&#x7A31;&#x53EF;&#x900F;&#x904E; module_init &#x5DE8;&#x96C6;&#x6307;&#x5B9A;&#xFF0C;&#x57FA;&#x672C;&#x4E0A;&#xFF0C;&#x51FD;&#x5F0F;&#x90FD;&#x8981;&#x52A0;&#x4E0A; static&#xFF0C;&#x8B93;&#x547D;&#x540D;&#x7A7A;&#x9593;&#x968E;&#x5236;&#x5728;&#x6A94;&#x6848;&#x5167;&#x3002;<br>
-printk() &#x8F38;&#x51FA;&#x7684;&#x8CC7;&#x6599;&#x6703;&#x8DD1;&#x5230; kernel buffer&#xFF0C;&#x53EF;&#x4EE5;&#x7528; <strong>dmesg</strong> &#x6307;&#x4EE4;&#x67E5;&#x95B1;&#x3002;<br>
-<strong>int printk(const char *fmt, ...);</strong>
-&#x683C;&#x5F0F;&#x5316;&#x5B57;&#x4E32;(fmt) &#x7684;&#x958B;&#x982D;&#x52A0;&#x4E0A;&#x300C;&lt;&#x7DE8;&#x865F;&gt;&#x300D;&#x7684;&#x8A71;&#xFF0C;&#x5C31;&#x6703;&#x6307;&#x5B9A;&#x8A0A;&#x606F;&#x7684;&#x7B49;&#x7D1A;&#xFF0C;&#x5728; include/linux/kernel.h &#x4E4B;&#x5167;&#x5B9A;&#x7FA9;&#x6709;&#x76F8;&#x95DC;&#x5DE8;&#x96C6;&#x3002;<br>
-&#x4EE5; rmmod &#x5378;&#x9664;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x6642;&#xFF0C;&#x547C;&#x53EB;&#x51FD;&#x5F0F;&#x7684;&#x9032;&#x5165;&#x9EDE;&#x662F;&#x900F;&#x904E; module_exit &#x5DE8;&#x96C6;&#x6307;&#x5B9A;&#x3002;<br>
-hello.ko&#x5728;&#x5EFA;&#x7ACB;&#x6642;&#xFF0C;&#x539F;&#x59CB;&#x78BC;&#x88E1;&#x4E0D;&#x904E;&#x53EA;&#x6709;&#x5169;&#x500B;&#x51FD;&#x5F0F;&#xFF0C;&#x5728;&#x5EFA;&#x69CB;&#x6642;&#xFF0C;&#x6703;&#x52A0;&#x5165;&#x4E00;&#x4E9B;&#x5176;&#x5B83;&#x7B26;&#x865F;&#xFF0C;&#x7528; <strong>readelf</strong> &#x6307;&#x5B9A;&#x5217;&#x51FA;&#x6A94;&#x6848;&#x4E2D;&#x7684;&#x7B26;&#x865F;&#x5C31;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x3002;<br>
-<strong>readelf -s hello.ko</strong></p>
-<h4 id="4-4%E3%80%81%E9%80%B2%E5%85%A5%E9%BB%9E">4-4&#x3001;&#x9032;&#x5165;&#x9EDE;</h4>
-<p><strong>&#x547C;&#x53EB; main &#x51FD;&#x5F0F;&#x7684;&#x6D41;&#x7A0B;</strong>
-&#x4E00;&#x822C;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x4E2D;&#xFF0C;&#x90FD;&#x89BA;&#x5F97;&#x555F;&#x52D5;&#x7A0B;&#x5F0F;&#x5F8C;&#x99AC;&#x4E0A;&#x6703;&#x547C;&#x53EB; main() &#x662F;&#x7406;&#x6240;&#x7576;&#x7136;&#x7684;&#xFF0C;&#x4F46;&#x5BE6;&#x969B;&#x4E0A;&#x5728;&#x547C;&#x53EB;&#x4E4B;&#x524D;&#x9700;&#x8981;&#x505A;&#x4E0D;&#x5C11;&#x4E8B;&#x60C5;&#x3002;
-&#x7528; strace &#x8207; ltrace &#x4E4B;&#x985E;&#x7684;&#x6307;&#x4EE4;&#xFF0C;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x7CFB;&#x7D71;&#x547C;&#x53EB;&#x3001;&#x51FD;&#x5F0F;&#x5EAB;&#x547C;&#x53EB;&#x7684;&#x5167;&#x5BB9;&#x3002;</p>
-<pre><code>file - determine file type
-ldd - print shared library dependencies
-strace - trace system calls and signals
-ltrace - A library call tracer
-</code></pre><pre><code>gcc test.c
-file a.out
-ldd ./a.out
-strace ./a.out
-ltrace ./a.out
-</code></pre><p>&#x9019;&#x6A23;&#x5C31;&#x80FD;&#x767C;&#x73FE; C&#x8A9E;&#x8A00;&#x7684; main() &#x5176;&#x5BE6;&#x662F;&#x7531;&#x540D;&#x70BA; glibc &#x7684; C &#x51FD;&#x5F0F;&#x5EAB;&#x547C;&#x53EB;&#x7684;&#xFF0C;&#x800C;&#x5728; main() &#x57F7;&#x884C; return &#x4E4B;&#x5F8C;&#x4E5F;&#x662F;&#x56DE;&#x5230; glibc&#x3002;<br>
-&#x5C0D;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x4F86;&#x8AAA;&#xFF0C;main()&#x53EF;&#x4EE5;&#x8AAA;&#x662F;&#x8981;&#x8B93; glibc &#x547C;&#x53EB;&#x7684;&#x5165;&#x53E3;&#xFF0C;&#x9019;&#x500B;&#x5165;&#x53E3;&#x5C31;&#x7A31;&#x70BA;&#x300C;&#x9032;&#x5165;&#x9EDE;(entry point)&#x300D;&#x3002;<br></p>
-<h3 id="%E8%A3%9D%E7%BD%AE%E9%A9%85%E5%8B%95%E7%A8%8B%E5%BC%8F%E7%9A%84%E9%80%B2%E5%85%A5%E9%BB%9E">&#x88DD;&#x7F6E;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684;&#x9032;&#x5165;&#x9EDE;</h3>
-<p>&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684;&#x9032;&#x5165;&#x9EDE;&#x8207;&#x4E00;&#x822C;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x4E0D;&#x540C;&#xFF0C;&#x5FC5;&#x9808;&#x6E96;&#x5099;&#x5F88;&#x591A;&#x500B;&#xFF0C;&#x5176;&#x4E2D;&#x81F3;&#x5C11;&#x9700;&#x8981;&#x5169;&#x500B;&#x9032;&#x5165;&#x9EDE;&#xFF1A;<br>
-<strong>insmod &#x8207; modprobe &#x547C;&#x53EB;&#x7684;&#x521D;&#x59CB;&#x5316;&#x51FD;&#x5F0F;<br>
-rmmod &#x547C;&#x53EB;&#x7684;&#x7D50;&#x675F;&#x51FD;&#x5F0F;<br></strong>
-&#x4EE5;&#x4E0A;&#x8FF0;&#x7BC4;&#x4F8B;&#x4F86;&#x8AAA;&#xFF0C;&#x5206;&#x70BA;&#x662F; hello_init() &#x53CA; hello_exit()&#x3002;<br>
-&#x5176;&#x5B83;&#x7684;&#x9032;&#x5165;&#x9EDE;&#x9084;&#x5305;&#x542B;&#xFF1A;<br>
-&#x7CFB;&#x7D71;&#x547C;&#x53EB;
-&#x4E2D;&#x65B7;&#x670D;&#x52D9;&#x7A0B;&#x5E8F;
-&#x8A08;&#x6642;&#x5668;&#x7A0B;&#x5E8F;&#x2026;&#x7B49;&#x7B49;&#x3002;<br><br>
-<strong>&#x300C;&#x7CFB;&#x7D71;&#x547C;&#x53EB;&#x300D;&#x662F;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x8207; kernel &#x4EA4;&#x63DB;&#x8CC7;&#x8A0A;&#x7528;&#x7684;&#x4ECB;&#x9762;&#xFF0C;&#x7522;&#x751F;&#x7CFB;&#x7D71;&#x547C;&#x53EB;&#x6642;&#xFF0C;&#x6703;&#x5728; CPU &#x5F15;&#x767C;&#x4E2D;&#x65B7; (INT 80h)&#xFF0C;&#x6B64;&#x6642;&#x57F7;&#x884C;&#x74B0;&#x5883;&#x6703;&#x5F9E; user space &#x8F49;&#x5230; kernel space&#x3002;</strong><br><br>
-&#x7CFB;&#x7D71;&#x547C;&#x53EB;&#x6703;&#x5728;&#x4F7F;&#x7528; open()&#x8207; read()&#x3001;close()&#x3001;ioctl() &#x4E4B;&#x985E;&#x7684;&#x51FD;&#x5F0F;&#x6642;&#x81EA;&#x52D5;&#x7522;&#x751F;&#x3002;
-&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x5FC5;&#x9808;&#x70BA;&#x6BCF;&#x500B;&#x7CFB;&#x7D71;&#x547C;&#x53EB;&#x5206;&#x5225;&#x6E96;&#x5099;&#x9032;&#x5165;&#x9EDE;&#x3002;<br>
-&#x300C;&#x4E2D;&#x65B7;&#x670D;&#x52D9;&#x7A0B;&#x5E8F;(ISR: Interrupt Service Routine)&#x300D;&#x662F;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x5728;&#x6240;&#x63A7;&#x5236;&#x7684;&#x786C;&#x9AD4;&#x7522;&#x751F;&#x300C;&#x4E2D;&#x65B7;&#x300D;&#x6642;&#xFF0C;&#x88AB;&#x547C;&#x53EB;&#x7528;&#x4F86;&#x8655;&#x7406;&#x9019;&#x985E;&#x4FE1;&#x865F;(signal)&#x7684;&#x51FD;&#x5F0F;&#x3002;<br>
-&#x4E2D;&#x65B7;&#x670D;&#x52D9;&#x7A0B;&#x5E8F;&#x8CA0;&#x8CAC;&#x8655;&#x7406;&#x4E2D;&#x65B7;&#xFF0C;&#x4F46;&#x4E0D;&#x77E5;&#x4F55;&#x6642;&#x6703;&#x767C;&#x751F;&#x4E2D;&#x65B7;&#xFF0C;&#x6240;&#x4EE5;&#x662F;&#x300C;&#x975E;&#x540C;&#x6B65;(asynchronous;ASYNC)&#x300D;&#xFF0C;&#x7CFB;&#x7D71;&#x547C;&#x53EB;&#x5247;&#x662F;&#x300C;&#x540C;&#x6B65;(synchronous:SYNC)&#x300D;&#x3002;<br><br>
-&#x300C;&#x8A08;&#x6642;&#x5668;&#x7A0B;&#x5E8F;&#x300D;&#x662F;&#x7531; kernel &#x7684;&#x8A08;&#x6642;&#x5668;&#x8655;&#x7406;&#x7A0B;&#x5E8F;&#x5728;&#x7D93;&#x904E;&#x7279;&#x5B9A;&#x7684;&#x6642;&#x9593;&#x3001;&#x6216;&#x662F;&#x4EE5;&#x56FA;&#x5B9A;&#x9593;&#x9694;&#x57F7;&#x884C;&#x7279;&#x5B9A;&#x5DE5;&#x4F5C;&#x6642;&#x56DE;&#x547C;&#x7684;&#x9032;&#x5165;&#x9EDE;&#x3002;
-&#x7531;&#x65BC;&#x8A08;&#x6642;&#x5668;&#x8655;&#x7406;&#x7A0B;&#x5E8F;&#x672C;&#x8EAB;&#x4E5F;&#x662F;&#x786C;&#x9AD4;&#x300C;&#x8A08;&#x6642;&#x5668;&#x4E2D;&#x65B7;&#x300D;&#x7684;&#x8655;&#x7406;&#x7A0B;&#x5F0F;&#xFF0C;&#x6240;&#x4EE5;&#x88AB;&#x5B83;&#x547C;&#x53EB;&#x7684;&#x8A08;&#x7A0B;&#x5668;&#x7A0B;&#x5E8F;&#x4E5F;&#x7B97;&#x4E2D;&#x65B7;&#x670D;&#x52D9;&#x7A0B;&#x5E8F;&#x7684;&#x4E00;&#x7A2E;&#x3002;</p>
-<h3 id="%E5%9F%B7%E8%A1%8C%E7%92%B0%E5%A2%83">&#x57F7;&#x884C;&#x74B0;&#x5883;</h3>
-<p>&#x8981;&#x7406;&#x89E3;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684;&#x904B;&#x4F5C;&#xFF0C;&#x5C31;&#x5FC5;&#x9808;&#x5148;&#x7406;&#x89E3;&#x300C;context(&#x57F7;&#x884C;&#x74B0;&#x5883;)&#x300D;&#x3002;
-<strong>&#x88DD;&#x7F6E;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684; context &#x7684;&#x610F;&#x7FA9;&#x662F;<br>
-&#x5F9E;&#x9032;&#x5165;&#x9EDE;&#x958B;&#x59CB;&#xFF0C;&#x5230;&#x6700;&#x5F8C;&#x4E00;&#x500B;&#x51FD;&#x5F0F;&#x7684;&#x6574;&#x500B;&#x8655;&#x7406;&#x6D41;&#x7A0B;&#x3002;<br>
-&#x5C0D;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x800C;&#x8A00;&#xFF0C;&#x53EA;&#x6709;&#x4E0B;&#x9762;&#x9019;2&#x7A2E; context&#xFF1A;<br>
-Process context(&#x4E00;&#x822C;&#x884C;&#x7A0B;&#x57F7;&#x884C;&#x74B0;&#x5883;)<br>
-Interrupt context(&#x4E2D;&#x65B7;&#x57F7;&#x884C;&#x74B0;&#x5883;)</strong><br>
-&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684; Process context &#x500B;&#x6578;&#x70BA;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x9032;&#x5165;&#x9EDE;&#x7684;&#x500B;&#x6578;&#x7E3D;&#x548C;&#x3002;<br>
-&#x540C;&#x6A23;&#x5730;&#xFF0C; interrupt context &#x7684;&#x500B;&#x6578;&#x662F;&#x6838;&#x5FC3;&#x9032;&#x5165;&#x9EDE;&#x7684;&#x500B;&#x6578;&#x7E3D;&#x548C;&#x3002;<br>
-&#x91CD;&#x8981;&#x7684;&#x662F;&#xFF1A;<br>
-<strong>&#x6240;&#x6709;&#x7684; context &#x90FD;&#x53EF;&#x80FD;&#x540C;&#x6642;&#x767C;&#x751F;<br>
-Context &#x4F55;&#x6642;&#x90FD;&#x53EF;&#x80FD;&#x767C;&#x751F;(&#x975E;&#x540C;&#x6B65;)</strong></p>
+<p>&#x7E3D;&#x5171;&#x4E5F;&#x624D;&#x4E5D;&#x7BC0;, &#x904A;&#x6232;&#x7ADF;&#x7136;&#x81EA;&#x6210;&#x4E00;&#x7BC0;......&#x3002;</p>
 
                     
                     </section>
@@ -1525,10 +1373,10 @@ Context &#x4F55;&#x6642;&#x90FD;&#x53EF;&#x80FD;&#x767C;&#x751F;(&#x975E;&#x540C
         </div>
 
         
-        <a href="../linux_device_driver_programming/03.html" class="navigation navigation-prev " aria-label="Previous page: 準備開發裝置驅動程式"><i class="fa fa-angle-left"></i></a>
+        <a href="../fcamel/04.html" class="navigation navigation-prev " aria-label="Previous page: [轉]用 LD_PRELOAD 替換動態連結的函式庫"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../linux_device_driver_programming/05.html" class="navigation navigation-next " aria-label="Next page: 開發 driver 需要的基礎知識"><i class="fa fa-angle-right"></i></a>
+        <a href="../fcamel/[]__linking_time.html" class="navigation navigation-next " aria-label="Next page: [轉] 加速 linking time"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

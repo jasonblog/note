@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
-        <title>sar 找出系統瓶頸的利器 | Jason note</title>
+        <title>Linux 裝置驅動程式的概要 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.0.1">
@@ -20,10 +20,10 @@
         
     
     
-    <link rel="next" href="../linux_tools/readelf.html" />
+    <link rel="next" href="../linux_device_driver_programming/02.html" />
     
     
-    <link rel="prev" href="../linux_tools/iostat.html" />
+    <link rel="prev" href="../qemu/qemu_kgdb_ftrace.html" />
     
 
         
@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="3.3.12" data-basepath=".." data-revision="Thu Jul 16 2015 23:30:43 GMT+0800 (CST)">
+    <div class="book" data-level="8.1" data-basepath=".." data-revision="Thu Jul 16 2015 23:30:43 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -572,7 +572,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="3.3.12" data-path="linux_tools/sar.html">
+        <li class="chapter " data-level="3.3.12" data-path="linux_tools/sar.html">
             
                 
                     <a href="../linux_tools/sar.html">
@@ -1013,7 +1013,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="8.1" data-path="linux_device_driver_programming/01.html">
+        <li class="chapter active" data-level="8.1" data-path="linux_device_driver_programming/01.html">
             
                 
                     <a href="../linux_device_driver_programming/01.html">
@@ -1181,96 +1181,16 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="sar-%E6%89%BE%E5%87%BA%E7%B3%BB%E7%B5%B1%E7%93%B6%E9%A0%B8%E7%9A%84%E5%88%A9%E5%99%A8">sar &#x627E;&#x51FA;&#x7CFB;&#x7D71;&#x74F6;&#x9838;&#x7684;&#x5229;&#x5668;</h1>
-<p>sar&#x662F;System Activity Reporter&#xFF08;&#x7CFB;&#x7D71;&#x6D3B;&#x52D5;&#x60C5;&#x6CC1;&#x5831;&#x544A;&#xFF09;&#x7684;&#x7E2E;&#x5BEB;&#x3002;sar&#x5DE5;&#x5177;&#x5C07;&#x5C0D;&#x7CFB;&#x7D71;&#x7576;&#x524D;&#x7684;&#x72C0;&#x614B;&#x9032;&#x884C;&#x53D6;&#x6A23;&#xFF0C;&#x7136;&#x5F8C;&#x901A;&#x904E;&#x8A08;&#x7B97;&#x6578;&#x64DA;&#x548C;&#x6BD4;&#x4F8B;&#x4F86;&#x8868;&#x9054;&#x7CFB;&#x7D71;&#x7684;&#x7576;&#x524D;&#x904B;&#x884C;&#x72C0;&#x614B;&#x3002;&#x5B83;&#x7684;&#x7279;&#x9EDE;&#x662F;&#x53EF;&#x4EE5;&#x9023;&#x7E8C;&#x5C0D;&#x7CFB;&#x7D71;&#x53D6;&#x6A23;&#xFF0C;&#x7372;&#x5F97;&#x5927;&#x91CF;&#x7684;&#x53D6;&#x6A23;&#x6578;&#x64DA;&#xFF1B;&#x53D6;&#x6A23;&#x6578;&#x64DA;&#x548C;&#x5206;&#x6790;&#x7684;&#x7D50;&#x679C;&#x90FD;&#x53EF;&#x4EE5;&#x5B58;&#x5165;&#x6587;&#x4EF6;&#xFF0C;&#x6240;&#x9700;&#x7684;&#x8CA0;&#x8F09;&#x5F88;&#x5C0F;&#x3002;sar&#x662F;&#x76EE;&#x524D;Linux&#x4E0A;&#x6700;&#x7232;&#x5168;&#x9762;&#x7684;&#x7CFB;&#x7D71;&#x6027;&#x80FD;&#x5206;&#x6790;&#x5DE5;&#x5177;&#x4E4B;&#x4E00;&#xFF0C;&#x53EF;&#x4EE5;&#x5F9E;14&#x500B;&#x5927;&#x65B9;&#x9762;&#x5C0D;&#x7CFB;&#x7D71;&#x7684;&#x6D3B;&#x52D5;&#x9032;&#x884C;&#x5831;&#x544A;&#xFF0C;&#x5305;&#x62EC;&#x6587;&#x4EF6;&#x7684;&#x8B80;&#x5BEB;&#x60C5;&#x6CC1;&#x3001;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x7684;&#x4F7F;&#x7528;&#x60C5;&#x6CC1;&#x3001;&#x4E32;&#x53E3;&#x3001;CPU&#x6548;&#x7387;&#x3001;&#x5167;&#x5B58;&#x4F7F;&#x7528;&#x72C0;&#x6CC1;&#x3001;&#x9032;&#x7A0B;&#x6D3B;&#x52D5;&#x53CA;IPC&#x6709;&#x95DC;&#x7684;&#x6D3B;&#x52D5;&#x7B49;&#xFF0C;&#x4F7F;&#x7528;&#x4E5F;&#x662F;&#x8F03;&#x7232;&#x8907;&#x96DC;&#x3002;</p>
-<p>sar&#x662F;&#x67E5;&#x770B;&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x5831;&#x544A;&#x6307;&#x6A19;&#x7684;&#x5404;&#x7A2E;&#x5DE5;&#x5177;&#x4E2D;&#xFF0C;&#x6700;&#x7232;&#x666E;&#x904D;&#x548C;&#x65B9;&#x4FBF;&#x7684;&#xFF1B;&#x5B83;&#x6709;&#x5169;&#x7A2E;&#x7528;&#x6CD5;&#xFF1B;</p>
-<p>&#x8FFD;&#x6EAF;&#x904E;&#x53BB;&#x7684;&#x7D71;&#x8A08;&#x6578;&#x64DA;&#xFF08;&#x9ED8;&#x8A8D;&#xFF09;
-&#x9031;&#x671F;&#x6027;&#x7684;&#x67E5;&#x770B;&#x7576;&#x524D;&#x6578;&#x64DA;</p>
-<h3 id="12-1-%E8%BF%BD%E6%BA%AF%E9%81%8E%E5%8E%BB%E7%9A%84%E7%B5%B1%E8%A8%88%E6%95%B8%E6%93%9A">12.1. &#x8FFD;&#x6EAF;&#x904E;&#x53BB;&#x7684;&#x7D71;&#x8A08;&#x6578;&#x64DA;</h3>
-<p>&#x9ED8;&#x8A8D;&#x60C5;&#x6CC1;&#x4E0B;&#xFF0C;sar&#x5F9E;&#x6700;&#x8FD1;&#x7684;0&#x9EDE;0&#x5206;&#x958B;&#x59CB;&#x986F;&#x793A;&#x6578;&#x64DA;&#xFF1B;&#x5982;&#x679C;&#x60F3;&#x7E7C;&#x7E8C;&#x67E5;&#x770B;&#x4E00;&#x5929;&#x524D;&#x7684;&#x5831;&#x544A;&#xFF1B;&#x53EF;&#x4EE5;&#x67E5;&#x770B;&#x4FDD;&#x5B58;&#x5728;/var/log/sysstat/&#x4E0B;&#x7684;sa&#x65E5;&#x8A8C;&#xFF1B; &#x4F7F;&#x7528;sar&#x5DE5;&#x5177;&#x67E5;&#x770B;:</p>
-<pre><code>$sar -f /var/log/sysstat/sa28 \| head sar -r -f
-/var/log/sysstat/sa28
-</code></pre><h3 id="12-2-%E6%9F%A5%E7%9C%8Bcpu%E4%BD%BF%E7%94%A8%E7%8E%87">12.2. &#x67E5;&#x770B;CPU&#x4F7F;&#x7528;&#x7387;</h3>
-<p>sar -u : &#x9ED8;&#x8A8D;&#x60C5;&#x6CC1;&#x4E0B;&#x986F;&#x793A;&#x7684;cpu&#x4F7F;&#x7528;&#x7387;&#x7B49;&#x4FE1;&#x606F;&#x5C31;&#x662F;sar -u&#xFF1B;</p>
-<p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x9019;&#x81FA;&#x6A5F;&#x5668;&#x4F7F;&#x7528;&#x4E86;&#x865B;&#x64EC;&#x5316;&#x6280;&#x8853;&#xFF0C;&#x6709;&#x76F8;&#x61C9;&#x7684;&#x6642;&#x9593;&#x6D88;&#x8017;&#xFF1B; &#x5404;&#x5217;&#x7684;&#x6307;&#x6A19;&#x5206;&#x5225;&#x662F;:</p>
+                        <h1 id="linux-%E8%A3%9D%E7%BD%AE%E9%A9%85%E5%8B%95%E7%A8%8B%E5%BC%8F%E7%9A%84%E6%A6%82%E8%A6%81">Linux &#x88DD;&#x7F6E;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684;&#x6982;&#x8981;</h1>
+<h3 id="1-2%E3%80%81kernel-%E7%9A%84%E9%81%8B%E4%BD%9C">1-2&#x3001;kernel &#x7684;&#x904B;&#x4F5C;</h3>
+<p>kernel &#x7684;&#x5DE5;&#x4F5C;&#xFF1A;</p>
 <ul>
-<li>%user &#x7528;&#x6236;&#x6A21;&#x5F0F;&#x4E0B;&#x6D88;&#x8017;&#x7684;CPU&#x6642;&#x9593;&#x7684;&#x6BD4;&#x4F8B;&#xFF1B;</li>
-<li>%nice &#x901A;&#x904E;nice&#x6539;&#x8B8A;&#x4E86;&#x9032;&#x7A0B;&#x8ABF;&#x5EA6;&#x512A;&#x5148;&#x7D1A;&#x7684;&#x9032;&#x7A0B;&#xFF0C;&#x5728;&#x7528;&#x6236;&#x6A21;&#x5F0F;&#x4E0B;&#x6D88;&#x8017;&#x7684;CPU&#x6642;&#x9593;&#x7684;&#x6BD4;&#x4F8B;</li>
-<li>%system &#x7CFB;&#x7D71;&#x6A21;&#x5F0F;&#x4E0B;&#x6D88;&#x8017;&#x7684;CPU&#x6642;&#x9593;&#x7684;&#x6BD4;&#x4F8B;&#xFF1B;</li>
-<li>%iowait CPU&#x7B49;&#x5F85;&#x78C1;&#x76E4;I/O&#x5C0E;&#x81F4;&#x7A7A;&#x9592;&#x72C0;&#x614B;&#x6D88;&#x8017;&#x7684;&#x6642;&#x9593;&#x6BD4;&#x4F8B;&#xFF1B;</li>
-<li>%steal &#x5229;&#x7528;Xen&#x7B49;&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x865B;&#x64EC;&#x5316;&#x6280;&#x8853;&#xFF0C;&#x7B49;&#x5F85;&#x5176;&#x5B83;&#x865B;&#x64EC;CPU&#x8A08;&#x7B97;&#x4F54;&#x7528;&#x7684;&#x6642;&#x9593;&#x6BD4;&#x4F8B;&#xFF1B;</li>
-<li>%idle CPU&#x7A7A;&#x9592;&#x6642;&#x9593;&#x6BD4;&#x4F8B;&#xFF1B;<h3 id="12-3-%E6%9F%A5%E7%9C%8B%E5%B9%B3%E5%9D%87%E8%B2%A0%E8%BC%89">12.3. &#x67E5;&#x770B;&#x5E73;&#x5747;&#x8CA0;&#x8F09;</h3>
-sar -q: &#x67E5;&#x770B;&#x5E73;&#x5747;&#x8CA0;&#x8F09;</li>
+<li>&#x8655;&#x7406; user process &#x7684;&#x8981;&#x6C42;(&#x7CFB;&#x7D71;&#x547C;&#x53EB;)</li>
+<li>&#x5C07;&#x786C;&#x9AD4;&#x7684;&#x56DE;&#x61C9;&#x56DE;&#x50B3;&#x7CFB; user process</li>
 </ul>
-<p>&#x6307;&#x5B9A;-q&#x5F8C;&#xFF0C;&#x5C31;&#x80FD;&#x67E5;&#x770B;&#x904B;&#x884C;&#x968A;&#x5217;&#x4E2D;&#x7684;&#x9032;&#x7A0B;&#x6578;&#x3001;&#x7CFB;&#x7D71;&#x4E0A;&#x7684;&#x9032;&#x7A0B;&#x5927;&#x5C0F;&#x3001;&#x5E73;&#x5747;&#x8CA0;&#x8F09;&#x7B49;&#xFF1B;&#x8207;&#x5176;&#x5B83;&#x547D;&#x4EE4;&#x76F8;&#x6BD4;&#xFF0C;&#x5B83;&#x80FD;&#x67E5;&#x770B;&#x5404;&#x9805;&#x6307;&#x6A19;&#x96A8;&#x6642;&#x9593;&#x8B8A;&#x5316;&#x7684;&#x60C5;&#x6CC1;&#xFF1B;</p>
-<ul>
-<li>runq-sz&#xFF1A;&#x904B;&#x884C;&#x968A;&#x5217;&#x7684;&#x9577;&#x5EA6;&#xFF08;&#x7B49;&#x5F85;&#x904B;&#x884C;&#x7684;&#x9032;&#x7A0B;&#x6578;&#xFF09;</li>
-<li>plist-sz&#xFF1A;&#x9032;&#x7A0B;&#x5217;&#x8868;&#x4E2D;&#x9032;&#x7A0B;&#xFF08;processes&#xFF09;&#x548C;&#x7DDA;&#x7A0B;&#xFF08;threads&#xFF09;&#x7684;&#x6578;&#x91CF;</li>
-<li>ldavg-1&#xFF1A;&#x6700;&#x5F8C;1&#x5206;&#x9418;&#x7684;&#x7CFB;&#x7D71;&#x5E73;&#x5747;&#x8CA0;&#x8F09; ldavg-5&#xFF1A;&#x904E;&#x53BB;5&#x5206;&#x9418;&#x7684;&#x7CFB;&#x7D71;&#x5E73;&#x5747;&#x8CA0;&#x8F09;</li>
-<li>ldavg-15&#xFF1A;&#x904E;&#x53BB;15&#x5206;&#x9418;&#x7684;&#x7CFB;&#x7D71;&#x5E73;&#x5747;&#x8CA0;&#x8F09;</li>
-</ul>
-<h3 id="12-4-%E6%9F%A5%E7%9C%8B%E5%85%A7%E5%AD%98%E4%BD%BF%E7%94%A8%E7%8B%80%E6%B3%81">12.4. &#x67E5;&#x770B;&#x5167;&#x5B58;&#x4F7F;&#x7528;&#x72C0;&#x6CC1;</h3>
-<p>sar -r&#xFF1A; &#x6307;&#x5B9A;-r&#x4E4B;&#x5F8C;&#xFF0C;&#x53EF;&#x67E5;&#x770B;&#x7269;&#x7406;&#x5167;&#x5B58;&#x4F7F;&#x7528;&#x72C0;&#x6CC1;&#xFF1B;</p>
-<pre><code>sar -r 1 3
-
-Linux  shihyu-MS-7758  3.13.0-44-generic  #73-Ubuntu SMP Tue Dec 16 00:22:43 UTC 2014  x86_64  05/09/2015
-
-01:21:10  memtot memfree buffers   cached  slabmem      swptot swpfree  _mem_
-01:21:10  32125M  23697M    395M    2554M     265M        976M    976M
-01:21:11  32125M  23697M    395M    2554M     265M        976M    976M
-01:21:12  32125M  23697M    395M    2554M     265M        976M    976M
-</code></pre><ul>
-<li>kbmemfree&#xFF1A;&#x9019;&#x500B;&#x503C;&#x548C;free&#x547D;&#x4EE4;&#x4E2D;&#x7684;free&#x503C;&#x57FA;&#x672C;&#x4E00;&#x81F4;,&#x6240;&#x4EE5;&#x5B83;&#x4E0D;&#x5305;&#x62EC;buffer&#x548C;cache&#x7684;&#x7A7A;&#x9593;.</li>
-<li>kbmemused&#xFF1A;&#x9019;&#x500B;&#x503C;&#x548C;free&#x547D;&#x4EE4;&#x4E2D;&#x7684;used&#x503C;&#x57FA;&#x672C;&#x4E00;&#x81F4;,&#x6240;&#x4EE5;&#x5B83;&#x5305;&#x62EC;buffer&#x548C;cache&#x7684;&#x7A7A;&#x9593;.</li>
-<li>%memused&#xFF1A;&#x7269;&#x7406;&#x5167;&#x5B58;&#x4F7F;&#x7528;&#x7387;&#xFF0C;&#x9019;&#x500B;&#x503C;&#x662F;kbmemused&#x548C;&#x5167;&#x5B58;&#x7E3D;&#x91CF;(&#x4E0D;&#x5305;&#x62EC;swap)&#x7684;&#x4E00;&#x500B;&#x767E;&#x5206;&#x6BD4;.</li>
-<li>kbbuffers&#x548C;kbcached&#xFF1A;&#x9019;&#x5169;&#x500B;&#x503C;&#x5C31;&#x662F;free&#x547D;&#x4EE4;&#x4E2D;&#x7684;buffer&#x548C;cache.</li>
-<li>kbcommit&#xFF1A;&#x4FDD;&#x8B49;&#x7576;&#x524D;&#x7CFB;&#x7D71;&#x6240;&#x9700;&#x8981;&#x7684;&#x5167;&#x5B58;,&#x5373;&#x7232;&#x4E86;&#x78BA;&#x4FDD;&#x4E0D;&#x6EA2;&#x51FA;&#x800C;&#x9700;&#x8981;&#x7684;&#x5167;&#x5B58;(RAM+swap).</li>
-<li>%commit&#xFF1A;&#x9019;&#x500B;&#x503C;&#x662F;kbcommit&#x8207;&#x5167;&#x5B58;&#x7E3D;&#x91CF;(&#x5305;&#x62EC;swap)&#x7684;&#x4E00;&#x500B;&#x767E;&#x5206;&#x6BD4;.</li>
-</ul>
-<h3 id="12-5-%E6%9F%A5%E7%9C%8B%E9%A0%81%E9%9D%A2%E4%BA%A4%E6%8F%9B%E7%99%BC%E7%94%9F%E7%8B%80%E6%B3%81">12.5. &#x67E5;&#x770B;&#x9801;&#x9762;&#x4EA4;&#x63DB;&#x767C;&#x751F;&#x72C0;&#x6CC1;</h3>
-<p>sar -W&#xFF1A;&#x67E5;&#x770B;&#x9801;&#x9762;&#x4EA4;&#x63DB;&#x767C;&#x751F;&#x72C0;&#x6CC1;</p>
-<pre><code>sar -W 1 3
-
-Linux  shihyu-MS-7758  3.13.0-44-generic  #73-Ubuntu SMP Tue Dec 16 00:22:43 UTC 2014  x86_64  05/09/2015
-
-01:20:17  in: dsc/s hder/s ader/s unkp/s ratim/s rfail/s ot: dsc/s nort/s  _ip_
-01:20:17        0.0    0.0    0.0    0.0     0.0     0.0       0.0    0.0
-01:20:18        0.0    0.0    0.0    0.0     0.0     0.0       0.0    0.0
-01:20:19        0.0    0.0    0.0    0.0     0.0     0.0       0.0    0.0
-</code></pre><p>&#x9801;&#x9762;&#x767C;&#x751F;&#x4EA4;&#x63DB;&#x6642;&#xFF0C;&#x670D;&#x52D9;&#x5668;&#x7684;&#x541E;&#x5410;&#x91CF;&#x6703;&#x5927;&#x5E45;&#x4E0B;&#x964D;&#xFF1B;&#x670D;&#x52D9;&#x5668;&#x72C0;&#x6CC1;&#x4E0D;&#x826F;&#x6642;&#xFF0C;&#x5982;&#x679C;&#x61F7;&#x7591;&#x56E0;&#x7232;&#x5167;&#x5B58;&#x4E0D;&#x8DB3;&#x800C;&#x5C0E;&#x81F4;&#x4E86;&#x9801;&#x9762;&#x4EA4;&#x63DB;&#x7684;&#x767C;&#x751F;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x9019;&#x500B;&#x547D;&#x4EE4;&#x4F86;&#x78BA;&#x8A8D;&#x662F;&#x5426;&#x767C;&#x751F;&#x4E86;&#x5927;&#x91CF;&#x7684;&#x4EA4;&#x63DB;&#xFF1B;</p>
-<p>../_images/sar5.png
-pswpin/s&#xFF1A;&#x6BCF;&#x79D2;&#x7CFB;&#x7D71;&#x63DB;&#x5165;&#x7684;&#x4EA4;&#x63DB;&#x9801;&#x9762;&#xFF08;swap page&#xFF09;&#x6578;&#x91CF;
-pswpout/s&#xFF1A;&#x6BCF;&#x79D2;&#x7CFB;&#x7D71;&#x63DB;&#x51FA;&#x7684;&#x4EA4;&#x63DB;&#x9801;&#x9762;&#xFF08;swap page&#xFF09;&#x6578;&#x91CF;
-&#x8981;&#x5224;&#x65B7;&#x7CFB;&#x7D71;&#x74F6;&#x9838;&#x554F;&#x984C;&#xFF0C;&#x6709;&#x6642;&#x9700;&#x5E7E;&#x500B; sar &#x547D;&#x4EE4;&#x9078;&#x9805;&#x7D50;&#x5408;&#x8D77;&#x4F86;&#xFF1B;</p>
-<p>&#x61F7;&#x7591;CPU&#x5B58;&#x5728;&#x74F6;&#x9838;&#xFF0C;&#x53EF;&#x7528; sar -u &#x548C; sar -q &#x7B49;&#x4F86;&#x67E5;&#x770B;
-&#x61F7;&#x7591;&#x5167;&#x5B58;&#x5B58;&#x5728;&#x74F6;&#x9838;&#xFF0C;&#x53EF;&#x7528;sar -B&#x3001;sar -r &#x548C; sar -W &#x7B49;&#x4F86;&#x67E5;&#x770B;
-&#x61F7;&#x7591;I/O&#x5B58;&#x5728;&#x74F6;&#x9838;&#xFF0C;&#x53EF;&#x7528; sar -b&#x3001;sar -u &#x548C; sar -d &#x7B49;&#x4F86;&#x67E5;&#x770B;</p>
-<h3 id="12-6-%E5%AE%89%E8%A3%9D">12.6. &#x5B89;&#x88DD;</h3>
-<p>&#x6709;&#x7684;linux&#x7CFB;&#x7D71;&#x4E0B;&#xFF0C;&#x9ED8;&#x8A8D;&#x53EF;&#x80FD;&#x6C92;&#x6709;&#x5B89;&#x88DD;&#x9019;&#x500B;&#x5305;&#xFF0C;&#x4F7F;&#x7528;apt-get install sysstat &#x4F86;&#x5B89;&#x88DD;&#xFF1B;
-&#x5B89;&#x88DD;&#x5B8C;&#x7562;&#xFF0C;&#x5C07;&#x6027;&#x80FD;&#x6536;&#x96C6;&#x5DE5;&#x5177;&#x7684;&#x958B;&#x95DC;&#x6253;&#x958B;&#xFF1A; vi /etc/default/sysstat
-&#x8A2D;&#x7F6E; ENABLED=&#x201D;true&#x201D;
-&#x5553;&#x52D5;&#x9019;&#x500B;&#x5DE5;&#x5177;&#x4F86;&#x6536;&#x96C6;&#x7CFB;&#x7D71;&#x6027;&#x80FD;&#x6578;&#x64DA;&#xFF1A; /etc/init.d/sysstat start</p>
-<h3 id="12-7-sar%E5%8F%83%E6%95%B8%E8%AA%AA%E6%98%8E">12.7. sar&#x53C3;&#x6578;&#x8AAA;&#x660E;</h3>
-<ul>
-<li>-A &#x5F59;&#x7E3D;&#x6240;&#x6709;&#x7684;&#x5831;&#x544A;</li>
-<li>-a &#x5831;&#x544A;&#x6587;&#x4EF6;&#x8B80;&#x5BEB;&#x4F7F;&#x7528;&#x60C5;&#x6CC1;</li>
-<li>-B &#x5831;&#x544A;&#x9644;&#x52A0;&#x7684;&#x7DE9;&#x5B58;&#x7684;&#x4F7F;&#x7528;&#x60C5;&#x6CC1;</li>
-<li>-b &#x5831;&#x544A;&#x7DE9;&#x5B58;&#x7684;&#x4F7F;&#x7528;&#x60C5;&#x6CC1;</li>
-<li>-c &#x5831;&#x544A;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x7684;&#x4F7F;&#x7528;&#x60C5;&#x6CC1;</li>
-<li>-d &#x5831;&#x544A;&#x78C1;&#x76E4;&#x7684;&#x4F7F;&#x7528;&#x60C5;&#x6CC1;</li>
-<li>-g &#x5831;&#x544A;&#x4E32;&#x53E3;&#x7684;&#x4F7F;&#x7528;&#x60C5;&#x6CC1;</li>
-<li>-h &#x5831;&#x544A;&#x95DC;&#x65BC;buffer&#x4F7F;&#x7528;&#x7684;&#x7D71;&#x8A08;&#x6578;&#x64DA;</li>
-<li>-m &#x5831;&#x544A;IPC&#x6D88;&#x606F;&#x968A;&#x5217;&#x548C;&#x4FE1;&#x865F;&#x91CF;&#x7684;&#x4F7F;&#x7528;&#x60C5;&#x6CC1;</li>
-<li>-n &#x5831;&#x544A;&#x547D;&#x540D;cache&#x7684;&#x4F7F;&#x7528;&#x60C5;&#x6CC1;</li>
-<li>-p &#x5831;&#x544A;&#x8ABF;&#x9801;&#x6D3B;&#x52D5;&#x7684;&#x4F7F;&#x7528;&#x60C5;&#x6CC1;</li>
-<li>-q &#x5831;&#x544A;&#x904B;&#x884C;&#x968A;&#x5217;&#x548C;&#x4EA4;&#x63DB;&#x968A;&#x5217;&#x7684;&#x5E73;&#x5747;&#x9577;&#x5EA6;</li>
-<li>-R &#x5831;&#x544A;&#x9032;&#x7A0B;&#x7684;&#x6D3B;&#x52D5;&#x60C5;&#x6CC1;</li>
-<li>-r &#x5831;&#x544A;&#x6C92;&#x6709;&#x4F7F;&#x7528;&#x7684;&#x5167;&#x5B58;&#x9801;&#x9762;&#x548C;&#x786C;&#x76E4;&#x584A;</li>
-<li>-u &#x5831;&#x544A;CPU&#x7684;&#x5229;&#x7528;&#x7387;</li>
-<li>-v &#x5831;&#x544A;&#x9032;&#x7A0B;&#x3001;i&#x7BC0;&#x9EDE;&#x3001;&#x6587;&#x4EF6;&#x548C;&#x9396;&#x8868;&#x72C0;&#x614B;</li>
-<li>-w &#x5831;&#x544A;&#x7CFB;&#x7D71;&#x4EA4;&#x63DB;&#x6D3B;&#x52D5;&#x72C0;&#x6CC1;</li>
-<li>-y &#x5831;&#x544A;TTY&#x8A2D;&#x5099;&#x6D3B;&#x52D5;&#x72C0;&#x6CC1;</li>
-</ul>
+<h3 id="1-5%E3%80%81%E9%A9%85%E5%8B%95%E7%A8%8B%E5%BC%8F%E6%89%AE%E6%BC%94%E7%9A%84%E8%A7%92%E8%89%B2">1-5&#x3001;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x626E;&#x6F14;&#x7684;&#x89D2;&#x8272;</h3>
+<p>&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;(device driver)&#xFF1A;
+&#x4E00;&#x7A2E;&#x8EDF;&#x9AD4;&#xFF0C;&#x80FD;&#x8B93; OS &#x8A8D;&#x8B58;&#x67D0;&#x7A2E;&#x786C;&#x9AD4;(&#x88DD;&#x7F6E;)&#xFF0C;&#x4E26;&#x8B93;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x80FD;&#x5920;&#x5229;&#x7528;&#x9019;&#x500B;&#x786C;&#x9AD4;&#x3002;</p>
 
                     
                     </section>
@@ -1281,10 +1201,10 @@ pswpout/s&#xFF1A;&#x6BCF;&#x79D2;&#x7CFB;&#x7D71;&#x63DB;&#x51FA;&#x7684;&#x4EA4
         </div>
 
         
-        <a href="../linux_tools/iostat.html" class="navigation navigation-prev " aria-label="Previous page: iostat 監視I/O子系統"><i class="fa fa-angle-left"></i></a>
+        <a href="../qemu/qemu_kgdb_ftrace.html" class="navigation navigation-prev " aria-label="Previous page: Qemu_KGDB_Ftrace"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../linux_tools/readelf.html" class="navigation navigation-next " aria-label="Next page: readelf elf文件格式分析"><i class="fa fa-angle-right"></i></a>
+        <a href="../linux_device_driver_programming/02.html" class="navigation navigation-next " aria-label="Next page: Linux 的授權"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

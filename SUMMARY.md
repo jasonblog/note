@@ -73,4 +73,8 @@
    * [[轉]用 LD_PRELOAD 替換動態連結的函式庫](fcamel/04.md)
    * [[轉] 用 strace 和 ltrace 找出用到的 system call 和 library call](fcamel/05.md)
    * [[轉] 加速 linking time](fcamel/[]__linking_time.md)
+   * [[轉] 從 C 呼叫 C++ 函式的過程理解程式編譯、連結的原理](fcamel/07.md)
+   * [[轉] 對 C++ 的觀感](fcamel/08)
+   * [[轉]在 Linux 下開發 C/C++ 的新手指南](fcamel/09.md)
+   * [[轉]了解 C/C++ 程式行為的技巧](fcamel/10.md)
 

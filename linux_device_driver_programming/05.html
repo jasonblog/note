@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
-        <title>trace-cmd | Jason note</title>
+        <title>開發 driver 需要的基礎知識 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.0.1">
@@ -20,10 +20,8 @@
         
     
     
-    <link rel="next" href="../linux_tools/doxygen.html" />
     
-    
-    <link rel="prev" href="../linux_tools/crontab.html" />
+    <link rel="prev" href="../linux_device_driver_programming/04.html" />
     
 
         
@@ -36,7 +34,7 @@
     
 
         
-    <div class="book" data-level="3.3.20" data-basepath=".." data-revision="Fri Jul 17 2015 02:05:30 GMT+0800 (CST)">
+    <div class="book" data-level="8.5" data-basepath=".." data-revision="Fri Jul 17 2015 02:05:30 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -692,7 +690,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="3.3.20" data-path="linux_tools/trace-cmd.html">
+        <li class="chapter " data-level="3.3.20" data-path="linux_tools/trace-cmd.html">
             
                 
                     <a href="../linux_tools/trace-cmd.html">
@@ -1073,7 +1071,7 @@
             
         </li>
     
-        <li class="chapter " data-level="8.5" data-path="linux_device_driver_programming/05.html">
+        <li class="chapter active" data-level="8.5" data-path="linux_device_driver_programming/05.html">
             
                 
                     <a href="../linux_device_driver_programming/05.html">
@@ -1196,17 +1194,172 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="trace-cmd">trace-cmd</h1>
-<pre><code>To compile for arm on Ubuntu
-1.Download code
-apt-get source trace-cmd
+                        <h1 id="%E9%96%8B%E7%99%BC-driver-%E9%9C%80%E8%A6%81%E7%9A%84%E5%9F%BA%E7%A4%8E%E7%9F%A5%E8%AD%98">&#x958B;&#x767C; driver &#x9700;&#x8981;&#x7684;&#x57FA;&#x790E;&#x77E5;&#x8B58;</h1>
+<p>&#x4EE5; Character device driver &#x70BA;&#x4F8B;&#xFF0C;&#x5B78;&#x6703; user process &#x5C07;&#x5982;&#x4F55;&#x900F;&#x904E; device file &#x8207; driver &#x4F5C;&#x6E9D;&#x901A;&#x3002;</p>
+<h3 id="5-1%E3%80%81%E5%9F%B7%E8%A1%8C%E7%92%B0%E5%A2%83">5-1&#x3001;&#x57F7;&#x884C;&#x74B0;&#x5883;</h3>
+<p>&#x88DD;&#x7F6E;&#x9A45;&#x7A0B;&#x7A0B;&#x5F0F;&#x5C6C;&#x65BC; kernel &#x7A0B;&#x5F0F;&#x78BC;&#x7684;&#x4E00;&#x90E8;&#x5206;&#xFF0C; driver &#x5728; kernel space &#x904B;&#x4F5C;&#x3002;<br>
+kernel &#x7684;&#x7A0B;&#x5F0F;&#x5206;&#x6210;&#x5169;&#x7A2E; context&#xFF1A;<br>
+Process context (&#x4E00;&#x822C;&#x884C;&#x7A0B;&#x57F7;&#x884C;&#x74B0;&#x5883;)<br>
+Interrupt context (&#x4E2D;&#x65B7;&#x57F7;&#x884C;&#x74B0;&#x5883;)<br>
+Process context &#x4E5F;&#x7A31;&#x70BA; user context &#x6216; thread context&#x3002;<br>
+&#x53E6;&#x5916;&#x9084;&#x6709;&#x300C;kernel context(&#x6838;&#x5FC3;&#x57F7;&#x884C;&#x74B0;&#x5883;)&#x300D;&#x9019;&#x500B;&#x7A31;&#x547C;&#xFF0C;&#x4E3B;&#x8981;&#x4EE3;&#x8868;&#x5728; kernel &#x5167;&#x57F7;&#x884C;&#x7684;&#x7A0B;&#x5F0F;&#x78BC;&#xFF0C;&#x53EF;&#x80FD;&#x662F; user context &#x4E5F;&#x53EF;&#x80FD;&#x662F; interrupt context&#x3002;<br>
+<strong>Process context &#x53EF;&#x4EE5; sleep&#xFF0C;&#x53EF;&#x4EE5;&#x88AB; preempt&#xFF0C;&#x8655;&#x7406;&#x6642;&#x9593;&#x53EF;&#x4EE5;&#x62D6;&#x9577;&#x6C92;&#x95DC;&#x4FC2;&#x3002;<br>
+Interrupt context &#x4E0D;&#x53EF;&#x4EE5; sleep&#xFF0C;&#x4E5F;&#x4E0D;&#x53EF;&#x4EE5;&#x88AB; preempt&#xFF0C;&#x8655;&#x7406;&#x6642;&#x9593;&#x8981;&#x6975;&#x529B;&#x7E2E;&#x77ED;&#x3002;<br>
+&#x4F46;&#x5C31;&#x7B97;&#x662F; process context &#xFF0C;&#x5982;&#x679C;&#x63A7;&#x5236;&#x6B0A;&#x56DE;&#x5230; kernel &#x4E4B;&#x5167;&#x7684;&#x8A71;&#xFF0C;&#x5728; kernel &#x5167;&#x7684; process context &#x662F;&#x4E0D;&#x80FD;&#x88AB; preempt &#x7684;&#x3002;<br></strong>
+&#x5728; Interrupt context &#x4E4B;&#x5167;&#xFF0C;&#x5FC5;&#x9808;&#x78BA;&#x5B9A;&#x7528;&#x5230;&#x7684; kernel &#x51FD;&#x5F0F;&#x90FD;&#x4E0D;&#x6703; sleep&#x3002;<br>
+&#x96D6;&#x7136;&#x524D;&#x9762;&#x63D0;&#x5230; kernel space &#x4E0D;&#x80FD;&#x88AB; preempt&#xFF0C;&#x4F46;&#x53EA;&#x8981;&#x555F;&#x52D5; kernel &#x914D;&#x7F6E;&#x9078;&#x9805;&#x7684;&#x300C;CONFIG_PREEMPT&#x300D;&#xFF0C;kernel space &#x4E5F;&#x6703;&#x8B8A;&#x6210;&#x53EF;&#x4EE5; preempt&#xFF0C;&#x5207;&#x63DB;&#x57F7;&#x884C;&#x5167;&#x5BB9;&#x7684;&#x6642;&#x6A5F;&#x50C5;&#x9650;&#x65BC; spin lock &#x9396;&#x5B9A;&#x7684;&#x5730;&#x65B9;&#x3002;<br>
+Process type and features -&gt; Preemption Model -&gt; Preemptible Kernel</p>
+<h3 id="5-2%E3%80%81%E8%B3%87%E6%96%99%E6%A8%A1%E5%9E%8B">5-2&#x3001;&#x8CC7;&#x6599;&#x6A21;&#x578B;</h3>
+<p>Data model(&#x8CC7;&#x6599;&#x6A21;&#x578B;) &#x6307;&#x7684;&#x662F; C &#x8A9E;&#x8A00;&#x7684; int&#x3001;long &#x7B49;&#x7B49;&#x8CC7;&#x6599;&#x578B;&#x5225;&#x5206;&#x5225;&#x4F54;&#x7528;&#x591A;&#x5C11; bytes&#x3002;<br>
+&#x5728; ANSI C &#x7684;&#x898F;&#x683C;&#x4E2D;&#xFF0C; int&#x3001;long &#x7B49;&#x8CC7;&#x6599;&#x578B;&#x5225;&#x7684;&#x5927;&#x5C0F;&#x90FD;&#x6C92;&#x660E;&#x78BA;&#x5B9A;&#x7FA9;&#xFF0C;&#x5B8C;&#x5168;&#x8996;&#x57F7;&#x884C;&#x74B0;&#x5883;&#x800C;&#x5B9A;&#x3002;<br>
+&#x5982;&#x679C;&#x8981;&#x7121;&#x8996;&#x5E73;&#x53F0;&#x5DEE;&#x7570;&#x3001;&#x4F7F;&#x7528;&#x56FA;&#x5B9A;&#x5927;&#x5C0F;&#x7684;&#x8CC7;&#x6599;&#x578B;&#x5225;&#x7684;&#x8A71;&#xFF0C;&#x5C31;&#x8981;&#x7528; u8 &#x6216; u32 &#x4E4B;&#x985E;&#x7684; typedef&#x3002;</p>
+<pre><code>typedef signed char s8;
+typedef unsigned char u8;
+typedef signed short s16;
+typedef unsigned short u16;
+typedef signed int s32;
+typedef unsigned int u32;
+typedef signed long s64;
+typedef unsigned long u64;
+</code></pre><h3 id="5-3%E3%80%81endian">5-3&#x3001;Endian</h3>
+<p>&#x6709; endian &#x5DEE;&#x7570;&#x7684;&#x90E8;&#x5206;&#x4E3B;&#x8981;&#x5305;&#x542B;&#xFF1A;
+CPU
+Bus(PCI &#x6216; USB &#x7B49;&#x7B49;)
+&#x7DB2;&#x8DEF;&#x5C01;&#x5305;
+EEPROM &#x7B49;&#x7684;&#x8CC7;&#x6599;&#x5167;&#x5BB9;
+&#x73FE;&#x5728;&#x7531;&#x65BC; Intel &#x8207; Microsoft &#x7684;&#x6210;&#x529F;&#xFF0C;&#x56E0;&#x6B64;&#x4E16;&#x754C;&#x7684;&#x4E3B;&#x6D41;&#x662F; little endian&#x3002;<br>
+Intel &#x4E3B;&#x5C0E;&#x8A02;&#x5B9A;&#x7684; PCI bus &#x898F;&#x683C;&#x4E5F;&#x63A1;&#x7528; little endian&#x3002;<br>
+&#x7DB2;&#x8DEF;&#x5C01;&#x5305;&#x7531;&#x65BC;&#x6B77;&#x53F2;&#x56E0;&#x7D20;&#xFF0C;&#x591A;&#x534A;&#x4F7F;&#x7528; big endian&#x3002;<br>
+EEPROM &#x4E4B;&#x985E;&#x7684; NVRAM(Non Volatile Ram) &#x5132;&#x5B58;&#x8CC7;&#x6599;&#x7684;&#x683C;&#x5F0F;&#x6703;&#x5728;&#x5132;&#x5B58;&#x6642;&#x56FA;&#x5B9A;&#x4E0B;&#x4F86;&#xFF0C;&#x6240;&#x4EE5; driver &#x5728;&#x8B80;&#x5BEB; NVRAM &#x6642;&#x5FC5;&#x9808;&#x6CE8;&#x610F; endian &#x7684;&#x4E0D;&#x540C;&#x3002;<br>
+&#x5728; driver &#x9700;&#x8981;&#x81EA;&#x5DF1;&#x61C9;&#x5C0D; endian &#x5DEE;&#x7570;&#x7684;&#xFF0C;&#x53EF;&#x4EE5;&#x7528;&#x4E8B;&#x5148;&#x5B9A;&#x7FA9;&#x597D;&#x7684;&#x5DE8;&#x96C6;&#x4F86;&#x4EA4;&#x63DB; byte &#x9806;&#x5E8F;&#xFF0C;&#x9019;&#x4E9B;&#x5DE8;&#x96C6;&#x5B9A;&#x7FA9;&#x5728; &#x300C;include/linux/byteorder/generic.h&#x300D;&#x6A19;&#x982D;&#x6A94;&#x5167;&#xFF1A;<br><br>
+<strong>htonl()</strong>&#xFF1A;&#x5C07; 4 bytes &#x8CC7;&#x6599;&#x5F9E; host endian &#x8F49;&#x6210; network byte order(big endian)&#x3002;<br>
+<strong>ntohl()</strong>&#xFF1A;&#x5C07; 4 bytes &#x8CC7;&#x6599;&#x5F9E; network byte order(big endian) &#x8F49;&#x6210; host endian&#x3002;<br>
+<strong>htons()</strong>&#xFF1A;&#x5C07; 2 bytes &#x8CC7;&#x6599;&#x5F9E; host endian &#x8F49;&#x6210; network byte order(big endian)&#x3002;<br>
+<strong>ntohs()</strong>&#xFF1A;&#x5C07; 2 bytes &#x8CC7;&#x6599;&#x5F9E; network byte order(big endian) &#x8F49;&#x6210; host endian&#x3002;<br></p>
+<ul>
+<li>little endian:</li>
+</ul>
+<pre><code>int i = 0x12345678
+Copy i to char array[4]:
+array[0]: 0x7fff929d1c70 = 0x78
+array[1]: 0x7fff929d1c71 = 0x56
+array[2]: 0x7fff929d1c72 = 0x34
+array[3]: 0x7fff929d1c73 = 0x12
+</code></pre><h3 id="5-4%E3%80%81%E5%B0%8D%E9%BD%8A">5-4&#x3001;&#x5C0D;&#x9F4A;</h3>
+<p><strong>Page &#x908A;&#x754C;</strong>
+&#x6709;&#x4E9B;&#x786C;&#x9AD4;&#x8981;&#x6C42;&#x6307;&#x6A19;&#x4E00;&#x5B9A;&#x8981;&#x6307;&#x5728; page &#x7684;&#x958B;&#x982D;&#xFF0C;&#x9019;&#x6642; driver &#x5C31;&#x5FC5;&#x9808;&#x5C0D;&#x9F4A;&#x908A;&#x754C;&#xFF1A;
+&#x65B0;&#x6307;&#x6A19; = (&#x8A18;&#x61B6;&#x9AD4;&#x6307;&#x6A19; + PAGE_SIZE -1) &amp; ~(PAGE_SIZE-1)</p>
+<p><strong>struct &#x7684;&#x6210;&#x54E1;&#x908A;&#x754C;</strong></p>
+<h3 id="5-5%E3%80%81%E9%80%A3%E7%B5%90%E4%B8%B2%E5%88%97">5-5&#x3001;&#x9023;&#x7D50;&#x4E32;&#x5217;</h3>
+<p>Stack(&#x5806;&#x758A;) &#x985E;&#x578B;&#x7684; Linked List<br>
+Queue(&#x4F47;&#x5217;) &#x985E;&#x578B;&#x7684; Linked List<br></p>
+<h3 id="5-6%E3%80%81%E8%99%9B%E6%93%AC%E8%A8%98%E6%86%B6%E9%AB%94">5-6&#x3001;&#x865B;&#x64EC;&#x8A18;&#x61B6;&#x9AD4;</h3>
+<p>driver &#x7684;&#x958B;&#x767C;&#x9700;&#x8981;&#x77AD;&#x89E3; OS &#x662F;&#x5982;&#x4F55;&#x7BA1;&#x7406;&#x8A18;&#x61B6;&#x9AD4;&#x7684;&#xFF0C;&#x56E0;&#x70BA; driver &#x9700;&#x8981;&#x8207;&#x4E00;&#x822C;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;(user space) &#x4EA4;&#x63DB;&#x8CC7;&#x6599;&#xFF0C;&#x6240;&#x4EE5;&#x5FC5;&#x9808;&#x77E5;&#x9053; kernel space &#x8207; user space &#x7684;&#x8A18;&#x61B6;&#x9AD4;&#x6709;&#x4EC0;&#x9EBC;&#x5DEE;&#x5225;&#x624D;&#x884C;&#x3002;</p>
+<p><strong>&#x5BE6;&#x9AD4;&#x8A18;&#x61B6;&#x9AD4;</strong>
+&#x96FB;&#x8166;&#x5B89;&#x88DD;&#x7684;&#x8A18;&#x61B6;&#x9AD4;&#x6A21;&#x7D44;&#x7A31;&#x70BA;&#x300C;&#x5BE6;&#x9AD4;&#x8A18;&#x61B6;&#x9AD4;&#x300D;(physical memory;&#x6216;&#x7A31;&#x300C;&#x7269;&#x7406;&#x8A18;&#x61B6;&#x9AD4;&#x300D;)&#x3002;
+&#x6709;&#x4E00;&#x4E9B; OS &#x6703;&#x76F4;&#x63A5;&#x5728;&#x7269;&#x7406;&#x8A18;&#x61B6;&#x9AD4;&#x5167;&#x57F7;&#x884C; kernel &#x8207;&#x4E00;&#x822C;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x3002;</p>
+<p><strong>&#x865B;&#x64EC;&#x8A18;&#x61B6;&#x9AD4;</strong>
+<strong>&#x96A8;&#x8457;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x529F;&#x80FD;&#x4E0D;&#x65B7;&#x64F4;&#x5145;&#xFF0C;&#x76F4;&#x63A5;&#x5728;&#x7269;&#x7406;&#x8A18;&#x61B6;&#x9AD4;&#x4E0A;&#x57F7;&#x884C;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x8D8A;&#x4F86;&#x8D8A;&#x5BB9;&#x6613;&#x5F71;&#x97FF;&#x7CFB;&#x7D71;&#x7A69;&#x5B9A;&#xFF0C;&#x56E0;&#x6B64;&#x300C;&#x865B;&#x64EC;&#x8A18;&#x61B6;&#x9AD4;&#x300D;(Virtual Memory) &#x7684;&#x60F3;&#x6CD5;&#x5C31;&#x8A95;&#x751F;&#x4E86;&#x3002;
+&#x5728;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x8F09;&#x5165;&#x8A18;&#x61B6;&#x9AD4;&#x6642;&#xFF0C;&#x628A;&#x5B83;&#x914D;&#x7F6E;&#x5728;&#x865B;&#x64EC;&#x8A18;&#x61B6;&#x9AD4;&#x5167;&#xFF0C;&#x5982;&#x6B64;&#xFF0C;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x57F7;&#x884C;&#x6642;&#xFF0C;&#x5C31;&#x4E0D;&#x6703;&#x76F4;&#x63A5;&#x5F71;&#x97FF;&#x5230;&#x7269;&#x7406;&#x8A18;&#x61B6;&#x9AD4;&#x4E86;&#x3002;<br></strong><br>
+Process &#x5728;&#x8B80;&#x5BEB;&#x8A18;&#x61B6;&#x9AD4;&#x6642;&#xFF0C;CPU &#x6703;&#x53C3;&#x8003; page table &#x5C07;&#x865B;&#x64EC;&#x4F4D;&#x5740;&#x8F49;&#x63DB;&#x6210;&#x7269;&#x7406;&#x4F4D;&#x5740;&#xFF0C;&#x63A5;&#x8457;&#x8B80;&#x5BEB;&#x7269;&#x7406;&#x8A18;&#x61B6;&#x9AD4;&#x7A7A;&#x9593;&#x3002;<br></p>
+<p>&#x5982;&#x679C;&#x7269;&#x7406;&#x8A18;&#x61B6;&#x9AD4;&#x5DF2;&#x7D93;&#x6C92;&#x6709;&#x7A7A;&#x9593;&#x7684;&#x8A71;&#xFF0C;&#x5C07;&#x6C92;&#x8FA6;&#x6CD5;&#x518D;&#x5206;&#x914D;&#x8A18;&#x61B6;&#x9AD4;&#x4F86;&#x4F7F;&#x7528;&#xFF0C;&#x70BA;&#x4E86;&#x61C9;&#x5C0D;&#x9019;&#x60C5;&#x6CC1;&#xFF0C;linux &#x5F15;&#x9032;&#x4E86;&#x300C;swap&#x300D;&#x7684;&#x89C0;&#x5FF5;&#x3002;<br>
+&#x8981;&#x70BA;&#x65B0;&#x7684; process &#x5206;&#x914D;&#x865B;&#x626F;&#x8A18;&#x61B6;&#x9AD4;&#x7A7A;&#x9593;&#x6642;&#xFF0C;&#x5148;&#x5C07;&#x7269;&#x7406;&#x8A18;&#x61B6;&#x9AD4;&#x5167;&#x6C92;&#x7528;&#x5230;&#x7684;&#x8CC7;&#x6599;&#x79FB;&#x5230;&#x786C;&#x789F;&#x5167;(swap out)&#xFF0C;&#x7B49;&#x5230;&#x820A; process &#x958B;&#x59CB;&#x518D;&#x6B21;&#x57F7;&#x884C;&#x6642;&#xFF0C;&#x518D;&#x5C07;&#x786C;&#x789F;&#x88E1;&#x7684;&#x8CC7;&#x6599;&#x8B80;&#x56DE;&#x7269;&#x7406;&#x8A18;&#x61B6;&#x9AD4;(swap in)&#x3002;<br></p>
+<p><strong>driver &#x4E4B;&#x9593;&#x7684;&#x901A;&#x8A0A;</strong><br>
+driver &#x8981;&#x547C;&#x53EB; kernel &#x4E4B;&#x4E2D;&#x5176;&#x5B83; driver &#x63D0;&#x4F9B;&#x7684;&#x51FD;&#x5F0F;&#x3001;&#x6216;&#x662F;&#x8B80;&#x5BEB;&#x76F8;&#x95DC;&#x8B8A;&#x6578;&#x6642;&#xFF0C;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x900F;&#x904E;&#x6307;&#x6A19;&#x9032;&#x884C;&#x3002;<br>
+Kernel space &#x4E4B;&#x9593;&#x7684;&#x8A18;&#x61B6;&#x9AD4;&#x7A7A;&#x9593;&#x662F;&#x5171;&#x7528;&#x7684;&#xFF0C;&#x53EF;&#x4EE5;&#x628A; kernel &#x60F3;&#x6210;&#x4E00;&#x500B;&#x7368;&#x7ACB;&#x7684; process &#x4F86;&#x770B;&#x5F85;&#x3002;<br>
+&#x5728; Linux kernel &#x4E4B;&#x5167;&#x60F3;&#x8907;&#x88FD;&#x8A18;&#x61B6;&#x9AD4;&#x5167;&#x5BB9;&#x6642;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x7528; ANSI C &#x63D0;&#x4F9B;&#x7684; memcy() &#x51FD;&#x5F0F;&#xFF0C;&#x5176;&#x76F8;&#x95DC;&#x51FD;&#x5F0F;&#x90FD;&#x5BE6;&#x4F5C;&#x5728; &#x300C;lib/string.c&#x300D;&#x6A94;&#x6848;&#x88E1;&#x3002;<br></p>
+<p><strong>User Process &#x8207; driver &#x7684;&#x901A;&#x8A0A;</strong><br>
+User process &#x53EF;&#x900F;&#x904E; read() &#x8207; write() &#x7CFB;&#x7D71;&#x547C;&#x53EB;&#x8207; driver &#x4EA4;&#x63DB;&#x8CC7;&#x6599;&#x3002;<br>
+User process &#x8207; kernel &#x5206;&#x5225;&#x5728;&#x4E0D;&#x540C;&#x7684;(&#x865B;&#x64EC;)&#x8A18;&#x61B6;&#x9AD4;&#x7A7A;&#x9593;&#x5167;&#x904B;&#x4F5C;&#xFF0C;&#x56E0;&#x6B64;&#x5169;&#x8005;&#x4E4B;&#x9593;&#x7121;&#x6CD5;&#x76F4;&#x63A5;&#x8B80;&#x5BEB;&#x8A18;&#x61B6;&#x9AD4;&#x3002;<br>
+IA-32&#x7248;&#x7684; Linux &#x5728; user context &#x4E4B;&#x5167;&#xFF0C;&#x662F;&#x628A; 4GB &#x865B;&#x64EC;&#x8A18;&#x61B6;&#x9AD4;&#x7A7A;&#x9593;&#x7684;&#x4E0B;&#x534A;&#x90E8; 3GB &#x5206;&#x914D;&#x7D66; user process &#x4F7F;&#x7528;&#xFF0C;&#x4E0A;&#x534A;&#x90E8; 1GB &#x7D66; kernel &#x4F7F;&#x7528;&#xFF0C;&#x5982;&#x6B64;&#x5C31;&#x80FD;&#x5F9E; kernel &#x76F4;&#x63A5;&#x8B80;&#x5BEB; user process &#x7684;&#x8A18;&#x61B6;&#x9AD4;&#x7A7A;&#x9593;&#x4E86;&#xFF0C;&#x4F46;&#x5728;&#x8B80;&#x5BEB;&#x4E4B;&#x524D;&#xFF0C;&#x9808;&#x78BA;&#x8A8D;&#x76EE;&#x7684;&#x5730;&#xFF1A;<br>
+&#x662F;&#x4E0D;&#x662F;&#x5408;&#x6CD5;&#x4F4D;&#x5740;<br>
+&#x6709;&#x6C92;&#x6709;&#x88AB; swap out<br>
+&#x56E0;&#x6B64;&#xFF0C;&#x5728; user process &#x8207;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x4E4B;&#x9593;&#x642C;&#x79FB;&#x8CC7;&#x6599;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x5149;&#x547C;&#x53EB; memcpy() &#x662F;&#x4E0D;&#x5920;&#x7684;&#x3002;<br>
+&#x6240;&#x4EE5;&#xFF0C;Linux kernel &#x6E96;&#x5099;&#x4E86;&#x5728; user process &#x8207;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x4E4B;&#x9593;&#x642C;&#x79FB;&#x8CC7;&#x6599;&#x7684; kernel &#x51FD;&#x5F0F;&#x8207;&#x5DE8;&#x96C6;&#xFF0C;&#x8B93;&#x88DD;&#x7F6E;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x4F7F;&#x7528;&#xFF1A;<br></p>
+<pre><code>int get_usr(x, ptr)&#x3001;int put_usr(x, ptr)
+int access_ok(int type, void *addr, unsigned long size)
+unsigned long copy_from_user(void *to, const void __user *from, unsigned long n);
+unsigned long copy_to_user(void *to, const void __user *from, unsigned long n);
+unsigned long clear_user(void __user *to, unsigned long n)
+</code></pre><p>&#x4F7F;&#x7528;&#x9019;&#x4E9B;&#x51FD;&#x5F0F;&#x6642;&#xFF0C;&#x9700;&#x8981; include &#x300C;asm/uaccess.h&#x300D;<br>
+&#x9019;&#x4E9B;&#x51FD;&#x5F0F;&#x90FD;&#x53EF;&#x80FD; sleep(&#x5728; user process &#x7684;&#x8A18;&#x61B6;&#x9AD4;&#x88AB; swap out &#x7684;&#x6642;&#x5019;)&#xFF0C;&#x6240;&#x4EE5;&#x53EA;&#x80FD;&#x5728; user context &#x4F7F;&#x7528;&#x3002;</p>
+<h3 id="5-7%E3%80%81%E4%BA%A4%E6%8F%9B%E8%B3%87%E6%96%99">5-7&#x3001;&#x4EA4;&#x63DB;&#x8CC7;&#x6599;</h3>
+<p>&#x8AAA;&#x660E; user process &#x8207; character &#x985E;&#x578B;&#x7684;&#x88DD;&#x7F6E;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x4EA4;&#x63DB;&#x8CC7;&#x6599;&#x7684;&#x65B9;&#x6CD5;&#x3002;</p>
+<p>device file &#x7684;&#x89D2;&#x8272;
+User process &#x8981;&#x5411; driver &#x9001;&#x8CC7;&#x6599;&#x3001;&#x6216;&#x662F;&#x5F9E; driver &#x53D6;&#x5F97;&#x8CC7;&#x6599;&#x6642;&#xFF0C;&#x9700;&#x8981;&#x6709;&#x300C;&#x67D0;&#x7A2E;&#x6771;&#x897F;&#x300D;&#x628A; user process &#x8207; driver &#x9023;&#x8D77;&#x4F86;&#x3002;<br>
+&#x626E;&#x6F14;&#x9019;&#x500B;&#x89D2;&#x8272;&#x7684;&#x5C31;&#x662F;&#x300C;device file&#x300D;&#x4EE5;&#x53CA;&#x300C;device special file&#x300D;&#x3002;<br>
+&#x88DD;&#x7F6E;&#x6A94;&#x901A;&#x5E38;&#x653E;&#x5728; /dev &#x76EE;&#x9304;&#x5167;&#x3002;<br>
+&#x539F;&#x5247;&#x4E0A;&#x4E00;&#x500B;&#x88DD;&#x7F6E;&#x5C31;&#x8981;&#x6E96;&#x5099;&#x4E00;&#x500B; device file&#x3002;<br>
+&#x524D;&#x9762;&#x8AAA;&#x662F;&#x300C;&#x7279;&#x6B8A;&#x300D;&#x7684;&#x6A94;&#x6848;&#xFF0C;&#x7528; ls &#x5C31;&#x80FD;&#x770B;&#x51FA;&#x8207;&#x4E00;&#x822C;&#x6A94;&#x6848;&#x6709;&#x9EDE;&#x5DEE;&#x7570;&#xFF0C;&#x6700;&#x5DE6;&#x908A;&#x7684;&#x5B57;&#x5143;&#x4EE3;&#x8868;&#x88DD;&#x7F6E;&#x6A94;&#x7684;&#x7A2E;&#x985E;&#xFF1A;<br></p>
+<pre><code>ls -l /dev/ttyS0
+</code></pre><p>b&#xFF1A;&#x5340;&#x584A;&#x88DD;&#x7F6E;(block device)<br>
+c &#x6216; u&#xFF1A;&#x5B57;&#x5143;&#x88DD;&#x7F6E;(character/unbuffered device)<br>
+p&#xFF1A;&#x5177;&#x540D;&#x7BA1;&#x7DDA;&#xFF0C;&#x6216;&#x7A31; FIFO(named pipe)
+&#x5E73;&#x5E38;&#x986F;&#x793A;&#x6A94;&#x6848;&#x5927;&#x5C0F;&#x7684;&#x5730;&#x65B9;&#x8B8A;&#x6210;&#x5169;&#x500B;&#x6578;&#x503C;&#xFF0C;&#x5206;&#x5225;&#x662F; major number &#x53CA; minor number&#x3002;<br></p>
+<p><strong>&#x5EFA;&#x7ACB;&#x8207;&#x522A;&#x9664; device file</strong><br>
+&#x88DD;&#x7F6E;&#x6A94;&#x53EF;&#x900F;&#x904E; mknod &#x6307;&#x4EE4;&#x5EFA;&#x7ACB;&#x3002;<br>
+&#x522A;&#x9664;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x76F4;&#x63A5;&#x7528; rm &#x5373;&#x53EF;&#x3002;<br>
+&#x76EE;&#x524D; Linux &#x7684; major number &#x662F; 12-bit&#xFF0C;minor number &#x662F; 20-bit&#xFF0C;Major/minor number &#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x7684; bit &#x6578;&#x5B9A;&#x7FA9;&#x5728;&#x300C;/include/linux/kdev_t.h&#x300D;&#x88E1;&#x3002;<br></p>
+<p><strong>Major / Minor Number &#x626E;&#x6F14;&#x7684;&#x89D2;&#x8272;</strong><br>
+User process &#x6253;&#x958B;&#x88DD;&#x7F6E;&#x6A94;&#x6642;&#xFF0C;kernel &#x770B;&#x5230;&#x958B;&#x6A94;&#x7684;&#x662F;&#x7CFB;&#x7D71;&#x547C;&#x53EB;&#xFF0C;&#x5C31;&#x7B97; user process &#x662F;&#x547C;&#x53EB; fopen() &#x9019;&#x985E;&#x51FD;&#x5F0F;&#x5EAB;&#x51FD;&#x5F0F;&#xFF0C;&#x6700;&#x7D42;&#x9084;&#x662F;&#x7531; glibc &#x5C0D; kernel &#x9001;&#x51FA; open() &#x7CFB;&#x7D71;&#x547C;&#x53EB;&#x3002;<br>
+Kernel &#x7684; open() &#x7CFB;&#x7D71;&#x547C;&#x53EB;&#x4ECB;&#x9762;&#x662F; sys_open() &#x51FD;&#x5F0F;&#xFF0C;&#x4F46;&#x662F;&#x53EA;&#x77E5;&#x9053;&#x958B;&#x555F; device file &#x7684;&#x8A71;&#xFF0C;&#x5C31;&#x4E0D;&#x77E5;&#x9053;&#x8981;&#x627E;&#x54EA;&#x500B;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x8655;&#x7406;&#x4E86;&#x3002;<br>
+&#x9019;&#x908A;&#x5C31;&#x8981;&#x7528;&#x5230; &#x300C;major number&#x300D;&#xFF0C;<strong>&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x8F09;&#x5165;&#x6642;&#xFF0C;&#x53EF;&#x4EE5;&#x5411; kernel &#x767B;&#x8A18; major number&#xFF0C;&#x6BCF;&#x500B;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x90FD;&#x6709;&#x7368;&#x4E00;&#x7121;&#x4E8C;&#x7684; major number&#x3002;</strong><br>
+Major number &#x8207;&#x6307;&#x5411;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684;&#x6307;&#x6A19;&#x5B58;&#x653E;&#x5728; kobj_map &#x5C0D;&#x61C9;&#x8868;&#x5167;&#x3002;<br>
+Kernel &#x7684; sys_open() &#x51FD;&#x5F0F;&#x6703;&#x5728; user process &#x958B;&#x555F;&#x88DD;&#x7F6E;&#x6A94;&#x6642;&#x5F97;&#x77E5; major number&#xFF0C;&#x7136;&#x5F8C;&#x7531;&#x6B64;&#x67E5;&#x8A62; kobj_map&#xFF0C;&#x5982;&#x6B64;&#xFF0C;&#x900F;&#x904E; major number &#x5373;&#x53EF;&#x628A;&#x88DD;&#x7F6E;&#x6A94;&#x8207;&#x5C0D;&#x61C9;&#x7684;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7D50;&#x5408;&#x8D77;&#x4F86;&#x3002;<br>
+Minor number &#x662F;&#x7531;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x81EA;&#x5DF1;&#x7BA1;&#x7406;&#x7684;&#x7DE8;&#x865F;&#x3002;<br>
+&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x5728;&#x540C;&#x6642;&#x63A7;&#x5236;&#x8A31;&#x591A;&#x500B;&#x88DD;&#x7F6E;&#x6642;&#xFF0C;&#x901A;&#x5E38;&#x6703;&#x7528; minor number &#x4F86;&#x5340;&#x5206;&#x5404;&#x500B;&#x88DD;&#x7F6E;&#x3002;<br>
+Major/minor number &#x5728;&#x7CFB;&#x7D71;&#x5167;&#x5FC5;&#x9808;&#x7368;&#x4E00;&#x7121;&#x4E8C;&#xFF0C;&#x6240;&#x4EE5; Linux kernel &#x5728;&#x539F;&#x59CB;&#x6A94;&#x7684; &#x300C;Documentation/devices.txt&#x300D;&#x5217;&#x51FA;&#x6240;&#x6709; major/minor number&#x3002;<br>
+&#x4F46;&#x73FE;&#x5728;&#x7684;&#x4E3B;&#x6D41;&#x662F;&#x52D5;&#x614B;&#x5206;&#x914D; major number&#x3002;<br>
+<strong>Linux kernel &#x662F;&#x4EE5; &#x300C;dev_t&#x300D;&#x9019;&#x500B;&#x578B;&#x5225;&#x4F86;&#x8868;&#x73FE; major/minor number&#xFF0C;&#x5B83;&#x88AB; typedef &#x6210; unsigned int&#xFF1A;</strong><br>
+<strong>typedef <strong>u32 </strong>kernel_dev_t;<br>
+typedef __kernel_dev_t dev_t;<br></strong>
+&#x60F3;&#x5F9E; dev_t &#x8B8A;&#x6578;&#x53D6;&#x51FA; major / minor number &#x6642;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; MAJOR() &#x8207; MINOR() &#x5DE8;&#x96C6;&#x3002;<br>
+&#x60F3;&#x7D50;&#x5408; major / minor number &#x5EFA;&#x7ACB; dev_t &#x6642;&#xFF0C;&#x5247;&#x662F;&#x7528; MKDEV() &#x5DE8;&#x96C6;&#x3002;<br></p>
+<h3 id="5-8%E3%80%81user-process-%E8%88%87-driver-%E7%9A%84%E9%80%9A%E8%A8%8A%E7%AE%A1%E9%81%93">5-8&#x3001;User Process &#x8207; driver &#x7684;&#x901A;&#x8A0A;&#x7BA1;&#x9053;</h3>
+<p>User process &#x4EE5; open() &#x7CFB;&#x7D71;&#x547C;&#x53EB;&#x6253;&#x958B; device file &#x4E4B;&#x5F8C;&#xFF0C;&#x53EF;&#x4EE5;&#xFF1A;<br>
+&#x900F;&#x904E; write() &#x7CFB;&#x7D71;&#x547C;&#x53EB;&#x5C07;&#x8CC7;&#x6599;&#x50B3;&#x7D66;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x3002;<br>
+&#x900F;&#x904E; read() &#x7CFB;&#x7D71;&#x547C;&#x53EB;&#x5F9E;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x53D6;&#x5F97;&#x8CC7;&#x6599;&#x3002;<br>
+&#x8655;&#x7406;&#x5B8C;&#x7562;&#x5F8C;&#xFF0C;&#x518D;&#x4EE5; close() &#x7CFB;&#x7D71;&#x547C;&#x53EB;&#x95DC;&#x9589; device file&#x3002;<br>
+&#x9664;&#x4E86;&#x4E0A;&#x8FF0;&#x5E7E;&#x500B;&#x7CFB;&#x7D71;&#x547C;&#x53EB;&#x5916;&#xFF0C;&#x9084;&#x6709;&#x4E0B;&#x9762;&#x9019;&#x4E9B;&#x53EF;&#x4EE5;&#x7528;&#xFF1A;<br></p>
+<pre><code>seek()
+poll() &#x6216; select()
+ioctl()
+mmap()
+fcntl()
+</code></pre><p>&#x4F46;&#x5982;&#x679C;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x6C92;&#x6709;&#x70BA;&#x9019;&#x4E9B;&#x7CFB;&#x7D71;&#x547C;&#x53EB;&#x6E96;&#x5099;&#x5C0D;&#x61C9;&#x7684; handler&#xFF0C;user process &#x5C31;&#x7121;&#x6CD5;&#x4F7F;&#x7528;&#x3002;<br></p>
+<h3 id="5-9%E3%80%81major-number-%E7%9A%84%E7%99%BB%E8%A8%98%E6%96%B9%E5%BC%8F">5-9&#x3001;Major Number &#x7684;&#x767B;&#x8A18;&#x65B9;&#x5F0F;</h3>
+<p>&#x70BA;&#x4E86;&#x5C07; device file &#x8207;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x9023;&#x8D77;&#x4F86;&#xFF0C;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x5FC5;&#x9808;&#x5411; kernel &#x767B;&#x8A18;&#x300C;major number&#x300D;&#xFF0C;&#x5148;&#x524D; major number &#x662F;&#x975C;&#x614B;&#x7684;&#xFF0C;&#x6700;&#x8FD1;&#x6539;&#x63A1;&#x52D5;&#x614B;&#x7BA1;&#x7406;&#x65B9;&#x5F0F;&#x70BA;&#x4E3B;&#x6D41;&#x3002;<br></p>
+<p><strong>&#x975C;&#x614B;(&#x50B3;&#x7D71;)&#x767B;&#x8A18;&#x6CD5;</strong>
+&#x975C;&#x614B;&#x767B;&#x8A18;&#x70BA; Linux 2.4 &#x7684;&#x6A19;&#x6E96;&#x4F5C;&#x6CD5;&#xFF0C; Linux 2.6 &#x5DF2;&#x4E0D;&#x63A8;&#x85A6;&#x9019;&#x500B;&#x4F5C;&#x6CD5;&#x3002;<br>
+&#x662F;&#x4EE5;&#x4F7F;&#x7528; register_chrdev() &#x767B;&#x8A18;&#xFF1A;<br>
+<strong>int register_chrdev(unsigned int major, const char <em>name, const struct file_operations </em>fops);</strong><br>
+&#x9019;&#x500B;&#x51FD;&#x5F0F;&#x662F;&#x5728; &#x300C;fs/char_dev.c&#x300D;&#x6A94;&#x6848;&#x5167;&#x5BE6;&#x4F5C;&#x7684;&#x3002;<br>
+major &#x5F15;&#x6578;&#x662F;&#x8981;&#x4F7F;&#x7528;&#x7684; major number&#xFF0C;name &#x5F15;&#x6578;&#x5247;&#x662F;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x540D;&#x7A31;&#xFF0C;fops &#x5F15;&#x6578;&#x5247;&#x662F;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x63D0;&#x4F9B;&#x7684;&#x7CFB;&#x7D71;&#x547C;&#x53EB;&#x8655;&#x7406;&#x4ECB;&#x9762;&#x3002;<br>
+&#x767B;&#x9304;&#x6210;&#x529F;&#x5F8C;&#xFF0C;&#x5C31;&#x6703;&#x5728; /proc/devices &#x986F;&#x793A;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x540D;&#x7A31;&#x53CA; major number&#x3002;<br>
+major &#x5F15;&#x6578;&#x4E5F;&#x53EF;&#x50B3;&#x5165; &#x300C;0&#x300D;&#xFF0C;&#x5982;&#x6B64; kernel &#x6703;&#x81EA;&#x52D5;&#x5206;&#x914D;&#x4E00;&#x500B;&#x9084;&#x6C92;&#x7528;&#x5230;&#x7684; major number&#x3002;<br>
+&#x5378;&#x8F09;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x6642;&#xFF0C;&#x8981;&#x7528; unregister_chrdev() &#x51FD;&#x5F0F;&#x8DDF; kernel &#x522A;&#x9664; major number&#x3002;<br>
+<strong>void unregister_chrdev(unsigned int major, const char *name);</strong>
+&#x7B2C;&#x4E00;&#x500B;&#x5F15;&#x6578;(major) &#x662F; register_chrdev() &#x51FD;&#x5F0F;&#x5206;&#x914D;&#x7684; &#x300C;major number&#x300D;&#x3002;<br>
+&#x7B2C;&#x4E8C;&#x500B;&#x5F15;&#x6578;(name) &#x662F;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684;&#x540D;&#x7A31;&#x3002;<br></p>
+<p><strong>&#x52D5;&#x614B;&#x767B;&#x8A18;&#x6CD5;</strong>
+1&#x3001;&#x4EE5; alloc_chrdev_region() &#x52D5;&#x614B;&#x53D6;&#x5F97; major number&#x3002;<br>
+2&#x3001;&#x4EE5; cdev_init() &#x767B;&#x8A18;&#x7CFB;&#x7D71;&#x547C;&#x53EB; handler&#x3002;<br>
+3&#x3001;&#x4EE5; cdev_add() &#x5411; kernel &#x767B;&#x8A18;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x3002;<br>
+&#x5728;&#x5378;&#x8F09;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x6642;&#xFF0C;&#x5247;&#x4F9D;&#x76F8;&#x53CD;&#x6B65;&#x9A5F;&#x89E3;&#x9664;&#x767B;&#x8A18;&#xFF1A;<br>
+1&#x3001;&#x4EE5; cdev_del() &#x5411; kernel &#x91CB;&#x653E;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x3002;<br>
+2&#x3001;&#x4EE5; unregister_chrdev_region() &#x91CB;&#x653E; major number&#x3002;<br><br>
+<strong>int alloc_chrdev_region(dev_t <em>dev, unsigned baseminor, unsigned count, const char </em>name);</strong><br><br>
+alloc_chrdev_region() &#x662F;&#x4F9D;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x540D;&#x7A31;&#x7528;&#x4F86;&#x53D6;&#x5F97; major number&#xFF0C;&#x4E26;&#x5F9E;&#x6307;&#x5B9A;&#x7684;&#x8D77;&#x9EDE;&#x958B;&#x59CB;&#x9810;&#x7559;&#x6307;&#x5B9A;&#x6578;&#x76EE;&#x7684; minor number&#x3002;<br><br>
+<strong>void cdev_init(struct cdev <em>cdev, const struct file_operations </em>fops);</strong><br><br>
+cdev_init() &#x8CA0;&#x8CAC;&#x521D;&#x59CB;&#x5316; cdev &#x7D50;&#x69CB;&#xFF0C;&#x4E26;&#x767B;&#x8A18;&#x7CFB;&#x7D71;&#x547C;&#x53EB; handler(fops)&#xFF0C;&#x53E6;&#x5916;&#xFF0C;&#x5176; cdev &#x7D50;&#x679C;&#x8B8A;&#x6578;&#x5728;&#x5378;&#x9664;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x6642;&#x9084;&#x8981;&#x7528;&#x5230;&#xFF0C;&#x9700;&#x5B9A;&#x7FA9;&#x70BA;&#x5168;&#x57DF;&#x8B8A;&#x6578;&#x3002;<br>
+&#x5728;&#x547C;&#x53EB; cdev_init() &#x5F8C;&#xFF0C;&#x9084;&#x8981;&#x5C07; cdev &#x7D50;&#x69CB;&#x8B8A;&#x6578;&#x7684; owner &#x6210;&#x54E1;&#x8A2D;&#x70BA; &#x300C;THIS_MODULE&#x300D;&#x3002;<br>
+<strong>int cdev_add(struct cdev *p, dev_t dev, unsigned count);</strong><br>
+cdev_add &#x5411; kernel &#x767B;&#x8A18; cdev_init() &#x8A2D;&#x5B9A;&#x597D;&#x7684;&#x88DD;&#x7F6E;&#x8CC7;&#x8A0A;&#x3002;<br>
+<strong>void dcdev_del(struct cdev *p)</strong><br>
+cdev_del() &#x7684;&#x529F;&#x80FD;&#x8207; cdev_add() &#x76F8;&#x53CD;&#xFF0C;&#x6703;&#x5F9E; kernel &#x91CB;&#x653E;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x3002;<br>
+<strong>void unregister_chrdev_region(dev_t from, unsigned count)</strong><br>
+unregister_chrdev_region() &#x7684;&#x529F;&#x80FD;&#x8DDF; alloc_chrdev_region() &#x76F8;&#x53CD;&#xFF0C;&#x6703;&#x91CB;&#x653E;&#x4E4B;&#x524D;&#x62FF;&#x5230;&#x7684; major number&#x3002;<br></p>
 
-2. install arm gcc
-sudo apt-get install gcc-arm-linux-gnueabi
-
-3. Compile
-make LDFLAGS=-static CC=arm-linux-gnueabi-gcc trace-cmd
-</code></pre>
                     
                     </section>
                 
@@ -1216,10 +1369,8 @@ make LDFLAGS=-static CC=arm-linux-gnueabi-gcc trace-cmd
         </div>
 
         
-        <a href="../linux_tools/crontab.html" class="navigation navigation-prev " aria-label="Previous page: crontab 定時任務"><i class="fa fa-angle-left"></i></a>
+        <a href="../linux_device_driver_programming/04.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 開發驅動程式的第一步"><i class="fa fa-angle-left"></i></a>
         
-        
-        <a href="../linux_tools/doxygen.html" class="navigation navigation-next " aria-label="Next page: Doxygen"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

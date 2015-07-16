@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="9" data-basepath=".." data-revision="Fri Jul 17 2015 03:21:47 GMT+0800 (CST)">
+    <div class="book" data-level="9" data-basepath=".." data-revision="Fri Jul 17 2015 03:35:08 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1199,6 +1199,58 @@
             
         </li>
     
+        <li class="chapter " data-level="9.7" data-path="fcamel/07.html">
+            
+                
+                    <a href="../fcamel/07.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.7.</b>
+                        
+                        [轉] 從 C 呼叫 C++ 函式的過程理解程式編譯、連結的原理
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.8" data-path="fcamel/08.html">
+            
+            <span><b>9.8.</b> [轉] 對 C++ 的觀感</span>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.9" data-path="fcamel/09.html">
+            
+                
+                    <a href="../fcamel/09.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.9.</b>
+                        
+                        [轉]在 Linux 下開發 C/C++ 的新手指南
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10" data-path="fcamel/10.html">
+            
+                
+                    <a href="../fcamel/10.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.</b>
+                        
+                        [轉]了解 C/C++ 程式行為的技巧
+                    </a>
+                
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -1307,7 +1359,24 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="fcamel">fcamel</h1>
+                        <h1 id="%E5%B0%8D-c-%E7%9A%84%E8%A7%80%E6%84%9F">&#x5C0D; C++ &#x7684;&#x89C0;&#x611F;</h1>
+<p>&#x5BEB;&#x4E86;&#x5FEB;&#x5169;&#x5E74;&#x7684; C++, &#x89BA;&#x5F97; C++ &#x662F;&#x5B78;&#x7FD2;&#x6210;&#x672C;&#x9AD8;&#x6602;, &#x6295;&#x8CC7;&#x5831;&#x916C;&#x7387;&#x537B;&#x5F88;&#x4F4E;&#x7684;&#x8A9E;&#x8A00;&#x3002;&#x525B;&#x597D;&#x770B;&#x5230; Less is exponentially more &#x6709;&#x611F;, &#x5728; G+ &#x5BEB;&#x4E86;&#x4E00;&#x4E9B;&#x611F;&#x60F3;&#x3002;&#x63D0;&#x53CA;&#x7D93;&#x5E74;&#x7D2F;&#x6708;&#x7684; C++ &#x7D93;&#x9A57;&#x4E5F;&#x6703;&#x8B8A;&#x70BA;&#x6A5F;&#x6703;&#x6210;&#x672C;, &#x963B;&#x7919;&#x7A0B;&#x5F0F;&#x8A2D;&#x8A08;&#x5E2B;&#x8F49;&#x5411;&#x5176;&#x5B83;&#x8A9E;&#x8A00;&#x3002;&#x4E0D;&#x904E;&#x5728; Go &#x6709;&#x9F90;&#x5927;&#x7684; C++ library &#x548C;&#x7522;&#x54C1;&#x66FF;&#x4EE3;&#x54C1;&#x4EE5;&#x524D;, &#x4E5F;&#x4E0D;&#x5BB9;&#x6613;&#x9078;&#x5B9A;&#x7528; Go &#x958B;&#x767C;&#x6709;&#x6548;&#x7387;&#x9700;&#x6C42;&#x7684;&#x7A0B;&#x5F0F;&#x3002;&#x5BE6;&#x5728;&#x662F;&#x5169;&#x96E3;&#x554A;&#x3002;</p>
+<p>&#x4E0B;&#x9762;&#x53D6; G+ &#x7559;&#x8A00;&#x7684;&#x5176;&#x4E2D;&#x4E00;&#x6BB5;&#x8AAA;&#x660E;&#x70BA;&#x4EC0;&#x9EBC;&#x6211;&#x89BA;&#x5F97;&#x5B78; C++ &#x6295;&#x8CC7;&#x5831;&#x916C;&#x7387;&#x5F88;&#x4F4E;&#x3002;</p>
+<p>&#x8209;&#x4E00;&#x500B;&#x5927;&#x5BB6;&#x53EF;&#x80FD;&#x90FD;&#x6703;&#x9047;&#x5230;&#x7684;&#x4F8B;&#x5B50;: &#x57F7;&#x884C;&#x6642;&#x591A;&#x578B;&#x3002;</p>
+<p>&#x5728; Java &#x548C; Python &#x88E1;, &#x8AAA;&#x660E;&#x57F7;&#x884C;&#x6642;&#x591A;&#x578B;&#x53EA;&#x8981;&#x4E00;&#x53E5;&#x8A71;&#x5C31;&#x7D50;&#x675F;&#x4E86;, &#x5C31;.....&#x770B;&#x90A3;&#x7269;&#x4EF6;&#x6307;&#x5230;&#x8AB0;, &#x5C31;&#x6703;&#x57F7;&#x884C;&#x5B83;&#x7684; method&#x3002;</p>
+<p>C++ &#x7684;&#x8A71;, &#x8981;&#x660E;&#x767D;&#x5169;&#x4EF6;&#x4E8B;:</p>
+<ul>
+<li><p>&#x662F;&#x5426;&#x6709;&#x4F7F;&#x7528;&#x6307;&#x6A19;&#x547C;&#x53EB;? &#x7B49;&#x7B49;, &#x9084;&#x6709;&#x53C3;&#x8003;&#x7684;&#x6548;&#x679C;&#x7B49;&#x540C;&#x6307;&#x6A19;, &#x4E5F;&#x8981;&#x7559;&#x610F;&#x662F;&#x5426;&#x6709;&#x7528;&#x53C3;&#x8003; ( &#x96D6;&#x7136;&#x5F88;&#x300C;&#x7406;&#x6240;&#x7576;&#x7136;&#x300D;, &#x591A;&#x4E86;&#x4E00;&#x500B;&#x7D30;&#x7BC0;&#x8981;&#x7559;&#x610F; )</p>
+</li>
+<li><p>&#x547C;&#x53EB;&#x7684; method &#x662F;&#x5426;&#x6709;&#x5BA3;&#x544A; virtual? &#x5982;&#x679C;&#x4F60;&#x5728;&#x76EE;&#x6A19;&#x985E;&#x5225;&#x7684; method &#x6C92;&#x770B;&#x5230; virtual, &#x8A18;&#x5F97;&#x9084;&#x8981;&#x9806;&#x4FBF;&#x6AA2;&#x67E5;&#x5B83;&#x7684;&#x5168;&#x90E8;&#x7236;&#x985E;&#x5225;&#x662F;&#x5426;&#x6709;&#x5BA3;&#x544A;&#x8A72; method &#x70BA; virtual, &#x56E0;&#x70BA;&#x53EA;&#x8981;&#x7236;&#x985E;&#x5225;&#x6709;&#x5BA3;&#x544A; virtual, &#x5B50;&#x985E;&#x5225;&#x53EF;&#x4EE5;&#x7701;&#x7565; virtual &#x7684;&#x5BA3;&#x544A;
+&#x518D;&#x4F86;&#x8981;&#x660E;&#x767D; pure virtual &#x4EE5;&#x53CA;&#x6F0F;&#x5BE6;&#x4F5C; virtual &#x51FD;&#x5F0F;&#x9020;&#x6210;&#x7684;&#x4E0D;&#x6613;&#x7406;&#x89E3;&#x7684;&#x9023;&#x7D50;&#x932F;&#x8AA4;&#x8A0A;&#x606F;&#x3002;&#x5230;&#x76EE;&#x524D;&#x70BA;&#x6B62;&#x9084;&#x53EA;&#x662F;&#x57FA;&#x672C;&#x8A9E;&#x6CD5;, &#x9084;&#x6C92;&#x5230;&#x5BE6;&#x6230;&#x6CE8;&#x610F;&#x4E8B;&#x9805;&#x3002;</p>
+</li>
+</ul>
+<p>&#x5BE6;&#x6230;&#x6CE8;&#x610F;&#x4E8B;&#x9805;&#x5305;&#x542B;:</p>
+<p>&#x82E5;&#x985E;&#x5225;&#x6709;&#x53EF;&#x80FD;&#x88AB;&#x7E7C;&#x627F;, &#x8A18;&#x5F97;&#x5BA3;&#x544A; destructor &#x70BA; virtual
+private virtual &#x7684;&#x4F7F;&#x7528;&#x6642;&#x6A5F;
+&#x4E0D;&#x80FD;&#x5728; constructor &#x548C; destructor &#x88E1;&#x547C;&#x53EB; virtual method
+&#x53EF;&#x80FD;&#x9084;&#x6709;&#x5176;&#x5B83;&#x9EDE;, &#x76EE;&#x524D;&#x6709;&#x9700;&#x8981;&#x5B78;&#x5230;&#x7684;&#x5C31;&#x9019;&#x5E7E;&#x9EDE;&#x3002;&#x660E;&#x767D;&#x70BA;&#x4EC0;&#x9EBC;&#x5F8C;&#x6703;&#x89BA;&#x5F97;&#x5F88;&#x300C;&#x76F4;&#x89BA;&#x300D;, &#x4F46;&#x662F;&#x6BCF;&#x7576;&#x6709;&#x5FC5;&#x8981;&#x7528;&#x5230;&#x6642;, &#x5C31;&#x5F97;&#x5206;&#x795E;&#x67E5;&#x4E00;&#x4E0B;&#x9019;&#x662F;&#x5728;&#x505A;&#x4EC0;&#x9EBC;&#x6216;&#x662F;&#x70BA;&#x4EC0;&#x9EBC;&#x9019;&#x6A23;&#x53EF;&#x4EE5;&#x904B;&#x4F5C;&#x3002;&#x6211;&#x660E;&#x767D; virtual &#x7684;&#x51FA;&#x767C;&#x9EDE;&#x662F; C++ &#x7684;&#x6838;&#x5FC3;&#x7CBE;&#x795E; zero cost, &#x53EA;&#x662F;&#x5728;&#x770B;&#x5230;&#x9019;&#x9EBC;&#x591A;&#x884D;&#x751F;&#x51FA;&#x4F86;&#x7463;&#x788E;&#x7684;&#x6CE8;&#x610F;&#x4E8B;&#x9805;&#x5F8C;, &#x6211;&#x6EFF;&#x61F7;&#x7591;&#x57F7;&#x884C;&#x671F;&#x7684; zero cost &#x662F;&#x5426; &gt;&gt; &#x958B;&#x767C;&#x8005;&#x7684;&#x6642;&#x9593;&#x6210;&#x672C;, &#x7279;&#x5225;&#x662F;&#x7372;&#x5F97;&#x7684;&#x597D;&#x8655;&#x548C;&#x4ED8;&#x51FA;&#x7684;&#x4EE3;&#x50F9;&#x662F;&#x5982;&#x6B64;&#x5730;&#x4E0D;&#x6210;&#x6BD4;&#x4F8B;&#x3002;</p>
 
                     
                     </section>

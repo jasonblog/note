@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
-        <title>size 查看程序內存映像大小 | Jason note</title>
+        <title>[轉]在 Linux 下開發 C/C++ 的新手指南 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.0.1">
@@ -20,10 +20,10 @@
         
     
     
-    <link rel="next" href="../linux_tools/wget.html" />
+    <link rel="next" href="../fcamel/10.html" />
     
     
-    <link rel="prev" href="../linux_tools/nm.html" />
+    <link rel="prev" href="../fcamel/07.html" />
     
 
         
@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="3.3.16" data-basepath=".." data-revision="Fri Jul 17 2015 03:35:08 GMT+0800 (CST)">
+    <div class="book" data-level="9.9" data-basepath=".." data-revision="Fri Jul 17 2015 03:35:08 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -632,7 +632,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="3.3.16" data-path="linux_tools/size.html">
+        <li class="chapter " data-level="3.3.16" data-path="linux_tools/size.html">
             
                 
                     <a href="../linux_tools/size.html">
@@ -1221,7 +1221,7 @@
             
         </li>
     
-        <li class="chapter " data-level="9.9" data-path="fcamel/09.html">
+        <li class="chapter active" data-level="9.9" data-path="fcamel/09.html">
             
                 
                     <a href="../fcamel/09.html">
@@ -1359,24 +1359,84 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="size-%E6%9F%A5%E7%9C%8B%E7%A8%8B%E5%BA%8F%E5%85%A7%E5%AD%98%E6%98%A0%E5%83%8F%E5%A4%A7%E5%B0%8F">size &#x67E5;&#x770B;&#x7A0B;&#x5E8F;&#x5167;&#x5B58;&#x6620;&#x50CF;&#x5927;&#x5C0F;</h1>
-<p>&#x4F5C;&#x7528;&#xFF1A;&#x67E5;&#x770B;&#x7A0B;&#x5E8F;&#x88AB;&#x6620;&#x5C04;&#x5230;&#x5167;&#x5B58;&#x4E2D;&#x7684;&#x6620;&#x50CF;&#x6240;&#x4F54;&#x7528;&#x7684;&#x5927;&#x5C0F;&#x4FE1;&#x606F;&#x3002;</p>
-<p>&#x7A0B;&#x5E8F;&#x6620;&#x5C04;&#x5230;&#x5167;&#x5B58;&#x4E2D;&#xFF0C;&#x5F9E;&#x4F4E;&#x5730;&#x5740;&#x5230;&#x9AD8;&#x5730;&#x5740;&#x4F9D;&#x6B21;&#x7232;&#x4E0B;&#x5217;&#x6BB5;:</p>
-<ul>
-<li><p>&#x4EE3;&#x78BC;&#x6BB5;&#xFF1A; &#x53EA;&#x8B80;&#xFF0C;&#x53EF;&#x5171;&#x4EAB;; &#x4EE3;&#x78BC;&#x6BB5;&#xFF08;code segment/text segment &#xFF09;&#x901A;&#x5E38;&#x662F;&#x6307;&#x7528;&#x4F86;&#x5B58;&#x653E;&#x7A0B;&#x5E8F;&#x57F7;&#x884C;&#x4EE3;&#x78BC;&#x7684;&#x4E00;&#x584A;&#x5167;&#x5B58;&#x5340;&#x57DF;&#x3002;&#x9019;&#x90E8;&#x5206;&#x5340;&#x57DF;&#x7684;&#x5927;&#x5C0F;&#x5728;&#x7A0B;&#x5E8F;&#x904B;&#x884C;&#x524D;&#x5C31;&#x5DF2;&#x7D93;&#x78BA;&#x5B9A;&#xFF0C;&#x4E26;&#x4E14;&#x5167;&#x5B58;&#x5340;&#x57DF;&#x901A;&#x5E38;&#x5C6C;&#x65BC;&#x53EA;&#x8B80;, &#x67D0;&#x4E9B;&#x67B6;&#x69CB;&#x4E5F;&#x5141;&#x8A31;&#x4EE3;&#x78BC;&#x6BB5;&#x7232;&#x53EF;&#x5BEB;&#xFF0C;&#x5373;&#x5141;&#x8A31;&#x4FEE;&#x6539;&#x7A0B;&#x5E8F;&#x3002;&#x5728;&#x4EE3;&#x78BC;&#x6BB5;&#x4E2D;&#xFF0C;&#x4E5F;&#x6709;&#x53EF;&#x80FD;&#x5305;&#x542B;&#x4E00;&#x4E9B;&#x53EA;&#x8B80;&#x7684;&#x5E38;&#x6578;&#x8B8A;&#x91CF;&#xFF0C;&#x4F8B;&#x5982;&#x5B57;&#x7B26;&#x4E32;&#x5E38;&#x91CF;&#x7B49;&#x3002;</p>
-</li>
-<li><p>&#x6578;&#x64DA;&#x6BB5;&#xFF1A; &#x5132;&#x5B58;&#x5DF2;&#x88AB;&#x521D;&#x59CB;&#x5316;&#x4E86;&#x7684;&#x975C;&#x614B;&#x6578;&#x64DA;&#x3002;&#x6578;&#x64DA;&#x6BB5;&#xFF08;data segment &#xFF09;&#x901A;&#x5E38;&#x662F;&#x6307;&#x7528;&#x4F86;&#x5B58;&#x653E;&#x7A0B;&#x5E8F;&#x4E2D;&#x5DF2;&#x521D;&#x59CB;&#x5316;&#x7684;&#x5168;&#x5C40;&#x8B8A;&#x91CF;&#x7684;&#x4E00;&#x584A;&#x5167;&#x5B58;&#x5340;&#x57DF;&#x3002;&#x6578;&#x64DA;&#x6BB5;&#x5C6C;&#x65BC;&#x975C;&#x614B;&#x5167;&#x5B58;&#x5206;&#x914D;&#x3002;</p>
-</li>
-<li>BSS &#x6BB5;&#xFF1A;&#x672A;&#x521D;&#x59CB;&#x5316;&#x7684;&#x6578;&#x64DA;&#x6BB5;. BSS &#x6BB5;&#xFF08;bss segment &#xFF09;&#x901A;&#x5E38;&#x662F;&#x6307;&#x7528;&#x4F86;&#x5B58;&#x653E;&#x7A0B;&#x5E8F;&#x4E2D;&#x672A;&#x521D;&#x59CB;&#x5316;&#x7684;&#x5168;&#x5C40;&#x8B8A;&#x91CF;&#x7684;&#x4E00;&#x584A;&#x5167;&#x5B58;&#x5340;&#x57DF;&#x3002;BSS &#x662F;&#x82F1;&#x6587;Block Started by Symbol &#x7684;&#x7C21;&#x7A31;&#x3002;BSS &#x6BB5;&#x5C6C;&#x65BC;&#x975C;&#x614B;&#x5167;&#x5B58;&#x5206;&#x914D;&#x3002;</li>
-<li>&#x5806;&#xFF08;heap &#xFF09;&#xFF1A; &#x5806;&#x662F;&#x7528;&#x65BC;&#x5B58;&#x653E;&#x9032;&#x7A0B;&#x904B;&#x884C;&#x4E2D;&#x88AB;&#x52D5;&#x614B;&#x5206;&#x914D;&#x7684;&#x5167;&#x5B58;&#x6BB5;&#xFF0C;&#x5B83;&#x7684;&#x5927;&#x5C0F;&#x4E26;&#x4E0D;&#x56FA;&#x5B9A;&#xFF0C;&#x53EF;&#x52D5;&#x614B;&#x64F4;&#x5F35;&#x6216;&#x7E2E;&#x6E1B;&#x3002;&#x7576;&#x9032;&#x7A0B;&#x8ABF;&#x7528;malloc &#x7B49;&#x51FD;&#x6578;&#x5206;&#x914D;&#x5167;&#x5B58;&#x6642;&#xFF0C;&#x65B0;&#x5206;&#x914D;&#x7684;&#x5167;&#x5B58;&#x5C31;&#x88AB;&#x52D5;&#x614B;&#x6DFB;&#x52A0;&#x5230;&#x5806;&#x4E0A;&#xFF08;&#x5806;&#x88AB;&#x64F4;&#x5F35;&#xFF09;&#xFF1B;&#x7576;&#x5229;&#x7528;free &#x7B49;&#x51FD;&#x6578;&#x91CB;&#x653E;&#x5167;&#x5B58;&#x6642;&#xFF0C;&#x88AB;&#x91CB;&#x653E;&#x7684;&#x5167;&#x5B58;&#x5F9E;&#x5806;&#x4E2D;&#x88AB;&#x5254;&#x9664;&#xFF08;&#x5806;&#x88AB;&#x7E2E;&#x6E1B;&#xFF09;</li>
-<li>&#x68E7;(stack) &#xFF1A;&#x68E7;&#x53C8;&#x7A31;&#x5806;&#x68E7;&#xFF0C;&#x662F;&#x7528;&#x6236;&#x5B58;&#x653E;&#x7A0B;&#x5E8F;&#x81E8;&#x6642;&#x5275;&#x5EFA;&#x7684;&#x5C40;&#x90E8;&#x8B8A;&#x91CF;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#x6211;&#x5011;&#x51FD;&#x6578;&#x62EC;&#x5F27;&#x201C;{} &#x201D;&#x4E2D;&#x5B9A;&#x7FA9;&#x7684;&#x8B8A;&#x91CF;&#xFF08;&#x4F46;&#x4E0D;&#x5305;&#x62EC;static &#x8072;&#x660E;&#x7684;&#x8B8A;&#x91CF;&#xFF0C;static &#x610F;&#x5473;&#x7740;&#x5728;&#x6578;&#x64DA;&#x6BB5;&#x4E2D;&#x5B58;&#x653E;&#x8B8A;&#x91CF;&#xFF09;&#x3002;&#x9664;&#x6B64;&#x4EE5;&#x5916;&#xFF0C;&#x5728;&#x51FD;&#x6578;&#x88AB;&#x8ABF;&#x7528;&#x6642;&#xFF0C;&#x5176;&#x53C3;&#x6578;&#x4E5F;&#x6703;&#x88AB;&#x58D3;&#x5165;&#x767C;&#x8D77;&#x8ABF;&#x7528;&#x7684;&#x9032;&#x7A0B;&#x68E7;&#x4E2D;&#xFF0C;&#x4E26;&#x4E14;&#x5F85;&#x5230;&#x8ABF;&#x7528;&#x7D50;&#x675F;&#x5F8C;&#xFF0C;&#x51FD;&#x6578;&#x7684;&#x8FD4;&#x56DE;&#x503C;&#x4E5F;&#x6703;&#x88AB;&#x5B58;&#x653E;&#x56DE;&#x68E7;&#x4E2D;&#x3002;&#x7531;&#x65BC;&#x68E7;&#x7684;&#x5148;&#x9032;&#x5148;&#x51FA;&#x7279;&#x9EDE;&#xFF0C;&#x6240;&#x4EE5;&#x68E7;&#x7279;&#x5225;&#x65B9;&#x4FBF;&#x7528;&#x4F86;&#x4FDD;&#x5B58;/ &#x6062;&#x5FA9;&#x8ABF;&#x7528;&#x73FE;&#x5834;&#x3002;&#x5F9E;&#x9019;&#x500B;&#x610F;&#x7FA9;&#x4E0A;&#x8B1B;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x628A;&#x5806;&#x68E7;&#x770B;&#x6210;&#x4E00;&#x500B;&#x5BC4;&#x5B58;&#x3001;&#x4EA4;&#x63DB;&#x81E8;&#x6642;&#x6578;&#x64DA;&#x7684;&#x5167;&#x5B58;&#x5340;&#x3002;
-&#x53E6;&#x5916;, &#x5728;&#x9AD8;&#x5730;&#x5740;&#x9084;&#x5132;&#x5B58;&#x4E86;&#x547D;&#x4EE4;&#x884C;&#x53C3;&#x6578;&#x53CA;&#x74B0;&#x5883;&#x8B8A;&#x91CF;.</li>
-</ul>
-<p>&#x56E0;&#x7232;&#x5167;&#x5B58;&#x7A0B;&#x5E8F;&#x6620;&#x50CF;&#x4E2D;&#x7684;&#x5404;&#x6BB5;&#x53EF;&#x80FD;&#x4F4D;&#x65BC;&#x4E0D;&#x540C;&#x7684;&#x5730;&#x5740;&#x7A7A;&#x9593;&#x4E2D;, &#x5B83;&#x5011;&#x4E0D;&#x4E00;&#x5B9A;&#x4F4D;&#x65BC;&#x9023;&#x7E8C;&#x7684;&#x5167;&#x5B58;&#x584A;&#x4E2D;. &#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x5C07;&#x7A0B;&#x5E8F;&#x6620;&#x50CF;&#x6620;&#x5C04;&#x5230;&#x5730;&#x5740;&#x7A7A;&#x9593;&#x6642;, &#x901A;&#x5E38;&#x5C07;&#x5167;&#x5B58;&#x7A0B;&#x5E8F;&#x6620;&#x50CF;&#x5283;&#x5206;&#x7232;&#x5927;&#x5C0F;&#x76F8;&#x540C;&#x7684;&#x584A;(&#x4E5F;&#x5C31;&#x662F;page, &#x9801;). &#x53EA;&#x6709;&#x8A72;&#x9801;&#x88AB;&#x5F15;&#x7528;&#x6642;, &#x5B83;&#x624D;&#x88AB;&#x52A0;&#x8F09;&#x5230;&#x5167;&#x5B58;&#x4E2D;. &#x4E0D;&#x904E;&#x5C0D;&#x65BC;&#x7A0B;&#x5E8F;&#x54E1;&#x4F86;&#x8AAA;, &#x53EF;&#x4EE5;&#x8996;&#x5167;&#x5B58;&#x7A0B;&#x5E8F;&#x6620;&#x50CF;&#x5728;&#x908F;&#x8F2F;&#x4E0A;&#x662F;&#x9023;&#x7E8C;&#x7684;.</p>
-<pre><code>/opt/app/todeav1/colin/tests#size main
-text    data     bss     dec     hex filename
-1259     540      16    1815     717 main
-</code></pre><p>&#x95DC;&#x65BC;&#x7A0B;&#x5E8F;&#x5167;&#x5B58;&#x6620;&#x50CF;&#xFF0C;&#x9019;&#x7BC7;&#x6587;&#x7AE0;&#x8B1B;&#x7684;&#x5F88;&#x597D;&#xFF1A;<a href="http://blog.chinaunix.net/uid-9012903-id-2011435.html" target="_blank">http://blog.chinaunix.net/uid-9012903-id-2011435.html</a></p>
+                        <h1 id="-%E8%BD%89-%E5%9C%A8-linux-%E4%B8%8B%E9%96%8B%E7%99%BC-c-c-%E7%9A%84%E6%96%B0%E6%89%8B%E6%8C%87%E5%8D%97">[&#x8F49;]&#x5728; Linux &#x4E0B;&#x958B;&#x767C; C/C++ &#x7684;&#x65B0;&#x624B;&#x6307;&#x5357;</h1>
+<p>&#x65B0;&#x52A0;&#x5165;&#x4E00;&#x500B;&#x5C08;&#x6848;&#xFF0C;&#x6700;&#x5148;&#x9762;&#x5C0D;&#x7684;&#x8AB2;&#x984C;&#x662F;&#x5982;&#x4F55;&#x6B63;&#x78BA;&#x5730;&#x7DE8;&#x8B6F;&#x548C;&#x57F7;&#x884C;&#x5C08;&#x6848;&#xFF0C;&#x53EF;&#x5F9E; &quot;It works on my machine&quot; &#x5982;&#x6B64;&#x5730;&#x98A8;&#x884C;&#xFF0C;&#x5370;&#x8B49;&#x9019;&#x4EF6;&#x4E8B;&#x7684;&#x56F0;&#x96E3;&#x6027;&#xFF1B;&#x518D;&#x4F86;&#x5247;&#x662F;&#x95B1;&#x8B80;&#x8CA0;&#x8CAC;&#x5DE5;&#x4F5C;&#x76F8;&#x95DC;&#x7684;&#x7A0B;&#x5F0F;&#x78BC;&#x3002;&#x81F3;&#x65BC;&#x767C;&#x63EE;&#x7A0B;&#x5F0F;&#x8A9E;&#x8A00;&#x7684;&#x7279;&#x6027;&#xFF0C;&#x904B;&#x7528;&#x9AD8;&#x968E;&#x8A2D;&#x8A08;&#x6A21;&#x5F0F;&#x7B49;&#xFF0C;&#x90FD;&#x662F;&#x53E6;&#x958B;&#x65B0;&#x5C08;&#x6848;&#x6216;&#x719F;&#x6089;&#x72C0;&#x6CC1;&#x5F8C;&#x624D;&#x6709;&#x6A5F;&#x6703;&#x767C;&#x63EE;&#x3002;</p>
+<p>&#x904E;&#x53BB;&#x6578;&#x5E74;&#x6C89;&#x6D78;&#x5728;&#x6109;&#x5FEB;&#x7684; scripting language &#x548C;&#x958B;&#x767C;&#x65B0;&#x5C08;&#x6848;&#x4E2D;&#xFF0C;&#x4E00;&#x76F4;&#x6C92;&#x8E0F;&#x5165;&#x9019;&#x6B98;&#x9177;&#x7684;&#x4E16;&#x754C;&#x3002;&#x9019;&#x7BC7;&#x8A18;&#x9304;&#x5728;&#x9019;&#x6A23;&#x7684;&#x60C5;&#x5883;&#x4E0B;&#xFF0C;&#x53EF;&#x80FD;&#x9700;&#x8981;&#x7684;&#x6280;&#x80FD;&#xFF0C;&#x7D50;&#x7B97;&#x4E00;&#x4E0B;&#x9019;&#x4E00;&#x500B;&#x591A;&#x6708;&#x7684;&#x5FC3;&#x5F97;&#xFF0C;&#x5168;&#x90FD;&#x662F;&#x8840;&#x6DDA;&#x8AC7;&#x554A; ...&#x3002;</p>
+<p>&#x7CFB;&#x7D71;&#x5DE5;&#x5177;
+&#x719F;&#x6089;&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x7684;&#x5B89;&#x88DD;&#x5957;&#x4EF6;&#x662F;&#x9996;&#x8981;&#x4E4B;&#x52D9;&#xFF0C;&#x9019;&#x6A23;&#x624D;&#x77E5;&#x9053;&#x5982;&#x4F55;&#x88DC;&#x8DB3;&#x9700;&#x8981;&#x7684; header&#x3001;library&#xFF0C;&#x6216;&#x662F;&#x5B89;&#x88DD;&#x542B; debug symbol &#x7248;&#x7684;&#x51FD;&#x5F0F;&#x5EAB;&#x4EE5;&#x57F7;&#x884C; gdb &#x89C0;&#x5BDF;&#x7A0B;&#x5F0F;&#x6216;&#x9664;&#x932F;&#x3002;&#x53C3;&#x898B;&#x300A;&#x81EA;&#x884C;&#x7DE8;&#x8B6F;&#x542B; debug symbol &#x7684;&#x5957;&#x4EF6; (package)&#x300B;&#x4E86;&#x89E3; Ubuntu/Debian &#x4E0B;&#x7684;&#x5957;&#x4EF6;&#x547D;&#x540D;&#x898F;&#x5247;&#x3002;</p>
+<p>&#x5728;&#x672A;&#x5B89;&#x88DD;&#x5957;&#x4EF6;&#x7684;&#x60C5;&#x6CC1;&#x4E0B;&#xFF0C;&#x53EF;&#x7528;</p>
+<p>aptitude search SUBSTRING # &#x627E;&#x5957;&#x4EF6;
+aptitude show PACKAGE # &#x986F;&#x793A;&#x5957;&#x4EF6;&#x7528;&#x9014;
+apt-file search X # &#x627E;&#x51FA; X &#x5305;&#x5728;&#x90A3;&#x500B;&#x5957;&#x4EF6;&#x88E1;&#xFF0C;&#x627E; header &#x6642;&#x5F88;&#x6709;&#x7528;&#x3002;
+&#x6CE8;&#x610F;&#x5728;&#x7528; apt-file &#x524D;&#x8981;&#x5148;&#x8DD1; sudo apt-file update&#xFF0C;&#x4E0D;&#x7136;&#x641C;&#x4E0D;&#x51FA;&#x6771;&#x897F;&#x4F86;&#x3002;</p>
+<p>&#x5C0D;&#x65BC;&#x5DF2;&#x5B89;&#x88DD;&#x5957;&#x4EF6;&#xFF0C;&#x53EF;&#x7528;</p>
+<p>dpkg --search SUBSTRING # &#x627E;&#x51FA;&#x5B89;&#x88DD;&#x5728;&#x90A3;&#x500B;&#x5957;&#x4EF6;&#xFF0C;&#x5DF2;&#x77E5; header &#x6642;&#xFF0C;&#x9069;&#x5408;&#x7528;&#x4F86;&#x627E; library
+dpkg -L PACKAGE # &#x5217;&#x51FA;&#x5957;&#x4EF6;&#x5167;&#x5BB9;&#xFF0C;&#x53EF;&#x7528;&#x4F86;&#x627E; header&#x3001;library
+locate SUBSTRING # &#x6211;&#x6BD4;&#x8F03;&#x5E38;&#x7528;&#x5B83;&#x627E; header &#x7684;&#x4F4D;&#x7F6E;&#xFF0C;&#x518D;&#x89C0;&#x770B; header &#x5167;&#x5BB9;
+&#x57F7;&#x884C; locate &#x524D;&#x8A18;&#x5F97;&#x5148;&#x57F7;&#x884C; sudo updatedb&#xFF0C;&#x539F;&#x56E0;&#x540C; apt-file&#x3002;</p>
+<p>&#x5176;&#x5B83;&#x53C3;&#x8003;&#x8CC7;&#x6599;: How To Manage Packages Using apt-get, apt-cache, apt-file and dpkg Commands ( With 13 Practical Examples )</p>
+<p>&#x7DE8;&#x8B6F;
+&#x53C3;&#x8003;&#x300A;&#x89E3;&#x6C7A; undefined symbol / reference&#x300B;&#x4E86;&#x89E3;&#x6574;&#x500B;&#x7DE8;&#x8B6F;&#x7684;&#x6D41;&#x7A0B;&#xFF0C;&#x5148;&#x6709;&#x89C0;&#x5FF5;&#x624D;&#x6E05;&#x695A;&#x554F;&#x984C;&#x7684;&#x74B0;&#x7BC0;&#xFF0C;&#x624D;&#x80FD;&#x9078;&#x5C0D;&#x5DE5;&#x5177;&#x6AA2;&#x67E5;&#x554F;&#x984C;&#x3002;
+&#x53E6;&#x5728;&#x300A;&#x5F9E; C &#x547C;&#x53EB; C++ &#x51FD;&#x5F0F;&#x7684;&#x904E;&#x7A0B;&#x7406;&#x89E3;&#x7A0B;&#x5F0F;&#x7DE8;&#x8B6F;&#x3001;&#x9023;&#x7D50;&#x7684;&#x539F;&#x7406;&#x300B;&#x4EE5;&#x4E00;&#x500B;&#x5C0F;&#x500B;&#x6848;&#xFF0C;&#x5F9E;&#x53E6;&#x4E00;&#x500B;&#x89D2;&#x5EA6;&#x63CF;&#x8FF0;&#x7DE8;&#x8B6F;&#x7684;&#x6D41;&#x7A0B;&#x4F86;&#x9664;&#x932F;&#x3002;
+&#x300A;debug info &#x548C; optimization&#x300B;&#x63D0;&#x5230; -O &#x548C; -g &#x53EF;&#x540C;&#x6642;&#x7528;&#xFF0C;&#x4EE5;&#x53CA;&#x6CE8;&#x610F;&#x4E8B;&#x9805;&#x3002;
+&#x300A;&#x8B80;&#x61C2;&#x51FD;&#x5F0F;&#x5EAB;&#x7684; man page&#x300B; &#x8AAA;&#x660E;&#x4F7F;&#x7528;&#x7CFB;&#x7D71;&#x51FD;&#x5F0F;&#x5EAB;&#x6642;&#xFF0C;&#x5982;&#x4F55;&#x5F9E; man page &#x5F97;&#x77E5;&#x8A72;&#x5B9A;&#x7FA9;&#x7684; feature test macro &#x548C;&#x9023;&#x7D50;&#x7528;&#x7684;&#x53C3;&#x6578;&#x3002;
+&#x9023;&#x7D50;
+&#x9019;&#x4E00;&#x584A;&#x8B93;&#x6211;&#x5361;&#x4E86;&#x4E00;&#x9663;&#x5B50;&#x3002;&#x4E00;&#x4E9B;&#x7C97;&#x6DFA;&#x5FC3;&#x5F97;:</p>
+<p>&#x300A;&#x5217;&#x51FA;&#x7528;&#x5230;&#x7684; shared library&#x300B;&#x3002;
+&#x300A;&#x52A0;&#x901F; linking time&#x300B;
+&#x300A;ld, ld.so &#x548C; ldconfig &#x7684;&#x884C;&#x70BA;&#x300B;
+&#x57F7;&#x884C;
+&#x5149;&#x53EA;&#x662F;&#x8B80;&#x7A0B;&#x5F0F;&#x78BC;&#x5C31;&#x50CF;&#x5927;&#x6D77;&#x6488;&#x91DD;&#x4E00;&#x6A23;&#xFF0C;&#x4E0D;&#x592A;&#x6709;&#x6548;&#x7387;&#x3002;&#x53EF;&#x5F9E;&#x52D5;&#x614B;&#x57F7;&#x884C;&#x904E;&#x7A0B;&#x627E;&#x51FA;&#x4E3B;&#x8981;&#x57F7;&#x884C;&#x7684;&#x8DEF;&#x5F91;&#xFF0C;&#x518D;&#x5C08;&#x6CE8;&#x76F8;&#x95DC;&#x7684;&#x7A0B;&#x5F0F;&#x78BC;&#x3002;</p>
+<ol>
+<li>strace &#x548C; ltrace</li>
+</ol>
+<p>srace &#x662F;&#x5206;&#x6790;&#x57F7;&#x884C;&#x884C;&#x70BA;&#x7684;&#x5F37;&#x5927;&#x5DE5;&#x5177;&#xFF0C;google &#x4E00;&#x4E0B;&#x6703;&#x770B;&#x5230;&#x5F88;&#x591A;&#x5225;&#x4EBA;&#x7684;&#x500B;&#x6848;&#x5FC3;&#x5F97;&#xFF0C;&#x770B;&#x770B;&#x518D;&#x81EA;&#x5DF1;&#x8A66;&#x4E00;&#x8A66;&#xFF0C;&#x5F88;&#x5FEB;&#x80FD;&#x4E0A;&#x624B;&#xFF0C;&#x4E0D;&#x77E5;&#x80FD;&#x767C;&#x63EE;&#x5B83;&#x591A;&#x5C11;&#x529F;&#x80FD;&#x3002;&#x9019;&#x88E1;&#x5217;&#x81EA;&#x5DF1;&#x7528;&#x7684;&#x5169;&#x500B;&#x5C0F;&#x6848;&#x4F8B;:</p>
+<p>&#x300A;&#x5584;&#x7528; strace&#x3001;debugger &#x5F9E;&#x57F7;&#x884C;&#x671F;&#x9593;&#x627E;&#x51FA;&#x554F;&#x984C;&#x6839;&#x6E90;&#x300B;
+&#x300A;&#x719F;&#x6089;&#x7CFB;&#x7D71;&#x5DE5;&#x5177;&#x597D;&#x8655;&#x591A;&#x591A;&#x300B;
+&#x300A;&#x7528; strace &#x627E;&#x51FA; Ubuntu &#x5982;&#x4F55;&#x63D0;&#x793A;&#x672A;&#x5B89;&#x88DD;&#x7684;&#x6307;&#x4EE4;&#x300B;
+&#x53CD;&#x800C;&#x662F; ltrace &#x4E00;&#x76F4;&#x90FD;&#x60F3;&#x4E0D;&#x5230;&#x4F7F;&#x7528;&#x5B83;&#x7684;&#x6642;&#x6A5F;&#xFF0C;&#x4E5F;&#x6C92;&#x627E;&#x5230;&#x597D;&#x7684;&#x500B;&#x6848;&#x5FC3;&#x5F97;&#x6587;&#x3002;</p>
+<ol>
+<li>gdb</li>
+</ol>
+<p>gdb &#x7684;&#x91CD;&#x8981;&#x6027;&#x4E0D;&#x9700;&#x591A;&#x8AAA;&#x660E;&#xFF0C;&#x4E4B;&#x524D;&#x7684;&#x5E7E;&#x5247;&#x5FC3;&#x5F97;:</p>
+<p>&#x300A;gdb &#x521D;&#x6B65;&#x5FC3;&#x5F97;&#x300B;
+&#x300A;&#x6253;&#x958B; core dump &#x548C;&#x4F7F;&#x7528; cgdb &#x6AA2;&#x67E5;&#x7A0B;&#x5F0F;&#x639B;&#x9EDE;&#x539F;&#x56E0;&#x300B;
+&#x300A;&#x8FFD;&#x8E2A; glibc &#x88E1;&#x7684;&#x7A0B;&#x5F0F;&#x300B;
+&#x5F37;&#x70C8;&#x5EFA;&#x8B70;&#x4F7F;&#x7528; cgdb&#xFF0C;&#x7C21;&#x6613;&#x5B89;&#x88DD; + &#x7121;&#x75DB;&#x4E0A;&#x624B;&#xFF0C;&#x77AC;&#x9593;&#x7701;&#x4E0B;&#x5927;&#x91CF;&#x64CD;&#x4F5C;&#x548C;&#x8B80;&#x78BC;&#x7684;&#x6642;&#x9593;&#x3002;</p>
+<ol>
+<li>&#x6253;&#x958B;&#x9664;&#x932F;&#x529F;&#x80FD;</li>
+</ol>
+<p>&#x4F9D;&#x7167;&#x958B;&#x767C;&#x8005;&#x7684;&#x7FD2;&#x6027;&#xFF0C;&#x4E00;&#x5B9A;&#x6703;&#x7559;&#x5F8C;&#x9580;&#x8B93;&#x81EA;&#x5DF1;&#x65B9;&#x4FBF;&#x9664;&#x932F;&#xFF0C;&#x5F9E;&#x9019;&#x89D2;&#x5EA6;&#x4E0B;&#x624B;&#x4E5F;&#x53EF;&#x7701;&#x4E0B;&#x4E0D;&#x5C11;&#x6642;&#x9593;:</p>
+<p>&#x300A;C/C++ &#x6AA2;&#x67E5;&#x548C;&#x6253;&#x958B; debug &#x529F;&#x80FD;&#x7684;&#x5C0F;&#x6280;&#x5DE7;&#x300B;</p>
+<ol>
+<li>&#x8F09;&#x5165;&#x51FD;&#x5F0F;&#x5EAB;</li>
+</ol>
+<p>&#x82E5;&#x5728;&#x7DE8;&#x8B6F;&#x3001;&#x9023;&#x7D50;&#x6642;&#x7121;&#x6CD5;&#x89E3;&#x6C7A;&#x76F8;&#x4F9D;&#x554F;&#x984C;&#xFF0C;&#x53EF;&#x8003;&#x616E;&#x5077;&#x5403;&#x6B65;&#x5728;&#x8F09;&#x5165;&#x7A0B;&#x5F0F;&#x6642;&#x7528; LD_PRELOAD &#x63DB;&#x6389;&#x90E8;&#x4EFD;&#x51FD;&#x5F0F;&#x3002;
+&#x53E6;&#x5916;&#x5099;&#x5FD8;&#x7528; LD_LIBRARY_PATH &#x88DC;&#x5145;&#x8F09;&#x5165; shared library &#x7684;&#x4F4D;&#x7F6E;&#xFF0C;&#x76EE;&#x524D;&#x4ECD;&#x6C92;&#x7528;&#x904E;&#x5B83;&#x3002;
+&#x9664;&#x4EE5;&#x4E0A;&#x6240;&#x8A00;&#x5916;&#xFF0C;&#x6211;&#x53E6;&#x5916;&#x6709;&#x627E;&#x904E;&#x756B;&#x51FA;&#x7A0B;&#x5F0F;&#x6D41;&#x7A0B;&#x7684;&#x975C;&#x614B;&#x548C;&#x52D5;&#x614B;&#x5206;&#x6790;&#x5DE5;&#x5177;&#xFF0C;&#x50CF;&#x662F;&#x756B; call graph &#x6216;&#x662F; C &#x7684; cflow&#x3002;&#x4E0D;&#x904E; C++ &#x7684;&#x975C;&#x614B;&#x5206;&#x6790;&#x6548;&#x679C;&#x5F88;&#x7CDF;&#xFF0C;&#x5C31;&#x6C92;&#x82B1;&#x592A;&#x591A;&#x6642;&#x9593;&#x7814;&#x7A76;&#x3002;&#x76EE;&#x524D;&#x7528; strace &#x548C; gdb &#x89BA;&#x5F97;&#x5DF2;&#x5920;&#x7528;&#x4E86;&#xFF0C;&#x4E0D;&#x77E5;&#x7528;&#x5DE5;&#x5177;&#x7522;&#x751F; call graph&#x3001;class &#x76F8;&#x4F9D;&#x5716;&#x6216;&#x5176;&#x5B83;&#x6771;&#x897F;&#xFF0C;&#x662F;&#x5426;&#x6703;&#x66F4;&#x6709;&#x5E6B;&#x52A9;&#x3002;&#x5F85;&#x6709;&#x9700;&#x6C42;&#x770B;&#x6574;&#x9AD4;&#x7684;&#x7A0B;&#x5F0F;&#x6642;&#x518D;&#x4F86;&#x8A66;&#x8A66;&#x3002;
+&#x95B1;&#x8B80;&#x7A0B;&#x5F0F;&#x78BC;
+&#x807D;&#x4E86;&#x5927;&#x5BB6;&#x7684;&#x5EFA;&#x8B70;&#x5F8C;&#xFF0C;&#x505A;&#x4E86;&#x4E00;&#x4E9B;&#x5BE6;&#x969B;&#x64CD;&#x4F5C;&#xFF0C;&#x800C;&#x6709;&#x4E9B;&#x5FC3;&#x5F97;:</p>
+<p>&#x300A;&#x95B1;&#x8B80; C/C++ &#x539F;&#x59CB;&#x78BC;&#x7684;&#x597D;&#x5E6B;&#x624B;&#x300B;
+&#x300A;&#x7528; Eclipse CDT &#x8B80; C/C++ &#x539F;&#x59CB;&#x78BC;&#x300B;
+Eclipse CDT &#x96D6;&#x7136;&#x65B9;&#x4FBF;&#xFF0C;&#x5F8C;&#x4F86;&#x6211;&#x9084;&#x662F;&#x7528; gj &#x5C45;&#x591A;&#x3002;&#x539F;&#x56E0;&#x6709;&#x5E7E;&#x9EDE;:</p>
+<p>&#x6211;&#x5DF2;&#x5F88;&#x7FD2;&#x6163;&#x7528; vim + screen &#x505A;&#x4E8B;&#xFF0C;gj &#x6700;&#x5408;&#x9019;&#x500B;&#x60C5;&#x5883;
+id-utils &#x771F;&#x7684;&#x662F;&#x8D85;&#x7D1A;&#x5FEB;
+&#x6211;&#x91DD;&#x5C0D;&#x81EA;&#x5DF1;&#x7684;&#x9700;&#x6C42;&#x66F4;&#x65B0; gj &#x591A;&#x6B21;&#xFF0C;&#x6108;&#x7528;&#x6108;&#x9806;&#x624B;
+&#x53E6;&#x5916; ack &#x4E5F;&#x6EFF;&#x65B9;&#x4FBF;&#x7684;&#xFF0C;&#x61F6;&#x5F97;&#x5EFA; index &#x6216;&#x662F;&#x60F3;&#x6BD4;&#x5C0D;&#x5B50;&#x5B57;&#x4E32;&#x6642;&#xFF0C;&#x53EF;&#x76F4;&#x63A5;&#x4F7F;&#x7528;&#x3002;&#x7576;&#x7136; id-utils &#x4E5F;&#x652F;&#x63F4;&#x5B50;&#x5B57;&#x4E32;&#x6BD4;&#x5C0D;&#xFF0C;&#x53EA;&#x662F;&#x66AB;&#x6642;&#x61F6;&#x5F97;&#x70BA;&#x6B64;&#x4FEE;&#x6539; gj &#x7684;&#x7A0B;&#x5F0F;&#xFF0C;&#x76EE;&#x524D;&#x5927;&#x90E8;&#x4EFD;&#x9700;&#x6C42;&#x662F;&#x627E;&#x5B8C;&#x6574;&#x7684; symbol&#x3002;</p>
+<p>&#x719F;&#x6089; Linux &#x7CFB;&#x7D71;&#x7A0B;&#x5F0F;
+&#x5728;&#x57FA;&#x672C;&#x5DE5;&#x5177;&#x90FD;&#x4E0A;&#x624B;&#x5F8C;&#xFF0C;&#x6253;&#x7B97;&#x6BCF;&#x5929;&#x62BD;&#x4E00;&#x9EDE;&#x6642;&#x9593;&#x52A0;&#x6E1B;&#x8B80;&#x4E00;&#x9EDE;&#x76F8;&#x95DC;&#x77E5;&#x8B58;&#x3002;&#x4E00;&#x5169;&#x5E74;&#x4E0B;&#x4F86;&#x61C9;&#x8A72;&#x6703;&#x6709;&#x4E0D;&#x932F;&#x7684;&#x6210;&#x679C;&#x3002;&#x76EE;&#x524D;&#x6253;&#x7B97;&#x8B80;&#x300A;The Linux Programming Interface&#x300B;&#xFF0C;&#x5E74;&#x5047;&#x6642;&#x8A66;&#x770B;&#x770B;&#x6548;&#x679C;&#x5982;&#x4F55;&#x3002;</p>
+<p>&#x9019;&#x4E00;&#x500B;&#x6708;&#x7684;&#x5FC3;&#x5F97;&#x4EE5;&#x4E86;&#x89E3; /proc &#x70BA;&#x4E3B;&#xFF0C;&#x5C0D;&#x89C0;&#x5BDF; CPU &#x7528;&#x91CF;&#x3001;RAM &#x7528;&#x91CF;&#x3001;&#x8F09;&#x5165;&#x90A3;&#x4E9B;&#x51FD;&#x5F0F;&#x5EAB;&#x3001;multi-thread&#x3001;&#x7A0B;&#x5F0F;&#x57F7;&#x884C;&#x72C0;&#x614B;&#x7B49;&#x90FD;&#x5F88;&#x6709;&#x5E6B;&#x52A9;:</p>
+<p>&#x300A;&#x900F;&#x904E; /proc/PID/task/ &#x89C0;&#x5BDF; multi-thread &#x72C0;&#x614B;&#x300B;
+&#x300A;&#x5217;&#x51FA;&#x7528;&#x5230;&#x7684; shared library&#x300B;
+&#x7D50;&#x8AD6;
+&#x5373;&#x4F7F;&#x5927;&#x6982;&#x77E5;&#x9053;&#x6709;&#x90A3;&#x4E9B;&#x6771;&#x897F;&#xFF0C;&#x9084;&#x662F;&#x9700;&#x8981;&#x5BE6;&#x969B;&#x52D5;&#x624B;&#x7684;&#x7D93;&#x9A57;&#xFF0C;&#x624D;&#x6703;&#x771F;&#x7684;&#x5B78;&#x9032;&#x53BB;&#x3002;&#x4E00;&#x500B;&#x6708;&#x4E0B;&#x4F86;&#x9032;&#x6B65;&#x4E86;&#x4E0D;&#x5C11;&#xFF0C;&#x4E0D;&#x904E;&#x5C0D;&#x65BC;&#x8981;&#x9762;&#x5C0D;&#x7684;&#x6230;&#x5F79;&#xFF0C;&#x9084;&#x6709;&#x4E00;&#x5927;&#x6BB5;&#x8DEF;&#x8981;&#x8D95;&#x4E0A;&#xFF0C;&#x9084;&#x6709;&#x5F88;&#x591A;&#x5F88;&#x591A;&#x8981;&#x5B78;&#x7684;&#x3002;</p>
+<p>2012-01-29 &#x66F4;&#x65B0;
+&#x88DC;&#x4E0A;&#x4E00;&#x4E9B;&#x5F8C;&#x4F86;&#x65B0;&#x5BEB;&#x7684;&#x9023;&#x7D50;&#x3002;&#x6B64;&#x5916;&#xFF0C;&#x300A;The Linux Programming Interface&#x300B; &#x76F8;&#x7576;&#x5BE6;&#x7528;&#xFF0C;&#x8B80; ch1 ~ 3 &#x8B93;&#x6211;&#x88DC;&#x8DB3;&#x4E0D;&#x5C11;&#x57FA;&#x790E;&#x77E5;&#x8B58;&#x3002;ch41&#x3001;42 &#x8B1B;&#x89E3; shared library &#x4E5F;&#x76F8;&#x7576;&#x503C;&#x5F97;&#x4E00;&#x770B;&#x3002;&#x76F8;&#x95DC;&#x5FC3;&#x5F97;&#x898B;&#x300A;The Linux Programming Interface &#x8B80;&#x66F8;&#x5FC3;&#x5F97;&#x300B;&#x3002;</p>
+<p>2013-07-13 &#x66F4;&#x65B0;
+&#x5099;&#x5FD8;&#x6548;&#x80FD;&#x5206;&#x6790;&#x76F8;&#x95DC;&#x7684;&#x5DE5;&#x5177;&#xFF1A;</p>
+<p>&#x51FA;&#x8655;&#xFF1A;Linux Performance Analysis and Tools</p>
+<p>2013-07-20 &#x66F4;&#x65B0;
+&#x5C07;&#x5F8C;&#x534A;&#x90E8;&#x4EFD;&#x5167;&#x5BB9;&#x62BD;&#x51FA;&#x4F86;&#xFF0C;&#x53E6;&#x5BEB;&#x4E86;&#x4E00;&#x7BC7;&#x6BD4;&#x8F03;&#x5B8C;&#x6574;&#x7684;&#x6587;&#x7AE0;&#xFF1A;&#x300A;&#x4E86;&#x89E3; C/C++ &#x7A0B;&#x5F0F;&#x884C;&#x70BA;&#x7684;&#x6280;&#x5DE7;&#x300B;&#x3002;</p>
 
                     
                     </section>
@@ -1387,10 +1447,10 @@ text    data     bss     dec     hex filename
         </div>
 
         
-        <a href="../linux_tools/nm.html" class="navigation navigation-prev " aria-label="Previous page: nm 目標文件格式分析"><i class="fa fa-angle-left"></i></a>
+        <a href="../fcamel/07.html" class="navigation navigation-prev " aria-label="Previous page: [轉] 從 C 呼叫 C++ 函式的過程理解程式編譯、連結的原理"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../linux_tools/wget.html" class="navigation navigation-next " aria-label="Next page: wget 文件下載"><i class="fa fa-angle-right"></i></a>
+        <a href="../fcamel/10.html" class="navigation navigation-next " aria-label="Next page: [轉]了解 C/C++ 程式行為的技巧"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

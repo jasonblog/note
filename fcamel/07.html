@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
-        <title>size 查看程序內存映像大小 | Jason note</title>
+        <title>[轉] 從 C 呼叫 C++ 函式的過程理解程式編譯、連結的原理 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.0.1">
@@ -20,10 +20,10 @@
         
     
     
-    <link rel="next" href="../linux_tools/wget.html" />
+    <link rel="next" href="../fcamel/09.html" />
     
     
-    <link rel="prev" href="../linux_tools/nm.html" />
+    <link rel="prev" href="../fcamel/[]__linking_time.html" />
     
 
         
@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="3.3.16" data-basepath=".." data-revision="Fri Jul 17 2015 03:35:08 GMT+0800 (CST)">
+    <div class="book" data-level="9.7" data-basepath=".." data-revision="Fri Jul 17 2015 03:35:08 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -632,7 +632,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="3.3.16" data-path="linux_tools/size.html">
+        <li class="chapter " data-level="3.3.16" data-path="linux_tools/size.html">
             
                 
                     <a href="../linux_tools/size.html">
@@ -1199,7 +1199,7 @@
             
         </li>
     
-        <li class="chapter " data-level="9.7" data-path="fcamel/07.html">
+        <li class="chapter active" data-level="9.7" data-path="fcamel/07.html">
             
                 
                     <a href="../fcamel/07.html">
@@ -1359,24 +1359,67 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="size-%E6%9F%A5%E7%9C%8B%E7%A8%8B%E5%BA%8F%E5%85%A7%E5%AD%98%E6%98%A0%E5%83%8F%E5%A4%A7%E5%B0%8F">size &#x67E5;&#x770B;&#x7A0B;&#x5E8F;&#x5167;&#x5B58;&#x6620;&#x50CF;&#x5927;&#x5C0F;</h1>
-<p>&#x4F5C;&#x7528;&#xFF1A;&#x67E5;&#x770B;&#x7A0B;&#x5E8F;&#x88AB;&#x6620;&#x5C04;&#x5230;&#x5167;&#x5B58;&#x4E2D;&#x7684;&#x6620;&#x50CF;&#x6240;&#x4F54;&#x7528;&#x7684;&#x5927;&#x5C0F;&#x4FE1;&#x606F;&#x3002;</p>
-<p>&#x7A0B;&#x5E8F;&#x6620;&#x5C04;&#x5230;&#x5167;&#x5B58;&#x4E2D;&#xFF0C;&#x5F9E;&#x4F4E;&#x5730;&#x5740;&#x5230;&#x9AD8;&#x5730;&#x5740;&#x4F9D;&#x6B21;&#x7232;&#x4E0B;&#x5217;&#x6BB5;:</p>
+                        <h1 id="%E5%BE%9E-c-%E5%91%BC%E5%8F%AB-c-%E5%87%BD%E5%BC%8F%E7%9A%84%E9%81%8E%E7%A8%8B%E7%90%86%E8%A7%A3%E7%A8%8B%E5%BC%8F%E7%B7%A8%E8%AD%AF%E3%80%81%E9%80%A3%E7%B5%90%E7%9A%84%E5%8E%9F%E7%90%86">&#x5F9E; C &#x547C;&#x53EB; C++ &#x51FD;&#x5F0F;&#x7684;&#x904E;&#x7A0B;&#x7406;&#x89E3;&#x7A0B;&#x5F0F;&#x7DE8;&#x8B6F;&#x3001;&#x9023;&#x7D50;&#x7684;&#x539F;&#x7406;</h1>
+<p>&#x4ECA;&#x5929;&#x505A;&#x4E86;&#x4E00;&#x500B;&#x932F;&#x8AA4;&#x7684;&#x6C7A;&#x5B9A;, &#x60F3;&#x8AAA;&#x5728;&#x4E00;&#x5806; C &#x7A0B;&#x5F0F;&#x88E1;&#x547C;&#x53EB;&#x53E6;&#x4E00;&#x5806; C++ &#x7A0B;&#x5F0F;&#x3002;&#x908A;&#x5F04;&#x908A;&#x5B78;, &#x6700;&#x5F8C;&#x767C;&#x73FE;&#x4EC0;&#x9EBC;&#x90FD;&#x6C92;&#x6539;&#x7684;&#x60C5;&#x6CC1;, &#x6539;&#x7528; g++ link &#x539F;&#x672C;&#x7684; C &#x7A0B;&#x5F0F;&#x5C31;&#x6703;&#x7206;&#x70B8;&#x3002;&#x60F3;&#x60F3;&#x9084;&#x662F;&#x64BF;&#x8981;&#x7528;&#x7684;&#x4E00;&#x5C0F;&#x90E8;&#x4EFD;&#x7A0B;&#x5F0F;&#x51FA;&#x4F86;, &#x53E6;&#x5BEB; C &#x7684;&#x7A0B;&#x5F0F;&#x6BD4;&#x8F03;&#x55AE;&#x7D14;&#x3002;&#x4E0D;&#x904E;&#x4E5F;&#x85C9;&#x9019;&#x6A5F;&#x6703;, &#x624D;&#x8B93;&#x6211;&#x771F;&#x7684;&#x641E;&#x61C2;&#x9019;&#x4E4B;&#x4E2D;&#x767C;&#x751F;&#x4EC0;&#x9EBC;&#x4E8B;&#x3002;</p>
+<p>&#x5148;&#x9644;&#x4E0A;&#x8981;&#x7528;&#x7684;&#x7BC4;&#x4F8B;, &#x518D;&#x4F86;&#x6162;&#x6162;&#x5EE2;&#x8A71;, &#x6C92;&#x8010;&#x5FC3;&#x7684;&#x4EBA;&#x76F4;&#x63A5;&#x73A9;&#x7BC4;&#x4F8B;&#x53EF;&#x80FD;&#x5C31;&#x61C2;&#x4E86;&#x3002;</p>
+<p><strong>&#x539F;&#x59CB;&#x78BC;</strong></p>
+<pre><code>/* b.h */
+#ifndef _B_H_
+#define _B_H_
+
+#ifdef __cplusplus
+extern &quot;C&quot; {
+#endif
+int add(int a, int b);
+#ifdef __cplusplus
+}
+#endif
+#endif
+</code></pre><pre><code>/* b.cpp */
+#include &quot;b.h&quot;
+
+int add(int a, int b) {
+    return a + b;
+}
+</code></pre><pre><code>/* a.c */
+#include &lt;stdio.h&gt;
+#include &quot;b.h&quot;
+
+int main(void) {
+    printf(&quot;%d\n&quot;, add(3, 5));
+    return 0;
+}
+</code></pre><p><strong>&#x7DE8;&#x8B6F;&#x65B9;&#x5F0F;</strong></p>
+<pre><code>$ gcc -c a.c
+$ g++ -c b.cpp
+$ g++ a.o b.o -o a
+$ ./a                    # &#x8F38;&#x51FA; 8
+</code></pre><p><strong>&#x8AAA;&#x660E;</strong></p>
+<p>&#x300A;How to mix C and C++  Updated! , C++ FAQ&#x300B;&#x5C07; C &#x548C; C++ &#x4E92;&#x76F8;&#x547C;&#x53EB;&#x7684;&#x5404;&#x5F0F;&#x6CE8;&#x610F;&#x4E8B;&#x9805;&#x5BEB;&#x5F97;&#x76F8;&#x7576;&#x6E05;&#x695A;, &#x4E0D;&#x6127;&#x70BA; FAQ &#x554A;! &#x5176;&#x4E2D;&#x5728; C &#x547C;&#x53EB; C++ &#x7684;&#x51FD;&#x5F0F;&#x6642;, &#x8981;&#x6CE8;&#x610F;&#x5E7E;&#x9EDE; C++ &#x6709; name mangling, &#x4E5F;&#x5C31;&#x662F;&#x4E0D;&#x7BA1;&#x662F; class method &#x9084;&#x662F; function, &#x540D;&#x7A31; X &#x7DE8;&#x51FA;&#x4F86;&#x90FD;&#x4E0D;&#x6703;&#x662F; X, &#x800C; C &#x901A;&#x5E38;&#x6C92;&#x6709; name mangling&#x3002;&#x4E0D;&#x904E;&#x4E0D;&#x7BA1; C &#x662F;&#x5426;&#x6709; name mangling, &#x95DC;&#x9375;&#x662F;&#x8B93; C &#x80FD;&#x7528; C &#x7684;&#x65B9;&#x5F0F;&#x8A8D;&#x5F97; C++ &#x7684; symbol&#x3002;</p>
+<p>&#x5148;&#x660E;&#x767D;&#x7DE8;&#x8B6F;&#x3001;&#x9023;&#x7D50;&#x6642;&#x767C;&#x751F;&#x4E86;&#x4EC0;&#x9EBC;&#x4E8B;, &#x5F9E;&#x9019;&#x88E1;&#x51FA;&#x767C;, &#x53EF;&#x77E5;&#x8981;&#x8B93; C &#x547C;&#x53EB;&#x5230; C++ &#x7684;&#x51FD;&#x5F0F;, &#x8981;&#x5F9E;&#x5E7E;&#x500B;&#x5730;&#x65B9;&#x4E0B;&#x624B;:</p>
 <ul>
-<li><p>&#x4EE3;&#x78BC;&#x6BB5;&#xFF1A; &#x53EA;&#x8B80;&#xFF0C;&#x53EF;&#x5171;&#x4EAB;; &#x4EE3;&#x78BC;&#x6BB5;&#xFF08;code segment/text segment &#xFF09;&#x901A;&#x5E38;&#x662F;&#x6307;&#x7528;&#x4F86;&#x5B58;&#x653E;&#x7A0B;&#x5E8F;&#x57F7;&#x884C;&#x4EE3;&#x78BC;&#x7684;&#x4E00;&#x584A;&#x5167;&#x5B58;&#x5340;&#x57DF;&#x3002;&#x9019;&#x90E8;&#x5206;&#x5340;&#x57DF;&#x7684;&#x5927;&#x5C0F;&#x5728;&#x7A0B;&#x5E8F;&#x904B;&#x884C;&#x524D;&#x5C31;&#x5DF2;&#x7D93;&#x78BA;&#x5B9A;&#xFF0C;&#x4E26;&#x4E14;&#x5167;&#x5B58;&#x5340;&#x57DF;&#x901A;&#x5E38;&#x5C6C;&#x65BC;&#x53EA;&#x8B80;, &#x67D0;&#x4E9B;&#x67B6;&#x69CB;&#x4E5F;&#x5141;&#x8A31;&#x4EE3;&#x78BC;&#x6BB5;&#x7232;&#x53EF;&#x5BEB;&#xFF0C;&#x5373;&#x5141;&#x8A31;&#x4FEE;&#x6539;&#x7A0B;&#x5E8F;&#x3002;&#x5728;&#x4EE3;&#x78BC;&#x6BB5;&#x4E2D;&#xFF0C;&#x4E5F;&#x6709;&#x53EF;&#x80FD;&#x5305;&#x542B;&#x4E00;&#x4E9B;&#x53EA;&#x8B80;&#x7684;&#x5E38;&#x6578;&#x8B8A;&#x91CF;&#xFF0C;&#x4F8B;&#x5982;&#x5B57;&#x7B26;&#x4E32;&#x5E38;&#x91CF;&#x7B49;&#x3002;</p>
+<li><p>C&#x3001;C++ &#x90FD;&#x9700;&#x8981;&#x5B83;&#x5011;&#x5404;&#x81EA;&#x7684; header, &#x624D;&#x80FD;&#x7DE8;&#x6210; object code&#x3002;&#x7DE8;&#x8B6F;&#x6642; symbol &#x4ECD;&#x4E0D;&#x7528;&#x5B58;&#x5728;</p>
 </li>
-<li><p>&#x6578;&#x64DA;&#x6BB5;&#xFF1A; &#x5132;&#x5B58;&#x5DF2;&#x88AB;&#x521D;&#x59CB;&#x5316;&#x4E86;&#x7684;&#x975C;&#x614B;&#x6578;&#x64DA;&#x3002;&#x6578;&#x64DA;&#x6BB5;&#xFF08;data segment &#xFF09;&#x901A;&#x5E38;&#x662F;&#x6307;&#x7528;&#x4F86;&#x5B58;&#x653E;&#x7A0B;&#x5E8F;&#x4E2D;&#x5DF2;&#x521D;&#x59CB;&#x5316;&#x7684;&#x5168;&#x5C40;&#x8B8A;&#x91CF;&#x7684;&#x4E00;&#x584A;&#x5167;&#x5B58;&#x5340;&#x57DF;&#x3002;&#x6578;&#x64DA;&#x6BB5;&#x5C6C;&#x65BC;&#x975C;&#x614B;&#x5167;&#x5B58;&#x5206;&#x914D;&#x3002;</p>
+<li><p>&#x7528; gcc &#x7DE8; C &#x7A0B;&#x5F0F;; &#x7528; g++ &#x7DE8; C++ &#x7A0B;&#x5F0F;&#x3002;&#x96D6;&#x8AAA;&#x662F;&#x5F88;&#x81EA;&#x7136;&#x7684;&#x4E8B;, &#x5C0D;&#x5169;&#x8005;&#x90FD;&#x4E0D;&#x719F;&#x7684;&#x6211;, &#x4E00;&#x958B;&#x59CB;&#x9084;&#x771F;&#x6C92;&#x60F3;&#x5230;&#x3002;</p>
 </li>
-<li>BSS &#x6BB5;&#xFF1A;&#x672A;&#x521D;&#x59CB;&#x5316;&#x7684;&#x6578;&#x64DA;&#x6BB5;. BSS &#x6BB5;&#xFF08;bss segment &#xFF09;&#x901A;&#x5E38;&#x662F;&#x6307;&#x7528;&#x4F86;&#x5B58;&#x653E;&#x7A0B;&#x5E8F;&#x4E2D;&#x672A;&#x521D;&#x59CB;&#x5316;&#x7684;&#x5168;&#x5C40;&#x8B8A;&#x91CF;&#x7684;&#x4E00;&#x584A;&#x5167;&#x5B58;&#x5340;&#x57DF;&#x3002;BSS &#x662F;&#x82F1;&#x6587;Block Started by Symbol &#x7684;&#x7C21;&#x7A31;&#x3002;BSS &#x6BB5;&#x5C6C;&#x65BC;&#x975C;&#x614B;&#x5167;&#x5B58;&#x5206;&#x914D;&#x3002;</li>
-<li>&#x5806;&#xFF08;heap &#xFF09;&#xFF1A; &#x5806;&#x662F;&#x7528;&#x65BC;&#x5B58;&#x653E;&#x9032;&#x7A0B;&#x904B;&#x884C;&#x4E2D;&#x88AB;&#x52D5;&#x614B;&#x5206;&#x914D;&#x7684;&#x5167;&#x5B58;&#x6BB5;&#xFF0C;&#x5B83;&#x7684;&#x5927;&#x5C0F;&#x4E26;&#x4E0D;&#x56FA;&#x5B9A;&#xFF0C;&#x53EF;&#x52D5;&#x614B;&#x64F4;&#x5F35;&#x6216;&#x7E2E;&#x6E1B;&#x3002;&#x7576;&#x9032;&#x7A0B;&#x8ABF;&#x7528;malloc &#x7B49;&#x51FD;&#x6578;&#x5206;&#x914D;&#x5167;&#x5B58;&#x6642;&#xFF0C;&#x65B0;&#x5206;&#x914D;&#x7684;&#x5167;&#x5B58;&#x5C31;&#x88AB;&#x52D5;&#x614B;&#x6DFB;&#x52A0;&#x5230;&#x5806;&#x4E0A;&#xFF08;&#x5806;&#x88AB;&#x64F4;&#x5F35;&#xFF09;&#xFF1B;&#x7576;&#x5229;&#x7528;free &#x7B49;&#x51FD;&#x6578;&#x91CB;&#x653E;&#x5167;&#x5B58;&#x6642;&#xFF0C;&#x88AB;&#x91CB;&#x653E;&#x7684;&#x5167;&#x5B58;&#x5F9E;&#x5806;&#x4E2D;&#x88AB;&#x5254;&#x9664;&#xFF08;&#x5806;&#x88AB;&#x7E2E;&#x6E1B;&#xFF09;</li>
-<li>&#x68E7;(stack) &#xFF1A;&#x68E7;&#x53C8;&#x7A31;&#x5806;&#x68E7;&#xFF0C;&#x662F;&#x7528;&#x6236;&#x5B58;&#x653E;&#x7A0B;&#x5E8F;&#x81E8;&#x6642;&#x5275;&#x5EFA;&#x7684;&#x5C40;&#x90E8;&#x8B8A;&#x91CF;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#x6211;&#x5011;&#x51FD;&#x6578;&#x62EC;&#x5F27;&#x201C;{} &#x201D;&#x4E2D;&#x5B9A;&#x7FA9;&#x7684;&#x8B8A;&#x91CF;&#xFF08;&#x4F46;&#x4E0D;&#x5305;&#x62EC;static &#x8072;&#x660E;&#x7684;&#x8B8A;&#x91CF;&#xFF0C;static &#x610F;&#x5473;&#x7740;&#x5728;&#x6578;&#x64DA;&#x6BB5;&#x4E2D;&#x5B58;&#x653E;&#x8B8A;&#x91CF;&#xFF09;&#x3002;&#x9664;&#x6B64;&#x4EE5;&#x5916;&#xFF0C;&#x5728;&#x51FD;&#x6578;&#x88AB;&#x8ABF;&#x7528;&#x6642;&#xFF0C;&#x5176;&#x53C3;&#x6578;&#x4E5F;&#x6703;&#x88AB;&#x58D3;&#x5165;&#x767C;&#x8D77;&#x8ABF;&#x7528;&#x7684;&#x9032;&#x7A0B;&#x68E7;&#x4E2D;&#xFF0C;&#x4E26;&#x4E14;&#x5F85;&#x5230;&#x8ABF;&#x7528;&#x7D50;&#x675F;&#x5F8C;&#xFF0C;&#x51FD;&#x6578;&#x7684;&#x8FD4;&#x56DE;&#x503C;&#x4E5F;&#x6703;&#x88AB;&#x5B58;&#x653E;&#x56DE;&#x68E7;&#x4E2D;&#x3002;&#x7531;&#x65BC;&#x68E7;&#x7684;&#x5148;&#x9032;&#x5148;&#x51FA;&#x7279;&#x9EDE;&#xFF0C;&#x6240;&#x4EE5;&#x68E7;&#x7279;&#x5225;&#x65B9;&#x4FBF;&#x7528;&#x4F86;&#x4FDD;&#x5B58;/ &#x6062;&#x5FA9;&#x8ABF;&#x7528;&#x73FE;&#x5834;&#x3002;&#x5F9E;&#x9019;&#x500B;&#x610F;&#x7FA9;&#x4E0A;&#x8B1B;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x628A;&#x5806;&#x68E7;&#x770B;&#x6210;&#x4E00;&#x500B;&#x5BC4;&#x5B58;&#x3001;&#x4EA4;&#x63DB;&#x81E8;&#x6642;&#x6578;&#x64DA;&#x7684;&#x5167;&#x5B58;&#x5340;&#x3002;
-&#x53E6;&#x5916;, &#x5728;&#x9AD8;&#x5730;&#x5740;&#x9084;&#x5132;&#x5B58;&#x4E86;&#x547D;&#x4EE4;&#x884C;&#x53C3;&#x6578;&#x53CA;&#x74B0;&#x5883;&#x8B8A;&#x91CF;.</li>
+<li><p>&#x9023;&#x7D50; object code &#x6642;, C &#x8981;&#x80FD;&#x627E;&#x5230; C++ &#x7684;&#x51FD;&#x5F0F;</p>
+</li>
+<li><p>&#x65E2;&#x7136;&#x8981;&#x9023;&#x7D50; C++ &#x7684; object code, &#x9023;&#x7D50;&#x6642;&#x81EA;&#x7136;&#x8981;&#x7528; g++</p>
+</li>
 </ul>
-<p>&#x56E0;&#x7232;&#x5167;&#x5B58;&#x7A0B;&#x5E8F;&#x6620;&#x50CF;&#x4E2D;&#x7684;&#x5404;&#x6BB5;&#x53EF;&#x80FD;&#x4F4D;&#x65BC;&#x4E0D;&#x540C;&#x7684;&#x5730;&#x5740;&#x7A7A;&#x9593;&#x4E2D;, &#x5B83;&#x5011;&#x4E0D;&#x4E00;&#x5B9A;&#x4F4D;&#x65BC;&#x9023;&#x7E8C;&#x7684;&#x5167;&#x5B58;&#x584A;&#x4E2D;. &#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x5C07;&#x7A0B;&#x5E8F;&#x6620;&#x50CF;&#x6620;&#x5C04;&#x5230;&#x5730;&#x5740;&#x7A7A;&#x9593;&#x6642;, &#x901A;&#x5E38;&#x5C07;&#x5167;&#x5B58;&#x7A0B;&#x5E8F;&#x6620;&#x50CF;&#x5283;&#x5206;&#x7232;&#x5927;&#x5C0F;&#x76F8;&#x540C;&#x7684;&#x584A;(&#x4E5F;&#x5C31;&#x662F;page, &#x9801;). &#x53EA;&#x6709;&#x8A72;&#x9801;&#x88AB;&#x5F15;&#x7528;&#x6642;, &#x5B83;&#x624D;&#x88AB;&#x52A0;&#x8F09;&#x5230;&#x5167;&#x5B58;&#x4E2D;. &#x4E0D;&#x904E;&#x5C0D;&#x65BC;&#x7A0B;&#x5E8F;&#x54E1;&#x4F86;&#x8AAA;, &#x53EF;&#x4EE5;&#x8996;&#x5167;&#x5B58;&#x7A0B;&#x5E8F;&#x6620;&#x50CF;&#x5728;&#x908F;&#x8F2F;&#x4E0A;&#x662F;&#x9023;&#x7E8C;&#x7684;.</p>
-<pre><code>/opt/app/todeav1/colin/tests#size main
-text    data     bss     dec     hex filename
-1259     540      16    1815     717 main
-</code></pre><p>&#x95DC;&#x65BC;&#x7A0B;&#x5E8F;&#x5167;&#x5B58;&#x6620;&#x50CF;&#xFF0C;&#x9019;&#x7BC7;&#x6587;&#x7AE0;&#x8B1B;&#x7684;&#x5F88;&#x597D;&#xFF1A;<a href="http://blog.chinaunix.net/uid-9012903-id-2011435.html" target="_blank">http://blog.chinaunix.net/uid-9012903-id-2011435.html</a></p>
+<p>&#x56DE;&#x5230;&#x524D;&#x9762;&#x7684;&#x7BC4;&#x4F8B;:</p>
+<ul>
+<li><p>&#x5BEB; b.h &#x6642;&#x7528; #ifdef __cplusplus &#x8B93; a.c &#x548C; b.cpp &#x90FD;&#x80FD; include b.h, &#x4E14;&#x770B;&#x5230;&#x4E0D;&#x540C;&#x7684;&#x6771;&#x897F;&#x3002;&#x53EF;&#x7528; gcc -E&#x3001;g++ -E &#x67E5;&#x770B;&#x524D;&#x7F6E;&#x8655;&#x7406;&#x5668;&#x5C55;&#x958B;&#x7684;&#x7D50;&#x679C;, &#x898B;&#x8B49;&#x9A19;&#x8853;&#x7684;&#x6700;&#x9AD8;&#x5883;&#x754C;, &#x540C;&#x6642;&#x6EFF;&#x8DB3;&#x5169;&#x65B9;&#x7684;&#x9700;&#x6C42;, &#x800C;&#x4E14;&#x9084;&#x6C92;&#x6709;&#x67E5;&#x89BA;&#x5230;&#x5C0D;&#x65B9;&#x7684;&#x5B58;&#x5728;!!</p>
+</li>
+<li><p>&#x7DE8;&#x8B6F; b.cpp &#x6642;, &#x900F;&#x904E; b.h &#x52A0;&#x5165; extern &quot;C&quot;, &#x9019;&#x6A23;&#x624D;&#x4E0D;&#x6703;&#x505A; name mangling&#x3002;&#x7528; nm b.o &#x67E5;&#x770B;, &#x6703;&#x767C;&#x73FE;&#x6709; name mangling &#x6642;&#x662F; _Z3addii, &#x53CD;&#x4E4B;&#x5247;&#x662F; add (ps. &#x7D93; Scott &#x63D0;&#x9192;, &#x53EF;&#x7528; c++filt demangle symbol)</p>
+</li>
+<li><p>&#x7531;&#x65BC; C &#x6C92;&#x6709; extern &quot;C&quot; &#x7684;&#x8A9E;&#x6CD5;, b.h &#x88E1;&#x9762;&#x6709;&#x9019;&#x6BB5;&#x7684;&#x8A71;&#x6703;&#x7DE8;&#x8B6F;&#x932F;&#x8AA4;, &#x900F;&#x904E; ifdef &#x907F;&#x958B;&#x3002;&#x7DE8;&#x8B6F; a.c &#x6C92;&#x4EC0;&#x9EBC;&#x7279;&#x5225;&#x7684;, &#x9A19;&#x5B83;&#x6709; add &#x9019;&#x500B; symbol &#x5373;&#x53EF;&#x3002;
+&#x9023;&#x7D50;&#x6642;&#x5F88;&#x55AE;&#x7D14;, &#x5148;&#x524D;&#x5728;&#x7DE8; .o &#x6642;&#x78BA;&#x4FDD; b.o &#x88E1;&#x53EF;&#x4EE5;&#x627E;&#x5230; a.o &#x8A8D;&#x5F97;&#x7684;&#x540D;&#x7A31; add, &#x518D;&#x4F86;&#x8A18;&#x5F97;&#x53EA;&#x6709; g++ &#x540C;&#x6642;&#x8A8D;&#x5F97; a.o &#x548C; b.o &#x7684;&#x683C;&#x5F0F;, &#x5C31;&#x6C92;&#x4EC0;&#x9EBC;&#x554F;&#x984C;&#x4E86;&#x3002;</p>
+</li>
+</ul>
+<p>&#x53E6;&#x5916;, &#x82E5;&#x60F3;&#x7528; C++ &#x7684; class method, &#x5F97;&#x5148;&#x5305;&#x6210; C++ function &#x624D;&#x884C;&#x3002;&#x50B3;&#x905E;&#x7269;&#x4EF6;&#x7684;&#x8A71;, &#x53C3;&#x8003; FAQ &#x7684;&#x8AAA;&#x660E;, &#x6709;&#x4E9B;&#x6CE8;&#x610F;&#x4E8B;&#x9805;, &#x5F85;&#x8981;&#x7528;&#x5230;&#x6642;&#x518D;&#x4F86;&#x7D30;&#x770B;&#x3002;</p>
+<p>2012-01-30 &#x66F4;&#x6B63;</p>
+<p>gcc &#x548C; g++ &#x90FD;&#x662F;&#x547C;&#x53EB; ld, &#x53EA;&#x662F;&#x50B3;&#x7684;&#x53C3;&#x6578;&#x4E0D;&#x4E00;&#x6A23;, &#x6211;&#x539F;&#x672C;&#x7684;&#x8AAA;&#x6CD5;&#x300C;&#x53EA;&#x6709; g++ &#x540C;&#x6642;&#x8A8D;&#x5F97; a.o &#x548C; b.o &#x7684;&#x683C;&#x5F0F;&#x300D;&#x4E26;&#x4E0D;&#x6B63;&#x78BA;&#x3002;&#x9084;&#x6C92;&#x6709;&#x4ED4;&#x7D30;&#x7814;&#x7A76; ld, &#x63A8;&#x6E2C; ld &#x61C9;&#x8A72;&#x6C92;&#x6709;&#x5340;&#x5225; object file &#x662F;&#x600E;&#x9EBC;&#x88AB;&#x7522;&#x751F;&#x7684;&#x3002;</p>
 
                     
                     </section>
@@ -1387,10 +1430,10 @@ text    data     bss     dec     hex filename
         </div>
 
         
-        <a href="../linux_tools/nm.html" class="navigation navigation-prev " aria-label="Previous page: nm 目標文件格式分析"><i class="fa fa-angle-left"></i></a>
+        <a href="../fcamel/[]__linking_time.html" class="navigation navigation-prev " aria-label="Previous page: [轉] 加速 linking time"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../linux_tools/wget.html" class="navigation navigation-next " aria-label="Next page: wget 文件下載"><i class="fa fa-angle-right"></i></a>
+        <a href="../fcamel/09.html" class="navigation navigation-next " aria-label="Next page: [轉]在 Linux 下開發 C/C++ 的新手指南"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

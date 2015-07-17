@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="8.5" data-basepath=".." data-revision="Sat Jul 18 2015 00:19:24 GMT+0800 (CST)">
+    <div class="book" data-level="8.5" data-basepath=".." data-revision="Sat Jul 18 2015 00:36:22 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1007,7 +1007,15 @@
     
         <li class="chapter " data-level="8" data-path="linux_device_driver_programming/index.html">
             
-            <span><b>8.</b> Linux Device Driver Programming</span>
+                
+                    <a href="../linux_device_driver_programming/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.</b>
+                        
+                        Linux Device Driver Programming
+                    </a>
+                
             
             
             <ul class="articles">
@@ -1688,6 +1696,50 @@ cdev_add &#x5411; kernel &#x767B;&#x8A18; cdev_init() &#x8A2D;&#x5B9A;&#x597D;&#
 cdev_del() &#x7684;&#x529F;&#x80FD;&#x8207; cdev_add() &#x76F8;&#x53CD;&#xFF0C;&#x6703;&#x5F9E; kernel &#x91CB;&#x653E;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x3002;<br>
 <strong>void unregister_chrdev_region(dev_t from, unsigned count)</strong><br>
 unregister_chrdev_region() &#x7684;&#x529F;&#x80FD;&#x8DDF; alloc_chrdev_region() &#x76F8;&#x53CD;&#xFF0C;&#x6703;&#x91CB;&#x653E;&#x4E4B;&#x524D;&#x62FF;&#x5230;&#x7684; major number&#x3002;<br></p>
+<p><strong>5-10&#x3001;&#x7CFB;&#x7D71;&#x547C;&#x53EB;&#x8655;&#x7406;&#x51FD;&#x5F0F;&#x7684;&#x767B;&#x8A18;&#x65B9;&#x5F0F;</strong>
+&#x8AAA;&#x660E;&#x7CFB;&#x7D71;&#x547C;&#x53EB; handler &#x7684;&#x76F8;&#x95DC;&#x7D30;&#x7BC0;&#x3002;</p>
+<p><strong>&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684; handler</strong></p>
+<p><strong>&#x60F3;&#x8B93; user process &#x80FD;&#x5C0D;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x767C;&#x51FA; open() &#x8207; read() &#x4E4B;&#x985E;&#x7CFB;&#x7D71;&#x547C;&#x53EB;&#x7684;&#x8A71;&#xFF0C;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x5FC5;&#x9808;&#x5148;&#x5411; kernel &#x767B;&#x8A18;&#x76F8;&#x61C9;&#x7684; handler &#x624D;&#x884C;&#x3002;</strong></p>
+<p>&#x9A45;&#x7A0B;&#x7A0B;&#x5F0F;&#x7684; handler &#x662F;&#x900F;&#x904E; file_operations &#x7D50;&#x69CB;&#x6307;&#x5B9A;&#x7684;&#xFF0C;&#x5176;&#x5BA3;&#x544A;&#x5728; include/linux/fs.h &#x5167;&#x3002;<br>
+C &#x8A9E;&#x8A00;&#x5728;&#x521D;&#x59CB;&#x5316; struct &#x7684;&#x6642;&#x5019;&#x9700;&#x8981;&#x8A18;&#x5F97;&#x6210;&#x54E1;&#x7684;&#x5B9A;&#x7FA9;&#x4F4D;&#x7F6E;&#xFF0C;&#x4F46;&#x5982;&#x679C;&#x7528;&#x4E0A; gcc<br> &#x64F4;&#x5145;&#x8A9E;&#x6CD5;&#x7684;&#x8A71;&#xFF0C;&#x5C31;&#x4E0D;&#x5FC5;&#x8A18;&#x5F97;&#x9019;&#x4E9B;&#x4F4D;&#x7F6E;&#xFF0C;&#x6BD4;&#x5982;&#x8AAA;&#xFF0C;&#x53EF;&#x4EE5;&#x5BEB;&#x6210;&#x4E0B;&#x9762;&#x9019;&#x500B;&#x6A23;&#x5B50;&#xFF1A;<br></p>
+<pre><code>struct file_operations devone_fops = {
+    .open = devone_open,
+    .release = devone_close,
+}
+</code></pre><p>&#x9019;&#x6A23;&#x5C31;&#x6703;&#x5C07; open &#x53CA; release &#x6210;&#x54E1;&#x6307;&#x5B9A;&#x70BA;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x63D0;&#x4F9B;&#x7684;&#x51FD;&#x5F0F;&#x6307;&#x6A19;&#xFF0C;&#x4E26;&#x81EA;&#x52D5;&#x628A;&#x5176;&#x5B83;&#x6210;&#x54E1;&#x8A2D;&#x70BA; NULL&#x3002;<br></p>
+<p><strong>open handler</strong></p>
+<p>User process &#x5728;&#x64CD;&#x4F5C; device file &#x6642;&#xFF0C;&#x7B2C;&#x4E00;&#x500B;&#x52D5;&#x4F5C;&#x4E00;&#x5B9A;&#x662F;&#x300C;&#x958B;&#x555F;&#x300D;<br> &#xFF0C;&#x7D50;&#x675F;&#x64CD;&#x4F5C;&#x4E4B;&#x5F8C;&#x5247;&#x6703;&#x5C07;&#x5B83;&#x300C;&#x95DC;&#x9589;&#x300D;&#x3002;<br>
+&#x56E0;&#x6B64;&#xFF0C;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x81F3;&#x5C11;&#x8981;&#x63D0;&#x4F9B; open &#x8207; close &#x9019;&#x5169;&#x500B; handler&#x3002;<br></p>
+<pre><code>int (*open) (struct inode *inode, struct file *file);
+</code></pre><p>inode &#x5F15;&#x6578;&#x662F;&#x5167;&#x542B;&#x300C;inode&#x300D;&#x8CC7;&#x6599;&#x7684;&#x7D50;&#x69CB;&#x6307;&#x6A19;&#xFF0C;&#x958B;&#x767C;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x6642;&#x6703;&#x7528;&#x5230;&#x7684;&#x6210;&#x54E1;&#x5982;&#x4E0B;&#xFF1A;<br>
+bdev_t i_rdev&#xFF1A; Major/minor number<br>
+void *i_private&#xFF1A; &#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x79C1;&#x6709;&#x6307;&#x6A19;<br>
+&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x53EF;&#x4EE5;&#x900F;&#x904E; i_rdev &#x6210;&#x54E1;&#x5224;&#x5225;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x5167;&#x90E8;&#x4F7F;&#x7528;&#x7684; minor<br> number&#xFF0C;&#x60F3;&#x6539;&#x8B8A;&#x63A7;&#x5236;&#x786C;&#x9AD4;&#x5C0D;&#x8C61;&#x6642;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x3002;<br>
+&#x53D6;&#x51FA; minor number &#x7684;&#x65B9;&#x6CD5;&#x6709;&#x5169;&#x7A2E;&#xFF0C;&#x5982;&#x4E0B;&#xFF1A;<br></p>
+<pre><code>ret = MINOR(inode-&gt;i_rdev);
+ret = iminor(inode)
+</code></pre><p>&#x8003;&#x616E;&#x5230;&#x53EF;&#x651C;&#x6027;&#xFF0C;&#x9084;&#x662F;&#x4F7F;&#x7528; iminor() &#x6BD4;&#x8F03;&#x597D;&#xFF0C;&#x60F3;&#x5F97;&#x5230; major number &#xFF0C;&#x4EA6;&#x662F;&#x4F7F;&#x7528;&#x540C;&#x6A23;&#x7684;&#x65B9;&#x6CD5;&#xFF1A;<br></p>
+<pre><code>unsigned iminor(const struct inode *inode); unsigned imajor(const struct inode *inode);
+</code></pre><pre><code>i_private &#x6210;&#x54E1;&#x662F;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x53EF;&#x4EE5;&#x81EA;&#x7531;&#x4F7F;&#x7528;&#x7684;&#x6307;&#x6A19;&#x3002;
+file &#x4E5F;&#x662F;&#x500B;&#x5DE8;&#x5927;&#x7684;&#x8CC7;&#x6599;&#x7D50;&#x69CB;&#xFF0C;&#x958B;&#x767C;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x5E38;&#x7528;&#x5230;&#x7684;&#x6210;&#x54E1;&#x5982;&#x4E0B;&#xFF1A;
+struct file_operations *f_op&#xFF1A;&#x7CFB;&#x7D71;&#x547C;&#x53EB; handlers
+unsigned int f_flags&#xFF1A;open &#x51FD;&#x5F0F;&#x7B2C;&#x4E8C;&#x5F15;&#x6578;&#x50B3;&#x5165;&#x7684;&#x65D7;&#x6A19;
+void *private_data&#xFF1A;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x79C1;&#x6709;&#x8CC7;&#x6599;&#x6307;&#x6A19;
+f_op &#x6210;&#x54E1;&#x662F;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x8F09;&#x5165;&#x6642;&#xFF0C;&#x767B;&#x8A18;&#x7684;&#x7CFB;&#x7D71;&#x547C;&#x53EB; handles &#x6307;&#x6A19;&#x7167;&#x5C0D;&#x8868;&#x3002;
+f_flags &#x6210;&#x54E1;&#x662F; user process &#x547C;&#x53EB; open() &#x6642;&#x6307;&#x5B9A;&#x7684;&#x65D7;&#x6A19;&#x3002;
+private_data &#x6210;&#x54E1;&#x662F;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x53EF;&#x4EE5;&#x81EA;&#x7531;&#x4F7F;&#x7528;&#x7684;&#x6307;&#x6A19;&#x3002;
+</code></pre><p><strong>close Handler</strong></p>
+<p>close handler &#x7684; prototype &#x5982;&#x4E0B;&#xFF0C;&#x9019;&#x908A;&#x8981;&#x6CE8;&#x610F;&#x5B83;&#x7684;&#x6210;&#x54E1;&#x540D;&#x7A31;&#x662F;&#x300C;release&#x300D;&#xFF1A;
+int (<em>release) (struct inode </em>inode, struct file *file);
+&#x5F15;&#x6578;&#x8207; open handler &#x4E00;&#x6A23;&#xFF0C;&#x88AB;&#x958B;&#x555F;&#x6642;&#x5982;&#x679C;&#x6709;&#x914D;&#x7F6E;&#x8CC7;&#x6E90;&#x7684;&#x8A71;&#xFF0C;&#x4E00;&#x5B9A;&#x8981;&#x5728; close handler &#x4E4B;&#x5167;&#x91CB;&#x653E;&#x6389;&#xFF0C;&#x5426;&#x5247;&#x6703;&#x5C0E;&#x81F4; memory leak &#x7684;&#x554F;&#x984C;&#xFF0C;&#x53EA;&#x8981; OS &#x6C92;&#x6709;&#x91CD;&#x958B;&#xFF0C;&#x5C31;&#x7121;&#x6CD5;&#x91CB;&#x653E;&#x8CC7;&#x6E90;&#x3002;
+&#x5C31;&#x7B97; user process &#x5FD8;&#x8A18;&#x660E;&#x78BA;&#x547C;&#x53EB; close()&#xFF0C;OS &#x4E5F;&#x6703;&#x5728; user process &#x7D50;&#x675F;&#x7684;&#x6642;&#x5019;&#x547C;&#x53EB; close()&#x3002;
+&#x4E00;&#x500B;&#x6216;&#x591A;&#x500B; user process &#x53EF;&#x80FD;&#x540C;&#x6642;&#x91CD;&#x8907;&#x958B;&#x555F;&#x540C;&#x4E00;&#x500B; device file&#xFF0C;&#x60F3;&#x5728; close handler &#x88AB;&#x547C;&#x53EB;&#x6642;&#xFF0C;&#x5F97;&#x77E5;&#x76EE;&#x524D;&#x662F;&#x5C0D;&#x61C9;&#x54EA;&#x500B; open() &#x958B;&#x555F;&#x7684;&#x8A71;&#xFF0C;&#x53EF;&#x4EE5;&#x900F;&#x904E; inode &#x6216; file &#x7D50;&#x69CB;&#x7684;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x79C1;&#x6709;&#x6307;&#x6A19;&#x4F86;&#x5224;&#x65B7;&#xFF0C;&#x4E0B;&#x500B;&#x4E3B;&#x984C;&#x6703;&#x8AC7;&#x5230;&#x3002;</p>
+<p>inode &#x7D50;&#x69CB;&#x8207; file &#x7D50;&#x69CB;&#x7684;&#x95DC;&#x4FC2;
+open &#x8207; close handler &#x90FD;&#x6703;&#x5F9E; kernel &#x63A5;&#x5230; inode &#x7D50;&#x69CB;&#x8207; file &#x7D50;&#x69CB;&#x7684;&#x6307;&#x6A19;&#xFF0C;&#x800C;&#x9019;&#x5169;&#x500B;&#x6307;&#x6A19;&#x90FD;&#x6709;&#x7D66;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684;&#x79C1;&#x7528;&#x6307;&#x6A19;&#x3002;
+inode &#x7D50;&#x69CB;&#x5728; mknod &#x6307;&#x4EE4;&#x5EFA;&#x7ACB; device file &#x6642;&#x7531; kernel &#x5EFA;&#x7ACB;&#xFF0C;&#x800C; file &#x7D50;&#x69CB;&#x662F;&#x6BCF;&#x6B21;&#x958B;&#x6A94;&#x6642;&#x7531; kernel &#x5EFA;&#x7ACB;&#x3002;
+&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#xFF0C;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x60F3;&#x5340;&#x5206; open &#x7CFB;&#x7D71;&#x547C;&#x53EB;&#x7684;&#x8A71;&#xFF0C;&#x61C9;&#x8A72;&#x900F;&#x904E; file &#x7D50;&#x69CB;&#x7684;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x79C1;&#x6709;&#x6307;&#x6A19;&#x4F86;&#x9032;&#x884C;&#xFF0C;open handler &#x914D;&#x7F6E;&#x8CC7;&#x6E90;&#x6642;&#x5C07;&#x4E4B;&#x7D66;&#x300C;file-&gt;private_data&#x300D;&#xFF0C;close handler &#x91CB;&#x653E;&#x8CC7;&#x6E90;&#x6642;&#x4E5F;&#x662F;&#x5F9E; &#x300C;file-&gt;private_data&#x300D;&#x5C07;&#x4E4B;&#x91CB;&#x653E;&#x3002;
+inode &#x7D50;&#x69CB;&#x7684;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x79C1;&#x6709;&#x6307;&#x6A19;&#xFF0C;&#x53EF;&#x4EE5;&#x5728;&#x5B58;&#x653E; device file &#x76F8;&#x95DC;&#x8CC7;&#x8A0A;&#x6642;&#x4F7F;&#x7528;&#x3002;
+&#x7236; process &#x900F;&#x904E; fork() &#x7CFB;&#x7D71;&#x547C;&#x53EB;&#x7522;&#x751F;&#x5B50; process &#x6642;&#xFF0C;&#x6A94;&#x6848; handle &#x6703;&#x88AB;&#x5171;&#x7528;&#xFF0C;&#x6240;&#x4EE5; file &#x7D50;&#x69CB;&#x53EA;&#x6703;&#x6709;&#x4E00;&#x500B;&#xFF0C;&#x4F46;&#x6B64;&#x6642;&#x56E0;&#x70BA; file &#x6703;&#x88AB;&#x5169;&#x500B; process &#x5171;&#x540C;&#x4F7F;&#x7528;&#xFF0C;&#x6240;&#x4EE5; reference count &#x6539;&#x6210;&#x300C;2&#x300D;&#xFF0C;&#x5728;&#x9019;&#x5169;&#x500B; process &#x547C;&#x53EB; close() &#x6642;&#xFF0C;reference count &#x90FD;&#x6703;&#x6E1B;&#x4E00;&#xFF0C;&#x76F4;&#x5230; reference &#x8B8A;&#x6210;&#x300C;0&#x300D;&#x6642;&#xFF0C;&#x624D;&#x6703;&#x547C;&#x53EB;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684; close handler&#xFF0C;&#x4E4B;&#x5F8C; kernel &#x6703;&#x91CB;&#x653E;&#x4E0D;&#x518D;&#x9700;&#x8981;&#x7528;&#x5230;&#x7684; file &#x7D50;&#x69CB;&#x3002;</p>
 
                     
                     </section>

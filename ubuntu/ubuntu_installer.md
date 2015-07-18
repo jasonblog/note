@@ -275,16 +275,17 @@ sudo apt-get install nodejs
 sudo apt-get install npm
 ```
 
-- 下載最近版本的npm
-
-```
-http://nodejs.org/dist/
-```
 
 - 使用 Global 安裝 gitbook
 
 ```
 sudo npm install gitbook -g
+```
+
+- 下載最近版本的npm , 目前可以解決下面說的情況
+
+```
+http://nodejs.org/dist/
 ```
 
 - 安裝 nodejs-legacy 避免後續執行 gitbook 的時後發生錯誤 "/usr/bin/env: node: No such file or directory"

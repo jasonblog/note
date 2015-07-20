@@ -1,11 +1,11 @@
-# service组件-bindService源码分析
+# service組件-bindService源碼分析
 
 
-因为有前面分析startService的代码实现过程，则对于bindService的代码分析就不用那么详细介绍，在介绍流程的同时更关注一些细节上的部分。
+因爲有前面分析startService的代碼實現過程，則對於bindService的代碼分析就不用那麼詳細介紹，在介紹流程的同時更關注一些細節上的部分。
 
 
 
-首先，bindService也是通过 ContextWrapper.bindService，再到ContextImpl的bindService，然后是bindServiceCommon，需要注意的是，传入的ServiceConnection被转换成IServiceConnection类型，
+首先，bindService也是通過 ContextWrapper.bindService，再到ContextImpl的bindService，然後是bindServiceCommon，需要注意的是，傳入的ServiceConnection被轉換成IServiceConnection類型，
 
 ```
 private boolean bindServiceCommon(Intent service, ServiceConnection conn,
@@ -24,7 +24,7 @@ private boolean bindServiceCommon(Intent service, ServiceConnection conn,
 
 ```
 
-接下去是进入AMS的bindService，再调用ActiveServices.java 的bindServiceLocked，它会把IServiceConnection实例存放到ConnectionRecord里面，并执行bringUpServiceLocked，
+接下去是進入AMS的bindService，再調用ActiveServices.java 的bindServiceLocked，它會把IServiceConnection實例存放到ConnectionRecord裏面，並執行bringUpServiceLocked，
 
 
 ```
@@ -71,7 +71,7 @@ int bindServiceLocked(IApplicationThread caller, IBinder token,
 }
 ```
 
-根据之前的分析ServiceLocked会调用realStartServiceLocked，而realStartServiceLocked则先调用scheduleCreateService，完成service的创建和Oncreate（）的执行，然后执行requestServiceBindingsLocked，这个是bind服务相关处理，最后是sendServiceArgsLocked，这个是Start服务的处理。
+根據之前的分析ServiceLocked會調用realStartServiceLocked，而realStartServiceLocked則先調用scheduleCreateService，完成service的創建和Oncreate（）的執行，然後執行requestServiceBindingsLocked，這個是bind服務相關處理，最後是sendServiceArgsLocked，這個是Start服務的處理。
 
 
 ```
@@ -83,7 +83,7 @@ private final void realStartServiceLocked(ServiceRecord r,
 }
 ```
 
-requestServiceBindingsLocked再调用ActivityThread的方法scheduleBindService，在ActivityThread.java 中，它发出一个BIND_SERVICE事件，被handleBindService处理，
+requestServiceBindingsLocked再調用ActivityThread的方法scheduleBindService，在ActivityThread.java 中，它發出一個BIND_SERVICE事件，被handleBindService處理，
 
 ```
 void publishServiceLocked(ServiceRecord r, Intent intent, IBinder service)
@@ -101,16 +101,16 @@ void publishServiceLocked(ServiceRecord r, Intent intent, IBinder service)
 }
 ```
 
-这里主要调用到c.conn.connected，c就是ConnectionRecord，其成员conn是一个IServiceConnection类型实例，这在前面有提到，connected则是其实现类的方法。
+這裏主要調用到c.conn.connected，c就是ConnectionRecord，其成員conn是一個IServiceConnection類型實例，這在前面有提到，connected則是其實現類的方法。
 
-对于IServiceConnection，它是一个接口，位置在(frameworks\base): core/java/android/app/IServiceConnection.aidl，aidl定义如下，它只有一个接口方法connected，
+對於IServiceConnection，它是一個接口，位置在(frameworks\base): core/java/android/app/IServiceConnection.aidl，aidl定義如下，它只有一個接口方法connected，
 ```
 oneway interface IServiceConnection {
     void connected(in ComponentName name, IBinder service);
 }
 ```
 
-其服务端的实现在LoadedApk.java，如下，InnerConnection类是在ServiceDispatcher的内部类，并在ServiceDispatcher的构造函数里面实例化的，其方法connected也是调用的ServiceDispatcher的方法connected，
+其服務端的實現在LoadedApk.java，如下，InnerConnection類是在ServiceDispatcher的內部類，並在ServiceDispatcher的構造函數裏面實例化的，其方法connected也是調用的ServiceDispatcher的方法connected，
 
 ```
 private static class InnerConnection extendsIServiceConnection.Stub
@@ -145,7 +145,7 @@ ServiceDispatcher(ServiceConnection conn,
 }
 ```
 
-这里就再回到我们前面的ContextImpl里面bindServiceCommon方法里面，这里进行ServiceConnection转化为IServiceConnection时，调用了mPackageInfo.getServiceDispatcher，mPackageInfo就是一个LoadedApk实例，
+這裏就再回到我們前面的ContextImpl裏面bindServiceCommon方法裏面，這裏進行ServiceConnection轉化爲IServiceConnection時，調用了mPackageInfo.getServiceDispatcher，mPackageInfo就是一個LoadedApk實例，
 
 ```
 /*package*/ LoadedApk mPackageInfo;
@@ -160,7 +160,7 @@ private boolean bindServiceCommon(Intent service, ServiceConnection conn,
 }
 ```
 
-所以，getServiceDispatcher会创建一个ServiceDispatcher实例，并将ServiceDispatcher实例和ServiceConnection实例形成KV对，并在ServiceDispatcher的构造函数里将ServiceConnection实例c赋值给ServiceConnection的成员变量mConnection，
+所以，getServiceDispatcher會創建一個ServiceDispatcher實例，並將ServiceDispatcher實例和ServiceConnection實例形成KV對，並在ServiceDispatcher的構造函數裏將ServiceConnection實例c賦值給ServiceConnection的成員變量mConnection，
 
 ```
 public final IServiceConnection getServiceDispatcher(ServiceConnection c,
@@ -189,8 +189,8 @@ public final IServiceConnection getServiceDispatcher(ServiceConnection c,
 }
 ```
 
-这样，在执行ServiceDispatcher的connected方法时，就会调用到ServiceConnection的
-onServiceConnected，完成绑定ServiceConnection的触发。
+這樣，在執行ServiceDispatcher的connected方法時，就會調用到ServiceConnection的
+onServiceConnected，完成綁定ServiceConnection的觸發。
 
 ```
 public void doConnected(ComponentName name, IBinder service)
@@ -206,4 +206,4 @@ public void doConnected(ComponentName name, IBinder service)
 }
 ```
 
-至此，就执行完了bindService的主要过程。
+至此，就執行完了bindService的主要過程。

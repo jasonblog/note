@@ -113,11 +113,11 @@ $ java -version
 
 ```
 解決之道:
-打開終端機，输入：alsamixer
+打開終端機，輸入：alsamixer
 ```
 
 
-- PCMan 沒有游標問題
+- PCMan 沒有遊標問題
 
 ```
 deb http://ppa.launchpad.net/fourdollars/pcmanx/ubuntu YOUR_UBUNTU_VERSION_HERE main
@@ -182,7 +182,7 @@ sudo apt-get install fcitx-table-cangjie-big （倉頡大字集）
 sudo apt-get install fcitx-table-zhengma-large （鄭碼大字集）
 sudo apt-get install fcitx-table-wubi-large （五筆大字集）
 sudo apt-get install fcitx-chewing （新酷音）
-sudo apt-get install fcitx-sunpinyin （双拼）
+sudo apt-get install fcitx-sunpinyin （雙拼）
 sudo apt-get install fcitx-table-easy-big （輕鬆大詞庫）
 sudo apt-get install fcitx-m17n
 sudo apt-get remove ibus

@@ -42,7 +42,7 @@ export CC=arm-linux-gnueabihf-gcc
 ```
 source build.env
 ./configure --target=arm-linux --host=arm-linux LDFLAGS="-static"
-# 這裡的--host指定這個程序的目標平台。這一步中會檢查系統中是否有交叉編譯器的。
+# 這裡的--host指定這個程序的目標平臺。這一步中會檢查系統中是否有交叉編譯器的。
 # We must add the above LDFLAGS to let gdb statically linked, otherwise it cannot
 run on Android.
 

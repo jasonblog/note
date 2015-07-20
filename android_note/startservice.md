@@ -22,7 +22,7 @@ step53，scheduleServiceArgs()調用Service的onStartCommand()執行service。
 
 下面是ActivityThread的代碼片段：
 
-```
+```java
   private class H extends Handler {
         public static final int LAUNCH_ACTIVITY         = 100;
         public static final int PAUSE_ACTIVITY          = 101;

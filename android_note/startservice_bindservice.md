@@ -20,7 +20,7 @@
 
 
 
-```
+```java
 private ServiceConnection serviceConn = new ServiceConnection()
 {
     @Override
@@ -35,7 +35,7 @@ private ServiceConnection serviceConn = new ServiceConnection()
 
 ```
 
-```
+```java
 public class WalkseeService  extends Service
 {
 

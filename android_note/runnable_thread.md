@@ -5,7 +5,7 @@ Android中Handler可以異步控制Runnable，那麼這樣做於Android中的Thr
 
 在java中可有兩種方式實現多線程，一種是繼承Thread類，一種是實現Runnable接口；Thread類是在java.lang包中定義的。一個類只要繼承了Thread類同時覆寫了本類中的run()方法就可以實現多線程操作了，但是一個類只能繼承一個父類，這是此方法的侷限。
 
-```
+```java
 package org.thread.demo;
 class MyThread extends Thread
 {
@@ -37,7 +37,7 @@ public class ThreadDemo01
 
 但是，此時結果很有規律，先第一個對象執行，然後第二個對象執行，並沒有相互運行。在JDK的文檔中可以發現，一旦調用start()方法，則會通過JVM找到run()方法。下面啟動start()方法啟動線程：
 
-```
+```java
 package org.thread.demo;
 public class ThreadDemo01
 {
@@ -58,7 +58,7 @@ public class ThreadDemo01
 ### Runnable接口
 在實際開發中一個多線程的操作很少使用Thread類，而是通過Runnable接口完成。
 
-```
+```java
 public interface Runnable{
     public void run();
 }
@@ -83,7 +83,7 @@ class MyThread implements Runnable
 
 但是在使用Runnable定義的子類中沒有start()方法，只有Thread類中纔有。此時觀察Thread類，有一個構造方法：public Thread(Runnable targer)此構造方法接受Runnable的子類實例，也就是說可以通過Thread類來啟動Runnable實現的多線程。（start()可以協調系統的資源）：
 
-```
+```java
 package org.runnable.demo;
 import org.runnable.demo.MyThread;
 public class ThreadDemo01
@@ -106,7 +106,7 @@ public class ThreadDemo01
 適合於資源的共享
 以賣票程序為例，通過Thread類完成：
 
-```
+```java
 package org.demo.dff;
 class MyThread extends Thread
 {
@@ -123,7 +123,7 @@ class MyThread extends Thread
 ```
 下面通過三個線程對象，同時賣票：
 
-```
+```java
 package org.demo.dff;
 public class ThreadTicket
 {
@@ -139,7 +139,7 @@ public class ThreadTicket
 }
 ```
 如果用Runnable就可以實現資源共享，下面看例子：
-```
+```java
 package org.demo.runnable;
 class MyThread implements Runnable
 {
@@ -169,7 +169,7 @@ public class RunnableTicket
 ```
 雖然現在程序中有三個線程，但是一共賣了10張票，也就是說使用Runnable實現多線程可以達到資源共享目的。
 Runnable接口和Thread之間的聯繫：
-```
+```java
 public class Thread extends Object implements Runnable
 ```
 
@@ -181,7 +181,7 @@ Thread是系統給你的資源，有了Thread你纔有從CPU那裡得到可執�
 
 第三：
 Runnable 並不一定是新開一個線程，比如下面的調用方法就是運行在UI主線程中的：
-```
+```java
 Handler mHandler = new Handler();
 mHandler.post(new Runnable()
 {
@@ -226,7 +226,7 @@ HandlerThread顧名思義就是可以處理消息循環的線程，他是一個�
 最後需要說明的是，在UI線程(主線程)中：
 
 
-```
+```java
 mHandler = new Handler();
 mHandler.post(new Runnable()
 {
@@ -249,7 +249,7 @@ mHandler.post(new Runnable()
 
 但是Runnable接口並沒有任何對線程的支持，我們還必須創建Thread類 的實例，這一點通過Thread類的構造函數public Thread(Runnable target);來實現。下面是一個例子：
 
-```
+```java
 public class MyThread implements Runnable
 {
     int count = 1, number;

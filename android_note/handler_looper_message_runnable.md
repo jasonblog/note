@@ -9,7 +9,7 @@ android的消息處理有三個核心類：Looper,Handler和Message。其實還�
 
 Looper的字面意思是「循環者」，它被設計用來使一個普通線程變成**Looper線程**。所謂Looper線程就是循環工作的線程。在程序開發中（尤其是GUI開發中），我們經常會需要一個線程不斷循環，一旦有新任務則執行，執行完繼續等待下一個任務，這就是Looper線程。使用Looper類創建Looper線程很簡單：
 
-```
+```java
 public class LooperThread extends Thread {
     @Override
     public void run() {
@@ -32,7 +32,7 @@ public class LooperThread extends Thread {
 
 通過上圖可以看到，現在你的線程中有一個Looper對象，它的內部
 
-```
+```java
 public class Looper {
     // 每個線程中的Looper對象其實是一個ThreadLocal，即線程本地存儲(TLS)對象
     private static final ThreadLocal sThreadLocal = new ThreadLocal();
@@ -68,7 +68,7 @@ public class Looper {
 
 調用loop方法後，Looper線程就開始真正工作了，它不斷從自己的MQ中取出隊頭的消息(也叫任務)執行。其源碼分析如下：
 
-```
+```java
 public static final void loop() {
         Looper me = myLooper();  //得到當前線程Looper
         MessageQueue queue = me.mQueue;  //得到當前looper的MQ
@@ -114,7 +114,7 @@ public static final void loop() {
 除了prepare()和loop()方法，Looper類還提供了一些有用的方法，比如
 
 Looper.myLooper()得到當前線程looper對象：
-```
+```java
 public static final Looper myLooper() {
     // 在任意線程調用Looper.myLooper()返回的都是那個線程的looper
     return (Looper)sThreadLocal.get();
@@ -151,7 +151,7 @@ public void quit() {
 ### 異步處理大師 Handler
 什麼是handler？handler扮演了往MQ上添加消息和處理消息的角色（只處理由自己發出的消息），**即通知MQ它要執行一個任務(sendMessage)，並在loop到自己的時候執行該任務(handleMessage)，整個過程是異步的**。handler創建時會關聯一個looper，默認的構造方法將關聯當前線程的looper，不過這也是可以set的。默認的構造方法：
 
-```
+```java
 public class handler {
 
     final MessageQueue mQueue;  // 關聯的MQ
@@ -186,7 +186,7 @@ public class handler {
 ```
 
 下面我們就可以為之前的LooperThread類加入Handler：
-```
+```java
 public class LooperThread extends Thread {
     private Handler handler1;
     private Handler handler2;
@@ -215,7 +215,7 @@ public class LooperThread extends Thread {
 
 有了handler之後，我們就可以使用 post(Runnable), postAtTime(Runnable, long), postDelayed(Runnable, long), sendEmptyMessage(int), sendMessage(Message), sendMessageAtTime(Message, long)和 sendMessageDelayed(Message, long)這些方法向MQ上發送消息了。光看這些API你可能會覺得handler能發兩種消息，一種是Runnable對象，一種是message對象，這是直觀的理解，但其實post發出的Runnable對象最後都被封裝成message對象了，見源碼：
 
-```
+```java
 // 此方法用於向關聯的MQ上發送Runnable對象，它的run方法將在handler關聯的looper線程中執行
     public final boolean post(Runnable r)
     {
@@ -259,7 +259,7 @@ msg.target.dispatchMessage(msg);
 
 說完了消息的發送，再來看下handler如何處理消息。消息的處理是通過核心方法dispatchMessage(Message msg)與鉤子方法handleMessage(Message msg)完成的，見源碼
 
-```
+```java
 // 處理消息，該方法由looper調用
     public void dispatchMessage(Message msg) {
         if (msg.callback != null) {
@@ -304,7 +304,7 @@ msg.target.dispatchMessage(msg);
 ![images](images/2011091323582123.png)
 
 下面給出sample代碼，僅供參考：
-```
+```java
 public class TestDriverActivity extends Activity {
     private TextView textview;
 
@@ -332,7 +332,7 @@ public class TestDriverActivity extends Activity {
     }
 }
 ```
-```
+```java
 public class SampleTask implements Runnable {
     private static final String TAG = SampleTask.class.getSimpleName();
     Handler handler;

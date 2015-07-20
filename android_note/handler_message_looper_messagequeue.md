@@ -46,7 +46,7 @@ OK, 上面四個 class 的共同目地已經說明完畢了，那麼這四個 cl
 教你快速 trace 懂這些 code，迅速驗證出這四個 class 的用途。
 
 **以下開始 trace source code .. Follow Me ^____^**
-```
+```java
 // Looper.java:
 loop()
 {
@@ -70,7 +70,7 @@ PS: 一般來說，我們會寫個 EHandler extends Handler,
 被 UI Thread呼叫，來更新畫面。
 
 ### (2) 至於 loop() 是如何被使用的呢 ?
-```
+```java
 // typical example 大約是這樣子的
 class LooperThread extends Thread
 {
@@ -100,7 +100,7 @@ Looper.mMainLooper
 直接copy高煥堂網路文章中的example code過來 …
 講義摘錄之28：Anrdroid 的Message Queue(3/3) 的example code如下
 
-```
+```java
 class AnyClass implements Runnable
 {
     public void run()
@@ -118,7 +118,7 @@ class AnyClass implements Runnable
     }
 }
 
-```
+```java
 我們直接由此來作解釋，
 追蹤當中的 obtainMssage 可發現 target的由來。原理如下
 ```
@@ -134,7 +134,7 @@ static Message obtain(Handler h, int what, int arg1, int arg2)
 }
 ```
 而 Message m = obtain() 是執行下面這段程式
-```
+```java
 public static Message obtain()
 {
     synchronized(mPoolSync) {  //與 recycle() 共用 mPoolSync
@@ -155,7 +155,7 @@ Handler 呼叫 obtainMessage 的時候，其實是由 mPool 取出 Message來
 好讓 Looper 來執行它 …
 
 ### (4) 接續 (3) 中的 example code, 它的 sendMessage() 又作了什麼事呢 ?
-```
+```java
 class AnyClass implements Runnable
 {
     public void run()

@@ -102,34 +102,34 @@ wget -S –spider url 不下載只顯示過程
 
 ### 17.3. 使用實例
 ### 實例1：使用wget下載單個文件
-```
+```sh
 $wget http://www.minjieren.com/wordpress-3.1-zh_CN.zip
 ```
 
 說明：以上例子從網絡下載一個文件並保存在當前目錄，在下載的過程中會顯示進度條，包含（下載完成百分比，已經下載的字節，當前下載速度，剩餘下載時間）。
 
 ### 實例2：使用wget -O下載並以不同的文件名保存
-```
+```sh
 $wget -O wordpress.zip http://www.minjieren.com/download.aspx?id=1080
 ```
 
 wget默認會以最後一個符合”/”的後面的字符來命令，對於動態鏈接的下載通常文件名會不正確。
 
 ### 實例3：使用wget –limit -rate限速下載
-```
+```sh
 $wget --limit-rate=300k http://www.minjieren.com/wordpress-3.1-zh_CN.zip
 ```
 
 當你執行wget的時候，它默認會佔用全部可能的寬帶下載。但是當你準備下載一個大文件，而你還需要下載其它文件時就有必要限速了。
 
 ### 實例4：使用wget -c斷點續傳
-```
+```shg
 $wget -c http://www.minjieren.com/wordpress-3.1-zh_CN.zip
 ```
 使用wget -c重新啓動下載中斷的文件，對於我們下載大文件時突然由於網絡等原因中斷非常有幫助，我們可以繼續接着下載而不是重新下載一個文件。需要繼續中斷的下載時可以使用-c參數。
 
 ### 實例5：使用wget -b後臺下載
-```
+```sh
 $wget -b http://www.minjieren.com/wordpress-3.1-zh_CN.zip
 Continuing in background, pid 1840.
 Output will be written to 'wget-log'.
@@ -137,18 +137,18 @@ Output will be written to 'wget-log'.
 對於下載非常大的文件的時候，我們可以使用參數-b進行後臺下載。
 
 你可以使用以下命令來察看下載進度:
-```
+```sh
 $tail -f wget-log
 ```
 ### 實例6：僞裝代理名稱下載
-```
+```sh
 wget --user-agent="Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/534.16 (KHTML, like Gecko) Chrome/10.0.648.204 Safari/534.16" http://www.minjieren.com/wordpress-3.1-zh_CN.zip
 ```
 有些網站能通過根據判斷代理名稱不是瀏覽器而拒絕你的下載請求。不過你可以通過–user-agent參數僞裝。
 
 ### 實例7：使用wget -i下載多個文件
 首先，保存一份下載鏈接文件,接着使用這個文件和參數-i下載:
-```
+```sh
 $cat > filelist.txt
 url1
 url2
@@ -158,7 +158,7 @@ url4
 $wget -i filelist.txt
 ```
 ### 實例8：使用wget –mirror鏡像網站
-```
+```sh
 $wget --mirror -p --convert-links -P ./LOCAL URL
 ```
 
@@ -168,7 +168,7 @@ $wget --mirror -p --convert-links -P ./LOCAL URL
 - -convert-links:下載後，轉換成本地的鏈接
 - -P ./LOCAL：保存所有文件和目錄到本地指定目錄
 ### 實例9: 使用wget -r -A下載指定格式文件
-```
+```sh
 $wget -r -A.pdf url
 ```
 
@@ -178,7 +178,7 @@ $wget -r -A.pdf url
 - 下載一個網站的所有PDF文件
 
 ### 實例10：使用wget FTP下載
-```
+```sh
 $wget ftp-url
 $wget --ftp-user=USERNAME --ftp-password=PASSWORD url
 ```
@@ -189,7 +189,7 @@ $wget --ftp-user=USERNAME --ftp-password=PASSWORD url
 
 ### 17.4. 編譯安裝
 使用如下命令編譯安裝:
-```
+```sh
 tar zxvf wget-1.9.1.tar.gz
 cd wget-1.9.1
 ./configure

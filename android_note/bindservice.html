@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
-        <title>service组件-bindService源码分析 | Jason note</title>
+        <title>service組件-bindService源碼分析 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.0.1">
@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="5.10" data-basepath=".." data-revision="Tue Jul 21 2015 01:02:28 GMT+0800 (CST)">
+    <div class="book" data-level="5.10" data-basepath=".." data-revision="Tue Jul 21 2015 01:46:47 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -921,7 +921,7 @@
                         
                             <b>5.10.</b>
                         
-                        service组件-bindService源码分析
+                        service組件-bindService源碼分析
                     </a>
                 
             
@@ -1305,7 +1305,7 @@
                         
                             <b>9.10.</b>
                         
-                        [轉]了解 C/C++ 程式行為的技巧
+                        [轉]瞭解 C/C++ 程式行為的技巧
                     </a>
                 
             
@@ -1576,9 +1576,9 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="service%E7%BB%84%E4%BB%B6-bindservice%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">service&#x7EC4;&#x4EF6;-bindService&#x6E90;&#x7801;&#x5206;&#x6790;</h1>
-<p>&#x56E0;&#x4E3A;&#x6709;&#x524D;&#x9762;&#x5206;&#x6790;startService&#x7684;&#x4EE3;&#x7801;&#x5B9E;&#x73B0;&#x8FC7;&#x7A0B;&#xFF0C;&#x5219;&#x5BF9;&#x4E8E;bindService&#x7684;&#x4EE3;&#x7801;&#x5206;&#x6790;&#x5C31;&#x4E0D;&#x7528;&#x90A3;&#x4E48;&#x8BE6;&#x7EC6;&#x4ECB;&#x7ECD;&#xFF0C;&#x5728;&#x4ECB;&#x7ECD;&#x6D41;&#x7A0B;&#x7684;&#x540C;&#x65F6;&#x66F4;&#x5173;&#x6CE8;&#x4E00;&#x4E9B;&#x7EC6;&#x8282;&#x4E0A;&#x7684;&#x90E8;&#x5206;&#x3002;</p>
-<p>&#x9996;&#x5148;&#xFF0C;bindService&#x4E5F;&#x662F;&#x901A;&#x8FC7; ContextWrapper.bindService&#xFF0C;&#x518D;&#x5230;ContextImpl&#x7684;bindService&#xFF0C;&#x7136;&#x540E;&#x662F;bindServiceCommon&#xFF0C;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C;&#x4F20;&#x5165;&#x7684;ServiceConnection&#x88AB;&#x8F6C;&#x6362;&#x6210;IServiceConnection&#x7C7B;&#x578B;&#xFF0C;</p>
+                        <h1 id="service%E7%B5%84%E4%BB%B6-bindservice%E6%BA%90%E7%A2%BC%E5%88%86%E6%9E%90">service&#x7D44;&#x4EF6;-bindService&#x6E90;&#x78BC;&#x5206;&#x6790;</h1>
+<p>&#x56E0;&#x7232;&#x6709;&#x524D;&#x9762;&#x5206;&#x6790;startService&#x7684;&#x4EE3;&#x78BC;&#x5BE6;&#x73FE;&#x904E;&#x7A0B;&#xFF0C;&#x5247;&#x5C0D;&#x65BC;bindService&#x7684;&#x4EE3;&#x78BC;&#x5206;&#x6790;&#x5C31;&#x4E0D;&#x7528;&#x90A3;&#x9EBC;&#x8A73;&#x7D30;&#x4ECB;&#x7D39;&#xFF0C;&#x5728;&#x4ECB;&#x7D39;&#x6D41;&#x7A0B;&#x7684;&#x540C;&#x6642;&#x66F4;&#x95DC;&#x6CE8;&#x4E00;&#x4E9B;&#x7D30;&#x7BC0;&#x4E0A;&#x7684;&#x90E8;&#x5206;&#x3002;</p>
+<p>&#x9996;&#x5148;&#xFF0C;bindService&#x4E5F;&#x662F;&#x901A;&#x904E; ContextWrapper.bindService&#xFF0C;&#x518D;&#x5230;ContextImpl&#x7684;bindService&#xFF0C;&#x7136;&#x5F8C;&#x662F;bindServiceCommon&#xFF0C;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C;&#x50B3;&#x5165;&#x7684;ServiceConnection&#x88AB;&#x8F49;&#x63DB;&#x6210;IServiceConnection&#x985E;&#x578B;&#xFF0C;</p>
 <pre><code>private boolean bindServiceCommon(Intent service, ServiceConnection conn,
                                   int flags,
                                   UserHandle user)
@@ -1592,7 +1592,7 @@
                   service, service.resolveTypeIfNeeded(getContentResolver()),
                   sd, flags, user.getIdentifier());
 }
-</code></pre><p>&#x63A5;&#x4E0B;&#x53BB;&#x662F;&#x8FDB;&#x5165;AMS&#x7684;bindService&#xFF0C;&#x518D;&#x8C03;&#x7528;ActiveServices.java &#x7684;bindServiceLocked&#xFF0C;&#x5B83;&#x4F1A;&#x628A;IServiceConnection&#x5B9E;&#x4F8B;&#x5B58;&#x653E;&#x5230;ConnectionRecord&#x91CC;&#x9762;&#xFF0C;&#x5E76;&#x6267;&#x884C;bringUpServiceLocked&#xFF0C;</p>
+</code></pre><p>&#x63A5;&#x4E0B;&#x53BB;&#x662F;&#x9032;&#x5165;AMS&#x7684;bindService&#xFF0C;&#x518D;&#x8ABF;&#x7528;ActiveServices.java &#x7684;bindServiceLocked&#xFF0C;&#x5B83;&#x6703;&#x628A;IServiceConnection&#x5BE6;&#x4F8B;&#x5B58;&#x653E;&#x5230;ConnectionRecord&#x88CF;&#x9762;&#xFF0C;&#x4E26;&#x57F7;&#x884C;bringUpServiceLocked&#xFF0C;</p>
 <pre><code>int bindServiceLocked(IApplicationThread caller, IBinder token,
                       Intent service, String resolvedType,
                       IServiceConnection connection, int flags, int userId)
@@ -1634,14 +1634,14 @@
         requestServiceBindingLocked(s, b.intent, callerFg, false);
     }
 }
-</code></pre><p>&#x6839;&#x636E;&#x4E4B;&#x524D;&#x7684;&#x5206;&#x6790;ServiceLocked&#x4F1A;&#x8C03;&#x7528;realStartServiceLocked&#xFF0C;&#x800C;realStartServiceLocked&#x5219;&#x5148;&#x8C03;&#x7528;scheduleCreateService&#xFF0C;&#x5B8C;&#x6210;service&#x7684;&#x521B;&#x5EFA;&#x548C;Oncreate&#xFF08;&#xFF09;&#x7684;&#x6267;&#x884C;&#xFF0C;&#x7136;&#x540E;&#x6267;&#x884C;requestServiceBindingsLocked&#xFF0C;&#x8FD9;&#x4E2A;&#x662F;bind&#x670D;&#x52A1;&#x76F8;&#x5173;&#x5904;&#x7406;&#xFF0C;&#x6700;&#x540E;&#x662F;sendServiceArgsLocked&#xFF0C;&#x8FD9;&#x4E2A;&#x662F;Start&#x670D;&#x52A1;&#x7684;&#x5904;&#x7406;&#x3002;</p>
+</code></pre><p>&#x6839;&#x64DA;&#x4E4B;&#x524D;&#x7684;&#x5206;&#x6790;ServiceLocked&#x6703;&#x8ABF;&#x7528;realStartServiceLocked&#xFF0C;&#x800C;realStartServiceLocked&#x5247;&#x5148;&#x8ABF;&#x7528;scheduleCreateService&#xFF0C;&#x5B8C;&#x6210;service&#x7684;&#x5275;&#x5EFA;&#x548C;Oncreate&#xFF08;&#xFF09;&#x7684;&#x57F7;&#x884C;&#xFF0C;&#x7136;&#x5F8C;&#x57F7;&#x884C;requestServiceBindingsLocked&#xFF0C;&#x9019;&#x500B;&#x662F;bind&#x670D;&#x52D9;&#x76F8;&#x95DC;&#x8655;&#x7406;&#xFF0C;&#x6700;&#x5F8C;&#x662F;sendServiceArgsLocked&#xFF0C;&#x9019;&#x500B;&#x662F;Start&#x670D;&#x52D9;&#x7684;&#x8655;&#x7406;&#x3002;</p>
 <pre><code>private final void realStartServiceLocked(ServiceRecord r,
         ProcessRecord app, boolean execInFg) throws RemoteException {
     app.thread.scheduleCreateService(r, r.serviceInfo, mAm.compatibilityInfoForPackageLocked(r.serviceInfo.applicationInfo), app.repProcState);
     requestServiceBindingsLocked(r, execInFg);
     sendServiceArgsLocked(r, execInFg, true);
 }
-</code></pre><p>requestServiceBindingsLocked&#x518D;&#x8C03;&#x7528;ActivityThread&#x7684;&#x65B9;&#x6CD5;scheduleBindService&#xFF0C;&#x5728;ActivityThread.java &#x4E2D;&#xFF0C;&#x5B83;&#x53D1;&#x51FA;&#x4E00;&#x4E2A;BIND_SERVICE&#x4E8B;&#x4EF6;&#xFF0C;&#x88AB;handleBindService&#x5904;&#x7406;&#xFF0C;</p>
+</code></pre><p>requestServiceBindingsLocked&#x518D;&#x8ABF;&#x7528;ActivityThread&#x7684;&#x65B9;&#x6CD5;scheduleBindService&#xFF0C;&#x5728;ActivityThread.java &#x4E2D;&#xFF0C;&#x5B83;&#x767C;&#x51FA;&#x4E00;&#x500B;BIND_SERVICE&#x4E8B;&#x4EF6;&#xFF0C;&#x88AB;handleBindService&#x8655;&#x7406;&#xFF0C;</p>
 <pre><code>void publishServiceLocked(ServiceRecord r, Intent intent, IBinder service)
 {
     for (int conni = r.connections.size() - 1; conni &gt;= 0; conni--) {
@@ -1655,12 +1655,12 @@
         }
     }
 }
-</code></pre><p>&#x8FD9;&#x91CC;&#x4E3B;&#x8981;&#x8C03;&#x7528;&#x5230;c.conn.connected&#xFF0C;c&#x5C31;&#x662F;ConnectionRecord&#xFF0C;&#x5176;&#x6210;&#x5458;conn&#x662F;&#x4E00;&#x4E2A;IServiceConnection&#x7C7B;&#x578B;&#x5B9E;&#x4F8B;&#xFF0C;&#x8FD9;&#x5728;&#x524D;&#x9762;&#x6709;&#x63D0;&#x5230;&#xFF0C;connected&#x5219;&#x662F;&#x5176;&#x5B9E;&#x73B0;&#x7C7B;&#x7684;&#x65B9;&#x6CD5;&#x3002;</p>
-<p>&#x5BF9;&#x4E8E;IServiceConnection&#xFF0C;&#x5B83;&#x662F;&#x4E00;&#x4E2A;&#x63A5;&#x53E3;&#xFF0C;&#x4F4D;&#x7F6E;&#x5728;(frameworks\base): core/java/android/app/IServiceConnection.aidl&#xFF0C;aidl&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF0C;&#x5B83;&#x53EA;&#x6709;&#x4E00;&#x4E2A;&#x63A5;&#x53E3;&#x65B9;&#x6CD5;connected&#xFF0C;</p>
+</code></pre><p>&#x9019;&#x88CF;&#x4E3B;&#x8981;&#x8ABF;&#x7528;&#x5230;c.conn.connected&#xFF0C;c&#x5C31;&#x662F;ConnectionRecord&#xFF0C;&#x5176;&#x6210;&#x54E1;conn&#x662F;&#x4E00;&#x500B;IServiceConnection&#x985E;&#x578B;&#x5BE6;&#x4F8B;&#xFF0C;&#x9019;&#x5728;&#x524D;&#x9762;&#x6709;&#x63D0;&#x5230;&#xFF0C;connected&#x5247;&#x662F;&#x5176;&#x5BE6;&#x73FE;&#x985E;&#x7684;&#x65B9;&#x6CD5;&#x3002;</p>
+<p>&#x5C0D;&#x65BC;IServiceConnection&#xFF0C;&#x5B83;&#x662F;&#x4E00;&#x500B;&#x63A5;&#x53E3;&#xFF0C;&#x4F4D;&#x7F6E;&#x5728;(frameworks\base): core/java/android/app/IServiceConnection.aidl&#xFF0C;aidl&#x5B9A;&#x7FA9;&#x5982;&#x4E0B;&#xFF0C;&#x5B83;&#x53EA;&#x6709;&#x4E00;&#x500B;&#x63A5;&#x53E3;&#x65B9;&#x6CD5;connected&#xFF0C;</p>
 <pre><code>oneway interface IServiceConnection {
     void connected(in ComponentName name, IBinder service);
 }
-</code></pre><p>&#x5176;&#x670D;&#x52A1;&#x7AEF;&#x7684;&#x5B9E;&#x73B0;&#x5728;LoadedApk.java&#xFF0C;&#x5982;&#x4E0B;&#xFF0C;InnerConnection&#x7C7B;&#x662F;&#x5728;ServiceDispatcher&#x7684;&#x5185;&#x90E8;&#x7C7B;&#xFF0C;&#x5E76;&#x5728;ServiceDispatcher&#x7684;&#x6784;&#x9020;&#x51FD;&#x6570;&#x91CC;&#x9762;&#x5B9E;&#x4F8B;&#x5316;&#x7684;&#xFF0C;&#x5176;&#x65B9;&#x6CD5;connected&#x4E5F;&#x662F;&#x8C03;&#x7528;&#x7684;ServiceDispatcher&#x7684;&#x65B9;&#x6CD5;connected&#xFF0C;</p>
+</code></pre><p>&#x5176;&#x670D;&#x52D9;&#x7AEF;&#x7684;&#x5BE6;&#x73FE;&#x5728;LoadedApk.java&#xFF0C;&#x5982;&#x4E0B;&#xFF0C;InnerConnection&#x985E;&#x662F;&#x5728;ServiceDispatcher&#x7684;&#x5167;&#x90E8;&#x985E;&#xFF0C;&#x4E26;&#x5728;ServiceDispatcher&#x7684;&#x69CB;&#x9020;&#x51FD;&#x6578;&#x88CF;&#x9762;&#x5BE6;&#x4F8B;&#x5316;&#x7684;&#xFF0C;&#x5176;&#x65B9;&#x6CD5;connected&#x4E5F;&#x662F;&#x8ABF;&#x7528;&#x7684;ServiceDispatcher&#x7684;&#x65B9;&#x6CD5;connected&#xFF0C;</p>
 <pre><code>private static class InnerConnection extendsIServiceConnection.Stub
 {
     final WeakReference&lt;LoadedApk.ServiceDispatcher&gt; mDispatcher;
@@ -1691,7 +1691,7 @@ ServiceDispatcher(ServiceConnection conn,
     mLocation.fillInStackTrace();
     mFlags = flags;
 }
-</code></pre><p>&#x8FD9;&#x91CC;&#x5C31;&#x518D;&#x56DE;&#x5230;&#x6211;&#x4EEC;&#x524D;&#x9762;&#x7684;ContextImpl&#x91CC;&#x9762;bindServiceCommon&#x65B9;&#x6CD5;&#x91CC;&#x9762;&#xFF0C;&#x8FD9;&#x91CC;&#x8FDB;&#x884C;ServiceConnection&#x8F6C;&#x5316;&#x4E3A;IServiceConnection&#x65F6;&#xFF0C;&#x8C03;&#x7528;&#x4E86;mPackageInfo.getServiceDispatcher&#xFF0C;mPackageInfo&#x5C31;&#x662F;&#x4E00;&#x4E2A;LoadedApk&#x5B9E;&#x4F8B;&#xFF0C;</p>
+</code></pre><p>&#x9019;&#x88CF;&#x5C31;&#x518D;&#x56DE;&#x5230;&#x6211;&#x5011;&#x524D;&#x9762;&#x7684;ContextImpl&#x88CF;&#x9762;bindServiceCommon&#x65B9;&#x6CD5;&#x88CF;&#x9762;&#xFF0C;&#x9019;&#x88CF;&#x9032;&#x884C;ServiceConnection&#x8F49;&#x5316;&#x7232;IServiceConnection&#x6642;&#xFF0C;&#x8ABF;&#x7528;&#x4E86;mPackageInfo.getServiceDispatcher&#xFF0C;mPackageInfo&#x5C31;&#x662F;&#x4E00;&#x500B;LoadedApk&#x5BE6;&#x4F8B;&#xFF0C;</p>
 <pre><code>/*package*/ LoadedApk mPackageInfo;
 
 private boolean bindServiceCommon(Intent service, ServiceConnection conn,
@@ -1702,7 +1702,7 @@ private boolean bindServiceCommon(Intent service, ServiceConnection conn,
     sd = mPackageInfo.getServiceDispatcher(conn, getOuterContext(),
                                            mMainThread.getHandler(), flags);
 }
-</code></pre><p>&#x6240;&#x4EE5;&#xFF0C;getServiceDispatcher&#x4F1A;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;ServiceDispatcher&#x5B9E;&#x4F8B;&#xFF0C;&#x5E76;&#x5C06;ServiceDispatcher&#x5B9E;&#x4F8B;&#x548C;ServiceConnection&#x5B9E;&#x4F8B;&#x5F62;&#x6210;KV&#x5BF9;&#xFF0C;&#x5E76;&#x5728;ServiceDispatcher&#x7684;&#x6784;&#x9020;&#x51FD;&#x6570;&#x91CC;&#x5C06;ServiceConnection&#x5B9E;&#x4F8B;c&#x8D4B;&#x503C;&#x7ED9;ServiceConnection&#x7684;&#x6210;&#x5458;&#x53D8;&#x91CF;mConnection&#xFF0C;</p>
+</code></pre><p>&#x6240;&#x4EE5;&#xFF0C;getServiceDispatcher&#x6703;&#x5275;&#x5EFA;&#x4E00;&#x500B;ServiceDispatcher&#x5BE6;&#x4F8B;&#xFF0C;&#x4E26;&#x5C07;ServiceDispatcher&#x5BE6;&#x4F8B;&#x548C;ServiceConnection&#x5BE6;&#x4F8B;&#x5F62;&#x6210;KV&#x5C0D;&#xFF0C;&#x4E26;&#x5728;ServiceDispatcher&#x7684;&#x69CB;&#x9020;&#x51FD;&#x6578;&#x88CF;&#x5C07;ServiceConnection&#x5BE6;&#x4F8B;c&#x8CE6;&#x503C;&#x7D66;ServiceConnection&#x7684;&#x6210;&#x54E1;&#x8B8A;&#x91CF;mConnection&#xFF0C;</p>
 <pre><code>public final IServiceConnection getServiceDispatcher(ServiceConnection c,
         Context context, Handler handler, int flags)
 {
@@ -1727,8 +1727,8 @@ private boolean bindServiceCommon(Intent service, ServiceConnection conn,
         }
     }
 }
-</code></pre><p>&#x8FD9;&#x6837;&#xFF0C;&#x5728;&#x6267;&#x884C;ServiceDispatcher&#x7684;connected&#x65B9;&#x6CD5;&#x65F6;&#xFF0C;&#x5C31;&#x4F1A;&#x8C03;&#x7528;&#x5230;ServiceConnection&#x7684;
-onServiceConnected&#xFF0C;&#x5B8C;&#x6210;&#x7ED1;&#x5B9A;ServiceConnection&#x7684;&#x89E6;&#x53D1;&#x3002;</p>
+</code></pre><p>&#x9019;&#x6A23;&#xFF0C;&#x5728;&#x57F7;&#x884C;ServiceDispatcher&#x7684;connected&#x65B9;&#x6CD5;&#x6642;&#xFF0C;&#x5C31;&#x6703;&#x8ABF;&#x7528;&#x5230;ServiceConnection&#x7684;
+onServiceConnected&#xFF0C;&#x5B8C;&#x6210;&#x7D81;&#x5B9A;ServiceConnection&#x7684;&#x89F8;&#x767C;&#x3002;</p>
 <pre><code>public void doConnected(ComponentName name, IBinder service)
 {
     if (old != null) {
@@ -1740,7 +1740,7 @@ onServiceConnected&#xFF0C;&#x5B8C;&#x6210;&#x7ED1;&#x5B9A;ServiceConnection&#x76
         mConnection.onServiceConnected(name, service);
     }
 }
-</code></pre><p>&#x81F3;&#x6B64;&#xFF0C;&#x5C31;&#x6267;&#x884C;&#x5B8C;&#x4E86;bindService&#x7684;&#x4E3B;&#x8981;&#x8FC7;&#x7A0B;&#x3002;</p>
+</code></pre><p>&#x81F3;&#x6B64;&#xFF0C;&#x5C31;&#x57F7;&#x884C;&#x5B8C;&#x4E86;bindService&#x7684;&#x4E3B;&#x8981;&#x904E;&#x7A0B;&#x3002;</p>
 
                     
                     </section>

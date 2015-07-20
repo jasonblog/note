@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="5.9" data-basepath=".." data-revision="Tue Jul 21 2015 01:46:47 GMT+0800 (CST)">
+    <div class="book" data-level="5.9" data-basepath=".." data-revision="Tue Jul 21 2015 01:55:44 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1587,353 +1587,354 @@
 <p>step42&#xFF0C;scheduleCreateService()&#x8981;&#x8ABF;&#x7528;Service&#x7684;onCreate&#x5275;&#x5EFA;service&#x4E86;&#x3002;</p>
 <p>step53&#xFF0C;scheduleServiceArgs()&#x8ABF;&#x7528;Service&#x7684;onStartCommand()&#x57F7;&#x884C;service&#x3002;</p>
 <p>&#x4E0B;&#x9762;&#x662F;ActivityThread&#x7684;&#x4EE3;&#x78BC;&#x7247;&#x6BB5;&#xFF1A;</p>
-<pre><code>  private class H extends Handler {
-        public static final int LAUNCH_ACTIVITY         = 100;
-        public static final int PAUSE_ACTIVITY          = 101;
-        public static final int PAUSE_ACTIVITY_FINISHING= 102;
-        public static final int STOP_ACTIVITY_SHOW      = 103;
-        public static final int STOP_ACTIVITY_HIDE      = 104;
-        public static final int SHOW_WINDOW             = 105;
-        public static final int HIDE_WINDOW             = 106;
-        public static final int RESUME_ACTIVITY         = 107;
-        public static final int SEND_RESULT             = 108;
-        public static final int DESTROY_ACTIVITY        = 109;
-        public static final int BIND_APPLICATION        = 110;
-        public static final int EXIT_APPLICATION        = 111;
-        public static final int NEW_INTENT              = 112;
-        public static final int RECEIVER                = 113;
-        public static final int CREATE_SERVICE          = 114;
-        public static final int SERVICE_ARGS            = 115;
-        public static final int STOP_SERVICE            = 116;
-        public static final int REQUEST_THUMBNAIL       = 117;
-        public static final int CONFIGURATION_CHANGED   = 118;
-        public static final int CLEAN_UP_CONTEXT        = 119;
-        public static final int GC_WHEN_IDLE            = 120;
-        public static final int BIND_SERVICE            = 121;
-        public static final int UNBIND_SERVICE          = 122;
-        public static final int DUMP_SERVICE            = 123;
-        public static final int LOW_MEMORY              = 124;
-        public static final int ACTIVITY_CONFIGURATION_CHANGED = 125;
-        public static final int RELAUNCH_ACTIVITY       = 126;
-        public static final int PROFILER_CONTROL        = 127;
-        public static final int CREATE_BACKUP_AGENT     = 128;
-        public static final int DESTROY_BACKUP_AGENT    = 129;
-        public static final int SUICIDE                 = 130;
-        public static final int REMOVE_PROVIDER         = 131;
-        public static final int ENABLE_JIT              = 132;
-        public static final int DISPATCH_PACKAGE_BROADCAST = 133;
-        public static final int SCHEDULE_CRASH          = 134;
-        public static final int DUMP_HEAP               = 135;
-        public static final int DUMP_ACTIVITY           = 136;
-        public static final int SLEEPING                = 137;
-        public static final int SET_CORE_SETTINGS       = 138;
-        public static final int UPDATE_PACKAGE_COMPATIBILITY_INFO = 139;
-        public static final int TRIM_MEMORY             = 140;
-        public static final int DUMP_PROVIDER           = 141;
-        public static final int UNSTABLE_PROVIDER_DIED  = 142;
-        public static final int REQUEST_ASSIST_CONTEXT_EXTRAS = 143;
-        public static final int TRANSLUCENT_CONVERSION_COMPLETE = 144;
-        public static final int INSTALL_PROVIDER        = 145;
-        String codeToString(int code) {
-            if (DEBUG_MESSAGES) {
-                switch (code) {
-                    case LAUNCH_ACTIVITY: return &quot;LAUNCH_ACTIVITY&quot;;
-                    case PAUSE_ACTIVITY: return &quot;PAUSE_ACTIVITY&quot;;
-                    case PAUSE_ACTIVITY_FINISHING: return &quot;PAUSE_ACTIVITY_FINISHING&quot;;
-                    case STOP_ACTIVITY_SHOW: return &quot;STOP_ACTIVITY_SHOW&quot;;
-                    case STOP_ACTIVITY_HIDE: return &quot;STOP_ACTIVITY_HIDE&quot;;
-                    case SHOW_WINDOW: return &quot;SHOW_WINDOW&quot;;
-                    case HIDE_WINDOW: return &quot;HIDE_WINDOW&quot;;
-                    case RESUME_ACTIVITY: return &quot;RESUME_ACTIVITY&quot;;
-                    case SEND_RESULT: return &quot;SEND_RESULT&quot;;
-                    case DESTROY_ACTIVITY: return &quot;DESTROY_ACTIVITY&quot;;
-                    case BIND_APPLICATION: return &quot;BIND_APPLICATION&quot;;
-                    case EXIT_APPLICATION: return &quot;EXIT_APPLICATION&quot;;
-                    case NEW_INTENT: return &quot;NEW_INTENT&quot;;
-                    case RECEIVER: return &quot;RECEIVER&quot;;
-                    case CREATE_SERVICE: return &quot;CREATE_SERVICE&quot;;
-                    case SERVICE_ARGS: return &quot;SERVICE_ARGS&quot;;
-                    case STOP_SERVICE: return &quot;STOP_SERVICE&quot;;
-                    case REQUEST_THUMBNAIL: return &quot;REQUEST_THUMBNAIL&quot;;
-                    case CONFIGURATION_CHANGED: return &quot;CONFIGURATION_CHANGED&quot;;
-                    case CLEAN_UP_CONTEXT: return &quot;CLEAN_UP_CONTEXT&quot;;
-                    case GC_WHEN_IDLE: return &quot;GC_WHEN_IDLE&quot;;
-                    case BIND_SERVICE: return &quot;BIND_SERVICE&quot;;
-                    case UNBIND_SERVICE: return &quot;UNBIND_SERVICE&quot;;
-                    case DUMP_SERVICE: return &quot;DUMP_SERVICE&quot;;
-                    case LOW_MEMORY: return &quot;LOW_MEMORY&quot;;
-                    case ACTIVITY_CONFIGURATION_CHANGED: return &quot;ACTIVITY_CONFIGURATION_CHANGED&quot;;
-                    case RELAUNCH_ACTIVITY: return &quot;RELAUNCH_ACTIVITY&quot;;
-                    case PROFILER_CONTROL: return &quot;PROFILER_CONTROL&quot;;
-                    case CREATE_BACKUP_AGENT: return &quot;CREATE_BACKUP_AGENT&quot;;
-                    case DESTROY_BACKUP_AGENT: return &quot;DESTROY_BACKUP_AGENT&quot;;
-                    case SUICIDE: return &quot;SUICIDE&quot;;
-                    case REMOVE_PROVIDER: return &quot;REMOVE_PROVIDER&quot;;
-                    case ENABLE_JIT: return &quot;ENABLE_JIT&quot;;
-                    case DISPATCH_PACKAGE_BROADCAST: return &quot;DISPATCH_PACKAGE_BROADCAST&quot;;
-                    case SCHEDULE_CRASH: return &quot;SCHEDULE_CRASH&quot;;
-                    case DUMP_HEAP: return &quot;DUMP_HEAP&quot;;
-                    case DUMP_ACTIVITY: return &quot;DUMP_ACTIVITY&quot;;
-                    case SLEEPING: return &quot;SLEEPING&quot;;
-                    case SET_CORE_SETTINGS: return &quot;SET_CORE_SETTINGS&quot;;
-                    case UPDATE_PACKAGE_COMPATIBILITY_INFO: return &quot;UPDATE_PACKAGE_COMPATIBILITY_INFO&quot;;
-                    case TRIM_MEMORY: return &quot;TRIM_MEMORY&quot;;
-                    case DUMP_PROVIDER: return &quot;DUMP_PROVIDER&quot;;
-                    case UNSTABLE_PROVIDER_DIED: return &quot;UNSTABLE_PROVIDER_DIED&quot;;
-                    case REQUEST_ASSIST_CONTEXT_EXTRAS: return &quot;REQUEST_ASSIST_CONTEXT_EXTRAS&quot;;
-                    case TRANSLUCENT_CONVERSION_COMPLETE: return &quot;TRANSLUCENT_CONVERSION_COMPLETE&quot;;
-                    case INSTALL_PROVIDER: return &quot;INSTALL_PROVIDER&quot;;
+<pre><code class="lang-java">  <span class="hljs-keyword">private</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">H</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Handler</span> </span>{
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> LAUNCH_ACTIVITY         = <span class="hljs-number">100</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> PAUSE_ACTIVITY          = <span class="hljs-number">101</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> PAUSE_ACTIVITY_FINISHING= <span class="hljs-number">102</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> STOP_ACTIVITY_SHOW      = <span class="hljs-number">103</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> STOP_ACTIVITY_HIDE      = <span class="hljs-number">104</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> SHOW_WINDOW             = <span class="hljs-number">105</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> HIDE_WINDOW             = <span class="hljs-number">106</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> RESUME_ACTIVITY         = <span class="hljs-number">107</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> SEND_RESULT             = <span class="hljs-number">108</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> DESTROY_ACTIVITY        = <span class="hljs-number">109</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> BIND_APPLICATION        = <span class="hljs-number">110</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> EXIT_APPLICATION        = <span class="hljs-number">111</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> NEW_INTENT              = <span class="hljs-number">112</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> RECEIVER                = <span class="hljs-number">113</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> CREATE_SERVICE          = <span class="hljs-number">114</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> SERVICE_ARGS            = <span class="hljs-number">115</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> STOP_SERVICE            = <span class="hljs-number">116</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> REQUEST_THUMBNAIL       = <span class="hljs-number">117</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> CONFIGURATION_CHANGED   = <span class="hljs-number">118</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> CLEAN_UP_CONTEXT        = <span class="hljs-number">119</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> GC_WHEN_IDLE            = <span class="hljs-number">120</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> BIND_SERVICE            = <span class="hljs-number">121</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> UNBIND_SERVICE          = <span class="hljs-number">122</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> DUMP_SERVICE            = <span class="hljs-number">123</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> LOW_MEMORY              = <span class="hljs-number">124</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> ACTIVITY_CONFIGURATION_CHANGED = <span class="hljs-number">125</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> RELAUNCH_ACTIVITY       = <span class="hljs-number">126</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> PROFILER_CONTROL        = <span class="hljs-number">127</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> CREATE_BACKUP_AGENT     = <span class="hljs-number">128</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> DESTROY_BACKUP_AGENT    = <span class="hljs-number">129</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> SUICIDE                 = <span class="hljs-number">130</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> REMOVE_PROVIDER         = <span class="hljs-number">131</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> ENABLE_JIT              = <span class="hljs-number">132</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> DISPATCH_PACKAGE_BROADCAST = <span class="hljs-number">133</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> SCHEDULE_CRASH          = <span class="hljs-number">134</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> DUMP_HEAP               = <span class="hljs-number">135</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> DUMP_ACTIVITY           = <span class="hljs-number">136</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> SLEEPING                = <span class="hljs-number">137</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> SET_CORE_SETTINGS       = <span class="hljs-number">138</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> UPDATE_PACKAGE_COMPATIBILITY_INFO = <span class="hljs-number">139</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> TRIM_MEMORY             = <span class="hljs-number">140</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> DUMP_PROVIDER           = <span class="hljs-number">141</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> UNSTABLE_PROVIDER_DIED  = <span class="hljs-number">142</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> REQUEST_ASSIST_CONTEXT_EXTRAS = <span class="hljs-number">143</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> TRANSLUCENT_CONVERSION_COMPLETE = <span class="hljs-number">144</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> INSTALL_PROVIDER        = <span class="hljs-number">145</span>;
+        <span class="hljs-function">String <span class="hljs-title">codeToString</span><span class="hljs-params">(<span class="hljs-keyword">int</span> code)</span> </span>{
+            <span class="hljs-keyword">if</span> (DEBUG_MESSAGES) {
+                <span class="hljs-keyword">switch</span> (code) {
+                    <span class="hljs-keyword">case</span> LAUNCH_ACTIVITY: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;LAUNCH_ACTIVITY&quot;</span>;
+                    <span class="hljs-keyword">case</span> PAUSE_ACTIVITY: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;PAUSE_ACTIVITY&quot;</span>;
+                    <span class="hljs-keyword">case</span> PAUSE_ACTIVITY_FINISHING: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;PAUSE_ACTIVITY_FINISHING&quot;</span>;
+                    <span class="hljs-keyword">case</span> STOP_ACTIVITY_SHOW: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;STOP_ACTIVITY_SHOW&quot;</span>;
+                    <span class="hljs-keyword">case</span> STOP_ACTIVITY_HIDE: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;STOP_ACTIVITY_HIDE&quot;</span>;
+                    <span class="hljs-keyword">case</span> SHOW_WINDOW: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;SHOW_WINDOW&quot;</span>;
+                    <span class="hljs-keyword">case</span> HIDE_WINDOW: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;HIDE_WINDOW&quot;</span>;
+                    <span class="hljs-keyword">case</span> RESUME_ACTIVITY: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;RESUME_ACTIVITY&quot;</span>;
+                    <span class="hljs-keyword">case</span> SEND_RESULT: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;SEND_RESULT&quot;</span>;
+                    <span class="hljs-keyword">case</span> DESTROY_ACTIVITY: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;DESTROY_ACTIVITY&quot;</span>;
+                    <span class="hljs-keyword">case</span> BIND_APPLICATION: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;BIND_APPLICATION&quot;</span>;
+                    <span class="hljs-keyword">case</span> EXIT_APPLICATION: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;EXIT_APPLICATION&quot;</span>;
+                    <span class="hljs-keyword">case</span> NEW_INTENT: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;NEW_INTENT&quot;</span>;
+                    <span class="hljs-keyword">case</span> RECEIVER: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;RECEIVER&quot;</span>;
+                    <span class="hljs-keyword">case</span> CREATE_SERVICE: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;CREATE_SERVICE&quot;</span>;
+                    <span class="hljs-keyword">case</span> SERVICE_ARGS: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;SERVICE_ARGS&quot;</span>;
+                    <span class="hljs-keyword">case</span> STOP_SERVICE: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;STOP_SERVICE&quot;</span>;
+                    <span class="hljs-keyword">case</span> REQUEST_THUMBNAIL: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;REQUEST_THUMBNAIL&quot;</span>;
+                    <span class="hljs-keyword">case</span> CONFIGURATION_CHANGED: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;CONFIGURATION_CHANGED&quot;</span>;
+                    <span class="hljs-keyword">case</span> CLEAN_UP_CONTEXT: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;CLEAN_UP_CONTEXT&quot;</span>;
+                    <span class="hljs-keyword">case</span> GC_WHEN_IDLE: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;GC_WHEN_IDLE&quot;</span>;
+                    <span class="hljs-keyword">case</span> BIND_SERVICE: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;BIND_SERVICE&quot;</span>;
+                    <span class="hljs-keyword">case</span> UNBIND_SERVICE: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;UNBIND_SERVICE&quot;</span>;
+                    <span class="hljs-keyword">case</span> DUMP_SERVICE: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;DUMP_SERVICE&quot;</span>;
+                    <span class="hljs-keyword">case</span> LOW_MEMORY: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;LOW_MEMORY&quot;</span>;
+                    <span class="hljs-keyword">case</span> ACTIVITY_CONFIGURATION_CHANGED: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;ACTIVITY_CONFIGURATION_CHANGED&quot;</span>;
+                    <span class="hljs-keyword">case</span> RELAUNCH_ACTIVITY: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;RELAUNCH_ACTIVITY&quot;</span>;
+                    <span class="hljs-keyword">case</span> PROFILER_CONTROL: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;PROFILER_CONTROL&quot;</span>;
+                    <span class="hljs-keyword">case</span> CREATE_BACKUP_AGENT: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;CREATE_BACKUP_AGENT&quot;</span>;
+                    <span class="hljs-keyword">case</span> DESTROY_BACKUP_AGENT: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;DESTROY_BACKUP_AGENT&quot;</span>;
+                    <span class="hljs-keyword">case</span> SUICIDE: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;SUICIDE&quot;</span>;
+                    <span class="hljs-keyword">case</span> REMOVE_PROVIDER: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;REMOVE_PROVIDER&quot;</span>;
+                    <span class="hljs-keyword">case</span> ENABLE_JIT: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;ENABLE_JIT&quot;</span>;
+                    <span class="hljs-keyword">case</span> DISPATCH_PACKAGE_BROADCAST: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;DISPATCH_PACKAGE_BROADCAST&quot;</span>;
+                    <span class="hljs-keyword">case</span> SCHEDULE_CRASH: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;SCHEDULE_CRASH&quot;</span>;
+                    <span class="hljs-keyword">case</span> DUMP_HEAP: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;DUMP_HEAP&quot;</span>;
+                    <span class="hljs-keyword">case</span> DUMP_ACTIVITY: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;DUMP_ACTIVITY&quot;</span>;
+                    <span class="hljs-keyword">case</span> SLEEPING: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;SLEEPING&quot;</span>;
+                    <span class="hljs-keyword">case</span> SET_CORE_SETTINGS: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;SET_CORE_SETTINGS&quot;</span>;
+                    <span class="hljs-keyword">case</span> UPDATE_PACKAGE_COMPATIBILITY_INFO: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;UPDATE_PACKAGE_COMPATIBILITY_INFO&quot;</span>;
+                    <span class="hljs-keyword">case</span> TRIM_MEMORY: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;TRIM_MEMORY&quot;</span>;
+                    <span class="hljs-keyword">case</span> DUMP_PROVIDER: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;DUMP_PROVIDER&quot;</span>;
+                    <span class="hljs-keyword">case</span> UNSTABLE_PROVIDER_DIED: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;UNSTABLE_PROVIDER_DIED&quot;</span>;
+                    <span class="hljs-keyword">case</span> REQUEST_ASSIST_CONTEXT_EXTRAS: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;REQUEST_ASSIST_CONTEXT_EXTRAS&quot;</span>;
+                    <span class="hljs-keyword">case</span> TRANSLUCENT_CONVERSION_COMPLETE: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;TRANSLUCENT_CONVERSION_COMPLETE&quot;</span>;
+                    <span class="hljs-keyword">case</span> INSTALL_PROVIDER: <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;INSTALL_PROVIDER&quot;</span>;
                 }
             }
-            return Integer.toString(code);
+            <span class="hljs-keyword">return</span> Integer.toString(code);
         }
-        public void handleMessage(Message msg) {
-            if (DEBUG_MESSAGES) Slog.v(TAG, &quot;&gt;&gt;&gt; handling: &quot; + codeToString(msg.what));
-            switch (msg.what) {
-                case LAUNCH_ACTIVITY: {
-                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;activityStart&quot;);
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handleMessage</span><span class="hljs-params">(Message msg)</span> </span>{
+            <span class="hljs-keyword">if</span> (DEBUG_MESSAGES) Slog.v(TAG, <span class="hljs-string">&quot;&gt;&gt;&gt; handling: &quot;</span> + codeToString(msg.what));
+            <span class="hljs-keyword">switch</span> (msg.what) {
+                <span class="hljs-keyword">case</span> LAUNCH_ACTIVITY: {
+                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, <span class="hljs-string">&quot;activityStart&quot;</span>);
                     ActivityClientRecord r = (ActivityClientRecord)msg.obj;
 
                     r.packageInfo = getPackageInfoNoCheck(
                             r.activityInfo.applicationInfo, r.compatInfo);
-                    handleLaunchActivity(r, null);
+                    handleLaunchActivity(r, <span class="hljs-keyword">null</span>);
                     Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
-                } break;
-                case RELAUNCH_ACTIVITY: {
-                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;activityRestart&quot;);
+                } <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> RELAUNCH_ACTIVITY: {
+                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, <span class="hljs-string">&quot;activityRestart&quot;</span>);
                     ActivityClientRecord r = (ActivityClientRecord)msg.obj;
                     handleRelaunchActivity(r);
                     Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
-                } break;
-                case PAUSE_ACTIVITY:
-                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;activityPause&quot;);
-                    handlePauseActivity((IBinder)msg.obj, false, msg.arg1 != 0, msg.arg2);
+                } <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> PAUSE_ACTIVITY:
+                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, <span class="hljs-string">&quot;activityPause&quot;</span>);
+                    handlePauseActivity((IBinder)msg.obj, <span class="hljs-keyword">false</span>, msg.arg1 != <span class="hljs-number">0</span>, msg.arg2);
                     maybeSnapshot();
                     Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
-                    break;
-                case PAUSE_ACTIVITY_FINISHING:
-                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;activityPause&quot;);
-                    handlePauseActivity((IBinder)msg.obj, true, msg.arg1 != 0, msg.arg2);
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> PAUSE_ACTIVITY_FINISHING:
+                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, <span class="hljs-string">&quot;activityPause&quot;</span>);
+                    handlePauseActivity((IBinder)msg.obj, <span class="hljs-keyword">true</span>, msg.arg1 != <span class="hljs-number">0</span>, msg.arg2);
                     Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
-                    break;
-                case STOP_ACTIVITY_SHOW:
-                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;activityStop&quot;);
-                    handleStopActivity((IBinder)msg.obj, true, msg.arg2);
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> STOP_ACTIVITY_SHOW:
+                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, <span class="hljs-string">&quot;activityStop&quot;</span>);
+                    handleStopActivity((IBinder)msg.obj, <span class="hljs-keyword">true</span>, msg.arg2);
                     Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
-                    break;
-                case STOP_ACTIVITY_HIDE:
-                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;activityStop&quot;);
-                    handleStopActivity((IBinder)msg.obj, false, msg.arg2);
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> STOP_ACTIVITY_HIDE:
+                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, <span class="hljs-string">&quot;activityStop&quot;</span>);
+                    handleStopActivity((IBinder)msg.obj, <span class="hljs-keyword">false</span>, msg.arg2);
                     Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
-                    break;
-                case SHOW_WINDOW:
-                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;activityShowWindow&quot;);
-                    handleWindowVisibility((IBinder)msg.obj, true);
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> SHOW_WINDOW:
+                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, <span class="hljs-string">&quot;activityShowWindow&quot;</span>);
+                    handleWindowVisibility((IBinder)msg.obj, <span class="hljs-keyword">true</span>);
                     Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
-                    break;
-                case HIDE_WINDOW:
-                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;activityHideWindow&quot;);
-                    handleWindowVisibility((IBinder)msg.obj, false);
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> HIDE_WINDOW:
+                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, <span class="hljs-string">&quot;activityHideWindow&quot;</span>);
+                    handleWindowVisibility((IBinder)msg.obj, <span class="hljs-keyword">false</span>);
                     Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
-                    break;
-                case RESUME_ACTIVITY:
-                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;activityResume&quot;);
-                    handleResumeActivity((IBinder)msg.obj, true,
-                            msg.arg1 != 0, true);
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> RESUME_ACTIVITY:
+                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, <span class="hljs-string">&quot;activityResume&quot;</span>);
+                    handleResumeActivity((IBinder)msg.obj, <span class="hljs-keyword">true</span>,
+                            msg.arg1 != <span class="hljs-number">0</span>, <span class="hljs-keyword">true</span>);
                     Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
-                    break;
-                case SEND_RESULT:
-                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;activityDeliverResult&quot;);
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> SEND_RESULT:
+                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, <span class="hljs-string">&quot;activityDeliverResult&quot;</span>);
                     handleSendResult((ResultData)msg.obj);
                     Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
-                    break;
-                case DESTROY_ACTIVITY:
-                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;activityDestroy&quot;);
-                    handleDestroyActivity((IBinder)msg.obj, msg.arg1 != 0,
-                            msg.arg2, false);
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> DESTROY_ACTIVITY:
+                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, <span class="hljs-string">&quot;activityDestroy&quot;</span>);
+                    handleDestroyActivity((IBinder)msg.obj, msg.arg1 != <span class="hljs-number">0</span>,
+                            msg.arg2, <span class="hljs-keyword">false</span>);
                     Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
-                    break;
-                case BIND_APPLICATION:
-                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;bindApplication&quot;);
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> BIND_APPLICATION:
+                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, <span class="hljs-string">&quot;bindApplication&quot;</span>);
                     AppBindData data = (AppBindData)msg.obj;
                     handleBindApplication(data);
                     Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
-                    break;
-                case EXIT_APPLICATION:
-                    if (mInitialApplication != null) {
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> EXIT_APPLICATION:
+                    <span class="hljs-keyword">if</span> (mInitialApplication != <span class="hljs-keyword">null</span>) {
                         mInitialApplication.onTerminate();
                     }
                     Looper.myLooper().quit();
-                    break;
-                case NEW_INTENT:
-                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;activityNewIntent&quot;);
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> NEW_INTENT:
+                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, <span class="hljs-string">&quot;activityNewIntent&quot;</span>);
                     handleNewIntent((NewIntentData)msg.obj);
                     Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
-                    break;
-                case RECEIVER:
-                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;broadcastReceiveComp&quot;);
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> RECEIVER:
+                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, <span class="hljs-string">&quot;broadcastReceiveComp&quot;</span>);
                     handleReceiver((ReceiverData)msg.obj);
                     maybeSnapshot();
                     Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
-                    break;
-                case CREATE_SERVICE:
-                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;serviceCreate&quot;);
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> CREATE_SERVICE:
+                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, <span class="hljs-string">&quot;serviceCreate&quot;</span>);
                     handleCreateService((CreateServiceData)msg.obj);
                     Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
-                    break;
-                case BIND_SERVICE:
-                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;serviceBind&quot;);
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> BIND_SERVICE:
+                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, <span class="hljs-string">&quot;serviceBind&quot;</span>);
                     handleBindService((BindServiceData)msg.obj);
                     Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
-                    break;
-                case UNBIND_SERVICE:
-                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;serviceUnbind&quot;);
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> UNBIND_SERVICE:
+                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, <span class="hljs-string">&quot;serviceUnbind&quot;</span>);
                     handleUnbindService((BindServiceData)msg.obj);
                     Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
-                    break;
-                case SERVICE_ARGS:
-                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;serviceStart&quot;);
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> SERVICE_ARGS:
+                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, <span class="hljs-string">&quot;serviceStart&quot;</span>);
                     handleServiceArgs((ServiceArgsData)msg.obj);
                     Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
-                    break;
-                case STOP_SERVICE:
-                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;serviceStop&quot;);
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> STOP_SERVICE:
+                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, <span class="hljs-string">&quot;serviceStop&quot;</span>);
                     handleStopService((IBinder)msg.obj);
                     maybeSnapshot();
                     Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
-                    break;
-                case REQUEST_THUMBNAIL:
-                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;requestThumbnail&quot;);
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> REQUEST_THUMBNAIL:
+                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, <span class="hljs-string">&quot;requestThumbnail&quot;</span>);
                     handleRequestThumbnail((IBinder)msg.obj);
                     Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
-                    break;
-                case CONFIGURATION_CHANGED:
-                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;configChanged&quot;);
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> CONFIGURATION_CHANGED:
+                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, <span class="hljs-string">&quot;configChanged&quot;</span>);
                     mCurDefaultDisplayDpi = ((Configuration)msg.obj).densityDpi;
-                    handleConfigurationChanged((Configuration)msg.obj, null);
+                    handleConfigurationChanged((Configuration)msg.obj, <span class="hljs-keyword">null</span>);
                     Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
-                    break;
-                case CLEAN_UP_CONTEXT:
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> CLEAN_UP_CONTEXT:
                     ContextCleanupInfo cci = (ContextCleanupInfo)msg.obj;
                     cci.context.performFinalCleanup(cci.who, cci.what);
-                    break;
-                case GC_WHEN_IDLE:
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> GC_WHEN_IDLE:
                     scheduleGcIdler();
-                    break;
-                case DUMP_SERVICE:
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> DUMP_SERVICE:
                     handleDumpService((DumpComponentInfo)msg.obj);
-                    break;
-                case LOW_MEMORY:
-                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;lowMemory&quot;);
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> LOW_MEMORY:
+                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, <span class="hljs-string">&quot;lowMemory&quot;</span>);
                     handleLowMemory();
                     Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
-                    break;
-                case ACTIVITY_CONFIGURATION_CHANGED:
-                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;activityConfigChanged&quot;);
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> ACTIVITY_CONFIGURATION_CHANGED:
+                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, <span class="hljs-string">&quot;activityConfigChanged&quot;</span>);
                     handleActivityConfigurationChanged((IBinder)msg.obj);
                     Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
-                    break;
-                case PROFILER_CONTROL:
-                    handleProfilerControl(msg.arg1 != 0, (ProfilerControlData)msg.obj, msg.arg2);
-                    break;
-                case CREATE_BACKUP_AGENT:
-                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;backupCreateAgent&quot;);
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> PROFILER_CONTROL:
+                    handleProfilerControl(msg.arg1 != <span class="hljs-number">0</span>, (ProfilerControlData)msg.obj, msg.arg2);
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> CREATE_BACKUP_AGENT:
+                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, <span class="hljs-string">&quot;backupCreateAgent&quot;</span>);
                     handleCreateBackupAgent((CreateBackupAgentData)msg.obj);
                     Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
-                    break;
-                case DESTROY_BACKUP_AGENT:
-                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;backupDestroyAgent&quot;);
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> DESTROY_BACKUP_AGENT:
+                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, <span class="hljs-string">&quot;backupDestroyAgent&quot;</span>);
                     handleDestroyBackupAgent((CreateBackupAgentData)msg.obj);
                     Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
-                    break;
-                case SUICIDE:
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> SUICIDE:
                     Process.killProcess(Process.myPid());
-                    break;
-                case REMOVE_PROVIDER:
-                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;providerRemove&quot;);
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> REMOVE_PROVIDER:
+                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, <span class="hljs-string">&quot;providerRemove&quot;</span>);
                     completeRemoveProvider((ProviderRefCount)msg.obj);
                     Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
-                    break;
-                case ENABLE_JIT:
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> ENABLE_JIT:
                     ensureJitEnabled();
-                    break;
-                case DISPATCH_PACKAGE_BROADCAST:
-                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;broadcastPackage&quot;);
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> DISPATCH_PACKAGE_BROADCAST:
+                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, <span class="hljs-string">&quot;broadcastPackage&quot;</span>);
                     handleDispatchPackageBroadcast(msg.arg1, (String[])msg.obj);
                     Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
-                    break;
-                case SCHEDULE_CRASH:
-                    throw new RemoteServiceException((String)msg.obj);
-                case DUMP_HEAP:
-                    handleDumpHeap(msg.arg1 != 0, (DumpHeapData)msg.obj);
-                    break;
-                case DUMP_ACTIVITY:
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> SCHEDULE_CRASH:
+                    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RemoteServiceException((String)msg.obj);
+                <span class="hljs-keyword">case</span> DUMP_HEAP:
+                    handleDumpHeap(msg.arg1 != <span class="hljs-number">0</span>, (DumpHeapData)msg.obj);
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> DUMP_ACTIVITY:
                     handleDumpActivity((DumpComponentInfo)msg.obj);
-                    break;
-                case DUMP_PROVIDER:
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> DUMP_PROVIDER:
                     handleDumpProvider((DumpComponentInfo)msg.obj);
-                    break;
-                case SLEEPING:
-                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;sleeping&quot;);
-                    handleSleeping((IBinder)msg.obj, msg.arg1 != 0);
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> SLEEPING:
+                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, <span class="hljs-string">&quot;sleeping&quot;</span>);
+                    handleSleeping((IBinder)msg.obj, msg.arg1 != <span class="hljs-number">0</span>);
                     Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
-                    break;
-                case SET_CORE_SETTINGS:
-                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;setCoreSettings&quot;);
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> SET_CORE_SETTINGS:
+                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, <span class="hljs-string">&quot;setCoreSettings&quot;</span>);
                     handleSetCoreSettings((Bundle) msg.obj);
                     Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
-                    break;
-                case UPDATE_PACKAGE_COMPATIBILITY_INFO:
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> UPDATE_PACKAGE_COMPATIBILITY_INFO:
                     handleUpdatePackageCompatibilityInfo((UpdateCompatibilityData)msg.obj);
-                    break;
-                case TRIM_MEMORY:
-                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;trimMemory&quot;);
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> TRIM_MEMORY:
+                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, <span class="hljs-string">&quot;trimMemory&quot;</span>);
                     handleTrimMemory(msg.arg1);
                     Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
-                    break;
-                case UNSTABLE_PROVIDER_DIED:
-                    handleUnstableProviderDied((IBinder)msg.obj, false);
-                    break;
-                case REQUEST_ASSIST_CONTEXT_EXTRAS:
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> UNSTABLE_PROVIDER_DIED:
+                    handleUnstableProviderDied((IBinder)msg.obj, <span class="hljs-keyword">false</span>);
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> REQUEST_ASSIST_CONTEXT_EXTRAS:
                     handleRequestAssistContextExtras((RequestAssistContextExtras)msg.obj);
-                    break;
-                case TRANSLUCENT_CONVERSION_COMPLETE:
-                    handleTranslucentConversionComplete((IBinder)msg.obj, msg.arg1 == 1);
-                    break;
-                case INSTALL_PROVIDER:
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> TRANSLUCENT_CONVERSION_COMPLETE:
+                    handleTranslucentConversionComplete((IBinder)msg.obj, msg.arg1 == <span class="hljs-number">1</span>);
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> INSTALL_PROVIDER:
                     handleInstallProvider((ProviderInfo) msg.obj);
-                    break;
+                    <span class="hljs-keyword">break</span>;
             }
-            if (DEBUG_MESSAGES) Slog.v(TAG, &quot;&lt;&lt;&lt; done: &quot; + codeToString(msg.what));
+            <span class="hljs-keyword">if</span> (DEBUG_MESSAGES) Slog.v(TAG, <span class="hljs-string">&quot;&lt;&lt;&lt; done: &quot;</span> + codeToString(msg.what));
         }
 
-        private void maybeSnapshot() {
-            if (mBoundApplication != null &amp;&amp; SamplingProfilerIntegration.isEnabled()) {
-                // convert the *private* ActivityThread.PackageInfo to *public* known
-                // android.content.pm.PackageInfo
+        <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">maybeSnapshot</span><span class="hljs-params">()</span> </span>{
+            <span class="hljs-keyword">if</span> (mBoundApplication != <span class="hljs-keyword">null</span> &amp;&amp; SamplingProfilerIntegration.isEnabled()) {
+                <span class="hljs-comment">// convert the *private* ActivityThread.PackageInfo to *public* known</span>
+                <span class="hljs-comment">// android.content.pm.PackageInfo</span>
                 String packageName = mBoundApplication.info.mPackageName;
-                android.content.pm.PackageInfo packageInfo = null;
-                try {
+                android.content.pm.PackageInfo packageInfo = <span class="hljs-keyword">null</span>;
+                <span class="hljs-keyword">try</span> {
                     Context context = getSystemContext();
-                    if(context == null) {
-                        Log.e(TAG, &quot;cannot get a valid context&quot;);
-                        return;
+                    <span class="hljs-keyword">if</span>(context == <span class="hljs-keyword">null</span>) {
+                        Log.e(TAG, <span class="hljs-string">&quot;cannot get a valid context&quot;</span>);
+                        <span class="hljs-keyword">return</span>;
                     }
                     PackageManager pm = context.getPackageManager();
-                    if(pm == null) {
-                        Log.e(TAG, &quot;cannot get a valid PackageManager&quot;);
-                        return;
+                    <span class="hljs-keyword">if</span>(pm == <span class="hljs-keyword">null</span>) {
+                        Log.e(TAG, <span class="hljs-string">&quot;cannot get a valid PackageManager&quot;</span>);
+                        <span class="hljs-keyword">return</span>;
                     }
                     packageInfo = pm.getPackageInfo(
                             packageName, PackageManager.GET_ACTIVITIES);
-                } catch (NameNotFoundException e) {
-                    Log.e(TAG, &quot;cannot get package info for &quot; + packageName, e);
+                } <span class="hljs-keyword">catch</span> (NameNotFoundException e) {
+                    Log.e(TAG, <span class="hljs-string">&quot;cannot get package info for &quot;</span> + packageName, e);
                 }
                 SamplingProfilerIntegration.writeSnapshot(mBoundApplication.processName, packageInfo);
             }
         }
     }
-</code></pre><p>&#x9019;&#x90E8;&#x5206;&#x4EE3;&#x78BC;&#x662F;ActivityThread&#x7684;&#x4E00;&#x500B;&#x5167;&#x90E8;&#x985E;H&#xFF0C;&#x88E1;&#x9762;&#x5B9A;&#x7FA9;&#x4E86;activity&#x3001;service&#x7B49;&#x555F;&#x52D5;&#x3001;&#x92B7;&#x6BC0;&#x7B49;&#x4E8B;&#x4EF6;&#x7684;&#x97FF;&#x61C9;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;activity&#x3001;service&#x7684;&#x555F;&#x52D5;&#x3001;&#x92B7;&#x6BC0;&#x90FD;&#x662F;&#x5728;ActivityThread&#x4E2D;&#x9032;&#x884C;&#x7684;&#x3002;</p>
+</code></pre>
+<p>&#x9019;&#x90E8;&#x5206;&#x4EE3;&#x78BC;&#x662F;ActivityThread&#x7684;&#x4E00;&#x500B;&#x5167;&#x90E8;&#x985E;H&#xFF0C;&#x88E1;&#x9762;&#x5B9A;&#x7FA9;&#x4E86;activity&#x3001;service&#x7B49;&#x555F;&#x52D5;&#x3001;&#x92B7;&#x6BC0;&#x7B49;&#x4E8B;&#x4EF6;&#x7684;&#x97FF;&#x61C9;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;activity&#x3001;service&#x7684;&#x555F;&#x52D5;&#x3001;&#x92B7;&#x6BC0;&#x90FD;&#x662F;&#x5728;ActivityThread&#x4E2D;&#x9032;&#x884C;&#x7684;&#x3002;</p>
 
                     
                     </section>

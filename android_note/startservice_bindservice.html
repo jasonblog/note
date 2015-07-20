@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="5.1" data-basepath=".." data-revision="Tue Jul 21 2015 01:46:47 GMT+0800 (CST)">
+    <div class="book" data-level="5.1" data-basepath=".." data-revision="Tue Jul 21 2015 01:55:44 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1589,41 +1589,43 @@
 <p>&#x672C;&#x4EBA;&#x7684;&#x7406;&#x89E3;bindService&#x771F;&#x6B63;&#x7684;&#x7528;&#x5834;&#xFF1A;</p>
 <p>   a. &#x7BA1;&#x7406;Service&#x7684;&#x4EC0;&#x9EBC;&#x9031;&#x671F;&#xFF0C;&#x5C31;&#x662F;&#x8B1B;Servcie&#x548C;&#x8ABF;&#x7528;&#x65B9;&#x7D81;&#x5B9A;&#xFF0C;&#x505A;&#x5230;&#x5171;&#x60A3;&#x96E3;&#xFF0C;&#x540C;&#x751F;&#x6B7B;&#x3002;(&#x5176;&#x5BE6;&#x4F60;&#x7528;startServcie&#xFF0C;&#x5728;&#x4F60;&#x9700;&#x8981;&#x7684;&#x5730;&#x65B9;stopServcie&#xFF0C;&#x662F;&#x4E00;&#x6A23;&#x7684;&#x6548;&#x679C;)</p>
 <p>   b. &#x9032;&#x7A0B;&#x9593;&#x901A;&#x4FE1;&#xFF0C;&#x9019;&#x500B;&#x6050;&#x6015;&#x975E;bindService&#x4E0D;&#x53EF;&#x4E86;</p>
-<pre><code>private ServiceConnection serviceConn = new ServiceConnection()
+<pre><code class="lang-java"><span class="hljs-keyword">private</span> ServiceConnection serviceConn = <span class="hljs-keyword">new</span> ServiceConnection()
 {
-    @Override
-    public void onServiceConnected(ComponentName className, IBinder service) {
-        Logger.d(&quot;onServiceConnected called&quot;);
-        // We&apos;ve bound to LocalService, cast the IBinder and get LocalService
-        // instance
+    <span class="hljs-annotation">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onServiceConnected</span><span class="hljs-params">(ComponentName className, IBinder service)</span> </span>{
+        Logger.d(<span class="hljs-string">&quot;onServiceConnected called&quot;</span>);
+        <span class="hljs-comment">// We&apos;ve bound to LocalService, cast the IBinder and get LocalService</span>
+        <span class="hljs-comment">// instance</span>
         ServiceBinder binder = (ServiceBinder) service;
         scheduler = binder.getService();
     }
 }
-</code></pre><pre><code>public class WalkseeService  extends Service
-{
+</code></pre>
+<pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WalkseeService</span>  <span class="hljs-keyword">extends</span> <span class="hljs-title">Service</span>
+</span>{
 
-    private final IBinder binder = new ServiceBinder();
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> IBinder binder = <span class="hljs-keyword">new</span> ServiceBinder();
 
-    /**
+    <span class="hljs-javadoc">/**
      * The Binder class that returns an instance of running service
-     */
-    public class ServiceBinder extends Binder
-    {
-        public WalkseeService getService()
-        {
-            return WalkseeService.this;   //&#x9019;&#x88CF;&#x8FD4;&#x56DE;Service&#x5C0D;&#x8C61;
+     */</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ServiceBinder</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Binder</span>
+    </span>{
+        <span class="hljs-function"><span class="hljs-keyword">public</span> WalkseeService <span class="hljs-title">getService</span><span class="hljs-params">()</span>
+        </span>{
+            <span class="hljs-keyword">return</span> WalkseeService.<span class="hljs-keyword">this</span>;   <span class="hljs-comment">//&#x9019;&#x88CF;&#x8FD4;&#x56DE;Service&#x5C0D;&#x8C61;</span>
         }
     }
 
-    @Override
-    public IBinder onBind(Intent arg0)
-    {
+    <span class="hljs-annotation">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> IBinder <span class="hljs-title">onBind</span><span class="hljs-params">(Intent arg0)</span>
+    </span>{
 
-        return this.binder;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.binder;
     }
 }
 </code></pre>
+
                     
                     </section>
                 

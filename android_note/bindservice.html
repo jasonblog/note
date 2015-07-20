@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="5.10" data-basepath=".." data-revision="Tue Jul 21 2015 01:46:47 GMT+0800 (CST)">
+    <div class="book" data-level="5.10" data-basepath=".." data-revision="Tue Jul 21 2015 01:55:44 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1579,100 +1579,105 @@
                         <h1 id="service%E7%B5%84%E4%BB%B6-bindservice%E6%BA%90%E7%A2%BC%E5%88%86%E6%9E%90">service&#x7D44;&#x4EF6;-bindService&#x6E90;&#x78BC;&#x5206;&#x6790;</h1>
 <p>&#x56E0;&#x7232;&#x6709;&#x524D;&#x9762;&#x5206;&#x6790;startService&#x7684;&#x4EE3;&#x78BC;&#x5BE6;&#x73FE;&#x904E;&#x7A0B;&#xFF0C;&#x5247;&#x5C0D;&#x65BC;bindService&#x7684;&#x4EE3;&#x78BC;&#x5206;&#x6790;&#x5C31;&#x4E0D;&#x7528;&#x90A3;&#x9EBC;&#x8A73;&#x7D30;&#x4ECB;&#x7D39;&#xFF0C;&#x5728;&#x4ECB;&#x7D39;&#x6D41;&#x7A0B;&#x7684;&#x540C;&#x6642;&#x66F4;&#x95DC;&#x6CE8;&#x4E00;&#x4E9B;&#x7D30;&#x7BC0;&#x4E0A;&#x7684;&#x90E8;&#x5206;&#x3002;</p>
 <p>&#x9996;&#x5148;&#xFF0C;bindService&#x4E5F;&#x662F;&#x901A;&#x904E; ContextWrapper.bindService&#xFF0C;&#x518D;&#x5230;ContextImpl&#x7684;bindService&#xFF0C;&#x7136;&#x5F8C;&#x662F;bindServiceCommon&#xFF0C;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C;&#x50B3;&#x5165;&#x7684;ServiceConnection&#x88AB;&#x8F49;&#x63DB;&#x6210;IServiceConnection&#x985E;&#x578B;&#xFF0C;</p>
-<pre><code>private boolean bindServiceCommon(Intent service, ServiceConnection conn,
-                                  int flags,
-                                  UserHandle user)
-{
+<pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">bindServiceCommon</span><span class="hljs-params">(Intent service, ServiceConnection conn,
+                                  <span class="hljs-keyword">int</span> flags,
+                                  UserHandle user)</span>
+</span>{
     IServiceConnection sd;
     sd = mPackageInfo.getServiceDispatcher(conn, getOuterContext(),
                                            mMainThread.getHandler(), flags);
 
-    int res = ActivityManagerNative.getDefault().bindService(
+    <span class="hljs-keyword">int</span> res = ActivityManagerNative.getDefault().bindService(
                   mMainThread.getApplicationThread(), getActivityToken(),
                   service, service.resolveTypeIfNeeded(getContentResolver()),
                   sd, flags, user.getIdentifier());
 }
-</code></pre><p>&#x63A5;&#x4E0B;&#x53BB;&#x662F;&#x9032;&#x5165;AMS&#x7684;bindService&#xFF0C;&#x518D;&#x8ABF;&#x7528;ActiveServices.java &#x7684;bindServiceLocked&#xFF0C;&#x5B83;&#x6703;&#x628A;IServiceConnection&#x5BE6;&#x4F8B;&#x5B58;&#x653E;&#x5230;ConnectionRecord&#x88CF;&#x9762;&#xFF0C;&#x4E26;&#x57F7;&#x884C;bringUpServiceLocked&#xFF0C;</p>
-<pre><code>int bindServiceLocked(IApplicationThread caller, IBinder token,
+</code></pre>
+<p>&#x63A5;&#x4E0B;&#x53BB;&#x662F;&#x9032;&#x5165;AMS&#x7684;bindService&#xFF0C;&#x518D;&#x8ABF;&#x7528;ActiveServices.java &#x7684;bindServiceLocked&#xFF0C;&#x5B83;&#x6703;&#x628A;IServiceConnection&#x5BE6;&#x4F8B;&#x5B58;&#x653E;&#x5230;ConnectionRecord&#x88CF;&#x9762;&#xFF0C;&#x4E26;&#x57F7;&#x884C;bringUpServiceLocked&#xFF0C;</p>
+<pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">bindServiceLocked</span><span class="hljs-params">(IApplicationThread caller, IBinder token,
                       Intent service, String resolvedType,
-                      IServiceConnection connection, int flags, int userId)
-{
+                      IServiceConnection connection, <span class="hljs-keyword">int</span> flags, <span class="hljs-keyword">int</span> userId)</span>
+</span>{
 
-    ConnectionRecord c = new ConnectionRecord(b, activity,
+    ConnectionRecord c = <span class="hljs-keyword">new</span> ConnectionRecord(b, activity,
             connection, flags, clientLabel, clientIntent);
 
     IBinder binder = connection.asBinder();
 
-    if ((flags &amp; Context.BIND_AUTO_CREATE) != 0) {
+    <span class="hljs-keyword">if</span> ((flags &amp; Context.BIND_AUTO_CREATE) != <span class="hljs-number">0</span>) {
         s.lastActivity = SystemClock.uptimeMillis();
 
-        if (bringUpServiceLocked(s, service.getFlags(), callerFg, false) != null) {
-            return 0;
+        <span class="hljs-keyword">if</span> (bringUpServiceLocked(s, service.getFlags(), callerFg, <span class="hljs-keyword">false</span>) != <span class="hljs-keyword">null</span>) {
+            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
         }
     }
 
-    if (s.app != null &amp;&amp; b.intent.received) {
-        // Service is already running, so we can immediately
-        // publish the connection.
-        try {
+    <span class="hljs-keyword">if</span> (s.app != <span class="hljs-keyword">null</span> &amp;&amp; b.intent.received) {
+        <span class="hljs-comment">// Service is already running, so we can immediately</span>
+        <span class="hljs-comment">// publish the connection.</span>
+        <span class="hljs-keyword">try</span> {
             c.conn.connected(s.name, b.intent.binder);
-        } catch (Exception e) {
-            Slog.w(TAG, &quot;Failure sending service &quot; + s.shortName
-                   + &quot; to connection &quot; + c.conn.asBinder()
-                   + &quot; (in &quot; + c.binding.client.processName + &quot;)&quot;, e);
+        } <span class="hljs-keyword">catch</span> (Exception e) {
+            Slog.w(TAG, <span class="hljs-string">&quot;Failure sending service &quot;</span> + s.shortName
+                   + <span class="hljs-string">&quot; to connection &quot;</span> + c.conn.asBinder()
+                   + <span class="hljs-string">&quot; (in &quot;</span> + c.binding.client.processName + <span class="hljs-string">&quot;)&quot;</span>, e);
         }
 
-        // If this is the first app connected back to this binding,
-        // and the service had previously asked to be told when
-        // rebound, then do so.
+        <span class="hljs-comment">// If this is the first app connected back to this binding,</span>
+        <span class="hljs-comment">// and the service had previously asked to be told when</span>
+        <span class="hljs-comment">// rebound, then do so.</span>
 
-        if (b.intent.apps.size() == 1 &amp;&amp; b.intent.doRebind) {
-            requestServiceBindingLocked(s, b.intent, callerFg, true);
+        <span class="hljs-keyword">if</span> (b.intent.apps.size() == <span class="hljs-number">1</span> &amp;&amp; b.intent.doRebind) {
+            requestServiceBindingLocked(s, b.intent, callerFg, <span class="hljs-keyword">true</span>);
         }
 
-    } else if (!b.intent.requested) {
-        requestServiceBindingLocked(s, b.intent, callerFg, false);
+    } <span class="hljs-function"><span class="hljs-keyword">else</span> <span class="hljs-title">if</span> <span class="hljs-params">(!b.intent.requested)</span> </span>{
+        requestServiceBindingLocked(s, b.intent, callerFg, <span class="hljs-keyword">false</span>);
     }
 }
-</code></pre><p>&#x6839;&#x64DA;&#x4E4B;&#x524D;&#x7684;&#x5206;&#x6790;ServiceLocked&#x6703;&#x8ABF;&#x7528;realStartServiceLocked&#xFF0C;&#x800C;realStartServiceLocked&#x5247;&#x5148;&#x8ABF;&#x7528;scheduleCreateService&#xFF0C;&#x5B8C;&#x6210;service&#x7684;&#x5275;&#x5EFA;&#x548C;Oncreate&#xFF08;&#xFF09;&#x7684;&#x57F7;&#x884C;&#xFF0C;&#x7136;&#x5F8C;&#x57F7;&#x884C;requestServiceBindingsLocked&#xFF0C;&#x9019;&#x500B;&#x662F;bind&#x670D;&#x52D9;&#x76F8;&#x95DC;&#x8655;&#x7406;&#xFF0C;&#x6700;&#x5F8C;&#x662F;sendServiceArgsLocked&#xFF0C;&#x9019;&#x500B;&#x662F;Start&#x670D;&#x52D9;&#x7684;&#x8655;&#x7406;&#x3002;</p>
-<pre><code>private final void realStartServiceLocked(ServiceRecord r,
-        ProcessRecord app, boolean execInFg) throws RemoteException {
+</code></pre>
+<p>&#x6839;&#x64DA;&#x4E4B;&#x524D;&#x7684;&#x5206;&#x6790;ServiceLocked&#x6703;&#x8ABF;&#x7528;realStartServiceLocked&#xFF0C;&#x800C;realStartServiceLocked&#x5247;&#x5148;&#x8ABF;&#x7528;scheduleCreateService&#xFF0C;&#x5B8C;&#x6210;service&#x7684;&#x5275;&#x5EFA;&#x548C;Oncreate&#xFF08;&#xFF09;&#x7684;&#x57F7;&#x884C;&#xFF0C;&#x7136;&#x5F8C;&#x57F7;&#x884C;requestServiceBindingsLocked&#xFF0C;&#x9019;&#x500B;&#x662F;bind&#x670D;&#x52D9;&#x76F8;&#x95DC;&#x8655;&#x7406;&#xFF0C;&#x6700;&#x5F8C;&#x662F;sendServiceArgsLocked&#xFF0C;&#x9019;&#x500B;&#x662F;Start&#x670D;&#x52D9;&#x7684;&#x8655;&#x7406;&#x3002;</p>
+<pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">void</span> <span class="hljs-title">realStartServiceLocked</span><span class="hljs-params">(ServiceRecord r,
+        ProcessRecord app, <span class="hljs-keyword">boolean</span> execInFg)</span> <span class="hljs-keyword">throws</span> RemoteException </span>{
     app.thread.scheduleCreateService(r, r.serviceInfo, mAm.compatibilityInfoForPackageLocked(r.serviceInfo.applicationInfo), app.repProcState);
     requestServiceBindingsLocked(r, execInFg);
-    sendServiceArgsLocked(r, execInFg, true);
+    sendServiceArgsLocked(r, execInFg, <span class="hljs-keyword">true</span>);
 }
-</code></pre><p>requestServiceBindingsLocked&#x518D;&#x8ABF;&#x7528;ActivityThread&#x7684;&#x65B9;&#x6CD5;scheduleBindService&#xFF0C;&#x5728;ActivityThread.java &#x4E2D;&#xFF0C;&#x5B83;&#x767C;&#x51FA;&#x4E00;&#x500B;BIND_SERVICE&#x4E8B;&#x4EF6;&#xFF0C;&#x88AB;handleBindService&#x8655;&#x7406;&#xFF0C;</p>
-<pre><code>void publishServiceLocked(ServiceRecord r, Intent intent, IBinder service)
-{
-    for (int conni = r.connections.size() - 1; conni &gt;= 0; conni--) {
+</code></pre>
+<p>requestServiceBindingsLocked&#x518D;&#x8ABF;&#x7528;ActivityThread&#x7684;&#x65B9;&#x6CD5;scheduleBindService&#xFF0C;&#x5728;ActivityThread.java &#x4E2D;&#xFF0C;&#x5B83;&#x767C;&#x51FA;&#x4E00;&#x500B;BIND_SERVICE&#x4E8B;&#x4EF6;&#xFF0C;&#x88AB;handleBindService&#x8655;&#x7406;&#xFF0C;</p>
+<pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">publishServiceLocked</span><span class="hljs-params">(ServiceRecord r, Intent intent, IBinder service)</span>
+</span>{
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> conni = r.connections.size() - <span class="hljs-number">1</span>; conni &gt;= <span class="hljs-number">0</span>; conni--) {
         ArrayList&lt;ConnectionRecord&gt; clist = r.connections.valueAt(conni);
-        for (int i = 0; i &lt; clist.size(); i++) {
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; clist.size(); i++) {
             ConnectionRecord c = clist.get(i);
-            try {
+            <span class="hljs-keyword">try</span> {
                 c.conn.connected(r.name, service);
             }
-            serviceDoneExecutingLocked(r, mDestroyingServices.contains(r), false);
+            serviceDoneExecutingLocked(r, mDestroyingServices.contains(r), <span class="hljs-keyword">false</span>);
         }
     }
 }
-</code></pre><p>&#x9019;&#x88CF;&#x4E3B;&#x8981;&#x8ABF;&#x7528;&#x5230;c.conn.connected&#xFF0C;c&#x5C31;&#x662F;ConnectionRecord&#xFF0C;&#x5176;&#x6210;&#x54E1;conn&#x662F;&#x4E00;&#x500B;IServiceConnection&#x985E;&#x578B;&#x5BE6;&#x4F8B;&#xFF0C;&#x9019;&#x5728;&#x524D;&#x9762;&#x6709;&#x63D0;&#x5230;&#xFF0C;connected&#x5247;&#x662F;&#x5176;&#x5BE6;&#x73FE;&#x985E;&#x7684;&#x65B9;&#x6CD5;&#x3002;</p>
+</code></pre>
+<p>&#x9019;&#x88CF;&#x4E3B;&#x8981;&#x8ABF;&#x7528;&#x5230;c.conn.connected&#xFF0C;c&#x5C31;&#x662F;ConnectionRecord&#xFF0C;&#x5176;&#x6210;&#x54E1;conn&#x662F;&#x4E00;&#x500B;IServiceConnection&#x985E;&#x578B;&#x5BE6;&#x4F8B;&#xFF0C;&#x9019;&#x5728;&#x524D;&#x9762;&#x6709;&#x63D0;&#x5230;&#xFF0C;connected&#x5247;&#x662F;&#x5176;&#x5BE6;&#x73FE;&#x985E;&#x7684;&#x65B9;&#x6CD5;&#x3002;</p>
 <p>&#x5C0D;&#x65BC;IServiceConnection&#xFF0C;&#x5B83;&#x662F;&#x4E00;&#x500B;&#x63A5;&#x53E3;&#xFF0C;&#x4F4D;&#x7F6E;&#x5728;(frameworks\base): core/java/android/app/IServiceConnection.aidl&#xFF0C;aidl&#x5B9A;&#x7FA9;&#x5982;&#x4E0B;&#xFF0C;&#x5B83;&#x53EA;&#x6709;&#x4E00;&#x500B;&#x63A5;&#x53E3;&#x65B9;&#x6CD5;connected&#xFF0C;</p>
-<pre><code>oneway interface IServiceConnection {
-    void connected(in ComponentName name, IBinder service);
+<pre><code class="lang-java">oneway <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">IServiceConnection</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">connected</span><span class="hljs-params">(in ComponentName name, IBinder service)</span></span>;
 }
-</code></pre><p>&#x5176;&#x670D;&#x52D9;&#x7AEF;&#x7684;&#x5BE6;&#x73FE;&#x5728;LoadedApk.java&#xFF0C;&#x5982;&#x4E0B;&#xFF0C;InnerConnection&#x985E;&#x662F;&#x5728;ServiceDispatcher&#x7684;&#x5167;&#x90E8;&#x985E;&#xFF0C;&#x4E26;&#x5728;ServiceDispatcher&#x7684;&#x69CB;&#x9020;&#x51FD;&#x6578;&#x88CF;&#x9762;&#x5BE6;&#x4F8B;&#x5316;&#x7684;&#xFF0C;&#x5176;&#x65B9;&#x6CD5;connected&#x4E5F;&#x662F;&#x8ABF;&#x7528;&#x7684;ServiceDispatcher&#x7684;&#x65B9;&#x6CD5;connected&#xFF0C;</p>
-<pre><code>private static class InnerConnection extendsIServiceConnection.Stub
-{
-    final WeakReference&lt;LoadedApk.ServiceDispatcher&gt; mDispatcher;
+</code></pre>
+<p>&#x5176;&#x670D;&#x52D9;&#x7AEF;&#x7684;&#x5BE6;&#x73FE;&#x5728;LoadedApk.java&#xFF0C;&#x5982;&#x4E0B;&#xFF0C;InnerConnection&#x985E;&#x662F;&#x5728;ServiceDispatcher&#x7684;&#x5167;&#x90E8;&#x985E;&#xFF0C;&#x4E26;&#x5728;ServiceDispatcher&#x7684;&#x69CB;&#x9020;&#x51FD;&#x6578;&#x88CF;&#x9762;&#x5BE6;&#x4F8B;&#x5316;&#x7684;&#xFF0C;&#x5176;&#x65B9;&#x6CD5;connected&#x4E5F;&#x662F;&#x8ABF;&#x7528;&#x7684;ServiceDispatcher&#x7684;&#x65B9;&#x6CD5;connected&#xFF0C;</p>
+<pre><code class="lang-java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">InnerConnection</span> <span class="hljs-title">extendsIServiceConnection</span>.<span class="hljs-title">Stub</span>
+</span>{
+    <span class="hljs-keyword">final</span> WeakReference&lt;LoadedApk.ServiceDispatcher&gt; mDispatcher;
     InnerConnection(LoadedApk.ServiceDispatcher sd)
     {
-        mDispatcher = new WeakReference&lt;LoadedApk.ServiceDispatcher&gt;(sd);
+        mDispatcher = <span class="hljs-keyword">new</span> WeakReference&lt;LoadedApk.ServiceDispatcher&gt;(sd);
     }
 
-    public void connected(ComponentName name,
-                          IBinder service) throws RemoteException {
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">connected</span><span class="hljs-params">(ComponentName name,
+                          IBinder service)</span> <span class="hljs-keyword">throws</span> RemoteException </span>{
         LoadedApk.ServiceDispatcher sd = mDispatcher.get();
-        if (sd != null)
+        <span class="hljs-keyword">if</span> (sd != <span class="hljs-keyword">null</span>)
         {
             sd.connected(name, service);
         }
@@ -1680,46 +1685,48 @@
 }
 
 ServiceDispatcher(ServiceConnection conn,
-                  Context context, Handler activityThread, int flags)
+                  Context context, Handler activityThread, <span class="hljs-keyword">int</span> flags)
 {
-    mIServiceConnection = new InnerConnection(this);
+    mIServiceConnection = <span class="hljs-keyword">new</span> InnerConnection(<span class="hljs-keyword">this</span>);
     mConnection = conn;
     mContext = context;
 
     mActivityThread = activityThread;
-    mLocation = new ServiceConnectionLeaked(null);
+    mLocation = <span class="hljs-keyword">new</span> ServiceConnectionLeaked(<span class="hljs-keyword">null</span>);
     mLocation.fillInStackTrace();
     mFlags = flags;
 }
-</code></pre><p>&#x9019;&#x88CF;&#x5C31;&#x518D;&#x56DE;&#x5230;&#x6211;&#x5011;&#x524D;&#x9762;&#x7684;ContextImpl&#x88CF;&#x9762;bindServiceCommon&#x65B9;&#x6CD5;&#x88CF;&#x9762;&#xFF0C;&#x9019;&#x88CF;&#x9032;&#x884C;ServiceConnection&#x8F49;&#x5316;&#x7232;IServiceConnection&#x6642;&#xFF0C;&#x8ABF;&#x7528;&#x4E86;mPackageInfo.getServiceDispatcher&#xFF0C;mPackageInfo&#x5C31;&#x662F;&#x4E00;&#x500B;LoadedApk&#x5BE6;&#x4F8B;&#xFF0C;</p>
-<pre><code>/*package*/ LoadedApk mPackageInfo;
+</code></pre>
+<p>&#x9019;&#x88CF;&#x5C31;&#x518D;&#x56DE;&#x5230;&#x6211;&#x5011;&#x524D;&#x9762;&#x7684;ContextImpl&#x88CF;&#x9762;bindServiceCommon&#x65B9;&#x6CD5;&#x88CF;&#x9762;&#xFF0C;&#x9019;&#x88CF;&#x9032;&#x884C;ServiceConnection&#x8F49;&#x5316;&#x7232;IServiceConnection&#x6642;&#xFF0C;&#x8ABF;&#x7528;&#x4E86;mPackageInfo.getServiceDispatcher&#xFF0C;mPackageInfo&#x5C31;&#x662F;&#x4E00;&#x500B;LoadedApk&#x5BE6;&#x4F8B;&#xFF0C;</p>
+<pre><code class="lang-java"><span class="hljs-comment">/*package*/</span> LoadedApk mPackageInfo;
 
-private boolean bindServiceCommon(Intent service, ServiceConnection conn,
-                                  int flags,
-                                  UserHandle user)
-{
+<span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">bindServiceCommon</span><span class="hljs-params">(Intent service, ServiceConnection conn,
+                                  <span class="hljs-keyword">int</span> flags,
+                                  UserHandle user)</span>
+</span>{
     IServiceConnection sd;
     sd = mPackageInfo.getServiceDispatcher(conn, getOuterContext(),
                                            mMainThread.getHandler(), flags);
 }
-</code></pre><p>&#x6240;&#x4EE5;&#xFF0C;getServiceDispatcher&#x6703;&#x5275;&#x5EFA;&#x4E00;&#x500B;ServiceDispatcher&#x5BE6;&#x4F8B;&#xFF0C;&#x4E26;&#x5C07;ServiceDispatcher&#x5BE6;&#x4F8B;&#x548C;ServiceConnection&#x5BE6;&#x4F8B;&#x5F62;&#x6210;KV&#x5C0D;&#xFF0C;&#x4E26;&#x5728;ServiceDispatcher&#x7684;&#x69CB;&#x9020;&#x51FD;&#x6578;&#x88CF;&#x5C07;ServiceConnection&#x5BE6;&#x4F8B;c&#x8CE6;&#x503C;&#x7D66;ServiceConnection&#x7684;&#x6210;&#x54E1;&#x8B8A;&#x91CF;mConnection&#xFF0C;</p>
-<pre><code>public final IServiceConnection getServiceDispatcher(ServiceConnection c,
-        Context context, Handler handler, int flags)
-{
-    synchronized(mServices) {
-        LoadedApk.ServiceDispatcher sd = null;
+</code></pre>
+<p>&#x6240;&#x4EE5;&#xFF0C;getServiceDispatcher&#x6703;&#x5275;&#x5EFA;&#x4E00;&#x500B;ServiceDispatcher&#x5BE6;&#x4F8B;&#xFF0C;&#x4E26;&#x5C07;ServiceDispatcher&#x5BE6;&#x4F8B;&#x548C;ServiceConnection&#x5BE6;&#x4F8B;&#x5F62;&#x6210;KV&#x5C0D;&#xFF0C;&#x4E26;&#x5728;ServiceDispatcher&#x7684;&#x69CB;&#x9020;&#x51FD;&#x6578;&#x88CF;&#x5C07;ServiceConnection&#x5BE6;&#x4F8B;c&#x8CE6;&#x503C;&#x7D66;ServiceConnection&#x7684;&#x6210;&#x54E1;&#x8B8A;&#x91CF;mConnection&#xFF0C;</p>
+<pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> IServiceConnection <span class="hljs-title">getServiceDispatcher</span><span class="hljs-params">(ServiceConnection c,
+        Context context, Handler handler, <span class="hljs-keyword">int</span> flags)</span>
+</span>{
+    <span class="hljs-keyword">synchronized</span>(mServices) {
+        LoadedApk.ServiceDispatcher sd = <span class="hljs-keyword">null</span>;
         ArrayMap&lt;ServiceConnection, LoadedApk.ServiceDispatcher&gt; map = mServices.get(
                     context);
 
-        if (map != null) {
+        <span class="hljs-keyword">if</span> (map != <span class="hljs-keyword">null</span>) {
             sd = map.get(c);
         }
 
-        if (sd == null) {
-            sd = new ServiceDispatcher(c, context, handler, flags);
+        <span class="hljs-keyword">if</span> (sd == <span class="hljs-keyword">null</span>) {
+            sd = <span class="hljs-keyword">new</span> ServiceDispatcher(c, context, handler, flags);
 
-            if (map == null) {
-                map = new ArrayMap&lt;ServiceConnection, LoadedApk.ServiceDispatcher&gt;();
+            <span class="hljs-keyword">if</span> (map == <span class="hljs-keyword">null</span>) {
+                map = <span class="hljs-keyword">new</span> ArrayMap&lt;ServiceConnection, LoadedApk.ServiceDispatcher&gt;();
                 mServices.put(context, map);
             }
 
@@ -1727,20 +1734,22 @@ private boolean bindServiceCommon(Intent service, ServiceConnection conn,
         }
     }
 }
-</code></pre><p>&#x9019;&#x6A23;&#xFF0C;&#x5728;&#x57F7;&#x884C;ServiceDispatcher&#x7684;connected&#x65B9;&#x6CD5;&#x6642;&#xFF0C;&#x5C31;&#x6703;&#x8ABF;&#x7528;&#x5230;ServiceConnection&#x7684;
+</code></pre>
+<p>&#x9019;&#x6A23;&#xFF0C;&#x5728;&#x57F7;&#x884C;ServiceDispatcher&#x7684;connected&#x65B9;&#x6CD5;&#x6642;&#xFF0C;&#x5C31;&#x6703;&#x8ABF;&#x7528;&#x5230;ServiceConnection&#x7684;
 onServiceConnected&#xFF0C;&#x5B8C;&#x6210;&#x7D81;&#x5B9A;ServiceConnection&#x7684;&#x89F8;&#x767C;&#x3002;</p>
-<pre><code>public void doConnected(ComponentName name, IBinder service)
-{
-    if (old != null) {
+<pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">doConnected</span><span class="hljs-params">(ComponentName name, IBinder service)</span>
+</span>{
+    <span class="hljs-keyword">if</span> (old != <span class="hljs-keyword">null</span>) {
         mConnection.onServiceDisconnected(name);
     }
 
-    // If there is a new service, it is now connected.
-    if (service != null) {
+    <span class="hljs-comment">// If there is a new service, it is now connected.</span>
+    <span class="hljs-keyword">if</span> (service != <span class="hljs-keyword">null</span>) {
         mConnection.onServiceConnected(name, service);
     }
 }
-</code></pre><p>&#x81F3;&#x6B64;&#xFF0C;&#x5C31;&#x57F7;&#x884C;&#x5B8C;&#x4E86;bindService&#x7684;&#x4E3B;&#x8981;&#x904E;&#x7A0B;&#x3002;</p>
+</code></pre>
+<p>&#x81F3;&#x6B64;&#xFF0C;&#x5C31;&#x57F7;&#x884C;&#x5B8C;&#x4E86;bindService&#x7684;&#x4E3B;&#x8981;&#x904E;&#x7A0B;&#x3002;</p>
 
                     
                     </section>

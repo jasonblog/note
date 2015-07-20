@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="5.5" data-basepath=".." data-revision="Tue Jul 21 2015 01:46:47 GMT+0800 (CST)">
+    <div class="book" data-level="5.5" data-basepath=".." data-revision="Tue Jul 21 2015 01:55:44 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1614,42 +1614,44 @@ Activity &#x7684;&#x756B;&#x9762;&#x986F;&#x793A;&#x662F;&#x7531; UI Thread&#x62
 &#x63A5;&#x4E0B;&#x4F86;&#x5C0F;&#x5F1F;&#x5C31;&#x76F4;&#x63A5;&#x8B1B; trace source &#x7684;&#x90E8;&#x4EFD;&#xFF0C;
 &#x6559;&#x4F60;&#x5FEB;&#x901F; trace &#x61C2;&#x9019;&#x4E9B; code&#xFF0C;&#x8FC5;&#x901F;&#x9A57;&#x8B49;&#x51FA;&#x9019;&#x56DB;&#x500B; class &#x7684;&#x7528;&#x9014;&#x3002;</p>
 <p><strong>&#x4EE5;&#x4E0B;&#x958B;&#x59CB; trace source code .. Follow Me ^<em>__</em>^</strong></p>
-<pre><code>// Looper.java:
+<pre><code class="lang-java"><span class="hljs-comment">// Looper.java:</span>
 loop()
 {
-    MessageQueue queue = myLooper().mQueue //&#x53D6;&#x5F97;CurrentThread&#x4E0B;Looper&#x7684;MsgQueue
+    MessageQueue queue = myLooper().mQueue <span class="hljs-comment">//&#x53D6;&#x5F97;CurrentThread&#x4E0B;Looper&#x7684;MsgQueue</span>
 
-    while (true) {
-        Message msg = queue.next(); //&#x8DF3;&#x5230;msg&#x4E00;&#x500B;message
+    <span class="hljs-keyword">while</span> (<span class="hljs-keyword">true</span>) {
+        Message msg = queue.next(); <span class="hljs-comment">//&#x8DF3;&#x5230;msg&#x4E00;&#x500B;message</span>
         msg.target.dispatchMessage(msg);
-        //target &#x88AB;almost&#x8A2D;&#x5B9A;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x662F;&#x900F;&#x904E;Message.obtain(Handler h)&#x8A2D; h &#x70BA;target
-        msg.recycle(); //In Message class, &#x53EA;&#x6709;recycle()&#x8207;obtain() &#x4F5C;sync&#x540C;&#x6B65;
+        <span class="hljs-comment">//target &#x88AB;almost&#x8A2D;&#x5B9A;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x662F;&#x900F;&#x904E;Message.obtain(Handler h)&#x8A2D; h &#x70BA;target</span>
+        msg.recycle(); <span class="hljs-comment">//In Message class, &#x53EA;&#x6709;recycle()&#x8207;obtain() &#x4F5C;sync&#x540C;&#x6B65;</span>
     }
 }
-</code></pre><p>&#x4E0A;&#x9762;&#x7A0B;&#x5F0F;&#x4E2D;&#xFF0C;&#x6240;&#x63D0;&#x5230;&#x7684;&#x6771;&#x897F;&#xFF0C;&#x5728;&#x4EE5;&#x4E0B;&#x6DF1;&#x5165;&#x63A2;&#x8A0E;&#x3002;</p>
+</code></pre>
+<p>&#x4E0A;&#x9762;&#x7A0B;&#x5F0F;&#x4E2D;&#xFF0C;&#x6240;&#x63D0;&#x5230;&#x7684;&#x6771;&#x897F;&#xFF0C;&#x5728;&#x4EE5;&#x4E0B;&#x6DF1;&#x5165;&#x63A2;&#x8A0E;&#x3002;</p>
 <h3 id="-1-dispatchmessage-msg-%E6%98%AF%E5%A6%82%E4%BD%95%E9%87%8D%E8%A6%81%E5%91%A2">(1) dispatchMessage(msg) &#x662F;&#x5982;&#x4F55;&#x91CD;&#x8981;&#x5462; ?</h3>
 <p>&#x5B83;&#x547C;&#x53EB; Handler &#x4E0A;&#x7684; handleMessage().</p>
 <p>PS: &#x4E00;&#x822C;&#x4F86;&#x8AAA;&#xFF0C;&#x6211;&#x5011;&#x6703;&#x5BEB;&#x500B; EHandler extends Handler,
 &#x4E26;&#x4E14;&#x91CD;&#x5BEB;handleMessage()function &#x597D;&#x8B93; Handler &#x4E0A;&#x7684; handlerMessage()
 &#x88AB; UI Thread&#x547C;&#x53EB;&#xFF0C;&#x4F86;&#x66F4;&#x65B0;&#x756B;&#x9762;&#x3002;</p>
 <h3 id="-2-%E8%87%B3%E6%96%BC-loop-%E6%98%AF%E5%A6%82%E4%BD%95%E8%A2%AB%E4%BD%BF%E7%94%A8%E7%9A%84%E5%91%A2">(2) &#x81F3;&#x65BC; loop() &#x662F;&#x5982;&#x4F55;&#x88AB;&#x4F7F;&#x7528;&#x7684;&#x5462; ?</h3>
-<pre><code>// typical example &#x5927;&#x7D04;&#x662F;&#x9019;&#x6A23;&#x5B50;&#x7684;
-class LooperThread extends Thread
-{
-    public Handler mHandler;
+<pre><code class="lang-java"><span class="hljs-comment">// typical example &#x5927;&#x7D04;&#x662F;&#x9019;&#x6A23;&#x5B50;&#x7684;</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LooperThread</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Thread</span>
+</span>{
+    <span class="hljs-keyword">public</span> Handler mHandler;
 
-    public void run()
-    {
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span>
+    </span>{
         Looper.prepare();
-        mHandler = new Handler() {
-            public void handleMessage(Message msg) {
-                // process incoming messages here
+        mHandler = <span class="hljs-keyword">new</span> Handler() {
+            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handleMessage</span><span class="hljs-params">(Message msg)</span> </span>{
+                <span class="hljs-comment">// process incoming messages here</span>
             }
         };
         Looper.loop();
     }
 }
-</code></pre><p>&#x984D;&#x5916;&#x8A71; &#x2026;</p>
+</code></pre>
+<p>&#x984D;&#x5916;&#x8A71; &#x2026;</p>
 <p>&#x6B64;&#x7BC4;&#x4F8B;trace&#x4E0B;&#x53BB;&#x5C07;&#x767C;&#x73FE;&#xFF0C; Looper.mMainLooper &#x8B8A;&#x6578;&#x88AB;&#x8A2D;&#x5B9A;&#x70BA;
 (Looper)sThreadLocal.get()</p>
 <p>&#x8A31;&#x591A;&#x91CD;&#x8981;&#x7684; android source code &#x7686;&#x6703;&#x900F;&#x904E; getMainLooper() &#x51FD;&#x6578;&#x53D6;&#x51FA;
@@ -1657,25 +1659,28 @@ Looper.mMainLooper</p>
 <h3 id="-3-msg-target-%E6%98%AF%E5%80%8B-handler-%E9%A1%9E%E5%88%A5-%E5%8F%88%E6%98%AF%E5%BE%9E%E4%BD%95%E8%80%8C%E4%BE%86%E7%9A%84%E5%91%A2">(3) msg.target &#x662F;&#x500B; Handler &#x985E;&#x5225;,  &#x53C8;&#x662F;&#x5F9E;&#x4F55;&#x800C;&#x4F86;&#x7684;&#x5462; ?</h3>
 <p>&#x76F4;&#x63A5;copy&#x9AD8;&#x7165;&#x5802;&#x7DB2;&#x8DEF;&#x6587;&#x7AE0;&#x4E2D;&#x7684;example code&#x904E;&#x4F86; &#x2026;
 &#x8B1B;&#x7FA9;&#x6458;&#x9304;&#x4E4B;28&#xFF1A;Anrdroid &#x7684;Message Queue(3/3) &#x7684;example code&#x5982;&#x4E0B;</p>
-<pre><code>class AnyClass implements Runnable
-{
-    public void run()
-    {
+<pre><code class="lang-java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AnyClass</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Runnable</span>
+</span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span>
+    </span>{
         Looper.prepare();
-        h = new Handler() {
-            public void handleMessage(Message msg) {
-                EventHandler ha = new EventHandler(Looper.getMainLooper());
-                String obj = (String)msg.obj + &quot;, myThread&quot;;
-                Message m = ha.obtainMessage(1, 1, 1, obj);
-                ha.sendMessage(m); //sendMessage&#x7684;&#x539F;&#x7406;&#xFF0C;&#x8ACB;&#x898B;(4)&#x7684;&#x8AAA;&#x660E;
+        h = <span class="hljs-keyword">new</span> Handler() {
+            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handleMessage</span><span class="hljs-params">(Message msg)</span> </span>{
+                EventHandler ha = <span class="hljs-keyword">new</span> EventHandler(Looper.getMainLooper());
+                String obj = (String)msg.obj + <span class="hljs-string">&quot;, myThread&quot;</span>;
+                Message m = ha.obtainMessage(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, obj);
+                ha.sendMessage(m); <span class="hljs-comment">//sendMessage&#x7684;&#x539F;&#x7406;&#xFF0C;&#x8ACB;&#x898B;(4)&#x7684;&#x8AAA;&#x660E;</span>
             }
         };
         Looper.loop();
     }
 }
-</code></pre><p>&#x6211;&#x5011;&#x76F4;&#x63A5;&#x7531;&#x6B64;&#x4F86;&#x4F5C;&#x89E3;&#x91CB;&#xFF0C;
-&#x8FFD;&#x8E64;&#x7576;&#x4E2D;&#x7684; obtainMssage &#x53EF;&#x767C;&#x73FE; target&#x7684;&#x7531;&#x4F86;&#x3002;&#x539F;&#x7406;&#x5982;&#x4E0B;</p>
-<pre><code>// Handler.java: Message obtainMessage(int what, int arg1, int arg2)
+
+```java
+&#x6211;&#x5011;&#x76F4;&#x63A5;&#x7531;&#x6B64;&#x4F86;&#x4F5C;&#x89E3;&#x91CB;&#xFF0C;
+&#x8FFD;&#x8E64;&#x7576;&#x4E2D;&#x7684; obtainMssage &#x53EF;&#x767C;&#x73FE; target&#x7684;&#x7531;&#x4F86;&#x3002;&#x539F;&#x7406;&#x5982;&#x4E0B;
+</code></pre>
+<p>// Handler.java: Message obtainMessage(int what, int arg1, int arg2)
 // Message.java:
 static Message obtain(Handler h, int what, int arg1, int arg2)
 {
@@ -1684,9 +1689,10 @@ static Message obtain(Handler h, int what, int arg1, int arg2)
     m.what = what;
     m.arg1 = arg1;
     m.arg2 = arg2;
-}
-</code></pre><p>&#x800C; Message m = obtain() &#x662F;&#x57F7;&#x884C;&#x4E0B;&#x9762;&#x9019;&#x6BB5;&#x7A0B;&#x5F0F;</p>
-<pre><code>public static Message obtain()
+}</p>
+<pre><code>&#x800C; Message m = obtain() &#x662F;&#x57F7;&#x884C;&#x4E0B;&#x9762;&#x9019;&#x6BB5;&#x7A0B;&#x5F0F;
+```java
+public static Message obtain()
 {
     synchronized(mPoolSync) {  //&#x8207; recycle() &#x5171;&#x7528; mPoolSync
         if (mPool != null) {
@@ -1703,23 +1709,24 @@ static Message obtain(Handler h, int what, int arg1, int arg2)
 &#x5C07; msg.target &#x8A2D;&#x70BA;&#x539F; Handler. &#x4E26;&#x4E14;&#x8A2D;&#x5B9A;&#x597D; what, arg1, arg2 &#x7B49;&#x53C3;&#x6578;
 &#x597D;&#x8B93; Looper &#x4F86;&#x57F7;&#x884C;&#x5B83; &#x2026;</p>
 <h3 id="-4-%E6%8E%A5%E7%BA%8C-3-%E4%B8%AD%E7%9A%84-example-code-%E5%AE%83%E7%9A%84-sendmessage-%E5%8F%88%E4%BD%9C%E4%BA%86%E4%BB%80%E9%BA%BC%E4%BA%8B%E5%91%A2">(4) &#x63A5;&#x7E8C; (3) &#x4E2D;&#x7684; example code, &#x5B83;&#x7684; sendMessage() &#x53C8;&#x4F5C;&#x4E86;&#x4EC0;&#x9EBC;&#x4E8B;&#x5462; ?</h3>
-<pre><code>class AnyClass implements Runnable
-{
-    public void run()
-    {
+<pre><code class="lang-java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AnyClass</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Runnable</span>
+</span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span>
+    </span>{
         Looper.prepare();
-        h = new Handler() {
-            public void handleMessage(Message msg) {
-                EventHandler ha = new EventHandler(Looper.getMainLooper());
-                String obj = (String)msg.obj + &quot;, myThread&quot;;
-                Message m = ha.obtainMessage(1, 1, 1, obj);
-                ha.sendMessage(m); //sendMessage &#x4F5C;&#x4EC0;&#x9EBC;&#x4E8B;&#x5462;?
+        h = <span class="hljs-keyword">new</span> Handler() {
+            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handleMessage</span><span class="hljs-params">(Message msg)</span> </span>{
+                EventHandler ha = <span class="hljs-keyword">new</span> EventHandler(Looper.getMainLooper());
+                String obj = (String)msg.obj + <span class="hljs-string">&quot;, myThread&quot;</span>;
+                Message m = ha.obtainMessage(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, obj);
+                ha.sendMessage(m); <span class="hljs-comment">//sendMessage &#x4F5C;&#x4EC0;&#x9EBC;&#x4E8B;&#x5462;?</span>
             }
         };
         Looper.loop();
     }
 }
-</code></pre><p>&#x4EE5;&#x9019;&#x500B;&#x4F8B;&#x5B50;&#xFF0C;&#x7C21;&#x55AE;&#x4F86;&#x8AAA;&#xFF0C;Looper.getMainLooper() &#x6703;&#x56DE;&#x50B3;&#x4E00;&#x500B;ActivityThread&#x7684;
+</code></pre>
+<p>&#x4EE5;&#x9019;&#x500B;&#x4F8B;&#x5B50;&#xFF0C;&#x7C21;&#x55AE;&#x4F86;&#x8AAA;&#xFF0C;Looper.getMainLooper() &#x6703;&#x56DE;&#x50B3;&#x4E00;&#x500B;ActivityThread&#x7684;
 Looper object, &#x5373;&#x70BA; Looper.mMainLooper. &#x800C;mMainLooper&#x6709;&#x81EA;&#x5DF1;&#x7684;mQueue</p>
 <p>&#x5728;&#x6B64;&#x7A7F;&#x63D2;&#x4E00;&#x5C0F;&#x6BB5; sendMessage() &#x7684;&#x4F5C;&#x7528;
 Handler&#x672C;&#x8EAB;&#x5728;&#x66AB;&#x5B58;&#x4E00;&#x500B;mQueue, &#x7576;Handler&#x7684;&#x6210;&#x54E1;&#x51FD;&#x6578;sendMessage &#x88AB;&#x547C;&#x53EB;&#x6642;&#xFF0C;&#x5373;&#x662F;&#x628A;&#x5E36;&#x8457; Handler ha &#x7684; Message m&#xFF0C;enqueue &#x81F3; Handler&#x81EA;&#x5DF1;&#x5B58;&#x5B58;&#x7684;mQueue&#x4E2D;&#x3002;&#x800C;mQueue&#x7684;&#x8A2D;&#x7F6E;&#xFF0C;&#x901A;&#x5E38;&#x662F;&#x5728;&#x5EFA;&#x69CB;&#x5B50;&#x5C31;&#x88AB;&#x6C7A;&#x5B9A;&#x597D;&#x7684;&#x3002;&#x56E0;&#x6B64;&#x4F60;&#x5F97;&#x7279;&#x5225;&#x6CE8;&#x610F; Handler &#x7684;&#x5EFA;&#x69CB;&#x5B50;&#x3002;</p>

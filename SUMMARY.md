@@ -46,6 +46,7 @@
    * [Jdbshell](linux_tools/jdbshell.md)
 * [Beej's Quick Guide to GDB](bggdb/README.md)
 * [Android note](android_note/README.md)
+   * [android resource](android_note/514.md)
    * [什麼時候用startService，什麼時候用bindService](android_note/startservice_bindservice.md)
    * [android的消息處理機制（圖+源碼分析）——Looper,Handler,Message](android_note/handler_looper_message_runnable.md)
    * [Android中Handler Runnable與Thread的區別詳解](android_note/runnable_thread.md)

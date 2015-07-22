@@ -60,6 +60,7 @@
    * [[轉]Android 執行緒 - Thread 與 Handler](android_note/511.md)
    * [[轉] Android 執行緒 - Runnable 與 Handler](android_note/512.md)
    * [[轉] Android 非同步任務 - AsyncTask](android_note/513.md)
+   * [[轉]Android.mk 組織結構](android_note/515.md)
 * [Ubuntu](ubuntu/README.md)
    * [Ubuntu installer](ubuntu/ubuntu_installer.md)
 * [QEMU](qemu/README.md)
@@ -91,4 +92,6 @@
        * [gdb 顯示 STL container 的方法](fcamel/91008.md)
        * [善用 strace、debugger 從執行期間找出問題根源](fcamel/91009.md)
        * [用 python gdb 客製化 backtrace 的結果](fcamel/91010.md)
+* [ARM](arm/README.md)
+   * [101](arm/101)
 

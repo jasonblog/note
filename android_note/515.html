@@ -1,0 +1,2296 @@
+<!DOCTYPE HTML>
+<html lang="en" >
+    
+    <head>
+        
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
+        <title>[轉]Android.mk 組織結構 | Jason note</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 2.0.1">
+        
+        
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+        <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+        
+    
+    
+    <link rel="next" href="../ubuntu/index.html" />
+    
+    
+    <link rel="prev" href="../android_note/513.html" />
+    
+
+        
+    </head>
+    <body>
+        
+        
+    <link rel="stylesheet" href="../gitbook/style.css">
+    
+    
+
+        
+    <div class="book" data-level="5.15" data-basepath=".." data-revision="Fri Jul 24 2015 23:19:12 GMT+0800 (CST)">
+    
+
+<div class="book-summary">
+    <div class="book-search">
+        <input type="text" placeholder="Type to search" class="form-control" />
+    </div>
+    <ul class="summary">
+        
+        
+        
+        
+
+        
+
+        
+    
+        <li class="chapter " data-level="0" data-path="index.html">
+            
+                
+                    <a href="../index.html">
+                        <i class="fa fa-check"></i>
+                        
+                        Introduction
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1" data-path="shared_libraries/12.html">
+            
+                
+                    <a href="../shared_libraries/12.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.</b>
+                        
+                        Command
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1" data-path="shared_libraries/lsof.html">
+            
+                
+                    <a href="../shared_libraries/lsof.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.1.</b>
+                        
+                        10 條 Linux
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="shared_libraries/cntotw.html">
+            
+                
+                    <a href="../shared_libraries/cntotw.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.2.</b>
+                        
+                        Open Chinese Convert 開放中文轉換
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2" data-path="shared_libraries/index.html">
+            
+                
+                    <a href="../shared_libraries/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.</b>
+                        
+                        Shared Libraries
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1" data-path="shared_libraries/11.html">
+            
+                
+                    <a href="../shared_libraries/11.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.1.</b>
+                        
+                        Shared Libraries Setup
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3" data-path="linux_tools/index.html">
+            
+                
+                    <a href="../linux_tools/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.</b>
+                        
+                        Linux Tools
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1" data-path="linux_tools/linux_basic.html">
+            
+                
+                    <a href="../linux_tools/linux_basic.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.</b>
+                        
+                        Linux Basic
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.1" data-path="linux_tools/01_use_man.html">
+            
+                
+                    <a href="../linux_tools/01_use_man.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.1.</b>
+                        
+                        學會使用命令幫助
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.2" data-path="linux_tools/02_file_manage.html">
+            
+                
+                    <a href="../linux_tools/02_file_manage.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.2.</b>
+                        
+                        文件及目錄管理
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3" data-path="linux_tools/03_text_processing.html">
+            
+                
+                    <a href="../linux_tools/03_text_processing.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.3.</b>
+                        
+                        文本處理
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.4" data-path="linux_tools/04_disk.html">
+            
+                
+                    <a href="../linux_tools/04_disk.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.4.</b>
+                        
+                        磁盤管理
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.5" data-path="linux_tools/05_process_manage.html">
+            
+                
+                    <a href="../linux_tools/05_process_manage.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.5.</b>
+                        
+                        進程管理工具
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.6" data-path="linux_tools/06_monitor.html">
+            
+                
+                    <a href="../linux_tools/06_monitor.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.6.</b>
+                        
+                        性能監控
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.7" data-path="linux_tools/07_network.html">
+            
+                
+                    <a href="../linux_tools/07_network.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.7.</b>
+                        
+                        網絡工具
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8" data-path="linux_tools/08_user_manage.html">
+            
+                
+                    <a href="../linux_tools/08_user_manage.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.8.</b>
+                        
+                        用戶管理工具
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.9" data-path="linux_tools/09_system_manage.html">
+            
+                
+                    <a href="../linux_tools/09_system_manage.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.9.</b>
+                        
+                        系統管理及IPC資源管理
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="linux_tools/linux_advance.html">
+            
+                
+                    <a href="../linux_tools/linux_advance.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.2.</b>
+                        
+                        Linux工具進階
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.2.1" data-path="linux_tools/01_program_buil.html">
+            
+                
+                    <a href="../linux_tools/01_program_buil.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.2.1.</b>
+                        
+                        程序構建
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.2" data-path="linux_tools/02_program_debug.html">
+            
+                
+                    <a href="../linux_tools/02_program_debug.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.2.2.</b>
+                        
+                        程序調試
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.3" data-path="linux_tools/03_optimization.html">
+            
+                
+                    <a href="../linux_tools/03_optimization.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.2.3.</b>
+                        
+                        性能優化
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="linux_tools/ref_tool.html">
+            
+                
+                    <a href="../linux_tools/ref_tool.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.</b>
+                        
+                        工具參考篇
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.3.1" data-path="linux_tools/gdb.html">
+            
+                
+                    <a href="../linux_tools/gdb.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.1.</b>
+                        
+                        gdb 調試利器
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.2" data-path="linux_tools/ldd.html">
+            
+                
+                    <a href="../linux_tools/ldd.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.2.</b>
+                        
+                        ldd 查看程序依賴庫
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.3" data-path="linux_tools/ldof.html">
+            
+                
+                    <a href="../linux_tools/ldof.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.3.</b>
+                        
+                        lsof 一切皆文件
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.4" data-path="linux_tools/ps.html">
+            
+                
+                    <a href="../linux_tools/ps.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.4.</b>
+                        
+                        ps 進程查看器
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.5" data-path="linux_tools/pstack.html">
+            
+                
+                    <a href="../linux_tools/pstack.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.5.</b>
+                        
+                        pstack 跟蹤進程棧
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.6" data-path="linux_tools/strace.html">
+            
+                
+                    <a href="../linux_tools/strace.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.6.</b>
+                        
+                        strace 跟蹤進程中的系統調用
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.7" data-path="linux_tools/ipcs.html">
+            
+                
+                    <a href="../linux_tools/ipcs.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.7.</b>
+                        
+                        ipcs 查詢進程間通信狀態
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.8" data-path="linux_tools/top.html">
+            
+                
+                    <a href="../linux_tools/top.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.8.</b>
+                        
+                        top linux下的任務管理器
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.9" data-path="linux_tools/free.html">
+            
+                
+                    <a href="../linux_tools/free.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.9.</b>
+                        
+                        free 查詢可用內存
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.10" data-path="linux_tools/vmstat.html">
+            
+                
+                    <a href="../linux_tools/vmstat.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.10.</b>
+                        
+                        vmstat 監視內存使用情況
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.11" data-path="linux_tools/iostat.html">
+            
+                
+                    <a href="../linux_tools/iostat.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.11.</b>
+                        
+                        iostat 監視I/O子系統
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.12" data-path="linux_tools/sar.html">
+            
+                
+                    <a href="../linux_tools/sar.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.12.</b>
+                        
+                        sar 找出系統瓶頸的利器
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.13" data-path="linux_tools/readelf.html">
+            
+                
+                    <a href="../linux_tools/readelf.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.13.</b>
+                        
+                        readelf elf文件格式分析
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.14" data-path="linux_tools/objdump.html">
+            
+                
+                    <a href="../linux_tools/objdump.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.14.</b>
+                        
+                        objdump 二進制文件分析
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.15" data-path="linux_tools/nm.html">
+            
+                
+                    <a href="../linux_tools/nm.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.15.</b>
+                        
+                        nm 目標文件格式分析
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.16" data-path="linux_tools/size.html">
+            
+                
+                    <a href="../linux_tools/size.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.16.</b>
+                        
+                        size 查看程序內存映像大小
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.17" data-path="linux_tools/wget.html">
+            
+                
+                    <a href="../linux_tools/wget.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.17.</b>
+                        
+                        wget 文件下載
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.18" data-path="linux_tools/scp.html">
+            
+                
+                    <a href="../linux_tools/scp.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.18.</b>
+                        
+                        scp 跨機遠程拷貝
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.19" data-path="linux_tools/crontab.html">
+            
+                
+                    <a href="../linux_tools/crontab.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.19.</b>
+                        
+                        crontab 定時任務
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.20" data-path="linux_tools/trace-cmd.html">
+            
+                
+                    <a href="../linux_tools/trace-cmd.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.20.</b>
+                        
+                        trace-cmd
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4" data-path="linux_tools/doxygen.html">
+            
+                
+                    <a href="../linux_tools/doxygen.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.4.</b>
+                        
+                        Doxygen
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5" data-path="linux_tools/jdbshell.html">
+            
+                
+                    <a href="../linux_tools/jdbshell.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.5.</b>
+                        
+                        Jdbshell
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="4" data-path="bggdb/index.html">
+            
+                
+                    <a href="../bggdb/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.</b>
+                        
+                        Beej&#39;s Quick Guide to GDB
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5" data-path="android_note/index.html">
+            
+                
+                    <a href="../android_note/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.</b>
+                        
+                        Android note
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.1" data-path="android_note/514.html">
+            
+                
+                    <a href="../android_note/514.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.1.</b>
+                        
+                        android resource
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="android_note/startservice_bindservice.html">
+            
+                
+                    <a href="../android_note/startservice_bindservice.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.2.</b>
+                        
+                        什麼時候用startService，什麼時候用bindService
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3" data-path="android_note/handler_looper_message_runnable.html">
+            
+                
+                    <a href="../android_note/handler_looper_message_runnable.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.3.</b>
+                        
+                        android的消息處理機制（圖+源碼分析）——Looper,Handler,Message
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4" data-path="android_note/runnable_thread.html">
+            
+                
+                    <a href="../android_note/runnable_thread.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.4.</b>
+                        
+                        Android中Handler Runnable與Thread的區別詳解
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.5" data-path="android_note/android_service_native_service.html">
+            
+                
+                    <a href="../android_note/android_service_native_service.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.5.</b>
+                        
+                        Android Service與Native Service
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.6" data-path="android_note/handler_message_looper_messagequeue.html">
+            
+                
+                    <a href="../android_note/handler_message_looper_messagequeue.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.6.</b>
+                        
+                        Handler, Message, Looper, MessageQueue
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7" data-path="android_note/android_log.html">
+            
+                
+                    <a href="../android_note/android_log.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.7.</b>
+                        
+                        Android 各層中日誌打印功能的應用
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.8" data-path="android_note/android_command.html">
+            
+                
+                    <a href="../android_note/android_command.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.8.</b>
+                        
+                        Android指令和命令參數
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.9" data-path="android_note/prcess_thread_ipc.html">
+            
+                
+                    <a href="../android_note/prcess_thread_ipc.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.9.</b>
+                        
+                        Android中進程與進程、線程與線程之間如何通信
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.10" data-path="android_note/startservice.html">
+            
+                
+                    <a href="../android_note/startservice.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.10.</b>
+                        
+                        startService的創建過程
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.11" data-path="android_note/bindservice.html">
+            
+                
+                    <a href="../android_note/bindservice.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.11.</b>
+                        
+                        service組件-bindService源碼分析
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.12" data-path="android_note/511.html">
+            
+                
+                    <a href="../android_note/511.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.12.</b>
+                        
+                        [轉]Android 執行緒 - Thread 與 Handler
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.13" data-path="android_note/512.html">
+            
+                
+                    <a href="../android_note/512.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.13.</b>
+                        
+                        [轉] Android 執行緒 - Runnable 與 Handler
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.14" data-path="android_note/513.html">
+            
+                
+                    <a href="../android_note/513.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.14.</b>
+                        
+                        [轉] Android 非同步任務 - AsyncTask
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter active" data-level="5.15" data-path="android_note/515.html">
+            
+                
+                    <a href="../android_note/515.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.15.</b>
+                        
+                        [轉]Android.mk 組織結構
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="6" data-path="ubuntu/index.html">
+            
+                
+                    <a href="../ubuntu/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.</b>
+                        
+                        Ubuntu
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="6.1" data-path="ubuntu/ubuntu_installer.html">
+            
+                
+                    <a href="../ubuntu/ubuntu_installer.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.1.</b>
+                        
+                        Ubuntu installer
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="7" data-path="qemu/index.html">
+            
+                
+                    <a href="../qemu/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.</b>
+                        
+                        QEMU
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="7.1" data-path="qemu/qemu_kgdb_ftrace.html">
+            
+                
+                    <a href="../qemu/qemu_kgdb_ftrace.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.1.</b>
+                        
+                        Qemu_KGDB_Ftrace
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="8" data-path="linux_device_driver_programming/index.html">
+            
+                
+                    <a href="../linux_device_driver_programming/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.</b>
+                        
+                        Linux Device Driver Programming
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="8.1" data-path="linux_device_driver_programming/01.html">
+            
+                
+                    <a href="../linux_device_driver_programming/01.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.1.</b>
+                        
+                        Linux 裝置驅動程式的概要
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8.2" data-path="linux_device_driver_programming/02.html">
+            
+                
+                    <a href="../linux_device_driver_programming/02.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.2.</b>
+                        
+                        Linux 的授權
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8.3" data-path="linux_device_driver_programming/03.html">
+            
+                
+                    <a href="../linux_device_driver_programming/03.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.3.</b>
+                        
+                        準備開發裝置驅動程式
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8.4" data-path="linux_device_driver_programming/04.html">
+            
+                
+                    <a href="../linux_device_driver_programming/04.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.4.</b>
+                        
+                        開發驅動程式的第一步
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8.5" data-path="linux_device_driver_programming/05.html">
+            
+                
+                    <a href="../linux_device_driver_programming/05.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.5.</b>
+                        
+                        開發 driver 需要的基礎知識
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="9" data-path="fcamel/index.html">
+            
+                
+                    <a href="../fcamel/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.</b>
+                        
+                        fcamel
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="9.1" data-path="fcamel/01.html">
+            
+                
+                    <a href="../fcamel/01.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.1.</b>
+                        
+                        [轉]ld, ld.so 和 ldconfig 的行為
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.2" data-path="fcamel/02.html">
+            
+                
+                    <a href="../fcamel/02.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.2.</b>
+                        
+                        [轉]解決 undefined symbol / reference
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.3" data-path="fcamel/03.html">
+            
+                
+                    <a href="../fcamel/03.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.3.</b>
+                        
+                        [轉] 列出用到的 shared library
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.4" data-path="fcamel/04.html">
+            
+                
+                    <a href="../fcamel/04.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.4.</b>
+                        
+                        [轉]用 LD_PRELOAD 替換動態連結的函式庫
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.5" data-path="fcamel/05.html">
+            
+                
+                    <a href="../fcamel/05.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.5.</b>
+                        
+                        [轉] 用 strace 和 ltrace 找出用到的 system call 和 library call
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.6" data-path="fcamel/[]__linking_time.html">
+            
+                
+                    <a href="../fcamel/[]__linking_time.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.6.</b>
+                        
+                        [轉] 加速 linking time
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.7" data-path="fcamel/07.html">
+            
+                
+                    <a href="../fcamel/07.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.7.</b>
+                        
+                        [轉] 從 C 呼叫 C++ 函式的過程理解程式編譯、連結的原理
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.8" data-path="fcamel/08.html">
+            
+                
+                    <a href="../fcamel/08.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.8.</b>
+                        
+                        [轉] 對 C++ 的觀感
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.9" data-path="fcamel/09.html">
+            
+                
+                    <a href="../fcamel/09.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.9.</b>
+                        
+                        [轉]在 Linux 下開發 C/C++ 的新手指南
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10" data-path="fcamel/10.html">
+            
+                
+                    <a href="../fcamel/10.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.</b>
+                        
+                        [轉]瞭解 C/C++ 程式行為的技巧
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="9.10.1" data-path="fcamel/91001.html">
+            
+                
+                    <a href="../fcamel/91001.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.1.</b>
+                        
+                        查 C/C++ symbol 定義的方法
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10.2" data-path="fcamel/91002.html">
+            
+                
+                    <a href="../fcamel/91002.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.2.</b>
+                        
+                        閱讀 C/C++ 原始碼的好幫手
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10.3" data-path="fcamel/91003.html">
+            
+                
+                    <a href="../fcamel/91003.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.3.</b>
+                        
+                        配合 c++filt 讀程式
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10.4" data-path="fcamel/91004.html">
+            
+                
+                    <a href="../fcamel/91004.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.4.</b>
+                        
+                        加速 gdb 載入 symbol 時間
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10.5" data-path="fcamel/91005.html">
+            
+                
+                    <a href="../fcamel/91005.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.5.</b>
+                        
+                        在 x86-64 上對 system call 使用 conditional break
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10.6" data-path="fcamel/91006.html">
+            
+                
+                    <a href="../fcamel/91006.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.6.</b>
+                        
+                        用 strace 找出 Ubuntu 如何提示未安裝的指令
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10.7" data-path="fcamel/91007.html">
+            
+                
+                    <a href="../fcamel/91007.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.7.</b>
+                        
+                        自行編譯含 debug symbol 的套件 (package)
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10.8" data-path="fcamel/91008.html">
+            
+                
+                    <a href="../fcamel/91008.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.8.</b>
+                        
+                        gdb 顯示 STL container 的方法
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10.9" data-path="fcamel/91009.html">
+            
+                
+                    <a href="../fcamel/91009.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.9.</b>
+                        
+                        善用 strace、debugger 從執行期間找出問題根源
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10.10" data-path="fcamel/91010.html">
+            
+                
+                    <a href="../fcamel/91010.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.10.</b>
+                        
+                        用 python gdb 客製化 backtrace 的結果
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="10" data-path="arm/index.html">
+            
+                
+                    <a href="../arm/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>10.</b>
+                        
+                        ARM
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="10.1" data-path="arm/101.html">
+            
+            <span><b>10.1.</b> 101</span>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="11" data-path="arm_emulation/index.html">
+            
+                
+                    <a href="../arm_emulation/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.</b>
+                        
+                        ARM emulation
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="11.1" data-path="arm_emulation/compiling_linux_kernel_for_qemu_arm_emulator.html">
+            
+                
+                    <a href="../arm_emulation/compiling_linux_kernel_for_qemu_arm_emulator.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.1.</b>
+                        
+                        Compiling Linux kernel for QEMU ARM emulator
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.2" data-path="arm_emulation/compiling_linux_kernel_30_with_emdebian_arm_toolchain.html">
+            
+                
+                    <a href="../arm_emulation/compiling_linux_kernel_30_with_emdebian_arm_toolchain.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.2.</b>
+                        
+                        Compiling Linux kernel 3.0 with Emdebian ARM toolchain
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.3" data-path="arm_emulation/compile_linux_kernel_32_for_arm_and_emulate_with_qemu.html">
+            
+                
+                    <a href="../arm_emulation/compile_linux_kernel_32_for_arm_and_emulate_with_qemu.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.3.</b>
+                        
+                        Compile Linux kernel 3.2 for ARM and emulate with QEMU
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.4" data-path="arm_emulation/busybox_for_arm_on_qemu.html">
+            
+                
+                    <a href="../arm_emulation/busybox_for_arm_on_qemu.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.4.</b>
+                        
+                        Busybox for ARM on QEMU
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.5" data-path="arm_emulation/linux_nfs_root_under_qemu_arm_emulator.html">
+            
+                
+                    <a href="../arm_emulation/linux_nfs_root_under_qemu_arm_emulator.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.5.</b>
+                        
+                        Linux NFS Root under QEMU ARM emulator
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.6" data-path="arm_emulation/trying_debian_for_arm_on_qemu.html">
+            
+                
+                    <a href="../arm_emulation/trying_debian_for_arm_on_qemu.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.6.</b>
+                        
+                        Trying Debian for ARM on QEMU
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.7" data-path="arm_emulation/debugging_arm_programs_inside_qemu.html">
+            
+                
+                    <a href="../arm_emulation/debugging_arm_programs_inside_qemu.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.7.</b>
+                        
+                        Debugging ARM programs inside QEMU
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.8" data-path="arm_emulation/u-boot_for_arm_on_qemu.html">
+            
+                
+                    <a href="../arm_emulation/u-boot_for_arm_on_qemu.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.8.</b>
+                        
+                        U-boot for ARM on QEMU
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.9" data-path="arm_emulation/booting_linux_with_u-boot_on_qemu_arm.html">
+            
+                
+                    <a href="../arm_emulation/booting_linux_with_u-boot_on_qemu_arm.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.9.</b>
+                        
+                        Booting Linux with U-Boot on QEMU ARM
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.10" data-path="arm_emulation/simplest_bare_metal_program_for_arm.html">
+            
+                
+                    <a href="../arm_emulation/simplest_bare_metal_program_for_arm.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.10.</b>
+                        
+                        Simplest bare metal program for ARM
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+
+        
+        <li class="divider"></li>
+        <li>
+            <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+                Published with GitBook
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="book-header">
+    <!-- Actions Left -->
+    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
+    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
+    
+    <div id="font-settings-wrapper" class="dropdown pull-left">
+        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
+        </a>
+        <div class="dropdown-menu font-settings">
+    <div class="dropdown-caret">
+        <span class="caret-outer"></span>
+        <span class="caret-inner"></span>
+    </div>
+
+    <div class="buttons">
+        <button type="button" id="reduce-font-size" class="button size-2">A</button>
+        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
+    </div>
+
+    <div class="buttons font-family-list">
+        <button type="button" data-font="0" class="button">Serif</button>
+        <button type="button" data-font="1" class="button">Sans</button>
+    </div>
+
+    <div class="buttons color-theme-list">
+        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
+        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
+        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
+    </div>
+</div>
+
+    </div>
+
+    <!-- Actions Right -->
+    
+    <div class="dropdown pull-right">
+        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
+        </a>
+        <div class="dropdown-menu font-settings dropdown-left">
+            <div class="dropdown-caret">
+                <span class="caret-outer"></span>
+                <span class="caret-inner"></span>
+            </div>
+            <div class="buttons">
+                <button type="button" data-sharing="twitter" class="button">
+                    Share on Twitter
+                </button>
+                <button type="button" data-sharing="google-plus" class="button">
+                    Share on Google
+                </button>
+                <button type="button" data-sharing="facebook" class="button">
+                    Share on Facebook
+                </button>
+                <button type="button" data-sharing="weibo" class="button">
+                    Share on Weibo
+                </button>
+                <button type="button" data-sharing="instapaper" class="button">
+                    Share on Instapaper
+                </button>
+            </div>
+        </div>
+    </div>
+    
+
+    
+    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
+    
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../" >Jason note</a>
+    </h1>
+</div>
+
+            <div class="page-wrapper" tabindex="-1">
+                <div class="page-inner">
+                
+                
+                    <section class="normal" id="section-">
+                    
+                        <h1 id="android-mk-%E7%B5%84%E7%B9%94%E7%B5%90%E6%A7%8B">Android.mk &#x7D44;&#x7E54;&#x7D50;&#x69CB;</h1>
+<p>&#x4E0B;&#x9762;&#x662F;main.mk&#x6587;&#x4EF6;&#x5305;&#x542B;&#x5173;&#x7CFB;&#xFF0C;&#x672C;&#x6587;&#x6863;&#x4E3B;&#x8981;&#x8BF4;&#x660E;&#x7684;&#x5C31;&#x662F;&#x8FD9;&#x4E9B;&#x6587;&#x4EF6;&#x91CC;&#x5230;&#x5E95;&#x505A;&#x4E86;&#x4EC0;&#x4E48;&#x3002;&#xFF08;&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#x88AB;&#x6839;&#x76EE;&#x5F55;&#x4E0B;&#x7684;makefile&#x6587;&#x4EF6;&#x5305;&#x542B;&#xFF09;</p>
+<h3 id="%E4%B8%80-main-mk">&#x4E00;.     main.mk</h3>
+<p>   1.&#x68C0;&#x67E5;&#x7248;&#x672C;&#x53F7;&#xFF0C;&#x8BBE;&#x7F6E;&#x73AF;&#x5883;&#x53D8;&#x91CF;&#xFF08;BUILD_SYSTEM&#xFF09;&#x548C;&#x7F3A;&#x7701;&#x7684;&#x76EE;&#x6807;&#x3002;$(MAKE_VERSION) &gt;= 3.81,BUILD_SYSTEM= build/core</p>
+<p>   2.&#x5305;&#x542B;&#x6587;&#x4EF6;BUILD_SYSTEM/config.mk&#x3002;&#x6839;&#x636E;&#x914D;&#x7F6E;&#x4FE1;&#x606F;&#x548C;&#x4E3B;&#x673A;&#x76EE;&#x6807;&#x673A;&#x4FE1;&#x606F;&#xFF0C;&#x8BBE;&#x7F6E;&#x4E00;&#x4E9B;&#x53D8;&#x91CF;&#x3002;</p>
+<p>   3.&#x5305;&#x542B;&#x6587;&#x4EF6;BUILD_SYSTEM/cleanbuild.mk&#x3002;&#x5982;&#x679C;&#x5F53;&#x524D;&#x914D;&#x7F6E;&#x6539;&#x53D8;&#xFF0C;&#x5F3A;&#x5236;&#x5220;&#x9664;&#x4E0A;&#x6B21;&#x7684;&#x7F16;&#x8BD1;&#x7ED3;&#x679C;</p>
+<p>  4.&#x5305;&#x542B;&#x6587;&#x4EF6;OUT_DIR/version_check.mk&#x3002;&#x5C31;&#x8BBE;&#x7F6E;&#x4E86;VERSIONS_CHECKED&#x3002;&#x5982;&#x679C;&#x7248;&#x672C;&#x5E8F;&#x53F7;&#x6539;&#x53D8;&#xFF0C;&#x5373;VERSION_CHECK_SEQUENCE_NUMBER&#xFF01;&#xFF1D;VERSIONS_CHECKED&#xFF0C;&#x68C0;&#x67E5;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x662F;&#x5426;&#x5927;&#x5C0F;&#x5199;&#x4E0D;&#x654F;&#x611F;&#x3002;&#x6587;&#x4EF6;&#x8DEF;&#x5F84;&#x4E0A;&#x662F;&#x5426;&#x6CA1;&#x6709;&#x7A7A;&#x683C;&#x3002;JAVA&#xFF0C;JAVAC&#x7684;&#x7248;&#x672C;&#x662F;&#x5426;&#x662F;1.6&#x3002;</p>
+<p>   5.&#x5305;&#x542B;&#x6587;&#x4EF6;BUILD_SYSTEM/definitions.mk&#x3002;&#x5B9A;&#x4E49;&#x4E86;&#x5F88;&#x591A;&#x51FD;&#x6570;&#x4F9B;makefile&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x4F7F;&#x7528;&#x3002;</p>
+<p>&#x4E3B;&#x8981;&#x7684;&#x662F;transform-xxx-to-xxx&#x7684;&#x5F62;&#x5F0F;&#xFF0C;&#x6BD4;&#x5982;transform-cpp-to-o&#x3002;&#x5E76;&#x5B9A;&#x4E49;&#x4E86;&#x4E00;&#x4E2A;make&#x76EE;&#x6807;dist,&#x989D;&#x5916;&#x7684;&#x62F7;&#x8D1D;&#x4E00;&#x4E9B;&#x91CD;&#x8981;&#x7684;&#x6587;&#x4EF6;&#x5230;&#x76EE;&#x6807;&#x6587;&#x4EF6;&#x5939;&#x3002;</p>
+<p>   6.&#x68C0;&#x67E5;MAKECMDGOALS&#x548C;TARGE_BUILD_VARIANT.&#x6839;&#x636E;MAKECMDGOALS&#x8BBE;&#x7F6E;&#x6807;&#x91CF;is_sdk_build&#xFF0C;&#x662F;&#x5426;&#x7F16;&#x8BD1;SDK&#x3002;</p>
+<p>   7.&#x6839;&#x636E;TARGE_BUILD_VARIANT&#xFF0C;&#x8BBE;&#x7F6E;tags_to_install,ADDITIONAL_DEFAULT_PROPERTIES</p>
+<table border="3" cellspacing="1" cellpadding="1">
+<tbody>
+<tr>
+<td><strong><span style="font-size:16px">&#xA0;TARGE_BUILD_VARIANT</span></strong></td>
+<td><strong><span style="font-size:16px">tags_to_install&#xA0;</span></strong></td>
+<td><strong><span style="font-size:16px">&#xA0;ADDITIONAL_DEFAULT_PROPERTIES</span></strong></td>
+</tr>
+<tr>
+<td>user</td>
+<td>user</td>
+<td>ro.secure=1 ro.allow.mock.location=0</td>
+</tr>
+<tr>
+<td>eng</td>
+<td>user debug eng</td>
+<td>ro.setupwizard.mode=OPTIONAL</td>
+</tr>
+<tr>
+<td>tests</td>
+<td>user debug eng</td>
+<td>&#xA0;</td>
+</tr>
+<tr>
+<td>sdk</td>
+<td>user debug eng</td>
+<td>xmpp.auto-presence=true ro.config.nocheckin=yes</td>
+</tr>
+<tr>
+<td>user debug</td>
+<td><span style="">user debug</span></td>
+<td>ro.sercure=1 dalvik.vm.lockprof.threshold=500 <br>
+ro.allow.mock.location=0<br>
+ro.debuggable=1 persist.service.adb=1</td>
+</tr>
+</tbody>
+</table>
+
+
+
+<p>  8.&#x68C0;&#x67E5;PARDUCT_TAG&#x662F;&#x5426;&#x5305;&#x542B;dalvik.gc.type-precise&#xFF0C;&#x5982;&#x679C;&#x5305;&#x542B;&#x8BBE;&#x7F6E;ADDITIONAL_DEFAULT_PROPERTIES&#xFF0B;&#xFF1D;dalvik.vm.dexopt-flags=m=y</p>
+<p>  9.&#x5224;&#x65AD;PRODUCT_COPY_FILES&#x3002;&#x4E3A;&#x7A7A;&#x5C31;&#x5B89;&#x88C5;apns-conf.xml&#x6587;&#x4EF6;</p>
+<p>PRODUCT_COPY_FILE&#xFF1D;development/data/etc/apns-conf_sdk.xml:system/etc/apns-conf.xml</p>
+<p>&#x5982;&#x679C;TARGE_BUILD_VARIANT&#x5305;&#x542B;eng,tests&#x4F46;&#x4E0D;&#x5305;&#x542B;sdk&#xFF0C;&#x4E14;vendor/google/etc/apns-conf.xml&#x6587;&#x4EF6;&#x5B58;&#x5728;&#xFF0C;&#x5219;PRODUCT_COPY_FILE&#xFF1D;vendor/google/etc/apns-conf.xml&#xFF1A;system/etc/apns-conf.xml</p>
+<p>  10.&#x8BBE;&#x7F6E;ADDITIONAL_BUILD_PROPERTIES+= net.bt.name=Android</p>
+<p> dalvik.vm.stack-trace-file=/data/anr/traces.txt</p>
+<p>  11.&#x5982;&#x679C;MAKECMDGOALS&#x4EC5;&#x5305;&#x542B;showcommands&#x6216;checkbuild&#xFF0C;&#x8BBE;&#x7F6E;make&#x76EE;&#x6807;&#x4E3A;DEFAULT_GOALS</p>
+<p>  12.&#x5982;&#x679C;MAKECMDGOALS&#x4E0D;&#x5305;&#x542B;clean,clobber,dataclean,installclean,&#x6839;&#x636E;&#x4E0D;&#x540C;&#x7684;&#x4E3B;&#x673A;&#x5E73;&#x53F0;&#x548C;&#x5904;&#x7406;&#x5668;&#x54C1;&#x5E73;&#x53F0;&#xFF0C;&#x5305;&#x542B;&#x8FDB;&#x8981;&#x7F16;&#x8BD1;&#x7684;&#x6A21;&#x5757;&#xFF0C;&#x8BBE;&#x7F6E;subdirs&#x3002;</p>
+<p>  13.&#x901A;&#x8FC7;build/tools/findleaves.py&#xFF0C;&#x628A;subdirs&#x76EE;&#x5F55;&#x4E0B;&#x7684;Android.mk&#x5B58;&#x5728;subdirs_makefiles&#x3002;&#x5E76;&#x5305;&#x542B;&#x8FD9;&#x4E9B;&#x6587;&#x4EF6;&#x3002;&#x5982;&#x679C;&#x4F7F;&#x7528;mm&#x547D;&#x4EE4;&#xFF0C;&#x53EA;&#x5305;&#x542B;&#x5F53;&#x524D;&#x76EE;&#x5F55;&#x4E0B;&#x7684;Android.mk&#x3002;</p>
+<p>  14.&#x82E5;&#x662F;&#x5168;&#x90E8;&#x7F16;&#x8BD1;&#xFF0C;&#x5305;&#x542B;frameworks/policies/base/PolicyConfig.mk&#x3002;&#x751F;&#x6210;android.policy&#x6A21;&#x5757;&#xFF0C;&#x5E76;&#x5B9A;&#x4E49;&#x4E86;&#x81EA;&#x5DF1;&#x7684;make&#x5220;&#x9664;&#x64CD;&#x4F5C;policy_installclean&#x3002;</p>
+<p>  15.&#x6839;&#x636E;tags_to_install&#x548C;is_sdk_build,&#x8BBE;&#x7F6E;&#x54EA;&#x4E9B;&#x6A21;&#x5757;&#x9700;&#x8981;&#x5B89;&#x88C5;&#xFF0C;&#x5E76;&#x5B58;&#x5165;modules_to_install.</p>
+<p>  &#x8FD9;&#x91CC;&#x4E3B;&#x8981;&#x6709;&#x4E24;&#x4E2A;&#x51FD;&#x6570;&#x8981;&#x8BF4;&#x660E;&#x4E00;&#x4E0B;&#xFF1A;</p>
+<p>  get-tagged-modules $1 $2  &#x8FD9;&#x4E24;&#x4E2A;&#x53C2;&#x6570;&#x4E00;&#x822C;&#x90FD;&#x662F;ALL_MODULE_TAGS&#xFF1D;debug eng gnuoptional samples testsuser&#x91CC;&#x9762;&#x7684;&#x503C;&#xFF0C;&#x53D6;&#x5F97;$1&#x4E2D;&#x4E0D;&#x5305;&#x62EC;$2&#x7684;&#x5217;&#x8868;&#xFF0C;&#x6BD4;&#x5982;tests user&#xFF0C;&#x8FD4;&#x56DE;$(ALL_MODULE_TAGS.user)$(ALL_MODULE_TAGS.tests)&#x5373;&#x5E26;&#x6709;user&#x6216;tests&#x6807;&#x8BB0;&#x6A21;&#x5757;&#x7684;&#x76EE;&#x6807;&#x6587;&#x4EF6;&#x8DEF;&#x5F84;&#x5217;&#x8868;&#x3002;</p>
+<p>   Module-installed-files $1  $1&#x4E00;&#x822C;&#x7684;&#x662F;&#x4E00;&#x4E2A;&#x77ED;&#x7684;&#x6A21;&#x5757;&#x540D;&#xFF0C;&#x6BD4;&#x5982;framework,Browers&#xFF0C;&#x8FD4;&#x56DE;&#x8FD9;&#x4E2A;&#x6A21;&#x5757;&#x7684;&#x76EE;&#x6807;&#x6587;&#x4EF6;&#x8DEF;&#x5F84;</p>
+<p>  16.&#x5305;&#x542B;&#xFF1A;$(BUILD_SYSTEM)/Makefile&#x3002;&#x4E3B;&#x8981;&#x662F;&#x5B9A;&#x4E49;&#x4E86;&#x4E00;&#x4E9B;&#x4F2A;&#x76EE;&#x6807;&#x3002;</p>
+<p>  17.&#x5B9A;&#x4E49;modules_to_check&#xFF0C;&#x6587;&#x4EF6;&#x8DEF;&#x5F84;&#x5217;&#x8868;&#xFF0C;&#x82E5;&#x6A21;&#x5757;&#x6CA1;&#x6709;&#x5B9A;&#x4E49;LOCAL_DONT_CHECK_MODULE,&#x4F1A;&#x628A;&#x751F;&#x6210;&#x76EE;&#x6807;&#x7684;&#x89C4;&#x5219;&#x52A0;&#x5165;&#x5230;&#x8FD9;&#x4E2A;&#x53D8;&#x91CF;&#xFF0C;&#x4EE5;&#x4FBF;&#x5728;modules_to_install&#x540E;&#x68C0;&#x67E5;&#x76EE;&#x6807;&#x662F;&#x5426;&#x751F;&#x6210;&#x6210;&#x529F;&#xFF0C;&#x76EE;&#x6807;&#x4E0D;&#x5B58;&#x5728;&#x7684;&#x8BDD;&#x518D;&#x6B21;&#x751F;&#x6210;&#x76EE;&#x6807;&#x3002;</p>
+<p>  18.&#x5B9A;&#x4E49;&#x4E00;&#x4E9B;make target</p>
+<h3 id="target">target</h3>
+<p>&#x8BF4;&#x660E;</p>
+<p>.PHONY:checkbuilt</p>
+<p>checkbuilt: $(modules-to-check)</p>
+<p>&#x751F;&#x6210;&#x6CA1;&#x6709;&#x5B9A;&#x4E49;LOCAL_DONT_CHECK_MODULE&#x7684;&#x6A21;&#x5757;&#x5E76;&#x62F7;&#x8D1D;&#x5230;&#x7CFB;&#x7EDF;&#x76EE;&#x5F55;</p>
+<p>.PHONY:prebuilt</p>
+<p>prebuit: $(ALL_PREBUILT)</p>
+<p>&#x62F7;&#x8D1D;&#x9884;&#x904D;&#x91CE;&#x7684;&#x6587;&#x4EF6;(&#x6BD4;&#x5982;&#x7528;include prebuild.mk&#x7F16;&#x8BD1;&#x7684;)&#x5230;&#x7CFB;&#x7EDF;&#x76EE;&#x5F55;</p>
+<p>.PHONY: files</p>
+<p>files: prebuilt checkbuilt moduls-to-install  $(INSTALLED_ANDROID_INFO_TXT_TARGET)</p>
+<p>&#x751F;&#x6210;&#x6240;&#x6709;&#x76EE;&#x6807;&#x6587;&#x4EF6;(&#x5305;&#x62EC;&#xFF1A;prebuile,modules-to-install,modules-to-check,INSTALLED_ANDROID_INFO_TXT_TARGET)&#x5E76;&#x62F7;&#x8D1D;&#x5230;&#x7CFB;&#x7EDF;&#x76EE;&#x5F55;&#x3002;INSTALLED_ANDROID_INFO_TXT_TARGET&#x5728;build/target/board/Android.mk&#x5B9A;&#x4E49;&#xFF1D;out/target/product/**/android-info.txt</p>
+<p>.PHONY: ramdisk</p>
+<p>ramdisk: $(INSTALL_RAMDISK_TARGET)</p>
+<p>&#x751F;&#x6210;ramdisk.img</p>
+<p>$(HOST_OUT_EXECUTABLES)/mkbootfs $(PRODUCT_OUT)/root|$(HOST_OUT_EXECUTABLES)/minizip &gt;  $(PRODUCT_OUT)/ramdisk.img</p>
+<p>.PHONY: systemimage</p>
+<p>systemimage: $(INSTALL_SYSTEMIMAGE)</p>
+<p>&#x751F;&#x6210;system.img</p>
+<p>$(INSTALLED_SYSTEMIMAGE): $(BUILT_SYSTEMIMAGE)</p>
+<p>$(HOST_OUT_EXECUTABLES)/mkyaffs2image$(PRODUCT_OUT)/system$(PRODUCT_OUT)/obj/PACKING/systemimage_unopt_intermediates/system.img</p>
+<p>cp **/system.img (PRODUCT_OUT)/system.img</p>
+<p>.PHONY: userdataimage</p>
+<p>userdataimage:$(INSTALL_USERDATAIMAGE_TARGET)</p>
+<p>&#x751F;&#x6210;data.img</p>
+<p>$(HOST_OUT_EXECUTABLES)/mkyaffs2image $(PRODUCT_OUT)/data $(PRODUCT_OUT)/data.img</p>
+<p>.PHONY: bootimage</p>
+<p>bootimage: $(INSTALL_BOOTIMAGE_TARGET)</p>
+<p>&#x751F;&#x6210;boot.img</p>
+<p>if(TARGET_NO_KERNEL=true), INSTALL_BOOTIMAGE_TARGET=$(PRODUCT_OUT)/boot.img else $(PRODUCT_OUT)/boot.img=.</p>
+<p>&#x53C2;&#x6570;&#xFF1A;</p>
+<p>INTERNAL_BOOTIMAGE_ARGS := \</p>
+<pre><code>   $(addprefix --second ,$(INSTALLED_2NDBOOTLOADER_TARGET)) \
+
+   --kernel $(INSTALLED_KERNEL_TARGET) \
+
+   --ramdisk $(INSTALLED_RAMDISK_TARGET)
+</code></pre><p>$(HOST_OUT_EXECUTABLES)/mkbootimg --kernel $(PRODUCT_OUT)/kernel &#x2013;ramdisk $(PRODUCT_OUT)/ramdisk.img &gt;$(PRODUCT_OUT)/boot.img</p>
+<p>.PHONY: recoveryimage</p>
+<p>recoveryimage:$(INSTALL_RECOVERYIMAGE_TARGET)</p>
+<p>&#x751F;&#x6210;ramdisk-recovery.img recovery.img</p>
+<p>&#x76EE;&#x5F55;$(PRODUCT_OUT)</p>
+<p>rm -rf  recovery</p>
+<p>mkdir -p recovery</p>
+<pre><code>                        mkdir -p recovery/root
+</code></pre><p>mkdir -p recovery/root/etc</p>
+<p>mkdir -p recovery/root/tmp</p>
+<p>cp -R root  recovery/root</p>
+<p>cp -f  /bootable/recovery/init.rc recovery/root/</p>
+<p>cp -f  obj/EXECUTABLES/recovery_intermediates/recovery  recovery/root/sbin/</p>
+<p>cp -rf  /bootable/recovery/res recovery/root/</p>
+<p>$(foreach item,/build/target/product/**/recovery/res</p>
+<p>cp -rf $(item) recovery/root/)</p>
+<p>cp /obj/PACKAGING/ota<em>keys</em> intermediates/keys recovery/res/keys</p>
+<p>cat root/default.prop system/build.prop &gt; recovery/root/default.prop</p>
+<p>$(HOST_OUT_EXECUTABLES)/mkbootfs$(PRODUCT_OUT)/recovery/root|$(HOST_OUT_EXECUTABLES)/minizip &gt; $(PRODUCT_OUT)/ramdisk-recovery.img</p>
+<p>$(HOST_OUT_EXECUTABLES)/mkbootimg --kernel $(PRODUCT_OUT)/kernel &#x2013;ramdisk$(PRODUCT_OUT)/ramdisk-recovery.img &gt; $(PRODUCT_OUT)/recovery.img</p>
+<p>.PHONY: droidcore</p>
+<p>droidcore: files \</p>
+<pre><code>   systemimage \
+</code></pre><p>$(INSTALLED_BOOTIMAGE_TARGET) \</p>
+<p>$(INSTALLED_RECOVERYIMAGE_TARGET) \</p>
+<p>$(INSTALLED_USERDATAIMAGE_TARGET) \</p>
+<pre><code>   $(INSTALLED_FILES_FILE)
+</code></pre><p>&#x751F;&#x6210;&#x6574;&#x4E2A;&#x7CFB;&#x7EDF;</p>
+<p>system.img ramdisk.img/boot.img ramdisk-recovery.img recovery.img userdata.img  installed-files.txt</p>
+<p>.PHONY: apps_only</p>
+<p>&#x751F;&#x6210;TARGET_BUILD_APPS&#x6307;&#x5B9A;&#x7684;APPS&#x6A21;&#x5757;.</p>
+<p>&#x82E5;TARGET_BUILD_APPS&#x5305;&#x542B;all&#x5C31;&#x7F16;&#x8BD1;&#x5168;&#x90E8;APPS&#x6A21;&#x5757;</p>
+<p>droid</p>
+<p>&#x9ED8;&#x8BA4;target&#x3002;</p>
+<p>ifneq ($(TARGET_BUILD_APPS),)</p>
+<p>   droid: apps_only</p>
+<p>else</p>
+<p>   droid:droidcore</p>
+<p>.PHONY: sdk</p>
+<p>&#x751F;&#x6210;sdk</p>
+<p>.PHONY: clean</p>
+<p>.PHONY: clobber</p>
+<p>&#x5220;&#x9664;&#x751F;&#x6210;&#x6587;&#x4EF6;</p>
+<p>.PHONY: modules</p>
+<p>&#x663E;&#x793A;&#x6240;&#x6709;&#x6A21;&#x5757;&#x540D;</p>
+<p>.PHONY: showcommands</p>
+<p>&#x663E;&#x793A;&#x547D;&#x4EE4;</p>
+<p>&#x4E8C;.    config.mk</p>
+<p>  1.&#x8BBE;&#x7F6E;&#x4E00;&#x4E9B;&#x539F;&#x6587;&#x4EF6;&#x8DEF;&#x5F84;&#xFF0C;&#x4EE5;SRC_&#x5F00;&#x5934;</p>
+<p>  2.&#x5305;&#x542B;&#x6587;&#x4EF6;$(BUILD_SYSTEM)/pathmap.mk&#xFF0C;&#x5B9A;&#x4E49;&#x4E86;&#x4E00;&#x4E9B;&#x77ED;&#x540D;&#x5230;&#x957F;&#x8DEF;&#x5F84;&#x540D;&#x7684;&#x5F71;&#x5C04;&#xFF0C;</p>
+<p>&#x5B58;&#x653E;&#x5728;pathmap_INCL,&#x901A;&#x8FC7;include-path-for $1 &#x6839;&#x636E;&#x77ED;&#x540D;&#x83B7;&#x53D6;&#x5230;&#x957F;&#x8DEF;&#x5F84;&#x540D;FRAMEWORKS_BASE_JAVA_SRC_DIRS &#x4FDD;&#x5B58;&#x4E86;&#x6240;&#x6709;&#x8981;&#x7F16;&#x8FDB;Android.jar&#x7684;framework/base&#x4E0B;&#x7684;&#x6587;&#x4EF6;&#x8DEF;&#x5F84;&#x3002;</p>
+<p>  3.&#x8BBE;&#x7F6E;&#x7F16;&#x8BD1;&#x76EE;&#x6807;&#xFF0C;.jar,.bin,.so,.a,.apk,...&#x3002;&#x4EE5;BUILD_&#x5F00;&#x5934;&#xFF0C;&#x6307;&#x5411;&#x5177;&#x4F53;&#x7684;mk&#x6587;&#x4EF6;&#x3002;&#x6BD4;&#x5982;BUILD_STATIC_LIBRARY:= $(BUILD_SYSTEM)/static_library.mk</p>
+<p>  4.&#x8BBE;&#x7F6E;&#x4E00;&#x822C;&#x7F16;&#x8BD1;&#x9009;&#x9879;&#x548C;&#x4E0D;&#x540C;&#x7C7B;&#x578B;&#x7684;&#x6587;&#x4EF6;&#x540E;&#x7F00;&#x540D;&#x3002;&#x4EE5;COMMON_&#x5F00;&#x5934;&#x3002;COMMON_GLOBAL_CFLAGS&#xFF0C;COMMON_RELEASE_CFLAGS&#x3002;COMMON_PACKAGE_SUFFIX&#xFF1A;&#xFF1D;.zip</p>
+<p>  5.&#x5305;&#x542B;include$(TOPDIR)buildspec.mk&#x3002;&#x8BBE;&#x7F6E;&#x4E00;&#x4E9B;&#x4E3B;&#x8981;&#x7684;&#x53D8;&#x91CF;&#xFF0C;&#x6BD4;&#x5982;&#x76EE;&#x6807;&#x4EA7;&#x54C1;&#x540D;&#x79F0;&#x3002;&#x8FD9;&#x4E9B;&#x90FD;&#x8981;&#x6211;&#x4EEC;&#x5728;make&#x4E4B;&#x524D;&#x8BBE;&#x7F6E;&#x3002;&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#x6709;&#x4E2A;&#x6A21;&#x7248;&#x662F;build/buildspec.mk.default&#x3002;</p>
+<p>  6.&#x5305;&#x542B;include$(BUILD_SYSTEM)/envsetup.mk&#x3002;&#x8BBE;&#x7F6E;&#x4E00;&#x4E9B;&#x8DDF;product&#x76F8;&#x5173;&#x7684;&#x53D8;&#x91CF;&#x3002;</p>
+<p> 7.&#x5728;build/target/board/$(TARGET_DEVICE)/BroadConfig.mk,device/<em>/$(TARGET_DEVICE)/BroadConfig.mk veror/</em>/$(TARGET_DEVICE)/BroadConfig.mk &#x8FD9;&#x4E09;&#x4E2A;&#x8DEF;&#x5F84;&#x4E0B;&#xFF0C;&#x67E5;&#x627E;product&#x7684;&#x76EE;&#x6807;&#x8BBE;&#x5907;&#x7684;BroadConfig.mk&#x6587;&#x4EF6;&#x3002;&#x5E76;&#x5305;&#x542B;&#x8FDB;&#x6765;&#x3002;BroadConfig.mk&#x8BBE;&#x7F6E;&#x4E86;&#x6BCF;&#x4E2A;&#x8BBE;&#x5907;&#x7684;&#x81EA;&#x5DF1;&#x7684;&#x4E00;&#x4E9B;&#x53D8;&#x91CF;&#x503C;&#xFF0C;&#x6765;&#x533A;&#x522B;&#x7F16;&#x8BD1;&#x65F6;&#x7684;&#x884C;&#x4E3A;&#x3002;TARGET_CPU_ABI &#x5FC5;&#x987B;&#x8981;&#x8BBE;&#x7F6E;&#x3002;&#x8FD9;&#x4E9B;&#x8BBE;&#x5907;&#x662F;&#x88AB;product.mk&#x4E2D; TARGET_DEVICE&#x6307;&#x5B9A;&#xFF0C;&#x4E00;&#x4E2A;&#x8BBE;&#x5907;&#x4FE1;&#x606F;&#x53EF;&#x4EE5;&#x88AB;&#x5F88;&#x591A;&#x4E2A;product&#x4F7F;&#x7528;&#x3002;</p>
+<p>  8.&#x8BBE;&#x7F6E;combo<em>target := HOST</em>&#xFF0C;&#x5305;&#x542B;include $(BUILD_SYSTEM)/combo/select.mk&#x3002;</p>
+<p>&#x6839;&#x636E;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x548C;CPU&#x7C7B;&#x578B;&#x8BBE;&#x7F6E;&#x4EE5;HOST<em>&#x5F00;&#x5934;&#x7684;&#x53D8;&#x91CF;&#xFF0C;&#x5E76;&#x5305;&#x542B;include$(BUILD_SYSTEM)/combo/HOST</em>$(HOST<em>OS)</em>$(HOST<em>ARCH).mk,&#x5176;&#x4E2D;HOST_OS&#x662F;&#x4E3B;&#x673A;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#xFF0C;HOST_ARCH&#x662F;&#x4E3B;&#x673A;CPU&#x7C7B;&#x578B;&#xFF0C;&#x6BD4;&#x5982;HOST_linux_x86.mk.&#x5728;&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#x91CC;&#x4FEE;&#x6539;&#x4EE5;HOST</em>&#x5F00;&#x5934;&#x7684;&#x53D8;&#x91CF;&#xFF0C;&#x4E3B;&#x8981;&#x662F;&#x5411;HOST_GLOBAL_CFLAGS&#x6DFB;&#x52A0;&#x6807;&#x5FD7;&#x3002;</p>
+<p>  9.&#x8BBE;&#x7F6E;combo<em>target := TARGET</em>&#xFF0C;&#x5305;&#x542B;include $(BUILD_SYSTEM)/combo/select.mk&#x3002;</p>
+<p>&#x6839;&#x636E;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x548C;CPU&#x7C7B;&#x578B;&#x8BBE;&#x7F6E;&#x4EE5;TARGET<em>&#x5F00;&#x5934;&#x7684;&#x53D8;&#x91CF;&#xFF0C;&#x5E76;&#x5305;&#x542B;include$(BUILD_SYSTEM)/combo/TARGET</em>$(TARGET<em>OS)</em>$(TARGET<em>ARCH).mk,&#x5176;&#x4E2D;TARGET_OS&#x662F;&#x76EE;&#x6807;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#xFF0C;TARGET_ARCH&#x662F;&#x76EE;&#x6807;CPU&#x7C7B;&#x578B;&#xFF0C;&#x6BD4;&#x5982;TARGET_linux_arm.mk.&#x5728;&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#x91CC;&#x4FEE;&#x6539;&#x4EE5;TARGET</em>&#x5F00;&#x5934;&#x7684;&#x53D8;&#x91CF;&#xFF0C;&#x4E3B;&#x8981;&#x662F;&#x8BBE;&#x7F6E;&#x4EA4;&#x53C9;&#x7F16;&#x8BD1;&#x5DE5;&#x5177;&#x548C;&#x53C2;&#x6570;&#x548C;&#x57FA;&#x672C;&#x7684;&#x7CFB;&#x7EDF;&#x5934;&#x6587;&#x4EF6;&#x3002;&#x5B9A;&#x4E49;&#x4E86;transform-o-to-shared-lib-inner&#xFF0C;transform-o-to-executable-inner&#xFF0C;transform-o-to-static-executable-inner&#x4E09;&#x4E2A;&#x51FD;&#x6570;&#xFF0C;&#x628A;.o&#x6587;&#x4EF6;&#x5206;&#x522B;&#x8F6C;&#x5316;&#x6210;&#x5171;&#x4EAB;&#x5E93;&#x6587;&#x4EF6;&#xFF0C;&#x53EF;&#x6267;&#x884C;&#x6587;&#x4EF6;&#xFF0C;&#x9759;&#x6001;&#x5E93;&#x6587;&#x4EF6;&#x3002;</p>
+<p>  10.&#x5305;&#x542B; include$(BUILD_SYSTEM)/combo/javac.mk&#x3002;&#x5F97;&#x5230;&#x4E00;&#x4E2A;JAVAC&#x7F16;&#x8BD1;&#x5668;</p>
+<p>CUSTOM_JAVA_COMPILER</p>
+<p>COMMON_JAVAC</p>
+<p>eclipse</p>
+<p>=java -Xmx256m -jar prebuilt/common/ecj/ecj.jar -5 \  -maxProblems 9999999 -nowarn</p>
+<p>openjdk</p>
+<p>= prebuilt/common/openjdk/bin/javac -target 1.5 \ -Xmaxerrs 9999999</p>
+<p>others</p>
+<p>Windows: = development/host/windows/prebuilt/javawrap.exe -J-Xmx256m \ -target 1.5 -Xmaxerrs 9999999</p>
+<p>Other:=javac -J-Xmx512M -target 1.5 -Xmaxerrs 9999999</p>
+<p>   11.&#x68C0;&#x67E5;BUILD_ENV_SEQUENCE_NUMBER&#xFF0C;&#x8FD9;&#x4E2A;&#x662F;&#x5728;&#x524D;&#x9762;&#x7684;buildspec.mk&#x8BBE;&#x7F6E;&#x6216;&#x8005;&#x901A;&#x8FC7;envsetup.sh&#x811A;&#x672C;&#x8BBE;&#x7F6E;&#x3002;</p>
+<p>   12.&#x8BBE;&#x7F6E;&#x4E3B;&#x673A;&#x901A;&#x7528;&#x5DE5;&#x5177;&#x53D8;&#x91CF;&#x3002;&#x5176;&#x4E2D;&#x4E00;&#x4E9B;&#x662F;&#x4E3B;&#x673A;&#x81EA;&#x5E26;&#x7684;LEX:= flex</p>
+<p> YACC:=bison -d   DOXYGEN:= doxygen,&#x8FD8;&#x6709;&#x4E00;&#x4E9B;&#x662F;&#x5728;/out/target/$($(HOST_OS)-$(HOST_ARCH))/bin&#x4E0B;&#x7684;&#x7A0B;&#x5E8F;&#xFF0C;MKBOOTIMG:=$(HOST_OUT_EXECUTABLES)/mkbootimg&#x3002;</p>
+<p>   13.&#x8BBE;&#x7F6E;&#x6700;&#x7EC8;&#x7684;&#x7F16;&#x8BD1;&#x8FDE;&#x63A5;&#x53C2;&#x6570;&#x3002;&#x6709;&#x5982;&#x4E0B;&#x53C2;&#x6570;&#x53D8;&#x91CF;&#xFF1A;</p>
+<p>HOST_GLOBAL_CFLAGS&#xFF0C;   HOST_RELEASE_CFLAGS&#xFF0C;     HOST_GLOBAL_CPPFLAGS&#xFF0C;</p>
+<p>HOST_RELEASE_CPPFLAGS&#xFF0C; TARGET_GLOBAL_CFLAGS&#xFF0C;   TARGET_RELEASE_CFLAGS&#xFF0C;</p>
+<p>TARGET_GLOBAL_CPPFLAGS&#xFF0C;TARGET_RELEASE_CPPFLAGS&#xFF0C; HOST_GLOBAL_LD_DIRS&#xFF0C;</p>
+<p>TARGET_GLOBAL_LD_DIRS&#xFF0C; HOST_PROJECT_INCLUDES&#xFF0C;   TARGET_PROJECT_INCLUDES&#xFF0C;</p>
+<pre><code>13.&#x83B7;&#x5F97;sdk&#x548C;ndk&#x7684;&#x7248;&#x672C;&#x53F7;&#x5217;&#x8868;&#x3002;TARGET_AVAILABLE_SDK_VERSIONS&#x548C;TARGET_AVAILABLE_NDK_VERSIONS
+</code></pre><p>&#x4E09;.  envsetup.mk</p>
+<pre><code>1.&#x5305;&#x542B;&#xFF1A;include$(BUILD_SYSTEM)/version_defaults.mk &#x8BBE;&#x7F6E;&#x90A3;&#x4E9B;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x8BBE;&#x7F6E;&#x7684;&#x53D8;&#x91CF;&#x7684;&#x7F3A;&#x7701;&#x503C;&#x3002;&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#x6211;&#x4EEC;&#x4E0D;&#x56E0;&#x8BE5;&#x6539;&#x52A8;&#xFF0C;&#x6539;&#x52A8;&#x5E94;&#x8BE5;&#x5728;build_id.mk&#x91CC;&#x3002;
+</code></pre><p>PLATFORM_VERSION</p>
+<p>2.2.1</p>
+<p>PLATFORM_SDK_VERSION</p>
+<p>8</p>
+<p>PLATFORM_VERSION_CODENAME</p>
+<p>REL</p>
+<p>DEFAULT_APP_TARGET_SDK</p>
+<p>PLATFORM_SDK_VERSION</p>
+<p>BUILD_ID</p>
+<p>MASTER</p>
+<p>BUILD_NUMBER</p>
+<p>eng.$(USER).$(date)</p>
+<pre><code>2.&#x8BBE;&#x7F6E;&#x5728;&#x6587;&#x4EF6;buildspec.mk&#x91CC;&#x6216;&#x901A;&#x8FC7;envsetup.sh&#x8BBE;&#x7F6E;&#x7684;&#x53D8;&#x91CF;&#x7684;&#x7F3A;&#x7701;&#x503C;&#x3002;
+</code></pre><p>TARGET_PRODUCT</p>
+<p>generic(TARGET_SIMULATOR := false)</p>
+<p>sim(TARGET_SIMULATOR:=false)</p>
+<p>TARGET_BUILD_VARIANT</p>
+<p>eng</p>
+<p>HOST_OS</p>
+<p>windows/linux/darwin</p>
+<p>HOST_ARCH</p>
+<p>x86/ppc</p>
+<p>HOST_BUILD_TYPE</p>
+<p>release</p>
+<p>TARGET_OS</p>
+<p>linux</p>
+<p>TARGET_ARCH</p>
+<p>arm</p>
+<p>TARGET_BUILD_TYPE</p>
+<p>release</p>
+<p>   3.&#x5305;&#x542B;&#xFF1A;include$(BUILD_SYSTEM)/product_config.mk&#x3002;&#x5B9A;&#x4E49;&#x4E86;&#x4E24;&#x79CD;MAKECMDGOALS&#x53C2;&#x6570;&#x5F62;&#x5F0F;&#xFF0C;&#x6839;&#x636E;product&#x548C;device&#x76EE;&#x5F55;&#x4E0B;&#x7684;mk&#x6587;&#x4EF6;&#x751F;&#x6210;&#x76F8;&#x5E94;&#x7684;PRODUCTS_xxx_xxx&#x548C;DEVICES_xxx_xxx&#x53D8;&#x91CF;&#x3002;&#x4E2D;&#x95F4;&#x7684;&#x662F;&#x6587;&#x4EF6;&#x7684;&#x8DEF;&#x5F84;&#xFF0C;&#x540E;&#x9762;&#x7684;&#x662F;&#x6587;&#x4EF6;&#x91CC;&#x5B9A;&#x4E49;&#x7684;&#x53D8;&#x91CF;&#x3002;</p>
+<p>   4.&#x8BBE;&#x7F6E;&#x4E00;&#x4E9B;&#x5217;&#x8DEF;&#x5F84;&#x53D8;&#x91CF;&#x3002;&#x4E3B;&#x673A;&#x8DEF;&#x5F84;&#x4EE5;HOST<em>OUT</em><em> &#x6216;HOST_</em><em>OUT</em><em>&#x5F62;&#x5F0F;&#xFF0C;&#x76EE;&#x6807;&#x673A;&#x8DEF;&#x5F84;&#x4EE5;TARGET<em>OUT</em></em> &#x6216;TARGET<em>*_OUT</em>*&#x5F62;&#x5F0F;&#x3002;</p>
+<p>  5.&#x6839;&#x636E;MAKECMDGOALS&#xFF0C;&#x82E5;&#x5176;&#x4E2D;&#x5305;&#x542B;dumpvar-%&#x6216;dumpvar-abs-%&#xFF0C;&#x5C31;&#x751F;&#x6210;&#x4E00;&#x4E2A;&#x4EE5;dumpvar-%&#x6216;dumpvar-abs-%&#x547D;&#x540D;&#x7684;make&#x76EE;&#x6807;&#x3002;&#x5B9E;&#x73B0;&#x662F;&#x6253;&#x5370;&#x51FA;&#xFF05;&#x6240;&#x8868;&#x793A;&#x7684;&#x53D8;&#x91CF;&#x7684;&#x503C;&#x3002;&#x8FD9;&#x4E2A;&#x53D8;&#x91CF;&#x5FC5;&#x987B;&#x8981;&#x5728;&#x8FD9;&#x4E4B;&#x524D;&#x5DF2;&#x7ECF;&#x5B9A;&#x4E49;&#x4E86;&#xFF0C;&#x540E;&#x4E00;&#x79CD;&#x5728;&#x524D;&#x9762;&#x8FD8;&#x6253;&#x5370;&#x51FA;&#x5F53;&#x524D;&#x7684;&#x8DEF;&#x5F84;&#x3002;&#x8FD9;&#x4E24;&#x79CD;&#x60C5;&#x51B5;&#x5FC5;&#x987B;&#x8981;&#x5148;&#x8BBE;&#x7F6E;CALLED_FROM_SETUP=true&#x3002;envsetup.sh&#x7684;get_build_var&#x548C;get_abs_build_var()&#x51FD;&#x6570;&#x5C31;&#x662F;&#x8FD0;&#x7528;&#x7684;&#x8FD9;&#x4E2A;&#x539F;&#x7406;&#x6253;&#x5370;&#x53D8;&#x91CF;&#x7684;&#x503C;&#x3002;</p>
+<h1 id="get-the-exact-value-of-a-buildvariable">Get the exact value of a buildvariable.</h1>
+<p>function get_build_var()
+{
+   T=$(gettop)
+   if [ ! &quot;$T&quot; ]; then
+       echo &quot;Couldn&apos;t locate the top of the tree.  Try setting TOP.&quot; &gt;&amp;2
+       return
+   fi
+   CALLED_FROM_SETUP=true BUILD_SYSTEM=build/core \
+   make--no-print-directory -C &quot;$T&quot; -f build/core/config.mk dumpvar-$1
+}</p>
+<h1 id="get-the-value-of-a-build-variable-asan-absolute-path">Get the value of a build variable asan absolute path.</h1>
+<p>function get_abs_build_var()
+{
+  T=$(gettop)
+  if [ ! &quot;$T&quot; ]; then
+       echo &quot;Couldn&apos;t locate the top of the tree.  Try setting TOP.&quot; &gt;&amp;2
+       return
+   fi
+   CALLED_FROM_SETUP=true BUILD_SYSTEM=build/core \
+   make --no-print-directory -C &quot;$T&quot;-f build/core/config.mk dumpvar-abs-$1
+}</p>
+<p>&#x56DB;. product_config.mk</p>
+<p>   1.&#x5B9A;&#x4E49;&#x4E24;&#x79CD;&#x547D;&#x4EE4;&#x5F62;&#x5F0F;:</p>
+<pre><code> makePRODUCT-&lt;prodname&gt;-&lt;goal&gt;
+</code></pre><p>  TARGET_PRODUCT := prodname  TARGET_BUILD_VARIANT := goal</p>
+<pre><code> make APP-&lt;appnames&gt;
+</code></pre><p>  TARGET_BUILD_APPS := appnames</p>
+<p>   2.&#x5305;&#x542B;&#xFF1A;include$(BUILD_SYSTEM)/node_fns.mk</p>
+<pre><code>      include $(BUILD_SYSTEM)/product.mk
+
+      include $(BUILD_SYSTEM)/device.mk
+
+ &#x8FD9;&#x4E09;&#x4E2A;&#x6587;&#x4EF6;&#x4E3B;&#x8981;&#x662F;&#x5B9A;&#x4E49;&#x4E86;&#x4E00;&#x4E9B;&#x51FD;&#x6570;&#x6765;&#x76F8;&#x4E92;&#x8C03;&#x7528;&#x6216;&#x4F9B;product_config.mk&#x6587;&#x4EF6;&#x8C03;&#x7528;
+</code></pre><p>&#x51FD;&#x6570;&#x540D;</p>
+<p>&#x8BF4;&#x660E;</p>
+<p>node_fns.mk   Import- nodes $(1) $(2) $(3)</p>
+<p>import-nodes&#x9700;&#x8981;3&#x4E2A;&#x5165;&#x53E3;&#x53C2;&#x6570;&#xFF1A;
+$(1)&#x662F;&#x4E00;&#x4E2A;&#x5B57;&#x4E32;&#xFF0C;&#x662F;&#x8F93;&#x51FA;&#x53D8;&#x91CF;&#x7684;&#x4E3B;&#x5E72;&#x540D;&#x3002;&#x4F8B;&#x5982;&#x201D;PRODUCTS&quot;&#x548C;&#x201D;DEVICES&#x201C;&#x3002;
+$(2)&#x662F;&#x4E00;&#x4E2A;makefile&#x6587;&#x4EF6;&#x5217;&#x8868;&#xFF0C;&#x8FD9;&#x4E9B;&#x6587;&#x4EF6;&#x4E2D;&#x5E94;&#x8BE5;&#x542B;&#x6709;&#x5BF9;$(3)&#x4E2D;&#x53D8;&#x91CF;&#x7684;&#x5B9A;&#x4E49;&#x3002;
+$(3)&#x662F;&#x4E00;&#x4E2A;&#x53D8;&#x91CF;&#x5217;&#x8868;&#x3002;</p>
+<p>import- nodes&#x4F1A;&#x521B;&#x5EFA;&#x8FD9;&#x6837;&#x5F62;&#x5F0F;&#x7684;&#x53D8;&#x91CF;&#xFF0C;&#x4EE5;$(1)=&quot;PRODUCTS&quot;,$(2)&#x4E2D;&#x542B;&#x6709;&quot;build/target/product/core.mk&quot;, $(3)&#x4E2D;&#x542B;&#x6709;&quot;PRODUCT_NAME&quot;,&#x800C;&#x4E14;core.mk&#x4E2D;&#x5B9A;&#x4E49;&#x4E86;PRODUCT_NAME:=core&#x4E3A;&#x4F8B;&#xFF0C;
+PRODUCT.build/target/product/core.mk.PRODUCT_NAME:=core</p>
+<p>import-nodes&#x4E2D;&#x8FD8;&#x8003;&#x8651;&#x4E86;inherit&#x7684;&#x95EE;&#x9898;&#xFF0C;&#x5982;&#x679C;&#x67D0;&#x4E2A;PRODUCT.xxx.xxx&#x53D8;&#x91CF;&#x7684;&#x503C;&#x4E2D;&#x6709;&#x2018;@inherit:<mk文件>&#x2019;&#x6807;&#x8BC6;&#x540E;&#x9762;&#x8DDF;&#x7684;&#x662F;mk&#x6587;&#x4EF6;&#x540D;&#xFF0C;&#x5219;&#x4F1A;&#x628A;&#x90A3;&#x4E2A;mk&#x6587;&#x4EF6;&#x4E2D;&#x76F8;&#x5E94;&#x7684;&#x53D8;&#x91CF;&#x7684;&#x5C5E;&#x6027;&#x6DFB;&#x52A0;&#x5230;PRODUCT.xxx.xxx&#x4E2D;&#x3002;&apos;@inherit:<mk文件>&apos;&#x662F;inherit-product&#x547D;&#x4EE4;&#x6DFB;&#x52A0;&#x7684;&#x3002;&#x8FD9;&#x4E2A;&#x51FD;&#x6570;&#x5728;product.mk&#x3002;</mk文件></mk文件></p>
+<p>product.mk
+ _find-android-products-files</p>
+<p>&#x5F97;&#x5230;device/&#x548C;vendor/, &#x5305;&#x62EC;&#x5B50;&#x76EE;&#x5F55;&#xFF0C;&#x4EE5;&#x53CA;build/target/product/&#x4E0B;&#x7684;AndroidProducts.mk&#x6587;&#x4EF6;&#x5217;&#x8868;</p>
+<p>product.mk
+ get-all-product-makefiles</p>
+<p>&#x5F97;&#x5230;&#x6240;&#x6709;AndroidProducts.mk&#x6587;&#x4EF6;&#x4E2D; PRODUCT_MAKEFILES&#x53D8;&#x91CF;&#x5B9A;&#x4E49;&#x7684;mk&#x6587;&#x4EF6;&#x5217;&#x8868;</p>
+<p>product.mk
+ import-products</p>
+<p>&#x8C03;&#x7528;import-nodes&#xFF08;node<em>fns.mk&#xFF09;&#xFF0C;&#x8BBE;&#x7F6E;$1=PRODUCTS,&#x8BBE;&#x7F6E;$3=$(_product_var_list),_product_var_list&#x662F;&#x4EE5;PRODUCT</em>&#x5F00;&#x5934;&#x7684;&#x53D8;&#x91CF;&#x540D;&#x3002;</p>
+<p>product.mk
+inherit-product</p>
+<p>&#x5C06;&#x5728;&#x6240;&#x6709;&#x7684;PRODUCT_xxx&#x53D8;&#x91CF;&#x503C;&#x540E;&#x7F00;&#x52A0;&#x4E0A;&apos;@inherit:<mk文件>&apos;</mk文件></p>
+<p>product.mk
+check-all-products</p>
+<p>&#x68C0;&#x67E5;PRODUCT_NAME,PRODUCT_BRAND&#xFF0C;PRODUCT_COPY_FILES&#x5B9A;&#x4E49;&#x7684;&#x662F;&#x5426;&#x6B63;&#x786E;</p>
+<p>product.mk
+resolve-short-product-name</p>
+<p>&#x6839;&#x636E;product&#x7684;&#x540D;&#x5B57;&#xFF0C;&#x5F97;&#x5230;&#x5B9A;&#x4E49;&#x5B83;&#x7684;mk&#x6587;&#x4EF6;&#x8DEF;&#x5F84;</p>
+<p>&#xFF08;resolve-short-product-name generic &#x2192; /build/target/product/generic.mk&#xFF09;</p>
+<p>device.mk
+import-devices</p>
+<p>&#x8C03;&#x7528;import-nodes&#xFF08;node<em>fns.mk&#xFF09;&#xFF0C;&#x8BBE;&#x7F6E;$1=DEVICES,&#x8BBE;&#x7F6E;$3=$(_device_var_list),_device_var_list&#x662F;&#x4EE5;DEVICE</em>&#x5F00;&#x5934;&#x7684;&#x53D8;&#x91CF;&#x540D;&#x3002;</p>
+<p>device.mk
+ inherit-device</p>
+<p>&#x5C06;&#x5728;&#x6240;&#x6709;&#x7684;DEVICE_&#x53D8;&#x91CF;&#x503C;&#x540E;&#x7F00;&#x52A0;&#x4E0A;&apos;@inherit:<mk文件>&apos;</mk文件></p>
+<p>device.mk
+resolve-short-device-name</p>
+<p>&#x6839;&#x636E;device&#x7684;&#x540D;&#x5B57;&#xFF0C;&#x5F97;&#x5230;&#x5B9A;&#x4E49;&#x5B83;&#x7684;mk&#x6587;&#x4EF6;&#x8DEF;&#x5F84;</p>
+<pre><code> 3.&#x8C03;&#x7528;import-products&#x51FD;&#x6570;&#xFF0C;&#x5224;&#x65AD;TARGET_BUILD_APPS&#x662F;&#x5426;&#x4E3A;&#x7A7A;&#xFF0C;&#x82E5;&#x4E3A;&#x7A7A;&#xFF0C;&#x53EA;&#x5BFC;&#x5165;
+</code></pre><p>$(SRC_TARGET_DIR)/product/AndroidProducts.mk&#x91CC;&#x7684;mk&#x6587;&#x4EF6;&#x3002;&#x5426;&#x5219;&#x8C03;&#x7528;get-all-product-makefiles&#xFF0C;&#x5BFC;&#x5165;&#x5168;&#x90E8;mk&#x6587;&#x4EF6;&#x3002;&#x518D;&#x8C03;&#x7528;check-all-products&#x68C0;&#x67E5;&#x53D8;&#x91CF;&#x8BBE;&#x7F6E;&#x7684;&#x6B63;&#x786E;&#x6027;&#x3002;</p>
+<pre><code>4.&#x6839;&#x636E;&#x8981;&#x7F16;&#x8BD1;&#x7684;&#x76EE;&#x6807;TARGET_PRODUCT,&#x901A;&#x8FC7;&#x8C03;&#x7528;resolve-short-product-name&#x5F97;&#x5230;mk&#x6587;&#x4EF6;,&#x7ED3;&#x679C;&#x5B58;&#x653E;&#x5728;INTERNAL_PRODUCT&#x53D8;&#x91CF;&#x91CC;&#x3002;&#x518D;&#x5C06;PRODUCTS.$(INTERNAL_PRODUCT).PRODUCT_xxx&#x7684;&#x503C;&#x8D4B;&#x503C;&#x7ED9;PRODUCT_xxx&#x3002;ADDITIONAL_BUILD_PROPERTIES&#x8FFD;&#x52A0;PRODUCT_PROPERTY_OVERRIDES&#x3002;&#x8FD9;&#x4E9B;PRODUCT_&#x53D8;&#x91CF;&#x90FD;&#x5728;product&#x4E0B;&#x7684;mk&#x6587;&#x4EF6;&#x91CC;&#x5B9A;&#x4E49;&#x3002;&#x5982;&#x4E0B;&#xFF1A;
+</code></pre><p> TARGET_DEVICE,PRODUCT_LOCALES ,PRODUCT_BRAND, PRODUCT_MODEL, PRODUCT_MANUFACTURER, PRODUCT_DEFAULT_WIFI_CHANNELS, PRODUCT_POLICY,PRODUCT_COPY_FILES, PRODUCT_PROPERTY_OVERRIDES, PRODUCT_PACKAGE_OVERLAYS,  DEVICE_PACKAGE_OVERLAYS,  PRODUCT_TAGS,PRODUCT_OTA_PUBLIC_KEYS</p>
+<p>&#x4E94;.  cleanbuild.mk</p>
+<pre><code> 1. &#x5B9A;&#x4E49;&#x4E86;add-clean-step&#x51FD;&#x6570;&#x3002;&#x6709;&#x4E00;&#x4E2A;&#x5165;&#x53E3;&#x53C2;&#x6570;$(1)&#xFF0C;&#x6267;&#x884C;&#x5220;&#x9664;&#x64CD;&#x4F5C;&#x7684;&#x5177;&#x4F53;shell&#x547D;&#x4EE4;&#x3002;
+</code></pre><p>&#x4E00;&#x822C;add-clean-step&#x5E94;&#x5F53;&#x5728;%/cleanspec.mk&#x811A;&#x672C;&#x4E2D;&#x4F7F;&#x7528;&#xFF0C;&#x547D;&#x4EE4;&#x4F1A;&#x4E3A;$(1)&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;&#x53D8;&#x91CF;&#x4FDD;&#x5B58;&#xFF0C;&#x53D8;&#x91CF;&#x7684;&#x540D;&#x5B57;&#x662F;INTERNAL<em>STEP.$(_acs_id)&#xFF0C;&#x6240;&#x6709;&#x7684;$(_acs_id)&#x4FDD;&#x5B58;&#x5728;INTERNAL_STEPS&#x4E2D;&#x3002;$(_acs_id)&#x7684;&#x503C;&#x5206;&#x6210;3&#x4E2A;&#x90E8;&#x5206;&#x6784;&#x9020;&#xFF1A;
+&#x7B2C;&#x4E00;&#x90E8;&#x5206;&#x662F;&#x6709;cleanspec.mk&#x7684;&#x8DEF;&#x5F84;&#x8F6C;&#x5316;&#x800C;&#x6765;&#xFF0C;&#x7528;&apos;</em>&apos;&#x66FF;&#x4EE3;&apos;/&apos;&#xFF0C;&apos;-&apos;&#x66FF;&#x4EE3;&apos;.&apos;&#xFF0C;&#x540E;&#x7F00;_acs&#x3002;</p>
+<p>&#x7B2C;&#x4E8C;&#x90E8;&#x5206;&#x662F;$(INTERNAL_CLEAN_BUILD_VERSION)&#xFF0C;&#x9ED8;&#x8BA4;&#x662F;4&#x3002;</p>
+<p>&#x7B2C;&#x4E09;&#x90E8;&#x5206;&#x662F;&#x6709;&apos;@&apos;&#x7EC4;&#x6210;&#xFF0C;cleanspec.mk&#x4E2D;&#x7684;&#x7B2C;&#x51E0;&#x4E2A;add- clean-step&#x5C31;&#x7528;&#x51E0;&#x4E2A;@&#x3002;</p>
+<p>&#x4F8B;&#x5982;&#xFF0C;packages/apps/Camera/cleanspec.mk&#x4E2D;&#x5B9A;&#x4E49;&#x4E86;&#x4E24;&#x4E2A;&#x5220;&#x9664;&#x52A8;&#x4F5C;</p>
+<p>$(call add-clean-step, rm -rf $(PRODUCT_OUT)/obj/APPS/Camera<em>)
+$(call add-clean-step, rm -rf $(OUT_DIR)/target/common/obj/APPS/Camera</em>)
+&#x90A3;&#x4E48;&#xFF0C;&#x5BF9;&#x5E94;&#x7684;&#x751F;&#x6210;&#x53D8;&#x91CF;&#x6709;:</p>
+<p>INTERNAL_STEP.packages_apps_Camera_CleanSpec-mk_acs4@:= rm -rf $(PRODUCT_OUT)/obj/APPS/Camera<em>
+INTERNAL_STEP.packages_apps_Camera_CleanSpec-mk_acs4@@ := rm -rf$(OUT_DIR)/target/common/obj/APPS/Camera</em></p>
+<p>INTERNAL_CLEAN_STEPS+=packages_apps_Camera_CleanSpec-mk_acs4@:</p>
+<p>INTERNAL_CLEAN_STEPS+packages_apps_Camera_CleanSpec-mk_acs4@@:</p>
+<p>   2.&#x5305;&#x542B;&#xFF1A;$(BUILD_SYSTEM)/cleanspec.mk&#x3002;&#x8BBE;&#x7F6E;INTERNAL_CLEAN_BUILD_VERSION :=3&#xFF0C;&#x5E76;&#x901A;&#x8FC7;add-clean-step&#x51FD;&#x6570;&#xFF0C;&#x52A0;&#x8FDB;&#x4E00;&#x4E9B;&#x9ED8;&#x8BA4;&#x7684;&#x5220;&#x9664;&#x64CD;&#x4F5C;&#xFF0C;&#x5728;&#x901A;&#x8FC7;build/tools/findleaves.py&#x679A;&#x4E3E;&#x6240;&#x6709;&#x7684;CleanSpec.mk&#x6587;&#x4EF6;&#xFF0C;&#x5E76;&#x628A;&#x5B83;&#x4EEC;&#x5305;&#x542B;&#x8FDB;&#x6765;&#x3002;&#x5728;&#x8FD9;&#x4E9B;&#x6587;&#x4EF6;&#x91CC;&#x6839;&#x636E;&#x5177;&#x4F53;&#x7684;&#x6A21;&#x5757;&#x52A0;&#x5220;&#x9664;&#x64CD;&#x4F5C;&#x3002;</p>
+<pre><code>3.&#x5305;&#x542B;&#xFF1A;$(PRODUCT_OUT)/clean_steps.mk&#x3002;&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#x662F;&#x81EA;&#x52A8;&#x751F;&#x6210;&#x7684;&#xFF0C;&#x8BBE;&#x7F6E;CURRENT_CLEAN_BUILD_VERSION :=INTERNAL_CLEAN_BUILD_VERSION
+</code></pre><p>   4.&#x6BD4;&#x8F83;CURRENT_CLEAN_BUILD_VERSION&#x548C;INTERNAL_CLEAN_BUILD_VERSION&#x82E5;&#x76F8;&#x7B49;&#x6267;&#x884C;INTERNAL_CLEAN_STEPS&#x91CC;&#x7684;&#x547D;&#x4EE4;&#xFF0C;&#x5426;&#x5219;&#x8868;&#x793A;&#x6211;&#x4EEC;&#x4FEE;&#x6539;&#x8FC7;cleanspec.mk&#xFF0C; &#x5220;&#x9664;&#x6574;&#x4E2A;$(OUT_DIR)&#x3002;</p>
+<p>   5.&#x5305;&#x542B;&#xFF1A;$(PRODUCT_OUT)/previous_build_config.mk&#x3002;&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#x4E5F;&#x662F;&#x81EA;&#x52A8;&#x751F;&#x6210;&#x7684;&#xFF0C;&#x67E5;&#x770B;PREVIOUS_BUILD_CONFIG&#x662F;&#x5426;&#x4E8E;&#x5F53;&#x524D;&#x7684;&#x7F16;&#x8BD1;&#x9009;&#x9879;&#x4E00;&#x81F4;&#x3002;&#x4E0D;&#x76F8;&#x540C;&#x5C31;&#x5F3A;&#x5236;&#x5220;&#x9664;&#x4E2D;&#x95F4;&#x6587;&#x4EF6;&#xFF0C;&#x5E76;&#x5C06;&#x5F53;&#x524D;&#x7684;&#x7F16;&#x8BD1;&#x9009;&#x9879;&#x5199;&#x5165;&#x6587;&#x4EF6;&#x3002;&#x5220;&#x9664;&#x7684;&#x6587;&#x4EF6;&#x662F;&#x7531;installclean_files&#xFF0C;dataclean_files&#x5B9A;&#x4E49;&#x3002;PREVIOUS_BUILD_CONFIG&#x7684;&#x683C;&#x5F0F;&#x662F;$(TARGET_PRODUCT)-$(TARGET_BUILD_VARIANT)$(building_sdk)-{$(locale_list)}&#x3002;</p>
+<pre><code>6.&#x5B9A;&#x4E49;&#x4E24;&#x4E2A;make&#x76EE;&#x6807;installclean&#x548C;dataclean&#x3002;&#x5206;&#x522B;&#x7528;&#x6765;&#x5220;&#x9664;&#x5B89;&#x88C5;&#x6587;&#x4EF6;&#x548C;&#x6570;&#x636E;&#x6587;&#x4EF6;&#x3002;
+</code></pre><p>&#x516D;.   Makefile</p>
+<pre><code>1.&#x751F;&#x6210;&#x4E00;&#x4E9B;&#x8BB0;&#x5F55;&#x6587;&#x4EF6;
+
+   (1).&#x751F;&#x6210;$(OUT_DOCS)/index.html&#x6587;&#x4EF6;&#xFF0C;&#x5C06;frameworks/base/docs/docs-redirect-index.html&#x6587;&#x4EF6;&#x5185;&#x5BB9;&#x62F7;&#x8D1D;&#x8FDB;&#x53BB;&#x3002;
+
+   (2).&#x751F;&#x6210;$(TARGET_ROOT_OUT)/default.prop&#x6587;&#x4EF6;&#xFF0C;&#x5C06;ADDITIONAL_DEFAULT_PROPERTIES&#x7684;&#x503C;&#x5199;&#x5165;&#x6587;&#x4EF6;&#x3002;&#x751F;&#x6210;$(TARGET_OUT)/build.prop&#x6587;
+</code></pre><p>&#x4EF6;&#xFF0C;&#x4E3B;&#x8981;&#x5B58;&#x653E;&#x7684;&#x662F;build.properties,&#x4E3B;&#x8981;&#x6765;&#x81EA;&#x4E8E;&#x4E09;&#x4E2A;&#x65B9;&#x9762;&#xFF08;1&#xFF0C;&#x901A;&#x8FC7;&#x6267;&#x884C;build/tools/buildinfo.sh&#x6839;&#x636E;PRODUCT_NAME&#x53D8;&#x91CF;&#x503C;...&#x83B7;&#x5F97;2.&#x6587;&#x4EF6;$(TARGET_DEVICE_DIR)/system.prop3.ADDITIONAL_BUILD_PROPERTIES&#x53D8;&#x91CF;&#x503C;&#xFF09;&#x3002;</p>
+<pre><code>   (3).&#x751F;&#x6210;&#x6587;&#x4EF6;$(PRODUCT_OUT)/sdk/sdk-build.prop&#xFF0C;&#x62F7;&#x8D1D;$(TARGET_OUT)/build.prop&#x5185;&#x5BB9;&#xFF0C;&#x5E76;&#x4FEE;&#x6539;sdk_build_prop_remove&#x5B9A;&#x4E49;&#x7684;&#x5C5E;&#x6027;&#x5217;&#x8868;&#x503C;&#x90FD;&#x4E3A;generic&#x3002;
+
+   (4).&#x751F;&#x6210;&#x6587;&#x4EF6;$(PRODUCT_OUT)/module-info.txt&#xFF0C;&#x5217;&#x51FA;&#x5168;&#x90E8;&#x6A21;&#x5757;&#x7684;&#x4FE1;&#x606F;&#xFF0C;&#x9700;&#x58F0;&#x660E;CREATE_MODULE_INFO_FILE&#x3002;
+
+ 2.&#x5B9A;&#x4E49;&#x4E00;&#x4E9B;make target
+
+ 3.&#x5305;&#x542B;$(BUILD_SYSTEM)/tasks&#x76EE;&#x5F55;&#x4E0B;&#x7684;&#x6240;&#x6709;.mk&#x6587;&#x4EF6;&#x3002;
+</code></pre><p>&#x4E03;.         &#x6A21;&#x5757;&#x4E0B;&#x7684;Android.mk&#x7684;&#x8BF4;&#x660E;</p>
+<p>&#x4EE5;camera&#x4E3A;&#x4F8B;&#xFF1A;</p>
+<p>LOCAL_PATH:= $(call my-dir)</p>
+<p>ifeq ($(USE_CAMERA_STUB),)</p>
+<p>USE_CAMERA_STUB:=false</p>
+<p>ifneq ($(filter sooner genericsim,$(TARGET_DEVICE)),)</p>
+<p>USE_CAMERA_STUB:=true</p>
+<p>endif #libcamerastub</p>
+<p>endif</p>
+<p>ifeq ($(USE_CAMERA_STUB),true)</p>
+<p>#</p>
+<h1 id="libcamerastub">libcamerastub</h1>
+<p>#</p>
+<p>include $(CLEAR_VARS)</p>
+<p>LOCAL_SRC_FILES:=               \</p>
+<p>   CameraHardwareStub.cpp      \</p>
+<p>   FakeCamera.cpp</p>
+<p>LOCAL_MODULE:= libcamerastub</p>
+<p>ifeq ($(TARGET_SIMULATOR),true)</p>
+<p>LOCAL_CFLAGS += -DSINGLE_PROCESS</p>
+<p>endif</p>
+<p>LOCAL_SHARED_LIBRARIES:= libui</p>
+<p>include $(BUILD_STATIC_LIBRARY)</p>
+<p>endif # USE_CAMERA_STUB</p>
+<p>#</p>
+<h1 id="libcameraservice">libcameraservice</h1>
+<p>#</p>
+<p>include $(CLEAR_VARS)</p>
+<p>LOCAL_SRC_FILES:=               \</p>
+<p>   CameraService.cpp</p>
+<p>LOCAL_SHARED_LIBRARIES:= \</p>
+<p>   libui \</p>
+<p>   libutils \</p>
+<p>   libbinder \</p>
+<p>   libcutils \</p>
+<p>   libmedia \</p>
+<p>   libcamera_client \</p>
+<p>   libsurfaceflinger_client</p>
+<p>LOCAL_MODULE:= libcameraservice</p>
+<p>LOCAL_CFLAGS +=-DLOG_TAG=\&quot;CameraService\&quot;</p>
+<p>ifeq ($(TARGET_SIMULATOR),true)</p>
+<p>LOCAL_CFLAGS += -DSINGLE_PROCESS</p>
+<p>endif</p>
+<p>ifeq ($(USE_CAMERA_STUB), true)</p>
+<p>LOCAL_STATIC_LIBRARIES += libcamerastub</p>
+<p>LOCAL_CFLAGS += -includeCameraHardwareStub.h</p>
+<p>else</p>
+<p>LOCAL_SHARED_LIBRARIES += libcamera</p>
+<p>endif</p>
+<p>include $(BUILD_SHARED_LIBRARY)</p>
+<pre><code>   1.   include $(CLEAR_VARS)
+
+         &#x8FD9;&#x4E00;&#x6B65;&#x4E00;&#x822C;&#x90FD;&#x8981;&#x5728;&#x6587;&#x4EF6;&#x5934;&#x90E8;&#x5305;&#x542B;&#x3002;CLEAR_VARS=build/core/clear_vars.mk,&#x5728;&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#x91CC;&#x5C06;&#x6240;&#x6709;&#x4EE5;LOCAL_&#x5F00;&#x5934;&#x7684;&#x53D8;&#x91CF;&#x7F6E;&#x4E3A;&#x7A7A;&#xFF0C;&#x9664;&#x4E86;LOCAL_PATH.&#x56E0;&#x4E3A;&#x6BCF;&#x4E2A;&#x6A21;&#x5FEB;&#x90FD;&#x516C;&#x7528;&#x540C;&#x4E00;&#x4E2A;LOCAL_&#x53D8;&#x91CF;&#xFF0C;&#x9632;&#x6B62;&#x5E72;&#x6270;&#x3002;
+
+   2.    LOCAL_PATH:=$(call my-dir)
+
+         &#x901A;&#x8FC7;&#x8C03;&#x7528;my-dir&#x51FD;&#x6570;&#x83B7;&#x5F97;&#x5F53;&#x524D;&#x76EE;&#x5F55;&#x3002;
+
+   3.    &#x8BBE;&#x7F6E;&#x4EE5;LOCAL_&#x5F00;&#x5934;&#x7684;&#x53D8;&#x91CF;
+</code></pre><p>   LOCAL_SRC_FILES   &#x9700;&#x8981;&#x7684;&#x6E90;&#x6587;&#x4EF6;&#xFF0C;&#x4E0D;&#x9700;&#x8981;&#x5305;&#x542B;&#x5B83;&#x7684;&#x4F9D;&#x8D56;&#x6587;&#x4EF6;&#xFF0C;&#x56E0;&#x4E3A;&#x7F16;&#x8BD1;&#x65F6;&#x4F1A;&#x81EA;&#x52A8;&#x7684;&#x6DFB;&#x52A0;</p>
+<p>   LOCAL_C_INCLUDES  &#x4E00;&#x4E9B;&#x989D;&#x5916;&#x7684;&#x5934;&#x6587;&#x4EF6;&#x8DEF;&#x5F84;</p>
+<p>   LOCAL_SHARED_LIBRARIES  &#x9700;&#x8981;&#x7684;&#x5171;&#x4EAB;&#x5E93;</p>
+<p>   LOCAL_MODULE      C,C++ &#x672C;&#x6A21;&#x5757;&#x7684;&#x540D;&#x5B57;&#xFF0C;&#x5FC5;&#x987B;&#x662F;&#x552F;&#x4E00;&#x7684;</p>
+<p>   LOCAL_PACKAGE_NAME  JAVA&#x7684;LOCAL_MODULE</p>
+<p>   LOCAL_MODULE_TAGS   &#x6A21;&#x5757;&#x6807;&#x8BB0;&#xFF0C;&#x4E00;&#x822C;&#x7684;&#x53D6;&#x503C;&#x8303;&#x56F4;&#xFF1A;debug eng tests optionalsamples shell_ash shell_mksh&#xFF0C;&#x9ED8;&#x8BA4;optional</p>
+<p>   LOCAL_MODULE_CLASS &#x8FD9;&#x4E2A;&#x4E0D;&#x7528;&#x6211;&#x4EEC;&#x81EA;&#x5DF1;&#x5B9A;&#x4E49;&#xFF0C;&#x7CFB;&#x7EDF;&#x4F1A;&#x6839;&#x636E;&#x751F;&#x6210;&#x6A21;&#x5757;&#x7C7B;&#x578B;&#x7684;&#x4E0D;&#x540C;&#x8D4B;&#x503C;&#x3002;&#x53D6;&#x503C;&#xFF1A;APPS,JAVA_LIBRARIES,SHARED_LIBRARIES,STATIC_LIBRARIES,EXECUTABLES</p>
+<p>   LOCAL_MODULE_PATH &#x6A21;&#x5757;&#x7684;&#x751F;&#x6210;&#x540E;&#x5B58;&#x653E;&#x7684;&#x8DEF;&#x5F84;&#xFF0C;&#x4E0D;&#x7528;&#x5B9A;&#x4E49;&#xFF0C;&#x6709;&#x9ED8;&#x8BA4;&#x503C;</p>
+<p>   LOCAL_MODULE_SUFFIX &#x540E;&#x7F00;&#x540D;&#xFF0C;&#x4E0D;&#x7528;&#x5B9A;&#x4E49;&#xFF0C;&#x6709;&#x9ED8;&#x8BA4;&#x503C;&#xFF08;.apk,.jar,.so,.a&#xFF09;</p>
+<p>  LOCAL_BUILT_MODULE_STEM &#x7F16;&#x8BD1;&#x76EE;&#x6807;&#x8981;&#x751F;&#x6210;&#x7684;&#x6587;&#x4EF6;&#x540D;&#xFF0C;&#x5982;&#x679C;&#x6211;&#x4EEC;&#x5B9A;&#x4E49;&#x4E86;    LOCAL_BUILT_STEM&#x503C;&#x5C31;&#x662F;$(LOCAL_BUILT_STEM)$(LOCAL_MODULE_SUFFIX)&#xFF0C;&#x5426;&#x5219;&#x5C31;&#x662F;$(LOCAL_MODULE)$(LOCAL_MODULE_SUFFIX)&#x3002;&#x82E5;&#x8981;&#x7F16;&#x8BD1;JAVA&#x7684;&#x5E93;&#x6587;&#x4EF6;&#x548C;&#x6267;&#x884C;&#x6587;&#x4EF6;&#x4F1A;&#x88AB;&#x7F6E;&#x4E3A;jablib.jar&#x548C;package.apk&#x3002;</p>
+<p>   LOCAL_INSTALLED_MODULE_STEM  &#x5B9A;&#x4E49;&#x89C4;&#x5219;&#x8DDF;LOCAL_BUILT_MODULE_STEM&#x76F8;&#x540C;&#xFF0C;&#x4F46;&#x662F;&#x4E0D;&#x4F1A;&#x6709;&#x8BBE;&#x7F6E;&#x4E3A;&#x5355;&#x4E00;&#x503C;&#x7684;&#x60C5;&#x51B5;&#x3002;</p>
+<p>   LOCAL_BUILT_MODULE &#x7F16;&#x8BD1;&#x76EE;&#x6807;&#x5B8C;&#x6574;&#x7684;&#x8DEF;&#x5F84;&#x548C;&#x6587;&#x4EF6;&#x540D;</p>
+<p>  LOCAL_PRELINK_MODULE&#x53EA;&#x6709;&#x5728;&#x7F16;&#x8BD1;.so&#x7684;&#x65F6;&#x5019;&#x624D;&#x4F1A;&#x6709;&#x7684;&#x9009;&#x9879;&#xFF0C;&#x4E3B;&#x8981;&#x662F;&#x901A;&#x8FC7;&#x9884;&#x94FE;&#x63A5;&#x7684;&#x65B9;&#x5F0F;&#x6765;&#x52A0;&#x5FEB;&#x7A0B;&#x5E8F;&#x542F;&#x52A8;&#x548C;&#x6267;&#x884C;&#x7684;&#x901F;&#x5EA6;&#xFF0C;&#x5982;&#x679C;&#x8BBE;&#x7F6E;&#x662F;&#x771F;&#x7684;&#x8BDD;&#xFF0C;&#x90A3;&#x4F60;&#x8981;&#x5728;build/core/prelink-linux-arm.map&#x4E2D;&#x5B9A;&#x4E49;&#x4F60;&#x7684;&#x5E93;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x7684;&#x7A7A;&#x95F4;&#xFF0C;&#x7A7A;&#x95F4;&#x4E0D;&#x591F;&#x7684;&#x8BDD;&#x4F1A;&#x62A5;&#x9519;</p>
+<pre><code>   4.    include$(BUILD_SHARED_LIBRARY)
+
+  BUILD_SHARED_LIBRARY&#x5728;config.mk&#x91CC;&#x6709;&#x5B9A;&#x4E49;&#xFF0C;&#x6307;&#x5411;&#x76F8;&#x5E94;&#x7684;.mk&#x6587;&#x4EF6;&#xFF0C;&#x6839;&#x636E;&#x8981;&#x751F;&#x6210;&#x7684;&#x6A21;&#x5757;&#x7684;&#x7C7B;&#x578B;&#xFF0C;&#x5305;&#x542B;&#x76F8;&#x5E94;&#x7684;&#x6587;&#x4EF6;&#x3002;
+
+ BUILD_HOST_STATIC_LIBRARY:= $(BUILD_SYSTEM)/host_static_library.mk
+
+ BUILD_HOST_SHARED_LIBRARY:= $(BUILD_SYSTEM)/host_shared_library.mk
+
+ BUILD_STATIC_LIBRARY:= $(BUILD_SYSTEM)/static_library.mk
+
+ BUILD_RAW_STATIC_LIBRARY := $(BUILD_SYSTEM)/raw_static_library.mk
+
+ BUILD_SHARED_LIBRARY:= $(BUILD_SYSTEM)/shared_library.mk
+
+ BUILD_EXECUTABLE:= $(BUILD_SYSTEM)/executable.mk
+
+ BUILD_RAW_EXECUTABLE:= $(BUILD_SYSTEM)/raw_executable.mk
+
+ BUILD_HOST_EXECUTABLE:= $(BUILD_SYSTEM)/host_executable.mk
+
+ BUILD_PACKAGE:= $(BUILD_SYSTEM)/package.mk
+
+ BUILD_HOST_PREBUILT:= $(BUILD_SYSTEM)/host_prebuilt.mk
+
+ BUILD_PREBUILT:= $(BUILD_SYSTEM)/prebuilt.mk
+
+ BUILD_MULTI_PREBUILT:= $(BUILD_SYSTEM)/multi_prebuilt.mk
+
+ BUILD_JAVA_LIBRARY:= $(BUILD_SYSTEM)/java_library.mk
+
+ BUILD_STATIC_JAVA_LIBRARY:= $(BUILD_SYSTEM)/static_java_library.mk
+
+ BUILD_HOST_JAVA_LIBRARY:= $(BUILD_SYSTEM)/host_java_library.mk
+
+ BUILD_DROIDDOC:= $(BUILD_SYSTEM)/droiddoc.mk
+
+ BUILD_COPY_HEADERS := $(BUILD_SYSTEM)/copy_headers.mk
+
+ BUILD_KEY_CHAR_MAP := $(BUILD_SYSTEM)/key_char_map.mk
+</code></pre><p>&#x4E3B;&#x8981;&#x5206;&#x4E3A;&#x4E24;&#x79CD;&#x7C7B;&#x578B;&#xFF1A;prebuilt&#x548C;bin/lib&#x6587;&#x4EF6;&#x3002;&#x8FD9;&#x4E9B;.mk&#x6587;&#x4EF6;&#x90FD;&#x5305;&#x542B;build/core/base_rule.mk&#x3002;&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#x7684;&#x4F5C;&#x7528;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>(1).  &#x6839;&#x636E;LOCAL_IS_HOST_MODULE&#xFF0C;LOCAL_MODULE_CLASS&#xFF0C;LOCAL_MODULE&#x8FD9;&#x4E09;&#x4E2A;&#x53D8;&#x91CF;&#x7684;&#x503C;&#x6765;&#x5224;&#x65AD;&#x8FD9;&#x4E2A;&#x6A21;&#x5757;&#x662F;&#x5426;&#x662F;&#x5168;&#x5C40;&#x552F;&#x4E00;&#x7684;&#xFF0C;&#x6211;&#x4EEC;&#x5E94;&#x8BE5;&#x4F7F;LOCAL_MODULE&#x5168;&#x5C40;&#x552F;&#x4E00;&#x7684;&#x3002;</p>
+<p>(2). &#x8BBE;&#x7F6E;LOCAL<em>MODULE_PATH&#x7684;&#x9ED8;&#x8BA4;&#x503C;&#x3002;LOCAL_MODULE_PATH:=$($(my_prefix)OUT$(use_data)</em>$(LOCAL<em>MODULE_CLASS))&#x82E5;my_prefix=TARGET</em> use_data=&#x201D;&#x201D;  LOCAL_MODULE_CLASS=APPS &#x5219;LOCAL_MODULE_PATH&#xFF1D;$(TARGET_OUT_APPS)&#x3002;TARGET_OUT_APPS&#x5728;envsetup.mk&#x5B9A;&#x4E49;TARGET_OUT_APPS&#xFF1D;out/target/product/generic/system/app</p>
+<p>(3). &#x8BBE;&#x7F6E;LOCAL_BUILT_MODULE&#x7684;&#x9ED8;&#x8BA4;&#x503C;&#x3002;LOCAL_BUILT_MODULE:=$(built_module_path)/$(LOCAL_BUILT_MODULE_STEM)&#xFF0C;built_module_path&#x5C31;&#x662F;&#x7F16;&#x8BD1;&#x76EE;&#x6807;&#x5B58;&#x653E;&#x7684;&#x8DEF;&#x5F84;&#x3002;&#x6709;&#x4E24;&#x79CD;&#x8DEF;&#x7ECF;built_module_path&#xFF1D;target/common/obj/$(LOCAL_MODULE_CLASS)/$(LOCAL_MODULE)<strong>intermediates/&#xFF0C;built_module_path&#xFF1D;/target/product/generic/obj/$(LOCAL_MODULE_CLASS)/$(LOCAL_MODULE)</strong>intermediates/&#x3002;&#x4EE5;Camera&#x4E3A;&#x4F8B;&#xFF1A;LOCAL_BUILT_MODULE&#xFF1D;out/target/product/generic/obj/APPS/Camera_intermediates/Camera.apk&#x3002;</p>
+<p>(4).  &#x8BBE;&#x7F6E;LOCAL_INSTALLED_MODULE&#x7684;&#x9ED8;&#x8BA4;&#x503C;&#x3002;LOCAL_INSTALLED_MODULE&#xFF1D;$(LOCAL_MODULE_PATH)/$(LOCAL_MODULE_SUBDIR)$(LOCAL_INSTALLED_MODULE_STEM)&#xFF0C;&#x8FD9;&#x91CC;LOCAL_MODULE_SUBDIR&#x7559;&#x7ED9;&#x6211;&#x4EEC;&#x81EA;&#x5DF1;&#x5B9A;&#x4E49;&#x4E00;&#x822C;&#x4E3A;&#x7A7A;&#x3002;&#x4F46;&#x662F;&#x8981;&#x8BB0;&#x5F97;&#x7684;&#x662F;&#x5F53;&#x6211;&#x4EEC;&#x8BBE;&#x7F6E;&#x4E86;&#x5B83;&#x4E4B;&#x540E;&#xFF0C;&#x8981;&#x5728;&#x6BCF;&#x4E2A;&#x6A21;&#x5757;&#x7684;&#x6700;&#x540E;&#x8981;&#x5C06;&#x8FD9;&#x4E2A;&#x503C;&#x6E05;&#x7A7A;&#xFF0C;&#x56E0;&#x4E3A;&#x9ED8;&#x8BA4;CLEAR_VARS&#x662F;&#x4E0D;&#x4F1A;&#x6E05;&#x7A7A;&#x8FD9;&#x4E2A;&#x503C;&#x7684;&#x3002;&#x4EE5;Camera&#x4E3A;&#x4F8B;:LOCAL_INSTALLED_MODULE=out/target/product/generic/system/app/Camera.apk</p>
+<p>(5).  &#x5C06;.aidl&#x548C;.logtags&#x6587;&#x4EF6;&#x8F6C;&#x5316;&#x4E3A;.java&#x6587;&#x4EF6;&#xFF0C;&#x5B58;&#x653E;&#x5728;out/target/common/obj /src/,out/target/common/obj/&#x76EE;&#x5F55;&#x662F;JAVA&#x7684;&#x4E2D;&#x95F4;&#x6587;&#x4EF6;&#x7684;&#x5B58;&#x653E;&#x76EE;&#x5F55;</p>
+<p>(6). &#x5B9A;&#x4E49;.PHONY:$(LOCAL_MODULE)&#x76EE;&#x6807;&#x89C4;&#x5219;.&#x62F7;&#x8D1D;$(LOCAL_BUILT_MODULE)&#x5230;$(LOCAL_INSTALLED_MODULE)&#xFF0C;&#x8FD9;&#x4E24;&#x4E2A;&#x53D8;&#x91CF;&#x7684;&#x503C;&#x524D;&#x9762;&#x90FD;&#x6709;&#x8BF4;&#x660E;&#x3002;&#x82E5;&#x4E0D;&#x60F3;&#x628A;&#x8FD9;&#x4E2A;&#x6A21;&#x5757;&#x7F16;&#x8BD1;&#x8FDB;&#x7CFB;&#x7EDF;&#x7684;&#x8BDD;&#xFF0C;&#x58F0;&#x660E;LOCAL_UNINSTALLABLE_MODULE&#x5373;&#x53EF;&#xFF08;&#x53EA;&#x9002;&#x7528;&#x4E8E;&#x9759;&#x6001;&#x5E93;&#xFF09;&#x3002;&#x5728;&#x8FD9;&#x91CC;&#x53EA;&#x662F;&#x62F7;&#x8D1D;&#x6587;&#x4EF6;&#xFF0C;&#x771F;&#x6B63;&#x7684;&#x7F16;&#x8BD1;&#x5DE5;&#x4F5C;&#x662F;&#x5728;&#x5B83;&#x7684;&#x5916;&#x5C42;.mk&#x6587;&#x4EF6;&#x505A;&#x7684;&#xFF0C;&#x5E76;&#x628A;&#x751F;&#x6210;&#x7684;&#x76EE;&#x6807;&#x6587;&#x4EF6;&#x653E;&#x5728;$(LOCAL_BUILT_MODULE)&#x3002;&#x82E5;&#x662F;prebuild&#x5C31;&#x4E0D;&#x9700;&#x8981;&#x7F16;&#x8BD1;&#x4E86;&#xFF0C;&#x53EA;&#x662F;&#x5C06;&#x5DF2;&#x7ECF;&#x5B58;&#x5728;&#x7684;&#x6587;&#x4EF6;&#x505A;&#x7B80;&#x5355;&#x7684;&#x62F7;&#x8D1D;&#x5DE5;&#x4F5C;&#x3002;&#x5F53;&#x6211;&#x4EEC;&#x8981;&#x5B89;&#x88C5;&#x6307;&#x5B9A;&#x7684;&#x6A21;&#x5757;&#x5230;&#x7CFB;&#x7EDF;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x53EA;&#x8981;make $(LOCAL_MODULE)&#x5C31;&#x884C;&#x4E86;&#x3002;&#x5B9A;&#x4E49;cleantarget&#x76EE;&#x6807;&#x89C4;&#x5219;&#xFF0C;&#x5220;&#x9664;$(LOCAL_BUILT_MODULE),$(LOCAL_INSTALLED_MODULE), $(intermediates)&#x6587;&#x4EF6;&#x6216;&#x76EE;&#x5F55;</p>
+<p>(7).  &#x5B9A;&#x4E49;&#x6216;&#x6DFB;&#x52A0;&#x4EE5;ALL_MODULES.&#x5F00;&#x5934;&#x7684;&#x503C;,&#x5C06;&#x672C;&#x6A21;&#x5757;&#x53D8;&#x91CF;&#x4FDD;&#x5B58;&#x8D77;&#x6765;&#x3002;</p>
+<p>ALL_MODULES.$(LOCAL_MODULE).CLASS
+ALL_MODULES.$(LOCAL_MODULE).PATH
+ALL_MODULES.$(LOCAL_MODULE).TAGS
+ALL_MODULES.$(LOCAL_MODULE).CHECKED
+ALL_MODULES.$(LOCAL_MODULE).BUILT
+ALL_MODULES.$(LOCAL_MODULE).INSTALLED
+ALL_MODULES.$(LOCAL_MODULE).REQUIRED
+ALL_MODULES.$(LOCAL_MODULE).EVENT_LOG_TAGS</p>
+<p>ALL_MODULE_TAGS</p>
+<p>ALL_MODULE_TAGS.$(LOCAL_MODULE_TAGS)</p>
+<p>ALL_MODULE_NAME_TAGS</p>
+<p>(8).  &#x5305;&#x542B;$(BUILD_SYSTEM)/notice_files.mk&#xFF0C;&#x8FD9;&#x4E2A;&#x6211;&#x6CA1;&#x7EC6;&#x770B;&#x4F30;&#x8BA1;&#x662F;&#x751F;&#x6210;&#x672C;&#x6A21;&#x5757;&#x7684;NOTICE&#x6587;&#x4EF6;</p>
+
+                    
+                    </section>
+                
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../android_note/513.html" class="navigation navigation-prev " aria-label="Previous page: [轉] Android 非同步任務 - AsyncTask"><i class="fa fa-angle-left"></i></a>
+        
+        
+        <a href="../ubuntu/index.html" class="navigation navigation-next " aria-label="Next page: Ubuntu"><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+<script src="../gitbook/app.js"></script>
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    gitbook.start(config);
+});
+</script>
+
+        
+    </body>
+    
+</html>

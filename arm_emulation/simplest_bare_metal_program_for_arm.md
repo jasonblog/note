@@ -133,7 +133,7 @@ This program is a starting point to begin to develop more elaborate solutions. T
 
 For a deeper look into bare metal programming for ARM see also:
 
-[Building bare metal ARM with GNU [pdf]](http://www.state-machine.com/arm/Building_bare-metal_ARM_with_GNU.pdf)
+[Building bare metal ARM with GNU [pdf]](http://www.state-machine.com/arm/Building_bare-metal_ARM_with_GNU.pdf)<BR>
 [Building bare metal ARM with GNU [html]](http://www.embedded.com/200000632)
 
 

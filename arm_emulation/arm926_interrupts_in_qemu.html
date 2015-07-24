@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
-        <title>閱讀 C/C++ 原始碼的好幫手 | Jason note</title>
+        <title>ARM926 interrupts in QEMU | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.0.1">
@@ -20,10 +20,10 @@
         
     
     
-    <link rel="next" href="../fcamel/91003.html" />
+    <link rel="next" href="../arm_emulation/using_ubuntu_arm_cross-compiler_for_bare_metal_programming.html" />
     
     
-    <link rel="prev" href="../fcamel/91001.html" />
+    <link rel="prev" href="../arm_emulation/emulating_arm_pl011_serial_ports.html" />
     
 
         
@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="9.10.2" data-basepath=".." data-revision="Fri Jul 24 2015 23:57:41 GMT+0800 (CST)">
+    <div class="book" data-level="11.13" data-basepath=".." data-revision="Fri Jul 24 2015 23:57:41 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1358,7 +1358,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="9.10.2" data-path="fcamel/91002.html">
+        <li class="chapter " data-level="9.10.2" data-path="fcamel/91002.html">
             
                 
                     <a href="../fcamel/91002.html">
@@ -1727,7 +1727,7 @@
             
         </li>
     
-        <li class="chapter " data-level="11.13" data-path="arm_emulation/arm926_interrupts_in_qemu.html">
+        <li class="chapter active" data-level="11.13" data-path="arm_emulation/arm926_interrupts_in_qemu.html">
             
                 
                     <a href="../arm_emulation/arm926_interrupts_in_qemu.html">
@@ -1925,53 +1925,159 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E9%96%B1%E8%AE%80-c-c-%E5%8E%9F%E5%A7%8B%E7%A2%BC%E7%9A%84%E5%A5%BD%E5%B9%AB%E6%89%8B">&#x95B1;&#x8B80; C/C++ &#x539F;&#x59CB;&#x78BC;&#x7684;&#x597D;&#x5E6B;&#x624B;</h1>
-<p>&#x6700;&#x8FD1;&#x6709;&#x9700;&#x6C42;&#x8B80; C/C++ &#x7684;&#x6771;&#x897F;, &#x8A66;&#x4E86; ctags, cscope &#x89BA;&#x5F97;&#x4E0D;&#x7406;&#x60F3;&#x3002;&#x554F;&#x4E86;&#x4E00;&#x4E0B;&#x6536;&#x5230;&#x8A31;&#x591A;&#x56DE;&#x61C9; (G+ &#x3001;plurk ), &#x771F;&#x662F;&#x592A;&#x611F;&#x8B1D;&#x5927;&#x5BB6;&#x4E86;, &#x6E1B;&#x5C11;&#x5165;&#x9580;&#x6478;&#x7D22;&#x7684;&#x6642;&#x9593;&#x3002;</p>
-<p>&#x8A66;&#x7528;&#x7684;&#x611F;&#x60F3;&#x5982;&#x4E0B;:</p>
-<p><strong>grep</strong></p>
+                        <h1 id="arm926-interrupts-in-qemu">ARM926 interrupts in QEMU</h1>
+<p>In this post I prepared what I think is the simplest example on how to manage interrupts for the widespread ARM926 core. From this example one can expand the complexity of the interrupt management at will. I&#x2019;m going to test the functionality with QEMU, emulating the Versatile Platform Baseboard. I based this example on my old post Hello world for bare metal ARM using QEMU.</p>
+<p>The ARM926 is able to detect and manage a certain number of exceptions, for example:</p>
 <ul>
-<li>&#x512A;&#x9EDE;: &#x597D;&#x4E0A;&#x624B;</li>
-<li>&#x7F3A;&#x9EDE;: &#x967D;&#x6625;</li>
-<li>&#x5B89;&#x88DD;: &#x5167;&#x5EFA;&#x65BC; Linux</li>
+<li>&#x201C;undefined&#x201D; exception: when the core tries to execute an instruction that is not mapped on the instruction set</li>
+<li>data abort: when the system bus reports an error in trying to access one of the peripherals</li>
+<li>IRQ: the most common exception is the arrival of an interrupt request (IRQ) from a peripheral.</li>
 </ul>
-<p><strong>gtags</strong></p>
+<p>When an exception occurs, the ARM926 core changes its operating &#x201C;mode&#x201D; and jumps to the beginning of the memory, with an offset from address 0 that depends on the exception. For example, when an &#x201C;undefined&#x201D; exception happens, the core jumps to address 4. By placing instruction at those addresses, it is possible to manage these exceptions with custom functions. The common way is to place a &#x201C;jump&#x201D; at each of those addresses, creating an
+&#x201C;exception vector table&#x201D; (where the vector is the jump instruction).</p>
+<p>The following is an assembly file called &#x201C;vectors.S&#x201D; that shows an example of vector table and reset handler, which contains the minimal initialization that needs to be done before jumping to C code.</p>
+<pre><code class="lang-c">.text
+ .code <span class="hljs-number">32</span>
+
+ .global vectors_start
+ .global vectors_end
+
+vectors_start:
+ LDR PC, reset_handler_addr
+ LDR PC, undef_handler_addr
+ LDR PC, swi_handler_addr
+ LDR PC, prefetch_abort_handler_addr
+ LDR PC, data_abort_handler_addr
+ B .
+ LDR PC, irq_handler_addr
+ LDR PC, fiq_handler_addr
+
+reset_handler_addr: .word reset_handler
+undef_handler_addr: .word undef_handler
+swi_handler_addr: .word swi_handler
+prefetch_abort_handler_addr: .word prefetch_abort_handler
+data_abort_handler_addr: .word data_abort_handler
+irq_handler_addr: .word irq_handler
+fiq_handler_addr: .word fiq_handler
+
+vectors_end:
+
+reset_handler:
+ <span class="hljs-comment">/* set Supervisor stack */</span>
+ LDR sp, =stack_top
+ <span class="hljs-comment">/* copy vector table to address 0 */</span>
+ BL copy_vectors
+ <span class="hljs-comment">/* get Program Status Register */</span>
+ MRS r0, cpsr
+ <span class="hljs-comment">/* go in IRQ mode */</span>
+ BIC r1, r0, <span class="hljs-preprocessor">#0x1F</span>
+ ORR r1, r1, <span class="hljs-preprocessor">#0x12</span>
+ MSR cpsr, r1
+ <span class="hljs-comment">/* set IRQ stack */</span>
+ LDR sp, =irq_stack_top
+ <span class="hljs-comment">/* Enable IRQs */</span>
+ BIC r0, r0, <span class="hljs-preprocessor">#0x80</span>
+ <span class="hljs-comment">/* go back in Supervisor mode */</span>
+ MSR cpsr, r0
+ <span class="hljs-comment">/* jump to main */</span>
+ BL main
+ B .
+
+.end
+</code></pre>
+<p>Some details about the assembly code:</p>
+<p>The vector table must be placed at address 0, but when the program is executed, it is possible that it is not loaded at the beginning of the memory. For example QEMU loads the binary code at address 0x10000. For this reason the vector table needs to be copied before being useful. This is done by using global symbols to mark the beginning (vectors_start) and end (vectors_end) of the vectors area, and then using a function (copy_vectors, implemented below in the C code) to copy it to the correct location.</p>
+<p>When the core receives an exception it changes operating mode, and this means (among other things) that it uses a different stack pointer. For this reason before enabling interrupts it is necessary to configure the stack for the modes that we intend to use.</p>
+<p>The operating mode can be changed manually by accessing the Program Status Register (cpsr), which must also be used to enable IRQs. More information on the ARM9EJ-S Technical Reference Manual.</p>
+<p>I want to use the UART as a simple peripheral that uses IRQ to function. The Versatile manual indicates that an Interrupt Controller is used to manage the various IRQs. The following manuals are needed to understand what to do:</p>
 <ul>
-<li>&#x512A;&#x9EDE;: &#x53EF;&#x627E; caller &#x548C; callee</li>
-<li>&#x7F3A;&#x9EDE;: &#x56E0;&#x70BA;&#x7D22;&#x5F15;&#x6A94;&#x662F;&#x7531; ctags &#x4F86;&#x7684;, &#x6703;&#x6F0F;&#x6771;&#x897F;; &#x57F7;&#x884C;&#x65B9;&#x5F0F;&#x4E5F;&#x6709;&#x4E9B;&#x4E0D;&#x4FBF;</li>
-<li>&#x5B89;&#x88DD;: &#x7A0B;&#x5F0F;&#x5F88;&#x4E45;&#x6C92;&#x4EBA;&#x66F4;&#x65B0;&#x4E86;, &#x8981;&#x505A;&#x4E00;&#x4E9B;&#x4FEE;&#x6B63;&#x624D;&#x88DD;&#x5F97;&#x8D77;&#x4F86;<ul>
-<li>&#x53C3;&#x7167;&#x5B98;&#x7DB2;&#x6307;&#x793A;</li>
-<li>make &#x6642;&#x770B;&#x5C11;&#x4E86;&#x4EC0;&#x9EBC; header, &#x624B;&#x52D5;&#x88DC;&#x4E00;&#x4E0B; header</li>
-<li>&#x7136;&#x5F8C; make &#x9084;&#x662F;&#x6703;&#x5931;&#x6557;, &#x5C07; gas.py &#x7684; &quot;import as&quot; &#x6539;&#x70BA; &quot;import asm&quot;, &#x4E0B;&#x9762;&#x7528;&#x5230;&#x7684;&#x6A21;&#x7D44;&#x540D;&#x4E5F;&#x8981;&#x8DDF;&#x8457;&#x6539;, as.py &#x4E5F;&#x8981;&#x6539;&#x70BA; asm.py&#x3002;python 2.6 &#x5F8C; as &#x662F; keyword</li>
-<li>&#x7DE8;&#x597D;&#x5F8C;&#x5C07;&#x5E7E;&#x500B;&#x7528;&#x5230;&#x7684; python scripts &#x7B2C;&#x4E00;&#x884C;&#x7531; python2.4 &#x6539;&#x70BA; python</li>
+<li>RealView Platform Baseboard for ARM926EJ&#x2013;S User Guide</li>
+<li>PrimeCell UART (PL011) Technical Reference Manual</li>
+<li>PrimeCell Vectored Interrupt Controller (PL190) Technical Reference Manual</li>
 </ul>
-</li>
-</ul>
-<p><strong>ack</strong></p>
+<p>In order to enable IRQ for UART, the interrupt must be enabled in three places:</p>
 <ul>
-<li>&#x512A;&#x9EDE;: &#x6BD4; grep &#x5BB9;&#x6613;&#x4F7F;&#x7528;, &#x7701;&#x5F97;&#x914D;&#x5408;&#x4E00;&#x4E9B; command &#x904E;&#x6FFE;&#x6A94;&#x6848;, &#x898B;&#x5B98;&#x7DB2;&#x7684;&#x300A;Top 10 reasons to use ack instead of grep.&#x300B;&#x3002;&#x800C;&#x4E14;&#x9084;&#x6709;&#x5F69;&#x8272;&#x7684;&#x8F38;&#x51FA;!!</li>
-<li>&#x7F3A;&#x9EDE;: &#x56E0;&#x70BA;&#x6C92;&#x5EFA; index &#x7684;&#x95DC;&#x4FC2;, &#x901F;&#x5EA6;&#x8F03; id-utils &#x6162;, &#x6211;&#x7684;&#x6E2C;&#x8A66;&#x60C5;&#x5883;&#x8981; 3s, &#x800C; id-utils &#x53EA;&#x8981; 0.006s</li>
-<li>&#x5B89;&#x88DD;: curl <a href="http://betterthangrep.com/ack-standalone" target="_blank">http://betterthangrep.com/ack-standalone</a> &gt; ~/bin/ack &amp;&amp; chmod 0755 !#:3</li>
+<li>The IRQs must be enabled in the ARM cpsr</li>
+<li>The UART IRQ must be enabled in the Interrupt Controller</li>
+<li>The interrupt generation must be enabled in UART registers for the chosen events</li>
 </ul>
-<p><strong>id-utils</strong></p>
+<p>I will use the &#x201C;RX&#x201D; event to fire an interrupt that manages the arrival of a byte from the UART, and then send it back as a sort of &#x201C;echo&#x201D;. The following &#x201C;test.c&#x201D; file shows
+how to do it:</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;stdint.h&gt;</span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> UART0_BASE_ADDR 0x101f1000</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> UART0_DR (*((volatile uint32_t *)(UART0_BASE_ADDR + 0x000)))</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> UART0_IMSC (*((volatile uint32_t *)(UART0_BASE_ADDR + 0x038)))</span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> VIC_BASE_ADDR 0x10140000</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> VIC_INTENABLE (*((volatile uint32_t *)(VIC_BASE_ADDR + 0x010)))</span>
+
+<span class="hljs-keyword">void</span> __attribute__((interrupt)) irq_handler() {
+ <span class="hljs-comment">/* echo the received character + 1 */</span>
+ UART0_DR = UART0_DR + <span class="hljs-number">1</span>;
+}
+
+<span class="hljs-comment">/* all other handlers are infinite loops */</span>
+<span class="hljs-keyword">void</span> __attribute__((interrupt)) undef_handler(<span class="hljs-keyword">void</span>) { <span class="hljs-keyword">for</span>(;;); }
+<span class="hljs-keyword">void</span> __attribute__((interrupt)) swi_handler(<span class="hljs-keyword">void</span>) { <span class="hljs-keyword">for</span>(;;); }
+<span class="hljs-keyword">void</span> __attribute__((interrupt)) prefetch_abort_handler(<span class="hljs-keyword">void</span>) { <span class="hljs-keyword">for</span>(;;); }
+<span class="hljs-keyword">void</span> __attribute__((interrupt)) data_abort_handler(<span class="hljs-keyword">void</span>) { <span class="hljs-keyword">for</span>(;;); }
+<span class="hljs-keyword">void</span> __attribute__((interrupt)) fiq_handler(<span class="hljs-keyword">void</span>) { <span class="hljs-keyword">for</span>(;;); }
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">copy_vectors</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span> </span>{
+ <span class="hljs-keyword">extern</span> <span class="hljs-keyword">uint32_t</span> vectors_start;
+ <span class="hljs-keyword">extern</span> <span class="hljs-keyword">uint32_t</span> vectors_end;
+ <span class="hljs-keyword">uint32_t</span> *vectors_src = &amp;vectors_start;
+ <span class="hljs-keyword">uint32_t</span> *vectors_dst = (<span class="hljs-keyword">uint32_t</span> *)<span class="hljs-number">0</span>;
+
+<span class="hljs-keyword">while</span>(vectors_src &lt; &amp;vectors_end)
+ *vectors_dst++ = *vectors_src++;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span> </span>{
+ <span class="hljs-comment">/* enable UART0 IRQ */</span>
+ VIC_INTENABLE = <span class="hljs-number">1</span>&lt;&lt;<span class="hljs-number">12</span>;
+ <span class="hljs-comment">/* enable RXIM interrupt */</span>
+ UART0_IMSC = <span class="hljs-number">1</span>&lt;&lt;<span class="hljs-number">4</span>;
+ <span class="hljs-keyword">for</span>(;;);
+}
+</code></pre>
+<p>The main code enables the interrupt and then waits forever. When a character is received from the UART, the IRQ is fired and the irq_handler function is called, transmitting back the modified character.</p>
+<p>In order to create the complete binary code, we need a linker script that is aware of the memory map of the system. In our case QEMU loads the code to address 0x10000. The following is the linker script &#x201C;test.ld&#x201D; that is used to link the complete program:</p>
+<pre><code class="lang-c">ENTRY(vectors_start)
+SECTIONS
+{
+ . = <span class="hljs-number">0x10000</span>;
+ .text : {
+ vectors.o
+ *(.text .rodata)
+ }
+ .data : { *(.data) }
+ .bss : { *(.bss) }
+ . = ALIGN(<span class="hljs-number">8</span>);
+ . = . + <span class="hljs-number">0x1000</span>; <span class="hljs-comment">/* 4kB of stack memory */</span>
+ stack_top = .;
+ . = . + <span class="hljs-number">0x1000</span>; <span class="hljs-comment">/* 4kB of irq stack memory */</span>
+ irq_stack_top = .;
+}
+</code></pre>
+<p>To compile the program I used CodeSourcery bare metal toolchain, but the commands can be adapted to work with other GCC toolchains such as the Emdebian ones. The commands are the following:</p>
+<pre><code>arm-none-eabi-gcc -mcpu=arm926ej-s -c -o test.o test.c
+arm-none-eabi-gcc -mcpu=arm926ej-s -c -o vectors.o vectors.S
+arm-none-eabi-gcc -T test.ld test.o vectors.o -o test
+arm-none-eabi-objcopy -O binary test test.bin
+</code></pre><p>This creates a &#x201C;test.bin&#x201D; binary file that contains our code. To simulate the program, the command to launch QEMU is the following:</p>
+<pre><code>qemu-system-arm -M versatilepb -serial stdio -kernel test.bin
+</code></pre><p>The <strong>&#x201C;-serial stdio&#x201D;</strong> option will redirect the terminal input/output to the emulated UART that we want to test. If you type some letters in the terminal where you launched the command, you will see them echoed back to you, modified by the interrupt handler.</p>
+<p>Possible next steps from here are:</p>
 <ul>
-<li>&#x512A;&#x9EDE;: &#x901F;&#x5EA6;&#x5FEB;, &#x548C;&#x6E2C; ack &#x540C;&#x6A23;&#x7684;&#x60C5;&#x6CC1;, &#x5EFA;&#x7D22;&#x5F15; 5.3s, &#x4E4B;&#x5F8C;&#x641C;&#x5C0B;&#x77AC;&#x6BBA;</li>
-<li>&#x7F3A;&#x9EDE;: &#x4ECB;&#x9762;&#x6C92;&#x6709; ack &#x76F4;&#x89BA;&#x6613;&#x7528;, &#x6211;&#x5BEB;&#x4E86;&#x500B;&#x5C0F;&#x7A0B;&#x5F0F; gj &#x4EE5; id-utils &#x70BA;&#x5E95;, - &#x63D0;&#x4F9B;&#x5F69;&#x8272;&#x8F38;&#x51FA;&#x548C;&#x9032;&#x4E00;&#x6B65;&#x904E;&#x6FFE;&#x6A94;&#x540D;&#x7684;&#x529F;&#x80FD;&#x3002;</li>
-<li>&#x5B89;&#x88DD;: Ubuntu &#x8D85;&#x5BB9;&#x6613;, aptitude install id-utils</li>
+<li>Managing different sources of interrupt from the same peripheral</li>
+<li>Managing IRQs from different peripherals</li>
+<li>Dynamically remapping the exception handlers</li>
+<li>Fully using the features of the Vectored Interrupt Controller</li>
+<li>Enabling nested interrupts
+Here is a guide that contains much information about it: <a href="http://www.embedded.com/200000632" target="_blank">Building bare metal ARM with GNU [html]</a></li>
 </ul>
-<p><strong>Eclipse CDT</strong></p>
-<ul>
-<li>&#x512A;&#x9EDE;: &#x65B9;&#x4FBF;&#x958B;&#x65B0;&#x8996;&#x7A97;&#x770B; caller&#x3001;callee</li>
-<li>&#x7F3A;&#x9EDE;: &#x4E0D;&#x65B9;&#x4FBF;&#x642D; vim &#x4F7F;&#x7528; (&#x5C0D; vim &#x91CD;&#x5EA6;&#x4F7F;&#x7528;&#x8005;&#x7E94;&#x6709;&#x5DEE;); &#x5EFA; index &#x6709;&#x9EDE;&#x4E45;, &#x6211;&#x7684;&#x6E2C;&#x8A66;&#x60C5;&#x5883;&#x8981;&#x6578;&#x5206;&#x9418;&#x5230;&#x5341;&#x5206;&#x9418;&#x5427;</li>
-<li>&#x5B89;&#x88DD;: &#x7D50;&#x679C;&#x9019;&#x500B;&#x662F;&#x6211;&#x8A66;&#x6700;&#x4E45;&#x7684;, &#x56E0;&#x70BA;&#x4E0D;&#x77E5;&#x600E;&#x9EBC;&#x5EFA; index&#x3002;&#x53C3;&#x8003;&#x5B98;&#x7DB2; FAQ, &#x5EFA;&#x7D22;&#x5F15;&#x524D;&#x8981;&#x5148;&#x8A2D; include dir path&#x3002;&#x6211;&#x4E00;&#x76F4;&#x627E;&#x4E0D;&#x5230; context menu, &#x7D50;&#x679C;&#x5B83;&#x5C31;&#x662F;&#x5DE6;&#x5074;&#x7684;&#x90A3;&#x500B;&#x5C08;&#x6848;&#x6E05;&#x55AE;&#x3002;&#x53E6;&#x5916; Eclipse CDT &#x4E5F;&#x6703;&#x6F0F;&#x4E00;&#x4E9B;&#x6771;&#x897F;, C++ &#x7279;&#x5225;&#x56B4;&#x91CD;&#x3002;</li>
-</ul>
-<p><strong>&#x7D50;&#x8AD6;</strong></p>
-<p>&#x7528; Eclipes CDT &#x65B9;&#x4FBF;&#x5E73;&#x6642;&#x5FEB;&#x901F;&#x8DF3;&#x5230;&#x5B9A;&#x7FA9;
-&#x8F14;&#x4EE5; id-utils + gj &#x78BA;&#x4FDD;&#x4E0D;&#x6703;&#x6F0F;&#x6771;&#x897F;&#x3002;&#x4E4B;&#x5F8C;&#x7528;&#x4E00;&#x7528;&#x518D;&#x8996;&#x9700;&#x6C42;&#x4F86;&#x66F4;&#x65B0; gj &#x529F;&#x80FD;&#x3002;
-2011-12-16 Update</p>
-<p>Eclipse CDT &#x7684;&#x554F;&#x984C;&#x6709;&#x4E00;&#x90E8;&#x4EFD;&#x662F;&#x6211;&#x8A2D;&#x932F;, &#x8A73;&#x7D30;&#x8A2D;&#x6CD5;&#x898B;&#x7528; Eclipse CDT &#x8B80; C/C++ &#x539F;&#x59CB;&#x78BC;&#x3002;</p>
-<p>2012-02-02 Update</p>
-<p>&#x7559;&#x8A00;&#x88E1;&#x6709;&#x63D0;&#x5230;&#x5176;&#x5B83;&#x5DE5;&#x5177;, &#x6211;&#x9084;&#x6C92;&#x6A5F;&#x6703;&#x8A66;, &#x6709;&#x9700;&#x8981;&#x7684;&#x4EBA;&#x53EF;&#x4EE5;&#x53C3;&#x8003;&#x770B;&#x770B;&#x3002;
-&#x958B;&#x767C;&#x8EDF;&#x9AD4;&#x7684;&#x6642;&#x5019;, &#x9664;&#x63D0;&#x6607;&#x95B1;&#x8B80;&#x7A0B;&#x5F0F;&#x78BC;&#x7684;&#x80FD;&#x529B;&#x5916;, &#x9084;&#x9700;&#x8981;&#x77AD;&#x89E3;&#x8A31;&#x591A;&#x6771;&#x897F;, &#x898B;&#x300A;&#x5728; Linux &#x4E0B;&#x958B;&#x767C; C/C++ &#x7684;&#x65B0;&#x624B;&#x6307;&#x5357;&#x300B;&#x3002;</p>
 
                     
                     </section>
@@ -1982,10 +2088,10 @@
         </div>
 
         
-        <a href="../fcamel/91001.html" class="navigation navigation-prev " aria-label="Previous page: 查 C/C++ symbol 定義的方法"><i class="fa fa-angle-left"></i></a>
+        <a href="../arm_emulation/emulating_arm_pl011_serial_ports.html" class="navigation navigation-prev " aria-label="Previous page: Emulating ARM PL011 serial ports"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../fcamel/91003.html" class="navigation navigation-next " aria-label="Next page: 配合 c++filt 讀程式"><i class="fa fa-angle-right"></i></a>
+        <a href="../arm_emulation/using_ubuntu_arm_cross-compiler_for_bare_metal_programming.html" class="navigation navigation-next " aria-label="Next page: Using Ubuntu ARM cross-compiler for bare metal programming"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

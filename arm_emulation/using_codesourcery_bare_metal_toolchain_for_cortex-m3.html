@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
-        <title>閱讀 C/C++ 原始碼的好幫手 | Jason note</title>
+        <title>Using CodeSourcery bare metal toolchain for Cortex-M3 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.0.1">
@@ -20,10 +20,10 @@
         
     
     
-    <link rel="next" href="../fcamel/91003.html" />
+    <link rel="next" href="../arm_emulation/qemu_arm_semihosting.html" />
     
     
-    <link rel="prev" href="../fcamel/91001.html" />
+    <link rel="prev" href="../arm_emulation/using_newlib_in_arm_bare_metal_programs.html" />
     
 
         
@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="9.10.2" data-basepath=".." data-revision="Fri Jul 24 2015 23:57:41 GMT+0800 (CST)">
+    <div class="book" data-level="11.16" data-basepath=".." data-revision="Fri Jul 24 2015 23:57:41 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1358,7 +1358,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="9.10.2" data-path="fcamel/91002.html">
+        <li class="chapter " data-level="9.10.2" data-path="fcamel/91002.html">
             
                 
                     <a href="../fcamel/91002.html">
@@ -1772,7 +1772,7 @@
             
         </li>
     
-        <li class="chapter " data-level="11.16" data-path="arm_emulation/using_codesourcery_bare_metal_toolchain_for_cortex-m3.html">
+        <li class="chapter active" data-level="11.16" data-path="arm_emulation/using_codesourcery_bare_metal_toolchain_for_cortex-m3.html">
             
                 
                     <a href="../arm_emulation/using_codesourcery_bare_metal_toolchain_for_cortex-m3.html">
@@ -1925,53 +1925,363 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E9%96%B1%E8%AE%80-c-c-%E5%8E%9F%E5%A7%8B%E7%A2%BC%E7%9A%84%E5%A5%BD%E5%B9%AB%E6%89%8B">&#x95B1;&#x8B80; C/C++ &#x539F;&#x59CB;&#x78BC;&#x7684;&#x597D;&#x5E6B;&#x624B;</h1>
-<p>&#x6700;&#x8FD1;&#x6709;&#x9700;&#x6C42;&#x8B80; C/C++ &#x7684;&#x6771;&#x897F;, &#x8A66;&#x4E86; ctags, cscope &#x89BA;&#x5F97;&#x4E0D;&#x7406;&#x60F3;&#x3002;&#x554F;&#x4E86;&#x4E00;&#x4E0B;&#x6536;&#x5230;&#x8A31;&#x591A;&#x56DE;&#x61C9; (G+ &#x3001;plurk ), &#x771F;&#x662F;&#x592A;&#x611F;&#x8B1D;&#x5927;&#x5BB6;&#x4E86;, &#x6E1B;&#x5C11;&#x5165;&#x9580;&#x6478;&#x7D22;&#x7684;&#x6642;&#x9593;&#x3002;</p>
-<p>&#x8A66;&#x7528;&#x7684;&#x611F;&#x60F3;&#x5982;&#x4E0B;:</p>
-<p><strong>grep</strong></p>
+                        <h1 id="using-codesourcery-bare-metal-toolchain-for-cortex-m3">Using CodeSourcery bare metal toolchain for Cortex-M3</h1>
+<p>CodeSourcery provides toolchains for many architectures, and among them there are &#x201C;bare metal&#x201D; toolchains that produce programs that can be run natively on the processor.
+In the past I already explored some possibilities about developing bare metal ARM programs:</p>
 <ul>
-<li>&#x512A;&#x9EDE;: &#x597D;&#x4E0A;&#x624B;</li>
-<li>&#x7F3A;&#x9EDE;: &#x967D;&#x6625;</li>
-<li>&#x5B89;&#x88DD;: &#x5167;&#x5EFA;&#x65BC; Linux</li>
+<li>Simplest bare metal program for ARM</li>
+<li>Hello world for bare metal ARM using QEMU</li>
+<li>Using Ubuntu ARM cross-compiler for bare metal programming</li>
+<li>Using Newlib in ARM bare metal programs
+-
+In my opinion the most interesting purpose of the bare metal toolchains is development on small microcontrollers, such as the ones based on Cortex-M processors.</li>
 </ul>
-<p><strong>gtags</strong></p>
-<ul>
-<li>&#x512A;&#x9EDE;: &#x53EF;&#x627E; caller &#x548C; callee</li>
-<li>&#x7F3A;&#x9EDE;: &#x56E0;&#x70BA;&#x7D22;&#x5F15;&#x6A94;&#x662F;&#x7531; ctags &#x4F86;&#x7684;, &#x6703;&#x6F0F;&#x6771;&#x897F;; &#x57F7;&#x884C;&#x65B9;&#x5F0F;&#x4E5F;&#x6709;&#x4E9B;&#x4E0D;&#x4FBF;</li>
-<li>&#x5B89;&#x88DD;: &#x7A0B;&#x5F0F;&#x5F88;&#x4E45;&#x6C92;&#x4EBA;&#x66F4;&#x65B0;&#x4E86;, &#x8981;&#x505A;&#x4E00;&#x4E9B;&#x4FEE;&#x6B63;&#x624D;&#x88DD;&#x5F97;&#x8D77;&#x4F86;<ul>
-<li>&#x53C3;&#x7167;&#x5B98;&#x7DB2;&#x6307;&#x793A;</li>
-<li>make &#x6642;&#x770B;&#x5C11;&#x4E86;&#x4EC0;&#x9EBC; header, &#x624B;&#x52D5;&#x88DC;&#x4E00;&#x4E0B; header</li>
-<li>&#x7136;&#x5F8C; make &#x9084;&#x662F;&#x6703;&#x5931;&#x6557;, &#x5C07; gas.py &#x7684; &quot;import as&quot; &#x6539;&#x70BA; &quot;import asm&quot;, &#x4E0B;&#x9762;&#x7528;&#x5230;&#x7684;&#x6A21;&#x7D44;&#x540D;&#x4E5F;&#x8981;&#x8DDF;&#x8457;&#x6539;, as.py &#x4E5F;&#x8981;&#x6539;&#x70BA; asm.py&#x3002;python 2.6 &#x5F8C; as &#x662F; keyword</li>
-<li>&#x7DE8;&#x597D;&#x5F8C;&#x5C07;&#x5E7E;&#x500B;&#x7528;&#x5230;&#x7684; python scripts &#x7B2C;&#x4E00;&#x884C;&#x7531; python2.4 &#x6539;&#x70BA; python</li>
-</ul>
-</li>
-</ul>
-<p><strong>ack</strong></p>
-<ul>
-<li>&#x512A;&#x9EDE;: &#x6BD4; grep &#x5BB9;&#x6613;&#x4F7F;&#x7528;, &#x7701;&#x5F97;&#x914D;&#x5408;&#x4E00;&#x4E9B; command &#x904E;&#x6FFE;&#x6A94;&#x6848;, &#x898B;&#x5B98;&#x7DB2;&#x7684;&#x300A;Top 10 reasons to use ack instead of grep.&#x300B;&#x3002;&#x800C;&#x4E14;&#x9084;&#x6709;&#x5F69;&#x8272;&#x7684;&#x8F38;&#x51FA;!!</li>
-<li>&#x7F3A;&#x9EDE;: &#x56E0;&#x70BA;&#x6C92;&#x5EFA; index &#x7684;&#x95DC;&#x4FC2;, &#x901F;&#x5EA6;&#x8F03; id-utils &#x6162;, &#x6211;&#x7684;&#x6E2C;&#x8A66;&#x60C5;&#x5883;&#x8981; 3s, &#x800C; id-utils &#x53EA;&#x8981; 0.006s</li>
-<li>&#x5B89;&#x88DD;: curl <a href="http://betterthangrep.com/ack-standalone" target="_blank">http://betterthangrep.com/ack-standalone</a> &gt; ~/bin/ack &amp;&amp; chmod 0755 !#:3</li>
-</ul>
-<p><strong>id-utils</strong></p>
-<ul>
-<li>&#x512A;&#x9EDE;: &#x901F;&#x5EA6;&#x5FEB;, &#x548C;&#x6E2C; ack &#x540C;&#x6A23;&#x7684;&#x60C5;&#x6CC1;, &#x5EFA;&#x7D22;&#x5F15; 5.3s, &#x4E4B;&#x5F8C;&#x641C;&#x5C0B;&#x77AC;&#x6BBA;</li>
-<li>&#x7F3A;&#x9EDE;: &#x4ECB;&#x9762;&#x6C92;&#x6709; ack &#x76F4;&#x89BA;&#x6613;&#x7528;, &#x6211;&#x5BEB;&#x4E86;&#x500B;&#x5C0F;&#x7A0B;&#x5F0F; gj &#x4EE5; id-utils &#x70BA;&#x5E95;, - &#x63D0;&#x4F9B;&#x5F69;&#x8272;&#x8F38;&#x51FA;&#x548C;&#x9032;&#x4E00;&#x6B65;&#x904E;&#x6FFE;&#x6A94;&#x540D;&#x7684;&#x529F;&#x80FD;&#x3002;</li>
-<li>&#x5B89;&#x88DD;: Ubuntu &#x8D85;&#x5BB9;&#x6613;, aptitude install id-utils</li>
-</ul>
-<p><strong>Eclipse CDT</strong></p>
-<ul>
-<li>&#x512A;&#x9EDE;: &#x65B9;&#x4FBF;&#x958B;&#x65B0;&#x8996;&#x7A97;&#x770B; caller&#x3001;callee</li>
-<li>&#x7F3A;&#x9EDE;: &#x4E0D;&#x65B9;&#x4FBF;&#x642D; vim &#x4F7F;&#x7528; (&#x5C0D; vim &#x91CD;&#x5EA6;&#x4F7F;&#x7528;&#x8005;&#x7E94;&#x6709;&#x5DEE;); &#x5EFA; index &#x6709;&#x9EDE;&#x4E45;, &#x6211;&#x7684;&#x6E2C;&#x8A66;&#x60C5;&#x5883;&#x8981;&#x6578;&#x5206;&#x9418;&#x5230;&#x5341;&#x5206;&#x9418;&#x5427;</li>
-<li>&#x5B89;&#x88DD;: &#x7D50;&#x679C;&#x9019;&#x500B;&#x662F;&#x6211;&#x8A66;&#x6700;&#x4E45;&#x7684;, &#x56E0;&#x70BA;&#x4E0D;&#x77E5;&#x600E;&#x9EBC;&#x5EFA; index&#x3002;&#x53C3;&#x8003;&#x5B98;&#x7DB2; FAQ, &#x5EFA;&#x7D22;&#x5F15;&#x524D;&#x8981;&#x5148;&#x8A2D; include dir path&#x3002;&#x6211;&#x4E00;&#x76F4;&#x627E;&#x4E0D;&#x5230; context menu, &#x7D50;&#x679C;&#x5B83;&#x5C31;&#x662F;&#x5DE6;&#x5074;&#x7684;&#x90A3;&#x500B;&#x5C08;&#x6848;&#x6E05;&#x55AE;&#x3002;&#x53E6;&#x5916; Eclipse CDT &#x4E5F;&#x6703;&#x6F0F;&#x4E00;&#x4E9B;&#x6771;&#x897F;, C++ &#x7279;&#x5225;&#x56B4;&#x91CD;&#x3002;</li>
-</ul>
-<p><strong>&#x7D50;&#x8AD6;</strong></p>
-<p>&#x7528; Eclipes CDT &#x65B9;&#x4FBF;&#x5E73;&#x6642;&#x5FEB;&#x901F;&#x8DF3;&#x5230;&#x5B9A;&#x7FA9;
-&#x8F14;&#x4EE5; id-utils + gj &#x78BA;&#x4FDD;&#x4E0D;&#x6703;&#x6F0F;&#x6771;&#x897F;&#x3002;&#x4E4B;&#x5F8C;&#x7528;&#x4E00;&#x7528;&#x518D;&#x8996;&#x9700;&#x6C42;&#x4F86;&#x66F4;&#x65B0; gj &#x529F;&#x80FD;&#x3002;
-2011-12-16 Update</p>
-<p>Eclipse CDT &#x7684;&#x554F;&#x984C;&#x6709;&#x4E00;&#x90E8;&#x4EFD;&#x662F;&#x6211;&#x8A2D;&#x932F;, &#x8A73;&#x7D30;&#x8A2D;&#x6CD5;&#x898B;&#x7528; Eclipse CDT &#x8B80; C/C++ &#x539F;&#x59CB;&#x78BC;&#x3002;</p>
-<p>2012-02-02 Update</p>
-<p>&#x7559;&#x8A00;&#x88E1;&#x6709;&#x63D0;&#x5230;&#x5176;&#x5B83;&#x5DE5;&#x5177;, &#x6211;&#x9084;&#x6C92;&#x6A5F;&#x6703;&#x8A66;, &#x6709;&#x9700;&#x8981;&#x7684;&#x4EBA;&#x53EF;&#x4EE5;&#x53C3;&#x8003;&#x770B;&#x770B;&#x3002;
-&#x958B;&#x767C;&#x8EDF;&#x9AD4;&#x7684;&#x6642;&#x5019;, &#x9664;&#x63D0;&#x6607;&#x95B1;&#x8B80;&#x7A0B;&#x5F0F;&#x78BC;&#x7684;&#x80FD;&#x529B;&#x5916;, &#x9084;&#x9700;&#x8981;&#x77AD;&#x89E3;&#x8A31;&#x591A;&#x6771;&#x897F;, &#x898B;&#x300A;&#x5728; Linux &#x4E0B;&#x958B;&#x767C; C/C++ &#x7684;&#x65B0;&#x624B;&#x6307;&#x5357;&#x300B;&#x3002;</p>
+<p>My beloved QEMU is able to make me try a system without buying the hardware first; in particular, mainline QEMU can emulate the Texas Instruments Stellaris lm3s6965 microcontroller, which is a Cortex-M3 based chip that has 256KiB of Flash, 64KiB of RAM,
+some serial ports, ADConverters, timers and many other peripherals.</p>
+<p>I wanted to be able to write a small &#x201C;Hello World&#x201D; program that prints on the serial port with as little effort as possible (in terms of code to write), and emulate it on QEMU. Basically I want to be able to compile and run this &#x201C;main.c&#x201C;:</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;stdio.h&gt;</span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+  <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Hello World!\n&quot;</span>);
+  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>For this purpose, I installed the &#x201C;qemu-system&#x201D; package on my Debian machine, and
+installed the &#x201C;Sourcery G++ Lite 2011.03-42 for ARM EABI&#x201D; toolchain.</p>
+<p>The &#x201C;arm-none-eabi&#x201D; toolchain includes Newlib as an implementation of the C library, but it also contains a particular library that is linked by default in compiled programs, which is called CS3&#x2122;: the CodeSourcery Common Startup Code Sequence. This library is associated with linker scripts for generic and specific platforms. All this specific low-level code is present in many version inside the installation package, because there are many ARM architectures. In my case, since I wanted to develop for Cortex-M3, I need to use the &#x201C;thumb2&#x201D; versions of the library, as stated in the &#x201C;Getting Started&#x201D; guide of the toolchain. To do so, I must supply some flags to the compiler: &#x201C;-mthumb -march=armv7
+-mfix-cortex-m3-ldrd&#x201C;.</p>
+<p>A correct linker script must be supplied, to indicate the memory map and where to put the code and data. The arm-none-eabi toolchain package contains a generic linker script in the path &#x201C;.../Sourcery_G++_Lite/arm-none-eabi/lib/thumb2/generic-m.ld&#x201D; that I modified in
+the following way into a file called &#x201C;lm3s6965.ld&#x201C;:</p>
+<pre><code class="lang-c"><span class="hljs-comment">/* Linker script for lm3s6965 ARM Cortex-M3 microcontroller
+*
+* Modified from generic-m.ld file shipped in:
+*   Sourcery G++ Lite 2011.03-42
+*
+* Version: Sourcery G++ Lite 2011.03-42
+* Support: https://support.codesourcery.com/GNUToolchain/
+*
+* Copyright (c) 2007, 2008, 2009, 2010 CodeSourcery, Inc.
+*
+* The authors hereby grant permission to use, copy, modify, distribute,
+* and license this software and its documentation for any purpose, provided
+* that existing copyright notices are retained in all copies and that this
+* notice is included verbatim in any distributions.  No written agreement,
+* license, or royalty fee is required for any of the authorized uses.
+* Modifications to this software may be copyrighted by their authors
+* and need not follow the licensing terms described here, provided that
+* the new terms are clearly indicated on the first page of each file where
+* they apply.
+*/</span>
+OUTPUT_FORMAT (<span class="hljs-string">&quot;elf32-littlearm&quot;</span>, <span class="hljs-string">&quot;elf32-bigarm&quot;</span>, <span class="hljs-string">&quot;elf32-littlearm&quot;</span>)
+ENTRY(__cs3_reset)
+SEARCH_DIR(.)
+GROUP(-lgcc -lc -lcs3 -lcs3unhosted -lcs3micro)
+
+MEMORY
+{
+flash (rx) : ORIGIN = <span class="hljs-number">0x00000000</span>, LENGTH = <span class="hljs-number">256</span><span class="hljs-function">K
+<span class="hljs-title">ram</span>  <span class="hljs-params">(rwx)</span> : ORIGIN </span>= <span class="hljs-number">0x20000000</span>, LENGTH =  <span class="hljs-number">64</span>K
+}
+
+<span class="hljs-comment">/* These force the linker to search for particular symbols from
+* the start of the link process and thus ensure the user&apos;s
+* overrides are picked up
+*/</span>
+EXTERN(__cs3_reset __cs3_reset_generic_m)
+EXTERN(__cs3_start_asm __cs3_start_asm_sim)
+<span class="hljs-comment">/* Bring in the interrupt routines &amp; vector */</span>
+INCLUDE micro-names.<span class="hljs-function">inc
+<span class="hljs-title">EXTERN</span><span class="hljs-params">(__cs3_interrupt_vector_micro)</span>
+<span class="hljs-title">EXTERN</span><span class="hljs-params">(__cs3_start_c main __cs3_stack __cs3_heap_end)</span>
+
+<span class="hljs-comment">/* Provide fall-back values */</span>
+<span class="hljs-title">PROVIDE</span><span class="hljs-params">(__cs3_heap_start = _end)</span></span>;
+PROVIDE(__cs3_heap_end = __cs3_region_start_ram + __cs3_region_size_ram);
+PROVIDE(__cs3_region_num = (__cs3_regions_end - __cs3_regions) / <span class="hljs-number">20</span>);
+PROVIDE(__cs3_stack = __cs3_region_start_ram + __cs3_region_size_ram);
+
+SECTIONS
+{
+.text :
+{
+CREATE_OBJECT_SYMBOLS
+__cs3_region_start_flash = .;
+_ftext = .;
+*(.cs3.region-head.flash)
+ASSERT (. == __cs3_region_start_flash, <span class="hljs-string">&quot;.cs3.region-head.flash not permitted&quot;</span>);
+__cs3_interrupt_vector = __cs3_interrupt_vector_micro;
+*(.cs3.interrupt_vector)
+<span class="hljs-comment">/* Make sure we pulled in an interrupt vector.  */</span>
+ASSERT (. != __cs3_interrupt_vector_micro, <span class="hljs-string">&quot;No interrupt vector&quot;</span>);
+
+PROVIDE(__cs3_reset = __cs3_reset_generic_m);
+*(.cs3.reset)
+__cs3_start_asm_sim = DEFINED(__cs3_start_asm) ? __cs3_start_asm : __cs3_start_asm_sim;
+
+*(.text.cs3.init)
+*(.text .text.* .gnu.linkonce.t.*)
+*(.plt)
+*(.gnu.warning)
+*(.glue_7t) *(.glue_7) *(.vfp11_veneer)
+
+*(.ARM.extab* .gnu.linkonce.armextab.*)
+*(.gcc_except_table)
+} &gt;flash
+.eh_frame_hdr : ALIGN (<span class="hljs-number">4</span>)
+{
+KEEP (*(.eh_frame_hdr))
+} &gt;flash
+.eh_frame : ALIGN (<span class="hljs-number">4</span>)
+{
+KEEP (*(.eh_frame))
+} &gt;flash
+<span class="hljs-comment">/* .ARM.exidx is sorted, so has to go in its own output section.  */</span>
+PROVIDE_HIDDEN (__exidx_start = .);
+.ARM.exidx :
+{
+*(.ARM.exidx* .gnu.linkonce.armexidx.*)
+} &gt;<span class="hljs-function">flash
+<span class="hljs-title">PROVIDE_HIDDEN</span> <span class="hljs-params">(__exidx_end = .)</span></span>;
+.rodata : ALIGN (<span class="hljs-number">4</span>)
+{
+*(.rodata .rodata.* .gnu.linkonce.r.*)
+
+. = ALIGN(<span class="hljs-number">4</span>);
+KEEP(*(.init))
+
+. = ALIGN(<span class="hljs-number">4</span>);
+__preinit_array_start = .;
+KEEP (*(.preinit_array))
+__preinit_array_end = .;
+
+. = ALIGN(<span class="hljs-number">4</span>);
+__init_array_start = .;
+KEEP (*(SORT(.init_array.*)))
+KEEP (*(.init_array))
+__init_array_end = .;
+
+. = ALIGN(<span class="hljs-number">4</span>);
+KEEP(*(.fini))
+
+. = ALIGN(<span class="hljs-number">4</span>);
+__fini_array_start = .;
+KEEP (*(.fini_array))
+KEEP (*(SORT(.fini_array.*)))
+__fini_array_end = .;
+
+. = ALIGN(<span class="hljs-number">0x4</span>);
+KEEP (*crtbegin.o(.ctors))
+KEEP (*(EXCLUDE_FILE (*crtend.o) .ctors))
+KEEP (*(SORT(.ctors.*)))
+KEEP (*crtend.o(.ctors))
+
+. = ALIGN(<span class="hljs-number">0x4</span>);
+KEEP (*crtbegin.o(.dtors))
+KEEP (*(EXCLUDE_FILE (*crtend.o) .dtors))
+KEEP (*(SORT(.dtors.*)))
+KEEP (*crtend.o(.dtors))
+
+. = ALIGN(<span class="hljs-number">4</span>);
+__cs3_regions = .;
+LONG (<span class="hljs-number">0</span>)
+LONG (__cs3_region_init_ram)
+LONG (__cs3_region_start_ram)
+LONG (__cs3_region_init_size_ram)
+LONG (__cs3_region_zero_size_ram)
+__cs3_regions_end = .;
+. = ALIGN (<span class="hljs-number">8</span>);
+_etext = .;
+} &gt;<span class="hljs-function">flash
+
+<span class="hljs-title">ASSERT</span> <span class="hljs-params">(!(__cs3_region_init_ram &amp; 7)</span>, &quot;__cs3_region_init_ram not aligned&quot;)
+<span class="hljs-title">ASSERT</span> <span class="hljs-params">(!(__cs3_region_start_ram &amp; 7)</span>, &quot;__cs3_region_start_ram not aligned&quot;)
+<span class="hljs-title">ASSERT</span> <span class="hljs-params">(!(__cs3_region_init_size_ram &amp; 7)</span>, &quot;__cs3_region_init_size_ram not aligned&quot;)
+<span class="hljs-title">ASSERT</span> <span class="hljs-params">(!(__cs3_region_zero_size_ram &amp; 7)</span>, &quot;__cs3_region_zero_size_ram not aligned&quot;)
+.data : <span class="hljs-title">ALIGN</span> <span class="hljs-params">(8)</span>
+</span>{
+__cs3_region_start_ram = .;
+KEEP(*(.jcr))
+*(.got.plt) *(.got)
+*(.shdata)
+*(.data .data.* .gnu.linkonce.d.*)
+. = ALIGN (<span class="hljs-number">8</span>);
+*(.ram)
+. = ALIGN (<span class="hljs-number">8</span>);
+_edata = .;
+} &gt;ram AT&gt;flash
+.bss : ALIGN (<span class="hljs-number">8</span>)
+{
+*(.shbss)
+*(.bss .bss.* .gnu.linkonce.b.*)
+*(COMMON)
+. = ALIGN (<span class="hljs-number">8</span>);
+*(.ram.b .bss.ram)
+. = ALIGN (<span class="hljs-number">8</span>);
+_end = .;
+__end = .;
+} &gt;ram
+__cs3_region_init_ram = LOADADDR(.data);
+__cs3_region_init_size_ram = _edata - __cs3_region_start_ram;
+__cs3_region_zero_size_ram = _end - _edata;
+__cs3_region_size_ram = LENGTH(ram);
+
+.stab <span class="hljs-number">0</span> (NOLOAD) : { *(.stab) }
+.stabstr <span class="hljs-number">0</span> (NOLOAD) : { *(.stabstr) }
+<span class="hljs-comment">/* DWARF debug sections.
+* Symbols in the DWARF debugging sections are relative to
+* the beginning of the section so we begin them at 0.
+*/</span>
+<span class="hljs-comment">/* DWARF 1 */</span>
+.debug          <span class="hljs-number">0</span> : { *(.debug) }
+.line           <span class="hljs-number">0</span> : { *(.line) }
+<span class="hljs-comment">/* GNU DWARF 1 extensions */</span>
+.debug_srcinfo  <span class="hljs-number">0</span> : { *(.debug_srcinfo) }
+.debug_sfnames  <span class="hljs-number">0</span> : { *(.debug_sfnames) }
+<span class="hljs-comment">/* DWARF 1.1 and DWARF 2 */</span>
+.debug_aranges  <span class="hljs-number">0</span> : { *(.debug_aranges) }
+.debug_pubnames <span class="hljs-number">0</span> : { *(.debug_pubnames) }
+<span class="hljs-comment">/* DWARF 2 */</span>
+.debug_info     <span class="hljs-number">0</span> : { *(.debug_info .gnu.linkonce.wi.*) }
+.debug_abbrev   <span class="hljs-number">0</span> : { *(.debug_abbrev) }
+.debug_line     <span class="hljs-number">0</span> : { *(.debug_line) }
+.debug_frame    <span class="hljs-number">0</span> : { *(.debug_frame) }
+.debug_str      <span class="hljs-number">0</span> : { *(.debug_str) }
+.debug_loc      <span class="hljs-number">0</span> : { *(.debug_loc) }
+.debug_macinfo  <span class="hljs-number">0</span> : { *(.debug_macinfo) }
+<span class="hljs-comment">/* DWARF 2.1 */</span>
+.debug_ranges   <span class="hljs-number">0</span> : { *(.debug_ranges) }
+<span class="hljs-comment">/* SGI/MIPS DWARF 2 extensions */</span>
+.debug_weaknames <span class="hljs-number">0</span> : { *(.debug_weaknames) }
+.debug_funcnames <span class="hljs-number">0</span> : { *(.debug_funcnames) }
+.debug_typenames <span class="hljs-number">0</span> : { *(.debug_typenames) }
+.debug_varnames  <span class="hljs-number">0</span> : { *(.debug_varnames) }
+
+.note.gnu.arm.ident <span class="hljs-number">0</span> : { KEEP (*(.note.gnu.arm.ident)) }
+.ARM.attributes <span class="hljs-number">0</span> : { KEEP (*(.ARM.attributes)) }
+/DISCARD/ : { *(.note.GNU-<span class="hljs-built_in">stack</span>) }
+}
+</code></pre>
+<p>The lm3s6965 manual indicates that the 256KiB Flash is placed at address 0x00000000, while the 64KiB RAM starts at address 0x20000000, and it is reflected in the &#x201C;MEMORY&#x201D; part of the linker script. One other important modifications with respect to the original linker script is putting the &#x201C;.data&#x201D; and &#x201C;.bss&#x201D; section into RAM, because it is a read-write memory, while the Flash memory is read-only in normal situations. The Flash memory will be filled by QEMU with a binary file that we provide, and the CS3 code will take care of initializing the RAM at boot time.</p>
+<p>We need to override the reset code of the CS3 library because the default behavior is implemented to be run inside a generic simulator. Instead we can simply create an assembly file that implements the very first code to be executed and then calls the CS3 functions (&#x201C;__cs3_start_c&#x201D; to be precise). I created the following &#x201C;reset.S&#x201D; assembly file:</p>
+<pre><code class="lang-c">.text
+.thumb
+
+.global __cs3_reset
+
+.thumb_func
+__cs3_reset:
+  <span class="hljs-preprocessor"># add peripherals and memory initialization here</span>
+  LDR r0, =__cs3_start_asm
+  BX r0
+
+.thumb_func
+__cs3_start_asm:
+  <span class="hljs-preprocessor"># add assembly initializations here</span>
+  LDR r0, =__cs3_start_c
+  BX r0
+
+.end
+</code></pre>
+<p>The last thing needed to compile is low-level input/output functions that connect the &#x201C;stdio&#x201D; functions to the microcontroller&#x2019;s UART. From the microcontroller&#x2019;s manual it seems that the UART in question is the ARM PrimeCell PL011 that I already explored in a previous post; also, the start address of the UART registers is 0x4000C000. I can use the following &#x201C;syscalls.c&#x201D; file that I already created for Newlib tests, and that I took mainly from this tutorial:</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;sys/stat.h&gt;</span>
+
+<span class="hljs-keyword">enum</span> {
+    UART_FR_RXFE = <span class="hljs-number">0x10</span>,
+    UART_FR_TXFF = <span class="hljs-number">0x20</span>,
+    UART0_ADDR = <span class="hljs-number">0x4000C000</span>,
+};
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> UART_DR(baseaddr) (*(unsigned int *)(baseaddr))</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> UART_FR(baseaddr) (*(((unsigned int *)(baseaddr))+6))</span>
+
+<span class="hljs-keyword">int</span> _close(<span class="hljs-keyword">int</span> file)
+{
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-keyword">int</span> _fstat(<span class="hljs-keyword">int</span> file, <span class="hljs-keyword">struct</span> stat* st)
+{
+    st-&gt;st_mode = S_IFCHR;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-keyword">int</span> _isatty(<span class="hljs-keyword">int</span> file)
+{
+    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+}
+
+<span class="hljs-keyword">int</span> _lseek(<span class="hljs-keyword">int</span> file, <span class="hljs-keyword">int</span> ptr, <span class="hljs-keyword">int</span> dir)
+{
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-keyword">int</span> _open(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* name, <span class="hljs-keyword">int</span> flags, <span class="hljs-keyword">int</span> mode)
+{
+    <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;
+}
+
+<span class="hljs-keyword">int</span> _read(<span class="hljs-keyword">int</span> file, <span class="hljs-keyword">char</span>* ptr, <span class="hljs-keyword">int</span> len)
+{
+    <span class="hljs-keyword">int</span> todo;
+
+    <span class="hljs-keyword">if</span> (len == <span class="hljs-number">0</span>) {
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    }
+
+    <span class="hljs-keyword">while</span> (UART_FR(UART0_ADDR) &amp; UART_FR_RXFE);
+
+    *ptr++ = UART_DR(UART0_ADDR);
+
+    <span class="hljs-keyword">for</span> (todo = <span class="hljs-number">1</span>; todo &lt; len; todo++) {
+        <span class="hljs-keyword">if</span> (UART_FR(UART0_ADDR) &amp; UART_FR_RXFE) {
+            <span class="hljs-keyword">break</span>;
+        }
+
+        *ptr++ = UART_DR(UART0_ADDR);
+    }
+
+    <span class="hljs-keyword">return</span> todo;
+}
+
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">char</span>* heap_end = <span class="hljs-number">0</span>;
+caddr_t _sbrk(<span class="hljs-keyword">int</span> incr)
+{
+    <span class="hljs-keyword">extern</span> <span class="hljs-keyword">char</span> __cs3_heap_start; <span class="hljs-comment">/* Defined by the linker */</span>
+    <span class="hljs-keyword">extern</span> <span class="hljs-keyword">char</span> __cs3_heap_end; <span class="hljs-comment">/* Defined by the linker */</span>
+    <span class="hljs-keyword">char</span>* prev_heap_end;
+
+    <span class="hljs-keyword">if</span> (heap_end == <span class="hljs-number">0</span>) {
+        heap_end = &amp;__cs3_heap_start;
+    }
+
+    prev_heap_end = heap_end;
+
+    <span class="hljs-keyword">if</span> (heap_end + incr &gt; &amp;__cs3_heap_end) {
+        <span class="hljs-comment">/* Heap and stack collision */</span>
+        <span class="hljs-keyword">return</span> (caddr_t)<span class="hljs-number">0</span>;
+    }
+
+    heap_end += incr;
+    <span class="hljs-keyword">return</span> (caddr_t) prev_heap_end;
+}
+
+<span class="hljs-keyword">int</span> _write(<span class="hljs-keyword">int</span> file, <span class="hljs-keyword">char</span>* ptr, <span class="hljs-keyword">int</span> len)
+{
+    <span class="hljs-keyword">int</span> todo;
+
+    <span class="hljs-keyword">for</span> (todo = <span class="hljs-number">0</span>; todo &lt; len; todo++) {
+        UART_DR(UART0_ADDR) = *ptr++;
+    }
+
+    <span class="hljs-keyword">return</span> len;
+}
+</code></pre>
+<p>Now it&#x2019;s time to compile the program, create the binary code that must be written in the Flash, and call QEMU to emulate it:</p>
+<pre><code>$ arm-none-eabi-gcc -mthumb -march=armv7 -mfix-cortex-m3-ldrd -T lm3s6965.ld main.c reset.S syscalls.c -o main
+$ arm-none-eabi-objcopy -O binary main main.bin
+$ qemu-system-arm -M lm3s6965evb --kernel main.bin --serial stdio
+Hello World!
+</code></pre><p>From this point, it is possible to create a more complex application using the C standard library as needed. This application should work also on real hardware with some modifications on the UART code, that currently does not check if the write buffer is full and does not initialize the port speed, for example. Other than that, the embedded Flash must be written with the binary file using the tools that the microcontroller vendor provides.</p>
 
                     
                     </section>
@@ -1982,10 +2292,10 @@
         </div>
 
         
-        <a href="../fcamel/91001.html" class="navigation navigation-prev " aria-label="Previous page: 查 C/C++ symbol 定義的方法"><i class="fa fa-angle-left"></i></a>
+        <a href="../arm_emulation/using_newlib_in_arm_bare_metal_programs.html" class="navigation navigation-prev " aria-label="Previous page: Using Newlib in ARM bare metal programs"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../fcamel/91003.html" class="navigation navigation-next " aria-label="Next page: 配合 c++filt 讀程式"><i class="fa fa-angle-right"></i></a>
+        <a href="../arm_emulation/qemu_arm_semihosting.html" class="navigation navigation-next " aria-label="Next page: QEMU ARM semihosting"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

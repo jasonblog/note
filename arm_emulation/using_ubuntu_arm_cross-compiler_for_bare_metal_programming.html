@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
-        <title>閱讀 C/C++ 原始碼的好幫手 | Jason note</title>
+        <title>Using Ubuntu ARM cross-compiler for bare metal programming | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.0.1">
@@ -20,10 +20,10 @@
         
     
     
-    <link rel="next" href="../fcamel/91003.html" />
+    <link rel="next" href="../arm_emulation/using_newlib_in_arm_bare_metal_programs.html" />
     
     
-    <link rel="prev" href="../fcamel/91001.html" />
+    <link rel="prev" href="../arm_emulation/arm926_interrupts_in_qemu.html" />
     
 
         
@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="9.10.2" data-basepath=".." data-revision="Fri Jul 24 2015 23:57:41 GMT+0800 (CST)">
+    <div class="book" data-level="11.14" data-basepath=".." data-revision="Fri Jul 24 2015 23:57:41 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1358,7 +1358,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="9.10.2" data-path="fcamel/91002.html">
+        <li class="chapter " data-level="9.10.2" data-path="fcamel/91002.html">
             
                 
                     <a href="../fcamel/91002.html">
@@ -1742,7 +1742,7 @@
             
         </li>
     
-        <li class="chapter " data-level="11.14" data-path="arm_emulation/using_ubuntu_arm_cross-compiler_for_bare_metal_programming.html">
+        <li class="chapter active" data-level="11.14" data-path="arm_emulation/using_ubuntu_arm_cross-compiler_for_bare_metal_programming.html">
             
                 
                     <a href="../arm_emulation/using_ubuntu_arm_cross-compiler_for_bare_metal_programming.html">
@@ -1925,53 +1925,64 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E9%96%B1%E8%AE%80-c-c-%E5%8E%9F%E5%A7%8B%E7%A2%BC%E7%9A%84%E5%A5%BD%E5%B9%AB%E6%89%8B">&#x95B1;&#x8B80; C/C++ &#x539F;&#x59CB;&#x78BC;&#x7684;&#x597D;&#x5E6B;&#x624B;</h1>
-<p>&#x6700;&#x8FD1;&#x6709;&#x9700;&#x6C42;&#x8B80; C/C++ &#x7684;&#x6771;&#x897F;, &#x8A66;&#x4E86; ctags, cscope &#x89BA;&#x5F97;&#x4E0D;&#x7406;&#x60F3;&#x3002;&#x554F;&#x4E86;&#x4E00;&#x4E0B;&#x6536;&#x5230;&#x8A31;&#x591A;&#x56DE;&#x61C9; (G+ &#x3001;plurk ), &#x771F;&#x662F;&#x592A;&#x611F;&#x8B1D;&#x5927;&#x5BB6;&#x4E86;, &#x6E1B;&#x5C11;&#x5165;&#x9580;&#x6478;&#x7D22;&#x7684;&#x6642;&#x9593;&#x3002;</p>
-<p>&#x8A66;&#x7528;&#x7684;&#x611F;&#x60F3;&#x5982;&#x4E0B;:</p>
-<p><strong>grep</strong></p>
-<ul>
-<li>&#x512A;&#x9EDE;: &#x597D;&#x4E0A;&#x624B;</li>
-<li>&#x7F3A;&#x9EDE;: &#x967D;&#x6625;</li>
-<li>&#x5B89;&#x88DD;: &#x5167;&#x5EFA;&#x65BC; Linux</li>
-</ul>
-<p><strong>gtags</strong></p>
-<ul>
-<li>&#x512A;&#x9EDE;: &#x53EF;&#x627E; caller &#x548C; callee</li>
-<li>&#x7F3A;&#x9EDE;: &#x56E0;&#x70BA;&#x7D22;&#x5F15;&#x6A94;&#x662F;&#x7531; ctags &#x4F86;&#x7684;, &#x6703;&#x6F0F;&#x6771;&#x897F;; &#x57F7;&#x884C;&#x65B9;&#x5F0F;&#x4E5F;&#x6709;&#x4E9B;&#x4E0D;&#x4FBF;</li>
-<li>&#x5B89;&#x88DD;: &#x7A0B;&#x5F0F;&#x5F88;&#x4E45;&#x6C92;&#x4EBA;&#x66F4;&#x65B0;&#x4E86;, &#x8981;&#x505A;&#x4E00;&#x4E9B;&#x4FEE;&#x6B63;&#x624D;&#x88DD;&#x5F97;&#x8D77;&#x4F86;<ul>
-<li>&#x53C3;&#x7167;&#x5B98;&#x7DB2;&#x6307;&#x793A;</li>
-<li>make &#x6642;&#x770B;&#x5C11;&#x4E86;&#x4EC0;&#x9EBC; header, &#x624B;&#x52D5;&#x88DC;&#x4E00;&#x4E0B; header</li>
-<li>&#x7136;&#x5F8C; make &#x9084;&#x662F;&#x6703;&#x5931;&#x6557;, &#x5C07; gas.py &#x7684; &quot;import as&quot; &#x6539;&#x70BA; &quot;import asm&quot;, &#x4E0B;&#x9762;&#x7528;&#x5230;&#x7684;&#x6A21;&#x7D44;&#x540D;&#x4E5F;&#x8981;&#x8DDF;&#x8457;&#x6539;, as.py &#x4E5F;&#x8981;&#x6539;&#x70BA; asm.py&#x3002;python 2.6 &#x5F8C; as &#x662F; keyword</li>
-<li>&#x7DE8;&#x597D;&#x5F8C;&#x5C07;&#x5E7E;&#x500B;&#x7528;&#x5230;&#x7684; python scripts &#x7B2C;&#x4E00;&#x884C;&#x7531; python2.4 &#x6539;&#x70BA; python</li>
-</ul>
-</li>
-</ul>
-<p><strong>ack</strong></p>
-<ul>
-<li>&#x512A;&#x9EDE;: &#x6BD4; grep &#x5BB9;&#x6613;&#x4F7F;&#x7528;, &#x7701;&#x5F97;&#x914D;&#x5408;&#x4E00;&#x4E9B; command &#x904E;&#x6FFE;&#x6A94;&#x6848;, &#x898B;&#x5B98;&#x7DB2;&#x7684;&#x300A;Top 10 reasons to use ack instead of grep.&#x300B;&#x3002;&#x800C;&#x4E14;&#x9084;&#x6709;&#x5F69;&#x8272;&#x7684;&#x8F38;&#x51FA;!!</li>
-<li>&#x7F3A;&#x9EDE;: &#x56E0;&#x70BA;&#x6C92;&#x5EFA; index &#x7684;&#x95DC;&#x4FC2;, &#x901F;&#x5EA6;&#x8F03; id-utils &#x6162;, &#x6211;&#x7684;&#x6E2C;&#x8A66;&#x60C5;&#x5883;&#x8981; 3s, &#x800C; id-utils &#x53EA;&#x8981; 0.006s</li>
-<li>&#x5B89;&#x88DD;: curl <a href="http://betterthangrep.com/ack-standalone" target="_blank">http://betterthangrep.com/ack-standalone</a> &gt; ~/bin/ack &amp;&amp; chmod 0755 !#:3</li>
-</ul>
-<p><strong>id-utils</strong></p>
-<ul>
-<li>&#x512A;&#x9EDE;: &#x901F;&#x5EA6;&#x5FEB;, &#x548C;&#x6E2C; ack &#x540C;&#x6A23;&#x7684;&#x60C5;&#x6CC1;, &#x5EFA;&#x7D22;&#x5F15; 5.3s, &#x4E4B;&#x5F8C;&#x641C;&#x5C0B;&#x77AC;&#x6BBA;</li>
-<li>&#x7F3A;&#x9EDE;: &#x4ECB;&#x9762;&#x6C92;&#x6709; ack &#x76F4;&#x89BA;&#x6613;&#x7528;, &#x6211;&#x5BEB;&#x4E86;&#x500B;&#x5C0F;&#x7A0B;&#x5F0F; gj &#x4EE5; id-utils &#x70BA;&#x5E95;, - &#x63D0;&#x4F9B;&#x5F69;&#x8272;&#x8F38;&#x51FA;&#x548C;&#x9032;&#x4E00;&#x6B65;&#x904E;&#x6FFE;&#x6A94;&#x540D;&#x7684;&#x529F;&#x80FD;&#x3002;</li>
-<li>&#x5B89;&#x88DD;: Ubuntu &#x8D85;&#x5BB9;&#x6613;, aptitude install id-utils</li>
-</ul>
-<p><strong>Eclipse CDT</strong></p>
-<ul>
-<li>&#x512A;&#x9EDE;: &#x65B9;&#x4FBF;&#x958B;&#x65B0;&#x8996;&#x7A97;&#x770B; caller&#x3001;callee</li>
-<li>&#x7F3A;&#x9EDE;: &#x4E0D;&#x65B9;&#x4FBF;&#x642D; vim &#x4F7F;&#x7528; (&#x5C0D; vim &#x91CD;&#x5EA6;&#x4F7F;&#x7528;&#x8005;&#x7E94;&#x6709;&#x5DEE;); &#x5EFA; index &#x6709;&#x9EDE;&#x4E45;, &#x6211;&#x7684;&#x6E2C;&#x8A66;&#x60C5;&#x5883;&#x8981;&#x6578;&#x5206;&#x9418;&#x5230;&#x5341;&#x5206;&#x9418;&#x5427;</li>
-<li>&#x5B89;&#x88DD;: &#x7D50;&#x679C;&#x9019;&#x500B;&#x662F;&#x6211;&#x8A66;&#x6700;&#x4E45;&#x7684;, &#x56E0;&#x70BA;&#x4E0D;&#x77E5;&#x600E;&#x9EBC;&#x5EFA; index&#x3002;&#x53C3;&#x8003;&#x5B98;&#x7DB2; FAQ, &#x5EFA;&#x7D22;&#x5F15;&#x524D;&#x8981;&#x5148;&#x8A2D; include dir path&#x3002;&#x6211;&#x4E00;&#x76F4;&#x627E;&#x4E0D;&#x5230; context menu, &#x7D50;&#x679C;&#x5B83;&#x5C31;&#x662F;&#x5DE6;&#x5074;&#x7684;&#x90A3;&#x500B;&#x5C08;&#x6848;&#x6E05;&#x55AE;&#x3002;&#x53E6;&#x5916; Eclipse CDT &#x4E5F;&#x6703;&#x6F0F;&#x4E00;&#x4E9B;&#x6771;&#x897F;, C++ &#x7279;&#x5225;&#x56B4;&#x91CD;&#x3002;</li>
-</ul>
-<p><strong>&#x7D50;&#x8AD6;</strong></p>
-<p>&#x7528; Eclipes CDT &#x65B9;&#x4FBF;&#x5E73;&#x6642;&#x5FEB;&#x901F;&#x8DF3;&#x5230;&#x5B9A;&#x7FA9;
-&#x8F14;&#x4EE5; id-utils + gj &#x78BA;&#x4FDD;&#x4E0D;&#x6703;&#x6F0F;&#x6771;&#x897F;&#x3002;&#x4E4B;&#x5F8C;&#x7528;&#x4E00;&#x7528;&#x518D;&#x8996;&#x9700;&#x6C42;&#x4F86;&#x66F4;&#x65B0; gj &#x529F;&#x80FD;&#x3002;
-2011-12-16 Update</p>
-<p>Eclipse CDT &#x7684;&#x554F;&#x984C;&#x6709;&#x4E00;&#x90E8;&#x4EFD;&#x662F;&#x6211;&#x8A2D;&#x932F;, &#x8A73;&#x7D30;&#x8A2D;&#x6CD5;&#x898B;&#x7528; Eclipse CDT &#x8B80; C/C++ &#x539F;&#x59CB;&#x78BC;&#x3002;</p>
-<p>2012-02-02 Update</p>
-<p>&#x7559;&#x8A00;&#x88E1;&#x6709;&#x63D0;&#x5230;&#x5176;&#x5B83;&#x5DE5;&#x5177;, &#x6211;&#x9084;&#x6C92;&#x6A5F;&#x6703;&#x8A66;, &#x6709;&#x9700;&#x8981;&#x7684;&#x4EBA;&#x53EF;&#x4EE5;&#x53C3;&#x8003;&#x770B;&#x770B;&#x3002;
-&#x958B;&#x767C;&#x8EDF;&#x9AD4;&#x7684;&#x6642;&#x5019;, &#x9664;&#x63D0;&#x6607;&#x95B1;&#x8B80;&#x7A0B;&#x5F0F;&#x78BC;&#x7684;&#x80FD;&#x529B;&#x5916;, &#x9084;&#x9700;&#x8981;&#x77AD;&#x89E3;&#x8A31;&#x591A;&#x6771;&#x897F;, &#x898B;&#x300A;&#x5728; Linux &#x4E0B;&#x958B;&#x767C; C/C++ &#x7684;&#x65B0;&#x624B;&#x6307;&#x5357;&#x300B;&#x3002;</p>
+                        <h1 id="using-ubuntu-arm-cross-compiler-for-bare-metal-programming">Using Ubuntu ARM cross-compiler for bare metal programming</h1>
+<p>The newest Ubuntu release 10.10, codenamed Maverick Meerkat, includes an ARM cross-compiler in the package gcc-arm-linux-gnueabi. This compiler is a welcome addition (thanks to the maintainer Marcin Juszkiewicz and to the Linaro team) to the default repositories, and it is in line both with the Ubuntu roadmap to appear also on ARM-based devices and with the ARM roadmap to appear also on server solutions.</p>
+<p>The main purpose of the package is to allow cross-compiling of Linux programs for Ubuntu ARM distributions, but it can be used also for bare metal programming. One thing to be aware is the fact that the compiler by default tries to link the Linux standard C
+libraries that in bare metal programming have no use.</p>
+<p>I&#x2019;m writing a simple &#x201C;Hello World&#x201D; program just like the one I used for my previous post: Hello world for bare metal ARM using QEMU, only this time for the Versatile Platform Baseboard for Cortex-A8, that can be emulated by QEMU too. The requisites are Ubuntu 10.10, the cross-compiler and the QEMU arm emulator that can be installed with the command:</p>
+<pre><code>$ sudo apt-get install gcc-arm-linux-gnueabi qemu-kvm-extras
+</code></pre><p>The memory map for the board is specified in its manual; in particular, the first UART is at address 0x10009000. I modified the  &#x201C;test.c&#x201D; code that sends the string &#x201C;Hello World!&#x201D; to the UART, using the correct address:</p>
+<pre><code class="lang-c"><span class="hljs-keyword">volatile</span> <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> * <span class="hljs-keyword">const</span> UART0DR = (<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> *)<span class="hljs-number">0x10009000</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">print_uart0</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *s)</span> </span>{
+    <span class="hljs-keyword">while</span>(*s != <span class="hljs-string">&apos;\0&apos;</span>) { <span class="hljs-comment">/* Loop until end of string */</span>
+        *UART0DR = *s; <span class="hljs-comment">/* Transmit char */</span>
+        s++; <span class="hljs-comment">/* Next char */</span>
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">c_entry</span><span class="hljs-params">()</span> </span>{
+    print_uart0(<span class="hljs-string">&quot;Hello world!\n&quot;</span>);
+}
+</code></pre>
+<p>The first code to be executed is written in &#x201C;startup.s&#x201D; like in the last example.</p>
+<pre><code class="lang-c">.global _Reset
+_Reset:
+    LDR sp, =stack_top
+    BL c_entry
+    B .
+</code></pre>
+<p>It initializes the stack pointer to a value that is given inside the linker script, and then jumps to the c_entry function. The linker script is the following:</p>
+<pre><code class="lang-c">SECTIONS
+{
+  . = <span class="hljs-number">0x10000</span>;
+  .ro : {
+    startup.o (.text)
+    *(.text)
+    *(.rodata)
+  }
+  .rw : {
+    *(.data)
+    *(.bss)
+    *(COMMON)
+  }
+  . = ALIGN(<span class="hljs-number">8</span>);
+  . = . + <span class="hljs-number">0x1000</span>; <span class="hljs-comment">/* 4kB of stack memory */</span>
+  stack_top = .;
+}
+</code></pre>
+<p>The linker scripts separates two sections of the program: a read-only section containing the code and the constants, and a read-write section containing the data. The 0x10000 address is the place where QEMU puts the code and starts executing. To create the ELF executable, the commands are:</p>
+<pre><code class="lang-sh"> arm-linux-gnueabi-gcc -mcpu=cortex<span class="hljs-operator">-a</span>8   -c -o test.o test.c
+$ arm-linux-gnueabi-as -mcpu=cortex<span class="hljs-operator">-a</span>8  -o startup.o startup.s
+$ arm-linux-gnueabi-gcc -nostdlib -T test.ld -Xlinker <span class="hljs-string">&quot;--build-id=none&quot;</span>  test.o startup.o   -o <span class="hljs-built_in">test</span>
+</code></pre>
+<p>The linker phase options are the most important. The &#x201C;-nostdlib&#x201D; option tells the linker to avoid linking the startup files and standard C libraries. I needed to specify the &#x201C;--build-id=none&#x201D; options  because the compiler placed a section of notes just at the beginning of the code, but since I needed the _Reset code to be exactly at 0x10000, it ruined the program execution. Instead of using GCC as a frontend, the linker can be invoked directly with the following command, with the same results:</p>
+<pre><code>$ arm-linux-gnueabi-ld -T test.ld test.o startup.o -o test
+</code></pre><p>To generate a binary suitable for QEMU and emulate the platform, the commands are the following:</p>
+<pre><code>$ arm-linux-gnueabi-objcopy -O binary test test.bin
+$ qemu-system-arm -M realview-pb-a8 -serial stdio -kernel test.bin
+Hello world!
+</code></pre><p>The cross-compiler can be used in this simple example but, with respect to the CodeSourcery bare metal toolchain, it does not contain the newlib library or the startup code. For more elaborate examples that use the standard C libraries, an implementation of these libraries must be compiled and the correct include directories must be pointed.</p>
 
                     
                     </section>
@@ -1982,10 +1993,10 @@
         </div>
 
         
-        <a href="../fcamel/91001.html" class="navigation navigation-prev " aria-label="Previous page: 查 C/C++ symbol 定義的方法"><i class="fa fa-angle-left"></i></a>
+        <a href="../arm_emulation/arm926_interrupts_in_qemu.html" class="navigation navigation-prev " aria-label="Previous page: ARM926 interrupts in QEMU"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../fcamel/91003.html" class="navigation navigation-next " aria-label="Next page: 配合 c++filt 讀程式"><i class="fa fa-angle-right"></i></a>
+        <a href="../arm_emulation/using_newlib_in_arm_bare_metal_programs.html" class="navigation navigation-next " aria-label="Next page: Using Newlib in ARM bare metal programs"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

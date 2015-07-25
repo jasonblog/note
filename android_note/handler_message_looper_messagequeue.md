@@ -32,7 +32,7 @@ OK, 上面四個 class 的共同目地已經說明完畢了，那麼這四個 cl
 但是同時有多條 thread 不斷的在系統中傳遞 Message 那麼如何緩衝呢 ?
 
 - MessageQueue 的目地，是為了讓 Message 能夠作緩衝，好讓Message先暫存起來。因此，當Message 已經被放在其它 Thread上的MessageQueue 之後,
-它裡麪包著 Handler,而 Handler上的 callback function 總得有人來執行吧 ??
+它裡麵包著 Handler,而 Handler上的 callback function 總得有人來執行吧 ??
 
 - Looper 的目地 ：
 就是為了將 Message 由 Thread 所對應的 MessageQueue 取出來，並且拿出 Handler

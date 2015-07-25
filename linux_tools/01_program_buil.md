@@ -38,7 +38,7 @@ g++編譯
 make -f myMakefile
 ```
 
-通過-f選項顯示指定需要編譯的makefile；如果待使用makefile文件在當前路徑，且文件名爲以下幾個，則不用顯示指定：
+通過-f選項顯示指定需要編譯的makefile；如果待使用makefile文件在當前路徑，且文件名為以下幾個，則不用顯示指定：
 
 makefile Makefile
 
@@ -56,7 +56,7 @@ $@目標文件名
 
 系統學習makefile的書寫規則，請參考 跟我一起學makefile [1]
 更多選擇 CMake
-CMake是一個跨平臺的安裝（編譯）工具，可以用簡單的語句來描述所有平臺的安裝(編譯過程)。他能夠輸出各種各樣的makefile或者project文件。使用CMake，能夠使程序員從複雜的編譯連接過程中解脫出來。它使用一個名爲 CMakeLists.txt 的文件來描述構建過程,可以生成標準的構建文件,如 Unix/Linux 的 Makefile 或Windows Visual C++ 的 projects/workspaces 。
+CMake是一個跨平臺的安裝（編譯）工具，可以用簡單的語句來描述所有平臺的安裝(編譯過程)。他能夠輸出各種各樣的makefile或者project文件。使用CMake，能夠使程序員從複雜的編譯連接過程中解脫出來。它使用一個名為 CMakeLists.txt 的文件來描述構建過程,可以生成標準的構建文件,如 Unix/Linux 的 Makefile 或Windows Visual C++ 的 projects/workspaces 。
 
 編譯依賴的庫
 makefile編譯過程中所依賴的非標準庫和頭文件路徑需要顯示指明:

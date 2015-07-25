@@ -32,7 +32,7 @@ awk常用內建函數
 1. 迭代文件中的每一行
 2.迭代一行中的每一個單詞
 3. 迭代每一個字符
-本節將介紹Linux下使用Shell處理文本時最常用的工具： find、grep、xargs、sort、uniq、tr、cut、paste、wc、sed、awk； 提供的例子和參數都是常用的； 我對shell腳本使用的原則是命令單行書寫，儘量不要超過2行； 如果有更爲複雜的任務需求，還是考慮python吧；
+本節將介紹Linux下使用Shell處理文本時最常用的工具： find、grep、xargs、sort、uniq、tr、cut、paste、wc、sed、awk； 提供的例子和參數都是常用的； 我對shell腳本使用的原則是命令單行書寫，儘量不要超過2行； 如果有更為複雜的任務需求，還是考慮python吧；
 
 3.1. 文件查找
 查找txt和pdf文件:
@@ -55,7 +55,7 @@ find . -regex  ".*\(\.txt|\.pdf\)$"
 find . ! -name "*.txt" -print
 ```
 
-指定搜索深度,打印出當前目錄的文件（深度爲1）:
+指定搜索深度,打印出當前目錄的文件（深度為1）:
 ```
 find . -maxdepth 1 -type f
 ```
@@ -124,7 +124,7 @@ find . type f -name "*.swp" | xargs rm
 ```
 
 執行動作（強大的exec）
-將當前目錄下的所有權變更爲weber:
+將當前目錄下的所有權變更為weber:
 
 ```
 find . -type f -user root -exec chown weber {} \;
@@ -143,9 +143,9 @@ find . -type f -mtime +10 -name "*.txt" -exec cp {} OLD \;
 
 -exec ./commands.sh {} \;
 -print的定界符
-默認使用’\n’作爲文件的定界符；
+默認使用’\n’作為文件的定界符；
 
--print0 使用’\0’作爲文件的定界符，這樣就可以搜索包含空格的文件；
+-print0 使用’\0’作為文件的定界符，這樣就可以搜索包含空格的文件；
 
 3.2. grep 文本搜索
 ```
@@ -173,7 +173,7 @@ grep "class" . -R -n
 grep -e "class" -e "vitural" file
 ```
 
-grep輸出以0作爲結尾符的文件名（-z）:
+grep輸出以0作為結尾符的文件名（-z）:
 
 ```
 grep "test" file* -lZ| xargs -0 rm
@@ -186,7 +186,7 @@ cat LOG.* | tr a-z A-Z | grep "FROM " | grep "WHERE" > b
 ```
 
 3.3. xargs 命令行參數轉換
-xargs 能夠將輸入數據轉化爲特定命令的命令行參數；這樣，可以配合很多命令來組合使用。比如grep，比如find； - 將多行輸出轉化爲單行輸出
+xargs 能夠將輸入數據轉化為特定命令的命令行參數；這樣，可以配合很多命令來組合使用。比如grep，比如find； - 將多行輸出轉化為單行輸出
 
 ```
 cat file.txt| xargs
@@ -194,7 +194,7 @@ cat file.txt| xargs
 
 n 是多行文本間的定界符
 
-將單行轉化爲多行輸出
+將單行轉化為多行輸出
 ```
 cat single.txt | xargs -n 3
 ```
@@ -203,10 +203,10 @@ cat single.txt | xargs -n 3
 
 xargs參數說明
 
--d 定義定界符 （默認爲空格 多行的定界符爲 n）
--n 指定輸出爲多行
+-d 定義定界符 （默認為空格 多行的定界符為 n）
+-n 指定輸出為多行
 -I {} 指定替換字符串，這個字符串在xargs擴展時會被替換掉,用於待執行的命令需要多個參數時
--0：指定0爲輸入定界符
+-0：指定0為輸入定界符
 示例:
 
 ```
@@ -307,12 +307,12 @@ cat -f2 -d";" filename
 
 cut 取的範圍
 N- 第N個字段到結尾
--M 第1個字段爲M
+-M 第1個字段為M
 N-M N到M個字段
 cut 取的單位
--b 以字節爲單位
--c 以字符爲單位
--f 以字段爲單位（使用定界符）
+-b 以字節為單位
+-c 以字符為單位
+-f 以字段為單位（使用定界符）
 示例:
 
 ```
@@ -415,7 +415,7 @@ $>line con a replaced
 ```
 
 其它示例
-字符串插入字符：將文本中每行內容（ABCDEF） 轉換爲 ABC/DEF:
+字符串插入字符：將文本中每行內容（ABCDEF） 轉換為 ABC/DEF:
 
 ```
 sed 's/^.\{3\}/&\//g' file
@@ -447,7 +447,7 @@ print var1, var2 , var3; }'
 $>v1 V2 v3
 ```
 
-使用-拼接符的方式（”“作爲拼接符）;
+使用-拼接符的方式（”“作為拼接符）;
 ```
 echo | awk ' {var1 = "v1" ; var2 = "V2"; var3="v3"; \
 print var1"-"var2"-"var3; }'
@@ -502,7 +502,7 @@ awk '!/linux/' #不包含linux文本的行
 
 
 設置定界符
-使用-F來設置定界符（默認爲空格）:
+使用-F來設置定界符（默認為空格）:
 
 ```
 awk -F: '{print $NF}' /etc/passwd
@@ -576,7 +576,7 @@ cat /etc/passwd| awk '/mai.*mail/,/news.*news/'
 awk常用內建函數
 index(string,search_string):返回search_string在string中出現的位置
 
-sub(regex,replacement_str,string):將正則匹配到的第一處內容替換爲replacement_str;
+sub(regex,replacement_str,string):將正則匹配到的第一處內容替換為replacement_str;
 
 match(regex,string):檢查正則表達式是否能夠匹配字符串；
 

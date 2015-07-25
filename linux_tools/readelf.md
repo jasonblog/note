@@ -1,9 +1,9 @@
 # readelf elf文件格式分析
 
-這個工具和objdump命令提供的功能類似，但是它顯示的信息更爲具體，並且它不依賴BFD庫(BFD庫是一個GNU項目，它的目標就是希望通過一種統一的接口來處理不同的目標文件）；
+這個工具和objdump命令提供的功能類似，但是它顯示的信息更為具體，並且它不依賴BFD庫(BFD庫是一個GNU項目，它的目標就是希望通過一種統一的接口來處理不同的目標文件）；
 
 ## ELF文件類型
-ELF(Executable and Linking Format)是一種對象文件的格式，用於定義不同類型的對象文件(Object files)中都放了什麼東西、以及都以什麼樣的格式去放這些東西。它自最早在 System V 系統上出現後，被 xNIX 世界所廣泛接受，作爲缺省的二進制文件格式來使用。可以說，ELF是構成衆多xNIX系統的基礎之一。
+ELF(Executable and Linking Format)是一種對象文件的格式，用於定義不同類型的對象文件(Object files)中都放了什麼東西、以及都以什麼樣的格式去放這些東西。它自最早在 System V 系統上出現後，被 xNIX 世界所廣泛接受，作為缺省的二進制文件格式來使用。可以說，ELF是構成眾多xNIX系統的基礎之一。
 ### ELF文件有三種類型：
 
 1. 可重定位的對象文件(Relocatable file)由彙編器彙編生成的 .o 文件
@@ -13,12 +13,12 @@ ELF(Executable and Linking Format)是一種對象文件的格式，用於定義�
 3. 可被共享的對象文件(Shared object file)動態庫文件，也即 .so 文件
 
 
-- .text section 裏裝載了可執行代碼；
-- .data section 裏面裝載了被初始化的數據；
-- .bss section 裏面裝載了未被初始化的數據；
-- 以 .rec 打頭的 sections 裏面裝載了重定位條目；
-- .symtab 或者 .dynsym section 裏面裝載了符號信息；
-- .strtab 或者 .dynstr section 裏面裝載了字符串信息；
+- .text section 裡裝載了可執行代碼；
+- .data section 裡面裝載了被初始化的數據；
+- .bss section 裡面裝載了未被初始化的數據；
+- 以 .rec 打頭的 sections 裡面裝載了重定位條目；
+- .symtab 或者 .dynsym section 裡面裝載了符號信息；
+- .strtab 或者 .dynstr section 裡面裝載了字符串信息；
 ### 13.1. 參數說明
 - -a –all 全部 Equivalent to: -h -l -S -s -r -d -V -A -I
 - -h –file-header 文件頭 Display the ELF file header
@@ -57,7 +57,7 @@ An alias for –syms
 $readelf -h main| grep Machine
 ```
 
--h選項將顯示文件頭的概要信息，從裏面可以看到，有很多有用的信息：
+-h選項將顯示文件頭的概要信息，從裡面可以看到，有很多有用的信息：
 
 ```
 $readelf -h main

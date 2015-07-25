@@ -18,4 +18,4 @@
 17. wget 文件下載
 18. scp 跨機遠程拷貝
 19. crontab 定時任務
-這裏是工具詳情及工具參考； top sar make gcc objdump readlf ulimit ulimit內置在bash shell中，用來提供對shell和進程可用資源的控制
+這裡是工具詳情及工具參考； top sar make gcc objdump readlf ulimit ulimit內置在bash shell中，用來提供對shell和進程可用資源的控制

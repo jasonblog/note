@@ -9,10 +9,10 @@ wget 非常穩定，它在帶寬很窄的情況下和不穩定網絡中有很強
 wget [參數] [URL地址]
 
 ### 17.2. 命令參數：
-啓動參數：
+啟動參數：
 - -V, –version 顯示wget的版本後退出
 - -h, –help 打印語法幫助
-- -b, –background 啓動後轉入後臺執行
+- -b, –background 啟動後轉入後臺執行
 - -e, –execute=COMMAND 執行’.wgetrc’格式的命令，wgetrc格式參見/etc/wgetrc或~/.wgetrc
 
 ### 記錄和輸入文件參數
@@ -24,7 +24,7 @@ wget [參數] [URL地址]
 - -nv, –non-verbose 關掉冗長模式，但不是安靜模式
 - -i, –input-file=FILE 下載在FILE文件中出現的URLs
 - -F, –force-html 把輸入文件當作HTML格式文件對待
-- -B, –base=URL 將URL作爲在-F -i參數指定的文件中出現的相對鏈接的前綴
+- -B, –base=URL 將URL作為在-F -i參數指定的文件中出現的相對鏈接的前綴
 
 –sslcertfile=FILE 可選客戶端證書 –sslcertkey=KEYFILE 可選客戶端證書的KEYFILE –egd-file=FILE 指定EGD socket的文件名
 
@@ -33,7 +33,7 @@ wget [參數] [URL地址]
 - -t, –tries=NUMBER 設定最大嘗試鏈接次數(0 表示無限制).
 - -O –output-document=FILE 把文檔寫到FILE文件中
 - -nc, –no-clobber 不要覆蓋存在的文件或使用.#前綴
-- -c, –continue 接着下載沒下載完的文件
+- -c, –continue 接著下載沒下載完的文件
 - -progress=TYPE 設定進程條標記
 - -N, –timestamping 不要重新下載文件除非比本地文件新
 - -S, –server-response 打印服務器的迴應
@@ -52,17 +52,17 @@ wget [參數] [URL地址]
 - -P, –directory-prefix=PREFIX 將文件保存到目錄 PREFIX/…
 - -cut-dirs=NUMBER 忽略 NUMBER層遠程目錄
 - HTTP 選項參數
-- -http-user=USER 設定HTTP用戶名爲 USER.
-- -http-passwd=PASS 設定http密碼爲 PASS
+- -http-user=USER 設定HTTP用戶名為 USER.
+- -http-passwd=PASS 設定http密碼為 PASS
 - -C, –cache=on/off 允許/不允許服務器端的數據緩存 (一般情況下允許)
 - -E, –html-extension 將所有text/html文檔以.html擴展名保存
 - -ignore-length 忽略 ‘Content-Length’頭域
 - -header=STRING 在headers中插入字符串 STRING
-- -proxy-user=USER 設定代理的用戶名爲 USER
-- proxy-passwd=PASS 設定代理的密碼爲 PASS
+- -proxy-user=USER 設定代理的用戶名為 USER
+- proxy-passwd=PASS 設定代理的密碼為 PASS
 - referer=URL 在HTTP請求中包含 ‘Referer: URL’頭
 - -s, –save-headers 保存HTTP頭到文件
-- -U, –user-agent=AGENT 設定代理的名稱爲 AGENT而不是 Wget/VERSION
+- -U, –user-agent=AGENT 設定代理的名稱為 AGENT而不是 Wget/VERSION
 - no-http-keep-alive 關閉 HTTP活動鏈接 (永遠鏈接)
 - cookies=off 不使用 cookies
 - load-cookies=FILE 在開始會話前從文件 FILE中加載cookie
@@ -79,8 +79,8 @@ wget [參數] [URL地址]
 - -r, –recursive 遞歸下載－－慎用!
 - -l, –level=NUMBER 最大遞歸深度 (inf 或 0 代表無窮)
 - -delete-after 在現在完畢後局部刪除文件
-- -k, –convert-links 轉換非相對鏈接爲相對鏈接
-- -K, –backup-converted 在轉換文件X之前，將之備份爲 X.orig
+- -k, –convert-links 轉換非相對鏈接為相對鏈接
+- -K, –backup-converted 在轉換文件X之前，將之備份為 X.orig
 - -m, –mirror 等價於 -r -N -l inf -nr
 - -p, –page-requisites 下載顯示HTML文件的所有圖片
 - 遞歸下載中的包含和不包含(accept/reject)：
@@ -126,7 +126,7 @@ $wget --limit-rate=300k http://www.minjieren.com/wordpress-3.1-zh_CN.zip
 ```shg
 $wget -c http://www.minjieren.com/wordpress-3.1-zh_CN.zip
 ```
-使用wget -c重新啓動下載中斷的文件，對於我們下載大文件時突然由於網絡等原因中斷非常有幫助，我們可以繼續接着下載而不是重新下載一個文件。需要繼續中斷的下載時可以使用-c參數。
+使用wget -c重新啟動下載中斷的文件，對於我們下載大文件時突然由於網絡等原因中斷非常有幫助，我們可以繼續接著下載而不是重新下載一個文件。需要繼續中斷的下載時可以使用-c參數。
 
 ### 實例5：使用wget -b後臺下載
 ```sh
@@ -140,14 +140,14 @@ Output will be written to 'wget-log'.
 ```sh
 $tail -f wget-log
 ```
-### 實例6：僞裝代理名稱下載
+### 實例6：偽裝代理名稱下載
 ```sh
 wget --user-agent="Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/534.16 (KHTML, like Gecko) Chrome/10.0.648.204 Safari/534.16" http://www.minjieren.com/wordpress-3.1-zh_CN.zip
 ```
-有些網站能通過根據判斷代理名稱不是瀏覽器而拒絕你的下載請求。不過你可以通過–user-agent參數僞裝。
+有些網站能通過根據判斷代理名稱不是瀏覽器而拒絕你的下載請求。不過你可以通過–user-agent參數偽裝。
 
 ### 實例7：使用wget -i下載多個文件
-首先，保存一份下載鏈接文件,接着使用這個文件和參數-i下載:
+首先，保存一份下載鏈接文件,接著使用這個文件和參數-i下載:
 ```sh
 $cat > filelist.txt
 url1
@@ -164,7 +164,7 @@ $wget --mirror -p --convert-links -P ./LOCAL URL
 
 下載整個網站到本地
 - -miror:開戶鏡像下載
-- -p:下載所有爲了html頁面顯示正常的文件
+- -p:下載所有為了html頁面顯示正常的文件
 - -convert-links:下載後，轉換成本地的鏈接
 - -P ./LOCAL：保存所有文件和目錄到本地指定目錄
 ### 實例9: 使用wget -r -A下載指定格式文件

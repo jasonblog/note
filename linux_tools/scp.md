@@ -1,7 +1,7 @@
 # scp 跨機遠程拷貝
 
 
-scp是secure copy的簡寫，用於在Linux下進行遠程拷貝文件的命令，和它類似的命令有cp，不過cp只是在本機進行拷貝不能跨服務器，而且scp傳輸是加密的。當你服務器硬盤變爲只讀 read only system時，用scp可以幫你把文件移出來。
+scp是secure copy的簡寫，用於在Linux下進行遠程拷貝文件的命令，和它類似的命令有cp，不過cp只是在本機進行拷貝不能跨服務器，而且scp傳輸是加密的。當你服務器硬盤變為只讀 read only system時，用scp可以幫你把文件移出來。
 
 註解
 
@@ -23,7 +23,7 @@ scp [參數] [原路徑] [目標路徑]
 - -c cipher 以cipher將數據傳輸進行加密，這個選項將直接傳遞給ssh。
 - -F ssh_config 指定一個替代的ssh配置文件，此參數直接傳遞給ssh。
 - -i identity_file 從指定文件中讀取傳輸時使用的密鑰文件，此參數直接傳遞給ssh。
-- -l limit 限定用戶所能使用的帶寬，以Kbit/s爲單位。
+- -l limit 限定用戶所能使用的帶寬，以Kbit/s為單位。
 - -o ssh_option 如果習慣於使用ssh_config(5)中的參數傳遞方式，
 - -P port 注意是大寫的P, port是指定數據傳輸用到的端口號
 - -S program 指定加密傳輸時所使用的程序。此程序必須能夠理解ssh(1)的選項。

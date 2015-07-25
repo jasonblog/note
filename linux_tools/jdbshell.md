@@ -280,7 +280,7 @@ int main (int argc, char **argv)
 ```
 
 
-- 因爲我基本上每次一開始都要執行threads變量，所以我在開始wile循環前加了一句話
+- 因為我基本上每次一開始都要執行threads變量，所以我在開始wile循環前加了一句話
 
 ```
 else
@@ -354,13 +354,13 @@ export ANDROID_SRC_PATH=$ANDROID_SRC/frameworks/base/opengl/java:$ANDROID_SRC/fr
 adb jdwp
 ```
 
-- 啓動android模擬器，運行瀏覽器
+- 啟動android模擬器，運行瀏覽器
 
 ```
 jdbclient packets/app/Browser/src/ :9000 browser 第一個參數是你要load進來的代碼的地址，如果你要load多個代碼（調試的時候可以看)，可以 export DEBUG_SRC_PATH= 然後jdbclient $DEBUG_SRC_PATH :9000 browser
 
 第二個參數是attach端口，如果9000有在用，可以用其他端口
-第三個參數是要調試的應用，腳本裏面根據
+第三個參數是要調試的應用，腳本裡面根據
 pid browser來取得進程id，所以你要保證
 adb shell ps |grep browser
 能夠看到對應的進程
@@ -384,7 +384,7 @@ Group main:
 ```
 
 
-- 選擇感興趣的線程大部分應用跑在main線程裏面，browser也不例外命令 thread 線程ID
+- 選擇感興趣的線程大部分應用跑在main線程裡面，browser也不例外命令 thread 線程ID
 
 ```
 thread 0xc14001f1a8

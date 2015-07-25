@@ -33,7 +33,7 @@ r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st
 - si: 每秒從交換區寫到內存的大小
 - so: 每秒寫入交換區的內存大小
 
-###IO：（現在的Linux版本塊的大小爲1024bytes）
+###IO：（現在的Linux版本塊的大小為1024bytes）
 - bi: 每秒讀取的塊數
 - bo: 每秒寫入的塊數
 

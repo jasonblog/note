@@ -44,7 +44,7 @@ lsof（list open files）是一個列出當前系統打開文件的工具。在l
 查詢7902端口現在運行什麼程序:
 
 ```
-#分爲兩步
+#分為兩步
 #第一步，查詢使用該端口的進程的PID；
     $lsof -i:7902
     COMMAND   PID   USER   FD   TYPE    DEVICE SIZE NODE NAME
@@ -101,7 +101,7 @@ wget url
 常用選項:
 
 –limit-rate :下載限速
--o：指定日志文件；輸出都寫入日誌；
+-o：指定日誌文件；輸出都寫入日誌；
 -c：斷點續傳
 7.4. ftp sftp ssh
 SSH登陸:
@@ -110,7 +110,7 @@ SSH登陸:
 $ssh ID@host
 ```
 
-ssh登陸遠程服務器host，ID爲用戶名。
+ssh登陸遠程服務器host，ID為用戶名。
 
 ftp/sftp文件傳輸:
 
@@ -118,7 +118,7 @@ ftp/sftp文件傳輸:
 $sftp ID@host
 ```
 
-登陸服務器host，ID爲用戶名。sftp登陸後，可以使用下面的命令進一步操作：
+登陸服務器host，ID為用戶名。sftp登陸後，可以使用下面的命令進一步操作：
 
 get filename # 下載文件
 put filename # 上傳文件

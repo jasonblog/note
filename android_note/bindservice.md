@@ -1,7 +1,7 @@
 # service組件-bindService源碼分析
 
 
-因爲有前面分析startService的代碼實現過程，則對於bindService的代碼分析就不用那麼詳細介紹，在介紹流程的同時更關注一些細節上的部分。
+因為有前面分析startService的代碼實現過程，則對於bindService的代碼分析就不用那麼詳細介紹，在介紹流程的同時更關注一些細節上的部分。
 
 
 
@@ -24,7 +24,7 @@ private boolean bindServiceCommon(Intent service, ServiceConnection conn,
 
 ```
 
-接下去是進入AMS的bindService，再調用ActiveServices.java 的bindServiceLocked，它會把IServiceConnection實例存放到ConnectionRecord裏面，並執行bringUpServiceLocked，
+接下去是進入AMS的bindService，再調用ActiveServices.java 的bindServiceLocked，它會把IServiceConnection實例存放到ConnectionRecord裡面，並執行bringUpServiceLocked，
 
 
 ```java
@@ -101,7 +101,7 @@ void publishServiceLocked(ServiceRecord r, Intent intent, IBinder service)
 }
 ```
 
-這裏主要調用到c.conn.connected，c就是ConnectionRecord，其成員conn是一個IServiceConnection類型實例，這在前面有提到，connected則是其實現類的方法。
+這裡主要調用到c.conn.connected，c就是ConnectionRecord，其成員conn是一個IServiceConnection類型實例，這在前面有提到，connected則是其實現類的方法。
 
 對於IServiceConnection，它是一個接口，位置在(frameworks\base): core/java/android/app/IServiceConnection.aidl，aidl定義如下，它只有一個接口方法connected，
 ```java
@@ -110,7 +110,7 @@ oneway interface IServiceConnection {
 }
 ```
 
-其服務端的實現在LoadedApk.java，如下，InnerConnection類是在ServiceDispatcher的內部類，並在ServiceDispatcher的構造函數裏面實例化的，其方法connected也是調用的ServiceDispatcher的方法connected，
+其服務端的實現在LoadedApk.java，如下，InnerConnection類是在ServiceDispatcher的內部類，並在ServiceDispatcher的構造函數裡面實例化的，其方法connected也是調用的ServiceDispatcher的方法connected，
 
 ```java
 private static class InnerConnection extendsIServiceConnection.Stub
@@ -145,7 +145,7 @@ ServiceDispatcher(ServiceConnection conn,
 }
 ```
 
-這裏就再回到我們前面的ContextImpl裏面bindServiceCommon方法裏面，這裏進行ServiceConnection轉化爲IServiceConnection時，調用了mPackageInfo.getServiceDispatcher，mPackageInfo就是一個LoadedApk實例，
+這裡就再回到我們前面的ContextImpl裡面bindServiceCommon方法裡面，這裡進行ServiceConnection轉化為IServiceConnection時，調用了mPackageInfo.getServiceDispatcher，mPackageInfo就是一個LoadedApk實例，
 
 ```java
 /*package*/ LoadedApk mPackageInfo;
@@ -160,7 +160,7 @@ private boolean bindServiceCommon(Intent service, ServiceConnection conn,
 }
 ```
 
-所以，getServiceDispatcher會創建一個ServiceDispatcher實例，並將ServiceDispatcher實例和ServiceConnection實例形成KV對，並在ServiceDispatcher的構造函數裏將ServiceConnection實例c賦值給ServiceConnection的成員變量mConnection，
+所以，getServiceDispatcher會創建一個ServiceDispatcher實例，並將ServiceDispatcher實例和ServiceConnection實例形成KV對，並在ServiceDispatcher的構造函數裡將ServiceConnection實例c賦值給ServiceConnection的成員變量mConnection，
 
 ```java
 public final IServiceConnection getServiceDispatcher(ServiceConnection c,

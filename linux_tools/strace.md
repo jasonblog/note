@@ -34,15 +34,15 @@ access("/etc/ld.so.preload", R_OK)      = -1 ENOENT (No such file or directory)
 -x 以十六進制形式輸出非標準字符串
 -xx 所有字符串以十六進制形式輸出.
 -a column
-設置返回值的輸出位置.默認 爲40.
+設置返回值的輸出位置.默認 為40.
 -e expr
 指定一個表達式,用來控制如何跟蹤.格式如下:
 [qualifier=][!]value1[,value2]...
 qualifier只能是 trace,abbrev,verbose,raw,signal,read,write其中之一.value是用來限定的符號或數字.默認的 qualifier是 trace.感歎號是否定符號.例如:
 -eopen等價於 -e trace=open,表示只跟蹤open調用.而-etrace!=open表示跟蹤除了open以外的其他調用.有兩個特殊的符號 all 和 none.
-注意有些shell使用!來執行歷史記錄裏的命令,所以要使用\\.
+注意有些shell使用!來執行歷史記錄裡的命令,所以要使用\\.
 -e trace=set
-只跟蹤指定的系統 調用.例如:-e trace=open,close,rean,write表示只跟蹤這四個系統調用.默認的爲set=all.
+只跟蹤指定的系統 調用.例如:-e trace=open,close,rean,write表示只跟蹤這四個系統調用.默認的為set=all.
 -e trace=file
 只跟蹤有關文件操作的系統調用.
 -e trace=process
@@ -54,11 +54,11 @@ qualifier只能是 trace,abbrev,verbose,raw,signal,read,write其中之一.value�
 -e trace=ipc
 跟蹤所有與進程通訊有關的系統調用
 -e abbrev=set
-設定 strace輸出的系統調用的結果集.-v 等與 abbrev=none.默認爲abbrev=all.
+設定 strace輸出的系統調用的結果集.-v 等與 abbrev=none.默認為abbrev=all.
 -e raw=set
 將指 定的系統調用的參數以十六進制顯示.
 -e signal=set
-指定跟蹤的系統信號.默認爲all.如 signal=!SIGIO(或者signal=!io),表示不跟蹤SIGIO信號.
+指定跟蹤的系統信號.默認為all.如 signal=!SIGIO(或者signal=!io),表示不跟蹤SIGIO信號.
 -e read=set
 輸出從指定文件中讀出 的數據.例如:
 -e read=3,5
@@ -69,7 +69,7 @@ qualifier只能是 trace,abbrev,verbose,raw,signal,read,write其中之一.value�
 -p pid
 跟蹤指定的進程pid.
 -s strsize
-指定輸出的字符串的最大長度.默認爲32.文件名一直全部輸出.
+指定輸出的字符串的最大長度.默認為32.文件名一直全部輸出.
 -u username
 以username 的UID和GID執行被跟蹤的命令
 ```
@@ -80,11 +80,11 @@ qualifier只能是 trace,abbrev,verbose,raw,signal,read,write其中之一.value�
 strace -f -F -o ~/straceout.txt myserver
 ```
 
--f -F選項告訴strace同時跟蹤fork和vfork出來的進程，-o選項把所有strace輸出寫到~/straceout.txt裏 面，myserver是要啓動和調試的程序。
+-f -F選項告訴strace同時跟蹤fork和vfork出來的進程，-o選項把所有strace輸出寫到~/straceout.txt裡 面，myserver是要啟動和調試的程序。
 
 跟蹤服務程序
 ```
 strace -o output.txt -T -tt -e trace=all -p 28979
 ```
 
-跟蹤28979進程的所有系統調用（-e trace=all），並統計系統調用的花費時間，以及開始時間（並以可視化的時分秒格式顯示），最後將記錄結果存在output.txt文件裏面。
+跟蹤28979進程的所有系統調用（-e trace=all），並統計系統調用的花費時間，以及開始時間（並以可視化的時分秒格式顯示），最後將記錄結果存在output.txt文件裡面。

@@ -139,7 +139,7 @@ public void quit() {
 
 到此為止，你應該對Looper有了基本的瞭解，總結幾點：
 
-1.每個線程有且最多只能有一個Looper對象，它是一個ThreadLocal
+1.每個線程有且最多隻能有一個Looper對象，它是一個ThreadLocal
 
 2.Looper內部有一個消息隊列，loop()方法調用後線程開始不斷從隊列中取出消息執行
 
@@ -209,7 +209,7 @@ public class LooperThread extends Thread {
 
 ![images](images/2011091322483894.png)
 
-可以看到，**一個線程可以有多個Handler，但是只能有一個Looper！**
+可以看到，**一個線程可以有多個Handler，但是隻能有一個Looper！**
 
 ### Handler發送消息
 

@@ -1,0 +1,2181 @@
+<!DOCTYPE HTML>
+<html lang="en" >
+    
+    <head>
+        
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
+        <title>我理解的邏輯地址、線性地址、物理地址和虛擬地址 | Jason note</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 2.0.1">
+        
+        
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+        <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+        
+    
+    
+    
+    <link rel="prev" href="../linux_kernel/index.html" />
+    
+
+        
+    </head>
+    <body>
+        
+        
+    <link rel="stylesheet" href="../gitbook/style.css">
+    
+    
+
+        
+    <div class="book" data-level="12.1" data-basepath=".." data-revision="Sun Jul 26 2015 01:44:32 GMT+0800 (CST)">
+    
+
+<div class="book-summary">
+    <div class="book-search">
+        <input type="text" placeholder="Type to search" class="form-control" />
+    </div>
+    <ul class="summary">
+        
+        
+        
+        
+
+        
+
+        
+    
+        <li class="chapter " data-level="0" data-path="index.html">
+            
+                
+                    <a href="../index.html">
+                        <i class="fa fa-check"></i>
+                        
+                        Introduction
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1" data-path="shared_libraries/12.html">
+            
+                
+                    <a href="../shared_libraries/12.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.</b>
+                        
+                        Command
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1" data-path="shared_libraries/lsof.html">
+            
+                
+                    <a href="../shared_libraries/lsof.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.1.</b>
+                        
+                        10 條 Linux
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="shared_libraries/cntotw.html">
+            
+                
+                    <a href="../shared_libraries/cntotw.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.2.</b>
+                        
+                        Open Chinese Convert 開放中文轉換
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2" data-path="shared_libraries/index.html">
+            
+                
+                    <a href="../shared_libraries/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.</b>
+                        
+                        Shared Libraries
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1" data-path="shared_libraries/11.html">
+            
+                
+                    <a href="../shared_libraries/11.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.1.</b>
+                        
+                        Shared Libraries Setup
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3" data-path="linux_tools/index.html">
+            
+                
+                    <a href="../linux_tools/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.</b>
+                        
+                        Linux Tools
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1" data-path="linux_tools/linux_basic.html">
+            
+                
+                    <a href="../linux_tools/linux_basic.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.</b>
+                        
+                        Linux Basic
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.1" data-path="linux_tools/01_use_man.html">
+            
+                
+                    <a href="../linux_tools/01_use_man.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.1.</b>
+                        
+                        學會使用命令幫助
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.2" data-path="linux_tools/02_file_manage.html">
+            
+                
+                    <a href="../linux_tools/02_file_manage.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.2.</b>
+                        
+                        文件及目錄管理
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3" data-path="linux_tools/03_text_processing.html">
+            
+                
+                    <a href="../linux_tools/03_text_processing.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.3.</b>
+                        
+                        文本處理
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.4" data-path="linux_tools/04_disk.html">
+            
+                
+                    <a href="../linux_tools/04_disk.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.4.</b>
+                        
+                        磁盤管理
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.5" data-path="linux_tools/05_process_manage.html">
+            
+                
+                    <a href="../linux_tools/05_process_manage.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.5.</b>
+                        
+                        進程管理工具
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.6" data-path="linux_tools/06_monitor.html">
+            
+                
+                    <a href="../linux_tools/06_monitor.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.6.</b>
+                        
+                        性能監控
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.7" data-path="linux_tools/07_network.html">
+            
+                
+                    <a href="../linux_tools/07_network.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.7.</b>
+                        
+                        網絡工具
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8" data-path="linux_tools/08_user_manage.html">
+            
+                
+                    <a href="../linux_tools/08_user_manage.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.8.</b>
+                        
+                        用戶管理工具
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.9" data-path="linux_tools/09_system_manage.html">
+            
+                
+                    <a href="../linux_tools/09_system_manage.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.9.</b>
+                        
+                        系統管理及IPC資源管理
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="linux_tools/linux_advance.html">
+            
+                
+                    <a href="../linux_tools/linux_advance.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.2.</b>
+                        
+                        Linux工具進階
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.2.1" data-path="linux_tools/01_program_buil.html">
+            
+                
+                    <a href="../linux_tools/01_program_buil.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.2.1.</b>
+                        
+                        程序構建
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.2" data-path="linux_tools/02_program_debug.html">
+            
+                
+                    <a href="../linux_tools/02_program_debug.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.2.2.</b>
+                        
+                        程序調試
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.3" data-path="linux_tools/03_optimization.html">
+            
+                
+                    <a href="../linux_tools/03_optimization.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.2.3.</b>
+                        
+                        性能優化
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="linux_tools/ref_tool.html">
+            
+                
+                    <a href="../linux_tools/ref_tool.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.</b>
+                        
+                        工具參考篇
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.3.1" data-path="linux_tools/gdb.html">
+            
+                
+                    <a href="../linux_tools/gdb.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.1.</b>
+                        
+                        gdb 調試利器
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.2" data-path="linux_tools/ldd.html">
+            
+                
+                    <a href="../linux_tools/ldd.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.2.</b>
+                        
+                        ldd 查看程序依賴庫
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.3" data-path="linux_tools/ldof.html">
+            
+                
+                    <a href="../linux_tools/ldof.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.3.</b>
+                        
+                        lsof 一切皆文件
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.4" data-path="linux_tools/ps.html">
+            
+                
+                    <a href="../linux_tools/ps.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.4.</b>
+                        
+                        ps 進程查看器
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.5" data-path="linux_tools/pstack.html">
+            
+                
+                    <a href="../linux_tools/pstack.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.5.</b>
+                        
+                        pstack 跟蹤進程棧
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.6" data-path="linux_tools/strace.html">
+            
+                
+                    <a href="../linux_tools/strace.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.6.</b>
+                        
+                        strace 跟蹤進程中的系統調用
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.7" data-path="linux_tools/ipcs.html">
+            
+                
+                    <a href="../linux_tools/ipcs.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.7.</b>
+                        
+                        ipcs 查詢進程間通信狀態
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.8" data-path="linux_tools/top.html">
+            
+                
+                    <a href="../linux_tools/top.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.8.</b>
+                        
+                        top linux下的任務管理器
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.9" data-path="linux_tools/free.html">
+            
+                
+                    <a href="../linux_tools/free.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.9.</b>
+                        
+                        free 查詢可用內存
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.10" data-path="linux_tools/vmstat.html">
+            
+                
+                    <a href="../linux_tools/vmstat.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.10.</b>
+                        
+                        vmstat 監視內存使用情況
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.11" data-path="linux_tools/iostat.html">
+            
+                
+                    <a href="../linux_tools/iostat.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.11.</b>
+                        
+                        iostat 監視I/O子系統
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.12" data-path="linux_tools/sar.html">
+            
+                
+                    <a href="../linux_tools/sar.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.12.</b>
+                        
+                        sar 找出系統瓶頸的利器
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.13" data-path="linux_tools/readelf.html">
+            
+                
+                    <a href="../linux_tools/readelf.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.13.</b>
+                        
+                        readelf elf文件格式分析
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.14" data-path="linux_tools/objdump.html">
+            
+                
+                    <a href="../linux_tools/objdump.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.14.</b>
+                        
+                        objdump 二進制文件分析
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.15" data-path="linux_tools/nm.html">
+            
+                
+                    <a href="../linux_tools/nm.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.15.</b>
+                        
+                        nm 目標文件格式分析
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.16" data-path="linux_tools/size.html">
+            
+                
+                    <a href="../linux_tools/size.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.16.</b>
+                        
+                        size 查看程序內存映像大小
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.17" data-path="linux_tools/wget.html">
+            
+                
+                    <a href="../linux_tools/wget.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.17.</b>
+                        
+                        wget 文件下載
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.18" data-path="linux_tools/scp.html">
+            
+                
+                    <a href="../linux_tools/scp.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.18.</b>
+                        
+                        scp 跨機遠程拷貝
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.19" data-path="linux_tools/crontab.html">
+            
+                
+                    <a href="../linux_tools/crontab.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.19.</b>
+                        
+                        crontab 定時任務
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.20" data-path="linux_tools/trace-cmd.html">
+            
+                
+                    <a href="../linux_tools/trace-cmd.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.20.</b>
+                        
+                        trace-cmd
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4" data-path="linux_tools/doxygen.html">
+            
+                
+                    <a href="../linux_tools/doxygen.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.4.</b>
+                        
+                        Doxygen
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5" data-path="linux_tools/jdbshell.html">
+            
+                
+                    <a href="../linux_tools/jdbshell.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.5.</b>
+                        
+                        Jdbshell
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="4" data-path="bggdb/index.html">
+            
+                
+                    <a href="../bggdb/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.</b>
+                        
+                        Beej&#39;s Quick Guide to GDB
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5" data-path="android_note/index.html">
+            
+                
+                    <a href="../android_note/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.</b>
+                        
+                        Android note
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.1" data-path="android_note/514.html">
+            
+                
+                    <a href="../android_note/514.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.1.</b>
+                        
+                        android resource
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="android_note/startservice_bindservice.html">
+            
+                
+                    <a href="../android_note/startservice_bindservice.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.2.</b>
+                        
+                        什麼時候用startService，什麼時候用bindService
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3" data-path="android_note/handler_looper_message_runnable.html">
+            
+                
+                    <a href="../android_note/handler_looper_message_runnable.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.3.</b>
+                        
+                        android的消息處理機制（圖+源碼分析）——Looper,Handler,Message
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4" data-path="android_note/runnable_thread.html">
+            
+                
+                    <a href="../android_note/runnable_thread.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.4.</b>
+                        
+                        Android中Handler Runnable與Thread的區別詳解
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.5" data-path="android_note/android_service_native_service.html">
+            
+                
+                    <a href="../android_note/android_service_native_service.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.5.</b>
+                        
+                        Android Service與Native Service
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.6" data-path="android_note/handler_message_looper_messagequeue.html">
+            
+                
+                    <a href="../android_note/handler_message_looper_messagequeue.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.6.</b>
+                        
+                        Handler, Message, Looper, MessageQueue
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7" data-path="android_note/android_log.html">
+            
+                
+                    <a href="../android_note/android_log.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.7.</b>
+                        
+                        Android 各層中日誌打印功能的應用
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.8" data-path="android_note/android_command.html">
+            
+                
+                    <a href="../android_note/android_command.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.8.</b>
+                        
+                        Android指令和命令參數
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.9" data-path="android_note/prcess_thread_ipc.html">
+            
+                
+                    <a href="../android_note/prcess_thread_ipc.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.9.</b>
+                        
+                        Android中進程與進程、線程與線程之間如何通信
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.10" data-path="android_note/startservice.html">
+            
+                
+                    <a href="../android_note/startservice.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.10.</b>
+                        
+                        startService的創建過程
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.11" data-path="android_note/bindservice.html">
+            
+                
+                    <a href="../android_note/bindservice.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.11.</b>
+                        
+                        service組件-bindService源碼分析
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.12" data-path="android_note/511.html">
+            
+                
+                    <a href="../android_note/511.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.12.</b>
+                        
+                        [轉]Android 執行緒 - Thread 與 Handler
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.13" data-path="android_note/512.html">
+            
+                
+                    <a href="../android_note/512.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.13.</b>
+                        
+                        [轉] Android 執行緒 - Runnable 與 Handler
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.14" data-path="android_note/513.html">
+            
+                
+                    <a href="../android_note/513.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.14.</b>
+                        
+                        [轉] Android 非同步任務 - AsyncTask
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.15" data-path="android_note/515.html">
+            
+                
+                    <a href="../android_note/515.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.15.</b>
+                        
+                        [轉]Android.mk 組織結構
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.16" data-path="android_note/android_goldfishkernel.html">
+            
+                
+                    <a href="../android_note/android_goldfishkernel.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.16.</b>
+                        
+                        如何下載編譯Android goldfish(Kernel)
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.17" data-path="android_note/android.html">
+            
+                
+                    <a href="../android_note/android.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.17.</b>
+                        
+                        自己動手編譯android源碼
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="6" data-path="ubuntu/index.html">
+            
+                
+                    <a href="../ubuntu/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.</b>
+                        
+                        Ubuntu
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="6.1" data-path="ubuntu/ubuntu_installer.html">
+            
+                
+                    <a href="../ubuntu/ubuntu_installer.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.1.</b>
+                        
+                        Ubuntu installer
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="7" data-path="qemu/index.html">
+            
+                
+                    <a href="../qemu/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.</b>
+                        
+                        QEMU
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="7.1" data-path="qemu/qemu_kgdb_ftrace.html">
+            
+                
+                    <a href="../qemu/qemu_kgdb_ftrace.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.1.</b>
+                        
+                        Qemu_KGDB_Ftrace
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="8" data-path="linux_device_driver_programming/index.html">
+            
+                
+                    <a href="../linux_device_driver_programming/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.</b>
+                        
+                        Linux Device Driver Programming
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="8.1" data-path="linux_device_driver_programming/01.html">
+            
+                
+                    <a href="../linux_device_driver_programming/01.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.1.</b>
+                        
+                        Linux 裝置驅動程式的概要
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8.2" data-path="linux_device_driver_programming/02.html">
+            
+                
+                    <a href="../linux_device_driver_programming/02.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.2.</b>
+                        
+                        Linux 的授權
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8.3" data-path="linux_device_driver_programming/03.html">
+            
+                
+                    <a href="../linux_device_driver_programming/03.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.3.</b>
+                        
+                        準備開發裝置驅動程式
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8.4" data-path="linux_device_driver_programming/04.html">
+            
+                
+                    <a href="../linux_device_driver_programming/04.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.4.</b>
+                        
+                        開發驅動程式的第一步
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8.5" data-path="linux_device_driver_programming/05.html">
+            
+                
+                    <a href="../linux_device_driver_programming/05.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.5.</b>
+                        
+                        開發 driver 需要的基礎知識
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="9" data-path="fcamel/index.html">
+            
+                
+                    <a href="../fcamel/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.</b>
+                        
+                        fcamel
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="9.1" data-path="fcamel/01.html">
+            
+                
+                    <a href="../fcamel/01.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.1.</b>
+                        
+                        [轉]ld, ld.so 和 ldconfig 的行為
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.2" data-path="fcamel/02.html">
+            
+                
+                    <a href="../fcamel/02.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.2.</b>
+                        
+                        [轉]解決 undefined symbol / reference
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.3" data-path="fcamel/03.html">
+            
+                
+                    <a href="../fcamel/03.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.3.</b>
+                        
+                        [轉] 列出用到的 shared library
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.4" data-path="fcamel/04.html">
+            
+                
+                    <a href="../fcamel/04.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.4.</b>
+                        
+                        [轉]用 LD_PRELOAD 替換動態連結的函式庫
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.5" data-path="fcamel/05.html">
+            
+                
+                    <a href="../fcamel/05.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.5.</b>
+                        
+                        [轉] 用 strace 和 ltrace 找出用到的 system call 和 library call
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.6" data-path="fcamel/[]__linking_time.html">
+            
+                
+                    <a href="../fcamel/[]__linking_time.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.6.</b>
+                        
+                        [轉] 加速 linking time
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.7" data-path="fcamel/07.html">
+            
+                
+                    <a href="../fcamel/07.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.7.</b>
+                        
+                        [轉] 從 C 呼叫 C++ 函式的過程理解程式編譯、連結的原理
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.8" data-path="fcamel/08.html">
+            
+                
+                    <a href="../fcamel/08.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.8.</b>
+                        
+                        [轉] 對 C++ 的觀感
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.9" data-path="fcamel/09.html">
+            
+                
+                    <a href="../fcamel/09.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.9.</b>
+                        
+                        [轉]在 Linux 下開發 C/C++ 的新手指南
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10" data-path="fcamel/10.html">
+            
+                
+                    <a href="../fcamel/10.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.</b>
+                        
+                        [轉]瞭解 C/C++ 程式行為的技巧
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="9.10.1" data-path="fcamel/91001.html">
+            
+                
+                    <a href="../fcamel/91001.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.1.</b>
+                        
+                        查 C/C++ symbol 定義的方法
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10.2" data-path="fcamel/91002.html">
+            
+                
+                    <a href="../fcamel/91002.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.2.</b>
+                        
+                        閱讀 C/C++ 原始碼的好幫手
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10.3" data-path="fcamel/91003.html">
+            
+                
+                    <a href="../fcamel/91003.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.3.</b>
+                        
+                        配合 c++filt 讀程式
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10.4" data-path="fcamel/91004.html">
+            
+                
+                    <a href="../fcamel/91004.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.4.</b>
+                        
+                        加速 gdb 載入 symbol 時間
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10.5" data-path="fcamel/91005.html">
+            
+                
+                    <a href="../fcamel/91005.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.5.</b>
+                        
+                        在 x86-64 上對 system call 使用 conditional break
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10.6" data-path="fcamel/91006.html">
+            
+                
+                    <a href="../fcamel/91006.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.6.</b>
+                        
+                        用 strace 找出 Ubuntu 如何提示未安裝的指令
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10.7" data-path="fcamel/91007.html">
+            
+                
+                    <a href="../fcamel/91007.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.7.</b>
+                        
+                        自行編譯含 debug symbol 的套件 (package)
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10.8" data-path="fcamel/91008.html">
+            
+                
+                    <a href="../fcamel/91008.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.8.</b>
+                        
+                        gdb 顯示 STL container 的方法
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10.9" data-path="fcamel/91009.html">
+            
+                
+                    <a href="../fcamel/91009.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.9.</b>
+                        
+                        善用 strace、debugger 從執行期間找出問題根源
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10.10" data-path="fcamel/91010.html">
+            
+                
+                    <a href="../fcamel/91010.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.10.</b>
+                        
+                        用 python gdb 客製化 backtrace 的結果
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="10" data-path="arm/index.html">
+            
+                
+                    <a href="../arm/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>10.</b>
+                        
+                        ARM
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="10.1" data-path="arm/101.html">
+            
+                
+                    <a href="../arm/101.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>10.1.</b>
+                        
+                        ARM彙編語言
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="10.2" data-path="arm/102.html">
+            
+                
+                    <a href="../arm/102.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>10.2.</b>
+                        
+                        ARM尋址方式
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="11" data-path="arm_emulation/index.html">
+            
+                
+                    <a href="../arm_emulation/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.</b>
+                        
+                        ARM emulation
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="11.1" data-path="arm_emulation/compiling_linux_kernel_for_qemu_arm_emulator.html">
+            
+                
+                    <a href="../arm_emulation/compiling_linux_kernel_for_qemu_arm_emulator.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.1.</b>
+                        
+                        Compiling Linux kernel for QEMU ARM emulator
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.2" data-path="arm_emulation/compiling_linux_kernel_30_with_emdebian_arm_toolchain.html">
+            
+                
+                    <a href="../arm_emulation/compiling_linux_kernel_30_with_emdebian_arm_toolchain.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.2.</b>
+                        
+                        Compiling Linux kernel 3.0 with Emdebian ARM toolchain
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.3" data-path="arm_emulation/compile_linux_kernel_32_for_arm_and_emulate_with_qemu.html">
+            
+                
+                    <a href="../arm_emulation/compile_linux_kernel_32_for_arm_and_emulate_with_qemu.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.3.</b>
+                        
+                        Compile Linux kernel 3.2 for ARM and emulate with QEMU
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.4" data-path="arm_emulation/busybox_for_arm_on_qemu.html">
+            
+                
+                    <a href="../arm_emulation/busybox_for_arm_on_qemu.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.4.</b>
+                        
+                        Busybox for ARM on QEMU
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.5" data-path="arm_emulation/linux_nfs_root_under_qemu_arm_emulator.html">
+            
+                
+                    <a href="../arm_emulation/linux_nfs_root_under_qemu_arm_emulator.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.5.</b>
+                        
+                        Linux NFS Root under QEMU ARM emulator
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.6" data-path="arm_emulation/trying_debian_for_arm_on_qemu.html">
+            
+                
+                    <a href="../arm_emulation/trying_debian_for_arm_on_qemu.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.6.</b>
+                        
+                        Trying Debian for ARM on QEMU
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.7" data-path="arm_emulation/debugging_arm_programs_inside_qemu.html">
+            
+                
+                    <a href="../arm_emulation/debugging_arm_programs_inside_qemu.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.7.</b>
+                        
+                        Debugging ARM programs inside QEMU
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.8" data-path="arm_emulation/u-boot_for_arm_on_qemu.html">
+            
+                
+                    <a href="../arm_emulation/u-boot_for_arm_on_qemu.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.8.</b>
+                        
+                        U-boot for ARM on QEMU
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.9" data-path="arm_emulation/booting_linux_with_u-boot_on_qemu_arm.html">
+            
+                
+                    <a href="../arm_emulation/booting_linux_with_u-boot_on_qemu_arm.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.9.</b>
+                        
+                        Booting Linux with U-Boot on QEMU ARM
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.10" data-path="arm_emulation/simplest_bare_metal_program_for_arm.html">
+            
+                
+                    <a href="../arm_emulation/simplest_bare_metal_program_for_arm.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.10.</b>
+                        
+                        Simplest bare metal program for ARM
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.11" data-path="arm_emulation/hello_world_for_bare_metal_arm_using_qemu.html">
+            
+                
+                    <a href="../arm_emulation/hello_world_for_bare_metal_arm_using_qemu.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.11.</b>
+                        
+                        Hello world for bare metal ARM using QEMU
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.12" data-path="arm_emulation/emulating_arm_pl011_serial_ports.html">
+            
+                
+                    <a href="../arm_emulation/emulating_arm_pl011_serial_ports.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.12.</b>
+                        
+                        Emulating ARM PL011 serial ports
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.13" data-path="arm_emulation/arm926_interrupts_in_qemu.html">
+            
+                
+                    <a href="../arm_emulation/arm926_interrupts_in_qemu.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.13.</b>
+                        
+                        ARM926 interrupts in QEMU
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.14" data-path="arm_emulation/using_ubuntu_arm_cross-compiler_for_bare_metal_programming.html">
+            
+                
+                    <a href="../arm_emulation/using_ubuntu_arm_cross-compiler_for_bare_metal_programming.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.14.</b>
+                        
+                        Using Ubuntu ARM cross-compiler for bare metal programming
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.15" data-path="arm_emulation/using_newlib_in_arm_bare_metal_programs.html">
+            
+                
+                    <a href="../arm_emulation/using_newlib_in_arm_bare_metal_programs.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.15.</b>
+                        
+                        Using Newlib in ARM bare metal programs
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.16" data-path="arm_emulation/using_codesourcery_bare_metal_toolchain_for_cortex-m3.html">
+            
+                
+                    <a href="../arm_emulation/using_codesourcery_bare_metal_toolchain_for_cortex-m3.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.16.</b>
+                        
+                        Using CodeSourcery bare metal toolchain for Cortex-M3
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.17" data-path="arm_emulation/qemu_arm_semihosting.html">
+            
+                
+                    <a href="../arm_emulation/qemu_arm_semihosting.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.17.</b>
+                        
+                        QEMU ARM semihosting
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.18" data-path="arm_emulation/simulating_at91_with_skyeye.html">
+            
+                
+                    <a href="../arm_emulation/simulating_at91_with_skyeye.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.18.</b>
+                        
+                        Simulating AT91 with Skyeye
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="12" data-path="linux_kernel/index.html">
+            
+                
+                    <a href="../linux_kernel/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.</b>
+                        
+                        Linux Kernel
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="12.1" data-path="linux_kernel/121.html">
+            
+                
+                    <a href="../linux_kernel/121.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.1.</b>
+                        
+                        我理解的邏輯地址、線性地址、物理地址和虛擬地址
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+
+        
+        <li class="divider"></li>
+        <li>
+            <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+                Published with GitBook
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="book-header">
+    <!-- Actions Left -->
+    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
+    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
+    
+    <div id="font-settings-wrapper" class="dropdown pull-left">
+        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
+        </a>
+        <div class="dropdown-menu font-settings">
+    <div class="dropdown-caret">
+        <span class="caret-outer"></span>
+        <span class="caret-inner"></span>
+    </div>
+
+    <div class="buttons">
+        <button type="button" id="reduce-font-size" class="button size-2">A</button>
+        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
+    </div>
+
+    <div class="buttons font-family-list">
+        <button type="button" data-font="0" class="button">Serif</button>
+        <button type="button" data-font="1" class="button">Sans</button>
+    </div>
+
+    <div class="buttons color-theme-list">
+        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
+        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
+        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
+    </div>
+</div>
+
+    </div>
+
+    <!-- Actions Right -->
+    
+    <div class="dropdown pull-right">
+        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
+        </a>
+        <div class="dropdown-menu font-settings dropdown-left">
+            <div class="dropdown-caret">
+                <span class="caret-outer"></span>
+                <span class="caret-inner"></span>
+            </div>
+            <div class="buttons">
+                <button type="button" data-sharing="twitter" class="button">
+                    Share on Twitter
+                </button>
+                <button type="button" data-sharing="google-plus" class="button">
+                    Share on Google
+                </button>
+                <button type="button" data-sharing="facebook" class="button">
+                    Share on Facebook
+                </button>
+                <button type="button" data-sharing="weibo" class="button">
+                    Share on Weibo
+                </button>
+                <button type="button" data-sharing="instapaper" class="button">
+                    Share on Instapaper
+                </button>
+            </div>
+        </div>
+    </div>
+    
+
+    
+    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
+    
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../" >Jason note</a>
+    </h1>
+</div>
+
+            <div class="page-wrapper" tabindex="-1">
+                <div class="page-inner">
+                
+                
+                    <section class="normal" id="section-">
+                    
+                        <h1 id="%E6%88%91%E7%90%86%E8%A7%A3%E7%9A%84%E9%82%8F%E8%BC%AF%E5%9C%B0%E5%9D%80%E3%80%81%E7%B7%9A%E6%80%A7%E5%9C%B0%E5%9D%80%E3%80%81%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%E5%92%8C%E8%99%9B%E6%93%AC%E5%9C%B0%E5%9D%80">&#x6211;&#x7406;&#x89E3;&#x7684;&#x908F;&#x8F2F;&#x5730;&#x5740;&#x3001;&#x7DDA;&#x6027;&#x5730;&#x5740;&#x3001;&#x7269;&#x7406;&#x5730;&#x5740;&#x548C;&#x865B;&#x64EC;&#x5730;&#x5740;</h1>
+<p>&#x672C;&#x8CBC;&#x6D89;&#x53CA;&#x7684;&#x786C;&#x4EF6;&#x5E73;&#x81FA;&#x662F;X86&#xFF0C;&#x5982;&#x679C;&#x662F;&#x5176;&#x5B83;&#x5E73;&#x81FA;&#xFF0C;&#x563B;&#x563B;&#xFF0C;&#x4E0D;&#x4FDD;&#x8B49;&#x80FD;&#x4E00;&#x4E00;&#x5C0D;&#x865F;&#x5165;&#x5EA7;&#xFF0C;&#x4F46;&#x662F;&#x8209;&#x4E00;&#x53CD;&#x4E09;&#xFF0C;&#x6211;&#x60F3;&#x662F;&#x5B8C;&#x5168;&#x53EF;&#x884C;&#x7684;&#x3002;</p>
+<h2 id="%E4%B8%80%E3%80%81%E6%A6%82%E5%BF%B5">&#x4E00;&#x3001;&#x6982;&#x5FF5;</h2>
+<h3 id="%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80-physical-address">&#x7269;&#x7406;&#x5730;&#x5740;(physical address)</h3>
+<p>&#x7528;&#x65BC;&#x5167;&#x5B58;&#x82AF;&#x7247;&#x7D1A;&#x7684;&#x55AE;&#x5143;&#x5C0B;&#x5740;&#xFF0C;&#x8207;&#x8655;&#x7406;&#x5668;&#x548C;CPU&#x9023;&#x63A5;&#x7684;&#x5730;&#x5740;&#x7E3D;&#x7DDA;&#x76F8;&#x5C0D;&#x61C9;&#x3002;
+&#x2014;&#x2014;&#x9019;&#x500B;&#x6982;&#x5FF5;&#x61C9;&#x8A72;&#x662F;&#x9019;&#x5E7E;&#x500B;&#x6982;&#x5FF5;&#x4E2D;&#x6700;&#x597D;&#x7406;&#x89E3;&#x7684;&#x4E00;&#x500B;&#xFF0C;&#x4F46;&#x662F;&#x503C;&#x5F97;&#x4E00;&#x63D0;&#x7684;&#x662F;&#xFF0C;&#x96D6;&#x7136;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x628A;&#x7269;&#x7406;&#x5730;&#x5740;&#x7406;&#x89E3;&#x6210;&#x63D2;&#x5728;&#x6A5F;&#x5668;&#x4E0A;&#x90A3;&#x6839;&#x5167;&#x5B58;&#x672C;&#x8EAB;&#xFF0C;&#x628A;&#x5167;&#x5B58;&#x770B;&#x6210;&#x4E00;&#x500B;&#x5F9E;0&#x5B57;&#x7BC0;&#x4E00;&#x76F4;&#x5230;&#x6700;&#x5927;&#x7A7A;&#x91CF;&#x9010;&#x5B57;&#x7BC0;&#x7684;&#x7DE8;&#x865F;&#x7684;&#x5927;&#x6578;&#x7D44;&#xFF0C;&#x7136;&#x5F8C;&#x628A;&#x9019;&#x500B;&#x6578;&#x7D44;&#x53EB;&#x505A;&#x7269;&#x7406;&#x5730;&#x5740;&#xFF0C;&#x4F46;&#x662F;&#x4E8B;&#x5BE6;&#x4E0A;&#xFF0C;&#x9019;&#x53EA;&#x662F;&#x4E00;&#x500B;&#x786C;&#x4EF6;&#x63D0;&#x4F9B;&#x7D66;&#x8EDF;&#x4EF6;&#x7684;&#x62BD;&#x50CF;&#xFF0C;&#x5167;&#x5B58;&#x7684;&#x5C0B;&#x5740;&#x65B9;&#x5F0F;&#x4E26;&#x4E0D;&#x662F;&#x9019;&#x6A23;&#x3002;&#x6240;&#x4EE5;&#xFF0C;&#x8AAA;&#x5B83;&#x662F;&#x201C;&#x8207;&#x5730;&#x5740;&#x7E3D;&#x7DDA;&#x76F8;&#x5C0D;&#x61C9;&#x201D;&#xFF0C;&#x662F;&#x66F4;&#x8CBC;&#x5207;&#x4E00;&#x4E9B;&#xFF0C;&#x4E0D;&#x904E;&#x62CB;&#x958B;&#x5C0D;&#x7269;&#x7406;&#x5167;&#x5B58;&#x5C0B;&#x5740;&#x65B9;&#x5F0F;&#x7684;&#x8003;&#x616E;&#xFF0C;&#x76F4;&#x63A5;&#x628A;&#x7269;&#x7406;&#x5730;&#x5740;&#x8207;&#x7269;&#x7406;&#x7684;&#x5167;&#x5B58;&#x4E00;&#x4E00;&#x5C0D;&#x61C9;&#xFF0C;&#x4E5F;&#x662F;&#x53EF;&#x4EE5;&#x63A5;&#x53D7;&#x7684;&#x3002;&#x4E5F;&#x8A31;&#x932F;&#x8AA4;&#x7684;&#x7406;&#x89E3;&#x66F4;&#x5229;&#x65BC;&#x5F62;&#x800C;&#x4E0A;&#x7684;&#x62BD;&#x50CF;&#x3002;</p>
+<h3 id="%E8%99%9B%E6%93%AC%E5%85%A7%E5%AD%98-virtual-memory">&#x865B;&#x64EC;&#x5167;&#x5B58;(virtual memory)</h3>
+<p>&#x9019;&#x662F;&#x5C0D;&#x6574;&#x500B;&#x5167;&#x5B58;&#xFF08;&#x4E0D;&#x8981;&#x8207;&#x6A5F;&#x5668;&#x4E0A;&#x63D2;&#x90A3;&#x689D;&#x5C0D;&#x4E0A;&#x865F;&#xFF09;&#x7684;&#x62BD;&#x50CF;&#x63CF;&#x8FF0;&#x3002;&#x5B83;&#x662F;&#x76F8;&#x5C0D;&#x65BC;&#x7269;&#x7406;&#x5167;&#x5B58;&#x4F86;&#x8B1B;&#x7684;&#xFF0C;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x7406;&#x89E3;&#x6210;&#x201C;&#x4E0D;&#x76F4;&#x5BE6;&#x7684;&#x201D;&#xFF0C;&#x201C;&#x5047;&#x7684;&#x201D;&#x5167;&#x5B58;&#xFF0C;&#x4F8B;&#x5982;&#xFF0C;&#x4E00;&#x500B;0x08000000&#x5167;&#x5B58;&#x5730;&#x5740;&#xFF0C;&#x5B83;&#x4E26;&#x4E0D;&#x5C0D;&#x5C31;&#x7269;&#x7406;&#x5730;&#x5740;&#x4E0A;&#x90A3;&#x500B;&#x5927;&#x6578;&#x7D44;&#x4E2D;0x08000000 - 1&#x90A3;&#x500B;&#x5730;&#x5740;&#x5143;&#x7D20;&#xFF1B;
+&#x4E4B;&#x6240;&#x4EE5;&#x662F;&#x9019;&#x6A23;&#xFF0C;&#x662F;&#x56E0;&#x70BA;&#x73FE;&#x4EE3;&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x90FD;&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x7A2E;&#x5167;&#x5B58;&#x7BA1;&#x7406;&#x7684;&#x62BD;&#x50CF;&#xFF0C;&#x5373;&#x865B;&#x64EC;&#x5167;&#x5B58;&#xFF08;virtual memory&#xFF09;&#x3002;&#x9032;&#x7A0B;&#x4F7F;&#x7528;&#x865B;&#x64EC;&#x5167;&#x5B58;&#x4E2D;&#x7684;&#x5730;&#x5740;&#xFF0C;&#x7531;&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x5354;&#x52A9;&#x76F8;&#x95DC;&#x786C;&#x4EF6;&#xFF0C;&#x628A;&#x5B83;&#x201C;&#x8F49;&#x63DB;&#x201D;&#x6210;&#x771F;&#x6B63;&#x7684;&#x7269;&#x7406;&#x5730;&#x5740;&#x3002;&#x9019;&#x500B;&#x201C;&#x8F49;&#x63DB;&#x201D;&#xFF0C;&#x662F;&#x6240;&#x6709;&#x554F;&#x984C;&#x8A0E;&#x8AD6;&#x7684;&#x95DC;&#x9375;&#x3002;</p>
+<p>&#x6709;&#x4E86;&#x9019;&#x6A23;&#x7684;&#x62BD;&#x50CF;&#xFF0C;&#x4E00;&#x500B;&#x7A0B;&#x5E8F;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x6BD4;&#x771F;&#x5BE6;&#x7269;&#x7406;&#x5730;&#x5740;&#x5927;&#x5F97;&#x591A;&#x7684;&#x5730;&#x5740;&#x7A7A;&#x9593;&#x3002;&#xFF08;&#x62C6;&#x6771;&#x7246;&#xFF0C;&#x88DC;&#x897F;&#x7246;&#xFF0C;&#x9280;&#x884C;&#x4E5F;&#x662F;&#x9019;&#x6A23;&#x5B50;&#x505A;&#x7684;&#xFF09;&#xFF0C;&#x751A;&#x81F3;&#x591A;&#x500B;&#x9032;&#x7A0B;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x76F8;&#x540C;&#x7684;&#x5730;&#x5740;&#x3002;&#x4E0D;&#x5947;&#x602A;&#xFF0C;&#x56E0;&#x70BA;&#x8F49;&#x63DB;&#x5F8C;&#x7684;&#x7269;&#x7406;&#x5730;&#x5740;&#x4E26;&#x975E;&#x76F8;&#x540C;&#x7684;&#x3002;
+&#x2014;&#x2014;&#x53EF;&#x4EE5;&#x628A;&#x9023;&#x63A5;&#x5F8C;&#x7684;&#x7A0B;&#x5E8F;&#x53CD;&#x7DE8;&#x8B6F;&#x770B;&#x4E00;&#x4E0B;&#xFF0C;&#x767C;&#x73FE;&#x9023;&#x63A5;&#x5668;&#x5DF2;&#x7D93;&#x70BA;&#x7A0B;&#x5E8F;&#x5206;&#x914D;&#x4E86;&#x4E00;&#x500B;&#x5730;&#x5740;&#xFF0C;&#x4F8B;&#x5982;&#xFF0C;&#x8981;&#x8ABF;&#x7528;&#x67D0;&#x500B;&#x51FD;&#x6578;A&#xFF0C;&#x4EE3;&#x78BC;&#x4E0D;&#x662F;call A&#xFF0C;&#x800C;&#x662F;call 0x0811111111 &#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#xFF0C;&#x51FD;&#x6578;A&#x7684;&#x5730;&#x5740;&#x5DF2;&#x7D93;&#x88AB;&#x5B9A;&#x4E0B;&#x4F86;&#x4E86;&#x3002;&#x6C92;&#x6709;&#x9019;&#x6A23;&#x7684;&#x201C;&#x8F49;&#x63DB;&#x201D;&#xFF0C;&#x6C92;&#x6709;&#x865B;&#x64EC;&#x5730;&#x5740;&#x7684;&#x6982;&#x5FF5;&#xFF0C;&#x9019;&#x6A23;&#x505A;&#x662F;&#x6839;&#x672C;&#x884C;&#x4E0D;&#x901A;&#x7684;&#x3002;
+&#x6253;&#x4F4F;&#x4E86;&#xFF0C;&#x9019;&#x500B;&#x554F;&#x984C;&#x518D;&#x8AAA;&#x4E0B;&#x53BB;&#xFF0C;&#x5C31;&#x6536;&#x4E0D;&#x4F4F;&#x4E86;&#x3002;</p>
+<h3 id="%E9%82%8F%E8%BC%AF%E5%9C%B0%E5%9D%80-logical-address">&#x908F;&#x8F2F;&#x5730;&#x5740;(logical address)</h3>
+<p>Intel&#x70BA;&#x4E86;&#x517C;&#x5BB9;&#xFF0C;&#x5C07;&#x9060;&#x53E4;&#x6642;&#x4EE3;&#x7684;&#x6BB5;&#x5F0F;&#x5167;&#x5B58;&#x7BA1;&#x7406;&#x65B9;&#x5F0F;&#x4FDD;&#x7559;&#x4E86;&#x4E0B;&#x4F86;&#x3002;&#x908F;&#x8F2F;&#x5730;&#x5740;&#x6307;&#x7684;&#x662F;&#x6A5F;&#x5668;&#x8A9E;&#x8A00;&#x6307;&#x4EE4;&#x4E2D;&#xFF0C;&#x7528;&#x4F86;&#x6307;&#x5B9A;&#x4E00;&#x500B;&#x64CD;&#x4F5C;&#x6578;&#x6216;&#x8005;&#x662F;&#x4E00;&#x689D;&#x6307;&#x4EE4;&#x7684;&#x5730;&#x5740;&#x3002;&#x4EE5;&#x4E0A;&#x4F8B;&#xFF0C;&#x6211;&#x5011;&#x8AAA;&#x7684;&#x9023;&#x63A5;&#x5668;&#x70BA;A&#x5206;&#x914D;&#x7684;0x08111111&#x9019;&#x500B;&#x5730;&#x5740;&#x5C31;&#x662F;&#x908F;&#x8F2F;&#x5730;&#x5740;&#x3002;
+&#x2014;&#x2014;&#x4E0D;&#x904E;&#x4E0D;&#x597D;&#x610F;&#x601D;&#xFF0C;&#x9019;&#x6A23;&#x8AAA;&#xFF0C;&#x597D;&#x50CF;&#x53C8;&#x9055;&#x80CC;&#x4E86;Intel&#x4E2D;&#x6BB5;&#x5F0F;&#x7BA1;&#x7406;&#x4E2D;&#xFF0C;&#x5C0D;&#x908F;&#x8F2F;&#x5730;&#x5740;&#x8981;&#x6C42;&#xFF0C;&#x201C;&#x4E00;&#x500B;&#x908F;&#x8F2F;&#x5730;&#x5740;&#xFF0C;&#x662F;&#x7531;&#x4E00;&#x500B;&#x6BB5;&#x6A19;&#x8B58;&#x7B26;&#x52A0;&#x4E0A;&#x4E00;&#x500B;&#x6307;&#x5B9A;&#x6BB5;&#x5167;&#x76F8;&#x5C0D;&#x5730;&#x5740;&#x7684;&#x504F;&#x79FB;&#x91CF;&#xFF0C;&#x8868;&#x793A;&#x70BA; [&#x6BB5;&#x6A19;&#x8B58;&#x7B26;&#xFF1A;&#x6BB5;&#x5167;&#x504F;&#x79FB;&#x91CF;]&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#xFF0C;&#x4E0A;&#x4F8B;&#x4E2D;&#x90A3;&#x500B;0x08111111&#xFF0C;&#x61C9;&#x8A72;&#x8868;&#x793A;&#x70BA;[A&#x7684;&#x4EE3;&#x78BC;&#x6BB5;&#x6A19;&#x8B58;&#x7B26;: 0x08111111]&#xFF0C;&#x9019;&#x6A23;&#xFF0C;&#x624D;&#x5B8C;&#x6574;&#x4E00;&#x4E9B;&#x201D;</p>
+<h3 id="%E7%B7%9A%E6%80%A7%E5%9C%B0%E5%9D%80-linear-address-%E6%88%96%E4%B9%9F%E5%8F%AB%E8%99%9B%E6%93%AC%E5%9C%B0%E5%9D%80-virtual-address">&#x7DDA;&#x6027;&#x5730;&#x5740;(linear address)&#x6216;&#x4E5F;&#x53EB;&#x865B;&#x64EC;&#x5730;&#x5740;(virtual address)</h3>
+<p>&#x8DDF;&#x908F;&#x8F2F;&#x5730;&#x5740;&#x985E;&#x4F3C;&#xFF0C;&#x5B83;&#x4E5F;&#x662F;&#x4E00;&#x500B;&#x4E0D;&#x771F;&#x5BE6;&#x7684;&#x5730;&#x5740;&#xFF0C;&#x5982;&#x679C;&#x908F;&#x8F2F;&#x5730;&#x5740;&#x662F;&#x5C0D;&#x61C9;&#x7684;&#x786C;&#x4EF6;&#x5E73;&#x81FA;&#x6BB5;&#x5F0F;&#x7BA1;&#x7406;&#x8F49;&#x63DB;&#x524D;&#x5730;&#x5740;&#x7684;&#x8A71;&#xFF0C;&#x90A3;&#x9EBC;&#x7DDA;&#x6027;&#x5730;&#x5740;&#x5247;&#x5C0D;&#x61C9;&#x4E86;&#x786C;&#x4EF6;&#x9801;&#x5F0F;&#x5167;&#x5B58;&#x7684;&#x8F49;&#x63DB;&#x524D;&#x5730;&#x5740;&#x3002;</p>
+<hr>
+<p>CPU&#x5C07;&#x4E00;&#x500B;&#x865B;&#x64EC;&#x5167;&#x5B58;&#x7A7A;&#x9593;&#x4E2D;&#x7684;&#x5730;&#x5740;&#x8F49;&#x63DB;&#x70BA;&#x7269;&#x7406;&#x5730;&#x5740;&#xFF0C;&#x9700;&#x8981;&#x9032;&#x884C;&#x5169;&#x6B65;&#xFF1A;&#x9996;&#x5148;&#x5C07;&#x7D66;&#x5B9A;&#x4E00;&#x500B;&#x908F;&#x8F2F;&#x5730;&#x5740;&#xFF08;&#x5176;&#x5BE6;&#x662F;&#x6BB5;&#x5167;&#x504F;&#x79FB;&#x91CF;&#xFF0C;&#x9019;&#x500B;&#x4E00;&#x5B9A;&#x8981;&#x7406;&#x89E3;&#xFF01;&#xFF01;&#xFF01;&#xFF09;&#xFF0C;CPU&#x8981;&#x5229;&#x7528;&#x5176;&#x6BB5;&#x5F0F;&#x5167;&#x5B58;&#x7BA1;&#x7406;&#x55AE;&#x5143;&#xFF0C;&#x5148;&#x5C07;&#x70BA;&#x500B;&#x908F;&#x8F2F;&#x5730;&#x5740;&#x8F49;&#x63DB;&#x6210;&#x4E00;&#x500B;&#x7DDA;&#x7A0B;&#x5730;&#x5740;&#xFF0C;&#x518D;&#x5229;&#x7528;&#x5176;&#x9801;&#x5F0F;&#x5167;&#x5B58;&#x7BA1;&#x7406;&#x55AE;&#x5143;&#xFF0C;&#x8F49;&#x63DB;&#x70BA;&#x6700;&#x7D42;&#x7269;&#x7406;&#x5730;&#x5740;&#x3002;</p>
+<p>&#x9019;&#x6A23;&#x505A;&#x5169;&#x6B21;&#x8F49;&#x63DB;&#xFF0C;&#x7684;&#x78BA;&#x662F;&#x975E;&#x5E38;&#x9EBB;&#x7169;&#x800C;&#x4E14;&#x6C92;&#x6709;&#x5FC5;&#x8981;&#x7684;&#xFF0C;&#x56E0;&#x70BA;&#x76F4;&#x63A5;&#x53EF;&#x4EE5;&#x628A;&#x7DDA;&#x6027;&#x5730;&#x5740;&#x62BD;&#x50CF;&#x7D66;&#x9032;&#x7A0B;&#x3002;&#x4E4B;&#x6240;&#x4EE5;&#x9019;&#x6A23;&#x5197;&#x9918;&#xFF0C;Intel&#x5B8C;&#x5168;&#x662F;&#x70BA;&#x4E86;&#x517C;&#x5BB9;&#x800C;&#x5DF2;&#x3002;</p>
+<h3 id="2%E3%80%81cpu%E6%AE%B5%E5%BC%8F%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86%EF%BC%8C%E9%82%8F%E8%BC%AF%E5%9C%B0%E5%9D%80%E5%A6%82%E4%BD%95%E8%BD%89%E6%8F%9B%E7%82%BA%E7%B7%9A%E6%80%A7%E5%9C%B0%E5%9D%80">2&#x3001;CPU&#x6BB5;&#x5F0F;&#x5167;&#x5B58;&#x7BA1;&#x7406;&#xFF0C;&#x908F;&#x8F2F;&#x5730;&#x5740;&#x5982;&#x4F55;&#x8F49;&#x63DB;&#x70BA;&#x7DDA;&#x6027;&#x5730;&#x5740;</h3>
+<p>&#x4E00;&#x500B;&#x908F;&#x8F2F;&#x5730;&#x5740;&#x7531;&#x5169;&#x90E8;&#x4EFD;&#x7D44;&#x6210;&#xFF0C;&#x6BB5;&#x6A19;&#x8B58;&#x7B26;: &#x6BB5;&#x5167;&#x504F;&#x79FB;&#x91CF;&#x3002;&#x6BB5;&#x6A19;&#x8B58;&#x7B26;&#x662F;&#x7531;&#x4E00;&#x500B;16&#x4F4D;&#x9577;&#x7684;&#x5B57;&#x6BB5;&#x7D44;&#x6210;&#xFF0C;&#x7A31;&#x70BA;&#x6BB5;&#x9078;&#x64C7;&#x7B26;&#x3002;&#x5176;&#x4E2D;&#x524D;13&#x4F4D;&#x662F;&#x4E00;&#x500B;&#x7D22;&#x5F15;&#x865F;&#x3002;&#x5F8C;&#x9762;3&#x4F4D;&#x5305;&#x542B;&#x4E00;&#x4E9B;&#x786C;&#x4EF6;&#x7D30;&#x7BC0;&#xFF0C;&#x5982;&#x5716;&#xFF1A;
+<img src="images/20080115_446d77416115bf806a6eolV4lJub7IYi.jpg" alt=""></p>
+<p>&#x6700;&#x5F8C;&#x5169;&#x4F4D;&#x6D89;&#x53CA;&#x6B0A;&#x9650;&#x6AA2;&#x67E5;&#xFF0C;&#x672C;&#x8CBC;&#x4E2D;&#x4E0D;&#x5305;&#x542B;&#x3002;</p>
+<p>&#x7D22;&#x5F15;&#x865F;&#xFF0C;&#x6216;&#x8005;&#x76F4;&#x63A5;&#x7406;&#x89E3;&#x6210;&#x6578;&#x7D44;&#x4E0B;&#x6A19;&#x2014;&#x2014;&#x90A3;&#x5B83;&#x7E3D;&#x8981;&#x5C0D;&#x61C9;&#x4E00;&#x500B;&#x6578;&#x7D44;&#x5427;&#xFF0C;&#x5B83;&#x53C8;&#x662F;&#x4EC0;&#x9EBC;&#x6771;&#x6771;&#x7684;&#x7D22;&#x5F15;&#x5462;&#xFF1F;&#x9019;&#x500B;&#x6771;&#x6771;&#x5C31;&#x662F;&#x201C;&#x6BB5;&#x63CF;&#x8FF0;&#x7B26;(segment descriptor)&#x201D;&#xFF0C;&#x5475;&#x5475;&#xFF0C;&#x6BB5;&#x63CF;&#x8FF0;&#x7B26;&#x5177;&#x9AD4;&#x5730;&#x5740;&#x63CF;&#x8FF0;&#x4E86;&#x4E00;&#x500B;&#x6BB5;&#xFF08;&#x5C0D;&#x65BC;&#x201C;&#x6BB5;&#x201D;&#x9019;&#x500B;&#x5B57;&#x773C;&#x7684;&#x7406;&#x89E3;&#xFF0C;&#x6211;&#x662F;&#x628A;&#x5B83;&#x60F3;&#x50CF;&#x6210;&#xFF0C;&#x62FF;&#x4E86;&#x4E00;&#x628A;&#x5200;&#xFF0C;&#x628A;&#x865B;&#x64EC;&#x5167;&#x5B58;&#xFF0C;&#x780D;&#x6210;&#x82E5;&#x5E72;&#x7684;&#x622A;&#x2014;&#x2014;&#x6BB5;&#xFF09;&#x3002;&#x9019;&#x6A23;&#xFF0C;&#x5F88;&#x591A;&#x500B;&#x6BB5;&#x63CF;&#x8FF0;&#x7B26;&#xFF0C;&#x5C31;&#x7D44;&#x4E86;&#x4E00;&#x500B;&#x6578;&#x7D44;&#xFF0C;&#x53EB;&#x201C;&#x6BB5;&#x63CF;&#x8FF0;&#x7B26;&#x8868;&#x201D;&#xFF0C;&#x9019;&#x6A23;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x6BB5;&#x6A19;&#x8B58;&#x7B26;&#x7684;&#x524D;13&#x4F4D;&#xFF0C;&#x76F4;&#x63A5;&#x5728;&#x6BB5;&#x63CF;&#x8FF0;&#x7B26;&#x8868;&#x4E2D;&#x627E;&#x5230;&#x4E00;&#x500B;&#x5177;&#x9AD4;&#x7684;&#x6BB5;&#x63CF;&#x8FF0;&#x7B26;&#xFF0C;&#x9019;&#x500B;&#x63CF;&#x8FF0;&#x7B26;&#x5C31;&#x63CF;&#x8FF0;&#x4E86;&#x4E00;&#x500B;&#x6BB5;&#xFF0C;&#x6211;&#x525B;&#x624D;&#x5C0D;&#x6BB5;&#x7684;&#x62BD;&#x50CF;&#x4E0D;&#x592A;&#x6E96;&#x78BA;&#xFF0C;&#x56E0;&#x70BA;&#x770B;&#x770B;&#x63CF;&#x8FF0;&#x7B26;&#x88E1;&#x9762;&#x7A76;&#x7ADF;&#x6709;&#x4EC0;&#x9EBC;&#x6771;&#x6771;&#x2014;&#x2014;&#x4E5F;&#x5C31;&#x662F;&#x5B83;&#x7A76;&#x7ADF;&#x662F;&#x5982;&#x4F55;&#x63CF;&#x8FF0;&#x7684;&#xFF0C;&#x5C31;&#x7406;&#x89E3;&#x6BB5;&#x7A76;&#x7ADF;&#x6709;&#x4EC0;&#x9EBC;&#x6771;&#x6771;&#x4E86;&#xFF0C;&#x6BCF;&#x4E00;&#x500B;&#x6BB5;&#x63CF;&#x8FF0;&#x7B26;&#x7531;8&#x500B;&#x5B57;&#x7BC0;&#x7D44;&#x6210;&#xFF0C;&#x5982;&#x4E0B;&#x5716;&#xFF1A;
+<img src="images/20080115_23beaf30e70dfb78f97bukhHmAGFgIdM.jpg" alt="">
+&#x9019;&#x4E9B;&#x6771;&#x6771;&#x5F88;&#x8907;&#x96DC;&#xFF0C;&#x96D6;&#x7136;&#x53EF;&#x4EE5;&#x5229;&#x7528;&#x4E00;&#x500B;&#x6578;&#x64DA;&#x7D50;&#x69CB;&#x4F86;&#x5B9A;&#x7FA9;&#x5B83;&#xFF0C;&#x4E0D;&#x904E;&#xFF0C;&#x6211;&#x9019;&#x88E1;&#x53EA;&#x95DC;&#x5FC3;&#x4E00;&#x6A23;&#xFF0C;&#x5C31;&#x662F;Base&#x5B57;&#x6BB5;&#xFF0C;&#x5B83;&#x63CF;&#x8FF0;&#x4E86;&#x4E00;&#x500B;&#x6BB5;&#x7684;&#x958B;&#x59CB;&#x4F4D;&#x7F6E;&#x7684;&#x7DDA;&#x6027;&#x5730;&#x5740;&#x3002;</p>
+<p>Intel&#x8A2D;&#x8A08;&#x7684;&#x672C;&#x610F;&#x662F;&#xFF0C;&#x4E00;&#x4E9B;&#x5168;&#x5C40;&#x7684;&#x6BB5;&#x63CF;&#x8FF0;&#x7B26;&#xFF0C;&#x5C31;&#x653E;&#x5728;&#x201C;&#x5168;&#x5C40;&#x6BB5;&#x63CF;&#x8FF0;&#x7B26;&#x8868;(GDT)&#x201D;&#x4E2D;&#xFF0C;&#x4E00;&#x4E9B;&#x5C40;&#x90E8;&#x7684;&#xFF0C;&#x4F8B;&#x5982;&#x6BCF;&#x500B;&#x9032;&#x7A0B;&#x81EA;&#x5DF1;&#x7684;&#xFF0C;&#x5C31;&#x653E;&#x5728;&#x6240;&#x8B02;&#x7684;&#x201C;&#x5C40;&#x90E8;&#x6BB5;&#x63CF;&#x8FF0;&#x7B26;&#x8868;(LDT)&#x201D;&#x4E2D;&#x3002;&#x90A3;&#x7A76;&#x7ADF;&#x4EC0;&#x9EBC;&#x6642;&#x5019;&#x8A72;&#x7528;GDT&#xFF0C;&#x4EC0;&#x9EBC;&#x6642;&#x5019;&#x8A72;&#x7528;LDT&#x5462;&#xFF1F;&#x9019;&#x662F;&#x7531;&#x6BB5;&#x9078;&#x64C7;&#x7B26;&#x4E2D;&#x7684;T1&#x5B57;&#x6BB5;&#x8868;&#x793A;&#x7684;&#xFF0C;=0&#xFF0C;&#x8868;&#x793A;&#x7528;GDT&#xFF0C;=1&#x8868;&#x793A;&#x7528;LDT&#x3002;</p>
+<p>GDT&#x5728;&#x5167;&#x5B58;&#x4E2D;&#x7684;&#x5730;&#x5740;&#x548C;&#x5927;&#x5C0F;&#x5B58;&#x653E;&#x5728;CPU&#x7684;gdtr&#x63A7;&#x5236;&#x5BC4;&#x5B58;&#x5668;&#x4E2D;&#xFF0C;&#x800C;LDT&#x5247;&#x5728;ldtr&#x5BC4;&#x5B58;&#x5668;&#x4E2D;&#x3002;</p>
+<p>&#x597D;&#x591A;&#x6982;&#x5FF5;&#xFF0C;&#x50CF;&#x7E5E;&#x53E3;&#x4EE4;&#x4E00;&#x6A23;&#x3002;&#x9019;&#x5F35;&#x5716;&#x770B;&#x8D77;&#x4F86;&#x8981;&#x76F4;&#x89C0;&#x4E9B;&#xFF1A;
+ <img src="images/20080115_cbbab26241c63c1fdb5e9nKfEur4o24k.jpg" alt="">
+&#x9996;&#x5148;&#xFF0C;&#x7D66;&#x5B9A;&#x4E00;&#x500B;&#x5B8C;&#x6574;&#x7684;&#x908F;&#x8F2F;&#x5730;&#x5740;[&#x6BB5;&#x9078;&#x64C7;&#x7B26;&#xFF1A;&#x6BB5;&#x5167;&#x504F;&#x79FB;&#x5730;&#x5740;]&#xFF0C;
+1&#x3001;&#x770B;&#x6BB5;&#x9078;&#x64C7;&#x7B26;&#x7684;T1=0&#x9084;&#x662F;1&#xFF0C;&#x77E5;&#x9053;&#x7576;&#x524D;&#x8981;&#x8F49;&#x63DB;&#x662F;GDT&#x4E2D;&#x7684;&#x6BB5;&#xFF0C;&#x9084;&#x662F;LDT&#x4E2D;&#x7684;&#x6BB5;&#xFF0C;&#x518D;&#x6839;&#x64DA;&#x76F8;&#x61C9;&#x5BC4;&#x5B58;&#x5668;&#xFF0C;&#x5F97;&#x5230;&#x5176;&#x5730;&#x5740;&#x548C;&#x5927;&#x5C0F;&#x3002;&#x6211;&#x5011;&#x5C31;&#x6709;&#x4E86;&#x4E00;&#x500B;&#x6578;&#x7D44;&#x4E86;&#x3002;
+2&#x3001;&#x62FF;&#x51FA;&#x6BB5;&#x9078;&#x64C7;&#x7B26;&#x4E2D;&#x524D;13&#x4F4D;&#xFF0C;&#x53EF;&#x4EE5;&#x5728;&#x9019;&#x500B;&#x6578;&#x7D44;&#x4E2D;&#xFF0C;&#x67E5;&#x627E;&#x5230;&#x5C0D;&#x61C9;&#x7684;&#x6BB5;&#x63CF;&#x8FF0;&#x7B26;&#xFF0C;&#x9019;&#x6A23;&#xFF0C;&#x5B83;&#x4E86;Base&#xFF0C;&#x5373;&#x57FA;&#x5730;&#x5740;&#x5C31;&#x77E5;&#x9053;&#x4E86;&#x3002;
+3&#x3001;&#x628A;Base + offset&#xFF0C;&#x5C31;&#x662F;&#x8981;&#x8F49;&#x63DB;&#x7684;&#x7DDA;&#x6027;&#x5730;&#x5740;&#x4E86;&#x3002;</p>
+<p>&#x9084;&#x662F;&#x633A;&#x7C21;&#x55AE;&#x7684;&#xFF0C;&#x5C0D;&#x65BC;&#x8EDF;&#x4EF6;&#x4F86;&#x8B1B;&#xFF0C;&#x539F;&#x5247;&#x4E0A;&#x5C31;&#x9700;&#x8981;&#x628A;&#x786C;&#x4EF6;&#x8F49;&#x63DB;&#x6240;&#x9700;&#x7684;&#x4FE1;&#x606F;&#x6E96;&#x5099;&#x597D;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x8B93;&#x786C;&#x4EF6;&#x4F86;&#x5B8C;&#x6210;&#x9019;&#x500B;&#x8F49;&#x63DB;&#x4E86;&#x3002;OK&#xFF0C;&#x4F86;&#x770B;&#x770B;Linux&#x600E;&#x9EBC;&#x505A;&#x7684;&#x3002;</p>
+<h3 id="3%E3%80%81linux%E7%9A%84%E6%AE%B5%E5%BC%8F%E7%AE%A1%E7%90%86">3&#x3001;Linux&#x7684;&#x6BB5;&#x5F0F;&#x7BA1;&#x7406;</h3>
+<p>Intel&#x8981;&#x6C42;&#x5169;&#x6B21;&#x8F49;&#x63DB;&#xFF0C;&#x9019;&#x6A23;&#x96D6;&#x8AAA;&#x662F;&#x517C;&#x5BB9;&#x4E86;&#xFF0C;&#x4F46;&#x662F;&#x537B;&#x662F;&#x5F88;&#x5197;&#x9918;&#xFF0C;&#x5475;&#x5475;&#xFF0C;&#x6C92;&#x8FA6;&#x6CD5;&#xFF0C;&#x786C;&#x4EF6;&#x8981;&#x6C42;&#x9019;&#x6A23;&#x505A;&#x4E86;&#xFF0C;&#x8EDF;&#x4EF6;&#x5C31;&#x53EA;&#x80FD;&#x7167;&#x8FA6;&#xFF0C;&#x600E;&#x9EBC;&#x8457;&#x4E5F;&#x5F97;&#x5F62;&#x5F0F;&#x4E3B;&#x7FA9;&#x4E00;&#x6A23;&#x3002;
+&#x53E6;&#x4E00;&#x65B9;&#x9762;&#xFF0C;&#x5176;&#x5B83;&#x67D0;&#x4E9B;&#x786C;&#x4EF6;&#x5E73;&#x81FA;&#xFF0C;&#x6C92;&#x6709;&#x4E8C;&#x6B21;&#x8F49;&#x63DB;&#x7684;&#x6982;&#x5FF5;&#xFF0C;Linux&#x4E5F;&#x9700;&#x8981;&#x63D0;&#x4F9B;&#x4E00;&#x500B;&#x9AD8;&#x5C64;&#x62BD;&#x50CF;&#xFF0C;&#x4F86;&#x63D0;&#x4F9B;&#x4E00;&#x500B;&#x7D71;&#x4E00;&#x7684;&#x754C;&#x9762;&#x3002;&#x6240;&#x4EE5;&#xFF0C;Linux&#x7684;&#x6BB5;&#x5F0F;&#x7BA1;&#x7406;&#xFF0C;&#x4E8B;&#x5BE6;&#x4E0A;&#x53EA;&#x662F;&#x201C;&#x54C4;&#x9A19;&#x201D;&#x4E86;&#x4E00;&#x4E0B;&#x786C;&#x4EF6;&#x800C;&#x5DF2;&#x3002;</p>
+<p>&#x6309;&#x7167;Intel&#x7684;&#x672C;&#x610F;&#xFF0C;&#x5168;&#x5C40;&#x7684;&#x7528;GDT&#xFF0C;&#x6BCF;&#x500B;&#x9032;&#x7A0B;&#x81EA;&#x5DF1;&#x7684;&#x7528;LDT&#x2014;&#x2014;&#x4E0D;&#x904E;Linux&#x5247;&#x5C0D;&#x6240;&#x6709;&#x7684;&#x9032;&#x7A0B;&#x90FD;&#x4F7F;&#x7528;&#x4E86;&#x76F8;&#x540C;&#x7684;&#x6BB5;&#x4F86;&#x5C0D;&#x6307;&#x4EE4;&#x548C;&#x6578;&#x64DA;&#x5C0B;&#x5740;&#x3002;&#x5373;&#x7528;&#x6236;&#x6578;&#x64DA;&#x6BB5;&#xFF0C;&#x7528;&#x6236;&#x4EE3;&#x78BC;&#x6BB5;&#xFF0C;&#x5C0D;&#x61C9;&#x7684;&#xFF0C;&#x5167;&#x6838;&#x4E2D;&#x7684;&#x662F;&#x5167;&#x6838;&#x6578;&#x64DA;&#x6BB5;&#x548C;&#x5167;&#x6838;&#x4EE3;&#x78BC;&#x6BB5;&#x3002;&#x9019;&#x6A23;&#x505A;&#x6C92;&#x6709;&#x4EC0;&#x9EBC;&#x5947;&#x602A;&#x7684;&#xFF0C;&#x672C;&#x4F86;&#x5C31;&#x662F;&#x8D70;&#x5F62;&#x5F0F;&#x561B;&#xFF0C;&#x50CF;&#x6211;&#x5011;&#x5BEB;&#x5E74;&#x7D42;&#x7E3D;&#x7D50;&#x4E00;&#x6A23;&#x3002;
+include/asm-i386/segment.h</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> GDT_ENTRY_DEFAULT_USER_CS        14</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> __USER_CS (GDT_ENTRY_DEFAULT_USER_CS * 8 + 3)</span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> GDT_ENTRY_DEFAULT_USER_DS        15</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> __USER_DS (GDT_ENTRY_DEFAULT_USER_DS * 8 + 3)</span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> GDT_ENTRY_KERNEL_BASE        12</span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> GDT_ENTRY_KERNEL_CS                (GDT_ENTRY_KERNEL_BASE + 0)</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> __KERNEL_CS (GDT_ENTRY_KERNEL_CS * 8)</span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> GDT_ENTRY_KERNEL_DS                (GDT_ENTRY_KERNEL_BASE + 1)</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> __KERNEL_DS (GDT_ENTRY_KERNEL_DS * 8)</span>
+</code></pre>
+<p>&#x628A;&#x5176;&#x4E2D;&#x7684;&#x5B8F;&#x66FF;&#x63DB;&#x6210;&#x6578;&#x503C;&#xFF0C;&#x5247;&#x70BA;&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> __USER_CS 115        [00000000 1110  0  11]</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> __USER_DS 123        [00000000 1111  0  11]</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> __KERNEL_CS 96      [00000000 1100  0  00]</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> __KERNEL_DS 104    [00000000 1101  0  00]</span>
+</code></pre>
+<p>&#x65B9;&#x62EC;&#x865F;&#x5F8C;&#x662F;&#x9019;&#x56DB;&#x500B;&#x6BB5;&#x9078;&#x64C7;&#x7B26;&#x7684;16&#x4F4D;&#x4E8C;&#x88FD;&#x8868;&#x793A;&#xFF0C;&#x5B83;&#x5011;&#x7684;&#x7D22;&#x5F15;&#x865F;&#x548C;T1&#x5B57;&#x6BB5;&#x503C;&#x4E5F;&#x53EF;&#x4EE5;&#x7B97;&#x51FA;&#x4F86;&#x4E86;</p>
+<pre><code class="lang-c">__USER_CS              index= <span class="hljs-number">14</span>   T1=<span class="hljs-number">0</span>
+__USER_DS               index= <span class="hljs-number">15</span>   T1=<span class="hljs-number">0</span>
+__KERNEL_CS           index=  <span class="hljs-number">12</span>  T1=<span class="hljs-number">0</span>
+__KERNEL_DS           index= <span class="hljs-number">13</span>   T1=<span class="hljs-number">0</span>
+</code></pre>
+<p>T1&#x5747;&#x70BA;0&#xFF0C;&#x5247;&#x8868;&#x793A;&#x90FD;&#x4F7F;&#x7528;&#x4E86;GDT&#xFF0C;&#x518D;&#x4F86;&#x770B;&#x521D;&#x59CB;&#x5316;GDT&#x7684;&#x5167;&#x5BB9;&#x4E2D;&#x76F8;&#x61C9;&#x7684;12-15&#x9805;(arch/i386/head.S)&#xFF1A;</p>
+<pre><code class="lang-c">        .quad <span class="hljs-number">0x00cf9a000000ffff</span>        <span class="hljs-comment">/* 0x60 kernel 4GB code at 0x00000000 */</span>
+        .quad <span class="hljs-number">0x00cf92000000ffff</span>        <span class="hljs-comment">/* 0x68 kernel 4GB data at 0x00000000 */</span>
+        .quad <span class="hljs-number">0x00cffa000000ffff</span>        <span class="hljs-comment">/* 0x73 user 4GB code at 0x00000000 */</span>
+        .quad <span class="hljs-number">0x00cff2000000ffff</span>        <span class="hljs-comment">/* 0x7b user 4GB data at 0x00000000 */</span>
+</code></pre>
+<p>&#x6309;&#x7167;&#x524D;&#x9762;&#x6BB5;&#x63CF;&#x8FF0;&#x7B26;&#x8868;&#x4E2D;&#x7684;&#x63CF;&#x8FF0;&#xFF0C;&#x53EF;&#x4EE5;&#x628A;&#x5B83;&#x5011;&#x5C55;&#x958B;&#xFF0C;&#x767C;&#x73FE;&#x5176;16-31&#x4F4D;&#x5168;&#x70BA;0&#xFF0C;&#x5373;&#x56DB;&#x500B;&#x6BB5;&#x7684;&#x57FA;&#x5730;&#x5740;&#x5168;&#x70BA;0&#x3002;</p>
+<p>&#x9019;&#x6A23;&#xFF0C;&#x7D66;&#x5B9A;&#x4E00;&#x500B;&#x6BB5;&#x5167;&#x504F;&#x79FB;&#x5730;&#x5740;&#xFF0C;&#x6309;&#x7167;&#x524D;&#x9762;&#x8F49;&#x63DB;&#x516C;&#x5F0F;&#xFF0C;0 + &#x6BB5;&#x5167;&#x504F;&#x79FB;&#xFF0C;&#x8F49;&#x63DB;&#x70BA;&#x7DDA;&#x6027;&#x5730;&#x5740;&#xFF0C;&#x53EF;&#x4EE5;&#x5F97;&#x51FA;&#x91CD;&#x8981;&#x7684;&#x7D50;&#x8AD6;&#xFF0C;&#x201C;&#x5728;Linux&#x4E0B;&#xFF0C;&#x908F;&#x8F2F;&#x5730;&#x5740;&#x8207;&#x7DDA;&#x6027;&#x5730;&#x5740;&#x7E3D;&#x662F;&#x4E00;&#x81F4;&#xFF08;&#x662F;&#x4E00;&#x81F4;&#xFF0C;&#x4E0D;&#x662F;&#x6709;&#x4E9B;&#x4EBA;&#x8AAA;&#x7684;&#x76F8;&#x540C;&#xFF09;&#x7684;&#xFF0C;&#x5373;&#x908F;&#x8F2F;&#x5730;&#x5740;&#x7684;&#x504F;&#x79FB;&#x91CF;&#x5B57;&#x6BB5;&#x7684;&#x503C;&#x8207;&#x7DDA;&#x6027;&#x5730;&#x5740;&#x7684;&#x503C;&#x7E3D;&#x662F;&#x76F8;&#x540C;&#x7684;&#x3002;&#xFF01;&#xFF01;&#xFF01;&#x201D;</p>
+<p>&#x5FFD;&#x7565;&#x4E86;&#x592A;&#x591A;&#x7684;&#x7D30;&#x7BC0;&#xFF0C;&#x4F8B;&#x5982;&#x6BB5;&#x7684;&#x6B0A;&#x9650;&#x6AA2;&#x67E5;&#x3002;&#x5475;&#x5475;&#x3002;</p>
+<p>Linux&#x4E2D;&#xFF0C;&#x7D55;&#x5927;&#x90E8;&#x4EFD;&#x9032;&#x7A0B;&#x4E26;&#x4E0D;&#x4F8B;&#x7528;LDT&#xFF0C;&#x9664;&#x975E;&#x4F7F;&#x7528;Wine &#xFF0C;&#x4EFF;&#x771F;Windows&#x7A0B;&#x5E8F;&#x7684;&#x6642;&#x5019;&#x3002;</p>
+<h3 id="4-cpu%E7%9A%84%E9%A0%81%E5%BC%8F%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86">4.CPU&#x7684;&#x9801;&#x5F0F;&#x5167;&#x5B58;&#x7BA1;&#x7406;</h3>
+<p>CPU&#x7684;&#x9801;&#x5F0F;&#x5167;&#x5B58;&#x7BA1;&#x7406;&#x55AE;&#x5143;&#xFF0C;&#x8CA0;&#x8CAC;&#x628A;&#x4E00;&#x500B;&#x7DDA;&#x6027;&#x5730;&#x5740;&#xFF0C;&#x6700;&#x7D42;&#x7FFB;&#x8B6F;&#x70BA;&#x4E00;&#x500B;&#x7269;&#x7406;&#x5730;&#x5740;&#x3002;&#x5F9E;&#x7BA1;&#x7406;&#x548C;&#x6548;&#x7387;&#x7684;&#x89D2;&#x5EA6;&#x51FA;&#x767C;&#xFF0C;&#x7DDA;&#x6027;&#x5730;&#x5740;&#x88AB;&#x5206;&#x70BA;&#x4EE5;&#x56FA;&#x5B9A;&#x9577;&#x5EA6;&#x70BA;&#x55AE;&#x4F4D;&#x7684;&#x7D44;&#xFF0C;&#x7A31;&#x70BA;&#x9801;(page)&#xFF0C;&#x4F8B;&#x5982;&#x4E00;&#x500B;32&#x4F4D;&#x7684;&#x6A5F;&#x5668;&#xFF0C;&#x7DDA;&#x6027;&#x5730;&#x5740;&#x6700;&#x5927;&#x53EF;&#x70BA;4G&#xFF0C;&#x53EF;&#x4EE5;&#x7528;4KB&#x70BA;&#x4E00;&#x500B;&#x9801;&#x4F86;&#x5283;&#x5206;&#xFF0C;&#x9019;&#x9801;&#xFF0C;&#x6574;&#x500B;&#x7DDA;&#x6027;&#x5730;&#x5740;&#x5C31;&#x88AB;&#x5283;&#x5206;&#x70BA;&#x4E00;&#x500B;tatol_page[2^20]&#x7684;&#x5927;&#x6578;&#x7D44;&#xFF0C;&#x5171;&#x6709;2&#x7684;20&#x500B;&#x6B21;&#x65B9;&#x500B;&#x9801;&#x3002;&#x9019;&#x500B;&#x5927;&#x6578;&#x7D44;&#x6211;&#x5011;&#x7A31;&#x4E4B;&#x70BA;&#x9801;&#x76EE;&#x9304;&#x3002;&#x76EE;&#x9304;&#x4E2D;&#x7684;&#x6BCF;&#x4E00;&#x500B;&#x76EE;&#x9304;&#x9805;&#xFF0C;&#x5C31;&#x662F;&#x4E00;&#x500B;&#x5730;&#x5740;&#x2014;&#x2014;&#x5C0D;&#x61C9;&#x7684;&#x9801;&#x7684;&#x5730;&#x5740;&#x3002;</p>
+<p>&#x53E6;&#x4E00;&#x985E;&#x201C;&#x9801;&#x201D;&#xFF0C;&#x6211;&#x5011;&#x7A31;&#x4E4B;&#x70BA;&#x7269;&#x7406;&#x9801;&#xFF0C;&#x6216;&#x8005;&#x662F;&#x9801;&#x6846;&#x3001;&#x9801;&#x6968;&#x7684;&#x3002;&#x662F;&#x5206;&#x9801;&#x55AE;&#x5143;&#x628A;&#x6240;&#x6709;&#x7684;&#x7269;&#x7406;&#x5167;&#x5B58;&#x4E5F;&#x5283;&#x5206;&#x70BA;&#x56FA;&#x5B9A;&#x9577;&#x5EA6;&#x7684;&#x7BA1;&#x7406;&#x55AE;&#x4F4D;&#xFF0C;&#x5B83;&#x7684;&#x9577;&#x5EA6;&#x4E00;&#x822C;&#x8207;&#x5167;&#x5B58;&#x9801;&#x662F;&#x4E00;&#x4E00;&#x5C0D;&#x61C9;&#x7684;&#x3002;</p>
+<p>&#x9019;&#x88E1;&#x6CE8;&#x610F;&#x5230;&#xFF0C;&#x9019;&#x500B;total_page&#x6578;&#x7D44;&#x6709;2^20&#x500B;&#x6210;&#x54E1;&#xFF0C;&#x6BCF;&#x500B;&#x6210;&#x54E1;&#x662F;&#x4E00;&#x500B;&#x5730;&#x5740;&#xFF08;32&#x4F4D;&#x6A5F;&#xFF0C;&#x4E00;&#x500B;&#x5730;&#x5740;&#x4E5F;&#x5C31;&#x662F;4&#x5B57;&#x7BC0;&#xFF09;&#xFF0C;&#x90A3;&#x9EBC;&#x8981;&#x55AE;&#x55AE;&#x8981;&#x8868;&#x793A;&#x9019;&#x9EBC;&#x4E00;&#x500B;&#x6578;&#x7D44;&#xFF0C;&#x5C31;&#x8981;&#x4F54;&#x53BB;4MB&#x7684;&#x5167;&#x5B58;&#x7A7A;&#x9593;&#x3002;&#x70BA;&#x4E86;&#x7BC0;&#x7701;&#x7A7A;&#x9593;&#xFF0C;&#x5F15;&#x5165;&#x4E86;&#x4E00;&#x500B;&#x4E8C;&#x7D1A;&#x7BA1;&#x7406;&#x6A21;&#x5F0F;&#x7684;&#x6A5F;&#x5668;&#x4F86;&#x7D44;&#x7E54;&#x5206;&#x9801;&#x55AE;&#x5143;&#x3002;&#x6587;&#x5B57;&#x63CF;&#x8FF0;&#x592A;&#x7D2F;&#xFF0C;&#x770B;&#x5716;&#x76F4;&#x89C0;&#x4E00;&#x4E9B;&#xFF1A;</p>
+<p><img src="images/20080116_df60e28590bbda258d8cRX7n2zBpGJ9Z.jpg" alt="">
+ Snap1.jpg
+&#x5982;&#x4E0A;&#x5716;&#xFF0C;</p>
+<ul>
+<li>1&#x3001;&#x5206;&#x9801;&#x55AE;&#x5143;&#x4E2D;&#xFF0C;&#x9801;&#x76EE;&#x9304;&#x662F;&#x552F;&#x4E00;&#x7684;&#xFF0C;&#x5B83;&#x7684;&#x5730;&#x5740;&#x653E;&#x5728;CPU&#x7684;cr3&#x5BC4;&#x5B58;&#x5668;&#x4E2D;&#xFF0C;&#x662F;&#x9032;&#x884C;&#x5730;&#x5740;&#x8F49;&#x63DB;&#x7684;&#x958B;&#x59CB;&#x9EDE;&#x3002;&#x842C;&#x91CC;&#x9577;&#x5F81;&#x5C31;&#x5F9E;&#x6B64;&#x9577;&#x59CB;&#x4E86;&#x3002;</li>
+<li>2&#x3001;&#x6BCF;&#x4E00;&#x500B;&#x6D3B;&#x52D5;&#x7684;&#x9032;&#x7A0B;&#xFF0C;&#x56E0;&#x70BA;&#x90FD;&#x6709;&#x5176;&#x7368;&#x7ACB;&#x7684;&#x5C0D;&#x61C9;&#x7684;&#x865B;&#x4F3C;&#x5167;&#x5B58;&#xFF08;&#x9801;&#x76EE;&#x9304;&#x4E5F;&#x662F;&#x552F;&#x4E00;&#x7684;&#xFF09;&#xFF0C;&#x90A3;&#x9EBC;&#x5B83;&#x4E5F;&#x5C0D;&#x61C9;&#x4E86;&#x4E00;&#x500B;&#x7368;&#x7ACB;&#x7684;&#x9801;&#x76EE;&#x9304;&#x5730;&#x5740;&#x3002;&#x2014;&#x2014;&#x904B;&#x884C;&#x4E00;&#x500B;&#x9032;&#x7A0B;&#xFF0C;&#x9700;&#x8981;&#x5C07;&#x5B83;&#x7684;&#x9801;&#x76EE;&#x9304;&#x5730;&#x5740;&#x653E;&#x5230;cr3&#x5BC4;&#x5B58;&#x5668;&#x4E2D;&#xFF0C;&#x5C07;&#x5225;&#x500B;&#x7684;&#x4FDD;&#x5B58;&#x4E0B;&#x4F86;&#x3002;</li>
+<li>3&#x3001;&#x6BCF;&#x4E00;&#x500B;32&#x4F4D;&#x7684;&#x7DDA;&#x6027;&#x5730;&#x5740;&#x88AB;&#x5283;&#x5206;&#x70BA;&#x4E09;&#x90E8;&#x4EFD;&#xFF0C;&#x9762;&#x76EE;&#x9304;&#x7D22;&#x5F15;(10&#x4F4D;)&#xFF1A;&#x9801;&#x8868;&#x7D22;&#x5F15;(10&#x4F4D;)&#xFF1A;&#x504F;&#x79FB;(12&#x4F4D;)
+&#x4F9D;&#x64DA;&#x4EE5;&#x4E0B;&#x6B65;&#x9A5F;&#x9032;&#x884C;&#x8F49;&#x63DB;&#xFF1A;</li>
+<li>1&#x3001;&#x5F9E;cr3&#x4E2D;&#x53D6;&#x51FA;&#x9032;&#x7A0B;&#x7684;&#x9801;&#x76EE;&#x9304;&#x5730;&#x5740;&#xFF08;&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x8CA0;&#x8CAC;&#x5728;&#x8ABF;&#x5EA6;&#x9032;&#x7A0B;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x628A;&#x9019;&#x500B;&#x5730;&#x5740;&#x88DD;&#x5165;&#x5C0D;&#x61C9;&#x5BC4;&#x5B58;&#x5668;&#xFF09;&#xFF1B;</li>
+<li>2&#x3001;&#x6839;&#x64DA;&#x7DDA;&#x6027;&#x5730;&#x5740;&#x524D;&#x5341;&#x4F4D;&#xFF0C;&#x5728;&#x6578;&#x7D44;&#x4E2D;&#xFF0C;&#x627E;&#x5230;&#x5C0D;&#x61C9;&#x7684;&#x7D22;&#x5F15;&#x9805;&#xFF0C;&#x56E0;&#x70BA;&#x5F15;&#x5165;&#x4E86;&#x4E8C;&#x7D1A;&#x7BA1;&#x7406;&#x6A21;&#x5F0F;&#xFF0C;&#x9801;&#x76EE;&#x9304;&#x4E2D;&#x7684;&#x9805;&#xFF0C;&#x4E0D;&#x518D;&#x662F;&#x9801;&#x7684;&#x5730;&#x5740;&#xFF0C;&#x800C;&#x662F;&#x4E00;&#x500B;&#x9801;&#x8868;&#x7684;&#x5730;&#x5740;&#x3002;&#xFF08;&#x53C8;&#x5F15;&#x5165;&#x4E86;&#x4E00;&#x500B;&#x6578;&#x7D44;&#xFF09;&#xFF0C;&#x9801;&#x7684;&#x5730;&#x5740;&#x88AB;&#x653E;&#x5230;&#x9801;&#x8868;&#x4E2D;&#x53BB;&#x4E86;&#x3002;</li>
+<li>3&#x3001;&#x6839;&#x64DA;&#x7DDA;&#x6027;&#x5730;&#x5740;&#x7684;&#x4E2D;&#x9593;&#x5341;&#x4F4D;&#xFF0C;&#x5728;&#x9801;&#x8868;&#xFF08;&#x4E5F;&#x662F;&#x6578;&#x7D44;&#xFF09;&#x4E2D;&#x627E;&#x5230;&#x9801;&#x7684;&#x8D77;&#x59CB;&#x5730;&#x5740;&#xFF1B;
+4 &#x3001;&#x5C07;&#x9801;&#x7684;&#x8D77;&#x59CB;&#x5730;&#x5740;&#x8207;&#x7DDA;&#x6027;&#x5730;&#x5740;&#x4E2D;&#x6700;&#x5F8C;12&#x4F4D;&#x76F8;&#x52A0;&#xFF0C;&#x5F97;&#x5230;&#x6700;&#x7D42;&#x6211;&#x5011;&#x60F3;&#x8981;&#x7684;&#x846B;&#x8606;&#xFF1B;</li>
+</ul>
+<p>&#x9019;&#x500B;&#x8F49;&#x63DB;&#x904E;&#x7A0B;&#xFF0C;&#x61C9;&#x8A72;&#x8AAA;&#x9084;&#x662F;&#x975E;&#x5E38;&#x7C21;&#x55AE;&#x5730;&#x3002;&#x5168;&#x90E8;&#x7531;&#x786C;&#x4EF6;&#x5B8C;&#x6210;&#xFF0C;&#x96D6;&#x7136;&#x591A;&#x4E86;&#x4E00;&#x9053;&#x624B;&#x7E8C;&#xFF0C;&#x4F46;&#x662F;&#x7BC0;&#x7D04;&#x4E86;&#x5927;&#x91CF;&#x7684;&#x5167;&#x5B58;&#xFF0C;&#x9084;&#x662F;&#x503C;&#x5F97;&#x7684;&#x3002;&#x90A3;&#x9EBC;&#x518D;&#x7C21;&#x55AE;&#x5730;&#x9A57;&#x8B49;&#x4E00;&#x4E0B;&#xFF1A;
+1&#x3001;&#x9019;&#x6A23;&#x7684;&#x4E8C;&#x7D1A;&#x6A21;&#x5F0F;&#x662F;&#x5426;&#x4ECD;&#x80FD;&#x5920;&#x8868;&#x793A;4G&#x7684;&#x5730;&#x5740;&#xFF1B;
+&#x9801;&#x76EE;&#x9304;&#x5171;&#x6709;&#xFF1A;2^10&#x9805;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#x6709;&#x9019;&#x9EBC;&#x591A;&#x500B;&#x9801;&#x8868;
+&#x6BCF;&#x500B;&#x76EE;&#x8868;&#x5C0D;&#x61C9;&#x4E86;&#xFF1A;2^10&#x9801;&#xFF1B;
+&#x6BCF;&#x500B;&#x9801;&#x4E2D;&#x53EF;&#x5C0B;&#x5740;&#xFF1A;2^12&#x500B;&#x5B57;&#x7BC0;&#x3002;
+&#x9084;&#x662F;2^32 = 4GB</p>
+<p><strong>2&#x3001;&#x9019;&#x6A23;&#x7684;&#x4E8C;&#x7D1A;&#x6A21;&#x5F0F;&#x662F;&#x5426;&#x771F;&#x7684;&#x7BC0;&#x7D04;&#x4E86;&#x7A7A;&#x9593;&#xFF1B;
+&#x4E5F;&#x5C31;&#x662F;&#x7B97;&#x4E00;&#x4E0B;&#x9801;&#x76EE;&#x9304;&#x9805;&#x548C;&#x9801;&#x8868;&#x9805;&#x5171;&#x4F54;&#x7A7A;&#x9593; (2^10 <em> 4 + 2 ^10 </em>4) = 8KB&#x3002;&#x54CE;&#xFF0C;&#x2026;&#x2026;&#x600E;&#x9EBC;&#x8AAA;&#x5462;&#xFF01;&#xFF01;&#xFF01;</strong></p>
+<p>&#x7D05;&#x8272;&#x932F;&#x8AA4;&#xFF0C;&#x6A19;&#x8A3B;&#x4E00;&#x4E0B;&#xFF0C;&#x5F8C;&#x6587;&#x8CBC;&#x4E2D;&#x6709;&#x6B64;&#x8A0E;&#x8AD6;&#x3002;&#x3002;&#x3002;&#x3002;&#x3002;&#x3002;
+&#x6309;&lt;&#x6DF1;&#x5165;&#x7406;&#x89E3;&#x8A08;&#x7B97;&#x6A5F;&#x7CFB;&#x7D71;&gt;&#x4E2D;&#x7684;&#x89E3;&#x91CB;,&#x4E8C;&#x7D1A;&#x6A21;&#x5F0F;&#x7A7A;&#x9593;&#x7684;&#x7BC0;&#x7D04;&#x662F;&#x5F9E;&#x5169;&#x500B;&#x65B9;&#x9762;&#x5BE6;&#x73FE;&#x7684;:
+A&#x3001;&#x5982;&#x679C;&#x4E00;&#x7D1A;&#x9801;&#x8868;&#x4E2D;&#x7684;&#x4E00;&#x500B;&#x9801;&#x8868;&#x689D;&#x76EE;&#x70BA;&#x7A7A;&#xFF0C;&#x90A3;&#x9EBC;&#x90A3;&#x6240;&#x6307;&#x7684;&#x4E8C;&#x7D1A;&#x9801;&#x8868;&#x5C31;&#x6839;&#x672C;&#x4E0D;&#x6703;&#x5B58;&#x5728;&#x3002;&#x9019;&#x8868;&#x73FE;&#x51FA;&#x4E00;&#x7A2E;&#x5DE8;&#x5927;&#x7684;&#x6F5B;&#x5728;&#x7BC0;&#x7D04;&#xFF0C;&#x56E0;&#x70BA;&#x5C0D;&#x65BC;&#x4E00;&#x500B;&#x5178;&#x578B;&#x7684;&#x7A0B;&#x5E8F;&#xFF0C;4GB&#x865B;&#x64EC;&#x5730;&#x5740;&#x7A7A;&#x9593;&#x7684;&#x5927;&#x90E8;&#x4EFD;&#x90FD;&#x6703;&#x662F;&#x672A;&#x5206;&#x914D;&#x7684;&#xFF1B;
+B&#x3001;&#x53EA;&#x6709;&#x4E00;&#x7D1A;&#x9801;&#x8868;&#x624D;&#x9700;&#x8981;&#x7E3D;&#x662F;&#x5728;&#x4E3B;&#x5B58;&#x4E2D;&#x3002;&#x865B;&#x64EC;&#x5B58;&#x5132;&#x5668;&#x7CFB;&#x7D71;&#x53EF;&#x4EE5;&#x5728;&#x9700;&#x8981;&#x6642;&#x5275;&#x5EFA;&#xFF0C;&#x4E26;&#x9801;&#x9762;&#x8ABF;&#x5165;&#x6216;&#x8ABF;&#x51FA;&#x4E8C;&#x7D1A;&#x9801;&#x8868;&#xFF0C;&#x9019;&#x5C31;&#x6E1B;&#x5C11;&#x4E86;&#x4E3B;&#x5B58;&#x7684;&#x58D3;&#x529B;&#x3002;&#x53EA;&#x6709;&#x6700;&#x7D93;&#x5E38;&#x4F7F;&#x7528;&#x7684;&#x4E8C;&#x7D1A;&#x9801;&#x8868;&#x624D;&#x9700;&#x8981;&#x7DE9;&#x5B58;&#x5728;&#x4E3B;&#x5B58;&#x4E2D;&#x3002;&#x2014;&#x2014;&#x4E0D;&#x904E;Linux&#x4E26;&#x6C92;&#x6709;&#x5B8C;&#x5168;&#x4EAB;&#x53D7;&#x9019;&#x7A2E;&#x798F;&#x5229;&#xFF0C;&#x5B83;&#x7684;&#x9801;&#x8868;&#x76EE;&#x9304;&#x548C;&#x8207;&#x5DF2;&#x5206;&#x914D;&#x9801;&#x9762;&#x76F8;&#x95DC;&#x7684;&#x9801;&#x8868;&#x90FD;&#x662F;&#x5E38;&#x99D0;&#x5167;&#x5B58;&#x7684;&#x3002;</p>
+<p>&#x503C;&#x5F97;&#x4E00;&#x63D0;&#x7684;&#x662F;&#xFF0C;&#x96D6;&#x7136;&#x9801;&#x76EE;&#x9304;&#x548C;&#x9801;&#x8868;&#x4E2D;&#x7684;&#x9805;&#xFF0C;&#x90FD;&#x662F;4&#x500B;&#x5B57;&#x7BC0;&#xFF0C;32&#x4F4D;&#xFF0C;&#x4F46;&#x662F;&#x5B83;&#x5011;&#x90FD;&#x53EA;&#x7528;&#x9AD8;20&#x4F4D;&#xFF0C;&#x4F4E;12&#x4F4D;&#x5C4F;&#x853D;&#x70BA;0&#x2014;&#x2014;&#x628A;&#x9801;&#x8868;&#x7684;&#x4F4E;12&#x5C4F;&#x853D;&#x70BA;0&#xFF0C;&#x662F;&#x5F88;&#x597D;&#x7406;&#x89E3;&#x7684;&#xFF0C;&#x56E0;&#x70BA;&#x9019;&#x6A23;&#xFF0C;&#x5B83;&#x525B;&#x597D;&#x548C;&#x4E00;&#x500B;&#x9801;&#x9762;&#x5927;&#x5C0F;&#x5C0D;&#x61C9;&#x8D77;&#x4F86;&#xFF0C;&#x5927;&#x5BB6;&#x90FD;&#x6210;&#x6574;&#x6578;&#x589E;&#x52A0;&#x3002;&#x8A08;&#x7B97;&#x8D77;&#x4F86;&#x5C31;&#x65B9;&#x4FBF;&#x591A;&#x4E86;&#x3002;&#x4F46;&#x662F;&#xFF0C;&#x70BA;&#x4EC0;&#x9EBC;&#x540C;&#x6642;&#x4E5F;&#x8981;&#x628A;&#x9801;&#x76EE;&#x9304;&#x4F4E;12&#x4F4D;&#x5C4F;&#x853D;&#x6389;&#x5462;&#xFF1F;&#x56E0;&#x70BA;&#x6309;&#x540C;&#x6A23;&#x7684;&#x9053;&#x7406;&#xFF0C;&#x53EA;&#x8981;&#x5C4F;&#x853D;&#x5176;&#x4F4E;10&#x4F4D;&#x5C31;&#x53EF;&#x4EE5;&#x4E86;&#xFF0C;&#x4E0D;&#x904E;&#x6211;&#x60F3;&#xFF0C;&#x56E0;&#x70BA;12&gt;10&#xFF0C;&#x9019;&#x6A23;&#xFF0C;&#x53EF;&#x4EE5;&#x8B93;&#x9801;&#x76EE;&#x9304;&#x548C;&#x9801;&#x8868;&#x4F7F;&#x7528;&#x76F8;&#x540C;&#x7684;&#x6578;&#x64DA;&#x7D50;&#x69CB;&#xFF0C;&#x65B9;&#x4FBF;&#x3002;</p>
+<p>&#x672C;&#x8CBC;&#x53EA;&#x4ECB;&#x7D39;&#x4E00;&#x822C;&#x6027;&#x8F49;&#x63DB;&#x7684;&#x539F;&#x7406;&#xFF0C;&#x64F4;&#x5C55;&#x5206;&#x9801;&#x3001;&#x9801;&#x7684;&#x4FDD;&#x8B77;&#x6A5F;&#x5236;&#x3001;PAE&#x6A21;&#x5F0F;&#x7684;&#x5206;&#x9801;&#x9019;&#x4E9B;&#x9EBB;&#x7169;&#x9EDE;&#x7684;&#x6771;&#x6771;&#x5C31;&#x4E0D;&#x56C9;&#x55E6;&#x4E86;&#x2026;&#x2026;&#x53EF;&#x4EE5;&#x53C3;&#x8003;&#x5176;&#x5B83;&#x5C08;&#x696D;&#x66F8;&#x7C4D;&#x3002;</p>
+<h3 id="5-linux%E7%9A%84%E9%A0%81%E5%BC%8F%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86">5.Linux&#x7684;&#x9801;&#x5F0F;&#x5167;&#x5B58;&#x7BA1;&#x7406;</h3>
+<p>&#x539F;&#x7406;&#x4E0A;&#x4F86;&#x8B1B;&#xFF0C;Linux&#x53EA;&#x9700;&#x8981;&#x70BA;&#x6BCF;&#x500B;&#x9032;&#x7A0B;&#x5206;&#x914D;&#x597D;&#x6240;&#x9700;&#x6578;&#x64DA;&#x7D50;&#x69CB;&#xFF0C;&#x653E;&#x5230;&#x5167;&#x5B58;&#x4E2D;&#xFF0C;&#x7136;&#x5F8C;&#x5728;&#x8ABF;&#x5EA6;&#x9032;&#x7A0B;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x5207;&#x63DB;&#x5BC4;&#x5B58;&#x5668;cr3&#xFF0C;&#x5269;&#x4E0B;&#x7684;&#x5C31;&#x4EA4;&#x7D66;&#x786C;&#x4EF6;&#x4F86;&#x5B8C;&#x6210;&#x4E86;&#xFF08;&#x5475;&#x5475;&#xFF0C;&#x4E8B;&#x5BE6;&#x4E0A;&#x8981;&#x8907;&#x96DC;&#x5F97;&#x591A;&#xFF0C;&#x4E0D;&#x904E;&#x5076;&#x53EA;&#x5206;&#x6790;&#x6700;&#x57FA;&#x672C;&#x7684;&#x6D41;&#x7A0B;&#xFF09;&#x3002;</p>
+<p>&#x524D;&#x9762;&#x8AAA;&#x4E86;i386&#x7684;&#x4E8C;&#x7D1A;&#x9801;&#x7BA1;&#x7406;&#x67B6;&#x69CB;&#xFF0C;&#x4E0D;&#x904E;&#x6709;&#x4E9B;CPU&#xFF0C;&#x9084;&#x6709;&#x4E09;&#x7D1A;&#xFF0C;&#x751A;&#x81F3;&#x56DB;&#x7D1A;&#x67B6;&#x69CB;&#xFF0C;Linux&#x70BA;&#x4E86;&#x5728;&#x66F4;&#x9AD8;&#x5C64;&#x6B21;&#x63D0;&#x4F9B;&#x62BD;&#x50CF;&#xFF0C;&#x70BA;&#x6BCF;&#x500B;CPU&#x63D0;&#x4F9B;&#x7D71;&#x4E00;&#x7684;&#x754C;&#x9762;&#x3002;&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x500B;&#x56DB;&#x5C64;&#x9801;&#x7BA1;&#x7406;&#x67B6;&#x69CB;&#xFF0C;&#x4F86;&#x517C;&#x5BB9;&#x9019;&#x4E9B;&#x4E8C;&#x7D1A;&#x3001;&#x4E09;&#x7D1A;&#x3001;&#x56DB;&#x7D1A;&#x7BA1;&#x7406;&#x67B6;&#x69CB;&#x7684;CPU&#x3002;&#x9019;&#x56DB;&#x7D1A;&#x5206;&#x5225;&#x70BA;&#xFF1A;</p>
+<p>&#x9801;&#x5168;&#x5C40;&#x76EE;&#x9304;PGD&#xFF08;&#x5C0D;&#x61C9;&#x525B;&#x624D;&#x7684;&#x9801;&#x76EE;&#x9304;&#xFF09;
+&#x9801;&#x4E0A;&#x7D1A;&#x76EE;&#x9304;PUD&#xFF08;&#x65B0;&#x5F15;&#x9032;&#x7684;&#xFF09;
+&#x9801;&#x4E2D;&#x9593;&#x76EE;&#x9304;PMD&#xFF08;&#x4E5F;&#x5C31;&#x65B0;&#x5F15;&#x9032;&#x7684;&#xFF09;
+&#x9801;&#x8868;PT&#xFF08;&#x5C0D;&#x61C9;&#x525B;&#x624D;&#x7684;&#x9801;&#x8868;&#xFF09;&#x3002;</p>
+<p>&#x6574;&#x500B;&#x8F49;&#x63DB;&#x4F9D;&#x64DA;&#x786C;&#x4EF6;&#x8F49;&#x63DB;&#x539F;&#x7406;&#xFF0C;&#x53EA;&#x662F;&#x591A;&#x4E86;&#x4E8C;&#x6B21;&#x6578;&#x7D44;&#x7684;&#x7D22;&#x5F15;&#x7F77;&#x4E86;&#xFF0C;&#x5982;&#x4E0B;&#x5716;&#xFF1A;</p>
+<p><img src="images/20080116_3a1b1ea4249e4a3ce05fZnTyR3rfXy3h.jpg" alt=""></p>
+<p>&#x90A3;&#x9EBC;&#xFF0C;&#x5C0D;&#x65BC;&#x4F7F;&#x7528;&#x4E8C;&#x7D1A;&#x7BA1;&#x7406;&#x67B6;&#x69CB;32&#x4F4D;&#x7684;&#x786C;&#x4EF6;&#xFF0C;&#x73FE;&#x5728;&#x53C8;&#x662F;&#x56DB;&#x7D1A;&#x8F49;&#x63DB;&#x4E86;&#xFF0C;&#x5B83;&#x5011;&#x600E;&#x9EBC;&#x80FD;&#x5920;&#x5354;&#x8ABF;&#x5730;&#x5DE5;&#x4F5C;&#x8D77;&#x4F86;&#x5462;&#xFF1F;&#x55EF;&#xFF0C;&#x4F86;&#x770B;&#x9019;&#x7A2E;&#x60C5;&#x6CC1;&#x4E0B;&#xFF0C;&#x600E;&#x9EBC;&#x4F86;&#x5283;&#x5206;&#x7DDA;&#x6027;&#x5730;&#x5740;&#x5427;&#xFF01;
+&#x5F9E;&#x786C;&#x4EF6;&#x7684;&#x89D2;&#x5EA6;&#xFF0C;32&#x4F4D;&#x5730;&#x5740;&#x88AB;&#x5206;&#x6210;&#x4E86;&#x4E09;&#x90E8;&#x4EFD;&#x2014;&#x2014;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#xFF0C;&#x4E0D;&#x7BA1;&#x7406;&#x8EDF;&#x4EF6;&#x600E;&#x9EBC;&#x505A;&#xFF0C;&#x6700;&#x7D42;&#x843D;&#x5BE6;&#x5230;&#x786C;&#x4EF6;&#xFF0C;&#x4E5F;&#x53EA;&#x8A8D;&#x8B58;&#x9019;&#x4E09;&#x4F4D;&#x8001;&#x5927;&#x3002;
+&#x5F9E;&#x8EDF;&#x4EF6;&#x7684;&#x89D2;&#x5EA6;&#xFF0C;&#x7531;&#x65BC;&#x591A;&#x5F15;&#x5165;&#x4E86;&#x5169;&#x90E8;&#x4EFD;&#xFF0C;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#xFF0C;&#x5171;&#x6709;&#x4E94;&#x90E8;&#x4EFD;&#x3002;&#x2014;&#x2014;&#x8981;&#x8B93;&#x4E8C;&#x5C64;&#x67B6;&#x69CB;&#x7684;&#x786C;&#x4EF6;&#x8A8D;&#x8B58;&#x4E94;&#x90E8;&#x4EFD;&#x4E5F;&#x5F88;&#x5BB9;&#x6613;&#xFF0C;&#x5728;&#x5730;&#x5740;&#x5283;&#x5206;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x5C07;&#x9801;&#x4E0A;&#x7D1A;&#x76EE;&#x9304;&#x548C;&#x9801;&#x4E2D;&#x9593;&#x76EE;&#x9304;&#x7684;&#x9577;&#x5EA6;&#x8A2D;&#x7F6E;&#x70BA;0&#x5C31;&#x53EF;&#x4EE5;&#x4E86;&#x3002;
+&#x9019;&#x6A23;&#xFF0C;&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x898B;&#x5230;&#x7684;&#x662F;&#x4E94;&#x90E8;&#x4EFD;&#xFF0C;&#x786C;&#x4EF6;&#x9084;&#x662F;&#x6309;&#x5B83;&#x6B7B;&#x677F;&#x7684;&#x4E09;&#x90E8;&#x4EFD;&#x5283;&#x5206;&#xFF0C;&#x4E5F;&#x4E0D;&#x6703;&#x51FA;&#x932F;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#x5927;&#x5BB6;&#x5171;&#x5EFA;&#x4E86;&#x548C;&#x8AE7;&#x8A08;&#x7B97;&#x6A5F;&#x7CFB;&#x7D71;&#x3002;</p>
+<p>&#x9019;&#x6A23;&#xFF0C;&#x96D6;&#x8AAA;&#x662F;&#x591A;&#x6B64;&#x4E00;&#x8209;&#xFF0C;&#x4F46;&#x662F;&#x8003;&#x616E;&#x5230;64&#x4F4D;&#x5730;&#x5740;&#xFF0C;&#x4F7F;&#x7528;&#x56DB;&#x5C64;&#x8F49;&#x63DB;&#x67B6;&#x69CB;&#x7684;CPU&#xFF0C;&#x6211;&#x5011;&#x5C31;&#x4E0D;&#x518D;&#x628A;&#x4E2D;&#x9593;&#x5169;&#x500B;&#x8A2D;&#x70BA;0&#x4E86;&#xFF0C;&#x9019;&#x6A23;&#xFF0C;&#x8EDF;&#x4EF6;&#x8207;&#x786C;&#x4EF6;&#x518D;&#x6B21;&#x548C;&#x8AE7;&#x2014;&#x2014;&#x62BD;&#x50CF;&#x5C31;&#x662F;&#x5F37;&#x5927;&#x5440;&#xFF01;&#xFF01;&#xFF01;</p>
+<p>&#x4F8B;&#x5982;&#xFF0C;&#x4E00;&#x500B;&#x908F;&#x8F2F;&#x5730;&#x5740;&#x5DF2;&#x7D93;&#x88AB;&#x8F49;&#x63DB;&#x6210;&#x4E86;&#x7DDA;&#x6027;&#x5730;&#x5740;&#xFF0C;0x08147258&#xFF0C;&#x63DB;&#x6210;&#x4E8C;&#x5236;&#x9032;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#xFF1A;
+0000100000 0101000111 001001011000
+&#x5167;&#x6838;&#x5C0D;&#x9019;&#x500B;&#x5730;&#x5740;&#x9032;&#x884C;&#x5283;&#x5206;
+PGD = 0000100000
+PUD = 0
+PMD = 0
+PT = 0101000111
+offset = 001001011000</p>
+<p>&#x73FE;&#x5728;&#x4F86;&#x7406;&#x89E3;Linux&#x91DD;&#x5C0D;&#x786C;&#x4EF6;&#x7684;&#x82B1;&#x62DB;&#xFF0C;&#x56E0;&#x70BA;&#x786C;&#x4EF6;&#x6839;&#x672C;&#x770B;&#x4E0D;&#x5230;&#x6240;&#x8B02;PUD,PMD&#xFF0C;&#x6240;&#x4EE5;&#xFF0C;&#x672C;&#x8CEA;&#x4E0A;&#x8981;&#x6C42;PGD&#x7D22;&#x5F15;&#xFF0C;&#x76F4;&#x63A5;&#x5C31;&#x5C0D;&#x61C9;&#x4E86;PT&#x7684;&#x5730;&#x5740;&#x3002;&#x800C;&#x4E0D;&#x662F;&#x518D;&#x5230;PUD&#x548C;PMD&#x4E2D;&#x53BB;&#x67E5;&#x6578;&#x7D44;&#xFF08;&#x96D6;&#x7136;&#x5B83;&#x5011;&#x5169;&#x500B;&#x5728;&#x7DDA;&#x6027;&#x5730;&#x5740;&#x4E2D;&#xFF0C;&#x9577;&#x5EA6;&#x70BA;0&#xFF0C;2^0 =1&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#xFF0C;&#x5B83;&#x5011;&#x90FD;&#x662F;&#x6709;&#x4E00;&#x500B;&#x6578;&#x7D44;&#x5143;&#x7D20;&#x7684;&#x6578;&#x7D44;&#xFF09;&#xFF0C;&#x90A3;&#x9EBC;&#xFF0C;&#x5167;&#x6838;&#x5982;&#x4F55;&#x5408;&#x7406;&#x5B89;&#x6392;&#x5730;&#x5740;&#x5462;&#xFF1F;
+&#x5F9E;&#x8EDF;&#x4EF6;&#x7684;&#x89D2;&#x5EA6;&#x4E0A;&#x4F86;&#x8B1B;&#xFF0C;&#x56E0;&#x70BA;&#x5B83;&#x7684;&#x9805;&#x53EA;&#x6709;&#x4E00;&#x500B;&#xFF0C;32&#x4F4D;&#xFF0C;&#x525B;&#x597D;&#x53EF;&#x4EE5;&#x5B58;&#x653E;&#x8207;PGD&#x4E2D;&#x9577;&#x5EA6;&#x4E00;&#x6A23;&#x7684;&#x5730;&#x5740;&#x6307;&#x91DD;&#x3002;&#x90A3;&#x9EBC;&#x6240;&#x8B02;&#x5148;&#x5230;PUD&#xFF0C;&#x5230;&#x5230;PMD&#x4E2D;&#x505A;&#x6620;&#x5C04;&#x8F49;&#x63DB;&#xFF0C;&#x5C31;&#x8B8A;&#x6210;&#x4E86;&#x4FDD;&#x6301;&#x539F;&#x503C;&#x4E0D;&#x8B8A;&#xFF0C;&#x4E00;&#x4E00;&#x8F49;&#x624B;&#x5C31;&#x53EF;&#x4EE5;&#x4E86;&#x3002;&#x9019;&#x6A23;&#xFF0C;&#x5C31;&#x5BE6;&#x73FE;&#x4E86;&#x201C;&#x908F;&#x8F2F;&#x4E0A;&#x6307;&#x5411;&#x4E00;&#x500B;PUD&#xFF0C;&#x518D;&#x6307;&#x5411;&#x4E00;&#x500B;PDM&#xFF0C;&#x4F46;&#x5728;&#x7269;&#x7406;&#x4E0A;&#x662F;&#x76F4;&#x63A5;&#x6307;&#x5411;&#x76F8;&#x61C9;&#x7684;PT&#x7684;&#x9019;&#x500B;&#x62BD;&#x50CF;&#xFF0C;&#x56E0;&#x70BA;&#x786C;&#x4EF6;&#x6839;&#x672C;&#x4E0D;&#x77E5;&#x9053;&#x6709;PUD&#x3001;PMD&#x9019;&#x500B;&#x6771;&#x897F;&#x201D;&#x3002;</p>
+<p>&#x7136;&#x5F8C;&#x4EA4;&#x7D66;&#x786C;&#x4EF6;&#xFF0C;&#x786C;&#x4EF6;&#x5C0D;&#x9019;&#x500B;&#x5730;&#x5740;&#x9032;&#x884C;&#x5283;&#x5206;&#xFF0C;&#x770B;&#x5230;&#x7684;&#x662F;&#xFF1A;
+&#x9801;&#x76EE;&#x9304; = 0000100000
+PT = 0101000111
+offset = 001001011000
+&#x55EF;&#xFF0C;&#x5148;&#x6839;&#x64DA;0000100000(32)&#xFF0C;&#x5728;&#x9801;&#x76EE;&#x9304;&#x6578;&#x7D44;&#x4E2D;&#x7D22;&#x5F15;&#xFF0C;&#x627E;&#x5230;&#x5176;&#x5143;&#x7D20;&#x4E2D;&#x7684;&#x5730;&#x5740;&#xFF0C;&#x53D6;&#x5176;&#x9AD8;20&#x4F4D;&#xFF0C;&#x627E;&#x5230;&#x9801;&#x8868;&#x7684;&#x5730;&#x5740;&#xFF0C;&#x9801;&#x8868;&#x7684;&#x5730;&#x5740;&#x662F;&#x7531;&#x5167;&#x6838;&#x52D5;&#x614B;&#x5206;&#x914D;&#x7684;&#xFF0C;&#x63A5;&#x8457;&#xFF0C;&#x518D;&#x52A0;&#x4E00;&#x500B;offset&#xFF0C;&#x5C31;&#x662F;&#x6700;&#x7D42;&#x7684;&#x7269;&#x7406;&#x5730;&#x5740;&#x4E86;&#x3002;</p>
+
+                    
+                    </section>
+                
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../linux_kernel/index.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: Linux Kernel"><i class="fa fa-angle-left"></i></a>
+        
+        
+    </div>
+</div>
+
+        
+<script src="../gitbook/app.js"></script>
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    gitbook.start(config);
+});
+</script>
+
+        
+    </body>
+    
+</html>

@@ -116,4 +116,6 @@
    * [Using CodeSourcery bare metal toolchain for Cortex-M3](arm_emulation/using_codesourcery_bare_metal_toolchain_for_cortex-m3.md)
    * [QEMU ARM semihosting](arm_emulation/qemu_arm_semihosting.md)
    * [Simulating AT91 with Skyeye](arm_emulation/simulating_at91_with_skyeye.md)
+* [Linux Kernel](linux_kernel/README.md)
+   * [我理解的邏輯地址、線性地址、物理地址和虛擬地址](linux_kernel/121.md)
 

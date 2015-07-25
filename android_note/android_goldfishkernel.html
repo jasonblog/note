@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
-        <title>fcamel | Jason note</title>
+        <title>如何下載編譯Android goldfish(Kernel) | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.0.1">
@@ -20,10 +20,10 @@
         
     
     
-    <link rel="next" href="../fcamel/01.html" />
+    <link rel="next" href="../android_note/android.html" />
     
     
-    <link rel="prev" href="../linux_device_driver_programming/05.html" />
+    <link rel="prev" href="../android_note/515.html" />
     
 
         
@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="9" data-basepath=".." data-revision="Sat Jul 25 2015 15:33:55 GMT+0800 (CST)">
+    <div class="book" data-level="5.16" data-basepath=".." data-revision="Sat Jul 25 2015 15:33:55 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1003,7 +1003,7 @@
             
         </li>
     
-        <li class="chapter " data-level="5.16" data-path="android_note/android_goldfishkernel.html">
+        <li class="chapter active" data-level="5.16" data-path="android_note/android_goldfishkernel.html">
             
                 
                     <a href="../android_note/android_goldfishkernel.html">
@@ -1206,7 +1206,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="9" data-path="fcamel/index.html">
+        <li class="chapter " data-level="9" data-path="fcamel/index.html">
             
                 
                     <a href="../fcamel/index.html">
@@ -1978,9 +1978,59 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="fcamel-%E6%8A%80%E8%A1%93%E9%9A%A8%E6%89%8B%E8%A8%98">fcamel &#x6280;&#x8853;&#x96A8;&#x624B;&#x8A18;</h1>
-<p>&#x8F49;&#x8F09;&#x65BC;</p>
-<p><a href="http://fcamel-life.blogspot.tw/" target="_blank">http://fcamel-life.blogspot.tw/</a></p>
+                        <h1 id="-%E8%BD%89-%E5%A6%82%E4%BD%95%E4%B8%8B%E8%BC%89%E7%B7%A8%E8%AD%AFandroid-goldfish-kernel">[&#x8F49;]&#x5982;&#x4F55;&#x4E0B;&#x8F09;&#x7DE8;&#x8B6F;Android goldfish(Kernel)</h1>
+<p>Ref : <a href="http://coolfish.me/blog/detail/44" target="_blank">http://coolfish.me/blog/detail/44</a></p>
+<p>&#x53C3;&#x8003;&#x8CC7;&#x6599;</p>
+<p><a href="https://source.android.com/source/building-kernels.html" target="_blank">[google&#x5B98;&#x65B9;&#x8CC7;&#x6599;]</a> &#x5B98;&#x65B9;&#x662F;&#x6700;&#x6B0A;&#x5A01;&#x7684;&#xFF0C;&#x4F46;&#x6703;&#x6709;&#x7D30;&#x7BC0;&#x7F3A;&#x5931;&#x3002;</p>
+<p><a href="http://www.cnblogs.com/zhx831/p/3551181.html" target="_blank">[&#x5982;&#x4F55;&#x4E0B;&#x8F09;&#x7DE8;&#x8B6F;android&#x5167;&#x6838;] </a>&#x53EF;&#x4EE5;&#x53C3;&#x8003;&#x5225;&#x4EBA;&#x7684;&#x52D5;&#x624B;&#x5BE6;&#x8E10;&#xFF0C;&#x5F4C;&#x88DC;&#x7F3A;&#x5931;&#x7684;&#x7D30;&#x7BC0;&#x3002;</p>
+<p>&#x7B2C;&#x4E00;&#x6B65;&#xFF1A;&#x5148;&#x770B;&#x770B;AOSP&#x4E2D;&#x81EA;&#x5E36;&#x7684;kernel&#x662F;&#x4EC0;&#x9EBC;&#x7248;&#x672C;&#xFF1A;</p>
+<pre><code>cd prebuilts/qemu-kernel/arm/
+
+dd if=kernel-qemu bs=1 skip=$(LC_ALL=C grep -a -b -o $&apos;\x1f\x8b\x08\x00\x00\x00\x00\x00&apos; kernel-qemu | cut -d &apos;:&apos; -f 1) | zgrep -a &apos;Linux version&apos;
+</code></pre><p>&#x7D50;&#x679C;&#x70BA;&#xFF1A;</p>
+<pre><code>kernel-qemu | cut -d &apos;:&apos; -f 1) | zgrep -a &apos;Linux version&apos;
+Linux version 3.4.67-01422-gd3ffcc7-dirty (digit@tyrion.par.corp.google.com) (gcc version 4.8 (GCC) ) #2 PREEMPT Tue Sep 16 19:38:10 CEST 2014
+2309433+0 records in
+2309433+0 records out
+2309433 bytes (2.3 MB) copied, 1.96164 s, 1.2 MB/s
+</code></pre><p>&#x548C;&#x90A3;&#x7BC7;&#x6587;&#x7AE0;&#x88E1;&#x7684;&#x4E00;&#x6A21;&#x4E00;&#x6A23;&#xFF0C;&#x8AAA;&#x660E;&#x662F;&#x540C;&#x4E00;&#x6B21;&#x7DE8;&#x8B6F;&#x51FA;&#x4F86;&#x7684;&#x5167;&#x6838;&#x3002;&#x4E0A;&#x4E00;&#x7BC7;&#x6587;&#x7AE0;&#x7684;&#x6A21;&#x64EC;&#x5668;&#x904B;&#x884C;&#x622A;&#x5716;&#x4E2D;&#x4E5F;&#x770B;&#x5230;&#x662F;&#x9019;&#x500B;&#x5167;&#x6838;&#x4FE1;&#x606F;&#x3002;</p>
+<p>&#x7B2C;&#x4E8C;&#x6B65;&#xFF1A;&#x4E0B;&#x8F09;kernel&#x6E90;&#x78BC;</p>
+<p>&#x4E0A;&#x9762;&#x78BA;&#x5B9A;linux&#x662F;3.4.0&#x7684;&#xFF0C;&#x90A3;&#x5C31;&#x7528;&#x9019;&#x500B;&#x7248;&#x672C;&#x5427;&#xFF0C;&#x5728;&#x5B98;&#x65B9;&#x6587;&#x6A94;&#x4E2D;&#xFF0C;&#x6709;&#x5404;&#x7A2E;&#x7248;&#x672C;&#x7684;&#x5167;&#x6838;&#x6E90;&#x78BC;&#xFF0C;&#x5176;&#x4E2D;&#x63D0;&#x5230;&#xFF1A;</p>
+<pre><code>The goldfish project contains the kernel sources for the emulated platforms.
+</code></pre><p>&#x6B63;&#x597D;&#x6211;&#x73FE;&#x5728;&#x53EA;&#x662F;&#x4F7F;&#x7528;&#x6A21;&#x64EC;&#x5668;&#xFF0C;&#x90A3;&#x5C31;&#x9078;&#x64C7;goldfish&#x597D;&#x4E86;&#xFF1A;</p>
+<pre><code>mkdir kernel                   //&#x6B64;&#x6642;&#x5728;android&#x6E90;&#x78BC;&#x6839;&#x76EE;&#x9304;
+cd kernel
+git clone https://android.googlesource.com/kernel/goldfish.git  //&#x9019;&#x88E1;&#x8981;&#x7B49;&#x4E00;&#x6BB5;&#x6642;&#x9593;
+cd goldfish
+git branch -a
+git checkout remotes/origin/android-goldfish-3.4
+</code></pre><p>&#x7B2C;&#x4E09;&#x6B65;&#xFF1A;&#x914D;&#x7F6E;&#x74B0;&#x5883;&#x4E26;&#x7DE8;&#x8B6F;</p>
+<pre><code>export PATH=~/AOSP/android-4.4.4_r2/prebuilts/gcc/linux-x86/arm/arm-eabi-4.6/bin/:$PATH
+export ARCH=arm
+export SUBARCH=arm
+export CROSS_COMPILE=arm-eabi-
+make goldfish_armv7_defconfig
+make
+</code></pre><p>&#x6700;&#x5F8C;&#x8F38;&#x51FA;&#xFF1A;</p>
+<pre><code>LD      arch/arm/boot/compressed/vmlinux
+OBJCOPY arch/arm/boot/zImage
+Kernel: arch/arm/boot/zImage is ready
+</code></pre><p>&#x7DE8;&#x8B6F;&#x6210;&#x529F;&#xFF0C;&#x5167;&#x6838;&#x6587;&#x4EF6;zImage&#x5728;kernel/goldfish/arch/arm/boot&#x4E0B;&#x3002;</p>
+<p>&#x67E5;&#x770B;&#x7DE8;&#x8B6F;&#x7684;&#x5167;&#x6838;&#x4FE1;&#x606F;&#xFF1A;</p>
+<pre><code>cd kernel/goldfish/arch/arm/boot
+
+dd if=zImage bs=1 skip=$(LC_ALL=C grep -a -b -o $&apos;\x1f\x8b\x08\x00\x00\x00\x00\x00&apos; zImage | cut -d &apos;:&apos; -f 1) | zgrep -a &apos;Linux version&apos;
+</code></pre><p>&#x8F38;&#x51FA;&#x70BA;&#xFF1A;</p>
+<pre><code>Linux version 3.4.67-gb1dfee2 (ubt@ubuntu) (gcc version 4.6.x-google 20120106 (prerelease) (GCC) ) #1 PREEMPT Mon Jul 20 21:17:07 PDT 2015
+2385045+0 records in
+2385045+0 records out
+2385045 bytes (2.4 MB) copied, 4.07455 s, 585 kB/s
+</code></pre><p>&#x5C0D;&#x6BD4;&#x4E0A;&#x9762;&#x81EA;&#x5E36;&#x7684;kernel&#x4FE1;&#x606F;&#x53EF;&#x770B;&#x51FA;&#x5DEE;&#x7570;&#x3002;</p>
+<p>&#x8B93;&#x6A21;&#x64EC;&#x5668;&#x4F7F;&#x7528;&#x65B0;&#x7DE8;&#x8B6F;&#x51FA;&#x4F86;&#x7684;&#x5167;&#x6838;</p>
+<pre><code>emulator -kernel ~/AOSP/android-4.4.4_r2/kernel/goldfish/arch/arm/boot/zImage
+</code></pre><p>&#x904B;&#x884C;&#x7D50;&#x679C;&#xFF1A;</p>
+<p><img src="images/673720680.png" alt=""></p>
+<p>&#x63A5;&#x4E0B;&#x4F86;&#x5C31;&#x662F;&#x5728;&#x6E90;&#x78BC;&#x4E2D;&#x52A0;&#x5165;&#x81EA;&#x5DF1;&#x7684;&#x4EE3;&#x78BC;&#xFF0C;&#x518D;&#x7DE8;&#x8B6F;&#x518D;&#x904B;&#x884C;&#x4E86;&#x3002;</p>
 
                     
                     </section>
@@ -1991,10 +2041,10 @@
         </div>
 
         
-        <a href="../linux_device_driver_programming/05.html" class="navigation navigation-prev " aria-label="Previous page: 開發 driver 需要的基礎知識"><i class="fa fa-angle-left"></i></a>
+        <a href="../android_note/515.html" class="navigation navigation-prev " aria-label="Previous page: [轉]Android.mk 組織結構"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../fcamel/01.html" class="navigation navigation-next " aria-label="Next page: [轉]ld, ld.so 和 ldconfig 的行為"><i class="fa fa-angle-right"></i></a>
+        <a href="../android_note/android.html" class="navigation navigation-next " aria-label="Next page: 自己動手編譯android源碼"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="3.3.7" data-basepath=".." data-revision="Sat Jul 25 2015 01:31:19 GMT+0800 (CST)">
+    <div class="book" data-level="3.3.7" data-basepath=".." data-revision="Sat Jul 25 2015 15:33:55 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1003,6 +1003,36 @@
             
         </li>
     
+        <li class="chapter " data-level="5.16" data-path="android_note/android_goldfishkernel.html">
+            
+                
+                    <a href="../android_note/android_goldfishkernel.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.16.</b>
+                        
+                        如何下載編譯Android goldfish(Kernel)
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.17" data-path="android_note/android.html">
+            
+                
+                    <a href="../android_note/android.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.17.</b>
+                        
+                        自己動手編譯android源碼
+                    </a>
+                
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -1527,7 +1557,7 @@
                         
                             <b>10.1.</b>
                         
-                        ARM汇编语言
+                        ARM彙編語言
                     </a>
                 
             
@@ -1542,7 +1572,7 @@
                         
                             <b>10.2.</b>
                         
-                        ARM寻址方式
+                        ARM尋址方式
                     </a>
                 
             
@@ -1969,7 +1999,7 @@ $ipcs -q &#x67E5;&#x770B;&#x7CFB;&#x7D71;&#x4F7F;&#x7528;&#x7684;IPC&#x968A;&#x5
 $ipcs -s &#x67E5;&#x770B;&#x7CFB;&#x7D71;&#x4F7F;&#x7528;&#x7684;IPC&#x4FE1;&#x865F;&#x91CF;&#x8CC7;&#x6E90;
 </code></pre><h3 id="%E6%9F%A5%E7%9C%8Bipc%E8%B3%87%E6%BA%90%E8%A2%AB%E8%AA%B0%E4%BD%94%E7%94%A8">&#x67E5;&#x770B;IPC&#x8CC7;&#x6E90;&#x88AB;&#x8AB0;&#x4F54;&#x7528;</h3>
 <p>&#x793A;&#x4F8B;&#xFF1A;&#x6709;&#x500B;IPCKEY(51036)&#xFF0C;&#x9700;&#x8981;&#x67E5;&#x8A62;&#x5176;&#x662F;&#x5426;&#x88AB;&#x4F54;&#x7528;&#xFF1B;</p>
-<p>&#x9996;&#x5148;&#x901A;&#x904E;&#x8A08;&#x7B97;&#x5668;&#x5C07;&#x5176;&#x8F49;&#x7232;&#x5341;&#x516D;&#x9032;&#x5236;:</p>
+<p>&#x9996;&#x5148;&#x901A;&#x904E;&#x8A08;&#x7B97;&#x5668;&#x5C07;&#x5176;&#x8F49;&#x70BA;&#x5341;&#x516D;&#x9032;&#x5236;:</p>
 <pre><code>51036 -&gt; c75c
 </code></pre><p>&#x5982;&#x679C;&#x77E5;&#x9053;&#x662F;&#x88AB;&#x5171;&#x4EAB;&#x5167;&#x5B58;&#x4F54;&#x7528;:</p>
 <pre><code>$ipcs -m | grep c75c
@@ -1998,9 +2028,9 @@ semaphore max value = 32767
 max queues system wide = 2048
 max size of message (bytes) = 524288
 default max size of queue (bytes) = 5242880
-</code></pre><p>&#x4EE5;&#x4E0A;&#x8F38;&#x51FA;&#x986F;&#x793A;&#xFF0C;&#x76EE;&#x524D;&#x9019;&#x500B;&#x7CFB;&#x7D71;&#x7684;&#x5141;&#x8A31;&#x7684;&#x6700;&#x5927;&#x5167;&#x5B58;&#x7232;1073741824kb&#xFF1B;&#x6700;&#x5927;&#x53EF;&#x4F7F;&#x7528;128&#x500B;&#x4FE1;&#x865F;&#x91CF;&#xFF0C;&#x6BCF;&#x500B;&#x6D88;&#x606F;&#x7684;&#x6700;&#x5927;&#x9577;&#x5EA6;&#x7232;524288bytes&#xFF1B;</p>
+</code></pre><p>&#x4EE5;&#x4E0A;&#x8F38;&#x51FA;&#x986F;&#x793A;&#xFF0C;&#x76EE;&#x524D;&#x9019;&#x500B;&#x7CFB;&#x7D71;&#x7684;&#x5141;&#x8A31;&#x7684;&#x6700;&#x5927;&#x5167;&#x5B58;&#x70BA;1073741824kb&#xFF1B;&#x6700;&#x5927;&#x53EF;&#x4F7F;&#x7528;128&#x500B;&#x4FE1;&#x865F;&#x91CF;&#xFF0C;&#x6BCF;&#x500B;&#x6D88;&#x606F;&#x7684;&#x6700;&#x5927;&#x9577;&#x5EA6;&#x70BA;524288bytes&#xFF1B;</p>
 <h3 id="7-3-%E4%BF%AE%E6%94%B9ipc%E7%B3%BB%E7%B5%B1%E5%8F%83%E6%95%B8">7.3. &#x4FEE;&#x6539;IPC&#x7CFB;&#x7D71;&#x53C3;&#x6578;</h3>
-<p>&#x4EE5;linux&#x7CFB;&#x7D71;&#x7232;&#x4F8B;&#xFF0C;&#x5728;root&#x7528;&#x6236;&#x4E0B;&#x4FEE;&#x6539;/etc/sysctl.conf &#x6587;&#x4EF6;&#xFF0C;&#x4FDD;&#x5B58;&#x5F8C;&#x4F7F;&#x7528;sysctl -p&#x751F;&#x6548;:</p>
+<p>&#x4EE5;linux&#x7CFB;&#x7D71;&#x70BA;&#x4F8B;&#xFF0C;&#x5728;root&#x7528;&#x6236;&#x4E0B;&#x4FEE;&#x6539;/etc/sysctl.conf &#x6587;&#x4EF6;&#xFF0C;&#x4FDD;&#x5B58;&#x5F8C;&#x4F7F;&#x7528;sysctl -p&#x751F;&#x6548;:</p>
 <pre><code>$cat /etc/sysctl.conf
 # &#x4E00;&#x500B;&#x6D88;&#x606F;&#x7684;&#x6700;&#x5927;&#x9577;&#x5EA6;
 kernel.msgmax = 524288
@@ -2019,7 +2049,7 @@ kernel.shmmax = 17179869184
 kernel.shmmni=4096
 
 #&#x6BCF;&#x500B;&#x4FE1;&#x865F;&#x71C8;&#x96C6;&#x7684;&#x6700;&#x5927;&#x4FE1;&#x865F;&#x71C8;&#x6578; &#x7CFB;&#x7D71;&#x7BC4;&#x570D;&#x5167;&#x6700;&#x5927;&#x4FE1;&#x865F;&#x71C8;&#x6578; &#x6BCF;&#x500B;&#x4FE1;&#x865F;&#x71C8;&#x652F;&#x6301;&#x7684;&#x6700;&#x5927;&#x64CD;&#x4F5C;&#x6578; &#x7CFB;&#x7D71;&#x7BC4;&#x570D;&#x5167;&#x6700;&#x5927;&#x4FE1;&#x865F;&#x71C8;&#x96C6;&#x6578;
-#&#x6B64;&#x53C3;&#x6578;&#x7232;&#x7CFB;&#x7D71;&#x9ED8;&#x8A8D;&#xFF0C;&#x53EF;&#x4EE5;&#x4E0D;&#x7528;&#x4FEE;&#x6539;
+#&#x6B64;&#x53C3;&#x6578;&#x70BA;&#x7CFB;&#x7D71;&#x9ED8;&#x8A8D;&#xFF0C;&#x53EF;&#x4EE5;&#x4E0D;&#x7528;&#x4FEE;&#x6539;
 #kernel.sem = &lt;semmsl&gt; &lt;semmni&gt;*&lt;semmsl&gt; &lt;semopm&gt; &lt;semmni&gt;
 kernel.sem = 250 32000 32 128
 </code></pre><h3 id="%E9%A1%AF%E7%A4%BA%E8%BC%B8%E5%85%A5%E4%B8%8D%E5%B8%B6%E6%A8%99%E8%AA%8C%E7%9A%84-ipcs%EF%BC%9A%E7%9A%84%E8%BC%B8%E5%87%BA">&#x986F;&#x793A;&#x8F38;&#x5165;&#x4E0D;&#x5E36;&#x6A19;&#x8A8C;&#x7684; ipcs&#xFF1A;&#x7684;&#x8F38;&#x51FA;:</h3>
@@ -2043,7 +2073,7 @@ s  131072    0x4d02086a --ra-ra----   root      system
 s   65537    0x00000000 --ra-------   root      system
 s 1310722    0x000133d0 --ra-------   7003      30720
 </code></pre><h3 id="7-4-%E6%B8%85%E9%99%A4ipc%E8%B3%87%E6%BA%90">7.4. &#x6E05;&#x9664;IPC&#x8CC7;&#x6E90;</h3>
-<p>&#x4F7F;&#x7528;ipcrm &#x547D;&#x4EE4;&#x4F86;&#x6E05;&#x9664;IPC&#x8CC7;&#x6E90;&#xFF1A;&#x9019;&#x500B;&#x547D;&#x4EE4;&#x540C;&#x6642;&#x6703;&#x5C07;&#x8207;ipc&#x5C0D;&#x8C61;&#x76F8;&#x95DC;&#x806F;&#x7684;&#x6578;&#x64DA;&#x4E5F;&#x4E00;&#x8D77;&#x79FB;&#x9664;&#x3002;&#x7576;&#x7136;&#xFF0C;&#x53EA;&#x6709;root&#x7528;&#x6236;&#xFF0C;&#x6216;&#x8005;ipc&#x5C0D;&#x8C61;&#x7684;&#x5275;&#x5EFA;&#x8005;&#x7E94;&#x6709;&#x9019;&#x9805;&#x6B0A;&#x5229;&#xFF1B;</p>
+<p>&#x4F7F;&#x7528;ipcrm &#x547D;&#x4EE4;&#x4F86;&#x6E05;&#x9664;IPC&#x8CC7;&#x6E90;&#xFF1A;&#x9019;&#x500B;&#x547D;&#x4EE4;&#x540C;&#x6642;&#x6703;&#x5C07;&#x8207;ipc&#x5C0D;&#x8C61;&#x76F8;&#x95DC;&#x806F;&#x7684;&#x6578;&#x64DA;&#x4E5F;&#x4E00;&#x8D77;&#x79FB;&#x9664;&#x3002;&#x7576;&#x7136;&#xFF0C;&#x53EA;&#x6709;root&#x7528;&#x6236;&#xFF0C;&#x6216;&#x8005;ipc&#x5C0D;&#x8C61;&#x7684;&#x5275;&#x5EFA;&#x8005;&#x624D;&#x6709;&#x9019;&#x9805;&#x6B0A;&#x5229;&#xFF1B;</p>
 <p>ipcrm&#x7528;&#x6CD5;:</p>
 <pre><code>ipcrm -M shmkey  &#x79FB;&#x9664;&#x7528;shmkey&#x5275;&#x5EFA;&#x7684;&#x5171;&#x4EAB;&#x5167;&#x5B58;&#x6BB5;
 ipcrm -m shmid    &#x79FB;&#x9664;&#x7528;shmid&#x6A19;&#x8B58;&#x7684;&#x5171;&#x4EAB;&#x5167;&#x5B58;&#x6BB5;

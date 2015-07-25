@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="3.3.1" data-basepath=".." data-revision="Sat Jul 25 2015 01:31:19 GMT+0800 (CST)">
+    <div class="book" data-level="3.3.1" data-basepath=".." data-revision="Sat Jul 25 2015 15:33:55 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1003,6 +1003,36 @@
             
         </li>
     
+        <li class="chapter " data-level="5.16" data-path="android_note/android_goldfishkernel.html">
+            
+                
+                    <a href="../android_note/android_goldfishkernel.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.16.</b>
+                        
+                        如何下載編譯Android goldfish(Kernel)
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.17" data-path="android_note/android.html">
+            
+                
+                    <a href="../android_note/android.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.17.</b>
+                        
+                        自己動手編譯android源碼
+                    </a>
+                
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -1527,7 +1557,7 @@
                         
                             <b>10.1.</b>
                         
-                        ARM汇编语言
+                        ARM彙編語言
                     </a>
                 
             
@@ -1542,7 +1572,7 @@
                         
                             <b>10.2.</b>
                         
-                        ARM寻址方式
+                        ARM尋址方式
                     </a>
                 
             
@@ -1950,7 +1980,7 @@
                     
                         <h1 id="gdb-%E8%AA%BF%E8%A9%A6%E5%88%A9%E5%99%A8">gdb &#x8ABF;&#x8A66;&#x5229;&#x5668;</h1>
 <p>GDB&#x662F;&#x4E00;&#x500B;&#x7531;GNU&#x958B;&#x6E90;&#x7D44;&#x7E54;&#x767C;&#x4F48;&#x7684;&#x3001;UNIX/LINUX&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x4E0B;&#x7684;&#x3001;&#x57FA;&#x65BC;&#x547D;&#x4EE4;&#x884C;&#x7684;&#x3001;&#x529F;&#x80FD;&#x5F37;&#x5927;&#x7684;&#x7A0B;&#x5E8F;&#x8ABF;&#x8A66;&#x5DE5;&#x5177;&#x3002; &#x5C0D;&#x65BC;&#x4E00;&#x540D;Linux&#x4E0B;&#x5DE5;&#x4F5C;&#x7684;c++&#x7A0B;&#x5E8F;&#x54E1;&#xFF0C;gdb&#x662F;&#x5FC5;&#x4E0D;&#x53EF;&#x5C11;&#x7684;&#x5DE5;&#x5177;&#xFF1B;</p>
-<h3 id="1-1-%E5%95%93%E5%8B%95gdb">1.1. &#x5553;&#x52D5;gdb</h3>
+<h3 id="1-1-%E5%95%9F%E5%8B%95gdb">1.1. &#x555F;&#x52D5;gdb</h3>
 <p>&#x5C0D;C/C++&#x7A0B;&#x5E8F;&#x7684;&#x8ABF;&#x8A66;&#xFF0C;&#x9700;&#x8981;&#x5728;&#x7DE8;&#x8B6F;&#x524D;&#x5C31;&#x52A0;&#x4E0A;-g&#x9078;&#x9805;:</p>
 <pre><code>$g++ -g hello.cpp -o hello
 </code></pre><p>&#x8ABF;&#x8A66;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;:</p>
@@ -1964,9 +1994,9 @@ $gdb program core.11127
 $gdb hello 11127
 </code></pre><p>&#x5982;&#x679C;&#x4F60;&#x7684;&#x7A0B;&#x5E8F;&#x662F;&#x4E00;&#x500B;&#x670D;&#x52D9;&#x7A0B;&#x5E8F;&#xFF0C;&#x90A3;&#x9EBC;&#x4F60;&#x53EF;&#x4EE5;&#x6307;&#x5B9A;&#x9019;&#x500B;&#x670D;&#x52D9;&#x7A0B;&#x5E8F;&#x904B;&#x884C;&#x6642;&#x7684;&#x9032;&#x7A0B;ID&#x3002;gdb&#x6703;&#x81EA;&#x52D5;attach&#x4E0A;&#x53BB;&#xFF0C;&#x4E26;&#x8ABF;&#x8A66;&#x4ED6;&#x3002;program&#x61C9;&#x8A72;&#x5728;PATH&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x4E2D;&#x641C;&#x7D22;&#x5F97;&#x5230;&#x3002;</p>
 <h3 id="1-2-gdb%E4%BA%A4%E4%BA%92%E5%91%BD%E4%BB%A4">1.2. gdb&#x4EA4;&#x4E92;&#x547D;&#x4EE4;</h3>
-<p>&#x5553;&#x52D5;gdb&#x5F8C;&#xFF0C;&#x9032;&#x5165;&#x5230;&#x4EA4;&#x4E92;&#x6A21;&#x5F0F;&#xFF0C;&#x901A;&#x904E;&#x4EE5;&#x4E0B;&#x547D;&#x4EE4;&#x5B8C;&#x6210;&#x5C0D;&#x7A0B;&#x5E8F;&#x7684;&#x8ABF;&#x8A66;&#xFF1B;&#x6CE8;&#x610F;&#x9AD8;&#x983B;&#x4F7F;&#x7528;&#x7684;&#x547D;&#x4EE4;&#x4E00;&#x822C;&#x90FD;&#x6703;&#x6709;&#x7E2E;&#x5BEB;&#xFF0C;&#x719F;&#x7DF4;&#x4F7F;&#x7528;&#x9019;&#x4E9B;&#x7E2E;&#x5BEB;&#x547D;&#x4EE4;&#x80FD;&#x63D0;&#x9AD8;&#x8ABF;&#x8A66;&#x7684;&#x6548;&#x7387;&#xFF1B;</p>
+<p>&#x555F;&#x52D5;gdb&#x5F8C;&#xFF0C;&#x9032;&#x5165;&#x5230;&#x4EA4;&#x4E92;&#x6A21;&#x5F0F;&#xFF0C;&#x901A;&#x904E;&#x4EE5;&#x4E0B;&#x547D;&#x4EE4;&#x5B8C;&#x6210;&#x5C0D;&#x7A0B;&#x5E8F;&#x7684;&#x8ABF;&#x8A66;&#xFF1B;&#x6CE8;&#x610F;&#x9AD8;&#x983B;&#x4F7F;&#x7528;&#x7684;&#x547D;&#x4EE4;&#x4E00;&#x822C;&#x90FD;&#x6703;&#x6709;&#x7E2E;&#x5BEB;&#xFF0C;&#x719F;&#x7DF4;&#x4F7F;&#x7528;&#x9019;&#x4E9B;&#x7E2E;&#x5BEB;&#x547D;&#x4EE4;&#x80FD;&#x63D0;&#x9AD8;&#x8ABF;&#x8A66;&#x7684;&#x6548;&#x7387;&#xFF1B;</p>
 <p>&#x904B;&#x884C;
-run&#xFF1A;&#x7C21;&#x8A18;&#x7232; r &#xFF0C;&#x5176;&#x4F5C;&#x7528;&#x662F;&#x904B;&#x884C;&#x7A0B;&#x5E8F;&#xFF0C;&#x7576;&#x9047;&#x5230;&#x65B7;&#x9EDE;&#x5F8C;&#xFF0C;&#x7A0B;&#x5E8F;&#x6703;&#x5728;&#x65B7;&#x9EDE;&#x8655;&#x505C;&#x6B62;&#x904B;&#x884C;&#xFF0C;&#x7B49;&#x5F85;&#x7528;&#x6236;&#x8F38;&#x5165;&#x4E0B;&#x4E00;&#x6B65;&#x7684;&#x547D;&#x4EE4;&#x3002;
+run&#xFF1A;&#x7C21;&#x8A18;&#x70BA; r &#xFF0C;&#x5176;&#x4F5C;&#x7528;&#x662F;&#x904B;&#x884C;&#x7A0B;&#x5E8F;&#xFF0C;&#x7576;&#x9047;&#x5230;&#x65B7;&#x9EDE;&#x5F8C;&#xFF0C;&#x7A0B;&#x5E8F;&#x6703;&#x5728;&#x65B7;&#x9EDE;&#x8655;&#x505C;&#x6B62;&#x904B;&#x884C;&#xFF0C;&#x7B49;&#x5F85;&#x7528;&#x6236;&#x8F38;&#x5165;&#x4E0B;&#x4E00;&#x6B65;&#x7684;&#x547D;&#x4EE4;&#x3002;
 continue &#xFF08;&#x7C21;&#x5BEB;c &#xFF09;&#xFF1A;&#x7E7C;&#x7E8C;&#x57F7;&#x884C;&#xFF0C;&#x5230;&#x4E0B;&#x4E00;&#x500B;&#x65B7;&#x9EDE;&#x8655;&#xFF08;&#x6216;&#x904B;&#x884C;&#x7D50;&#x675F;&#xFF09;
 next&#xFF1A;&#xFF08;&#x7C21;&#x5BEB; n&#xFF09;&#xFF0C;&#x55AE;&#x6B65;&#x8DDF;&#x8E64;&#x7A0B;&#x5E8F;&#xFF0C;&#x7576;&#x9047;&#x5230;&#x51FD;&#x6578;&#x8ABF;&#x7528;&#x6642;&#xFF0C;&#x4E5F;&#x4E0D;&#x9032;&#x5165;&#x6B64;&#x51FD;&#x6578;&#x9AD4;&#xFF1B;&#x6B64;&#x547D;&#x4EE4;&#x540C; step &#x7684;&#x4E3B;&#x8981;&#x5340;&#x5225;&#x662F;&#xFF0C;step &#x9047;&#x5230;&#x7528;&#x6236;&#x81EA;&#x5B9A;&#x7FA9;&#x7684;&#x51FD;&#x6578;&#xFF0C;&#x5C07;&#x6B65;&#x9032;&#x5230;&#x51FD;&#x6578;&#x4E2D;&#x53BB;&#x904B;&#x884C;&#xFF0C;&#x800C; next &#x5247;&#x76F4;&#x63A5;&#x8ABF;&#x7528;&#x51FD;&#x6578;&#xFF0C;&#x4E0D;&#x6703;&#x9032;&#x5165;&#x5230;&#x51FD;&#x6578;&#x9AD4;&#x5167;&#x3002;
 step &#xFF08;&#x7C21;&#x5BEB;s&#xFF09;&#xFF1A;&#x55AE;&#x6B65;&#x8ABF;&#x8A66;&#x5982;&#x679C;&#x6709;&#x51FD;&#x6578;&#x8ABF;&#x7528;&#xFF0C;&#x5247;&#x9032;&#x5165;&#x51FD;&#x6578;&#xFF1B;&#x8207;&#x547D;&#x4EE4;n&#x4E0D;&#x540C;&#xFF0C;n&#x662F;&#x4E0D;&#x9032;&#x5165;&#x8ABF;&#x7528;&#x7684;&#x51FD;&#x6578;&#x7684;
@@ -1974,31 +2004,31 @@ until&#xFF1A;&#x7576;&#x4F60;&#x53AD;&#x5026;&#x4E86;&#x5728;&#x4E00;&#x500B;&#x
 until+&#x884C;&#x865F;&#xFF1A; &#x904B;&#x884C;&#x81F3;&#x67D0;&#x884C;&#xFF0C;&#x4E0D;&#x50C5;&#x50C5;&#x7528;&#x4F86;&#x8DF3;&#x51FA;&#x5FAA;&#x74B0;
 finish&#xFF1A; &#x904B;&#x884C;&#x7A0B;&#x5E8F;&#xFF0C;&#x76F4;&#x5230;&#x7576;&#x524D;&#x51FD;&#x6578;&#x5B8C;&#x6210;&#x8FD4;&#x56DE;&#xFF0C;&#x4E26;&#x6253;&#x5370;&#x51FD;&#x6578;&#x8FD4;&#x56DE;&#x6642;&#x7684;&#x5806;&#x68E7;&#x5730;&#x5740;&#x548C;&#x8FD4;&#x56DE;&#x503C;&#x53CA;&#x53C3;&#x6578;&#x503C;&#x7B49;&#x4FE1;&#x606F;&#x3002;
 call &#x51FD;&#x6578;(&#x53C3;&#x6578;)&#xFF1A;&#x8ABF;&#x7528;&#x7A0B;&#x5E8F;&#x4E2D;&#x53EF;&#x898B;&#x7684;&#x51FD;&#x6578;&#xFF0C;&#x4E26;&#x50B3;&#x905E;&#x201C;&#x53C3;&#x6578;&#x201D;&#xFF0C;&#x5982;&#xFF1A;call gdb_test(55)
-quit&#xFF1A;&#x7C21;&#x8A18;&#x7232; q &#xFF0C;&#x9000;&#x51FA;gdb
+quit&#xFF1A;&#x7C21;&#x8A18;&#x70BA; q &#xFF0C;&#x9000;&#x51FA;gdb
 &#x8A2D;&#x7F6E;&#x65B7;&#x9EDE;
 break n &#xFF08;&#x7C21;&#x5BEB;b n&#xFF09;:&#x5728;&#x7B2C;n&#x884C;&#x8655;&#x8A2D;&#x7F6E;&#x65B7;&#x9EDE;
 &#xFF08;&#x53EF;&#x4EE5;&#x5E36;&#x4E0A;&#x4EE3;&#x78BC;&#x8DEF;&#x5F91;&#x548C;&#x4EE3;&#x78BC;&#x540D;&#x7A31;&#xFF1A; b OAGUPDATE.cpp:578&#xFF09;</p>
 <p>b fn1 if a&#xFF1E;b&#xFF1A;&#x689D;&#x4EF6;&#x65B7;&#x9EDE;&#x8A2D;&#x7F6E;
-break func&#xFF08;break&#x7E2E;&#x5BEB;&#x7232;b&#xFF09;&#xFF1A;&#x5728;&#x51FD;&#x6578;func()&#x7684;&#x5165;&#x53E3;&#x8655;&#x8A2D;&#x7F6E;&#x65B7;&#x9EDE;&#xFF0C;&#x5982;&#xFF1A;break cb_button
+break func&#xFF08;break&#x7E2E;&#x5BEB;&#x70BA;b&#xFF09;&#xFF1A;&#x5728;&#x51FD;&#x6578;func()&#x7684;&#x5165;&#x53E3;&#x8655;&#x8A2D;&#x7F6E;&#x65B7;&#x9EDE;&#xFF0C;&#x5982;&#xFF1A;break cb_button
 delete &#x65B7;&#x9EDE;&#x865F;n&#xFF1A;&#x522A;&#x9664;&#x7B2C;n&#x500B;&#x65B7;&#x9EDE;
 disable &#x65B7;&#x9EDE;&#x865F;n&#xFF1A;&#x66AB;&#x505C;&#x7B2C;n&#x500B;&#x65B7;&#x9EDE;
-enable &#x65B7;&#x9EDE;&#x865F;n&#xFF1A;&#x958B;&#x5553;&#x7B2C;n&#x500B;&#x65B7;&#x9EDE;
+enable &#x65B7;&#x9EDE;&#x865F;n&#xFF1A;&#x958B;&#x555F;&#x7B2C;n&#x500B;&#x65B7;&#x9EDE;
 clear &#x884C;&#x865F;n&#xFF1A;&#x6E05;&#x9664;&#x7B2C;n&#x884C;&#x7684;&#x65B7;&#x9EDE;
 info b &#xFF08;info breakpoints&#xFF09; &#xFF1A;&#x986F;&#x793A;&#x7576;&#x524D;&#x7A0B;&#x5E8F;&#x7684;&#x65B7;&#x9EDE;&#x8A2D;&#x7F6E;&#x60C5;&#x6CC1;
 delete breakpoints&#xFF1A;&#x6E05;&#x9664;&#x6240;&#x6709;&#x65B7;&#x9EDE;&#xFF1A;
 &#x67E5;&#x770B;&#x6E90;&#x4EE3;&#x78BC;
-list &#xFF1A;&#x7C21;&#x8A18;&#x7232; l &#xFF0C;&#x5176;&#x4F5C;&#x7528;&#x5C31;&#x662F;&#x5217;&#x51FA;&#x7A0B;&#x5E8F;&#x7684;&#x6E90;&#x4EE3;&#x78BC;&#xFF0C;&#x9ED8;&#x8A8D;&#x6BCF;&#x6B21;&#x986F;&#x793A;10&#x884C;&#x3002;
-list &#x884C;&#x865F;&#xFF1A;&#x5C07;&#x986F;&#x793A;&#x7576;&#x524D;&#x6587;&#x4EF6;&#x4EE5;&#x201C;&#x884C;&#x865F;&#x201D;&#x7232;&#x4E2D;&#x5FC3;&#x7684;&#x524D;&#x5F8C;10&#x884C;&#x4EE3;&#x78BC;&#xFF0C;&#x5982;&#xFF1A;list 12
+list &#xFF1A;&#x7C21;&#x8A18;&#x70BA; l &#xFF0C;&#x5176;&#x4F5C;&#x7528;&#x5C31;&#x662F;&#x5217;&#x51FA;&#x7A0B;&#x5E8F;&#x7684;&#x6E90;&#x4EE3;&#x78BC;&#xFF0C;&#x9ED8;&#x8A8D;&#x6BCF;&#x6B21;&#x986F;&#x793A;10&#x884C;&#x3002;
+list &#x884C;&#x865F;&#xFF1A;&#x5C07;&#x986F;&#x793A;&#x7576;&#x524D;&#x6587;&#x4EF6;&#x4EE5;&#x201C;&#x884C;&#x865F;&#x201D;&#x70BA;&#x4E2D;&#x5FC3;&#x7684;&#x524D;&#x5F8C;10&#x884C;&#x4EE3;&#x78BC;&#xFF0C;&#x5982;&#xFF1A;list 12
 list &#x51FD;&#x6578;&#x540D;&#xFF1A;&#x5C07;&#x986F;&#x793A;&#x201C;&#x51FD;&#x6578;&#x540D;&#x201D;&#x6240;&#x5728;&#x51FD;&#x6578;&#x7684;&#x6E90;&#x4EE3;&#x78BC;&#xFF0C;&#x5982;&#xFF1A;list main
-list &#xFF1A;&#x4E0D;&#x5E36;&#x53C3;&#x6578;&#xFF0C;&#x5C07;&#x63A5;&#x7740;&#x4E0A;&#x4E00;&#x6B21; list &#x547D;&#x4EE4;&#x7684;&#xFF0C;&#x8F38;&#x51FA;&#x4E0B;&#x908A;&#x7684;&#x5167;&#x5BB9;&#x3002;
+list &#xFF1A;&#x4E0D;&#x5E36;&#x53C3;&#x6578;&#xFF0C;&#x5C07;&#x63A5;&#x8457;&#x4E0A;&#x4E00;&#x6B21; list &#x547D;&#x4EE4;&#x7684;&#xFF0C;&#x8F38;&#x51FA;&#x4E0B;&#x908A;&#x7684;&#x5167;&#x5BB9;&#x3002;
 &#x6253;&#x5370;&#x8868;&#x9054;&#x5F0F;
-print &#x8868;&#x9054;&#x5F0F;&#xFF1A;&#x7C21;&#x8A18;&#x7232; p &#xFF0C;&#x5176;&#x4E2D;&#x201C;&#x8868;&#x9054;&#x5F0F;&#x201D;&#x53EF;&#x4EE5;&#x662F;&#x4EFB;&#x4F55;&#x7576;&#x524D;&#x6B63;&#x5728;&#x88AB;&#x6E2C;&#x8A66;&#x7A0B;&#x5E8F;&#x7684;&#x6709;&#x6548;&#x8868;&#x9054;&#x5F0F;&#xFF0C;&#x6BD4;&#x5982;&#x7576;&#x524D;&#x6B63;&#x5728;&#x8ABF;&#x8A66;C&#x8A9E;&#x8A00;&#x7684;&#x7A0B;&#x5E8F;&#xFF0C;&#x90A3;&#x9EBC;&#x201C;&#x8868;&#x9054;&#x5F0F;&#x201D;&#x53EF;&#x4EE5;&#x662F;&#x4EFB;&#x4F55;C&#x8A9E;&#x8A00;&#x7684;&#x6709;&#x6548;&#x8868;&#x9054;&#x5F0F;&#xFF0C;&#x5305;&#x62EC;&#x6578;&#x5B57;&#xFF0C;&#x8B8A;&#x91CF;&#x751A;&#x81F3;&#x662F;&#x51FD;&#x6578;&#x8ABF;&#x7528;&#x3002;
+print &#x8868;&#x9054;&#x5F0F;&#xFF1A;&#x7C21;&#x8A18;&#x70BA; p &#xFF0C;&#x5176;&#x4E2D;&#x201C;&#x8868;&#x9054;&#x5F0F;&#x201D;&#x53EF;&#x4EE5;&#x662F;&#x4EFB;&#x4F55;&#x7576;&#x524D;&#x6B63;&#x5728;&#x88AB;&#x6E2C;&#x8A66;&#x7A0B;&#x5E8F;&#x7684;&#x6709;&#x6548;&#x8868;&#x9054;&#x5F0F;&#xFF0C;&#x6BD4;&#x5982;&#x7576;&#x524D;&#x6B63;&#x5728;&#x8ABF;&#x8A66;C&#x8A9E;&#x8A00;&#x7684;&#x7A0B;&#x5E8F;&#xFF0C;&#x90A3;&#x9EBC;&#x201C;&#x8868;&#x9054;&#x5F0F;&#x201D;&#x53EF;&#x4EE5;&#x662F;&#x4EFB;&#x4F55;C&#x8A9E;&#x8A00;&#x7684;&#x6709;&#x6548;&#x8868;&#x9054;&#x5F0F;&#xFF0C;&#x5305;&#x62EC;&#x6578;&#x5B57;&#xFF0C;&#x8B8A;&#x91CF;&#x751A;&#x81F3;&#x662F;&#x51FD;&#x6578;&#x8ABF;&#x7528;&#x3002;
 print a&#xFF1A;&#x5C07;&#x986F;&#x793A;&#x6574;&#x6578; a &#x7684;&#x503C;
 print ++a&#xFF1A;&#x5C07;&#x628A; a &#x4E2D;&#x7684;&#x503C;&#x52A0;1,&#x4E26;&#x986F;&#x793A;&#x51FA;&#x4F86;
 print name&#xFF1A;&#x5C07;&#x986F;&#x793A;&#x5B57;&#x7B26;&#x4E32; name &#x7684;&#x503C;
-print gdb_test(22)&#xFF1A;&#x5C07;&#x4EE5;&#x6574;&#x6578;22&#x4F5C;&#x7232;&#x53C3;&#x6578;&#x8ABF;&#x7528; gdb_test() &#x51FD;&#x6578;
-print gdb_test(a)&#xFF1A;&#x5C07;&#x4EE5;&#x8B8A;&#x91CF; a &#x4F5C;&#x7232;&#x53C3;&#x6578;&#x8ABF;&#x7528; gdb_test() &#x51FD;&#x6578;
-display &#x8868;&#x9054;&#x5F0F;&#xFF1A;&#x5728;&#x55AE;&#x6B65;&#x904B;&#x884C;&#x6642;&#x5C07;&#x975E;&#x5E38;&#x6709;&#x7528;&#xFF0C;&#x4F7F;&#x7528;display&#x547D;&#x4EE4;&#x8A2D;&#x7F6E;&#x4E00;&#x500B;&#x8868;&#x9054;&#x5F0F;&#x5F8C;&#xFF0C;&#x5B83;&#x5C07;&#x5728;&#x6BCF;&#x6B21;&#x55AE;&#x6B65;&#x9032;&#x884C;&#x6307;&#x4EE4;&#x5F8C;&#xFF0C;&#x7DCA;&#x63A5;&#x7740;&#x8F38;&#x51FA;&#x88AB;&#x8A2D;&#x7F6E;&#x7684;&#x8868;&#x9054;&#x5F0F;&#x53CA;&#x503C;&#x3002;&#x5982;&#xFF1A; display a
+print gdb_test(22)&#xFF1A;&#x5C07;&#x4EE5;&#x6574;&#x6578;22&#x4F5C;&#x70BA;&#x53C3;&#x6578;&#x8ABF;&#x7528; gdb_test() &#x51FD;&#x6578;
+print gdb_test(a)&#xFF1A;&#x5C07;&#x4EE5;&#x8B8A;&#x91CF; a &#x4F5C;&#x70BA;&#x53C3;&#x6578;&#x8ABF;&#x7528; gdb_test() &#x51FD;&#x6578;
+display &#x8868;&#x9054;&#x5F0F;&#xFF1A;&#x5728;&#x55AE;&#x6B65;&#x904B;&#x884C;&#x6642;&#x5C07;&#x975E;&#x5E38;&#x6709;&#x7528;&#xFF0C;&#x4F7F;&#x7528;display&#x547D;&#x4EE4;&#x8A2D;&#x7F6E;&#x4E00;&#x500B;&#x8868;&#x9054;&#x5F0F;&#x5F8C;&#xFF0C;&#x5B83;&#x5C07;&#x5728;&#x6BCF;&#x6B21;&#x55AE;&#x6B65;&#x9032;&#x884C;&#x6307;&#x4EE4;&#x5F8C;&#xFF0C;&#x7DCA;&#x63A5;&#x8457;&#x8F38;&#x51FA;&#x88AB;&#x8A2D;&#x7F6E;&#x7684;&#x8868;&#x9054;&#x5F0F;&#x53CA;&#x503C;&#x3002;&#x5982;&#xFF1A; display a
 watch &#x8868;&#x9054;&#x5F0F;&#xFF1A;&#x8A2D;&#x7F6E;&#x4E00;&#x500B;&#x76E3;&#x8996;&#x9EDE;&#xFF0C;&#x4E00;&#x65E6;&#x88AB;&#x76E3;&#x8996;&#x7684;&#x201C;&#x8868;&#x9054;&#x5F0F;&#x201D;&#x7684;&#x503C;&#x6539;&#x8B8A;&#xFF0C;gdb&#x5C07;&#x5F37;&#x884C;&#x7D42;&#x6B62;&#x6B63;&#x5728;&#x88AB;&#x8ABF;&#x8A66;&#x7684;&#x7A0B;&#x5E8F;&#x3002;&#x5982;&#xFF1A; watch a
 whatis &#xFF1A;&#x67E5;&#x8A62;&#x8B8A;&#x91CF;&#x6216;&#x51FD;&#x6578;
 info function&#xFF1A; &#x67E5;&#x8A62;&#x51FD;&#x6578;

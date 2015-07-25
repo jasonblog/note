@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="5" data-basepath=".." data-revision="Sat Jul 25 2015 01:31:19 GMT+0800 (CST)">
+    <div class="book" data-level="5" data-basepath=".." data-revision="Sat Jul 25 2015 15:33:55 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1003,6 +1003,36 @@
             
         </li>
     
+        <li class="chapter " data-level="5.16" data-path="android_note/android_goldfishkernel.html">
+            
+                
+                    <a href="../android_note/android_goldfishkernel.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.16.</b>
+                        
+                        如何下載編譯Android goldfish(Kernel)
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.17" data-path="android_note/android.html">
+            
+                
+                    <a href="../android_note/android.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.17.</b>
+                        
+                        自己動手編譯android源碼
+                    </a>
+                
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -1527,7 +1557,7 @@
                         
                             <b>10.1.</b>
                         
-                        ARM汇编语言
+                        ARM彙編語言
                     </a>
                 
             
@@ -1542,7 +1572,7 @@
                         
                             <b>10.2.</b>
                         
-                        ARM寻址方式
+                        ARM尋址方式
                     </a>
                 
             
@@ -1955,28 +1985,28 @@
 <h3 id="service%E8%88%87thread%E7%9A%84%E5%8D%80%E5%88%A5">Service&#x8207;Thread&#x7684;&#x5340;&#x5225;</h3>
 <p>Thread&#xFF1A;Thread &#x662F;&#x7A0B;&#x5E8F;&#x57F7;&#x884C;&#x7684;&#x6700;&#x5C0F;&#x55AE;&#x5143;&#xFF0C;&#x53EF;&#x4EE5;&#x7528; Thread &#x4F86;&#x57F7;&#x884C;&#x4E00;&#x4E9B;&#x7570;&#x6B65;&#x7684;&#x64CD;&#x4F5C;&#x3002;</p>
 <p>Service&#xFF1A;Service &#x662F;android&#x7684;&#x4E00;&#x7A2E;&#x6A5F;&#x5236;&#xFF0C;&#x7576;&#x5B83;&#x904B;&#x884C;&#x7684;&#x6642;&#x5019;&#x5982;&#x679C;&#x662F;Local Service&#xFF0C;&#x90A3;&#x9EBC;&#x5C0D;&#x61C9;&#x7684; Service &#x662F;&#x904B;&#x884C;&#x5728;&#x4E3B;&#x9032;&#x7A0B;&#x7684; main &#x7DDA;&#x7A0B;&#x4E0A;&#x7684;&#x3002;&#x5982;&#x679C;&#x662F;Remote Service&#xFF0C;&#x90A3;&#x9EBC;&#x5C0D;&#x61C9;&#x7684; Service &#x5247;&#x662F;&#x904B;&#x884C;&#x5728;&#x7368;&#x7ACB;&#x9032;&#x7A0B;&#x7684; main &#x7DDA;&#x7A0B;&#x4E0A;&#x3002;</p>
-<p>Thread &#x7684;&#x904B;&#x884C;&#x662F;&#x7368;&#x7ACB;&#x7684;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#x7576;&#x4E00;&#x500B; Activity &#x88AB; finish &#x4E4B;&#x5F8C;&#xFF0C;&#x5982;&#x679C;&#x6C92;&#x6709;&#x4E3B;&#x52D5;&#x505C;&#x6B62; Thread &#x6216;&#x8005; Thread &#x88CF;&#x7684; run &#x65B9;&#x6CD5;&#x6C92;&#x6709;&#x57F7;&#x884C;&#x5B8C;&#x7562;&#x7684;&#x8A71;&#xFF0C;Thread &#x4E5F;&#x6703;&#x4E00;&#x76F4;&#x57F7;&#x884C;&#x3002;&#x56E0;&#x6B64;&#x9019;&#x88CF;&#x6703;&#x51FA;&#x73FE;&#x4E00;&#x500B;&#x554F;&#x984C;&#xFF1A;&#x7576; Activity &#x88AB; finish &#x4E4B;&#x5F8C;&#xFF0C;&#x4E0D;&#x518D;&#x6301;&#x6709;&#x8A72; Thread &#x7684;&#x5F15;&#x7528;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x4E0D;&#x80FD;&#x518D;&#x63A7;&#x5236;&#x8A72;Thread&#x3002;&#x53E6;&#x4E00;&#x65B9;&#x9762;&#xFF0C;&#x6C92;&#x6709;&#x8FA6;&#x6CD5;&#x5728;&#x4E0D;&#x540C;&#x7684; Activity &#x4E2D;&#x5C0D;&#x540C;&#x4E00; Thread &#x9032;&#x884C;&#x63A7;&#x5236;&#x3002;</p>
-<p><strong>&#x4F8B;&#x5982;&#xFF1A;&#x5982;&#x679C; &#x4E00;&#x500B;Thread &#x9700;&#x8981;&#x6BCF;&#x9694;&#x4E00;&#x6BB5;&#x6642;&#x9593;&#x9023;&#x63A5;&#x670D;&#x52D9;&#x5668;&#x6821;&#x9A57;&#x6578;&#x64DA;&#xFF0C;&#x8A72;Thread&#x9700;&#x8981;&#x5728;&#x5F8C;&#x81FA;&#x4E00;&#x76F4;&#x904B;&#x884C;&#x3002;&#x9019;&#x6642;&#x5019;&#x5982;&#x679C;&#x5275;&#x5EFA;&#x8A72;Thread&#x7684;Activity&#x88AB;&#x7D50;&#x675F;&#x4E86;&#x800C;&#x8A72;Thread&#x6C92;&#x6709;&#x505C;&#x6B62;&#xFF0C;&#x90A3;&#x9EBC;&#x5C07;&#x6C92;&#x6709;&#x8FA6;&#x6CD5;&#x518D;&#x63A7;&#x5236;&#x8A72;Thread&#xFF0C;&#x9664;&#x975E;kill&#x6389;&#x8A72;&#x7A0B;&#x5E8F;&#x7684;&#x9032;&#x7A0B;&#x3002;&#x9019;&#x6642;&#x5019;&#x5982;&#x679C;&#x5275;&#x5EFA;&#x4E26;&#x5553;&#x52D5;&#x4E00;&#x500B; Service &#xFF0C;&#x5728; Service &#x88CF;&#x9762;&#x5275;&#x5EFA;&#x3001;&#x904B;&#x884C;&#x4E26;&#x63A7;&#x5236;&#x8A72; Thread&#xFF0C;&#x9019;&#x6A23;&#x4FBF;&#x89E3;&#x6C7A;&#x4E86;&#x8A72;&#x554F;&#x984C;(&#x56E0;&#x7232;&#x4EFB;&#x4F55; Activity &#x90FD;&#x53EF;&#x4EE5;&#x63A7;&#x5236;&#x540C;&#x4E00;&#x500B;Service&#xFF0C;&#x800C;&#x7CFB;&#x7D71;&#x4E5F;&#x53EA;&#x6703;&#x5275;&#x5EFA;&#x4E00;&#x500B;&#x5C0D;&#x61C9; Service &#x7684;&#x5BE6;&#x4F8B;)&#x3002;</strong></p>
-<p>&#x56E0;&#x6B64;&#x53EF;&#x4EE5;&#x628A; Service &#x60F3;&#x8C61;&#x6210;&#x4E00;&#x7A2E;&#x6D88;&#x606F;&#x670D;&#x52D9;&#xFF0C;&#x53EF;&#x4EE5;&#x5728;&#x4EFB;&#x4F55;&#x6709; Context &#x7684;&#x5730;&#x65B9;&#x8ABF;&#x7528; Context.startService&#x3001;Context.stopService&#x3001;Context.bindService&#x3001;Context.unbindService&#x4F86;&#x63A7;&#x5236;&#x5B83;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x5728; Service &#x88CF;&#x8A3B;&#x518A; BroadcastReceiver&#xFF0C;&#x901A;&#x904E;&#x767C;&#x9001; broadcast &#x4F86;&#x9054;&#x5230;&#x63A7;&#x5236;&#x7684;&#x76EE;&#x7684;&#xFF0C;&#x9019;&#x4E9B;&#x90FD;&#x662F; Thread &#x505A;&#x4E0D;&#x5230;&#x7684;&#x3002;</p>
+<p>Thread &#x7684;&#x904B;&#x884C;&#x662F;&#x7368;&#x7ACB;&#x7684;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#x7576;&#x4E00;&#x500B; Activity &#x88AB; finish &#x4E4B;&#x5F8C;&#xFF0C;&#x5982;&#x679C;&#x6C92;&#x6709;&#x4E3B;&#x52D5;&#x505C;&#x6B62; Thread &#x6216;&#x8005; Thread &#x88E1;&#x7684; run &#x65B9;&#x6CD5;&#x6C92;&#x6709;&#x57F7;&#x884C;&#x5B8C;&#x7562;&#x7684;&#x8A71;&#xFF0C;Thread &#x4E5F;&#x6703;&#x4E00;&#x76F4;&#x57F7;&#x884C;&#x3002;&#x56E0;&#x6B64;&#x9019;&#x88E1;&#x6703;&#x51FA;&#x73FE;&#x4E00;&#x500B;&#x554F;&#x984C;&#xFF1A;&#x7576; Activity &#x88AB; finish &#x4E4B;&#x5F8C;&#xFF0C;&#x4E0D;&#x518D;&#x6301;&#x6709;&#x8A72; Thread &#x7684;&#x5F15;&#x7528;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x4E0D;&#x80FD;&#x518D;&#x63A7;&#x5236;&#x8A72;Thread&#x3002;&#x53E6;&#x4E00;&#x65B9;&#x9762;&#xFF0C;&#x6C92;&#x6709;&#x8FA6;&#x6CD5;&#x5728;&#x4E0D;&#x540C;&#x7684; Activity &#x4E2D;&#x5C0D;&#x540C;&#x4E00; Thread &#x9032;&#x884C;&#x63A7;&#x5236;&#x3002;</p>
+<p><strong>&#x4F8B;&#x5982;&#xFF1A;&#x5982;&#x679C; &#x4E00;&#x500B;Thread &#x9700;&#x8981;&#x6BCF;&#x9694;&#x4E00;&#x6BB5;&#x6642;&#x9593;&#x9023;&#x63A5;&#x670D;&#x52D9;&#x5668;&#x6821;&#x9A57;&#x6578;&#x64DA;&#xFF0C;&#x8A72;Thread&#x9700;&#x8981;&#x5728;&#x5F8C;&#x81FA;&#x4E00;&#x76F4;&#x904B;&#x884C;&#x3002;&#x9019;&#x6642;&#x5019;&#x5982;&#x679C;&#x5275;&#x5EFA;&#x8A72;Thread&#x7684;Activity&#x88AB;&#x7D50;&#x675F;&#x4E86;&#x800C;&#x8A72;Thread&#x6C92;&#x6709;&#x505C;&#x6B62;&#xFF0C;&#x90A3;&#x9EBC;&#x5C07;&#x6C92;&#x6709;&#x8FA6;&#x6CD5;&#x518D;&#x63A7;&#x5236;&#x8A72;Thread&#xFF0C;&#x9664;&#x975E;kill&#x6389;&#x8A72;&#x7A0B;&#x5E8F;&#x7684;&#x9032;&#x7A0B;&#x3002;&#x9019;&#x6642;&#x5019;&#x5982;&#x679C;&#x5275;&#x5EFA;&#x4E26;&#x555F;&#x52D5;&#x4E00;&#x500B; Service &#xFF0C;&#x5728; Service &#x88E1;&#x9762;&#x5275;&#x5EFA;&#x3001;&#x904B;&#x884C;&#x4E26;&#x63A7;&#x5236;&#x8A72; Thread&#xFF0C;&#x9019;&#x6A23;&#x4FBF;&#x89E3;&#x6C7A;&#x4E86;&#x8A72;&#x554F;&#x984C;(&#x56E0;&#x70BA;&#x4EFB;&#x4F55; Activity &#x90FD;&#x53EF;&#x4EE5;&#x63A7;&#x5236;&#x540C;&#x4E00;&#x500B;Service&#xFF0C;&#x800C;&#x7CFB;&#x7D71;&#x4E5F;&#x53EA;&#x6703;&#x5275;&#x5EFA;&#x4E00;&#x500B;&#x5C0D;&#x61C9; Service &#x7684;&#x5BE6;&#x4F8B;)&#x3002;</strong></p>
+<p>&#x56E0;&#x6B64;&#x53EF;&#x4EE5;&#x628A; Service &#x60F3;&#x8C61;&#x6210;&#x4E00;&#x7A2E;&#x6D88;&#x606F;&#x670D;&#x52D9;&#xFF0C;&#x53EF;&#x4EE5;&#x5728;&#x4EFB;&#x4F55;&#x6709; Context &#x7684;&#x5730;&#x65B9;&#x8ABF;&#x7528; Context.startService&#x3001;Context.stopService&#x3001;Context.bindService&#x3001;Context.unbindService&#x4F86;&#x63A7;&#x5236;&#x5B83;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x5728; Service &#x88E1;&#x8A3B;&#x518A; BroadcastReceiver&#xFF0C;&#x901A;&#x904E;&#x767C;&#x9001; broadcast &#x4F86;&#x9054;&#x5230;&#x63A7;&#x5236;&#x7684;&#x76EE;&#x7684;&#xFF0C;&#x9019;&#x4E9B;&#x90FD;&#x662F; Thread &#x505A;&#x4E0D;&#x5230;&#x7684;&#x3002;</p>
 <h3 id="service%E7%9A%84%E7%94%9F%E5%91%BD%E9%80%B1%E6%9C%9F">Service&#x7684;&#x751F;&#x547D;&#x9031;&#x671F;</h3>
 <ol>
-<li><p>&#x88AB;&#x5553;&#x52D5;&#x7684;&#x670D;&#x52D9;(startService())&#x7684;&#x751F;&#x547D;&#x9031;&#x671F;&#x3002;
-&#x5982;&#x679C;&#x4E00;&#x500B;Service&#x88AB;&#x67D0;&#x500B;Activity &#x8ABF;&#x7528;Context.startService() &#x65B9;&#x6CD5;&#x5553;&#x52D5;&#xFF0C;&#x90A3;&#x9EBC;&#x4E0D;&#x7BA1;&#x662F;&#x5426;&#x6709;Activity&#x4F7F;&#x7528;bindService()&#x7D81;&#x5B9A;&#x6216;unbindService()&#x89E3;&#x9664;&#x7D81;&#x5B9A;&#x5230;&#x8A72;Service&#xFF0C;&#x8A72;Service&#x90FD;&#x5728;&#x5F8C;&#x81FA;&#x904B;&#x884C;&#x3002;&#x5982;&#x679C;&#x4E00;&#x500B;Service&#x88AB;&#x591A;&#x6B21;&#x57F7;&#x884C;startService()&#xFF0C;&#x5B83;&#x7684;onCreate()&#x65B9;&#x6CD5;&#x53EA;&#x6703;&#x8ABF;&#x7528;&#x4E00;&#x6B21;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#x8A72;Service&#x53EA;&#x6703;&#x5275;&#x5EFA;&#x4E00;&#x500B;&#x5BE6;&#x4F8B;&#xFF0C;&#x800C;&#x5B83;&#x7684;onStartCommand()&#x5C07;&#x6703;&#x88AB;&#x8ABF;&#x7528;&#x591A;&#x6B21;(&#x5C0D;&#x61C9;&#x8ABF;&#x7528;startService()&#x7684;&#x6B21;&#x6578;)&#x3002;&#x8A72;Service&#x5C07;&#x6703;&#x4E00;&#x76F4;&#x5728;&#x5F8C;&#x81FA;&#x904B;&#x884C;&#xFF0C;&#x76F4;&#x5230;&#x88AB;&#x8ABF;&#x7528;stopService()&#xFF0C;&#x6216;&#x81EA;&#x8EAB;&#x7684;stopSelf&#x65B9;&#x6CD5;&#x3002;&#x7576;&#x7136;&#x5982;&#x679C;&#x7CFB;&#x7D71;&#x8CC7;&#x6E90;&#x4E0D;&#x8DB3;&#xFF0C;&#x7CFB;&#x7D71;&#x4E5F;&#x53EF;&#x80FD;&#x7D50;&#x675F;&#x670D;&#x52D9;&#x3002;</p>
+<li><p>&#x88AB;&#x555F;&#x52D5;&#x7684;&#x670D;&#x52D9;(startService())&#x7684;&#x751F;&#x547D;&#x9031;&#x671F;&#x3002;
+&#x5982;&#x679C;&#x4E00;&#x500B;Service&#x88AB;&#x67D0;&#x500B;Activity &#x8ABF;&#x7528;Context.startService() &#x65B9;&#x6CD5;&#x555F;&#x52D5;&#xFF0C;&#x90A3;&#x9EBC;&#x4E0D;&#x7BA1;&#x662F;&#x5426;&#x6709;Activity&#x4F7F;&#x7528;bindService()&#x7D81;&#x5B9A;&#x6216;unbindService()&#x89E3;&#x9664;&#x7D81;&#x5B9A;&#x5230;&#x8A72;Service&#xFF0C;&#x8A72;Service&#x90FD;&#x5728;&#x5F8C;&#x81FA;&#x904B;&#x884C;&#x3002;&#x5982;&#x679C;&#x4E00;&#x500B;Service&#x88AB;&#x591A;&#x6B21;&#x57F7;&#x884C;startService()&#xFF0C;&#x5B83;&#x7684;onCreate()&#x65B9;&#x6CD5;&#x53EA;&#x6703;&#x8ABF;&#x7528;&#x4E00;&#x6B21;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#x8A72;Service&#x53EA;&#x6703;&#x5275;&#x5EFA;&#x4E00;&#x500B;&#x5BE6;&#x4F8B;&#xFF0C;&#x800C;&#x5B83;&#x7684;onStartCommand()&#x5C07;&#x6703;&#x88AB;&#x8ABF;&#x7528;&#x591A;&#x6B21;(&#x5C0D;&#x61C9;&#x8ABF;&#x7528;startService()&#x7684;&#x6B21;&#x6578;)&#x3002;&#x8A72;Service&#x5C07;&#x6703;&#x4E00;&#x76F4;&#x5728;&#x5F8C;&#x81FA;&#x904B;&#x884C;&#xFF0C;&#x76F4;&#x5230;&#x88AB;&#x8ABF;&#x7528;stopService()&#xFF0C;&#x6216;&#x81EA;&#x8EAB;&#x7684;stopSelf&#x65B9;&#x6CD5;&#x3002;&#x7576;&#x7136;&#x5982;&#x679C;&#x7CFB;&#x7D71;&#x8CC7;&#x6E90;&#x4E0D;&#x8DB3;&#xFF0C;&#x7CFB;&#x7D71;&#x4E5F;&#x53EF;&#x80FD;&#x7D50;&#x675F;&#x670D;&#x52D9;&#x3002;</p>
 </li>
-<li><p>&#x88AB;&#x7D81;&#x5B9A;&#x7684;&#x670D;&#x52D9;(bindService())&#x7684;&#x751F;&#x547D;&#x9031;&#x671F;&#x3002;&#x5982;&#x679C;&#x4E00;&#x500B;Service&#x88AB;&#x8ABF;&#x7528; Context.bindService ()&#x65B9;&#x6CD5;&#x7D81;&#x5B9A;&#x5553;&#x52D5;&#xFF0C;&#x4E0D;&#x7BA1;&#x8ABF;&#x7528;bindService()&#x8ABF;&#x7528;&#x5E7E;&#x6B21;&#xFF0C;onCreate()&#x65B9;&#x6CD5;&#x90FD;&#x53EA;&#x6703;&#x8ABF;&#x7528;&#x4E00;&#x6B21;&#xFF0C;&#x800C;onStartCommand()&#x65B9;&#x6CD5;&#x59CB;&#x7D42;&#x4E0D;&#x6703;&#x88AB;&#x8ABF;&#x7528;&#xFF0C;&#x9019;&#x6642;&#x6703;&#x8ABF;&#x7528;onBind()&#x65B9;&#x6CD5;&#x3002;&#x7576;&#x9023;&#x63A5;&#x5EFA;&#x7ACB;&#x4E4B;&#x5F8C;&#xFF0C;Service&#x5C07;&#x6703;&#x4E00;&#x76F4;&#x904B;&#x884C;&#xFF0C;&#x9664;&#x975E;&#x8ABF;&#x7528;Context.unbindService() &#x65B7;&#x958B;&#x9023;&#x63A5;&#x6216;&#x8005;&#x4E4B;&#x524D;&#x8ABF;&#x7528;bindService() &#x7684; Context &#x4E0D;&#x5B58;&#x5728;&#x4E86;(&#x5982;&#x8A72;Activity&#x88AB;finish)&#xFF0C;&#x7CFB;&#x7D71;&#x5C07;&#x6703;&#x81EA;&#x52D5;&#x505C;&#x6B62;Service&#xFF0C;&#x5C0D;&#x61C9;onDestroy()&#x5C07;&#x88AB;&#x8ABF;&#x7528;&#x3002;</p>
+<li><p>&#x88AB;&#x7D81;&#x5B9A;&#x7684;&#x670D;&#x52D9;(bindService())&#x7684;&#x751F;&#x547D;&#x9031;&#x671F;&#x3002;&#x5982;&#x679C;&#x4E00;&#x500B;Service&#x88AB;&#x8ABF;&#x7528; Context.bindService ()&#x65B9;&#x6CD5;&#x7D81;&#x5B9A;&#x555F;&#x52D5;&#xFF0C;&#x4E0D;&#x7BA1;&#x8ABF;&#x7528;bindService()&#x8ABF;&#x7528;&#x5E7E;&#x6B21;&#xFF0C;onCreate()&#x65B9;&#x6CD5;&#x90FD;&#x53EA;&#x6703;&#x8ABF;&#x7528;&#x4E00;&#x6B21;&#xFF0C;&#x800C;onStartCommand()&#x65B9;&#x6CD5;&#x59CB;&#x7D42;&#x4E0D;&#x6703;&#x88AB;&#x8ABF;&#x7528;&#xFF0C;&#x9019;&#x6642;&#x6703;&#x8ABF;&#x7528;onBind()&#x65B9;&#x6CD5;&#x3002;&#x7576;&#x9023;&#x63A5;&#x5EFA;&#x7ACB;&#x4E4B;&#x5F8C;&#xFF0C;Service&#x5C07;&#x6703;&#x4E00;&#x76F4;&#x904B;&#x884C;&#xFF0C;&#x9664;&#x975E;&#x8ABF;&#x7528;Context.unbindService() &#x65B7;&#x958B;&#x9023;&#x63A5;&#x6216;&#x8005;&#x4E4B;&#x524D;&#x8ABF;&#x7528;bindService() &#x7684; Context &#x4E0D;&#x5B58;&#x5728;&#x4E86;(&#x5982;&#x8A72;Activity&#x88AB;finish)&#xFF0C;&#x7CFB;&#x7D71;&#x5C07;&#x6703;&#x81EA;&#x52D5;&#x505C;&#x6B62;Service&#xFF0C;&#x5C0D;&#x61C9;onDestroy()&#x5C07;&#x88AB;&#x8ABF;&#x7528;&#x3002;</p>
 </li>
-<li><p>&#x88AB;&#x5553;&#x52D5;&#x53C8;&#x88AB;&#x7D81;&#x5B9A;&#x7684;&#x670D;&#x52D9;&#x7684;&#x751F;&#x547D;&#x9031;&#x671F;&#x3002;&#x5982;&#x679C;&#x4E00;&#x500B;Service&#x53C8;&#x88AB;&#x5553;&#x52D5;&#x53C8;&#x88AB;&#x7D81;&#x5B9A;&#xFF0C;&#x5247;&#x8A72;Service&#x5C07;&#x6703;&#x4E00;&#x76F4;&#x5728;&#x5F8C;&#x81FA;&#x904B;&#x884C;&#x3002;&#x8ABF;&#x7528;unbindService()&#x5C07;&#x4E0D;&#x6703;&#x505C;&#x6B62;Service&#xFF0C;&#x800C;&#x5FC5;&#x9808;&#x8ABF;&#x7528;stopService()&#x6216;Service&#x7684;stopSelf()&#x65B9;&#x6CD5;&#x4F86;&#x505C;&#x6B62;&#x670D;&#x52D9;&#x3002;</p>
+<li><p>&#x88AB;&#x555F;&#x52D5;&#x53C8;&#x88AB;&#x7D81;&#x5B9A;&#x7684;&#x670D;&#x52D9;&#x7684;&#x751F;&#x547D;&#x9031;&#x671F;&#x3002;&#x5982;&#x679C;&#x4E00;&#x500B;Service&#x53C8;&#x88AB;&#x555F;&#x52D5;&#x53C8;&#x88AB;&#x7D81;&#x5B9A;&#xFF0C;&#x5247;&#x8A72;Service&#x5C07;&#x6703;&#x4E00;&#x76F4;&#x5728;&#x5F8C;&#x81FA;&#x904B;&#x884C;&#x3002;&#x8ABF;&#x7528;unbindService()&#x5C07;&#x4E0D;&#x6703;&#x505C;&#x6B62;Service&#xFF0C;&#x800C;&#x5FC5;&#x9808;&#x8ABF;&#x7528;stopService()&#x6216;Service&#x7684;stopSelf()&#x65B9;&#x6CD5;&#x4F86;&#x505C;&#x6B62;&#x670D;&#x52D9;&#x3002;</p>
 </li>
 <li><p>&#x7576;&#x670D;&#x52D9;&#x88AB;&#x505C;&#x6B62;&#x6642;&#x6E05;&#x9664;&#x670D;&#x52D9;&#x3002;
-&#x7576;&#x4E00;&#x500B;Service&#x88AB;&#x7D42;&#x6B62;&#x6642;&#xFF0C;Service&#x7684;onDestroy()&#x65B9;&#x6CD5;&#x5C07;&#x6703;&#x88AB;&#x8ABF;&#x7528;&#xFF0C;&#x5728;&#x9019;&#x88CF;&#x61C9;&#x7576;&#x505A;&#x4E00;&#x4E9B;&#x6E05;&#x9664;&#x5DE5;&#x4F5C;&#xFF0C;&#x5982;&#x505C;&#x6B62;&#x5728;Service&#x4E2D;&#x5275;&#x5EFA;&#x4E26;&#x904B;&#x884C;&#x7684;&#x7DDA;&#x7A0B;&#x7B49;&#x3002;</p>
+&#x7576;&#x4E00;&#x500B;Service&#x88AB;&#x7D42;&#x6B62;&#x6642;&#xFF0C;Service&#x7684;onDestroy()&#x65B9;&#x6CD5;&#x5C07;&#x6703;&#x88AB;&#x8ABF;&#x7528;&#xFF0C;&#x5728;&#x9019;&#x88E1;&#x61C9;&#x7576;&#x505A;&#x4E00;&#x4E9B;&#x6E05;&#x9664;&#x5DE5;&#x4F5C;&#xFF0C;&#x5982;&#x505C;&#x6B62;&#x5728;Service&#x4E2D;&#x5275;&#x5EFA;&#x4E26;&#x904B;&#x884C;&#x7684;&#x7DDA;&#x7A0B;&#x7B49;&#x3002;</p>
 </li>
 </ol>
 <h3 id="process%E7%9A%84%E7%94%9F%E5%91%BD%E9%80%B1%E6%9C%9F">Process&#x7684;&#x751F;&#x547D;&#x9031;&#x671F;</h3>
 <p>&#x7576;Service&#x904B;&#x884C;&#x5728;&#x4F4E;&#x5167;&#x5B58;&#x7684;&#x74B0;&#x5883;&#x6642;&#xFF0C;&#x7CFB;&#x7D71;&#x6703;kill&#x6389;&#x4E00;&#x4E9B;&#x9032;&#x7A0B;&#x3002;&#x56E0;&#x6B64;&#x9032;&#x7A0B;&#x7684;&#x512A;&#x5148;&#x7D1A;&#x5C07;&#x6703;&#x72E0;&#x91CD;&#x8981;&#xFF1A;</p>
 <ol>
-<li><p>&#x5982;&#x679C;Service&#x7576;&#x524D;&#x6B63;&#x5728;&#x57F7;&#x884C;onCreate()&#x3001;onStartCommand()&#x3001;onDestroy()&#x65B9;&#x6CD5;&#xFF0C;&#x90A3;&#x9EBC;&#x6B64;&#x6642;&#x4E3B;&#x9032;&#x7A0B;&#x5C07;&#x6703;&#x6210;&#x7232;&#x524D;&#x81FA;&#x9032;&#x7A0B;&#x4F86;&#x4FDD;&#x8B49;&#x4EE3;&#x78BC;&#x53EF;&#x4EE5;&#x57F7;&#x884C;&#x5B8C;&#x6210;&#x800C;&#x907F;&#x514D;&#x88AB;kill&#x3002;</p>
+<li><p>&#x5982;&#x679C;Service&#x7576;&#x524D;&#x6B63;&#x5728;&#x57F7;&#x884C;onCreate()&#x3001;onStartCommand()&#x3001;onDestroy()&#x65B9;&#x6CD5;&#xFF0C;&#x90A3;&#x9EBC;&#x6B64;&#x6642;&#x4E3B;&#x9032;&#x7A0B;&#x5C07;&#x6703;&#x6210;&#x70BA;&#x524D;&#x81FA;&#x9032;&#x7A0B;&#x4F86;&#x4FDD;&#x8B49;&#x4EE3;&#x78BC;&#x53EF;&#x4EE5;&#x57F7;&#x884C;&#x5B8C;&#x6210;&#x800C;&#x907F;&#x514D;&#x88AB;kill&#x3002;</p>
 </li>
-<li><p>&#x5982;&#x679C;Service&#x5DF2;&#x7D93;&#x5553;&#x52D5;&#xFF0C;&#x90A3;&#x9EBC;&#x4E3B;&#x9032;&#x7A0B;&#x5C07;&#x6703;&#x6BD4;&#x5176;&#x4ED6;&#x53EF;&#x898B;&#x7684;&#x9032;&#x7A0B;&#x7684;&#x91CD;&#x8981;&#x6027;&#x4F4E;&#xFF0C;&#x4F46;&#x6BD4;&#x5176;&#x4ED6;&#x770B;&#x4E0D;&#x898B;&#x7684;&#x9032;&#x7A0B;&#x9AD8;&#x3002;&#x9019;&#x88E1;&#x8AAA;&#x7684;&#x53EF;&#x898B;&#x6307;&#x7684;&#x662F;&#x5C0D;&#x7528;&#x6236;&#x4F86;&#x8B1B;&#xFF0C;&#x53EF;&#x898B;&#x7684;&#x9032;&#x7A0B;&#x512A;&#x5148;&#x7D1A;&#x6C38;&#x9060;&#x662F;&#x6700;&#x9AD8;&#x7684;&#xFF0C;&#x7528;&#x6236;&#x81F3;&#x4E0A;&#x561B;&#x3002;&#x4F46;&#x53EA;&#x6709;&#x5C11;&#x90E8;&#x5206;&#x9032;&#x7A0B;&#x59CB;&#x7D42;&#x662F;&#x7528;&#x6236;&#x53EF;&#x898B;&#x7684;&#xFF0C;&#x56E0;&#x6B64;&#x9664;&#x975E;&#x7CFB;&#x7D71;&#x8655;&#x65BC;&#x6975;&#x5EA6;&#x4F4E;&#x5167;&#x5B58;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x4E0D;&#x7136; service&#x662F;&#x4E0D;&#x6703;&#x88AB;kill&#x7684;&#x3002;</p>
+<li><p>&#x5982;&#x679C;Service&#x5DF2;&#x7D93;&#x555F;&#x52D5;&#xFF0C;&#x90A3;&#x9EBC;&#x4E3B;&#x9032;&#x7A0B;&#x5C07;&#x6703;&#x6BD4;&#x5176;&#x4ED6;&#x53EF;&#x898B;&#x7684;&#x9032;&#x7A0B;&#x7684;&#x91CD;&#x8981;&#x6027;&#x4F4E;&#xFF0C;&#x4F46;&#x6BD4;&#x5176;&#x4ED6;&#x770B;&#x4E0D;&#x898B;&#x7684;&#x9032;&#x7A0B;&#x9AD8;&#x3002;&#x9019;&#x88E1;&#x8AAA;&#x7684;&#x53EF;&#x898B;&#x6307;&#x7684;&#x662F;&#x5C0D;&#x7528;&#x6236;&#x4F86;&#x8B1B;&#xFF0C;&#x53EF;&#x898B;&#x7684;&#x9032;&#x7A0B;&#x512A;&#x5148;&#x7D1A;&#x6C38;&#x9060;&#x662F;&#x6700;&#x9AD8;&#x7684;&#xFF0C;&#x7528;&#x6236;&#x81F3;&#x4E0A;&#x561B;&#x3002;&#x4F46;&#x53EA;&#x6709;&#x5C11;&#x90E8;&#x5206;&#x9032;&#x7A0B;&#x59CB;&#x7D42;&#x662F;&#x7528;&#x6236;&#x53EF;&#x898B;&#x7684;&#xFF0C;&#x56E0;&#x6B64;&#x9664;&#x975E;&#x7CFB;&#x7D71;&#x8655;&#x65BC;&#x6975;&#x5EA6;&#x4F4E;&#x5167;&#x5B58;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x4E0D;&#x7136; service&#x662F;&#x4E0D;&#x6703;&#x88AB;kill&#x7684;&#x3002;</p>
 </li>
 <li><p>&#x5982;&#x679C;&#x6709;Client&#x7AEF;&#x9023;&#x5230;Service&#xFF0C;&#x90A3;&#x9EBC;Service&#x6C38;&#x9060;&#x6BD4;Client&#x7AEF;&#x91CD;&#x8981;&#x3002;</p>
 </li>

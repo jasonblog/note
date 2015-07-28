@@ -118,4 +118,11 @@
    * [Simulating AT91 with Skyeye](arm_emulation/simulating_at91_with_skyeye.md)
 * [Linux Kernel](linux_kernel/README.md)
    * [我理解的邏輯地址、線性地址、物理地址和虛擬地址](linux_kernel/121.md)
+   * [用ttyS0獲取dmesg信息](linux_kernel/122.md)
+   * [Buddy Algorithm](linux_kernel/123.md)
+   * [分析oops的機器碼](linux_kernel/124.md)
+   * [oops調試](linux_kernel/125.md)
+   * [可搶佔](linux_kernel/126.md)
+   * [異或的用法](linux_kernel/127.md)
+   * [定製編譯內核模塊的GCC參數](linux_kernel/128.md)
 

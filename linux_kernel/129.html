@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
-        <title>Linux Kernel | Jason note</title>
+        <title>Linux 記憶體基礎 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.0.1">
@@ -20,10 +20,8 @@
         
     
     
-    <link rel="next" href="../linux_kernel/121.html" />
     
-    
-    <link rel="prev" href="../arm_emulation/simulating_at91_with_skyeye.html" />
+    <link rel="prev" href="../linux_kernel/128.html" />
     
 
         
@@ -36,7 +34,7 @@
     
 
         
-    <div class="book" data-level="12" data-basepath=".." data-revision="Thu Jul 30 2015 20:34:22 GMT+0800 (CST)">
+    <div class="book" data-level="12.9" data-basepath=".." data-revision="Thu Jul 30 2015 20:34:22 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1875,7 +1873,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="12" data-path="linux_kernel/index.html">
+        <li class="chapter " data-level="12" data-path="linux_kernel/index.html">
             
                 
                     <a href="../linux_kernel/index.html">
@@ -2011,7 +2009,7 @@
             
         </li>
     
-        <li class="chapter " data-level="12.9" data-path="linux_kernel/129.html">
+        <li class="chapter active" data-level="12.9" data-path="linux_kernel/129.html">
             
                 
                     <a href="../linux_kernel/129.html">
@@ -2134,17 +2132,273 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="linux-kernel">Linux Kernel</h1>
+                        <h1 id="linux-%E8%A8%98%E6%86%B6%E9%AB%94%E5%9F%BA%E7%A4%8E">Linux &#x8A18;&#x61B6;&#x9AD4;&#x57FA;&#x790E;</h1>
+<h2 id="%E5%9C%B0%E5%9D%80%E9%A1%9E%E5%9E%8B">&#x5730;&#x5740;&#x985E;&#x578B;</h2>
+<p>linux&#x5167;&#x6838;&#x4E2D;&#x6709;&#x8A31;&#x591A;&#x7A2E;&#x4E0D;&#x540C;&#x7684;&#x5730;&#x5740;&#x985E;&#x578B;</p>
 <ul>
-<li>&#x5167;&#x6838;&#x9810;&#x8655;&#x7406;&#x5F8C;&#x7684;&#x6E90;&#x6587;&#x4EF6;</li>
+<li>&#x7528;&#x6236;&#x865B;&#x64EC;&#x5730;&#x5740;
+&#x7528;&#x6236;&#x7A7A;&#x9593;&#x770B;&#x5230;&#x7684;&#x5E38;&#x898F;&#x5730;&#x5740;&#xFF0C;&#x901A;&#x904E;&#x9801;&#x8868;&#x53EF;&#x4EE5;&#x5C07;&#x865B;&#x64EC;&#x5730;&#x5740;&#x548C;&#x7269;&#x7406;&#x5730;&#x5740;&#x6620;&#x5C04;&#x8D77;&#x4F86;</li>
+<li>&#x7269;&#x7406;&#x5730;&#x5740;
+&#x7528;&#x5728;cpu&#x548C;&#x5167;&#x5B58;&#x4E4B;&#x9593;&#x7684;&#x5730;&#x5740;&#x53EB;&#x505A;&#x7269;&#x7406;&#x5730;&#x5740;</li>
+<li>&#x7E3D;&#x7DDA;&#x5730;&#x5740;
+&#x5916;&#x570D;&#x7E3D;&#x7DDA;&#x548C;&#x5167;&#x5B58;&#x4E4B;&#x9593;&#x7684;&#x5730;&#x5740;&#x53EB;&#x505A;&#x7E3D;&#x7DDA;&#x5730;&#x5740;&#x3002;&#x901A;&#x5E38;&#x4ED6;&#x5011;&#x548C;&#x7269;&#x7406;&#x5730;&#x5740;&#x76F8;&#x540C;</li>
+<li>&#x5167;&#x6838;&#x908F;&#x8F2F;&#x5730;&#x5740;
+&#x5167;&#x6838;&#x7684;&#x5E38;&#x898F;&#x5730;&#x5740;&#x7A7A;&#x9593;&#xFF0C;&#x5FC5;&#x5B9A;&#x6709;&#x5C0D;&#x61C9;&#x7684;&#x7269;&#x7406;&#x5167;&#x5B58;&#x8207;&#x4E4B;&#x6620;&#x5C04;&#x3002;kmalloc&#x8FD4;&#x56DE;&#x7684;&#x5C31;&#x662F;&#x5167;&#x6838;&#x908F;&#x8F2F;&#x5730;&#x5740;</li>
+<li>&#x5167;&#x6838;&#x865B;&#x64EC;&#x5730;&#x5740;
+&#x5167;&#x6838;&#x865B;&#x64EC;&#x5730;&#x5740;&#x548C;&#x5167;&#x6838;&#x908F;&#x8F2F;&#x5730;&#x5740;&#x7684;&#x76F8;&#x540C;&#x4E4B;&#x8655;&#x5728;&#x65BC;&#xFF0C;&#x4ED6;&#x5011;&#x90FD;&#x5C07;&#x5167;&#x6838;&#x7A7A;&#x9593;&#x7684;&#x5730;&#x5740;&#x6620;&#x5C04;&#x5230;&#x7269;&#x7406;&#x5167;&#x5B58;&#x4E0A;&#x3002;&#x4F46;&#x662F;&#x5167;&#x6838;&#x865B;&#x64EC;&#x5730;&#x5740;&#x4E0D;&#x4E00;&#x5B9A;&#x662F;&#x7DDA;&#x6027;&#x7684;&#x548C;&#x4E00;&#x5C0D;&#x4E00;&#x7684;&#x3002;vmalloc&#x8FD4;&#x56DE;&#x7684;&#x662F;&#x865B;&#x64EC;&#x5730;&#x5740;&#x3002;</li>
 </ul>
-<pre><code>&#x662F;&#x96BB;&#x95DC;&#x5FC3;&#x67D0;&#x500B;&#x7279;&#x5B9A;&#x7684;.c&#x6587;&#x4EF6;&#x5C55;&#x958B;&#x5F8C;&#x7684;&#x7D50;&#x679C;&#xFF0C;&#x9084;&#x662F;&#x6240;&#x6709;&#x7684;.c&#x6587;&#x4EF6;&#x90FD;&#x95DC;&#x5FC3;&#xFF1F;
+<h2 id="%E8%99%9B%E6%93%AC%E5%85%A7%E5%AD%98">&#x865B;&#x64EC;&#x5167;&#x5B58;</h2>
+<p>&#x865B;&#x64EC;&#x5167;&#x5B58;&#x662F;&#x7528;&#x4F86;&#x63CF;&#x8FF0;&#x4E00;&#x7A2E;&#x4E0D;&#x76F4;&#x63A5;&#x6620;&#x5C04;&#x8A08;&#x7B97;&#x6A5F;&#x7269;&#x7406;&#x5167;&#x5B58;&#x7684;&#x65B9;&#x6CD5;&#x3002;&#x5206;&#x9801;&#x662F;&#x5728;&#x865B;&#x64EC;&#x5167;&#x5B58;&#x8207;&#x7269;&#x7406;&#x5167;&#x5B58;&#x8F49;&#x63DB;&#x6642;&#x7528;&#x5230;&#x7684;&#x3002;&#x8ACB;&#x53C3;&#x95B1;intel&#x624B;&#x518A;&#x77AD;&#x89E3;&#x66F4;&#x591A;&#x5206;&#x9801;&#x7CFB;&#x7D71;&#x7684;&#x77E5;&#x8B58;&#x3002;</p>
+<p>&#x4F4E;&#x65BC;896MB&#x7684;&#x6BCF;&#x9801;&#x5167;&#x5B58;&#x90FD;&#x88AB;&#x76F4;&#x63A5;&#x6620;&#x5C04;&#x5230;&#x5167;&#x6838;&#x7A7A;&#x9593;&#x3002;&#x9AD8;&#x65BC;896&#x7684;&#x5167;&#x5B58;&#xFF0C;&#x53C8;&#x7A31;&#x9AD8;&#x7AEF;&#x5167;&#x5B58;&#xFF0C;&#x4E0D;&#x6703;&#x4E00;&#x76F4;&#x6620;&#x5C04;&#x5230;&#x5167;&#x5B58;&#x7A7A;&#x9593;&#xFF0C;&#x800C;&#x662F;&#x4F7F;&#x7528;kmap&#x548C;kmap_atomic&#x4F86;&#x81E8;&#x6642;&#x6620;&#x5C04;&#x3002;&#x5269;&#x9918;&#x7684;126MB&#x5167;&#x5B58;&#x7684;&#x4E00;&#x90E8;&#x5206;&#x7528;&#x65BC;&#x6620;&#x5C04;&#x9AD8;&#x7AEF;&#x5167;&#x5B58;&#x3002;</p>
+<p>&#x5167;&#x6838;&#x5167;&#x5B58;&#x5F9E;PAGE_OFFSET&#x958B;&#x59CB;&#xFF0C;&#x5728;x86&#x67B6;&#x69CB;&#x4E2D;&#x5B83;&#x7684;&#x503C;&#x662F;0xc0000000(3G)&#xFF0C;&#x9AD8;&#x65BC;PAGE_OFFSET&#x7684;&#x865B;&#x64EC;&#x5167;&#x5B58;&#x7528;&#x65BC;&#x5167;&#x6838;&#x7A7A;&#x9593;&#xFF0C;&#x4F4E;&#x65BC;&#x7684;&#x7528;&#x65BC;&#x7528;&#x6236;&#x7A7A;&#x9593;&#x3002;</p>
+<h3 id="x86%E7%B3%BB%E7%B5%B1%E5%85%A7%E5%AD%98%E5%AD%90%E7%B3%BB%E7%B5%B1%E5%88%9D%E5%A7%8B%E5%8C%96">x86&#x7CFB;&#x7D71;&#x5167;&#x5B58;&#x5B50;&#x7CFB;&#x7D71;&#x521D;&#x59CB;&#x5316;</h3>
+<ul>
+<li>&#x9996;&#x5148;&#x8A2D;&#x7F6E;&#x9801;&#x8868;(&#x53EF;&#x80FD;&#x6709;&#x591A;&#x7D1A;)</li>
+<li>&#x5B8C;&#x6210;&#x5167;&#x6838;&#x5167;&#x5B58;&#x6620;&#x5C04;(&#x5167;&#x6838;&#x4E2D;&#x7684;&#x7269;&#x7406;&#x5167;&#x5B58;&#x548C;&#x908F;&#x8F2F;&#x5730;&#x5740;&#x53EA;&#x6709;&#x4E00;&#x500B;&#x56FA;&#x5B9A;&#x7684;OFFSET&#xFF0C;PAGE_OFFSET)</li>
+</ul>
+<h3 id="%E7%94%A8%E6%88%B6%E7%A9%BA%E9%96%93%E7%9A%84%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86">&#x7528;&#x6236;&#x7A7A;&#x9593;&#x7684;&#x5167;&#x5B58;&#x7BA1;&#x7406;</h3>
+<ul>
+<li>struct mm_struct &#x9032;&#x7A0B;&#x5167;&#x5B58;&#x7A7A;&#x9593;&#x7684;&#x6700;&#x9AD8;&#x7D1A;&#x5225;&#x7BA1;&#x7406;&#x7D50;&#x69CB;</li>
+<li>struct vm_area_struct &#x5167;&#x5B58;&#x5340;&#x57DF;&#xFF0C;&#x7D44;&#x6210;&#x9032;&#x7A0B;&#x5167;&#x5B58;</li>
+<li>pgd_t *pgd &#x9032;&#x7A0B;&#x9801;&#x8868;&#x6307;&#x91DD;</li>
+</ul>
+<p>&#x95B1;&#x8B80;ULK3&#x5B78;&#x7FD2;&#x66F4;&#x591A;&#x5167;&#x5B58;&#x7BA1;&#x7406;&#x7684;&#x7D30;&#x7BC0;</p>
+<h2 id="%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%E5%92%8C%E9%A0%81">&#x7269;&#x7406;&#x5730;&#x5740;&#x548C;&#x9801;</h2>
+<p>&#x7269;&#x7406;&#x5730;&#x5740;&#x88AB;&#x5206;&#x6210;&#x96E2;&#x6563;&#x7684;&#x55AE;&#x5143;&#xFF0C;&#x6210;&#x70BA;&#x9801;&#x3002;&#x76EE;&#x524D;&#x5927;&#x591A;&#x6578;&#x7CFB;&#x7D71;&#x7684;&#x9801;&#x9762;&#x5927;&#x5C0F;&#x90FD;&#x70BA;4k&#x3002;&#x5BE6;&#x969B;&#x4F7F;&#x7528;&#x7684;&#x6642;&#x5019;&#x61C9;&#x8A72;&#x4F7F;&#x7528;&#x6307;&#x5B9A;&#x9AD4;&#x7CFB;&#x67B6;&#x69CB;&#x4E0B;&#x7684;&#x9801;&#x9762;&#x5927;&#x5C0F;PAGE_SIZE&#x3002;PAGE_SHIFT&#x53EF;&#x4EE5;&#x5C07;&#x5730;&#x5740;&#x8F49;&#x63DB;&#x70BA;&#x9801;&#x5E40;&#x3002;</p>
+<h2 id="%E9%AB%98%E7%AB%AF%E5%92%8C%E4%BD%8E%E7%AB%AF%E5%85%A7%E5%AD%98">&#x9AD8;&#x7AEF;&#x548C;&#x4F4E;&#x7AEF;&#x5167;&#x5B58;</h2>
+<p>&#x7CFB;&#x7D71;&#x4E2D;&#x908F;&#x8F2F;&#x5730;&#x5740;&#x548C;&#x865B;&#x64EC;&#x5730;&#x5740;&#x4E0D;&#x4E00;&#x81F4;&#x7684;&#x60C5;&#x6CC1;&#x7522;&#x751F;&#x4E86;&#x9AD8;&#x7AEF;&#x5167;&#x5B58;&#x548C;&#x4F4E;&#x7AEF;&#x5167;&#x5B58;&#x7684;&#x8AAA;&#x6CD5;&#x3002;</p>
+<p>&#x901A;&#x5E38;linux x86&#x5167;&#x6838;&#x5C07;4GB&#x7684;&#x865B;&#x64EC;&#x5730;&#x5740;&#x5206;&#x5272;&#x70BA;&#x7528;&#x6236;&#x7A7A;&#x9593;&#x548C;&#x5167;&#x6838;&#x7A7A;&#x9593;&#xFF1B;&#x5728;&#x4E8C;&#x8005;&#x7684;&#x4E0A;&#x4E0B;&#x6587;&#x4E2D;&#x4F7F;&#x7528;&#x76F8;&#x540C;&#x7684;&#x6620;&#x5C04;&#x3002;&#x4E00;&#x500B;&#x5178;&#x578B;&#x7684;&#x5206;&#x914D;&#x662F;&#x5C07;&#x4F4E;&#x5730;&#x5740;3GB&#x5206;&#x7D66;&#x7528;&#x6236;&#x7A7A;&#x9593;&#xFF0C;&#x5C07;&#x5269;&#x4E0B;&#x7684;&#x9AD8;&#x5730;&#x5740;1GB&#x5206;&#x7D66;&#x5167;&#x6838;&#x7A7A;&#x9593;&#x3002;&#x9019;&#x6A23;&#x7531;&#x65BC;&#x5167;&#x6838;&#x53EA;&#x80FD;&#x76F4;&#x63A5;&#x64CD;&#x4F5C;&#x5DF2;&#x7D93;&#x6620;&#x5C04;&#x4E86;&#x7269;&#x7406;&#x5167;&#x5B58;&#x7684;&#x865B;&#x64EC;&#x5730;&#x5740;&#xFF0C;&#x6240;&#x4EE5;&#x5167;&#x6838;&#x5728;&#x5927;&#x5167;&#x5B58;&#x7CFB;&#x7D71;&#x4E2D;&#x5C31;&#x4E0D;&#x80FD;&#x76F4;&#x63A5;&#x8A2A;&#x554F;&#x6240;&#x6709;&#x7684;&#x7269;&#x7406;&#x5167;&#x5B58;&#x3002;&#x9019;&#x6A23;&#x5C31;&#x7522;&#x751F;&#x4E86;&#x9AD8;&#x7AEF;&#x5167;&#x5B58;&#x548C;&#x4F4E;&#x7AEF;&#x5167;&#x5B58;&#x7684;&#x8AAA;&#x6CD5;&#x3002;</p>
+<h3 id="%E9%AB%98%E7%AB%AF%E5%85%A7%E5%AD%98">&#x9AD8;&#x7AEF;&#x5167;&#x5B58;</h3>
+<p>&#x9AD8;&#x7AEF;&#x5167;&#x5B58;&#x662F;&#x6C92;&#x6709;&#x76F4;&#x63A5;&#x6620;&#x5C04;&#x5230;&#x7269;&#x7406;&#x5167;&#x5B58;&#x7684;&#x5167;&#x6838;&#x908F;&#x8F2F;&#x5730;&#x5740;</p>
+<ul>
+<li><a href="http://linux-mm.org/HighMemory" target="_blank">HighMemory</a></li>
+</ul>
+<h4 id="%E6%87%89%E5%B0%8D%E9%AB%98%E7%AB%AF%E5%85%A7%E5%AD%98">&#x61C9;&#x5C0D;&#x9AD8;&#x7AEF;&#x5167;&#x5B58;</h4>
+<ul>
+<li>&#x9AD8;&#x7AEF;&#x7269;&#x7406;&#x5167;&#x5B58;&#x5728;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x6642;&#x6703;&#x88AB;&#x81E8;&#x6642;&#x6620;&#x5C04;&#x5230;&#x5167;&#x6838;&#x865B;&#x64EC;&#x5167;&#x5B58;&#x4E0A;</li>
+<li>&#x5167;&#x6838;&#x7D93;&#x5E38;&#x8A2A;&#x554F;&#x7684;&#x6578;&#x64DA;&#x88AB;&#x653E;&#x5728;&#x4F4E;&#x7AEF;&#x5167;&#x5B58;&#x4E0A;</li>
+<li>&#x5167;&#x6838;&#x5076;&#x723E;&#x8A2A;&#x554F;&#x7684;&#x6578;&#x64DA;&#x6700;&#x597D;&#x653E;&#x5728;&#x9AD8;&#x7AEF;&#x5167;&#x5B58;&#x4E0A;</li>
+<li>&#x4E0D;&#x540C;&#x5167;&#x5B58;&#x5340;&#x57DF;&#x7684;&#x5167;&#x5B58;&#x5206;&#x914D;&#x548C;&#x63DB;&#x9801;&#x61C9;&#x8A72;&#x6709;&#x4E00;&#x500B;&#x5E73;&#x8861;</li>
+</ul>
+<h4 id="%E8%87%A8%E6%99%82%E6%98%A0%E5%B0%84">&#x81E8;&#x6642;&#x6620;&#x5C04;</h4>
+<ul>
+<li>kmap&#x548C;kunmap&#xFF0C;&#x7522;&#x751F;&#x4E00;&#x500B;&#x6C38;&#x4E45;&#x7684;&#x5167;&#x5B58;&#x6620;&#x5C04;&#xFF0C;&#x4F46;&#x4ED6;&#x5011;&#x6709;&#x4E00;&#x500B;&#x5168;&#x5C40;&#x9396;&#xFF0C;&#x4E0D;&#x9069;&#x5408;SMP&#x7CFB;&#x7D71;</li>
+<li>kmap_atomic&#x548C;kunmap_atomic&#xFF0C;&#x5E38;&#x7528;&#x65BC;SMP&#x7CFB;&#x7D71;&#xFF0C;&#x7522;&#x751F;&#x7684;&#x6620;&#x5C04;&#x5730;&#x5740;&#x662F;&#x6BCF;&#x500B;CPU&#x79C1;&#x6709;&#x7684;</li>
+</ul>
+<p>&#x5728;&#x8A2A;&#x554F;&#x7279;&#x5B9A;&#x7684;&#x9AD8;&#x7AEF;&#x5167;&#x5B58;&#x4E4B;&#x524D;&#xFF0C;&#x5167;&#x6838;&#x5FC5;&#x9808;&#x5EFA;&#x7ACB;&#x660E;&#x78BA;&#x7684;&#x865B;&#x64EC;&#x6620;&#x5C04;&#xFF0C;&#x4F7F;&#x8A72;&#x9801;&#x53EF;&#x4EE5;&#x5728;&#x5167;&#x6838;&#x5730;&#x5740;&#x7A7A;&#x9593;&#x88AB;&#x8A2A;&#x554F;&#x3002;</p>
+<p>&#x7E3D;&#x7684;&#x4F86;&#x8AAA;&#x9AD8;&#x7AEF;&#x5167;&#x5B58;&#x5C31;&#x662F;&#x6C92;&#x6709;&#x908F;&#x8F2F;&#x5730;&#x5740;&#x7684;&#x5167;&#x5B58;&#xFF0C;&#x53CD;&#x4E4B;&#x5C31;&#x662F;&#x4F4E;&#x7AEF;&#x5167;&#x5B58;&#x3002;</p>
+<h2 id="%E5%85%A7%E5%AD%98%E6%98%A0%E5%B0%84%E5%92%8C%E7%B5%90%E6%A7%8B">&#x5167;&#x5B58;&#x6620;&#x5C04;&#x548C;&#x7D50;&#x69CB;</h2>
+<p>&#x7531;&#x65BC;&#x9AD8;&#x7AEF;&#x5167;&#x5B58;&#x4E2D;&#x7121;&#x6CD5;&#x4F7F;&#x7528;&#x908F;&#x8F2F;&#x5730;&#x5740;&#xFF0C;&#x6240;&#x4EE5;&#x5167;&#x6838;&#x4E2D;&#x8655;&#x7406;&#x5167;&#x5B58;&#x7684;&#x51FD;&#x6578;&#x8DA8;&#x5411;&#x65BC;&#x4F7F;&#x7528;&#x6307;&#x5411;page&#x7D50;&#x69CB;&#x7684;&#x6307;&#x91DD;&#x3002;&#x8A72;&#x7D50;&#x69CB;&#x4FDD;&#x5B58;&#x4E86;&#x5167;&#x6838;&#x9700;&#x8981;&#x77E5;&#x9053;&#x7684;&#x6240;&#x6709;&#x7269;&#x7406;&#x5167;&#x5B58;&#x7684;&#x4FE1;&#x606F;&#x3002;&#x7CFB;&#x7D71;&#x4E2D;&#x7684;&#x6BCF;&#x500B;&#x7269;&#x7406;&#x9801;&#x90FD;&#x548C;&#x4E00;&#x500B;page&#x7D50;&#x69CB;&#x5C0D;&#x61C9;&#x3002;</p>
+<p>page&#x7D50;&#x69CB;&#x548C;&#x865B;&#x64EC;&#x5730;&#x5740;&#x4E4B;&#x9593;&#x8F49;&#x63DB;&#x7684;&#x51FD;&#x6578;&#x548C;&#x5B8F;&#xFF1A;</p>
+<ul>
+<li>struct page *virt_to_page(void *kaddr);</li>
+<li>struct page *pfn_to_page(int pfn);</li>
+<li>void *page_addr(struct page *page);</li>
+</ul>
+<h2 id="%E5%88%86%E9%A0%81">&#x5206;&#x9801;</h2>
+<p>In a virtual memory system all of these addresses are virtual addresses and not physical addresses. These virtual addresses are converted into physical addresses by the processor based on information held in a set of tables maintained by the operating system.&#x5728;&#x865B;&#x64EC;&#x5167;&#x5B58;&#x7CFB;&#x7D71;&#x4E2D;&#xFF0C;&#x6240;&#x6709;&#x7684;&#x5730;&#x5740;&#x90FD;&#x662F;&#x865B;&#x64EC;&#x5730;&#x5740;&#x800C;&#x4E0D;&#x662F;&#x7269;&#x7406;&#x5730;&#x5740;&#x3002;&#x9019;&#x4E9B;&#x865B;&#x64EC;&#x5730;&#x5740;&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x7DAD;&#x8B77;&#x7684;&#x4E00;&#x7CFB;&#x5217;&#x7684;&#x9336;&#x8F49;&#x63DB;&#x70BA;&#x7269;&#x7406;&#x5730;&#x5740;&#x3002;</p>
+<p>To make this translation easier, virtual and physical memory are divided into handy sized chunks called pages. These pages are all the same size, they need not be but if they were not, the system would be very hard to administer. Linux on Alpha AXP systems uses 8 Kbyte pages and on Intel x86 systems it uses 4 Kbyte pages. Each of these pages is given a unique number; the page frame number (PFN).&#x70BA;&#x4E86;&#x4F7F;&#x9019;&#x500B;&#x8F49;&#x63DB;&#x66F4;&#x52A0;&#x7C21;&#x55AE;&#xFF0C;&#x865B;&#x64EC;&#x5730;&#x5740;&#x548C;&#x7269;&#x7406;&#x5730;&#x5740;&#x90FD;&#x88AB;&#x5206;&#x6210;&#x53EB;&#x505A;&#x5167;&#x5B58;&#x9801;&#x9762;&#x5C0F;&#x7684;&#x5167;&#x5B58;&#x584A;&#x3002;&#x6240;&#x6709;&#x7684;&#x9801;&#x9762;&#x90FD;&#x662F;&#x540C;&#x6A23;&#x5927;&#x5C0F;&#x3002;&#x6BCF;&#x9801;&#x5167;&#x5B58;&#x90FD;&#x6709;&#x4E00;&#x500B;&#x552F;&#x4E00;&#x7684;&#x7DE8;&#x865F;&#xFF0C;&#x9019;&#x7A2E;&#x7DE8;&#x865F;&#x53EB;&#x505A;&#x9801;&#x5E40;&#x865F;&#x3002;</p>
+<p>In this paged model, a virtual address is composed of two parts; an offset and a virtual page frame number. If the page size is 4 Kbytes, bits 11:0 of the virtual address contain the offset and bits 12 and above are the virtual page frame number. Each time the processor encounters a virtual address it must extract the offset and the virtual page frame number. The processor must translate the virtual page frame number into a physical one and then access the location at the correct offset into that physical page. To do this the processor uses page tables.&#x5728;&#x9019;&#x7A2E;&#x5206;&#x9801;&#x6A21;&#x5F0F;&#x4E0B;&#xFF0C;&#x865B;&#x64EC;&#x5730;&#x5740;&#x7531;&#x5169;&#x90E8;&#x5206;&#x7D44;&#x6210;&#xFF1B;&#x9801;&#x5E40;&#x5167;&#x7684;&#x504F;&#x79FB;&#x548C;&#x865B;&#x64EC;&#x9801;&#x5E40;&#x865F;&#x3002;&#x5982;&#x679C;&#x9801;&#x9762;&#x5927;&#x5C0F;&#x662F;4KB&#xFF0C;11:0&#x9019;&#x4E9B;&#x4F4D;&#x5C31;&#x662F;&#x9801;&#x5E40;&#x5167;&#x504F;&#x79FB;&#xFF0C;12&#x4F4D;&#x4EE5;&#x4E0A;&#x7684;&#x53EB;&#x505A;&#x9801;&#x5E40;&#x865F;&#x3002;&#x6BCF;&#x7576;&#x8655;&#x7406;&#x5668;&#x9047;&#x5230;&#x865B;&#x64EC;&#x5167;&#x5B58;&#x5730;&#x5740;&#xFF0C;&#x5B83;&#x5C31;&#x6703;&#x628A;&#x5730;&#x5740;&#x4E2D;&#x7684;&#x9801;&#x5167;&#x504F;&#x79FB;&#x548C;&#x9801;&#x5E40;&#x865F;&#x89E3;&#x51FA;&#x4F86;&#x3002;&#x8655;&#x7406;&#x5668;&#x901A;&#x904E;&#x9801;&#x8868;&#x628A;&#x865B;&#x64EC;&#x5E40;&#x865F;&#x8F49;&#x63DB;&#x6210;&#x7269;&#x7406;&#x5E40;&#x865F;&#xFF0C;&#x7136;&#x5F8C;&#x5728;&#x52A0;&#x4E0A;&#x9801;&#x5167;&#x504F;&#x79FB;&#x5C31;&#x53EF;&#x4EE5;&#x627E;&#x5230;&#x5C0D;&#x61C9;&#x7684;&#x7269;&#x7406;&#x5730;&#x5740;&#x4E86;&#x3002;</p>
+<h3 id="%E9%A0%81%E8%A1%A8">&#x9801;&#x8868;</h3>
+<p>&#x73FE;&#x4EE3;&#x7CFB;&#x7D71;&#x4E2D;&#xFF0C;&#x8655;&#x7406;&#x5668;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x67D0;&#x7A2E;&#x6A5F;&#x5236;&#x5C07;&#x865B;&#x64EC;&#x5730;&#x5740;&#x8F49;&#x63DB;&#x6210;&#x7269;&#x7406;&#x5730;&#x5740;&#x3002;&#x9019;&#x7A2E;&#x6A5F;&#x5236;&#x88AB;&#x6210;&#x70BA;&#x9801;&#x8868;&#xFF1B;&#x5B83;&#x57FA;&#x672C;&#x4E0A;&#x662F;&#x4E00;&#x500B;&#x591A;&#x5C64;&#x6A39;&#x5F62;&#x7D50;&#x69CB;&#xFF0C;&#x7D50;&#x69CB;&#x5316;&#x7684;&#x6578;&#x7D44;&#x4E2D;&#x5305;&#x542B;&#x4E86;&#x865B;&#x64EC;&#x5730;&#x5740;&#x5230;&#x7269;&#x7406;&#x5730;&#x5740;&#x7684;&#x6620;&#x5C04;&#x548C;&#x76F8;&#x95DC;&#x7684;&#x6A19;&#x8A8C;&#x4F4D;&#x3002;</p>
+<h3 id="demand-paging">demand paging</h3>
+<p>Linux uses demand paging to load executable images into a processes virtual memory. Whenever a command is executed, the file containing it is opened and its contents are mapped into the processes virtual memory. This is done by modifying the data structures describing this processes memory map and is known as memory mapping. However, only the first part of the image is actually brought into physical memory. The rest of the image is left on disk. As the image executes, it generates page faults and Linux uses the processes memory map in order to determine which parts of the image to bring into memory for execution.Linux&#x4F7F;&#x7528;&#x6309;&#x9700;&#x5206;&#x9801;&#x4F86;&#x5C07;&#x53EF;&#x57F7;&#x884C;&#x93E1;&#x50CF;&#x8F09;&#x5165;&#x5230;&#x9032;&#x7A0B;&#x7684;&#x865B;&#x64EC;&#x5167;&#x5B58;&#x7A7A;&#x9593;&#x3002;&#x6BCF;&#x7576;&#x547D;&#x4EE4;&#x57F7;&#x884C;&#x6642;&#xFF0C;&#x547D;&#x4EE4;&#x7684;&#x6587;&#x4EF6;&#x88AB;&#x6253;&#x958B;&#xFF0C;&#x5167;&#x5BB9;&#x88AB;&#x6620;&#x5C04;&#x5230;&#x9032;&#x7A0B;&#x7684;&#x865B;&#x64EC;&#x5167;&#x5B58;&#x4E0A;&#x3002;&#x9019;&#x88E1;&#x662F;&#x901A;&#x904E;&#x4FEE;&#x6539;&#x9032;&#x7A0B;&#x7684;&#x5167;&#x5B58;&#x6620;&#x5C04;&#x76F8;&#x95DC;&#x7D50;&#x69CB;&#x9AD4;&#x4F86;&#x5BE6;&#x73FE;&#x7684;&#xFF0C;&#x9019;&#x500B;&#x904E;&#x7A0B;&#x4E5F;&#x53EB;&#x505A;&#x5167;&#x5B58;&#x6620;&#x5C04;&#x3002;&#x4E0D;&#x904E;&#xFF0C;&#x53EA;&#x6709;&#x93E1;&#x50CF;&#x7684;&#x958B;&#x982D;&#x90E8;&#x5206;&#x88AB;&#x771F;&#x6B63;&#x7684;&#x653E;&#x9032;&#x4E86;&#x7269;&#x7406;&#x5167;&#x5B58;&#x3002;&#x9918;&#x4E0B;&#x90E8;&#x5206;&#x9084;&#x5728;&#x78C1;&#x76E4;&#x4E0A;&#x3002;&#x93E1;&#x50CF;&#x57F7;&#x884C;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x5B83;&#x5C07;&#x6301;&#x7E8C;&#x7684;&#x7522;&#x751F;&#x9801;&#x9762;&#x7570;&#x5E38;&#xFF0C;linux&#x901A;&#x904E;&#x9032;&#x7A0B;&#x7684;&#x5167;&#x5B58;&#x6620;&#x5C04;&#x8868;&#x4F86;&#x78BA;&#x5B9A;&#x93E1;&#x50CF;&#x7684;&#x54EA;&#x500B;&#x90E8;&#x5206;&#x9700;&#x8981;&#x88AB;&#x8F09;&#x5165;&#x7269;&#x7406;&#x5167;&#x5B58;&#x57F7;&#x884C;&#x3002;</p>
+<h3 id="shared-virtual-memory">Shared virtual memory</h3>
+<p>Virtual memory makes it easy for several processes to share memory. All memory access are made via page tables and each process has its own separate page table. For two processes sharing a physical page of memory, its physical page frame number must appear in a page table entry in both of their page tables. &#x865B;&#x64EC;&#x5167;&#x5B58;&#x4F7F;&#x5F97;&#x591A;&#x500B;&#x9032;&#x7A0B;&#x5171;&#x4EAB;&#x5167;&#x5B58;&#x66F4;&#x52A0;&#x7C21;&#x55AE;&#x3002;&#x6240;&#x6709;&#x7684;&#x5167;&#x5B58;&#x8A2A;&#x554F;&#x90FD;&#x8981;&#x901A;&#x904E;&#x9801;&#x8868;&#x4F86;&#x5BE6;&#x73FE;&#x3002;&#x5C0D;&#x65BC;&#x5171;&#x4EAB;&#x4E00;&#x500B;&#x7269;&#x7406;&#x9801;&#x7684;&#x5169;&#x500B;&#x9032;&#x7A0B;&#x4F86;&#x8AAA;&#xFF0C;&#x9019;&#x500B;&#x7269;&#x7406;&#x9801;&#x9762;&#x5FC5;&#x9808;&#x540C;&#x6642;&#x5728;&#x5169;&#x500B;&#x9032;&#x7A0B;&#x7684;&#x9801;&#x8868;&#x4E2D;&#x90FD;&#x6709;&#x76F8;&#x61C9;&#x7684;&#x9801;&#x8868;&#x9805;&#x3002;</p>
+<h2 id="%E8%99%9B%E6%93%AC%E5%85%A7%E5%AD%98%E5%8D%80">&#x865B;&#x64EC;&#x5167;&#x5B58;&#x5340;</h2>
+<p>VMA&#x662F;&#x7528;&#x65BC;&#x7BA1;&#x7406;&#x9032;&#x7A0B;&#x5730;&#x5740;&#x7A7A;&#x9593;&#x4E2D;&#x4E0D;&#x540C;&#x5340;&#x57DF;&#x7684;&#x5167;&#x6838;&#x6578;&#x64DA;&#x7D50;&#x69CB;&#x3002;</p>
+<p>&#x9032;&#x7A0B;&#x7684;&#x5167;&#x5B58;&#x6620;&#x5C04;&#x81F3;&#x5C11;&#x5305;&#x542B;&#x4E0B;&#x9762;&#x9019;&#x4E9B;&#x5340;&#x57DF;&#xFF1A;</p>
+<ul>
+<li>&#x7A0B;&#x5E8F;&#x53EF;&#x57F7;&#x884C;&#x4EE3;&#x78BC;&#x5340;&#x57DF;&#xFF08;text&#xFF09;</li>
+<li>&#x6578;&#x64DA;&#x5340;&#xFF08;bss&#xFF0C;stack&#xFF0C;data&#xFF09;</li>
+<li>&#x8207;&#x6BCF;&#x500B;&#x6D3B;&#x52D5;&#x7684;&#x5167;&#x5B58;&#x6620;&#x5C04;&#x5340;&#x5C0D;&#x61C9;&#x7684;&#x5340;&#x57DF;</li>
+</ul>
+<p>&#x53EF;&#x4EE5;<code>cat /proc/&lt;pid/maps&gt;</code>&#x4F86;&#x67E5;&#x770B;&#x5177;&#x9AD4;&#x9032;&#x7A0B;&#x7684;&#x5167;&#x5B58;&#x6620;&#x5C04;&#x3002;</p>
+<p>&#x7576;&#x7528;&#x6236;&#x7A7A;&#x9593;&#x9032;&#x7A0B;&#x8ABF;&#x7528;mmap&#x6642;&#xFF0C;&#x7CFB;&#x7D71;&#x6703;&#x5275;&#x5EFA;&#x4E00;&#x500B;&#x65B0;&#x7684;VMA&#x4F86;&#x76F8;&#x61C9;&#x5B83;&#x3002;</p>
+<p>&#x6CE8;&#x610F;vm_area_struct&#x9019;&#x500B;&#x91CD;&#x8981;&#x7684;&#x6578;&#x64DA;&#x7D50;&#x69CB;&#xFF08;&#x5B9A;&#x7FA9;&#x5728;<linux mm.h="">&#x4E2D;&#xFF09;&#x3002;</linux></p>
+<h2 id="%E5%85%A7%E5%AD%98%E6%98%A0%E5%B0%84%E8%99%95%E7%90%86">&#x5167;&#x5B58;&#x6620;&#x5C04;&#x8655;&#x7406;</h2>
+<p>&#x7CFB;&#x7D71;&#x4E2D;&#x6BCF;&#x500B;&#x9032;&#x7A0B;&#xFF08;&#x9664;&#x4E86;&#x5167;&#x6838;&#x7A7A;&#x9593;&#x7684;&#x8F14;&#x52A9;&#x7DDA;&#x7A0B;&#xFF09;&#x90FD;&#x6709;&#x4E00;&#x500B;struct mm_struct&#x7D50;&#x69CB;&#xFF08;&#x5B9A;&#x7FA9;&#x5728;<linux sched.h="">&#x4E2D;&#xFF09;&#xFF0C;&#x5176;&#x4E2D;&#x5305;&#x542B;&#x4E86;&#x5927;&#x91CF;&#x7684;&#x5167;&#x5B58;&#x7BA1;&#x7406;&#x4FE1;&#x606F;&#x3002;&#x591A;&#x500B;&#x9032;&#x7A0B;&#x53EF;&#x4EE5;&#x5171;&#x4EAB;&#x5167;&#x5B58;&#x7BA1;&#x7406;&#x7D50;&#x69CB;&#xFF0C;linux&#x5C31;&#x662F;&#x4F7F;&#x7528;&#x9019;&#x7A2E;&#x65B9;&#x6CD5;&#x5BE6;&#x73FE;&#x7DDA;&#x7A0B;&#x7684;&#x3002;</linux></p>
+<h2 id="mmap%E8%A8%AD%E5%82%99%E6%93%8D%E4%BD%9C">mmap&#x8A2D;&#x5099;&#x64CD;&#x4F5C;</h2>
+<p>mmap&#x53EF;&#x4EE5;&#x5C07;&#x7528;&#x6236;&#x7A7A;&#x9593;&#x7684;&#x5167;&#x5B58;&#x548C;&#x8A2D;&#x5099;&#x5167;&#x5B58;&#x6620;&#x5C04;&#x8D77;&#x4F86;&#xFF0C;&#x9019;&#x6A23;&#x5728;&#x8A2A;&#x554F;&#x5206;&#x914D;&#x5730;&#x5740;&#x7BC4;&#x570D;&#x5167;&#x7684;&#x5167;&#x5B58;&#x6642;&#x5C31;&#x76F8;&#x7576;&#x65BC;&#x8A2A;&#x554F;&#x8A2D;&#x5099;&#x5167;&#x5B58;&#x4E86;&#x3002;</p>
+<p>&#x4E26;&#x975E;&#x6240;&#x6709;&#x7684;&#x8A2D;&#x5099;&#x90FD;&#x80FD;&#x9032;&#x884C;mmap&#x62BD;&#x8C61;&#xFF1A;</p>
+<ul>
+<li>&#x50CF;&#x4E32;&#x53E3;&#x9019;&#x6A23;&#x9762;&#x5411;&#x6D41;&#x7684;&#x8A2D;&#x5099;&#x5C31;&#x4E0D;&#x80FD;</li>
+<li>mmap&#x7684;&#x53E6;&#x4E00;&#x500B;&#x9650;&#x5236;&#xFF1A;&#x5FC5;&#x9808;&#x4EE5;<code>PAGE_SIZE</code>&#x70BA;&#x55AE;&#x4F4D;&#x9032;&#x884C;&#x6620;&#x5C04;&#xFF0C;&#x56E0;&#x70BA;&#x5167;&#x6838;&#x53EA;&#x80FD;&#x5728;&#x9801;&#x8868;&#x4E00;&#x7D1A;&#x4E0A;&#x5C0D;&#x865B;&#x64EC;&#x5730;&#x5740;&#x9032;&#x884C;&#x7BA1;&#x7406;&#x3002;</li>
+</ul>
+<p>&#x70BA;&#x4E86;&#x57F7;&#x884C;mmap&#xFF0C;&#x9A45;&#x52D5;&#x7A0B;&#x5E8F;&#x53EA;&#x9700;&#x8981;&#x70BA;&#x8A72;&#x5730;&#x5740;&#x7BC4;&#x570D;&#x5EFA;&#x7ACB;&#x5408;&#x9069;&#x7684;&#x9801;&#x8868;&#xFF0C;&#x4E26;&#x5C07;<code>vma-&gt;vm_ops</code>&#x66FF;&#x63DB;&#x70BA;&#x4E00;&#x7CFB;&#x5217;&#x7684;&#x65B0;&#x64CD;&#x4F5C;&#x5C31;&#x53EF;&#x4EE5;&#x4E86;&#x3002;&#x6709;&#x5169;&#x7A2E;&#x5EFA;&#x7ACB;&#x9801;&#x8868;&#x7684;&#x65B9;&#x6CD5;&#xFF1A;&#x4F7F;&#x7528;<code>remap_pfn_range</code>&#x51FD;&#x6578;&#x4E00;&#x6B21;&#x5168;&#x90E8;&#x5EFA;&#x7ACB;&#xFF1B;&#x901A;&#x904E;VMA&#x7684;fault&#x65B9;&#x6CD5;&#x4E00;&#x6B21;&#x5EFA;&#x7ACB;&#x4E00;&#x500B;&#x65B0;&#x9801;&#x8868;&#x3002;</p>
+<h2 id="%E5%85%A7%E5%AD%98%E6%98%A0%E5%B0%84%E7%9A%84%E6%96%B9%E6%B3%95">&#x5167;&#x5B58;&#x6620;&#x5C04;&#x7684;&#x65B9;&#x6CD5;</h2>
+<ul>
+<li>&#x91CD;&#x65B0;&#x6620;&#x5C04;&#x7279;&#x5B9A;&#x7684;I/O&#x5340;&#x57DF;</li>
+<li>&#x91CD;&#x65B0;&#x6620;&#x5C04;ram</li>
+<li>&#x91CD;&#x65B0;&#x6620;&#x5C04;&#x5167;&#x6838;&#x865B;&#x64EC;&#x5730;&#x5740;</li>
+<li>&#x57F7;&#x884C;&#x76F4;&#x63A5;I/O&#x8A2A;&#x554F;</li>
+</ul>
+<h2 id="%E5%88%86%E9%85%8D%E5%85%A7%E5%AD%98">&#x5206;&#x914D;&#x5167;&#x5B58;</h2>
+<p>&#x9019;&#x88E1;&#x6211;&#x5011;&#x4F86;&#x770B;&#x770B;&#x5167;&#x6838;&#x70BA;&#x8A2D;&#x5099;&#x9A45;&#x52D5;&#x7A0B;&#x5E8F;&#x63D0;&#x4F9B;&#x7684;&#x5167;&#x5B58;&#x7BA1;&#x7406;&#x63A5;&#x53E3;&#x3002;</p>
+<h3 id="kmalloc%E5%87%BD%E6%95%B8">Kmalloc&#x51FD;&#x6578;</h3>
+<p>kmalloc&#x5167;&#x5B58;&#x5206;&#x914D;&#x5DE5;&#x5177;&#x548C;malloc&#x7684;&#x4F7F;&#x7528;&#x65B9;&#x6CD5;&#x5F88;&#x63A5;&#x8FD1;&#x3002;
+&#x5B83;&#x7684;&#x539F;&#x578B;&#x662F;&#xFF1A;</p>
+<p><code>\#include &lt;linux/slab.h&gt;
+void *kmalloc(size_t size, int flags);</code></p>
+<ul>
+<li>flags&#x53C3;&#x6578; &#x4EE5;&#x591A;&#x7A2E;&#x65B9;&#x5F0F;&#x63A7;&#x5236;kmalloc&#x7684;&#x884C;&#x70BA;</li>
+</ul>
+<p>&#x6700;&#x5E38;&#x7528;&#x7684;&#x6A19;&#x8A8C;&#x662F;GFP_KERNEL(GFP&#x7684;&#x4F86;&#x6E90;&#x662F;&#x56E0;&#x70BA;kmalloc&#x6700;&#x7D42;&#x6703;&#x8ABF;&#x7528;get_free_pages&#x51FD;&#x6578;)&#xFF0C;&#x9019;&#x500B;&#x6A19;&#x8A8C;&#x5141;&#x8A31;kmalloc&#x5728;&#x9801;&#x9762;&#x4E0D;&#x8DB3;&#x7684;&#x60C5;&#x6CC1;&#x4E0B;&#x4F11;&#x7720;&#x3002;</p>
+<p>&#x5982;&#x679C;&#x5728;&#x9032;&#x7A0B;&#x4E0A;&#x4E0B;&#x6587;&#x4E4B;&#x5916;&#x4F7F;&#x7528;kmalloc&#xFF0C;&#x6BD4;&#x5982;&#x4E2D;&#x65B7;&#x8655;&#x7406;&#x4F8B;&#x7A0B;&#x4E2D;&#x5C31;&#x9700;&#x8981;&#x4F7F;&#x7528;GFP_ATOMIC&#x6A19;&#x8A8C;&#xFF0C;&#x4E0D;&#x6703;&#x4F11;&#x7720;</p>
+<p>&#x5176;&#x4ED6;&#x6A19;&#x8A8C;&#x90FD;&#x5B9A;&#x7FA9;&#x5728;<linux gfp.h="">&#x6587;&#x4EF6;&#x4E2D;&#xFF0C;&#x8ACB;&#x95B1;&#x8B80;&#x8A72;&#x6587;&#x4EF6;&#x5F8C;&#x4F7F;&#x7528;&#x4ED6;&#x5011;</linux></p>
+<ul>
+<li>size&#x53C3;&#x6578;</li>
+</ul>
+<p>&#x5167;&#x6838;&#x4E2D;&#x4F7F;&#x7528;&#x57FA;&#x65BC;&#x9801;&#x9762;&#x7684;&#x65B9;&#x5F0F;&#x7BA1;&#x7406;&#x5167;&#x5B58;&#xFF0C;&#x56E0;&#x6B64;&#x548C;&#x7528;&#x6236;&#x7A7A;&#x9593;&#x7684;&#x57FA;&#x65BC;&#x5806;&#x7684;&#x7C21;&#x55AE;&#x5167;&#x5B58;&#x7BA1;&#x7406;&#x6709;&#x5F88;&#x5927;&#x7684;&#x5DEE;&#x5225;</p>
+<p>&#x7531;&#x65BC;slab&#x5206;&#x914D;&#x5668;&#xFF08;&#x5373;kmalloc&#x7684;&#x5E95;&#x5C64;&#x5BE6;&#x73FE;&#xFF09;&#x6700;&#x5927;&#x5206;&#x914D;&#x7684;&#x5167;&#x5B58;&#x55AE;&#x5143;&#x662F;128KB&#xFF0C;&#x6240;&#x4EE5;&#x5982;&#x679C;&#x5206;&#x914D;&#x7684;&#x5167;&#x5B58;&#x904E;&#x5927;&#xFF0C;&#x6700;&#x597D;&#x4E0D;&#x8981;&#x4F7F;&#x7528;kmalloc&#x65B9;&#x6CD5;</p>
+<h3 id="%E9%AB%98%E9%80%9F%E7%B7%A9%E5%AD%98">&#x9AD8;&#x901F;&#x7DE9;&#x5B58;</h3>
+<p>&#x5167;&#x6838;&#x5BE6;&#x73FE;&#x4E86;&#x4E00;&#x4E9B;&#x5167;&#x5B58;&#x6C60;&#xFF0C;&#x5167;&#x6838;&#x9A45;&#x52D5;&#x7A0B;&#x5E8F;&#x901A;&#x904E;&#x4F7F;&#x7528;&#x5B83;&#x5011;&#x53EF;&#x4EE5;&#x6E1B;&#x5C11;&#x5167;&#x5B58;&#x5206;&#x914D;&#x7684;&#x6B21;&#x6578;&#x3002;</p>
+<p>&#x5B83;&#x7684;api&#x5728;<linux slab.h="">&#x4E2D;&#xFF0C;&#x985E;&#x578B;&#x70BA;kmem_cache_t&#x3002;</linux></p>
+<h3 id="%E5%85%A7%E5%AD%98%E6%B1%A0">&#x5167;&#x5B58;&#x6C60;</h3>
+<p>&#x5167;&#x5B58;&#x6C60;&#x5176;&#x5BE6;&#x662F;&#x67D0;&#x7A2E;&#x5F62;&#x5F0F;&#x7684;&#x9AD8;&#x901F;&#x7DE9;&#x885D;&#xFF0C;&#x5B83;&#x8A66;&#x5716;&#x59CB;&#x7D42;&#x4FDD;&#x6301;&#x7A7A;&#x9592;&#x7684;&#x72C0;&#x614B;&#xFF0C;&#x65B9;&#x4FBF;&#x90A3;&#x4E9B;&#x8981;&#x6C42;&#x5167;&#x5B58;&#x5206;&#x914D;&#x4E0D;&#x80FD;&#x5931;&#x6557;&#x7684;&#x4EE3;&#x78BC;&#x4F7F;&#x7528;&#x3002;</p>
+<p>&#x5B83;&#x7684;api&#x5728;<linux mempool.h="">&#x4E2D;&#xFF0C;&#x985E;&#x578B;&#x70BA;mempool_t&#x3002;</linux></p>
+<h3 id="get-free-pages%E5%92%8C%E7%9B%B8%E9%97%9C%E5%87%BD%E6%95%B8">get_free_pages&#x548C;&#x76F8;&#x95DC;&#x51FD;&#x6578;</h3>
+<p>&#x5982;&#x679C;&#x9A45;&#x52D5;&#x4F7F;&#x7528;&#x8F03;&#x5927;&#x584A;&#x7684;&#x5167;&#x5B58;&#xFF0C;&#x5247;&#x9069;&#x5408;&#x4F7F;&#x7528;&#x9762;&#x5411;&#x9801;&#x7684;&#x5206;&#x914D;&#x6280;&#x8853;&#x3002;</p>
+<ul>
+<li><p>get_zeroed_page(unsigned int flags);
+&#x8FD4;&#x56DE;&#x6307;&#x5411;&#x65B0;&#x9801;&#x9762;&#x7684;&#x6307;&#x91DD;&#x4E26;&#x6E05;&#x96F6;</p>
+</li>
+<li><p>__get_free_page(unsigned int flags);
+&#x8FD4;&#x56DE;&#x6307;&#x91DD;&#x4F46;&#x4E0D;&#x6E05;&#x96F6;</p>
+</li>
+<li><p>__get_free_pages(unsigned int flags, unsigned int order);
+&#x5206;&#x914D;2^order&#x500B;&#x9023;&#x7E8C;&#x9801;&#x9762;&#xFF0C;&#x4E0D;&#x6E05;&#x96F6;</p>
+</li>
+</ul>
+<h3 id="%E9%A0%81%E5%88%86%E9%85%8D%E6%A0%B8%E5%BF%83-alloc-pages">&#x9801;&#x5206;&#x914D;&#x6838;&#x5FC3; alloc_pages</h3>
+<p>alloc_pages&#x7528;&#x4F86;&#x5206;&#x914D;&#x63CF;&#x8FF0;&#x7528;struct page&#x63CF;&#x8FF0;&#x7684;&#x9801;&#x9762;&#x5167;&#x5B58;&#xFF0C;&#x4F7F;&#x7528;&#x9019;&#x7A2E;&#x7D50;&#x69CB;&#x63CF;&#x8FF0;&#x7684;&#x5167;&#x6838;&#x5167;&#x5B58;&#x5728;&#x67D0;&#x4E9B;&#x5730;&#x65B9;&#x4F7F;&#x7528;&#x8D77;&#x4F86;&#x975E;&#x5E38;&#x65B9;&#x4FBF;&#x3002;</p>
+<p>struct page *alloc_pages_node(int nid, unsigned int flags, unsigned int order);</p>
+<h3 id="vmalloc%E4%BB%A5%E5%8F%8A%E7%9B%B8%E9%97%9C%E5%87%BD%E6%95%B8">vmalloc&#x4EE5;&#x53CA;&#x76F8;&#x95DC;&#x51FD;&#x6578;</h3>
+<p>vmalloc&#x5206;&#x914D;&#x865B;&#x64EC;&#x5730;&#x5740;&#x7A7A;&#x9593;&#x7684;&#x9023;&#x7E8C;&#x5167;&#x5B58;&#x3002;&#x5118;&#x7BA1;&#x53EF;&#x80FD;&#x9019;&#x6BB5;&#x5167;&#x5B58;&#x5728;&#x7269;&#x7406;&#x4E0A;&#x53EF;&#x80FD;&#x4E0D;&#x662F;&#x9023;&#x7E8C;&#x7684;&#x3002;</p>
+<p>&#x901A;&#x904E;vmalloc&#x7372;&#x5F97;&#x7684;&#x5167;&#x5B58;&#x4F7F;&#x7528;&#x8D77;&#x4F86;&#x6548;&#x7387;&#x4E0D;&#x9AD8;&#xFF0C;&#x5982;&#x679C;&#x53EF;&#x80FD;&#xFF0C;&#x61C9;&#x8A72;&#x76F4;&#x63A5;&#x548C;&#x55AE;&#x500B;&#x7684;&#x9801;&#x9762;&#x6253;&#x4EA4;&#x9053;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x4F7F;&#x7528;&#x524D;&#x9762;&#x7684;&#x51FD;&#x6578;&#x4F86;&#x8655;&#x7406;&#x800C;&#x4E0D;&#x662F;&#x4F7F;&#x7528;vmalloc&#x3002;vmalloc&#x5206;&#x914D;&#x7684;&#x865B;&#x64EC;&#x5730;&#x5740;&#x4E0A;&#x53EF;&#x80FD;&#x6C92;&#x6709;&#x7269;&#x7406;&#x5167;&#x5B58;&#x5C0D;&#x61C9;&#x3002;</p>
+<p>kmalloc&#x548C;__get_free_pages&#x8FD4;&#x56DE;&#x7684;&#x865B;&#x64EC;&#x5730;&#x5740;&#x5167;&#x5B58;&#x7BC4;&#x570D;&#x8207;&#x7269;&#x7406;&#x5167;&#x5B58;&#x7684;&#x7BC4;&#x570D;&#x662F;&#x4E00;&#x4E00;&#x5C0D;&#x61C9;&#x7684;&#x3002;&#x4F46;vmalloc&#x548C;ioremap&#x4F7F;&#x7528;&#x7684;&#x5730;&#x5740;&#x7BC4;&#x570D;&#x5247;&#x662F;&#x5B8C;&#x5168;&#x865B;&#x64EC;&#x7684;&#xFF0C;&#x6BCF;&#x6B21;&#x5206;&#x914D;&#x90FD;&#x9700;&#x8981;&#x9069;&#x7576;&#x7684;&#x8A2D;&#x7F6E;&#x9801;&#x8868;&#x4F86;&#x5EFA;&#x7ACB;&#x5167;&#x5B58;&#x5340;&#x57DF;&#x3002;</p>
+<p>ioremap&#x4E5F;&#x548C;vmalloc&#x4E00;&#x6A23;&#x5EFA;&#x7ACB;&#x65B0;&#x9801;&#x8868;&#xFF0C;&#x4F46;&#x5B83;&#x4E0D;&#x6703;&#x5206;&#x914D;&#x5167;&#x5B58;&#x3002;&#x5B83;&#x66F4;&#x591A;&#x7528;&#x65BC;&#x6620;&#x5C04;&#x8A2D;&#x5099;&#x7DE9;&#x885D;&#x5230;&#x865B;&#x64EC;&#x5167;&#x6838;&#x7A7A;&#x9593;&#x3002;&#x503C;&#x5F97;&#x6CE8;&#x610F;&#x7684;&#x662F;&#x4E0D;&#x80FD;&#x628A;ioremap&#x8FD4;&#x56DE;&#x7684;&#x6307;&#x91DD;&#x76F4;&#x63A5;&#x7576;&#x4F5C;&#x5167;&#x5B58;&#x4F7F;&#x7528;&#xFF0C;&#x61C9;&#x8A72;&#x4F7F;&#x7528;I/O&#x51FD;&#x6578;&#x4F86;&#x8A2A;&#x554F;&#x3002;</p>
+<p>vmalloc&#x7684;&#x4E00;&#x500B;&#x5C0F;&#x7F3A;&#x9EDE;&#x662F;&#x5B83;&#x4E0D;&#x80FD;&#x5728;&#x539F;&#x5B50;&#x4E0A;&#x4E0B;&#x6587;&#x4E2D;&#x4F7F;&#x7528;&#x3002;</p>
+<p>&#x76F8;&#x95DC;&#x7684;&#x51FD;&#x6578;&#x5B9A;&#x7FA9;&#x5728;<linux vmalloc.h="">&#x4E2D;&#x3002;</linux></p>
+<h3 id="per-cpu%E8%AE%8A%E9%87%8F">per-CPU&#x8B8A;&#x91CF;</h3>
+<p>&#x7576;&#x5EFA;&#x7ACB;&#x4E00;&#x500B;per-CPU&#x8B8A;&#x91CF;&#x6642;&#xFF0C;&#x7CFB;&#x7D71;&#x7684;&#x6BCF;&#x500B;&#x8655;&#x7406;&#x5668;&#x90FD;&#x6703;&#x64C1;&#x6709;&#x8A72;&#x8B8A;&#x91CF;&#x7684;&#x526F;&#x672C;&#x3002;&#x5C0D;&#x65BC;per-CPU&#x8B8A;&#x91CF;&#x7684;&#x8A2A;&#x554F;&#x5E7E;&#x4E4E;&#x4E0D;&#x9700;&#x8981;&#x9396;&#x5B9A;&#xFF0C;&#x56E0;&#x70BA;&#x6BCF;&#x500B;&#x8655;&#x7406;&#x5668;&#x6709;&#x81EA;&#x5DF1;&#x7684;&#x526F;&#x672C;&#x3002;</p>
+<p>&#x6CE8;&#x610F;&#x7576;&#x8655;&#x7406;&#x5668;&#x5728;&#x4FEE;&#x6539;&#x67D0;&#x500B;per-CPU&#x8B8A;&#x91CF;&#x7684;&#x81E8;&#x754C;&#x5340;&#x4E2D;&#x9593;&#x6642;&#xFF0C;&#x5B83;&#x53EF;&#x80FD;&#x88AB;&#x6436;&#x4F54;&#xFF0C;&#x9700;&#x8981;&#x907F;&#x514D;&#x9019;&#x7A2E;&#x60C5;&#x6CC1;&#x767C;&#x751F;&#x3002;&#x6240;&#x4EE5;&#x6211;&#x5011;&#x61C9;&#x8A72;&#x986F;&#x5F0F;&#x5730;&#x8ABF;&#x7528;get_cpu_var&#x8A2A;&#x554F;&#x67D0;&#x7D66;&#x5B9A;&#x8B8A;&#x91CF;&#x7684;&#x7576;&#x524D;&#x8655;&#x7406;&#x5668;&#x526F;&#x672C;&#xFF0C;&#x7D50;&#x675F;&#x5F8C;&#x8ABF;&#x7528;put_cpu_var&#x3002;</p>
+<p>&#x4F7F;&#x7528;&#x65B9;&#x6CD5;&#xFF1A;</p>
+<ul>
+<li>DEFINE_PER_CPU(type, name);</li>
+<li>&#x52D5;&#x614B;&#x5206;&#x914D;&#xFF1A;
+void <em>alloc_percpu(type);
+void </em>__alloc_percpu(size_t size, size_t align);</li>
+<li>per_cpu_ptr(void *per_cpu_var, int cpu_id);&#x8FD4;&#x56DE;&#x7D66;&#x5B9A;cpu_id&#x7684;per_cpu_var&#x6307;&#x91DD;</li>
+</ul>
+<h2 id="dma">DMA</h2>
+<p>DMA(Direct Memory Access)&#x662F;&#x4E00;&#x7A2E;&#x9AD8;&#x7D1A;&#x7684;&#x786C;&#x4EF6;&#x6A5F;&#x5236;&#xFF0C;&#x5B83;&#x5141;&#x8A31;&#x5916;&#x8A2D;&#x76F4;&#x63A5;&#x548C;&#x4E3B;&#x5167;&#x5B58;&#x4E4B;&#x9593;&#x9032;&#x884C;I/O&#x50B3;&#x8F38;&#x800C;&#x4E0D;&#x7528;CPU&#x7684;&#x5E72;&#x9810;&#x3002;</p>
+<h3 id="dma%E6%95%B8%E6%93%9A%E5%82%B3%E8%BC%B8%E6%A6%82%E8%A6%BD">DMA&#x6578;&#x64DA;&#x50B3;&#x8F38;&#x6982;&#x89BD;</h3>
+<p>&#x6709;&#x5169;&#x7A2E;&#x65B9;&#x5F0F;&#x53EF;&#x4EE5;&#x5F15;&#x767C;DMA&#x6578;&#x64DA;&#x50B3;&#x8F38;&#xFF1A;&#x8EDF;&#x4EF6;&#x5C0D;&#x6578;&#x64DA;&#x7684;&#x8ACB;&#x6C42;&#xFF1B;&#x786C;&#x4EF6;&#x7570;&#x6B65;&#x5730;&#x628A;&#x6578;&#x64DA;&#x50B3;&#x7D66;&#x7CFB;&#x7D71;&#x3002;</p>
+<ul>
+<li><p>&#x7B2C;&#x4E00;&#x7A2E;&#x60C5;&#x6CC1;&#xFF1A;</p>
+<ul>
+<li>&#x9032;&#x7A0B;&#x8ABF;&#x7528;read&#xFF0C;&#x9A45;&#x52D5;&#x7A0B;&#x5E8F;&#x5206;&#x914D;&#x4E00;&#x500B;DMA&#x7DE9;&#x885D;&#xFF0C;&#x7136;&#x5F8C;&#x8B93;&#x786C;&#x4EF6;&#x628A;&#x6578;&#x64DA;&#x50B3;&#x8F38;&#x5230;&#x9019;&#x88E1;&#xFF0C;&#x6B64;&#x6642;&#x9032;&#x7A0B;&#x7761;&#x7720;</li>
+<li>&#x786C;&#x4EF6;&#x628A;&#x6578;&#x64DA;&#x5BEB;&#x5165;&#x5230;DMA&#x7DE9;&#x885D;&#xFF0C;&#x5BEB;&#x5B8C;&#x4E4B;&#x5F8C;&#x7522;&#x751F;&#x4E00;&#x7B87;&#x4E2D;&#x65B7;</li>
+<li>&#x4E2D;&#x65B7;&#x8655;&#x7406;&#x7A0B;&#x5E8F;&#x7372;&#x53D6;&#x8F38;&#x5165;&#x7684;&#x6578;&#x64DA;&#xFF0C;&#x61C9;&#x7B54;&#x4E2D;&#x65B7;&#x4E26;&#x559A;&#x9192;&#x9032;&#x7A0B;&#xFF0C;&#x9032;&#x7A0B;&#x5373;&#x53EF;&#x8B80;&#x53D6;DMA&#x7DE9;&#x885D;&#x88E1;&#x9762;&#x7684;&#x6578;&#x64DA;</li>
+</ul>
+</li>
+<li><p>&#x7B2C;&#x4E8C;&#x7A2E;&#x60C5;&#x6CC1;&#xFF1A;</p>
+<ul>
+<li>&#x786C;&#x4EF6;&#x7522;&#x751F;&#x4E2D;&#x65B7;&#xFF0C;&#x5BA3;&#x544A;&#x6709;&#x6578;&#x64DA;&#x5230;&#x4F86;</li>
+<li>&#x4E2D;&#x65B7;&#x8655;&#x7406;&#x7A0B;&#x5E8F;&#x5206;&#x914D;&#x7DE9;&#x885D;&#x5340;&#xFF0C;&#x544A;&#x8A34;&#x786C;&#x4EF6;&#x5411;&#x54EA;&#x88E1;&#x50B3;&#x8F38;&#x6578;&#x64DA;</li>
+<li>&#x5916;&#x8A2D;&#x5C07;&#x6578;&#x64DA;&#x5BEB;&#x5165;&#x7DE9;&#x885D;&#xFF0C;&#x5B8C;&#x6210;&#x5F8C;&#x7522;&#x751F;&#x53E6;&#x4E00;&#x7B87;&#x4E2D;&#x65B7;</li>
+<li>&#x8655;&#x7406;&#x7A0B;&#x5E8F;&#x5206;&#x767C;&#x65B0;&#x6578;&#x64DA;&#xFF0C;&#x559A;&#x9192;&#x76F8;&#x95DC;&#x9032;&#x7A0B;&#xFF0C;&#x7136;&#x5F8C;&#x57F7;&#x884C;&#x6E05;&#x7406;&#x5DE5;&#x4F5C;</li>
+</ul>
+</li>
+</ul>
+<p>&#x53EF;&#x4EE5;&#x770B;&#x51FA;&#xFF0C;&#x9AD8;&#x6548;&#x7684;DMA&#x50B3;&#x8F38;&#x4F9D;&#x8CF4;&#x65BC;&#x4E2D;&#x65B7;&#x5831;&#x544A;&#x3002;</p>
+<h3 id="%E5%88%86%E9%85%8Ddma%E7%B7%A9%E8%A1%9D%E5%8D%80">&#x5206;&#x914D;DMA&#x7DE9;&#x885D;&#x5340;</h3>
+<p>DMA&#x7DE9;&#x885D;&#x5340;&#x7684;&#x4E3B;&#x8981;&#x554F;&#x984C;&#x662F;&#xFF1A;&#x7576;&#x5927;&#x65BC;&#x4E00;&#x9801;&#x6642;&#xFF0C;&#x5B83;&#x5FC5;&#x9808;&#x4F54;&#x7528;&#x9023;&#x7E8C;&#x7684;&#x7269;&#x7406;&#x9801;&#xFF0C;&#x9019;&#x662F;&#x56E0;&#x70BA;&#x591A;&#x6578;&#x5916;&#x8A2D;&#x7E3D;&#x7DDA;&#x90FD;&#x4F7F;&#x7528;&#x7269;&#x7406;&#x5730;&#x5740;&#x3002;</p>
+<ul>
+<li>&#x9A45;&#x52D5;&#x4F5C;&#x8005;&#x5FC5;&#x9808;&#x8B39;&#x614E;&#x7684;&#x70BA;DMA&#x5206;&#x914D;&#x6B63;&#x78BA;&#x7684;&#x5167;&#x5B58;&#x985E;&#x578B;&#xFF0C;&#x4E26;&#x4E0D;&#x662F;&#x6240;&#x6709;&#x7684;&#x5167;&#x5B58;&#x5340;&#x9593;&#x90FD;&#x9069;&#x5408;DMA&#x64CD;&#x4F5C;&#x3002;&#x5916;&#x8A2D;&#x4E0D;&#x80FD;&#x4F7F;&#x7528;&#x9AD8;&#x7AEF;&#x5167;&#x5B58;&#x3002;</li>
+<li>&#x5C0D;&#x65BC;&#x6709;&#x9650;&#x5236;&#x7684;&#x8A2D;&#x5099;&#xFF0C;&#x61C9;&#x4F7F;&#x7528;GFP_DMA&#x6A19;&#x8A8C;&#x8ABF;&#x7528;&#x5167;&#x5B58;&#x5206;&#x914D;&#x51FD;&#x6578;&#x3002;</li>
+</ul>
+<h4 id="diy%E5%88%86%E9%85%8D">DIY&#x5206;&#x914D;</h4>
+<p>&#x4F7F;&#x7528;get_free_pages&#x5206;&#x914D;&#x5927;&#x65BC;128KB&#x5167;&#x5B58;&#x7684;&#x6642;&#x5019;&#x5F88;&#x5BB9;&#x6613;&#x5931;&#x6557;&#x8FD4;&#x56DE;-ENOMEM&#x3002;&#x6B64;&#x6642;&#x7684;&#x8FA6;&#x6CD5;&#x662F;&#x5728;&#x5F15;&#x5C0E;&#x6642;&#x5206;&#x914D;&#x5167;&#x5B58;&#x6216;&#x8005;&#x70BA;&#x7DE9;&#x885D;&#x5340;&#x4FDD;&#x7559;&#x9802;&#x90E8;&#x7269;&#x7406;&#x5167;&#x5B58;&#x3002;</p>
+<p>&#x5982;&#x679C;&#x8981;&#x70BA;DMA&#x5206;&#x914D;&#x4E00;&#x5927;&#x584A;&#x5167;&#x5B58;&#xFF0C;&#x6700;&#x597D;&#x8003;&#x616E;&#x5206;&#x6563;&#x805A;&#x96C6;I/O&#x3002;</p>
+<h3 id="%E7%B8%BD%E7%B7%9A%E5%9C%B0%E5%9D%80">&#x7E3D;&#x7DDA;&#x5730;&#x5740;</h3>
+<p>&#x786C;&#x4EF6;&#x548C;&#x7A0B;&#x5E8F;&#x4EE3;&#x78BC;&#x4F7F;&#x7528;&#x4E0D;&#x540C;&#x7684;&#x5730;&#x5740;&#xFF0C;&#x6240;&#x4EE5;&#x9700;&#x8981;&#x6709;&#x4E00;&#x500B;&#x5730;&#x5740;&#x8F49;&#x63DB;&#x3002;</p>
+<h3 id="%E9%80%9A%E7%94%A8dma%E5%B1%A4">&#x901A;&#x7528;DMA&#x5C64;</h3>
+<p>&#x7531;&#x65BC;&#x591A;&#x7A2E;&#x7CFB;&#x7D71;&#x5C0D;&#x7DE9;&#x5B58;&#x548C;DMA&#x7684;&#x8655;&#x7406;&#x4E0D;&#x540C;&#xFF0C;&#x5167;&#x6838;&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x500B;&#x901A;&#x7528;DMA&#x5C64;&#xFF0C;&#x5EFA;&#x8B70;&#x5728;&#x7528;&#x5230;DMA&#x6642;&#x4F7F;&#x7528;&#x8A72;&#x5C64;&#x3002;struct device&#x96B1;&#x85CF;&#x4E86;&#x63CF;&#x8FF0;&#x8A2D;&#x5099;&#x7684;&#x7E3D;&#x7DDA;&#x7D30;&#x7BC0;&#xFF0C;&#x5728;&#x4F7F;&#x7528;&#x901A;&#x7528;DMA&#x5C64;&#x6642;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x5230;&#x8A72;&#x7D50;&#x69CB;&#x7684;&#x6307;&#x91DD;&#x3002;</p>
+<p>&#x63A5;&#x4E0B;&#x4F86;&#x7684;DMA&#x51FD;&#x6578;&#x90FD;&#x9700;&#x8981;&#x5305;&#x542B;&#x6587;&#x4EF6;<linux dma-mapping.h=""></linux></p>
+<h4 id="%E7%A2%BA%E5%AE%9A%E8%A8%AD%E5%82%99%E7%9A%84dma%E8%83%BD%E5%8A%9B">&#x78BA;&#x5B9A;&#x8A2D;&#x5099;&#x7684;DMA&#x80FD;&#x529B;</h4>
+<p>int dma_set_mask(struct device *dev, u64 mask); &#x53EF;&#x4EE5;&#x7528;&#x4F86;&#x78BA;&#x5B9A;&#x8A2D;&#x5099;&#x662F;&#x5426;&#x652F;&#x6301;DMA&#x3002;</p>
+<h2 id="%E5%85%A7%E5%AD%98%E5%88%86%E9%85%8D%E5%AF%A6%E7%8F%BE">&#x5167;&#x5B58;&#x5206;&#x914D;&#x5BE6;&#x73FE;</h2>
+<p>&#x4E0B;&#x9762;&#x5C07;&#x4ECB;&#x7D39;linux&#x5167;&#x6838;&#x4E2D;&#x91DD;&#x5C0D;&#x4E0D;&#x540C;&#x7684;&#x61C9;&#x7528;&#x5834;&#x666F;&#x5BE6;&#x73FE;&#x7684;&#x4E0D;&#x540C;&#x5167;&#x5B58;&#x5206;&#x914D;&#x7B97;&#x6CD5;&#x3002;</p>
+<ul>
+<li>&#x9801;&#x6846;&#x5206;&#x914D;&#xFF0C;zoned buddy&#x7B97;&#x6CD5;</li>
+<li>&#x5167;&#x5B58;&#x5340;&#x5206;&#x914D;&#xFF0C;slab &#x5206;&#x914D;&#x5668;</li>
+<li>&#x975E;&#x9023;&#x7E8C;&#x5167;&#x5B58;&#x5340;&#x7BA1;&#x7406;&#xFF0C;&#x865B;&#x64EC;&#x5167;&#x5B58;&#x6620;&#x5C04;</li>
+</ul>
+<p>&#x5728;&#x652F;&#x6301;NUMA&#x7684;linux&#x5167;&#x6838;&#x7576;&#x4E2D;&#xFF0C;&#x7CFB;&#x7D71;&#x7684;&#x7269;&#x7406;&#x5167;&#x5B58;&#x88AB;&#x5206;&#x70BA;&#x591A;&#x500B;&#x7BC0;&#x9EDE;&#xFF0C;&#x5728;&#x55AE;&#x7368;&#x7BC0;&#x9EDE;&#x5167;&#xFF0C;&#x4EFB;&#x4E00;&#x7D66;&#x5B9A;cpu&#x8A2A;&#x554F;&#x9801;&#x9762;&#x6240;&#x9700;&#x8981;&#x7684;&#x6642;&#x9593;&#x90FD;&#x662F;&#x76F8;&#x540C;&#x7684;&#x3002;&#x6BCF;&#x500B;&#x7BC0;&#x9EDE;&#x7684;&#x7269;&#x7406;&#x5167;&#x5B58;&#x53C8;&#x5206;&#x6210;&#x591A;&#x500B;&#x5167;&#x5B58;&#x5340;&#xFF08;zone&#xFF09;&#x3002;x86&#x4E0B;&#x5167;&#x5B58;&#x5340;&#x6709;<code>ZONE_DMA</code>&#x3001;<code>ZONE_NORMAL</code>&#x548C;<code>ZONE_HIGHMEM</code>&#x3002;x86_32&#x7CFB;&#x7D71;&#x4E0A;&#xFF0C;<code>ZONE_HIGHMEM</code>&#x4E2D;&#x7684;&#x5167;&#x5B58;&#x6C92;&#x6709;&#x76F4;&#x63A5;&#x6620;&#x5C04;&#x5230;&#x5167;&#x6838;&#x7DDA;&#x6027;&#x5730;&#x5740;&#x4E0A;&#xFF0C;&#x5728;&#x6BCF;&#x6B21;&#x4F7F;&#x7528;&#x4E4B;&#x524D;&#x90FD;&#x9700;&#x8981;&#x5148;&#x8A2D;&#x7F6E;&#x9801;&#x8868;&#x6620;&#x5C04;&#x5167;&#x5B58;&#x3002;&#x6BCF;&#x500B;zone&#x4E0B;&#x9762;&#x7684;&#x5167;&#x5B58;&#x90FD;&#x662F;&#x4EE5;&#x9801;&#x6846;&#x70BA;&#x55AE;&#x4F4D;&#x4F86;&#x7BA1;&#x7406;&#x7684;&#x3002;</p>
+<p>&#x6BCF;&#x500B;zone&#x7684;&#x5167;&#x5B58;&#x9801;&#x9762;&#x662F;&#x901A;&#x904E;buddy&#x7B97;&#x6CD5;&#x4F86;&#x7BA1;&#x7406;&#x7684;&#x3002;</p>
+<h3 id="zoned-buddy">zoned buddy</h3>
+<p>&#x9801;&#x6846;&#x5206;&#x914D;&#x7B97;&#x6CD5;&#x9700;&#x8981;&#x89E3;&#x6C7A;external fragmentation&#x7684;&#x5167;&#x5B58;&#x7BA1;&#x7406;&#x554F;&#x984C;&#x3002;linux&#x5167;&#x6838;&#x4F7F;&#x7528;buddy&#x7B97;&#x6CD5;&#x4F86;&#x89E3;&#x6C7A;&#x9019;&#x500B;&#x554F;&#x984C;&#x3002;&#x628A;&#x6240;&#x6709;&#x7684;&#x7A7A;&#x9592;&#x9801;&#x5206;&#x7D44;&#x70BA;2^(order-1)&#x5927;&#x5C0F;&#x7684;&#x584A;&#x93C8;&#x8868;&#x3002;order&#x7684;&#x6700;&#x5927;&#x503C;&#x70BA;11&#xFF0C;&#x6240;&#x4EE5;&#x4E00;&#x5171;&#x6709;11&#x500B;&#x9019;&#x6A23;&#x7684;&#x93C8;&#x8868;&#x3002;&#x93C8;&#x8868;&#x7684;&#x5143;&#x7D20;&#x6700;&#x5C0F;&#x7684;&#x70BA;4k(1&#x4E00;&#x500B;&#x9801;&#x9762;&#x5927;&#x5C0F;)&#xFF0C;&#x6700;&#x5927;&#x7684;&#x70BA;4M(2^10&#x500B;&#x9801;&#x9762;&#x5927;&#x5C0F;)&#x3002;&#x8ACB;&#x6C42;&#x5167;&#x5B58;&#x6642;&#xFF0C;&#x5167;&#x6838;&#x9996;&#x5148;&#x5F9E;&#x6700;&#x63A5;&#x8FD1;&#x8ACB;&#x6C42;&#x5927;&#x5C0F;&#x7684;&#x93C8;&#x8868;&#x4E2D;&#x67E5;&#x8A62;&#xFF0C;&#x5982;&#x679C;&#x6709;&#x9019;&#x6A23;&#x7684;&#x7A7A;&#x9592;&#x55AE;&#x5143;&#xFF0C;&#x5247;&#x76F4;&#x63A5;&#x4F7F;&#x7528;&#x3002;&#x5982;&#x679C;&#x6C92;&#x6709;&#x5247;&#x4E00;&#x6B21;&#x905E;&#x589E;&#x5230;&#x66F4;&#x5927;&#x584A;&#x7684;&#x5167;&#x5B58;&#x93C8;&#x8868;&#x4E2D;&#x67E5;&#x8A62;&#xFF0C;&#x5982;&#x679C;&#x6709;&#x5247;&#x5C07;&#x5167;&#x5B58;&#x5206;&#x51FA;&#x6700;&#x63A5;&#x8FD1;&#x8ACB;&#x6C42;&#x5927;&#x5C0F;&#x7684;&#x584A;&#xFF0C;&#x5728;&#x628A;&#x9918;&#x4E0B;&#x7684;&#x5167;&#x5B58;&#x62C6;&#x5206;&#x6DFB;&#x52A0;&#x5230;&#x8F03;&#x5C0F;&#x7684;&#x5167;&#x5B58;&#x93C8;&#x8868;&#x4E2D;&#x3002;</p>
+<h4 id="%E6%A0%B8%E5%BF%83%E5%87%BD%E6%95%B8">&#x6838;&#x5FC3;&#x51FD;&#x6578;</h4>
+<p>&#x6838;&#x5FC3;&#x63A5;&#x53E3;</p>
+<ul>
+<li><code>unsigned long __get_free_pages(gfp_t gfp_mask, unsigned int order);</code></li>
+<li><code>struct page * alloc_pages(gfp_t gfp_mask, unsigned int order);</code></li>
+<li><code>void __free_pages(struct page *page, unsigned int order);</code></li>
+</ul>
+<p>&#x6838;&#x5FC3;&#x5BE6;&#x73FE;</p>
+<ul>
+<li><code>struct page * __alloc_pages_nodemask(gfp_t gfp_mask, unsigned int order, struct zonelist *zonelist, nodemask_t *nodemask);</code></li>
+</ul>
+<h3 id="slab-allocator-%E5%B0%8D%E8%B1%A1%E7%B7%A9%E5%AD%98%E5%88%86%E9%85%8D">Slab Allocator(&#x5C0D;&#x8C61;&#x7DE9;&#x5B58;&#x5206;&#x914D;)</h3>
+<p>The fundamental idea behind slab allocation technique is based on the observation that some kernel data objects are frequently created and destroyed after they are not needed anymore. This implies that for each allocation of memory for these data objects, some time is spent to find the best fit for that data object. Moreover, deallocation of the memory after destruction of the object contributes to fragmentation of the memory, which burdens the kernel some more to rearrange the memory.Slab &#x7B97;&#x6CD5;&#x7684;&#x767C;&#x73FE;&#x662F;&#x57FA;&#x65BC;&#x5167;&#x6838;&#x4E2D;&#x5167;&#x5B58;&#x4F7F;&#x7528;&#x7684;&#x4E00;&#x4E9B;&#x7279;&#x9EDE;&#xFF1A;&#x4E00;&#x4E9B;&#x9700;&#x8981;&#x983B;&#x7E41;&#x4F7F;&#x7528;&#x7684;&#x540C;&#x6A23;&#x5927;&#x5C0F;&#x6578;&#x64DA;&#x7D93;&#x5E38;&#x5728;&#x4F7F;&#x7528;&#x5F8C;&#x4E0D;&#x4E45;&#x53C8;&#x518D;&#x6B21;&#x88AB;&#x7528;&#x5230;&#xFF1B;&#x627E;&#x5230;&#x5408;&#x9069;&#x5927;&#x5C0F;&#x7684;&#x5167;&#x5B58;&#x6240;&#x6D88;&#x8017;&#x7684;&#x6642;&#x9593;&#x9060;&#x9060;&#x5927;&#x65BC;&#x91CB;&#x653E;&#x5167;&#x5B58;&#x6240;&#x9700;&#x8981;&#x7684;&#x6642;&#x9593;&#x3002;&#x6240;&#x4EE5;Slab&#x7B97;&#x6CD5;&#x7684;&#x767C;&#x660E;&#x4EBA;&#x8A8D;&#x70BA;&#x5167;&#x5B58;&#x5C0D;&#x8C61;&#x5728;&#x4F7F;&#x7528;&#x4E4B;&#x5F8C;&#x4E0D;&#x662F;&#x7ACB;&#x5373;&#x91CB;&#x653E;&#x7D66;&#x7CFB;&#x7D71;&#x800C;&#x662F;&#x5C07;&#x5B83;&#x5011;&#x7528;&#x93C8;&#x8868;&#x4E4B;&#x985E;&#x7684;&#x6578;&#x64DA;&#x7D50;&#x69CB;&#x7BA1;&#x7406;&#x8D77;&#x4F86;&#x4EE5;&#x5099;&#x5C07;&#x4F86;&#x4F7F;&#x7528;&#xFF0C;&#x983B;&#x7E41;&#x5206;&#x914D;&#x548C;&#x91CB;&#x653E;&#x7684;&#x5167;&#x5B58;&#x5C0D;&#x8C61;&#x61C9;&#x8A72;&#x7528;&#x7DE9;&#x5B58;&#x7BA1;&#x7406;&#x8D77;&#x4F86;&#x3002;Linux&#x7684;slab&#x5206;&#x914D;&#x5668;&#x5C31;&#x662F;&#x57FA;&#x65BC;&#x9019;&#x6A23;&#x7684;&#x60F3;&#x6CD5;&#x5BE6;&#x73FE;&#x7684;&#xFF0C;&#x9019;&#x500B;&#x7B97;&#x6CD5;&#x5728;&#x7A7A;&#x9593;&#x548C;&#x6642;&#x9593;&#x4E0A;&#x90FD;&#x6709;&#x5F88;&#x9AD8;&#x7684;&#x6548;&#x7387;&#x3002;</p>
+<h4 id="slab-implementation">Slab implementation</h4>
+<p>&#x4E0B;&#x9762;&#x662F;Slab&#x5206;&#x914D;&#x5668;&#x4E2D;&#x7684;&#x4E3B;&#x8981;&#x6578;&#x64DA;&#x7D50;&#x69CB;&#x4E4B;&#x9593;&#x7684;&#x95DC;&#x4FC2;&#x5716;&#x3002;&#x6700;&#x4E0A;&#x5C64;&#x662F;<code>cache_chain</code>&#xFF0C;&#x5B83;&#x662F;slab&#x7DE9;&#x5B58;&#x7684;&#x4E00;&#x500B;&#x93C8;&#x8868;&#x3002;&#x9019;&#x500B;&#x93C8;&#x8868;&#x7528;&#x4F86;&#x67E5;&#x627E;&#x9700;&#x8981;&#x5206;&#x914D;&#x5167;&#x5B58;&#x5927;&#x5C0F;&#x7684;&#x6700;&#x4F73;&#x5339;&#x914D;&#x3002;&#x93C8;&#x8868;&#x4E2D;&#x7684;&#x5143;&#x7D20;&#x662F;&#x7528;&#x4F86;&#x7BA1;&#x7406;&#x7D66;&#x5B9A;&#x5927;&#x5C0F;&#x5167;&#x5B58;&#x7684;&#x4E00;&#x500B;&#x7DE9;&#x5B58;&#x6C60;&#x6307;&#x91DD;<code>kmem_cache</code>&#x3002;</p>
+<p><img src="http://www.ibm.com/developerworks/linux/library/l-linux-slab-allocator/figure1.gif" alt="Slab&#x5206;&#x914D;&#x5668;&#x7684;&#x4E3B;&#x8981;&#x7D50;&#x69CB;"></p>
+<p>&#x6BCF;&#x500B;&#x7DE9;&#x5B58;&#x5C0D;&#x8C61;&#x5305;&#x542B;&#x4E86;slab&#x5C0D;&#x8C61;&#x7684;&#x93C8;&#x8868;&#x3002;&#x4E00;&#x500B;slab&#x5C0D;&#x8C61;&#x662F;&#x4E00;&#x584A;&#x9023;&#x7E8C;&#x5167;&#x5B58;&#xFF08;&#x9801;&#x9762;&#xFF09;&#x3002;&#x5176;&#x4E2D;&#x6709;&#x4E09;&#x500B;slab&#x5C0D;&#x8C61;&#x93C8;&#x8868;&#xFF1A;</p>
+<ul>
+<li><code>slabs_full</code>,&#x5B8C;&#x5168;&#x5206;&#x914D;&#x597D;&#x7684;slab&#x5C0D;&#x8C61;&#x93C8;&#x8868;</li>
+<li><code>slabs_partial</code>,&#x90E8;&#x5206;&#x5206;&#x914D;&#x597D;&#x7684;slab&#x5C0D;&#x8C61;&#x93C8;&#x8868;</li>
+<li><code>slabs_empty</code>,&#x7A7A;&#x5C0D;&#x8C61;&#x93C8;&#x8868;&#xFF0C;slab&#x5C0D;&#x8C61;&#x90FD;&#x6C92;&#x6709;&#x5206;&#x914D;&#x597D;</li>
+</ul>
+<p>&#x5176;&#x4E2D;&#x7A7A;&#x5C0D;&#x8C61;&#x93C8;&#x8868;&#x662F;&#x5167;&#x5B58;&#x56DE;&#x6536;&#x7684;&#x4E3B;&#x8981;&#x5019;&#x9078;&#x4F86;&#x6E90;&#x3002;slab&#x93C8;&#x8868;&#x4E0A;&#x7684;&#x5C0D;&#x8C61;&#x662F;&#x4E00;&#x584A;&#x9023;&#x7E8C;&#x5167;&#x5B58;&#xFF0C;&#x9019;&#x584A;&#x5167;&#x5B58;&#x88AB;&#x5206;&#x6210;&#x5167;&#x5B58;&#x6578;&#x64DA;&#x5C0D;&#x8C61;&#x3002;&#x9019;&#x4E9B;&#x6578;&#x64DA;&#x5C0D;&#x8C61;&#x662F;slab&#x7DE9;&#x5B58;&#x4E0A;&#x5206;&#x914D;&#x548C;&#x91CB;&#x653E;&#x7684;&#x6700;&#x5C0F;&#x55AE;&#x4F4D;&#x3002;</p>
+<p>&#x7531;&#x65BC;&#x6578;&#x64DA;&#x5C0D;&#x8C61;&#x662F;&#x5F9E;slab&#x4E0A;&#x5206;&#x914D;&#x7684;&#xFF0C;&#x6240;&#x4EE5;&#x55AE;&#x500B;&#x7684;slab&#x53EF;&#x4EE5;&#x5F9E;&#x4E00;&#x500B;slab&#x93C8;&#x8868;&#x79FB;&#x52D5;&#x5230;&#x53E6;&#x4E00;&#x500B;slab&#x93C8;&#x8868;&#x3002;&#x6BD4;&#x5982;&#x7576;<code>slabs_partial</code>&#x4E0A;&#x7684;&#x4E00;&#x500B;slab&#x7684;&#x5167;&#x5B58;&#x5C0D;&#x8C61;&#x5168;&#x90E8;&#x88AB;&#x5206;&#x914D;&#x4E86;&#x4E4B;&#x5F8C;&#xFF0C;&#x9019;&#x500B;slab&#x5C31;&#x5F9E;<code>slabs_partial</code>&#x4E0A;&#x79FB;&#x52D5;&#x5230;<code>slabs_full</code>&#x3002;&#x7576;<code>slabs_full</code>&#x4E0A;&#x7684;&#x4E00;&#x500B;slab&#x4E0A;&#x7684;&#x90E8;&#x5206;&#x5167;&#x5B58;&#x5C0D;&#x8C61;&#x88AB;&#x91CB;&#x653E;&#x4E4B;&#x5F8C;&#xFF0C;&#x9019;&#x500B;slab&#x5C31;&#x5F9E;<code>slabs_full</code>&#x93C8;&#x8868;&#x79FB;&#x52D5;&#x5230;<code>slabs_partial</code>&#x4E0A;&#xFF0C;&#x7576;&#x9019;&#x500B;slab&#x4E0A;&#x7684;&#x6240;&#x6709;&#x5167;&#x5B58;&#x5C0D;&#x8C61;&#x90FD;&#x88AB;&#x91CB;&#x653E;&#x4E4B;&#x5F8C;&#xFF0C;&#x5B83;&#x5C31;&#x6703;&#x518D;&#x6B21;&#x79FB;&#x52D5;&#x5230;<code>slabs_empty</code>&#x4E0A;&#x3002;</p>
+<h4 id="slab%E5%88%86%E9%85%8D%E5%99%A8%E5%B8%B6%E4%BE%86%E7%9A%84%E5%A5%BD%E8%99%95">slab&#x5206;&#x914D;&#x5668;&#x5E36;&#x4F86;&#x7684;&#x597D;&#x8655;</h4>
+<ul>
+<li>&#x901A;&#x904E;&#x7DE9;&#x5B58;&#x985E;&#x4F3C;&#x5C0D;&#x8C61;&#x6578;&#x64DA;&#xFF0C;&#x5167;&#x6838;&#x4E2D;&#x983B;&#x7E41;&#x7684;&#x5C0F;&#x6578;&#x64DA;&#x5C0D;&#x8C61;&#x7684;&#x5206;&#x914D;&#x4E0D;&#x6703;&#x518D;&#x6D88;&#x8017;&#x904E;&#x591A;&#x7684;&#x6642;&#x9593;&#xFF0C;&#x540C;&#x6642;&#x6E1B;&#x5C11;&#x4E86;&#x7CFB;&#x7D71;&#x7684;&#x5167;&#x5B58;&#x788E;&#x7247;</li>
+<li>slab&#x5206;&#x914D;&#x652F;&#x6301;&#x5E38;&#x7528;&#x5C0D;&#x8C61;&#x6578;&#x64DA;&#x7684;&#x521D;&#x59CB;&#x5316;&#xFF0C;&#x6E1B;&#x5C11;&#x4E86;&#x540C;&#x985E;&#x5C0D;&#x8C61;&#x6578;&#x64DA;&#x91CD;&#x8907;&#x7684;&#x521D;&#x59CB;&#x5316;&#x904E;&#x7A0B;</li>
+<li>slab&#x5206;&#x914D;&#x652F;&#x6301;&#x786C;&#x4EF6;&#x7DE9;&#x5B58;&#x5C0D;&#x9F4A;&#x548C;&#x8457;&#x8272;&#xFF0C;&#x9019;&#x6A23;&#x4E0D;&#x540C;&#x7DE9;&#x5B58;&#x4E0B;&#x7684;&#x5C0D;&#x8C61;&#x6578;&#x64DA;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x540C;&#x6A23;&#x7684;&#x786C;&#x4EF6;&#x7DE9;&#x5B58;&#x884C;&#xFF0C;&#x53EF;&#x4EE5;&#x63D0;&#x9AD8;&#x7CFB;&#x7D71;&#x7684;&#x6027;&#x80FD;</li>
+</ul>
+<h4 id="%E6%8E%A5%E5%8F%A3">&#x63A5;&#x53E3;</h4>
+<ul>
+<li><code>struct kmem_cache *;</code>&#x7DE9;&#x5B58;&#x6307;&#x91DD;&#xFF0C;&#x7528;&#x65BC;&#x5206;&#x914D;&#xFF0C;&#x91CB;&#x653E;&#x7DE9;&#x5B58;&#x4E2D;&#x7684;&#x6578;&#x64DA;&#x5C0D;&#x8C61;</li>
+<li><code>struct kmem_cache *kmem_cache_create( const char *name, size_t size,</code>
+<code>size_t align, unsigned long flags,</code>
+<code>void (*ctor)(void*, struct kmem_cache *, unsigned long),</code>
+<code>void (*dtor)(void*, struct kmem_cache *, unsigned long));</code>&#x5275;&#x5EFA;&#x7DE9;&#x5B58;&#xFF0C;<code>ctor</code>&#x548C;<code>dtor</code>&#x5169;&#x500B;&#x56DE;&#x8ABF;&#x51FD;&#x6578;&#x662F;&#x63D0;&#x4F9B;&#x7D66;&#x7528;&#x6236;&#x521D;&#x59CB;&#x5316;&#x548C;&#x91CB;&#x653E;&#x5C0D;&#x8C61;&#x6578;&#x64DA;&#x7528;&#x7684;</li>
+<li><code>void kmem_cache_destroy( struct kmem_cache *cachep );</code>&#x92B7;&#x71EC;&#x7DE9;&#x5B58;</li>
+<li><code>void* kmem_cache_alloc( struct kmem_cache *cachep, gfp_t flags );</code>&#x5F9E;&#x7DE9;&#x5B58;&#x4E2D;&#x5206;&#x914D;&#x5C0D;&#x8C61;&#x6578;&#x64DA;&#xFF0C;&#x5176;&#x4E2D;&#x7684;<code>flags</code>&#x548C;<code>kmalloc</code>&#x51FD;&#x6578;&#x4F7F;&#x7528;&#x7684;&#x6A19;&#x8A18;&#x4E00;&#x6A23;&#xFF0C;&#x7528;&#x65BC;&#x63A7;&#x5236;&#x7DE9;&#x5B58;&#x5167;&#x90E8;&#x5F9E;buddy system&#x4E2D;&#x5206;&#x914D;&#x5167;&#x5B58;&#x9801;&#x9762;&#x7684;&#x884C;&#x70BA;</li>
+<li><p><code>void kmem_cache_free( struct kmem_cache *cachep, void *objp );</code>&#x56DE;&#x6536;&#x6578;&#x64DA;&#x5230;&#x7DE9;&#x5B58;&#x4E2D;&#x7684;slab&#x5C0D;&#x8C61;</p>
+</li>
+<li><p><code>void *kmalloc( size_t size, int flags );</code>kmalloc&#x548C;&#x524D;&#x9762;&#x7684;&#x5F9E;&#x7DE9;&#x5B58;&#x4E2D;&#x5206;&#x914D;&#x5C0D;&#x8C61;&#x6578;&#x64DA;&#x4E00;&#x6A23;&#xFF0C;&#x53EA;&#x4E0D;&#x904E;&#x5B83;&#x4E0D;&#x9700;&#x8981;&#x63D0;&#x4F9B;&#x4E00;&#x500B;&#x7279;&#x5B9A;&#x7684;&#x7DE9;&#x5B58;&#xFF0C;&#x5B83;&#x901A;&#x904E;&#x904D;&#x6B77;&#x7CFB;&#x7D71;&#x4E2D;&#x53EF;&#x7528;&#x7684;&#x7DE9;&#x5B58;&#x4F86;&#x5206;&#x914D;&#x5C0D;&#x8C61;&#x6578;&#x64DA;&#x3002;&#x9019;&#x6A23;&#x6211;&#x5011;&#x7D42;&#x65BC;&#x77E5;&#x9053;kmalloc&#x7684;&#x5BE6;&#x73FE;&#x4E86;&#xFF0C;&#x5B83;&#x662F;slab&#x5206;&#x914D;&#x5668;&#x7684;&#x4E00;&#x500B;&#x63A5;&#x53E3;</p>
+</li>
+<li><code>void kfree( const void *objp );</code></li>
+</ul>
+<h4 id="further-reading">further reading</h4>
+<ul>
+<li><a href="http://en.wikipedia.org/wiki/SLOB" target="_blank">SLOB Allocator</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Slab_allocation" target="_blank">SLAB</a></li>
+<li><a href="http://lwn.net/Articles/229984/" target="_blank">SLUB</a></li>
+<li><a href="http://www.ibm.com/developerworks/linux/library/l-linux-slab-allocator/" target="_blank">Anatomy of the Linux slab allocator</a></li>
+</ul>
+<h2 id="todos">TODOS</h2>
+<ul>
+<li>segmentation</li>
+<li>swaping</li>
+<li>demand paging</li>
+</ul>
 
-&#x5982;&#x679C;&#x662F;&#x524D;&#x8005;&#xFF0C;&#x5148;make V=1&#x67E5;&#x770B;&#x5177;&#x9AD4;&#x7684;&#x7DE8;&#x8B6F;&#x547D;&#x4EE4;&#xFF0C;&#x7136;&#x5F8C;&#x624B;&#x5DE5;&#x5728;&#x547D;&#x4EE4;&#x884C;&#x88E1;&#x57F7;&#x884C;&#xFF08;&#x9700;&#x8981;cd&#x5230;&#x5167;&#x6838;kernel tree&#xFF09;&#xFF0C;&#x7576;&#x7136;&#x52A0;&#x4E0A;-E&#x9078;&#x9805;&#x4E86;&#x3002;
-
-&#x5982;&#x679C;&#x662F;&#x5F8C;&#x8005;&#xFF0C;&#x4FEE;&#x6539;scripts/Makefile.build&#x88E1;&#x9762;&#x7684;cmd_cc_o_c
-cmd_cc_o_c = $(CC) $(c_flags) -c -o $(@D)/.tmp_$(@F) $&lt;
-</code></pre>
                     
                     </section>
                 
@@ -2154,10 +2408,8 @@ cmd_cc_o_c = $(CC) $(c_flags) -c -o $(@D)/.tmp_$(@F) $&lt;
         </div>
 
         
-        <a href="../arm_emulation/simulating_at91_with_skyeye.html" class="navigation navigation-prev " aria-label="Previous page: Simulating AT91 with Skyeye"><i class="fa fa-angle-left"></i></a>
+        <a href="../linux_kernel/128.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 定製編譯內核模塊的GCC參數"><i class="fa fa-angle-left"></i></a>
         
-        
-        <a href="../linux_kernel/121.html" class="navigation navigation-next " aria-label="Next page: 我理解的邏輯地址、線性地址、物理地址和虛擬地址"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

@@ -125,4 +125,5 @@
    * [可搶佔](linux_kernel/126.md)
    * [異或的用法](linux_kernel/127.md)
    * [定製編譯內核模塊的GCC參數](linux_kernel/128.md)
+   * [Linux 記憶體基礎](linux_kernel/129.md)
 

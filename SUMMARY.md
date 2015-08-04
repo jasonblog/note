@@ -126,4 +126,11 @@
    * [異或的用法](linux_kernel/127.md)
    * [定製編譯內核模塊的GCC參數](linux_kernel/128.md)
    * [Linux 記憶體基礎](linux_kernel/129.md)
+   * [Linux內存管理之分頁機制](linux_kernel/1210.md)
+   * [Linux虛擬內存概述](linux_kernel/1211.md)
+   * [程序的裝載和鏈接](linux_kernel/1212.md)
+   * [IA32CPU內存管理機制](linux_kernel/1213.md)
+   * [Linux內存管理之分段機制](linux_kernel/1214.md)
+* [Linux Driver](linux_driver/README.md)
+   * [Linux Device Model 三角關係](linux_driver/linux_device_model.md)
 

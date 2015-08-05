@@ -131,6 +131,8 @@
    * [程序的裝載和鏈接](linux_kernel/1212.md)
    * [IA32CPU內存管理機制](linux_kernel/1213.md)
    * [Linux內存管理之分段機制](linux_kernel/1214.md)
+   * [邏輯地址，線性地址及物理地址的區別](linux_kernel/1215.md)
+   * [分段機制和分頁機制](linux_kernel/1216.md)
 * [Linux Driver](linux_driver/README.md)
    * [Linux Device Model 三角關係](linux_driver/linux_device_model.md)
 

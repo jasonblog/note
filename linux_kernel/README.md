@@ -10,3 +10,6 @@
 如果是後者，修改scripts/Makefile.build裡面的cmd_cc_o_c
 cmd_cc_o_c = $(CC) $(c_flags) -c -o $(@D)/.tmp_$(@F) $<
 ```
+
+
+![](./images/23208702_1299675040US6u.jpg)

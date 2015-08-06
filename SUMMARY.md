@@ -67,6 +67,7 @@
    * [Ubuntu installer](ubuntu/ubuntu_installer.md)
 * [QEMU](qemu/README.md)
    * [Qemu_KGDB_Ftrace](qemu/qemu_kgdb_ftrace.md)
+   * [打造簡易作業系統 - 以GNU Assembler組合語言撰寫](qemu/72.md)
 * [Linux Device Driver Programming](linux_device_driver_programming/README.md)
    * [Linux 裝置驅動程式的概要 ](linux_device_driver_programming/01.md)
    * [Linux 的授權](linux_device_driver_programming/02.md)

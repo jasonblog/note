@@ -137,4 +137,13 @@
    * [段選擇器 段描述符 段描述符表 線性地址形成  ](linux_kernel/1217.md)
 * [Linux Driver](linux_driver/README.md)
    * [Linux Device Model 三角關係](linux_driver/linux_device_model.md)
+* [OS](os/README.md)
+   * [[轉]打造簡易作業系統](os/141.md)
+       * [ (一) 開機Hello World實例](os/14111.md)
+       * [ (二) Boot Loader + 作業系統載入實例 (QEMU)](os/1412.md)
+       * [(三) Boot Loader + 作業系統載入實例 (CF Card)](os/1413.md)
+       * [ (四) 由16位元真實模式 (Real Mode) 進入32位元保護模式 (Protect Mode)](os/1414.md)
+       * [(五) 使用Local Descriptor Table (LDT)](os/1415.md)
+       * [(六) 簡介Call Gate](os/1416.md)
+       * [(七) 利用Call Gate與TSS (Task-State Segment)實現特權等級的轉換](os/1417.md)
 

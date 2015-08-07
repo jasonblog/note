@@ -1,0 +1,2581 @@
+<!DOCTYPE HTML>
+<html lang="en" >
+    
+    <head>
+        
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
+        <title>(七) 利用Call Gate與TSS (Task-State Segment)實現特權等級的轉換 | Jason note</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 2.0.1">
+        
+        
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+        <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+        
+    
+    
+    
+    <link rel="prev" href="../os/1416.html" />
+    
+
+        
+    </head>
+    <body>
+        
+        
+    <link rel="stylesheet" href="../gitbook/style.css">
+    
+    
+
+        
+    <div class="book" data-level="14.1.7" data-basepath=".." data-revision="Fri Aug 07 2015 22:22:19 GMT+0800 (CST)">
+    
+
+<div class="book-summary">
+    <div class="book-search">
+        <input type="text" placeholder="Type to search" class="form-control" />
+    </div>
+    <ul class="summary">
+        
+        
+        
+        
+
+        
+
+        
+    
+        <li class="chapter " data-level="0" data-path="index.html">
+            
+                
+                    <a href="../index.html">
+                        <i class="fa fa-check"></i>
+                        
+                        Introduction
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1" data-path="shared_libraries/12.html">
+            
+                
+                    <a href="../shared_libraries/12.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.</b>
+                        
+                        Command
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1" data-path="shared_libraries/lsof.html">
+            
+                
+                    <a href="../shared_libraries/lsof.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.1.</b>
+                        
+                        10 條 Linux
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="shared_libraries/cntotw.html">
+            
+                
+                    <a href="../shared_libraries/cntotw.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.2.</b>
+                        
+                        Open Chinese Convert 開放中文轉換
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2" data-path="shared_libraries/index.html">
+            
+                
+                    <a href="../shared_libraries/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.</b>
+                        
+                        Shared Libraries
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1" data-path="shared_libraries/11.html">
+            
+                
+                    <a href="../shared_libraries/11.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.1.</b>
+                        
+                        Shared Libraries Setup
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3" data-path="linux_tools/index.html">
+            
+                
+                    <a href="../linux_tools/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.</b>
+                        
+                        Linux Tools
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1" data-path="linux_tools/linux_basic.html">
+            
+                
+                    <a href="../linux_tools/linux_basic.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.</b>
+                        
+                        Linux Basic
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.1" data-path="linux_tools/01_use_man.html">
+            
+                
+                    <a href="../linux_tools/01_use_man.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.1.</b>
+                        
+                        學會使用命令幫助
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.2" data-path="linux_tools/02_file_manage.html">
+            
+                
+                    <a href="../linux_tools/02_file_manage.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.2.</b>
+                        
+                        文件及目錄管理
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3" data-path="linux_tools/03_text_processing.html">
+            
+                
+                    <a href="../linux_tools/03_text_processing.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.3.</b>
+                        
+                        文本處理
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.4" data-path="linux_tools/04_disk.html">
+            
+                
+                    <a href="../linux_tools/04_disk.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.4.</b>
+                        
+                        磁盤管理
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.5" data-path="linux_tools/05_process_manage.html">
+            
+                
+                    <a href="../linux_tools/05_process_manage.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.5.</b>
+                        
+                        進程管理工具
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.6" data-path="linux_tools/06_monitor.html">
+            
+                
+                    <a href="../linux_tools/06_monitor.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.6.</b>
+                        
+                        性能監控
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.7" data-path="linux_tools/07_network.html">
+            
+                
+                    <a href="../linux_tools/07_network.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.7.</b>
+                        
+                        網絡工具
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8" data-path="linux_tools/08_user_manage.html">
+            
+                
+                    <a href="../linux_tools/08_user_manage.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.8.</b>
+                        
+                        用戶管理工具
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.9" data-path="linux_tools/09_system_manage.html">
+            
+                
+                    <a href="../linux_tools/09_system_manage.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.9.</b>
+                        
+                        系統管理及IPC資源管理
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="linux_tools/linux_advance.html">
+            
+                
+                    <a href="../linux_tools/linux_advance.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.2.</b>
+                        
+                        Linux工具進階
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.2.1" data-path="linux_tools/01_program_buil.html">
+            
+                
+                    <a href="../linux_tools/01_program_buil.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.2.1.</b>
+                        
+                        程序構建
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.2" data-path="linux_tools/02_program_debug.html">
+            
+                
+                    <a href="../linux_tools/02_program_debug.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.2.2.</b>
+                        
+                        程序調試
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.3" data-path="linux_tools/03_optimization.html">
+            
+                
+                    <a href="../linux_tools/03_optimization.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.2.3.</b>
+                        
+                        性能優化
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="linux_tools/ref_tool.html">
+            
+                
+                    <a href="../linux_tools/ref_tool.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.</b>
+                        
+                        工具參考篇
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.3.1" data-path="linux_tools/gdb.html">
+            
+                
+                    <a href="../linux_tools/gdb.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.1.</b>
+                        
+                        gdb 調試利器
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.2" data-path="linux_tools/ldd.html">
+            
+                
+                    <a href="../linux_tools/ldd.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.2.</b>
+                        
+                        ldd 查看程序依賴庫
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.3" data-path="linux_tools/ldof.html">
+            
+                
+                    <a href="../linux_tools/ldof.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.3.</b>
+                        
+                        lsof 一切皆文件
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.4" data-path="linux_tools/ps.html">
+            
+                
+                    <a href="../linux_tools/ps.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.4.</b>
+                        
+                        ps 進程查看器
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.5" data-path="linux_tools/pstack.html">
+            
+                
+                    <a href="../linux_tools/pstack.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.5.</b>
+                        
+                        pstack 跟蹤進程棧
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.6" data-path="linux_tools/strace.html">
+            
+                
+                    <a href="../linux_tools/strace.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.6.</b>
+                        
+                        strace 跟蹤進程中的系統調用
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.7" data-path="linux_tools/ipcs.html">
+            
+                
+                    <a href="../linux_tools/ipcs.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.7.</b>
+                        
+                        ipcs 查詢進程間通信狀態
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.8" data-path="linux_tools/top.html">
+            
+                
+                    <a href="../linux_tools/top.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.8.</b>
+                        
+                        top linux下的任務管理器
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.9" data-path="linux_tools/free.html">
+            
+                
+                    <a href="../linux_tools/free.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.9.</b>
+                        
+                        free 查詢可用內存
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.10" data-path="linux_tools/vmstat.html">
+            
+                
+                    <a href="../linux_tools/vmstat.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.10.</b>
+                        
+                        vmstat 監視內存使用情況
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.11" data-path="linux_tools/iostat.html">
+            
+                
+                    <a href="../linux_tools/iostat.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.11.</b>
+                        
+                        iostat 監視I/O子系統
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.12" data-path="linux_tools/sar.html">
+            
+                
+                    <a href="../linux_tools/sar.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.12.</b>
+                        
+                        sar 找出系統瓶頸的利器
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.13" data-path="linux_tools/readelf.html">
+            
+                
+                    <a href="../linux_tools/readelf.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.13.</b>
+                        
+                        readelf elf文件格式分析
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.14" data-path="linux_tools/objdump.html">
+            
+                
+                    <a href="../linux_tools/objdump.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.14.</b>
+                        
+                        objdump 二進制文件分析
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.15" data-path="linux_tools/nm.html">
+            
+                
+                    <a href="../linux_tools/nm.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.15.</b>
+                        
+                        nm 目標文件格式分析
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.16" data-path="linux_tools/size.html">
+            
+                
+                    <a href="../linux_tools/size.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.16.</b>
+                        
+                        size 查看程序內存映像大小
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.17" data-path="linux_tools/wget.html">
+            
+                
+                    <a href="../linux_tools/wget.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.17.</b>
+                        
+                        wget 文件下載
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.18" data-path="linux_tools/scp.html">
+            
+                
+                    <a href="../linux_tools/scp.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.18.</b>
+                        
+                        scp 跨機遠程拷貝
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.19" data-path="linux_tools/crontab.html">
+            
+                
+                    <a href="../linux_tools/crontab.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.19.</b>
+                        
+                        crontab 定時任務
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.20" data-path="linux_tools/trace-cmd.html">
+            
+                
+                    <a href="../linux_tools/trace-cmd.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.20.</b>
+                        
+                        trace-cmd
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4" data-path="linux_tools/doxygen.html">
+            
+                
+                    <a href="../linux_tools/doxygen.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.4.</b>
+                        
+                        Doxygen
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5" data-path="linux_tools/jdbshell.html">
+            
+                
+                    <a href="../linux_tools/jdbshell.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.5.</b>
+                        
+                        Jdbshell
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="4" data-path="bggdb/index.html">
+            
+                
+                    <a href="../bggdb/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.</b>
+                        
+                        Beej&#39;s Quick Guide to GDB
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5" data-path="android_note/index.html">
+            
+                
+                    <a href="../android_note/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.</b>
+                        
+                        Android note
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.1" data-path="android_note/514.html">
+            
+                
+                    <a href="../android_note/514.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.1.</b>
+                        
+                        android resource
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="android_note/startservice_bindservice.html">
+            
+                
+                    <a href="../android_note/startservice_bindservice.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.2.</b>
+                        
+                        什麼時候用startService，什麼時候用bindService
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3" data-path="android_note/handler_looper_message_runnable.html">
+            
+                
+                    <a href="../android_note/handler_looper_message_runnable.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.3.</b>
+                        
+                        android的消息處理機制（圖+源碼分析）——Looper,Handler,Message
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4" data-path="android_note/runnable_thread.html">
+            
+                
+                    <a href="../android_note/runnable_thread.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.4.</b>
+                        
+                        Android中Handler Runnable與Thread的區別詳解
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.5" data-path="android_note/android_service_native_service.html">
+            
+                
+                    <a href="../android_note/android_service_native_service.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.5.</b>
+                        
+                        Android Service與Native Service
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.6" data-path="android_note/handler_message_looper_messagequeue.html">
+            
+                
+                    <a href="../android_note/handler_message_looper_messagequeue.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.6.</b>
+                        
+                        Handler, Message, Looper, MessageQueue
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7" data-path="android_note/android_log.html">
+            
+                
+                    <a href="../android_note/android_log.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.7.</b>
+                        
+                        Android 各層中日誌打印功能的應用
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.8" data-path="android_note/android_command.html">
+            
+                
+                    <a href="../android_note/android_command.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.8.</b>
+                        
+                        Android指令和命令參數
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.9" data-path="android_note/prcess_thread_ipc.html">
+            
+                
+                    <a href="../android_note/prcess_thread_ipc.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.9.</b>
+                        
+                        Android中進程與進程、線程與線程之間如何通信
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.10" data-path="android_note/startservice.html">
+            
+                
+                    <a href="../android_note/startservice.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.10.</b>
+                        
+                        startService的創建過程
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.11" data-path="android_note/bindservice.html">
+            
+                
+                    <a href="../android_note/bindservice.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.11.</b>
+                        
+                        service組件-bindService源碼分析
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.12" data-path="android_note/511.html">
+            
+                
+                    <a href="../android_note/511.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.12.</b>
+                        
+                        [轉]Android 執行緒 - Thread 與 Handler
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.13" data-path="android_note/512.html">
+            
+                
+                    <a href="../android_note/512.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.13.</b>
+                        
+                        [轉] Android 執行緒 - Runnable 與 Handler
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.14" data-path="android_note/513.html">
+            
+                
+                    <a href="../android_note/513.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.14.</b>
+                        
+                        [轉] Android 非同步任務 - AsyncTask
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.15" data-path="android_note/515.html">
+            
+                
+                    <a href="../android_note/515.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.15.</b>
+                        
+                        [轉]Android.mk 組織結構
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.16" data-path="android_note/android_goldfishkernel.html">
+            
+                
+                    <a href="../android_note/android_goldfishkernel.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.16.</b>
+                        
+                        如何下載編譯Android goldfish(Kernel)
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.17" data-path="android_note/android.html">
+            
+                
+                    <a href="../android_note/android.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.17.</b>
+                        
+                        自己動手編譯android源碼
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="6" data-path="ubuntu/index.html">
+            
+                
+                    <a href="../ubuntu/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.</b>
+                        
+                        Ubuntu
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="6.1" data-path="ubuntu/ubuntu_installer.html">
+            
+                
+                    <a href="../ubuntu/ubuntu_installer.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.1.</b>
+                        
+                        Ubuntu installer
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="7" data-path="qemu/index.html">
+            
+                
+                    <a href="../qemu/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.</b>
+                        
+                        QEMU
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="7.1" data-path="qemu/qemu_kgdb_ftrace.html">
+            
+                
+                    <a href="../qemu/qemu_kgdb_ftrace.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.1.</b>
+                        
+                        Qemu_KGDB_Ftrace
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.2" data-path="qemu/72.html">
+            
+                
+                    <a href="../qemu/72.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.2.</b>
+                        
+                        打造簡易作業系統 - 以GNU Assembler組合語言撰寫
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="8" data-path="linux_device_driver_programming/index.html">
+            
+                
+                    <a href="../linux_device_driver_programming/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.</b>
+                        
+                        Linux Device Driver Programming
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="8.1" data-path="linux_device_driver_programming/01.html">
+            
+                
+                    <a href="../linux_device_driver_programming/01.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.1.</b>
+                        
+                        Linux 裝置驅動程式的概要
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8.2" data-path="linux_device_driver_programming/02.html">
+            
+                
+                    <a href="../linux_device_driver_programming/02.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.2.</b>
+                        
+                        Linux 的授權
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8.3" data-path="linux_device_driver_programming/03.html">
+            
+                
+                    <a href="../linux_device_driver_programming/03.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.3.</b>
+                        
+                        準備開發裝置驅動程式
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8.4" data-path="linux_device_driver_programming/04.html">
+            
+                
+                    <a href="../linux_device_driver_programming/04.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.4.</b>
+                        
+                        開發驅動程式的第一步
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8.5" data-path="linux_device_driver_programming/05.html">
+            
+                
+                    <a href="../linux_device_driver_programming/05.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.5.</b>
+                        
+                        開發 driver 需要的基礎知識
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="9" data-path="fcamel/index.html">
+            
+                
+                    <a href="../fcamel/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.</b>
+                        
+                        fcamel
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="9.1" data-path="fcamel/01.html">
+            
+                
+                    <a href="../fcamel/01.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.1.</b>
+                        
+                        [轉]ld, ld.so 和 ldconfig 的行為
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.2" data-path="fcamel/02.html">
+            
+                
+                    <a href="../fcamel/02.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.2.</b>
+                        
+                        [轉]解決 undefined symbol / reference
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.3" data-path="fcamel/03.html">
+            
+                
+                    <a href="../fcamel/03.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.3.</b>
+                        
+                        [轉] 列出用到的 shared library
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.4" data-path="fcamel/04.html">
+            
+                
+                    <a href="../fcamel/04.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.4.</b>
+                        
+                        [轉]用 LD_PRELOAD 替換動態連結的函式庫
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.5" data-path="fcamel/05.html">
+            
+                
+                    <a href="../fcamel/05.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.5.</b>
+                        
+                        [轉] 用 strace 和 ltrace 找出用到的 system call 和 library call
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.6" data-path="fcamel/[]__linking_time.html">
+            
+                
+                    <a href="../fcamel/[]__linking_time.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.6.</b>
+                        
+                        [轉] 加速 linking time
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.7" data-path="fcamel/07.html">
+            
+                
+                    <a href="../fcamel/07.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.7.</b>
+                        
+                        [轉] 從 C 呼叫 C++ 函式的過程理解程式編譯、連結的原理
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.8" data-path="fcamel/08.html">
+            
+                
+                    <a href="../fcamel/08.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.8.</b>
+                        
+                        [轉] 對 C++ 的觀感
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.9" data-path="fcamel/09.html">
+            
+                
+                    <a href="../fcamel/09.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.9.</b>
+                        
+                        [轉]在 Linux 下開發 C/C++ 的新手指南
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10" data-path="fcamel/10.html">
+            
+                
+                    <a href="../fcamel/10.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.</b>
+                        
+                        [轉]瞭解 C/C++ 程式行為的技巧
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="9.10.1" data-path="fcamel/91001.html">
+            
+                
+                    <a href="../fcamel/91001.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.1.</b>
+                        
+                        查 C/C++ symbol 定義的方法
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10.2" data-path="fcamel/91002.html">
+            
+                
+                    <a href="../fcamel/91002.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.2.</b>
+                        
+                        閱讀 C/C++ 原始碼的好幫手
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10.3" data-path="fcamel/91003.html">
+            
+                
+                    <a href="../fcamel/91003.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.3.</b>
+                        
+                        配合 c++filt 讀程式
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10.4" data-path="fcamel/91004.html">
+            
+                
+                    <a href="../fcamel/91004.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.4.</b>
+                        
+                        加速 gdb 載入 symbol 時間
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10.5" data-path="fcamel/91005.html">
+            
+                
+                    <a href="../fcamel/91005.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.5.</b>
+                        
+                        在 x86-64 上對 system call 使用 conditional break
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10.6" data-path="fcamel/91006.html">
+            
+                
+                    <a href="../fcamel/91006.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.6.</b>
+                        
+                        用 strace 找出 Ubuntu 如何提示未安裝的指令
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10.7" data-path="fcamel/91007.html">
+            
+                
+                    <a href="../fcamel/91007.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.7.</b>
+                        
+                        自行編譯含 debug symbol 的套件 (package)
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10.8" data-path="fcamel/91008.html">
+            
+                
+                    <a href="../fcamel/91008.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.8.</b>
+                        
+                        gdb 顯示 STL container 的方法
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10.9" data-path="fcamel/91009.html">
+            
+                
+                    <a href="../fcamel/91009.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.9.</b>
+                        
+                        善用 strace、debugger 從執行期間找出問題根源
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10.10" data-path="fcamel/91010.html">
+            
+                
+                    <a href="../fcamel/91010.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.10.</b>
+                        
+                        用 python gdb 客製化 backtrace 的結果
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="10" data-path="arm/index.html">
+            
+                
+                    <a href="../arm/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>10.</b>
+                        
+                        ARM
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="10.1" data-path="arm/101.html">
+            
+                
+                    <a href="../arm/101.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>10.1.</b>
+                        
+                        ARM彙編語言
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="10.2" data-path="arm/102.html">
+            
+                
+                    <a href="../arm/102.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>10.2.</b>
+                        
+                        ARM尋址方式
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="11" data-path="arm_emulation/index.html">
+            
+                
+                    <a href="../arm_emulation/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.</b>
+                        
+                        ARM emulation
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="11.1" data-path="arm_emulation/compiling_linux_kernel_for_qemu_arm_emulator.html">
+            
+                
+                    <a href="../arm_emulation/compiling_linux_kernel_for_qemu_arm_emulator.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.1.</b>
+                        
+                        Compiling Linux kernel for QEMU ARM emulator
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.2" data-path="arm_emulation/compiling_linux_kernel_30_with_emdebian_arm_toolchain.html">
+            
+                
+                    <a href="../arm_emulation/compiling_linux_kernel_30_with_emdebian_arm_toolchain.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.2.</b>
+                        
+                        Compiling Linux kernel 3.0 with Emdebian ARM toolchain
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.3" data-path="arm_emulation/compile_linux_kernel_32_for_arm_and_emulate_with_qemu.html">
+            
+                
+                    <a href="../arm_emulation/compile_linux_kernel_32_for_arm_and_emulate_with_qemu.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.3.</b>
+                        
+                        Compile Linux kernel 3.2 for ARM and emulate with QEMU
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.4" data-path="arm_emulation/busybox_for_arm_on_qemu.html">
+            
+                
+                    <a href="../arm_emulation/busybox_for_arm_on_qemu.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.4.</b>
+                        
+                        Busybox for ARM on QEMU
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.5" data-path="arm_emulation/linux_nfs_root_under_qemu_arm_emulator.html">
+            
+                
+                    <a href="../arm_emulation/linux_nfs_root_under_qemu_arm_emulator.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.5.</b>
+                        
+                        Linux NFS Root under QEMU ARM emulator
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.6" data-path="arm_emulation/trying_debian_for_arm_on_qemu.html">
+            
+                
+                    <a href="../arm_emulation/trying_debian_for_arm_on_qemu.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.6.</b>
+                        
+                        Trying Debian for ARM on QEMU
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.7" data-path="arm_emulation/debugging_arm_programs_inside_qemu.html">
+            
+                
+                    <a href="../arm_emulation/debugging_arm_programs_inside_qemu.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.7.</b>
+                        
+                        Debugging ARM programs inside QEMU
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.8" data-path="arm_emulation/u-boot_for_arm_on_qemu.html">
+            
+                
+                    <a href="../arm_emulation/u-boot_for_arm_on_qemu.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.8.</b>
+                        
+                        U-boot for ARM on QEMU
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.9" data-path="arm_emulation/booting_linux_with_u-boot_on_qemu_arm.html">
+            
+                
+                    <a href="../arm_emulation/booting_linux_with_u-boot_on_qemu_arm.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.9.</b>
+                        
+                        Booting Linux with U-Boot on QEMU ARM
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.10" data-path="arm_emulation/simplest_bare_metal_program_for_arm.html">
+            
+                
+                    <a href="../arm_emulation/simplest_bare_metal_program_for_arm.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.10.</b>
+                        
+                        Simplest bare metal program for ARM
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.11" data-path="arm_emulation/hello_world_for_bare_metal_arm_using_qemu.html">
+            
+                
+                    <a href="../arm_emulation/hello_world_for_bare_metal_arm_using_qemu.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.11.</b>
+                        
+                        Hello world for bare metal ARM using QEMU
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.12" data-path="arm_emulation/emulating_arm_pl011_serial_ports.html">
+            
+                
+                    <a href="../arm_emulation/emulating_arm_pl011_serial_ports.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.12.</b>
+                        
+                        Emulating ARM PL011 serial ports
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.13" data-path="arm_emulation/arm926_interrupts_in_qemu.html">
+            
+                
+                    <a href="../arm_emulation/arm926_interrupts_in_qemu.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.13.</b>
+                        
+                        ARM926 interrupts in QEMU
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.14" data-path="arm_emulation/using_ubuntu_arm_cross-compiler_for_bare_metal_programming.html">
+            
+                
+                    <a href="../arm_emulation/using_ubuntu_arm_cross-compiler_for_bare_metal_programming.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.14.</b>
+                        
+                        Using Ubuntu ARM cross-compiler for bare metal programming
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.15" data-path="arm_emulation/using_newlib_in_arm_bare_metal_programs.html">
+            
+                
+                    <a href="../arm_emulation/using_newlib_in_arm_bare_metal_programs.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.15.</b>
+                        
+                        Using Newlib in ARM bare metal programs
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.16" data-path="arm_emulation/using_codesourcery_bare_metal_toolchain_for_cortex-m3.html">
+            
+                
+                    <a href="../arm_emulation/using_codesourcery_bare_metal_toolchain_for_cortex-m3.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.16.</b>
+                        
+                        Using CodeSourcery bare metal toolchain for Cortex-M3
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.17" data-path="arm_emulation/qemu_arm_semihosting.html">
+            
+                
+                    <a href="../arm_emulation/qemu_arm_semihosting.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.17.</b>
+                        
+                        QEMU ARM semihosting
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.18" data-path="arm_emulation/simulating_at91_with_skyeye.html">
+            
+                
+                    <a href="../arm_emulation/simulating_at91_with_skyeye.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.18.</b>
+                        
+                        Simulating AT91 with Skyeye
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="12" data-path="linux_kernel/index.html">
+            
+                
+                    <a href="../linux_kernel/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.</b>
+                        
+                        Linux Kernel
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="12.1" data-path="linux_kernel/121.html">
+            
+                
+                    <a href="../linux_kernel/121.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.1.</b>
+                        
+                        我理解的邏輯地址、線性地址、物理地址和虛擬地址
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="12.2" data-path="linux_kernel/122.html">
+            
+                
+                    <a href="../linux_kernel/122.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.2.</b>
+                        
+                        用ttyS0獲取dmesg信息
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="12.3" data-path="linux_kernel/123.html">
+            
+                
+                    <a href="../linux_kernel/123.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.3.</b>
+                        
+                        Buddy Algorithm
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="12.4" data-path="linux_kernel/124.html">
+            
+                
+                    <a href="../linux_kernel/124.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.4.</b>
+                        
+                        分析oops的機器碼
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="12.5" data-path="linux_kernel/125.html">
+            
+                
+                    <a href="../linux_kernel/125.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.5.</b>
+                        
+                        oops調試
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="12.6" data-path="linux_kernel/126.html">
+            
+                
+                    <a href="../linux_kernel/126.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.6.</b>
+                        
+                        可搶佔
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="12.7" data-path="linux_kernel/127.html">
+            
+                
+                    <a href="../linux_kernel/127.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.7.</b>
+                        
+                        異或的用法
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="12.8" data-path="linux_kernel/128.html">
+            
+                
+                    <a href="../linux_kernel/128.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.8.</b>
+                        
+                        定製編譯內核模塊的GCC參數
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="12.9" data-path="linux_kernel/129.html">
+            
+                
+                    <a href="../linux_kernel/129.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.9.</b>
+                        
+                        Linux 記憶體基礎
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="12.10" data-path="linux_kernel/1210.html">
+            
+                
+                    <a href="../linux_kernel/1210.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.10.</b>
+                        
+                        Linux內存管理之分頁機制
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="12.11" data-path="linux_kernel/1211.html">
+            
+                
+                    <a href="../linux_kernel/1211.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.11.</b>
+                        
+                        Linux虛擬內存概述
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="12.12" data-path="linux_kernel/1212.html">
+            
+                
+                    <a href="../linux_kernel/1212.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.12.</b>
+                        
+                        程序的裝載和鏈接
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="12.13" data-path="linux_kernel/1213.html">
+            
+                
+                    <a href="../linux_kernel/1213.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.13.</b>
+                        
+                        IA32CPU內存管理機制
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="12.14" data-path="linux_kernel/1214.html">
+            
+                
+                    <a href="../linux_kernel/1214.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.14.</b>
+                        
+                        Linux內存管理之分段機制
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="12.15" data-path="linux_kernel/1215.html">
+            
+                
+                    <a href="../linux_kernel/1215.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.15.</b>
+                        
+                        邏輯地址，線性地址及物理地址的區別
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="12.16" data-path="linux_kernel/1216.html">
+            
+                
+                    <a href="../linux_kernel/1216.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.16.</b>
+                        
+                        分段機制和分頁機制
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="12.17" data-path="linux_kernel/1217.html">
+            
+                
+                    <a href="../linux_kernel/1217.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.17.</b>
+                        
+                        段選擇器 段描述符 段描述符表 線性地址形成
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="13" data-path="linux_driver/index.html">
+            
+                
+                    <a href="../linux_driver/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>13.</b>
+                        
+                        Linux Driver
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="13.1" data-path="linux_driver/linux_device_model.html">
+            
+                
+                    <a href="../linux_driver/linux_device_model.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>13.1.</b>
+                        
+                        Linux Device Model 三角關係
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="14" data-path="os/index.html">
+            
+                
+                    <a href="../os/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>14.</b>
+                        
+                        OS
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="14.1" data-path="os/141.html">
+            
+                
+                    <a href="../os/141.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>14.1.</b>
+                        
+                        [轉]打造簡易作業系統
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="14.1.1" data-path="os/14111.html">
+            
+                
+                    <a href="../os/14111.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>14.1.1.</b>
+                        
+                        (一) 開機Hello World實例
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="14.1.2" data-path="os/1412.html">
+            
+                
+                    <a href="../os/1412.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>14.1.2.</b>
+                        
+                        (二) Boot Loader + 作業系統載入實例 (QEMU)
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="14.1.3" data-path="os/1413.html">
+            
+                
+                    <a href="../os/1413.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>14.1.3.</b>
+                        
+                        (三) Boot Loader + 作業系統載入實例 (CF Card)
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="14.1.4" data-path="os/1414.html">
+            
+                
+                    <a href="../os/1414.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>14.1.4.</b>
+                        
+                        (四) 由16位元真實模式 (Real Mode) 進入32位元保護模式 (Protect Mode)
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="14.1.5" data-path="os/1415.html">
+            
+                
+                    <a href="../os/1415.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>14.1.5.</b>
+                        
+                        (五) 使用Local Descriptor Table (LDT)
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="14.1.6" data-path="os/1416.html">
+            
+                
+                    <a href="../os/1416.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>14.1.6.</b>
+                        
+                        (六) 簡介Call Gate
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter active" data-level="14.1.7" data-path="os/1417.html">
+            
+                
+                    <a href="../os/1417.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>14.1.7.</b>
+                        
+                        (七) 利用Call Gate與TSS (Task-State Segment)實現特權等級的轉換
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+
+        
+        <li class="divider"></li>
+        <li>
+            <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+                Published with GitBook
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="book-header">
+    <!-- Actions Left -->
+    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
+    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
+    
+    <div id="font-settings-wrapper" class="dropdown pull-left">
+        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
+        </a>
+        <div class="dropdown-menu font-settings">
+    <div class="dropdown-caret">
+        <span class="caret-outer"></span>
+        <span class="caret-inner"></span>
+    </div>
+
+    <div class="buttons">
+        <button type="button" id="reduce-font-size" class="button size-2">A</button>
+        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
+    </div>
+
+    <div class="buttons font-family-list">
+        <button type="button" data-font="0" class="button">Serif</button>
+        <button type="button" data-font="1" class="button">Sans</button>
+    </div>
+
+    <div class="buttons color-theme-list">
+        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
+        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
+        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
+    </div>
+</div>
+
+    </div>
+
+    <!-- Actions Right -->
+    
+    <div class="dropdown pull-right">
+        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
+        </a>
+        <div class="dropdown-menu font-settings dropdown-left">
+            <div class="dropdown-caret">
+                <span class="caret-outer"></span>
+                <span class="caret-inner"></span>
+            </div>
+            <div class="buttons">
+                <button type="button" data-sharing="twitter" class="button">
+                    Share on Twitter
+                </button>
+                <button type="button" data-sharing="google-plus" class="button">
+                    Share on Google
+                </button>
+                <button type="button" data-sharing="facebook" class="button">
+                    Share on Facebook
+                </button>
+                <button type="button" data-sharing="weibo" class="button">
+                    Share on Weibo
+                </button>
+                <button type="button" data-sharing="instapaper" class="button">
+                    Share on Instapaper
+                </button>
+            </div>
+        </div>
+    </div>
+    
+
+    
+    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
+    
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../" >Jason note</a>
+    </h1>
+</div>
+
+            <div class="page-wrapper" tabindex="-1">
+                <div class="page-inner">
+                
+                
+                    <section class="normal" id="section-">
+                    
+                        <h1 id="-%E4%B8%83-%E5%88%A9%E7%94%A8call-gate%E8%88%87tss-task-state-segment-%E5%AF%A6%E7%8F%BE%E7%89%B9%E6%AC%8A%E7%AD%89%E7%B4%9A%E7%9A%84%E8%BD%89%E6%8F%9B">(&#x4E03;) &#x5229;&#x7528;Call Gate&#x8207;TSS (Task-State Segment)&#x5BE6;&#x73FE;&#x7279;&#x6B0A;&#x7B49;&#x7D1A;&#x7684;&#x8F49;&#x63DB;</h1>
+<p>&#x4E0A;&#x7BC7;&#x6587;&#x7AE0;&#x50C5;&#x4ECB;&#x7D39;&#x5982;&#x4F55;&#x5229;&#x7528;Call Gate&#xFF0C;&#x6587;&#x4E2D;&#x4E26;&#x672A;&#x63D0;&#x53CA;&#x5982;&#x4F55;&#x5BE6;&#x73FE;&#x7279;&#x6B0A;&#x7B49;&#x7D1A;&#x7684;&#x8F49;&#x63DB;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x5F9E;&#x4F4E;&#x7279;&#x6B0A;&#x7B49;&#x7D1A;&#x9032;&#x5165;&#x9AD8;&#x7279;&#x6B0A;&#x7B49;&#x7D1A;&#xFF0C;&#x5C31;&#x5982;&#x540C;Linux&#x7684;user space (Privilege 3&#x6216;&#x7A31;Ring 3)&#x9032;&#x5165;kernel space (Privilege 0&#x6216;&#x7A31;Ring 0)&#x3002;</p>
+<h3 id="%E7%B0%A1%E4%BB%8Btss-task-state-segment">&#x7C21;&#x4ECB;TSS (Task-State Segment)</h3>
+<p>&#x672C;&#x6587;&#x50C5;&#x7C21;&#x55AE;&#x8AAA;&#x660E;TSS&#x5728;&#x672C;&#x6587;&#x88AB;&#x4F7F;&#x7528;&#x7684;&#x5730;&#x65B9;&#xFF0C;&#x5982;&#x6B32;&#x8A73;&#x76E1;&#x8AAA;&#x660E;&#x8ACB;&#x53C3;&#x8003;[2]&#x4E4B;&#x7B2C;&#x4E03;&#x7AE0;&#x3002;</p>
+<h3 id="task-structure">Task Structure</h3>
+<p>Figure 1&#x70BA;&#x4E00;&#x500B;&#x5DE5;&#x4F5C;&#x4EFB;&#x52D9; (Task)&#x7684;&#x7D50;&#x69CB;&#x5716;&#xFF0C;&#x4E00;&#x500B;&#x5DE5;&#x4F5C;&#x4EFB;&#x52D9;&#x5206;&#x70BA;&#x5169;&#x5927;&#x90E8;&#x4EFD;: 1. &#x5DE5;&#x4F5C;&#x4EFB;&#x52D9;&#x7684;&#x57F7;&#x884C;&#x7A7A;&#x9593; (Task Execution Space)&#xFF0C;&#x5176;&#x4E2D;&#x5305;&#x542B;CS&#x3001;SS&#x4EE5;&#x53CA;&#x82E5;&#x5E72;&#x500B;DS&#xFF0C;&#x4E5F;&#x5C31;&#x662F;Figure 1&#x53F3;&#x4E0A;&#x89D2;&#x7684;&#x4E09;&#x500B;&#x5340;&#x6BB5;&#x3002;2. TSS: &#x7531;&#x5DE5;&#x4F5C;&#x4EFB;&#x52D9;&#x57F7;&#x884C;&#x7A7A;&#x9593;&#x8207;&#x4E00;&#x500B;&#x5132;&#x5B58;&#x7A7A;&#x9593; (&#x7528;&#x4F86;&#x5132;&#x5B58;&#x5DE5;&#x4F5C;&#x4EFB;&#x52D9;&#x7684;&#x72C0;&#x614B;)&#x6240;&#x7D44;&#x6210;&#x3002;Figure 1&#x53C8;&#x8AAA;&#x660E;&#x53E6;&#x4E00;&#x4EF6;&#x4E8B;: TSS&#x7684;Segment Selector&#x5FC5;&#x9808;&#x5132;&#x5B58;&#x5728;Task Register&#x3002;&#x56E0;&#x6B64;&#x5728;&#x4F7F;&#x7528;TSS&#x4E4B;&#x524D;&#xFF0C;&#x5FC5;&#x9808;&#x4F7F;&#x7528;LTR&#x6307;&#x4EE4;&#x5C07;TSS&#x4E4B;Segment Selector&#x8F09;&#x5165;&#x81F3;Task Register&#x3002;</p>
+<p><img src="images/structure_of_a_task.jpeg" alt=""></p>
+<h3 id="figure-1-structure-of-a-task">Figure 1 Structure of a Task</h3>
+<h3 id="tss-memory-layout">TSS Memory Layout</h3>
+<p>Figure 2&#x70BA;32&#x4F4D;&#x5143;TSS&#x8A18;&#x61B6;&#x9AD4;&#x7A7A;&#x9593;&#x914D;&#x7F6E;&#x5716;&#xFF0C;&#x5982;&#x4E0B;&#x6240;&#x8FF0;:</p>
+<ul>
+<li>ESP0&#x3001;SS0&#x3001;ESP1&#x3001;SS1&#x3001;ESP2&#x8207;SS2: &#x5206;&#x5225;&#x70BA;&#x7279;&#x6B0A;&#x7B49;&#x7D1A;0&#x3001;1&#x8207;2&#x7684;&#x5806;&#x758A;&#x5340;&#x6BB5;&#x8207;&#x5806;&#x758A;&#x6307;&#x6A19;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;Figure 1&#x53F3;&#x4E0B;&#x89D2;&#x4E09;&#x500B; &quot;Stack Seg. Priv. Level x&quot;&#x3002;&#x672C;&#x6587;&#x5229;&#x7528;ESP0&#x8207;SS0&#x5BE6;&#x73FE;&#x7279;&#x6B0A;&#x7B49;&#x7D1A;&#x7684;&#x8F49;&#x63DB; (Ring 3&#x8F49;&#x63DB;&#x81F3;Ring 0)&#xFF0C;&#x56E0;&#x6B64;&#x4F5C;&#x8005;&#x50C5;&#x8A2D;&#x5B9A;TSS&#x7684;&#x9019;&#x5169;&#x500B;&#x6B04;&#x4F4D;&#xFF0C;&#x5176;&#x5B83;&#x6B04;&#x4F4D;&#x5247;&#x8A2D;&#x70BA;0&#x3002;</li>
+<li>&#x5176;&#x5B83;&#x6B04;&#x4F4D;&#x5728;&#x6B64;&#x4E0D;&#x9032;&#x4E00;&#x6B65;&#x63A2;&#x8A0E;&#xFF0C;&#x6709;&#x8208;&#x8DA3;&#x7684;&#x7DB2;&#x53CB;&#x53EF;&#x4EE5;&#x53C3;&#x8003;[2]&#x3002;</li>
+</ul>
+<p><img src="images/TSS_memory_layout.jpeg" alt=""></p>
+<h3 id="%E5%8E%9F%E5%A7%8B%E7%A2%BC%E4%B8%8B%E8%BC%89">&#x539F;&#x59CB;&#x78BC;&#x4E0B;&#x8F09;</h3>
+<p>&#x7531;&#x65BC;&#x7BC7;&#x5E45;&#x7684;&#x95DC;&#x4FC2;&#xFF0C;&#x5F80;&#x5F8C;&#x8A72;&#x7CFB;&#x5217;&#x6587;&#x7AE0;&#x5C07;&#x4E0D;&#x5F35;&#x8CBC;&#x7A0B;&#x5F0F;&#x78BC;&#xFF0C;&#x5C07;&#x63D0;&#x4F9B;&#x9023;&#x7D50;&#x4E0B;&#x8F09;&#x65B9;&#x5F0F;&#xFF0C;<a href="src/pe-call-gate-tss.tar.gz">&#x539F;&#x59CB;&#x78BC;&#x4E0B;&#x8F09;&#x9EDE;</a>&#x3002;</p>
+<h3 id="%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1%E7%A8%8B%E5%BC%8F%E7%A2%BC%E8%AA%AA%E6%98%8E">&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x7A0B;&#x5F0F;&#x78BC;&#x8AAA;&#x660E;</h3>
+<p>Figure 3&#x70BA;&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x7A0B;&#x5F0F;&#x78BC;&#x89E3;&#x8AAA;&#x5716;&#xFF0C;&#x6B64;&#x5716;&#x8AAA;&#x660E;GDT&#x8207;LDT&#x7684;&#x8A18;&#x61B6;&#x9AD4;&#x914D;&#x7F6E;&#x5716;&#x8207;&#x7A0B;&#x5F0F;&#x6D41;&#x7A0B;&#x5716;&#xFF0C;&#x5176;&#x6D41;&#x7A0B;&#x5716;&#x4E26;&#x975E;&#x4EE5;&#x50B3;&#x7D71;&#x65B9;&#x5F0F;&#x8868;&#x793A;&#x3002;&#x53D6;&#x800C;&#x4EE3;&#x4E4B;&#xFF0C;&#x6539;&#x4EE5;&#x7D05;&#x8272;&#x5708;&#x5708;&#x7684;&#x6578;&#x5B57;&#x4EE3;&#x8868;&#x7A0B;&#x5F0F;&#x6D41;&#x7A0B;&#x4E26;&#x642D;&#x914D;GDT&#x8207;LDT&#x8A18;&#x61B6;&#x9AD4;&#x914D;&#x7F6E;&#x5716;&#xFF0C;&#x5982;&#x6B64;&#x66F4;&#x80FD;&#x6E05;&#x695A;&#x5730;&#x660E;&#x767D;&#x7A0B;&#x5F0F;&#x57F7;&#x884C;&#x6D41;&#x7A0B;&#x3002;&#x5E95;&#x4E0B;&#x5C07;&#x91DD;&#x5C0D;&#x6BCF;&#x4E00;&#x6B65;&#x9A5F; (&#x7D05;&#x8272;&#x5708;&#x5708;&#x7684;&#x6578;&#x5B57;)&#x505A;&#x8A73;&#x76E1;&#x7684;&#x89E3;&#x91CB;:</p>
+<p><img src="images/code_flow.jpeg" alt=""></p>
+<h3 id="figure-3-high-level-perspective-of-os-code">Figure 3 High Level Perspective of OS code</h3>
+<ul>
+<li>&#x4F7F;&#x7528;ljmp&#x6307;&#x4EE4;&#x7531;&#x771F;&#x5BE6;&#x6A21;&#x5F0F;&#x8F49;&#x63DB;&#x81F3;32&#x4F4D;&#x5143;&#x4FDD;&#x8B77;&#x6A21;&#x5F0F; (Ring 0)&#x3002;&#x5176;&#x7247;&#x6BB5;&#x7A0B;&#x5F0F;&#x78BC;&#x5982;&#x4E0B;&#x6240;&#x793A;:</li>
+</ul>
+<pre><code>  /* Jump to protected-mode OS code        *
+   * ljmpl prototype:                      *
+   *   ljmpl segment_selector_of_CS offset */
+  ljmpl     $SegSelectorCode32, $0
+
+&#x6B64;&#x5340;&#x6BB5;&#x7A0B;&#x5F0F;&#x78BC;&#x5C07;Msg1&#x8F38;&#x51FA;&#x81F3;&#x87A2;&#x5E55;&#xFF0C;&#x4E26;&#x5C07;LDT&#x7684;segment selector&#x8F09;&#x5165;&#x81F3;LDTR&#xFF0C;&#x63A5;&#x8457;&#x4F7F;&#x7528;lcall&#x6307;&#x4EE4;&#x8DF3;&#x81F3;LDT&#x7684;CS&#xFF0C;&#x5982;&#x4E0B;&#x6240;&#x793A;:
+    /* Load LDT selector */
+   mov     $(SegSelectorLDT), %ax
+
+   /* Load LDT selector in GDT to LDT register */
+   lldt     %ax
+
+   /* Jump to code segment in LDT */
+   lcall     $(SegSelectorLDTCode32), $0
+</code></pre><ul>
+<li>&#x5982;&#x7B2C;1&#x9EDE;&#x6240;&#x8FF0;&#x3002;</li>
+<li>&#x5982;&#x7B2C;1&#x9EDE;&#x6240;&#x8FF0;&#x3002;</li>
+<li>&#x8F38;&#x51FA;Msg2&#xFF0C;&#x96A8;&#x5373;&#x4F7F;&#x7528;lret&#x6307;&#x4EE4;&#x8FD4;&#x56DE;LABEL_GDT_CODE&#x3002;</li>
+<li>&#x901A;&#x5E38;&#xFF0C;call&#x8207;ret&#x6307;&#x4EE4;&#x5FC5;&#x9808;&#x914D;&#x5408;&#x4F7F;&#x7528;&#x3002;&#x57F7;&#x884C;call&#x6307;&#x4EE4;&#x6642;&#xFF0C;&#x8655;&#x7406;&#x5668;&#x6703;&#x5C07;SS&#x3001;ESP&#x3001;CS&#x8207;EIP&#x63A8;&#x5165;(Push) &#x8A72;&#x57F7;&#x884C;&#x7A7A;&#x9593;&#x7684;&#x5806;&#x758A; (Stack)&#x3002;&#x63A5;&#x8457;&#xFF0C;&#x57F7;&#x884C;ret&#x6307;&#x4EE4;&#x6642;&#xFF0C;&#x8655;&#x7406;&#x5668;&#x6703;&#x5C07;EIP&#x3001;CS&#x3001;ESP&#x8207;SS&#x5F9E;&#x5806;&#x758A;&#x53D6;&#x51FA; (Pop)&#x3002;&#x70BA;&#x4E86;&#x5BE6;&#x73FE;&#x5F9E;Ring 0&#x8FD4;&#x56DE;Ring 3&#xFF0C;&#x5E95;&#x4E0B;&#x7A0B;&#x5F0F;&#x78BC;&#x6A21;&#x64EC;&#x8655;&#x7406;&#x5668;&#x7684;&#x5DE5;&#x4F5C;: &#x5C07;Ring 3&#x7684;SS&#x3001;ESP&#x3001;CS&#x8207;EIP&#x63A8;&#x5165;(Push) &#x8A72;&#x57F7;&#x884C;&#x7A7A;&#x9593;&#x7684;&#x5806;&#x758A; (Stack)&#x4E26;&#x4F7F;&#x7528;lret&#x6307;&#x4EE4;&#x8FD4;&#x56DE;Ring 3&#x3002;
+ pushl    $(SegSelectorStackR3)
+pushl    $(TopOfStackR3)
+pushl    $(SegSelectorCodeR3)
+pushl    $0
+lret</li>
+<li>&#x5F9E;Ring 0 (LABEL_GDT_CODE)&#x8FD4;&#x56DE; Ring 3 (LABEL_GDT_CODE_R3)&#x3002;</li>
+<li>&#x6B64;Ring 3&#x7A0B;&#x5F0F;&#x5340;&#x6BB5;&#x5C07;Msg1_R3&#x8F38;&#x51FA;&#x81F3;&#x87A2;&#x5E55;&#xFF0C;&#x5229;&#x7528;call gate&#x4E26;&#x642D;&#x914D;TSS&#x6210;&#x529F;&#x5730;&#x8FD4;&#x56DE;Ring 0&#x7A0B;&#x5F0F;&#x5340;&#x6BB5;&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x5FC5;&#x9808;&#x8A2D;&#x5B9A;TSS&#x4E4B;ESP0&#x8207;SS0&#x6B04;&#x4F4D;&#xFF0C;&#x5982;&#x4E0B;&#x6240;&#x793A;:</li>
+</ul>
+<pre><code>LABEL_TSS:
+ .4byte  0                         /* Previous Task Link   */
+ .4byte  TopOfStackR0              /* ESP0                 */
+ .4byte  SegSelectorStackR0        /* SS0                  */
+ .4byte  0                         /* ESP1                 */
+ .4byte  0                         /* SS1                  */
+ .4byte  0                         /* ESP2                 */
+ .4byte  0                         /* SS2                  */
+ .4byte  0                         /* CR3 (PDBR)           */
+ .4byte  0                         /* EIP                  */
+ .4byte  0                         /* EFLAGS               */
+ .4byte  0                         /* EAX                  */
+ .4byte  0                         /* ECX                  */
+ .4byte  0                         /* EDX                  */
+ .4byte  0                         /* EBX                  */
+ .4byte  0                         /* ESP                  */
+ .4byte  0                         /* EBP                  */
+ .4byte  0                         /* ESI                  */
+ .4byte  0                         /* EDI                  */
+ .4byte  0                         /* ES                   */
+ .4byte  0                         /* CS                   */
+ .4byte  0                         /* SS                   */
+ .4byte  0                         /* DS                   */
+ .4byte  0                         /* FS                   */
+ .4byte  0                         /* GS                   */
+ .4byte  0                         /* LDT Segment Selector */
+ .2byte  0                         /* Reserved             */
+ .2byte  (. - LABEL_TSS + 2)       /* I/O Map Base Address */
+.set TSSLen, (. - LABEL_TSS)
+</code></pre><p>&#x5728;&#x6B64;&#xFF0C;&#x7279;&#x5225;&#x5C0D;&#x7279;&#x6B0A;&#x7B49;&#x7D1A;&#x8F49;&#x63DB;&#x505A;&#x9032;&#x4E00;&#x6B65;&#x89E3;&#x91CB;&#xFF0C;&#x4EE5;&#x4FBF;&#x8B93;&#x8B80;&#x8005;&#x4E86;&#x89E3;&#x70BA;&#x4EC0;&#x9EBC;&#x53EA;&#x8981;&#x8A2D;&#x5B9A;ESP0&#x8207;SS0&#x6B04;&#x4F4D;&#x5373;&#x53EF;&#x3002;&#x7576;&#x5B58;&#x53D6;&#x76EE;&#x7684;&#x7A0B;&#x5F0F;&#x5340;&#x6BB5; (Destination Code Segment)&#x662F;&#x88AB;&#x5141;&#x8A31;&#x7684;&#xFF0C;&#x8655;&#x7406;&#x5668;&#x4FBF;&#x6703;&#x6839;&#x64DA;Call Gate Descriptor&#x7684;Segment Selector&#x6B04;&#x4F4D;&#x627E;&#x51FA;&#x5C0D;&#x61C9;&#x7684;&#x7A0B;&#x5F0F;&#x5340;&#x6BB5;&#xFF0C;&#x5982;&#x679C;&#x53C8;&#x6D89;&#x53CA;&#x7279;&#x6B0A;&#x7B49;&#x7D1A;&#x8F49;&#x63DB;&#xFF0C;&#x8655;&#x7406;&#x5668;&#x6703;&#x5C07;&#x539F;&#x672C;&#x4F7F;&#x7528;&#x4E2D;&#x7684;&#x5806;&#x758A;&#x5207;&#x63DB;&#x81F3;&#x76EE;&#x6A19;&#x7279;&#x6B0A;&#x7B49;&#x7D1A;&#x7684;&#x5806;&#x758A;&#x3002;&#x8209;&#x4F8B;&#x4F86;&#x8AAA;&#xFF0C;&#x5047;&#x8A2D;&#x76EE;&#x524D;&#x7A0B;&#x5F0F;&#x5340;&#x6BB5;&#x904B;&#x884C;&#x65BC;Ring 3&#xFF0C;&#x8655;&#x7406;&#x5668;&#x4FBF;&#x4F7F;&#x7528;Ring 3&#x7684;&#x5806;&#x758A;&#xFF0C;&#x7576;&#x4F7F;&#x7528;Call Gate&#x6B32;&#x8F49;&#x63DB;&#x81F3;Ring 0&#x7684;&#x7A0B;&#x5F0F;&#x5340;&#x6BB5;&#x3002;&#x5982;&#x679C;&#x6B64;&#x8981;&#x6C42;&#x662F;&#x88AB;&#x5141;&#x8A31;&#x7684;&#xFF0C;&#x5247;&#x8655;&#x7406;&#x5668;&#x6703;&#x8DF3;&#x81F3;Ring 0&#x7684;&#x7A0B;&#x5F0F;&#x5340;&#x6BB5;&#x4E26;&#x4F7F;&#x7528;Ring 0&#x7684;&#x5806;&#x758A;&#xFF0C;&#x56E0;&#x6B64;&#x7A0B;&#x5F0F;&#x8A2D;&#x8A08;&#x54E1;&#x5FC5;&#x9808;&#x5148;&#x8A2D;&#x5B9A;Ring 0&#x5806;&#x758A; (ESP0&#x8207;SS0)&#xFF0C;&#x9019;&#x5C31;&#x662F;&#x70BA;&#x4EC0;&#x9EBC;&#x5FC5;&#x9808;&#x8A2D;&#x5B9A;TSS&#x7684;ESP&#x8207;SS0&#x6B04;&#x4F4D;&#x7684;&#x539F;&#x56E0;&#x3002;</p>
+<ul>
+<li>&#x8DF3;&#x81F3;GDT&#x4E4B;Call Gate&#x7684;&#x63CF;&#x8FF0;&#x5B50; (Descriptor)&#x3002;</li>
+<li>&#x6839;&#x64DA;Call Gate&#x63CF;&#x8FF0;&#x5B50;&#x7684;Segment Selector&#x6B04;&#x4F4D;&#x627E;&#x51FA;&#x5C0D;&#x61C9;&#x7684;CS&#x3002;</li>
+<li>&#x5C07;Msg3&#x8F38;&#x51FA;&#x81F3;&#x87A2;&#x5E55;&#x4E26;&#x8FD4;&#x56DE;&#x3002;</li>
+<li>&#x8FD4;&#x56DE;Ring 3&#x7A0B;&#x5F0F;&#x5340;&#x6BB5;&#xFF0C;&#x4E26;&#x57F7;&#x884C;&#x4E00;&#x7121;&#x7AAE;&#x8FF4;&#x5708;&#x3002;</li>
+</ul>
+<h3 id="qemu%E6%B8%AC%E8%A9%A6%E7%B5%90%E6%9E%9C">QEMU&#x6E2C;&#x8A66;&#x7D50;&#x679C;</h3>
+<p><img src="images/result.jpeg" alt=""></p>
+<h3 id="%E3%80%90reference%E3%80%91">&#x3010;Reference&#x3011;</h3>
+<ul>
+<li>[1] Solrex - &#x4F7F;&#x7528;&#x958B;&#x6E90;&#x8EDF;&#x9AD4;-&#x81EA;&#x5DF1;&#x52D5;&#x624B;&#x5BEB;&#x4F5C;&#x696D;&#x7CFB;&#x7D71;</li>
+<li>[2] Intel 64 and IA-32 Architectures. Software Developer&apos;s Manual. Volume 3A</li>
+<li>[3] 30&#x5929;&#x6253;&#x9020;OS&#xFF01;&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x81EA;&#x4F5C;&#x5165;&#x9580;</li>
+<li>[4] Jserv&apos;s Blog</li>
+<li>[5] X86 &#x958B;&#x6A5F;&#x6D41;&#x7A0B;&#x5C0F;&#x8A18;</li>
+<li>[6] Linux assemblers: A comparison of GAS and NASM</li>
+<li>[7] linux-source-2.6.31</li>
+</ul>
+
+                    
+                    </section>
+                
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../os/1416.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: (六) 簡介Call Gate"><i class="fa fa-angle-left"></i></a>
+        
+        
+    </div>
+</div>
+
+        
+<script src="../gitbook/app.js"></script>
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    gitbook.start(config);
+});
+</script>
+
+        
+    </body>
+    
+</html>

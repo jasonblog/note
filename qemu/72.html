@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
-        <title>打造簡易作業系統 - 以GNU Assembler組合語言撰寫 | Jason note</title>
+        <title>5 分鐘 Linux 0.11 快速構建實驗環境 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.0.1">
@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="7.2" data-basepath=".." data-revision="Sat Aug 08 2015 01:45:04 GMT+0800 (CST)">
+    <div class="book" data-level="7.2" data-basepath=".." data-revision="Sat Aug 08 2015 01:48:29 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1113,16 +1113,9 @@
                         
                             <b>7.2.</b>
                         
-                        打造簡易作業系統 - 以GNU Assembler組合語言撰寫
+                        5 分鐘 Linux 0.11 快速構建實驗環境
                     </a>
                 
-            
-            
-        </li>
-    
-        <li class="chapter " data-level="7.3" data-path="qemu/73.html">
-            
-            <span><b>7.3.</b> 73</span>
             
             
         </li>
@@ -2459,7 +2452,229 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E6%89%93%E9%80%A0%E7%B0%A1%E6%98%93%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1-%E4%BB%A5gnu-assembler%E7%B5%84%E5%90%88%E8%AA%9E%E8%A8%80%E6%92%B0%E5%AF%AB">&#x6253;&#x9020;&#x7C21;&#x6613;&#x4F5C;&#x696D;&#x7CFB;&#x7D71; - &#x4EE5;GNU Assembler&#x7D44;&#x5408;&#x8A9E;&#x8A00;&#x64B0;&#x5BEB;</h1>
+                        <h1 id="5-%E5%88%86%E9%90%98-linux-0-11-%E5%BF%AB%E9%80%9F%E6%A7%8B%E5%BB%BA%E5%AF%A6%E9%A9%97%E7%92%B0%E5%A2%83">5 &#x5206;&#x9418; Linux 0.11 &#x5FEB;&#x901F;&#x69CB;&#x5EFA;&#x5BE6;&#x9A57;&#x74B0;&#x5883;</h1>
+<p><a href="src/linux-0.11-lab.tar.bz2">src_download</a></p>
+<h1 id="linux-0-11-lab">Linux 0.11 Lab</h1>
+<p>The old Linux kernel source version 0.11 and the integrated experiment environment.</p>
+<h2 id="contents">Contents</h2>
+<ul>
+<li><p><a href="#introduction">Introduction</a></p>
+</li>
+<li><p><a href="#build-on-linux">Build on Linux</a></p>
+<ul>
+<li><a href="#linux-setup">Linux Setup</a></li>
+<li><a href="#hack-linux-0.11-on-linux">Hack Linux 0.11</a></li>
+</ul>
+</li>
+<li><p><a href="#build-on-mac-os-x">Build on Mac OS X</a></p>
+<ul>
+<li><a href="#mac-os-x-setup">Mac OS X Setup</a></li>
+<li><a href="#hack-linux-0.11-on-mac">Hack Linux 0.11</a></li>
+</ul>
+</li>
+<li><p><a href="#build-on-other-systems">Build on Other Systems (Include Mac OS X and Windows)</a></p>
+<ul>
+<li><a href="#other-systems-setup">Setup with Boot2Docker and Dockerfile</a></li>
+<li><a href="#hack-linux-0.11-on-other-systems">Hack Linux 0.11</a></li>
+</ul>
+</li>
+<li><p><a href="#changes">Changes</a></p>
+</li>
+</ul>
+<p><span id="introduction"></span></p>
+<h2 id="introduction">Introduction</h2>
+<ul>
+<li><p>Basic information</p>
+<ul>
+<li>Homepage: <a href="http://tinylab.org/linux-0.11-lab" target="_blank">http://tinylab.org/linux-0.11-lab</a></li>
+<li>Repository: <a href="https://github.com/tinyclub/linux-0.11-lab" target="_blank">https://github.com/tinyclub/linux-0.11-lab</a></li>
+</ul>
+</li>
+<li><p>Features</p>
+<ul>
+<li>compilable with many different versions of Gcc.</li>
+<li>has been tested under modern Linux, Mac OS X.</li>
+<li>add bulit-in qemu and bochs support, include running and debugging.</li>
+<li>integrate different prebuilt rootfs (floopy, ramdisk and harddisk).</li>
+<li>allow to generate callgraph of every specified function</li>
+<li>a Dockerfile added to simplify this setup on other systems (e.g. Windows).</li>
+</ul>
+</li>
+</ul>
+<p><span id="build-on-linux"></span></p>
+<h2 id="build-on-linux">Build on Linux</h2>
+<p><span id="linux-setup"></span></p>
+<h3 id="linux-setup">Linux Setup</h3>
+<ul>
+<li>The Linux distributions: debian and ubuntu are recommended</li>
+<li><p>Some tools: gcc gdb qemu cscope ctags cflow graphviz</p>
+<pre><code>  $ apt-get install vim cscope exuberant-ctags build-essential qemu
+</code></pre></li>
+<li><p>Use with docker (everything is installed by default for you)</p>
+<ul>
+<li><p>Install docker</p>
+<pre><code>      $ sudo apt-get install software-properties-common
+      $ sudo apt-get install python-software-properties
+      $ sudo add-apt-repository ppa:dotcloud/lxc-docker
+      $ sudo apt-get -y update
+      $ sudo apt-get install lxc-docker
+</code></pre></li>
+<li><p>Build and Start the service</p>
+<pre><code>      $ docker build -t tinylab/linux-0.11-lab ./
+      $ CONTAINER_ID=$(docker run -d -p 6080:6080 dorowu/ubuntu-desktop-lxde-vnc)
+      $ docker logs $CONTAINER_ID | sed -n 1p
+      User: ubuntu Pass: ubuntu
+</code></pre></li>
+<li><p>Access it via <code>http://localhost:6080/vnc.html</code> Or <code>http://172.17.0.1:6080/vnc.html</code></p>
+<pre><code>      $ docker exec 8222763de ifconfig eth0 | grep &quot;inet addr:&quot;
+      inet addr:172.17.0.1  Bcast:0.0.0.0  Mask:255.255.0.0
+</code></pre></li>
+</ul>
+</li>
+</ul>
+<p>Optional (bochs emulator instead of qemu)</p>
+<pre><code>$ sudo apt-get install bochs vgabios bochsbios bochs-doc bochs-x libltdl7 bochs-sdl bochs-term
+$ sudo apt-get install graphviz cflow
+
+$ make switch       // switch to another emulator, between qemu and bochs
+Switch to use emulator: bochs
+</code></pre><p><span id="hack-linux-0.11-on-linux"></span></p>
+<h3 id="hack-linux-0-11">Hack Linux 0.11</h3>
+<pre><code>$ make help        // get help
+$ make          // compile
+$ make start-hd    // boot it on qemu with hard disk image
+$ make debug-hd    // debug it via qemu &amp; gdb, you&apos;d start gdb to connect it.
+
+$ gdb images/kernel.sym
+(gdb) target remote :1234
+(gdb) b main
+(gdb) c
+
+                    // to debug the bootsect or setup part, please load the symbol files
+$ gdb boot/bootsect.sym
+$ gdb boot/setup.sym
+</code></pre><p>Optional</p>
+<pre><code>$ echo &quot;add-auto-load-safe-path $PWD/.gdbinit&quot; &gt; ~/.gdbinit  // let gdb auto load the commands in .gdbinit
+</code></pre><p><span id="build-on-mac-os-x"></span></p>
+<h2 id="build-on-mac-os-x">Build on Mac OS X</h2>
+<p><strong>Note</strong>: A simpler method is use Boot2Docker with our Dockerfile, see <a href="#build-on-other-systems">Build on the other systems</a></p>
+<p><span id="mac-os-x-setup"></span></p>
+<h3 id="mac-os-x-setup">Mac OS X Setup</h3>
+<ul>
+<li>Install xcode from &quot;App Store&quot;</li>
+<li><p>Install Mac package manage tool: MacPorts from <a href="http://www.macports.org/install.php" target="_blank">http://www.macports.org/install.php</a></p>
+<ul>
+<li>Check your OS X version from &quot;About This Mac&quot;, for example, Lion</li>
+<li>Go to the &quot;Mac OS X Package (.pkg) Installer&quot; part and download the corresponding version</li>
+<li><p>Self update MacPorts</p>
+<pre><code>      $ xcode-select -switch /Applications/Xcode.app/Contents/Developer
+      $ sudo port -v selfupdate
+</code></pre></li>
+</ul>
+</li>
+<li><p>Install cross compiler gcc and binutils</p>
+<pre><code>  $ sudo port install qemu
+</code></pre></li>
+<li><p>Install qemu</p>
+<pre><code>  $ sudo port install i386-elf-binutils i386-elf-gcc
+</code></pre></li>
+<li><p>Install graphviz and cflow</p>
+<pre><code>  $ sudo port install GraphViz
+  $ sudo port install cflow
+</code></pre></li>
+<li><p>Install gdb. &apos;Cause port doesn&apos;t provide i386-elf-gdb, use the pre-compiled tools/mac/gdb.xz or download its source and compile it.</p>
+<pre><code>  $ cd tools/mac/ ; tar Jxf gdb.xz
+</code></pre></li>
+</ul>
+<p>Optional</p>
+<pre><code>$ sudo port install cscope
+$ sudo port install ctags
+
+$ wget ftp://ftp.gnu.org/gnu/gdb/gdb-7.4.tar.bz2
+$ tar -xzvf gdb-7.4.tar.bz2
+$ cd gdb-7.4
+$ ./configure --target=i386-elf
+$ make
+</code></pre><p><span id="hack-linux-0.11-on-mac"></span></p>
+<h3 id="hack-linux-0-11">Hack Linux 0.11</h3>
+<p>Same as <a href="#hack-linux-0.11-on-linux">Hack Linux-0.11 on Linux</a></p>
+<p><span id="build-on-other-systems"></span></p>
+<h2 id="build-on-other-systems-include-mac-os-x-windows">Build on Other Systems (include Mac OS X, Windows)</h2>
+<p>If want to use this Lab on the other systems, such as Windows (and even Mac OS
+X), with the Dockerfile support, everything is simplified.</p>
+<p>Only need to install the boot2docker tool, which is a lightweight Linux
+distribution made specifially to run Docker containers, with this tool and our
+Dockerfile, we can simply build a Linux 0.11 Lab on every system.</p>
+<p><span id="other-systems-setup"></span></p>
+<h3 id="setup-with-boot2docker-and-dockerfile">Setup with Boot2Docker and Dockerfile</h3>
+<ul>
+<li><p>Install Boot2Docker and boot into it</p>
+<p>  please follow <a href="https://github.com/boot2docker/boot2docker#installation" target="_blank">Boot2Docker Installation</a>.</p>
+</li>
+<li><p>Build and Start the service</p>
+<pre><code>  $ docker build -t tinylab/linux-0.11-lab ./
+  $ CONTAINER_ID=$(docker run -d -p 6080:6080 dorowu/ubuntu-desktop-lxde-vnc)
+  $ docker logs $CONTAINER_ID | sed -n 1p
+  User: ubuntu Pass: ubuntu
+</code></pre></li>
+<li><p>Access it via <code>http://localhost:6080/vnc.html</code> Or <code>http://172.17.0.1:6080/vnc.html</code></p>
+<pre><code>  $ docker exec 8222763de ifconfig eth0 | grep &quot;inet addr:&quot;
+  inet addr:172.17.0.1  Bcast:0.0.0.0  Mask:255.255.0.0
+</code></pre></li>
+</ul>
+<p><span id="hack-linux-0.11-on-other-systems"></span></p>
+<h3 id="hack-linux-0-11">Hack Linux 0.11</h3>
+<p>Same as <a href="#hack-linux-0.11-on-linux">Hack Linux-0.11 on Linux</a></p>
+<p><span id="changes"></span></p>
+<h2 id="changes">Changes</h2>
+<ul>
+<li><p>2015-03-15, falcon <a href="mailto:wuzhangjin@gmail.com" target="_blank">wuzhangjin@gmail.com</a></p>
+<ul>
+<li>launch a linux-0.11-lab project, see <a href="http://tinylab.org/linux-0.11-lab" target="_blank">http://tinylab.org/linux-0.11-lab</a></li>
+<li>integrate prebuilt rootfs images, no need to install extra images</li>
+<li>integrate both qemu and bochs support and simplify the testing on emulators</li>
+<li>add callgraph generation support</li>
+<li>add docker support, allow to build the whole lab with one command</li>
+<li>rewrite the document: README.md</li>
+<li>Fix up &quot;Reset-floppy Called&quot;</li>
+<li>clean up everything</li>
+<li>repo: <a href="https://github.com/tinyclub/linux-0.11-lab" target="_blank">https://github.com/tinyclub/linux-0.11-lab</a></li>
+</ul>
+</li>
+<li><p>2012-04-30, yuanxinyu <a href="mailto:yuanxinyu.hangzhou@gmail.com" target="_blank">yuanxinyu.hangzhou@gmail.com</a></p>
+<ul>
+<li>add Mac OS X support</li>
+<li>add latest Gcc support</li>
+<li>repo: <a href="https://github.com/yuanxinyu/Linux-0.11" target="_blank">https://github.com/yuanxinyu/Linux-0.11</a></li>
+</ul>
+</li>
+<li><p>2011-07-31, tigercn <a href="mailto:moonlight.yang@gmail.com" target="_blank">moonlight.yang@gmail.com</a></p>
+<ul>
+<li>port to new system and gcc</li>
+<li>see: <a href="http://www.oldlinux.org/oldlinux/viewthread.php?tid=13681" target="_blank">http://www.oldlinux.org/oldlinux/viewthread.php?tid=13681</a></li>
+</ul>
+</li>
+<li><p>2008-10-15, falcon <a href="mailto:wuzhangjin@gmail.com" target="_blank">wuzhangjin@gmail.com</a></p>
+<ul>
+<li>add gcc 4.3.2 with 32/64bit host support</li>
+<li>rewrite boot/{bootsect.s,setup.s} with AT&amp;T</li>
+<li>replace tools/build.c with tools/build.sh</li>
+<li>see: <a href="http://www.oldlinux.org/oldlinux/viewthread.php?tid=11651&amp;extra=page%3D1" target="_blank">http://www.oldlinux.org/oldlinux/viewthread.php?tid=11651&amp;extra=page%3D1</a></li>
+</ul>
+</li>
+<li><p>2005, jiong.zhao <a href="mailto:gohigh@sh163.net" target="_blank">gohigh@sh163.net</a></p>
+<ul>
+<li>write a book for Linux 0.11</li>
+<li>release a version for RedHat 9 with rootfs, compilers and blabla</li>
+<li>site: <a href="http://www.oldlinux.org" target="_blank">http://www.oldlinux.org</a></li>
+</ul>
+</li>
+<li><p>1991, Linus</p>
+<ul>
+<li>write and release the original Linux 0.11.</li>
+</ul>
+</li>
+</ul>
 
                     
                     </section>

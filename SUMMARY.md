@@ -146,4 +146,6 @@
        * [(五) 使用Local Descriptor Table (LDT)](os/1415.md)
        * [(六) 簡介Call Gate](os/1416.md)
        * [(七) 利用Call Gate與TSS (Task-State Segment)實現特權等級的轉換](os/1417.md)
+* [Linux System](linux_system/README.md)
+   * [如何更新linux console畫面](linux_system/151.md)
 

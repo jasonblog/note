@@ -148,6 +148,8 @@
        * [(七) 利用Call Gate與TSS (Task-State Segment)實現特權等級的轉換](os/1417.md)
 * [Linux System](linux_system/README.md)
    * [如何更新linux console畫面](linux_system/151.md)
+   * [ Linux Debugging](linux_system/linux_debugging)
+       * [使用反汇编理解C++程序函数调用栈](linux_system/1521.md)
 * [Assembly](assembly/README.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)
        * [現代計算機結構組成與工作過程](assembly/1611.md)

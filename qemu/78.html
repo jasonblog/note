@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
-        <title>彙編庫的使用（結） | Jason note</title>
+        <title>編譯 linux 0.11，並且使用 QEMU + GDB 調試 kernel ( Ubuntu 11.04, GCC 4.5.2) | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.0.1">
@@ -20,10 +20,10 @@
         
     
     
-    <link rel="next" href="../assembly/162.html" />
+    <link rel="next" href="../linux_device_driver_programming/index.html" />
     
     
-    <link rel="prev" href="../assembly/16119.html" />
+    <link rel="prev" href="../qemu/77.html" />
     
 
         
@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="16.1.20" data-basepath=".." data-revision="Mon Aug 10 2015 00:47:49 GMT+0800 (CST)">
+    <div class="book" data-level="7.8" data-basepath=".." data-revision="Mon Aug 10 2015 00:47:49 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1187,7 +1187,7 @@
             
         </li>
     
-        <li class="chapter " data-level="7.8" data-path="qemu/78.html">
+        <li class="chapter active" data-level="7.8" data-path="qemu/78.html">
             
                 
                     <a href="../qemu/78.html">
@@ -2820,7 +2820,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="16.1.20" data-path="assembly/16200.html">
+        <li class="chapter " data-level="16.1.20" data-path="assembly/16200.html">
             
                 
                     <a href="../assembly/16200.html">
@@ -3057,238 +3057,103 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E5%BD%99%E7%B7%A8%E5%BA%AB%E7%9A%84%E4%BD%BF%E7%94%A8%EF%BC%88%E7%B5%90%EF%BC%89">&#x5F59;&#x7DE8;&#x5EAB;&#x7684;&#x4F7F;&#x7528;&#xFF08;&#x7D50;&#xFF09;</h1>
-<p>&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x548C;C&#x4E00;&#x6A23;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x4F7F;&#x7528;&#x5EAB;&#x4F86;&#x7C21;&#x5316;&#x963B;&#x6B62;&#x5927;&#x91CF;&#x51FD;&#x6578;&#x7684;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#x7684;&#x554F;&#x984C;&#x3002;</p>
-<p>GNU C&#x7DE8;&#x8B6F;&#x5668;&#x53EF;&#x4EE5;&#x4E0D;&#x5728;&#x547D;&#x4EE4;&#x884C;&#x4E2D;&#x7368;&#x7ACB;&#x5730;&#x5305;&#x542B;&#x6BCF;&#x500B;&#x7368;&#x7ACB;&#x5730;&#x51FD;&#x6578;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#xFF0C;&#x5B83;&#x5141;&#x8A31;&#x5427;&#x6240;&#x6709;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#x7D44;&#x5408;&#x5728;&#x55AE;&#x4E00;&#x5B58;&#x6A94;&#x6587;&#x4EF6;&#x4E2D;&#x3002;&#x5728;&#x7DE8;&#x8B6F;C&#x7A0B;&#x5E8F;&#x6642;&#xFF0C;&#x8981;&#x505A;&#x7684;&#x5DE5;&#x4F5C;&#x5C31;&#x662F;&#x5305;&#x542B;&#x55AE;&#x4E00;&#x7684;&#x76EE;&#x6A19;&#x5EAB;&#x6587;&#x4EF6;&#xFF0C;&#x5728;&#x7DE8;&#x8B6F;&#x6642;&#xFF0C;&#x7DE8;&#x8B6F;&#x5668;&#x53EF;&#x4EE5;&#x5F9E;&#x5EAB;&#x6587;&#x4EF6;&#x4E2D;&#x6311;&#x51FA;&#x6240;&#x9700;&#x7684;&#x6B63;&#x78BA;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#x3002;&#x5728;&#x5EAB;&#x6587;&#x4EF6;&#x4E2D;&#xFF0C;&#x7D93;&#x5E38;&#x6309;&#x7167;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x985E;&#x578B;&#x6216;&#x8005;&#x51FD;&#x6578;&#x985E;&#x578B;&#x628A;&#x51FD;&#x6578;&#x5206;&#x7D44;&#x5728;&#x4E00;&#x8D77;&#xFF0C;&#x55AE;&#x4E00;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x9805;&#x76EE;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x591A;&#x500B;&#x5EAB;&#x6587;&#x4EF6;&#x3002;</p>
-<p>&#x5EAB;&#x53C8;&#x5206;&#x975C;&#x614B;&#x5EAB;&#x548C;&#x52D5;&#x614B;&#x5EAB;&#x3002;&#x975C;&#x614B;&#x5EAB;&#x6587;&#x4EF6;&#x4E2D;&#x5305;&#x542B;&#x7684;&#x76EE;&#x6A19;&#x4EE3;&#x78BC;&#x6703;&#x88AB;&#x7DE8;&#x8B6F;&#x5230;&#x4E3B;&#x7A0B;&#x5E8F;&#x4E2D;&#xFF0C;&#x7A0B;&#x5E8F;&#x7684;&#x904B;&#x884C;&#x5C31;&#x4E0D;&#x9700;&#x8981;&#x5EAB;&#x6587;&#x4EF6;&#x4E86;&#x3002;&#x52D5;&#x614B;&#x5EAB;&#x6587;&#x4EF6;&#x7684;&#x5305;&#x542B;&#x7684;&#x76EE;&#x6A19;&#x4EE3;&#x78BC;&#x4E0D;&#x6703;&#x5728;&#x7DE8;&#x8B6F;&#x6642;&#x7DE8;&#x8B6F;&#x5230;&#x4E3B;&#x7A0B;&#x5E8F;&#x4E2D;&#xFF0C;&#x800C;&#x662F;&#x4E3B;&#x7A0B;&#x5E8F;&#x5728;&#x904B;&#x884C;&#x6642;&#x8ABF;&#x7528;&#x8A72;&#x90E8;&#x5206;&#x4EE3;&#x78BC;&#xFF0C;&#x9019;&#x6A23;&#x53EF;&#x4EE5;&#x7BC0;&#x7701;&#x5167;&#x5B58;&#x9700;&#x6C42;&#x3002;</p>
-<p>ar&#x547D;&#x4EE4;&#x53EF;&#x4EE5;&#x5275;&#x5EFA;&#x975C;&#x614B;&#x5EAB;&#x6587;&#x4EF6;&#x3002;&#x4E0B;&#x9762;&#x70BA;&#x793A;&#x4F8B;&#x6240;&#x7528;&#x5230;&#x7684;&#x6240;&#x6709;&#x6587;&#x4EF6;&#xFF1A;</p>
-<pre><code>$ ls
-add.s  libcal.a  main.c  Makefile  prt.s  sub.s
-$
-</code></pre><p>add.s&#x6587;&#x4EF6;&#x5305;&#x542B;2&#x500B;&#x5F59;&#x7DE8;&#x51FD;&#x6578;&#xFF0C;sub.s&#x5305;&#x597D;2&#x500B;&#x5F59;&#x7DE8;&#x51FD;&#x6578;&#xFF0C;prt.s&#x5305;&#x542B;1&#x500B;&#x5F59;&#x7DE8;&#x51FD;&#x6578;&#x3002;&#x73FE;&#x5728;&#x5C07;&#x9019;&#x4E09;&#x500B;&#x6587;&#x4EF6;&#x6253;&#x5305;&#x70BA;&#x4E00;&#x500B;&#x5EAB;&#x6587;&#x4EF6;libcal.a&#xFF0C;&#x5728;&#x7DE8;&#x8B6F;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x662F;&#x9023;&#x63A5;&#x8A72;&#x5EAB;&#x6587;&#x4EF6;&#x3002;&#x4E0B;&#x9762;&#x5206;&#x5225;&#x70BA;&#x4E0A;&#x9762;&#x6587;&#x4EF6;&#x7684;&#x5167;&#x5BB9;&#xFF1A;
-add.s&#x6587;&#x4EF6;&#xFF1A;</p>
-<pre><code># add.s
-.type add, @function
-.globl add
-add:    # add two integer
-    pushl %ebp
-    movl %esp, %ebp
-
-    movl 8(%ebp), %eax
-    addl 12(%ebp), %eax
-
-    movl %ebp, %esp
-    popl %ebp
-    ret
-
-.type add_inc, @function
-.globl add_inc
-add_inc:   # add 1 to int parameter
-    pushl %ebp
-    movl %esp, %ebp
-
-    movl 8(%ebp), %eax
-    inc %eax
-
-    movl %ebp, %esp
-    popl %ebp
-    ret
-</code></pre><pre><code>sub.s&#x6587;&#x4EF6;&#xFF1A;
-# sub.s
-.type sub, @function
-.globl sub
-sub:    # sub two integer
-    pushl %ebp
-    movl %esp, %ebp
-
-    movl 8(%ebp), %eax
-    subl 12(%ebp), %eax
-
-    movl %ebp, %esp
-    popl %ebp
-    ret
-</code></pre><pre><code>.type sub_dec, @function
-.globl sub_dec
-sub_dec:   # sub 1 to int parameter
-    pushl %ebp
-    movl %esp, %ebp
-
-    movl 8(%ebp), %eax
-    dec %eax
-
-    movl %ebp, %esp
-    popl %ebp
-    ret
-
-.type print_hello, @function
-.section .data
-msg:
-    .ascii &quot;hello world!\n&quot;
-    len=.-msg
-.section .text
-.global print_hello
-print_hello:
-    movl $len, %edx
-    movl $msg, %ecx
-    movl $1, %ebx
-    movl $4, %eax
-    int $0x80
-    movl $0, %ebx
-    movl $1, %eax
-    int $0x80
-</code></pre><p>C&#x6587;&#x4EF6;&#xFF1A;</p>
-<pre><code class="lang-cpp"><span class="hljs-preprocessor"># main.c</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;stdio.h&gt;</span>
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>)</span></span>;
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">add_inc</span><span class="hljs-params">(<span class="hljs-keyword">int</span>)</span></span>;
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">sub</span><span class="hljs-params">(<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>)</span></span>;
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">sub_dec</span><span class="hljs-params">(<span class="hljs-keyword">int</span>)</span></span>;
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">print_hello</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span>;
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *argv[])</span>
-</span>{
-    <span class="hljs-keyword">int</span> ret;
-
-    ret = add(<span class="hljs-number">1989</span>, <span class="hljs-number">711</span>);
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;The add() return is %d.\n&quot;</span>, ret);
-
-    ret = add_inc(<span class="hljs-number">1989</span>);
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;The add_inc() return is %d.\n&quot;</span>, ret);
-
-    ret = sub(<span class="hljs-number">1989</span>, <span class="hljs-number">711</span>);
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;The sub() return is %d.\n&quot;</span>, ret);
-
-    ret = sub_dec(<span class="hljs-number">1989</span>);
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;The sub_dec() return is %d.\n&quot;</span>, ret);
-
-    print_hello();
-
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-}
-</code></pre>
-<p>Makefile&#xFF1A;</p>
-<pre><code># Makefile for linux as
-
-CFLAGS= -Wall -g
-ASFLAGS= -gstabs
-
-SRC_BIN=target_bin
-
-SRC_LIB=libcal.a
-
-SRC_C=$(wildcard *.c)
-SRC_S=$(wildcard *.s)
-
-SRC_COBJ=$(SRC_C:.c=.o)
-SRC_SOBJ=$(SRC_S:.s=.o)
-
-SRC_OBJ=$(SRC_COBJ) $(SRC_SOBJ)
-
-all: $(SRC_BIN)
-
-$(SRC_BIN): $(SRC_COBJ) $(SRC_LIB)
- $(CC) -o $@ $(SRC_COBJ) -L./ -lcal
-
-$(SRC_LIB) : $(SRC_SOBJ)
- ar rcs $@ $^
-
-clean:
- $(RM) $(SRC_OBJ) $(SRC_BIN) *~
-.PHONY:
- all clean
-</code></pre><p>&#x4E0B;&#x9762;&#x70BA;&#x57F7;&#x884C;&#x8F38;&#x51FA;&#x7D50;&#x679C;&#xFF1A;</p>
-<pre><code>$ make
-cc -Wall -g   -c -o main.o main.c
-as -gstabs  -o add.o add.s
-as -gstabs  -o prt.o prt.s
-as -gstabs  -o sub.o sub.s
-ar rcs libcal.a add.o prt.o sub.o
-cc -o target_bin main.o -L./ -lcal
-$ ./target_bin
-The add() return is 2700.
-The add_inc() return is 1990.
-The sub() return is 1278.
-hello world!
-$
-</code></pre><p>&#x4F7F;&#x7528; ar&#x547D;&#x4EE4;t&#x53C3;&#x6578;&#x53EF;&#x4EE5;&#x67E5;&#x770B;&#x5EAB;&#x6587;&#x4EF6;&#x5305;&#x542B;&#x7684;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#x3002;</p>
-<pre><code>$ ar t libcal.a
-add.o
-prt.o
-sub.o
-nm&#x547D;&#x4EE4;&#x53EF;&#x4EE5;&#x986F;&#x793A;&#x6BCF;&#x500B;&#x51FD;&#x6578;&#x540D;&#xFF0C;&#x4E26;&#x4E14;&#x986F;&#x793A;&#x54EA;&#x500B;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#x5305;&#x542B;&#x54EA;&#x500B;&#x51FD;&#x6578;&#x3002;
-$ nm -s libcal.a
-Archive index:
-add in add.o
-add_inc in add.o
-print_hello in prt.o
-sub in sub.o
-sub_dec in sub.o
-add.o:
-00000000 T add
-0000000d T add_inc
-prt.o:
-0000000d a len
-00000000 d msg
-00000000 T print_hello
-sub.o:
-00000000 T sub
-0000000d T sub_dec
-</code></pre><p>&#x7576;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x548C;&#x975C;&#x614B;&#x5EAB;&#x4E00;&#x8D77;&#x7DE8;&#x8B6F;&#x6642;&#xFF0C;&#x51FD;&#x6578;&#x4EE3;&#x78BC;&#x88AB;&#x7DE8;&#x8B6F;&#x5230;&#x4E86;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x4E2D;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#x7A0B;&#x5E8F;&#x6240;&#x9700;&#x6240;&#x6709;&#x4EE3;&#x78BC;&#x90FD;&#x5728;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x4E2D;&#x3002;&#x4F46;&#x662F;&#x5982;&#x679C;&#x51FD;&#x6578;&#x4EE3;&#x78BC;&#x5167;&#x5BB9;&#x6709;&#x6539;&#x52D5;&#xFF0C;&#x90A3;&#x9EBC;&#x4F7F;&#x7528;&#x6B21;&#x51FD;&#x6578;&#x7684;&#x6BCF;&#x500B;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x90FD;&#x5FC5;&#x9808;&#x4F7F;&#x7528;&#x65B0;&#x7684;&#x7248;&#x672C;&#x7A0B;&#x5E8F;&#x7DE8;&#x8B6F;&#xFF0C;&#x4E26;&#x4E14;&#x7CFB;&#x7D71;&#x4E0A;&#x591A;&#x500B;&#x7A0B;&#x5E8F;&#x53EF;&#x80FD;&#x6703;&#x4F7F;&#x7528;&#x76F8;&#x540C;&#x51FD;&#x6578;&#xFF0C;&#x90A3;&#x9EBC;&#x5167;&#x5B58;&#x6703;&#x591A;&#x6B21;&#x628A;&#x76F8;&#x540C;&#x51FD;&#x6578;&#x52A0;&#x8F09;&#x5230;&#x5167;&#x5B58;&#x4E2D;&#x3002;</p>
-<p>&#x800C;&#x5171;&#x4EAB;&#x5EAB;&#x5305;&#x542B;&#x76EE;&#x6A19;&#x4EE3;&#x78BC;&#x7684;&#x6587;&#x4EF6;&#x88AB;&#x52A0;&#x8F09;&#x5230;&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x7684;&#x901A;&#x7528;&#x5340;&#x57DF;&#xFF0C;&#x7576;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x9700;&#x8981;&#x8A2A;&#x554F;&#x5171;&#x4EAB;&#x5EAB;&#x4E2D;&#x7684;&#x51FD;&#x6578;&#x6642;&#xFF0C;&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x81EA;&#x52D5;&#x628A;&#x4EE3;&#x78BC;&#x52A0;&#x8F09;&#x5230;&#x5167;&#x5B58;&#x4E2D;&#xFF0C;&#x5141;&#x8A31;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x8A2A;&#x554F;&#x5B83;&#x3002;&#x7576;&#x53E6;&#x4E00;&#x500B;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x4E5F;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x6B21;&#x51FD;&#x6578;&#x4EE3;&#x78BC;&#x6642;&#xFF0C;&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x5141;&#x8A31;&#x5B83;&#x8A2A;&#x554F;&#x5DF2;&#x7D93;&#x88AB;&#x52A0;&#x8F09;&#x5230;&#x5167;&#x5B58;&#x4E2D;&#x7684;&#x76F8;&#x540C;&#x51FD;&#x6578;&#x4EE3;&#x78BC;&#xFF0C;&#x9019;&#x88E1;&#x53EA;&#x6709;&#x51FD;&#x6578;&#x4EE3;&#x78BC;&#x7684;&#x4E00;&#x500B;&#x62F7;&#x8C9D;&#x52A0;&#x8F09;&#x5230;&#x4E86;&#x5167;&#x5B58;&#xFF0C;&#x4F7F;&#x7528;&#x8A72;&#x51FD;&#x6578;&#x4EE3;&#x78BC;&#x7684;&#x6BCF;&#x500B;&#x7A0B;&#x5E8F;&#x90FD;&#x4E0D;&#x6703;&#x518D;&#x628A;&#x5B83;&#x52A0;&#x8F09;&#x5230;&#x5167;&#x5B58;&#x4E2D;&#x3002;&#x5982;&#x679C;&#x51FD;&#x6578;&#x9700;&#x8981;&#x6539;&#x52D5;&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x66F4;&#x65B0;&#x5EAB;&#x6587;&#x4EF6;&#x5C31;&#x53EF;&#x4EE5;&#x4E86;&#xFF0C;&#x4E0D;&#x9700;&#x8981;&#x91CD;&#x65B0;&#x7DE8;&#x8B6F;&#x65B0;&#x7684;&#x65B0;&#x7684;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x3002;</p>
-<p>&#x73FE;&#x5728;&#x6211;&#x5011;&#x5C07;&#x4E0A;&#x9762;&#x975C;&#x614B;&#x5EAB;&#x7684;&#x4F8B;&#x5B50;&#x6539;&#x70BA;&#x52D5;&#x614B;&#x5EAB;&#x4F86;&#x5BE6;&#x73FE;&#x3002;
-&#x4FEE;&#x6539;Makefile&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre><code>$ cat Makefile.static
-# Makefile for linux as
-CFLAGS= -Wall -g
-ASFLAGS= -gstabs
-SRC_BIN=target_bin
-SRC_LIB=libcal.a
-SRC_C=$(wildcard *.c)
-SRC_S=$(wildcard *.s)
-SRC_COBJ=$(SRC_C:.c=.o)
-SRC_SOBJ=$(SRC_S:.s=.o)
-SRC_OBJ=$(SRC_COBJ) $(SRC_SOBJ)
-all: $(SRC_BIN)
-$(SRC_BIN): $(SRC_COBJ) $(SRC_LIB)
- $(CC) -o $@ $(SRC_COBJ) -L./ -lcal
-$(SRC_LIB) : $(SRC_SOBJ)
- ar rcs $@ $^
-clean:
- $(RM) $(SRC_OBJ) $(SRC_BIN) *~
-.PHONY:
- all clean
-</code></pre><p>&#x7DE8;&#x8B6F;&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre><code>$ make -f Makefile.share
-cc -Wall -g   -c -o main.o main.c
-as -gstabs  -o add.o add.s
-as -gstabs  -o prt.o prt.s
-as -gstabs  -o sub.o sub.s
-gcc -shared -o libcal.so add.o prt.o sub.o
-cc -o target_bin main.o -L./ -lcal
-</code></pre><p>&#x7528;ldd&#x547D;&#x4EE4;&#x53EF;&#x4EE5;&#x67E5;&#x770B;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x4F9D;&#x8CF4;&#x7684;&#x5EAB;&#x6587;&#x4EF6;&#xFF1A;</p>
-<pre><code>$ ldd target_bin
- linux-gate.so.1 =&gt;  (0x00dac000)
- libcal.so =&gt; not found
- libc.so.6 =&gt; /lib/libc.so.6 (0x00a42000)
- /lib/ld-linux.so.2 (0x00a1c000)
-</code></pre><p>&#x767C;&#x73FE;ldd&#x547D;&#x4EE4;&#x986F;&#x793A;&#x7A0B;&#x5E8F;&#x9700;&#x8981;&#x5171;&#x4EAB;&#x5EAB;&#x6587;&#x4EF6;libcal.so&#xFF0C;&#x4E26;&#x4E14;&#x6C92;&#x6709;&#x627E;&#x5230;&#x5B83;&#x3002;&#x6B64;&#x6642;&#x8A66;&#x5716;&#x904B;&#x884C;&#x6703;&#x51FA;&#x73FE;&#x5982;&#x4E0B;&#x932F;&#x8AA4;&#xFF1A;</p>
-<pre><code>$ ./target_bin
-./target_bin: error while loading shared libraries: libcal.so: cannot open shared object file: No such file or directory
-</code></pre><p>&#x51FA;&#x73FE;&#x8A72;&#x932F;&#x8AA4;&#x662F;&#x56E0;&#x70BA;&#x52D5;&#x614B;&#x52A0;&#x8F09;&#x5668;&#x4E0D;&#x77E5;&#x9053;&#x5982;&#x4F55;&#x8A2A;&#x554F;&#x5171;&#x4EAB;&#x5EAB;libcal.so&#x3002;&#x6587;&#x4EF6;/etc/ld.so.conf&#x6587;&#x4EF6;&#x4FDD;&#x5B58;&#x52D5;&#x614B;&#x52A0;&#x8F09;&#x5668;&#x5728;&#x90A3;&#x4E9B;&#x76EE;&#x9304;&#x4E2D;&#x67E5;&#x627E;&#x76EE;&#x9304;&#x6E05;&#x55AE;&#xFF0C;&#x7B46;&#x8005;&#x7CFB;&#x7D71;&#x4E0A;&#x8A72;&#x6587;&#x4EF6;&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre><code>$ cat /etc/ld.so.conf
-include ld.so.conf.d/*.conf
-</code></pre><p>&#x5373;&#x5305;&#x542B;&#x76EE;&#x9304; ld.so.conf.d/&#x4E0B;&#x7684;&#x6240;&#x6709;conf&#x6587;&#x4EF6;&#x3002;</p>
-<pre><code>$ ls /etc/ld.so.conf.d/
-</code></pre><p>atlas-i386.conf  kernel-2.6.32-358.el6.i686.conf  mysql-i386.conf  qt-i386.conf  xulrunner-32.conf</p>
-<p>&#x4E0A;&#x9762;&#x6BCF;&#x500B;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x5C31;&#x662F;&#x5C0D;&#x65BC;&#x6BCF;&#x500B;&#x61C9;&#x7528;&#x67E5;&#x627E;&#x5176;&#x5C0D;&#x61C9;&#x5171;&#x4EAB;&#x5EAB;&#x7684;&#x8DEF;&#x5F91;&#x3002;</p>
-<p>&#x4E00;&#x822C;&#x505A;&#x6CD5;&#x662F;&#x70BA;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x5275;&#x5EFA;&#x55AE;&#x7368;&#x7684;&#x76EE;&#x9304;&#xFF0C;&#x4E26;&#x628A;&#x76EE;&#x9304;&#x6DFB;&#x52A0;&#x5230;&#x6587;&#x4EF6;ld.so.conf&#x3002;&#x6240;&#x4EE5;&#x53EA;&#x9700;&#x8981;&#x5C07;&#x8981;&#x67E5;&#x627E;&#x7684;&#x7684;&#x5171;&#x4EAB;&#x5EAB;&#x6587;&#x4EF6;&#x7684;&#x76EE;&#x9304;&#x6DFB;&#x52A0;&#x5230;ld.so.conf&#x6587;&#x4EF6;&#x4E2D;&#x4F86;&#x5C31;&#x53EF;&#x4EE5;&#x4E86;&#x3002;&#x53EF;&#x4EE5;&#x6548;&#x4EFF;&#x4E0A;&#x9762;&#x7684;&#x5DF2;&#x6709;&#x7684;&#x4F8B;&#x5B50;&#xFF0C;&#x5C07;&#x8DEF;&#x5F91;&#x653E;&#x5728;/etc/ld.so.conf.d/&#x76EE;&#x9304;&#x4E0B;&#x7684;&#x4E00;&#x500B;.conf&#x6587;&#x4EF6;&#x4E2D;&#xFF0C;&#x7136;&#x5F8C;&#x4F7F;&#x7528;ldconfig&#x547D;&#x4EE4;&#x66F4;&#x65B0;&#x6587;&#x4EF6;ld.so.cache&#x3002;&#x6700;&#x5F8C;&#x518D;&#x904B;&#x884C;&#x7A0B;&#x5E8F;&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre><code># ./target_bin
-The add() return is 2700.
-The add_inc() return is 1990.
-The sub() return is 1278.
-hello world!
-</code></pre><p>&#x672C;&#x7CFB;&#x5217;linux&#x5F59;&#x7DE8;&#x5B78;&#x7FD2;&#x5230;&#x6B64;&#x70BA;&#x6B62;&#xFF0C;&#x5728;&#x9019;&#x4E8C;&#x5341;&#x7BC0;&#x7684;&#x5167;&#x5BB9;&#x4E2D;&#xFF0C;&#x53EF;&#x80FD;&#x6C92;&#x6709;&#x8B1B;&#x89E3;&#x5230;&#x5F59;&#x7DE8;&#x7684;&#x6240;&#x6709;&#x65B9;&#x9762;&#xFF0C;&#x4F46;&#x9084;&#x662F;&#x628A;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x7684;&#x6BD4;&#x8F03;&#x5E38;&#x7528;&#x7684;&#x57FA;&#x672C;&#x77E5;&#x8B58;&#x901A;&#x904E;&#x4E00;&#x4E9B;&#x5F88;&#x7C21;&#x55AE;&#x5F88;&#x57FA;&#x790E;&#x7684;&#x793A;&#x4F8B;&#x5C55;&#x793A;&#x4E86;&#x51FA;&#x4F86;&#xFF0C;&#x6211;&#x5E0C;&#x671B;&#x8B80;&#x8005;&#x5728;&#x770B;&#x5B8C;&#x672C;&#x7CFB;&#x5217;&#x6587;&#x7AE0;&#x4E4B;&#x5F8C;&#x6709;&#x6240;&#x6709;&#x6536;&#x7A6B;&#xFF0C;&#x4E5F;&#x5E0C;&#x671B;&#x8B80;&#x8005;&#x5728;&#x95B1;&#x8B80;&#x6587;&#x7AE0;&#x662F;&#x80FD;&#x6307;&#x51FA;&#x5176;&#x4E2D;&#x7684;&#x932F;&#x8AA4;&#x548C;&#x4E0D;&#x8DB3;&#x3002;</p>
+                        <h1 id="%E7%B7%A8%E8%AD%AF-linux-0-11%EF%BC%8C%E4%B8%A6%E4%B8%94%E4%BD%BF%E7%94%A8-qemu-gdb-%E8%AA%BF%E8%A9%A6-kernel-ubuntu-11-04-gcc-4-5-2">&#x7DE8;&#x8B6F; linux 0.11&#xFF0C;&#x4E26;&#x4E14;&#x4F7F;&#x7528; QEMU + GDB &#x8ABF;&#x8A66; kernel ( Ubuntu 11.04, GCC 4.5.2)</h1>
+<p>&#x7DE8;&#x8B6F; linux 0.11&#xFF0C;&#x4E26;&#x4E14;&#x4F7F;&#x7528; QEMU + GDB &#x8ABF;&#x8A66; kernel ( Ubuntu 11.04&#xFF0C; GCC 4.5.2)
+&#x672C;&#x7BC7;&#x70BA;&#x672C;&#x4EBA;&#x7DE8;&#x8B6F; linux 0.11 &#x5FC3;&#x5F97;&#xFF0C;&#x5BEB;&#x4E0B;&#x4F86;&#x5099;&#x5FD8;</p>
+<!--more-->
+<h1 id="%E5%8F%96%E5%BE%97-source-code">&#x53D6;&#x5F97; source code</h1>
+<p>&#x53D6;&#x5F97; source code &#x6709;&#x5F88;&#x591A;&#x65B9;&#x5F0F;&#xFF0C;&#x5982;&#x679C;&#x662F;&#x76F4;&#x63A5;&#x4E0B;&#x8F09;&#x539F;&#x7248;&#x7684; code &#x7684;&#x8A71;&#xFF0C;&#x6703;&#x5F88;&#x9EBB;&#x7169; (&#x8981;&#x4F7F;&#x7528;&#x820A;&#x7248;&#x7684; GCC &#x8207; OS )&#xFF0C;
+&#x7DB2;&#x8DEF;&#x4E0A;&#x6709;&#x6539;&#x904E;&#x7684; code&#xFF0C;&#x9069;&#x7528;&#x65BC;&#x6BD4;&#x8F03;&#x65B0;&#x7684; GCC( linux-0.11-20110805.tar.gz )&#xFF0C;
+&#x9019;&#x908A;&#x6709;&#x500B;&#x9069;&#x7528; GCC 4.3.2 &#x7684;&#xFF0C;&#x4E0D;&#x904E;&#x6211;&#x662F;&#x7528;&#x66F4;&#x65B0;&#x7684;&#xFF0C;&#x9069;&#x7528; GCC 4.5.2 &#x7684; <code>linux-0.11-20110805.tar.gz</code>&#xFF0C;
+&#x4E0D;&#x904E;&#x90FD;&#x662F;&#x5927;&#x540C;&#x5C0F;&#x7570;&#xFF0C;&#x5982;&#x679C;&#x6709;&#x9592;&#x7684;&#x8A71;&#xFF0C;&#x53EF;&#x4EE5;&#x628A;&#x5169;&#x5305;&#x6293;&#x4F86; diff &#x770B;&#x770B;&#x5DEE;&#x5728;&#x54EA;&#xFF0C;
+&#x4E5F;&#x53EF;&#x4EE5;&#x53BB; <a href="http://www.oldlinux.org/" target="_blank">oldlinux</a> &#x7684;&#x8AD6;&#x58C7;&#x88E1;&#x9762;&#x770B;</p>
+<h1 id="%E7%B7%A8%E8%AD%AF">&#x7DE8;&#x8B6F;</h1>
+<p>&#x6211;&#x9019;&#x6B21;&#x7684;&#x7DE8;&#x8B6F;&#x74B0;&#x5883;&#x70BA;&#xFF1A;<code>Ubuntu 11.04( linux kernel 3.0.2)</code>&#xFF0C;<code>GCC 4.5.2</code>&#xFF0C;
+&#x800C; source &#x6211;&#x9078;&#x64C7;<code>linux-0.11-20110805.tar.gz</code>&#xFF0C;
+&#x89E3;&#x58D3;&#x7E2E;&#x5F8C;&#xFF0C;&#x4F7F;&#x7528; terminal&#xFF0C;&#x9032;&#x5165;&#x5230;&#x8A72;&#x76EE;&#x9304;&#xFF0C;&#x53EA;&#x8981;&#x5728;&#x6709; MakeFile &#x9019;&#x652F;&#x6A94;&#x6848;&#x7684;&#x76EE;&#x9304;&#x4E0B;&#xFF0C;&#x6253;&#x5165; make &#x5C31;&#x53EF;&#x4EE5;&#x9032;&#x884C; compile&#xFF0C;
+&#x5982;&#x679C;&#x7DE8;&#x8B6F;&#x597D;&#x7684;&#x8A71;&#xFF0C;&#x6703;&#x5728;&#x8A72;&#x76EE;&#x9304;&#x4E0B;&#xFF0C;&#x770B;&#x5230;&#x4E00;&#x500B; Image &#x7684;&#x6A94;&#x6848;&#xFF0C;&#x5C31;&#x4EE3;&#x8868;&#x6210;&#x529F;&#x4E86;</p>
+<h1 id="%E7%B7%A8%E8%AD%AF%E5%95%8F%E9%A1%8C%E6%8E%92%E8%A7%A3">&#x7DE8;&#x8B6F;&#x554F;&#x984C;&#x6392;&#x89E3;</h1>
+<p>&#x5982;&#x679C;&#x51FA;&#x73FE;
+    make: <em>*</em> [kernel/blk_drv/blk_drv.a] Error 2
+&#x9019;&#x662F;&#x4E00;&#x500B;&#x660E;&#x986F;&#x7684;&#x5B8F;&#x8A9E;&#x6CD5;&#x932F;&#x8AA4;&#xFF0C;&#x628A; blk.h &#x7684;&#x7B2C; 87 &#x884C;&#x7684; #elif &#x6539;&#x70BA; #else &#x5C31;&#x884C;&#x4E86;</p>
+<p>&#x5982;&#x679C;&#x51FA;&#x73FE;
+    make: <em>*</em> [tools/system] ?? 1
+&#x5C31;&#x628A; GCC &#x52A0;&#x5165;&#x7DE8;&#x8B6F;&#x9078;&#x9805;
+    -fno-stack-protector
+(&#x53EA;&#x8981;&#x5728; make.header &#x4E2D;&#x7684; CC &#x9078;&#x9805;&#x52A0;&#x5165;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x5168;&#x90E8;&#x52A0;&#x5165; &#xFF0C; &#x4F8B;&#x5982;
+    CC = gcc -fno-stack-protector)</p>
+<p>&#x5982;&#x679C;&#x518D;&#x6253;&#x5165; make &#x4E0D;&#x884C;&#x7684;&#x8A71;&#xFF0C;&#x53EF;&#x4EE5;&#x5148;&#x4E0B; make clean &#x6307;&#x4EE4;&#x5F8C;&#xFF0C;&#x518D;&#x4E0B; make</p>
+<p>&#x5982;&#x679C;&#x60F3;&#x770B;&#x6BCF;&#x4E00;&#x500B;&#x6A94;&#x6848;&#x6240;&#x7DE8;&#x8B6F;&#x51FA;&#x4F86;&#x7684; Object file (&#x9644;&#x6A94;&#x540D;&#x70BA;.o)&#x7684; assembly &#x7684;&#x8A71;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; objdump &#x4F86;&#x89C0;&#x5BDF;
+&#x5982;&#xFF1A;
+    objdump -S test.secton.o (-S &#x7684;&#x53C3;&#x6578;&#x5F0F;&#x5927;&#x5BEB;&#xFF0C;&#x9019;&#x908A;&#x5927;&#x5C0F;&#x5BEB;&#x6709;&#x5DEE;&#x5225;)</p>
+<p>&#x4E5F;&#x6709;&#x5716;&#x5F62;&#x5316;&#x4ECB;&#x9762;&#x7684; objdump&#xFF0C; &#x53EB; dissy &#x4E5F;&#x662F;&#x5F88;&#x597D;&#x7528;&#x7684;</p>
+<p>&#x5982;&#x679C;&#x60F3;&#x770B; Hex file&#x7684;&#x8A71;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; `hexdump&apos;&#xFF0C;&#x5982;
+    hexdump -C boot.img
+-C &#x53C3;&#x6578;&#x53EF;&#x4EE5;&#x4EE5; BYTE &#x7684;&#x65B9;&#x5F0F;&#x986F;&#x793A;</p>
+<h1 id="%E6%A8%A1%E6%93%AC%E6%B8%AC%E8%A9%A6">&#x6A21;&#x64EC;&#x6E2C;&#x8A66;</h1>
+<p>&#x4F7F;&#x7528; x86 emu &#x628A; linux 0.11 &#x88DD;&#x8D77;&#x4F86;&#xFF0C;&#x7DB2;&#x8DEF;&#x4E0A;&#x8D99;&#x535A;&#x58EB;&#x662F;&#x4F7F;&#x7528; bochs&#xFF0C;&#x4E0D;&#x662F;&#x5F88;&#x6703;&#x7528;
+&#x6211;&#x9078;&#x64C7;&#x4F7F;&#x7528; qemu&#xFF0C;&#x9375;&#x5165;
+    qemu -m 16M -boot a -fda Image -hda ./../rootfs/hdc-0.11-new.img</p>
+<p>&#x800C;<code>-fda Image</code>&#xFF1A;&#x4EE3;&#x8868;&#x4F60;&#x628A; Image &#x57F7;&#x884C;&#x76EE;&#x9304;&#x4E0B;
+&#x800C;<code>-hda ./../rootfs/hdc-0.11-new.img</code>&#xFF1A;&#x4EE3;&#x8868;&#x4F60;&#x628A; HD img&#xFF0C;&#x653E;&#x5728;&#x76F8;&#x5C0D;&#x76EE;&#x9304;&quot;&#x4E0A;&#x4E00;&#x5C64;&quot;&#x7684;<code>rootfs/</code>&#x4E0B;
+&#x800C;<code>hdc-0.11-new.img</code> &#xFF1A;&#x70BA;&#x4E00;&#x6A21;&#x64EC; hd &#x7684;&#x6A94;&#x6848;&#xFF0C;&#x53EF;&#x4EE5;&#x5728;&#x8D99;&#x535A;&#x58EB;&#x6240;&#x63D0;&#x4F9B;&#x7684;<code>linux-0.11-devel-060625.zip</code>&#x627E;&#x5230;
+&#x800C;<code>../hdc-0.11-new.img</code>&#xFF1A;&#x8996;&#x4F60;&#x628A;&#x8A72; <code>hdc-0.11-new.img</code> &#x6A94;&#x653E;&#x5728;&#x54EA;&#x800C;&#x5B9A;</p>
+<p>&#x5176;&#x5BE6;&#x628A; makefile .header &#x6253;&#x958B;&#xFF0C;&#x88E1;&#x9762;&#x5176;&#x5BE6;&#x6709; debug&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x5982;&#x679C;&#x8981; run qemu &#x7684;&#x8A71;&#xFF0C;&#x53EA;&#x8981;&#x6253; make debug &#x5C31;&#x6703;&#x57F7;&#x884C;..</p>
+<h1 id="qemu-gdb">QEMU + GDB</h1>
+<p>&#x9375;&#x5165;&#x4EE5;&#x4E0B;
+    qemu -m 16 -boot a -fda Image -hda ./../rootfs/hdc-0.11-new.img -s -S -gdb tcp::1234</p>
+<p>&#x9019;&#x908A;&#x6709;&#x5169;&#x500B; <code>-s</code> &#x8207; <code>-S</code>&#xFF0C;&#x5206;&#x5225;&#x4EE3;&#x8868;&#x4E0D;&#x540C;&#x610F;&#x7FA9;
+<code>-s</code>(&#x5C0F;&#x5BEB; s)&#xFF1A;&#x904B;&#x884C;&#x865B;&#x64EC;&#x6A5F;&#x6642;&#x5C07; 1234 &#x7AEF;&#x53E3;&#x958B;&#x555F;&#x6210;&#x8ABF;&#x8A66;&#x7AEF;&#x53E3;&#xFF0C;&#x4F9B; eclipse &#x7DB2;&#x7D61;&#x8ABF;&#x8A66;&#x6642;&#x4F7F;&#x7528;
+<code>-S</code>(&#x5927;&#x5BEB; S)&#xFF1A;&#x555F;&#x52D5;&#x865B;&#x64EC;&#x6A5F;&#x6642;&#x8981;&#x300C;&#x51CD;&#x4F4F;&#x300D;&#x865B;&#x64EC;&#x6A5F;&#xFF0C;&#x7B49;&#x5F85;&#x8ABF;&#x8A66;&#x5668;&#x767C;&#x51FA;&#x7E7C;&#x7E8C;&#x904B;&#x884C;&#x7684;&#x547D;&#x4EE4;
+<code>-fda</code>&#xFF1A;&#x5728; qemu &#x4E2D;&#xFF0C;&#x662F;&#x4F7F;&#x7528;&#x6A94;&#x6848;&#x4F86;&#x6A21;&#x64EC;&#x78C1;&#x789F;&#x7684;&#xFF0C;&#x9019;&#x908A;&#x7684;&#x610F;&#x601D;&#x662F;&#xFF0C;&#x4F7F;&#x7528; Imgae &#x9019;&#x500B;&#x6A94;&#x6848;&#x4F86;&#x7576;&#x4F5C; floppy A
+<code>-m</code>&#xFF1A;&#x8A2D;&#x5B9A;&#x6A21;&#x64EC;&#x7684;&#x8A18;&#x61B6;&#x9AD4;&#x6709;&#x591A;&#x5927;&#xFF0C;&#x9019;&#x908A;&#x8A2D;&#x5B9A;&#x8A18;&#x61B6;&#x9AD4;&#x5927;&#x5C0F;&#x70BA; 16MB</p>
+<p>&#x9806;&#x5229;&#x7684;&#x8A71;&#xFF0C;&#x61C9;&#x8A72;&#x6703;&#x986F;&#x793A;&#x9ED1;&#x756B;&#x9762;&#xFF0C;&#x4EE3;&#x8868;&#x76EE;&#x524D; QEMU &#x88AB;&#x51CD;&#x4F4F;&#xFF0C;&#x7B49;&#x5F85; GDB client
+&#x5728;&#x958B;&#x53E6;&#x4E00;&#x500B; terminal&#xFF0C;&#x9375;&#x5165;
+    gdb tools/system
+&#x5373;&#x53EF;&#x9032;&#x5165;&#x5230; gdb client</p>
+<p>&#x5148;&#x8F09;&#x5165;&#x9664;&#x932F;&#x7684; symbol
+    (gdb) file tools/system</p>
+<p>&#x9023;&#x7DDA;&#x81F3;&#x9060;&#x7AEF;
+    (gdb) target remote localhost:1234</p>
+<p>&#x4E0B;&#x4E2D;&#x65B7;&#xFF0C;&#x505C;&#x5728; <code>CS = 0x7C00</code> &#x7684;&#x5730;&#x65B9;&#xFF0C;&#x4E5F;&#x5C31;&#x662F; BIOS &#x628A; MBR &#x8F09;&#x5165;&#x7684;&#x5730;&#x65B9;
+    (gdb)  br *0x7c00</p>
+<p>&#x5728;&#x6B64;&#x6642;&#xFF0C;bios &#x628A;&#x63A7;&#x5236;&#x6B0A;&#x6B63;&#x5F0F;&#x7684;&#x4EA4;&#x7D66;&#x4E86; linux&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#x9019;&#x88E1;&#x958B;&#x59CB;&#x5C31;&#x662F;&#x6211;&#x5011;&#x81EA;&#x5DF1;&#x63A7;&#x5236;&#x7684;&#x5730;&#x65B9;
+&#x800C; 0x7C00 &#x5C0D;&#x61C9;&#x7684; code &#x61C9;&#x8A72;&#x662F; bootsect.S</p>
+<p>&#x89C0;&#x5BDF;<code>0x7DFE &#x8207; 0x7DFF</code>&#x7684;&#x503C;&#x662F;&#x5426;&#x70BA;<code>0x55&#xFF0C;0xAA</code>
+    (gdb) x/16b 0x7DF0</p>
+<p>&#x56E0;&#x70BA;&#x9019;&#x908A;&#x662F;&#x7D44;&#x5408;&#x8A9E;&#x8A00;&#xFF0C;&#x6240;&#x4EE5;&#x8981;&#x7528; si &#x4F86;&#x55AE;&#x6B65;
+    (gdb) si</p>
+<p>&#x4E0B;&#x4E2D;&#x65B7;
+    (gdb) b main</p>
+<p>&#x57F7;&#x884C;&#x81F3;&#x4E2D;&#x65B7; &#xFF0C;&#x5247;&#x5C31;&#x6703;&#x57F7;&#x884C;&#x5230; main &#x4E2D;
+    (gdb) c</p>
+<p>&#x5217;&#x51FA;&#x76EE;&#x524D;&#x7684; code(list)
+    (gdb)l</p>
+<p>&#x4ECB;&#x7D39;&#x4E00;&#x4E0B; gdb &#x6307;&#x4EE4;
+    b: &#x4E0B;&#x4E2D;&#x65B7;&#x9EDE;
+    continue(c) &#x7E7C;&#x7E8C;&#x57F7;&#x884C;&#x76F4;&#x5230;&#x4E0B;&#x4E00;&#x500B;&#x4E2D;&#x65B7;&#x9EDE;&#x6216;&#x7D50;&#x675F;
+    list(l): &#x5217;&#x51FA;&#x76EE;&#x524D;&#x4E0A;&#x4E0B;&#x6587;
+    step(s): &#x55AE;&#x6B65; (&#x6703;&#x9032;&#x5165; funciton)
+    next(n) : &#x55AE;&#x6B65; (&#x4E0D;&#x6703;&#x9032;&#x5165; funciton)
+    until(u) &#x8DF3;&#x96E2;&#x4E00;&#x500B; while for &#x8FF4;&#x5708;
+    print(p): &#x986F;&#x793A;&#x67D0;&#x8B8A;&#x6578;&#xFF0C;&#x5982; p str
+    info b :u &#x5217;&#x51FA;&#x76EE;&#x524D;&#x4E2D;&#x65B7;&#x9EDE;
+    info register : &#x986F;&#x793A; CPU &#x7684; register</p>
+<h1 id="qemu-%E5%95%8F%E9%A1%8C%E6%8E%92%E8%A7%A3">QEMU &#x554F;&#x984C;&#x6392;&#x89E3;</h1>
+<p>&#x800C; qemu &#x8981;&#x9806;&#x5229;&#x6253;&#x958B;&#x53EF;&#x80FD;&#x6703;&#x9700;&#x8981;&#x7528;&#x5230; kvm
+&#x53EF;&#x4EE5;&#x4F7F;&#x7528; lsmod|grep kvm &#x770B;&#x770B; kvm &#x6A21;&#x7D44;&#x6709;&#x6C92;&#x6709;&#x88AB;&#x8F09;&#x5165;
+&#x5982;&#x679C;&#x6C92;&#x6709;&#x7684;&#x8A71;&#xFF0C;&#x53EF;&#x4EE5;&#x6253;
+    sudo kvm-ok</p>
+<p>&#x8A66;&#x8457;&#x8F09;&#x5165;&#x770B;&#x770B;
+&#x5982;&#x679C;&#x518D;&#x4E0D;&#x884C;&#xFF0C;&#x770B;&#x770B; cpu &#x662F;&#x5426;&#x652F;&#x63F4; VT or &#x6A5F;&#x7248; bios &#x662F;&#x4E0D;&#x662F;&#x6C92;&#x6253;&#x958B; <code>intel-vt ( amd cpu &#x662F; amd-v)</code>&#x7684;&#x9078;&#x9805;
+&#x91CD;&#x958B;&#x6A5F;&#x6253;&#x958B;&#x5F8C;&#xFF0C;&#x61C9;&#x8A72;&#x5C31;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; qemu &#x4E86;</p>
+<h1 id="%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99">&#x53C3;&#x8003;&#x8CC7;&#x6599;</h1>
+<p><a href="http://www.oldlinux.org/oldlinux/viewthread.php?tid=13681&amp;extra=page%3D1" target="_blank">&#x53EF;&#x4F9B;GDB&#x6E90;&#x78BC;&#x8ABF;&#x8A66;&#x7684;&#x7528;GCC 4.X&#x7DE8;&#x8B6F;&#x7684;Linux 0.11&#x5BE6;&#x9A57;&#x74B0;&#x5883;</a>
+<a href="http://www.oldlinux.org/oldlinux/viewthread.php?tid=11651" target="_blank">&#x76EE;&#x524D;&#x5DF2;&#x7D93;&#x6210;&#x529F;&#x5730;&#x628A;linux-0.11&#x79FB;&#x690D;&#x5230;gcc 4.3.2</a>
+<a href="http://blog.csdn.net/unbutun/article/details/6087685" target="_blank">&#x300A;Linux&#x5167;&#x6838;&#x5B8C;&#x5168;&#x8A3B;&#x91CB;&#x300B;&#x95B1;&#x8B80;&#x7B46;&#x8A18;&#x2014;&#x2014;&#x642D;&#x5EFA;&#x5BE6;&#x9A57;&#x74B0;&#x5883;(&#x8F49;&#x8F09;) </a>
+<a href="http://www.oldlinux.org/index_cn.html" target="_blank">Welcome to OldLinux</a>
+<a href="http://www.cnblogs.com/yangnas/archive/2010/03/18/1688885.htm" target="_blank">Eclipse CDT + QEMU &#x8ABF;&#x8A66;linux&#x5167;&#x6838;</a>
+<a href="https://zh.wikipedia.org/wiki/GNU%E4%BE%A6%E9%94%99%E5%99%A8" target="_blank">GNU&#x5075;&#x932F;&#x5668;</a></p>
 
                     
                     </section>
@@ -3299,10 +3164,10 @@ hello world!
         </div>
 
         
-        <a href="../assembly/16119.html" class="navigation navigation-prev " aria-label="Previous page: C語言中調用匯編函數"><i class="fa fa-angle-left"></i></a>
+        <a href="../qemu/77.html" class="navigation navigation-prev " aria-label="Previous page: QEMU install"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../assembly/162.html" class="navigation navigation-next " aria-label="Next page: [轉]如何在 Linux 下使用 GNU AS 撰寫組合語言"><i class="fa fa-angle-right"></i></a>
+        <a href="../linux_device_driver_programming/index.html" class="navigation navigation-next " aria-label="Next page: Linux Device Driver Programming"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
-        <title>彙編庫的使用（結） | Jason note</title>
+        <title>簡易 GDB Script 教學，應用 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.0.1">
@@ -20,10 +20,8 @@
         
     
     
-    <link rel="next" href="../assembly/162.html" />
     
-    
-    <link rel="prev" href="../assembly/16119.html" />
+    <link rel="prev" href="../toolchain/172.html" />
     
 
         
@@ -36,7 +34,7 @@
     
 
         
-    <div class="book" data-level="16.1.20" data-basepath=".." data-revision="Mon Aug 10 2015 00:47:49 GMT+0800 (CST)">
+    <div class="book" data-level="18.1" data-basepath=".." data-revision="Mon Aug 10 2015 00:47:49 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -2820,7 +2818,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="16.1.20" data-path="assembly/16200.html">
+        <li class="chapter " data-level="16.1.20" data-path="assembly/16200.html">
             
                 
                     <a href="../assembly/16200.html">
@@ -2934,7 +2932,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="18.1" data-path="gdb/181.html">
+        <li class="chapter active" data-level="18.1" data-path="gdb/181.html">
             
                 
                     <a href="../gdb/181.html">
@@ -3057,238 +3055,57 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E5%BD%99%E7%B7%A8%E5%BA%AB%E7%9A%84%E4%BD%BF%E7%94%A8%EF%BC%88%E7%B5%90%EF%BC%89">&#x5F59;&#x7DE8;&#x5EAB;&#x7684;&#x4F7F;&#x7528;&#xFF08;&#x7D50;&#xFF09;</h1>
-<p>&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x548C;C&#x4E00;&#x6A23;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x4F7F;&#x7528;&#x5EAB;&#x4F86;&#x7C21;&#x5316;&#x963B;&#x6B62;&#x5927;&#x91CF;&#x51FD;&#x6578;&#x7684;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#x7684;&#x554F;&#x984C;&#x3002;</p>
-<p>GNU C&#x7DE8;&#x8B6F;&#x5668;&#x53EF;&#x4EE5;&#x4E0D;&#x5728;&#x547D;&#x4EE4;&#x884C;&#x4E2D;&#x7368;&#x7ACB;&#x5730;&#x5305;&#x542B;&#x6BCF;&#x500B;&#x7368;&#x7ACB;&#x5730;&#x51FD;&#x6578;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#xFF0C;&#x5B83;&#x5141;&#x8A31;&#x5427;&#x6240;&#x6709;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#x7D44;&#x5408;&#x5728;&#x55AE;&#x4E00;&#x5B58;&#x6A94;&#x6587;&#x4EF6;&#x4E2D;&#x3002;&#x5728;&#x7DE8;&#x8B6F;C&#x7A0B;&#x5E8F;&#x6642;&#xFF0C;&#x8981;&#x505A;&#x7684;&#x5DE5;&#x4F5C;&#x5C31;&#x662F;&#x5305;&#x542B;&#x55AE;&#x4E00;&#x7684;&#x76EE;&#x6A19;&#x5EAB;&#x6587;&#x4EF6;&#xFF0C;&#x5728;&#x7DE8;&#x8B6F;&#x6642;&#xFF0C;&#x7DE8;&#x8B6F;&#x5668;&#x53EF;&#x4EE5;&#x5F9E;&#x5EAB;&#x6587;&#x4EF6;&#x4E2D;&#x6311;&#x51FA;&#x6240;&#x9700;&#x7684;&#x6B63;&#x78BA;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#x3002;&#x5728;&#x5EAB;&#x6587;&#x4EF6;&#x4E2D;&#xFF0C;&#x7D93;&#x5E38;&#x6309;&#x7167;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x985E;&#x578B;&#x6216;&#x8005;&#x51FD;&#x6578;&#x985E;&#x578B;&#x628A;&#x51FD;&#x6578;&#x5206;&#x7D44;&#x5728;&#x4E00;&#x8D77;&#xFF0C;&#x55AE;&#x4E00;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x9805;&#x76EE;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x591A;&#x500B;&#x5EAB;&#x6587;&#x4EF6;&#x3002;</p>
-<p>&#x5EAB;&#x53C8;&#x5206;&#x975C;&#x614B;&#x5EAB;&#x548C;&#x52D5;&#x614B;&#x5EAB;&#x3002;&#x975C;&#x614B;&#x5EAB;&#x6587;&#x4EF6;&#x4E2D;&#x5305;&#x542B;&#x7684;&#x76EE;&#x6A19;&#x4EE3;&#x78BC;&#x6703;&#x88AB;&#x7DE8;&#x8B6F;&#x5230;&#x4E3B;&#x7A0B;&#x5E8F;&#x4E2D;&#xFF0C;&#x7A0B;&#x5E8F;&#x7684;&#x904B;&#x884C;&#x5C31;&#x4E0D;&#x9700;&#x8981;&#x5EAB;&#x6587;&#x4EF6;&#x4E86;&#x3002;&#x52D5;&#x614B;&#x5EAB;&#x6587;&#x4EF6;&#x7684;&#x5305;&#x542B;&#x7684;&#x76EE;&#x6A19;&#x4EE3;&#x78BC;&#x4E0D;&#x6703;&#x5728;&#x7DE8;&#x8B6F;&#x6642;&#x7DE8;&#x8B6F;&#x5230;&#x4E3B;&#x7A0B;&#x5E8F;&#x4E2D;&#xFF0C;&#x800C;&#x662F;&#x4E3B;&#x7A0B;&#x5E8F;&#x5728;&#x904B;&#x884C;&#x6642;&#x8ABF;&#x7528;&#x8A72;&#x90E8;&#x5206;&#x4EE3;&#x78BC;&#xFF0C;&#x9019;&#x6A23;&#x53EF;&#x4EE5;&#x7BC0;&#x7701;&#x5167;&#x5B58;&#x9700;&#x6C42;&#x3002;</p>
-<p>ar&#x547D;&#x4EE4;&#x53EF;&#x4EE5;&#x5275;&#x5EFA;&#x975C;&#x614B;&#x5EAB;&#x6587;&#x4EF6;&#x3002;&#x4E0B;&#x9762;&#x70BA;&#x793A;&#x4F8B;&#x6240;&#x7528;&#x5230;&#x7684;&#x6240;&#x6709;&#x6587;&#x4EF6;&#xFF1A;</p>
-<pre><code>$ ls
-add.s  libcal.a  main.c  Makefile  prt.s  sub.s
-$
-</code></pre><p>add.s&#x6587;&#x4EF6;&#x5305;&#x542B;2&#x500B;&#x5F59;&#x7DE8;&#x51FD;&#x6578;&#xFF0C;sub.s&#x5305;&#x597D;2&#x500B;&#x5F59;&#x7DE8;&#x51FD;&#x6578;&#xFF0C;prt.s&#x5305;&#x542B;1&#x500B;&#x5F59;&#x7DE8;&#x51FD;&#x6578;&#x3002;&#x73FE;&#x5728;&#x5C07;&#x9019;&#x4E09;&#x500B;&#x6587;&#x4EF6;&#x6253;&#x5305;&#x70BA;&#x4E00;&#x500B;&#x5EAB;&#x6587;&#x4EF6;libcal.a&#xFF0C;&#x5728;&#x7DE8;&#x8B6F;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x662F;&#x9023;&#x63A5;&#x8A72;&#x5EAB;&#x6587;&#x4EF6;&#x3002;&#x4E0B;&#x9762;&#x5206;&#x5225;&#x70BA;&#x4E0A;&#x9762;&#x6587;&#x4EF6;&#x7684;&#x5167;&#x5BB9;&#xFF1A;
-add.s&#x6587;&#x4EF6;&#xFF1A;</p>
-<pre><code># add.s
-.type add, @function
-.globl add
-add:    # add two integer
-    pushl %ebp
-    movl %esp, %ebp
+                        <h1 id="%E7%B0%A1%E6%98%93-gdb-script-%E6%95%99%E5%AD%B8%EF%BC%8C%E6%87%89%E7%94%A8">&#x7C21;&#x6613; GDB Script &#x6559;&#x5B78;&#xFF0C;&#x61C9;&#x7528;</h1>
+<h2 id="%E7%B7%A3%E7%94%B1">&#x7DE3;&#x7531;</h2>
+<p>&#x5728;Debug &#x96FB;&#x8166;&#x958B;&#x6A5F;&#x968E;&#x6BB5;&#x6642;&#xFF0C;&#x5229;&#x7528;QEMU&#x505C;&#x4F4F;OS, &#x5728;&#x9060;&#x7AEF;&#x7684; GDB &#x6BCF;&#x6B21;&#x90FD;&#x8981;&#x8F38;&#x5165;</p>
+<pre><code>set architecture i8086
+target remote localhost:1234
+b *0x7C00
+</code></pre><p>&#x4E00;&#x5169;&#x6B21;&#x5230;&#x9084;&#x597D;&#xFF0C;&#x82E5;&#x662F;&#x6709;&#x6642;&#x5019;&#x5E38;&#x5E38;&#x8F38;&#x5165;&#x771F;&#x7684;&#x5C31;&#x592A;&#x7D2F;&#x4E86;, &#x800C; GDB &#x53EF;&#x4EE5;&#x4EE5; script &#x7684;&#x65B9;&#x5F0F;&#x64F4;&#x5145;&#x6307;&#x4EE4;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x6E1B;&#x5C11;&#x4E86;&#x8CA0;&#x64D4;&#x4E86;&#x3002;
+&#x9996;&#x5148;&#x6211;&#x5011;&#x958B;&#x4E00;&#x500B;&#x7A7A;&#x767D;&#x6587;&#x4EF6;&#xFF0C;&#x53D6;&#x540D;&#x53EB;&#x505A;<code>myGdbScript.txt</code>( myGdbScript.txt &#x4EE5;&#x4E0B;&#x7A31;&#x505A;GdbScript)</p>
+<!--more-->
+<h2 id="%E7%95%B6%E4%BD%9C%E6%89%B9%E6%AC%A1%E6%AA%94">&#x7576;&#x4F5C;&#x6279;&#x6B21;&#x6A94;</h2>
+<p>&#x76F4;&#x63A5;&#x5728;&#x6587;&#x4EF6;&#x4E2D;&#x8F38;&#x5165;</p>
+<pre><code>set architecture i8086
+target remote localhost:1234
+b *0x7C00
+</code></pre><p>&#x5B58;&#x6A94;&#x5F8C;&#xFF0C;&#x9032;&#x5165;GDB&#x5F8C;&#xFF0C;&#x8F38;&#x5165;</p>
+<pre><code>    source myGdbScript.txt
+</code></pre><p>&#x5C31;&#x6703;&#x767C;&#x73FE;&#x4ED6;&#x5C31;&#x50CF;&#x6279;&#x6B21;&#x6A94;&#x4E00;&#x6A23;&#xFF0C;&#x81EA;&#x52D5;&#x7684;&#x57F7;&#x884C;&#x88E1;&#x9762;&#x7684;&#x6307;&#x4EE4;</p>
+<h2 id="%E8%87%AA%E8%A1%8C%E5%AE%9A%E7%BE%A9%E6%8C%87%E4%BB%A4">&#x81EA;&#x884C;&#x5B9A;&#x7FA9;&#x6307;&#x4EE4;</h2>
+<p>&#x4E5F;&#x53EF;&#x4F7F;&#x7528;&#x5B9A;&#x7FA9;&#x6307;&#x4EE4;&#x7684;&#x65B9;&#x5F0F;,&#x5728;GdbScript&#x4E2D;&#x8F38;&#x5165;</p>
+<pre><code>define local_connect
+    set architecture i8086
+    target remote localhost:1234
+    b *0x7C00
+end
+</code></pre><p>&#x7136;&#x5F8C;&#x5728; GDB &#x4E2D;&#xFF0C;&#x5148;&#x628A;GdbScript&#x8B80;&#x9032;&#x4F86;</p>
+<pre><code>source myGdbScript.txt
+</code></pre><p>&#x4E4B;&#x5F8C;&#x5C31;&#x53EF;&#x4EE5;&#x6253;</p>
+<pre><code>local_connect
+</code></pre><p>&#x4F60;&#x5C31;&#x6703;&#x767C;&#x73FE;&#xFF0C;&#x4ED6;&#x57F7;&#x884C; define &#x88E1;&#x9762;&#x7684;&#x4E09;&#x689D;&#x6307;&#x4EE4;</p>
+<h2 id="%E5%8F%96%E5%BE%97-current-intstruction">&#x53D6;&#x5F97; current intstruction</h2>
+<p>&#x4F7F;&#x7528; x/5i $cs*16 + $eip &#x4F86;&#x986F;&#x793A;&#x76EE;&#x524D; CS:IP&#x6240;&#x5C0D;&#x61C9;&#x7684;&#x6307;&#x4EE4;&#xFF0C;&#x5982;&#x4E0B;&#x6240;&#x793A;</p>
+<pre><code>define cur_intstruction
+    x/5i $cs*16 + $eip
+end
+</code></pre><h2 id="%E5%AE%9A%E7%BE%A9%E8%AE%8A%E6%95%B8">&#x5B9A;&#x7FA9;&#x8B8A;&#x6578;</h2>
+<p>&#x5728; GDB &#x4E2D;&#xFF0C;&#x4E5F;&#x662F;&#x53EF;&#x4EE5;&#x5B9A;&#x7FA9;&#x8B8A;&#x6578;&#x7684;&#xFF0C;&#x5982;&#x5728;GdbScript&#x4E2D;&#x8F38;&#x5165;</p>
+<pre><code>set $ADDRESS_MASK = 0x1FFFFF
+</code></pre><h2 id="%E5%8D%B0%E5%87%BA%E7%AC%A6%E8%99%9F">&#x5370;&#x51FA;&#x7B26;&#x865F;</h2>
+<p>&#x5728;script&#x4E2D;&#xFF0C;&#x8F38;&#x5165;&#x5982;&#x4E0B;&#x6240;&#x793A;</p>
+<pre><code>printf &quot;---------------------------[ CODE ]----\n&quot;
+</code></pre><h2 id="%E5%8F%96%E5%BE%97-cpu-register%E7%9A%84%E5%80%BC">&#x53D6;&#x5F97; cpu register&#x7684;&#x503C;</h2>
+<p>&#x5982;&#x4E0B;&#x6240;&#x793A;&#xFF0C;&#x53EF;&#x4EE5;&#x628A;&#x67D0;&#x500B;register&#x7684;&#x503C;&#x8A2D;&#x5B9A;&#x7D66;&#x8B8A;&#x6578;&#x5F8C;&#xFF0C;&#x5370;&#x51FA;&#x4F86;</p>
+<pre><code>define compute_regs
+    set $rax = ((unsigned long)$eax &amp; 0xFFFF)
+    set $rbx = ((unsigned long)$ebx &amp; 0xFFF
 
-    movl 8(%ebp), %eax
-    addl 12(%ebp), %eax
-
-    movl %ebp, %esp
-    popl %ebp
-    ret
-
-.type add_inc, @function
-.globl add_inc
-add_inc:   # add 1 to int parameter
-    pushl %ebp
-    movl %esp, %ebp
-
-    movl 8(%ebp), %eax
-    inc %eax
-
-    movl %ebp, %esp
-    popl %ebp
-    ret
-</code></pre><pre><code>sub.s&#x6587;&#x4EF6;&#xFF1A;
-# sub.s
-.type sub, @function
-.globl sub
-sub:    # sub two integer
-    pushl %ebp
-    movl %esp, %ebp
-
-    movl 8(%ebp), %eax
-    subl 12(%ebp), %eax
-
-    movl %ebp, %esp
-    popl %ebp
-    ret
-</code></pre><pre><code>.type sub_dec, @function
-.globl sub_dec
-sub_dec:   # sub 1 to int parameter
-    pushl %ebp
-    movl %esp, %ebp
-
-    movl 8(%ebp), %eax
-    dec %eax
-
-    movl %ebp, %esp
-    popl %ebp
-    ret
-
-.type print_hello, @function
-.section .data
-msg:
-    .ascii &quot;hello world!\n&quot;
-    len=.-msg
-.section .text
-.global print_hello
-print_hello:
-    movl $len, %edx
-    movl $msg, %ecx
-    movl $1, %ebx
-    movl $4, %eax
-    int $0x80
-    movl $0, %ebx
-    movl $1, %eax
-    int $0x80
-</code></pre><p>C&#x6587;&#x4EF6;&#xFF1A;</p>
-<pre><code class="lang-cpp"><span class="hljs-preprocessor"># main.c</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;stdio.h&gt;</span>
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>)</span></span>;
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">add_inc</span><span class="hljs-params">(<span class="hljs-keyword">int</span>)</span></span>;
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">sub</span><span class="hljs-params">(<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>)</span></span>;
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">sub_dec</span><span class="hljs-params">(<span class="hljs-keyword">int</span>)</span></span>;
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">print_hello</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span>;
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *argv[])</span>
-</span>{
-    <span class="hljs-keyword">int</span> ret;
-
-    ret = add(<span class="hljs-number">1989</span>, <span class="hljs-number">711</span>);
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;The add() return is %d.\n&quot;</span>, ret);
-
-    ret = add_inc(<span class="hljs-number">1989</span>);
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;The add_inc() return is %d.\n&quot;</span>, ret);
-
-    ret = sub(<span class="hljs-number">1989</span>, <span class="hljs-number">711</span>);
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;The sub() return is %d.\n&quot;</span>, ret);
-
-    ret = sub_dec(<span class="hljs-number">1989</span>);
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;The sub_dec() return is %d.\n&quot;</span>, ret);
-
-    print_hello();
-
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-}
-</code></pre>
-<p>Makefile&#xFF1A;</p>
-<pre><code># Makefile for linux as
-
-CFLAGS= -Wall -g
-ASFLAGS= -gstabs
-
-SRC_BIN=target_bin
-
-SRC_LIB=libcal.a
-
-SRC_C=$(wildcard *.c)
-SRC_S=$(wildcard *.s)
-
-SRC_COBJ=$(SRC_C:.c=.o)
-SRC_SOBJ=$(SRC_S:.s=.o)
-
-SRC_OBJ=$(SRC_COBJ) $(SRC_SOBJ)
-
-all: $(SRC_BIN)
-
-$(SRC_BIN): $(SRC_COBJ) $(SRC_LIB)
- $(CC) -o $@ $(SRC_COBJ) -L./ -lcal
-
-$(SRC_LIB) : $(SRC_SOBJ)
- ar rcs $@ $^
-
-clean:
- $(RM) $(SRC_OBJ) $(SRC_BIN) *~
-.PHONY:
- all clean
-</code></pre><p>&#x4E0B;&#x9762;&#x70BA;&#x57F7;&#x884C;&#x8F38;&#x51FA;&#x7D50;&#x679C;&#xFF1A;</p>
-<pre><code>$ make
-cc -Wall -g   -c -o main.o main.c
-as -gstabs  -o add.o add.s
-as -gstabs  -o prt.o prt.s
-as -gstabs  -o sub.o sub.s
-ar rcs libcal.a add.o prt.o sub.o
-cc -o target_bin main.o -L./ -lcal
-$ ./target_bin
-The add() return is 2700.
-The add_inc() return is 1990.
-The sub() return is 1278.
-hello world!
-$
-</code></pre><p>&#x4F7F;&#x7528; ar&#x547D;&#x4EE4;t&#x53C3;&#x6578;&#x53EF;&#x4EE5;&#x67E5;&#x770B;&#x5EAB;&#x6587;&#x4EF6;&#x5305;&#x542B;&#x7684;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#x3002;</p>
-<pre><code>$ ar t libcal.a
-add.o
-prt.o
-sub.o
-nm&#x547D;&#x4EE4;&#x53EF;&#x4EE5;&#x986F;&#x793A;&#x6BCF;&#x500B;&#x51FD;&#x6578;&#x540D;&#xFF0C;&#x4E26;&#x4E14;&#x986F;&#x793A;&#x54EA;&#x500B;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#x5305;&#x542B;&#x54EA;&#x500B;&#x51FD;&#x6578;&#x3002;
-$ nm -s libcal.a
-Archive index:
-add in add.o
-add_inc in add.o
-print_hello in prt.o
-sub in sub.o
-sub_dec in sub.o
-add.o:
-00000000 T add
-0000000d T add_inc
-prt.o:
-0000000d a len
-00000000 d msg
-00000000 T print_hello
-sub.o:
-00000000 T sub
-0000000d T sub_dec
-</code></pre><p>&#x7576;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x548C;&#x975C;&#x614B;&#x5EAB;&#x4E00;&#x8D77;&#x7DE8;&#x8B6F;&#x6642;&#xFF0C;&#x51FD;&#x6578;&#x4EE3;&#x78BC;&#x88AB;&#x7DE8;&#x8B6F;&#x5230;&#x4E86;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x4E2D;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#x7A0B;&#x5E8F;&#x6240;&#x9700;&#x6240;&#x6709;&#x4EE3;&#x78BC;&#x90FD;&#x5728;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x4E2D;&#x3002;&#x4F46;&#x662F;&#x5982;&#x679C;&#x51FD;&#x6578;&#x4EE3;&#x78BC;&#x5167;&#x5BB9;&#x6709;&#x6539;&#x52D5;&#xFF0C;&#x90A3;&#x9EBC;&#x4F7F;&#x7528;&#x6B21;&#x51FD;&#x6578;&#x7684;&#x6BCF;&#x500B;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x90FD;&#x5FC5;&#x9808;&#x4F7F;&#x7528;&#x65B0;&#x7684;&#x7248;&#x672C;&#x7A0B;&#x5E8F;&#x7DE8;&#x8B6F;&#xFF0C;&#x4E26;&#x4E14;&#x7CFB;&#x7D71;&#x4E0A;&#x591A;&#x500B;&#x7A0B;&#x5E8F;&#x53EF;&#x80FD;&#x6703;&#x4F7F;&#x7528;&#x76F8;&#x540C;&#x51FD;&#x6578;&#xFF0C;&#x90A3;&#x9EBC;&#x5167;&#x5B58;&#x6703;&#x591A;&#x6B21;&#x628A;&#x76F8;&#x540C;&#x51FD;&#x6578;&#x52A0;&#x8F09;&#x5230;&#x5167;&#x5B58;&#x4E2D;&#x3002;</p>
-<p>&#x800C;&#x5171;&#x4EAB;&#x5EAB;&#x5305;&#x542B;&#x76EE;&#x6A19;&#x4EE3;&#x78BC;&#x7684;&#x6587;&#x4EF6;&#x88AB;&#x52A0;&#x8F09;&#x5230;&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x7684;&#x901A;&#x7528;&#x5340;&#x57DF;&#xFF0C;&#x7576;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x9700;&#x8981;&#x8A2A;&#x554F;&#x5171;&#x4EAB;&#x5EAB;&#x4E2D;&#x7684;&#x51FD;&#x6578;&#x6642;&#xFF0C;&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x81EA;&#x52D5;&#x628A;&#x4EE3;&#x78BC;&#x52A0;&#x8F09;&#x5230;&#x5167;&#x5B58;&#x4E2D;&#xFF0C;&#x5141;&#x8A31;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x8A2A;&#x554F;&#x5B83;&#x3002;&#x7576;&#x53E6;&#x4E00;&#x500B;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x4E5F;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x6B21;&#x51FD;&#x6578;&#x4EE3;&#x78BC;&#x6642;&#xFF0C;&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x5141;&#x8A31;&#x5B83;&#x8A2A;&#x554F;&#x5DF2;&#x7D93;&#x88AB;&#x52A0;&#x8F09;&#x5230;&#x5167;&#x5B58;&#x4E2D;&#x7684;&#x76F8;&#x540C;&#x51FD;&#x6578;&#x4EE3;&#x78BC;&#xFF0C;&#x9019;&#x88E1;&#x53EA;&#x6709;&#x51FD;&#x6578;&#x4EE3;&#x78BC;&#x7684;&#x4E00;&#x500B;&#x62F7;&#x8C9D;&#x52A0;&#x8F09;&#x5230;&#x4E86;&#x5167;&#x5B58;&#xFF0C;&#x4F7F;&#x7528;&#x8A72;&#x51FD;&#x6578;&#x4EE3;&#x78BC;&#x7684;&#x6BCF;&#x500B;&#x7A0B;&#x5E8F;&#x90FD;&#x4E0D;&#x6703;&#x518D;&#x628A;&#x5B83;&#x52A0;&#x8F09;&#x5230;&#x5167;&#x5B58;&#x4E2D;&#x3002;&#x5982;&#x679C;&#x51FD;&#x6578;&#x9700;&#x8981;&#x6539;&#x52D5;&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x66F4;&#x65B0;&#x5EAB;&#x6587;&#x4EF6;&#x5C31;&#x53EF;&#x4EE5;&#x4E86;&#xFF0C;&#x4E0D;&#x9700;&#x8981;&#x91CD;&#x65B0;&#x7DE8;&#x8B6F;&#x65B0;&#x7684;&#x65B0;&#x7684;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x3002;</p>
-<p>&#x73FE;&#x5728;&#x6211;&#x5011;&#x5C07;&#x4E0A;&#x9762;&#x975C;&#x614B;&#x5EAB;&#x7684;&#x4F8B;&#x5B50;&#x6539;&#x70BA;&#x52D5;&#x614B;&#x5EAB;&#x4F86;&#x5BE6;&#x73FE;&#x3002;
-&#x4FEE;&#x6539;Makefile&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre><code>$ cat Makefile.static
-# Makefile for linux as
-CFLAGS= -Wall -g
-ASFLAGS= -gstabs
-SRC_BIN=target_bin
-SRC_LIB=libcal.a
-SRC_C=$(wildcard *.c)
-SRC_S=$(wildcard *.s)
-SRC_COBJ=$(SRC_C:.c=.o)
-SRC_SOBJ=$(SRC_S:.s=.o)
-SRC_OBJ=$(SRC_COBJ) $(SRC_SOBJ)
-all: $(SRC_BIN)
-$(SRC_BIN): $(SRC_COBJ) $(SRC_LIB)
- $(CC) -o $@ $(SRC_COBJ) -L./ -lcal
-$(SRC_LIB) : $(SRC_SOBJ)
- ar rcs $@ $^
-clean:
- $(RM) $(SRC_OBJ) $(SRC_BIN) *~
-.PHONY:
- all clean
-</code></pre><p>&#x7DE8;&#x8B6F;&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre><code>$ make -f Makefile.share
-cc -Wall -g   -c -o main.o main.c
-as -gstabs  -o add.o add.s
-as -gstabs  -o prt.o prt.s
-as -gstabs  -o sub.o sub.s
-gcc -shared -o libcal.so add.o prt.o sub.o
-cc -o target_bin main.o -L./ -lcal
-</code></pre><p>&#x7528;ldd&#x547D;&#x4EE4;&#x53EF;&#x4EE5;&#x67E5;&#x770B;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x4F9D;&#x8CF4;&#x7684;&#x5EAB;&#x6587;&#x4EF6;&#xFF1A;</p>
-<pre><code>$ ldd target_bin
- linux-gate.so.1 =&gt;  (0x00dac000)
- libcal.so =&gt; not found
- libc.so.6 =&gt; /lib/libc.so.6 (0x00a42000)
- /lib/ld-linux.so.2 (0x00a1c000)
-</code></pre><p>&#x767C;&#x73FE;ldd&#x547D;&#x4EE4;&#x986F;&#x793A;&#x7A0B;&#x5E8F;&#x9700;&#x8981;&#x5171;&#x4EAB;&#x5EAB;&#x6587;&#x4EF6;libcal.so&#xFF0C;&#x4E26;&#x4E14;&#x6C92;&#x6709;&#x627E;&#x5230;&#x5B83;&#x3002;&#x6B64;&#x6642;&#x8A66;&#x5716;&#x904B;&#x884C;&#x6703;&#x51FA;&#x73FE;&#x5982;&#x4E0B;&#x932F;&#x8AA4;&#xFF1A;</p>
-<pre><code>$ ./target_bin
-./target_bin: error while loading shared libraries: libcal.so: cannot open shared object file: No such file or directory
-</code></pre><p>&#x51FA;&#x73FE;&#x8A72;&#x932F;&#x8AA4;&#x662F;&#x56E0;&#x70BA;&#x52D5;&#x614B;&#x52A0;&#x8F09;&#x5668;&#x4E0D;&#x77E5;&#x9053;&#x5982;&#x4F55;&#x8A2A;&#x554F;&#x5171;&#x4EAB;&#x5EAB;libcal.so&#x3002;&#x6587;&#x4EF6;/etc/ld.so.conf&#x6587;&#x4EF6;&#x4FDD;&#x5B58;&#x52D5;&#x614B;&#x52A0;&#x8F09;&#x5668;&#x5728;&#x90A3;&#x4E9B;&#x76EE;&#x9304;&#x4E2D;&#x67E5;&#x627E;&#x76EE;&#x9304;&#x6E05;&#x55AE;&#xFF0C;&#x7B46;&#x8005;&#x7CFB;&#x7D71;&#x4E0A;&#x8A72;&#x6587;&#x4EF6;&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre><code>$ cat /etc/ld.so.conf
-include ld.so.conf.d/*.conf
-</code></pre><p>&#x5373;&#x5305;&#x542B;&#x76EE;&#x9304; ld.so.conf.d/&#x4E0B;&#x7684;&#x6240;&#x6709;conf&#x6587;&#x4EF6;&#x3002;</p>
-<pre><code>$ ls /etc/ld.so.conf.d/
-</code></pre><p>atlas-i386.conf  kernel-2.6.32-358.el6.i686.conf  mysql-i386.conf  qt-i386.conf  xulrunner-32.conf</p>
-<p>&#x4E0A;&#x9762;&#x6BCF;&#x500B;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x5C31;&#x662F;&#x5C0D;&#x65BC;&#x6BCF;&#x500B;&#x61C9;&#x7528;&#x67E5;&#x627E;&#x5176;&#x5C0D;&#x61C9;&#x5171;&#x4EAB;&#x5EAB;&#x7684;&#x8DEF;&#x5F91;&#x3002;</p>
-<p>&#x4E00;&#x822C;&#x505A;&#x6CD5;&#x662F;&#x70BA;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x5275;&#x5EFA;&#x55AE;&#x7368;&#x7684;&#x76EE;&#x9304;&#xFF0C;&#x4E26;&#x628A;&#x76EE;&#x9304;&#x6DFB;&#x52A0;&#x5230;&#x6587;&#x4EF6;ld.so.conf&#x3002;&#x6240;&#x4EE5;&#x53EA;&#x9700;&#x8981;&#x5C07;&#x8981;&#x67E5;&#x627E;&#x7684;&#x7684;&#x5171;&#x4EAB;&#x5EAB;&#x6587;&#x4EF6;&#x7684;&#x76EE;&#x9304;&#x6DFB;&#x52A0;&#x5230;ld.so.conf&#x6587;&#x4EF6;&#x4E2D;&#x4F86;&#x5C31;&#x53EF;&#x4EE5;&#x4E86;&#x3002;&#x53EF;&#x4EE5;&#x6548;&#x4EFF;&#x4E0A;&#x9762;&#x7684;&#x5DF2;&#x6709;&#x7684;&#x4F8B;&#x5B50;&#xFF0C;&#x5C07;&#x8DEF;&#x5F91;&#x653E;&#x5728;/etc/ld.so.conf.d/&#x76EE;&#x9304;&#x4E0B;&#x7684;&#x4E00;&#x500B;.conf&#x6587;&#x4EF6;&#x4E2D;&#xFF0C;&#x7136;&#x5F8C;&#x4F7F;&#x7528;ldconfig&#x547D;&#x4EE4;&#x66F4;&#x65B0;&#x6587;&#x4EF6;ld.so.cache&#x3002;&#x6700;&#x5F8C;&#x518D;&#x904B;&#x884C;&#x7A0B;&#x5E8F;&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre><code># ./target_bin
-The add() return is 2700.
-The add_inc() return is 1990.
-The sub() return is 1278.
-hello world!
-</code></pre><p>&#x672C;&#x7CFB;&#x5217;linux&#x5F59;&#x7DE8;&#x5B78;&#x7FD2;&#x5230;&#x6B64;&#x70BA;&#x6B62;&#xFF0C;&#x5728;&#x9019;&#x4E8C;&#x5341;&#x7BC0;&#x7684;&#x5167;&#x5BB9;&#x4E2D;&#xFF0C;&#x53EF;&#x80FD;&#x6C92;&#x6709;&#x8B1B;&#x89E3;&#x5230;&#x5F59;&#x7DE8;&#x7684;&#x6240;&#x6709;&#x65B9;&#x9762;&#xFF0C;&#x4F46;&#x9084;&#x662F;&#x628A;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x7684;&#x6BD4;&#x8F03;&#x5E38;&#x7528;&#x7684;&#x57FA;&#x672C;&#x77E5;&#x8B58;&#x901A;&#x904E;&#x4E00;&#x4E9B;&#x5F88;&#x7C21;&#x55AE;&#x5F88;&#x57FA;&#x790E;&#x7684;&#x793A;&#x4F8B;&#x5C55;&#x793A;&#x4E86;&#x51FA;&#x4F86;&#xFF0C;&#x6211;&#x5E0C;&#x671B;&#x8B80;&#x8005;&#x5728;&#x770B;&#x5B8C;&#x672C;&#x7CFB;&#x5217;&#x6587;&#x7AE0;&#x4E4B;&#x5F8C;&#x6709;&#x6240;&#x6709;&#x6536;&#x7A6B;&#xFF0C;&#x4E5F;&#x5E0C;&#x671B;&#x8B80;&#x8005;&#x5728;&#x95B1;&#x8B80;&#x6587;&#x7AE0;&#x662F;&#x80FD;&#x6307;&#x51FA;&#x5176;&#x4E2D;&#x7684;&#x932F;&#x8AA4;&#x548C;&#x4E0D;&#x8DB3;&#x3002;</p>
+    printf &quot;---------------------------[ REG ]----\n&quot;
+    printf &quot;AX: %04X BX: %04X &quot;, $rax, $rbx
+    printf &quot;\n&quot;
+end
+</code></pre><p>Ref: <a href="http://ternet.fr/wiki/doku.php?id=blog:gdb_real_mode" target="_blank">Remote debugging of real mode code with gdb</a></p>
 
                     
                     </section>
@@ -3299,10 +3116,8 @@ hello world!
         </div>
 
         
-        <a href="../assembly/16119.html" class="navigation navigation-prev " aria-label="Previous page: C語言中調用匯編函數"><i class="fa fa-angle-left"></i></a>
+        <a href="../toolchain/172.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: buildroot install"><i class="fa fa-angle-left"></i></a>
         
-        
-        <a href="../assembly/162.html" class="navigation navigation-next " aria-label="Next page: [轉]如何在 Linux 下使用 GNU AS 撰寫組合語言"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

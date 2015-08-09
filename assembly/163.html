@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
-        <title>彙編庫的使用（結） | Jason note</title>
+        <title>在 Linux 下使用 GNU AS 編寫組合語言 - 使用 gdb 進行除錯 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.0.1">
@@ -20,10 +20,10 @@
         
     
     
-    <link rel="next" href="../assembly/162.html" />
+    <link rel="next" href="../toolchain/index.html" />
     
     
-    <link rel="prev" href="../assembly/16119.html" />
+    <link rel="prev" href="../assembly/162.html" />
     
 
         
@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="16.1.20" data-basepath=".." data-revision="Mon Aug 10 2015 00:47:49 GMT+0800 (CST)">
+    <div class="book" data-level="16.3" data-basepath=".." data-revision="Mon Aug 10 2015 00:47:49 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -2820,7 +2820,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="16.1.20" data-path="assembly/16200.html">
+        <li class="chapter " data-level="16.1.20" data-path="assembly/16200.html">
             
                 
                     <a href="../assembly/16200.html">
@@ -2855,7 +2855,7 @@
             
         </li>
     
-        <li class="chapter " data-level="16.3" data-path="assembly/163.html">
+        <li class="chapter active" data-level="16.3" data-path="assembly/163.html">
             
                 
                     <a href="../assembly/163.html">
@@ -3057,238 +3057,81 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E5%BD%99%E7%B7%A8%E5%BA%AB%E7%9A%84%E4%BD%BF%E7%94%A8%EF%BC%88%E7%B5%90%EF%BC%89">&#x5F59;&#x7DE8;&#x5EAB;&#x7684;&#x4F7F;&#x7528;&#xFF08;&#x7D50;&#xFF09;</h1>
-<p>&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x548C;C&#x4E00;&#x6A23;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x4F7F;&#x7528;&#x5EAB;&#x4F86;&#x7C21;&#x5316;&#x963B;&#x6B62;&#x5927;&#x91CF;&#x51FD;&#x6578;&#x7684;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#x7684;&#x554F;&#x984C;&#x3002;</p>
-<p>GNU C&#x7DE8;&#x8B6F;&#x5668;&#x53EF;&#x4EE5;&#x4E0D;&#x5728;&#x547D;&#x4EE4;&#x884C;&#x4E2D;&#x7368;&#x7ACB;&#x5730;&#x5305;&#x542B;&#x6BCF;&#x500B;&#x7368;&#x7ACB;&#x5730;&#x51FD;&#x6578;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#xFF0C;&#x5B83;&#x5141;&#x8A31;&#x5427;&#x6240;&#x6709;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#x7D44;&#x5408;&#x5728;&#x55AE;&#x4E00;&#x5B58;&#x6A94;&#x6587;&#x4EF6;&#x4E2D;&#x3002;&#x5728;&#x7DE8;&#x8B6F;C&#x7A0B;&#x5E8F;&#x6642;&#xFF0C;&#x8981;&#x505A;&#x7684;&#x5DE5;&#x4F5C;&#x5C31;&#x662F;&#x5305;&#x542B;&#x55AE;&#x4E00;&#x7684;&#x76EE;&#x6A19;&#x5EAB;&#x6587;&#x4EF6;&#xFF0C;&#x5728;&#x7DE8;&#x8B6F;&#x6642;&#xFF0C;&#x7DE8;&#x8B6F;&#x5668;&#x53EF;&#x4EE5;&#x5F9E;&#x5EAB;&#x6587;&#x4EF6;&#x4E2D;&#x6311;&#x51FA;&#x6240;&#x9700;&#x7684;&#x6B63;&#x78BA;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#x3002;&#x5728;&#x5EAB;&#x6587;&#x4EF6;&#x4E2D;&#xFF0C;&#x7D93;&#x5E38;&#x6309;&#x7167;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x985E;&#x578B;&#x6216;&#x8005;&#x51FD;&#x6578;&#x985E;&#x578B;&#x628A;&#x51FD;&#x6578;&#x5206;&#x7D44;&#x5728;&#x4E00;&#x8D77;&#xFF0C;&#x55AE;&#x4E00;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x9805;&#x76EE;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x591A;&#x500B;&#x5EAB;&#x6587;&#x4EF6;&#x3002;</p>
-<p>&#x5EAB;&#x53C8;&#x5206;&#x975C;&#x614B;&#x5EAB;&#x548C;&#x52D5;&#x614B;&#x5EAB;&#x3002;&#x975C;&#x614B;&#x5EAB;&#x6587;&#x4EF6;&#x4E2D;&#x5305;&#x542B;&#x7684;&#x76EE;&#x6A19;&#x4EE3;&#x78BC;&#x6703;&#x88AB;&#x7DE8;&#x8B6F;&#x5230;&#x4E3B;&#x7A0B;&#x5E8F;&#x4E2D;&#xFF0C;&#x7A0B;&#x5E8F;&#x7684;&#x904B;&#x884C;&#x5C31;&#x4E0D;&#x9700;&#x8981;&#x5EAB;&#x6587;&#x4EF6;&#x4E86;&#x3002;&#x52D5;&#x614B;&#x5EAB;&#x6587;&#x4EF6;&#x7684;&#x5305;&#x542B;&#x7684;&#x76EE;&#x6A19;&#x4EE3;&#x78BC;&#x4E0D;&#x6703;&#x5728;&#x7DE8;&#x8B6F;&#x6642;&#x7DE8;&#x8B6F;&#x5230;&#x4E3B;&#x7A0B;&#x5E8F;&#x4E2D;&#xFF0C;&#x800C;&#x662F;&#x4E3B;&#x7A0B;&#x5E8F;&#x5728;&#x904B;&#x884C;&#x6642;&#x8ABF;&#x7528;&#x8A72;&#x90E8;&#x5206;&#x4EE3;&#x78BC;&#xFF0C;&#x9019;&#x6A23;&#x53EF;&#x4EE5;&#x7BC0;&#x7701;&#x5167;&#x5B58;&#x9700;&#x6C42;&#x3002;</p>
-<p>ar&#x547D;&#x4EE4;&#x53EF;&#x4EE5;&#x5275;&#x5EFA;&#x975C;&#x614B;&#x5EAB;&#x6587;&#x4EF6;&#x3002;&#x4E0B;&#x9762;&#x70BA;&#x793A;&#x4F8B;&#x6240;&#x7528;&#x5230;&#x7684;&#x6240;&#x6709;&#x6587;&#x4EF6;&#xFF1A;</p>
-<pre><code>$ ls
-add.s  libcal.a  main.c  Makefile  prt.s  sub.s
-$
-</code></pre><p>add.s&#x6587;&#x4EF6;&#x5305;&#x542B;2&#x500B;&#x5F59;&#x7DE8;&#x51FD;&#x6578;&#xFF0C;sub.s&#x5305;&#x597D;2&#x500B;&#x5F59;&#x7DE8;&#x51FD;&#x6578;&#xFF0C;prt.s&#x5305;&#x542B;1&#x500B;&#x5F59;&#x7DE8;&#x51FD;&#x6578;&#x3002;&#x73FE;&#x5728;&#x5C07;&#x9019;&#x4E09;&#x500B;&#x6587;&#x4EF6;&#x6253;&#x5305;&#x70BA;&#x4E00;&#x500B;&#x5EAB;&#x6587;&#x4EF6;libcal.a&#xFF0C;&#x5728;&#x7DE8;&#x8B6F;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x662F;&#x9023;&#x63A5;&#x8A72;&#x5EAB;&#x6587;&#x4EF6;&#x3002;&#x4E0B;&#x9762;&#x5206;&#x5225;&#x70BA;&#x4E0A;&#x9762;&#x6587;&#x4EF6;&#x7684;&#x5167;&#x5BB9;&#xFF1A;
-add.s&#x6587;&#x4EF6;&#xFF1A;</p>
-<pre><code># add.s
-.type add, @function
-.globl add
-add:    # add two integer
-    pushl %ebp
-    movl %esp, %ebp
+                        <h1 id="%E5%9C%A8-linux-%E4%B8%8B%E4%BD%BF%E7%94%A8-gnu-as-%E7%B7%A8%E5%AF%AB%E7%B5%84%E5%90%88%E8%AA%9E%E8%A8%80-%E4%BD%BF%E7%94%A8-gdb-%E9%80%B2%E8%A1%8C%E9%99%A4%E9%8C%AF">&#x5728; Linux &#x4E0B;&#x4F7F;&#x7528; GNU AS &#x7DE8;&#x5BEB;&#x7D44;&#x5408;&#x8A9E;&#x8A00; - &#x4F7F;&#x7528; gdb &#x9032;&#x884C;&#x9664;&#x932F;</h1>
+<p>&#x65E5;&#x524D;&#x6709;&#x5BEB;&#x4E00;&#x7BC7;&#x300E;&#x5728; Linux &#x4E0B;&#x4F7F;&#x7528; GNU AS &#x7DE8;&#x5BEB;&#x7D44;&#x5408;&#x8A9E;&#x8A00;&#x300F;&#xFF0C;&#x73FE;&#x5728;&#x4EE5; cpuid &#x7684;&#x7BC4;&#x4F8B;&#x4F86;&#x793A;&#x7BC4;&#x5982;&#x4F55;&#x4F7F;&#x7528; gdb &#x9664;&#x932F;&#x3002;</p>
+<p>&#x9996;&#x5148;&#x6211;&#x5011;&#x5728;&#x7D44;&#x8B6F;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x9700;&#x52A0;&#x4E0A; -gstabs &#x53C3;&#x6578;&#xFF0C;as &#x6703;&#x5C07;&#x9664;&#x932F;&#x6240;&#x9700;&#x8981;&#x7684;&#x8CC7;&#x8A0A;&#x7DE8;&#x9032;&#x53BB;&#xFF0C;&#x4EE5;&#x4FBF; gdb &#x9664;&#x932F;&#x3002;</p>
+<pre><code>[ cpuid:c9s-desktop : 19:05:43 ] $ as -gstabs -o cpuid.o cpuid.s
+[ cpuid:c9s-desktop : 19:05:58 ] $ ld -o cpuid cpuid.o
+</code></pre><p>&#x9664;&#x932F;&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x5C07;&#x9023;&#x7D50;&#x5B8C;&#x7684;&#x57F7;&#x884C;&#x6A94;&#x4E1F;&#x7D66; gdb &#x5373;&#x53EF;:</p>
+<pre><code>[ cpuid:c9s-desktop : 19:06:04 ] $ gdb cpuid
+GNU gdb 6.8-debian
+Copyright (C) 2008 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later &lt;http://gnu.org/licenses/gpl.html&gt;
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type &quot;show copying&quot;
+and &quot;show warranty&quot; for details.
+This GDB was configured as &quot;i486-linux-gnu&quot;...
+(gdb)
+</code></pre><p>&#x9019;&#x6A23;&#x5C31;&#x9032;&#x5165; gdb &#x4E86;&#x3002;</p>
+<p>&#x63A5;&#x4E0B;&#x4F86;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x5728; _start &#x6A19;&#x7C64;&#x4E4B;&#x4F4D;&#x5740;&#x63D2;&#x5165;&#x4E2D;&#x65B7;&#x9EDE;&#xFF0C;&#x7136;&#x5F8C;&#x5C07;&#x6B64;&#x7A0B;&#x5F0F;&#x57F7;&#x884C;&#xFF0C;&#x7A0B;&#x5F0F;&#x61C9;&#x5728; _start &#x4E2D;&#x65B7;</p>
+<pre><code>(gdb) break *_start
+Breakpoint 1 at 0x8048074: file cpuid.s, line 7.
+(gdb) run
+Starting program: /home/src/asm-code/cpuid/cpuid
+The processor Vendor ID is &apos;GenuineIntel&apos;
 
-    movl 8(%ebp), %eax
-    addl 12(%ebp), %eax
+Program exited normally.
+(gdb) quit
+</code></pre><p>&#x600E;&#x9EBC;&#x56DE;&#x4E8B;&#xFF0C;&#x4E2D;&#x65B7;&#x9EDE;&#x7121;&#x6548;&#x4E86;&#xFF1F;&#x9019;&#x662F; gdb &#x4E00;&#x500B; Bug&#xFF0C;&#x4ED6;&#x628A;&#x4E00;&#x958B;&#x59CB;&#x7684;&#x4E2D;&#x65B7;&#x9EDE;_start&#x5FFD;&#x7565;&#x4E86;&#x3002;XD</p>
+<p>&#x7D93;&#x904E;&#x6E2C;&#x8A66;&#x767C;&#x73FE;&#x4F3C;&#x4E4E;&#x662F;&#x5728;&#x4E00;&#x958B;&#x59CB;&#x7684;&#x7B2C;&#x4E00;&#x500B;&#x6307;&#x4EE4;&#x4E2D;&#x65B7;&#x9EDE;&#x6703;&#x7121;&#x6CD5;&#x4F5C;&#x7528;&#xFF1F;&#x89E3;&#x6CD5;&#x662F;&#xFF0C;&#x5728; _start &#x5F8C;&#x52A0;&#x5165;&#x4E00;&#x500B; nop &#x6307;&#x4EE4;&#x3002;nop &#x6307;&#x4EE4;&#x4E26;&#x6C92;&#x6709;&#x529F;&#x80FD;&#xFF0C;&#x4ED6;&#x4E0D;&#x505A;&#x4EFB;&#x4F55;&#x4E8B;&#x60C5;&#x3002;</p>
+<pre><code>.globl _start
+_start:
+nop
+movl $0, %eax
+cpuid
+movl $output,%edi
+movl %ebx, 28(%edi)
+</code></pre><p>&#x63A5;&#x4E0B;&#x4F86;&#x91CD;&#x65B0;&#x7D44;&#x8B6F;&#x5F8C;&#xFF0C;&#x4F7F;&#x7528; gdb &#x9664;&#x932F;:</p>
+<pre><code>(gdb) break *_start+1
+Breakpoint 1 at 0x8048075: file cpuid.s, line 8.
+(gdb) run
+Starting program: /home/src/asm-code/cpuid/cpuid
 
-    movl %ebp, %esp
-    popl %ebp
-    ret
+Breakpoint 1, _start () at cpuid.s:8
+8     movl $0, %eax
+Current language:  auto; currently asm
+</code></pre><p>&#x56E0;&#x70BA; nop &#x53EA;&#x6709;&#x4E00;&#x500B; byte &#xFF0C;&#x6211;&#x5011;&#x5C07;&#x4E2D;&#x65B7;&#x9EDE;&#x8A2D;&#x7F6E;&#x5728; _start &#x4F4D;&#x5740;&#x5F8C;&#x7684;&#x4E00;&#x500B; byte &#xFF0C;&#x5C31;&#x6703;&#x505C;&#x5728;&#x4E2D;&#x65B7;&#x9EDE;&#x4E86;&#x3002;</p>
+<p>&#x63A5;&#x8457;&#x4F60;&#x53EF;&#x4F7F;&#x7528; s &#x6216; n &#x4F86;&#x4F5C;&#x55AE;&#x6B65;&#x57F7;&#x884C;&#x3002; (s for step , n for next )</p>
+<p>gdb &#x7684;&#x57FA;&#x672C;&#x6307;&#x4EE4;:</p>
+<table><tbody><tr><td>info registers</td><td>&#x986F;&#x793A;&#x6240;&#x6709;&#x66AB;&#x5B58;&#x5668;&#x5167;&#x5BB9;</td></tr><tr><td>print</td><td>&#x5370;&#x51FA;&#x7279;&#x5B9A;&#x66AB;&#x5B58;&#x5668;&#x6216;&#x8005;&#x8B8A;&#x6578;&#x7684;&#x503C;</td></tr><tr><td>x</td><td>&#x5370;&#x51FA;&#x7279;&#x5B9A;&#x8A18;&#x61B6;&#x9AD4;&#x4F4D;&#x7F6E;&#x7684;&#x5167;&#x5BB9;</td></tr></tbody></table>
 
-.type add_inc, @function
-.globl add_inc
-add_inc:   # add 1 to int parameter
-    pushl %ebp
-    movl %esp, %ebp
-
-    movl 8(%ebp), %eax
-    inc %eax
-
-    movl %ebp, %esp
-    popl %ebp
-    ret
-</code></pre><pre><code>sub.s&#x6587;&#x4EF6;&#xFF1A;
-# sub.s
-.type sub, @function
-.globl sub
-sub:    # sub two integer
-    pushl %ebp
-    movl %esp, %ebp
-
-    movl 8(%ebp), %eax
-    subl 12(%ebp), %eax
-
-    movl %ebp, %esp
-    popl %ebp
-    ret
-</code></pre><pre><code>.type sub_dec, @function
-.globl sub_dec
-sub_dec:   # sub 1 to int parameter
-    pushl %ebp
-    movl %esp, %ebp
-
-    movl 8(%ebp), %eax
-    dec %eax
-
-    movl %ebp, %esp
-    popl %ebp
-    ret
-
-.type print_hello, @function
-.section .data
-msg:
-    .ascii &quot;hello world!\n&quot;
-    len=.-msg
-.section .text
-.global print_hello
-print_hello:
-    movl $len, %edx
-    movl $msg, %ecx
-    movl $1, %ebx
-    movl $4, %eax
-    int $0x80
-    movl $0, %ebx
-    movl $1, %eax
-    int $0x80
-</code></pre><p>C&#x6587;&#x4EF6;&#xFF1A;</p>
-<pre><code class="lang-cpp"><span class="hljs-preprocessor"># main.c</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;stdio.h&gt;</span>
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>)</span></span>;
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">add_inc</span><span class="hljs-params">(<span class="hljs-keyword">int</span>)</span></span>;
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">sub</span><span class="hljs-params">(<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>)</span></span>;
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">sub_dec</span><span class="hljs-params">(<span class="hljs-keyword">int</span>)</span></span>;
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">print_hello</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span>;
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *argv[])</span>
-</span>{
-    <span class="hljs-keyword">int</span> ret;
-
-    ret = add(<span class="hljs-number">1989</span>, <span class="hljs-number">711</span>);
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;The add() return is %d.\n&quot;</span>, ret);
-
-    ret = add_inc(<span class="hljs-number">1989</span>);
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;The add_inc() return is %d.\n&quot;</span>, ret);
-
-    ret = sub(<span class="hljs-number">1989</span>, <span class="hljs-number">711</span>);
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;The sub() return is %d.\n&quot;</span>, ret);
-
-    ret = sub_dec(<span class="hljs-number">1989</span>);
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;The sub_dec() return is %d.\n&quot;</span>, ret);
-
-    print_hello();
-
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-}
-</code></pre>
-<p>Makefile&#xFF1A;</p>
-<pre><code># Makefile for linux as
-
-CFLAGS= -Wall -g
-ASFLAGS= -gstabs
-
-SRC_BIN=target_bin
-
-SRC_LIB=libcal.a
-
-SRC_C=$(wildcard *.c)
-SRC_S=$(wildcard *.s)
-
-SRC_COBJ=$(SRC_C:.c=.o)
-SRC_SOBJ=$(SRC_S:.s=.o)
-
-SRC_OBJ=$(SRC_COBJ) $(SRC_SOBJ)
-
-all: $(SRC_BIN)
-
-$(SRC_BIN): $(SRC_COBJ) $(SRC_LIB)
- $(CC) -o $@ $(SRC_COBJ) -L./ -lcal
-
-$(SRC_LIB) : $(SRC_SOBJ)
- ar rcs $@ $^
-
-clean:
- $(RM) $(SRC_OBJ) $(SRC_BIN) *~
-.PHONY:
- all clean
-</code></pre><p>&#x4E0B;&#x9762;&#x70BA;&#x57F7;&#x884C;&#x8F38;&#x51FA;&#x7D50;&#x679C;&#xFF1A;</p>
-<pre><code>$ make
-cc -Wall -g   -c -o main.o main.c
-as -gstabs  -o add.o add.s
-as -gstabs  -o prt.o prt.s
-as -gstabs  -o sub.o sub.s
-ar rcs libcal.a add.o prt.o sub.o
-cc -o target_bin main.o -L./ -lcal
-$ ./target_bin
-The add() return is 2700.
-The add_inc() return is 1990.
-The sub() return is 1278.
-hello world!
-$
-</code></pre><p>&#x4F7F;&#x7528; ar&#x547D;&#x4EE4;t&#x53C3;&#x6578;&#x53EF;&#x4EE5;&#x67E5;&#x770B;&#x5EAB;&#x6587;&#x4EF6;&#x5305;&#x542B;&#x7684;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#x3002;</p>
-<pre><code>$ ar t libcal.a
-add.o
-prt.o
-sub.o
-nm&#x547D;&#x4EE4;&#x53EF;&#x4EE5;&#x986F;&#x793A;&#x6BCF;&#x500B;&#x51FD;&#x6578;&#x540D;&#xFF0C;&#x4E26;&#x4E14;&#x986F;&#x793A;&#x54EA;&#x500B;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#x5305;&#x542B;&#x54EA;&#x500B;&#x51FD;&#x6578;&#x3002;
-$ nm -s libcal.a
-Archive index:
-add in add.o
-add_inc in add.o
-print_hello in prt.o
-sub in sub.o
-sub_dec in sub.o
-add.o:
-00000000 T add
-0000000d T add_inc
-prt.o:
-0000000d a len
-00000000 d msg
-00000000 T print_hello
-sub.o:
-00000000 T sub
-0000000d T sub_dec
-</code></pre><p>&#x7576;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x548C;&#x975C;&#x614B;&#x5EAB;&#x4E00;&#x8D77;&#x7DE8;&#x8B6F;&#x6642;&#xFF0C;&#x51FD;&#x6578;&#x4EE3;&#x78BC;&#x88AB;&#x7DE8;&#x8B6F;&#x5230;&#x4E86;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x4E2D;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#x7A0B;&#x5E8F;&#x6240;&#x9700;&#x6240;&#x6709;&#x4EE3;&#x78BC;&#x90FD;&#x5728;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x4E2D;&#x3002;&#x4F46;&#x662F;&#x5982;&#x679C;&#x51FD;&#x6578;&#x4EE3;&#x78BC;&#x5167;&#x5BB9;&#x6709;&#x6539;&#x52D5;&#xFF0C;&#x90A3;&#x9EBC;&#x4F7F;&#x7528;&#x6B21;&#x51FD;&#x6578;&#x7684;&#x6BCF;&#x500B;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x90FD;&#x5FC5;&#x9808;&#x4F7F;&#x7528;&#x65B0;&#x7684;&#x7248;&#x672C;&#x7A0B;&#x5E8F;&#x7DE8;&#x8B6F;&#xFF0C;&#x4E26;&#x4E14;&#x7CFB;&#x7D71;&#x4E0A;&#x591A;&#x500B;&#x7A0B;&#x5E8F;&#x53EF;&#x80FD;&#x6703;&#x4F7F;&#x7528;&#x76F8;&#x540C;&#x51FD;&#x6578;&#xFF0C;&#x90A3;&#x9EBC;&#x5167;&#x5B58;&#x6703;&#x591A;&#x6B21;&#x628A;&#x76F8;&#x540C;&#x51FD;&#x6578;&#x52A0;&#x8F09;&#x5230;&#x5167;&#x5B58;&#x4E2D;&#x3002;</p>
-<p>&#x800C;&#x5171;&#x4EAB;&#x5EAB;&#x5305;&#x542B;&#x76EE;&#x6A19;&#x4EE3;&#x78BC;&#x7684;&#x6587;&#x4EF6;&#x88AB;&#x52A0;&#x8F09;&#x5230;&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x7684;&#x901A;&#x7528;&#x5340;&#x57DF;&#xFF0C;&#x7576;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x9700;&#x8981;&#x8A2A;&#x554F;&#x5171;&#x4EAB;&#x5EAB;&#x4E2D;&#x7684;&#x51FD;&#x6578;&#x6642;&#xFF0C;&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x81EA;&#x52D5;&#x628A;&#x4EE3;&#x78BC;&#x52A0;&#x8F09;&#x5230;&#x5167;&#x5B58;&#x4E2D;&#xFF0C;&#x5141;&#x8A31;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x8A2A;&#x554F;&#x5B83;&#x3002;&#x7576;&#x53E6;&#x4E00;&#x500B;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x4E5F;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x6B21;&#x51FD;&#x6578;&#x4EE3;&#x78BC;&#x6642;&#xFF0C;&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x5141;&#x8A31;&#x5B83;&#x8A2A;&#x554F;&#x5DF2;&#x7D93;&#x88AB;&#x52A0;&#x8F09;&#x5230;&#x5167;&#x5B58;&#x4E2D;&#x7684;&#x76F8;&#x540C;&#x51FD;&#x6578;&#x4EE3;&#x78BC;&#xFF0C;&#x9019;&#x88E1;&#x53EA;&#x6709;&#x51FD;&#x6578;&#x4EE3;&#x78BC;&#x7684;&#x4E00;&#x500B;&#x62F7;&#x8C9D;&#x52A0;&#x8F09;&#x5230;&#x4E86;&#x5167;&#x5B58;&#xFF0C;&#x4F7F;&#x7528;&#x8A72;&#x51FD;&#x6578;&#x4EE3;&#x78BC;&#x7684;&#x6BCF;&#x500B;&#x7A0B;&#x5E8F;&#x90FD;&#x4E0D;&#x6703;&#x518D;&#x628A;&#x5B83;&#x52A0;&#x8F09;&#x5230;&#x5167;&#x5B58;&#x4E2D;&#x3002;&#x5982;&#x679C;&#x51FD;&#x6578;&#x9700;&#x8981;&#x6539;&#x52D5;&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x66F4;&#x65B0;&#x5EAB;&#x6587;&#x4EF6;&#x5C31;&#x53EF;&#x4EE5;&#x4E86;&#xFF0C;&#x4E0D;&#x9700;&#x8981;&#x91CD;&#x65B0;&#x7DE8;&#x8B6F;&#x65B0;&#x7684;&#x65B0;&#x7684;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x3002;</p>
-<p>&#x73FE;&#x5728;&#x6211;&#x5011;&#x5C07;&#x4E0A;&#x9762;&#x975C;&#x614B;&#x5EAB;&#x7684;&#x4F8B;&#x5B50;&#x6539;&#x70BA;&#x52D5;&#x614B;&#x5EAB;&#x4F86;&#x5BE6;&#x73FE;&#x3002;
-&#x4FEE;&#x6539;Makefile&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre><code>$ cat Makefile.static
-# Makefile for linux as
-CFLAGS= -Wall -g
-ASFLAGS= -gstabs
-SRC_BIN=target_bin
-SRC_LIB=libcal.a
-SRC_C=$(wildcard *.c)
-SRC_S=$(wildcard *.s)
-SRC_COBJ=$(SRC_C:.c=.o)
-SRC_SOBJ=$(SRC_S:.s=.o)
-SRC_OBJ=$(SRC_COBJ) $(SRC_SOBJ)
-all: $(SRC_BIN)
-$(SRC_BIN): $(SRC_COBJ) $(SRC_LIB)
- $(CC) -o $@ $(SRC_COBJ) -L./ -lcal
-$(SRC_LIB) : $(SRC_SOBJ)
- ar rcs $@ $^
-clean:
- $(RM) $(SRC_OBJ) $(SRC_BIN) *~
-.PHONY:
- all clean
-</code></pre><p>&#x7DE8;&#x8B6F;&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre><code>$ make -f Makefile.share
-cc -Wall -g   -c -o main.o main.c
-as -gstabs  -o add.o add.s
-as -gstabs  -o prt.o prt.s
-as -gstabs  -o sub.o sub.s
-gcc -shared -o libcal.so add.o prt.o sub.o
-cc -o target_bin main.o -L./ -lcal
-</code></pre><p>&#x7528;ldd&#x547D;&#x4EE4;&#x53EF;&#x4EE5;&#x67E5;&#x770B;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x4F9D;&#x8CF4;&#x7684;&#x5EAB;&#x6587;&#x4EF6;&#xFF1A;</p>
-<pre><code>$ ldd target_bin
- linux-gate.so.1 =&gt;  (0x00dac000)
- libcal.so =&gt; not found
- libc.so.6 =&gt; /lib/libc.so.6 (0x00a42000)
- /lib/ld-linux.so.2 (0x00a1c000)
-</code></pre><p>&#x767C;&#x73FE;ldd&#x547D;&#x4EE4;&#x986F;&#x793A;&#x7A0B;&#x5E8F;&#x9700;&#x8981;&#x5171;&#x4EAB;&#x5EAB;&#x6587;&#x4EF6;libcal.so&#xFF0C;&#x4E26;&#x4E14;&#x6C92;&#x6709;&#x627E;&#x5230;&#x5B83;&#x3002;&#x6B64;&#x6642;&#x8A66;&#x5716;&#x904B;&#x884C;&#x6703;&#x51FA;&#x73FE;&#x5982;&#x4E0B;&#x932F;&#x8AA4;&#xFF1A;</p>
-<pre><code>$ ./target_bin
-./target_bin: error while loading shared libraries: libcal.so: cannot open shared object file: No such file or directory
-</code></pre><p>&#x51FA;&#x73FE;&#x8A72;&#x932F;&#x8AA4;&#x662F;&#x56E0;&#x70BA;&#x52D5;&#x614B;&#x52A0;&#x8F09;&#x5668;&#x4E0D;&#x77E5;&#x9053;&#x5982;&#x4F55;&#x8A2A;&#x554F;&#x5171;&#x4EAB;&#x5EAB;libcal.so&#x3002;&#x6587;&#x4EF6;/etc/ld.so.conf&#x6587;&#x4EF6;&#x4FDD;&#x5B58;&#x52D5;&#x614B;&#x52A0;&#x8F09;&#x5668;&#x5728;&#x90A3;&#x4E9B;&#x76EE;&#x9304;&#x4E2D;&#x67E5;&#x627E;&#x76EE;&#x9304;&#x6E05;&#x55AE;&#xFF0C;&#x7B46;&#x8005;&#x7CFB;&#x7D71;&#x4E0A;&#x8A72;&#x6587;&#x4EF6;&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre><code>$ cat /etc/ld.so.conf
-include ld.so.conf.d/*.conf
-</code></pre><p>&#x5373;&#x5305;&#x542B;&#x76EE;&#x9304; ld.so.conf.d/&#x4E0B;&#x7684;&#x6240;&#x6709;conf&#x6587;&#x4EF6;&#x3002;</p>
-<pre><code>$ ls /etc/ld.so.conf.d/
-</code></pre><p>atlas-i386.conf  kernel-2.6.32-358.el6.i686.conf  mysql-i386.conf  qt-i386.conf  xulrunner-32.conf</p>
-<p>&#x4E0A;&#x9762;&#x6BCF;&#x500B;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x5C31;&#x662F;&#x5C0D;&#x65BC;&#x6BCF;&#x500B;&#x61C9;&#x7528;&#x67E5;&#x627E;&#x5176;&#x5C0D;&#x61C9;&#x5171;&#x4EAB;&#x5EAB;&#x7684;&#x8DEF;&#x5F91;&#x3002;</p>
-<p>&#x4E00;&#x822C;&#x505A;&#x6CD5;&#x662F;&#x70BA;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x5275;&#x5EFA;&#x55AE;&#x7368;&#x7684;&#x76EE;&#x9304;&#xFF0C;&#x4E26;&#x628A;&#x76EE;&#x9304;&#x6DFB;&#x52A0;&#x5230;&#x6587;&#x4EF6;ld.so.conf&#x3002;&#x6240;&#x4EE5;&#x53EA;&#x9700;&#x8981;&#x5C07;&#x8981;&#x67E5;&#x627E;&#x7684;&#x7684;&#x5171;&#x4EAB;&#x5EAB;&#x6587;&#x4EF6;&#x7684;&#x76EE;&#x9304;&#x6DFB;&#x52A0;&#x5230;ld.so.conf&#x6587;&#x4EF6;&#x4E2D;&#x4F86;&#x5C31;&#x53EF;&#x4EE5;&#x4E86;&#x3002;&#x53EF;&#x4EE5;&#x6548;&#x4EFF;&#x4E0A;&#x9762;&#x7684;&#x5DF2;&#x6709;&#x7684;&#x4F8B;&#x5B50;&#xFF0C;&#x5C07;&#x8DEF;&#x5F91;&#x653E;&#x5728;/etc/ld.so.conf.d/&#x76EE;&#x9304;&#x4E0B;&#x7684;&#x4E00;&#x500B;.conf&#x6587;&#x4EF6;&#x4E2D;&#xFF0C;&#x7136;&#x5F8C;&#x4F7F;&#x7528;ldconfig&#x547D;&#x4EE4;&#x66F4;&#x65B0;&#x6587;&#x4EF6;ld.so.cache&#x3002;&#x6700;&#x5F8C;&#x518D;&#x904B;&#x884C;&#x7A0B;&#x5E8F;&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre><code># ./target_bin
-The add() return is 2700.
-The add_inc() return is 1990.
-The sub() return is 1278.
-hello world!
-</code></pre><p>&#x672C;&#x7CFB;&#x5217;linux&#x5F59;&#x7DE8;&#x5B78;&#x7FD2;&#x5230;&#x6B64;&#x70BA;&#x6B62;&#xFF0C;&#x5728;&#x9019;&#x4E8C;&#x5341;&#x7BC0;&#x7684;&#x5167;&#x5BB9;&#x4E2D;&#xFF0C;&#x53EF;&#x80FD;&#x6C92;&#x6709;&#x8B1B;&#x89E3;&#x5230;&#x5F59;&#x7DE8;&#x7684;&#x6240;&#x6709;&#x65B9;&#x9762;&#xFF0C;&#x4F46;&#x9084;&#x662F;&#x628A;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x7684;&#x6BD4;&#x8F03;&#x5E38;&#x7528;&#x7684;&#x57FA;&#x672C;&#x77E5;&#x8B58;&#x901A;&#x904E;&#x4E00;&#x4E9B;&#x5F88;&#x7C21;&#x55AE;&#x5F88;&#x57FA;&#x790E;&#x7684;&#x793A;&#x4F8B;&#x5C55;&#x793A;&#x4E86;&#x51FA;&#x4F86;&#xFF0C;&#x6211;&#x5E0C;&#x671B;&#x8B80;&#x8005;&#x5728;&#x770B;&#x5B8C;&#x672C;&#x7CFB;&#x5217;&#x6587;&#x7AE0;&#x4E4B;&#x5F8C;&#x6709;&#x6240;&#x6709;&#x6536;&#x7A6B;&#xFF0C;&#x4E5F;&#x5E0C;&#x671B;&#x8B80;&#x8005;&#x5728;&#x95B1;&#x8B80;&#x6587;&#x7AE0;&#x662F;&#x80FD;&#x6307;&#x51FA;&#x5176;&#x4E2D;&#x7684;&#x932F;&#x8AA4;&#x548C;&#x4E0D;&#x8DB3;&#x3002;</p>
+<p>print &#x53EF;&#x642D;&#x914D;&#x4E0D;&#x540C;&#x7684;&#x4FEE;&#x98FE;&#x7B26;&#x4F86;&#x9078;&#x64C7;&#x4EE5;&#x4F55;&#x7A2E;&#x683C;&#x5F0F;&#x5370;&#x51FA; ( print/d &#x5370;&#x51FA;&#x5341;&#x9032;&#x4F4D;&#x6578;&#x503C; , print/t &#x5370;&#x51FA;&#x4E8C;&#x9032;&#x4F4D;&#x6578;&#x503C; , print/x &#x5370;&#x51FA;&#x5341;&#x516D;&#x9032;&#x5236;&#x6578;&#x503C; )</p>
+<p>&#x6B64;&#x5916; x &#x6307;&#x4EE4;&#x4E5F;&#x53EF;&#x642D;&#x914D;&#x4FEE;&#x98FE;&#x7B26;&#x4F86;&#x9078;&#x64C7;&#x683C;&#x5F0F;</p>
+<p>x/nyz</p>
+<ul>
+<li>n &#x4EE3;&#x8868;&#x8981;&#x5370;&#x51FA;&#x5E7E;&#x500B;&#x6B04;&#x4F4D; ( 1 , 2 , 3 ... )</li>
+<li>y &#x70BA;&#x8F38;&#x51FA;&#x683C;&#x5F0F;&#xFF0C;&#x53EF;&#x70BA; c (&#x5B57;&#x5143;) , d (&#x5341;&#x9032;&#x5236;) , x (&#x5341;&#x516D;&#x9032;&#x5236;)</li>
+<li>z &#x70BA;&#x5927;&#x5C0F;</li>
+</ul>
+<p>&#x5176;&#x4E2D; z &#x53EF;&#x70BA;:</p>
+<ul>
+<li>b &#x70BA; byte</li>
+<li>h &#x70BA; 16 bit word (halt-word)</li>
+<li>w &#x70BA; 32 bit word
+&#x8B6C;&#x5982;:</li>
+</ul>
+<pre><code>(gdb) x/42xb *_start
+0x8048074 &lt;_start&gt;:     0x90    0xb8    0x00    0x00    0x00    0x00    0x0f    0xa2
+0x804807c &lt;_start+8&gt;:   0xbf    0xac    0x90    0x04    0x08    0x89    0x5f    0x1c
+0x8048084 &lt;_start+16&gt;:  0x89    0x4f    0x24    0xb8    0x04    0x00    0x00    0x00
+0x804808c &lt;_start+24&gt;:  0xbb    0x01    0x00    0x00    0x00    0xb9    0xac    0x90
+0x8048094 &lt;_start+32&gt;:  0x04    0x08    0xba    0x2a    0x00    0x00    0x00    0xcd
+0x804809c &lt;_start+40&gt;:  0x80    0xb8
+</code></pre><pre><code>(gdb) print/x $ebx
+$1 = 0x756e6547
+(gdb)
+</code></pre><p>&#x5176;&#x4E2D; x/42xb &#x4EE3;&#x8868;&#x5370;&#x51FA; _start &#x6A19;&#x7C64;&#x958B;&#x59CB;&#x4E4B;&#x5F8C;&#x7684; 42 &#x500B; Byte &#xFF0C;&#x4E26;&#x4EE5; 16 &#x9032;&#x5236;&#x5370;&#x51FA;&#x3002; print/x &#x4EE3;&#x8868;&#x4EE5; 16 &#x9032;&#x5236;&#x5370;&#x51FA;&#x3002; print/d &#x4EE5;&#x5341;&#x9032;&#x5236;&#xFF0C;print/t &#x4EE5;&#x4E8C;&#x9032;&#x5236;&#x3002;</p>
+<p>&#x4EE5;&#x4E0A;&#x7C21;&#x7565;&#x4ECB;&#x7D39;&#x81F3;&#x6B64;&#x3002;</p>
 
                     
                     </section>
@@ -3299,10 +3142,10 @@ hello world!
         </div>
 
         
-        <a href="../assembly/16119.html" class="navigation navigation-prev " aria-label="Previous page: C語言中調用匯編函數"><i class="fa fa-angle-left"></i></a>
+        <a href="../assembly/162.html" class="navigation navigation-prev " aria-label="Previous page: [轉]如何在 Linux 下使用 GNU AS 撰寫組合語言"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../assembly/162.html" class="navigation navigation-next " aria-label="Next page: [轉]如何在 Linux 下使用 GNU AS 撰寫組合語言"><i class="fa fa-angle-right"></i></a>
+        <a href="../toolchain/index.html" class="navigation navigation-next " aria-label="Next page: Toolchain"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

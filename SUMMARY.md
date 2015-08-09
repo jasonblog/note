@@ -73,6 +73,7 @@
    * [Run Debian iso on QEMU ARMv8](qemu/75.md)
    * [QEMU ARM64 guide](qemu/76.md)
    * [QEMU install](qemu/77.md)
+   * [編譯 linux 0.11，並且使用 QEMU + GDB 調試 kernel ( Ubuntu 11.04, GCC 4.5.2)](qemu/78.md)
 * [Linux Device Driver Programming](linux_device_driver_programming/README.md)
    * [Linux 裝置驅動程式的概要 ](linux_device_driver_programming/01.md)
    * [Linux 的授權](linux_device_driver_programming/02.md)
@@ -180,4 +181,6 @@
 * [Toolchain](toolchain/README.md)
    * [cross compiler install](toolchain/171.md)
    * [buildroot install](toolchain/172.md)
+* [GDB](gdb/README)
+   * [簡易 GDB Script 教學，應用](gdb/181.md)
 

@@ -178,6 +178,8 @@
        * [內聯彙編](assembly/16118.md)
        * [C語言中調用匯編函數](assembly/16119.md)
        * [彙編庫的使用（結）](assembly/16200.md)
+   * [[轉]如何在 Linux 下使用 GNU AS 撰寫組合語言](assembly/162.md)
+   * [在 Linux 下使用 GNU AS 編寫組合語言 - 使用 gdb 進行除錯](assembly/163.md)
 * [Toolchain](toolchain/README.md)
    * [cross compiler install](toolchain/171.md)
    * [buildroot install](toolchain/172.md)

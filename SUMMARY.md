@@ -180,6 +180,8 @@
        * [彙編庫的使用（結）](assembly/16200.md)
    * [[轉]如何在 Linux 下使用 GNU AS 撰寫組合語言](assembly/162.md)
    * [在 Linux 下使用 GNU AS 編寫組合語言 - 使用 gdb 進行除錯](assembly/163.md)
+   * [linux反彙編旁門左道小技巧一則](assembly/164.md)
+   * [gas學習  by Jian Lee](assembly/165.md)
 * [Toolchain](toolchain/README.md)
    * [cross compiler install](toolchain/171.md)
    * [buildroot install](toolchain/172.md)
@@ -187,4 +189,5 @@
    * [簡易 GDB Script 教學，應用](gdb/181.md)
 * [Linux內核分析雲課堂學習筆記](mooc_linux_kernel/README.md)
    * [圖解分析彙編代碼以理解計算機是如何工作的](mooc_linux_kernel/191.md)
+   * [192](mooc_linux_kernel/192)
 

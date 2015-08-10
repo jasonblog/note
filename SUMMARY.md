@@ -185,4 +185,6 @@
    * [buildroot install](toolchain/172.md)
 * [GDB](gdb/README)
    * [簡易 GDB Script 教學，應用](gdb/181.md)
+* [Linux內核分析雲課堂學習筆記](mooc_linux_kernel/README.md)
+   * [圖解分析彙編代碼以理解計算機是如何工作的](mooc_linux_kernel/191.md)
 

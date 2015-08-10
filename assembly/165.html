@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
-        <title>[轉] Android 非同步任務 - AsyncTask | Jason note</title>
+        <title>gas學習  by Jian Lee | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.0.1">
@@ -20,10 +20,10 @@
         
     
     
-    <link rel="next" href="../android_note/515.html" />
+    <link rel="next" href="../toolchain/index.html" />
     
     
-    <link rel="prev" href="../android_note/512.html" />
+    <link rel="prev" href="../assembly/164.html" />
     
 
         
@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="5.14" data-basepath=".." data-revision="Tue Aug 11 2015 00:18:42 GMT+0800 (CST)">
+    <div class="book" data-level="16.5" data-basepath=".." data-revision="Tue Aug 11 2015 00:18:42 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -973,7 +973,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="5.14" data-path="android_note/513.html">
+        <li class="chapter " data-level="5.14" data-path="android_note/513.html">
             
                 
                     <a href="../android_note/513.html">
@@ -2885,7 +2885,7 @@
             
         </li>
     
-        <li class="chapter " data-level="16.5" data-path="assembly/165.html">
+        <li class="chapter active" data-level="16.5" data-path="assembly/165.html">
             
                 
                     <a href="../assembly/165.html">
@@ -3130,196 +3130,250 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="-%E8%BD%89-android-%E9%9D%9E%E5%90%8C%E6%AD%A5%E4%BB%BB%E5%8B%99-asynctask">[&#x8F49;] Android &#x975E;&#x540C;&#x6B65;&#x4EFB;&#x52D9; - AsyncTask</h1>
-<p>&#x672C;&#x7BC7;&#x4F86;&#x4ECB;&#x7D39;&quot;&#x975E;&#x540C;&#x6B65;&#x4EFB;&#x52D9;&quot; - AsyncTask&#xFF0C;&#x6211;&#x500B;&#x4EBA;&#x8A8D;&#x70BA;&#x4ED6;&#x6BD4; Thread &#x914D;&#x5408; Handler &#x597D;&#x7528;&#x5F88;&#x591A;&#xFF0C;&#x56E0;&#x70BA;&#x4ED6;&#x5DF2;&#x7D93;&#x5E6B;&#x6211;&#x5011;&#x5B9A;&#x7FA9;&#x597D;&#x65B9;&#x6CD5;&#xFF0C;&#x8B93;&#x6211;&#x5011;&#x518D;&#x8655;&#x7406;&#x524D;&#x3001;&#x5F8C;&#x3001;&#x4E2D;&#x90FD;&#x53EF;&#x4EE5;&#x53BB;&#x66F4;&#x65B0; UI &#x4ECB;&#x9762;&#xFF0C;&#x800C;&#x4E14;&#x4E5F;&#x5B9A;&#x7FA9;&#x5728;&#x5404;&#x72C0;&#x614B;&#x4E0B;&#x50B3;&#x9001;&#x8CC7;&#x6599;&#x7684;&#x53C3;&#x6578;&#x3002; &#x5982;&#x679C;&#x80FD;&#x5920;&#x597D;&#x597D;&#x7684;&#x4F7F;&#x7528; AsyncTask&#xFF0C;&#x53EF;&#x4EE5;&#x8B93;&#x6211;&#x5011;&#x7A0B;&#x5F0F;&#x7684;&#x53EF;&#x8B80;&#x6027;&#x589E;&#x52A0;&#xFF0C;&#x4E5F;&#x66F4;&#x597D;&#x7BA1;&#x7406;&#x3002; &#x9996;&#x5148;&#xFF0C;&#x6211;&#x5011;&#x5148;&#x4ECB;&#x7D39;&#x4ED6;&#x7684;&#x67B6;&#x69CB;&#xFF0C;&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre><code class="lang-java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GoodTask</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AsyncTask</span>&lt;<span class="hljs-title">Void</span>, <span class="hljs-title">Integer</span>, <span class="hljs-title">String</span>&gt; </span>{
-                <span class="hljs-comment">// &lt;&#x50B3;&#x5165;&#x53C3;&#x6578;, &#x8655;&#x7406;&#x4E2D;&#x66F4;&#x65B0;&#x4ECB;&#x9762;&#x53C3;&#x6578;, &#x8655;&#x7406;&#x5F8C;&#x50B3;&#x51FA;&#x53C3;&#x6578;&gt;</span>
-    <span class="hljs-annotation">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">protected</span> String <span class="hljs-title">doInBackground</span><span class="hljs-params">(Void... arg0)</span> </span>{
-        <span class="hljs-comment">// TODO Auto-generated method stub</span>
+                        <h1 id="gas%E5%AD%B8%E7%BF%92-by-jian-lee">gas&#x5B78;&#x7FD2;  by Jian Lee</h1>
+<ul>
+<li>&#x5229;&#x7528; cpuid &#x53D6;&#x5F97; intel &#x96C6;&#x5BB9;cpu&#x7684;&#x5EE0;&#x5546;&#x4FE1;&#x606F;&#x3002;</li>
+</ul>
+<pre><code>.section .data
+output1:
+    .ascii &quot;&#x7576;&#x524D;CPU&#x5EE0;&#x5546;ID&#x662F;&#xFF1A;&quot;
+output2:
+    .ascii &quot;xxxxxxxxxxxx\n&quot;
+.section .text
+.global _start
+_start:
+    movl $0,%eax
+    cpuid
 
-        <span class="hljs-comment">// &#x518D;&#x80CC;&#x666F;&#x4E2D;&#x8655;&#x7406;&#x7684;&#x8017;&#x6642;&#x5DE5;&#x4F5C;</span>
+    movl $output2,%edi
+    movl %ebx,(%edi)
+    movl %edx,4(%edi)
+    movl %ecx,8(%edi)
 
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>; <span class="hljs-comment">// &#x6703;&#x50B3;&#x7D66; onPostExecute(String result) &#x7684; String result</span>
-    }
+    movl $4,%eax
+    movl $1,%ebx
+    movl $output1,%ecx
+    movl $(output2-output1+14),%edx
+    int $0x80
 
-    <span class="hljs-annotation">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onPreExecute</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-comment">// TODO Auto-generated method stub</span>
-        <span class="hljs-keyword">super</span>.onPreExecute();
+    movl $1,%eax
+    movl $0,%ebx
+    int $0x80
+</code></pre><p>&#x7DE8;&#x8B6F;&#x548C;&#x93C8;&#x63A5;&#x4E0A;&#x9762;&#x7684;&#x6E90;&#x4EE3;&#x78BC;&#x4E26;&#x904B;&#x884C;&#xFF1A;</p>
+<pre><code>as -o cpuid.o cpuid.s # &#x5F59;&#x7DE8;&#x6E90;&#x4EE3;&#x78BC;&#x70BA;&#x76EE;&#x6A19;&#x6587;&#x4EF6;
+ld -o cpuid cpuid.o # &#x93C8;&#x63A5;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#x70BA;linux&#x53EF;&#x57F7;&#x884C;&#x7684;&#x6587;&#x4EF6;
+./cpuid # &#x57F7;&#x884C;
+</code></pre><h3 id="1-1-%E5%9F%BA%E6%9C%ACgas%E7%A8%8B%E5%BA%8F%E6%A8%A1%E6%9D%BF">1.1 &#x57FA;&#x672C;gas&#x7A0B;&#x5E8F;&#x6A21;&#x677F;</h3>
+<p>gas&#x7A0B;&#x5E8F;&#x5206;&#x70BA;&#x5E7E;&#x500B;&#x90E8;&#x5206;&#xFF0C;&#x901A;&#x5E38;&#x6709;data&#x6BB5;&#x548C;text&#x6BB5;&#x3002;data&#x6BB5;&#x5B58;&#x653E;&#x6578;&#x64DA;&#xFF0C;&#x5176; &#x5167;&#x5BB9;&#x6703;&#x88AB;&#x653E;&#x5728;&#x6700;&#x7D42;&#x7684;&#x53EF;&#x57F7;&#x884C;&#x7A0B;&#x5E8F;&#x4E2D;&#x3002;text&#x6BB5;&#x662F;&#x5F59;&#x7DE8;&#x6307;&#x4EE4;&#x3002;&#x901A;&#x5E38;&#x9084;&#x6709; bss&#x6BB5;&#xFF0C;&#x9019;&#x88E1;&#x76F8;&#x7576;&#x65BC;&#x7DE9;&#x5B58;&#xFF0C;&#x81E8;&#x6642;&#x5275;&#x5EFA;&#x3002;</p>
+<pre><code>.section .data
+    ...
+.section .text
+    ...
+</code></pre><h3 id="1-2-gas%E5%BD%99%E7%B7%A8%E7%A8%8B%E5%BA%8F%E5%81%BD%E6%8C%87%E4%BB%A4">1.2 gas&#x5F59;&#x7DE8;&#x7A0B;&#x5E8F;&#x507D;&#x6307;&#x4EE4;</h3>
+<p>&#x4E00;&#x822C;&#x5F59;&#x7DE8;&#x7A0B;&#x5E8F;&#x672C;&#x8EAB;&#x6703;&#x63D0;&#x4F9B;&#x4E00;&#x4E9B;&#x65B9;&#x4FBF;&#x7684;&quot;&#x6307;&#x4EE4;&quot;&#xFF0C;&#x4F46;&#x662F;&#x9019;&#x4E9B;&quot;&#x6307;&#x4EE4;&quot;&#x4E0D;&#x662F; cpu&#x6307;&#x4EE4;&#xFF0C;&#x5B83;&#x5011;&#x53EA;&#x662F;&#x65B9;&#x4FBF;&#x5F59;&#x7DE8;&#x7A0B;&#x5E8F;&#x958B;&#x767C;&#x8005;&#xFF0C;&#x89E3;&#x91CB;&#x6B0A;&#x6B78;&#x5F59;&#x7DE8;&#x7A0B;&#x5E8F;&#x672C;&#x8EAB;&#x3002;</p>
+<p>gas&#x4E2D;&#x7684;&#x201C;&#x507D;&#x6307;&#x4EE4;&#x201D;&#x90FD;&#x662F;&#x4EE5; &quot;.&quot; &#x958B;&#x982D;&#xFF0C;&#x5982;&#x4E0A;&#x9762;&#x793A;&#x4F8B;&#x4E2D;&#x7684;&#x4E00;&#x4E9B;&#x507D;&#x6307;&#x4EE4;&#xFF1A;</p>
+<pre><code>.section     &#x5B9A;&#x7FA9;&#x4E00;&#x500B;&#x6BB5;
+.data        &#x540C;.section&#x4E00;&#x8D77;&#x5B9A;&#x7FA9;&#x6578;&#x64DA;&#x6BB5;
+.ascii       &#x5B9A;&#x7FA9;&#x4E00;&#x500B;&#x5B57;&#x7B26;&#x4E32;
+.text        &#x540C;.section&#x4E00;&#x8D77;&#x5B9A;&#x7FA9;&#x7A0B;&#x5E8F;&#x6BB5;
+.global      &#x5B9A;&#x7FA9;&#x5168;&#x5C40;&#x6A19;&#x7C64;
+</code></pre><h3 id="1-3-gas%E7%9A%84%E6%A8%99%E7%B1%A4">1.3 gas&#x7684;&#x6A19;&#x7C64;</h3>
+<p>&#x5728;gas&#x4E2D;&#x7684;&#x6A19;&#x7C64;&#x7B49;&#x50F9;&#x65BC;&#x4E00;&#x500B;&#x5167;&#x5B58;&#x5730;&#x5740;&#xFF0C;&#x76F8;&#x7576;&#x65BC;C&#x8A9E;&#x8A00;&#x4E2D;&#x7684;&#x6307;&#x91DD;&#x3002;&#x4E0D;&#x904E;C&#x8A9E; &#x8A00;&#x7684;&#x6307;&#x91DD;&#x9084;&#x6709;&#x6578;&#x64DA;&#x985E;&#x578B;&#x5C6C;&#x6027;&#xFF0C;&#x9019;&#x88E1;&#x7684;&#x6578;&#x64DA;&#x985E;&#x578B;&#x9700;&#x8981;&#x81EA;&#x5DF1;&#x6307;&#x5B9A;&#x4E86;&#x3002;</p>
+<p>gas&#x4E2D;&#x7684;&#x6A19;&#x7C64;&#x662F;&#x4EE5;&#x5192;&#x865F;&#x7D50;&#x5C3E;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x3002;&#x5982;&#x793A;&#x4F8B;&#x4E2D;&#x7684;&#xFF1A;</p>
+<pre><code>output1:
+output2:
+</code></pre><p>&#x65E2;&#x7136;gas&#x4E2D;&#x7684;&#x6A19;&#x7C64;&#x662F;&#x5167;&#x5B58;&#x5730;&#x5740;&#xFF0C;&#x9019;&#x662F;&#x4E00;&#x500B;&#x6578;&#x503C;&#x3002;&#x90A3;&#x9EBC;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x5728;gas &#x7A0B;&#x5E8F;&#x4E2D;&#x5C0D;&#x6A19;&#x7C64;&#x9032;&#x884C;&#x7B97;&#x8853;&#x904B;&#x7B97;&#xFF0C;&#x4E14;&#x5C0D;&#x65BC;&#x201C;&#x7ACB;&#x5373;&#x6578;&#x201D;&#x80FD;&#x51FA;&#x73FE;&#x7684;&#x5730;&#x65B9;&#xFF0C;&#x6A19;&#x7C64;&#x4E5F; &#x90FD;&#x53EF;&#x4EE5;&#x51FA;&#x73FE;&#xFF1A;</p>
+<pre><code>movl $(output2-output1+14),%
+</code></pre><h3 id="1-4-gas%E7%9A%84%E9%96%8B%E5%A7%8B%E6%A8%99%E7%B1%A4">1.4 gas&#x7684;&#x958B;&#x59CB;&#x6A19;&#x7C64;</h3>
+<p>&#x5982;&#x679C;&#x7528; ld &#x624B;&#x52D5;&#x93C8;&#x63A5;&#x7A0B;&#x5E8F;&#xFF0C;&#x5247;&#x9700;&#x8981;&#x5728;&#x5F59;&#x7DE8;&#x7A0B;&#x5E8F;&#x4E2D;&#x8A2D;&#x7F6E;&#x4E00;&#x500B;&#x70BA; _start: &#x7684;&#x958B;&#x59CB;&#x6A19;&#x7C64;&#xFF0C;&#x76F8;&#x7576;&#x65BC;C&#x7A0B;&#x5E8F;&#x4E2D;&#x7684;main&#x51FD;&#x6578;&#x3002;&#x5982;&#x679C;&#x7528;gcc&#x7DE8;&#x8B6F;&#x5F59;&#x7DE8;&#x7A0B;&#x5E8F;&#xFF0C; &#x90A3;&#x9EBC;&#x8981;&#x5C07;&quot;_start:&quot; &#x63DB;&#x6210; &quot;main:&quot;</p>
+<p>&#x5982;&#x679C;&#x6C92;&#x6709;&#x6307;&#x5B9A; &quot;_start&quot; &#x6A19;&#x7C64;&#xFF0C;&#x53EF;&#x4EE5;&#x5728;&#x904B;&#x65B0; ld &#x547D;&#x4EE4;&#x7684;&#x6642;&#x5019;&#x6307;&#x5B9A;&#x958B;&#x59CB;&#x6A19;&#x7C64;&#xFF1A;</p>
+<pre><code>ld -e
+</code></pre><h3 id="1-5-gas%E4%B8%AD%E7%9A%84%E7%B3%BB%E7%B5%B1%E8%AA%BF%E7%94%A8">1.5 gas&#x4E2D;&#x7684;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;</h3>
+<p>Linux&#x4E0B;&#x7684;&#x5F59;&#x7DE8;&#x7A0B;&#x5E8F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#xFF0C;&#x9019;&#x6A23;&#x53EF;&#x4EE5;&#x907F;&#x514D;&#x5F88;&#x591A;&#x8907;&#x96DC;&#x7684;&#x5DE5;&#x4F5C;&#x3002; &#x5728;gas&#x88E1;&#x4F7F;&#x7528;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x5C31;&#x662F;&#x5728;&#x76F8;&#x95DC;&#x5BC4;&#x5B58;&#x5668;&#x5B58;&#x5165;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x865F;&#x3001;&#x8ABF;&#x7528;&#x51FD;&#x6578;&#x7684; &#x53C3;&#x6578;&#xFF0C;&#x518D;&#x57F7;&#x884C; &quot;int $0x80&quot; &#x547D;&#x4EE4;&#x5C31;&#x53EF;&#x4EE5;&#x4E86;&#x3002;</p>
+<p>&#x4E0A;&#x4F8B;&#x4F7F;&#x7528;&#x4E86;&#x5169;&#x500B;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x51FD;&#x6578;&#xFF1A; write &#x548C; exit</p>
+<h3 id="1-6-%E5%9F%BA%E6%9C%AC-at-t-%E5%BD%99%E7%B7%A8%E9%A2%A8%E6%A0%BC">1.6 &#x57FA;&#x672C; AT&amp;T &#x5F59;&#x7DE8;&#x98A8;&#x683C;</h3>
+<ul>
+<li>&#x7ACB;&#x5373;&#x6578; &#x8868;&#x793A;&#x7ACB;&#x5373;&#x6578;&#x8981;&#x7528;&quot;$&quot;&#x7B26;&#x865F;</li>
+<li>&#x5BC4;&#x5B58;&#x5668; &#x8868;&#x793A;&#x5BC4;&#x5B58;&#x5668;&#x8981;&#x7528;&quot;%&quot;&#x7B26;&#x865F;</li>
+<li>&#x5167;&#x5B58;&#x5C0B;&#x5740; &#x5167;&#x5B58;&#x5730;&#x5740;&#x8981;&#x653E;&#x5728;&#x5BC4;&#x5B58;&#x5668;&#x88E1;&#xFF0C;&#x624D;&#x80FD;&#x88AB;&#x5C0B;&#x5740;&#xFF0C;&#x9019;&#x662F;intel&#x7684;cpu&#x6307;&#x4EE4;&#x96C6;&#x898F;&#x5B9A;&#x7684;&#x3002;</li>
+</ul>
+<p>movl %ebx,(%edi)  # &#x5C07;ebx&#x88E1;&#x9762;&#x7684;&#x5167;&#x5BB9;&#x653E;&#x5230;edi&#x6307;&#x5411;&#x7684;&#x5167;&#x5B58;&#x5730;&#x5740;&#x55AE;&#x5143;&#x8655;&#x3002;
+movl %edx,4(%edi) # &#x5C07;edx&#x88E1;&#x9762;&#x7684;&#x5167;&#x5BB9;&#x653E;&#x5230;&#x6BD4;edi&#x6307;&#x5411;&#x7684;&#x5167;&#x5B58;&#x5730;&#x5740;&#x9AD8;4&#x500B;&#x503C;&#x7684;&#x5167;&#x5B58;&#x55AE;&#x5143;&#x8655;&#x3002;</p>
+<h2 id="2-%E4%BD%BF%E7%94%A8%E6%A8%99%E6%BA%96c%E5%BA%AB%E5%87%BD%E6%95%B8">2. &#x4F7F;&#x7528;&#x6A19;&#x6E96;C&#x5EAB;&#x51FD;&#x6578;</h2>
+<ul>
+<li>&#x4F7F;&#x7528;&#x6A19;&#x6E96;C&#x5EAB;&#x51FD;&#x6578;&#x7684; cpuid2.s &#x7A0B;&#x5E8F;&#xFF1A;</li>
+</ul>
+<pre><code>.section .data
+output:
+    .asciz &quot;&#x7576;&#x524D;CPU&#x5EE0;&#x5546;&#x4FE1;&#x606F;&#x662F;&#xFF1A;%s \n&quot;
+.section .bss
+    .lcomm buffer,12
 
-        <span class="hljs-comment">// &#x80CC;&#x666F;&#x5DE5;&#x4F5C;&#x8655;&#x7406;&quot;&#x524D;&quot;&#x9700;&#x4F5C;&#x7684;&#x4E8B;</span>
-    }
+.section .text
+.global _start
+_start:
+    movl $0,%eax
+    cpuid
 
-    <span class="hljs-annotation">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onProgressUpdate</span><span class="hljs-params">(Integer... values)</span> </span>{
-        <span class="hljs-comment">// TODO Auto-generated method stub</span>
-        <span class="hljs-keyword">super</span>.onProgressUpdate(values);
+    movl $buffer,%edi
+    movl %ebx,(%edi)
+    movl %edx,4(%edi)
+    movl %ecx,8(%edi)
 
-        <span class="hljs-comment">// &#x80CC;&#x666F;&#x5DE5;&#x4F5C;&#x8655;&#x7406;&quot;&#x4E2D;&quot;&#x66F4;&#x65B0;&#x7684;&#x4E8B;</span>
-    }
+    pushl $buffer
+    pushl $output
+    call printf
 
-    <span class="hljs-annotation">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onPostExecute</span><span class="hljs-params">(String result)</span> </span>{
-        <span class="hljs-comment">// TODO Auto-generated method stub</span>
-        <span class="hljs-keyword">super</span>.onPostExecute(result);
+    addl $8,%esp
+    pushl $0
+    call exit
+</code></pre><p>&#x5F59;&#x7DE8;&#x3001;&#x93C8;&#x63A5;&#x4E26;&#x904B;&#x884C;&#xFF1A;</p>
+<pre><code>as -o cpuid2.o cpuid2.s
+ld -dynamic-linker /lib/ld-linux.so.2 -o cpuid2 -lc cpuid2.o
+</code></pre><p>&#x53C3;&#x6578;&#x8AAA;&#x660E;&#xFF1A;</p>
+<pre><code>-lc &#x93C8;&#x63A5;C&#x5EAB;/lib/libc.so&#xFF1B;&#x5982;&#x679C;&#x662F;-lx&#xFF0C;&#x9ED8;&#x8A8D;&#x93C8;&#x63A5;/lib/libx.so&#x3002;
+-dynamic-linker /lib/ld-linux.so.2 &#x4F7F;&#x7528;/lib/ld-linux.so.2&#x52A0;&#x8F09;&#x5171;&#x4EAB;&#x5EAB;&#x3002;
+</code></pre><h2 id="-%E5%AE%9A%E7%BE%A9%E6%95%B8%E6%93%9A%E5%85%83%E7%B4%A0">. &#x5B9A;&#x7FA9;&#x6578;&#x64DA;&#x5143;&#x7D20;</h2>
+<h3 id="3-1-%E5%AE%9A%E7%BE%A9%E6%95%B8%E6%93%9A%E5%85%83%E7%B4%A0%E7%9A%84%E5%91%BD%E4%BB%A4">3.1 &#x5B9A;&#x7FA9;&#x6578;&#x64DA;&#x5143;&#x7D20;&#x7684;&#x547D;&#x4EE4;</h3>
+<pre><code>.ascii     &#x6587;&#x672C;&#x5B57;&#x7B26;&#x4E32;
+.asciz     &#x5E36;&#x96F6;&#x7D50;&#x675F;&#x7B26;&#x7684;&#x6587;&#x672C;&#x5B57;&#x7B26;&#x4E32;
+.byte      &#x5B57;&#x7BC0;&#x503C;
+.double    &#x96D9;&#x7CBE;&#x5EA6;&#x503C;
+.float     &#x55AE;&#x7CBE;&#x5EA6;&#x503C;
+.int       32&#x4F4D;&#x6574;&#x6578;
+.long      &#x540C;.int
+.octa      16&#x5B57;&#x7BC0;&#x9577;&#x5EA6;&#x6574;&#x6578;
+.quad      8&#x5B57;&#x7BC0;&#x9577;&#x6574;&#x6578;
+.short     16&#x4F4D;&#x6574;&#x6578;
+.single    &#x540C;.float
+</code></pre><p>&#x6709;&#x5E7E;&#x7A2E;&#x6578;&#x64DA;&#x6BB5;&#xFF1A;</p>
+<pre><code>.section .data    &#x5B9A;&#x7FA9;&#x901A;&#x5E38;&#x7684;&#x6578;&#x64DA;&#x6BB5;&#xFF0C;&#x6578;&#x64DA;&#x88AB;&#x5305;&#x542B;&#x5728;&#x6700;&#x7D42;&#x7A0B;&#x5E8F;&#x4E2D;
+.section .rodata  &#x540C;.data&#xFF0C;&#x4F46;&#x662F;&#x9019;&#x88E1;&#x5B9A;&#x7FA9;&#x7684;&#x6578;&#x64DA;&#x7684;&#x503C;&#x4E0D;&#x53EF;&#x4FEE;&#x6539;
+.section .bss     &#x76F8;&#x7576;&#x65BC;&#x7DE9;&#x885D;
+</code></pre><p>&#x6578;&#x64DA;&#x5B9A;&#x7FA9;&#x53EF;&#x4EE5;&#x4E00;&#x500B;&#x6A19;&#x7C64;&#x4E00;&#x500B;&#x547D;&#x4EE4;&#x4E00;&#x500B;&#x6578;&#x64DA;&#x7684;&#x5B9A;&#x7FA9;&#xFF1A;</p>
+<pre><code>output:
+    .asciz &quot;&#x9019;&#x662F;&#x4E00;&#x500B;.asciz&#x5B9A;&#x7FA9;&#x7684;&#x5B57;&#x7B26;&#x4E32;&quot;
+value:
+    .int  100
+</code></pre><p>&#x4E5F;&#x53EF;&#x4EE5;&#xFF0C;&#x4E00;&#x500B;&#x6A19;&#x7C64;&#x4E00;&#x500B;&#x547D;&#x4EE4;&#x5B9A;&#x7FA9;&#x4E00;&#x5806;&#x6578;&#x64DA;&#xFF1A;</p>
+<pre><code>values:
+    .int 15,20,25,30,35,40,45,50,55,60
+</code></pre><p>&#x7121;&#x8AD6;&#x662F;&#x54EA;&#x7A2E;&#x5F62;&#x5F0F;&#x5B9A;&#x7FA9;&#x7684;&#xFF0C;&#x6578;&#x64DA;&#x5728;&#x5167;&#x5B58;&#x4E2D;&#x90FD;&#x662F;&#x4E00;&#x500B;&#x6328;&#x8457;&#x4E00;&#x500B;&#x7684;&#x5B58;&#x653E;&#x7684;&#x3002; &#x9019;&#x6A23;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x7528;&#x7D22;&#x5F15;&#x4F86;&#x5F15;&#x7528;&#x5B83;&#x5011;&#x3002;</p>
+<h3 id="3-2-%E8%B3%A6%E5%80%BC%E5%91%BD%E4%BB%A4">3.2 &#x8CE6;&#x503C;&#x547D;&#x4EE4;</h3>
+<p>gas&#x4E2D;&#x4E5F;&#x53EF;&#x4EE5;&#x7528;&#x4E00;&#x500B;&#x7B26;&#x865F;&#x4EE3;&#x8868;&#x4E00;&#x500B;&#x503C;&#xFF0C;&#x4F46;&#x662F;&#x7B26;&#x865F;&#x53EA;&#x4E0D;&#x53EF;&#x4FEE;&#x6539;&#xFF1A;</p>
+<pre><code>.equ factor,3
+.equ LINUX_SYS_CALL,0x80
+</code></pre><h3 id="3-3-bss%E6%AE%B5">3.3 bss&#x6BB5;</h3>
+<p>&#x9019;&#x500B;&#x6BB5;&#x7121;&#x9808;&#x8072;&#x660E;&#x7279;&#x5B9A;&#x7684;&#x985E;&#x578B;&#xFF0C;&#x53EA;&#x8981;&#x8072;&#x660E;&#x5927;&#x5C0F;&#xFF1A;</p>
+<pre><code>.comm  &#x8072;&#x660E;&#x672A;&#x521D;&#x59CB;&#x5316;&#x6578;&#x64DA;&#x7684;&#x901A;&#x7528;&#x5167;&#x5B58;&#x5340;&#x57DF;
+.lcomm &#x8072;&#x660E;&#x672A;&#x521D;&#x59CB;&#x5316;&#x6578;&#x64DA;&#x7684;&quot;&#x672C;&#x5730;&quot;&#x901A;&#x7528;&#x5167;&#x5B58;&#x5340;&#x57DF;
+</code></pre><p>&#x4F8B;&#x5982;&#xFF0C;&#x8072;&#x660E;&#x4E00;&#x500B;1000&#x5B57;&#x7BC0;&#x7684;&#x7DE9;&#x885D;&#x5340;&#xFF0C;&#x901A;&#x904E;buffer&#x5F15;&#x7528;&#x9019;&#x500B;&#x5340;&#x57DF;&#x7684;&#x57FA;&#x5740;&#xFF1A;</p>
+<pre><code>.section .bss
+  .lcomm buffer,1000
+</code></pre><h3 id="3-4-fill-%E5%91%BD%E4%BB%A4">3.4 .fill &#x547D;&#x4EE4;</h3>
+<p>&#x9019;&#x500B;&#x547D;&#x4EE4;&#x8B93;&#x5F59;&#x7DE8;&#x5668;&#x81EA;&#x52D5;&#x5275;&#x5EFA;&#x4E00;&#x6BB5;&#x5167;&#x5B58;&#x5340;&#x57DF;&#xFF0C;&#x4E26;&#x7528;0&#x586B;&#x5145;&#xFF1A;</p>
+<pre><code>.section .data
+buffer:
+    .fill 1000
+</code></pre><h2 id="4-mov%E5%91%BD%E4%BB%A4">4. MOV&#x547D;&#x4EE4;</h2>
+<p>gas&#x4E2D;&#x628A;mov&#x547D;&#x4EE4;&#x52A0;&#x4E86;&#x4E0D;&#x540C;&#x5F8C;&#x7DB4;&#xFF0C;&#x6BCF;&#x500B;&#x5F8C;&#x7DB4;&#x8868;&#x793A;&#x64CD;&#x4F5C;&#x4E0D;&#x540C;&#x7684;&#x6578;&#x64DA;&#x5927;&#x5C0F;&#xFF1A;</p>
+<pre><code>movl  32&#x4F4D;
+movw  16
+movb  8
+</code></pre><p>&#x4E0B;&#x9762;&#x4E00;&#x500B;&#x4F8B;&#x5B50;&#x628A;&#x4E00;&#x500B;&#x503C;&#x79FB;&#x5230;ecx&#x5BC4;&#x5B58;&#x5668;&#xFF0C;&#x7136;&#x5F8C;&#x8ABF;&#x7528;linux&#x7CFB;&#x7D71;&#x7684;exit&#x6B63; &#x5E38;&#x9000;&#x51FA;&#x3002;&#x7528;gdb&#x53EF;&#x4EE5;&#x770B;&#x898B;&#x5BC4;&#x5B58;&#x5668;&#x7684;&#x8B8A;&#x5316;&#x3002;</p>
+<pre><code># &#x7A0B;&#x5E8F; movetest1.s
+.section .data
+value:
+    .int 1
+.section .text
+.global _start
+_start:
+    nop
+    movl value,%ecx
+    movl $1,%eax
+    movl $0,%ebx
+    int $0x80
+</code></pre><p>&#x7528;-gtabs&#x53C3;&#x6578;&#x5F59;&#x7DE8;&#x7A0B;&#x5E8F;&#x4E26;&#x93C8;&#x63A5;&#xFF1A;</p>
+<pre><code>as -gtabs -o movetest1.o movetest1.s
+ld -o movetest1 movetest1.o
+</code></pre><p>&#x4F7F;&#x7528;gdb&#x8ABF;&#x8A66;&#x7A0B;&#x5E8F;&#xFF1A;</p>
+<pre><code>root@jianlee:~/lab/asm# gdb -q movetest1
+(gdb) break *_start+1
+Breakpoint 1 at 0x8048075: file movetest1.s, line 8.
+(gdb) run
+Starting program: /root/lab/asm/movetest1
 
-        <span class="hljs-comment">// &#x80CC;&#x666F;&#x5DE5;&#x4F5C;&#x8655;&#x7406;&#x5B8C;&quot;&#x5F8C;&quot;&#x9700;&#x4F5C;&#x7684;&#x4E8B;</span>
-    }
+Breakpoint 1, _start () at movetest1.s:8
+8            movl value,%ecx
+Current language:  auto; currently asm
+(gdb) print/x %ecx
+A syntax error in expression, near `%ecx&apos;.
+(gdb) print/x $ecx
+$1 = 0x0
+(gdb) next
+_start () at movetest1.s:9
+9            movl $1,%eax
+(gdb) print/x $ecx
+$2 = 0x1
+(gdb) s
+_start () at movetest1.s:10
+10            movl $0,%ebx
+(gdb) cont
+Continuing.
 
-    <span class="hljs-annotation">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCancelled</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-comment">// TODO Auto-generated method stub</span>
-        <span class="hljs-keyword">super</span>.onCancelled();
+Program exited normally.
+(gdb)
+</code></pre><p>&#x628A;&#x5BC4;&#x5B58;&#x5668;&#x7684;&#x503C;&#x50B3;&#x5230;&#x5167;&#x5B58;&#x88E1;&#xFF1A;</p>
+<pre><code># movetest2.s &#x628A;&#x5BC4;&#x5B58;&#x5668;&#x7684;&#x503C;&#x50B3;&#x5230;&#x5167;&#x5B58;&#x4E2D;
+.section .data
+value:
+    .int 1
+.section .text
+.global _start
+_start:
+    nop
+    movl $100,%eax
+    movl %eax,value
 
-        <span class="hljs-comment">// &#x80CC;&#x666F;&#x5DE5;&#x4F5C;&#x88AB;&quot;&#x53D6;&#x6D88;&quot;&#x6642;&#x4F5C;&#x7684;&#x4E8B;&#xFF0C;&#x6B64;&#x6642;&#x4E0D;&#x4F5C; onPostExecute(String result)</span>
-    }
-}
+    movl $1,%eax
+    movl $0,%ebx
+    int $0x80
+</code></pre><p>&#x8ABF;&#x8A66;&#x7A0B;&#x5E8F;&#xFF0C;&#x67E5;&#x770B;&#x7A0B;&#x5E8F;&#x57F7;&#x884C;&#x904E;&#x7A0B;&#xFF1A;</p>
+<pre><code>root@jianlee:~/lab/asm# as -gtabs -o movetest2.o movetest2.s
+movetest2.s: Assembler messages:
+movetest2.s:0: Warning: end of file not at end of a line; newline inserted
+root@jianlee:~/lab/asm# ld -o movetest2 movetest2.o
+root@jianlee:~/lab/asm# gdb -q movetest2
+(gdb) break *_start+1
+Breakpoint 1 at 0x8048075: file movetest2.s, line 9.
+(gdb) run
+Starting program: /root/lab/asm/movetest2
+
+Breakpoint 1, _start () at movetest2.s:9
+9            movl $100,%eax
+Current language:  auto; currently asm
+(gdb) print/x $eax
+$1 = 0x0
+(gdb) x/d &amp;value
+0x804908c &lt;value&gt;:    1
+(gdb) s
+_start () at movetest2.s:10
+10            movl %eax,value
+(gdb) print/x $eax
+$2 = 0x64
+(gdb) x/d &amp;value
+0x804908c &lt;value&gt;:    1
+(gdb) s
+_start () at movetest2.s:12
+12            movl $1,%eax
+(gdb) x/d &amp;value
+0x804908c &lt;value&gt;:    100
+(gdb) cont
+Continuing.
+
+Program exited normally.
+(gdb)
 </code></pre>
-<p>&#x5148;&#x770B;&#x5230; AsyncTask<Void, Integer,="" String="">&#xFF0C;&#x5C07;&#x5B83;&#x60F3;&#x6210;&quot;&#x524D;&quot;&#x3001;&quot;&#x4E2D;&quot;&#x3001;&quot;&#x5F8C;&quot;&#x9700;&#x8981;&#x7528;&#x5230;&#x7684;&#x53C3;&#x6578;&#x800C; Void &#x5C31;&#x4EE3;&#x8868;&#x4E0D;&#x7528;&#x8F38;&#x5165;&#x53C3;&#x6578;&#xFF0C;&#x5F85;&#x6703;&#x518D;&#x8209;&#x500B;&#x4F8B;&#x5B50;&#xFF0C;&#x63A5;&#x4E0B;&#x6211;&#x5011;&#x4F9D;&#x7167;&#x57F7;&#x884C;&#x7684;&#x9806;&#x5E8F;&#x6392;&#x5217;&#x5728;&#x4E0B;&#x65B9;&#x4F86;&#x4E00;&#x4E00;&#x4ECB;&#x7D39;&#x3002;
-onPreExecute()&#xFF1A;&#x8655;&#x7406;&#x524D;&#x7684;&#x52D5;&#x4F5C;&#xFF0C;&#x4F8B;&#x5982;&#x521D;&#x59CB;&#x5316;&#x67D0;&#x4E9B;&#x53C3;&#x6578;&#x6216;&#x662F;&#x986F;&#x793A;&#x63D0;&#x793A;&#x544A;&#x8A34;&#x4F7F;&#x7528;&#x8005;&#x3002;
-doInBackground(Void... arg0)&#xFF1A;&#x5BE6;&#x969B;&#x80CC;&#x666F;&#x8655;&#x7406;&#x7684;&#x5DE5;&#x4F5C;&#x3002;
-onProgressUpdate(Integer... values)&#xFF1A;&#x8655;&#x7406;&#x904E;&#x7A0B;&#x4E2D;&#x9700;&#x8981;&#x66F4;&#x65B0;&#x7684;&#x52D5;&#x4F5C;&#xFF0C;&#x4F8B;&#x5982;&#x4E0B;&#x8F09;&#x9032;&#x5EA6;&#xFF0C;&#x5728; doInBackground(Void... arg0) &#x4E2D;&#x8ABF;&#x7528;&#x7684;&#x65B9;&#x6CD5;&#x70BA; publishProgress(values)&#xFF0C;&#x5176;&#x4E2D;&#x53C3;&#x6578; values &#x70BA;&#x6574;&#x6578;&#x9663;&#x5217;&#x3002;
-onPostExecute(String result)&#xFF1A;&#x8655;&#x7406;&#x5B8C;&#x7684;&#x52D5;&#x4F5C;&#xFF0C;&#x4F8B;&#x5982;&#x63D0;&#x793A;&#x4F7F;&#x7528;&#x8005;&#x5B8C;&#x6210;&#x7684;&#x8A0A;&#x606F;&#xFF0C;&#x6216;&#x662F;&#x66F4;&#x65B0;&#x4ECB;&#x9762;&#x3002;
-onCancelled()&#xFF1A;&#x7576;&#x88AB;&#x53D6;&#x6D88;&#x6642;&#x9700;&#x8981;&#x4F5C;&#x7684;&#x4E8B;&#xFF0C;&#x4F8B;&#x5982;&#x63D0;&#x793A;&#x4F7F;&#x7528;&#x8005;&#x4EFB;&#x52D9;&#x53D6;&#x6D88;&#xFF0C;&#x4E26;&#x66F4;&#x65B0;&#x4ECB;&#x9762;&#x3002;
-&#x90A3;&#x6211;&#x5011;&#x5C31;&#x4F86;&#x5BEB;&#x4E00;&#x500B;&#x8A08;&#x7B97;&#x5230; 10 &#x7684;&#x8A08;&#x6642;&#x5668;&#xFF0C;&#x4F46;&#x5728;&#x958B;&#x59CB;&#x7B97;&#x6642;&#x8981;&#x544A;&#x8A34;&#x4F7F;&#x7528;&#x8005;&#x958B;&#x59CB;&#x7B97;&#x4E86;&#xFF0C;&#x518D;&#x7B97;&#x7684;&#x4E2D;&#x9014;&#x9700;&#x8981;&#x986F;&#x793A;&#x76EE;&#x524D;&#x7B97;&#x5230;&#x5E7E;&#x79D2;&#xFF0C;&#x5982;&#x679C;&#x9806;&#x5229;&#x7B97;&#x5230; 10&#xFF0C;&#x6211;&#x5011;&#x5C31;&#x986F;&#x4E8B;&#x4EFB;&#x52D9;&#x5B8C;&#x6210;&#xFF0C;&#x5982;&#x679C;&#x88AB;&#x53D6;&#x6D88;&#x4E2D;&#x65B7;&#xFF0C;&#x6211;&#x5011;&#x5C31;&#x986F;&#x793A;&#x597D;&#x53EF;&#x60DC;&#xFF0C;&#x6578;&#x5230;&#x5E7E;&#x79D2;&#x3002;
-&#x9996;&#x5148;&#x6211;&#x5011;&#x7684;&#x4ECB;&#x9762;&#x8A2D;&#x8A08;&#x4E00;&#x500B;&#x986F;&#x793A;&#x79D2;&#x6578;&#x7684; TextView &#x53CA;&#x958B;&#x59CB;&#x8207;&#x53D6;&#x6D88;&#x4EFB;&#x52D9;&#x7684; Button&#x3002;</Void,></p>
-<pre><code class="lang-xml"><span class="hljs-tag">&lt;<span class="hljs-title">RelativeLayout</span> <span class="hljs-attribute">xmlns:android</span>=<span class="hljs-value">&quot;http://schemas.android.com/apk/res/android&quot;</span>
-    <span class="hljs-attribute">xmlns:tools</span>=<span class="hljs-value">&quot;http://schemas.android.com/tools&quot;</span>
-    <span class="hljs-attribute">android:layout_width</span>=<span class="hljs-value">&quot;fill_parent&quot;</span>
-    <span class="hljs-attribute">android:layout_height</span>=<span class="hljs-value">&quot;fill_parent&quot;</span> &gt;</span>
-
-    <span class="hljs-tag">&lt;<span class="hljs-title">TextView</span>
-        <span class="hljs-attribute">android:id</span>=<span class="hljs-value">&quot;@+id/txtCount&quot;</span>
-        <span class="hljs-attribute">android:layout_width</span>=<span class="hljs-value">&quot;wrap_content&quot;</span>
-        <span class="hljs-attribute">android:layout_height</span>=<span class="hljs-value">&quot;wrap_content&quot;</span>
-        <span class="hljs-attribute">android:layout_centerHorizontal</span>=<span class="hljs-value">&quot;true&quot;</span>
-        <span class="hljs-attribute">android:layout_centerVertical</span>=<span class="hljs-value">&quot;true&quot;</span>
-        <span class="hljs-attribute">android:padding</span>=<span class="hljs-value">&quot;@dimen/padding_medium&quot;</span>
-        <span class="hljs-attribute">android:text</span>=<span class="hljs-value">&quot;@string/hello_world&quot;</span>
-        <span class="hljs-attribute">tools:context</span>=<span class="hljs-value">&quot;.MainActivity&quot;</span> /&gt;</span>
-
-    <span class="hljs-tag">&lt;<span class="hljs-title">Button</span>
-        <span class="hljs-attribute">android:id</span>=<span class="hljs-value">&quot;@+id/btnCancel&quot;</span>
-        <span class="hljs-attribute">android:layout_width</span>=<span class="hljs-value">&quot;wrap_content&quot;</span>
-        <span class="hljs-attribute">android:layout_height</span>=<span class="hljs-value">&quot;wrap_content&quot;</span>
-        <span class="hljs-attribute">android:layout_below</span>=<span class="hljs-value">&quot;@+id/txtCount&quot;</span>
-        <span class="hljs-attribute">android:layout_centerHorizontal</span>=<span class="hljs-value">&quot;true&quot;</span>
-        <span class="hljs-attribute">android:layout_marginTop</span>=<span class="hljs-value">&quot;60dp&quot;</span>
-        <span class="hljs-attribute">android:text</span>=<span class="hljs-value">&quot;&#x53D6;&#x6D88;&quot;</span> /&gt;</span>
-
-    <span class="hljs-tag">&lt;<span class="hljs-title">Button</span>
-        <span class="hljs-attribute">android:id</span>=<span class="hljs-value">&quot;@+id/btnStart&quot;</span>
-        <span class="hljs-attribute">android:layout_width</span>=<span class="hljs-value">&quot;wrap_content&quot;</span>
-        <span class="hljs-attribute">android:layout_height</span>=<span class="hljs-value">&quot;wrap_content&quot;</span>
-        <span class="hljs-attribute">android:layout_above</span>=<span class="hljs-value">&quot;@+id/txtCount&quot;</span>
-        <span class="hljs-attribute">android:layout_centerHorizontal</span>=<span class="hljs-value">&quot;true&quot;</span>
-        <span class="hljs-attribute">android:layout_marginBottom</span>=<span class="hljs-value">&quot;73dp&quot;</span>
-        <span class="hljs-attribute">android:text</span>=<span class="hljs-value">&quot;&#x958B;&#x59CB;&quot;</span> /&gt;</span>
-
-<span class="hljs-tag">&lt;/<span class="hljs-title">RelativeLayout</span>&gt;</span>
-</code></pre>
-<p>&#x63A5;&#x4E0B;&#x4F86;&#x7684;&#x975E;&#x540C;&#x6B65;&#x4EFB;&#x52D9;&#x5C31;&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre><code class="lang-java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GoodTask</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AsyncTask</span>&lt;<span class="hljs-title">Integer</span>, <span class="hljs-title">Integer</span>, <span class="hljs-title">String</span>&gt; </span>{
-                <span class="hljs-comment">// &lt;&#x50B3;&#x5165;&#x53C3;&#x6578;, &#x8655;&#x7406;&#x4E2D;&#x66F4;&#x65B0;&#x4ECB;&#x9762;&#x53C3;&#x6578;, &#x8655;&#x7406;&#x5F8C;&#x50B3;&#x51FA;&#x53C3;&#x6578;&gt;</span>
-    <span class="hljs-keyword">int</span> nowCount;
-    <span class="hljs-annotation">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">protected</span> String <span class="hljs-title">doInBackground</span><span class="hljs-params">(Integer... countTo)</span> </span>{
-        <span class="hljs-comment">// TODO Auto-generated method stub</span>
-        <span class="hljs-comment">// &#x518D;&#x80CC;&#x666F;&#x4E2D;&#x8655;&#x7406;&#x7684;&#x8017;&#x6642;&#x5DE5;&#x4F5C;</span>
-        <span class="hljs-keyword">try</span> {
-            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; countTo[<span class="hljs-number">0</span>]; i++) {
-                Thread.sleep(<span class="hljs-number">1000</span>);
-
-                nowCount = i + <span class="hljs-number">1</span>;
-                publishProgress(nowCount);
-            }
-        } <span class="hljs-keyword">catch</span> (Exception e) {
-            e.printStackTrace();
-        }
-        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;10&quot;</span>;
-    }
-
-    <span class="hljs-annotation">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onPreExecute</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-comment">// TODO Auto-generated method stub</span>
-        <span class="hljs-keyword">super</span>.onPreExecute();
-        <span class="hljs-comment">// &#x80CC;&#x666F;&#x5DE5;&#x4F5C;&#x8655;&#x7406;&quot;&#x524D;&quot;&#x9700;&#x4F5C;&#x7684;&#x4E8B;</span>
-        Toast.makeText(getApplicationContext(),
-        <span class="hljs-string">&quot;&#x958B;&#x59CB;&#x8A08;&#x6642;...&quot;</span>, Toast.LENGTH_SHORT).show();
-    }
-
-    <span class="hljs-annotation">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onProgressUpdate</span><span class="hljs-params">(Integer... values)</span> </span>{
-        <span class="hljs-comment">// TODO Auto-generated method stub</span>
-        <span class="hljs-keyword">super</span>.onProgressUpdate(values);
-        <span class="hljs-comment">// &#x80CC;&#x666F;&#x5DE5;&#x4F5C;&#x8655;&#x7406;&quot;&#x4E2D;&quot;&#x66F4;&#x65B0;&#x7684;&#x4E8B;</span>
-        txtCount.setText(<span class="hljs-string">&quot;&#x76EE;&#x524D;&#x8A08;&#x5230; &quot;</span> + values[<span class="hljs-number">0</span>] + <span class="hljs-string">&quot; &#x79D2;&#x3002;&quot;</span>);
-    }
-
-    <span class="hljs-annotation">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onPostExecute</span><span class="hljs-params">(String result)</span> </span>{
-        <span class="hljs-comment">// TODO Auto-generated method stub</span>
-        <span class="hljs-keyword">super</span>.onPostExecute(result);
-        <span class="hljs-comment">// &#x80CC;&#x666F;&#x5DE5;&#x4F5C;&#x8655;&#x7406;&#x5B8C;&quot;&#x5F8C;&quot;&#x9700;&#x4F5C;&#x7684;&#x4E8B;</span>
-        Toast.makeText(getApplicationContext(),
-        <span class="hljs-string">&quot;&#x63A5;&#x53D7;&#x5230;&#x7684;&#x5B8C;&#x6210;&#x53C3;&#x6578;&#x70BA; &quot;</span>+ result + <span class="hljs-string">&quot;&#xFF0C;&#x8A08;&#x6642;&#x5B8C;&#x6210;&#xFF01;&#xFF01;&quot;</span>, Toast.LENGTH_SHORT).show();
-    }
-
-    <span class="hljs-annotation">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCancelled</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-comment">// TODO Auto-generated method stub</span>
-        <span class="hljs-keyword">super</span>.onCancelled();
-        <span class="hljs-comment">// &#x80CC;&#x666F;&#x5DE5;&#x4F5C;&#x88AB;&quot;&#x53D6;&#x6D88;&quot;&#x6642;&#x4F5C;&#x7684;&#x4E8B;&#xFF0C;&#x6B64;&#x6642;&#x4E0D;&#x4F5C; onPostExecute(String result)</span>
-        Toast.makeText(getApplicationContext(),
-        <span class="hljs-string">&quot;&#x597D;&#x53EF;&#x60DC;&#xFF0C;&#x8A08;&#x5230; &quot;</span> + nowCount + <span class="hljs-string">&quot; &#x79D2;&#xFF01;&quot;</span>,  Toast.LENGTH_SHORT).show();
-    }
-}
-</code></pre>
-<p>&#x800C;&#x91DD;&#x5C0D;&#x4ECB;&#x9762;&#x6211;&#x5011;&#x5728; onCreate() &#x64B0;&#x5BEB;&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre><code class="lang-java"><span class="hljs-annotation">@Override</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(Bundle savedInstanceState)</span> </span>{
-    <span class="hljs-keyword">super</span>.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
-
-    txtCount = (TextView) findViewById(R.id.txtCount);
-    btnCancel = (Button) findViewById(R.id.btnCancel);
-    btnStart = (Button) findViewById(R.id.btnStart);
-
-    btnStart.setOnClickListener(<span class="hljs-keyword">new</span> OnClickListener() {
-        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onClick</span><span class="hljs-params">(View v)</span> </span>{
-            <span class="hljs-comment">// TODO Auto-generated method stub</span>
-            <span class="hljs-keyword">if</span> (goodTask == <span class="hljs-keyword">null</span>) {
-                goodTask = <span class="hljs-keyword">new</span> GoodTask();
-                goodTask.execute(<span class="hljs-number">10</span>);
-            } <span class="hljs-keyword">else</span> {
-                <span class="hljs-keyword">if</span> (goodTask.isCancelled()
-                    || goodTask.getStatus().equals(AsyncTask.Status.FINISHED)) {
-                    goodTask = <span class="hljs-keyword">new</span> GoodTask();
-                    goodTask.execute(<span class="hljs-number">10</span>);
-                }
-            }
-        }
-   });
-
-   btnCancel.setOnClickListener(<span class="hljs-keyword">new</span> OnClickListener() {
-       <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onClick</span><span class="hljs-params">(View v)</span> </span>{
-           <span class="hljs-comment">// TODO Auto-generated method stub</span>
-           <span class="hljs-keyword">if</span> (goodTask != <span class="hljs-keyword">null</span>) {
-               <span class="hljs-keyword">if</span> (!goodTask.isCancelled()
-                   &amp;&amp; goodTask.getStatus().equals(AsyncTask.Status.RUNNING)) {
-                   goodTask.cancel(<span class="hljs-keyword">true</span>);
-               }
-           }
-       }
-   });
-}
-</code></pre>
-<p>&#x53EF;&#x4EE5;&#x7559;&#x610F;&#x518D;&#x91CD;&#x65B0;&#x555F;&#x52D5;&#x6642;&#x6211;&#x90FD;&#x6703;&#x6AA2;&#x67E5;&#x4EFB;&#x52D9;&#x662F;&#x5426;&#x5728;&#x57F7;&#x884C;&#x4E2D;&#xFF0C;&#x56E0;&#x70BA;&#x6211;&#x5011;&#x4E0D;&#x60F3;&#x6709;&#x4E00;&#x5927;&#x5806;&#x76F8;&#x540C;&#x4EFB;&#x52D9;&#x5728;&#x57F7;&#x884C;&#xFF0C;&#x9019;&#x5C07;&#x6703;&#x9020;&#x6210;&#x6DF7;&#x4E82;&#xFF0C;&#x800C;&#x4E14;&#x6211;&#x5011;&#x5728;&#x4EFB;&#x52D9;&#x7BA1;&#x7406;&#x4E0A;&#x4E5F;&#x6703;&#x9020;&#x6210;&#x4E0D;&#x4FBF;&#x3002;&#x7D50;&#x679C;&#x5982;&#x4E0B;&#xFF1A;
-&#x9644;&#x4E0A;&#x539F;&#x59CB;&#x78BC;&#xFF1A;<a href="http://webhd.xuite.net/_oops/u93240xx/28i" target="_blank">http://webhd.xuite.net/_oops/u93240xx/28i</a></p>
-<p><img src="images/AsyncTask1.png" alt=""></p>
-<p>Ref : <a href="http://andcooker.blogspot.tw/2012/08/android-asynctask.html" target="_blank">http://andcooker.blogspot.tw/2012/08/android-asynctask.html</a></p>
-
                     
                     </section>
                 
@@ -3329,10 +3383,10 @@ onCancelled()&#xFF1A;&#x7576;&#x88AB;&#x53D6;&#x6D88;&#x6642;&#x9700;&#x8981;&#x
         </div>
 
         
-        <a href="../android_note/512.html" class="navigation navigation-prev " aria-label="Previous page: [轉] Android 執行緒 - Runnable 與 Handler"><i class="fa fa-angle-left"></i></a>
+        <a href="../assembly/164.html" class="navigation navigation-prev " aria-label="Previous page: linux反彙編旁門左道小技巧一則"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../android_note/515.html" class="navigation navigation-next " aria-label="Next page: [轉]Android.mk 組織結構"><i class="fa fa-angle-right"></i></a>
+        <a href="../toolchain/index.html" class="navigation navigation-next " aria-label="Next page: Toolchain"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

@@ -68,7 +68,7 @@
 * [QEMU](qemu/README.md)
    * [Qemu_KGDB_Ftrace](qemu/qemu_kgdb_ftrace.md)
    * [5 分鐘 Linux 0.11 快速構建實驗環境](qemu/72.md)
-   * [Debug Assembly with GDB for ARMv8 on QEMU](qemu/73)
+   * [Debug Assembly with GDB for ARMv8 on QEMU](qemu/73.md)
    * [ARM體系結構--寄存器](qemu/74.md)
    * [Run Debian iso on QEMU ARMv8](qemu/75.md)
    * [QEMU ARM64 guide](qemu/76.md)

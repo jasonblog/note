@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>(二) Boot Loader + 作業系統載入實例 (QEMU) | Jason note</title>
+        <title>如何調試makefile變量 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.1.0">
@@ -25,10 +25,8 @@
         
     
     
-    <link rel="next" href="../os/1413.html" />
     
-    
-    <link rel="prev" href="../os/14111.html" />
+    <link rel="prev" href="../gunmake/index.html" />
     
 
         
@@ -36,7 +34,7 @@
     <body>
         
         
-    <div class="book" data-level="14.1.2" data-basepath=".." data-revision="Fri Aug 14 2015 15:52:05 GMT+0800 (CST)">
+    <div class="book" data-level="20.1" data-basepath=".." data-revision="Fri Aug 14 2015 15:52:05 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -2369,7 +2367,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="14.1.2" data-path="os/1412.html">
+        <li class="chapter " data-level="14.1.2" data-path="os/1412.html">
             
                 
                     <a href="../os/1412.html">
@@ -3262,7 +3260,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="20.1" data-path="gunmake/201.html">
+        <li class="chapter active" data-level="20.1" data-path="gunmake/201.html">
             
                 
                     <a href="../gunmake/201.html">
@@ -3387,208 +3385,63 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="-%E4%BA%8C-boot-loader-%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1%E8%BC%89%E5%85%A5%E5%AF%A6%E4%BE%8B-qemu">(&#x4E8C;) Boot Loader + &#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x8F09;&#x5165;&#x5BE6;&#x4F8B; (QEMU)</h1>
-<p>&#x7E7C;&#x4E0A;&#x7BC7;&#x8AAA;&#x660E;&#x5982;&#x4F55;&#x64B0;&#x5BEB;&#x958B;&#x6A5F;Hello World&#xFF0C;&#x672C;&#x7BC7;&#x6587;&#x7AE0;&#x8AAA;&#x660E;&#x5982;&#x4F55;&#x64B0;&#x5BEB;&#x7C21;&#x55AE;&#x7684;Boot Loader&#x8DDF;&#x4E00;&#x500B;&#x53EA;&#x6703;&#x5370;&#x51FA;&#x8A0A;&#x606F;&#x7684;&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x3002;</p>
-<h3 id="%E5%B0%8F%E5%9E%8Bboot-loader%E8%A8%AD%E8%A8%88%E6%A6%82%E5%BF%B5">&#x5C0F;&#x578B;Boot Loader&#x8A2D;&#x8A08;&#x6982;&#x5FF5;</h3>
-<p>&#x7B46;&#x8005;&#x6240;&#x64B0;&#x5BEB;&#x7684;&#x5C0F;&#x578B;Boot Loader&#x65BC;BIOS&#x958B;&#x6A5F;&#x6210;&#x529F;&#x5F8C;&#xFF0C;&#x6703;&#x88AB;&#x8F09;&#x5165;&#x81F3;&#x5BE6;&#x9AD4;&#x8A18;&#x61B6;&#x9AD4;&#x4F4D;&#x5740;0x7C00&#x4E26;&#x8DF3;&#x81F3;&#x6B64;&#x4F4D;&#x5740;&#x57F7;&#x884C;boot loader&#x7684;&#x7A0B;&#x5F0F;&#x78BC;&#xFF0C;&#x6B64;boot loader&#x7A0B;&#x5F0F;&#x78BC;&#x6703;&#x5C07;&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x7A0B;&#x5F0F;&#x78BC; (&#x50C5;&#x4E09;&#x500B;&#x78C1;&#x5340;)&#xFF0C;&#x8F09;&#x5165;&#x5BE6;&#x9AD4;&#x8A18;&#x61B6;&#x9AD4;&#x4F4D;&#x5740;0x8000&#x4E26;&#x8DF3;&#x81F3;&#x6B64;&#x4F4D;&#x5740;&#x57F7;&#x884C;&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x7684;&#x7A0B;&#x5F0F;&#x78BC;&#xFF0C;&#x7136;&#x800C;&#x6B64;&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x5225;&#x7121;&#x529F;&#x80FD;&#xFF0C;&#x50C5;&#x6703;&#x5370;&#x51FA;&#x7C21;&#x55AE;&#x7684;&#x8A0A;&#x606F;&#x3002;&#x5982;&#x6B64;&#x4FBF;&#x80FD;&#x6A21;&#x64EC;&#x4E00;&#x822C;boot loader&#x8F09;&#x5165;&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x7684;&#x7A0B;&#x5E8F;&#x3002;</p>
-<p>&#x5716;&#x4E00;&#x70BA;&#x7B46;&#x8005;&#x6240;&#x7DE8;&#x8B6F;&#x51FA;&#x4F86;&#x7684;plain binary file&#xFF0C;&#x6B64;&#x7A0B;&#x5F0F;&#x78BC;&#x50C5;&#x6709;&#x56DB;&#x500B;&#x78C1;&#x5340; (&#x5171;2048 bytes)&#xFF0C;0x0-0x1ff&#x70BA;boot loader&#x78C1;&#x5340;&#xFF0C;0x200-0x7ff&#x70BA;&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x7684;&#x4E09;&#x500B;&#x78C1;&#x5340;&#xFF0C;&#x96D6;&#x7136;&#xFF0C;&#x771F;&#x6B63;&#x7684;&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x7A0B;&#x5F0F;&#x78BC;&#x5728;0x200-0x3ff&#xFF0C;&#x5176;&#x5B83;&#x5169;&#x500B;&#x78C1;&#x5340;&#x50C5;&#x586B;&#x5165;&#x5B57;&#x5143;&apos;B&apos;&#x8207;&apos;C&apos;&#xFF0C;&#x4F46;&#x7B46;&#x8005;&#x9084;&#x662F;&#x628A;&#x9019;&#x4E09;&#x500B;&#x78C1;&#x5340;&#x7A31;&#x70BA;&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x7A0B;&#x5F0F;&#x78BC;&#xFF0C;&#x56E0;&#x70BA;boot loader&#x6703;&#x5C07;&#x9019;&#x4E09;&#x500B;&#x78C1;&#x5340;&#x8F09;&#x5165;&#x5BE6;&#x9AD4;&#x8A18;&#x61B6;&#x9AD4;&#x4F4D;&#x5740;0x8000&#x3002;</p>
-<p><img src="images/os_bl_bin_img.jpeg" alt=""></p>
-<h3 id="%E5%9C%96%E4%B8%80%E3%80%81boot-os-binary-image-layout">&#x5716;&#x4E00;&#x3001;Boot + OS Binary Image Layout</h3>
-<p>&#x5716;&#x4E8C;&#x70BA;boot loader&#x5C07;&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x8F09;&#x5165;&#x5BE6;&#x9AD4;&#x8A18;&#x61B6;&#x9AD4;&#x4F4D;&#x5740;&#x793A;&#x610F;&#x5716;&#xFF0C;&#x81F3;&#x65BC;&#x70BA;&#x4EC0;&#x9EBC;&#x6703;&#x9078;&#x64C7;0x8000&#x958B;&#x59CB;&#x5B58;&#x653E;&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x7A0B;&#x5F0F;&#x78BC;&#xFF0C;&#x5176;&#x539F;&#x56E0;&#x662F;x86&#x7CFB;&#x7D71;&#x898F;&#x7BC4;&#x4F4D;&#x5740;0x7E00-0x7FFFF&#x70BA;conventional memory&#xFF0C;&#x56E0;&#x6B64;&#x7B46;&#x8005;&#x5C31;&#x6311;0x8000&#x4F86;&#x5B58;&#x653E;&#x7A0B;&#x5F0F;&#x78BC;&#x3002;</p>
-<p><img src="images/os_bl_mem_layout.jpeg" alt=""></p>
-<h3 id="%E5%9C%96%E4%BA%8C%E3%80%81boot-loader-os-physical-memory-layout">&#x5716;&#x4E8C;&#x3001;Boot Loader + OS Physical Memory Layout</h3>
-<h3 id="boot-loader%E7%A8%8B%E5%BC%8F%E7%A2%BC">Boot Loader&#x7A0B;&#x5F0F;&#x78BC;</h3>
-<p>&#x4E0B;&#x5716;&#x70BA;Boot Loader&#x7A0B;&#x5F0F;&#x78BC;&#xFF0C;&#x5176;&#x904B;&#x4F5C;&#x539F;&#x7406;&#x5728;&#x6B64;&#x7A0D;&#x4F5C;&#x63CF;&#x8FF0;&#x3002;&#x9996;&#x5148;&#xFF0C;boot_loader&#x900F;&#x904E;.byte&#x3001;.word&#x3001;.long&#x8DDF;.ascii&#x7B49;&#x6307;&#x4EE4;&#x5C07;&#x6B64;&#x78C1;&#x5340;&#x63CF;&#x8FF0;&#x70BA;&#x4E00;&#x500B;FAT12&#x6A94;&#x6848;&#x7CFB;&#x7D71;&#x3002;&#x63A5;&#x8457;&#xFF0C;&#x5229;&#x7528;&#x4E2D;&#x65B7;&#x670D;&#x52D9;&#x7DE8;&#x865F;0x13&#x5C07;&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x7684;&#x4E09;&#x500B;&#x78C1;&#x5340;&#x8B80;&#x5165;0x8000&#x5BE6;&#x9AD4;&#x8A18;&#x61B6;&#x9AD4;&#x4F4D;&#x5740;&#x3002;&#x5982;&#x679C;&#x8B80;&#x53D6;&#x5931;&#x6557;&#x7684;&#x8A71;&#xFF0C;&#x5247;&#x5229;&#x7528;&#x4E2D;&#x65B7;&#x670D;&#x52D9;&#x7DE8;&#x865F;0x010&#x5370;&#x51FA;&#x932F;&#x8AA4;&#x8A0A;&#x606F;&#x3002;&#x7279;&#x5225;&#x8981;&#x63D0;&#x51FA;&#x7684;&#x662F;&#xFF0C;&#x7A0B;&#x5F0F;&#x78BC;&#x4F7F;&#x7528;&#x5169;&#x6B21;&#x9060;&#x7A0B;&#x8DF3;&#x8E8D; (Far Dump)&#xFF0C;&#x5176;&#x539F;&#x578B;ljmp code_segment_address, relative_address&#xFF0C;&#x4F8B;&#x5982;: ljmp $BOOT_SEG, $start_prog&#x4EE3;&#x8868;code segment&#x8A2D;&#x5B9A;&#x70BA;0x07C0&#x52A0;&#x4E0A;start_prog&#x6A19;&#x7C64;&#x7684;&#x4F4D;&#x5740;&#xFF0C;&#x5373;0x7C00+start_prog&#x4F4D;&#x5740;&#xFF0C;&#x6B64;&#x70BA;Intel x86 CPU memory segmentation&#x6A5F;&#x5236;&#x3002;&#x900F;&#x904E;&#x6B64;&#x8A2D;&#x5B9A;&#xFF0C;boot loader&#x7A0B;&#x5F0F;&#x78BC;&#x4FBF;&#x80FD;&#x6B63;&#x78BA;&#x5730;&#x5728;0x7C00&#x4F4D;&#x5740;&#x57F7;&#x884C;&#x3002;&#x53E6;&#x4E00;&#x500B;ljmp&#xFF0C;ljmp $OS_SEG, $OS_OFFSET&#xFF0C;&#x56E0;&#x70BA;boot loader&#x5C07;&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x7A0B;&#x5F0F;&#x78BC;&#x653E;&#x5728;0x8000&#x5BE6;&#x9AD4;&#x8A18;&#x61B6;&#x9AD4;&#x4F4D;&#x5740;&#xFF0C;&#x56E0;&#x6B64;code segment&#x5FC5;&#x9808;&#x8A2D;&#x70BA;0x0800&#xFF0C;&#x4EE5;&#x4FBF;&#x8B93;&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x7A0B;&#x5F0F;&#x78BC;&#x53EF;&#x4EE5;&#x6B63;&#x78BA;&#x5730;&#x57F7;&#x884C;&#x3002;</p>
-<pre><code>/* boot_loader.S
-*
-* Copyright (C) 2010 Adrian Huang (adrianhuang0701@gmail.com)
-*
-* This code is intended to simulate a simplified boot loader. This boot
-* loader loads 3 sectors into the physical memory and jumps the entry
-* point of OS.
-*
-*/
+                        <h1 id="%E5%A6%82%E4%BD%95%E8%AA%BF%E8%A9%A6makefile%E8%AE%8A%E9%87%8F">&#x5982;&#x4F55;&#x8ABF;&#x8A66;makefile&#x8B8A;&#x91CF;</h1>
+<p><a href="http://coolshell.cn/articles/3790.html" target="_blank">http://coolshell.cn/articles/3790.html</a></p>
+<p>&#x5C0D;&#x65BC;Makefile&#x4E2D;&#x7684;&#x5404;&#x7A2E;&#x8B8A;&#x91CF;&#xFF0C;&#x53EF;&#x80FD;&#x662F;&#x6211;&#x5011;&#x6BD4;&#x8F03;&#x982D;&#x75DB;&#x7684;&#x4E8B;&#x4E86;&#x3002;&#x6211;&#x5011;&#x8981;&#x67E5;&#x770B;&#x4ED6;&#x5011;&#x4E26;&#x4E0D;&#x662F;&#x5F88;&#x65B9;&#x4FBF;&#xFF0C;&#x9700;&#x8981;&#x4FEE;&#x6539;makefile&#x52A0;&#x5165;echo&#x547D;&#x4EE4;&#x3002;&#x9019;&#x6709;&#x6642;&#x5019;&#x5F88;&#x4E0D;&#x65B9;&#x4FBF;&#x3002;&#x5176;&#x5BE6;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x88FD;&#x4F5C;&#x4E0B;&#x9762;&#x4E00;&#x500B;&#x5C08;&#x9580;&#x7528;&#x4F86;&#x8F38;&#x51FA;&#x8B8A;&#x91CF;&#x7684;makefile&#xFF08;&#x5047;&#x8A2D;&#x540D;&#x5B57;&#x53EB;&#xFF1A;vars.mk&#xFF09;</p>
+<pre><code>%:
+    @echo &apos;$*=$($*)&apos;
 
-BOOT_SEG     = 0x07C0       /* starting code segment (CS) of boot loader */
-OS_SEG       = 0x0800       /* code segment address of OS entry point */
-OS_OFFSET    = 0x0000       /* the offset address of OS entry point */
+d-%:
+    @echo &apos;$*=$($*)&apos;
+    @echo &apos;  origin = $(origin $*)&apos;
+    @echo &apos;   value = $(value  $*)&apos;
+    @echo &apos;  flavor = $(flavor $*)&apos;
+</code></pre><p>&#x9019;&#x6A23;&#x4E00;&#x4F86;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;make&#x547D;&#x4EE4;&#x7684;-f&#x53C3;&#x6578;&#x4F86;&#x67E5;&#x770B;makefile&#x4E2D;&#x7684;&#x76F8;&#x95DC;&#x8B8A;&#x91CF;&#xFF08;&#x5305;&#x62EC;make&#x7684;&#x5167;&#x5EFA;&#x8B8A;&#x91CF;&#xFF0C;&#x6BD4;&#x5982;&#xFF1A;COMPILE.c&#x6216;MAKE_VERSION&#x4E4B;&#x985E;&#x7684;&#xFF09;&#x3002;&#x6CE8;&#x610F;&#xFF1A;&#x7B2C;&#x4E8C;&#x500B;&#x4EE5;&#x201C;d-&#x201D;&#x70BA;&#x524D;&#x7DB4;&#x7684;&#x76EE;&#x6A19;&#x53EF;&#x4EE5;&#x7528;&#x4F86;&#x6253;&#x5370;&#x95DC;&#x65BC;&#x9019;&#x500B;&#x8B8A;&#x91CF;&#x66F4;&#x70BA;&#x8A73;&#x7D30;&#x7684;&#x6771;&#x897F;&#xFF08;&#x5F8C;&#x9762;&#x6709;&#x8A73;&#x7D30;&#x8AAA;&#x660E;&#xFF09;</p>
+<p>&#x5047;&#x8A2D;&#x6211;&#x5011;&#x7684;makefile&#x662F;&#x9019;&#x500B;&#x6A23;&#x5B50;&#xFF08;test.mk&#xFF09;</p>
+<pre><code>OBJDIR := objdir
+OBJS := $(addprefix $(OBJDIR)/,foo.o bar.o baz.o)
 
-.code16
+foo = $(bar)bar = $(ugh)ugh = Huh?
 
-.section .text
+CFLAGS = $(include_dirs) -O
+include_dirs = -Ifoo -Ibar
+CFLAGS := $(CFLAGS) -Wall
 
-.global _start
-_start:
-# FAT12 file system format
-ljmp     $BOOT_SEG, $start_prog   # jmp instruction
+MYOBJ := a.o b.o c.o
+MYSRC := $(MYOBJ:.o=.c)
+</code></pre><p>&#x90A3;&#x9EBC;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x9019;&#x6A23;&#x9032;&#x884C;&#x8ABF;&#x8A66;&#xFF1A;</p>
+<pre><code>[hchen@RHELSVR5]$ make -f test.mk -f var.mk OBJS
+OBJS=objdir/foo.o objdir/bar.o objdir/baz.o
 
-.byte   0x90
-.ascii  &quot;ADRIAN  &quot;                # OEM name (8 bytes)
-.word   512                       # Bytes per sector
-.byte   1                         # Sector per cluster
-.word   1                         # Reserved sector count: should be 1 for FAT12
-.byte   2                         # Number of file allocation tables.
-.word   224                       # Maximum number of root directory entries.
-.word   2880                      # Total sectors
-.byte   0xf0                      # Media descriptor
-.word   9                         # Sectors per File Allocation Table
-.word   18                        # Sectors per track
-.word   2                         # Number of heads
-.long   0                         # Count of hidden sectors
-.long   2880                      # Total sectors: 18 (sectors per track) * 2 (heads) * 80 (sectors) = 2880
-.byte   0                         # Physical driver number
-.byte   0                         # Reserved
-.byte   0x29                      # Extended boot signature
-.long   0x12345678                # Serial Number
-.ascii  &quot;HELLO-OS   &quot;             # Volume Label
-.ascii  &quot;FAT12   &quot;                # FAT file system type
-.fill   18, 1, 0                  # fill 18 characters with zero
+[hchen@RHELSVR5]$ make -f test.mk -f var.mk d-foo
+foo=Huh?
+  origin = file
+  value = $(bar)
+  flavor = recursive
 
-start_prog:
-# initialize the register with cs register
-movw    %cs, %ax
-movw    %ax, %ds
-movw    %ax, %es
-movw    %ax, %ss
-xorw    %sp, %sp
+[hchen@RHELSVR5]$ make -f test.mk -f var.mk d-CFLAGS
+CFLAGS=-Ifoo -Ibar -O -O
+  origin = file
+  value = -Ifoo -Ibar -O -O
+  flavor = simple
 
-cld                     # clear direction flag
-sti                     # set interrupt flag
-
-# The following code is loaded three sectors (2-4th sectors from boot.bin)
-# into the physical memory 0x8000-0x85FF.
-movw    $OS_SEG,     %ax
-mov     %ax,         %es  # ES:BX-&gt; destination buffer address pointer
-movb    $2,          %cl  # sector
-
-
-cont:
-movw     $0,    %bx
-movb     $0x02, %ah     # Read sectors from drive
-movb     $0x1,  %al     # Sectors to read count
-movb     $0x0,  %ch     # track
-movb     $0x0,  %dh     # head
-movb     $0,    %dl     # drive
-
-int      $0x13          # trigger a interrupt 0x13 service
-jc       fail           # the clear flag is set if the operation is failed
-
-mov     %es, %ax
-addw    $0x20, %ax      # move to the next sector
-movw    %ax, %es        # move to the next sector
-incb    %cl
-cmpb    $3, %cl         # has finished reading 3 sectors?
-jbe     cont            # continue to read the sector
-
-jmp  os_entry           # jump to OS entry point
-
-fail:
-movw    $err_msg, %si
-fail_loop:
-lodsb
-andb    %al, %al
-jz      end
-movb    $0x0e, %ah
-int     $0x10
-jmp     fail_loop
-
-
-os_entry:
-ljmp $OS_SEG, $OS_OFFSET  # jump to os context
-
-end:
-hlt
-
-err_msg:
-.ascii &quot;Reading sectors operation is failed!&quot;
-.byte     0
-
-.org 0x1FE, 0x41 # fill the rest of characters with zero until the 254th character
-
-# Boot sector signature
-.byte     0x55
-.byte     0xaa
-</code></pre><h3 id="%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1%E7%A8%8B%E5%BC%8F%E7%A2%BC">&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x7A0B;&#x5F0F;&#x78BC;</h3>
-<p>&#x6B64;&#x6BB5;&#x7A0B;&#x5F0F;&#x78BC;&#x50C5;&#x5C07;&#x8A0A;&#x606F;&#x8F38;&#x51FA;&#x81F3;&#x87A2;&#x5E55;&#x4E0A;&#xFF0C;&#x6240;&#x4EE5;&#x4E0D;&#x518D;&#x8D05;&#x8FF0;&#x3002;</p>
-<pre><code>/* os.S
- *
- * Copyright (C) 2010 Adrian Huang (adrianhuang0701@gmail.com)
- *
- * This code is OS context.
- *
- */
-    .code16
-    .section .text
-    .global main
-
-main:
-    movw    %cs, %ax
-    movw    %ax, %ds
-    movw    %ax, %es
-    movw    %ax, %ss
-    xorw    %sp, %sp
-
-    cld                     # clear direction flag
-    sti                     # set interrupt flag
-
-    movw  $os_msg, %si
-
-load_msg:
-    lodsb
-    andb %al, %al
-    jz      os_fin
-    movb $0x0e, %ah
-    int  $0x10
-    jmp  load_msg
-
-os_fin:
-    hlt
-    jmp  os_fin
-
-os_msg:
-    .ascii &quot;Welcome to OS context!&quot;
-    .byte     0
-
-    .org    0x200, 0x41 # fill characters with &apos;A&apos;. Sector 1
-    .org    0x400, 0x42 # fill characters with &apos;B&apos;. Sector 2
-    .org    0x600, 0x43 # fill characters with &apos;C&apos;. Sector 3
-</code></pre><h3 id="%E7%B7%A8%E8%AD%AF%E7%A8%8B%E5%BC%8F%E7%A2%BC">&#x7DE8;&#x8B6F;&#x7A0B;&#x5F0F;&#x78BC;</h3>
-<p>&#x4E0B;&#x5716;&#x70BA;&#x7DE8;&#x8B6F;&#x7684;Makefile&#x3002;</p>
-<pre><code>LD=ld
-CC=gcc
-
-all: boot_loader.bin
-
-boot_loader.bin: boot_loader.o os.o
-    ${LD} -Ttext=0x0 -s $&lt; -o $@ --oformat binary
-    ${LD} -Ttext=0x0 -s os.o -o os.bin --oformat binary
-    cat os.bin &gt;&gt; $@
-
-boot_loader.o:
-    ${CC} -c boot_loader.S
-
-os.o:
-    ${CC} -c os.S
-
-
-clean:
-    rm -f boot_loader.o boot_loader.bin os.o
-</code></pre><p>&#x5176;&#x7DE8;&#x8B6F;&#x8A0A;&#x606F;&#x5982;&#x4E0B;&#x6240;&#x793A;:</p>
-<pre><code>adrian@adrian-desktop:~/working/build_os/my_ex/boot_loader$ make clean all
-rm -f boot_loader.o boot_loader.bin os.o
-gcc -c boot_loader.S
-gcc -c os.S
-ld -Ttext=0x0 -s boot_loader.o -o boot_loader.bin --oformat binary
-ld -Ttext=0x0 -s os.o -o os.bin --oformat binary
-ld: warning: cannot find entry symbol _start; defaulting to 0000000000000000
-cat os.bin &gt;&gt; boot_loader.bin
-adrian@adrian-desktop:~/working/build_os/my_ex/boot_loader$
-</code></pre><h3 id="%E6%B8%AC%E8%A9%A6%E7%B5%90%E6%9E%9C">&#x6E2C;&#x8A66;&#x7D50;&#x679C;</h3>
-<p><img src="images/qemu.jpeg" alt=""></p>
-<p>&#x70BA;&#x4E86;&#x9A57;&#x8B49;&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x7684;&#x7A0B;&#x5F0F;&#x78BC;&#x6B63;&#x78BA;&#x5730;&#x8F09;&#x5165;&#x5BE6;&#x9AD4;&#x8A18;&#x61B6;&#x9AD4;&#x4F4D;&#x5740;0x8000&#xFF0C;&#x7B46;&#x8005;&#x5229;&#x7528;xxd&#x5DE5;&#x5177;&#x5C07;boot_loader.bin dump&#x51FA;&#x4F86;&#xFF0C;&#x4E0B;&#x5716;&#x70BA;&#x5176;&#x7D50;&#x679C;&#x3002;&#x7D05;&#x8272;&#x6846;&#x6846;&#x70BA;&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x7A0B;&#x5F0F;&#x78BC;&#x7684;&#x5341;&#x516D;&#x9032;&#x5236;&#x78BC;&#x3002;</p>
-<p><img src="images/boot_loader_bin.jpeg" alt=""></p>
-<p>&#x4E0B;&#x5716;&#x4E2D;&#xFF0C;&#x7B46;&#x8005;&#x5229;&#x7528;qemu&#x63D0;&#x4F9B;&#x7684;xp&#x5DE5;&#x5177;&#x5C07;0x8000-0x8010&#x7684;&#x5167;&#x5BB9;dump&#x51FA;&#x4F86;&#xFF0C;&#x7528;&#x4EE5;&#x8DDF;&#x4E0A;&#x5716;0x200-0x210&#x6BD4;&#x5C0D;&#xFF0C;&#x6BD4;&#x8F03;&#x4E0A;&#x3001;&#x4E0B;&#x9019;&#x5169;&#x5F35;&#x5716;&#xFF0C;&#x53EF;&#x4EE5;&#x8B49;&#x660E;&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x7A0B;&#x5F0F;&#x78BC;&#x6B63;&#x78BA;&#x5730;&#x88AB;&#x8F09;&#x5165;&#x81F3;0x8000&#x3002;</p>
-<p><img src="images/qemu_xp.jpeg" alt=""></p>
+[hchen@RHELSVR5]$  make -f test.mk -f var.mk d-COMPILE.c
+COMPILE.c=cc -Ifoo -Ibar -O -Wall   -c
+  origin = default
+  flavor = recursive
+   value = $(CC) $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -c
+</code></pre><p>&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF1A;</p>
+<ul>
+<li>make&#x7684;&#x7B2C;&#x4E00;&#x500B;-f&#x5F8C;&#x662F;&#x8981;&#x6E2C;&#x8A66;&#x7684;makefile&#xFF0C;&#x7B2C;&#x4E8C;&#x500B;&#x662F;&#x6211;&#x5011;&#x7684;debug makefile&#x3002;</li>
+<li><p>&#x5F8C;&#x9762;&#x76F4;&#x63A5;&#x8DDF;&#x8B8A;&#x91CF;&#x540D;&#xFF0C;&#x5982;&#x679C;&#x5728;&#x8B8A;&#x91CF;&#x540D;&#x524D;&#x52A0;&#x201D;d-&#x201C;&#xFF0C;&#x5247;&#x8F38;&#x51FA;&#x66F4;&#x70BA;&#x8A73;&#x7D30;&#x7684;&#x6771;&#x897F;&#x3002;
+&#x8AAA;&#x4E00;&#x8AAA;&#x201D;d-&#x201D; &#x524D;&#x7DB4;&#xFF08;&#x5176;&#x610F;&#x70BA;details&#xFF09;&#xFF0C;&#x5176;&#x4E2D;&#x8ABF;&#x7528;&#x4E86;&#x4E0B;&#x9762;&#x4E09;&#x500B;&#x53C3;&#x6578;&#x3002;</p>
+</li>
+<li><p>$(origin)&#xFF1A;&#x544A;&#x8A34;&#x4F60;&#x9019;&#x500B;&#x8B8A;&#x91CF;&#x662F;&#x4F86;&#x81EA;&#x54EA;&#x5152;&#xFF0C;file&#x8868;&#x793A;&#x6587;&#x4EF6;&#xFF0C;environment&#x8868;&#x793A;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#xFF0C;&#x9084;&#x6709;environment override&#xFF0C;command line&#xFF0C;override&#xFF0C;automatic&#x7B49;&#x3002;</p>
+</li>
+<li>$(value)&#xFF1A;&#x6253;&#x51FA;&#x9019;&#x500B;&#x8B8A;&#x91CF;&#x6C92;&#x6709;&#x88AB;&#x5C55;&#x958B;&#x7684;&#x6A23;&#x5B50;&#x3002;&#x6BD4;&#x5982;&#x4E0A;&#x8FF0;&#x793A;&#x4F8B;&#x4E2D;&#x7684; foo &#x8B8A;&#x91CF;&#x3002;</li>
+<li>$(flavor)&#xFF1A;&#x6709;&#x5169;&#x500B;&#x503C;&#xFF0C;simple&#x8868;&#x793A;&#x662F;&#x4E00;&#x822C;&#x5C55;&#x958B;&#x7684;&#x8B8A;&#x91CF;&#xFF0C;recursive&#x8868;&#x793A;&#x905E;&#x6B78;&#x5C55;&#x958B;&#x7684;&#x8B8A;&#x91CF;&#x3002;
+&#xFF08;&#x5168;&#x6587;&#x5B8C;&#xFF09;</li>
+</ul>
 
                     
                     </section>
@@ -3599,10 +3452,8 @@ adrian@adrian-desktop:~/working/build_os/my_ex/boot_loader$
         </div>
 
         
-        <a href="../os/14111.html" class="navigation navigation-prev " aria-label="Previous page: (一) 開機Hello World實例"><i class="fa fa-angle-left"></i></a>
+        <a href="../gunmake/index.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: GNU make"><i class="fa fa-angle-left"></i></a>
         
-        
-        <a href="../os/1413.html" class="navigation navigation-next " aria-label="Next page: (三) Boot Loader + 作業系統載入實例 (CF Card)"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

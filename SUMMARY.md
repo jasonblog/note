@@ -203,6 +203,6 @@
    * [初學《Linux內核如何裝載和啟動一個可執行程序》](mooc_linux_kernel/198.md)
    * [初學Linux中進程調度與進程切換過程](mooc_linux_kernel/197.md)
    * [Linux內核學習總結](mooc_linux_kernel/199.md)
-* [Makefile](makefile/README)
+* [GNU make ](makefile/README)
    * [如何調試makefile變量](makefile/201.md)
 

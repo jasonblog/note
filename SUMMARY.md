@@ -192,6 +192,7 @@
 * [GDB](gdb/README.md)
    * [簡易 GDB Script 教學，應用](gdb/181.md)
    * [[轉]GDB的妙用](gdb/182.md)
+   * [GDB中應該知道的幾個調試方法](gdb/183.md)
 * [Linux內核分析雲課堂學習筆記](mooc_linux_kernel/README.md)
    * [圖解分析彙編代碼以理解計算機是如何工作的](mooc_linux_kernel/191.md)
    * [基於mykernel的一個簡單的時間片輪轉多道程序內核代碼分析](mooc_linux_kernel/192.md)
@@ -202,4 +203,6 @@
    * [初學《Linux內核如何裝載和啟動一個可執行程序》](mooc_linux_kernel/198.md)
    * [初學Linux中進程調度與進程切換過程](mooc_linux_kernel/197.md)
    * [Linux內核學習總結](mooc_linux_kernel/199.md)
+* [Makefile](makefile/README)
+   * [如何調試makefile變量](makefile/201.md)
 

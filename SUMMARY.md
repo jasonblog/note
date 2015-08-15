@@ -205,4 +205,7 @@
    * [Linux內核學習總結](mooc_linux_kernel/199.md)
 * [GNU make ](gunmake/README.md)
    * [如何調試makefile變量](gunmake/201.md)
+* [C++](c++/README.md)
+   * [[轉]C++ 对象的内存布局](c++/211.md)
+   * [ C++对象模型之简述C++对象的内存布局](c++/212.md)
 

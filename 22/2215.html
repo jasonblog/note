@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
-        <title>Linux虛擬內存概述 | Jason note</title>
+        <title>Linux中使用C語言載入data object 檔案資料 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.0.1">
@@ -20,10 +20,8 @@
         
     
     
-    <link rel="next" href="../linux_kernel/1212.html" />
     
-    
-    <link rel="prev" href="../linux_kernel/1210.html" />
+    <link rel="prev" href="../22/2214.html" />
     
 
         
@@ -36,7 +34,7 @@
     
 
         
-    <div class="book" data-level="12.11" data-basepath=".." data-revision="Wed Aug 19 2015 00:00:36 GMT+0800 (CST)">
+    <div class="book" data-level="22.15" data-basepath=".." data-revision="Wed Aug 19 2015 00:00:36 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -2176,7 +2174,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="12.11" data-path="linux_kernel/1211.html">
+        <li class="chapter " data-level="12.11" data-path="linux_kernel/1211.html">
             
                 
                     <a href="../linux_kernel/1211.html">
@@ -3604,7 +3602,7 @@
             
         </li>
     
-        <li class="chapter " data-level="22.15" data-path="22/2215.html">
+        <li class="chapter active" data-level="22.15" data-path="22/2215.html">
             
                 
                     <a href="../22/2215.html">
@@ -3727,24 +3725,229 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="linux%E8%99%9B%E6%93%AC%E5%85%A7%E5%AD%98%E6%A6%82%E8%BF%B0">Linux&#x865B;&#x64EC;&#x5167;&#x5B58;&#x6982;&#x8FF0;</h1>
-<p>&#x70BA;&#x4EC0;&#x9EBC;&#x9700;&#x8981;&#x865B;&#x64EC;&#x5167;&#x5B58;&#xFF1F;</p>
-<p>&#x7A0B;&#x5E8F;&#x662F;&#x4E00;&#x7CFB;&#x5217;&#x4EE3;&#x78BC;&#x6BB5;&#xFF0C;&#x6578;&#x64DA;&#x6BB5;&#x7684;&#x96C6;&#x5408;&#xFF0C;&#x800C;&#x7A0B;&#x5E8F;&#x8981;&#x904B;&#x884C;&#x5FC5;&#x9808;&#x662F;&#x52A0;&#x8F09;&#x5230;&#x5167;&#x5B58;&#x88E1;&#x7684;&#xFF0C;&#x4F46;&#x662F;&#x7269;&#x7406;&#x5167;&#x5B58;&#x5C31;&#x90A3;&#x9EBC;&#x5927;&#xFF0C;&#x5982;&#x4F55;&#x80FD;&#x4FDD;&#x8B49;&#x5F88;&#x591A;&#x500B;&#x7A0B;&#x5E8F;&#x90FD;&#x88DD;&#x8F09;&#x9032;&#x53BB;&#x5462;&#xFF1F;&#x9019;&#x88E1;&#x5C31;&#x5F15;&#x9032;&#x4E86;&#x865B;&#x64EC;&#x5167;&#x5B58;&#x7684;&#x6982;&#x5FF5;&#xFF0C;&#x865B;&#x64EC;&#x5167;&#x5B58;&#x57FA;&#x672C;&#x601D;&#x60F3;&#x5C31;&#x662F;&#xFF0C;&#x7D66;&#x6BCF;&#x500B;&#x7A0B;&#x5E8F;&#x90FD;&#x5206;&#x914D;&#x4E00;&#x500B;4G&#x7684;&#x865B;&#x64EC;&#x7684;&#x5167;&#x5B58;&#xFF0C;&#x4F46;&#x9019;&#x90E8;&#x5206;&#x5167;&#x5B58;&#x4F54;&#x7528;&#x7684;&#x4E0D;&#x662F;&#x7269;&#x7406;&#x5167;&#x5B58;&#xFF0C;&#x800C;&#x662F;&#x78C1;&#x76E4;&#x7A7A;&#x9593;&#xFF0C;&#x9019;&#x90E8;&#x5206;&#x53EB;&#x505A;&#x865B;&#x64EC;&#x5B58;&#x5132;&#x5668;&#xFF0C;&#x5C31;&#x662F;&#x5B89;&#x88DD;Linux&#x7CFB;&#x7D71;&#x6642;&#x5019;&#x7684;SWAP&#x7A7A;&#x9593;&#x3002;&#x800C;&#x5C0D;&#x61C9;&#x7684;&#x7269;&#x7406;&#x5167;&#x5B58;&#x5C31;&#x662F;&#x7269;&#x7406;&#x5B58;&#x5132;&#x5668;&#x3002;
-&#x6709;&#x6C92;&#x6709;&#x89BA;&#x5F97;&#x6574;&#x500B;&#x904E;&#x7A0B;&#x50CF;&#x958B;&#x4E86;&#x300C;&#x7A7A;&#x982D;&#x652F;&#x7968;&#x300D;&#x4E00;&#x6A23;&#xFF1F;&#x7A0B;&#x5E8F;&#x8981;&#x8DD1;&#x8D77;&#x4F86;&#xFF0C;&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x8A31;&#x8AFE;&#x5B83;&#x7D66;&#x4F60;4G&#x7684;&#x7A7A;&#x9593;&#xFF0C;&#x4F46;&#x537B;&#x662F;&#x4E0D;&#x80FD;&#x7528;&#x7684;&#xFF0C;&#x90A3;&#x771F;&#x8981;&#x57F7;&#x884C;&#x7684;&#x6642;&#x5019;&#x600E;&#x9EBC;&#x8FA6;&#x5462;&#xFF1F;&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x6703;&#x628A;&#x78C1;&#x76E4;&#x4E0A;&#x7684;&#x7A0B;&#x5E8F;&#x4EE3;&#x78BC;&#x6578;&#x64DA;&#x300C;&#x79FB;&#x300D;&#x5230;&#x5167;&#x5B58;&#x88E1;&#xFF0C;&#x628A;&#x4E0D;&#x9700;&#x8981;&#x7684;&#x9084;&#x6703;&#x300C;&#x79FB;&#x300D;&#x51FA;&#x53BB;&#x5230;&#x78C1;&#x76E4;&#x4E0A;&#xFF0C;&#x9019;&#x6A23;&#x770B;&#x4E0A;&#x53BB;&#x5C31;&#x597D;&#x50CF;&#x53EF;&#x4EE5;&#x8DD1;&#x5F88;&#x591A;&#x9032;&#x7A0B;&#x4E86;&#x3002;</p>
-<p>&#x600E;&#x9EBC;&#x5BE6;&#x73FE;&#x865B;&#x64EC;&#x5167;&#x5B58;</p>
-<p>&#x9996;&#x5148;&#x662F;&#x6BB5;&#x6A5F;&#x5236;&#xFF0C;&#x7A0B;&#x5E8F;&#x5F9E;&#x7A0B;&#x5E8F;&#x54E1;&#x770B;&#x88AB;&#x5206;&#x6210;&#x4E86;&#x5F88;&#x591A;&#x6BB5;&#xFF0C;&#x93C8;&#x63A5;&#x7684;&#x6642;&#x5019;&#x90FD;&#x6703;&#x628A;&#x6BB5;&#x7D44;&#x7E54;&#x597D;&#xFF0C;&#x5404;&#x500B;&#x5730;&#x5740;&#x7684;&#x8A2D;&#x7F6E;&#xFF08;&#x5730;&#x5740;&#x90FD;&#x662F;&#x865B;&#x64EC;&#x5730;&#x5740;&#xFF09;&#xFF0C;&#x7136;&#x5F8C;&#x52A0;&#x8F09;&#x5668;&#x52A0;&#x8F09;&#x3002;&#x63A5;&#x4E0B;&#x4F86;&#x5C31;&#x662F;&#x6309;&#x9700;&#x8981;&#x5F9E;&#x865B;&#x64EC;&#x5B58;&#x5132;&#x5668;&#x63DB;&#x5165;&#x5230;&#x7269;&#x7406;&#x5B58;&#x5132;&#x5668;&#x4E86;&#xFF0C;&#x600E;&#x9EBC;&#x63DB;&#x5408;&#x9069;&#xFF1F;&#x4E00;&#x500B;&#x6BB5;&#x4E00;&#x500B;&#x6BB5;&#x63DB;&#xFF1F;&#x9019;&#x500B;&#x4E00;&#x770B;&#x5C31;&#x662F;&#x5F88;&#x7B28;&#x91CD;&#x7684;&#xFF0C;&#x6BB5;&#x53EF;&#x80FD;&#x5F88;&#x5927;&#x5462;&#xFF1F;&#x9084;&#x6709;&#x6BB5;&#x7684;&#x63DB;&#x51FA;&#x5462;&#xFF1F;&#x9084;&#x6709;&#x5C0E;&#x81F4;&#x7269;&#x7406;&#x5167;&#x5B58;&#x788E;&#x7247;&#x5F88;&#x5927;&#x3002;&#x65BC;&#x662F;&#x5C31;&#x5F15;&#x5165;&#x4E86;&#x9801;&#x7684;&#x6982;&#x5FF5;&#xFF0C;&#x9801;&#x7684;&#x5BE6;&#x73FE;&#x5C31;&#x662F;&#x8AAA;&#x628A;&#x865B;&#x64EC;&#x5167;&#x5B58;&#x548C;&#x7269;&#x7406;&#x5167;&#x5B58;&#x90FD;&#x5206;&#x6210;&#x4E00;&#x500B;&#x4E00;&#x500B;&#x9801;&#xFF0C;&#x5C31;&#x7406;&#x89E3;&#x6210;&#x4E00;&#x500B;&#x7DDA;&#x6027;&#x6578;&#x7D44;&#xFF08;&#x88E1;&#x9762;&#x90FD;&#x662F;&#x5B57;&#x7BC0;&#xFF09;&#x9032;&#x884C;&#x5207;&#x5272;&#xFF0C;&#x6BCF;&#x500B;&#x9801;&#x662F;&#x5F88;&#x591A;&#x5B57;&#x7BC0;&#x7684;&#x96C6;&#x5408;&#x3002;&#x9801;&#x4E0D;&#x80FD;&#x592A;&#x5927;&#xFF0C;&#x592A;&#x5927;&#x7684;&#x8A71;&#x5167;&#x90E8;&#x788E;&#x7247;&#x6703;&#x5F88;&#x5927;&#xFF1B;&#x4E5F;&#x4E0D;&#x80FD;&#x592A;&#x5C0F;&#xFF0C;&#x592A;&#x5C0F;&#x5C0E;&#x81F4;&#x7DAD;&#x8B77;&#x6210;&#x672C;&#x5F88;&#x9AD8;&#x3002;&#x4E00;&#x822C;&#x90FD;&#x662F;4K&#xFF0C;&#x7D50;&#x5408;&#x4E0A;&#x9762;&#x7684;&#x865B;&#x64EC;&#x5167;&#x5B58;&#xFF0C;&#x6240;&#x4EE5;&#x865B;&#x64EC;&#x5B58;&#x5132;&#x5668;&#x548C;&#x7269;&#x7406;&#x5B58;&#x5132;&#x5668;&#x7684;&#x9032;&#x7A0B;&#x7684;&#x63DB;&#x5165;&#x63DB;&#x51FA;&#x90FD;&#x662F;&#x4EE5;&#x9801;&#x70BA;&#x55AE;&#x4F4D;&#x9032;&#x884C;&#x7684;&#xFF0C;&#x53EB;&#x505A;&#x63DB;&#x9801;&#x3002;
-&#x4EC0;&#x9EBC;&#x6642;&#x5019;&#x63DB;&#x9801;&#xFF1F;</p>
-<p>&#x5148;&#x770B;&#x4F55;&#x6642;&#xFF1F;&#x9996;&#x5148;&#x662F;&#x63DB;&#x5165;&#xFF0C;CPU&#x57F7;&#x884C;&#x8457;&#x767C;&#x73FE;&#x6240;&#x9700;&#x8981;&#x7684;&#x9801;&#x4E0D;&#x5728;&#x5167;&#x5B58;&#x88E1;&#xFF0C;&#x9019;&#x6642;&#x5019;&#x5C31;&#x6703;&#x7522;&#x751F;&#x7F3A;&#x9801;&#x4E2D;&#x65B7;&#xFF0C;&#x5C0D;&#x61C9;&#x7684;&#x4E2D;&#x65B7;&#x7A0B;&#x5E8F;&#x6703;&#x628A;&#x76F8;&#x61C9;&#x7684;&#x9801;&#x63DB;&#x5165;&#x5167;&#x5B58;&#xFF0C;&#x7136;&#x5F8C;&#x7E7C;&#x7E8C;&#x57F7;&#x884C;&#x539F;&#x4F86;&#x7684;&#x6307;&#x4EE4;&#xFF0C;&#x6574;&#x500B;&#x904E;&#x7A0B;&#x5C0D;&#x65BC;&#x7A0B;&#x5E8F;&#x662F;&#x5B8C;&#x5168;&#x900F;&#x660E;&#x7684;&#x3002;&#x518D;&#x662F;&#x63DB;&#x51FA;&#xFF0C;&#x63DB;&#x51FA;&#x5C31;&#x662F;&#x5167;&#x5B58;&#x7DCA;&#x5F35;&#x4E86;&#xFF0C;&#x4E0D;&#x5920;&#x7528;&#x4E86;&#x5C31;&#x63DB;&#x51FA;&#x3002;&#x90A3;&#x628A;&#x4EC0;&#x9EBC;&#x9801;&#x9762;&#x63DB;&#x51FA;&#x5462;&#xFF1F;&#x4E00;&#x822C;&#x90FD;&#x662F;&#x63A1;&#x7528;LRU&#xFF08;Least Recently Used&#xFF09;&#x7B97;&#x6CD5;&#x3002;
-&#x600E;&#x9EBC;&#x5BE6;&#x73FE;&#x63DB;&#x9801;&#xFF1F;</p>
-<p>&#x4E0A;&#x9762;&#x8AAA;&#x4E86;&#xFF0C;&#x8981;&#x5BE6;&#x73FE;&#x63DB;&#x5165;&#x63DB;&#x51FA;&#xFF0C;&#x8D77;&#x78BC;&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x5F97;&#x77E5;&#x9053;&#x7269;&#x7406;&#x5B58;&#x5132;&#x5668;&#x548C;&#x865B;&#x64EC;&#x5B58;&#x5132;&#x5668;&#x4E0A;&#x4E00;&#x500B;&#x9032;&#x7A0B;&#x5C0D;&#x61C9;&#x7684;&#x9801;&#x5206;&#x914D;&#x60C5;&#x6CC1;&#x5427;&#xFF1F;&#x9084;&#x6709;&#x5982;&#x4F55;&#x4FDD;&#x8B49;A&#x9032;&#x7A0B;&#x7684;&#x7269;&#x7406;&#x9801;&#x548C;B&#x9032;&#x7A0B;&#x7684;&#x7269;&#x7406;&#x9801;&#x4E0D;&#x91CD;&#x8907;&#x5462;&#xFF1F;&#xFF08;&#x5148;&#x9019;&#x6A23;&#x8AAA;&#x8457;&#xFF0C;&#x9084;&#x6709;&#x5F88;&#x591A;&#x60C5;&#x6CC1;&#x662F;&#x53EF;&#x4EE5;&#x91CD;&#x8907;&#x7684;&#xFF0C;&#x6BD4;&#x5982;&#x5171;&#x4EAB;&#x5EAB;&#xFF0C;fork&#x958B;&#x59CB;&#x7684;&#x6642;&#x5019;&#x7B49;&#x7B49;&#xFF09;&#x9019;&#x5C31;&#x662F;&#x8AAA;A&#x7684;&#x9801;&#x6620;&#x5C04;&#x51FD;&#x6578;&#x548C;B&#x7684;&#x6620;&#x5C04;&#x51FD;&#x6578;&#x4E0D;&#x4E00;&#x6A23;&#x4E86;&#xFF1F;&#x9019;&#x88E1;&#x5F15;&#x9032;&#x9801;&#x8868;&#x7684;&#x6982;&#x5FF5;&#xFF0C;&#x9801;&#x8868;&#x5C31;&#x76F8;&#x7576;&#x65BC;&#x662F;&#x4E0A;&#x9762;&#x7684;&#x6620;&#x5C04;&#x51FD;&#x6578;&#xFF0C;&#x9032;&#x7A0B;&#x7684;&#x865B;&#x64EC;&#x9801;&#x5230;&#x7269;&#x7406;&#x9801;&#x7684;&#x6620;&#x5C04;&#x95DC;&#x4FC2;&#x90FD;&#x5B58;&#x5132;&#x5728;&#x9019;&#x88E1;&#x3002;&#x9801;&#x8868;&#x662F;&#x5B58;&#x5728;&#x5167;&#x5B58;&#x88E1;&#x7684;&#xFF0C;&#x6BCF;&#x500B;&#x9032;&#x7A0B;&#x90FD;&#x6709;&#x81EA;&#x5DF1;&#x7684;&#x4E00;&#x4EFD;&#x9801;&#x8868;&#xFF0C;&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x9801;&#x6709;&#x81EA;&#x5DF1;&#x7684;&#x4E00;&#x4EFD;&#x9801;&#x8868;&#x3002;&#x9801;&#x8868;&#x6BCF;&#x9805;&#x90FD;&#x6703;&#x6709;&#x4E00;&#x500B;&#x6A19;&#x8A8C;&#x4F4D;P&#xFF0C;&#x6307;&#x660E;&#x77AD;&#x9019;&#x5F35;&#x9801;&#x662F;&#x5426;&#x5B58;&#x5728;&#x5167;&#x5B58;&#x88E1;&#x3002;
-&#x865B;&#x64EC;&#x5167;&#x5B58;</p>
-<p>&#x5C0D;&#x65BC;&#x4E00;&#x5F35;&#x9801;&#xFF0C;&#x6BCF;&#x500B;&#x9801;&#x8868;&#x9805;&#x53EF;&#x4EE5;&#x662F;&#x4E0B;&#x9762;&#x7684;&#xFF0C;</p>
-<p><img src="images/2.jpg" alt=""></p>
-<p>P : &#x5C0D;&#x61C9;&#x9805;    ==&gt;&gt;  &#x7269;&#x7406;&#x610F;&#x7FA9;
-0 : NULL      ==&gt;&gt;  &#x8ACB;&#x6C42;&#x7684;&#x9801;&#x4E0D;&#x5728;&#x7269;&#x7406;&#x5167;&#x5B58;&#x4E2D;&#xFF0C;&#x4F46;&#x662F;&#x5C0D;&#x61C9;&#x6307;&#x91DD;&#x662F;NULL&#xFF0C;&#x4EE3;&#x8868;&#x9084;&#x6C92;&#x5206;&#x914D;&#x3002;
-0 : &#x78C1;&#x76E4;&#x9801;&#x5730;&#x5740;    ==&gt;&gt;  &#x8ACB;&#x6C42;&#x7684;&#x9801;&#x4E0D;&#x5728;&#x7269;&#x7406;&#x5167;&#x5B58;&#x9418;&#xFF0C;&#x4F46;&#x662F;&#x5C0D;&#x61C9;&#x6307;&#x91DD;&#x4E0D;&#x662F;NULL&#xFF0C;&#x8868;&#x793A;&#x5DF2;&#x7D93;&#x5206;&#x914D;&#xFF0C;&#x6BD4;&#x5982;malloc&#x51FA;&#x4F86;&#x7684;&#x5730;&#x5740;&#xFF0C;&#x5DF2;&#x7D93;&#x5206;&#x914D;&#x865B;&#x64EC;&#x9801;&#xFF0C;&#x4F46;&#x4E0D;&#x662F;&#x7269;&#x7406;&#x9801;&#x3002;
-1 : &#x7269;&#x7406;&#x5167;&#x5B58;&#x5730;&#x5740;  ==&gt;&gt;  &#x8ACB;&#x6C42;&#x7684;&#x9801;&#x5728;&#x7269;&#x7406;&#x5167;&#x5B58;&#x4E2D;&#xFF0C;&#x4E14;&#x9019;&#x500B;&#x9801;&#x8868;&#x9805;&#x9084;&#x6709;&#x5C0D;&#x61C9;&#x9801;&#x5728;&#x7269;&#x7406;&#x5167;&#x5B58;&#x4E2D;&#x7684;&#x57FA;&#x5730;&#x5740;&#x3002;</p>
-<p>&#x7E3D;&#x7D50;&#x4E0B;&#xFF0C;Linux&#x4E0B;&#x7684;&#x9801;&#x6A5F;&#x5236;&#x548C;&#x865B;&#x64EC;&#x5167;&#x5B58;&#x914D;&#x5408;&#x7684;&#x5341;&#x5206;&#x5DE7;&#x5999;&#xFF0C;&#x865B;&#x64EC;&#x5167;&#x5B58;&#x4E5F;&#x662F;&#x4E00;&#x500B;&#x62BD;&#x8C61;&#x7684;&#x5BE6;&#x73FE;&#x3002;</p>
+                        <h1 id="linux%E4%B8%AD%E4%BD%BF%E7%94%A8c%E8%AA%9E%E8%A8%80%E8%BC%89%E5%85%A5data-object-%E6%AA%94%E6%A1%88%E8%B3%87%E6%96%99">Linux&#x4E2D;&#x4F7F;&#x7528;C&#x8A9E;&#x8A00;&#x8F09;&#x5165;data object &#x6A94;&#x6848;&#x8CC7;&#x6599;</h1>
+<p>&#x4E4B;&#x524D;&#x770B;<a href="https://github.com/southernbear/rtenv" target="_blank">&#x5225;&#x4EBA;&#x7684;&#x7A0B;&#x5F0F;</a>&#xFF0C;&#x770B;&#x5230;&#x4F5C;&#x8005;&#x5728;ROMFS&#x5BE6;&#x4F5C;&#x6642;&#x628A;&#x8CC7;&#x6599;&#x8F49;&#x6210;object&#x6A94;&#x6848;&#xFF0C;&#x7136;&#x5F8C;&#x5728;C&#x8A9E;&#x8A00;&#x4E2D;&#x76F4;&#x63A5;&#x5B58;&#x53D6;&#x8CC7;&#x6599;&#x3002;&#x4ED6;&#x7684;&#x4F5C;&#x6CD5;&#x662F;</p>
+<ul>
+<li>&#x5BEB;&#x4E00;&#x500B;host&#x7A0B;&#x5F0F;&#xFF0C;&#x5C07;&#x67D0;&#x500B;&#x76EE;&#x9304;&#x4E0B;&#x9762;&#x7684;&#x6A94;&#x6848;&#x548C;&#x76EE;&#x9304;&#x8F49;&#x6210;&#x55AE;&#x4E00;&#x500B;binary</li>
+<li>&#x5C07;&#x9019;&#x500B;binary&#x8F49;&#x6210;object&#x6A94;&#x6848;</li>
+<li>&#x66F4;&#x6539;link script&#xFF0C;&#x8B93;&#x6700;&#x5F8C;&#x7684;binary&#x53EF;&#x4EE5;&#x5B58;&#x53D6;object&#x6A94;&#x6848;&#x7684;section</li>
+</ul>
+<p>&#x9019;&#x500B;project&#x4F7F;ARM&#x7684;&#x67B6;&#x69CB;Realtime &#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x3002;&#x770B;&#x5B8C;&#x624B;&#x7662;&#x4E5F;&#x60F3;&#x770B;&#x770B;Linux&#x4E0B;&#x9762;&#x8981;&#x600E;&#x9EBC;&#x505A;&#x5230;&#x985E;&#x4F3C;&#x7684;&#x529F;&#x80FD;&#x3002;&#x672C;&#x4F86;&#x60F3;&#x8AAA;&#x662F;&#x4E0D;&#x662F;&#x8981;&#x52D5;&#x5230;link script&#xFF0C;&#x5F8C;&#x4F86;&#x770B;&#x5230;<a href="http://descent-incoming.blogspot.tw/2012/11/elf.html" target="_blank">&#x9019;&#x908A;</a>&#x7684;&#x53C3;&#x8003;&#x8CC7;&#x6599;&#x5F8C;&#xFF0C;&#x767C;&#x73FE;&#x53EA;&#x8981;&#x5B58;&#x53D6;symbol&#x5C31;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x4E86;&#x3002;&#x514B;&#x670D;&#x9019;&#x500B;&#x554F;&#x984C;&#x5F8C;&#x5C31;&#x53EF;&#x4EE5;&#x4F86;&#x5BEB;&#x500B;&#x5C0F;&#x7A0B;&#x5F0F;&#x9A57;&#x8B49;&#x4E00;&#x4E0B;&#x3002;</p>
+<p>&#x9996;&#x5148;&#x6211;&#x5011;&#x5148;&#x5F04;&#x500B;&#x6E2C;&#x8A66;&#x8CC7;&#x6599;&#xFF0C;&#x5F88;&#x7C21;&#x55AE;&#x5C31;&#x662F;&#x4E00;&#x500B;&#x6578;&#x5B57;&#x986F;&#x793A;&#x5F8C;&#x9762;&#x5B57;&#x4E32;&#x9577;&#x5EA6;&#x5F8C;&#x518D;&#x5B58;&#x653E;&#x5B57;&#x4E32;&#x3002;
+```text my_data.txt
+5Hello</p>
+<pre><code>
+&#x63A5;&#x4E0B;&#x4F86;&#x5C31;&#x662F;Makefile&#x90E8;&#x4EFD;
+
+```makefile Makefile
+CFLAGS=-Wall -Werror -g
+
+DATA_SRC=my_data.txt
+DATA_OBJ=my_data.o
+
+TARGET=test_obj
+OBJS=$(patsubst %, %.o, $(TARGET)) $(DATA_OBJ)
+
+BFN=elf64-x86-64
+ARCH=i386
+
+$(TARGET): $(OBJS)
+    $(CC) -o $@ $(OBJS)
+
+$(DATA_OBJ): $(DATA_SRC)
+    objcopy -I binary -O $(BFN) -B $(ARCH) --prefix-sections &apos;.mydata&apos; $^ $@
+
+clean:
+    rm *.o *~ $(TARGET) -f
+</code></pre><p>Makefile&#x8AAA;&#x660E;:</p>
+<ul>
+<li><code>patsubst</code><ul>
+<li>Makefile &#x63D0;&#x4F9B;&#x7684;&#x51FD;&#x6578;&#xFF0C;&#x7528;&#x5728;pattern &#x66FF;&#x63DB;&#xFF0C;&#x6240;&#x4EE5;&#x4E0A;&#x9762;&#x505A;&#x4E86;&#x4E0B;&#x5217;&#x7684;&#x4EE3;&#x63DB;<ul>
+<li>test_obj&#x8F49;&#x6210;test_obj.o</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>$@</code><ul>
+<li>Makefile&#x7684;&#x5167;&#x5EFA;&#x5DE8;&#x96C6;&#xFF0C;&#x4EE3;&#x8868;target</li>
+</ul>
+</li>
+<li><code>$^</code><ul>
+<li>Makefile&#x7684;&#x5167;&#x5EFA;&#x5DE8;&#x96C6;&#xFF0C;&#x4EE3;&#x8868;prerequisite</li>
+</ul>
+</li>
+</ul>
+<p>&#x91CD;&#x9EDE;&#x662F;&#x628A;&#x8CC7;&#x6599;&#x6A94;&#x6848;&#x8F49;&#x6210;object&#x7684;&#x90E8;&#x4EFD;&#xFF0C;&#x7BC0;&#x9304;&#x8A72;&#x90E8;&#x4EFD;&#x4E26;&#x8AAA;&#x660E;&#x5982;&#x4E0B;
+<code>objcopy -I binary -O $(BFN) -B $(ARCH) --prefix-sections &apos;.mydata&apos; $^ $@</code></p>
+<ul>
+<li><code>-I binary</code><ul>
+<li>&#x6307;&#x5B9A;input&#x6A94;&#x6848;binary&#x683C;&#x5F0F;&#x70BA;binary</li>
+</ul>
+</li>
+<li><code>-O elf64-x86-64</code><ul>
+<li>&#x6307;&#x5B9A;output binary &#x683C;&#x5F0F;&#x70BA;elf64-x86-64</li>
+</ul>
+</li>
+<li><code>-B i386</code><ul>
+<li>&#x6307;&#x5B9A;&#x67B6;&#x69CB;&#x70BA;i386</li>
+</ul>
+</li>
+<li><code>--prefix-sections &apos;.mydata&apos;</code><ul>
+<li>&#x6307;&#x5B9A;&#x653E;&#x5728;.mydata&#x7684;section</li>
+</ul>
+</li>
+</ul>
+<p>&#x81F3;&#x65BC;&#x8981;&#x600E;&#x9EBC;&#x77E5;&#x9053;binary&#x683C;&#x5F0F;&#x548C;&#x67B6;&#x69CB;&#x5462;&#xFF1F;&#x60A8;&#x53EF;&#x4EE5;&#x7528;<code>objcopy --info |less</code>&#x914D;&#x5408;<code>file test_obj.o</code>&#x627E;&#x51FA;&#x5E73;&#x53F0;&#x4E0A;&#x7684;&#x53C3;&#x6578;&#x3002;</p>
+<p>&#x6211;&#x5011;&#x5148;&#x4F86;&#x770B;&#x4E00;&#x4E0B;section&#x662F;&#x4E0D;&#x662F;&#x771F;&#x7684;&#x653E;&#x5230;.mydata?
+```text objdump&#x7D50;&#x679C;
+$ objdump -h my_data.o</p>
+<p>my_data.o:     file format elf64-x86-64</p>
+<p>Sections:
+Idx Name          Size      VMA               LMA               File off  Algn
+  0 .mydata.data  00000007  0000000000000000  0000000000000000  00000040  2**0
+                  CONTENTS, ALLOC, LOAD, DATA</p>
+<pre><code>
+&#x6211;&#x53EA;&#x77E5;&#x9053;.mydata&#x7684;section&#xFF0C;&#x88CF;&#x9762;&#x7684;&#x8CC7;&#x8A0A;&#x76EE;&#x524D;&#x9084;&#x4E0D;&#x6E05;&#x695A;&#x6709;&#x4EC0;&#x9EBC;&#x610F;&#x7FA9;&#x3002;
+
+&#x6211;&#x5011;&#x518D;&#x7528;nm&#x4F86;&#x770B;&#x6A94;&#x6848;&#x5167;&#x6709;&#x54EA;&#x4E9B;symbol
+
+```text nm&#x7D50;&#x679C;
+$ nm  my_data.o
+0000000000000007 D _binary_my_data_txt_end
+0000000000000007 A _binary_my_data_txt_size
+0000000000000000 D _binary_my_data_txt_start
+</code></pre><p>flag&#x8AAA;&#x660E;</p>
+<ul>
+<li><code>D</code><ul>
+<li>&#x8CC7;&#x6599;&#x653E;&#x5728;&#x521D;&#x59CB;&#x7684;&#x8CC7;&#x6599;section</li>
+</ul>
+</li>
+<li><code>A</code><ul>
+<li>Symbol&#x7684;&#x503C;&#x5DF2;&#x56FA;&#x5B9A;&#xFF0C;&#x4E4B;&#x5F8C;link&#x4E5F;&#x4E0D;&#x6703;&#x66F4;&#x52D5;&#x3002;&#x76EE;&#x524D;&#x9084;&#x4E0D;&#x77E5;&#x9053;&#x9019;&#x6A23;&#x900F;&#x9732;&#x51FA;&#x6709;&#x4EC0;&#x9EBC;&#x984D;&#x5916;&#x7684;&#x8CC7;&#x8A0A;</li>
+</ul>
+</li>
+</ul>
+<p>&#x63A5;&#x4E0B;&#x4F86;&#x5C31;&#x662F;&#x5B58;&#x53D6;&#x7684;&#x65B9;&#x5F0F;&#x4E86;&#xFF0C;&#x6E2C;&#x8A66;&#x7A0B;&#x5F0F;&#x5982;&#x4E0B;&#x3002;&#x4E3B;&#x8981;&#x5C31;&#x662F;&#x5F9E;section&#x8B80;&#x51FA;&#x5B57;&#x4E32;&#x518D;&#x5370;&#x51FA;&#x4F86;&#x3002;</p>
+<pre><code class="lang-cpp"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;stdio.h&gt;</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;string.h&gt;</span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> MAX_CHARS (32)</span>
+
+<span class="hljs-keyword">extern</span> <span class="hljs-keyword">char</span> _binary_my_data_txt_start;
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span> **argv)</span>
+</span>{
+    <span class="hljs-keyword">char</span> line[MAX_CHARS] = {<span class="hljs-number">0</span>};
+    <span class="hljs-keyword">char</span> *my_data_start_addr = (<span class="hljs-keyword">char</span> *) &amp;_binary_my_data_txt_start;
+    <span class="hljs-keyword">int</span> str_len = (<span class="hljs-keyword">char</span>) *my_data_start_addr - <span class="hljs-number">0x30</span>; <span class="hljs-comment">/* 0x30 =&gt; &apos;0&apos; */</span>
+
+    <span class="hljs-keyword">if</span> (str_len &gt; MAX_CHARS) {
+        str_len = MAX_CHARS;
+    }
+
+    <span class="hljs-built_in">strncpy</span>(line, my_data_start_addr + <span class="hljs-number">1</span>, str_len);
+
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Read string is %s\n&quot;</span>, line);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>&#x7A0B;&#x5F0F;&#x8AAA;&#x660E;&#x5982;&#x4E0B;</p>
+<ul>
+<li>&#x524D;&#x9762;nm&#x770B;&#x5230;&#x7684;symbol <code>_binary_my_data_txt_end</code>, <code>_binary_my_data_txt_start</code>, &#x548C;<code>_binary_my_data_txt_size</code>&#x53EA;&#x662F;&#x4E00;&#x500B;sybmol&#xFF0C;&#x9019;&#x908A;&#x6211;&#x5011;&#x5B58;&#x7684;&#x662F;&#x5B57;&#x5143;&#x6240;&#x4EE5;&#x5BA3;&#x544A;&#x6210;<code>char</code></li>
+<li>_binary_my_data_txt_start&#x5B58;&#x653E;&#x7684;&#x662F;&#x8A72;section&#x958B;&#x59CB;&#x7684;&#x8CC7;&#x6599;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x7528;gdb&#x9A57;&#x8B49;&#x4E00;&#x4E0B;</li>
+</ul>
+<p>```text gdb &#x7BC0;&#x9304;
+Breakpoint 1, main (argc=1, argv=0x7fffffffe1d8) at test_obj.c:10
+10        char <em>my_data_start_addr = (char </em>) &amp;_binary_my_data_txt_start;
+(gdb) p _binary_my_data_txt_start
+$1 = 53 &apos;5&apos;</p>
+<pre><code>* &#x6240;&#x4EE5;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x53D6;&#x5F97;&#x8A72;&#x8CC7;&#x6599;&#x4F4D;&#x5740;&#x5F8C;&#xFF0C;&#x8B80;&#x51FA;&#x5B57;&#x4E32;&#x9577;&#x5EA6;&#x5F8C;&#xFF0C;&#x518D;&#x8907;&#x88FD;&#x5F8C;&#x9762;&#x7684;&#x5B57;&#x4E32;&#x4E26;&#x5217;&#x5370;&#x51FA;&#x4F86;&#x3002;
+
+&#x6700;&#x5F8C;&#x57F7;&#x884C;&#x7D50;&#x679C;&#x5982;&#x4E0B;
+```text &#x57F7;&#x884C;&#x7D50;&#x679C;
+$ ./test_obj
+Read string is Hello
+</code></pre><h2 id="%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99">&#x53C3;&#x8003;&#x8CC7;&#x6599;</h2>
+<ul>
+<li><a href="https://github.com/southernbear/rtenv" target="_blank">rtenv</a></li>
+<li><a href="http://descent-incoming.blogspot.tw/2012/11/elf.html" target="_blank">&#x5C07;&#x6A94;&#x6848;&#x7CFB;&#x7D71;&#x585E;&#x5230; elf &#x57F7;&#x884C;&#x6A94;</a></li>
+</ul>
+<h1 id="linux%E4%B8%AD%E4%BD%BF%E7%94%A8c%E8%AA%9E%E8%A8%80%E8%BC%89%E5%85%A5data-object-%E6%AA%94%E6%A1%88%E8%B3%87%E6%96%99-%E7%BA%8C%EF%BC%89">Linux&#x4E2D;&#x4F7F;&#x7528;C&#x8A9E;&#x8A00;&#x8F09;&#x5165;data object &#x6A94;&#x6848;&#x8CC7;&#x6599; (&#x7E8C;&#xFF09;</h1>
+<h2 id="%E5%8B%95%E6%A9%9F">&#x52D5;&#x6A5F;</h2>
+<p><a href="http://wen00072-blog.logdown.com/posts/194317-loads-the-data-object-using-the-c-language-archives-data-in-linux" target="_blank">&#x524D;&#x9762;</a>&#x8A0E;&#x8AD6;&#x4E86;Linux&#x4E2D;&#x4F7F;&#x7528;C&#x8A9E;&#x8A00;&#x8F09;&#x5165;data object &#x6A94;&#x6848;&#x8CC7;&#x6599;&#xFF0C;&#x88CF;&#x9762;&#x63D0;&#x5230;&#x8CC7;&#x6599;&#x8F49;&#x6210;object&#xFF0C;&#x88CF;&#x9762;&#x6703;&#x6709;&#x4E09;&#x500B;symbol: <code>_binary_objfile_start</code>, <code>_binary_objfile_end</code>, <code>_binary_objfile_size</code>&#x3002;</p>
+<h2 id="object-symbol">Object symbol</h2>
+<p><code>man objcopy</code>&#x627E;<code>_size</code>&#x53EF;&#x4EE5;&#x770B;&#x5230;</p>
+<pre><code>       -B bfdarch
+       --binary-architecture=bfdarch
+           Useful when transforming a architecture-less input file into an object file.  In this case the output architecture can be set to bfdarch.  This
+           option will be ignored if the input file has a known bfdarch.  You can access this binary data inside a program by referencing the special
+           symbols that are created by the conversion process.  These symbols are called _binary_objfile_start, _binary_objfile_end and
+           _binary_objfile_size.  e.g. you can transform a picture file into an object file and then access it in your code using these symbols.
+</code></pre><h2 id="%E6%B8%AC%E8%A9%A6-segmentation-fault%E7%89%88">&#x6E2C;&#x8A66;: Segmentation fault&#x7248;</h2>
+<p>&#x7C21;&#x55AE;&#x4F86;&#x8AAA;&#xFF0C;&#x548C;&#x5E73;&#x53F0;&#x7121;&#x95DC;&#x7684;&#x6A94;&#x6848;&#x8F49;&#x6210;obj&#x6A94;&#x6642;&#xFF0C;&#x53EF;&#x4EE5;&#x900F;&#x904E;<code>_binary_objfile_start</code>, <code>_binary_objfile_end</code>, <code>_binary_objfile_size</code>&#x53BB;&#x5B58;&#x53D6;&#x8CC7;&#x6599;&#x3002;&#x6240;&#x4EE5;&#x6211;&#x518D;&#x4FEE;&#x6539;&#x4E86;&#x4E00;&#x4E0B;&#x6E2C;&#x8A66;&#x7A0B;&#x5F0F;&#xFF0C;&#x5370;&#x51FA;&#x9019;&#x4E9B;symbol &#x7684;&#x5167;&#x5BB9;</p>
+<pre><code class="lang-cpp"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;stdio.h&gt;</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;string.h&gt;</span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> MAX_CHARS (32)</span>
+
+<span class="hljs-keyword">extern</span> <span class="hljs-keyword">char</span> _binary_my_data_txt_start;
+<span class="hljs-keyword">extern</span> <span class="hljs-keyword">char</span> _binary_my_data_txt_end;
+<span class="hljs-keyword">extern</span> <span class="hljs-keyword">int</span> _binary_my_data_txt_size;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span> **argv)</span>
+</span>{
+    <span class="hljs-keyword">char</span> line[MAX_CHARS] = {<span class="hljs-number">0</span>};
+    <span class="hljs-keyword">char</span> *my_data_start_addr = (<span class="hljs-keyword">char</span> *) &amp;_binary_my_data_txt_start;
+    <span class="hljs-keyword">int</span> str_len = (<span class="hljs-keyword">char</span>) *my_data_start_addr - <span class="hljs-number">0x30</span>; <span class="hljs-comment">/* 0x30 =&gt; &apos;0&apos; */</span>
+
+    <span class="hljs-keyword">if</span> (str_len &gt; MAX_CHARS) {
+        str_len = MAX_CHARS;
+    }
+
+    <span class="hljs-built_in">strncpy</span>(line, my_data_start_addr + <span class="hljs-number">1</span>, str_len);
+
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;_binary_my_data_txt_start: %c\n&quot;</span>, _binary_my_data_txt_start);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;_binary_my_data_txt_end: %c\n&quot;</span>, _binary_my_data_txt_end);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;_binary_my_data_txt_size: %d\n&quot;</span>, _binary_my_data_txt_size);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Read string is %s\n&quot;</span>, line);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>&#x800C;&#x6E2C;&#x8A66;&#x6A94;&#x6848;&#x70BA;</p>
+<pre><code>5Hello
+</code></pre><p>&#x4E00;&#x8DD1;&#x8D77;&#x4F86;&#x6703;&#x767C;&#x751F;Segmentation fault&#x5982;&#x4E0B;</p>
+<pre><code>$ ./test_obj
+_binary_my_data_txt_start: 5
+_binary_my_data_txt_end:
+Segmentation fault (core dumped)
+</code></pre><h2 id="%E5%88%86%E6%9E%90">&#x5206;&#x6790;</h2>
+<p>&#x4F7F;&#x7528;gdb&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x7576;&#x5728;&#x5B58;&#x53D6;<code>_binary_my_data_txt_size</code>&#x9019;&#x884C;&#xFF0C;&#x6211;&#x5011;&#x9084;&#x53EF;&#x4EE5;&#x9032;&#x4E00;&#x6B65;&#x4F86;&#x770B;&#x9019;&#x500B;<strong>&#x8B8A;&#x6578;</strong></p>
+<pre><code>_binary_my_data_txt_start: 5
+_binary_my_data_txt_end:
+
+Program received signal SIGSEGV, Segmentation fault.
+main (argc=1, argv=0x7fffffffe1d8) at test_obj.c:24
+24        printf(&quot;_binary_my_data_txt_size: %d\n&quot;, _binary_my_data_txt_size);
+(gdb) p _binary_my_data_txt_size
+Cannot access memory at address 0x7
+</code></pre><p>&#x7591;&#xFF1F;&#x8B8A;&#x6578;&#x4F4D;&#x5740;&#x662F;0x7?&#x90A3;&#x6211;&#x628A;&#x6E2C;&#x8A66;&#x6A94;&#x6848;&#x5167;&#x5BB9;&#x6539;&#x4E00;&#x4E0B;&#xFF0C;&#x589E;&#x52A0;3&#x500B;&#x5B57;&#x5143;&#xFF0C;&#x518D;&#x8DD1;&#x4E00;&#x6B21;gdb&#x3002;</p>
+<pre><code>8HelloABC
+</code></pre><pre><code>(gdb) p _binary_my_data_txt_size
+Cannot access memory at address 0xa
+</code></pre><p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x4F4D;&#x5740;&#x5F9E;<code>0x7</code>&#x8DD1;&#x5230;<code>0xa</code>&#xFF0C;&#x4E5F;&#x5C31;&#x662F;10&#xFF0C;&#x9019;&#x8868;&#x793A;&#x9019;&#x500B;&#x6578;&#x5B57;&#x589E;&#x52A0;&#x4E09;&#x4E86;&#x3002;&#x9019;&#x8B93;&#x6211;&#x61F7;&#x7591;&#x9019;&#x500B;symbol&#x4E26;&#x4E0D;&#x662F;&#x4E00;&#x500B;&#x8B8A;&#x6578;&#xFF0C;&#x800C;&#x662F;&#x4E00;&#x500B;&#x6578;&#x503C;&#x3002;&#x56E0;&#x6B64;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x5C07;</p>
+<ul>
+<li><p><code>printf(&quot;_binary_my_data_txt_size: %d\n&quot;, _binary_my_data_txt_size);</code></p>
+<p>  &#x6539;&#x6210;</p>
+</li>
+<li><code>printf(&quot;_binary_my_data_txt_size: %p\n&quot;, &amp;_binary_my_data_txt_size);</code></li>
+</ul>
+<p>&#x53E6;&#x5916;&#x4E00;&#x500B;&#x6709;&#x8DA3;&#x7684;&#x5730;&#x65B9;&#x662F;<code>_binary_my_data_txt_end</code>&#x4E26;&#x4E0D;&#x662F;<code>C</code>&#xFF0C;&#x800C;&#x662F;<code>\0</code>&#x3002;&#x800C;<code>_binary_my_data_txt_end</code>&#x524D;&#x4E00;&#x500B;&#x5B57;&#x5143;&#x662F;<code>\n</code>&#x3002;&#x4F7F;&#x7528;<code>ghex</code>&#x53BB;&#x770B;my_data.txt&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x6700;&#x5F8C;&#x4E00;&#x500B;&#x8CC7;&#x6599;&#x5176;&#x5BE6;&#x662F;<code>\n</code>&#x3002;&#x4F46;&#x662F;<code>\0</code>&#x600E;&#x9EBC;&#x51FA;&#x73FE;&#x7684;&#xFF0C;&#x76EE;&#x524D;&#x9084;&#x4E0D;&#x6E05;&#x695A;&#x3002;</p>
+<h2 id="%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99">&#x53C3;&#x8003;&#x8CC7;&#x6599;</h2>
+<ul>
+<li><code>man objcopy</code></li>
+<li><a href="http://bytbox.net/blog/2012/11/linking-raw-data.html" target="_blank">Linking raw data with C code</a></li>
+</ul>
 
                     
                     </section>
@@ -3755,10 +3958,8 @@
         </div>
 
         
-        <a href="../linux_kernel/1210.html" class="navigation navigation-prev " aria-label="Previous page: Linux內存管理之分頁機制"><i class="fa fa-angle-left"></i></a>
+        <a href="../22/2214.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 談談.git 目錄"><i class="fa fa-angle-left"></i></a>
         
-        
-        <a href="../linux_kernel/1212.html" class="navigation navigation-next " aria-label="Next page: 程序的裝載和鏈接"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

@@ -224,4 +224,7 @@
    * [Hello World](22/2210.md)
    * [Using as 手冊筆記](22/2211.md)
    * [Hello Linux ARM 組合語言](22/2212.md)
+   * [Linux中誰來呼叫C語言中的main?](22/2213.md)
+   * [談談.git 目錄](22/2214.md)
+   * [Linux中使用C語言載入data object 檔案資料](22/2215.md)
 

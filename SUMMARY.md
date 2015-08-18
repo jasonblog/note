@@ -227,4 +227,11 @@
    * [Linux中誰來呼叫C語言中的main?](22/2213.md)
    * [談談.git 目錄](22/2214.md)
    * [Linux中使用C語言載入data object 檔案資料](22/2215.md)
+   * [Linux下面快速搜尋PDF的方式](22/2216.md)
+   * [Rtenv的linker Script解釋](22/2217.md)
+   * [GNU LD 手冊略讀](22/2218)
+       * [GNU LD 手冊略讀 (0): 目錄和簡介](22/22181.md)
+       * [GNU LD 手冊略讀 (1): Chapter 3 ~ Chapter 3.5](22/22182.md)
+       * [GNU LD 手冊略讀 (2): Chapter 3.6 SETCIONS](22/22183.md)
+       * [GNU LD 手冊略讀 (3): Chapter 3.7 ~ Chapter 3.11](22/22184.md)
 

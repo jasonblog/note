@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="22.1" data-basepath=".." data-revision="Wed Aug 19 2015 00:00:36 GMT+0800 (CST)">
+    <div class="book" data-level="22.1" data-basepath=".." data-revision="Wed Aug 19 2015 01:10:40 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -3619,6 +3619,109 @@
             
         </li>
     
+        <li class="chapter " data-level="22.16" data-path="22/2216.html">
+            
+                
+                    <a href="../22/2216.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>22.16.</b>
+                        
+                        Linux下面快速搜尋PDF的方式
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="22.17" data-path="22/2217.html">
+            
+                
+                    <a href="../22/2217.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>22.17.</b>
+                        
+                        Rtenv的linker Script解釋
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="22.18" data-path="22/2218.html">
+            
+            <span><b>22.18.</b> GNU LD 手冊略讀</span>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="22.18.1" data-path="22/22181.html">
+            
+                
+                    <a href="../22/22181.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>22.18.1.</b>
+                        
+                        GNU LD 手冊略讀 (0): 目錄和簡介
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="22.18.2" data-path="22/22182.html">
+            
+                
+                    <a href="../22/22182.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>22.18.2.</b>
+                        
+                        GNU LD 手冊略讀 (1): Chapter 3 ~ Chapter 3.5
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="22.18.3" data-path="22/22183.html">
+            
+                
+                    <a href="../22/22183.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>22.18.3.</b>
+                        
+                        GNU LD 手冊略讀 (2): Chapter 3.6 SETCIONS
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="22.18.4" data-path="22/22184.html">
+            
+                
+                    <a href="../22/22184.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>22.18.4.</b>
+                        
+                        GNU LD 手冊略讀 (3): Chapter 3.7 ~ Chapter 3.11
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
 
             </ul>
             
@@ -3876,53 +3979,53 @@
 <hr>
 <p><a name="ex"></a></p>
 <h2 id="%E5%BE%9Elinker-script-%E7%AF%84%E4%BE%8B%E9%96%8B%E5%A7%8B">&#x5F9E;Linker script &#x7BC4;&#x4F8B;&#x958B;&#x59CB;</h2>
-<p>```c link script &#x7BC4;&#x4F8B;
-SECTIONS
+<pre><code class="lang-c">SECTIONS
 {
-    . = 0x10000;
-    .text : { <em>(.text) }
-    . = 0x8000000;
-    .data : { </em>(.data) }
+    . = <span class="hljs-number">0x10000</span>;
+    .text : { *(.text) }
+    . = <span class="hljs-number">0x8000000</span>;
+    .data : { *(.data) }
     .bss : { *(.bss) }
-}</p>
-<pre><code>&#x9019;&#x500B;[&#x6284;&#x4F86;](https://sourceware.org/binutils/docs/ld/Simple-Example.html#Simple-Example)&#x7684;&#x7BC4;&#x4F8B;&#x5F88;&#x7C21;&#x55AE;&#xFF0C;&#x53EA;&#x6709;&#x4E00;&#x500B;&#x547D;&#x4EE4;`SECTIONS`&#x3002;`SECTIONS`&#x662F;&#x7528;&#x4F86;&#x63CF;&#x8FF0;&#x57F7;&#x884C;&#x7684;&#x6642;&#x5019;&#x8A18;&#x61B6;&#x9AD4;&#x7684;&#x898F;&#x5283;&#x914D;&#x7F6E;&#xFF08;layout&#xFF09;&#x3002;
+}
+</code></pre>
+<p>&#x9019;&#x500B;<a href="https://sourceware.org/binutils/docs/ld/Simple-Example.html#Simple-Example" target="_blank">&#x6284;&#x4F86;</a>&#x7684;&#x7BC4;&#x4F8B;&#x5F88;&#x7C21;&#x55AE;&#xFF0C;&#x53EA;&#x6709;&#x4E00;&#x500B;&#x547D;&#x4EE4;<code>SECTIONS</code>&#x3002;<code>SECTIONS</code>&#x662F;&#x7528;&#x4F86;&#x63CF;&#x8FF0;&#x57F7;&#x884C;&#x7684;&#x6642;&#x5019;&#x8A18;&#x61B6;&#x9AD4;&#x7684;&#x898F;&#x5283;&#x914D;&#x7F6E;&#xFF08;layout&#xFF09;&#x3002;</p>
+<p>&#x8AAA;&#x660E;&#x9019;&#x500B;&#x6307;&#x4EE4;&#x7D30;&#x7BC0;</p>
+<ul>
+<li><code>.</code>&#x8868;&#x793A;&#x8A18;&#x61B6;&#x9AD4;&#x4F4D;&#x7F6E;counter&#xFF0C;&#x8D77;&#x59CB;&#x503C;&#x70BA;0&#x3002;&#x7D50;&#x675F;&#x503C;&#x5247;&#x7531;linker &#x8A08;&#x7B97;&#x628A;&#x6240;&#x6709;input section&#x7684;&#x8CC7;&#x6599;&#x6574;&#x5408;&#x5230;output section&#x7684;&#x9577;&#x5EA6;&#x3002;&#x800C;<code>.</code>&#x5982;&#x679C;&#x6C92;&#x6709;&#x6307;&#x5B9A;&#x660E;&#x78BA;&#x7684;&#x8A18;&#x61B6;&#x9AD4;&#x4F4D;&#x5740;&#x7684;&#x8A71;&#xFF0C;&#x5C31;&#x6703;&#x88AB;&#x8A2D;&#x5B9A;&#x70BA;<strong>&#x4E0A;&#x4E00;&#x500B;&#x4F4D;&#x5740;counter&#x7684;&#x7D50;&#x675F;&#x4F4D;&#x5740;</strong>&#x3002;<a href="http://www.slideshare.net/jserv/from-source-to-binary-how-gnu-toolchain-works/46" target="_blank">&#x53C3;&#x8003;&#x793A;&#x610F;&#x5716;: (Jim Huang) How GNU Toolchain Works&#x6295;&#x5F71;&#x7247; </a>&#x3002;</li>
+<li>&#x8A2D;&#x5B9A;&#x8A18;&#x61B6;&#x9AD4;&#x4F4D;&#x7F6E;counter&#x70BA;0x10000</li>
+<li>&#x63A5;&#x4E0B;&#x4F86;&#x8ACB;&#x628A;&#x6240;&#x6709;<strong>&#x8F38;&#x5165;</strong>object&#x6A94;&#x6848;&#x7684;&#x7A0B;&#x5F0F;&#x6A5F;&#x68B0;&#x78BC;&#x4E2D;(<code>{ *(.text) }</code>)&#x5B58;&#x653E;&#x5230;<strong>&#x8F38;&#x51FA;</strong>object&#x6A94;&#x6848;&#x7684;<code>.text</code>&#x5340;&#x584A;&#x4E2D;&#x3002;</li>
+<li>&#x63A5;&#x8A2D;&#x5B9A;&#x8A18;&#x61B6;&#x9AD4;&#x4F4D;&#x7F6E;counter&#x70BA;0x8000000</li>
+<li>&#x5148;&#x653E;&#x6709;&#x521D;&#x59CB;&#x503C;&#x7684;&#x5168;&#x57DF;&#x8B8A;&#x6578;&#xFF08;.data&#xFF09;</li>
+<li>&#x518D;&#x653E;<strong>&#x6C92;&#x6709;</strong>&#x521D;&#x59CB;&#x503C;&#x7684;&#x5168;&#x57DF;&#x8B8A;&#x6578;&#xFF08;.bss&#xFF09;</li>
+</ul>
+<p>&#x53E6;&#x5916;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;ld&#x6703;&#x81EA;&#x52D5;&#x5E6B;&#x4F60;&#x8655;&#x7406;<a href="http://en.wikipedia.org/wiki/Data_structure_alignment" target="_blank">alignment&#x7684;&#x554F;&#x984C;</a>&#xFF0C;&#x6240;&#x4EE5;&#x4E0D;&#x7528;&#x64D4;&#x5FC3;section&#x4E4B;&#x9593;&#x7684;aligment&#x554F;&#x984C;&#x3002;</p>
+<hr>
+<p><a name="cmd"></a></p>
+<h2 id="linker-script-%E5%91%BD%E4%BB%A4%E6%A0%BC%E5%BC%8F">linker script &#x547D;&#x4EE4;&#x683C;&#x5F0F;</h2>
+<ul>
+<li><code>ENTRY(symbol)</code><ul>
+<li>&#x8A2D;&#x5B9A;&#x67D0;&#x500B;symbol&#x70BA;&#x7A0B;&#x5F0F;&#x57F7;&#x884C;&#x7684;&#x7B2C;&#x4E00;&#x500B;&#x6307;&#x4EE4;&#x8D77;&#x59CB;&#x9EDE;&#xFF0C;&#x5728;&#x6211;&#x7684;&#x9810;&#x8A2D;linker script&#x4E2D;&#x662F;<code>ENTRY(_start)</code>&#xFF0C;&#x7136;&#x5F8C;&#x53BB;&#x53CD;&#x7D44;&#x8B6F;&#x96A8;&#x4FBF;&#x4E00;&#x500B;C&#x7DE8;&#x8B6F;&#x51FA;&#x4F86;&#x7684;&#x57F7;&#x884C;&#x6A94;&#xFF0C;&#x627E;&#x5B57;&#x4E32;<code>_start</code>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x88CF;&#x9762;&#x53C8;&#x53BB;&#x547C;&#x53EB;&#x4E86;<code>__libc_start_main@plt</code>&#x3002;</li>
+</ul>
+</li>
+</ul>
+<pre><code class="lang-c">Disassembly of section .text:
 
-&#x8AAA;&#x660E;&#x9019;&#x500B;&#x6307;&#x4EE4;&#x7D30;&#x7BC0;
-
-* `.`&#x8868;&#x793A;&#x8A18;&#x61B6;&#x9AD4;&#x4F4D;&#x7F6E;counter&#xFF0C;&#x8D77;&#x59CB;&#x503C;&#x70BA;0&#x3002;&#x7D50;&#x675F;&#x503C;&#x5247;&#x7531;linker &#x8A08;&#x7B97;&#x628A;&#x6240;&#x6709;input section&#x7684;&#x8CC7;&#x6599;&#x6574;&#x5408;&#x5230;output section&#x7684;&#x9577;&#x5EA6;&#x3002;&#x800C;`.`&#x5982;&#x679C;&#x6C92;&#x6709;&#x6307;&#x5B9A;&#x660E;&#x78BA;&#x7684;&#x8A18;&#x61B6;&#x9AD4;&#x4F4D;&#x5740;&#x7684;&#x8A71;&#xFF0C;&#x5C31;&#x6703;&#x88AB;&#x8A2D;&#x5B9A;&#x70BA;**&#x4E0A;&#x4E00;&#x500B;&#x4F4D;&#x5740;counter&#x7684;&#x7D50;&#x675F;&#x4F4D;&#x5740;**&#x3002;[&#x53C3;&#x8003;&#x793A;&#x610F;&#x5716;: (Jim Huang) How GNU Toolchain Works&#x6295;&#x5F71;&#x7247; ](http://www.slideshare.net/jserv/from-source-to-binary-how-gnu-toolchain-works/46)&#x3002;
-* &#x8A2D;&#x5B9A;&#x8A18;&#x61B6;&#x9AD4;&#x4F4D;&#x7F6E;counter&#x70BA;0x10000
-* &#x63A5;&#x4E0B;&#x4F86;&#x8ACB;&#x628A;&#x6240;&#x6709;**&#x8F38;&#x5165;**object&#x6A94;&#x6848;&#x7684;&#x7A0B;&#x5F0F;&#x6A5F;&#x68B0;&#x78BC;&#x4E2D;(`{ *(.text) }`)&#x5B58;&#x653E;&#x5230;**&#x8F38;&#x51FA;**object&#x6A94;&#x6848;&#x7684;`.text`&#x5340;&#x584A;&#x4E2D;&#x3002;
-* &#x63A5;&#x8A2D;&#x5B9A;&#x8A18;&#x61B6;&#x9AD4;&#x4F4D;&#x7F6E;counter&#x70BA;0x8000000
-* &#x5148;&#x653E;&#x6709;&#x521D;&#x59CB;&#x503C;&#x7684;&#x5168;&#x57DF;&#x8B8A;&#x6578;&#xFF08;.data&#xFF09;
-* &#x518D;&#x653E;**&#x6C92;&#x6709;**&#x521D;&#x59CB;&#x503C;&#x7684;&#x5168;&#x57DF;&#x8B8A;&#x6578;&#xFF08;.bss&#xFF09;
-
-&#x53E6;&#x5916;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;ld&#x6703;&#x81EA;&#x52D5;&#x5E6B;&#x4F60;&#x8655;&#x7406;[alignment&#x7684;&#x554F;&#x984C;](http://en.wikipedia.org/wiki/Data_structure_alignment)&#xFF0C;&#x6240;&#x4EE5;&#x4E0D;&#x7528;&#x64D4;&#x5FC3;section&#x4E4B;&#x9593;&#x7684;aligment&#x554F;&#x984C;&#x3002;
-
----
-&lt;a name=&quot;cmd&quot;&gt;&lt;/a&gt;
-## linker script &#x547D;&#x4EE4;&#x683C;&#x5F0F;
-
-* `ENTRY(symbol)`
-   * &#x8A2D;&#x5B9A;&#x67D0;&#x500B;symbol&#x70BA;&#x7A0B;&#x5F0F;&#x57F7;&#x884C;&#x7684;&#x7B2C;&#x4E00;&#x500B;&#x6307;&#x4EE4;&#x8D77;&#x59CB;&#x9EDE;&#xFF0C;&#x5728;&#x6211;&#x7684;&#x9810;&#x8A2D;linker script&#x4E2D;&#x662F;`ENTRY(_start)`&#xFF0C;&#x7136;&#x5F8C;&#x53BB;&#x53CD;&#x7D44;&#x8B6F;&#x96A8;&#x4FBF;&#x4E00;&#x500B;C&#x7DE8;&#x8B6F;&#x51FA;&#x4F86;&#x7684;&#x57F7;&#x884C;&#x6A94;&#xFF0C;&#x627E;&#x5B57;&#x4E32;`_start`&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x88CF;&#x9762;&#x53C8;&#x53BB;&#x547C;&#x53EB;&#x4E86;`__libc_start_main@plt`&#x3002;
-
-```text hello_word&#x57F7;&#x884C;&#x6A94;
-Disassembly of section .text:
-
-0000000000400440 &lt;_start&gt;:
-  400440:       31 ed                   xor    %ebp,%ebp
-  400442:       49 89 d1                mov    %rdx,%r9
-  400445:       5e                      pop    %rsi
-  400446:       48 89 e2                mov    %rsp,%rdx
-  400449:       48 83 e4 f0             and    $0xfffffffffffffff0,%rsp
-  40044d:       50                      push   %rax
-  40044e:       54                      push   %rsp
-  40044f:       49 c7 c0 c0 05 40 00    mov    $0x4005c0,%r8
-  400456:       48 c7 c1 50 05 40 00    mov    $0x400550,%rcx
-  40045d:       48 c7 c7 2d 05 40 00    mov    $0x40052d,%rdi
-  400464:       e8 b7 ff ff ff          callq  400420 &lt;__libc_start_main@plt&gt;
-  400469:       f4                      hlt
-  40046a:       66 0f 1f 44 00 00       nopw   0x0(%rax,%rax,1)
-</code></pre><p><a name="cmd-file"></a></p>
+<span class="hljs-number">0000000000400440</span> &lt;_start&gt;:
+  <span class="hljs-number">400440</span>:       <span class="hljs-number">31</span> ed                   xor    %ebp,%ebp
+  <span class="hljs-number">400442</span>:       <span class="hljs-number">49</span> <span class="hljs-number">89</span> d1                mov    %rdx,%r9
+  <span class="hljs-number">400445</span>:       <span class="hljs-number">5</span>e                      pop    %rsixpression ;
+  <span class="hljs-number">400446</span>:       <span class="hljs-number">48</span> <span class="hljs-number">89</span> e2                mov    %rsp,%rdx
+  <span class="hljs-number">400449</span>:       <span class="hljs-number">48</span> <span class="hljs-number">83</span> e4 f0             and    $<span class="hljs-number">0xfffffffffffffff0</span>,%rsp
+  <span class="hljs-number">40044</span>d:       <span class="hljs-number">50</span>                      push   %rax
+  <span class="hljs-number">40044</span>e:       <span class="hljs-number">54</span>                      push   %rsp
+  <span class="hljs-number">40044f</span>:       <span class="hljs-number">49</span> c7 c0 c0 <span class="hljs-number">05</span> <span class="hljs-number">40</span> <span class="hljs-number">00</span>    mov    $<span class="hljs-number">0x4005c0</span>,%r8
+  <span class="hljs-number">400456</span>:       <span class="hljs-number">48</span> c7 c1 <span class="hljs-number">50</span> <span class="hljs-number">05</span> <span class="hljs-number">40</span> <span class="hljs-number">00</span>    mov    $<span class="hljs-number">0x400550</span>,%rcx
+  <span class="hljs-number">40045</span>d:       <span class="hljs-number">48</span> c7 c7 <span class="hljs-number">2</span>d <span class="hljs-number">05</span> <span class="hljs-number">40</span> <span class="hljs-number">00</span>    mov    $<span class="hljs-number">0x40052d</span>,%rdi
+  <span class="hljs-number">400464</span>:       e8 b7 ff ff ff          callq  <span class="hljs-number">400420</span> &lt;__libc_start_main@plt&gt;
+  <span class="hljs-number">400469</span>:       f4                      hlt
+  <span class="hljs-number">40046</span>a:       <span class="hljs-number">66</span> <span class="hljs-number">0f</span> <span class="hljs-number">1f</span> <span class="hljs-number">44</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span>       nopw   <span class="hljs-number">0x0</span>(%rax,%rax,<span class="hljs-number">1</span>)
+</code></pre>
+<p><a name="cmd-file"></a></p>
 <h3 id="%E6%AA%94%E6%A1%88%E7%9B%B8%E9%97%9C%E5%91%BD%E4%BB%A4">&#x6A94;&#x6848;&#x76F8;&#x95DC;&#x547D;&#x4EE4;</h3>
 <ul>
 <li><code>INCLUDE filename</code><ul>
@@ -3983,69 +4086,75 @@ Disassembly of section .text:
 </ul>
 </li>
 </ul>
-<p>&#x8A73;&#x7D30;&#x7684;&#x7BC4;&#x4F8B;&#x8AAA;&#x660E;&#x53EF;&#x4EE5;&#x770B;<a href="https://sourceware.org/binutils/docs/ld/REGION_005fALIAS.html#REGION_005fALIAS" target="_blank">&#x9019;&#x908A;</a>
-```c &#x7BC4;&#x4F8B;
-     INCLUDE linkcmds.memory</p>
-<pre><code> SECTIONS
-   {
-     .text :
-       {
-         *(.text)
-       } &gt; REGION_TEXT
-     .rodata :
-       {
-         *(.rodata)
-         rodata_end = .;
-       } &gt; REGION_RODATA
-     .data : AT (rodata_end)
-       {
-         data_start = .;
-         *(.data)
-       } &gt; REGION_DATA
-     data_size = SIZEOF(.data);
-     data_load_start = LOADADDR(.data);
-     .bss :
-       {
-         *(.bss)
-       } &gt; REGION_BSS
-   }
-</code></pre><pre><code>
-&lt;a name=&quot;cmd-misc&quot;&gt;&lt;/a&gt;
-### &#x672A;&#x5206;&#x985E;&#x7684;&#x547D;&#x4EE4; (&#x7BC0;&#x9304;&#xFF09;
+<p>&#x8A73;&#x7D30;&#x7684;&#x7BC4;&#x4F8B;&#x8AAA;&#x660E;&#x53EF;&#x4EE5;&#x770B;<a href="https://sourceware.org/binutils/docs/ld/REGION_005fALIAS.html#REGION_005fALIAS" target="_blank">&#x9019;&#x908A;</a></p>
+<pre><code class="lang-c">     INCLUDE linkcmds.memory
 
-* `ASSERT(exp, message)`
-    * &#x689D;&#x4EF6;&#x4E0D;&#x6210;&#x7ACB;&#x5C31;&#x5674;&#x8A0A;&#x606F;&#x4E26;&#x7D50;&#x675F;link
-* `EXTERN(symbol1 symbol2 ...)`
-  * &#x5F37;&#x8FEB;&#x8B93;&#x6307;&#x5B9A;&#x7684;symbol&#x8A2D;&#x6210;undefined&#xFF0C;&#x624B;&#x518A;&#x8AAA;&#x4E00;&#x822C;&#x7528;&#x5728;&#x523B;&#x610F;&#x8981;&#x4F7F;&#x7528;&#x975E;&#x6A19;&#x6E96;&#x7684;API&#x3002;&#x4F8B;&#x5982;&#x81EA;&#x5E79;printf&#x6642;&#x53EF;&#x4EE5;&#x7528;&#x9019;&#x500B;&#x547D;&#x4EE4;&#x3002; (&#x4E0D;&#x904E;&#x8B8A;&#x6210;&#x4E86;undefine symbol&#x600E;&#x9EBC;link??)
-* `FORCE_COMMON_ALLOCATION`
-  * &#x624B;&#x518A;&#x548C;&#x7537;&#x4EBA;&#x8AAA;&#x548C;&#x76F8;&#x5BB9;&#x6027;&#x6709;&#x95DC;&#xFF0C;&#x624B;&#x518A;&#x4E0A;&#x662F;&#x8AAA;&#x5F37;&#x8FEB;&#x5206;&#x914D;&#x7A7A;&#x9593;&#x7D66;common symbols&#xFF0C;&#x5373;&#x4F7F;&#x662F;link relocate&#x6A94;&#x6848;&#x3002;(common symbols&#x4E0D;&#x77E5;&#x9053;&#x662F;&#x4EC0;&#x9EBC;)
-
-* `OUTPUT_ARCH(bfdarch)`
-  * &#x6307;&#x5B9A;&#x8F38;&#x51FA;&#x7684;&#x5E73;&#x53F0;&#xFF0C;&#x53EF;&#x4EE5;&#x900F;&#x904E;`objdump -i`&#x67E5;&#x8A62;&#x652F;&#x63F4;&#x5E73;&#x53F0;
-* `INSERT [ AFTER | BEFORE ] output_section`
-  * &#x6307;&#x5B9A;&#x5728;&#x9810;&#x8A2D;linker script&#x547D;&#x4EE4;&#x88AB;&#x57F7;&#x884C;&#x4E4B;&#x524D;&#x6216;&#x662F;&#x4E4B;&#x5F8C;&#x52A0;&#x4E0A;&#x6216;&#x52A0;&#x5165;&#x7279;&#x5B9A;&#x7684;&#x8F38;&#x5165;section&#x5230;&#x8F38;&#x51FA;section&#x3002;&#x4EE5;&#x4E0B;&#x662F;&#x4E00;&#x500B;&#x7BC4;&#x4F8B;
-</code></pre><p>SECTIONS
+     SECTIONS
+       {
+         .text :
+           {
+             *(.text)
+           } &gt; REGION_TEXT
+         .rodata :
+           {
+             *(.rodata)
+             rodata_end = .;
+           } &gt; REGION_RODATA
+         .data : AT (rodata_end)
+           {
+             data_start = .;
+             *(.data)
+           } &gt; REGION_DATA
+         data_size = SIZEOF(.data);
+         data_load_start = LOADADDR(.data);
+         .bss :
+           {
+             *(.bss)
+           } &gt; REGION_BSS
+       }
+</code></pre>
+<p><a name="cmd-misc"></a></p>
+<h3 id="%E6%9C%AA%E5%88%86%E9%A1%9E%E7%9A%84%E5%91%BD%E4%BB%A4-%E7%AF%80%E9%8C%84%EF%BC%89">&#x672A;&#x5206;&#x985E;&#x7684;&#x547D;&#x4EE4; (&#x7BC0;&#x9304;&#xFF09;</h3>
+<ul>
+<li><code>ASSERT(exp, message)</code><ul>
+<li>&#x689D;&#x4EF6;&#x4E0D;&#x6210;&#x7ACB;&#x5C31;&#x5674;&#x8A0A;&#x606F;&#x4E26;&#x7D50;&#x675F;link</li>
+</ul>
+</li>
+<li><code>EXTERN(symbol1 symbol2 ...)</code><ul>
+<li>&#x5F37;&#x8FEB;&#x8B93;&#x6307;&#x5B9A;&#x7684;symbol&#x8A2D;&#x6210;undefined&#xFF0C;&#x624B;&#x518A;&#x8AAA;&#x4E00;&#x822C;&#x7528;&#x5728;&#x523B;&#x610F;&#x8981;&#x4F7F;&#x7528;&#x975E;&#x6A19;&#x6E96;&#x7684;API&#x3002;&#x4F8B;&#x5982;&#x81EA;&#x5E79;printf&#x6642;&#x53EF;&#x4EE5;&#x7528;&#x9019;&#x500B;&#x547D;&#x4EE4;&#x3002; (&#x4E0D;&#x904E;&#x8B8A;&#x6210;&#x4E86;undefine symbol&#x600E;&#x9EBC;link??)</li>
+</ul>
+</li>
+<li><p><code>FORCE_COMMON_ALLOCATION</code></p>
+<ul>
+<li>&#x624B;&#x518A;&#x548C;&#x7537;&#x4EBA;&#x8AAA;&#x548C;&#x76F8;&#x5BB9;&#x6027;&#x6709;&#x95DC;&#xFF0C;&#x624B;&#x518A;&#x4E0A;&#x662F;&#x8AAA;&#x5F37;&#x8FEB;&#x5206;&#x914D;&#x7A7A;&#x9593;&#x7D66;common symbols&#xFF0C;&#x5373;&#x4F7F;&#x662F;link relocate&#x6A94;&#x6848;&#x3002;(common symbols&#x4E0D;&#x77E5;&#x9053;&#x662F;&#x4EC0;&#x9EBC;)</li>
+</ul>
+</li>
+<li><p><code>OUTPUT_ARCH(bfdarch)</code></p>
+<ul>
+<li>&#x6307;&#x5B9A;&#x8F38;&#x51FA;&#x7684;&#x5E73;&#x53F0;&#xFF0C;&#x53EF;&#x4EE5;&#x900F;&#x904E;<code>objdump -i</code>&#x67E5;&#x8A62;&#x652F;&#x63F4;&#x5E73;&#x53F0;</li>
+</ul>
+</li>
+<li><code>INSERT [ AFTER | BEFORE ] output_section</code><ul>
+<li>&#x6307;&#x5B9A;&#x5728;&#x9810;&#x8A2D;linker script&#x547D;&#x4EE4;&#x88AB;&#x57F7;&#x884C;&#x4E4B;&#x524D;&#x6216;&#x662F;&#x4E4B;&#x5F8C;&#x52A0;&#x4E0A;&#x6216;&#x52A0;&#x5165;&#x7279;&#x5B9A;&#x7684;&#x8F38;&#x5165;section&#x5230;&#x8F38;&#x51FA;section&#x3002;&#x4EE5;&#x4E0B;&#x662F;&#x4E00;&#x500B;&#x7BC4;&#x4F8B;</li>
+</ul>
+</li>
+</ul>
+<pre><code>SECTIONS
 {
     OVERLAY :
     {
-        .ov1 { ov1<em>(.text) }
-        .ov2 { ov2</em>(.text) }
+        .ov1 { ov1*(.text) }
+        .ov2 { ov2*(.text) }
     }
 }
-INSERT AFTER .text;</p>
-<pre><code>
-&lt;a name=&quot;assign&quot;&gt;&lt;/a&gt;
----
-## &#x8A2D;&#x5B9A;symbol&#x7684;&#x503C;
-linker script&#x63D0;&#x4F9B;&#x8A2D;&#x5B9A;**symbol**&#x6578;&#x503C;&#x7684;&#x65B9;&#x6CD5;&#x3002;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C;&#x9019;&#x908A;&#x7684;symbol&#x53EF;&#x4EE5;&#x6307;&#x4E00;&#x500B;&#x5168;&#x57DF;&#x8B8A;&#x6578;&#x3001;`SECTION`&#x547D;&#x4EE4;&#x4E2D;&#x7684;location counter&#xFF08;&#x5C31;&#x662F;`.`&#x958B;&#x982D;&#x7684;&#x8CC7;&#x6599;&#x5982;`.text`&#xFF09;
-
-&#x4F7F;&#x7528;&#x65B9;&#x5F0F;&#x4ECB;&#x7D39;&#x5982;&#x4E0B;&#xFF1A;
-
-&lt;a name=&quot;assign-op&quot;&gt;&lt;/a&gt;
-### &#x57FA;&#x672C;&#x904B;&#x7B97;
-
-```c symbol assignment operations
-symbol = expression ;
+INSERT AFTER .text;
+</code></pre><h2 id="-a-name-assign-a"><a name="assign"></a></h2>
+<h2 id="%E8%A8%AD%E5%AE%9Asymbol%E7%9A%84%E5%80%BC">&#x8A2D;&#x5B9A;symbol&#x7684;&#x503C;</h2>
+<p>linker script&#x63D0;&#x4F9B;&#x8A2D;&#x5B9A;<strong>symbol</strong>&#x6578;&#x503C;&#x7684;&#x65B9;&#x6CD5;&#x3002;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C;&#x9019;&#x908A;&#x7684;symbol&#x53EF;&#x4EE5;&#x6307;&#x4E00;&#x500B;&#x5168;&#x57DF;&#x8B8A;&#x6578;&#x3001;<code>SECTION</code>&#x547D;&#x4EE4;&#x4E2D;&#x7684;location counter&#xFF08;&#x5C31;&#x662F;<code>.</code>&#x958B;&#x982D;&#x7684;&#x8CC7;&#x6599;&#x5982;<code>.text</code>&#xFF09;</p>
+<p>&#x4F7F;&#x7528;&#x65B9;&#x5F0F;&#x4ECB;&#x7D39;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p><a name="assign-op"></a></p>
+<h3 id="%E5%9F%BA%E6%9C%AC%E9%81%8B%E7%AE%97">&#x57FA;&#x672C;&#x904B;&#x7B97;</h3>
+<pre><code class="lang-c">symbol = expression ;
 symbol += expression ;
 symbol -= expression ;
 symbol *= expression ;
@@ -4053,127 +4162,160 @@ symbol /= expression ;
 symbol &lt;&lt;= expression ;
 symbol &gt;&gt;= expression ;
 symbol &amp;= expression ;
-symbol |= expression ;
-</code></pre><p>&#x95DC;&#x65BC;expression&#x662F;&#x4E09;&#x5C0F;&#x5F8C;&#x9762;&#x6703;&#x518D;&#x8A0E;&#x8AD6;&#x3002;</p>
+symbol |= e
+</code></pre>
+<p>&#x95DC;&#x65BC;expression&#x662F;&#x4E09;&#x5C0F;&#x5F8C;&#x9762;&#x6703;&#x518D;&#x8A0E;&#x8AD6;&#x3002;</p>
 <p><a href="https://sourceware.org/binutils/docs/ld/Simple-Assignments.html#Simple-Assignments" target="_blank">&#x624B;&#x518A;&#x4E0A;&#x63D0;&#x4F9B;&#x7684;&#x7BC4;&#x4F8B;</a>&#x662F;</p>
-<p>```c symbol assign&#x7BC4;&#x4F8B;
-floating_point = 0;
+<pre><code class="lang-c">floating_point = <span class="hljs-number">0</span>;
 SECTIONS
 {
     .text :
     {
-    <em>(.text)
+    *(.text)
     _etext = .;
     }
-    _bdata = (. + 3) &amp; ~ 3;
-    .data : { </em>(.data) }
-}</p>
-<pre><code>
-&#x5F9E;&#x9019;&#x908A;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x5E7E;&#x7A2E;assign
-
-* &#x8A2D;&#x5B9A;&#x5168;&#x57DF;&#x8B8A;&#x6578;`floating_point`&#x7684;symbol&#x70BA;0
-* &#x8A2D;&#x5B9A;&#x5168;&#x57DF;&#x8B8A;&#x6578;`_etext`&#x7684;&#x503C;&#x70BA;&#x8F38;&#x5165;object&#x6A94;&#x6848;`.text`&#x5408;&#x9AD4;&#x5F8C;&#x7684;offset&#xFF0C;&#x500B;&#x4EBA;&#x731C;&#x6E2C;&#x53EF;&#x4EE5;&#x7406;&#x89E3;&#x6210;end of text&#x3002;(&#x56DE;&#x9867;&#x4E00;&#x4E0B;`.`&#x662F;offset counter)
-* &#x8A2D;&#x5B9A;&#x5168;&#x57DF;&#x8B8A;&#x6578;`_bdata`&#x7684;&#x503C;&#x70BA;&#x8F38;&#x51FA;object&#x6A94;&#x6848;`.text`&#x7D50;&#x5C3E;&#x7684;offset &#x7684;**4&#x7684;&#x500D;&#x6578;**&#x4F4D;&#x5740;&#x3002;&#x9019;&#x908A;&#x900F;&#x9732;&#x5169;&#x500B;&#x8CC7;&#x8A0A;
-  * &#x500B;&#x4EBA;&#x731C;&#x6E2C;&#x53EF;&#x4EE5;&#x7406;&#x89E3;&#x6210;begin of data
-  * &#x56DB;&#x7684;&#x500D;&#x6578;&#x548C;[alignment&#x7684;&#x554F;&#x984C;](http://en.wikipedia.org/wiki/Data_structure_alignment)&#x61C9;&#x8A72;&#x6709;&#x95DC;&#x806F;&#x3002;
-
-&lt;a name=&quot;assign-hid&quot;&gt;&lt;/a&gt;
-### HIDDEN&#x547D;&#x4EE4;
-
-* `HIDDEN(&#x8981;&#x96B1;&#x85CF;&#x7684;symbol)`
-&#x53EF;&#x4EE5;&#x628A;&#x4ED6;&#x7406;&#x89E3;&#x6210;&#x52A0;&#x4E86;`static`&#x7684;&#x5168;&#x57DF;&#x8B8A;&#x6578;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#x9019;&#x500B;symbol&#x53EA;&#x5728;&#x9019;&#x500B;&#x8655;&#x7406;&#x7BC4;&#x570D;&#x4E2D;&#x624D;&#x80FD;&#x6478;&#x5230;&#x3002;
-
-&lt;a name=&quot;assign-prov&quot;&gt;&lt;/a&gt;
-### PROVIDE&#x547D;&#x4EE4;
-
-* `PROVIDE&#x547D;&#x4EE4;(symbol = expression)`
-  * &#x7C21;&#x55AE;&#x4F86;&#x8AAA;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x7684;&#x7A0B;&#x5F0F;&#x5DF2;&#x7D93;&#x6709;&#x9019;&#x500B;symbol&#xFF08;&#x51FD;&#x6578;&#x6216;&#x8B8A;&#x6578;&#xFF09;&#xFF0C;&#x5C31;&#x7528;&#x4F60;&#x7684;&#xFF1B;&#x5426;&#x5247;&#x5C31;&#x4F7F;&#x7528;&#x9019;&#x908A;&#x63D0;&#x4F9B;&#x7684;symbol&#x3002;&#x624B;&#x518A;&#x4E0A;&#x8AAA;&#x662F;&#x7D66;&#x7279;&#x6B8A;&#x7684;linker&#x4F7F;&#x7528;&#x7684;&#x3002;&#x60F3;&#x77E5;&#x9053;&#x4ED6;&#x63D0;&#x7684;use case&#x53EF;&#x4EE5;&#x770B;[&#x9019;&#x908A;](https://sourceware.org/binutils/docs/ld/PROVIDE.html#PROVIDE)&#xFF0C;&#x6211;&#x662F;&#x6C92;&#x4EC0;&#x9EBC;&#x611F;&#x89BA;&#x3002;
-
-&lt;a name=&quot;assign-hid-prov&quot;&gt;&lt;/a&gt;
-### PROVIDE_HIDDEN&#x547D;&#x4EE4;
-
-* `PROVIDE_HIDDEN(symbol = expression)`
-  * &#x548C;PROVIDE&#x547D;&#x4EE4;&#x76F8;&#x540C;&#xFF0C;&#x5DEE;&#x5225;&#x662F;&#x9019;&#x500B;symbol&#x53EA;&#x5728;&#x9019;&#x500B;&#x8655;&#x7406;&#x7BC4;&#x570D;&#x4E2D;&#x624D;&#x80FD;&#x6478;&#x5230;&#xFF0C;&#x4E00;&#x5982;HIDDEN&#x547D;&#x4EE4;&#x3002;
-
-&lt;a name=&quot;assign-src&quot;&gt;&lt;/a&gt;
-### &#x8AC7;&#x8AC7;source code&#x548C;linker script symbol&#x7684;&#x95DC;&#x4FC2;
-&#x9019;&#x7BC0;&#x5F88;&#x6709;&#x8DA3;&#xFF0C;&#x89E3;&#x7B54;&#x6211;&#x7684;&#x4E00;&#x4E9B;&#x5C0F;&#x554F;&#x984C;&#x3002;
-
-* &#x8B8A;&#x6578;&#x5982;&#x4F55;&#x5B58;&#x653E;&#x5728;binary&#x4E2D;&#xFF1F;
-  * &#x5148;&#x628A;&#x8B8A;&#x6578;&#x540D;&#x7A31;&#x653E;&#x5165;symbol table&#x5167;&#xFF0C;&#x63DB;&#x53E5;&#x8A71;&#x8AAA;symbol table&#x6703;&#x591A;&#x4E00;&#x7B46;&#x8CC7;&#x6599;&#x3002;&#x9019;&#x7B46;&#x8CC7;&#x6599;&#x7684;&#x6B04;&#x4F4D;&#x6709;
-    * symbol&#x7684;&#x4F4D;&#x5740;
-    * symbol&#x7684;flags
-    * symbol&#x5C6C;&#x65BC;&#x54EA;&#x500B;SECTION
-    * symbol&#x4F54;&#x7684;&#x8A18;&#x61B6;&#x9AD4;&#x7A7A;&#x9593;&#x6216;&#x662F;alignment&#x898F;&#x7BC4;
-    * symbol&#x7684;&#x540D;&#x7A31;
-  * &#x5178;&#x578B;&#x7684;symbol table &#x8CC7;&#x6599;&#xFF1A;C&#x8A9E;&#x8A00;&#x7684;main()
-        *  `00000000004005ed g     F .text    0000000000000101              main`
-  * &#x800C;symbol&#x7684;flag&#x6709;7&#x500B;groups
-    * Group 1:
-      * `l`: local
-      * `g`: global
-      * `u`: unique global&#xFF0C;GNU &#x7528;&#x65BC;ELF&#x6642;&#x7684; symbol binding extenstion
-      * `!`: &#x65E2;&#x662F;global&#x4E5F;&#x662F;local
-    * Group 2:
-      * `w`: weak symbol
-      * `&lt;&#x7A7A;&#x767D;&gt;`: strong symbol
-    * Group 3:
-      * `C`: symbol &#x662F;&#x4E00;&#x500B;constructor (&#x4E0D;&#x77E5;&#x9053;&#x9019;&#x908A;constructor&#x662F;&#x6307;&#x90A3;&#x500B;&#x6771;&#x897F;? )
-      * `&lt;&#x7A7A;&#x767D;&gt;`: &#x4E00;&#x822C; symbol
-    * Group 4:
-      * `W`: warning symbol (&#x4E0D;&#x77E5;&#x9053;&#x662F;&#x4E09;&#x5C0F;)
-      * `&lt;&#x7A7A;&#x767D;&gt;`: &#x4E00;&#x822C; symbol
-    * Group 5:
-      * `I`: &#x9593;&#x63A5;&#x5730;reference&#x5176;&#x4ED6;&#x7684;symbol
-      * `i`: relocate &#x6642;&#x8981;&#x8655;&#x7406;&#x7684;function
-      * `&lt;&#x7A7A;&#x767D;&gt;`: &#x4E00;&#x822C; symbol
-    * Group 6:
-      * `D`: dynamic symbol (&#x4E0D;&#x77E5;&#x9053;&#x662F;&#x4E09;&#x5C0F;)
-      * `d`: debug symbol
-      * `&lt;&#x7A7A;&#x767D;&gt;`: &#x4E00;&#x822C; symbol
-    * Group 7:
-      * `F`: &#x9019;&#x662F;&#x4E00;&#x500B;function
-      * `f`: &#x9019;&#x662F;&#x4E00;&#x500B;&#x6A94;&#x6848;
-      * `O`: &#x9019;&#x662F;&#x4E00;&#x500B;object
-      * `&lt;&#x7A7A;&#x767D;&gt;`: &#x4E00;&#x822C; symbol
-  * &#x5982;&#x679C;&#x6709;&#x521D;&#x59CB;&#x503C;&#xFF0C;&#x9806;&#x4FBF;&#x8A2D;&#x5B9A;&#x521D;&#x59CB;&#x503C;&#x3002;
-* &#x7A0B;&#x5F0F;&#x8A9E;&#x8A00;&#x7684;&#x53D6;&#x503C;`foo = 100` runtime&#x767C;&#x751F;&#x4EC0;&#x9EBC;&#x4E8B;&#xFF1F;
-  * &#x5148;&#x53BB;symbol table&#x627E;foo&#x5B58;&#x5728;&#x8A18;&#x61B6;&#x9AD4;&#x7684;&#x4F4D;&#x5740;&#xFF0C;&#x628A;&#x90A3;&#x500B;&#x4F4D;&#x5740;&#x4F9D;&#x7167;symbol table&#x7684;size&#x898F;&#x5247;&#x5C07;100&#x5BEB;&#x5165;&#x8A72;&#x4F4D;&#x5740;&#x3002;
-* &#x7A0B;&#x5F0F;&#x8A9E;&#x8A00;&#x7684;&#x53D6;&#x503C;`ptr = &amp;foo` runtime&#x767C;&#x751F;&#x4EC0;&#x9EBC;&#x4E8B;&#xFF1F;
-  * &#x5148;&#x53BB;symbol table&#x627E;foo&#x5B58;&#x5728;&#x8A18;&#x61B6;&#x9AD4;&#x7684;&#x4F4D;&#x5740;&#xFF0C;&#x628A;&#x90A3;&#x500B;&#x4F4D;&#x5740;&#x5BEB;&#x5230;ptr&#x5728;symbol table&#x5C0D;&#x61C9;&#x7684;&#x8A18;&#x61B6;&#x9AD4;&#x3002;
-* symbol&#x5728;symbol table&#x4E2D;&#x5B58;&#x653E;&#x7B2C;&#x4E00;&#x500B;&#x6B04;&#x4F4D;&#x662F;**symbol&#x7684;&#x503C;**&#xFF0C;&#x800C;&#x9019;&#x500B;&#x503C;**&#x662F;&#x4E00;&#x500B;&#x4F4D;&#x5740;**&#x3002;
-* &#x5728;linker script&#x8A2D;&#x5B9A;&#x7684;symbol&#x5982;`foo = 100`&#x548C;&#x5728;&#x7A0B;&#x5F0F;&#x78BC;&#x4E2D;&#x8F49;&#x51FA;&#x7684;symbol&#x5982;`foo = 100`&#x5DEE;&#x5225;&#x5728;&#x90A3;&#xFF1F;
-  * linker script&#x7684;100&#x4EE3;&#x8868;&#x7684;&#x662F;symbol&#x7684;&#x4F4D;&#x5740;&#xFF0C;&#x800C;&#x7A0B;&#x5F0F;&#x78BC;&#x4E2D;&#x8F49;&#x51FA;&#x7684;symbol&#x7684;100&#x4EE3;&#x8868;&#x7684;&#x662F;foo&#x5C0D;&#x61C9;&#x8A18;&#x61B6;&#x9AD4;&#x5B58;&#x653E;&#x7684;&#x503C;&#x3002;
-* &#x5982;&#x4F55;&#x5F9E;C&#x8A9E;&#x8A00;&#x7A0B;&#x5F0F;&#x78BC;&#x4E2D;&#x6478;&#x5230;linker script&#x5167;&#x5B9A;&#x7FA9;&#x7684;symbol?
-  * &#x8981;&#x5148;&#x77E5;&#x9053;symbol&#x540D;&#x7A31;
-  * &#x5728;&#x7A0B;&#x5F0F;&#x78BC;&#x4E2D;extern&#x8A72;symbol&#xFF0C;&#x578B;&#x614B;&#x70BA;char&#x3002;
-  * &#x8981;&#x77E5;&#x9053;symbol&#x53EA;&#x662F;&#x4E00;&#x500B;&#x4F4D;&#x5740;&#xFF0C;&#x6240;&#x4EE5;&#x8981;&#x5B58;&#x53D6;&#x5C31;&#x8981;&#x53D6;&#x4F4D;&#x5740;&#x3002;
-  * &#x53EF;&#x4EE5;&#x53C3;&#x8003;&#x4EE5;&#x524D;&#x6E2C;&#x8A66;&#x7684;[&#x7BC4;&#x4F8B;&#xFF1A;Linux&#x4E2D;&#x4F7F;&#x7528;C&#x8A9E;&#x8A00;&#x8F09;&#x5165;data object &#x6A94;&#x6848;&#x8CC7;&#x6599;](http://wen00072-blog.logdown.com/posts/194317-loads-the-data-object-using-the-c-language-archives-data-in-linux)
-  * &#x53E6;&#x5916;&#x6709;&#x8DA3;&#x7684;&#x662F;&#x4F3C;&#x4E4E;section&#x7684;symbol&#x5C0D;&#x61C9;&#x7684;&#x4F4D;&#x5740;&#x4E0D;&#x4E00;&#x5B9A;&#x662F;&#x53EA;&#x7576;&#x4F4D;&#x5740;&#x4F7F;&#x7528;&#x3002;&#x8A73;&#x7D30;&#x6E2C;&#x8A66;&#x5728;[&#x9019;&#x908A;&#xFF1A;Linux&#x4E2D;&#x4F7F;&#x7528;C&#x8A9E;&#x8A00;&#x8F09;&#x5165;data object &#x6A94;&#x6848;&#x8CC7;&#x6599; (&#x7E8C;&#xFF09;](http://wen00072-blog.logdown.com/posts/194370-load-linux-using-c-language-data-object-archives-data-continued)
-* &#x6211;&#x53EF;&#x4EE5;&#x53CD;&#x65B9;&#x5411;&#x5F9E;linker script&#x6478;&#x7A0B;&#x5F0F;&#x78BC;&#x7684;symbol
-  * &#x4E0D;&#x4E00;&#x5B9A;&#xFF0C;&#x4E0D;&#x540C;&#x7684;&#x7A0B;&#x5F0F;&#x8A9E;&#x8A00;&#x548C;&#x7DE8;&#x8B6F;&#x5668;&#x6709;&#x4E0D;&#x540C;&#x7684;&#x8B8A;&#x6578;&#x548C;&#x51FD;&#x6578;&#x547D;&#x540D;&#x65B9;&#x5F0F;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#x4F60;&#x539F;&#x59CB;&#x7A0B;&#x5F0F;&#x78BC;&#x7684;symbol&#x540D;&#x7A31;**&#x53EF;&#x80FD;&#x4E0D;&#x662F;**&#x6700;&#x5F8C;&#x5B58;&#x5728;&#x8F38;&#x51FA;object&#x6A94;&#x6848;&#x7684;symbol &#x540D;&#x7A31;&#x3002;
-
-
----
-&lt;a name=&quot;sec&quot;&gt;&lt;/a&gt;
-## SETCION&#x547D;&#x4EE4;
-&#x5176;&#x5BE6;&#x4E00;&#x958B;&#x59CB;&#x662F;&#x70BA;&#x4E86;&#x770B;&#x61C2;&#x9019;&#x500B;&#x547D;&#x4EE4;&#x624D;&#x6703;&#x60F3;&#x770B;linker script&#x7684;&#x3002;&#x5982;&#x679C;&#x63A5;&#x89F8;&#x904E;&#x5F88;&#x5C0F;&#x578B;&#x7684;Embedded OS&#x5C31;&#x6703;&#x767C;&#x73FE;&#x5F88;&#x591A;&#x90FD;&#x662F;&#x81EA;&#x5E79;linker script&#xFF1B;&#x800C;&#x9019;&#x4E9B;scripts&#x4E3B;&#x8981;&#x7684;&#x63CF;&#x8FF0;&#x547D;&#x4EE4;&#x5C31;&#x662F;`SETCION`&#x3002;
-
-&#x597D;&#x4E86;&#xFF0C;&#x5EE2;&#x8A71;&#x5C11;&#x8AAA;&#xFF0C;&#x9032;&#x5165;&#x4E3B;&#x984C;&#x3002;SECTION&#x547D;&#x4EE4;&#x7684;&#x529F;&#x7528;&#x662F;
-
-* &#x544A;&#x8A34;linker&#x600E;&#x9EBC;&#x628A;&#x8F38;&#x5165;object&#x6A94;&#x6848;&#x4E2D;&#x7684;SECTION&#x5C0D;&#x61C9;&#x5230;&#x8F38;&#x51FA;object&#x6A94;&#x6848;&#x4E2D;&#x7684;SECTION
-* &#x544A;&#x8A34;loader object&#x6A94;&#x6848;&#x4E2D;&#x7684;SECTION&#x8981;&#x653E;&#x5230;&#x8A18;&#x61B6;&#x9AD4;&#x90A3;&#x4E9B;&#x5730;&#x65B9;
-
-&#x5178;&#x578B;&#x7684;SECTION&#x547D;&#x4EE4;&#x9577;&#x9019;&#x6A23;&#x5B50;&#xFF1A;
-
-```c
-SECTIONS
+    _bdata = (. + <span class="hljs-number">3</span>) &amp; ~ <span class="hljs-number">3</span>;
+    .data : { *(.data) }
+}
+</code></pre>
+<p>&#x5F9E;&#x9019;&#x908A;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x5E7E;&#x7A2E;assign</p>
+<ul>
+<li>&#x8A2D;&#x5B9A;&#x5168;&#x57DF;&#x8B8A;&#x6578;<code>floating_point</code>&#x7684;symbol&#x70BA;0</li>
+<li>&#x8A2D;&#x5B9A;&#x5168;&#x57DF;&#x8B8A;&#x6578;<code>_etext</code>&#x7684;&#x503C;&#x70BA;&#x8F38;&#x5165;object&#x6A94;&#x6848;<code>.text</code>&#x5408;&#x9AD4;&#x5F8C;&#x7684;offset&#xFF0C;&#x500B;&#x4EBA;&#x731C;&#x6E2C;&#x53EF;&#x4EE5;&#x7406;&#x89E3;&#x6210;end of text&#x3002;(&#x56DE;&#x9867;&#x4E00;&#x4E0B;<code>.</code>&#x662F;offset counter)</li>
+<li>&#x8A2D;&#x5B9A;&#x5168;&#x57DF;&#x8B8A;&#x6578;<code>_bdata</code>&#x7684;&#x503C;&#x70BA;&#x8F38;&#x51FA;object&#x6A94;&#x6848;<code>.text</code>&#x7D50;&#x5C3E;&#x7684;offset &#x7684;<strong>4&#x7684;&#x500D;&#x6578;</strong>&#x4F4D;&#x5740;&#x3002;&#x9019;&#x908A;&#x900F;&#x9732;&#x5169;&#x500B;&#x8CC7;&#x8A0A;<ul>
+<li>&#x500B;&#x4EBA;&#x731C;&#x6E2C;&#x53EF;&#x4EE5;&#x7406;&#x89E3;&#x6210;begin of data</li>
+<li>&#x56DB;&#x7684;&#x500D;&#x6578;&#x548C;<a href="http://en.wikipedia.org/wiki/Data_structure_alignment" target="_blank">alignment&#x7684;&#x554F;&#x984C;</a>&#x61C9;&#x8A72;&#x6709;&#x95DC;&#x806F;&#x3002;</li>
+</ul>
+</li>
+</ul>
+<p><a name="assign-hid"></a></p>
+<h3 id="hidden%E5%91%BD%E4%BB%A4">HIDDEN&#x547D;&#x4EE4;</h3>
+<ul>
+<li><code>HIDDEN(&#x8981;&#x96B1;&#x85CF;&#x7684;symbol)</code>
+&#x53EF;&#x4EE5;&#x628A;&#x4ED6;&#x7406;&#x89E3;&#x6210;&#x52A0;&#x4E86;<code>static</code>&#x7684;&#x5168;&#x57DF;&#x8B8A;&#x6578;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#x9019;&#x500B;symbol&#x53EA;&#x5728;&#x9019;&#x500B;&#x8655;&#x7406;&#x7BC4;&#x570D;&#x4E2D;&#x624D;&#x80FD;&#x6478;&#x5230;&#x3002;</li>
+</ul>
+<p><a name="assign-prov"></a></p>
+<h3 id="provide%E5%91%BD%E4%BB%A4">PROVIDE&#x547D;&#x4EE4;</h3>
+<ul>
+<li><code>PROVIDE&#x547D;&#x4EE4;(symbol = expression)</code><ul>
+<li>&#x7C21;&#x55AE;&#x4F86;&#x8AAA;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x7684;&#x7A0B;&#x5F0F;&#x5DF2;&#x7D93;&#x6709;&#x9019;&#x500B;symbol&#xFF08;&#x51FD;&#x6578;&#x6216;&#x8B8A;&#x6578;&#xFF09;&#xFF0C;&#x5C31;&#x7528;&#x4F60;&#x7684;&#xFF1B;&#x5426;&#x5247;&#x5C31;&#x4F7F;&#x7528;&#x9019;&#x908A;&#x63D0;&#x4F9B;&#x7684;symbol&#x3002;&#x624B;&#x518A;&#x4E0A;&#x8AAA;&#x662F;&#x7D66;&#x7279;&#x6B8A;&#x7684;linker&#x4F7F;&#x7528;&#x7684;&#x3002;&#x60F3;&#x77E5;&#x9053;&#x4ED6;&#x63D0;&#x7684;use case&#x53EF;&#x4EE5;&#x770B;<a href="https://sourceware.org/binutils/docs/ld/PROVIDE.html#PROVIDE" target="_blank">&#x9019;&#x908A;</a>&#xFF0C;&#x6211;&#x662F;&#x6C92;&#x4EC0;&#x9EBC;&#x611F;&#x89BA;&#x3002;</li>
+</ul>
+</li>
+</ul>
+<p><a name="assign-hid-prov"></a></p>
+<h3 id="provide-hidden%E5%91%BD%E4%BB%A4">PROVIDE_HIDDEN&#x547D;&#x4EE4;</h3>
+<ul>
+<li><code>PROVIDE_HIDDEN(symbol = expression)</code><ul>
+<li>&#x548C;PROVIDE&#x547D;&#x4EE4;&#x76F8;&#x540C;&#xFF0C;&#x5DEE;&#x5225;&#x662F;&#x9019;&#x500B;symbol&#x53EA;&#x5728;&#x9019;&#x500B;&#x8655;&#x7406;&#x7BC4;&#x570D;&#x4E2D;&#x624D;&#x80FD;&#x6478;&#x5230;&#xFF0C;&#x4E00;&#x5982;HIDDEN&#x547D;&#x4EE4;&#x3002;</li>
+</ul>
+</li>
+</ul>
+<p><a name="assign-src"></a></p>
+<h3 id="%E8%AB%87%E8%AB%87source-code%E5%92%8Clinker-script-symbol%E7%9A%84%E9%97%9C%E4%BF%82">&#x8AC7;&#x8AC7;source code&#x548C;linker script symbol&#x7684;&#x95DC;&#x4FC2;</h3>
+<p>&#x9019;&#x7BC0;&#x5F88;&#x6709;&#x8DA3;&#xFF0C;&#x89E3;&#x7B54;&#x6211;&#x7684;&#x4E00;&#x4E9B;&#x5C0F;&#x554F;&#x984C;&#x3002;</p>
+<ul>
+<li>&#x8B8A;&#x6578;&#x5982;&#x4F55;&#x5B58;&#x653E;&#x5728;binary&#x4E2D;&#xFF1F;<ul>
+<li>&#x5148;&#x628A;&#x8B8A;&#x6578;&#x540D;&#x7A31;&#x653E;&#x5165;symbol table&#x5167;&#xFF0C;&#x63DB;&#x53E5;&#x8A71;&#x8AAA;symbol table&#x6703;&#x591A;&#x4E00;&#x7B46;&#x8CC7;&#x6599;&#x3002;&#x9019;&#x7B46;&#x8CC7;&#x6599;&#x7684;&#x6B04;&#x4F4D;&#x6709;<ul>
+<li>symbol&#x7684;&#x4F4D;&#x5740;</li>
+<li>symbol&#x7684;flags</li>
+<li>symbol&#x5C6C;&#x65BC;&#x54EA;&#x500B;SECTION</li>
+<li>symbol&#x4F54;&#x7684;&#x8A18;&#x61B6;&#x9AD4;&#x7A7A;&#x9593;&#x6216;&#x662F;alignment&#x898F;&#x7BC4;</li>
+<li>symbol&#x7684;&#x540D;&#x7A31;</li>
+</ul>
+</li>
+<li>&#x5178;&#x578B;&#x7684;symbol table &#x8CC7;&#x6599;&#xFF1A;C&#x8A9E;&#x8A00;&#x7684;main()<pre><code>*  `00000000004005ed g     F .text    0000000000000101              main`
+</code></pre></li>
+<li>&#x800C;symbol&#x7684;flag&#x6709;7&#x500B;groups<ul>
+<li>Group 1:<ul>
+<li><code>l</code>: local</li>
+<li><code>g</code>: global</li>
+<li><code>u</code>: unique global&#xFF0C;GNU &#x7528;&#x65BC;ELF&#x6642;&#x7684; symbol binding extenstion</li>
+<li><code>!</code>: &#x65E2;&#x662F;global&#x4E5F;&#x662F;local</li>
+</ul>
+</li>
+<li>Group 2:<ul>
+<li><code>w</code>: weak symbol</li>
+<li><code>&lt;&#x7A7A;&#x767D;&gt;</code>: strong symbol</li>
+</ul>
+</li>
+<li>Group 3:<ul>
+<li><code>C</code>: symbol &#x662F;&#x4E00;&#x500B;constructor (&#x4E0D;&#x77E5;&#x9053;&#x9019;&#x908A;constructor&#x662F;&#x6307;&#x90A3;&#x500B;&#x6771;&#x897F;? )</li>
+<li><code>&lt;&#x7A7A;&#x767D;&gt;</code>: &#x4E00;&#x822C; symbol</li>
+</ul>
+</li>
+<li>Group 4:<ul>
+<li><code>W</code>: warning symbol (&#x4E0D;&#x77E5;&#x9053;&#x662F;&#x4E09;&#x5C0F;)</li>
+<li><code>&lt;&#x7A7A;&#x767D;&gt;</code>: &#x4E00;&#x822C; symbol</li>
+</ul>
+</li>
+<li>Group 5:<ul>
+<li><code>I</code>: &#x9593;&#x63A5;&#x5730;reference&#x5176;&#x4ED6;&#x7684;symbol</li>
+<li><code>i</code>: relocate &#x6642;&#x8981;&#x8655;&#x7406;&#x7684;function</li>
+<li><code>&lt;&#x7A7A;&#x767D;&gt;</code>: &#x4E00;&#x822C; symbol</li>
+</ul>
+</li>
+<li>Group 6:<ul>
+<li><code>D</code>: dynamic symbol (&#x4E0D;&#x77E5;&#x9053;&#x662F;&#x4E09;&#x5C0F;)</li>
+<li><code>d</code>: debug symbol</li>
+<li><code>&lt;&#x7A7A;&#x767D;&gt;</code>: &#x4E00;&#x822C; symbol</li>
+</ul>
+</li>
+<li>Group 7:<ul>
+<li><code>F</code>: &#x9019;&#x662F;&#x4E00;&#x500B;function</li>
+<li><code>f</code>: &#x9019;&#x662F;&#x4E00;&#x500B;&#x6A94;&#x6848;</li>
+<li><code>O</code>: &#x9019;&#x662F;&#x4E00;&#x500B;object</li>
+<li><code>&lt;&#x7A7A;&#x767D;&gt;</code>: &#x4E00;&#x822C; symbol</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#x5982;&#x679C;&#x6709;&#x521D;&#x59CB;&#x503C;&#xFF0C;&#x9806;&#x4FBF;&#x8A2D;&#x5B9A;&#x521D;&#x59CB;&#x503C;&#x3002;</li>
+</ul>
+</li>
+<li>&#x7A0B;&#x5F0F;&#x8A9E;&#x8A00;&#x7684;&#x53D6;&#x503C;<code>foo = 100</code> runtime&#x767C;&#x751F;&#x4EC0;&#x9EBC;&#x4E8B;&#xFF1F;<ul>
+<li>&#x5148;&#x53BB;symbol table&#x627E;foo&#x5B58;&#x5728;&#x8A18;&#x61B6;&#x9AD4;&#x7684;&#x4F4D;&#x5740;&#xFF0C;&#x628A;&#x90A3;&#x500B;&#x4F4D;&#x5740;&#x4F9D;&#x7167;symbol table&#x7684;size&#x898F;&#x5247;&#x5C07;100&#x5BEB;&#x5165;&#x8A72;&#x4F4D;&#x5740;&#x3002;</li>
+</ul>
+</li>
+<li>&#x7A0B;&#x5F0F;&#x8A9E;&#x8A00;&#x7684;&#x53D6;&#x503C;<code>ptr = &amp;foo</code> runtime&#x767C;&#x751F;&#x4EC0;&#x9EBC;&#x4E8B;&#xFF1F;<ul>
+<li>&#x5148;&#x53BB;symbol table&#x627E;foo&#x5B58;&#x5728;&#x8A18;&#x61B6;&#x9AD4;&#x7684;&#x4F4D;&#x5740;&#xFF0C;&#x628A;&#x90A3;&#x500B;&#x4F4D;&#x5740;&#x5BEB;&#x5230;ptr&#x5728;symbol table&#x5C0D;&#x61C9;&#x7684;&#x8A18;&#x61B6;&#x9AD4;&#x3002;</li>
+</ul>
+</li>
+<li>symbol&#x5728;symbol table&#x4E2D;&#x5B58;&#x653E;&#x7B2C;&#x4E00;&#x500B;&#x6B04;&#x4F4D;&#x662F;<strong>symbol&#x7684;&#x503C;</strong>&#xFF0C;&#x800C;&#x9019;&#x500B;&#x503C;<strong>&#x662F;&#x4E00;&#x500B;&#x4F4D;&#x5740;</strong>&#x3002;</li>
+<li>&#x5728;linker script&#x8A2D;&#x5B9A;&#x7684;symbol&#x5982;<code>foo = 100</code>&#x548C;&#x5728;&#x7A0B;&#x5F0F;&#x78BC;&#x4E2D;&#x8F49;&#x51FA;&#x7684;symbol&#x5982;<code>foo = 100</code>&#x5DEE;&#x5225;&#x5728;&#x90A3;&#xFF1F;<ul>
+<li>linker script&#x7684;100&#x4EE3;&#x8868;&#x7684;&#x662F;symbol&#x7684;&#x4F4D;&#x5740;&#xFF0C;&#x800C;&#x7A0B;&#x5F0F;&#x78BC;&#x4E2D;&#x8F49;&#x51FA;&#x7684;symbol&#x7684;100&#x4EE3;&#x8868;&#x7684;&#x662F;foo&#x5C0D;&#x61C9;&#x8A18;&#x61B6;&#x9AD4;&#x5B58;&#x653E;&#x7684;&#x503C;&#x3002;</li>
+</ul>
+</li>
+<li>&#x5982;&#x4F55;&#x5F9E;C&#x8A9E;&#x8A00;&#x7A0B;&#x5F0F;&#x78BC;&#x4E2D;&#x6478;&#x5230;linker script&#x5167;&#x5B9A;&#x7FA9;&#x7684;symbol?<ul>
+<li>&#x8981;&#x5148;&#x77E5;&#x9053;symbol&#x540D;&#x7A31;</li>
+<li>&#x5728;&#x7A0B;&#x5F0F;&#x78BC;&#x4E2D;extern&#x8A72;symbol&#xFF0C;&#x578B;&#x614B;&#x70BA;char&#x3002;</li>
+<li>&#x8981;&#x77E5;&#x9053;symbol&#x53EA;&#x662F;&#x4E00;&#x500B;&#x4F4D;&#x5740;&#xFF0C;&#x6240;&#x4EE5;&#x8981;&#x5B58;&#x53D6;&#x5C31;&#x8981;&#x53D6;&#x4F4D;&#x5740;&#x3002;</li>
+<li>&#x53EF;&#x4EE5;&#x53C3;&#x8003;&#x4EE5;&#x524D;&#x6E2C;&#x8A66;&#x7684;<a href="http://wen00072-blog.logdown.com/posts/194317-loads-the-data-object-using-the-c-language-archives-data-in-linux" target="_blank">&#x7BC4;&#x4F8B;&#xFF1A;Linux&#x4E2D;&#x4F7F;&#x7528;C&#x8A9E;&#x8A00;&#x8F09;&#x5165;data object &#x6A94;&#x6848;&#x8CC7;&#x6599;</a></li>
+<li>&#x53E6;&#x5916;&#x6709;&#x8DA3;&#x7684;&#x662F;&#x4F3C;&#x4E4E;section&#x7684;symbol&#x5C0D;&#x61C9;&#x7684;&#x4F4D;&#x5740;&#x4E0D;&#x4E00;&#x5B9A;&#x662F;&#x53EA;&#x7576;&#x4F4D;&#x5740;&#x4F7F;&#x7528;&#x3002;&#x8A73;&#x7D30;&#x6E2C;&#x8A66;&#x5728;<a href="http://wen00072-blog.logdown.com/posts/194370-load-linux-using-c-language-data-object-archives-data-continued" target="_blank">&#x9019;&#x908A;&#xFF1A;Linux&#x4E2D;&#x4F7F;&#x7528;C&#x8A9E;&#x8A00;&#x8F09;&#x5165;data object &#x6A94;&#x6848;&#x8CC7;&#x6599; (&#x7E8C;&#xFF09;</a></li>
+</ul>
+</li>
+<li>&#x6211;&#x53EF;&#x4EE5;&#x53CD;&#x65B9;&#x5411;&#x5F9E;linker script&#x6478;&#x7A0B;&#x5F0F;&#x78BC;&#x7684;symbol<ul>
+<li>&#x4E0D;&#x4E00;&#x5B9A;&#xFF0C;&#x4E0D;&#x540C;&#x7684;&#x7A0B;&#x5F0F;&#x8A9E;&#x8A00;&#x548C;&#x7DE8;&#x8B6F;&#x5668;&#x6709;&#x4E0D;&#x540C;&#x7684;&#x8B8A;&#x6578;&#x548C;&#x51FD;&#x6578;&#x547D;&#x540D;&#x65B9;&#x5F0F;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#x4F60;&#x539F;&#x59CB;&#x7A0B;&#x5F0F;&#x78BC;&#x7684;symbol&#x540D;&#x7A31;<strong>&#x53EF;&#x80FD;&#x4E0D;&#x662F;</strong>&#x6700;&#x5F8C;&#x5B58;&#x5728;&#x8F38;&#x51FA;object&#x6A94;&#x6848;&#x7684;symbol &#x540D;&#x7A31;&#x3002;</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p><a name="sec"></a></p>
+<h2 id="setcion%E5%91%BD%E4%BB%A4">SETCION&#x547D;&#x4EE4;</h2>
+<p>&#x5176;&#x5BE6;&#x4E00;&#x958B;&#x59CB;&#x662F;&#x70BA;&#x4E86;&#x770B;&#x61C2;&#x9019;&#x500B;&#x547D;&#x4EE4;&#x624D;&#x6703;&#x60F3;&#x770B;linker script&#x7684;&#x3002;&#x5982;&#x679C;&#x63A5;&#x89F8;&#x904E;&#x5F88;&#x5C0F;&#x578B;&#x7684;Embedded OS&#x5C31;&#x6703;&#x767C;&#x73FE;&#x5F88;&#x591A;&#x90FD;&#x662F;&#x81EA;&#x5E79;linker script&#xFF1B;&#x800C;&#x9019;&#x4E9B;scripts&#x4E3B;&#x8981;&#x7684;&#x63CF;&#x8FF0;&#x547D;&#x4EE4;&#x5C31;&#x662F;<code>SETCION</code>&#x3002;</p>
+<p>&#x597D;&#x4E86;&#xFF0C;&#x5EE2;&#x8A71;&#x5C11;&#x8AAA;&#xFF0C;&#x9032;&#x5165;&#x4E3B;&#x984C;&#x3002;SECTION&#x547D;&#x4EE4;&#x7684;&#x529F;&#x7528;&#x662F;</p>
+<ul>
+<li>&#x544A;&#x8A34;linker&#x600E;&#x9EBC;&#x628A;&#x8F38;&#x5165;object&#x6A94;&#x6848;&#x4E2D;&#x7684;SECTION&#x5C0D;&#x61C9;&#x5230;&#x8F38;&#x51FA;object&#x6A94;&#x6848;&#x4E2D;&#x7684;SECTION</li>
+<li>&#x544A;&#x8A34;loader object&#x6A94;&#x6848;&#x4E2D;&#x7684;SECTION&#x8981;&#x653E;&#x5230;&#x8A18;&#x61B6;&#x9AD4;&#x90A3;&#x4E9B;&#x5730;&#x65B9;</li>
+</ul>
+<p>&#x5178;&#x578B;&#x7684;SECTION&#x547D;&#x4EE4;&#x9577;&#x9019;&#x6A23;&#x5B50;&#xFF1A;</p>
+<pre><code class="lang-c">SECTIONS
 {
     sections-command
     sections-command
     ...
 }
-</code></pre><p>&#x671B;&#x6587;&#x751F;&#x7FA9;&#x5730;&#x731C;&#x6E2C;&#x53EF;&#x4EE5;&#x9019;&#x6A23;&#x7406;&#x89E3;&#xFF1A;
+</code></pre>
+<p>&#x671B;&#x6587;&#x751F;&#x7FA9;&#x5730;&#x731C;&#x6E2C;&#x53EF;&#x4EE5;&#x9019;&#x6A23;&#x7406;&#x89E3;&#xFF1A;
 &#x8F38;&#x51FA;object&#x6709;&#x4E00;&#x4E9B;&#x5927;&#x65B9;&#x5411;&#x7684;&#x898F;&#x7BC4;&#xFF0C;&#x4E26;&#x4E14;&#x5206;&#x70BA;&#x4E0D;&#x540C;&#x7684;section&#xFF0C;&#x6BCF;&#x500B;section&#x6709;&#x4ED6;&#x81EA;&#x5DF1;&#x7684;&#x898F;&#x7BC4;&#x3002;</p>
 <p>&#x800C;<code>sections-command</code>&#x53EF;&#x4EE5;&#x5206;&#x70BA;&#x4E0B;&#x9762;&#x5E7E;&#x7A2E;&#x529F;&#x80FD;</p>
 <ul>
@@ -4189,8 +4331,7 @@ SECTIONS
 </ul>
 <p><a name="sec-output-desc"></a></p>
 <h3 id="%E8%BC%B8%E5%87%BAobject%E6%AA%94%E6%A1%88%E7%9A%84section%E6%8F%8F%E8%BF%B0">&#x8F38;&#x51FA;object&#x6A94;&#x6848;&#x7684;section&#x63CF;&#x8FF0;</h3>
-<p><code>c &#x8F38;&#x51FA;object&#x6A94;&#x6848;&#x7684;section&#x63CF;&#x8FF0;&#x683C;&#x5F0F;
-section [address] [(type)] :
+<pre><code class="lang-c">section [address] [(type)] :
     [AT(lma)]
     [ALIGN(section_align) | ALIGN_WITH_INPUT]
     [SUBALIGN(subsection_align)]
@@ -4199,7 +4340,8 @@ section [address] [(type)] :
         output-section-command
         output-section-command
         ...
-    } [&gt;region] [AT&gt;lma_region] [:phdr :phdr ...] [=fillexp]</code></p>
+    } [&gt;region] [AT&gt;lma_region] [:phdr :phdr ...] [=fillexp]
+</code></pre>
 <p>&#x5176;&#x4E2D;<code>output-section-command</code>&#x7684;&#x529F;&#x80FD;&#x6709;</p>
 <ul>
 <li><a href="#assign">&#x8A2D;&#x5B9A;symbol&#x7684;&#x503C;</a></li>
@@ -4245,10 +4387,10 @@ section [address] [(type)] :
 <p>&#x6307;&#x5B9A;&#x591A;&#x500B;section&#x7684;&#x65B9;&#x5F0F;&#x6709;&#x5169;&#x7A2E;</p>
 <ul>
 <li><p><code>*(.sec1 .sec2)</code>&#xFF1A;&#x5982;&#x679C;&#x8F38;&#x5165;object&#x6709;&#x5169;&#x500B;&#x6A94;&#x6848;&#x7684;&#x8A71;&#xFF0C;&#x8F38;&#x51FA;object&#x6A94;&#x6848;&#x88CF;&#x9762;section&#x6703;&#x8B8A;&#x6210;
-<img src="http://user-image.logdown.io/user/3993/blog/4041/post/188334/f6Crrs5MTT2tl66gz08O_ld1_section.png" alt="ld1_section.png"></p>
+<img src="images/f6Crrs5MTT2tl66gz08O_ld1_section.png" alt="ld1_section.png"></p>
 </li>
 <li><p><code>*(.sec1) *(.sec2)</code>: &#x5982;&#x679C;&#x8F38;&#x5165;object&#x6709;&#x5169;&#x500B;&#x6A94;&#x6848;&#x7684;&#x8A71;&#xFF0C;&#x8F38;&#x51FA;object&#x6A94;&#x6848;&#x88CF;&#x9762;section&#x6703;&#x8B8A;&#x6210;
-<img src="http://user-image.logdown.io/user/3993/blog/4041/post/188334/LqhscLhZSbeN8XckduAG_ld2_section2.png" alt="ld2_section2.png"></p>
+<img src="images/LqhscLhZSbeN8XckduAG_ld2_section2.png" alt="ld2_section2.png"></p>
 </li>
 </ul>
 <hr>

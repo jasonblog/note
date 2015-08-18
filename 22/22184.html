@@ -1,0 +1,4668 @@
+<!DOCTYPE HTML>
+<html lang="en" >
+    
+    <head>
+        
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
+        <title>GNU LD 手冊略讀 (3): Chapter 3.7 ~ Chapter 3.11 | Jason note</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 2.0.1">
+        
+        
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+        <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+        
+    
+    
+    
+    <link rel="prev" href="../22/22183.html" />
+    
+
+        
+    </head>
+    <body>
+        
+        
+    <link rel="stylesheet" href="../gitbook/style.css">
+    
+    
+
+        
+    <div class="book" data-level="22.18.4" data-basepath=".." data-revision="Wed Aug 19 2015 01:10:40 GMT+0800 (CST)">
+    
+
+<div class="book-summary">
+    <div class="book-search">
+        <input type="text" placeholder="Type to search" class="form-control" />
+    </div>
+    <ul class="summary">
+        
+        
+        
+        
+
+        
+
+        
+    
+        <li class="chapter " data-level="0" data-path="index.html">
+            
+                
+                    <a href="../index.html">
+                        <i class="fa fa-check"></i>
+                        
+                        Introduction
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1" data-path="shared_libraries/12.html">
+            
+                
+                    <a href="../shared_libraries/12.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.</b>
+                        
+                        Command
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1" data-path="shared_libraries/lsof.html">
+            
+                
+                    <a href="../shared_libraries/lsof.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.1.</b>
+                        
+                        10 條 Linux
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="shared_libraries/cntotw.html">
+            
+                
+                    <a href="../shared_libraries/cntotw.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.2.</b>
+                        
+                        Open Chinese Convert 開放中文轉換
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2" data-path="shared_libraries/index.html">
+            
+                
+                    <a href="../shared_libraries/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.</b>
+                        
+                        Shared Libraries
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1" data-path="shared_libraries/11.html">
+            
+                
+                    <a href="../shared_libraries/11.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.1.</b>
+                        
+                        Shared Libraries Setup
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3" data-path="linux_tools/index.html">
+            
+                
+                    <a href="../linux_tools/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.</b>
+                        
+                        Linux Tools
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1" data-path="linux_tools/linux_basic.html">
+            
+                
+                    <a href="../linux_tools/linux_basic.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.</b>
+                        
+                        Linux Basic
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.1" data-path="linux_tools/01_use_man.html">
+            
+                
+                    <a href="../linux_tools/01_use_man.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.1.</b>
+                        
+                        學會使用命令幫助
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.2" data-path="linux_tools/02_file_manage.html">
+            
+                
+                    <a href="../linux_tools/02_file_manage.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.2.</b>
+                        
+                        文件及目錄管理
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3" data-path="linux_tools/03_text_processing.html">
+            
+                
+                    <a href="../linux_tools/03_text_processing.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.3.</b>
+                        
+                        文本處理
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.4" data-path="linux_tools/04_disk.html">
+            
+                
+                    <a href="../linux_tools/04_disk.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.4.</b>
+                        
+                        磁盤管理
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.5" data-path="linux_tools/05_process_manage.html">
+            
+                
+                    <a href="../linux_tools/05_process_manage.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.5.</b>
+                        
+                        進程管理工具
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.6" data-path="linux_tools/06_monitor.html">
+            
+                
+                    <a href="../linux_tools/06_monitor.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.6.</b>
+                        
+                        性能監控
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.7" data-path="linux_tools/07_network.html">
+            
+                
+                    <a href="../linux_tools/07_network.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.7.</b>
+                        
+                        網絡工具
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8" data-path="linux_tools/08_user_manage.html">
+            
+                
+                    <a href="../linux_tools/08_user_manage.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.8.</b>
+                        
+                        用戶管理工具
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.9" data-path="linux_tools/09_system_manage.html">
+            
+                
+                    <a href="../linux_tools/09_system_manage.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.9.</b>
+                        
+                        系統管理及IPC資源管理
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="linux_tools/linux_advance.html">
+            
+                
+                    <a href="../linux_tools/linux_advance.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.2.</b>
+                        
+                        Linux工具進階
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.2.1" data-path="linux_tools/01_program_buil.html">
+            
+                
+                    <a href="../linux_tools/01_program_buil.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.2.1.</b>
+                        
+                        程序構建
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.2" data-path="linux_tools/02_program_debug.html">
+            
+                
+                    <a href="../linux_tools/02_program_debug.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.2.2.</b>
+                        
+                        程序調試
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.3" data-path="linux_tools/03_optimization.html">
+            
+                
+                    <a href="../linux_tools/03_optimization.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.2.3.</b>
+                        
+                        性能優化
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="linux_tools/ref_tool.html">
+            
+                
+                    <a href="../linux_tools/ref_tool.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.</b>
+                        
+                        工具參考篇
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.3.1" data-path="linux_tools/gdb.html">
+            
+                
+                    <a href="../linux_tools/gdb.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.1.</b>
+                        
+                        gdb 調試利器
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.2" data-path="linux_tools/ldd.html">
+            
+                
+                    <a href="../linux_tools/ldd.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.2.</b>
+                        
+                        ldd 查看程序依賴庫
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.3" data-path="linux_tools/ldof.html">
+            
+                
+                    <a href="../linux_tools/ldof.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.3.</b>
+                        
+                        lsof 一切皆文件
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.4" data-path="linux_tools/ps.html">
+            
+                
+                    <a href="../linux_tools/ps.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.4.</b>
+                        
+                        ps 進程查看器
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.5" data-path="linux_tools/pstack.html">
+            
+                
+                    <a href="../linux_tools/pstack.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.5.</b>
+                        
+                        pstack 跟蹤進程棧
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.6" data-path="linux_tools/strace.html">
+            
+                
+                    <a href="../linux_tools/strace.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.6.</b>
+                        
+                        strace 跟蹤進程中的系統調用
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.7" data-path="linux_tools/ipcs.html">
+            
+                
+                    <a href="../linux_tools/ipcs.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.7.</b>
+                        
+                        ipcs 查詢進程間通信狀態
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.8" data-path="linux_tools/top.html">
+            
+                
+                    <a href="../linux_tools/top.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.8.</b>
+                        
+                        top linux下的任務管理器
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.9" data-path="linux_tools/free.html">
+            
+                
+                    <a href="../linux_tools/free.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.9.</b>
+                        
+                        free 查詢可用內存
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.10" data-path="linux_tools/vmstat.html">
+            
+                
+                    <a href="../linux_tools/vmstat.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.10.</b>
+                        
+                        vmstat 監視內存使用情況
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.11" data-path="linux_tools/iostat.html">
+            
+                
+                    <a href="../linux_tools/iostat.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.11.</b>
+                        
+                        iostat 監視I/O子系統
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.12" data-path="linux_tools/sar.html">
+            
+                
+                    <a href="../linux_tools/sar.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.12.</b>
+                        
+                        sar 找出系統瓶頸的利器
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.13" data-path="linux_tools/readelf.html">
+            
+                
+                    <a href="../linux_tools/readelf.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.13.</b>
+                        
+                        readelf elf文件格式分析
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.14" data-path="linux_tools/objdump.html">
+            
+                
+                    <a href="../linux_tools/objdump.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.14.</b>
+                        
+                        objdump 二進制文件分析
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.15" data-path="linux_tools/nm.html">
+            
+                
+                    <a href="../linux_tools/nm.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.15.</b>
+                        
+                        nm 目標文件格式分析
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.16" data-path="linux_tools/size.html">
+            
+                
+                    <a href="../linux_tools/size.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.16.</b>
+                        
+                        size 查看程序內存映像大小
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.17" data-path="linux_tools/wget.html">
+            
+                
+                    <a href="../linux_tools/wget.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.17.</b>
+                        
+                        wget 文件下載
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.18" data-path="linux_tools/scp.html">
+            
+                
+                    <a href="../linux_tools/scp.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.18.</b>
+                        
+                        scp 跨機遠程拷貝
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.19" data-path="linux_tools/crontab.html">
+            
+                
+                    <a href="../linux_tools/crontab.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.19.</b>
+                        
+                        crontab 定時任務
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.20" data-path="linux_tools/trace-cmd.html">
+            
+                
+                    <a href="../linux_tools/trace-cmd.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.20.</b>
+                        
+                        trace-cmd
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4" data-path="linux_tools/doxygen.html">
+            
+                
+                    <a href="../linux_tools/doxygen.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.4.</b>
+                        
+                        Doxygen
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5" data-path="linux_tools/jdbshell.html">
+            
+                
+                    <a href="../linux_tools/jdbshell.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.5.</b>
+                        
+                        Jdbshell
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="4" data-path="bggdb/index.html">
+            
+                
+                    <a href="../bggdb/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.</b>
+                        
+                        Beej&#39;s Quick Guide to GDB
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5" data-path="android_note/index.html">
+            
+                
+                    <a href="../android_note/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.</b>
+                        
+                        Android note
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.1" data-path="android_note/514.html">
+            
+                
+                    <a href="../android_note/514.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.1.</b>
+                        
+                        android resource
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="android_note/startservice_bindservice.html">
+            
+                
+                    <a href="../android_note/startservice_bindservice.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.2.</b>
+                        
+                        什麼時候用startService，什麼時候用bindService
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3" data-path="android_note/handler_looper_message_runnable.html">
+            
+                
+                    <a href="../android_note/handler_looper_message_runnable.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.3.</b>
+                        
+                        android的消息處理機制（圖+源碼分析）——Looper,Handler,Message
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4" data-path="android_note/runnable_thread.html">
+            
+                
+                    <a href="../android_note/runnable_thread.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.4.</b>
+                        
+                        Android中Handler Runnable與Thread的區別詳解
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.5" data-path="android_note/android_service_native_service.html">
+            
+                
+                    <a href="../android_note/android_service_native_service.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.5.</b>
+                        
+                        Android Service與Native Service
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.6" data-path="android_note/handler_message_looper_messagequeue.html">
+            
+                
+                    <a href="../android_note/handler_message_looper_messagequeue.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.6.</b>
+                        
+                        Handler, Message, Looper, MessageQueue
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7" data-path="android_note/android_log.html">
+            
+                
+                    <a href="../android_note/android_log.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.7.</b>
+                        
+                        Android 各層中日誌打印功能的應用
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.8" data-path="android_note/android_command.html">
+            
+                
+                    <a href="../android_note/android_command.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.8.</b>
+                        
+                        Android指令和命令參數
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.9" data-path="android_note/prcess_thread_ipc.html">
+            
+                
+                    <a href="../android_note/prcess_thread_ipc.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.9.</b>
+                        
+                        Android中進程與進程、線程與線程之間如何通信
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.10" data-path="android_note/startservice.html">
+            
+                
+                    <a href="../android_note/startservice.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.10.</b>
+                        
+                        startService的創建過程
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.11" data-path="android_note/bindservice.html">
+            
+                
+                    <a href="../android_note/bindservice.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.11.</b>
+                        
+                        service組件-bindService源碼分析
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.12" data-path="android_note/511.html">
+            
+                
+                    <a href="../android_note/511.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.12.</b>
+                        
+                        [轉]Android 執行緒 - Thread 與 Handler
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.13" data-path="android_note/512.html">
+            
+                
+                    <a href="../android_note/512.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.13.</b>
+                        
+                        [轉] Android 執行緒 - Runnable 與 Handler
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.14" data-path="android_note/513.html">
+            
+                
+                    <a href="../android_note/513.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.14.</b>
+                        
+                        [轉] Android 非同步任務 - AsyncTask
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.15" data-path="android_note/515.html">
+            
+                
+                    <a href="../android_note/515.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.15.</b>
+                        
+                        [轉]Android.mk 組織結構
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.16" data-path="android_note/android_goldfishkernel.html">
+            
+                
+                    <a href="../android_note/android_goldfishkernel.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.16.</b>
+                        
+                        如何下載編譯Android goldfish(Kernel)
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.17" data-path="android_note/android.html">
+            
+                
+                    <a href="../android_note/android.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.17.</b>
+                        
+                        自己動手編譯android源碼
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="6" data-path="ubuntu/index.html">
+            
+                
+                    <a href="../ubuntu/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.</b>
+                        
+                        Ubuntu
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="6.1" data-path="ubuntu/ubuntu_installer.html">
+            
+                
+                    <a href="../ubuntu/ubuntu_installer.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.1.</b>
+                        
+                        Ubuntu installer
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="7" data-path="qemu/index.html">
+            
+                
+                    <a href="../qemu/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.</b>
+                        
+                        QEMU
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="7.1" data-path="qemu/qemu_kgdb_ftrace.html">
+            
+                
+                    <a href="../qemu/qemu_kgdb_ftrace.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.1.</b>
+                        
+                        Qemu_KGDB_Ftrace
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.2" data-path="qemu/72.html">
+            
+                
+                    <a href="../qemu/72.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.2.</b>
+                        
+                        5 分鐘 Linux 0.11 快速構建實驗環境
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.3" data-path="qemu/73.html">
+            
+                
+                    <a href="../qemu/73.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.3.</b>
+                        
+                        Debug Assembly with GDB for ARMv8 on QEMU
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.4" data-path="qemu/74.html">
+            
+                
+                    <a href="../qemu/74.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.4.</b>
+                        
+                        ARM體系結構--寄存器
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.5" data-path="qemu/75.html">
+            
+                
+                    <a href="../qemu/75.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.5.</b>
+                        
+                        Run Debian iso on QEMU ARMv8
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.6" data-path="qemu/76.html">
+            
+                
+                    <a href="../qemu/76.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.6.</b>
+                        
+                        QEMU ARM64 guide
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.7" data-path="qemu/77.html">
+            
+                
+                    <a href="../qemu/77.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.7.</b>
+                        
+                        QEMU install
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.8" data-path="qemu/78.html">
+            
+                
+                    <a href="../qemu/78.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.8.</b>
+                        
+                        編譯 linux 0.11，並且使用 QEMU + GDB 調試 kernel ( Ubuntu 11.04, GCC 4.5.2)
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="8" data-path="linux_device_driver_programming/index.html">
+            
+                
+                    <a href="../linux_device_driver_programming/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.</b>
+                        
+                        Linux Device Driver Programming
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="8.1" data-path="linux_device_driver_programming/01.html">
+            
+                
+                    <a href="../linux_device_driver_programming/01.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.1.</b>
+                        
+                        Linux 裝置驅動程式的概要
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8.2" data-path="linux_device_driver_programming/02.html">
+            
+                
+                    <a href="../linux_device_driver_programming/02.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.2.</b>
+                        
+                        Linux 的授權
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8.3" data-path="linux_device_driver_programming/03.html">
+            
+                
+                    <a href="../linux_device_driver_programming/03.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.3.</b>
+                        
+                        準備開發裝置驅動程式
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8.4" data-path="linux_device_driver_programming/04.html">
+            
+                
+                    <a href="../linux_device_driver_programming/04.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.4.</b>
+                        
+                        開發驅動程式的第一步
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8.5" data-path="linux_device_driver_programming/05.html">
+            
+                
+                    <a href="../linux_device_driver_programming/05.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.5.</b>
+                        
+                        開發 driver 需要的基礎知識
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="9" data-path="fcamel/index.html">
+            
+                
+                    <a href="../fcamel/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.</b>
+                        
+                        fcamel
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="9.1" data-path="fcamel/01.html">
+            
+                
+                    <a href="../fcamel/01.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.1.</b>
+                        
+                        [轉]ld, ld.so 和 ldconfig 的行為
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.2" data-path="fcamel/02.html">
+            
+                
+                    <a href="../fcamel/02.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.2.</b>
+                        
+                        [轉]解決 undefined symbol / reference
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.3" data-path="fcamel/03.html">
+            
+                
+                    <a href="../fcamel/03.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.3.</b>
+                        
+                        [轉] 列出用到的 shared library
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.4" data-path="fcamel/04.html">
+            
+                
+                    <a href="../fcamel/04.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.4.</b>
+                        
+                        [轉]用 LD_PRELOAD 替換動態連結的函式庫
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.5" data-path="fcamel/05.html">
+            
+                
+                    <a href="../fcamel/05.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.5.</b>
+                        
+                        [轉] 用 strace 和 ltrace 找出用到的 system call 和 library call
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.6" data-path="fcamel/[]__linking_time.html">
+            
+                
+                    <a href="../fcamel/[]__linking_time.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.6.</b>
+                        
+                        [轉] 加速 linking time
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.7" data-path="fcamel/07.html">
+            
+                
+                    <a href="../fcamel/07.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.7.</b>
+                        
+                        [轉] 從 C 呼叫 C++ 函式的過程理解程式編譯、連結的原理
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.8" data-path="fcamel/08.html">
+            
+                
+                    <a href="../fcamel/08.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.8.</b>
+                        
+                        [轉] 對 C++ 的觀感
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.9" data-path="fcamel/09.html">
+            
+                
+                    <a href="../fcamel/09.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.9.</b>
+                        
+                        [轉]在 Linux 下開發 C/C++ 的新手指南
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10" data-path="fcamel/10.html">
+            
+                
+                    <a href="../fcamel/10.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.</b>
+                        
+                        [轉]瞭解 C/C++ 程式行為的技巧
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="9.10.1" data-path="fcamel/91001.html">
+            
+                
+                    <a href="../fcamel/91001.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.1.</b>
+                        
+                        查 C/C++ symbol 定義的方法
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10.2" data-path="fcamel/91002.html">
+            
+                
+                    <a href="../fcamel/91002.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.2.</b>
+                        
+                        閱讀 C/C++ 原始碼的好幫手
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10.3" data-path="fcamel/91003.html">
+            
+                
+                    <a href="../fcamel/91003.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.3.</b>
+                        
+                        配合 c++filt 讀程式
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10.4" data-path="fcamel/91004.html">
+            
+                
+                    <a href="../fcamel/91004.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.4.</b>
+                        
+                        加速 gdb 載入 symbol 時間
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10.5" data-path="fcamel/91005.html">
+            
+                
+                    <a href="../fcamel/91005.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.5.</b>
+                        
+                        在 x86-64 上對 system call 使用 conditional break
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10.6" data-path="fcamel/91006.html">
+            
+                
+                    <a href="../fcamel/91006.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.6.</b>
+                        
+                        用 strace 找出 Ubuntu 如何提示未安裝的指令
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10.7" data-path="fcamel/91007.html">
+            
+                
+                    <a href="../fcamel/91007.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.7.</b>
+                        
+                        自行編譯含 debug symbol 的套件 (package)
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10.8" data-path="fcamel/91008.html">
+            
+                
+                    <a href="../fcamel/91008.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.8.</b>
+                        
+                        gdb 顯示 STL container 的方法
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10.9" data-path="fcamel/91009.html">
+            
+                
+                    <a href="../fcamel/91009.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.9.</b>
+                        
+                        善用 strace、debugger 從執行期間找出問題根源
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.10.10" data-path="fcamel/91010.html">
+            
+                
+                    <a href="../fcamel/91010.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.10.10.</b>
+                        
+                        用 python gdb 客製化 backtrace 的結果
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="9.11" data-path="fcamel/911.html">
+            
+                
+                    <a href="../fcamel/911.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.11.</b>
+                        
+                        寫 linux daemon 的注意事項
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.12" data-path="fcamel/912.html">
+            
+                
+                    <a href="../fcamel/912.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.12.</b>
+                        
+                        signal 小知識
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="10" data-path="arm/index.html">
+            
+                
+                    <a href="../arm/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>10.</b>
+                        
+                        ARM
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="10.1" data-path="arm/101.html">
+            
+                
+                    <a href="../arm/101.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>10.1.</b>
+                        
+                        ARM彙編語言
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="10.2" data-path="arm/102.html">
+            
+                
+                    <a href="../arm/102.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>10.2.</b>
+                        
+                        ARM尋址方式
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="11" data-path="arm_emulation/index.html">
+            
+                
+                    <a href="../arm_emulation/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.</b>
+                        
+                        ARM emulation
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="11.1" data-path="arm_emulation/compiling_linux_kernel_for_qemu_arm_emulator.html">
+            
+                
+                    <a href="../arm_emulation/compiling_linux_kernel_for_qemu_arm_emulator.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.1.</b>
+                        
+                        Compiling Linux kernel for QEMU ARM emulator
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.2" data-path="arm_emulation/compiling_linux_kernel_30_with_emdebian_arm_toolchain.html">
+            
+                
+                    <a href="../arm_emulation/compiling_linux_kernel_30_with_emdebian_arm_toolchain.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.2.</b>
+                        
+                        Compiling Linux kernel 3.0 with Emdebian ARM toolchain
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.3" data-path="arm_emulation/compile_linux_kernel_32_for_arm_and_emulate_with_qemu.html">
+            
+                
+                    <a href="../arm_emulation/compile_linux_kernel_32_for_arm_and_emulate_with_qemu.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.3.</b>
+                        
+                        Compile Linux kernel 3.2 for ARM and emulate with QEMU
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.4" data-path="arm_emulation/busybox_for_arm_on_qemu.html">
+            
+                
+                    <a href="../arm_emulation/busybox_for_arm_on_qemu.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.4.</b>
+                        
+                        Busybox for ARM on QEMU
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.5" data-path="arm_emulation/linux_nfs_root_under_qemu_arm_emulator.html">
+            
+                
+                    <a href="../arm_emulation/linux_nfs_root_under_qemu_arm_emulator.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.5.</b>
+                        
+                        Linux NFS Root under QEMU ARM emulator
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.6" data-path="arm_emulation/trying_debian_for_arm_on_qemu.html">
+            
+                
+                    <a href="../arm_emulation/trying_debian_for_arm_on_qemu.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.6.</b>
+                        
+                        Trying Debian for ARM on QEMU
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.7" data-path="arm_emulation/debugging_arm_programs_inside_qemu.html">
+            
+                
+                    <a href="../arm_emulation/debugging_arm_programs_inside_qemu.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.7.</b>
+                        
+                        Debugging ARM programs inside QEMU
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.8" data-path="arm_emulation/u-boot_for_arm_on_qemu.html">
+            
+                
+                    <a href="../arm_emulation/u-boot_for_arm_on_qemu.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.8.</b>
+                        
+                        U-boot for ARM on QEMU
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.9" data-path="arm_emulation/booting_linux_with_u-boot_on_qemu_arm.html">
+            
+                
+                    <a href="../arm_emulation/booting_linux_with_u-boot_on_qemu_arm.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.9.</b>
+                        
+                        Booting Linux with U-Boot on QEMU ARM
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.10" data-path="arm_emulation/simplest_bare_metal_program_for_arm.html">
+            
+                
+                    <a href="../arm_emulation/simplest_bare_metal_program_for_arm.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.10.</b>
+                        
+                        Simplest bare metal program for ARM
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.11" data-path="arm_emulation/hello_world_for_bare_metal_arm_using_qemu.html">
+            
+                
+                    <a href="../arm_emulation/hello_world_for_bare_metal_arm_using_qemu.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.11.</b>
+                        
+                        Hello world for bare metal ARM using QEMU
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.12" data-path="arm_emulation/emulating_arm_pl011_serial_ports.html">
+            
+                
+                    <a href="../arm_emulation/emulating_arm_pl011_serial_ports.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.12.</b>
+                        
+                        Emulating ARM PL011 serial ports
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.13" data-path="arm_emulation/arm926_interrupts_in_qemu.html">
+            
+                
+                    <a href="../arm_emulation/arm926_interrupts_in_qemu.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.13.</b>
+                        
+                        ARM926 interrupts in QEMU
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.14" data-path="arm_emulation/using_ubuntu_arm_cross-compiler_for_bare_metal_programming.html">
+            
+                
+                    <a href="../arm_emulation/using_ubuntu_arm_cross-compiler_for_bare_metal_programming.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.14.</b>
+                        
+                        Using Ubuntu ARM cross-compiler for bare metal programming
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.15" data-path="arm_emulation/using_newlib_in_arm_bare_metal_programs.html">
+            
+                
+                    <a href="../arm_emulation/using_newlib_in_arm_bare_metal_programs.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.15.</b>
+                        
+                        Using Newlib in ARM bare metal programs
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.16" data-path="arm_emulation/using_codesourcery_bare_metal_toolchain_for_cortex-m3.html">
+            
+                
+                    <a href="../arm_emulation/using_codesourcery_bare_metal_toolchain_for_cortex-m3.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.16.</b>
+                        
+                        Using CodeSourcery bare metal toolchain for Cortex-M3
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.17" data-path="arm_emulation/qemu_arm_semihosting.html">
+            
+                
+                    <a href="../arm_emulation/qemu_arm_semihosting.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.17.</b>
+                        
+                        QEMU ARM semihosting
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.18" data-path="arm_emulation/simulating_at91_with_skyeye.html">
+            
+                
+                    <a href="../arm_emulation/simulating_at91_with_skyeye.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.18.</b>
+                        
+                        Simulating AT91 with Skyeye
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="12" data-path="linux_kernel/index.html">
+            
+                
+                    <a href="../linux_kernel/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.</b>
+                        
+                        Linux Kernel
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="12.1" data-path="linux_kernel/121.html">
+            
+                
+                    <a href="../linux_kernel/121.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.1.</b>
+                        
+                        我理解的邏輯地址、線性地址、物理地址和虛擬地址
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="12.2" data-path="linux_kernel/122.html">
+            
+                
+                    <a href="../linux_kernel/122.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.2.</b>
+                        
+                        用ttyS0獲取dmesg信息
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="12.3" data-path="linux_kernel/123.html">
+            
+                
+                    <a href="../linux_kernel/123.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.3.</b>
+                        
+                        Buddy Algorithm
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="12.4" data-path="linux_kernel/124.html">
+            
+                
+                    <a href="../linux_kernel/124.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.4.</b>
+                        
+                        分析oops的機器碼
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="12.5" data-path="linux_kernel/125.html">
+            
+                
+                    <a href="../linux_kernel/125.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.5.</b>
+                        
+                        oops調試
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="12.6" data-path="linux_kernel/126.html">
+            
+                
+                    <a href="../linux_kernel/126.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.6.</b>
+                        
+                        可搶佔
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="12.7" data-path="linux_kernel/127.html">
+            
+                
+                    <a href="../linux_kernel/127.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.7.</b>
+                        
+                        異或的用法
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="12.8" data-path="linux_kernel/128.html">
+            
+                
+                    <a href="../linux_kernel/128.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.8.</b>
+                        
+                        定製編譯內核模塊的GCC參數
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="12.9" data-path="linux_kernel/129.html">
+            
+                
+                    <a href="../linux_kernel/129.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.9.</b>
+                        
+                        Linux 記憶體基礎
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="12.10" data-path="linux_kernel/1210.html">
+            
+                
+                    <a href="../linux_kernel/1210.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.10.</b>
+                        
+                        Linux內存管理之分頁機制
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="12.11" data-path="linux_kernel/1211.html">
+            
+                
+                    <a href="../linux_kernel/1211.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.11.</b>
+                        
+                        Linux虛擬內存概述
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="12.12" data-path="linux_kernel/1212.html">
+            
+                
+                    <a href="../linux_kernel/1212.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.12.</b>
+                        
+                        程序的裝載和鏈接
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="12.13" data-path="linux_kernel/1213.html">
+            
+                
+                    <a href="../linux_kernel/1213.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.13.</b>
+                        
+                        IA32CPU內存管理機制
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="12.14" data-path="linux_kernel/1214.html">
+            
+                
+                    <a href="../linux_kernel/1214.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.14.</b>
+                        
+                        Linux內存管理之分段機制
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="12.15" data-path="linux_kernel/1215.html">
+            
+                
+                    <a href="../linux_kernel/1215.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.15.</b>
+                        
+                        邏輯地址，線性地址及物理地址的區別
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="12.16" data-path="linux_kernel/1216.html">
+            
+                
+                    <a href="../linux_kernel/1216.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.16.</b>
+                        
+                        分段機制和分頁機制
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="12.17" data-path="linux_kernel/1217.html">
+            
+                
+                    <a href="../linux_kernel/1217.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.17.</b>
+                        
+                        段選擇器 段描述符 段描述符表 線性地址形成
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="13" data-path="linux_driver/index.html">
+            
+                
+                    <a href="../linux_driver/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>13.</b>
+                        
+                        Linux Driver
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="13.1" data-path="linux_driver/linux_device_model.html">
+            
+                
+                    <a href="../linux_driver/linux_device_model.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>13.1.</b>
+                        
+                        Linux Device Model 三角關係
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="14" data-path="os/index.html">
+            
+                
+                    <a href="../os/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>14.</b>
+                        
+                        OS
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="14.1" data-path="os/141.html">
+            
+                
+                    <a href="../os/141.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>14.1.</b>
+                        
+                        [轉]打造簡易作業系統
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="14.1.1" data-path="os/14111.html">
+            
+                
+                    <a href="../os/14111.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>14.1.1.</b>
+                        
+                        (一) 開機Hello World實例
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="14.1.2" data-path="os/1412.html">
+            
+                
+                    <a href="../os/1412.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>14.1.2.</b>
+                        
+                        (二) Boot Loader + 作業系統載入實例 (QEMU)
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="14.1.3" data-path="os/1413.html">
+            
+                
+                    <a href="../os/1413.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>14.1.3.</b>
+                        
+                        (三) Boot Loader + 作業系統載入實例 (CF Card)
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="14.1.4" data-path="os/1414.html">
+            
+                
+                    <a href="../os/1414.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>14.1.4.</b>
+                        
+                        (四) 由16位元真實模式 (Real Mode) 進入32位元保護模式 (Protect Mode)
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="14.1.5" data-path="os/1415.html">
+            
+                
+                    <a href="../os/1415.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>14.1.5.</b>
+                        
+                        (五) 使用Local Descriptor Table (LDT)
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="14.1.6" data-path="os/1416.html">
+            
+                
+                    <a href="../os/1416.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>14.1.6.</b>
+                        
+                        (六) 簡介Call Gate
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="14.1.7" data-path="os/1417.html">
+            
+                
+                    <a href="../os/1417.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>14.1.7.</b>
+                        
+                        (七) 利用Call Gate與TSS (Task-State Segment)實現特權等級的轉換
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="15" data-path="linux_system/index.html">
+            
+                
+                    <a href="../linux_system/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>15.</b>
+                        
+                        Linux System
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="15.1" data-path="linux_system/151.html">
+            
+                
+                    <a href="../linux_system/151.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>15.1.</b>
+                        
+                        如何更新linux console畫面
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="15.2" data-path="linux_system/linux_debugging.html">
+            
+                
+                    <a href="../linux_system/linux_debugging.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>15.2.</b>
+                        
+                        Linux Debugging
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="15.2.1" data-path="linux_system/1521.html">
+            
+                
+                    <a href="../linux_system/1521.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>15.2.1.</b>
+                        
+                        使用反彙編理解C++程序函數調用棧
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="15.3" data-path="linux_system/153.html">
+            
+                
+                    <a href="../linux_system/153.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>15.3.</b>
+                        
+                        服務器進程為何通常fork()兩次
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="15.4" data-path="linux_system/154.html">
+            
+                
+                    <a href="../linux_system/154.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>15.4.</b>
+                        
+                        創建 Daemon 程式
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="16" data-path="assembly/index.html">
+            
+                
+                    <a href="../assembly/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>16.</b>
+                        
+                        Assembly
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="16.1" data-path="assembly/161.html">
+            
+                
+                    <a href="../assembly/161.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>16.1.</b>
+                        
+                        Linux 平臺學X86組合語言
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="16.1.1" data-path="assembly/1611.html">
+            
+                
+                    <a href="../assembly/1611.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>16.1.1.</b>
+                        
+                        現代計算機結構組成與工作過程
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="16.1.2" data-path="assembly/1612.html">
+            
+                
+                    <a href="../assembly/1612.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>16.1.2.</b>
+                        
+                        處理器指令碼及IA-32平臺瞭解
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="16.1.3" data-path="assembly/1613.html">
+            
+                
+                    <a href="../assembly/1613.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>16.1.3.</b>
+                        
+                        相關開發工具
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="16.1.4" data-path="assembly/1614.html">
+            
+                
+                    <a href="../assembly/1614.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>16.1.4.</b>
+                        
+                        從“hello world！”開始
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="16.1.5" data-path="assembly/1615.html">
+            
+                
+                    <a href="../assembly/1615.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>16.1.5.</b>
+                        
+                        使用gdb調試彙編程序
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="16.1.6" data-path="assembly/1616.html">
+            
+                
+                    <a href="../assembly/1616.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>16.1.6.</b>
+                        
+                        數據的傳送
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="16.1.7" data-path="assembly/1617.html">
+            
+                
+                    <a href="../assembly/1617.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>16.1.7.</b>
+                        
+                        堆棧的使用
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="16.1.8" data-path="assembly/1618.html">
+            
+                
+                    <a href="../assembly/1618.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>16.1.8.</b>
+                        
+                        條件跳轉
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="16.1.9" data-path="assembly/1619.html">
+            
+                
+                    <a href="../assembly/1619.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>16.1.9.</b>
+                        
+                        循環指令
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="16.1.10" data-path="assembly/16110.html">
+            
+                
+                    <a href="../assembly/16110.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>16.1.10.</b>
+                        
+                        整數運算
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="16.1.11" data-path="assembly/16111.html">
+            
+                
+                    <a href="../assembly/16111.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>16.1.11.</b>
+                        
+                        字符串的傳送
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="16.1.12" data-path="assembly/16112.html">
+            
+                
+                    <a href="../assembly/16112.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>16.1.12.</b>
+                        
+                        字符串的存儲與加載
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="16.1.13" data-path="assembly/16113.html">
+            
+                
+                    <a href="../assembly/16113.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>16.1.13.</b>
+                        
+                        字符串的比較與搜索
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="16.1.14" data-path="assembly/16114.html">
+            
+                
+                    <a href="../assembly/16114.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>16.1.14.</b>
+                        
+                        函數的使用
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="16.1.15" data-path="assembly/14115.html">
+            
+                
+                    <a href="../assembly/14115.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>16.1.15.</b>
+                        
+                        使用命令行參數
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="16.1.16" data-path="assembly/16116.html">
+            
+                
+                    <a href="../assembly/16116.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>16.1.16.</b>
+                        
+                        在彙編語言中調用C庫函數
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="16.1.17" data-path="assembly/16117.html">
+            
+                
+                    <a href="../assembly/16117.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>16.1.17.</b>
+                        
+                        在彙編中使用linux系統調用
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="16.1.18" data-path="assembly/16118.html">
+            
+                
+                    <a href="../assembly/16118.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>16.1.18.</b>
+                        
+                        內聯彙編
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="16.1.19" data-path="assembly/16119.html">
+            
+                
+                    <a href="../assembly/16119.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>16.1.19.</b>
+                        
+                        C語言中調用匯編函數
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="16.1.20" data-path="assembly/16200.html">
+            
+                
+                    <a href="../assembly/16200.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>16.1.20.</b>
+                        
+                        彙編庫的使用（結）
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="16.2" data-path="assembly/162.html">
+            
+                
+                    <a href="../assembly/162.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>16.2.</b>
+                        
+                        [轉]如何在 Linux 下使用 GNU AS 撰寫組合語言
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="16.3" data-path="assembly/163.html">
+            
+                
+                    <a href="../assembly/163.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>16.3.</b>
+                        
+                        在 Linux 下使用 GNU AS 編寫組合語言 - 使用 gdb 進行除錯
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="16.4" data-path="assembly/164.html">
+            
+                
+                    <a href="../assembly/164.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>16.4.</b>
+                        
+                        linux反彙編旁門左道小技巧一則
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="16.5" data-path="assembly/165.html">
+            
+                
+                    <a href="../assembly/165.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>16.5.</b>
+                        
+                        gas學習  by Jian Lee
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="16.6" data-path="assembly/166.html">
+            
+                
+                    <a href="../assembly/166.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>16.6.</b>
+                        
+                        閱讀assembly code
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="17" data-path="toolchain/index.html">
+            
+                
+                    <a href="../toolchain/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>17.</b>
+                        
+                        Toolchain
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="17.1" data-path="toolchain/171.html">
+            
+                
+                    <a href="../toolchain/171.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>17.1.</b>
+                        
+                        cross compiler install
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="17.2" data-path="toolchain/172.html">
+            
+                
+                    <a href="../toolchain/172.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>17.2.</b>
+                        
+                        buildroot install
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="18" data-path="gdb/index.html">
+            
+                
+                    <a href="../gdb/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>18.</b>
+                        
+                        GDB
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="18.1" data-path="gdb/181.html">
+            
+                
+                    <a href="../gdb/181.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>18.1.</b>
+                        
+                        簡易 GDB Script 教學，應用
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="18.2" data-path="gdb/182.html">
+            
+                
+                    <a href="../gdb/182.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>18.2.</b>
+                        
+                        [轉]GDB的妙用
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="18.3" data-path="gdb/183.html">
+            
+                
+                    <a href="../gdb/183.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>18.3.</b>
+                        
+                        GDB中應該知道的幾個調試方法
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="19" data-path="mooc_linux_kernel/index.html">
+            
+                
+                    <a href="../mooc_linux_kernel/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>19.</b>
+                        
+                        Linux內核分析雲課堂學習筆記
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="19.1" data-path="mooc_linux_kernel/191.html">
+            
+                
+                    <a href="../mooc_linux_kernel/191.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>19.1.</b>
+                        
+                        圖解分析彙編代碼以理解計算機是如何工作的
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="19.2" data-path="mooc_linux_kernel/192.html">
+            
+                
+                    <a href="../mooc_linux_kernel/192.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>19.2.</b>
+                        
+                        基於mykernel的一個簡單的時間片輪轉多道程序內核代碼分析
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="19.3" data-path="mooc_linux_kernel/193.html">
+            
+                
+                    <a href="../mooc_linux_kernel/193.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>19.3.</b>
+                        
+                        使用gdb跟蹤Linux內核啟動過程
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="19.4" data-path="mooc_linux_kernel/194.html">
+            
+                
+                    <a href="../mooc_linux_kernel/194.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>19.4.</b>
+                        
+                        使用庫函數API和C代碼中嵌入彙編代碼兩種方式使用同一個系統調用
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="19.5" data-path="mooc_linux_kernel/195.html">
+            
+                
+                    <a href="../mooc_linux_kernel/195.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>19.5.</b>
+                        
+                        分析system_call中斷處裡過程
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="19.6" data-path="mooc_linux_kernel/196.html">
+            
+                
+                    <a href="../mooc_linux_kernel/196.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>19.6.</b>
+                        
+                        初學Linux進程的描述和進程的創建
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="19.7" data-path="mooc_linux_kernel/198.html">
+            
+                
+                    <a href="../mooc_linux_kernel/198.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>19.7.</b>
+                        
+                        初學《Linux內核如何裝載和啟動一個可執行程序》
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="19.8" data-path="mooc_linux_kernel/197.html">
+            
+                
+                    <a href="../mooc_linux_kernel/197.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>19.8.</b>
+                        
+                        初學Linux中進程調度與進程切換過程
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="19.9" data-path="mooc_linux_kernel/199.html">
+            
+                
+                    <a href="../mooc_linux_kernel/199.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>19.9.</b>
+                        
+                        Linux內核學習總結
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="20" data-path="gunmake/index.html">
+            
+                
+                    <a href="../gunmake/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>20.</b>
+                        
+                        GNU make
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="20.1" data-path="gunmake/201.html">
+            
+                
+                    <a href="../gunmake/201.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>20.1.</b>
+                        
+                        如何調試makefile變量
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="21" data-path="c++/index.html">
+            
+                
+                    <a href="../c++/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>21.</b>
+                        
+                        C++
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="21.1" data-path="c++/211.html">
+            
+                
+                    <a href="../c++/211.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>21.1.</b>
+                        
+                        [轉]C++ 對象的內存佈局
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="21.2" data-path="c++/212.html">
+            
+                
+                    <a href="../c++/212.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>21.2.</b>
+                        
+                        [轉] C++對象模型之簡述C++對象的內存佈局
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="21.3" data-path="c++/213.html">
+            
+                
+                    <a href="../c++/213.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>21.3.</b>
+                        
+                        [轉]C++對象模型之詳述C++對象的內存佈局
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="21.4" data-path="c++/214.html">
+            
+                
+                    <a href="../c++/214.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>21.4.</b>
+                        
+                        [轉]C++ 虛函數表解析
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="22" data-path="22/index.html">
+            
+                
+                    <a href="../22/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>22.</b>
+                        
+                        [轉]國王的耳朵是驢耳朵
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="22.1" data-path="22/221.html">
+            
+                
+                    <a href="../22/221.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>22.1.</b>
+                        
+                        Linker script初探 - GNU linker ld手冊略讀
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="22.2" data-path="22/222.html">
+            
+                
+                    <a href="../22/222.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>22.2.</b>
+                        
+                        GNU ld初探
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="22.3" data-path="22/223.html">
+            
+                
+                    <a href="../22/223.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>22.3.</b>
+                        
+                        系統函式庫的debug 資訊放在那邊？
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="22.4" data-path="22/224.html">
+            
+                
+                    <a href="../22/224.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>22.4.</b>
+                        
+                        Nm 的欄位說明
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="22.5" data-path="22/225.html">
+            
+                
+                    <a href="../22/225.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>22.5.</b>
+                        
+                        Objdump -t 的欄位說明
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="22.6" data-path="22/226.html">
+            
+                
+                    <a href="../22/226.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>22.6.</b>
+                        
+                        C語言在Linux下組裝經驗分享
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="22.7" data-path="22/227.html">
+            
+                
+                    <a href="../22/227.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>22.7.</b>
+                        
+                        C語言archive 明明有symbol卻link時出現unsolved Symbol錯誤
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="22.8" data-path="22/228.html">
+            
+                
+                    <a href="../22/228.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>22.8.</b>
+                        
+                        Linux 檔案的hole
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="22.9" data-path="22/229.html">
+            
+                
+                    <a href="../22/229.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>22.9.</b>
+                        
+                        Linux下面的C語言使用getopt Parse Command Line參數
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="22.10" data-path="22/2210.html">
+            
+                
+                    <a href="../22/2210.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>22.10.</b>
+                        
+                        Hello World
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="22.11" data-path="22/2211.html">
+            
+                
+                    <a href="../22/2211.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>22.11.</b>
+                        
+                        Using as 手冊筆記
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="22.12" data-path="22/2212.html">
+            
+                
+                    <a href="../22/2212.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>22.12.</b>
+                        
+                        Hello Linux ARM 組合語言
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="22.13" data-path="22/2213.html">
+            
+                
+                    <a href="../22/2213.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>22.13.</b>
+                        
+                        Linux中誰來呼叫C語言中的main?
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="22.14" data-path="22/2214.html">
+            
+                
+                    <a href="../22/2214.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>22.14.</b>
+                        
+                        談談.git 目錄
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="22.15" data-path="22/2215.html">
+            
+                
+                    <a href="../22/2215.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>22.15.</b>
+                        
+                        Linux中使用C語言載入data object 檔案資料
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="22.16" data-path="22/2216.html">
+            
+                
+                    <a href="../22/2216.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>22.16.</b>
+                        
+                        Linux下面快速搜尋PDF的方式
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="22.17" data-path="22/2217.html">
+            
+                
+                    <a href="../22/2217.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>22.17.</b>
+                        
+                        Rtenv的linker Script解釋
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="22.18" data-path="22/2218.html">
+            
+            <span><b>22.18.</b> GNU LD 手冊略讀</span>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="22.18.1" data-path="22/22181.html">
+            
+                
+                    <a href="../22/22181.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>22.18.1.</b>
+                        
+                        GNU LD 手冊略讀 (0): 目錄和簡介
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="22.18.2" data-path="22/22182.html">
+            
+                
+                    <a href="../22/22182.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>22.18.2.</b>
+                        
+                        GNU LD 手冊略讀 (1): Chapter 3 ~ Chapter 3.5
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="22.18.3" data-path="22/22183.html">
+            
+                
+                    <a href="../22/22183.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>22.18.3.</b>
+                        
+                        GNU LD 手冊略讀 (2): Chapter 3.6 SETCIONS
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter active" data-level="22.18.4" data-path="22/22184.html">
+            
+                
+                    <a href="../22/22184.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>22.18.4.</b>
+                        
+                        GNU LD 手冊略讀 (3): Chapter 3.7 ~ Chapter 3.11
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+
+        
+        <li class="divider"></li>
+        <li>
+            <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+                Published with GitBook
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="book-header">
+    <!-- Actions Left -->
+    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
+    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
+    
+    <div id="font-settings-wrapper" class="dropdown pull-left">
+        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
+        </a>
+        <div class="dropdown-menu font-settings">
+    <div class="dropdown-caret">
+        <span class="caret-outer"></span>
+        <span class="caret-inner"></span>
+    </div>
+
+    <div class="buttons">
+        <button type="button" id="reduce-font-size" class="button size-2">A</button>
+        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
+    </div>
+
+    <div class="buttons font-family-list">
+        <button type="button" data-font="0" class="button">Serif</button>
+        <button type="button" data-font="1" class="button">Sans</button>
+    </div>
+
+    <div class="buttons color-theme-list">
+        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
+        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
+        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
+    </div>
+</div>
+
+    </div>
+
+    <!-- Actions Right -->
+    
+    <div class="dropdown pull-right">
+        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
+        </a>
+        <div class="dropdown-menu font-settings dropdown-left">
+            <div class="dropdown-caret">
+                <span class="caret-outer"></span>
+                <span class="caret-inner"></span>
+            </div>
+            <div class="buttons">
+                <button type="button" data-sharing="twitter" class="button">
+                    Share on Twitter
+                </button>
+                <button type="button" data-sharing="google-plus" class="button">
+                    Share on Google
+                </button>
+                <button type="button" data-sharing="facebook" class="button">
+                    Share on Facebook
+                </button>
+                <button type="button" data-sharing="weibo" class="button">
+                    Share on Weibo
+                </button>
+                <button type="button" data-sharing="instapaper" class="button">
+                    Share on Instapaper
+                </button>
+            </div>
+        </div>
+    </div>
+    
+
+    
+    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
+    
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../" >Jason note</a>
+    </h1>
+</div>
+
+            <div class="page-wrapper" tabindex="-1">
+                <div class="page-inner">
+                
+                
+                    <section class="normal" id="section-">
+                    
+                        <h1 id="gnu-ld-%E6%89%8B%E5%86%8A%E7%95%A5%E8%AE%80-3-chapter-3-7-chapter-3-11">GNU LD &#x624B;&#x518A;&#x7565;&#x8B80; (3): Chapter 3.7 ~ Chapter 3.11</h1>
+<p><a href="http://wen00072.github.io/blog/2014/12/14/study-on-the-linker-script-2-setcion-command" target="_blank">&#x4E0A;&#x4E00;&#x7BC7;</a>
+<a href="http://wen00072.github.io/blog/2014/12/14/study-on-the-linker-script-0-table-of-contents" target="_blank">&#x56DE;&#x7E3D;&#x76EE;&#x9304;</a></p>
+<h2 id="%E6%9C%AC%E7%AF%87%E7%9B%AE%E9%8C%84">&#x672C;&#x7BC7;&#x76EE;&#x9304;</h2>
+<ul>
+<li><a href="#mem">MEMORY&#x547D;&#x4EE4;</a></li>
+<li><a href="#phdr">PHDRS&#x547D;&#x4EE4;</a></li>
+<li><a href="#ver">VERSION&#x547D;&#x4EE4;</a></li>
+<li><a href="#expr">Linker script &#x4E2D;&#x4F7F;&#x7528;&#x7684;expression</a><ul>
+<li><a href="#expr-const">&#x5E38;&#x6578;</a></li>
+<li><a href="#expr-sym-const">Symbolic &#x5E38;&#x6578;</a></li>
+<li><a href="#expr-sym">Symbol&#x547D;&#x540D;&#x898F;&#x5247;</a></li>
+<li><a href="#expr-oph-sec">&#x5B64;&#x5152; Section</a></li>
+<li><a href="#expr-lcnt">Location Counter</a></li>
+<li><a href="#expr-op">Operators</a></li>
+<li><a href="#expr-eval">&#x8A08;&#x7B97;&#x7D50;&#x679C;</a></li>
+<li><a href="#expr-sec">Expression &#x8A08;&#x7B97;&#x7D50;&#x679C;&#x548C;absolute/relative address&#x7684;&#x95DC;&#x4FC2;</a></li>
+<li><a href="#expr-btfun">&#x5167;&#x5EFA;&#x51FD;&#x6578;</a></li>
+</ul>
+</li>
+<li><a href="#imp">Implicit Linker Scripts</a></li>
+<li><a href="#todo">&#x5F85;&#x91D0;&#x6E05;&#x9805;&#x76EE;</a></li>
+<li><a href="#ref">&#x53C3;&#x8003;&#x8CC7;&#x6599;</a></li>
+</ul>
+<p><a name="mem"></a></p>
+<h2 id="memory%E5%91%BD%E4%BB%A4">MEMORY&#x547D;&#x4EE4;</h2>
+<p>&#x9810;&#x8A2D;&#x7684;linker&#x6703;&#x5C07;&#x6240;&#x6709;&#x7684;memory space&#x8996;&#x70BA;&#x53EF;&#x4EE5;&#x5206;&#x914D;&#x7684;&#x3002;&#x7136;&#x800C;&#x73FE;&#x5BE6;&#x751F;&#x6D3B;&#x9019;&#x500B;&#x5047;&#x8A2D;&#x4E0D;&#x4E00;&#x5B9A;&#x6210;&#x7ACB;&#xFF0C;&#x4F8B;&#x5982;&#x4F60;&#x5BEB;&#x8CC7;&#x6599;&#x5230;ROM&#x7684;&#x8A18;&#x61B6;&#x9AD4;&#x5C31;&#x4FDD;&#x8B49;GG&#x3002;&#x6240;&#x4EE5;linker script&#x63D0;&#x4F9B;&#x4E86;<code>MEMORY</code>&#x547D;&#x4EE4;&#x8B93;&#x4F60;&#x756B;&#x5730;&#x76E4;&#xFF0C;&#x544A;&#x8A34;linker&#x90A3;&#x584A;&#x5730;&#x76E4;&#x6709;&#x4EC0;&#x9EBC;&#x6A23;&#x7684;&#x7279;&#x6027;&#x3002;&#x8A72;&#x547D;&#x4EE4;&#x6703;&#x63CF;&#x8FF0;</p>
+<ul>
+<li>&#x4F60;&#x7D66;&#x9019;&#x584A;&#x8A18;&#x61B6;&#x9AD4;&#x53D6;&#x7684;&#x540D;&#x7A31;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#x524D;&#x9762;&#x4E00;&#x76F4;&#x8B1B;&#x7684;region</li>
+<li>&#x8D77;&#x59CB;&#x4F4D;&#x5740;</li>
+<li>&#x4E0A;&#x9762;&#x4F4D;&#x5740;&#x5F8C;&#x9762;&#x7684;&#x8A18;&#x61B6;&#x9AD4;&#x5927;&#x5C0F;</li>
+<li>&#x9019;&#x584A;&#x8A18;&#x61B6;&#x9AD4;&#x6709;&#x4EC0;&#x9EBC;&#x9650;&#x5236;</li>
+</ul>
+<p>&#x547D;&#x4EE4;&#x8A9E;&#x6CD5;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c">MEMORY
+{
+    name [(attr)] : ORIGIN = origin, LENGTH = len
+    ...
+}
+</code></pre>
+<p>&#x6BCF;&#x500B;&#x6B04;&#x4F4D;&#x8AAA;&#x660E;&#x5982;&#x4E0B;</p>
+<ul>
+<li><code>name</code><ul>
+<li>&#x4F60;&#x7D66;&#x9019;&#x584A;&#x8A18;&#x61B6;&#x9AD4;&#x53D6;&#x7684;&#x540D;&#x7A31;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#x524D;&#x9762;&#x4E00;&#x76F4;&#x8B1B;&#x7684;region(&#x4EE5;&#x4E0B;&#x4EE5;region&#x7A31;&#x547C;)&#x3002;&#x9019;&#x500B;&#x540D;&#x7A31;&#x4E0D;&#x53EF;&#x4EE5;&#x548C;&#x540C;&#x500B;linker script&#x4E2D;&#x4EE5;&#x4E0B;&#x7684;&#x540D;&#x7A31;&#x76F8;&#x540C;&#xFF1A;<ul>
+<li>symbol&#x540D;&#x7A31;</li>
+<li>section&#x540D;&#x7A31;</li>
+<li>&#x6A94;&#x6848;&#x540D;&#x7A31;<ul>
+<li>&#x6BCF;&#x584A;region&#x90FD;&#x8981;&#x7D66;&#x500B;&#x540D;&#x5B57;&#xFF0C;&#x9019;&#x4E9B;&#x540D;&#x5B57;&#x53EF;&#x4EE5;&#x7D66;&#x4ED6;&#x53D6;alias&#xFF0C;&#x9019;&#x90E8;&#x4EFD;&#x8ACB;&#x53C3;&#x8003;<a href="http://wen00072-blog.logdown.com/posts/246069-study-on-the-linker-script-1#cmd-alias" target="_blank"><code>REGION_ALIAS</code>&#x547D;&#x4EE4;</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>attr</code><ul>
+<li>optional<ul>
+<li>&#x544A;&#x8A34;linker&#x9019;&#x584A;&#x8A18;&#x61B6;&#x9AD4;&#x6709;&#x4EC0;&#x9EBC;&#x503C;&#x5F97;&#x6CE8;&#x610F;&#x7684;&#x5730;&#x65B9;&#xFF0C;&#x4E00;&#x500B;region&#x53EF;&#x4EE5;&#x6709;&#x591A;&#x500B;&#x5C6C;&#x6027;&#xFF0C;&#x5217;&#x51FA;&#x5982;&#x4E0B;<ul>
+<li><code>R</code>: Read only</li>
+<li><code>W</code>: &#x53EF;&#x8B80;&#x5BEB;</li>
+<li><code>X</code>: executable</li>
+<li><code>A</code>: &#x53EF;allocate</li>
+<li><code>I</code>&#x548C;<code>L</code>: Initialized section (&#x4E09;&#x5C0F;&#xFF1F;)</li>
+<li><code>!</code>: &#x5C07;&#x8A72;&#x7B26;&#x865F;&#x5F8C;&#x9762;&#x6240;&#x6709;&#x7684;&#x5C6C;&#x6027;inverse</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#x5982;&#x679C;&#x4E00;&#x500B;section&#x7B26;&#x5408;&#x4E0A;&#x9762;&#x7684;&#x689D;&#x4EF6;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x653E;&#x5728;&#x9019;&#x500B;region&#x4E2D;</li>
+</ul>
+</li>
+<li><code>ORIGIN</code><ul>
+<li>&#x4E00;&#x500B;expression&#xFF0C;&#x8868;&#x793A;&#x8A72;region&#x7684;&#x8D77;&#x59CB;&#x4F4D;&#x5740;</li>
+</ul>
+</li>
+<li><code>LENGTH</code><ul>
+<li>region &#x5927;&#x5C0F;&#xFF0C;&#x55AE;&#x4F4D;&#x70BA;byte</li>
+</ul>
+</li>
+</ul>
+<p>&#x4E0B;&#x9762;&#x7684;&#x7BC4;&#x4F8B;&#x53EF;&#x4EE5;&#x770B;&#x5230;</p>
+<ul>
+<li>&#x6709;&#x5169;&#x500B;region</li>
+<li>region <code>rom</code>&#x7684;&#x8CC7;&#x8A0A;&#xFF1A;<ul>
+<li>&#x552F;&#x8B80;&#x3001;&#x53EF;&#x57F7;&#x884C;</li>
+<li>&#x8D77;&#x59CB;&#x4F4D;&#x5740;&#x70BA;<code>0</code></li>
+<li>&#x9577;&#x5EA6;&#x70BA;256k</li>
+</ul>
+</li>
+<li>region <code>ram</code>&#x7684;&#x8CC7;&#x8A0A;&#xFF1A;<ul>
+<li>&#x975E;&#x552F;&#x8B80;&#x3001;&#x4E0D;&#x53EF;&#x57F7;&#x884C;</li>
+<li>&#x8D77;&#x59CB;&#x4F4D;&#x5740;&#x70BA;<code>0x40000000</code><ul>
+<li>&#x9577;&#x5EA6;&#x70BA;4M</li>
+</ul>
+</li>
+<li>&#x4F7F;&#x7528;&#x4E86;&#x7E2E;&#x5BEB;&#xFF0C;&#x7E2E;&#x5BEB;&#x898F;&#x5247;&#x4E0D;&#x60F3;&#x7FFB;&#xFF0C;&#x8ACB;&#x81EA;&#x5DF1;<a href="https://sourceware.org/binutils/docs/ld/MEMORY.html#MEMORY" target="_blank">&#x770B;&#x9019;&#x908A;</a></li>
+</ul>
+</li>
+</ul>
+<pre><code class="lang-c">MEMORY
+{
+    rom (rx)  : ORIGIN = <span class="hljs-number">0</span>, LENGTH = <span class="hljs-number">256</span><span class="hljs-function">K
+    <span class="hljs-title">ram</span> <span class="hljs-params">(!rx)</span> : org </span>= <span class="hljs-number">0x40000000</span>, l = <span class="hljs-number">4</span>M
+}
+</code></pre>
+<p>region&#x548C;section&#x7684;&#x5408;&#x9AD4;&#x90E8;&#x4EFD;<a href="http://wen00072-blog.logdown.com/posts/246070-study-on-the-linker-script-2-setcion-command#sec-output-attr-region" target="_blank">&#x524D;&#x9762;</a>&#x6709;&#x63D0;&#x904E;&#x4E86;&#x3002;&#x5982;&#x679C;&#x6C92;&#x6709;&#x6307;&#x5B9A;region&#x7684;&#x8A71;&#xFF0C;linker&#x6703;&#x5F9E;&#x76EE;&#x524D;region&#x6311;&#x4E00;&#x500B;&#x7D66;&#x4F60;&#x7528;&#x3002;&#x9664;&#x6B64;&#x4E4B;&#x5916;&#xFF0C;&#x4F60;&#x7684;section&#x7A7A;&#x9593;region&#x585E;&#x4E0D;&#x4E0B;&#x7684;&#x8A71;linker&#x6703;&#x5E6B;&#x4F60;&#x5075;&#x6E2C;&#x51FA;&#x4F86;&#x3002;</p>
+<p>&#x53E6;&#x5916;ORIGIN&#x548C;LENGTH&#x53EF;&#x4EE5;&#x7576;&#x4F5C;&#x67E5;&#x8A62;region&#x7684;&#x8CC7;&#x8A0A;&#xFF0C;&#x7BC4;&#x4F8B;&#x5982;&#x4E0B;</p>
+<pre><code class="lang-c">_fstack = ORIGIN(ram) + LENGTH(ram) - <span class="hljs-number">4</span>;
+</code></pre>
+<p><a name="phdr"></a></p>
+<h2 id="phdrs%E5%91%BD%E4%BB%A4">PHDRS&#x547D;&#x4EE4;</h2>
+<p>&#x8CC7;&#x6E90;&#x56DE;&#x6536;&#x4E0A;&#x4E00;&#x7BC7;&#x8B1B;&#x7684;&#x6771;&#x897F;&#x3002;<strong>&#x57FA;&#x672C;&#x4E0A;&#x6211;&#x4E0D;&#x77E5;&#x9053;elf&#x662F;&#x4E09;&#x5C0F;&#xFF0C;&#x6240;&#x4EE5;&#x5F88;&#x6709;&#x53EF;&#x80FD;&#x9019;&#x90E8;&#x4EFD;&#x6709;&#x932F;&#x8AA4;&#xFF0C;&#x8ACB;&#x81EA;&#x884C;&#x659F;&#x914C;&#xFF01;</strong></p>
+<p>PHDR &#x662F;<a href="http://en.wikipedia.org/wiki/Executable_and_Linkable_Format" target="_blank">ELF</a>&#x7684;program header&#x7E2E;&#x5BEB;&#xFF0C;&#x53C8;&#x7A31;&#x70BA;segment&#xFF08;&#x4EE5;&#x5F8C;&#x4EE5;segment&#x7A31;&#x4E4B;&#xFF09;&#x3002;&#x7576;ELF loader&#x8F09;&#x5165;ELF&#x57F7;&#x884C;&#x6A94;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x6703;&#x770B;&#x9019;&#x4E9B;segment&#x6C7A;&#x5B9A;&#x8981;&#x5982;&#x4F55;&#x628A;&#x8B80;&#x5165;&#x7684;&#x6A94;&#x6848;&#x653E;&#x5728;&#x8A18;&#x61B6;&#x9AD4;&#x4E2D;&#xFF0C;&#x9019;&#x90E8;&#x4EFD;&#x548C;<a href="http://en.wikipedia.org/wiki/Application_binary_interface" target="_blank">ABI</a>&#x6709;&#x95DC;&#x4FC2;&#xFF0C;&#x6309;&#x4E0B;&#x4E0D;&#x8868;&#xFF0C;&#x7B49;&#x6211;&#x90A3;&#x5929;&#x5FC3;&#x60C5;&#x597D;&#x518D;&#x4F86;&#x770B;ELF&#x548C;ABI&#x3002;&#x4F60;&#x53EF;&#x4EE5;&#x900F;&#x904E;<code>objdump -p</code>&#x89C0;&#x5BDF;program header&#x3002;</p>
+<p>&#x4E00;&#x822C;&#x4F86;&#x8AAA;&#xFF0C;linker&#x9810;&#x8A2D;&#x90FD;&#x5E6B;&#x4F60;&#x5F04;&#x597D;elf&#x76F8;&#x95DC;&#x7684;segment&#x3002;&#x4F46;&#x662F;&#x5982;&#x679C;&#x4F60;&#x56E0;&#x6545;&#x9700;&#x8981;&#x81EA;&#x5E79;&#x7684;&#x8A71;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x7528;<code>PHDRS</code>&#x547D;&#x4EE4;&#xFF0C;&#x4E00;&#x65E6;&#x4F7F;&#x7528;&#x4E86;&#x9019;&#x500B;&#x547D;&#x4EE4;&#xFF0C;linker&#x9810;&#x8A2D;&#x7684;&#x76F8;&#x95DC;segment&#x8A2D;&#x5B9A;&#x5C07;&#x88AB;&#x53D6;&#x6D88;&#x3002;&#x53E6;&#x5916;&#x9019;&#x500B;&#x547D;&#x4EE4;&#x53EA;&#x5C0D;elf&#x683C;&#x5F0F;&#x8F38;&#x51FA;&#x6709;&#x610F;&#x7FA9;&#xFF0C;&#x975E;elf&#x683C;&#x5F0F;&#x8F38;&#x51FA;&#x9019;&#x90E8;&#x4EFD;&#x7684;&#x6307;&#x4EE4;&#x4E00;&#x5F8B;&#x5931;&#x6548;&#x3002;</p>
+<p><code>PHDRS</code>&#x547D;&#x4EE4;&#x683C;&#x5F0F;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c">PHDRS
+{
+    name type [ FILEHDR ] [ PHDRS ] [ AT ( address ) ]
+            [ FLAGS ( flags ) ] ;
+}
+</code></pre>
+<ul>
+<li><code>name</code><ul>
+<li>&#x914D;&#x5408;section&#x547D;&#x4EE4;&#x4F7F;&#x7528;&#xFF0C;&#x8A9E;&#x6CD5;&#x53EF;&#x4EE5;&#x770B;<a href="http://wen00072-blog.logdown.com/posts/246070-study-on-the-linker-script-2-setcion-command#sec-output-attr-output-phdr" target="_blank">&#x9019;&#x908A;</a></li>
+<li>segment&#x540D;&#x7A31;&#x56E0;&#x70BA;&#x5B58;&#x653E;&#x5728;&#x53E6;&#x5916;&#x7684;name space&#xFF0C;&#x6240;&#x4EE5;&#x4E0D;&#x7528;&#x64D4;&#x5FC3;&#x548C;symbol, &#x6A94;&#x6848;, section&#x885D;&#x7A81;&#x3002;</li>
+</ul>
+</li>
+<li><code>type</code><ul>
+<li>&#x898F;&#x7BC4;&#x70BA;<ul>
+<li><code>PT_NULL</code> (&#x5C0D;&#x61C9;&#x503C;&#xFF1A; 0)<ul>
+<li>&#x6C92;&#x4F7F;&#x7528;&#x7684;segment</li>
+</ul>
+</li>
+<li><code>PT_LOAD</code> (&#x5C0D;&#x61C9;&#x503C;&#xFF1A; 1)<ul>
+<li>&#x8A72;segment&#x61C9;&#x5F9E;&#x6A94;&#x6848;&#x4E2D;&#x8F09;&#x5165;</li>
+</ul>
+</li>
+<li><code>PT_DYNAMIC</code> (&#x5C0D;&#x61C9;&#x503C;&#xFF1A; 2)<ul>
+<li>&#x5B58;&#x653E;dynamic link&#x7684;&#x8CC7;&#x8A0A;</li>
+</ul>
+</li>
+<li><code>PT_INTERP</code> (&#x5C0D;&#x61C9;&#x503C;&#xFF1A; 3)<ul>
+<li>&#x6307;&#x5B9A;program interpretor &#x8DEF;&#x5F91;</li>
+<li><code>readelf -l ls</code>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x8A72;INTERP segment&#x7684;&#x8CC7;&#x6599;&#x662F;&#x662F;<code>/lib64/ld-linux-x86-64.so.2</code>&#xFF0C;&#x9019;&#x908A;&#x4F3C;&#x4E4E;&#x6709;&#x4E9B;&#x597D;&#x73A9;&#x7684;&#x7DDA;&#x7D22;&#xFF0C;&#x4E00;&#x6A23;&#x7B49;&#x5230;&#x60F3;&#x8D77;&#x4F86;&#x518D;&#x4F86;&#x770B;&#x770B;&#x3002;</li>
+</ul>
+</li>
+<li><code>PT_NOTE</code> (&#x5C0D;&#x61C9;&#x503C;&#xFF1A; 4)<ul>
+<li><code>man elf</code>&#x8AAA;&#x9019;&#x500B;&#x662F;&#x5B58;&#x653E;&#x8F14;&#x52A9;&#x8CC7;&#x6599;</li>
+</ul>
+</li>
+<li><code>PT_SHLIB</code> (&#x5C0D;&#x61C9;&#x503C;&#xFF1A; 5)<ul>
+<li>&#x4FDD;&#x7559;&#x672A;&#x4F7F;&#x7528;</li>
+</ul>
+</li>
+<li><code>PT_PHDR</code> (&#x5C0D;&#x61C9;&#x503C;&#xFF1A; 6)<ul>
+<li>program header&#x5B58;&#x653E;&#x7684;segment</li>
+</ul>
+</li>
+<li>expression<ul>
+<li>&#x9664;&#x4E86;&#x4EE5;&#x4E0A;&#x81EA;&#x8A02;&#x7684;&#x6578;&#x5B57;&#xFF0C;&#x61C9;&#x8A72;&#x662F;&#x4FDD;&#x7559;&#x7D66;&#x4F7F;&#x7528;&#x81EA;&#x884C;&#x4F7F;&#x7528;...&#x5427;&#xFF1F;</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#x6BCF;&#x500B;<code>type</code>&#x5F8C;&#x9762;&#x90FD;&#x53EF;&#x4EE5;&#x52A0;&#x4E0A;<code>FILEHDR</code>&#x6216;<code>PHDRS</code>&#xFF0C;&#x5176;&#x4E2D;<ul>
+<li><code>FILEHDR</code>&#xFF1A;&#x8868;&#x793A;&#x8A72;segment&#x61C9;&#x8A72;&#x5167;&#x542B;ELF file header</li>
+<li><code>PHDRS</code>&#xFF1A;&#x8868;&#x793A;&#x8A72;segment&#x61C9;&#x8A72;&#x5167;&#x542B;ELF program header</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>AT</code><ul>
+<li>&#x6307;&#x5B9A;load &#x4F4D;&#x5740;&#x3002;&#x548C;section&#x7684;<a href="http://wen00072-blog.logdown.com/posts/246070-study-on-the-linker-script-2-setcion-command#sec-output-attr-lma" target="_blank">AT</a>&#x76F8;&#x540C;</li>
+</ul>
+</li>
+<li><code>FLAGS(&#x6578;&#x5B57;)</code><ul>
+<li>&#x6578;&#x5B57;&#x662F;ELF&#x7684;<code>p_flags</code>&#x3002;<code>man elf</code>&#x53EF;&#x4EE5;&#x67E5;&#x5230;<code>p_flags</code>&#x5B9A;&#x7FA9;&#xFF0C;&#x6578;&#x503C;&#x6211;&#x731C;&#x8981;&#x53BB;&#x770B;&#x7A0B;&#x5F0F;&#x78BC;&#x6216;&#x662F;ELF&#x898F;&#x683C;&#x4E86;&#x3002;<ul>
+<li><code>PF_X</code>: executable segment</li>
+<li><code>PF_W</code>: write segment</li>
+<li><code>PF_R</code>: read segment</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>&#x55AE;&#x500B;segment&#x901A;&#x5E38;map&#x5230;&#x4E00;&#x500B;section&#xFF0C;linker&#x4F9D;&#x7167;&#x9806;&#x5E8F;&#x8655;&#x7406;header&#x7D66;&#x4E4B;&#x5F8C;&#x7684;loader&#x4F7F;&#x7528;&#x3002;&#x53E6;&#x5916;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;&#x5982;&#x679C;&#x4F60;&#x5728;&#x67D0;&#x500B;section&#x6307;&#x5B9A;&#x4E86;<code>:phdr</code>&#x5F8C;&#xFF0C;&#x4E4B;&#x5F8C;&#x7684;section&#x5C31;&#x7B97;&#x6C92;&#x6307;&#x4EE4;&#xFF0C;&#x90FD;&#x6703;&#x653E;&#x5728;&#x8A72;segment&#x3002;&#x5982;&#x679C;&#x4E4B;&#x5F8C;&#x7684;section&#x6709;<code>:phdr</code>&#x8A2D;&#x6210;<code>:NONE</code>&#x7684;&#x8A71;&#xFF0C;linker&#x624D;&#x4E0D;&#x6703;&#x628A;&#x4E4B;&#x5F8C;&#x7684;section&#x653E;&#x5230;&#x4EFB;&#x4F55;segment&#x3002;</p>
+<p>&#x5982;&#x679C;&#x6709;&#x9700;&#x8981;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x6307;&#x5B9A;&#x4E0D;&#x540C;&#x7684;segment&#x90FD;&#x8981;&#x6709;&#x67D0;&#x500B;section&#x7684;&#x5167;&#x5BB9;&#xFF0C;&#x4F7F;&#x7528;&#x65B9;&#x5F0F;&#x5C31;&#x662F;&#x5728;<code>section</code>&#x547D;&#x4EE4;&#x4E2D;&#x7528;&#x591A;&#x500B;<code>:phdr</code>&#x3002;&#x7BC4;&#x4F8B;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c">.interp : { *(.interp) } :text :interp
+</code></pre>
+<p>&#x624B;&#x518A;&#x4E0A;&#x9762;&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x500B;&#x6BD4;&#x8F03;&#x5B8C;&#x6574;&#x7684;&#x7BC4;&#x4F8B;&#x3002;&#x671B;&#x6587;&#x751F;&#x7FA9;&#x61C9;&#x8A72;&#x4E0D;&#x96E3;&#x7406;&#x89E3;&#xFF0C;&#x6240;&#x4EE5;&#x5C31;&#x4E0D;&#x89E3;&#x91CB;&#x4E86;&#x3002;</p>
+<pre><code class="lang-c">PHDRS
+{
+    headers PT_PHDR PHDRS ;
+    interp PT_INTERP ;
+    text PT_LOAD FILEHDR PHDRS ;
+    data PT_LOAD ;
+    dynamic PT_DYNAMIC ;
+}
+
+SECTIONS
+{
+    . = SIZEOF_HEADERS;
+    .interp : { *(.interp) } :text :interp
+    .text : { *(.text) } :text
+    .rodata : { *(.rodata) } <span class="hljs-comment">/* defaults to :text */</span>
+    ...
+    . = . + <span class="hljs-number">0x1000</span>; <span class="hljs-comment">/* move to a new page in memory */</span>
+    .data : { *(.data) } :data
+    .dynamic : { *(.dynamic) } :data :dynamic
+    ...
+}
+</code></pre>
+<p><a name="ver"></a></p>
+<h2 id="version%E5%91%BD%E4%BB%A4">VERSION&#x547D;&#x4EE4;</h2>
+<p>ELF&#x6A94;&#x6848;&#x683C;&#x5F0F;&#x652F;&#x63F4;&#x52D5;&#x614B;link&#x7684;&#x6642;&#x5019;&#x6307;&#x5B9A;shared library&#x7248;&#x672C;&#x3002;&#x9019;&#x9805;&#x529F;&#x80FD;&#x9700;&#x8981;linker&#x914D;&#x5408;&#xFF0C;<code>VERSION</code>&#x547D;&#x4EE4;&#x5C31;&#x662F;&#x4F86;&#x63CF;&#x8FF0;&#x7248;&#x672C;&#x8CC7;&#x8A0A;&#x3002;</p>
+<p>&#x8A9E;&#x6CD5;&#x5982;&#x4E0B;</p>
+<pre><code class="lang-c">VERSION [<span class="hljs-keyword">extern</span> <span class="hljs-string">&quot;lang&quot;</span>] { version-script-commands }
+</code></pre>
+<p>&#x5176;&#x4E2D; extern &quot;lang&quot; &#x7684;lang&#x6709;&#x652F;&#x63F4;</p>
+<ul>
+<li><code>C</code></li>
+<li><code>C++</code></li>
+<li><code>Java</code></li>
+</ul>
+<p>&#x81F3;&#x65BC;version-script-commands&#xFF0C;&#x624B;&#x518A;&#x4E0A;&#x9762;&#x8AAA;&#x548C;Sun(&#x5DF2;&#x88AB;&#x4F75;&#x8CFC;)&#x5728;Solaris 2.5&#x4E0A;&#x7684;linker&#x8A9E;&#x6CD5;&#x76F8;&#x540C;&#xFF0C;&#x4F30;&#x72D7;&#x67E5;version-script-commands&#x6C92;&#x67E5;&#x5230;&#x8A9E;&#x6CD5;&#xFF0C;&#x53EA;&#x80FD;&#x5F9E;&#x624B;&#x518A;&#x63D0;&#x4F9B;&#x7684;&#x7BC4;&#x4F8B;&#x4F86;&#x770B;&#x3002;&#x5982;&#x679C;&#x6709;&#x4EBA;&#x77E5;&#x9053;&#x8A9E;&#x6CD5;link&#x8ACB;&#x8DDF;&#x6211;&#x8AAA;&#x3002;&#x624B;&#x518A;&#x4E0A;&#x9762;&#x8AAA;&#x9019;&#x662F;&#x4E00;&#x500B;&#x6A39;&#x72C0;&#x7D50;&#x69CB;&#xFF0C;&#x57FA;&#x672C;&#x55AE;&#x4F4D;&#x70BA;&#x4E00;&#x500B;version node&#x3002;&#x4F60;&#x53EF;&#x4EE5;&#x5728;version node&#x4E2D;&#x8A2D;&#x5B9A;</p>
+<ul>
+<li>version node&#x540D;&#x7A31;</li>
+<li>version node&#x548C;&#x76F8;&#x4F9D;&#x6027;</li>
+<li>&#x8A2D;&#x5B9A;&#x54EA;&#x4E9B;symbol&#x51FA;&#x73FE;&#x5728;&#x8A72;version node</li>
+<li>&#x5728;&#x8A72;version node&#x4E2D;&#x6307;&#x5B9A;global symbol&#x8B8A;&#x6210;local&#x3002;&#x5982;&#x6B64;&#x4E00;&#x4F86;&#xFF0C;&#x9019;&#x4E9B;symbols&#x5C31;&#x4E0D;&#x6703;&#x88AB;shared library&#x4EE5;&#x5916;&#x770B;&#x5230;&#x3002;</li>
+</ul>
+<p>&#x5F9E;&#x624B;&#x518A;&#x7BC4;&#x4F8B;&#x53EF;&#x4EE5;&#x63A8;&#x6E2C;version node&#x683C;&#x5F0F;&#x5982;&#x4E0B;</p>
+<pre><code class="lang-c">name {
+    [global:]
+                symbol1;
+        ...
+    [local:]
+                symbol_a;
+              ...
+} [depend_name];
+</code></pre>
+<p>&#x597D;&#x5566;&#xFF0C;&#x6709;&#x9019;&#x6A23;&#x7684;&#x6982;&#x5FF5;&#x5F8C;&#x6211;&#x5011;&#x4F86;&#x770B;&#x624B;&#x518A;&#x7BC4;&#x4F8B;</p>
+<pre><code class="lang-c">VERS_1<span class="hljs-number">.1</span> {
+    global:
+            foo1;
+    local:
+            old*;
+            original*;
+            <span class="hljs-keyword">new</span>*;
+};
+
+VERS_1<span class="hljs-number">.2</span> {
+    foo2;
+} VERS_1<span class="hljs-number">.1</span>;
+
+VERS_2<span class="hljs-number">.0</span> {
+            bar1; bar2;
+    <span class="hljs-keyword">extern</span> <span class="hljs-string">&quot;C++&quot;</span> {
+                    ns::*;
+                    <span class="hljs-string">&quot;f(int, double)&quot;</span>;
+    };
+} VERS_1<span class="hljs-number">.2</span>;
+</code></pre>
+<p>OK&#xFF0C;&#x958B;&#x59CB;&#x89E3;&#x91CB;&#xFF1A;</p>
+<ul>
+<li>&#x6709;&#x4E09;&#x500B;Version node&#xFF0C;&#x540D;&#x7A31;&#x70BA;<code>VERS_1.1</code>, <code>VERS_1.2</code>, <code>VERS_2.0</code></li>
+<li><code>VERS_1.1</code>&#x6C92;&#x6709;&#x76F8;&#x4F9D;&#x6027;&#xFF0C;<code>VERS_1.2</code>&#x76F8;&#x4F9D;&#x65BC;<code>VERS_1.1</code>, <code>VERS_2.0</code>&#x76F8;&#x4F9D;&#x65BC;<code>VERS_1.2</code></li>
+<li><code>VERS_1.1</code>&#x4E2D;<ul>
+<li>symbol <code>foo1</code>&#x548C;<code>VERS_1.1</code>&#x6709;&#x95DC;</li>
+<li>old&#x958B;&#x982D;&#x3001;orignal&#x958B;&#x982D;&#x548C;new&#x958B;&#x982D;&#x7684;symbol&#x90FD;&#x4E0D;&#x6703;&#x88AB;&#x5916;&#x9762;&#x770B;&#x5230;</li>
+</ul>
+</li>
+<li><code>VERS_1.2</code>&#x4E2D;<ul>
+<li>symbol <code>foo2</code>&#x548C;<code>VERS_1.2</code>&#x6709;&#x95DC;</li>
+</ul>
+</li>
+<li><code>VERS_2.0</code>&#x4E2D;<ul>
+<li><code>bar1</code>&#x548C;<code>bar2</code>&#x548C;<code>VERS_2.0</code>&#x6709;&#x95DC;</li>
+</ul>
+</li>
+</ul>
+<p>&#x770B;&#x5B8C;&#x4E9B;&#x63CF;&#x8FF0;&#x5F8C;&#xFF0C;&#x53EF;&#x4EE5;&#x554F;<strong>&#x554A;&#x6C92;&#x6709;&#x6307;&#x5B9A;&#x548C;version node&#x76F8;&#x95DC;&#x7684;symbol&#x600E;&#x9EBC;&#x8FA6;&#xFF1F;</strong>&#x624B;&#x518A;&#x8AAA;&#x6703;&#x5206;&#x914D;&#x7D66;library&#x7684;base version&#xFF08;&#x597D;&#x5427;&#x6211;&#x4E0D;&#x77E5;&#x9053;base version&#x662F;&#x4E09;&#x5C0F;&#x3002;&#xFF09;&#x3002;&#x5982;&#x679C;&#x4F60;&#x8981;&#x5C07;&#x6C92;&#x6307;&#x5B9A;version node&#x7684;symbol&#x5168;&#x90E8;&#x8A2D;&#x6210;&#x548C;&#x67D0;&#x500B;version node&#x6709;&#x95DC;&#x7684;&#x8A71;&#xFF0C;&#x8ACB;&#x5728;&#x8A72;version node&#x4E2D;&#x52A0;&#x4E0A;&#x4EE5;&#x4E0B;&#x7684;&#x63CF;&#x8FF0;&#xFF1A;</p>
+<ul>
+<li><code>global: *;</code></li>
+</ul>
+<p>&#x4E00;&#x822C;&#x4F86;&#x8AAA;&#x9019;&#x500B;&#x63CF;&#x8FF0;&#x52A0;&#x518D;&#x6700;&#x5F8C;&#x7684;version node&#x624D;&#x6709;&#x610F;&#x7FA9;&#xFF0C;&#x5426;&#x5247;&#x5728;&#x524D;&#x9762;&#x7684;version node&#x4E2D;&#x628A;&#x6240;&#x6709;&#x7684;symbol&#x90FD;&#x88AB;&#x8A2D;&#x5B9A;&#x5B8C;&#x7562;&#x7684;&#x8A71;&#xFF0C;&#x90A3;&#x63A5;&#x4E0B;&#x4F86;&#x7684;version node&#x5C31;&#x6C92;&#x6709;&#x8FA6;&#x6CD5;&#x8A2D;&#x5B9A;symbol&#x95DC;&#x806F;&#x6027;&#x7684;&#x3002;</p>
+<p>&#x624B;&#x518A;&#x4E2D;&#x6307;&#x51FA;version node&#x540D;&#x7A31;&#x662F;&#x7D66;&#x4EBA;&#x770B;&#x7684;&#xFF0C;&#x5C0D;&#x65BC;linker&#x5728;&#x4E4E;&#x7684;&#x53EA;&#x6709;&#x4ED6;&#x5011;&#x7684;&#x95DC;&#x4FC2;&#x3002;&#x6240;&#x4EE5;&#x4F60;&#x8981;&#x6545;&#x610F;&#x53D6;&#x6210;&#x8B93;&#x4EBA;&#x770B;&#x4E0D;&#x61C2;&#x7684;&#x540D;&#x7A31;&#x4E5F;&#x53EF;&#x4EE5;&#x6EF4;&#x3002;</p>
+<p>&#x5982;&#x679C;&#x4F60;&#x8981;&#x6307;&#x5B9A;&#x6240;&#x6709;&#x7684;&#x7248;&#x672C;&#x90FD;&#x4F7F;&#x7528;&#x540C;&#x6A23;&#x7684;symbol&#x8A2D;&#x5B9A;&#xFF0C;&#x90A3;&#x9EBC;&#x5BEB;&#x4E00;&#x4EFD;&#x5C31;&#x597D;&#x3002;&#x91CD;&#x9EDE;&#x662F;&#x9019;&#x4EFD;&#x63CF;&#x8FF0;&#x4E0D;&#x7528;&#x5BEB;version node&#x540D;&#x7A31;&#xFF0C;&#x7BC4;&#x4F8B;&#x5982;&#x4E0B;&#x3002;</p>
+<pre><code class="lang-c">{ global: foo; bar; local: *; };
+</code></pre>
+<p>&#x81F3;&#x65BC;&#x5728;&#x7A0B;&#x5F0F;&#x78BC;&#x4E2D;&#x6307;&#x5B9A;&#x7248;&#x672C;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x4F60;&#x9700;&#x8981;&#x4F7F;&#x7528;GNU extention&#x8A9E;&#x6CD5;&#xFF0C;&#x4F8B;&#x5982;&#x52A0;&#x5165;&#x4E0B;&#x9762;&#x7684;<del>&#x5492;&#x8207;</del>&#x63CF;&#x8FF0;&#x5230;&#x4F60;&#x7684;&#x7A0B;&#x5F0F;&#x78BC;&#x4E2D;&#x3002;
+&#x8A9E;&#x6CD5;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c">__asm__(.symver name, name2@version_node_name);
+</code></pre>
+<ul>
+<li><code>.symver</code>&#xFF1A;&#x4F60;&#x61C9;&#x8A72;&#x7528;&#x7684;&#x6307;&#x4EE4;</li>
+<li><code>name</code>&#xFF1A;&#x4F60;&#x7A0B;&#x5F0F;&#x7528;&#x5230;&#x7684;symbol</li>
+<li><code>name2@version_node_name</code>&#xFF1A;&#x5BE6;&#x969B;&#x4E0A;&#x4F60;&#x771F;&#x6B63;&#x7528;&#x7684;symbol&#x4EE5;&#x53CA;&#x5C0D;&#x61C9;&#x7684;version node</li>
+</ul>
+<p>&#x7BC4;&#x4F8B;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c">__asm__(<span class="hljs-string">&quot;.symver original_foo,foo@VERS_1.1&quot;</span>);
+</code></pre>
+<p>&#x4F60;&#x4E5F;&#x53EF;&#x4EE5;&#x5206;&#x5225;&#x6307;&#x5B9A;&#x81EA;&#x5DF1;&#x7A0B;&#x5F0F;&#x7684;symbol&#x5C0D;&#x61C9;&#x5230;&#x4E0D;&#x540C;&#x7248;&#x672C;&#x7684;symbol&#xFF0C;&#x7BC4;&#x4F8B;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c">__asm__(<span class="hljs-string">&quot;.symver original_foo,foo@&quot;</span>);
+__asm__(<span class="hljs-string">&quot;.symver old_foo,foo@VERS_1.1&quot;</span>);
+__asm__(<span class="hljs-string">&quot;.symver old_foo1,foo@VERS_1.2&quot;</span>);
+__asm__(<span class="hljs-string">&quot;.symver new_foo,foo@@VERS_2.0&quot;</span>);
+</code></pre>
+<ul>
+<li><code>foo@</code>&#x8868;&#x793A;&#x672A;&#x6307;&#x5B9A;&#x7248;&#x865F;&#x7684;symbol&#x5C31;&#x7528;&#x8A72;symbol</li>
+<li><code>foo@@VERS_2.0</code>&#x7684;<code>@@</code>&#x8868;&#x793A;&#x9810;&#x8A2D;&#x4F7F;&#x7528;&#x8A72;&#x8A2D;&#x5B9A;</li>
+</ul>
+<p><code>.symver</code>&#x8A73;&#x7D30;&#x7684;&#x8A9E;&#x6CD5;&#x8AAA;&#x660E;&#x53EF;&#x4EE5;&#x770B;<a href="https://sourceware.org/binutils/docs/as/Symver.html" target="_blank">&#x9019;&#x908A;</a></p>
+<p><strong>&#x4E0B;&#x9762;&#x9019;&#x6BB5;&#x662F;&#x56C8;&#x8A00;&#x56C8;&#x8A9E;&#xFF0C;&#x56E0;&#x70BA;&#x6211;&#x5728;&#x63CF;&#x8FF0;&#x4E00;&#x500B;&#x6211;&#x4E0D;&#x77E5;&#x9053;&#x4EC0;&#x9EBC;&#x3001;&#x4EE5;&#x53CA;&#x4E0D;&#x77E5;&#x9053;&#x6211;&#x5728;&#x63CF;&#x8FF0;&#x4EC0;&#x9EBC;&#x7684;&#x6771;&#x897F;&#xFF0C;&#x8ACB;&#x7576;&#x4F5C;&#x5922;&#x8A71;&#x8DF3;&#x904E;&#xFF01;</strong>
+&#x7576;&#x4F60;&#x7684;&#x7A0B;&#x5F0F;&#x8981;&#x4F7F;&#x7528;shared library&#x7684;symbol&#x7684;&#x6642;&#x5019;&#xFF0C;&#x4F60;&#x7684;&#x7A0B;&#x5F0F;&#x61C9;&#x8A72;&#x8981;&#x77E5;&#x9053;&#x8981;&#x7528;&#x54EA;&#x500B;&#x7248;&#x672C;&#x7684;symbol&#x4EE5;&#x53CA;&#x9019;&#x4E9B;symbol&#x662F;&#x5728;&#x54EA;&#x500B;version node&#x5BA3;&#x544A;&#xFF08;&#x600E;&#x9EBC;&#x505A;&#xFF1F;&#x6211;&#x5BEB;&#x7A0B;&#x5F0F;&#x9084;&#x8981;&#x7BA1;shared library symbol&#x7248;&#x672C;&#xFF0C;&#x770B;linker script&#xFF1F;&#x4E0D;&#x5408;&#x7406;&#xFF09;&#x3002;&#x6240;&#x4EE5;runtime&#x7684;&#x6642;&#x5019;dynamic loader&#x53EF;&#x4EE5;&#x5E6B;&#x4F60;&#x641E;&#x5B9A;resolve symbol&#x7684;&#x4E8B;&#x60C5;&#x3002;</p>
+<p>&#x8DF3;&#x904E;&#x89E3;&#x91CB;&#x9700;&#x8981;version &#x7684;&#x539F;&#x56E0;&#xFF0C;&#x60F3;&#x77E5;&#x9053;&#x7684;&#x53EF;&#x4EE5;&#x770B;<a href="https://sourceware.org/binutils/docs/ld/VERSION.html#VERSION" target="_blank">&#x539F;&#x6587;</a>&#xFF0C;&#x770B;&#x61C2;&#x9806;&#x4FBF;&#x8DDF;&#x6211;&#x8AAA;&#x3002;</p>
+<p>Demangled names&#x7684;&#x6CE8;&#x610F;&#x4E8B;&#x9805;&#x61F6;&#x5F97;&#x770B;&#xFF0C;&#x4E00;&#x4F75;&#x8DF3;&#x904E;&#x3002;</p>
+<p><a name="expr"></a></p>
+<h2 id="linker-script-%E4%B8%AD%E4%BD%BF%E7%94%A8%E7%9A%84expression">Linker script &#x4E2D;&#x4F7F;&#x7528;&#x7684;expression</h2>
+<p>Linker script &#x7684; expression&#x6709;&#x5E7E;&#x9EDE;&#x7279;&#x6027;</p>
+<ul>
+<li>expression&#x548C;C&#x8A9E;&#x8A00;&#x76F8;&#x540C;</li>
+<li>&#x578B;&#x614B;&#x90FD;&#x662F;&#x6574;&#x6578;</li>
+<li>&#x8B8A;&#x6578;size&#x76F8;&#x540C;&#xFF0C;target&#x548C;host&#x70BA;32-bit&#x7684;&#x8A71;size&#x5C31;&#x662F;32-bit&#xFF0C;&#x5426;&#x5247;&#x5C31;&#x70BA;64-bit(&#x70BA;&#x5565;&#xFF1F;&#x90A3;&#x9EBC;&#x53EF;&#x4E0D;&#x53EF;&#x4EE5;8, 16-bit?&#xFF09;&#x3002;</li>
+<li>expression&#x4E2D;&#x5141;&#x8A31;&#x8A2D;&#x5B9A;&#x548C;&#x8B80;&#x53D6;symbol&#x7684;&#x503C;</li>
+</ul>
+<p>&#x63A5;&#x4E0B;&#x4F86;&#x6211;&#x5011;&#x4F86;&#x8A0E;&#x8AD6;linker &#x4E2D;Expression&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x7684;&#x5167;&#x5EFA;&#x529F;&#x80FD;</p>
+<ul>
+<li><a href="#expr-const">&#x5E38;&#x6578;</a></li>
+<li><a href="#expr-sym-const">Symbolic &#x5E38;&#x6578;</a></li>
+<li><a href="#expr-sym">Symbol&#x547D;&#x540D;&#x898F;&#x5247;</a></li>
+<li><a href="#expr-oph-sec">&#x5B64;&#x5152; Section</a></li>
+<li><a href="#expr-lcnt">Location Counter</a></li>
+<li><a href="#expr-op">Operators</a></li>
+<li><a href="#expr-eval">&#x8A08;&#x7B97;&#x7D50;&#x679C;</a></li>
+<li><a href="#expr-sec">Section&#x5167;&#x7684;Expression</a></li>
+<li><a href="#expr-btfun">&#x5167;&#x5EFA;&#x51FD;&#x6578;</a></li>
+</ul>
+<p><a name="expr-const"></a></p>
+<h2 id="%E5%B8%B8%E6%95%B8">&#x5E38;&#x6578;</h2>
+<p>&#x8A2D;&#x5B9A;&#x5E38;&#x6578;&#x898F;&#x5247;&#x5982;&#x4E0B;</p>
+<ul>
+<li>8&#x9032;&#x4F4D;<ul>
+<li><code>0</code>&#x958B;&#x982D;</li>
+<li><code>o</code>&#x7D50;&#x5C3E;, <code>O</code>&#x7D50;&#x5C3E;</li>
+</ul>
+</li>
+<li>16&#x9032;&#x4F4D;<ul>
+<li><code>0x</code>&#x958B;&#x982D;, <code>0X</code>&#x958B;&#x982D;&#xFF1A;</li>
+<li><code>h</code>&#x7D50;&#x5C3E;, <code>H</code>&#x7D50;&#x5C3E;</li>
+</ul>
+</li>
+<li>10&#x9032;&#x4F4D;<ul>
+<li><code>d</code>&#x7D50;&#x5C3E;, <code>D</code>&#x7D50;&#x5C3E;</li>
+</ul>
+</li>
+<li>&#x4E0D;&#x5C6C;&#x65BC;&#x4E0A;&#x9762;&#x7684;&#x6578;&#x5B57;&#x8868;&#x793A;&#x70BA;10&#x9032;&#x4F4D;</li>
+<li><code>K</code><ul>
+<li>1024</li>
+</ul>
+</li>
+<li><code>M</code><ul>
+<li>1024 * 1024</li>
+</ul>
+</li>
+<li><code>K</code>&#x548C;<code>M</code>&#x4E0D;&#x80FD;&#x8DDF;&#x4E0B;&#x9762;&#x7684;&#x63CF;&#x8FF0;&#x6DF7;&#x7528;<ul>
+<li><code>o</code>&#x7D50;&#x5C3E;, <code>O</code>&#x7D50;&#x5C3E;</li>
+<li><code>h</code>&#x7D50;&#x5C3E;, <code>H</code>&#x7D50;&#x5C3E;</li>
+<li><code>d</code>&#x7D50;&#x5C3E;, <code>D</code>&#x7D50;&#x5C3E;</li>
+</ul>
+</li>
+</ul>
+<p>&#x7BC4;&#x4F8B;&#xFF1A;</p>
+<pre><code class="lang-c">_fourk_1 = <span class="hljs-number">4</span>K;
+_fourk_2 = <span class="hljs-number">4096</span>;
+_fourk_3 = <span class="hljs-number">0x1000</span>;
+_fourk_4 = <span class="hljs-number">10000</span>o;
+</code></pre>
+<p><a name="expr-sym-const"></a></p>
+<h2 id="symbolic-%E5%B8%B8%E6%95%B8">Symbolic &#x5E38;&#x6578;</h2>
+<p>&#x6307;&#x4EE4;&#xFF1A;</p>
+<ul>
+<li><code>CONSTANT(name)</code><ul>
+<li>&#x5408;&#x6CD5;&#x7684;<code>name</code>&#x5982;&#x4E0B;&#xFF0C;&#x53EF;&#x4EE5;&#x671B;&#x6587;&#x751F;&#x7FA9;&#x6240;&#x4EE5;&#x5C31;&#x4E0D;&#x89E3;&#x91CB;<ul>
+<li><code>MAXPAGESIZE</code></li>
+<li><code>COMMONPAGESIZE</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>&#x7BC4;&#x4F8B;&#xFF1A;&#x6307;&#x5B9A;<code>.text</code> section&#x8981;&#x548C;&#x6700;&#x5927;&#x7684;page size&#x5C0D;&#x9F4A;&#x3002;</p>
+<pre><code class="lang-c">.<span class="hljs-function">text <span class="hljs-title">ALIGN</span> <span class="hljs-params">(CONSTANT (MAXPAGESIZE)</span>) : </span>{ *(.text) }
+</code></pre>
+<p><a name="expr-sym"></a></p>
+<h2 id="symbol%E5%91%BD%E5%90%8D%E8%A6%8F%E5%89%87">Symbol&#x547D;&#x540D;&#x898F;&#x5247;</h2>
+<p>&#x6C92;&#x6709;&#x88AB;<code>&quot;</code>&#x5F15;&#x7528;&#x7684;&#x60C5;&#x6CC1;&#x4E0B;&#xFF1A;</p>
+<ul>
+<li>&#x5141;&#x8A31;&#x7684;&#x958B;&#x982D;&#x5B57;&#x5143;<ul>
+<li>&#x5927;&#x5C0F;&#x5BEB;&#x82F1;&#x6587;&#x5B57;&#x6BCD;<ul>
+<li><code>_</code></li>
+<li><code>.</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#x540D;&#x7A31;&#x4E2D;&#x9593;&#x5141;&#x8A31;&#x5B57;&#x5143;<ul>
+<li>&#x5927;&#x5C0F;&#x5BEB;&#x82F1;&#x6587;&#x5B57;&#x6BCD;<ul>
+<li>&#x6578;&#x5B57;</li>
+<li><code>_</code></li>
+<li><code>.</code></li>
+</ul>
+</li>
+<li><code>-</code></li>
+</ul>
+</li>
+<li>&#x4E0D;&#x53EF;&#x4EE5;&#x548C;linker script keyword&#x76F8;&#x540C;&#x540D;&#x7A31;</li>
+</ul>
+<p>&#x5982;&#x679C;&#x4F60;symbol&#x540D;&#x7A31;&#x8981;&#x7528;&#x5947;&#x602A;&#x7684;&#x5B57;&#x5143;&#x6216;&#x662F;&#x548C;keyword&#x76F8;&#x540C;&#x7684;&#x8A71;&#xFF0C;&#x8ACB;&#x5C07;symbol&#x540D;&#x7A31;&#x7684;&#x958B;&#x59CB;&#x7D50;&#x5C3E;&#x52A0;&#x4E0A;<code>&quot;</code>&#x7B26;&#x865F;&#xFF0C;&#x7BC4;&#x4F8B;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-string">&quot;SECTION&quot;</span> = <span class="hljs-number">9</span>;
+<span class="hljs-string">&quot;with a space&quot;</span> = <span class="hljs-string">&quot;also with a space&quot;</span> + <span class="hljs-number">10</span>;
+</code></pre>
+<p>&#x7531;&#x65BC;symbol&#x540D;&#x7A31;&#x53EF;&#x4EE5;&#x6709;&#x975E;&#x82F1;&#x6587;&#x5B57;&#x6BCD;&#x548C;&#x6578;&#x5B57;&#xFF0C;&#x6240;&#x4EE5;&#x4E0D;&#x5EFA;&#x8B70;&#x4E2D;&#x9593;&#x6709;&#x7A7A;&#x767D;&#x5B57;&#x5143;&#x3002;&#x8209;&#x4F8B;&#x4F86;&#x8AAA;&#xFF0C;<code>A-B</code>&#x662F;&#x4E00;&#x500B;&#x7B26;&#x865F;&#xFF0C;&#x4F46;&#x662F;<code>A - B</code>&#x5C31;&#x662F;&#x4E00;&#x500B;expression&#x64CD;&#x4F5C;&#xFF0C;&#x8868;&#x793A;symbol <code>A</code>&#x6E1B;&#x53BB;symbol <code>B</code></p>
+<p><a name="expr-oph-sec"></a></p>
+<h2 id="%E5%AD%A4%E5%85%92-section">&#x5B64;&#x5152; Section</h2>
+<p>&#x5B64;&#x5152; Section &#x6307;&#x7684;&#x662F;&#x5728;&#x8F38;&#x5165;object&#x6A94;&#x6848;&#x4E2D;&#x7684;section&#xFF0C;&#x800C;&#x9019;&#x4E9B;section linker script&#x88CF;&#x9762;&#x4E26;&#x6C92;&#x6709;&#x63CF;&#x8FF0;&#x8A72;&#x600E;&#x9EBC;&#x8655;&#x7406;&#x3002;&#x9047;&#x5230;&#x9019;&#x7A2E;&#x72C0;&#x6CC1;&#xFF0C;linker&#x9084;&#x662F;&#x6703;&#x628A;&#x9019;&#x4E9B;section&#x653E;&#x5230;&#x8F38;&#x51FA;object&#x6A94;&#x6848;&#x4E2D;&#xFF0C;&#x898F;&#x5247;&#x70BA;&#xFF1A;</p>
+<ul>
+<li>&#x653E;&#x5728;&#x8F38;&#x51FA;object&#x6A94;&#x6848;&#x76F8;&#x540C;&#x6027;&#x8CEA;section&#x7684;&#x5F8C;&#x9762;&#xFF0C;&#x5982;&#x7A0B;&#x5F0F;&#x78BC;&#x6216;&#x662F;&#x8CC7;&#x6599;&#x3001;&#x662F;&#x5426;&#x8981;load&#x5230;&#x8A18;&#x61B6;&#x9AD4;&#x7B49;&#x3002;&#x5982;&#x679C;&#x662F;ELF&#x683C;&#x5F0F;&#x7684;&#x8A71;&#xFF0C;ELF flag&#x4E5F;&#x662F;&#x6027;&#x8CEA;&#x6BD4;&#x8F03;&#x7684;&#x4E00;&#x90E8;&#x4EFD;&#x3002;</li>
+<li>&#x5982;&#x679C;&#x653E;&#x4E0D;&#x9032;&#x53BB;&#xFF0C;&#x5C31;&#x585E;&#x5728;&#x6A94;&#x6848;&#x5F8C;&#x9762;</li>
+</ul>
+<p>&#x5982;&#x679C;&#x9019;&#x4E9B;&#x5B64;&#x5152;section&#x7B26;&#x5408;C&#x8A9E;&#x8A00;<a href="http://cs.smith.edu/~thiebaut/classes/C_Tutor/node4.html" target="_blank">identifier&#x898F;&#x7BC4;</a>(&#x901A;&#x5E38;&#x4E0D;&#x662F;&#x4EE5;<code>.</code>&#x958B;&#x982D;&#xFF09;&#xFF0C;linker&#x6703;&#x5E6B;&#x5FD9;&#x52A0;&#x5165;&#x5169;&#x500B;symbol&#xFF1A;<code>__start_SECNAME</code>&#x548C;<code>__stop_SECNAME</code>&#x8868;&#x793A;&#x8A72;section&#x7684;&#x8D77;&#x59CB;&#x548C;&#x7D50;&#x675F;&#x4F4D;&#x5740;&#x3002;&#x800C;<code>SECNAME</code>&#x5C31;&#x662F;&#x8A72;&#x5B64;&#x5152;section&#x540D;&#x7A31;&#x3002;</p>
+<p><a name="expr-lcnt"></a></p>
+<h2 id="location-counter">Location Counter</h2>
+<p>&#x524D;&#x9762;&#x6709;&#x63D0;&#x904E;<code>.</code>&#x9019;&#x500B;&#x7B26;&#x865F;&#x662F;location counter&#x3002;&#x800C;location counter&#x672C;&#x8EAB;&#x7684;&#x6DB5;&#x610F;&#x5C31;&#x662F;<strong>&#x76EE;&#x524D;&#x8F38;&#x51FA;&#x4F4D;&#x7F6E;</strong>&#x3002;&#x800C;<code>.</code>
+&#x53EF;&#x4EE5;&#x51FA;&#x73FE;&#x5728;<code>SECTIONS</code>&#x547D;&#x4EE4;&#x4E2D;&#x7684;&#x4EFB;&#x4F55;expression&#x3002;</p>
+<p>&#x9664;&#x4E86;&#x4F7F;&#x7528;<code>.</code>&#x4F86;&#x4EE3;&#x8868;&#x76EE;&#x524D;&#x8F38;&#x51FA;&#x4F4D;&#x7F6E;&#x5916;&#xFF0C;&#x4F60;&#x4E5F;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x66F4;&#x6539;<code>.</code>&#x7684;&#x6578;&#x503C;&#xFF0C;&#x9019;&#x6A23;&#x505A;&#x5C31;&#x662F;&#x66F4;&#x52D5;&#x76EE;&#x524D;&#x8F38;&#x51FA;&#x4F4D;&#x7F6E;&#x3002;&#x4E0D;&#x904E;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;&#x4E0D;&#x8981;&#x7528;&#x505A;&#x6E1B;&#x6CD5;&#x904B;&#x7B97;&#xFF0C;&#x9019;&#x6A23;&#x4EE3;&#x8868;&#x628A;&#x76EE;&#x524D;&#x4F4D;&#x7F6E;&#x5F80;&#x524D;&#x79FB;&#x52D5;&#xFF0C;&#x5F80;&#x524D;&#x79FB;&#x52D5;&#x8868;&#x793A;&#x63A5;&#x4E0B;&#x4F86;&#x5BEB;&#x5165;&#x7684;&#x6771;&#x897F;&#x5C31;&#x5F88;&#x6709;&#x53EF;&#x80FD;&#x84CB;&#x6389;&#x524D;&#x9762;&#x91CD;&#x758A;&#x90E8;&#x4EFD;&#x7684;&#x8CC7;&#x6599;&#x3002;&#x53E6;&#x5916;&#x4F60;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x628A;<code>.</code>&#x7684;&#x503C;&#x52A0;&#x4E0A;&#x4F60;&#x8981;&#x7684;&#x6578;&#x91CF;&#xFF0C;&#x90A3;&#x9EBC;&#x4E0B;&#x4E00;&#x500B;symbol&#x6216;&#x662F;section&#x5C31;&#x6703;&#x548C;&#x76EE;&#x524D;&#x4F4D;&#x7F6E;&#x6709;&#x4E00;&#x6BB5;&#x4FDD;&#x7559;&#x7A7A;&#x9593;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x3002;&#x6211;&#x5011;&#x770B;&#x4E0B;&#x9762;&#x7684;&#x7BC4;&#x4F8B;&#xFF1A;</p>
+<pre><code class="lang-c">SECTIONS
+{
+    output :
+    {
+        file1(.text)
+        . = . + <span class="hljs-number">1000</span>;
+        file2(.text)
+        . += <span class="hljs-number">1000</span>;
+        file3(.text)
+    } = <span class="hljs-number">0x12345678</span>;
+}
+</code></pre>
+<p>&#x9019;&#x500B;&#x7BC4;&#x4F8B;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x770B;&#x5230;</p>
+<ul>
+<li>&#x8F38;&#x51FA;object&#x6A94;&#x6848;&#x6709;&#x4E00;&#x500B;section&#xFF0C;&#x8A72;section&#x540D;&#x7A31;&#x70BA;<code>output</code></li>
+<li><code>output</code> section&#x88CF;&#x9762;&#x5B58;&#x653E;&#x4E86;<ul>
+<li><code>file1</code>&#x7684;<code>.text</code> section</li>
+<li><code>file2</code>&#x7684;<code>.text</code> section</li>
+<li><code>file3</code>&#x7684;<code>.text</code> section</li>
+</ul>
+</li>
+<li><code>file1</code>&#x7684;<code>.text</code> section&#x548C;<code>file2</code>&#x7684;<code>.text</code> section&#x4E2D;&#x9593;&#x76F8;&#x8DDD;1000</li>
+<li><code>file2</code>&#x7684;<code>.text</code> section&#x548C;<code>file3</code>&#x7684;<code>.text</code> section&#x4E2D;&#x9593;&#x4E5F;&#x76F8;&#x8DDD;1000</li>
+<li>&#x672A;&#x59CB;&#x7528;&#x5230;&#x7684;&#x7A7A;&#x9593;&#x8ACB;&#x586B;&#x5165;<code>0x12345678</code>&#xFF0C;&#x60F3;&#x8981;&#x5287;&#x60C5;&#x56DE;&#x9867;&#x7684;&#x8ACB;&#x770B;<a href="http://wen00072-blog.logdown.com/posts/246070-study-on-the-linker-script-2-setcion-command#sec-input-desc-ex" target="_blank">&#x9019;&#x908A;</a></li>
+</ul>
+<p><code>.</code>&#x96D6;&#x7136;&#x662F;location counter&#xFF0C;&#x7136;&#x800C;&#x5728;&#x4E0D;&#x540C;&#x7684;&#x5340;&#x584A;&#x4F7F;&#x7528;&#x6703;&#x6709;&#x4E0D;&#x540C;&#x7684;&#x610F;&#x7FA9;&#x3002;
+&#x5148;&#x770B;&#x4E00;&#x500B;&#x4F8B;&#x5B50;</p>
+<pre><code class="lang-c">SECTIONS
+{
+  . = <span class="hljs-number">0x100</span>
+  .text: {
+      *(.text)
+  . = <span class="hljs-number">0x200</span>
+  }
+  . = <span class="hljs-number">0x500</span>
+  .data: {
+      *(.data)
+      . += <span class="hljs-number">0x600</span>
+  }
+}
+</code></pre>
+<p>&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x770B;&#x5230;<code>.</code>&#x51FA;&#x73FE;&#x7684;&#x5730;&#x65B9;&#x6709;&#x56DB;&#x500B;&#x5730;&#x65B9;&#xFF0C;&#x5728;<code>.text</code>&#x548C;<code>.data</code>&#x4EE5;&#x5167;&#x6709;&#x5404;&#x6709;&#x4E00;&#x500B;&#xFF0C;&#x4E0D;&#x5728;<code>.text</code>&#x548C;<code>.data</code>&#x4EE5;&#x5167;&#x6709;&#x5169;&#x500B;&#x3002;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#x4E00;&#x7A2E;&#x662F;&#x5728;section&#x63CF;&#x8FF0;&#xFF08;&#x5C31;&#x662F;<code>.text</code>&#x548C;<code>.data</code>)&#x4E4B;&#x5167;&#xFF0C;&#x53E6;&#x5916;&#x5C31;&#x662F;section&#x63CF;&#x8FF0;&#x4E4B;&#x5916;&#x3002;</p>
+<ul>
+<li><code>.</code>&#x653E;&#x5728;section&#x63CF;&#x8FF0;<strong>&#x88CF;&#x9762;</strong>&#x7684;&#x8A71;&#x5B83;&#x7684;location&#x662F;&#x5F9E;section&#x958B;&#x982D;&#x958B;&#x59CB;&#x7B97;</li>
+<li><code>.</code>&#x653E;&#x5728;section&#x63CF;&#x8FF0;<strong>&#x5916;&#x9762;</strong>&#x7684;&#x8A71;&#x5B83;&#x7684;location&#x662F;&#x5F9E;0</li>
+</ul>
+<p>&#x6709;&#x4E86;&#x9019;&#x6A23;&#x7684;&#x6982;&#x5FF5;&#x5F8C;&#xFF0C;&#x6211;&#x5011;&#x518D;&#x56DE;&#x53BB;&#x770B;&#x9019;&#x7BC4;&#x4F8B;&#x5728;&#x8B1B;&#x4E09;&#x5C0F;&#xFF1F;</p>
+<ul>
+<li>&#x8F38;&#x51FA;object&#x6A94;&#x6848;&#x6709;&#x5169;&#x500B;section&#xFF0C;&#x5206;&#x5225;&#x70BA;<code>.text</code>&#x548C;<code>.data</code></li>
+<li>&#x6240;&#x6709;&#x8F38;&#x5165;object&#x6A94;&#x6848;&#x4E2D;&#x7684;<code>.text</code> section&#x8ACB;&#x653E;&#x5230;<code>.text</code>&#x4E2D;</li>
+<li>&#x6240;&#x6709;&#x8F38;&#x5165;object&#x6A94;&#x6848;&#x4E2D;&#x7684;<code>.data</code> section&#x8ACB;&#x653E;&#x5230;<code>.data</code>&#x4E2D;</li>
+<li><code>.text</code> section &#x8D77;&#x59CB;&#x9EDE;&#x70BA;0x100</li>
+<li>&#x7531;&#x65BC;<code>.</code>&#x88AB;&#x8A2D;&#x6210;0x200&#xFF0C;&#x4EE5;&#x81F4;&#x65BC;&#x8F38;&#x5165;object&#x6A94;&#x6848;&#x7684;<code>.text</code>&#x5B58;&#x653E;&#x8D85;&#x904E;0x100 + 0x200&#x7684;&#x7A7A;&#x9593;&#x90FD;&#x6709;&#x53EF;&#x80FD;&#x88AB;&#x5F8C;&#x9762;&#x7684;&#x8CC7;&#x6599;&#x8907;&#x5BEB;&#x6389;&#x3002;</li>
+<li><code>.text</code> section &#x7D50;&#x675F;&#x5F8C;&#xFF0C;&#x8ACB;&#x4FDD;&#x7559;0x500&#x7684;&#x7A7A;&#x9593;</li>
+<li><code>.text</code> section &#x6700;&#x5F8C;0x500&#x7684;&#x4F4D;&#x7F6E;&#x70BA;<code>.data</code> section&#x7684;&#x8D77;&#x59CB;&#x9EDE;</li>
+<li>&#x6700;&#x5F8C;&#x4E00;&#x500B;&#x8F38;&#x5165;object&#x6A94;&#x6848;&#x7684;<code>.data</code> section&#x653E;&#x5165;&#x8F38;&#x51FA;object&#x7684;<code>.data</code> section&#x5F8C;&#xFF0C;&#x518D;&#x5F9E;section&#x4E2D;&#x76EE;&#x524D;&#x4F4D;&#x7F6E;&#x4FDD;&#x7559;0x600&#x7684;&#x7A7A;&#x9593;&#x3002;</li>
+</ul>
+<p>&#x624B;&#x518A;&#x4E2D;&#x6709;&#x7279;&#x5225;&#x63D0;&#x5230;&#x5728;section&#x63CF;&#x8FF0;&#x5916;&#x9762;&#x4F7F;&#x7528;<code>.</code>&#x9700;&#x8981;&#x7279;&#x5225;&#x6CE8;&#x610F;&#x7684;&#x5730;&#x65B9;&#xFF0C;&#x5B83;&#x8209;&#x7684;&#x4F8B;&#x5B50;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c">SECTIONS
+{
+  start_of_text = . ;
+  .text: { *(.text) }
+  end_of_text = . ;
+
+  start_of_data = . ;
+  .data: { *(.data) }
+    end_of_data = . ;
+}
+</code></pre>
+<p>&#x9019;&#x500B;&#x7BC4;&#x4F8B;&#x5728;<code>.data</code>&#x548C;<code>text</code>&#x524D;&#x5F8C;&#x90FD;&#x52A0;&#x4E86;&#x4E00;&#x500B;symbol&#xFF0C;&#x6578;&#x503C;&#x70BA;&#x7576;&#x6642;location counter&#x7684;&#x4F4D;&#x7F6E;&#x3002;&#x770B;&#x8D77;&#x4F86;&#x4E00;&#x5207;&#x5B89;&#x597D;&#xFF0C;&#x7136;&#x800C;&#x5982;&#x679C;&#x8F38;&#x5165;object&#x6A94;&#x6848;&#x4E2D;&#x6709;section&#x4E0D;&#x662F;<code>.data</code>&#x4E5F;&#x4E0D;&#x662F;<code>.text</code>&#xFF0C;&#x4F8B;&#x5982;&#x653E;&quot;Hello world\n&quot;&#x7684;<code>.rodata</code> (<a href="http://www.lisha.ufsc.br/teaching/os/exercise/hello.html &#x4F60;&#x77E5;&#x9053;&#x4F60;&#x5BEB;&#x7684;&quot;Hello world&quot;&#x653E;&#x5728;&#x4EC0;&#x9EBC;&#x5730;&#x65B9;&#x561B;&#xFF1F;" target="_blank">&#x53C3;&#x8003;&#x8CC7;&#x6599;</a>)&#xFF0C;linker&#x9084;&#x662F;&#x8981;&#x628A;&#x9019;&#x4E9B;section&#x653E;&#x5230;&#x8F38;&#x51FA;object&#x6A94;&#x6848;&#x4E2D;&#x3002;&#x4F60;&#x89BA;&#x5F97;&#x4ED6;&#x6703;&#x653E;&#x5728;&#x908A;&#x5462;&#xFF1F;&#x624B;&#x518A;&#x4E0A;&#x8AAA;linker script&#x4E2D;&#x7684;symbol&#x6703;&#x88AB;&#x8996;&#x70BA;&#x63A5;&#x5728;<strong>&#x524D;&#x4E00;&#x500B;</strong>section &#x5F8C;&#x9762;&#xFF0C;&#x6240;&#x4EE5;&#x6700;&#x5F8C;&#x5C31;&#x6703;&#x8B8A;&#x6210;&#x9019;&#x6A23;&#xFF1A;</p>
+<pre><code class="lang-c">SECTIONS
+{
+  start_of_text = . ;
+  .text: { *(.text) }
+  end_of_text = . ;
+
+  start_of_data = . ;
+  .rodata: { *(.rodata) }
+  .data: { *(.data) }
+    end_of_data = . ;
+}
+</code></pre>
+<p>&#x5982;&#x6B64;&#x4E00;&#x4F86;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x4EE5;&#x70BA;<code>start_of_data</code>&#x5C31;&#x662F;<code>.data</code>&#x958B;&#x59CB;&#x4F4D;&#x5740;&#xFF0C;&#x5728;&#x4F60;&#x7684;&#x7A0B;&#x5F0F;&#x4E2D;&#x62FF;&#x4F86;&#x505A;&#x4E8B;&#xFF0C;&#x4FDD;&#x8B49;&#xFF27;&#xFF27;&#x3002;&#x56E0;&#x70BA;<code>start_of_data</code>&#x73FE;&#x5728;&#x8B8A;&#x6210;<code>.rodata</code>&#x7684;&#x8D77;&#x59CB;&#x4F4D;&#x5740;&#x4E86;&#x3002;</p>
+<p>&#x8981;&#x78BA;&#x4FDD;<code>start_of_data</code>&#x4E00;&#x5B9A;&#x5728;<code>.data</code> section&#x524D;&#x9762;&#x7684;&#x8A71;&#xFF0C;&#x6B63;&#x78BA;&#x7684;&#x505A;&#x6CD5;&#x662F;&#x5728;<code>start_of_data = . ;</code>&#x524D;&#x9762;&#x52A0;&#x4E0A;<code>. = .</code>&#x5F37;&#x8FEB;&#x66F4;&#x65B0;location counter&#xFF0C;&#x5217;&#x51FA;&#x5B8C;&#x6574;script&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c">SECTIONS
+{
+  start_of_text = . ;
+  .text: { *(.text) }
+  end_of_text = . ;
+
+  . = . ;
+  start_of_data = . ;
+  .data: { *(.data) }
+    end_of_data = . ;
+}
+</code></pre>
+<p><a name="expr-op"></a></p>
+<h2 id="operators">Operators</h2>
+<p>&#x548C;C&#x76F8;&#x5BB9;&#xFF0C;&#x8ACB;<a href="https://sourceware.org/binutils/docs/ld/Operators.html#Operators" target="_blank">&#x81EA;&#x5DF1;&#x770B;</a>&#xFF0C;&#x53CD;&#x6B63;&#x6C92;&#x591A;&#x5C11;&#x82F1;&#x6587;&#x3002;</p>
+<p>&lt;a name=&quot;expr-eval &gt;</p>
+<h2 id="%E8%A8%88%E7%AE%97%E7%B5%90%E6%9E%9C">&#x8A08;&#x7B97;&#x7D50;&#x679C;</h2>
+<p>&#x539F;&#x4F86;&#x6A19;&#x984C;&#x662F;&#x300C;Evaluation&#x300D;&#x76F4;&#x63A5;&#x7FFB;&#x6210;&#x8A55;&#x4F30;&#xFF0C;&#x4F30;&#x7B97;&#x90FD;&#x5F88;&#x8A6D;&#x7570;&#x3002;&#x81EA;&#x4F5C;&#x4E3B;&#x5F35;&#x5C31;&#x662F;&#x8A08;&#x7B97;&#x7D50;&#x679C;&#xFF0C;&#x53CD;&#x6B63;&#x9019;&#x500B;&#x7AE0;&#x7BC0;&#x5C31;&#x662F;&#x5728;&#x8B1B;&#x9019;&#x56DE;&#x4E8B;&#x3002;</p>
+<p>linker&#x5F88;&#x61F6;&#x60F0;&#xFF0C;&#x6240;&#x4EE5;&#x4E0D;&#x5230;&#x8981;&#x7528;&#x7684;&#x6642;&#x5019;&#x5C31;&#x4E0D;&#x6703;&#x53BB;&#x7B97;expression&#x7684;&#x7D50;&#x679C;&#x3002;&#x4EE5;&#x4E0B;&#x662F;&#x4ED6;&#x7684;&#x8A08;&#x7B97;&#x9806;&#x5E8F;</p>
+<ul>
+<li>&#x7B2C;&#x4E00;&#x500B;section&#x7684;&#x8D77;&#x59CB;&#x4F4D;&#x5740;&#xFF0C;memory region size&#x7B49;&#x4E00;&#x958B;&#x59CB;&#x5C31;&#x9700;&#x8981;&#x53D6;&#x5F97;&#x7684;expression&#x503C;</li>
+<li>&#x7576;&#x958B;&#x59CB;linker&#x5F8C;&#x624D;&#x53EF;&#x4EE5;&#x78BA;&#x5B9A;&#x7684;expression&#xFF0C;&#x4F8B;&#x5982;&#x67D0;&#x500B;section&#x5167;&#x7684;symbol&#x9700;&#x8981;&#x524D;&#x9762;section&#x8655;&#x7406;&#x5B8C;&#x7562;&#x624D;&#x80FD;&#x53D6;&#x5F97;&#x76EE;&#x524D;section&#x7684;&#x4F4D;&#x7F6E;&#xFF0C;&#x7136;&#x5F8C;&#x624D;&#x80FD;&#x958B;&#x59CB;&#x8A08;&#x7B97;&#x88CF;&#x9762;symbol&#x76F8;&#x95DC;&#x7684;expression</li>
+<li>section size&#x4E5F;&#x8981;&#x7B49;&#x8A72;section link&#x5B8C;&#x7562;&#x624D;&#x53EF;&#x80FD;&#x8A08;&#x7B97;</li>
+<li>&#x548C;<code>.</code>&#x76F8;&#x95DC;&#x7684;expression&#x540C;&#x8981;&#x7B49;&#x8A72;section link&#x5B8C;&#x7562;&#x624D;&#x53EF;&#x80FD;&#x8A08;&#x7B97;</li>
+</ul>
+<p>&#x7531;&#x65BC;&#x6709;&#x9019;&#x6A23;&#x7684;&#x5148;&#x5F8C;&#x95DC;&#x4FC2;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x7684;script&#x6C92;&#x5BEB;&#x597D;&#x53EF;&#x80FD;&#x5C31;&#x6703;&#x9047;&#x5230;&#x6642;&#x9593;&#x9806;&#x5E8F;&#x4E0D;&#x540C;&#x9020;&#x6210;&#x9700;&#x8981;&#x7684;expression&#x88CF;&#x9762;&#x7684;element&#x9084;&#x6C92;&#x8A08;&#x7B97;&#x5B8C;&#x7562;&#xFF0C;&#x7136;&#x5F8C;&#x4F60;&#x7684;linker&#x5C31;&#x6703;&#x5674;&#x932F;&#x8AA4;&#x51FA;&#x4F86;&#x3002;</p>
+<p>&#x624B;&#x518A;&#x7684;<a href="https://sourceware.org/binutils/docs/ld/Evaluation.html#Evaluation" target="_blank">&#x7BC4;&#x4F8B;</a>&#x770B;&#x4E0D;&#x61C2;&#xFF0C;&#x4E0D;&#x89E3;&#x91CB;&#x4E86;&#x3002;</p>
+<p><a name="expr-sec"></a></p>
+<h2 id="expression-%E8%A8%88%E7%AE%97%E7%B5%90%E6%9E%9C%E5%92%8Cabsolute-relative-address%E7%9A%84%E9%97%9C%E4%BF%82">Expression &#x8A08;&#x7B97;&#x7D50;&#x679C;&#x548C;absolute/relative address&#x7684;&#x95DC;&#x4FC2;</h2>
+<p><strong> &#x9019;&#x908A;&#x6211;&#x4E0D;&#x662F;&#x5F88;&#x78BA;&#x5B9A;&#x6211;&#x6709;&#x7406;&#x89E3;&#x6B63;&#x78BA;&#xFF0C;&#x8ACB;&#x81EA;&#x884C;&#x659F;&#x914C;&#x3002;&#x53E6;&#x5916;&#x770B;&#x5B8C;&#x5F8C;&#x611F;&#x89BA;&#x4E0A;relative/absolute symbol&#x548C;relative/absolute address&#x662F;&#x76F8;&#x540C;&#x7684;&#x6771;&#x897F;&#xFF0C;&#x4F46;&#x662F;&#x624B;&#x518A;&#x4E0A;&#x53C8;&#x6C92;&#x6709;&#x660E;&#x8B1B;&#x3002;&#x6240;&#x4EE5;&#x6211;&#x9019;&#x908A;&#x8A9E;&#x6CD5;&#x6703;&#x6709;&#x9EDE;&#x6DF7;&#x4E82;&#x3002; </strong></p>
+<p>&#x9019;&#x908A;&#x8981;&#x5148;&#x5B9A;&#x7FA9;&#x5169;&#x500B;&#x540D;&#x8A5E;&#x624D;&#x80FD;&#x7406;&#x89E3;&#x9019;&#x500B;section&#x5728;&#x8B1B;&#x4E09;&#x5C0F;&#x3002;&#x5217;&#x51FA;&#x5982;&#x4E0B;</p>
+<ul>
+<li>relative symbol/address</li>
+<li>absolute symbol/address</li>
+</ul>
+<p>&#x9019;&#x5169;&#x500B;&#x6771;&#x897F;&#x90FD;&#x662F;&#x5728;&#x8B1B;&#x8F38;&#x51FA;object&#x6A94;&#x6848;&#x7684;<code>SECTIONS</code>&#x547D;&#x4EE4;&#x4E2D;&#x7684;symbol&#x6216;address&#x3002;&#x800C;&#x9019;&#x4E9B;symbol&#x6216; address&#x53EF;&#x80FD;&#x5BA3;&#x544A;&#x5728;<code>section</code>&#x7684;&#x88CF;&#x9762;&#x6216;&#x5916;&#x9762;&#x3002;&#x77E5;&#x9053;&#x9019;&#x6A23;&#x7684;&#x524D;&#x63D0;&#x5F8C;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x958B;&#x59CB;&#x5B9A;&#x7FA9;&#xFF1A;</p>
+<ul>
+<li>relative symbol/address<ul>
+<li>&#x9019;&#x500B;symbol&#x6216;address&#x7684;&#x503C;&#x4EE3;&#x8868;&#x7684;&#x662F;section&#x5230;&#x8A72;symbol&#x7684;offset</li>
+</ul>
+</li>
+<li>absolute symbol/address<ul>
+<li>&#x9019;&#x500B;symbol&#x6216;address&#x7684;&#x503C;&#x548C;section&#x7121;&#x95DC;&#xFF0C;&#x800C;&#x662F;&#x5BEB;&#x6B7B;&#x7684;</li>
+</ul>
+</li>
+</ul>
+<p>&#x77E5;&#x9053;&#x7684;&#x9019;&#x6A23;&#x5B9A;&#x7FA9;&#x5F8C;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x518D;&#x554F;&#xFF0C;&#x7136;&#x5F8C;&#x5462;&#xFF1F;</p>
+<p>&#x7136;&#x5F8C;&#x6709;&#x76F8;&#x5C0D;&#x7279;&#x6027;&#x7684;&#x5728;relocate&#x7684;&#x6642;&#x5019;&#x53EA;&#x8981;&#x66F4;&#x52D5;section&#x6578;&#x503C;&#x5C31;&#x597D;&#xFF0C;&#x800C;&#x5BEB;&#x6B7B;&#x7684;&#x5C31;&#x6C92;&#x6709;&#x8FA6;&#x6CD5;&#x52D5;&#x624B;&#x8173;&#x3002;&#x6240;&#x4EE5;&#xFF0C; relative symbol&#x53EF;&#x4EE5;relocate&#x800C;absolute symbol&#x4E0D;&#x884C;&#x3002;</p>
+<p>&#x9084;&#x4E0D;&#x662F;&#x5F88;&#x77AD;&#x9577;&#x600E;&#x9EBC;&#x6A23;&#x561B;&#xFF1F;&#x5148;&#x770B;&#x624B;&#x518A;&#x7684;&#x7684;&#x7BC4;&#x4F8B;&#x597D;&#x4E86;&#xFF1A;</p>
+<pre><code class="lang-c">SECTIONS
+{
+  . = <span class="hljs-number">0x100</span>;
+  __executable_start = <span class="hljs-number">0x100</span>;
+  .data :
+  {
+    . = <span class="hljs-number">0x10</span>;
+    __data_start = <span class="hljs-number">0x10</span>;
+    *(.data)
+  }
+  ...
+}
+</code></pre>
+<p>&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x770B;&#x5230;</p>
+<ul>
+<li>&#x8F38;&#x51FA;object&#x6A94;&#x6848;&#x7684;&#x8D77;&#x59CB;&#x4F4D;&#x5740;&#x548C;<code>__executable_start</code>&#x70BA;0x100&#xFF0C;&#x9019;&#x662F;&#x4E00;&#x500B;<strong>absolute address/symbol</strong></li>
+<li><code>.data</code>&#x7684;&#x771F;&#x6B63;&#x8CC7;&#x6599;&#x958B;&#x59CB;&#x4F4D;&#x7F6E;&#x8DDD;&#x96E2;<code>.data</code>&#x4F4D;&#x7F6E;0x10&#xFF0C;<code>__data_start</code>&#x4E5F;&#x662F;&#x76F8;&#x540C;&#x3002;&#x9019;&#x5169;&#x500B;&#x662F;<strong>relative address/symbol</strong></li>
+</ul>
+<p>&#x597D;&#x5566;&#xFF0C;&#x77E5;&#x9053;&#x9019;&#x5169;&#x500B;&#x95DC;&#x4FC2;&#x5F8C;&#xFF0C;&#x6211;&#x5011;&#x518D;&#x56DE;&#x4F86;&#x8A0E;&#x8AD6;&#x8A08;&#x7B97;symbol&#x503C;&#x7684;expression&#x3002;&#x7531;&#x65BC;linker script &#x547D;&#x4EE4;&#x8655;&#x7406;&#x56DE;&#x4F86;&#x7684;&#x503C;&#x6709;&#x4E9B;&#x662F;relative&#x6709;&#x4E9B;&#x662F;absolution&#xFF0C;&#x6240;&#x4EE5;&#x5728;&#x5BEB;script&#x7684;&#x6642;&#x5019;&#x8981;&#x6CE8;&#x610F;&#x3002;&#x624B;&#x518A;&#x63CF;&#x8FF0;&#x7684;&#x5730;&#x65B9;&#x76EE;&#x524D;&#x770B;&#x4E0D;&#x61C2;&#xFF0C;&#x61F6;&#x5F97;&#x641E;&#x61C2;&#x3002;&#x4E0D;&#x8AD6;&#x5982;&#x4F55;&#xFF0C;&#x624B;&#x518A;&#x63D0;&#x4F9B;&#x4E86;linker&#x8655;&#x7406;expresssion&#x6642;&#x5C0D;&#x65BC;absolute &#x548C; relative&#x7684;&#x884C;&#x70BA;&#x6E96;&#x5247;&#x3002;</p>
+<ul>
+<li>&#x8A08;&#x7B97;&#x7D50;&#x679C;&#x70BA;absolute<ul>
+<li>unary&#x64CD;&#x4F5C;(&#x5982;~0x11)absolute&#x4F4D;&#x7F6E;&#x7684;address&#x7D50;&#x679C;&#x70BA;absolute address</li>
+<li>binary&#x64CD;&#x4F5C;(&#x5982;A + B)&#xFF0C;&#x5169;&#x500B;operand&#x90FD;&#x662F;absolute address&#x7684;&#x7D50;&#x679C;&#x70BA;absolute address</li>
+<li>binary&#x64CD;&#x4F5C;(&#x5982;A + B)&#xFF0C;&#x5169;&#x500B;operand&#x90FD;&#x662F;&#x6578;&#x5B57;&#x7684;&#x8A71;&#x7684;&#x7D50;&#x679C;&#x70BA;absolute</li>
+<li>binary&#x64CD;&#x4F5C;(&#x5982;A + B)&#xFF0C;&#x5169;&#x500B;operand&#x4E2D;&#x4E00;&#x500B;&#x662F;absolute address&#xFF0C;&#x53E6;&#x4E00;&#x500B;&#x70BA;&#x6578;&#x5B57;&#x7684;&#x7D50;&#x679C;&#x70BA;absolute address</li>
+</ul>
+</li>
+<li>&#x8A08;&#x7B97;&#x7D50;&#x679C;&#x70BA;relative&#xFF0C;&#x5047;&#x8A2D;&#x5728;&#x540C;&#x4E00;&#x500B;section&#x4E0B;<ul>
+<li>unary&#x64CD;&#x4F5C;(&#x5982;~0x11) relative&#x4F4D;&#x7F6E;&#x7684;address&#x7D50;&#x679C;&#x70BA;relative address<ul>
+<li>binary&#x64CD;&#x4F5C;(&#x5982;A + B)&#xFF0C;&#x5169;&#x500B;operand&#x90FD;&#x662F;relative address&#x7684;&#x7D50;&#x679C;&#x70BA;relative address</li>
+</ul>
+</li>
+<li>binary&#x64CD;&#x4F5C;(&#x5982;A + B)&#xFF0C;&#x4E00;&#x500B;operand&#x662F;relative address&#x53E6;&#x5916;&#x4E00;&#x500B;&#x662F;&#x6578;&#x5B57;&#x7684;&#x7D50;&#x679C;&#x70BA;relative address</li>
+</ul>
+</li>
+<li>&#x8A08;&#x7B97;&#x7D50;&#x679C;&#x9700;&#x8981;&#x8F49;&#x63DB;&#x5F8C;&#x8B8A;&#x6210;absolute address&#x7684;&#x60C5;&#x6CC1;<ul>
+<li>binary&#x64CD;&#x4F5C;(&#x5982;A + B)&#xFF0C;&#x5169;&#x500B;operand&#x90FD;&#x662F;relative address&#xFF0C;&#x4F46;&#x662F;&#x662F;&#x4E0D;&#x540C;&#x7684;section&#xFF0C;&#x9700;&#x8981;&#x5148;&#x8F49;&#x6210;absolut address&#x518D;&#x64CD;&#x4F5C;&#xFF0C;&#x7684;&#x7D50;&#x679C;&#x70BA;absolute address</li>
+<li>binary&#x64CD;&#x4F5C;(&#x5982;A + B)&#xFF0C;&#x5169;&#x500B;operand&#x4E2D;&#x4E00;&#x500B;&#x662F;relative address&#xFF0C;&#x53E6;&#x5916;&#x4E00;&#x500B;&#x662F;absolute address&#xFF0C;&#x9700;&#x8981;&#x628A;relative address&#x5148;&#x8F49;&#x6210;absolut address&#x518D;&#x64CD;&#x4F5C;&#xFF0C;&#x7684;&#x7D50;&#x679C;&#x70BA;absolute address</li>
+</ul>
+</li>
+</ul>
+<p><a href="http://chortle.ccsu.edu/java5/Notes/chap09B/ch09B_10.html" target="_blank">sub-expression</a>&#xFF08;&#x5C31;&#x662F;express&#x88CF;&#x9762;&#x5408;&#x6CD5;&#x7684;express&#x5982;a+b-c&#xFF0C;&#x53EF;&#x4EE5;&#x62C6;&#x6210;a+b&#xFF0C;&#x4ED6;&#x7684;&#x7D50;&#x679C;&#x518D;&#x8DDF;c&#x76F8;&#x52A0;&#xFF0C;&#x800C;a+b&#x5C31;&#x662F;&#x4E00;&#x500B;sub-expression&#xFF09;&#xFF0C;&#x7684;&#x8655;&#x7406;absolute/relative&#x898F;&#x7BC4;&#x5982;&#x4E0B;&#xFF1A;</p>
+<ul>
+<li>&#x64CD;&#x4F5C;&#x8655;&#x7406;&#x6578;&#x5B57;&#x7D50;&#x679C;&#x70BA;&#x6578;&#x5B57;</li>
+<li>&#x6BD4;&#x8F03;(|| &amp;&amp;)&#x7684;&#x7D50;&#x679C;&#x4E5F;&#x662F;&#x6578;&#x5B57;</li>
+<li>binary&#x64CD;&#x4F5C;&#x5305;&#x542B;&#x908F;&#x8F2F;&#x64CD;&#x4F5C;(&#x5982;A + B)&#xFF0C;&#x5169;&#x500B;operand&#x90FD;&#x662F;relative address&#x7684;&#x7D50;&#x679C;&#x70BA;&#x6578;&#x5B57;</li>
+<li>binary&#x64CD;&#x4F5C;&#x5305;&#x542B;&#x908F;&#x8F2F;&#x64CD;&#x4F5C;(&#x5982;A + B)&#xFF0C;&#x5169;&#x500B;operand&#x90FD;&#x662F;absolute address&#x7684;&#x7D50;&#x679C;&#x70BA;&#x6578;&#x5B57;</li>
+<li>&#x4E0D;&#x662F;&#x4EE5;&#x4E0A;&#x7684;&#x64CD;&#x4F5C;&#xFF0C;&#x5169;&#x500B;operand&#x90FD;&#x662F;relative address&#x7684;&#x7D50;&#x679C;&#x70BA;relative address</li>
+<li>&#x4E0D;&#x662F;&#x4EE5;&#x4E0A;&#x7684;&#x64CD;&#x4F5C;&#xFF0C;&#x4E00;&#x500B;operand&#x662F;relative address&#x53E6;&#x5916;&#x4E00;&#x500B;&#x662F;&#x6578;&#x5B57;&#x7684;&#x7D50;&#x679C;&#x70BA;relative address</li>
+<li>&#x4E0D;&#x662F;&#x4EE5;&#x4E0A;&#x7684;&#x64CD;&#x4F5C;&#xFF0C;&#x6709;absolute address&#x7684;&#x64CD;&#x4F5C;&#x7D50;&#x679C;&#x70BA;absolute</li>
+</ul>
+<p>&#x5982;&#x679C;&#x6709;&#x9700;&#x8981;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;<code>ABSOLUTE()</code>&#x547D;&#x4EE4;&#x5F37;&#x8FEB;section&#x88CF;&#x9762;&#x7684;symbol&#x503C;&#x70BA;absolutio&#xFF0C;&#x7BC4;&#x4F8B;&#x5982;&#x4E0B;&#x3002;</p>
+<pre><code class="lang-c">SECTIONS
+{
+    .data : { *(.data) _edata = ABSOLUTE(.); }
+}
+</code></pre>
+<p><code>_edata</code>&#x6C92;&#x7528;<code>ABSOLUTE()</code>&#x547D;&#x4EE4;&#x7684;&#x8A71;&#x6703;&#x662F;&#x4E00;&#x500B;relative symbol&#xFF0C;&#x56E0;&#x70BA;&#x52A0;&#x4E86;<code>ABSOLUTE()</code>&#x547D;&#x4EE4;&#x6240;&#x4EE5;linker&#x628A;&#x4ED6;&#x8996;&#x70BA;absolution symbol&#x3002;</p>
+<p><a name="expr-btfun"></a></p>
+<h2 id="%E5%85%A7%E5%BB%BA%E5%87%BD%E6%95%B8">&#x5167;&#x5EFA;&#x51FD;&#x6578;</h2>
+<ul>
+<li><code>ABSOLUTE(expr)</code><ul>
+<li>&#x628A;expr&#x5167;&#x7684;&#x7D50;&#x679C;&#x8996;&#x70BA;absolute&#x7684;&#x503C;&#xFF0C;&#x901A;&#x5E38;&#x6703;&#x5728;section&#x5167;&#x4F7F;&#x7528;&#xFF0C;&#x7528;&#x4E86;&#x4EE5;&#x5F8C;&#x9019;&#x500B;&#x7D50;&#x679C;&#x5C07;&#x6703;&#x7121;&#x6CD5;relocate</li>
+</ul>
+</li>
+<li><code>ADDR(section)</code><ul>
+<li>&#x53D6;&#x5F97;section&#x540D;&#x7A31;&#x7684;VMA</li>
+</ul>
+</li>
+</ul>
+<p>&#x524D;&#x9762;&#x5169;&#x500B;&#x547D;&#x4EE4;&#x53EF;&#x4EE5;&#x7528;&#x4E0B;&#x9762;&#x7BC4;&#x4F8B;&#x8AAA;&#x660E;</p>
+<pre><code class="lang-c">SECTIONS
+{
+    ...
+  .output1 :
+  {
+      start_of_output_1 = ABSOLUTE(.);
+      ...
+  }
+  .output :
+  {
+      symbol_1 = ADDR(.output1);
+       symbol_2 = start_of_output_1;
+    ...
+  }
+  ...
+}
+</code></pre>
+<p>&#x9019;&#x908A;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF1A; <code>start_of_output_1</code>&#xFF0C;<code>symbol_1</code>, &#x548C;<code>symbol_2</code>&#x7684;&#x503C;&#x7406;&#x8AD6;&#x4E0A;&#x662F;&#x76F8;&#x540C;&#x7684;&#x3002;&#x4F46;&#x662F;&#x6027;&#x8CEA;&#x4E0A;<code>symbol_1</code>&#x662F;relative&#xFF0C;&#x800C;&#x5176;&#x4ED6;&#x5169;&#x500B;symbol&#x662F;absolute&#x3002;</p>
+<ul>
+<li><code>ALIGN(align)</code></li>
+<li><code>ALIGN(exp,align)</code>
+&#x5148;&#x8B1B;<code>ALIGN(exp,align)</code>&#xFF0C;&#x9019;&#x500B;&#x547D;&#x4EE4;&#x662F;&#x8A08;&#x7B97;expr&#x5F8C;&#xFF0C;&#x56DE;&#x50B3;<code>align</code>&#x4F4D;&#x5740;&#x5F8C;&#x9762;&#x7B2C;&#x4E00;&#x500B;&#x7B26;&#x5408;alignment&#x7684;&#x4F4D;&#x5740;&#x3002;&#x800C;<code>ALIGN(align)</code>&#x53EF;&#x4EE5;&#x8996;&#x70BA;<code>ALIGN(., align)</code>&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#x9019;&#x500B;&#x547D;&#x4EE4;&#x6703;&#x56DE;&#x50B3;<code>.</code>&#x7684;&#x5F8C;&#x9762;&#x7B26;&#x5408;alignment&#x7684;&#x4F4D;&#x5740;&#x3002;&#x624B;&#x518A;&#x63D0;&#x4F9B;&#x7684;&#x7BC4;&#x4F8B;&#x5982;&#x4E0B;&#xFF0C;&#x56E0;&#x70BA;&#x5F88;&#x5BB9;&#x6613;&#x671B;&#x6587;&#x751F;&#x7FA9;&#xFF0C;&#x5C31;&#x4E0D;&#x89E3;&#x91CB;&#x4E86;&#xFF1A;</li>
+</ul>
+<pre><code class="lang-c">SECTIONS
+{
+    ...
+    .<span class="hljs-function">data <span class="hljs-title">ALIGN</span><span class="hljs-params">(0x2000)</span>:
+  </span>{
+        *(.data)
+        variable = ALIGN(<span class="hljs-number">0x8000</span>);
+    }
+    ...
+}
+</code></pre>
+<ul>
+<li><code>ALIGNOF(section&#x540D;&#x7A31;)</code>
+&#x53D6;&#x5F97;<code>section</code>&#x5F8C;&#x9762;&#x7B26;&#x865F;alignment&#x7684;&#x4F4D;&#x7F6E;&#x3002;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;section&#x8981;&#x5DF2;&#x7D93;&#x88AB;&#x5206;&#x914D;&#x51FA;&#x4F86;&#xFF0C;&#x5426;&#x5247;linker&#x6703;&#x5674;&#x932F;&#x8AA4;&#x7D66;&#x4F60;&#x770B;&#x3002;&#x7BC4;&#x4F8B;&#x4E00;&#x6A23;&#x5BB9;&#x6613;&#x671B;&#x6587;&#x751F;&#x7FA9;&#xFF0C;&#x4E0D;&#x89E3;&#x91CB;&#x3002;</li>
+</ul>
+<pre><code class="lang-c">SECTIONS
+{
+    ...
+  .output
+  {
+      LONG (ALIGNOF (.output))
+      ...
+  }
+    ...
+}
+</code></pre>
+<ul>
+<li><code>BLOCK(exp)</code></li>
+</ul>
+<p>&#x548C;<code>ALIGN()</code>&#x76F8;&#x540C;&#x3002;&#x662F;&#x820A;&#x7248;&#x7684;linker&#x4F7F;&#x7528;&#x7684;&#x547D;&#x4EE4;&#x3002;</p>
+<ul>
+<li><code>DATA_SEGMENT_ALIGN(maxpagesize, commonpagesize)</code></li>
+<li><code>DATA_SEGMENT_END(exp)</code></li>
+<li><code>DATA_SEGMENT_RELRO_END(offset, exp)</code></li>
+</ul>
+<p><strong>&#x770B;&#x4E0D;&#x61C2;&#xFF0C;&#x4E0D;&#x60F3;&#x5F04;&#x61C2;&#x3002;&#x8DF3;&#x904E;&#x3002;</strong></p>
+<ul>
+<li><code>DEFINED(symbol)</code>
+&#x5982;&#x679C;symbol&#x5DF2;&#x7D93;&#x88AB;&#x6536;&#x9032;symbol table&#x5C31;&#x56DE;&#x50B3;1&#xFF0C;&#x5426;&#x5247;&#x56DE;&#x50B3;0&#x3002;&#x624B;&#x518A;&#x793A;&#x7BC4;&#x5982;&#x679C;&#x6C92;&#x5B9A;&#x7FA9;&#x8A72;symbol&#x5C31;&#x81EA;&#x5DF1;&#x751F;&#x4E00;&#x500B;&#x5982;&#x4E0B;&#x3002;</li>
+</ul>
+<pre><code class="lang-c">SECTIONS
+{
+    ...
+  .text :
+  {
+      begin = DEFINED(begin) ? begin : . ;
+      ...
+  }
+  ...
+}
+</code></pre>
+<ul>
+<li><p><code>LENGTH(region)</code>
+&#x56DE;&#x50B3;&#x4F60;&#x5728;<code>MEMORY</code>&#x547D;&#x4EE4;&#x4E2D;&#x8A2D;&#x5B9A;&#x7684;region size</p>
+</li>
+<li><p><code>LOADADDR(section&#x540D;&#x7A31;)</code>
+&#x56DE;&#x50B3;section&#x7684;&#x540D;&#x7A31;&#x7684;LMA&#x4F4D;&#x5740;</p>
+</li>
+<li><p><code>LOG2CEIL(exp)</code>
+&#x53D6;exp&#x7684;log&#xFF0C;&#x4E0D;&#x77E5;&#x9053;&#x7528;&#x5728;&#x5565;&#x5B50;&#x5730;&#x65B9;&#x3002;</p>
+</li>
+<li><p><code>MAX(exp1, exp2)</code>
+&#x56DE;&#x50B3;exp1&#x548C;exp2&#x6BD4;&#x8F03;&#x5927;&#x7684;&#x6578;&#x503C;</p>
+</li>
+<li><p><code>MIN(exp1, exp2)</code>
+&#x56DE;&#x50B3;exp1&#x548C;exp2&#x6BD4;&#x8F03;&#x5C0F;&#x7684;&#x6578;&#x503C;</p>
+</li>
+<li><p><code>NEXT(exp)</code>
+&#x56DE;&#x50B3;exp&#x8A08;&#x7B97;&#x7D50;&#x679C;&#x7684;&#x6578;&#x503C;&#x8A18;&#x61B6;&#x9AD4;&#x4E4B;&#x5F8C;&#x7684;&#x53EF;&#x4F7F;&#x7528;&#x7684;&#x7A7A;&#x9593;&#x3002;&#x5982;&#x679C;&#x6C92;&#x6709;&#x4F7F;&#x7528;<code>MEMORY</code>&#x547D;&#x4EE4;&#x8A2D;&#x5B9A;&#x4E0D;&#x9023;&#x7E8C;&#x7684;&#x7A7A;&#x9593;&#xFF0C;&#x9019;&#x6307;&#x4EE4;&#x6548;&#x679C;&#x548C;<code>ALIGN</code>&#x547D;&#x4EE4;&#x76F8;&#x540C;&#x3002;</p>
+</li>
+<li><p><code>ORIGIN(region&#x540D;&#x7A31;)</code>
+&#x56DE;&#x50B3;&#x4F60;&#x5728;<code>MEMORY</code>&#x547D;&#x4EE4;&#x8A2D;&#x5B9A;&#x7684;region&#x7684;&#x8D77;&#x59CB;&#x4F4D;&#x5740;</p>
+</li>
+<li><p><code>SEGMENT_START(segment&#x540D;&#x7A31;, default)</code>
+&#x56DE;&#x50B3;<code>segment</code>&#x7684;&#x8D77;&#x59CB;&#x4F4D;&#x7F6E;&#x3002;&#x9084;&#x8A18;&#x5F97;ELF program header&#x7684;segment&#xFF1F;&#x6211;&#x4E0D;&#x77E5;&#x9053;&#x548C;&#x9019;&#x500B;&#x662F;&#x4E0D;&#x662F;&#x76F8;&#x540C;&#x3002;<code>default</code>&#x9664;&#x975E;&#x6709;&#x900F;&#x904E;<code>ld -T</code>&#x53C3;&#x6578;&#x66F4;&#x52D5;&#xFF0C;&#x5426;&#x5247;&#x5C31;&#x662F;&#x9810;&#x8A2D;&#x503C;&#x3002;&#x624B;&#x518A;&#x6C92;&#x6709;&#x5BEB;&#x9810;&#x8A2D;&#x503C;&#x662F;&#x591A;&#x5C11;&#x3002;&#x4F46;&#x662F;&#x5F9E;ld --verbose&#x770B;&#x5230;&#x7684;&#x4F7F;&#x7528;&#x7BC4;&#x4F8B;&#x662F;&#x7528;&#x5728;&#x6307;&#x5B9A;&#x7A0B;&#x5F0F;&#x78BC;&#x958B;&#x59CB;&#x57F7;&#x884C;&#x7684;&#x5730;&#x65B9;&#x3002;&#x6709;&#x6C92;&#x6709;&#x89BA;&#x5F97;0x400000&#x5F88;&#x773C;&#x719F;&#x5462;&#xFF1F;&#x4E0D;&#x719F;&#xFF1F;&#x90A3;&#x7B97;&#x4E86;&#x3002;</p>
+</li>
+</ul>
+<pre><code class="lang-c">  PROVIDE (__executable_start = SEGMENT_START(<span class="hljs-string">&quot;text-segment&quot;</span>, <span class="hljs-number">0x400000</span>)); . = SEGMENT_START(<span class="hljs-string">&quot;text-segment&quot;</span>, <span class="hljs-number">0x400000</span>) + SIZEOF_HEADERS;
+  . = SEGMENT_START(<span class="hljs-string">&quot;ldata-segment&quot;</span>, .);
+</code></pre>
+<ul>
+<li><code>SIZEOF(section&#x540D;&#x7A31;)</code>
+&#x56DE;&#x50B3;section&#x7684;size&#xFF0C;&#x5982;&#x679C;&#x8A72;section&#x9084;&#x6C92;&#x88AB;&#x5206;&#x914D;&#xFF0C;linker&#x5C31;&#x5410;&#x932F;&#x8AA4;&#x7D66;&#x4F60;&#x770B;&#x3002;
+&#x4E0B;&#x9762;&#x7684;&#x4F8B;&#x5B50;&#x4E2D;&#x7684;<code>symbol_1</code>&#x548C;<code>symbol_2</code>&#x7684;&#x503C;&#x662F;&#x76F8;&#x540C;&#x7684;&#x3002;&#x9019;&#x883B;&#x5BB9;&#x6613;&#x7406;&#x89E3;&#xFF0C;&#x6211;&#x5217;&#x51FA;&#x4F86;&#x4E3B;&#x8981;&#x662F;&#x8981;&#x8B93;&#x5927;&#x5BB6;&#x591A;&#x770B;&#x4F8B;&#x5B50;&#x3002;<code>.start</code>, <code>.end</code>&#x7684;&#x7528;&#x6CD5;&#x6211;&#x770B;&#x904E;&#x597D;&#x5E7E;&#x6B21;&#x3002;</li>
+</ul>
+<pre><code class="lang-c">SECTIONS
+{
+  ...
+  .output
+  {
+  .start = . ;
+  ...
+  .end = . ;
+  }
+  symbol_1 = .end - .start ;
+  symbol_2 = SIZEOF(.output);
+...
+}
+</code></pre>
+<ul>
+<li><code>SIZEOF_HEADERS</code></li>
+<li><code>sizeof_headers</code>
+&#x53D6;&#x5F97;&#x8F38;&#x51FA;object&#x6A94;&#x6848;&#x7684;header size&#x3002;&#x5982;&#x679C;&#x4F60;&#x4F7F;&#x7528;ELF&#x683C;&#x5F0F;&#xFF0C;&#x53C8;&#x6709;&#x81EA;&#x884C;&#x52A0;programer header&#x7684;&#x8A71;&#xFF0C;ld&#x6703;&#x5674;&#x932F;&#x8AA4;&#x3002;&#x539F;&#x56E0;&#x662F;ld&#x9810;&#x671F;&#x7684;&#x662F;ELF&#x898F;&#x7BC4;&#x7684;program header&#xFF0C;&#x56E0;&#x6B64;&#x653E;&#x4E0D;&#x4E0B;&#x65B0;&#x589E;&#x7684;program header&#x3002;&#x6240;&#x4EE5;&#x4F60;&#x6709;&#x591A;&#x7684;program header&#x7684;&#x8A71;&#xFF0C;&#x8ACB;&#x4E0D;&#x8981;&#x7528;&#x9019;&#x500B;&#x6307;&#x4EE4;&#x3002;</li>
+</ul>
+<p><a name="imp"></a></p>
+<h2 id="implicit-linker-scripts">Implicit Linker Scripts</h2>
+<p>linker&#x5403;&#x7684;&#x6A94;&#x6848;&#x8655;&#x7406;&#x9806;&#x5E8F;&#x5982;&#x4E0B;</p>
+<p>1 object&#x6A94;&#xFF0C;&#x958B;&#x59CB;link
+2 &#x4E0D;&#x662F;object&#x6A94;&#xFF0C;&#x5C31;&#x7576;linker script&#x5403;&#x9032;&#x53BB;
+3 &#x4E0D;&#x662F;object&#x6A94;&#x6848;&#x4E5F;&#x4E0D;&#x662F;linker script&#x6A94;&#x6848;&#xFF0C;&#x5674;&#x932F;&#x8AA4;&#x7136;&#x5F8C; GG</p>
+<p>&#x6240;&#x4EE5;&#xFF0C;Implicit Linker Script&#x6307;&#x7684;&#x662F;&#x9805;&#x76EE;2&#x5403;&#x9032;&#x4F86;&#x7684;script&#x3002;linker&#x6703;&#x628A;&#x9019;&#x500B;&#x7576;&#x4F5C;&#x76EE;&#x524D;linker script&#x7684;&#x88DC;&#x5F37;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x53D6;&#x4EE3;&#x3002;&#x53E6;&#x5916;&#x7531;&#x65BC;&#x5403;&#x9032;&#x4F86;&#x7684;script&#x9806;&#x5E8F;&#x4E0D;&#x540C;&#xFF0C;&#x53EF;&#x80FD;&#x6703;&#x51FA;&#x73FE;&#x5148;&#x8B80;&#x5165;&#x4E26;link &#x4E09;&#x500B;object&#x6A94;&#x6848;&#x5F8C;&#xFF0C;&#x624D;&#x8B80;&#x5230;Implicit Linker Script&#xFF0C;&#x6240;&#x4EE5;&#x9019;&#x500B;Implicit Linker Script&#x7121;&#x6CD5;&#x5C0D;&#x5DF2;&#x7D93;link&#x8655;&#x7406;&#x3002;</p>
+<p><a name="todo"></a></p>
+<h2 id="%E5%BE%85%E9%87%90%E6%B8%85%E9%A0%85%E7%9B%AE">&#x5F85;&#x91D0;&#x6E05;&#x9805;&#x76EE;</h2>
+<ul>
+<li>dynamic symbol (&#x4E0D;&#x77E5;&#x9053;&#x662F;&#x4E09;&#x5C0F;)</li>
+<li>warning symbol (&#x4E0D;&#x77E5;&#x9053;&#x662F;&#x4E09;&#x5C0F;)</li>
+<li>constructor symbol (&#x4E0D;&#x77E5;&#x9053;&#x662F;&#x4E09;&#x5C0F;)</li>
+<li>3.6.6&#x770B;&#x4E0D;&#x61C2;&#xFF0C;&#x8DF3;&#x904E;&#x3002;</li>
+<li>dynamic loader</li>
+<li>Initialize section</li>
+<li>PT_INTERP&#x548C;/lib64/ld-linux-x86-64.so.2&#x7684;&#x95DC;&#x4FC2;</li>
+<li>DATA_SEGMENT_ALIGN(maxpagesize, commonpagesize)&#x548C;&#x4ED6;&#x7684;&#x670B;&#x53CB;&#x5011;</li>
+<li>ld -M</li>
+</ul>
+<p><a name="ref"></a></p>
+<h2 id="%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99">&#x53C3;&#x8003;&#x8CC7;&#x6599;</h2>
+<ul>
+<li><a href="https://sourceware.org/binutils/docs/ld/Scripts.html#Scripts" target="_blank">GNU linker ld: Linker Scripts</a></li>
+<li><a href="http://www.slideshare.net/jserv/from-source-to-binary-how-gnu-toolchain-works" target="_blank">from Source to Binary: How GNU Toolchain Works</a></li>
+<li><a href="http://wiki.osdev.org/Linker_Scripts" target="_blank">Linker Scripts - OSDev Wiki</a></li>
+<li><a href="http://www.bravegnu.org/gnu-eprog/index.html" target="_blank">Embedded Programming with the GNU Toolchain</a></li>
+<li><a href="http://stackoverflow.com/questions/6666805/what-does-each-column-of-objdumps-symbol-table-mean" target="_blank">Stackoverflow: What does each column of objdump&apos;s Symbol table mean?</a></li>
+<li><a href="http://refspecs.linuxfoundation.org/elf/gabi4+/contents.html" target="_blank">System V Application Binary Interface - DRAFT - 24 April 2001</a></li>
+<li><a href="http://refspecs.linuxfoundation.org/" target="_blank">Linux Foundation: Referenced Specifications</a></li>
+<li><a href="http://refspecs.linuxfoundation.org/LSB_4.1.0/LSB-Core-generic/LSB-Core-generic/book1.html" target="_blank">Linux Standard Base Core Specification 4.1</a></li>
+<li><a href="http://stackoverflow.com/questions/6218384/virtual-and-physical-addresses-of-sections-in-elf-files" target="_blank">virtual and physical addresses of sections in elf files</a></li>
+<li><a href="http://www.cs.virginia.edu/~dww4s/articles/ld_linux.html" target="_blank">Understanding ld-linux.so.2</a></li>
+<li><a href="https://sourceware.org/binutils/docs/as/Symver.html" target="_blank">Using as: 7.11</a></li>
+<li><a href="http://www.lisha.ufsc.br/teaching/os/exercise/hello.html" target="_blank">The True Story of Hello World</a></li>
+<li><a href="http://ftp.gnu.org/old-gnu/Manuals/ld-2.9.1/html_chapter/ld_3.html#SEC13" target="_blank">Absolute symbol</a></li>
+<li><a href="http://chortle.ccsu.edu/java5/Notes/chap09B/ch09B_10.html" target="_blank">Sub-expression</a></li>
+<li><a href="http://en.wikipedia.org/wiki/.bss" target="_blank">Wikipedia: .bss</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Code_segment" target="_blank">Wikipedia: Code segment</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Data_segment" target="_blank">Wikipedia: Data segment</a></li>
+<li><a href="http://stackoverflow.com/questions/11196048/flags-in-objdump-output-of-object-file" target="_blank">stackoverflow: Flags in objdump output of object file</a></li>
+</ul>
+
+                    
+                    </section>
+                
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../22/22183.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: GNU LD 手冊略讀 (2): Chapter 3.6 SETCIONS"><i class="fa fa-angle-left"></i></a>
+        
+        
+    </div>
+</div>
+
+        
+<script src="../gitbook/app.js"></script>
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    gitbook.start(config);
+});
+</script>
+
+        
+    </body>
+    
+</html>

@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
-        <title>Linux 檔案的hole | Jason note</title>
+        <title>GNU: The C Preprocessor 導讀 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.0.1">
@@ -20,10 +20,8 @@
         
     
     
-    <link rel="next" href="../22/229.html" />
     
-    
-    <link rel="prev" href="../22/227.html" />
+    <link rel="prev" href="../22/22184.html" />
     
 
         
@@ -36,7 +34,7 @@
     
 
         
-    <div class="book" data-level="22.8" data-basepath=".." data-revision="Thu Aug 20 2015 00:46:18 GMT+0800 (CST)">
+    <div class="book" data-level="22.19" data-basepath=".." data-revision="Thu Aug 20 2015 00:46:18 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -3514,7 +3512,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="22.8" data-path="22/228.html">
+        <li class="chapter " data-level="22.8" data-path="22/228.html">
             
                 
                     <a href="../22/228.html">
@@ -3737,7 +3735,7 @@
             
         </li>
     
-        <li class="chapter " data-level="22.19" data-path="22/2219.html">
+        <li class="chapter active" data-level="22.19" data-path="22/2219.html">
             
                 
                     <a href="../22/2219.html">
@@ -3860,124 +3858,542 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="linux-%E6%AA%94%E6%A1%88%E7%9A%84hole">Linux &#x6A94;&#x6848;&#x7684;hole</h1>
-<h2 id="%E5%A4%A7%E7%B6%B1">&#x5927;&#x7DB1;</h2>
-<p>&#x6A94;&#x6848;&#x7684;hole&#x6A94;&#x6848;&#x4E2D;&#x9023;&#x7E8C;&#x7684;null &#x5B57;&#x5143;&#x3002;</p>
-<p>&#x7576;lseek&#x6307;&#x5B9A;&#x7684;offset (&#x5047;&#x8A2D;&#x53EB;o_lseek)&#x8D85;&#x904E;&#x76EE;&#x524D;&#x6A94;&#x6848;&#x6700;&#x5F8C;&#x7684;offset(o_end)&#x6642;&#xFF0C;&#x591A;&#x51FA;&#x4F86;&#x7684;delta&#x7CFB;&#x7D71;&#x4E26;&#x4E0D;&#x6703;&#x5BEB;&#x5165;&#x5230;&#x5BE6;&#x9AD4;&#x7A7A;&#x4EF6;&#xFF0C;&#x800C;&#x662F;&#x6709;&#x4EBA;&#x8981;&#x8B80;&#x53D6;&#x9019;&#x6BB5;&#x7A7A;&#x9593;&#x6642;&#x6703;&#x8B80;&#x5230;&#x9023;&#x7E8C;&#x7684;null&#x5B57;&#x5143;&#x3002;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#x6703;&#x6709;&#x6A94;&#x6848;&#x5927;&#x5C0F;&#x9060;&#x5927;&#x65BC;&#x5BE6;&#x969B;&#x4F54;&#x7528;&#x7684;&#x5132;&#x5B58;&#x7A7A;&#x9593;&#x7684;&#x7279;&#x6027;&#x3002;</p>
-<p>&#x4E00;&#x822C;&#x4F86;&#x8AAA;&#xFF0C;hole&#x6703;&#x61C9;&#x5728;sparse&#x7684;&#x6A94;&#x6848;&#xFF0C;&#x6700;&#x5178;&#x578B;&#x7684;&#x7684;&#x4F8B;&#x5B50;&#x5C31;&#x662F;Virtual machine&#x7684;image&#x6A94;&#x6848;&#x3002;</p>
+                        <h1 id="gnu-the-c-preprocessor-%E5%B0%8E%E8%AE%80">GNU: The C Preprocessor &#x5C0E;&#x8B80;</h1>
+<p>C&#x8A9E;&#x8A00;&#x7684;&#x524D;&#x7F6E;&#x8655;&#x7406;(CPP: C preprocessor)&#x662F;&#x500B;&#x5F88;&#x6709;&#x8DA3;&#x7684;&#x984C;&#x76EE;&#xFF0C;&#x77E5;&#x9053;&#x5728;&#x5C0D;&#x7684;&#x6642;&#x6A5F;&#x4F7F;&#x7528;&#x4ED6;&#x5011;&#x7D55;&#x5C0D;&#x80FD;&#x5920;&#x5C0D;&#x65BC;&#x958B;&#x767C;&#x8EDF;&#x9AD4;&#x6709;&#x5DE8;&#x5927;&#x7684;&#x5E6B;&#x52A9;&#x3002;&#x4EE5;&#x4E0B;&#x662F;&#x6211;&#x95B1;&#x8B80;<a href="http://gcc.gnu.org/onlinedocs/cpp/index.html" target="_blank">GNU: The C Preprocessor</a>&#x7684;&#x7B46;&#x8A18;&#x3002;&#x8ACB;&#x6CE8;&#x610F;&#x9019;&#x53EA;&#x662F;&#x7B46;&#x8A18;&#xFF0C;&#x8A73;&#x7D30;&#x8CC7;&#x6599;&#x8ACB;&#x81EA;&#x884C;&#x53C3;&#x8003;&#x539F;&#x672C;&#x7DB2;&#x9801;&#x3002;</p>
+<p><a name="&#x76EE;&#x9304;"></a></p>
+<h2 id="%E7%9B%AE%E9%8C%84">&#x76EE;&#x9304;</h2>
 <ul>
-<li><a href="#&#x7BC4;&#x4F8B;">&#x7BC4;&#x4F8B;</a><ul>
-<li><a href="#&#x57F7;&#x884C;&#x7D50;&#x679C;">&#x57F7;&#x884C;&#x7D50;&#x679C;</a></li>
-<li><a href="#Makefile">Makefile</a></li>
-<li><a href="#&#x7A0B;&#x5F0F;">&#x7A0B;&#x5F0F;</a></li>
-</ul>
-</li>
+<li><a href="#&#x6E2C;&#x8A66;&#x74B0;&#x5883;">&#x6E2C;&#x8A66;&#x74B0;&#x5883;</a></li>
+<li><a href="#&#x6E2C;&#x8A66;&#x74B0;&#x5883;">&#x6982;&#x8AD6;</a></li>
+<li><a href="#Header Files">Header Files</a></li>
+<li><a href="#&#x5DE8;&#x96C6;">&#x5DE8;&#x96C6;</a></li>
+<li><a href="#Preprocessor Output">Preprocessor Output</a></li>
+<li><a href="#gcc&#x548C;CPP&#x76F8;&#x95DC;&#x7684;&#x53C3;&#x6578;">gcc&#x548C;CPP&#x76F8;&#x95DC;&#x7684;&#x53C3;&#x6578;</a></li>
 <li><a href="#&#x53C3;&#x8003;&#x8CC7;&#x6599;">&#x53C3;&#x8003;&#x8CC7;&#x6599;</a></li>
 </ul>
-<p><a name="&#x7BC4;&#x4F8B;"></a></p>
-<h2 id="%E7%AF%84%E4%BE%8B">&#x7BC4;&#x4F8B;</h2>
-<p>&#x6E2C;&#x8A66;&#x7A0B;&#x5F0F;&#x884C;&#x70BA;&#x63CF;&#x8FF0;</p>
-<ol>
-<li>&#x8B80;&#x5165;&#x4EFB;&#x610F;&#x5B57;&#x4E32;</li>
-<li>&#x5C07;&#x5B57;&#x4E32;&#x5BEB;&#x5165;&#x6A94;&#x6848;&#xFF0C;&#x6BCF;&#x500B;&#x5B57;&#x5143;&#x9593;&#x9694;1G&#x7684;&#x7A7A;&#x9593;</li>
-</ol>
-<p><a name="&#x57F7;&#x884C;&#x7D50;&#x679C;"></a></p>
-<h2 id="%E5%9F%B7%E8%A1%8C%E7%B5%90%E6%9E%9C">&#x57F7;&#x884C;&#x7D50;&#x679C;</h2>
-<p>&#x8ACB;&#x6CE8;&#x610F;&#x6A94;&#x6848;&#x5927;&#x5C0F;&#x548C;&#x76EE;&#x9304;&#x5927;&#x5C0F;&#x7684;&#x5DEE;&#x7570;</p>
-<pre><code>$ ./create_hole_file
-Enter any text: test111
-Get test111
-, used to create test hole file
-
-$ ls -lh file_in_the_hole
--rw------- 1 nobody nobody 7.1G Dec 31 14:24 file_in_the_hole
-
-$ du -sh .
-128K    .
-</code></pre><p><a name="Makefile"></a></p>
-<h2 id="makefile">Makefile</h2>
-<pre><code>CFLAGS=-g -Wall -pedantic
-LDFLAGS=
-
-TARGET=create_hole_file
-HOLE_FILE_NAME=file_in_the_hole
-
-all: $(TARGET)
-create_hole_file: create_hole_file.c
-    gcc -o $@ $(CFLAGS) $^ -DHOLE_FILE_NAME=&quot;\&quot;$(HOLE_FILE_NAME)\&quot;&quot;
-
-clean:
-    rm -rf *.o *~ $(TARGET) $(HOLE_FILE_NAME)
-</code></pre><p><a name="&#x7A0B;&#x5F0F;"></a></p>
-<h2 id="%E7%A8%8B%E5%BC%8F">&#x7A0B;&#x5F0F;</h2>
-<pre><code class="lang-cpp"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;stdio.h&gt;</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;sys/types.h&gt;</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;sys/stat.h&gt;</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;fcntl.h&gt;</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;errno.h&gt;</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;string.h&gt;</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;unistd.h&gt;</span>
-
-<span class="hljs-preprocessor">#ifndef HOLE_FILE_NAME</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">error</span> You need to <span class="hljs-keyword">define</span> HOLE_FILE_NAME</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span></span>
-
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> MAX_CHAR_LINE  (256)</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> HOLE_GAP       (1024*1024*1024) /* 1G */</span>
+<p><a name="&#x6E2C;&#x8A66;&#x74B0;&#x5883;"></a></p>
+<h2 id="%E6%B8%AC%E8%A9%A6%E7%92%B0%E5%A2%83">&#x6E2C;&#x8A66;&#x74B0;&#x5883;</h2>
+<ul>
+<li><p>Ubuntu 12.04</p>
+</li>
+<li><p><a href="#&#x76EE;&#x9304;">&#x56DE;&#x76EE;&#x9304;</a></p>
+</li>
+</ul>
+<p><a name="&#x6982;&#x8AD6;"></a></p>
+<h2 id="%E6%A6%82%E8%AB%96">&#x6982;&#x8AD6;</h2>
+<ul>
+<li>Preprocesser: &#x8F38;&#x5165;&#x6587;&#x5B57;&#xFF0C;&#x7522;&#x751F;&#x66F4;&#x52D5;&#x904E;&#x7684;&#x6587;&#x5B57;x&#x3002;&#x7522;&#x751F;&#x51FA;&#x4F86;&#x6587;&#x5B57;&#x6703;&#x7576;&#x4F5C;&#x53E6;&#x5916;&#x57F7;&#x884C;&#x7A0B;&#x5F0F;&#x7684;&#x8F38;&#x5165;&#x8CC7;&#x6599;&#x3002; <a href="http://en.wikipedia.org/wiki/Preprocessor" target="_blank">&#x51FA;&#x8655;</a></li>
+<li>CNU C&#x6709;&#x81EA;&#x8A02;&#x5C08;&#x7528;&#x7684;Preprocessor&#x6307;&#x4EE4;&#xFF0C;&#x5982;&#x679C;&#x7A0B;&#x5F0F;&#x6709;&#x79FB;&#x690D;&#x6027;&#x8003;&#x91CF;&#xFF0C;gcc&#x53EF;&#x4EE5;&#x52A0;&#x5165;<code>-std=c90</code>, <code>-std=c99</code>&#x6216;<code>-std=c11</code>&#x53C3;&#x6578;&#x6AA2;&#x67E5;&#x3002;&#x5168;&#x958B;&#x5C31;&#x7528;<code>-pedantic</code>&#x53C3;&#x6578;</li>
+</ul>
+<h3 id="%E7%B7%A8%E7%A2%BC">&#x7DE8;&#x78BC;</h3>
+<ul>
+<li>Source character set<ul>
+<li>&#x70BA;gcc&#x5167;&#x90E8;CPP&#x8655;&#x7406;&#x7684;&#x5B57;&#x5143;&#x7DE8;&#x78BC;</li>
+<li>gcc &#x8B80;&#x5165;&#x539F;&#x59CB;&#x78BC;&#x5F8C;&#x6703;&#x4EE5;UTF-8&#x540C;&#x69CB;&#x7684;&#x5B57;&#x5143;&#x7DE8;&#x78BC;&#x8655;&#x7406;&#x7A0B;&#x5F0F;&#x78BC;&#xFF0C;CPP&#x8655;&#x7406;&#x6642;&#x7684;&#x6587;&#x5B57;&#x8F38;&#x51FA;(&#x5982;gcc -E)&#x4E5F;&#x662F;&#x4F7F;&#x7528;Source character set</li>
+<li>&#x53EF;&#x4F7F;&#x7528;<code>-finput-charset=</code>&#x53C3;&#x6578;&#x6307;&#x5B9A;source file &#x5B57;&#x5143;&#x7DE8;&#x78BC;</li>
+</ul>
+</li>
+<li>Execution character set<ul>
+<li>CPP&#x8655;&#x7406;&#x7D50;&#x675F;&#x5F8C;&#x6703;&#x5C07;&#x7D50;&#x679C;&#x8F49;&#x63DB;&#x6210;&#x6307;&#x5B9A;&#x7684;&#x7DE8;&#x78BC;&#xFF0C;&#x9810;&#x8A2D;&#x4ECD;&#x7136;&#x662F;UTF8</li>
+<li>&#x5F8C;&#x9762;&#x770B;&#x4E0D;&#x61C2;&#xFF0C;&#x4E0D;&#x60F3;&#x770B;</li>
+</ul>
+</li>
+</ul>
+<h3 id="%E5%88%9D%E5%A7%8B%E8%A1%8C%E7%82%BA">&#x521D;&#x59CB;&#x884C;&#x70BA;</h3>
+<ul>
+<li>Load&#x6A94;&#x6848;&#x5230;&#x8A18;&#x61B6;&#x9AD4;&#x5167;&#x3002;GCC &#x652F;&#x63F4;&#x4E0D;&#x540C;Line end &#x683C;&#x5F0F;(LF, CR LF, CR)<ul>
+<li>&#x6A19;&#x6E96;C &#x6700;&#x5F8C;&#x4E00;&#x884C;&#x6C92;&#x6709;line end&#x662F;&#x672A;&#x5B9A;&#x7FA9;&#x884C;&#x70BA;&#xFF0C;GCC&#x6703;&#x8DF3;&#x51FA;&#x8B66;&#x544A;&#x8A0A;&#x606F;</li>
+</ul>
+</li>
+<li>&#x8655;&#x7406;trigraphs<ul>
+<li>&#x53F2;&#x524D;&#x907A;&#x8DE1;&#xFF0C;&#x65E9;&#x671F;&#x6709;&#x4E9B;&#x96FB;&#x8166;&#x6C92;&#x6709;C&#x9700;&#x8981;&#x7684;&#x5B57;&#x5143;&#x800C;&#x4F7F;&#x7528;trigraphs&#x4EE3;&#x66FF;&#x3002;&#x5982;<code>??/</code> &#x4EE3;&#x8868; <code>\</code></li>
+<li>&#x9700;&#x8981;gcc&#x53C3;&#x6578;&#x8A2D;&#x5B9A;&#x624D;&#x6703;&#x652F;&#x63F4;</li>
+</ul>
+</li>
+<li>&#x5C07;\&#x65B7;&#x884C;&#x7684;statemenet&#x5408;&#x4F75;&#x6210;&#x4E00;&#x884C;</li>
+<li>&#x628A;&#x8A3B;&#x89E3;&#x63DB;&#x6210;&#x7A7A;&#x767D;&#x5B57;&#x5143;</li>
+</ul>
+<h3 id="%E5%8F%96token">&#x53D6;Token</h3>
+<ul>
+<li>&#x7A7A;&#x767D;&#x9375;&#x70BA;&#x5206;&#x9694;&#x7A7A;&#x767D;&#x7684;&#x55AE;&#x4F4D;</li>
+<li>&#x7531;&#x5DE6;&#x81F3;&#x53F3;&#x9806;&#x5E8F;&#x53D6;token <code>a+++++b</code> -&gt; <code>a++ ++ +b</code>&#x800C;&#x4E0D;&#x662F;<code>a++ + ++b</code></li>
+<li>Preprocessor token&#x5206;&#x985E;<ul>
+<li>identifiers: &#x55AE;&#x7D14;&#x7684;C&#x5408;&#x6CD5;token &#x5982;keyword, &#x5B57;&#x6BCD;&#x548C;&#x6578;&#x5B57;&#x7684;&#x7D44;&#x5408;</li>
+<li>preprocessing numbers: &#x4E00;&#x822C;&#x4F86;&#x8AAA;&#x5C31;&#x662F;&#x6578;&#x5B57;</li>
+<li>String literals: &#x5169;&#x500B;<code>&quot;</code>&#x4E2D;&#x9593;&#x5305;&#x542B;&#x7684;&#x5B57;&#x4E32;&#xFF0C;&#x5305;&#x62EC;<code>#include &quot;test.h&quot;</code></li>
+<li>Punctuators: @ $ ` &#x4EE5;&#x5916;ASCII&#x7684;&#x6A19;&#x9EDE;&#x7B26;&#x865F;</li>
+<li>other: &#x76F4;&#x63A5;pass&#x5230;preprocessr output&#xFF0C;&#x4E00;&#x822C;&#x4F86;&#x8AAA;C compiler&#x6703;&#x628A;other token&#x6253;&#x69CD;&#x3002;<ul>
+<li>Other chars:<ul>
+<li>@</li>
+<li>$</li>
+<li>`</li>
+<li>&#x4E0D;&#x662F;NUL&#x7684;control char</li>
+<li>ASCII 0x7F&#x2013;0xFF (&#x56E0;&#x70BA;&#x8981;&#x652F;&#x63F4;&#x570B;&#x969B;&#x5B57;&#x5143;&#x3001;&#x672A;&#x4F86;&#x6703;&#x8A0E;&#x8AD6;&#x5B58;&#x5EE2;)</li>
+</ul>
+</li>
+<li>NUL&#x5728;&#x8A3B;&#x89E3;&#x4E2D;&#x6703;&#x88AB;&#x5FFD;&#x7565;&#xFF0C;&#x4E00;&#x822C;&#x7A0B;&#x5F0F;&#x78BC;&#x5247;&#x8996;&#x70BA;&#x7A7A;&#x767D;</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#x57FA;&#x672C;&#x4E0A;&#xFF0C;preprocesser &#x8F38;&#x51FA;&#x5C31;&#x662F;&#x4E00;&#x500B;token</li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> MY() ddd</span>
 <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
 </span>{
-    <span class="hljs-keyword">char</span> line[MAX_CHAR_LINE] = {<span class="hljs-number">0</span>};
-    <span class="hljs-keyword">int</span> rval = <span class="hljs-number">0</span>;
-    <span class="hljs-keyword">int</span> fd   = <span class="hljs-number">0</span>;
-    <span class="hljs-keyword">int</span> i    = <span class="hljs-number">0</span>;
-
-    off_t   lseek_offset = <span class="hljs-number">0</span>;
-    ssize_t write_size   = <span class="hljs-number">0</span>;
-
-    <span class="hljs-comment">/* Open file */</span>
-    fd = open(HOLE_FILE_NAME, O_CREAT | O_WRONLY, S_IRUSR  | S_IWUSR);
-    <span class="hljs-keyword">if</span> (fd == -<span class="hljs-number">1</span>) {
-        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;%d: %s\n&quot;</span>, __LINE__, strerror(errno));
-        <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;
-    }
-
-    <span class="hljs-comment">/* Get string from stdin */</span>
-    <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;Enter any text: &quot;</span>);
-    fgets(line, MAX_CHAR_LINE, stdin);
-
-    <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;Get %s, used to create test hole file\n&quot;</span>, line);
-
-    <span class="hljs-comment">/* Implent hole */</span>
-    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-built_in">strlen</span>(line); i++) {
-        write_size = write(fd, &amp;line[i], <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">char</span>));
-        <span class="hljs-keyword">if</span> (write_size == -<span class="hljs-number">1</span>) {
-            <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;%d: %s\n&quot;</span>, __LINE__, strerror(errno));
-            <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;
-        }
-
-        <span class="hljs-comment">/* file in the hole! */</span>
-        lseek_offset = lseek(fd, HOLE_GAP, SEEK_CUR);
-        <span class="hljs-keyword">if</span> (lseek_offset == -<span class="hljs-number">1</span>) {
-            <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;%d: %s\n&quot;</span>, __LINE__, strerror(errno));
-            <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;
-        }
-
-    }
-
-    <span class="hljs-comment">/* Close */</span>
-    rval = close(fd);
-    <span class="hljs-keyword">if</span> (rval == -<span class="hljs-number">1</span>) {
-        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;%d: %s\n&quot;</span>, __LINE__, strerror(errno));
-        <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;
-    }
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">int</span> i,MY()__;
+    <span class="hljs-keyword">return</span>
 }
 </code></pre>
+<p>&#x5C55;&#x958B;&#x5F8C;&#x5C31;&#x662F;</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">## 1 &quot;b.c&quot;</span>
+<span class="hljs-preprocessor">## 1 &quot;&lt;built-in&gt;&quot;</span>
+<span class="hljs-preprocessor">## 1 &quot;&lt;command-<span class="hljs-keyword">line</span>&gt;&quot;</span>
+<span class="hljs-preprocessor">## 1 &quot;b.c&quot;</span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">int</span> i,ddd __;
+    <span class="hljs-keyword">return</span>
+}
+</code></pre>
+<h3 id="preprossessor-%E8%AA%9E%E6%B3%95%E6%A6%82%E8%A6%81">Preprossessor &#x8A9E;&#x6CD5;&#x6982;&#x8981;</h3>
+<ul>
+<li>&#x5305;&#x542B;&#x6307;&#x4EE4;(directives)&#x548C;&#x5DE8;&#x96C6;(macros)</li>
+<li>&#x63D0;&#x4F9B;<ul>
+<li>include&#x6A94;&#x6848;</li>
+<li>&#x5DE8;&#x96C6;&#x5C55;&#x958B;</li>
+<li>&#x689D;&#x4EF6;&#x5F0F;&#x7DE8;&#x8B6F;</li>
+<li>&#x884C;&#x865F;&#x63A7;&#x5236;&#xFF1A;&#x76EE;&#x524D;&#x4E0D;&#x662F;&#x5F88;&#x61C2;&#xFF0C;&#x770B;&#x8D77;&#x4F86;&#x662F;&#x53EF;&#x4EE5;&#x544A;&#x8A34;compiler&#x7DE8;&#x8B6F;intermediate&#x6642;&#x8A72;statement&#x662F;&#x5F9E;&#x54EA;&#x500B;&#x6A94;&#x6848;&#x7684;&#x90A3;&#x4E00;&#x884C;&#x904E;&#x4F86;&#x7684;</li>
+<li>compile&#x6642;&#x53EF;&#x4EE5;&#x5410;error&#x6216;warning</li>
+</ul>
+</li>
+<li><p>&#x9664;&#x4E86;gcc&#x5167;&#x5EFA;&#x7684;directives&#x5916;&#xFF0C;directives&#x4EE5;<code>#</code>&#x958B;&#x982D;&#xFF0C;&#x524D;&#x5F8C;&#x90FD;&#x53EF;&#x4EE5;&#x6709;&#x7A7A;&#x767D;</p>
+</li>
+<li><p><a href="#&#x76EE;&#x9304;">&#x56DE;&#x76EE;&#x9304;</a></p>
+</li>
+</ul>
+<p><a name="Header Files"></a></p>
+<h2 id="header-files">Header Files</h2>
+<ul>
+<li>Header file&#x5C31;&#x662F;&#x6A94;&#x6848;&#xFF0C;&#x8A72;&#x6A94;&#x6848;&#x5305;&#x542B;&#x4E0B;&#x9762;&#x7684;&#x5143;&#x4EF6;&#xFF0C;&#x8B93;&#x4E0D;&#x540C;&#x539F;&#x59CB;&#x78BC;&#x6A94;&#x6848;&#x5171;&#x7528;&#x3002;<ul>
+<li>C declarations</li>
+<li>&#x5DE8;&#x96C6;</li>
+</ul>
+</li>
+<li>&#x539F;&#x59CB;&#x78BC;&#x6A94;&#x6848;&#x900F;&#x904E;#include&#x53BB;&#x53D6;&#x7528;&#x9019;&#x4E9B;Header Files&#x7684;&#x8CC7;&#x6599;</li>
+<li><code>#include</code>&#x6548;&#x679C;&#x548C;&#x8907;&#x88FD;header file&#x5230;&#x539F;&#x59CB;&#x78BC;&#x6A94;&#x6848;&#x4E00;&#x6A23;&#x3002;&#x4F60;&#x53EF;&#x4EE5;&#x7528;<code>gcc -E &#x539F;&#x59CB;&#x78BC;&#x6A94;&#x540D;</code>&#x770B;&#x5230;header file&#x88AB;&#x653E;&#x5165;&#x3002;&#x4E4B;&#x6240;&#x4EE5;&#x9019;&#x6A23;&#x505A;&#x5C31;&#x662F;&#x8B93;&#x4F7F;&#x7528;&#x8005;&#x7701;&#x53BB;&#x8907;&#x88FD;&#x548C;&#x591A;&#x6B21;&#x4FEE;&#x6539;&#x76F8;&#x540C;&#x4ECB;&#x9762;&#x7684;&#x6642;&#x9593;&#x3002;</li>
+</ul>
+<h3 id="-include%E8%AA%9E%E6%B3%95">#include&#x8A9E;&#x6CD5;</h3>
+<ul>
+<li><code>#include &lt;file&gt;</code><ul>
+<li>&#x4F7F;&#x7528;&#x7CFB;&#x7D71;&#x5167;&#x5EFA;&#x7684;&#x6A19;&#x982D;&#x6A94;&#x3002;&#x6A19;&#x982D;&#x6A94;&#x9664;&#x4E86;&#x653E;&#x5728;&#x9810;&#x8A2D;&#x7684;&#x76EE;&#x9304;&#x5916;&#xFF0C;&#x9084;&#x53EF;&#x4EE5;&#x5728;GCC&#x4E0B;&#x4F7F;&#x7528;<code>-I</code>&#x53C3;&#x6578;&#x6307;&#x5B9A;&#x6A19;&#x982D;&#x6A94;&#x8DEF;&#x5F91;</li>
+</ul>
+</li>
+<li><code>#include &quot;file&quot;</code><ul>
+<li>&#x81EA;&#x5DF1;&#x539F;&#x59CB;&#x78BC;&#x5C08;&#x7528;&#x7684;&#x6A19;&#x982D;&#x6A94;&#x3002;GCC&#x641C;&#x5C0B;&#x9806;&#x5E8F;<ul>
+<li>&#x540C;&#x4E00;&#x4EFD;&#x539F;&#x59CB;&#x6A94;&#x7684;&#x76EE;&#x9304;</li>
+<li><code>-iquote</code>&#x6307;&#x5B9A;&#x7684;&#x76EE;&#x9304;</li>
+<li><code>-I</code>&#x6307;&#x5B9A;&#x7684;&#x76EE;&#x9304;</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="%E6%A8%99%E9%A0%AD%E6%93%8B%E8%B7%AF%E5%BE%91">&#x6A19;&#x982D;&#x64CB;&#x8DEF;&#x5F91;</h2>
+<ul>
+<li><code>echo | gcc -v -x c -E -</code>&#x53EF;&#x4EE5;&#x5217;&#x51FA;gcc &#x641C;&#x5C0B;&#x6A19;&#x982D;&#x6A94;&#x76EE;&#x9304;</li>
+<li>gcc&#x641C;&#x5C0B;&#x6A19;&#x982D;&#x6A94;&#x9806;&#x5E8F;&#x662F;<ul>
+<li>&#x7CFB;&#x7D71;&#x9810;&#x8A2D;&#x8DEF;&#x5F91;</li>
+<li><code>-I</code>&#x53C3;&#x6578;&#xFF0C;&#x4E00;&#x500B;&#x4EE5;&#x4E0A;<code>-I</code>&#x8DEF;&#x5F91;&#x5247;&#x7531;&#x5DE6;&#x81F3;&#x53F3;&#x958B;&#x59CB;&#x641C;&#x5C0B;</li>
+</ul>
+</li>
+<li>&#x53EF;&#x4EE5;&#x4F7F;&#x7528;<code>-nostdinc</code>&#x8B93;gcc&#x4E0D;&#x53BB;&#x641C;&#x5C0B;&#x7CFB;&#x7D71;&#x6A19;&#x6E96;&#x7684;include path</li>
+</ul>
+<h2 id="%E9%81%BF%E5%85%8D%E5%9B%A0%E7%82%BA%E5%A4%9A%E9%87%8D-include%E9%87%8D%E8%A4%87%E5%AE%9A%E7%BE%A9">&#x907F;&#x514D;&#x56E0;&#x70BA;&#x591A;&#x91CD;#include&#x91CD;&#x8907;&#x5B9A;&#x7FA9;</h2>
+<ul>
+<li>&#x72C0;&#x6CC1;&#x8AAA;&#x660E;<ul>
+<li>&#x539F;&#x59CB;&#x78BC;&#x6A94;&#x6848;&#x4E2D;include &quot;file1&quot;&#x548C;&quot;file2&quot;</li>
+<li>&quot;file2&quot;&#x4E5F;&#x6709;include &quot;file1&quot;</li>
+<li>&#x6700;&#x5F8C;&#x8B8A;&#x6210;&#x539F;&#x59CB;&#x78BC;&#x6A94;&#x6848;&#x4E2D;&#x653E;&#x4E86;&#x5169;&#x4EFD;file1&#x7684;&#x5167;&#x5BB9;&#xFF0C;&#x4E00;&#x65B9;&#x9762;&#x591A;&#x9918;&#x53E6;&#x4E00;&#x65B9;&#x9762;&#x4E5F;&#x6703;&#x767C;&#x751F;&#x91CD;&#x8907;&#x5B9A;&#x7FA9;&#x7684;&#x60C5;&#x6CC1;</li>
+</ul>
+</li>
+<li>&#x5EFA;&#x8B70;&#x65B9;&#x5F0F;: <a href="http://en.wikipedia.org/wiki/Include_guard" target="_blank">Include guard</a></li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#ifndef MY_HEADER_H</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> MY_HEADER_H</span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> MY_VAR (1)</span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span> /* MY_HEADER_H */</span>
+</code></pre>
+<h2 id="computed-includes">Computed Includes</h2>
+<ul>
+<li>&#x7528;&#x4F86;&#x7BC0;&#x7701;&#x592A;&#x591A;&#x689D;&#x4EF6;&#x5F0F;#include&#x5982;</li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#ifdef LINUX</span>
+    <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;linux_plat.h&gt;</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">else</span></span>
+    <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;windows_plat.h&gt;</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span></span>
+</code></pre>
+<ul>
+<li>&#x4F7F;&#x7528;&#x65B9;&#x5F0F;</li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#include MY_DEF_H</span>
+</code></pre>
+<pre><code class="lang-sh">CFLAGS=-DMY_DEF_H=<span class="hljs-string">&quot;&lt;linux_plat.h&gt;&quot;</span>
+</code></pre>
+<h2 id="system-headers">System Headers</h2>
+<ul>
+<li><p>GCC&#x6703;&#x5FFD;&#x7565;&#x6389;&#x7CFB;&#x7D71;&#x6A19;&#x982D;&#x6A94;&#x7684;Warning&#xFF0C;&#x5982;&#x679C;&#x5176;&#x4ED6;&#x4E00;&#x822C;&#x6A19;&#x982D;&#x6A94;&#x60F3;&#x8981;&#x6709;&#x76F8;&#x540C;&#x7684;&#x8655;&#x7406;&#x65B9;&#x5F0F;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;<code>-isystem &#x8DEF;&#x5F91;</code>&#x8B93;GCC&#x5C07;&#x8A72;&#x76EE;&#x9304;&#x4E0B;&#x7684;&#x6A19;&#x982D;&#x6A94;&#x8996;&#x70BA;&#x7CFB;&#x7D71;&#x6A19;&#x982D;&#x5C0E;</p>
+</li>
+<li><p><a href="#&#x76EE;&#x9304;">&#x56DE;&#x76EE;&#x9304;</a></p>
+</li>
+</ul>
+<p><a name="&#x5DE8;&#x96C6;"></a></p>
+<h2 id="%E5%B7%A8%E9%9B%86">&#x5DE8;&#x96C6;</h2>
+<ul>
+<li>Marco&#x5206;&#x6210;<ul>
+<li>&#x64EC;&#x51FD;&#x6578;&#x5DE8;&#x96C6;: <code>#define foo()</code>: &#x91CD;&#x9EDE;&#x662F;()&#xFF0C;()&#x524D;&#x9762;&#x4E0D;&#x5F97;&#x6709;&#x7A7A;&#x683C;<ul>
+<li>&#x5B9A;&#x7FA9;&#x5B8C;&#x5F8C;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x7576;&#x4F5C;function&#x4F7F;&#x7528;&#xFF0C;&#x6240;&#x4EE5;&#x53EF;&#x4EE5;&#x73A9;<code>callback = foo;</code>&#x9019;&#x6A23;&#x7684;&#x63CF;&#x8FF0;</li>
+</ul>
+</li>
+<li>&#x8CC7;&#x6599;&#x76F8;&#x95DC;&#x5DE8;&#x96C6;</li>
+</ul>
+</li>
+</ul>
+<h3 id="%E6%93%AC%E5%87%BD%E6%95%B8%E5%B7%A8%E9%9B%86">&#x64EC;&#x51FD;&#x6578;&#x5DE8;&#x96C6;</h3>
+<ul>
+<li>&#x64EC;&#x51FD;&#x6578;&#x5DE8;&#x96C6;&#x53EF;&#x4EE5;&#x5403;&#x53C3;&#x6578;&#xFF0C;&#x4EE5;<code>,</code>&#x5206;&#x958B;&#x3002;&#x6240;&#x4EE5;<code>MAC(buf[x = 1, u + 1])</code>&#x9019;&#x6A23;&#x7684;&#x7A0B;&#x5F0F;&#x78BC;&#x6703;&#x88AB;&#x62C6;&#x6210;&#x5169;&#x500B;&#x53C3;&#x6578;&#xFF0C;&#x8ACB;&#x4F7F;&#x7528;<code>MAC((buf[x = 1, u + 1]))</code></li>
+<li>&#x64EC;&#x51FD;&#x6578;&#x5DE8;&#x96C6;&#x7684;&#x53C3;&#x6578;&#x53EF;&#x4EE5;&#x7A7A;&#x767D;&#xFF0C;&#x591A;&#x500B;&#x53C3;&#x6578;&#x8ACB;&#x7528;<code>,</code>&#x9694;&#x958B;&#x3002;</li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> MY_MAC(x,y) my_mac(x,y)</span>
+...
+MY_MAC(,);
+MY_MAC(a,b);
+MY_MAC(a,);
+MY_MAC(,b);
+</code></pre>
+<ul>
+<li>&#x64EC;&#x51FD;&#x6578;&#x5DE8;&#x96C6;&#x5B9A;&#x7FA9;&#x7684;&#x63CF;&#x8FF0;&#x5982;&#x679C;&#x6709;&#x4F7F;&#x7528;<code>&quot;</code>&#x4E26;&#x4E14;&#x548C;&#x53C3;&#x6578;&#x76F8;&#x540C;&#xFF0C;&#x6700;&#x5F8C;&#x4E26;&#x4E0D;&#x6703;&#x88AB;&#x66FF;&#x63DB;&#x3002;<ul>
+<li><code>FOO(X) _bar(x, &quot;x&quot;);</code> -&gt; <code>FOO(bar) _bar(bar, &quot;x&quot;);</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="%E5%AD%97%E4%B8%B2%E8%BD%89%E6%8F%9B">&#x5B57;&#x4E32;&#x8F49;&#x63DB;</h3>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> ENCLOSE_QUOTE(VAR) #VAR</span>
+</code></pre>
+<ul>
+<li><code>ENCLOSE_QUOTE(test);</code> -&gt; <code>&quot;test&quot;</code></li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> PLAY 0</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> ENCLOSE_QUOTE(VAR) #VAR</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> TO_STR(VAR) ENCLOSE_QUOTE(VAR)</span>
+</code></pre>
+<ul>
+<li><code>ENCLOSE_QUOTE(PLAY);</code> -&gt; <code>&quot;PLAY&quot;</code></li>
+<li><code>TO_STR(PLAY)</code> -&gt; <code>ENCLOSE_QUOTE(0)</code> -&gt; <code>&quot;0&quot;</code><ul>
+<li>&#x5229;&#x7528;&#x64EC;&#x51FD;&#x6578;&#x5DE8;&#x96C6;&#x5C55;&#x958B;&#x53C3;&#x6578;&#x7684;&#x7279;&#x6027;</li>
+</ul>
+</li>
+</ul>
+<h3 id="%E5%90%88%E9%AB%94">&#x5408;&#x9AD4;</h3>
+<p><code>echo -e &quot;#define  MYDEF(PARAM1, PARAM2)  PARAM1##PARAM2 \n\n MYDEF(xxx, yyy)&quot; | gcc -E -x c -</code></p>
+<h3 id="variadic-macros-%E5%85%A9%E7%A8%AE%E6%96%B9%E5%BC%8F%EF%BC%8C%E4%B8%8D%E8%83%BD%E4%B8%80%E5%80%8B%E5%B7%A8%E9%9B%86%E5%90%8C%E6%99%82%E4%BD%BF%E7%94%A8">Variadic Macros:  &#x5169;&#x7A2E;&#x65B9;&#x5F0F;&#xFF0C;&#x4E0D;&#x80FD;&#x4E00;&#x500B;&#x5DE8;&#x96C6;&#x540C;&#x6642;&#x4F7F;&#x7528;</h3>
+<ul>
+<li>C99&#x8A9E;&#x6CD5;&#xFF1A;<code>#define my_printf(...) printf(&quot;myprintf: &quot; __VA_ARGS__)</code></li>
+<li>GNU&#x8A9E;&#x6CD5;&#xFF1A;<code>#define my_printf(arg...) printf(&quot;myprintf: &quot; args)</code></li>
+<li>&#x53EF;&#x4EE5;&#x5728;varidic marco&#x4E2D;&#x660E;&#x78BA;&#x6307;&#x5B9A;&#x53C3;&#x6578;<ul>
+<li><code>#define my_printf(format, ...) fprintf(stderr, format, __VA_ARGS__)</code><ul>
+<li>&#x7F3A;&#x9EDE;: &#x4F7F;&#x7528;<code>my_printf(&quot;test&quot;);</code>&#x6703;GG&#xFF0C;&#x56E0;&#x70BA;&#x88AB;&#x8F49;&#x6210;<code>fprintf(stderr, &quot;test&quot;,);</code></li>
+<li>&#x89E3;&#x6CD5;: <code>#define my_printf(format, ...) fprintf(stderr, format, ##__VA_ARGS__)</code><ul>
+<li>GNU&#x6703;&#x628A;<code>,</code> &#x786C;&#x98DF;&#x6389;</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="gnu-c%E6%94%AF%E6%8F%B4%E7%9A%84predefined-macros-%E7%AF%80%E9%8C%84">GNU C&#x652F;&#x63F4;&#x7684;predefined Macros (&#x7BC0;&#x9304;)</h3>
+<h4 id="%E6%A8%99%E6%BA%96macro-%E5%8F%AF%E4%BB%A5%E6%9C%9B%E6%96%87%E7%94%9F%E7%BE%A9%E5%B0%B1%E4%B8%8D%E8%A7%A3%E9%87%8B%E4%BA%86">&#x6A19;&#x6E96;Macro: &#x53EF;&#x4EE5;&#x671B;&#x6587;&#x751F;&#x7FA9;&#x5C31;&#x4E0D;&#x89E3;&#x91CB;&#x4E86;</h4>
+<ul>
+<li><code>__FILE__</code></li>
+<li><code>__LINE__</code></li>
+<li><code>__func__</code><ul>
+<li>GCC&#x4E5F;&#x6709;&#x4E00;&#x6A23;&#x529F;&#x80FD;&#x7684;<code>__FUNCTION__</code></li>
+</ul>
+</li>
+<li><code>__DATE__</code></li>
+<li><code>__TIME__</code></li>
+<li><code>__STDC__</code>&#xFF1A;&#x986F;&#x793A;&#x76EE;&#x524D;&#x662F;&#x5426;&#x4F7F;&#x7528;Standard C&#x7DE8;&#x8B6F;&#x7A0B;&#x5F0F;&#x78BC;</li>
+<li><code>__STDC_VERSION__</code>&#xFF1A;Standard C&#x7248;&#x672C;</li>
+<li><code>__cplusplus</code>&#xFF1A;&#x662F;&#x5426;&#x70BA;C++&#x7DE8;&#x8B6F;&#x74B0;&#x5883;</li>
+<li><code>__OBJC__</code>&#xFF1A;&#x662F;&#x5426;&#x70BA;object C&#x7DE8;&#x8B6F;&#x74B0;&#x5883;</li>
+<li><code>__ASSEMBLER__</code>&#xFF1A;&#x662F;&#x5426;&#x5728;&#x7D44;&#x5408;&#x8A9E;&#x8A00;&#x74B0;&#x5883;</li>
+</ul>
+<h4 id="gnu-marco">GNU Marco</h4>
+<ul>
+<li><code>__COUNTER__</code>&#xFF1A;&#x56DE;&#x50B3;&#x4E00;&#x500B;&#x5F9E;0&#x958B;&#x59CB;&#x7684;&#x6578;&#x5B57;&#xFF0C;&#x6BCF;&#x6B21;&#x547C;&#x53EB;&#x4E00;&#x6B21;&#x52A0;&#x4E00;</li>
+<li>GCC&#x7248;&#x672C;<ul>
+<li><code>__VERSION__</code></li>
+<li>&#x7D30;&#x90E8;&#x7248;&#x865F;<ul>
+<li><code>__GNUC__</code></li>
+<li><code>__GNUC_MINOR__</code></li>
+<li><code>__GNUC_PATCHLEVEL__</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>__GNUG__</code>&#xFF1A;&#x662F;&#x5426;&#x662F;&#x7528;GNU C++</li>
+<li><code>__INCLUDE_LEVEL__</code>&#xFF1A;&#x6A19;&#x982D;&#x6A94;&#x88AB;&#x5F15;&#x7528;&#x7684;&#x6DF1;&#x5EA6;&#xFF0C;&#x5F9E;0&#x958B;&#x59CB;&#x7B97;&#x3002;&#x5982;a-&gt;b-&gt;c&#xFF0C;c&#x5C31;&#x662F;2</li>
+<li><code>__ELF__</code>&#xFF1A;&#x8F38;&#x51FA;&#x683C;&#x5F0F;&#x662F;&#x5426;&#x70BA;elf</li>
+<li><code>__TIMESTAMP__</code></li>
+</ul>
+<h3 id="%E7%B3%BB%E7%B5%B1%E5%85%A7%E5%BB%BAmacro">&#x7CFB;&#x7D71;&#x5167;&#x5EFA;Macro</h3>
+<ul>
+<li>&#x548C;&#x5E73;&#x53F0;&#x6709;&#x95DC;&#xFF0C;&#x4F7F;&#x7528;&#x4E0B;&#x9762;&#x6307;&#x4EE4;&#x67E5;&#x8A62;&#xFF1A;<code>echo &quot;&quot; | gcc -x c -E -dM -</code></li>
+<li>C&#x6A19;&#x6E96;&#x898F;&#x7BC4;&#x4F7F;&#x7528;<code>__</code>&#x5305;&#x593E;&#x6216;&#x662F;<code>_</code>+<code>&#x5927;&#x5BEB;</code>&#x70BA;&#x7CFB;&#x7D71;&#x5167;&#x5EFA;Macro&#xFF0C;&#x5176;name space&#x4FDD;&#x7559;&#x3002;</li>
+</ul>
+<h3 id="undefine-redefine">Undefine/Redefine</h3>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> FOO BAR</span>
+...
+<span class="hljs-preprocessor">#<span class="hljs-keyword">undef</span> FOO</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> FOO BAR2</span>
+</code></pre>
+<h3 id="%E5%AF%86%E6%8A%80%E5%92%8C%E6%80%AA%E6%8B%9B">&#x5BC6;&#x6280;&#x548C;&#x602A;&#x62DB;</h3>
+<h4 id="misnesting">Misnesting</h4>
+<ul>
+<li>&#x9593;&#x63A5;&#x547C;&#x53EB;</li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> MY_PRT(X) printf(x)</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> P_TEST(M) M(&quot;test&quot;)</span>
+...
+P_TEST(MY_PRT);
+</code></pre>
+<ul>
+<li>&#x4E0D;&#x5C0D;&#x7A31;&#x7684;&#x62EC;&#x865F;</li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> TEST(x) func1(x, &quot;test&quot;</span>
+...
+test(my_param));
+</code></pre>
+<ul>
+<li>&#x786C;&#x98DF;&#x5206;&#x865F;</li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> MY_TEST(x) { printf(&quot;test\n&quot;); }</span>
+...
+    <span class="hljs-keyword">if</span> (bit)
+        MY_TEST(bit);
+    <span class="hljs-function"><span class="hljs-keyword">else</span>
+        <span class="hljs-title">printf</span><span class="hljs-params">(&quot;<span class="hljs-keyword">else</span>\n&quot;)</span></span>;
+</code></pre>
+<p>&#x7DE8;&#x8B6F;&#x6703;&#x932F;&#x8AA4;&#xFF0C;&#x539F;&#x56E0;&#x662F;&#x56E0;&#x70BA;&#x5206;&#x865F;&#x6703;&#x8B93;gcc&#x5224;&#x65B7;if statement&#x5DF2;&#x7D93;&#x7D50;&#x675F;</p>
+<pre><code class="lang-c">cc     test.c   -o test
+test.c: In function &#x2018;main&#x2019;:
+test.c:<span class="hljs-number">23</span>:<span class="hljs-number">5</span>: error: &#x2018;<span class="hljs-keyword">else</span>&#x2019; without a previous &#x2018;<span class="hljs-keyword">if</span>&#x2019;
+make: *** [test] Error <span class="hljs-number">1</span>
+</code></pre>
+<ul>
+<li>&#x89E3;&#x6CD5;: <code>do {...} while (0)</code></li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> MY_TEST(x) do { printf(&quot;test\n&quot;); } while(0)</span>
+...
+    <span class="hljs-keyword">if</span> (bit)
+        MY_TEST(bit);
+    <span class="hljs-function"><span class="hljs-keyword">else</span>
+        <span class="hljs-title">printf</span><span class="hljs-params">(&quot;<span class="hljs-keyword">else</span>\n&quot;)</span></span>;
+</code></pre>
+<ul>
+<li>&#x9664;&#x975E;&#x660E;&#x78BA;&#x4E86;&#x89E3;&#x5DE8;&#x96C6;&#x5167;&#x5BB9;&#xFF0C;&#x5426;&#x5247;&#x907F;&#x514D;&#x76F4;&#x63A5;&#x50B3;&#x51FD;&#x6578;&#x9032;&#x53BB;&#x5DE8;&#x96C6;&#x3002;<code>MY_TEST(func(xy,xx), 10));</code><ul>
+<li>&#x539F;&#x56E0;&#x662F;&#x5DE8;&#x96C6;&#x5167;&#x4E5F;&#x8A31;&#x6703;&#x547C;&#x53EB;&#x53C3;&#x6578;&#x597D;&#x5E7E;&#x6B21;&#xFF0C;&#x5982;&#x679C;&#x50B3;&#x9032;&#x53BB;&#x7684;&#x51FD;&#x6578;&#x57F7;&#x884C;&#x6210;&#x672C;&#x5F88;&#x9AD8;&#xFF0C;&#x5C31;&#x6703;&#x767C;&#x751F;&#x60B2;&#x5287;&#x3002;</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><a href="#&#x76EE;&#x9304;">&#x56DE;&#x76EE;&#x9304;</a></li>
+</ul>
+<p><a name="Preprocessor Output"></a></p>
+<h2 id="preprocessor-output">Preprocessor Output</h2>
+<ul>
+<li>&#x53EF;&#x4EE5;&#x4F7F;&#x7528;<code>gcc -E &#x6A94;&#x6848;</code>&#x6216;&#x662F;<code>cpp &#x6A94;&#x6848;</code>&#x89C0;&#x5BDF;CPP&#x7684;&#x5C55;&#x958B;&#xFF0C;&#x548C;CPP&#x76F8;&#x95DC;&#x683C;&#x5F0F;&#x8ACB;&#x53C3;&#x8003;<a href="http://gcc.gnu.org/onlinedocs/cpp/Preprocessor-Output.html#Preprocessor-Output" target="_blank">&#x9019;&#x908A;</a>&#x3002;</li>
+<li><a href="#&#x76EE;&#x9304;">&#x56DE;&#x76EE;&#x9304;</a></li>
+</ul>
+<p><a name="gcc&#x548C;CPP&#x76F8;&#x95DC;&#x7684;&#x53C3;&#x6578;"></a></p>
+<h2 id="gcc%E5%92%8Ccpp%E7%9B%B8%E9%97%9C%E7%9A%84%E5%8F%83%E6%95%B8">gcc&#x548C;CPP&#x76F8;&#x95DC;&#x7684;&#x53C3;&#x6578;</h2>
+<ul>
+<li>&#x5927;&#x90E8;&#x5206;&#x9078;&#x9805;&#x548C;&#x53C3;&#x6578;&#x53EF;&#x4EE5;&#x4EE5;&#x7A7A;&#x767D;&#x9694;&#x958B;(<code>-I /usr/include</code>)&#x6216;&#x662F;&#x76F4;&#x63A5;&#x9023;&#x5728;&#x4E00;&#x8D77;(<code>-I/usr/include</code>)</li>
+</ul>
+<h3 id="%E7%AF%80%E9%8C%84">&#x7BC0;&#x9304;</h3>
+<ul>
+<li><code>-D &#x6587;&#x5B57;</code>: &#x5B9A;&#x7FA9;<code>&#x6587;&#x5B57;</code>&#x5DE8;&#x96C6;&#x70BA;1<ul>
+<li>&#x6E2C;&#x8A66;<code>echo &quot;TEST&quot; | gcc -E -xc -DTEST -</code></li>
+</ul>
+</li>
+<li><code>-D &#x6587;&#x5B57;=&#x6587;&#x5B57;</code>&#xFF1A;&#x5B9A;&#x7FA9;<code>&#x6587;&#x5B57;</code>&#x5DE8;&#x96C6;<ul>
+<li>&#x6E2C;&#x8A66;<code>echo &quot;TEST&quot; | gcc -E -xc -DTEST=CPP -</code></li>
+</ul>
+</li>
+<li><code>-U</code>: undefine &#x5DE8;&#x96C6;&#xFF0C;&#x5982;&#x679C;&#x53C3;&#x6578;&#x540C;&#x6642;&#x6709;<code>-U</code>&#x548C;<code>-D</code>&#x7684;&#x8A71;&#x512A;&#x5148;&#x5148;&#x51FA;&#x73FE;&#x7684;&#x5148;&#x505A;</li>
+<li><code>-I dir</code>:&#x6307;&#x5B9A;&#x641C;&#x5C0B;header file&#x76EE;&#x9304;<ul>
+<li><code>dir</code>&#x4EE5;<code>=</code>&#x958B;&#x982D;&#xFF0C;gcc&#x6703;&#x53D6;&#x4EE3;&#x6210;sysroot&#x8DEF;&#x5F91;&#xFF0C;&#x53C3;&#x8003;<code>--sysroot</code>&#x548C;<code>-isysroot</code></li>
+</ul>
+</li>
+<li><code>-M</code>:&#x5217;&#x51FA;&#x8981;&#x6A94;&#x6848;&#x8981;&#x5403;&#x7684;source code&#x548C;header files<ul>
+<li>&#x6E2C;&#x8A66;:</li>
+</ul>
+</li>
+</ul>
+<pre><code class="lang-sh">$ gcc -M b.c
+b.o: b.c /usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">4.6</span>/include/stdint.h \
+ /usr/include/stdint.h /usr/include/features.h \
+ /usr/include/x86_64-linux-gnu/bits/predefs.h \
+ /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+ /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+ /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+ /usr/include/x86_64-linux-gnu/gnu/stubs-<span class="hljs-number">64</span>.h \
+ /usr/include/x86_64-linux-gnu/bits/wchar.h /usr/include/stdio.h \
+ /usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">4.6</span>/include/stddef.h \
+ /usr/include/x86_64-linux-gnu/bits/types.h \
+ /usr/include/x86_64-linux-gnu/bits/typesizes.h /usr/include/libio.h \
+ /usr/include/_G_config.h /usr/include/wchar.h \
+ /usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">4.6</span>/include/stdarg.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/sys_errlist.h b.h
+</code></pre>
+<ul>
+<li><code>-MM</code>:&#x5217;&#x51FA;&#x8981;&#x6A94;&#x6848;&#x8981;&#x5403;&#x7684;source code&#x548C;&#x975E;&#x7CFB;&#x7D71;&#x7684;header files</li>
+</ul>
+<pre><code class="lang-c">$ gcc -MM b.c
+b.o: b.c b.h
+</code></pre>
+<ul>
+<li><code>-MF file</code>:&#x914D;&#x5408;<code>-M</code>, <code>-MM</code>&#x6642;&#x5C07;&#x7D50;&#x679C;&#x5BEB;&#x5165;<code>file</code></li>
+<li><code>-MG</code>: <code>-M</code>, <code>-MM</code>parse&#x5230;header file&#x4E0D;&#x5B58;&#x5728;&#x6703;&#x8DF3;&#x932F;&#x8AA4;&#xFF0C;&#x800C;&#x52A0;&#x4E0A;<code>-MG</code>&#x5F8C;&#x6703;&#x5047;&#x88DD;&#x4ED6;&#x5011;&#x5B58;&#x5728;&#xFF0C;&#x7167;&#x6A23;&#x5410;&#x51FA;&#x7D50;&#x679C;&#x3002;</li>
+</ul>
+<pre><code class="lang-c">$ mv b.h a
+$ gcc   -MM b.c
+b.c:<span class="hljs-number">3</span>:<span class="hljs-number">15</span>: fatal error: b.h: No such file or directory
+compilation terminated.
+$ gcc -MG  -MM b.c
+b.o: b.c b.h
+</code></pre>
+<ul>
+<li><code>-MP</code>: &#x9806;&#x4FBF;&#x628A;depend&#x7684;target&#x52A0;&#x5165;</li>
+</ul>
+<pre><code class="lang-c">$ gcc -MP -MM b.c
+b.o: b.c b.h
+
+b.h:
+</code></pre>
+<ul>
+<li><code>-MT</code> :&#x6307;&#x5B9A;target</li>
+</ul>
+<pre><code class="lang-c">$ gcc -MT test -MM b.c
+test: b.c b.h
+</code></pre>
+<ul>
+<li><code>-MD</code>: &#x76F4;&#x63A5;&#x7DE8;&#x8B6F;&#xFF0C;&#x540C;&#x6642;&#x628A;&#x6703;&#x5403;&#x7684;&#x6A94;&#x6848;&#x548C;header files&#x653E;&#x5728;*.d&#x6A94;</li>
+</ul>
+<pre><code class="lang-c">$ rm a.out
+$ gcc -MD b.c
+$ ls a.out
+a.out
+$ cat b.d
+b.o: b.c /usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">4.6</span>/include/stdint.h \
+ /usr/include/stdint.h /usr/include/features.h \
+ /usr/include/x86_64-linux-gnu/bits/predefs.h \
+ /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+ /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+ /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+ /usr/include/x86_64-linux-gnu/gnu/stubs-<span class="hljs-number">64.</span>h \
+ /usr/include/x86_64-linux-gnu/bits/wchar.h /usr/include/stdio.h \
+ /usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">4.6</span>/include/stddef.h \
+ /usr/include/x86_64-linux-gnu/bits/types.h \
+ /usr/include/x86_64-linux-gnu/bits/typesizes.h /usr/include/libio.h \
+ /usr/include/_G_config.h /usr/include/wchar.h \
+ /usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">4.6</span>/include/stdarg.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/sys_errlist.h b.h
+</code></pre>
+<ul>
+<li><code>-MMD</code>: &#x76F4;&#x63A5;&#x7DE8;&#x8B6F;&#xFF0C;&#x540C;&#x6642;&#x628A;&#x6703;&#x5403;&#x7684;&#x6A94;&#x6848;&#x548C;&#x975E;&#x7CFB;&#x7D71;header files&#x653E;&#x5728;*.d&#x6A94;</li>
+</ul>
+<pre><code class="lang-c">$ rm a.out
+$ gcc -MMD b.c
+$ ls a.out
+a.out
+$ cat b.d
+b.o: b.c b.h
+</code></pre>
+<ul>
+<li><code>-dM</code>: &#x5217;&#x51FA;&#x7DE8;&#x8B6F;&#x6642;&#x6240;&#x6709;&#x7684;&#x5DE8;&#x96C6;&#xFF0C;&#x4E0D;&#x5217;&#x51FA;&#x5C55;&#x958B;&#x5DE8;&#x96C6;&#x7684;&#x7D50;&#x679C;, &#x901A;&#x5E38;&#x914D;&#x5408;<code>-E</code></li>
+<li><code>-dD</code>: &#x5217;&#x51FA;&#x7DE8;&#x8B6F;&#x6642;&#x4E0D;&#x5305;&#x542B;predefine&#x7684;&#x5DE8;&#x96C6;&#x4EE5;&#x53CA;&#x5C55;&#x958B;&#x5DE8;&#x96C6;&#x7684;&#x7D50;&#x679C;, &#x901A;&#x5E38;&#x914D;&#x5408;<code>-E</code></li>
+<li><code>-dN</code>: &#x548C;<code>-dD</code>&#x7684;&#x5DEE;&#x5225;&#x662F;&#x5DE8;&#x96C6;&#x53EA;&#x5217;&#x51FA;&#x540D;&#x7A31;&#x4E0D;&#x5217;&#x51FA;&#x8981;&#x5C55;&#x958B;&#x7684;&#x5167;&#x5BB9;, &#x901A;&#x5E38;&#x914D;&#x5408;<code>-E</code><ul>
+<li><code>#define foo bar</code> <code>-dD</code>&#x8F38;&#x51FA; <code>#define foo bar</code>&#xFF0C;<code>-dN</code>&#x7D50;&#x679C; <code>#define foo</code></li>
+</ul>
+</li>
+<li><code>-dI</code>:&#x4E0D;&#x986F;&#x662F;&#x5DE8;&#x96C6;&#xFF0C;&#x800C;&#x662F;&#x986F;&#x793A;<code>#include</code>&#x7684;&#x6307;&#x4EE4;</li>
+<li><code>-C</code>: &#x4FDD;&#x7559;&#x8A3B;&#x89E3;&#xFF0C;&#x4E0D;&#x5305;&#x542B;&#x5DE8;&#x96C6;&#x5C55;&#x958B;&#x7684;&#x90E8;&#x4EFD;&#x8A3B;&#x89E3;</li>
+<li><code>-CC</code>: &#x4FDD;&#x7559;&#x8A3B;&#x89E3;&#xFF0C;&#x5305;&#x542B;&#x5DE8;&#x96C6;&#x5C55;&#x958B;&#x7684;&#x90E8;&#x4EFD;&#x8A3B;&#x89E3;</li>
+<li><p><code>-H</code>:&#x5217;&#x51FA;&#x7DE8;&#x8B6F;&#x6642;&#x6703;&#x53C3;&#x8003;&#x7684;header files</p>
+</li>
+<li><p><a href="#&#x76EE;&#x9304;">&#x56DE;&#x76EE;&#x9304;</a></p>
+</li>
+</ul>
 <p><a name="&#x53C3;&#x8003;&#x8CC7;&#x6599;"></a></p>
 <h2 id="%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99">&#x53C3;&#x8003;&#x8CC7;&#x6599;</h2>
 <ul>
-<li>man lseek</li>
-<li>The Linux Programming Interface: Chapter 4</li>
+<li><a href="http://gcc.gnu.org/onlinedocs/cpp/index.html" target="_blank">GNU: The C Preprocessor</a></li>
+<li>&#x6E2C;&#x8A66;&#x6A94;&#x6848;</li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;stdint.h&gt;</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;stdio.h&gt;</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &quot;b.h&quot;</span>
+
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> foo  (bit,lfsr) /* XXX */</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> bar(x) lose(x)</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> lose(x) (1 + (x))</span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">if</span> aaa</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> ddd ddds</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">uint16_t</span> lfsr = time(<span class="hljs-number">0</span>);
+    <span class="hljs-keyword">unsigned</span> bit;
+    <span class="hljs-keyword">unsigned</span> period = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">int</span> c= <span class="hljs-number">644</span>;
+
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s\n&quot;</span>, __BASE_FILE__);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s\n&quot;</span>, __VERSION__);
+    <span class="hljs-keyword">if</span> (bit)
+        MY_TEST(bit);
+    <span class="hljs-function"><span class="hljs-keyword">else</span>
+        <span class="hljs-title">MY_TEST</span><span class="hljs-params">(bit)</span></span>;
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, (lfsr,bit,c));
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, (bit, lfsr));
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">line</span> 10</span>
+<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;test:%d, %s\n&quot;</span>, __LINE__, __FILE__);
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">if</span> 0</span>
+    lfsr = typeof(bit) <span class="hljs-number">10</span>;
+<span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span></span>
+
+    bar(foo);
+<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;test:%d, %s\n&quot;</span>, __LINE__, __FILE__);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> MY_TEST(x) do { printf(&quot;test\n&quot;); } while(0)</span>
+</code></pre>
+<ul>
+<li><a href="#&#x76EE;&#x9304;">&#x56DE;&#x76EE;&#x9304;</a></li>
 </ul>
 
                     
@@ -3989,10 +4405,8 @@ clean:
         </div>
 
         
-        <a href="../22/227.html" class="navigation navigation-prev " aria-label="Previous page: C語言archive 明明有symbol卻link時出現unsolved Symbol錯誤"><i class="fa fa-angle-left"></i></a>
+        <a href="../22/22184.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: GNU LD 手冊略讀 (3): Chapter 3.7 ~ Chapter 3.11"><i class="fa fa-angle-left"></i></a>
         
-        
-        <a href="../22/229.html" class="navigation navigation-next " aria-label="Next page: Linux下面的C語言使用getopt Parse Command Line參數"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

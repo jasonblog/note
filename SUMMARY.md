@@ -235,4 +235,5 @@
        * [GNU LD 手冊略讀 (1): Chapter 3 ~ Chapter 3.5](22/22182.md)
        * [GNU LD 手冊略讀 (2): Chapter 3.6 SETCIONS](22/22183.md)
        * [GNU LD 手冊略讀 (3): Chapter 3.7 ~ Chapter 3.11](22/22184.md)
+   * [GNU: The C Preprocessor 導讀](22/2219.md)
 

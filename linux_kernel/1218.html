@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="12.18" data-basepath=".." data-revision="Fri Aug 21 2015 00:04:24 GMT+0800 (CST)">
+    <div class="book" data-level="12.18" data-basepath=".." data-revision="Fri Aug 21 2015 00:12:39 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -4060,12 +4060,9 @@
 <p>Linux &#x7684; &#x7DE8;&#x8B6F;&#x7CFB;&#x7D71;&#x5305;&#x62EC; 5 &#x500B;&#x90E8;&#x5206;</p>
 <pre><code>Makefile          &#x9802;&#x5C64;&#x7684; Makefile &#x6587;&#x4EF6;
 .config  &#x5167;&#x6838;&#x914D;&#x7F6E;&#x6587;&#x4EF6;
-arch/$(ARCH)/Makefile
-&#x5E73;&#x81FA; Makefile &#x6587;&#x4EF6;
-scripts/Makefile.*
-               &#x8173;&#x672C;&#x898F;&#x5247;
-kbuild Makefiles
-            &#x5927;&#x6982; 500 &#x591A;&#x500B;&#x5176;&#x4ED6;&#x7684; Makefile &#x6587;&#x4EF6;
+arch/$(ARCH)/Makefile &#x5E73;&#x81FA; Makefile &#x6587;&#x4EF6;
+scripts/Makefile.* &#x8173;&#x672C;&#x898F;&#x5247;
+kbuild Makefiles &#x5927;&#x6982; 500 &#x591A;&#x500B;&#x5176;&#x4ED6;&#x7684; Makefile &#x6587;&#x4EF6;
 </code></pre><h2 id="makefile">Makefile</h2>
 <h3 id="%E6%9F%A5%E7%9C%8B%E7%89%88%E6%9C%AC">&#x67E5;&#x770B;&#x7248;&#x672C;</h3>
 <p>&#x5728;&#x5167;&#x6838;&#x6E90;&#x4EE3;&#x78BC;&#x7684;&#x6839;&#x76EE;&#x9304;&#x6709;&#x4E00;&#x500B; Makefile &#x6587;&#x4EF6;&#xFF0C;&#x9019;&#x662F;&#x7DE8;&#x8B6F;&#x5167;&#x6838;&#x7684;&#x5165;&#x53E3;&#xFF0C;&#x4E0D;&#x7BA1;&#x57F7;&#x884C;&#x914D;&#x7F6E;&#x9084;&#x662F;&#x7DE8;&#x8B6F;&#xFF0C;make &#x547D;&#x4EE4;&#x9996;&#x5148;&#x8B80;&#x53D6;&#x9019;&#x500B;&#x6587;&#x4EF6;&#x3002;&#x9019;&#x500B;&#x6587;&#x4EF6;&#x9996;&#x5148;&#x6307;&#x660E;&#x77AD;&#x5167;&#x6838;&#x7684;&#x7248;&#x672C;&#xFF1A;
@@ -4091,7 +4088,7 @@ Building modules, stage 2.
 MODPOST 1 modules
 CC      drivers/misc/eeprom/eeprom_93cx6.mod.o
 LD [M]  drivers/misc/eeprom/eeprom_93cx6.ko
-</code></pre><p><code>O</code> &#x53C3;&#x6578;&#x7684;&#x6307;&#x5B9A;&#xFF0C;&#x6703;&#x6539;&#x8B8A;&#x6574;&#x500B;&#x7DE8;&#x8B6F;&#x51FA;&#x4F86;&#x7684;&#x6587;&#x4EF6;&#x7684;&#x7D50;&#x69CB;&#xFF0C;&#x4F8B;&#x5982;&#x54E6;&#x6211;&#x5011;&#x6709;&#x591A;&#x500B;&#x5E73;&#x81FA;&#x8981;&#x7DE8;&#x8B6F;&#xFF0C;&#x4F60;&#x5C31;&#x9700;&#x8981;&#x70BA;&#x6BCF;&#x500B;&#x5E73;&#x81FA; clone &#x4E00;&#x4EFD;&#x5167;&#x6838;&#x4EE3;&#x78BC;&#x4E86;&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x8A2D;&#x7F6E;&#x4E0D;&#x540C;&#x7684;&#x8F38;&#x51FA;&#x8DEF;&#x5F91;&#x5373;&#x53EF;&#xFF1A;</p>
+</code></pre><p><code>O</code>&#x53C3;&#x6578;&#x7684;&#x6307;&#x5B9A;&#xFF0C;&#x6703;&#x6539;&#x8B8A;&#x6574;&#x500B;&#x7DE8;&#x8B6F;&#x51FA;&#x4F86;&#x7684;&#x6587;&#x4EF6;&#x7684;&#x7D50;&#x69CB;&#xFF0C;&#x4F8B;&#x5982;&#x54E6;&#x6211;&#x5011;&#x6709;&#x591A;&#x500B;&#x5E73;&#x81FA;&#x8981;&#x7DE8;&#x8B6F;&#xFF0C;&#x4F60;&#x5C31;&#x9700;&#x8981;&#x70BA;&#x6BCF;&#x500B;&#x5E73;&#x81FA; clone &#x4E00;&#x4EFD;&#x5167;&#x6838;&#x4EE3;&#x78BC;&#x4E86;&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x8A2D;&#x7F6E;&#x4E0D;&#x540C;&#x7684;&#x8F38;&#x51FA;&#x8DEF;&#x5F91;&#x5373;&#x53EF;&#xFF1A;</p>
 <p>make O=atmel&#xFF0C;  make O=asus  &#xFF08;O &#x53C3;&#x6578;&#x6703;&#x8986;&#x84CB; KBUILD_OUTPUT &#x8B8A;&#x91CF;&#xFF09;&#xFF0C;&#x76F8;&#x61C9;&#x7684;&#x6587;&#x4EF6;&#x4E5F;&#x6703;&#x751F;&#x6210;&#x5728;&#x76EE;&#x6A19;&#x8DEF;&#x5F91;&#x4E0B;&#xFF0C;&#x4F8B;&#x5982; uImage &#x5C31;&#x5728; atmel/arch/arm/boot/uImage</p>
 <h3 id="%E7%8D%B2%E5%8F%96%E4%BF%A1%E6%81%AF">&#x7372;&#x53D6;&#x4FE1;&#x606F;</h3>
 <p>&#x63A5;&#x4E0B;&#x4F86;&#x7CFB;&#x7D71;&#x5C31;&#x6703;&#x7372;&#x53D6;&#x4EA4;&#x53C9;&#x7DE8;&#x8B6F;&#x74B0;&#x5883;&#x548C;&#x9078;&#x64C7;&#x4E0D;&#x540C;&#x7684; gcc &#x548C; bin &#x5DE5;&#x5177;&#x96C6;</p>

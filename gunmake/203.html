@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
-        <title>創建 Daemon 程式 | Jason note</title>
+        <title>Makefile的常用技術總結 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.0.1">
@@ -20,10 +20,10 @@
         
     
     
-    <link rel="next" href="../linux_system/155.html" />
+    <link rel="next" href="../c++/index.html" />
     
     
-    <link rel="prev" href="../linux_system/153.html" />
+    <link rel="prev" href="../gunmake/202.html" />
     
 
         
@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="15.4" data-basepath=".." data-revision="Fri Aug 21 2015 02:55:11 GMT+0800 (CST)">
+    <div class="book" data-level="20.3" data-basepath=".." data-revision="Fri Aug 21 2015 02:55:11 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -2731,7 +2731,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="15.4" data-path="linux_system/154.html">
+        <li class="chapter " data-level="15.4" data-path="linux_system/154.html">
             
                 
                     <a href="../linux_system/154.html">
@@ -3547,7 +3547,7 @@
             
         </li>
     
-        <li class="chapter " data-level="20.3" data-path="gunmake/203.html">
+        <li class="chapter active" data-level="20.3" data-path="gunmake/203.html">
             
                 
                     <a href="../gunmake/203.html">
@@ -4115,75 +4115,54 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E5%89%B5%E5%BB%BA-daemon-%E7%A8%8B%E5%BC%8F">&#x5275;&#x5EFA; Daemon &#x7A0B;&#x5F0F;</h1>
-<p>Daemon &#x7684;&#x539F;&#x610F;&#x5176;&#x5BE6;&#x5C31;&#x662F;&#x5C0F;&#x7CBE;&#x9748;&#xFF08;&#x6216;&#x662F;&#x5C0F;&#x60E1;&#x9B54;&#xFF09;&#xFF0C;&#x4E00;&#x822C;&#x4EBA;&#x662F;&#x770B;&#x4E0D;&#x898B;&#x7684;&#x3002;&#x800C; Daemon &#x7A0B;&#x5F0F;&#x662F;&#x6307;&#x5E38;&#x99D0;&#x5728; Linux&#xFF08;&#x6216; Unix/Unix-Like&#xFF09;&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x80CC;&#x666F;&#x4E2D;&#x57F7;&#x884C;&#x7684;&#x884C;&#x7A0B;&#xFF0C;&#x7121;&#x6CD5;&#x88AB;&#x4F7F;&#x7528;&#x8005;&#x76F4;&#x63A5;&#x64CD;&#x4F5C;&#x6216;&#x63A7;&#x5236;&#x3002;&#x9019;&#x4E9B; Daemon &#x53EF;&#x80FD;&#x662F;&#x500B; Server &#x5728;&#x7B49;&#x5F85;&#x8207;&#x8655;&#x7406; Client &#x7AEF;&#x7684;&#x8ACB;&#x6C42;&#xFF0C;&#x4E5F;&#x53EF;&#x80FD;&#x662F;&#x7CFB;&#x7D71;&#x7684;&#x7DAD;&#x8B77;&#x7A0B;&#x5F0F;&#x3002;</p>
-<p>&#x884C;&#x7A0B;&#x5728;&#x57F7;&#x884C;&#x904E;&#x7A0B;&#x4E2D;&#x5C07;&#x81EA;&#x5DF1;&#x8F49;&#x63DB;&#x70BA; daemon &#x4E00;&#x822C;&#x800C;&#x8A00;&#x8981;&#x7D93;&#x904E;&#x4EE5;&#x4E0B;&#x5E7E;&#x500B;&#x6B65;&#x9A5F;&#xFF1A;</p>
-<ul>
-<li>fork() &#x5F8C;&#x7D42;&#x6B62;&#x7236;&#x884C;&#x7A0B;&#xFF0C;&#x548C;&#x547C;&#x53EB;&#x7684;&#x7D42;&#x7AEF;&#x6A5F;(TTY)&#x812B;&#x96E2;&#x95DC;&#x4FC2;</li>
-<li>setsid(), &#x6210;&#x70BA;&#x6703;&#x8A71;&#x7D44;&#x9577;(session leader)</li>
-<li>&#x5FFD;&#x7565; SIGHUP &#x4FE1;&#x865F;</li>
-<li>&#x518D;&#x4E00;&#x6B21; fork() &#x4E26;&#x7D42;&#x6B62;&#x7236;&#x884C;&#x7A0B;</li>
-<li>&#x8B8A;&#x66F4;&#x5DE5;&#x4F5C;&#x76EE;&#x9304;(working directory)&#x8A2D;&#x5B9A;&#x70BA;&#x6839;&#x76EE;&#x9304;(/)</li>
-<li>&#x5C07; umask &#x6B0A;&#x9650;&#x8A2D;&#x7F6E;&#x70BA; 0</li>
-<li>&#x95DC;&#x9589;&#x6240;&#x6709;&#x6A94;&#x6848;(file description)&#xFF0C;&#x5305;&#x542B;&#x6A19;&#x6E96;&#x8F38;&#x5165;&#xFF0C;&#x8F38;&#x51FA;&#x8207;&#x932F;&#x8AA4;&#x8F38;&#x51FA;(std in, std out and std err)&#x3002;</li>
-<li>&#x5C07;&#x8A0A;&#x606F;&#x8A18;&#x9304;&#x65BC;log</li>
-</ul>
-<p>&#x4EE5;&#x4E0B;&#x7C21;&#x55AE;&#x7684;&#x7A0B;&#x5F0F;&#x4FEE;&#x6539;&#x81EA; Richard Stevens &#x66F8;&#x4E2D;&#x7684;&#x7BC4;&#x4F8B;&#x3002;</p>
-<pre><code class="lang-cpp"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;stdlib.h&gt;</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;syslog.h&gt;</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;signal.h&gt;</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;unistd.h&gt;</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;sys/types.h&gt;</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;sys/stat.h&gt;</span>
-
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> MAXFD   64</span>
-
-<span class="hljs-function"><span class="hljs-keyword">void</span>
-<span class="hljs-title">daemon_init</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *pname, <span class="hljs-keyword">int</span> facility)</span>
-</span>{
-    <span class="hljs-keyword">int</span>     i;
-    pid_t   pid;
-
-    <span class="hljs-keyword">if</span> ( (pid = fork()) != <span class="hljs-number">0</span>)
-        <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);            <span class="hljs-comment">/* parent terminates */</span>
-
-    <span class="hljs-comment">/* 1st child continues */</span>
-    setsid();               <span class="hljs-comment">/* become session leader */</span>
-
-    signal(SIGHUP, SIG_IGN);
-    <span class="hljs-keyword">if</span> ( (pid = fork()) != <span class="hljs-number">0</span>)
-        <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);            <span class="hljs-comment">/* 1st child terminates */</span>
-
-    <span class="hljs-comment">/* 2nd child continues */</span>
-    chdir(<span class="hljs-string">&quot;/&quot;</span>);             <span class="hljs-comment">/* change working directory */</span>
-
-    umask(<span class="hljs-number">0</span>);               <span class="hljs-comment">/* clear our file mode creation mask */</span>
-
-    <span class="hljs-keyword">for</span> (i=<span class="hljs-number">0</span>; i&lt;MAXFD; i++)
-        close(i);
-
-    openlog(pname, LOG_PID, facility);
-}
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
-</span>{
-    <span class="hljs-keyword">int</span> ii = <span class="hljs-number">10</span>;
-    daemon_init(<span class="hljs-string">&quot;TEST&quot;</span>, <span class="hljs-number">0</span>);
-
-    <span class="hljs-keyword">while</span>(ii) {
-        syslog(LOG_INFO, <span class="hljs-string">&quot;daemon example ... %d&quot;</span>, ii--);
-        sleep(<span class="hljs-number">10</span>);
-    }
-
-    <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);
-}
+                        <h1 id="makefile%E7%9A%84%E5%B8%B8%E7%94%A8%E6%8A%80%E8%A1%93%E7%B8%BD%E7%B5%90">Makefile&#x7684;&#x5E38;&#x7528;&#x6280;&#x8853;&#x7E3D;&#x7D50;</h1>
+<h3 id="%E4%B8%80%E3%80%81make%E4%B8%AD%E7%9A%84%E8%87%AA%E5%8B%95%E8%AE%8A%E9%87%8F%EF%BC%9A">&#x4E00;&#x3001;MAKE&#x4E2D;&#x7684;&#x81EA;&#x52D5;&#x8B8A;&#x91CF;&#xFF1A;</h3>
+<pre><code class="lang-sh"><span class="hljs-variable">$@</span>: &#x8868;&#x793A;target&#x7684;&#x540D;&#x5B57;
+$%: &#x50C5;&#x7576;&#x76EE;&#x6A19;&#x662F;&#x51FD;&#x6578;&#x5EAB;&#x6587;&#x4EF6;&#x4E2D;&#xFF0C;&#x8868;&#x793A;&#x898F;&#x5247;&#x4E2D;&#x7684;&#x76EE;&#x6A19;&#x6210;&#x54E1;&#x540D;&#x3002; &#x4F8B;&#x5982;&#xFF0C;&#x5982;&#x679C;&#x4E00;&#x500B;&#x76EE;&#x6A19;&#x662F;<span class="hljs-string">&quot;foo.a(bar.o)&quot;</span>&#xFF0C;&#x90A3;&#x9EBC;&#xFF0C;<span class="hljs-string">&quot;$%&quot;</span>&#x5C31;&#x662F;<span class="hljs-string">&quot;bar.o&quot;</span>&#xFF0C;<span class="hljs-string">&quot;<span class="hljs-variable">$@</span>&quot;</span>&#x5C31;&#x662F;<span class="hljs-string">&quot;foo.a&quot;</span>&#x3002;
+$&lt;: &#x8868;&#x793A;&#x7B2C;&#x4E00;&#x500B;&#x4F9D;&#x8CF4;&#x689D;&#x4EF6;&#x7684;&#x540D;&#x5B57;
+$?: &#x8868;&#x793A;&#x6240;&#x6709;&#x6BD4;target&#x66F4;&#x65B0;&#x7684;&#x4F9D;&#x8CF4;&#x689D;&#x4EF6;&#x7684;&#x540D;&#x5B57;&#x5217;&#x8868;
+$^: &#x8868;&#x793A;&#x6240;&#x6709;&#x4F9D;&#x8CF4;&#x689D;&#x4EF6;&#x7684;&#x540D;&#x5B57;&#xFF0C;&#x540C;&#x6642;&#x53BB;&#x9664;&#x4F9D;&#x8CF4;&#x5217;&#x8868;&#x4E2D;&#x91CD;&#x8907;&#x7684;&#x689D;&#x4EF6;
+$+: &#x540C;$^&#x7684;&#x529F;&#x80FD;&#x57FA;&#x672C;&#x76F8;&#x540C;&#xFF0C;&#x4F46;&#x662F;&#x4ED6;&#x4E26;&#x4E0D;&#x53BB;&#x9664;&#x4F9D;&#x8CF4;&#x5217;&#x8868;&#x4E2D;&#x7684;&#x91CD;&#x8907;&#x689D;&#x4EF6;
+&#x81EA;&#x52D5;&#x8B8A;&#x91CF;&#x7684;&#x53E6;&#x5916;&#x4E00;&#x985E;&#x64F4;&#x5C55;&#x70BA;,&#x5176;&#x4E2D;D&#x70BA;directory,F&#x70BA;File
+$(@D): &#x5982;&#x679C;<span class="hljs-variable">$@</span>&#x70BA;/sbin/ifconfig &#x90A3;&#x9EBC;$(@D)&#x70BA;sbin
+$(@F): &#x5982;&#x679C;<span class="hljs-variable">$@</span>&#x70BA;/sbin/ifconfig &#x90A3;&#x9EBC;$(@F)&#x70BA;ifconfig
+&#x5176;&#x4ED6;&#x81EA;&#x52D5;&#x8B8A;&#x91CF;&#x5747;&#x4F9D;&#x6B64;&#x985E;&#x63A8;.
 </code></pre>
-<p>&#x5373;&#x4FBF;&#x73FE;&#x5728; Linux &#x6A19;&#x6E96;&#x51FD;&#x5F0F;&#x5EAB;&#x5DF2;&#x7D93;&#x6709;&#x51FD;&#x5F0F; int daemon(int nochdir, int noclose); &#x53EF;&#x4EE5;&#x7D93;&#x7531;&#x547C;&#x53EB;&#x5F8C;&#x8F15;&#x9B06;&#x7684;&#x8F49;&#x63DB;&#x70BA; daemon &#x7A0B;&#x5F0F;&#x3002;&#x4F46;&#x57FA;&#x65BC;&#x8981;&#x4E86;&#x89E3;&#x7B87;&#x4E2D;&#x539F;&#x7406;&#x8207;&#x904B;&#x7528;&#x7684;&#x9748;&#x6D3B;&#x6027;&#xFF0C;&#x9084;&#x662F;&#x5EFA;&#x8B70;&#x81EA;&#x5DF1;&#x5BEB;&#x5BEB;&#x6BD4;&#x8F03;&#x8E0F;&#x5BE6;&#x3002;</p>
-<h3 id="%E5%BB%B6%E4%BC%B8%E9%96%B1%E8%AE%80">&#x5EF6;&#x4F38;&#x95B1;&#x8B80;</h3>
-<ul>
-<li>Unix network programming. volume1. 2/e &#x2013; Richard Stevens</li>
-<li>Linux Daemon Writing HOWTO</li>
-</ul>
+<h3 id="%E4%BA%8C%E3%80%81%E8%99%9B%E6%93%AC%E8%B7%AF%E5%BE%91%EF%BC%9A">&#x4E8C;&#x3001;&#x865B;&#x64EC;&#x8DEF;&#x5F91;&#xFF1A;</h3>
+<pre><code class="lang-sh">VPATH=variables (&#x9019;&#x88E1;VPATH&#x662F;&#x5167;&#x90E8;&#x8B8A;&#x91CF;)
+vpath pattern directory-list (&#x9019;&#x88E1;vpath&#x662F;&#x5167;&#x90E8;&#x6307;&#x4EE4;)
+
+&#x8868;&#x793A;make&#x641C;&#x5C0B;target&#x548C;prerequisite&#x7684;&#x76EE;&#x9304;&#xFF0C;&#x4F46;&#x662F;&#x547D;&#x4EE4;&#x90E8;&#x5206;&#x4E0D;&#x6703;&#x5229;&#x7528;&#x865B;&#x64EC;&#x76EE;&#x9304;&#xFF0C;&#x4ED6;&#x53EF;&#x4EE5;&#x5305;&#x542B;&#x4E00;&#x7D44;&#x4EE5;&#x7A7A;&#x683C;&#x5206;&#x958B;&#x7684;&#x76EE;&#x9304;&#x5217;&#x8868;&#x3002;
+VPATH=include src
+vpath %.c src1 src2 (&#x76EE;&#x9304;&#x53EF;&#x4EE5;&#x6709;&#x591A;&#x500B;&#xFF0C;&#x6A21;&#x5F0F;&#x53EA;&#x80FD;&#x6709;&#x4E00;&#x500B;)
+vpath %.h include
+</code></pre>
+<h3 id="%E4%B8%89%E3%80%81%E5%BE%8C%E7%B6%B4%E8%A6%8F%E5%89%87%EF%BC%9A">&#x4E09;&#x3001;&#x5F8C;&#x7DB4;&#x898F;&#x5247;&#xFF1A;</h3>
+<pre><code class="lang-sh">.SUFFIXES: .out .a .ln .o .c .cc .C .cpp .p .f .F .r .y .l &#x4EE5;&#x4E0A;&#x662F;&#x5F8C;&#x7DB4;&#x898F;&#x5247;&#x4E2D;&#x7684;&#x7F3A;&#x7701;&#x5167;&#x7F6E;&#x898F;&#x5247;&#x3002;
+.SUFFIXES: .pdf .fo .html .xml&#xFF0C;&#x8868;&#x793A;&#x81EA;&#x5B9A;&#x7FA9;&#x7684;&#x5F8C;&#x7DB4;&#x898F;&#x5247;&#x3002;
+.SUFFIXES: &#x5982;&#x679C;&#x6C92;&#x6709;&#x5B9A;&#x7FA9;&#x4EFB;&#x4F55;&#x5FC5;&#x8981;&#x689D;&#x4EF6;&#xFF0C;&#x5247;&#x8868;&#x793A;&#x6253;&#x7B97;&#x522A;&#x9664;&#x6240;&#x6709;&#x7684;&#x7F3A;&#x7701;&#x5F8C;&#x7DB4;&#x898F;&#x5247;&#x3002;
+
+.o.cpp:
+g++ -I ./include -c $&lt; -o <span class="hljs-variable">$@</span>
+&#x7B49;&#x6548;&#x65BC;
+%.o: %.cpp
+g++ -I ./include -c $&lt; -o <span class="hljs-variable">$@</span>
+</code></pre>
+<h3 id="%E5%9B%9B%E3%80%81%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E8%A1%8C%E9%81%B8%E9%A0%85%EF%BC%9A">&#x56DB;&#x3001;&#x5E38;&#x7528;&#x547D;&#x4EE4;&#x884C;&#x9078;&#x9805;&#xFF1A;</h3>
+<pre><code class="lang-sh">make -n = --just-print &#x53EA;&#x662F;&#x986F;&#x793A;&#x547D;&#x4EE4;&#xFF0C;&#x4F46;&#x4E26;&#x4E0D;&#x771F;&#x6B63;&#x57F7;&#x884C;&#x4ED6;&#x5011;&#xFF0C;&#x65B9;&#x4FBF;&#x7528;&#x65BC;&#x8ABF;&#x8A66;
+make <span class="hljs-operator">-f</span> = --file &#x53EF;&#x4EE5;&#x9748;&#x6027;&#x5236;&#x5B9A;makefile&#x7684;&#x540D;&#x5B57;
+make -C = --directory &#x6307;&#x51FA;makefile&#x7684;&#x57F7;&#x884C;&#x76EE;&#x9304;
+make <span class="hljs-operator">-s</span> = --silent &#x6240;&#x6709;&#x7684;&#x547D;&#x4EE4;&#x90FD;&#x4E0D;&#x986F;&#x793A;
+make -i = --ignore-errors &#x5FFD;&#x7565;&#x547D;&#x4EE4;&#x4E2D;&#x5931;&#x6557;&#x7684;&#x547D;&#x4EE4;&#xFF0C;&#x200B;&#x200B;&#x4ECD;&#x7136;&#x7E7C;&#x7E8C;&#x57F7;&#x884C;
+make -B = --always-make &#x8A8D;&#x70BA;&#x6240;&#x6709;&#x7684;&#x76EE;&#x6A19;&#x90FD;&#x9700;&#x8981;&#x66F4;&#x65B0;&#xFF08;&#x91CD;&#x7DE8;&#x8B6F;&#xFF09;&#x3002;
+make <span class="hljs-operator">-e</span> = --environment-overrides &#x6307;&#x660E;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x7684;&#x503C;&#x8986;&#x84CB;makefile&#x4E2D;&#x5B9A;&#x7FA9;&#x7684;&#x8B8A;&#x91CF;&#x7684;&#x503C;&#x3002;
+make -h = --help
+make -I = --include-dir &#x6307;&#x5B9A;&#x4E00;&#x500B;&#x88AB;&#x5305;&#x542B;makefile&#x7684;&#x641C;&#x7D22;&#x76EE;&#x6A19;&#x3002; &#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x591A;&#x500B;&#x201C;-I&#x201D;&#x53C3;&#x6578;&#x4F86;&#x6307;&#x5B9A;&#x591A;&#x500B;&#x76EE;&#x9304;
+make -r = --no-builtin-rule &#x7981;&#x6B62;make&#x4F7F;&#x7528;&#x4EFB;&#x4F55;&#x96B1;&#x542B;&#x898F;&#x5247;
+make -v = --version
+make -w = --print-directory &#x8F38;&#x51FA;&#x904B;&#x884C;makefile&#x4E4B;&#x524D;&#x548C;&#x4E4B;&#x5F8C;&#x7684;&#x4FE1;&#x606F;&#x3002; &#x9019;&#x500B;&#x53C3;&#x6578;&#x5C0D;&#x65BC;&#x8DDF;&#x8E64;&#x5D4C;&#x5957;&#x5F0F;&#x8ABF;&#x7528;make&#x6642;&#x5F88;&#x6709;&#x7528;&#x3002;
+make -o = --old-file &#x4E0D;&#x91CD;&#x65B0;&#x751F;&#x6210;&#x7684;&#x6307;&#x5B9A;&#x7684;&lt;file&gt;&#xFF0C;&#x5373;&#x4F7F;&#x9019;&#x500B;&#x76EE;&#x6A19;&#x7684;&#x4F9D;&#x8CF4;&#x6587;&#x4EF6;&#x65B0;&#x65BC;&#x5B83;&#x3002;
+</code></pre>
 
                     
                     </section>
@@ -4194,10 +4173,10 @@
         </div>
 
         
-        <a href="../linux_system/153.html" class="navigation navigation-prev " aria-label="Previous page: 服務器進程為何通常fork()兩次"><i class="fa fa-angle-left"></i></a>
+        <a href="../gunmake/202.html" class="navigation navigation-prev " aria-label="Previous page: 跟我一起寫Makefile:make運行"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../linux_system/155.html" class="navigation navigation-next " aria-label="Next page: Linux信號處理機制"><i class="fa fa-angle-right"></i></a>
+        <a href="../c++/index.html" class="navigation navigation-next " aria-label="Next page: C++"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

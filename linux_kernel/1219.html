@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
-        <title>ipcs 查詢進程間通信狀態 | Jason note</title>
+        <title>如何編譯linux kernel | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.0.1">
@@ -20,10 +20,10 @@
         
     
     
-    <link rel="next" href="../linux_tools/top.html" />
+    <link rel="next" href="../linux_driver/index.html" />
     
     
-    <link rel="prev" href="../linux_tools/strace.html" />
+    <link rel="prev" href="../linux_kernel/1218.html" />
     
 
         
@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="3.3.7" data-basepath=".." data-revision="Fri Aug 21 2015 01:55:24 GMT+0800 (CST)">
+    <div class="book" data-level="12.19" data-basepath=".." data-revision="Fri Aug 21 2015 01:55:24 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -497,7 +497,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="3.3.7" data-path="linux_tools/ipcs.html">
+        <li class="chapter " data-level="3.3.7" data-path="linux_tools/ipcs.html">
             
                 
                     <a href="../linux_tools/ipcs.html">
@@ -2311,7 +2311,7 @@
             
         </li>
     
-        <li class="chapter " data-level="12.19" data-path="linux_kernel/1219.html">
+        <li class="chapter active" data-level="12.19" data-path="linux_kernel/1219.html">
             
                 
                     <a href="../linux_kernel/1219.html">
@@ -4085,114 +4085,33 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="ipcs-%E6%9F%A5%E8%A9%A2%E9%80%B2%E7%A8%8B%E9%96%93%E9%80%9A%E4%BF%A1%E7%8B%80%E6%85%8B">ipcs &#x67E5;&#x8A62;&#x9032;&#x7A0B;&#x9593;&#x901A;&#x4FE1;&#x72C0;&#x614B;</h1>
-<p>ipcs&#x662F;Linux&#x4E0B;&#x986F;&#x793A;&#x9032;&#x7A0B;&#x9593;&#x901A;&#x4FE1;&#x8A2D;&#x65BD;&#x72C0;&#x614B;&#x7684;&#x5DE5;&#x5177;&#x3002;&#x53EF;&#x4EE5;&#x986F;&#x793A;&#x6D88;&#x606F;&#x968A;&#x5217;&#x3001;&#x5171;&#x4EAB;&#x5167;&#x5B58;&#x548C;&#x4FE1;&#x865F;&#x91CF;&#x7684;&#x4FE1;&#x606F;&#x3002;&#x5C0D;&#x65BC;&#x7A0B;&#x5E8F;&#x54E1;&#x975E;&#x5E38;&#x6709;&#x7528;&#xFF0C;&#x666E;&#x901A;&#x7684;&#x7CFB;&#x7D71;&#x7BA1;&#x7406;&#x54E1;&#x4E00;&#x822C;&#x7528;&#x4E0D;&#x5230;&#x6B64;&#x6307;&#x4EE4;&#x3002;</p>
-<h3 id="7-1-ipc%E8%B3%87%E6%BA%90%E6%9F%A5%E8%A9%A2">7.1. IPC&#x8CC7;&#x6E90;&#x67E5;&#x8A62;</h3>
-<h3 id="%E6%9F%A5%E7%9C%8B%E7%B3%BB%E7%B5%B1%E4%BD%BF%E7%94%A8%E7%9A%84ipc%E8%B3%87%E6%BA%90">&#x67E5;&#x770B;&#x7CFB;&#x7D71;&#x4F7F;&#x7528;&#x7684;IPC&#x8CC7;&#x6E90;</h3>
-<pre><code>$ipcs
+                        <h1 id="%E5%A6%82%E4%BD%95%E7%B7%A8%E8%AD%AFlinux-kernel">&#x5982;&#x4F55;&#x7DE8;&#x8B6F;linux kernel</h1>
+<p>&#x5176;&#x5BE6;build kernel&#x5F88;&#x7C21;&#x55AE;&#xFF0C;&#x9996;&#x5148;&#x53C3;&#x8003;kernel&#x6E90;&#x4EE3;&#x78BC;&#x76EE;&#x9304;&#x4E0B;&#x7684;README&#x6587;&#x4EF6;&#xFF0C;&#x57FA;&#x672C;&#x4E0A;&#x662F;&#x9019;&#x9EBC;&#x5E7E;&#x6B65;&#xFF1A;</p>
+<pre><code>1. make mrproper --&#x6CE8;&#x610F;&#x9019;&#x4E00;&#x6B65;&#x8D70;&#x904E;&#x4E4B;&#x5F8C;&#xFF0C;.config&#x6703;&#x88AB;&#x6062;&#x5FA9;&#x6210;&#x9ED8;&#x8A8D;&#x8A2D;&#x7F6E;
+2. make menuconfig --&#x5728;&#x9019;&#x88E1;&#x9762;check&#x914D;&#x7F6E;&#x9805;&#xFF0C;&#x6C7A;&#x5B9A;&#x54EA;&#x500B;&#x6253;&#x958B;&#xFF0C;&#x54EA;&#x500B;&#x95DC;&#x9589;&#x3002; &#x54EA;&#x4E9B;driver&#x7DE8;&#x8B6F;&#x6210;module&#xFF0C;&#x54EA;&#x4E9B;&#x76F4;&#x63A5;&#x7DE8;&#x8B6F;&#x9032;&#x5167;&#x6838;
+3. make --&#x9996;&#x5148;&#x6703;&#x7DE8;&#x8B6F;&#x5167;&#x6838;&#xFF0C;&#x5B8C;&#x6210;&#x5F8C;&#x6703;&#x81EA;&#x52D5;&#x7DE8;&#x8B6F;modules
+</code></pre><p>&#x5E7E;&#x500B;Tips&#xFF1A;</p>
+<pre><code>1.&#x5982;&#x679C;&#x8981;&#x505A;&#x4EA4;&#x53C9;&#x7DE8;&#x8B6F;&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x5B9A;&#x7FA9;CROSS_COMPILE&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x5C31;&#x53EF;&#x4EE5;&#xFF0C;&#x6BD4;&#x5982;&#xFF1A;
 
------- Shared Memory Segments --------
-key        shmid      owner      perms      bytes      nattch     status
+export CROSS_COMPILE=arm-none-linux-gnueabi-
 
------- Semaphore Arrays --------
-key        semid      owner      perms      nsems
-0x00000000 229376     weber      600        1
+Linux kernel&#x4E0D;&#x4F9D;&#x8CF4;&#x65BC;glibc&#xFF0C;&#x53EA;&#x4F9D;&#x8CF4;&#x65BC;gcc, binutils(&#x6709;ld, as&#x9019;&#x4E9B;&#x8EDF;&#x4EF6;&#xFF09;&#x3002; &#x6240;&#x4EE5;&#xFF0C;&#x6BD4;&#x5982;&#x4E0A;&#x9762;&#x7684;&#x4F8B;&#x5B50;&#xFF0C;&#x8A2D;&#x7F6E;&#x4E86;CROSS_COMPILE&#x4E4B;&#x5F8C;&#xFF0C;kernel&#x5C31;&#x6703;&#x7528;arm-none-linux-gnueabi-gcc, arm-none-linux-gnueabi-ld&#x9019;&#x6A23;&#x7684;&#x547D;&#x4EE4;&#x4F86;&#x7DE8;&#x8B6F;&#x548C;&#x93C8;&#x63A5;&#x3002; &#x6240;&#x4EE5;&#xFF0C;&#x8981;&#x78BA;&#x5B9A;&#x9019;&#x4E9B;&#x547D;&#x4EE4;&#x5728;PATH&#x4E2D;&#xFF0C;&#x80FD;&#x88AB;kernel&#x627E;&#x5230;&#x3002; &#x5E73;&#x5E38;&#x6211;&#x5011;&#x505A;&#x4EA4;&#x53C9;&#x7DE8;&#x8B6F;&#xFF0C;&#x6E96;&#x5099;&#x5DE5;&#x5177;&#x93C8;&#x4E5F;&#x5C31;&#x662F;&#x6E96;&#x5099;&#x9019;&#x4E9B;&#x6771;&#x897F;&#x3002;
 
------- Message Queues --------
-key        msqid      owner      perms      used-bytes   messages
-</code></pre><p>&#x5206;&#x5225;&#x67E5;&#x8A62;IPC&#x8CC7;&#x6E90;:</p>
-<pre><code>$ipcs -m &#x67E5;&#x770B;&#x7CFB;&#x7D71;&#x4F7F;&#x7528;&#x7684;IPC&#x5171;&#x4EAB;&#x5167;&#x5B58;&#x8CC7;&#x6E90;
-$ipcs -q &#x67E5;&#x770B;&#x7CFB;&#x7D71;&#x4F7F;&#x7528;&#x7684;IPC&#x968A;&#x5217;&#x8CC7;&#x6E90;
-$ipcs -s &#x67E5;&#x770B;&#x7CFB;&#x7D71;&#x4F7F;&#x7528;&#x7684;IPC&#x4FE1;&#x865F;&#x91CF;&#x8CC7;&#x6E90;
-</code></pre><h3 id="%E6%9F%A5%E7%9C%8Bipc%E8%B3%87%E6%BA%90%E8%A2%AB%E8%AA%B0%E4%BD%94%E7%94%A8">&#x67E5;&#x770B;IPC&#x8CC7;&#x6E90;&#x88AB;&#x8AB0;&#x4F54;&#x7528;</h3>
-<p>&#x793A;&#x4F8B;&#xFF1A;&#x6709;&#x500B;IPCKEY(51036)&#xFF0C;&#x9700;&#x8981;&#x67E5;&#x8A62;&#x5176;&#x662F;&#x5426;&#x88AB;&#x4F54;&#x7528;&#xFF1B;</p>
-<p>&#x9996;&#x5148;&#x901A;&#x904E;&#x8A08;&#x7B97;&#x5668;&#x5C07;&#x5176;&#x8F49;&#x70BA;&#x5341;&#x516D;&#x9032;&#x5236;:</p>
-<pre><code>51036 -&gt; c75c
-</code></pre><p>&#x5982;&#x679C;&#x77E5;&#x9053;&#x662F;&#x88AB;&#x5171;&#x4EAB;&#x5167;&#x5B58;&#x4F54;&#x7528;:</p>
-<pre><code>$ipcs -m | grep c75c
-0x0000c75c 40403197   tdea3    666        536870912  2
-</code></pre><p>&#x5982;&#x679C;&#x4E0D;&#x78BA;&#x5B9A;&#xFF0C;&#x5247;&#x76F4;&#x63A5;&#x67E5;&#x627E;:</p>
-<pre><code>$ipcs | grep c75c
-0x0000c75c 40403197   tdea3    666        536870912  2
-0x0000c75c 5079070    tdea3    666        4
-</code></pre><h3 id="7-2-%E7%B3%BB%E7%B5%B1ipc%E5%8F%83%E6%95%B8%E6%9F%A5%E8%A9%A2">7.2. &#x7CFB;&#x7D71;IPC&#x53C3;&#x6578;&#x67E5;&#x8A62;</h3>
-<pre><code>ipcs -l
+2.&#x7528;`O=&lt;dir path&gt;`&#x9019;&#x6A23;&#x7684;&#x65B9;&#x5F0F;&#x4F86;&#x5C07;&#x7DE8;&#x8B6F;&#x7522;&#x751F;&#x7684;&#x6240;&#x6709;&#x6587;&#x4EF6;&#x653E;&#x5165;&#x6307;&#x5B9A;&#x7684;&#x76EE;&#x9304;&#xFF0C;&#x5305;&#x62EC;.config&#x3002; &#x6BD4;&#x5982;&#xFF1A;
+make O=./build
+&#x9019;&#x500B;&#x5F88;&#x597D;&#x7528;&#xFF0C;&#x53EF;&#x4EE5;&#x4E0D;&#x6C61;&#x67D3;&#x6E90;&#x4EE3;&#x78BC;&#x76EE;&#x9304;&#xFF0C;&#x8981;&#x91CD;&#x65B0;&#x7DE8;&#x8B6F;&#x76F4;&#x63A5;&#x522A;&#x6389;build&#x76EE;&#x9304;&#x4E0B;&#x7684;&#x6240;&#x6709;&#x6771;&#x897F;&#x5373;&#x53EF;&#x3002; &#x8A18;&#x4F4F;&#xFF0C;&#x6BCF;&#x500B;&#x547D;&#x4EE4;&#x90FD;&#x8981;&#x5E36;&#x6709;`O=&lt;dir path&gt;`&#x9019;&#x500B;option&#x3002;
 
------- Shared Memory Limits --------
-max number of segments = 4096
-max seg size (kbytes) = 4194303
-max total shared memory (kbytes) = 1073741824
-min seg size (bytes) = 1
+3.&#x4E00;&#x822C;&#x5D4C;&#x5165;&#x5F0F;&#x7CFB;&#x7D71;&#x4E2D;&#x4F7F;&#x7528;u-boot&#xFF0C;&#x800C;uboot&#x662F;&#x4E0D;&#x80FD;&#x5F15;&#x5C0E;&#x6A19;&#x6E96;&#x7684;linux kernel&#x7684;&#x3002; &#x73FE;&#x5728;linux kernel&#x5DF2;&#x7D93;&#x5167;&#x7F6E;&#x652F;&#x6301;&#x751F;&#x6210;u-boot&#x683C;&#x5F0F;&#x7684;&#x5167;&#x6838;&#x6587;&#x4EF6;&#xFF0C;&#x53EA;&#x9700;&#x8981;make&#x5B8C;&#x6210;&#x5F8C;&#xFF0C;&#x518D;&#x57F7;&#x884C;&#xFF1A;make uImage&#x5373;&#x53EF;&#x3002;
 
------- Semaphore Limits --------
-max number of arrays = 128
-max semaphores per array = 250
-max semaphores system wide = 32000
-max ops per semop call = 32
-semaphore max value = 32767
+4.&#x7DE8;&#x8B6F;&#x5B8C;&#x6210;&#x5F8C;&#xFF0C;&#x751F;&#x6210;&#x7684;linux kernel&#x6587;&#x4EF6;&#xFF0C;&#x5305;&#x62EC;uImage&#xFF0C;&#x90FD;&#x653E;&#x5728;`&lt;build dir&gt;/arch/&lt;architecture`,&#x5982;arm&gt;/boot&#x76EE;&#x9304;&#x4E0B;&#x3002; Image&#x662F;&#x6C92;&#x6709;&#x58D3;&#x7E2E;&#x904E;&#x7684;&#x7248;&#x672C;&#xFF0C;zImage&#x662F;&#x58D3;&#x7E2E;&#x904E;&#x7684;&#x3002;
 
------- Messages: Limits --------
-max queues system wide = 2048
-max size of message (bytes) = 524288
-default max size of queue (bytes) = 5242880
-</code></pre><p>&#x4EE5;&#x4E0A;&#x8F38;&#x51FA;&#x986F;&#x793A;&#xFF0C;&#x76EE;&#x524D;&#x9019;&#x500B;&#x7CFB;&#x7D71;&#x7684;&#x5141;&#x8A31;&#x7684;&#x6700;&#x5927;&#x5167;&#x5B58;&#x70BA;1073741824kb&#xFF1B;&#x6700;&#x5927;&#x53EF;&#x4F7F;&#x7528;128&#x500B;&#x4FE1;&#x865F;&#x91CF;&#xFF0C;&#x6BCF;&#x500B;&#x6D88;&#x606F;&#x7684;&#x6700;&#x5927;&#x9577;&#x5EA6;&#x70BA;524288bytes&#xFF1B;</p>
-<h3 id="7-3-%E4%BF%AE%E6%94%B9ipc%E7%B3%BB%E7%B5%B1%E5%8F%83%E6%95%B8">7.3. &#x4FEE;&#x6539;IPC&#x7CFB;&#x7D71;&#x53C3;&#x6578;</h3>
-<p>&#x4EE5;linux&#x7CFB;&#x7D71;&#x70BA;&#x4F8B;&#xFF0C;&#x5728;root&#x7528;&#x6236;&#x4E0B;&#x4FEE;&#x6539;/etc/sysctl.conf &#x6587;&#x4EF6;&#xFF0C;&#x4FDD;&#x5B58;&#x5F8C;&#x4F7F;&#x7528;sysctl -p&#x751F;&#x6548;:</p>
-<pre><code>$cat /etc/sysctl.conf
-# &#x4E00;&#x500B;&#x6D88;&#x606F;&#x7684;&#x6700;&#x5927;&#x9577;&#x5EA6;
-kernel.msgmax = 524288
+5.&#x4F7F;&#x7528;make clean&#x6E05;&#x9664;&#x5DF2;&#x7D93;&#x751F;&#x6210;&#x7684;.o&#x6587;&#x4EF6;
 
-# &#x4E00;&#x500B;&#x6D88;&#x606F;&#x968A;&#x5217;&#x4E0A;&#x7684;&#x6700;&#x5927;&#x5B57;&#x7BC0;&#x6578;
-# 524288*10
-kernel.msgmnb = 5242880
+6.&#x6BCF;&#x500B;&#x6E90;&#x78BC;&#x76EE;&#x9304;&#x4E0B;&#x7684;Kconfig&#x6587;&#x4EF6;&#x5B9A;&#x7FA9;&#x4E86;&#x5728;make menuconfig&#x4E2D;&#x6211;&#x5011;&#x770B;&#x5230;&#x7684;&#x90A3;&#x4E9B;&#x83DC;&#x55AE;&#x548C;&#x9805;&#x76EE;&#x3002; &#x6240;&#x4EE5;&#xFF0C;&#x770B;&#x5230;make menuconfig&#x754C;&#x9762;&#x4E2D;&#x7684;&#x9805;&#x76EE;&#xFF0C;&#x60F3;&#x77E5;&#x9053;&#x662F;&#x54EA;&#x5152;&#x7684;&#xFF0C;&#x53EF;&#x4EE5;&#x53C3;&#x8003;Kconfig&#x6587;&#x4EF6;&#x3002; &#x81F3;&#x65BC;&#x54EA;&#x4E9B;&#x6E90;&#x6587;&#x4EF6;&#x7DE8;&#x8B6F;&#x51FA;&#x4EC0;&#x9EBC;&#x6771;&#x897F;&#xFF0C;&#x90A3;&#x5C31;&#x8981;&#x770B;&#x6BCF;&#x500B;&#x76EE;&#x9304;&#x4E0B;&#x7684;Makefile&#x4E86;&#x3002;
 
-#&#x6700;&#x5927;&#x6D88;&#x606F;&#x968A;&#x5217;&#x7684;&#x500B;&#x6578;
-kernel.msgmni=2048
+7.&#x5982;&#x679C;&#x6709;&#x5DF2;&#x7D93;&#x914D;&#x7F6E;&#x597D;&#x7684;config&#x6587;&#x4EF6;&#xFF08;&#x5225;&#x4EBA;&#x901A;&#x904E;make menuconfig&#x751F;&#x6210;&#x7684;&#xFF09;&#xFF0C;&#x90A3;&#x9EBC;&#xFF0C;&#x5C07;config&#x6587;&#x4EF6;&#x653E;&#x5728;&#x6E90;&#x78BC;&#x76EE;&#x9304;/arch/&lt;architecture name&#xFF0C;&#x5982;arm&gt;/configs&#x76EE;&#x9304;&#x4E0B;&#xFF0C;&#x7136;&#x5F8C;&#x5728;&#x6E90;&#x78BC;&#x6839;&#x76EE;&#x9304;&#x4E0B;&#xFF0C;&#x57F7;&#x884C;make &lt;config file name&gt;&#x5C31;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x5C07;&#x6307;&#x5B9A;config&#x6587;&#x4EF6;&#x7684;&#x5167;&#x5BB9;&#x5C0E;&#x5165;&#xFF08;&#x4E5F;&#x5C31;&#x662F;&#x5728;&#x7576;&#x524D;&#x76EE;&#x9304;&#x4E0B;&#x751F;&#x6210;&#x4E00;&#x500B;.config&#xFF09;&#x3002; &#x9019;&#x6A23;&#xFF0C;&#x5982;&#x679C;&#x6709;&#x6642;&#x6211;&#x5011;&#x53EA;&#x662F;&#x9700;&#x8981;&#x5728;&#x5225;&#x4EBA;&#x7684;&#x57FA;&#x790E;&#x4E0A;&#x4FEE;&#x6539;&#x4E00;&#x4E9B;&#x914D;&#x7F6E;&#x7684;&#x8A71;&#xFF0C;&#x5C31;&#x5F88;&#x6709;&#x7528;&#x3002;
+</code></pre><p>OK, That&apos;s all. Kernel&#x6E90;&#x78BC;&#x76EE;&#x9304;&#x4E0B;/Documents&#x76EE;&#x9304;&#x4E0B;&#x6709;&#x5F88;&#x591A;&#x5F88;&#x597D;&#x7684;&#x6587;&#x6A94;&#xFF0C;&#x63CF;&#x8FF0;&#x4E86;kernel&#x7684;&#x5F88; &#x200B;&#x200B;&#x591A;feature&#xFF0C;API&#x548C;&#x539F;&#x7406;&#x3002; &#x503C;&#x5F97;&#x53C3;&#x8003;&#x3002;</p>
 
-#&#x4E00;&#x500B;&#x5171;&#x4EAB;&#x5167;&#x5B58;&#x5340;&#x7684;&#x6700;&#x5927;&#x5B57;&#x7BC0;&#x6578;
-kernel.shmmax = 17179869184
-
-#&#x7CFB;&#x7D71;&#x7BC4;&#x570D;&#x5167;&#x6700;&#x5927;&#x5171;&#x4EAB;&#x5167;&#x5B58;&#x6A19;&#x8B58;&#x6578;
-kernel.shmmni=4096
-
-#&#x6BCF;&#x500B;&#x4FE1;&#x865F;&#x71C8;&#x96C6;&#x7684;&#x6700;&#x5927;&#x4FE1;&#x865F;&#x71C8;&#x6578; &#x7CFB;&#x7D71;&#x7BC4;&#x570D;&#x5167;&#x6700;&#x5927;&#x4FE1;&#x865F;&#x71C8;&#x6578; &#x6BCF;&#x500B;&#x4FE1;&#x865F;&#x71C8;&#x652F;&#x6301;&#x7684;&#x6700;&#x5927;&#x64CD;&#x4F5C;&#x6578; &#x7CFB;&#x7D71;&#x7BC4;&#x570D;&#x5167;&#x6700;&#x5927;&#x4FE1;&#x865F;&#x71C8;&#x96C6;&#x6578;
-#&#x6B64;&#x53C3;&#x6578;&#x70BA;&#x7CFB;&#x7D71;&#x9ED8;&#x8A8D;&#xFF0C;&#x53EF;&#x4EE5;&#x4E0D;&#x7528;&#x4FEE;&#x6539;
-#kernel.sem = &lt;semmsl&gt; &lt;semmni&gt;*&lt;semmsl&gt; &lt;semopm&gt; &lt;semmni&gt;
-kernel.sem = 250 32000 32 128
-</code></pre><h3 id="%E9%A1%AF%E7%A4%BA%E8%BC%B8%E5%85%A5%E4%B8%8D%E5%B8%B6%E6%A8%99%E8%AA%8C%E7%9A%84-ipcs%EF%BC%9A%E7%9A%84%E8%BC%B8%E5%87%BA">&#x986F;&#x793A;&#x8F38;&#x5165;&#x4E0D;&#x5E36;&#x6A19;&#x8A8C;&#x7684; ipcs&#xFF1A;&#x7684;&#x8F38;&#x51FA;:</h3>
-<pre><code>$ipcs
-IPC status from /dev/mem as of Mon Aug 14 15:03:46 1989
-T    ID         KEY        MODE       OWNER     GROUP
-Message Queues:
-q       0    0x00010381 -Rrw-rw-rw-   root      system
-q   65537    0x00010307 -Rrw-rw-rw-   root      system
-q   65538    0x00010311 -Rrw-rw-rw-   root      system
-q   65539    0x0001032f -Rrw-rw-rw-   root      system
-q   65540    0x0001031b -Rrw-rw-rw-   root      system
-q   65541    0x00010339--rw-rw-rw-    root      system
-q       6    0x0002fe03 -Rrw-rw-rw-   root      system
-Shared Memory:
-m   65537    0x00000000 DCrw-------   root      system
-m  720898    0x00010300 -Crw-rw-rw-   root      system
-m   65539    0x00000000 DCrw-------   root      system
-Semaphores:
-s  131072    0x4d02086a --ra-ra----   root      system
-s   65537    0x00000000 --ra-------   root      system
-s 1310722    0x000133d0 --ra-------   7003      30720
-</code></pre><h3 id="7-4-%E6%B8%85%E9%99%A4ipc%E8%B3%87%E6%BA%90">7.4. &#x6E05;&#x9664;IPC&#x8CC7;&#x6E90;</h3>
-<p>&#x4F7F;&#x7528;ipcrm &#x547D;&#x4EE4;&#x4F86;&#x6E05;&#x9664;IPC&#x8CC7;&#x6E90;&#xFF1A;&#x9019;&#x500B;&#x547D;&#x4EE4;&#x540C;&#x6642;&#x6703;&#x5C07;&#x8207;ipc&#x5C0D;&#x8C61;&#x76F8;&#x95DC;&#x806F;&#x7684;&#x6578;&#x64DA;&#x4E5F;&#x4E00;&#x8D77;&#x79FB;&#x9664;&#x3002;&#x7576;&#x7136;&#xFF0C;&#x53EA;&#x6709;root&#x7528;&#x6236;&#xFF0C;&#x6216;&#x8005;ipc&#x5C0D;&#x8C61;&#x7684;&#x5275;&#x5EFA;&#x8005;&#x624D;&#x6709;&#x9019;&#x9805;&#x6B0A;&#x5229;&#xFF1B;</p>
-<p>ipcrm&#x7528;&#x6CD5;:</p>
-<pre><code>ipcrm -M shmkey  &#x79FB;&#x9664;&#x7528;shmkey&#x5275;&#x5EFA;&#x7684;&#x5171;&#x4EAB;&#x5167;&#x5B58;&#x6BB5;
-ipcrm -m shmid    &#x79FB;&#x9664;&#x7528;shmid&#x6A19;&#x8B58;&#x7684;&#x5171;&#x4EAB;&#x5167;&#x5B58;&#x6BB5;
-ipcrm -Q msgkey  &#x79FB;&#x9664;&#x7528;msqkey&#x5275;&#x5EFA;&#x7684;&#x6D88;&#x606F;&#x968A;&#x5217;
-ipcrm -q msqid  &#x79FB;&#x9664;&#x7528;msqid&#x6A19;&#x8B58;&#x7684;&#x6D88;&#x606F;&#x968A;&#x5217;
-ipcrm -S semkey  &#x79FB;&#x9664;&#x7528;semkey&#x5275;&#x5EFA;&#x7684;&#x4FE1;&#x865F;
-ipcrm -s semid  &#x79FB;&#x9664;&#x7528;semid&#x6A19;&#x8B58;&#x7684;&#x4FE1;&#x865F;
-</code></pre><h3 id="%E6%B8%85%E9%99%A4%E7%95%B6%E5%89%8D%E7%94%A8%E6%88%B6%E5%89%B5%E5%BB%BA%E7%9A%84%E6%89%80%E6%9C%89%E7%9A%84ipc%E8%B3%87%E6%BA%90">&#x6E05;&#x9664;&#x7576;&#x524D;&#x7528;&#x6236;&#x5275;&#x5EFA;&#x7684;&#x6240;&#x6709;&#x7684;IPC&#x8CC7;&#x6E90;:</h3>
-<pre><code>ipcs -q | awk &apos;{ print &quot;ipcrm -q &quot;$2}&apos; | sh &gt; /dev/null 2&gt;&amp;1;
-ipcs -m | awk &apos;{ print &quot;ipcrm -m &quot;$2}&apos; | sh &gt; /dev/null 2&gt;&amp;1;
-ipcs -s | awk &apos;{ print &quot;ipcrm -s &quot;$2}&apos; | sh &gt; /dev/null 2&gt;&amp;1;
-</code></pre>
                     
                     </section>
                 
@@ -4202,10 +4121,10 @@ ipcs -s | awk &apos;{ print &quot;ipcrm -s &quot;$2}&apos; | sh &gt; /dev/null 2
         </div>
 
         
-        <a href="../linux_tools/strace.html" class="navigation navigation-prev " aria-label="Previous page: strace 跟蹤進程中的系統調用"><i class="fa fa-angle-left"></i></a>
+        <a href="../linux_kernel/1218.html" class="navigation navigation-prev " aria-label="Previous page: Linux 內核的編譯系統"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../linux_tools/top.html" class="navigation navigation-next " aria-label="Next page: top linux下的任務管理器"><i class="fa fa-angle-right"></i></a>
+        <a href="../linux_driver/index.html" class="navigation navigation-next " aria-label="Next page: Linux Driver"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

@@ -144,6 +144,7 @@
    * [邏輯地址，線性地址及物理地址的區別](linux_kernel/1215.md)
    * [分段機制和分頁機制](linux_kernel/1216.md)
    * [段選擇器 段描述符 段描述符表 線性地址形成  ](linux_kernel/1217.md)
+   * [Linux 内核的编译系统](linux_kernel/1218.md)
 * [Linux Driver](linux_driver/README.md)
    * [Linux Device Model 三角關係](linux_driver/linux_device_model.md)
 * [OS](os/README.md)

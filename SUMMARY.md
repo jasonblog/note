@@ -207,6 +207,7 @@
    * [簡易 GDB Script 教學，應用](gdb/181.md)
    * [[轉]GDB的妙用](gdb/182.md)
    * [GDB中應該知道的幾個調試方法](gdb/183.md)
+   * [KGDB](gdb/184.md)
 * [Linux內核分析雲課堂學習筆記](mooc_linux_kernel/README.md)
    * [圖解分析彙編代碼以理解計算機是如何工作的](mooc_linux_kernel/191.md)
    * [基於mykernel的一個簡單的時間片輪轉多道程序內核代碼分析](mooc_linux_kernel/192.md)

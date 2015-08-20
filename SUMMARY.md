@@ -104,6 +104,7 @@
        * [用 python gdb 客製化 backtrace 的結果](fcamel/91010.md)
    * [寫 linux daemon 的注意事項](fcamel/911.md)
    * [signal 小知識](fcamel/912.md)
+   * [gold 和 GNU ld 行為差異造成的問題](fcamel/913.md)
 * [ARM](arm/README.md)
    * [ARM彙編語言](arm/101.md)
    * [ARM尋址方式](arm/102.md)

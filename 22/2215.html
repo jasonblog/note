@@ -4,11 +4,11 @@
     <head>
         
         <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <title>Linux中使用C語言載入data object 檔案資料 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.0.1">
+        <meta name="generator" content="GitBook 2.1.0">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -17,6 +17,11 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
         <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+        
+    <link rel="stylesheet" href="../gitbook/style.css">
+    
+    
+
         
     
     
@@ -31,12 +36,7 @@
     <body>
         
         
-    <link rel="stylesheet" href="../gitbook/style.css">
-    
-    
-
-        
-    <div class="book" data-level="22.15" data-basepath=".." data-revision="Thu Aug 20 2015 00:46:18 GMT+0800 (CST)">
+    <div class="book" data-level="22.15" data-basepath=".." data-revision="Thu Aug 20 2015 11:20:33 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -2581,6 +2581,51 @@
             
         </li>
     
+        <li class="chapter " data-level="15.5" data-path="linux_system/155.html">
+            
+                
+                    <a href="../linux_system/155.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>15.5.</b>
+                        
+                        Linux信號處理機制
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="15.6" data-path="linux_system/156.html">
+            
+                
+                    <a href="../linux_system/156.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>15.6.</b>
+                        
+                        函數調用棧的獲取原理分析
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="15.7" data-path="linux_system/157.html">
+            
+                
+                    <a href="../linux_system/157.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>15.7.</b>
+                        
+                        在Linux程序中輸出函數調用棧
+                    </a>
+                
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -3846,6 +3891,8 @@
     <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
     
     
+    
+
 
     <!-- Title -->
     <h1>
@@ -3932,7 +3979,7 @@ clean:
 </ul>
 </li>
 </ul>
-<p>&#x81F3;&#x65BC;&#x8981;&#x600E;&#x9EBC;&#x77E5;&#x9053;binary&#x683C;&#x5F0F;&#x548C;&#x67B6;&#x69CB;&#x5462;&#xFF1F;&#x60A8;&#x53EF;&#x4EE5;&#x7528;<code>objcopy --info |less</code>&#x914D;&#x5408;<code>file test_obj.o</code>&#x627E;&#x51FA;&#x5E73;&#x53F0;&#x4E0A;&#x7684;&#x53C3;&#x6578;&#x3002;</p>
+<p>&#x81F3;&#x65BC;&#x8981;&#x600E;&#x9EBC;&#x77E5;&#x9053;binary&#x683C;&#x5F0F;&#x548C;&#x67B6;&#x69CB;&#x5462;&#xFF1F;&#x60A8;&#x53EF;&#x4EE5;&#x7528;<code>objcopy --info |less</code>&#x914D;&#x5408;<code>file test_obj.o</code>&#x627E;&#x51FA;&#x5E73;&#x81FA;&#x4E0A;&#x7684;&#x53C3;&#x6578;&#x3002;</p>
 <p>&#x6211;&#x5011;&#x5148;&#x4F86;&#x770B;&#x4E00;&#x4E0B;section&#x662F;&#x4E0D;&#x662F;&#x771F;&#x7684;&#x653E;&#x5230;.mydata?
 ```text objdump&#x7D50;&#x679C;
 $ objdump -h my_data.o</p>
@@ -3942,7 +3989,7 @@ Idx Name          Size      VMA               LMA               File off  Algn
   0 .mydata.data  00000007  0000000000000000  0000000000000000  00000040  2**0
                   CONTENTS, ALLOC, LOAD, DATA</p>
 <pre><code>
-&#x6211;&#x53EA;&#x77E5;&#x9053;.mydata&#x7684;section&#xFF0C;&#x88CF;&#x9762;&#x7684;&#x8CC7;&#x8A0A;&#x76EE;&#x524D;&#x9084;&#x4E0D;&#x6E05;&#x695A;&#x6709;&#x4EC0;&#x9EBC;&#x610F;&#x7FA9;&#x3002;
+&#x6211;&#x53EA;&#x77E5;&#x9053;.mydata&#x7684;section&#xFF0C;&#x88E1;&#x9762;&#x7684;&#x8CC7;&#x8A0A;&#x76EE;&#x524D;&#x9084;&#x4E0D;&#x6E05;&#x695A;&#x6709;&#x4EC0;&#x9EBC;&#x610F;&#x7FA9;&#x3002;
 
 &#x6211;&#x5011;&#x518D;&#x7528;nm&#x4F86;&#x770B;&#x6A94;&#x6848;&#x5167;&#x6709;&#x54EA;&#x4E9B;symbol
 
@@ -4009,7 +4056,7 @@ Read string is Hello
 </ul>
 <h1 id="linux%E4%B8%AD%E4%BD%BF%E7%94%A8c%E8%AA%9E%E8%A8%80%E8%BC%89%E5%85%A5data-object-%E6%AA%94%E6%A1%88%E8%B3%87%E6%96%99-%E7%BA%8C%EF%BC%89">Linux&#x4E2D;&#x4F7F;&#x7528;C&#x8A9E;&#x8A00;&#x8F09;&#x5165;data object &#x6A94;&#x6848;&#x8CC7;&#x6599; (&#x7E8C;&#xFF09;</h1>
 <h2 id="%E5%8B%95%E6%A9%9F">&#x52D5;&#x6A5F;</h2>
-<p><a href="http://wen00072-blog.logdown.com/posts/194317-loads-the-data-object-using-the-c-language-archives-data-in-linux" target="_blank">&#x524D;&#x9762;</a>&#x8A0E;&#x8AD6;&#x4E86;Linux&#x4E2D;&#x4F7F;&#x7528;C&#x8A9E;&#x8A00;&#x8F09;&#x5165;data object &#x6A94;&#x6848;&#x8CC7;&#x6599;&#xFF0C;&#x88CF;&#x9762;&#x63D0;&#x5230;&#x8CC7;&#x6599;&#x8F49;&#x6210;object&#xFF0C;&#x88CF;&#x9762;&#x6703;&#x6709;&#x4E09;&#x500B;symbol: <code>_binary_objfile_start</code>, <code>_binary_objfile_end</code>, <code>_binary_objfile_size</code>&#x3002;</p>
+<p><a href="http://wen00072-blog.logdown.com/posts/194317-loads-the-data-object-using-the-c-language-archives-data-in-linux" target="_blank">&#x524D;&#x9762;</a>&#x8A0E;&#x8AD6;&#x4E86;Linux&#x4E2D;&#x4F7F;&#x7528;C&#x8A9E;&#x8A00;&#x8F09;&#x5165;data object &#x6A94;&#x6848;&#x8CC7;&#x6599;&#xFF0C;&#x88E1;&#x9762;&#x63D0;&#x5230;&#x8CC7;&#x6599;&#x8F49;&#x6210;object&#xFF0C;&#x88E1;&#x9762;&#x6703;&#x6709;&#x4E09;&#x500B;symbol: <code>_binary_objfile_start</code>, <code>_binary_objfile_end</code>, <code>_binary_objfile_size</code>&#x3002;</p>
 <h2 id="object-symbol">Object symbol</h2>
 <p><code>man objcopy</code>&#x627E;<code>_size</code>&#x53EF;&#x4EE5;&#x770B;&#x5230;</p>
 <pre><code>       -B bfdarch
@@ -4019,7 +4066,7 @@ Read string is Hello
            symbols that are created by the conversion process.  These symbols are called _binary_objfile_start, _binary_objfile_end and
            _binary_objfile_size.  e.g. you can transform a picture file into an object file and then access it in your code using these symbols.
 </code></pre><h2 id="%E6%B8%AC%E8%A9%A6-segmentation-fault%E7%89%88">&#x6E2C;&#x8A66;: Segmentation fault&#x7248;</h2>
-<p>&#x7C21;&#x55AE;&#x4F86;&#x8AAA;&#xFF0C;&#x548C;&#x5E73;&#x53F0;&#x7121;&#x95DC;&#x7684;&#x6A94;&#x6848;&#x8F49;&#x6210;obj&#x6A94;&#x6642;&#xFF0C;&#x53EF;&#x4EE5;&#x900F;&#x904E;<code>_binary_objfile_start</code>, <code>_binary_objfile_end</code>, <code>_binary_objfile_size</code>&#x53BB;&#x5B58;&#x53D6;&#x8CC7;&#x6599;&#x3002;&#x6240;&#x4EE5;&#x6211;&#x518D;&#x4FEE;&#x6539;&#x4E86;&#x4E00;&#x4E0B;&#x6E2C;&#x8A66;&#x7A0B;&#x5F0F;&#xFF0C;&#x5370;&#x51FA;&#x9019;&#x4E9B;symbol &#x7684;&#x5167;&#x5BB9;</p>
+<p>&#x7C21;&#x55AE;&#x4F86;&#x8AAA;&#xFF0C;&#x548C;&#x5E73;&#x81FA;&#x7121;&#x95DC;&#x7684;&#x6A94;&#x6848;&#x8F49;&#x6210;obj&#x6A94;&#x6642;&#xFF0C;&#x53EF;&#x4EE5;&#x900F;&#x904E;<code>_binary_objfile_start</code>, <code>_binary_objfile_end</code>, <code>_binary_objfile_size</code>&#x53BB;&#x5B58;&#x53D6;&#x8CC7;&#x6599;&#x3002;&#x6240;&#x4EE5;&#x6211;&#x518D;&#x4FEE;&#x6539;&#x4E86;&#x4E00;&#x4E0B;&#x6E2C;&#x8A66;&#x7A0B;&#x5F0F;&#xFF0C;&#x5370;&#x51FA;&#x9019;&#x4E9B;symbol &#x7684;&#x5167;&#x5BB9;</p>
 <pre><code class="lang-cpp"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;stdio.h&gt;</span>
 <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;string.h&gt;</span>
 

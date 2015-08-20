@@ -4,11 +4,11 @@
     <head>
         
         <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <title>GNU LD 手冊略讀 (1): Chapter 3 ~ Chapter 3.5 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.0.1">
+        <meta name="generator" content="GitBook 2.1.0">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -17,6 +17,11 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
         <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+        
+    <link rel="stylesheet" href="../gitbook/style.css">
+    
+    
+
         
     
     
@@ -31,12 +36,7 @@
     <body>
         
         
-    <link rel="stylesheet" href="../gitbook/style.css">
-    
-    
-
-        
-    <div class="book" data-level="22.18.2" data-basepath=".." data-revision="Thu Aug 20 2015 00:46:18 GMT+0800 (CST)">
+    <div class="book" data-level="22.18.2" data-basepath=".." data-revision="Thu Aug 20 2015 11:20:33 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -2581,6 +2581,51 @@
             
         </li>
     
+        <li class="chapter " data-level="15.5" data-path="linux_system/155.html">
+            
+                
+                    <a href="../linux_system/155.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>15.5.</b>
+                        
+                        Linux信號處理機制
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="15.6" data-path="linux_system/156.html">
+            
+                
+                    <a href="../linux_system/156.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>15.6.</b>
+                        
+                        函數調用棧的獲取原理分析
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="15.7" data-path="linux_system/157.html">
+            
+                
+                    <a href="../linux_system/157.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>15.7.</b>
+                        
+                        在Linux程序中輸出函數調用棧
+                    </a>
+                
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -3846,6 +3891,8 @@
     <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
     
     
+    
+
 
     <!-- Title -->
     <h1>
@@ -3926,7 +3973,7 @@
 <h2 id="linker-script-%E5%91%BD%E4%BB%A4%E6%A0%BC%E5%BC%8F">linker script &#x547D;&#x4EE4;&#x683C;&#x5F0F;</h2>
 <ul>
 <li><code>ENTRY(symbol)</code><ul>
-<li>&#x8A2D;&#x5B9A;&#x67D0;&#x500B;symbol&#x70BA;&#x7A0B;&#x5F0F;&#x57F7;&#x884C;&#x7684;&#x7B2C;&#x4E00;&#x500B;&#x6307;&#x4EE4;&#x8D77;&#x59CB;&#x9EDE;&#xFF0C;&#x5728;&#x6211;&#x7684;&#x9810;&#x8A2D;linker script&#x4E2D;&#x662F;<code>ENTRY(_start)</code>&#xFF0C;&#x7136;&#x5F8C;&#x53BB;&#x53CD;&#x7D44;&#x8B6F;&#x96A8;&#x4FBF;&#x4E00;&#x500B;C&#x7DE8;&#x8B6F;&#x51FA;&#x4F86;&#x7684;&#x57F7;&#x884C;&#x6A94;&#xFF0C;&#x627E;&#x5B57;&#x4E32;<code>_start</code>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x88CF;&#x9762;&#x53C8;&#x53BB;&#x547C;&#x53EB;&#x4E86;<code>__libc_start_main@plt</code>&#x3002;</li>
+<li>&#x8A2D;&#x5B9A;&#x67D0;&#x500B;symbol&#x70BA;&#x7A0B;&#x5F0F;&#x57F7;&#x884C;&#x7684;&#x7B2C;&#x4E00;&#x500B;&#x6307;&#x4EE4;&#x8D77;&#x59CB;&#x9EDE;&#xFF0C;&#x5728;&#x6211;&#x7684;&#x9810;&#x8A2D;linker script&#x4E2D;&#x662F;<code>ENTRY(_start)</code>&#xFF0C;&#x7136;&#x5F8C;&#x53BB;&#x53CD;&#x7D44;&#x8B6F;&#x96A8;&#x4FBF;&#x4E00;&#x500B;C&#x7DE8;&#x8B6F;&#x51FA;&#x4F86;&#x7684;&#x57F7;&#x884C;&#x6A94;&#xFF0C;&#x627E;&#x5B57;&#x4E32;<code>_start</code>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x88E1;&#x9762;&#x53C8;&#x53BB;&#x547C;&#x53EB;&#x4E86;<code>__libc_start_main@plt</code>&#x3002;</li>
 </ul>
 </li>
 </ul>
@@ -3962,7 +4009,7 @@
 </ul>
 </li>
 <li><code>AS_NEEDED(file1 file2 ...)</code><ul>
-<li>&#x5728;<code>INPUT</code>&#x548C;<code>GROUP</code>&#x4F7F;&#x7528;&#x7684;&#x547D;&#x4EE4;&#xFF0C;&#x7528;&#x4F86;&#x544A;&#x8A34;linker&#x8AAA;&#x5982;&#x679C;object&#x88CF;&#x9762;&#x7684;&#x8CC7;&#x6599;&#x6709;&#x88AB;reference&#x5230;&#x624D;link&#x9032;&#x4F86;&#xFF0C;&#x731C;&#x6E2C;&#x61C9;&#x8A72;&#x53EF;&#x4EE5;&#x6E1B;&#x5C11;&#x5132;&#x5B58;&#x7A7A;&#x9593;&#x3002;&#x7BC4;&#x4F8B;&#xFF08;&#x672A;&#x6E2C;&#x8A66;&#x8ACB;&#x81EA;&#x884C;&#x659F;&#x914C;&#xFF09;&#xFF1A;<code>INPUT(file1.o file2.o AS_NEEDED(file3.o file4.o))</code></li>
+<li>&#x5728;<code>INPUT</code>&#x548C;<code>GROUP</code>&#x4F7F;&#x7528;&#x7684;&#x547D;&#x4EE4;&#xFF0C;&#x7528;&#x4F86;&#x544A;&#x8A34;linker&#x8AAA;&#x5982;&#x679C;object&#x88E1;&#x9762;&#x7684;&#x8CC7;&#x6599;&#x6709;&#x88AB;reference&#x5230;&#x624D;link&#x9032;&#x4F86;&#xFF0C;&#x731C;&#x6E2C;&#x61C9;&#x8A72;&#x53EF;&#x4EE5;&#x6E1B;&#x5C11;&#x5132;&#x5B58;&#x7A7A;&#x9593;&#x3002;&#x7BC4;&#x4F8B;&#xFF08;&#x672A;&#x6E2C;&#x8A66;&#x8ACB;&#x81EA;&#x884C;&#x659F;&#x914C;&#xFF09;&#xFF1A;<code>INPUT(file1.o file2.o AS_NEEDED(file3.o file4.o))</code></li>
 </ul>
 </li>
 <li><code>OUTPUT(filename)</code><ul>
@@ -3998,8 +4045,8 @@
 <h2 id="%E8%A8%AD%E5%AE%9A%E8%A8%98%E6%86%B6%E9%AB%94%E5%8D%80%E5%A1%8Aalias%E5%91%BD%E4%BB%A4">&#x8A2D;&#x5B9A;&#x8A18;&#x61B6;&#x9AD4;&#x5340;&#x584A;alias&#x547D;&#x4EE4;</h2>
 <ul>
 <li><code>REGION_ALIAS(alias, region)</code><ul>
-<li>&#x8A2D;&#x5B9A;<code>MEMORY</code>&#x547D;&#x4EE4;&#x4E2D;&#x5340;&#x584A;&#x7684;alias&#xFF0C;&#x4E00;&#x822C;&#x4F86;&#x8AAA;&#xFF0C;&#x7528;&#x5728;&#x4E0D;&#x540C;&#x7684;&#x5E73;&#x53F0;&#x9700;&#x8981;&#x76F8;&#x540C;&#x7684;memory layout&#x6642;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x3002;&#x8209;&#x4F8B;&#x4F86;&#x8AAA;&#xFF0C;&#x7576;&#x6709;3&#x500B;&#x5E73;&#x53F0;&#xFF0C;&#x8A18;&#x61B6;&#x9AD4;layout&#x90FD;&#x662F;&#x76F8;&#x540C;&#xFF0C;&#x90A3;&#x9EBC;&#x53EF;&#x4EE5;<ul>
-<li>&#x5C07;&#x4ED6;&#x5011;&#x5E73;&#x53F0;&#x76F8;&#x95DC;&#x7684;&#x8A18;&#x61B6;&#x9AD4;&#x5340;&#x584A;<code>MEMORY</code>&#x547D;&#x4EE4;&#x5BEB;&#x5728;&#x500B;&#x5225;&#x7684;&#x6A94;&#x6848;&#x5982;linkcmds.memory</li>
+<li>&#x8A2D;&#x5B9A;<code>MEMORY</code>&#x547D;&#x4EE4;&#x4E2D;&#x5340;&#x584A;&#x7684;alias&#xFF0C;&#x4E00;&#x822C;&#x4F86;&#x8AAA;&#xFF0C;&#x7528;&#x5728;&#x4E0D;&#x540C;&#x7684;&#x5E73;&#x81FA;&#x9700;&#x8981;&#x76F8;&#x540C;&#x7684;memory layout&#x6642;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x3002;&#x8209;&#x4F8B;&#x4F86;&#x8AAA;&#xFF0C;&#x7576;&#x6709;3&#x500B;&#x5E73;&#x81FA;&#xFF0C;&#x8A18;&#x61B6;&#x9AD4;layout&#x90FD;&#x662F;&#x76F8;&#x540C;&#xFF0C;&#x90A3;&#x9EBC;&#x53EF;&#x4EE5;<ul>
+<li>&#x5C07;&#x4ED6;&#x5011;&#x5E73;&#x81FA;&#x76F8;&#x95DC;&#x7684;&#x8A18;&#x61B6;&#x9AD4;&#x5340;&#x584A;<code>MEMORY</code>&#x547D;&#x4EE4;&#x5BEB;&#x5728;&#x500B;&#x5225;&#x7684;&#x6A94;&#x6848;&#x5982;linkcmds.memory</li>
 <li>&#x8A2D;&#x5B9A;&#x76F8;&#x540C;&#x7684;alias</li>
 <li>&#x5728;&#x4E3B;&#x8981;&#x7684;linker script &#x4F7F;&#x7528;<code>INCLUDE</code>&#x8F09;&#x5165;linkcmds.memory&#xFF0C;&#x4E26;&#x4E14;&#x76F4;&#x63A5;&#x4F7F;&#x7528;alias&#x7576;&#x4F5C;&#x4E00;&#x822C;&#x7684;&#x5340;&#x584A;&#x4F7F;&#x7528;&#x3002;</li>
 </ul>
@@ -4052,7 +4099,7 @@
 </li>
 <li><p><code>OUTPUT_ARCH(bfdarch)</code></p>
 <ul>
-<li>&#x6307;&#x5B9A;&#x8F38;&#x51FA;&#x7684;&#x5E73;&#x53F0;&#xFF0C;&#x53EF;&#x4EE5;&#x900F;&#x904E;<code>objdump -i</code>&#x67E5;&#x8A62;&#x652F;&#x63F4;&#x5E73;&#x53F0;</li>
+<li>&#x6307;&#x5B9A;&#x8F38;&#x51FA;&#x7684;&#x5E73;&#x81FA;&#xFF0C;&#x53EF;&#x4EE5;&#x900F;&#x904E;<code>objdump -i</code>&#x67E5;&#x8A62;&#x652F;&#x63F4;&#x5E73;&#x81FA;</li>
 </ul>
 </li>
 <li><code>INSERT [ AFTER | BEFORE ] output_section</code><ul>
@@ -4211,7 +4258,7 @@ SECTIONS
 <li>&#x5728;&#x7A0B;&#x5F0F;&#x78BC;&#x4E2D;extern&#x8A72;symbol&#xFF0C;&#x578B;&#x614B;&#x70BA;char&#x3002;</li>
 <li>&#x8981;&#x77E5;&#x9053;symbol&#x53EA;&#x662F;&#x4E00;&#x500B;&#x4F4D;&#x5740;&#xFF0C;&#x6240;&#x4EE5;&#x8981;&#x5B58;&#x53D6;&#x5C31;&#x8981;&#x53D6;&#x4F4D;&#x5740;&#x3002;</li>
 <li>&#x53EF;&#x4EE5;&#x53C3;&#x8003;&#x4EE5;&#x524D;&#x6E2C;&#x8A66;&#x7684;<a href="http://wen00072-blog.logdown.com/posts/194317-loads-the-data-object-using-the-c-language-archives-data-in-linux" target="_blank">&#x7BC4;&#x4F8B;&#xFF1A;Linux&#x4E2D;&#x4F7F;&#x7528;C&#x8A9E;&#x8A00;&#x8F09;&#x5165;data object &#x6A94;&#x6848;&#x8CC7;&#x6599;</a></li>
-<li>&#x53E6;&#x5916;&#x6709;&#x8DA3;&#x7684;&#x662F;&#x4F3C;&#x4E4E;section&#x7684;symbol&#x5C0D;&#x61C9;&#x7684;&#x4F4D;&#x5740;&#x4E0D;&#x4E00;&#x5B9A;&#x662F;&#x53EA;&#x7576;&#x4F4D;&#x5740;&#x4F7F;&#x7528;&#x3002;&#x8A73;&#x7D30;&#x6E2C;&#x8A66;&#x5728;<a href="http://wen00072-blog.logdown.com/posts/194370-load-linux-using-c-language-data-object-archives-data-continued" target="_blank">&#x9019;&#x908A;&#xFF1A;Linux&#x4E2D;&#x4F7F;&#x7528;C&#x8A9E;&#x8A00;&#x8F09;&#x5165;data object &#x6A94;&#x6848;&#x8CC7;&#x6599; (&#x7E8C;&#xFF09;</a></li>
+<li>&#x53E6;&#x5916;&#x6709;&#x8DA3;&#x7684;&#x662F;&#x4F3C;&#x4E4E;section&#x7684;symbol&#x5C0D;&#x61C9;&#x7684;&#x4F4D;&#x5740;&#x4E0D;&#x4E00;&#x5B9A;&#x662F;&#x96BB;&#x7576;&#x4F4D;&#x5740;&#x4F7F;&#x7528;&#x3002;&#x8A73;&#x7D30;&#x6E2C;&#x8A66;&#x5728;<a href="http://wen00072-blog.logdown.com/posts/194370-load-linux-using-c-language-data-object-archives-data-continued" target="_blank">&#x9019;&#x908A;&#xFF1A;Linux&#x4E2D;&#x4F7F;&#x7528;C&#x8A9E;&#x8A00;&#x8F09;&#x5165;data object &#x6A94;&#x6848;&#x8CC7;&#x6599; (&#x7E8C;&#xFF09;</a></li>
 </ul>
 </li>
 <li>&#x6211;&#x53EF;&#x4EE5;&#x53CD;&#x65B9;&#x5411;&#x5F9E;linker script&#x6478;&#x7A0B;&#x5F0F;&#x78BC;&#x7684;symbol<ul>

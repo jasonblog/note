@@ -4,11 +4,11 @@
     <head>
         
         <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <title>談談.git 目錄 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.0.1">
+        <meta name="generator" content="GitBook 2.1.0">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -17,6 +17,11 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
         <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+        
+    <link rel="stylesheet" href="../gitbook/style.css">
+    
+    
+
         
     
     
@@ -31,12 +36,7 @@
     <body>
         
         
-    <link rel="stylesheet" href="../gitbook/style.css">
-    
-    
-
-        
-    <div class="book" data-level="22.14" data-basepath=".." data-revision="Thu Aug 20 2015 00:46:18 GMT+0800 (CST)">
+    <div class="book" data-level="22.14" data-basepath=".." data-revision="Thu Aug 20 2015 11:20:33 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -2581,6 +2581,51 @@
             
         </li>
     
+        <li class="chapter " data-level="15.5" data-path="linux_system/155.html">
+            
+                
+                    <a href="../linux_system/155.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>15.5.</b>
+                        
+                        Linux信號處理機制
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="15.6" data-path="linux_system/156.html">
+            
+                
+                    <a href="../linux_system/156.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>15.6.</b>
+                        
+                        函數調用棧的獲取原理分析
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="15.7" data-path="linux_system/157.html">
+            
+                
+                    <a href="../linux_system/157.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>15.7.</b>
+                        
+                        在Linux程序中輸出函數調用棧
+                    </a>
+                
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -3846,6 +3891,8 @@
     <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
     
     
+    
+
 
     <!-- Title -->
     <h1>
@@ -3943,7 +3990,7 @@ drwxrwxr-x 5  4096 Mar  3 23:37 refs
 <pre><code>$ git log
 commit fd5d6abe34f41f8687c1fc5e2ab0a2f65c570304
 ...
-</code></pre><p>&#x4F86;&#x770B;&#x4E00;&#x4E0B; fd5d6abe34f41f8687c1fc5e2ab0a2f65c570304&#x88CF;&#x9762;&#x662F;&#x5565;</p>
+</code></pre><p>&#x4F86;&#x770B;&#x4E00;&#x4E0B; fd5d6abe34f41f8687c1fc5e2ab0a2f65c570304&#x88E1;&#x9762;&#x662F;&#x5565;</p>
 <pre><code>$ git cat-file -p fd5d6abe34f41f8687c1fc5e2ab0a2f65c570304
 tree 2f6db7ea7db6b66cb4c07a98e78b580f67872db6
 parent 3fb419f40c10d67bd1b9b18152fb43cca58ca411
@@ -4051,7 +4098,7 @@ f57350c72987263c2b745690bdc8013fbbd6067c refs/tags/0.3.3@243
 7031115a8ea1151efc1536b43a509774ca2c0777 refs/tags/0.3.7
 3f4dcbe6e1aa0045fbeb9f1f761ce035e65defea refs/tags/1.1
 098d158c8d8a7ce7c6b2c5c47c967c6137beced2 refs/tags/1.2
-</code></pre><p>&#x770B;&#x770B;<code>packed-refs</code>&#x88CF;&#x9762;&#x662F;&#x4E09;&#x5C0F;&#xFF1F;&#x6709;&#x6C92;&#x6709;&#x767C;&#x73FE;&#x548C;&#x4E0A;&#x9762;&#x5F88;&#x50CF;&#x554A;&#xFF1F;</p>
+</code></pre><p>&#x770B;&#x770B;<code>packed-refs</code>&#x88E1;&#x9762;&#x662F;&#x4E09;&#x5C0F;&#xFF1F;&#x6709;&#x6C92;&#x6709;&#x767C;&#x73FE;&#x548C;&#x4E0A;&#x9762;&#x5F88;&#x50CF;&#x554A;&#xFF1F;</p>
 <pre><code>$ cat .git/packed-refs
 ## pack-refs with: peeled fully-peeled
 c86b440bafe24caecfe0dbfbbd73031a1bcd1178 refs/remotes/origin/gtk3
@@ -4066,7 +4113,7 @@ f57350c72987263c2b745690bdc8013fbbd6067c refs/tags/0.3.3@243
 7031115a8ea1151efc1536b43a509774ca2c0777 refs/tags/0.3.7
 3f4dcbe6e1aa0045fbeb9f1f761ce035e65defea refs/tags/1.1
 098d158c8d8a7ce7c6b2c5c47c967c6137beced2 refs/tags/1.2
-</code></pre><p>&#x770B;&#x4E00;&#x4E0B;ref&#x76EE;&#x9304;&#xFF0C;&#x4E0A;&#x9762;&#x7684;&#x90A3;&#x4E9B;reference&#x4E26;&#x4E0D;&#x5B58;&#x5728;&#x5728;<code>.git/ref</code>&#x88CF;&#x9762;</p>
+</code></pre><p>&#x770B;&#x4E00;&#x4E0B;ref&#x76EE;&#x9304;&#xFF0C;&#x4E0A;&#x9762;&#x7684;&#x90A3;&#x4E9B;reference&#x4E26;&#x4E0D;&#x5B58;&#x5728;&#x5728;<code>.git/ref</code>&#x88E1;&#x9762;</p>
 <pre><code>$ tree .git/refs/
 .git/refs/
 &#x251C;&#x2500;&#x2500; heads
@@ -4141,7 +4188,7 @@ f57350c72987263c2b745690bdc8013fbbd6067c refs/tags/0.3.3@243
 <p>&#x7B49;&#x7B49;&#xFF01;</p>
 <p>&#x6307;&#x5411;&#x76EE;&#x524D;&#x6240;&#x5728;&#x7684;commit&#x662F;&#x4E09;&#x5C0F;&#xFF1F;
 &#x4E00;&#x6A23;&#xFF0C;&#x4F86;&#x770B;&#x4F8B;&#x5B50;&#x3002;</p>
-<p>&#x76EE;&#x524D;clone&#x4E0B;&#x4F86;&#xFF0C;&#x88CF;&#x9762;&#x653E;&#x7684;&#x662F;&#x4E00;&#x500B;&#x6A94;&#x6848;&#xFF0C;&#x6A94;&#x6848;&#x88CF;&#x9762;&#x662F;&#x4EC0;&#x9EBC;&#x5462;&#xFF1F;&#x4E00;&#x6A23;&#x662F;&#x500B;commit HASH</p>
+<p>&#x76EE;&#x524D;clone&#x4E0B;&#x4F86;&#xFF0C;&#x88E1;&#x9762;&#x653E;&#x7684;&#x662F;&#x4E00;&#x500B;&#x6A94;&#x6848;&#xFF0C;&#x6A94;&#x6848;&#x88E1;&#x9762;&#x662F;&#x4EC0;&#x9EBC;&#x5462;&#xFF1F;&#x4E00;&#x6A23;&#x662F;&#x500B;commit HASH</p>
 <pre><code>$ cat .git/HEAD
 ref: refs/heads/master
 
@@ -4195,7 +4242,7 @@ drwxrwxr-x 8 wen wen 4096 Mar  9 23:21 ../
 -rwxrwxr-x 1 wen wen 3611 Mar  9 23:10 update.sample*
 </code></pre><p><a name="g_1st_dir_inf"></a></p>
 <h2 id="info">info</h2>
-<p>&#x5132;&#x5B58;&#x8CC7;&#x8A0A;&#xFF0C;&#x5EE2;&#x8A71;&#x3002;&#x76EE;&#x524D;&#x88CF;&#x9762;&#x53EA;&#x6709;&#x4E00;&#x500B;exclude&#xFF0C;&#x800C;&#x4E14;&#x6A94;&#x6848;&#x5167;&#x5BB9;&#x9084;&#x90FD;&#x662F;&#x8A3B;&#x89E3;&#x3002;&#x4F46;&#x662F;<a href="http://git-scm.com/docs/gitrepository-layout" target="_blank">&#x9019;&#x908A;</a>&#x6709;&#x8AAA;&#x9084;&#x6709;&#x5176;&#x4ED6;&#x6A94;&#x6848;&#x3002;&#x53E6;&#x5916;&#x503C;&#x5F97;&#x63D0;&#x7684;&#x662F;exclude&#x8AAA;&#x660E;&#x6709;&#x63D0;&#x5230;<code>.gitignore</code>&#x91DD;&#x5C0D;&#x7684;&#x662F;<code>git status</code>, <code>git rm</code>, <code>git add</code>, <code>git clean</code>&#x3002;&#x5176;&#x4ED6;&#x7684;&#x64CD;&#x4F5C;&#x9084;&#x662F;&#x5F97;&#x5728;<code>.git/log/exclude</code>&#x4E2D;&#x8A2D;&#x5B9A;&#x3002;</p>
+<p>&#x5132;&#x5B58;&#x8CC7;&#x8A0A;&#xFF0C;&#x5EE2;&#x8A71;&#x3002;&#x76EE;&#x524D;&#x88E1;&#x9762;&#x53EA;&#x6709;&#x4E00;&#x500B;exclude&#xFF0C;&#x800C;&#x4E14;&#x6A94;&#x6848;&#x5167;&#x5BB9;&#x9084;&#x90FD;&#x662F;&#x8A3B;&#x89E3;&#x3002;&#x4F46;&#x662F;<a href="http://git-scm.com/docs/gitrepository-layout" target="_blank">&#x9019;&#x908A;</a>&#x6709;&#x8AAA;&#x9084;&#x6709;&#x5176;&#x4ED6;&#x6A94;&#x6848;&#x3002;&#x53E6;&#x5916;&#x503C;&#x5F97;&#x63D0;&#x7684;&#x662F;exclude&#x8AAA;&#x660E;&#x6709;&#x63D0;&#x5230;<code>.gitignore</code>&#x91DD;&#x5C0D;&#x7684;&#x662F;<code>git status</code>, <code>git rm</code>, <code>git add</code>, <code>git clean</code>&#x3002;&#x5176;&#x4ED6;&#x7684;&#x64CD;&#x4F5C;&#x9084;&#x662F;&#x5F97;&#x5728;<code>.git/log/exclude</code>&#x4E2D;&#x8A2D;&#x5B9A;&#x3002;</p>
 <p><a name="g_1st_dir_log"></a></p>
 <h2 id="logs">logs</h2>
 <p>&#x9019;&#x662F;&#x5B58;&#x653E;log&#x7684;&#x5730;&#x65B9;&#x3002;log&#x662F;&#x4EC0;&#x9EBC;&#x5462;&#xFF1F;&#x76F4;&#x63A5;&#x770B;&#x500B;&#x4F8B;&#x5B50;&#x3002;</p>
@@ -4262,7 +4309,7 @@ fd5d6ab Fix invisible cairo caret issue.
 ...
 open(&quot;/tmp/pcmanx/.git/logs/HEAD&quot;, O_RDONLY) = 3
 ...
-</code></pre><p>&#x6709;&#x770B;&#x5230;<code>.git/logs/HEAD</code>&#x5427;&#xFF1F;&#x6709;&#x6C92;&#x6709;&#x60F3;&#x770B;&#x4E00;&#x4E0B;&#x88CF;&#x9762;&#x662F;&#x5565;&#xFF1F;&#x81F3;&#x5C11;&#x6211;&#x60F3;&#x770B;&#x3002;</p>
+</code></pre><p>&#x6709;&#x770B;&#x5230;<code>.git/logs/HEAD</code>&#x5427;&#xFF1F;&#x6709;&#x6C92;&#x6709;&#x60F3;&#x770B;&#x4E00;&#x4E0B;&#x88E1;&#x9762;&#x662F;&#x5565;&#xFF1F;&#x81F3;&#x5C11;&#x6211;&#x60F3;&#x770B;&#x3002;</p>
 <pre><code>$ cat .git/logs/HEAD
 ...
 fd5d6abe34f41f8687c1fc5e2ab0a2f65c570304 c982c70f00875b83e4845ca35ef0ca4c70f73e64 Wen.Liao &lt;censored&gt; 1425997414 +0800    commit: file 1
@@ -4305,7 +4352,7 @@ $ git commit tree/file -m &quot;test tree and file&quot;
     &#x2514;&#x2500;&#x2500; pack-6042320de285747900cc3263a47f7bab429cabf8.pack
 
 6 directories, 6 files
-</code></pre><p>&#x63A5;&#x4E0B;&#x4F86;&#x628A;&#x76EE;&#x9304;&#x548C;&#x6A94;&#x6848;&#x6DF7;&#x8D77;&#x4F86;&#xFF0C;&#x7528;<code>git cat-file -p</code>&#x770B;&#x770B;&#x88CF;&#x9762;&#x662F;&#x5565;</p>
+</code></pre><p>&#x63A5;&#x4E0B;&#x4F86;&#x628A;&#x76EE;&#x9304;&#x548C;&#x6A94;&#x6848;&#x6DF7;&#x8D77;&#x4F86;&#xFF0C;&#x7528;<code>git cat-file -p</code>&#x770B;&#x770B;&#x88E1;&#x9762;&#x662F;&#x5565;</p>
 <pre><code>$ git cat-file -p 2ba01ef5583f35dd57b5fb5bde732f73bc315b6d
 tree def69c2c316574aaf328e546486fa750eb9c53a0
 parent fd5d6abe34f41f8687c1fc5e2ab0a2f65c570304
@@ -4349,7 +4396,7 @@ Total 5006 (delta 3914), reused 5001 (delta 3913)
 <p><a name="g_1st_dir_ref"></a></p>
 <h2 id="refs">refs</h2>
 <ul>
-<li><a href="#g_bkg">&#x80CC;&#x666F;&#x77E5;&#x8B58;</a>&#x548C;<a href="#gpkref">packed-ref</a>&#x6709;&#x63D0;&#x5230;&#xFF0C;&#x5C31;&#x4E0D;&#x8981;&#x62D6;&#x53F0;&#x9322;&#x4E86;&#x3002;</li>
+<li><a href="#g_bkg">&#x80CC;&#x666F;&#x77E5;&#x8B58;</a>&#x548C;<a href="#gpkref">packed-ref</a>&#x6709;&#x63D0;&#x5230;&#xFF0C;&#x5C31;&#x4E0D;&#x8981;&#x62D6;&#x81FA;&#x9322;&#x4E86;&#x3002;</li>
 </ul>
 <p><a name="g_ref"></a></p>
 <h2 id="%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99">&#x53C3;&#x8003;&#x8CC7;&#x6599;</h2>

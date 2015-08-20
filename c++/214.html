@@ -4,11 +4,11 @@
     <head>
         
         <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <title>[轉]C++ 虛函數表解析 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.0.1">
+        <meta name="generator" content="GitBook 2.1.0">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -17,6 +17,11 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
         <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+        
+    <link rel="stylesheet" href="../gitbook/style.css">
+    
+    
+
         
     
     
@@ -31,12 +36,7 @@
     <body>
         
         
-    <link rel="stylesheet" href="../gitbook/style.css">
-    
-    
-
-        
-    <div class="book" data-level="21.4" data-basepath=".." data-revision="Thu Aug 20 2015 00:46:18 GMT+0800 (CST)">
+    <div class="book" data-level="21.4" data-basepath=".." data-revision="Thu Aug 20 2015 11:20:33 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -2581,6 +2581,51 @@
             
         </li>
     
+        <li class="chapter " data-level="15.5" data-path="linux_system/155.html">
+            
+                
+                    <a href="../linux_system/155.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>15.5.</b>
+                        
+                        Linux信號處理機制
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="15.6" data-path="linux_system/156.html">
+            
+                
+                    <a href="../linux_system/156.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>15.6.</b>
+                        
+                        函數調用棧的獲取原理分析
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="15.7" data-path="linux_system/157.html">
+            
+                
+                    <a href="../linux_system/157.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>15.7.</b>
+                        
+                        在Linux程序中輸出函數調用棧
+                    </a>
+                
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -3846,6 +3891,8 @@
     <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
     
     
+    
+
 
     <!-- Title -->
     <h1>
@@ -3938,7 +3985,7 @@ b-&gt;f();
 &#x6211;&#x5011;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF1A;</p>
 <pre><code>1&#xFF09;  &#x6BCF;&#x500B;&#x7236;&#x985E;&#x90FD;&#x6709;&#x81EA;&#x5DF1;&#x7684;&#x865B;&#x8868;&#x3002;
 2&#xFF09;  &#x5B50;&#x985E;&#x7684;&#x6210;&#x54E1;&#x51FD;&#x6578;&#x88AB;&#x653E;&#x5230;&#x4E86;&#x7B2C;&#x4E00;&#x500B;&#x7236;&#x985E;&#x7684;&#x8868;&#x4E2D;&#x3002;&#xFF08;&#x6240;&#x8B02;&#x7684;&#x7B2C;&#x4E00;&#x500B;&#x7236;&#x985E;&#x662F;&#x6309;&#x7167;&#x8072;&#x660E;&#x9806;&#x5E8F;&#x4F86;&#x5224;&#x65B7;&#x7684;&#xFF09;
-</code></pre><p>&#x9019;&#x6A23;&#x505A;&#x5C31;&#x662F;&#x70BA;&#x4E86;&#x89E3;&#x6C7A;&#x4E0D;&#x540C;&#x7684;&#x7236;&#x985E;&#x985E;&#x578B;&#x7684;&#x6307;&#x91DD;&#x6307;&#x5411;&#x540C;&#x4E00;&#x500B;&#x5B50;&#x985E;&#x5BE6;&#x4F8B;&#xFF0C;&#x800C;&#x80FD;&#x5920;&#x8ABF;&#x7528;&#x5230;&#x5BE6;&#x969B;&#x7684;&#x51FD;&#x6578;&#x3002;</p>
+</code></pre><p>&#x9019;&#x6A23;&#x505A;&#x5C31;&#x662F;&#x70BA;&#x77AD;&#x89E3;&#x6C7A;&#x4E0D;&#x540C;&#x7684;&#x7236;&#x985E;&#x985E;&#x578B;&#x7684;&#x6307;&#x91DD;&#x6307;&#x5411;&#x540C;&#x4E00;&#x500B;&#x5B50;&#x985E;&#x5BE6;&#x4F8B;&#xFF0C;&#x800C;&#x80FD;&#x5920;&#x8ABF;&#x7528;&#x5230;&#x5BE6;&#x969B;&#x7684;&#x51FD;&#x6578;&#x3002;</p>
 <h3 id="%E5%A4%9A%E9%87%8D%E7%B9%BC%E6%89%BF%EF%BC%88%E6%9C%89%E8%99%9B%E5%87%BD%E6%95%B8%E8%A6%86%E8%93%8B%EF%BC%89">&#x591A;&#x91CD;&#x7E7C;&#x627F;&#xFF08;&#x6709;&#x865B;&#x51FD;&#x6578;&#x8986;&#x84CB;&#xFF09;</h3>
 <p>&#x4E0B;&#x9762;&#x6211;&#x5011;&#x518D;&#x4F86;&#x770B;&#x770B;&#xFF0C;&#x5982;&#x679C;&#x767C;&#x751F;&#x865B;&#x51FD;&#x6578;&#x8986;&#x84CB;&#x7684;&#x60C5;&#x6CC1;&#x3002;</p>
 <p>&#x4E0B;&#x5716;&#x4E2D;&#xFF0C;&#x6211;&#x5011;&#x5728;&#x5B50;&#x985E;&#x4E2D;&#x8986;&#x84CB;&#x4E86;&#x7236;&#x985E;&#x7684;f()&#x51FD;&#x6578;&#x3002;</p>

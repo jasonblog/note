@@ -4,11 +4,11 @@
     <head>
         
         <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <title>GNU: The C Preprocessor 導讀 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.0.1">
+        <meta name="generator" content="GitBook 2.1.0">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -17,6 +17,11 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
         <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+        
+    <link rel="stylesheet" href="../gitbook/style.css">
+    
+    
+
         
     
     
@@ -29,12 +34,7 @@
     <body>
         
         
-    <link rel="stylesheet" href="../gitbook/style.css">
-    
-    
-
-        
-    <div class="book" data-level="22.19" data-basepath=".." data-revision="Thu Aug 20 2015 00:46:18 GMT+0800 (CST)">
+    <div class="book" data-level="22.19" data-basepath=".." data-revision="Thu Aug 20 2015 11:20:33 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -2579,6 +2579,51 @@
             
         </li>
     
+        <li class="chapter " data-level="15.5" data-path="linux_system/155.html">
+            
+                
+                    <a href="../linux_system/155.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>15.5.</b>
+                        
+                        Linux信號處理機制
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="15.6" data-path="linux_system/156.html">
+            
+                
+                    <a href="../linux_system/156.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>15.6.</b>
+                        
+                        函數調用棧的獲取原理分析
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="15.7" data-path="linux_system/157.html">
+            
+                
+                    <a href="../linux_system/157.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>15.7.</b>
+                        
+                        在Linux程序中輸出函數調用棧
+                    </a>
+                
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -3844,6 +3889,8 @@
     <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
     
     
+    
+
 
     <!-- Title -->
     <h1>
@@ -4153,7 +4200,7 @@ MY_MAC(,b);
 </ul>
 <h3 id="%E7%B3%BB%E7%B5%B1%E5%85%A7%E5%BB%BAmacro">&#x7CFB;&#x7D71;&#x5167;&#x5EFA;Macro</h3>
 <ul>
-<li>&#x548C;&#x5E73;&#x53F0;&#x6709;&#x95DC;&#xFF0C;&#x4F7F;&#x7528;&#x4E0B;&#x9762;&#x6307;&#x4EE4;&#x67E5;&#x8A62;&#xFF1A;<code>echo &quot;&quot; | gcc -x c -E -dM -</code></li>
+<li>&#x548C;&#x5E73;&#x81FA;&#x6709;&#x95DC;&#xFF0C;&#x4F7F;&#x7528;&#x4E0B;&#x9762;&#x6307;&#x4EE4;&#x67E5;&#x8A62;&#xFF1A;<code>echo &quot;&quot; | gcc -x c -E -dM -</code></li>
 <li>C&#x6A19;&#x6E96;&#x898F;&#x7BC4;&#x4F7F;&#x7528;<code>__</code>&#x5305;&#x593E;&#x6216;&#x662F;<code>_</code>+<code>&#x5927;&#x5BEB;</code>&#x70BA;&#x7CFB;&#x7D71;&#x5167;&#x5EFA;Macro&#xFF0C;&#x5176;name space&#x4FDD;&#x7559;&#x3002;</li>
 </ul>
 <h3 id="undefine-redefine">Undefine/Redefine</h3>
@@ -4206,7 +4253,7 @@ make: *** [test] Error <span class="hljs-number">1</span>
         <span class="hljs-title">printf</span><span class="hljs-params">(&quot;<span class="hljs-keyword">else</span>\n&quot;)</span></span>;
 </code></pre>
 <ul>
-<li>&#x9664;&#x975E;&#x660E;&#x78BA;&#x4E86;&#x89E3;&#x5DE8;&#x96C6;&#x5167;&#x5BB9;&#xFF0C;&#x5426;&#x5247;&#x907F;&#x514D;&#x76F4;&#x63A5;&#x50B3;&#x51FD;&#x6578;&#x9032;&#x53BB;&#x5DE8;&#x96C6;&#x3002;<code>MY_TEST(func(xy,xx), 10));</code><ul>
+<li>&#x9664;&#x975E;&#x660E;&#x78BA;&#x77AD;&#x89E3;&#x5DE8;&#x96C6;&#x5167;&#x5BB9;&#xFF0C;&#x5426;&#x5247;&#x907F;&#x514D;&#x76F4;&#x63A5;&#x50B3;&#x51FD;&#x6578;&#x9032;&#x53BB;&#x5DE8;&#x96C6;&#x3002;<code>MY_TEST(func(xy,xx), 10));</code><ul>
 <li>&#x539F;&#x56E0;&#x662F;&#x5DE8;&#x96C6;&#x5167;&#x4E5F;&#x8A31;&#x6703;&#x547C;&#x53EB;&#x53C3;&#x6578;&#x597D;&#x5E7E;&#x6B21;&#xFF0C;&#x5982;&#x679C;&#x50B3;&#x9032;&#x53BB;&#x7684;&#x51FD;&#x6578;&#x57F7;&#x884C;&#x6210;&#x672C;&#x5F88;&#x9AD8;&#xFF0C;&#x5C31;&#x6703;&#x767C;&#x751F;&#x60B2;&#x5287;&#x3002;</li>
 </ul>
 </li>

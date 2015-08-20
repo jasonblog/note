@@ -4,11 +4,11 @@
     <head>
         
         <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <title>Linux中誰來呼叫C語言中的main? | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.0.1">
+        <meta name="generator" content="GitBook 2.1.0">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -17,6 +17,11 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
         <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+        
+    <link rel="stylesheet" href="../gitbook/style.css">
+    
+    
+
         
     
     
@@ -31,12 +36,7 @@
     <body>
         
         
-    <link rel="stylesheet" href="../gitbook/style.css">
-    
-    
-
-        
-    <div class="book" data-level="22.13" data-basepath=".." data-revision="Thu Aug 20 2015 00:46:18 GMT+0800 (CST)">
+    <div class="book" data-level="22.13" data-basepath=".." data-revision="Thu Aug 20 2015 11:20:33 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -2581,6 +2581,51 @@
             
         </li>
     
+        <li class="chapter " data-level="15.5" data-path="linux_system/155.html">
+            
+                
+                    <a href="../linux_system/155.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>15.5.</b>
+                        
+                        Linux信號處理機制
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="15.6" data-path="linux_system/156.html">
+            
+                
+                    <a href="../linux_system/156.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>15.6.</b>
+                        
+                        函數調用棧的獲取原理分析
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="15.7" data-path="linux_system/157.html">
+            
+                
+                    <a href="../linux_system/157.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>15.7.</b>
+                        
+                        在Linux程序中輸出函數調用棧
+                    </a>
+                
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -3846,6 +3891,8 @@
     <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
     
     
+    
+
 
     <!-- Title -->
     <h1>
@@ -3927,7 +3974,7 @@ SYMBOL TABLE:
    10320:       000104b4        .word   0x000104b4
    10324:       00010420        .word   0x00010420
    10328:       00010448        .word   0x00010448
-</code></pre><p>&#x5F88;&#x6709;&#x8DA3;&#xFF0C;&#x6C92;&#x770B;&#x5230;<code>main()</code>&#xFF0C;&#x53CD;&#x800C;&#x770B;&#x5230;<code>_start</code>&#x3002;&#x5230;&#x5E95;&#x662F;<code>_start</code>&#x662F;&#x4EC0;&#x9EBC;&#x5462;&#xFF1F;&#x9084;&#x8A18;&#x5F97;Linker script&#x55CE;&#xFF1F;&#x88CF;&#x9762;&#x6709;&#x4E00;&#x500B;<code>ENTRY</code>&#x6307;&#x4EE4;&#xFF0C;&#x53EF;&#x4EE5;&#x6307;&#x5B9A;&#x7A0B;&#x5F0F;&#x5F9E;&#x90A3;&#x908A;&#x958B;&#x59CB;&#x8DD1;&#xFF0C;&#x5148;&#x4F86;&#x770B;&#x4E00;&#x4E0B;&#x9810;&#x8A2D;&#x7684;<code>ENTRY</code>&#x662F;&#x4E0D;&#x662F;&#x4E5F;&#x662F;<code>_start</code>?</p>
+</code></pre><p>&#x5F88;&#x6709;&#x8DA3;&#xFF0C;&#x6C92;&#x770B;&#x5230;<code>main()</code>&#xFF0C;&#x53CD;&#x800C;&#x770B;&#x5230;<code>_start</code>&#x3002;&#x5230;&#x5E95;&#x662F;<code>_start</code>&#x662F;&#x4EC0;&#x9EBC;&#x5462;&#xFF1F;&#x9084;&#x8A18;&#x5F97;Linker script&#x55CE;&#xFF1F;&#x88E1;&#x9762;&#x6709;&#x4E00;&#x500B;<code>ENTRY</code>&#x6307;&#x4EE4;&#xFF0C;&#x53EF;&#x4EE5;&#x6307;&#x5B9A;&#x7A0B;&#x5F0F;&#x5F9E;&#x90A3;&#x908A;&#x958B;&#x59CB;&#x8DD1;&#xFF0C;&#x5148;&#x4F86;&#x770B;&#x4E00;&#x4E0B;&#x9810;&#x8A2D;&#x7684;<code>ENTRY</code>&#x662F;&#x4E0D;&#x662F;&#x4E5F;&#x662F;<code>_start</code>?</p>
 <pre><code>$ ld --verbose | grep ENTRY
 ENTRY(_start)
 </code></pre><p>&#x76EE;&#x524D;&#x6211;&#x5011;&#x53EA;&#x77E5;&#x9053;&#x57F7;&#x884C;&#x6A94;&#x8D77;&#x59CB;&#x9EDE;&#x662F;<code>_start</code>&#xFF0C;&#x800C;&#x4E0D;&#x662F;<code>main</code>&#xFF0C;&#x90A3;&#x986F;&#x7136;&#x6709;&#x4EBA;&#x5E6B;&#x4F60;&#x628A;&#x57F7;&#x884C;&#x6A94;&#x52A0;&#x78BC;&#xFF0C;&#x4EE5;&#x81F3;&#x65BC;&#x4F60;&#x7684;&#x57F7;&#x884C;&#x6A94;&#x51FA;&#x73FE;&#x4E86;<code>_start</code>&#x3002;&#x6700;&#x5077;&#x61F6;&#x7684;&#x65B9;&#x5F0F;&#x5C31;&#x662F;&#x53BB;&#x627E;binary&#x770B;&#x770B;&#x662F;&#x4E0D;&#x662F;&#x6709;&#x9019;&#x6A23;&#x7684;symbol&#x3002;</p>

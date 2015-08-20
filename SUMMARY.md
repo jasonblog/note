@@ -223,6 +223,7 @@
 * [GNU make ](gunmake/README.md)
    * [如何調試makefile變量](gunmake/201.md)
    * [跟我一起寫Makefile:make運行](gunmake/202.md)
+   * [Makefile的常用技術總結](gunmake/203.md)
 * [C++](c++/README.md)
    * [[轉]C++ 對象的內存佈局](c++/211.md)
    * [[轉] C++對象模型之簡述C++對象的內存佈局](c++/212.md)

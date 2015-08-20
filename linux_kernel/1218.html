@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>[轉]國王的耳朵是驢耳朵 | Jason note</title>
+        <title>Linux 内核的编译系统 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.1.0">
@@ -25,10 +25,10 @@
         
     
     
-    <link rel="next" href="../22/221.html" />
+    <link rel="next" href="../linux_driver/index.html" />
     
     
-    <link rel="prev" href="../c++/214.html" />
+    <link rel="prev" href="../linux_kernel/1217.html" />
     
 
         
@@ -36,7 +36,7 @@
     <body>
         
         
-    <div class="book" data-level="22" data-basepath=".." data-revision="Thu Aug 20 2015 17:57:35 GMT+0800 (CST)">
+    <div class="book" data-level="12.18" data-basepath=".." data-revision="Thu Aug 20 2015 17:57:35 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -2296,7 +2296,7 @@
             
         </li>
     
-        <li class="chapter " data-level="12.18" data-path="linux_kernel/1218.html">
+        <li class="chapter active" data-level="12.18" data-path="linux_kernel/1218.html">
             
                 
                     <a href="../linux_kernel/1218.html">
@@ -3588,7 +3588,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="22" data-path="22/index.html">
+        <li class="chapter " data-level="22" data-path="22/index.html">
             
                 
                     <a href="../22/index.html">
@@ -4057,8 +4057,147 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E5%9C%8B%E7%8E%8B%E7%9A%84%E8%80%B3%E6%9C%B5%E6%98%AF%E9%A9%A2%E8%80%B3%E6%9C%B5">&#x570B;&#x738B;&#x7684;&#x8033;&#x6735;&#x662F;&#x9A62;&#x8033;&#x6735;</h1>
-<p><a href="http://wen00072.github.io/blog" target="_blank">http://wen00072.github.io/blog</a></p>
+                        <h1 id="linux-%E5%86%85%E6%A0%B8%E7%9A%84%E7%BC%96%E8%AF%91%E7%B3%BB%E7%BB%9F">Linux &#x5185;&#x6838;&#x7684;&#x7F16;&#x8BD1;&#x7CFB;&#x7EDF;</h1>
+<p>Linux  &#x7684;&#x7F16;&#x8BD1;&#x4F7F;&#x7528; GNU make &#x5DE5;&#x5177;&#x6765;&#x68C0;&#x67E5;&#x6574;&#x4E2A;&#x7CFB;&#x7EDF;&#x7684;&#x6587;&#x4EF6;&#x548C;&#x8C03;&#x7528; gcc &#x5DE5;&#x5177;&#x4EE5;&#x53CA;&#x811A;&#x672C;&#x5B8C;&#x6210;&#x7F16;&#x8BD1;&#x6E90;&#x4EE3;&#x7801;&#x751F;&#x6210; image &#x7B49;&#x64CD;&#x4F5C;&#x3002;&#x8981;&#x4E86;&#x89E3;&#x6574;&#x4E2A;&#x7F16;&#x8BD1;&#x7CFB;&#x7EDF;&#xFF0C;&#x6211;&#x4EEC;&#x9996;&#x5148;&#x8981;&#x4E86;&#x89E3; Linux &#x5185;&#x6838;&#x7684; Makefile &#x6587;&#x4EF6;&#x3002;</p>
+<p>Linux &#x7684; &#x7F16;&#x8BD1;&#x7CFB;&#x7EDF;&#x5305;&#x62EC; 5 &#x4E2A;&#x90E8;&#x5206;</p>
+<pre><code>Makefile          &#x9876;&#x5C42;&#x7684; Makefile &#x6587;&#x4EF6;
+.config  &#x5185;&#x6838;&#x914D;&#x7F6E;&#x6587;&#x4EF6;
+arch/$(ARCH)/Makefile
+&#x5E73;&#x53F0; Makefile &#x6587;&#x4EF6;
+scripts/Makefile.*
+               &#x811A;&#x672C;&#x89C4;&#x5219;
+kbuild Makefiles
+            &#x5927;&#x6982; 500 &#x591A;&#x4E2A;&#x5176;&#x4ED6;&#x7684; Makefile &#x6587;&#x4EF6;
+</code></pre><h2 id="makefile">Makefile</h2>
+<h3 id="%E6%9F%A5%E7%9C%8B%E7%89%88%E6%9C%AC">&#x67E5;&#x770B;&#x7248;&#x672C;</h3>
+<p>&#x5728;&#x5185;&#x6838;&#x6E90;&#x4EE3;&#x7801;&#x7684;&#x6839;&#x76EE;&#x5F55;&#x6709;&#x4E00;&#x4E2A; Makefile &#x6587;&#x4EF6;&#xFF0C;&#x8FD9;&#x662F;&#x7F16;&#x8BD1;&#x5185;&#x6838;&#x7684;&#x5165;&#x53E3;&#xFF0C;&#x4E0D;&#x7BA1;&#x6267;&#x884C;&#x914D;&#x7F6E;&#x8FD8;&#x662F;&#x7F16;&#x8BD1;&#xFF0C;make &#x547D;&#x4EE4;&#x9996;&#x5148;&#x8BFB;&#x53D6;&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#x3002;&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#x9996;&#x5148;&#x6307;&#x660E;&#x4E86;&#x5185;&#x6838;&#x7684;&#x7248;&#x672C;&#xFF1A;
+&#x6211;&#x4EEC;&#x8FD9;&#x91CC;&#x662F; 3.10</p>
+<pre><code>VERSION = 3
+PATCHLEVEL = 10
+SUBLEVEL = 0
+EXTRAVERSION =
+NAME = Unicycling Gorilla
+</code></pre><h3 id="%E5%A4%84%E7%90%86%E5%8F%82%E6%95%B0">&#x5904;&#x7406;&#x53C2;&#x6570;</h3>
+<p>&#x7136;&#x540E;&#x5904;&#x7406; command line &#xFF0C;&#x4E00;&#x5171;&#x6709; 5  &#x4E2A; command line</p>
+<pre><code>V : &#x8BBE;&#x5B9A;&#x7F16;&#x8BD1;&#x65F6;&#xFF0C;&#x8F93;&#x51FA;&#x4FE1;&#x606F;&#x7684;&#x7B49;&#x7EA7;&#xFF0C;&#x4F8B;&#x5982;&#x4F60;&#x53EF;&#x4EE5;&#x7528; make V=1&#xFF0C; &#x67E5;&#x770B;&#x7F16;&#x8BD1;&#x65F6;&#x6267;&#x884C;&#x7684;&#x6240;&#x6709;&#x547D;&#x4EE4;&#xFF0C;&#x5305;&#x62EC; gcc &#x53C2;&#x6570;&#x90FD;&#x4F1A;&#x6253;&#x5370;&#x51FA;&#x6765;
+C :  &#x4EE3;&#x7801;&#x68C0;&#x67E5;&#xFF0C;&#x4F7F;&#x7528; sparse&#xFF0C;&#x68C0;&#x67E5;&#x6E90;&#x6587;&#x4EF6;&#x3002;
+M : &#x6307;&#x5B9A;&#x4E0D;&#x5728;&#x5F53;&#x524D;&#x76EE;&#x5F55;&#xFF08;&#x5916;&#x90E8;&#x6A21;&#x5757;&#xFF09;&#x7684;&#x7F16;&#x8BD1;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x6307;&#x5B9A;&#x5F53;&#x524D;&#x76EE;&#x5F55;&#x7684;&#x5B50;&#x76EE;&#x5F55;&#xFF0C;&#x90A3;&#x4E48;&#x5C06;&#x53EA;&#x4F1A;&#x7F16;&#x8BD1;&#x5B50;&#x76EE;&#x5F55;&#x7684;&#x5185;&#x5BB9;
+O &#xFF1A;&#x6307;&#x5B9A;&#x7F16;&#x8BD1;&#x751F;&#x6210;&#x7684;&#x76EE;&#x6807;&#x6587;&#x4EF6;&#x4F4D;&#x7F6E;&#xFF0C;&#x5F53;&#x8BBE;&#x7F6E;&#x4E86; O &#x53C2;&#x6570;&#xFF0C;&#x5185;&#x6838;&#x751F;&#x6210;&#x7684; obj &#x548C; builtin &#x6587;&#x4EF6;&#x90FD;&#x4F1A;&#x6309;&#x7167;&#x76EE;&#x5F55;&#x7ED3;&#x6784;&#x7EC4;&#x7EC7;&#x5230; O &#x53C2;&#x6570;&#x6307;&#x5B9A;&#x7684;&#x76EE;&#x5F55;&#x91CC;&#x9762;
+W&#xFF1A; &#x4F7F;&#x80FD;&#x5916;&#x90E8; gcc &#x68C0;&#x67E5;
+</code></pre><p>&#x8FD9;&#x51E0;&#x4E2A;&#x547D;&#x4EE4;&#x53C2;&#x6570;&#xFF0C;&#x5728;&#x7279;&#x5B9A;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x5C06;&#x4F1A;&#x975E;&#x5E38;&#x6709;&#x7528;&#xFF0C;&#x6BD4;&#x5982;&#x6211;&#x4EEC;&#x60F3;&#x7F16;&#x8BD1;&#x4E00;&#x4E2A;&#x5355;&#x72EC;&#x7684;&#x6A21;&#x5757;&#x5C31;&#x7ECF;&#x5E38;&#x4F7F;&#x7528; M &#x53C2;&#x6570;&#xFF0C;&#x7528; M &#x6307;&#x5B9A;&#x6A21;&#x5757;&#x7684;&#x8DEF;&#x5F84;&#xFF0C;make &#x7684;&#x65F6;&#x5019;&#x5C06;&#x4F1A;&#x4E0D;&#x7F16;&#x8BD1;&#x6574;&#x4E2A;&#x5185;&#x6838;&#xFF0C;&#x800C;&#x7F16;&#x8BD1;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x7684;&#x6A21;&#x5757;&#xFF1A;&#xFF08;M &#x53C2;&#x6570;&#x4F1A;&#x8986;&#x76D6;  KBUILD_EXTMOD &#x53D8;&#x91CF;&#xFF09;</p>
+<pre><code>make M=drivers/misc/
+LD      drivers/misc/eeprom/built-in.o
+CC [M]  drivers/misc/eeprom/eeprom_93cx6.o
+LD      drivers/misc/built-in.o
+Building modules, stage 2.
+MODPOST 1 modules
+CC      drivers/misc/eeprom/eeprom_93cx6.mod.o
+LD [M]  drivers/misc/eeprom/eeprom_93cx6.ko
+</code></pre><p><code>O</code> &#x53C2;&#x6570;&#x7684;&#x6307;&#x5B9A;&#xFF0C;&#x4F1A;&#x6539;&#x53D8;&#x6574;&#x4E2A;&#x7F16;&#x8BD1;&#x51FA;&#x6765;&#x7684;&#x6587;&#x4EF6;&#x7684;&#x7ED3;&#x6784;&#xFF0C;&#x4F8B;&#x5982;&#x54E6;&#x6211;&#x4EEC;&#x6709;&#x591A;&#x4E2A;&#x5E73;&#x53F0;&#x8981;&#x7F16;&#x8BD1;&#xFF0C;&#x4F60;&#x5C31;&#x9700;&#x8981;&#x4E3A;&#x6BCF;&#x4E2A;&#x5E73;&#x53F0; clone &#x4E00;&#x4EFD;&#x5185;&#x6838;&#x4EE3;&#x7801;&#x4E86;&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x8BBE;&#x7F6E;&#x4E0D;&#x540C;&#x7684;&#x8F93;&#x51FA;&#x8DEF;&#x5F84;&#x5373;&#x53EF;&#xFF1A;</p>
+<p>make O=atmel&#xFF0C;  make O=asus  &#xFF08;O &#x53C2;&#x6570;&#x4F1A;&#x8986;&#x76D6; KBUILD_OUTPUT &#x53D8;&#x91CF;&#xFF09;&#xFF0C;&#x76F8;&#x5E94;&#x7684;&#x6587;&#x4EF6;&#x4E5F;&#x4F1A;&#x751F;&#x6210;&#x5728;&#x76EE;&#x6807;&#x8DEF;&#x5F84;&#x4E0B;&#xFF0C;&#x4F8B;&#x5982; uImage &#x5C31;&#x5728; atmel/arch/arm/boot/uImage</p>
+<h3 id="%E8%8E%B7%E5%8F%96%E4%BF%A1%E6%81%AF">&#x83B7;&#x53D6;&#x4FE1;&#x606F;</h3>
+<p>&#x63A5;&#x4E0B;&#x6765;&#x7CFB;&#x7EDF;&#x5C31;&#x4F1A;&#x83B7;&#x53D6;&#x4EA4;&#x53C9;&#x7F16;&#x8BD1;&#x73AF;&#x5883;&#x548C;&#x9009;&#x62E9;&#x4E0D;&#x540C;&#x7684; gcc &#x548C; bin &#x5DE5;&#x5177;&#x96C6;</p>
+<pre><code>ARCH            ?= $(SUBARCH)
+CROSS_COMPILE   ?= $(CONFIG_CROSS_COMPILE:&quot;%&quot;=%)
+</code></pre><p>arch &#x53D8;&#x91CF;&#x8BBE;&#x7F6E;&#x76EE;&#x6807;&#x5E73;&#x53F0;&#xFF0C; cross compile &#x8BBE;&#x7F6E;&#x4EA4;&#x53C9;&#x7F16;&#x8BD1;&#x94FE;&#x3002;</p>
+<h3 id="%E4%BC%AA%E7%9B%AE%E6%A0%87">&#x4F2A;&#x76EE;&#x6807;</h3>
+<p>&#x5F53;&#x7CFB;&#x7EDF;&#x4FE1;&#x606F;&#x83B7;&#x53D6;&#x6210;&#x529F;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x6267;&#x884C;&#x7F16;&#x8BD1;&#x547D;&#x4EE4;&#x4E86;&#xFF0C;&#x6BCF;&#x4E00;&#x4E2A;&#x4F2A;&#x76EE;&#x6807;&#x90FD;&#x53EF;&#x4EE5;&#x4F5C;&#x4E3A;&#x4E00;&#x4E2A;&#x7F16;&#x8BD1;&#x547D;&#x4EE4;&#xFF1A;&#xFF08;&#x5927;&#x6982;&#x6709; 40 &#x4E2A;&#x5DE6;&#x53F3;&#x7684;&#x4F2A;&#x76EE;&#x6807;&#xFF09;&#xFF0C;&#x4F46;&#x662F;&#x6211;&#x4EEC;&#x4F1A;&#x4F7F;&#x7528;&#x5230;&#x7684;&#x5E76;&#x6CA1;&#x6709;&#x8FD9;&#x4E48;&#x591A;&#xFF0C;&#x53EF;&#x4EE5;&#x7528; make help &#x67E5;&#x770B;&#x6211;&#x4EEC;&#x4F7F;&#x7528;&#x7684;&#x7F16;&#x8BD1;&#x547D;&#x4EE4;&#xFF1A;</p>
+<pre><code>make help
+Cleaning targets:
+  clean           - Remove most generated files but keep the config and
+                    enough build support to build external modules
+  mrproper        - Remove all generated files + config + various backup files
+  distclean       - mrproper + remove editor backup and patch files
+Configuration targets:
+  config          - Update current config utilising a line-oriented program
+  nconfig         - Update current config utilising a ncurses menu based program
+  menuconfig      - Update current config utilising a menu based program
+  xconfig         - Update current config utilising a QT based front-end
+  gconfig         - Update current config utilising a GTK based front-end
+  oldconfig       - Update current config utilising a provided .config as base
+  localmodconfig  - Update current config disabling modules not loaded
+  localyesconfig  - Update current config converting local mods to core
+  silentoldconfig - Same as oldconfig, but quietly, additionally update deps
+  defconfig       - New config with default from ARCH supplied defconfig
+  savedefconfig   - Save current config as ./defconfig (minimal config)
+  allnoconfig     - New config where all options are answered with no
+  allyesconfig    - New config where all options are accepted with yes
+  allmodconfig    - New config selecting modules when possible
+  alldefconfig    - New config with all symbols set to default
+  randconfig      - New config with random answer to all options
+  listnewconfig   - List new options
+  olddefconfig    - Same as silentoldconfig but sets new symbols to their default value
+Other generic targets:
+  all             - Build all targets marked with [*]
+* vmlinux         - Build the bare kernel
+* modules         - Build all modules
+  modules_install - Install all modules to INSTALL_MOD_PATH (default: /)
+  firmware_install- Install all firmware to INSTALL_FW_PATH
+                    (default: $(INSTALL_MOD_PATH)/lib/firmware)
+  dir/            - Build all files in dir and below
+  dir/file.[oisS] - Build specified target only
+  dir/file.lst    - Build specified mixed source/assembly target only
+                    (requires a recent binutils and recent build (System.map))
+  dir/file.ko     - Build module including final link
+  modules_prepare - Set up for building external modules
+  tags/TAGS       - Generate tags file for editors
+  cscope          - Generate cscope index
+  gtags           - Generate GNU GLOBAL index
+  kernelrelease   - Output the release version string
+  kernelversion   - Output the version stored in Makefile
+  headers_install - Install sanitised kernel headers to INSTALL_HDR_PATH
+                    (default: /media/android/jiangxd/workspace/Miura/kernel/usr)
+Static analysers
+  checkstack      - Generate a list of stack hogs
+  namespacecheck  - Name space analysis on compiled kernel
+  versioncheck    - Sanity check on version.h usage
+  includecheck    - Check for duplicate included header files
+  export_report   - List the usages of all exported symbols
+  headers_check   - Sanity check on exported headers
+  headerdep       - Detect inclusion cycles in headers
+  coccicheck      - Check with Coccinelle.
+Kernel packaging:
+  rpm-pkg             - Build both source and binary RPM kernel packages
+  binrpm-pkg          - Build only the binary kernel package
+  deb-pkg             - Build the kernel as a deb package
+  tar-pkg             - Build the kernel as an uncompressed tarball
+  targz-pkg           - Build the kernel as a gzip compressed tarball
+  tarbz2-pkg          - Build the kernel as a bzip2 compressed tarball
+  tarxz-pkg           - Build the kernel as a xz compressed tarball
+  perf-tar-src-pkg    - Build perf-3.10.0.tar source tarball
+  perf-targz-src-pkg  - Build perf-3.10.0.tar.gz source tarball
+  perf-tarbz2-src-pkg - Build perf-3.10.0.tar.bz2 source tarball
+  perf-tarxz-src-pkg  - Build perf-3.10.0.tar.xz source tarball
+Documentation targets:
+ Linux kernel internal documentation in different formats:
+  htmldocs        - HTML
+  pdfdocs         - PDF
+  psdocs          - Postscript
+  xmldocs         - XML DocBook
+  mandocs         - man pages
+  installmandocs  - install man pages generated by mandocs
+  cleandocs       - clean all generated DocBook files
+Architecture specific targets (arm):
+* zImage        - Compressed kernel image (arch/arm/boot/zImage)
+  Image         - Uncompressed kernel image (arch/arm/boot/Image)
+* xipImage      - XIP kernel image, if configured (arch/arm/boot/xipImage)
+  uImage        - U-Boot wrapped zImage
+  bootpImage    - Combined zImage and initial RAM disk
+                  (supply initrd image via make variable INITRD=&lt;path&gt;)
+* dtbs          - Build device tree blobs for enabled boards
+  install       - Install uncompressed kernel
+  zinstall      - Install compressed kernel
+  uinstall      - Install U-Boot wrapped compressed kernel
+                  Install using (your) ~/bin/installkernel or
+                  (distribution) /sbin/installkernel or
+                  install to $(INSTALL_PATH) and run lilo
+</code></pre><p>&#x5185;&#x5BB9;&#x975E;&#x5E38;&#x4E4B;&#x591A;&#x3002;&#x8FD9;&#x91CC;&#x53EA;&#x4ECB;&#x7ECD;&#x51E0;&#x4E2A;&#x5E38;&#x7528;&#x7684;&#xFF1A;</p>
+<pre><code>make menuconfig  &#x56FE;&#x5F62;&#x5316;&#x914D;&#x7F6E; config
+make uImage          &#x7F16;&#x8BD1;&#x751F;&#x6210; uImage
+make clean              &#x5220;&#x9664;&#x5927;&#x90E8;&#x5206;&#x751F;&#x6210;&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x4F46;&#x662F;&#x4FDD;&#x7559;&#x914D;&#x7F6E;&#xFF0C;&#x4EE5;&#x4FBF;&#x53EF;&#x4EE5;&#x7F16;&#x8BD1;&#x6A21;&#x5757;
+make distclean       &#x5220;&#x9664;&#x6240;&#x6709;&#x751F;&#x6210;&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x8865;&#x4E01;&#x548C;&#x914D;&#x7F6E;&#xFF0C;&#x4EE5;&#x53CA;&#x4E00;&#x4E9B;&#x5907;&#x4EFD;&#x6587;&#x4EF6;
+make mrproper       &#x5220;&#x9664;&#x6240;&#x6709;&#x751F;&#x6210;&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x8865;&#x4E01;&#x548C;&#x914D;&#x7F6E;
+</code></pre><p>&#x603B;&#x7684;&#x6765;&#x8BF4;&#xFF0C;&#x9876;&#x5C42; Makefile &#x6587;&#x4EF6;&#x8BFB;&#x53D6; config &#x6587;&#x4EF6;&#x751F;&#x6210; Linux &#x7684;&#x4E24;&#x5927;&#x76EE;&#x6807;&#x6587;&#x4EF6; vmlinux &#x548C; &#x6A21;&#x5757;&#x6587;&#x4EF6;</p>
 
                     
                     </section>
@@ -4069,10 +4208,10 @@
         </div>
 
         
-        <a href="../c++/214.html" class="navigation navigation-prev " aria-label="Previous page: [轉]C++ 虛函數表解析"><i class="fa fa-angle-left"></i></a>
+        <a href="../linux_kernel/1217.html" class="navigation navigation-prev " aria-label="Previous page: 段選擇器 段描述符 段描述符表 線性地址形成"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../22/221.html" class="navigation navigation-next " aria-label="Next page: Linker script初探 - GNU linker ld手冊略讀"><i class="fa fa-angle-right"></i></a>
+        <a href="../linux_driver/index.html" class="navigation navigation-next " aria-label="Next page: Linux Driver"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

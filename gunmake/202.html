@@ -4,11 +4,11 @@
     <head>
         
         <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
         <title>跟我一起寫Makefile:make運行 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.1.0">
+        <meta name="generator" content="GitBook 2.0.1">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -17,11 +17,6 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
         <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
-        
-    <link rel="stylesheet" href="../gitbook/style.css">
-    
-    
-
         
     
     
@@ -36,7 +31,12 @@
     <body>
         
         
-    <div class="book" data-level="20.2" data-basepath=".." data-revision="Thu Aug 20 2015 17:57:35 GMT+0800 (CST)">
+    <link rel="stylesheet" href="../gitbook/style.css">
+    
+    
+
+        
+    <div class="book" data-level="20.2" data-basepath=".." data-revision="Fri Aug 21 2015 00:04:24 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -2304,7 +2304,7 @@
                         
                             <b>12.18.</b>
                         
-                        Linux 内核的编译系统
+                        Linux 內核的編譯系統
                     </a>
                 
             
@@ -2569,7 +2569,7 @@
                         
                             <b>15.2.2.</b>
                         
-                        熟悉AT&amp;T汇编语言
+                        熟悉AT&amp;T彙編語言
                     </a>
                 
             
@@ -2584,7 +2584,7 @@
                         
                             <b>15.2.3.</b>
                         
-                        C++函数调用的参数传递方法总结（通过gdb+反汇编）
+                        C++函數調用的參數傳遞方法總結（通過gdb+反彙編）
                     </a>
                 
             
@@ -2599,7 +2599,7 @@
                         
                             <b>15.2.4.</b>
                         
-                        使用GDB来理解C++ 对象的内存布局（多重继承，虚继承）
+                        使用GDB來理解C++ 對象的內存佈局（多重繼承，虛繼承）
                     </a>
                 
             
@@ -2614,7 +2614,7 @@
                         
                             <b>15.2.5.</b>
                         
-                        coredump 分析入门
+                        coredump 分析入門
                     </a>
                 
             
@@ -2629,7 +2629,7 @@
                         
                             <b>15.2.6.</b>
                         
-                        动态库注入、ltrace、strace、Valgrind
+                        動態庫注入、ltrace、strace、Valgrind
                     </a>
                 
             
@@ -2644,7 +2644,7 @@
                         
                             <b>15.2.7.</b>
                         
-                        使用反汇编理解动态库函数调用方式GOT/PLT
+                        使用反彙編理解動態庫函數調用方式GOT/PLT
                     </a>
                 
             
@@ -2659,7 +2659,7 @@
                         
                             <b>15.2.8.</b>
                         
-                        core真的那么难以追踪吗？
+                        core真的那麼難以追蹤嗎？
                     </a>
                 
             
@@ -2674,7 +2674,7 @@
                         
                             <b>15.2.9.</b>
                         
-                        一次生产环境下的“内存泄露”
+                        一次生產環境下的“內存洩露”
                     </a>
                 
             
@@ -4041,8 +4041,6 @@
     <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
     
     
-    
-
 
     <!-- Title -->
     <h1>
@@ -4062,9 +4060,9 @@
 <p>&#x4E00;&#x822C;&#x4F86;&#x8AAA;&#xFF0C;&#x6700;&#x7C21;&#x55AE;&#x7684;&#x5C31;&#x662F;&#x76F4;&#x63A5;&#x5728;&#x547D;&#x4EE4;&#x884C;&#x4E0B;&#x8F38;&#x5165;make&#x547D;&#x4EE4;&#xFF0C;make&#x547D;&#x4EE4;&#x6703;&#x627E;&#x7576;&#x524D;&#x76EE;&#x9304;&#x7684;makefile&#x4F86;&#x57F7;&#x884C;&#xFF0C;&#x4E00;&#x5207;&#x90FD;&#x662F;&#x81EA;&#x52D5;&#x7684;&#x3002;&#x4F46;&#x4E5F;&#x6709;&#x6642;&#x4F60;&#x4E5F;&#x8A31;&#x53EA;&#x60F3;&#x8B93;make&#x91CD;&#x7DE8;&#x8B6F;&#x67D0;&#x4E9B;&#x6587;&#x4EF6;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x6574;&#x500B;&#x5DE5;&#x7A0B;&#xFF0C;&#x800C;&#x53C8;&#x6709;&#x7684;&#x6642;&#x5019;&#x4F60;&#x6709;&#x5E7E;&#x5957;&#x7DE8;&#x8B6F;&#x898F;&#x5247;&#xFF0C;&#x4F60;&#x60F3;&#x5728;&#x4E0D;&#x540C;&#x7684;&#x6642;&#x5019;&#x4F7F;&#x7528;&#x4E0D;&#x540C;&#x7684;&#x7DE8;&#x8B6F;&#x898F;&#x5247;&#xFF0C;&#x7B49;&#x7B49;&#x3002;&#x672C;&#x7AE0;&#x7BC0;&#x5C31;&#x662F;&#x8B1B;&#x8FF0;&#x5982;&#x4F55;&#x4F7F;&#x7528; make&#x547D;&#x4EE4;&#x7684;&#x3002;</p>
 <h3 id="make%E7%9A%84%E9%80%80%E5%87%BA%E7%A2%BC">make&#x7684;&#x9000;&#x51FA;&#x78BC;</h3>
 <p>make&#x547D;&#x4EE4;&#x57F7;&#x884C;&#x5F8C;&#x6709;&#x4E09;&#x500B;&#x9000;&#x51FA;&#x78BC;&#xFF1A;</p>
-<pre><code>0 &#x2014;&#x2014; &#x8868;&#x793A;&#x6210;&#x529F;&#x6267;&#x884C;&#x3002;
-1 &#x2014;&#x2014; &#x5982;&#x679C;make&#x8FD0;&#x884C;&#x65F6;&#x51FA;&#x73B0;&#x4EFB;&#x4F55;&#x9519;&#x8BEF;&#xFF0C;&#x5176;&#x8FD4;&#x56DE;1&#x3002;
-2 &#x2014;&#x2014; &#x5982;&#x679C;&#x4F60;&#x4F7F;&#x7528;&#x4E86;make&#x7684;&#x201C;-q&#x201D;&#x9009;&#x9879;&#xFF0C;&#x5E76;&#x4E14;make&#x4F7F;&#x5F97;&#x4E00;&#x4E9B;&#x76EE;&#x6807;&#x4E0D;&#x9700;&#x8981;&#x66F4;&#x65B0;&#xFF0C;&#x90A3;&#x4E48;&#x8FD4;&#x56DE;2&#x3002;
+<pre><code>0 &#x2014;&#x2014; &#x8868;&#x793A;&#x6210;&#x529F;&#x57F7;&#x884C;&#x3002;
+1 &#x2014;&#x2014; &#x5982;&#x679C;make&#x904B;&#x884C;&#x6642;&#x51FA;&#x73FE;&#x4EFB;&#x4F55;&#x932F;&#x8AA4;&#xFF0C;&#x5176;&#x8FD4;&#x56DE;1&#x3002;
+2 &#x2014;&#x2014; &#x5982;&#x679C;&#x4F60;&#x4F7F;&#x7528;&#x4E86;make&#x7684;&#x201C;-q&#x201D;&#x9078;&#x9805;&#xFF0C;&#x4E26;&#x4E14;make&#x4F7F;&#x5F97;&#x4E00;&#x4E9B;&#x76EE;&#x6A19;&#x4E0D;&#x9700;&#x8981;&#x66F4;&#x65B0;&#xFF0C;&#x90A3;&#x9EBC;&#x8FD4;&#x56DE;2&#x3002;
 </code></pre><p>Make&#x7684;&#x76F8;&#x95DC;&#x53C3;&#x6578;&#x6211;&#x5011;&#x6703;&#x5728;&#x5F8C;&#x7E8C;&#x7AE0;&#x7BC0;&#x4E2D;&#x8B1B;&#x8FF0;&#x3002;</p>
 <h3 id="%E6%8C%87%E5%AE%9Amakefile">&#x6307;&#x5B9A;Makefile</h3>
 <p>&#x524D;&#x9762;&#x6211;&#x5011;&#x8AAA;&#x904E;&#xFF0C;GNU make&#x627E;&#x5C0B;&#x9ED8;&#x8A8D;&#x7684;Makefile&#x7684;&#x898F;&#x5247;&#x662F;&#x5728;&#x7576;&#x524D;&#x76EE;&#x9304;&#x4E0B;&#x4F9D;&#x6B21;&#x627E;&#x4E09;&#x500B;&#x6587;&#x4EF6;&#x2014;&#x2014;&#x201C;GNUmakefile&#x201D;&#x3001;&#x201C;makefile&#x201D;&#x548C;&#x201C;Makefile&#x201D;&#x3002;&#x5176;&#x6309;&#x9806;&#x5E8F;&#x627E;&#x9019;&#x4E09;&#x500B;&#x6587;&#x4EF6;&#xFF0C;&#x4E00;&#x65E6;&#x627E;&#x5230;&#xFF0C;&#x5C31;&#x958B;&#x59CB;&#x8B80;&#x53D6;&#x9019;&#x500B;&#x6587;&#x4EF6;&#x4E26;&#x57F7;&#x884C;&#x3002;</p>
@@ -4072,7 +4070,7 @@
 <pre><code>make &#x2013;f hchen.mk
 </code></pre><p>&#x5982;&#x679C;&#x5728;make&#x7684;&#x547D;&#x4EE4;&#x884C;&#x662F;&#xFF0C;&#x4F60;&#x4E0D;&#x53EA;&#x4E00;&#x6B21;&#x5730;&#x4F7F;&#x7528;&#x4E86;&#x201C;-f&#x201D;&#x53C3;&#x6578;&#xFF0C;&#x90A3;&#x9EBC;&#xFF0C;&#x6240;&#x6709;&#x6307;&#x5B9A;&#x7684;makefile&#x5C07;&#x6703;&#x88AB;&#x9023;&#x5728;&#x4E00;&#x8D77;&#x50B3;&#x905E;&#x7D66;make&#x57F7;&#x884C;&#x3002;</p>
 <h3 id="%E6%8C%87%E5%AE%9A%E7%9B%AE%E6%A8%99">&#x6307;&#x5B9A;&#x76EE;&#x6A19;</h3>
-<p>&#x4E00;&#x822C;&#x4F86;&#x8AAA;&#xFF0C;make&#x7684;&#x6700;&#x7D42;&#x76EE;&#x6A19;&#x662F;makefile&#x4E2D;&#x7684;&#x7B2C;&#x4E00;&#x500B;&#x76EE;&#x6A19;&#xFF0C;&#x800C;&#x5176;&#x5B83;&#x76EE;&#x6A19;&#x4E00;&#x822C;&#x662F;&#x7531;&#x9019;&#x500B;&#x76EE;&#x6A19;&#x9023;&#x5E36;&#x51FA;&#x4F86;&#x7684;&#x3002;&#x9019;&#x662F;make&#x7684;&#x9ED8;&#x8A8D;&#x884C;&#x70BA;&#x3002;&#x7576;&#x7136;&#xFF0C;&#x4E00;&#x822C;&#x4F86;&#x8AAA;&#xFF0C;&#x4F60;&#x7684;makefile&#x4E2D;&#x7684;&#x7B2C;&#x4E00;&#x500B;&#x76EE;&#x6A19;&#x662F;&#x7531;&#x8A31;&#x591A;&#x500B;&#x76EE;&#x6A19;&#x7D44;&#x6210;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x6307;&#x793A;make&#xFF0C;&#x8B93;&#x5176;&#x5B8C;&#x6210;&#x4F60;&#x6240;&#x6307;&#x5B9A;&#x7684;&#x76EE;&#x6A19;&#x3002;&#x8981;&#x9054;&#x5230;&#x9019;&#x4E00;&#x76EE;&#x7684;&#x5F88;&#x7C21;&#x55AE;&#xFF0C;&#x9700;&#x5728;make&#x547D;&#x4EE4;&#x540E;&#x76F4;&#x63A5;&#x8DDF;&#x76EE;&#x6A19;&#x7684;&#x540D;&#x5B57;&#x5C31;&#x53EF;&#x4EE5;&#x5B8C;&#x6210;&#xFF08;&#x5982;&#x524D;&#x9762;&#x63D0;&#x5230;&#x7684;&#x201C;make clean&#x201D;&#x5F62;&#x5F0F;&#xFF09;</p>
+<p>&#x4E00;&#x822C;&#x4F86;&#x8AAA;&#xFF0C;make&#x7684;&#x6700;&#x7D42;&#x76EE;&#x6A19;&#x662F;makefile&#x4E2D;&#x7684;&#x7B2C;&#x4E00;&#x500B;&#x76EE;&#x6A19;&#xFF0C;&#x800C;&#x5176;&#x5B83;&#x76EE;&#x6A19;&#x4E00;&#x822C;&#x662F;&#x7531;&#x9019;&#x500B;&#x76EE;&#x6A19;&#x9023;&#x5E36;&#x51FA;&#x4F86;&#x7684;&#x3002;&#x9019;&#x662F;make&#x7684;&#x9ED8;&#x8A8D;&#x884C;&#x70BA;&#x3002;&#x7576;&#x7136;&#xFF0C;&#x4E00;&#x822C;&#x4F86;&#x8AAA;&#xFF0C;&#x4F60;&#x7684;makefile&#x4E2D;&#x7684;&#x7B2C;&#x4E00;&#x500B;&#x76EE;&#x6A19;&#x662F;&#x7531;&#x8A31;&#x591A;&#x500B;&#x76EE;&#x6A19;&#x7D44;&#x6210;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x6307;&#x793A;make&#xFF0C;&#x8B93;&#x5176;&#x5B8C;&#x6210;&#x4F60;&#x6240;&#x6307;&#x5B9A;&#x7684;&#x76EE;&#x6A19;&#x3002;&#x8981;&#x9054;&#x5230;&#x9019;&#x4E00;&#x76EE;&#x7684;&#x5F88;&#x7C21;&#x55AE;&#xFF0C;&#x9700;&#x5728;make&#x547D;&#x4EE4;&#x5F8C;&#x76F4;&#x63A5;&#x8DDF;&#x76EE;&#x6A19;&#x7684;&#x540D;&#x5B57;&#x5C31;&#x53EF;&#x4EE5;&#x5B8C;&#x6210;&#xFF08;&#x5982;&#x524D;&#x9762;&#x63D0;&#x5230;&#x7684;&#x201C;make clean&#x201D;&#x5F62;&#x5F0F;&#xFF09;</p>
 <p>&#x4EFB;&#x4F55;&#x5728;makefile&#x4E2D;&#x7684;&#x76EE;&#x6A19;&#x90FD;&#x53EF;&#x4EE5;&#x88AB;&#x6307;&#x5B9A;&#x6210;&#x7D42;&#x6975;&#x76EE;&#x6A19;&#xFF0C;&#x4F46;&#x662F;&#x9664;&#x4E86;&#x4EE5;&#x201C;-&#x201D;&#x6253;&#x982D;&#xFF0C;&#x6216;&#x662F;&#x5305;&#x542B;&#x4E86;&#x201C;=&#x201D;&#x7684;&#x76EE;&#x6A19;&#xFF0C;&#x56E0;&#x70BA;&#x6709;&#x9019;&#x4E9B;&#x5B57;&#x7B26;&#x7684;&#x76EE;&#x6A19;&#xFF0C;&#x6703;&#x88AB;&#x89E3;&#x6790;&#x6210;&#x547D;&#x4EE4;&#x884C;&#x53C3;&#x6578;&#x6216;&#x662F;&#x8B8A;&#x91CF;&#x3002;&#x751A;&#x81F3;&#x6C92;&#x6709;&#x88AB;&#x6211;&#x5011;&#x660E;&#x78BA;&#x5BEB;&#x51FA;&#x4F86;&#x7684;&#x76EE;&#x6A19;&#x4E5F;&#x53EF;&#x4EE5;&#x6210;&#x70BA;make&#x7684;&#x7D42;&#x6975;&#x76EE;&#x6A19;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#xFF0C;&#x53EA;&#x8981;make&#x53EF;&#x4EE5;&#x627E;&#x5230;&#x5176;&#x96B1;&#x542B;&#x898F;&#x5247;&#x63A8;&#x5C0E;&#x898F;&#x5247;&#xFF0C;&#x90A3;&#x9EBC;&#x9019;&#x500B;&#x96B1;&#x542B;&#x76EE;&#x6A19;&#x540C;&#x6A23;&#x53EF;&#x4EE5;&#x88AB;&#x6307;&#x5B9A;&#x6210;&#x7D42;&#x6975;&#x76EE;&#x6A19;&#x3002;</p>
 <p>&#x6709;&#x4E00;&#x500B;make&#x7684;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x53EB;&#x201C;MAKECMDGOALS&#x201D;&#xFF0C;&#x9019;&#x500B;&#x8B8A;&#x91CF;&#x4E2D;&#x6703;&#x5B58;&#x653E;&#x4F60;&#x6240;&#x6307;&#x5B9A;&#x7684;&#x7D42;&#x6975;&#x76EE;&#x6A19;&#x7684;&#x5217;&#x8868;&#xFF0C;&#x5982;&#x679C;&#x5728;&#x547D;&#x4EE4;&#x884C;&#x4E0A;&#xFF0C;&#x4F60;&#x6C92;&#x6709;&#x6307;&#x5B9A;&#x76EE;&#x6A19;&#xFF0C;&#x90A3;&#x9EBC;&#xFF0C;&#x9019;&#x500B;&#x8B8A;&#x91CF;&#x662F;&#x7A7A;&#x503C;&#x3002;&#x9019;&#x500B;&#x8B8A;&#x91CF;&#x53EF;&#x4EE5;&#x8B93;&#x4F60;&#x4F7F;&#x7528;&#x5728;&#x4E00;&#x4E9B;&#x6BD4;&#x8F03;&#x7279;&#x6B8A;&#x7684;&#x60C5;&#x5F62;&#x4E0B;&#x3002;&#x6BD4;&#x5982;&#x4E0B;&#x9762;&#x7684;&#x4F8B;&#x5B50;&#xFF1A;</p>
 <pre><code>sources = foo.c bar.c
@@ -4101,7 +4099,7 @@ TAGS
 &#x9019;&#x500B;&#x507D;&#x76EE;&#x6A19;&#x529F;&#x80FD;&#x662F;&#x66F4;&#x65B0;&#x6240;&#x6709;&#x7684;&#x76EE;&#x6A19;&#xFF0C;&#x4EE5;&#x5099;&#x5B8C;&#x6574;&#x5730;&#x91CD;&#x7DE8;&#x8B6F;&#x4F7F;&#x7528;&#x3002;
 check&#x548C;test
 &#x9019;&#x5169;&#x500B;&#x507D;&#x76EE;&#x6A19;&#x4E00;&#x822C;&#x7528;&#x4F86;&#x6E2C;&#x8A66;makefile&#x7684;&#x6D41;&#x7A0B;&#x3002;
-</code></pre><p>&#x7576;&#x7136;&#x4E00;&#x500B;&#x8A08;&#x5283;&#x7684;makefile&#x4E2D;&#x4E5F;&#x4E0D;&#x4E00;&#x5B9A;&#x8981;&#x66F8;&#x5BEB;&#x9019;&#x6A23;&#x7684;&#x76EE;&#x6A19;&#xFF0C;&#x9019;&#x4E9B;&#x6771;&#x897F;&#x90FD;&#x662F;GNU&#x7684;&#x6771;&#x897F;&#xFF0C;&#x4F46;&#x662F;&#x6211;&#x60F3;&#xFF0C;GNU&#x641E;&#x51FA;&#x9019;&#x4E9B;&#x6771;&#x897F;&#x4E00;&#x5B9A;&#x6709;&#x5176;&#x53EF;&#x53D6;&#x4E4B;&#x8655;&#xFF08;&#x7B49;&#x4F60;&#x7684; UNIX&#x4E0B;&#x7684;&#x7A0B;&#x5F0F;&#x6587;&#x4EF6;&#x4E00;&#x591A;&#x6642;&#x4F60;&#x5C31;&#x6703;&#x767C;&#x73FE;&#x9019;&#x4E9B;&#x529F;&#x80FD;&#x5F88;&#x6709;&#x7528;&#x4E86;&#xFF09;&#xFF0C;&#x9019;&#x88CF;&#x53EA;&#x4E0D;&#x904E;&#x662F;&#x8AAA;&#x660E;&#x4E86;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x8981;&#x66F8;&#x5BEB;&#x9019;&#x7A2E;&#x529F;&#x80FD;&#xFF0C;&#x6700;&#x597D;&#x4F7F;&#x7528;&#x9019;&#x7A2E;&#x540D;&#x5B57;&#x547D;&#x540D;&#x4F60;&#x7684;&#x76EE;&#x6A19;&#xFF0C;&#x9019;&#x6A23;&#x898F;&#x7BC4;&#x4E00;&#x4E9B;&#xFF0C;&#x898F;&#x7BC4;&#x7684;&#x597D;&#x8655;&#x5C31;&#x662F;&#x2014;&#x2014;&#x4E0D;&#x7528;&#x89E3;&#x91CB;&#xFF0C;&#x5927;&#x5BB6;&#x90FD;&#x660E;&#x767D;&#x3002;&#x800C;&#x4E14;&#x5982;&#x679C;&#x4F60;&#x7684;makefile&#x4E2D;&#x6709;&#x9019;&#x4E9B;&#x529F;&#x80FD;&#xFF0C;&#x4E00;&#x662F;&#x5F88;&#x5BE6;&#x7528;&#xFF0C;&#x4E8C;&#x662F;&#x53EF;&#x4EE5;&#x986F;&#x5F97;&#x4F60;&#x7684;makefile&#x5F88;&#x5C08;&#x696D;&#xFF08;&#x4E0D;&#x662F;&#x90A3;&#x7A2E;&#x521D;&#x5B78;&#x8005;&#x7684;&#x4F5C;&#x54C1;&#xFF09;&#x3002;</p>
+</code></pre><p>&#x7576;&#x7136;&#x4E00;&#x500B;&#x8A08;&#x5283;&#x7684;makefile&#x4E2D;&#x4E5F;&#x4E0D;&#x4E00;&#x5B9A;&#x8981;&#x66F8;&#x5BEB;&#x9019;&#x6A23;&#x7684;&#x76EE;&#x6A19;&#xFF0C;&#x9019;&#x4E9B;&#x6771;&#x897F;&#x90FD;&#x662F;GNU&#x7684;&#x6771;&#x897F;&#xFF0C;&#x4F46;&#x662F;&#x6211;&#x60F3;&#xFF0C;GNU&#x641E;&#x51FA;&#x9019;&#x4E9B;&#x6771;&#x897F;&#x4E00;&#x5B9A;&#x6709;&#x5176;&#x53EF;&#x53D6;&#x4E4B;&#x8655;&#xFF08;&#x7B49;&#x4F60;&#x7684; UNIX&#x4E0B;&#x7684;&#x7A0B;&#x5F0F;&#x6587;&#x4EF6;&#x4E00;&#x591A;&#x6642;&#x4F60;&#x5C31;&#x6703;&#x767C;&#x73FE;&#x9019;&#x4E9B;&#x529F;&#x80FD;&#x5F88;&#x6709;&#x7528;&#x4E86;&#xFF09;&#xFF0C;&#x9019;&#x88E1;&#x53EA;&#x4E0D;&#x904E;&#x662F;&#x8AAA;&#x660E;&#x77AD;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x8981;&#x66F8;&#x5BEB;&#x9019;&#x7A2E;&#x529F;&#x80FD;&#xFF0C;&#x6700;&#x597D;&#x4F7F;&#x7528;&#x9019;&#x7A2E;&#x540D;&#x5B57;&#x547D;&#x540D;&#x4F60;&#x7684;&#x76EE;&#x6A19;&#xFF0C;&#x9019;&#x6A23;&#x898F;&#x7BC4;&#x4E00;&#x4E9B;&#xFF0C;&#x898F;&#x7BC4;&#x7684;&#x597D;&#x8655;&#x5C31;&#x662F;&#x2014;&#x2014;&#x4E0D;&#x7528;&#x89E3;&#x91CB;&#xFF0C;&#x5927;&#x5BB6;&#x90FD;&#x660E;&#x767D;&#x3002;&#x800C;&#x4E14;&#x5982;&#x679C;&#x4F60;&#x7684;makefile&#x4E2D;&#x6709;&#x9019;&#x4E9B;&#x529F;&#x80FD;&#xFF0C;&#x4E00;&#x662F;&#x5F88;&#x5BE6;&#x7528;&#xFF0C;&#x4E8C;&#x662F;&#x53EF;&#x4EE5;&#x986F;&#x5F97;&#x4F60;&#x7684;makefile&#x5F88;&#x5C08;&#x696D;&#xFF08;&#x4E0D;&#x662F;&#x90A3;&#x7A2E;&#x521D;&#x5B78;&#x8005;&#x7684;&#x4F5C;&#x54C1;&#xFF09;&#x3002;</p>
 <h3 id="%E6%AA%A2%E6%9F%A5%E8%A6%8F%E5%89%87">&#x6AA2;&#x67E5;&#x898F;&#x5247;</h3>
 <p>&#x6709;&#x6642;&#x5019;&#xFF0C;&#x6211;&#x5011;&#x4E0D;&#x60F3;&#x8B93;&#x6211;&#x5011;&#x7684;makefile&#x4E2D;&#x7684;&#x898F;&#x5247;&#x57F7;&#x884C;&#x8D77;&#x4F86;&#xFF0C;&#x6211;&#x5011;&#x53EA;&#x60F3;&#x6AA2;&#x67E5;&#x4E00;&#x4E0B;&#x6211;&#x5011;&#x7684;&#x547D;&#x4EE4;&#xFF0C;&#x6216;&#x662F;&#x57F7;&#x884C;&#x7684;&#x5E8F;&#x5217;&#x3002;&#x65BC;&#x662F;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;make&#x547D;&#x4EE4;&#x7684;&#x4E0B;&#x8FF0;&#x53C3;&#x6578;&#xFF1A;</p>
 <p><code>&#x201C;-n&#x201D; &#x201C;--just-print&#x201D; &#x201C;--dry-run&#x201D; &#x201C;--recon&#x201D;</code> &#x4E0D;&#x57F7;&#x884C;&#x53C3;&#x6578;&#xFF0C;&#x9019;&#x4E9B;&#x53C3;&#x6578;&#x53EA;&#x662F;&#x6253;&#x5370;&#x547D;&#x4EE4;&#xFF0C;&#x4E0D;&#x7BA1;&#x76EE;&#x6A19;&#x662F;&#x5426;&#x66F4;&#x65B0;&#xFF0C;&#x628A;&#x898F;&#x5247;&#x548C;&#x9023;&#x5E36;&#x898F;&#x5247;&#x4E0B;&#x7684;&#x547D;&#x4EE4;&#x6253;&#x5370;&#x51FA;&#x4F86;&#xFF0C;&#x4F46;&#x4E0D;&#x57F7;&#x884C;&#xFF0C;&#x9019;&#x4E9B;&#x53C3;&#x6578;&#x5C0D;&#x65BC;&#x6211;&#x5011;&#x8ABF;&#x8A66;makefile&#x5F88;&#x6709;&#x7528;&#x8655;&#x3002;</p>
@@ -4114,14 +4112,14 @@ check&#x548C;test
 <p><code>&#x201C;-b&#x201D; &#x201C;-m&#x201D; &#x9019;&#x5169;&#x500B;&#x53C3;&#x6578;&#x7684;&#x4F5C;&#x7528;&#x662F;&#x5FFD;&#x7565;&#x548C;&#x5176;&#x5B83;&#x7248;&#x672C;make&#x7684;&#x517C;&#x5BB9;&#x6027;&#x3002;</code>
 <code>&#x201C;-B&#x201D; &#x201C;--always-make&#x201D; &#x8A8D;&#x70BA;&#x6240;&#x6709;&#x7684;&#x76EE;&#x6A19;&#x90FD;&#x9700;&#x8981;&#x66F4;&#x65B0;&#xFF08;&#x91CD;&#x7DE8;&#x8B6F;&#xFF09;&#x3002;</code>
 <code>&#x201C;-C &lt;dir&gt;&#x201D; &#x201C;--directory=&lt;dir&gt;&#x201D;
-&#x6307;&#x5B9A;&#x8B80;&#x53D6;makefile&#x7684;&#x76EE;&#x9304;&#x3002;&#x5982;&#x679C;&#x6709;&#x591A;&#x500B;&#x201C;-C&#x201D;&#x53C3;&#x6578;&#xFF0C;make&#x7684;&#x89E3;&#x91CB;&#x662F;&#x5F8C;&#x9762;&#x7684;&#x8DEF;&#x5F91;&#x4EE5;&#x524D;&#x9762;&#x7684;&#x4F5C;&#x70BA;&#x76F8;&#x5C0D;&#x8DEF;&#x5F91;&#xFF0C;&#x4E26;&#x4EE5;&#x6700;&#x5F8C;&#x7684;&#x76EE;&#x9304;&#x4F5C;&#x70BA;&#x88AB;&#x6307;&#x5B9A;&#x76EE;&#x9304;&#x3002;&#x5982;&#xFF1A;&#x201C;make &#x2013;C ~hchen/test &#x2013;C prog&#x201D;&#x7B49;&#x50F9;&#x4E8E;&#x201C;make &#x2013;C ~hchen/test/prog&#x201D;&#x3002;</code></p>
+&#x6307;&#x5B9A;&#x8B80;&#x53D6;makefile&#x7684;&#x76EE;&#x9304;&#x3002;&#x5982;&#x679C;&#x6709;&#x591A;&#x500B;&#x201C;-C&#x201D;&#x53C3;&#x6578;&#xFF0C;make&#x7684;&#x89E3;&#x91CB;&#x662F;&#x5F8C;&#x9762;&#x7684;&#x8DEF;&#x5F91;&#x4EE5;&#x524D;&#x9762;&#x7684;&#x4F5C;&#x70BA;&#x76F8;&#x5C0D;&#x8DEF;&#x5F91;&#xFF0C;&#x4E26;&#x4EE5;&#x6700;&#x5F8C;&#x7684;&#x76EE;&#x9304;&#x4F5C;&#x70BA;&#x88AB;&#x6307;&#x5B9A;&#x76EE;&#x9304;&#x3002;&#x5982;&#xFF1A;&#x201C;make &#x2013;C ~hchen/test &#x2013;C prog&#x201D;&#x7B49;&#x50F9;&#x65BC;&#x201C;make &#x2013;C ~hchen/test/prog&#x201D;&#x3002;</code></p>
 <p><code>&#x201C;&#x2014;debug[=&lt;options&gt;]&#x201D; &#x8F38;&#x51FA;make&#x7684;&#x8ABF;&#x8A66;&#x4FE1;&#x606F;&#x3002;&#x5B83;&#x6709;&#x5E7E;&#x7A2E;&#x4E0D;&#x540C;&#x7684;&#x7D1A;&#x5225;&#x53EF;&#x4F9B;&#x9078;&#x64C7;&#xFF0C;&#x5982;&#x679C;&#x6C92;&#x6709;&#x53C3;&#x6578;&#xFF0C;&#x90A3;&#x5C31;&#x662F;&#x8F38;&#x51FA;&#x6700;&#x7C21;&#x55AE;&#x7684;&#x8ABF;&#x8A66;&#x4FE1;&#x606F;&#x3002;&#x4E0B;&#x9762;&#x662F;&lt;options&gt;&#x7684;&#x53D6;&#x503C;&#xFF1A;</code></p>
-<pre><code>a &#x2014;&#x2014; &#x4E5F;&#x5C31;&#x662F;all&#xFF0C;&#x8F93;&#x51FA;&#x6240;&#x6709;&#x7684;&#x8C03;&#x8BD5;&#x4FE1;&#x606F;&#x3002;&#xFF08;&#x4F1A;&#x975E;&#x5E38;&#x7684;&#x591A;&#xFF09;
-b &#x2014;&#x2014; &#x4E5F;&#x5C31;&#x662F;basic&#xFF0C;&#x53EA;&#x8F93;&#x51FA;&#x7B80;&#x5355;&#x7684;&#x8C03;&#x8BD5;&#x4FE1;&#x606F;&#x3002;&#x5373;&#x8F93;&#x51FA;&#x4E0D;&#x9700;&#x8981;&#x91CD;&#x7F16;&#x8BD1;&#x7684;&#x76EE;&#x6807;&#x3002;
-v &#x2014;&#x2014; &#x4E5F;&#x5C31;&#x662F;verbose&#xFF0C;&#x5728;b&#x9009;&#x9879;&#x7684;&#x7EA7;&#x522B;&#x4E4B;&#x4E0A;&#x3002;&#x8F93;&#x51FA;&#x7684;&#x4FE1;&#x606F;&#x5305;&#x62EC;&#x54EA;&#x4E2A;makefile&#x88AB;&#x89E3;&#x6790;&#xFF0C;&#x4E0D;&#x9700;&#x8981;&#x88AB;&#x91CD;&#x7F16;&#x8BD1;&#x7684;&#x4F9D;&#x8D56;&#x6587;&#x4EF6;&#xFF08;&#x6216;&#x662F;&#x4F9D;&#x8D56;&#x76EE;&#x6807;&#xFF09;&#x7B49;&#x3002;
-i &#x2014;&#x2014; &#x4E5F;&#x5C31;&#x662F;implicit&#xFF0C;&#x8F93;&#x51FA;&#x6240;&#x4EE5;&#x7684;&#x9690;&#x542B;&#x89C4;&#x5219;&#x3002;
-j &#x2014;&#x2014; &#x4E5F;&#x5C31;&#x662F;jobs&#xFF0C;&#x8F93;&#x51FA;&#x6267;&#x884C;&#x89C4;&#x5219;&#x4E2D;&#x547D;&#x4EE4;&#x7684;&#x8BE6;&#x7EC6;&#x4FE1;&#x606F;&#xFF0C;&#x5982;&#x547D;&#x4EE4;&#x7684;PID&#x3001;&#x8FD4;&#x56DE;&#x7801;&#x7B49;&#x3002;
-m &#x2014;&#x2014; &#x4E5F;&#x5C31;&#x662F;makefile&#xFF0C;&#x8F93;&#x51FA;make&#x8BFB;&#x53D6;makefile&#xFF0C;&#x66F4;&#x65B0;makefile&#xFF0C;&#x6267;&#x884C;makefile&#x7684;&#x4FE1;&#x606F;&#x3002;
+<pre><code>a &#x2014;&#x2014; &#x4E5F;&#x5C31;&#x662F;all&#xFF0C;&#x8F38;&#x51FA;&#x6240;&#x6709;&#x7684;&#x8ABF;&#x8A66;&#x4FE1;&#x606F;&#x3002;&#xFF08;&#x6703;&#x975E;&#x5E38;&#x7684;&#x591A;&#xFF09;
+b &#x2014;&#x2014; &#x4E5F;&#x5C31;&#x662F;basic&#xFF0C;&#x53EA;&#x8F38;&#x51FA;&#x7C21;&#x55AE;&#x7684;&#x8ABF;&#x8A66;&#x4FE1;&#x606F;&#x3002;&#x5373;&#x8F38;&#x51FA;&#x4E0D;&#x9700;&#x8981;&#x91CD;&#x7DE8;&#x8B6F;&#x7684;&#x76EE;&#x6A19;&#x3002;
+v &#x2014;&#x2014; &#x4E5F;&#x5C31;&#x662F;verbose&#xFF0C;&#x5728;b&#x9078;&#x9805;&#x7684;&#x7D1A;&#x5225;&#x4E4B;&#x4E0A;&#x3002;&#x8F38;&#x51FA;&#x7684;&#x4FE1;&#x606F;&#x5305;&#x62EC;&#x54EA;&#x500B;makefile&#x88AB;&#x89E3;&#x6790;&#xFF0C;&#x4E0D;&#x9700;&#x8981;&#x88AB;&#x91CD;&#x7DE8;&#x8B6F;&#x7684;&#x4F9D;&#x8CF4;&#x6587;&#x4EF6;&#xFF08;&#x6216;&#x662F;&#x4F9D;&#x8CF4;&#x76EE;&#x6A19;&#xFF09;&#x7B49;&#x3002;
+i &#x2014;&#x2014; &#x4E5F;&#x5C31;&#x662F;implicit&#xFF0C;&#x8F38;&#x51FA;&#x6240;&#x4EE5;&#x7684;&#x96B1;&#x542B;&#x898F;&#x5247;&#x3002;
+j &#x2014;&#x2014; &#x4E5F;&#x5C31;&#x662F;jobs&#xFF0C;&#x8F38;&#x51FA;&#x57F7;&#x884C;&#x898F;&#x5247;&#x4E2D;&#x547D;&#x4EE4;&#x7684;&#x8A73;&#x7D30;&#x4FE1;&#x606F;&#xFF0C;&#x5982;&#x547D;&#x4EE4;&#x7684;PID&#x3001;&#x8FD4;&#x56DE;&#x78BC;&#x7B49;&#x3002;
+m &#x2014;&#x2014; &#x4E5F;&#x5C31;&#x662F;makefile&#xFF0C;&#x8F38;&#x51FA;make&#x8B80;&#x53D6;makefile&#xFF0C;&#x66F4;&#x65B0;makefile&#xFF0C;&#x57F7;&#x884C;makefile&#x7684;&#x4FE1;&#x606F;&#x3002;
 </code></pre><pre><code>&#x201C;-d&#x201D; &#x76F8;&#x7576;&#x65BC;&#x201C;--debug=a&#x201D;&#x3002;
 
 &#x201C;-e&#x201D; &#x201C;--environment-overrides&#x201D; &#x6307;&#x660E;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x7684;&#x503C;&#x8986;&#x84CB;makefile&#x4E2D;&#x5B9A;&#x7FA9;&#x7684;&#x8B8A;&#x91CF;&#x7684;&#x503C;&#x3002;
@@ -4144,7 +4142,7 @@ m &#x2014;&#x2014; &#x4E5F;&#x5C31;&#x662F;makefile&#xFF0C;&#x8F93;&#x51FA;make&
 
 &#x201C;-o &lt;file&gt;&#x201D; &#x201C;--old-file=&lt;file&gt;&#x201D; &#x201C;--assume-old=&lt;file&gt;&#x201D; &#x4E0D;&#x91CD;&#x65B0;&#x751F;&#x6210;&#x7684;&#x6307;&#x5B9A;&#x7684;&lt;file&gt;&#xFF0C;&#x5373;&#x4F7F;&#x9019;&#x500B;&#x76EE;&#x6A19;&#x7684;&#x4F9D;&#x8CF4;&#x6587;&#x4EF6;&#x65B0;&#x65BC;&#x5B83;&#x3002;
 
-&#x201C;-p&#x201D; &#x201C;--print-data-base&#x201D; &#x8F38;&#x51FA;makefile&#x4E2D;&#x7684;&#x6240;&#x6709;&#x6578;&#x64DA;&#xFF0C;&#x5305;&#x62EC;&#x6240;&#x6709;&#x7684;&#x898F;&#x5247;&#x548C;&#x8B8A;&#x91CF;&#x3002;&#x9019;&#x500B;&#x53C3;&#x6578;&#x6703;&#x8B93;&#x4E00;&#x500B;&#x7C21;&#x55AE;&#x7684;makefile&#x90FD;&#x6703;&#x8F38;&#x51FA;&#x4E00;&#x5806;&#x4FE1;&#x606F;&#x3002;&#x5982;&#x679C;&#x4F60;&#x53EA;&#x662F;&#x60F3;&#x8F38;&#x51FA;&#x4FE1;&#x606F;&#x800C;&#x4E0D;&#x60F3;&#x57F7;&#x884C;makefile&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x201C;make -qp&#x201D;&#x547D;&#x4EE4;&#x3002;&#x5982;&#x679C;&#x4F60;&#x60F3;&#x67E5;&#x770B;&#x57F7;&#x884C;makefile&#x524D;&#x7684;&#x9810;&#x8A2D;&#x8B8A;&#x91CF;&#x548C;&#x898F;&#x5247;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; &#x201C;make &#x2013;p &#x2013;f /dev/null&#x201D;&#x3002;&#x9019;&#x500B;&#x53C3;&#x6578;&#x8F38;&#x51FA;&#x7684;&#x4FE1;&#x606F;&#x6703;&#x5305;&#x542B;&#x7740;&#x4F60;&#x7684;makefile&#x6587;&#x4EF6;&#x7684;&#x6587;&#x4EF6;&#x540D;&#x548C;&#x884C;&#x865F;&#xFF0C;&#x6240;&#x4EE5;&#xFF0C;&#x7528;&#x9019;&#x500B;&#x53C3;&#x6578;&#x4F86;&#x8ABF;&#x8A66;&#x4F60;&#x7684; makefile&#x6703;&#x662F;&#x5F88;&#x6709;&#x7528;&#x7684;&#xFF0C;&#x7279;&#x5225;&#x662F;&#x7576;&#x4F60;&#x7684;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x5F88;&#x8907;&#x96DC;&#x7684;&#x6642;&#x5019;&#x3002;
+&#x201C;-p&#x201D; &#x201C;--print-data-base&#x201D; &#x8F38;&#x51FA;makefile&#x4E2D;&#x7684;&#x6240;&#x6709;&#x6578;&#x64DA;&#xFF0C;&#x5305;&#x62EC;&#x6240;&#x6709;&#x7684;&#x898F;&#x5247;&#x548C;&#x8B8A;&#x91CF;&#x3002;&#x9019;&#x500B;&#x53C3;&#x6578;&#x6703;&#x8B93;&#x4E00;&#x500B;&#x7C21;&#x55AE;&#x7684;makefile&#x90FD;&#x6703;&#x8F38;&#x51FA;&#x4E00;&#x5806;&#x4FE1;&#x606F;&#x3002;&#x5982;&#x679C;&#x4F60;&#x53EA;&#x662F;&#x60F3;&#x8F38;&#x51FA;&#x4FE1;&#x606F;&#x800C;&#x4E0D;&#x60F3;&#x57F7;&#x884C;makefile&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x201C;make -qp&#x201D;&#x547D;&#x4EE4;&#x3002;&#x5982;&#x679C;&#x4F60;&#x60F3;&#x67E5;&#x770B;&#x57F7;&#x884C;makefile&#x524D;&#x7684;&#x9810;&#x8A2D;&#x8B8A;&#x91CF;&#x548C;&#x898F;&#x5247;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; &#x201C;make &#x2013;p &#x2013;f /dev/null&#x201D;&#x3002;&#x9019;&#x500B;&#x53C3;&#x6578;&#x8F38;&#x51FA;&#x7684;&#x4FE1;&#x606F;&#x6703;&#x5305;&#x542B;&#x8457;&#x4F60;&#x7684;makefile&#x6587;&#x4EF6;&#x7684;&#x6587;&#x4EF6;&#x540D;&#x548C;&#x884C;&#x865F;&#xFF0C;&#x6240;&#x4EE5;&#xFF0C;&#x7528;&#x9019;&#x500B;&#x53C3;&#x6578;&#x4F86;&#x8ABF;&#x8A66;&#x4F60;&#x7684; makefile&#x6703;&#x662F;&#x5F88;&#x6709;&#x7528;&#x7684;&#xFF0C;&#x7279;&#x5225;&#x662F;&#x7576;&#x4F60;&#x7684;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x5F88;&#x8907;&#x96DC;&#x7684;&#x6642;&#x5019;&#x3002;
 
 &#x201C;-q&#x201D; &#x201C;--question&#x201D; &#x4E0D;&#x904B;&#x884C;&#x547D;&#x4EE4;&#xFF0C;&#x4E5F;&#x4E0D;&#x8F38;&#x51FA;&#x3002;&#x50C5;&#x50C5;&#x662F;&#x6AA2;&#x67E5;&#x6240;&#x6307;&#x5B9A;&#x7684;&#x76EE;&#x6A19;&#x662F;&#x5426;&#x9700;&#x8981;&#x66F4;&#x65B0;&#x3002;&#x5982;&#x679C;&#x662F;0&#x5247;&#x8AAA;&#x660E;&#x8981;&#x66F4;&#x65B0;&#xFF0C;&#x5982;&#x679C;&#x662F;2&#x5247;&#x8AAA;&#x660E;&#x6709;&#x932F;&#x8AA4;&#x767C;&#x751F;&#x3002;
 

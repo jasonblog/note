@@ -36,7 +36,7 @@
     <body>
         
         
-    <div class="book" data-level="7.10" data-basepath=".." data-revision="Fri Aug 21 2015 10:23:58 GMT+0800 (CST)">
+    <div class="book" data-level="7.10" data-basepath=".." data-revision="Fri Aug 21 2015 16:12:49 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -4380,33 +4380,33 @@ target remote localhost:<span class="hljs-number">1234</span>
 <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;asm/uaccess.h&gt;</span>
 <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;linux/slab.h&gt;</span>
 
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> GLOBALMEM_SIZE  0x1000  /*&#x5168;&#x5C40;&#x5185;&#x5B58;&#x6700;&#x5927;4K&#x5B57;&#x8282;*/</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> MEM_CLEAR 0x1  /*&#x6E05;0&#x5168;&#x5C40;&#x5185;&#x5B58;*/</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> GLOBALMEM_MAJOR 245    /*&#x9884;&#x8BBE;&#x7684;globalmem&#x7684;&#x4E3B;&#x8BBE;&#x5907;&#x53F7;*/</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> GLOBALMEM_SIZE  0x1000  /*&#x5168;&#x5C40;&#x5167;&#x5B58;&#x6700;&#x5927;4K&#x5B57;&#x7BC0;*/</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> MEM_CLEAR 0x1  /*&#x6E05;0&#x5168;&#x5C40;&#x5167;&#x5B58;*/</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> GLOBALMEM_MAJOR 245    /*&#x9810;&#x8A2D;&#x7684;globalmem&#x7684;&#x4E3B;&#x8A2D;&#x5099;&#x865F;*/</span>
 
 <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> globalmem_major = GLOBALMEM_MAJOR;
-<span class="hljs-comment">/*globalmem&#x8BBE;&#x5907;&#x7ED3;&#x6784;&#x4F53;*/</span>
+<span class="hljs-comment">/*globalmem&#x8A2D;&#x5099;&#x7D50;&#x69CB;&#x9AD4;*/</span>
 <span class="hljs-keyword">struct</span> globalmem_dev {
-    <span class="hljs-keyword">struct</span> cdev cdev; <span class="hljs-comment">/*cdev&#x7ED3;&#x6784;&#x4F53;*/</span>
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> mem[GLOBALMEM_SIZE]; <span class="hljs-comment">/*&#x5168;&#x5C40;&#x5185;&#x5B58;*/</span>
+    <span class="hljs-keyword">struct</span> cdev cdev; <span class="hljs-comment">/*cdev&#x7D50;&#x69CB;&#x9AD4;*/</span>
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> mem[GLOBALMEM_SIZE]; <span class="hljs-comment">/*&#x5168;&#x5C40;&#x5167;&#x5B58;*/</span>
 };
 
-<span class="hljs-keyword">struct</span> globalmem_dev* globalmem_devp; <span class="hljs-comment">/*&#x8BBE;&#x5907;&#x7ED3;&#x6784;&#x4F53;&#x6307;&#x9488;*/</span>
-<span class="hljs-comment">/*&#x6587;&#x4EF6;&#x6253;&#x5F00;&#x51FD;&#x6570;*/</span>
+<span class="hljs-keyword">struct</span> globalmem_dev* globalmem_devp; <span class="hljs-comment">/*&#x8A2D;&#x5099;&#x7D50;&#x69CB;&#x9AD4;&#x6307;&#x91DD;*/</span>
+<span class="hljs-comment">/*&#x6587;&#x4EF6;&#x6253;&#x958B;&#x51FD;&#x6578;*/</span>
 <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">globalmem_open</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> inode* inode, <span class="hljs-keyword">struct</span> file* filp)</span> </span>{
-    <span class="hljs-comment">/*&#x5C06;&#x8BBE;&#x5907;&#x7ED3;&#x6784;&#x4F53;&#x6307;&#x9488;&#x8D4B;&#x503C;&#x7ED9;&#x6587;&#x4EF6;&#x79C1;&#x6709;&#x6570;&#x636E;&#x6307;&#x9488;*/</span>
+    <span class="hljs-comment">/*&#x5C07;&#x8A2D;&#x5099;&#x7D50;&#x69CB;&#x9AD4;&#x6307;&#x91DD;&#x8CE6;&#x503C;&#x7D66;&#x6587;&#x4EF6;&#x79C1;&#x6709;&#x6578;&#x64DA;&#x6307;&#x91DD;*/</span>
     filp-&gt;private_data = globalmem_devp;
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
-<span class="hljs-comment">/*&#x6587;&#x4EF6;&#x91CA;&#x653E;&#x51FD;&#x6570;*/</span>
+<span class="hljs-comment">/*&#x6587;&#x4EF6;&#x91CB;&#x653E;&#x51FD;&#x6578;*/</span>
 <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">globalmem_release</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> inode* inode, <span class="hljs-keyword">struct</span> file* filp)</span> </span>{
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
 
-<span class="hljs-comment">/* ioctl&#x8BBE;&#x5907;&#x63A7;&#x5236;&#x51FD;&#x6570; */</span>
+<span class="hljs-comment">/* ioctl&#x8A2D;&#x5099;&#x63A7;&#x5236;&#x51FD;&#x6578; */</span>
 <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">globalmem_ioctl</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> inode* inodep, <span class="hljs-keyword">struct</span> file* filp, <span class="hljs-keyword">unsigned</span>
                            <span class="hljs-keyword">int</span> cmd, <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> arg)</span> </span>{
-    <span class="hljs-keyword">struct</span> globalmem_dev* dev = filp-&gt;private_data;<span class="hljs-comment">/*&#x83B7;&#x5F97;&#x8BBE;&#x5907;&#x7ED3;&#x6784;&#x4F53;&#x6307;&#x9488;*/</span>
+    <span class="hljs-keyword">struct</span> globalmem_dev* dev = filp-&gt;private_data;<span class="hljs-comment">/*&#x7372;&#x5F97;&#x8A2D;&#x5099;&#x7D50;&#x69CB;&#x9AD4;&#x6307;&#x91DD;*/</span>
 
     <span class="hljs-keyword">switch</span> (cmd) {
     <span class="hljs-keyword">case</span> MEM_CLEAR:
@@ -4421,15 +4421,15 @@ target remote localhost:<span class="hljs-number">1234</span>
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
 
-<span class="hljs-comment">/*&#x8BFB;&#x51FD;&#x6570;*/</span>
+<span class="hljs-comment">/*&#x8B80;&#x51FD;&#x6578;*/</span>
 <span class="hljs-function"><span class="hljs-keyword">static</span> ssize_t <span class="hljs-title">globalmem_read</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> file* filp, <span class="hljs-keyword">char</span> __user* buf, size_t size,
                               loff_t* ppos)</span> </span>{
     <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> p =  *ppos;
     <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> count = size;
     <span class="hljs-keyword">int</span> ret = <span class="hljs-number">0</span>;
-    <span class="hljs-keyword">struct</span> globalmem_dev* dev = filp-&gt;private_data; <span class="hljs-comment">/*&#x83B7;&#x5F97;&#x8BBE;&#x5907;&#x7ED3;&#x6784;&#x4F53;&#x6307;&#x9488;*/</span>
+    <span class="hljs-keyword">struct</span> globalmem_dev* dev = filp-&gt;private_data; <span class="hljs-comment">/*&#x7372;&#x5F97;&#x8A2D;&#x5099;&#x7D50;&#x69CB;&#x9AD4;&#x6307;&#x91DD;*/</span>
 
-    <span class="hljs-comment">/*&#x5206;&#x6790;&#x548C;&#x83B7;&#x53D6;&#x6709;&#x6548;&#x7684;&#x5199;&#x957F;&#x5EA6;*/</span>
+    <span class="hljs-comment">/*&#x5206;&#x6790;&#x548C;&#x7372;&#x53D6;&#x6709;&#x6548;&#x7684;&#x5BEB;&#x9577;&#x5EA6;*/</span>
     <span class="hljs-keyword">if</span> (p &gt;= GLOBALMEM_SIZE) {
         <span class="hljs-keyword">return</span> count ?  - ENXIO : <span class="hljs-number">0</span>;
     }
@@ -4438,7 +4438,7 @@ target remote localhost:<span class="hljs-number">1234</span>
         count = GLOBALMEM_SIZE - p;
     }
 
-    <span class="hljs-comment">/*&#x5185;&#x6838;&#x7A7A;&#x95F4;-&gt;&#x7528;&#x6237;&#x7A7A;&#x95F4;*/</span>
+    <span class="hljs-comment">/*&#x5167;&#x6838;&#x7A7A;&#x9593;-&gt;&#x7528;&#x6236;&#x7A7A;&#x9593;*/</span>
     <span class="hljs-keyword">if</span> (copy_to_user(buf, (<span class="hljs-keyword">void</span>*)(dev-&gt;mem + p), count)) {
         ret =  - EFAULT;
     } <span class="hljs-keyword">else</span> {
@@ -4451,15 +4451,15 @@ target remote localhost:<span class="hljs-number">1234</span>
     <span class="hljs-keyword">return</span> ret;
 }
 
-<span class="hljs-comment">/*&#x5199;&#x51FD;&#x6570;*/</span>
+<span class="hljs-comment">/*&#x5BEB;&#x51FD;&#x6578;*/</span>
 <span class="hljs-function"><span class="hljs-keyword">static</span> ssize_t <span class="hljs-title">globalmem_write</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> file* filp, <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> __user* buf,
                                size_t size, loff_t* ppos)</span> </span>{
     <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> p =  *ppos;
     <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> count = size;
     <span class="hljs-keyword">int</span> ret = <span class="hljs-number">0</span>;
-    <span class="hljs-keyword">struct</span> globalmem_dev* dev = filp-&gt;private_data; <span class="hljs-comment">/*&#x83B7;&#x5F97;&#x8BBE;&#x5907;&#x7ED3;&#x6784;&#x4F53;&#x6307;&#x9488;*/</span>
+    <span class="hljs-keyword">struct</span> globalmem_dev* dev = filp-&gt;private_data; <span class="hljs-comment">/*&#x7372;&#x5F97;&#x8A2D;&#x5099;&#x7D50;&#x69CB;&#x9AD4;&#x6307;&#x91DD;*/</span>
 
-    <span class="hljs-comment">/*&#x5206;&#x6790;&#x548C;&#x83B7;&#x53D6;&#x6709;&#x6548;&#x7684;&#x5199;&#x957F;&#x5EA6;*/</span>
+    <span class="hljs-comment">/*&#x5206;&#x6790;&#x548C;&#x7372;&#x53D6;&#x6709;&#x6548;&#x7684;&#x5BEB;&#x9577;&#x5EA6;*/</span>
     <span class="hljs-keyword">if</span> (p &gt;= GLOBALMEM_SIZE) {
         <span class="hljs-keyword">return</span> count ?  - ENXIO : <span class="hljs-number">0</span>;
     }
@@ -4468,7 +4468,7 @@ target remote localhost:<span class="hljs-number">1234</span>
         count = GLOBALMEM_SIZE - p;
     }
 
-    <span class="hljs-comment">/*&#x7528;&#x6237;&#x7A7A;&#x95F4;-&gt;&#x5185;&#x6838;&#x7A7A;&#x95F4;*/</span>
+    <span class="hljs-comment">/*&#x7528;&#x6236;&#x7A7A;&#x9593;-&gt;&#x5167;&#x6838;&#x7A7A;&#x9593;*/</span>
     <span class="hljs-keyword">if</span> (copy_from_user(dev-&gt;mem + p, buf, count)) {
         ret =  - EFAULT;
     } <span class="hljs-keyword">else</span> {
@@ -4481,12 +4481,12 @@ target remote localhost:<span class="hljs-number">1234</span>
     <span class="hljs-keyword">return</span> ret;
 }
 
-<span class="hljs-comment">/* seek&#x6587;&#x4EF6;&#x5B9A;&#x4F4D;&#x51FD;&#x6570; */</span>
+<span class="hljs-comment">/* seek&#x6587;&#x4EF6;&#x5B9A;&#x4F4D;&#x51FD;&#x6578; */</span>
 <span class="hljs-function"><span class="hljs-keyword">static</span> loff_t <span class="hljs-title">globalmem_llseek</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> file* filp, loff_t offset, <span class="hljs-keyword">int</span> orig)</span> </span>{
     loff_t ret = <span class="hljs-number">0</span>;
 
     <span class="hljs-keyword">switch</span> (orig) {
-    <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>:   <span class="hljs-comment">/*&#x76F8;&#x5BF9;&#x6587;&#x4EF6;&#x5F00;&#x59CB;&#x4F4D;&#x7F6E;&#x504F;&#x79FB;*/</span>
+    <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>:   <span class="hljs-comment">/*&#x76F8;&#x5C0D;&#x6587;&#x4EF6;&#x958B;&#x59CB;&#x4F4D;&#x7F6E;&#x504F;&#x79FB;*/</span>
         <span class="hljs-keyword">if</span> (offset &lt; <span class="hljs-number">0</span>) {
             ret =  - EINVAL;
             <span class="hljs-keyword">break</span>;
@@ -4501,7 +4501,7 @@ target remote localhost:<span class="hljs-number">1234</span>
         ret = filp-&gt;f_pos;
         <span class="hljs-keyword">break</span>;
 
-    <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:   <span class="hljs-comment">/*&#x76F8;&#x5BF9;&#x6587;&#x4EF6;&#x5F53;&#x524D;&#x4F4D;&#x7F6E;&#x504F;&#x79FB;*/</span>
+    <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:   <span class="hljs-comment">/*&#x76F8;&#x5C0D;&#x6587;&#x4EF6;&#x7576;&#x524D;&#x4F4D;&#x7F6E;&#x504F;&#x79FB;*/</span>
         <span class="hljs-keyword">if</span> ((filp-&gt;f_pos + offset) &gt; GLOBALMEM_SIZE) {
             ret =  - EINVAL;
             <span class="hljs-keyword">break</span>;
@@ -4524,7 +4524,7 @@ target remote localhost:<span class="hljs-number">1234</span>
     <span class="hljs-keyword">return</span> ret;
 }
 
-<span class="hljs-comment">/*&#x6587;&#x4EF6;&#x64CD;&#x4F5C;&#x7ED3;&#x6784;&#x4F53;*/</span>
+<span class="hljs-comment">/*&#x6587;&#x4EF6;&#x64CD;&#x4F5C;&#x7D50;&#x69CB;&#x9AD4;*/</span>
 <span class="hljs-keyword">static</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">struct</span> file_operations globalmem_fops = {
     .owner = THIS_MODULE,
     .llseek = globalmem_llseek,
@@ -4535,7 +4535,7 @@ target remote localhost:<span class="hljs-number">1234</span>
     .release = globalmem_release,
 };
 
-<span class="hljs-comment">/*&#x521D;&#x59CB;&#x5316;&#x5E76;&#x6CE8;&#x518C;cdev*/</span>
+<span class="hljs-comment">/*&#x521D;&#x59CB;&#x5316;&#x4E26;&#x8A3B;&#x518A;cdev*/</span>
 <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">globalmem_setup_cdev</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> globalmem_dev* dev, <span class="hljs-keyword">int</span> index)</span> </span>{
     <span class="hljs-keyword">int</span> err, devno = MKDEV(globalmem_major, index);
 
@@ -4549,15 +4549,15 @@ target remote localhost:<span class="hljs-number">1234</span>
     }
 }
 
-<span class="hljs-comment">/*&#x8BBE;&#x5907;&#x9A71;&#x52A8;&#x6A21;&#x5757;&#x52A0;&#x8F7D;&#x51FD;&#x6570;*/</span>
+<span class="hljs-comment">/*&#x8A2D;&#x5099;&#x9A45;&#x52D5;&#x6A21;&#x584A;&#x52A0;&#x8F09;&#x51FD;&#x6578;*/</span>
 <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">globalmem_init</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span> </span>{
     <span class="hljs-keyword">int</span> result;
     dev_t devno = MKDEV(globalmem_major, <span class="hljs-number">0</span>);
 
-    <span class="hljs-comment">/* &#x7533;&#x8BF7;&#x8BBE;&#x5907;&#x53F7;*/</span>
+    <span class="hljs-comment">/* &#x7533;&#x8ACB;&#x8A2D;&#x5099;&#x865F;*/</span>
     <span class="hljs-keyword">if</span> (globalmem_major) {
         result = register_chrdev_region(devno, <span class="hljs-number">1</span>, <span class="hljs-string">&quot;globalmem&quot;</span>);
-    } <span class="hljs-keyword">else</span> { <span class="hljs-comment">/* &#x52A8;&#x6001;&#x7533;&#x8BF7;&#x8BBE;&#x5907;&#x53F7; */</span>
+    } <span class="hljs-keyword">else</span> { <span class="hljs-comment">/* &#x52D5;&#x614B;&#x7533;&#x8ACB;&#x8A2D;&#x5099;&#x865F; */</span>
         result = alloc_chrdev_region(&amp;devno, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-string">&quot;globalmem&quot;</span>);
         globalmem_major = MAJOR(devno);
     }
@@ -4566,10 +4566,10 @@ target remote localhost:<span class="hljs-number">1234</span>
         <span class="hljs-keyword">return</span> result;
     }
 
-    <span class="hljs-comment">/* &#x52A8;&#x6001;&#x7533;&#x8BF7;&#x8BBE;&#x5907;&#x7ED3;&#x6784;&#x4F53;&#x7684;&#x5185;&#x5B58;*/</span>
+    <span class="hljs-comment">/* &#x52D5;&#x614B;&#x7533;&#x8ACB;&#x8A2D;&#x5099;&#x7D50;&#x69CB;&#x9AD4;&#x7684;&#x5167;&#x5B58;*/</span>
     globalmem_devp = kmalloc(<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">struct</span> globalmem_dev), GFP_KERNEL);
 
-    <span class="hljs-keyword">if</span> (!globalmem_devp) {  <span class="hljs-comment">/*&#x7533;&#x8BF7;&#x5931;&#x8D25;*/</span>
+    <span class="hljs-keyword">if</span> (!globalmem_devp) {  <span class="hljs-comment">/*&#x7533;&#x8ACB;&#x5931;&#x6557;*/</span>
         result =  - ENOMEM;
         <span class="hljs-keyword">goto</span> fail_malloc;
     }
@@ -4584,11 +4584,11 @@ fail_malloc:
     <span class="hljs-keyword">return</span> result;
 }
 
-<span class="hljs-comment">/*&#x6A21;&#x5757;&#x5378;&#x8F7D;&#x51FD;&#x6570;*/</span>
+<span class="hljs-comment">/*&#x6A21;&#x584A;&#x5378;&#x8F09;&#x51FD;&#x6578;*/</span>
 <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">globalmem_exit</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span> </span>{
-    cdev_del(&amp;globalmem_devp-&gt;cdev);   <span class="hljs-comment">/*&#x6CE8;&#x9500;cdev*/</span>
-    kfree(globalmem_devp);     <span class="hljs-comment">/*&#x91CA;&#x653E;&#x8BBE;&#x5907;&#x7ED3;&#x6784;&#x4F53;&#x5185;&#x5B58;*/</span>
-    unregister_chrdev_region(MKDEV(globalmem_major, <span class="hljs-number">0</span>), <span class="hljs-number">1</span>); <span class="hljs-comment">/*&#x91CA;&#x653E;&#x8BBE;&#x5907;&#x53F7;*/</span>
+    cdev_del(&amp;globalmem_devp-&gt;cdev);   <span class="hljs-comment">/*&#x8A3B;&#x92B7;cdev*/</span>
+    kfree(globalmem_devp);     <span class="hljs-comment">/*&#x91CB;&#x653E;&#x8A2D;&#x5099;&#x7D50;&#x69CB;&#x9AD4;&#x5167;&#x5B58;*/</span>
+    unregister_chrdev_region(MKDEV(globalmem_major, <span class="hljs-number">0</span>), <span class="hljs-number">1</span>); <span class="hljs-comment">/*&#x91CB;&#x653E;&#x8A2D;&#x5099;&#x865F;*/</span>
 }
 
 MODULE_AUTHOR(<span class="hljs-string">&quot;Song Baohua&quot;</span>);

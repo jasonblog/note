@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="7.9" data-basepath=".." data-revision="Sun Aug 23 2015 02:05:00 GMT+0800 (CST)">
+    <div class="book" data-level="7.9" data-basepath=".." data-revision="Sun Aug 23 2015 03:04:58 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -4673,6 +4673,24 @@ sed -i <span class="hljs-string">&apos;s/.*CONFIG_INETD.*/CONFIG_INETD=n/&apos;<
 make clean
 make  O=../obj/busybox-x86 -j12 <span class="hljs-number">2</span>&gt;&amp;<span class="hljs-number">1</span> | tee  ../busybox_build.log
 make  O=../obj/busybox-x86 install
+
+<span class="hljs-comment"># initramfs</span>
+mkdir -p <span class="hljs-variable">$TOP</span>/initramfs/x86-busybox
+<span class="hljs-built_in">cd</span> <span class="hljs-variable">$TOP</span>/initramfs/x86-busybox
+mkdir -pv {bin,sbin,etc,proc,sys,usr/{bin,sbin}}
+cp -av <span class="hljs-variable">$TOP</span>/obj/busybox-x86/_install/* .
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;#!/bin/sh&quot;</span> &gt;&gt; init
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;mount -t proc none /proc&quot;</span> &gt;&gt; init
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;mount -t sysfs none /sys&quot;</span> &gt;&gt; init
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&apos;echo -e &quot;\nBoot took $(cut -d&apos;</span> <span class="hljs-string">&apos; -f1 /proc/uptime) seconds\n&quot;&apos;</span> &gt;&gt; init
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;exec /bin/sh&quot;</span> &gt;&gt; init
+
+chmod +x init
+
+find . -print0 \
+    | cpio --null -ov --format=newc \
+    | gzip -<span class="hljs-number">9</span> &gt; <span class="hljs-variable">$TOP</span>/obj/initramfs-busybox-x86.cpio.gz
 
 <span class="hljs-comment"># build kernel</span>
 <span class="hljs-built_in">cd</span> <span class="hljs-variable">$TOP</span>

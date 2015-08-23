@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
-        <title>Busybox for ARM on QEMU | Jason note</title>
+        <title>MY_QEMU | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.0.1">
@@ -20,10 +20,10 @@
         
     
     
-    <link rel="next" href="../arm_emulation/linux_nfs_root_under_qemu_arm_emulator.html" />
+    <link rel="next" href="../qemu/qemu_kgdb_ftrace.html" />
     
     
-    <link rel="prev" href="../arm_emulation/compile_linux_kernel_32_for_arm_and_emulate_with_qemu.html" />
+    <link rel="prev" href="../qemu/index.html" />
     
 
         
@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="11.4" data-basepath=".." data-revision="Sun Aug 23 2015 12:30:08 GMT+0800 (CST)">
+    <div class="book" data-level="7.1" data-basepath=".." data-revision="Sun Aug 23 2015 12:30:08 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1090,7 +1090,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="7.1" data-path="qemu/my_qrmu.html">
+        <li class="chapter active" data-level="7.1" data-path="qemu/my_qrmu.html">
             
                 
                     <a href="../qemu/my_qrmu.html">
@@ -1840,7 +1840,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="11.4" data-path="arm_emulation/busybox_for_arm_on_qemu.html">
+        <li class="chapter " data-level="11.4" data-path="arm_emulation/busybox_for_arm_on_qemu.html">
             
                 
                     <a href="../arm_emulation/busybox_for_arm_on_qemu.html">
@@ -4145,53 +4145,83 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="busybox-for-arm-on-qemu">Busybox for ARM on QEMU</h1>
-<p>Busybox is a solution for embedded Linux designs that need a compact filesystem: the trick is compiling and linking many system utilities into a single binary that behaves differently based on the name it was used to execute it. A working Linux root filesystem then consists in a small directory tree (/bin, /sbin, /usr/bin, &#x2026;), a single executable binary in /bin/busybox, and many symbolic links to the Busybox binary (/bin/ls, /bin/sh, /sbin/ifconfig, &#x2026;), and using a typical configuration it can be as small as 2MB (1MB if compressed).</p>
-<p>Last time I compiled a Linux kernel and a minimal root filesystem containing just a &#x201C;Hello World&#x201D; program. Now we can build a reasonably working root filesystem and test it using QEMU. Note that, in order to follow this example, you need:</p>
+                        <h1 id="my-qemu">MY_QEMU</h1>
 <ul>
-<li>The CodeSourcery Linux toolchain</li>
-<li>A Linux kernel image compiled for the Versatile platform, with EABI support (here is how I created mine)</li>
-<li>QEMU ARM emulator (the package to install is qemu on Debian or qemu-kvm-extras on Ubuntu)</li>
-<li>Developer&#x2019;s libraries for ncurses (the package to install is libncurses5-dev) to compile the menu configuration</li>
+<li>build.sh</li>
 </ul>
-<p>I downloaded version 1.16.0 of the Busybox source and extracted it. Inside the extracted directory I ran:</p>
-<pre><code>$ make ARCH=arm CROSS_COMPILE=arm-none-linux-gnueabi- defconfig
-</code></pre><p>A default configuration file is created. To change it to our needs:</p>
-<pre><code>$ make ARCH=arm CROSS_COMPILE=arm-none-linux-gnueabi- menuconfig
-</code></pre><p>I checked the option to compile Busybox as a static executable, so that we don&#x2019;t have to copy the dynamic libraries inside the root filesystem. The setting can be found in &#x201C;Busybox Settings --&gt; Build Options&#x201C;. Then, the following command builds Busybox and creates a directory called _install containing the root filesystem tree:</p>
-<pre><code>$ make ARCH=arm CROSS_COMPILE=arm-none-linux-gnueabi- install
-</code></pre><p>We can now create a root filesystem image using the cpio tool, and in order to compact the filesystem even more, we can run gzip on it to create a compressed image:</p>
-<pre><code>$ cd _install
-$ find . | cpio -o --format=newc &gt; ../rootfs.img
-$ cd ..
-$ gzip -c rootfs.img &gt; rootfs.img.gz
-</code></pre><p>In my case, the compressed image size is about 1MB. To test Busybox, we can emulate an ARM platform with QEMU using the following command, assuming we copy the Linux kernel zImage in the current directory:</p>
-<pre><code>$ qemu-system-arm -M versatilepb -m 128M -kernel zImage -initrd rootfs.img.gz -append
-&quot;root=/dev/ram rdinit=/bin/sh&quot;
-</code></pre><p>The Linux kernel will boot, and the shell /bin/sh will be executed as specified by the boot parameter rdinit, showing the common &#x201C;#&#x201D; prompt. The shell can be used normally, for example you can run ls to find the same directory structure of the Busybox _install directory, but using commands like ps and mount we can see that not everything is in place: both programs complain abount the /proc directory. We can create and populate the /proc directory running these commands inside the QEMU emulated system prompt:</p>
-<pre><code># mkdir /proc
-# mount -t proc none /proc
-</code></pre><p>After that, the ps and mount programs work fine. We can also note that the /dev directory is almost empty (the only exception being the console device). To populate it we need to mount also the /sys directory, so that we can use the mdev tool; run inside QEMU:</p>
-<pre><code># mkdir /sys
-# mount -t sysfs none /sys
-# mdev -s
-</code></pre><p>The /sys and /dev directory are now populated. To execute these steps every time, we can use /sbin/init functionality: this program is usually the first run by the Linux kernel, and its default behavior is to execute the initialization file with path /etc/init.d/rcS. In the host computer this time, in the folder where we compiled Busybox, we create the missing directories:</p>
-<pre><code>$ cd _install
-$ mkdir proc sys dev etc etc/init.d
-$ cd ..
-</code></pre><p>Now we create a new _install/etc/init.d/rcS with the following content:</p>
-<pre><code>#!/bin/sh
-mount -t proc none /proc
-mount -t sysfs none /sys
-/sbin/mdev -s
-</code></pre><p>Then set it as an executable file:</p>
-<pre><code>$ chmod +x _install/etc/init.d/rcS
-</code></pre><p>We can then recreate an updated root filesystem compressed image as before, and run:</p>
-<pre><code>$ qemu-system-arm -M versatilepb -m 128M -kernel zImage -initrd rootfs.img.gz -append
-&quot;root=/dev/ram rdinit=/sbin/init&quot;
-</code></pre><p>The Linux kernel will boot again, but this time it is asking to press Enter, and when we do the usual console prompt will appear. The system directories are fully populated, meaning that the script rcS has been executed; other than that, /sbin/init also spawns
-shell terminals using getty.</p>
-<p>In our example the Busybox filesystem is accessed using a ram disk, but it can also be read from a physical disk storage or loaded from the network using NFS protocol. Maybe another time I will describe in details how to run Busybox with NFS inside QEMU.</p>
+<pre><code class="lang-sh">TOP=`<span class="hljs-built_in">pwd</span>`
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">$TOP</span>
+
+curl https://www.kernel.org/pub/linux/kernel/v4.x/linux-<span class="hljs-number">4.1</span>.<span class="hljs-number">6</span>.tar.xz | tar xJf -
+curl http://busybox.net/downloads/busybox-<span class="hljs-number">1.23</span>.<span class="hljs-number">2</span>.tar.bz2 | tar xjf -
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">## build busybox</span>
+<span class="hljs-built_in">cd</span> <span class="hljs-variable">$TOP</span>/busybox-<span class="hljs-number">1.23</span>.<span class="hljs-number">2</span>
+mkdir -pv ../obj/busybox-x86
+make mrproper
+make  O=../obj/busybox-x86 defconfig
+sed -i <span class="hljs-string">&apos;s/.*CONFIG_STATIC.*/CONFIG_STATIC=y/&apos;</span> ../obj/busybox-x86/.config
+sed -i <span class="hljs-string">&apos;s/.*CONFIG_INETD.*/CONFIG_INETD=n/&apos;</span> ../obj/busybox-x86/.config
+make clean
+make  O=../obj/busybox-x86 -j12 <span class="hljs-number">2</span>&gt;&amp;<span class="hljs-number">1</span> | tee  ../busybox_build.log
+make  O=../obj/busybox-x86 install
+
+<span class="hljs-comment"># initramfs</span>
+mkdir -p <span class="hljs-variable">$TOP</span>/initramfs/x86-busybox
+<span class="hljs-built_in">cd</span> <span class="hljs-variable">$TOP</span>/initramfs/x86-busybox
+mkdir -pv {bin,sbin,etc,proc,sys,usr/{bin,sbin}}
+cp -av <span class="hljs-variable">$TOP</span>/obj/busybox-x86/_install/* .
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;#!/bin/sh&quot;</span> &gt;&gt; init
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;mount -t proc none /proc&quot;</span> &gt;&gt; init
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;mount -t sysfs none /sys&quot;</span> &gt;&gt; init
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&apos;echo -e &quot;\nBoot took $(cut -d&apos;</span> <span class="hljs-string">&apos; -f1 /proc/uptime) seconds\n&quot;&apos;</span> &gt;&gt; init
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;exec /bin/sh&quot;</span> &gt;&gt; init
+
+chmod +x init
+
+find . -print0 \
+    | cpio --null -ov --format=newc \
+    | gzip -<span class="hljs-number">9</span> &gt; <span class="hljs-variable">$TOP</span>/obj/initramfs-busybox-x86.cpio.gz
+
+<span class="hljs-comment"># build kernel</span>
+<span class="hljs-built_in">cd</span> <span class="hljs-variable">$TOP</span>
+make -C linux-<span class="hljs-number">4.1</span>.<span class="hljs-number">6</span> O=../obj/linux-x86-basic mrproper
+make -C linux-<span class="hljs-number">4.1</span>.<span class="hljs-number">6</span> O=../obj/linux-x86-basic x86_64_defconfig
+make -C linux-<span class="hljs-number">4.1</span>.<span class="hljs-number">6</span> O=../obj/linux-x86-basic kvmconfig
+sed -i <span class="hljs-string">&apos;s/.*CONFIG_EXPERIMENTAL.*/CONFIG_EXPERIMENTAL=y/&apos;</span> obj/linux-x86-basic/.config
+sed -i <span class="hljs-string">&apos;s/.*CONFIG_DEBUG_INFO.*/CONFIG_DEBUG_INFO=y/&apos;</span> obj/linux-x86-basic/.config
+sed -i <span class="hljs-string">&apos;s/.*CONFIG_KGDB.*/CONFIG_KGDB=y/&apos;</span> obj/linux-x86-basic/.config
+sed -i <span class="hljs-string">&apos;s/.*CONFIG_KGDB_LOW_LEVEL_TRAP.*/CONFIG_KGDB_LOW_LEVEL_TRAP=y/&apos;</span> obj/linux-x86-basic/.config
+sed -i <span class="hljs-string">&apos;s/.*CONFIG_FRAME_POINTER.*/CONFIG_FRAME_POINTER=y/&apos;</span> obj/linux-x86-basic/.config
+sed -i <span class="hljs-string">&apos;s/.*CONFIG_MAGIC_SYSRQ.*/CONFIG_MAGIC_SYSRQ=y/&apos;</span> obj/linux-x86-basic/.config
+sed -i <span class="hljs-string">&apos;s/.*CONFIG_8139CP.*/CONFIG_8139CP=y/&apos;</span> obj/linux-x86-basic/.config
+sed -i <span class="hljs-string">&apos;s/.*CONFIG_DEBUG_SET_MODULE_RONX.*/CONFIG_DEBUG_SET_MODULE_RONX=n/&apos;</span> obj/linux-x86-basic/.config
+sed -i <span class="hljs-string">&apos;s/.*CONFIG_DEBUG_RODATA.*/CONFIG_DEBUG_RODATA=n/&apos;</span> obj/linux-x86-basic/.config
+sed -i <span class="hljs-string">&apos;s/.*CONFIG_MODULE_FORCE_LOAD.*/CONFIG_MODULE_FORCE_LOAD=y/&apos;</span> obj/linux-x86-basic/.config
+sed -i <span class="hljs-string">&apos;s/.*CONFIG_MODULE_UNLOAD.*/CONFIG_MODULE_UNLOAD=y/&apos;</span> obj/linux-x86-basic/.config
+sed -i <span class="hljs-string">&apos;s/.*CONFIG_MODULE_FORCE_UNLOAD.*/CONFIG_MODULE_FORCE_UNLOAD=y/&apos;</span> obj/linux-x86-basic/.config
+yes <span class="hljs-string">&apos;&apos;</span> | make -C linux-<span class="hljs-number">4.1</span>.<span class="hljs-number">6</span> O=../obj/linux-x86-basic oldconfig
+make -C linux-<span class="hljs-number">4.1</span>.<span class="hljs-number">6</span> O=../obj/linux-x86-basic clean
+time make -C linux-<span class="hljs-number">4.1</span>.<span class="hljs-number">6</span> O=../obj/linux-x86-basic -j12 <span class="hljs-number">2</span>&gt;&amp;<span class="hljs-number">1</span> | tee kernel_build.log
+</code></pre>
+<ul>
+<li>cmd</li>
+</ul>
+<pre><code class="lang-sh">qemu-system-x86_64 \
+    -kernel obj/linux-x86-basic/arch/x86_64/boot/bzImage \
+    -initrd obj/initramfs-busybox-x86.cpio.gz \
+    -nographic -append <span class="hljs-string">&quot;console=ttyS0&quot;</span> -enable-kvm
+</code></pre>
+<ul>
+<li>Makefile</li>
+</ul>
+<pre><code class="lang-sh">build:
+    @sh build.sh
+
+qemu:
+    @sh cmd
+</code></pre>
 
                     
                     </section>
@@ -4202,10 +4232,10 @@ shell terminals using getty.</p>
         </div>
 
         
-        <a href="../arm_emulation/compile_linux_kernel_32_for_arm_and_emulate_with_qemu.html" class="navigation navigation-prev " aria-label="Previous page: Compile Linux kernel 3.2 for ARM and emulate with QEMU"><i class="fa fa-angle-left"></i></a>
+        <a href="../qemu/index.html" class="navigation navigation-prev " aria-label="Previous page: QEMU"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../arm_emulation/linux_nfs_root_under_qemu_arm_emulator.html" class="navigation navigation-next " aria-label="Next page: Linux NFS Root under QEMU ARM emulator"><i class="fa fa-angle-right"></i></a>
+        <a href="../qemu/qemu_kgdb_ftrace.html" class="navigation navigation-next " aria-label="Next page: Qemu_KGDB_Ftrace"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

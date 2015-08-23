@@ -1,0 +1,80 @@
+# MY_QEMU
+
+- build.sh
+
+```sh
+TOP=`pwd`
+echo $TOP
+
+curl https://www.kernel.org/pub/linux/kernel/v4.x/linux-4.1.6.tar.xz | tar xJf -
+curl http://busybox.net/downloads/busybox-1.23.2.tar.bz2 | tar xjf -
+#
+## build busybox
+cd $TOP/busybox-1.23.2
+mkdir -pv ../obj/busybox-x86
+make mrproper
+make  O=../obj/busybox-x86 defconfig
+sed -i 's/.*CONFIG_STATIC.*/CONFIG_STATIC=y/' ../obj/busybox-x86/.config
+sed -i 's/.*CONFIG_INETD.*/CONFIG_INETD=n/' ../obj/busybox-x86/.config
+make clean
+make  O=../obj/busybox-x86 -j12 2>&1 | tee  ../busybox_build.log
+make  O=../obj/busybox-x86 install
+
+# initramfs
+mkdir -p $TOP/initramfs/x86-busybox
+cd $TOP/initramfs/x86-busybox
+mkdir -pv {bin,sbin,etc,proc,sys,usr/{bin,sbin}}
+cp -av $TOP/obj/busybox-x86/_install/* .
+
+echo "#!/bin/sh" >> init
+echo "mount -t proc none /proc" >> init
+echo "mount -t sysfs none /sys" >> init
+echo 'echo -e "\nBoot took $(cut -d' ' -f1 /proc/uptime) seconds\n"' >> init
+echo "exec /bin/sh" >> init
+
+chmod +x init
+
+find . -print0 \
+    | cpio --null -ov --format=newc \
+    | gzip -9 > $TOP/obj/initramfs-busybox-x86.cpio.gz
+
+# build kernel
+cd $TOP
+make -C linux-4.1.6 O=../obj/linux-x86-basic mrproper
+make -C linux-4.1.6 O=../obj/linux-x86-basic x86_64_defconfig
+make -C linux-4.1.6 O=../obj/linux-x86-basic kvmconfig
+sed -i 's/.*CONFIG_EXPERIMENTAL.*/CONFIG_EXPERIMENTAL=y/' obj/linux-x86-basic/.config
+sed -i 's/.*CONFIG_DEBUG_INFO.*/CONFIG_DEBUG_INFO=y/' obj/linux-x86-basic/.config
+sed -i 's/.*CONFIG_KGDB.*/CONFIG_KGDB=y/' obj/linux-x86-basic/.config
+sed -i 's/.*CONFIG_KGDB_LOW_LEVEL_TRAP.*/CONFIG_KGDB_LOW_LEVEL_TRAP=y/' obj/linux-x86-basic/.config
+sed -i 's/.*CONFIG_FRAME_POINTER.*/CONFIG_FRAME_POINTER=y/' obj/linux-x86-basic/.config
+sed -i 's/.*CONFIG_MAGIC_SYSRQ.*/CONFIG_MAGIC_SYSRQ=y/' obj/linux-x86-basic/.config
+sed -i 's/.*CONFIG_8139CP.*/CONFIG_8139CP=y/' obj/linux-x86-basic/.config
+sed -i 's/.*CONFIG_DEBUG_SET_MODULE_RONX.*/CONFIG_DEBUG_SET_MODULE_RONX=n/' obj/linux-x86-basic/.config
+sed -i 's/.*CONFIG_DEBUG_RODATA.*/CONFIG_DEBUG_RODATA=n/' obj/linux-x86-basic/.config
+sed -i 's/.*CONFIG_MODULE_FORCE_LOAD.*/CONFIG_MODULE_FORCE_LOAD=y/' obj/linux-x86-basic/.config
+sed -i 's/.*CONFIG_MODULE_UNLOAD.*/CONFIG_MODULE_UNLOAD=y/' obj/linux-x86-basic/.config
+sed -i 's/.*CONFIG_MODULE_FORCE_UNLOAD.*/CONFIG_MODULE_FORCE_UNLOAD=y/' obj/linux-x86-basic/.config
+yes '' | make -C linux-4.1.6 O=../obj/linux-x86-basic oldconfig
+make -C linux-4.1.6 O=../obj/linux-x86-basic clean
+time make -C linux-4.1.6 O=../obj/linux-x86-basic -j12 2>&1 | tee kernel_build.log
+```
+- cmd
+
+```sh
+qemu-system-x86_64 \
+    -kernel obj/linux-x86-basic/arch/x86_64/boot/bzImage \
+    -initrd obj/initramfs-busybox-x86.cpio.gz \
+    -nographic -append "console=ttyS0" -enable-kvm
+```
+
+
+- Makefile
+
+```sh
+build:
+	@sh build.sh
+
+qemu:
+	@sh cmd
+```

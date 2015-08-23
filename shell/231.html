@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
-        <title>MY_QEMU | Jason note</title>
+        <title>選單 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.0.1">
@@ -20,10 +20,8 @@
         
     
     
-    <link rel="next" href="../qemu/qemu_kgdb_ftrace.html" />
     
-    
-    <link rel="prev" href="../qemu/index.html" />
+    <link rel="prev" href="../22/2219.html" />
     
 
         
@@ -36,7 +34,7 @@
     
 
         
-    <div class="book" data-level="7.1" data-basepath=".." data-revision="Sun Aug 23 2015 21:29:53 GMT+0800 (CST)">
+    <div class="book" data-level="23.1" data-basepath=".." data-revision="Sun Aug 23 2015 21:29:53 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1090,7 +1088,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="7.1" data-path="qemu/my_qrmu.html">
+        <li class="chapter " data-level="7.1" data-path="qemu/my_qrmu.html">
             
                 
                     <a href="../qemu/my_qrmu.html">
@@ -4050,7 +4048,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="23.1" data-path="shell/231.html">
+        <li class="chapter active" data-level="23.1" data-path="shell/231.html">
             
                 
                     <a href="../shell/231.html">
@@ -4173,82 +4171,206 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="my-qemu">MY_QEMU</h1>
-<ul>
-<li>build.sh</li>
-</ul>
-<pre><code class="lang-sh">TOP=`<span class="hljs-built_in">pwd</span>`
-<span class="hljs-built_in">echo</span> <span class="hljs-variable">$TOP</span>
+                        <h1 id="%E9%81%B8%E5%96%AE">&#x9078;&#x55AE;</h1>
+<pre><code class="lang-sh"><span class="hljs-shebang">#!/bin/bash
+</span>
+<span class="hljs-built_in">set</span> -o errexit
 
-curl https://www.kernel.org/pub/linux/kernel/v4.x/linux-<span class="hljs-number">4.1</span>.<span class="hljs-number">6</span>.tar.xz | tar xJf -
-curl http://busybox.net/downloads/busybox-<span class="hljs-number">1.23</span>.<span class="hljs-number">2</span>.tar.bz2 | tar xjf -
-<span class="hljs-comment">#</span>
-<span class="hljs-comment">## build busybox</span>
-<span class="hljs-built_in">cd</span> <span class="hljs-variable">$TOP</span>/busybox-<span class="hljs-number">1.23</span>.<span class="hljs-number">2</span>
-mkdir -pv ../obj/busybox-x86
-make mrproper
-make  O=../obj/busybox-x86 defconfig
-sed -i <span class="hljs-string">&apos;s/.*CONFIG_STATIC.*/CONFIG_STATIC=y/&apos;</span> ../obj/busybox-x86/.config
-sed -i <span class="hljs-string">&apos;s/.*CONFIG_INETD.*/CONFIG_INETD=n/&apos;</span> ../obj/busybox-x86/.config
-make clean
-make  O=../obj/busybox-x86 -j12 <span class="hljs-number">2</span>&gt;&amp;<span class="hljs-number">1</span> | tee  ../busybox_build.log
-make  O=../obj/busybox-x86 install
+<span class="hljs-function"><span class="hljs-title">usage</span></span>() {
+cat &lt;&lt;USAGE
 
-<span class="hljs-comment"># initramfs</span>
-mkdir -p <span class="hljs-variable">$TOP</span>/initramfs/x86-busybox
-<span class="hljs-built_in">cd</span> <span class="hljs-variable">$TOP</span>/initramfs/x86-busybox
-mkdir -pv {bin,sbin,etc,proc,sys,usr/{bin,sbin}}
-cp -av <span class="hljs-variable">$TOP</span>/obj/busybox-x86/_install/* .
+Usage:
+    bash <span class="hljs-variable">$0</span> &lt;TARGET_PRODUCT&gt; [OPTIONS]
 
-<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;#!/bin/sh&quot;</span> &gt;&gt; init
-<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;mount -t proc none /proc&quot;</span> &gt;&gt; init
-<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;mount -t sysfs none /sys&quot;</span> &gt;&gt; init
-<span class="hljs-built_in">echo</span> <span class="hljs-string">&apos;echo -e &quot;\nBoot took $(cut -d&quot; &quot; -f1 /proc/uptime) seconds\n&quot;&apos;</span> &gt;&gt; init
-<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;exec /bin/sh&quot;</span> &gt;&gt; init
+Description:
+    Builds Android tree <span class="hljs-keyword">for</span> given TARGET_PRODUCT
 
-chmod +x init
+OPTIONS:
+    -c, --clean_build
+        Clean build - build from scratch by removing entire out dir
 
-find . -print0 \
-    | cpio --null -ov --format=newc \
-    | gzip -<span class="hljs-number">9</span> &gt; <span class="hljs-variable">$TOP</span>/obj/initramfs-busybox-x86.cpio.gz
+    <span class="hljs-operator">-d</span>, --debug
+        Enable debugging - captures all commands <span class="hljs-keyword">while</span> doing the build
 
-<span class="hljs-comment"># build kernel</span>
-<span class="hljs-built_in">cd</span> <span class="hljs-variable">$TOP</span>
-make -C linux-<span class="hljs-number">4.1</span>.<span class="hljs-number">6</span> O=../obj/linux-x86-basic mrproper
-make -C linux-<span class="hljs-number">4.1</span>.<span class="hljs-number">6</span> O=../obj/linux-x86-basic x86_64_defconfig
-make -C linux-<span class="hljs-number">4.1</span>.<span class="hljs-number">6</span> O=../obj/linux-x86-basic kvmconfig
-sed -i <span class="hljs-string">&apos;s/.*CONFIG_EXPERIMENTAL.*/CONFIG_EXPERIMENTAL=y/&apos;</span> obj/linux-x86-basic/.config
-sed -i <span class="hljs-string">&apos;s/.*CONFIG_DEBUG_INFO.*/CONFIG_DEBUG_INFO=y/&apos;</span> obj/linux-x86-basic/.config
-sed -i <span class="hljs-string">&apos;s/.*CONFIG_KGDB.*/CONFIG_KGDB=y/&apos;</span> obj/linux-x86-basic/.config
-sed -i <span class="hljs-string">&apos;s/.*CONFIG_KGDB_LOW_LEVEL_TRAP.*/CONFIG_KGDB_LOW_LEVEL_TRAP=y/&apos;</span> obj/linux-x86-basic/.config
-sed -i <span class="hljs-string">&apos;s/.*CONFIG_FRAME_POINTER.*/CONFIG_FRAME_POINTER=y/&apos;</span> obj/linux-x86-basic/.config
-sed -i <span class="hljs-string">&apos;s/.*CONFIG_MAGIC_SYSRQ.*/CONFIG_MAGIC_SYSRQ=y/&apos;</span> obj/linux-x86-basic/.config
-sed -i <span class="hljs-string">&apos;s/.*CONFIG_8139CP.*/CONFIG_8139CP=y/&apos;</span> obj/linux-x86-basic/.config
-sed -i <span class="hljs-string">&apos;s/.*CONFIG_DEBUG_SET_MODULE_RONX.*/CONFIG_DEBUG_SET_MODULE_RONX=n/&apos;</span> obj/linux-x86-basic/.config
-sed -i <span class="hljs-string">&apos;s/.*CONFIG_DEBUG_RODATA.*/CONFIG_DEBUG_RODATA=n/&apos;</span> obj/linux-x86-basic/.config
-sed -i <span class="hljs-string">&apos;s/.*CONFIG_MODULE_FORCE_LOAD.*/CONFIG_MODULE_FORCE_LOAD=y/&apos;</span> obj/linux-x86-basic/.config
-sed -i <span class="hljs-string">&apos;s/.*CONFIG_MODULE_UNLOAD.*/CONFIG_MODULE_UNLOAD=y/&apos;</span> obj/linux-x86-basic/.config
-sed -i <span class="hljs-string">&apos;s/.*CONFIG_MODULE_FORCE_UNLOAD.*/CONFIG_MODULE_FORCE_UNLOAD=y/&apos;</span> obj/linux-x86-basic/.config
-yes <span class="hljs-string">&apos;&apos;</span> | make -C linux-<span class="hljs-number">4.1</span>.<span class="hljs-number">6</span> O=../obj/linux-x86-basic oldconfig
-make -C linux-<span class="hljs-number">4.1</span>.<span class="hljs-number">6</span> O=../obj/linux-x86-basic clean
-time make -C linux-<span class="hljs-number">4.1</span>.<span class="hljs-number">6</span> O=../obj/linux-x86-basic -j12 <span class="hljs-number">2</span>&gt;&amp;<span class="hljs-number">1</span> | tee kernel_build.log
-</code></pre>
-<ul>
-<li>cmd</li>
-</ul>
-<pre><code class="lang-sh">qemu-system-x86_64 \
-    -kernel obj/linux-x86-basic/arch/x86_64/boot/bzImage \
-    -initrd obj/initramfs-busybox-x86.cpio.gz \
-    -nographic -append <span class="hljs-string">&quot;console=ttyS0&quot;</span> -enable-kvm
-</code></pre>
-<ul>
-<li>Makefile</li>
-</ul>
-<pre><code class="lang-sh">build:
-    @sh build.sh
+    -h, --help
+        Display this <span class="hljs-built_in">help</span> message
 
-qemu:
-    @sh cmd
+    -i, --image
+        Specify image to be build/re-build (bootimg/sysimg/usrimg)
+
+    -j, --jobs
+        Specifies the number of <span class="hljs-built_in">jobs</span> to run simultaneously (Default: <span class="hljs-number">8</span>)
+
+    -k, --kernel_defconf
+        Specify defconf file to be used <span class="hljs-keyword">for</span> compiling Kernel
+
+    <span class="hljs-operator">-l</span>, --log_file
+        Log file to store build logs (Default: &lt;TARGET_PRODUCT&gt;.log)
+
+    -m, --module
+        Module to be build
+
+    -p, --project
+        Project to be build
+
+    <span class="hljs-operator">-s</span>, --setup_ccache
+        Set CCACHE <span class="hljs-keyword">for</span> faster incremental builds (<span class="hljs-literal">true</span>/<span class="hljs-literal">false</span> - Default: <span class="hljs-literal">true</span>)
+
+    -u, --update-api
+        Update APIs
+
+    -v, --build_variant
+        Build variant (Default: userdebug)
+
+USAGE
+}
+
+<span class="hljs-function"><span class="hljs-title">clean_build</span></span>() {
+    <span class="hljs-built_in">echo</span> <span class="hljs-operator">-e</span> <span class="hljs-string">&quot;\nINFO: Removing entire out dir. . .\n&quot;</span>
+    make clobber
+}
+
+<span class="hljs-function"><span class="hljs-title">build_android</span></span>() {
+    <span class="hljs-built_in">echo</span> <span class="hljs-operator">-e</span> <span class="hljs-string">&quot;\nINFO: Build Android tree for <span class="hljs-variable">$TARGET</span>\n&quot;</span>
+    make <span class="hljs-variable">$@</span> | tee <span class="hljs-variable">$LOG_FILE</span>.log
+}
+
+<span class="hljs-function"><span class="hljs-title">build_bootimg</span></span>() {
+    <span class="hljs-built_in">echo</span> <span class="hljs-operator">-e</span> <span class="hljs-string">&quot;\nINFO: Build bootimage for <span class="hljs-variable">$TARGET</span>\n&quot;</span>
+    make bootimage <span class="hljs-variable">$@</span> | tee <span class="hljs-variable">$LOG_FILE</span>.log
+}
+
+<span class="hljs-function"><span class="hljs-title">build_sysimg</span></span>() {
+    <span class="hljs-built_in">echo</span> <span class="hljs-operator">-e</span> <span class="hljs-string">&quot;\nINFO: Build systemimage for <span class="hljs-variable">$TARGET</span>\n&quot;</span>
+    make systemimage <span class="hljs-variable">$@</span> | tee <span class="hljs-variable">$LOG_FILE</span>.log
+}
+
+<span class="hljs-function"><span class="hljs-title">build_usrimg</span></span>() {
+    <span class="hljs-built_in">echo</span> <span class="hljs-operator">-e</span> <span class="hljs-string">&quot;\nINFO: Build userdataimage for <span class="hljs-variable">$TARGET</span>\n&quot;</span>
+    make userdataimage <span class="hljs-variable">$@</span> | tee <span class="hljs-variable">$LOG_FILE</span>.log
+}
+
+<span class="hljs-function"><span class="hljs-title">build_module</span></span>() {
+    <span class="hljs-built_in">echo</span> <span class="hljs-operator">-e</span> <span class="hljs-string">&quot;\nINFO: Build <span class="hljs-variable">$MODULE</span> for <span class="hljs-variable">$TARGET</span>\n&quot;</span>
+    make <span class="hljs-variable">$MODULE</span> <span class="hljs-variable">$@</span> | tee <span class="hljs-variable">$LOG_FILE</span>.log
+}
+
+<span class="hljs-function"><span class="hljs-title">build_project</span></span>() {
+    <span class="hljs-built_in">echo</span> <span class="hljs-operator">-e</span> <span class="hljs-string">&quot;\nINFO: Build <span class="hljs-variable">$PROJECT</span> for <span class="hljs-variable">$TARGET</span>\n&quot;</span>
+    mmm <span class="hljs-variable">$PROJECT</span> | tee <span class="hljs-variable">$LOG_FILE</span>.log
+}
+
+<span class="hljs-function"><span class="hljs-title">update_api</span></span>() {
+    <span class="hljs-built_in">echo</span> <span class="hljs-operator">-e</span> <span class="hljs-string">&quot;\nINFO: Updating APIs\n&quot;</span>
+    make update-api | tee <span class="hljs-variable">$LOG_FILE</span>.log
+}
+
+<span class="hljs-function"><span class="hljs-title">setup_ccache</span></span>() {
+    <span class="hljs-built_in">export</span> CCACHE_DIR=../.ccache
+    <span class="hljs-built_in">export</span> USE_CCACHE=<span class="hljs-number">1</span>
+}
+
+<span class="hljs-function"><span class="hljs-title">delete_ccache</span></span>() {
+    prebuilts/misc/linux-x86/ccache/ccache -C
+    rm -rf <span class="hljs-variable">$CCACHE_DIR</span>
+}
+
+<span class="hljs-function"><span class="hljs-title">create_ccache</span></span>() {
+    <span class="hljs-built_in">echo</span> <span class="hljs-operator">-e</span> <span class="hljs-string">&quot;\nINFO: Setting CCACHE with 10 GB\n&quot;</span>
+    setup_ccache
+    delete_ccache
+    prebuilts/misc/linux-x86/ccache/ccache -M <span class="hljs-number">10</span>G
+}
+
+<span class="hljs-comment"># Set defaults</span>
+VARIANT=<span class="hljs-string">&quot;userdebug&quot;</span>
+JOBS=<span class="hljs-number">8</span>
+CCACHE=<span class="hljs-string">&quot;true&quot;</span>
+
+<span class="hljs-comment"># Setup getopt.</span>
+long_opts=<span class="hljs-string">&quot;clean_build,debug,help,image:,jobs:,kernel_defconf:,log_file:,module:,&quot;</span>
+long_opts+=<span class="hljs-string">&quot;project:,setup_ccache:,update-api,build_variant:&quot;</span>
+getopt_cmd=$(getopt -o cdhi:j:k:l:m:p:s:uv: --long <span class="hljs-string">&quot;<span class="hljs-variable">$long_opts</span>&quot;</span> \
+            -n $(basename <span class="hljs-variable">$0</span>) -- <span class="hljs-string">&quot;<span class="hljs-variable">$@</span>&quot;</span>) || \
+            { <span class="hljs-built_in">echo</span> <span class="hljs-operator">-e</span> <span class="hljs-string">&quot;\nERROR: Getopt failed. Extra args\n&quot;</span>; usage; <span class="hljs-built_in">exit</span> <span class="hljs-number">1</span>;}
+
+<span class="hljs-built_in">eval</span> <span class="hljs-built_in">set</span> -- <span class="hljs-string">&quot;<span class="hljs-variable">$getopt_cmd</span>&quot;</span>
+
+<span class="hljs-keyword">while</span> <span class="hljs-literal">true</span>; <span class="hljs-keyword">do</span>
+    <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;<span class="hljs-variable">$1</span>&quot;</span> <span class="hljs-keyword">in</span>
+        -c|--clean_build) CLEAN_BUILD=<span class="hljs-string">&quot;true&quot;</span>;;
+        <span class="hljs-operator">-d</span>|--debug) DEBUG=<span class="hljs-string">&quot;true&quot;</span>;;
+        -h|--help) usage; <span class="hljs-built_in">exit</span> <span class="hljs-number">0</span>;;
+        -i|--image) IMAGE=<span class="hljs-string">&quot;<span class="hljs-variable">$2</span>&quot;</span>; <span class="hljs-built_in">shift</span>;;
+        -j|--jobs) JOBS=<span class="hljs-string">&quot;<span class="hljs-variable">$2</span>&quot;</span>; <span class="hljs-built_in">shift</span>;;
+        -k|--kernel_defconf) DEFCONFIG=<span class="hljs-string">&quot;<span class="hljs-variable">$2</span>&quot;</span>; <span class="hljs-built_in">shift</span>;;
+        <span class="hljs-operator">-l</span>|--log_file) LOG_FILE=<span class="hljs-string">&quot;<span class="hljs-variable">$2</span>&quot;</span>; <span class="hljs-built_in">shift</span>;;
+        -m|--module) MODULE=<span class="hljs-string">&quot;<span class="hljs-variable">$2</span>&quot;</span>; <span class="hljs-built_in">shift</span>;;
+        -p|--project) PROJECT=<span class="hljs-string">&quot;<span class="hljs-variable">$2</span>&quot;</span>; <span class="hljs-built_in">shift</span>;;
+        -u|--update-api) UPDATE_API=<span class="hljs-string">&quot;true&quot;</span>;;
+        <span class="hljs-operator">-s</span>|--setup_ccache) CCACHE=<span class="hljs-string">&quot;<span class="hljs-variable">$2</span>&quot;</span>; <span class="hljs-built_in">shift</span>;;
+        -v|--build_variant) VARIANT=<span class="hljs-string">&quot;<span class="hljs-variable">$2</span>&quot;</span>; <span class="hljs-built_in">shift</span>;;
+        --) <span class="hljs-built_in">shift</span>; <span class="hljs-built_in">break</span>;;
+    <span class="hljs-keyword">esac</span>
+    <span class="hljs-built_in">shift</span>
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-comment"># Mandatory argument</span>
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">$#</span> <span class="hljs-operator">-eq</span> <span class="hljs-number">0</span> ]; <span class="hljs-keyword">then</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-operator">-e</span> <span class="hljs-string">&quot;\nERROR: Missing mandatory argument: TARGET_PRODUCT\n&quot;</span>
+    usage
+    <span class="hljs-built_in">exit</span> <span class="hljs-number">1</span>
+<span class="hljs-keyword">fi</span>
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">$#</span> <span class="hljs-operator">-gt</span> <span class="hljs-number">1</span> ]; <span class="hljs-keyword">then</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-operator">-e</span> <span class="hljs-string">&quot;\nERROR: Extra inputs. Need TARGET_PRODUCT only\n&quot;</span>
+    usage
+    <span class="hljs-built_in">exit</span> <span class="hljs-number">1</span>
+<span class="hljs-keyword">fi</span>
+TARGET=<span class="hljs-string">&quot;<span class="hljs-variable">$1</span>&quot;</span>; <span class="hljs-built_in">shift</span>
+
+<span class="hljs-keyword">if</span> [ -z <span class="hljs-variable">$LOG_FILE</span> ]; <span class="hljs-keyword">then</span>
+    LOG_FILE=<span class="hljs-variable">$TARGET</span>
+<span class="hljs-keyword">fi</span>
+
+CMD=<span class="hljs-string">&quot;-j <span class="hljs-variable">$JOBS</span>&quot;</span>
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">&quot;<span class="hljs-variable">$DEBUG</span>&quot;</span> = <span class="hljs-string">&quot;true&quot;</span> ]; <span class="hljs-keyword">then</span>
+    CMD+=<span class="hljs-string">&quot; showcommands&quot;</span>
+<span class="hljs-keyword">fi</span>
+<span class="hljs-keyword">if</span> [ -n <span class="hljs-string">&quot;<span class="hljs-variable">$DEFCONFIG</span>&quot;</span> ]; <span class="hljs-keyword">then</span>
+    CMD+=<span class="hljs-string">&quot; KERNEL_DEFCONFIG=<span class="hljs-variable">$DEFCONFIG</span>&quot;</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">&quot;<span class="hljs-variable">$CCACHE</span>&quot;</span> = <span class="hljs-string">&quot;true&quot;</span> ]; <span class="hljs-keyword">then</span>
+    setup_ccache
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-built_in">source</span> build/envsetup.sh
+lunch <span class="hljs-variable">$TARGET</span>-<span class="hljs-variable">$VARIANT</span>
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">&quot;<span class="hljs-variable">$CLEAN_BUILD</span>&quot;</span> = <span class="hljs-string">&quot;true&quot;</span> ]; <span class="hljs-keyword">then</span>
+    clean_build
+    <span class="hljs-keyword">if</span> [ <span class="hljs-string">&quot;<span class="hljs-variable">$CCACHE</span>&quot;</span> = <span class="hljs-string">&quot;true&quot;</span> ]; <span class="hljs-keyword">then</span>
+        create_ccache
+    <span class="hljs-keyword">fi</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">&quot;<span class="hljs-variable">$UPDATE_API</span>&quot;</span> = <span class="hljs-string">&quot;true&quot;</span> ]; <span class="hljs-keyword">then</span>
+    update_api
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-keyword">if</span> [ -n <span class="hljs-string">&quot;<span class="hljs-variable">$MODULE</span>&quot;</span> ]; <span class="hljs-keyword">then</span>
+    build_module <span class="hljs-string">&quot;<span class="hljs-variable">$CMD</span>&quot;</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-keyword">if</span> [ -n <span class="hljs-string">&quot;<span class="hljs-variable">$PROJECT</span>&quot;</span> ]; <span class="hljs-keyword">then</span>
+    build_project
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-keyword">if</span> [ -n <span class="hljs-string">&quot;<span class="hljs-variable">$IMAGE</span>&quot;</span> ]; <span class="hljs-keyword">then</span>
+    build_<span class="hljs-variable">$IMAGE</span> <span class="hljs-string">&quot;<span class="hljs-variable">$CMD</span>&quot;</span>
+<span class="hljs-keyword">fi</span>
+
+build_android <span class="hljs-string">&quot;<span class="hljs-variable">$CMD</span>&quot;</span>
 </code></pre>
 
                     
@@ -4260,10 +4382,8 @@ qemu:
         </div>
 
         
-        <a href="../qemu/index.html" class="navigation navigation-prev " aria-label="Previous page: QEMU"><i class="fa fa-angle-left"></i></a>
+        <a href="../22/2219.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: GNU: The C Preprocessor 導讀"><i class="fa fa-angle-left"></i></a>
         
-        
-        <a href="../qemu/qemu_kgdb_ftrace.html" class="navigation navigation-next " aria-label="Next page: Qemu_KGDB_Ftrace"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

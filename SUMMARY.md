@@ -255,4 +255,6 @@
        * [GNU LD 手冊略讀 (2): Chapter 3.6 SETCIONS](22/22183.md)
        * [GNU LD 手冊略讀 (3): Chapter 3.7 ~ Chapter 3.11](22/22184.md)
    * [GNU: The C Preprocessor 導讀](22/2219.md)
+* [Shell](shell/README)
+   * [選單](shell/231.md)
 

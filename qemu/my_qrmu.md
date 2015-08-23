@@ -152,3 +152,12 @@ qemu:
 
 ```
 
+- gdb
+
+```sh
+cgdb ./vmlinux
+target remote localhost:1234
+b *start_kernel
+c
+```
+

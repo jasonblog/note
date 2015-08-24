@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="7.1" data-basepath=".." data-revision="Mon Aug 24 2015 23:44:20 GMT+0800 (CST)">
+    <div class="book" data-level="7.1" data-basepath=".." data-revision="Tue Aug 25 2015 00:02:39 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -4174,6 +4174,38 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="my-qemu">MY_QEMU</h1>
+<ul>
+<li>build gdb</li>
+</ul>
+<pre><code class="lang-c">&#x5982;&#x679C;gdb&#x63D0;&#x793A;&#xFF1A;GDB Remote <span class="hljs-string">&apos;g&apos;</span> packet reply is too <span class="hljs-keyword">long</span>
+&#x4FEE;&#x6539;gdb/remote.c&#x6587;&#x4EF6;&#xFF0C;&#x5C4F;&#x853D;process_g_packet&#x51FD;&#x6578;&#x4E2D;&#x7684;&#x4E0B;&#x5217;&#x5169;&#x884C;&#xFF1A;
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">if</span> 0</span>
+    <span class="hljs-keyword">if</span> (buf_len &gt; <span class="hljs-number">2</span> * rsa-&gt;sizeof_g_packet) {
+        error(_(<span class="hljs-string">&quot;Remote &apos;g&apos; packet reply is too long: %s&quot;</span>), rs-&gt;buf);
+    }
+<span class="hljs-preprocessor">#<span class="hljs-keyword">else</span></span>
+    <span class="hljs-keyword">if</span> (buf_len &gt; <span class="hljs-number">2</span> * rsa-&gt;sizeof_g_packet) {
+        rsa-&gt;sizeof_g_packet = buf_len ;
+
+        <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; gdbarch_num_regs(gdbarch); i++) {
+            <span class="hljs-keyword">if</span> (rsa-&gt;regs[i].pnum == -<span class="hljs-number">1</span>) {
+                <span class="hljs-keyword">continue</span>;
+            }
+
+            <span class="hljs-keyword">if</span> (rsa-&gt;regs[i].offset &gt;= rsa-&gt;sizeof_g_packet) {
+                rsa-&gt;regs[i].in_g_packet = <span class="hljs-number">0</span>;
+            } <span class="hljs-keyword">else</span> {
+                rsa-&gt;regs[i].in_g_packet = <span class="hljs-number">1</span>;
+            }
+        }
+    }
+<span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span></span>
+</code></pre>
+<pre><code class="lang-sh">./configure --prefix=/usr/<span class="hljs-built_in">local</span>/gdb-<span class="hljs-number">7.9</span>.<span class="hljs-number">1</span>
+make -j24
+sudo make install
+</code></pre>
 <ul>
 <li>build.sh</li>
 </ul>

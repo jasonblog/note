@@ -56,8 +56,8 @@ clean_build() {
     TOP=`pwd`
     echo $TOP
 
-    curl https://www.kernel.org/pub/linux/kernel/v4.x/linux-4.1.6.tar.xz | tar xJf -
-    curl http://busybox.net/downloads/busybox-1.23.2.tar.bz2 | tar xjf -
+    #curl https://www.kernel.org/pub/linux/kernel/v4.x/linux-4.1.6.tar.xz | tar xJf -
+    #curl http://busybox.net/downloads/busybox-1.23.2.tar.bz2 | tar xjf -
     #
     ## build busybox
     cd $TOP/busybox-1.23.2
@@ -73,12 +73,21 @@ clean_build() {
     # initramfs
     mkdir -p $TOP/initramfs/x86-busybox
     cd $TOP/initramfs/x86-busybox
-    mkdir -pv {bin,sbin,etc,proc,sys,usr/{bin,sbin}}
+    mkdir -pv {bin,sbin,etc,proc,sys,dev,usr/{bin,sbin}}
     cp -av $TOP/obj/busybox-x86/_install/* .
+
+    cd dev
+    sudo mknod -m 660 null c 1 3
+    ln -sf null tty2
+    ln -sf null tty3
+    ln -sf null tty4
+    cd ..
 
     echo "#!/bin/sh" >> init
     echo "mount -t proc none /proc" >> init
     echo "mount -t sysfs none /sys" >> init
+    echo "mount -t ramfs none /dev" >> init
+    echo "mdev -s" >> init
     echo 'echo -e "\nBoot took $(cut -d" " -f1 /proc/uptime) seconds\n"' >> init
     echo "exec /bin/sh" >> init
 
@@ -114,12 +123,31 @@ qemu() {
     qemu-system-x86_64 \
     -kernel obj/linux-x86-basic/arch/x86_64/boot/bzImage \
     -initrd obj/initramfs-busybox-x86.cpio.gz \
-    -nographic -append "console=ttyS0" -enable-kvm
+    -serial stdio \
+    -append "console=ttyS0" -enable-kvm
+}
+
+gdb() {
+    #qemu-system-x86_64  -s -S \
+    #-kernel obj/linux-x86-basic/arch/x86_64/boot/bzImage \
+    #-initrd obj/initramfs-busybox-x86.cpio.gz \
+    #-serial stdio \
+    #-append "console=ttyS0"
+    #-append "root=/dev/ram rdinit=/sbin/init console=ttyS0"
+
+    qemu-system-x86_64 -s -S \
+    -kernel obj/linux-x86-basic/arch/x86_64/boot/bzImage \
+    -initrd obj/initramfs-busybox-x86.cpio.gz \
+    -append "root=/dev/ram rdinit=/sbin/init console=ttyS0" \
+    -serial stdio
+
 }
 
 initramfs() {
     TOP=`pwd`
     cd $TOP/initramfs/x86-busybox
+
+    #find ./ | cpio -o -H newc | gzip > $TOP/obj/initramfs-busybox-x86.cpio.gz
 
     find . -print0 \
     | cpio --null -ov --format=newc \
@@ -132,15 +160,20 @@ while true; do
         -h|--help) usage; exit 0;;
         -r|--run) qemu; exit 0;;
         -i|--initramfs) initramfs; exit 0;;
+        -d|--debug) gdb; exit 0;;
         --) shift; break;;
     esac
     shift
 done
+
 ```
 
 - Makefile
 
 ```sh
+debug:
+	@sh build.sh -d
+
 init:
 	@sh build.sh -i
 
@@ -149,7 +182,6 @@ build:
 
 qemu:
 	@sh build.sh -r
-
 ```
 
 - gdb

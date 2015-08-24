@@ -1,5 +1,41 @@
 # MY_QEMU
 
+- build gdb
+
+
+```c
+如果gdb提示：GDB Remote 'g' packet reply is too long
+修改gdb/remote.c文件，屏蔽process_g_packet函數中的下列兩行：
+
+#if 0
+    if (buf_len > 2 * rsa->sizeof_g_packet) {
+        error(_("Remote 'g' packet reply is too long: %s"), rs->buf);
+    }
+#else
+    if (buf_len > 2 * rsa->sizeof_g_packet) {
+        rsa->sizeof_g_packet = buf_len ;
+
+        for (i = 0; i < gdbarch_num_regs(gdbarch); i++) {
+            if (rsa->regs[i].pnum == -1) {
+                continue;
+            }
+
+            if (rsa->regs[i].offset >= rsa->sizeof_g_packet) {
+                rsa->regs[i].in_g_packet = 0;
+            } else {
+                rsa->regs[i].in_g_packet = 1;
+            }
+        }
+    }
+#endif
+```
+
+```sh
+./configure --prefix=/usr/local/gdb-7.9.1
+make -j24
+sudo make install
+```
+
 - build.sh
 
 ```sh
@@ -56,9 +92,9 @@ clean_build() {
     TOP=`pwd`
     echo $TOP
 
-    #curl https://www.kernel.org/pub/linux/kernel/v4.x/linux-4.1.6.tar.xz | tar xJf -
-    #curl http://busybox.net/downloads/busybox-1.23.2.tar.bz2 | tar xjf -
-    #
+    curl https://www.kernel.org/pub/linux/kernel/v4.x/linux-4.1.6.tar.xz | tar xJf -
+    curl http://busybox.net/downloads/busybox-1.23.2.tar.bz2 | tar xjf -
+
     ## build busybox
     cd $TOP/busybox-1.23.2
     mkdir -pv ../obj/busybox-x86

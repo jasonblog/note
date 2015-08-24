@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="7.1" data-basepath=".." data-revision="Sun Aug 23 2015 23:49:55 GMT+0800 (CST)">
+    <div class="book" data-level="7.1" data-basepath=".." data-revision="Mon Aug 24 2015 23:44:20 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -4230,8 +4230,8 @@ USAGE
     TOP=`<span class="hljs-built_in">pwd</span>`
     <span class="hljs-built_in">echo</span> <span class="hljs-variable">$TOP</span>
 
-    curl https://www.kernel.org/pub/linux/kernel/v4.x/linux-<span class="hljs-number">4.1</span>.<span class="hljs-number">6</span>.tar.xz | tar xJf -
-    curl http://busybox.net/downloads/busybox-<span class="hljs-number">1.23</span>.<span class="hljs-number">2</span>.tar.bz2 | tar xjf -
+    <span class="hljs-comment">#curl https://www.kernel.org/pub/linux/kernel/v4.x/linux-4.1.6.tar.xz | tar xJf -</span>
+    <span class="hljs-comment">#curl http://busybox.net/downloads/busybox-1.23.2.tar.bz2 | tar xjf -</span>
     <span class="hljs-comment">#</span>
     <span class="hljs-comment">## build busybox</span>
     <span class="hljs-built_in">cd</span> <span class="hljs-variable">$TOP</span>/busybox-<span class="hljs-number">1.23</span>.<span class="hljs-number">2</span>
@@ -4247,12 +4247,21 @@ USAGE
     <span class="hljs-comment"># initramfs</span>
     mkdir -p <span class="hljs-variable">$TOP</span>/initramfs/x86-busybox
     <span class="hljs-built_in">cd</span> <span class="hljs-variable">$TOP</span>/initramfs/x86-busybox
-    mkdir -pv {bin,sbin,etc,proc,sys,usr/{bin,sbin}}
+    mkdir -pv {bin,sbin,etc,proc,sys,dev,usr/{bin,sbin}}
     cp -av <span class="hljs-variable">$TOP</span>/obj/busybox-x86/_install/* .
+
+    <span class="hljs-built_in">cd</span> dev
+    sudo mknod -m <span class="hljs-number">660</span> null c <span class="hljs-number">1</span> <span class="hljs-number">3</span>
+    ln -sf null tty2
+    ln -sf null tty3
+    ln -sf null tty4
+    <span class="hljs-built_in">cd</span> ..
 
     <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;#!/bin/sh&quot;</span> &gt;&gt; init
     <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;mount -t proc none /proc&quot;</span> &gt;&gt; init
     <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;mount -t sysfs none /sys&quot;</span> &gt;&gt; init
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;mount -t ramfs none /dev&quot;</span> &gt;&gt; init
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;mdev -s&quot;</span> &gt;&gt; init
     <span class="hljs-built_in">echo</span> <span class="hljs-string">&apos;echo -e &quot;\nBoot took $(cut -d&quot; &quot; -f1 /proc/uptime) seconds\n&quot;&apos;</span> &gt;&gt; init
     <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;exec /bin/sh&quot;</span> &gt;&gt; init
 
@@ -4288,12 +4297,31 @@ USAGE
     qemu-system-x86_64 \
     -kernel obj/linux-x86-basic/arch/x86_64/boot/bzImage \
     -initrd obj/initramfs-busybox-x86.cpio.gz \
-    -nographic -append <span class="hljs-string">&quot;console=ttyS0&quot;</span> -enable-kvm
+    -serial stdio \
+    -append <span class="hljs-string">&quot;console=ttyS0&quot;</span> -enable-kvm
+}
+
+<span class="hljs-function"><span class="hljs-title">gdb</span></span>() {
+    <span class="hljs-comment">#qemu-system-x86_64  -s -S \</span>
+    <span class="hljs-comment">#-kernel obj/linux-x86-basic/arch/x86_64/boot/bzImage \</span>
+    <span class="hljs-comment">#-initrd obj/initramfs-busybox-x86.cpio.gz \</span>
+    <span class="hljs-comment">#-serial stdio \</span>
+    <span class="hljs-comment">#-append &quot;console=ttyS0&quot;</span>
+    <span class="hljs-comment">#-append &quot;root=/dev/ram rdinit=/sbin/init console=ttyS0&quot;</span>
+
+    qemu-system-x86_64 <span class="hljs-operator">-s</span> -S \
+    -kernel obj/linux-x86-basic/arch/x86_64/boot/bzImage \
+    -initrd obj/initramfs-busybox-x86.cpio.gz \
+    -append <span class="hljs-string">&quot;root=/dev/ram rdinit=/sbin/init console=ttyS0&quot;</span> \
+    -serial stdio
+
 }
 
 <span class="hljs-function"><span class="hljs-title">initramfs</span></span>() {
     TOP=`<span class="hljs-built_in">pwd</span>`
     <span class="hljs-built_in">cd</span> <span class="hljs-variable">$TOP</span>/initramfs/x86-busybox
+
+    <span class="hljs-comment">#find ./ | cpio -o -H newc | gzip &gt; $TOP/obj/initramfs-busybox-x86.cpio.gz</span>
 
     find . -print0 \
     | cpio --null -ov --format=newc \
@@ -4306,6 +4334,7 @@ USAGE
         -h|--help) usage; <span class="hljs-built_in">exit</span> <span class="hljs-number">0</span>;;
         -r|--run) qemu; <span class="hljs-built_in">exit</span> <span class="hljs-number">0</span>;;
         -i|--initramfs) initramfs; <span class="hljs-built_in">exit</span> <span class="hljs-number">0</span>;;
+        <span class="hljs-operator">-d</span>|--debug) gdb; <span class="hljs-built_in">exit</span> <span class="hljs-number">0</span>;;
         --) <span class="hljs-built_in">shift</span>; <span class="hljs-built_in">break</span>;;
     <span class="hljs-keyword">esac</span>
     <span class="hljs-built_in">shift</span>
@@ -4314,7 +4343,10 @@ USAGE
 <ul>
 <li>Makefile</li>
 </ul>
-<pre><code class="lang-sh">init:
+<pre><code class="lang-sh">debug:
+    @sh build.sh <span class="hljs-operator">-d</span>
+
+init:
     @sh build.sh -i
 
 build:

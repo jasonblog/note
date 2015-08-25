@@ -273,4 +273,5 @@
    * [MY_script](shell/my_script.md)
        * [選單](shell/231.md)
        * [AutoROM_new.sh](shell/autorom_newsh.md)
+   * [Bash的陷阱](shell/233.md)
 

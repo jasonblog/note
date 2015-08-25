@@ -257,4 +257,6 @@
    * [GNU: The C Preprocessor 導讀](22/2219.md)
 * [Shell](shell/README)
    * [選單](shell/231.md)
+   * [MY_script](shell/my_script.md)
+       * [AutoROM_new.sh](shell/autorom_newsh.md)
 

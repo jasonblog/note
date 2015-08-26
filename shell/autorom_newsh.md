@@ -17,7 +17,7 @@ done < ./menu.txt
 
 rm ./menu.txt
 
-echo -n "Enter your Project number : "
+echo -n "Choose your Project number : "
 read choice
 
 platformROM=`basename ${VARS[$choice]}`
@@ -52,36 +52,35 @@ adb reboot bootloader
 
 htc_fastboot oem rebootRUU
 sleep 8
-echo "PARTIAL ROM[++++++++++++]"
+echo "PARTIAL ROM[+++++++++++++++++]"
 htc_fastboot flash zip "$platformROM""/""$PARTIAL_NAME"
 
 while [ $? = 1 ]; do
     htc_fastboot oem rebootRUU
     sleep 8
-    echo "PARTIAL ROM[222222222222]"
+    echo "PARTIAL ROM[22222222222222222]"
     htc_fastboot flash zip "$platformROM""/""$PARTIAL_NAME"
 done
-echo "PARTIAL ROM[------------]"
+echo "PARTIAL ROM[-----------------]"
 
 htc_fastboot oem rebootRUU
 sleep 8
-echo "BOOT ROM[++++++++++++++]"
+echo "BOOT ROM[+++++++++++++++++++]"
 htc_fastboot flash zip "$platformROM""/""$BOOT_NAME"
-echo "BOOT ROM[--------------]"
+echo "BOOT ROM[-------------------]"
 
 htc_fastboot oem rebootRUU
 sleep 8
-echo "SIGN ROM[++++++++++++++]"
+echo "SIGN ROM[+++++++++++++++++++]"
 htc_fastboot flash zip "$platformROM""/""$SIGN_NAME"
 
 while [ $? = 1 ]; do
     htc_fastboot oem rebootRUU
     sleep 8
-    echo "SIGN ROM[222222222222]"
-    htc_fastboot flash zip "$platformROM"/""$SIGN_NAME"
+    echo "SIGN ROM[22222222222222222]"
+    htc_fastboot flash zip "$platformROM"/"$SIGN_NAME"
 done
-echo "SIGN ROM[--------------]"
+echo "SIGN ROM[-------------------]"
 
 htc_fastboot reboot
-
 ```

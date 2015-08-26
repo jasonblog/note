@@ -109,7 +109,7 @@ clean_build() {
     # initramfs
     mkdir -p $TOP/initramfs/x86-busybox
     cd $TOP/initramfs/x86-busybox
-    mkdir -pv {bin,sbin,etc,proc,sys,dev,usr/{bin,sbin}}
+    mkdir -pv {bin,sbin,etc,proc,sys,dev,lib,usr/{bin,sbin}}
     cp -av $TOP/obj/busybox-x86/_install/* .
 
     cd dev

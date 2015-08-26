@@ -5,7 +5,7 @@
 
 TOP=`pwd`
 
-ls -F | grep "/"
+ls -F | grep "/" > menu.txt
 
 i=0
 while read line
@@ -17,11 +17,12 @@ done < ./menu.txt
 
 rm ./menu.txt
 
-echo -n "Enter your Project name : "
+echo -n "Enter your Project number : "
 read choice
 
 platformROM=`basename ${VARS[$choice]}`
 echo $platformROM
+
 cd $platformROM
 
 for file in *.zip
@@ -41,9 +42,11 @@ PARTIAL_PATH="$platformROM""/""$PARTIAL_NAME"
 BOOT_PATH="$platformROM""/""$BOOT_NAME"
 SIGN_PATH="$platformROM""/""$SIGN_NAME"
 
+echo "###################################################################################################################################"
 echo $PARTIAL_PATH
 echo $BOOT_PATH
 echo $SIGN_PATH
+echo "###################################################################################################################################"
 
 adb reboot bootloader
 
@@ -80,4 +83,5 @@ done
 echo "SIGN ROM[--------------]"
 
 htc_fastboot reboot
+
 ```

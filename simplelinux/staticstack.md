@@ -1,0 +1,79 @@
+﻿[content]: https://github.com/1184893257/simplelinux/blob/master/README.md#content
+
+[回目錄][content]
+
+<a name="top"></a>
+
+<h1 align="center">C語言的棧是靜態的
+</h1>
+
+　　C語言有了可變參數之後，我們可以傳任意個數的參數了，
+似乎挺動態的了，但是可變參數函數還是不夠動態。
+
+## 一、鞭長莫及
+
+　　我們可以在 main 中寫出好幾條參數個數不同的調用 sum 的語句，
+但是具體到某一條語句，sum 的參數個數是一定的，
+比如上一篇中的 sum(2, 3, 4) 的參數個數是 3。
+<b>如果程序運行中調用 sum 函數的時候，
+參數個數根據用戶輸入而定，那就不能用可變參數來實現了。</b>
+也就是說不能用 sum 來實現以下這個函數的功能：
+
+	// 將數組 a 的所有元素（個數為 n）求和後返回
+	int d_sum(int n, int a[]);
+
+`　　`當然，這個函數不用 sum 來做是很好實現的。
+我再換一個問題，下面這個函數怎麼用 printf 來實現：
+
+	// fmt 存的是格式串，它描述了 n 個整數（數組 a 中）
+	// 的格式，某次調用如下：
+	//   int a[] = {1, 2, 3};
+	//   d_printf("%d+%d=%d", 3, a);
+	void d_printf(const char *fmt, int n, int a[]);
+
+`　　`這就沒法做了吧！
+
+## 二、尋根究底
+
+　　d_printf 沒法實現的原因是這樣的代碼真沒法寫：
+傳給 printf 的參數的個數到運行的時候才知道，
+而調用 printf 的語句又必須明確的列出所有參數。
+
+　　其根本原因是<b>C語言的棧是靜態的</b>，
+上一篇的 va.c 編譯後的彙編代碼如下：
+
+	main:
+		pushl	%ebp
+		movl	%esp, %ebp
+		andl	$-16, %esp
+		subl	$16, %esp	# 給main幀分配棧空間
+		movl	$4, 8(%esp)
+		movl	$3, 4(%esp)
+		movl	$2, (%esp)
+		call	sum			# 調用變參函數 sum
+		movl	$.LC0, (%esp)
+		movl	%eax, 4(%esp)
+		call	printf		# 調用變參函數 printf
+		xorl	%eax, %eax
+		leave
+		ret
+
+`　　`可以看到雖然 main 函數中調用了兩個變參函數，
+但是棧卻沒有一點動態可變的意思，居然是用一條 subl $16, %esp 
+分配了固定的 16 字節的棧空間
+（編譯的時候計算得出需要12字節，取整吧，16字節！）。
+
+　　而在 d_printf 的實現中需要分配 4+4*n 字節的棧空間，
+用於存傳給 printf 的 格式串指針 和 n個整數，
+用C語言是沒法實現囉。
+
+## 三、另闢蹊徑
+
+　　C語言不能直接使用寄存器，但是彙編可以，
+如果我們在 d_printf 中嵌入一段彙編來修改 esp 寄存器，
+達到動態分配棧空間的效果，然後存入參數，call printf，
+就可以完成任務了。
+
+　　接下來的兩篇就來實現 d_printf 囉！
+
+[回目錄][content]

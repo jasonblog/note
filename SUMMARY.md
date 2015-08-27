@@ -178,6 +178,7 @@
    * [函數調用棧的獲取原理分析](linux_system/156.md)
    * [在Linux程序中輸出函數調用棧](linux_system/157.md)
 * [Assembly](assembly/README.md)
+   * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)
        * [現代計算機結構組成與工作過程](assembly/1611.md)
        * [處理器指令碼及IA-32平臺瞭解](assembly/1612.md)

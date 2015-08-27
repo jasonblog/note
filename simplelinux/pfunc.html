@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="24.18" data-basepath=".." data-revision="Thu Aug 27 2015 23:19:38 GMT+0800 (CST)">
+    <div class="book" data-level="24.18" data-basepath=".." data-revision="Fri Aug 28 2015 00:30:48 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -4851,9 +4851,7 @@
                 
                     <section class="normal" id="section-">
                     
-                        <p>&#xFEFF;[content]: <a href="https://github.com/1184893257/simplelinux/blob/master/README.md#content" target="_blank">https://github.com/1184893257/simplelinux/blob/master/README.md#content</a></p>
-<p>[&#x56DE;&#x76EE;&#x9304;][content]</p>
-<p><a name="top"></a></p>
+                        <p><a name="top"></a></p>
 <h1 align="center">&#x51FD;&#x6578;&#x6307;&#x91DD;
 </h1>
 
@@ -4861,108 +4859,115 @@
 <p>&#x3000;&#x3000;&#x51FD;&#x6578;&#x6307;&#x91DD;&#x8DDF;&#x666E;&#x901A;&#x6307;&#x91DD;&#x4E00;&#x6A23;&#xFF0C;&#x5B58;&#x7684;&#x4E5F;&#x662F;&#x4E00;&#x500B;&#x5167;&#x5B58;&#x5730;&#x5740;&#xFF0C;
 &#x53EA;&#x662F;&#x9019;&#x500B;&#x5730;&#x5740;&#x662F;&#x4E00;&#x500B;&#x51FD;&#x6578;&#x7684;&#x8D77;&#x59CB;&#x5730;&#x5740;&#xFF0C;
 &#x4E0B;&#x9762;&#x9019;&#x500B;&#x7A0B;&#x5E8F;&#x6253;&#x5370;&#x51FA;&#x4E00;&#x500B;&#x51FD;&#x6578;&#x6307;&#x91DD;&#x7684;&#x503C;&#xFF08;func1.c&#xFF09;&#xFF1A;</p>
-<pre><code>#include &lt;stdio.h&gt;
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;stdio.h&gt;</span>
 
-typedef int (*Func)(int);
+<span class="hljs-function"><span class="hljs-keyword">typedef</span> <span class="hljs-title">int</span> <span class="hljs-params">(*Func)</span><span class="hljs-params">(<span class="hljs-keyword">int</span>)</span></span>;
 
-int Double(int a)
-{
-    return (a + a);
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">Double</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a)</span>
+</span>{
+    <span class="hljs-keyword">return</span> (a + a);
 }
 
-int main()
-{
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
     Func p = Double;
-    printf(&quot;%p\n&quot;, p);
-    return 0;
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%p\n&quot;</span>, p);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
-</code></pre><p><code>&#x3000;</code>&#x7DE8;&#x8B6F;&#x3001;&#x904B;&#x884C;&#x7A0B;&#x5E8F;&#xFF1A;</p>
-<pre><code>[lqy@localhost notlong]$ gcc -O2 -o func1 func1.c
+</code></pre>
+<p>&#x7DE8;&#x8B6F;&#x3001;&#x904B;&#x884C;&#x7A0B;&#x5E8F;&#xFF1A;</p>
+<pre><code class="lang-c">[lqy@localhost notlong]$ gcc -O2 -o func1 func1.c
 [lqy@localhost notlong]$ ./func1
-0x80483d0
-[lqy@localhost notlong]$ 
-</code></pre><p><code>&#x3000;</code>&#x7136;&#x5F8C;&#x6211;&#x5011;&#x7528; nm &#x5DE5;&#x5177;&#x67E5;&#x770B;&#x4E00;&#x4E0B; Double &#x7684;&#x5730;&#x5740;&#xFF0C;
-&#x770B;&#x662F;&#x4E0D;&#x662F;&#x6B63;&#x597D;&#x662F; 0x80483d0&#xFF1A;</p>
-<pre><code>[lqy@localhost notlong]$ nm func1 | sort
-08048294 T _init
-08048310 T _start
-08048340 t __do_global_dtors_aux
-080483a0 t frame_dummy
-080483d0 T Double
-080483e0 T main
+<span class="hljs-number">0x80483d0</span>
+[lqy@localhost notlong]$
+
+`&#x3000;&#x3000;`&#x7136;&#x5F8C;&#x6211;&#x5011;&#x7528; nm &#x5DE5;&#x5177;&#x67E5;&#x770B;&#x4E00;&#x4E0B; Double &#x7684;&#x5730;&#x5740;&#xFF0C;
+&#x770B;&#x662F;&#x4E0D;&#x662F;&#x6B63;&#x597D;&#x662F; <span class="hljs-number">0x80483d0</span>&#xFF1A;
+
+[lqy@localhost notlong]$ nm func1 | sort
+<span class="hljs-number">08048294</span> T _init
+<span class="hljs-number">08048310</span> T _start
+<span class="hljs-number">08048340</span> t __do_global_dtors_aux
+<span class="hljs-number">080483</span>a0 t frame_dummy
+<span class="hljs-number">080483</span>d0 T Double
+<span class="hljs-number">080483e0</span> T main
 ...
-</code></pre><p><code>&#x3000;</code>&#x4E0D;&#x51FA;&#x610F;&#x6599;&#xFF0C;Double &#x7684;&#x8D77;&#x59CB;&#x5730;&#x5740;&#x679C;&#x7136;&#x662F; 0x080483d0&#x3002;</p>
+</code></pre>
+<p>&#x4E0D;&#x51FA;&#x610F;&#x6599;&#xFF0C;Double &#x7684;&#x8D77;&#x59CB;&#x5730;&#x5740;&#x679C;&#x7136;&#x662F; 0x080483d0&#x3002;</p>
 <h2 id="%E4%BA%8C%E3%80%81%E8%AA%BF%E7%94%A8%E5%87%BD%E6%95%B8%E6%8C%87%E9%87%9D%E6%8C%87%E5%90%91%E7%9A%84%E5%87%BD%E6%95%B8">&#x4E8C;&#x3001;&#x8ABF;&#x7528;&#x51FD;&#x6578;&#x6307;&#x91DD;&#x6307;&#x5411;&#x7684;&#x51FD;&#x6578;</h2>
 <p>&#x3000;&#x3000;&#x76F4;&#x63A5;&#x8ABF;&#x7528;&#x4E00;&#x500B;&#x51FD;&#x6578;&#x662F; call &#x4E00;&#x500B;&#x5E38;&#x91CF;&#xFF0C;
 &#x800C;&#x901A;&#x904E;&#x51FD;&#x6578;&#x6307;&#x91DD;&#x8ABF;&#x7528;&#x4E00;&#x500B;&#x51FD;&#x6578;&#x986F;&#x7136;&#x4E0D;&#x80FD;&#x9019;&#x9EBC;&#x505A;&#xFF0C;
 &#x56E0;&#x70BA;&#x51FD;&#x6578;&#x5730;&#x5740;&#x662F;&#x53EF;&#x8B8A;&#x7684;&#x4E86;&#xFF0C;&#x6307;&#x5411;&#x8AB0;&#x5C31;&#x5F97; call &#x8AB0;&#x3002;
 &#x4E0B;&#x9762;&#x6BD4;&#x8F03;&#x4E00;&#x4E0B;&#x76F4;&#x63A5;&#x8ABF;&#x7528;&#x548C;&#x901A;&#x904E;&#x51FD;&#x6578;&#x6307;&#x91DD;&#x9593;&#x63A5;&#x8ABF;&#x7528;&#x540C;&#x4E00;&#x500B;&#x51FD;&#x6578;&#x7684;
 &#x5F59;&#x7DE8;&#x4EE3;&#x78BC;&#xFF08;func2.c&#xFF09;&#xFF1A;</p>
-<pre><code>#include &lt;stdio.h&gt;
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;stdio.h&gt;</span>
 
-typedef int (*Func)(int);
+<span class="hljs-function"><span class="hljs-keyword">typedef</span> <span class="hljs-title">int</span> <span class="hljs-params">(*Func)</span><span class="hljs-params">(<span class="hljs-keyword">int</span>)</span></span>;
 
-int Double(int a)
-{
-    return (a + a);
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">Double</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a)</span>
+</span>{
+    <span class="hljs-keyword">return</span> (a + a);
 }
 
-int main()
-{
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
     Func p = Double;
-    Double(2);    // &#x76F4;&#x63A5;&#x8ABF;&#x7528;
-    p(2);        // &#x9593;&#x63A5;&#x8ABF;&#x7528;
-    return 0;
+    Double(<span class="hljs-number">2</span>);    <span class="hljs-comment">// &#x76F4;&#x63A5;&#x8ABF;&#x7528;</span>
+    p(<span class="hljs-number">2</span>);        <span class="hljs-comment">// &#x9593;&#x63A5;&#x8ABF;&#x7528;</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
-</code></pre><p><code>&#x3000;</code>&#x90E8;&#x5206;&#x5F59;&#x7DE8;&#x4EE3;&#x78BC;&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre><code>    movl    $2, (%esp)
-    call    Double
-    movl    $2, (%esp)
-    movl    28(%esp), %eax    # 28(%esp) &#x662F; p
-    call    *%eax
-</code></pre><p><code>&#x3000;</code>&#x53EF;&#x898B;&#x901A;&#x904E;&#x51FD;&#x6578;&#x6307;&#x91DD;&#x9593;&#x63A5;&#x8ABF;&#x7528;&#x4E00;&#x500B;&#x51FD;&#x6578;&#xFF0C;
+</code></pre>
+<p>&#x90E8;&#x5206;&#x5F59;&#x7DE8;&#x4EE3;&#x78BC;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c">movl    $<span class="hljs-number">2</span>, (%esp)
+call    Double
+movl    $<span class="hljs-number">2</span>, (%esp)
+movl    <span class="hljs-number">28</span>(%esp), %eax    <span class="hljs-preprocessor"># 28(%esp) &#x662F; p</span>
+call    *%eax
+</code></pre>
+<p>&#x53EF;&#x898B;&#x901A;&#x904E;&#x51FD;&#x6578;&#x6307;&#x91DD;&#x9593;&#x63A5;&#x8ABF;&#x7528;&#x4E00;&#x500B;&#x51FD;&#x6578;&#xFF0C;
 call &#x6307;&#x4EE4;&#x7684;&#x64CD;&#x4F5C;&#x6578;&#x4E0D;&#x518D;&#x662F;&#x4E00;&#x500B;&#x5E38;&#x91CF;&#xFF0C;
 &#x800C;&#x662F;&#x5BC4;&#x5B58;&#x5668; eax&#xFF08;&#x5176;&#x5B83;&#x5BC4;&#x5B58;&#x5668;&#x61C9;&#x8A72;&#x4E5F;&#x884C;&#xFF09;&#xFF0C;
 &#x6B64;&#x6642; eax &#x5BC4;&#x5B58;&#x5668;&#x7684;&#x503C;&#x6B63;&#x597D;&#x662F; Double &#x51FD;&#x6578;&#x7684;&#x8D77;&#x59CB;&#x5730;&#x5740;&#xFF0C;
 &#x6240;&#x4EE5;&#x63A5;&#x8457;&#x5C31;&#x6703;&#x53BB;&#x57F7;&#x884C; Double &#x51FD;&#x6578;&#x7684;&#x6307;&#x4EE4;&#x3002;</p>
 <h2 id="%E4%B8%89%E3%80%81%E5%8F%83%E6%95%B8%E5%BC%B1%E5%8C%B9%E9%85%8D">&#x4E09;&#x3001;&#x53C3;&#x6578;&#x5F31;&#x5339;&#x914D;</h2>
-<p>&#x3000;&#x3000;&#x5F9E;&#x4E0A;&#x9762;&#x7684;&#x4F8B;&#x5B50;&#x4E2D;&#x6211;&#x5011;&#x4E5F;&#x770B;&#x5230;&#x4E86;&#x51FD;&#x6578;&#x6307;&#x91DD;&#x4E5F;&#x6C92;&#x4EC0;&#x9EBC;&#x7279;&#x5225;&#x7684;&#xFF0C;
+<p>&#x5F9E;&#x4E0A;&#x9762;&#x7684;&#x4F8B;&#x5B50;&#x4E2D;&#x6211;&#x5011;&#x4E5F;&#x770B;&#x5230;&#x4E86;&#x51FD;&#x6578;&#x6307;&#x91DD;&#x4E5F;&#x6C92;&#x4EC0;&#x9EBC;&#x7279;&#x5225;&#x7684;&#xFF0C;
 &#x4E5F;&#x5C31;&#x5B58;&#x4E86;&#x500B;&#x5730;&#x5740;&#xFF0C;&#x4F46;&#x662F;&#x8ABF;&#x7528;&#x4E00;&#x500B;&#x51FD;&#x6578;&#x4E0D;&#x50C5;&#x9700;&#x8981;&#x77E5;&#x9053;&#x5B83;&#x7684;&#x8D77;&#x59CB;&#x5730;&#x5740;&#xFF0C;
 &#x9084;&#x5F97;&#x6839;&#x64DA;&#x5B83;&#x7684;&#x53C3;&#x6578;&#x5217;&#x8868;&#x4F86;&#x58D3;&#x68E7;&#x50B3;&#x905E;&#x53C3;&#x6578;&#x3002;</p>
-<p>&#x3000;&#x3000;&#x53C3;&#x6578;&#x5217;&#x8868;&#x5728;&#x5B9A;&#x7FA9;&#x51FD;&#x6578;&#x6307;&#x91DD;&#x985E;&#x578B;&#x7684;&#x6642;&#x5019;&#x5C31;&#x7D04;&#x5B9A;&#x597D;&#x4E86;&#xFF0C;
+<p>&#x53C3;&#x6578;&#x5217;&#x8868;&#x5728;&#x5B9A;&#x7FA9;&#x51FD;&#x6578;&#x6307;&#x91DD;&#x985E;&#x578B;&#x7684;&#x6642;&#x5019;&#x5C31;&#x7D04;&#x5B9A;&#x597D;&#x4E86;&#xFF0C;
 &#x51E1;&#x662F;&#x5177;&#x6709;&#x76F8;&#x540C;&#x53C3;&#x6578;&#x5217;&#x8868;&#x7684;&#x51FD;&#x6578;&#x90FD;&#x53EF;&#x4EE5;&#x8CE6;&#x503C;&#x7D66;&#x8A72;&#x985E;&#x578B;&#x7684;&#x51FD;&#x6578;&#x6307;&#x91DD;&#xFF0C;
 &#x800C;&#x53C3;&#x6578;&#x5217;&#x8868;&#x4E0D;&#x540C;&#x7684;&#x51FD;&#x6578;&#x4E5F;&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x5F37;&#x5236;&#x985E;&#x578B;&#x8F49;&#x63DB;&#x5F8C;&#x8CE6;&#x503C;&#x7D66;&#x5B83;
 &#xFF08;C&#x8A9E;&#x8A00;&#x7684;&#x6307;&#x91DD;&#x985E;&#x578B;&#x53EF;&#x4EE5;&#x4EFB;&#x610F;&#x8F49;&#x63DB;&#x2299;&#xFE4F;&#x2299;&#xFF09;&#xFF0C;
 &#x4E0B;&#x9762;&#x9019;&#x500B;&#x7A0B;&#x5E8F;&#x5C31;&#x5927;&#x81BD;&#x7684;&#x5F37;&#x5236;&#x8F49;&#x63DB;&#x4E86;&#x4E00;&#x4E0B;&#xFF08;func3.c&#xFF09;&#xFF1A;</p>
-<pre><code>#include &lt;stdio.h&gt;
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;stdio.h&gt;</span>
 
-typedef int (*Func)(int);
+<span class="hljs-function"><span class="hljs-keyword">typedef</span> <span class="hljs-title">int</span> <span class="hljs-params">(*Func)</span><span class="hljs-params">(<span class="hljs-keyword">int</span>)</span></span>;
 
-int Double2(int a, int b)
-{
-    return (a + a);
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">Double2</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b)</span>
+</span>{
+    <span class="hljs-keyword">return</span> (a + a);
 }
 
-int main()
-{
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
     Func p = (Func)Double2;
-    printf(&quot;%d\n&quot;, p(2));
-    return 0;
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, p(<span class="hljs-number">2</span>));
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
-</code></pre><p><code>&#x3000;</code>&#x4E0D;&#x5F37;&#x5236;&#x8F49;&#x63DB;&#x7684;&#x8A71;&#xFF0C;&#x7DE8;&#x8B6F;&#x7684;&#x6642;&#x5019;&#x6703;&#x5831;&#x544A;&#x4E00;&#x500B; warring
+</code></pre>
+<p>&#x4E0D;&#x5F37;&#x5236;&#x8F49;&#x63DB;&#x7684;&#x8A71;&#xFF0C;&#x7DE8;&#x8B6F;&#x7684;&#x6642;&#x5019;&#x6703;&#x5831;&#x544A;&#x4E00;&#x500B; warring
 &#xFF08;&#x5C45;&#x7136;&#x4E0D;&#x662F; error &#x2299;&#xFE4F;&#x2299;&#xFF09;&#xFF0C;
 &#x4E0A;&#x9762;&#x9019;&#x500B;&#x7A0B;&#x5E8F;&#x7DE8;&#x8B6F;&#x7684;&#x6642;&#x5019; 0 error 0 warring&#xFF0C;
 &#x57F7;&#x884C;&#x4E5F;&#x6C92;&#x6709;&#x51FA;&#x932F;&#xFF1A;</p>
-<pre><code>[lqy@localhost notlong]$ gcc -o func3 func3.c
+<pre><code class="lang-c">[lqy@localhost notlong]$ gcc -o func3 func3.c
 [lqy@localhost notlong]$ ./func3
-4
-[lqy@localhost notlong]$ 
-</code></pre><p><code>&#x3000;</code>&#x771F;&#x7B97;&#x662F;&#x6735;&#x5947;&#x8469;&#x4E86;&#xFF01;</p>
-<p>&#x3000;&#x3000;&#x6C92;&#x6709;&#x51FA;&#x932F;&#x7684;&#x539F;&#x56E0;&#x662F;&#xFF1A;&#x53C3;&#x6578; a &#x5C0D;&#x61C9;&#x7684;&#x525B;&#x597D;&#x662F;&#x58D3;&#x68E7;&#x7684; 2&#xFF0C;
+<span class="hljs-number">4</span>
+[lqy@localhost notlong]$
+</code></pre>
+<p>&#x771F;&#x7B97;&#x662F;&#x6735;&#x5947;&#x8469;&#x4E86;&#xFF01;</p>
+<p>&#x6C92;&#x6709;&#x51FA;&#x932F;&#x7684;&#x539F;&#x56E0;&#x662F;&#xFF1A;&#x53C3;&#x6578; a &#x5C0D;&#x61C9;&#x7684;&#x525B;&#x597D;&#x662F;&#x58D3;&#x68E7;&#x7684; 2&#xFF0C;
 &#x800C; b &#x5C0D;&#x61C9;&#x7684;&#x662F;&#x4E00;&#x500B;&#x5371;&#x96AA;&#x5730;&#x5E36;&#xFF0C;&#x9084;&#x597D;&#x6C92;&#x7528;&#x5230; b&#xFF0C;
 &#x6240;&#x4EE5;&#x9019;&#x500B;&#x7A0B;&#x5E8F;&#x4F9D;&#x7136;&#x9806;&#x5229;&#x5730;&#x57F7;&#x884C;&#x5B8C;&#x4E86;&#x3002;</p>
-<p>&#x3000;&#x3000;<b>&#x7D9C;&#x4E0A;&#x6240;&#x8FF0;&#xFF0C;&#x51FD;&#x6578;&#x6307;&#x91DD;&#x771F;&#x6C92;&#x4EC0;&#x9EBC;&#x7279;&#x5225;&#x7684;&#x3002;</b></p>
-<p>[&#x56DE;&#x76EE;&#x9304;][content]</p>
+<p><b>&#x7D9C;&#x4E0A;&#x6240;&#x8FF0;&#xFF0C;&#x51FD;&#x6578;&#x6307;&#x91DD;&#x771F;&#x6C92;&#x4EC0;&#x9EBC;&#x7279;&#x5225;&#x7684;&#x3002;</b></p>
 
                     
                     </section>

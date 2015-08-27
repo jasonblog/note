@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="24.17" data-basepath=".." data-revision="Thu Aug 27 2015 23:19:38 GMT+0800 (CST)">
+    <div class="book" data-level="24.17" data-basepath=".." data-revision="Fri Aug 28 2015 00:30:48 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -4851,9 +4851,7 @@
                 
                     <section class="normal" id="section-">
                     
-                        <p>&#xFEFF;[content]: <a href="https://github.com/1184893257/simplelinux/blob/master/README.md#content" target="_blank">https://github.com/1184893257/simplelinux/blob/master/README.md#content</a></p>
-<p>[&#x56DE;&#x76EE;&#x9304;][content]</p>
-<p><a name="top"></a></p>
+                        <p><a name="top"></a></p>
 <h1 align="center">&#x8B8A;&#x91CF;&#x540D;&#x3001;&#x51FD;&#x6578;&#x540D;
 </h1>
 
@@ -4874,51 +4872,53 @@
 &#x96D6;&#x7136;&#x7A0B;&#x5E8F;&#x904B;&#x884C;&#x6642;&#x7528;&#x4E0D;&#x5230;&#x7B26;&#x865F;&#x8868;&#xFF0C;
 &#x4F46;&#x662F;&#x9ED8;&#x8A8D;&#x60C5;&#x6CC1;&#x4E0B;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x4E2D;&#x9084;&#x662F;&#x5B58;&#x8457;&#x7B26;&#x865F;&#x8868;&#xFF0C;
 &#x770B;&#x4E0B;&#x9762;&#x9019;&#x500B;&#x7A0B;&#x5E8F;&#xFF08;name.c&#xFF09;&#xFF1A;</p>
-<pre><code>#include &lt;stdio.h&gt;
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;stdio.h&gt;</span>
 
-int globalvar;
+<span class="hljs-keyword">int</span> globalvar;
 
-int main()
-{
-    static int staticval;
-    return 0;
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> staticval;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
-</code></pre><p><code>&#x3000;</code>name.c &#x4E2D;&#x6709;&#x5168;&#x5C40;&#x8B8A;&#x91CF;&#x3001;static&#x8B8A;&#x91CF;&#x3001;&#x51FD;&#x6578;(main)&#xFF0C;
+</code></pre>
+<p>name.c &#x4E2D;&#x6709;&#x5168;&#x5C40;&#x8B8A;&#x91CF;&#x3001;static&#x8B8A;&#x91CF;&#x3001;&#x51FD;&#x6578;(main)&#xFF0C;
 &#x67E5;&#x770B;&#x5B83;&#x7DE8;&#x8B6F;&#x5F8C;&#x7684;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#x3001;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x7684; &#x5730;&#x5740;-&#x7B26;&#x865F; &#x6620;&#x5C04;&#xFF1A;</p>
-<pre><code>[lqy@localhost notlong]$ gcc -c name.c
+<pre><code class="lang-c">[lqy@localhost notlong]$ gcc -c name.c
 [lqy@localhost notlong]$ nm name.o
-00000004 C globalvar
-00000000 T main
-00000000 b staticval.1672
+<span class="hljs-number">00000004</span> C globalvar
+<span class="hljs-number">00000000</span> T main
+<span class="hljs-number">00000000</span> b staticval<span class="hljs-number">.1672</span>
 [lqy@localhost notlong]$ gcc -o name name.c
 [lqy@localhost notlong]$ nm name | sort
-08048274 T _init
-080482e0 T _start
-08048310 t __do_global_dtors_aux
-08048370 t frame_dummy
-08048394 T main
+<span class="hljs-number">08048274</span> T _init
+<span class="hljs-number">080482e0</span> T _start
+<span class="hljs-number">08048310</span> t __do_global_dtors_aux
+<span class="hljs-number">08048370</span> t frame_dummy
+<span class="hljs-number">08048394</span> T main
 ...
 &#x6B64;&#x8655;&#x7701;&#x7565;X&#x884C;
 ...
-08049604 b staticval.1672
-08049608 B globalvar
-0804960c A _end
-         U __libc_start_main@@GLIBC_2.0
+<span class="hljs-number">08049604</span> b staticval<span class="hljs-number">.1672</span>
+<span class="hljs-number">08049608</span> B globalvar
+<span class="hljs-number">0804960</span>c A _end
+         U __libc_start_main@@GLIBC_2<span class="hljs-number">.0</span>
          w __gmon_start__
          w _Jv_RegisterClasses
-[lqy@localhost notlong]$ 
-</code></pre><p><code>&#x3000;</code>&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x4E2D;&#x7684; &#x5730;&#x5740;-&#x7B26;&#x865F; &#x6620;&#x5C04;&#x9084;&#x6709;&#x4EC0;&#x9EBC;&#x5B58;&#x5728;&#x7684;&#x610F;&#x7FA9;&#x5462;&#xFF1F;
+[lqy@localhost notlong]$
+</code></pre>
+<p>&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x4E2D;&#x7684; &#x5730;&#x5740;-&#x7B26;&#x865F; &#x6620;&#x5C04;&#x9084;&#x6709;&#x4EC0;&#x9EBC;&#x5B58;&#x5728;&#x7684;&#x610F;&#x7FA9;&#x5462;&#xFF1F;
 &#x5B83;&#x53EF;&#x7528;&#x65BC;&#x5F59;&#x7DE8;&#x7D1A;&#x8ABF;&#x8A66;&#x7684;&#x6642;&#x5019;&#x8A2D;&#x7F6E;&#x65B7;&#x9EDE;&#xFF0C;
 &#x6BD4;&#x5982;linux&#x5167;&#x6838;&#x7DE8;&#x8B6F;&#x5F8C;&#x5C31;&#x751F;&#x6210;&#x4E86; System.map &#x6587;&#x4EF6;&#xFF0C;
 &#x4FBF;&#x65BC;&#x9032;&#x884C;&#x5167;&#x6838;&#x8ABF;&#x8A66;&#xFF1A;</p>
-<pre><code>00000000 A VDSO32_PRELINK
-00000040 A VDSO32_vsyscall_eh_frame_size
-000001d3 A kexec_control_code_size
-00000400 A VDSO32_sigreturn
-0000040c A VDSO32_rt_sigreturn
-00000414 A VDSO32_vsyscall
-00000424 A VDSO32_SYSENTER_RETURN
-01000000 A phys_startup_32
+<pre><code class="lang-c"><span class="hljs-number">00000000</span> A VDSO32_PRELINK
+<span class="hljs-number">00000040</span> A VDSO32_vsyscall_eh_frame_size
+<span class="hljs-number">000001</span>d3 A kexec_control_code_size
+<span class="hljs-number">00000400</span> A VDSO32_sigreturn
+<span class="hljs-number">0000040</span>c A VDSO32_rt_sigreturn
+<span class="hljs-number">00000414</span> A VDSO32_vsyscall
+<span class="hljs-number">00000424</span> A VDSO32_SYSENTER_RETURN
+<span class="hljs-number">01000000</span> A phys_startup_32
 c1000000 T _text
 c1000000 T startup_32
 c1000054 t default_entry
@@ -4934,7 +4934,7 @@ c10010f9 t run_init_process
 c1001112 t init_post
 c10011b0 T do_one_initcall
 ...
-</code></pre><p>[&#x56DE;&#x76EE;&#x9304;][content]</p>
+</code></pre>
 
                     
                     </section>

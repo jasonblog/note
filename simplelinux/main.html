@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="24.11" data-basepath=".." data-revision="Thu Aug 27 2015 23:19:38 GMT+0800 (CST)">
+    <div class="book" data-level="24.11" data-basepath=".." data-revision="Fri Aug 28 2015 00:30:48 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -4851,38 +4851,37 @@
                 
                     <section class="normal" id="section-">
                     
-                        <p>&#xFEFF;[content]: <a href="https://github.com/1184893257/simplelinux/blob/master/README.md#content" target="_blank">https://github.com/1184893257/simplelinux/blob/master/README.md#content</a></p>
-<p>[&#x56DE;&#x76EE;&#x9304;][content]</p>
-<p><a name="top"></a></p>
+                        <p><a name="top"></a></p>
 <h1 align="center">&#x8AB0;&#x8ABF;&#x7528;&#x4E86;main&#xFF1F;
 </h1>
 
-<p>&#x3000;&#x3000;&#x9019;&#x662F;&#x51FD;&#x6578;&#x5E40;&#x7684;&#x61C9;&#x7528;&#x4E4B;&#x4E00;&#x3002;</p>
+<p>&#x9019;&#x662F;&#x51FD;&#x6578;&#x5E40;&#x7684;&#x61C9;&#x7528;&#x4E4B;&#x4E00;&#x3002;</p>
 <h2 id="%E6%93%8D%E4%BD%9C%E5%8F%AF%E8%A1%8C%E6%80%A7">&#x64CD;&#x4F5C;&#x53EF;&#x884C;&#x6027;</h2>
 <p>&#x3000;&#x3000;&#x5F9E;&#x4E0A;&#x4E00;&#x7BC7;&#x4E2D;&#x53EF;&#x4EE5;&#x767C;&#x73FE;&#xFF1A;&#x7528;&#x5E40;&#x6307;&#x91DD; ebp &#x53EF;&#x4EE5;&#x56DE;&#x6EAF;&#x5230;&#x6240;&#x6709;&#x7684;&#x51FD;&#x6578;&#x5E40;&#xFF0C;
 &#x90A3;&#x9EBC; main &#x51FD;&#x6578;&#x5E40;&#x4E4B;&#x4E0A;&#x7684;&#x51FD;&#x6578;&#x5E40;&#x81EA;&#x7136;&#x4E5F;&#x662F;&#x53EF;&#x4EE5;&#x7684;&#xFF1B;
 &#x800C;&#x5E40;&#x4E2D; &#x820A;ebp &#x7684;&#x4E0A;&#x4E00;&#x500B;&#x56DB;&#x5B57;&#x7BC0;&#x5B58;&#x7684;&#x662F;&#x51FD;&#x6578;&#x7684;&#x8FD4;&#x56DE;&#x5730;&#x5740;&#xFF0C;
 &#x7531;&#x9019;&#x500B;&#x5730;&#x5740;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x5224;&#x65B7;&#x51FA;&#x8AB0;&#x8ABF;&#x7528;&#x4E86;&#x9019;&#x500B;&#x51FD;&#x6578;&#x3002;</p>
 <h2 id="%E6%BA%96%E5%82%99%E6%B4%BB%E5%8B%95">&#x6E96;&#x5099;&#x6D3B;&#x52D5;</h2>
-<p>&#x3000;&#x3000;&#x4E0B;&#x9762;&#x5C31;&#x662F;&#x9019;&#x6B21;&#x9ED1;&#x5BA2;&#x884C;&#x52D5;&#x7684;&#x4E3B;&#x89D2;&#xFF08;up.c&#xFF09;&#xFF1A;</p>
-<pre><code>#include &lt;stdio.h&gt;
+<p>&#x4E0B;&#x9762;&#x5C31;&#x662F;&#x9019;&#x6B21;&#x9ED1;&#x5BA2;&#x884C;&#x52D5;&#x7684;&#x4E3B;&#x89D2;&#xFF08;up.c&#xFF09;&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;stdio.h&gt;</span>
 
-int main()
-{
-    int *p;
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">int</span> *p;
 
-    // &#x4EE5;&#x4E0B;&#x9019;&#x884C;&#x5167;&#x806F;&#x5F59;&#x7DE8;&#x5C07; ebp &#x5BC4;&#x5B58;&#x5668;&#x7684;&#x503C;&#x5B58;&#x5230;&#x6307;&#x91DD; p &#x4E2D;
-    __asm__(&quot;movl %%ebp, %0&quot;
-            :&quot;=m&quot;(p));
+    <span class="hljs-comment">// &#x4EE5;&#x4E0B;&#x9019;&#x884C;&#x5167;&#x806F;&#x5F59;&#x7DE8;&#x5C07; ebp &#x5BC4;&#x5B58;&#x5668;&#x7684;&#x503C;&#x5B58;&#x5230;&#x6307;&#x91DD; p &#x4E2D;</span>
+    __asm__(<span class="hljs-string">&quot;movl %%ebp, %0&quot;</span>
+            :<span class="hljs-string">&quot;=m&quot;</span>(p));
 
-    while(p != NULL){
-        printf(&quot;%p\n&quot;, p[1]);
-        p = (int*)(p[0]);
+    <span class="hljs-keyword">while</span>(p != NULL){
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%p\n&quot;</span>, p[<span class="hljs-number">1</span>]);
+        p = (<span class="hljs-keyword">int</span>*)(p[<span class="hljs-number">0</span>]);
     }
 
-    return 0;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
-</code></pre><p><code>&#x3000;</code>&#x9996;&#x5148;&#xFF0C;&#x8ACB;&#x5141;&#x8A31;&#x6211;&#x4F7F;&#x7528;&#x4E00;&#x4E0B; gcc &#x5167;&#x806F;&#x5F59;&#x7DE8;&#xFF0C;
+</code></pre>
+<p>&#x9996;&#x5148;&#xFF0C;&#x8ACB;&#x5141;&#x8A31;&#x6211;&#x4F7F;&#x7528;&#x4E00;&#x4E0B; gcc &#x5167;&#x806F;&#x5F59;&#x7DE8;&#xFF0C;
 &#x9019;&#x88E1;&#x7C21;&#x55AE;&#x7684;&#x89E3;&#x91CB;&#x4E00;&#x4E0B;&#xFF1A;</p>
 <ol>
 <li>&quot;=m&quot;(p) &#x8868;&#x793A;&#x5C07;&#x5167;&#x5B58;&#x8B8A;&#x91CF; p &#x4F5C;&#x70BA;&#x4E00;&#x500B;&#x8F38;&#x51FA;&#x64CD;&#x4F5C;&#x6578;</li>
@@ -4890,8 +4889,8 @@ int main()
 <li>&#x70BA;&#x4E86;&#x8207;&#x64CD;&#x4F5C;&#x6578;&#x5340;&#x5225;&#x958B;&#x4F86;&#xFF0C;&#x5BC4;&#x5B58;&#x5668;&#x8981;&#x591A;&#x52A0;&#x500B; %&#xFF0C;
 %%ebp &#x8868;&#x793A;&#x7684;&#x5C31;&#x662F; ebp &#x5BC4;&#x5B58;&#x5668;</li>
 </ol>
-<p><code>&#x3000;</code>&#x7E3D;&#x4E4B;&#xFF0C;&#x9019;&#x584A;&#x5167;&#x806F;&#x5F59;&#x7DE8;&#x5C07; ebp &#x5BC4;&#x5B58;&#x5668;&#x7684;&#x503C;&#x8CE6;&#x7D66;&#x4E86;&#x6307;&#x91DD; p&#x3002;</p>
-<p>&#x3000;&#x3000;&#x7136;&#x5F8C;&#x89E3;&#x91CB;&#x4E00;&#x4E0B;while&#x5FAA;&#x74B0;&#xFF1A;&#x5FAA;&#x74B0;&#x4E2D;&#xFF0C;&#x9996;&#x5148;&#x6253;&#x5370; p[1]&#xFF0C;
+<p>&#x7E3D;&#x4E4B;&#xFF0C;&#x9019;&#x584A;&#x5167;&#x806F;&#x5F59;&#x7DE8;&#x5C07; ebp &#x5BC4;&#x5B58;&#x5668;&#x7684;&#x503C;&#x8CE6;&#x7D66;&#x4E86;&#x6307;&#x91DD; p&#x3002;</p>
+<p>&#x7136;&#x5F8C;&#x89E3;&#x91CB;&#x4E00;&#x4E0B;while&#x5FAA;&#x74B0;&#xFF1A;&#x5FAA;&#x74B0;&#x4E2D;&#xFF0C;&#x9996;&#x5148;&#x6253;&#x5370; p[1]&#xFF0C;
 p[1]&#x5C31;&#x662F;&#x8A72;&#x5E40;&#x6240;&#x5B58;&#x7684;&#x8FD4;&#x56DE;&#x5730;&#x5740;&#xFF1B;&#x7136;&#x5F8C;&#x5C07;&#x6307;&#x91DD; p &#x6539;&#x70BA; p[0]&#xFF0C;
 p[0]&#x662F; &#x820A;ebp&#xFF08;&#x4E0A;&#x4E00;&#x5E40;&#x7684;&#x5E40;&#x6307;&#x91DD;&#xFF09;&#xFF1B;
 &#x9019;&#x6A23;&#xFF0C;&#x7A0B;&#x5E8F;&#x5C07;&#x6309;&#x7167;<b>&#x8ABF;&#x7528;&#x9806;&#x5E8F;&#x7684;&#x9006;&#x5E8F;</b>&#x6253;&#x5370;&#x51FA;&#x5404;&#x500B;&#x8FD4;&#x56DE;&#x5730;&#x5740;&#x3002;</p>
@@ -4902,42 +4901,44 @@ p[0]&#x662F; &#x820A;ebp&#xFF08;&#x4E0A;&#x4E00;&#x5E40;&#x7684;&#x5E40;&#x6307;
 <p>&#x3000;&#x3000;&#x6211;&#x5011;&#x4F7F;&#x7528;&#x975C;&#x614B;&#x93C8;&#x63A5;&#x7684;&#x65B9;&#x5F0F;&#x7DE8;&#x8B6F; up.c
 &#xFF08;&#x975C;&#x614B;&#x93C8;&#x63A5;&#x7684;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x4E2D;&#x5305;&#x542B;&#x6240;&#x6709;&#x7528;&#x6236;&#x614B;&#x4E0B;&#x57F7;&#x884C;&#x7684;&#x4EE3;&#x78BC;&#xFF09;&#xFF0C;
 &#x7136;&#x5F8C;&#x57F7;&#x884C;&#x5B83;&#xFF1A;</p>
-<pre><code>[lqy@localhost temp]$ gcc -static -o up up.c
+<pre><code class="lang-c">[lqy@localhost temp]$ gcc -<span class="hljs-keyword">static</span> -o up up.c
 [lqy@localhost temp]$ ./up
-0x8048464
-0x80481e1
-[lqy@localhost temp]$ 
-</code></pre><h2 id="%E5%88%86%E6%9E%90%E7%B5%90%E6%9E%9C">&#x5206;&#x6790;&#x7D50;&#x679C;</h2>
-<p>&#x3000;&#x3000;up &#x6253;&#x5370;&#x4E86;&#x4E86;&#x5169;&#x500B;&#x6307;&#x5411;&#x4EE3;&#x78BC;&#x5340;&#x7684;&#x5730;&#x5740;&#xFF0C;
+<span class="hljs-number">0x8048464</span>
+<span class="hljs-number">0x80481e1</span>
+[lqy@localhost temp]$
+</code></pre>
+<h2 id="%E5%88%86%E6%9E%90%E7%B5%90%E6%9E%9C">&#x5206;&#x6790;&#x7D50;&#x679C;</h2>
+<p>up &#x6253;&#x5370;&#x4E86;&#x4E86;&#x5169;&#x500B;&#x6307;&#x5411;&#x4EE3;&#x78BC;&#x5340;&#x7684;&#x5730;&#x5740;&#xFF0C;
 &#x63A5;&#x8457;&#x5C31;&#x770B;&#x5B83;&#x5011;&#x662F;&#x5C6C;&#x65BC;&#x54EA;&#x5169;&#x500B;&#x51FD;&#x6578;&#x4E86;&#xFF1A;</p>
-<pre><code>nm up | sort &gt; up.txt
-</code></pre><ul>
+<pre><code class="lang-c">nm up | sort &gt; up.txt
+</code></pre>
+<ul>
 <li>nm up &#x53EF;&#x5217;&#x51FA;&#x5404;&#x500B;&#x5168;&#x5C40;&#x51FD;&#x6578;&#x7684;&#x5730;&#x5740;</li>
 <li>| sort &gt; up.txt &#x901A;&#x904E;<b>&#x7BA1;&#x9053;</b>&#x5C07; nm up &#x7684;&#x8F38;&#x51FA;&#x4F5C;&#x70BA; sort &#x7684;&#x8F38;&#x5165;&#xFF0C;
 sort &#x6392;&#x5E8F;&#x5F8C;<b>&#x8F38;&#x51FA;&#x91CD;&#x5B9A;&#x5411;</b>&#x5230; up.txt &#x6587;&#x4EF6;&#x4E2D;&#xFF08;&#x8F38;&#x51FA;&#x6709;1910&#x884C;&#xFF0C;
 &#x4E0D;&#x5F97;&#x4E0D;&#x9019;&#x9EBC;&#x505A;o(&#x256F;&#x25A1;&#x2570;)o&#xFF09;</li>
 </ul>
-<p><code>`&#x7136;&#x5F8C;&#x767C;&#x73FE;&#x5169;&#x500B;&#x5730;&#x5740;&#x5206;&#x5225;&#x4F4D;&#x65BC;</code>__libc_start_main`&#x3001;_start &#x4E2D;&#xFF1A;</p>
-<pre><code>...
-08048140 T _init
-080481c0 T _start
-080481f0 t __do_global_dtors_aux
-08048260 t frame_dummy
-080482bc T main
-08048300 T __libc_start_main
-080484d0 T __libc_check_standard_fds
+<p>&#x7136;&#x5F8C;&#x767C;&#x73FE;&#x5169;&#x500B;&#x5730;&#x5740;&#x5206;&#x5225;&#x4F4D;&#x65BC; <code>__libc_start_main</code>&#x3001;_start &#x4E2D;&#xFF1A;</p>
+<pre><code class="lang-c">...
+<span class="hljs-number">08048140</span> T _init
+<span class="hljs-number">080481</span>c0 T _start
+<span class="hljs-number">080481f</span>0 t __do_global_dtors_aux
+<span class="hljs-number">08048260</span> t frame_dummy
+<span class="hljs-number">080482</span>bc T main
+<span class="hljs-number">08048300</span> T __libc_start_main
+<span class="hljs-number">080484</span>d0 T __libc_check_standard_fds
 ...
-</code></pre><p><code>&#x3000;</code>&#x5BE6;&#x969B;&#x4E0A;&#x7A0B;&#x5E8F;&#x6B63;&#x597D;&#x662F;&#x5F9E; _start &#x958B;&#x59CB;&#x57F7;&#x884C;&#x7684;&#xFF0C;
+</code></pre>
+<p>&#x5BE6;&#x969B;&#x4E0A;&#x7A0B;&#x5E8F;&#x6B63;&#x597D;&#x662F;&#x5F9E; _start &#x958B;&#x59CB;&#x57F7;&#x884C;&#x7684;&#xFF0C;
 &#x800C;&#x4E14;&#x5F9E; up &#x7684;&#x53CD;&#x5F59;&#x7DE8;&#x7D50;&#x679C;&#x4E2D;&#x53EF;&#x770B;&#x51FA; _start &#x7684;&#x7B2C;&#x4E00;&#x689D;&#x6307;&#x4EE4;
  xor %ebp,%ebp &#x5C31;&#x662F;&#x90A3;&#x689D;&#x50B3;&#x8AAA;&#x4E2D;&#x7684;&#x5C07; ebp &#x6E05;&#x96F6;&#x7684;&#x6307;&#x4EE4;
 &#xFF08;&#x5169;&#x500B;&#x4E00;&#x6A23;&#x7684;&#x6578;&#x76F8;&#x7570;&#x6216;&#x7684;&#x7D50;&#x679C;&#x4E00;&#x5B9A;&#x662F;0&#xFF09;&#x3002;</p>
-<p>&#x3000;&#x3000;&#x90A3;&#x9EBC;&#x8ABF;&#x7528; main &#x51FD;&#x6578;&#x4E4B;&#x524D;&#x7A0B;&#x5E8F;&#x90FD;&#x5E79;&#x4E86;&#x4E9B;&#x5565;&#x4E8B;&#x5462;&#xFF1F;
+<p>&#x90A3;&#x9EBC;&#x8ABF;&#x7528; main &#x51FD;&#x6578;&#x4E4B;&#x524D;&#x7A0B;&#x5E8F;&#x90FD;&#x5E79;&#x4E86;&#x4E9B;&#x5565;&#x4E8B;&#x5462;&#xFF1F;
 &#x6BD4;&#x5982;&#x8AAA;<b>&#x5806;&#x7684;&#x521D;&#x59CB;&#x5316;</b>&#xFF0C;&#x5982;&#x679C;&#x662F; C++ &#x7A0B;&#x5E8F;&#x7684;&#x8A71;&#xFF0C;
 &#x5168;&#x5C40;&#x5C0D;&#x8C61;&#x7684;&#x69CB;&#x9020;&#x4E5F;&#x662F;&#x5728; main &#x4E4B;&#x524D;&#x5B8C;&#x6210;&#x7684;
 &#xFF08;&#x4E0D;&#x80FD;&#x8B93; main &#x4E2D;&#x4F7F;&#x7528;&#x5168;&#x5C40;&#x5C0D;&#x8C61;&#x7684;&#x6642;&#x5019;&#x7ADF;&#x7136;&#x9084;&#x6C92;&#x69CB;&#x9020;&#x5427;&#xFF01;&#xFF09;&#xFF0C;
 &#x800C;&#x5168;&#x5C40;&#x5C0D;&#x8C61;&#x7684;&#x6790;&#x69CB;&#x4E5F;&#x76F8;&#x7576;&#x6709;&#x8DA3;&#x5730;&#x5728; main &#x57F7;&#x884C;&#x5B8C;&#x4E86;&#x4E4B;&#x5F8C;&#x624D;&#x57F7;&#x884C;&#x3002;</p>
-<p>&#x3000;&#x3000;main &#x5728;&#x4F60;&#x5FC3;&#x76EE;&#x4E2D;&#x7684;&#x5730;&#x4F4D;&#x662F;&#x4E0D;&#x662F;&#x4E00;&#x843D;&#x5343;&#x4E08;&#x4E86;&#xFF1F;</p>
-<p>[&#x56DE;&#x76EE;&#x9304;][content]</p>
+<p>main &#x5728;&#x4F60;&#x5FC3;&#x76EE;&#x4E2D;&#x7684;&#x5730;&#x4F4D;&#x662F;&#x4E0D;&#x662F;&#x4E00;&#x843D;&#x5343;&#x4E08;&#x4E86;&#xFF1F;</p>
 
                     
                     </section>

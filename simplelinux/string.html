@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="24.6" data-basepath=".." data-revision="Thu Aug 27 2015 23:19:38 GMT+0800 (CST)">
+    <div class="book" data-level="24.6" data-basepath=".." data-revision="Fri Aug 28 2015 00:30:48 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -4851,7 +4851,145 @@
                 
                     <section class="normal" id="section-">
                     
-                        
+                        <p><a name="top"></a></p>
+<h1 align="center">&#x5B57;&#x7B26;&#x4E32;
+</h1>
+
+<p>&#x8FD9;&#x4E00;&#x7BC7;&#x5206;&#x6790;&#x5B57;&#x7B26;&#x4E32;&#xFF0C;&#x5B57;&#x7B26;&#x4E32;&#x7ECF;&#x5E38;&#x88AB;&#x4F7F;&#x7528;&#xFF0C;
+&#x4F46;&#x662F;&#x5B83;&#x7684;&#x79D8;&#x5BC6;&#x4E5F;&#x4E0D;&#x5C11;&#xFF1A;</p>
+<h2 id="%E4%B8%80%E3%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E5%AD%98%E5%82%A8%E4%BD%8D%E7%BD%AE">&#x4E00;&#x3001;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x5B58;&#x50A8;&#x4F4D;&#x7F6E;</h2>
+<p>C&#x6E90;&#x7A0B;&#x5E8F;&#xFF08;string1.c&#xFF09;&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;stdio.h&gt;</span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;Hello, World!&quot;</span>);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>&#x6211;&#x4EEC;&#x76F4;&#x63A5;&#x770B;&#x53EF;&#x6267;&#x884C;&#x6587;&#x4EF6;&#x7684;&#x53CD;&#x6C47;&#x7F16;&#x7ED3;&#x679C;&#xFF1A;</p>
+<pre><code>[lqy@localhost temp]$ gcc -o string1 string1.c
+[lqy@localhost temp]$ ./string1
+Hello, World!
+[lqy@localhost temp]$ objdump -s -d string1 &gt; string1.txt
+[lqy@localhost temp]$
+</code></pre><p>string1.txt &#x4E2D;&#x7684;&#x90E8;&#x5206;&#x5185;&#x5BB9;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code>Contents of section .rodata:
+ 8048488 03000000 01000200 00000000 48656c6c  ............Hell
+ 8048498 6f2c2057 6f726c64 2100               o, World!.
+
+...
+
+080483b4 &lt;main&gt;:
+ 80483b4:    55                       push   %ebp
+ 80483b5:    89 e5                    mov    %esp,%ebp
+ 80483b7:    83 e4 f0                 and    $0xfffffff0,%esp
+ 80483ba:    83 ec 10                 sub    $0x10,%esp<b>
+ 80483bd:    c7 04 24 94 84 04 08     movl   $0x8048494,(%esp)
+ 80483c4:    e8 27 ff ff ff           call   80482f0 &lt;puts@plt&gt;</b>
+ 80483c9:    b8 00 00 00 00           mov    $0x0,%eax
+ 80483ce:    c9                       leave
+ 80483cf:    c3                       ret
+</code></pre>
+
+<p>&#x53EF;&#x89C1; 0x8048494 &#x5E94;&#x8BE5;&#x662F; &quot;Hello, World!&quot; &#x7684;&#x5730;&#x5740;&#xFF0C;
+&#x7136;&#x540E;&#x53D1;&#x73B0;&#x5728; .rodata &#x6BB5;&#x4E2D; 0x8048488 + 12 &#x5904;&#x6B63;&#x597D;&#x5B58;&#x50A8;&#x7740;
+ &quot;Hello, World!&quot; &#x7684;&#x5404;&#x4E2A;&#x5B57;&#x7B26;&#x7684;
+<a target="_blank" href="http://www.asciitable.com/">ASCII&#x7801;</a>&#xFF1A;
+&apos;H&apos; &#x7684; <a target="_blank" href="http://www.asciitable.com/">ASCII&#x7801;</a>&#x662F; 0x48&#xFF0C;
+&#x800C;&#x611F;&#x53F9;&#x53F7; &apos;!&apos; &#x7684; <a target="_blank" href="http://www.asciitable.com/">ASCII&#x7801;</a> &#x7801;&#x662F; 0x21&#xFF0C;
+&#x6700;&#x540E;&#x7F16;&#x8BD1;&#x5668;&#x8FD8;&#x81EA;&#x52A8;&#x7684;&#x4E3A;&#x6211;&#x4EEC;&#x6DFB;&#x4E86;&#x4E2A;&#x5B57;&#x7B26;&#x4E32;&#x7ED3;&#x675F;&#x7B26; 0x00&#xFF1A;
+<b>&#x53EA;&#x8981;&#x662F;&#x53CC;&#x5F15;&#x53F7;&#x62EC;&#x8D77;&#x6765;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#xFF0C;&#x7F16;&#x8BD1;&#x5668;&#x90FD;&#x4F1A;&#x81EA;&#x52A8;&#x7684;&#x4E3A;&#x6211;&#x4EEC;&#x52A0;&#x7ED3;&#x675F;&#x7B26;&#x3002;</b></p>
+<p>&#x3000;&#x3000;&#x7531;&#x6B64;&#x6211;&#x4EEC;&#x53D1;&#x73B0;&#xFF1A;
+<b>&#x5B57;&#x7B26;&#x4E32;&#x548C;&#x5168;&#x5C40;&#x53D8;&#x91CF;&#x4E00;&#x6837;&#x505A;&#x4E3A;&#x9759;&#x6001;&#x6570;&#x636E;&#x5B58;&#x50A8;&#x5728;&#x53EF;&#x6267;&#x884C;&#x6587;&#x4EF6;&#x4E2D;&#xFF0C;
+&#x5728;&#x4F7F;&#x7528;&#x7684;&#x65F6;&#x5019;&#x7528;&#x5E38;&#x91CF;&#x5730;&#x5740;&#x6765;&#x8BBF;&#x95EE;&#x3002;</b></p>
+<p>&#x3000;&#x3000;&#x4F46;&#x662F;&#x5B57;&#x7B26;&#x4E32;&#x88AB;&#x653E;&#x5728;&#x4E86; .rodata &#x6BB5;&#x4E2D;&#xFF0C;
+&#x8FD9;&#x4E2A;&#x6BB5;&#x4E2D;&#x7684;&#x6570;&#x636E;&#x4E0E; .text &#x6BB5;&#xFF08;&#x4EE3;&#x7801;&#x6BB5;&#xFF09;&#x4E2D;&#x7684;&#x6570;&#x636E;&#x4E00;&#x6837;
+&#x5728;&#x53EF;&#x6267;&#x884C;&#x6587;&#x4EF6;&#x88AB;&#x8F7D;&#x5165;&#x5185;&#x5B58;&#x8FD0;&#x884C;&#x65F6;
+&#x90FD;&#x662F;&#x53EA;&#x8BFB;&#x7684;&#xFF08;&#x8FD9;&#x91CC;&#x7684;&#x53EA;&#x8BFB;&#x662F;&#x901A;&#x8FC7;&#x5206;&#x9875;&#x7BA1;&#x7406;&#x5B9E;&#x73B0;&#x7684;&#xFF1A;
+&#x5728;&#x9875;&#x8868;&#x8868;&#x9879;&#x4E2D;&#x6709;&#x4E00;&#x4E2A;&#x4F4D;&#xFF0C;&#x8BBE;&#x7F6E;&#x4E3A; 1 &#x8868;&#x793A;&#x8BE5;&#x9875;&#x53EF;&#x5199;&#xFF0C;
+&#x8BBE;&#x7F6E;&#x4E3A; 0 &#x8868;&#x793A;&#x8BE5;&#x9875;&#x53EA;&#x8BFB;&#xFF1B;&#x5982;&#x679C;&#x8BD5;&#x56FE;&#x5411;&#x53EA;&#x8BFB;&#x7684;&#x9875;&#x4E2D;&#x5199;&#x5165;&#x6570;&#x636E;&#xFF0C;
+CPU &#x5C31;&#x4F1A;&#x89E6;&#x53D1;&#x9875;&#x4FDD;&#x62A4;&#x5F02;&#x5E38;&#xFF09;&#x3002;
+<b>&#x6240;&#x4EE5;&#x6E90;&#x5B57;&#x7B26;&#x4E32;&#x4E2D;&#x7684;&#x4EFB;&#x4F55;&#x5B57;&#x7B26;&#x90FD;&#x4E0D;&#x80FD;&#x5728;&#x7A0B;&#x5E8F;&#x8FD0;&#x884C;&#x65F6;&#x66F4;&#x6539;</b>&#x3002;</p>
+<h2 id="%E4%BA%8C%E3%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8C%87%E9%92%88-%E5%92%8C-%E5%AD%97%E7%AC%A6%E6%95%B0%E7%BB%84">&#x4E8C;&#x3001;&#x5B57;&#x7B26;&#x4E32;&#x6307;&#x9488; &#x548C; &#x5B57;&#x7B26;&#x6570;&#x7EC4;</h2>
+<p>C&#x6E90;&#x7A0B;&#x5E8F;&#xFF08;string2.c&#xFF09;&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;stdio.h&gt;</span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">char</span> *s1 = <span class="hljs-string">&quot;1234567&quot;</span>;
+    <span class="hljs-keyword">char</span> s2[]= <span class="hljs-string">&quot;1234567&quot;</span>;
+
+    <span class="hljs-built_in">puts</span>(s1);
+    <span class="hljs-built_in">puts</span>(s2);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>&#x53EF;&#x6267;&#x884C;&#x6587;&#x4EF6;&#x7684;&#x53CD;&#x6C47;&#x7F16;&#x7ED3;&#x679C;&#x7684;&#x8D4B;&#x503C;&#x90E8;&#x5206;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-number">80483</span>bd:    c7 <span class="hljs-number">44</span> <span class="hljs-number">24</span> <span class="hljs-number">1</span>c c4 <span class="hljs-number">84</span> <span class="hljs-number">04</span>     movl   $<span class="hljs-number">0x80484c4</span>,<span class="hljs-number">0x1c</span>(%esp)
+<span class="hljs-number">80483</span>c4:    <span class="hljs-number">08</span>
+<span class="hljs-number">80483</span>c5:    a1 c4 <span class="hljs-number">84</span> <span class="hljs-number">04</span> <span class="hljs-number">08</span>           mov    <span class="hljs-number">0x80484c4</span>,%eax
+<span class="hljs-number">80483</span>ca:    <span class="hljs-number">8</span>b <span class="hljs-number">15</span> c8 <span class="hljs-number">84</span> <span class="hljs-number">04</span> <span class="hljs-number">08</span>        mov    <span class="hljs-number">0x80484c8</span>,%edx
+<span class="hljs-number">80483</span>d0:    <span class="hljs-number">89</span> <span class="hljs-number">44</span> <span class="hljs-number">24</span> <span class="hljs-number">14</span>              mov    %eax,<span class="hljs-number">0x14</span>(%esp)
+<span class="hljs-number">80483</span>d4:    <span class="hljs-number">89</span> <span class="hljs-number">54</span> <span class="hljs-number">24</span> <span class="hljs-number">18</span>              mov    %edx,<span class="hljs-number">0x18</span>(%esp)
+</code></pre>
+<p>0x80484c4 &#x662F;&#x5B57;&#x7B26;&#x4E32;&quot;1234567&quot;&#x7684;&#x5730;&#x5740;&#xFF0C;
+&#x6240;&#x4EE5;&#xFF1A;<b>&#x5E38;&#x91CF;&#x5B57;&#x7B26;&#x4E32;&#x8D4B;&#x503C;&#x7ED9;&#x6307;&#x9488;&#x65F6;&#x4F20;&#x9012;&#x7684;&#x662F;&#x6E90;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x5730;&#x5740;&#xFF1B;
+&#x800C;&#x8D4B;&#x503C;&#x7ED9;&#x5C40;&#x90E8;&#x5B57;&#x7B26;&#x6570;&#x7EC4;&#x65F6;&#xFF0C;&#x8981;&#x5F53;&#x6210;&#x6570;&#x5B57;&#x4E00;&#x4E2A;&#x4E2A;&#x62F7;&#x8D1D;&#x5230;&#x5C40;&#x90E8;&#x53D8;&#x91CF;&#x7A7A;&#x95F4;</b>&#x3002;
+&#x56E0;&#x6B64;&#x7B2C;2&#x79CD;&#x65B9;&#x5F0F;&#x65E2;&#x6D6A;&#x8D39;&#x7A7A;&#x95F4;&#xFF08;4&#x5B57;&#x8282; vs 8&#x5B57;&#x8282;&#xFF09;
+&#x53C8;&#x6D6A;&#x8D39;&#x65F6;&#x95F4;&#xFF08;1&#x4E2A;mov vs 4&#x4E2A;mov&#xFF09;&#x3002;&#x4F46;&#x662F;&#x7B2C;2&#x79CD;&#x65B9;&#x5F0F;&#x4E5F;&#x4E0D;&#x662F;
+&#x4E00;&#x65E0;&#x662F;&#x5904;&#xFF1A;<b>&#x7B2C;1&#x79CD;&#x65B9;&#x5F0F;&#x4F20;&#x9012;&#x7684;&#x662F;&#x6E90;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x5730;&#x5740;&#xFF0C;
+&#x800C;&#x6E90;&#x5B57;&#x7B26;&#x4E32;&#x5728;&#x53EA;&#x8BFB;&#x9875;&#x4E2D;&#xFF0C;&#x65E0;&#x6CD5;&#x4FEE;&#x6539;&#xFF0C;&#x4F46;&#x662F;&#x5B57;&#x7B26;&#x6570;&#x7EC4;&#x5374;&#x53EF;&#x4EE5;&#x4FEE;&#x6539;</b>&#x3002;</p>
+<p>&#x7ECF;&#x9A8C;&#xFF1A;&#x5982;&#x679C;&#x7A0B;&#x5E8F;&#x4E2D;&#x672C;&#x6765;&#x5C31;&#x6CA1;&#x60F3;&#x6539;&#x52A8;&#x8BE5;&#x5B57;&#x7B26;&#x4E32;&#xFF0C;
+&#x90A3;&#x5C31;&#x7528;&#x6307;&#x9488;&#x5427;&#xFF1B;&#x5426;&#x5219;&#x7528; &#x5B57;&#x7B26;&#x6570;&#x7EC4; &#x6216; &#x52A8;&#x6001;&#x7533;&#x8BF7;&#x7684;&#x7A7A;&#x95F4; &#x6765;&#x5B58;&#x3002;</p>
+<h2 id="%E4%B8%89%E3%80%81%E6%A0%BC%E5%BC%8F%E6%8F%8F%E8%BF%B0%E7%AC%A6-%E5%92%8C-%E8%BD%AC%E4%B9%89%E7%AC%A6">&#x4E09;&#x3001;&#x683C;&#x5F0F;&#x63CF;&#x8FF0;&#x7B26; &#x548C; &#x8F6C;&#x4E49;&#x7B26;</h2>
+<p>&#x8FD9;&#x4E2A;&#x90E8;&#x5206;&#xFF0C;&#x6211;&#x4EEC;&#x6765;&#x770B;&#x770B;&#x5B57;&#x7B26;&#x4E32;&#x4E2D;&#x683C;&#x5F0F;&#x63CF;&#x8FF0;&#x7B26;&#x548C;&#x8F6C;&#x4E49;&#x7B26;&#x7684;&#x6765;&#x9F99;&#x53BB;&#x8109;&#xFF0C;
+C&#x6E90;&#x7A0B;&#x5E8F;&#xFF08;string3.c&#xFF09;&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;stdio.h&gt;</span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;--------\n%d\n&quot;</span>, <span class="hljs-number">123</span>);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<h3 id="%E6%B1%87%E7%BC%96%E6%BA%90%E6%96%87%E4%BB%B6%E4%B8%AD">&#x6C47;&#x7F16;&#x6E90;&#x6587;&#x4EF6;&#x4E2D;</h3>
+<p>gcc -S string3.c</p>
+<p>&#x7ED3;&#x679C;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c">.LC0:
+    .<span class="hljs-built_in">string</span>    <span class="hljs-string">&quot;--------\n%d\n&quot;</span>
+</code></pre>
+<h3 id="%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6%E4%B8%AD">&#x76EE;&#x6807;&#x6587;&#x4EF6;&#x4E2D;</h3>
+<pre><code class="lang-c">gcc -c string3.c
+objdump -s -d string3.o &gt; string3.txt
+</code></pre>
+<p>-c &#x9ED8;&#x8BA4;&#x8F93;&#x51FA;&#x5230; string3.o &#x6587;&#x4EF6;&#x4E2D;&#xFF0C;</p>
+<p>string3.txt &#x4E2D;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#xFF1A;</p>
+<pre><code class="lang-c">Contents of section .rodata:
+ <span class="hljs-number">0000</span> <span class="hljs-number">2</span>d2d2d2d <span class="hljs-number">2</span>d2d2d2d <span class="hljs-number">0</span>a25640a <span class="hljs-number">00</span>        --------.%d..
+</code></pre>
+<p>&#x4E24;&#x4E2A;&apos;\n&apos;&#x88AB;&#x66FF;&#x6362;&#x6210;&#x4E86; 0x0a&#xFF0C;%d &#x6CA1;&#x53D8;</p>
+<h3 id="%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%E4%B8%AD">&#x53EF;&#x6267;&#x884C;&#x6587;&#x4EF6;&#x4E2D;</h3>
+<pre><code class="lang-c">gcc -o string3 string3.c
+objdump -s -d string3 &gt; string3.txt
+</code></pre>
+<p>&#x53EF;&#x6267;&#x884C;&#x6587;&#x4EF6;&#x8DDF;&#x76EE;&#x6807;&#x6587;&#x4EF6;&#x4E00;&#x6837;&#xFF1A;</p>
+<pre><code class="lang-c">Contents of section .rodata:
+<span class="hljs-number">80484</span>a8 <span class="hljs-number">03000000</span> <span class="hljs-number">01000200</span> <span class="hljs-number">00000000</span> <span class="hljs-number">2</span>d2d2d2d  ............----
+<span class="hljs-number">80484</span>b8 <span class="hljs-number">2</span>d2d2d2d <span class="hljs-number">0</span>a25640a <span class="hljs-number">00</span>                 ----.%d..
+</code></pre>
+<p>&#x6240;&#x4EE5;&#x6211;&#x4EEC;&#x77E5;&#x9053;&#x4E86;&#xFF1A;<b>&#x8F6C;&#x4E49;&#x7B26;&#x5728;&#x53D8;&#x6210;&#x4E8C;&#x8FDB;&#x5236;&#x6587;&#x4EF6;&#x540E;
+&#x5C31;&#x88AB;&#x8F6C;&#x4E49;&#x4E3A;&#x6211;&#x4EEC;&#x60F3;&#x8868;&#x8FBE;&#x7684;&#x90A3;&#x4E2A;&#x5B57;&#x7B26;&#x4E86;</b>&#xFF0C;
+&#x800C;&#x683C;&#x5F0F;&#x63CF;&#x8FF0;&#x7B26;&#x81EA;&#x7136;&#x662F;&#x8981;&#x7559;&#x7ED9; printf &#x8FD0;&#x884C;&#x65F6;&#x7528;&#x7684;&#x3002;
+&#x77E5;&#x9053;&#x8FD9;&#x4E2A;&#x6709;&#x4EC0;&#x4E48;&#x7528;&#xFF1F;&#x5982;&#x679C;&#x6211;&#x4EEC;&#x6765;&#x8BBE;&#x8BA1; printf &#x51FD;&#x6570;&#xFF0C;
+&#x90A3;&#x4E48;&#x8F6C;&#x4E49;&#x5B57;&#x7B26;&#x6211;&#x4EEC;&#x5C31;&#x4E0D;&#x7528;&#x64CD;&#x5FC3;&#x4E86;&#xFF0C;
+&#x7F16;&#x8BD1;&#x5668;&#x4F1A;&#x628A;&#x5B83;&#x4EEC;&#x8F6C;&#x4E49;&#x8FC7;&#x53BB;&#x7684;&#x3002;</p>
+<p>&#x5982;&#x679C;&#x4F60;&#x60F3;&#x770B;&#x770B; printf &#x5927;&#x6982;&#x7684;&#x5B9E;&#x73B0;&#xFF0C;
+linux 0.01 &#x7684; kernel/vsprintf.c &#x4E2D;&#x6709;&#x4E00;&#x4E2A;&#x7B80;&#x5316;&#x7684;
+&#xFF08;&#x6CA1;&#x6709;&#x5B9E;&#x73B0;&#x6D6E;&#x70B9;&#x6570;&#x7684;&#x5904;&#x7406;&#xFF09;&#x5B9E;&#x73B0;&#xFF0C;&#x5176;&#x4E2D;&#x8F6C;&#x4E49;&#x5B57;&#x7B26;&#x662F;&#x4E0D;&#x64CD;&#x5FC3;&#x7684;&#x3002;</p>
+<p>linux &#x5404;&#x7248;&#x672C;&#x5185;&#x6838;&#x6E90;&#x4EE3;&#x7801;&#xFF1A;<a target="_blank" href="http://www.kernel.org/pub/linux/kernel/">http://www.kernel.org/pub/linux/kernel/</a>
+linux 0.01&#xFF1A;<a target="_blank" href="http://www.kernel.org/pub/linux/kernel/Historic/">http://www.kernel.org/pub/linux/kernel/Historic/</a></p>
+
                     
                     </section>
                 

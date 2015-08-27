@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="24.8" data-basepath=".." data-revision="Thu Aug 27 2015 23:19:38 GMT+0800 (CST)">
+    <div class="book" data-level="24.8" data-basepath=".." data-revision="Fri Aug 28 2015 00:30:48 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -4851,45 +4851,45 @@
                 
                     <section class="normal" id="section-">
                     
-                        <p>&#xFEFF;[content]: <a href="https://github.com/1184893257/simplelinux/blob/master/README.md#content" target="_blank">https://github.com/1184893257/simplelinux/blob/master/README.md#content</a></p>
-<p>[&#x56DE;&#x76EE;&#x9304;][content]</p>
-<p><a name="top"></a></p>
+                        <p><a name="top"></a></p>
 <h1 align="center">&#x5947;&#x602A;&#x7684;&#x5B8F;
 </h1>
 
-<p>&#x3000;&#x3000;&#x9019;&#x4E00;&#x7BC7;&#x4ECB;&#x7D39;&#x9019;&#x4E9B;&#x5947;&#x602A;&#x7684;&#x5B8F;&#xFF1A;</p>
+<p>&#x9019;&#x4E00;&#x7BC7;&#x4ECB;&#x7D39;&#x9019;&#x4E9B;&#x5947;&#x602A;&#x7684;&#x5B8F;&#xFF1A;</p>
 <h2 id="%E4%B8%80%E3%80%81do-while-0">&#x4E00;&#x3001;do while(0)</h2>
 <p>&#x3000;&#x3000;&#x70BA;&#x4E86;&#x4EA4;&#x63DB;&#x5169;&#x500B;&#x6574;&#x578B;&#x8B8A;&#x91CF;&#x7684;&#x503C;&#xFF0C;&#x524D;&#x9762;<em>&#x503C;&#x50B3;&#x905E;</em>&#x4E2D;&#x5DF2;&#x7D93;&#x7528;
 &#x5305;&#x542B;&#x6307;&#x91DD;&#x53C3;&#x6578;&#x7684; swap &#x51FD;&#x6578;&#x505A;&#x5230;&#x4E86;&#xFF0C;&#x9019;&#x6B21;&#x7528;<b>&#x5B8F;</b>&#x4F86;&#x5BE6;&#x73FE;&#xFF08;swap.c&#xFF09;&#xFF1A;</p>
-<pre><code>#include &lt;stdio.h&gt;
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;stdio.h&gt;</span>
 
-#define SWAP(a,b)        \
-    do{                    \
-        int t = a;        \
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> SWAP(a,b)        \</span>
+    <span class="hljs-keyword">do</span>{                    \
+        <span class="hljs-keyword">int</span> t = a;        \
         a = b;            \
         b = t;            \
-    }while(0)
+    }<span class="hljs-keyword">while</span>(<span class="hljs-number">0</span>)
 
-int main()
-{
-    int c=1, d=2;
-    int t;    // &#x6E2C;&#x8A66; SWAP &#x8207;&#x74B0;&#x5883;&#x7684;&#x517C;&#x5BB9;&#x6027;
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">int</span> c=<span class="hljs-number">1</span>, d=<span class="hljs-number">2</span>;
+    <span class="hljs-keyword">int</span> t;    <span class="hljs-comment">// &#x6E2C;&#x8A66; SWAP &#x8207;&#x74B0;&#x5883;&#x7684;&#x517C;&#x5BB9;&#x6027;</span>
 
     SWAP(c,d);
 
-    printf(&quot;c:%d d:%d\n&quot;, c, d);
-    return 0;
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;c:%d d:%d\n&quot;</span>, c, d);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
-</code></pre><p><code>&#x3000;</code>&#x9019;&#x500B;&#x5B8F;&#x770B;&#x8D77;&#x4F86;&#x5C31;&#x6709;&#x9EDE;&#x602A;&#x4E86;&#xFF1A;do while(0) &#x662F;&#x5BEB;&#x4E86;&#x500B;&#x5FAA;&#x74B0;
+</code></pre>
+<p>&#x9019;&#x500B;&#x5B8F;&#x770B;&#x8D77;&#x4F86;&#x5C31;&#x6709;&#x9EDE;&#x602A;&#x4E86;&#xFF1A;do while(0) &#x662F;&#x5BEB;&#x4E86;&#x500B;&#x5FAA;&#x74B0;
 &#x53C8;&#x4E0D;&#x8B93;&#x5B83;&#x5FAA;&#x74B0;&#xFF0C;&#x86CB;&#x75BC;&#x554A;&#xFF01;&#x5176;&#x5BE6;&#x4E0D;&#x7136;&#xFF0C;&#x9019;&#x6A23;&#x5BEB;&#x662F;&#x6709;&#x5999;&#x7528;&#x7684;&#xFF1A;</p>
-<p>&#x3000;&#x3000;<b>&#x9996;&#x5148;</b>&#xFF0C;SWAP &#x6709;&#x591A;&#x689D;&#x8A9E;&#x53E5;&#xFF0C;&#x5982;&#x679C;&#x9019;&#x6A23;&#x5BEB;&#xFF1A;</p>
-<pre><code>#define SWAP(a,b)        \
-        int t = a;        \
-        a = b;            \
-        b = t;
-</code></pre><p><code>&#x3000;</code>&#x90A3;&#x9EBC;&#x7528;&#x7684;&#x6642;&#x5019;&#x5C31;&#x5F97;&#x9019;&#x9EBC;&#x7528;&#xFF1A;</p>
-<pre><code>SWAP(c,d)
-</code></pre><p><code>&#x3000;</code><b>&#x4E0D;&#x80FD;&#x52A0;&#x5206;&#x865F;</b>&#xFF01;&#x4E0D;&#x7FD2;&#x6163;&#x5427;&#xFF1F;</p>
+<p><b>&#x9996;&#x5148;</b>&#xFF0C;SWAP &#x6709;&#x591A;&#x689D;&#x8A9E;&#x53E5;&#xFF0C;&#x5982;&#x679C;&#x9019;&#x6A23;&#x5BEB;&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> SWAP(a,b)        \</span>
+<span class="hljs-keyword">int</span> t = a;        \
+a = b;            \
+b = t;
+</code></pre>
+<p>&#x90A3;&#x9EBC;&#x7528;&#x7684;&#x6642;&#x5019;&#x5C31;&#x5F97;&#x9019;&#x9EBC;&#x7528;&#xFF1A;</p>
+<p>SWAP(c,d)</p>
+<p><b>&#x4E0D;&#x80FD;&#x52A0;&#x5206;&#x865F;</b>&#xFF01;&#x4E0D;&#x7FD2;&#x6163;&#x5427;&#xFF1F;</p>
 <p>&#x3000;&#x3000;<b>&#x5176;&#x6B21;</b>&#xFF0C;&#x4F7F;&#x7528; do{...}while(0)&#xFF0C;
 &#x4E2D;&#x9593;&#x7684;&#x8A9E;&#x53E5;&#x7528;&#x5927;&#x62EC;&#x865F;&#x62EC;&#x8D77;&#x4F86;&#x4E86;&#xFF0C;&#x6240;&#x4EE5;&#x662F;&#x53E6;&#x4E00;&#x500B;&#x547D;&#x540D;&#x7A7A;&#x9593;&#xFF0C;
 <b>&#x5176;&#x4E2D;&#x7684;&#x65B0;&#x8B8A;&#x91CF; t &#x4E0D;&#x6703;&#x767C;&#x751F;&#x547D;&#x540D;&#x885D;&#x7A81;</b>&#x3002;</p>
@@ -4897,50 +4897,53 @@ int main()
 &#x56E0;&#x70BA;&#x6C92;&#x6709;&#x767C;&#x751F;&#x51FD;&#x6578;&#x8ABF;&#x7528;&#xFF0C;&#x6C92;&#x6709;&#x53C3;&#x6578;&#x50B3;&#x905E;&#xFF0C;
 &#x5B8F;&#x6703;&#x5728;&#x7DE8;&#x8B6F;&#x524D;&#x88AB;&#x66FF;&#x63DB;&#xFF0C;&#x6240;&#x4EE5;&#x53EA;&#x662F;&#x5D4C;&#x5165;&#x4E86;&#x4E00;&#x5C0F;&#x6BB5;&#x4EE3;&#x78BC;&#x3002;</p>
 <h2 id="%E4%BA%8C%E3%80%81-35">&#x4E8C;&#x3001;#</h2>
-<p>&#x3000;&#x3000;&#x6A19;&#x984C;&#x6211;&#x6C92;&#x6253;&#x932F;&#xFF0C;&#x9019;&#x88E1;&#x8981;&#x8AAA;&#x7684;&#x5C31;&#x662F;&#x4E95;&#x865F;&#xFF0C;#&#x7684;&#x529F;&#x80FD;&#x662F;&#x5C07;&#x5176;&#x5F8C;&#x9762;&#x7684;
-&#x5B8F;&#x53C3;&#x6578;&#x9032;&#x884C;&#x5B57;&#x7B26;&#x4E32;&#x5316;&#x64CD;&#x4F5C;&#x3002;&#x6BD4;&#x5982;&#x4E0B;&#x9762;&#x4EE3;&#x78BC;&#x4E2D;&#x7684;&#x5B8F;&#xFF1A; </p>
-<pre><code>#define WARN_IF(EXP) \
-do{ if (EXP) \
-    fprintf(stderr, &quot;Warning: &quot; #EXP &quot;\n&quot;); } \
-while(0) 
-</code></pre><p><code>&#x3000;</code>&#x90A3;&#x9EBC;&#x5BE6;&#x969B;&#x4F7F;&#x7528;&#x4E2D;&#x6703;&#x51FA;&#x73FE;&#x4E0B;&#x9762;&#x6240;&#x793A;&#x7684;&#x66FF;&#x63DB;&#x904E;&#x7A0B;&#xFF1A; </p>
-<pre><code>WARN_IF (divider == 0); 
-</code></pre><p><code>&#x3000;</code>&#x88AB;&#x66FF;&#x63DB;&#x70BA; </p>
-<pre><code>do { if (divider == 0) 
-    fprintf(stderr, &quot;Warning: &quot; &quot;divider == 0&quot; &quot;\n&quot;); 
-} while(0); 
-</code></pre><p><code>&#x3000;</code>&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;<b>C&#x8A9E;&#x8A00;&#x4E2D;&#x591A;&#x500B;&#x96D9;&#x5F15;&#x865F;&#x5B57;&#x7B26;&#x4E32;&#x653E;&#x5728;&#x4E00;&#x8D77;
+<p>&#x6A19;&#x984C;&#x6211;&#x6C92;&#x6253;&#x932F;&#xFF0C;&#x9019;&#x88E1;&#x8981;&#x8AAA;&#x7684;&#x5C31;&#x662F;&#x4E95;&#x865F;&#xFF0C;#&#x7684;&#x529F;&#x80FD;&#x662F;&#x5C07;&#x5176;&#x5F8C;&#x9762;&#x7684;
+&#x5B8F;&#x53C3;&#x6578;&#x9032;&#x884C;&#x5B57;&#x7B26;&#x4E32;&#x5316;&#x64CD;&#x4F5C;&#x3002;&#x6BD4;&#x5982;&#x4E0B;&#x9762;&#x4EE3;&#x78BC;&#x4E2D;&#x7684;&#x5B8F;&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> WARN_IF(EXP) \</span>
+<span class="hljs-keyword">do</span>{ <span class="hljs-keyword">if</span> (EXP) \
+    <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;Warning: &quot;</span> <span class="hljs-preprocessor">#EXP &quot;\n&quot;); } \</span>
+<span class="hljs-keyword">while</span>(<span class="hljs-number">0</span>)
+</code></pre>
+<p>&#x90A3;&#x9EBC;&#x5BE6;&#x969B;&#x4F7F;&#x7528;&#x4E2D;&#x6703;&#x51FA;&#x73FE;&#x4E0B;&#x9762;&#x6240;&#x793A;&#x7684;&#x66FF;&#x63DB;&#x904E;&#x7A0B;&#xFF1A;</p>
+<pre><code>WARN_IF (divider == 0);
+</code></pre><p>&#x88AB;&#x66FF;&#x63DB;&#x70BA;</p>
+<pre><code class="lang-c"><span class="hljs-keyword">do</span> { <span class="hljs-keyword">if</span> (divider == <span class="hljs-number">0</span>)
+    <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;Warning: &quot;</span> <span class="hljs-string">&quot;divider == 0&quot;</span> <span class="hljs-string">&quot;\n&quot;</span>);
+} <span class="hljs-keyword">while</span>(<span class="hljs-number">0</span>);
+</code></pre>
+<p>&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;<b>C&#x8A9E;&#x8A00;&#x4E2D;&#x591A;&#x500B;&#x96D9;&#x5F15;&#x865F;&#x5B57;&#x7B26;&#x4E32;&#x653E;&#x5728;&#x4E00;&#x8D77;
 &#x6703;&#x81EA;&#x52D5;&#x9023;&#x63A5;&#x8D77;&#x4F86;</b>&#xFF0C;&#x6240;&#x4EE5;&#x5982;&#x679C; divider &#x70BA; 0 &#x7684;&#x8A71;&#xFF0C;&#x5C31;&#x6703;&#x6253;&#x5370;&#x51FA;&#xFF1A;</p>
-<pre><code>Warning: divider == 0
-</code></pre><h2 id="%E4%B8%89%E3%80%81-35-35">&#x4E09;&#x3001;##</h2>
-<p>&#x3000;&#x3000;# &#x9084;&#x662F;&#x6BD4;&#x8F03;&#x5C11;&#x7528;&#x7684;&#xFF0C;## &#x537B;&#x6BD4;&#x8F03;&#x6D41;&#x884C;&#xFF0C;
+<p>Warning: divider == 0</p>
+<h2 id="%E4%B8%89%E3%80%81-35-35">&#x4E09;&#x3001;##</h2>
+<p>&#x3000;&#x3000;<code>#</code> &#x9084;&#x662F;&#x6BD4;&#x8F03;&#x5C11;&#x7528;&#x7684;&#xFF0C;<code>##</code> &#x537B;&#x6BD4;&#x8F03;&#x6D41;&#x884C;&#xFF0C;
 &#x5728; linux0.01 &#x4E2D;&#x5C31;&#x7528;&#x5230;&#x904E;&#x3002;## &#x88AB;&#x7A31;&#x70BA;&#x9023;&#x63A5;&#x7B26;&#xFF0C;
 &#x7528;&#x4F86;&#x5C07;&#x5169;&#x500B; &#x8A18;&#x865F;&#xFF08;&#x7DE8;&#x8B6F;&#x539F;&#x7406;&#x4E2D;&#x7684;&#x8A5E;&#x5F59;&#xFF09; &#x9023;&#x63A5;&#x70BA;&#x4E00;&#x500B; &#x8A18;&#x865F;&#x3002;
 &#x770B;&#x4E0B;&#x9762;&#x7684;&#x4F8B;&#x5B50;&#x5427;&#xFF08;add.c&#xFF09;&#xFF1A;</p>
-<pre><code>#include &lt;stdio.h&gt;
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;stdio.h&gt;</span>
 
-#define add(Type)                \
-Type add##Type(Type a, Type b){    \
-    return a+b;                    \
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> add(Type)                \</span>
+Type add<span class="hljs-preprocessor">##Type(Type a, Type b){    \</span>
+    <span class="hljs-keyword">return</span> a+b;                    \
 }
 
-// &#x4E0B;&#x9762;&#x5169;&#x689D;&#x662F;&#x5947;&#x8E5F;&#x767C;&#x751F;&#x7684;&#x5730;&#x65B9;
-add(int)
-add(double)
+<span class="hljs-comment">// &#x4E0B;&#x9762;&#x5169;&#x689D;&#x662F;&#x5947;&#x8E5F;&#x767C;&#x751F;&#x7684;&#x5730;&#x65B9;</span>
+add(<span class="hljs-keyword">int</span>)
+add(<span class="hljs-keyword">double</span>)
 
-int main()
-{
-    int a = addint(1, 2);
-    double d = adddouble(1.5, 1.5);
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">int</span> a = addint(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>);
+    <span class="hljs-keyword">double</span> d = adddouble(<span class="hljs-number">1.5</span>, <span class="hljs-number">1.5</span>);
 
-    printf(&quot;a:%d d:%lf\n&quot;, a, d);
-    return 0;
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;a:%d d:%lf\n&quot;</span>, a, d);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
-</code></pre><p><code>&#x3000;</code>&#x90A3;&#x5169;&#x884C;&#x88AB;&#x66FF;&#x63DB;&#x5F8C;&#x662F;&#x9019;&#x500B;&#x6A23;&#x5B50;&#x7684;&#xFF1A;</p>
-<pre><code>int addint(int a, int b){ return a+b; }
-double adddouble(double a, double b){ return a+b; }
-</code></pre><p><b>&#x4EE5;&#x4E0A;&#x5167;&#x5BB9;&#x90FD;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;<em>&#x7167;&#x5996;&#x93E1;</em>&#x770B;&#x5230;&#x5B8F;&#x88AB;&#x66FF;&#x63DB;&#x5F8C;&#x7684;&#x60C5;&#x5F62;</b>&#x3002;</p>
-<p>[&#x56DE;&#x76EE;&#x9304;][content]</p>
+</code></pre>
+<p>&#x90A3;&#x5169;&#x884C;&#x88AB;&#x66FF;&#x63DB;&#x5F8C;&#x662F;&#x9019;&#x500B;&#x6A23;&#x5B50;&#x7684;&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">addint</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b)</span></span>{ <span class="hljs-keyword">return</span> a+b; }
+<span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">adddouble</span><span class="hljs-params">(<span class="hljs-keyword">double</span> a, <span class="hljs-keyword">double</span> b)</span></span>{ <span class="hljs-keyword">return</span> a+b; }
+</code></pre>
+<p><b>&#x4EE5;&#x4E0A;&#x5167;&#x5BB9;&#x90FD;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;<em>&#x7167;&#x5996;&#x93E1;</em>&#x770B;&#x5230;&#x5B8F;&#x88AB;&#x66FF;&#x63DB;&#x5F8C;&#x7684;&#x60C5;&#x5F62;</b>&#x3002;</p>
 
                     
                     </section>

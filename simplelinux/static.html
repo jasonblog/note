@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="24.16" data-basepath=".." data-revision="Thu Aug 27 2015 23:19:38 GMT+0800 (CST)">
+    <div class="book" data-level="24.16" data-basepath=".." data-revision="Fri Aug 28 2015 00:30:48 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -4851,9 +4851,7 @@
                 
                     <section class="normal" id="section-">
                     
-                        <p>&#xFEFF;[content]: <a href="https://github.com/1184893257/simplelinux/blob/master/README.md#content" target="_blank">https://github.com/1184893257/simplelinux/blob/master/README.md#content</a></p>
-<p>[&#x56DE;&#x76EE;&#x9304;][content]</p>
-<p><a name="top"></a></p>
+                        <p><a name="top"></a></p>
 <h1 align="center">static&#x8B8A;&#x91CF; &#x53CA; &#x4F5C;&#x7528;&#x57DF;&#x63A7;&#x5236;
 </h1>
 
@@ -4862,45 +4860,47 @@
 &#x653E;&#x5728;&#x51FD;&#x6578;&#x5916;&#x5C31;&#x53EA;&#x6709;&#x9019;&#x500B;&#x6587;&#x4EF6;&#x80FD;&#x8A2A;&#x554F;&#x5B83;&#x3002;</b>
 &#x4E0B;&#x9762;&#x6211;&#x5011;&#x770B;&#x770B;&#x5169;&#x500B;&#x51FD;&#x6578;&#x4E2D;&#x91CD;&#x540D;&#x7684;static&#x8B8A;&#x91CF;&#x662F;&#x600E;&#x9EBC;&#x5340;&#x5225;&#x958B;&#x4F86;&#x7684;
 &#xFF08;static.c&#xFF09;&#xFF1A;</p>
-<pre><code>#include &lt;stdio.h&gt;
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;stdio.h&gt;</span>
 
-void func1()
-{
-    static int n = 1;
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">func1</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> n = <span class="hljs-number">1</span>;
     n++;
 }
 
-void func2()
-{
-    static int n = 2;
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">func2</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> n = <span class="hljs-number">2</span>;
     n++;
 }
 
-int main()
-{
-    return 0;
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
-</code></pre><p><code>&#x3000;</code>&#x4E0B;&#x9762;&#x662F;&#x7DE8;&#x8B6F;&#x5F8C;&#x7684;&#x90E8;&#x5206;&#x5F59;&#x7DE8;&#xFF1A;</p>
-<pre><code>func1:
+</code></pre>
+<p>&#x4E0B;&#x9762;&#x662F;&#x7DE8;&#x8B6F;&#x5F8C;&#x7684;&#x90E8;&#x5206;&#x5F59;&#x7DE8;&#xFF1A;</p>
+<pre><code class="lang-c">func1:
     pushl    %ebp
     movl    %esp, %ebp
-    movl    n.1671, %eax
-    addl    $1, %eax
-    movl    %eax, n.1671
+    movl    n<span class="hljs-number">.1671</span>, %eax
+    addl    $<span class="hljs-number">1</span>, %eax
+    movl    %eax, n<span class="hljs-number">.1671</span>
     popl    %ebp
     ret
 
 func2:
     pushl    %ebp
     movl    %esp, %ebp
-    movl    n.1674, %eax
-    addl    $1, %eax
-    movl    %eax, n.1674
+    movl    n<span class="hljs-number">.1674</span>, %eax
+    addl    $<span class="hljs-number">1</span>, %eax
+    movl    %eax, n<span class="hljs-number">.1674</span>
     popl    %ebp
     ret
-</code></pre><p><code>&#x3000;</code>&#x597D;&#x50A2;&#x4F19;&#xFF01;&#x7DE8;&#x8B6F;&#x5668;&#x5C45;&#x7136;&quot;&#x5077;&#x5077;&quot;&#x5730;&#x6539;&#x4E86;&#x8B8A;&#x91CF;&#x540D;&#xFF0C;
+</code></pre>
+<p>&#x597D;&#x50A2;&#x4F19;&#xFF01;&#x7DE8;&#x8B6F;&#x5668;&#x5C45;&#x7136;&quot;&#x5077;&#x5077;&quot;&#x5730;&#x6539;&#x4E86;&#x8B8A;&#x91CF;&#x540D;&#xFF0C;
 &#x9019;&#x6A23;&#x5169;&#x500B;static&#x8B8A;&#x91CF;&#x5C31;&#x5BB9;&#x6613;&#x5340;&#x5206;&#x4E86;&#x3002;</p>
-<p>&#x3000;&#x3000;<b>&#x5176;&#x5BE6;static&#x8B8A;&#x91CF;&#x8DDF;&#x5168;&#x5C40;&#x8B8A;&#x91CF;&#x4E00;&#x6A23;&#x88AB;&#x653E;&#x7F6E;&#x5728; .data&#x6BB5; &#x6216; 
+<p>&#x3000;&#x3000;<b>&#x5176;&#x5BE6;static&#x8B8A;&#x91CF;&#x8DDF;&#x5168;&#x5C40;&#x8B8A;&#x91CF;&#x4E00;&#x6A23;&#x88AB;&#x653E;&#x7F6E;&#x5728; .data&#x6BB5; &#x6216;
 .bss&#x6BB5; &#x4E2D;&#xFF0C;&#x6240;&#x4EE5;&#x5B83;&#x5011;&#x4E5F;&#x662F;&#x7A0B;&#x5E8F;&#x904B;&#x884C;&#x671F;&#x9593;&#x4E00;&#x76F4;&#x5B58;&#x5728;&#x7684;&#xFF0C;
 &#x6700;&#x7D42;&#x4E5F;&#x662F;&#x901A;&#x904E;&#x7D55;&#x5C0D;&#x5730;&#x5740;&#x4F86;&#x8A2A;&#x554F;</b>&#x3002;
 &#x4F46;&#x662F;&#x5B83;&#x5011;&#x7684;&#x4F5C;&#x7528;&#x57DF;&#x9084;&#x662F;&#x6BD4;&#x5168;&#x5C40;&#x8B8A;&#x91CF;&#x4F4E;&#x4E86;&#x4E00;&#x7D1A;&#xFF1A;
@@ -4925,50 +4925,51 @@ static&#x8B8A;&#x91CF;&#x88AB;&#x6A19;&#x8B58;&#x70BA;LOCAL&#x7B26;&#x865F;&#xFF
 <li>&#x5C40;&#x90E8;&#x8B8A;&#x91CF;&#x5728;&#x51FD;&#x6578;&#x7684;<b>&#x4E00;&#x6B21;&#x8ABF;&#x7528;</b>&#x4E2D;&#x4F7F;&#x7528;&#xFF0C;
 &#x8ABF;&#x7528;&#x7D50;&#x675F;&#x5F8C;&#x5C31;&#x6D88;&#x5931;&#x4E86;&#x3002;</li>
 </ol>
-<p><code>&#x3000;</code>&#x986F;&#x7136;&#xFF0C;&#x4F5C;&#x7528;&#x57DF;&#x8D8A;&#x5C0F;&#x8D8A;&#x7701;&#x5FC3;&#xFF0C;
+<p>&#x986F;&#x7136;&#xFF0C;&#x4F5C;&#x7528;&#x57DF;&#x8D8A;&#x5C0F;&#x8D8A;&#x7701;&#x5FC3;&#xFF0C;
 &#x8A72;&#x662F;&#x5C40;&#x90E8;&#x8B8A;&#x91CF;&#x7684;&#x5C31;&#x4E0D;&#x8981;&#x5B9A;&#x7FA9;&#x6210;&#x5168;&#x5C40;&#x8B8A;&#x91CF;&#xFF0C;
 &#x5982;&#x679C;&quot;&#x5168;&#x5C40;&#x8B8A;&#x91CF;&quot;&#x53EA;&#x5728;&#x672C;&#x6E90;&#x6587;&#x4EF6;&#x4E2D;&#x4F7F;&#x7528;&#x90A3;&#x5C31;&#x52A0;&#x500B;static&#x3002;</p>
-<p>&#x3000;&#x3000;&#x5373;&#x4FBF;&#x662F;&#x5C40;&#x90E8;&#x8B8A;&#x91CF;&#x4E5F;&#x9084;&#x53EF;&#x4EE5;&#x58D3;&#x7E2E;&#x5176;&#x4F5C;&#x7528;&#x57DF;&#xFF1A;</p>
-<p>&#x3000;&#x3000;&#x6709;&#x7684;&#x540C;&#x5B78;&#x5BEB;&#x7684;&#x51FD;&#x6578;&#x4E00;&#x958B;&#x982D;&#x5C31;&#x8072;&#x660E;&#x77AD;&#x51FD;&#x6578;&#x4E2D;&#x8981;&#x7528;&#x5230;&#x7684;&#x6240;&#x6709;&#x5C40;&#x90E8;&#x8B8A;&#x91CF;&#xFF0C;
+<p>&#x5373;&#x4FBF;&#x662F;&#x5C40;&#x90E8;&#x8B8A;&#x91CF;&#x4E5F;&#x9084;&#x53EF;&#x4EE5;&#x58D3;&#x7E2E;&#x5176;&#x4F5C;&#x7528;&#x57DF;&#xFF1A;</p>
+<p>&#x6709;&#x7684;&#x540C;&#x5B78;&#x5BEB;&#x7684;&#x51FD;&#x6578;&#x4E00;&#x958B;&#x982D;&#x5C31;&#x8072;&#x660E;&#x77AD;&#x51FD;&#x6578;&#x4E2D;&#x8981;&#x7528;&#x5230;&#x7684;&#x6240;&#x6709;&#x5C40;&#x90E8;&#x8B8A;&#x91CF;&#xFF0C;
 &#x4E00;&#x958B;&#x59CB;&#x6211;&#x4E5F;&#x9019;&#x9EBC;&#x505A;&#xFF0C;&#x56E0;&#x70BA;&#x6211;&#x64D4;&#x5FC3;&#xFF1A;<b>&#x5982;&#x679C;&#x628A;&#x8B8A;&#x91CF;&#x5B9A;&#x7FA9;&#x5728;&#x5FAA;&#x74B0;&#x9AD4;&#x5167;&#xFF0C;
 &#x662F;&#x4E0D;&#x662F;&#x6BCF;&#x4E00;&#x6B21;&#x5FAA;&#x74B0;&#x90FD;&#x6703;&#x7D66;&#x5B83;&#x5011;&#x5206;&#x914D;&#x7A7A;&#x9593;&#x3001;&#x56DE;&#x6536;&#x7A7A;&#x9593;&#xFF0C;&#x5F9E;&#x800C;&#x964D;&#x4F4E;&#x6548;&#x7387;&#xFF1F;</b>
 &#x4F46;&#x4E8B;&#x5BE6;&#x662F;&#x5B83;&#x5011;&#x7684;&#x7A7A;&#x9593;&#x5728;&#x51FD;&#x6578;&#x7684;&#x958B;&#x982D;&#x5C31;&#x4E00;&#x6B21;&#x6027;&#x5206;&#x914D;&#x597D;&#x4E86;&#xFF08;scope.c&#xFF09;&#xFF1A;</p>
-<pre><code>#include &lt;stdio.h&gt;
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;stdio.h&gt;</span>
 
-int main()
-{
-    int a = 1;
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">int</span> a = <span class="hljs-number">1</span>;
     {
-        int a = 2;
+        <span class="hljs-keyword">int</span> a = <span class="hljs-number">2</span>;
         {
-            int a = 3;
+            <span class="hljs-keyword">int</span> a = <span class="hljs-number">3</span>;
         }
         {
-            int a = 4;
+            <span class="hljs-keyword">int</span> a = <span class="hljs-number">4</span>;
         }
     }
-    return 0;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
-</code></pre><p>&#x7DE8;&#x8B6F;&#x5F8C;&#x7684;&#x5F59;&#x7DE8;&#x4EE3;&#x78BC;&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre><code>main:
+</code></pre>
+<p>&#x7DE8;&#x8B6F;&#x5F8C;&#x7684;&#x5F59;&#x7DE8;&#x4EE3;&#x78BC;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c">main:
     pushl    %ebp
     movl    %esp, %ebp
-    subl    $16, %esp
-    movl    $1, -4(%ebp)
-    movl    $2, -8(%ebp)
-    movl    $3, -12(%ebp)
-    movl    $4, -16(%ebp)
-    movl    $0, %eax
+    subl    $<span class="hljs-number">16</span>, %esp
+    movl    $<span class="hljs-number">1</span>, -<span class="hljs-number">4</span>(%ebp)
+    movl    $<span class="hljs-number">2</span>, -<span class="hljs-number">8</span>(%ebp)
+    movl    $<span class="hljs-number">3</span>, -<span class="hljs-number">12</span>(%ebp)
+    movl    $<span class="hljs-number">4</span>, -<span class="hljs-number">16</span>(%ebp)
+    movl    $<span class="hljs-number">0</span>, %eax
     leave
     ret
-</code></pre><p><code>&#x3000;</code>&#x5404;&#x5C64;&#x5C40;&#x90E8;&#x74B0;&#x5883;&#x4E2D;&#x7684;&#x8B8A;&#x91CF;a&#x662F;subl $16, %esp&#x4E00;&#x6B21;&#x6027;&#x5206;&#x914D;&#x597D;&#x7684;&#x3002;
+</code></pre>
+<p>&#x5404;&#x5C64;&#x5C40;&#x90E8;&#x74B0;&#x5883;&#x4E2D;&#x7684;&#x8B8A;&#x91CF;a&#x662F;subl $16, %esp&#x4E00;&#x6B21;&#x6027;&#x5206;&#x914D;&#x597D;&#x7684;&#x3002;
 <b>&#x7531;&#x6B64;&#x53EF;&#x898B;&#x4E0D;&#x662F;&#x6BCF;&#x500B;{}&#x90FD;&#x8981;&#x5206;&#x914D;&#x56DE;&#x6536;&#x5C40;&#x90E8;&#x8B8A;&#x91CF;&#xFF0C;
 &#x4E00;&#x500B;&#x51FD;&#x6578;&#x53EA;&#x5206;&#x914D;&#x56DE;&#x6536;&#x4E00;&#x6B21;</b>&#x3002;&#x56E0;&#x6B64;&#xFF0C;
 &#x5982;&#x679C;&#x67D0;&#x500B;&#x8B8A;&#x91CF;&#x53EA;&#x5728;&#x67D0;&#x500B;&#x689D;&#x4EF6;&#x3001;&#x5FAA;&#x74B0;&#x4E2D;&#x7528;&#x5230;&#x7684;&#x8A71;&#xFF0C;
 &#x9084;&#x662F;&#x5728;&#x689D;&#x4EF6;&#x3001;&#x5FAA;&#x74B0;&#x4E2D;&#x5B9A;&#x7FA9;&#x5427;&#xFF0C;&#x9019;&#x6A23;&#xFF0C;
 &#x898F;&#x6A21;&#x6BD4;&#x8F03;&#x5927;&#x7684;&#x51FD;&#x6578;&#x7684;&#x53EF;&#x8B80;&#x6027;&#x5C07;&#x63D0;&#x9AD8;&#x4E0D;&#x5C11;&#xFF0C;&#x800C;&#x6548;&#x7387;&#x7D72;&#x6BEB;&#x6C92;&#x6709;&#x4E0B;&#x964D;&#xFF0C;
 &#x53EF;&#x8B02;&#x662F;&#x767E;&#x5229;&#x800C;&#x7121;&#x4E00;&#x5BB3;&#xFF01;</p>
-<p>[&#x56DE;&#x76EE;&#x9304;][content]</p>
 
                     
                     </section>

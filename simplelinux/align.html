@@ -36,7 +36,7 @@
     
 
         
-    <div class="book" data-level="24.9" data-basepath=".." data-revision="Thu Aug 27 2015 23:19:38 GMT+0800 (CST)">
+    <div class="book" data-level="24.9" data-basepath=".." data-revision="Fri Aug 28 2015 00:30:48 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -4851,14 +4851,12 @@
                 
                     <section class="normal" id="section-">
                     
-                        <p>&#xFEFF;[content]: <a href="https://github.com/1184893257/simplelinux/blob/master/README.md#content" target="_blank">https://github.com/1184893257/simplelinux/blob/master/README.md#content</a></p>
-<p>[&#x56DE;&#x76EE;&#x9304;][content]</p>
-<p><a name="top"></a></p>
+                        <p><a name="top"></a></p>
 <h1 align="center">&#x5167;&#x5B58;&#x5C0D;&#x9F4A;
 </h1>
 
 <h2 id="%E7%82%BA%E4%BB%80%E9%BA%BC%E8%A6%81%E9%80%B2%E8%A1%8C%E5%85%A7%E5%AD%98%E5%B0%8D%E9%BD%8A">&#x70BA;&#x4EC0;&#x9EBC;&#x8981;&#x9032;&#x884C;&#x5167;&#x5B58;&#x5C0D;&#x9F4A;</h2>
-<p>&#x3000;&#x3000;&#x5728;&#x8A08;&#x7B97;&#x6A5F;&#x7D44;&#x6210;&#x539F;&#x7406;&#x4E2D;&#x6211;&#x5011;&#x5B78;&#x5230;&#xFF1A;
+<p>&#x5728;&#x8A08;&#x7B97;&#x6A5F;&#x7D44;&#x6210;&#x539F;&#x7406;&#x4E2D;&#x6211;&#x5011;&#x5B78;&#x5230;&#xFF1A;
 &#x4E00;&#x584A;&#x5167;&#x5B58;&#x82AF;&#x7247;&#x4E00;&#x822C;&#x53EA;&#x63D0;&#x4F9B; 8 &#x4F4D;&#x6578;&#x64DA;&#x7DDA;&#xFF0C;&#x8981;&#x9032;&#x884C; 16 &#x4F4D;&#x6578;&#x64DA;&#x7684;&#x8B80;&#x5BEB;
 &#x53EF;&#x63A1;&#x7528;<a target="_blank" href="http://baike.baidu.com/view/1881700.htm">&#x5947;&#x5076;&#x5206;&#x9AD4;</a>&#x4F86;&#x7D44;&#x7E54;&#x7BA1;&#x7406;&#x591A;&#x500B;&#x82AF;&#x7247;&#xFF0C;
 32 &#x4F4D;&#x4E5F;&#x985E;&#x4F3C;&#xFF1A;</p>
@@ -4875,87 +4873,93 @@
 &#x800C;&#x9019;&#x4E00;&#x5207;&#x662F;&#x5728;&#x6BD4;&#x6A5F;&#x5668;&#x78BC;&#x66F4;&#x4F4E;&#x7D1A;&#x7684;&#x5FAE;&#x6307;&#x4EE4;&#x57F7;&#x884C;&#x968E;&#x6BB5;&#x5B8C;&#x6210;&#x7684;&#xFF0C;
 &#x6240;&#x4EE5; movl 1, %eax &#x6703;&#x4E0D;&#x51FA;&#x610F;&#x5916;&#x5730;&#x8B80;&#x51FA; 1&#x3001;2&#x3001;3&#x3001;4 &#x56DB;&#x500B;&#x5B57;&#x7BC0;
 &#x5230; eax&#xFF0C;&#x8B49;&#x64DA;&#x5982;&#x4E0B;&#xFF08;mem.c&#xFF09;&#xFF1A;</p>
-<pre><code>#include &lt;stdio.h&gt;
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;stdio.h&gt;</span>
 
-char a[]={0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88};
+<span class="hljs-keyword">char</span> a[]={<span class="hljs-number">0x11</span>, <span class="hljs-number">0x22</span>, <span class="hljs-number">0x33</span>, <span class="hljs-number">0x44</span>, <span class="hljs-number">0x55</span>, <span class="hljs-number">0x66</span>, <span class="hljs-number">0x77</span>, <span class="hljs-number">0x88</span>};
 
-int main()
-{
-    int *p = (int*)(a + 1);
-    int ans = *p;
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">int</span> *p = (<span class="hljs-keyword">int</span>*)(a + <span class="hljs-number">1</span>);
+    <span class="hljs-keyword">int</span> ans = *p;
 
-    printf(&quot;*p:\t%p\n&quot;, ans);
-    printf(&quot;a:\t%p\n&quot;, a);
-    printf(&quot;p:\t%p\n&quot;, p);
-    return 0;
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;*p:\t%p\n&quot;</span>, ans);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;a:\t%p\n&quot;</span>, a);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;p:\t%p\n&quot;</span>, p);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
-</code></pre><p><code>&#x3000;</code>&#x8A72;&#x7A0B;&#x5E8F;&#x7684;&#x904B;&#x884C;&#x7D50;&#x679C;&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre><code>[lqy@localhost temp]$ gcc -o mem mem.c
+</code></pre>
+<p>&#x8A72;&#x7A0B;&#x5E8F;&#x7684;&#x904B;&#x884C;&#x7D50;&#x679C;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c">[lqy@localhost temp]$ gcc -o mem mem.c
 [lqy@localhost temp]$ ./mem
-*p:    0x55443322
-a:    0x80496a8
-p:    0x80496a9
-[lqy@localhost temp]$ 
-</code></pre><p><code>&#x3000;</code>&#x53EF;&#x770B;&#x51FA;&#x7A0B;&#x5E8F;&#x78BA;&#x5BE6;&#x5F9E;&#x4E00;&#x500B;&#x672A;&#x5C0D;&#x9F4A;&#x5230; 4 &#x5B57;&#x7BC0;&#x7684;&#x5730;&#x5740;&#xFF08;0x80496a9&#xFF09;
+*p:    <span class="hljs-number">0x55443322</span>
+a:    <span class="hljs-number">0x80496a8</span>
+p:    <span class="hljs-number">0x80496a9</span>
+[lqy@localhost temp]$
+</code></pre>
+<p>&#x53EF;&#x770B;&#x51FA;&#x7A0B;&#x5E8F;&#x78BA;&#x5BE6;&#x5F9E;&#x4E00;&#x500B;&#x672A;&#x5C0D;&#x9F4A;&#x5230; 4 &#x5B57;&#x7BC0;&#x7684;&#x5730;&#x5740;&#xFF08;0x80496a9&#xFF09;
 &#x5F8C;&#x8B80;&#x51FA;&#x4E86; 4 &#x500B;&#x5B57;&#x7BC0;&#xFF0C;&#x5F9E;&#x5F59;&#x7DE8;&#x53EF;&#x770B;&#x51FA;&#x78BA;&#x5BE6;&#x662F; 1 &#x689D; mov &#x6307;&#x4EE4;&#x8B80;&#x51FA;&#x4F86;&#x7684;&#xFF1A;</p>
-<pre><code>movl    $a, %eax
-addl    $1, %eax
-movl    %eax, 28(%esp)    # &#x521D;&#x59CB;&#x5316;&#x6307;&#x91DD; p
-movl    28(%esp), %eax
-movl    (%eax), %eax    # &#x9019;&#x88E1;&#x8B80;&#x51FA;&#x4E86; 0x55443322
-movl    %eax, 24(%esp)    # &#x521D;&#x59CB;&#x5316; ans
-</code></pre><p><code>&#x3000;</code>&#x96D6;&#x7136; Intel &#x7684; CPU &#x80FD;&#x9019;&#x6A23;&#x8655;&#x7406;&#xFF0C;&#x4F46;&#x9084;&#x662F;&#x8981;&#x6D6A;&#x8CBB;&#x9EDE;&#x6642;&#x9593;&#x4E0D;&#x662F;&#xFF0C;
+<pre><code class="lang-c">movl    $a, %eax
+addl    $<span class="hljs-number">1</span>, %eax
+movl    %eax, <span class="hljs-number">28</span>(%esp)    <span class="hljs-preprocessor"># &#x521D;&#x59CB;&#x5316;&#x6307;&#x91DD; p</span>
+movl    <span class="hljs-number">28</span>(%esp), %<span class="hljs-function">eax
+<span class="hljs-title">movl</span>    <span class="hljs-params">(%eax)</span>, %eax    # &#x9019;&#x88E1;&#x8B80;&#x51FA;&#x4E86; 0x55443322
+movl    %eax, 24<span class="hljs-params">(%esp)</span>    # &#x521D;&#x59CB;&#x5316; ans
+</span></code></pre>
+<p>&#x96D6;&#x7136; Intel &#x7684; CPU &#x80FD;&#x9019;&#x6A23;&#x8655;&#x7406;&#xFF0C;&#x4F46;&#x9084;&#x662F;&#x8981;&#x6D6A;&#x8CBB;&#x9EDE;&#x6642;&#x9593;&#x4E0D;&#x662F;&#xFF0C;
 &#x6240;&#x4EE5; C &#x7A0B;&#x5E8F;&#x9084;&#x662F;&#x8981;&#x63A1;&#x53D6;&#x63AA;&#x65BD;&#x907F;&#x514D;&#x9019;&#x7A2E;&#x60C5;&#x6CC1;&#x7684;&#x767C;&#x751F;&#xFF0C;
 &#x90A3;&#x5C31;&#x662F;&#x5167;&#x5B58;&#x5C0D;&#x9F4A;&#x3002;</p>
 <h2 id="%E5%85%A7%E5%AD%98%E5%B0%8D%E9%BD%8A%E7%9A%84%E7%B5%90%E6%9E%9C">&#x5167;&#x5B58;&#x5C0D;&#x9F4A;&#x7684;&#x7D50;&#x679C;</h2>
-<p>&#x3000;&#x3000;&#x5167;&#x5B58;&#x5C0D;&#x9F4A;&#x7684;&#x5B8C;&#x6574;&#x63CF;&#x8FF0;&#x4F60;&#x9084;&#x662F;&#x53BB;&#x767E;&#x5EA6;&#x5427;&#xFF0C;
+<p>&#x5167;&#x5B58;&#x5C0D;&#x9F4A;&#x7684;&#x5B8C;&#x6574;&#x63CF;&#x8FF0;&#x4F60;&#x9084;&#x662F;&#x53BB;&#x767E;&#x5EA6;&#x5427;&#xFF0C;
 &#x9019;&#x88E1;&#x6211;&#x53EA;&#x662F;&#x542B;&#x7CCA;&#x5730;&#x4ECB;&#x7D39;&#x4E00;&#x4E0B;&#xFF1A;</p>
 <ol>
 <li>&#x4FDD;&#x8B49;&#x6700;&#x5927;&#x985E;&#x578B;&#x5C0D;&#x9F4A;&#x5230;&#x5B83;&#x7684; size</li>
 <li>&#x5118;&#x91CF;&#x4E0D;&#x6D6A;&#x8CBB;&#x7A7A;&#x9593;</li>
 </ol>
 <p>&#x6BD4;&#x5982;&#xFF1A;</p>
-<pre><code>struct A{
-    char a;
-    int c;
+<pre><code class="lang-c"><span class="hljs-keyword">struct</span> A{
+    <span class="hljs-keyword">char</span> a;
+    <span class="hljs-keyword">int</span> c;
 };
-</code></pre><p>&#x5B83;&#x7684;&#x5927;&#x5C0F;&#x70BA; 8&#xFF0C;c &#x7684;&#x5167;&#x90E8;&#x504F;&#x79FB;&#x70BA; 4&#xFF0C;
+</code></pre>
+<p>&#x5B83;&#x7684;&#x5927;&#x5C0F;&#x70BA; 8&#xFF0C;c &#x7684;&#x5167;&#x90E8;&#x504F;&#x79FB;&#x70BA; 4&#xFF0C;
 &#x9019;&#x6A23;&#x5C31;&#x53EF;&#x4EE5;&#x4E00;&#x6B21;&#x6027;&#x8B80;&#x51FA; c &#x4E86;&#x3002;</p>
 <p>&#x518D;&#x5982;&#xFF1A;</p>
-<pre><code>struct B{
-    char a;
-    char b;
-    int c;
+<pre><code class="lang-c"><span class="hljs-keyword">struct</span> B{
+    <span class="hljs-keyword">char</span> a;
+    <span class="hljs-keyword">char</span> b;
+    <span class="hljs-keyword">int</span> c;
 };
-</code></pre><p>&#x5B83;&#x7684;&#x5927;&#x5C0F;&#x9084;&#x662F; 8&#xFF0C;&#x7B2C; 2 &#x689D;&#x8D77;&#x4F5C;&#x7528;&#x4E86;&#xFF01;</p>
+</code></pre>
+<p>&#x5B83;&#x7684;&#x5927;&#x5C0F;&#x9084;&#x662F; 8&#xFF0C;&#x7B2C; 2 &#x689D;&#x8D77;&#x4F5C;&#x7528;&#x4E86;&#xFF01;</p>
 <h2 id="%E9%97%9C%E9%96%89%E5%85%A7%E5%AD%98%E5%B0%8D%E9%BD%8A">&#x95DC;&#x9589;&#x5167;&#x5B58;&#x5C0D;&#x9F4A;</h2>
-<p>&#x3000;&#x3000;&#x8B1B;&#x5230;&#x5167;&#x5B58;&#x5C0D;&#x9F4A;&#xFF0C;&#x4F30;&#x8A08;&#x5927;&#x5BB6;&#x6700;&#x671F;&#x5F85;&#x7684;&#x4E00;&#x5927;&#x5FEB;&#x4E8B;&#x5C31;&#x662F;&#x600E;&#x9EBC;&#x95DC;&#x9589;&#x5B83;
+<p>&#x8B1B;&#x5230;&#x5167;&#x5B58;&#x5C0D;&#x9F4A;&#xFF0C;&#x4F30;&#x8A08;&#x5927;&#x5BB6;&#x6700;&#x671F;&#x5F85;&#x7684;&#x4E00;&#x5927;&#x5FEB;&#x4E8B;&#x5C31;&#x662F;&#x600E;&#x9EBC;&#x95DC;&#x9589;&#x5B83;
 &#xFF08;&#x9ED8;&#x8A8D;&#x662F;&#x958B;&#x555F;&#x7684;&#xFF09;&#xFF0C;&#x7562;&#x7ADF; Intel CPU &#x5982;&#x6B64;&#x5F37;&#x5927;&#xFF0C;
 &#x95DC;&#x9589;&#x4E86;&#x4E5F;&#x6C92;&#x4E8B;&#x3002;</p>
-<p>&#x3000;&#x3000;&#x95DC;&#x9589;&#x5B83;&#x4E5F;&#x751A;&#x662F;&#x7C21;&#x55AE;&#xFF0C;&#x6DFB;&#x52A0;&#x9810;&#x8655;&#x7406;&#x6307;&#x4EE4; #pragma pack(1) 
+<p>&#x95DC;&#x9589;&#x5B83;&#x4E5F;&#x751A;&#x662F;&#x7C21;&#x55AE;&#xFF0C;&#x6DFB;&#x52A0;&#x9810;&#x8655;&#x7406;&#x6307;&#x4EE4; #pragma pack(1)
 &#x5C31;&#x884C;&#xFF0C;windows linux &#x90FD;&#x7BA1;&#x7528;&#xFF1A;</p>
-<pre><code>#include &lt;stdio.h&gt;
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;stdio.h&gt;</span>
 
-#pragma pack(1)
+<span class="hljs-preprocessor">#<span class="hljs-keyword">pragma</span> pack(1)</span>
 
-struct _A{
-    char c;
-    int i;
+<span class="hljs-keyword">struct</span> _A{
+    <span class="hljs-keyword">char</span> c;
+    <span class="hljs-keyword">int</span> i;
 };
-//__attribute__((packed));
+<span class="hljs-comment">//__attribute__((packed));</span>
 
-typedef struct _A A;
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> _A A;
 
-int main()
-{
-    printf(&quot;%d\n&quot;, sizeof(A));
-    return 0;
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, <span class="hljs-keyword">sizeof</span>(A));
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
-</code></pre><p><code>`linux gcc &#x4E2D;&#x66F4;&#x5E38;&#x898B;&#x7684;&#x662F;&#x4F7F;&#x7528;</code><strong>attribute</strong>((packed))<code>&#xFF0C;
-&#x9019;&#x500B;&#x5C6C;&#x6027;&#x53EA;&#x89E3;&#x9664;&#x5C0D;&#x4E00;&#x500B;&#x7D50;&#x69CB;&#x9AD4;&#x7684;&#x5167;&#x5B58;&#x5C0D;&#x9F4A;&#xFF0C;&#x800C; #pragma pack(1) 
+</code></pre>
+<p>linux gcc &#x4E2D;&#x66F4;&#x5E38;&#x898B;&#x7684;&#x662F;&#x4F7F;&#x7528; <code>__attribute__((packed))</code>&#xFF0C;
+&#x9019;&#x500B;&#x5C6C;&#x6027;&#x53EA;&#x89E3;&#x9664;&#x5C0D;&#x4E00;&#x500B;&#x7D50;&#x69CB;&#x9AD4;&#x7684;&#x5167;&#x5B58;&#x5C0D;&#x9F4A;&#xFF0C;&#x800C; #pragma pack(1)
 &#x89E3;&#x9664;&#x4E86;&#x6574;&#x500B; C&#x6E90;&#x6587;&#x4EF6; &#x7684;&#x5167;&#x5B58;&#x5C0D;&#x9F4A;&#xFF0C;
-&#x6240;&#x4EE5;&#x6709;&#x6642;&#x5019;</code><strong>attribute</strong>((packed))` &#x986F;&#x5F97;&#x66F4;&#x70BA;&#x5408;&#x7406;&#x3002;</p>
-<p>&#x3000;&#x3000;&#x4EC0;&#x9EBC;&#x6642;&#x5019;&#x53EF;&#x80FD;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x6216;&#x8005;&#x95DC;&#x9589;&#x5167;&#x5B58;&#x5C0D;&#x9F4A;&#x5462;&#xFF1F;
+&#x6240;&#x4EE5;&#x6709;&#x6642;&#x5019; <code>__attribute__((packed))</code> &#x986F;&#x5F97;&#x66F4;&#x70BA;&#x5408;&#x7406;&#x3002;</p>
+<p>&#x4EC0;&#x9EBC;&#x6642;&#x5019;&#x53EF;&#x80FD;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x6216;&#x8005;&#x95DC;&#x9589;&#x5167;&#x5B58;&#x5C0D;&#x9F4A;&#x5462;&#xFF1F;
 &#x6211;&#x60F3;&#x5927;&#x6982;&#x662F;&#x9019;&#x5169;&#x7A2E;&#x60C5;&#x6CC1;&#xFF1A;</p>
 <ul>
 <li>&#x7D50;&#x69CB;&#x5316;&#x6587;&#x4EF6;&#x7684;&#x8B80;&#x5BEB;</li>
@@ -4965,28 +4969,28 @@ int main()
 <p>&#x3000;&#x3000;&#x8AAA;&#x5230;&#x5167;&#x5B58;&#x5C0D;&#x9F4A;&#xFF0C;&#x6211;&#x60F3;&#x8D77;&#x4E86;&#x53E6;&#x4E00;&#x500B;&#x559C;&#x6B61;&#x6D6A;&#x8CBB;&#x5167;&#x5B58;&#x7684;&#x50A2;&#x4F19;&#xFF1A;
 &#x53C3;&#x6578;&#x5C0D;&#x9F4A;&#xFF08;&#x6211;&#x778E;&#x7DE8;&#x7684;&#x540D;&#x5B57;&#xFF0C;C &#x6A19;&#x6E96;&#x4E2D;&#x6216;&#x8A31;&#x6709;&#x660E;&#x78BA;&#x898F;&#x5B9A;&#xFF09;&#x3002;
 &#x770B;&#x4E0B;&#x9762;&#x9019;&#x500B;&#x7A0B;&#x5E8F;&#xFF1A;</p>
-<pre><code>#include &lt;stdio.h&gt;
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;stdio.h&gt;</span>
 
-typedef unsigned char u_char;
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> u_char;
 
-u_char add(u_char a, u_char b)
-{
-    return (u_char)(a+b);
+<span class="hljs-function">u_char <span class="hljs-title">add</span><span class="hljs-params">(u_char a, u_char b)</span>
+</span>{
+    <span class="hljs-keyword">return</span> (u_char)(a+b);
 }
 
-int main()
-{
-    u_char a=1, b=2;
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    u_char a=<span class="hljs-number">1</span>, b=<span class="hljs-number">2</span>;
 
-    printf(&quot;ans:%d\n&quot;, add(a, b));
-    return 0;
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;ans:%d\n&quot;</span>, add(a, b));
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
-</code></pre><p><code>&#x3000;</code>&#x4F60;&#x8AAA; add &#x51FD;&#x6578;&#x7684;&#x53C3;&#x6578;&#x6703;&#x4F54;&#x5E7E;&#x500B;&#x5B57;&#x7BC0;&#x5462;&#xFF1F;2&#x500B;&#xFF1F;4&#x500B;&#xFF1F;
+</code></pre>
+<p>&#x4F60;&#x8AAA; add &#x51FD;&#x6578;&#x7684;&#x53C3;&#x6578;&#x6703;&#x4F54;&#x5E7E;&#x500B;&#x5B57;&#x7BC0;&#x5462;&#xFF1F;2&#x500B;&#xFF1F;4&#x500B;&#xFF1F;
 &#x7D50;&#x679C;&#x662F; 8 &#x500B;&#x2026;&#x2026;</p>
-<p>&#x3000;&#x3000;&#x201C;&#x53EF;&#x6068;&#x201D;&#x7684;&#x662F;&#xFF0C;&#x9019;&#x500B;&#x50A2;&#x4F19;&#x6D6A;&#x8CBB;&#x5167;&#x5B58;&#x7684;&#x884C;&#x70BA;&#x537B;&#x88AB;&#x6240;&#x6709;&#x7DE8;&#x8B6F;&#x5668;&#x7E31;&#x5BB9;&#xFF0C;
+<p>&#x201C;&#x53EF;&#x6068;&#x201D;&#x7684;&#x662F;&#xFF0C;&#x9019;&#x500B;&#x50A2;&#x4F19;&#x6D6A;&#x8CBB;&#x5167;&#x5B58;&#x7684;&#x884C;&#x70BA;&#x537B;&#x88AB;&#x6240;&#x6709;&#x7DE8;&#x8B6F;&#x5668;&#x7E31;&#x5BB9;&#xFF0C;
 &#x6211;&#x5011;&#x7121;&#x6CD5;&#x8FFD;&#x7A76;&#x5B83;&#x7684;&#x8CAC;&#x4EFB;&#x3002;
 &#xFF08;&#x61C9;&#x8A72;&#x662F;&#x70BA;&#x4E86;&#x65B9;&#x4FBF;&#x8A08;&#x7B97;&#x53C3;&#x6578;&#x4F4D;&#x7F6E;&#x800C;&#x898F;&#x5B9A;&#x7684;&#xFF09;</p>
-<p>[&#x56DE;&#x76EE;&#x9304;][content]</p>
 
                     
                     </section>

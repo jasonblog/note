@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>&gt;與&lt; 差在哪？ | Jason note</title>
+        <title>myAssembly | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.1.0">
@@ -25,10 +25,10 @@
         
     
     
-    <link rel="next" href="../shell/23112.html" />
+    <link rel="next" href="../assembly/161.html" />
     
     
-    <link rel="prev" href="../shell/23110.html" />
+    <link rel="prev" href="../assembly/index.html" />
     
 
         
@@ -36,7 +36,7 @@
     <body>
         
         
-    <div class="book" data-level="23.1.11" data-basepath=".." data-revision="Thu Aug 27 2015 11:16:58 GMT+0800 (CST)">
+    <div class="book" data-level="16.1" data-basepath=".." data-revision="Thu Aug 27 2015 11:16:58 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -2842,7 +2842,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="16.1" data-path="assembly/160.html">
+        <li class="chapter active" data-level="16.1" data-path="assembly/160.html">
             
                 
                     <a href="../assembly/160.html">
@@ -4246,7 +4246,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="23.1.11" data-path="shell/23111.html">
+        <li class="chapter " data-level="23.1.11" data-path="shell/23111.html">
             
                 
                     <a href="../shell/23111.html">
@@ -4472,365 +4472,84 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h2 id="shell%E5%8D%81%E4%B8%89%E5%95%8F%E4%B9%8B11%EF%BC%9A-%E8%88%87-%E5%B7%AE%E5%9C%A8%E5%93%AA%EF%BC%9F">shell&#x5341;&#x4E09;&#x554F;&#x4E4B;11&#xFF1A;&gt;&#x8207;&lt; &#x5DEE;&#x5728;&#x54EA;&#xFF1F;</h2>
-<hr>
-<p>&#x9019;&#x6B21;&#x7684;&#x984C;&#x76EE;&#xFF0C;&#x4E4B;&#x524D;&#x6211;&#x5728;CU&#x7684;shell&#x7248;&#x8AAA;&#x660E;&#x904E;&#x4E86;&#xFF1A;
-(&#x539F;&#x5E16;&#x7684;&#x9023;&#x63A5;&#x5728;&#x8AD6;&#x58C7;&#x6539;&#x7248;&#x5F8C;&#xFF0C;&#x5DF2;&#x7D93;&#x5931;&#x6548;)
-&#x9019;&#x6B21;&#x6211;&#x5C31;&#x4E0D;&#x91CD;&#x5BEB;&#x4E86;&#xFF0C;&#x5C07;&#x5E16;&#x5B50;&#x7684;&#x5167;&#x5BB9;&#x201C;&#x6284;&#x201D;&#x4E0B;&#x4F86;&#x5C31;&#x662F;&#x4E86;...</p>
-<h4 id="1-%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E7%AC%A6-fd-file-descriptor">1. &#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;(fd, File Descriptor)</h4>
-<hr>
-<p>&#x8AC7;&#x5230;<code>I/O redirection</code>,&#x4E0D;&#x59A8;&#x5148;&#x8B93;&#x6211;&#x5011;&#x8A8D;&#x8B58;&#x4E00;&#x4E0B;<code>File Descriptor</code>(<code>fd</code>&#xFF0C;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;)&#x3002;</p>
-<p>&#x9032;&#x7A0B;&#x7684;&#x904B;&#x7B97;&#xFF0C;&#x5728;&#x5927;&#x90E8;&#x5206;&#x60C5;&#x6CC1;&#x4E0B;&#xFF0C;&#x90FD;&#x662F;&#x9032;&#x884C;&#x6578;&#x64DA;(data)&#x7684;&#x8655;&#x7406;&#xFF0C;
-&#x9019;&#x4E9B;&#x6578;&#x64DA;&#x5F9E;&#x54EA;&#x88E1;&#xFF0C;&#x8B80;&#x9032;&#x4F86;&#xFF1F;&#x53C8;&#x8F38;&#x51FA;&#x5230;&#x54EA;&#x88E1;&#x5462;&#xFF1F;
-&#x9019;&#x5C31;&#x662F;file descriptor(fd)&#x7684;&#x529F;&#x7528;&#x4E86;&#x3002;</p>
-<p>&#x5728;shell&#x7684;&#x9032;&#x7A0B;&#x4E2D;&#xFF0C;&#x6700;&#x5E38;&#x4F7F;&#x7528;&#x7684;<code>fd</code>&#x5927;&#x6982;&#x6709;&#x4E09;&#x500B;&#xFF0C;&#x5206;&#x5225;&#x70BA;:</p>
+                        <h1 id="myassembly">myAssembly</h1>
+<pre><code class="lang-c">.data                    <span class="hljs-preprocessor"># section declaration</span>
+
+msg:
+    .ascii    <span class="hljs-string">&quot;Hello, world!\n&quot;</span>    <span class="hljs-preprocessor"># our dear string</span>
+    len = . - msg            <span class="hljs-preprocessor"># length of our dear string</span>
+
+.text                    <span class="hljs-preprocessor"># section declaration</span>
+
+            <span class="hljs-preprocessor"># we must export the entry point to the ELF linker or</span>
+    .global _start    <span class="hljs-preprocessor"># loader. They conventionally recognize _start as their</span>
+            <span class="hljs-preprocessor"># entry point. Use ld -e foo to override the default.</span>
+
+_start:
+
+<span class="hljs-preprocessor"># write our string to stdout</span>
+
+    movl    $len,%edx    <span class="hljs-preprocessor"># third argument: message length</span>
+    movl    $msg,%ecx    <span class="hljs-preprocessor"># second argument: pointer to message to write</span>
+    movl    $<span class="hljs-number">1</span>,%ebx        <span class="hljs-preprocessor"># first argument: file handle (stdout)</span>
+    movl    $<span class="hljs-number">4</span>,%eax        <span class="hljs-preprocessor"># system call number (sys_write)</span>
+    <span class="hljs-keyword">int</span>    $<span class="hljs-number">0x80</span>        <span class="hljs-preprocessor"># call kernel</span>
+
+<span class="hljs-preprocessor"># and exit</span>
+
+    movl    $<span class="hljs-number">0</span>,%ebx        <span class="hljs-preprocessor"># first argument: exit code</span>
+    movl    $<span class="hljs-number">1</span>,%eax        <span class="hljs-preprocessor"># system call number (sys_exit)</span>
+    <span class="hljs-keyword">int</span>    $<span class="hljs-number">0x80</span>        <span class="hljs-preprocessor"># call kernel</span>
+</code></pre>
 <ul>
-<li>0&#xFF1A;standard Input (<code>STDIN</code>)</li>
-<li>1: standard output(<code>STDOUT</code>)</li>
-<li>2: standard Error output &#xFF08;<code>STDERR</code>&#xFF09;</li>
-</ul>
-<p>&#x5728;&#x6A19;&#x6E96;&#x60C5;&#x6CC1;&#x4E0B;&#xFF0C;&#x9019;&#x4E9B;fd&#x5206;&#x5225;&#x8DDF;&#x5982;&#x4E0B;&#x8A2D;&#x5099;(device)&#x95DC;&#x806F;&#xFF1A;</p>
+<li><p><code>.data</code>&#x6BB5;&#x6709;&#x4E00;&#x500B;&#x6A19;&#x865F;<code>msg</code>&#xFF0C;&#x4EE3;&#x8868;&#x5B57;&#x5143;&#x4E32;&quot;Hello, world!\n&quot;&#x7684;<code>&#x9996;&#x5730;&#x5740;</code>&#xFF0C;&#x76F8;&#x7576;&#x65BC;C&#x7A0B;&#x5E8F;&#x7684;&#x4E00;&#x500B;&#x5168;&#x5C40;&#x8B8A;&#x6578;&#x3002;</p>
+</li>
+<li><p>&#x6CE8;&#x610F;&#x5728;C&#x8A9E;&#x8A00;&#x4E2D;&#x5B57;&#x5143;&#x4E32;&#x7684;&#x672B;&#x5C3E;&#x96B1;&#x542B;&#x6709;&#x4E00;&#x500B;<code>&apos;\0&apos;</code>&#xFF0C;&#x800C;&#x5F59;&#x7DE8;&#x6307;&#x793A;.ascii&#x5B9A;&#x7FA9;&#x7684;&#x5B57;&#x5143;&#x4E32;&#x672B;&#x5C3E;<code>&#x6C92;&#x6709;</code>&#x96B1;&#x542B;&#x7684;&apos;\0&apos;&#x3002;&#x5F59;&#x7DE8;&#x7A0B;&#x5E8F;&#x4E2D;&#x7684;len&#x4EE3;&#x8868;&#x4E00;&#x500B;<code>&#x5E38;&#x91CF;</code>&#xFF0C;&#x5B83;&#x7684;&#x503C;&#x7531;<code>&#x7576;&#x524D;&#x5730;&#x5740;&#x6E1B;&#x53BB;&#x7B26;&#x865F;msg&#x6240;&#x4EE3;&#x8868;&#x7684;&#x5730;&#x5740;</code>&#x5F97;&#x5230;&#xFF0C;&#x63DB;&#x53E5;&#x8A71;&#x8AAA;&#x5C31;&#x662F;&#x5B57;&#x5143;&#x4E32;&quot;Hello, world!\n&quot;&#x7684;&#x9577;&#x5EA6;&#x3002;</p>
+</li>
+<li><p>&#x73FE;&#x5728;&#x89E3;&#x91CB;&#x4E00;&#x4E0B;&#x9019;&#x884C;&#x4EE3;&#x78BC;&#x4E2D;&#x7684;<code>&#x201C;.&#x201D;</code>&#xFF0C;<code>&#x5F59;&#x7DE8;&#x5668;</code>&#x7E3D;&#x662F;<code>&#x5F9E;&#x524D;&#x5230;&#x5F8C;&#x628A;&#x5F59;&#x7DE8;&#x4EE3;&#x78BC;&#x8F49;&#x63DB;&#x6210;&#x76EE;&#x6A19;&#x6A94;&#x6848;</code>&#xFF0C;&#x5728;&#x9019;&#x500B;&#x904E;&#x7A0B;&#x4E2D;&#x7DAD;&#x8B77;&#x4E00;&#x500B;<code>&#x5730;&#x5740;&#x8A08;&#x6578;&#x5668;</code>&#xFF0C;&#x7576;&#x8655;&#x7406;&#x5230;&#x6BCF;&#x500B;&#x6BB5;&#x7684;<code>&#x958B;&#x982D;</code>&#x6642;&#x628A;&#x5730;&#x5740;&#x8A08;&#x6578;&#x5668;&#x7F6E;&#x6210;<code>0</code>&#xFF0C;&#x7136;&#x5F8C;&#x6BCF;&#x8655;&#x7406;&#x4E00;&#x689D;<code>&#x5F59;&#x7DE8;&#x6307;&#x793A;</code>&#x6216;<code>&#x6307;&#x4EE4;</code>&#x5C31;&#x628A;&#x5730;&#x5740;&#x8A08;&#x6578;&#x5668;&#x589E;<code>&#x52A0;&#x76F8;&#x61C9;&#x7684;&#x4F4D;&#x5143;&#x7D44;&#x6578;</code>&#xFF0C;&#x5728;&#x5F59;&#x7DE8;&#x7A0B;&#x5E8F;&#x4E2D;&#x7528;<code>&#x201C;.&#x201D;</code>&#x53EF;&#x4EE5;&#x53D6;&#x51FA;<code>&#x7576;&#x524D;&#x5730;&#x5740;&#x8A08;&#x6578;&#x5668;&#x7684;&#x503C;</code>&#xFF0C;&#x8A72;&#x503C;&#x662F;&#x4E00;&#x500B;&#x5E38;&#x91CF;&#x3002;</p>
+</li>
+<li><p>&#x5728;<code>_start</code>&#x4E2D;&#x8ABF;&#x4E86;&#x5169;&#x500B;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#xFF0C;&#x7B2C;&#x4E00;&#x500B;&#x662F;<code>write</code>&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#xFF0C;&#x7B2C;&#x4E8C;&#x500B;&#x662F;&#x4EE5;&#x524D;&#x8B1B;&#x904E;&#x7684;<code>_exit</code>&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x3002;</p>
+</li>
+<li><p>&#x5728;&#x8ABF;<code>write</code>&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x6642;&#xFF0C;<code>eax</code>&#x5BC4;&#x5B58;&#x5668;&#x4FDD;&#x5B58;&#x7740;<code>write</code>&#x7684;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x865F;<code>4</code>&#xFF0C;<code>ebx&#x3001;ecx&#x3001;edx&#x5BC4;&#x5B58;&#x5668;&#x5206;&#x5225;&#x4FDD;&#x5B58;&#x7740;write&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x9700;&#x8981;&#x7684;&#x4E09;&#x500B;&#x53C3;&#x6578;</code></p>
 <ul>
-<li><code>stdin</code>(0): keyboard</li>
-<li><code>stdout</code>(1): monitor</li>
-<li><code>stderr</code>(2): monitor</li>
+<li><p><code>ebx</code>&#x4FDD;&#x5B58;&#x7740;<code>&#x6A94;&#x6848;&#x63CF;&#x8FF0;&#x7B26;</code>&#xFF0C;&#x9032;&#x7A0B;&#x4E2D;&#x6BCF;&#x500B;&#x6253;&#x958B;&#x7684;&#x6A94;&#x6848;&#x90FD;&#x7528;&#x4E00;&#x500B;&#x7DE8;&#x865F;&#x4F86;&#x6A19;&#x8B58;&#xFF0C;&#x7A31;&#x70BA;&#x6A94;&#x6848;&#x63CF;&#x8FF0;&#x7B26;&#xFF0C;<code>&#x6A94;&#x6848;&#x63CF;&#x8FF0;&#x7B26;1&#x8868;&#x793A;&#x6A19;&#x6E96;&#x8F38;&#x51FA;</code>&#xFF0C;&#x5C0D;&#x61C9;&#x4E8E;<code>C&#x6A19;&#x6E96;I/O&#x5EAB;&#x7684;stdout</code>&#x3002;</p>
+<pre><code>movl    $1,%ebx        # first argument: file handle (stdout)
+</code></pre></li>
+<li><p><code>ecx</code>&#x4FDD;&#x5B58;&#x7740;&#x8F38;&#x51FA;&#x7DE9;&#x885D;&#x5340;&#x7684;<code>&#x9996;&#x5730;&#x5740;</code>&#x3002;</p>
+<pre><code>movl   $msg,%ecx    # second argument: pointer to message to write
+</code></pre></li>
+<li><p><code>edx</code>&#x4FDD;&#x5B58;&#x7740;&#x8F38;&#x51FA;&#x7684;<code>&#x4F4D;&#x5143;&#x7D44;&#x6578;</code>&#x3002;</p>
+<pre><code>movl    $len,%edx    # third argument: message length
+</code></pre></li>
+<li><p><code>write</code>&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x628A;&#x5F9E;msg&#x958B;&#x59CB;&#x7684;len&#x500B;&#x4F4D;&#x5143;&#x7D44;&#x5BEB;&#x5230;&#x6A19;&#x6E96;&#x8F38;&#x51FA;&#x3002;</p>
+</li>
 </ul>
-<blockquote>
-<p><strong>Tips:</strong>
-linux&#x4E2D;&#x7684;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;(fd)&#x7528;&#x6574;&#x6578;&#x8868;&#x793A;&#x3002;
-linux&#x4E2D;&#x4EFB;&#x4F55;&#x4E00;&#x500B;&#x9032;&#x7A0B;&#x90FD;&#x9ED8;&#x8A8D;&#x6253;&#x958B;&#x4E09;&#x500B;&#x6587;&#x4EF6;,
-&#x9019;&#x4E09;&#x500B;&#x6587;&#x4EF6;&#x5C0D;&#x61C9;&#x7684;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;&#x5206;&#x5225;&#x662F;&#xFF1A;0, 1, 2;
-&#x5373;stdin, stdout, stderr.</p>
-</blockquote>
-<p>&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x7528;&#x5982;&#x4E0B;&#x547D;&#x4EE4;&#x6E2C;&#x8A66;&#x4E00;&#x4E0B;&#xFF1A;</p>
-<pre><code class="lang-shell">$ mail -s test root
-this is a test mail&#x3002;
-please skip.
-^d (&#x540C;&#x6642;&#x6309;&#x4E0B;ctrl &#x8DDF;d&#x9375;)
+</li>
+</ul>
+<pre><code class="lang-sh">$ as -o hello.o hello.s
+$ ld -o hello hello.o
+$ ./hello
+Hello, world!
 </code></pre>
-<p>&#x5F88;&#x660E;&#x986F;&#xFF0C;<code>mail</code>&#x9032;&#x7A0B;&#x6240;&#x8B80;&#x9032;&#x7684;&#x6578;&#x64DA;&#xFF0C;&#x5C31;&#x662F;&#x5F9E;
-<code>stdin</code> &#x4E5F;&#x5C31;&#x662F;keyboard&#x8B80;&#x9032;&#x7684;&#x3002;
-&#x4E0D;&#x904E;&#xFF0C;&#x4E0D;&#x898B;&#x5F97;&#x6BCF;&#x500B;&#x9032;&#x7A0B;&#x7684;<code>stdin</code>&#x90FD;&#x8DDF;<code>mail</code>&#x4E00;&#x6A23;
-&#x5F9E;<code>keyboard</code>&#x8B80;&#x9032;&#xFF0C;&#x56E0;&#x70BA;&#x9032;&#x7A0B;&#x7684;&#x4F5C;&#x8005;&#x53EF;&#x4EE5;&#x5F9E;&#x6587;&#x4EF6;&#x53C3;&#x6578;&#x8B80;&#x9032;<code>stdin</code>&#xFF0C;
-&#x5982;&#xFF1A;</p>
-<pre><code class="lang-shell">$ cat /etc/passwd
+<p>&#x9019;&#x6BB5;&#x5F59;&#x7DE8;&#x76F8;&#x7576;&#x65BC;&#x4EE5;&#x4E0B;C&#x4EE3;&#x78BC;&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;unistd.h&gt;</span>
+
+<span class="hljs-keyword">char</span> msg[<span class="hljs-number">14</span>] = <span class="hljs-string">&quot;Hello, world!\n&quot;</span>;
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> len 14</span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    write(<span class="hljs-number">1</span>, msg, len);
+    _exit(<span class="hljs-number">0</span>);
+}
 </code></pre>
-<p>&#x4F46;&#xFF0C;&#x8981;&#x662F;<code>cat</code>&#x4E4B;&#x5F8C;&#x6C92;&#x6709;&#x6587;&#x4EF6;&#x53C3;&#x6578;&#x5247;&#x5982;&#x4F55;&#x5462;&#xFF1F;
-&#x54E6;&#xFF0C; &#x8ACB;&#x4F60;&#x81EA;&#x5DF1;&#x73A9;&#x73A9;&#x770B;...^_^</p>
-<pre><code class="lang-shell">$ cat
-</code></pre>
-<blockquote>
-<p><strong>Tips:</strong></p>
-<p>&#x8ACB;&#x7559;&#x610F;&#x6578;&#x64DA;&#x8F38;&#x51FA;&#x5230;&#x54EA;&#x88E1;&#x53BB;&#x4E86;&#xFF0C;
-&#x6700;&#x5F8C;&#x5225;&#x5FD8;&#x4E86;&#x6309;<code>ctrl+d</code>(<code>^d</code>), &#x9000;&#x51FA;stdin&#x8F38;&#x5165;&#x3002;</p>
-</blockquote>
-<p>&#x81F3;&#x65BC;<code>stdout</code>&#x8207;<code>stderr</code>&#xFF0C;&#x55EF;...&#x7B49;&#x6211;&#x6709;&#x7A7A;&#x518D;&#x7E8C;&#x5427;...^_^
-&#x9084;&#x662F;&#xFF0C;&#x6709;&#x54EA;&#x4F4D;&#x524D;&#x8F29;&#x4F86;&#x73A9;&#x63A5;&#x9F8D;&#x5462;&#xFF1F;</p>
-<p>&#x76F8;&#x4FE1;&#xFF0C;&#x7D93;&#x904E;&#x4E0A;&#x4E00;&#x500B;&#x7DF4;&#x7FD2;&#x5F8C;&#xFF0C;
-&#x4F60;&#x5C0D;<code>stdin</code>&#x8207;<code>stdout</code>&#x61C9;&#x8A72;&#x4E0D;&#x96E3;&#x7406;&#x89E3;&#x4E86;&#x5427;&#xFF1F;
-&#x7136;&#x5F8C;&#xFF0C;&#x8B93;&#x6211;&#x5011;&#x770B;&#x770B;<code>stderr</code>&#x597D;&#x4E86;&#x3002;</p>
-<p>&#x4E8B;&#x5BE6;&#x4E0A;&#xFF0C;<code>stderr</code>&#x6C92;&#x4EC0;&#x9EBC;&#x96E3;&#x7406;&#x89E3;&#x7684;&#xFF1A;
-&#x8AAA;&#x767D;&#x4E86;&#x5C31;&#x662F;&#x201C;&#x932F;&#x8AA4;&#x4FE1;&#x606F;&#x201D;&#x8981;&#x5F80;&#x54EA;&#x88E1;&#x8F38;&#x51FA;&#x800C;&#x5DF2;...
-&#x6BD4;&#x65B9;&#x8AAA;, &#x82E5;&#x8B80;&#x9032;&#x7684;&#x6587;&#x4EF6;&#x53C3;&#x6578;&#x4E0D;&#x5B58;&#x5728;&#x7684;&#xFF0C;
-&#x90A3;&#x6211;&#x5011;&#x5728;monitor&#x4E0A;&#x5C31;&#x770B;&#x5230;&#x4E86;&#xFF1A;</p>
-<pre><code class="lang-shell">$ ls no.such.file
-ls: no.such.file: No such file or directory
-</code></pre>
-<p>&#x82E5;&#x540C;&#x4E00;&#x500B;&#x547D;&#x4EE4;&#xFF0C;&#x540C;&#x6642;&#x6210;&#x751F;<code>stdout</code>&#x8207;<code>stderr</code>&#x5462;&#xFF1F;
-&#x90A3;&#x9084;&#x4E0D;&#x7C21;&#x55AE;&#xFF0C;&#x90FD;&#x9001;&#x5230;monitor&#x4F86;&#x5C31;&#x597D;&#x4E86;&#xFF1A;</p>
-<pre><code class="lang-shell">$ touch my.file
-$ ls my.file on.such.file
-ls: no.such.file: No such file or directory
-my.file
-</code></pre>
-<p>okay, &#x81F3;&#x6B64;&#xFF0C;&#x95DC;&#x65BC;fd&#x53CA;&#x5176;&#x540D;&#x7A31;&#x3001;&#x9084;&#x6709;&#x76F8;&#x95DC;&#x806F;&#x7684;&#x8A2D;&#x5099;&#xFF0C;
-&#x76F8;&#x4FE1;&#x4F60;&#x5DF2;&#x7D93;&#x6C92;&#x554F;&#x984C;&#x4E86;&#x5427;&#xFF1F;</p>
-<hr>
-<h4 id="2-i-o-%E9%87%8D%E5%AE%9A%E5%90%91-i-o-redirection">2. I/O &#x91CD;&#x5B9A;&#x5411;(I/O Redirection)</h4>
-<hr>
-<p>&#x90A3;&#x597D;&#xFF0C;&#x63A5;&#x4E0B;&#x4F86;&#x8B93;&#x6211;&#x5011;&#x770B;&#x770B;&#x5982;&#x4F55;&#x6539;&#x8B8A;&#x9019;&#x4E9B;fd&#x7684;&#x9810;&#x8A2D;&#x6578;&#x64DA;&#x901A;&#x9053;&#x3002;</p>
 <ul>
-<li>&#x7528;<code>&lt;</code> &#x4F86;&#x6539;&#x8B8A;&#x8B80;&#x9032;&#x7684;&#x6578;&#x64DA;&#x901A;&#x9053;(stdin),&#x4F7F;&#x4E4B;&#x5F9E;&#x6307;&#x5B9A;&#x7684;&#x6587;&#x4EF6;&#x8B80;&#x9032;&#x3002;</li>
-<li>&#x7528;<code>&gt;</code> &#x4F86;&#x6539;&#x8B8A;&#x8F38;&#x51FA;&#x7684;&#x6578;&#x64DA;&#x901A;&#x9053;(stdout&#xFF0C;stderr),&#x4F7F;&#x4E4B;&#x8F38;&#x51FA;&#x5230;&#x6307;&#x5B9A;&#x7684;&#x6587;&#x4EF6;&#x3002;</li>
+<li><p>C&#x4EE3;&#x78BC;&#x4E2D;&#x7684;write&#x51FD;&#x6578;&#x662F;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x7684;&#x5305;&#x88DD;&#x51FD;&#x6578;&#xFF0C;&#x5176;&#x5167;&#x90E8;&#x5BE6;&#x73FE;&#x5C31;&#x662F;&#x628A;&#x50B3;&#x9032;&#x4F86;&#x7684;&#x4E09;&#x500B;&#x53C3;&#x6578;&#x5206;&#x5225;&#x8CE6;&#x7D66;<code>ebx&#x3001;ecx&#x3001;edx</code>&#x5BC4;&#x5B58;&#x5668;&#xFF0C;&#x7136;&#x5F8C;&#x57F7;&#x884C;<code>movl $4,%eax</code>&#x548C;<code>int $0x80</code>&#x5169;&#x689D;&#x6307;&#x4EE4;</p>
+</li>
+<li><p>&#x9019;&#x500B;&#x51FD;&#x6578;&#x4E0D;&#x53EF;&#x80FD;&#x5B8C;&#x5168;&#x7528;C&#x4EE3;&#x78BC;&#x4F86;&#x5BEB;&#xFF0C;&#x56E0;&#x70BA;&#x4EFB;&#x4F55;C&#x4EE3;&#x78BC;&#x90FD;&#x4E0D;&#x6703;&#x7DE8;&#x8B6F;&#x751F;&#x6210;<code>int</code>&#x6307;&#x4EE4;&#xFF0C;&#x6240;&#x4EE5;&#x9019;&#x500B;&#x51FD;&#x6578;&#x6709;&#x53EF;&#x80FD;&#x662F;&#x5B8C;&#x5168;&#x7528;&#x5F59;&#x7DE8;&#x5BEB;&#x7684;&#xFF0C;&#x4E5F;&#x53EF;&#x80FD;&#x662F;&#x7528;C&#x5167;&#x806F;&#x5F59;&#x7DE8;&#x5BEB;&#x7684;&#xFF0C;&#x751A;&#x81F3;&#x53EF;&#x80FD;&#x662F;&#x4E00;&#x500B;&#x5B8F;&#x5B9A;&#x7FA9;&#xFF08;&#x7701;&#x4E86;&#x53C3;&#x6578;&#x5165;&#x68E7;&#x51FA;&#x68E7;&#x7684;&#x6B65;&#x9A5F;&#xFF09;</p>
+</li>
+<li><code>_exit</code>&#x51FD;&#x6578;&#x4E5F;&#x662F;&#x5982;&#x6B64;&#xFF0C;&#x6211;&#x5011;&#x8B1B;&#x904E;&#x9019;&#x4E9B;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x7684;&#x5305;&#x88DD;&#x51FD;&#x6578;&#x4F4D;&#x4E8E;Man Page&#x7684;&#x7B2C;2&#x500B;Section&#x3002;</li>
 </ul>
-<hr>
-<h5 id="2-1-%E8%BC%B8%E5%85%A5%E9%87%8D%E5%AE%9A%E5%90%91-n-input-redirection">2.1 &#x8F38;&#x5165;&#x91CD;&#x5B9A;&#x5411;<code>n&lt;</code>(input redirection)</h5>
-<hr>
-<p>&#x6BD4;&#x65B9;&#x8AAA;&#xFF1A;</p>
-<pre><code class="lang-shell">$ cat &lt; my.file
-</code></pre>
-<p>&#x5C31;&#x662F;&#x5F9E;my.file&#x8B80;&#x5165;&#x6578;&#x64DA;</p>
-<pre><code class="lang-shell">$ mail -s test root &lt; /etc/passwd
-</code></pre>
-<p>&#x5247;&#x662F;&#x5F9E;/etc/passwd&#x8B80;&#x5165;...</p>
-<p>&#x9019;&#x6A23;&#x4E00;&#x4F86;&#xFF0C;stdin&#x5C07;&#x4E0D;&#x518D;&#x662F;&#x5F9E;keyboard&#x8B80;&#x5165;&#xFF0C;
-&#x800C;&#x662F;&#x5F9E;&#x6307;&#x5B9A;&#x7684;&#x6587;&#x4EF6;&#x8B80;&#x5165;&#x4E86;...</p>
-<p>&#x56B4;&#x683C;&#x4F86;&#x8AAA;&#xFF0C;<strong><code>&lt;</code>&#x7B26;&#x865F;&#x4E4B;&#x524D;&#x9700;&#x8981;&#x6307;&#x5B9A;&#x4E00;&#x500B;fd&#x7684;(&#x4E4B;&#x524D;&#x4E0D;&#x80FD;&#x6709;&#x7A7A;&#x767D;)&#xFF0C;&#x4F46;&#x56E0;&#x70BA;0&#x662F;<code>&lt;</code>&#x7684;&#x9810;&#x8A2D;&#x503C;&#xFF0C;&#x56E0;&#x6B64;&#xFF0C;<code>&lt;</code>&#x8207;<code>0&lt;</code>&#x662F;&#x4E00;&#x6A23;&#x7684;*</strong>&#x3002;</p>
-<p>okay&#xFF0C;&#x9019;&#x6A23;&#x597D;&#x7406;&#x89E3;&#x4E86;&#x5427;&#xFF1F;</p>
-<p>&#x90A3;&#x8981;&#x662F;&#x7528;&#x5169;&#x500B;<code>&lt;</code>&#xFF0C;&#x5373;<code>&lt;&lt;</code>&#x53C8;&#x662F;&#x5565;&#x5462;&#xFF1F;
-<strong>&#x9019;&#x662F;&#x6240;&#x8B02;&#x7684;<code>here document</code>,
-&#x5B83;&#x53EF;&#x4EE5;&#x8B93;&#x6211;&#x5011;&#x8F38;&#x5165;&#x4E00;&#x6BB5;&#x6587;&#x672C;&#xFF0C;
-&#x76F4;&#x5230;&#x8B80;&#x5230;<code>&lt;&lt;</code> &#x5F8C;&#x6307;&#x5B9A;&#x7684;&#x5B57;&#x7B26;&#x4E32;</strong>&#x3002;</p>
-<p>&#x6BD4;&#x65B9;&#x8AAA;&#xFF1A;</p>
-<pre><code class="lang-shell">$ cat &lt;</code></pre>
-<p>&#x9019;&#x6A23;&#x7684;&#x8A71;, <code>cat</code>&#x6703;&#x8B80;&#x5165;3&#x500B;&#x53E5;&#x5B50;&#xFF0C;
-&#x800C;&#x7121;&#x9700;&#x5F9E;keyboard&#x8B80;&#x9032;&#x6578;&#x64DA;&#x4E14;&#x8981;&#x7B49;&#x5230;(ctrl+d, ^d)&#x7D50;&#x675F;&#x8F38;&#x5165;&#x3002;</p>
-<hr>
-<h5 id="2-2-%E9%87%8D%E5%AE%9A%E5%90%91%E8%BC%B8%E5%87%BA-n-output-redirection">2.2 &#x91CD;&#x5B9A;&#x5411;&#x8F38;&#x51FA;<code>&gt;n</code>(output redirection)</h5>
-<hr>
-<p>&#x7576;&#x4F60;&#x641E;&#x61C2;&#x4E86;<code>0&lt;</code> &#x539F;&#x4F86;&#x5C31;&#x662F;&#x6539;&#x8B8A;<code>stdin</code>&#x7684;&#x6578;&#x64DA;&#x8F38;&#x5165;&#x901A;&#x9053;&#x4E4B;&#x5F8C;&#xFF0C;
-&#x76F8;&#x4FE1;&#x8981;&#x7406;&#x89E3;&#x5982;&#x4E0B;&#x5169;&#x500B;redirection&#x5C31;&#x4E0D;&#x96E3;&#x4E86;&#xFF1A;</p>
-<ul>
-<li><code>1&gt;</code> #&#x6539;&#x8B8A;stdout&#x7684;&#x8F38;&#x51FA;&#x901A;&#x9053;&#xFF1B;</li>
-<li><code>2&gt;</code> #&#x6539;&#x8B8A;stderr&#x7684;&#x8F38;&#x51FA;&#x901A;&#x9053;&#xFF1B;</li>
-</ul>
-<p>&#x5169;&#x8005;&#x90FD;&#x662F;&#x5C07;&#x539F;&#x4F86;&#x8F38;&#x51FA;&#x5230;monitor&#x7684;&#x6578;&#x64DA;&#xFF0C;
-&#x91CD;&#x5B9A;&#x5411;&#x8F38;&#x51FA;&#x5230;&#x6307;&#x5B9A;&#x7684;&#x6587;&#x4EF6;&#x4E86;&#x3002;</p>
-<p><strong>&#x7531;&#x65BC;1&#x662F;<code>&gt;</code>&#x7684;&#x9810;&#x8A2D;&#x503C;&#xFF0C;
-&#x56E0;&#x6B64;&#xFF0C;<code>1&gt;</code>&#x8207;<code>&gt;</code>&#x662F;&#x76F8;&#x540C;&#x7684;&#xFF0C;&#x90FD;&#x662F;&#x6539;&#x8B8A;<code>stdout</code></strong>.</p>
-<p>&#x7528;&#x4E0A;&#x6B21;&#x7684;ls&#x7684;&#x4F8B;&#x5B50;&#x8AAA;&#x660E;&#x4E00;&#x4E0B;&#x597D;&#x4E86;:</p>
-<pre><code class="lang-shell">$ ls my.file no.such.file 1&gt;file.out
-ls: no.such.file: No such file or directory
-</code></pre>
-<p>&#x9019;&#x6A23;monitor&#x7684;&#x8F38;&#x51FA;&#x5C31;&#x53EA;&#x5269;&#x4E0B;<code>stderr</code>&#x7684;&#x8F38;&#x51FA;&#x4E86;&#xFF0C;
-&#x56E0;&#x70BA;<code>stdout</code>&#x91CD;&#x5B9A;&#x5411;&#x8F38;&#x51FA;&#x5230;&#x6587;&#x4EF6;file.out&#x53BB;&#x4E86;&#x3002;</p>
-<pre><code class="lang-shell">$ ls my.file no.such.file 2&gt;file.err
-my.file
-</code></pre>
-<p>&#x9019;&#x6A23;monitor&#x5C31;&#x53EA;&#x5269;&#x4E0B;&#x4E86;<code>stdout</code>,
-&#x56E0;&#x70BA;<code>stderr</code>&#x91CD;&#x5B9A;&#x5411;&#x8F38;&#x51FA;&#x5230;&#x6587;&#x4EF6;file.err&#x4E86;&#x3002;</p>
-<pre><code class="lang-shell">$ ls my.file no.such.file 1&gt;file.out 2&gt;file.err
-</code></pre>
-<p>&#x9019;&#x6A23;monitor&#x5C31;&#x5565;&#x4E5F;&#x6C92;&#x6709;&#x4E86;&#xFF0C;
-&#x56E0;&#x70BA;<code>stdout</code>&#x8207;<code>stderr</code>&#x90FD;&#x91CD;&#x5B9A;&#x5411;&#x8F38;&#x51FA;&#x5230;&#x6587;&#x4EF6;&#x4E86;&#x3002;</p>
-<p>&#x5475;&#x5475;&#xFF0C;&#x770B;&#x4F86;&#x8981;&#x7406;&#x89E3;<code>&gt;</code>&#x4E00;&#x9EDE;&#x4E5F;&#x4E0D;&#x96E3;&#x5566;&#x662F;&#x4E0D;&#xFF1F; &#x6C92;&#x9A19;&#x4F60;&#x5427;&#xFF1F; ^_^
-<strong>&#x4E0D;&#x904E;&#x6709;&#x4E9B;&#x5730;&#x65B9;&#x9084;&#x662F;&#x8981;&#x6CE8;&#x610F;&#x4E00;&#x4E0B;&#x7684;</strong>&#x3002;</p>
-<pre><code class="lang-shell">$ ls my.file no.such.file 1&gt;file.both 2&gt;file.both
-</code></pre>
-<p>&#x5047;&#x5982;<code>stdout</code>(1)&#x8207;<code>stderr</code>(2)&#x90FD;&#x540C;&#x6642;&#x5728;&#x5BEB;&#x5165;file.both&#x7684;&#x8A71;&#xFF0C;
-&#x5247;&#x662F;&#x63A1;&#x53D6;&quot;&#x8986;&#x84CB;&quot;&#x7684;&#x65B9;&#x5F0F;&#xFF1A;&#x5F8C;&#x4F86;&#x5BEB;&#x5165;&#x8986;&#x84CB;&#x524D;&#x9762;&#x7684;&#x3002;</p>
-<p>&#x8B93;&#x6211;&#x5011;&#x5047;&#x8A2D;&#x4E00;&#x500B;<code>stdout</code>&#x8207;<code>stderr</code>&#x540C;&#x6642;&#x5BEB;&#x5165;&#x5230;file.out&#x7684;&#x60C5;&#x5F62;&#x597D;&#x4E86;&#xFF1B;</p>
-<ul>
-<li>&#x9996;&#x5148;<code>stdout</code>&#x5BEB;&#x5165;10&#x500B;&#x5B57;&#x7B26;</li>
-<li>&#x7136;&#x5F8C;<code>stderr</code>&#x5BEB;&#x5165;6&#x500B;&#x5B57;&#x7B26;</li>
-</ul>
-<p>&#x90A3;&#x9EBC;&#xFF0C;&#x9019;&#x6642;&#x539F;&#x672C;&#x7684;<code>stdout</code>&#x8F38;&#x51FA;&#x7684;10&#x500B;&#x5B57;&#x7B26;&#xFF0C;
-&#x5C07;&#x88AB;<code>stderr</code>&#x8F38;&#x51FA;&#x7684;6&#x500B;&#x5B57;&#x7B26;&#x8986;&#x84CB;&#x6389;&#x4E86;&#x3002;</p>
-<p>&#x90A3;&#x5982;&#x4F55;&#x89E3;&#x6C7A;&#x5462;&#xFF1F;&#x6240;&#x8B02;&#x5C71;&#x4E0D;&#x8F49;&#x8DEF;&#x8F49;&#xFF0C;&#x8DEF;&#x4E0D;&#x8F49;&#x4EBA;&#x8F49;&#x561B;&#xFF0C;
-&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x63DB;&#x4E00;&#x500B;&#x601D;&#x7DAD;&#xFF1A;
-&#x5C07;<code>stderr</code>&#x5C0E;&#x9032;<code>stdout</code>
-&#x6216;&#x8005;&#x5C07;<code>stdout</code>&#x5C0E;&#x9032;&#x5230;<code>stderr</code>,
-&#x800C;&#x4E0D;&#x662F;&#x5927;&#x5BB6;&#x5728;&#x6436;&#x540C;&#x4E00;&#x4EFD;&#x6587;&#x4EF6;&#xFF0C;&#x4E0D;&#x5C31;&#x884C;&#x4E86;&#x3002;
-bingo&#x5C31;&#x662F;&#x9019;&#x6A23;&#x5566;&#xFF1A;</p>
-<ul>
-<li>2&gt;&amp;1 #&#x5C07;<code>stderr</code>&#x4E26;&#x9032;<code>stdout</code>&#x8F38;&#x51FA;</li>
-<li>1&gt;&amp;2 &#x6216;&#x8005; &gt;&amp;2 #&#x5C07;<code>stdout</code>&#x4E26;&#x9032;<code>stderr</code>&#x8F38;&#x51FA;&#x3002;</li>
-</ul>
-<p>&#x65BC;&#x662F;&#xFF0C;&#x524D;&#x9762;&#x7684;&#x932F;&#x8AA4;&#x64CD;&#x4F5C;&#x53EF;&#x4EE5;&#x6539;&#x5BEB;&#x70BA;:</p>
-<pre><code class="lang-shell">$ ls my.file no.such.file 1&gt;file.both 2&gt;&amp;1
-$ ls my.file no.such.file 2&gt;file.both &gt;&amp;2
-</code></pre>
-<p>&#x9019;&#x6A23;&#xFF0C;&#x4E0D;&#x5C31;&#x7686;&#x5927;&#x6B61;&#x559C;&#x4E86;&#x55CE;&#xFF1F; ~~~ ^_^</p>
-<p>&#x4E0D;&#x904E;&#xFF0C;&#x5149;&#x89E3;&#x6C7A;&#x4E86;&#x540C;&#x6642;&#x5BEB;&#x5165;&#x7684;&#x554F;&#x984C;&#x9084;&#x4E0D;&#x5920;&#xFF0C;
-&#x6211;&#x5011;&#x9084;&#x6709;&#x5176;&#x4ED6;&#x6280;&#x5DE7;&#x9700;&#x8981;&#x4E86;&#x89E3;&#x7684;&#x3002;
-&#x6545;&#x4E8B;&#x9084;&#x6C92;&#x6709;&#x7D50;&#x675F;&#xFF0C;&#x5225;&#x8D70;&#x958B;&#x5EE3;&#x544A;&#x5F8C;&#xFF0C;&#x6211;&#x5011;&#x5728;&#x56DE;&#x4F86;....</p>
-<hr>
-<h5 id="2-3-i-o%E9%87%8D%E5%AE%9A%E5%90%91%E8%88%87linux%E4%B8%AD%E7%9A%84-dev-null">2.3 I/O&#x91CD;&#x5B9A;&#x5411;&#x8207;linux&#x4E2D;&#x7684;<code>/dev/null</code></h5>
-<hr>
-<p>okay&#xFF0C;&#x9019;&#x6B21;&#x4E0D;&#x8B1B;I/O Redirection, &#x8ACB;&#x4F5B;&#x5427;...
-(&#x6709;&#x6C92;&#x6709;&#x641E;&#x932F;&#xFF1F;<code>&#x7DB2;&#x4E2D;&#x4EBA;</code>&#x662F;&#x5426;&#x982D;&#x6BBC;&#x71D2;&#x58DE;&#x4E86;&#xFF1F;...)&#x563B;~~~^_^</p>
-<p>&#x5B78;&#x4F5B;&#x7684;&#x6700;&#x9AD8;&#x5883;&#x754C;&#xFF0C;&#x5C31;&#x662F;&quot;&#x56DB;&#x5927;&#x7686;&#x7A7A;&quot;&#x3002;
-&#x81F3;&#x65BC;&#x662F;&#x7A7A;&#x54EA;&#x56DB;&#x5927;&#x584A;&#xFF0C;&#x6211;&#x4E5F;&#x4E0D;&#x77E5;&#xFF0C;&#x56E0;&#x70BA;&#x6211;&#x9084;&#x6C92;&#x6709;&#x5230;&#x90A3;&#x500B;&#x5883;&#x754C;..
-&#x9019;&#x500B;&#x201C;&#x7A7A;&#x201D;&#x5B57;,&#x537B;&#x975E;&#x5E38;&#x503C;&#x5F97;&#x53CD;&#x8986;&#x628A;&#x73A9;&#xFF1A;
----&#x8272;&#x5373;&#x662F;&#x7A7A;&#xFF0C;&#x7A7A;&#x5373;&#x662F;&#x8272;
-&#x597D;&#x4E86;&#xFF0C;&#x65BD;&#x4E3B;&#x8981;&#x662F;&#x80FD;&#x5920;&#x9818;&#x6703;&quot;&#x7A7A;&quot;&#x7684;&#x79AA;&#x610F;&#xFF0C;&#x90A3;&#x96E2;&#x4FEE;&#x6210;&#x6B63;&#x679C;&#x4E0D;&#x9060;&#x4E86;&#x3002;</p>
-<p> &#x5728;linux&#x7684;&#x6587;&#x4EF6;&#x7CFB;&#x7D71;&#x4E2D;&#xFF0C;&#x6709;&#x500B;&#x8A2D;&#x5099;&#x6587;&#x4EF6;: <code>/dev/null</code>.
- &#x8A31;&#x591A;&#x4EBA;&#x90FD;&#x554F;&#x904E;&#x6211;&#xFF0C;&#x90A3;&#x662F;&#x4EC0;&#x9EBC;&#x73A9;&#x610F;&#x5152;&#xFF1F;
- &#x6211;&#x8DDF;&#x4F60;&#x8AAA;&#x597D;&#x4E86;&#xFF0C;&#x90A3;&#x5C31;&#x662F;&quot;&#x7A7A;&quot;&#x5566;&#x3002;</p>
-<p> &#x6C92;&#x932F;&#x7A7A;&#x7A7A;&#x5982;&#x4E5F;&#x7684;&#x7A7A;&#x5C31;&#x662F;null&#x4E86;...
- &#x8ACB;&#x554F;&#x65BD;&#x4E3B;&#x662F;&#x5426;&#x5FFD;&#x7136;&#x6709;&#x6240;&#x9813;&#x609F;&#x4E86;&#x5462;&#xFF1F;
- &#x7136;&#x5247;&#x606D;&#x559C;&#x4E86;&#x3002;</p>
-<p> &#x9019;&#x500B;null&#x5728; I/O Redirection&#x4E2D;&#x53EF;&#x6709;&#x7528;&#x7684;&#x5F88;&#x5462;&#xFF1F;</p>
-<ul>
-<li>&#x5C07;fd <code>1</code>&#x8DDF;fd <code>2</code>&#x91CD;&#x5B9A;&#x5411;&#x5230;/dev/null&#x53BB;&#xFF0C;&#x5C31;&#x53EF;&#x5FFD;&#x7565;stdout, stderr&#x7684;&#x8F38;&#x51FA;&#x3002;</li>
-<li>&#x5C07;fd <code>0</code>&#x91CD;&#x5B9A;&#x5411;&#x5230;/dev/null&#xFF0C;&#x90A3;&#x5C31;&#x662F;&#x8B80;&#x9032;&#x7A7A;(nothing).</li>
-</ul>
-<p>&#x6BD4;&#x65B9;&#x8AAA;&#xFF0C;&#x6211;&#x5011;&#x5728;&#x57F7;&#x884C;&#x4E00;&#x500B;&#x9032;&#x7A0B;&#x6642;&#xFF0C;&#x6703;&#x540C;&#x6642;&#x8F38;&#x51FA;&#x5230;stdout&#x8207;stderr&#xFF0C;
-&#x5047;&#x5982;&#x4F60;&#x4E0D;&#x60F3;&#x770B;&#x5230;stderr(&#x4E5F;&#x4E0D;&#x60F3;&#x5B58;&#x5230;&#x6587;&#x4EF6;)&#xFF0C; &#x90A3;&#x5C31;&#x53EF;&#x4EE5;&#xFF1A;</p>
-<pre><code class="lang-shell">$ ls my.file no.such.file 2&gt;/dev/null
-my.file
-</code></pre>
-<p>&#x82E5;&#x8981;&#x76F8;&#x53CD;&#xFF1A;&#x53EA;&#x60F3;&#x770B;&#x5230;stderr&#x5462;&#xFF1F;
-&#x9084;&#x4E0D;&#x7C21;&#x55AE;&#x5C07;stdout&#xFF0C;&#x91CD;&#x5B9A;&#x5411;&#x7684;/dev/null&#x5C31;&#x884C;&#xFF1A;</p>
-<pre><code class="lang-shell">$ ls my.file no.such.file &gt;/dev/null
-ls: no.such.file: No such file or directory
-</code></pre>
-<p>&#x90A3;&#x63A5;&#x4E0B;&#x4F86;&#xFF0C;&#x5047;&#x5982;&#x55AE;&#x7D14;&#x7684;&#x53EA;&#x8DD1;&#x9032;&#x7A0B;&#xFF0C;&#x800C;&#x4E0D;&#x60F3;&#x770B;&#x5230;&#x4EFB;&#x4F55;&#x8F38;&#x51FA;&#x5462;&#xFF1F;
-&#x54E6;&#xFF0C;&#x9019;&#x88E1;&#x7559;&#x4E86;&#x4E00;&#x624B;&#xFF0C;&#x4E0A;&#x6B21;&#x6C92;&#x8B1B;&#x7684;&#x6CD5;&#x5B50;,&#x5C08;&#x9580;&#x8D08;&#x8207;&#x6709;&#x7DE3;&#x4EBA;... ^_^
-&#x9664;&#x4E86;&#x7528; <code>&gt;/dev/null 2&gt;&amp;1</code>&#x4E4B;&#x5916;&#xFF0C;&#x4F60;&#x9084;&#x53EF;&#x4EE5;&#x5982;&#x6B64;&#xFF1A;</p>
-<pre><code class="lang-shell">$ ls my.file no.such.file &amp;&gt;/dev/null
-</code></pre>
-<blockquote>
-<p><strong>Tips:</strong></p>
-<p>&#x5C07;&amp;&gt;&#x63DB;&#x6210;&gt;&amp;&#x4E5F;&#x884C;&#xFF01;</p>
-</blockquote>
-<hr>
-<h5 id="2-4-%E9%87%8D%E5%AE%9A%E5%90%91%E8%BC%B8%E5%87%BAappend">2.4 &#x91CD;&#x5B9A;&#x5411;&#x8F38;&#x51FA;append (<code>&gt;&gt;</code>)</h5>
-<hr>
-<p>okay&#xFF1F; &#x8ACB;&#x5B8C;&#x4F5B;&#xFF0C;&#x63A5;&#x4E0B;&#x4F86;&#xFF0C;&#x518D;&#x8B93;&#x6211;&#x5011;&#x770B;&#x770B;&#x5982;&#x4E0B;&#x60C5;&#x6CC1;&#xFF1A;</p>
-<pre><code class="lang-shell">$ echo &quot;1&quot; &gt; file.out
-$ cat file.out
-1
-$ echo &quot;2&quot; &gt; file.out
-$ cat file.out
-2
-</code></pre>
-<p>&#x770B;&#x4F86;&#xFF0C;&#x6211;&#x5011;&#x5728;&#x91CD;&#x5B9A;&#x5411;stdout&#x6216;stderr&#x9032;&#x4E00;&#x500B;&#x6587;&#x4EF6;&#x6642;&#xFF0C;
-&#x4F3C;&#x4E4E;&#x6C38;&#x9060;&#x53EA;&#x80FD;&#x7372;&#x5F97;&#x6700;&#x5F8C;&#x4E00;&#x6B21;&#x7684;&#x91CD;&#x5B9A;&#x5411;&#x7684;&#x7D50;&#x679C;.
-&#x90A3;&#x4E4B;&#x524D;&#x7684;&#x5167;&#x5BB9;&#x5462;&#xFF1F;</p>
-<p>&#x5475;&#x5475;&#xFF0C;&#x8981;&#x89E3;&#x6C7A;&#x9019;&#x500B;&#x554F;&#x984C;&#xFF0C;&#x5F88;&#x7C21;&#x55AE;&#x5566;&#xFF0C;&#x5C07;<code>&gt;</code>&#x63DB;&#x6210;<code>&gt;&gt;</code> &#x5C31;&#x597D;&#x4E86;&#xFF1B;</p>
-<pre><code class="lang-shell">$ echo &quot;3&quot; &gt;&gt; file.out
-$ cat file.out
-2
-3
-</code></pre>
-<p>&#x5982;&#x6B64;&#x4E00;&#x4F86;&#xFF0C;&#x88AB;&#x91CD;&#x5B9A;&#x5411;&#x7684;&#x6587;&#x4EF6;&#x7684;&#x4E4B;&#x524D;&#x7684;&#x5167;&#x5BB9;&#x4E26;&#x4E0D;&#x6703;&#x4E1F;&#x5931;&#xFF0C;
-&#x800C;&#x65B0;&#x7684;&#x5167;&#x5BB9;&#x5247;&#x4E00;&#x76F4;&#x8FFD;&#x52A0;&#x5728;&#x6700;&#x5F8C;&#x9762;&#x53BB;&#x3002;so easy?...</p>
-<p>&#x4F46;&#x662F;&#xFF0C;&#x53EA;&#x8981;&#x4F60;&#x518D;&#x6B21;&#x4F7F;&#x7528;<code>&gt;</code>&#x4F86;&#x91CD;&#x5B9A;&#x5411;&#x8F38;&#x51FA;&#x7684;&#x8A71;&#xFF0C;
-&#x90A3;&#x9EBC;&#xFF0C;&#x539F;&#x4F86;&#x6587;&#x4EF6;&#x7684;&#x5167;&#x5BB9;&#x88AB;truncated(&#x6E05;&#x6D17;&#x6389;)&#x3002;
-&#x9019;&#x662F;&#xFF0C;&#x4F60;&#x8981;&#x5982;&#x4F55;&#x907F;&#x514D;&#x5462;&#xFF1F;
-----&#x5099;&#x4EFD;&#xFF0C; yes&#xFF0C;&#x6211;&#x807D;&#x5230;&#x4E86;&#xFF0C;&#x4E0D;&#x904E;&#xFF0C;&#x9084;&#x6709;&#x66F4;&#x597D;&#x7684;&#x55CE;&#xFF1F;
-&#x65E2;&#x7136;&#x8207;&#x65BD;&#x4E3B;&#x9019;&#x9EBC;&#x6709;&#x7DE3;&#x5206;&#xFF0C;&#x8001;&#x8872;&#x5C31;&#x9001;&#x4F60;&#x4E00;&#x500B;&#x9326;&#x56CA;&#x5999;&#x6CD5;&#x5427;&#xFF1A;</p>
-<pre><code class="lang-shell">$ set -o noclobber
-$ echo &quot;4&quot; &gt; file.out
--bash&#xFF1A;file: cannot overwrite existing file.
-</code></pre>
-<p>&#x90A3;&#xFF0C;&#x8981;&#x5982;&#x4F55;&#x53D6;&#x6D88;&#x9019;&#x500B;&#x9650;&#x5236;&#x5462;?
-&#x54E6;&#xFF0C;&#x5C07;<code>set -o</code>&#x63DB;&#x6210; <code>set +o</code>&#x5C31;&#x884C;&#x4E86;&#xFF1A;</p>
-<pre><code class="lang-shell">$ set +o noclobber
-$ echo &quot;5&quot; &gt; file.out
-$ cat file.out
-5
-</code></pre>
-<p>&#x518D;&#x554F;&#xFF1A;&#x90A3;&#x6709;&#x8FA6;&#x6CD5;&#x4E0D;&#x53D6;&#x6D88;&#x800C;&#x53C8;&#x201C;&#x81E8;&#x6642;&#x201D;&#x6539;&#x5BEB;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#x55CE;&#xFF1F;
-&#x54E6;&#xFF0C;&#x4F5B;&#x66F0;&#xFF1A;&#x4E0D;&#x53EF;&#x544A;&#x4E5F;&#x3002;
-&#x554A;&#xFF0C;<del>~&#x958B;&#x73A9;&#x7B11;&#x7684;&#xFF0C;&#x958B;&#x73A9;&#x7B11;&#x5566;</del>~^_^&#xFF0C;
-&#x54CE;&#xFF0C;&#x65E9;&#x5C31;&#x6599;&#x5230;&#x4EBA;&#x5FC3;&#x662F;&#x4E0D;&#x8DB3;&#x7684;&#x4E86;</p>
-<pre><code class="lang-shell">$ set -o noclobber
-$ echo &quot;6&quot; &gt;| file.out
-$ cat file.out
-6
-</code></pre>
-<p>&#x7559;&#x610F;&#x5230;&#x6C92;&#x6709;&#xFF1A;
-<strong>&#x5728;<code>&gt;</code>&#x5F8C;&#x9762;&#x52A0;&#x500B;<code>|</code>&#x5C31;&#x597D;&#xFF0C;
-&#x6CE8;&#x610F;&#xFF1A; <code>&gt;</code>&#x8207;<code>|</code>&#x4E4B;&#x9593;&#x4E0D;&#x80FD;&#x6709;&#x7A7A;&#x767D;&#x54E6;</strong>...</p>
-<hr>
-<h5 id="2-5-i-o-redirection%E7%9A%84%E5%84%AA%E5%85%88%E7%B4%9A">2.5 I/O Redirection&#x7684;&#x512A;&#x5148;&#x7D1A;</h5>
-<hr>
-<p>&#x547C;....(&#x6DF1;&#x547C;&#x5438;&#x5410;&#x7D0D;&#x4E00;&#x4E0B;&#x5427;)~~~ ^_^
-&#x518D;&#x4F86;&#x9084;&#x6709;&#x4E00;&#x500B;&#x96E3;&#x984C;&#x8981;&#x4F60;&#x53BB;&#x53C3;&#x900F;&#x5462;:</p>
-<pre><code class="lang-shell">$ echo &quot;some text here&quot; &gt;file
-$ cat &lt; file
-some text here
-$cat &lt; file &gt;file.bak
-$cat &lt; file.bak
-some text here
-$cat &lt; file &gt;file
-</code></pre>
-<p>&#x55EF;&#xFF1F;&#x6CE8;&#x610F;&#x5230;&#x6C92;&#x6709;&#xFF1F;
----&#x600E;&#x9EBC;&#x6700;&#x5F8C;&#x90A3;&#x500B;cat&#x547D;&#x4EE4;&#x770B;&#x5230;file&#x662F;&#x7A7A;&#x7684;&#x5462;&#xFF1F;
-why&#xFF1F; why&#xFF1F; why&#xFF1F;</p>
-<p>&#x524D;&#x9762;&#x63D0;&#x5230;&#xFF1A;<code>$cat &lt; file &gt; file</code>&#x4E4B;&#x5F8C;&#xFF0C;
-&#x539F;&#x672C;&#x6709;&#x5167;&#x5BB9;&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x7D50;&#x679C;&#x537B;&#x88AB;&#x6E05;&#x7A7A;&#x4E86;&#x3002;
-&#x8981;&#x7406;&#x89E3;&#x9019;&#x500B;&#x73FE;&#x8C61;&#x5176;&#x5BE6;&#x4E0D;&#x96E3;&#xFF0C;
-&#x9019;&#x53EA;&#x662F;priority&#x7684;&#x554F;&#x984C;&#x800C;&#x5DF2;&#xFF1A;
-<strong> &#x5728;IO Redirection&#x4E2D;, stdout&#x8207;stderr&#x7684;&#x7BA1;&#x9053;&#x5148;&#x6E96;&#x5099;&#x597D;&#xFF0C;
-&#x624D;&#x6703;&#x5F9E;stdin&#x8B80;&#x5165;&#x6578;&#x64DA;&#x3002;</strong>
-&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#xFF0C;&#x5728;&#x4E0A;&#x4F8B;&#x4E2D;&#xFF0C;<code>&gt;file</code>&#x6703;&#x5C07;file&#x6E05;&#x7A7A;&#xFF0C;
-&#x7136;&#x5F8C;&#x624D;&#x8B80;&#x5165; <code>&lt; file</code>&#x3002;
-&#x4F46;&#x9019;&#x6642;&#x5019;&#x6587;&#x4EF6;&#x7684;&#x5167;&#x5BB9;&#x5DF2;&#x88AB;&#x6E05;&#x7A7A;&#x4E86;&#xFF0C;&#x56E0;&#x6B64;&#x5C31;&#x8B8A;&#x6210;&#x4E86;&#x8B80;&#x4E0D;&#x9032;&#x4EFB;&#x4F55;&#x6578;&#x64DA;&#x3002;</p>
-<p>&#x54E6;&#xFF0C;<del>~&#x539F;&#x4F86;&#x5982;&#x6B64;</del>~^_^
-&#x90A3;...&#x5982;&#x4E0B;&#x5169;&#x4F8B;&#x53C8;&#x5982;&#x4F55;&#x5462;&#xFF1F;</p>
-<pre><code class="lang-shell">$ cat &lt;&gt; file
-$ cat &lt; file &gt;&gt;file
-</code></pre>
-<p>&#x55EF;...&#x540C;&#x5B78;&#x5011;&#xFF0C;&#x9019;&#x5169;&#x500B;&#x7B54;&#x6848;&#x5C31;&#x7576;&#x7DF4;&#x7FD2;&#x984C;&#x560D;&#xFF0C;
-&#x4E0B;&#x8AB2;&#x524D;&#x4EA4;&#x4F5C;&#x696D;&#x3002;</p>
-<blockquote>
-<p><strong>Tips:</strong>
-&#x6211;&#x5011;&#x77AD;&#x89E3;&#x5230;<code>&gt;file</code>&#x80FD;&#x5920;&#x5FEB;&#x901F;&#x628A;&#x6587;&#x4EF6;file&#x6E05;&#x7A7A;&#xFF1B;
-&#x6216;&#x8005;&#x4F7F;&#x7528;<code>:&gt;file</code>&#x540C;&#x6A23;&#x53EF;&#x4EE5;&#x6E05;&#x7A7A;&#x6587;&#x4EF6;&#xFF0C;
-<code>:&gt;file</code>&#x8207;<code>&gt;file</code>&#x7684;&#x529F;&#x80FD;&#xFF1A;
-&#x82E5;&#x6587;&#x4EF6;file&#x5B58;&#x5728;&#xFF0C;&#x5247;&#x5C07;file&#x6E05;&#x7A7A;; &#x5426;&#x5247;&#xFF0C;&#x5275;&#x5EFA;&#x7A7A;&#x6587;&#x4EF6;file (&#x7B49;&#x6548;&#x65BC;<code>touch file</code>);
-&#x4E8C;&#x8005;&#x7684;&#x5DEE;&#x5225;&#x5728;&#x65BC;<code>&gt;file</code>&#x7684;&#x65B9;&#x5F0F;&#x4E0D;&#x4E00;&#x5B9A;&#x5728;&#x6240;&#x6709;&#x7684;shell&#x7684;&#x90FD;&#x53EF;&#x7528;&#x3002;</p>
-<p><code>exec 5&lt;&gt;file; echo &quot;abcd&quot; &gt;&amp;5; cat &lt;&amp;5</code>
-&#x5C07;file&#x6587;&#x4EF6;&#x7684;&#x8F38;&#x5165;&#x3001;&#x8F38;&#x51FA;&#x5B9A;&#x5411;&#x5230;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;5&#xFF0C;
-&#x5F9E;&#x800C;&#x63CF;&#x8FF0;&#x7B26;5&#x53EF;&#x4EE5;&#x63A5;&#x7BA1;file&#x7684;&#x8F38;&#x5165;&#x8F38;&#x51FA;&#xFF1B;
-&#x56E0;&#x6B64;&#xFF0C;<code>cat &lt;&gt;file</code>&#x7B49;&#x50F9;&#x65BC;<code>cat &lt; file</code>&#x3002;</p>
-<p>&#x800C;<code>cat &lt; file &gt;&gt;file</code>&#x5247;&#x4F7F;file&#x5167;&#x5BB9;&#x6210;&#x5E7E;&#x4F55;&#x7D1A;&#x6578;&#x589E;&#x9577;&#x3002;</p>
-</blockquote>
-<p>&#x597D;&#x4E86;&#xFF0C; I/O Redirection&#x4E5F;&#x5FEB;&#x8B1B;&#x5B8C;&#x4E86;&#xFF0C;
-sorry,&#x56E0;&#x70BA;&#x6211;&#x4E5F;&#x53EA;&#x77E5;&#x9053;&#x9019;&#x9EBC;&#x591A;&#x800C;&#x5DF2;&#x5566;<del>~&#x563B;</del>~^_^
-&#x4E0D;&#x904E;&#xFF0C;&#x9084;&#x6709;&#x4E00;&#x6A23;&#x6771;&#x6771;&#x662F;&#x4E00;&#x5B9A;&#x8981;&#x8B1B;&#x7684;&#xFF0C;&#x5404;&#x4F4D;&#x89C0;&#x773E;(&#x8ACB;&#x81EA;&#x884C;&#x914D;&#x6A02;~!#@$%):
-&#x5C31;&#x662F;<code>pipe line</code>&#x4E5F;&#x3002;</p>
-<hr>
-<h5 id="2-6-%E7%AE%A1%E9%81%93-pipe-line">2.6 &#x7BA1;&#x9053;(pipe line)</h5>
-<hr>
-<p>&#x8AC7;&#x5230;<code>pipe line</code>&#xFF0C;&#x6211;&#x76F8;&#x4FE1;&#x4E0D;&#x5C11;&#x4EBA;&#x90FD;&#x4E0D;&#x6703;&#x964C;&#x751F;&#xFF1A;
-&#x6211;&#x5011;&#x5728;&#x5F88;&#x591A;command line&#x4E0A;&#x5E38;&#x770B;&#x5230;<code>|</code>&#x7B26;&#x865F;&#x5C31;&#x662F;pipe line&#x4E86;&#x3002;</p>
-<p>&#x4E0D;&#x904E;&#xFF0C;pipe line&#x7A76;&#x7ADF;&#x662F;&#x4EC0;&#x9EBC;&#x6771;&#x6771;&#x5462;&#xFF1F;
-&#x5225;&#x6025;&#x5225;&#x6025;...&#x5148;&#x67E5;&#x4E00;&#x4E0B;&#x82F1;&#x6587;&#x5B57;&#x5178;&#xFF0C;&#x770B;&#x770B;pipe&#x662F;&#x4EC0;&#x9EBC;&#x610F;&#x601D;&#xFF1F;
-&#x6C92;&#x932F;&#x4ED6;&#x5C31;&#x662F;&#x201C;&#x6C34;&#x7BA1;&#x201D;&#x7684;&#x610F;&#x601D;...
-&#x90A3;&#x9EBC;&#xFF0C;&#x4F60;&#x80FD;&#x60F3;&#x8C61;&#x4E00;&#x4E0B;&#x6C34;&#x7BA1;&#x662F;&#x600E;&#x6A23;&#x4E00;&#x500B;&#x6839;&#x63A5;&#x4E00;&#x6839;&#x7684;&#x55CE;&#xFF1F;
-&#x53C8;&#xFF0C; &#x6BCF;&#x6839;&#x6C34;&#x7BA1;&#x4E4B;&#x9593;&#x7684;input&#x8DDF;output&#x53C8;&#x5982;&#x4F55;&#x5462;&#xFF1F;
-&#x9748;&#x5149;&#x4E00;&#x9583;&#xFF1A;&#x539F;&#x4F86;pipe line&#x7684;I/O&#x8DDF;&#x6C34;&#x7BA1;&#x7684;I/O&#x662F;&#x4E00;&#x6A21;&#x4E00;&#x6A23;&#x7684;&#xFF1A;
-<strong>&#x4E0A;&#x4E00;&#x500B;&#x547D;&#x4EE4;&#x7684;stdout&#x63A5;&#x5230;&#x4E0B;&#x4E00;&#x500B;&#x547D;&#x4EE4;&#x7684;stdin&#x53BB;&#x4E86;</strong>
-&#x7684;&#x78BA;&#x5982;&#x6B64;&#x3002;&#x4E0D;&#x7BA1;&#x5728;command line&#x4E0A;&#x4F7F;&#x7528;&#x4E86;&#x591A;&#x5C11;&#x500B;pipe line&#xFF0C;
-&#x524D;&#x5F8C;&#x5169;&#x500B;command&#x7684;I/O&#x662F;&#x5F7C;&#x6B64;&#x9023;&#x63A5;&#x7684;
-(&#x606D;&#x559C;&#xFF1A;&#x4F60;&#x7D42;&#x65BC;&#x958B;&#x653E;&#x4E86; ^_^ )</p>
-<p>&#x4E0D;&#x904E;...&#x7136;&#x800C;...&#x4F46;&#x662F;... ...stderr&#x5462;&#xFF1F;
-&#x597D;&#x554F;&#x984C;&#x4E0D;&#x904E;&#x4E5F;&#x5BB9;&#x6613;&#x7406;&#x89E3;&#xFF1A;
-&#x82E5;&#x6C34;&#x7BA1;&#x6F0F;&#x6C34;&#x600E;&#x9EBC;&#x8FA6;&#xFF1F;
-&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#xFF1A;&#x5728;pipe line&#x4E4B;&#x9593;,
-&#x524D;&#x4E00;&#x500B;&#x547D;&#x4EE4;&#x7684;stderr&#x662F;&#x4E0D;&#x6703;&#x63A5;&#x9032;&#x4E0B;&#x4E00;&#x500B;&#x547D;&#x4EE4;&#x7684;stdin&#x7684;&#xFF0C;
-&#x5176;&#x8F38;&#x51FA;&#xFF0C;&#x82E5;&#x4E0D;&#x7528;2&gt;file&#x7684;&#x8A71;&#xFF0C;&#x5176;&#x8F38;&#x51FA;&#x5728;monitor&#x4E0A;&#x4F86;&#x3002;
-&#x9019;&#x9EDE;&#x8ACB;&#x4F60;&#x5728;pipe line&#x904B;&#x7528;&#x4E0A;&#x52D9;&#x5FC5;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x3002;</p>
-<p>&#x90A3;&#xFF0C;&#x6216;&#x8A31;&#x4F60;&#x6709;&#x6703;&#x554F;:
-<strong>&#x6709;&#x8FA6;&#x6CD5;&#x5C07;stderr&#x4E5F;&#x5582;&#x9032;&#x4E0B;&#x4E00;&#x500B;&#x547D;&#x4EE4;&#x7684;stdin&#x55CE;&#xFF1F;</strong>
-(&#x8CAA;&#x5F97;&#x7121;&#x53AD;&#x7684;&#x50A2;&#x4F19;)&#xFF0C;&#x65B9;&#x6CD5;&#x7576;&#x7136;&#x662F;&#x6709;&#x7684;&#xFF0C;&#x800C;&#x4E14;&#xFF0C;&#x4F60;&#x65E9;&#x5DF2;&#x5B78;&#x7FD2;&#x904E;&#x4E86;&#x3002;
-&#x63D0;&#x793A;&#x4E00;&#x4E0B;&#x5C31;&#x597D;&#xFF1A;**&#x8ACB;&#x554F;&#x4F60;&#x5982;&#x4F55;&#x5C07;stderr&#x5408;&#x4F75;&#x9032;stdout&#x4E00;&#x540C;&#x8F38;&#x51FA;&#x5462;&#xFF1F;
-&#x82E5;&#x4F60;&#x7B54;&#x4E0D;&#x51FA;&#x4F86;&#xFF0C;&#x4E0B;&#x8AB2;&#x5F8C;&#x518D;&#x4F86;&#x554F;&#x6211;...(&#x5982;&#x679C;&#x4F60;&#x81C9;&#x76AE;&#x8DB3;&#x5920;&#x539A;&#x7684;&#x8A71;...)</p>
-<p>&#x6216;&#x8A31;&#xFF0C;&#x4F60;&#x4ECD;&#x610F;&#x7336;&#x672A;&#x76E1;&#xFF0C;&#x6216;&#x8A31;&#xFF0C;&#x4F60;&#x66FE;&#x7D93;&#x78B0;&#x5230;&#x904E;&#x4E0B;&#x9762;&#x7684;&#x554F;&#x984C;&#xFF1A;
-&#x5728;<code>cmd1 | cmd2 | cmd3 | ...</code>
-&#x9019;&#x6BB5;pipe line&#x4E2D;&#x5982;&#x4F55;&#x5C07;cmd2&#x7684;&#x8F38;&#x51FA;&#x4FDD;&#x5B58;&#x5230;&#x4E00;&#x500B;&#x6587;&#x4EF6;&#x5462;&#xFF1F;</p>
-<p>&#x82E5;&#x4F60;&#x5BEB;&#x6210;<code>cmd1 | cmd2 &gt;file | cmd3</code>&#x7684;&#x8A71;&#xFF0C;
-&#x90A3;&#x4F60;&#x80AF;&#x5B9A;&#x6703;&#x767C;&#x73FE;<code>cmd3</code>&#x7684;stdin&#x662F;&#x7A7A;&#x7684;&#xFF0C;(&#x7576;&#x7136;&#x4E86;&#xFF0C;&#x4F60;&#x90FD;&#x5C07;
-&#x6C34;&#x7BA1;&#x63A5;&#x5230;&#x5225;&#x7684;&#x6C34;&#x6C60;&#x4E86;)
-&#x8070;&#x660E;&#x7684;&#x4F60;&#x6216;&#x8A31;&#x6703;&#x5982;&#x6B64;&#x89E3;&#x6C7A;&#xFF1A;</p>
-<pre><code class="lang-shell">cmd1 | cmd2 &gt;file; cmd3 &lt; file
-</code></pre>
-<p>&#x662F;&#x7684;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x9019;&#x6A23;&#x505A;&#xFF0C;&#x4F46;&#x6700;&#x5927;&#x7684;&#x58DE;&#x8655;&#x662F;&#xFF1A;
-file I/O&#x6703;&#x8B8A;&#x96D9;&#x500D;&#xFF0C;&#x5728;command&#x57F7;&#x884C;&#x7684;&#x6574;&#x500B;&#x904E;&#x7A0B;&#x4E2D;&#xFF0C;
-file I/O&#x662F;&#x6700;&#x5E38;&#x898B;&#x7684;&#x6700;&#x5927;&#x6548;&#x80FD;&#x6BBA;&#x624B;&#x3002;
-&#x51E1;&#x662F;&#x6709;&#x7D93;&#x9A57;&#x7684;shell&#x64CD;&#x4F5C;&#x8005;&#xFF0C;&#x90FD;&#x6703;&#x76E1;&#x91CF;&#x907F;&#x514D;&#x6216;&#x964D;&#x4F4E;file I/O&#x7684;&#x983B;&#x5EA6;&#x3002;</p>
-<p>&#x90A3;&#x4E0A;&#x9762;&#x554F;&#x984C;&#x9084;&#x6709;&#x66F4;&#x597D;&#x7684;&#x65B9;&#x6CD5;&#x55CE;&#xFF1F;
-&#x6709;&#x7684;&#xFF0C;&#x90A3;&#x5C31;&#x662F;<code>tee</code>&#x547D;&#x4EE4;&#x4E86;&#x3002;
-<strong>&#x6240;&#x8B02;&#x7684;<code>tee</code>&#x547D;&#x4EE4;&#x662F;&#x5728;&#x4E0D;&#x5F71;&#x97FF;&#x539F;&#x672C;I/O&#x7684;&#x60C5;&#x6CC1;&#x4E0B;&#xFF0C;
-&#x5C07;stdout&#x8CE6;&#x503C;&#x5230;&#x4E00;&#x500B;&#x6587;&#x4EF6;&#x4E2D;&#x53BB;&#x3002;</strong>
-&#x56E0;&#x6B64;&#xFF0C;&#x4E0A;&#x9762;&#x7684;&#x547D;&#x4EE4;&#x884C;&#xFF0C;&#x53EF;&#x4EE5;&#x5982;&#x6B64;&#x57F7;&#x884C;&#xFF1A;</p>
-<pre><code class="lang-shell">cmd1 | cmd2 | tee file | cmd3
-</code></pre>
-<p>&#x5728;&#x9810;&#x8A2D;&#x4E0A;&#xFF0C;<code>tee</code>&#x6703;&#x6539;&#x5BEB;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#xFF0C;
-&#x82E5;&#x4F60;&#x8981;&#x6539;&#x70BA;&#x8FFD;&#x52A0;&#x5167;&#x5BB9;&#x7684;&#x8A71;&#xFF0C;&#x90A3;&#x53EF;&#x7528;-a&#x53C3;&#x6578;&#x9078;&#x9805;&#x3002;</p>
-<p>&#x57FA;&#x672C;&#x4E0A;&#xFF0C;pipe line&#x7684;&#x61C9;&#x7528;&#x5728;shell&#x64CD;&#x4F5C;&#x4E0A;&#x662F;&#x975E;&#x5E38;&#x5EE3;&#x6CDB;&#x7684;&#x3002;
-&#x5C24;&#x5176;&#x662F;&#x5728;text filtering&#x65B9;&#x9762;&#xFF0C;
-&#x5982;&#xFF0C;cat, more, head, tail, wc, expand, tr,
-grep, sed, awk...&#x7B49;&#x7B49;&#x6587;&#x5B57;&#x8655;&#x7406;&#x5DE5;&#x5177;&#x3002;
-&#x642D;&#x914D;&#x8D77;pipe line &#x4F86;&#x4F7F;&#x7528;&#xFF0C;&#x4F60;&#x6703;&#x89BA;&#x5F97; command line
-&#x539F;&#x4F86;&#x6D3B;&#x5F97;&#x5982;&#x6B64;&#x7CBE;&#x5F69;&#x7684;&#x3002;
-&#x5E38;&#x8B93;&#x4EBA;&#x6709;&#x201C;&#x773E;&#x88E1;&#x5C0B;&#x4ED6;&#x5343;&#x767E;&#x5EA6;&#xFF0C;&#x9A40;&#x7136;&#x56DE;&#x9996;&#xFF0C;&#x90A3;&#x4EBA;&#x537B;&#x5728;&#x71C8;&#x706B;&#x95CC;&#x73CA;&#x8655;&#x201D;&#x4E4B;&#x611F;...</p>
-<p>&#x597D;&#x4E86;&#xFF0C;&#x95DC;&#x65BC;I/O Redirection&#x7684;&#x4ECB;&#x7D39;&#x5C31;&#x5230;&#x6B64;&#x544A;&#x4E00;&#x6BB5;&#x843D;&#x3002;
-&#x82E5;&#x65E5;&#x5F8C;&#xFF0C;&#x6709;&#x7A7A;&#x7684;&#x8A71;&#xFF0C;&#x5728;&#x70BA;&#x5927;&#x5BB6;&#x4ECB;&#x7D39;&#x5176;&#x4ED6;&#x5728;shell&#x4E0A;&#x597D;&#x73A9;&#x7684;&#x6771;&#x897F;&#x3002;</p>
 
                     
                     </section>
@@ -4841,10 +4560,10 @@ grep, sed, awk...&#x7B49;&#x7B49;&#x6587;&#x5B57;&#x8655;&#x7406;&#x5DE5;&#x5177
         </div>
 
         
-        <a href="../shell/23110.html" class="navigation navigation-prev " aria-label="Previous page: &amp;&amp; 與 || 差在哪？"><i class="fa fa-angle-left"></i></a>
+        <a href="../assembly/index.html" class="navigation navigation-prev " aria-label="Previous page: Assembly"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../shell/23112.html" class="navigation navigation-next " aria-label="Next page: 你要if還是case呢？"><i class="fa fa-angle-right"></i></a>
+        <a href="../assembly/161.html" class="navigation navigation-next " aria-label="Next page: Linux 平臺學X86組合語言"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

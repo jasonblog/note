@@ -1,6 +1,3 @@
-﻿[content]: https://github.com/1184893257/simplelinux/blob/master/README.md#content
-
-[回目錄][content]
 
 <a name="top"></a>
 
@@ -12,34 +9,37 @@
 
 ## 一、gcc 內聯彙編
 
-　　gcc 內聯彙編的格式如下：
+gcc 內聯彙編的格式如下：
 
-    asm ( 彙編語句
-        : 輸出操作數		// 非必需
-        : 輸入操作數		// 非必需
-        : 其他被汙染的寄存器	// 非必需
-        );
+```c
+asm ( 彙編語句
+    : 輸出操作數		// 非必需
+    : 輸入操作數		// 非必需
+    : 其他被汙染的寄存器	// 非必需
+    );
+```
+我們通過一個簡單的例子來了解一下它的格式（gcc_add.c）：
 
-`　　`我們通過一個簡單的例子來了解一下它的格式（gcc_add.c）：
+```c
+#include <stdio.h>
 
-	#include <stdio.h>
-	
-	int main()
-	{
-		int a=1, b=2, c=0;
-	
-		// 蛋疼的 add 操作
-		asm(
-			"addl %2, %0"		// 1
-			: "=g"(c)			// 2
-			: "0"(a), "g"(b)	// 3
-			: "memory");		// 4
-	
-		printf("現在c是:%d\n", c);
-		return 0;
-	}
+int main()
+{
+	int a=1, b=2, c=0;
 
-`　　`內聯彙編中：
+	// 蛋疼的 add 操作
+	asm(
+		"addl %2, %0"		// 1
+		: "=g"(c)			// 2
+		: "0"(a), "g"(b)	// 3
+		: "memory");		// 4
+
+	printf("現在c是:%d\n", c);
+	return 0;
+}
+```
+
+內聯彙編中：
 
 1. 第1行是彙編語句，用雙引號引起來，
 <b>多條語句用 ; 或者 \n\t 來分隔。</b>
@@ -66,44 +66,46 @@ var 可以是任意內存變量（輸出結果會存到這個變量中），
 還可以用 "memory" 表示在內聯彙編中修改了內存，
 之前緩存在寄存器中的內存變量需要重新讀取。
 
-`　　`上面這一段內聯彙編的效果就是，
+上面這一段內聯彙編的效果就是，
 把a與b的和存入了c。當然這只是一個示例程序，
 誰要真這麼用就蛋疼了，
 <b>內聯彙編一般在不得不用的情況下才使用</b>。
 
 ## 二、VC 內聯彙編
 
-　　gcc 內聯彙編被設計得很複雜，初學者看了往往頭大，
+gcc 內聯彙編被設計得很複雜，初學者看了往往頭大，
 而 VC 的內聯彙編就簡單多了：
 
+```c
+__asm{
+	彙編語句
+}
+```
+一個例子程序如下（vc_add.c）：
+
+```c
+#include <stdio.h>
+
+int main()
+{
+	int a=1, b=2, c=0;
+
+	// 蛋疼的 add 操作
 	__asm{
-		彙編語句
+		push eax	// 保護 eax
+
+		mov eax, a	// eax = a;
+		add eax, b	// eax = eax + b;
+		mov c, eax	// c = eax;
+
+		pop eax		// 恢復 eax
 	}
 
-`　　`一個例子程序如下（vc_add.c）：
-
-	#include <stdio.h>
-	
-	int main()
-	{
-		int a=1, b=2, c=0;
-	
-		// 蛋疼的 add 操作
-		__asm{
-			push eax	// 保護 eax
-	
-			mov eax, a	// eax = a;
-			add eax, b	// eax = eax + b;
-			mov c, eax	// c = eax;
-	
-			pop eax		// 恢復 eax
-		}
-	
-		printf("現在c是:%d\n", c);
-		return 0;
-	}
-
-`　　`VC 的內聯彙編中可以直接以變量名的形式使用局部變量，
+	printf("現在c是:%d\n", c);
+	return 0;
+}
+```
+VC 的內聯彙編中可以直接以變量名的形式使用局部變量，
 這就方便多了。<b>但是，
 VC 內聯彙編中有些變量名是保留的，比如：size，
 使用這些變量名就會報錯（把b改成size，
@@ -138,35 +140,37 @@ VC 內聯彙編中有些變量名是保留的，比如：size，
 其中都有短小精悍的內聯彙編版本，
 如在 linux 2.6.37 中的 memcpy 函數：
 
-	// 位於 /arch/x86/boot/compressed/misc.c
-	void *memcpy(void *dest, const void *src, size_t n)
-	{
-		int d0, d1, d2;
-		asm volatile(
-			"rep ; movsl\n\t"
-			"movl %4,%%ecx\n\t"
-			"rep ; movsb\n\t"
-			: "=&c" (d0), "=&D" (d1), "=&S" (d2)
-			: "0" (n >> 2), "g" (n & 3), "1" (dest), "2" (src)
-			: "memory");
-	
-		return dest;
-	}
+```c
+// 位於 /arch/x86/boot/compressed/misc.c
+void *memcpy(void *dest, const void *src, size_t n)
+{
+	int d0, d1, d2;
+	asm volatile(
+		"rep ; movsl\n\t"
+		"movl %4,%%ecx\n\t"
+		"rep ; movsb\n\t"
+		: "=&c" (d0), "=&D" (d1), "=&S" (d2)
+		: "0" (n >> 2), "g" (n & 3), "1" (dest), "2" (src)
+		: "memory");
 
-`　　`與 gcc_add.c 相比，這個函數要複雜不少：
+	return dest;
+}
+```
+與 gcc_add.c 相比，這個函數要複雜不少：
 
 * 關鍵字 volatile 是告訴 gcc 不要嘗試去移動、
 刪除這段內聯彙編。
 * rep ; movsl 的工作流程如下：
 
-		while(ecx) {
-			movl (%esi), (%edi);
-			esi += 4;
-			edi += 4;
-			ecx--;
-		}
-
-	rep ; movsb 與此類似，只是每次拷貝的不是雙字（4字節），
+```c
+while(ecx) {
+	movl (%esi), (%edi);
+	esi += 4;
+	edi += 4;
+	ecx--;
+}
+```
+rep ; movsb 與此類似，只是每次拷貝的不是雙字（4字節），
 而是字節。
 * <b>"=&D" (d1) 不是想將 edi 的最終值輸出到 d1 中，
 而是想告訴 gcc edi的值早就改了，
@@ -175,7 +179,7 @@ VC 內聯彙編中有些變量名是保留的，比如：size，
 而 d0、d1、d2 在開啟優化後會被 gcc 無視掉
 （輸出到它們的值沒有被用過）。
 
-`　　`memcpy 先複製一個一個的雙字，
+memcpy 先複製一個一個的雙字，
 到最後如果還有沒複製完的（少於4個字節），
 再一個一個字節地複製。
 我最終實現的 d_printf 就模仿了這個函數。
@@ -184,4 +188,3 @@ VC 內聯彙編中有些變量名是保留的，比如：size，
 <a target="_blank" href="http://www.ibiblio.org/gferg/ldp/GCC-Inline-Assembly-HOWTO.html">gcc 內聯彙編 HOWTO 文檔</a><br>
 <a target="_blank" href="http://lxr.free-electrons.com/ident">Linux Cross Reference——各版本 linux 內核函數檢索</a>
 
-[回目錄][content]

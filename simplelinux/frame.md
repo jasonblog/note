@@ -1,40 +1,38 @@
-﻿[content]: https://github.com/1184893257/simplelinux/blob/master/README.md#content
-
-[回目錄][content]
 
 <a name="top"></a>
 
 <h1 align="center">函數幀
 </h1>
 
-　　這標題一念出來我立刻想到了一個名人：白素貞……當然，
+這標題一念出來我立刻想到了一個名人：白素貞……當然，
 此女與本文無關，下面進入正題：
 
 <pre>其實程序運行就好比一幀一幀地放電影，每一幀是一次函數調用，電影放完了，我們就看到結局了。</pre>
 
-　　我們用一個遞歸求解階乘的程序來看看這個放映過程（fac.c）：
+我們用一個遞歸求解階乘的程序來看看這個放映過程（fac.c）：
 
-	#include <stdio.h>
-	
-	int fac(int n)
-	{
-		if(n <= 1)
-			return 1;
-		return n * fac(n-1);
-	}
-	
-	int main()
-	{
-		int n = 3;
-		int ans = fac(n);
-		
-		printf("%d! = %d\n", n, ans);
-		return 0;
-	}
+```c
+#include <stdio.h>
 
+int fac(int n)
+{
+	if(n <= 1)
+		return 1;
+	return n * fac(n-1);
+}
+
+int main()
+{
+	int n = 3;
+	int ans = fac(n);
+
+	printf("%d! = %d\n", n, ans);
+	return 0;
+}
+```
 ## main 幀
 
-　　首先 main 函數被調用（程序可不是從 main 開始執行的）：
+首先 main 函數被調用（程序可不是從 main 開始執行的）：
 
 <table>
 <tr><td>
@@ -62,15 +60,15 @@
 <td><img src="http://fmn.rrimg.com/fmn056/20121124/1940/original_D0zG_726b00003e04118c.jpg" /></td>
 </tr></table>
 
-`　　`main 函數創建了一幀：
+main 函數創建了一幀：
 
 * 從 esp 到 ebp + 4
 * 上邊是本次調用的返回地址、舊的 ebp 指針
 * 然後是 main 的局部變量 n、ans
-* 最下邊是參數的空間，右上圖顯示的是 main 中調用 printf 
+* 最下邊是參數的空間，右上圖顯示的是 main 中調用 printf
 前的棧的使用情況
 
-`　　`進入 main 函數，前 4 條指令開闢了這片空間，
+進入 main 函數，前 4 條指令開闢了這片空間，
 在退出 main 函數之前的 leave ret 回收了這片空間
 （<b>C++ 在回收這片空間之前要析構此函數中的所有局部對象</b>）。
 <b>在 main 函數執行期間 ebp 一直指向 幀頂 - 4 的位置，
@@ -78,7 +76,7 @@ ebp 被稱為幀指針也就是這個原因</b>。
 
 ## 調用慣例
 
-　　調用函數的時候，先傳參數，然後 call，
+調用函數的時候，先傳參數，然後 call，
 具體這個過程怎麼實現有相關規定，這樣的規定被稱為<b>調用慣例</b>，
 C語言中有多種調用慣例，它們的不同之處在於：
 
@@ -86,17 +84,17 @@ C語言中有多種調用慣例，它們的不同之處在於：
 2. 參數壓棧的次序（從右至左 | 從左至右）
 3. 調用完成後是調用者還是被調用者來恢復棧
 
-`　　`各種調用慣例<em>《程序員的自我修養》——鏈接、裝載與庫</em>
+各種調用慣例<em>《程序員的自我修養》——鏈接、裝載與庫</em>
 這本書中有簡要介紹，我照抄後在本文後面列出。C語言默認的
 調用慣例是 cdecl：
 
 1. 參數從右至左壓棧
 2. 調用完成後調用者負責恢復棧
 
-`　　`可以從 printf("%d! = %d\n", n, ans); 的調用過程
+可以從 printf("%d! = %d\n", n, ans); 的調用過程
 中看出。
 
-　　雖然 VC、gcc 都默認使用 cdecl 調用慣例，
+雖然 VC、gcc 都默認使用 cdecl 調用慣例，
 但它們的實現卻各有風格：
 
 * VC 一般是從右至左 push 參數，call，add esp, XXX
@@ -106,7 +104,7 @@ C語言中有多種調用慣例，它們的不同之處在於：
 
 ## fac 幀
 
-　　說完調用慣例我們接著來看第一次調用 fac：
+說完調用慣例我們接著來看第一次調用 fac：
 
 <table>
 <tr><td>
@@ -131,7 +129,7 @@ C語言中有多種調用慣例，它們的不同之處在於：
 <td><img src="http://fmn.rrfmn.com/fmn058/20121124/1940/original_XcDN_08c400005ab9125d.jpg" /></td>
 </tr></table>
 
-　　fac(3) 開闢了第一個 fac 幀：
+fac(3) 開闢了第一個 fac 幀：
 
 * 從 esp 到 ebp + 4（fac 還能"越界"地讀到參數 n）
 * 上邊是 返回地址、舊的 ebp 指針（指向 main 幀）

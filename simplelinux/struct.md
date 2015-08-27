@@ -1,6 +1,3 @@
-﻿[content]: https://github.com/1184893257/simplelinux/blob/master/README.md#content
-
-[回目錄][content]
 
 <a name="top"></a>
 
@@ -77,7 +74,7 @@ int main()
 }
 ```
 
-Block a={{'a','b','c',}} 是對 a 的部分初始化，
+`Block a={{'a','b','c',}}` 是對 a 的部分初始化，
 'c' 後面自動填 0，寫成 Block a={{"abc"}} 也一樣，
 C 語言對初始化還是很寬容的。
 

@@ -16,7 +16,7 @@
 1. 选择合适的进程进行切换O(n)
 2. 时间片再生O(n)
 
-`　　`<b>linux2.6.XX中成功的把它们降到了O(1)</b>
+<b>linux2.6.XX中成功的把它们降到了O(1)</b>
 
 ---
 
@@ -29,10 +29,10 @@
 2. 优先级位图
 3. 优先级队列的数组
 
-`　　`<b>位图中每一位对应一个优先级队列，
+<b>位图中每一位对应一个优先级队列，
 如果队列非空，那对应的那一位就是1</b>：
 
-![bits](http://fmn.rrimg.com/fmn062/20120928/2320/original_boj5_0d35000017351190.jpg)
+![bits](images/original_boj5_0d35000017351190.jpg)
 
 　　linux2.6.XX 的进程有140个优先级，
 所以对应的位图应该有140比特，而实际上它是5个unsigned long
@@ -70,27 +70,27 @@ active中的进程一个个都被转移到了expired之中，
 
 1. 假设原来有3个进程：A、B、C，它们的优先级分别是14、16、16
 
-	![1](http://fmn.rrimg.com/fmn057/20120928/2320/original_ZYS3_1591000055d5125e.jpg)
+	![1](images/original_ZYS3_1591000055d5125e.jpg)
 
 2. 按照优先级A会被挑出来执行，等A的时间片耗完了，
 A会被重新分配时间片并放置到expired中：
 
-	![2](http://fmn.rrfmn.com/fmn059/20120928/2320/original_UTKq_2df900008cff125d.jpg)
+	![2](images/original_UTKq_2df900008cff125d.jpg)
 
 3. 接着B和C都是优先级最高的，出队B（假设靠近位图的是队头，
 队列其实是双向链表，这里我就不关心了），B执行完后：
 
-	![3](http://fmn.rrimg.com/fmn062/20120928/2320/original_AOhZ_310800008d9c125c.jpg)
+	![3](images/original_AOhZ_310800008d9c125c.jpg)
 
 4. 接着又是C：
 
-	![4](http://fmn.rrfmn.com/fmn058/20120928/2315/original_V9Ta_1eec00008e33125b.jpg)
+	![4](images/original_V9Ta_1eec00008e33125b.jpg)
 
 5. 现在active中已经没有进程了，交换指针：
 
-	![5](http://fmn.rrimg.com/fmn056/20120928/2320/original_cNKM_5ebe00008c481191.jpg)
+	![5](images/original_cNKM_5ebe00008c481191.jpg)
 
-`　　`<b>每一步都是那么的简单，
+<b>每一步都是那么的简单，
 进程的切换的时间开销已经跟进程的数量没有太大的关系了。</b>
 
 ---

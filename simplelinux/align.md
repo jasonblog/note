@@ -10,7 +10,7 @@
 可採用<a target="_blank" href="http://baike.baidu.com/view/1881700.htm">奇偶分體</a>來組織管理多個芯片，
 32 位也類似：
 
-![align](http://fmn.rrimg.com/fmn056/20121121/1905/original_zCiC_1caa000049ee125c.jpg)
+![align](./images/original_zCiC_1caa000049ee125c.jpg)
 
 　　這樣，連續的四個字節會分佈在不同的芯片上，
 送入地址 0，我們可將第 0、1、2、3 四個字節一次性讀出組成

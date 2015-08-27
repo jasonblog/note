@@ -108,11 +108,11 @@ int main()
 為了簡化程序，ebp我們就不用了，
 完全用esp來操作棧，一個函數幀只佔用 8 個字節：
 
-![recur1](http://fmn.rrimg.com/fmn063/20121130/1830/original_OJ3e_0ad000003200125b.jpg)
+![recur1](images/original_OJ3e_0ad000003200125b.jpg)
 
 在計算到 fac(1) 的時候，棧中內容如下：
 
-![recur2](http://fmn.rrimg.com/fmn056/20121130/1830/original_LBeS_30f500003160118f.jpg)
+![recur2](images/original_LBeS_30f500003160118f.jpg)
 
 比起肆意揮霍棧空間的 gcc（fac幀用了32字節，
 浪費了20字節，實際使用了12字節），

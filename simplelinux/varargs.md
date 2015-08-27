@@ -69,7 +69,7 @@ typedef char* va_list;
 又因為 x86 CPU 的棧是向低地址增長的，
 所以參數的排列順序如下：
 
-![args](http://fmn.rrimg.com/fmn062/20121221/1930/original_qweH_1b90000008bb125c.jpg)
+![args](images/original_qweH_1b90000008bb125c.jpg)
 
 　　va\_start(n, ap)
 就是 ( ap = (char*)(&n) + 4 )

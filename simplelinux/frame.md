@@ -57,7 +57,7 @@ int main()
 	leave
 	ret
 </code></pre></td>
-<td><img src="http://fmn.rrimg.com/fmn056/20121124/1940/original_D0zG_726b00003e04118c.jpg" /></td>
+<td><img src="images/original_D0zG_726b00003e04118c.jpg" /></td>
 </tr></table>
 
 main 函數創建了一幀：
@@ -126,7 +126,7 @@ C語言中有多種調用慣例，它們的不同之處在於：
 	leave
 	ret
 </code></pre></td>
-<td><img src="http://fmn.rrfmn.com/fmn058/20121124/1940/original_XcDN_08c400005ab9125d.jpg" /></td>
+<td><img src="./images/original_XcDN_08c400005ab9125d.jpg" /></td>
 </tr></table>
 
 fac(3) 開闢了第一個 fac 幀：
@@ -139,7 +139,7 @@ fac(3) 開闢了第一個 fac 幀：
 `　　`這時還不滿足遞歸終止條件，於是fac(3)又遞歸地調用了fac(2)，
 fac(2)又遞歸的調用了fac(1)，到這個時候棧變成了如下情況：
 
-![total](http://fmn.rrimg.com/fmn062/20121124/1940/original_y9zg_1a3800005b5a118e.jpg)
+![total](images/original_y9zg_1a3800005b5a118e.jpg)
 
 　　上圖的箭頭的含義很明顯：
 <b>從 ebp 可回溯到所有的函數幀</b>，
@@ -202,4 +202,3 @@ fac(2)又遞歸的調用了fac(1)，到這個時候棧變成了如下情況：
  </tr>
  </table>
 
-[回目錄][content]

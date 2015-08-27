@@ -55,21 +55,21 @@ O(∩_∩)O~。
 这个时候调用了 schedule，
 那么进程1将会被选中做为接下来要执行的进程：
 
-	![1](http://fmn.rrimg.com/fmn063/20121022/1950/original_9rlY_112f0000631a1191.jpg)
+	![1](images/original_9rlY_112f0000631a1191.jpg)
 
 2. 执行第一个进程50ms，耗光进程1的所有时间片：
 
-	![2](http://fmn.rrimg.com/fmn063/20121022/1950/original_zHfv_346c000051721190.jpg)
+	![2](images/original_zHfv_346c000051721190.jpg)
 
 3. 这时候时钟中断程序中会调用schedule切换到进程2执行，
 可是进程2执行了20ms后由于等待磁盘IO而休眠了：
 
-	![3](http://fmn.rrimg.com/fmn060/20121022/1950/original_eMlh_2ddb000063e4118f.jpg)
+	![3](images/original_eMlh_2ddb000063e4118f.jpg)
 
 4. 休眠的函数中会调用schedule切换到进程3执行，
 一直到进程3的时间片也全用完：
 
-	![4](http://fmn.rrimg.com/fmn065/20121022/1950/original_jC84_7acf000062c5118e.jpg)
+	![4](images/original_jC84_7acf000062c5118e.jpg)
 
 5. 现在进程1和进程3没有时间片了不能投入运行，
 进程2休眠了不能投入运行，
@@ -83,7 +83,7 @@ O(∩_∩)O~。
 从上面的模拟中可以看出休眠的进程可能还有时间片，
 所以休眠的进程就被特别关照了：
 
-	![5](http://fmn.rrimg.com/fmn063/20121022/1950/original_Gfvs_7179000063f0118d.jpg)
+	![5](images/original_Gfvs_7179000063f0118d.jpg)
 
 	　　休眠的进程被特别关照的原因是这类程序可能是IO频繁的
 程序（如文本编辑器），这类程序容易进入休眠状态，
@@ -98,7 +98,7 @@ O(∩_∩)O~。
 
 如果上面的过程画在一条时间线上，就是这样的：
 
-![timeline](http://fmn.rrimg.com/fmn063/20121022/1950/original_lAYT_11df0000635e118c.jpg)
+![timeline](images/original_lAYT_11df0000635e118c.jpg)
 
 ---
 

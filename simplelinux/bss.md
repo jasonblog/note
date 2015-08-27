@@ -55,20 +55,20 @@ int main()
 
 編譯以上兩個程序後：
 
-![bss1](http://fmn.rrfmn.com/fmn059/20121203/1935/original_4q5M_35d80000b351118d.jpg)
+![bss1](images/original_4q5M_35d80000b351118d.jpg)
 
 可以看到有初始化的可執行文件的大小差不多是4MB，
 而未初始化的只有47KB！這就是 .bss 段有段長，
 而沒有實際內容的表現。用 UltraEdit 打開 bss_init1.exe
 可看到文件中大部分是全0（data數組的內容）：
 
-![bss5](http://fmn.rrimg.com/fmn065/20121203/1935/original_RbRN_5afd0000b341125d.jpg)
+![bss5](images/original_RbRN_5afd0000b341125d.jpg)
 
 　　但是接下來運行（return 0 之前的 Sleep(-1) 保證了
 程序暫時不會退出）的時候，卻發現 bss_init1.exe
 佔用的空間明顯少於 4MB，這是怎麼回事呢？
 
-![bss2](http://fmn.rrimg.com/fmn065/20121203/1935/original_ejt4_363e0000b309118d.jpg)
+![bss2](images/original_ejt4_363e0000b309118d.jpg)
 
 這就涉及程序裝載的策略了。早期的操作系統（如：linux 0.01）
 採用的是一次裝載：將可執行文件一次性完整裝入內存後再執行程序。
@@ -94,4 +94,4 @@ for(i=0; i<MAXLEN; ++i)
 
 再運行，它們佔用的內存都是 4M 了：
 
-![bss4](http://fmn.rrimg.com/fmn061/20121203/1935/original_OHR0_75660000b3e5118c.jpg)
+![bss4](images/original_OHR0_75660000b3e5118c.jpg)

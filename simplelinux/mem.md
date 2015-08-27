@@ -19,7 +19,7 @@ linux 0.01 的進程的內存分佈：
 一個頁目錄表可管理4G的線性空間，因此 linux0.01 最多有
 64個進程。每個進程的內存分佈如下：
 
-![mem1](http://fmn.rrimg.com/fmn061/20121206/1925/original_tXyg_61c80000059b118d.jpg)
+![mem1](images/original_tXyg_61c80000059b118d.jpg)
 
 * .text 裡存的是機器碼序列
 * .rodata 裡存的是源字符串等只讀內容
@@ -63,7 +63,7 @@ esp（指向棧頂）或 ebp（指向當前幀）的相對地址來訪問。
 
 根據以上兩點，進程的內存分佈就變成了下面這個樣子：
 
-![mem2](http://fmn.xnpic.com/fmn056/20121206/1925/original_22bc_2556000005a8118c.jpg)
+![mem2](images/original_22bc_2556000005a8118c.jpg)
 
 　　再者，如果把動態裝載的動態鏈接庫也考慮進去的話，
 上面的分佈圖將會更加"破碎"。

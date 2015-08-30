@@ -1,10 +1,10 @@
 
 <a name="top"></a>
 
-<h1 align="center">数组和指针
+<h1 align="center">數組和指針
 </h1>
 
-指针和数组有什么区别？
+指針和數組有什麼區別？
 
 C程序（array.c）：
 ```c
@@ -25,7 +25,7 @@ int main()
 }
 ```
 
-汇编及注释：
+彙編及註釋：
 
 <table>
 <tr><td>
@@ -39,15 +39,15 @@ int main()
 .globl main
 	.type	main, @function
 main:
-	pushl	%ebp			#-帧指针切换
+	pushl	%ebp			#-幀指針切換
 	movl	%esp, %ebp		#/
-	andl	$-16, %esp		#-栈对齐到16字节
-	subl	$48, %esp		#-开拓局部变量空间
+	andl	$-16, %esp		#-棧對齊到16字節
+	subl	$48, %esp		#-開拓局部變量空間
 	movl	$2012, 24(%esp)	#\
-	movl	$11, 28(%esp)	#-date数组初始化
+	movl	$11, 28(%esp)	#-date數組初始化
 	movl	$11, 32(%esp)	#/
 	leal	24(%esp), %eax	#\
-	movl	%eax, 44(%esp)	#-初始化指针p
+	movl	%eax, 44(%esp)	#-初始化指針p
 	movl	28(%esp), %eax	#\
 	movl	%eax, 40(%esp)	#-初始化a
 	movl	44(%esp), %eax	#\
@@ -65,7 +65,7 @@ main:
 	movl	40(%esp), %edx
 	movl	%edx, 4(%esp)
 	movl	%eax, (%esp)
-	call	printf		#第一次调用 printf 函数
+	call	printf		#第一次調用 printf 函數
 </code></pre></td>
 <td valign="bottom"><img src="images/original_6dpg_28e80000e7fc1191.jpg" /></td>
 </tr>
@@ -77,7 +77,7 @@ main:
 	leal	24(%esp), %edx
 	movl	%edx, 4(%esp)
 	movl	%eax, (%esp)
-	call	printf		#第二次调用 printf 函数
+	call	printf		#第二次調用 printf 函數
 </code></pre></td>
 <td valign="bottom"><img src="./images/original_ECol_44540000c23f1190.jpg" /></td>
 </tr>
@@ -93,37 +93,37 @@ main:
 </tr>
 </table>
 
-大家对 lea 指令可能比较陌生，它跟 mov 指令很像，
-不过 lea 指令传递的是内存的地址，而 mov 指令传递的的是
-内存的值，例如：
+大家對 lea 指令可能比較陌生，它跟 mov 指令很像，
+不過 lea 指令傳遞的是內存的地址，而 mov 指令傳遞的的是
+內存的值，例如：
 
 ```c
-leal 24(%esp), %eax		# 将 24+esp 的结果给 eax
-movl 24(%esp), %eax		# 将 2012 给 eax
+leal 24(%esp), %eax		# 將 24+esp 的結果給 eax
+movl 24(%esp), %eax		# 將 2012 給 eax
 ```
-## 总结
+## 總結
 
-首先，我们看到 main 也是一个函数，它编译后的汇编代码
-跟<em>函数调用</em>中分析过的 Double 函数有一样的结构。
+首先，我們看到 main 也是一個函數，它編譯後的彙編代碼
+跟<em>函數調用</em>中分析過的 Double 函數有一樣的結構。
 
-　　其次，指针是有存储空间的（32位机是4个字节的大小），
-其中存储的是一个内存地址；而数组只有数组中的元素有存储空间，
-而 C 代码中经常用到的数组首地址（用数组名来代替）
-可以说是没有存储空间的。假设将数组首地址赋值给一个指针，
-数组首地址的存在形式是：
+　　其次，指針是有存儲空間的（32位機是4個字節的大小），
+其中存儲的是一個內存地址；而數組只有數組中的元素有存儲空間，
+而 C 代碼中經常用到的數組首地址（用數組名來代替）
+可以說是沒有存儲空間的。假設將數組首地址賦值給一個指針，
+數組首地址的存在形式是：
 
-* 如果是全局数组，它将是 mov 指令中的一个立即数（常量）
-* 如果是局部数组，它将是 lea 指令中由 esp 或 ebp +
-常量计算的结果
+* 如果是全局數組，它將是 mov 指令中的一個立即數（常量）
+* 如果是局部數組，它將是 lea 指令中由 esp 或 ebp +
+常量計算的結果
 
-<b>所以数组的首地址是一条机器指令的操作数，
-不在局部变量空间中，也不在全局变量空间中，
-而是被固化在代码中</b>。
-因此，数组首地址不能被更改。
+<b>所以數組的首地址是一條機器指令的操作數，
+不在局部變量空間中，也不在全局變量空間中，
+而是被固化在代碼中</b>。
+因此，數組首地址不能被更改。
 
-printf 函数的调用跟别的函数一样：先传参数，
-然后 call printf，打印指针都可以使用 %p 格式描述符。
-程序的运行结果如下：
+printf 函數的調用跟別的函數一樣：先傳參數，
+然後 call printf，打印指針都可以使用 %p 格式描述符。
+程序的運行結果如下：
 ```c
 [lqy@localhost temp]$ gcc -o array array.c
 [lqy@localhost temp]$ ./array
@@ -132,4 +132,4 @@ date:0xbf9c3b68
 p   :0xbf9c3b68
 [lqy@localhost temp]$
 ```
-date 和 p 的值都是 date 数组的首地址。
+date 和 p 的值都是 date 數組的首地址。

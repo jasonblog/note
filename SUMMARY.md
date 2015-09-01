@@ -305,4 +305,5 @@
    * [linux2.6.XX進程切換和時間片再生](simplelinux/process2.6.md)
 * [OpenSource](opensource/README.md)
    * [C/C++開源程式碼](opensource/251.md)
+   * [免費的編程中文書籍索引](opensource/free-programming-books.md)
 

@@ -44,7 +44,7 @@
     
 
         
-    <div class="book" data-level="5.18" data-basepath=".." data-revision="Sat Sep 05 2015 00:47:41 GMT+0800 (CST)">
+    <div class="book" data-level="5.18" data-basepath=".." data-revision="Sat Sep 05 2015 01:00:52 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -5205,6 +5205,7 @@ repo sync -j8
 <li>checkout goldfish &#x6E90;&#x78BC;&#xFF1A; &#x6A21;&#x64EC;&#x5668;&#x4F7F;&#x7528;&#x7684;kernel &#x662F; goldfish</li>
 </ul>
 <pre><code class="lang-c">git clone https:<span class="hljs-comment">//android.googlesource.com/kernel/goldfish.git kernel</span>
+cd kernel
 git checkout -t origin/android-goldfish-<span class="hljs-number">3.4</span> -b goldfish3<span class="hljs-number">.4</span>
 </code></pre>
 <pre><code class="lang-sh">CONFIG_HIGHMEM=y &#x6253;&#x958B;&#x9019;&#x500B;&#x9078;&#x9805;&#x5F8C;&#xFF0C;&#x555F;&#x52D5;&#x6A21;&#x64EC;&#x5668;&#x6642; emulator -memory
@@ -5271,14 +5272,14 @@ USAGE
     <span class="hljs-built_in">export</span> ARCH=arm
     <span class="hljs-built_in">export</span> SUBARCH=arm
     <span class="hljs-built_in">export</span> CROSS_COMPILE=arm-eabi-
-    make -C kernel/goldfish goldfish_armv7_defconfig
-    sed -i <span class="hljs-string">&apos;s/.*CONFIG_HIGHMEM.*/CONFIG_HIGHMEM=y/&apos;</span> kernel/goldfish/.config
-    sed -i <span class="hljs-string">&apos;s/.*CONFIG_DEBUG_KERNEL.*/CONFIG_DEBUG_KERNEL=y/&apos;</span> kernel/goldfish/.config
-    sed -i <span class="hljs-string">&apos;s/.*CONFIG_KGDB.*/CONFIG_KGDB=y/&apos;</span> kernel/goldfish/.config
-    sed -i <span class="hljs-string">&apos;s/.*CONFIG_DEBUG_INFO.*/CONFIG_DEBUG_INFO=y/&apos;</span> kernel/goldfish/.config
-    yes <span class="hljs-string">&apos;&apos;</span> | make -C kernel/goldfish oldconfig
-    make -C kernel/goldfish clean
-    time  make -C kernel/goldfish  V=<span class="hljs-number">1</span> -k -j8 <span class="hljs-number">2</span>&gt;&amp;<span class="hljs-number">1</span> | tee kernel_build.log
+    make -C kernel goldfish_armv7_defconfig
+    sed -i <span class="hljs-string">&apos;s/.*CONFIG_HIGHMEM.*/CONFIG_HIGHMEM=y/&apos;</span> kernel/.config
+    sed -i <span class="hljs-string">&apos;s/.*CONFIG_DEBUG_KERNEL.*/CONFIG_DEBUG_KERNEL=y/&apos;</span> kernel/.config
+    sed -i <span class="hljs-string">&apos;s/.*CONFIG_KGDB.*/CONFIG_KGDB=y/&apos;</span> kernel/.config
+    sed -i <span class="hljs-string">&apos;s/.*CONFIG_DEBUG_INFO.*/CONFIG_DEBUG_INFO=y/&apos;</span> kernel/.config
+    yes <span class="hljs-string">&apos;&apos;</span> | make -C kernel oldconfig
+    make -C kernel clean
+    time  make -C kernel  V=<span class="hljs-number">1</span> -k -j8 <span class="hljs-number">2</span>&gt;&amp;<span class="hljs-number">1</span> | tee kernel_build.log
 }
 
 <span class="hljs-function"><span class="hljs-title">build_env</span></span>() {
@@ -5288,12 +5289,12 @@ USAGE
 
 <span class="hljs-function"><span class="hljs-title">debug_emulator</span></span>() {
     build_env
-    emulator  -no-audio -verbose -show-kernel -kernel kernel/goldfish/arch/arm/boot/zImage -memory <span class="hljs-number">2048</span> -qemu <span class="hljs-operator">-s</span> -S
+    emulator  -no-audio -verbose -show-kernel -kernel kernel/arch/arm/boot/zImage -memory <span class="hljs-number">2048</span> -qemu <span class="hljs-operator">-s</span> -S
 }
 
 <span class="hljs-function"><span class="hljs-title">run_emulator</span></span>() {
     build_env
-    emulator -kernel kernel/goldfish/arch/arm/boot/zImage
+    emulator -kernel kernel/arch/arm/boot/zImage
 }
 
 <span class="hljs-keyword">while</span> <span class="hljs-literal">true</span>; <span class="hljs-keyword">do</span>

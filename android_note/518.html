@@ -44,7 +44,7 @@
     
 
         
-    <div class="book" data-level="5.18" data-basepath=".." data-revision="Fri Sep 04 2015 22:33:48 GMT+0800 (CST)">
+    <div class="book" data-level="5.18" data-basepath=".." data-revision="Fri Sep 04 2015 22:37:30 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -5205,9 +5205,7 @@ repo sync -j8
 <li>checkout goldfish &#x6E90;&#x78BC;&#xFF1A; &#x6A21;&#x64EC;&#x5668;&#x4F7F;&#x7528;&#x7684;kernel &#x662F; goldfish</li>
 </ul>
 <pre><code class="lang-c">cd android-<span class="hljs-number">5.1</span><span class="hljs-number">.1</span>_r9
-mkdir kernel
-cd kernel
-git clone https:<span class="hljs-comment">//android.googlesource.com/kernel/goldfish.git git</span>
+git clone https:<span class="hljs-comment">//android.googlesource.com/kernel/goldfish.git git kernel</span>
 checkout -t origin/android-goldfish-<span class="hljs-number">3.4</span> -b goldfish3<span class="hljs-number">.4</span>
 </code></pre>
 <pre><code class="lang-sh">CONFIG_HIGHMEM=y &#x6253;&#x958B;&#x9019;&#x500B;&#x9078;&#x9805;&#x5F8C;&#xFF0C;&#x555F;&#x52D5;&#x6A21;&#x64EC;&#x5668;&#x6642; emulator -memory
@@ -5297,7 +5295,6 @@ USAGE
 <span class="hljs-function"><span class="hljs-title">run_emulator</span></span>() {
     build_env
     emulator -kernel kernel/goldfish/arch/arm/boot/zImage
-    <span class="hljs-comment">#emulator -verbose -show-kernel -netfast -kernel kernel/goldfish/arch/arm/boot/zImage  -partition-size 1024 -qemu -monitor telnet::6666,server</span>
 }
 
 <span class="hljs-keyword">while</span> <span class="hljs-literal">true</span>; <span class="hljs-keyword">do</span>

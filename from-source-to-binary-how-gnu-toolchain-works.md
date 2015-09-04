@@ -36,7 +36,7 @@
     - GCC最佳化
         - 將程式碼轉成語法樹
         - 把語法樹使用binary operation方式呈現，接著轉成SSA並針對SSA最佳化
-        - 將SSA轉成RTL，使用和平台相關的最佳化如pipeline最佳化、針對平台最佳化過的函數、找出可以簡化的機械碼片段取換等
+        - 將SSA轉成RTL，使用和平臺相關的最佳化如pipeline最佳化、針對平臺最佳化過的函數、找出可以簡化的機械碼片段取換等
            - Peephole optimization
            - Other Built-in Functions Provided by GCC
            - Instruction scheduling

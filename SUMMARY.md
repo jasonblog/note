@@ -63,6 +63,7 @@
    * [[轉]Android.mk 組織結構](android_note/515.md)
    * [如何下載編譯Android goldfish(Kernel)](android_note/android_goldfishkernel.md)
    * [自己動手編譯android源碼](android_note/android.md)
+   * [Android 核心使用 kgdb](android_note/518.md)
 * [Ubuntu](ubuntu/README.md)
    * [Ubuntu installer](ubuntu/ubuntu_installer.md)
 * [QEMU](qemu/README.md)

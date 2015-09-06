@@ -44,7 +44,7 @@
     
 
         
-    <div class="book" data-level="1.3" data-basepath=".." data-revision="Sun Sep 06 2015 16:18:23 GMT+0800 (CST)">
+    <div class="book" data-level="1.3" data-basepath=".." data-revision="Sun Sep 06 2015 19:28:04 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -5207,13 +5207,13 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="command-tips">Command Tips</h1>
-<h1 id="%E6%AD%A3%E5%89%87%E5%B7%A5%E5%85%B7">&#x6B63;&#x5247;&#x5DE5;&#x5177;</h1>
+<h2 id="%E6%AD%A3%E5%89%87%E5%B7%A5%E5%85%B7">&#x6B63;&#x5247;&#x5DE5;&#x5177;</h2>
 <p><a href="http://rubular.com/" target="_blank">http://rubular.com/</a></p>
-<h1 id="linux-%E6%89%B9%E6%AC%A1%E4%BF%AE%E6%94%B9%E5%89%AF%E6%AA%94%E5%90%8D">Linux &#x6279;&#x6B21;&#x4FEE;&#x6539;&#x526F;&#x6A94;&#x540D;</h1>
+<h2 id="linux-%E6%89%B9%E6%AC%A1%E4%BF%AE%E6%94%B9%E5%89%AF%E6%AA%94%E5%90%8D">Linux &#x6279;&#x6B21;&#x4FEE;&#x6539;&#x526F;&#x6A94;&#x540D;</h2>
 <p><code>&#x628A;&#x526F;&#x6A94;&#x540D;&#x6293;&#x6210; IMG0000.jpg.jpg &#xFF0C;&#x4F46;&#x6211;&#x9810;&#x671F;&#x7684;&#x526F;&#x6A94;&#x540D;&#x61C9;&#x8A72;&#x662F; IMG0000.jpg</code></p>
 <pre><code class="lang-sh">rename -v <span class="hljs-string">&apos;s/\.jpg.jpg$/\.jpg/&apos;</span> *.jpg
 </code></pre>
-<h1 id="sed-%E6%9B%BF%E6%8F%9B%E5%AD%97%E4%B8%B2%E4%BD%BF%E7%94%A8%E6%AD%A3%E5%89%87">sed &#x66FF;&#x63DB;&#x5B57;&#x4E32;&#x4F7F;&#x7528;&#x6B63;&#x5247;</h1>
+<h2 id="sed-%E6%9B%BF%E6%8F%9B%E5%AD%97%E4%B8%B2%E4%BD%BF%E7%94%A8%E6%AD%A3%E5%89%87">sed &#x66FF;&#x63DB;&#x5B57;&#x4E32;&#x4F7F;&#x7528;&#x6B63;&#x5247;</h2>
 <p><code>.. image:: /_static/seq_Mediator.jpg</code>&#x66FF;&#x63DB;&#x6210;<code>![](../_static/seq_Mediator.jpg)</code></p>
 <pre><code class="lang-sh"><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;.. image:: /_static/SimpleFactory.jpg&quot;</span>|sed -r <span class="hljs-string">&apos;s/^.*:: (.*)/![](\1)/&apos;</span>
 
@@ -5226,6 +5226,13 @@
 ![]/_static/SimpleFactory.jpg
 </code></pre><pre><code class="lang-sh">find . -name <span class="hljs-string">&apos;*.rst&apos;</span> -exec sed -ri.bak <span class="hljs-string">&apos;s/^.*:: (.*)/![](\.\.\1)/&apos;</span> {} \;
 </code></pre>
+<h2 id="%E7%94%A8-uniq-%E5%92%8C-sort-%E6%8C%87%E4%BB%A4%E6%B8%85%E9%99%A4%E9%87%8D%E8%A4%87%E8%A1%8C%E5%92%8C%E7%A9%BA%E7%99%BD%E8%A1%8C">&#x7528; uniq &#x548C; sort &#x6307;&#x4EE4;&#x6E05;&#x9664;&#x91CD;&#x8907;&#x884C;&#x548C;&#x7A7A;&#x767D;&#x884C;</h2>
+<pre><code class="lang-sh">sort chtuniq.txt | uniq &gt; result.txt
+</code></pre>
+<p><code>&#x4E0A;&#x9762;&#x9019;&#x884C;&#x6307;&#x4EE4;&#x53EA;&#x80FD;&#x7559;&#x4E0B;&#x4E0D;&#x91CD;&#x8986;&#x7684;&#x884C;&#xFF0C;&#x6240;&#x4EE5;&#xFF0C;&#x9084;&#x662F;&#x6703;&#x6709;&#x4E00;&#x500B;&#x7A7A;&#x767D;&#x884C;&#x7684;&#x54E9; !</code></p>
+<pre><code class="lang-sh">sort chtuniq.txt | uniq | sed /^$/d &gt; result.txt
+</code></pre>
+<p><code>&#x70BA;&#x4EC0;&#x9EBC;&#x5728;&#x7528; uniq &#x6307;&#x4EE4;&#x524D;&#x8981;&#x5148;&#x7528; sort &#x6307;&#x4EE4;&#x4F86;&#x6392;&#x5E8F;&#x4E00;&#x4E0B;&#x5462; ? &#x9019;&#x662F;&#x56E0;&#x70BA; uniq &#x6307;&#x4EE4;&#x53EA;&#x8DDF;&#x4E0A;&#x4E00;&#x884C;&#x6BD4;&#x5C0D;&#x662F;&#x5426;&#x6709;&#x91CD;&#x8907;&#x800C;&#x5DF2;&#xFF0C;&#x6240;&#x4EE5;&#xFF0C;&#x5982;&#x679C;&#x91CD;&#x8907;&#x7684;&#x8CC7;&#x6599;&#x4E0D;&#x6392;&#x5728;&#x4E00;&#x8D77;&#xFF0C;&#x90A3;&#x9EBC; uniq &#x6307;&#x4EE4;&#x5C31;&#x7B49;&#x65BC;&#x662F;&#x7121;&#x6548;&#x54E9; ! &#x6240;&#x4EE5;&#xFF0C;&#x5728;&#x4F7F;&#x7528;  uniq &#x6307;&#x4EE4;&#x524D;&#xFF0C;&#x8981;&#x5148;&#x6416;&#x4E00;&#x6416;&#xFF0C;&#x5594; ! &#x4E0D;! &#x662F;&#x8981;&#x5148;&#x7528; sort &#x6307;&#x4EE4;&#x6392;&#x4E00;&#x6392;&#x54E9; !</code></p>
 
                     
                     </section>

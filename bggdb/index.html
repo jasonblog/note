@@ -44,7 +44,7 @@
     
 
         
-    <div class="book" data-level="4" data-basepath=".." data-revision="Sun Sep 06 2015 19:28:04 GMT+0800 (CST)">
+    <div class="book" data-level="4" data-basepath=".." data-revision="Mon Sep 07 2015 00:32:10 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -5266,8 +5266,8 @@ Program exited normally.
 (gdb)
 </code></pre><p>The last line is the gdb prompt, waiting for you to tell it what to do. Type r or run to run the program. (gdb allows you to abbreviate commands until they become ambiguous.)</p>
 <p>To start in neato and highly-recommended GUI mode, start the debugger with gdb -tui. (For many of the examples, below, I show the output of gdb&apos;s dumb terminal mode, but in real life I use TUI mode exclusively.)</p>
-<p>And here is a screenshot of what you&apos;ll see, approximately:
-<img src="images/hellotui.png" alt="images"></p>
+<p>And here is a screenshot of what you&apos;ll see, approximately:</p>
+<p><img src="images/hellotui.png" alt="images"></p>
 <p>All the normal gdb commands will work in GUI mode, and additionally the arrow keys and pgup/pgdown keys will scroll the source window (when it has focus, which it does by default). Also, you can change which file or function is displayed in the source window by giving the command list with a location as an argument, for example, &quot;list hello.c:5 to bring up the file hello.c on line 5. (See &quot;Breakpoints&quot;, below, for sample locations&#x2014;the same locations that work with breakpoints will work with the list command.) As a side note, list also works in dumb terminal mode.</p>
 <p>Now, notice that we passed the name of the executable on the command line. Another option you have is to just start gdb with nothing else on the command line, then give it the command file hello, and that will cause the executable &quot;hello&quot; to be loaded up.</p>
 <p>Command line arguments! What if you have to get something into argv in your program? Pass them as arguments to the run command when you start execution:</p>
@@ -5569,8 +5569,8 @@ tui reg float    Show the floating point registers
 tui reg system    Show the &quot;system&quot; registers
 tui reg next    Show the next page of registers&#x2014;this is important because there might be
 pages of registers that aren&apos;t in the &quot;general&quot;, &quot;float&quot;, or &quot;system&quot; sets
-</code></pre><p>Here&apos;s a nifty screenshot to whet your appetite, showing source and assembly in &quot;split&quot; mode:
-<img src="images/gdbwinss.png" alt="images"></p>
+</code></pre><p>Here&apos;s a nifty screenshot to whet your appetite, showing source and assembly in &quot;split&quot; mode:</p>
+<p><img src="images/gdbwinss.png" alt="images"></p>
 <p>Assembly code comes in two flavors on Intel machines: Intel and AT&amp;T. You can set which one appears in the disassembly window with set disassembly-flavor. Valid values are &quot;intel&quot; and &quot;att&quot;. If you already have the assembly window open, you&apos;ll have to close it and reopen it (layout src followed by layout split, for example.)</p>
 <p>To display registers in dumb terminal mode, type info registers for the integer registers, or info all-registers for everything.</p>
 <h1 id="writing-a-front-end">Writing a Front-End</h1>

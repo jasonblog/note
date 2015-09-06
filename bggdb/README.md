@@ -74,14 +74,15 @@ The last line is the gdb prompt, waiting for you to tell it what to do. Type r o
 To start in neato and highly-recommended GUI mode, start the debugger with gdb -tui. (For many of the examples, below, I show the output of gdb's dumb terminal mode, but in real life I use TUI mode exclusively.)
 
 And here is a screenshot of what you'll see, approximately:
-![images](images/hellotui.png)
 
+![images](images/hellotui.png)
 
 All the normal gdb commands will work in GUI mode, and additionally the arrow keys and pgup/pgdown keys will scroll the source window (when it has focus, which it does by default). Also, you can change which file or function is displayed in the source window by giving the command list with a location as an argument, for example, "list hello.c:5 to bring up the file hello.c on line 5. (See "Breakpoints", below, for sample locations—the same locations that work with breakpoints will work with the list command.) As a side note, list also works in dumb terminal mode.
 
 Now, notice that we passed the name of the executable on the command line. Another option you have is to just start gdb with nothing else on the command line, then give it the command file hello, and that will cause the executable "hello" to be loaded up.
 
 Command line arguments! What if you have to get something into argv in your program? Pass them as arguments to the run command when you start execution:
+
 ```
 $ gdb hello
 GNU gdb 6.8
@@ -98,6 +99,7 @@ Hello, world!
 Program exited normally.
 (gdb)
 ```
+
 Notice where it says "Starting Program", above, it shows the arguments "arg1" and "arg2" being passed to "hello".
 
 # Breakpoints
@@ -475,6 +477,7 @@ pages of registers that aren't in the "general", "float", or "system" sets
 ```
 
 Here's a nifty screenshot to whet your appetite, showing source and assembly in "split" mode:
+
 ![images](images/gdbwinss.png)
 
 Assembly code comes in two flavors on Intel machines: Intel and AT&T. You can set which one appears in the disassembly window with set disassembly-flavor. Valid values are "intel" and "att". If you already have the assembly window open, you'll have to close it and reopen it (layout src followed by layout split, for example.)
@@ -494,6 +497,7 @@ See the GDB documentation for all the details.
 Command parameters are in italics. Optional parameters are in square brackets. All commands can be abbreviated until they become ambiguous.
 
 This list is very very incomplete, and only shows things talked about in this tutorial!
+
 ```
 Help Commands
 help command	Get help on a certain command

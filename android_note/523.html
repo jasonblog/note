@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
-        <title>Linux Device Model 三角關係 | Jason note</title>
+        <title>Android 常用指令 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.0.1">
@@ -20,10 +20,10 @@
         
     
     
-    <link rel="next" href="../os/index.html" />
+    <link rel="next" href="../android_note/524.html" />
     
     
-    <link rel="prev" href="../linux_driver/index.html" />
+    <link rel="prev" href="../android_note/522.html" />
     
 
         <!-- head:end -->
@@ -44,7 +44,7 @@
     
 
         
-    <div class="book" data-level="13.1" data-basepath=".." data-revision="Sat Sep 12 2015 01:00:36 GMT+0800 (CST)">
+    <div class="book" data-level="5.23" data-basepath=".." data-revision="Sat Sep 12 2015 01:00:36 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1131,7 +1131,7 @@
             
         </li>
     
-        <li class="chapter " data-level="5.23" data-path="android_note/523.html">
+        <li class="chapter active" data-level="5.23" data-path="android_note/523.html">
             
                 
                     <a href="../android_note/523.html">
@@ -2550,7 +2550,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="13.1" data-path="linux_driver/linux_device_model.html">
+        <li class="chapter " data-level="13.1" data-path="linux_driver/linux_device_model.html">
             
                 
                     <a href="../linux_driver/linux_device_model.html">
@@ -5296,256 +5296,269 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="linux-device-model-%E4%B8%89%E8%A7%92%E9%97%9C%E4%BF%82">Linux Device Model &#x4E09;&#x89D2;&#x95DC;&#x4FC2;</h1>
-<p>Linux Device Model&#x7531;bus, device, driver&#x6240;&#x7D44;&#x6210;&#x3002;&#x5176;&#x95DC;&#x4FC2;&#x70BA;: bus&#x662F;cpu&#x8207;device&#x6E9D;&#x901A;&#x7684;&#x6A4B;&#x6A11;&#xFF0C;&#x800C;driver&#x8CE6;&#x8207;device&#x884C;&#x70BA;&#x7684;&#x80FD;&#x529B;&#x3002;&#x56E0;&#x6B64;&#x6709;&#x4EBA;&#x8AAA;&#xFF0C;device&#x662F;&#x7537;&#x4EBA;&#xFF0C;driver&#x662F;&#x5973;&#x4EBA;&#xFF0C;&#x800C;bus&#x5247;&#x662F;&#x5A92;&#x4EBA;&#x3002;&#x5A92;&#x4EBA;&#x6709;match&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x8B93;&#x7537;&#x4EBA;&#x8207;&#x5973;&#x4EBA;&#x5F7C;&#x6B64; &#x8A8D;&#x8B58;&#x3002;&#x5728;coldplug&#x7684;&#x6642;&#x4EE3;&#xFF0C;&#x7537;&#x4EBA;&#x5148;&#x767B;&#x8A18;&#x5F8C;&#xFF0C;&#x7531;&#x5A92;&#x4EBA;&#x53BB;match&#x5973;&#x4EBA;&#x3002;&#x800C;&#x5F8C;&#x4F86;&#x7684;hotplug&#xFF0C;&#x5247;&#x8B93;&#x5973;&#x4EBA;&#x5148;&#x63D0;&#x4F9B;&#x8CC7;&#x8A0A;&#xFF0C;&#x8B93;&#x5F8C;&#x4F86;&#x6709;&#x610F;&#x9858;&#x7684;&#x7537;&#x4EBA;match&#x3002; device&#x8207;driver&#x5C0D;bus&#x800C;&#x8A00;&#xFF0C;&#x5C31;&#x6C92;&#x6709;&#x4E00;&#x5B9A;&#x8AB0;&#x5148;&#x8AB0;&#x5F8C;&#x4E86;&#x3002;</p>
-<h3 id="%E5%9F%BA%E7%A4%8E">&#x57FA;&#x790E;</h3>
-<p>kobject&#x505A;&#x70BA;LDM&#x7684;&#x6700;&#x57FA;&#x672C;&#x7D50;&#x69CB;&#xFF0C;&#x63D0;&#x4F9B;&#x4E86;reference count (kref)&#x3001;sysfs&#x7684;dirent&#x548C;hotplug&#x76F8;&#x7684;&#x7684;event&#x7B49;&#x5176;&#x4ED6;&#x5C6C;&#x6027;&#x3002;bus, device, driver&#x90FD;&#x6703;&#x662F;&#x4E00;&#x500B;kobject&#xFF0C;&#x610F;&#x5373;&#x5176;struct&#x90FD;&#x5167;&#x542B;&#x4E00;&#x500B;kobject&#x3002;</p>
-<pre><code class="lang-c">include/linux/kobject.h
+                        <h1 id="android-%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4">Android &#x5E38;&#x7528;&#x6307;&#x4EE4;</h1>
+<pre><code>adb shell /system/bin/screencap -p /sdcard/screenshot.png // &#x622A;&#x5716;
+adb shell ps &#x5F97;&#x5230;&#x9032;&#x7A0B;&#x865F;
+adb shell am dumpheap &#x9032;&#x7A0B;&#x865F;  /storage/sdcard0/mem.hprof   //&#x5012;&#x51FA;hprof&#x6587;&#x4EF6;
+adb reboot bootloader//&#x91CD;&#x555F;&#x9032;&#x5165;fastboot&#x6A21;&#x5F0F;
+fastboot flash system system.img
+make snod//&#x7522;&#x751F;&#x4E00;&#x500B;&#x65B0;&#x7684;&#x7CFB;&#x7D71;&#x6620;&#x50CF;system.img
+make ramdisk//&#x7DE8;&#x8B6F;ramdisk
+make userdateimage//&#x7DE8;&#x8B6F;userdata
+make systeyimage//&#x7DE8;&#x8B6F;system
+make bootimage//&#x7DE8;&#x8B6F;kernel
+adb shell top -m 8//&#x67E5;&#x770B;&#x524D;8&#x500B;CPU&#x4F7F;&#x7528;&#x6700;&#x9AD8;&#x7684;&#x9032;&#x7A0B;
+adb shell top -t -m 8//&#x67E5;&#x770B;&#x524D;8&#x500B;CPU&#x4F7F;&#x7528;&#x6700;&#x9AD8;&#x7684;&#x7DDA;&#x7A0B;
+adb logcat -v time //&#x8F38;&#x51FA;&#x6642;&#x9593;&#x4FE1;&#x606F; LOG
+adb logcat -v time -b events //&#x8F38;&#x51FA;&#x5E36;&#x6709;&#x6642;&#x9593;event&#x4FE1;&#x606F; LOG
+adb logcat -v time -s SurfaceFlinger//&#x8F38;&#x51FA;&#x6709;&#x6642;&#x9593;&#x4FE1;&#x606F;&#x4E26;&#x4E14;TAG&#x662F;SurfaceFlingerLOG
+adb shell cat /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_cur_freq//&#x67E5;&#x770B;CPU&#x983B;&#x7387;
+adb shell &quot;echo 0 &gt; /proc/sys/kernel/kptr_restrict sysctl&quot; &#x5728;/proc/kallsyms&#x8F38;&#x51FA;&#x7684;&#x5730;&#x5740;&#x90FD;&#x70BA;0&#x6642;&#xFF0C;&#x53EF;&#x4EE5;&#x5C0E;&#x51FA;&#x7B26;&#x5408;&#x8868;
+&#x61C9;&#x7528;&#x6253;&#x958B;debug&#x6A21;&#x5F0F;&#xFF1A;&lt;application ...... android:debuggable=&quot;true&quot;&gt;
+&#x7981;&#x6B62;GC&#x7684;&#x65B9;&#x5F0F;&#xFF1A;
+VMRuntime localVMRuntime;
+localVMRuntime = VMRuntime.getRuntime();
+localVMRuntime.disableGcForExternalAlloc(true);
+localVMRuntime.disableGcForExternalAlloc(false);
+</code></pre><p>&#x586B;&#x6EFF;&#x624B;&#x6A5F;&#x5167;&#x7F6E;U&#x76E4;&#x7A7A;&#x9593;</p>
+<pre><code>adb shell dd if=/dev/zero of=/mnt/sdcard/bigfile
+adb shell getevent -lt /dev/input/eventXXX
+adb shell showmap PID
+adb shell showslab
+adb shell procrank
+native memory leak:
+adb shell mv /system/lib/libc.so /system/lib/libc_original.so
+adb shell mv /system/lib/libc_dubug.so /system/lib/libc.so
+adb shell setprop persist.libc.debug.malloc 1
+adb shell reboot
+</code></pre><p>&#x6253;&#x5370;&#x5806;&#x68E7;&#xFF1A;</p>
+<pre><code>Log.d(TAG,Log.getStackTraceString(new Throwable()));
+</code></pre><ul>
+<li>&#x5F97;&#x5230;Client&#x7AEF;&#x7684;uid&#x8DDF;package name&#xFF1A;</li>
+</ul>
+<pre><code>int uid = Binder.getCallingUid();
+String as[] = ((PackageManagerService)ServiceManager.getService(&quot;package&quot;)).getPackagesForUid(uid);
+if(as != null &amp;&amp; as[0] != null)
+</code></pre><ul>
+<li>&#x7DE8;&#x8B6F;&#x5167;&#x6838;&#x6A21;&#x584A;&#xFF1A;</li>
+</ul>
+<pre><code>make -C ~/src/jb_rel-M8974AAAAANLYA31050148/out/target/product/msm8974/obj/KERNEL_OBJ M=`pwd`  ARCH=arm
+  CROSS_COMPILE=/opt2/oujunli/src/jb_rel-M8974AAAAANLYA31050148/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.6/bin/  CFLAGS_MODULE=-fno-pic modules
+</code></pre><pre><code class="lang-c">adb forward tcp:<span class="hljs-number">8080</span> tcp:<span class="hljs-number">8080</span>
+adb shell am dumpheap <span class="hljs-number">9800</span>  /storage/sdcard0/<span class="hljs-number">123.</span>hprof
 
-<span class="hljs-keyword">struct</span> kobject {
-    <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>        *name;
-    <span class="hljs-keyword">struct</span> list_head    entry;
-    <span class="hljs-keyword">struct</span> kobject        *parent;
-    <span class="hljs-keyword">struct</span> kset        *kset;
-    <span class="hljs-keyword">struct</span> kobj_type    *ktype;
-    <span class="hljs-keyword">struct</span> sysfs_dirent    *sd;
-    <span class="hljs-keyword">struct</span> kref        kref;
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> state_initialized:<span class="hljs-number">1</span>;
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> state_in_sysfs:<span class="hljs-number">1</span>;
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> state_add_uevent_sent:<span class="hljs-number">1</span>;
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> state_remove_uevent_sent:<span class="hljs-number">1</span>;
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> uevent_suppress:<span class="hljs-number">1</span>;
-};
+
+adb shell <span class="hljs-string">&quot;echo 1 &gt; /sys/class/kgsl/kgsl-3d0/pwrnap&quot;</span>
+
+adb shell <span class="hljs-string">&quot;echo 0 &gt; /sys/class/kgsl/kgsl-3d0/pwrnap&quot;</span>
+adb shell <span class="hljs-string">&quot;echo performance &gt; sys/class/kgsl/kgsl-3d0/pwrscale/trustzone/governor&quot;</span> GPU&#x70BA;performance
+adb shell <span class="hljs-string">&quot;echo ondemand &gt; /sys/class/kgsl/kgsl-3d0/pwrscale/trustzone/governor&quot;</span>
 </code></pre>
-<p>kset&#x7406;&#x89E3;&#x70BA;kobject&#x7684;&#x96C6;&#x5408;&#x3002;&#x53EF;&#x4EE5;&#x60F3;&#x50CF;&#x70BA;pci bus&#x662F;&#x4E00;&#x500B;kset&#xFF0C;&#x800C;&#x639B;&#x5728;pci bus&#x4E0A;&#x7684;&#x4E00;&#x500B;&#x500B;device / driver&#x7684;kobject&#x70BA;&#x5176;&#x6210;&#x54E1;&#x3002;</p>
-<h3 id="%E7%B5%90%E6%A7%8B">&#x7D50;&#x69CB;</h3>
-<p>include/linux/device.h</p>
-<h3 id="%E5%85%88%E7%9C%8Bbus">&#x5148;&#x770B;bus</h3>
-<pre><code class="lang-c"><span class="hljs-keyword">struct</span> bus_type {
-    <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>        *name;
-    <span class="hljs-keyword">struct</span> bus_attribute    *bus_attrs;
-    <span class="hljs-keyword">struct</span> device_attribute    *dev_attrs;
-    <span class="hljs-keyword">struct</span> driver_attribute    *drv_attrs;
-
-    <span class="hljs-keyword">int</span> (*match)(<span class="hljs-keyword">struct</span> device *dev, <span class="hljs-keyword">struct</span> device_driver *drv);
-    <span class="hljs-keyword">int</span> (*uevent)(<span class="hljs-keyword">struct</span> device *dev, <span class="hljs-keyword">struct</span> kobj_uevent_env *env);
-    <span class="hljs-keyword">int</span> (*probe)(<span class="hljs-keyword">struct</span> device *dev);
-    <span class="hljs-keyword">int</span> (*remove)(<span class="hljs-keyword">struct</span> device *dev);
-    <span class="hljs-keyword">void</span> (*shutdown)(<span class="hljs-keyword">struct</span> device *dev);
-    <span class="hljs-keyword">int</span> (*suspend)(<span class="hljs-keyword">struct</span> device *dev, pm_message_t state);
-    <span class="hljs-keyword">int</span> (*resume)(<span class="hljs-keyword">struct</span> device *dev);
-
-    <span class="hljs-keyword">const</span> <span class="hljs-keyword">struct</span> dev_pm_ops *pm;
-    <span class="hljs-keyword">struct</span> bus_type_private *p; <span class="hljs-comment">//2.6.19&#x5F8C;&#x628A;device&#x548C;driver&#x5305;&#x5728;&#x65B0;&#x7684;struct</span>
-};
-
-<span class="hljs-keyword">struct</span> bus_type_private {
-    <span class="hljs-keyword">struct</span> kset subsys;  <span class="hljs-comment">//&#x4EE3;&#x8868;&#x81EA;&#x5DF1;&#xFF0C;&#x800C;kset&#x672C;&#x8EAB;&#x4E5F;&#x662F;&#x4E00;&#x7A2E;kobject</span>
-    <span class="hljs-keyword">struct</span> kset *drivers_kset; <span class="hljs-comment">//&#x8A72;bus&#x7684;driver&#x96C6;&#x5408;</span>
-    <span class="hljs-keyword">struct</span> kset *devices_kset; <span class="hljs-comment">//&#x8A72;bus&#x7684; device&#x96C6;&#x5408;</span>
-    <span class="hljs-keyword">struct</span> klist klist_devices;
-    <span class="hljs-keyword">struct</span> klist klist_drivers;
-    <span class="hljs-keyword">struct</span> blocking_notifier_head bus_notifier;
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> drivers_autoprobe:<span class="hljs-number">1</span>;
-    <span class="hljs-keyword">struct</span> bus_type *bus;
-};
+<ul>
+<li>&#x5728;/system/build.prop&#x88E1;&#x9762;&#x6DFB;&#x52A0;</li>
+</ul>
+<pre><code class="lang-sh">debug.mdpcomp.mixedmode.disable=<span class="hljs-number">1</span>
+debug.mdpcomp.logs=<span class="hljs-number">1</span>
+&#x8017;&#x6642;&#x7684;&#x51FD;&#x6578;&#x5728;mdss_mdp_overlay_kickoff &#x88E1;&#x9762;&#x3002;
 </code></pre>
-<h3 id="%E5%86%8D%E4%BE%86%E6%98%AFdevice">&#x518D;&#x4F86;&#x662F;device</h3>
-<pre><code class="lang-c"><span class="hljs-keyword">struct</span> device {
-    <span class="hljs-keyword">struct</span> device        *parent;
-    <span class="hljs-keyword">struct</span> device_private    *p;
-    <span class="hljs-keyword">struct</span> kobject kobj;
-    <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>        *init_name; <span class="hljs-comment">/* initial name of the device */</span>
-    <span class="hljs-keyword">struct</span> device_type    *type;
-    <span class="hljs-keyword">struct</span> mutex        mutex;    <span class="hljs-comment">/* mutex to synchronize calls to its driver.*/</span>
-    <span class="hljs-keyword">struct</span> bus_type    *bus;        <span class="hljs-comment">/* type of bus device is on */</span> <span class="hljs-comment">//&#x6307;&#x5B9A;&#x8981;&#x639B;&#x5728;&#x54EA;&#x689D;bus</span>
-    <span class="hljs-keyword">struct</span> device_driver *driver;    <span class="hljs-comment">/* which driver has allocated this  //&#x8A72;device&#x6240; bind&#x7684;driver device */</span>
-    <span class="hljs-keyword">void</span>        *platform_data;    <span class="hljs-comment">/* Platform specific data, device core doesn&apos;t touch it */</span>
-    <span class="hljs-keyword">struct</span> dev_pm_info    power;
-<span class="hljs-comment">/*...............*/</span>
-};
-`
+<pre><code class="lang-sh">adb shell stop thermald
+adb shell stop mpdecision
+adb shell <span class="hljs-string">&quot;echo 1 &gt; /sys/devices/system/cpu/cpu0/online&quot;</span>
+adb shell <span class="hljs-string">&quot;echo 1 &gt; /sys/devices/system/cpu/cpu1/online&quot;</span>
+adb shell <span class="hljs-string">&quot;echo 1 &gt; /sys/devices/system/cpu/cpu2/online&quot;</span>
+adb shell <span class="hljs-string">&quot;echo 1 &gt; /sys/devices/system/cpu/cpu3/online&quot;</span>
+adb shell <span class="hljs-string">&quot;echo performance &gt; /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor&quot;</span>
+adb shell <span class="hljs-string">&quot;echo performance &gt; /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor&quot;</span>
+adb shell <span class="hljs-string">&quot;echo performance &gt; /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor&quot;</span>
+adb shell <span class="hljs-string">&quot;echo performance &gt; /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor&quot;</span>
+adb shell cat /sys/kernel/debug/tracing/available_events
+
+adb shell cat /sys/kernel/debug/tracing/available_events | grep kgsl
+mount -rw -o remount /system
+
+adb shell <span class="hljs-string">&quot;cat /sys/kernel/debug/clk/bimc_clk/rate&quot;</span>
+
+find ./* -name <span class="hljs-string">&quot;.svn&quot;</span> | xargs -exec rm -rif {}
+
+man -k dtrace
+sudo dtrace  <span class="hljs-operator">-s</span> py_calldist.d -c  sdk/platform-tools/systrace/systrace.py
+sudo dtrace <span class="hljs-operator">-s</span> py_cputime.d  -c <span class="hljs-string">&quot;python sdk/platform-tools/systrace/systrace.py&quot;</span>
+
+
+find . -name <span class="hljs-string">&quot;*.java&quot;</span> | xargs grep -rni <span class="hljs-string">&quot;sdcard&quot;</span>  |tee  ~/logcat
+
+adb shell am profile com.example.android start  /sdcard/example.trace
+adb shell am   profile com.example.android stop
+adb pull /sdcard/example.trace&#xFF0C;&#x518D;&#x7528;eclipse&#x6253;&#x958B;
+python systrace.py  --app=com.taobao.taobao gfx view am wm res dalvik hal webview  -o ojl.html
+adb shell strace  <span class="hljs-operator">-f</span> -t -p <span class="hljs-number">21627</span>
+adb shell debuggerd -b &lt;pid&gt;
+adb shell cat /proc/&lt;pid&gt;/status
+adb shell cat /data/system/packages.xml
+
+In your DDMS configuration file (e.g. ~/.android/ddms.cfg on Linux), add <span class="hljs-string">&quot;native=true&quot;</span>. This enables the Native Heap tab.
+Next, <span class="hljs-built_in">enable</span> native heap allocation tracking on the device, and restart the app framework:
+% adb shell setprop libc.debug.malloc <span class="hljs-number">1</span>
+% adb shell stop
+% adb shell start
+Trace.beginSection(<span class="hljs-string">&quot;ContentView&quot;</span>);
+Log.d(<span class="hljs-string">&quot;ojl&quot;</span>, <span class="hljs-string">&quot;trace&quot;</span>);
+<span class="hljs-built_in">set</span>ContentView(R.layout.cart3);
+Trace.endSection();
+
+
+adb shell <span class="hljs-string">&quot;tcpdump -n -s 0 -w - | nc -l -p 12345&quot;</span>
+
+import android.os.Debug;
+Log.d(TAG, <span class="hljs-string">&quot;start method tracing&quot;</span>);
+Debug.startMethodTracing(<span class="hljs-string">&quot;cool&quot;</span>, <span class="hljs-number">20</span>*<span class="hljs-number">1024</span>*<span class="hljs-number">1024</span>);
+
+
+Log.d(TAG, <span class="hljs-string">&quot;stop methond tracing&quot;</span>);
+Debug.stopMethodTracing();
+
+Log.d(<span class="hljs-string">&quot;ojl&quot;</span>, <span class="hljs-string">&quot;ItemDownloader before priority = &quot;</span> + Process.getThreadPriority(Process.myTid()));
+//Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND-<span class="hljs-number">4</span>);
+//Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND-<span class="hljs-number">10</span>);
+//Process.setThreadPriority(Process.THREAD_PRIORITY_DEFAULT+<span class="hljs-number">1</span>);
+//Process.setThreadPriority(Process.THREAD_PRIORITY_DEFAULT
+//+(Process.THREAD_PRIORITY_BACKGROUND - Process.THREAD_PRIORITY_DEFAULT)/<span class="hljs-number">2</span>);
+//Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND+Process.THREAD_PRIORITY_MORE_FAVORABLE);
+
+import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
+private WakeLock wakeLock;
+private LocationManager locationManager;
+
+
+PowerManager pm = (PowerManager) getSystemService(this.POWER_SERVICE);
+wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, this.getClass().getCanonicalName());
+wakeLock.acquire();
+locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 </code></pre>
-<h3 id="%E6%9C%80%E5%BE%8C%E6%98%AFdriver">&#x6700;&#x5F8C;&#x662F;driver</h3>
-<pre><code class="lang-c"><span class="hljs-keyword">struct</span> device_driver {
-    <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>        *name;
-    <span class="hljs-keyword">struct</span> bus_type        *bus;  <span class="hljs-comment">//&#x4E00;&#x6A23;&#x662F;&#x7528;&#x4F86;&#x6307;&#x5B9A;&#x8981;&#x53BB;&#x54EA;&#x689D;bus&#x505A; match</span>
-    <span class="hljs-keyword">struct</span> module        *owner;
-    <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>        *mod_name;    <span class="hljs-comment">/* used for built-in modules */</span>
-    <span class="hljs-keyword">bool</span> suppress_bind_attrs;    <span class="hljs-comment">/* disables bind/unbind via sysfs */</span>
-
-<span class="hljs-preprocessor">#<span class="hljs-keyword">if</span> defined(CONFIG_OF)</span>
-    <span class="hljs-keyword">const</span> <span class="hljs-keyword">struct</span> of_device_id    *of_match_table;
-<span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span></span>
-
-    <span class="hljs-keyword">int</span> (*probe) (<span class="hljs-keyword">struct</span> device *dev);
-    <span class="hljs-keyword">int</span> (*remove) (<span class="hljs-keyword">struct</span> device *dev);
-    <span class="hljs-keyword">void</span> (*shutdown) (<span class="hljs-keyword">struct</span> device *dev);
-    <span class="hljs-keyword">int</span> (*suspend) (<span class="hljs-keyword">struct</span> device *dev, pm_message_t state);
-    <span class="hljs-keyword">int</span> (*resume) (<span class="hljs-keyword">struct</span> device *dev);
-    <span class="hljs-keyword">const</span> <span class="hljs-keyword">struct</span> attribute_group **groups;
-
-    <span class="hljs-keyword">const</span> <span class="hljs-keyword">struct</span> dev_pm_ops *pm;
-    <span class="hljs-keyword">struct</span> driver_private *p; <span class="hljs-comment">//kobject&#x5728;&#x9019;</span>
-};
-
-<span class="hljs-keyword">struct</span> driver_private {
-    <span class="hljs-keyword">struct</span> kobject kobj;
-    <span class="hljs-keyword">struct</span> klist klist_devices;  <span class="hljs-comment">//&#x8A72;driver&#x80FD;&#x652F;&#x63F4;&#x7684;device&#x5217;&#x8868;</span>
-    <span class="hljs-keyword">struct</span> klist_node knode_bus;
-    <span class="hljs-keyword">struct</span> module_kobject *mkobj;
-    <span class="hljs-keyword">struct</span> device_driver *driver;
-};
+<ul>
+<li>&#x7DE8;&#x8B6F;gator.ko</li>
+</ul>
+<pre><code class="lang-sh">make -C kernelpath  M=`<span class="hljs-built_in">pwd</span>` ARCH=arm
+adb forward tcp:<span class="hljs-number">8080</span> tcp:<span class="hljs-number">8080</span>
+adb shell setenforce <span class="hljs-number">0</span>
 </code></pre>
-<p>&#x57FA;&#x672C;&#x4E0A;&#x9019;&#x5C31;&#x662F;LDM&#x4E09;&#x500B;&#x4E3B;&#x89D2;&#x7684;&#x7D50;&#x69CB;&#x3002;&#x62FF;pci driver&#x7576;&#x4F8B;&#x5B50;</p>
-<p>drivers/pci/pci-driver.c</p>
-<h3 id="bus%E7%9A%84%E9%83%A8%E5%88%86">bus&#x7684;&#x90E8;&#x5206;</h3>
-<pre><code class="lang-c"><span class="hljs-keyword">struct</span> bus_type pci_bus_type = {
-    .name        = <span class="hljs-string">&quot;pci&quot;</span>,
-    .match        = pci_bus_match,
-    .uevent        = pci_uevent,
-    .probe        = pci_device_probe,
-    .remove        = pci_device_remove,
-    .shutdown    = pci_device_shutdown,
-    .dev_attrs    = pci_dev_attrs,
-    .bus_attrs    = pci_bus_attrs,
-    .pm        = PCI_PM_OPS_PTR,
-};
-</code></pre>
-<p>&#x5BA3;&#x544A;&#x4E86;pci bus&#x53CA;&#x5176;&#x5C6C;&#x6027;&#x3002;</p>
-<pre><code class="lang-c"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> __<span class="hljs-function">init <span class="hljs-title">pci_driver_init</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
-</span>{
-    <span class="hljs-keyword">return</span> bus_register(&amp;pci_bus_type);
-}
-
-postcore_initcall(pci_driver_init);
-</code></pre>
-<p>__init macro&#x8868;&#x793A;&#x5728;&#x958B;&#x6A5F;&#x6642;&#x6703;&#x4F5C;&#x521D;&#x59CB;&#x5316;&#xFF0C;&#x5373;do_basic_setup&#x6642;&#xFF0C;&#x5176;level&#x662F;&#x5728;postcore&#xFF0C;&#x7D30;&#x7BC0;&#x53EF;&#x53C3;&#x8003;include/linux /init.h</p>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> pure_initcall(fn)        __define_initcall(&quot;0&quot;,fn,0)</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> core_initcall(fn)        __define_initcall(&quot;1&quot;,fn,1)</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> core_initcall_sync(fn)        __define_initcall(&quot;1s&quot;,fn,1s)</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> postcore_initcall(fn)        __define_initcall(&quot;2&quot;,fn,2)</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> postcore_initcall_sync(fn)    __define_initcall(&quot;2s&quot;,fn,2s)</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> arch_initcall(fn)        __define_initcall(&quot;3&quot;,fn,3)</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> arch_initcall_sync(fn)        __define_initcall(&quot;3s&quot;,fn,3s)</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> subsys_initcall(fn)        __define_initcall(&quot;4&quot;,fn,4)</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> subsys_initcall_sync(fn)    __define_initcall(&quot;4s&quot;,fn,4s)</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> fs_initcall(fn)            __define_initcall(&quot;5&quot;,fn,5)</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> fs_initcall_sync(fn)        __define_initcall(&quot;5s&quot;,fn,5s)</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> rootfs_initcall(fn)        __define_initcall(&quot;rootfs&quot;,fn,rootfs)</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> device_initcall(fn)        __define_initcall(&quot;6&quot;,fn,6)</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> device_initcall_sync(fn)    __define_initcall(&quot;6s&quot;,fn,6s)</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> late_initcall(fn)        __define_initcall(&quot;7&quot;,fn,7)</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> late_initcall_sync(fn)        __define_initcall(&quot;7s&quot;,fn,7s)</span>
-</code></pre>
-<p>&#x518D;&#x4F86;&#x5C31;&#x662F;&#x5176;module_init&#xFF0C;&#x53EF;&#x770B;&#x5230;&#x6700;&#x5F8C;&#x662F;&#x57F7;&#x884C;&#x4E86;bus_register(&amp;pci_bus_type)&#xFF0C;&#x7BC0;&#x9304;&#x5982;&#x4E0B;:</p>
-<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">bus_register</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> bus_type *bus)</span>
-</span>{
-
-<span class="hljs-comment">/*...............*/</span>
-retval = kobject_set_name(&amp;priv-&gt;subsys.kobj, <span class="hljs-string">&quot;%s&quot;</span>, bus-&gt;name);
-
-<span class="hljs-comment">/*...............*/</span>
-
-    retval = kset_register(&amp;priv-&gt;subsys);
-    <span class="hljs-keyword">if</span> (retval)
-        <span class="hljs-keyword">goto</span> out;
-
-    retval = bus_create_file(bus, &amp;bus_attr_uevent);
-    <span class="hljs-keyword">if</span> (retval)
-        <span class="hljs-keyword">goto</span> bus_uevent_fail;
-
-    priv-&gt;devices_kset = kset_create_and_add(<span class="hljs-string">&quot;devices&quot;</span>, NULL,
-                         &amp;priv-&gt;subsys.kobj);
-    <span class="hljs-keyword">if</span> (!priv-&gt;devices_kset) {retval = add_probe_files(bus);
-
-        retval = -ENOMEM;
-        <span class="hljs-keyword">goto</span> bus_devices_fail;
+<p><7>[  855.028505] SELinux: initialized (dev gatorfs, type gatorfs), not configured for labeling</7></p>
+<p><5>[  855.029024] type=1400 audit(1406342819.348:241): avc:  denied  { mount } for  pid=2347 comm=&quot;gatord-main&quot; name=&quot;/&quot; dev=&quot;gatorfs&quot; ino=13742 scontext=u:r:shell:s0 tcontext=u:object_r:unlabeled:s0 tclass=filesystem
+setenforce 0</5></p>
+<pre><code class="lang-java"><span class="hljs-keyword">new</span> Thread() {
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">try</span> {
+            sleep(<span class="hljs-number">5000</span>);
+        } <span class="hljs-keyword">catch</span> (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Log.d(<span class="hljs-string">&quot;myException&quot;</span>,<span class="hljs-string">&quot;xxxxxxxxxxxxxxxxxx&quot;</span>);
+        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(<span class="hljs-string">&quot;xxxxxxxxxxxxxxxxx&quot;</span>);
     }
-
-    priv-&gt;drivers_kset = kset_create_and_add(<span class="hljs-string">&quot;drivers&quot;</span>, NULL,
-                         &amp;priv-&gt;subsys.kobj);
-<span class="hljs-comment">/*...............*/</span>
-
-    retval = add_probe_files(bus);
-<span class="hljs-comment">/*...............*/</span>
-
-}
+}.start();
 </code></pre>
-<p>&#x9019;&#x5176;&#x4E2D;&#x5305;&#x62EC;&#x5EFA;&#x7ACB;sysfs&#x4E0B;&#x7684;file&#xFF0C;&#x53EF;&#x770B;&#x51FA;devices&#x53CA;drivers&#x5169;&#x500B;&#x8CC7;&#x6599;&#x593E;&#x3002;&#x800C;&#x5F8C;&#x7684;add_probe_files&#x5247;&#x662F;sysfs&#x4E0B;&#x66F4;detail&#x7684;&#x90E8;&#x4EFD;&#x3002;</p>
-<p>&#x9019;&#x6A23;&#x7684;&#x7D50;&#x679C;&#x5C31;&#x662F;&#x5728;/sys/bus/&#x4E0B;&#x6703;&#x591A;&#x51FA;&#x4E00;&#x500B;pci&#x7684;folder&#x3002;&#x4E4B;&#x5F8C;&#x5C31;&#x662F;kernel scan&#x5230;devices/ drivers&#x6642;&#xFF0C;&#x518D;&#x52A0;&#x5165;/sys/bus/pci/devices/&#x53CA;/sys/bus/pci/drivers/&#x3002;</p>
-<h3 id="%E5%86%8D%E4%BE%86%E6%98%AFdevice">&#x518D;&#x4F86;&#x662F;device</h3>
-<p>drivers/pci/pci.h</p>
-<p>&#x9019;&#x5176;&#x5BE6;&#x662F;&#x518D;&#x5C01;&#x88DD;&#x4E86;include/linux/device.h&#x88E1;&#x7684;struct device&#xFF0C;&#x52A0;&#x4E0A;&#x4E86;&#x81EA;&#x5B9A;&#x7684;&#x5176;&#x4ED6;&#x5C6C;&#x6027;</p>
-<pre><code class="lang-c"><span class="hljs-keyword">struct</span> pci_dev {
-    <span class="hljs-keyword">struct</span> list_head bus_list;    <span class="hljs-comment">/* node in per-bus list */</span>
-    <span class="hljs-keyword">struct</span> pci_bus    *bus;        <span class="hljs-comment">/* bus this device is on */</span>
-    <span class="hljs-keyword">struct</span> pci_bus    *subordinate;    <span class="hljs-comment">/* bus this device bridges to */</span>
+<h3 id="linux%E7%9B%B8%E9%97%9C">Linux&#x76F8;&#x95DC;:</h3>
+<pre><code>awk &#x2018;{print $5}&#x2018; |awk &#x2018;{sum += $5};END{print sum}&#x2018; test &#x8A08;&#x7B97;&#x67D0;&#x4E00;&#x5217;&#x7684;&#x548C;
+du -h --max-depth=1 ./ &#x8A08;&#x7B97;&#x6587;&#x4EF6;&#x593E;&#x53CA;&#x6587;&#x4EF6;&#x7684;&#x5927;&#x5C0F;
+</code></pre><pre><code class="lang-sh">&#x77E5;&#x9053;&#x6307;&#x5B9A;&#x5F8C;&#x7DB4;&#x540D;&#x7684;&#x6587;&#x4EF6;&#x7E3D;&#x500B;&#x6578;&#x547D;&#x4EE4;&#xFF1A;
+find . -name <span class="hljs-string">&quot;*.cpp&quot;</span> | wc <span class="hljs-operator">-l</span>
+&#x77E5;&#x9053;&#x4E00;&#x500B;&#x76EE;&#x9304;&#x4E0B;&#x4EE3;&#x78BC;&#x7E3D;&#x884C;&#x6578;&#x4EE5;&#x53CA;&#x55AE;&#x500B;&#x6587;&#x4EF6;&#x884C;&#x6578;&#xFF1A;
+find . -name <span class="hljs-string">&quot;*.h&quot;</span> | xargs wc <span class="hljs-operator">-l</span>
+find . -name <span class="hljs-string">&quot;*.c&quot;</span> | xargs grep &#x2018;^.&#x2018; | wc <span class="hljs-operator">-l</span>    //&#x4E0D;&#x5305;&#x62EC;&#x7A7A;&#x767D;&#x884C;
+find &lt;&#x8981;&#x67E5;&#x627E;&#x7684;&#x8DEF;&#x5F91;&gt; -name .svn |xargs rm -rf
+sudo find / -name <span class="hljs-string">&quot;*opencv*&quot;</span> -exec rm -i {} \;
+ssh oujunli@<span class="hljs-number">192.168</span>.<span class="hljs-number">2.3</span>
+scp oujunli@<span class="hljs-number">192.168</span>.<span class="hljs-number">2.3</span>:/home/ojl/tmpfile  ./
+fetch ftp://ftp.freebsd.org/pub/FreeBSD/releases/i386/<span class="hljs-number">9.1</span>-RELEASE/src.txz
+sudo apt-get build-dep gedit ,&#x9019;&#x6A23;&#x57FA;&#x672C;&#x4E0A;&#x4F60;&#x958B;&#x767C;gtk+&#x7684;&#x5EAB;&#x90FD;&#x6703;&#x88AB;&#x5B89;&#x88DD;&#x4E0A;.
+provider:
+dtrace <span class="hljs-operator">-l</span>|grep -v <span class="hljs-string">&quot;PROVIDER&quot;</span>|awk &#x2018;{<span class="hljs-built_in">print</span> <span class="hljs-variable">$2</span>}&#x2018;|sort -u
+dtrace <span class="hljs-operator">-l</span> -P provider
+provider:module
+dtrace -ln &#x2018;fbt:::&#x2018; | awk &#x2018;{ <span class="hljs-built_in">print</span> <span class="hljs-variable">$2</span><span class="hljs-string">&quot;:&quot;</span><span class="hljs-variable">$3</span> }&#x2018; | sort -u
+sudo dtrace -n &#x2018;syscall:::entry { @[stack(), ustack()] = count(); }&#x2018; -c &#x2018;./ls1 .&#x2018;
+sudo dtrace -Fn &#x2018;syscall::: { }&#x2018; -c &#x2018;./shell1&#x2018;
+rsync --delete-before <span class="hljs-operator">-a</span> -H -v --progress --stats /tmp src/
+sudo stap -p2 <span class="hljs-operator">-e</span> &#x2018;probe kernel.function(<span class="hljs-string">&quot;*&quot;</span>) {}&#x2018; <span class="hljs-number">2</span>&gt;&amp;<span class="hljs-number">1</span> | grep ^kernel.fun
+<span class="hljs-built_in">echo</span> `cat /proc/slabinfo|awk &#x2018;BEGIN{sum=<span class="hljs-number">0</span>}{sum=sum+<span class="hljs-variable">$3</span>*<span class="hljs-variable">$4</span>;}END{<span class="hljs-built_in">print</span> sum/<span class="hljs-number">1024</span>/<span class="hljs-number">1024</span>}&#x2018;` MB
+find . -name &#x2018;*.cpp&#x2018; -print0 | xargs -<span class="hljs-number">0</span> perl -pi <span class="hljs-operator">-e</span> &#x2018;s/ALOGV/ALOGD/g&#x2018;
+find . -name <span class="hljs-string">&quot;*.c&quot;</span> -print0 | xargs -<span class="hljs-number">0</span> sed -i &#x2018;s/ALOGV/ALOGD/g
+ls |xargs realpath |tee ../basic.name
+valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all  ./<span class="hljs-built_in">test</span>-sdk
+valgrind --tool=memcheck --leak-check=full --error-limit=no  --show-leak-kinds=all --dsymutil=yes  --log-file=logcat.txt --gen-suppressions=no -v ./Test
+&#x89E3;&#xFF1A;
+jar xvf rt.jar
+&#x58D3;&#xFF1A;
+jar cvf rt.jar rt
+mvn dependency:tree
+mvn eclipse:eclipse
+git <span class="hljs-built_in">log</span> -p --author=<span class="hljs-string">&quot;&#x609F;&#x55D4;&quot;</span>
 
-    <span class="hljs-keyword">void</span>        *sysdata;    <span class="hljs-comment">/* hook for sys-specific extension */</span>
-    <span class="hljs-keyword">struct</span> proc_dir_entry *procent;    <span class="hljs-comment">/* device entry in /proc/bus/pci */</span>
-    <span class="hljs-keyword">struct</span> pci_slot    *slot;        <span class="hljs-comment">/* Physical slot this device is in */</span>
+adb shell <span class="hljs-string">&quot;echo function &gt; /sys/kernel/debug/tracing/current_tracer&quot;</span>
+adb shell <span class="hljs-string">&quot;echo 1846 &gt; /sys/kernel/debug/tracing/set_ftrace_pid&quot;</span>
+adb shell <span class="hljs-string">&quot;echo 1 &gt; /sys/kernel/debug/tracing/tracing_enabled&quot;</span>
+adb shell cat /sys/kernel/debug/tracing/trace
+adb shell <span class="hljs-string">&quot;echo nop &gt; /sys/kernel/debug/tracing/current_tracer&quot;</span>
+adb shell <span class="hljs-string">&quot;echo 0 &gt; /sys/kernel/debug/tracing/tracing_enabled&quot;</span>
+adb shell <span class="hljs-string">&quot;echo 1 &gt; /proc/sys/kernel/ftrace_dump_on_oops&quot;</span>
+grep CONFIG_UPROBES /boot/config-`uname -r`
+If uprobes is integrated, the output of this <span class="hljs-built_in">command</span> is as follows:
+CONFIG_UPROBES=y
+If you are running a kernel prior to version <span class="hljs-number">3.5</span>, SystemTap automatically builds the uprobes module. However, you also need the utrace kernel extensions required by the SystemTap user-space probing to track various user-space events. More details about the utrace infrastructure are available at http://sourceware.org/systemtap/wiki/utrace. To determine whether the currently running Linux kernel provides the needed utrace support, <span class="hljs-built_in">type</span> the following at a shell prompt:
+grep CONFIG_UTRACE /boot/config-`uname -r`
+If the Linux kernel supports user-space probing, the <span class="hljs-built_in">command</span> produces the following output:
+CONFIG_UTRACE=y
 
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>    devfn;        <span class="hljs-comment">/* encoded device &amp; function index */</span> <span class="hljs-comment">//&#x8A72;device&#x7684;id&#x8CC7;&#x8A0A;&#xFF0C;&#x5C07;&#x4F86;&#x8DDF;driver&#x7528;&#x4F86; match</span>
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">short</span>    vendor;
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">short</span>    device;
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">short</span>    subsystem_vendor;
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">short</span>    subsystem_device;
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>    <span class="hljs-keyword">class</span>;        <span class="hljs-comment">/* 3 bytes: (base,sub,prog-if) */</span>
-    u8        revision;    <span class="hljs-comment">/* PCI revision, low byte of class word */</span>
-    u8        hdr_type;    <span class="hljs-comment">/* PCI header type (`multi&apos; flag masked out) */</span>
-    u8        pcie_cap;    <span class="hljs-comment">/* PCI-E capability offset */</span>
-    u8        pcie_type;    <span class="hljs-comment">/* PCI-E device/port type */</span>
-    u8        rom_base_reg;    <span class="hljs-comment">/* which config register controls the ROM */</span>
-    u8        pin;          <span class="hljs-comment">/* which interrupt pin this device uses */</span>
-
-    <span class="hljs-keyword">struct</span> pci_driver *driver;    <span class="hljs-comment">/* which driver has allocated this device */</span>  <span class="hljs-comment">//match&#x5230;&#x5247;&#x7528;device_bind_driver(dev)&#xFF0C;&#x5373;&#x4E0D;&#x70BA;NULL</span>
-<span class="hljs-comment">/*...............*/</span>
-    <span class="hljs-keyword">struct</span>    device    dev;        <span class="hljs-comment">/* Generic device interface */</span>
-    <span class="hljs-keyword">int</span>        cfg_size;    <span class="hljs-comment">/* Size of configuration space */</span>
-
-    <span class="hljs-comment">/*
-     * Instead of touching interrupt line and base address registers
-     * directly, use the values stored here. They might be different!
-     */</span>
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>    irq;
-    <span class="hljs-keyword">struct</span> resource resource[DEVICE_COUNT_RESOURCE]; <span class="hljs-comment">/* I/O and memory regions + expansion ROMs */</span>
-    resource_size_t    fw_addr[DEVICE_COUNT_RESOURCE]; <span class="hljs-comment">/* FW-assigned addr */</span>
-    <span class="hljs-comment">//&#x5176;&#x4ED6;&#x81EA;&#x5B9A;&#x5C6C;&#x6027;</span>
-    <span class="hljs-comment">/* These fields are used by common fixups */</span>
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>    transparent:<span class="hljs-number">1</span>;    <span class="hljs-comment">/* Transparent PCI bridge */</span>
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>    multifunction:<span class="hljs-number">1</span>;<span class="hljs-comment">/* Part of multi-function device */</span>
-    <span class="hljs-comment">/* keep track of device state */</span><span class="hljs-keyword">const</span> <span class="hljs-keyword">struct</span> pci_device_id *id_table;    <span class="hljs-comment">/* must be non-NULL for probe to be called */</span>
-
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>    is_added:<span class="hljs-number">1</span>;
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>    is_busmaster:<span class="hljs-number">1</span>; <span class="hljs-comment">/* device is busmaster */</span>
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>    no_msi:<span class="hljs-number">1</span>;    <span class="hljs-comment">/* device may not use msi */</span>
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>    block_ucfg_access:<span class="hljs-number">1</span>;    <span class="hljs-comment">/* userspace config space access is blocked */</span>
-    <span class="hljs-comment">/*...............*/</span>
-
-};
+openindiana&#x76F8;&#x95DC;:
+pkg serache -pr package // &#x67E5;&#x627E;&#x5305;
+pkg install package //&#x5B89;&#x88DD;&#x5305;
+pkgin -y update   //&#x66F4;&#x65B0;&#x6578;&#x64DA;
+pkg -y install pacage //&#x5B89;&#x88DD;&#x5305;
 </code></pre>
-<h3 id="%E6%9C%80%E5%BE%8C%E6%98%AFpci-driver">&#x6700;&#x5F8C;&#x662F;pci_driver</h3>
-<p>&#x8DDF;pci_dev&#x4E00;&#x6A23;&#xFF0C;&#x518D;&#x6B21;&#x5C01;&#x88DD;struct device_driver</p>
-<pre><code class="lang-c"><span class="hljs-keyword">struct</span> pci_driver {
-    <span class="hljs-keyword">struct</span> list_head node;
-    <span class="hljs-keyword">char</span> *name;
-    <span class="hljs-keyword">const</span> <span class="hljs-keyword">struct</span> pci_device_id *id_table;    <span class="hljs-comment">/* must be non-NULL for probe to be called */</span> <span class="hljs-comment">//&#x5167;&#x542B;&#x5176;&#x652F;&#x63F4;&#x7684;device id&#x8CC7;&#x8A0A;&#xFF0C;&#x5C07;&#x4F86;match&#x6642;&#x7528;&#x7684;</span>
-    <span class="hljs-keyword">int</span>  (*probe)  (<span class="hljs-keyword">struct</span> pci_dev *dev, <span class="hljs-keyword">const</span> <span class="hljs-keyword">struct</span> pci_device_id *id);    <span class="hljs-comment">/* New device inserted */</span>
-    <span class="hljs-keyword">void</span> (*remove) (<span class="hljs-keyword">struct</span> pci_dev *dev);    <span class="hljs-comment">/* Device removed (NULL if not a hot-plug capable driver) */</span>
-    <span class="hljs-keyword">int</span>  (*suspend) (<span class="hljs-keyword">struct</span> pci_dev *dev, pm_message_t state);    <span class="hljs-comment">/* Device suspended */</span>
-    <span class="hljs-keyword">int</span>  (*suspend_late) (<span class="hljs-keyword">struct</span> pci_dev *dev, pm_message_t state);
-    <span class="hljs-keyword">int</span>  (*resume_early) (<span class="hljs-keyword">struct</span> pci_dev *dev);
-    <span class="hljs-keyword">int</span>  (*resume) (<span class="hljs-keyword">struct</span> pci_dev *dev);                    <span class="hljs-comment">/* Device woken up */</span>
-    <span class="hljs-keyword">void</span> (*shutdown) (<span class="hljs-keyword">struct</span> pci_dev *dev);
-    <span class="hljs-keyword">struct</span> pci_error_handlers *err_handler;
-    <span class="hljs-keyword">struct</span> device_driver    driver;
-    <span class="hljs-keyword">struct</span> pci_dynids dynids;
-};
-</code></pre>
-<p>&#x4EE5;&#x4E0A;&#x662F;LDM&#x7684;&#x7D50;&#x69CB;&#xFF0C;&#x518D;&#x4F86;&#x8981;&#x770B;&#x770B;&#x7BC4;&#x4F8B;&#x4EE5;&#x53CA;device/driver&#x7684;&#x8A3B;&#x518A;&#x904E;&#x7A0B;&#x3002;</p>
-<p>Reference</p>
-<p>&#x9AD8;&#x8302;&#x6797;</p>
+<h3 id="vim%E7%9B%B8%E9%97%9C">VIM&#x76F8;&#x95DC;:</h3>
+<pre><code class="lang-sh"><span class="hljs-number">1</span>&#x3001;&#x522A;&#x9664;&#x6587;&#x672C;&#x4E2D;&#x7684;^M
+&#x554F;&#x984C;&#x63CF;&#x8FF0;&#xFF1A;&#x5C0D;&#x65BC;&#x63DB;&#x884C;,window&#x4E0B;&#x7528;&#x56DE;&#x8ECA;&#x63DB;&#x884C;(<span class="hljs-number">0</span>A0D)&#x4F86;&#x8868;&#x793A;&#xFF0C;Linux&#x4E0B;&#x662F;&#x56DE;&#x8ECA;(<span class="hljs-number">0</span>A)&#x4F86;&#x8868;&#x793A;&#x3002;&#x9019;&#x6A23;&#xFF0C;&#x5C07;window&#x4E0A;&#x7684;&#x6587;&#x4EF6;&#x62F7;&#x5230;Unix&#x4E0A;&#x7528;&#x6642;&#xFF0C;&#x7E3D;&#x6703;&#x6709;&#x500B;^M.&#x8ACB;&#x5BEB;&#x500B;&#x7528;&#x5728;unix&#x4E0B;&#x7684;&#x904E;&#x6FFE;windows&#x6587;&#x4EF6;&#x7684;&#x63DB;&#x884C;&#x7B26;(<span class="hljs-number">0</span>D)&#x7684;shell&#x6216;c&#x7A0B;&#x5E8F;&#x3002;
+&#xB7; &#x4F7F;&#x7528;&#x547D;&#x4EE4;&#xFF1A;cat filename1 | tr <span class="hljs-operator">-d</span> <span class="hljs-string">&quot;^V^M&quot;</span> &gt; newfile&#xFF1B;
+&#xB7; &#x4F7F;&#x7528;&#x547D;&#x4EE4;&#xFF1A;sed <span class="hljs-operator">-e</span> <span class="hljs-string">&quot;s/^V^M//&quot;</span> filename &gt; outputfilename&#x3002;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;&#x5728;<span class="hljs-number">1</span>&#x3001;<span class="hljs-number">2</span>&#x5169;&#x7A2E;&#x65B9;&#x6CD5;&#x4E2D;&#xFF0C;^V&#x548C;^M&#x6307;&#x7684;&#x662F;Ctrl+V&#x548C;Ctrl+M&#x3002;&#x4F60;&#x5FC5;&#x9808;&#x8981;&#x624B;&#x5DE5;&#x9032;&#x884C;&#x8F38;&#x5165;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x7C98;&#x8CBC;&#x3002;
+&#xB7; &#x5728;vi&#x4E2D;&#x8655;&#x7406;&#xFF1A;&#x9996;&#x5148;&#x4F7F;&#x7528;vi&#x6253;&#x958B;&#x6587;&#x4EF6;&#xFF0C;&#x7136;&#x5F8C;&#x6309;ESC&#x9375;&#xFF0C;&#x63A5;&#x8457;&#x8F38;&#x5165;&#x547D;&#x4EE4;&#xFF1A;%s/^V^M//&#x3002;
+&#xB7; :%s/^M$//g
+&#x5982;&#x679C;&#x4E0A;&#x8FF0;&#x65B9;&#x6CD5;&#x7121;&#x7528;&#xFF0C;&#x5247;&#x6B63;&#x78BA;&#x7684;&#x89E3;&#x6C7A;&#x8FA6;&#x6CD5;&#x662F;&#xFF1A;
+&#xB7; tr <span class="hljs-operator">-d</span> <span class="hljs-string">&quot;\r&quot;</span> &lt; src &gt;dest
+&#xB7; tr <span class="hljs-operator">-d</span> <span class="hljs-string">&quot;\015&quot;</span> dest
+&#xB7; strings A&gt;B
+
+<span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;&quot;</span>
+<span class="hljs-string">&quot; Tag list (ctags)
+&quot;</span><span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;
+let Tlist_Ctags_Cmd = &#x2018;/usr/bin/ctags&#x2018;
+let Tlist_Show_One_File = 1
+let Tlist_Exit_OnlyWindow = 1
+let Tlist_Use_Right_Window = 1
+&quot;</span><span class="hljs-built_in">let</span> Tlist_Use_Left_Window = <span class="hljs-number">1</span>
+<span class="hljs-built_in">let</span> Tlist_Sort_Type = &#x2018;name&#x2018;
+<span class="hljs-built_in">let</span> Tlist_Show_Menu = <span class="hljs-number">1</span>
+<span class="hljs-built_in">let</span> Tlist_Auto_Open = <span class="hljs-number">1</span>
+nmap &lt;silent&gt; &lt;F8&gt; :TlistToggle&lt;CR&gt;&lt;CR&gt;
+<span class="hljs-number">2</span>&#x3001;&#x751F;&#x6210;cscope&#x548C;ctags
+  find . -name <span class="hljs-string">&quot;*.c&quot;</span> -o -name <span class="hljs-string">&quot;*.cpp&quot;</span> -o -name <span class="hljs-string">&quot;*.h&quot;</span> -o -name <span class="hljs-string">&quot;*.java&quot;</span> -o -name <span class="hljs-string">&quot;*.S&quot;</span> &gt; cscope.files &amp;&amp; cscope -Rbqk -i cscope.files&amp;&amp;ctags -R
+  find . -path <span class="hljs-string">&quot;./framework/*&quot;</span> <span class="hljs-operator">-a</span> -prune -o&#x9664;&#x53BB;framework&#x76EE;&#x9304;&#x3002;
+&#x81EA;&#x52D5;&#x52A0;&#x8F09;cscope&#x6587;&#x4EF6;&#xFF0C;&#x5728;.vimrc&#x4E2D;&#x6DFB;&#x52A0;&#xFF1A;
+<span class="hljs-keyword">if</span> has(<span class="hljs-string">&quot;cscope&quot;</span>)
+<span class="hljs-built_in">set</span> csprg=/usr/bin/cscope
+<span class="hljs-built_in">set</span> csto=<span class="hljs-number">1</span>
+<span class="hljs-built_in">set</span> cst
+<span class="hljs-built_in">set</span> nocsverb
+<span class="hljs-string">&quot; add any database in current directory
+if filereadable(&quot;</span>cscope.out<span class="hljs-string">&quot;)
+cs add cscope.out
+endif
+set csverb
+endif
+
+&#x5982;&#x679C;&#x4F60;&#x662F;Python&#x7A0B;&#x5E8F;&#x54E1;&#xFF0C;&#x63A8;&#x85A6;http://t.cn/z84bJPg &#x3002;&#x5927;&#x540D;&#x9F0E;&#x9F0E;&#x7684;&#x79FB;&#x52D5;&#x652F;&#x4ED8;&#x516C;&#x53F8; Square&#xFF0C;&#x6700;&#x8FD1;&#x5C07;&#x4ED6;&#x5011;&#x6280;&#x8853;&#x5718;&#x968A;&#x4F7F;&#x7528;&#x7684; Vim &#x914D;&#x7F6E;&#x6587;&#x4EF6; Maximum Awesome &#x958B;&#x6E90;&#x4E86;&#xFF0C;Vim &#x9EE8;&#x5011;&#x53EF;&#x4EE5;&#x95DC;&#x6CE8;&#x4E0B;&#x3002;http://t.cn/z8UQPFW GitHub &#x5730;&#x5740;&#xFF1A;http://t.cn/z84w8ht
+</span></code></pre>
 
                     
                     </section>
@@ -5556,10 +5569,10 @@ retval = kobject_set_name(&amp;priv-&gt;subsys.kobj, <span class="hljs-string">&
         </div>
 
         
-        <a href="../linux_driver/index.html" class="navigation navigation-prev " aria-label="Previous page: Linux Driver"><i class="fa fa-angle-left"></i></a>
+        <a href="../android_note/522.html" class="navigation navigation-prev " aria-label="Previous page: Analyzing UI Performance with Systrace"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../os/index.html" class="navigation navigation-next " aria-label="Next page: OS"><i class="fa fa-angle-right"></i></a>
+        <a href="../android_note/524.html" class="navigation navigation-next " aria-label="Next page: Android下設置CPU核心數和頻率"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
-        <title>動態庫注入、ltrace、strace、Valgrind | Jason note</title>
+        <title>設計模式 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.0.1">
@@ -20,10 +20,10 @@
         
     
     
-    <link rel="next" href="../linux_system/1527.html" />
+    <link rel="next" href="../design_pattern/271.html" />
     
     
-    <link rel="prev" href="../linux_system/1525.html" />
+    <link rel="prev" href="../26/2624.html" />
     
 
         <!-- head:end -->
@@ -44,7 +44,7 @@
     
 
         
-    <div class="book" data-level="15.2.6" data-basepath=".." data-revision="Sat Sep 12 2015 02:27:22 GMT+0800 (CST)">
+    <div class="book" data-level="27" data-basepath=".." data-revision="Sat Sep 12 2015 02:27:22 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -2839,7 +2839,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="15.2.6" data-path="linux_system/1526.html">
+        <li class="chapter " data-level="15.2.6" data-path="linux_system/1526.html">
             
                 
                     <a href="../linux_system/1526.html">
@@ -5193,7 +5193,7 @@
             
         </li>
     
-        <li class="chapter " data-level="27" data-path="design_pattern/index.html">
+        <li class="chapter active" data-level="27" data-path="design_pattern/index.html">
             
                 
                     <a href="../design_pattern/index.html">
@@ -5332,100 +5332,61 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E5%8B%95%E6%85%8B%E5%BA%AB%E6%B3%A8%E5%85%A5%E3%80%81ltrace%E3%80%81strace%E3%80%81valgrind">&#x52D5;&#x614B;&#x5EAB;&#x6CE8;&#x5165;&#x3001;ltrace&#x3001;strace&#x3001;Valgrind</h1>
-<p>&#x5BE6;&#x969B;&#x4E0A;&#xFF0C;Linux&#x7684;&#x8ABF;&#x8A66;&#x65B9;&#x6CD5;&#x975E;&#x5E38;&#x591A;&#xFF0C;&#x91DD;&#x5C0D;&#x4E0D;&#x540C;&#x7684;&#x554F;&#x984C;&#xFF0C;&#x4E0D;&#x540C;&#x7684;&#x5834;&#x666F;&#xFF0C;&#x4E0D;&#x540C;&#x7684;&#x61C9;&#x7528;&#xFF0C;&#x90FD;&#x6709;&#x4E0D;&#x540C;&#x7684;&#x65B9;&#x6CD5;&#x3002;&#x5F88;&#x96E3;&#x53BB;&#x6982;&#x62EC;&#x3002;&#x672C;&#x7BC7;&#x6587;&#x7AE0;&#x4E3B;&#x8981;&#x6D89;&#x53CA;&#x672C;&#x5C08;&#x6B04;&#x9084;&#x6C92;&#x6709;&#x6DB5;&#x84CB;&#xFF0C;&#x4F46;&#x662F;&#x7684;&#x78BA;&#x6709;&#x5F88;&#x91CD;&#x8981;&#x7684;&#x65B9;&#x6CD5;&#x3002;&#x672C;&#x6587;&#x4E3B;&#x8981;&#x5305;&#x62EC;&#x52D5;&#x614B;&#x5EAB;&#x6CE8;&#x5165;&#x8ABF;&#x8A66;&#xFF1B;&#x4F7F;&#x7528;ltrace&#x547D;&#x4EE4;&#x8655;&#x7406;&#x52D5;&#x614B;&#x5EAB;&#x7684;&#x8ABF;&#x8A66;&#xFF1B;&#x4F7F;&#x7528;strace&#x8ABF;&#x8A66;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x7684;&#x554F;&#x984C;&#xFF1B;Valgrind&#x7684;&#x7C21;&#x8981;&#x4ECB;&#x7D39;&#x3002;</p>
-<h2 id="1-%E5%8B%95%E6%85%8B%E5%BA%AB%E6%B3%A8%E5%85%A5">1. &#x52D5;&#x614B;&#x5EAB;&#x6CE8;&#x5165;</h2>
-<p>&#x5982;&#x4F55;&#x6392;&#x9664;&#x5176;&#x4ED6;library&#x7684;&#x8ABF;&#x7528;&#x554F;&#x984C;&#xFF1F;&#x52D5;&#x614B;&#x5EAB;&#x6CE8;&#x5165;&#xFF08;library injection&#xFF09;&#x6709;&#x53EF;&#x80FD;&#x6703;&#x8B93;&#x4F60;&#x4E8B;&#x534A;&#x529F;&#x500D;&#x3002;</p>
-<p>&#x4E00;&#x500B;&#x5927;&#x578B;&#x7684;&#x8EDF;&#x4EF6;&#x7CFB;&#x7D71;&#xFF0C;&#x6703;&#x7528;&#x5230;&#x975E;&#x5E38;&#x591A;&#x7684;&#x52D5;&#x614B;&#x5EAB;&#x3002;&#x90A3;&#x9EBC;&#x5982;&#x679C;&#x8A72;&#x52D5;&#x614B;&#x5EAB;&#x7684;&#x4E00;&#x500B;api&#x8ABF;&#x7528;&#x51FA;&#x4E86;&#x554F;&#x984C;&#xFF0C;&#x800C;&#x8ABF;&#x7528;&#x8A72;api&#x7684;&#x5730;&#x65B9;&#x975E;&#x5E38;&#x975E;&#x5E38;&#x591A;&#xFF0C;&#x4E0D;&#x540C;&#x7684;&#x8ABF;&#x7528;&#x90FD;&#x5206;&#x6563;&#x7684;&#x8A18;&#x9304;&#x5728;&#x4E0D;&#x540C;&#x7684;log&#x88E1;&#x3002;&#x90A3;&#x9EBC;&#xFF0C;&#x5982;&#x4F55;&#x5FEB;&#x901F;&#x7684;&#x627E;&#x5230;&#x662F;&#x54EA;&#x500B;&#x8ABF;&#x7528;&#x8005;&#x51FA;&#x7684;&#x554F;&#x984C;&#xFF1F; &#x7576;&#x7136;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x52D5;&#x614B;&#x5EAB;&#x6CE8;&#x5165;&#x7684;&#x65B9;&#x5F0F;&#x53BB;&#x8ABF;&#x8A66;&#x3002;</p>
-<p>&#x4E0B;&#x9762;&#x7684;&#x4EE3;&#x78BC;hook&#x4E86;&#x5169;&#x500B;&#x5E38;&#x898B;&#x7684;&#x51FD;&#x6578;memcpy&#x548C;socket&#xFF1A;</p>
-<pre><code class="lang-cpp"><span class="hljs-keyword">void</span> _init(<span class="hljs-keyword">void</span>)
-{
-    mtrace();
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;HOOKing: hello\n&quot;</span>);
-}
-
-<span class="hljs-keyword">void</span> _fini(<span class="hljs-keyword">void</span>)
-{
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;HOOKing: goodbye\n&quot;</span>);
-}
-
-<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">void</span>* (*real_memcpy)(<span class="hljs-keyword">void</span>*, <span class="hljs-keyword">const</span> <span class="hljs-keyword">void</span>*, size_t);
-<span class="hljs-keyword">void</span> *<span class="hljs-built_in">memcpy</span>( <span class="hljs-keyword">void</span> *dest, <span class="hljs-keyword">const</span> <span class="hljs-keyword">void</span>*src, size_t size)
-{
-    real_memcpy real = dlsym((<span class="hljs-keyword">void</span>*)-<span class="hljs-number">1</span>, <span class="hljs-string">&quot;memcpy&quot;</span>);
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Coping from %p to %p, size %d\n&quot;</span>, src,dest,size);
-
-    <span class="hljs-keyword">return</span> real(dest, src, size);
-}
-<span class="hljs-function"><span class="hljs-keyword">typedef</span> <span class="hljs-title">int</span> <span class="hljs-params">(*real_socket)</span><span class="hljs-params">(<span class="hljs-keyword">int</span> socket_family, <span class="hljs-keyword">int</span> socket_type, <span class="hljs-keyword">int</span> protocol)</span></span>;
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">socket</span><span class="hljs-params">(<span class="hljs-keyword">int</span> socket_family, <span class="hljs-keyword">int</span> socket_type, <span class="hljs-keyword">int</span> protocol)</span>
-</span>{
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; SOCKET family %d, SOCKET type %d, SOECKT protocol %d&quot;</span>, socket_family, socket_type, protocol);
-    real_socket sock = dlsym((<span class="hljs-keyword">void</span>*)-<span class="hljs-number">1</span>, <span class="hljs-string">&quot;socket&quot;</span>);
-    <span class="hljs-keyword">return</span> sock(socket_family, socket_type, protocol );
-}
+                        <h1 id="%E8%A8%AD%E8%A8%88%E6%A8%A1%E5%BC%8F">&#x8A2D;&#x8A08;&#x6A21;&#x5F0F;</h1>
+<p>&#x8A2D;&#x8A08;&#x6A21;&#x5F0F;&#x6709;&#x4EC0;&#x9EBC;&#x7528;&#xFF0C;&#x9019;&#x88E1;&#x5C31;&#x4E0D;&#x8AAA;&#x4E86;&#x3002;&#x8A2D;&#x8A08;&#x6A21;&#x5F0F;&#x662F;&#x4E00;&#x7A2E;&#x601D;&#x60F3;&#xFF0C;&#x4E0D;&#x5149;&#x662F;&#x4E00;&#x7A2E;&#x6280;&#x8853;&#xFF0C;&#x8981;&#x600E;&#x6A23;&#x5B78;&#x7FD2;&#x8A2D;&#x8A08;&#x6A21;&#x5F0F;&#xFF0C;&#x6BCF;&#x500B;&#x4EBA;&#x6709;&#x6BCF;&#x500B;&#x4EBA;&#x7684;&#x65B9;&#x6CD5;&#x3002;&#x9019;&#x662F;&#x6211;&#x7684;&#x65B9;&#x6CD5;&#x62FF;&#x51FA;&#x4F86;&#x548C;&#x5927;&#x5BB6;&#x5206;&#x4EAB;&#x4E0B;&#x3002;</p>
+<h2 id="1-%E8%83%8C">1.&#x80CC;</h2>
+<p>&#x80CC;&#x4EC0;&#x9EBC;&#xFF1F;
+      &#x5148;&#x80CC;&#x4EC0;&#x9EBC;&#xFF1F;&#x81EA;&#x7136;&#x662F;&#x5148;&#x628A;&#x8A2D;&#x8A08;&#x6A21;&#x5F0F;&#x7684;&#x540D;&#x5B57;&#x80CC;&#x4E0B;&#x4F86;&#x3002;&#x5148;&#x77E5;&#x9053;&#x6709;&#x4EC0;&#x9EBC;&#x8A2D;&#x8A08;&#x6A21;&#x5F0F;&#x3002;
+&#x7136;&#x5F8C;&#x80CC;&#x4EC0;&#x9EBC;&#xFF1F;
+      &#x80CC;&#x6BCF;&#x7A2E;&#x8A2D;&#x8A08;&#x6A21;&#x5F0F;&#x7684;&#x610F;&#x5716;&#x3002;&#x4EC0;&#x9EBC;&#x4E8B;&#x610F;&#x5716;&#xFF1F;&#x5373;&#x9019;&#x7A2E;&#x8A2D;&#x8A08;&#x6A21;&#x5F0F;&#x662F;&#x5E79;&#x4EC0;&#x9EBC;&#x7528;&#x7684;&#x3002;
+      eg&#xFF1A;Factory Method&#x6A21;&#x5F0F;&#x7684;&#x610F;&#x5716;:
+       &#x5B9A;&#x7FA9;&#x4E00;&#x500B;&#x7528;&#x65BC;&#x5275;&#x5EFA;&#x5C0D;&#x8C61;&#x7684;&#x63A5;&#x53E3;&#xFF0C;&#x8B93;&#x5B50;&#x985E;&#x6C7A;&#x5B9A;&#x5BE6;&#x4F8B;&#x5316;&#x54EA;&#x4E00;&#x500B;&#x985E;&#x3002;
+       Factory Method &#x4F7F;&#x4E00;&#x500B;&#x985E;&#x7684;&#x5BE6;&#x4F8B;&#x5316;&#x5EF6;&#x9072;&#x5230;&#x5176;&#x5B50;&#x985E;&#x3002;
+&#x5728;&#x80CC;&#x4EC0;&#x9EBC;&#xFF1F;
+      &#x9069;&#x7528;&#x6027;&#x3002;&#x7136;&#x5F8C;&#x8A18;&#x4E0B;&#x9019;&#x7A2E;&#x6A21;&#x5F0F;&#x53EF;&#x4EE5;&#x7528;&#x5728;&#x54EA;&#x65B9;&#x9762;&#x3002;&#x63A5;&#x8457;&#x4E0A;&#x9762;&#x8AAA;&#x7684;Factory Method&#x6A21;&#x5F0F;&#x53EF;&#x4EE5;&#x7528;&#x5728;
+&#x7576;&#x4E00;&#x500B;&#x985E;&#x4E0D;&#x77E5;&#x9053;&#x5B83;&#x6240;&#x5FC5;&#x9808;&#x5275;&#x5EFA;&#x7684;&#x5C0D;&#x8C61;&#x7684;&#x985E;&#x7684;&#x6642;&#x5019;&#x3002;
+&#x7576;&#x4E00;&#x500B;&#x985E;&#x5E0C;&#x671B;&#x7531;&#x5B83;&#x7684;&#x5B50;&#x985E;&#x4F86;&#x6307;&#x5B9A;&#x5B83;&#x6240;&#x5275;&#x5EFA;&#x7684;&#x5C0D;&#x8C61;&#x7684;&#x6642;&#x5019;&#x3002;
+&#x7576;&#x985E;&#x5C07;&#x5275;&#x5EFA;&#x5C0D;&#x8C61;&#x7684;&#x8077;&#x8CAC;&#x59D4;&#x8A17;&#x7D66;&#x591A;&#x500B;&#x5E6B;&#x52A9;&#x5B50;&#x985E;&#x4E2D;&#x7684;&#x67D0;&#x4E00;&#x500B;&#xFF0C;&#x4E26;&#x4E14;&#x4F60;&#x5E0C;&#x671B;&#x5C07;&#x54EA;&#x4E00;&#x500B;&#x5E6B;&#x52A9;&#x5B50;&#x985E;&#x662F;&#x4EE3;&#x7406;&#x8005;&#x9019;&#x4E00;&#x4FE1;&#x606F;&#x5C40;&#x90E8;&#x5316;&#x7684;&#x6642;&#x5019;&#x3002;
+&#x6700;&#x5F8C;&#x80CC;&#x4EC0;&#x9EBC;&#xFF1F;
+    &#x80CC;UML&#x5716;</p>
+<pre><code>&#x80CC;&#x5B8C;&#x9019;&#x4E9B;&#x4F60;&#x7B2C;&#x4E00;&#x968E;&#x6BB5;&#x5C31;&#x7B97;&#x5B8C;&#x6210;&#x4E86;&#xFF0C;&#x7E3D;&#x5171;23&#x500B;&#x8A2D;&#x8A08;&#x6A21;&#x5F0F;&#x76F8;&#x4FE1;&#x7528;&#x4E0D;&#x4E86;&#x591A;&#x5C11;&#x6642;&#x9593;&#xFF0C;&#x6BD4;&#x770B;&#x8A2D;&#x8A08;&#x6A21;&#x5F0F;&#x7684;&#x66F8;&#x8981;&#x5FEB;&#x5F88;&#x591A;&#x54E6;&#x3002;
+</code></pre><h2 id="2-%E7%9C%8B">2.&#x770B;</h2>
+<p>   &#x770B;&#x8A2D;&#x8A08;&#x6A21;&#x5F0F;&#x7684;&#x6E90;&#x4EE3;&#x78BC;&#xFF1F; &#x4EC0;&#x9EBC;&#x6E90;&#x4EE3;&#x78BC;&#xFF1F;  &#x7DB2;&#x4E0A;&#x53EF;&#x4EE5;&#x627E;&#x5230;&#x6BCF;&#x4E00;&#x7A2E;&#x8A2D;&#x8A08;&#x6A21;&#x5F0F;UML&#x5C0D;&#x61C9;&#x7684;&#x6E90;&#x4EE3;&#x78BC;&#x3002; &#x4ED4;&#x7D30;&#x770B;&#x54E6;&#x3002;
+   &#x770B;&#x5B8C;&#x5F8C;&#xFF0C;&#x95DC;&#x9375;&#x662F;&#x770B;&#x600E;&#x6A23;&#x5BE6;&#x73FE;&#x7B2C;&#x4E00;&#x6B65;&#x4E2D;&#x7684; &#x610F;&#x5716;&#x7684;&#x3002;
+  &#x9019;&#x500B;&#x4F30;&#x8A08;&#x6BD4;&#x7B2C;&#x4E00;&#x6B65;&#x66F4;&#x5FEB;&#x5427;&#x3002;</p>
+<h2 id="3-%E6%AF%94">3.&#x6BD4;</h2>
+<p>  &#x6BD4;&#x8F03;&#x5404;&#x7A2E;&#x8A2D;&#x8A08;&#x6A21;&#x5F0F;&#x7684;&#x5340;&#x5225;&#xFF0C;&#x5305;&#x62EC;UML&#x5716;&#x7684;&#x5340;&#x5225;&#xFF0C;&#x548C;&#x8A2D;&#x8A08;&#x6A21;&#x5F0F;&#x5BE6;&#x73FE;&#x6E90;&#x4EE3;&#x78BC;&#x7684;&#x5340;&#x5225;&#x3002;
+  &#x4F60;&#x6703;&#x767C;&#x73FE;&#xFF0C;&#x8A2D;&#x8A08;&#x6A21;&#x5F0F;&#x4E2D;&#x7684;UML&#x5716;&#x6709;&#x7684;&#x5DEE;&#x5225;&#x5F88;&#x5C0F;&#xFF0C;&#x4F46;&#x662F;&#x5B8C;&#x6210;&#x7684;&#x529F;&#x80FD;&#x537B;&#x5927;&#x76F8;&#x9015;&#x5EAD;&#x3002;&#x591A;&#x6BD4;&#x8F03;&#x4ED4;&#x7D30;&#x6BD4;&#x8F03;&#x3002;&#x5475;&#x5475;&#x3002;</p>
+<h2 id="4-%E7%94%A8">4.&#x7528;</h2>
+<p>  &#x73FE;&#x5728;&#x5230;&#x7528;&#x5566;&#x3002;&#x600E;&#x9EBC;&#x7528;&#xFF0C;&#x5225;&#x6015;&#x7528;&#x932F;&#xFF0C;&#x6709;&#x9805;&#x76EE;&#xFF0C;&#x5C31;&#x62FF;&#x8A2D;&#x8A08;&#x6A21;&#x5F0F;&#x53BB;&#x5957;&#xFF0C;&#x5225;&#x807D;&#x4ED6;&#x5011;&#x8AAA;&#x8A2D;&#x8A08;&#x6A21;&#x5F0F;&#x4E5F;&#x4E0D;&#x80FD;&#x6FEB;&#x7528;&#x3002; &#x4E0D;&#x6FEB;&#x7528;&#x662F;&#x4F60;&#x6C34;&#x5E73;&#x9054;&#x5230;&#x4E00;&#x5B9A;&#x9AD8;&#x5EA6;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x624D;&#x77E5;&#x9053;&#x662F;&#x5426;&#x8A72;&#x7528;&#xFF0C;&#x548C;&#x8A72;&#x600E;&#x9EBC;&#x7528;&#xFF0C;&#x54B1;&#x5011;&#x6C34;&#x5E73;&#x9084;&#x5F88;&#x4F4E;&#x7684;&#x60C5;&#x6CC1;&#x4E0B;&#x5C31;&#x662F;&#x591A;&#x7528;&#x3002; &#x7528;&#x591A;&#x4E86;&#x5C31;&#x80FD;&#x7E3D;&#x7D50;&#x51FA;&#x4E00;&#x4E9B;&#x9580;&#x9053;&#xFF0C;&#x4EC0;&#x9EBC;&#x60C5;&#x6CC1;&#x4E0B;&#x7528;&#x4EC0;&#x9EBC;&#x6BD4;&#x8F03;&#x5408;&#x9069;&#x3002; &#x4EC0;&#x9EBC;&#x60C5;&#x6CC1;&#x4E0B;&#x4E0D;&#x9700;&#x8981;&#x8A2D;&#x8A08;&#x6A21;&#x5F0F;&#x3002; &#x6700;&#x597D;&#x662F;&#x7528;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x6709;&#x6642;&#x5019;&#x662F;&#x89E3;&#x6C7A;&#x67D0;&#x500B;&#x554F;&#x984C;&#x6709;&#x5E7E;&#x500B;&#x8A2D;&#x8A08;&#x6A21;&#x5F0F;&#x90FD;&#x80FD;&#x9054;&#x5230;&#x540C;&#x6A23;&#x7684;&#x76EE;&#x7684;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x8A66;&#x8457;&#x6BCF;&#x7A2E;&#x90FD;&#x7528;&#x7528;&#x3002;</p>
+<h2 id="5-%E6%82%9F">5.&#x609F;</h2>
+<p>  &#x9019;&#x4E5F;&#x662F;&#x6700;&#x5F8C;&#x4E00;&#x6B65;&#xFF0C;&#x4E5F;&#x662F;&#x6700;&#x96E3;&#x7684;&#x4E00;&#x6B65;&#x3002;&#x8A2D;&#x8A08;&#x6A21;&#x5F0F;&#x662F;&#x4E00;&#x7A2E;&#x601D;&#x60F3;&#xFF0C;&#x6307;&#x5C0E;&#x601D;&#x60F3;&#xFF0C;&#x6307;&#x5C0E;&#x6211;&#x5011;&#x600E;&#x6A23;&#x53BB;&#x8A2D;&#x8A08;&#x3002; &#x662F;&#x524D;&#x4EBA;&#x5BE6;&#x8E10;&#x7E3D;&#x7D50;&#x51FA;&#x4F86;&#x7684;&#xFF0C;&#x884C;&#x4E4B;&#x6709;&#x6548;&#x7684;&#x601D;&#x60F3;&#x65B9;&#x6CD5;&#x3002; &#x6211;&#x6C92;&#x6709;&#x609F;&#x51FA;&#x591A;&#x5C11;&#xFF0C;&#x9019;&#x88E1;&#x9084;&#x8AAA;&#x4E0D;&#x51FA;&#x4EC0;&#x9EBC;&#x9053;&#x9053;&#x4F86;&#x3002;</p>
+<p>&#x5E0C;&#x671B;&#x5C0D;&#x548C;&#x6211;&#x4E00;&#x6A23;&#x7684;&#x670B;&#x53CB;&#x80FD;&#x5C11;&#x8D70;&#x5F4E;&#x8DEF;&#xFF0C;&#x6700;&#x5FEB;&#x7684;&#x901F;&#x5EA6;&#x5B78;&#x6703;&#x8A2D;&#x8A08;&#x6A21;&#x5F0F;&#x3002;&#x4EE5;&#x524D;&#x6211;&#x770B;&#x8A2D;&#x8A08;&#x6A21;&#x5F0F;&#x7684;&#x66F8;&#xFF0C;&#x4E0D;&#x77E5;&#x6240;&#x4E91;&#xFF0C;&#x96F2;&#x88E1;&#x9727;&#x88E1;&#xFF0C;&#x770B;&#x7684;&#x4E5F;&#x6C92;&#x4FE1;&#x5FC3;&#xFF0C;&#x95DC;&#x9375;&#x662F;&#x6211;&#x61F6;&#xFF0C;&#x5475;&#x5475;&#x3002; &#x505A;&#x4E8B;&#x7E3D;&#x662F;&#x5E7E;&#x5206;&#x9418;&#x7684;&#x71B1;&#x5EA6;&#xFF08;&#x9664;&#x4E86;&#x81EA;&#x5DF1;&#x7684;&#x76EE;&#x6A19;&#x662F;&#x4E0D;&#x8B8A;&#x7684;&#xFF09;&#xFF0C;&#x6240;&#x4EE5;&#x6211;&#x7E3D;&#x7D50;&#x4E9B;&#x80FD;&#x9069;&#x61C9;&#x81EA;&#x5DF1;&#x7684;&#x5B78;&#x7FD2;&#x65B9;&#x6CD5;&#xFF0C;&#x5E0C;&#x671B;&#x5C0D;&#x4F60;&#x6709;&#x9EDE;&#x7528;&#x3002;</p>
+<h1 id="23%E7%A8%AE%E8%A8%AD%E8%A8%88%E6%A8%A1%E5%BC%8F%E4%B8%AD%E8%8B%B1%E6%96%87%E5%B0%8D%E7%85%A7">23&#x7A2E;&#x8A2D;&#x8A08;&#x6A21;&#x5F0F;&#x4E2D;&#x82F1;&#x6587;&#x5C0D;&#x7167;</h1>
+<pre><code> 1 Singleton &#x55AE;&#x4EF6;
+ 2 Abstract Factory &#x62BD;&#x8C61;&#x5DE5;&#x5EE0;&#x6A21;&#x5F0F;
+ 3 Builder &#x751F;&#x6210;&#x5668;&#x6A21;&#x5F0F;
+ 4 Factory Method &#x5DE5;&#x5EE0;&#x65B9;&#x6CD5;&#x6A21;&#x5F0F;
+ 5 Prototype &#x539F;&#x578B;&#x6A21;&#x5F0F;
+ 6 Adapter &#x9069;&#x914D;&#x5668;&#x6A21;&#x5F0F;
+ 7 Bridge &#x6A4B;&#x63A5;&#x6A21;&#x5F0F;
+ 8 Composite &#x7D44;&#x5408;&#x6A21;&#x5F0F;
+ 9 Decorator &#x88DD;&#x98FE;&#x6A21;&#x5F0F;
+ 10 Facade &#x5916;&#x89C0;&#x6A21;&#x5F0F;
+ 11 Flyweight &#x4EAB;&#x5143;&#x6A21;&#x5F0F;
+ 12 Proxy &#x4EE3;&#x7406;&#x6A21;&#x5F0F;
+ 13 Template Methed&#x6A21;&#x677F;&#x65B9;&#x6CD5;
+ 14 Command &#x547D;&#x4EE4;&#x6A21;&#x5F0F;
+ 15 Interpreter &#x89E3;&#x91CB;&#x5668;&#x6A21;&#x5F0F;
+ 16 Mediator &#x4E2D;&#x4ECB;&#x8005;&#x6A21;&#x5F0F;
+ 17 Iterator &#x8FED;&#x4EE3;&#x5668;&#x6A21;&#x5F0F;
+ 18 Observer &#x89C0;&#x5BDF;&#x8005;&#x6A21;&#x5F0F;
+ 19 Chain Of Responsibility &#x8077;&#x8CAC;&#x93C8;&#x6A21;&#x5F0F;
+ 20 Memento &#x5099;&#x5FD8;&#x9304;&#x6A21;&#x5F0F;
+ 21 State &#x72C0;&#x614B;&#x6A21;&#x5F0F;
+ 22 Strategy &#x7B56;&#x7565;&#x6A21;&#x5F0F;
+ 23 Visitor &#x8A2A;&#x554F;&#x8005;&#x6A21;&#x5F0F;
 </code></pre>
-<p>&#x5C07;&#x4E0A;&#x8FF0;&#x4EE3;&#x78BC;&#x7DE8;&#x8B6F;&#x6210;&#x52D5;&#x614B;&#x5EAB;&#x5F8C;&#xFF0C;&#x9700;&#x8981;&#x6307;&#x5B9A;&#x74B0;&#x5883;&#x8B8A;&#x91CF;LD_PRELOAD&#x70BA;&#x4E0A;&#x8FF0;&#x52D5;&#x614B;&#x5EAB;&#x3002;&#x5B83;&#x7684;&#x4F5C;&#x7528;&#x662F;&#x5F37;&#x5236;load&#x6307;&#x5B9A;&#x7684;&#x52D5;&#x614B;&#x5EAB;&#xFF0C;&#x5373;&#x4F7F;&#x4E0D;&#x9700;&#x8981;&#x5B83;&#x3002;&#x4F60;&#x53EF;&#x4EE5;&#x5728;&#x4E0A;&#x9762;&#x7684;&#x52D5;&#x614B;&#x5EAB;&#x88E1;&#x6DFB;&#x52A0;&#x4F60;&#x60F3;&#x8981;&#x7684;&#x4EFB;&#x4F55;&#x51FD;&#x6578;&#x3002;</p>
-<h2 id="2-ltrace">2. ltrace</h2>
-<p>ltrace&#x80FD;&#x5920;&#x8DDF;&#x8E64;&#x9032;&#x7A0B;&#x7684;&#x5EAB;&#x51FD;&#x6578;&#x8ABF;&#x7528;,&#x5B83;&#x6703;&#x986F;&#x73FE;&#x51FA;&#x54EA;&#x500B;&#x5EAB;&#x51FD;&#x6578;&#x88AB;&#x8ABF;&#x7528;&#x3002;</p>
-<p>&#x9084;&#x662F;&#x4F7F;&#x7528;hello&#xFF0C;world&#x9032;&#x884C;&#x7C21;&#x55AE;&#x7684;&#x77AD;&#x89E3;&#x5427;&#xFF1A;</p>
-<pre><code class="lang-cpp"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;stdio.h&gt;</span>
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span> <span class="hljs-params">()</span>
-</span>{
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Hello world!\n&quot;</span>);
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-}
-</code></pre>
-<p>&#x4F7F;&#x7528;ltrace + &#x547D;&#x4EE4;&#x53EF;&#x4EE5;&#x555F;&#x52D5;&#x5C0D;&#x4EFB;&#x4F55;&#x7A0B;&#x5E8F;&#x7684;&#x8ABF;&#x8A66;&#xFF0C;&#x4E0A;&#x8FF0;hello world&#x7684;ltrace&#x70BA;&#xFF1A;</p>
-<pre><code class="lang-c">__libc_start_main(<span class="hljs-number">0x8048354</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0xbf869aa4</span>, <span class="hljs-number">0x8048390</span>, <span class="hljs-number">0x8048380</span> &lt;unfinished ...&gt;
-<span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;Hello world!&quot;</span>Hello world!
-)                                                             = <span class="hljs-number">13</span>
-+++ exited (status <span class="hljs-number">0</span>) +++
-</code></pre>
-<p>&#x5176;&#x5BE6;ltrace&#x662F;&#x4E00;&#x500B;&#x4E0D;&#x7528;&#x53BB;&#x95B1;&#x8B80;&#x5EAB;&#x7684;&#x5BE6;&#x73FE;&#x4EE3;&#x78BC;&#xFF0C;&#x800C;&#x53BB;&#x5B78;&#x7FD2;&#x5EAB;&#x7684;&#x6574;&#x9AD4;&#x8ABF;&#x7528;&#x68E7;&#x7684;&#x5F88;&#x597D;&#x7684;&#x65B9;&#x5F0F;&#x3002;&#x7576;&#x7136;&#x4E86;&#x7D50;&#x5408;&#x4EE3;&#x78BC;&#x4F60;&#x53EF;&#x4EE5;&#x5F97;&#x5230;&#x66F4;&#x52A0;&#x8A73;&#x7D30;&#x7684;&#x5BE6;&#x73FE;&#x3002;</p>
-<h3 id="3-strace">3. strace</h3>
-<p>strace&#x6703;&#x8DDF;&#x8E64;&#x7A0B;&#x5E8F;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x3002;&#x6240;&#x4EE5;&#x5982;&#x679C;&#x662F;&#x7531;&#x65BC;&#x7A0B;&#x5E8F;&#x7684;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x51FA;&#x554F;&#x984C;&#x7684;&#x8A71;&#xFF0C;&#x4F7F;&#x7528;strace&#x53EF;&#x4EE5;&#x5F88;&#x5FEB;&#x7684;&#x9032;&#x884C;&#x554F;&#x984C;&#x5B9A;&#x4F4D;&#x3002;&#x4E0A;&#x8FF0;hello world&#x7684;strace&#x8F38;&#x51FA;&#x70BA;&#xFF1A;</p>
-<pre><code class="lang-c">execve(<span class="hljs-string">&quot;./hello&quot;</span>, [<span class="hljs-string">&quot;./hello&quot;</span>], [<span class="hljs-comment">/* 30 vars */</span>]) = <span class="hljs-number">0</span>
-brk(<span class="hljs-number">0</span>)                                  = <span class="hljs-number">0x83d4000</span>
-mmap2(NULL, <span class="hljs-number">4096</span>, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -<span class="hljs-number">1</span>, <span class="hljs-number">0</span>) = <span class="hljs-number">0xb7f8a000</span>
-access(<span class="hljs-string">&quot;/etc/ld.so.preload&quot;</span>, R_OK)      = -<span class="hljs-number">1</span> ENOENT (No such file or directory)
-open(<span class="hljs-string">&quot;/etc/ld.so.cache&quot;</span>, O_RDONLY)      = <span class="hljs-number">3</span>
-fstat64(<span class="hljs-number">3</span>, {st_mode=S_IFREG|<span class="hljs-number">0644</span>, st_size=<span class="hljs-number">80846</span>, ...}) = <span class="hljs-number">0</span>
-mmap2(NULL, <span class="hljs-number">80846</span>, PROT_READ, MAP_PRIVATE, <span class="hljs-number">3</span>, <span class="hljs-number">0</span>) = <span class="hljs-number">0xb7f76000</span>
-close(<span class="hljs-number">3</span>)                                = <span class="hljs-number">0</span>
-open(<span class="hljs-string">&quot;/lib/libc.so.6&quot;</span>, O_RDONLY)        = <span class="hljs-number">3</span>
-read(<span class="hljs-number">3</span>, <span class="hljs-string">&quot;\177ELF\1\1\1\0\0\0\0\0\0\0\0\0\3\0\3\0\1\0\0\0000?\270&quot;</span>..., <span class="hljs-number">512</span>) = <span class="hljs-number">512</span>
-fstat64(<span class="hljs-number">3</span>, {st_mode=S_IFREG|<span class="hljs-number">0755</span>, st_size=<span class="hljs-number">1576952</span>, ...}) = <span class="hljs-number">0</span>
-mmap2(<span class="hljs-number">0xb6e000</span>, <span class="hljs-number">1295780</span>, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, <span class="hljs-number">3</span>, <span class="hljs-number">0</span>) = <span class="hljs-number">0xb6e000</span>
-mmap2(<span class="hljs-number">0xca5000</span>, <span class="hljs-number">12288</span>, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, <span class="hljs-number">3</span>, <span class="hljs-number">0x137</span>) = <span class="hljs-number">0xca5000</span>
-mmap2(<span class="hljs-number">0xca8000</span>, <span class="hljs-number">9636</span>, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -<span class="hljs-number">1</span>, <span class="hljs-number">0</span>) = <span class="hljs-number">0xca8000</span>
-close(<span class="hljs-number">3</span>)                                = <span class="hljs-number">0</span>
-mmap2(NULL, <span class="hljs-number">4096</span>, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -<span class="hljs-number">1</span>, <span class="hljs-number">0</span>) = <span class="hljs-number">0xb7f75000</span>
-set_thread_area({entry_number:-<span class="hljs-number">1</span> -&gt; <span class="hljs-number">6</span>, base_addr:<span class="hljs-number">0xb7f756c0</span>, limit:<span class="hljs-number">1048575</span>, seg_32bit:<span class="hljs-number">1</span>, contents:<span class="hljs-number">0</span>, read_exec_only:<span class="hljs-number">0</span>, limit_in_pages:<span class="hljs-number">1</span>, seg_not_present:<span class="hljs-number">0</span>, useable:<span class="hljs-number">1</span>}) = <span class="hljs-number">0</span>
-mprotect(<span class="hljs-number">0xca5000</span>, <span class="hljs-number">8192</span>, PROT_READ)     = <span class="hljs-number">0</span>
-mprotect(<span class="hljs-number">0xb6a000</span>, <span class="hljs-number">4096</span>, PROT_READ)     = <span class="hljs-number">0</span>
-munmap(<span class="hljs-number">0xb7f76000</span>, <span class="hljs-number">80846</span>)               = <span class="hljs-number">0</span>
-fstat64(<span class="hljs-number">1</span>, {st_mode=S_IFCHR|<span class="hljs-number">0620</span>, st_rdev=makedev(<span class="hljs-number">136</span>, <span class="hljs-number">0</span>), ...}) = <span class="hljs-number">0</span>
-mmap2(NULL, <span class="hljs-number">4096</span>, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -<span class="hljs-number">1</span>, <span class="hljs-number">0</span>) = <span class="hljs-number">0xb7f89000</span>
-write(<span class="hljs-number">1</span>, <span class="hljs-string">&quot;Hello world!\n&quot;</span>, <span class="hljs-number">13</span>Hello world!
-)          = <span class="hljs-number">13</span>
-exit_group(<span class="hljs-number">0</span>)                           = ?
-Process <span class="hljs-number">2874</span> detached
-</code></pre>
-<p>&#x53EF;&#x4EE5;&#x770B;&#x5230;strace&#x7684;&#x8F38;&#x51FA;&#x975E;&#x5E38;&#x8C50;&#x5BCC;&#x3002;</p>
-<h3 id="4-valgrind">4. Valgrind</h3>
-<p>Valgrind&#x662F;&#x4E00;&#x6B3E;&#x7528;&#x65BC;&#x5167;&#x5B58;&#x8ABF;&#x8A66;&#x3001;&#x5167;&#x5B58;&#x6D29;&#x6F0F;&#x6AA2;&#x6E2C;&#x4EE5;&#x53CA;&#x6027;&#x80FD;&#x5206;&#x6790;&#x7684;&#x8EDF;&#x4EF6;&#x958B;&#x767C;&#x5DE5;&#x5177;&#x3002;</p>
-<p>Valgrind&#x5305;&#x62EC;&#x5982;&#x4E0B;&#x4E00;&#x4E9B;&#x5DE5;&#x5177;&#xFF1A;</p>
-<pre><code class="lang-c">Memcheck&#x3002;&#x9019;&#x662F;valgrind&#x61C9;&#x7528;&#x6700;&#x5EE3;&#x6CDB;&#x7684;&#x5DE5;&#x5177;&#xFF0C;&#x4E00;&#x500B;&#x91CD;&#x91CF;&#x7D1A;&#x7684;&#x5167;&#x5B58;&#x6AA2;&#x67E5;&#x5668;&#xFF0C;&#x80FD;&#x5920;&#x767C;&#x73FE;&#x958B;&#x767C;&#x4E2D;&#x7D55;&#x5927;&#x591A;&#x6578;&#x5167;&#x5B58;&#x932F;&#x8AA4;&#x4F7F;&#x7528;&#x60C5;&#x6CC1;&#xFF0C;&#x6BD4;&#x5982;&#xFF1A;&#x4F7F;&#x7528;&#x672A;&#x521D;&#x59CB;&#x5316;&#x7684;&#x5167;&#x5B58;&#xFF0C;&#x4F7F;&#x7528;&#x5DF2;&#x7D93;&#x91CB;&#x653E;&#x4E86;&#x7684;&#x5167;&#x5B58;&#xFF0C;&#x5167;&#x5B58;&#x8A2A;&#x554F;&#x8D8A;&#x754C;&#x7B49;&#x3002;&#x9019;&#x4E5F;&#x662F;&#x672C;&#x6587;&#x5C07;&#x91CD;&#x9EDE;&#x4ECB;&#x7D39;&#x7684;&#x90E8;&#x5206;&#x3002;
-Callgrind&#x3002;&#x5B83;&#x4E3B;&#x8981;&#x7528;&#x4F86;&#x6AA2;&#x67E5;&#x7A0B;&#x5E8F;&#x4E2D;&#x51FD;&#x6578;&#x8ABF;&#x7528;&#x904E;&#x7A0B;&#x4E2D;&#x51FA;&#x73FE;&#x7684;&#x554F;&#x984C;&#x3002;
-Cachegrind&#x3002;&#x5B83;&#x4E3B;&#x8981;&#x7528;&#x4F86;&#x6AA2;&#x67E5;&#x7A0B;&#x5E8F;&#x4E2D;&#x7DE9;&#x5B58;&#x4F7F;&#x7528;&#x51FA;&#x73FE;&#x7684;&#x554F;&#x984C;&#x3002;
-Helgrind&#x3002;&#x5B83;&#x4E3B;&#x8981;&#x7528;&#x4F86;&#x6AA2;&#x67E5;&#x591A;&#x7DDA;&#x7A0B;&#x7A0B;&#x5E8F;&#x4E2D;&#x51FA;&#x73FE;&#x7684;&#x7AF6;&#x722D;&#x554F;&#x984C;&#x3002;
-Massif&#x3002;&#x5B83;&#x4E3B;&#x8981;&#x7528;&#x4F86;&#x6AA2;&#x67E5;&#x7A0B;&#x5E8F;&#x4E2D;&#x5806;&#x68E7;&#x4F7F;&#x7528;&#x4E2D;&#x51FA;&#x73FE;&#x7684;&#x554F;&#x984C;&#x3002;
-Extension&#x3002;&#x53EF;&#x4EE5;&#x5229;&#x7528;core&#x63D0;&#x4F9B;&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x81EA;&#x5DF1;&#x7DE8;&#x5BEB;&#x7279;&#x5B9A;&#x7684;&#x5167;&#x5B58;&#x8ABF;&#x8A66;&#x5DE5;&#x5177;&#x3002;
-</code></pre>
-<p>IBM Developer&#x6709;&#x4E00;&#x7BC7;&#x5F88;&#x597D;&#x7684;&#x6587;&#x7AE0;&#xFF1A;<a href="https://www.ibm.com/developerworks/cn/linux/l-cn-valgrind/" target="_blank">https://www.ibm.com/developerworks/cn/linux/l-cn-valgrind/</a></p>
-
                     
                     </section>
                 
@@ -5435,10 +5396,10 @@ Extension&#x3002;&#x53EF;&#x4EE5;&#x5229;&#x7528;core&#x63D0;&#x4F9B;&#x7684;&#x
         </div>
 
         
-        <a href="../linux_system/1525.html" class="navigation navigation-prev " aria-label="Previous page: coredump 分析入門"><i class="fa fa-angle-left"></i></a>
+        <a href="../26/2624.html" class="navigation navigation-prev " aria-label="Previous page: Polymorphism in C"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../linux_system/1527.html" class="navigation navigation-next " aria-label="Next page: 使用反彙編理解動態庫函數調用方式GOT/PLT"><i class="fa fa-angle-right"></i></a>
+        <a href="../design_pattern/271.html" class="navigation navigation-next " aria-label="Next page: 23種設計模式的趣味解釋"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

@@ -69,6 +69,8 @@
    * [Android 常用開發工具](android_note/520.md)
    * [開發最佳實踐](android_note/521.md)
    * [Analyzing UI Performance with Systrace](android_note/522.md)
+   * [Android 常用指令](android_note/523.md)
+   * [Android下設置CPU核心數和頻率](android_note/524.md)
 * [Ubuntu](ubuntu/README.md)
    * [Ubuntu installer](ubuntu/ubuntu_installer.md)
 * [QEMU](qemu/README.md)

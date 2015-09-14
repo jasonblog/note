@@ -39,6 +39,11 @@ sudo make install
 - build.sh
 
 ```sh
+#! /bin/bash
+
+KERNEL=linux-4.1.7
+BUSYBOX=busybox-1.23.2
+
 usage() {
 cat <<USAGE
 
@@ -92,11 +97,11 @@ clean_build() {
     TOP=`pwd`
     echo $TOP
 
-    curl https://www.kernel.org/pub/linux/kernel/v4.x/linux-4.1.6.tar.xz | tar xJf -
+    curl https://www.kernel.org/pub/linux/kernel/v4.x/linux-4.1.7.tar.xz | tar xJf -
     curl http://busybox.net/downloads/busybox-1.23.2.tar.bz2 | tar xjf -
 
     ## build busybox
-    cd $TOP/busybox-1.23.2
+    cd $TOP/$BUSYBOX
     mkdir -pv ../obj/busybox-x86
     make mrproper
     make  O=../obj/busybox-x86 defconfig
@@ -109,7 +114,7 @@ clean_build() {
     # initramfs
     mkdir -p $TOP/initramfs/x86-busybox
     cd $TOP/initramfs/x86-busybox
-    mkdir -pv {bin,sbin,etc,proc,sys,dev,lib,usr/{bin,sbin}}
+    mkdir -pv {bin,sbin,etc,proc,sys,dev,usr/{bin,sbin}}
     cp -av $TOP/obj/busybox-x86/_install/* .
 
     cd dev
@@ -135,9 +140,9 @@ clean_build() {
 
     # build kernel
     cd $TOP
-    make -C linux-4.1.6 O=../obj/linux-x86-basic mrproper
-    make -C linux-4.1.6 O=../obj/linux-x86-basic x86_64_defconfig
-    make -C linux-4.1.6 O=../obj/linux-x86-basic kvmconfig
+    mkdir -pv obj/linux-x86-basic
+    make -C $KERNEL O=../obj/linux-x86-basic mrproper
+    make -C $KERNEL O=../obj/linux-x86-basic x86_64_defconfig
     sed -i 's/.*CONFIG_EXPERIMENTAL.*/CONFIG_EXPERIMENTAL=y/' obj/linux-x86-basic/.config
     sed -i 's/.*CONFIG_DEBUG_INFO.*/CONFIG_DEBUG_INFO=y/' obj/linux-x86-basic/.config
     sed -i 's/.*CONFIG_KGDB.*/CONFIG_KGDB=y/' obj/linux-x86-basic/.config
@@ -150,9 +155,37 @@ clean_build() {
     sed -i 's/.*CONFIG_MODULE_FORCE_LOAD.*/CONFIG_MODULE_FORCE_LOAD=y/' obj/linux-x86-basic/.config
     sed -i 's/.*CONFIG_MODULE_UNLOAD.*/CONFIG_MODULE_UNLOAD=y/' obj/linux-x86-basic/.config
     sed -i 's/.*CONFIG_MODULE_FORCE_UNLOAD.*/CONFIG_MODULE_FORCE_UNLOAD=y/' obj/linux-x86-basic/.config
-    yes '' | make -C linux-4.1.6 O=../obj/linux-x86-basic oldconfig
-    make -C linux-4.1.6 O=../obj/linux-x86-basic clean
-    time make -C linux-4.1.6 O=../obj/linux-x86-basic -j12 2>&1 | tee kernel_build.log
+
+cat << EOF >> obj/linux-x86-basic/.config
+CONFIG_KPROBES_ON_FTRACE=y
+CONFIG_UPROBES=y
+CONFIG_TRACE_IRQFLAGS=y
+CONFIG_TRACER_MAX_TRACE=y
+CONFIG_RING_BUFFER_ALLOW_SWAP=y
+CONFIG_FTRACE=y
+CONFIG_FUNCTION_TRACER=y
+CONFIG_FUNCTION_GRAPH_TRACER=y
+CONFIG_IRQSOFF_TRACER=y
+CONFIG_SCHED_TRACER=y
+CONFIG_FTRACE_SYSCALLS=y
+CONFIG_TRACER_SNAPSHOT=y
+CONFIG_TRACER_SNAPSHOT_PER_CPU_SWAP=y
+CONFIG_STACK_TRACER=y
+CONFIG_UPROBE_EVENT=y
+CONFIG_DYNAMIC_FTRACE=y
+CONFIG_DYNAMIC_FTRACE_WITH_REGS=y
+CONFIG_FUNCTION_PROFILER=y
+CONFIG_FTRACE_MCOUNT_RECORD=y
+CONFIG_FTRACE_SELFTEST=y
+CONFIG_FTRACE_STARTUP_TEST=y
+CONFIG_EVENT_TRACE_TEST_SYSCALLS=y
+CONFIG_MMIOTRACE=y
+CONFIG_PERCPU_RWSEM=y
+EOF
+
+    yes '' | make -C $KERNEL O=../obj/linux-x86-basic oldconfig
+    make -C $KERNEL O=../obj/linux-x86-basic clean
+    time make -C $KERNEL O=../obj/linux-x86-basic -j12 2>&1 | tee kernel_build.log
 }
 
 qemu() {
@@ -203,6 +236,7 @@ while true; do
 done
 
 ```
+
 
 - Makefile
 

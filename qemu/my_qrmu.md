@@ -204,12 +204,17 @@ gdb() {
     #-append "console=ttyS0"
     #-append "root=/dev/ram rdinit=/sbin/init console=ttyS0"
 
+    #qemu-system-x86_64 -s -S \
+    #-kernel obj/linux-x86-basic/arch/x86_64/boot/bzImage \
+    #-initrd obj/initramfs-busybox-x86.cpio.gz \
+    #-append "root=/dev/ram rdinit=/sbin/init console=ttyS0" \
+    #-serial stdio
+
     qemu-system-x86_64 -s -S \
     -kernel obj/linux-x86-basic/arch/x86_64/boot/bzImage \
     -initrd obj/initramfs-busybox-x86.cpio.gz \
-    -append "root=/dev/ram rdinit=/sbin/init console=ttyS0" \
-    -serial stdio
-
+    -serial stdio \
+    -append "console=ttyS0"
 }
 
 initramfs() {
@@ -234,7 +239,6 @@ while true; do
     esac
     shift
 done
-
 ```
 
 

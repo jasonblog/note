@@ -44,7 +44,7 @@
     
 
         
-    <div class="book" data-level="7.1" data-basepath=".." data-revision="Tue Sep 15 2015 02:02:08 GMT+0800 (CST)">
+    <div class="book" data-level="7.1" data-basepath=".." data-revision="Wed Sep 16 2015 02:06:41 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -5443,7 +5443,7 @@ USAGE
     <span class="hljs-comment"># initramfs</span>
     mkdir -p <span class="hljs-variable">$TOP</span>/initramfs/x86-busybox
     <span class="hljs-built_in">cd</span> <span class="hljs-variable">$TOP</span>/initramfs/x86-busybox
-    mkdir -pv {bin,sbin,etc,proc,sys,dev,usr/{bin,sbin}}
+    mkdir -pv {bin,sbin,etc,proc,sys,dev,lib,usr/{bin,sbin}}
     cp -av <span class="hljs-variable">$TOP</span>/obj/busybox-x86/_install/* .
 
     <span class="hljs-built_in">cd</span> dev
@@ -5452,6 +5452,10 @@ USAGE
     ln -sf null tty3
     ln -sf null tty4
     <span class="hljs-built_in">cd</span> ..
+
+    <span class="hljs-comment"># x86_64 lib</span>
+    cp <span class="hljs-operator">-a</span> /lib/x86_64-linux-gnu/ lib/
+    cp <span class="hljs-operator">-a</span> /lib64/ .
 
     <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;#!/bin/sh&quot;</span> &gt;&gt; init
     <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;mount -t proc none /proc&quot;</span> &gt;&gt; init
@@ -5568,6 +5572,51 @@ EOF
     <span class="hljs-keyword">esac</span>
     <span class="hljs-built_in">shift</span>
 <span class="hljs-keyword">done</span>
+</code></pre>
+<ul>
+<li>hello.c</li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;stdio.h&gt;</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;unistd.h&gt;</span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span> *argv[])</span>
+</span>{
+    <span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Hello world\n&quot;</span>);
+        sleep(<span class="hljs-number">10</span>);
+    }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<ul>
+<li>trace_me.sh</li>
+</ul>
+<pre><code class="lang-sh"><span class="hljs-shebang">#!/bin/sh
+</span>
+<span class="hljs-function"><span class="hljs-title">pause</span></span>() {
+    <span class="hljs-built_in">read</span> -n <span class="hljs-number">1</span> -p <span class="hljs-string">&quot;$*&quot;</span> INP
+    <span class="hljs-keyword">if</span> [ <span class="hljs-string">&quot;<span class="hljs-variable">$INP</span>&quot;</span> != <span class="hljs-string">&apos;&apos;</span> ] ; <span class="hljs-keyword">then</span>
+        <span class="hljs-built_in">echo</span> <span class="hljs-operator">-ne</span> <span class="hljs-string">&apos;\b \n&apos;</span>
+    <span class="hljs-keyword">fi</span>
+}
+
+
+mount -t debugfs none /sys/kernel/debug
+<span class="hljs-built_in">echo</span> <span class="hljs-number">0</span> &gt; /sys/kernel/debug/tracing/tracing_on
+<span class="hljs-built_in">echo</span>  &gt; /sys/kernel/debug/tracing/trace
+pause <span class="hljs-string">&apos;press any key to start capturing...&apos;</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-keyword">function</span>_graph &gt; /sys/kernel/debug/tracing/current_tracer
+<span class="hljs-built_in">echo</span> funcgraph-proc &gt; /sys/kernel/debug/tracing/trace_options
+<span class="hljs-built_in">echo</span> <span class="hljs-number">1</span> &gt; /sys/kernel/debug/tracing/tracing_on
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Start recordng ftrace data&quot;</span>
+pause <span class="hljs-string">&quot;Press any key to stop...&quot;</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Recording stopped...&quot;</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-number">0</span> &gt; /sys/kernel/debug/tracing/tracing_on
+</code></pre>
+<pre><code class="lang-sh">cat /sys/kernel/debug/tracing/trace
 </code></pre>
 <ul>
 <li>Makefile</li>

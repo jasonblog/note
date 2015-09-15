@@ -1,44 +1,3 @@
-# MY_QEMU
-
-- build gdb
-
-
-```c
-如果gdb提示：GDB Remote 'g' packet reply is too long
-修改gdb/remote.c文件，屏蔽process_g_packet函數中的下列兩行：
-
-#if 0
-    if (buf_len > 2 * rsa->sizeof_g_packet) {
-        error(_("Remote 'g' packet reply is too long: %s"), rs->buf);
-    }
-#else
-    if (buf_len > 2 * rsa->sizeof_g_packet) {
-        rsa->sizeof_g_packet = buf_len ;
-
-        for (i = 0; i < gdbarch_num_regs(gdbarch); i++) {
-            if (rsa->regs[i].pnum == -1) {
-                continue;
-            }
-
-            if (rsa->regs[i].offset >= rsa->sizeof_g_packet) {
-                rsa->regs[i].in_g_packet = 0;
-            } else {
-                rsa->regs[i].in_g_packet = 1;
-            }
-        }
-    }
-#endif
-```
-
-```sh
-./configure --prefix=/usr/local/gdb-7.9.1
-make -j24
-sudo make install
-```
-
-- build.sh
-
-```sh
 #! /bin/bash
 
 KERNEL=linux-4.1.7
@@ -97,9 +56,9 @@ clean_build() {
     TOP=`pwd`
     echo $TOP
 
-    curl https://www.kernel.org/pub/linux/kernel/v4.x/linux-4.1.7.tar.xz | tar xJf -
-    curl http://busybox.net/downloads/busybox-1.23.2.tar.bz2 | tar xjf -
-
+    #curl https://www.kernel.org/pub/linux/kernel/v4.x/linux-4.1.7.tar.xz | tar xJf -
+    #curl http://busybox.net/downloads/busybox-1.23.2.tar.bz2 | tar xjf -
+   
     ## build busybox
     cd $TOP/$BUSYBOX
     mkdir -pv ../obj/busybox-x86
@@ -205,15 +164,15 @@ gdb() {
     #-kernel obj/linux-x86-basic/arch/x86_64/boot/bzImage \
     #-initrd obj/initramfs-busybox-x86.cpio.gz \
     #-serial stdio \
-    #-append "console=ttyS0"
+    #-append "console=ttyS0" 
     #-append "root=/dev/ram rdinit=/sbin/init console=ttyS0"
 
     #qemu-system-x86_64 -s -S \
     #-kernel obj/linux-x86-basic/arch/x86_64/boot/bzImage \
     #-initrd obj/initramfs-busybox-x86.cpio.gz \
     #-append "root=/dev/ram rdinit=/sbin/init console=ttyS0" \
-    #-serial stdio
-
+    #-serial stdio 
+    
     qemu-system-x86_64 -s -S \
     -kernel obj/linux-x86-basic/arch/x86_64/boot/bzImage \
     -initrd obj/initramfs-busybox-x86.cpio.gz \
@@ -243,81 +202,3 @@ while true; do
     esac
     shift
 done
-
-```
-
-- hello.c
-
-```c
-#include <stdio.h>
-#include <unistd.h>
-
-int main(int argc, char *argv[])
-{
-    while(1) {
-        printf("Hello world\n");
-        sleep(10);
-    }
-
-    return 0;
-}
-```
-
-- trace_me.sh
-
-
-```sh
-#!/bin/sh
-
-pause() {
-    read -n 1 -p "$*" INP
-    if [ "$INP" != '' ] ; then
-        echo -ne '\b \n'
-    fi
-}
-
-
-mount -t debugfs none /sys/kernel/debug
-echo 0 > /sys/kernel/debug/tracing/tracing_on
-echo  > /sys/kernel/debug/tracing/trace
-pause 'press any key to start capturing...'
-
-echo function_graph > /sys/kernel/debug/tracing/current_tracer
-echo funcgraph-proc > /sys/kernel/debug/tracing/trace_options
-echo 1 > /sys/kernel/debug/tracing/tracing_on
-
-echo "Start recordng ftrace data"
-pause "Press any key to stop..."
-echo "Recording stopped..."
-echo 0 > /sys/kernel/debug/tracing/tracing_on
-```
-
-```sh
-cat /sys/kernel/debug/tracing/trace
-```
-
-- Makefile
-
-```sh
-debug:
-	@sh build.sh -d
-
-init:
-	@sh build.sh -i
-
-build:
-	@sh build.sh -c
-
-qemu:
-	@sh build.sh -r
-```
-
-- gdb
-
-```sh
-cgdb ./vmlinux
-target remote localhost:1234
-b *start_kernel
-c
-```
-

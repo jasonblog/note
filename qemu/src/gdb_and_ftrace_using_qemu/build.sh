@@ -56,8 +56,8 @@ clean_build() {
     TOP=`pwd`
     echo $TOP
 
-    #curl https://www.kernel.org/pub/linux/kernel/v4.x/linux-4.1.7.tar.xz | tar xJf -
-    #curl http://busybox.net/downloads/busybox-1.23.2.tar.bz2 | tar xjf -
+    curl https://www.kernel.org/pub/linux/kernel/v4.x/linux-4.1.7.tar.xz | tar xJf -
+    curl http://busybox.net/downloads/busybox-1.23.2.tar.bz2 | tar xjf -
    
     ## build busybox
     cd $TOP/$BUSYBOX

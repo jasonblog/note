@@ -159,6 +159,7 @@
    * [如何編譯linux kernel](linux_kernel/1219.md)
    * [Linked List in Linux Kernel](linux_kernel/20.md)
    * [Linux Kernel: 強大又好用的list_head結構](linux_kernel/21.md)
+   * [send signal to user-space](linux_kernel/1222.md)
 * [Linux Driver](linux_driver/README.md)
    * [Linux Device Model 三角關係](linux_driver/linux_device_model.md)
 * [OS](os/README.md)

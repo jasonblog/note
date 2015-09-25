@@ -292,6 +292,7 @@
    * [MY_script](shell/my_script.md)
        * [選單](shell/231.md)
        * [AutoROM_new.sh](shell/autorom_newsh.md)
+       * [script 執行自己log 的紀錄](shell/2323.md)
    * [Bash的陷阱](shell/233.md)
 * [simplelinux](simplelinux/README.md)
    * [照妖鏡和火眼金睛](simplelinux/241.md)

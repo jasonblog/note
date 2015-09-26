@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>GDB | Jason note</title>
+        <title>Linux 的 time 指令 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../gdb/181.html" />
+    <link rel="next" href="../assembly/index.html" />
     
     
-    <link rel="prev" href="../toolchain/173.html" />
+    <link rel="prev" href="../linux_system/1510.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="18" data-basepath=".." data-revision="Sat Sep 26 2015 14:12:01 GMT+0800 (CST)">
+    <div class="book" data-level="15.11" data-basepath=".." data-revision="Sat Sep 26 2015 14:12:01 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -3044,7 +3044,7 @@
             
         </li>
     
-        <li class="chapter " data-level="15.11" data-path="linux_system/1511.html">
+        <li class="chapter active" data-level="15.11" data-path="linux_system/1511.html">
             
                 
                     <a href="../linux_system/1511.html">
@@ -3562,7 +3562,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="18" data-path="gdb/index.html">
+        <li class="chapter " data-level="18" data-path="gdb/index.html">
             
                 
                     <a href="../gdb/index.html">
@@ -5385,7 +5385,23 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="gdb">GDB</h1>
+                        <h1 id="linux-%E7%9A%84-time-%E6%8C%87%E4%BB%A4">Linux &#x7684; time &#x6307;&#x4EE4;</h1>
+<p>Linux &#x6709;&#x500B;&#x5F88;&#x6709;&#x610F;&#x601D;&#x7684; time &#x6307;&#x4EE4;&#xFF0C;&#x53EF;&#x4EE5;&#x7528;&#x4F86;&#x67E5;&#x770B;&#x53E6;&#x4E00;&#x500B;&#x6307;&#x4EE4;&#x7684;&#x57F7;&#x884C;&#x6642;&#x9593;&#xFF0C;&#x4F8B;&#x5982;&#x57F7;&#x884C; time helloworld &#x6703;&#x986F;&#x793A; helloworld &#x9019;&#x652F;&#x7A0B;&#x5F0F;&#x7684;&#x57F7;&#x884C;&#x6642;&#x9593;&#x3002;</p>
+<p>time &#x6307;&#x4EE4;&#x7684;&#x8FD4;&#x56DE;&#x503C;&#x5305;&#x542B;&#x300C;&#x5BE6;&#x969B;&#x6642;&#x9593; (real time)&#x300D;&#x3001;&#x300C;&#x7528;&#x6236;&#x614B; CPU &#x6642;&#x9593; (user CPU time)&#x300D;&#x53CA;&#x300C;&#x6838;&#x5FC3;&#x614B; CPU &#x6642;&#x9593; (system CPU time)&#x300D;&#x3002;&#x5176;&#x4E2D;&#xFF0C;</p>
+<h3 id="real-time-%E8%A1%A8%E7%A4%BA%E5%BE%8C%E9%9D%A2%E6%89%80%E6%8E%A5%E7%9A%84%E6%8C%87%E4%BB%A4%E6%88%96%E7%A8%8B%E5%BC%8F%E5%BE%9E%E9%96%8B%E5%A7%8B%E5%9F%B7%E8%A1%8C%E5%88%B0%E7%B5%90%E6%9D%9F%E7%B5%82%E6%AD%A2%E6%89%80%E9%9C%80%E8%A6%81%E7%9A%84%E6%99%82%E9%96%93%E3%80%82%E7%B0%A1%E5%96%AE%E8%AC%9B%EF%BC%8C%E7%95%B6%E4%B8%80%E5%80%8B%E7%A8%8B%E5%BC%8F%E9%96%8B%E5%A7%8B%E5%9F%B7%E8%A1%8C%E7%9E%AC%E9%96%93%E7%9C%8B%E4%B8%80%E4%B8%8B%E6%89%8B%E9%8C%B6%E8%A8%98%E4%B8%8B%E6%99%82%E9%96%93%EF%BC%8C%E7%95%B6%E7%A8%8B%E5%BC%8F%E7%B5%90%E6%9D%9F%E7%B5%82%E6%AD%A2%E7%9E%AC%E9%96%93%E5%86%8D%E7%9C%8B%E4%B8%80%E6%AC%A1%E6%89%8B%E9%8C%B6%EF%BC%8C%E5%85%A9%E6%AC%A1%E7%9A%84%E6%99%82%E9%96%93%E5%B7%AE%E5%B0%B1%E6%98%AF-real-time%E3%80%82">real time &#x8868;&#x793A;&#x5F8C;&#x9762;&#x6240;&#x63A5;&#x7684;&#x6307;&#x4EE4;&#x6216;&#x7A0B;&#x5F0F;&#x5F9E;&#x958B;&#x59CB;&#x57F7;&#x884C;&#x5230;&#x7D50;&#x675F;&#x7D42;&#x6B62;&#x6240;&#x9700;&#x8981;&#x7684;&#x6642;&#x9593;&#x3002;&#x7C21;&#x55AE;&#x8B1B;&#xFF0C;&#x7576;&#x4E00;&#x500B;&#x7A0B;&#x5F0F;&#x958B;&#x59CB;&#x57F7;&#x884C;&#x77AC;&#x9593;&#x770B;&#x4E00;&#x4E0B;&#x624B;&#x9336;&#x8A18;&#x4E0B;&#x6642;&#x9593;&#xFF0C;&#x7576;&#x7A0B;&#x5F0F;&#x7D50;&#x675F;&#x7D42;&#x6B62;&#x77AC;&#x9593;&#x518D;&#x770B;&#x4E00;&#x6B21;&#x624B;&#x9336;&#xFF0C;&#x5169;&#x6B21;&#x7684;&#x6642;&#x9593;&#x5DEE;&#x5C31;&#x662F; real time&#x3002;</h3>
+<h3 id="user-cpu-time-%E8%A1%A8%E7%A4%BA%E7%A8%8B%E5%BC%8F%E5%9C%A8-user-mode-%E6%89%80%E4%BD%94%E7%94%A8%E7%9A%84-cpu-%E6%99%82%E9%96%93%E7%B8%BD%E5%92%8C%E3%80%82%E5%A4%9A%E6%A0%B8%E5%BF%83%E7%9A%84-cpu-%E6%88%96%E5%A4%9A%E9%A1%86-cpu-%E8%A8%88%E7%AE%97%E6%99%82%EF%BC%8C%E5%89%87%E5%BF%85%E9%A0%88%E5%B0%87%E6%AF%8F%E4%B8%80%E5%80%8B%E6%A0%B8%E5%BF%83%E6%88%96%E6%AF%8F%E4%B8%80%E9%A1%86-cpu-%E7%9A%84%E6%99%82%E9%96%93%E5%8A%A0%E7%B8%BD%E8%B5%B7%E4%BE%86%E3%80%82">user CPU time &#x8868;&#x793A;&#x7A0B;&#x5F0F;&#x5728; user mode &#x6240;&#x4F54;&#x7528;&#x7684; CPU &#x6642;&#x9593;&#x7E3D;&#x548C;&#x3002;&#x591A;&#x6838;&#x5FC3;&#x7684; CPU &#x6216;&#x591A;&#x9846; CPU &#x8A08;&#x7B97;&#x6642;&#xFF0C;&#x5247;&#x5FC5;&#x9808;&#x5C07;&#x6BCF;&#x4E00;&#x500B;&#x6838;&#x5FC3;&#x6216;&#x6BCF;&#x4E00;&#x9846; CPU &#x7684;&#x6642;&#x9593;&#x52A0;&#x7E3D;&#x8D77;&#x4F86;&#x3002;</h3>
+<h3 id="system-cpu-time-%E8%A1%A8%E7%A4%BA%E7%A8%8B%E5%BC%8F%E5%9C%A8-kernel-mode-%E6%89%80%E4%BD%94%E7%94%A8%E7%9A%84-cpu-%E6%99%82%E9%96%93%E7%B8%BD%E5%92%8C%E3%80%82">system CPU time &#x8868;&#x793A;&#x7A0B;&#x5F0F;&#x5728; kernel mode &#x6240;&#x4F54;&#x7528;&#x7684; CPU &#x6642;&#x9593;&#x7E3D;&#x548C;&#x3002;</h3>
+<p>&#x6240;&#x4EE5;&#xFF0C;&#x4EE5;&#x4E0B;&#x7684;&#x60F3;&#x6CD5;&#x5C31;&#x4E0D;&#x4E00;&#x5B9A;&#x6210;&#x7ACB;&#xFF1A;</p>
+<h2 id="%E4%B8%80%EF%BC%9Areal-time-user-cpu-time-system-cpu-time">&#x4E00;&#xFF1A;real time = user CPU time + system CPU time</h2>
+<p>&#x9019;&#x88E1;&#x8209;&#x4E00;&#x500B;&#x6BD4;&#x8F03;&#x6975;&#x7AEF;&#x7684;&#x4F8B;&#x5B50;&#xFF0C;&#x5047;&#x8A2D;&#x6211;&#x57F7;&#x884C; time sleep 10 &#x9019;&#x500B;&#x547D;&#x4EE4;&#xFF0C;time &#x6703;&#x8FD4;&#x56DE;&#x7D66;&#x6211;&#x7684;&#x8A0A;&#x606F;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-sh">real    <span class="hljs-number">0</span>m10.<span class="hljs-number">003</span>s
+user    <span class="hljs-number">0</span>m0.<span class="hljs-number">004</span>s
+sys     <span class="hljs-number">0</span>m0.<span class="hljs-number">000</span>s
+</code></pre>
+<p>&#x56E0;&#x70BA;&#x52D5;&#x4F5C;&#x662F;&#x300C;&#x7761; (sleep)&#x300D;10 &#x79D2;&#xFF0C;&#x5F9E; sleep &#x6307;&#x4EE4;&#x4E0B;&#x9054;&#x5230;&#x5B83;&#x7D50;&#x675F;&#x7D42;&#x6B62;&#x5171;&#x7D93;&#x904E; 10 &#x79D2;&#xFF0C;&#x6240;&#x4EE5; real time &#x7684;&#x503C;&#x662F; 10 &#x79D2;&#x3002;&#x4F46;&#xFF0C;sleep &#x6307;&#x4EE4;&#x5728; user mode &#x53CA; kernel mode &#x90FD;&#x6C92;&#x6709;&#x4F54;&#x7528; CPU&#xFF0C;&#x6240;&#x4EE5; user CPU time &#x548C; system CPU time &#x57FA;&#x672C;&#x4E0A;&#x90FD;&#x662F;&#x300C;&#x96F6;&#x300D;&#x3002;</p>
+<h2 id="%E4%BA%8C%EF%BC%9Areal-time-user-cpu-time-system-cpu-time">&#x4E8C;&#xFF1A;real time &gt; user CPU time + system CPU time</h2>
+<p>&#x9019;&#x500B;&#x5F0F;&#x5B50;&#x82E5;&#x662F;&#x5728;&#x55AE;&#x6838;&#x5FC3;&#x3001;&#x55AE;&#x9846;&#x7684; CPU &#x4E0A;&#xFF0C;&#x901A;&#x5E38;&#x6709;&#x6210;&#x7ACB;&#x7684;&#x53EF;&#x80FD;&#x3002;</p>
+<p>&#x4F46;&#xFF0C;&#x5728;&#x591A;&#x6838;&#x5FC3;&#x6216;&#x591A;&#x9846; CPU &#x7684;&#x74B0;&#x5883;&#xFF0C;&#x537B;&#x5F80;&#x5F80;&#x53EF;&#x80FD;&#x51FA;&#x73FE; user CPU time + system CPU time &gt; real time &#x7684;&#x72C0;&#x6CC1;&#x3002;&#x751A;&#x81F3;&#x6211;&#x5011;&#x5728;&#x7DE8;&#x8B6F;&#x5927;&#x91CF;&#x7684;&#x7A0B;&#x5F0F;&#x6642;&#xFF0C;&#x7D93;&#x5E38;&#x57F7;&#x884C; time make -j2 &#x6216; time make -j4 &#x7684;&#x6307;&#x4EE4;&#xFF0C;&#x5F80;&#x5F80;&#x5F97;&#x5230;&#x7684; user CPU time &#x503C;&#x90FD;&#x53EF;&#x80FD;&#x5927;&#x904E; real time &#x503C;&#x3002;</p>
 
                     
                     </section>
@@ -5396,10 +5412,10 @@
         </div>
 
         
-        <a href="../toolchain/173.html" class="navigation navigation-prev " aria-label="Previous page: arm交叉編譯器gnueabi、none-eabi、arm-eabi、gnueabihf、gnueabi區別"><i class="fa fa-angle-left"></i></a>
+        <a href="../linux_system/1510.html" class="navigation navigation-prev " aria-label="Previous page: Static 與 Shared 的函式庫撰寫"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../gdb/181.html" class="navigation navigation-next " aria-label="Next page: 簡易 GDB Script 教學，應用"><i class="fa fa-angle-right"></i></a>
+        <a href="../assembly/index.html" class="navigation navigation-next " aria-label="Next page: Assembly"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

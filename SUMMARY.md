@@ -333,8 +333,8 @@
        * [Polymorphism in C](26/2624.md)
 * [設計模式](design_pattern/README.md)
    * [23種設計模式的趣味解釋](design_pattern/271.md)
-* [openwrt](openwrt/README)
+* [openwrt](openwrt/README.md)
    * [OpenWRT 编译环境搭建](openwrt/281.md)
-* [python](python/README)
+* [python](python/README.md)
    * [安裝 Jupyter](python/jupyter.md)
 

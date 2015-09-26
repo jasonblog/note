@@ -335,4 +335,6 @@
    * [23種設計模式的趣味解釋](design_pattern/271.md)
 * [openwrt](openwrt/README)
    * [OpenWRT 编译环境搭建](openwrt/281.md)
+* [python](python/README)
+   * [安裝 Jupyter](python/jupyter.md)
 

@@ -333,4 +333,6 @@
        * [Polymorphism in C](26/2624.md)
 * [設計模式](design_pattern/README.md)
    * [23種設計模式的趣味解釋](design_pattern/271.md)
+* [openwrt](openwrt/README)
+   * [OpenWRT 编译环境搭建](openwrt/281.md)
 

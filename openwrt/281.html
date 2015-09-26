@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>&quot;&quot;(雙引號)與&#39;&#39;(單引號)差在哪？ | Jason note</title>
+        <title>OpenWRT 编译环境搭建 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,8 @@
         
     
     
-    <link rel="next" href="../shell/2315.html" />
     
-    
-    <link rel="prev" href="../shell/2313.html" />
+    <link rel="prev" href="../design_pattern/271.html" />
     
 
         <!-- head:end -->
@@ -48,7 +46,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="23.1.4" data-basepath=".." data-revision="Sun Sep 27 2015 04:46:30 GMT+0800 (CST)">
+    <div class="book" data-level="28.1" data-basepath=".." data-revision="Sun Sep 27 2015 04:46:30 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -4440,7 +4438,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="23.1.4" data-path="shell/2314.html">
+        <li class="chapter " data-level="23.1.4" data-path="shell/2314.html">
             
                 
                     <a href="../shell/2314.html">
@@ -5287,7 +5285,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="28.1" data-path="openwrt/281.html">
+        <li class="chapter active" data-level="28.1" data-path="openwrt/281.html">
             
                 
                     <a href="../openwrt/281.html">
@@ -5413,398 +5411,464 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h2 id="shell%E5%8D%81%E4%B8%89%E5%95%8F%E4%B9%8B4%EF%BC%9A-%E9%9B%99%E5%BC%95%E8%99%9F-%E8%88%87-%E5%96%AE%E5%BC%95%E8%99%9F-%E5%B7%AE%E5%9C%A8%E5%93%AA%EF%BC%9F">shell&#x5341;&#x4E09;&#x554F;&#x4E4B;4&#xFF1A;&quot;&quot;(&#x96D9;&#x5F15;&#x865F;)&#x8207;&apos;&apos;(&#x55AE;&#x5F15;&#x865F;)&#x5DEE;&#x5728;&#x54EA;&#xFF1F;</h2>
-<hr>
-<p>&#x9084;&#x662F;&#x56DE;&#x5230;&#x6211;&#x5011;&#x7684;<code>command line</code>&#x4F86;&#x5427;...</p>
-<p>&#x7D93;&#x904E;&#x524D;&#x9762;&#x5169;&#x7AE0;&#x7684;&#x5B78;&#x7FD2;&#xFF0C;&#x61C9;&#x8A72;&#x5F88;&#x6E05;&#x695A;&#x7576;&#x4F60;&#x5728;<code>shell prompt</code>&#x5F8C;&#x9762;&#x6572;&#x6253;&#x9375;&#x76E4;,
-&#x76F4;&#x5230;&#x6309;&#x4E0B;<code>Enter</code>&#x9375;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x4F60;&#x8F38;&#x5165;&#x7684;&#x6587;&#x5B57;&#x5C31;&#x662F;<code>command line</code>&#x4E86;&#xFF0C;
-&#x7136;&#x5F8C;<code>shell</code>&#x624D;&#x6703;&#x4EE5;&#x9032;&#x7A0B;&#x7684;&#x65B9;&#x5F0F;&#x57F7;&#x884C;&#x4F60;&#x6240;&#x4EA4;&#x7D66;&#x5B83;&#x7684;&#x547D;&#x4EE4;&#x3002;
-&#x4F46;&#x662F;&#xFF0C;&#x4F60;&#x53C8;&#x53EF;&#x77E5;&#x9053;&#xFF1A;&#x4F60;&#x5728;<code>command line</code>&#x4E2D;&#x8F38;&#x5165;&#x7684;&#x6BCF;&#x4E00;&#x500B;&#x6587;&#x5B57;&#xFF0C;
-&#x5C0D;<code>shell</code>&#x4F86;&#x8AAA;&#xFF0C;&#x662F;&#x6709;&#x985E;&#x5225;&#x4E4B;&#x5206;&#x7684;&#x5462;&#xFF1F;</p>
-<p>&#x7C21;&#x55AE;&#x800C;&#x8A00;&#xFF0C;(&#x6211;&#x4E0D;&#x6562;&#x8AAA;&#x7CBE;&#x78BA;&#x7684;&#x5B9A;&#x7FA9;&#xFF0C;&#x6CE8;1),
-<code>command line</code>&#x7684;&#x6BCF;&#x4E00;&#x500B;<code>charactor</code>, &#x5206;&#x70BA;&#x5982;&#x4E0B;&#x5169;&#x7A2E;&#xFF1A;</p>
-<ul>
-<li>literal&#xFF1A;&#x4E5F;&#x5C31;&#x662F;&#x666E;&#x901A;&#x7684;&#x7D14;&#x6587;&#x5B57;&#xFF0C;&#x5C0D;<code>shell</code>&#x4F86;&#x8AAA;&#x6C92;&#x7279;&#x6B8A;&#x529F;&#x80FD;&#xFF1B;</li>
-<li>meta: &#x5C0D;<code>shell</code>&#x4F86;&#x8AAA;&#xFF0C;&#x5177;&#x6709;&#x7279;&#x5B9A;&#x529F;&#x80FD;&#x7684;&#x7279;&#x6B8A;&#x4FDD;&#x7559;&#x5143;&#x5B57;&#x7B26;&#x3002;</li>
-</ul>
-<blockquote>
-<p><strong>Note:</strong></p>
-<p>&#x5C0D;&#x65BC;<code>bash shell</code>&#x5728;&#x8655;&#x7406;<code>comamnd line</code>&#x7684;&#x9806;&#x5E8F;&#x8AAA;&#x660E;&#xFF0C;
-&#x8ACB;&#x53C3;&#x8003;O&apos;Reilly&#x51FA;&#x7248;&#x793E;&#x7684;<strong>Learning the Bash Shell&#xFF0C;2nd Edition</strong>&#xFF0C;
-&#x7B2C;177-180&#x9801;&#x7684;&#x8AAA;&#x660E;&#xFF0C;&#x5C24;&#x5176;&#x662F;178&#x9801;&#x7684;&#x6D41;&#x7A0B;&#x5716;&#xFF1A;Figure 7-1 ...</p>
-</blockquote>
-<p><code>literal</code>&#x6C92;&#x4EC0;&#x9EBC;&#x597D;&#x8AC7;&#x7684;&#xFF0C;
-&#x50CF;abcd&#x3001;123456&#x9019;&#x4E9B;&quot;&#x6587;&#x5B57;&quot;&#x90FD;&#x662F;literal...(so easy? ^_^)
-&#x4F46;meta&#x537B;&#x5E38;&#x4F7F;&#x6211;&#x5011;&#x56F0;&#x60D1;...(confused?)
-&#x4E8B;&#x5BE6;&#x4E0A;&#xFF0C;&#x524D;&#x5169;&#x7AE0;&#xFF0C;&#x6211;&#x5011;&#x5728;<code>command line</code>&#x4E2D;&#x5DF2;&#x78B0;&#x5230;&#x5169;&#x500B;
-&#x4F3C;&#x4E4E;&#x6BCF;&#x6B21;&#x90FD;&#x6703;&#x78B0;&#x5230;&#x7684;meta&#xFF1A;</p>
-<ul>
-<li><code>IFS</code>&#xFF1A;&#x6709;<code>space</code>&#x6216;&#x8005;<code>tab</code>&#x6216;&#x8005;<code>Enter</code>&#x4E09;&#x8005;&#x4E4B;&#x4E00;&#x7D44;&#x6210;(&#x6211;&#x5011;&#x5E38;&#x7528;space)</li>
-<li><code>CR</code>: &#x7531;<code>Enter</code>&#x7522;&#x751F;&#xFF1B;</li>
-</ul>
-<p><code>IFS</code>&#x662F;&#x7528;&#x4F86;&#x62C6;&#x89E3;<code>command line</code>&#x4E2D;&#x6BCF;&#x4E00;&#x500B;&#x8A5E;(word)&#x7528;&#x7684;&#xFF0C;
-&#x56E0;&#x70BA;<code>shell command line</code>&#x662F;&#x6309;&#x8A5E;&#x4F86;&#x8655;&#x7406;&#x7684;&#x3002;
-&#x800C;<code>CR</code>&#x5247;&#x662F;&#x7528;&#x4F86;&#x7D50;&#x675F;<code>command line</code>&#x7528;&#x7684;&#xFF0C;&#x9019;&#x4E5F;&#x662F;&#x70BA;&#x4F55;&#x6211;&#x5011;&#x6572;<code>Enter</code>&#x9375;&#xFF0C;
-&#x547D;&#x4EE4;&#x5C31;&#x6703;&#x8DD1;&#x7684;&#x539F;&#x56E0;&#x3002;</p>
-<p>&#x9664;&#x4E86;&#x5E38;&#x7528;&#x7684;<code>IFS</code>&#x8207;<code>CR</code>, &#x5E38;&#x7528;&#x7684;meta&#x9084;&#x6709;&#xFF1A;</p>
-<table>
-<thead>
-<tr>
-<th>meta&#x5B57;&#x7B26;</th>
-<th>meta&#x5B57;&#x7B26;&#x4F5C;&#x7528;</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>=</td>
-<td>&#x8A2D;&#x5B9A;&#x8B8A;&#x91CF;</td>
-</tr>
-<tr>
-<td>$</td>
-<td>&#x4F5C;&#x8B8A;&#x91CF;&#x6216;&#x904B;&#x7B97;&#x66FF;&#x63DB;(&#x8ACB;&#x4E0D;&#x8981;&#x8207;<code>shell prompt</code>&#x6DF7;&#x6DC6;)</td>
-<td>&#x547D;&#x4EE4;</td>
-</tr>
-<tr>
-<td>&gt;</td>
-<td>&#x8F38;&#x51FA;&#x91CD;&#x5B9A;&#x5411;(&#x91CD;&#x5B9A;&#x5411;stdout)</td>
-</tr>
-<tr>
-<td>&lt;</td>
-<td>&#x8F38;&#x5165;&#x91CD;&#x5B9A;&#x5411;(&#x91CD;&#x5B9A;&#x5411;stdin)</td>
-</tr>
-<tr>
-<td>\</td>
-<td></td>
-<td>&#x547D;&#x4EE4;&#x7BA1;&#x9053;</td>
-</tr>
-<tr>
-<td>&amp;</td>
-<td>&#x91CD;&#x5B9A;&#x5411;file descriptor&#x6216;&#x5C07;&#x547D;&#x4EE4;&#x81F3;&#x65BC;&#x5F8C;&#x81FA;(bg)&#x904B;&#x884C;</td>
-</tr>
-<tr>
-<td>()</td>
-<td>&#x5C07;&#x5176;&#x5167;&#x90E8;&#x7684;&#x547D;&#x4EE4;&#x7F6E;&#x65BC;nested subshell&#x57F7;&#x884C;&#xFF0C;&#x6216;&#x7528;&#x65BC;&#x904B;&#x7B97;&#x6216;&#x8B8A;&#x91CF;&#x66FF;&#x63DB;</td>
-</tr>
-<tr>
-<td>{}</td>
-<td>&#x5C07;&#x671F;&#x5167;&#x7684;&#x547D;&#x4EE4;&#x7F6E;&#x65BC;non-named function&#x4E2D;&#x57F7;&#x884C;&#xFF0C;&#x6216;&#x7528;&#x5728;&#x8B8A;&#x91CF;&#x66FF;&#x63DB;&#x7684;&#x754C;&#x5B9A;&#x7BC4;&#x570D;</td>
-</tr>
-<tr>
-<td>;</td>
-<td>&#x5728;&#x524D;&#x4E00;&#x500B;&#x547D;&#x4EE4;&#x57F7;&#x884C;&#x7D50;&#x675F;&#x6642;&#xFF0C;&#x800C;&#x5FFD;&#x7565;&#x5176;&#x8FD4;&#x56DE;&#x503C;&#xFF0C;&#x7E7C;&#x7E8C;&#x57F7;&#x884C;&#x4E0B;&#x4E00;&#x500B;&#x547D;&#x4EE4;</td>
-</tr>
-<tr>
-<td>&amp;&amp;</td>
-<td>&#x5728;&#x524D;&#x4E00;&#x500B;&#x547D;&#x4EE4;&#x57F7;&#x884C;&#x7D50;&#x675F;&#x6642;&#xFF0C;&#x82E5;&#x8FD4;&#x56DE;&#x503C;&#x70BA;true&#xFF0C;&#x7E7C;&#x7E8C;&#x57F7;&#x884C;&#x4E0B;&#x4E00;&#x500B;&#x547D;&#x4EE4;</td>
-</tr>
-<tr>
-<td>\</td>
-<td>\</td>
-<td></td>
-<td>&#x5728;&#x524D;&#x4E00;&#x500B;&#x547D;&#x4EE4;&#x57F7;&#x884C;&#x7D50;&#x675F;&#x6642;&#xFF0C;&#x82E5;&#x8FD4;&#x56DE;&#x503C;&#x70BA;false&#xFF0C;&#x7E7C;&#x7E8C;&#x57F7;&#x884C;&#x4E0B;&#x4E00;&#x500B;&#x547D;&#x4EE4;</td>
-</tr>
-<tr>
-<td>!</td>
-<td>&#x57F7;&#x884C;histroy&#x5217;&#x8868;&#x4E2D;&#x7684;&#x547D;&#x4EE4;</td>
-</tr>
-<tr>
-<td>...</td>
-<td>...</td>
-</tr>
-</tbody>
-</table>
-<p>&#x5047;&#x5982;&#x6211;&#x5011;&#x9700;&#x8981;&#x5728;<code>command line</code>&#x4E2D;&#x5C07;&#x9019;&#x4E9B;&#x4FDD;&#x7559;&#x5143;&#x5B57;&#x7B26;&#x7684;&#x529F;&#x80FD;&#x95DC;&#x9589;&#x7684;&#x8A71;&#xFF0C;
-&#x5C31;&#x9700;&#x8981;quoting&#x8655;&#x7406;&#x4E86;&#x3002;</p>
-<p>&#x5728;<code>bash</code>&#x4E2D;&#xFF0C;&#x5E38;&#x7528;&#x7684;quoting&#x6709;&#x4EE5;&#x4E0B;&#x4E09;&#x7A2E;&#x65B9;&#x6CD5;&#xFF1A;</p>
-<ul>
-<li>hard quote&#xFF1A;&apos;&apos;(&#x55AE;&#x5F15;&#x865F;)&#xFF0C;&#x51E1;&#x5728;hard quote&#x4E2D;&#x7684;&#x6240;&#x6709;meta&#x5747;&#x88AB;&#x95DC;&#x9589;&#xFF1B;</li>
-<li>soft quote&#xFF1A;&quot;&quot;(&#x96D9;&#x5F15;&#x865F;)&#xFF0C;&#x51E1;&#x5728;soft quote&#x4E2D;&#x5927;&#x90E8;&#x5206;meta&#x90FD;&#x6703;&#x88AB;&#x95DC;&#x9589;&#xFF0C;&#x4F46;&#x67D0;&#x4E9B;&#x6703;&#x4FDD;&#x7559;(&#x5982;$);</li>
-<li>escape: \ (&#x53CD;&#x659C;&#x69D3;)&#xFF0C;&#x53EA;&#x6709;&#x5728;&#x7DCA;&#x63A5;&#x5728;escape(&#x8DF3;&#x812B;&#x5B57;&#x7B26;)&#x4E4B;&#x5F8C;&#x7684;&#x55AE;&#x4E00;meta&#x624D;&#x88AB;&#x95DC;&#x9589;&#xFF1B;</li>
-</ul>
-<blockquote>
-<p><strong>Note:</strong></p>
-<p> &#x5728;soft quote&#x4E2D;&#x88AB;&#x8C41;&#x514D;&#x7684;&#x5177;&#x9AD4;meta&#x6E05;&#x55AE;&#xFF0C;&#x6211;&#x4E0D;&#x5B8C;&#x5168;&#x77E5;&#x9053;&#xFF0C;
- &#x6709;&#x5F85;&#x5927;&#x5BB6;&#x88DC;&#x5145;&#xFF0C;&#x6216;&#x901A;&#x904E;&#x5BE6;&#x8E10;&#x4F86;&#x767C;&#x73FE;&#x4E26;&#x7406;&#x89E3;&#x3002;</p>
-</blockquote>
-<p>&#x4E0B;&#x9762;&#x7684;&#x4F8B;&#x5B50;&#x5C07;&#x6709;&#x52A9;&#x65BC;&#x6211;&#x5011;&#x5C0D;quoting&#x7684;&#x77AD;&#x89E3;&#xFF1A;</p>
-<pre><code class="lang-shell">$ A=B C #&#x7A7A;&#x767D;&#x7B26;&#x672A;&#x88AB;&#x95DC;&#x9589;&#xFF0C;&#x4F5C;&#x70BA;IFS&#x8655;&#x7406;
-$ C&#xFF1A;command not found.
-$ echo $A
+                        <h1 id="openwrt-%E7%B7%A8%E8%AD%AF%E7%92%B0%E5%A2%83%E6%90%AD%E5%BB%BA">OpenWRT &#x7DE8;&#x8B6F;&#x74B0;&#x5883;&#x642D;&#x5EFA;</h1>
+<h2 id="%E9%85%8D%E7%BD%AE%E7%B7%A8%E8%AD%AF%E7%92%B0%E5%A2%83">&#x914D;&#x7F6E;&#x7DE8;&#x8B6F;&#x74B0;&#x5883;</h2>
+<p>&#x5FC5;&#x9808;&#x4F7F;&#x7528;<strong>&#x975E;root&#x7528;&#x6236;</strong>&#xFF0C;ArchLinux&#x9700;&#x8981;&#x5275;&#x5EFA;&#x65B0;&#x7528;&#x6236;&#x3002;</p>
+<h3 id="%E5%AE%89%E8%A3%9D%E4%BE%9D%E8%B3%B4%E5%8C%85">&#x5B89;&#x88DD;&#x4F9D;&#x8CF4;&#x5305;</h3>
+<pre><code>// Ubuntu 14.04 &#x5FC5;&#x9078;
+# apt-get install asciidoc bash bc binutils bzip2 fastjar flex git-core g++ build-essential util-linux gawk libgtk2.0-dev intltool jikespg zlib1g-dev genisoimage libncurses5-dev libssl-dev patch perl-modules python2.7-dev rsync ruby sdcc unzip wget gettext xsltproc libboost1.55-dev libboost1.55-tools-dev libxml-parser-perl libusb-dev bin86 bcc bzr ecj sharutils openjdk-7-jdk zip gcc-multilib quilt
+// Ubuntu 14.04 &#x53EF;&#x9078;
+# apt-get install subversion mercurial cvs
+// ArchLinux &#x5FC5;&#x9078;
+# pacman -S base-devel
+# pacman -S [--needed] asciidoc b43-fwcutter bash bc bin86 boost binutils bzip2 cdrkit fastjar flex gawk gettext git gtk2 intltool jdk7-openjdk libusb libxslt ncurses openssl patch perl python2 rsync ruby sdcc sharutils unzip util-linux wget zlib gcc make perl-extutils-makemaker findutils libstdc++5 lib32-libstdc++5
+// libstdc++  &#x53EF;&#x80FD;&#x9700;&#x8981;&#x7248;&#x672C;6,&#x5F85;&#x6E2C;
+// &#x6839;&#x64DA;wiki&#xFF0C;ArchLinux&#x90E8;&#x5206;&#x5FC5;&#x9078;&#x5305;&#x5728;AUR&#x88E1;&#x9762;
+$ yaourt -S bcc jikes
+// ArchLinux &#x53EF;&#x9078;
+# pacman -S subversion
+</code></pre><h3 id="%E9%A6%96%E6%AC%A1%E9%85%8D%E7%BD%AE%E9%9C%80%E8%A6%81%E6%AA%A2%E5%87%BA%E6%BA%90%E4%BB%A3%E7%A2%BC%EF%BC%8C%E9%80%99%E8%A3%A1%E7%94%A8subversion%E6%AA%A2%E5%87%BA%E9%96%8B%E7%99%BCtrunk%E5%88%86%E6%94%AF">&#x9996;&#x6B21;&#x914D;&#x7F6E;&#x9700;&#x8981;&#x6AA2;&#x51FA;&#x6E90;&#x4EE3;&#x78BC;&#xFF0C;&#x9019;&#x88E1;&#x7528;subversion&#x6AA2;&#x51FA;&#x958B;&#x767C;trunk&#x5206;&#x652F;</h3>
+<pre><code>$ svn co svn://svn.openwrt.org/openwrt/trunk/
+</code></pre><p>&#x9019;&#x6642;&#xFF0C;&#x5C31;&#x6703;&#x51FA;&#x73FE;&#x540D;&#x70BA;<code>trunk</code>&#x7684;&#x6587;&#x4EF6;&#x593E;&#xFF0C;&#x9019;&#x5C31;&#x662F;&#x5C07;&#x4F86;&#x6211;&#x5011;&#x7684;&#x5DE5;&#x4F5C;&#x76EE;&#x9304;&#x3002;
+&#x5982;&#x679C;&#x5DF2;&#x7D93;&#x6709;&#x4E86;&#x4EE5;&#x524D;&#x7684;&#x7248;&#x672C;&#x5EAB;&#xFF0C;&#x9700;&#x8981;&#x6309;&#x7167;&#x4E0B;&#x9762;&#x7684;&#x547D;&#x4EE4;&#x66F4;&#x65B0;</p>
+<pre><code>// &#x5FC5;&#x9808;&#x9032;&#x5165;&#x5DE5;&#x4F5C;&#x76EE;&#x9304;&#x624D;&#x80FD;&#x66F4;&#x65B0;
+$ cd trunk/
+$ svn update
+</code></pre><h3 id="%E6%9B%B4%E6%96%B0%E5%92%8C%E5%AE%89%E8%A3%9Dfeeds%EF%BC%88%E9%9C%80%E8%A6%81vpn%EF%BC%89">&#x66F4;&#x65B0;&#x548C;&#x5B89;&#x88DD;feeds&#xFF08;&#x9700;&#x8981;VPN&#xFF09;</h3>
+<p>&#x5728;&#x4E0B;&#x8F09;&#x4E4B;&#x524D;&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x67E5;&#x770B;<code>feeds.conf.default</code>&#x6587;&#x4EF6;&#xFF0C;&#x4F86;&#x6AA2;&#x67E5;&#x54EA;&#x4E9B;&#x6587;&#x4EF6;&#x9700;&#x8981;&#x5305;&#x542B;&#x5728;&#x74B0;&#x5883;&#x4E2D;&#x3002;&#x66F4;&#x65B0;&#x53EA;&#x9700;&#x8981;&#x91CD;&#x8907;&#x547D;&#x4EE4;&#x5373;&#x53EF;</p>
+<pre><code>$ cd trunk/
+$ ./scripts/feeds update -a
+$ ./scripts/feeds install -a
+</code></pre><h3 id="%E9%85%8D%E7%BD%AE%E7%B7%A8%E8%AD%AF%E4%BF%A1%E6%81%AF">&#x914D;&#x7F6E;&#x7DE8;&#x8B6F;&#x4FE1;&#x606F;</h3>
+<p>&#x5FC5;&#x9808;&#x5148;&#x9078;&#x64C7;&#x597D;&#x76EE;&#x6A19;&#xFF08;target&#xFF09;&#x985E;&#x578B;&#x624D;&#x80FD;&#x57F7;&#x884C; <code>make defconfig</code></p>
+<pre><code>$ make defconfig
+$ make prereq
+$ make menuconfig
+</code></pre><p>&#x5176;&#x4E2D;&#x659C;&#x7DDA;&#xFF08;/&#xFF09;&#x53EF;&#x4EE5;&#x9032;&#x884C;&#x641C;&#x7D22;&#x3002;
+&#x525B;&#x958B;&#x59CB;&#x53EF;&#x4EE5;&#x8003;&#x616E;&#x9078;&#x64C7;&#x7DE8;&#x8B6F;SDK&#x7528;&#x65BC;&#x958B;&#x767C;&#xFF0C;&#x7DE8;&#x8B6F;ImageGenerator&#xFF08;a.k.a ImageBuilder&#xFF09;&#x7C21;&#x55AE;&#x6253;&#x5305;&#x81EA;&#x5DF1;&#x9700;&#x8981;&#x7684;Package&#x548C;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x9032;&#x5165;&#x56FA;&#x4EF6;&#x4E2D;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x540C;&#x6642;&#x6253;&#x5305;&#x597D;&#x5DE5;&#x5177;&#x93C8;&#xFF08;ToolChain&#xFF09;&#x65B9;&#x4FBF;&#x4EE5;&#x5F8C;&#x4F7F;&#x7528;&#xFF0C;&#x9019;&#x6A23;&#x7684;&#x8A71;&#x6642;&#x9593;&#x6703;&#x7A0D;&#x5FAE;&#x9577;&#x4E00;&#x4E9B;&#x3002;</p>
+<h2 id="%E9%96%8B%E5%A7%8B%E7%B7%A8%E8%AD%AF">&#x958B;&#x59CB;&#x7DE8;&#x8B6F;</h2>
+<p>&#x4E00;&#x822C;&#x60C5;&#x6CC1;&#xFF0C;&#x9032;&#x884C;&#x5168;&#x90E8;&#x7DE8;&#x8B6F;&#x6642;&#x4F7F;&#x7528;&#x4E00;&#x500B;&#x7C21;&#x55AE;&#x7684;&#x547D;&#x4EE4;&#xFF0C;&#x56E0;&#x70BA;&#x7DE8;&#x8B6F;&#x904E;&#x7A0B;&#x6703;&#x4E0B;&#x8F09;&#x5F88;&#x591A;&#x6587;&#x4EF6;&#xFF0C;&#x76EE;&#x524D;&#x8A31;&#x591A;&#x9805;&#x76EE;&#x7684;repo&#x90FD;&#x9077;&#x79FB;&#x5230;GitHub&#x4E0A;&#x4E86;&#xFF0C;&#x4E00;&#x822C;&#x60C5;&#x6CC1;&#x4E0B;&#x4E0D;&#x5FC5;&#x4F7F;&#x7528;VPN&#xFF0C;&#x4F46;&#x662F;&#x5982;&#x679C;&#x7DB2;&#x7D61;&#x689D;&#x4EF6;&#x5F88;&#x5DEE;&#xFF0C;&#x53EF;&#x4EE5;&#x8003;&#x616E;&#x4F7F;&#x7528;&#x4E00;&#x500B;&#x9760;&#x8B5C;&#x7684;VPN&#x670D;&#x52D9;&#x63D0;&#x4F9B;&#x5546;&#x3002;</p>
+<pre><code>$ make V=99
+</code></pre><p>&#x7DE8;&#x8B6F;&#x4E00;&#x500B;&#x55AE;&#x7368;&#x7684;&#x8EDF;&#x4EF6;&#x5305;&#xFF08;&#x4F8B;&#x5982;cups&#x8EDF;&#x4EF6;&#x5305;&#xFF09;</p>
+<pre><code>$ make package/cups/compile V=99
+</code></pre><p>&#x5982;&#x679C;&#x7279;&#x6B8A;&#x539F;&#x56E0;&#x9700;&#x8981;&#x5206;&#x6790;&#x7DE8;&#x8B6F;&#x5831;&#x932F;&#x4FE1;&#x606F;&#xFF1A;</p>
+<pre><code>$ make V=99 2&gt;&amp;1 |tee build.log |grep -i error
+</code></pre><p>&#x5247;&#x5C07;&#x7DE8;&#x8B6F;&#x7684;&#x6240;&#x6709;&#x8F38;&#x51FA;&#x4FE1;&#x606F;&#x4FDD;&#x5B58;&#x5728;<code>build.log</code>&#x4E2D;&#xFF0C;&#x5C07;error&#x4FE1;&#x606F;&#x6253;&#x5370;&#x5728;&#x5C4F;&#x5E55;&#x4E0A;&#x3002;</p>
+<p>&#x9084;&#x767C;&#x73FE;&#x4E00;&#x500B;&#x8A18;&#x9304;log&#x7684;&#x597D;&#x8FA6;&#x6CD5;&#xFF0C;&#x6253;&#x958B;<code>make menuconfig</code>&#x88E1;&#x9762;&#x7684;Advanced configuration options (for developers)&#xFF0C;&#x63A5;&#x8457;&#x958B;&#x555F;Enable log files during build process&#xFF0C;&#x9019;&#x6A23;&#x5728;&#x4F7F;&#x7528;<code>make V=99</code>&#x7684;&#x6642;&#x5019;&#x81EA;&#x52D5;&#x6703;&#x751F;&#x6210;logs&#x6587;&#x4EF6;&#x593E;&#xFF0C;&#x88E1;&#x9762;&#x8A73;&#x7D30;&#x8A18;&#x9304;&#x4E86;&#x5404;&#x500B;&#x968E;&#x6BB5;&#x7684;&#x65E5;&#x8A8C;&#x6587;&#x4EF6;&#xFF0C;&#x76F8;&#x6BD4;&#x4E0A;&#x8FF0;&#x8F38;&#x51FA;&#x65E5;&#x8A8C;&#x7684;&#x5F62;&#x5F0F;&#xFF0C;&#x9019;&#x7A2E;&#x66F4;&#x52A0;&#x5168;&#x9762;&#xFF0C;&#x5BE6;&#x969B;&#x4F7F;&#x7528;&#x904E;&#x7A0B;&#x767C;&#x73FE;&#x597D;&#x50CF;&#x53CD;&#x61C9;&#x7A0D;&#x5FAE;&#x6162;&#x4E86;&#x9EDE;&#xFF0C;&#x4E0D;&#x904E;&#x6C92;&#x6709;&#x932F;&#x8AA4;&#x624D;&#x662F;&#x6700;&#x597D;&#x7684;&#xFF0C;&#x4E0D;&#x662F;&#x9EBC;&#xFF1F;</p>
+<h3 id="%E7%B7%A8%E8%AD%AF%E7%B5%90%E6%9D%9F">&#x7DE8;&#x8B6F;&#x7D50;&#x675F;</h3>
+<p>&#x7DE8;&#x8B6F;&#x7D50;&#x675F;&#x5F8C;&#xFF0C;&#x6240;&#x6709;&#x7684;&#x6587;&#x4EF6;&#x90FD;&#x6703;&#x653E;&#x5728;&#x7DE8;&#x8B6F;&#x6839;&#x76EE;&#x9304;&#x4E0B;&#x7684; bin/yourtarget/ &#xFF0C;&#x4F8B;&#x5982; /bin/ar71xx</p>
+<pre><code>$ ls bin/*
+</code></pre><p>&#x7DE8;&#x8B6F;&#x4E4B;&#x5F8C;&#x7684;&#x6587;&#x4EF6;&#x4E3B;&#x8981;&#x6709;&#x4EE5;&#x4E0B;&#x5E7E;&#x985E;&#xFF1A;</p>
+<ol>
+<li>bin/.trx &#x6587;&#x4EF6;: &#x8DEF;&#x7531;&#x5668;&#x56FA;&#x4EF6;&#x3002;&#x5982;&#x679C;&#x6C92;&#x6709;&#x53E6;&#x5916;&#x4E00;&#x7A2E;&#x4E5F;&#x4E0D;&#x5FC5;&#x9A5A;&#x614C;&#x3002;&#x95DC;&#x65BC;.bin&#x548C;.trx&#x7684;&#x5340;&#x5225;&#xFF0C;&#x4E00;&#x7A2E;&#x8AAA;&#x6CD5;&#x662F;&#xFF0C;&#x7B2C;&#x4E00;&#x6B21;&#x5237;&#x8DEF;&#x7531;&#x5668;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x9700;&#x8981;&#x7528;.bin&#x6587;&#x4EF6;&#xFF0C;&#x5982;&#x679C;&#x9700;&#x8981;&#x518D;&#x5347;&#x7D1A;&#xFF0C;&#x5247;&#x4E0D;&#x80FD;&#x518D;&#x4F7F;&#x7528; .bin&#x6587;&#x4EF6;&#xFF0C;&#x800C;&#x9700;&#x8981;&#x7528; .trx&#x6587;&#x4EF6;&#x3002;&#x539F;&#x56E0;&#x662F; .bin&#x662F;&#x5C07;&#x8DEF;&#x7531;&#x5668;&#x7684;&#x76F8;&#x95DC;&#x914D;&#x7F6E;&#x4FE1;&#x606F;&#x548C; .trx&#x5C01;&#x88DD;&#x5728;&#x4E00;&#x8D77;&#x800C;&#x751F;&#x6210;&#x7684;&#x5C01;&#x5305;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#x662F;&#x5305;&#x542B;&#x8DEF;&#x7531;&#x5668;&#x7248;&#x672C;&#x4FE1;&#x606F;&#x7684; .trx &#x5728;&#x7B2C;&#x4E00;&#x6B21;&#x5237;&#x56FA;&#x4EF6;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x6211;&#x5011;&#x9700;&#x8981;&#x63D0;&#x4F9B;&#x9019;&#x6A23;&#x7684;&#x4FE1;&#x606F;&#xFF0C;&#x800C;&#x5728;&#x5F8C;&#x7E8C;&#x5347;&#x7D1A;&#x6642;&#x5247;&#x4E0D;&#x518D;&#x9700;&#x8981;&#xFF0C;&#x7528; .trx&#x6587;&#x4EF6;&#x5373;&#x53EF;&#x3002;</li>
+<li>packages&#x6587;&#x4EF6;&#x593E;: &#x88E1;&#x9762;&#x5305;&#x542B;&#x4E86;&#x6211;&#x5011;&#x5728;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x88E1;&#x8A2D;&#x5B9A;&#x7684;&#x6240;&#x6709;&#x7DE8;&#x8B6F;&#x597D;&#x7684;&#x8EDF;&#x4EF6;&#x5305;&#x3002;</li>
+<li>&#xFF08;&#x53EF;&#x9078;&#xFF09;OpenWrt-SDK.**.tar.bz2: &#x9019;&#x500B;&#x4E5F;&#x5C31;&#x662F;&#x6211;&#x5011;&#x5B9A;&#x88FD;&#x7DE8;&#x8B6F;&#x597D;&#x7684;OpenWRT SDK&#x74B0;&#x5883;&#x3002;&#x6211;&#x5011;&#x5C07;&#x7528;&#x9019;&#x500B;&#x4F86;&#x9032;&#x884C;OpenWrt&#x8EDF;&#x4EF6;&#x5305;&#x7684;&#x958B;&#x767C;&#x3002;&#x6211;&#x7684; TP-Link WR841N v7 &#x7DE8;&#x8B6F;&#x7684;SDK&#x6587;&#x4EF6;&#x540D;&#x662F;<code>OpenWrt-SDK-ar71xx-for-linux-x86_64-gcc-4.8-linaro_uClibc-0.9.33.2.tar.bz2</code></li>
+<li>&#xFF08;&#x53EF;&#x9078;&#xFF09;OpenWrt-ImageBuilder-**.tar.bz2: &#x9019;&#x500B;&#x53EF;&#x4EE5;&#x7C21;&#x55AE;&#x6253;&#x5305;&#x81EA;&#x5DF1;&#x9700;&#x8981;&#x7684;Package&#x548C;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x9032;&#x5165;&#x56FA;&#x4EF6;&#x4E2D;&#x3002;&#x6211;&#x7684;&#x6587;&#x4EF6;&#x540D;&#x70BA;<code>OpenWrt-ImageBuilder-ar71xx_generic-for-linux-x86_64.tar.bz2</code></li>
+<li>&#xFF08;&#x53EF;&#x9078;&#xFF09;OpenWrt-Toolchain-**.tar.bz2: &#x9019;&#x500B;&#x662F;&#x4EA4;&#x53C9;&#x7DE8;&#x8B6F;&#x5DE5;&#x5177;&#x93C8;&#x3002;&#x6211;&#x7684;&#x662F;<code>OpenWrt-Toolchain-ar71xx-for-mips_34kc-gcc-4.8-linaro_uClibc-0.9.33.2.tar.bz2</code></li>
+<li>md5sums &#x6587;&#x4EF6;: &#x9019;&#x500B;&#x6587;&#x4EF6;&#x8A18;&#x9304;&#x4E86;&#x6240;&#x6709;&#x6211;&#x5011;&#x7DE8;&#x8B6F;&#x597D;&#x7684;&#x6587;&#x4EF6;&#x7684;MD5&#x503C;&#xFF0C;&#x4F86;&#x4FDD;&#x8B49;&#x6587;&#x4EF6;&#x7684;&#x5B8C;&#x6574;&#x6027;&#x3002;</li>
+</ol>
+<p>&#x7DE8;&#x8B6F;&#x5B8C;&#x6210;&#x5F8C;&#xFF0C;&#x4E00;&#x5B9A;&#x8981;&#x5C07;<strong>&#x7DE8;&#x8B6F;&#x597D;&#x7684;bin&#x76EE;&#x9304;&#x9032;&#x884C;&#x5099;&#x4EFD;</strong></p>
+<h2 id="%E6%B8%85%E7%90%86%E4%BB%A5%E5%8F%8A%E5%86%8D%E7%B7%A8%E8%AD%AF">&#x6E05;&#x7406;&#x4EE5;&#x53CA;&#x518D;&#x7DE8;&#x8B6F;</h2>
+<p>&#x5EFA;&#x8B70;&#x73FE;&#x5728;&#x6E05;&#x7406;&#x7DE8;&#x8B6F;&#x7522;&#x751F;&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x4EE5;&#x514D;&#x4E0B;&#x6B21;&#x7DE8;&#x8B6F;&#x6642;&#x9020;&#x6210;&#x885D;&#x7A81;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x6BCF;&#x6B21;&#x7DE8;&#x8B6F;&#x5B8C;&#x6210;&#x4E4B;&#x5F8C;&#x628A;&#x9700;&#x8981;&#x7684;&#x6771;&#x897F;&#x8907;&#x88FD;&#x5230;&#x5225;&#x8655;&#xFF0C;&#x7136;&#x5F8C;&#x7ACB;&#x5373;&#x6E05;&#x7406;&#xFF08;&#x56E0;&#x70BA;&#x8981;&#x751F;&#x6210;&#x7684;&#x6587;&#x4EF6;&#x5982;&#x679C;&#x5B58;&#x5728;&#x7684;&#x8A71;&#xFF0C;&#x53EF;&#x80FD;&#x4E0D;&#x6703;&#x88AB;&#x66FF;&#x63DB;&#xFF09;&#xFF0C;&#x57F7;&#x884C;<code>make clean</code></p>
+<p>&#x6CE8;&#x610F;&#xFF1A;&#x5728;&#x57F7;&#x884C;clean&#x547D;&#x4EE4;&#xFF0C;&#x78BA;&#x4FDD;&#x5DF2;&#x7D93;&#x5C07;&#x7DE8;&#x8B6F;&#x597D;&#x7684;Image&#x9032;&#x884C;&#x4E86;&#x5099;&#x4EFD;&#x3002;&#x6E05;&#x7406;&#x5DE5;&#x4F5C;&#x6703;&#x6E05;&#x9664;bin&#x76EE;&#x9304;&#x3002;</p>
+<pre><code>$ make clean
+</code></pre><p>&#x9664;&#x4E86;&#x6E05;&#x9664;&#x751F;&#x6210;&#x7684;&#x76EE;&#x9304;&#xFF0C;&#x9084;&#x60F3;&#x6E05;&#x9664;&#x4EA4;&#x53C9;&#x7DE8;&#x8B6F;&#x5DE5;&#x5177;&#xFF08;&#x4EE5;&#x53CA;&#x5DE5;&#x5177;&#x93C8;&#x76EE;&#x9304;&#xFF09;</p>
+<pre><code>$ make dirclean
+</code></pre><p>&#x6E05;&#x9664;&#x6240;&#x6709;&#x76F8;&#x95DC;&#x7684;&#x6771;&#x897F;&#xFF0C;&#x5305;&#x62EC;&#x4E0B;&#x8F09;&#x7684;&#x8EDF;&#x4EF6;&#x5305;&#xFF0C;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#xFF0C;feed&#x5167;&#x5BB9;&#x7B49;&#xFF08;&#x4E0D;&#x5EFA;&#x8B70;&#x4F7F;&#x7528;&#xFF09;</p>
+<pre><code>$ make distclean
+</code></pre><p>&#x5C0D;&#x65BC;&#x66F4;&#x65B0;feeds&#x5F8C;&#x51FA;&#x73FE;&#x7684;&#x932F;&#x8AA4;&#xFF1A;ERROR:please fix package/feeds/packages/mc/Makefile &#x7B49;&#x985E;&#x4F3C;&#x7684;&#x554F;&#x984C;&#xFF0C;&#x9700;&#x8981;&#x57F7;&#x884C;&#x9019;&#x689D;&#x8A9E;&#x53E5;&#x9032;&#x884C;&#x7CFB;&#x7D71;&#x7684;&#x6E05;&#x7406;</p>
+<p>&#x5C0D;&#x65BC;&#x6E05;&#x7406;&#x7D44;&#x4EF6;&#xFF0C;&#x6BD4;&#x5982;&#x8EDF;&#x4EF6;&#x5305;&#x7684;&#x6E05;&#x7406;</p>
+<p>&#x6BD4;&#x5982;&#x6E05;&#x7406; linux</p>
+<pre><code>$ make target/linux/clean
+</code></pre><p>&#x6E05;&#x7406; base-files &#x8EDF;&#x4EF6;&#x5305;</p>
+<pre><code>$ make package/base-files/clean
+</code></pre><p>&#x6E05;&#x7406; Luci</p>
+<pre><code>$ make package/luci/clean
+</code></pre><h2 id="%E5%92%8C%E5%AE%98%E6%96%B9%E5%80%89%E5%BA%AB%E4%BF%9D%E6%8C%81%E5%90%8C%E6%AD%A5">&#x548C;&#x5B98;&#x65B9;&#x5009;&#x5EAB;&#x4FDD;&#x6301;&#x540C;&#x6B65;</h2>
+<p>&#x5F88;&#x591A;&#x6642;&#x5019;&#xFF0C;&#x6211;&#x5011;&#x5728;&#x81EA;&#x5DF1;&#x7684;&#x67D0;&#x500B;Repository&#x88E1;&#x9762;&#x9032;&#x884C;&#x4FEE;&#x6539;&#x6216;&#x8005;&#x958B;&#x767C;&#x64CD;&#x4F5C;&#xFF0C;&#x6240;&#x4EE5;&#x8981;&#x4FDD;&#x8B49;&#x6211;&#x5011;&#x7684;&#x4EE3;&#x78BC;&#x8207;&#x5B98;&#x65B9;&#x7684;&#x4EE3;&#x78BC;&#x4FDD;&#x6301;&#x540C;&#x6B65;&#x3002;</p>
+<p>&#x5B98;&#x65B9;&#x5009;&#x5EAB;&#x7684;&#x5730;&#x5740;&#x662F; <code>git://git.openwrt.org/openwrt.git</code> &#x6216;&#x8005; <code>http://git.openwrt.org/openwrt.git</code>&#x3002;&#x5176;&#x4ED6;&#x5728;GitHub&#x4E0A;&#x7684;&#x5009;&#x5EAB;&#x8C8C;&#x4F3C;&#x90FD;&#x662F;&#x93E1;&#x50CF;&#xFF0C;&#x6BD4;&#x5982;<a href="https://github.com/openwrt-es/openwrt" target="_blank">openwrt-es</a>&#x4EE5;&#x53CA;<a href="https://github.com/openwrt-mirror/openwrt" target="_blank">openwrt-mirror</a>&#x3002;</p>
+<p>&#x5982;&#x679C;&#x9084;&#x6C92;&#x9032;&#x884C;&#x904E;&#x591A;&#x5C11;&#x4FEE;&#x6539;&#x7684;&#x4EE3;&#x78BC;&#xFF0C;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;fork&#x7D66;&#x51FA;&#x7684;repo&#xFF0C;&#x7136;&#x5F8C;&#x53EF;&#x4EE5;&#x65B9;&#x4FBF;&#x7684;&#x4F7F;&#x7528;github&#x672C;&#x8EAB;&#x770B;&#x6211;&#x5011;&#x7684;&#x5206;&#x652F;&#x548C;&#x5B98;&#x65B9;&#x7684;&#x4EE3;&#x78BC;&#x6709;&#x591A;&#x5C11;&#x7684;&#x8D85;&#x524D;&#x548C;&#x6EEF;&#x5F8C;&#x63D0;&#x4EA4;&#xFF0C;&#x53EF;&#x4EE5;&#x4F5C;&#x70BA;&#x4E00;&#x500B;&#x63D0;&#x9192;&#x3002;</p>
+<p>&#x63A5;&#x4E0B;&#x4F86;&#xFF0C;&#x6211;&#x5011;&#x5EFA;&#x7ACB;&#x4E00;&#x500B;&#x9060;&#x7A0B;&#x5009;&#x5EAB;&#x540D;&#x70BA;<code>upstream</code>&#xFF1A;</p>
+<pre><code>$ git remote -v   // &#x9996;&#x5148;&#x5217;&#x51FA;&#x9060;&#x7A0B;&#x5009;&#x5EAB;&#xFF0C;&#x4E00;&#x822C;&#x53EA;&#x6709;&#x4E00;&#x500B;origin
 
-$ A=&quot;B C&quot; #&#x7A7A;&#x767D;&#x7B26;&#x5DF2;&#x88AB;&#x95DC;&#x6389;&#xFF0C;&#x50C5;&#x4F5C;&#x70BA;&#x7A7A;&#x767D;&#x7B26;
-$ echo $A
-B C
+$ git remote add upstream http://git.openwrt.org/openwrt.git
+</code></pre><p>&#x9019;&#x6A23;&#x5C31;&#x5EFA;&#x7ACB;&#x597D;&#x4E86;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x63A5;&#x8457;&#x5217;&#x51FA;&#x9060;&#x7A0B;&#x5009;&#x5EAB;&#x770B;&#x4E00;&#x4E0B;.&#x5982;&#x679C;&#x9700;&#x8981;&#x8B8A;&#x66F4;&#x6216;&#x8005;&#x522A;&#x9664;&#x9060;&#x7A0B;&#x5009;&#x5EAB;&#x7684;&#x8A71;&#xFF0C;&#x8ACB;&#x53C3;&#x8003;git remote&#x7684;manpage.</p>
+<p>&#x6709;&#x7684;&#x4EBA;&#x559C;&#x6B61;&#x4F7F;&#x7528;<code>git pull</code>&#xFF0C;&#x4F46;&#x662F;&#x5B98;&#x65B9;&#x63A8;&#x85A6;&#x7684;&#x662F;&#x4F7F;&#x7528;fetch&#x7136;&#x5F8C;merge&#xFF0C;&#x9019;&#x6A23;&#x6709;&#x4EC0;&#x9EBC;&#x5340;&#x5225;&#x9084;&#x6709;&#x885D;&#x7A81;&#x90FD;&#x4E00;&#x76EE;&#x77AD;&#x7136;.</p>
+<pre><code>$ git fetch upstream    // &#x5F9E;&#x5B98;&#x65B9;&#x62C9;&#x4E0B;&#x4F86;&#x6700;&#x65B0;&#x4EE3;&#x78BC;
+
+$ git checkout master   // &#x5207;&#x63DB;&#x5230;&#x4E3B;&#x5206;&#x652F;&#xFF0C;&#x6216;&#x8005;&#x662F;&#x5207;&#x63DB;&#x5230;&#x4F60;&#x9700;&#x8981;merge&#x5230;&#x7684;&#x5206;&#x652F;
+
+$ git merge upstream/master // &#x81EA;&#x52D5;merge&#x9032;&#x4E0A;&#x9762;&#x5207;&#x63DB;&#x5230;&#x7684;&#x5206;&#x652F;&#x4E2D;&#xFF0C;&#x53EF;&#x4EE5;&#x81EA;&#x52D5;&#x6216;&#x8005;&#x624B;&#x52D5;&#x89E3;&#x6C7A;&#x885D;&#x7A81;
+</code></pre><p>&#x9019;&#x6A23;&#xFF0C;&#x6211;&#x5011;&#x5C31;&#x80FD;&#x6642;&#x523B;&#x548C;&#x5B98;&#x65B9;&#x4FDD;&#x6301;&#x4E00;&#x81F4;&#x4E86;.</p>
+<h2 id="openwrt-%E7%B7%A8%E8%AD%AF-doc-%E6%96%87%E4%BB%B6">OpenWRT &#x7DE8;&#x8B6F; doc &#x6587;&#x4EF6;</h2>
+<p>&#x5728; OpenWrt &#x7684; trunk &#x5206;&#x652F;&#x4E2D;&#x6709;&#x4E00;&#x500B;&#x6587;&#x4EF6;&#x593E;&#x540D;&#x70BA; <code>doc</code>&#xFF0C;&#x5728;&#x9019;&#x500B;&#x6587;&#x4EF6;&#x593E;&#x4E2D;&#x5305;&#x542B;&#x4E00;&#x90E8;&#x5206;&#x6587;&#x6A94;&#x53EF;&#x4F9B;&#x53C3;&#x8003;&#xFF0C;&#x662F;&#x7528; LaTeX &#x5BEB;&#x7684;&#xFF0C;&#x6211;&#x5011;&#x9700;&#x8981;&#x7DE8;&#x8B6F;&#x4E4B;&#x5F8C;&#x624D;&#x80FD;&#x95B1;&#x8B80;&#x7684;&#x66F4;&#x9806;&#x66A2;&#xFF0C;&#x7DE8;&#x8B6F;&#x4E4B;&#x5F8C;&#x9ED8;&#x8A8D;&#x751F;&#x6210; .pdf &#x548C; .htm &#x6587;&#x4EF6;&#x3002;</p>
+<p>&#x5728; Ubuntu &#x6211;&#x5011;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; apt-get &#x5F9E;&#x7DB2;&#x7D61;&#x4E0A;&#x76F4;&#x63A5;&#x4E0B;&#x8F09;&#x5305;&#x4F86;&#x5B89;&#x88DD;&#x3002;</p>
+<p>&#x6211;&#x5011;&#x7528;&#x5230;&#x7684;&#x4E09;&#x500B;&#x6BD4;&#x8F03;&#x91CD;&#x8981;&#x7684;&#x547D;&#x4EE4;&#x6709; <code>apt-cache search</code> &#x3001;<code>apt-cache show</code> &#x548C; <code>sudo apt-get install</code></p>
+<p>&#x9996;&#x5148;&#x4F7F;&#x7528;</p>
+<pre><code>$ apt-cache search latex
+</code></pre><p>&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x8A31;&#x591A;&#x5305;&#x88AB;&#x5217;&#x51FA;&#x3002;&#x9078;&#x64C7;&#x5B89;&#x88DD;<code>texlive-latex-base</code>, &#x5B83;&#x7684;&#x63CF;&#x8FF0;&#x662F;&#xFF1A;Tex Live: Basic LaTex packages</p>
+<pre><code>sudo apt-get install texlive-latex-base
+</code></pre><p>&#x9019;&#x6A23;&#x5C31;&#x5B89;&#x88DD;&#x597D;Latex&#x4E86;&#xFF0C;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x4F7F;&#x7528;&#x3002; &#x4F46;&#x7DE8;&#x8B6F;&#x4E2D;&#x6587;&#x6642;&#xFF0C;&#x7531;&#x65BC;&#x6C92;&#x6709;&#x5B89;&#x88DD;CJK&#x4E2D;&#x6587;&#x74B0;&#x5883;&#xFF0C;&#x6703;&#x63D0;&#x793A;&#x627E;&#x4E0D;&#x5230;CJK&#x5305;&#x3002;</p>
+<pre><code>$ apt-cache search cjk
+</code></pre><p>&#x9078;&#x64C7;&#x5B89;&#x88DD;<code>latex-cjk-all</code>, &#x5B83;&#x7684;&#x63CF;&#x8FF0;&#x662F;&#xFF1A;Installs all LaTex CJK packages.</p>
+<pre><code>sudo apt-get install latex-cjk-all
+</code></pre><p>&#x9019;&#x6A23;&#x5C31;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x4E2D;&#x6587;&#x74B0;&#x5883;&#x4E86;&#x3002;</p>
+<p>&#x6709;&#x4E9B;.sty&#x6587;&#x4EF6;&#x53EF;&#x80FD;&#x6C92;&#x6709;&#x5B89;&#x88DD;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;lastpage.sty. &#x9019;&#x500B;&#x6642;&#x5019;&#x4E0D;&#x8981;&#x5230;&#x7DB2;&#x7D61;&#x4E0A;&#x53BB;&#x8A62;&#x554F;&#x662F;&#x56E0;&#x70BA;&#x4EC0;&#x9EBC;&#xFF0C; Latex&#x7684;&#x8F38;&#x51FA;&#x932F;&#x8AA4;&#x4FE1;&#x606F;&#x5DF2;&#x7D93;&#x5F88;&#x660E;&#x986F;&#x4E86;&#x3002;
+&#x4F7F;&#x7528;&#x4E0B;&#x9762;&#x7684;&#x547D;&#x4EE4;&#x4F86;&#x67E5;&#x627E;&#x76F8;&#x61C9;&#x7684;&#x5305;&#x3002;  <strong>&#x6CE8;&#x610F;&#x4E0D;&#x8981;&#x52A0;.sty&#x6587;&#x4EF6;&#x5F8C;&#x7DB4;</strong></p>
+<pre><code>$ apt-cache search lastpage
+</code></pre><p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x9700;&#x8981;&#x4E0B;&#x9762;&#x7684;&#x5305;&#xFF0C;&#x4EE5;&#x53CA;&#x5C0D;&#x9019;&#x500B;&#x5305;&#x7684;&#x63CF;&#x8FF0;&#xFF1A;texlive-latex-extra - TeX Live: LaTeX supplementary packages  &#x9078;&#x64C7;&#x5B89;&#x88DD;&#x5373;&#x53EF;&#xFF1A;</p>
+<pre><code>sudo apt-get install texlive-latex-extra
+</code></pre><p>&#x5B8C;&#x6210;&#x4E0A;&#x9762;&#x7684;&#x9019;&#x4E09;&#x6B65;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x57FA;&#x672C;&#x6EFF;&#x8DB3;&#x5E73;&#x6642;&#x7684;&#x61C9;&#x7528;&#x9700;&#x6C42;&#x4E86;&#x3002;&#x5982;&#x679C;&#x4EE5;&#x5F8C;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x65B0;&#x7684;&#x5305;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x4E0A;&#x9762;&#x7684;&#x65B9;&#x6CD5;&#x4F86;&#x67E5;&#x627E;&#x76F8;&#x61C9;&#x7684;&#x5B89;&#x88DD;&#x5305;&#xFF0C;&#x4E26;&#x9078;&#x64C7;&#x5B89;&#x88DD;&#x5373;&#x53EF;&#x3002;</p>
+<h2 id="%E5%A2%9E%E5%8A%A0%E8%A8%AD%E5%82%99%E6%94%AF%E6%8C%81">&#x589E;&#x52A0;&#x8A2D;&#x5099;&#x652F;&#x6301;</h2>
+<h5 id="%E5%89%8D%E6%8F%90">&#x524D;&#x63D0;</h5>
+<p>&#x5982;&#x679C;&#x662F;&#x5C08;&#x696D;&#x641E;&#x904E;&#x5D4C;&#x5165;&#x5F0F;&#x958B;&#x767C;&#x7684;&#xFF0C;&#x61C2;&#x5F97;&#x67B6;&#x69CB;&#x4EE5;&#x53CA;&#x5176;&#x4ED6;&#x5FC5;&#x8981;&#x77E5;&#x8B58;&#x7684;&#x53EF;&#x4EE5;&#x5FFD;&#x7565;&#x9019;&#x500B;&#x524D;&#x63D0;&#xFF0C;&#x63A5;&#x4E0B;&#x4F86;&#x5C31;&#x662F;&#x6211;&#x8981;&#x8AAA;&#x7684;&#x4E86;&#xFF0C;&#x627E;&#x4E00;&#x6B3E;&#x548C;&#x4F60;&#x60F3;&#x8981;&#x6DFB;&#x52A0;&#x7684;&#x8A2D;&#x5099;<strong>&#x5F88;&#x76F8;&#x8FD1;</strong>&#x4E14;&#x5B98;&#x65B9;&#x5DF2;&#x7D93;&#x6709;&#x4E86;&#x652F;&#x6301;&#x7684;&#x578B;&#x865F;&#xFF0C;&#x81F3;&#x5C11;&#x8981;&#x662F;&#x76F8;&#x540C;&#x7684;&#x5E73;&#x81FA;&#xFF0C;&#x6BD4;&#x5982;ar71xx.&#x9019;&#x90E8;&#x5206;&#x57FA;&#x672C;&#x4E0A;&#x570D;&#x7E5E;&#x9019;&#x500B;&#x524D;&#x63D0;&#x4F86;&#x5C55;&#x958B;&#x3002;</p>
+<h5 id="%E6%89%80%E9%9C%80">&#x6240;&#x9700;</h5>
+<p>&#x5B8C;&#x6574; OpenWrt &#x958B;&#x767C;&#x74B0;&#x5883;. &#x5305;&#x62EC;&#x7DE8;&#x8F2F;&#x5668;, &#x914D;&#x7F6E;&#x597D;&#x7684; <code>quilt</code> &#x5DE5;&#x5177;.</p>
+<p>&#x5047;&#x8A2D;&#x4E4B;&#x524D;&#x5DF2;&#x7D93;&#x7DE8;&#x8B6F;&#x904E; bin, &#x6709;<strong>&#x5B8C;&#x6574;&#x7684; .config &#x548C; toolchain</strong>.</p>
+<p>&#x76EE;&#x524D;&#x770B;&#x5230;&#x7684;&#x5F88;&#x591A;&#x6559;&#x7A0B;&#x6559;&#x4EBA;&#x76F4;&#x63A5;&#x4FEE;&#x6539;&#x73FE;&#x6709;&#x7684; patch &#x6587;&#x4EF6;&#x6216;&#x8005;&#x662F; tmp/ &#x6587;&#x4EF6;&#x593E;&#x4E0B;&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x66F4;&#x751A;&#x8005;&#x80E1;&#x4E82;&#x731C;&#x6E2C;&#xFF0C;&#x9019;&#x6A23;&#x6703;&#x5C0E;&#x81F4;&#x4E00;&#x4E9B;&#x554F;&#x984C;&#x3002;</p>
+<p>&#x6BD4;&#x5982;&#x6E90;&#x78BC;&#x66F4;&#x65B0;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x8A31;&#x591A; Patch &#x6587;&#x4EF6;&#x7684;&#x504F;&#x79FB;&#xFF08;offset&#xFF09;&#x6703;&#x767C;&#x751F;&#x8B8A;&#x66F4;&#xFF0C;&#x4E3B;&#x8981;&#x9AD4;&#x73FE;&#x5728; linux &#x5167;&#x6838;&#x7248;&#x672C;&#x5347;&#x7D1A;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x9019;&#x6A23;&#x76F4;&#x63A5;&#x4FEE;&#x6539;&#x73FE;&#x6210;&#x7684; Patch &#x5C31;&#x6703;&#x589E;&#x6DFB;&#x8A31;&#x591A;&#x7169;&#x60F1;&#xFF0C;&#x5176;&#x5BE6;&#x5B98;&#x65B9;&#x6709;&#x4E00;&#x500B;&#x5F88;&#x597D;&#x7684;&#x6771;&#x6771;&#xFF0C;&#x90A3;&#x5C31;&#x662F;&#x9019;&#x500B; quilt&#xFF0C;&#x5B83;&#x662F;&#x7528;&#x4F86;&#x7BA1;&#x7406;&#x4EE3;&#x78BC;&#x6A39;&#x4E2D;&#x7684; patch &#x7684;&#x5D4C;&#x5165;&#x5F0F;&#x5167;&#x6838;&#x958B;&#x767C;&#x5229;&#x5668;!</p>
+<h5 id="%E5%A2%9E%E5%8A%A0-device-specific-%E6%94%AF%E6%8C%81%E6%96%87%E4%BB%B6">&#x589E;&#x52A0; Device-Specific &#x652F;&#x6301;&#x6587;&#x4EF6;</h5>
+<p>&#x9019;&#x500B;&#x90E8;&#x5206;&#x7684;&#x6587;&#x4EF6;&#x662F;&#x55AE;&#x7368;&#x7684;&#xFF0C;&#x8207;&#x5176;&#x4ED6;&#x7684;&#x6587;&#x4EF6;&#x6BD4;&#x5982;&#x5404;&#x7A2E; Patch &#x6C92;&#x6709;&#x8F03;&#x5927;&#x7684;&#x95DC;&#x806F;&#xFF0C;&#x5728;&#x91CD;&#x65B0;&#x7DE8;&#x8B6F;&#x4E4B;&#x524D;&#x53EA;&#x9700;&#x8981;<code>make clean</code>&#x5C31;&#x884C;&#x3002;</p>
+<p>&#x6211;&#x5011;&#x4EE5;&#x6DFB;&#x52A0; TP-Link TL-WR2041N v1 &#x7248;&#x672C;&#x70BA;&#x4F8B;&#x5B50;&#x9032;&#x884C;&#x8AAA;&#x660E;&#xFF1A;</p>
+<p>&#x65B0;&#x624B;&#x525B;&#x958B;&#x59CB;&#x6DFB;&#x52A0;&#x652F;&#x6301;&#x7684;&#x6642;&#x5019;&#x6700;&#x597D;&#x5728;&#x53D6;&#x51FA;&#x6700;&#x65B0;&#x7684; trunk &#x4EE3;&#x78BC;&#x4E4B;&#x5F8C;&#x7ACB;&#x5373;&#x9032;&#x884C;&#xFF0C;&#x9632;&#x6B62;&#x5176;&#x4ED6;&#x6587;&#x4EF6;&#x5E72;&#x64FE;&#xFF0C;&#x5982;&#x679C;&#x4E4B;&#x524D;&#x505A;&#x904E;&#x985E;&#x4F3C;&#x7684;&#x64CD;&#x4F5C;&#x6216;&#x8005;&#x61C2;&#x5F97;&#x76EE;&#x9304;&#x7D50;&#x69CB;&#x3001;&#x77E5;&#x9053;&#x6587;&#x4EF6;&#x662F;&#x505A;&#x4EC0;&#x9EBC;&#x7528;&#x7684;&#xFF0C;&#x53EF;&#x4EE5;&#x5FFD;&#x7565;&#x9019;&#x500B;&#x5EFA;&#x8B70;&#x3002;</p>
+<p><strong>&#x522A;&#x9664; tmp/ &#x76EE;&#x9304;</strong>&#xFF0C;&#x9019;&#x500B;&#x662F;&#x5927;&#x5751;&#xFF0C;&#x56E0;&#x70BA;&#x9019;&#x500B;&#x6587;&#x4EF6;&#x593E;&#x5167;&#x7684;&#x5167;&#x5BB9;&#x5168;&#x662F;&#x751F;&#x6210;&#x7684;&#xFF0C;&#x6C92;&#x5FC5;&#x8981;&#x9032;&#x884C;&#x66F4;&#x6539;&#x3002;</p>
+<pre><code>$ rm -rvf tmp/
+</code></pre><p>&#x9996;&#x5148;&#xFF0C;&#x5982;&#x540C;&#x524D;&#x6587;&#x6240;&#x8FF0;&#xFF0C;&#x78BA;&#x5B9A;&#x597D;&#x76F8;&#x8FD1;&#x7684;&#x578B;&#x865F;&#xFF0C;&#x65B9;&#x4FBF;&#x6DFB;&#x52A0;&#x652F;&#x6301;&#x3002;&#x6211;&#x9019;&#x500B;&#x578B;&#x865F;&#x7684;&#x677F;&#x5B50;&#x8207;&#x570B;&#x5916;&#x7684; WDR3500 &#x76F8;&#x4F3C;&#xFF0C;&#x8207;&#x570B;&#x5167;&#x7684; TP-Link TL-WR941N v6 &#x76F8;&#x540C;&#xFF0C;&#x6211;&#x662F;&#x901A;&#x904E; WDR3500 &#x9032;&#x884C;&#x6DFB;&#x52A0;&#x7684;&#x3002;</p>
+<p>&#x641C;&#x7D22;&#x4EE5;&#x4E0B;&#x76F8;&#x95DC;&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x4EE5;&#x78BA;&#x5B9A;&#x9700;&#x8981;&#x4FEE;&#x6539;&#x4EC0;&#x9EBC;&#x6587;&#x4EF6;&#xFF0C;&#x4E4B;&#x5F8C;&#x7167;&#x8C93;&#x756B;&#x864E;&#x3002;</p>
+<p>&#x904B;&#x884C; <code>grep wdr3500 trunk/* -r -l</code> &#x5F97;&#x5230;&#x7684;&#x7D50;&#x679C;&#x5982;&#x4E0B;&#xFF0C;&#x6211;&#x5DF2;&#x7D93;&#x505A;&#x597D;&#x4E86;&#x5206;&#x985E;&#xFF1A;</p>
+<pre><code>// &#x9019;&#x90E8;&#x5206;&#x662F;Device-Specific&#x7684;
+trunk/target/linux/ar71xx/base-files/etc/diag.sh
+trunk/target/linux/ar71xx/base-files/etc/uci-defaults/01_leds
+trunk/target/linux/ar71xx/base-files/etc/uci-defaults/02_network
+trunk/target/linux/ar71xx/base-files/lib/upgrade/platform.sh
+trunk/target/linux/ar71xx/base-files/lib/ar71xx.sh
+trunk/target/linux/ar71xx/files/arch/mips/ath79/mach-tl-wdr3500.c
+// &#x9019;&#x90E8;&#x5206;&#x662F;&#x88FD;&#x4F5C;&#x93E1;&#x50CF;&#x7684;&#x76F8;&#x95DC;&#x6587;&#x4EF6;
+trunk/target/linux/ar71xx/image/Makefile
+trunk/target/linux/ar71xx/generic/profiles/tp-link.mk
+trunk/tools/firmware-utils/src/mktplinkfw.c
+// &#x9019;&#x90E8;&#x5206;&#x662F;&#x5167;&#x6838;&#x652F;&#x6301;&#x76F8;&#x95DC;&#x7684;&#x6587;&#x4EF6;
+trunk/target/linux/ar71xx/config-3.10
+trunk/target/linux/ar71xx/patches-3.10/610-MIPS-ath79-openwrt-machines.patch
+</code></pre><p>&#x5F97;&#x5230;&#x7684;&#x6587;&#x4EF6;&#x5C31;&#x662F;&#x57FA;&#x672C;&#x7684;&#x652F;&#x6301;&#x6587;&#x4EF6;&#x4E86;&#xFF0C;&#x6211;&#x5011;&#x4E00;&#x500B;&#x4E00;&#x500B;&#x8AAA;&#x3002;</p>
+<h5 id="diag-sh">diag.sh</h5>
+<p>&#x9019;&#x500B;&#x6587;&#x4EF6;&#x662F; openwrt &#x521D;&#x59CB;&#x5316;&#x6642;&#x9583;&#x720D;&#x7684;&#x71C8;&#x7684;&#x914D;&#x7F6E;&#xFF0C;&#x4E00;&#x822C;&#x7684;&#x8DEF;&#x7531;&#x555F;&#x52D5;&#x7684;&#x6642;&#x5019;&#x53EA;&#x9583;&#x720D; System &#x71C8;&#x6216;&#x8005;&#x96FB;&#x6E90;&#x71C8;&#xFF0C;&#x57FA;&#x672C;&#x6C92;&#x6709;&#x4FEE;&#x6539;&#x7684;&#x50F9;&#x503C;&#xFF0C;&#x4EFF;&#x7167;&#x4FEE;&#x6539;&#x5373;&#x53EF;&#x3002;</p>
+<p>&#x6BD4;&#x5982;2041n v1&#xFF1A;</p>
+<pre><code class="lang-sh">    tl-wdr3500 | \
+    tl-wr2041n-v1 | \
+    ........
+    tl-wr941nd)
+        status_led=<span class="hljs-string">&quot;tp-link:green:system&quot;</span>
 </code></pre>
-<p>&#x5728;&#x7B2C;&#x4E00;&#x500B;&#x7D66;A&#x8B8A;&#x91CF;&#x8CE6;&#x503C;&#x6642;&#xFF0C;&#x7531;&#x65BC;&#x7A7A;&#x767D;&#x7B26;&#x6C92;&#x6709;&#x88AB;&#x95DC;&#x9589;&#xFF0C;
-<code>command line</code> &#x5C07;&#x88AB;&#x89E3;&#x91CB;&#x70BA;&#xFF1A;
-<code>A=B &#x7136;&#x5F8C;&#x78B0;&#x5230;&lt;IFS&gt;&#xFF0C;&#x63A5;&#x8457;&#x57F7;&#x884C;C&#x547D;&#x4EE4;</code>
-&#x5728;&#x7B2C;&#x4E8C;&#x6B21;&#x7D66;A&#x8B8A;&#x91CF;&#x8CE6;&#x503C;&#x6642;&#xFF0C;&#x7531;&#x65BC;&#x7A7A;&#x767D;&#x7B26;&#x88AB;&#x7F6E;&#x65BC;soft quote&#x4E2D;&#xFF0C;
-&#x56E0;&#x6B64;&#x88AB;&#x95DC;&#x9589;&#xFF0C;&#x4E0D;&#x5728;&#x4F5C;&#x70BA;<code>IFS</code>&#xFF1B;
-<code>A=B&lt;space&gt;C</code>
-&#x4E8B;&#x5BE6;&#x4E0A;&#xFF0C;&#x7A7A;&#x767D;&#x7B26;&#x7121;&#x8AD6;&#x5728;soft quote&#x9084;&#x662F;&#x5728;hard quote&#x4E2D;&#xFF0C;
-&#x5747;&#x88AB;&#x95DC;&#x9589;&#x3002;Enter&#x9375;&#x5B57;&#x7B26;&#x4EA6;&#x7136;&#xFF1A;</p>
-<pre><code class="lang-shell">$ A=`B
-&gt; C
-&gt; &apos;
-$ echo &quot;$A&quot;
-B
-C
+<p>&#x6DFB;&#x52A0;&#x5230;&#x8A72;&#x4F4D;&#x7F6E;&#x5C31;&#x884C;&#x3002;</p>
+<h5 id="uci-defaults-01-leds">uci-defaults/01_leds</h5>
+<p>&#x9019;&#x500B;&#x6587;&#x4EF6;&#x662F;&#x5B9A;&#x7FA9; led &#x7684;&#x4FE1;&#x606F;&#x7684;&#xFF0C;&#x7C21;&#x55AE;&#x7684;&#x6BD4;&#x5982; <code>ucidef_set_led_netdev</code> &#x591A;&#x7528;&#x65BC;&#x5B9A;&#x7FA9; WAN &#x53E3;&#xFF0C;&#x4FEE;&#x6539;&#x6700;&#x5F8C;&#x7684; eth0 &#x70BA;&#x4F60;&#x5C0D;&#x61C9;&#x7684;&#x8A2D;&#x5099;&#x540D;&#x7A31;&#xFF1B; <code>ucidef_set_led_wlan</code> &#x591A;&#x7528;&#x65BC;&#x5B9A;&#x7FA9; WLAN &#x53E3;&#xFF0C;&#x6700;&#x5F8C;&#x7684; <code>phyxtpt</code> &#x76EE;&#x524D;&#x898B;&#x5230;&#x7684;&#x53EA;&#x6709; x=0 &#x548C;1&#x5169;&#x7A2E;&#x60C5;&#x6CC1;&#xFF0C;&#x9019;&#x500B;&#x548C;&#x8A2D;&#x5099;&#x521D;&#x59CB;&#x51FA;&#x4F86;&#x7684;phy&#x7269;&#x7406;&#x8A2D;&#x5099;&#x76F8;&#x95DC;&#xFF1B; <code>ucidef_set_led_switch</code> &#x7528;&#x4F86;&#x5B9A;&#x7FA9;&#x4EA4;&#x63DB;&#x6A5F;&#x7684;&#x914D;&#x7F6E;&#xFF0C;&#x6700;&#x5F8C;&#x7684; 0x00 &#x90E8;&#x5206;&#x662F;&#x7AEF;&#x53E3;&#x63A9;&#x78BC;&#xFF0C;&#x4E00;&#x822C;&#x7684;&#x9806;&#x5E8F;&#x5982;&#x4E0B;&#x3002;</p>
+<p>&#x81F3;&#x65BC;&#x66F4;&#x8A73;&#x7D30;&#x7684;&#x5B9A;&#x7FA9;&#x904E;&#x7A0B;&#xFF0C;&#x9700;&#x8981;&#x53C3;&#x8003; <code>packages/base-files/files/lib/functions</code> &#x76EE;&#x9304;&#x7684; <code>uci-defaults.sh</code> &#x8173;&#x672C;&#x3002;&#xFF08;&#x76EE;&#x524D;&#x65B0;&#x52A0;&#x7684;&#x6587;&#x4EF6; <code>uci-defaults-new.sh</code> &#x6587;&#x4EF6;&#xFF0C;&#x770B;&#x6A23;&#x5B50;&#x662F;&#x901A;&#x904E; JSON &#x50B3;&#x503C;&#x7684;&#xFF0C;&#x61C9;&#x8A72;&#x662F;&#x61C9;&#x7528;&#x65BC;&#x65B0;&#x7684;&#x8A2D;&#x5099;&#x6216;&#x8005;&#x65B0;&#x7684;&#x67B6;&#x69CB;&#x7684;&#xFF09;</p>
+<p>&#x6BD4;&#x5982;2041n v1&#xFF1A;</p>
+<pre><code class="lang-sh">tl-wr2041n-v1)
+    ucidef_<span class="hljs-built_in">set</span>_led_netdev <span class="hljs-string">&quot;wan&quot;</span> <span class="hljs-string">&quot;WAN&quot;</span> <span class="hljs-string">&quot;tp-link:green:wan&quot;</span> <span class="hljs-string">&quot;eth0&quot;</span>
+    ucidef_<span class="hljs-built_in">set</span>_led_switch <span class="hljs-string">&quot;lan1&quot;</span> <span class="hljs-string">&quot;LAN1&quot;</span> <span class="hljs-string">&quot;tp-link:green:lan1&quot;</span> <span class="hljs-string">&quot;switch0&quot;</span> <span class="hljs-string">&quot;0x02&quot;</span>
+    ucidef_<span class="hljs-built_in">set</span>_led_switch <span class="hljs-string">&quot;lan2&quot;</span> <span class="hljs-string">&quot;LAN2&quot;</span> <span class="hljs-string">&quot;tp-link:green:lan2&quot;</span> <span class="hljs-string">&quot;switch0&quot;</span> <span class="hljs-string">&quot;0x04&quot;</span>
+    ucidef_<span class="hljs-built_in">set</span>_led_switch <span class="hljs-string">&quot;lan3&quot;</span> <span class="hljs-string">&quot;LAN3&quot;</span> <span class="hljs-string">&quot;tp-link:green:lan3&quot;</span> <span class="hljs-string">&quot;switch0&quot;</span> <span class="hljs-string">&quot;0x08&quot;</span>
+    ucidef_<span class="hljs-built_in">set</span>_led_switch <span class="hljs-string">&quot;lan4&quot;</span> <span class="hljs-string">&quot;LAN4&quot;</span> <span class="hljs-string">&quot;tp-link:green:lan4&quot;</span> <span class="hljs-string">&quot;switch0&quot;</span> <span class="hljs-string">&quot;0x10&quot;</span>
+    ucidef_<span class="hljs-built_in">set</span>_led_netdev <span class="hljs-string">&quot;wlan&quot;</span> <span class="hljs-string">&quot;WLAN&quot;</span> <span class="hljs-string">&quot;tp-link:green:wlan&quot;</span> <span class="hljs-string">&quot;wlan0&quot;</span>
+    ucidef_<span class="hljs-built_in">set</span>_led_wlan <span class="hljs-string">&quot;wlan&quot;</span> <span class="hljs-string">&quot;WLAN&quot;</span> <span class="hljs-string">&quot;tp-link:green:wlan&quot;</span> <span class="hljs-string">&quot;phy1tpt&quot;</span>
+    ;;
 </code></pre>
-<p>&#x5728;&#x4E0A;&#x4F8B;&#x4E2D;&#xFF0C;&#x7531;&#x65BC;<code>enter</code>&#x88AB;&#x7F6E;&#x65BC;hard quote&#x7576;&#x4E2D;&#xFF0C;&#x56E0;&#x6B64;&#x4E0D;&#x518D;&#x4F5C;&#x70BA;<code>CR</code>&#x5B57;&#x7B26;&#x4F86;&#x8655;&#x7406;&#x3002;
-&#x9019;&#x88E1;&#x7684;<code>enter</code>&#x55AE;&#x7D14;&#x53EA;&#x662F;&#x4E00;&#x500B;&#x65B7;&#x884C;&#x7B26;&#x865F;(new-line)&#x800C;&#x5DF2;&#xFF0C;
-&#x7531;&#x65BC;<code>command line</code>&#x4E26;&#x6C92;&#x5F97;&#x5230;<code>CR</code>&#x5B57;&#x7B26;&#xFF0C;
-&#x56E0;&#x6B64;&#x9032;&#x5165;&#x7B2C;&#x4E8C;&#x500B;<code>shell prompt</code>(<code>PS2</code>, &#x4EE5;&gt;&#x7B26;&#x865F;&#x8868;&#x793A;)&#xFF0C;
-<code>command line</code>&#x4E26;&#x4E0D;&#x6703;&#x7D50;&#x675F;&#xFF0C;&#x76F4;&#x5230;&#x7B2C;&#x4E09;&#x884C;&#xFF0C;
-&#x6211;&#x5011;&#x8F38;&#x5165;&#x7684;<code>enter</code>&#x4E26;&#x4E0D;&#x5728;hard quote&#x88E1;&#x9762;&#xFF0C;
-&#x56E0;&#x6B64;&#x6C92;&#x6709;&#x88AB;&#x95DC;&#x9589;&#xFF0C;
-&#x6B64;&#x6642;&#xFF0C;<code>command line</code>&#x78B0;&#x5230;<code>CR</code>&#x5B57;&#x7B26;&#xFF0C;&#x65BC;&#x662F;&#x7D50;&#x675F;&#xFF0C;&#x4EA4;&#x7D66;shell&#x4F86;&#x8655;&#x7406;&#x3002;</p>
-<p>&#x4E0A;&#x4F8B;&#x7684;<code>Enter</code>&#x8981;&#x662F;&#x88AB;&#x7F6E;&#x65BC;soft quote&#x4E2D;&#x7684;&#x8A71;&#xFF0C;<code>CR</code>&#x5B57;&#x7B26;&#x4E5F;&#x6703;&#x540C;&#x6A23;&#x88AB;&#x95DC;&#x9589;&#xFF1A;</p>
-<pre><code class="lang-shell">$ A=&quot;B
-&gt; C
-&gt; &quot;
-$ echo $A
-B C
+<h5 id="uci-defaults-02-network">uci-defaults/02_network</h5>
+<p>&#x8A72;&#x6587;&#x4EF6;&#x5B9A;&#x7FA9;&#x521D;&#x59CB;&#x5316;&#x7DB2;&#x7D61;&#x4FE1;&#x606F;&#xFF0C;&#x4E3B;&#x8981;&#x662F;&#x4EA4;&#x63DB;&#x6A5F;&#x548C; vlan&#xFF0C;<del>&#x4E0D;&#x904E;&#x6211;&#x9047;&#x5230;&#x602A;&#x7570;&#x7684;&#x4E8B;&#x60C5;&#x662F;&#xFF0C;<code>ucidef_set_interfaces_lan_wan</code> &#x7DCA;&#x8DDF;&#x8457;&#x7684;&#x7B2C;&#x4E00;&#x500B;&#x53C3;&#x6578;&#x662F;&#x5B9A;&#x7FA9; wan &#x7684;&#xFF0C;&#x7B2C;&#x4E8C;&#x500B;&#x662F;&#x5B9A;&#x7FA9; lan &#x7684;&#xFF0C;&#x6BD4;&#x5982;&#x4E0B;&#x9762;&#x7684; eth0 &#x662F; wan &#x800C; eth1 &#x662F; lan &#x3002;</del>&#xFF08;&#x8C8C;&#x4F3C;&#x662F;&#x5728;&#x8A2D;&#x5099; mach &#x6587;&#x4EF6;&#x4E2D;&#x5B9A;&#x7FA9;&#x7684;&#x554F;&#x984C;&#xFF0C;&#x770B;&#x4E86;&#x4E00;&#x4E0B;&#x7DB2;&#x7D61;&#x521D;&#x59CB;&#x5316;&#x7684;&#x8173;&#x672C; <code>uci-defaults.sh</code> &#x4E2D;&#x7684;&#x5B9A;&#x7FA9;&#xFF0C;&#x61C9;&#x8A72;&#x7B2C;&#x4E00;&#x500B;&#x53C3;&#x6578;&#x662F; lan ,&#x7B2C;&#x4E8C;&#x500B;&#x662F; wan&#xFF09;
+&#x6BD4;&#x5982; wr2041n v1&#xFF1A;</p>
+<pre><code class="lang-sh">tl-wr2041n-v1)
+    ucidef_<span class="hljs-built_in">set</span>_interfaces_lan_wan <span class="hljs-string">&quot;eth0&quot;</span> <span class="hljs-string">&quot;eth1&quot;</span>
+    ucidef_add_switch <span class="hljs-string">&quot;switch0&quot;</span> <span class="hljs-string">&quot;1&quot;</span> <span class="hljs-string">&quot;1&quot;</span>
+    ucidef_add_switch_vlan <span class="hljs-string">&quot;switch0&quot;</span> <span class="hljs-string">&quot;1&quot;</span> <span class="hljs-string">&quot;0 1 2 3 4&quot;</span>
+    ;;
 </code></pre>
-<p>&#x7136;&#x800C;&#xFF0C;&#x7531;&#x65BC; <code>echo $A</code>&#x6642;&#x7684;&#x8B8A;&#x91CF;&#x6C92;&#x6709;&#x7F6E;&#x65BC;soft quote&#x4E2D;&#xFF0C;
-&#x56E0;&#x6B64;&#xFF0C;&#x7576;&#x8B8A;&#x91CF;&#x66FF;&#x63DB;&#x5B8C;&#x6210;&#x5F8C;&#xFF0C;&#x4E26;&#x4F5C;&#x547D;&#x4EE4;&#x884C;&#x91CD;&#x7D44;&#x6642;&#xFF0C;<code>enter</code>&#x88AB;&#x89E3;&#x91CB;&#x70BA;<code>IFS</code>&#xFF0C;
-&#x800C;&#x4E0D;&#x662F;new-line&#x5B57;&#x7B26;&#x3002;</p>
-<p>&#x540C;&#x6A23;&#x7684;&#xFF0C;&#x7528;escape&#x4EA6;&#x53EF;&#x95DC;&#x9589;CR&#x5B57;&#x7B26;&#xFF1A;</p>
-<pre><code class="lang-shell">$ A=B\
-&gt; C\
-&gt;
-$ echo $A
-BC
+<h5 id="lib-upgrade-platform-sh">lib/upgrade/platform.sh</h5>
+<p>&#x8A72;&#x6587;&#x4EF6;&#x662F;&#x5B9A;&#x7FA9;&#x7CFB;&#x7D71;&#x66F4;&#x65B0;&#x6642;&#x9A57;&#x8B49;&#x7684;&#xFF0C;&#x57FA;&#x672C;&#x4E0A;&#x4E0D;&#x7528;&#x600E;&#x9EBC;&#x66F4;&#x6539;&#x3002;</p>
+<p>&#x6BD4;&#x5982; 2041n v1&#xFF1A;</p>
+<pre><code class="lang-sh">    tl-wdr3500 | \
+    tl-wr2041n-v1 | \
 </code></pre>
-<p>&#x4E0A;&#x4F8B;&#x4E2D;&#x7684;&#xFF0C;&#x7B2C;&#x4E00;&#x500B;<code>enter</code>&#x8DDF;&#x7B2C;&#x4E8C;&#x500B;<code>enter</code>&#x5747;&#x88AB;escape&#x5B57;&#x7B26;&#x95DC;&#x9589;&#x4E86;&#xFF0C;
-&#x56E0;&#x6B64;&#x4E5F;&#x4E0D;&#x4F5C;&#x70BA;<code>CR</code>&#x4F86;&#x8655;&#x7406;&#xFF0C;&#x4F46;&#x7B2C;&#x4E09;&#x500B;<code>enter</code>&#x7531;&#x65BC;&#x6C92;&#x6709;&#x88AB;escape&#xFF0C;
-&#x56E0;&#x6B64;&#xFF0C;&#x4F5C;&#x70BA;<code>CR</code>&#x7D50;&#x675F;<code>command line</code>&#x3002;
-&#x4F46;&#x7531;&#x65BC;<code>enter</code>&#x9375;&#x672C;&#x8EAB;&#x5728;shell meta&#x4E2D;&#x7279;&#x6B8A;&#x6027;&#xFF0C;&#x5728; \ escape&#x5B57;&#x7B26;&#x5F8C;&#x9762;
-&#x50C5;&#x50C5;&#x53D6;&#x6D88;&#x5176;<code>CR</code>&#x529F;&#x80FD;&#xFF0C; &#x800C;&#x4E0D;&#x4FDD;&#x7559;&#x5176;IFS&#x529F;&#x80FD;&#x3002;</p>
-<p>&#x4F60;&#x6216;&#x8A31;&#x767C;&#x73FE;&#x5149;&#x662F;&#x4E00;&#x500B;<code>enter</code>&#x9375;&#x6240;&#x7522;&#x751F;&#x7684;&#x5B57;&#x7B26;&#xFF0C;&#x5C31;&#x6709;&#x53EF;&#x80FD;&#x662F;&#x5982;&#x4E0B;&#x9019;&#x4E9B;&#x53EF;&#x80FD;&#xFF1A;</p>
-<ul>
-<li>CR</li>
-<li>IFS</li>
-<li>NL(New Line)</li>
-<li>FF(Form Feed)</li>
-<li>NULL</li>
-<li>...</li>
-</ul>
-<p>&#x81F3;&#x65BC;&#xFF0C;&#x4EC0;&#x9EBC;&#x6642;&#x5019;&#x89E3;&#x91CB;&#x70BA;&#x4EC0;&#x9EBC;&#x5B57;&#x7B26;&#xFF0C;&#x9019;&#x500B;&#x6211;&#x5C31;&#x6C92;&#x6CD5;&#x53BB;&#x6316;&#x6398;&#x4E86;&#xFF0C;
-&#x6216;&#x8005;&#x7559;&#x7D66;&#x8B80;&#x8005;&#x541B;&#x81EA;&#x884C;&#x6162;&#x6162;&#x6478;&#x7D22;&#x4E86;...^-^</p>
-<p>&#x81F3;&#x65BC;soft quote&#x8DDF;hard quote&#x7684;&#x4E0D;&#x540C;&#xFF0C;&#x4E3B;&#x8981;&#x662F;&#x5C0D;&#x65BC;&#x67D0;&#x4E9B;meta&#x7684;&#x95DC;&#x9589;&#x8207;&#x5426;&#xFF0C;&#x4EE5;$&#x4F86;&#x505A;&#x8AAA;&#x660E;&#xFF1A;</p>
-<pre><code class="lang-shell">$ A=B\ C
-$ echo &quot;$A&quot;
-B C
-$ echo &apos;$A&apos;
-$A
+<p>&#x6DFB;&#x52A0;&#x5230;&#x4E86;wdr3500&#x7684;&#x4E0B;&#x65B9;&#x3002;</p>
+<h5 id="lib-ar71xx-sh">lib/ar71xx.sh</h5>
+<p>&#x7B2C;&#x4E00;&#x500B;&#x662F;&#x786C;&#x4EF6; magic number&#xFF0C;&#x53EF;&#x4EE5;&#x7528; WinHex &#x6253;&#x958B;&#x56FA;&#x4EF6;&#x6587;&#x4EF6;&#xFF0C;&#x67E5;&#x770B;&#x5C0D;&#x61C9;&#x7684;&#x504F;&#x79FB;&#x5373;&#x53EF;&#x627E;&#x5230;&#xFF0C;model &#x5B9A;&#x7FA9;&#x7684;&#x662F;&#x986F;&#x793A;&#x7684;&#x8A2D;&#x5099;&#x540D;&#x7A31;&#xFF0C;&#x4E0B;&#x9762;&#x7684; <code>*&quot;TL-WR2041N v1&quot;</code> &#x8981;&#x5C0D;&#x61C9;&#x8A2D;&#x5099;&#x652F;&#x6301;&#x7684; mach C&#x8A9E;&#x8A00;&#x8A2D;&#x5099;&#x6587;&#x4EF6;&#x4E2D;&#x5B9A;&#x7FA9;&#x597D;&#x7684;&#x540D;&#x7A31;&#xFF1B;&#x540C;&#x6A23;&#x7684;&#xFF0C; name &#x5B9A;&#x7FA9;&#x7684;&#x662F;&#x5167;&#x90E8;&#x50B3;&#x905E;&#x7684;&#x503C;&#xFF0C;&#x6700;&#x597D;&#x8207;&#x4E0A;&#x9762;&#x6DFB;&#x52A0;&#x7684;&#x884C;&#x4E00;&#x81F4;&#x3002;&#x7C21;&#x55AE;&#x4F86;&#x8AAA;&#xFF0C;&#x6D89;&#x53CA;&#x5230;&#x578B;&#x865F;&#x540D;&#x7A31;&#x7684;&#x6700;&#x597D;&#x90FD;&#x4FDD;&#x6301;&#x4E00;&#x81F4;&#x3002;</p>
+<p>&#x6BD4;&#x5982; 2041n v1&#xFF1A;</p>
+<pre><code class="lang-sh">        <span class="hljs-string">&quot;204100&quot;</span>*)
+        model=<span class="hljs-string">&quot;TP-Link TL-WR2041N&quot;</span>
+        ;;
+
+    *<span class="hljs-string">&quot;TL-WR2041N v1&quot;</span>)
+        name=<span class="hljs-string">&quot;tl-wr2041n-v1&quot;</span>
+        ;;
 </code></pre>
-<p>&#x5728;&#x7B2C;&#x4E00;&#x500B;<code>echo</code>&#x547D;&#x4EE4;&#x884C;&#x4E2D;&#xFF0C;$&#x88AB;&#x7F6E;&#x65BC;soft quote&#x4E2D;&#xFF0C;&#x5C07;&#x4E0D;&#x88AB;&#x95DC;&#x9589;&#xFF0C;
-&#x56E0;&#x6B64;&#x7E7C;&#x7E8C;&#x8655;&#x7406;&#x8B8A;&#x91CF;&#x66FF;&#x63DB;&#xFF0C;
-&#x56E0;&#x6B64;&#xFF0C;<code>echo</code>&#x5C07;A&#x7684;&#x8B8A;&#x91CF;&#x503C;&#x8F38;&#x51FA;&#x5230;&#x5C4F;&#x5E55;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&quot;B C&quot;&#x7684;&#x7D50;&#x679C;&#x3002;</p>
-<p>&#x5728;&#x7B2C;&#x4E8C;&#x500B;<code>echo</code>&#x547D;&#x4EE4;&#x884C;&#x4E2D;&#xFF0C;$&#x88AB;&#x7F6E;&#x65BC;hard quote&#x4E2D;&#xFF0C;&#x5247;&#x88AB;&#x95DC;&#x9589;&#xFF0C;
-&#x56E0;&#x6B64;&#xFF0C;$&#x53EA;&#x662F;&#x4E00;&#x500B;$&#x7B26;&#x865F;&#xFF0C;&#x4E26;&#x4E0D;&#x6703;&#x7528;&#x4F86;&#x505A;&#x8B8A;&#x91CF;&#x66FF;&#x63DB;&#x8655;&#x7406;&#xFF0C;
-&#x56E0;&#x6B64;&#x7D50;&#x679C;&#x662F;$&#x7B26;&#x865F;&#x5F8C;&#x9762;&#x63A5;&#x4E00;&#x500B;A&#x5B57;&#x6BCD;&#xFF1A;$A.</p>
-<blockquote>
-<p> <strong>&#x7DF4;&#x7FD2;&#x8207;&#x601D;&#x8003;:</strong> &#x5982;&#x4E0B;&#x7D50;&#x679C;&#x70BA;&#x4F55;&#x4E0D;&#x540C;&#xFF1F;</p>
-<p> tips: &#x55AE;&#x5F15;&#x865F;&#x548C;&#x96D9;&#x5F15;&#x865F;&#xFF0C;&#x5728;quoting&#x4E2D;&#x5747;&#x88AB;&#x95DC;&#x9589;&#x4E86;&#x3002;</p>
-</blockquote>
-<pre><code class="lang-shell">$ A=B\ C
-$ echo &apos;&quot;$A&quot;&apos;  #&#x6700;&#x5916;&#x9762;&#x7684;&#x662F;&#x55AE;&#x5F15;&#x865F;
-&quot;$A&quot;
-$ echo &quot;&apos;$A&apos;&quot;  #&#x6700;&#x5916;&#x9762;&#x7684;&#x662F;&#x96D9;&#x5F15;&#x865F;
-&apos;B C&apos;
+<h5 id="files-arch-mips-ath79-mach-tl-wdr3500-c">files/arch/mips/ath79/mach-tl-wdr3500.c</h5>
+<p>&#x9019;&#x500B;&#x5C31;&#x662F;&#x5F88;&#x91CD;&#x8981;&#x7684;&#x8A2D;&#x5099;&#x652F;&#x6301; C&#x8A9E;&#x8A00;&#x6587;&#x4EF6;&#x4E86;&#xFF0C;&#x958B;&#x982D;&#x7684;&#x524D;&#x7DB4; mach &#x6700;&#x597D;&#x4FDD;&#x7559;&#xFF0C;mach&#x5F8C;&#x7684;&#x540D;&#x7A31;&#x9700;&#x8981;&#x8207;&#x4EE5;&#x5F8C;&#x6DFB;&#x52A0;&#x7684;linux patch&#x652F;&#x6301;&#x540D;&#x7A31;&#x4FDD;&#x6301;&#x4E00;&#x81F4;&#x3002;</p>
+<p>&#x4E00;&#x822C;&#x7528;&#x65BC;&#x5B9A;&#x7FA9; led&#x3001;flash &#x4EE5;&#x53CA; PHY4 &#x7B49;&#x7B49;&#x6D89;&#x53CA;&#x5230;&#x7684;&#x7AEF;&#x53E3;&#x4FE1;&#x606F;&#xFF0C;&#x6709;&#x7684;mach&#x6587;&#x4EF6;&#x9084;&#x6D89;&#x53CA;&#x5230; ART &#x7684;&#x504F;&#x79FB;&#x91CF;&#xFF08;offset&#xFF09;&#xFF0C;ART&#x662F;&#x5B58;&#x5132;&#x7121;&#x7DDA;&#x6578;&#x64DA;&#x7684;&#x5206;&#x5340;&#xFF0C;&#x5982;&#x679C;&#x8A2D;&#x7F6E;&#x4E0D;&#x7576;&#x6703;&#x5C0E;&#x81F4;&#x8DEF;&#x7531;&#x6C92;&#x6709;&#x7121;&#x7DDA;&#x3002;</p>
+<p>&#x70BA;&#x4E86;&#x6700;&#x5FEB;&#x7684;&#x6DFB;&#x52A0;&#x8DEF;&#x7531;&#x652F;&#x6301;&#xFF0C;&#x53EF;&#x4EE5;&#x63A1;&#x7528;sed, awk&#x5DE5;&#x5177;&#x6279;&#x91CF;&#x6539;&#x540D;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x5BEB;&#x51FA;&#x4E00;&#x500B;&#x8A2D;&#x5099;&#x652F;&#x6301;&#x6587;&#x4EF6;&#x4F86;&#xFF0C;&#x7576;&#x7136;&#x4E5F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; vim, emacs&#x6279;&#x91CF;&#x5B8C;&#x6210;&#x3002;</p>
+<p>&#x6BD4;&#x5982; 2041n v1&#xFF1A;
+&#x65B0;&#x5EFA;&#x6587;&#x4EF6; target/linux/ar71xx/files/arch/mips/ath79/mach-tl-wr2041n-v1.c&#xFF0C;&#x8A73;&#x60C5;&#x8ACB;<a href="https://github.com/wongsyrone/openwrt-1/blob/master/target/linux/ar71xx/files/arch/mips/ath79/mach-tl-wr2041n-v1.c" target="_blank">&#x6233;&#x9019;&#x88E1;</a></p>
+<p>&#x503C;&#x5F97;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF1A;
+<code>MIPS_MACHINE(ATH79_MACH_TL_WR2041N_V1, &quot;TL-WR2041N-v1&quot;, &quot;TP-LINK TL-WR2041N v1&quot;, wr2041n_setup);</code>
+&#x7B2C;&#x4E00;&#x90E8;&#x5206;&#x8981;&#x8207; <code>config-3.10</code> &#x6587;&#x4EF6;&#x4E2D;&#x6DFB;&#x52A0;&#x7684;&#x5167;&#x5BB9;&#x4EE5;&#x53CA;&#x5F8C;&#x9762;&#x6DFB;&#x52A0;&#x7684;linux kernel patch&#x4E2D;&#x7684;&#x5167;&#x5BB9;&#x4E00;&#x81F4;&#xFF1B;<code>&quot;TL-WR2041N-v1&quot;</code> &#x662F;&#x5B9A;&#x7FA9;&#x7684;&#x8A2D;&#x5099;&#x540D;&#x7A31;&#xFF0C;&#x6700;&#x597D;&#x8207; image &#x7684; Makefile&#x4E00;&#x81F4;&#xFF1B;&quot;TP-LINK TL-WR2041N v1&quot; &#x8207;&#x524D;&#x9762;&#x6D89;&#x53CA;&#x5230;&#x7684; <code>lib/ar71xx.sh</code> &#x6587;&#x4EF6;&#x76F8;&#x95DC;&#xFF1B;&#x6700;&#x5F8C;&#x7684; <code>wr2041n_setup</code> &#x662F;&#x8A2D;&#x5099;&#x521D;&#x59CB;&#x5316;&#x7684;&#x4E3B;&#x51FD;&#x6578;&#x540D;&#x7A31;&#x3002;</p>
+<h4 id="%E9%8F%A1%E5%83%8F%E7%94%9F%E6%88%90%E7%9A%84%E7%9B%B8%E9%97%9C%E6%96%87%E4%BB%B6">&#x93E1;&#x50CF;&#x751F;&#x6210;&#x7684;&#x76F8;&#x95DC;&#x6587;&#x4EF6;</h4>
+<h5 id="trunk-target-linux-ar71xx-image-makefile">trunk/target/linux/ar71xx/image/Makefile</h5>
+<p>&#x8A72;&#x6587;&#x4EF6;&#x4E3B;&#x8981;&#x4FEE;&#x6539;&#x5982;&#x4E0B;&#x5169;&#x884C;&#xFF0C;&#x5269;&#x4E0B;&#x7684;&#x5167;&#x5BB9;&#x9700;&#x8981;&#x4ED4;&#x7D30;&#x5B78;&#x7FD2; Makefile&#x7684;&#x5BEB;&#x6CD5;&#x624D;&#x80FD;&#x770B;&#x61C2;&#x3002;</p>
+<pre><code>$(eval $(call MultiProfile,TLWR2041,TLWR2041NV1))
+</code></pre><p>&#x8A72;&#x884C;&#x5B9A;&#x7FA9;&#x591A;Profile&#xFF0C;&#x4E00;&#x822C;&#x662F;&#x4E00;&#x500B;&#x578B;&#x865F;&#x751F;&#x6210;&#x591A;&#x500B;&#x786C;&#x4EF6;&#x7248;&#x672C;&#x652F;&#x6301;&#x7684;&#x5B9A;&#x7FA9;</p>
+<pre><code>$(eval $(call SingleProfile,TPLINK-LZMA,64kraw,TLWR2041NV1,tl-wr2041n-v1,TL-WR2041N-v1,ttyS0,115200,0x20410001,1,4Mlzma))
+</code></pre><p>&#x8A72;&#x884C;&#x662F;&#x55AE;&#x7368;&#x8A2D;&#x5099;&#x7684;&#x652F;&#x6301;&#x4FE1;&#x606F;&#xFF0C;&#x7B2C;&#x4E00;&#x500B;&#x53C3;&#x6578;&#x662F;&#x4F7F;&#x7528;&#x4EC0;&#x9EBC;&#x751F;&#x6210;&#x8FA6;&#x6CD5;&#xFF0C;2041n v1&#x662F;&#x4F7F;&#x7528; <code>TPLINK-LZMA</code> &#x65B9;&#x6CD5;&#xFF0C;&#x524D;&#x9762;&#x6709;&#x5C0D;&#x61C9;&#x7684;&#x8AAA;&#x660E;&#xFF0C;&#x5F9E;&#x88E1;&#x9762;&#x4E5F;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x6211;&#x5011;&#x9700;&#x8981;&#x4FEE;&#x6539; bin/mktplinkfw &#x6587;&#x4EF6;&#x7684;&#x6E90;&#x4EE3;&#x78BC;&#xFF0C;&#x8A72;&#x6E90;&#x4EE3;&#x78BC;&#x5728; <code>trunk/tools/firmware-utils/src/mktplinkfw.c</code> &#x4E2D; &#x63A5;&#x4E0B;&#x4F86;&#x53EF;&#x4EE5;&#x6839;&#x64DA;&#x5C0D; TPLINK-LZMA &#x7684;&#x5B9A;&#x7FA9;&#x770B;&#x5230;&#x4F9D;&#x6B21;&#x50B3;&#x9032;&#x53BB;&#x7684;&#x53C3;&#x6578;&#xFF0C;TLWR2041NV1 &#x662F; Profile &#x540D;&#x7A31;&#xFF0C;tl-wr2041n-v1 &#x662F;&#x751F;&#x6210;&#x7684;&#x93E1;&#x50CF;&#x540D;&#x7A31;&#xFF0C;&#x4E5F;&#xFF08;&#x53EF;&#x80FD;&#xFF09;&#x662F;&#x50B3;&#x9032;&#x53BB;&#x7684;&#x8A2D;&#x5099;&#x578B;&#x865F;&#xFF0C;TL-WR2041N-v1 &#x6700;&#x597D;&#x5C0D;&#x61C9;&#x524D;&#x9762; mach &#x6587;&#x4EF6; MIPS_MACHINE &#x51FD;&#x6578;&#x7684;&#x4FE1;&#x606F;&#xFF0C;&#x4E3B;&#x8981;&#x662F;&#x5728;&#x5167;&#x6838;&#x65E5;&#x8A8C;&#x548C;&#x7CFB;&#x7D71;&#x65E5;&#x8A8C;&#x4E2D;&#x9AD4;&#x73FE;&#x8A2D;&#x5099;&#x578B;&#x865F;&#xFF0C;&#x5F8C;&#x9762;&#x7684;&#x662F;&#x9ED8;&#x8A8D; tty &#x4FE1;&#x606F;&#x4EE5;&#x53CA; baudrate &#x6CE2;&#x7279;&#x7387;&#xFF0C;&#x63A5;&#x4E0B;&#x4F86;&#x7684; magic number&#x662F;&#x8A2D;&#x5099;&#x7684;&#x786C;&#x4EF6;ID&#xFF0C;1 &#x662F;&#x7248;&#x672C;&#xFF0C;&#x4E00;&#x822C;&#x4E0D;&#x7528;&#x8B8A;&#xFF0C;4Mlzma&#x662F;&#x751F;&#x6210;&#x56FA;&#x4EF6;&#x7684;layout&#x4FE1;&#x606F;&#xFF0C;&#x8A72;&#x503C;&#x548C;&#x786C;&#x4EF6;ID&#x90FD;&#x5728; mktplinkfw.c &#x4E2D;&#x5B9A;&#x7FA9;&#x3002;</p>
+<h5 id="trunk-target-linux-ar71xx-generic-profiles-tp-link-mk">trunk/target/linux/ar71xx/generic/profiles/tp-link.mk</h5>
+<p>&#x8A72;&#x6587;&#x4EF6;&#x5B9A;&#x7FA9; Profile &#x4FE1;&#x606F;&#xFF0C;&#x4E3B;&#x8981;&#x5B9A;&#x7FA9; NAME&#xFF0C;&#x6703;&#x986F;&#x793A;&#x5728; <code>make menuconfig</code> &#x4E4B;&#x5F8C;&#x7684;&#x8A2D;&#x5099;&#x9078;&#x9805;&#x88E1;&#xFF1B; PACKAGES &#x5B9A;&#x7FA9;&#x9ED8;&#x8A8D;&#x7DE8;&#x8B6F;&#x5B89;&#x88DD;&#x7684;&#x5305;&#xFF0C;&#x4E00;&#x822C;&#x662F;&#x7DB2;&#x5361;&#x9A45;&#x52D5;&#x4EE5;&#x53CA;&#x5176;&#x4ED6;&#x5FC5;&#x5099;&#x7684;&#x5305;&#xFF0C;&#x5982; usb&#x652F;&#x6301;&#x3002;</p>
+<p>&#x6BD4;&#x5982; 2041n v1&#xFF1A;</p>
+<pre><code class="lang-mk">define Profile/TLWR2041
+    NAME:=TP-LINK TL-WR2041N
+    PACKAGES:=
+endef
+
+define Profile/TLWR2041/Description
+    Package set optimized for the TP-LINK TL-WR2041N.
+endef
+$(eval $(call Profile,TLWR2041))
 </code></pre>
-<hr>
-<p>&#x5728;CU&#x7684;shell&#x7248;&#x88E1;&#xFF0C;&#x6211;&#x767C;&#x73FE;&#x5F88;&#x591A;&#x521D;&#x5B78;&#x8005;&#x7684;&#x554F;&#x984C;&#xFF0C;
-&#x90FD;&#x8207;quoting&#x7684;&#x7406;&#x89E3;&#x6709;&#x95DC;&#x3002;
-&#x6BD4;&#x65B9;&#x8AAA;&#xFF0C;&#x82E5;&#x6211;&#x5011;&#x5728;awk&#x6216;sed&#x7684;&#x547D;&#x4EE4;&#x53C3;&#x6578;&#x4E2D;&#xFF0C;
-&#x8ABF;&#x7528;&#x4E4B;&#x524D;&#x8A2D;&#x5B9A;&#x7684;&#x4E00;&#x4E9B;&#x8B8A;&#x91CF;&#x6642;&#xFF0C;&#x5E38;&#x6703;&#x554F;&#x53CA;&#x70BA;&#x4F55;&#x4E0D;&#x80FD;&#x7684;&#x554F;&#x984C;&#x3002;</p>
-<p>&#x8981;&#x89E3;&#x6C7A;&#x9019;&#x4E9B;&#x554F;&#x984C;&#xFF0C;&#x95DC;&#x9375;&#x9EDE;&#x5C31;&#x662F;&#xFF1A;<strong>&#x5340;&#x5206;&#x51FA; shell meta &#x8207; command meta</strong></p>
-<p>&#x524D;&#x9762;&#x6211;&#x5011;&#x63D0;&#x5230;&#x7684;&#x90A3;&#x4E9B;meta&#xFF0C;&#x90FD;&#x662F;&#x5728;command line&#x4E2D;&#x6709;&#x7279;&#x6B8A;&#x7528;&#x9014;&#x7684;&#xFF0C;
-&#x6BD4;&#x65B9;&#x8AAA;{}&#x5C31;&#x662F;&#x5C07;&#x4E00;&#x7CFB;&#x5217;&#x7684;command line&#x7F6E;&#x65BC;&#x4E0D;&#x5177;&#x540D;&#x7684;&#x51FD;&#x6578;&#x4E2D;&#x57F7;&#x884C;(&#x53EF;&#x7C21;&#x55AE;&#x8996;&#x70BA;command block)&#xFF0C;
-&#x4F46;&#x662F;&#xFF0C;awk&#x537B;&#x9700;&#x8981;&#x7528;{}&#x4F86;&#x5340;&#x5206;&#x51FA;awk&#x7684;&#x547D;&#x4EE4;&#x5340;&#x6BB5;(BEGIN,MAIN,END).
-&#x82E5;&#x4F60;&#x5728;command line&#x4E2D;&#x5982;&#x6B64;&#x8F38;&#x5165;&#xFF1A;</p>
-<pre><code class="lang-shell">$ awk {print $0} 1.txt
+<h5 id="trunk-tools-firmware-utils-src-mktplinkfw-c">trunk/tools/firmware-utils/src/mktplinkfw.c</h5>
+<p>&#x8A72;&#x6587;&#x4EF6;&#x662F;&#x751F;&#x6210;&#x56FA;&#x4EF6;&#x6587;&#x4EF6;&#x7684;&#x5DE5;&#x5177;&#xFF0C;&#x88E1;&#x9762;&#x5305;&#x542B; TP-LINK &#x56FA;&#x4EF6; bin &#x6587;&#x4EF6;&#x7684;&#x7D50;&#x69CB;&#x548C; md5 hash &#x9A57;&#x8B49;&#x7B97;&#x6CD5;&#xFF0C;&#x6BD4;&#x5982;&#x5B9A;&#x7FA9;&#x786C;&#x4EF6; magic number&#xFF0C;flash layout&#xFF0C; &#x4EE5;&#x53CA;&#x5176;&#x4ED6;&#x4FE1;&#x606F;&#x3002;</p>
+<p>&#x6BD4;&#x5982; 2041n v1&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> HWID_TL_WR2041N_V1    <span class="hljs-number">0x20410001</span>   <span class="hljs-comment">//&#x5B9A;&#x7FA9;&#x786C;&#x4EF6;ID</span></span>
+
+{
+        .id        = <span class="hljs-string">&quot;TL-WR2041Nv1&quot;</span>,
+        .hw_id        = HWID_TL_WR2041N_V1,
+        .hw_rev        = <span class="hljs-number">1</span>,
+        .layout_id    = <span class="hljs-string">&quot;4Mlzma&quot;</span>,
+},
 </code></pre>
-<p>&#x7531;&#x65BC;{}&#x5728;shell&#x4E2D;&#x4E26;&#x6C92;&#x6709;&#x95DC;&#x9589;&#xFF0C;&#x90A3;shell&#x5C31;&#x5C07;{print $0}&#x8996;&#x70BA;command block&#xFF0C;
-&#x4F46;&#x540C;&#x6642;&#x6C92;&#x6709;<code>;</code>&#x7B26;&#x865F;&#x4F5C;&#x547D;&#x4EE4;&#x5206;&#x9694;&#xFF0C;&#x56E0;&#x6B64;&#xFF0C;&#x5C31;&#x51FA;&#x73FE;awk&#x8A9E;&#x6CD5;&#x932F;&#x8AA4;&#x7D50;&#x679C;&#x3002;</p>
-<p>&#x8981;&#x89E3;&#x6C7A;&#x4E4B;&#xFF0C;&#x53EF;&#x7528;hard quote:</p>
-<pre><code class="lang-shell">awk &apos;{print $0}&apos;
-</code></pre>
-<p>&#x4E0A;&#x9762;&#x7684;hard quote&#x61C9;&#x597D;&#x7406;&#x89E3;&#xFF0C;&#x5C31;&#x662F;&#x5C07;&#x539F;&#x4F86;&#x7684;
-{&#x3001;<space>&#x3001;$&#x3001;}&#x9019;&#x5E7E;&#x500B;shell meta&#x95DC;&#x9589;&#xFF0C;
-&#x907F;&#x514D;&#x6389;&#x5728;shell&#x4E2D;&#x906D;&#x5230;&#x8655;&#x7406;&#xFF0C;&#x800C;&#x5B8C;&#x6574;&#x7684;&#x6210;&#x70BA;awk&#x7684;&#x53C3;&#x6578;&#x4E2D;command meta&#x3002;</space></p>
-<blockquote>
-<p><strong>Note:</strong></p>
-<p>awk&#x4E2D;&#x4F7F;&#x7528;&#x7684;$0 &#x662F;awk&#x4E2D;&#x5167;&#x5EFA;&#x7684;field nubmer&#xFF0C;&#x800C;&#x975E;awk&#x7684;&#x8B8A;&#x91CF;&#xFF0C;
-awk&#x81EA;&#x8EAB;&#x7684;&#x8B8A;&#x91CF;&#x7121;&#x9700;&#x4F7F;&#x7528;$.</p>
-</blockquote>
-<p>&#x8981;&#x662F;&#x7406;&#x89E3;&#x4E86;hard quote&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x5728;&#x4F86;&#x7406;&#x89E3;soft quote&#x8207;escape&#x5C31;&#x4E0D;&#x96E3;&#xFF1A;</p>
-<pre><code class="lang-shell">awk &quot;{print \$0}&quot; 1.txt
-awk \{print \$0\} 1.txt
-</code></pre>
-<p>&#x7136;&#x800C;&#xFF0C;&#x82E5;&#x8981;&#x4F60;&#x6539;&#x8B8A;awk&#x7684;$0&#x7684;0&#x503C;&#x662F;&#x5F9E;&#x53E6;&#x4E00;&#x500B;shell&#x8B8A;&#x91CF;&#x4E2D;&#x8B80;&#x9032;&#x5462;&#xFF1F;
-&#x6BD4;&#x65B9;&#x8AAA;&#xFF1A;&#x5DF2;&#x6709;&#x8B8A;&#x91CF;$A&#x7684;&#x503C;&#x662F;0&#xFF0C; &#x90A3;&#x5982;&#x4F55;&#x5728;<code>command line</code>&#x4E2D;&#x89E3;&#x6C7A;
-awk&#x7684;$$A&#x5462;&#xFF1F;
-&#x4F60;&#x53EF;&#x4EE5;&#x5F88;&#x76F4;&#x63A5;&#x5426;&#x5B9A;&#x6389;hard quote&#x7684;&#x65B9;&#x6848;&#xFF1A;</p>
-<pre><code class="lang-shell">$ awk &apos;{print $$A}&apos; 1.txt
-</code></pre>
-<p>&#x90A3;&#x662F;&#x56E0;&#x70BA;$A&#x7684;$&#x5728;hard quote&#x4E2D;&#x662F;&#x4E0D;&#x80FD;&#x66FF;&#x63DB;&#x8B8A;&#x91CF;&#x7684;&#x3002;</p>
-<p>&#x8070;&#x660E;&#x7684;&#x8B80;&#x8005;(&#x5982;&#x4F60;&#xFF01;)&#xFF0C;&#x7D93;&#x904E;&#x672C;&#x7AE0;&#x7684;&#x5B78;&#x7FD2;&#xFF0C;&#x6211;&#x60F3;&#xFF0C;&#x4F60;&#x61C9;&#x8A72;&#x53EF;&#x4EE5;&#x7406;&#x89E3;&#x70BA;
-&#x70BA;&#x4F55;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x5982;&#x4E0B;&#x64CD;&#x4F5C;&#x4E86;&#x5427;&#xFF1A;</p>
-<pre><code class="lang-shell">A=0
-awk &quot;{print \$$A}&quot; 1.txt
-awk  \{print\ \$$A\} 1.txt
-awk &apos;{print $&apos;$A&apos;}&apos; 1.txt
-awk &apos;{print $&apos;&quot;$A&quot;&apos;}&apos; 1.txt
-</code></pre>
-<p>&#x6216;&#x8A31;&#xFF0C;&#x4F60;&#x80FD;&#x7D66;&#x51FA;&#x66F4;&#x591A;&#x65B9;&#x6848;... ^_^</p>
-<p>&#x66F4;&#x591A;&#x7DF4;&#x7FD2;&#xFF1A;</p>
-<ul>
-<li><a href="http://bbs.chinaunix.net/forum/viewtopic.php?t=207178" target="_blank">http://bbs.chinaunix.net/forum/viewtopic.php?t=207178</a>
-&#x4E00;&#x500B;&#x95DC;&#x65BC;read&#x547D;&#x4EE4;&#x7684;&#x5C0F;&#x554F;&#x984C;&#xFF1A;
-&#x5F88;&#x65E9;&#x4EE5;&#x524D;&#x89BA;&#x5F97;&#x5F88;&#x5947;&#x602A;&#xFF1A;&#x57F7;&#x884C;read&#x547D;&#x4EE4;&#xFF0C;&#x7136;&#x5F8C;&#x8B80;&#x53D6;&#x7528;&#x6236;&#x8F38;&#x5165;&#x7D66;&#x8B8A;&#x91CF;&#x8CE6;&#x503C;&#xFF0C;
-&#x4F46;&#x5982;&#x679C;&#x8F38;&#x5165;&#x662F;&#x4EE5;&#x7A7A;&#x683C;&#x9375;&#x958B;&#x59CB;&#x7684;&#x8A71;&#xFF0C;&#x9019;&#x7A7A;&#x683C;&#x6703;&#x88AB;&#x5FFD;&#x7565;&#xFF0C;&#x6BD4;&#x5982;&#xFF1A;<pre><code class="lang-shell">read a  #&#x8F38;&#x5165;&#xFF1A;    abc
-echo &quot;$a&quot; #&#x53EA;&#x8F38;&#x51FA;abc
-</code></pre>
-&#x539F;&#x56E0;:
-  &#x8B8A;&#x91CF;a&#x7684;&#x503C;&#xFF0C;&#x5F9E;&#x7D42;&#x7AEF;&#x8F38;&#x5165;&#x7684;&#x503C;&#x662F;&#x4EE5;IFS&#x958B;&#x982D;&#xFF0C;&#x800C;&#x9019;&#x4E9B;IFS&#x5C07;&#x88AB;shell&#x89E3;&#x91CB;&#x5668;&#x5FFD;&#x7565;(trim)&#x3002;
-  &#x61C9;&#x8A72;&#x8207;shell&#x89E3;&#x91CB;&#x5668;&#x5206;&#x8A5E;&#x7684;&#x898F;&#x5247;&#x6709;&#x95DC;&#xFF1B;</li>
-</ul>
-<pre><code class="lang-shell">read a  #&#x8F38;&#x5165;&#xFF1A;\ \ \ abc
-echo &quot;$a&quot; #&#x53EA;&#x8F38;&#x51FA;abc
-</code></pre>
-<p>&#x9700;&#x8981;&#x5C07;&#x7A7A;&#x683C;&#x5B57;&#x7B26;&#x8F49;&#x7FA9;</p>
-<blockquote>
-<p><strong>Note:</strong></p>
-<p> IFS   Internal field separators, normally  space,  tab,  and newline (see Blank Interpretation section).
- ......
- Blank Interpretation
-  After parameter and command  substitution,  the  results  of substitution
-  are scanned for internal field separator characters (those found in IFS)
-  and split  into  distinct  arguments  where  such characters are found.
-  Explicit null arguments (&quot;&quot; or  &apos;&apos;)  are  retained.
-  Implicit  null  arguments(those  resulting  from  parameters that have no values)
-  are removed.
-  (refre to: man sh)</p>
-</blockquote>
-<p>&#x89E3;&#x6C7A;&#x601D;&#x8DEF;&#xFF1A;</p>
+<p>&#x5B9A;&#x7FA9;&#x4F7F;&#x7528;&#x7684;&#x4FE1;&#x606F;&#x3002;</p>
+<h5 id="config-3-10">config-3.10</h5>
+<p>&#x6DFB;&#x52A0;&#x5167;&#x6838;&#x652F;&#x6301;&#x7684; config &#x4FE1;&#x606F;&#xFF0C;&#x8207;&#x5176;&#x4ED6;&#x7684;&#x4FDD;&#x6301;&#x4E00;&#x81F4;&#x5C31;&#x597D;&#x3002;</p>
+<p>&#x6BD4;&#x5982; 2041n v1&#xFF1A;</p>
+<pre><code>CONFIG_ATH79_MACH_TL_WR2041N_V1=y
+</code></pre><p>CONFIG_ &#x5F8C;&#x9762;&#x7684;&#x5167;&#x5BB9;&#x548C;&#x4E0A;&#x9762; mach &#x786C;&#x4EF6;&#x652F;&#x6301;&#x6587;&#x4EF6;&#x4E2D;&#x5B9A;&#x7FA9;&#x7684;&#x4FDD;&#x6301;&#x4E00;&#x81F4;&#x3002;</p>
+<h5 id="patches-3-10-610-mips-ath79-openwrt-machines-patch">patches-3.10/610-MIPS-ath79-openwrt-machines.patch</h5>
+<p>&#x9019;&#x500B;&#x662F;&#x5167;&#x6838;&#x652F;&#x6301;&#x7684;patch&#x6587;&#x4EF6;&#xFF0C;&#x9700;&#x8981;&#x4F7F;&#x7528; quilt &#x5275;&#x5EFA;&#x4EE5;&#x53CA;&#x4EE5;&#x5F8C;&#x7DAD;&#x8B77;&#xFF0C;&#x524D;&#x4E00;&#x9663;&#x5B50;trunk&#x5C07;&#x5927;&#x90E8;&#x5206;&#x5206;&#x6563;&#x7684;&#x88DC;&#x4E01;&#x90FD;&#x79FB;&#x52D5;&#x5230;&#x9019;&#x500B;patch&#x4E2D;&#x4E86;&#xFF0C;&#x5982;&#x679C;&#x8981;&#x5C07;patch&#x63D0;&#x4EA4;&#x5230;&#x5B98;&#x65B9;&#x5118;&#x91CF;&#x653E;&#x5728;&#x9019;&#x88E1;&#xFF0C;&#x81EA;&#x5DF1;&#x7528;&#x7684;&#x8A71;&#x4E0D;&#x8981;&#x5E72;&#x64FE;&#x5176;&#x4ED6;patch&#x7684;&#x61C9;&#x7528;&#x5C31;&#x53EF;&#x4EE5;&#x4E86;&#x3002;&#x6211;&#x9019;&#x88E1;&#x5C07;&#x88DC;&#x4E01;&#x7DE8;&#x865F;&#x70BA;920&#xFF0C;&#x4E00;&#x822C;&#x4F86;&#x8AAA;&#x662F;&#x6700;&#x5F8C;&#x4E00;&#x500B;&#x61C9;&#x7528;&#x7684;patch&#x4E86;&#x3002;</p>
+<h4 id="%E7%AE%A1%E7%90%86%E8%A3%9C%E4%B8%81%E6%96%87%E4%BB%B6">&#x7BA1;&#x7406;&#x88DC;&#x4E01;&#x6587;&#x4EF6;</h4>
+<p>&#x8ACB;&#x901A;&#x904E;&#x8EDF;&#x4EF6;&#x5305;&#x7BA1;&#x7406;&#x5668;&#x5B89;&#x88DD; quilt&#xFF0C;&#x7576;&#x7136;&#x4E00;&#x822C;&#x5982;&#x540C;&#x4E0A;&#x6587;&#x914D;&#x7F6E;&#x597D;&#x7DE8;&#x8B6F;&#x74B0;&#x5883;&#x5C31;&#x5DF2;&#x7D93;&#x5B89;&#x88DD;&#x597D;&#x4E86; quilt&#x3002;</p>
+<p>&#x7136;&#x5F8C;&#x5BEB;&#x5165;&#x4EE5;&#x4E0B;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x5230; <code>~/.quiltrc</code></p>
+<pre><code>cat &gt; ~/.quiltrc &lt;&lt;EOF
+QUILT_DIFF_ARGS=&quot;--no-timestamps --no-index -pab --color=auto&quot;
+QUILT_REFRESH_ARGS=&quot;--no-timestamps --no-index -pab&quot;
+QUILT_PATCH_OPTS=&quot;--unified&quot;
+QUILT_DIFF_OPTS=&quot;-p&quot;
+EDITOR=&quot;nano&quot;
+EOF
+</code></pre><p>&#x63A5;&#x8457;&#x9032;&#x884C;&#x4E00;&#x4E0B; <code>export EDITOR</code> &#xFF0C;&#x7576;&#x7136;&#x9019;&#x500B; <code>EDITOR</code> &#x7684;&#x8B8A;&#x91CF;&#x4E0D;&#x8981;&#x548C;&#x73FE;&#x6709;&#x7684;&#x8B8A;&#x91CF;&#x885D;&#x7A81;&#xFF0C;&#x53EF;&#x4EE5;&#x81EA;&#x5DF1;&#x4EFB;&#x610F;&#x66F4;&#x6539;&#xFF0C;&#x53EA;&#x8981;&#x61C9;&#x7528;&#x5230;&#x4E0A;&#x9762;&#x7684; <code>.quiltrc</code> &#x6587;&#x4EF6;&#x4E2D;&#x5C31;&#x597D;&#x4E86;&#x3002;&#x5982;&#x679C;&#x6015;&#x9EBB;&#x7169;&#x53EF;&#x4EE5;&#x5BEB;&#x5230; <code>&#xFF5E;/.bashrc</code> &#x6587;&#x4EF6;&#x4E2D;&#xFF0C;&#x4EE5;&#x5F8C;&#x5C31;&#x6BD4;&#x8F03;&#x65B9;&#x4FBF;&#xFF0C;&#x4E0D;&#x7528;&#x6BCF;&#x6B21;&#x9032;&#x884C; export&#x3002;</p>
+<p>&#x5E38;&#x7528;&#x7684;quilt&#x547D;&#x4EE4;&#x5982;&#x4E0B;&#xFF0C;&#x6703;&#x4E00;&#x4E00;&#x8AAA;&#x660E;&#x3002;</p>
+<pre><code>new        &#x65B0;&#x5EFA;&#x7A7A;&#x767D;patch
+add        &#x6DFB;&#x52A0;&#x8981;&#x4FEE;&#x6539;&#x7684;&#x6587;&#x4EF6;&#x5230;patch&#x4E2D;
+remove        &#x522A;&#x9664;patch
+top        &#x67E5;&#x770B;&#x7576;&#x524D;patch&#x4F4D;&#x7F6E;&#xFF0C;&#x76F8;&#x7576;&#x65BC;&#x4E00;&#x500B;&#x6307;&#x91DD;
+next        &#x672A;&#x77E5;
+rename        &#x91CD;&#x547D;&#x540D;patch
+unapplied    &#x67E5;&#x770B;&#x672A;&#x6210;&#x529F;&#x61C9;&#x7528;&#x7684;patch
+applied        &#x67E5;&#x770B;&#x5DF2;&#x7D93;&#x6210;&#x529F;&#x61C9;&#x7528;&#x7684;patch
+graph        &#x672A;&#x77E5;
+patches        &#x672A;&#x77E5;
+upgrade        &#x672A;&#x77E5;
+delete        &#x522A;&#x9664;patch
+grep        &#x61C9;&#x8A72;&#x985E;&#x4F3C;&#x65BC; grep &#x547D;&#x4EE4;
+pop        &#x53BB;&#x5F80;&#x4E0A;&#x4E00;&#x500B;patch&#xFF0C;&#x5982;&#x679C;&#x9644;&#x52A0;patch&#x540D;&#x7A31;&#x5247;&#x6309;&#x7167;patch&#x5E8F;&#x5217;&#x4E00;&#x76F4;&#x61C9;&#x7528;&#x5230;&#x7279;&#x5B9A;&#x7684;patch&#x4F4D;&#x7F6E;
+series        &#x67E5;&#x770B;patch&#x5217;&#x8868;&#xFF0C;&#x4E00;&#x822C;&#x9019;&#x500B;&#x9806;&#x5E8F;&#x5C31;&#x662F;patch&#x61C9;&#x7528;&#x7684;&#x9806;&#x5E8F;&#xFF0C;&#x53EF;&#x4EE5;&#x7528;&#x4F86;&#x9032;&#x884C; pop &#x548C; push &#x5B9A;&#x4F4D;
+diff        &#x67E5;&#x770B;&#x5340;&#x5225;
+previous    &#x672A;&#x77E5;
+edit        &#x7DE8;&#x8F2F;&#x7576;&#x524D;patch&#x4E2D;&#x7684;&#x6587;&#x4EF6;
+push        &#x53BB;&#x5F80;&#x6700;&#x65B0;&#x7684;patch&#xFF0C;&#x6703;&#x4E00;&#x76F4;&#x61C9;&#x7528;&#x5230;&#x6700;&#x5F8C;&#x4E00;&#x500B;&#x53EF;&#x4EE5;&#x6210;&#x529F;&#x61C9;&#x7528;&#x7684;patch
+files        &#x67E5;&#x770B;patch&#x4E2D;&#x5305;&#x542B;&#x7684;&#x4FEE;&#x6539;&#x6587;&#x4EF6;
+refresh        &#x5237;&#x65B0;patch&#xFF0C;&#x76F8;&#x7576;&#x65BC;&#x4FDD;&#x5B58;patch&#x5230; patches &#x6587;&#x4EF6;&#x593E;&#xFF0C;&#x9084;&#x6C92;&#x6709;&#x61C9;&#x7528;&#x5230;buildroot&#x8655;
+</code></pre><h4 id="%E5%B9%BE%E7%A8%AE%E7%AE%A1%E7%90%86%E6%93%8D%E4%BD%9C">&#x5E7E;&#x7A2E;&#x7BA1;&#x7406;&#x64CD;&#x4F5C;</h4>
+<h5 id="%E5%A2%9E%E5%8A%A0%E4%B8%80%E5%80%8B%E6%96%B0%E7%9A%84patch">&#x589E;&#x52A0;&#x4E00;&#x500B;&#x65B0;&#x7684;Patch</h5>
+<p>&#x70BA;&#x4E00;&#x500B;&#x73FE;&#x6709;&#x7684;&#x8EDF;&#x4EF6;&#x5305;&#x6DFB;&#x52A0;&#x4E00;&#x500B;&#x65B0;&#x7684; Patch &#x9700;&#x8981;&#x9996;&#x5148;&#x6E96;&#x5099;&#x4EE3;&#x78BC;&#x6A39;&#xFF1A;</p>
+<pre><code>$ make package/example/{clean,prepare} V=s QUILT=1
+</code></pre><p>&#x5982;&#x679C;&#x662F; host-side &#x7684;&#x8EDF;&#x4EF6;&#x5305;&#x9700;&#x8981;&#x9032;&#x884C;&#x4E0B;&#x9762;&#x7684;&#x4EE3;&#x78BC;&#x6A39;&#x6E96;&#x5099;&#x64CD;&#x4F5C;&#xFF1A;</p>
+<pre><code>$ make package/example/host/{clean,prepare} V=s QUILT=1
+</code></pre><p>&#x9019;&#x500B;&#x6B65;&#x9A5F;&#x5C07;&#x89E3;&#x58D3;&#x6E90;&#x78BC;&#x5305;&#x7684; tarball &#x4E26;&#x4E14;&#x6309;&#x7167;&#x9810;&#x5148;&#x6392;&#x597D;&#x7684; quilt patch &#x9806;&#x5E8F;&#x9032;&#x884C;&#x6E96;&#x5099;&#x5DE5;&#x4F5C;&#xFF08;&#x7C21;&#x55AE;&#x7684;&#x8B1B;&#xFF0C;&#x6309;&#x7167;&#x88DC;&#x4E01;&#x6587;&#x4EF6;&#x524D;&#x9762;&#x7684;&#x5E8F;&#x865F;&#x7D66; tarball &#x4F9D;&#x6B21;&#x6253;&#x597D;&#x88DC;&#x4E01;&#xFF09;&#xFF0C;&#x63A5;&#x4E0B;&#x4F86;&#x6703;&#x8F38;&#x51FA;&#x8A73;&#x7D30;&#x7684;&#x6253;&#x88DC;&#x4E01;&#x60C5;&#x6CC1;&#xFF0C;&#x5982;&#x679C;&#x6709;&#x672A;&#x6210;&#x529F;&#x7684;&#x6703;&#x6709; Hunk fail &#x5B57;&#x6A23;&#xFF1B;&#x88DC;&#x4E01;&#x61C9;&#x7528;&#x6210;&#x529F;&#x7684;&#x8A71;&#x4E5F;&#x6709;&#x5169;&#x7A2E;&#x60C5;&#x6CC1;&#xFF0C;&#x7B2C;&#x4E00;&#xFF0C;&#x884C;&#x865F;&#x504F;&#x79FB;&#x6B63;&#x5E38;&#xFF0C;&#x9019;&#x4E5F;&#x5C31;&#x662F;&#x6211;&#x5011;&#x671F;&#x671B;&#x7684;&#xFF0C;&#x7B2C;&#x4E8C;&#xFF0C;&#x96D6;&#x7136;&#x61C9;&#x7528;&#x6210;&#x529F;&#x4E86;&#xFF0C;&#x4F46;&#x662F;&#x5B58;&#x5728;&#x4EE3;&#x78BC;&#x884C;&#x865F;&#x504F;&#x79FB;&#xFF0C;&#x51FA;&#x73FE;&#x7684;&#x5B57;&#x6A23;&#x662F; offset &#xFF0C;&#x4E26;&#x4E14;&#x6703;&#x63D0;&#x793A;&#x88DC;&#x4E01;&#x5177;&#x9AD4;&#x61C9;&#x7528;&#x5230;&#x4E86;&#x54EA;&#x884C;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x91DD;&#x5C0D;&#x6253;&#x88DC;&#x4E01;&#x6642;&#x7D66;&#x51FA;&#x7684;&#x63D0;&#x793A;&#x4FEE;&#x6539;&#x88DC;&#x4E01;&#x6587;&#x4EF6;&#x7684;&#x884C;&#x865F;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x901A;&#x904E; quilt &#x4FEE;&#x6539;.</p>
+<p>&#x63A5;&#x4E0B;&#x4F86;&#x5207;&#x63DB;&#x5230;&#x4EE3;&#x78BC;&#x76EE;&#x9304;&#x4E2D;&#xFF0C;&#x503C;&#x5F97;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C;&#x5982;&#x679C;&#x5728; Makefile &#x4E2D;&#x5B58;&#x5728;&#x591A;&#x500B;&#x7DE8;&#x8B6F;&#x9078;&#x9805;&#xFF08;build variants&#xFF09;&#xFF0C;&#x9700;&#x8981;&#x5207;&#x63DB;&#x5230;&#x5C0D;&#x61C9;&#x7684;&#x4EE3;&#x78BC;&#x76EE;&#x9304;&#x4E2D;.</p>
+<pre><code>$ cd build_dir/target-*/BUILD_VARIANT/example-*
+</code></pre><p>&#x63A5;&#x4E0B;&#x4F86;&#x61C9;&#x7528;&#x5168;&#x90E8;&#x7684;&#x5DF2;&#x5B58;&#x5728;&#x7684;&#x88DC;&#x4E01;&#x6587;&#x4EF6;&#xFF1A;</p>
+<pre><code>$ quilt push -a
+</code></pre><p>&#x901A;&#x904E; <code>quilt new</code> &#x547D;&#x4EE4;&#x5275;&#x5EFA;&#x4E00;&#x500B;&#x5168;&#x65B0;&#x7A7A;&#x767D;&#x7684;&#x88DC;&#x4E01;&#x6587;&#x4EF6;&#xFF1A;</p>
+<pre><code>$ quilt new 010-main_code_fix.patch
+</code></pre><p>&#x547D;&#x540D;&#x7684;&#x6642;&#x5019;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C;&#x88DC;&#x4E01;&#x6587;&#x4EF6;&#x7684;&#x540D;&#x5B57;&#x5FC5;&#x9808;&#x4EE5;&#x6578;&#x5B57;&#x958B;&#x982D;&#xFF0C;&#x4E00;&#x822C;&#x662F;&#x4E09;&#x4F4D;&#xFF0C;&#x4E26;&#x4E14;&#x88DC;&#x8DB3;&#x524D;&#x9762;&#x7684;&#x96F6;&#xFF0C;&#x6578;&#x5B57;&#x4E4B;&#x5F8C;&#x7DCA;&#x8DDF;&#x4E00;&#x500B;&#x77ED;&#x6A6B;&#x7DDA;&#xFF08;-&#xFF09;&#xFF0C;&#x63A5;&#x4E0B;&#x4F86;&#x7C21;&#x55AE;&#x63CF;&#x8FF0;&#x9019;&#x500B;&#x88DC;&#x4E01;&#x6587;&#x4EF6;&#x662F;&#x505A;&#x4EC0;&#x9EBC;&#x7528;&#x7684;&#xFF0C;&#x4EE5;&#x4FBF;&#x4EE5;&#x5F8C;&#x597D;&#x67E5;&#x627E;&#xFF1B;&#x9078;&#x5B9A;&#x6578;&#x5B57;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x6578;&#x5B57;&#x5FC5;&#x9808;&#x5927;&#x65BC;&#x73FE;&#x6709;&#x7684;&#x6700;&#x5F8C;&#x4E00;&#x500B; patch &#x7684;&#x6578;&#x5B57;&#x524D;&#x7DB4;&#xFF0C;&#x9019;&#x500B;&#x8981;&#x6C42;&#x7684;&#x539F;&#x56E0;&#x53EF;&#x4EE5;&#x901A;&#x904E; <code>quilt series</code> &#x4F86;&#x9A57;&#x8B49;&#xFF0C;&#x6392;&#x5E8F;&#x7684;&#x9806;&#x5E8F;&#x5C31;&#x662F;&#x88DC;&#x4E01;&#x61C9;&#x7528;&#x7684;&#x9806;&#x5E8F;&#xFF0C;&#x800C;&#x6392;&#x5E8F;&#x662F;&#x901A;&#x904E;&#x524D;&#x9762;&#x7684;&#x6578;&#x5B57;&#x6C7A;&#x5B9A;&#x7684;&#xFF1B;&#x5C0D;&#x88DC;&#x4E01;&#x6587;&#x4EF6;&#x7684;&#x63CF;&#x8FF0;&#x8981;&#x8A00;&#x7C21;&#x610F;&#x8CC5;&#xFF0C;&#x5118;&#x91CF;&#x7528;&#x5730;&#x9053;&#x7684;&#x82F1;&#x6587;&#x8853;&#x8A9E;.</p>
+<p>&#x5275;&#x5EFA;&#x597D;&#x7A7A;&#x767D;&#x7684;&#x88DC;&#x4E01;&#x6587;&#x4EF6;&#x4E4B;&#x5F8C;&#xFF0C;&#x5FC5;&#x9808;&#x8981;&#x6709;&#x4FEE;&#x6539;&#x7684;&#x4EE3;&#x78BC;&#x6587;&#x4EF6;&#x8207;&#x4E4B;&#x76F8;&#x95DC;&#x806F;&#xFF0C;&#x6211;&#x5011;&#x901A;&#x904E; <code>quilt add</code> &#x4F86;&#x9032;&#x884C;&#x9019;&#x500B;&#x64CD;&#x4F5C;&#xFF0C;&#x4E00;&#x65E6;&#x6DFB;&#x52A0;&#x597D;&#x4E86;&#x6587;&#x4EF6;&#xFF0C;&#x5C31;&#x50CF;&#x5F80;&#x5E38;&#x4E00;&#x6A23;&#x9032;&#x884C;&#x4FEE;&#x6539;&#x5C31;&#x53EF;&#x4EE5;&#x4E86;.
+&#x53EF;&#x4EE5;&#x901A;&#x904E; <code>quilt edit</code> &#x547D;&#x4EE4;&#x4F86;&#x540C;&#x6642;&#x5B8C;&#x6210;&#x4E0A;&#x9762;&#x7684;&#x95DC;&#x806F;&#x6587;&#x4EF6;&#x64CD;&#x4F5C;&#x4EE5;&#x53CA;&#x4FEE;&#x6539;&#x64CD;&#x4F5C;&#xFF0C;&#x9019;&#x500B;&#x4FEE;&#x6539;&#x904E;&#x7A0B;&#x8ABF;&#x7528;&#x7684;&#x6587;&#x672C;&#x7DE8;&#x8F2F;&#x5668;&#x662F;&#x524D;&#x9762;&#x5728; <code>.quiltrc</code> &#x6587;&#x4EF6;&#x88E1;&#x9762;&#x5B9A;&#x7FA9;&#x597D;&#x7684; <code>EDITOR</code> &#x8B8A;&#x91CF;&#xFF0C;&#x6CE8;&#x610F;export.</p>
+<pre><code>$ quilt edit src/main.c  // &#x901A;&#x904E;quilt&#x7684;edit&#x547D;&#x4EE4;&#x7DE8;&#x8F2F;&#x4EE3;&#x78BC;&#x6587;&#x4EF6;
+</code></pre><p>&#x9019;&#x6A23;&#x4E0A;&#x9762;&#x7684;&#x4EE3;&#x78BC;&#x6587;&#x4EF6;&#x5C31;&#x88AB;&#x52A0;&#x5230;&#x9019;&#x500B;&#x65B0;&#x5EFA;&#x7684; patch &#x4E2D;&#x4E86;&#xFF0C;&#x9019;&#x6A23;&#x4E00;&#x76F4;&#x91CD;&#x8907;&#x64CD;&#x4F5C;&#xFF0C;&#x76F4;&#x5230;&#x6240;&#x6709;&#x9700;&#x8981;&#x6DFB;&#x52A0;&#x5230;&#x8A72; patch &#x4E2D;&#x7684;&#x6587;&#x4EF6;&#x90FD;&#x4FEE;&#x6539;&#x5B8C;.</p>
+<p>&#x6240;&#x6709;&#x7684;&#x4FEE;&#x6539;&#x64CD;&#x4F5C;&#x90FD;&#x9032;&#x884C;&#x5B8C;&#x4E4B;&#x5F8C;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x904E; <code>quilt diff</code> &#x547D;&#x4EE4;&#x67E5;&#x770B;&#x4FEE;&#x6539;&#x7684;&#x5167;&#x5BB9;.</p>
+<pre><code>$ quilt diff          // &#x5F88;&#x985E;&#x4F3C; git diff &#x4E0D;&#x662F;&#x55CE;
+</code></pre><p>&#x5982;&#x679C;&#x767C;&#x73FE;&#x4FEE;&#x6539;&#x90FD;&#x8655;&#x65BC;&#x9810;&#x671F;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x628A;&#x4FEE;&#x6539;&#x5BEB;&#x5165;&#x5230;&#x525B;&#x624D;&#x65B0;&#x5EFA;&#x7684;patch&#x6587;&#x4EF6;&#x4E2D;&#x4E86;&#xFF0C;&#x6CE8;&#x610F;<strong>&#x9019;&#x6642;&#x5019;&#x7684;patch&#x9084;&#x5728; build_dir &#x88E1;&#x9762;</strong>.</p>
+<pre><code>$ quilt refresh
+</code></pre><p>&#x63A5;&#x4E0B;&#x4F86;&#x5207;&#x63DB;&#x5230; buildroot &#x7684;&#x9802;&#x5C64;&#x76EE;&#x9304;.</p>
+<pre><code>$ cd ../../../      // &#x9019;&#x500B;&#x76EE;&#x9304;&#x6BD4;&#x4FEE;&#x6539; kernel &#x88DC;&#x4E01;&#x6642;&#x4F4E;&#x4E86;&#x4E00;&#x5C64;
+</code></pre><p>&#x63A5;&#x4E0B;&#x4F86;&#xFF0C;&#x6211;&#x5011;&#x5C07;&#x525B;&#x624D;&#x65B0;&#x5EFA;&#x7684; patch &#x79FB;&#x52D5;&#x5230; buildroot &#xFF0C;&#x9019;&#x6A23;&#x6211;&#x5011;&#x5C31;&#x53EF;&#x4EE5;&#x5C07;&#x9019;&#x500B;&#x88DC;&#x4E01;&#x9032;&#x884C;&#x63D0;&#x4EA4;&#x7B49;&#x5176;&#x4ED6;&#x64CD;&#x4F5C;&#x4E86;.</p>
+<pre><code>$ make package/example/update V=s
+</code></pre><p>&#x9019;&#x6A23;&#xFF0C;&#x6211;&#x5011;&#x7684;&#x88DC;&#x4E01;&#x6DFB;&#x52A0;&#x5DE5;&#x4F5C;&#x5C31;&#x5B8C;&#x6210;&#x4E86;&#xFF0C;&#x4E0D;&#x653E;&#x5FC3;&#x7684;&#x8A71;&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x4E0B;&#x9762;&#x7684;&#x547D;&#x4EE4;&#x9032;&#x884C;&#x9A57;&#x8B49;:</p>
+<pre><code>$ make package/example/{clean,compile} package/index V=s
+</code></pre><p>&#x5982;&#x679C;&#x767C;&#x73FE;&#x554F;&#x984C;&#xFF0C;&#x9700;&#x8981;&#x91CD;&#x65B0;&#x9032;&#x884C;&#x7DE8;&#x8F2F;&#xFF0C;&#x4E0B;&#x9762;&#x4ECB;&#x7D39;&#x600E;&#x9EBC;&#x7DE8;&#x8F2F;&#x88DC;&#x4E01;&#x6587;&#x4EF6;.</p>
+<h5 id="%E7%B7%A8%E8%BC%AF%E4%B8%80%E5%80%8B%E7%8F%BE%E6%9C%89%E7%9A%84patch">&#x7DE8;&#x8F2F;&#x4E00;&#x500B;&#x73FE;&#x6709;&#x7684;patch</h5>
+<p>&#x9084;&#x662F;&#x9700;&#x8981;&#x9996;&#x5148;&#x6E96;&#x5099;&#x4EE3;&#x78BC;&#x6A39;:</p>
+<pre><code>$ make package/example/{clean,prepare} V=s QUILT=1
+</code></pre><p>&#x63A5;&#x4E0B;&#x4F86;&#x5207;&#x63DB;&#x5230;&#x4EE3;&#x78BC;&#x76EE;&#x9304;&#x4E2D;.</p>
+<pre><code>$ cd build_dir/target-*/example-*
+</code></pre><p>&#x5217;&#x51FA;&#x73FE;&#x6709;&#x7684;&#x6240;&#x6709;patch&#x6587;&#x4EF6;&#xFF1A;</p>
+<pre><code>$ quilt series
+</code></pre><p>&#x524D;&#x5F80;&#x9700;&#x8981;&#x7DE8;&#x8F2F;&#x7684;patch&#x6587;&#x4EF6;&#xFF0C;&#x7576;&#x7136;&#x524D;&#x63D0;&#x662F;&#x9019;&#x500B;push&#x5230;&#x7684;patch&#x9700;&#x8981;&#x61C9;&#x7528;&#x6210;&#x529F;&#xFF0C;&#x5426;&#x5247;&#x9700;&#x8981;push&#x5230;&#x63D0;&#x524D;&#x4E00;&#x500B;patch&#x6216;&#x8005;push&#x7684;&#x6642;&#x5019;&#x52A0;&#x4E0A; <code>-f</code> &#x53C3;&#x6578;&#x5F37;&#x5236;&#x904B;&#x884C;&#xFF0C;&#x7136;&#x5F8C;&#x76F4;&#x63A5;<code>quilt edit</code>&#x5373;&#x53EF;&#xFF0C;&#x7576;&#x7136;&#x9019;&#x500B;&#x662F;&#x5F8C;&#x8A71;.</p>
+<pre><code>$ quilt push 010-main_code_fix.patch
+</code></pre><p>&#x7576;&#x8F38;&#x5165;&#x7684;patch&#x6587;&#x4EF6;&#x540D;&#x5408;&#x6CD5;&#x7684;&#x8A71;&#xFF0C;<code>quilt push</code> &#x547D;&#x4EE4;&#x6703;&#x53EA;&#x61C9;&#x7528;patch &#x7CFB;&#x5217;&#xFF08;patch series&#xFF09;&#x5230;&#x7D66;&#x51FA;&#x7684;&#x6587;&#x4EF6;&#x540D;&#xFF0C;&#x6240;&#x4EE5;&#x63D0;&#x524D;&#x7528; <code>quilt series</code> &#x547D;&#x4EE4;&#x770B;&#x597D;&#x6587;&#x4EF6;&#x540D;&#x518D;&#x64CD;&#x4F5C;&#xFF0C;&#x7136;&#x5F8C;&#x7528; <code>quilt top</code> &#x547D;&#x4EE4;&#x770B;&#x81EA;&#x5DF1;&#x7576;&#x524D;&#x8655;&#x65BC;&#x54EA;&#x500B;patch&#x4E2D;&#x78BA;&#x4FDD;&#x842C;&#x7121;&#x4E00;&#x5931;&#xFF0C;&#x5982;&#x679C;&#x4E0D;&#x5E78;&#x8D85;&#x904E;&#x4E86;&#x6240;&#x8981;&#x53BB;&#x7684;&#x88DC;&#x4E01;&#x4F4D;&#x7F6E;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x904E; <code>quilt pop</code> &#x547D;&#x4EE4;&#x79FB;&#x9664;&#x5DF2;&#x7D93;&#x61C9;&#x7528;&#x7684;&#x88DC;&#x4E01;&#x6309;&#x7167;&#x5217;&#x8868;&#x53CD;&#x5411;&#x524D;&#x9032;.</p>
+<p>&#x63A5;&#x4E0B;&#x4F86;&#x901A;&#x904E; <code>quilt edit</code> &#x547D;&#x4EE4;&#x7DE8;&#x8F2F;&#x6BCF;&#x500B;&#x9700;&#x8981;&#x7DE8;&#x8F2F;&#x7684;&#x6587;&#x4EF6;.</p>
+<pre><code>$ quilt edit src/main.c    // &#x719F;&#x6089;&#x7684;&#x547D;&#x4EE4;
+</code></pre><p>&#x63A5;&#x4E0B;&#x4F86;&#x6AA2;&#x67E5;&#x7DE8;&#x8F2F;&#x7684;&#x6587;&#x4EF6;&#x662F;&#x5426;&#x88AB;&#x5305;&#x542B;&#x5728;patch&#x4E2D;&#x4E86;&#xFF1A;</p>
+<pre><code>$ quilt files
+</code></pre><p>&#x6AA2;&#x67E5;&#x66F4;&#x6539;&#x4FE1;&#x606F;&#xFF1A;</p>
+<pre><code>$ quilt diff
+</code></pre><p>&#x5982;&#x679C;&#x767C;&#x73FE;&#x4FEE;&#x6539;&#x90FD;&#x8655;&#x65BC;&#x9810;&#x671F;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x628A;&#x4FEE;&#x6539;&#x5BEB;&#x5165;patch&#x6587;&#x4EF6;&#x4E2D;&#x4E86;&#xFF0C;&#x6CE8;&#x610F;<strong>&#x9019;&#x6642;&#x5019;&#x7684;patch&#x9084;&#x5728; build_dir &#x88E1;&#x9762;</strong>.</p>
+<pre><code>$ quilt refresh
+</code></pre><p>&#x5207;&#x63DB;&#x5230;buildroot&#x7684;&#x9802;&#x5C64;&#x76EE;&#x9304;&#x4E2D;.</p>
+<pre><code>$ cd ../../../
+</code></pre><p>&#x63A5;&#x4E0B;&#x4F86;&#xFF0C;&#x6211;&#x5011;&#x5C07;&#x525B;&#x624D;&#x66F4;&#x65B0;&#x597D;&#x7684;patch&#x79FB;&#x52D5;&#x5230;buildroot&#x4E2D;:</p>
+<pre><code>$ make package/example/update V=s
+</code></pre><p>&#x9019;&#x6A23;&#xFF0C;&#x6211;&#x5011;&#x7684;&#x88DC;&#x4E01;&#x4FEE;&#x6539;&#x5DE5;&#x4F5C;&#x5C31;&#x5B8C;&#x6210;&#x4E86;&#xFF0C;&#x4E0D;&#x653E;&#x5FC3;&#x7684;&#x8A71;&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x4E0B;&#x9762;&#x7684;&#x547D;&#x4EE4;&#x9032;&#x884C;&#x9A57;&#x8B49;:</p>
+<pre><code>$ make package/example/{clean,compile} package/index V=s
+</code></pre><h5 id="%E6%96%B0%E5%A2%9E%E6%88%96%E4%BF%AE%E6%94%B9%E5%85%A7%E6%A0%B8%E8%A3%9C%E4%B8%81">&#x65B0;&#x589E;&#x6216;&#x4FEE;&#x6539;&#x5167;&#x6838;&#x88DC;&#x4E01;</h5>
+<p>&#x65B0;&#x589E;&#x548C;&#x4FEE;&#x6539;&#x5167;&#x6838;&#x88DC;&#x4E01;&#x548C;&#x64CD;&#x4F5C;&#x5B89;&#x88DD;&#x5305;&#x7684;&#x88DC;&#x4E01;&#x5DEE;&#x4E0D;&#x592A;&#x591A;&#xFF0C;&#x53EA;&#x6709; make &#x7684; target &#x548C;&#x64CD;&#x4F5C;&#x4EE3;&#x78BC;&#x76EE;&#x9304;&#x662F;&#x4E0D;&#x540C;&#x7684;.</p>
+<p>&#x7279;&#x5225;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C;&#x5C0D;&#x65BC;&#x5167;&#x6838;&#x88DC;&#x4E01;&#xFF0C;&#x5B58;&#x5728;&#x4E00;&#x500B;&#x9644;&#x52A0;&#x7684;&#x5B50;&#x76EE;&#x9304;&#xFF0C;&#x4E00;&#x500B;&#x662F; generic/ &#x76EE;&#x9304;&#xFF0C;&#x9019;&#x500B;&#x88E1;&#x9762;&#x5305;&#x542B;&#x5C0D;&#x6240;&#x6709;&#x76EE;&#x6A19;&#x67B6;&#x69CB;&#x7684;&#x88DC;&#x4E01;&#x6587;&#x4EF6;&#xFF1B;&#x53E6;&#x4E00;&#x500B;&#x662F; platform/ &#x76EE;&#x9304;&#xFF0C;&#x9019;&#x88E1;&#x9EB5;&#x5305;&#x542B;&#x7279;&#x5B9A;&#x67B6;&#x69CB;&#x7684;&#x88DC;&#x4E01;&#x6587;&#x4EF6;&#xFF0C;&#x4E00;&#x822C;&#x662F;&#x5728; <code>make menuconfig</code> &#x4E2D;&#x914D;&#x7F6E;&#x597D;&#x7684;&#x67B6;&#x69CB;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x5728; <code>.config</code> &#x6587;&#x4EF6;&#x4E2D;&#x627E;&#x5230;.</p>
+<p>&#x6E96;&#x5099;&#x5167;&#x6838;&#x4EE3;&#x78BC;&#x6A39;:</p>
+<pre><code>$ make target/linux/{clean,prepare} V=s QUILT=1
+</code></pre><p>&#x5C0D;&#x7A69;&#x5B9A;&#x7248;AA&#xFF08;Attitude Adjustment&#xFF09;&#x4F86;&#x8AAA;&#xFF0C;&#x5167;&#x6838;&#x4EE3;&#x78BC;&#x6A39;&#x5728;&#x9019;&#x88E1;:</p>
+<pre><code>$ cd build_dir/linux-*/linux-3.*
+</code></pre><p>&#x5C0D;&#x4E3B;&#x5E79;&#x5206;&#x652F;&#xFF0C;&#x73FE;&#x5728;&#x662F;BB&#xFF08;Barrier Breaker&#xFF09;&#xFF0C;&#x4EE3;&#x78BC;&#x6A39;&#x5728;&#x9019;&#x88E1;&#xFF1A;</p>
+<pre><code>$ cd build_dir/target-*/linux-*/linux-3.*
+</code></pre><p>&#x6211;&#x5011;&#x5C07;&#x525B;&#x624D;&#x64CD;&#x4F5C;&#x597D;&#x7684;patch&#x79FB;&#x52D5;&#x5230;buildroot&#x4E2D;&#x901A;&#x904E;&#x4E0B;&#x9762;&#x7684;&#x547D;&#x4EE4;&#xFF1A;</p>
+<pre><code>$ make target/linux/update package/index V=s
+</code></pre><p>&#x6CE8;&#x610F;&#xFF1A;Patch&#x6587;&#x4EF6;&#x7684;&#x524D;&#x7DB4;&#x5FC5;&#x9808;&#x6B63;&#x78BA;&#xFF0C;&#x6307;&#x660E;&#x662F; generic &#x9084;&#x662F; platform&#xFF0C;&#x5982;&#x679C;&#x524D;&#x7DB4;&#x4E0D;&#x6B63;&#x78BA;&#xFF0C;&#x53EF;&#x80FD;&#x61C9;&#x7528;&#x64CD;&#x4F5C;&#x6703;&#x51FA;&#x554F;&#x984C;.</p>
+<p>&#x4E0D;&#x653E;&#x5FC3;&#x7684;&#x8A71;&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x4E0B;&#x9762;&#x7684;&#x547D;&#x4EE4;&#x9032;&#x884C;&#x9A57;&#x8B49;&#xFF0C;&#x9996;&#x5148;&#x53BB;&#x9802;&#x5C64;&#x76EE;&#x9304;&#xFF0C;&#x4E00;&#x822C;&#x662F; target/ &#x6240;&#x5728;&#x7684;&#x76EE;&#x9304;&#xFF1A;</p>
+<pre><code>$ cd ../../../../
+</code></pre><p>&#x7136;&#x5F8C;&#x518D;&#x6B21;&#x6E96;&#x5099;&#x4EE3;&#x78BC;&#x6A39;&#xFF0C;&#x67E5;&#x770B;&#x66F4;&#x6539;&#x662F;&#x5426;&#x5DF2;&#x7D93;&#x61C9;&#x7528;&#x4E86;&#xFF1A;</p>
+<pre><code>$ make target/linux/{clean,prepare} V=s QUILT=1
+</code></pre><p>&#x6700;&#x5F8C;&#x8981;&#x8AAA;&#x7684;&#x662F;&#xFF0C;&#x653E;&#x7F6E;patch&#x7684;&#x4F4D;&#x7F6E;&#x5F88;&#x91CD;&#x8981;&#xFF0C;&#x5B83;&#x6C7A;&#x5B9A;&#x88DC;&#x4E01;&#x7684;&#x61C9;&#x7528;&#x60C5;&#x6CC1;.</p>
+<h5 id="%E5%A2%9E%E5%8A%A0%E6%88%96%E7%B7%A8%E8%BC%AF%E5%B7%A5%E5%85%B7%E9%8F%88-patch%EF%BC%88%E9%80%99%E9%83%A8%E5%88%86%E4%B8%80%E8%88%AC%E4%B8%8D%E6%9C%83%E6%B6%89%E5%8F%8A%EF%BC%89">&#x589E;&#x52A0;&#x6216;&#x7DE8;&#x8F2F;&#x5DE5;&#x5177;&#x93C8; Patch&#xFF08;&#x9019;&#x90E8;&#x5206;&#x4E00;&#x822C;&#x4E0D;&#x6703;&#x6D89;&#x53CA;&#xFF09;</h5>
+<p>&#x4EE5; gcc &#x70BA;&#x4F8B;:</p>
+<p>&#x7DE8;&#x8B6F;&#x904E;toolchain&#x6216;&#x8005;&#x662F;&#x770B;toolchain&#x76EE;&#x9304;&#x7684;&#x4E3B;Makefile&#x53EF;&#x4EE5;&#x767C;&#x73FE;gcc&#x6709;&#x4E09;&#x500B;&#x7DE8;&#x8B6F;&#x968E;&#x6BB5;&#xFF1A;initial, minimal&#x548C;final&#xFF0C;&#x5982;&#x679C;&#x8981;&#x4FEE;&#x6539;gcc&#x7684;patch&#xFF0C;&#x9700;&#x8981;&#x4F7F;&#x7528;minimal&#x90A3;&#x500B;&#x968E;&#x6BB5;&#x3002;</p>
+<p>&#x6E96;&#x5099;&#x5DE5;&#x5177;&#x93C8;&#x4EE3;&#x78BC;&#x6A39;:</p>
+<pre><code>$ make toolchain/gcc/minimal/{clean,prepare} V=99 QUILT=1
+</code></pre><p>&#x4EE3;&#x78BC;&#x6A39;&#x8DEF;&#x5F91;&#x53D6;&#x6C7A;&#x65BC;&#x9078;&#x64C7;&#x7684;&#x5EAB;&#x4EE5;&#x53CA; gcc :</p>
+<pre><code>$ cd build_dir/toolchain-mips_r2_gcc-4.3.3+cs_uClibc-0.9.30.1/gcc-linaro-&lt;version&gt;
+</code></pre><p>&#x901A;&#x904E;&#x5982;&#x4E0B;&#x547D;&#x4EE4;&#x66F4;&#x65B0;Patch:</p>
+<pre><code>$ make toolchain/gcc/minimal/update V=99
+</code></pre><p>&#x5C0D;&#x65BC;&#x5176;&#x9918;&#x7684;binutils, gdb, glibc&#x4E4B;&#x985E;&#x7684;&#x7531;&#x65BC;&#x6C92;&#x6709;&#x7D30;&#x5206;&#x968E;&#x6BB5;&#xFF0C;&#x6240;&#x4EE5;&#x76F4;&#x63A5;&#x6309;&#x7167;&#x8EDF;&#x4EF6;&#x5305;&#x90A3;&#x6A23;&#x7684;&#x683C;&#x5F0F;&#x5957;&#x7528;&#x5C31;&#x884C;&#x4E86;&#x3002;</p>
+<p>&#x6BD4;&#x5982; <code>make toolchain/(gdb|glibc|binutils)/{clean,prepare} V=99 QUILT=1</code>, <code>make toolchain/(gdb|glibc|binutils)/update V=99</code></p>
+<h5 id="%E5%88%B7%E6%96%B0patch">&#x5237;&#x65B0;Patch</h5>
+<p>&#x7576;&#x8EDF;&#x4EF6;&#x5305;&#x66F4;&#x65B0;&#x6216;&#x8005;&#x5167;&#x6838;&#x66F4;&#x65B0;&#x6642;&#xFF0C;&#x73FE;&#x6709;&#x7684;patch&#x6587;&#x4EF6;&#x53EF;&#x80FD;&#x4E0D;&#x6703;&#x5B8C;&#x5168;&#x61C9;&#x7528;&#x6216;&#x8005;&#x5B58;&#x5728;&#x5176;&#x4ED6;&#x63D0;&#x793A;&#x3002;&#x60F3;&#x8981;&#x91CD;&#x65B0;&#x69CB;&#x5EFA;Patch&#x5217;&#x8868;&#x4E2D;&#x7684;&#x5168;&#x90E8;patch&#x53EF;&#x4EE5;&#x4F7F;&#x7528;make&#x76EE;&#x6A19;&#xFF1A;refresh.</p>
+<pre><code>$ make package/example/refresh V=s    // &#x8EDF;&#x4EF6;&#x5305;
+$ make target/linux/refresh V=s       // &#x5167;&#x6838;
+</code></pre><h5 id="%E4%B8%8D%E6%B8%85%E7%90%86%E4%BB%A3%E7%A2%BC%E6%A8%B9%E9%87%8D%E8%A4%87%E4%BF%AE%E6%94%B9%E8%A3%9C%E4%B8%81">&#x4E0D;&#x6E05;&#x7406;&#x4EE3;&#x78BC;&#x6A39;&#x91CD;&#x8907;&#x4FEE;&#x6539;&#x88DC;&#x4E01;</h5>
+<p>&#x7576;&#x9700;&#x8981;&#x5F15;&#x5165;&#x65B0;&#x529F;&#x80FD;&#x505A;&#x66F4;&#x6539;&#x6642;&#xFF0C;&#x7D93;&#x5E38;&#x9700;&#x8981;&#x591A;&#x6B21;&#x4FEE;&#x6539;&#x88DC;&#x4E01;&#x3002;&#x70BA;&#x4E86;&#x52A0;&#x901F;&#xFF0C;&#x53EF;&#x4EE5;&#x5728;&#x7DE8;&#x8F2F;&#x64CD;&#x4F5C;&#xFF08;edit&#xFF09;&#x4E4B;&#x9593;&#x4FDD;&#x7559;&#x505A;&#x5B8C;&#x6E96;&#x5099;&#x64CD;&#x4F5C;&#x7684;&#x4EE3;&#x78BC;&#x6A39;.</p>
 <ol>
-<li>shell command line &#x4E3B;&#x8981;&#x662F;&#x5C07;&#x6574;&#x884C;line&#x7D66;&#x5206;&#x89E3;(break down)&#x70BA;&#x6BCF;&#x4E00;&#x500B;&#x55AE;&#x8A5E;(word);</li>
-<li>&#x800C;&#x8A5E;&#x8207;&#x8A5E;&#x4E4B;&#x9593;&#x7684;&#x5206;&#x9694;&#x7B26;&#x5C31;&#x662F;IFS (Internal Field Seperator)&#x3002;</li>
-<li>shell&#x6703;&#x5C0D;command line&#x4F5C;&#x8655;&#x7406;(&#x5982;&#x66FF;&#x63DB;&#xFF0C;quoting&#x7B49;), &#x7136;&#x5F8C;&#x518D;&#x6309;&#x8A5E;&#x91CD;&#x7D44;&#x3002;(&#x6CE8;&#xFF1A;&#x5225;&#x5FD8;&#x4E86;&#x9019;&#x500B;&#x91CD;&#x7D44;&#x7279;&#x6027;)</li>
-<li>&#x7576;&#x4F60;&#x7528;IFS&#x4F86;&#x4E8B;&#x958B;&#x982D;&#x4E00;&#x500B;&#x8B8A;&#x91CF;&#x503C;&#xFF0C;&#x90A3;shell&#x6703;&#x5148;&#x6574;&#x7406;&#x51FA;&#x9019;&#x500B;&#x8A5E;&#xFF0C;&#x7136;&#x5F8C;&#x5728;&#x91CD;&#x7D44;command line&#x3002;
-5.&#x7136;&#x800C;&#xFF0C;&#x4F60;&#x5C07;IFS&#x63DB;&#x6210;&#x5176;&#x4ED6;&#xFF0C;&#x90A3;shell&#x5C07;&#x8996;&#x4F60;&#x54EA;&#x4E9B;space/tab&#x70BA;&#x201C;&#x8A5E;&#x201D;&#xFF0C;&#x800C;&#x4E0D;&#x662F;IFS&#x3002;&#x90A3;&#x5728;&#x91CD;&#x7D44;&#x6642;&#xFF0C;&#x53EF;&#x4EE5;&#x5F97;&#x5230;&#x9019;&#x4E9B;&#x8A5E;&#x3002;</li>
+<li>&#x525B;&#x958B;&#x59CB;&#x5982;&#x4E0A;&#x6587;&#x6240;&#x8FF0;&#x6E96;&#x5099;&#x597D;&#x4EE3;&#x78BC;&#x6A39;;</li>
+<li>&#x5207;&#x63DB;&#x5230;&#x6E96;&#x5099;&#x597D;&#x7684;&#x4EE3;&#x78BC;&#x76EE;&#x9304;;</li>
+<li>&#x524D;&#x5F80;&#x9700;&#x8981;&#x4FEE;&#x6539;&#x7684;patch&#x4F4D;&#x7F6E;;</li>
+<li>&#x4FEE;&#x6539;&#x6587;&#x4EF6;&#x4E26;&#x4FDD;&#x5B58;&#x5C0D;patch&#x6587;&#x4EF6;&#x7684;&#x66F4;&#x6539;;</li>
+<li>&#x901A;&#x904E; <code>quilt push -a</code> &#x547D;&#x4EE4;&#x5B8C;&#x5168;&#x61C9;&#x7528;&#x5269;&#x4E0B;&#x7684;&#x88DC;&#x4E01;&#x6587;&#x4EF6;;</li>
+<li>&#x5207;&#x63DB;&#x5230;&#x9802;&#x5C64;&#x76EE;&#x9304;&#x904B;&#x884C; <code>make package/example/{compile,install}</code> &#xFF0C;&#x5982;&#x679C;&#x662F;&#x5167;&#x6838;&#x7684;&#x88DC;&#x4E01;&#xFF0C;&#x4F7F;&#x7528; <code>make target/linux/{compile,install}</code> &#x547D;&#x4EE4;;</li>
+<li>&#x6E2C;&#x8A66;&#x4E8C;&#x9032;&#x5236;&#x6587;&#x4EF6;&#x3002;&#x5982;&#x679C;&#x518D;&#x6B21;&#x9700;&#x8981;&#x9032;&#x884C;&#x66F4;&#x6539;&#xFF0C;&#x5F9E;&#x7B2C;&#x4E8C;&#x6B65;&#x91CD;&#x8907;&#x64CD;&#x4F5C;&#xFF1B;</li>
+<li>&#x6700;&#x5F8C;&#x4F7F;&#x7528; <code>make package/example/update</code> &#x547D;&#x4EE4; &#xFF0C;&#x5982;&#x679C;&#x662F;&#x5167;&#x6838;&#x88DC;&#x4E01;&#xFF0C;&#x4F7F;&#x7528; <code>make target/linux/update</code> &#x547D;&#x4EE4;&#x5C07;patch&#x6587;&#x4EF6;&#x61C9;&#x7528;&#x5230;buildroot&#x4E2D;&#x3002;</li>
 </ol>
-<p>&#x82E5;&#x4F60;&#x9084;&#x662F;&#x4E0D;&#x7406;&#x89E3;&#xFF0C;&#x90A3;&#x4F86;&#x9A57;&#x8B49;&#x4E00;&#x4E0B;&#x4E0B;&#x9762;&#x9019;&#x500B;&#x4F8B;&#x5B50;&#xFF1A;</p>
-<pre><code class="lang-shell">$ A=&quot;  abc&quot;
-$ echo $A
-abc
-$ echo &quot;$A&quot; #note1
-   abc
-$ old_IFS=$IFS
-$ IFS=;
-$ echo $A
-   abc
-$ IFS=$old_IFS
-$ echo $A
-abc
-</code></pre>
-<blockquote>
-<p><strong>Note:</strong></p>
-<ol>
-<li><p>&#x9019;&#x88E1;&#x662F;&#x7528; soft quoting &#x5C07;&#x88E1;&#x9762;&#x7684; space &#x95DC;&#x9589;&#xFF0C;&#x4F7F;&#x4E4B;&#x4E0D;&#x662F; meta(IFS)&#xFF0C;
-&#x800C;&#x662F;&#x4E00;&#x500B;literal(white space);</p>
-</li>
-<li><p>IFS=; &#x610F;&#x7FA9;&#x662F;&#x5C07;IFS&#x8A2D;&#x7F6E;&#x70BA;&#x7A7A;&#x5B57;&#x7B26;&#xFF0C;&#x56E0;&#x70BA;;&#x662F;shell&#x7684;&#x5143;&#x5B57;&#x7B26;(meta);</p>
-</li>
-</ol>
+<h5 id="%E6%BA%96%E5%82%99-linux-%E5%85%A7%E6%A0%B8-patch">&#x6E96;&#x5099; linux &#x5167;&#x6838; patch</h5>
+<p>&#x5230;&#x9019;&#x88E1;&#x57FA;&#x672C;&#x5C31;&#x5B8C;&#x6210;&#x4E86; OpenWrt &#x7684;&#x8A2D;&#x5099;&#x652F;&#x6301;&#x4EE3;&#x78BC;. &#x70BA;&#x4E86;&#x652F;&#x6301;&#x6211;&#x5011;&#x7684;&#x8A2D;&#x5099;, Linux &#x4EE3;&#x78BC;&#x6A39;&#x7684;&#x90E8;&#x5206;&#x6587;&#x4EF6;&#x4E5F;&#x9700;&#x8981;&#x505A;&#x6539;&#x52D5;, OpenWrt &#x63A1;&#x7528;&#x4E86; patch &#x7684;&#x65B9;&#x5F0F;&#x5BE6;&#x73FE;.</p>
+<p>&#x56DE;&#x9000;&#x5230;&#x6E90;&#x4EE3;&#x78BC;&#x7684;&#x6839;&#x76EE;&#x9304; <code>~/trunk</code> .</p>
+<p>&#x6E05;&#x7406;&#x4E26;&#x6E96;&#x5099; patch &#x6A39;:</p>
+<pre><code>$ make target/linux/{clean,prepare} V=s QUILT=1
+</code></pre><p>&#x9032;&#x5165;&#x5167;&#x6838;&#x4EE3;&#x78BC;&#x76EE;&#x9304;:</p>
+<pre><code>$ cd build_dir/target-*/linux-ar71xx_generic/linux-3.x/
+</code></pre><p>&#x9019;&#x88E1;&#x5C31;&#x662F;&#x5167;&#x6838;&#x4EE3;&#x78BC;&#x6A39;&#x4E86;, &#x88E1;&#x9762;&#x7684;&#x4EE3;&#x78BC;&#x662F;&#x5DF2;&#x7D93;&#x6253;&#x904E;&#x6240;&#x6709; patch &#x7684;, &#x53EF;&#x4EE5;&#x7528; <code>quilt push</code> &#x6AA2;&#x67E5;&#x770B;&#x662F;&#x4E0D;&#x662F;&#x9019;&#x6A23;:</p>
+<pre><code>$ quilt push
+</code></pre><blockquote>
+<p>File series fully applied, ends at patch platform/xxx-xxxxxxxxxxxxxx.patch.</p>
 </blockquote>
-<p>&#x554F;&#x984C;&#x4E8C;&#xFF1A;&#x70BA;&#x4EC0;&#x9EBC;&#x591A;&#x505A;&#x4E86;&#x5E7E;&#x500B;&#x5206;&#x865F;&#xFF0C;&#x6211;&#x60F3;&#x77E5;&#x9053;&#x70BA;&#x4EC0;&#x9EBC;&#x6703;&#x51FA;&#x73FE;&#x7A7A;&#x683C;&#x5462;&#xFF1F;</p>
-<pre><code class="lang-shell">$ a=&quot;;;;test&quot;
-$ IFS=&quot;;&quot;
-$ echo $a
-   test
-$ a=&quot;   test&quot;
-$ echo $a
-   test
-$ IFS=&quot; &quot;
-$ echo $a
-test
+<p>&#x9019;&#x689D;&#x8F38;&#x51FA;&#x4E5F;&#x544A;&#x8A34;&#x6211;&#x5011;, &#x7576;&#x524D;&#x6700;&#x9802;&#x7684; patch &#x662F; platform/xxx</p>
+<p>&#x70BA;&#x6211;&#x7684; WL-WR2041N v1 &#x65B0;&#x5EFA;&#x500B; patch:</p>
+<pre><code>$ quilt new platform/920-MIPS-ath79-add-TL-WR2041N-v1-support.patch
+</code></pre><p>&#x9078;&#x64C7;&#x7684;&#x6578;&#x5B57;&#x9700;&#x8981;&#x5927;&#x65BC;&#x525B;&#x624D;&#x7684;&#x90A3;&#x500B; xxx , &#x7136;&#x5F8C; quilt &#x6703;&#x81EA;&#x52D5;&#x628A;&#x9019;&#x500B; patch &#x8A2D;&#x7F6E;&#x70BA;&#x7576;&#x524D; patch, &#x6240;&#x6709;&#x7684;&#x6539;&#x52D5;&#x90FD;&#x91DD;&#x5C0D;&#x9019;&#x500B; patch.</p>
+<p>&#x6CE8;&#x610F;&#x4FEE;&#x6539;&#x6587;&#x4EF6;&#x4E4B;&#x524D;&#x4E00;&#x5B9A;&#x8981;&#x770B;&#x81EA;&#x5DF1;&#x4F4D;&#x65BC;&#x54EA;&#x500B;patch&#x4E0B;&#xFF0C;&#x5426;&#x5247;&#x4FEE;&#x6539;&#x90FD;&#x6703;&#x66F4;&#x65B0;&#x5230;&#x90A3;&#x500B;patch.</p>
+<p>&#x7136;&#x5F8C;&#x5C31;&#x662F;&#x589E;&#x52A0;&#x4EE3;&#x78BC;&#x4E86;</p>
+<pre><code>$ quilt edit arch/mips/ath79/Kconfig
+$ quilt edit arch/mips/ath79/Makefile
+$ quilt edit arch/mips/ath79/machtypes.h
+</code></pre><p>&#x81F3;&#x65BC;&#x600E;&#x9EBC;&#x6539;, &#x53C3;&#x8003;&#x9019;&#x4E9B;&#x6587;&#x4EF6;&#x88E1;&#x5176;&#x4ED6;&#x786C;&#x4EF6;&#x7684;&#x914D;&#x7F6E;</p>
+<p>&#x6BD4;&#x5982; 2041n v1:</p>
+<pre><code class="lang-patch"><span class="hljs-header">--- a/arch/mips/ath79/Kconfig</span>
+<span class="hljs-header">+++ b/arch/mips/ath79/Kconfig</span>
+@@ -900,6 +900,16 @@ config ATH79_MACH_TL_WR1043ND_V2
+     select ATH79_DEV_USB
+     select ATH79_DEV_WMAC
+
+<span class="hljs-addition">+config ATH79_MACH_TL_WR2041N_V1</span>
+<span class="hljs-addition">+    bool &quot;TP-LINK TL-WR2041N v1 board support&quot;</span>
+<span class="hljs-addition">+    select SOC_AR934X</span>
+<span class="hljs-addition">+    select ATH79_DEV_AP9X_PCI if PCI</span>
+<span class="hljs-addition">+    select ATH79_DEV_ETH</span>
+<span class="hljs-addition">+    select ATH79_DEV_GPIO_BUTTONS</span>
+<span class="hljs-addition">+    select ATH79_DEV_LEDS_GPIO</span>
+<span class="hljs-addition">+    select ATH79_DEV_M25P80</span>
+<span class="hljs-addition">+     select ATH79_DEV_WMAC</span>
+<span class="hljs-addition">+</span>
+ config ATH79_MACH_TL_WR2543N
+     bool &quot;TP-LINK TL-WR2543N/ND support&quot;
+     select SOC_AR724X
+<span class="hljs-header">--- a/arch/mips/ath79/Makefile</span>
+<span class="hljs-header">+++ b/arch/mips/ath79/Makefile</span>
+@@ -116,6 +116,7 @@ obj-$(CONFIG_ATH79_MACH_TL_WR841N_V9)    +=
+ obj-$(CONFIG_ATH79_MACH_TL_WR941ND)    += mach-tl-wr941nd.o
+ obj-$(CONFIG_ATH79_MACH_TL_WR1041N_V2)    += mach-tl-wr1041n-v2.o
+ obj-$(CONFIG_ATH79_MACH_TL_WR1043ND)    += mach-tl-wr1043nd.o
+<span class="hljs-addition">+obj-$(CONFIG_ATH79_MACH_TL_WR2041N_V1)    += mach-tl-wr2041n-v1.o</span>
+ obj-$(CONFIG_ATH79_MACH_TL_WR1043ND_V2)    += mach-tl-wr1043nd-v2.o
+ obj-$(CONFIG_ATH79_MACH_TL_WR2543N)    += mach-tl-wr2543n.o
+ obj-$(CONFIG_ATH79_MACH_TL_WR703N)    += mach-tl-wr703n.o
+<span class="hljs-header">--- a/arch/mips/ath79/machtypes.h</span>
+<span class="hljs-header">+++ b/arch/mips/ath79/machtypes.h</span>
+@@ -134,6 +134,7 @@ enum ath79_mach_type {
+     ATH79_MACH_TL_WR1041N_V2,    /* TP-LINK TL-WR1041N v2 */
+     ATH79_MACH_TL_WR1043ND,        /* TP-LINK TL-WR1043ND */
+     ATH79_MACH_TL_WR1043ND_V2,    /* TP-LINK TL-WR1043ND v2 */
+<span class="hljs-addition">+    ATH79_MACH_TL_WR2041N_V1,       /* TP-LINK TL-WR2041N v1 */</span>
+     ATH79_MACH_TL_WR2543N,        /* TP-LINK TL-WR2543N/ND */
+     ATH79_MACH_TL_WR703N,        /* TP-LINK TL-WR703N */
+     ATH79_MACH_TL_WR710N,        /* TP-LINK TL-WR710N */
 </code></pre>
-<p>&#x89E3;&#x7B54;&#xFF1A;</p>
-<p>&#x9019;&#x500B;&#x554F;&#x984C;&#xFF0C;&#x51FA;&#x5728;<code>IFS=;</code>&#x4E0A;&#x3002;
-&#x56E0;&#x70BA;&#x9019;&#x500B;<code>;</code>&#x5728;&#x554F;&#x984C;&#x4E00;&#x4E2D;&#x7684;command line&#x4E0A;&#x662F;&#x4E00;&#x500B;meta,
-&#x4E26;&#x975E;<code>&quot;;&quot;</code>&#x7B26;&#x865F;&#x672C;&#x8EAB;&#x3002;
-&#x56E0;&#x6B64;&#xFF0C;<code>IFS=;</code>&#x662F;&#x5C07;IFS&#x8A2D;&#x7F6E;&#x70BA; null charactor
-(&#x4E0D;&#x662F;space&#x3001;tab&#x3001;newline)&#x3002;</p>
-<p>&#x8981;&#x4E0D;&#x662F;&#x8A66;&#x8A66;&#x4E0B;&#x9762;&#x9019;&#x500B;&#x4EE3;&#x78BC;&#x7247;&#x6BB5;&#xFF1A;</p>
-<pre><code class="lang-shell">$ old_IFS=$IFS
-$ read A
-;a;b;c
-$ echo $A
-;a;b;c
-$ IFS=&quot;;&quot;  #Note2
-$ echo $A
-a b c
-</code></pre>
+<p>&#x50C5;&#x4F5C;&#x70BA;&#x53C3;&#x8003;&#x3002;</p>
+<p>&#x7136;&#x5F8C;&#x9A57;&#x8B49;&#x4E0B;&#x4FEE;&#x6539;&#x7684;&#x5167;&#x5BB9;:</p>
+<pre><code>$ quilt diff # &#x67E5;&#x770B; diff
+$ quilt refresh # &#x4FDD;&#x5B58;&#x6240;&#x6709; diff &#x5230; patch &#x6587;&#x4EF6;
+</code></pre><p>&#x9019;&#x500B;&#x6642;&#x5019;&#x6211;&#x5011;&#x7684; patch &#x6587;&#x4EF6;&#x9084;&#x5728; build_dir &#x88E1;, &#x5927;&#x6982;&#x4F4D;&#x7F6E;&#x662F; <code>patches/platform/</code> &#x4E0B;. &#x9700;&#x8981;&#x540C;&#x6B65;&#x5230; OpenWrt &#x4EE3;&#x78BC;&#x6A39;.</p>
+<p>&#x9000;&#x56DE;&#x5230;&#x9802;&#x5C64;&#x5DE5;&#x4F5C;&#x76EE;&#x9304;, &#x57F7;&#x884C;:</p>
+<pre><code>$ make target/linux/update V=s
+</code></pre><p>&#x540C;&#x6B65;&#x5B8C;&#x6210;&#x5F8C;, patch &#x6587;&#x4EF6;&#x6703;&#x51FA;&#x73FE;&#x5728; <code>target/linux/ar71xx/patches-3.x/</code> &#x4E0B;.</p>
+<p>&#x4EE5;&#x5F8C;&#x4EE3;&#x78BC;&#x66F4;&#x65B0;&#x5F8C;&#x9700;&#x8981;&#x7DE8;&#x8F2F; patch &#x6642;&#xFF0C;&#x9075;&#x5F9E;&#x4E0A;&#x9762;&#x7684; quilt &#x5C0D; patch &#x7684;&#x7BA1;&#x7406;&#x64CD;&#x4F5C;&#x3002;</p>
+<h5 id="%E9%96%8B%E5%A7%8B%E7%B7%A8%E8%AD%AF">&#x958B;&#x59CB;&#x7DE8;&#x8B6F;</h5>
+<p>&#x518D;&#x6B21;&#x8A18;&#x5F97;, <strong>&#x522A;&#x9664; tmp &#x76EE;&#x9304;</strong></p>
+<pre><code>$ rm -rvf tmp/
+$ make menuconfig
+</code></pre><h4 id="%E5%B9%BE%E5%80%8B%E5%95%8F%E9%A1%8C%E8%A7%A3%E6%B1%BA%E7%9A%84%E6%A1%88%E4%BE%8B">&#x5E7E;&#x500B;&#x554F;&#x984C;&#x89E3;&#x6C7A;&#x7684;&#x6848;&#x4F8B;</h4>
+<h5 id="%E5%8F%83%E8%80%83%E9%8F%88%E6%8E%A5">&#x53C3;&#x8003;&#x93C8;&#x63A5;</h5>
 <blockquote>
-<p><strong>Note:</strong></p>
-<p>&#x8981;&#x95DC;&#x9589;<code>;</code>&#x53EF;&#x7528;<code>&quot;;&quot;</code>&#x6216;&#x8005;<code>&apos;;&apos;</code>&#x6216;&#x8005;<code>\;</code>&#x3002;</p>
+<p><a href="http://wiki.openwrt.org/doc/devel/add.new.device" target="_blank">http://wiki.openwrt.org/doc/devel/add.new.device</a>
+<a href="http://wiki.openwrt.org/doc/devel/hw.hacking.first.steps" target="_blank">http://wiki.openwrt.org/doc/devel/hw.hacking.first.steps</a>
+<a href="http://wiki.openwrt.org/doc/devel/patches" target="_blank">http://wiki.openwrt.org/doc/devel/patches</a>
+<a href="http://andelf.diandian.com/post/2013-05-22/40050677370" target="_blank">http://andelf.diandian.com/post/2013-05-22/40050677370</a>
+<a href="http://tilt.lib.tsinghua.edu.cn/node/841" target="_blank">http://tilt.lib.tsinghua.edu.cn/node/841</a>
+<a href="http://www.openwrt.org.cn/bbs/forum.php?mod=viewthread&amp;tid=211" target="_blank">http://www.openwrt.org.cn/bbs/forum.php?mod=viewthread&amp;tid=211</a>
+<a href="http://www.tuicool.com/kans/481707042" target="_blank">http://www.tuicool.com/kans/481707042</a>
+<a href="http://www.openwrt.org.cn/bbs/forum.php?mod=viewthread&amp;tid=60&amp;extra=page%3D1" target="_blank">http://www.openwrt.org.cn/bbs/forum.php?mod=viewthread&amp;tid=60&amp;extra=page%3D1</a></p>
 </blockquote>
-<ul>
-<li><a href="http://bbs.chinaunix.net/forum/viewtopic.php?t=216729" target="_blank">http://bbs.chinaunix.net/forum/viewtopic.php?t=216729</a></li>
-</ul>
-<p>&#x601D;&#x8003;&#x554F;&#x984C;&#x4E8C;&#xFF1A;&#x6587;&#x672C;&#x8655;&#x7406;&#xFF1A;&#x8B80;&#x6587;&#x4EF6;&#x6642;&#xFF0C;&#x5982;&#x4F55;&#x4FDD;&#x8B49;&#x539F;&#x6C41;&#x539F;&#x5473;&#x3002;</p>
-<pre><code class="lang-shell">cat file | while read i
-do
-   echo $i
-done
-</code></pre>
-<p>&#x6587;&#x4EF6;file&#x7684;&#x884C;&#x4E2D;&#x5305;&#x542B;&#x82E5;&#x5E72;&#x7A7A;&#xFF0C;&#x7D93;&#x904E;read&#x53EA;&#x4FDD;&#x7559;&#x4E0D;&#x91CD;&#x8907;&#x7684;&#x7A7A;&#x683C;&#x3002;
-&#x5982;&#x4F55;&#x624D;&#x80FD;&#x6240;&#x898B;&#x5373;&#x6240;&#x5F97;&#x3002;</p>
-<pre><code class="lang-shell">cat file | while read i
-do
-   echo &quot;X${i}X&quot;
-done
-</code></pre>
-<p>&#x5F9E;&#x4E0A;&#x9762;&#x7684;&#x8F38;&#x51FA;&#xFF0C;&#x53EF;&#x4EE5;&#x770B;&#x51FA;read&#xFF0C;&#x8B80;&#x5165;&#x662F;&#x6309;&#x6574;&#x884C;&#x8B80;&#x5165;&#x7684;;
-&#x4E0D;&#x80FD;&#x539F;&#x6C41;&#x539F;&#x5473;&#x7684;&#x539F;&#x56E0;&#xFF1A;</p>
-<ol>
-<li>&#x5982;&#x679C;&#x884C;&#x7684;&#x8D77;&#x59CB;&#x90E8;&#x5206;&#x6709;IFS&#x4E4B;&#x985E;&#x7684;&#x5B57;&#x7B26;&#xFF0C;&#x5C07;&#x88AB;&#x5FFD;&#x7565;;</li>
-<li><code>echo $i</code>&#x7684;&#x89E3;&#x6790;&#x904E;&#x7A0B;&#x4E2D;&#xFF0C;&#x9996;&#x5148;&#x5C07;$i&#x66FF;&#x63DB;&#x70BA;&#x5B57;&#x7B26;&#x4E32;&#xFF0C;
-&#x7136;&#x5F8C;&#x5C0D;echo &#x5B57;&#x7B26;&#x4E32;&#x4E2D;&#x5B57;&#x7B26;&#x4E32;&#x5206;&#x8A5E;&#xFF0C;&#x7136;&#x5F8C;&#x547D;&#x4EE4;&#x91CD;&#x7D44;&#xFF0C;&#x8F38;&#x51FA;&#x7D50;&#x679C;;
-&#x5728;&#x5206;&#x8A5E;&#xFF0C;&#x8207;&#x547D;&#x4EE4;&#x91CD;&#x7D44;&#x6642;&#xFF0C;&#x53EF;&#x80FD;&#x5C0E;&#x81F4;&#x591A;&#x500B;&#x76F8;&#x9130;&#x7684;IFS&#x8F49;&#x5316;&#x70BA;&#x4E00;&#x500B;;</li>
-</ol>
-<pre><code class="lang-shell">cat file | while read i
-do
-  echo &quot;$i&quot;
-done
-</code></pre>
-<p>&#x4EE5;&#x4E0A;&#x4EE3;&#x78BC;&#x53EF;&#x4EE5;&#x89E3;&#x6C7A;&#x539F;&#x56E0;2&#x4E2D;&#x7684;&#xFF0C;command line&#x7684;&#x5206;&#x8A5E;&#x548C;&#x91CD;&#x7D44;&#x5C0E;&#x81F4;meta&#x5B57;&#x7B26;&#x4E1F;&#x5931;&#xFF1B;
-&#x4F46;&#x4ECD;&#x7136;&#x89E3;&#x6C7A;&#x4E0D;&#x4E86;&#x539F;&#x56E0;1&#x4E2D;&#xFF0C;read&#x8B80;&#x53D6;&#x884C;&#x6642;&#xFF0C;&#x5FFD;&#x7565;&#x884C;&#x8D77;&#x59CB;&#x7684;IFS meta&#x5B57;&#x7B26;&#x3002;</p>
-<p>&#x56DE;&#x904E;&#x982D;&#x4F86;&#x770B;&#x4E0A;&#x9762;&#x9019;&#x500B;&#x554F;&#x984C;&#xFF1A;&#x70BA;&#x4F55;&#x8981;&#x539F;&#x6C41;&#x539F;&#x5473;&#x5462;&#xFF1F;
-cat&#x547D;&#x4EE4;&#x5C31;&#x662F;&#x539F;&#x6C41;&#x539F;&#x5473;&#x7684;&#xFF0C;&#x53EA;&#x662F;shell&#x7684;read&#x3001;echo&#x5C0E;&#x81F4;&#x4E86;&#x67D0;&#x4E9B;shell&#x7684;meta&#x5B57;&#x7B26;&#x4E1F;&#x5931;;</p>
-<p>&#x5982;&#x679C;&#x53EA;&#x662F;IFS meta&#x7684;&#x4E1F;&#x5931;&#xFF0C;&#x53EF;&#x4EE5;&#x63A1;&#x7528;&#x5982;&#x4E0B;&#x65B9;&#x5F0F;&#xFF1A;
-&#x5C07;IFS&#x8A2D;&#x7F6E;&#x70BA;null&#xFF0C;&#x5373;<code>IFS=;</code>,
-&#x5728;&#x6B64;&#x518D;&#x6B21;&#x91CD;&#x7533;&#x6B64;&#x8655;<code>;</code>&#x662F;shell&#x7684;meta&#x5B57;&#x7B26;,&#x800C;&#x4E0D;&#x662F;literal&#x5B57;&#x7B26;;
-&#x56E0;&#x6B64;&#x8981;&#x4F7F;&#x7528;literal&#x7684;    <code>;</code>&#x61C9;&#x8A72;&#x662F;<code>\;</code>
-&#x6216;&#x8005;&#x95DC;&#x9589;meta &#x7684;(soft/hard) quoting&#x7684;<code>&quot;;&quot;</code>&#x6216;&#x8005;<code>&apos;;&apos;</code>&#x3002;</p>
-<p>&#x56E0;&#x6B64;&#x4E0A;&#x8FF0;&#x7684;&#x89E3;&#x6C7A;&#x65B9;&#x6848;&#x662F;&#xFF1A;</p>
-<pre><code class="lang-shell">old_IFS=$IFS
-IFS=; #&#x5C07;IFS&#x8A2D;&#x7F6E;&#x70BA;null
-cat file | while read i
-do
-  echo &quot;$i&quot;
-done
-IFS=old_IFS #&#x6062;&#x5FA9;IFS&#x7684;&#x539F;&#x59CB;&#x503C;
-</code></pre>
-<p>&#x73FE;&#x5728;&#xFF0C;&#x56DE;&#x904E;&#x982D;&#x4F86;&#x770B;&#x9019;&#x500B;&#x554F;&#x984C;&#xFF0C;&#x70BA;&#x4EC0;&#x9EBC;&#x6703;&#x6709;&#x9019;&#x500B;&#x554F;&#x984C;&#x5462;&#xFF1B;
-&#x5176;&#x672C;&#x6E90;&#x7684;&#x554F;&#x984C;&#x61C9;&#x8A72;&#x662F;&#x6C92;&#x6709;&#x627E;&#x5230;&#x89E3;&#x6C7A;&#x539F;&#x59CB;&#x554F;&#x984C;&#x7684;&#x6700;&#x5408;&#x9069;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;
-&#x800C;&#x662F;&#x63A1;&#x53D6;&#x4E86;&#x4E00;&#x500B;&#x8FC2;&#x8FF4;&#x7684;&#x65B9;&#x5F0F;&#x4F86;&#x89E3;&#x6C7A;&#x4E86;&#x554F;&#x984C;&#xFF1B;</p>
-<p>&#x56E0;&#x6B64;&#xFF0C;&#x6211;&#x5011;&#x61C9;&#x8A72;&#x56DE;&#x5230;&#x554F;&#x984C;&#x7684;&#x672C;&#x6E90;&#xFF0C;&#x91CD;&#x65B0;&#x5BE9;&#x8996;&#x4E00;&#x4E0B;&#xFF0C;&#x554F;&#x984C;&#x7684;&#x672C;&#x8CEA;&#x3002;
-&#x5982;&#x679C;&#x8981;&#x7CBE;&#x6E96;&#x7684;&#x7372;&#x53D6;&#x6587;&#x4EF6;&#x7684;&#x5167;&#x5BB9;&#xFF0C;&#x61C9;&#x8A72;&#x4F7F;&#x7528;od&#x6216;&#x8005;hexdump&#x6703;&#x66F4;&#x597D;&#x4E9B;&#x3002;</p>
-<p>d</p>
 
                     
                     </section>
@@ -5815,10 +5879,8 @@ IFS=old_IFS #&#x6062;&#x5FA9;IFS&#x7684;&#x539F;&#x59CB;&#x503C;
         </div>
 
         
-        <a href="../shell/2313.html" class="navigation navigation-prev " aria-label="Previous page: 別人echo、你也echo，是問echo知多少？"><i class="fa fa-angle-left"></i></a>
+        <a href="../design_pattern/271.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 23種設計模式的趣味解釋"><i class="fa fa-angle-left"></i></a>
         
-        
-        <a href="../shell/2315.html" class="navigation navigation-next " aria-label="Next page: 問var=value 在export前後的差在哪?"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

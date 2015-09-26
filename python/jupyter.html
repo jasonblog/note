@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Command Tips | Jason note</title>
+        <title>安裝 Jupyter | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,8 @@
         
     
     
-    <link rel="next" href="../shared_libraries/index.html" />
     
-    
-    <link rel="prev" href="../shared_libraries/cntotw.html" />
+    <link rel="prev" href="../openwrt/281.html" />
     
 
         <!-- head:end -->
@@ -48,7 +46,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="1.3" data-basepath=".." data-revision="Sun Sep 27 2015 04:56:16 GMT+0800 (CST)">
+    <div class="book" data-level="29.1" data-basepath=".." data-revision="Sun Sep 27 2015 04:56:16 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -125,7 +123,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.3" data-path="shared_libraries/13.html">
+        <li class="chapter " data-level="1.3" data-path="shared_libraries/13.html">
             
                 
                     <a href="../shared_libraries/13.html">
@@ -5315,7 +5313,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="29.1" data-path="python/jupyter.html">
+        <li class="chapter active" data-level="29.1" data-path="python/jupyter.html">
             
                 
                     <a href="../python/jupyter.html">
@@ -5441,63 +5439,127 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="command-tips">Command Tips</h1>
-<h2 id="%E6%AD%A3%E5%89%87%E5%B7%A5%E5%85%B7">&#x6B63;&#x5247;&#x5DE5;&#x5177;</h2>
-<p><a href="http://rubular.com/" target="_blank">http://rubular.com/</a></p>
-<h2 id="linux-%E6%89%B9%E6%AC%A1%E4%BF%AE%E6%94%B9%E5%89%AF%E6%AA%94%E5%90%8D">Linux &#x6279;&#x6B21;&#x4FEE;&#x6539;&#x526F;&#x6A94;&#x540D;</h2>
-<p><code>&#x628A;&#x526F;&#x6A94;&#x540D;&#x6293;&#x6210; IMG0000.jpg.jpg &#xFF0C;&#x4F46;&#x6211;&#x9810;&#x671F;&#x7684;&#x526F;&#x6A94;&#x540D;&#x61C9;&#x8A72;&#x662F; IMG0000.jpg</code></p>
-<pre><code class="lang-sh">rename -v <span class="hljs-string">&apos;s/\.jpg.jpg$/\.jpg/&apos;</span> *.jpg
+                        <h1 id="%E5%AE%89%E8%A3%9D-jupyter">&#x5B89;&#x88DD; Jupyter</h1>
+<ul>
+<li><h2 id="%E9%80%8F%E9%81%8E%E6%96%87%E5%AD%97%E7%B5%82%E7%AB%AF%E6%A9%9F%E5%AE%89%E8%A3%9D">&#x900F;&#x904E;&#x6587;&#x5B57;&#x7D42;&#x7AEF;&#x6A5F;&#x5B89;&#x88DD;</h2>
+</li>
+</ul>
+<pre><code class="lang-sh">pip install <span class="hljs-string">&quot;ipython[notebook]&quot;</span>
 </code></pre>
-<h2 id="sed-%E6%9B%BF%E6%8F%9B%E5%AD%97%E4%B8%B2%E4%BD%BF%E7%94%A8%E6%AD%A3%E5%89%87">sed &#x66FF;&#x63DB;&#x5B57;&#x4E32;&#x4F7F;&#x7528;&#x6B63;&#x5247;</h2>
-<p><code>.. image:: /_static/seq_Mediator.jpg</code>&#x66FF;&#x63DB;&#x6210;<code>![](../_static/seq_Mediator.jpg)</code></p>
-<pre><code class="lang-sh"><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;.. image:: /_static/SimpleFactory.jpg&quot;</span>|sed -r <span class="hljs-string">&apos;s/^.*:: (.*)/![](\1)/&apos;</span>
+<ul>
+<li>&#x6253;&#x958B; Jupyter&#xFF0C;&#x4F7F;&#x7528;&#x700F;&#x89BD;&#x5668;&#x7576;&#x4F5C;&#x754C;&#x9762;</li>
+</ul>
+<pre><code>ipython notebook
+</code></pre><h2 id="ipython-could-not-install-notebook-please-install-ipython-notebook">iPython: Could not install notebook. Please install ipython-notebook</h2>
+<pre><code class="lang-sh">pip install --upgrade ipython[notebook]
+</code></pre>
+<h2 id="the-error-is-pretty-simple-and-has-a-quick-fix-for-it">The error is pretty simple and has a quick fix for it:</h2>
+<pre><code class="lang-sh">$ ipython notebook
+Traceback (most recent call last):
+  File <span class="hljs-string">&quot;/usr/local/bin/ipython&quot;</span>, line <span class="hljs-number">11</span>, <span class="hljs-keyword">in</span> &lt;module&gt;
+    sys.exit(start_ipython())
+  File <span class="hljs-string">&quot;/usr/local/lib/python2.7/dist-packages/IPython/__init__.py&quot;</span>, line <span class="hljs-number">118</span>, <span class="hljs-keyword">in</span> start_ipython
+    <span class="hljs-built_in">return</span> launch_new_instance(argv=argv, **kwargs)
+  File <span class="hljs-string">&quot;/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py&quot;</span>, line <span class="hljs-number">591</span>, <span class="hljs-keyword">in</span> launch_instance
+    app.initialize(argv)
+  File <span class="hljs-string">&quot;&lt;string&gt;&quot;</span>, line <span class="hljs-number">2</span>, <span class="hljs-keyword">in</span> initialize
+  File <span class="hljs-string">&quot;/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py&quot;</span>, line <span class="hljs-number">75</span>, <span class="hljs-keyword">in</span> catch_config_error
+    <span class="hljs-built_in">return</span> method(app, *args, **kwargs)
+  File <span class="hljs-string">&quot;/usr/local/lib/python2.7/dist-packages/IPython/terminal/ipapp.py&quot;</span>, line <span class="hljs-number">305</span>, <span class="hljs-keyword">in</span> initialize
+    super(TerminalIPythonApp, self).initialize(argv)
+  File <span class="hljs-string">&quot;&lt;string&gt;&quot;</span>, line <span class="hljs-number">2</span>, <span class="hljs-keyword">in</span> initialize
+  File <span class="hljs-string">&quot;/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py&quot;</span>, line <span class="hljs-number">75</span>, <span class="hljs-keyword">in</span> catch_config_error
+    <span class="hljs-built_in">return</span> method(app, *args, **kwargs)
+  File <span class="hljs-string">&quot;/usr/local/lib/python2.7/dist-packages/IPython/core/application.py&quot;</span>, line <span class="hljs-number">386</span>, <span class="hljs-keyword">in</span> initialize
+    self.parse_<span class="hljs-built_in">command</span>_line(argv)
+  File <span class="hljs-string">&quot;/usr/local/lib/python2.7/dist-packages/IPython/terminal/ipapp.py&quot;</span>, line <span class="hljs-number">300</span>, <span class="hljs-keyword">in</span> parse_<span class="hljs-built_in">command</span>_line
+    <span class="hljs-built_in">return</span> super(TerminalIPythonApp, self).parse_<span class="hljs-built_in">command</span>_line(argv)
+  File <span class="hljs-string">&quot;&lt;string&gt;&quot;</span>, line <span class="hljs-number">2</span>, <span class="hljs-keyword">in</span> parse_<span class="hljs-built_in">command</span>_line
+  File <span class="hljs-string">&quot;/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py&quot;</span>, line <span class="hljs-number">75</span>, <span class="hljs-keyword">in</span> catch_config_error
+    <span class="hljs-built_in">return</span> method(app, *args, **kwargs)
+  File <span class="hljs-string">&quot;/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py&quot;</span>, line <span class="hljs-number">487</span>, <span class="hljs-keyword">in</span> parse_<span class="hljs-built_in">command</span>_line
+    <span class="hljs-built_in">return</span> self.initialize_subcommand(subc, subargv)
+  File <span class="hljs-string">&quot;&lt;string&gt;&quot;</span>, line <span class="hljs-number">2</span>, <span class="hljs-keyword">in</span> initialize_subcommand
+  File <span class="hljs-string">&quot;/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py&quot;</span>, line <span class="hljs-number">75</span>, <span class="hljs-keyword">in</span> catch_config_error
+    <span class="hljs-built_in">return</span> method(app, *args, **kwargs)
+  File <span class="hljs-string">&quot;/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py&quot;</span>, line <span class="hljs-number">425</span>, <span class="hljs-keyword">in</span> initialize_subcommand
+    self.subapp.initialize(argv)
+  File <span class="hljs-string">&quot;&lt;string&gt;&quot;</span>, line <span class="hljs-number">2</span>, <span class="hljs-keyword">in</span> initialize
+  File <span class="hljs-string">&quot;/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py&quot;</span>, line <span class="hljs-number">75</span>, <span class="hljs-keyword">in</span> catch_config_error
+    <span class="hljs-built_in">return</span> method(app, *args, **kwargs)
+  File <span class="hljs-string">&quot;/usr/local/lib/python2.7/dist-packages/notebook/notebookapp.py&quot;</span>, line <span class="hljs-number">1001</span>, <span class="hljs-keyword">in</span> initialize
+    super(NotebookApp, self).initialize(argv)
+  File <span class="hljs-string">&quot;&lt;string&gt;&quot;</span>, line <span class="hljs-number">2</span>, <span class="hljs-keyword">in</span> initialize
+  File <span class="hljs-string">&quot;/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py&quot;</span>, line <span class="hljs-number">75</span>, <span class="hljs-keyword">in</span> catch_config_error
+    <span class="hljs-built_in">return</span> method(app, *args, **kwargs)
+  File <span class="hljs-string">&quot;/usr/local/lib/python2.7/dist-packages/jupyter_core/application.py&quot;</span>, line <span class="hljs-number">243</span>, <span class="hljs-keyword">in</span> initialize
+    self.migrate_config()
+  File <span class="hljs-string">&quot;/usr/local/lib/python2.7/dist-packages/jupyter_core/application.py&quot;</span>, line <span class="hljs-number">169</span>, <span class="hljs-keyword">in</span> migrate_config
+    migrate()
+  File <span class="hljs-string">&quot;/usr/local/lib/python2.7/dist-packages/jupyter_core/migrate.py&quot;</span>, line <span class="hljs-number">230</span>, <span class="hljs-keyword">in</span> migrate
+    <span class="hljs-keyword">if</span> migrate_static_custom(custom_src, custom_dst):
+  File <span class="hljs-string">&quot;/usr/local/lib/python2.7/dist-packages/jupyter_core/migrate.py&quot;</span>, line <span class="hljs-number">152</span>, <span class="hljs-keyword">in</span> migrate_static_custom
+    with open(custom_js) as f:
+IOError: [Errno <span class="hljs-number">2</span>] No such file or directory: <span class="hljs-string">&apos;/home/allan/.ipython/profile_default/static/custom/custom.js&apos;</span>
+The error message <span class="hljs-keyword">in</span> the last line is pretty clear.
 
-![](/_static/SimpleFactory.jpg)
+The problem is I don&#x2019;t want to use any custom Javascript, so a dirty hack was to create an empty file with the name Ipython wanted:
 </code></pre>
-<p><code>(.*)</code>  // pattern <code>/_static/SimpleFactory.jpg</code></p>
-<p><code>\1</code>  // &#x4EE3;&#x8868;&#x662F;&#x7B2C;&#x4E00;&#x7D44; pattern &#x5373;&#x662F; <code>/_static/SimpleFactory.jpg</code></p>
-<pre><code>echo &quot;.. image:: /_static/SimpleFactory.jpg&quot;|sed -r &apos;s/^.*:: (.*)/![]\1/&apos;
+<pre><code>$ touch /home/allan/.ipython/profile_default/static/custom/custom.js
+</code></pre><p>That fixed this first exception problem, but then it complained about another file:</p>
+<pre><code class="lang-sh">$ ipython notebook
+Traceback (most recent call last):
+  File <span class="hljs-string">&quot;/usr/local/bin/ipython&quot;</span>, line <span class="hljs-number">11</span>, <span class="hljs-keyword">in</span> &lt;module&gt;
+    sys.exit(start_ipython())
+  File <span class="hljs-string">&quot;/usr/local/lib/python2.7/dist-packages/IPython/__init__.py&quot;</span>, line <span class="hljs-number">118</span>, <span class="hljs-keyword">in</span> start_ipython
+    <span class="hljs-built_in">return</span> launch_new_instance(argv=argv, **kwargs)
+  File <span class="hljs-string">&quot;/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py&quot;</span>, line <span class="hljs-number">591</span>, <span class="hljs-keyword">in</span> launch_instance
+    app.initialize(argv)
+  File <span class="hljs-string">&quot;&lt;string&gt;&quot;</span>, line <span class="hljs-number">2</span>, <span class="hljs-keyword">in</span> initialize
+  File <span class="hljs-string">&quot;/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py&quot;</span>, line <span class="hljs-number">75</span>, <span class="hljs-keyword">in</span> catch_config_error
+    <span class="hljs-built_in">return</span> method(app, *args, **kwargs)
+  File <span class="hljs-string">&quot;/usr/local/lib/python2.7/dist-packages/IPython/terminal/ipapp.py&quot;</span>, line <span class="hljs-number">305</span>, <span class="hljs-keyword">in</span> initialize
+    super(TerminalIPythonApp, self).initialize(argv)
+  File <span class="hljs-string">&quot;&lt;string&gt;&quot;</span>, line <span class="hljs-number">2</span>, <span class="hljs-keyword">in</span> initialize
+  File <span class="hljs-string">&quot;/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py&quot;</span>, line <span class="hljs-number">75</span>, <span class="hljs-keyword">in</span> catch_config_error
+    <span class="hljs-built_in">return</span> method(app, *args, **kwargs)
+  File <span class="hljs-string">&quot;/usr/local/lib/python2.7/dist-packages/IPython/core/application.py&quot;</span>, line <span class="hljs-number">386</span>, <span class="hljs-keyword">in</span> initialize
+    self.parse_<span class="hljs-built_in">command</span>_line(argv)
+  File <span class="hljs-string">&quot;/usr/local/lib/python2.7/dist-packages/IPython/terminal/ipapp.py&quot;</span>, line <span class="hljs-number">300</span>, <span class="hljs-keyword">in</span> parse_<span class="hljs-built_in">command</span>_line
+    <span class="hljs-built_in">return</span> super(TerminalIPythonApp, self).parse_<span class="hljs-built_in">command</span>_line(argv)
+  File <span class="hljs-string">&quot;&lt;string&gt;&quot;</span>, line <span class="hljs-number">2</span>, <span class="hljs-keyword">in</span> parse_<span class="hljs-built_in">command</span>_line
+  File <span class="hljs-string">&quot;/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py&quot;</span>, line <span class="hljs-number">75</span>, <span class="hljs-keyword">in</span> catch_config_error
+    <span class="hljs-built_in">return</span> method(app, *args, **kwargs)
+  File <span class="hljs-string">&quot;/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py&quot;</span>, line <span class="hljs-number">487</span>, <span class="hljs-keyword">in</span> parse_<span class="hljs-built_in">command</span>_line
+    <span class="hljs-built_in">return</span> self.initialize_subcommand(subc, subargv)
+  File <span class="hljs-string">&quot;&lt;string&gt;&quot;</span>, line <span class="hljs-number">2</span>, <span class="hljs-keyword">in</span> initialize_subcommand
+  File <span class="hljs-string">&quot;/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py&quot;</span>, line <span class="hljs-number">75</span>, <span class="hljs-keyword">in</span> catch_config_error
+    <span class="hljs-built_in">return</span> method(app, *args, **kwargs)
+  File <span class="hljs-string">&quot;/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py&quot;</span>, line <span class="hljs-number">425</span>, <span class="hljs-keyword">in</span> initialize_subcommand
+    self.subapp.initialize(argv)
+  File <span class="hljs-string">&quot;&lt;string&gt;&quot;</span>, line <span class="hljs-number">2</span>, <span class="hljs-keyword">in</span> initialize
+  File <span class="hljs-string">&quot;/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py&quot;</span>, line <span class="hljs-number">75</span>, <span class="hljs-keyword">in</span> catch_config_error
+    <span class="hljs-built_in">return</span> method(app, *args, **kwargs)
+  File <span class="hljs-string">&quot;/usr/local/lib/python2.7/dist-packages/notebook/notebookapp.py&quot;</span>, line <span class="hljs-number">1001</span>, <span class="hljs-keyword">in</span> initialize
+    super(NotebookApp, self).initialize(argv)
+  File <span class="hljs-string">&quot;&lt;string&gt;&quot;</span>, line <span class="hljs-number">2</span>, <span class="hljs-keyword">in</span> initialize
+  File <span class="hljs-string">&quot;/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py&quot;</span>, line <span class="hljs-number">75</span>, <span class="hljs-keyword">in</span> catch_config_error
+    <span class="hljs-built_in">return</span> method(app, *args, **kwargs)
+  File <span class="hljs-string">&quot;/usr/local/lib/python2.7/dist-packages/jupyter_core/application.py&quot;</span>, line <span class="hljs-number">243</span>, <span class="hljs-keyword">in</span> initialize
+    self.migrate_config()
+  File <span class="hljs-string">&quot;/usr/local/lib/python2.7/dist-packages/jupyter_core/application.py&quot;</span>, line <span class="hljs-number">169</span>, <span class="hljs-keyword">in</span> migrate_config
+    migrate()
+  File <span class="hljs-string">&quot;/usr/local/lib/python2.7/dist-packages/jupyter_core/migrate.py&quot;</span>, line <span class="hljs-number">230</span>, <span class="hljs-keyword">in</span> migrate
+    <span class="hljs-keyword">if</span> migrate_static_custom(custom_src, custom_dst):
+  File <span class="hljs-string">&quot;/usr/local/lib/python2.7/dist-packages/jupyter_core/migrate.py&quot;</span>, line <span class="hljs-number">152</span>, <span class="hljs-keyword">in</span> migrate_static_custom
+    with open(custom_css) as f:
+IOError: [Errno <span class="hljs-number">2</span>] No such file or directory: <span class="hljs-string">&apos;/home/allan/.ipython/profile_default/static/custom/custom.css&apos;</span>
+</code></pre>
+<p>That simple hack worked again:</p>
+<pre><code class="lang-sh">$ touch /home/allan/.ipython/profile_default/static/custom/custom.css
+</code></pre>
+<p>Now I have Ipython notebook up and running without further problems.</p>
 
-![]/_static/SimpleFactory.jpg
-</code></pre><pre><code class="lang-sh">find . -name <span class="hljs-string">&apos;*.rst&apos;</span> -exec sed -ri.bak <span class="hljs-string">&apos;s/^.*:: (.*)/![](\.\.\1)/&apos;</span> {} \;
-</code></pre>
-<h2 id="%E7%94%A8-uniq-%E5%92%8C-sort-%E6%8C%87%E4%BB%A4%E6%B8%85%E9%99%A4%E9%87%8D%E8%A4%87%E8%A1%8C%E5%92%8C%E7%A9%BA%E7%99%BD%E8%A1%8C">&#x7528; uniq &#x548C; sort &#x6307;&#x4EE4;&#x6E05;&#x9664;&#x91CD;&#x8907;&#x884C;&#x548C;&#x7A7A;&#x767D;&#x884C;</h2>
-<pre><code class="lang-sh">sort chtuniq.txt | uniq &gt; result.txt
-</code></pre>
-<p><code>&#x4E0A;&#x9762;&#x9019;&#x884C;&#x6307;&#x4EE4;&#x53EA;&#x80FD;&#x7559;&#x4E0B;&#x4E0D;&#x91CD;&#x8986;&#x7684;&#x884C;&#xFF0C;&#x6240;&#x4EE5;&#xFF0C;&#x9084;&#x662F;&#x6703;&#x6709;&#x4E00;&#x500B;&#x7A7A;&#x767D;&#x884C;&#x7684;&#x54E9; !</code></p>
-<pre><code class="lang-sh">sort chtuniq.txt | uniq | sed /^$/d &gt; result.txt
-</code></pre>
-<p><code>&#x70BA;&#x4EC0;&#x9EBC;&#x5728;&#x7528; uniq &#x6307;&#x4EE4;&#x524D;&#x8981;&#x5148;&#x7528; sort &#x6307;&#x4EE4;&#x4F86;&#x6392;&#x5E8F;&#x4E00;&#x4E0B;&#x5462; ? &#x9019;&#x662F;&#x56E0;&#x70BA; uniq &#x6307;&#x4EE4;&#x53EA;&#x8DDF;&#x4E0A;&#x4E00;&#x884C;&#x6BD4;&#x5C0D;&#x662F;&#x5426;&#x6709;&#x91CD;&#x8907;&#x800C;&#x5DF2;&#xFF0C;&#x6240;&#x4EE5;&#xFF0C;&#x5982;&#x679C;&#x91CD;&#x8907;&#x7684;&#x8CC7;&#x6599;&#x4E0D;&#x6392;&#x5728;&#x4E00;&#x8D77;&#xFF0C;&#x90A3;&#x9EBC; uniq &#x6307;&#x4EE4;&#x5C31;&#x7B49;&#x65BC;&#x662F;&#x7121;&#x6548;&#x54E9; ! &#x6240;&#x4EE5;&#xFF0C;&#x5728;&#x4F7F;&#x7528;  uniq &#x6307;&#x4EE4;&#x524D;&#xFF0C;&#x8981;&#x5148;&#x6416;&#x4E00;&#x6416;&#xFF0C;&#x5594; ! &#x4E0D;! &#x662F;&#x8981;&#x5148;&#x7528; sort &#x6307;&#x4EE4;&#x6392;&#x4E00;&#x6392;&#x54E9; !</code></p>
-<h2 id="nohup">nohup &amp;</h2>
-<pre><code class="lang-sh">nohup make <span class="hljs-number">2</span>&gt;&amp;<span class="hljs-number">1</span> &gt; make.log &amp;
-</code></pre>
-<h2 id="%E5%9C%A8-linux-%E4%B8%8A%E6%89%BE%E5%87%BA%E7%A9%BA%E7%9B%AE%E9%8C%84-%E8%80%8C%E4%B8%94%E5%88%AA%E6%8E%89%E5%AE%83">&#x5728; Linux &#x4E0A;&#x627E;&#x51FA;&#x7A7A;&#x76EE;&#x9304;, &#x800C;&#x4E14;&#x522A;&#x6389;&#x5B83;</h2>
-<pre><code class="lang-sh">find /tmp -depth -empty -type d
-find /tmp -depth -empty -type d -exec rmdir -v {} \;
-</code></pre>
-<h2 id="%E6%9F%A5%E8%A9%A2%E6%AA%94%E6%A1%88%E5%A4%A7%E5%B0%8F%E5%B9%BEg">&#x67E5;&#x8A62;&#x6A94;&#x6848;&#x5927;&#x5C0F;&#x5E7E;G</h2>
-<pre><code class="lang-sh">du -h <span class="hljs-operator">-d</span> <span class="hljs-number">1</span> | grep [<span class="hljs-number">0</span>-<span class="hljs-number">9</span>]G
-</code></pre>
-<h2 id="basename-dirname">basename &amp; dirname</h2>
-<pre><code>basename /usr/local/etc
-etc
-</code></pre><p>&#x9019;&#x500B;&#x6307;&#x4EE4;&#x6703;&#x5C07;&#x5F8C;&#x9762;&#x7684;[&#x76EE;&#x9304;]&#x50C5;&#x64F7;&#x53D6;&#x51FA;&#x6700;&#x5F8C;&#x9762;&#x7684;&#x90A3;&#x500B;&#x76EE;&#x9304;&#x6216;&#x6A94;&#x6848;</p>
-<pre><code class="lang-sh">dirname /usr/<span class="hljs-built_in">local</span>/etc
-/usr/<span class="hljs-built_in">local</span>
-</code></pre>
-<p>&#x6070;&#x6070;&#x8207; basename &#x76F8;&#x53CD;&#xFF0C;&#x4ED6;&#x50C5;&#x662F;&#x79C0;&#x51FA;&#x4F86;&#x524D;&#x9762;&#x7684;&#x300E;&#x76EE;&#x9304;&#x300F;&#x90E8;&#x5206;&#x5594;&#xFF01;</p>
-<h2 id="%E5%8F%96%E5%89%AF%E6%AA%94%E5%90%8D-%E5%8F%96%E6%AA%94%E5%90%8D">&#x53D6;&#x526F;&#x6A94;&#x540D; &amp; &#x53D6;&#x6A94;&#x540D;</h2>
-<pre><code>&#x53D6;&#x526F;&#x6A94;&#x540D;&#xFF1A;extension=&quot;${filename##*.}&quot;
-&#x53D6;&#x6A94;&#x540D;&#xFF1A;filename=&quot;${filename%.*}&quot;
-
-## &#x662F;&#x5F9E;&#x8B8A;&#x6578;&#x5167;&#x5BB9;&#x7684;&#x524D;&#x9762;&#xFF0C;&#x79FB;&#x9664;&#x8207; ## &#x5F8C;&#x9762;&#x5B9A;&#x7FA9;&#x7684; pattern (&#x4E5F;&#x5C31;&#x662F; *.) &#x76F8;&#x7B26;&#x5408;&#x7684;&#x90E8;&#x5206;(&#x8D8A;&#x9577;&#x8D8A;&#x597D;)&#xFF0C;
-
-&#x56E0;&#x6B64;&#x6A94;&#x540D;&#x7684;&#x90E8;&#x5206;&#x52A0;&#x4E0A; . &#x5C31;&#x6703;&#x88AB;&#x79FB;&#x9664;&#xFF0C;&#x7559;&#x4E0B;&#x6700;&#x5F8C;&#x9762;&#x7684;&#x526F;&#x6A94;&#x540D;&#xFF5E;
-
-% &#x662F;&#x5F9E;&#x8B8A;&#x6578;&#x5167;&#x5BB9;&#x7684;&#x5F8C;&#x9762;&#xFF0C;&#x79FB;&#x9664;&#x8207; % &#x5F8C;&#x9762;&#x5B9A;&#x7FA9;&#x7684; pattern (&#x4E5F;&#x5C31;&#x662F; .*) &#x76F8;&#x7B26;&#x5408;&#x7684;&#x90E8;&#x5206;(&#x8D8A;&#x77ED;&#x8D8A;&#x597D;)&#xFF0C;
-
-&#x56E0;&#x6B64; .&#x526F;&#x6A94;&#x540D; &#x5C31;&#x6703;&#x88AB;&#x79FB;&#x9664;&#x6389;&#xFF0C;&#x7559;&#x4E0B;&#x524D;&#x9762;&#x7684;&#x6A94;&#x540D;&#x90E8;&#x5206;&#xFF5E;
-</code></pre>
                     
                     </section>
                 
@@ -5507,10 +5569,8 @@ etc
         </div>
 
         
-        <a href="../shared_libraries/cntotw.html" class="navigation navigation-prev " aria-label="Previous page: Open Chinese Convert 開放中文轉換"><i class="fa fa-angle-left"></i></a>
+        <a href="../openwrt/281.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: OpenWRT 编译环境搭建"><i class="fa fa-angle-left"></i></a>
         
-        
-        <a href="../shared_libraries/index.html" class="navigation navigation-next " aria-label="Next page: Shared Libraries"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

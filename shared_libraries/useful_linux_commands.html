@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>查 C/C++ symbol 定義的方法 | Jason note</title>
+        <title>Useful Linux Commands | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../fcamel/91002.html" />
+    <link rel="next" href="../shared_libraries/index.html" />
     
     
-    <link rel="prev" href="../fcamel/10.html" />
+    <link rel="prev" href="../shared_libraries/13.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="9.10.1" data-basepath=".." data-revision="Sun Sep 27 2015 14:03:30 GMT+0800 (CST)">
+    <div class="book" data-level="1.4" data-basepath=".." data-revision="Sun Sep 27 2015 14:03:30 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -140,7 +140,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.4" data-path="shared_libraries/useful_linux_commands.html">
+        <li class="chapter active" data-level="1.4" data-path="shared_libraries/useful_linux_commands.html">
             
                 
                     <a href="../shared_libraries/useful_linux_commands.html">
@@ -1671,7 +1671,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="9.10.1" data-path="fcamel/91001.html">
+        <li class="chapter " data-level="9.10.1" data-path="fcamel/91001.html">
             
                 
                     <a href="../fcamel/91001.html">
@@ -5487,23 +5487,155 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E6%9F%A5-c-c-symbol-%E5%AE%9A%E7%BE%A9%E7%9A%84%E6%96%B9%E6%B3%95">&#x67E5; C/C++ symbol &#x5B9A;&#x7FA9;&#x7684;&#x65B9;&#x6CD5;</h1>
-<p>&#x8A18;&#x4E00;&#x4E0B;&#x76EE;&#x524D;&#x7FD2;&#x6163;&#x627E; SYMBOL &#x5B9A;&#x7FA9;&#x7684;&#x65B9;&#x6CD5;, &#x53EA;&#x662F;&#x6A21;&#x7CCA;&#x7684;&#x7247;&#x6BB5;&#x7D93;&#x9A57;, &#x65E5;&#x5F8C;&#x518D;&#x88DC;&#x5145;&#x5B8C;&#x6574;&#x4E00;&#x4E9B;</p>
-<p>&#x7528; gj</p>
-<p>&#x5728;&#x547D;&#x4EE4;&#x5217;&#x6253;: gj SYMBOL class &#x6216; gj SYMBOL struct &#x627E;&#x985E;&#x5225;&#x5B9A;&#x7FA9;</p>
-<p>&#x627E;&#x4E0D;&#x5230;&#x7684;&#x8A71;, &#x6709;&#x53EF;&#x80FD; SYMBOL &#x662F;&#x7528; code-gen &#x6216;&#x5DE8;&#x96C6;&#x7522;&#x751F;&#x7684;&#x3002;</p>
-<ul>
-<li>&#x6AA2;&#x67E5;&#x4E00;&#x4E0B; mkid &#x6642;&#x6709;&#x6C92;&#x6709;&#x6F0F;&#x6389; code-gen &#x7684;&#x6A94;&#x6848;, &#x518D;&#x91CD;&#x5EFA;&#x7D22;&#x5F15;: $ mkid -m FILE_LIST ( &#x683C;&#x5F0F;&#x898B; Language map - ID database utilities )
-&#x53EF;&#x7528; $ g++ -E TARGET.cpp -IINCLUDE_DIR &#x5C55;&#x958B;&#x6A94;&#x6848;, &#x518D;&#x56DE;&#x982D;&#x770B; SYMBOL &#x662F;&#x5426;&#x662F;&#x5DE8;&#x96C6;&#x7522;&#x751F;&#x7684;&#x3002;
-&#x53E6;&#x5916;&#x53EF;&#x7528; gj SYMBOL void &#x627E;&#x51FD;&#x5F0F;&#x5B9A;&#x7FA9; (&#x91DD;&#x5C0D;&#x7121;&#x50B3;&#x56DE;&#x503C;&#x7684;&#x60C5;&#x6CC1;), &#x6216;&#x662F; gj SYMBOL &#x518D;&#x7528; &quot;.h&quot; &#x904E;&#x6FFE;&#x53EA;&#x7559; header &#x6A94;&#x3002;</li>
-</ul>
-<p>Btw, &#x8981;&#x627E; symbol &#x88AB;&#x4F7F;&#x7528;&#x7684;&#x5730;&#x65B9;&#x7684;&#x8A71;, &#x5C31;&#x76F4;&#x63A5; gj SYMBOL&#x3002;</p>
-<ul>
-<li>&#x7528; gdb</li>
-</ul>
-<p>&#x5728; gdb &#x88E1;&#x7528; <strong>ptype</strong> VAR &#x6703;&#x5217;&#x51FA; VAR &#x7684;&#x578B;&#x5225;&#x8CC7;&#x8A0A;</p>
-<p>2013-12-08 &#x66F4;&#x65B0;</p>
-<p>&#x5F8C;&#x4F86;&#x4F9D;&#x81EA;&#x5DF1;&#x4F7F;&#x7528;&#x7FD2;&#x6163;&#x5728; gj &#x52A0;&#x4E86;&#x4E00;&#x4E9B;&#x529F;&#x80FD;, &#x50CF;&#x662F;&#x7528; gj -d1 SYMBOL &#x627E;&#x5B9A;&#x7FA9;&#x6216;&#x5BA3;&#x544A;, &#x7528; gj -s LITERAL &#x627E;&#x53EF;&#x80FD;&#x7684; symbol &#x540D;&#x7A31;, &#x8A73;&#x898B; gj &#x5728; github &#x4E0A;&#x7684;&#x8AAA;&#x660E;&#x3002;</p>
+                        <h1 id="useful-linux-commands">Useful Linux Commands</h1>
+<p>&#x8490;&#x96C6;&#x4E00;&#x4E9B;&#x597D;&#x7528;&#x537B;&#x53C8;&#x5E38;&#x5FD8;&#x8A18;&#x7684;linux&#x6307;&#x4EE4;</p>
+<h2 id="linux-command">linux command</h2>
+<table border="1">
+<tbody><tr><td>df -h</td><td>&#x770B;&#x786C;&#x789F;&#x6240;&#x5269;&#x5BB9;&#x91CF;</td></tr>
+<tr><td>du -h</td><td>&#x770B;&#x76EE;&#x9304;&#x6240;&#x4F54;&#x786C;&#x789F;&#x7A7A;&#x9593;&#x5927;&#x5C0F;</td></tr>
+<tr><td>ls -lA | grep ^d | awk &apos;{print $8}&apos; | xargs du -s | sort -n</td><td>&#x770B;&#x770B;&#x7B2C;&#x4E00;&#x5C64;&#x7684;&#x76EE;&#x9304;&#x6240;&#x4F54;&#x5927;&#x5C0F;(&#x55AE;&#x4F4D;&#x70BA;K)&#x4E26;&#x7531;&#x5C0F;&#x5230;&#x5927;sort,&#x6CE8;&#x610F;ls&#x7684;&#x6B04;&#x4F4D;,&#x6B64;&#x8655;dir_name&#x5728;&#x7B2C;8,&#x6240;&#x4EE5;&#x53D6;$8,grep ^d&#x662F;&#x6307;&#x53D6;list&#x5F8C;&#x958B;&#x982D;&#x70BA;d&#x7684;~&#x4E5F;&#x5C31;&#x662F;&#x76EE;&#x9304;</td></tr>
+<tr><td>find ./ -type f | wc -l</td><td>&#x770B;&#x76EE;&#x9304;&#x4E2D;&#x6709;&#x591A;&#x5C11;&#x6A94;&#x6848;(&#x542B;&#x5B50;&#x76EE;&#x9304;)</td></tr>
+<tr><td>find ./ -type f -name *.jpg -size 0 | wc -l</td><td>&#x540C;&#x4E0A;,&#x52A0;&#x4E0A;&#x6A94;&#x540D;&#x689D;&#x4EF6;,size&#x689D;&#x4EF6;</td></tr>
+<tr><td>find ./ -name &quot;*.txt&quot; -exec grep -H &quot;main&quot; {} ;</td><td>&#x540C;&#x4E0A;,&#x52A0;&#x4E0A;-exec&#x57F7;&#x884C;grep,&#x627E;&#x6709;&quot;main&quot;&#x7684;&#x6A94;&#x6848;. &#x5206;&#x865F;&#x524D;&#x9762;&#x6709;&#x53CD;&#x659C;&#x7DDA;,&#x659C;&#x7DDA;&#x524D;&#x9762;&#x8981;&#x6709;&#x7A7A;&#x683C;. find&#x627E;&#x5230;&#x7684;&#x6A94;&#x540D;&#x6703;&#x5E36;&#x5165;{}&#x8655;,&#x7D66;grep&#x53BB;&#x7528;,-H&#x662F;&#x5370;&#x51FA;&#x6A94;&#x540D;&#x7684;&#x610F;&#x601D;. &#x7D66;grep&#x7684;&#x53C3;&#x6578;&#x5230;&quot;;&quot;&#x8655;&#x70BA;&#x6B62;.</td></tr>
+<tr><td>find . -name &apos;*.php&apos; -not -path &quot;./*/*&quot;| xargs wc -l</td><td>&#x8A08;&#x7B97;&#x6A94;&#x6848;&#x6709;&#x591A;&#x5C11;&#x884C;,path&#x5F8C;&#x9762;&#x53C3;&#x6578;&#x53EF;&#x4EE5;&#x6392;&#x9664;&#x4E00;&#x4E9B;&#x4E0D;&#x7B97;,&#x4E0D;&#x7136;&#x6703;&#x5305;&#x542B;&#x5B50;&#x8CC7;&#x6599;&#x593E;</td></tr>
+<tr><td>find -type f -size 0 -delete</td><td>&#x52A0;&#x4E0A;-delete&#x53EF;&#x628A;&#x7279;&#x5B9A;&#x689D;&#x4EF6;&#x6A94;&#x6848;&#x522A;&#x6389;!</td></tr>
+<tr><td>grep -H &quot;main&quot; file.txt</td><td>&#x627E;&#x6A94;&#x6848;&#x5167;&#x5BB9;&#x542B;&#x6709;main&#x7684;&#x5730;&#x65B9;</td></tr>
+<tr><td>ls -R */*.mat | wc -l</td><td>&#x53EF;&#x4EE5;&#x770B;&#x5E7E;&#x5C64;&#x8CC7;&#x6599;&#x4EE5;&#x4E0B;&#x7684;&#x6A94;&#x6848;,&#x6709;&#x5E7E;&#x500B;,&#x7F3A;&#x9EDE;&#x662F;,&#x5FC5;&#x9808;&#x77E5;&#x9053;&#x662F;&quot;&#x5E7E;&#x5C64;&quot;&#x8CC7;&#x6599;&#x593E;</td></tr>
+<tr><td>rm -r */*.mat</td><td>&#x53EF;&#x4EE5;&#x522A;&#x9664;&#x5E7E;&#x5C64;&#x8CC7;&#x6599;&#x593E;&#x4EE5;&#x4E0B;&#x7684;&#x7279;&#x5B9A;&#x6A94;&#x6848;</td></tr>
+<tr><td>screen -d -r</td><td>&#x53EB;&#x56DE;&#x4E4B;&#x524D;&#x5728;&#x5225;&#x7684;&#x767B;&#x5165;&#x7528;&#x7684;&#x8996;&#x7A97;</td></tr>
+<tr><td>screen -ls&#x6216;screen -list</td><td>&#x5217;&#x51FA;&#x76EE;&#x524D;screen session</td></tr>
+<tr><td>screen -S session_name -X kill&#x6216;quit</td><td>&#x95DC;&#x6389;&#x6307;&#x5B9A;&#x7684;session, &#x6216;&#x662F;&#x76F4;&#x63A5;&#x5230;&#x4E0A;&#x9762;list&#x51FA;&#x7684;session&#x653E;&#x7F6E;&#x8655;&#x522A;&#x9664;session file</td></tr>
+<tr><td>ln -s &#x88AB;&#x9023;&#x7D50;&#x6A94;&#x540D; &#x6377;&#x5F91;&#x6A94;&#x540D;</td><td>&#x751F;&#x6210;&#x4E00;&#x500B;symbolic link</td></tr>
+<tr><td>cat file1 file2 &gt; file3</td><td>&#x628A;file1&#x8DDF;file2&#x7684;&#x5167;&#x5BB9;&#x63A5;&#x8D77;&#x4F86;,&#x5B58;&#x5230;file3</td></tr>
+<tr><td>scp source destination</td><td>&#x7528;ssh copy&#x6A94;&#x6848; source and dest could be user@host:~/xxx/ or user@host:/tmp2/xxx/</td></tr>
+<tr><td>sftp user@host</td><td>secure ftp&#x9023;&#x7DDA;, &#x9023;&#x4E0A;&#x5F8C;put,&#x4E0A;&#x50B3;get&#x4E0B;&#x8F09;,lls,local&#x7AEF;ls</td></tr>
+<tr><td>wget -O local_path remote_http_path</td><td>&#x5F9E;remote_http_path&#x4E0B;&#x8F09;&#x6A94;&#x6848;&#x5B58;&#x5230;local_path</td></tr>
+<tr><td>wget -c path</td><td>&#x652F;&#x63F4;&#x7E8C;&#x50B3;(&#x7B2C;&#x4E00;&#x6B21;&#x4E0B;&#x8F09;&#x8DDF;&#x7E8C;&#x50B3;&#x4E0B;&#x8F09;&#x90FD;&#x8981;&#x52A0;-c)</td></tr>
+<tr><td>nautilus .</td><td>&#x6A94;&#x6848;&#x7E3D;&#x7BA1;(&#x642D;&#x914D;Xming&#x4F7F;&#x7528;)</td></tr>
+<tr><td>dpkg-deb -x [filename.deb] [target folder]</td><td>&#x5F97;&#x5230;compile&#x597D;&#x7684;deb package</td></tr>
+<tr><td>dpkg -l</td><td>&#x5217;&#x51FA;&#x6A5F;&#x5668;&#x4E0A;&#x5B89;&#x88DD;&#x7684;package</td></tr>
+<tr><td>chsh</td><td>&#x6539;&#x8B8A;&#x9810;&#x8A2D;shell,&#x53EF;&#x4EE5;&#x662F;/bin/bash or /bin/tcsh</td></tr>
+<tr><td>bind &apos;&quot;e[A&quot;:history-search-backward&apos; <br> bind &apos;&quot;e[B&quot;:history-search-forward&apos;</td><td>&#x5728;.bashrc&#x4E2D;&#x52A0;&#x5165;, &#x53EF;&#x7528;&#x4E0A;&#x4E0B;&#x9375;&#x641C;&#x5C0B;&#x958B;&#x982D;&#x5B57;&#x76F8;&#x540C;&#x7684;&#x6B77;&#x53F2;&#x6307;&#x4EE4;</td></tr>
+<tr><td>bindkey -k up history-search-backward <br> bindkey -k down history-search-forward</td><td>&#x5728;.cshrc&#x4E2D;&#x52A0;&#x5165;,&#x53EF;&#x4EE5;&#x4E0A;&#x4E0B;&#x9375;&#x641C;&#x5C0B;&#x958B;&#x982D;&#x5B57;&#x76F8;&#x540C;&#x7684;&#x6B77;&#x53F2;&#x6307;&#x4EE4;</td></tr>
+<tr><td>vim -X</td><td>&#x4E0D;&#x8981;&#x641C;&#x5C0B;X server,&#x555F;&#x52D5;vim&#x901F;&#x5EA6;&#x8F03;&#x5FEB;</td></tr>
+<tr><td></td><td></td></tr>
+</tbody></table>
+
+
+<h2 id="vim-command">vim command</h2>
+<table border="1">
+<tbody><tr><td>Ctrl+W+W</td><td>&#x5207;&#x63DB;&#x8996;&#x7A97;</td></tr>
+<tr><td>:split &#x6A94;&#x6848;&#x540D;</td><td>&#x958B;&#x65B0;&#x8996;&#x7A97;</td></tr>
+<tr><td>/</td><td>&#x641C;&#x5C0B;</td></tr>
+<tr><td>G</td><td>&#x6E38;&#x6A19;&#x79FB;&#x5230;&#x6A94;&#x6848;&#x7D50;&#x5C3E;</td></tr>
+<tr><td>gg</td><td>&#x6E38;&#x6A19;&#x79FB;&#x5230;&#x6A94;&#x6848;&#x958B;&#x982D;</td></tr>
+<tr><td>:diffsplit</td><td>&#x628A;&#x8996;&#x7A97;&#x5207;&#x6210;&#x4E0A;&#x4E0B; &#x4E26;&#x6BD4;&#x8F03;&#x5169;&#x500B;&#x6A94;&#x6848; &#x6E38;&#x6A19;&#x6703;&#x79FB;&#x52D5; &#x7528;&#x7D05;&#x8272;&#x6A19;&#x51FA;&#x4E0D;&#x4E00;&#x6A23;&#x4E4B;&#x8655;</td></tr>
+<tr><td>Ctrl+V</td><td>Column Mode&#x9078;&#x53D6;</td></tr>
+<tr><td>Shift+i</td><td>Column Mode Insert,&#x6B64;&#x6642;&#x53EA;&#x6703;&#x986F;&#x793A;&#x6539;&#x4E00;&#x884C;,&#x4F46;&#x662F;&#x6309;&#x4E0B;esc,&#x5C31;&#x6703;&#x5168;&#x90E8;&#x90FD;&#x6539;&#x4E86;!</td></tr>
+<tr><td>:%s/abc/def/g</td><td>&#x628A;abc&#x7F6E;&#x63DB;&#x70BA;def</td></tr>
+<tr><td>u</td><td>Undo</td></tr>
+<tr><td>Ctrl+r</td><td>Redo</td></tr>
+<tr><td>set pastetoggle=<f2></f2></td><td>&#x5728;vimrc&#x4E2D;&#x5BEB;&#x9019;&#x884C;,&#x4E4B;&#x5F8C;&#x8CBC;&#x4E0A;&#x6642;,&#x9032;&#x5165;insert mode,&#x6309;&#x4E0B;f2&#x4FBF;&#x53EF;&#x5207;&#x63DB;&#x662F;&#x5426;&#x8981;auto-indent</td></tr>
+<tr><td>:e ++enc=utf-8 myfile.txt</td><td>&#x66F4;&#x63DB;&#x7DE8;&#x78BC;&#x65B9;&#x5F0F;</td></tr>
+<tr><td></td><td></td></tr>
+</tbody></table>
+
+<h2 id="screen-command">screen command</h2>
+<table border="0">
+<tbody><tr><td>Ctrl+a+&#x6578;&#x5B57;</td><td>&#x5207;&#x63DB;&#x8996;&#x7A97;</td></tr>
+<tr><td>Ctrl+a+c</td><td>&#x958B;&#x65B0;&#x8996;&#x7A97;</td></tr>
+<tr><td>Ctrl+a+[</td><td>&#x9032;&#x5165;copy mode,&#x53EF;&#x5F80;&#x4E0A;&#x770B;log, &#x6309;q&#x53EF;&#x96E2;&#x958B;copy mode</td></tr>
+<tr><td>Ctrl+a&#xFF0B;a+command</td><td>&#x5169;&#x5C64;screen&#x7684;&#x8996;&#x7A97;&#x7684;&#x64CD;&#x4F5C;</td></tr>
+<tr><td></td><td></td></tr>
+</tbody></table>
+
+
+<h2 id="git-command">git command</h2>
+<table border="1">
+<tbody><tr><td>git status</td><td>&#x76EE;&#x524D;&#x72C0;&#x6CC1;</td></tr>
+<tr><td>git add</td><td>&#x52A0;&#x5165;&#x6A94;&#x6848;</td></tr>
+<tr><td>git commit</td><td>commit file</td></tr>
+<tr><td>git push</td><td>push&#x5230;&#x9060;&#x7AEF;</td></tr>
+<tr><td>git pull</td><td>&#x5F9E;&#x9060;&#x7AEF;pull</td></tr>
+<tr><td>git remote add origin ssh://user@host:22/~/xxx.git</td><td>&#x52A0;&#x5165;&#x9060;&#x7AEF;host</td></tr>
+<tr><td>git init</td><td>&#x5EFA;&#x7ACB;local&#x7AEF;&#x7A7A;repository</td></tr>
+<tr><td>git init --bare</td><td>&#x5EFA;&#x7ACB;&#x9060;&#x7AEF;&#x7A7A;repository</td></tr>
+<tr><td>git clone ssh://user@host:22/~/git/xxx.git</td><td>git clone with ssh</td></tr>
+<tr><td>git mv a.txt b.txt</td><td>rename file(git will also do mv in fs)</td></tr>
+<tr><td>git mergetool</td><td>&#x958B;&#x555F;&#x5167;&#x5EFA;mergetool</td></tr>
+<tr><td>git rm --cached filename</td><td>remove file from git without delete it</td></tr>
+<tr><td>git submodule init (enter) git submodule update</td><td>clone&#x542B;&#x6709;submodule&#x7684;project&#x6642;&#x4F7F;&#x7528;&#x9019;&#x5169;&#x500B;command, submodule&#x76F8;&#x95DC;&#x53EF;&#x53C3;&#x8003;<a href="http://blog.wu-boy.com/2011/09/introduction-to-git-submodule/" target="_blank">&#x9019;&#x88E1;</a></td></tr>
+<tr><td>git config core.sharedRepository group</td><td>&#x5728;remote&#x8A2D;&#x5B9A;&#x9019;&#x9805;,&#x4E4B;&#x5F8C;push&#x53EF;&#x78BA;&#x4FDD;group writable</td></tr>
+<tr><td><pre>~/project $ git init
+~/project $ git add .
+~/project $ git commit -m &quot;first commit&quot;
+~/project $ cd ~/Dropbox/git
+
+~/Dropbox/git $ git init --bare project.git
+~/Dropbox/git $ cd ~/project
+
+~/project $ git remote add origin ~/Dropbox/git/project.git
+~/project $ git push -u origin master</pre>
+</td><td>git local tips</td></tr>
+<tr><td></td><td></td></tr>
+</tbody></table>
+
+<h2 id="ssh%E5%85%8D%E5%AF%86%E7%A2%BC%E6%96%B9%E6%B3%95">ssh&#x514D;&#x5BC6;&#x78BC;&#x65B9;&#x6CD5;</h2>
+<table border="0"><tbody><tr><td><pre>&#x5728;&#x5DE5;&#x4F5C;&#x7AD9;&#x57F7;&#x884C;&#x4E00;&#x6B21;&#x4E0B;&#x9762;&#x5169;&#x884C;&#x6307;&#x4EE4;&#xFF08;$&#x4EE3;&#x8868;&#x63D0;&#x793A;&#x5B57;&#x5143;, [ENTER]&#x4EE3;&#x8868;&#x6309;enter&#x9375;&#xFF09;
+$ ssh-keygen -t rsa [ENTER]
+Enter file in which to save the key (/home/ta/.ssh/id_rsa): [ENTER]
+Enter passphrase (empty for no passphrase): [ENTER]
+Enter same passphrase again: [ENTER]
+$ cat .ssh/id_rsa.pub &gt; .ssh/authorized_keys
+</pre></td></tr></tbody></table>
+
+
+<h2 id="%E5%A3%93%E7%B8%AE-%E8%A7%A3%E5%A3%93%E7%B8%AE">&#x58D3;&#x7E2E; &#x89E3;&#x58D3;&#x7E2E;</h2>
+<table border="1">
+<tbody><tr><td>&#x89E3;&#x58D3;&#x7E2E; tar.gz</td><td>tar -zxvf filename.tar.gz</td></tr>
+<tr><td>&#x89E3;&#x58D3;&#x7E2E; tar.gz&#x88E1;&#x7684;&#x6A94;&#x6848;xxx/abc.jpg &#x653E;&#x5230;&#x6307;&#x5B9A;&#x8CC7;&#x6599;&#x593E;cde</td><td>tar zxvf filename.tar.gz -C cde/ xxx/abc.jpg --strip-components=1 (&#x610F;&#x601D;&#x662F;&#x53BB;&#x6389;&quot;xxx/abc.jpg&quot;&#x4E4B;&#x524D;&quot;1&quot;&#x500B;&#x8CC7;&#x6599;&#x593E;&#x7684;)</td></tr>
+<tr><td>&#x58D3;&#x7E2E; tar.gz</td><td>tar -zcvf filename.tar.gz /folder</td></tr>
+<tr><td>&#x89E3;&#x58D3;&#x7E2E; tar.bz2</td><td>tar -jxvf filename.tar.bz2</td></tr>
+<tr><td>&#x58D3;&#x7E2E; tar.bz2</td><td>tar -jcvf filename.tar.bz2 /folder</td></tr>
+<tr><td>&#x89E3;&#x958B; .tar </td><td>tar -xvf filename.tar</td></tr>
+<tr><td>&#x6253;&#x5305; .tar </td><td>tar -cvf filename.tar /folder</td></tr>
+<tr><td>&#x89E3;&#x58D3;&#x7E2E; gz</td><td>gunzip filename.gz (&#x89E3;&#x5B8C;gz&#x6A94;&#x6703;&#x6D88;&#x5931;)</td></tr>
+<tr><td>&#x58D3;&#x7E2E; gz</td><td>gzip filename.xxx (&#x53EA;&#x80FD;&#x58D3;&#x55AE;&#x6A94;,&#x58D3;&#x5B8C;&#x539F;&#x59CB;&#x6A94;&#x6703;&#x6D88;&#x5931;)</td></tr>
+<tr><td>&#x89E3;&#x58D3;&#x7E2E; zip</td><td>unzip filename.zip</td></tr>
+<tr><td>&#x58D3;&#x7E2E; zip</td><td>zip filename.xxx /folder</td></tr>
+<tr><td>&#x89E3;&#x58D3;&#x7E2E; rar</td><td>unrar x filename.rar</td></tr>
+<tr><td>&#x58D3;&#x7E2E; 7z</td><td>7za a filename.7z /folder/</td></tr>
+<tr><td>&#x89E3;&#x58D3;&#x7E2E; 7z</td><td>7za x filename.7z </td></tr>
+<tr><td>&#x58D3;&#x7E2E; rar</td><td>rar a filename.rar folder/</td></tr>
+<tr><td>&#x89E3;&#x58D3;&#x7E2E; rar,&#x4E26;&#x653E;&#x5230;target_folder</td><td>rar x filename.rar target_folder/</td></tr>
+<tr><td>&#x89E3;&#x58D3;&#x7E2E; rar,&#x4E0D;&#x7BA1;&#x88E1;&#x9762;&#x8DEF;&#x5F91;,&#x4E26;&#x653E;&#x5230;target_folder</td><td>rar e filename.rar target_folder/</td></tr>
+<tr><td>&#x89E3;&#x58D3;&#x7E2E; tar.xz</td><td>xz -d filename.tar.xz </td></tr>
+<tr><td></td><td></td></tr>
+</tbody></table>
+
+
+<h2 id="%E8%87%AA%E5%8B%95%E6%9B%B4%E6%96%B0ip%E4%BD%8D%E7%BD%AE">&#x81EA;&#x52D5;&#x66F4;&#x65B0;ip&#x4F4D;&#x7F6E;</h2>
+<table border="0">
+<tbody><tr><td>dhclient -r</td><td>&#x91CB;&#x653E;IP</td></tr>
+<tr><td>dhclient </td><td>&#x66F4;&#x65B0;IP</td></tr>
+<tr><td>noip2</td><td>no-ip&#x7684;update&#x7A0B;&#x5F0F;</td></tr>
+</tbody></table>
+
+<h2 id="dropbox%E4%BD%BF%E7%94%A8%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A0%85">Dropbox&#x4F7F;&#x7528;&#x6CE8;&#x610F;&#x4E8B;&#x9805;</h2>
+<table border="0">
+<tbody><tr><td>~/.dropbox-dist/dropboxd</td><td>dropbox&#x670D;&#x52D9;&#x7A0B;&#x5F0F;</td></tr>
+<tr><td>~/bin/dropbox</td><td>dropbox&#x63A7;&#x5236;interface,&#x53EF;&#x770B;dropbox help&#x6709;&#x6307;&#x4EE4;&#x8AAA;&#x660E;</td></tr>
+<tr><td>&#x76EE;&#x524D;&#x88DD;&#x5728;cml10</td><td>&#x4E00;&#x5B9A;&#x8981;dropbox&#x57F7;&#x884C;&#x7684;&#x6A5F;&#x5668;&#x6539;&#x6A94;&#x6848;&#x624D;&#x6703;sync</td></tr>
+<tr><td>dropbox_ch_LANG</td><td>&#x8981;&#x628A;&#x8A9E;&#x8A00;&#x8A2D;&#x597D; &#x4E0D;&#x7136;&#x57F7;&#x884C;&#x6703;error</td></tr>
+<tr><td>dropbox exclude add</td><td>&#x52A0;ignore&#x76EE;&#x9304;,&#x4F3C;&#x4E4E;&#x8981;&#x7D66;&#x7D55;&#x5C0D;&#x8DEF;&#x5F91;&#x624D;&#x6703;&#x6210;&#x529F;</td></tr>
+<tr><td>chmod o+rx ~/Dropbox</td><td>Dropbox&#x9810;&#x8A2D;&#x6B0A;&#x9650;&#x662F;700,&#x82E5;&#x8981;link&#x5230;apache,&#x8981;&#x958B;&#x6B0A;&#x9650;</td></tr>
+</tbody></table>
+
+<h2 id="google-drive-sync-use-grive">google drive sync (use grive)</h2>
+<table border="0">
+<tbody><tr><td>grive -a</td><td>&#x5728;&#x8981;sync&#x7684;&#x8CC7;&#x6599;&#x593E;&#x4E2D;&#x57F7;&#x884C;&#x6B64;&#x884C;, &#x52A0;&#x5165;&#x5E33;&#x865F;</td></tr>
+<tr><td>grive</td><td>&#x5728;&#x8981;sync&#x7684;&#x8CC7;&#x6599;&#x593E;&#x4E2D;&#x57F7;&#x884C;&#x6B64;&#x884C;,&#x5C31;&#x958B;&#x59CB;sync,&#x6703;&#x8DD1;&#x5F88;&#x4E45;</td></tr>
+</tbody></table>
 
                     
                     </section>
@@ -5514,10 +5646,10 @@
         </div>
 
         
-        <a href="../fcamel/10.html" class="navigation navigation-prev " aria-label="Previous page: [轉]瞭解 C/C++ 程式行為的技巧"><i class="fa fa-angle-left"></i></a>
+        <a href="../shared_libraries/13.html" class="navigation navigation-prev " aria-label="Previous page: Command Tips"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../fcamel/91002.html" class="navigation navigation-next " aria-label="Next page: 閱讀 C/C++ 原始碼的好幫手"><i class="fa fa-angle-right"></i></a>
+        <a href="../shared_libraries/index.html" class="navigation navigation-next " aria-label="Next page: Shared Libraries"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

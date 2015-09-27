@@ -232,6 +232,7 @@
    * [KGDB](gdb/184.md)
    * [[轉]Debug Xorg with GDB on Ubuntu](gdb/185.md)
    * [[轉]使用 GDB 以樹狀方式將函式流程印出](gdb/186.md)
+   * [gdb 除錯技術](gdb/187.md)
 * [Linux內核分析雲課堂學習筆記](mooc_linux_kernel/README.md)
    * [圖解分析彙編代碼以理解計算機是如何工作的](mooc_linux_kernel/191.md)
    * [基於mykernel的一個簡單的時間片輪轉多道程序內核代碼分析](mooc_linux_kernel/192.md)

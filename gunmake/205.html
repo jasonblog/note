@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>奇怪的宏 | Jason note</title>
+        <title>Makefile 語法簡介 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../simplelinux/align.html" />
+    <link rel="next" href="../c++/index.html" />
     
     
-    <link rel="prev" href="../simplelinux/struct.html" />
+    <link rel="prev" href="../gunmake/204.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="24.8" data-basepath=".." data-revision="Sun Sep 27 2015 17:13:54 GMT+0800 (CST)">
+    <div class="book" data-level="20.5" data-basepath=".." data-revision="Sun Sep 27 2015 17:13:54 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -3935,7 +3935,7 @@
             
         </li>
     
-        <li class="chapter " data-level="20.5" data-path="gunmake/205.html">
+        <li class="chapter active" data-level="20.5" data-path="gunmake/205.html">
             
                 
                     <a href="../gunmake/205.html">
@@ -4862,7 +4862,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="24.8" data-path="simplelinux/macro.html">
+        <li class="chapter " data-level="24.8" data-path="simplelinux/macro.html">
             
                 
                     <a href="../simplelinux/macro.html">
@@ -5532,99 +5532,720 @@
                 
                     <section class="normal" id="section-">
                     
-                        <p><a name="top"></a></p>
-<h1 align="center">&#x5947;&#x602A;&#x7684;&#x5B8F;
-</h1>
-
-<p>&#x9019;&#x4E00;&#x7BC7;&#x4ECB;&#x7D39;&#x9019;&#x4E9B;&#x5947;&#x602A;&#x7684;&#x5B8F;&#xFF1A;</p>
-<h2 id="%E4%B8%80%E3%80%81do-while-0">&#x4E00;&#x3001;do while(0)</h2>
-<p>&#x3000;&#x3000;&#x70BA;&#x4E86;&#x4EA4;&#x63DB;&#x5169;&#x500B;&#x6574;&#x578B;&#x8B8A;&#x91CF;&#x7684;&#x503C;&#xFF0C;&#x524D;&#x9762;<em>&#x503C;&#x50B3;&#x905E;</em>&#x4E2D;&#x5DF2;&#x7D93;&#x7528;
-&#x5305;&#x542B;&#x6307;&#x91DD;&#x53C3;&#x6578;&#x7684; swap &#x51FD;&#x6578;&#x505A;&#x5230;&#x4E86;&#xFF0C;&#x9019;&#x6B21;&#x7528;<b>&#x5B8F;</b>&#x4F86;&#x5BE6;&#x73FE;&#xFF08;swap.c&#xFF09;&#xFF1A;</p>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
-
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> SWAP(a,b)        \
-    do{                    \
-        int t = a;        \
-        a = b;            \
-        b = t;            \
-    }while(<span class="hljs-number">0</span>)</span>
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
-</span>{
-    <span class="hljs-keyword">int</span> c=<span class="hljs-number">1</span>, d=<span class="hljs-number">2</span>;
-    <span class="hljs-keyword">int</span> t;    <span class="hljs-comment">// &#x6E2C;&#x8A66; SWAP &#x8207;&#x74B0;&#x5883;&#x7684;&#x517C;&#x5BB9;&#x6027;</span>
-
-    SWAP(c,d);
-
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;c:%d d:%d\n&quot;</span>, c, d);
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-}
-</code></pre>
-<p>&#x9019;&#x500B;&#x5B8F;&#x770B;&#x8D77;&#x4F86;&#x5C31;&#x6709;&#x9EDE;&#x602A;&#x4E86;&#xFF1A;do while(0) &#x662F;&#x5BEB;&#x4E86;&#x500B;&#x5FAA;&#x74B0;
-&#x53C8;&#x4E0D;&#x8B93;&#x5B83;&#x5FAA;&#x74B0;&#xFF0C;&#x86CB;&#x75BC;&#x554A;&#xFF01;&#x5176;&#x5BE6;&#x4E0D;&#x7136;&#xFF0C;&#x9019;&#x6A23;&#x5BEB;&#x662F;&#x6709;&#x5999;&#x7528;&#x7684;&#xFF1A;</p>
-<p><b>&#x9996;&#x5148;</b>&#xFF0C;SWAP &#x6709;&#x591A;&#x689D;&#x8A9E;&#x53E5;&#xFF0C;&#x5982;&#x679C;&#x9019;&#x6A23;&#x5BEB;&#xFF1A;</p>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> SWAP(a,b)        \
-int t = a;        \
-a = b;            \
-b = t;</span>
-</code></pre>
-<p>&#x90A3;&#x9EBC;&#x7528;&#x7684;&#x6642;&#x5019;&#x5C31;&#x5F97;&#x9019;&#x9EBC;&#x7528;&#xFF1A;</p>
-<p>SWAP(c,d)</p>
-<p><b>&#x4E0D;&#x80FD;&#x52A0;&#x5206;&#x865F;</b>&#xFF01;&#x4E0D;&#x7FD2;&#x6163;&#x5427;&#xFF1F;</p>
-<p>&#x3000;&#x3000;<b>&#x5176;&#x6B21;</b>&#xFF0C;&#x4F7F;&#x7528; do{...}while(0)&#xFF0C;
-&#x4E2D;&#x9593;&#x7684;&#x8A9E;&#x53E5;&#x7528;&#x5927;&#x62EC;&#x865F;&#x62EC;&#x8D77;&#x4F86;&#x4E86;&#xFF0C;&#x6240;&#x4EE5;&#x662F;&#x53E6;&#x4E00;&#x500B;&#x547D;&#x540D;&#x7A7A;&#x9593;&#xFF0C;
-<b>&#x5176;&#x4E2D;&#x7684;&#x65B0;&#x8B8A;&#x91CF; t &#x4E0D;&#x6703;&#x767C;&#x751F;&#x547D;&#x540D;&#x885D;&#x7A81;</b>&#x3002;</p>
-<p>&#x3000;&#x3000;SWAP &#x5B8F;&#x8981;&#x6BD4;&#x4E4B;&#x524D;&#x90A3;&#x500B;&#x51FD;&#x6578;&#x7684;&#x6548;&#x7387;&#x8981;&#x9AD8;&#xFF0C;
-&#x56E0;&#x70BA;&#x6C92;&#x6709;&#x767C;&#x751F;&#x51FD;&#x6578;&#x8ABF;&#x7528;&#xFF0C;&#x6C92;&#x6709;&#x53C3;&#x6578;&#x50B3;&#x905E;&#xFF0C;
-&#x5B8F;&#x6703;&#x5728;&#x7DE8;&#x8B6F;&#x524D;&#x88AB;&#x66FF;&#x63DB;&#xFF0C;&#x6240;&#x4EE5;&#x53EA;&#x662F;&#x5D4C;&#x5165;&#x4E86;&#x4E00;&#x5C0F;&#x6BB5;&#x4EE3;&#x78BC;&#x3002;</p>
-<h2 id="%E4%BA%8C%E3%80%81-35">&#x4E8C;&#x3001;#</h2>
-<p>&#x6A19;&#x984C;&#x6211;&#x6C92;&#x6253;&#x932F;&#xFF0C;&#x9019;&#x88E1;&#x8981;&#x8AAA;&#x7684;&#x5C31;&#x662F;&#x4E95;&#x865F;&#xFF0C;#&#x7684;&#x529F;&#x80FD;&#x662F;&#x5C07;&#x5176;&#x5F8C;&#x9762;&#x7684;
-&#x5B8F;&#x53C3;&#x6578;&#x9032;&#x884C;&#x5B57;&#x7B26;&#x4E32;&#x5316;&#x64CD;&#x4F5C;&#x3002;&#x6BD4;&#x5982;&#x4E0B;&#x9762;&#x4EE3;&#x78BC;&#x4E2D;&#x7684;&#x5B8F;&#xFF1A;</p>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> WARN_IF(EXP) \
-do{ <span class="hljs-keyword">if</span> (EXP) \
-    fprintf(stderr, <span class="hljs-string">&quot;Warning: &quot;</span> #EXP <span class="hljs-string">&quot;\n&quot;</span>); } \
-while(<span class="hljs-number">0</span>)</span>
-</code></pre>
-<p>&#x90A3;&#x9EBC;&#x5BE6;&#x969B;&#x4F7F;&#x7528;&#x4E2D;&#x6703;&#x51FA;&#x73FE;&#x4E0B;&#x9762;&#x6240;&#x793A;&#x7684;&#x66FF;&#x63DB;&#x904E;&#x7A0B;&#xFF1A;</p>
-<pre><code>WARN_IF (divider == 0);
-</code></pre><p>&#x88AB;&#x66FF;&#x63DB;&#x70BA;</p>
-<pre><code class="lang-c"><span class="hljs-keyword">do</span> { <span class="hljs-keyword">if</span> (divider == <span class="hljs-number">0</span>)
-    <span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;Warning: &quot;</span> <span class="hljs-string">&quot;divider == 0&quot;</span> <span class="hljs-string">&quot;\n&quot;</span>);
-} <span class="hljs-keyword">while</span>(<span class="hljs-number">0</span>);
-</code></pre>
-<p>&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;<b>C&#x8A9E;&#x8A00;&#x4E2D;&#x591A;&#x500B;&#x96D9;&#x5F15;&#x865F;&#x5B57;&#x7B26;&#x4E32;&#x653E;&#x5728;&#x4E00;&#x8D77;
-&#x6703;&#x81EA;&#x52D5;&#x9023;&#x63A5;&#x8D77;&#x4F86;</b>&#xFF0C;&#x6240;&#x4EE5;&#x5982;&#x679C; divider &#x70BA; 0 &#x7684;&#x8A71;&#xFF0C;&#x5C31;&#x6703;&#x6253;&#x5370;&#x51FA;&#xFF1A;</p>
-<p>Warning: divider == 0</p>
-<h2 id="%E4%B8%89%E3%80%81-35-35">&#x4E09;&#x3001;##</h2>
-<p>&#x3000;&#x3000;<code>#</code> &#x9084;&#x662F;&#x6BD4;&#x8F03;&#x5C11;&#x7528;&#x7684;&#xFF0C;<code>##</code> &#x537B;&#x6BD4;&#x8F03;&#x6D41;&#x884C;&#xFF0C;
-&#x5728; linux0.01 &#x4E2D;&#x5C31;&#x7528;&#x5230;&#x904E;&#x3002;## &#x88AB;&#x7A31;&#x70BA;&#x9023;&#x63A5;&#x7B26;&#xFF0C;
-&#x7528;&#x4F86;&#x5C07;&#x5169;&#x500B; &#x8A18;&#x865F;&#xFF08;&#x7DE8;&#x8B6F;&#x539F;&#x7406;&#x4E2D;&#x7684;&#x8A5E;&#x5F59;&#xFF09; &#x9023;&#x63A5;&#x70BA;&#x4E00;&#x500B; &#x8A18;&#x865F;&#x3002;
-&#x770B;&#x4E0B;&#x9762;&#x7684;&#x4F8B;&#x5B50;&#x5427;&#xFF08;add.c&#xFF09;&#xFF1A;</p>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
-
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> add(Type)                \
-Type add##Type(Type a, Type b){    \
-    return a+b;                    \
-}</span>
-
-<span class="hljs-comment">// &#x4E0B;&#x9762;&#x5169;&#x689D;&#x662F;&#x5947;&#x8E5F;&#x767C;&#x751F;&#x7684;&#x5730;&#x65B9;</span>
-add(<span class="hljs-keyword">int</span>)
-add(<span class="hljs-keyword">double</span>)
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
-</span>{
-    <span class="hljs-keyword">int</span> a = addint(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>);
-    <span class="hljs-keyword">double</span> d = adddouble(<span class="hljs-number">1.5</span>, <span class="hljs-number">1.5</span>);
-
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;a:%d d:%lf\n&quot;</span>, a, d);
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-}
-</code></pre>
-<p>&#x90A3;&#x5169;&#x884C;&#x88AB;&#x66FF;&#x63DB;&#x5F8C;&#x662F;&#x9019;&#x500B;&#x6A23;&#x5B50;&#x7684;&#xFF1A;</p>
-<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">addint</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b)</span></span>{ <span class="hljs-keyword">return</span> a+b; }
-<span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">adddouble</span><span class="hljs-params">(<span class="hljs-keyword">double</span> a, <span class="hljs-keyword">double</span> b)</span></span>{ <span class="hljs-keyword">return</span> a+b; }
-</code></pre>
-<p><b>&#x4EE5;&#x4E0A;&#x5167;&#x5BB9;&#x90FD;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;<em>&#x7167;&#x5996;&#x93E1;</em>&#x770B;&#x5230;&#x5B8F;&#x88AB;&#x66FF;&#x63DB;&#x5F8C;&#x7684;&#x60C5;&#x5F62;</b>&#x3002;</p>
+                        <h1 id="makefile-%E8%AA%9E%E6%B3%95%E7%B0%A1%E4%BB%8B">Makefile &#x8A9E;&#x6CD5;&#x7C21;&#x4ECB;</h1>
+<p>&lt;!DOCTYPE html&gt;</p>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+    <title></title>
+  </head>
+  <body>
+    <p>
+      <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    </p>
+    <p style="color: rgb(0, 0, 0); font-family: &apos;LiHei Pro&apos;; font-size: 16px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 22.4px; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">&#x6709;
+      &#x7A0D;&#x7A0D;&#x5728; Linux &#x4E0B;&#x78B0;&#x904E;&#x7A0B;&#x5F0F;&#x8A2D;&#x8A08;&#x7684;&#x958B;&#x767C;&#x8005;&#x61C9;&#x8A72;&#x6703;&#x77E5;&#x9053;&#xFF0C;<font color="#3366ff">make</font><span class="Apple-converted-space">&#xA0;</span>&#x662F;
+      &#x7528;&#x4F86;&#x5C07;&#x7A0B;&#x5F0F;&#x78BC;&#x3001;&#x51FD;&#x5F0F;&#x5EAB;&#x3001;&#x6A19;&#x982D;&#x6A94;&#x53CA;&#x5176;&#x5B83;&#x8CC7;&#x6E90;&#x6A94; build &#x6210;&#x6700;&#x7D42;&#x6210;&#x679C;<font color="#9999ff">&#xFF08;&#x5373;&#xFF1A;&#x6700;&#x7D42;&#x7684;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#xFF09;</font>&#x7684;&#x8D85;
+      &#x5F37;&#x529B;&#x8F14;&#x52A9;&#x5DE5;&#x5177;&#x3002;</p>
+    <p style="color: rgb(0, 0, 0); font-family: &apos;LiHei Pro&apos;; font-size: 16px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 22.4px; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">&#x7576;
+      &#x7136;&#x4E86;&#xFF0C;&#x4E26;&#x4E0D;&#x662F;&#x975E;&#x5F97;&#x52D5;&#x7528;&#x5230; make &#x624D;&#x80FD; build &#x7A0B;&#x5F0F;&#xFF0C;&#x6216;&#x8A31;&#x6709;&#x4EC0;&#x9EBC;&#x7A0B;&#x5F0F;&#x8A2D;&#x8A08;&#x9B54;&#x4EBA;&#x559C;&#x6B61;&#x4EC0;&#x9EBC;&#x90FD;&#x81EA;&#x5DF1;&#x624B;&#x52D5;&#x9032;&#x884C;&#xFF1B;&#x4F46;&#x5229;&#x7528; make &#x53CA;&#x5176;&#x53C3;&#x8003;&#x6A94;<font color="#9999ff">&#xFF08;&#x8F38;
+        &#x5165;&#x6A94;&#x6848;&#xFF09;</font><font color="#3366ff">Makefile</font><span class="Apple-converted-space">&#xA0;</span>&#x5C07;
+      &#x6703;&#x8B93;&#x6574;&#x500B;&#x7DE8;&#x8B6F;&#x5DE5;&#x4F5C;&#x8F15;&#x9B06;&#x8A31;&#x591A;&#x3002;&#x82E5;&#x60A8;&#x66FE;&#x7D93;&#x6253;&#x5305;&#x904E; Debian Package&#xFF0C;&#x90A3;&#x9EBC;&#x61C9;&#x8A72;&#x6703;&#x767C;&#x73FE;<span class="Apple-converted-space">&#xA0;</span><font color="#3366ff">debuan/rule</font><span class="Apple-converted-space">&#xA0;</span>&#x9019;
+      &#x500B;&#x6A94;&#x6848;&#x7684;&#x8A9E;&#x6CD5;&#x548C; Makefile &#x5E7E;&#x4E4E;&#x662F;&#x4E00;&#x6A21;&#x4E00;&#x6A23;&#xFF0C;&#x6240;&#x4EE5;&#x5B78;&#x7FD2; Makefile &#x7684;&#x8A9E;&#x6CD5;&#x5C0D;&#x65BC; Debian Package Maintainer
+      &#x800C;&#x8A00;&#x4E5F;&#x662F;&#x4E00;&#x9580;&#x5FC5;&#x8981;&#x7684;&#x529F;&#x8AB2;&#x3002;</p>
+    <h2 style="color: rgb(68, 101, 140); margin: 20px 0px 10px; padding-bottom: 5px; border-bottom-width: 2px; border-bottom-style: solid; border-color: rgb(115, 184, 182); font-family: &apos;LiHei Pro&apos;; font-style: normal; font-variant: normal; letter-spacing: normal; line-height: 22.4px; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">Makefile
+      &#x8A9E;&#x6CD5;&#xFF1A;</h2>
+    <blockquote style="color: rgb(0, 0, 0); font-family: &apos;LiHei Pro&apos;; font-size: 16px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 22.4px; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">&#x4EE5;
+      &#x4E0B;&#x70BA; Makefile &#x7684;&#x57FA;&#x672C;&#x8A9E;&#x6CD5;&#xFF1A;</blockquote>
+    <blockquote style="color: rgb(0, 0, 0); font-family: &apos;LiHei Pro&apos;; font-size: 16px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 22.4px; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+      <h3 style="color: rgb(62, 110, 130); margin: 20px 0px 10px; font-size: 19.2px; text-decoration: none;">&#x8A3B;
+        &#x89E3;&#xFF1A;</h3>
+      <blockquote>&#x4EE5; # &#x958B;&#x982D;&#x7684;&#x5373;&#x70BA;&#x8A3B;&#x89E3;&#x3002;</blockquote>
+      <h3 style="color: rgb(62, 110, 130); margin: 20px 0px 10px; font-size: 19.2px; text-decoration: none;">&#x8B8A;
+        &#x6578;&#x5BA3;&#x544A;&#xFF1A;<font color="#9999ff">&#xFF08;&#x6709;&#x4EBA;&#x7A31;&#x4E4B;&#x70BA;&#x5DE8;&#x96C6;&#xFF09;</font></h3>
+      <blockquote>&#x8A9E;&#x6CD5;&#xFF1A;<br>
+        <blockquote>
+          <table border="1" cellpadding="2" cellspacing="0" width="100%">
+            <tbody>
+              <tr>
+                <td nowrap="nowrap" valign="top"><tt>MACRO = value</tt></td>
+              </tr>
+            </tbody>
+          </table>
+        </blockquote>
+      </blockquote>
+      <blockquote>
+        <p>&#x8B8A;&#x6578;&#x540D;&#x7A31;&#x70BA;&#x5927;&#x5C0F;&#x5BEB;&#x76F8;&#x7570;&#x3002;&#x5728;&#x6163;&#x4F8B;&#x4E0A;&#xFF0C;Makefile &#x5167;&#x90E8;&#x4F7F;&#x7528;&#x7684;&#x8B8A;&#x6578;&#x540D;&#x7A31;&#x4F7F;&#x7528;<b>&#x5C0F;&#x5BEB;</b>&#xFF1B;&#x800C;&#x4F7F;&#x7528;&#x8005;&#x5F88;&#x53EF;&#x80FD;&#x5F9E;&#x547D;&#x4EE4;&#x5217;&#x81EA;&#x884C;&#x53E6;&#x5916;&#x6307;&#x5B9A;&#x6578;&#x503C;&#x7684;&#x8B8A;&#x6578;&#xFF0C;
+          &#x50CF;&#x662F;<span class="Apple-converted-space">&#xA0;</span><tt>CFLAGS</tt>&#xFF0C;&#x5247;&#x662F;&#x4F7F;
+          &#x7528;<b>&#x5927;&#x5BEB;</b>&#x3002;&#x5229;&#x7528;<span class="Apple-converted-space">&#xA0;</span><tt>MACRO
+            =</tt><span class="Apple-converted-space">&#xA0;</span>&#x4F86;&#x53D6;&#x6D88;&#x8A72;&#x8B8A;&#x6578;&#x3002;</p>
+        <p>&#x5728; Makefile &#x4E2D;&#xFF0C;&#x53EF;&#x5229;&#x7528;<span class="Apple-converted-space">&#xA0;</span><tt>$(MACRO)</tt><span class="Apple-converted-space">&#xA0;</span>&#x6216;<span class="Apple-converted-space">&#xA0;</span><tt>${MACRO}</tt><span class="Apple-converted-space">&#xA0;</span>&#x4F86;&#x5B58;&#x53D6;&#x5DF2;&#x5B9A;&#x7FA9;&#x7684;&#x8B8A;&#x6578;&#x3002;&#x4F8B;&#xFF1A;</p>
+        <blockquote>
+          <table border="1" cellpadding="2" cellspacing="0" width="100%">
+            <tbody>
+              <tr>
+                <td nowrap="nowrap" valign="top"><tt>targets = foo<br>
+                    $(targets)</tt><tt>: common.h<br>
+                  </tt><tt>&#xA0;&#xA0;&#xA0; gcc -o<span class="Apple-converted-space">&#xA0;</span></tt><tt>$(targets)</tt><tt><span class="Apple-converted-space">&#xA0;</span>foo.c</tt></td>
+              </tr>
+            </tbody>
+          </table>
+        </blockquote>
+        <p>&#x6548;&#x679C;&#x7B49;&#x540C;&#xFF1A;</p>
+        <blockquote>
+          <table border="1" cellpadding="2" cellspacing="0" width="100%">
+            <tbody>
+              <tr>
+                <td nowrap="nowrap" valign="top"><tt>foo</tt><tt>: common.h<br>
+                  </tt><tt>&#xA0;&#xA0;&#xA0; gcc -o foo</tt><tt><span class="Apple-converted-space">&#xA0;</span>foo.c</tt></td>
+              </tr>
+            </tbody>
+          </table>
+        </blockquote>
+        <h4 style="color: rgb(55, 125, 94); margin: 20px 0px 7px; font-size: 17.6px;">:=
+          &#x8A9E;&#x6CD5;</h4>
+        <blockquote>
+          <p>&#x6CE8;&#x610F;&#x5230;&#xFF0C;make &#x6703;&#x5C07;&#x6574;&#x500B; Makefile &#x5C55;&#x958B;&#x5F8C;&#xFF0C;&#x518D;&#x6C7A;&#x5B9A;&#x8B8A;&#x6578;&#x7684;&#x503C;&#x3002;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#xFF0C;&#x8B8A;&#x6578;&#x7684;&#x503C;&#x5C07;&#x6703;&#x662F;&#x6574;&#x500B; Mackfile
+            &#x4E2D;&#x6700;&#x5F8C;&#x88AB;&#x6307;&#x5B9A;&#x7684;&#x503C;&#x3002;&#x4F8B;&#xFF1A;</p>
+          <blockquote>
+            <table border="1" cellpadding="2" cellspacing="0" width="100%">
+              <tbody>
+                <tr>
+                  <td nowrap="nowrap" valign="top"><tt>x = foo<br>
+                      y = $(x) bar<br>
+                      x = xyz<br>
+                      <font color="#336666"># y &#x7684;&#x503C;&#x70BA; xyz bar</font><br>
+                    </tt></td>
+                </tr>
+              </tbody>
+            </table>
+          </blockquote>
+          <p>&#x5728;&#x4E0A;&#x4F8B;&#x4E2D;&#xFF0C;<tt>y</tt><span class="Apple-converted-space">&#xA0;</span>&#x7684;&#x503C;&#x5C07;
+            &#x6703;&#x662F;<span class="Apple-converted-space">&#xA0;</span><tt>xyz bar</tt>&#xFF0C;
+            &#x800C;&#x4E0D;&#x662F;<span class="Apple-converted-space">&#xA0;</span><tt>foo bar</tt>&#x3002;</p>
+          <p>&#x60A8;&#x53EF;&#x4EE5;&#x5229;&#x7528;<span class="Apple-converted-space">&#xA0;</span><tt>:=</tt><span class="Apple-converted-space">&#xA0;</span>&#x4F86;&#x907F;&#x958B;&#x9019;&#x500B;&#x554F;&#x984C;&#x3002;<tt>:=</tt><span class="Apple-converted-space">&#xA0;</span>&#x8868;&#x793A;&#x8B8A;&#x6578;&#x7684;&#x503C;&#x6C7A;&#x5B9A;&#x65BC;&#x5B83;&#x5728; Makefile
+            &#x4E2D;&#x7684;&#x4F4D;&#x7F6E;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x6574;&#x500B; Makefile &#x5C55;&#x958B;&#x5F8C;&#x6700;&#x7D42;&#x7684;&#x503C;&#x3002;</p>
+          <blockquote>
+            <table border="1" cellpadding="2" cellspacing="0" width="100%">
+              <tbody>
+                <tr>
+                  <td nowrap="nowrap" valign="top"><tt>x := foo<br>
+                      y := $(x) bar<br>
+                      x := xyz<br>
+                    </tt><font color="#336666"><tt># y &#x7684;&#x503C;&#x70BA; foo bar</tt></font></td>
+                </tr>
+              </tbody>
+            </table>
+          </blockquote>
+          &#x5728;&#x4E0A;&#x4F8B;&#x4E2D;&#xFF0C;<tt>y</tt><span class="Apple-converted-space">&#xA0;</span>&#x7684;&#x503C;&#x5C07;&#x6703;&#x662F;<span class="Apple-converted-space">&#xA0;</span><tt>foo bar</tt>&#xFF0C;&#x800C;&#x4E0D;&#x662F;<span class="Apple-converted-space">&#xA0;</span><tt>xyz bar</tt><span class="Apple-converted-space">&#xA0;</span>&#x4E86;&#x3002;</blockquote>
+        <h4 style="color: rgb(55, 125, 94); margin: 20px 0px 7px; font-size: 17.6px;">?=
+          &#x8A9E;&#x6CD5;&#xFF1A;</h4>
+        <blockquote>?= &#x662F;&#x4E00;&#x500B;&#x7C21;&#x5316;&#x7684;&#x8A9E;&#x6CD5;&#xFF1A;&#x82E5;&#x8B8A;&#x6578;&#x672A;&#x5B9A;&#x7FA9;&#xFF0C;&#x5247;&#x66FF;&#x5B83;&#x6307;&#x5B9A;&#x65B0;&#x7684;&#x503C;&#x3002;&#x5426;&#x5247;&#xFF0C;&#x63A1;&#x7528;&#x539F;&#x6709;&#x7684;&#x503C;&#x3002;&#x4F8B;&#xFF1A;<br>
+          <blockquote>
+            <table border="1" cellpadding="2" cellspacing="0" width="100%">
+              <tbody>
+                <tr>
+                  <td nowrap="nowrap" valign="top"><tt>FOO ?= bar</tt></td>
+                </tr>
+              </tbody>
+            </table>
+          </blockquote>
+          &#x82E5;<span class="Apple-converted-space">&#xA0;</span><tt>FOO</tt><span class="Apple-converted-space">&#xA0;</span>&#x672A;
+          &#x5B9A;&#x7FA9;&#xFF0C;&#x5247;<span class="Apple-converted-space">&#xA0;</span><tt>FOO = bar</tt>&#xFF1B;
+          &#x82E5;<span class="Apple-converted-space">&#xA0;</span><tt>FOO</tt><span class="Apple-converted-space">&#xA0;</span>&#x5DF2;
+          &#x5B9A;&#x7FA9;&#xFF0C;&#x5247;<span class="Apple-converted-space">&#xA0;</span><tt>FOO</tt><span class="Apple-converted-space">&#xA0;</span>&#x7684;&#x503C;&#x7DAD;&#x6301;&#x4E0D;&#x8B8A;&#x3002;</blockquote>
+        <h4 style="color: rgb(55, 125, 94); margin: 20px 0px 7px; font-size: 17.6px;">+=
+          &#x8A9E;&#x6CD5;&#xFF1A;</h4>
+        <blockquote>&#x4F8B;&#xFF1A;<br>
+          <blockquote>
+            <table border="1" cellpadding="2" cellspacing="0" width="100%">
+              <tbody>
+                <tr>
+                  <td nowrap="nowrap" valign="top"><tt>CFLAGS = -Wall -g<br>
+                      CFLAGS += -O2</tt></td>
+                </tr>
+              </tbody>
+            </table>
+          </blockquote>
+          <p>&#x6B64;&#x6642;<span class="Apple-converted-space">&#xA0;</span><tt>CFLAGS</tt><span class="Apple-converted-space">&#xA0;</span>&#x7684;&#x503C;&#x5C31;&#x8B8A;&#x6210;<span class="Apple-converted-space">&#xA0;</span><tt>-Wall
+              -g -O2</tt><span class="Apple-converted-space">&#xA0;</span>&#x4E86;&#x3002;</p>
+        </blockquote>
+        <h4 style="color: rgb(55, 125, 94); margin: 20px 0px 7px; font-size: 17.6px;">define
+          &#x8A9E;&#x6CD5;&#xFF1A;</h4>
+        <blockquote>&#x4F7F;&#x7528; define &#x8A9E;&#x6CD5;&#x7684;&#x552F;&#x4E00;&#x512A;&#x9EDE;&#x662F;&#x5B83;&#x53EF;&#x4EE5;&#x8B93;&#x8B8A;&#x6578;&#x76F4;&#x63A5;&#x4F7F;&#x7528;&#x300E;&#x65B7;&#x884C;&#x300F;&#x3002;&#x4F8B;&#xFF1A;<br>
+          <blockquote>
+            <table border="1" cellpadding="2" cellspacing="0" width="100%">
+              <tbody>
+                <tr>
+                  <td nowrap="nowrap" valign="top"><tt>define foo<br>
+                      uname -a<br>
+                      echo $$SHELL<br>
+                      endef<br>
+                      <br>
+                      all:<br>
+                      &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; $(foo)</tt></td>
+                </tr>
+              </tbody>
+            </table>
+          </blockquote>
+          &#x4E0A;&#x4F8B;&#x53EF;&#x4EE5;&#x8996;&#x540C;&#x65BC;&#xFF1A;<br>
+          <blockquote>
+            <table border="1" cellpadding="2" cellspacing="0" width="100%">
+              <tbody>
+                <tr>
+                  <td nowrap="nowrap" valign="top"><tt>foo = uname -a; echo
+                      $$SHELL<br>
+                      <br>
+                      all:<br>
+                      &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; $(foo)</tt></td>
+                </tr>
+              </tbody>
+            </table>
+          </blockquote>
+          <p>&#x6CE8;&#x610F;&#x5230;&#x5728;&#x4E0A;&#x4F8B;&#x4E2D;&#x4F7F;&#x7528;&#x4E86; $$&#xFF0C;&#x8B93; &apos;$&apos; &#x80FD;&#x50B3;&#x5230; Shell &#x4E2D;&#x3002;</p>
+        </blockquote>
+        <h4 style="color: rgb(55, 125, 94); margin: 20px 0px 7px; font-size: 17.6px;">&#x5728;<span class="Apple-converted-space">&#xA0;</span><tt>target</tt><span class="Apple-converted-space">&#xA0;</span>&#x88E1;
+          &#x53E6;&#x5916;&#x6307;&#x5B9A;&#x8B8A;&#x6578;&#x7684;&#x503C;</h4>
+        <blockquote>&#x53EF;&#x4EE5;&#x5728;<span class="Apple-converted-space">&#xA0;</span><tt>target</tt><span class="Apple-converted-space">&#xA0;</span>&#x88E1;&#x53E6;&#x5916;&#x6307;&#x5B9A;&#x8B8A;&#x6578;&#x7684;&#x503C;&#x3002;&#x4F8B;&#xFF1A;<br>
+          <blockquote>
+            <table border="1" cellpadding="2" cellspacing="0" width="100%">
+              <tbody>
+                <tr>
+                  <td nowrap="nowrap" valign="top"><tt>foo = abc<br>
+                      <br>
+                      all: foo = xyz<br>
+                      all:<br>
+                      &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; echo $(foo)<br>
+                      &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; # &#x6B64;&#x6642;&#xFF0C;foo &#x7684;&#x503C;&#x70BA;
+                      xyz<br>
+                    </tt></td>
+                </tr>
+              </tbody>
+            </table>
+          </blockquote>
+          <p>&#x4EE5;&#x4E0B;&#x7684;&#x8A9E;&#x6CD5;&#x63D0;&#x4F9B;&#x4E86;&#x548C;&#x4E0A;&#x4F8B;&#x76F8;&#x540C;&#x7684;&#x529F;&#x80FD;&#xFF1A;</p>
+          <blockquote>
+            <p><tt>all: override foo = xyz</tt></p>
+            <p><tt>all: export foo = xyz</tt></p>
+          </blockquote>
+        </blockquote>
+        <p>make &#x4E5F;&#x53EF;&#x4EE5;&#x5B58;&#x53D6;&#x74B0;&#x5883;&#x8B8A;&#x6578;&#x3002;&#x4F8B;&#xFF1A;</p>
+        <blockquote>
+          <table border="1" cellpadding="2" cellspacing="0" width="100%">
+            <tbody>
+              <tr>
+                <td nowrap="nowrap" valign="top"><tt>all:<br>
+                    &#xA0;&#xA0;&#xA0; @echo $(CFLAGS)</tt></td>
+              </tr>
+            </tbody>
+          </table>
+        </blockquote>
+        <p>&#x5728;&#x4E0A;&#x4F8B;&#x4E2D;&#xFF0C;&#x96D6;&#x7136;&#x5728; Makefile &#x88E1;&#x96D6;&#x7136;&#x6C92;&#x6709;&#x6307;&#x5B9A;<span class="Apple-converted-space">&#xA0;</span><tt>CFLAGS</tt><span class="Apple-converted-space">&#xA0;</span>&#x7684;&#x503C;&#xFF0C;&#x4F46; make &#x6703;&#x8A66;&#x5716;&#x4EE5;&#x74B0;&#x5883;&#x8B8A;&#x6578;&#x4F86;&#x4EE3;&#x51FA;<span class="Apple-converted-space">&#xA0;</span><tt>CFLAGS</tt><span class="Apple-converted-space">&#xA0;</span>&#x7684;
+          &#x503C;&#x3002;</p>
+        &#x53EF;&#x642D;&#x914D;<span class="Apple-converted-space">&#xA0;</span><tt>wildcard</tt><span class="Apple-converted-space">&#xA0;</span>&#x6307;&#x4EE4;&#x5728;&#x8B8A;&#x6578;&#x88E1;&#x5C55;&#x958B; * ? [...] &#x7B49;&#x842C;&#x7528;&#x5B57;&#x5143;&#x3002;&#x4F8B;&#xFF1A;<br>
+        <blockquote>
+          <table border="1" cellpadding="2" cellspacing="0" width="100%">
+            <tbody>
+              <tr>
+                <td nowrap="nowrap" valign="top"><tt>objects=$(wildcard *.o)</tt></td>
+              </tr>
+            </tbody>
+          </table>
+        </blockquote>
+      </blockquote>
+      <h3 style="color: rgb(62, 110, 130); margin: 20px 0px 10px; font-size: 19.2px; text-decoration: none;">&#x898F;
+        &#x5247;&#xFF1A;<font color="#9999ff">&#xFF08;Rule&#xFF09;</font></h3>
+      <blockquote>
+        <p>&#x6307;&#x793A; make &#x5982;&#x4F55;&#x9032;&#x884C;&#x7DE8;&#x8B6F;&#x3002;</p>
+        <h4 style="color: rgb(55, 125, 94); margin: 20px 0px 7px; font-size: 17.6px;">&#x4E3B;
+          &#x8981;&#x8A9E;&#x6CD5;&#xFF1A;</h4>
+      </blockquote>
+      <blockquote>
+        <blockquote>
+          <table border="1" cellpadding="2" cellspacing="0" width="100%">
+            <tbody>
+              <tr>
+                <td nowrap="nowrap" valign="top"><tt>target<font color="#663333">:</font><span class="Apple-converted-space">&#xA0;</span>dependencies<br>
+                  </tt><tt><font color="#cc66cc">&lt;Tab&gt;</font></tt><tt>Commands</tt></td>
+              </tr>
+            </tbody>
+          </table>
+        </blockquote>
+        <blockquote>
+          <p>&#x6216;</p>
+          <table border="1" cellpadding="2" cellspacing="0" width="100%">
+            <tbody>
+              <tr>
+                <td nowrap="nowrap" valign="top"><tt>target<font color="#663333">:</font><span class="Apple-converted-space">&#xA0;</span>dependencies;<span class="Apple-converted-space">&#xA0;</span></tt><tt>Commands</tt><br>
+                  <tt><font color="#cc66cc">&lt;Tab&gt;</font></tt><tt>Commands</tt></td>
+              </tr>
+            </tbody>
+          </table>
+        </blockquote>
+        <blockquote>
+          <p>Rule &#x6307;&#x793A;&#x4E86; make &#x5982;&#x4F55;&#x5EFA;&#x7ACB;<span class="Apple-converted-space">&#xA0;</span><tt>target</tt>&#xFF1B;
+            &#x53CA;&#x4F55;&#x6642;&#x8981;&#x91CD;&#x65B0;&#x5EFA;&#x7ACB;<span class="Apple-converted-space">&#xA0;</span><tt>target</tt>&#x3002;</p>
+          <table border="0" cellpadding="2" cellspacing="2" width="100%">
+            <tbody>
+              <tr>
+                <td nowrap="nowrap" valign="top"><font color="#336666"><tt>target</tt></font>&#xFF1A;
+                  &#x6240;&#x8981;&#x5EFA;&#x7ACB;&#x7684;&#x6A94;&#x6848;&lt; /td&gt;</td>
+              </tr>
+              <tr>
+                <td nowrap="nowrap" valign="top"><font color="#336666"><tt>dependencies</tt></font>&#xFF1A;
+                  &#x76F8;&#x4F9D;&#x9805;&#x76EE;&#x3002; make &#x6703;&#x64DA;&#x6B64;&#x6C7A;&#x5B9A;&#x662F;&#x5426;&#x8981;&#x91CD;&#x65B0;&#x7DE8;&#x8B6F;<span class="Apple-converted-space">&#xA0;</span><tt>target</tt>&#x3002;</td>
+              </tr>
+              <tr>
+                <td valign="top"><font color="#336666"><tt>Commands</tt></font>&#xFF1A;
+                  &#x5EFA;&#x7ACB;<span class="Apple-converted-space">&#xA0;</span><tt>target</tt><span class="Apple-converted-space">&#xA0;</span>&#x7684;&#x6307;&#x4EE4;&#x3002;</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>&#x5728; Makefile &#x88E1;&#x4E26;&#x6C92;&#x6709;&#x9650;&#x5B9A; Rule &#x7684;&#x5148;&#x5F8C;&#x9806;&#x5E8F;&#x3002;&#x4F46;&#x9810;&#x8A2D;&#x4E0A;&#xFF0C;make &#x6703;&#x53C3;&#x8003;<span class="Apple-converted-space">&#xA0;</span><tt>all</tt><span class="Apple-converted-space">&#xA0;</span>&#x9019;&#x500B;&#x76EE;&#x6A19;&#x9805;&#x76EE;&#xFF0C;&#x4E26;&#x4F9D;&#x64DA;&#x5B83;&#x7684;<tt>dependencies</tt><span class="Apple-converted-space">&#xA0;</span>&#x4F86;&#x6C7A;&#x5B9A;&#x8981;&#x5EFA;&#x7ACB;&#x54EA;&#x4E9B;&#x9805;&#x76EE;&#x3002;&#x82E5;&#x6C92;&#x6709;<span class="Apple-converted-space">&#xA0;</span><tt>all</tt><span class="Apple-converted-space">&#xA0;</span>&#x9805;&#x76EE;&#xFF0C;&#x5247;&#x6703;&#x63A1;&#x7528; Makefile
+            &#x88E1;&#x7684;&#x7B2C;&#x4E00;&#x500B;&#x9805;&#x76EE;&#x3002;</p>
+        </blockquote>
+      </blockquote>
+      <blockquote>
+        <h4 style="color: rgb(55, 125, 94); margin: 20px 0px 7px; font-size: 17.6px;"><tt>target</tt>&#xFF1A;<font color="#9999ff">&#xFF08;&#x76EE;&#x6A19;&#x9805;&#x76EE;&#xFF09;</font></h4>
+        <blockquote>&#x9019;&#x500B;&#x9805;&#x76EE;&#x6240;&#x8981;&#x5EFA;&#x7ACB;&#x7684;&#x6A94;&#x6848;&#xFF0C;&#x5FC5;&#x9808;&#x4EE5;<span class="Apple-converted-space">&#xA0;</span><b><font color="#993300"><tt>:</tt></font></b><span class="Apple-converted-space">&#xA0;</span>&#x7D50;
+          &#x5C3E;&#x3002;&#x4F8B;&#xFF1A;<br>
+          <blockquote>
+            <table border="1" cellpadding="2" cellspacing="0" width="100%">
+              <tbody>
+                <tr>
+                  <td nowrap="nowrap" valign="top"><tt>foo.o: common.h<br>
+                    </tt><tt>&#xA0;&#xA0;&#xA0; gcc -c foo.c</tt></td>
+                </tr>
+              </tbody>
+            </table>
+          </blockquote>
+          &#x5176;&#x4E2D;&#xFF0C;<tt>foo.o</tt><span class="Apple-converted-space">&#xA0;</span>&#x662F;&#x9019;&#x500B;&#x9805;
+          &#x76EE;&#x8981;&#x5EFA;&#x7ACB;&#x7684;&#x6A94;&#x6848;&#xFF1B;<tt>common.h</tt><span class="Apple-converted-space">&#xA0;</span>&#x662F;
+          &#x76F8;&#x4F9D;&#x6027;&#x7684;&#x9805;&#x76EE;/&#x6A94;&#x6848;&#xFF1B;&#x800C;<span class="Apple-converted-space">&#xA0;</span><tt>gcc -c
+            foo.c</tt><span class="Apple-converted-space">&#xA0;</span>&#x5247;&#x70BA;&#x8981;&#x7522;&#x751F;&#x9019;&#x500B;&#x9805;&#x76EE;
+          &#x6240;&#x8981;&#x57F7;&#x884C;&#x7684;&#x6307;&#x4EE4;&#x3002;<br>
+          <br>
+          make &#x5728;&#x7DE8;&#x8B6F;&#x6642;&#xFF0C;&#x82E5;&#x767C;&#x73FE;<span class="Apple-converted-space">&#xA0;</span><tt>target</tt><span class="Apple-converted-space">&#xA0;</span>&#x6BD4;&#x8F03;&#x65B0;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;<span class="Apple-converted-space">&#xA0;</span><tt>dependencies</tt><span class="Apple-converted-space">&#xA0;</span>&#x90FD;&#x6BD4;<span class="Apple-converted-space">&#xA0;</span><tt>target</tt><span class="Apple-converted-space">&#xA0;</span>&#x820A;&#xFF0C;&#x90A3;&#x9EBC;&#x5C07;&#x4E0D;&#x6703;&#x91CD;&#x65B0;&#x5EFA;&#x7ACB;<span class="Apple-converted-space">&#xA0;</span><tt>target</tt>&#xFF0C;
+          &#x5982;&#x6B64;&#x53EF;&#x4EE5;&#x907F;&#x514D;&#x4E0D;&#x5FC5;&#x8981;&#x7684;&#x7DE8;&#x8B6F;&#x52D5;&#x4F5C;&#x3002;<br>
+          <br>
+          &#x82E5;&#x8A72;&#x9805;&#x76EE;&#x4E26;&#x975E;&#x6A94;&#x6848;&#xFF0C;&#x5247;&#x70BA;<span class="Apple-converted-space">&#xA0;</span><font color="#3366ff">fake
+            &#x9805;&#x76EE;</font>&#x3002;&#x5982;&#x6B64;&#x4E00;&#x4F86;&#x5C07;&#x4E0D;&#x6703;&#x5EFA;&#x7ACB;<span class="Apple-converted-space">&#xA0;</span><tt>target</tt><span class="Apple-converted-space">&#xA0;</span>&#x6A94;&#x6848;&#x3002;&#x4F46;&#x70BA;&#x4E86;&#x907F;&#x514D; make &#x6709;&#x6642;&#x6703;&#x7121;&#x53BB;&#x5224;&#x65B7;<span class="Apple-converted-space">&#xA0;</span><tt>target</tt><span class="Apple-converted-space">&#xA0;</span>&#x662F;
+          &#x5426;&#x70BA;&#x6A94;&#x6848;&#x6216; fake &#x9805;&#x76EE;&#xFF0C;&#x5EFA;&#x8B70;&#x5229;&#x7528;<span class="Apple-converted-space">&#xA0;</span><tt>.PHONY</tt><span class="Apple-converted-space">&#xA0;</span>&#x4F86;&#x6307;&#x5B9A;&#x8A72;&#x9805;&#x76EE;&#x70BA; fake &#x9805;&#x76EE;&#x3002;&#x4F8B;&#xFF1A;<br>
+          <blockquote>
+            <table border="1" cellpadding="2" cellspacing="0" width="100%">
+              <tbody>
+                <tr>
+                  <td nowrap="nowrap" valign="top"><tt>.PHONY: clean<br>
+                      clean:<br>
+                      &#xA0;&#xA0;&#xA0; rm *.o</tt></td>
+                </tr>
+              </tbody>
+            </table>
+          </blockquote>
+          <p>&#x5728;&#x4E0A;&#x4F8B;&#x4E2D;&#xFF0C;&#x82E5;&#x4E0D;&#x4F7F;&#x7528;<tt><span class="Apple-converted-space">&#xA0;</span>.PHONY</tt><span class="Apple-converted-space">&#xA0;</span>&#x4F86;&#x6307;&#x5B9A;<span class="Apple-converted-space">&#xA0;</span><tt>clean</tt><span class="Apple-converted-space">&#xA0;</span>&#x70BA; fake
+            &#x9805;&#x76EE;&#x7684;&#x8A71;&#xFF0C;&#x82E5;&#x76EE;&#x9304;&#x4E2D;&#x540C;&#x6642;&#x5B58;&#x5728;&#x4E86;&#x4E00;&#x500B;&#x540D;&#x70BA;<span class="Apple-converted-space">&#xA0;</span><tt>clean</tt><span class="Apple-converted-space">&#xA0;</span>&#x7684;&#x6A94;&#x6848;&#xFF0C;&#x5247;<span class="Apple-converted-space">&#xA0;</span><tt>clean</tt><span class="Apple-converted-space">&#xA0;</span>&#x9019;&#x500B;&#x9805;&#x76EE;&#x5C07;&#x88AB;&#x8996;&#x70BA;<b>&#x8981;&#x5EFA;&#x7ACB;<span class="Apple-converted-space">&#xA0;</span><tt>clean</tt><span class="Apple-converted-space">&#xA0;</span>&#x9019;&#x500B;&#x6A94;&#x6848;</b>&#xFF0C;&#x4F46;<span class="Apple-converted-space">&#xA0;</span><tt>clean</tt><span class="Apple-converted-space">&#xA0;</span>&#x9019;&#x500B;&#x9805;&#x76EE;&#x537B;&#x53C8;&#x6C92;&#x6709;&#x4EFB;&#x4F55;&#x7684;<span class="Apple-converted-space">&#xA0;</span><tt>dependencies</tt>&#xFF0C;
+            &#x4E5F;&#x56E0;&#x6B64;&#xFF0C;<tt>clean</tt><span class="Apple-converted-space">&#xA0;</span>&#x9805;
+            &#x76EE;&#x5C07;&#x6C38;&#x9060;&#x88AB;&#x8996;&#x70BA;<span class="Apple-converted-space">&#xA0;</span><font color="#993300">up-to-date</font>&#xFF0C;<b>&#x6C38;
+              &#x9060;&#x4E0D;&#x6703;&#x88AB;&#x57F7;&#x884C;</b>&#x3002;<span class="Apple-converted-space">&#xA0;</span></p>
+          <p>&#x56E0;&#x70BA;&#x5229;&#x7528;&#x4E86;<span class="Apple-converted-space">&#xA0;</span><tt>.PHONY</tt><span class="Apple-converted-space">&#xA0;</span>&#x4F86;&#x6307;&#x5B9A;<span class="Apple-converted-space">&#xA0;</span><tt>clean</tt><span class="Apple-converted-space">&#xA0;</span>&#x70BA; fake &#x9805;&#x76EE;&#xFF0C;&#x6240;&#x4EE5; make
+            &#x4E0D;&#x6703;&#x53BB;&#x6AA2;&#x67E5;&#x76EE;&#x9304;&#x4E2D;&#x662F;&#x5426;&#x5B58;&#x5728;&#x4E86;&#x4E00;&#x500B;&#x540D;&#x70BA;<span class="Apple-converted-space">&#xA0;</span><tt>clean</tt>&#x7684;
+            &#x6A94;&#x6848;&#x3002;&#x5982;&#x6B64;&#x4E5F;&#x53EF;&#x4EE5;&#x63D0;&#x6607; make &#x7684;&#x57F7;&#x884C;&#x6548;&#x7387;&#x3002;</p>
+          <p>&#x5176;&#x5B83;&#x985E;&#x4EE5;<span class="Apple-converted-space">&#xA0;</span><tt>.PHONY</tt><span class="Apple-converted-space">&#xA0;</span>&#x7684;&#x8A9E;&#x6CD5;&#x8ACB;&#x53C3;&#x8003;&#xFF1A;</p>
+          <blockquote>
+            <table border="0" cellpadding="2" cellspacing="2" width="100%">
+              <tbody>
+                <tr>
+                  <td nowrap="nowrap" valign="top"><a href="http://tetralet.luna.com.tw/GNU%20%60make%27:%204.9%20Special%20Built-in%20Target%20Names" style="color: rgb(166, 74, 46);" target="_blank">GNU `make&apos;: 4.9 Special
+                      Built-in Target Names</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </blockquote>
+          &#x53E6;&#x5916;&#xFF0C;&#x5982;&#x679C;&#x67D0;&#x500B;&#x975E; fake &#x9805;&#x76EE;&#x7684;<span class="Apple-converted-space">&#xA0;</span><tt>target</tt><span class="Apple-converted-space">&#xA0;</span>&#x7684;<span class="Apple-converted-space">&#xA0;</span><tt>dependencies</tt><span class="Apple-converted-space">&#xA0;</span>&#x5305;&#x542B;&#x4E86; fake &#x9805;&#x76EE;&#x7684;&#x8A71;&#xFF0C;&#x56E0;&#x70BA; make
+          &#x4E00;&#x5B9A;&#x6703;&#x57F7;&#x884C; fake &#x9805;&#x76EE;&#xFF0C;&#x9019;&#x6A23;&#x4E00;&#x4F86;&#xFF0C;&#x9019;&#x500B;&#x975E; fake &#x9805;&#x76EE;&#x7684;<span class="Apple-converted-space">&#xA0;</span><tt>target</tt><span class="Apple-converted-space">&#xA0;</span>&#x4E00;&#x5B9A;&#x4E5F;&#x6703;&#x88AB;&#x57F7;&#x884C;&#x3002;&#x9019;&#x53EF;&#x80FD;&#x4E0D;&#x662F;&#x7406;&#x60F3;&#x7684;&#x505A;&#x6CD5;&#x3002;</blockquote>
+        <h4 style="color: rgb(55, 125, 94); margin: 20px 0px 7px; font-size: 17.6px;"><tt>dependencies</tt>&#xFF1A;<font color="#9999ff">&#xFF08;&#x76F8;&#x4F9D;&#x6027;&#x9805;&#x76EE;&#xFF0C;&#x4EE5;&#x7A7A;&#x767D;&#x9593;&#x9694;&#xFF09;</font></h4>
+        <blockquote>
+          <p><tt>dependencies<span class="Apple-converted-space">&#xA0;</span></tt>&#x662F;
+            &#x6307;&#x5B9A;&#x5728;&#x5EFA;&#x7ACB;<span class="Apple-converted-space">&#xA0;</span><tt>target</tt><span class="Apple-converted-space">&#xA0;</span>&#x4E4B;&#x524D;&#xFF0C;&#x5FC5;&#x9808;&#x5148;&#x6AA2;&#x67E5;&#x7684;&#x9805;&#x76EE;&#x3002;&#x53EF;&#x4EE5;&#x4E0D;&#x6307;&#x5B9A;&#x3002;&#x4F8B;&#xFF1A;</p>
+          <blockquote>
+            <table border="1" cellpadding="2" cellspacing="0" width="100%">
+              <tbody>
+                <tr>
+                  <td nowrap="nowrap" valign="top"><tt>foo.o: common.h<br>
+                    </tt><tt>&#xA0;&#xA0;&#xA0; gcc -c foo.c</tt></td>
+                </tr>
+              </tbody>
+            </table>
+          </blockquote>
+          <p>&#x4E0A;&#x4F8B;&#x4E2D;&#x662F;&#x6307;&#xFF1A;&#x6AA2;&#x67E5;<span class="Apple-converted-space">&#xA0;</span><tt>common.h</tt>&#x3002;
+            &#x5982;&#x679C;&#x5B83;&#x7684;&#x5EFA;&#x7ACB;&#x65E5;&#x671F;&#x6BD4;<span class="Apple-converted-space">&#xA0;</span><tt>foo.o</tt><span class="Apple-converted-space">&#xA0;</span>&#x65B0;&#xFF0C;&#x5C31;&#x57F7;&#x884C;<span class="Apple-converted-space">&#xA0;</span><tt>gcc
+              -c foo.c</tt><span class="Apple-converted-space">&#xA0;</span>&#x4F86;&#x91CD;&#x65B0;&#x7522;
+            &#x751F;<span class="Apple-converted-space">&#xA0;</span><tt>foo.o</tt>&#x3002;&#x4E5F;&#x5C31;&#x662F;
+            &#x8AAA;&#xFF0C;&#x53EF;&#x4EE5;&#x4F9D;&#x9700;&#x6C42;&#x5EFA;&#x7ACB;<span class="Apple-converted-space">&#xA0;</span><tt>dependencies</tt>&#xFF0C;
+            &#x5373;&#x4F7F;&#x5B83;&#x548C;<span class="Apple-converted-space">&#xA0;</span><tt>target</tt><span class="Apple-converted-space">&#xA0;</span>&#x4E00;&#x9EDE;&#x95DC;&#x4FC2;&#x4E5F;&#x6C92;&#x6709;&#x3002;</p>
+          <p>&#x76F8;&#x4F9D;&#x6027;&#x9805;&#x76EE;&#x53EF;&#x4EE5;&#x662F; Makefile &#x4E2D;&#x5176;&#x5B83;&#x7684;<span class="Apple-converted-space">&#xA0;</span><tt>target</tt>&#x3002;
+            &#x4E5F;&#x56E0;&#x6B64;&#xFF0C;&#x5728;&#x5EFA;&#x7ACB;&#x8A72;<span class="Apple-converted-space">&#xA0;</span><tt>target</tt><span class="Apple-converted-space">&#xA0;</span>&#x4E4B;&#x524D;&#xFF0C;&#x5B83;&#x6703;&#x5148;&#x6AA2;&#x67E5;&#x5728;<span class="Apple-converted-space">&#xA0;</span><tt>dependencies</tt>&#x88E1;
+            &#x6240;&#x6307;&#x5B9A;&#x7684;&#x6240;&#x6709;<span class="Apple-converted-space">&#xA0;</span><tt>target</tt>&#x3002;</p>
+        </blockquote>
+        <h4 style="color: rgb(55, 125, 94); margin: 20px 0px 7px; font-size: 17.6px;"><tt>Commands</tt>&#xFF1A;<font color="#9999ff">&#xFF08;&#x5373;&#x70BA;&#x8981;&#x57F7;&#x884C;&#x7684; Shell &#x6307;&#x4EE4;&#xFF09;<br>
+          </font></h4>
+        <blockquote>&#x5FC5;&#x9808;&#x4EE5;<span class="Apple-converted-space">&#xA0;</span><tt><font color="#993300"><b>&lt;Tab&gt;</b></font></tt><span class="Apple-converted-space">&#xA0;</span>&#x958B;
+          &#x982D;&#x3002;&#x4F7F;&#x7528; Shell Script &#x8A9E;&#x6CD5;&#x3002;&#x5728; Makefile &#x88E1;&#xFF0C;&#x53EA;&#x8981;&#x4EE5;<span class="Apple-converted-space">&#xA0;</span><tt>&lt;Tab&gt;</tt><span class="Apple-converted-space">&#xA0;</span>&#x958B;&#x982D;&#x90FD;&#x5C07;&#x6703;&#x88AB;&#x8996;&#x70BA; Shell Script &#x57F7;&#x884C;&#x3002;</blockquote>
+        <blockquote>
+          <p>&#x6BCF;&#x689D;&#x6CD5;&#x5247;&#x5FC5;&#x9808;&#x5BEB;&#x5728;&#x540C;&#x4E00;&#x884C;&#x3002;&#x6BCF;&#x689D;<span class="Apple-converted-space">&#xA0;</span><tt>Command</tt><span class="Apple-converted-space">&#xA0;</span>&#x6703;&#x555F;&#x52D5;&#x4E00;&#x500B;<b>&#x65B0;&#x7684;</b><span class="Apple-converted-space">&#xA0;</span>Shell&#xFF0C;
+            &#x9810;&#x8A2D;&#x70BA;<span class="Apple-converted-space">&#xA0;</span><tt><font color="#336666">/bin/sh</font></tt>&#x3002;
+            &#x82E5;&#x57F7;&#x884C;&#x5B8C;&#x67D0;&#x689D;<span class="Apple-converted-space">&#xA0;</span><tt>Command</tt>&#x4F46;
+            &#x50B3;&#x56DE;&#x4E86;&#x932F;&#x8AA4;&#x503C;&#xFF0C;make &#x5C31;&#x6703;&#x4E2D;&#x65B7;&#x57F7;&#x884C;&#x3002;</p>
+          <p>&#x56E0;&#x70BA;&#x6BCF;&#x689D;<span class="Apple-converted-space">&#xA0;</span><tt>Command</tt><span class="Apple-converted-space">&#xA0;</span>&#x6703;&#x555F;&#x52D5;&#x4E00;&#x500B;<b>&#x65B0;&#x7684;</b><span class="Apple-converted-space">&#xA0;</span>Shell&#xFF0C;
+            &#x6240;&#x4EE5;&#x6709;&#x6642;&#x57F7;&#x884C;&#x7684;&#x6307;&#x4EE4;&#x5FC5;&#x9808;&#x5BEB;&#x5728;&#x540C;&#x4E00;&#x884C;&#xFF0C;&#x50CF;&#x662F;&#x4F7F;&#x7528;<span class="Apple-converted-space">&#xA0;</span><font color="#336666"><tt>if</tt></font><span class="Apple-converted-space">&#xA0;</span>&#x4F86;
+            &#x9032;&#x884C;&#x689D;&#x4EF6;&#x5224;&#x65B7;&#xFF0C;&#x6B64;&#x6642;&#x53EF;&#x4EE5;&#x7528;<span class="Apple-converted-space">&#xA0;</span><font color="#3366ff"><tt>;</tt></font><span class="Apple-converted-space">&#xA0;</span>&#x4F86;&#x5206;&#x9694;&#x6307;&#x4EE4;&#x3002;&#x4F8B;&#xFF1A;</p>
+          <blockquote>
+            <table border="1" cellpadding="2" cellspacing="0" width="100%">
+              <tbody>
+                <tr>
+                  <td nowrap="nowrap" valign="top"><tt>all:<br>
+                      &#xA0;&#xA0;&#xA0; if [ -f foo ]; then rm foo; fi</tt><tt><br>
+                    </tt></td>
+                </tr>
+              </tbody>
+            </table>
+          </blockquote>
+          <p>&#x800C;&#x4EE5;&#x4E0B;&#x662F;&#x932F;&#x8AA4;&#x793A;&#x7BC4;&#xFF1A;</p>
+          <blockquote>
+            <table border="1" cellpadding="2" cellspacing="0" width="100%">
+              <tbody>
+                <tr>
+                  <td nowrap="nowrap" valign="top"><tt>all:<br>
+                      &#xA0;&#xA0;&#xA0; cd subdir; $(MAKE)</tt><tt><br>
+                    </tt></td>
+                </tr>
+              </tbody>
+            </table>
+          </blockquote>
+          &#x9019;&#x6642;&#x56E0;&#x70BA; make &#x53EA;&#x6703;&#x6AA2;&#x67E5;&#x6700;&#x5F8C;&#x4E00;&#x500B;&#x6307;&#x4EE4;&#x7684;&#x50B3;&#x56DE;&#x503C;&#xFF0C;&#x6240;&#x4EE5;&#x5728;&#x4EE5;&#x4E0A;&#x6307;&#x4EE4;&#x4E2D;&#xFF0C;&#x5373;&#x4F7F;<span class="Apple-converted-space">&#xA0;</span><tt>subdir</tt><span class="Apple-converted-space">&#xA0;</span>&#x4E0D;&#x5B58;&#x5728;&#xFF0C;&#x4F46; make
+          &#x4E26;&#x4E0D;&#x6703;&#x56E0;&#x800C;&#x4E2D;&#x65B7;&#x57F7;&#x884C;&#xFF0C;&#x4E26;&#x6703;&#x7E7C;&#x7E8C;&#x57F7;&#x884C;<span class="Apple-converted-space">&#xA0;</span><tt>$(MAKE)</tt><span class="Apple-converted-space">&#xA0;</span>&#x6307;&#x4EE4;&#xFF0C;&#x800C;&#x7522;&#x751F;&#x4E86;&#x4E0D;&#x53EF;&#x9810;&#x671F;&#x7684;&#x7D50;&#x679C;&#x3002;<br>
+          <br>
+          &#x70BA;&#x4E86;&#x907F;&#x514D;&#x9019;&#x500B;&#x554F;&#x984C;&#xFF0C;&#x53EF;&#x4EE5;&#x5229;&#x7528;<span class="Apple-converted-space">&#xA0;</span><font color="#3366ff"><tt>&amp;&amp;</tt></font><span class="Apple-converted-space">&#xA0;</span>&#x4F86;&#x6AA2;&#x67E5;&#x5176;&#x4E2D;&#x67D0;&#x500B;&#x6307;&#x4EE4;&#x662F;&#x5426;&#x6210;&#x529F;&#x57F7;&#x884C;&#xFF0C;&#x518D;&#x6C7A;&#x5B9A;&#x662F;&#x5426;&#x57F7;&#x884C;&#x4E0B;&#x500B;
+          &#x6307;&#x4EE4;&#x3002;&#x4F8B;&#xFF1A;<br>
+          <blockquote>
+            <table border="1" cellpadding="2" cellspacing="0" width="100%">
+              <tbody>
+                <tr>
+                  <td nowrap="nowrap" valign="top"><tt>all:<br>
+                      &#xA0;&#xA0;&#xA0; cd subdir &amp;&amp; $(MAKE)</tt><tt><br>
+                    </tt></td>
+                </tr>
+              </tbody>
+            </table>
+          </blockquote>
+        </blockquote>
+        <blockquote>
+          <h4 style="color: rgb(55, 125, 94); margin: 20px 0px 7px; font-size: 17.6px;">&#x7279;
+            &#x5225;&#x5B57;&#x5143;&#xFF1A;</h4>
+          <blockquote><tt>@&#xFF1A;</tt>&#x4E0D;&#x8981;<b>&#x986F;&#x793A;</b>&#x57F7;&#x884C;&#x7684;&#x6307;&#x4EE4;&#x3002;<br>
+            <p><tt>-&#xFF1A;</tt>&#x8868;&#x793A;&#x5373;&#x4F7F;&#x8A72;&#x884C;&#x6307;&#x4EE4;&#x51FA;&#x932F;&#xFF0C;&#x4E5F;&#x4E0D;&#x6703;&#x4E2D;&#x65B7;&#x57F7;&#x884C;&#x3002;</p>
+            <p>&#x4F8B;&#xFF1A;</p>
+            <blockquote>
+              <table border="1" cellpadding="2" cellspacing="0" width="100%">
+                <tbody>
+                  <tr>
+                    <td nowrap="nowrap" valign="top"><tt>.PHONY: clean<br>
+                        clean:<br>
+                      </tt><tt>&#xA0;&#xA0;&#xA0; @echo &quot;Clean...&quot;</tt><br>
+                      <tt>&#xA0;&#xA0;&#xA0; -rm *.o</tt></td>
+                  </tr>
+                </tbody>
+              </table>
+            </blockquote>
+            &#x56E0;&#x70BA; make &#x6703;&#x4E00;&#x884C;&#x4E00;&#x884C;&#x5C07;&#x6B63;&#x5728;&#x57F7;&#x884C;&#x7684;<span class="Apple-converted-space">&#xA0;</span><tt>Commands</tt><span class="Apple-converted-space">&#xA0;</span>&#x986F;&#x793A;&#x5728;&#x87A2;&#x5E55;&#x4E0A;&#xFF0C;&#x4F46;&#x60A8;&#x53EF;&#x4EE5;&#x5229;&#x7528;<span class="Apple-converted-space">&#xA0;</span><font color="#3366ff"><tt>@</tt></font><span class="Apple-converted-space">&#xA0;</span>&#x4F86;
+            &#x66AB;&#x6642;&#x95DC;&#x9589;&#x9019;&#x500B;&#x529F;&#x80FD;&#x3002;
+            <p>&#x800C; make &#x53EA;&#x8981;&#x9047;&#x5230;&#x4EFB;&#x4F55;&#x932F;&#x8AA4;&#x5C31;&#x6703;&#x4E2D;&#x65B7;&#x57F7;&#x884C;&#x3002;&#x4F46;&#x50CF;&#x662F;&#x5728;&#x9032;&#x884C; clean &#x6642;&#xFF0C;&#x4E5F;&#x8A31;&#x6839;&#x672C;&#x6C92;&#x6709;&#x4EFB;&#x4F55;&#x6A94;&#x6848;&#x53EF;&#x4EE5; clean&#xFF0C;&#x56E0;&#x800C; rm
+              &#x6703;&#x50B3;&#x56DE;&#x932F;&#x8AA4;&#x503C;&#xFF0C;&#x56E0;&#x800C;&#x5C0E;&#x81F4; make &#x4E2D;&#x65B7;&#x57F7;&#x884C;&#x3002;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x5229;&#x7528;<span class="Apple-converted-space">&#xA0;</span><font color="#3366ff">-</font><span class="Apple-converted-space">&#xA0;</span>&#x4F86;
+              &#x95DC;&#x9589;&#x932F;&#x8AA4;&#x4E2D;&#x65B7;&#x529F;&#x80FD;&#xFF0C;&#x8B93; make &#x4E0D;&#x6703;&#x56E0;&#x800C;&#x4E2D;&#x65B7;&#x3002;</p>
+          </blockquote>
+          <h4 style="color: rgb(55, 125, 94); margin: 20px 0px 7px; font-size: 17.6px;">&#x96B1;
+            &#x6027;&#x6CD5;&#x5247;&#xFF1A;</h4>
+          <blockquote>
+            <p>&#x5728;&#x4E0A;&#x4F8B;&#x4E2D;&#x7684;&#xFF1A;</p>
+            <blockquote>
+              <table border="1" cellpadding="2" cellspacing="0" width="100%">
+                <tbody>
+                  <tr>
+                    <td nowrap="nowrap" valign="top"><tt>foo.o: common.h<br>
+                      </tt><tt>&#xA0;&#xA0;&#xA0; gcc -c foo.c</tt></td>
+                  </tr>
+                </tbody>
+              </table>
+            </blockquote>
+            <p>&#x7531;&#x65BC;&#x7522;&#x751F;<span class="Apple-converted-space">&#xA0;</span><tt>foo.o</tt><span class="Apple-converted-space">&#xA0;</span>&#x7684;&#x6307;&#x4EE4;&#x5C31;&#x662F;<span class="Apple-converted-space">&#xA0;</span><tt>gcc
+                -c foo.c</tt>&#xFF0C;&#x56E0;&#x6B64;&#x5728; Makefile &#x88E1;&#x53EF;&#x4EE5;&#x5C07;&#x5176;&#x7C21;&#x5316;&#x70BA;&#xFF1A;</p>
+            <blockquote>
+              <table border="1" cellpadding="2" cellspacing="0" width="100%">
+                <tbody>
+                  <tr>
+                    <td nowrap="nowrap" valign="top"><tt>foo.o: common.h<br>
+                        <br>
+                      </tt></td>
+                  </tr>
+                </tbody>
+              </table>
+            </blockquote>
+            <p>&#x6B64;&#x6642; make &#x6703;&#x4F9D;&#x64DA;<span class="Apple-converted-space">&#xA0;</span><tt>target</tt><span class="Apple-converted-space">&#xA0;</span>&#x7684;&#x526F;&#x6A94;&#x540D;&#x4F86;&#x731C;&#x6E2C;&#x8A72;&#x5982;&#x4F55;&#x7DE8;&#x8B6F;<span class="Apple-converted-space">&#xA0;</span><tt>target</tt>&#x3002;
+              &#x5982;&#x6B64;&#x53EF;&#x4EE5;&#x8B93;<span class="Apple-converted-space">&#xA0;</span><tt>Makefile</tt><span class="Apple-converted-space">&#xA0;</span>&#x66F4;&#x70BA;&#x7C21;&#x6F54;&#x3002;</p>
+            <p>&#x60A8;&#x53EF;&#x4EE5;&#x5229;&#x7528;&#x3010;&#x7A7A;&#x767D;&#x6307;&#x4EE4;&#x3011;&#x4F86;&#x907F;&#x514D; make &#x4F9D;&#x64DA;&#x96B1;&#x6027;&#x6CD5;&#x5247;&#x800C;&#x9032;&#x884C;&#x7DE8;&#x8B6F;&#x3002;&#x4F8B;&#xFF1A;</p>
+            <blockquote>
+              <table border="1" cellpadding="2" cellspacing="0" width="100%">
+                <tbody>
+                  <tr>
+                    <td nowrap="nowrap" valign="top"><tt>foo.o: common.h<br>
+                        <font color="#cc66cc">&lt;Tab&gt;</font><br>
+                      </tt></td>
+                  </tr>
+                </tbody>
+              </table>
+            </blockquote>
+          </blockquote>
+        </blockquote>
+      </blockquote>
+      <h3 style="color: rgb(62, 110, 130); margin: 20px 0px 10px; font-size: 19.2px; text-decoration: none;">&#x5167;
+        &#x90E8;&#x8B8A;&#x6578;&#xFF1A;</h3>
+      <blockquote>
+        <table border="0" cellpadding="2" cellspacing="2">
+          <tbody>
+            <tr>
+              <td nowrap="nowrap" valign="top"><tt>$?&#xFF1A;</tt></td>
+              <td nowrap="nowrap" valign="top">&#x4EE3;&#x8868;&#x5DF2;&#x88AB;&#x66F4;&#x65B0;&#x7684;<span class="Apple-converted-space">&#xA0;</span><tt>dependencies</tt><span class="Apple-converted-space">&#xA0;</span>&#x7684;&#x503C;&#x3002;<br>
+                &#x4E5F;&#x5C31;&#x662F;<span class="Apple-converted-space">&#xA0;</span><tt>dependencies</tt><span class="Apple-converted-space">&#xA0;</span>&#x4E2D;&#xFF0C;&#x6BD4;<span class="Apple-converted-space">&#xA0;</span><tt>targets</tt><span class="Apple-converted-space">&#xA0;</span>&#x9084;&#x65B0;&#x7684;&#x503C;&#x3002;</td>
+            </tr>
+            <tr>
+              <td nowrap="nowrap" valign="top"><tt>$@&#xFF1A;</tt></td>
+              <td nowrap="nowrap" valign="top">&#x4EE3;&#x8868;<span class="Apple-converted-space">&#xA0;</span><tt>targets</tt><span class="Apple-converted-space">&#xA0;</span>&#x7684;&#x503C;&#x3002;</td>
+            </tr>
+            <tr>
+              <td nowrap="nowrap" valign="top"><tt>$&lt;&#xFF1A;</tt></td>
+              <td nowrap="nowrap" valign="top">&#x4EE3;&#x8868;&#x7B2C;&#x4E00;&#x500B;<span class="Apple-converted-space">&#xA0;</span><tt>dependencies</tt><span class="Apple-converted-space">&#xA0;</span>&#x7684;&#x503C;&#x3002;</td>
+            </tr>
+            <tr>
+              <td nowrap="nowrap" valign="top"><tt>$* :<br>
+                </tt></td>
+              <td nowrap="nowrap" valign="top">&#x4EE3;&#x8868;<span class="Apple-converted-space">&#xA0;</span><tt>targets</tt><span class="Apple-converted-space">&#xA0;</span>&#x6240;&#x6307;&#x5B9A;&#x7684;&#x6A94;&#x6848;&#xFF0C;&#x4F46;&#x4E0D;&#x5305;&#x542B;&#x526F;&#x6A94;&#x540D;&#x3002;</td>
+            </tr>
+          </tbody>
+        </table>
+        <br>
+        &#x4F8B;&#xFF1A;<br>
+        <blockquote>
+          <table border="1" cellpadding="2" cellspacing="0" width="100%">
+            <tbody>
+              <tr>
+                <td nowrap="nowrap" valign="top"><tt>print: foo1.c foo2.c foo3.c<br>
+                    &#xA0;&#xA0;&#xA0; lpr -p $?<br>
+                    &#xA0;&#xA0;&#xA0; touch print</tt></td>
+              </tr>
+            </tbody>
+          </table>
+        </blockquote>
+        &#x9019;&#x6A23;&#x6703;&#x5C07;<span class="Apple-converted-space">&#xA0;</span><tt>foo1.c foo2.c
+          foo3.c</tt><span class="Apple-converted-space">&#xA0;</span>&#x4E2D;&#x5DF2;&#x6709;&#x66F4;&#x65B0;&#x7684;&#x5167;&#x5BB9;&#x5370;&#x81F3;
+        &#x5370;&#x8868;&#x6A5F;&#x3002;</blockquote>
+      <h3 style="color: rgb(62, 110, 130); margin: 20px 0px 10px; font-size: 19.2px; text-decoration: none;">&#x5167;
+        &#x90E8;&#x51FD;&#x6578;&#xFF1A;</h3>
+      <blockquote>&#x60A8;&#x53EF;&#x4EE5;&#x5728; Makefile &#x4F7F;&#x7528; make &#x6240;&#x652F;&#x63F4;&#x7684;&#x4E00;&#x4E9B;&#x5167;&#x90E8;&#x51FD;&#x6578;&#x3002;&#x8A73;&#x60C5;&#x8ACB;&#x53C3;&#x8003;&#xFF1A;</blockquote>
+      <blockquote>
+        <blockquote><a href="http://www.gnu.org/software/automake/manual/make/Functions.html" style="color: rgb(166, 74, 46);" target="_blank">GNU `make&apos;: 8 Functions for
+            Transforming Text</a></blockquote>
+      </blockquote>
+      <h3 style="color: rgb(62, 110, 130); margin: 20px 0px 10px; font-size: 19.2px; text-decoration: none;">&#x689D;
+        &#x4EF6;&#x5224;&#x65B7;&#xFF1A;</h3>
+      <blockquote>
+        <p>&#x53EF;&#x4EE5;&#x5728; Makefile &#x4E2D;&#x4F7F;&#x7528;&#x4EE5;&#x4E0B;&#x7684;&#x689D;&#x4EF6;&#x5224;&#x65B7;&#x8A9E;&#x6CD5;&#x3002;&#x4F46;&#x7531;&#x65BC;&#x5B83;&#x5011;&#x4E0D;&#x662F; rule&#xFF0C;&#x6240;&#x4EE5;&#x4E0D;&#x53EF;&#x4EE5;<span class="Apple-converted-space">&#xA0;</span><tt>&lt;Tab&gt;</tt><span class="Apple-converted-space">&#xA0;</span>&#x958B;&#x982D;&#xFF1B;&#x4F46;&#x5176;&#x5F8C;&#x8981;&#x57F7;&#x884C;&#x7684;&#x6307;&#x4EE4;&#x5247;&#x5FC5;&#x9808;&#x4EE5;<span class="Apple-converted-space">&#xA0;</span><tt>&lt;Tab&gt;</tt><span class="Apple-converted-space">&#xA0;</span>&#x958B;&#x982D;&#xFF0C;make &#x624D;&#x6703;&#x8996;&#x5176;&#x70BA; Shell &#x6307;&#x4EE4;&#x3002;</p>
+      </blockquote>
+      <blockquote><tt>ifeq&#xFF1A;</tt><font color="#9999ff">&#xFF08;&#x6AA2;&#x67E5;<span class="Apple-converted-space">&#xA0;</span></font><font color="#9999ff"><tt>value1</tt>,<span class="Apple-converted-space">&#xA0;</span><tt>value2</tt><span class="Apple-converted-space">&#xA0;</span>&#x662F;&#x5426;&#x76F8;&#x7B49;</font><font color="#9999ff">&#xFF09;</font><br>
+        <blockquote>
+          <table border="1" cellpadding="2" cellspacing="0" width="100%">
+            <tbody>
+              <tr>
+                <td nowrap="nowrap" valign="top"><tt>ifeq (value1, value2)<br>
+                    &#xA0;&#xA0;&#xA0; ...<br>
+                    else<br>
+                    &#xA0;&#xA0;&#xA0; ...<br>
+                    endif<br>
+                  </tt></td>
+              </tr>
+            </tbody>
+          </table>
+        </blockquote>
+        <tt>ifneq&#xFF1A;</tt><font color="#9999ff">&#xFF08;&#x63D0;&#x4F9B;&#x548C;<span class="Apple-converted-space">&#xA0;</span><tt>ifeq</tt><span class="Apple-converted-space">&#xA0;</span>&#x76F8;&#x53CD;&#x7684;&#x529F;&#x80FD;&#xFF09;</font>
+        <blockquote>
+          <table border="1" cellpadding="2" cellspacing="0" width="100%">
+            <tbody>
+              <tr>
+                <td nowrap="nowrap" valign="top"><tt>ifneq (value1, value2)<br>
+                    &#xA0;&#xA0;&#xA0; ...<br>
+                    else<br>
+                    &#xA0;&#xA0;&#xA0; ...<br>
+                    endif<br>
+                  </tt></td>
+              </tr>
+            </tbody>
+          </table>
+        </blockquote>
+        <tt>ifdef&#xFF1A;</tt><font color="#9999ff">&#xFF08;&#x6AA2;&#x67E5;<span class="Apple-converted-space">&#xA0;</span><tt>variable</tt><span class="Apple-converted-space">&#xA0;</span></font><font color="#9999ff">&#x8B8A;
+          &#x6578;&#x662F;&#x5426;&#x70BA;&#x7A7A;&#x7684;</font><font color="#9999ff">&#xFF09;</font><br>
+        <blockquote>
+          <table border="1" cellpadding="2" cellspacing="0" width="100%">
+            <tbody>
+              <tr>
+                <td nowrap="nowrap" valign="top"><tt>ifdef variable</tt><br>
+                  <tt>&#xA0;&#xA0;&#xA0; ...</tt><br>
+                  <tt>else</tt><br>
+                  <tt>&#xA0;&#xA0;&#xA0; ...</tt><br>
+                  <tt>endif</tt></td>
+              </tr>
+            </tbody>
+          </table>
+        </blockquote>
+        <tt><br>
+          ifndef&#xFF1A;</tt><font color="#9999ff">&#xFF08;</font><font color="#9999ff">&#x63D0;&#x4F9B;&#x548C;<span class="Apple-converted-space">&#xA0;</span><tt>ifdef</tt><span class="Apple-converted-space">&#xA0;</span>&#x76F8;
+          &#x53CD;&#x7684;&#x529F;&#x80FD;&#xFF09;</font><tt><br>
+        </tt>
+        <blockquote>
+          <table border="1" cellpadding="2" cellspacing="0" width="100%">
+            <tbody>
+              <tr>
+                <td nowrap="nowrap" valign="top"><tt>ifdef variable</tt><br>
+                  <tt>&#xA0;&#xA0;&#xA0; ...</tt><br>
+                  <tt>else</tt><br>
+                  <tt>&#xA0;&#xA0;&#xA0; ....</tt><br>
+                  <tt>endif</tt></td>
+              </tr>
+            </tbody>
+          </table>
+        </blockquote>
+      </blockquote>
+      <h3 style="color: rgb(62, 110, 130); margin: 20px 0px 10px; font-size: 19.2px; text-decoration: none;">&#x5F15;
+        &#x5165;&#x6A94;&#x6848;&#xFF1A;</h3>
+      <blockquote>
+        <p>&#x5C07;&#x5916;&#x90E8;&#x6A94;&#x6848;&#x5F15;&#x5165; Makefile &#x4E2D;&#x3002;&#x53EF;&#x4EE5;&#x8996;&#x70BA;&#x76F4;&#x63A5;&#x5728;&#x6B64;&#x5C07;&#x8A72;&#x6A94;&#x6848;&#x5167;&#x5BB9;&#x5168;&#x6578;&#x63D2;&#x5165; Makefile &#x4E2D;&#x3002;</p>
+        <p>&#x4F8B;&#xFF1A;</p>
+        <blockquote>
+          <table border="1" cellpadding="2" cellspacing="0" width="100%">
+            <tbody>
+              <tr>
+                <td nowrap="nowrap" valign="top"><tt>include foo.in</tt></td>
+              </tr>
+            </tbody>
+          </table>
+        </blockquote>
+        &#x5C07;<span class="Apple-converted-space">&#xA0;</span><tt>foo.in</tt><span class="Apple-converted-space">&#xA0;</span>&#x7684;
+        &#x5167;&#x5BB9;&#x5168;&#x6578;&#x5F15;&#x5165; Makefile &#x88E1;&#x3002;<br>
+        <br>
+        &#x53EF;&#x4EE5;&#x540C;&#x6642;&#x5F15;&#x5165;&#x591A;&#x500B;&#x6A94;&#x6848;&#x3001;&#x4F7F;&#x7528;&#x8B8A;&#x6578;<span class="Apple-converted-space">&#xA0;</span><tt>$(MACRO)<span class="Apple-converted-space">&#xA0;</span></tt>&#x6216;&#x662F;&#x4F7F;&#x7528;&#x842C;&#x7528;&#x5B57;&#x5143;<font color="#9999ff">&#xFF08;*
+          ? &#x6216; [...]&#xFF09;</font>&#x3002;&#x4F8B;&#xFF1A;<br>
+        <blockquote>
+          <table border="1" cellpadding="2" cellspacing="0" width="100%">
+            <tbody>
+              <tr>
+                <td nowrap="nowrap" valign="top"><tt>include foo.in common*.in
+                    $(MAKEINCS)<br>
+                  </tt></td>
+              </tr>
+            </tbody>
+          </table>
+        </blockquote>
+      </blockquote>
+      <h3 style="color: rgb(62, 110, 130); margin: 20px 0px 10px; font-size: 19.2px; text-decoration: none;">&#x5B50;
+        &#x76EE;&#x9304;&#xFF1A;</h3>
+      <blockquote>&#x5982;&#x679C;&#x8A72;&#x5C08;&#x6848;&#x6709;&#x591A;&#x500B;&#x76EE;&#x9304;&#xFF0C;&#x4E14;&#x6BCF;&#x4E00;&#x500B;&#x76EE;&#x9304;&#x4E2D;&#x90FD;&#x6709; Makefile&#xFF0C;&#x5247;&#x5229;&#x7528;&#x4EE5;&#x4E0B;&#x6307;&#x4EE4;&#x4F86;&#x9032;&#x5165;&#x5B50;&#x76EE;&#x9304;&#x4E26;&#x9032;&#x884C;&#x7DE8;&#x8B6F;&#xFF1A;<br>
+        <blockquote>
+          <table border="1" cellpadding="2" cellspacing="0" width="100%">
+            <tbody>
+              <tr>
+                <td nowrap="nowrap" valign="top"><tt>cd dir &amp;&amp; $(MAKE)<br>
+                  </tt></td>
+              </tr>
+            </tbody>
+          </table>
+        </blockquote>
+        &#x4F8B;&#xFF1A;<br>
+        <blockquote>
+          <table border="1" cellpadding="2" cellspacing="0" width="100%">
+            <tbody>
+              <tr>
+                <td nowrap="nowrap" valign="top"><tt>SUBDIRS = dir1 dir2 dir3<br>
+                    <br>
+                    all:<br>
+                    &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; for i in
+                    $(SUBDIRS); do<span class="Apple-converted-space">&#xA0;</span><br>
+                    &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;
+                    (cd $$i &amp;&amp; make);<span class="Apple-converted-space">&#xA0;</span><br>
+                    &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; done<br>
+                    <br>
+                    clean:<br>
+                    &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; for i in
+                    $(SUBDIRS); do<span class="Apple-converted-space">&#xA0;</span><br>
+                    &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;
+                    (cd $$i &amp;&amp; make clean);<span class="Apple-converted-space">&#xA0;</span><br>
+                    &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; done<br>
+                    <br>
+                    install:<br>
+                    &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; for i in
+                    $(SUBDIRS); do<span class="Apple-converted-space">&#xA0;</span><br>
+                    &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;
+                    (cd $$i &amp;&amp; make install);<span class="Apple-converted-space">&#xA0;</span><br>
+                    &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; done</tt></td>
+              </tr>
+            </tbody>
+          </table>
+        </blockquote>
+      </blockquote>
+    </blockquote>
+    <h2 style="color: rgb(68, 101, 140); margin: 20px 0px 10px; padding-bottom: 5px; border-bottom-width: 2px; border-bottom-style: solid; border-color: rgb(115, 184, 182); font-family: &apos;LiHei Pro&apos;; font-style: normal; font-variant: normal; letter-spacing: normal; line-height: 22.4px; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">make
+      &#x53C3;&#x6578;&#xFF1A;</h2>
+    <blockquote style="color: rgb(0, 0, 0); font-family: &apos;LiHei Pro&apos;; font-size: 16px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 22.4px; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+      <p>&#x53EF;&#x4EE5;&#x7528; make &#x7684;&#x53C3;&#x6578;&#x4F86;&#x84CB;&#x904E; Makefile &#x88E1;&#xFF0C;&#x7528;&#x8B8A;&#x6578;&#x6240;&#x6307;&#x5B9A;&#x7684;&#x53C3;&#x6578;&#x3002;&#x4F8B;&#xFF1A;</p>
+      <blockquote>
+        <table border="1" cellpadding="2" cellspacing="0" width="100%">
+          <tbody>
+            <tr>
+              <td nowrap="nowrap" valign="top"><tt>make CFLAGS=&quot;-g -O2&quot;</tt></td>
+            </tr>
+          </tbody>
+        </table>
+      </blockquote>
+      &#x60A8;&#x53EF;&#x4EE5;&#x5728; Makefile &#x88E1;&#x4F7F;&#x7528;<span class="Apple-converted-space">&#xA0;</span><tt>override</tt><span class="Apple-converted-space">&#xA0;</span>&#x4F86;&#x907F;&#x514D;&#x8B8A;&#x6578;&#x7684;&#x503C;&#x88AB; make &#x7684;&#x53C3;&#x6578;&#x6240;&#x53D6;&#x4EE3;&#x3002;&#x4F8B;&#xFF1A;<br>
+      <blockquote>
+        <table border="1" cellpadding="2" cellspacing="0" width="100%">
+          <tbody>
+            <tr>
+              <td nowrap="nowrap" valign="top"><tt>override CFLAGS = -Wall -g</tt></td>
+            </tr>
+          </tbody>
+        </table>
+      </blockquote>
+      &#x53EF;&#x4EE5;&#x5728; make &#x5F8C;&#x6307;&#x5B9A;&#x8981;&#x91CD;&#x65B0;&#x5EFA;&#x7ACB;&#x7684;<span class="Apple-converted-space">&#xA0;</span><tt>target</tt>&#x3002;
+      &#x4F8B;&#xFF1A;<br>
+      <blockquote>
+        <table border="1" cellpadding="2" cellspacing="0" width="100%">
+          <tbody>
+            <tr>
+              <td nowrap="nowrap" valign="top"><tt>make clean</tt></td>
+            </tr>
+          </tbody>
+        </table>
+      </blockquote>
+      &#x4EE5;&#x4E0A;&#x6703;&#x57F7;&#x884C; Makefile &#x4E2D;&#x7684;<span class="Apple-converted-space">&#xA0;</span><tt>clean</tt><span class="Apple-converted-space">&#xA0;</span>&#x5340;&#x6BB5;&#x3002;</blockquote>
+    <h2 style="color: rgb(68, 101, 140); margin: 20px 0px 10px; padding-bottom: 5px; border-bottom-width: 2px; border-bottom-style: solid; border-color: rgb(115, 184, 182); font-family: &apos;LiHei Pro&apos;; font-style: normal; font-variant: normal; letter-spacing: normal; line-height: 22.4px; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">&#x53C3;
+      &#x8003;&#x8CC7;&#x8A0A;&#xFF1A;</h2>
+    <blockquote style="color: rgb(0, 0, 0); font-family: &apos;LiHei Pro&apos;; font-size: 16px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 22.4px; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><a href="http://www.gnu.org/software/automake/manual/make/index.htm" style="color: rgb(166, 74, 46);" target="_blank">GNU
+        `make&apos; &#x8AAA;&#x660E;&#x624B;&#x518A;</a>&#xFF08;&#x82F1;&#x6587;&#x7248;&#xFF09;</blockquote>
+    <hr style="color: rgb(0, 0, 0); font-family: &apos;LiHei Pro&apos;; font-size: 16px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 22.4px; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;" size="2" width="100%">
+    <h2 style="color: rgb(68, 101, 140); margin: 20px 0px 10px; padding-bottom: 5px; border-bottom-width: 2px; border-bottom-style: solid; border-color: rgb(115, 184, 182); font-family: &apos;LiHei Pro&apos;; font-style: normal; font-variant: normal; letter-spacing: normal; line-height: 22.4px; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">&#x5FC3;
+      &#x5F97;&#xFF1A;</h2>
+    <blockquote style="color: rgb(0, 0, 0); font-family: &apos;LiHei Pro&apos;; font-size: 16px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 22.4px; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">&#x6211;
+      &#x767C;&#x73FE;&#x6211;&#x6BCF;&#x6B21;&#x5BEB;&#x7B46;&#x8A18;&#x5C31;&#x6703;&#x8D8A;&#x5BEB;&#x8D8A;&#x9577;&#x3001;&#x8D8A;&#x5BEB;&#x8D8A;&#x8907;&#x96DC;&#x3001;&#x8D8A;&#x5BEB;&#x8D8A;&#x6C92;&#x529B;&#x3002;&#x6216;&#x8A31;&#x628A;&#x529B;&#x6C23;&#x82B1;&#x5728;&#x7FFB;&#x8B6F;&#x4E0A;&#x9762;&#x90A3;&#x500B;&#x82F1;&#x6587;&#x6587;&#x4EF6;&#x6703;&#x662F;&#x66F4;&#x597D;&#x7684;&#x9078;&#x64C7;&#xFF1F;</blockquote>
+  </body>
+</html>
 
                     
                     </section>
@@ -5635,10 +6256,10 @@ add(<span class="hljs-keyword">double</span>)
         </div>
 
         
-        <a href="../simplelinux/struct.html" class="navigation navigation-prev " aria-label="Previous page: 結構體"><i class="fa fa-angle-left"></i></a>
+        <a href="../gunmake/204.html" class="navigation navigation-prev " aria-label="Previous page: CMake 入門"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../simplelinux/align.html" class="navigation navigation-next " aria-label="Next page: 內存對齊"><i class="fa fa-angle-right"></i></a>
+        <a href="../c++/index.html" class="navigation navigation-next " aria-label="Next page: C++"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

@@ -340,4 +340,7 @@
 * [python](python/README.md)
    * [安裝 Jupyter](python/jupyter.md)
 * [vim](vim/README.md)
+* [Makefile](makefile/README.md)
+   * [CMake 入門](makefile/1.md)
+   * [Makefile 語法簡介](makefile/312.md)
 

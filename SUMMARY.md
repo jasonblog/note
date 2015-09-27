@@ -342,4 +342,6 @@
 * [python](python/README.md)
    * [安裝 Jupyter](python/jupyter.md)
 * [vim](vim/README.md)
+* [TDD](tdd/README.md)
+   * [程式設計師升級必練內功：TDD Kata](tdd/311.md)
 

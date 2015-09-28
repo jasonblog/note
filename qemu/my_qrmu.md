@@ -122,8 +122,8 @@ clean_build() {
     make  O=../obj/$BUSYBOX_PALTFORM install
 
     # initramfs
-    mkdir -p $TOP/initramfs/x86-busybox
-    cd $TOP/initramfs/x86-busybox
+    mkdir -p $TOP/initramfs/"$BUSYBOX_PALTFORM"
+    cd $TOP/initramfs/"$BUSYBOX_PALTFORM"
     mkdir -pv {bin,sbin,etc,proc,sys,dev,lib,usr/{bin,sbin}}
     cp -av $TOP/obj/$BUSYBOX_PALTFORM/_install/* .
 
@@ -211,29 +211,16 @@ qemu() {
 }
 
 gdb() {
-    #qemu-system-x86_64  -s -S \
-    #-kernel obj/$LINUX_PALTFORM/arch/x86_64/boot/bzImage \
-    #-initrd obj/initramfs-$BUSYBOX_PALTFORM.cpio.gz \
-    #-serial stdio \
-    #-append "console=ttyS0"
-    #-append "root=/dev/ram rdinit=/sbin/init console=ttyS0"
-
-    #qemu-system-x86_64 -s -S \
-    #-kernel obj/$LINUX_PALTFORM/arch/x86_64/boot/bzImage \
-    #-initrd obj/initramfs-$BUSYBOX_PALTFORM.cpio.gz \
-    #-append "root=/dev/ram rdinit=/sbin/init console=ttyS0" \
-    #-serial stdio
-
     qemu-system-x86_64 -s -S \
-    -kernel obj/$LINUX_PALTFORM/arch/x86_64/boot/bzImage \
-    -initrd obj/initramfs-$BUSYBOX_PALTFORM.cpio.gz \
+    -kernel obj/"$LINUX_PALTFORM"/arch/x86_64/boot/bzImage \
+    -initrd obj/initramfs-"$BUSYBOX_PALTFORM".cpio.gz \
     -serial stdio \
     -append "console=ttyS0"
 }
 
 initramfs() {
     TOP=`pwd`
-    cd $TOP/initramfs/x86-busybox
+    cd $TOP/initramfs/"$BUSYBOX_PALTFORM"
 
     #find ./ | cpio -o -H newc | gzip > $TOP/obj/initramfs-$BUSYBOX_PALTFORM.cpio.gz
 

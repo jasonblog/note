@@ -111,12 +111,6 @@ cat << EOF > etc/init.d/rcS
 #!/bin/sh
 mount -t proc none /proc
 mount -t sysfs none /sys
-
-MAC=08:90:90:59:62:21
-IP=192.168.100.2
-Mask=255.255.255.0
-Gateway=192.168.100.1
-
 echo -e "\nBoot took $(cut -d" " -f1 /proc/uptime) seconds\n"
 EOF
 

@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="7.1" data-basepath=".." data-revision="Mon Sep 28 2015 17:18:37 GMT+0800 (CST)">
+    <div class="book" data-level="7.1" data-basepath=".." data-revision="Mon Sep 28 2015 19:34:20 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -5687,8 +5687,8 @@ USAGE
     make  O=../obj/<span class="hljs-variable">$BUSYBOX_PALTFORM</span> install
 
     <span class="hljs-comment"># initramfs</span>
-    mkdir -p <span class="hljs-variable">$TOP</span>/initramfs/x86-busybox
-    <span class="hljs-built_in">cd</span> <span class="hljs-variable">$TOP</span>/initramfs/x86-busybox
+    mkdir -p <span class="hljs-variable">$TOP</span>/initramfs/<span class="hljs-string">&quot;<span class="hljs-variable">$BUSYBOX_PALTFORM</span>&quot;</span>
+    <span class="hljs-built_in">cd</span> <span class="hljs-variable">$TOP</span>/initramfs/<span class="hljs-string">&quot;<span class="hljs-variable">$BUSYBOX_PALTFORM</span>&quot;</span>
     mkdir -pv {bin,sbin,etc,proc,sys,dev,lib,usr/{bin,sbin}}
     cp -av <span class="hljs-variable">$TOP</span>/obj/<span class="hljs-variable">$BUSYBOX_PALTFORM</span>/_install/* .
 
@@ -5776,29 +5776,16 @@ EOF
 }
 
 <span class="hljs-function"><span class="hljs-title">gdb</span></span>() {
-    <span class="hljs-comment">#qemu-system-x86_64  -s -S \</span>
-    <span class="hljs-comment">#-kernel obj/$LINUX_PALTFORM/arch/x86_64/boot/bzImage \</span>
-    <span class="hljs-comment">#-initrd obj/initramfs-$BUSYBOX_PALTFORM.cpio.gz \</span>
-    <span class="hljs-comment">#-serial stdio \</span>
-    <span class="hljs-comment">#-append &quot;console=ttyS0&quot;</span>
-    <span class="hljs-comment">#-append &quot;root=/dev/ram rdinit=/sbin/init console=ttyS0&quot;</span>
-
-    <span class="hljs-comment">#qemu-system-x86_64 -s -S \</span>
-    <span class="hljs-comment">#-kernel obj/$LINUX_PALTFORM/arch/x86_64/boot/bzImage \</span>
-    <span class="hljs-comment">#-initrd obj/initramfs-$BUSYBOX_PALTFORM.cpio.gz \</span>
-    <span class="hljs-comment">#-append &quot;root=/dev/ram rdinit=/sbin/init console=ttyS0&quot; \</span>
-    <span class="hljs-comment">#-serial stdio</span>
-
     qemu-system-x86_64 <span class="hljs-operator">-s</span> -S \
-    -kernel obj/<span class="hljs-variable">$LINUX_PALTFORM</span>/arch/x86_64/boot/bzImage \
-    -initrd obj/initramfs-<span class="hljs-variable">$BUSYBOX_PALTFORM</span>.cpio.gz \
+    -kernel obj/<span class="hljs-string">&quot;<span class="hljs-variable">$LINUX_PALTFORM</span>&quot;</span>/arch/x86_64/boot/bzImage \
+    -initrd obj/initramfs-<span class="hljs-string">&quot;<span class="hljs-variable">$BUSYBOX_PALTFORM</span>&quot;</span>.cpio.gz \
     -serial stdio \
     -append <span class="hljs-string">&quot;console=ttyS0&quot;</span>
 }
 
 <span class="hljs-function"><span class="hljs-title">initramfs</span></span>() {
     TOP=`<span class="hljs-built_in">pwd</span>`
-    <span class="hljs-built_in">cd</span> <span class="hljs-variable">$TOP</span>/initramfs/x86-busybox
+    <span class="hljs-built_in">cd</span> <span class="hljs-variable">$TOP</span>/initramfs/<span class="hljs-string">&quot;<span class="hljs-variable">$BUSYBOX_PALTFORM</span>&quot;</span>
 
     <span class="hljs-comment">#find ./ | cpio -o -H newc | gzip &gt; $TOP/obj/initramfs-$BUSYBOX_PALTFORM.cpio.gz</span>
 

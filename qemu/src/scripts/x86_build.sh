@@ -1,7 +1,7 @@
 #! /bin/bash
 
 BUSYBOX_SRC_URL="http://busybox.net/downloads/busybox-1.23.2.tar.bz2"
-KERNEL_SRC_URL="https://www.kernel.org/pub/linux/kernel/v2.6/longterm/v2.6.32/linux-2.6.32.68.tar.xz"
+KERNEL_SRC_URL="https://www.kernel.org/pub/linux/kernel/v4.x/testing/linux-4.3-rc3.tar.xz"
 
 BUSYBOX="busybox_src"
 KERNEL="linux_src"
@@ -83,7 +83,7 @@ clean_build() {
     # initramfs
     mkdir -p $TOP/initramfs/"$BUSYBOX_PALTFORM"
     cd $TOP/initramfs/"$BUSYBOX_PALTFORM"
-    mkdir -pv {bin,sbin,etc,proc,sys,dev,lib,usr/{bin,sbin}}
+    mkdir -pv {bin,sbin,etc/init.d,proc,sys,dev,lib,usr/{bin,sbin}}
     cp -av $TOP/obj/$BUSYBOX_PALTFORM/_install/* .
 
     cd dev
@@ -97,14 +97,15 @@ clean_build() {
     cp -a /lib/x86_64-linux-gnu/ lib/
     cp -a /lib64/ .
 
-    echo "#!/bin/sh" >> init
-    echo "mount -t proc none /proc" >> init
-    echo "mount -t sysfs none /sys" >> init
-    echo "mount -t ramfs none /dev" >> init
-    echo "mdev -s" >> init
-    echo 'echo -e "\nBoot took $(cut -d" " -f1 /proc/uptime) seconds\n"' >> init
-    echo "exec /bin/sh" >> init
-
+cat << EOF >>init
+#!/bin/sh
+mount -t proc none /proc
+mount -t sysfs none /sys
+mount -t ramfs none /dev
+mdev -s
+echo -e "\nBoot took $(cut -d" " -f1 /proc/uptime) seconds\n"
+exec /bin/sh
+EOF
     chmod +x init
 
     find . -print0 \

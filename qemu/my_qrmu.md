@@ -41,8 +41,12 @@ sudo make install
 ```sh
 #! /bin/bash
 
-KERNEL=linux-4.1.7
-BUSYBOX=busybox-1.23.2
+BUSYBOX_SRC_URL="http://busybox.net/downloads/busybox-1.23.2.tar.bz2"
+KERNEL_SRC_URL="https://www.kernel.org/pub/linux/kernel/v2.6/longterm/v2.6.32/linux-2.6.32.68.tar.xz"
+
+TOOLCHAIN="toolchain_src"
+BUSYBOX="busybox_src"
+KERNEL="linux_src"
 
 usage() {
 cat <<USAGE
@@ -97,8 +101,12 @@ clean_build() {
     TOP=`pwd`
     echo $TOP
 
-    curl https://www.kernel.org/pub/linux/kernel/v4.x/linux-4.1.7.tar.xz | tar xJf -
-    curl http://busybox.net/downloads/busybox-1.23.2.tar.bz2 | tar xjf -
+    mkdir "$TOOLCHAIN"
+    mkdir "$BUSYBOX"
+    mkdir "$KERNEL"
+
+    wget -P /tmp/ "$BUSYBOX_SRC_URL" && tar xjf "/tmp/`basename $BUSYBOX_SRC_URL`" -C "$BUSYBOX" --strip-components=1
+    wget -P /tmp/ "$KERNEL_SRC_URL" && tar xJf "/tmp/`basename $KERNEL_SRC_URL`" -C "$KERNEL" --strip-components=1
 
     ## build busybox
     cd $TOP/$BUSYBOX
@@ -243,7 +251,6 @@ while true; do
     esac
     shift
 done
-
 ```
 
 - hello.c

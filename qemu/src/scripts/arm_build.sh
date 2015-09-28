@@ -98,6 +98,8 @@ clean_build() {
 
     cd dev
     sudo mknod -m 660 null c 1 3
+    sudo mknod -m 622 dev/console c 5 1
+    sudo mknod -m 622 dev/tty0 c 4 0
     ln -sf null tty2
     ln -sf null tty3
     ln -sf null tty4
@@ -105,39 +107,20 @@ clean_build() {
 
     #cp -a $TOP/toolchain_src/arm-linux-gnueabihf/libc/* lib
 
-#cat << EOF > etc/fstab
-#proc  /proc  proc  defaults  0  0
-#sysfs  /sys  sysfs defaults  0  0
-#tmpfs  /tmp  tmpfs defaults  0  0
-#EOF
-#
-#cat << EOF > etc/inittab
-#::sysinit:/etc/init.d/rcS
-#::respawn:-/bin/sh
-#tty2::askfirst:-/bin/sh
-#::ctrlaltdel:/bin/umount -a -r
-#EOF
-#
-#
 cat << EOF > etc/init.d/rcS
-#! /bin/sh
+#!/bin/sh
+mount -t proc none /proc
+mount -t sysfs none /sys
+
 MAC=08:90:90:59:62:21
 IP=192.168.100.2
 Mask=255.255.255.0
 Gateway=192.168.100.1
+
+echo -e "\nBoot took $(cut -d" " -f1 /proc/uptime) seconds\n"
 EOF
 
     chmod 755 etc/init.d/rcS
-
-    #echo "#!/bin/sh" >> init
-    #echo "mount -t proc none /proc" >> init
-    #echo "mount -t sysfs none /sys" >> init
-    #echo "mount -t ramfs none /dev" >> init
-    #echo "mdev -s" >> init
-    #echo 'echo -e "\nBoot took $(cut -d" " -f1 /proc/uptime) seconds\n"' >> init
-    #echo "exec /bin/sh" >> init
-
-    #chmod +x init
 
     find . -print0 \
         | cpio --null -ov --format=newc \

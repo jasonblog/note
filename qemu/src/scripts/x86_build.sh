@@ -83,7 +83,7 @@ clean_build() {
     # initramfs
     mkdir -p $TOP/initramfs/"$BUSYBOX_PALTFORM"
     cd $TOP/initramfs/"$BUSYBOX_PALTFORM"
-    mkdir -pv {bin,sbin,etc,proc,sys,dev,lib,usr/{bin,sbin}}
+    mkdir -pv {bin,sbin,etc/init.d,proc,sys,dev,lib,usr/{bin,sbin}}
     cp -av $TOP/obj/$BUSYBOX_PALTFORM/_install/* .
 
     cd dev
@@ -106,6 +106,17 @@ clean_build() {
     echo "exec /bin/sh" >> init
 
     chmod +x init
+
+cat << EOF > etc/init.d/rcS
+#! /bin/sh
+MAC=08:90:90:59:62:21
+IP=192.168.100.2
+Mask=255.255.255.0
+Gateway=192.168.100.1
+EOF
+
+    chmod 755 etc/init.d/rcS
+
 
     find . -print0 \
         | cpio --null -ov --format=newc \

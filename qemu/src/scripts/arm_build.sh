@@ -76,7 +76,6 @@ clean_build() {
     export PATH=${PATH}:${TOP}/${TOOLCHAIN}/bin
     export CC=arm-linux-gnueabihf-gcc
 
-    which arm-linux-gnueabihf-gcc
 
     ## build busybox
     cd $TOP/$BUSYBOX
@@ -84,7 +83,9 @@ clean_build() {
     make mrproper
     make ARCH=arm O=../obj/$BUSYBOX_PALTFORM defconfig
     sed -i 's/.*CONFIG_STATIC.*/CONFIG_STATIC=y/' ../obj/$BUSYBOX_PALTFORM/.config
-    sed -i 's/.*CONFIG_INETD.*/CONFIG_INETD=n/' ../obj/$BUSYBOX_PALTFORM/.config
+    sed -i 's/.*CONFIG_INSTALL_NO_USR.*/CONFIG_INSTALL_NO_USR=y/' ../obj/$BUSYBOX_PALTFORM/.config
+    sed -i 's/.*CONFIG_FEATURE_PREFER_APPLETS.*/CONFIG_FEATURE_PREFER_APPLETS=y/' ../obj/$BUSYBOX_PALTFORM/.config
+    sed -i 's/.*CONFIG_FEATURE_SH_STANDALONE.*/CONFIG_FEATURE_SH_STANDALONE=y/' ../obj/$BUSYBOX_PALTFORM/.config
     make ARCH=arm  clean
     make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- O=../obj/$BUSYBOX_PALTFORM -j12 2>&1 | tee  ../busybox_build.log
     make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- O=../obj/$BUSYBOX_PALTFORM install
@@ -92,7 +93,7 @@ clean_build() {
     # initramfs
     mkdir -p $TOP/initramfs/$BUSYBOX_PALTFORM
     cd $TOP/initramfs/$BUSYBOX_PALTFORM
-    mkdir -pv {bin,sbin,etc,proc,sys,dev,lib,usr/{bin,sbin}}
+    mkdir -pv {bin,sbin,etc/init.d,proc,sys,dev,lib,usr/{bin,sbin}}
     cp -av $TOP/obj/$BUSYBOX_PALTFORM/_install/* .
 
     cd dev
@@ -102,27 +103,51 @@ clean_build() {
     ln -sf null tty4
     cd ..
 
-    cp -a $TOP/toolchain_src/arm-linux-gnueabihf/libc/* lib
+    #cp -a $TOP/toolchain_src/arm-linux-gnueabihf/libc/* lib
 
-    echo "#!/bin/sh" >> init
-    echo "mount -t proc none /proc" >> init
-    echo "mount -t sysfs none /sys" >> init
-    echo "mount -t ramfs none /dev" >> init
-    echo "mdev -s" >> init
-    echo 'echo -e "\nBoot took $(cut -d" " -f1 /proc/uptime) seconds\n"' >> init
-    echo "exec /bin/sh" >> init
+#cat << EOF > etc/fstab
+#proc  /proc  proc  defaults  0  0
+#sysfs  /sys  sysfs defaults  0  0
+#tmpfs  /tmp  tmpfs defaults  0  0
+#EOF
+#
+#cat << EOF > etc/inittab
+#::sysinit:/etc/init.d/rcS
+#::respawn:-/bin/sh
+#tty2::askfirst:-/bin/sh
+#::ctrlaltdel:/bin/umount -a -r
+#EOF
+#
+#
+cat << EOF > etc/init.d/rcS
+#! /bin/sh
+MAC=08:90:90:59:62:21
+IP=192.168.100.2
+Mask=255.255.255.0
+Gateway=192.168.100.1
+EOF
 
-    chmod +x init
+    chmod 755 etc/init.d/rcS
+
+    #echo "#!/bin/sh" >> init
+    #echo "mount -t proc none /proc" >> init
+    #echo "mount -t sysfs none /sys" >> init
+    #echo "mount -t ramfs none /dev" >> init
+    #echo "mdev -s" >> init
+    #echo 'echo -e "\nBoot took $(cut -d" " -f1 /proc/uptime) seconds\n"' >> init
+    #echo "exec /bin/sh" >> init
+
+    #chmod +x init
 
     find . -print0 \
         | cpio --null -ov --format=newc \
-        | gzip -9 > $TOP/obj/initramfs-$BUSYBOX_PALTFORM.cpio.gz
+        | gzip -9 > $TOP/obj/initramfs-"$BUSYBOX_PALTFORM".cpio.gz
 
     # build kernel
     cd $TOP
-    mkdir -pv obj/$LINUX_PALTFORM
-    make ARCH=arm -C $KERNEL O=../obj/$LINUX_PALTFORM ARCH=arm mrproper
-    make ARCH=arm -C $KERNEL O=../obj/$LINUX_PALTFORM  vexpress_defconfig
+    mkdir -pv obj/"$LINUX_PALTFORM"
+    make ARCH=arm -C $KERNEL O=../obj/"$LINUX_PALTFORM" ARCH=arm mrproper
+    make ARCH=arm -C $KERNEL O=../obj/"$LINUX_PALTFORM"  vexpress_defconfig
     sed -i 's/.*CONFIG_EXPERIMENTAL.*/CONFIG_EXPERIMENTAL=y/' obj/$LINUX_PALTFORM/.config
     sed -i 's/.*CONFIG_DEBUG_INFO.*/CONFIG_DEBUG_INFO=y/' obj/$LINUX_PALTFORM/.config
     sed -i 's/.*CONFIG_KGDB.*/CONFIG_KGDB=y/' obj/$LINUX_PALTFORM/.config
@@ -136,7 +161,7 @@ clean_build() {
     sed -i 's/.*CONFIG_MODULE_UNLOAD.*/CONFIG_MODULE_UNLOAD=y/' obj/$LINUX_PALTFORM/.config
     sed -i 's/.*CONFIG_MODULE_FORCE_UNLOAD.*/CONFIG_MODULE_FORCE_UNLOAD=y/' obj/$LINUX_PALTFORM/.config
 
-cat << EOF >> obj/$LINUX_PALTFORM/.config
+cat << EOF >> obj/"$LINUX_PALTFORM"/.config
 CONFIG_KPROBES_ON_FTRACE=y
 CONFIG_UPROBES=y
 CONFIG_TRACE_IRQFLAGS=y
@@ -182,17 +207,20 @@ gdb() {
     -initrd obj/initramfs-"$BUSYBOX_PALTFORM".cpio.gz \
     -serial stdio \
     -append "root=/dev/ram rdinit=/sbin/init console=ttyAMA0"
+    #-kernel zImage \
+    #-initrd rootfs.img \
+    #-initrd obj/initramfs-"$BUSYBOX_PALTFORM".cpio.gz \
 }
 
 initramfs() {
     TOP=`pwd`
-    cd $TOP/initramfs/$BUSYBOX_PALTFORM
+    cd $TOP/initramfs/"$BUSYBOX_PALTFORM"
 
     #find ./ | cpio -o -H newc | gzip > $TOP/obj/initramfs-$BUSYBOX_PALTFORM.cpio.gz
 
     find . -print0 \
     | cpio --null -ov --format=newc \
-    | gzip -9 > $TOP/obj/initramfs-$BUSYBOX_PALTFORM.cpio.gz
+    | gzip -9 > $TOP/obj/initramfs-"$BUSYBOX_PALTFORM".cpio.gz
 }
 
 while true; do

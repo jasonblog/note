@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="7.1" data-basepath=".." data-revision="Mon Sep 28 2015 04:28:41 GMT+0800 (CST)">
+    <div class="book" data-level="7.1" data-basepath=".." data-revision="Mon Sep 28 2015 15:40:55 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -5606,8 +5606,12 @@ sudo make install
 </ul>
 <pre><code class="lang-sh"><span class="hljs-shebang">#! /bin/bash
 </span>
-KERNEL=linux-<span class="hljs-number">4.1</span>.<span class="hljs-number">7</span>
-BUSYBOX=busybox-<span class="hljs-number">1.23</span>.<span class="hljs-number">2</span>
+BUSYBOX_SRC_URL=<span class="hljs-string">&quot;http://busybox.net/downloads/busybox-1.23.2.tar.bz2&quot;</span>
+KERNEL_SRC_URL=<span class="hljs-string">&quot;https://www.kernel.org/pub/linux/kernel/v2.6/longterm/v2.6.32/linux-2.6.32.68.tar.xz&quot;</span>
+
+TOOLCHAIN=<span class="hljs-string">&quot;toolchain_src&quot;</span>
+BUSYBOX=<span class="hljs-string">&quot;busybox_src&quot;</span>
+KERNEL=<span class="hljs-string">&quot;linux_src&quot;</span>
 
 <span class="hljs-function"><span class="hljs-title">usage</span></span>() {
 cat &lt;&lt;USAGE
@@ -5662,8 +5666,12 @@ USAGE
     TOP=`<span class="hljs-built_in">pwd</span>`
     <span class="hljs-built_in">echo</span> <span class="hljs-variable">$TOP</span>
 
-    curl https://www.kernel.org/pub/linux/kernel/v4.x/linux-<span class="hljs-number">4.1</span>.<span class="hljs-number">7</span>.tar.xz | tar xJf -
-    curl http://busybox.net/downloads/busybox-<span class="hljs-number">1.23</span>.<span class="hljs-number">2</span>.tar.bz2 | tar xjf -
+    mkdir <span class="hljs-string">&quot;<span class="hljs-variable">$TOOLCHAIN</span>&quot;</span>
+    mkdir <span class="hljs-string">&quot;<span class="hljs-variable">$BUSYBOX</span>&quot;</span>
+    mkdir <span class="hljs-string">&quot;<span class="hljs-variable">$KERNEL</span>&quot;</span>
+
+    wget -P /tmp/ <span class="hljs-string">&quot;<span class="hljs-variable">$BUSYBOX_SRC_URL</span>&quot;</span> &amp;&amp; tar xjf <span class="hljs-string">&quot;/tmp/`basename <span class="hljs-variable">$BUSYBOX_SRC_URL</span>`&quot;</span> -C <span class="hljs-string">&quot;<span class="hljs-variable">$BUSYBOX</span>&quot;</span> --strip-components=<span class="hljs-number">1</span>
+    wget -P /tmp/ <span class="hljs-string">&quot;<span class="hljs-variable">$KERNEL_SRC_URL</span>&quot;</span> &amp;&amp; tar xJf <span class="hljs-string">&quot;/tmp/`basename <span class="hljs-variable">$KERNEL_SRC_URL</span>`&quot;</span> -C <span class="hljs-string">&quot;<span class="hljs-variable">$KERNEL</span>&quot;</span> --strip-components=<span class="hljs-number">1</span>
 
     <span class="hljs-comment">## build busybox</span>
     <span class="hljs-built_in">cd</span> <span class="hljs-variable">$TOP</span>/<span class="hljs-variable">$BUSYBOX</span>

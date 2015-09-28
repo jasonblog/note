@@ -44,7 +44,6 @@ sudo make install
 BUSYBOX_SRC_URL="http://busybox.net/downloads/busybox-1.23.2.tar.bz2"
 KERNEL_SRC_URL="https://www.kernel.org/pub/linux/kernel/v2.6/longterm/v2.6.32/linux-2.6.32.68.tar.xz"
 
-TOOLCHAIN="toolchain_src"
 BUSYBOX="busybox_src"
 KERNEL="linux_src"
 
@@ -105,7 +104,6 @@ clean_build() {
     TOP=`pwd`
     echo $TOP
 
-    mkdir "$TOOLCHAIN"
     mkdir "$BUSYBOX"
     mkdir "$KERNEL"
 
@@ -255,7 +253,6 @@ while true; do
     esac
     shift
 done
-
 ```
 
 - hello.c

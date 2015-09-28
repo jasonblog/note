@@ -48,6 +48,10 @@ TOOLCHAIN="toolchain_src"
 BUSYBOX="busybox_src"
 KERNEL="linux_src"
 
+BUSYBOX_PALTFORM="busybox-x86"
+LINUX_PALTFORM="linux-x86-basic"
+
+
 usage() {
 cat <<USAGE
 
@@ -110,20 +114,20 @@ clean_build() {
 
     ## build busybox
     cd $TOP/$BUSYBOX
-    mkdir -pv ../obj/busybox-x86
+    mkdir -pv ../obj/$BUSYBOX_PALTFORM
     make mrproper
-    make  O=../obj/busybox-x86 defconfig
-    sed -i 's/.*CONFIG_STATIC.*/CONFIG_STATIC=y/' ../obj/busybox-x86/.config
-    sed -i 's/.*CONFIG_INETD.*/CONFIG_INETD=n/' ../obj/busybox-x86/.config
+    make  O=../obj/$BUSYBOX_PALTFORM defconfig
+    sed -i 's/.*CONFIG_STATIC.*/CONFIG_STATIC=y/' ../obj/$BUSYBOX_PALTFORM/.config
+    sed -i 's/.*CONFIG_INETD.*/CONFIG_INETD=n/' ../obj/$BUSYBOX_PALTFORM/.config
     make clean
-    make  O=../obj/busybox-x86 -j12 2>&1 | tee  ../busybox_build.log
-    make  O=../obj/busybox-x86 install
+    make  O=../obj/$BUSYBOX_PALTFORM -j12 2>&1 | tee  ../busybox_build.log
+    make  O=../obj/$BUSYBOX_PALTFORM install
 
     # initramfs
     mkdir -p $TOP/initramfs/x86-busybox
     cd $TOP/initramfs/x86-busybox
     mkdir -pv {bin,sbin,etc,proc,sys,dev,lib,usr/{bin,sbin}}
-    cp -av $TOP/obj/busybox-x86/_install/* .
+    cp -av $TOP/obj/$BUSYBOX_PALTFORM/_install/* .
 
     cd dev
     sudo mknod -m 660 null c 1 3
@@ -148,27 +152,27 @@ clean_build() {
 
     find . -print0 \
         | cpio --null -ov --format=newc \
-        | gzip -9 > $TOP/obj/initramfs-busybox-x86.cpio.gz
+        | gzip -9 > $TOP/obj/initramfs-$BUSYBOX_PALTFORM.cpio.gz
 
     # build kernel
     cd $TOP
-    mkdir -pv obj/linux-x86-basic
-    make -C $KERNEL O=../obj/linux-x86-basic mrproper
-    make -C $KERNEL O=../obj/linux-x86-basic x86_64_defconfig
-    sed -i 's/.*CONFIG_EXPERIMENTAL.*/CONFIG_EXPERIMENTAL=y/' obj/linux-x86-basic/.config
-    sed -i 's/.*CONFIG_DEBUG_INFO.*/CONFIG_DEBUG_INFO=y/' obj/linux-x86-basic/.config
-    sed -i 's/.*CONFIG_KGDB.*/CONFIG_KGDB=y/' obj/linux-x86-basic/.config
-    sed -i 's/.*CONFIG_KGDB_LOW_LEVEL_TRAP.*/CONFIG_KGDB_LOW_LEVEL_TRAP=y/' obj/linux-x86-basic/.config
-    sed -i 's/.*CONFIG_FRAME_POINTER.*/CONFIG_FRAME_POINTER=y/' obj/linux-x86-basic/.config
-    sed -i 's/.*CONFIG_MAGIC_SYSRQ.*/CONFIG_MAGIC_SYSRQ=y/' obj/linux-x86-basic/.config
-    sed -i 's/.*CONFIG_8139CP.*/CONFIG_8139CP=y/' obj/linux-x86-basic/.config
-    sed -i 's/.*CONFIG_DEBUG_SET_MODULE_RONX.*/CONFIG_DEBUG_SET_MODULE_RONX=n/' obj/linux-x86-basic/.config
-    sed -i 's/.*CONFIG_DEBUG_RODATA.*/CONFIG_DEBUG_RODATA=n/' obj/linux-x86-basic/.config
-    sed -i 's/.*CONFIG_MODULE_FORCE_LOAD.*/CONFIG_MODULE_FORCE_LOAD=y/' obj/linux-x86-basic/.config
-    sed -i 's/.*CONFIG_MODULE_UNLOAD.*/CONFIG_MODULE_UNLOAD=y/' obj/linux-x86-basic/.config
-    sed -i 's/.*CONFIG_MODULE_FORCE_UNLOAD.*/CONFIG_MODULE_FORCE_UNLOAD=y/' obj/linux-x86-basic/.config
+    mkdir -pv obj/$LINUX_PALTFORM
+    make -C $KERNEL O=../obj/$LINUX_PALTFORM mrproper
+    make -C $KERNEL O=../obj/$LINUX_PALTFORM x86_64_defconfig
+    sed -i 's/.*CONFIG_EXPERIMENTAL.*/CONFIG_EXPERIMENTAL=y/' obj/$LINUX_PALTFORM/.config
+    sed -i 's/.*CONFIG_DEBUG_INFO.*/CONFIG_DEBUG_INFO=y/' obj/$LINUX_PALTFORM/.config
+    sed -i 's/.*CONFIG_KGDB.*/CONFIG_KGDB=y/' obj/$LINUX_PALTFORM/.config
+    sed -i 's/.*CONFIG_KGDB_LOW_LEVEL_TRAP.*/CONFIG_KGDB_LOW_LEVEL_TRAP=y/' obj/$LINUX_PALTFORM/.config
+    sed -i 's/.*CONFIG_FRAME_POINTER.*/CONFIG_FRAME_POINTER=y/' obj/$LINUX_PALTFORM/.config
+    sed -i 's/.*CONFIG_MAGIC_SYSRQ.*/CONFIG_MAGIC_SYSRQ=y/' obj/$LINUX_PALTFORM/.config
+    sed -i 's/.*CONFIG_8139CP.*/CONFIG_8139CP=y/' obj/$LINUX_PALTFORM/.config
+    sed -i 's/.*CONFIG_DEBUG_SET_MODULE_RONX.*/CONFIG_DEBUG_SET_MODULE_RONX=n/' obj/$LINUX_PALTFORM/.config
+    sed -i 's/.*CONFIG_DEBUG_RODATA.*/CONFIG_DEBUG_RODATA=n/' obj/$LINUX_PALTFORM/.config
+    sed -i 's/.*CONFIG_MODULE_FORCE_LOAD.*/CONFIG_MODULE_FORCE_LOAD=y/' obj/$LINUX_PALTFORM/.config
+    sed -i 's/.*CONFIG_MODULE_UNLOAD.*/CONFIG_MODULE_UNLOAD=y/' obj/$LINUX_PALTFORM/.config
+    sed -i 's/.*CONFIG_MODULE_FORCE_UNLOAD.*/CONFIG_MODULE_FORCE_UNLOAD=y/' obj/$LINUX_PALTFORM/.config
 
-cat << EOF >> obj/linux-x86-basic/.config
+cat << EOF >> obj/$LINUX_PALTFORM/.config
 CONFIG_KPROBES_ON_FTRACE=y
 CONFIG_UPROBES=y
 CONFIG_TRACE_IRQFLAGS=y
@@ -195,36 +199,36 @@ CONFIG_MMIOTRACE=y
 CONFIG_PERCPU_RWSEM=y
 EOF
 
-    yes '' | make -C $KERNEL O=../obj/linux-x86-basic oldconfig
-    make -C $KERNEL O=../obj/linux-x86-basic clean
-    time make -C $KERNEL O=../obj/linux-x86-basic -j12 2>&1 | tee kernel_build.log
+    yes '' | make -C $KERNEL O=../obj/$LINUX_PALTFORM oldconfig
+    make -C $KERNEL O=../obj/$LINUX_PALTFORM clean
+    time make -C $KERNEL O=../obj/$LINUX_PALTFORM -j12 2>&1 | tee kernel_build.log
 }
 
 qemu() {
     qemu-system-x86_64 \
-    -kernel obj/linux-x86-basic/arch/x86_64/boot/bzImage \
-    -initrd obj/initramfs-busybox-x86.cpio.gz \
+    -kernel obj/$LINUX_PALTFORM/arch/x86_64/boot/bzImage \
+    -initrd obj/initramfs-$BUSYBOX_PALTFORM.cpio.gz \
     -serial stdio \
     -append "console=ttyS0" -enable-kvm
 }
 
 gdb() {
     #qemu-system-x86_64  -s -S \
-    #-kernel obj/linux-x86-basic/arch/x86_64/boot/bzImage \
-    #-initrd obj/initramfs-busybox-x86.cpio.gz \
+    #-kernel obj/$LINUX_PALTFORM/arch/x86_64/boot/bzImage \
+    #-initrd obj/initramfs-$BUSYBOX_PALTFORM.cpio.gz \
     #-serial stdio \
     #-append "console=ttyS0"
     #-append "root=/dev/ram rdinit=/sbin/init console=ttyS0"
 
     #qemu-system-x86_64 -s -S \
-    #-kernel obj/linux-x86-basic/arch/x86_64/boot/bzImage \
-    #-initrd obj/initramfs-busybox-x86.cpio.gz \
+    #-kernel obj/$LINUX_PALTFORM/arch/x86_64/boot/bzImage \
+    #-initrd obj/initramfs-$BUSYBOX_PALTFORM.cpio.gz \
     #-append "root=/dev/ram rdinit=/sbin/init console=ttyS0" \
     #-serial stdio
 
     qemu-system-x86_64 -s -S \
-    -kernel obj/linux-x86-basic/arch/x86_64/boot/bzImage \
-    -initrd obj/initramfs-busybox-x86.cpio.gz \
+    -kernel obj/$LINUX_PALTFORM/arch/x86_64/boot/bzImage \
+    -initrd obj/initramfs-$BUSYBOX_PALTFORM.cpio.gz \
     -serial stdio \
     -append "console=ttyS0"
 }
@@ -233,11 +237,11 @@ initramfs() {
     TOP=`pwd`
     cd $TOP/initramfs/x86-busybox
 
-    #find ./ | cpio -o -H newc | gzip > $TOP/obj/initramfs-busybox-x86.cpio.gz
+    #find ./ | cpio -o -H newc | gzip > $TOP/obj/initramfs-$BUSYBOX_PALTFORM.cpio.gz
 
     find . -print0 \
     | cpio --null -ov --format=newc \
-    | gzip -9 > $TOP/obj/initramfs-busybox-x86.cpio.gz
+    | gzip -9 > $TOP/obj/initramfs-$BUSYBOX_PALTFORM.cpio.gz
 }
 
 while true; do
@@ -251,6 +255,7 @@ while true; do
     esac
     shift
 done
+
 ```
 
 - hello.c

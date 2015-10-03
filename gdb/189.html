@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>GNU LD 手冊略讀 (0): 目錄和簡介 | Jason note</title>
+        <title>gdb 編譯 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../22/22182.html" />
+    <link rel="next" href="../mooc_linux_kernel/index.html" />
     
     
-    <link rel="prev" href="../22/2218.html" />
+    <link rel="prev" href="../gdb/188.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="22.18.1" data-basepath=".." data-revision="Sun Oct 04 2015 01:44:57 GMT+0800 (CST)">
+    <div class="book" data-level="18.9" data-basepath=".." data-revision="Sun Oct 04 2015 01:44:57 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -3728,7 +3728,7 @@
             
         </li>
     
-        <li class="chapter " data-level="18.9" data-path="gdb/189.html">
+        <li class="chapter active" data-level="18.9" data-path="gdb/189.html">
             
                 
                     <a href="../gdb/189.html">
@@ -4368,7 +4368,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="22.18.1" data-path="22/22181.html">
+        <li class="chapter " data-level="22.18.1" data-path="22/22181.html">
             
                 
                     <a href="../22/22181.html">
@@ -5613,208 +5613,167 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="gnu-ld-%E6%89%8B%E5%86%8A%E7%95%A5%E8%AE%80-0-%E7%9B%AE%E9%8C%84%E5%92%8C%E7%B0%A1%E4%BB%8B">GNU LD &#x624B;&#x518A;&#x7565;&#x8B80; (0): &#x76EE;&#x9304;&#x548C;&#x7C21;&#x4ECB;</h1>
-<p>&#x95DC;&#x65BC;&#x4E00;&#x500B;&#x7A0B;&#x5F0F;&#x7684;binary&#x8981;&#x600E;&#x9EBC;&#x5B58;&#x653E;&#x5176;&#x5BE6;&#x662F;&#x5F88;&#x6709;&#x8DA3;&#x7684;&#x554F;&#x984C;&#xFF0C;&#x6211;&#x4EE5;&#x524D;&#x90FD;&#x6C92;&#x6709;&#x53BB;&#x60F3;&#x9019;&#x500B;&#x554F;&#x984C;&#x3002;&#x5F8C;&#x4F86;&#x7576;&#x7D44;&#x88DD;&#x5DE5;&#x4E45;&#x4E86;&#x4EE5;&#x5F8C;&#x5C31;&#x5FCD;&#x4E0D;&#x4F4F;&#x6703;&#x60F3;&#x77E5;&#x9053;&#x9019;&#x4E9B;&#x3002;&#x96A8;&#x4FBF;&#x60F3;&#x4E00;&#x4E0B;&#x5C31;&#x6709;&#x5F88;&#x591A;&#x554F;&#x984C;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;</p>
-<ul>
-<li>&#x7A0B;&#x5F0F;&#x78BC;&#x548C;&#x8CC7;&#x6599;&#x8981;&#x600E;&#x9EBC;&#x653E;&#xFF1F;</li>
-<li>&#x600E;&#x9EBC;&#x505A;&#x5230;&#x4E0D;&#x540C;&#x7684;source code&#x5171;&#x7528;global &#x8B8A;&#x6578;&#xFF1F;</li>
-<li>global &#x8B8A;&#x6578;&#x548C;local&#x8B8A;&#x6578;&#x653E;&#x7684;&#x5730;&#x65B9;&#x61C9;&#x8A72;&#x4E0D;&#x4E00;&#x6A23;&#x5427;&#xFF1F;&#x90A3;&#x9EBC;&#x78BA;&#x5BE6;&#x4E0D;&#x4E00;&#x6A23;&#x7684;&#x9EDE;&#x662F;&#xFF1F;</li>
-<li>&#x547C;&#x53EB;&#x526F;&#x51FD;&#x6578;&#x9019;&#x56DE;&#x4E8B;&#x4E00;&#x5B9A;&#x662F;&#x8981;&#x5148;&#x627E;&#x5230;&#x526F;&#x51FD;&#x6578;&#x518D;&#x8DF3;&#x904E;&#x53BB;&#x5427;&#xFF1F;&#x90A3;&#x9EBC;&#x300C;&#x627E;&#x5230;&#x300D;&#x5230;&#x5E95;&#x662F;&#x4EC0;&#x9EBC;&#x610F;&#x601D;&#xFF1F;</li>
-<li>&#x5982;&#x679C;&#x662F;&#x7528;shared library&#x7684;&#x8A71;&#xFF0C;runtime&#x624D;&#x6703;&#x627E;&#x5230;&#x526F;&#x51FD;&#x6578;&#x6240;&#x5728;&#x7684;&#x5730;&#x65B9;&#xFF0C;&#x90A3;&#x9EBC;&#x70BA;&#x4EC0;&#x9EBC;&#x7DE8;&#x8B6F;&#x7684;&#x6642;&#x5019;&#x4E0D;&#x6703;&#x6709;&#x932F;&#x8AA4;&#x5462;&#xFF1F;
-...</li>
-</ul>
-<p>&#x9019;&#x4E9B;&#x554F;&#x984C;&#x5217;&#x51FA;&#x4F86;&#x771F;&#x7684;&#x662F;&#x300C;&#x7F44;&#x7AF9;&#x96E3;&#x66F8;&#x300D;&#xFF0C;&#x4E0D;&#x904E;&#x6211;&#x60F3;&#x6574;&#x9AD4;&#x4F86;&#x8AAA;&#x81F3;&#x5C11;&#x5728;Linux&#x4E0B;&#x9762;&#x5F9E;binutils&#x4E0B;&#x624B;&#x61C9;&#x8A72;&#x662F;&#x6C92;&#x932F;&#x3002;&#x7B2C;&#x4E00;&#x500B;&#x554F;&#x984C;&#x61C9;&#x8A72;&#x548C;linker&#x6709;&#x95DC;&#x4FC2;&#x3002;&#x6240;&#x4EE5;&#x6211;&#x5148;&#x53BB;&#x770B;<a href="https://sourceware.org/binutils/docs/ld/Scripts.html#Scripts" target="_blank">GNU ld&#x624B;&#x518A;&#x7684;linker script&#x90E8;&#x4EFD;</a>&#xFF0C;&#x5E0C;&#x671B;&#x53EF;&#x4EE5;&#x89E3;&#x6C7A;&#x6211;&#x7684;&#x7591;&#x60D1;&#x3002;&#x5C31;&#x7B97;&#x548C;&#x6211;&#x7684;&#x554F;&#x984C;&#x7121;&#x95DC;&#xFF0C;&#x81F3;&#x5C11;&#x53EF;&#x4EE5;&#x7559;&#x4E0B;&#x4E00;&#x4E9B;&#x4E2D;&#x6587;&#x53C3;&#x8003;&#x8CC7;&#x6599;&#xFF0C;&#x9020;&#x798F;&#x9700;&#x8981;&#x7684;&#x670B;&#x53CB;&#x3002;</p>
-<p>&#x70BA;&#x4E86;&#x8B93;&#x55AE;&#x7BC7;&#x7684;&#x7BC7;&#x5E45;&#x4E0D;&#x8981;&#x592A;&#x904E;&#x5197;&#x9577;&#xFF0C;&#x6211;&#x628A;&#x5167;&#x5BB9;&#x5207;&#x5272;&#x6210;&#x5E7E;&#x500B;&#x90E8;&#x4EFD;&#x3002;&#x9019;&#x908A;&#x5C31;&#x5148;&#x653E;&#x5168;&#x90E8;&#x7684;&#x76EE;&#x9304;&#x548C;&#x7C21;&#x4ECB;&#x7684;&#x90E8;&#x4EFD;&#x3002;</p>
-<h2 id="%E7%9B%AE%E9%8C%84">&#x76EE;&#x9304;</h2>
-<h2 id="-%E7%AC%AC%E4%B8%80%E9%83%A8%E4%BB%BD-http-wen00072-github-io-blog-2014-12-14-study-on-the-linker-script-1"><a href="http://wen00072.github.io/blog/2014/12/14/study-on-the-linker-script-1/" target="_blank">&#x7B2C;&#x4E00;&#x90E8;&#x4EFD;</a></h2>
-<ul>
-<li><a href="#intro">&#x7C21;&#x4ECB;</a></li>
-<li><a href="#bkg">&#x80CC;&#x666F;&#x77E5;&#x8B58;</a><ul>
-<li><a href="#bkg-sec">Section</a></li>
-<li><a href="#bkg-layout">Section &#x8A18;&#x61B6;&#x9AD4;&#x4F4D;&#x5740;</a></li>
-<li><a href="#bkg-sym">Symbol</a></li>
-</ul>
-</li>
-<li><a href="http://wen00072.github.io/blog/2014/12/14/study-on-the-linker-script-1/#fmt" target="_blank">Linker script &#x683C;&#x5F0F;&#x6982;&#x8AD6;</a></li>
-<li><a href="http://wen00072.github.io/blog/2014/12/14/study-on-the-linker-script-1/#ex" target="_blank">&#x5F9E;Linker script &#x7BC4;&#x4F8B;&#x958B;&#x59CB;</a></li>
-<li><a href="http://wen00072.github.io/blog/2014/12/14/study-on-the-linker-script-1/#cmd" target="_blank">&#x7C21;&#x6613;script &#x547D;&#x4EE4;&#x683C;&#x5F0F;</a><ul>
-<li><a href="http://wen00072.github.io/blog/2014/12/14/study-on-the-linker-script-1/#cmd-file" target="_blank">&#x6A94;&#x6848;&#x76F8;&#x95DC;&#x547D;&#x4EE4;</a></li>
-<li><a href="http://wen00072.github.io/blog/2014/12/14/study-on-the-linker-script-1/#cmd-obj" target="_blank">Object&#x6A94;&#x6848;&#x76F8;&#x95DC;&#x683C;&#x5F0F;&#x547D;&#x4EE4;</a></li>
-<li><a href="http://wen00072.github.io/blog/2014/12/14/study-on-the-linker-script-1/#cmd-alias" target="_blank">&#x8A2D;&#x5B9A;&#x8A18;&#x61B6;&#x9AD4;&#x5340;&#x584A;alias&#x547D;&#x4EE4;</a></li>
-<li><a href="http://wen00072.github.io/blog/2014/12/14/study-on-the-linker-script-1/#cmd-misc" target="_blank">&#x672A;&#x5206;&#x985E;&#x7684;&#x547D;&#x4EE4; (&#x7BC0;&#x9304;&#xFF09;</a></li>
-</ul>
-</li>
-<li><a href="http://wen00072.github.io/blog/2014/12/14/study-on-the-linker-script-1/#assign" target="_blank">&#x8A2D;&#x5B9A;symbol&#x7684;&#x503C;</a><ul>
-<li><a href="http://wen00072.github.io/blog/2014/12/14/study-on-the-linker-script-1/#assign-op" target="_blank">&#x57FA;&#x672C;&#x904B;&#x7B97;</a></li>
-<li><a href="http://wen00072.github.io/blog/2014/12/14/study-on-the-linker-script-1/#assign-hid" target="_blank">HIDDEN&#x547D;&#x4EE4;</a></li>
-<li><a href="http://wen00072.github.io/blog/2014/12/14/study-on-the-linker-script-1/#assign-prov" target="_blank">PROVIDE&#x547D;&#x4EE4;</a></li>
-<li><a href="http://wen00072.github.io/blog/2014/12/14/study-on-the-linker-script-1/#assign-hid-prov" target="_blank">PROVIDE_HIDDEN&#x547D;&#x4EE4;</a></li>
-<li><a href="http://wen00072.github.io/blog/2014/12/14/study-on-the-linker-script-1/#assign-src" target="_blank">&#x8AC7;&#x8AC7;source code&#x548C;linker script symbol&#x7684;&#x95DC;&#x4FC2;</a></li>
-</ul>
-</li>
-</ul>
-<h2 id="-%E7%AC%AC%E4%BA%8C%E9%83%A8%E4%BB%BD-http-wen00072-github-io-blog-2014-12-14-study-on-the-linker-script-2-setcion-command"><a href="http://wen00072.github.io/blog/2014/12/14/study-on-the-linker-script-2-setcion-command" target="_blank">&#x7B2C;&#x4E8C;&#x90E8;&#x4EFD;</a></h2>
-<ul>
-<li><a href="http://wen00072.github.io/blog/2014/12/14/study-on-the-linker-script-2-setcion-command/#sec" target="_blank">SECTIONS&#x547D;&#x4EE4;</a></li>
-<li><a href="http://wen00072.github.io/blog/2014/12/14/study-on-the-linker-script-2-setcion-command/#sec-output-desc" target="_blank">&#x8F38;&#x51FA;object&#x6A94;&#x6848;&#x7684;section&#x63CF;&#x8FF0;</a><ul>
-<li><a href="http://wen00072.github.io/blog/2014/12/14/study-on-the-linker-script-2-setcion-command/#sec-input-desc-basic" target="_blank">&#x8F38;&#x5165;object&#x6A94;&#x6848;&#x7684;section &#x57FA;&#x790E;&#x6982;&#x5FF5;</a></li>
-<li><a href="http://wen00072.github.io/blog/2014/12/14/study-on-the-linker-script-2-setcion-command/#sec-input-desc-wildcard" target="_blank">&#x8F38;&#x5165;object&#x6A94;&#x6848;&#x7684;section &#x8A9E;&#x6CD5;&#x7684;&#x842C;&#x7528;&#x5B57;&#x5143;</a></li>
-<li><a href="http://wen00072.github.io/blog/2014/12/14/study-on-the-linker-script-2-setcion-command/#sec-input-desc-comm" target="_blank">&#x8F38;&#x5165;object&#x6A94;&#x6848;&#x7684;COMMOM section</a></li>
-<li><a href="http://wen00072.github.io/blog/2014/12/14/study-on-the-linker-script-2-setcion-command/#sec-input-desc-keep" target="_blank">KEEP&#x6307;&#x4EE4;</a></li>
-<li><a href="http://wen00072.github.io/blog/2014/12/14/study-on-the-linker-script-2-setcion-command/#sec-input-desc-ex" target="_blank">&#x8F38;&#x5165;object&#x6A94;&#x6848;&#x653E;&#x5230;&#x8F38;&#x51FA;object&#x6A94;&#x6848;&#x7BC4;&#x4F8B;</a></li>
-</ul>
-</li>
-<li><a href="http://wen00072.github.io/blog/2014/12/14/study-on-the-linker-script-2-setcion-command/#sec-output-name" target="_blank">&#x8F38;&#x51FA;object&#x6A94;&#x6848;section &#x547D;&#x540D;</a></li>
-<li><a href="http://wen00072.github.io/blog/2014/12/14/study-on-the-linker-script-2-setcion-command/#sec-output-addr" target="_blank">&#x8F38;&#x51FA;object&#x6A94;&#x6848;section &#x547D;&#x4EE4;: address&#x6B04;&#x4F4D;</a></li>
-<li><a href="http://wen00072.github.io/blog/2014/12/14/study-on-the-linker-script-2-setcion-command/#sec-input-desc" target="_blank">&#x8F38;&#x5165;object&#x6A94;&#x6848;&#x7684;section&#x63CF;&#x8FF0;</a></li>
-<li><a href="http://wen00072.github.io/blog/2014/12/14/study-on-the-linker-script-2-setcion-command/#sec-output-data" target="_blank">&#x8F38;&#x51FA;object&#x6A94;&#x6848;&#x5167;&#x6307;&#x5B9A;&#x56FA;&#x5B9A;&#x8CC7;&#x6599;&#x9577;&#x5EA6;</a></li>
-<li><a href="http://wen00072.github.io/blog/2014/12/14/study-on-the-linker-script-2-setcion-command/#sec-output-discard" target="_blank">&#x8F38;&#x51FA;object&#x6A94;&#x6848;&#x6368;&#x68C4;&#x7684;section</a></li>
-<li><a href="http://wen00072.github.io/blog/2014/12/14/study-on-the-linker-script-2-setcion-command/#sec-output-attr" target="_blank">&#x8F38;&#x51FA;object&#x6A94;&#x6848;section&#x5176;&#x4ED6;&#x5C6C;&#x6027;</a><ul>
-<li><a href="http://wen00072.github.io/blog/2014/12/14/study-on-the-linker-script-2-setcion-command/#sec-output-attr-type" target="_blank">&#x8F38;&#x51FA;object&#x6A94;&#x6848; Section Type</a></li>
-<li><a href="http://wen00072.github.io/blog/2014/12/14/study-on-the-linker-script-2-setcion-command/#sec-output-attr-lma" target="_blank">&#x8F38;&#x51FA;object&#x6A94;&#x6848; Section LMA</a></li>
-<li><a href="http://wen00072.github.io/blog/2014/12/14/study-on-the-linker-script-2-setcion-command/#sec-output-attr-output-align" target="_blank">&#x5F37;&#x5236;&#x8F38;&#x51FA;object&#x6A94;&#x6848;&#x7684; Alignment</a></li>
-<li><a href="http://wen00072.github.io/blog/2014/12/14/study-on-the-linker-script-2-setcion-command/#sec-output-attr-input-align" target="_blank">&#x5F37;&#x5236;&#x8F38;&#x5165;object&#x6A94;&#x6848;&#x7684; Alignment</a></li>
-<li><a href="http://wen00072.github.io/blog/2014/12/14/study-on-the-linker-script-2-setcion-command/#sec-output-attr-limit" target="_blank">&#x8F38;&#x51FA;object&#x6A94;&#x6848; Section &#x9650;&#x5236;</a></li>
-<li><a href="http://wen00072.github.io/blog/2014/12/14/study-on-the-linker-script-2-setcion-command/#sec-output-attr-region" target="_blank">&#x8F38;&#x51FA;object&#x6A94;&#x6848; Section Region</a></li>
-<li><a href="http://wen00072.github.io/blog/2014/12/14/study-on-the-linker-script-2-setcion-command/#sec-output-attr-output-phdr" target="_blank">&#x8F38;&#x51FA;object&#x6A94;&#x6848; Section Phdr</a></li>
-<li><a href="http://wen00072.github.io/blog/2014/12/14/study-on-the-linker-script-2-setcion-command/#sec-output-attr-output-fill" target="_blank">&#x6307;&#x5B9A;&#x8F38;&#x51FA;object&#x6A94;&#x6848; Section &#x586B;&#x7A7A;&#x7684;&#x8CC7;&#x6599;</a></li>
-</ul>
-</li>
-<li><a href="http://wen00072.github.io/blog/2014/12/14/study-on-the-linker-script-2-setcion-command/#sec-overlay" target="_blank">OVERLAY&#x547D;&#x4EE4;</a></li>
-</ul>
-<h2 id="-%E7%AC%AC%E4%B8%89%E9%83%A8%E4%BB%BD-http-wen00072-github-io-blog-2014-12-15-study-on-the-linker-script-3"><a href="http://wen00072.github.io/blog/2014/12/15/study-on-the-linker-script-3/" target="_blank">&#x7B2C;&#x4E09;&#x90E8;&#x4EFD;</a></h2>
-<ul>
-<li><a href="http://wen00072.github.io/blog/2014/12/15/study-on-the-linker-script-3/#mem" target="_blank">MEMORY&#x547D;&#x4EE4;</a></li>
-<li><a href="http://wen00072.github.io/blog/2014/12/15/study-on-the-linker-script-3/#phdr" target="_blank">PHDRS&#x547D;&#x4EE4;</a></li>
-<li><a href="http://wen00072.github.io/blog/2014/12/15/study-on-the-linker-script-3/#ver" target="_blank">VERSION&#x547D;&#x4EE4;</a></li>
-<li><a href="http://wen00072.github.io/blog/2014/12/15/study-on-the-linker-script-3/#expr" target="_blank">Linker script &#x4E2D;&#x4F7F;&#x7528;&#x7684;expression</a><ul>
-<li><a href="http://wen00072.github.io/blog/2014/12/15/study-on-the-linker-script-3/#expr-const" target="_blank">&#x5E38;&#x6578;</a></li>
-<li><a href="http://wen00072.github.io/blog/2014/12/15/study-on-the-linker-script-3/#expr-sym-const" target="_blank">Symbolic &#x5E38;&#x6578;</a></li>
-<li><a href="http://wen00072.github.io/blog/2014/12/15/study-on-the-linker-script-3/#expr-sym" target="_blank">Symbol&#x547D;&#x540D;&#x898F;&#x5247;</a></li>
-<li><a href="http://wen00072.github.io/blog/2014/12/15/study-on-the-linker-script-3/#expr-oph-sec" target="_blank">&#x5B64;&#x5152; Section</a></li>
-<li><a href="http://wen00072.github.io/blog/2014/12/15/study-on-the-linker-script-3/#expr-lcnt" target="_blank">Location Counter</a></li>
-<li><a href="http://wen00072.github.io/blog/2014/12/15/study-on-the-linker-script-3/#expr-op" target="_blank">Operators</a></li>
-<li><a href="http://wen00072.github.io/blog/2014/12/15/study-on-the-linker-script-3/#expr-eval" target="_blank">&#x8A08;&#x7B97;&#x7D50;&#x679C;</a></li>
-<li><a href="http://wen00072.github.io/blog/2014/12/15/study-on-the-linker-script-3/#expr-sec" target="_blank">Expression &#x8A08;&#x7B97;&#x7D50;&#x679C;&#x548C;absolute/relative address&#x7684;&#x95DC;&#x4FC2;</a></li>
-<li><a href="http://wen00072.github.io/blog/2014/12/15/study-on-the-linker-script-3/#expr-btfun" target="_blank">&#x5167;&#x5EFA;&#x51FD;&#x6578;</a></li>
-</ul>
-</li>
-<li><a href="http://wen00072.github.io/blog/2014/12/15/study-on-the-linker-script-3/#imp" target="_blank">Implicit Linker Scripts</a></li>
-<li><a href="http://wen00072.github.io/blog/2014/12/15/study-on-the-linker-script-3/#todo" target="_blank">&#x5F85;&#x91D0;&#x6E05;&#x9805;&#x76EE;</a></li>
-<li><a href="http://wen00072.github.io/blog/2014/12/15/study-on-the-linker-script-3/#ref" target="_blank">&#x53C3;&#x8003;&#x8CC7;&#x6599;</a></li>
-</ul>
-<p><a name="intro"></a></p>
-<h2 id="%E7%B0%A1%E4%BB%8B">&#x7C21;&#x4ECB;</h2>
-<p><code>ld</code>&#x662F;GNU linker&#x7684;&#x7A0B;&#x5F0F;&#x3002;<code>ld</code>&#x5403;&#x591A;&#x500B;object (<em>.o)&#x6A94;&#x6216;archive (</em>.a)&#x6A94;&#xFF0C;&#x5C07;&#x4ED6;&#x5011;&#x7684;&#x8CC7;&#x6599;relocate&#x9084;&#x6709;symbol reference&#x8CC7;&#x8A0A;&#x4E00;&#x4F75;&#x8F38;&#x51FA;&#x5230;&#x65B0;&#x7684;binary&#x3002;link&#x901A;&#x5E38;&#x662F;compile&#x7522;&#x751F;binary&#x7684;&#x6700;&#x5F8C;&#x6B65;&#x9A5F;&#x3002;<code>ld</code>&#x5728;&#x57F7;&#x884C;&#x7684;&#x6642;&#x5019;&#x4F9D;&#x7167;<strong>Linker command language</strong>&#x6A94;&#x6848;&#x63CF;&#x8FF0;&#x53BB;&#x7522;&#x751F;binary&#x3002;ld&#x652F;&#x63F4;&#x4E0D;&#x540C;&#x7684;binary format <a href="https://sourceware.org/binutils/docs/ld/BFD.html#BFD" target="_blank">(BFD: Binary File Descriptor)</a></p>
-<p>&#x6BCF;&#x6B21;link&#x7684;&#x6642;&#x5019;&#xFF0C;&#x90FD;&#x6703;&#x4F9D;&#x7167;&#x7279;&#x5B9A;&#x7684;&#x547D;&#x4EE4;&#x53BB;&#x7522;&#x751F;&#x65B0;&#x7684;object&#x6A94;&#x3002;&#x800C;&#x9019;&#x4E9B;&#x547D;&#x4EE4;&#x5C31;&#x662F;linker script&#xFF1B;&#x63DB;&#x53E5;&#x8A71;&#x8AAA;&#xFF0C;linker script&#x63D0;&#x4F9B;&#x4E00;&#x9023;&#x4E32;&#x7684;&#x547D;&#x4EE4;&#x8B93;linker&#x7167;&#x8868;&#x64CD;&#x8AB2;&#x3002;Linker script&#x63CF;&#x8FF0;&#x7684;&#x547D;&#x4EE4;&#x6709;</p>
-<ul>
-<li>ld&#x5403;&#x7684;object&#x6A94;&#x6848;&#x4E2D;&#x7684;section&#x8981;&#x600E;&#x9EBC;map&#x5230;&#x8981;&#x8F38;&#x51FA;&#x7684;binary&#x6A94;&#x6848;&#x3002;</li>
-<li>&#x8981;&#x8F38;&#x51FA;&#x7684;binary&#x6A94;&#x6848;&#x8981;&#x5728;&#x8A18;&#x61B6;&#x9AD4;&#x4E2D;&#x7684;<strong>layout</strong></li>
-<li>&#x5176;&#x4ED6;</li>
-</ul>
-<p>&#x56E0;&#x70BA;&#x6BCF;&#x6B21;link&#x4E00;&#x5B9A;&#x6703;&#x4F9D;&#x64DA;linker script&#x53BB;link&#xFF0C;&#x6240;&#x4EE5;&#x7576;<code>ld</code>&#x6C92;&#x6709;&#x6307;&#x5B9A;linker script&#x7684;&#x6642;&#x5019;&#xFF0C;&#x7CFB;&#x7D71;&#x6703;&#x4F7F;&#x7528;&#x9810;&#x8A2D;&#x7684;linker script&#x3002;&#x800C;<code>ld --verbose</code>&#x53EF;&#x4EE5;&#x986F;&#x793A;&#x9810;&#x8A2D;&#x7684;linkder script&#x3002;link&#x6642;&#x6307;&#x5B9A;&#x81EA;&#x5E79;&#x7684;linker script&#x5247;&#x4F7F;&#x7528;<code>ld -T &#x81EA;&#x5DF1;&#x7684;linker script</code>&#x3002;</p>
-<p><a name="bkg"></a></p>
-<h2 id="%E8%83%8C%E6%99%AF%E7%9F%A5%E8%AD%98">&#x80CC;&#x666F;&#x77E5;&#x8B58;</h2>
-<ul>
-<li>object &#x6A94;&#x683C;&#x5F0F;&#xFF1A;&#x8F38;&#x5165;&#x6A94;&#x6848;&#x548C;&#x8F38;&#x51FA;&#x6A94;&#x6848;&#x6240;&#x9075;&#x5FAA;&#x7684;&#x683C;&#x5F0F;</li>
-<li>object &#x6A94;&#x6848;&#xFF1A;linker&#x8655;&#x7406;&#x6642;&#x8B80;&#x5165;&#x7684;&#x8F38;&#x5165;&#x6A94;&#x6848;&#x548C;&#x5C07;&#x7D50;&#x679C;&#x5B58;&#x653E;&#x7684;&#x8F38;&#x51FA;&#x6A94;&#x6848;</li>
-<li>executable&#xFF1A;ld&#x8F38;&#x51FA;&#x7684;&#x6A94;&#x6848;&#xFF0C;&#x6709;&#x6642;&#x5019;&#x6703;&#x9019;&#x6A23;&#x7A31;&#x547C;</li>
-<li>&#x6BCF;&#x500B;object&#x6A94;&#x6848;&#x90FD;&#x6709;&#x597D;&#x5E7E;&#x500B;section&#xFF0C;&#x800C;<ul>
-<li>input section&#xFF1A;&#x8F38;&#x5165;object&#x6A94;&#x6848;&#x4E2D;&#x7684;section</li>
-<li>output section&#xFF1A;&#x8F38;&#x51FA;object&#x6A94;&#x6848;&#x4E2D;&#x7684;section</li>
-</ul>
-</li>
-<li>bss<ul>
-<li>&#x5B58;&#x653E;&#x6C92;&#x6709;&#x521D;&#x59CB;&#x503C;&#x7684;&#x5168;&#x57DF;&#x8B8A;&#x6578;&#x7684;&#x5730;&#x65B9; ex: <code>int g_var;</code></li>
-</ul>
-</li>
-<li>text<ul>
-<li>&#x5B58;&#x653E;&#x7DE8;&#x8B6F;&#x904E;&#x7684;&#x57F7;&#x884C;&#x6A5F;&#x68B0;&#x78BC;&#x7684;&#x5730;&#x65B9;</li>
-</ul>
-</li>
-<li>data<ul>
-<li>&#x5B58;&#x653E;&#x6C92;&#x6709;&#x521D;&#x59CB;&#x503C;&#x5168;&#x57DF;&#x8B8A;&#x6578;&#x7684;&#x5730;&#x65B9; ex: <code>int g_var = 0xdeadbeef;</code></li>
-</ul>
-</li>
-<li>locale counter<ul>
-<li>&#x4EE3;&#x8868;&#x76EE;&#x524D;&#x8F38;&#x51FA;object&#x6A94;&#x6848;&#x4F4D;&#x7F6E;&#x7684;&#x6700;&#x5F8C;&#x7AEF;</li>
-</ul>
-</li>
-<li>region<ul>
-<li>&#x57F7;&#x884C;&#x5E73;&#x81FA;&#x5BE6;&#x9AD4;&#x7684;&#x8A18;&#x61B6;&#x9AD4;&#x5340;&#x584A;&#x3002;&#x5982;0x1000~0x1999&#x662F;ROM, 0x5000~0x9999&#x662F;RAM&#x3002;&#x90A3;&#x9EBC;&#x9019;&#x500B;&#x5E73;&#x81FA;&#x5C31;&#x53EF;&#x4EE5;&#x8A2D;&#x5B9A;&#x6210;&#x6709;&#x5169;&#x500B;region&#x3002;</li>
-</ul>
-</li>
-</ul>
-<p><a name="bkg-sec"></a></p>
-<h2 id="section">Section</h2>
-<ul>
-<li>obj&#x6A94;&#x6848;&#x5167;&#x90E8;&#x6709;&#x4E00;&#x7D44;section</li>
-<li>section&#x5305;&#x542B;<ul>
-<li>&#x81EA;&#x5DF1;&#x7684;&#x540D;&#x7A31;</li>
-<li>section contents</li>
-<li>section&#x9577;&#x5EA6;&#x8CC7;&#x8A0A;</li>
-<li>&#x72C0;&#x614B;<ul>
-<li>loadable: &#x57F7;&#x884C;&#x6642;&#x8A72;section&#x662F;&#x5426;&#x9700;&#x8981;&#x88AB;&#x8F09;&#x5165;&#x5230;&#x8A18;&#x61B6;&#x9AD4;</li>
-<li>allocatable: &#x5982;&#x679C;section&#x672C;&#x8EAB;&#x6C92;&#x8CC7;&#x6599;&#xFF08;&#x5982;.bss&#xFF09;&#x53EF;&#x4EE5;&#x8A2D;&#x6210;&#x9019;&#x500B;&#x72C0;&#x614B;&#xFF0C;&#x8B93;loader&#x5148;&#x4FDD;&#x7559;&#x8A18;&#x61B6;&#x9AD4;&#x7684;&#x4E00;&#x584A;&#x7A7A;&#x9593;</li>
-<li>section&#x4E0D;&#x662F;loadable &#x6216;allocatable &#x7684;&#x8A71;&#x4E00;&#x822C;&#x4F86;&#x8AAA;&#x90FD;&#x662F;&#x7D66;debug&#x7528;&#x7684;</li>
-<li><code>objdump -h</code>&#x986F;&#x793A;&#x7684;&#x72C0;&#x614B;(<a href="http://stackoverflow.com/questions/11196048/flags-in-objdump-output-of-object-file" target="_blank">&#x51FA;&#x8655;</a>)&#xFF0C;&#x4E0D;&#x8981;&#x554F;&#x6211;&#x70BA;&#x4F55;&#x548C;&#x624B;&#x518A;&#x4E0D;&#x4E00;&#x6A23;&#xFF0C;&#x56E0;&#x70BA;&#x6211;&#x4E5F;&#x4E0D;&#x77E5;&#x9053;&#x3002;</li>
-<li><code>LOAD</code><ul>
-<li>&#x8868;&#x793A;&#x9019;&#x500B;section&#x9700;&#x8981;&#x5F9E;&#x6A94;&#x6848;&#x8F09;&#x5165;&#x5230;&#x8A18;&#x61B6;&#x9AD4;</li>
-</ul>
-</li>
-<li><code>DATA</code><ul>
-<li>&#x8868;&#x793A;&#x9019;&#x500B;section&#x5B58;&#x653E;&#x8CC7;&#x6599;&#xFF0C;&#x4E0D;&#x53EF;&#x4EE5;&#x88AB;&#x57F7;&#x884C;</li>
-</ul>
-</li>
-<li><code>READONLY</code><ul>
-<li>&#x53EF;&#x4EE5;&#x671B;&#x6587;&#x751F;&#x7FA9;&#x5427;&#xFF1F;</li>
-</ul>
-</li>
-<li><code>ALLOC</code><ul>
-<li>&#x8868;&#x793A;&#x8A72;section&#x6703;&#x5403;&#x8A18;&#x61B6;&#x9AD4;&#xFF0C;&#x4F60;&#x53EF;&#x80FD;&#x6703;&#x60F3;&#x8AAA;&#x5EE2;&#x8A71;&#xFF0C;section&#x4E0D;&#x653E;&#x8A18;&#x61B6;&#x9AD4;&#x653E;&#x6A94;&#x6848;&#x662F;&#x653E;&#x5FC3;&#x9178;&#x7684;&#x561B;&#xFF1F;&#x9084;&#x771F;&#x7684;&#x6709;&#xFF0C;&#x4F8B;&#x5982;&#x653E;&#x9664;&#x932F;&#x7684;section&#x3002;</li>
-</ul>
-</li>
-<li><code>CONTENTS</code><ul>
-<li>&#x8868;&#x793A;&#x9019;&#x500B;section&#x662F;&#x57F7;&#x884C;&#x7A0B;&#x5F0F;&#x6240;&#x9700;&#x8981;&#x7684;&#x8CC7;&#x8A0A;&#xFF0C;&#x5982;&#x7A0B;&#x5F0F;&#x78BC;&#x6216;&#x662F;&#x8CC7;&#x6599;&#x3002;</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="http://www.slideshare.net/jserv/from-source-to-binary-how-gnu-toolchain-works/46" target="_blank">&#x53C3;&#x8003;&#x793A;&#x610F;&#x5716;: (Jim Huang) How GNU Toolchain Works&#x6295;&#x5F71;&#x7247; </a></li>
-</ul>
-<p><a name="bkg-layout"></a></p>
-<h3 id="section-%E8%A8%98%E6%86%B6%E9%AB%94%E4%BD%8D%E5%9D%80">Section &#x8A18;&#x61B6;&#x9AD4;&#x4F4D;&#x5740;</h3>
-<ul>
-<li>Output section&#x5982;&#x679C;&#x88AB;&#x8F09;&#x5165;&#x8A18;&#x61B6;&#x9AD4;&#xFF0C;&#x6703;&#x5B58;&#x653E;&#x5169;&#x7A2E;&#x8A18;&#x61B6;&#x9AD4;&#x4F4D;&#x5740;<ul>
-<li>VMA: Virtual Memory Address<ul>
-<li>Runtime &#x7684;&#x8A18;&#x61B6;&#x9AD4;&#x4F4D;&#x5740;</li>
-<li>LMA: Load Memory Address</li>
-<li>load time&#x7684;&#x8A18;&#x61B6;&#x9AD4;&#x4F4D;&#x5740;</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>&#x4E00;&#x822C;&#x4F86;&#x8AAA;&#xFF0C;VMA = LMA&#x3002;&#x4E0D;&#x540C;&#x60C5;&#x6CC1;&#x6709;&#x6771;&#x897F;&#x8981;&#x71D2;&#x5230;ROM&#x6642;&#x53C3;&#x8003;LMA&#x3002;&#x5F9E;ROM&#x8F09;&#x5165;&#x5230;&#x8A18;&#x61B6;&#x9AD4;&#x57F7;&#x884C;&#x7684;&#x6642;&#x5019;&#x53C3;&#x8003;VMA</li>
-<li>&#x53EF;&#x4EE5;&#x4F7F;&#x7528;objdump -h&#x770B;VMA/LMA&#x8CC7;&#x8A0A;</li>
-</ul>
-<p><a name="bkg-sym"></a></p>
-<h2 id="symbol">Symbol</h2>
-<ul>
-<li>&#x4E00;&#x500B;object &#x6A94;&#x6848;&#x5B58;&#x653E;&#x591A;&#x500B;symbol&#xFF0C;&#x53C8;&#x7A31;&#x70BA;symbol table</li>
-<li>&#x5C07;&#x540D;&#x7A31;&#x5C0D;&#x61C9;&#x5230;&#x4E00;&#x500B;&#x8A18;&#x61B6;&#x9AD4;&#x4F4D;&#x5740;&#x7684;symbol&#x7A31;&#x70BA;defined symbol&#xFF0C;&#x540D;&#x7A31;&#x6C92;&#x6709;&#x5C0D;&#x61C9;&#x5230;&#x8A18;&#x61B6;&#x9AD4;&#x4F4D;&#x5740;&#x7684;&#x7A31;&#x70BA;undefined symbol</li>
-<li>&#x540D;&#x7A31;&#x901A;&#x5E38;&#x5C31;&#x662F;&#x5168;&#x57DF;&#x8B8A;&#x6578;&#x3001;&#x975C;&#x614B;&#x8B8A;&#x6578;&#x6216;&#x662F;&#x51FD;&#x6578;&#x7684;&#x540D;&#x7A31;</li>
-<li>&#x4E00;&#x822C;&#x4F86;&#x8AAA;&#xFF0C;&#x5982;&#x679C;&#x628A;&#x55AE;&#x7368;&#x7684;c&#x7DE8;&#x8B6F;&#x6210;object file&#x6642;<ul>
-<li>defined symbol&#x70BA;&#x8A72;&#x6A94;&#x6848;&#x5167;&#x7684;global variable, static varible &#x548C;funciton<ul>
-<li>undefined symbol&#x70BA;&#x8A72;&#x6A94;&#x6848;&#x5167;&#x7684;extern variable&#x548C;&#x5916;&#x90E8;funciton</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>&#x53EF;&#x4EE5;&#x4F7F;&#x7528;objdump -t&#x6216;&#x662F;nm&#x770B;symbol&#x8CC7;&#x8A0A;</li>
-</ul>
+                        <h1 id="gdb-%E7%B7%A8%E8%AD%AF">gdb &#x7DE8;&#x8B6F;</h1>
+<h2 id="gdb-7-9-build-gdbserver-and-gdb">gdb-7.9 build  gdbserver and gdb</h2>
+<pre><code class="lang-c">gdb &#x7DE8;&#x8B6F;&#x65B0;&#x7248;&#x4FEE;&#x6539;  <span class="hljs-comment">// &#x56E0;&#x70BA; gdb &#x6703;&#x51FA;&#x73FE;  &apos;g&apos; packet reply is too long:</span>
+&#x4FEE;&#x6539;gdb/remote.c&#x6587;&#x4EF6;&#xFF0C;&#x5C4F;&#x853D;process_g_packet&#x51FD;&#x6578;&#x4E2D;&#x7684;&#x4E0B;&#x5217;&#x5169;&#x884C;&#xFF1A;
+<span class="hljs-keyword">if</span> (buf_len &gt; <span class="hljs-number">2</span> * rsa-&gt;sizeof_g_packet)
+error (_(&#x201C;Remote &#x2018;g&#x2019; packet reply is too <span class="hljs-keyword">long</span>: %s&#x201D;), rs-&gt;buf);
+&#x5728;&#x5176;&#x5F8C;&#x6DFB;&#x52A0;&#xFF1A;
+</code></pre>
+<pre><code class="lang-c"><span class="hljs-keyword">if</span> (buf_len &gt; <span class="hljs-number">2</span> * rsa-&gt;sizeof_g_packet) {
+    rsa-&gt;sizeof_g_packet = buf_len ;
+    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; gdbarch_num_regs (gdbarch); i++)
+    {
+        <span class="hljs-keyword">if</span> (rsa-&gt;regs[i].pnum == -<span class="hljs-number">1</span>)
+            <span class="hljs-keyword">continue</span>;
 
+        <span class="hljs-keyword">if</span> (rsa-&gt;regs[i].offset &gt;= rsa-&gt;sizeof_g_packet)
+            rsa-&gt;regs[i].in_g_packet = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">else</span>
+            rsa-&gt;regs[i].in_g_packet = <span class="hljs-number">1</span>;
+    }
+}
+</code></pre>
+<pre><code>./configure --enable-targets=all --enable-64-bit-bfd --prefix=/usr/local/gdb-7.9
+
+# --target=arm-linux&#x8868;&#x793A;&#x751F;&#x6210;&#x7684;gdb&#x8ABF;&#x8A66;&#x7684;&#x76EE;&#x6A19;&#x662F;&#x5728;arm&#x6838;&#x5FC3;Linux&#x7CFB;&#x7D71;&#x4E2D;&#x904B;&#x884C;&#x7684;&#x7A0B;&#x5E8F;
+# --enable-targets=all  gdb&#x53EF;&#x4EE5;&#x7528;&#x540C;&#x4E00;&#x500B;&#x7248;&#x672C;&#x652F;&#x6301;x86&#xFF0C;ppc&#x7B49;&#x591A;&#x7A2E;&#x9AD4;&#x7CFB;&#x7D50;&#x69CB;&#x3002;
+# &#x6BD4;&#x8F03;&#x65B0;&#x7684;bfd&#x4E2D;&#xFF0C;&#x7576;&#x8A2D;&#x7F6E;&#x7684;target&#x662F;64&#x4F4D;&#x6216;&#x8005;&#x6253;&#x958B;--enable-targets=all&#x7684;&#x6642;&#x5019;&#xFF0C;&#x4E0D;&#x9700;&#x8981;&#x8A2D;&#x7F6E;&#x6703;&#x81EA;&#x52D5;&#x6253;&#x958B;&#x9019;&#x500B;&#x9078;&#x9805;&#xFF0C;&#x4E0D;&#x904E;&#x4FDD;&#x96AA;&#x8D77;&#x898B;&#x9084;&#x662F;&#x6253;&#x958B;&#x3002;&#x9019;&#x6A23;&#x7DE8;&#x8B6F;&#x51FA;&#x7684;GDB&#x5C31;&#x80FD;&#x652F;&#x6301;GDB&#x652F;&#x6301;&#x7684;&#x5168;&#x90E8;&#x9AD4;&#x7CFB;&#x7D50;&#x69CB;&#x4E86;&#x3002;
+make
+sudo make install
+</code></pre><pre><code class="lang-c">(gdb) <span class="hljs-built_in">set</span> architecture
+Display all <span class="hljs-number">204</span> possibilities? (y or n)
+alpha                          m68k:isa-c:nodiv:mac
+alpha:ev4                      m88k:<span class="hljs-number">88100</span>
+alpha:ev5                      mep
+alpha:ev6                      mips
+am33                           mips:<span class="hljs-number">10000</span>
+am33-<span class="hljs-number">2</span>                         mips:<span class="hljs-number">12000</span>
+arm                            mips:<span class="hljs-number">16</span>
+armv2                          mips:<span class="hljs-number">3000</span>
+armv2a                         mips:<span class="hljs-number">3900</span>
+armv3                          mips:<span class="hljs-number">4000</span>
+armv3m                         mips:<span class="hljs-number">4010</span>
+armv4                          mips:<span class="hljs-number">4100</span>
+armv4t                         mips:<span class="hljs-number">4111</span>
+armv5                          mips:<span class="hljs-number">4120</span>
+armv5t                         mips:<span class="hljs-number">4300</span>
+armv5te                        mips:<span class="hljs-number">4400</span>
+<span class="hljs-keyword">auto</span>                           mips:<span class="hljs-number">4600</span>
+avr                            mips:<span class="hljs-number">4650</span>
+avr:<span class="hljs-number">1</span>                          mips:<span class="hljs-number">5000</span>
+avr:<span class="hljs-number">2</span>                          mips:<span class="hljs-number">5400</span>
+avr:<span class="hljs-number">3</span>                          mips:<span class="hljs-number">5500</span>
+avr:<span class="hljs-number">4</span>                          mips:<span class="hljs-number">6000</span>
+avr:<span class="hljs-number">5</span>                          mips:<span class="hljs-number">7000</span>
+avr:<span class="hljs-number">6</span>                          mips:<span class="hljs-number">8000</span>
+cris                           mips:<span class="hljs-number">9000</span>
+cris:common_v10_v32            mips:isa32
+crisv32                        mips:isa32r2
+ep9312                         mips:isa64
+fr300                          mips:isa64r2
+fr400                          mips:loongson_2e
+fr450                          mips:loongson_2f
+fr500                          mips:mips5
+fr550                          mips:octeon
+frv                            mips:sb1
+h1                             mn10300
+h8300                          ms1
+h8300h                         ms1-<span class="hljs-number">003</span>
+h8300hn                        ms2
+h8300s                         powerpc:<span class="hljs-number">403</span>
+h8300sn                        powerpc:<span class="hljs-number">601</span>
+h8300sx                        powerpc:<span class="hljs-number">603</span>
+h8300sxn                       powerpc:<span class="hljs-number">604</span>
+hppa1<span class="hljs-number">.0</span>                        powerpc:<span class="hljs-number">620</span>
+i386                           powerpc:<span class="hljs-number">630</span>
+i386:intel                     powerpc:<span class="hljs-number">7400</span>
+i386:x86-<span class="hljs-number">64</span>                    powerpc:<span class="hljs-number">750</span>
+i386:x86-<span class="hljs-number">64</span>:intel              powerpc:EC603e
+i8086                          powerpc:MPC8XX
+ia64-elf32                     powerpc:a35
+ia64-elf64                     powerpc:common
+iq10                           powerpc:common64
+iq2000                         powerpc:e500
+iwmmxt                         powerpc:rs64ii
+iwmmxt2                        powerpc:rs64iii
+m16c                           rs6000:<span class="hljs-number">6000</span>
+m32c                           rs6000:rs1
+m32r                           rs6000:rs2
+m32r2                          rs6000:rsc
+m32rx                          s390:<span class="hljs-number">31</span>-bit
+m68hc11                        s390:<span class="hljs-number">64</span>-bit
+m68hc12                        score
+m68k                           sh
+m68k:<span class="hljs-number">5200</span>                      sh-dsp
+m68k:<span class="hljs-number">5206</span>e                     sh2
+m68k:<span class="hljs-number">521</span>x                      sh2a
+m68k:<span class="hljs-number">5249</span>                      sh2a-nofpu
+m68k:<span class="hljs-number">528</span>x                      sh2a-nofpu-or-sh3-nommu
+m68k:<span class="hljs-number">5307</span>                      sh2a-nofpu-or-sh4-nommu-nofpu
+m68k:<span class="hljs-number">5407</span>                      sh2a-or-sh3e
+m68k:<span class="hljs-number">547</span>x                      sh2a-or-sh4
+m68k:<span class="hljs-number">548</span>x                      sh2e
+m68k:<span class="hljs-number">68000</span>                     sh3
+m68k:<span class="hljs-number">68008</span>                     sh3-dsp
+m68k:<span class="hljs-number">68010</span>                     sh3-nommu
+m68k:<span class="hljs-number">68020</span>                     sh3e
+m68k:<span class="hljs-number">68030</span>                     sh4
+m68k:<span class="hljs-number">68040</span>                     sh4-nofpu
+m68k:<span class="hljs-number">68060</span>                     sh4-nommu-nofpu
+m68k:cfv4e                     sh4a
+m68k:cpu32                     sh4a-nofpu
+m68k:fido                      sh4al-dsp
+m68k:isa-a                     sh5
+m68k:isa-a:emac                simple
+m68k:isa-a:mac                 sparc
+m68k:isa-a:nodiv               sparc:sparclet
+m68k:isa-aplus                 sparc:sparclite
+m68k:isa-aplus:emac            sparc:sparclite_le
+m68k:isa-aplus:mac             sparc:v8plus
+m68k:isa-b                     sparc:v8plusa
+m68k:isa-b:emac                sparc:v8plusb
+m68k:isa-b:<span class="hljs-keyword">float</span>               sparc:v9
+m68k:isa-b:<span class="hljs-keyword">float</span>:emac          sparc:v9a
+m68k:isa-b:<span class="hljs-keyword">float</span>:mac           sparc:v9b
+m68k:isa-b:mac                 spu:<span class="hljs-number">256</span>K
+m68k:isa-b:nousp               tomcat
+m68k:isa-b:nousp:emac          v850
+m68k:isa-b:nousp:mac           v850e
+m68k:isa-c                     v850e1
+m68k:isa-c:emac                vax
+m68k:isa-c:mac                 xscale
+m68k:isa-c:nodiv               xstormy16
+m68k:isa-c:nodiv:emac          xtensa
+</code></pre>
+<pre><code class="lang-c"><span class="hljs-built_in">set</span> architecture arm:&#x6307;&#x5B9A;arm&#x786C;&#x9AD4;
+</code></pre>
+<ul>
+<li>Toolchain &#x7121;&#x6CD5;&#x4F7F;&#x7528; android &#x7684; arm &#x7DE8;&#x8B6F;&#x5668;&#x76EE;&#x524D;&#x539F;&#x56E0;&#x4E0D;&#x6E05;&#x695A;</li>
+</ul>
+<pre><code>https://launchpad.net/linaro-toolchain-binaries/trunk/2013.10/+download/gcc-linaro-arm-linux-gnueabihf-4.8-2013.10_linux.tar.bz2
+</code></pre><ul>
+<li>build.env</li>
+</ul>
+<pre><code># -*- shell-script -*-
+TOOLCHAIN=gcc-linaro-arm-linux-gnueabihf-4.8-2013.10_linux
+DIR=$(pushd $(dirname $BASH_SOURCE) &gt; /dev/null; pwd; popd &gt; /dev/null)
+echo $DIR
+export PATH=${PATH}:${DIR}/${TOOLCHAIN}/bin
+export CC=arm-linux-gnueabihf-gcc
+</code></pre><h2 id="gdbserver-%E8%A6%81%E6%B3%A8%E6%84%8Fgdb%E5%92%8Cgdbserver%E7%89%88%E6%9C%AC%E4%B8%80%E8%87%B4">gdbserver , &#x8981;&#x6CE8;&#x610F;gdb&#x548C;gdbserver&#x7248;&#x672C;&#x4E00;&#x81F4;</h2>
+<pre><code>source build.env
+./configure --target=arm-linux --host=arm-linux LDFLAGS=&quot;-static&quot;
+# &#x9019;&#x88E1;&#x7684;--host&#x6307;&#x5B9A;&#x9019;&#x500B;&#x7A0B;&#x5E8F;&#x7684;&#x76EE;&#x6A19;&#x5E73;&#x81FA;&#x3002;&#x9019;&#x4E00;&#x6B65;&#x4E2D;&#x6703;&#x6AA2;&#x67E5;&#x7CFB;&#x7D71;&#x4E2D;&#x662F;&#x5426;&#x6709;&#x4EA4;&#x53C9;&#x7DE8;&#x8B6F;&#x5668;&#x7684;&#x3002;
+# We must add the above LDFLAGS to let gdb statically linked, otherwise it cannot
+run on Android.
+
+time make -j8 2&gt;&amp;1 | tee build.log
+file ./gdbserver
+
+./gdbserver: ELF 32-bit LSB  executable, ARM, EABI5 version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 3.1.1, BuildID[sha1]=4eec8a5a6893ed8ce65eea5d0741a55cc621236a, not stripped
+</code></pre>
                     
                     </section>
                 
@@ -5824,10 +5783,10 @@
         </div>
 
         
-        <a href="../22/2218.html" class="navigation navigation-prev " aria-label="Previous page: GNU LD 手冊略讀"><i class="fa fa-angle-left"></i></a>
+        <a href="../gdb/188.html" class="navigation navigation-prev " aria-label="Previous page: gdb 的 multiarch"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../22/22182.html" class="navigation navigation-next " aria-label="Next page: GNU LD 手冊略讀 (1): Chapter 3 ~ Chapter 3.5"><i class="fa fa-angle-right"></i></a>
+        <a href="../mooc_linux_kernel/index.html" class="navigation navigation-next " aria-label="Next page: Linux內核分析雲課堂學習筆記"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

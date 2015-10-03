@@ -19,4 +19,4 @@ JTAG調試，需要`硬件`「仿真器」，例如Jlink, BDI3000等。
 
 ## 我的經驗：
 
-gdb, gdbserver, Jlink都使用過。Jlink調試時，在開發機windows平台上運行「Jlink自帶的gdb服務器」，通過Linux的gdb網絡連接到「Jlink自帶的gdb服務器」。kgdbc在Mini2440上不成功, 因為需要特別的串口驅動。
+gdb, gdbserver, Jlink都使用過。Jlink調試時，在開發機windows平臺上運行「Jlink自帶的gdb服務器」，通過Linux的gdb網絡連接到「Jlink自帶的gdb服務器」。kgdbc在Mini2440上不成功, 因為需要特別的串口驅動。

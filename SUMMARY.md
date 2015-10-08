@@ -349,5 +349,5 @@
 * [TDD](tdd/README.md)
    * [程式設計師升級必練內功：TDD Kata](tdd/311.md)
 * [Raspberry_Pi](raspberry_pi/README.md)
-   * [燒錄新版系統](raspberry_pi/321)
+   * [燒錄新版系統](raspberry_pi/321.md)
 

@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Busybox for ARM on QEMU | Jason note</title>
+        <title>燒錄新版系統 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,8 @@
         
     
     
-    <link rel="next" href="../arm_emulation/linux_nfs_root_under_qemu_arm_emulator.html" />
     
-    
-    <link rel="prev" href="../arm_emulation/compile_linux_kernel_32_for_arm_and_emulate_with_qemu.html" />
+    <link rel="prev" href="../raspberry_pi/index.html" />
     
 
         <!-- head:end -->
@@ -48,7 +46,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="11.4" data-basepath=".." data-revision="Fri Oct 09 2015 01:32:13 GMT+0800 (CST)">
+    <div class="book" data-level="32.1" data-basepath=".." data-revision="Fri Oct 09 2015 01:32:13 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -2003,7 +2001,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="11.4" data-path="arm_emulation/busybox_for_arm_on_qemu.html">
+        <li class="chapter " data-level="11.4" data-path="arm_emulation/busybox_for_arm_on_qemu.html">
             
                 
                     <a href="../arm_emulation/busybox_for_arm_on_qemu.html">
@@ -5538,7 +5536,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="32.1" data-path="raspberry_pi/321.html">
+        <li class="chapter active" data-level="32.1" data-path="raspberry_pi/321.html">
             
                 
                     <a href="../raspberry_pi/321.html">
@@ -5664,54 +5662,44 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="busybox-for-arm-on-qemu">Busybox for ARM on QEMU</h1>
-<p>Busybox is a solution for embedded Linux designs that need a compact filesystem: the trick is compiling and linking many system utilities into a single binary that behaves differently based on the name it was used to execute it. A working Linux root filesystem then consists in a small directory tree (/bin, /sbin, /usr/bin, &#x2026;), a single executable binary in /bin/busybox, and many symbolic links to the Busybox binary (/bin/ls, /bin/sh, /sbin/ifconfig, &#x2026;), and using a typical configuration it can be as small as 2MB (1MB if compressed).</p>
-<p>Last time I compiled a Linux kernel and a minimal root filesystem containing just a &#x201C;Hello World&#x201D; program. Now we can build a reasonably working root filesystem and test it using QEMU. Note that, in order to follow this example, you need:</p>
-<ul>
-<li>The CodeSourcery Linux toolchain</li>
-<li>A Linux kernel image compiled for the Versatile platform, with EABI support (here is how I created mine)</li>
-<li>QEMU ARM emulator (the package to install is qemu on Debian or qemu-kvm-extras on Ubuntu)</li>
-<li>Developer&#x2019;s libraries for ncurses (the package to install is libncurses5-dev) to compile the menu configuration</li>
-</ul>
-<p>I downloaded version 1.16.0 of the Busybox source and extracted it. Inside the extracted directory I ran:</p>
-<pre><code>$ make ARCH=arm CROSS_COMPILE=arm-none-linux-gnueabi- defconfig
-</code></pre><p>A default configuration file is created. To change it to our needs:</p>
-<pre><code>$ make ARCH=arm CROSS_COMPILE=arm-none-linux-gnueabi- menuconfig
-</code></pre><p>I checked the option to compile Busybox as a static executable, so that we don&#x2019;t have to copy the dynamic libraries inside the root filesystem. The setting can be found in &#x201C;Busybox Settings --&gt; Build Options&#x201C;. Then, the following command builds Busybox and creates a directory called _install containing the root filesystem tree:</p>
-<pre><code>$ make ARCH=arm CROSS_COMPILE=arm-none-linux-gnueabi- install
-</code></pre><p>We can now create a root filesystem image using the cpio tool, and in order to compact the filesystem even more, we can run gzip on it to create a compressed image:</p>
-<pre><code>$ cd _install
-$ find . | cpio -o --format=newc &gt; ../rootfs.img
-$ cd ..
-$ gzip -c rootfs.img &gt; rootfs.img.gz
-</code></pre><p>In my case, the compressed image size is about 1MB. To test Busybox, we can emulate an ARM platform with QEMU using the following command, assuming we copy the Linux kernel zImage in the current directory:</p>
-<pre><code>$ qemu-system-arm -M versatilepb -m 128M -kernel zImage -initrd rootfs.img.gz -append
-&quot;root=/dev/ram rdinit=/bin/sh&quot;
-</code></pre><p>The Linux kernel will boot, and the shell /bin/sh will be executed as specified by the boot parameter rdinit, showing the common &#x201C;#&#x201D; prompt. The shell can be used normally, for example you can run ls to find the same directory structure of the Busybox _install directory, but using commands like ps and mount we can see that not everything is in place: both programs complain abount the /proc directory. We can create and populate the /proc directory running these commands inside the QEMU emulated system prompt:</p>
-<pre><code># mkdir /proc
-# mount -t proc none /proc
-</code></pre><p>After that, the ps and mount programs work fine. We can also note that the /dev directory is almost empty (the only exception being the console device). To populate it we need to mount also the /sys directory, so that we can use the mdev tool; run inside QEMU:</p>
-<pre><code># mkdir /sys
-# mount -t sysfs none /sys
-# mdev -s
-</code></pre><p>The /sys and /dev directory are now populated. To execute these steps every time, we can use /sbin/init functionality: this program is usually the first run by the Linux kernel, and its default behavior is to execute the initialization file with path /etc/init.d/rcS. In the host computer this time, in the folder where we compiled Busybox, we create the missing directories:</p>
-<pre><code>$ cd _install
-$ mkdir proc sys dev etc etc/init.d
-$ cd ..
-</code></pre><p>Now we create a new _install/etc/init.d/rcS with the following content:</p>
-<pre><code>#!/bin/sh
-mount -t proc none /proc
-mount -t sysfs none /sys
-/sbin/mdev -s
-</code></pre><p>Then set it as an executable file:</p>
-<pre><code>$ chmod +x _install/etc/init.d/rcS
-</code></pre><p>We can then recreate an updated root filesystem compressed image as before, and run:</p>
-<pre><code>$ qemu-system-arm -M versatilepb -m 128M -kernel zImage -initrd rootfs.img.gz -append
-&quot;root=/dev/ram rdinit=/sbin/init&quot;
-</code></pre><p>The Linux kernel will boot again, but this time it is asking to press Enter, and when we do the usual console prompt will appear. The system directories are fully populated, meaning that the script rcS has been executed; other than that, /sbin/init also spawns
-shell terminals using getty.</p>
-<p>In our example the Busybox filesystem is accessed using a ram disk, but it can also be read from a physical disk storage or loaded from the network using NFS protocol. Maybe another time I will describe in details how to run Busybox with NFS inside QEMU.</p>
-
+                        <h1 id="%E7%87%92%E9%8C%84%E6%96%B0%E7%89%88%E7%B3%BB%E7%B5%B1">&#x71D2;&#x9304;&#x65B0;&#x7248;&#x7CFB;&#x7D71;</h1>
+<h1 id="raspberry-pi">Raspberry_Pi</h1>
+<pre><code class="lang-sh">https://www.raspberrypi.org/downloads/
+</code></pre>
+<h3 id="linux">Linux</h3>
+<p>&#x63D2;&#x5165; MicroSD &#x5361;&#x4E4B;&#x5F8C;&#xFF0C;&#x5148;&#x4F7F;&#x7528; df &#x67E5;&#x770B;&#x786C;&#x789F;&#x72C0;&#x6CC1;&#xFF0C;&#x5224;&#x65B7; MicroSD &#x5361;&#x7684;&#x78C1;&#x789F;&#x7DE8;&#x865F;&#xFF1A;</p>
+<pre><code class="lang-sh">df -h
+</code></pre>
+<p><img src="images/df-output-1.png" alt=""></p>
+<p>&#x9019;&#x500B;&#x4F8B;&#x5B50;&#x800C;&#x8A00;&#xFF0C;&#x6211;&#x7684; MicroSD &#x5361;&#x662F; /dev/sdc&#xFF0C;&#x63A5;&#x8457;&#x628A; MicroSD &#x5361;&#x4E0A;&#x7684;&#x6240;&#x6709;&#x5206;&#x5272;&#x5340;&#x5378;&#x8F09;&#xFF1A;</p>
+<pre><code class="lang-sh">sudo umount /dev/sdc1
+sudo umount /dev/sdc2
+</code></pre>
+<h3 id="%E7%94%A8-dd-%E6%8C%87%E4%BB%A4%E5%AF%AB%E5%85%A5-img-%E6%AA%94%EF%BC%9A">&#x7528; dd &#x6307;&#x4EE4;&#x5BEB;&#x5165; img &#x6A94;&#xFF1A;</h3>
+<pre><code class="lang-sh">sudo dd bs=<span class="hljs-number">1</span>M <span class="hljs-keyword">if</span>=<span class="hljs-number">2015</span>-<span class="hljs-number">02</span>-<span class="hljs-number">16</span>-raspbian-wheezy.img of=/dev/sdc
+</code></pre>
+<p>&#x6216;&#x7528; dcfldd &#x5BEB;&#x5165;&#xFF0C;&#x9019;&#x6A23;&#x5728;&#x5BEB;&#x5165;&#x7684;&#x904E;&#x7A0B;&#x4E2D;&#x6703;&#x5373;&#x6642;&#x986F;&#x793A;&#x9032;&#x5EA6;&#xFF1A;</p>
+<pre><code class="lang-sh">sudo dcfldd bs=<span class="hljs-number">1</span>M <span class="hljs-keyword">if</span>=<span class="hljs-number">2015</span>-<span class="hljs-number">02</span>-<span class="hljs-number">16</span>-raspbian-wheezy.img of=/dev/sdc
+</code></pre>
+<p>&#x6216;&#x662F;&#x7528; dd &#x914D;&#x5408; pv &#x4EA6;&#x53EF;&#xFF1A;</p>
+<pre><code class="lang-sh">dd bs=<span class="hljs-number">1</span>M <span class="hljs-keyword">if</span>=<span class="hljs-number">2015</span>-<span class="hljs-number">02</span>-<span class="hljs-number">16</span>-raspbian-wheezy.img | pv | sudo dd of=/dev/sdc
+</code></pre>
+<h3 id="gtkterm">GTKTerm</h3>
+<pre><code class="lang-sh">sudo gtkterm
+</code></pre>
+<h3 id="console-serial-parameters">Console serial parameters</h3>
+<pre><code>The following parameters are needed to connect to the Pi console, and apply on both Linux and Windows.
+Speed (baud rate): 115200
+Bits: 8
+Parity: None
+Stop Bits: 1
+Flow Control: None
+</code></pre><h3 id="linux-terminal-set-up">Linux terminal set up</h3>
+<pre><code>If your PC is running Linux, you will need to know the port name of its serial port:
+Built-in (standard) Serial Port: the Linux standard is /dev/ttyS0, /dev/ttyS1, and so on
+USB Serial Port Adapter: /dev/ttyUSB0, /dev/ttyUSB1, and so on.
+Some types of USB serial adapter may appear as /dev/ttyACM0 ...
+</code></pre>
                     
                     </section>
                 
@@ -5721,10 +5709,8 @@ shell terminals using getty.</p>
         </div>
 
         
-        <a href="../arm_emulation/compile_linux_kernel_32_for_arm_and_emulate_with_qemu.html" class="navigation navigation-prev " aria-label="Previous page: Compile Linux kernel 3.2 for ARM and emulate with QEMU"><i class="fa fa-angle-left"></i></a>
+        <a href="../raspberry_pi/index.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: Raspberry_Pi"><i class="fa fa-angle-left"></i></a>
         
-        
-        <a href="../arm_emulation/linux_nfs_root_under_qemu_arm_emulator.html" class="navigation navigation-next " aria-label="Next page: Linux NFS Root under QEMU ARM emulator"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

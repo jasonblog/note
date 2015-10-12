@@ -87,6 +87,7 @@
    * [編譯 linux 0.11，並且使用 QEMU + GDB 調試 kernel ( Ubuntu 11.04, GCC 4.5.2)](qemu/78.md)
    * [How to Build A Custom Linux Kernel For Qemu (2015 Edition)](qemu/79.md)
    * [X86 Kernel](qemu/710.md)
+   * [FreeNOS](qemu/713.md)
 * [Linux Device Driver Programming](linux_device_driver_programming/README.md)
    * [Linux 裝置驅動程式的概要](linux_device_driver_programming/01.md)
    * [Linux 的授權](linux_device_driver_programming/02.md)

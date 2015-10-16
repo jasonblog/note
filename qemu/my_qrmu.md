@@ -208,7 +208,9 @@ qemu() {
     -kernel obj/$LINUX_PALTFORM/arch/x86_64/boot/bzImage \
     -initrd obj/initramfs-$BUSYBOX_PALTFORM.cpio.gz \
     -serial stdio \
-    -append "console=ttyS0" -enable-kvm
+    -net nic \
+    -net tap,ifname=tap0,script=no \
+    -append "root=/dev/ram rdinit=/init console=ttyS0 noapic"
 }
 
 gdb() {

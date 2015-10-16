@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="7.1" data-basepath=".." data-revision="Sat Oct 17 2015 01:48:22 GMT+0800 (CST)">
+    <div class="book" data-level="7.1" data-basepath=".." data-revision="Sat Oct 17 2015 01:54:23 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -5899,7 +5899,9 @@ EOF
     -kernel obj/<span class="hljs-variable">$LINUX_PALTFORM</span>/arch/x86_64/boot/bzImage \
     -initrd obj/initramfs-<span class="hljs-variable">$BUSYBOX_PALTFORM</span>.cpio.gz \
     -serial stdio \
-    -append <span class="hljs-string">&quot;console=ttyS0&quot;</span> -enable-kvm
+    -net nic \
+    -net tap,ifname=tap0,script=no \
+    -append <span class="hljs-string">&quot;root=/dev/ram rdinit=/init console=ttyS0 noapic&quot;</span>
 }
 
 <span class="hljs-function"><span class="hljs-title">gdb</span></span>() {

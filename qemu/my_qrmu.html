@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="7.1" data-basepath=".." data-revision="Sun Oct 18 2015 00:35:46 GMT+0800 (CST)">
+    <div class="book" data-level="7.1" data-basepath=".." data-revision="Sun Oct 18 2015 01:59:26 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -5767,6 +5767,12 @@ test.c&#xFF1A;&#x4E0B;&#x8F09;&#x7684;&#x6A94;&#x6848;
 <span class="hljs-number">192.168</span>.<span class="hljs-number">100.9</span>&#xFF1A;tftp server&#x7684;IP
 </code></pre>
 <ul>
+<li>tftp_get &amp; tftp_push</li>
+</ul>
+<pre><code class="lang-sh">/ <span class="hljs-comment"># tftp_push init</span>
+init                 <span class="hljs-number">100</span>% |*******************************|   <span class="hljs-number">325</span>   <span class="hljs-number">0</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span> ETA
+</code></pre>
+<ul>
 <li>x86_build.sh</li>
 </ul>
 <pre><code class="lang-sh"><span class="hljs-shebang">#! /bin/bash
@@ -5867,6 +5873,11 @@ USAGE
     <span class="hljs-comment"># x86_64 lib</span>
     cp <span class="hljs-operator">-a</span> /lib/x86_64-linux-gnu/ lib/
     cp <span class="hljs-operator">-a</span> /lib64/ .
+
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;tftp -p -l \$1 192.168.100.9&quot;</span> &gt; bin/tftp_push
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;tftp -g -r \$1 192.168.100.9&quot;</span> &gt; bin/tftp_get
+    chmod <span class="hljs-number">755</span> bin/tftp_push
+    chmod <span class="hljs-number">755</span> bin/tftp_get
 
 cat &lt;&lt; EOF &gt;&gt;init
 <span class="hljs-shebang">#!/bin/sh

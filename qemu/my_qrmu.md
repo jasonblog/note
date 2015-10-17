@@ -35,6 +35,50 @@
 make -j24
 sudo make install
 ```
+-  tftp server
+
+```sh
+sudo apt-get install tftp-hpa tftpd-hpa
+
+/etc/default/tftpd-hpa
+
+
+# /etc/default/tftpd-hpa
+TFTP_USERNAME="tftp"
+TFTP_DIRECTORY="/home/shihyu/tftpboot"
+TFTP_ADDRESS="0.0.0.0:69"
+TFTP_OPTIONS="-l -c -s"
+```
+
+```sh
+mkdir ~/tftpboot
+chmod 777 ~/tftpboot
+```
+- restart service
+
+```sh
+sudo service tftpd-hpa restart
+```
+
+
+- qemu using tftp
+
+```sh
+#tftp上傳 , 下面操作都是在 qemu shell 執行 command
+
+tftp -p -l init  192.168.100.9
+-p：Put file
+-l ：Local FILE
+init：上傳的檔案
+192.168.100.9：tftp server的IP
+
+tftp -g -r test.c   192.168.100.9
+-g： Get file
+-r ：Remote FILE
+test.c：下載的檔案
+192.168.100.9：tftp server的IP
+
+```
 
 - x86_build.sh
 
@@ -140,6 +184,13 @@ clean_build() {
 
 cat << EOF >>init
 #!/bin/sh
+
+/sbin/ifconfig lo 127.0.0.1
+ifconfig eth0 down
+ifconfig eth0 hw ether 08:90:90:59:62:21
+ifconfig eth0 192.168.100.5 netmask 255.255.255.0 up
+route add default gw 192.168.100.1
+
 mount -t proc none /proc
 mount -t sysfs none /sys
 mount -t ramfs none /dev
@@ -147,6 +198,7 @@ mdev -s
 echo -e "\nBoot took $(cut -d" " -f1 /proc/uptime) seconds\n"
 exec /bin/sh
 EOF
+
     chmod +x init
 
     find . -print0 \
@@ -243,6 +295,19 @@ while true; do
     esac
     shift
 done
+```
+
+- nettap.sh
+
+` sude ./nettap.sh`
+
+```sh
+tunctl -u shihyu -t tap0
+ifconfig tap0 192.168.100.9 up
+echo 1 > /proc/sys/net/ipv4/ip_forward
+iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+iptables -I FORWARD 1 -i tap0 -j ACCEPT
+iptables -I FORWARD 1 -o tap0 -m state --state RELATED,ESTABLISHED -j ACCEPT
 ```
 
 - hello.c

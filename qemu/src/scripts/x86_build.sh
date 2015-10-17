@@ -97,6 +97,11 @@ clean_build() {
     cp -a /lib/x86_64-linux-gnu/ lib/
     cp -a /lib64/ .
 
+    echo "tftp -p -l \$1 192.168.100.9" > bin/tftp_push
+    echo "tftp -g -r \$1 192.168.100.9" > bin/tftp_get
+    chmod 755 bin/tftp_push
+    chmod 755 bin/tftp_get
+
 cat << EOF >>init
 #!/bin/sh
 

@@ -77,7 +77,13 @@ tftp -g -r test.c   192.168.100.9
 -r ：Remote FILE
 test.c：下載的檔案
 192.168.100.9：tftp server的IP
+```
 
+- tftp_get & tftp_push
+
+```sh
+/ # tftp_push init
+init                 100% |*******************************|   325   0:00:00 ETA
 ```
 
 - x86_build.sh
@@ -181,6 +187,11 @@ clean_build() {
     # x86_64 lib
     cp -a /lib/x86_64-linux-gnu/ lib/
     cp -a /lib64/ .
+
+    echo "tftp -p -l \$1 192.168.100.9" > bin/tftp_push
+    echo "tftp -g -r \$1 192.168.100.9" > bin/tftp_get
+    chmod 755 bin/tftp_push
+    chmod 755 bin/tftp_get
 
 cat << EOF >>init
 #!/bin/sh

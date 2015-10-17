@@ -99,6 +99,13 @@ clean_build() {
 
 cat << EOF >>init
 #!/bin/sh
+
+/sbin/ifconfig lo 127.0.0.1
+ifconfig eth0 down
+ifconfig eth0 hw ether 08:90:90:59:62:21
+ifconfig eth0 192.168.100.5 netmask 255.255.255.0 up
+route add default gw 192.168.100.1
+
 mount -t proc none /proc
 mount -t sysfs none /sys
 mount -t ramfs none /dev
@@ -106,6 +113,7 @@ mdev -s
 echo -e "\nBoot took $(cut -d" " -f1 /proc/uptime) seconds\n"
 exec /bin/sh
 EOF
+
     chmod +x init
 
     find . -print0 \
@@ -170,8 +178,6 @@ qemu() {
     -net nic \
     -net tap,ifname=tap0,script=no \
     -append "root=/dev/ram rdinit=/init console=ttyS0 noapic"
-    
-    
 }
 
 gdb() {

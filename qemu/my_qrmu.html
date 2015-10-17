@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="7.1" data-basepath=".." data-revision="Sat Oct 17 2015 01:54:23 GMT+0800 (CST)">
+    <div class="book" data-level="7.1" data-basepath=".." data-revision="Sun Oct 18 2015 00:35:46 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -5728,6 +5728,45 @@ make -j24
 sudo make install
 </code></pre>
 <ul>
+<li>tftp server</li>
+</ul>
+<pre><code class="lang-sh">sudo apt-get install tftp-hpa tftpd-hpa
+
+/etc/default/tftpd-hpa
+
+
+<span class="hljs-comment"># /etc/default/tftpd-hpa</span>
+TFTP_USERNAME=<span class="hljs-string">&quot;tftp&quot;</span>
+TFTP_DIRECTORY=<span class="hljs-string">&quot;/home/shihyu/tftpboot&quot;</span>
+TFTP_ADDRESS=<span class="hljs-string">&quot;0.0.0.0:69&quot;</span>
+TFTP_OPTIONS=<span class="hljs-string">&quot;-l -c -s&quot;</span>
+</code></pre>
+<pre><code class="lang-sh">mkdir ~/tftpboot
+chmod <span class="hljs-number">777</span> ~/tftpboot
+</code></pre>
+<ul>
+<li>restart service</li>
+</ul>
+<pre><code class="lang-sh">sudo service tftpd-hpa restart
+</code></pre>
+<ul>
+<li>qemu using tftp</li>
+</ul>
+<pre><code class="lang-sh"><span class="hljs-comment">#tftp&#x4E0A;&#x50B3; , &#x4E0B;&#x9762;&#x64CD;&#x4F5C;&#x90FD;&#x662F;&#x5728; qemu shell &#x57F7;&#x884C; command</span>
+
+tftp -p <span class="hljs-operator">-l</span> init  <span class="hljs-number">192.168</span>.<span class="hljs-number">100.9</span>
+-p&#xFF1A;Put file
+<span class="hljs-operator">-l</span> &#xFF1A;Local FILE
+init&#xFF1A;&#x4E0A;&#x50B3;&#x7684;&#x6A94;&#x6848;
+<span class="hljs-number">192.168</span>.<span class="hljs-number">100.9</span>&#xFF1A;tftp server&#x7684;IP
+
+tftp -g -r test.c   <span class="hljs-number">192.168</span>.<span class="hljs-number">100.9</span>
+-g&#xFF1A; Get file
+-r &#xFF1A;Remote FILE
+test.c&#xFF1A;&#x4E0B;&#x8F09;&#x7684;&#x6A94;&#x6848;
+<span class="hljs-number">192.168</span>.<span class="hljs-number">100.9</span>&#xFF1A;tftp server&#x7684;IP
+</code></pre>
+<ul>
 <li>x86_build.sh</li>
 </ul>
 <pre><code class="lang-sh"><span class="hljs-shebang">#! /bin/bash
@@ -5830,7 +5869,14 @@ USAGE
     cp <span class="hljs-operator">-a</span> /lib64/ .
 
 cat &lt;&lt; EOF &gt;&gt;init
-<span class="hljs-shebang">#!/bin/sh</span>
+<span class="hljs-shebang">#!/bin/sh
+</span>
+/sbin/ifconfig lo <span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span>
+ifconfig eth0 down
+ifconfig eth0 hw ether <span class="hljs-number">08</span>:<span class="hljs-number">90</span>:<span class="hljs-number">90</span>:<span class="hljs-number">59</span>:<span class="hljs-number">62</span>:<span class="hljs-number">21</span>
+ifconfig eth0 <span class="hljs-number">192.168</span>.<span class="hljs-number">100.5</span> netmask <span class="hljs-number">255.255</span>.<span class="hljs-number">255.0</span> up
+route add default gw <span class="hljs-number">192.168</span>.<span class="hljs-number">100.1</span>
+
 mount -t proc none /proc
 mount -t sysfs none /sys
 mount -t ramfs none /dev
@@ -5838,6 +5884,7 @@ mdev <span class="hljs-operator">-s</span>
 <span class="hljs-built_in">echo</span> <span class="hljs-operator">-e</span> <span class="hljs-string">&quot;\nBoot took <span class="hljs-variable">$(cut -d&quot; &quot; -f1 /proc/uptime)</span> seconds\n&quot;</span>
 <span class="hljs-built_in">exec</span> /bin/sh
 EOF
+
     chmod +x init
 
     find . -print0 \
@@ -5934,6 +5981,17 @@ EOF
     <span class="hljs-keyword">esac</span>
     <span class="hljs-built_in">shift</span>
 <span class="hljs-keyword">done</span>
+</code></pre>
+<ul>
+<li>nettap.sh</li>
+</ul>
+<p><code>sude ./nettap.sh</code></p>
+<pre><code class="lang-sh">tunctl -u shihyu -t tap0
+ifconfig tap0 <span class="hljs-number">192.168</span>.<span class="hljs-number">100.9</span> up
+<span class="hljs-built_in">echo</span> <span class="hljs-number">1</span> &gt; /proc/sys/net/ipv4/ip_forward
+iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+iptables -I FORWARD <span class="hljs-number">1</span> -i tap0 -j ACCEPT
+iptables -I FORWARD <span class="hljs-number">1</span> -o tap0 -m state --state RELATED,ESTABLISHED -j ACCEPT
 </code></pre>
 <ul>
 <li>hello.c</li>

@@ -1,0 +1,141 @@
+Raspberry Pi bare metal experiments
+===================================
+
+Building
+--------
+
+The code is known to build on Linux Mint 12 using the arm-linux-gnueabihf
+versions of the gcc compiler chain (apt-get install
+arm-linux-gnueabihf-gcc).  This is the same version which exists on the
+Raspbian "Wheezy" distribution, and the code builds on the Rasperry Pi.
+
+To build, type "make". make will build a list of dependencies (in make.dep)
+by examining each of the .c files, then build the object files before
+linking them into kernel.elf, and turning that into a binary version
+(kernel.img).
+
+
+IF YOU'RE NOT BUILDING ON A RASPBERRY PI, there is a copy of libgcc.a from
+gcc 4.6 from the Raspberry Pi in rpi-libgcc. Make will use this by default.
+If you know the libgcc.a on your compiler is ok (ie, it only contains ARMv6
+instructions), you can set "LOCALLIBGCC=1" in the Makefile, or run "make
+LOCALLIBGCC=1" instead of "make".
+
+When building on a Raspberry Pi (specifically, any device with a processor
+type of "BCM2708"), make will use the libgcc.a which comes with gcc.
+
+In both cases, you can override the libgcc filename by running
+"make LIBGCC=[filename]". However, the default make will probably work just
+fine.
+
+
+Installing
+----------
+
+kernel.img should be copied onto an SD card. The usual Videocore firmware
+files are also needed (start.elf, bootcode.bin, fixup.dat and config.txt).
+Optionally, cmdline.txt can be used to set the kernel command line. At the
+moment, this is just displayed on the screen rather then being used for
+anything.
+
+As the kernel takes up minimal space and has no filesystem requirement,
+almost any old SD card will do
+
+A recent firmware version is required. If the kernel doesn't boot, try the
+latest firmware files from
+https://github.com/raspberrypi/firmware/tree/master/boot
+
+
+Code overview
+-------------
+
+The kernel is loaded into memory at 0x8000 and starts running from that
+location, at _start in start.s, which sets up a stack, turns on unaligned
+memory accesses (it makes the memory routines simpler) and calls initsys().
+
+initsys() sets up the memory management unit (MMU) and remaps the kernel to
+0xf0000000, its data to 0xc0000000, and maps the physical memory and
+peripherals to 0x80000000. It then jumps to main() at its new address.
+
+main() further initialises memory, along with the led (GPIO16) and
+framebuffer.
+
+If the framebuffer initialisation fails for any reason, an error code is
+flashed on the LED in a permanent loop (long pause, 2 short flashes in quick
+succession, then 8 bits. Short flash = 0, long flash = 1. Least significant
+bit first. See framebuffer.c for the meaning of the errors).
+
+The framebuffer is initialised using tag mailbox calls to VideoCore. First,
+a call is made to read the physical framebuffer size, then a call is made to
+set the size (physical and virtual) and depth (bits per pixel) and allocate
+a framebuffer. Finally, the framebuffer's pitch (bytes per pixel line) is
+read.
+
+It appears to be necessary to set the virtual size before allocating the
+framebuffer, but reading the physical size of the framebuffer returns an
+apparently sensible value (unless something silly has been set in
+config.txt). On boot, the virtual size is set to 2x2. If a framebuffer is
+allocated without reconfiguring the virtual size, the screen will consist of
+four very large virtual pixels.  Coloured red, green, yellow and blue, they
+produce the "rainbow" startup screen.
+
+A very basic text console has been added. This uses the SAA5050 teletext
+character set (taken from the datasheet:
+http://www-uxsup.csx.cam.ac.uk/~bjh21/BBCdata/SAA5050.pdf), partly because
+it looks quite nice and is a neat link to the BBC Micro, and partly because
+I already have the data from another project.
+
+The SAA5050 character set isn't totally ideal.  The # [ { ^ } ] ` _ | and \
+characters appear as other symbols (pound sign, left arrow, 1/4, up arrow,
+3/4, right arrow, long dash, #, double vertical line and 1/2, respectively).
+
+Having set up the framebuffer, the kernel then reads the ATAGs data set up
+by the bootloader and displays it on screen. The ATAGs format is documented
+here:
+http://www.simtec.co.uk/products/SWLINUX/files/booting_article.html#d0e428
+
+The ATAGs code will display most of the tags defined on that page, even
+where they are not obviously relevant to the Raspberry Pi. In practice, it
+seems the bootloader only sets up a handful of tags. It is possible to
+configure the bootloader to not set up ATAGs (disable_commandline_tags=1 in
+config.txt), but doing so will change the kernel's load address, and it will
+no longer work.
+
+Next, the kernel uses the tag mailbox to get various bits of data from
+Videocore to display on the screen, along with displaying the kernel code
+and data addresses.
+
+The kernel sets up interrupt vectors and enables the ARM timer
+interrupt. This interrupt is used to flash the OK LED.
+
+The kernel checks that it can't write to its own code area, before
+attempting to jump to 0x02100000, which resuts in a prefetch abort. Finally,
+in the prefetch abort routine, the kernel enters an infinite sleep loop.
+
+Files overview:
+	* Makefile		Controls the build process
+	* linkscript		Controls the linker - defines what order
+				code appears in the final kernel, and what
+				address it should expect to be loaded
+	* start.s		Assembly code to handle kernel entry point,
+				set up a stack and jump to initsys()
+	* initsys.c		Set up MMU, remap kernel addresses and jump
+				to main()
+	* barrier.h		Contains asm macros for data memory/sync
+				barriers, and full cache flush
+	* main.c		Contains main() and tag mailbox examples
+	* atags.c		Read and display ATAGs
+	* led.c			GPIO/OK LED control
+	* mailbox.c		Read/write the mailboxes
+	* framebuffer.c		Framebuffer initialisation and text console
+	* teletext.h		SAA5050 character set
+	* textutils.c		Couple of small routines to convert numbers
+				into text
+	* memutils.c		Routines to copy and clear memory areas
+	* divby0.c		If a division function in libgcc.a (which
+				might be called by a divide operation
+				somewhere in the code) attempts to divide by
+				zero, the function will call raise(), which
+				is defined in this file
+	* interrupts.c		Interrupt handling routines
+	* memory.c		Memory management

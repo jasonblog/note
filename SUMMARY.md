@@ -195,6 +195,7 @@
    * [linux下C與C++混合編程](linux_system/159.md)
    * [Static 與 Shared 的函式庫撰寫](linux_system/1510.md)
    * [Linux 的 time 指令](linux_system/1511.md)
+   * [孤儿进程与僵尸进程[总结]](linux_system/1512.md)
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

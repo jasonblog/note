@@ -43,9 +43,9 @@
 <tbody><tr><td>Ctrl+W+W</td><td>切換視窗</td></tr>
 <tr><td>:split 檔案名</td><td>開新視窗</td></tr>
 <tr><td>/</td><td>搜尋</td></tr>
-<tr><td>G</td><td>游標移到檔案結尾</td></tr>
-<tr><td>gg</td><td>游標移到檔案開頭</td></tr>
-<tr><td>:diffsplit</td><td>把視窗切成上下 並比較兩個檔案 游標會移動 用紅色標出不一樣之處</td></tr>
+<tr><td>G</td><td>遊標移到檔案結尾</td></tr>
+<tr><td>gg</td><td>遊標移到檔案開頭</td></tr>
+<tr><td>:diffsplit</td><td>把視窗切成上下 並比較兩個檔案 遊標會移動 用紅色標出不一樣之處</td></tr>
 <tr><td>Ctrl+V</td><td>Column Mode選取</td></tr>
 <tr><td>Shift+i</td><td>Column Mode Insert,此時只會顯示改一行,但是按下esc,就會全部都改了!</td></tr>
 <tr><td>:%s/abc/def/g</td><td>把abc置換為def</td></tr>

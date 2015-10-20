@@ -177,6 +177,8 @@ EOF
 
 qemu() {
     qemu-system-x86_64 \
+    -enable-kvm -m 1024 \
+    -localtime \
     -kernel obj/$LINUX_PALTFORM/arch/x86_64/boot/bzImage \
     -initrd obj/initramfs-$BUSYBOX_PALTFORM.cpio.gz \
     -serial stdio \

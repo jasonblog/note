@@ -268,6 +268,8 @@ EOF
 
 qemu() {
     qemu-system-x86_64 \
+    -enable-kvm -m 1024 \
+    -localtime \
     -kernel obj/$LINUX_PALTFORM/arch/x86_64/boot/bzImage \
     -initrd obj/initramfs-$BUSYBOX_PALTFORM.cpio.gz \
     -serial stdio \
@@ -351,8 +353,12 @@ pause() {
     fi
 }
 
-
+if [ ! -d "/sys/kernel/debug/tracing" ]; then
 mount -t debugfs none /sys/kernel/debug
+fi
+
+echo nop > /sys/kernel/debug/tracing/current_tracer
+echo 16384 > /sys/kernel/debug/tracing/buffer_size_kb
 echo 0 > /sys/kernel/debug/tracing/tracing_on
 echo  > /sys/kernel/debug/tracing/trace
 pause 'press any key to start capturing...'
@@ -365,6 +371,15 @@ echo "Start recordng ftrace data"
 pause "Press any key to stop..."
 echo "Recording stopped..."
 echo 0 > /sys/kernel/debug/tracing/tracing_on
+
+echo "copying [+]"
+time cp /sys/kernel/debug/tracing/trace ~/
+echo "copying [-]"
+
+FileDate=`date +%Y%m%d_%H%M%S`
+
+tar zcvf  "$FileDate".tar.gz trace
+tftp_push "$FileDate".tar.gz
 ```
 
 ```sh

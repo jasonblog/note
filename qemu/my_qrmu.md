@@ -367,6 +367,10 @@ echo function_graph > /sys/kernel/debug/tracing/current_tracer
 echo funcgraph-proc > /sys/kernel/debug/tracing/trace_options
 echo 1 > /sys/kernel/debug/tracing/tracing_on
 
+
+./fork
+
+
 echo "Start recordng ftrace data"
 pause "Press any key to stop..."
 echo "Recording stopped..."
@@ -380,6 +384,20 @@ FileDate=`date +%Y%m%d_%H%M%S`
 
 tar zcvf  "$FileDate".tar.gz trace
 tftp_push "$FileDate".tar.gz
+```
+
+- fork.c
+
+```c
+#include <unistd.h>
+#include <stdio.h>
+
+int main()
+{
+   fork();
+   printf("%d\n",getpid());
+   return 0;
+}
 ```
 
 ```sh

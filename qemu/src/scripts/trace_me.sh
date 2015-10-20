@@ -21,6 +21,15 @@ echo function_graph > /sys/kernel/debug/tracing/current_tracer
 echo funcgraph-proc > /sys/kernel/debug/tracing/trace_options
 echo 1 > /sys/kernel/debug/tracing/tracing_on
 
+
+
+
+
+./fork
+
+
+
+
 echo "Start recordng ftrace data"
 pause "Press any key to stop..."
 echo "Recording stopped..."

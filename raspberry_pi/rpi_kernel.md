@@ -5,7 +5,7 @@ Raspberry Pi 除了是個很方便的小玩具之外，同時也非常適合用�
 ## 取得編譯用的 toolchain 與工具
 
 
-若要進行跨平台編譯，相對應的 toolchain 是必要的，讓我們來說說如何取得 toolchain。
+若要進行跨平臺編譯，相對應的 toolchain 是必要的，讓我們來說說如何取得 toolchain。
 
 若你是 Gentoo Linux 的使用者，你可以透過 crossdev 建立專用的 toolchain，更完整的資訊，請參考 [Raspberry Pi - Gentoo Wiki](http://wiki.gentoo.org/wiki/Raspberry_Pi) 。
 
@@ -42,7 +42,7 @@ git branch -a
 - 修改當前 shell 的環境變數
 
 
-因為我們是進行跨平台編譯，因此編譯的時候要加入 `ARCH` 以及 `CROSS_COMPILE` 的參數，這邊採用偷懶的做法，直接將資訊覆蓋到目前的 shell 上，這樣在目前的 shell 就是用於編譯 arm 平台的開發環境了。
+因為我們是進行跨平臺編譯，因此編譯的時候要加入 `ARCH` 以及 `CROSS_COMPILE` 的參數，這邊採用偷懶的做法，直接將資訊覆蓋到目前的 shell 上，這樣在目前的 shell 就是用於編譯 arm 平臺的開發環境了。
 
 **註：若是在 Raspberry Pi 上進行編譯，此步驟可以省略。**
 

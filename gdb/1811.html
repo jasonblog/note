@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Doxygen | Jason note</title>
+        <title>用GDB追蹤glibc代碼執行過程 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../linux_tools/jdbshell.html" />
+    <link rel="next" href="../mooc_linux_kernel/index.html" />
     
     
-    <link rel="prev" href="../linux_tools/trace-cmd.html" />
+    <link rel="prev" href="../gdb/kgdb__linux_kernel_for_samsung.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="3.4" data-basepath=".." data-revision="Sun Nov 01 2015 02:36:14 GMT+0800 (CST)">
+    <div class="book" data-level="18.11" data-basepath=".." data-revision="Sun Nov 01 2015 02:36:14 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -755,7 +755,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="3.4" data-path="linux_tools/doxygen.html">
+        <li class="chapter " data-level="3.4" data-path="linux_tools/doxygen.html">
             
                 
                     <a href="../linux_tools/doxygen.html">
@@ -3884,7 +3884,7 @@
             
         </li>
     
-        <li class="chapter " data-level="18.11" data-path="gdb/1811.html">
+        <li class="chapter active" data-level="18.11" data-path="gdb/1811.html">
             
                 
                     <a href="../gdb/1811.html">
@@ -5850,25 +5850,95 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="doxygen">Doxygen</h1>
-<h3 id="%E7%B7%A8%E8%AD%AF%E5%B0%91%E4%BA%86-liconv">&#x7DE8;&#x8B6F;&#x5C11;&#x4E86; liconv</h3>
-<pre><code>src/Makefile.doxygen&#x52A0;&#x4E0A; -liconv
-
-LIBS    =   -L../lib -ldoxygen -ldoxycfg -lqtools -lmd5 -lpthread -liconv
-</code></pre><h3 id="%E7%95%AB-structure">&#x756B; Structure</h3>
-<pre><code>HAVE_DOT               = YES
-UML_LOOK               = YES
-RECURSIVE = YES
-</code></pre><h3 id="call-graph">Call Graph</h3>
-<pre><code>RECURSIVE = YES
-HAVE_DOT               = YES
-EXTRACT_ALL            = YES
-EXTRACT_PRIVATE        = YES
-EXTRACT_STATIC         = YES
-CALL_GRAPH             = YES
-</code></pre><h3 id="sed">sed</h3>
-<pre><code>sed -ri.bak &apos;/^RECURSIVE\s|^HAVE_DOT\s|^EXTRACT_ALL\s|^EXTRACT_PRIVATE\s|^EXTRACT_STATIC\s|^CALL_GRAPH\s|^CALLER_GRAPH\s/s/= NO/= YES/&apos; Doxyfile
+                        <h1 id="%E7%94%A8gdb%E8%BF%BD%E8%B9%A4glibc%E4%BB%A3%E7%A2%BC%E5%9F%B7%E8%A1%8C%E9%81%8E%E7%A8%8B">&#x7528;GDB&#x8FFD;&#x8E64;glibc&#x4EE3;&#x78BC;&#x57F7;&#x884C;&#x904E;&#x7A0B;</h1>
+<p>&#x6B32;&#x5584;&#x5176;&#x4E8B;&#xFF0C;&#x5FC5;&#x5148;&#x5229;&#x5176;&#x5668;&#x3002;
+&#x9996;&#x5148;&#x9700;&#x8981;&#x5B89;&#x88DD;&#x4E00;&#x4E0B;&#x984D;&#x5916;&#x7684;&#x5DE5;&#x5177;&#x5305;&#xFF0C;&#x4E00;&#x500B;&#x662F; libc6-dbg&#xFF0C;&#x9019;&#x662F;&#x5E36;&#x6709;debug symbol&#x4FE1;&#x606F;&#x7684; libc.so&#xFF1B;&#x53E6;&#x4E00;&#x500B;&#x662F;libc6-dev&#xFF0C;&#x9019;&#x662F;glibc&#x7684;&#x6E90;&#x4EE3;&#x78BC;&#xFF0C;&#x7372;&#x53D6;&#x4E4B;&#x5F8C;&#x6211;&#x5011;&#x5C31;&#x53EF;&#x4EE5;&#x5728;gdb&#x4E2D;&#x67E5;&#x770B;&#x4EE3;&#x78BC;&#x4E86;&#x3002;</p>
+<p>&#x5728;Ubuntu/Debian &#x7CFB;&#x7D71;&#x4E0A;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x4EE5;&#x4E0B;2&#x689D;&#x547D;&#x4EE4;&#x7372;&#x5F97;&#xFF1A;</p>
+<pre><code class="lang-c">$sudo apt-get install libc6-dbg
+$sudo apt-get source libc6-dev
 </code></pre>
+<p>&#x5728;Fedora/Red Hat &#x7CFB;&#x7684;OS&#x4E0A;&#xFF0C;&#x9700;&#x8981;&#x5B89;&#x88DD;&#x7684;&#x8EDF;&#x4EF6;&#x5305;&#x7684;&#x540D;&#x5B57;&#x4E0D;&#x53EB; libc6-dbg&#xFF0C;libc6-dev&#xFF0C;&#x8C8C;&#x4F3C;&#x61C9;&#x8A72;&#x662F;glibc-debuginfo&#x3002;</p>
+<p>&#x4E4B;&#x5F8C;&#xFF0C;&#x4EE5;&#x4E00;&#x6BB5;&#x5C0F;&#x7A0B;&#x5E8F;&#x70BA;&#x4F8B;&#x4F86;&#x6F14;&#x793A;&#x6574;&#x500B;&#x904E;&#x7A0B;&#xFF0C;&#x5C0F;&#x7A0B;&#x5E8F;&#x5305;&#x542B;&#x4E86;&#x4E00;&#x500B;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;fork()&#xFF0C;&#x4E00;&#x500B;&#x5EAB;&#x51FD;&#x6578;printf()</p>
+<ul>
+<li>myprog.c</li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">int</span> son;
+    <span class="hljs-keyword">if</span>((son=fork())==<span class="hljs-number">0</span>)
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;I am son\n&quot;</span>);
+    <span class="hljs-keyword">else</span>
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;I am farther\n&quot;</span>);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<pre><code>gcc -g myprog.c -o myprog
+</code></pre><p>&#x7136;&#x5F8C;&#x958B;&#x555F;gdb&#x8ABF;&#x8A66; $cgdb myprog</p>
+<ul>
+<li><code>no debugging symbols found)</code></li>
+</ul>
+<pre><code class="lang-sh">Reading symbols from /lib64/ld-linux-x86-<span class="hljs-number">64</span>.so.<span class="hljs-number">2</span>...(no debugging symbols found)...done.
+Loaded symbols <span class="hljs-keyword">for</span> /lib64/ld-linux-x86-<span class="hljs-number">64</span>.so.<span class="hljs-number">2</span>
+Reading symbols from system-supplied DSO at <span class="hljs-number">0</span>x7ffff7ffe000...(no debugging symbols found)...done.
+Reading symbols from /lib64/libc.so.<span class="hljs-number">6</span>...(no debugging symbols found)...done.
+Loaded symbols <span class="hljs-keyword">for</span> /lib64/libc.so.<span class="hljs-number">6</span>
+</code></pre>
+<p>&#x770B;&#x4F86;&#x6C92;&#x6709;&#x627E;&#x5230; glibc &#x7684; debuginfo</p>
+<ul>
+<li><code>/usr/lib/debug/lib64/libc-2.12.so.debug...done.</code></li>
+<li><code>show debug-file-directory</code></li>
+</ul>
+<pre><code class="lang-sh">(gdb) show debug-file-directory
+The directory <span class="hljs-built_in">where</span> separate debug symbols are searched <span class="hljs-keyword">for</span> is <span class="hljs-string">&quot;/usr/local/lib/debug&quot;</span>.
+
+(gdb) <span class="hljs-built_in">set</span> debug-file-directory /usr/lib/debug
+(gdb) r  &#x6709;&#x4E00;&#x500B;&#x518D;&#x6B21;&#x52A0;&#x8F09;&#x78BA;&#x8A8D;
+Loaded symbols <span class="hljs-keyword">for</span> /lib64/ld-linux-x86-<span class="hljs-number">64</span>.so.<span class="hljs-number">2</span>
+Reading symbols from system-supplied DSO at <span class="hljs-number">0</span>x7ffff7ffe000...(no debugging symbols found)...done.
+Reading symbols from /lib64/libc.so.<span class="hljs-number">6</span>...Reading symbols from /usr/lib/debug/lib64/libc-<span class="hljs-number">2.12</span>.so.debug...done.
+done.
+Loaded symbols <span class="hljs-keyword">for</span> /lib64/libc.so.<span class="hljs-number">6</span>
+</code></pre>
+<ul>
+<li>&#x5148;&#x7528; set debug-file-directory &#x6E2C;&#x8A66;&#x51FA;&#x5C0D;&#x61C9;&#x7A0B;&#x5F0F;&#x78BC;&#x8DEF;&#x5F91;</li>
+<li><code>../nptl/sysdeps/unix/sysv/linux/x86_64/../fork.c: No such file or directory.</code></li>
+</ul>
+<pre><code class="lang-sh">(gdb) <span class="hljs-built_in">set</span> debug-file-directory /usr/lib/debug
+(gdb) start
+Temporary breakpoint <span class="hljs-number">1</span> at <span class="hljs-number">0</span>x40055a: file myprog.c, line <span class="hljs-number">6</span>.
+Starting program: /media/shihyu/Toshiba/libc/myprog
+
+Temporary breakpoint <span class="hljs-number">1</span>, main () at myprog.c:<span class="hljs-number">6</span>
+(gdb) s
+__libc_fork () at ../nptl/sysdeps/unix/sysv/linux/x86_64/../fork.c:<span class="hljs-number">65</span>
+<span class="hljs-number">65</span>      ../nptl/sysdeps/unix/sysv/linux/x86_64/../fork.c: No such file or directory.
+(gdb)
+</code></pre>
+<ul>
+<li><p><code>&#x627E;&#x5230;&#x7A0B;&#x5F0F;&#x78BC;&#x8DEF;&#x5F91;&#x5728; /nptl/sysdeps/unix/sysv/linux/x86_64/../fork.c</code></p>
+</li>
+<li><p>show directories</p>
+</li>
+</ul>
+<pre><code class="lang-sh">Reading symbols from ./myprog...done.
+(gdb) <span class="hljs-built_in">set</span> debug-file-directory /usr/lib/debug
+(gdb) directory ./eglibc-<span class="hljs-number">2.19</span>/nptl
+Source directories searched: /media/shihyu/Toshiba/libc/./eglibc-<span class="hljs-number">2.19</span>/nptl:<span class="hljs-variable">$cdir</span>:<span class="hljs-variable">$cwd</span>
+(gdb) show directories
+Source directories searched: /media/shihyu/Toshiba/libc/./eglibc-<span class="hljs-number">2.19</span>/nptl:<span class="hljs-variable">$cdir</span>:<span class="hljs-variable">$cwd</span>
+(gdb) start
+Temporary breakpoint <span class="hljs-number">1</span> at <span class="hljs-number">0</span>x40055a: file myprog.c, line <span class="hljs-number">6</span>.
+Starting program: /media/shihyu/Toshiba/libc/myprog
+
+Temporary breakpoint <span class="hljs-number">1</span>, main () at myprog.c:<span class="hljs-number">6</span>
+warning: Source file is more recent than executable.
+(gdb) s
+__libc_fork () at ../nptl/sysdeps/unix/sysv/linux/x86_64/../fork.c:<span class="hljs-number">65</span>
+(gdb)
+</code></pre>
+
                     
                     </section>
                 
@@ -5878,10 +5948,10 @@ CALL_GRAPH             = YES
         </div>
 
         
-        <a href="../linux_tools/trace-cmd.html" class="navigation navigation-prev " aria-label="Previous page: trace-cmd"><i class="fa fa-angle-left"></i></a>
+        <a href="../gdb/kgdb__linux_kernel_for_samsung.html" class="navigation navigation-prev " aria-label="Previous page: KGDB  Linux Kernel for Samsung"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../linux_tools/jdbshell.html" class="navigation navigation-next " aria-label="Next page: Jdbshell"><i class="fa fa-angle-right"></i></a>
+        <a href="../mooc_linux_kernel/index.html" class="navigation navigation-next " aria-label="Next page: Linux內核分析雲課堂學習筆記"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

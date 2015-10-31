@@ -46,7 +46,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="32.3" data-basepath=".." data-revision="Sun Nov 01 2015 00:08:34 GMT+0800 (CST)">
+    <div class="book" data-level="32.3" data-basepath=".." data-revision="Sun Nov 01 2015 02:36:14 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -3882,6 +3882,21 @@
             
         </li>
     
+        <li class="chapter " data-level="18.11" data-path="gdb/1811.html">
+            
+                
+                    <a href="../gdb/1811.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>18.11.</b>
+                        
+                        用GDB追蹤glibc代碼執行過程
+                    </a>
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -5836,7 +5851,7 @@
                         <h1 id="%E8%87%AA%E5%B7%B1%E5%8B%95%E6%89%8B%E7%B7%A8%E8%AD%AF-raspberry-pi-%E7%9A%84-kernel">&#x81EA;&#x5DF1;&#x52D5;&#x624B;&#x7DE8;&#x8B6F; Raspberry Pi &#x7684; Kernel</h1>
 <p>Raspberry Pi &#x9664;&#x4E86;&#x662F;&#x500B;&#x5F88;&#x65B9;&#x4FBF;&#x7684;&#x5C0F;&#x73A9;&#x5177;&#x4E4B;&#x5916;&#xFF0C;&#x540C;&#x6642;&#x4E5F;&#x975E;&#x5E38;&#x9069;&#x5408;&#x7528;&#x4ED6;&#x4F86;&#x5B78;&#x7FD2;&#x548C; Linux &#x4EE5;&#x53CA; Linux Kernel &#x7684;&#x76F8;&#x95DC;&#x77E5;&#x8B58;&#xFF0C;&#x672C;&#x7BC7;&#x5C07;&#x8B1B;&#x89E3;&#x5982;&#x4F55;&#x81EA;&#x5DF1;&#x7DE8;&#x8B6F;&#x6700;&#x65B0;&#x7684; Linux Kernel &#x7D66;&#x4F60;&#x7684; Raspberry Pi &#x4F7F;&#x7528;&#x3002;</p>
 <h2 id="%E5%8F%96%E5%BE%97%E7%B7%A8%E8%AD%AF%E7%94%A8%E7%9A%84-toolchain-%E8%88%87%E5%B7%A5%E5%85%B7">&#x53D6;&#x5F97;&#x7DE8;&#x8B6F;&#x7528;&#x7684; toolchain &#x8207;&#x5DE5;&#x5177;</h2>
-<p>&#x82E5;&#x8981;&#x9032;&#x884C;&#x8DE8;&#x5E73;&#x53F0;&#x7DE8;&#x8B6F;&#xFF0C;&#x76F8;&#x5C0D;&#x61C9;&#x7684; toolchain &#x662F;&#x5FC5;&#x8981;&#x7684;&#xFF0C;&#x8B93;&#x6211;&#x5011;&#x4F86;&#x8AAA;&#x8AAA;&#x5982;&#x4F55;&#x53D6;&#x5F97; toolchain&#x3002;</p>
+<p>&#x82E5;&#x8981;&#x9032;&#x884C;&#x8DE8;&#x5E73;&#x81FA;&#x7DE8;&#x8B6F;&#xFF0C;&#x76F8;&#x5C0D;&#x61C9;&#x7684; toolchain &#x662F;&#x5FC5;&#x8981;&#x7684;&#xFF0C;&#x8B93;&#x6211;&#x5011;&#x4F86;&#x8AAA;&#x8AAA;&#x5982;&#x4F55;&#x53D6;&#x5F97; toolchain&#x3002;</p>
 <p>&#x82E5;&#x4F60;&#x662F; Gentoo Linux &#x7684;&#x4F7F;&#x7528;&#x8005;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x900F;&#x904E; crossdev &#x5EFA;&#x7ACB;&#x5C08;&#x7528;&#x7684; toolchain&#xFF0C;&#x66F4;&#x5B8C;&#x6574;&#x7684;&#x8CC7;&#x8A0A;&#xFF0C;&#x8ACB;&#x53C3;&#x8003; <a href="http://wiki.gentoo.org/wiki/Raspberry_Pi" target="_blank">Raspberry Pi - Gentoo Wiki</a> &#x3002;</p>
 <pre><code class="lang-c">Rosia rpi <span class="hljs-preprocessor"># crossdev -S -v -t armv6j-hardfloat-linux-gnueabi</span>
 </code></pre>
@@ -5862,7 +5877,7 @@ git branch <span class="hljs-operator">-a</span>
 <ul>
 <li>&#x4FEE;&#x6539;&#x7576;&#x524D; shell &#x7684;&#x74B0;&#x5883;&#x8B8A;&#x6578;</li>
 </ul>
-<p>&#x56E0;&#x70BA;&#x6211;&#x5011;&#x662F;&#x9032;&#x884C;&#x8DE8;&#x5E73;&#x53F0;&#x7DE8;&#x8B6F;&#xFF0C;&#x56E0;&#x6B64;&#x7DE8;&#x8B6F;&#x7684;&#x6642;&#x5019;&#x8981;&#x52A0;&#x5165; <code>ARCH</code> &#x4EE5;&#x53CA; <code>CROSS_COMPILE</code> &#x7684;&#x53C3;&#x6578;&#xFF0C;&#x9019;&#x908A;&#x63A1;&#x7528;&#x5077;&#x61F6;&#x7684;&#x505A;&#x6CD5;&#xFF0C;&#x76F4;&#x63A5;&#x5C07;&#x8CC7;&#x8A0A;&#x8986;&#x84CB;&#x5230;&#x76EE;&#x524D;&#x7684; shell &#x4E0A;&#xFF0C;&#x9019;&#x6A23;&#x5728;&#x76EE;&#x524D;&#x7684; shell &#x5C31;&#x662F;&#x7528;&#x65BC;&#x7DE8;&#x8B6F; arm &#x5E73;&#x53F0;&#x7684;&#x958B;&#x767C;&#x74B0;&#x5883;&#x4E86;&#x3002;</p>
+<p>&#x56E0;&#x70BA;&#x6211;&#x5011;&#x662F;&#x9032;&#x884C;&#x8DE8;&#x5E73;&#x81FA;&#x7DE8;&#x8B6F;&#xFF0C;&#x56E0;&#x6B64;&#x7DE8;&#x8B6F;&#x7684;&#x6642;&#x5019;&#x8981;&#x52A0;&#x5165; <code>ARCH</code> &#x4EE5;&#x53CA; <code>CROSS_COMPILE</code> &#x7684;&#x53C3;&#x6578;&#xFF0C;&#x9019;&#x908A;&#x63A1;&#x7528;&#x5077;&#x61F6;&#x7684;&#x505A;&#x6CD5;&#xFF0C;&#x76F4;&#x63A5;&#x5C07;&#x8CC7;&#x8A0A;&#x8986;&#x84CB;&#x5230;&#x76EE;&#x524D;&#x7684; shell &#x4E0A;&#xFF0C;&#x9019;&#x6A23;&#x5728;&#x76EE;&#x524D;&#x7684; shell &#x5C31;&#x662F;&#x7528;&#x65BC;&#x7DE8;&#x8B6F; arm &#x5E73;&#x81FA;&#x7684;&#x958B;&#x767C;&#x74B0;&#x5883;&#x4E86;&#x3002;</p>
 <p><strong>&#x8A3B;&#xFF1A;&#x82E5;&#x662F;&#x5728; Raspberry Pi &#x4E0A;&#x9032;&#x884C;&#x7DE8;&#x8B6F;&#xFF0C;&#x6B64;&#x6B65;&#x9A5F;&#x53EF;&#x4EE5;&#x7701;&#x7565;&#x3002;</strong></p>
 <pre><code class="lang-sh"><span class="hljs-built_in">export</span> ARCH=arm
 <span class="hljs-built_in">export</span> CROSS_COMPILE=armv6j-hardfloat-linux-gnueabi-

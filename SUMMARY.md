@@ -355,6 +355,7 @@
 * [Python](python/README.md)
    * [安裝 Jupyter](python/jupyter.md)
    * [編譯python & 安裝pip ](python/292.md)
+   * [pip 使用詳解](python/293.md)
 * [Vim](vim/README.md)
 * [TDD](tdd/README.md)
    * [程式設計師升級必練內功：TDD Kata](tdd/311.md)

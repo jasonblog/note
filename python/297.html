@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Android中Handler Runnable與Thread的區別詳解 | Jason note</title>
+        <title>Python常用的數學函數 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../android_note/android_service_native_service.html" />
+    <link rel="next" href="../vim/index.html" />
     
     
-    <link rel="prev" href="../android_note/handler_looper_message_runnable.html" />
+    <link rel="prev" href="../python/296.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="5.4" data-basepath=".." data-revision="Tue Nov 03 2015 00:38:47 GMT+0800 (CST)">
+    <div class="book" data-level="29.7" data-basepath=".." data-revision="Tue Nov 03 2015 00:38:47 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -866,7 +866,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="5.4" data-path="android_note/runnable_thread.html">
+        <li class="chapter " data-level="5.4" data-path="android_note/runnable_thread.html">
             
                 
                     <a href="../android_note/runnable_thread.html">
@@ -5682,7 +5682,7 @@
             
         </li>
     
-        <li class="chapter " data-level="29.7" data-path="python/297.html">
+        <li class="chapter active" data-level="29.7" data-path="python/297.html">
             
                 
                     <a href="../python/297.html">
@@ -5925,236 +5925,116 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="android%E4%B8%ADhandler-runnable%E8%88%87thread%E7%9A%84%E5%8D%80%E5%88%A5%E8%A9%B3%E8%A7%A3">Android&#x4E2D;Handler Runnable&#x8207;Thread&#x7684;&#x5340;&#x5225;&#x8A73;&#x89E3;</h1>
-<p>Android&#x4E2D;Handler&#x53EF;&#x4EE5;&#x7570;&#x6B65;&#x63A7;&#x5236;Runnable&#xFF0C;&#x90A3;&#x9EBC;&#x9019;&#x6A23;&#x505A;&#x65BC;Android&#x4E2D;&#x7684;Thread&#x6709;&#x4EC0;&#x9EBC;&#x5340;&#x5225;&#x5462;&#xFF1F;&#x672C;&#x6587;&#x5C07;&#x901A;&#x904E;&#x591A;&#x500B;&#x89D2;&#x5EA6;&#x4F86;&#x8B1B;&#x89E3;&#x9019;&#x500B;&#x554F;&#x984C;&#xFF0C;&#x8B80;&#x5B8C;&#x6B64;&#x6587;&#xFF0C;&#x76F8;&#x4FE1;&#x4F60;&#x6703;&#x5C0D;Android&#x4E2D;&#x7684;Handler Runnable&#x8207;Thread&#x6709;&#x4E00;&#x500B;&#x975E;&#x5E38;&#x5168;&#x9762;&#x7684;&#x77AD;&#x89E3;&#x3002;</p>
-<p>&#x5728;java&#x4E2D;&#x53EF;&#x6709;&#x5169;&#x7A2E;&#x65B9;&#x5F0F;&#x5BE6;&#x73FE;&#x591A;&#x7DDA;&#x7A0B;&#xFF0C;&#x4E00;&#x7A2E;&#x662F;&#x7E7C;&#x627F;Thread&#x985E;&#xFF0C;&#x4E00;&#x7A2E;&#x662F;&#x5BE6;&#x73FE;Runnable&#x63A5;&#x53E3;&#xFF1B;Thread&#x985E;&#x662F;&#x5728;java.lang&#x5305;&#x4E2D;&#x5B9A;&#x7FA9;&#x7684;&#x3002;&#x4E00;&#x500B;&#x985E;&#x53EA;&#x8981;&#x7E7C;&#x627F;&#x4E86;Thread&#x985E;&#x540C;&#x6642;&#x8986;&#x5BEB;&#x4E86;&#x672C;&#x985E;&#x4E2D;&#x7684;run()&#x65B9;&#x6CD5;&#x5C31;&#x53EF;&#x4EE5;&#x5BE6;&#x73FE;&#x591A;&#x7DDA;&#x7A0B;&#x64CD;&#x4F5C;&#x4E86;&#xFF0C;&#x4F46;&#x662F;&#x4E00;&#x500B;&#x985E;&#x53EA;&#x80FD;&#x7E7C;&#x627F;&#x4E00;&#x500B;&#x7236;&#x985E;&#xFF0C;&#x9019;&#x662F;&#x6B64;&#x65B9;&#x6CD5;&#x7684;&#x4FB7;&#x9650;&#x3002;</p>
-<pre><code class="lang-java"><span class="hljs-keyword">package</span> org.thread.demo;
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyThread</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Thread</span>
-</span>{
-    <span class="hljs-keyword">private</span> String name;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyThread</span><span class="hljs-params">(String name)</span>
-    </span>{
-        <span class="hljs-keyword">super</span>();
-        <span class="hljs-keyword">this</span>.name = name;
-    }
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span>
-    </span>{
-        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++) {
-            System.out.println(<span class="hljs-string">&quot;&#x7DDA;&#x7A0B;&#x958B;&#x59CB;&#xFF1A;&quot;</span> + <span class="hljs-keyword">this</span>.name + <span class="hljs-string">&quot;,i=&quot;</span> + i);
-        }
-    }
-}
-<span class="hljs-keyword">package</span> org.thread.demo;
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ThreadDemo01</span>
-</span>{
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span>
-    </span>{
-        MyThread mt1 = <span class="hljs-keyword">new</span> MyThread(<span class="hljs-string">&quot;&#x7DDA;&#x7A0B;a&quot;</span>);
-        MyThread mt2 = <span class="hljs-keyword">new</span> MyThread(<span class="hljs-string">&quot;&#x7DDA;&#x7A0B;b&quot;</span>);
-        mt1.run();
-        mt2.run();
-    }
-}
-</code></pre>
-<p>&#x4F46;&#x662F;&#xFF0C;&#x6B64;&#x6642;&#x7D50;&#x679C;&#x5F88;&#x6709;&#x898F;&#x5F8B;&#xFF0C;&#x5148;&#x7B2C;&#x4E00;&#x500B;&#x5C0D;&#x8C61;&#x57F7;&#x884C;&#xFF0C;&#x7136;&#x5F8C;&#x7B2C;&#x4E8C;&#x500B;&#x5C0D;&#x8C61;&#x57F7;&#x884C;&#xFF0C;&#x4E26;&#x6C92;&#x6709;&#x76F8;&#x4E92;&#x904B;&#x884C;&#x3002;&#x5728;JDK&#x7684;&#x6587;&#x6A94;&#x4E2D;&#x53EF;&#x4EE5;&#x767C;&#x73FE;&#xFF0C;&#x4E00;&#x65E6;&#x8ABF;&#x7528;start()&#x65B9;&#x6CD5;&#xFF0C;&#x5247;&#x6703;&#x901A;&#x904E;JVM&#x627E;&#x5230;run()&#x65B9;&#x6CD5;&#x3002;&#x4E0B;&#x9762;&#x555F;&#x52D5;start()&#x65B9;&#x6CD5;&#x555F;&#x52D5;&#x7DDA;&#x7A0B;&#xFF1A;</p>
-<pre><code class="lang-java"><span class="hljs-keyword">package</span> org.thread.demo;
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ThreadDemo01</span>
-</span>{
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span>
-    </span>{
-        MyThread mt1 = <span class="hljs-keyword">new</span> MyThread(<span class="hljs-string">&quot;&#x7DDA;&#x7A0B;a&quot;</span>);
-        MyThread mt2 = <span class="hljs-keyword">new</span> MyThread(<span class="hljs-string">&quot;&#x7DDA;&#x7A0B;b&quot;</span>);
-        mt1.start();
-        mt2.start();
-    }
-};
-</code></pre>
-<p>&#x9019;&#x6A23;&#x7A0B;&#x5E8F;&#x53EF;&#x4EE5;&#x6B63;&#x5E38;&#x5B8C;&#x6210;&#x4EA4;&#x4E92;&#x5F0F;&#x904B;&#x884C;&#x3002;&#x90A3;&#x9EBC;&#x70BA;&#x5565;&#x975E;&#x8981;&#x4F7F;&#x7528;start();&#x65B9;&#x6CD5;&#x555F;&#x52D5;&#x591A;&#x7DDA;&#x7A0B;&#x5462;&#xFF1F;</p>
-<p>&#x5728;JDK&#x7684;&#x5B89;&#x88DD;&#x8DEF;&#x5F91;&#x4E0B;&#xFF0C;src.zip&#x662F;&#x5168;&#x90E8;&#x7684;java&#x6E90;&#x7A0B;&#x5E8F;&#xFF0C;&#x901A;&#x904E;&#x6B64;&#x4EE3;&#x78BC;&#x627E;&#x5230;Thread&#x4E2D;&#x7684;start()&#x65B9;&#x6CD5;&#x7684;&#x5B9A;&#x7FA9;&#xFF0C;&#x53EF;&#x4EE5;&#x767C;&#x73FE;&#x6B64;&#x65B9;&#x6CD5;&#x4E2D;&#x4F7F;&#x7528;&#x4E86;private native void start0();&#x5176;&#x4E2D;native&#x95DC;&#x9375;&#x5B57;&#x8868;&#x793A;&#x53EF;&#x4EE5;&#x8ABF;&#x7528;&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x7684;&#x5E95;&#x5C64;&#x51FD;&#x6578;&#xFF0C;&#x90A3;&#x9EBC;&#x9019;&#x6A23;&#x7684;&#x6280;&#x8853;&#x6210;&#x70BA;JNI&#x6280;&#x8853;&#xFF08;java Native Interface&#xFF09;</p>
-<h3 id="runnable%E6%8E%A5%E5%8F%A3">Runnable&#x63A5;&#x53E3;</h3>
-<p>&#x5728;&#x5BE6;&#x969B;&#x958B;&#x767C;&#x4E2D;&#x4E00;&#x500B;&#x591A;&#x7DDA;&#x7A0B;&#x7684;&#x64CD;&#x4F5C;&#x5F88;&#x5C11;&#x4F7F;&#x7528;Thread&#x985E;&#xFF0C;&#x800C;&#x662F;&#x901A;&#x904E;Runnable&#x63A5;&#x53E3;&#x5B8C;&#x6210;&#x3002;</p>
-<pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">Runnable</span></span>{
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span></span>;
-}
+                        <h1 id="python%E5%B8%B8%E7%94%A8%E7%9A%84%E6%95%B8%E5%AD%B8%E5%87%BD%E6%95%B8">Python&#x5E38;&#x7528;&#x7684;&#x6578;&#x5B78;&#x51FD;&#x6578;</h1>
+<p>&#x5728;&#x6578;&#x5B78;&#x4E4B;&#x4E2D;&#xFF0C;&#x9664;&#x4E86;&#x52A0;&#x6E1B;&#x4E58;&#x9664;&#x56DB;&#x5247;&#x904B;&#x7B97;&#x4E4B;&#x5916;&#x2014;&#x2014;&#x9019;&#x662F;&#x5C0F;&#x5B78;&#x6578;&#x5B78;&#x2014;&#x2014;&#x9084;&#x6709;&#x5176;&#x5B83;&#x66F4;&#x591A;&#x7684;&#x904B;&#x7B97;&#xFF0C;&#x6BD4;&#x5982;&#x4E58;&#x65B9;&#x3001;&#x958B;&#x65B9;&#x3001;&#x5C0D;&#x6578;&#x904B;&#x7B97;&#x7B49;&#x7B49;&#xFF0C;&#x8981;&#x5BE6;&#x73FE;&#x9019;&#x4E9B;&#x904B;&#x7B97;&#xFF0C;&#x9700;&#x8981;&#x7528;&#x5230;python&#x4E2D;&#x7684;&#x4E00;&#x500B;&#x6A21;&#x584A;&#xFF1A;Math</p>
+<p>&#x6A21;&#x584A;(module)&#x662F;python&#x4E2D;&#x975E;&#x5E38;&#x91CD;&#x8981;&#x7684;&#x6771;&#x897F;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x628A;&#x5B83;&#x7406;&#x89E3;&#x70BA;python&#x7684;&#x64F4;&#x5C55;&#x5DE5;&#x5177;&#x3002;&#x63DB;&#x8A00;&#x4E4B;&#xFF0C;python&#x9ED8;&#x8A8D;&#x60C5;&#x6CC1;&#x4E0B;&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x4E9B;&#x53EF;&#x7528;&#x7684;&#x6771;&#x897F;&#xFF0C;&#x4F46;&#x662F;&#x9019;&#x4E9B;&#x9ED8;&#x8A8D;&#x60C5;&#x6CC1;&#x4E0B;&#x63D0;&#x4F9B;&#x7684;&#x9084;&#x9060;&#x9060;&#x4E0D;&#x80FD;&#x6EFF;&#x8DB3;&#x7DE8;&#x7A0B;&#x5BE6;&#x8E10;&#x7684;&#x9700;&#x8981;&#xFF0C;&#x65BC;&#x662F;&#x5C31;&#x6709;&#x4EBA;&#x5C08;&#x9580;&#x88FD;&#x4F5C;&#x4E86;&#x53E6;&#x5916;&#x4E00;&#x4E9B;&#x5DE5;&#x5177;&#x3002;&#x9019;&#x4E9B;&#x5DE5;&#x5177;&#x88AB;&#x7A31;&#x4E4B;&#x70BA;&#x201C;&#x6A21;&#x584A;&#x201D; &#x4EFB;&#x4F55;&#x4E00;&#x500B;pythoner&#x90FD;&#x53EF;&#x4EE5;&#x7DE8;&#x5BEB;&#x6A21;&#x584A;&#xFF0C;&#x4E26;&#x4E14;&#x628A;&#x9019;&#x4E9B;&#x6A21;&#x584A;&#x653E;&#x5230;&#x7DB2;&#x4E0A;&#x4F9B;&#x4ED6;&#x4EBA;&#x4F86;&#x4F7F;&#x7528;&#x3002; &#x7576;&#x5B89;&#x88DD;&#x597D;python&#x4E4B;&#x5F8C;&#xFF0C;&#x5C31;&#x6709;&#x4E00;&#x4E9B;&#x6A21;&#x584A;&#x9ED8;&#x8A8D;&#x5B89;&#x88DD;&#x4E86;&#xFF0C;&#x9019;&#x500B;&#x7A31;&#x4E4B;&#x70BA;&#x201C;&#x6A19;&#x6E96;&#x5EAB;&#x201D;&#xFF0C;&#x201C;&#x6A19;&#x6E96;&#x5EAB;&#x201D;&#x4E2D;&#x7684;&#x6A21;&#x584A;&#x4E0D;&#x9700;&#x8981;&#x5B89;&#x88DD;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x4F7F;&#x7528;&#x3002; &#x5982;&#x679C;&#x6C92;&#x6709;&#x7D0D;&#x5165;&#x6A19;&#x6E96;&#x5EAB;&#x7684;&#x6A21;&#x584A;&#xFF0C;&#x9700;&#x8981;&#x5B89;&#x88DD;&#x4E4B;&#x5F8C;&#x624D;&#x80FD;&#x4F7F;&#x7528;&#x3002;&#x6A21;&#x584A;&#x7684;&#x5B89;&#x88DD;&#x65B9;&#x6CD5;&#xFF0C;&#x6211;&#x7279;&#x5225;&#x63A8;&#x85A6;&#x4F7F;&#x7528;pip&#x4F86;&#x5B89;&#x88DD;&#x3002;&#x9019;&#x88E1;&#x50C5;&#x50C5;&#x63D0;&#x4E00;&#x4E0B;&#xFF0C;&#x5F8C;&#x9762;&#x6703;&#x5C08;&#x9580;&#x9032;&#x884C;&#x8B1B;&#x8FF0;&#xFF0C;&#x6027;&#x6025;&#x7684;&#x770B;&#x5B98;&#x53EF;&#x4EE5;&#x81EA;&#x5DF1;google&#x3002;</p>
+<h2 id="%E4%BD%BF%E7%94%A8math%E6%A8%A1%E5%A1%8A">&#x4F7F;&#x7528;math&#x6A21;&#x584A;</h2>
+<p>math&#x6A21;&#x584A;&#x662F;&#x6A19;&#x6E96;&#x5EAB;&#x4E2D;&#x7684;&#xFF0C;&#x6240;&#x4EE5;&#x4E0D;&#x7528;&#x5B89;&#x88DD;&#xFF0C;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x4F7F;&#x7528;&#x3002;&#x4F7F;&#x7528;&#x65B9;&#x6CD5;&#x662F;&#xFF1A;</p>
+<pre><code>&gt;&gt;&gt; import math
+</code></pre><p>&#x7528;import&#x5C31;&#x5C07;math&#x6A21;&#x584A;&#x5F15;&#x7528;&#x904E;&#x4F86;&#x4E86;&#xFF0C;&#x4E0B;&#x9762;&#x5C31;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x9019;&#x500B;&#x6A21;&#x584A;&#x63D0;&#x4F9B;&#x7684;&#x5DE5;&#x5177;&#x4E86;&#x3002;&#x6BD4;&#x5982;&#xFF0C;&#x8981;&#x5F97;&#x5230;&#x5713;&#x5468;&#x7387;&#xFF1A;</p>
+<pre><code>&gt;&gt;&gt; math.pi
+3.141592653589793
+</code></pre><p>&#x9019;&#x500B;&#x6A21;&#x584A;&#x90FD;&#x80FD;&#x505A;&#x54EA;&#x4E9B;&#x4E8B;&#x60C5;&#x5462;&#xFF1F;&#x53EF;&#x4EE5;&#x7528;&#x4E0B;&#x9762;&#x7684;&#x65B9;&#x6CD5;&#x770B;&#x5230;&#xFF1A;</p>
+<pre><code>&gt;&gt;&gt; dir(math)
+[&apos;__doc__&apos;, &apos;__name__&apos;, &apos;__package__&apos;, &apos;acos&apos;, &apos;acosh&apos;, &apos;asin&apos;, &apos;asinh&apos;, &apos;atan&apos;, &apos;atan2&apos;, &apos;atanh&apos;, &apos;ceil&apos;, &apos;copysign&apos;,
+&apos;cos&apos;, &apos;cosh&apos;, &apos;degrees&apos;, &apos;e&apos;, &apos;erf&apos;, &apos;erfc&apos;, &apos;exp&apos;, &apos;expm1&apos;, &apos;fabs&apos;, &apos;factorial&apos;, &apos;floor&apos;, &apos;fmod&apos;, &apos;frexp&apos;, &apos;fsum&apos;,
+ &apos;gamma&apos;, &apos;hypot&apos;, &apos;isinf&apos;, &apos;isnan&apos;, &apos;ldexp&apos;, &apos;lgamma&apos;, &apos;log&apos;, &apos;log10&apos;, &apos;log1p&apos;, &apos;modf&apos;, &apos;pi&apos;, &apos;pow&apos;, &apos;radians&apos;,
+  &apos;sin&apos;, &apos;sinh&apos;, &apos;sqrt&apos;, &apos;tan&apos;, &apos;tanh&apos;, &apos;trunc&apos;]
+</code></pre><p>dir(module)&#x662F;&#x4E00;&#x500B;&#x975E;&#x5E38;&#x6709;&#x7528;&#x7684;&#x6307;&#x4EE4;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x5B83;&#x67E5;&#x770B;&#x4EFB;&#x4F55;&#x6A21;&#x584A;&#x4E2D;&#x6240;&#x5305;&#x542B;&#x7684;&#x5DE5;&#x5177;&#x3002;&#x5F9E;&#x4E0A;&#x9762;&#x7684;&#x5217;&#x8868;&#x4E2D;&#x5C31;&#x53EF;&#x4EE5;&#x770B;&#x51FA;&#xFF0C;&#x5728;math&#x6A21;&#x584A;&#x4E2D;&#xFF0C;&#x53EF;&#x4EE5;&#x8A08;&#x7B97;&#x6B63;sin(a),cos(a),sqrt(a)......</p>
+<p>&#x9019;&#x4E9B;&#x6211;&#x5011;&#x7A31;&#x4E4B;&#x70BA;&#x51FD;&#x6578;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x5728;&#x6A21;&#x584A;math&#x4E2D;&#x63D0;&#x4F9B;&#x4E86;&#x5404;&#x985E;&#x8A08;&#x7B97;&#x7684;&#x51FD;&#x6578;&#xFF0C;&#x6BD4;&#x5982;&#x8A08;&#x7B97;&#x4E58;&#x65B9;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;pow&#x51FD;&#x6578;&#x3002;&#x4F46;&#x662F;&#xFF0C;&#x600E;&#x9EBC;&#x7528;&#x5462;&#xFF1F;</p>
+<p>python&#x662F;&#x4E00;&#x500B;&#x975E;&#x5E38;&#x5468;&#x5230;&#x7684;&#x59D1;&#x5A18;&#xFF0C;&#x5979;&#x65E9;&#x5C31;&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x500B;&#x547D;&#x4EE4;&#xFF0C;&#x8B93;&#x6211;&#x5011;&#x4F86;&#x67E5;&#x770B;&#x6BCF;&#x500B;&#x51FD;&#x6578;&#x7684;&#x4F7F;&#x7528;&#x65B9;&#x6CD5;&#x3002;</p>
+<pre><code>&gt;&gt;&gt; help(math.pow)
+</code></pre><p>&#x5728;&#x4EA4;&#x4E92;&#x6A21;&#x5F0F;&#x4E0B;&#x8F38;&#x5165;&#x4E0A;&#x9762;&#x7684;&#x6307;&#x4EE4;&#xFF0C;&#x7136;&#x5F8C;&#x56DE;&#x8ECA;&#xFF0C;&#x770B;&#x5230;&#x4E0B;&#x9762;&#x7684;&#x4FE1;&#x606F;&#xFF1A;</p>
+<p>Help on built-in function pow in module math:</p>
+<pre><code>pow(...)
+    pow(x, y)
 
-<span class="hljs-keyword">package</span> org.runnable.demo;
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyThread</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Runnable</span>
-</span>{
-    <span class="hljs-keyword">private</span> String name;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyThread</span><span class="hljs-params">(String name)</span>
-    </span>{
-        <span class="hljs-keyword">this</span>.name = name;
-    }
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span>
-    </span>{
-        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">100</span>; i++) {
-            System.out.println(<span class="hljs-string">&quot;&#x7DDA;&#x7A0B;&#x958B;&#x59CB;&#xFF1A;&quot;</span> + <span class="hljs-keyword">this</span>.name + <span class="hljs-string">&quot;,i=&quot;</span> + i);
-        }
-    }
-};
-</code></pre>
-<p>&#x4F46;&#x662F;&#x5728;&#x4F7F;&#x7528;Runnable&#x5B9A;&#x7FA9;&#x7684;&#x5B50;&#x985E;&#x4E2D;&#x6C92;&#x6709;start()&#x65B9;&#x6CD5;&#xFF0C;&#x53EA;&#x6709;Thread&#x985E;&#x4E2D;&#x624D;&#x6709;&#x3002;&#x6B64;&#x6642;&#x89C0;&#x5BDF;Thread&#x985E;&#xFF0C;&#x6709;&#x4E00;&#x500B;&#x69CB;&#x9020;&#x65B9;&#x6CD5;&#xFF1A;public Thread(Runnable targer)&#x6B64;&#x69CB;&#x9020;&#x65B9;&#x6CD5;&#x63A5;&#x53D7;Runnable&#x7684;&#x5B50;&#x985E;&#x5BE6;&#x4F8B;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#x53EF;&#x4EE5;&#x901A;&#x904E;Thread&#x985E;&#x4F86;&#x555F;&#x52D5;Runnable&#x5BE6;&#x73FE;&#x7684;&#x591A;&#x7DDA;&#x7A0B;&#x3002;&#xFF08;start()&#x53EF;&#x4EE5;&#x5354;&#x8ABF;&#x7CFB;&#x7D71;&#x7684;&#x8CC7;&#x6E90;&#xFF09;&#xFF1A;</p>
-<pre><code class="lang-java"><span class="hljs-keyword">package</span> org.runnable.demo;
-<span class="hljs-keyword">import</span> org.runnable.demo.MyThread;
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ThreadDemo01</span>
-</span>{
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span>
-    </span>{
-        MyThread mt1 = <span class="hljs-keyword">new</span> MyThread(<span class="hljs-string">&quot;&#x7DDA;&#x7A0B;a&quot;</span>);
-        MyThread mt2 = <span class="hljs-keyword">new</span> MyThread(<span class="hljs-string">&quot;&#x7DDA;&#x7A0B;b&quot;</span>);
-        <span class="hljs-keyword">new</span> Thread(mt1).start();
-        <span class="hljs-keyword">new</span> Thread(mt2).start();
-    }
-}
-</code></pre>
-<p>&#x5169;&#x7A2E;&#x5BE6;&#x73FE;&#x65B9;&#x5F0F;&#x7684;&#x5340;&#x5225;&#x548C;&#x806F;&#x7E6B;&#xFF1A;</p>
-<p>&#x5728;&#x7A0B;&#x5E8F;&#x958B;&#x767C;&#x4E2D;&#x53EA;&#x8981;&#x662F;&#x591A;&#x7DDA;&#x7A0B;&#x80AF;&#x5B9A;&#x6C38;&#x9060;&#x4EE5;&#x5BE6;&#x73FE;Runnable&#x63A5;&#x53E3;&#x70BA;&#x4E3B;&#xFF0C;&#x56E0;&#x70BA;&#x5BE6;&#x73FE;Runnable&#x63A5;&#x53E3;&#x76F8;&#x6BD4;&#x7E7C;&#x627F;Thread&#x985E;&#x6709;&#x5982;&#x4E0B;&#x597D;&#x8655;&#xFF1A;</p>
-<p>&#x907F;&#x514D;&#x9EDE;&#x7E7C;&#x627F;&#x7684;&#x4FB7;&#x9650;&#xFF0C;&#x4E00;&#x500B;&#x985E;&#x53EF;&#x4EE5;&#x7E7C;&#x627F;&#x591A;&#x500B;&#x63A5;&#x53E3;&#x3002;
-&#x9069;&#x5408;&#x65BC;&#x8CC7;&#x6E90;&#x7684;&#x5171;&#x4EAB;
-&#x4EE5;&#x8CE3;&#x7968;&#x7A0B;&#x5E8F;&#x70BA;&#x4F8B;&#xFF0C;&#x901A;&#x904E;Thread&#x985E;&#x5B8C;&#x6210;&#xFF1A;</p>
-<pre><code class="lang-java"><span class="hljs-keyword">package</span> org.demo.dff;
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyThread</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Thread</span>
-</span>{
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> ticket = <span class="hljs-number">10</span>;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span>
-    </span>{
-        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">20</span>; i++) {
-            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.ticket &gt; <span class="hljs-number">0</span>) {
-                System.out.println(<span class="hljs-string">&quot;&#x8CE3;&#x7968;&#xFF1A;ticket&quot;</span> + <span class="hljs-keyword">this</span>.ticket--);
-            }
-        }
-    }
-};
-</code></pre>
-<p>&#x4E0B;&#x9762;&#x901A;&#x904E;&#x4E09;&#x500B;&#x7DDA;&#x7A0B;&#x5C0D;&#x8C61;&#xFF0C;&#x540C;&#x6642;&#x8CE3;&#x7968;&#xFF1A;</p>
-<pre><code class="lang-java"><span class="hljs-keyword">package</span> org.demo.dff;
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ThreadTicket</span>
-</span>{
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span>
-    </span>{
-        MyThread mt1 = <span class="hljs-keyword">new</span> MyThread();
-        MyThread mt2 = <span class="hljs-keyword">new</span> MyThread();
-        MyThread mt3 = <span class="hljs-keyword">new</span> MyThread();
-        mt1.start();<span class="hljs-comment">//&#x6BCF;&#x500B;&#x7DDA;&#x7A0B;&#x90FD;&#x5404;&#x8CE3;&#x4E86;10&#x5F35;&#xFF0C;&#x5171;&#x8CE3;&#x4E86;30&#x5F35;&#x7968;</span>
-        mt2.start();<span class="hljs-comment">//&#x4F46;&#x5BE6;&#x969B;&#x53EA;&#x6709;10&#x5F35;&#x7968;&#xFF0C;&#x6BCF;&#x500B;&#x7DDA;&#x7A0B;&#x90FD;&#x8CE3;&#x81EA;&#x5DF1;&#x7684;&#x7968;</span>
-        mt3.start();<span class="hljs-comment">//&#x6C92;&#x6709;&#x9054;&#x5230;&#x8CC7;&#x6E90;&#x5171;&#x4EAB;</span>
-    }
-}
-</code></pre>
-<p>&#x5982;&#x679C;&#x7528;Runnable&#x5C31;&#x53EF;&#x4EE5;&#x5BE6;&#x73FE;&#x8CC7;&#x6E90;&#x5171;&#x4EAB;&#xFF0C;&#x4E0B;&#x9762;&#x770B;&#x4F8B;&#x5B50;&#xFF1A;</p>
-<pre><code class="lang-java"><span class="hljs-keyword">package</span> org.demo.runnable;
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyThread</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Runnable</span>
-</span>{
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> ticket = <span class="hljs-number">10</span>;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span>
-    </span>{
-        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">20</span>; i++) {
-            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.ticket &gt; <span class="hljs-number">0</span>) {
-                System.out.println(<span class="hljs-string">&quot;&#x8CE3;&#x7968;&#xFF1A;ticket&quot;</span> + <span class="hljs-keyword">this</span>.ticket--);
-            }
-        }
-    }
-}
+    Return x**y (x to the power of y).
+</code></pre><p>&#x9019;&#x88E1;&#x5C55;&#x793A;&#x4E86;math&#x6A21;&#x584A;&#x4E2D;&#x7684;pow&#x51FD;&#x6578;&#x7684;&#x4F7F;&#x7528;&#x65B9;&#x6CD5;&#x548C;&#x76F8;&#x95DC;&#x8AAA;&#x660E;&#x3002;</p>
+<p>&#x7B2C;&#x4E00;&#x884C;&#x610F;&#x601D;&#x662F;&#x8AAA;&#x9019;&#x88E1;&#x662F;math&#x6A21;&#x584A;&#x7684;&#x5167;&#x5EFA;&#x51FD;&#x6578;pow&#x5E6B;&#x52A9;&#x4FE1;&#x606F;&#xFF08;&#x6240;&#x8B02;built-in&#xFF0C;&#x7A31;&#x4E4B;&#x70BA;&#x5167;&#x5EFA;&#x51FD;&#x6578;&#xFF0C;&#x662F;&#x8AAA;&#x9019;&#x500B;&#x51FD;&#x6578;&#x662F;python&#x9ED8;&#x8A8D;&#x5C31;&#x6709;&#x7684;)</p>
+<p>&#x7B2C;&#x4E09;&#x884C;&#xFF0C;&#x8868;&#x793A;&#x9019;&#x500B;&#x51FD;&#x6578;&#x7684;&#x53C3;&#x6578;&#xFF0C;&#x6709;&#x5169;&#x500B;&#xFF0C;&#x4E5F;&#x662F;&#x51FD;&#x6578;&#x7684;&#x8ABF;&#x7528;&#x65B9;&#x5F0F;</p>
+<p>&#x7B2C;&#x56DB;&#x884C;&#xFF0C;&#x662F;&#x5C0D;&#x51FD;&#x6578;&#x7684;&#x8AAA;&#x660E;&#xFF0C;&#x8FD4;&#x56DE;x<strong>y&#x7684;&#x7D50;&#x679C;&#xFF0C;&#x4E26;&#x4E14;&#x5728;&#x5F8C;&#x9762;&#x89E3;&#x91CB;&#x4E86;x</strong>y&#x7684;&#x542B;&#x7FA9;&#x3002;</p>
+<p>&#x6700;&#x5F8C;&#xFF0C;&#x6309;q&#x9375;&#x8FD4;&#x56DE;&#x5230;python&#x4EA4;&#x4E92;&#x6A21;&#x5F0F;</p>
+<p>&#x5F9E;&#x4E0A;&#x9762;&#x770B;&#x5230;&#x4E86;&#x4E00;&#x500B;&#x984D;&#x5916;&#x7684;&#x4FE1;&#x606F;&#xFF0C;&#x5C31;&#x662F;pow&#x51FD;&#x6578;&#x548C;x**y&#x662F;&#x7B49;&#x6548;&#x7684;&#xFF0C;&#x90FD;&#x662F;&#x8A08;&#x7B97;x&#x7684;y&#x6B21;&#x65B9;&#x3002;</p>
+<pre><code>&gt;&gt;&gt; 4**2
+16
+&gt;&gt;&gt; math.pow(4,2)
+16.0
+&gt;&gt;&gt; 4*2
+8
+</code></pre><p>&#x7279;&#x5225;&#x6CE8;&#x610F;&#xFF0C;4<em>*2&#x548C;4</em>2&#x662F;&#x6709;&#x5F88;&#x5927;&#x5340;&#x5225;&#x7684;&#x3002;</p>
+<p>&#x7528;&#x985E;&#x4F3C;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x53EF;&#x4EE5;&#x67E5;&#x770B;math&#x6A21;&#x584A;&#x4E2D;&#x7684;&#x4EFB;&#x4F55;&#x4E00;&#x500B;&#x51FD;&#x6578;&#x7684;&#x4F7F;&#x7528;&#x65B9;&#x6CD5;&#x3002;</p>
+<p>&#x95DC;&#x65BC;&#x201C;&#x51FD;&#x6578;&#x201D;&#x7684;&#x554F;&#x984C;&#xFF0C;&#x5728;&#x9019;&#x88E1;&#x4E0D;&#x505A;&#x6DF1;&#x5165;&#x95E1;&#x8FF0;&#xFF0C;&#x770B;&#x7BA1;&#x59D1;&#x4E14;&#x6309;&#x7167;&#x81EA;&#x5DF1;&#x5728;&#x6578;&#x5B78;&#x4E2D;&#x6240;&#x5B78;&#x5230;&#x53BB;&#x7406;&#x89E3;&#x3002;&#x5F8C;&#x9762;&#x6703;&#x6709;&#x5C08;&#x9580;&#x7814;&#x7A76;&#x51FD;&#x6578;&#x7684;&#x7AE0;&#x7BC0;&#x3002;</p>
+<p>&#x4E0B;&#x9762;&#x662F;&#x5E7E;&#x500B;&#x5E38;&#x7528;&#x7684;math&#x6A21;&#x584A;&#x4E2D;&#x51FD;&#x6578;&#x8209;&#x4F8B;&#xFF0C;&#x770B;&#x5B98;&#x53EF;&#x4EE5;&#x7D50;&#x5408;&#x81EA;&#x5DF1;&#x8ABF;&#x8A66;&#x7684;&#x9032;&#x884C;&#x6BD4;&#x7167;&#x3002;</p>
+<pre><code>&gt;&gt;&gt; math.sqrt(9)
+3.0
+&gt;&gt;&gt; math.floor(3.14)
+3.0
+&gt;&gt;&gt; math.floor(3.92)
+3.0
+&gt;&gt;&gt; math.fabs(-2)    #&#x7B49;&#x50F9;&#x65BC;abs(-2)
+2.0
+&gt;&gt;&gt; abs(-2)
+2
+&gt;&gt;&gt; math.fmod(5,3)    #&#x7B49;&#x50F9;&#x65BC;5%3
+2.0
+&gt;&gt;&gt; 5%3
+2
+</code></pre><h2 id="%E5%B9%BE%E5%80%8B%E5%B8%B8%E8%A6%8B%E5%87%BD%E6%95%B8">&#x5E7E;&#x500B;&#x5E38;&#x898B;&#x51FD;&#x6578;</h2>
+<p>&#x6709;&#x5E7E;&#x500B;&#x5E38;&#x7528;&#x7684;&#x51FD;&#x6578;&#xFF0C;&#x5217;&#x4E00;&#x4E0B;&#xFF0C;&#x5982;&#x679C;&#x8A18;&#x4E0D;&#x4F4F;&#x4E5F;&#x4E0D;&#x8981;&#x7DCA;&#xFF0C;&#x77E5;&#x9053;&#x6709;&#x9019;&#x4E9B;&#x5C31;&#x597D;&#x4E86;&#xFF0C;&#x7528;&#x7684;&#x6642;&#x5019;&#x5C31;google&#x3002;</p>
+<h3 id="%E6%B1%82%E7%B5%95%E5%B0%8D%E5%80%BC">&#x6C42;&#x7D55;&#x5C0D;&#x503C;</h3>
+<pre><code>&gt;&gt;&gt; abs(10)
+10
+&gt;&gt;&gt; abs(-10)
+10
+&gt;&gt;&gt; abs(-1.2)
+1.2
+</code></pre><h3 id="%E5%9B%9B%E6%8D%A8%E4%BA%94%E5%85%A5">&#x56DB;&#x6368;&#x4E94;&#x5165;</h3>
+<pre><code>&gt;&gt;&gt; round(1.234)
+1.0
+&gt;&gt;&gt; round(1.234,2)
+1.23
+</code></pre><p>&#x5982;&#x679C;&#x4E0D;&#x6E05;&#x695A;&#x9019;&#x500B;&#x51FD;&#x6578;&#x7684;&#x7528;&#x6CD5;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x4E0B;&#x9762;&#x65B9;&#x6CD5;&#x770B;&#x5E6B;&#x52A9;&#x4FE1;&#x606F;</p>
+<pre><code>&gt;&gt;&gt; help(round)
 
-<span class="hljs-keyword">package</span> org.demo.runnable;
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RunnableTicket</span>
-</span>{
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span>
-    </span>{
-        MyThread mt = <span class="hljs-keyword">new</span> MyThread();
-        <span class="hljs-keyword">new</span> Thread(
-            mt).start();<span class="hljs-comment">//&#x540C;&#x4E00;&#x500B;mt&#xFF0C;&#x4F46;&#x662F;&#x5728;Thread&#x4E2D;&#x5C31;&#x4E0D;&#x53EF;&#x4EE5;&#xFF0C;&#x5982;&#x679C;&#x7528;&#x540C;&#x4E00;</span>
-        <span class="hljs-keyword">new</span> Thread(mt).start();<span class="hljs-comment">//&#x500B;&#x5BE6;&#x4F8B;&#x5316;&#x5C0D;&#x8C61;mt&#xFF0C;&#x5C31;&#x6703;&#x51FA;&#x73FE;&#x7570;&#x5E38;</span>
-        <span class="hljs-keyword">new</span> Thread(mt).start();
-    }
-};
-</code></pre>
-<p>&#x96D6;&#x7136;&#x73FE;&#x5728;&#x7A0B;&#x5E8F;&#x4E2D;&#x6709;&#x4E09;&#x500B;&#x7DDA;&#x7A0B;&#xFF0C;&#x4F46;&#x662F;&#x4E00;&#x5171;&#x8CE3;&#x4E86;10&#x5F35;&#x7968;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#x4F7F;&#x7528;Runnable&#x5BE6;&#x73FE;&#x591A;&#x7DDA;&#x7A0B;&#x53EF;&#x4EE5;&#x9054;&#x5230;&#x8CC7;&#x6E90;&#x5171;&#x4EAB;&#x76EE;&#x7684;&#x3002;
-Runnable&#x63A5;&#x53E3;&#x548C;Thread&#x4E4B;&#x9593;&#x7684;&#x806F;&#x7E6B;&#xFF1A;</p>
-<pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Thread</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Object</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Runnable</span>
-</span></code></pre>
-<p>&#x767C;&#x73FE;Thread&#x985E;&#x4E5F;&#x662F;Runnable&#x63A5;&#x53E3;&#x7684;&#x5B50;&#x985E;&#x3002;</p>
-<p>&#x7B2C;&#x4E8C;&#xFF1A;</p>
-<p>Thread&#x662F;&#x7CFB;&#x7D71;&#x7D66;&#x4F60;&#x7684;&#x8CC7;&#x6E90;&#xFF0C;&#x6709;&#x4E86;Thread&#x4F60;&#x624D;&#x6709;&#x5F9E;CPU&#x90A3;&#x88E1;&#x5F97;&#x5230;&#x53EF;&#x57F7;&#x884C;&#x6642;&#x9593;&#x7247;&#x7684;&#x6B0A;&#x529B;&#xFF0C; Thread&#x4E26;&#x4E0D;&#x8A8D;&#x8B58;&#x4F60;&#x7684;&#x7A0B;&#x5E8F;&#xFF0C;&#x4E0D;&#x77E5;&#x9053;&#x6709;test &#x9019;&#x6A23;&#x7684;&#x985E;&#xFF0C;&#x56E0;&#x70BA;&#x7DE8;&#x5E8F;&#x54E1;&#x6709;&#x5343;&#x5343;&#x842C;&#xFF0C;&#x6BCF;&#x500B;&#x4EBA;&#x547D;&#x540D;&#x90FD;&#x4E0D;&#x4E00;&#x6A23;&#xFF0C;&#x60F3;&#x8981;&#x505A;&#x7684;&#x4E8B;&#x90FD;&#x4E0D;&#x4E00;&#x6A23;&#xFF0C; &#x6240;&#x4EE5; Thread&#x53EA;&#x8A8D;&#x8B58;&#x4E00;&#x500B;&#xFF01; &#x90A3;&#x5C31;&#x662F;Runnable &#x3002; Thread&#x8A8D;&#x8B58;Runnable &#x4E26;&#x4E14;&#x77E5;&#x9053;Runnable &#x88E1;&#x9762;&#x6709;&#x4E00;&#x500B;run&#x65B9;&#x6CD5;. &#x4E00;&#x65E6;&#x8ABF;&#x7528;Thread&#x7684;start&#x65B9;&#x6CD5;&#xFF0C;Runnable &#x65B9;&#x6CD5;&#x88E1;&#x7684;run&#x5C31;&#x6703;&#x88AB;Thread&#x81EA;&#x52D5;&#x904B;&#x884C;&#x3002; &#x6240;&#x4EE5;&#xFF0C;&#x7576;&#x6211;&#x5011;&#x628A;&#x6211;&#x5011;&#x7684;&#x985E;&#x7E7C;&#x627F;&#xFF08;&#x9019;&#x88E1;&#x61C9;&#x8A72;&#x53EB;&#x5BE6;&#x73FE;&#x63A5;&#x53E3;&#xFF09;&#x81EA;Runnable &#x7684;&#x6642;&#x5019;&#xFF0C;&#x6211;&#x5011;&#x7684;&#x7A0B;&#x5E8F;&#x5C31;&#x662F;&#x5C6C;&#x65BC;Runnable &#x4E00;&#x500B;&#x985E;&#x578B;&#x7684;&#x4E86;&#x3002; &#x96D6;&#x7136;&#x662F;Runnable &#x7684;&#x5B50;&#x985E;&#xFF0C;&#x4F46;&#x4EBA;&#x5BB6;&#x8A8D;&#x8B58;&#x4F60;&#x7238;&#x7238;&#xFF0C;&#x7576;&#x7136;&#x4E5F;&#x77E5;&#x9053;&#x4E86;&#x4F60;&#x3002; Thread&#x53EF;&#x4EE5;&#x4E0D;&#x7BA1;&#x4F60;&#x5167;&#x90E8;&#x6709;&#x4EC0;&#x9EBC;&#x60C5;&#x6CC1;&#xFF0C;&#x4ED6;&#x53EA;&#x7BA1;&#x4F60;&#x6709;run()&#x65B9;&#x6CD5;&#x5C31;&#x884C;&#x4E86;&#xFF0C;&#x4ED6;&#x5C31;&#x8ABF;start&#x8B93;&#x4F60;&#x53BB;&#x904B;&#x884C;run &#x6240;&#x4EE5;&#x6211;&#x5011;&#x5728;run&#x88E1;&#x9762;&#x5BEB;&#x9EDE;&#x6771;&#x897F;&#xFF0C;&#x9019;&#x6A23;&#x5C31;&#x53EF;&#x4EE5;&#x8B93;&#x7CFB;&#x7D71;&#x904B;&#x884C;&#x6211;&#x5011;&#x60F3;&#x8981;&#x505A;&#x7684;&#x4EE3;&#x78BC;&#x4E86;&#x3002; &#x662F;&#x4E0D;&#x662F;&#x5F88;&#x901A;&#x4FD7;&#x5F88;&#x6613;&#x61C2;&#x5462;&#xFF1F; &#x6240;&#x4EE5;&#x8981;&#x904B;&#x884C;&#x7DDA;&#x7A0B;&#x7684;&#x6B65;&#x9A5F;&#x662F;&#xFF0C; 1&#x3002;&#x751F;&#x6210;&#x6211;&#x5011;&#x81EA;&#x5DF1;&#x7684;&#x985E;&#x5C0D;&#x8C61; 2&#x3002;&#x5F9E;&#x7CFB;&#x7D71;&#x90A3;&#x88E1;&#x5F97;&#x5230;Thread 3&#x3002;&#x8B93;Threa&#x8ABF;&#x6211;&#x5011;&#x7684;&#x985E;&#x5C0D;&#x8C61;&#xFF0C;&#x8B93;&#x5176;start&#x8D77;&#x4F86; &#x4EE3;&#x78BC;: test a=new test(); Thread thread=new Thread(a); //Thread&#x9700;&#x8981;&#x4E00;&#x500B;&#x53C3;&#x6578;&#xFF0C;&#x5C31;&#x662F;&#x4F60;&#x7DE8;&#x7684;&#x7DDA;&#x7A0B;&#x985E;&#xFF0C;&#x9019;&#x6A23;&#x4ED6;&#x5C31;&#x8A8D;&#x8B58;&#x4E86;&#x4F60;&#x7684;&#x7DDA;&#x7A0B;&#xFF0C;&#x4E5F;&#x6709;&#x8CC7;&#x683C;&#x5411;&#x7CFB;&#x7D71;&#x7533;&#x8ACB;&#x62FF;&#x5230;CPU&#x6642;&#x9593;&#x7247;thread.start(); &#x4F60;&#x53EF;&#x4EE5;&#x7C21;&#x55AE;&#x9EDE;&#x5BEB;&#xFF1A; new Thread(a).start();</p>
-<p>&#x7B2C;&#x4E09;&#xFF1A;
-Runnable &#x4E26;&#x4E0D;&#x4E00;&#x5B9A;&#x662F;&#x65B0;&#x958B;&#x4E00;&#x500B;&#x7DDA;&#x7A0B;&#xFF0C;&#x6BD4;&#x5982;&#x4E0B;&#x9762;&#x7684;&#x8ABF;&#x7528;&#x65B9;&#x6CD5;&#x5C31;&#x662F;&#x904B;&#x884C;&#x5728;UI&#x4E3B;&#x7DDA;&#x7A0B;&#x4E2D;&#x7684;&#xFF1A;</p>
-<pre><code class="lang-java">Handler mHandler = <span class="hljs-keyword">new</span> Handler();
-mHandler.post(<span class="hljs-keyword">new</span> Runnable()
-{
-    <span class="hljs-annotation">@Override</span> <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-comment">// TODO Auto-generated method stub</span>
-    }
-});
-</code></pre>
-<p>&#x5B98;&#x65B9;&#x5C0D;&#x9019;&#x500B;&#x65B9;&#x6CD5;&#x7684;&#x89E3;&#x91CB;&#x5982;&#x4E0B;&#xFF0C;&#x6CE8;&#x610F;&#x5176;&#x4E2D;&#x7684;&#xFF1A;&#x300C;The runnable will be run on the user interface thread. &#x300D;</p>
-<pre><code>boolean android.view.View .post(Runnable action)
-Causes the Runnable to be added to the message queue. The runnable will be run on the user interface thread.
-Parameters:
-action The Runnable that will be executed.
-Returns:
-Returns true if the Runnable was successfully placed in to the message queue. Returns false on failure, usually because the looper processing the message queue is exiting.
-</code></pre><p>&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x8ABF;&#x7528;handler&#x7684;post&#x65B9;&#x6CD5;&#xFF0C;&#x628A;Runnable&#x5C0D;&#x8C61;&#xFF08;&#x4E00;&#x822C;&#x662F;Runnable&#x7684;&#x5B50;&#x985E;&#xFF09;&#x50B3;&#x904E;&#x53BB;&#xFF1B;handler&#x6703;&#x5728;looper&#x4E2D;&#x8ABF;&#x7528;&#x9019;&#x500B;Runnable&#x7684;Run&#x65B9;&#x6CD5;&#x57F7;&#x884C;&#x3002;</p>
-<p>Runnable&#x662F;&#x4E00;&#x500B;&#x63A5;&#x53E3;&#xFF0C;&#x4E0D;&#x662F;&#x4E00;&#x500B;&#x7DDA;&#x7A0B;&#xFF0C;&#x4E00;&#x822C;&#x7DDA;&#x7A0B;&#x6703;&#x5BE6;&#x73FE;Runnable&#x3002;&#x6240;&#x4EE5;&#x5982;&#x679C;&#x6211;&#x5011;&#x4F7F;&#x7528;&#x533F;&#x540D;&#x5167;&#x90E8;&#x985E;&#x662F;&#x904B;&#x884C;&#x5728;UI&#x4E3B;&#x7DDA;&#x7A0B;&#x7684;&#xFF0C;&#x5982;&#x679C;&#x6211;&#x5011;&#x4F7F;&#x7528;&#x5BE6;&#x73FE;&#x9019;&#x500B;Runnable&#x63A5;&#x53E3;&#x7684;&#x7DDA;&#x7A0B;&#x985E;&#xFF0C;&#x5247;&#x662F;&#x904B;&#x884C;&#x5728;&#x5C0D;&#x61C9;&#x7DDA;&#x7A0B;&#x7684;&#x3002;</p>
-<p>&#x5177;&#x9AD4;&#x4F86;&#x8AAA;&#xFF0C;&#x9019;&#x500B;&#x51FD;&#x6578;&#x7684;&#x5DE5;&#x4F5C;&#x539F;&#x7406;&#x5982;&#x4E0B;&#xFF1A;</p>
-<p>View.post(Runnable)&#x65B9;&#x6CD5;&#x3002;&#x5728;post(Runnable action)&#x65B9;&#x6CD5;&#x88E1;&#xFF0C;View&#x7372;&#x5F97;&#x7576;&#x524D;&#x7DDA;&#x7A0B;&#xFF08;&#x5373;UI&#x7DDA;&#x7A0B;&#xFF09;&#x7684;Handler&#xFF0C;&#x7136;&#x5F8C;&#x5C07;action&#x5C0D;&#x8C61;post&#x5230;Handler&#x88E1;&#x3002;&#x5728;Handler&#x88E1;&#xFF0C;&#x5B83;&#x5C07;&#x50B3;&#x905E;&#x904E;&#x4F86;&#x7684;action&#x5C0D;&#x8C61;&#x5305;&#x88DD;&#x6210;&#x4E00;&#x500B;Message&#xFF08;Message&#x7684;callback&#x70BA;action&#xFF09;&#xFF0C;&#x7136;&#x5F8C;&#x5C07;&#x5176;&#x6295;&#x5165;UI&#x7DDA;&#x7A0B;&#x7684;&#x6D88;&#x606F;&#x5FAA;&#x74B0;&#x4E2D;&#x3002;&#x5728;Handler&#x518D;&#x6B21;&#x8655;&#x7406;&#x8A72;Message&#x6642;&#xFF0C;&#x6709;&#x4E00;&#x689D;&#x5206;&#x652F;&#xFF08;&#x672A;&#x89E3;&#x91CB;&#x7684;&#x90A3;&#x689D;&#xFF09;&#x5C31;&#x662F;&#x70BA;&#x5B83;&#x6240;&#x8A2D;&#xFF0C;&#x76F4;&#x63A5;&#x8ABF;&#x7528;runnable&#x7684;run&#x65B9;&#x6CD5;&#x3002;&#x800C;&#x6B64;&#x6642;&#xFF0C;&#x5DF2;&#x7D93;&#x8DEF;&#x7531;&#x5230;UI&#x7DDA;&#x7A0B;&#x88E1;&#xFF0C;&#x56E0;&#x6B64;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x6BEB;&#x7121;&#x9867;&#x616E;&#x7684;&#x4F86;&#x66F4;&#x65B0;UI&#x3002;</p>
-<p>&#x5982;&#x4E0B;&#x5716;&#xFF0C;&#x524D;&#x9762;&#x770B;&#x5230;&#x7684;&#x4EE3;&#x78BC;&#xFF0C;&#x6211;&#x5011;&#x9019;&#x88E1;Message&#x7684;callback&#x70BA;&#x4E00;&#x500B;Runnable&#x7684;&#x533F;&#x540D;&#x5167;&#x90E8;&#x985E;</p>
-<p>&#x9019;&#x7A2E;&#x60C5;&#x6CC1;&#x4E0B;&#xFF0C;&#x7531;&#x65BC;&#x4E0D;&#x662F;&#x5728;&#x65B0;&#x7684;&#x7DDA;&#x7A0B;&#x4E2D;&#x4F7F;&#x7528;&#xFF0C;&#x6240;&#x4EE5;&#x5343;&#x842C;&#x5225;&#x505A;&#x8907;&#x96DC;&#x7684;&#x8A08;&#x7B97;&#x908F;&#x8F2F;&#x3002;
-<img src="images/201305281015122.png" alt="images"></p>
-<p>&#x7B2C;&#x56DB;&#xFF1A;&#x5728;&#x591A;&#x7DDA;&#x7A0B;&#x7DE8;&#x7A0B;&#x9019;&#x584A;&#xFF0C;&#x6211;&#x5011;&#x7D93;&#x5E38;&#x8981;&#x4F7F;&#x7528;Handler&#xFF0C;Thread&#x548C;Runnable&#x9019;&#x4E09;&#x500B;&#x985E;&#xFF0C;&#x90A3;&#x9EBC;&#x4ED6;&#x5011;&#x4E4B;&#x9593;&#x7684;&#x95DC;&#x4FC2;&#x4F60;&#x662F;&#x5426;&#x5F04;&#x6E05;&#x695A;&#x4E86;&#x5462;?
-&#x9996;&#x5148;&#x8AAA;&#x660E;Android&#x7684;CPU&#x5206;&#x914D;&#x7684;&#x6700;&#x5C0F;&#x55AE;&#x5143;&#x662F;&#x7DDA;&#x7A0B;&#xFF0C;Handler&#x4E00;&#x822C;&#x662F;&#x5728;&#x67D0;&#x500B;&#x7DDA;&#x7A0B;&#x88E1;&#x5275;&#x5EFA;&#x7684;&#xFF0C;&#x56E0;&#x800C;Handler&#x548C;Thread&#x5C31;&#x662F;&#x76F8;&#x4E92;&#x7D81;&#x5B9A;&#x7684;&#xFF0C;&#x4E00;&#x4E00;&#x5C0D;&#x61C9;&#x3002;</p>
-<p>&#x800C;Runnable&#x662F;&#x4E00;&#x500B;&#x63A5;&#x53E3;&#xFF0C;Thread&#x662F;Runnable&#x7684;&#x5B50;&#x985E;&#x3002;&#x6240;&#x4EE5;&#x8AAA;&#xFF0C;&#x4ED6;&#x5006;&#x90FD;&#x7B97;&#x4E00;&#x500B;&#x9032;&#x7A0B;&#x3002;</p>
-<p>HandlerThread&#x9867;&#x540D;&#x601D;&#x7FA9;&#x5C31;&#x662F;&#x53EF;&#x4EE5;&#x8655;&#x7406;&#x6D88;&#x606F;&#x5FAA;&#x74B0;&#x7684;&#x7DDA;&#x7A0B;&#xFF0C;&#x4ED6;&#x662F;&#x4E00;&#x500B;&#x64C1;&#x6709;Looper&#x7684;&#x7DDA;&#x7A0B;&#xFF0C;&#x53EF;&#x4EE5;&#x8655;&#x7406;&#x6D88;&#x606F;&#x5FAA;&#x74B0;&#x3002;</p>
-<p>&#x8207;&#x5176;&#x8AAA;Handler&#x548C;&#x4E00;&#x500B;&#x7DDA;&#x7A0B;&#x7D81;&#x5B9A;&#xFF0C;&#x4E0D;&#x5982;&#x8AAA;Handler&#x662F;&#x548C;Looper&#x4E00;&#x4E00;&#x5C0D;&#x61C9;&#x7684;&#x3002;</p>
-<p>&#x6700;&#x5F8C;&#x9700;&#x8981;&#x8AAA;&#x660E;&#x7684;&#x662F;&#xFF0C;&#x5728;UI&#x7DDA;&#x7A0B;(&#x4E3B;&#x7DDA;&#x7A0B;)&#x4E2D;&#xFF1A;</p>
-<pre><code class="lang-java">mHandler = <span class="hljs-keyword">new</span> Handler();
-mHandler.post(<span class="hljs-keyword">new</span> Runnable()
-{
-    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-comment">//&#x57F7;&#x884C;&#x4EE3;&#x78BC;...</span>
+Help on built-in function round in module __builtin__:
 
-    }
+round(...)
+    round(number[, ndigits]) -&gt; floating point number
 
-});
-
-&#x3000;&#x3000;&#x9019;&#x500B;&#x7DDA;&#x7A0B;&#x5176;&#x5BE6;&#x662F;&#x5728;UI&#x7DDA;&#x7A0B;&#x4E4B;&#x5167;&#x904B;&#x884C;&#x7684;&#xFF0C;&#x4E26;&#x6C92;&#x6709;&#x65B0;&#x5EFA;&#x7DDA;&#x7A0B;&#x3002;
-&#x3000;&#x3000;&#x5E38;&#x898B;&#x7684;&#x65B0;&#x5EFA;&#x7DDA;&#x7A0B;&#x7684;&#x65B9;&#x6CD5;&#x662F;&#xFF1A;
-&#x3000;&#x3000;Thread thread = <span class="hljs-keyword">new</span> Thread();
-&#x3000;&#x3000;thread.start();
-&#x3000;&#x3000;HandlerThread thread = <span class="hljs-keyword">new</span> HandlerThread(<span class="hljs-string">&quot;string&quot;</span>);
-&#x3000;&#x3000;thread.start();
-</code></pre>
-<p>&#x7B2C;&#x4E94;&#xFF1A;Java Runnable&#x63A5;&#x53E3;&#x5728;&#x9032;&#x884C;&#x76F8;&#x95DC;&#x7DE8;&#x5BEB;&#x7684;&#x6642;&#x5019;&#x9700;&#x8981;&#x6211;&#x5011;&#x4E0D;&#x65B7;&#x7684;&#x5B78;&#x7FD2;&#x76F8;&#x95DC;&#x4EE3;&#x78BC;&#x3002;&#x4E0B;&#x9762;&#x6211;&#x5011;&#x5C31;&#x4F86;&#x770B;&#x70AB;&#x5982;&#x4F55;&#x624D;&#x80FD;&#x4F7F;&#x7528;&#x76F8;&#x95DC;&#x7684;&#x4EE3;&#x78BC;&#x3002;Runnable&#x63A5;&#x53E3;&#x53EA;&#x6709;&#x4E00;&#x500B;&#x65B9;&#x6CD5;run()&#xFF0C;&#x6211;&#x5011;&#x8072;&#x660E;&#x81EA;&#x5DF1;&#x7684;&#x985E;&#x5BE6;&#x73FE;Runnable&#x63A5; &#x53E3;&#x4E26;&#x63D0;&#x4F9B;&#x9019;&#x4E00;&#x65B9;&#x6CD5;&#xFF0C;&#x5C07;&#x6211;&#x5011;&#x7684;&#x7DDA;&#x7A0B;&#x4EE3;&#x78BC;&#x5BEB;&#x5165;&#x5176;&#x4E2D;&#xFF0C;&#x5C31;&#x5B8C;&#x6210;&#x4E86;&#x9019;&#x4E00;&#x90E8;&#x5206;&#x7684;&#x4EFB;&#x52D9;&#x3002;</p>
-<p>&#x4F46;&#x662F;Runnable&#x63A5;&#x53E3;&#x4E26;&#x6C92;&#x6709;&#x4EFB;&#x4F55;&#x5C0D;&#x7DDA;&#x7A0B;&#x7684;&#x652F;&#x6301;&#xFF0C;&#x6211;&#x5011;&#x9084;&#x5FC5;&#x9808;&#x5275;&#x5EFA;Thread&#x985E; &#x7684;&#x5BE6;&#x4F8B;&#xFF0C;&#x9019;&#x4E00;&#x9EDE;&#x901A;&#x904E;Thread&#x985E;&#x7684;&#x69CB;&#x9020;&#x51FD;&#x6578;public Thread(Runnable target);&#x4F86;&#x5BE6;&#x73FE;&#x3002;&#x4E0B;&#x9762;&#x662F;&#x4E00;&#x500B;&#x4F8B;&#x5B50;&#xFF1A;</p>
-<pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyThread</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Runnable</span>
-</span>{
-    <span class="hljs-keyword">int</span> count = <span class="hljs-number">1</span>, number;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyThread</span><span class="hljs-params">(<span class="hljs-keyword">int</span> num)</span>
-    </span>{
-        numnumber = num;
-        System.out.println(<span class="hljs-string">&quot;&#x5275;&#x5EFA;&#x7DDA;&#x7A0B; &quot;</span> + number);
-    }
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span>
-    </span>{
-        <span class="hljs-keyword">while</span> (<span class="hljs-keyword">true</span>) {
-            System.out.println
-            (<span class="hljs-string">&quot;&#x7DDA;&#x7A0B; &quot;</span> + number + <span class="hljs-string">&quot;:&#x8A08;&#x6578; &quot;</span> + count);
-
-            <span class="hljs-keyword">if</span> (++count == <span class="hljs-number">6</span>) {
-                <span class="hljs-keyword">return</span>;
-            }
-        }
-    }
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String args[])</span>
-    </span>{
-        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &#x3008; <span class="hljs-number">5</span>;
-             i++) {
-            <span class="hljs-keyword">new</span> Thread(<span class="hljs-keyword">new</span> MyThread(i + <span class="hljs-number">1</span>)).start();
-        }
-    }
-}
-</code></pre>
-<p>&#x56B4;&#x683C;&#x5730;&#x8AAA;&#xFF0C;&#x5275;&#x5EFA;Thread&#x5B50;&#x985E;&#x7684;&#x5BE6;&#x4F8B;&#x4E5F;&#x662F;&#x53EF;&#x884C;&#x7684;&#xFF0C;&#x4F46;&#x662F;&#x5FC5;&#x9808;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C;&#x8A72;&#x5B50;&#x985E;&#x5FC5;&#x9808;&#x6C92;&#x6709;&#x8986;&#x84CB; Thread &#x985E;&#x7684; run &#x65B9;&#x6CD5;&#xFF0C;&#x5426;&#x5247;&#x8A72;&#x7DDA;&#x7A0B;&#x57F7;&#x884C;&#x7684;&#x5C07;&#x662F;&#x5B50;&#x985E;&#x7684; run &#x65B9;&#x6CD5;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x6211;&#x5011;&#x7528;&#x4EE5;&#x5BE6;&#x73FE;Runnable &#x63A5;&#x53E3;&#x7684;&#x985E;&#x7684; run &#x65B9;&#x6CD5;&#xFF0C;&#x5C0D;&#x6B64;&#x5927;&#x5BB6;&#x4E0D;&#x59A8;&#x8A66;&#x9A57;&#x4E00;&#x4E0B;&#x3002;</p>
-<p>&#x4F7F;&#x7528; Java Runnable&#x63A5;&#x53E3;&#x4F86;&#x5BE6;&#x73FE;&#x591A;&#x7DDA;&#x7A0B;&#x4F7F;&#x5F97;&#x6211;&#x5011;&#x80FD;&#x5920;&#x5728;&#x4E00;&#x500B;&#x985E;&#x4E2D;&#x5305;&#x5BB9;&#x6240;&#x6709;&#x7684;&#x4EE3;&#x78BC;&#xFF0C;&#x6709;&#x5229;&#x65BC;&#x5C01;&#x88DD;&#xFF0C;&#x5B83;&#x7684;&#x7F3A;&#x9EDE;&#x5728;&#x65BC;&#xFF0C;&#x6211;&#x5011;&#x53EA;&#x80FD;&#x4F7F;&#x7528;&#x4E00;&#x5957;&#x4EE3;&#x78BC;&#xFF0C;&#x82E5;&#x60F3;&#x5275;&#x5EFA;&#x591A;&#x500B;&#x7DDA;&#x7A0B;&#x4E26;&#x4F7F;&#x5404;&#x500B;&#x7DDA;&#x7A0B;&#x57F7;&#x884C;&#x4E0D;&#x540C;&#x7684;&#x4EE3; &#x78BC;&#xFF0C;&#x5247;&#x4ECD;&#x5FC5;&#x9808;&#x984D;&#x5916;&#x5275;&#x5EFA;&#x985E;&#xFF0C;&#x5982;&#x679C;&#x9019;&#x6A23;&#x7684;&#x8A71;&#xFF0C;&#x5728;&#x5927;&#x591A;&#x6578;&#x60C5;&#x6CC1;&#x4E0B;&#x4E5F;&#x8A31;&#x9084;&#x4E0D;&#x5982;&#x76F4;&#x63A5;&#x7528;&#x591A;&#x500B;&#x985E;&#x5206;&#x5225;&#x7E7C;&#x627F; Thread &#x4F86;&#x5F97;&#x7DCA;&#x6E4A;&#x3002;</p>
+    Round a number to a given precision in decimal digits (default 0 digits).
+    This always returns a floating point number.  Precision may be negative.
+</code></pre><h2 id="%E9%81%8B%E7%AE%97%E5%84%AA%E5%85%88%E7%B4%9A">&#x904B;&#x7B97;&#x512A;&#x5148;&#x7D1A;</h2>
+<p>&#x5F9E;&#x5C0F;&#x5B78;&#x6578;&#x5B78;&#x958B;&#x59CB;&#xFF0C;&#x5C31;&#x7814;&#x7A76;&#x904B;&#x7B97;&#x512A;&#x5148;&#x7D1A;&#x7684;&#x554F;&#x984C;&#xFF0C;&#x6BD4;&#x5982;&#x56DB;&#x5247;&#x904B;&#x7B97;&#x4E2D;&#x201C;&#x5148;&#x4E58;&#x9664;&#xFF0C;&#x5F8C;&#x52A0;&#x6E1B;&#x201D;&#xFF0C;&#x8AAA;&#x660E;&#x4E58;&#x6CD5;&#x3001;&#x9664;&#x6CD5;&#x7684;&#x512A;&#x5148;&#x7D1A;&#x8981;&#x9AD8;&#x65BC;&#x52A0;&#x6E1B;&#x3002;</p>
+<p>&#x5C0D;&#x65BC;&#x540C;&#x4E00;&#x7D1A;&#x5225;&#x7684;&#xFF0C;&#x5C31;&#x6309;&#x7167;&#x201C;&#x5F9E;&#x5DE6;&#x5230;&#x53F3;&#x201D;&#x7684;&#x9806;&#x5E8F;&#x9032;&#x884C;&#x8A08;&#x7B97;&#x3002;</p>
+<p>&#x4E0B;&#x9762;&#x7684;&#x8868;&#x683C;&#x4E2D;&#x5217;&#x51FA;&#x4E86;python&#x4E2D;&#x7684;&#x5404;&#x7A2E;&#x904B;&#x7B97;&#x7684;&#x512A;&#x5148;&#x7D1A;&#x9806;&#x5E8F;&#x3002;&#x4E0D;&#x904E;&#xFF0C;&#x5C31;&#x4E00;&#x822C;&#x60C5;&#x6CC1;&#x800C;&#x8A00;&#xFF0C;&#x4E0D;&#x9700;&#x8981;&#x8A18;&#x61B6;&#xFF0C;&#x5B8C;&#x5168;&#x53EF;&#x4EE5;&#x6309;&#x7167;&#x6578;&#x5B78;&#x4E2D;&#x7684;&#x53BB;&#x7406;&#x89E3;&#xFF0C;&#x56E0;&#x70BA;&#x4EBA;&#x985E;&#x65E2;&#x7136;&#x5DF2;&#x7D93;&#x767C;&#x660E;&#x77AD;&#x6578;&#x5B78;&#xFF0C;&#x5728;&#x8A08;&#x7B97;&#x6A5F;&#x4E2D;&#x9032;&#x884C;&#x7684;&#x904B;&#x7B97;&#x5C31;&#x4E0D;&#x9700;&#x8981;&#x5F9E;&#x65B0;&#x7DE8;&#x5BEB;&#x4E00;&#x5957;&#x65B0;&#x898F;&#x7BC4;&#x4E86;&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x7B26;&#x5408;&#x6578;&#x5B78;&#x4E2D;&#x7684;&#x5373;&#x53EF;&#x3002;</p>
+<pre><code>&#x904B;&#x7B97;&#x7B26;    &#x63CF;&#x8FF0;
+lambda    Lambda&#x8868;&#x9054;&#x5F0F;
+or    &#x5E03;&#x723E;&#x201C;&#x6216;&#x201D;
+and    &#x5E03;&#x723E;&#x201C;&#x8207;&#x201D;
+not x    &#x5E03;&#x723E;&#x201C;&#x975E;&#x201D;
+in&#xFF0C;not in    &#x6210;&#x54E1;&#x6E2C;&#x8A66;
+is&#xFF0C;is not    &#x540C;&#x4E00;&#x6027;&#x6E2C;&#x8A66;
+&lt;&#xFF0C;&lt;=&#xFF0C;&gt;&#xFF0C;&gt;=&#xFF0C;!=&#xFF0C;==    &#x6BD4;&#x8F03;
+|    &#x6309;&#x4F4D;&#x6216;
+^    &#x6309;&#x4F4D;&#x7570;&#x6216;
+&amp;    &#x6309;&#x4F4D;&#x8207;
+&lt;&lt;&#xFF0C;&gt;&gt;    &#x79FB;&#x4F4D;
++&#xFF0C;-    &#x52A0;&#x6CD5;&#x8207;&#x6E1B;&#x6CD5;
+*&#xFF0C;/&#xFF0C;%    &#x4E58;&#x6CD5;&#x3001;&#x9664;&#x6CD5;&#x8207;&#x53D6;&#x9918;
++x&#xFF0C;-x    &#x6B63;&#x8CA0;&#x865F;
+~x    &#x6309;&#x4F4D;&#x7FFB;&#x8F49;
+**    &#x6307;&#x6578;
+x.attribute    &#x5C6C;&#x6027;&#x53C3;&#x8003;
+x[index]    &#x4E0B;&#x6A19;
+x[index:index]    &#x5C0B;&#x5740;&#x6BB5;
+f(arguments...)    &#x51FD;&#x6578;&#x8ABF;&#x7528;
+(experession,...)    &#x7D81;&#x5B9A;&#x6216;&#x5143;&#x7D44;&#x986F;&#x793A;
+[expression,...]    &#x5217;&#x8868;&#x986F;&#x793A;
+{key:datum,...}    &#x5B57;&#x5178;&#x986F;&#x793A;
+&apos;expression,...&apos;    &#x5B57;&#x7B26;&#x4E32;&#x8F49;&#x63DB;
+</code></pre><p>&#x4E0A;&#x9762;&#x7684;&#x8868;&#x683C;&#x5C07;python&#x4E2D;&#x7528;&#x5230;&#x7684;&#x8207;&#x904B;&#x7B97;&#x7B26;&#x6709;&#x95DC;&#x7684;&#x90FD;&#x5217;&#x51FA;&#x4F86;&#x4E86;&#xFF0C;&#x662F;&#x6309;&#x7167;&#x5F9E;&#x4F4E;&#x5230;&#x9AD8;&#x7684;&#x9806;&#x5E8F;&#x5217;&#x51FA;&#x7684;&#x3002;&#x96D6;&#x7136;&#x6709;&#x5F88;&#x591A;&#x9084;&#x4E0D;&#x77E5;&#x9053;&#x662F;&#x600E;&#x9EBC;&#x56DE;&#x4E8B;&#xFF0C;&#x4E0D;&#x904E;&#x5148;&#x5217;&#x51FA;&#x4F86;&#xFF0C;&#x7B49;&#x4EE5;&#x5F8C;&#x7528;&#x5230;&#x4E86;&#xFF0C;&#x9084;&#x53EF;&#x4EE5;&#x56DE;&#x4F86;&#x67E5;&#x770B;&#x3002;</p>
+<p>&#x6700;&#x5F8C;&#xFF0C;&#x8981;&#x63D0;&#x53CA;&#x7684;&#x662F;&#x904B;&#x7B97;&#x4E2D;&#x7684;&#x7D55;&#x6BBA;&#xFF1A;&#x62EC;&#x865F;&#x3002;&#x53EA;&#x8981;&#x6709;&#x62EC;&#x865F;&#xFF0C;&#x5C31;&#x5148;&#x8A08;&#x7B97;&#x62EC;&#x865F;&#x88E1;&#x9762;&#x7684;&#x3002;&#x9019;&#x662F;&#x6578;&#x5B78;&#x4E2D;&#x7684;&#x5171;&#x8B58;&#xFF0C;&#x7121;&#x9700;&#x89E3;&#x91CB;&#x3002;</p>
 
                     
                     </section>
@@ -6165,10 +6045,10 @@ mHandler.post(<span class="hljs-keyword">new</span> Runnable()
         </div>
 
         
-        <a href="../android_note/handler_looper_message_runnable.html" class="navigation navigation-prev " aria-label="Previous page: android的消息處理機制（圖+源碼分析）——Looper,Handler,Message"><i class="fa fa-angle-left"></i></a>
+        <a href="../python/296.html" class="navigation navigation-prev " aria-label="Previous page: 選擇Python科學計算發行版"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../android_note/android_service_native_service.html" class="navigation navigation-next " aria-label="Next page: Android Service與Native Service"><i class="fa fa-angle-right"></i></a>
+        <a href="../vim/index.html" class="navigation navigation-next " aria-label="Next page: Vim"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

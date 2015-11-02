@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>值傳遞 | Jason note</title>
+        <title>pip 使用詳解 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../simplelinux/array.html" />
+    <link rel="next" href="../vim/index.html" />
     
     
-    <link rel="prev" href="../simplelinux/243.html" />
+    <link rel="prev" href="../python/292.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="24.4" data-basepath=".." data-revision="Mon Nov 02 2015 22:39:31 GMT+0800 (CST)">
+    <div class="book" data-level="29.3" data-basepath=".." data-revision="Mon Nov 02 2015 22:39:31 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -5003,7 +5003,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="24.4" data-path="simplelinux/byval.html">
+        <li class="chapter " data-level="24.4" data-path="simplelinux/byval.html">
             
                 
                     <a href="../simplelinux/byval.html">
@@ -5622,7 +5622,7 @@
             
         </li>
     
-        <li class="chapter " data-level="29.3" data-path="python/293.html">
+        <li class="chapter active" data-level="29.3" data-path="python/293.html">
             
                 
                     <a href="../python/293.html">
@@ -5865,78 +5865,108 @@
                 
                     <section class="normal" id="section-">
                     
-                        <p><a name="top"></a></p>
-<h1 align="center">&#x503C;&#x50B3;&#x905E;
-</h1>
+                        <h1 id="pip-%E4%BD%BF%E7%94%A8%E8%A9%B3%E8%A7%A3">pip &#x4F7F;&#x7528;&#x8A73;&#x89E3;</h1>
+<h2 id="1%E3%80%81pip%E4%B8%8B%E8%BC%89%E5%AE%89%E8%A3%9D">1&#x3001;pip&#x4E0B;&#x8F09;&#x5B89;&#x88DD;</h2>
+<h3 id="1-1-pip%E4%B8%8B%E8%BC%89">1.1 pip&#x4E0B;&#x8F09;</h3>
+<pre><code class="lang-sh"><span class="hljs-comment"># wget &quot;https://pypi.python.org/packages/source/p/pip/pip-1.5.4.tar.gz#md5=834b2904f92d46aaa333267fb1c922bb&quot; --no-check-certificate</span>
+</code></pre>
+<h3 id="1-2-pip%E5%AE%89%E8%A3%9D">1.2 pip&#x5B89;&#x88DD;</h3>
+<pre><code class="lang-sh"><span class="hljs-comment"># tar -xzvf pip-1.5.4.tar.gz</span>
+<span class="hljs-comment"># cd pip-1.5.4</span>
+<span class="hljs-comment"># python setup.py install</span>
+</code></pre>
+<h2 id="2-pip%E4%BD%BF%E7%94%A8%E8%A9%B3%E8%A7%A3">2. pip&#x4F7F;&#x7528;&#x8A73;&#x89E3;</h2>
+<h3 id="2-1-pip%E5%AE%89%E8%A3%9D%E5%8C%85">2.1 pip&#x5B89;&#x88DD;&#x5305;</h3>
+<pre><code class="lang-sh"><span class="hljs-comment"># pip install SomePackage</span>
+[...]
+Successfully installed SomePackage
+</code></pre>
+<h3 id="2-2-pip%E6%9F%A5%E7%9C%8B%E5%B7%B2%E5%AE%89%E8%A3%9D%E7%9A%84%E5%8C%85">2.2 pip&#x67E5;&#x770B;&#x5DF2;&#x5B89;&#x88DD;&#x7684;&#x5305;</h3>
+<pre><code class="lang-sh"><span class="hljs-comment"># pip show --files SomePackage</span>
+  Name: SomePackage
+  Version: <span class="hljs-number">1.0</span>
+  Location: /my/env/lib/pythonx.x/site-packages
+  Files:
+   ../somepackage/__init__.py
+   [...]
+</code></pre>
+<h3 id="2-3-pip%E6%AA%A2%E6%9F%A5%E5%93%AA%E4%BA%9B%E5%8C%85%E9%9C%80%E8%A6%81%E6%9B%B4%E6%96%B0">2.3 pip&#x6AA2;&#x67E5;&#x54EA;&#x4E9B;&#x5305;&#x9700;&#x8981;&#x66F4;&#x65B0;</h3>
+<pre><code class="lang-sh"><span class="hljs-number">1</span>
+<span class="hljs-number">2</span>
+<span class="hljs-comment"># pip list --outdated</span>
+  SomePackage (Current: <span class="hljs-number">1.0</span> Latest: <span class="hljs-number">2.0</span>)
+</code></pre>
+<h3 id="2-4-pip%E5%8D%87%E7%B4%9A%E5%8C%85">2.4 pip&#x5347;&#x7D1A;&#x5305;</h3>
+<pre><code class="lang-sh"><span class="hljs-comment"># pip install --upgrade SomePackage</span>
+  [...]
+  Found existing installation: SomePackage <span class="hljs-number">1.0</span>
+  Uninstalling SomePackage:
+    Successfully uninstalled SomePackage
+  Running setup.py install <span class="hljs-keyword">for</span> SomePackage
+  Successfully installed SomePackage
+</code></pre>
+<h3 id="%E4%B8%8B%E9%9D%A2%E7%9A%84%E6%8C%87%E4%BB%A4%E4%B8%80%E6%AC%A1%E5%8D%87%E7%B4%9A%E6%89%80%E6%9C%89%E7%9A%84%E5%A5%97%E4%BB%B6%E4%BA%86%EF%BC%9A">&#x4E0B;&#x9762;&#x7684;&#x6307;&#x4EE4;&#x4E00;&#x6B21;&#x5347;&#x7D1A;&#x6240;&#x6709;&#x7684;&#x5957;&#x4EF6;&#x4E86;&#xFF1A;</h3>
+<pre><code class="lang-sh"><span class="hljs-keyword">for</span> component <span class="hljs-keyword">in</span> $(pip freeze | awk -F= <span class="hljs-string">&apos;{print $1}&apos;</span> | egrep -v <span class="hljs-string">&quot;#&quot;</span>); <span class="hljs-keyword">do</span> sudo pip install --upgrade <span class="hljs-string">&quot;<span class="hljs-variable">$component</span>&quot;</span>; <span class="hljs-keyword">done</span>
+</code></pre>
+<h3 id="2-5-pip%E5%8D%B8%E8%BC%89%E5%8C%85">2.5 pip&#x5378;&#x8F09;&#x5305;</h3>
+<pre><code class="lang-sh">$ pip uninstall SomePackage
+  Uninstalling SomePackage:
+    /my/env/lib/pythonx.x/site-packages/somepackage
+  Proceed (y/n)? y
+  Successfully uninstalled SomePackage
+</code></pre>
+<h2 id="3-pip%E4%BD%BF%E7%94%A8%E5%AF%A6%E4%BE%8B">3. pip&#x4F7F;&#x7528;&#x5BE6;&#x4F8B;</h2>
+<h3 id="3-1-%E5%AE%89%E8%A3%9Dredis">3.1 &#x5B89;&#x88DD;redis</h3>
+<pre><code class="lang-sh"><span class="hljs-comment"># pip install redis</span>
+</code></pre>
+<h3 id="3-2-%E5%8D%B8%E8%BC%89redis">3.2 &#x5378;&#x8F09;redis</h3>
+<pre><code class="lang-sh"><span class="hljs-comment"># pip uninstall redis</span>
+Uninstalling redis:
+  /usr/lib/python2.<span class="hljs-number">6</span>/site-packages/redis-<span class="hljs-number">2.9</span>.<span class="hljs-number">1</span>-py2.<span class="hljs-number">6</span>.egg-info
+.....&#x7701;&#x7565;&#x4E00;&#x4E9B;&#x5167;&#x5BB9;....
+Proceed (y/n)? y
+  Successfully uninstalled redis
+</code></pre>
+<h3 id="3-3-%E6%9F%A5%E7%9C%8B%E5%BE%85%E6%9B%B4%E6%96%B0%E5%8C%85">3.3 &#x67E5;&#x770B;&#x5F85;&#x66F4;&#x65B0;&#x5305;</h3>
+<pre><code class="lang-sh">pip list --outdate
+pygpgme (Current: <span class="hljs-number">0.1</span> Latest: <span class="hljs-number">0.3</span>)
+pycurl (Current: <span class="hljs-number">7.19</span>.<span class="hljs-number">0</span> Latest: <span class="hljs-number">7.19</span>.<span class="hljs-number">3.1</span>)
+iniparse (Current: <span class="hljs-number">0.3</span>.<span class="hljs-number">1</span> Latest: <span class="hljs-number">0.4</span>)
+</code></pre>
+<h2 id="4-%E5%B8%B8%E8%A6%8B%E9%8C%AF%E8%AA%A4">4. &#x5E38;&#x898B;&#x932F;&#x8AA4;</h2>
+<h3 id="4-1-importerror-no-module-named-setuptools">4.1 ImportError No module named setuptools</h3>
+<p><a href="http://www.ttlsa.com/python/importerror-no-module-named-setuptools-res/?preview=true" target="_blank">&#x8ACB;&#x53C3;&#x8003;&#x300A;ImportError No module named setuptools&#x89E3;&#x6C7A;&#x300B;</a></p>
+<h2 id="5-pip%E5%8F%83%E6%95%B8%E8%A7%A3%E9%87%8B">5. pip&#x53C3;&#x6578;&#x89E3;&#x91CB;</h2>
+<pre><code class="lang-sh"><span class="hljs-comment"># pip --help</span>
 
-<p>&#x3000;&#x3000;&#x5728;&#x51FD;&#x6578;&#x8ABF;&#x7528;&#x90A3;&#x4E00;&#x7BC7;&#x88E1;&#x5DF2;&#x7D93;&#x63ED;&#x958B;&#x4E86;&#x503C;&#x50B3;&#x905E;&#x7684;&#x771F;&#x76F8;&#xFF1A;
-<b>&#x5BE6;&#x53C3;&#x3001;&#x5F62;&#x53C3;&#x6709;&#x5404;&#x81EA;&#x7684;&#x5B58;&#x5132;&#x7A7A;&#x9593;&#xFF08;&#x5BE6;&#x53C3;&#x4E5F;&#x53EF;&#x80FD;&#x53EA;&#x662F;&#x4E00;&#x500B;&#x503C;&#xFF0C;
-&#x800C;&#x6C92;&#x6709;&#x5B58;&#x5132;&#x7A7A;&#x9593;&#xFF09;&#xFF0C;&#x5BE6;&#x53C3; -&gt; &#x5F62;&#x53C3;&#x662F;&#x500B;&#x503C;&#x62F7;&#x8C9D;&#x7684;&#x904E;&#x7A0B;&#xFF0C;
-&#x5728;&#x51FD;&#x6578;&#x8ABF;&#x7528;&#x524D;&#x5B8C;&#x6210;&#x4E86;&#x9019;&#x500B;&#x62F7;&#x8C9D;&#x904E;&#x7A0B;&#xFF0C;
-&#x6B64;&#x5F8C;&#x5982;&#x679C;&#x51FD;&#x6578;&#x4E2D;&#x5C0D;&#x5F62;&#x53C3;&#x9032;&#x884C;&#x4FEE;&#x6539;&#xFF0C;&#x5BE6;&#x53C3;&#x7684;&#x503C;&#x4E0D;&#x6703;&#x8DDF;&#x8457;&#x8B8A;&#x3002;</b></p>
-<p>&#x3000;&#x3000;&#x4F46;&#x4E26;&#x4E0D;&#x662F;&#x6211;&#x5011;&#x5C31;&#x6C92;&#x8FA6;&#x6CD5;&#x5728;&#x51FD;&#x6578;&#x4E2D;&#x4FEE;&#x6539;&#x5916;&#x90E8;&#x8B8A;&#x91CF;&#x4E86;&#xFF0C;
-&#x7528;&#x6307;&#x91DD;&#x5C31;&#x597D;&#x4E86;&#xFF0C;&#x6211;&#x5011;&#x4E0D;&#x9700;&#x8981;&#x4FEE;&#x6539;&#x6307;&#x91DD;&#x7684;&#x503C;&#xFF0C;
-&#x800C;&#x53EA;&#x662F;&#x4FEE;&#x6539;&#x6307;&#x91DD;&#x6307;&#x5411;&#x7684;&#x5167;&#x5B58;&#x584A;&#xFF1A;</p>
-<h2 id="0%E9%87%8D%E6%8C%87%E9%87%9D%EF%BC%88%E5%9F%BA%E6%9C%AC%E9%A1%9E%E5%9E%8B%E3%80%81%E7%B5%90%E6%A7%8B%E9%AB%94%EF%BC%89">0&#x91CD;&#x6307;&#x91DD;&#xFF08;&#x57FA;&#x672C;&#x985E;&#x578B;&#x3001;&#x7D50;&#x69CB;&#x9AD4;&#xFF09;</h2>
-<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b)</span>
-</span>{
-    <span class="hljs-keyword">return</span> a + b;
-}
-</code></pre>
-<p>&#x53EA;&#x6709;&#x9019;&#x7A2E;&#x53C3;&#x6578;&#x7684;&#x51FD;&#x6578;&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x53C3;&#x6578;&#x7684;&#x503C;&#xFF0C;&#x9032;&#x884C;&#x8A08;&#x7B97;&#x5F8C;&#x8FD4;&#x56DE;&#x7D50;&#x679C;&#xFF0C;
-&#x4E0D;&#x9700;&#x8981;&#x4FEE;&#x6539;&#x5916;&#x90E8;&#x8B8A;&#x91CF;&#x3002;</p>
-<h2 id="1%E9%87%8D%E6%8C%87%E9%87%9D">1&#x91CD;&#x6307;&#x91DD;</h2>
-<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">swap</span><span class="hljs-params">(<span class="hljs-keyword">int</span> *a, <span class="hljs-keyword">int</span> *b)</span>
-</span>{
-    <span class="hljs-keyword">int</span> t = *a;
-    *a = *b;
-    *b = t;
-}
-</code></pre>
-<p>&#x4F7F;&#x7528;&#x5834;&#x666F;&#xFF1A;</p>
-<pre><code class="lang-c"><span class="hljs-keyword">int</span> a=<span class="hljs-number">1</span>, b=<span class="hljs-number">2</span>;
-swap(&amp;a, &amp;b);
-</code></pre>
-<p>&#x51FD;&#x6578;&#x4E2D;&#x4F7F;&#x7528; 1 &#x91CD;&#x6307;&#x91DD;&#x4E00;&#x822C;&#x51FA;&#x65BC;&#x5169;&#x7A2E;&#x76EE;&#x7684;&#xFF1A;</p>
-<ol>
-<li>&#x51FD;&#x6578;&#x4E2D;&#x8981;&#x4FEE;&#x6539;&#x5916;&#x90E8; &#x57FA;&#x672C;&#x985E;&#x578B; &#x6216; &#x7D50;&#x69CB;&#x9AD4; &#x7684;&#x503C;&#x3002;</li>
-<li><b>&#x70BA;&#x4E86;&#x7BC0;&#x7701;&#x53C3;&#x6578;&#x7A7A;&#x9593;</b>&#x3002;&#x5047;&#x8A2D;&#x51FD;&#x6578;&#x60F3;&#x8981;&#x8B80;&#x4E00;&#x500B;&#x5916;&#x90E8;&#x7684;
-&#x4F54;&#x7528;&#x7A7A;&#x9593;&#x5F88;&#x5927;&#x7684;&#x7D50;&#x69CB;&#x9AD4;&#x8B8A;&#x91CF;&#xFF0C;&#x6BD4;&#x5982;&#x6709; 4KB &#x5927;&#x5C0F;&#xFF0C;
-&#x96D6;&#x7136;&#x6839;&#x672C;&#x6C92;&#x60F3;&#x6539;&#x5B83;&#xFF0C;&#x4F46;&#x662F;&#x5982;&#x679C;&#x7528;&#x6307;&#x91DD;&#x63A5;&#x6536;&#x5B83;&#x7684;&#x5730;&#x5740;&#xFF0C;
-&#x53C3;&#x6578;&#x53EA;&#x4F54; 4 &#x5B57;&#x7BC0;&#xFF1B;&#x5982;&#x679C;&#x7528;&#x7D50;&#x69CB;&#x9AD4;&#x4F5C;&#x70BA;&#x53C3;&#x6578;&#xFF0C;
-&#x53C3;&#x6578;&#x8981;&#x4F54; 4KB &#x7684;&#x5167;&#x5B58;&#xFF0C;&#x800C;&#x4E14;&#x9084;&#x8981;&#x9032;&#x884C;&#x503C;&#x62F7;&#x8C9D;&#xFF01;
-<b>&#x7528; char* &#x4F86;&#x63A5;&#x6536;&#x5B57;&#x7B26;&#x4E32;&#x4E5F;&#x53EF;&#x4EE5;&#x770B;&#x505A;&#x662F;&#x51FA;&#x65BC;&#x7BC0;&#x7701;&#x7A7A;&#x9593;&#x7684;&#x76EE;&#x7684;&#x3002;</b></li>
-</ol>
-<h2 id="2%E9%87%8D%E6%8C%87%E9%87%9D">2&#x91CD;&#x6307;&#x91DD;</h2>
-<p>C &#x6A19;&#x6E96;&#x5EAB;&#x7684;&#x982D;&#x6587;&#x4EF6; string.h &#x4E2D;&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x500B; strdup &#x51FD;&#x6578;&#xFF1A;</p>
-<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">char</span> *<span class="hljs-title">strdup</span><span class="hljs-params">(<span class="hljs-keyword">char</span> *s)</span></span>;
-</code></pre>
-<p>&#x8A72;&#x51FD;&#x6578;&#x7684;&#x4F5C;&#x7528;&#x662F;&#x8907;&#x88FD;&#x5B57;&#x7B26;&#x4E32;&#xFF0C;
-&#x8FD4;&#x56DE;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x5B58;&#x5132;&#x7A7A;&#x9593;&#x662F;&#x52D5;&#x614B;&#x7533;&#x8ACB;&#x7684;&#xFF0C;&#x4E0D;&#x662F;&#x539F;&#x4F86;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x7A7A;&#x9593;&#x3002;
-&#x5982;&#x679C;&#x4F60;&#x662F;&#x7B2C; 1 &#x6B21;&#x807D;&#x8AAA;&#x6709;&#x9019;&#x500B;&#x51FD;&#x6578;&#xFF0C;&#x4E0D;&#x8981;&#x5984;&#x81EA;&#x83F2;&#x8584;&#xFF0C;
-&#x6211;&#x4E5F;&#x662F;&#x5927;&#x4E09;&#x4E0B;&#x624D;&#x77E5;&#x9053;&#x7684;O(&#x2229;_&#x2229;)O~</p>
-<p>&#x73FE;&#x5728;&#x4E0D;&#x7528;&#x8FD4;&#x56DE;&#x503C;&#xFF0C;&#x7528; 2 &#x91CD;&#x6307;&#x91DD;&#x4F86;&#x5BE6;&#x73FE;&#x9019;&#x500B;&#x51FD;&#x6578;&#xFF1A;</p>
-<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">my_strdup</span><span class="hljs-params">(<span class="hljs-keyword">char</span> **p, <span class="hljs-keyword">char</span> *s)</span>
-</span>{
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> len = <span class="hljs-built_in">strlen</span>(s) + <span class="hljs-number">1</span>;
+Usage:
+  pip &lt;<span class="hljs-built_in">command</span>&gt; [options]
 
-    *p = (<span class="hljs-keyword">char</span> *)<span class="hljs-built_in">malloc</span>(len);
-    <span class="hljs-built_in">memcpy</span>(*p, s, len);
-}
-</code></pre>
-<p>&#x4F7F;&#x7528;&#x5834;&#x666F;&#xFF1A;</p>
-<pre><code class="lang-c"><span class="hljs-keyword">char</span> *s = <span class="hljs-string">&quot;abc&quot;</span>;
-<span class="hljs-keyword">char</span> *d = <span class="hljs-literal">NULL</span>;
+Commands:
+  install                     &#x5B89;&#x88DD;&#x5305;.
+  uninstall                   &#x5378;&#x8F09;&#x5305;.
+  freeze                      &#x6309;&#x8457;&#x4E00;&#x5B9A;&#x683C;&#x5F0F;&#x8F38;&#x51FA;&#x5DF2;&#x5B89;&#x88DD;&#x5305;&#x5217;&#x8868;
+  list                        &#x5217;&#x51FA;&#x5DF2;&#x5B89;&#x88DD;&#x5305;.
+  show                        &#x986F;&#x793A;&#x5305;&#x8A73;&#x7D30;&#x4FE1;&#x606F;.
+  search                      &#x641C;&#x7D22;&#x5305;&#xFF0C;&#x985E;&#x4F3C;yum&#x88E1;&#x7684;search.
+  wheel                       Build wheels from your requirements.
+  zip                         &#x4E0D;&#x63A8;&#x85A6;. Zip individual packages.
+  unzip                       &#x4E0D;&#x63A8;&#x85A6;. Unzip individual packages.
+  bundle                      &#x4E0D;&#x63A8;&#x85A6;. Create pybundles.
+  <span class="hljs-built_in">help</span>                        &#x7576;&#x524D;&#x5E6B;&#x52A9;.
 
-my_strdup(&amp;d, s);
+General Options:
+  -h, --help                  &#x986F;&#x793A;&#x5E6B;&#x52A9;.
+  -v, --verbose               &#x66F4;&#x591A;&#x7684;&#x8F38;&#x51FA;&#xFF0C;&#x6700;&#x591A;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;<span class="hljs-number">3</span>&#x6B21;
+  -V, --version               &#x73FE;&#x5BE6;&#x7248;&#x672C;&#x4FE1;&#x606F;&#x7136;&#x5F8C;&#x9000;&#x51FA;.
+  -q, --quiet                 &#x6700;&#x5C11;&#x7684;&#x8F38;&#x51FA;.
+  --log-file &lt;path&gt;           &#x8986;&#x84CB;&#x7684;&#x65B9;&#x5F0F;&#x8A18;&#x9304;verbose&#x932F;&#x8AA4;&#x65E5;&#x8A8C;&#xFF0C;&#x9ED8;&#x8A8D;&#x6587;&#x4EF6;&#xFF1A;/root/.pip/pip.log
+  --log &lt;path&gt;                &#x4E0D;&#x8986;&#x84CB;&#x8A18;&#x9304;verbose&#x8F38;&#x51FA;&#x7684;&#x65E5;&#x8A8C;.
+  --proxy &lt;proxy&gt;             Specify a proxy <span class="hljs-keyword">in</span> the form [user:passwd@]proxy.server:port.
+  --timeout &lt;sec&gt;             &#x9023;&#x63A5;&#x8D85;&#x6642;&#x6642;&#x9593; (&#x9ED8;&#x8A8D;<span class="hljs-number">15</span>&#x79D2;).
+  --exists-action &lt;action&gt;    Default action when a path already exists: (s)witch, (i)gnore, (w)ipe, (b)ackup.
+  --cert &lt;path&gt;               &#x8B49;&#x66F8;.
 </code></pre>
-<p>&#x5F9E;&#x9019;&#x500B;&#x4F8B;&#x5B50;&#x4E2D;&#x53EF;&#x4EE5;&#x770B;&#x51FA; <b>2 &#x91CD;&#x6307;&#x91DD;&#x7528;&#x65BC;&#x9700;&#x8981;&#x4FEE;&#x6539;&#x6307;&#x91DD;&#x7684;&#x6642;&#x5019;</b>&#xFF0C;
-&#x4E00;&#x822C;&#x662F;&#x8981;&#x5728;&#x51FD;&#x6578;&#x4E2D;&#x70BA;&#x6307;&#x91DD;&#x52D5;&#x614B;&#x5730;&#x7533;&#x8ACB;&#x7A7A;&#x9593;&#x3002;
-&#x800C;&#x9019;&#x4E00;&#x822C;&#x53EF;&#x7528;&#x8FD4;&#x56DE;&#x6307;&#x91DD;&#x4F86;&#x5BE6;&#x73FE;&#xFF0C;&#x4F46;&#x662F;&#x5982;&#x679C;&#x6709;&#x591A;&#x500B;&#x6307;&#x91DD;&#x8981;&#x4E00;&#x4F75;&#x4FEE;&#x6539;&#xFF0C;
-&#x7528; 2 &#x91CD;&#x6307;&#x91DD;&#x5C31;&#x8981;&#x65B9;&#x4FBF;&#x5F88;&#x591A;&#xFF0C;&#x56E0;&#x70BA;&#x8FD4;&#x56DE;&#x503C;&#x53EA;&#x6709; 1 &#x500B;&#xFF0C;
-&#x800C;&#x53C3;&#x6578;&#x7684;&#x500B;&#x6578;&#x5728;&#x8A9E;&#x6CD5;&#x4E0A;&#x662F;&#x6C92;&#x6709;&#x9650;&#x5236;&#x7684;&#x3002;</p>
-<p>strdup &#x8FD4;&#x56DE;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x7528;&#x5B8C;&#x5F8C;&#x4E0D;&#x8981;&#x5FD8;&#x4E86; free &#x54E6;&#xFF01;</p>
-<p>&#x53E6;&#x5916;&#xFF0C;&#x4E00;&#x822C;&#x6C92;&#x6709;&#x4F7F;&#x7528; 3 &#x91CD;&#x4EE5;&#x4E0A;&#x6307;&#x91DD;&#x4F5C;&#x53C3;&#x6578;&#x7684;&#x5FC5;&#x8981;&#x3002;</p>
 
                     
                     </section>
@@ -5947,10 +5977,10 @@ my_strdup(&amp;d, s);
         </div>
 
         
-        <a href="../simplelinux/243.html" class="navigation navigation-prev " aria-label="Previous page: 全局變量"><i class="fa fa-angle-left"></i></a>
+        <a href="../python/292.html" class="navigation navigation-prev " aria-label="Previous page: 編譯python &amp; 安裝pip"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../simplelinux/array.html" class="navigation navigation-next " aria-label="Next page: 數組與指針"><i class="fa fa-angle-right"></i></a>
+        <a href="../vim/index.html" class="navigation navigation-next " aria-label="Next page: Vim"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

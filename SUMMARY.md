@@ -202,7 +202,7 @@
    * [Static 與 Shared 的函式庫撰寫](linux_system/1510.md)
    * [Linux 的 time 指令](linux_system/1511.md)
    * [孤兒進程與殭屍進程[總結]](linux_system/1512.md)
-   * 1513
+   * [1513](linux_system/1513.md)
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

@@ -202,6 +202,7 @@
    * [Static 與 Shared 的函式庫撰寫](linux_system/1510.md)
    * [Linux 的 time 指令](linux_system/1511.md)
    * [孤兒進程與殭屍進程[總結]](linux_system/1512.md)
+   * 1513
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)
@@ -354,7 +355,7 @@
    * [OpenWRT 編譯環境搭建](openwrt/281.md)
 * [Python](python/README.md)
    * [安裝 Jupyter](python/jupyter.md)
-   * [編譯python & 安裝pip ](python/292.md)
+   * [編譯python & 安裝pip](python/292.md)
    * [pip 使用詳解](python/293.md)
    * [5個很好的Python面試題](python/294.md)
    * [Python-網頁爬蟲-&-文本處理-&-科學計算-&-機器學習-&-數據挖掘兵器譜](python/295.md)

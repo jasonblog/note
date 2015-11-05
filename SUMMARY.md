@@ -371,6 +371,6 @@
    * [自己動手編譯 Raspberry Pi 的 Kernel](raspberry_pi/rpi_kernel.md)
 * [OpenGL](opengl/opengl.md)
    * mesa
-   * ddd
+   * [ddd](opengl/ddd.md)
    * 45345
 

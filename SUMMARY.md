@@ -203,7 +203,7 @@
    * [Linux 的 time 指令](linux_system/1511.md)
    * [孤兒進程與殭屍進程[總結]](linux_system/1512.md)
    * [pkg-config 使用及建立方法](linux_system/1513.md)
-   * [简述configure、pkg-config、pkg_config_path三者的关系](linux_system/1514.md)
+   * [簡述configure、pkg-config、pkg_config_path三者的關係](linux_system/1514.md)
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

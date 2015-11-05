@@ -15,7 +15,7 @@ LLVM/Clang是構架編譯器(compiler)的框架系統，以C++編寫而成，用
         clang
 ```
 
-接下来我们使用configure来配置生成llvm的Makefile文件，然后就可以进行编译与安装。注意，这里llvm之后要被mesa所link，所以在配置是应开启--enable-shared选项。
+接下來我們使用configure來配置生成llvm的Makefile文件，然後就可以進行編譯與安裝。注意，這裡llvm之後要被mesa所link，所以在配置是應開啟--enable-shared選項。
 
 
 ```sh
@@ -28,9 +28,9 @@ sudo make install
 export PATH=/usr/local/llvm-3.3/bin:$PATH
 ```
 
-##安装 libdrm-2.4.65
-最新版的mesa的编译需要高于2.4.65的libdrm_radeon库，我们使用与上文介绍的相同的方法来编译和安装。
-首先，从http://dri.freedesktop.org/libdrm/下载libdrm 2.4.65的源代码，解压缩后，运行如下命令。
+##安裝 libdrm-2.4.65
+最新版的mesa的編譯需要高於2.4.65的libdrm_radeon庫，我們使用與上文介紹的相同的方法來編譯和安裝。
+首先，從http://dri.freedesktop.org/libdrm/下載libdrm 2.4.65的源代碼，解壓縮後，運行如下命令。
 
 ```sh
 cd libdrm-2.4.65
@@ -47,8 +47,8 @@ export PKG_CONFIG_PATH
 ```
 
 
-##安装其他依赖包
-mesa的编译还需要其他依赖包，如果这些包缺失，mesa的配置将会失败，我们可以从configure的错误信息中得出缺失的包的名字，然后自行安装，以下罗列了安装一些可能缺失的包的命令（Ubuntu下）。
+##安裝其他依賴包
+mesa的編譯還需要其他依賴包，如果這些包缺失，mesa的配置將會失敗，我們可以從configure的錯誤信息中得出缺失的包的名字，然後自行安裝，以下羅列了安裝一些可能缺失的包的命令（Ubuntu下）。
 
 ```sh
 sudo apt-get install x11proto-gl-dev
@@ -69,8 +69,8 @@ sudo apt-get install libtool
 sudo apt-get install expat
 sudo apt-get install libexpat1-dev
 ```
-##获取mesa的最新源代码
-我们使用git（git可以使用sudo apt-get install git来安装）来获取mesa的最新源代码。之后就可以进行配置，编译与安装。 需要注意的是，git master branch所获得的源代码中并不包含生成好的configure文件，作为替代，我们运行autogen.sh命令来生成和运行configure，因此configure的配置选项也应该加入到autogen.sh命令后。 
+##獲取mesa的最新源代碼
+我們使用git（git可以使用sudo apt-get install git來安裝）來獲取mesa的最新源代碼。之後就可以進行配置，編譯與安裝。 需要注意的是，git master branch所獲得的源代碼中並不包含生成好的configure文件，作為替代，我們運行autogen.sh命令來生成和運行configure，因此configure的配置選項也應該加入到autogen.sh命令後。 
 ```sh
 git clone git://anongit.freedesktop.org/git/mesa/mesa
 cd mesa
@@ -78,6 +78,6 @@ cd mesa
 make
 sudo make install
 ```
-至此mesa的编译与安装就成功了，在mesa目录下，我们可以使用git pull origin命令来获得最新版的mesa代码，并编译和安装。
+至此mesa的編譯與安裝就成功了，在mesa目錄下，我們可以使用git pull origin命令來獲得最新版的mesa代碼，並編譯和安裝。
 
 

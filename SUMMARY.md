@@ -372,5 +372,4 @@
 * [OpenGL](opengl/opengl.md)
    * [mesa](opengl/mesa.md)
    * [ddd](opengl/ddd.md)
-   * [45345](opengl/45345.md)
 

@@ -74,7 +74,7 @@ sudo apt-get install libexpat1-dev
 ```sh
 git clone git://anongit.freedesktop.org/git/mesa/mesa
 cd mesa
-sudo ./autogen.sh --enable-gbm --enable-glx-tls
+./autogen.sh --enable-gbm --enable-glx-tls
 make
 sudo make install
 ```

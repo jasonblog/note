@@ -264,6 +264,7 @@
    * [Makefile的常用技術總結](gunmake/203.md)
    * [CMake 入門](gunmake/204.md)
    * [Makefile 語法簡介](gunmake/205.md)
+   * 206
 * [C++](c++/README.md)
    * [[轉]C++ 對象的內存佈局](c++/211.md)
    * [[轉] C++對象模型之簡述C++對象的內存佈局](c++/212.md)
@@ -371,5 +372,5 @@
    * [自己動手編譯 Raspberry Pi 的 Kernel](raspberry_pi/rpi_kernel.md)
 * [OpenGL](opengl/opengl.md)
    * [opengl(mesa) for ubuntu14.04](opengl/mesa.md)
-   * [ ubuntu 14.04 安裝OpenGL（基於freeglut）](opengl/1.md)
+   * [ubuntu 14.04 安裝OpenGL（基於freeglut）](opengl/1.md)
 

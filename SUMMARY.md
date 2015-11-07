@@ -265,7 +265,7 @@
    * [CMake 入門](gunmake/204.md)
    * [Makefile 語法簡介](gunmake/205.md)
    * [Makefile 先編譯出so 後在編譯出執行檔](gunmake/206.md)
-   * Autotools
+   * [Autotools](gunmake/autotools.md)
 * [C++](c++/README.md)
    * [[轉]C++ 對象的內存佈局](c++/211.md)
    * [[轉] C++對象模型之簡述C++對象的內存佈局](c++/212.md)

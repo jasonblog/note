@@ -28,7 +28,7 @@ install]</span></tt> 三部曲。雖然乍聽之下，就可以猜出來事情�
 以下是我們在本文中所採用的範例程式，<tt><a href="http://lilyterm.luna.com.tw/">LilyTerm</a></tt>：
 </p>
 <blockquote>
-	<img src="/LilyTerm.png" alt="Gtk+2 範例程式" title="Gtk+2 範例程式" width="829" height="546">
+	<img src="images/LilyTerm.png" alt="Gtk+2 範例程式" title="Gtk+2 範例程式" width="829" height="546">
 </blockquote>
 其檔案結構如下：
 <blockquote>

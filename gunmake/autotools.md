@@ -1,4 +1,4 @@
-# Autotools
+# 利用 Autotools 來建立 Makefile 檔案
 
 <div id="posttext">
 <p>

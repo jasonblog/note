@@ -102,7 +102,7 @@ install]</span></tt> 三部曲。雖然乍聽之下，就可以猜出來事情�
 </p>
 <h2>AutoTools 流程圖</h2>
 <blockquote>
-	<img src="/AutoTools.png" alt="AutoTools 流程圖" title="AutoTools 流程圖" width="694" height="700">
+	<img src="images/AutoTools.png" alt="AutoTools 流程圖" title="AutoTools 流程圖" width="694" height="700">
 </blockquote>
 由於 <tt>automake</tt> 及 <tt>autoconf</tt>
 在使用時其步驟頗為繁雜，在閱讀本文的過程中若能同時參考以上流程圖將有助於了解 <tt>automake</tt> 及 <tt>autoconf</tt>

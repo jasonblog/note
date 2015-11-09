@@ -2,11 +2,11 @@
 
 <div id="posttext">
 <p>
-在<a href="http://tetralet.luna.com.tw/index.php?op=ViewArticle&amp;articleId=185&amp;blogId=1">上一個章節</a>中，我們展示了如何利用 <span style="color: #3366ff"><tt>Makefile</tt></span>
+在<a href="http://tetralet.luna.com.tw/index.php?op=ViewArticle&amp;articleId=185&amp;blogId=1">上一個章節</a>中，我們展示瞭如何利用 <span style="color: #3366ff"><tt>Makefile</tt></span>
 來做為編譯軟體時的輔助工具。但在實務上，因為每個人的環境多多少少有些不同<tt>，Makefile</tt>
 往往得隨之修改才能順利進行編譯，這其實還是不夠人性化。同時，<tt>Makefile</tt>
 對於大部份的人而言和外星文也差不多，要求人們自行修改 <tt>Makefile</tt>
-以符合自己系統的需求未免太強人所難。為了解決這些問題，能依據各個系統之不同而自動建立 <tt>Makefile</tt>
+以符合自己系統的需求未免太強人所難。為瞭解決這些問題，能依據各個系統之不同而自動建立 <tt>Makefile</tt>
 檔的工具 － <tt><span style="color: #993300">autoconf</span></tt>
 及 <tt><span style="color: #993300">automake</span></tt>
 就順應而生了。
@@ -105,7 +105,7 @@ install]</span></tt> 三部曲。雖然乍聽之下，就可以猜出來事情�
 	<img src="images/AutoTools.png" alt="AutoTools 流程圖" title="AutoTools 流程圖" width="694" height="700">
 </blockquote>
 由於 <tt>automake</tt> 及 <tt>autoconf</tt>
-在使用時其步驟頗為繁雜，在閱讀本文的過程中若能同時參考以上流程圖將有助於了解 <tt>automake</tt> 及 <tt>autoconf</tt>
+在使用時其步驟頗為繁雜，在閱讀本文的過程中若能同時參考以上流程圖將有助於瞭解 <tt>automake</tt> 及 <tt>autoconf</tt>
 的運作流程。
 <h2>建立 configure.ac
 </h2>
@@ -228,7 +228,7 @@ install]</span></tt> 三部曲。雖然乍聽之下，就可以猜出來事情�
 		</ul>
 		<p>
 		請多多參考其它自由軟體專案所附帶的 <tt>configure.in</tt> 或 <tt>configure.ac</tt>，
-		應可有助於了解該如何編寫更完善的 <tt>configure.ac</tt>。 
+		應可有助於瞭解該如何編寫更完善的 <tt>configure.ac</tt>。 
 		</p>
 	</blockquote>
 	<h4>範本，以 <tt>LilyTerm</tt> 為例：</h4>
@@ -1023,7 +1023,7 @@ install]</span></tt> 三部曲。雖然乍聽之下，就可以猜出來事情�
 	</table>
 	<p>
 	<span style="color: #3366ff"><tt>SUBDIRS</tt></span>
-	指明了要處理的子目錄及順序。 
+	指明瞭要處理的子目錄及順序。 
 	</p>
 </blockquote>
 <h4><tt>src</tt> 目錄：</h4>

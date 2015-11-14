@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>(五) 使用Local Descriptor Table (LDT) | Jason note</title>
+        <title>shell環境變量以及set,env,export的區別 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../os/1416.html" />
+    <link rel="next" href="../assembly/index.html" />
     
     
-    <link rel="prev" href="../os/1414.html" />
+    <link rel="prev" href="../linux_system/1516.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="14.1.5" data-basepath=".." data-revision="Sat Nov 14 2015 20:56:55 GMT+0800 (CST)">
+    <div class="book" data-level="15.17" data-basepath=".." data-revision="Sat Nov 14 2015 20:56:55 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -2823,7 +2823,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="14.1.5" data-path="os/1415.html">
+        <li class="chapter " data-level="14.1.5" data-path="os/1415.html">
             
                 
                     <a href="../os/1415.html">
@@ -3275,7 +3275,7 @@
             
         </li>
     
-        <li class="chapter " data-level="15.17" data-path="linux_system/1517.html">
+        <li class="chapter active" data-level="15.17" data-path="linux_system/1517.html">
             
                 
                     <a href="../linux_system/1517.html">
@@ -6117,267 +6117,89 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="-%E4%BA%94-%E4%BD%BF%E7%94%A8local-descriptor-table-ldt">(&#x4E94;) &#x4F7F;&#x7528;Local Descriptor Table (LDT)</h1>
-<p>&#x4E0A;&#x7BC7;&#x6587;&#x7AE0;&#x4F7F;&#x7528;Global Descriptor Table (GDT)&#x5132;&#x5B58;Code Segment (CS)&#x8207;Data Segment (DS)&#x7684;&#x8CC7;&#x8A0A;&#xFF0C;&#x4EE5;&#x4FBF;&#x80FD;&#x5728;&#x4FDD;&#x8B77;&#x6A21;&#x5F0F;&#x4E0B;&#x6210;&#x529F;&#x5730;&#x57F7;&#x884C;&#x7A0B;&#x5F0F;&#x78BC;&#x8207;&#x5B58;&#x53D6;&#x8CC7;&#x6599;&#x3002;&#x672C;&#x7BC7;&#x8AAA;&#x660E;&#x5982;&#x4F55;&#x8A2D;&#x5B9A;LDT&#xFF0C;&#x4EE5;&#x4FBF;&#x80FD;&#x57F7;&#x884C;&#x4F4D;&#x65BC;LDT&#x7684;&#x7A0B;&#x5F0F;&#x78BC;&#x3002;</p>
-<h3 id="ldt%E4%B9%8B%E4%BB%8B%E7%B4%B9">LDT&#x4E4B;&#x4ECB;&#x7D39;</h3>
-<p>LDT&#x5BE6;&#x73FE;&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x591A;&#x500B;&#x7A0B;&#x5E8F;&#x529F;&#x80FD; (multiple processes)&#xFF0C;&#x5176;&#x7279;&#x8272;&#x70BA;&#x5404;&#x500B;&#x7A0B;&#x5E8F;&#x6709;&#x81EA;&#x5DF1;&#x7684;&#x4F4D;&#x5740;&#x7A7A;&#x9593;&#x5F7C;&#x6B64;&#x4E92;&#x4E0D;&#x5E79;&#x64FE;&#xFF0C;&#x6BCF;&#x500B;&#x7A0B;&#x5E8F;&#x6703;&#x6709;&#x5404;&#x81EA;&#x7684;LDT&#xFF0C;&#x7576;&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x6B32;&#x57F7;&#x884C;&#x67D0;&#x4E00;&#x7A0B;&#x5E8F;&#x6642;&#xFF0C;&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x6703;&#x627E;&#x51FA;&#x5176;&#x5C0D;&#x61C9;&#x7684;LDT&#xFF0C;&#x4EE5;&#x4FBF;&#x80FD;&#x57F7;&#x884C;&#x8A72;&#x7A0B;&#x5E8F;&#x3002;&#x8A73;&#x7D30;&#x8CC7;&#x6599;&#x8ACB;&#x53C3;&#x8003;Local Descriptor Table&#x3002;</p>
-<h3 id="ldt%E7%9B%B8%E9%97%9C%E8%A8%AD%E5%AE%9A">LDT&#x76F8;&#x95DC;&#x8A2D;&#x5B9A;</h3>
-<p>LDT&#x8A2D;&#x5B9A;&#x5206;&#x6210;&#x5169;&#x5927;&#x6B65;&#x9A5F;&#x5982;&#x4E0B;&#x6240;&#x8FF0;:</p>
-<h3 id="1-%E5%9C%A8gdt%E8%A1%A8%E8%A3%A1%E8%A8%AD%E5%AE%9A%E4%B8%80%E5%80%8Bldt-entry-configure-a-ldt-entry-in-gdt">1. &#x5728;GDT&#x8868;&#x88E1;&#x8A2D;&#x5B9A;&#x4E00;&#x500B;LDT entry (Configure a LDT Entry in GDT)</h3>
-<p>&#x53C3;&#x8003;Figure 1&#xFF0C;&#x5176;&#x6BCF;&#x500B;&#x6B04;&#x4F4D;&#x6240;&#x61C9;&#x8A2D;&#x5B9A;&#x503C;&#x5982;Table 1&#x6240;&#x793A;:</p>
-<p><img src="images/seg_descriptor.jpeg.1" alt=""></p>
-<h3 id="figure-1-segment-descriptor">Figure 1. Segment Descriptor</h3>
-<p><img src="images/LDT_entry.jpeg.1" alt=""></p>
-<h3 id="2-%E8%A8%AD%E5%AE%9Aldt%E8%A1%A8">2. &#x8A2D;&#x5B9A;LDT&#x8868;</h3>
-<p>LDT&#x8868;&#x8A2D;&#x5B9A;code segment/data segment&#x76F8;&#x95DC;&#x8CC7;&#x8A0A;&#xFF0C;&#x5176;&#x8A2D;&#x5B9A;&#x503C;&#x5982;Table 2&#x6240;&#x793A;&#x3002;</p>
-<p><img src="images/LDT_table.jpeg" alt=""></p>
-<h3 id="table-2-ldt-entry-configuration-in-ldt">Table 2. LDT entry configuration in LDT</h3>
-<h3 id="boot-loader%E7%A8%8B%E5%BC%8F%E7%A2%BC">Boot Loader&#x7A0B;&#x5F0F;&#x78BC;</h3>
-<p>&#x8ACB;&#x53C3;&#x8003;&#x4E0A;&#x7BC7;&#x6587;&#x7AE0;&#x7684;&quot;Boot Loader &#x7A0B;&#x5F0F;&#x78BC;&quot;&#x3002;</p>
-<h3 id="%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1%E7%A8%8B%E5%BC%8F%E7%A2%BC">&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x7A0B;&#x5F0F;&#x78BC;</h3>
-<p>Figure 2&#x70BA;&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x7A0B;&#x5F0F;&#x78BC;&#xFF0C;&#x6B64;&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x7A0B;&#x5F0F;&#x78BC;&#x904B;&#x884C;&#x65BC;32&#x4F4D;&#x5143;&#x4FDD;&#x8B77;&#x6A21;&#x5F0F;&#xFF0C;&#x4E00;&#x958B;&#x59CB;&#x5B9A;&#x7FA9;&#x4E09;&#x500B;Segment Descriptor (NULL&#x3001;CODE32&#x3001;VIDEO&#x8207;LDT)&#xFF0C;&#x5176;&#x4E2D;VIDEO&#x7684;&#x57FA;&#x5E95;&#x4F4D;&#x5740;&#x70BA;0xB8000&#xFF0C;&#x8A73;&#x60C5;&#x8ACB;&#x53C3;&#x8003;Printing to Screen&#x3002;&#x63A5;&#x8457;&#x5B9A;&#x7FA9;GDT&#x7684;&#x9577;&#x5EA6;&#x3001;&#x5B9A;&#x7FA9;Code32&#x3001;Data&#x3001;VIDEO&#x8207;LDT&#x7684;segment selector&#x3001;&#x5B9A;&#x7FA9;&#x8F38;&#x51FA;&#x7684;&#x5B57;&#x4E32;&#x3001;&#x5B9A;&#x7FA9;GDTPtr&#x8207;&#x5B9A;&#x7FA9;LDT&#x8868;&#x3002;</p>
-<pre><code>/* os.S
-*
-*/
+                        <h1 id="shell%E7%92%B0%E5%A2%83%E8%AE%8A%E9%87%8F%E4%BB%A5%E5%8F%8Aset-env-export%E7%9A%84%E5%8D%80%E5%88%A5">shell&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x4EE5;&#x53CA;set,env,export&#x7684;&#x5340;&#x5225;</h1>
+<h2 id="%E4%B8%80-shell%E7%92%B0%E5%A2%83%E8%AE%8A%E9%87%8F%E7%9A%84%E5%88%86%E9%A1%9E%E4%BB%A5%E5%8F%8Aset-env-export%E7%9A%84%E5%8D%80%E5%88%A5">&#x4E00;.shell&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x7684;&#x5206;&#x985E;&#x4EE5;&#x53CA;set env export&#x7684;&#x5340;&#x5225;:</h2>
+<p>set:&#x986F;&#x793A;(&#x8A2D;&#x7F6E;)shell&#x8B8A;&#x91CF; &#x5305;&#x62EC;&#x7684;&#x79C1;&#x6709;&#x8B8A;&#x91CF;&#x4EE5;&#x53CA;&#x7528;&#x6236;&#x8B8A;&#x91CF;&#xFF0C;&#x4E0D;&#x540C;&#x985E;&#x7684;shell&#x6709;&#x4E0D;&#x540C;&#x7684;&#x79C1;&#x6709;&#x8B8A;&#x91CF; bash,ksh,csh&#x6BCF;&#x4E2D;shell&#x79C1;&#x6709;&#x8B8A;&#x91CF;&#x90FD;&#x4E0D;&#x4E00;&#x6A23;</p>
+<p>env:&#x986F;&#x793A;(&#x8A2D;&#x7F6E;)&#x7528;&#x6236;&#x8B8A;&#x91CF;&#x8B8A;&#x91CF;</p>
+<p>export:&#x986F;&#x793A;(&#x8A2D;&#x7F6E;)&#x7576;&#x524D;&#x5C0E;&#x51FA;&#x6210;&#x7528;&#x6236;&#x8B8A;&#x91CF;&#x7684;shell&#x8B8A;&#x91CF;&#x3002;</p>
+<p>&#x8209;&#x500B;&#x4F8B;&#x5B50;&#x4F86;&#x8B1B;:</p>
+<pre><code class="lang-sh">[oracle@zhou3 ~]$ aaa=bbb --shell&#x8B8A;&#x91CF;&#x8A2D;&#x5B9A;   
+[oracle@zhou3 ~]$ <span class="hljs-built_in">echo</span> <span class="hljs-variable">$aaa</span>    
+bbb   
+[oracle@zhou3 ~]$ env| grep aaa --&#x8A2D;&#x7F6E;&#x5B8C;&#x7576;&#x524D;&#x7528;&#x6236;&#x8B8A;&#x91CF;&#x4E26;&#x6C92;&#x6709;   
+[oracle@zhou3 ~]$ <span class="hljs-built_in">set</span>| grep aaa  --shell&#x8B8A;&#x91CF;&#x6709;   
+aaa=bbb   
+[oracle@zhou3 ~]$ <span class="hljs-built_in">export</span>| grep aaa --&#x9019;&#x500B;&#x6307;&#x7684;<span class="hljs-built_in">export</span>&#x4E5F;&#x6C92;&#x5C0E;&#x51FA;&#xFF0C;&#x5C0E;&#x51FA;&#x8B8A;&#x91CF;&#x4E5F;&#x6C92;&#x6709;   
+[oracle@zhou3 ~]$ <span class="hljs-built_in">export</span> aaa   --&#x90A3;&#x9EBC;&#x7528;<span class="hljs-built_in">export</span> &#x5C0E;&#x51FA;&#x4E00;&#x4E0B;   
+[oracle@zhou3 ~]$ env| grep aaa  --&#x767C;&#x73FE;&#x7528;&#x6236;&#x8B8A;&#x91CF;&#x5167;&#x5B58;&#x5728;&#x4E86;   
+aaa=bbb
+</code></pre>
+<p>&#x7E3D;&#x7D50;:linux &#x5206; shell&#x8B8A;&#x91CF;(set)&#xFF0C;&#x7528;&#x6236;&#x8B8A;&#x91CF;(env)&#xFF0C; shell&#x8B8A;&#x91CF;&#x5305;&#x542B;&#x7528;&#x6236;&#x8B8A;&#x91CF;&#xFF0C;export&#x662F;&#x4E00;&#x7A2E;&#x547D;&#x4EE4;&#x5DE5;&#x5177;&#xFF0C;&#x662F;&#x986F;&#x793A;&#x90A3;&#x4E9B;&#x901A;&#x904E;export&#x547D;&#x4EE4;&#x628A;shell&#x8B8A;&#x91CF;&#x4E2D;&#x5305;&#x542B;&#x7684;&#x7528;&#x6236;&#x8B8A;&#x91CF;&#x5C0E;&#x5165;&#x7D66;&#x7528;&#x6236;&#x8B8A;&#x91CF;&#x7684;&#x90A3;&#x4E9B;&#x8B8A;&#x91CF;.</p>
+<h2 id="%E4%BA%8C-%E4%BD%BF%E7%94%A8unset%E5%91%BD%E4%BB%A4%E4%BE%86%E6%B8%85%E9%99%A4%E7%92%B0%E5%A2%83%E8%AE%8A%E9%87%8F%EF%BC%8C%E6%B3%A8%E6%84%8Fset-env-export%E8%A8%AD%E7%BD%AE%E7%9A%84%E8%AE%8A%E9%87%8F%EF%BC%8C%E9%83%BD%E5%8F%AF%E4%BB%A5%E7%94%A8unset%E4%BE%86%E6%B8%85%E9%99%A4%E7%9A%84">&#x4E8C;:&#x4F7F;&#x7528;unset&#x547D;&#x4EE4;&#x4F86;&#x6E05;&#x9664;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#xFF0C;&#x6CE8;&#x610F;set env  export&#x8A2D;&#x7F6E;&#x7684;&#x8B8A;&#x91CF;&#xFF0C;&#x90FD;&#x53EF;&#x4EE5;&#x7528;unset&#x4F86;&#x6E05;&#x9664;&#x7684;</h2>
+<pre><code class="lang-sh">&#x6E05;&#x9664;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x7684;&#x503C;&#x7528;<span class="hljs-built_in">unset</span>&#x547D;&#x4EE4;&#x3002;&#x5982;&#x679C;&#x672A;&#x6307;&#x5B9A;&#x503C;&#xFF0C;&#x5247;&#x8A72;&#x8B8A;&#x91CF;&#x503C;&#x5C07;&#x88AB; &#x8A2D;&#x70BA;NULL&#x3002;&#x793A;
+&#x4F8B;&#x5982;&#x4E0B;&#xFF1A;  
+$ <span class="hljs-built_in">export</span> TEST=<span class="hljs-string">&quot;Test...&quot;</span> <span class="hljs-comment">#&#x589E;&#x52A0;&#x4E00;&#x500B;&#x74B0;&#x5883;&#x8B8A;&#x91CF;TEST  </span>
+$ env|grep TEST <span class="hljs-comment">#&#x6B64;&#x547D;&#x4EE4;&#x6709;&#x8F38;&#x5165;&#xFF0C;&#x8B49;&#x660E;&#x74B0;&#x5883;&#x8B8A;&#x91CF;TEST&#x5DF2;&#x7D93;&#x5B58;&#x5728;&#x4E86;  </span>
+TEST=Test...  
+$ <span class="hljs-built_in">unset</span> <span class="hljs-variable">$TEST</span> <span class="hljs-comment">#&#x522A;&#x9664;&#x74B0;&#x5883;&#x8B8A;&#x91CF;TEST  </span>
+$ env|grep TEST <span class="hljs-comment">#&#x6B64;&#x547D;&#x4EE4;&#x6C92;&#x6709;&#x8F38;&#x51FA;&#xFF0C;&#x8B49;&#x660E;&#x74B0;&#x5883;&#x8B8A;&#x91CF;TEST&#x5DF2;&#x7D93;&#x4E0D;&#x5B58;&#x5728;&#x4E86;</span>
+</code></pre>
+<h2 id="%E4%B8%89%EF%BC%9A%E4%BD%BF%E7%94%A8readonly%E5%91%BD%E4%BB%A4%E8%A8%AD%E7%BD%AE%E5%8F%AA%E8%AE%80%E8%AE%8A%E9%87%8F">&#x4E09;&#xFF1A;&#x4F7F;&#x7528;readonly&#x547D;&#x4EE4;&#x8A2D;&#x7F6E;&#x53EA;&#x8B80;&#x8B8A;&#x91CF;</h2>
+<pre><code class="lang-sh">&#x4F7F;&#x7528;&#x4E86;<span class="hljs-built_in">readonly</span>&#x547D;&#x4EE4;&#x7684;&#x8A71;&#xFF0C;&#x8B8A;&#x91CF;&#x5C31;&#x4E0D;&#x53EF;&#x4EE5;&#x88AB;&#x4FEE;&#x6539;&#x6216;&#x6E05;&#x9664;&#x4E86;&#x3002;&#x793A;&#x4F8B;&#x5982;&#x4E0B;&#xFF1A;
+$ <span class="hljs-built_in">export</span> TEST=<span class="hljs-string">&quot;Test...&quot;</span> <span class="hljs-comment">#&#x589E;&#x52A0;&#x4E00;&#x500B;&#x74B0;&#x5883;&#x8B8A;&#x91CF;TEST</span>
+$ <span class="hljs-built_in">readonly</span> TEST <span class="hljs-comment">#&#x5C07;&#x74B0;&#x5883;&#x8B8A;&#x91CF;TEST&#x8A2D;&#x70BA;&#x53EA;&#x8B80;</span>
+$ <span class="hljs-built_in">unset</span> TEST <span class="hljs-comment">#&#x6703;&#x767C;&#x73FE;&#x6B64;&#x8B8A;&#x91CF;&#x4E0D;&#x80FD;&#x88AB;&#x522A;&#x9664;</span>
+-bash: <span class="hljs-built_in">unset</span>: TEST: cannot <span class="hljs-built_in">unset</span>: <span class="hljs-built_in">readonly</span> variable
+$ TEST=<span class="hljs-string">&quot;New&quot;</span> <span class="hljs-comment">#&#x6703;&#x767C;&#x73FE;&#x6B64;&#x4E5F;&#x8B8A;&#x91CF;&#x4E0D;&#x80FD;&#x88AB;&#x4FEE;&#x6539;</span>
+-bash: TEST: <span class="hljs-built_in">readonly</span> variable
+</code></pre>
+<h2 id="%E5%9B%9B%EF%BC%9A%E6%9C%80%E6%A0%B9%E6%9C%AC%E7%9A%84%E8%A8%AD%E7%BD%AE%E3%80%81%E6%9B%B4%E6%94%B9%E8%AE%8A%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6-bash-profile-bashrc-bash-logout">&#x56DB;&#xFF1A;&#x6700;&#x6839;&#x672C;&#x7684;&#x8A2D;&#x7F6E;&#x3001;&#x66F4;&#x6539;&#x8B8A;&#x91CF;&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6; ~/.bash_profile   ~/.bashrc   ~/.bash_logout</h2>
+<pre><code class="lang-sh">~/.bash_profile  &#x7528;&#x6236;&#x767B;&#x9304;&#x6642;&#x88AB;&#x8B80;&#x53D6;&#xFF0C;&#x5176;&#x4E2D;&#x5305;&#x542B;&#x7684;&#x547D;&#x4EE4;&#x88AB;&#x57F7;&#x884C;
 
-#include &quot;pm.h&quot;
+~/.bashrc  &#x555F;&#x52D5;&#x65B0;&#x7684;shell&#x6642;&#x88AB;&#x8B80;&#x53D6;&#xFF0C;&#x4E26;&#x57F7;&#x884C;
 
-.code16
-.text
-  jmp os_main
-
-# Segment descritors for GDT
-LABEL_GDT_NULL: SEG_DESC 0, 0, 0
-LABEL_GDT_CODE: SEG_DESC 0, (PECode32Len - 1), (DESC_ATTR_TYPE_CD_ER | DESC_ATTR_D)
-LABEL_GDT_DATA: SEG_DESC 0, (DataLen - 1), (DESC_ATTR_TYPE_CD_RW)
-LABEL_GDT_VIDEO: SEG_DESC 0xB8000, 0xFFFF, (DESC_ATTR_TYPE_CD_RW)
-LABEL_GDT_LDT: SEG_DESC     0, (LDTLen -1), (DESC_ATTR_TYPE_LDT)
-
-# The length of GDT
-.set GdtLen, (. - LABEL_GDT_NULL)
-
-# Segment selectors
-.set SegSelectorCode32, (LABEL_GDT_CODE - LABEL_GDT_NULL)
-.set SegSelectorData,     (LABEL_GDT_DATA - LABEL_GDT_NULL)
-.set SegSelectorVideo,     (LABEL_GDT_VIDEO - LABEL_GDT_NULL)
-.set SegSelectorLDT,     (LABEL_GDT_LDT - LABEL_GDT_NULL)
-
-# data segment
-LABEL_DATA:
-Msg1:     .ascii &quot;Welcome to Protect mode in GDT.\0&quot;
-Msg2:     .ascii &quot;Welcome to Protect mode in LDT.\0&quot;
-Msg3:     .ascii &quot;This is signed by Adrian.\0&quot;
-
-.set     Msg1Offset, (Msg1 - LABEL_DATA)
-.set     Msg2Offset, (Msg2 - LABEL_DATA)
-.set     Msg3Offset, (Msg3 - LABEL_DATA)
-
-.set DataLen, (. - LABEL_DATA)
-
-# GDTR pointer
-LABEL_GDTR:
-  .2byte (GdtLen - 1)     # Limit field
-  .4byte 0                 # base field
-
-# LDT information
-LABEL_LDT:
-LABEL_LDT_ENTRY: SEG_DESC 0, (LDT_CODE32_LEN - 1), (DESC_ATTR_TYPE_CD_E | DESC_ATTR_D)
-
-# length of LDT
-.set LDTLen, (. - LABEL_LDT)
-
-# LDT selector
-.set SegSelectorLDTCode32,     (LABEL_LDT_ENTRY - LABEL_LDT + SA_TIL)
+~/.bash_<span class="hljs-built_in">logout</span>  shell &#x767B;&#x9304;&#x9000;&#x51FA;&#x6642;&#x88AB;&#x8B80;&#x53D6;
 
 
-# real-mode OS code
-os_main:
-  mov %cs, %ax
-  mov %ax, %ds
-  mov %ax, %ss
-  mov %ax, %es
+
+&#x6B64;&#x5916;&#xFF0C;shell&#xFF08;&#x9019;&#x88E1;&#x6307;&#xFF42;&#xFF41;&#xFF53;&#xFF48;&#xFF09;&#x7684;&#x521D;&#x59CB;&#x5316;&#x904E;&#x7A0B;&#x662F;&#x9019;&#x6A23;&#x7684;&#xFF1A;
+
+<span class="hljs-number">1</span>.bash &#x6AA2;&#x67E5;&#x6587;&#x4EF6;/etc/profile &#x662F;&#x5426;&#x5B58;&#x5728;
+<span class="hljs-number">2</span>. &#x5982;&#x679C;&#x5B58;&#x5728;&#xFF0C;bash &#x5C31;&#x8B80;&#x53D6;&#x8A72;&#x6587;&#x4EF6;&#xFF0C;&#x5426;&#x5247;&#xFF0C;&#x8DF3;&#x904E;
+<span class="hljs-number">3</span>.bash &#x6AA2;&#x67E5;&#x4E3B;&#x76EE;&#x9304;&#x4E0B;&#x7684;&#x6587;&#x4EF6;.bash_profile &#x662F;&#x5426;&#x5B58;&#x5728;&#x3002;
+<span class="hljs-number">4</span>. &#x5982;&#x679C;&#x5B58;&#x5728;&#xFF0C;bash &#x5C31;&#x8B80;&#x53D6;&#x8A72;&#x6587;&#x4EF6;&#xFF0C;&#x5426;&#x5247;&#xFF0C;&#x8DF3;&#x904E;
+<span class="hljs-number">5</span>.bash &#x6AA2;&#x67E5;&#x4E3B;&#x76EE;&#x9304;&#x4E0B;&#x7684;.bash_login &#x662F;&#x5426;&#x5B58;&#x5728;&#x3002;
+<span class="hljs-number">6</span>. &#x5982;&#x679C;&#x5B58;&#x5728;&#xFF0C;bash &#x5C31;&#x8B80;&#x53D6;&#x8A72;&#x6587;&#x4EF6;&#xFF0C;&#x5426;&#x5247;&#xFF0C;&#x8DF3;&#x904E;
+<span class="hljs-number">7</span>.bash &#x6AA2;&#x67E5;&#x4E3B;&#x76EE;&#x9304;&#x4E0B;&#x7684;&#x6587;&#x4EF6;.profile &#x662F;&#x5426;&#x5B58;&#x5728;
+<span class="hljs-number">8</span>. &#x5982;&#x679C;&#x5B58;&#x5728;&#xFF0C; bash &#x5C31;&#x8B80;&#x53D6;&#x8A72;&#x6587;&#x4EF6;&#xFF0C;&#x5426;&#x5247;&#xFF0C;&#x8DF3;&#x904E;&#x3002;
+&#x9019;&#x4E9B;&#x6B65;&#x9A5F;&#x90FD;&#x57F7;&#x884C;&#x5B8C;&#x5F8C;&#xFF0C;&#x5C31;&#x51FA;&#x73FE;&#x63D0;&#x793A;&#x7B26;&#x4E86;&#xFF0C; ksh &#x9ED8;&#x8A8D;&#x63D0;&#x793A;&#x7B26;&#x662F; $.
+</code></pre>
+<h2 id="%E4%BA%94%EF%BC%9A%E5%B8%B8%E8%A6%8B%E7%9A%84shell%E8%AE%8A%E9%87%8F">&#x4E94;&#xFF1A;&#x5E38;&#x898B;&#x7684;shell&#x8B8A;&#x91CF;</h2>
+<pre><code class="lang-sh">PATH &#x9019;&#x500B;&#x8B8A;&#x91CF;&#x5305;&#x542B;&#x4E86;&#x4E00;&#x7CFB;&#x5217;&#x7531;&#x5192;&#x865F;&#x5206;&#x9694;&#x958B;&#x7684;&#x76EE;&#x9304;&#xFF0C;&#x7CFB;&#x7D71;&#x5C31;&#x5F9E;&#x9019;&#x4E9B;&#x76EE;&#x9304;&#x88E1;&#x5C0B;&#x627E;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x3002;&#x5982;&#x679C;&#x4F60;&#x8F38;&#x5165;&#x7684;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#xFF08;&#x4F8B;&#x5982;ls&#x3001;rc-update&#x6216;&#x8005;emerge&#xFF09; &#x4E0D;&#x5728;&#x9019;&#x4E9B;&#x76EE;&#x9304;&#x4E2D;&#xFF0C;&#x7CFB;&#x7D71;&#x5C31;&#x7121;&#x6CD5;&#x57F7;&#x884C;&#x5B83;&#xFF08;&#x9664;&#x975E;&#x4F60;&#x8F38;&#x5165;&#x9019;&#x500B;&#x547D;&#x4EE4;&#x7684;&#x5B8C;&#x6574;&#x8DEF;&#x5F91;&#xFF0C;&#x5982;/bin/ls&#xFF09;&#x3002;  
+ROOTPATH &#x9019;&#x500B;&#x8B8A;&#x91CF;&#x7684;&#x529F;&#x80FD;&#x548C;PATH&#x76F8;&#x540C;&#xFF0C;&#x4F46;&#x5B83;&#x53EA;&#x7F85;&#x5217;&#x51FA;&#x8D85;&#x7D1A;&#x7528;&#x6236;&#xFF08;root&#xFF09;&#x9375;&#x5165;&#x547D;&#x4EE4;&#x6642;&#x6240;&#x9700;&#x6AA2;&#x67E5;&#x7684;&#x76EE;&#x9304;&#x3002;  
+LDPATH &#x9019;&#x500B;&#x8B8A;&#x91CF;&#x5305;&#x542B;&#x4E86;&#x4E00;&#x7CFB;&#x5217;&#x7528;&#x5192;&#x865F;&#x9694;&#x958B;&#x7684;&#x76EE;&#x9304;&#xFF0C;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5668;&#x5C07;&#x5728;&#x9019;&#x4E9B;&#x76EE;&#x9304;&#x88E1;&#x67E5;&#x627E;&#x5EAB;&#x6587;&#x4EF6;&#x3002; 
+MANPATH &#x9019;&#x500B;&#x8B8A;&#x91CF;&#x5305;&#x542B;&#x4E86;&#x4E00;&#x7CFB;&#x5217;&#x7528;&#x5192;&#x865F;&#x9694;&#x958B;&#x7684;&#x76EE;&#x9304;&#xFF0C;&#x547D;&#x4EE4;man&#x6703;&#x5728;&#x9019;&#x4E9B;&#x76EE;&#x9304;&#x88E1;&#x641C;&#x7D22;man&#x9801;&#x9762;&#x3002;  
+INFODIR &#x9019;&#x500B;&#x8B8A;&#x91CF;&#x5305;&#x542B;&#x4E86;&#x4E00;&#x7CFB;&#x5217;&#x7528;&#x5192;&#x865F;&#x9694;&#x958B;&#x7684;&#x76EE;&#x9304;&#xFF0C;&#x547D;&#x4EE4;info&#x5C07;&#x5728;&#x9019;&#x4E9B;&#x76EE;&#x9304;&#x88E1;&#x641C;&#x7D22;info&#x9801;&#x9762;&#x3002;  
+PAGER &#x9019;&#x500B;&#x8B8A;&#x91CF;&#x5305;&#x542B;&#x4E86;&#x700F;&#x89BD;&#x6587;&#x4EF6;&#x5167;&#x5BB9;&#x7684;&#x7A0B;&#x5E8F;&#x7684;&#x8DEF;&#x5F91;&#xFF08;&#x4F8B;&#x5982;less&#x6216;&#x8005;more&#xFF09;&#x3002;  
+EDITOR &#x9019;&#x500B;&#x8B8A;&#x91CF;&#x5305;&#x542B;&#x4E86;&#x4FEE;&#x6539;&#x6587;&#x4EF6;&#x5167;&#x5BB9;&#x7684;&#x7A0B;&#x5E8F;&#xFF08;&#x6587;&#x4EF6;&#x7DE8;&#x8F2F;&#x5668;&#xFF09;&#x7684;&#x8DEF;&#x5F91;&#xFF08;&#x6BD4;&#x5982;nano&#x6216;&#x8005;vi&#xFF09;&#x3002;  
+KDEDIRS &#x9019;&#x500B;&#x8B8A;&#x91CF;&#x5305;&#x542B;&#x4E86;&#x4E00;&#x7CFB;&#x5217;&#x7528;&#x5192;&#x865F;&#x9694;&#x958B;&#x7684;&#x76EE;&#x9304;&#xFF0C;&#x88E1;&#x9762;&#x653E;&#x7684;&#x662F;KDE&#x76F8;&#x95DC;&#x7684;&#x8CC7;&#x6599;&#x3002; 
+CONFIG_PROTECT &#x9019;&#x500B;&#x8B8A;&#x91CF;&#x5305;&#x542B;&#x4E86;&#x4E00;&#x7CFB;&#x5217;&#x7528;&#x7A7A;&#x683C;&#x9694;&#x958B;&#x7684;&#x76EE;&#x9304;&#xFF0C;&#x5B83;&#x5011;&#x5728;&#x66F4;&#x65B0;&#x7684;&#x6642;&#x5019;&#x6703;&#x88AB;Portage&#x4FDD;&#x8B77;&#x8D77;&#x4F86;&#x3002; 
+CONFIG_PROTECT_MASK &#x9019;&#x500B;&#x8B8A;&#x91CF;&#x5305;&#x542B;&#x4E86;&#x4E00;&#x7CFB;&#x5217;&#x7528;&#x7A7A;&#x683C;&#x9694;&#x958B;&#x7684;&#x76EE;&#x9304;&#xFF0C;&#x5B83;&#x5011;&#x5728;&#x66F4;&#x65B0;&#x7684;&#x6642;&#x5019;&#x4E0D;&#x6703;&#x88AB;Portage&#x4FDD;&#x8B77;&#x8D77;&#x4F86;&#x3002;
 
 
-  /* Set gdt for code segment */
-  InitSegDescriptor LABEL_PE_CODE32, LABEL_GDT_CODE
-  InitSegDescriptor LABEL_DATA, LABEL_GDT_DATA
-  InitSegDescriptor LABEL_LDT, LABEL_GDT_LDT
-  InitSegDescriptor LABEL_PE_LDT_CODE32, LABEL_LDT_ENTRY
 
-  /* Set GDTR */
-  xor     %ax, %ax
-  mov     %cs, %ax
-  shl     $4, %eax
-  addl    $LABEL_GDT_NULL, %eax
-  movl     %eax, (LABEL_GDTR + 2)
-
-  /* Enable A20 line */
-  xor     %ax, %ax
-  in         $0x92, %al
-  or         $2, %al
-  out     %al, $0x92
-
-  cli
-
-  /* Load the GDT base address and limit from memory into the GDTR register */
-  lgdt     LABEL_GDTR
-
-   /* Enable protect mode */
-  movl     %cr0, %eax
-  orl     $1, %eax
-  movl     %eax, %cr0
-
-  /* Jump to protected-mode OS code */
-  ljmp     $SegSelectorCode32, $0
-
-
-LABEL_PE_LDT_CODE32:
-.code32
-  mov     $(SegSelectorData), %ax
-  mov     %ax, %ds
-  mov     $(SegSelectorVideo), %ax
-  mov     %ax, %gs
-
-  xorl     %esi, %esi
-  xorl    %edi, %edi
-  movl     $Msg2Offset, %esi
-  movl     $((80 * 11 + 0) * 2), %edi
-  movb     $0xC, %ah
-
-ldt_dump_str:
-  lodsb
-  andb     %al, %al
-  jz      ldt_fin
-  mov     %ax, %gs:(%edi)
-  addl     $2, %edi
-  jmp     ldt_dump_str
-
-ldt_fin:
-  jmp .
-
-.set LDT_CODE32_LEN, (. - LABEL_PE_LDT_CODE32)
-
-# protected-mode OS code in GDT
-LABEL_PE_CODE32:
-.code32
-  /* Load data segment selector */
-  mov     $(SegSelectorData), %ax
-  mov     %ax, %ds
-
-  /* Load Video segment selector */
-  mov     $(SegSelectorVideo), %ax
-  mov     %ax, %gs
-
-  /* Output the data */
-  xorl     %esi, %esi
-  xorl    %edi, %edi
-  movl     $Msg1Offset, %esi
-  movl     $((80 * 10 + 0) * 2), %edi
-  movb     $0xC, %ah
-
-dump_str:
-  lodsb
-  andb     %al, %al
-  jz      fin
-  mov     %ax, %gs:(%edi)
-  addl     $2, %edi
-  jmp     dump_str
-
-fin:
-  /* Load LDT selector */
-  mov     $(SegSelectorLDT), %ax
-
-  /* Load LDT selector in GDT to LDT register */
-  lldt     %ax
-
-  /* Jump to code segment in LDT */
-  ljmp     $(SegSelectorLDTCode32), $0
-
-.set PECode32Len, (. - LABEL_PE_CODE32)
-
-os_msg:
-  .ascii &quot;Welcome to OS context!&quot;
-  .byte     0
-
-  .org    0x200, 0x41 # fill characters with &apos;A&apos;. Sector 2
-</code></pre><h3 id="figure-2-code-for-operating-system">Figure 2. Code for Operating System</h3>
-<ul>
-<li>16&#x4F4D;&#x5143;real mode&#x7A0B;&#x5F0F;&#x78BC; (os_main)&#x4E2D;&#xFF0C;&#x57F7;&#x884C;&#x82E5;&#x5E72;&#x4EFB;&#x52D9;&#x5982;&#x4E0B;&#x6240;&#x8FF0;:<ul>
-<li>&#x8A2D;&#x5B9A;LABEL_GDT_CODE&#x7684;&#x57FA;&#x5E95;&#x4F4D;&#x5740;&#x70BA;PE_CODE32&#x7684;&#x8D77;&#x59CB;&#x4F4D;&#x5740;</li>
-<li>&#x8A2D;&#x5B9A;LABEL_GDT_DATA&#x7684;&#x57FA;&#x5E95;&#x4F4D;&#x5740;&#x70BA;LABEL_DATA&#x7684;&#x8D77;&#x59CB;&#x4F4D;&#x5740;</li>
-<li>&#x8A2D;&#x5B9A;LABEL_GDT_LDT&#x7684;&#x57FA;&#x5E95;&#x4F4D;&#x5740;&#x70BA;LABEL_LDT&#x7684;&#x8D77;&#x59CB;&#x4F4D;&#x5740;</li>
-<li>&#x8A2D;&#x5B9A;LABEL_LDT_ENTRY&#x7684;&#x57FA;&#x5E95;&#x4F4D;&#x5740;&#x70BA;LABEL_PE_LDT_CODE32&#x7684;&#x8D77;&#x59CB;&#x4F4D;&#x5740;</li>
-<li>&#x8A2D;&#x5B9A;GDTPtr&#x7684;&#x57FA;&#x5E95;&#x4F4D;&#x5740;&#x70BA;GDT&#x7684;&#x8D77;&#x59CB;&#x4F4D;&#x5740;(&#x4E5F;&#x5C31;&#x662F;GDT_DESC_NULL)</li>
-<li>&#x958B;&#x555F;A20&#x7DDA;&#x8DEF; (A20 Line)</li>
-<li>&#x5C07;GDT&#x7684;&#x8D77;&#x59CB;&#x4F4D;&#x5740;&#x8F09;&#x5165;&#x81F3;GDTR&#x66AB;&#x5B58;&#x5668;</li>
-<li>&#x8A2D;&#x5B9A;cr0&#x66AB;&#x5B58;&#x5668;&#x7684;bit 0&#x4EE5;&#x4FBF;&#x9032;&#x5165;&#x4FDD;&#x8B77;&#x6A21;&#x5F0F;</li>
-<li>&#x4F7F;&#x7528;ljmp&#x6307;&#x4EE4;&#x8DF3;&#x81F3;PE_CODE32&#x7A0B;&#x5F0F;&#x78BC;</li>
-<li>&#x4F7F;&#x7528;lldt&#x6307;&#x4EE4;&#x5C07;LDT&#x7684;segment selector&#x8F09;&#x5165;&#x81F3;LDTR (Local Descriptor Table Register)&#xFF0C;&#x4E26;&#x8DF3;&#x81F3;SegSelectorLDTCode32 segment selector&#x57F7;&#x884C;LDT&#x7684;&#x7A0B;&#x5F0F;&#x78BC;&#x3002;</li>
-</ul>
-</li>
-</ul>
-<p>32&#x4F4D;&#x5143;&#x4FDD;&#x8B77;&#x6A21;&#x5F0F;&#x7A0B;&#x5F0F;&#x78BC; (LABEL_PE_CODE32)&#x5229;&#x7528;Video segment selector&#x5C07;&quot;Welcome to Protect mode in GDT.&quot;&#x986F;&#x793A;&#x5728;&#x87A2;&#x5E55;&#x4E0A;&#xFF0C;&#x800C;LABEL_PE_LDT_CODE32&#x5247;&#x5C07;&quot;Welcome to Protect mode in LDT.&quot;&#x986F;&#x793A;&#x5728;&#x87A2;&#x5E55;&#x4E0A;&#xFF0C;&#x7528;&#x4EE5;&#x9A57;&#x8B49;&#x7A0B;&#x5F0F;&#x904B;&#x4F5C;&#x4E4B;&#x6B63;&#x78BA;&#x6027;&#x3002;</p>
-<h3 id="pm-h%E6%A8%99%E9%A0%AD%E6%AA%94">pm.h&#x6A19;&#x982D;&#x6A94;</h3>
-<pre><code>/* pm.h
-*
-* Adrian Huang (adrianhuang0701@gmail.com)
-*/
-.macro SEG_DESC Base, Limit, Attr
-   .2byte (\Limit &amp; 0xFFFF)
-  .2byte (\Base &amp; 0xFFFF)
-  .byte  ((\Base &gt;&gt; 16) &amp; 0xFF)
-  .2byte ((\Attr &amp; 0xF0FF) | ((\Limit &gt;&gt; 8) &amp; 0x0F00))
-  .byte  ((\Base &gt;&gt; 24) &amp; 0xFF)
-.endm
-
-.macro InitSegDescriptor OFFSET GDT_SEG_ADDR
-  xor     %ax, %ax
-  mov     %cs, %ax
-  shl     $4, %eax
-  addl    $(\OFFSET), %eax
-  movw     %ax, (\GDT_SEG_ADDR + 2)
-  shr     $16, %eax
-  movb     %al, (\GDT_SEG_ADDR + 4)
-  movb     %ah, (\GDT_SEG_ADDR + 7)
-
-.endm
-
-.set DESC_ATTR_TYPE_LDT,         0x82       /* LDT Segment         */
-.set DESC_ATTR_TYPE_CD_ER,         0x9A     /* Code segment with Execute/Read */
-.set DESC_ATTR_TYPE_CD_E,         0x98     /* Code segment with Execute Only */
-.set DESC_ATTR_TYPE_CD_RW,         0x92    /* Data segment with R/W         */
-.set DESC_ATTR_D,                 0x4000     /* 32-bit segment                 */
-
-/* Selector Attribute */
-.set SA_TIL,     0x4
-.set SA_RPL0,     0x0
-.set SA_RPL1,     0x1
-.set SA_RPL2,     0x2
-.set SA_RPL3,     0x3
-</code></pre><h3 id="%E7%B7%A8%E8%AD%AF%E7%A8%8B%E5%BC%8F%E7%A2%BC">&#x7DE8;&#x8B6F;&#x7A0B;&#x5F0F;&#x78BC;</h3>
-<p>&#x8ACB;&#x53C3;&#x7167;&#x6B64;&#x7BC7;&#x7684;Makefile&#x7A0B;&#x5F0F;&#x78BC;</p>
-<p>&#x5176;&#x7DE8;&#x8B6F;&#x8A0A;&#x606F;&#x5982;&#x4E0B;&#x6240;&#x793A;:</p>
-<pre><code>adrian@adrian-desktop:~/working/build_os/my_ex/04day/blog/pe-multi-seg-ldt$ make clean all
-rm -f boot_loader.o os.o boot_loader.bin
-gcc -c boot_loader.S
-gcc -c os.S
-ld -Ttext=0x7C00 -s boot_loader.o -o boot_loader.bin --oformat binary
-ld -Ttext=0x0 -s os.o -o os.bin --oformat binary
-ld: warning: cannot find entry symbol _start; defaulting to 0000000000000000
-cat os.bin &gt;&gt; boot_loader.bin
-adrian@adrian-desktop:~/working/build_os/my_ex/04day/blog/pe-multi-seg-ldt$
-</code></pre><h3 id="qemu%E6%B8%AC%E8%A9%A6%E7%B5%90%E6%9E%9C">QEMU&#x6E2C;&#x8A66;&#x7D50;&#x679C;</h3>
-<p><img src="images/qemu_result.jpeg.1" alt=""></p>
-<h3 id="%E3%80%90reference%E3%80%91">&#x3010;Reference&#x3011;</h3>
-<ul>
-<li>[1] Solrex - &#x4F7F;&#x7528;&#x958B;&#x6E90;&#x8EDF;&#x9AD4;-&#x81EA;&#x5DF1;&#x52D5;&#x624B;&#x5BEB;&#x4F5C;&#x696D;&#x7CFB;&#x7D71;</li>
-<li>[2] Intel 64 and IA-32 Architectures. Software Developer&apos;s Manual. Volume 3A</li>
-<li>[3] 30&#x5929;&#x6253;&#x9020;OS&#xFF01;&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x81EA;&#x4F5C;&#x5165;&#x9580;</li>
-<li>[4] Jserv&apos;s Blog</li>
-<li>[5] X86 &#x958B;&#x6A5F;&#x6D41;&#x7A0B;&#x5C0F;&#x8A18;</li>
-<li>[6] Linux assemblers: A comparison of GAS and NASM</li>
-<li>[7] linux-source-2.6.31</li>
-</ul>
+PATH&#xFF1A;&#x6C7A;&#x5B9A;&#x4E86;shell&#x5C07;&#x5230;&#x54EA;&#x4E9B;&#x76EE;&#x9304;&#x4E2D;&#x5C0B;&#x627E;&#x547D;&#x4EE4;&#x6216;&#x7A0B;&#x5E8F;
+HOME&#xFF1A;&#x7576;&#x524D;&#x7528;&#x6236;&#x4E3B;&#x76EE;&#x9304;
+MAIL&#xFF1A;&#x662F;&#x6307;&#x7576;&#x524D;&#x7528;&#x6236;&#x7684;&#x90F5;&#x4EF6;&#x5B58;&#x653E;&#x76EE;&#x9304;&#x3002;
+SHELL&#xFF1A;&#x662F;&#x6307;&#x7576;&#x524D;&#x7528;&#x6236;&#x7528;&#x7684;&#x662F;&#x54EA;&#x7A2E;Shell&#x3002;
+HISTSIZE&#xFF1A;&#x662F;&#x6307;&#x4FDD;&#x5B58;&#x6B77;&#x53F2;&#x547D;&#x4EE4;&#x8A18;&#x9304;&#x7684;&#x689D;&#x6578;
+LOGNAME&#xFF1A;&#x662F;&#x6307;&#x7576;&#x524D;&#x7528;&#x6236;&#x7684;&#x767B;&#x9304;&#x540D;&#x3002; 
+HOSTNAME&#xFF1A;&#x662F;&#x6307;&#x4E3B;&#x6A5F;&#x7684;&#x540D;&#x7A31;&#xFF0C;&#x8A31;&#x591A;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x5982;&#x679C;&#x8981;&#x7528;&#x5230;&#x4E3B;&#x6A5F;&#x540D;&#x7684;&#x8A71;&#xFF0C;&#x901A;&#x5E38;&#x662F;&#x5F9E;&#x9019;&#x500B;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x4E2D;&#x4F86;&#x53D6;&#x5F97;&#x7684;&#x3002;
+LANG/LANGUGE&#xFF1A;&#x662F;&#x548C;&#x8A9E;&#x8A00;&#x76F8;&#x95DC;&#x7684;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#xFF0C;&#x4F7F;&#x7528;&#x591A;&#x7A2E;&#x8A9E;&#x8A00;&#x7684;&#x7528;&#x6236;&#x53EF;&#x4EE5;&#x4FEE;&#x6539;&#x6B64;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x3002; 
+PS1&#xFF1A;&#x662F;&#x57FA;&#x672C;&#x63D0;&#x793A;&#x7B26;&#xFF0C;&#x5C0D;&#x65BC;root&#x7528;&#x6236;&#x662F;<span class="hljs-comment">#&#xFF0C;&#x5C0D;&#x65BC;&#x666E;&#x901A;&#x7528;&#x6236;&#x662F;$&#x3002;</span>
+PS2&#xFF1A;&#x662F;&#x9644;&#x5C6C;&#x63D0;&#x793A;&#x7B26;&#xFF0C;&#x9ED8;&#x8A8D;&#x662F;&#x201C;&gt;&#x201D;&#x3002;&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x4FEE;&#x6539;&#x6B64;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x4F86;&#x4FEE;&#x6539;&#x7576;&#x524D;&#x7684;&#x547D;&#x4EE4;&#x7B26;&#xFF0C;&#x6BD4;&#x5982;&#x4E0B;&#x5217;&#x547D;&#x4EE4;&#x6703;&#x5C07;&#x63D0;&#x793A;&#x7B26;&#x4FEE;&#x6539;&#x6210;&#x5B57;&#x7B26;&#x4E32;&#x201C;Hello,My NewPrompt :) &#x201D;&#x3002; 
+<span class="hljs-comment"># PS1=&quot; Hello,My NewPrompt :) &quot;</span>
+</code></pre>
 
                     
                     </section>
@@ -6388,10 +6210,10 @@ adrian@adrian-desktop:~/working/build_os/my_ex/04day/blog/pe-multi-seg-ldt$
         </div>
 
         
-        <a href="../os/1414.html" class="navigation navigation-prev " aria-label="Previous page: (四) 由16位元真實模式 (Real Mode) 進入32位元保護模式 (Protect Mode)"><i class="fa fa-angle-left"></i></a>
+        <a href="../linux_system/1516.html" class="navigation navigation-prev " aria-label="Previous page: LD_LIBRARY_PATH與-L的關係"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../os/1416.html" class="navigation navigation-next " aria-label="Next page: (六) 簡介Call Gate"><i class="fa fa-angle-right"></i></a>
+        <a href="../assembly/index.html" class="navigation navigation-next " aria-label="Next page: Assembly"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

@@ -379,4 +379,5 @@
    * [ubuntu 14.04 安裝OpenGL（基於freeglut）](opengl/1.md)
 * [arduino](arduino/README.md)
    * [Processing communication with Arduino via serial](arduino/processing.md)
+   * arduino_gdb
 

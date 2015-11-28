@@ -380,4 +380,5 @@
 * [arduino](arduino/README.md)
    * [Processing communication with Arduino via serial](arduino/processing.md)
    * [使用gdb實時調式arduino](arduino/arduinogdb.md)
+* edb
 

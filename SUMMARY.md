@@ -386,4 +386,5 @@
 * [Debug Tips](debug/debug_tips.md)
    * [gcc/g++ -instrument-functions 參數](debug/gccg++_-instrument-functions_can_shu.md)
    * [core dump 之前的 frame](debug/coredumpframe.md)
+* thinker_note
 

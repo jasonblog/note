@@ -387,4 +387,5 @@
    * [gcc/g++ -instrument-functions 參數](debug/gccg++_-instrument-functions_can_shu.md)
    * [core dump 之前的 frame](debug/coredumpframe.md)
 * [thinker_note](thinker/thinkernote.md)
+   * 如果有人要求你改善系統
 

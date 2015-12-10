@@ -394,5 +394,5 @@
    * [程式碼要清的多乾淨?](thinker/cheng_shi_ma_yao_qing_de_duo_gan_6de83f.md)
    * [GDB 追蹤 memory corruption](thinker/gdb_zhui_zong_memory_corruption.md)
    * [GDB 自動化 debug](thinker/gdb_zi_dong_hua_debug.md)
-   * unittest 與 pdb 改善開發效率
+   * [unittest 與 pdb 改善開發效率](thinker/unittest_yu_pdb_gai_shan_kai_fa_xiao_lv.md)
 

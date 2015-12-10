@@ -391,4 +391,5 @@
    * [閱讀程式碼的心理層面](thinker/yue_du_cheng_shi_ma_de_xin_li_ceng_mian.md)
    * [學習程式設計的方法?!](thinker/xue_xi_cheng_shi_she_ji_de_fang_6cd53f21.md)
    * [讀 code 和讀文章應該差不多](thinker/du_code_he_du_wen_zhang_ying_gai_cha_bu_duo.md)
+   * 程式碼要清的多乾淨?
 

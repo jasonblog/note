@@ -383,5 +383,5 @@
 * [edb](linux_reverse/README.md)
    * [EDB (Evan's Debugger)](linux_reverse/rdb.md)
 * [Debug Tips](debug/debug_tips.md)
-   * gcc/g++ -instrument-functions 參數
+   * [gcc/g++ -instrument-functions 參數](debug/gccg++_-instrument-functions_can_shu.md)
 

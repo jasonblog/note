@@ -384,5 +384,5 @@
    * [EDB (Evan's Debugger)](linux_reverse/rdb.md)
 * [Debug Tips](debug/debug_tips.md)
    * [gcc/g++ -instrument-functions 參數](debug/gccg++_-instrument-functions_can_shu.md)
-   * [coredump_frame](debug/coredumpframe.md)
+   * [core dump 之前的 frame](debug/coredumpframe.md)
 

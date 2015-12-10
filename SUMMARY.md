@@ -382,5 +382,5 @@
    * [使用gdb實時調式arduino](arduino/arduinogdb.md)
 * [edb](linux_reverse/README.md)
    * [EDB (Evan's Debugger)](linux_reverse/rdb.md)
-* Debug Tips
+* [Debug Tips](debug/debug_tips.md)
 

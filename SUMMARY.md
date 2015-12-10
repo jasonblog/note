@@ -388,5 +388,5 @@
    * [core dump 之前的 frame](debug/coredumpframe.md)
 * [thinker_note](thinker/thinkernote.md)
    * [如果有人要求你改善系統](thinker/ru_guo_you_ren_yao_qiu_ni_gai_shan_xi_tong.md)
-   * 閱讀程式碼的心理層面
+   * [閱讀程式碼的心理層面](thinker/yue_du_cheng_shi_ma_de_xin_li_ceng_mian.md)
 

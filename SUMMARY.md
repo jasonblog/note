@@ -396,5 +396,5 @@
    * [GDB 自動化 debug](thinker/gdb_zi_dong_hua_debug.md)
    * [unittest 與 pdb 改善開發效率](thinker/unittest_yu_pdb_gai_shan_kai_fa_xiao_lv.md)
    * [程式註解如何寫](thinker/cheng_shi_zhu_jie_ru_he_xie.md)
-   * 程式碼的可讀性比較
+   * [程式碼的可讀性比較](thinker/cheng_shi_ma_de_ke_du_xing_bi_jiao.md)
 

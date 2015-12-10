@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>奇怪的宏 | Jason note</title>
+        <title>如何判斷 C++ 物件的類別? | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../simplelinux/align.html" />
+    <link rel="next" href="../22/index.html" />
     
     
-    <link rel="prev" href="../simplelinux/struct.html" />
+    <link rel="prev" href="../c++/214.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="24.8" data-basepath=".." data-revision="Thu Dec 10 2015 23:06:22 GMT+0800 (CST)">
+    <div class="book" data-level="21.5" data-basepath=".." data-revision="Thu Dec 10 2015 23:06:22 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -4337,7 +4337,7 @@
             
         </li>
     
-        <li class="chapter " data-level="21.5" data-path="c++/215.html">
+        <li class="chapter active" data-level="21.5" data-path="c++/215.html">
             
                 
                     <a href="../c++/215.html">
@@ -5183,7 +5183,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="24.8" data-path="simplelinux/macro.html">
+        <li class="chapter " data-level="24.8" data-path="simplelinux/macro.html">
             
                 
                     <a href="../simplelinux/macro.html">
@@ -6234,99 +6234,28 @@
                 
                     <section class="normal" id="section-">
                     
-                        <p><a name="top"></a></p>
-<h1 align="center">&#x5947;&#x602A;&#x7684;&#x5B8F;
-</h1>
-
-<p>&#x9019;&#x4E00;&#x7BC7;&#x4ECB;&#x7D39;&#x9019;&#x4E9B;&#x5947;&#x602A;&#x7684;&#x5B8F;&#xFF1A;</p>
-<h2 id="%E4%B8%80%E3%80%81do-while-0">&#x4E00;&#x3001;do while(0)</h2>
-<p>&#x3000;&#x3000;&#x70BA;&#x4E86;&#x4EA4;&#x63DB;&#x5169;&#x500B;&#x6574;&#x578B;&#x8B8A;&#x91CF;&#x7684;&#x503C;&#xFF0C;&#x524D;&#x9762;<em>&#x503C;&#x50B3;&#x905E;</em>&#x4E2D;&#x5DF2;&#x7D93;&#x7528;
-&#x5305;&#x542B;&#x6307;&#x91DD;&#x53C3;&#x6578;&#x7684; swap &#x51FD;&#x6578;&#x505A;&#x5230;&#x4E86;&#xFF0C;&#x9019;&#x6B21;&#x7528;<b>&#x5B8F;</b>&#x4F86;&#x5BE6;&#x73FE;&#xFF08;swap.c&#xFF09;&#xFF1A;</p>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
-
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> SWAP(a,b)        \
-    do{                    \
-        int t = a;        \
-        a = b;            \
-        b = t;            \
-    }while(<span class="hljs-number">0</span>)</span>
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
-</span>{
-    <span class="hljs-keyword">int</span> c=<span class="hljs-number">1</span>, d=<span class="hljs-number">2</span>;
-    <span class="hljs-keyword">int</span> t;    <span class="hljs-comment">// &#x6E2C;&#x8A66; SWAP &#x8207;&#x74B0;&#x5883;&#x7684;&#x517C;&#x5BB9;&#x6027;</span>
-
-    SWAP(c,d);
-
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;c:%d d:%d\n&quot;</span>, c, d);
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-}
+                        <h1 id="%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%B7-c-%E7%89%A9%E4%BB%B6%E7%9A%84%E9%A1%9E%E5%88%A5">&#x5982;&#x4F55;&#x5224;&#x65B7; C++ &#x7269;&#x4EF6;&#x7684;&#x985E;&#x5225;?</h1>
+<p>&#x4F7F;&#x7528; C++ &#x958B;&#x767C;&#x7CFB;&#x7D71;&#x6642;&#xFF0C;&#x5E38;&#x9047;&#x5230;&#x67D0;&#x500B;&#x7269;&#x4EF6;&#x88AB; release &#x591A;&#x6B21;&#x3002;&#x4F60;&#x4E5F;&#x8A31;&#x6703;&#x60F3;&#x77E5;&#x9053;&#x8A72; &#x7269;&#x4EF6;&#x539F;&#x5C6C;&#x65BC;&#x54EA;&#x4E00;&#x500B; class&#xFF0C;&#x7279;&#x5225;&#x662F;&#x6709;&#x7E7C;&#x627F;&#x95DC;&#x4FC2;&#x6642;&#x3002;&#x5982;&#x679C;&#x80FD;&#x77E5;&#x9053;&#x8A72;&#x7269;&#x4EF6;&#x662F;&#x7531;&#x54EA;&#x4E00;&#x500B; sub-class &#x7522;&#x751F;&#x7684;&#xFF0C;&#x6216;&#x8A31;&#x6709;&#x52A9;&#x65BC; debugging&#x3002;</p>
+<p>&#x6BCF;&#x4E00;&#x500B;&#x5177;&#x6709; virtual method &#x7684; class &#x90FD;&#x6709;&#x4E00;&#x500B;&#x5C0D;&#x61C9;&#x7684; vtable&#xFF0C;&#x8A18;&#x9304;&#x6BCF;&#x4E00;&#x500B; virtual method &#x7684;&#x4F4D;&#x5740;&#x3002;&#x800C;&#x8A72; class &#x7684; instance &#x5247;&#x5305;&#x62EC;&#x4E00;&#x500B;&#x6307;&#x5411; vtable &#x7684; pointer&#xFF0C;&#x4E14;&#x8A72; pointer (vptr) &#x901A;&#x5E38;&#x5728; instance &#x7684;&#x958B;&#x982D;&#x4F4D;&#x5740; (&#x4EE5; Linux &#x70BA;&#x4F8B;)&#xFF0C; &#x5982;&#x679C;&#x4E00;&#x500B; object &#x88AB;&#x591A;&#x6B21; release&#xFF0C; &#x904B;&#x6C23;&#x597D;&#x6642;&#xFF0C; vptr &#x6C92;&#x88AB;&#x7834;&#x58DE;&#xFF0C;&#x5C31;&#x53EF;&#x900F;&#x904E; vptr &#x53D6;&#x5F97; vtable &#x7684;&#x4F4D;&#x5740;&#xFF0C;&#x900F;&#x904E; vtable &#x53CD;&#x63A8;&#x8A72; instance &#x662F;&#x5C6C;&#x65BC;&#x54EA;&#x500B; class&#x3002; (&#x96D6;&#x7136;&#x4E0D;&#x662F; 100%&#xFF0C;&#x4F46;&#x6709;&#x6975;&#x9AD8;&#x7684;&#x53EF;&#x4FE1;&#x5EA6;&#x3002;)</p>
+<p>&#x5728;&#x5927;&#x90E8;&#x5206;(&#x6211;&#x6240;&#x9047;&#x904E;)&#x7684; Linux &#x5E73;&#x53F0;&#xFF0C;vptr &#x90FD;&#x662F;&#x5728; instance &#x7684;&#x8D77;&#x59CB;&#x4F4D;&#x5740;&#x3002;&#x56E0;&#x6B64;&#xFF0C; &#x4F60;&#x80FD;&#x5728; gdb &#x88E1;&#x76F4;&#x63A5;&#x5C07;&#x8A72; instance casting &#x6210;&#x4E00;&#x500B; (void <em>*</em>)&#xFF0C;&#x53D6;&#x5F97; vtable &#x7684;&#x4F4D;&#x5740;&#x3002;</p>
+<pre><code class="lang-c">(gdb) print *(<span class="hljs-keyword">unsigned</span> **)obj
 </code></pre>
-<p>&#x9019;&#x500B;&#x5B8F;&#x770B;&#x8D77;&#x4F86;&#x5C31;&#x6709;&#x9EDE;&#x602A;&#x4E86;&#xFF1A;do while(0) &#x662F;&#x5BEB;&#x4E86;&#x500B;&#x5FAA;&#x74B0;
-&#x53C8;&#x4E0D;&#x8B93;&#x5B83;&#x5FAA;&#x74B0;&#xFF0C;&#x86CB;&#x75BC;&#x554A;&#xFF01;&#x5176;&#x5BE6;&#x4E0D;&#x7136;&#xFF0C;&#x9019;&#x6A23;&#x5BEB;&#x662F;&#x6709;&#x5999;&#x7528;&#x7684;&#xFF1A;</p>
-<p><b>&#x9996;&#x5148;</b>&#xFF0C;SWAP &#x6709;&#x591A;&#x689D;&#x8A9E;&#x53E5;&#xFF0C;&#x5982;&#x679C;&#x9019;&#x6A23;&#x5BEB;&#xFF1A;</p>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> SWAP(a,b)        \
-int t = a;        \
-a = b;            \
-b = t;</span>
+<p>vtable &#x53EF;&#x4EE5;&#x770B;&#x6210;&#x4E00;&#x500B; array&#xFF0C;&#x6BCF;&#x4E00;&#x500B; element &#x90FD;&#x662F;&#x4E00;&#x500B;&#x6307;&#x5411; function &#x7684; pointer&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x8B80;&#x51FA;&#x6BCF;&#x4E00;&#x500B; virtual method &#x7684;&#x4F4D;&#x5740;&#x3002;</p>
+<pre><code class="lang-c">(gdb) print /x (*(<span class="hljs-keyword">unsigned</span> **)obj)[<span class="hljs-number">0</span>]
 </code></pre>
-<p>&#x90A3;&#x9EBC;&#x7528;&#x7684;&#x6642;&#x5019;&#x5C31;&#x5F97;&#x9019;&#x9EBC;&#x7528;&#xFF1A;</p>
-<p>SWAP(c,d)</p>
-<p><b>&#x4E0D;&#x80FD;&#x52A0;&#x5206;&#x865F;</b>&#xFF01;&#x4E0D;&#x7FD2;&#x6163;&#x5427;&#xFF1F;</p>
-<p>&#x3000;&#x3000;<b>&#x5176;&#x6B21;</b>&#xFF0C;&#x4F7F;&#x7528; do{...}while(0)&#xFF0C;
-&#x4E2D;&#x9593;&#x7684;&#x8A9E;&#x53E5;&#x7528;&#x5927;&#x62EC;&#x865F;&#x62EC;&#x8D77;&#x4F86;&#x4E86;&#xFF0C;&#x6240;&#x4EE5;&#x662F;&#x53E6;&#x4E00;&#x500B;&#x547D;&#x540D;&#x7A7A;&#x9593;&#xFF0C;
-<b>&#x5176;&#x4E2D;&#x7684;&#x65B0;&#x8B8A;&#x91CF; t &#x4E0D;&#x6703;&#x767C;&#x751F;&#x547D;&#x540D;&#x885D;&#x7A81;</b>&#x3002;</p>
-<p>&#x3000;&#x3000;SWAP &#x5B8F;&#x8981;&#x6BD4;&#x4E4B;&#x524D;&#x90A3;&#x500B;&#x51FD;&#x6578;&#x7684;&#x6548;&#x7387;&#x8981;&#x9AD8;&#xFF0C;
-&#x56E0;&#x70BA;&#x6C92;&#x6709;&#x767C;&#x751F;&#x51FD;&#x6578;&#x8ABF;&#x7528;&#xFF0C;&#x6C92;&#x6709;&#x53C3;&#x6578;&#x50B3;&#x905E;&#xFF0C;
-&#x5B8F;&#x6703;&#x5728;&#x7DE8;&#x8B6F;&#x524D;&#x88AB;&#x66FF;&#x63DB;&#xFF0C;&#x6240;&#x4EE5;&#x53EA;&#x662F;&#x5D4C;&#x5165;&#x4E86;&#x4E00;&#x5C0F;&#x6BB5;&#x4EE3;&#x78BC;&#x3002;</p>
-<h2 id="%E4%BA%8C%E3%80%81-35">&#x4E8C;&#x3001;#</h2>
-<p>&#x6A19;&#x984C;&#x6211;&#x6C92;&#x6253;&#x932F;&#xFF0C;&#x9019;&#x88E1;&#x8981;&#x8AAA;&#x7684;&#x5C31;&#x662F;&#x4E95;&#x865F;&#xFF0C;#&#x7684;&#x529F;&#x80FD;&#x662F;&#x5C07;&#x5176;&#x5F8C;&#x9762;&#x7684;
-&#x5B8F;&#x53C3;&#x6578;&#x9032;&#x884C;&#x5B57;&#x7B26;&#x4E32;&#x5316;&#x64CD;&#x4F5C;&#x3002;&#x6BD4;&#x5982;&#x4E0B;&#x9762;&#x4EE3;&#x78BC;&#x4E2D;&#x7684;&#x5B8F;&#xFF1A;</p>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> WARN_IF(EXP) \
-do{ <span class="hljs-keyword">if</span> (EXP) \
-    fprintf(stderr, <span class="hljs-string">&quot;Warning: &quot;</span> #EXP <span class="hljs-string">&quot;\n&quot;</span>); } \
-while(<span class="hljs-number">0</span>)</span>
+<p>&#x6709;&#x4E86; virtual method &#x7684;&#x4F4D;&#x5740;&#xFF0C;&#x4F60;&#x9084;&#x9700;&#x8981;&#x5C07;&#x8A72;&#x4F4D;&#x5740;&#x5C0D;&#x61C9;&#x81F3;&#x5BE6;&#x969B;&#x7684; symbol&#x3002;</p>
+<pre><code class="lang-c">(gdb) info symbol (*(unsigned **)this)[0]
+nsGlobalWindow::QueryInterface(nsID const&amp;, void**) + 1 in section .text of
+     /home/thinker/progm/B2G/objdir-gecko/dist/bin/libxul.so
 </code></pre>
-<p>&#x90A3;&#x9EBC;&#x5BE6;&#x969B;&#x4F7F;&#x7528;&#x4E2D;&#x6703;&#x51FA;&#x73FE;&#x4E0B;&#x9762;&#x6240;&#x793A;&#x7684;&#x66FF;&#x63DB;&#x904E;&#x7A0B;&#xFF1A;</p>
-<pre><code>WARN_IF (divider == 0);
-</code></pre><p>&#x88AB;&#x66FF;&#x63DB;&#x70BA;</p>
-<pre><code class="lang-c"><span class="hljs-keyword">do</span> { <span class="hljs-keyword">if</span> (divider == <span class="hljs-number">0</span>)
-    <span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;Warning: &quot;</span> <span class="hljs-string">&quot;divider == 0&quot;</span> <span class="hljs-string">&quot;\n&quot;</span>);
-} <span class="hljs-keyword">while</span>(<span class="hljs-number">0</span>);
+<p>&#x900F;&#x904E;&#x6B64;&#x6307;&#x4EE4;&#xFF0C;&#x4F60;&#x80FD;&#x5C07;&#x6240;&#x6709;&#x7684; virtual method &#x90FD;&#x5217;&#x51FA;&#x4F86;&#xFF0C;&#x9032;&#x800C;&#x63A8;&#x65B7;&#x51FA; class name&#x3002;</p>
+<p>&#x53E6;&#x5916;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x67E5; vtable &#x7684; symbol&#x3002;</p>
+<pre><code class="lang-c">(gdb) info symbol *(<span class="hljs-keyword">unsigned</span> *)<span class="hljs-keyword">this</span>
+vtable <span class="hljs-keyword">for</span> nsGlobalWindow + <span class="hljs-number">8</span> in section .data.rel.ro of
+     /home/thinker/progm/B2G/objdir-gecko/dist/bin/libxul.so
+(gdb)
 </code></pre>
-<p>&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;<b>C&#x8A9E;&#x8A00;&#x4E2D;&#x591A;&#x500B;&#x96D9;&#x5F15;&#x865F;&#x5B57;&#x7B26;&#x4E32;&#x653E;&#x5728;&#x4E00;&#x8D77;
-&#x6703;&#x81EA;&#x52D5;&#x9023;&#x63A5;&#x8D77;&#x4F86;</b>&#xFF0C;&#x6240;&#x4EE5;&#x5982;&#x679C; divider &#x70BA; 0 &#x7684;&#x8A71;&#xFF0C;&#x5C31;&#x6703;&#x6253;&#x5370;&#x51FA;&#xFF1A;</p>
-<p>Warning: divider == 0</p>
-<h2 id="%E4%B8%89%E3%80%81-35-35">&#x4E09;&#x3001;##</h2>
-<p>&#x3000;&#x3000;<code>#</code> &#x9084;&#x662F;&#x6BD4;&#x8F03;&#x5C11;&#x7528;&#x7684;&#xFF0C;<code>##</code> &#x537B;&#x6BD4;&#x8F03;&#x6D41;&#x884C;&#xFF0C;
-&#x5728; linux0.01 &#x4E2D;&#x5C31;&#x7528;&#x5230;&#x904E;&#x3002;## &#x88AB;&#x7A31;&#x70BA;&#x9023;&#x63A5;&#x7B26;&#xFF0C;
-&#x7528;&#x4F86;&#x5C07;&#x5169;&#x500B; &#x8A18;&#x865F;&#xFF08;&#x7DE8;&#x8B6F;&#x539F;&#x7406;&#x4E2D;&#x7684;&#x8A5E;&#x5F59;&#xFF09; &#x9023;&#x63A5;&#x70BA;&#x4E00;&#x500B; &#x8A18;&#x865F;&#x3002;
-&#x770B;&#x4E0B;&#x9762;&#x7684;&#x4F8B;&#x5B50;&#x5427;&#xFF08;add.c&#xFF09;&#xFF1A;</p>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
-
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> add(Type)                \
-Type add##Type(Type a, Type b){    \
-    return a+b;                    \
-}</span>
-
-<span class="hljs-comment">// &#x4E0B;&#x9762;&#x5169;&#x689D;&#x662F;&#x5947;&#x8E5F;&#x767C;&#x751F;&#x7684;&#x5730;&#x65B9;</span>
-add(<span class="hljs-keyword">int</span>)
-add(<span class="hljs-keyword">double</span>)
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
-</span>{
-    <span class="hljs-keyword">int</span> a = addint(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>);
-    <span class="hljs-keyword">double</span> d = adddouble(<span class="hljs-number">1.5</span>, <span class="hljs-number">1.5</span>);
-
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;a:%d d:%lf\n&quot;</span>, a, d);
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-}
-</code></pre>
-<p>&#x90A3;&#x5169;&#x884C;&#x88AB;&#x66FF;&#x63DB;&#x5F8C;&#x662F;&#x9019;&#x500B;&#x6A23;&#x5B50;&#x7684;&#xFF1A;</p>
-<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">addint</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b)</span></span>{ <span class="hljs-keyword">return</span> a+b; }
-<span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">adddouble</span><span class="hljs-params">(<span class="hljs-keyword">double</span> a, <span class="hljs-keyword">double</span> b)</span></span>{ <span class="hljs-keyword">return</span> a+b; }
-</code></pre>
-<p><b>&#x4EE5;&#x4E0A;&#x5167;&#x5BB9;&#x90FD;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;<em>&#x7167;&#x5996;&#x93E1;</em>&#x770B;&#x5230;&#x5B8F;&#x88AB;&#x66FF;&#x63DB;&#x5F8C;&#x7684;&#x60C5;&#x5F62;</b>&#x3002;</p>
+<p>&#x96D6;&#x7136;&#x9019;&#x4E9B;&#x6307;&#x4EE4;&#x6240;&#x5F97;&#x5230;&#x7684;&#x7D50;&#x679C;&#xFF0C;&#x53EF;&#x80FD;&#x56E0;&#x70BA; optimize &#x7684;&#x539F;&#x6545;&#xFF0C;&#x4E0D;&#x4FDD;&#x8B49;&#x767E;&#x5206;&#x4E4B;&#x767E;&#x6B63;&#x78BA;&#x3002; &#x4F46;&#x5927;&#x90E8;&#x5206;&#x60C5;&#x6CC1;&#x4E0B;&#x9084;&#x662F;&#x6709;&#x7528;&#x7684;&#x3002;&#x82E5;&#x6709;&#x9019;&#x6A23;&#x7684;&#x9700;&#x6C42;&#xFF0C;&#x4E0D;&#x59A8;&#x8A66;&#x8A66;!</p>
 
                     
                     </section>
@@ -6337,10 +6266,10 @@ add(<span class="hljs-keyword">double</span>)
         </div>
 
         
-        <a href="../simplelinux/struct.html" class="navigation navigation-prev " aria-label="Previous page: 結構體"><i class="fa fa-angle-left"></i></a>
+        <a href="../c++/214.html" class="navigation navigation-prev " aria-label="Previous page: [轉]C++ 虛函數表解析"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../simplelinux/align.html" class="navigation navigation-next " aria-label="Next page: 內存對齊"><i class="fa fa-angle-right"></i></a>
+        <a href="../22/index.html" class="navigation navigation-next " aria-label="Next page: [轉]國王的耳朵是驢耳朵"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

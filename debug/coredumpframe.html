@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>OS | Jason note</title>
+        <title>core dump 之前的 frame | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,8 @@
         
     
     
-    <link rel="next" href="../os/141.html" />
     
-    
-    <link rel="prev" href="../linux_driver/linux_device_model.html" />
+    <link rel="prev" href="../debug/gccg++_-instrument-functions_can_shu.html" />
     
 
         <!-- head:end -->
@@ -48,7 +46,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="14" data-basepath=".." data-revision="Thu Dec 10 2015 22:58:32 GMT+0800 (CST)">
+    <div class="book" data-level="36.2" data-basepath=".." data-revision="Thu Dec 10 2015 22:58:32 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -2731,7 +2729,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="14" data-path="os/index.html">
+        <li class="chapter " data-level="14" data-path="os/index.html">
             
                 
                     <a href="../os/index.html">
@@ -6093,7 +6091,7 @@
             
         </li>
     
-        <li class="chapter " data-level="36.2" data-path="debug/coredumpframe.html">
+        <li class="chapter active" data-level="36.2" data-path="debug/coredumpframe.html">
             
                 
                     <a href="../debug/coredumpframe.html">
@@ -6219,7 +6217,245 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="os">OS</h1>
+                        <h1 id="core-dump-%E4%B9%8B%E5%89%8D%E7%9A%84-frame">core dump &#x4E4B;&#x524D;&#x7684; frame</h1>
+<p>&#x6BCF;&#x4E00;&#x500B; C/C++ &#x7684; programmer&#xFF0C;&#x61C9;&#x8A72;&#x90FD;&#x6709;&#x9047;&#x904E;&#x7A0B;&#x5F0F; core dump &#x6216; segmentation fault &#x4E4B;&#x5F8C;&#xFF0C;&#x900F;&#x904E; GDB (debugger) &#x537B;&#x7121;&#x6CD5;&#x6307;&#x51FA;&#x932F;&#x4F4D;&#x5740;&#x7684;&#x7A98;&#x5883;&#x3002; (&#x61C9;&#x8A72;&#x6C92;&#x6709;&#x4EBA;&#x4F8B;&#x5916;&#x5427;!) &#x9019;&#x901A;&#x5E38;&#x662F;&#x56E0;&#x70BA; process &#x6216; thread &#x7684; stack &#x5DF2;&#x7D93;&#x88AB;&#x5F04;&#x4E82;&#x4E86;&#xFF0C;&#x6216;&#x8005; frame pointer &#x5DF2;&#x7D93;&#x88AB;&#x6539;&#x4E82;&#x4E86;&#xFF0C;&#x6307;&#x5411;&#x7121;&#x540D;&#x4E4B;&#x8655;&#x3002; &#x800C; debugger &#x9700;&#x8981;&#x6B63;&#x78BA;&#x7684; stack &#x8CC7;&#x8A0A;&#xFF0C;&#x624D;&#x80FD;&#x5206;&#x6790;&#x51FA;&#x6B63;&#x78BA;&#x7684; call frame&#x3002; &#x9047;&#x5230;&#x9019;&#x7A2E;&#x554F;&#x984C;&#xFF0C;&#x901A;&#x5E38;&#x7684;&#x505A;&#x6CD5;&#x662F;&#x4E56;&#x4E56;&#x53BB;&#x770B;&#x7A0B;&#x5F0F;&#x78BC;&#xFF0C;&#x6191;&#x611F;&#x89BA;&#x63A8;&#x65B7;&#x4E00;&#x4E9B;&#x53EF;&#x80FD;&#x51FA;&#x932F;&#x7684;&#x9EDE;&#xFF0C; &#x4E26;&#x5728;&#x51FA;&#x932F;&#x4E4B;&#x524D;&#x505A; break point&#xFF0C;&#x518D;&#x4E00;&#x6B65;&#x6B65;&#x7684; step &#x904E;&#x53BB;&#xFF0C;&#x770B;&#x662F;&#x5426;&#x6B63;&#x78BA;&#x3002; &#x53C8;&#x6216;&#x8005;&#xFF0C;&#x4E00;&#x5C64;&#x53C8;&#x4E00;&#x5C64;&#x7684;&#x4E8C;&#x5206;&#x6CD5;&#xFF0C;&#x7E2E;&#x5C0F;&#x7BC4;&#x570D;&#xFF0C;&#x76F4;&#x5230;&#x627E;&#x5230;&#x75C5;&#x6E90;&#x3002; &#x9019;&#x6A23;&#x7684;&#x505A;&#x6CD5;&#xFF0C;&#x5C0D;&#x65BC;&#x5C0F;&#x7A0B;&#x5F0F;&#x9084;&#x53EF;&#x4EE5;&#xFF0C;&#x5927;&#x7A0B;&#x5F0F;&#x5C31;&#x8981;&#x82B1;&#x8CBB;&#x975E;&#x5E38;&#x591A;&#x7684;&#x529F;&#x592B;&#x3002; &#x4F46;&#x53C8;&#x6709;&#x4EC0;&#x9EBC;&#x89E3;&#x6CD5;&#x5462;?</p>
+<p>&#x904E;&#x53BB;&#x6211;&#x4E5F;&#x9047;&#x904E;&#x7121;&#x6578;&#x6B21;&#x9019;&#x985E;&#x7684;&#x60C5;&#x6CC1;&#xFF0C;&#x4E00;&#x76F4;&#x6C92;&#x627E;&#x5230;&#x89E3;&#x6CD5;&#x3002; &#x4F46;&#x6211;&#x4E00;&#x76F4;&#x6709;&#x4E00;&#x500B;&#x60F3;&#x6CD5;&#xFF0C;&#x5982;&#x679C;&#x80FD;&#x5728; stack &#x721B;&#x6389;&#x4E4B;&#x524D;&#xFF0C;&#x628A;&#x5167;&#x5BB9;&#x8A18;&#x9304;&#x4E0B;&#x4F86;&#xFF0C;&#x61C9;&#x8A72;&#x5C31;&#x80FD;&#x89E3;&#x6C7A;&#x9019;&#x500B; &#x554F;&#x984C;&#x3002; &#x9019;&#x7576;&#x7136;&#x662F;&#x7648;&#x8A71;&#xFF0C;&#x5982;&#x679C;&#x77E5;&#x9053;&#x4EC0;&#x9EBC;&#x6642;&#x4FAF;&#x721B;&#x6389;&#xFF0C;&#x554F;&#x984C;&#x5C31;&#x4E0D;&#x6703;&#x9019;&#x9EBC;&#x8907;&#x96DC;&#x3002; &#x65BC;&#x662F;&#xFF0C;&#x4E00;&#x76F4;&#x90FD;&#x6C92;&#x6709;&#x9032;&#x4E00;&#x6B65;&#x7684;&#x60F3;&#x6CD5;&#x3002; &#x76F4;&#x5230;&#x524D;&#x5E7E;&#x5929;&#xFF0C;&#x5728; irc &#x4E0A;&#x770B;&#x5230;&#x53E6;&#x4E00;&#x500B;&#x670B;&#x53CB;&#x5728;&#x62B1;&#x6028;&#x9019;&#x500B;&#x554F;&#x984C;&#xFF0C;&#x7A81;&#x7136;&#x9593;&#x9748;&#x6A5F;&#x4E00;&#x52D5;&#x3002; &#x5176;&#x5BE6;&#x53EF;&#x4EE5;&#x9019;&#x6A23;&#x89E3;&#x3002;</p>
+<p>gcc &#x6709;&#x4E00;&#x500B;&#x529F;&#x80FD;&#xFF0C;&#x53EB;&#x505A; instrument functions&#xFF0C;&#x80FD;&#x7522;&#x751F;&#x7279;&#x5225;&#x7684; binary&#xFF0C;&#x5728;&#x9032;&#x5165; &#x548C;&#x96E2;&#x958B; function &#x6642;&#xFF0C;&#x5404;&#x81EA;&#x547C;&#x53EB;&#x7279;&#x5B9A;&#x7684; function&#x3002; &#x5982;&#x679C;&#x80FD;&#x5728;&#x9019;&#x5169;&#x500B;&#x7279;&#x5B9A;&#x7684; function&#xFF0C;&#x5C07; return address &#x8A18;&#x9304;&#x4E0B;&#x4F86;&#xFF0C;&#x90A3;&#x9EBC;&#x5728;&#x7A0B;&#x5F0F;&#x721B;&#x6389;&#x6642;&#xFF0C; &#x5C31;&#x53EF;&#x4EE5;&#x900F;&#x904E;&#x8A72;&#x4EFD;&#x8A18;&#x9304;&#x5F97;&#x77E5;&#x6574;&#x500B;&#x547C;&#x53EB;&#x7684;&#x904E;&#x7A0B;&#x3002; &#x5982;&#x6B64;&#x5C31;&#x80FD;&#x5F88;&#x5FEB;&#x7684;&#x9396;&#x5B9A;&#x51FA;&#x932F;&#x7684;&#x7BC4;&#x570D;&#x3002; &#x77E5;&#x9053;&#x7BC4;&#x570D;&#x4E4B;&#x5F8C;&#xFF0C;&#x5C31;&#x80FD;&#x4F7F;&#x7528; gdb &#x8F15;&#x9B06;&#x7684;&#x5728;&#x51FA;&#x932F;&#x4E4B;&#x524D;&#x505C;&#x4E0B;&#x4F86;&#xFF0C;&#x6AA2;&#x67E5;&#x6574;&#x500B;&#x72C0;&#x614B;&#xFF0C;&#x627E;&#x51FA;&#x554F;&#x984C; &#x7684;&#x6839;&#x6E90;&#x3002;</p>
+<p>&#x70BA;&#x4E86;&#x907F;&#x514D;&#x5370;&#x51FA;&#x4E00;&#x5806;&#x4E82;&#x4E03;&#x516B;&#x96DC;&#x7684;&#x8A0A;&#x606F;&#xFF0C;&#x5F71;&#x56AE;&#x7A0B;&#x5F0F;&#x7684;&#x6B63;&#x5E38;&#x57F7;&#x884C;&#x3002; &#x6211;&#x4F7F;&#x7528;&#x4E00;&#x500B; thread local variable&#xFF0C;&#x5B58;&#x653E;&#x6BCF;&#x500B; thread &#x7684; stack &#x8CC7;&#x8A0A;&#xFF0C;&#x4E3B;&#x8981;&#x662F; return address&#x3002; &#x5E73;&#x5E38;&#x6642;&#xFF0C;&#x6211;&#x5011;&#x4E0D;&#x6703;&#x770B;&#x5230;&#x4EFB;&#x4F55;&#x5DEE;&#x7570;&#x3002; &#x4F46;&#x7A0B;&#x5F0F;&#x7522;&#x751F; core dump &#x4E4B;&#x5F8C;&#xFF0C;&#x6211;&#x5011;&#x5C31;&#x80FD;&#x7528; gdb &#x6AA2;&#x8996; core file&#xFF0C;&#x4E26;&#x8B80;&#x51FA; thread local variable &#x53D6;&#x5F97;&#x6BCF;&#x4E00;&#x500B; thread &#x7684; call flow&#x3002; &#x5982;&#x6B64;&#x6211;&#x5011;&#x5C31;&#x53EF;&#x4EE5;&#x5F88;&#x5FEB;&#x7E2E;&#x5C0F;&#x51FA;&#x932F;&#x7684;&#x7BC4;&#x570D;&#x3002;</p>
+<p>&#x4EE5;&#x4E0B;&#x7A0B;&#x5F0F;&#x53EB; before_die.c&#xFF0C;&#x5BA3;&#x544A;&#x4E86;&#x5169;&#x500B;&#x7279;&#x6B8A;&#x7684;&#x7A0B;&#x5F0F;&#xFF0C;&#x8B93; gcc &#x5728;&#x9032;&#x5165;&#x548C;&#x96E2;&#x958B;&#x6BCF;&#x500B; function &#x7684;&#x524D;&#x5F8C;&#x9032;&#x884C;&#x547C;&#x53EB;&#x3002;&#x9019;&#x5169;&#x500B; function &#x6703;&#x5C07; function &#x7684; return address &#x8A18;&#x9304;&#x5728; __before_die_frame_info &#x9019;&#x500B;&#x8B8A;&#x6578;&#x88E1;&#x3002;</p>
+<ul>
+<li>before_die.c</li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
+
+<span class="hljs-keyword">struct</span> bd_frame_info {
+    <span class="hljs-keyword">int</span> max;
+    <span class="hljs-keyword">int</span> top;
+    <span class="hljs-keyword">void</span> *<span class="hljs-built_in">stack</span>[<span class="hljs-number">1</span>];
+};
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> BDFI_MAX_DEPTH <span class="hljs-number">128</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> BDFI_SIZE (sizeof(void *) * (BDFI_MAX_DEPTH - <span class="hljs-number">1</span>) + \
+            sizeof(struct bd_frame_info))</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> SHOW_CORRUPTED_INFO <span class="hljs-number">1</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> SHOW_THREAD_INFO <span class="hljs-number">1</span></span>
+
+__thread <span class="hljs-keyword">struct</span> bd_frame_info *__before_die_frame_info = <span class="hljs-literal">NULL</span>;
+
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span>
+__before_die_corrupted() {
+<span class="hljs-preprocessor">#<span class="hljs-keyword">ifdef</span> SHOW_CORRUPTED_INFO</span>
+    <span class="hljs-keyword">int</span> i;
+    <span class="hljs-keyword">struct</span> bd_frame_info *bdfi;
+
+    <span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;Stack is corrupted:\n&quot;</span>);
+    bdfi = __before_die_frame_info;
+    <span class="hljs-keyword">for</span>(i = bdfi-&gt;top - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">0</span>; i--) {
+        <span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;\t%p\n&quot;</span>, bdfi-&gt;<span class="hljs-built_in">stack</span>[i]);
+    }
+<span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span> <span class="hljs-comment">/* SHOW_CORRUPTED_INFO */</span></span>
+}
+
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span>
+__before_die_new_thread(<span class="hljs-keyword">struct</span> bd_frame_info *bdfi) {
+<span class="hljs-preprocessor">#<span class="hljs-keyword">ifdef</span> SHOW_THREAD_INFO</span>
+    <span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;Thread ID = 0x%x, bdfi @ 0x%p\n&quot;</span>, pthread_self(), bdfi);
+<span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span> <span class="hljs-comment">/* SHOW_THREAD_INFO */</span></span>
+}
+
+<span class="hljs-keyword">void</span>
+__cyg_profile_func_enter(<span class="hljs-keyword">void</span> *this_fn, <span class="hljs-keyword">void</span> *call_site) {
+    <span class="hljs-keyword">struct</span> bd_frame_info *bdfi;
+    <span class="hljs-keyword">void</span> *pparent;
+
+    bdfi = __before_die_frame_info;
+    <span class="hljs-keyword">if</span>(bdfi == <span class="hljs-literal">NULL</span>) {
+        <span class="hljs-comment">/* First frame of this thread */</span>
+        bdfi = (<span class="hljs-keyword">struct</span> bd_frame_info *)<span class="hljs-built_in">malloc</span>(BDFI_SIZE);
+        bdfi-&gt;max = BDFI_MAX_DEPTH;
+        bdfi-&gt;top = <span class="hljs-number">0</span>;
+        __before_die_frame_info = bdfi;
+        __before_die_new_thread(bdfi);
+    }
+
+    <span class="hljs-keyword">if</span>(bdfi-&gt;top &gt;= bdfi-&gt;max)
+        <span class="hljs-keyword">return</span>;
+
+    pparent = __builtin_return_address(<span class="hljs-number">2</span>);
+    <span class="hljs-keyword">if</span>(bdfi-&gt;top &gt; <span class="hljs-number">0</span> &amp;&amp; pparent != bdfi-&gt;<span class="hljs-built_in">stack</span>[bdfi-&gt;top - <span class="hljs-number">1</span>]) {
+        <span class="hljs-comment">/* Corrupted stack? */</span>
+        __before_die_corrupted();
+        <span class="hljs-keyword">return</span>;
+    }
+
+    bdfi-&gt;<span class="hljs-built_in">stack</span>[bdfi-&gt;top++] = call_site;
+}
+
+<span class="hljs-keyword">void</span>
+__cyg_profile_func_exit(<span class="hljs-keyword">void</span> *this_fn, <span class="hljs-keyword">void</span> *call_site) {
+    <span class="hljs-keyword">struct</span> bd_frame_info *bdfi;
+    <span class="hljs-keyword">void</span> *parent;
+
+    bdfi = __before_die_frame_info;
+    <span class="hljs-keyword">if</span>(bdfi == <span class="hljs-literal">NULL</span>)
+        <span class="hljs-keyword">return</span>;
+
+    parent = __builtin_return_address(<span class="hljs-number">1</span>);
+    <span class="hljs-keyword">if</span>(parent != bdfi-&gt;<span class="hljs-built_in">stack</span>[bdfi-&gt;top - <span class="hljs-number">1</span>]) {
+        <span class="hljs-comment">/* Corrupted stack? */</span>
+        __before_die_corrupted();
+        <span class="hljs-keyword">return</span>;
+    }
+
+    <span class="hljs-keyword">if</span>(bdfi-&gt;top == <span class="hljs-number">1</span>) {
+        <span class="hljs-comment">/* Last frame of this thread */</span>
+        <span class="hljs-built_in">free</span>(bdfi);
+        __before_die_frame_info = <span class="hljs-literal">NULL</span>;
+        <span class="hljs-keyword">return</span>;
+    }
+
+    bdfi-&gt;top--;
+}
+</code></pre>
+<p>&#x8ACB;&#x5C07; before_die.c &#x7528;&#x4E0B;&#x5217;&#x6307;&#x4EE4;&#x7DE8;&#x8B6F;&#x3002;</p>
+<pre><code class="lang-c">gcc -c -g before_die.c
+</code></pre>
+<p>&#x4E0B;&#x9762;&#x662F;&#x4E00;&#x500B;&#x6E2C;&#x8A66;&#x7A0B;&#x5F0F;(test_corruption.c)&#xFF0C;&#x5728; depth3() &#x88E1;&#x9762;&#x6703;&#x7834;&#x58DE; stack &#x7684;&#x5167;&#x5BB9;&#xFF0C;&#x9020;&#x6210;&#x7A0B;&#x5F0F;&#x7121;&#x6CD5;&#x6B63;&#x78BA;&#x7684; &#x57F7;&#x884C;&#x3002;</p>
+<ul>
+<li>test_corruption.c</li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;pthread.h&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span>
+<span class="hljs-title">depth3</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">int</span> *ptr;
+    <span class="hljs-keyword">int</span> i;
+
+    ptr = (<span class="hljs-keyword">int</span> *)&amp;ptr;
+    ptr++;
+    <span class="hljs-keyword">for</span>(i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">1024</span>; i++) {
+        *ptr++ = <span class="hljs-number">0xff</span>;
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span>
+<span class="hljs-title">depth2</span><span class="hljs-params">()</span> </span>{
+    depth3();
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> *
+<span class="hljs-title">depth1</span><span class="hljs-params">(<span class="hljs-keyword">void</span> *dummy)</span> </span>{
+    depth2();
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span>
+<span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *argv[])</span> </span>{
+    <span class="hljs-keyword">pthread_t</span> pth;
+    <span class="hljs-keyword">void</span> *value;
+
+    pthread_create(&amp;pth, <span class="hljs-literal">NULL</span>, depth1, <span class="hljs-literal">NULL</span>);
+    pthread_join(pth, &amp;value);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>&#x8ACB;&#x7528;&#x4E0B;&#x9762;&#x6307;&#x4EE4;&#x7DE8;&#x8B6F;</p>
+<pre><code class="lang-c">gcc -O0 -g -pthread -finstrument-functions -c test_corruption.c
+gcc -o test test_corruption.o before_die.o -pthread
+</code></pre>
+<p>&#x65BC;&#x662F;&#xFF0C;&#x57F7;&#x884C; test &#x6642;&#xFF0C;&#x6703;&#x7522;&#x751F; core dump&#x3002;&#x5047;&#x8A2D;&#x6A94;&#x540D;&#x662F; test.core</p>
+<pre><code class="lang-c">src$ ./test$
+Thread ID = <span class="hljs-number">0x28404300</span>, bdfi @ <span class="hljs-number">0x0</span>x28404600
+Thread ID = <span class="hljs-number">0x28404c00</span>, bdfi @ <span class="hljs-number">0x0</span>x28416500
+Segmentation fault: <span class="hljs-number">11</span> (core dumped)
+</code></pre>
+<p>&#x65BC;&#x662F;&#x6211;&#x5011;&#x7528; gdb &#x6AA2;&#x8996;&#x8A72; core file</p>
+<pre><code class="lang-c">src$ gdb ./test test.core 
+GNU gdb 6.1.1 [FreeBSD]
+Copyright 2004 Free Software Foundation, Inc.
+GDB is free software, covered by the GNU General Public License, and you are
+welcome to change it and/or distribute copies of it under certain conditions.
+Type &quot;show copying&quot; to see the conditions.
+There is absolutely no warranty for GDB.  Type &quot;show warranty&quot; for details.
+This GDB was configured as &quot;i386-marcel-freebsd&quot;...
+Core was generated by `test&apos;.
+Program terminated with signal 11, Segmentation fault.
+Reading symbols from /lib/libthr.so.3...done.
+Loaded symbols for /lib/libthr.so.3
+Reading symbols from /lib/libc.so.7...done.
+Loaded symbols for /lib/libc.so.7
+Reading symbols from /libexec/ld-elf.so.1...done.
+Loaded symbols for /libexec/ld-elf.so.1
+#0  0x08048654 in depth3 () at test_corruption.c:12
+12              *ptr++ = 0xff;
+[New Thread 28404c00 (LWP 114183/test)]
+[New Thread 28404300 (LWP 100776/test)]
+(gdb) info threads
+  2 Thread 28404300 (LWP 100776/test)  0x2809e793 in pthread_kill ()
+   from /lib/libthr.so.3
+* 1 Thread 28404c00 (LWP 114183/test)  0x08048654 in depth3 ()
+    at test_corruption.c:12
+(gdb) bt
+#0  0x08048654 in depth3 () at test_corruption.c:12
+#1  0x000000ff in ?? ()
+#2  0x000000ff in ?? ()
+#3  0x000000ff in ?? ()
+#4  0x000000ff in ?? ()
+#5  0x000000ff in ?? ()
+#6  0x000000ff in ?? ()
+#7  0x000000ff in ?? ()
+#8  0x000000ff in ?? ()
+#9  0x000000ff in ?? ()
+#10 0x000000ff in ?? ()
+#11 0x000000ff in ?? ()
+#12 0x000000ff in ?? ()
+#13 0x000000ff in ?? ()
+#14 0x000000ff in ?? ()
+#15 0x000000ff in ?? ()
+#16 0x000000ff in ?? ()
+#17 0x000000ff in ?? ()
+#18 0x000000ff in ?? ()
+#19 0x000000ff in ?? ()
+#20 0x000000ff in ?? ()
+#21 0x000000ff in ?? ()
+#22 0x000000ff in ?? ()
+#23 0x000000ff in ?? ()
+#24 0x000000ff in ?? ()
+#25 0x000000ff in ?? ()
+#26 0x000000ff in ?? ()
+#27 0x000000ff in ?? ()
+#28 0x000000ff in ?? ()
+#29 0x000000ff in ?? ()
+#30 0x000000ff in ?? ()
+#31 0x000000ff in ?? ()
+#32 0x000000ff in ?? ()
+#33 0x000000ff in ?? ()
+#34 0x000000ff in ?? ()
+#35 0x000000ff in ?? ()
+#36 0x000000ff in ?? ()
+#37 0x000000ff in ?? ()
+Cannot access memory at address 0xbf9ff000
+(gdb)
+</code></pre>
+<p>stack &#x5DF2;&#x7D93;&#x88AB;&#x7834;&#x58DE;&#x4E86;&#x3002; &#x900F;&#x904E;&#x525B;&#x624D;&#x57F7;&#x884C;&#x5370;&#x51FA;&#x4F86;&#x7684;&#x8CC7;&#x8A0A;&#x5F97;&#x77E5;&#xFF0C;&#x51FA;&#x932F;&#x7684; thread &#x7684; thread local variable &#x4F4D;&#x5740;&#x5728; 0x28416500&#x3002;&#x6211;&#x5011;&#x80FD;&#x6AA2;&#x8996;&#x8A72;&#x8B8A;&#x6578;&#x53D6;&#x5F97; call flow&#x3002;</p>
+<pre><code class="lang-c">(gdb) p ((<span class="hljs-keyword">struct</span> bd_frame_info *)<span class="hljs-number">0x28416500</span>)-&gt;top
+$<span class="hljs-number">1</span> = <span class="hljs-number">3</span>
+(gdb) p ((<span class="hljs-keyword">struct</span> bd_frame_info *)<span class="hljs-number">0x28416500</span>)-&gt;<span class="hljs-built_in">stack</span>@<span class="hljs-number">3</span>
+$<span class="hljs-number">2</span> = {{<span class="hljs-number">0x2809646a</span>}, {<span class="hljs-number">0x80486ee</span>}, {<span class="hljs-number">0x80486ae</span>}}
+(gdb) info symbol <span class="hljs-number">0x80486ae</span>
+depth2 + <span class="hljs-number">30</span> in section .text
+(gdb) info symbol <span class="hljs-number">0x80486ee</span>
+depth1 + <span class="hljs-number">30</span> in section .text
+(gdb) info symbol <span class="hljs-number">0x2809646a</span>
+pthread_getprio + <span class="hljs-number">394</span> in section .text
+</code></pre>
+<p>&#x6211;&#x5011;&#x73FE;&#x5728;&#x5F97;&#x77E5;&#xFF0C;&#x51FA;&#x932F;&#x7684;&#x4F4D;&#x5740;&#xFF0C;&#x662F;&#x900F;&#x904E;&#x4EE5;&#x4E0B;&#x5E7E;&#x500B; function &#x4F9D;&#x5E8F;&#x9032;&#x884C;&#x69FD;&#x72C0;&#x547C;&#x53EB;&#x800C;&#x4F86;&#x3002;</p>
+<pre><code class="lang-c">depth1() @ <span class="hljs-number">0x80486ee</span>
+depth2() @ <span class="hljs-number">0x80486ae</span>
+</code></pre>
+<p>&#x65BC;&#x662F;&#x6211;&#x5011;&#x5C31;&#x80FD;&#x7E2E;&#x5C0F;&#x7BC4;&#x570D;&#x5230;&#x9019;&#x6A23;&#x7684;&#x547C;&#x53EB;&#x7D50;&#x69CB;&#x3002;</p>
+<p>&#x6253;&#x5B8C;&#x6536;&#x5DE5;!!</p>
 
                     
                     </section>
@@ -6230,10 +6466,8 @@
         </div>
 
         
-        <a href="../linux_driver/linux_device_model.html" class="navigation navigation-prev " aria-label="Previous page: Linux Device Model 三角關係"><i class="fa fa-angle-left"></i></a>
+        <a href="../debug/gccg++_-instrument-functions_can_shu.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: gcc/g++ -instrument-functions 參數"><i class="fa fa-angle-left"></i></a>
         
-        
-        <a href="../os/141.html" class="navigation navigation-next " aria-label="Next page: [轉]打造簡易作業系統"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

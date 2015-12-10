@@ -395,5 +395,5 @@
    * [GDB 追蹤 memory corruption](thinker/gdb_zhui_zong_memory_corruption.md)
    * [GDB 自動化 debug](thinker/gdb_zi_dong_hua_debug.md)
    * [unittest 與 pdb 改善開發效率](thinker/unittest_yu_pdb_gai_shan_kai_fa_xiao_lv.md)
-   * 程式註解如何寫
+   * [程式註解如何寫](thinker/cheng_shi_zhu_jie_ru_he_xie.md)
 

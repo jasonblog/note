@@ -389,5 +389,5 @@
 * [thinker_note](thinker/thinkernote.md)
    * [如果有人要求你改善系統](thinker/ru_guo_you_ren_yao_qiu_ni_gai_shan_xi_tong.md)
    * [閱讀程式碼的心理層面](thinker/yue_du_cheng_shi_ma_de_xin_li_ceng_mian.md)
-   * 學習程式設計的方法?!
+   * [學習程式設計的方法?!](thinker/xue_xi_cheng_shi_she_ji_de_fang_6cd53f21.md)
 

@@ -381,7 +381,7 @@
 * [arduino](arduino/README.md)
    * [Processing communication with Arduino via serial](arduino/processing.md)
    * [使用gdb實時調式arduino](arduino/arduinogdb.md)
-   * Arduino UNO控制板簡介
+   * [Arduino UNO控制板簡介](arduino/arduino_unokong_zhi_ban_jian_jie.md)
 * [edb](linux_reverse/README.md)
    * [EDB (Evan's Debugger)](linux_reverse/rdb.md)
 * [Debug Tips](debug/debug_tips.md)

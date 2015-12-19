@@ -163,7 +163,6 @@
    * [Linked List in Linux Kernel](linux_kernel/20.md)
    * [Linux Kernel: 強大又好用的list_head結構](linux_kernel/21.md)
    * [send signal to user-space](linux_kernel/1222.md)
-       * Kernel  send_sig  pid   & p->comm
    * [LKD](linux_kernel/lkd.md)
        * [核心簡介](linux_kernel/12231.md)
        * [核心開發準備](linux_kernel/12232.md)

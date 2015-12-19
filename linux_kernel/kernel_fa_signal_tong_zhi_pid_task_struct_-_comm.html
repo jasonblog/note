@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>談談.git 目錄 | Jason note</title>
+        <title>kernel 發 signal 通知 pid   task_struct-&gt;comm | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../22/2215.html" />
+    <link rel="next" href="../linux_driver/index.html" />
     
     
-    <link rel="prev" href="../22/2213.html" />
+    <link rel="prev" href="../linux_kernel/12235.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="22.14" data-basepath=".." data-revision="Sat Dec 19 2015 23:49:32 GMT+0800 (CST)">
+    <div class="book" data-level="12.24" data-basepath=".." data-revision="Sat Dec 19 2015 23:49:32 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -2690,7 +2690,7 @@
             
         </li>
     
-        <li class="chapter " data-level="12.24" data-path="linux_kernel/kernel_fa_signal_tong_zhi_pid_task_struct_-_comm.html">
+        <li class="chapter active" data-level="12.24" data-path="linux_kernel/kernel_fa_signal_tong_zhi_pid_task_struct_-_comm.html">
             
                 
                     <a href="../linux_kernel/kernel_fa_signal_tong_zhi_pid_task_struct_-_comm.html">
@@ -4583,7 +4583,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="22.14" data-path="22/2214.html">
+        <li class="chapter " data-level="22.14" data-path="22/2214.html">
             
                 
                     <a href="../22/2214.html">
@@ -6486,510 +6486,383 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E8%AB%87%E8%AB%87-git-%E7%9B%AE%E9%8C%84">&#x8AC7;&#x8AC7;.git  &#x76EE;&#x9304;</h1>
-<p>&#x5982;&#x679C;&#x6709;&#x4F7F;&#x7528;git&#x7684;&#x670B;&#x53CB;&#xFF0C;&#x53EF;&#x80FD;&#x6703;&#x77E5;&#x9053;git&#x662F;&#x4E00;&#x500B;&#x5206;&#x6563;&#x5F0F;&#x7248;&#x672C;&#x63A7;&#x5236;&#x7CFB;&#x7D71;&#x3002;&#x9019;&#x8868;&#x793A;repository&#x6703;&#x653E;&#x4E00;&#x4EFD;&#x5728;&#x672C;&#x6A5F;&#x4E0A;&#x9762;&#x3002;&#x4ED4;&#x7D30;&#x6216;&#x662F;&#x6709;&#x770B;&#x66F8;&#x7684;&#x4EBA;&#xFF0C;&#x6703;&#x77E5;&#x9053;&#x9019;&#x4E9B;repository&#x6C92;&#x6709;&#x610F;&#x5916;&#x6703;&#x653E;&#x5728;&#x5DE5;&#x4F5C;&#x76EE;&#x9304;&#x7684;<code>.git</code>&#x4E0B;&#x9762;&#x3002;&#x4ECA;&#x5929;&#x7121;&#x804A;&#x4F86;&#x9019;&#x500B;&#x76EE;&#x9304;&#x6233;&#x6233;&#x770B;&#x3002;</p>
-<p>&#x56E0;&#x70BA;&#x6108;&#x5BEB;&#x6108;&#x591A;&#xFF0C;&#x9084;&#x662F;&#x5F04;&#x4E00;&#x4E0B;&#x76EE;&#x9304;&#x597D;&#x4E86;</p>
+                        <h1 id="kernel-%E7%99%BC-signal-%E9%80%9A%E7%9F%A5-pid-task-struct-comm">kernel &#x767C; signal &#x901A;&#x77E5; pid   task_struct-&gt;comm</h1>
+<p>&#x7531; kernel space &#x627E;&#x5230; oom_test process name &#x4E4B;&#x5F8C;&#x900F;&#x904E; send_sig &#x901A;&#x77E5; oom_test &#x9019;&#x652F;process </p>
+<h2 id="user-space">user space</h2>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;signal.h&gt;</span></span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> MEGABYTE <span class="hljs-number">1024</span>*<span class="hljs-number">1024</span></span>
+
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">signal_handler</span><span class="hljs-params">(<span class="hljs-keyword">int</span> signum)</span>
+</span>{
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;signal %d \n&quot;</span>, signum);
+    <span class="hljs-keyword">if</span> (signum == SIGUSR2) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;oom_test SIGUSR2\n&quot;</span>);
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (signum == SIGUSR1) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;SIGUSR1\n&quot;</span>);
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>* argv[])</span>
+</span>{
+    <span class="hljs-keyword">void</span>* myblock = <span class="hljs-literal">NULL</span>;
+    <span class="hljs-keyword">int</span> count = <span class="hljs-number">0</span>;
+    signal(SIGUSR2, signal_handler);
+
+    <span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>) {
+        myblock = (<span class="hljs-keyword">void</span>*) <span class="hljs-built_in">malloc</span>(MEGABYTE);
+
+        <span class="hljs-keyword">if</span> (!myblock) {
+            <span class="hljs-keyword">break</span>;
+        }
+
+        <span class="hljs-comment">//sleep(1);</span>
+
+        <span class="hljs-built_in">memset</span>(myblock, <span class="hljs-number">1</span>, MEGABYTE);
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;11 Currently allocating %d MB\n&quot;</span>, ++count);
+    }
+
+    <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);
+}
+</code></pre>
+<h2 id="kernel-space">kernel space</h2>
 <ul>
-<li><a href="#g_env">&#x6E2C;&#x8A66;&#x74B0;&#x5883;</a></li>
-<li><a href="#g_bkg">&#x80CC;&#x666F;&#x77E5;&#x8B58;</a></li>
-<li><a href="#g_list">.git&#x76EE;&#x9304;&#x5217;&#x8868;</a></li>
-<li><a href="#g_1st_file">.git&#x7B2C;&#x4E00;&#x5C64;&#x6A94;&#x6848;</a><ul>
-<li><a href="#gidx">index</a></li>
-<li><a href="#gpkref">packed-refs</a></li>
-<li><a href="#gconf">config</a></li>
-<li><a href="#gorg_head">ORIG_HEAD</a></li>
-<li><a href="#gdesc">description</a></li>
-<li><a href="#ghead">HEAD</a></li>
+<li>lowmemorykiller.c</li>
 </ul>
-</li>
-<li><a href="#g_1st_dir">.git&#x7B2C;&#x4E00;&#x5C64;&#x76EE;&#x9304;</a><ul>
-<li><a href="#g_1st_dir_br">branches</a></li>
-<li><a href="#g_1st_dir_hk">hooks</a></li>
-<li><a href="#g_1st_dir_inf">info</a></li>
-<li><a href="#g_1st_dir_log">logs</a></li>
-<li><a href="#g_1st_dir_obj">objects</a></li>
-<li><a href="#g_1st_dir_ref">refs</a></li>
-</ul>
-</li>
-<li><a href="#g_ref">&#x53C3;&#x8003;&#x8CC7;&#x6599;</a></li>
-</ul>
-<p><a name="g_env"></a></p>
-<h2 id="%E6%B8%AC%E8%A9%A6%E7%92%B0%E5%A2%83">&#x6E2C;&#x8A66;&#x74B0;&#x5883;</h2>
-<pre><code>$ lsb_release -a
-No LSB modules are available.
-Distributor ID:    Ubuntu
-Description:    Ubuntu 14.04.2 LTS
-Release:    14.04
-Codename:    trusty
+<pre><code class="lang-c"><span class="hljs-comment">/* drivers/misc/lowmemorykiller.c
+ *
+ * The lowmemorykiller driver lets user-space specify a set of memory thresholds
+ * where processes with a range of oom_score_adj values will get killed. Specify
+ * the minimum oom_score_adj values in
+ * /sys/module/lowmemorykiller/parameters/adj and the number of free pages in
+ * /sys/module/lowmemorykiller/parameters/minfree. Both files take a comma
+ * separated list of numbers in ascending order.
+ *
+ * For example, write &quot;0,8&quot; to /sys/module/lowmemorykiller/parameters/adj and
+ * &quot;1024,4096&quot; to /sys/module/lowmemorykiller/parameters/minfree to kill
+ * processes with a oom_score_adj value of 8 or higher when the free memory
+ * drops below 4096 pages and kill processes with a oom_score_adj value of 0 or
+ * higher when the free memory drops below 1024 pages.
+ *
+ * The driver considers memory used for caches to be free, but if a large
+ * percentage of the cached memory is locked this can be very inaccurate
+ * and processes may not get killed until the normal oom killer is triggered.
+ *
+ * Copyright (C) 2007-2008 Google, Inc.
+ *
+ * This software is licensed under the terms of the GNU General Public
+ * License version 2, as published by the Free Software Foundation, and
+ * may be copied, distributed, and modified under those terms.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ */</span>
 
-$ git --version
-git version 2.3.0
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> pr_fmt(fmt) KBUILD_MODNAME <span class="hljs-string">&quot;: &quot;</span> fmt</span>
 
-$ git remote show
-origin
-$ git remote show origin
-* remote origin
-  Fetch URL: https://github.com/pcman-bbs/pcmanx.git
-  Push  URL: https://github.com/pcman-bbs/pcmanx.git
-  HEAD branch: master
-  Remote branches:
-    gtk3                          tracked
-    master                        tracked
-    next-release                  tracked
-    show_web_search_in_popup_menu tracked
-    transparent_background        tracked
-  Local branch configured for &apos;git pull&apos;:
-    master merges with remote master
-  Local ref configured for &apos;git push&apos;:
-    master pushes to master (up to date)
-</code></pre><p><a name="g_list"></a></p>
-<h2 id="-git%E7%9B%AE%E9%8C%84%E5%88%97%E8%A1%A8">.git&#x76EE;&#x9304;&#x5217;&#x8868;</h2>
-<pre><code>/tmp/pcmanx$ ls -gG --group-directories-first .git
-total 56
-drwxrwxr-x 2  4096 Mar  3 23:36 branches
-drwxrwxr-x 2  4096 Mar  3 23:36 hooks
-drwxrwxr-x 2  4096 Mar  3 23:36 info
-drwxrwxr-x 3  4096 Mar  3 23:37 logs
-drwxrwxr-x 4  4096 Mar  3 23:36 objects
-drwxrwxr-x 5  4096 Mar  3 23:37 refs
--rw-rw-r-- 1   264 Mar  3 23:37 config
--rw-rw-r-- 1    73 Mar  3 23:36 description
--rw-rw-r-- 1    23 Mar  3 23:37 HEAD
--rw-rw-r-- 1 12256 Mar  4 23:11 index
--rw-rw-r-- 1    41 Mar  4 23:11 ORIG_HEAD
--rw-rw-r-- 1   829 Mar  3 23:37 packed-refs
-</code></pre><p><a name="g_bkg"></a></p>
-<h2 id="%E8%83%8C%E6%99%AF%E7%9F%A5%E8%AD%98">&#x80CC;&#x666F;&#x77E5;&#x8B58;</h2>
-<p>&#x9019;&#x908A;&#x53EA;&#x5217;&#x51FA;&#x9700;&#x8981;&#x7684;&#x80CC;&#x666F;&#x77E5;&#x8B58;&#xFF0C;&#x53EF;&#x80FD;&#x6709;&#x932F;&#x3002;</p>
-<ul>
-<li>Git &#x7684;&#x57FA;&#x672C;&#x4E0A;&#x8CC7;&#x6599;&#x6709;&#x5206;blob, tree, commit, tag&#x9019;&#x56DB;&#x7A2E;&#x578B;&#x614B;</li>
-<li>Git &#x7684;branch&#x53EF;&#x4EE5;&#x8996;&#x70BA;&#x653E;&#x4E00;&#x500B;&#x6A94;&#x6848;&#xFF0C;&#x9019;&#x500B;&#x6A94;&#x6848;&#x5B58;&#x653E;&#x67D0;&#x500B;commit&#x7684;HASH&#x8CC7;&#x8A0A;</li>
-</ul>
-<p>&#x591A;&#x8AAA;&#x7121;&#x76CA;&#xFF0C;&#x76F4;&#x63A5;&#x64CD;&#x4F5C;&#xFF0C;&#x5148;&#x4F86;&#x770B;&#x9019;&#x56DB;&#x7A2E;&#x578B;&#x614B;&#x662F;&#x4E09;&#x5C0F;</p>
-<pre><code>$ git log
-commit fd5d6abe34f41f8687c1fc5e2ab0a2f65c570304
-...
-</code></pre><p>&#x4F86;&#x770B;&#x4E00;&#x4E0B; fd5d6abe34f41f8687c1fc5e2ab0a2f65c570304&#x88E1;&#x9762;&#x662F;&#x5565;</p>
-<pre><code>$ git cat-file -p fd5d6abe34f41f8687c1fc5e2ab0a2f65c570304
-tree 2f6db7ea7db6b66cb4c07a98e78b580f67872db6
-parent 3fb419f40c10d67bd1b9b18152fb43cca58ca411
-...
-</code></pre><p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x6709;&#x653E;</p>
-<ul>
-<li>tree&#x578B;&#x614B;&#x7684;HASH</li>
-<li>&#x4E0A;&#x4E00;&#x500B;commit&#x7684;HASH</li>
-<li>commit&#x7684;&#x8A0A;&#x606F;</li>
-</ul>
-<p>&#x63A5;&#x4E0B;&#x4F86;&#x4F86;&#x770B;tree&#x5427;</p>
-<pre><code>$ git cat-file -p 2f6db7ea7db6b66cb4c07a98e78b580f67872db6
-...
-100644 blob 5bc4b3f69d730535eb3a8aee28d7ef9273225d50    .gitignore
-...
-040000 tree b0b46378d75b1737257fef9d9eb433489b2d0ea0    build
-</code></pre><p>&#x6709;&#x6C92;&#x6709;&#x548C;Linux&#x7684;<a href="http://en.wikipedia.org/wiki/Ext2#Directories" target="_blank">File system</a>&#x5F88;&#x50CF;&#xFF1F;<del>&#x76EE;&#x9304;</del>tree&#x8CC7;&#x6599;&#x653E;&#x7684;&#x662F;<del>inode</del>HASH&#x503C;&#x548C;&#x6A94;&#x6848;&#x540D;&#x7A31;&#x7684;&#x5C0D;&#x61C9;&#x8868;&#x3002;</p>
-<p>&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x770B;&#x5230;HASH&#x7684;&#x578B;&#x614B;&#x6709;tree&#x548C;blob&#xFF0C;&#x7406;&#x6240;&#x7576;&#x7136;&#x4F86;&#x770B;&#x770B;blob&#x5427;&#x3002;</p>
-<pre><code>$ git cat-file -p 5bc4b3f69d730535eb3a8aee28d7ef9273225d50
-## autotools generated
-Doxyfile
-INSTALL
-Makefile
-Makefile.in
-...
-</code></pre><p>&#x5F88;&#x660E;&#x986F;&#x9019;&#x662F;&#x4E00;&#x500B;&#x8CC7;&#x6599;&#x5B58;&#x653E;&#x7684;&#x5730;&#x65B9;&#x3002;</p>
-<p>&#x7136;&#x5F8C;&#x6211;&#x5011;&#x4F86;&#x770B;branch&#x662F;&#x4E0D;&#x662F;&#x771F;&#x7684;&#x653E;&#x5728;&#x6A94;&#x6848;&#xFF0C;&#x6A94;&#x6848;&#x5167;&#x5BB9;&#x662F;&#x67D0;&#x500B;commit HASH&#x5427;&#xFF0C;&#x76F4;&#x63A5;&#x770B;&#x7BC4;&#x4F8B;&#x3002;</p>
-<pre><code>$ git checkout -b br1
-Switched to a new branch &apos;br1&apos;
-$ git checkout -b br2
-Switched to a new branch &apos;br2&apos;
-$ tree .git/refs/
-.git/refs/
-&#x251C;&#x2500;&#x2500; heads
-&#x2502;   &#x251C;&#x2500;&#x2500; br1
-&#x2502;   &#x251C;&#x2500;&#x2500; br2
-&#x2502;   &#x2514;&#x2500;&#x2500; master
-&#x251C;&#x2500;&#x2500; remotes
-&#x2502;   &#x2514;&#x2500;&#x2500; origin
-&#x2502;       &#x2514;&#x2500;&#x2500; HEAD
-&#x2514;&#x2500;&#x2500; tags
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/module.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/kernel.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/mm.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/oom.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/sched.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/swap.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/rcupdate.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/notifier.h&gt;</span></span>
 
-$ git log
-commit fd5d6abe34f41f8687c1fc5e2ab0a2f65c570304
-...
-$ cat .git/refs/heads/br1
-fd5d6abe34f41f8687c1fc5e2ab0a2f65c570304
-$ cat .git/refs/heads/br2
-fd5d6abe34f41f8687c1fc5e2ab0a2f65c570304
-$ cat .git/refs/heads/master
-fd5d6abe34f41f8687c1fc5e2ab0a2f65c570304
-</code></pre><p><a name="g_1st_file"></a></p>
-<h2 id="-git%E7%AC%AC%E4%B8%80%E5%B1%A4%E6%AA%94%E6%A1%88">.git&#x7B2C;&#x4E00;&#x5C64;&#x6A94;&#x6848;</h2>
-<p>&#x7528;file&#x770B;&#x4E00;&#x4E0B;&#xFF0C;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x5927;&#x90E8;&#x5206;&#x90FD;&#x662F;&#x7D14;&#x6587;&#x5B57;&#x6A94;&#xFF1A;</p>
-<pre><code>/tmp/pcmanx$ find .git -maxdepth 1 -type f -exec file {} \;
-.git/index: Git index, version 2, 144 entries
-.git/packed-refs: ASCII text
-.git/config: ASCII text
-.git/ORIG_HEAD: ASCII text
-.git/description: ASCII text
-.git/HEAD: ASCII text
-</code></pre><p>&#x63A5;&#x4E0B;&#x4F86;&#x5206;&#x5225;&#x8A0E;&#x8AD6;</p>
-<ul>
-<li><a href="#gidx">index</a></li>
-<li><a href="#gpkref">packed-refs</a></li>
-<li><a href="#gconf">config</a></li>
-<li><a href="#gorg_head">ORIG_HEAD</a></li>
-<li><a href="#gdesc">description</a></li>
-<li><a href="#ghead">HEAD</a></li>
-</ul>
-<p><a name="gidx"></a></p>
-<h2 id="index">index</h2>
-<p>&#x5148;&#x770B;&#x4E0B;&#x9762;&#x7684;&#x64CD;&#x4F5C;&#x3002;</p>
-<pre><code>$ file .git/index
-.git/index: Git index, version 2, 144 entries
+<span class="hljs-keyword">int</span> test_lowmemorykiller = <span class="hljs-number">0</span>;
 
-$ find -type f | grep -v .git\/ | cut -c 3- | sort | wc -l
-144
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">uint32_t</span> lowmem_debug_level = <span class="hljs-number">1</span>;
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> lowmem_adj[<span class="hljs-number">6</span>] = {
+    <span class="hljs-number">0</span>,
+    <span class="hljs-number">1</span>,
+    <span class="hljs-number">6</span>,
+    <span class="hljs-number">12</span>,
+};
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> lowmem_adj_size = <span class="hljs-number">4</span>;
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> lowmem_minfree[<span class="hljs-number">6</span>] = {
+    <span class="hljs-number">3</span> * <span class="hljs-number">512</span>,    <span class="hljs-comment">/* 6MB */</span>
+    <span class="hljs-number">2</span> * <span class="hljs-number">1024</span>,    <span class="hljs-comment">/* 8MB */</span>
+    <span class="hljs-number">4</span> * <span class="hljs-number">1024</span>,    <span class="hljs-comment">/* 16MB */</span>
+    <span class="hljs-number">16</span> * <span class="hljs-number">1024</span>,    <span class="hljs-comment">/* 64MB */</span>
+};
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> lowmem_minfree_size = <span class="hljs-number">4</span>;
 
-$ git ls-files | wc -l
-144
-</code></pre><p>&#x6709;&#x8208;&#x8DA3;&#x7684;&#x4EBA;&#x53EF;&#x4EE5;&#x628A;<code>| wc -l</code>&#x53BB;&#x6389;&#x73A9;&#x770B;&#x770B;&#xFF0C;&#x57FA;&#x672C;&#x4E0A;&#x9019;&#x500B;&#x662F;&#x5728;&#x63CF;&#x8FF0;repository&#x7684;&#x76EE;&#x9304;&#x7D50;&#x69CB;&#x3002;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#xFF0C;&#x54EA;&#x500B;&#x6A94;&#x6848;&#x8981;&#x653E;&#x5728;&#x90A3;&#x500B;&#x76EE;&#x9304;&#x3002;&#x66F4;&#x7CBE;&#x78BA;&#x7684;&#x4F86;&#x8AAA;&#xFF0C;&#x5354;&#x52A9;&#x90A3;&#x500B;blob hash&#x8981;&#x653E;&#x5728;&#x54EA;&#x500B;tree&#x4E2D;&#x3002;&#x6839;&#x64DA;<a href="http://schacon.github.io/gitbook/7_the_git_index.html" target="_blank">&#x9019;&#x908A;</a>&#x7684;&#x8AAA;&#x6CD5;&#xFF0C;&#x9019;&#x500B;&#x6A94;&#x6848;&#x53EF;&#x4EE5;&#x5354;&#x52A9;</p>
-<ul>
-<li>&#x63D0;&#x4F9B;&#x7522;&#x751F;tree object&#x6642;&#x9700;&#x8981;&#x7684;&#x8CC7;&#x6599;</li>
-<li>&#x63D0;&#x4F9B;&#x6BD4;&#x5C0D;working directory&#x548C;tree&#x7684;&#x8CC7;&#x8A0A;</li>
-<li>merge&#x7522;&#x751F;&#x885D;&#x7A81;&#x6642;&#xFF0C;&#x53EF;&#x4EE5;&#x5F9E;index&#x53D6;&#x5F97;&#x7684;&#x8CC7;&#x6599;&#x5354;&#x52A9;&#x89E3;&#x6C7A;&#x885D;&#x7A81;&#x3002;&#x4E0D;&#x904E;&#x9019;&#x908A;&#x4E0D;&#x662F;&#x5F88;&#x61C2;&#xFF0C;&#x5C31;&#x55AE;&#x7D14;&#x5B57;&#x9762;&#x7FFB;&#x8B6F;&#x4E86;&#x3002;</li>
-</ul>
-<p><a name="gpkref"></a></p>
-<h2 id="packed-refs">packed-refs</h2>
-<p>&#x7C21;&#x55AE;&#x4F86;&#x8AAA;&#xFF0C;&#x8003;&#x91CF;&#x6548;&#x7387;&#xFF0C;git&#x63D0;&#x4F9B;pack ref&#x76EE;&#x9304;&#x7684;&#x529F;&#x80FD;&#xFF0C;ref&#x7684;&#x6982;&#x5FF5;&#x8ACB;&#x770B;&#x524D;&#x9762;&#x80CC;&#x666F;&#x77E5;&#x8B58;&#x3002;</p>
-<p>&#x4E00;&#x6A23;&#xFF0C;&#x770B;&#x4F8B;&#x5B50;&#x6BD4;&#x8F03;&#x5FEB;&#x3002;</p>
-<p>&#x5148;&#x7528;<code>git show-ref</code>&#x770B;&#x770B;&#x6211;&#x5011;&#x6709;&#x54EA;&#x4E9B;reference</p>
-<pre><code>$ git show-ref
-fd5d6abe34f41f8687c1fc5e2ab0a2f65c570304 refs/heads/master
-fd5d6abe34f41f8687c1fc5e2ab0a2f65c570304 refs/remotes/origin/HEAD
-c86b440bafe24caecfe0dbfbbd73031a1bcd1178 refs/remotes/origin/gtk3
-fd5d6abe34f41f8687c1fc5e2ab0a2f65c570304 refs/remotes/origin/master
-22da092eb00b78946fd70de24427d702a77b925b refs/remotes/origin/next-release
-98ff18f84fad4686012bf6183734eeb1ec5d7f46 refs/remotes/origin/show_web_search_in_popup_menu
-9542889d17d276321d6da2de8d1f9d95f76fb483 refs/remotes/origin/transparent_background
-7a3629ab3da7c609cf3698319ab606ebae0998e7 refs/tags/0.3.2@221
-f57350c72987263c2b745690bdc8013fbbd6067c refs/tags/0.3.3@243
-522d1dc2568b5c7c256e05ca69412480e1afcfb3 refs/tags/0.3.4
-8e9d9520125f64a0b894a5d575f0c2d98c3ec06b refs/tags/0.3.4@301
-7031115a8ea1151efc1536b43a509774ca2c0777 refs/tags/0.3.7
-3f4dcbe6e1aa0045fbeb9f1f761ce035e65defea refs/tags/1.1
-098d158c8d8a7ce7c6b2c5c47c967c6137beced2 refs/tags/1.2
-</code></pre><p>&#x770B;&#x770B;<code>packed-refs</code>&#x88E1;&#x9762;&#x662F;&#x4E09;&#x5C0F;&#xFF1F;&#x6709;&#x6C92;&#x6709;&#x767C;&#x73FE;&#x548C;&#x4E0A;&#x9762;&#x5F88;&#x50CF;&#x554A;&#xFF1F;</p>
-<pre><code>$ cat .git/packed-refs
-## pack-refs with: peeled fully-peeled
-c86b440bafe24caecfe0dbfbbd73031a1bcd1178 refs/remotes/origin/gtk3
-fd5d6abe34f41f8687c1fc5e2ab0a2f65c570304 refs/remotes/origin/master
-22da092eb00b78946fd70de24427d702a77b925b refs/remotes/origin/next-release
-98ff18f84fad4686012bf6183734eeb1ec5d7f46 refs/remotes/origin/show_web_search_in_popup_menu
-9542889d17d276321d6da2de8d1f9d95f76fb483 refs/remotes/origin/transparent_background
-7a3629ab3da7c609cf3698319ab606ebae0998e7 refs/tags/0.3.2@221
-f57350c72987263c2b745690bdc8013fbbd6067c refs/tags/0.3.3@243
-522d1dc2568b5c7c256e05ca69412480e1afcfb3 refs/tags/0.3.4
-8e9d9520125f64a0b894a5d575f0c2d98c3ec06b refs/tags/0.3.4@301
-7031115a8ea1151efc1536b43a509774ca2c0777 refs/tags/0.3.7
-3f4dcbe6e1aa0045fbeb9f1f761ce035e65defea refs/tags/1.1
-098d158c8d8a7ce7c6b2c5c47c967c6137beced2 refs/tags/1.2
-</code></pre><p>&#x770B;&#x4E00;&#x4E0B;ref&#x76EE;&#x9304;&#xFF0C;&#x4E0A;&#x9762;&#x7684;&#x90A3;&#x4E9B;reference&#x4E26;&#x4E0D;&#x5B58;&#x5728;&#x5728;<code>.git/ref</code>&#x88E1;&#x9762;</p>
-<pre><code>$ tree .git/refs/
-.git/refs/
-&#x251C;&#x2500;&#x2500; heads
-&#x2502;   &#x2514;&#x2500;&#x2500; master
-&#x251C;&#x2500;&#x2500; remotes
-&#x2502;   &#x2514;&#x2500;&#x2500; origin
-&#x2502;       &#x2514;&#x2500;&#x2500; HEAD
-&#x2514;&#x2500;&#x2500; tags
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> lowmem_deathpending_timeout;
 
-4 directories, 2 files
-</code></pre><p>&#x597D;&#xFF0C;&#x751F;&#x4E00;&#x500B;branch&#x770B;&#x770B;&#x3002;</p>
-<pre><code>$ git checkout -b I_got_a_new_ref
-Switched to a new branch &apos;I_got_a_new_ref&apos;
-</code></pre><p>&#x5594;&#x5594;&#xFF01;<code>.git/refs</code>&#x51FA;&#x73FE;&#x4E86;&#x525B;&#x624D;&#x7522;&#x751F;&#x7684;ref</p>
-<pre><code>$ tree .git/refs/
-.git/refs/
-&#x251C;&#x2500;&#x2500; heads
-&#x2502;   &#x251C;&#x2500;&#x2500; I_got_a_new_ref
-&#x2502;   &#x2514;&#x2500;&#x2500; master
-&#x251C;&#x2500;&#x2500; remotes
-&#x2502;   &#x2514;&#x2500;&#x2500; origin
-&#x2502;       &#x2514;&#x2500;&#x2500; HEAD
-&#x2514;&#x2500;&#x2500; tags
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> lowmem_print(level, x...)            \
+    do {                        \
+        <span class="hljs-keyword">if</span> (lowmem_debug_level &gt;= (level))    \
+            pr_info(x);            \
+    } while (<span class="hljs-number">0</span>)</span>
 
-4 directories, 3 files
-</code></pre><p>&#x8DD1;&#x4E00;&#x4E0B;<code>git gc</code>&#x6574;&#x7406;&#x4E00;&#x4E0B;</p>
-<pre><code>$ git gc
-Counting objects: 5002, done.
-Delta compression using up to 4 threads.
-Compressing objects: 100% (1068/1068), done.
-Writing objects: 100% (5002/5002), done.
-Total 5002 (delta 3913), reused 5002 (delta 3913)
-</code></pre><p>&#x7591;&#xFF1F;&#x525B;&#x624D;&#x7684;branch&#x4E0D;&#x898B;&#x4E86;&#x3002;</p>
-<pre><code>$ tree .git/refs/
-.git/refs/
-&#x251C;&#x2500;&#x2500; heads
-&#x251C;&#x2500;&#x2500; remotes
-&#x2502;   &#x2514;&#x2500;&#x2500; origin
-&#x2502;       &#x2514;&#x2500;&#x2500; HEAD
-&#x2514;&#x2500;&#x2500; tags
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">lowmem_shrink</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> shrinker *s, <span class="hljs-keyword">struct</span> shrink_control *sc)</span>
+</span>{
+    <span class="hljs-keyword">struct</span> task_struct *tsk;
+    <span class="hljs-keyword">struct</span> task_struct *selected = <span class="hljs-literal">NULL</span>;
+    <span class="hljs-keyword">int</span> rem = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">int</span> tasksize;
+    <span class="hljs-keyword">int</span> i;
+    <span class="hljs-keyword">int</span> min_score_adj = OOM_SCORE_ADJ_MAX + <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">int</span> minfree = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">int</span> selected_tasksize = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">int</span> selected_oom_score_adj;
+    <span class="hljs-keyword">int</span> array_size = ARRAY_SIZE(lowmem_adj);
+    <span class="hljs-keyword">int</span> other_free = global_page_state(NR_FREE_PAGES) - totalreserve_pages;
+    <span class="hljs-keyword">int</span> other_file = global_page_state(NR_FILE_PAGES) -
+                     global_page_state(NR_SHMEM);
 
-4 directories, 1 file
-</code></pre><p>&#x8DD1;&#x53BB;pack-ref&#x4E86;</p>
-<pre><code>$ cat .git/packed-refs
-## pack-refs with: peeled fully-peeled
-fd5d6abe34f41f8687c1fc5e2ab0a2f65c570304 refs/heads/I_got_a_new_ref
-fd5d6abe34f41f8687c1fc5e2ab0a2f65c570304 refs/heads/master
-c86b440bafe24caecfe0dbfbbd73031a1bcd1178 refs/remotes/origin/gtk3
-fd5d6abe34f41f8687c1fc5e2ab0a2f65c570304 refs/remotes/origin/master
-22da092eb00b78946fd70de24427d702a77b925b refs/remotes/origin/next-release
-98ff18f84fad4686012bf6183734eeb1ec5d7f46 refs/remotes/origin/show_web_search_in_popup_menu
-9542889d17d276321d6da2de8d1f9d95f76fb483 refs/remotes/origin/transparent_background
-7a3629ab3da7c609cf3698319ab606ebae0998e7 refs/tags/0.3.2@221
-f57350c72987263c2b745690bdc8013fbbd6067c refs/tags/0.3.3@243
-522d1dc2568b5c7c256e05ca69412480e1afcfb3 refs/tags/0.3.4
-8e9d9520125f64a0b894a5d575f0c2d98c3ec06b refs/tags/0.3.4@301
-7031115a8ea1151efc1536b43a509774ca2c0777 refs/tags/0.3.7
-3f4dcbe6e1aa0045fbeb9f1f761ce035e65defea refs/tags/1.1
-098d158c8d8a7ce7c6b2c5c47c967c6137beced2 refs/tags/1.2
-</code></pre><p><a name="gconf"></a></p>
-<h2 id="config">config</h2>
-<p>&#x5176;&#x5BE6;&#x9019;&#x500B;&#x662F;&#x500B;&#x5927;&#x54C9;&#x554F;&#xFF0C;&#x5C31;&#x503C;&#x5F97;&#x5C08;&#x9580;&#x958B;&#x4E00;&#x500B;&#x7AE0;&#x7BC0;&#x8A0E;&#x8AD6;&#x3002;&#x6240;&#x4EE5;&#x6211;&#x6574;&#x7406;&#x5230;<a href="http://wen00072-blog.logdown.com/posts/256871-introduction-to-git-config" target="_blank">&#x9019;&#x500B;&#x9801;&#x9762;</a>&#xFF0C;&#x8ACB;&#x81EA;&#x884C;&#x524D;&#x5F80;&#x95B1;&#x8B80;&#x3002;</p>
-<p><a name="gorg_head"></a></p>
-<h2 id="orig-head">ORIG_HEAD</h2>
-<p>&#x9019;&#x500B;&#x6A94;&#x6848;&#x5F88;&#x6709;&#x8DA3;&#xFF0C;&#x4E00;&#x958B;&#x59CB;&#x5176;&#x5BE6;&#x4E0D;&#x5B58;&#x5728;&#x3002;&#x5F8C;&#x4F86;&#x4E0D;&#x77E5;&#x9053;&#x600E;&#x9EBC;&#x7A81;&#x7136;&#x8DD1;&#x51FA;&#x4F86;&#xFF0C;&#x554F;&#x4E86;&#x4F30;&#x72D7;&#x548C;&#x7537;&#x4EBA;(man git reset)&#x5F8C;&#x5F97;&#x5230;&#x7684;&#x7B54;&#x6848;&#x5C31;&#x662F;&#x7576;reset&#x7684;&#x6642;&#x5019;&#x6703;&#x628A;&#x820A;&#x7684;HEAD hash&#x653E;&#x5230;&#x9019;&#x908A;&#x3002;&#x70BA;&#x4EC0;&#x9EBC;&#x8981;&#x9019;&#x6A23;&#x505A;&#x5462;&#xFF0C;&#x7576;&#x7136;&#x662F;&#x53CD;&#x6094;&#x7528;&#x7684;&#x3002;&#x4F60;&#x53EF;&#x4EE5;<code>man git commit</code>&#x627E;<code>ORIG_HEAD</code>&#x5C31;&#x53EF;&#x4EE5;&#x770B;&#x770B;<code>git commit --amend</code>&#x540C;&#x6548;&#x679C;&#x7684;&#x7BC4;&#x4F8B;&#x4E86;&#x3002;</p>
-<p><a name="gdesc"></a></p>
-<h2 id="description">description</h2>
-<p>&#x61F6;&#x5F97;&#x89E3;&#x91CB;&#xFF0C;&#x8DF3;&#x904E;</p>
-<p><a name="ghead"></a></p>
-<h2 id="head">HEAD</h2>
-<p>&#x671B;&#x6587;&#x751F;&#x7FA9;&#xFF0C;&#x7576;&#x7136;&#x662F;&#x6307;&#x5411;&#x76EE;&#x524D;&#x6240;&#x5728;&#x7684;commit&#x3002;</p>
-<p>&#x7B49;&#x7B49;&#xFF01;</p>
-<p>&#x6307;&#x5411;&#x76EE;&#x524D;&#x6240;&#x5728;&#x7684;commit&#x662F;&#x4E09;&#x5C0F;&#xFF1F;
-&#x4E00;&#x6A23;&#xFF0C;&#x4F86;&#x770B;&#x4F8B;&#x5B50;&#x3002;</p>
-<p>&#x76EE;&#x524D;clone&#x4E0B;&#x4F86;&#xFF0C;&#x88E1;&#x9762;&#x653E;&#x7684;&#x662F;&#x4E00;&#x500B;&#x6A94;&#x6848;&#xFF0C;&#x6A94;&#x6848;&#x88E1;&#x9762;&#x662F;&#x4EC0;&#x9EBC;&#x5462;&#xFF1F;&#x4E00;&#x6A23;&#x662F;&#x500B;commit HASH</p>
-<pre><code>$ cat .git/HEAD
-ref: refs/heads/master
+    printk(KERN_CRIT <span class="hljs-string">&quot;lowmem_shrink test_lowmemorykiller addr=%p\n&quot;</span>, &amp;test_lowmemorykiller);
 
-$ cat .git/refs/heads/master
-fd5d6abe34f41f8687c1fc5e2ab0a2f65c570304
+    <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">strcmp</span>(current-&gt;comm, <span class="hljs-string">&quot;oom_test&quot;</span>)) {
+        printk(KERN_CRIT <span class="hljs-string">&quot;lowmem_shrink oom_test+++++++++++++++++++++++++++++++++++++++++++++++&quot;</span>);
+        printk(KERN_CRIT <span class="hljs-string">&quot;YAO lowmem_shrink PID=%d, PID name=%s\n&quot;</span>, current-&gt;pid, current-&gt;comm);
+        <span class="hljs-comment">// dump_stack();</span>
+        for_each_process(tsk) {
+            <span class="hljs-keyword">struct</span> task_struct *p;
 
-$ git cat-file -t fd5d6abe34f41f8687c1fc5e2ab0a2f65c570304
-commit
-</code></pre><p>&#x90A3;&#x6211;&#x76F4;&#x63A5;checkout&#x4E00;&#x500B;&#x4E0D;&#x662F;branch&#x7684;&#x53EF;&#x4EE5;&#x561B;&#xFF1F;&#x7576;&#x7136;&#x6C92;&#x554F;&#x984C;&#x3002;
-&#x53EF;&#x4EE5;&#x770B;&#x5230;git&#x6703;&#x628A;&#x4F60;checkout&#x7684;commit HASH&#x5BEB;&#x5165;.git/HEAD</p>
-<pre><code>$ strace git checkout 93f0addca5b2723ff0f1b744b032f359
-...
-open(&quot;/tmp/pcmanx/.git/HEAD.lock&quot;, O_RDWR|O_CREAT|O_EXCL, 0666) = 3
-write(3, &quot;93f0addca5b2723ff0f1b744b032f359&quot;..., 40) = 40
-write(3, &quot;\n&quot;, 1)                       = 1
-close(3)                                = 0
-...
-rename(&quot;/tmp/pcmanx/.git/HEAD.lock&quot;, &quot;/tmp/pcmanx/.git/HEAD&quot;) = 0
-...
+            p = find_lock_task_mm(tsk);
 
-$ cat .git/HEAD
-93f0addca5b2723ff0f1b744b032f359938a286d
-</code></pre><p><a name="g_1st_dir"></a></p>
-<h2 id="%E7%AC%AC%E4%B8%80%E5%B1%A4%E7%9B%AE%E9%8C%84">&#x7B2C;&#x4E00;&#x5C64;&#x76EE;&#x9304;</h2>
-<ul>
-<li><a href="#g_1st_dir_br">branches</a></li>
-<li><a href="#g_1st_dir_hk">hooks</a></li>
-<li><a href="#g_1st_dir_inf">info</a></li>
-<li><a href="#g_1st_dir_log">logs</a></li>
-<li><a href="#g_1st_dir_obj">objects</a></li>
-<li><a href="#g_1st_dir_ref">refs</a></li>
-</ul>
-<p><a name="g_1st_dir_br"></a></p>
-<h2 id="branches">branches</h2>
-<p>&#x5FEB;&#x904E;&#x671F;&#x7684;&#x6771;&#x897F;(<a href="http://git-scm.com/docs/gitrepository-layout" target="_blank">&#x51FA;&#x8655;</a>)&#xFF0C;&#x8DF3;&#x904E;&#x3002;</p>
-<p><a name="g_1st_dir_hk"></a></p>
-<h2 id="hooks">hooks</h2>
-<p>hook&#xFF0C;&#x9019;&#x500B;&#x7FFB;&#x6210;&#x4E2D;&#x6587;&#x5F88;&#x9CE5;&#xFF0C;&#x4FDD;&#x7559;&#x539F;&#x6587;&#x3002;&#x57FA;&#x672C;&#x4E0A;&#x5C31;&#x662F;&#x4E00;&#x7D44;callback&#xFF0C;&#x7279;&#x5B9A;&#x7684;&#x6642;&#x5019;&#x6703;&#x53BB;&#x547C;&#x53EB;&#x3002;&#x6211;&#x76EE;&#x524D;&#x751F;&#x610F;&#x6C92;&#x6709;&#x505A;&#x5F88;&#x5927;&#xFF0C;&#x6709;&#x9700;&#x8981;&#x518D;&#x53BB;&#x770B;&#x3002;&#x5217;&#x51FA;&#x9810;&#x8A2D;&#x7684;&#x6A94;&#x6848;&#x5982;&#x4E0B;</p>
-<pre><code>$ ll .git/hooks/
-total 48
-drwxrwxr-x 2 wen wen 4096 Mar  9 23:10 ./
-drwxrwxr-x 8 wen wen 4096 Mar  9 23:21 ../
--rwxrwxr-x 1 wen wen  452 Mar  9 23:10 applypatch-msg.sample*
--rwxrwxr-x 1 wen wen  896 Mar  9 23:10 commit-msg.sample*
--rwxrwxr-x 1 wen wen  189 Mar  9 23:10 post-update.sample*
--rwxrwxr-x 1 wen wen  398 Mar  9 23:10 pre-applypatch.sample*
--rwxrwxr-x 1 wen wen 1642 Mar  9 23:10 pre-commit.sample*
--rwxrwxr-x 1 wen wen 1239 Mar  9 23:10 prepare-commit-msg.sample*
--rwxrwxr-x 1 wen wen 1348 Mar  9 23:10 pre-push.sample*
--rwxrwxr-x 1 wen wen 4898 Mar  9 23:10 pre-rebase.sample*
--rwxrwxr-x 1 wen wen 3611 Mar  9 23:10 update.sample*
-</code></pre><p><a name="g_1st_dir_inf"></a></p>
-<h2 id="info">info</h2>
-<p>&#x5132;&#x5B58;&#x8CC7;&#x8A0A;&#xFF0C;&#x5EE2;&#x8A71;&#x3002;&#x76EE;&#x524D;&#x88E1;&#x9762;&#x53EA;&#x6709;&#x4E00;&#x500B;exclude&#xFF0C;&#x800C;&#x4E14;&#x6A94;&#x6848;&#x5167;&#x5BB9;&#x9084;&#x90FD;&#x662F;&#x8A3B;&#x89E3;&#x3002;&#x4F46;&#x662F;<a href="http://git-scm.com/docs/gitrepository-layout" target="_blank">&#x9019;&#x908A;</a>&#x6709;&#x8AAA;&#x9084;&#x6709;&#x5176;&#x4ED6;&#x6A94;&#x6848;&#x3002;&#x53E6;&#x5916;&#x503C;&#x5F97;&#x63D0;&#x7684;&#x662F;exclude&#x8AAA;&#x660E;&#x6709;&#x63D0;&#x5230;<code>.gitignore</code>&#x91DD;&#x5C0D;&#x7684;&#x662F;<code>git status</code>, <code>git rm</code>, <code>git add</code>, <code>git clean</code>&#x3002;&#x5176;&#x4ED6;&#x7684;&#x64CD;&#x4F5C;&#x9084;&#x662F;&#x5F97;&#x5728;<code>.git/log/exclude</code>&#x4E2D;&#x8A2D;&#x5B9A;&#x3002;</p>
-<p><a name="g_1st_dir_log"></a></p>
-<h2 id="logs">logs</h2>
-<p>&#x9019;&#x662F;&#x5B58;&#x653E;log&#x7684;&#x5730;&#x65B9;&#x3002;log&#x662F;&#x4EC0;&#x9EBC;&#x5462;&#xFF1F;&#x76F4;&#x63A5;&#x770B;&#x500B;&#x4F8B;&#x5B50;&#x3002;</p>
-<p>&#x6211;&#x5011;&#x5148;&#x65B0;&#x589E;&#x4E00;&#x500B;&#x6E2C;&#x8A66;&#x6A94;&#x6848;</p>
-<pre><code>$ touch test2
-$ git add test2
-$ git commit test2 -m &quot;test2&quot;
-[master 09580e4] test2
- 1 file changed, 0 insertions(+), 0 deletions(-)
- create mode 100644 test2
-</code></pre><p>&#x57F7;&#x884C;<code>git reflog</code>&#xFF0C;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x4F60;&#x525B;&#x624D;&#x7684;&#x52D5;&#x4F5C;&#x4EE5;&#x53CA;&#x6709;&#x7576;&#x6B21;HEAD&#x7684;commit HASH&#x5DF2;&#x7D93;&#x88AB;&#x8A18;&#x8D77;&#x4F86;&#x3002;</p>
-<pre><code>$ git reflog
-09580e4 HEAD@{0}: commit: test2
-fd5d6ab HEAD@{1}: checkout: moving from 93f0addca5b2723ff0f1b744b032f359938a286d to master
-93f0add HEAD@{2}: checkout: moving from master to 93f0addca5b2723ff0f1b744b032f359938a286d
-...
-</code></pre><p>&#x9019;&#x6771;&#x897F;&#x6709;&#x4EC0;&#x9EBC;&#x7528;&#x8655;&#x5462;&#xFF1F;&#x7576;&#x7136;&#x662F;&#x8B93;&#x4F60;&#x53CD;&#x6094;&#x7528;&#x7684;&#x3002;&#x518D;&#x4F86;&#x770B;&#x500B;&#x4F8B;&#x5B50;</p>
-<p>&#x9996;&#x5148;&#x958B;&#x4E00;&#x500B;branch</p>
-<pre><code>$ git checkout -b demo_reflog
-Switched to a new branch &apos;demo_reflog&apos;
-</code></pre><p>&#x65B0;&#x589E;&#x4E26;commit file1</p>
-<pre><code>$ touch file1
-$ git add file1
-$ git commit file1 -m &quot;file 1&quot;
-[demo_reflog c982c70] file 1
- 1 file changed, 0 insertions(+), 0 deletions(-)
- create mode 100644 file1
-</code></pre><p>&#x7136;&#x5F8C;&#x65B0;&#x589E;&#x4E26;commit file2</p>
-<pre><code>$ touch file2
-$ git add file2
-$ git commit file2 -m &quot;file 2&quot;
-[demo_reflog b85f4d4] file 2
- 1 file changed, 0 insertions(+), 0 deletions(-)
- create mode 100644 file2
-</code></pre><p>&#x5207;&#x56DE;master&#x4E26;&#x4E14;&#x5BB0;&#x6389;&#x525B;&#x624D;&#x7684;branch</p>
-<pre><code>$ git checkout master
-Switched to branch &apos;master&apos;
-Your branch is up-to-date with &apos;origin/master&apos;.
+            <span class="hljs-keyword">if</span> (!p)
+                <span class="hljs-keyword">continue</span>;
 
-$ git branch -D demo_reflog
-Deleted branch demo_reflog (was b85f4d4).
-</code></pre><p>&#x5047;&#x8A2D;&#x4E0A;&#x4E00;&#x500B;&#x52D5;&#x4F5C;&#x662F;&#x624B;&#x6ED1;&#x8AA4;&#x522A;&#xFF0C;&#x80FD;&#x4E0D;&#x80FD;&#x53CD;&#x6094;&#x3002;
-YES YOU CAN!</p>
-<p>&#x5148;&#x770B;&#x770B;log</p>
-<pre><code>$ git reflog
-fd5d6ab HEAD@{0}: checkout: moving from demo_reflog to master
-b85f4d4 HEAD@{1}: commit: file 2
-c982c70 HEAD@{2}: commit: file 1
-...
-</code></pre><p>&#x53EF;&#x4EE5;&#x77E5;&#x9053;&#x4E0A;&#x6B21;branch&#x6700;&#x5F8C;commit&#x7684;HASH&#xFF0C;&#x90A3;&#x9EBC;&#x6211;&#x5011;&#x5C31;&#x53EF;&#x4EE5;&#x5207;&#x904E;&#x53BB;&#x7136;&#x5F8C;&#x958B;&#x53E6;&#x5916;&#x4E00;&#x500B;branch&#x4E86;&#x3002;</p>
-<pre><code>$ git checkout -b i_am_back b85f4d4
-Switched to a new branch &apos;i_am_back&apos;
-</code></pre><p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x8CC7;&#x6599;&#x56DE;&#x4F86;&#x4E86;&#x3002;</p>
-<pre><code>$ git log --pretty=oneline --abbrev-commit
-b85f4d4 file 2
-c982c70 file 1
-fd5d6ab Fix invisible cairo caret issue.
-...
-</code></pre><p>&#x7576;&#x7136;&#x9019;&#x9084;&#x662F;&#x96AA;&#x62DB;&#xFF0C;git&#x672C;&#x8EAB;&#x4FDD;&#x7559;&#x662F;&#x6709;&#x4FDD;&#x5B58;&#x671F;&#x9650;&#x7684;&#x3002;&#x6709;&#x8208;&#x8DA3;&#x554F;&#x7537;&#x4EBA;&#x3002;<code>man git gc</code></p>
-<p>&#x4E0D;&#x77E5;&#x9053;&#x6709;&#x6C92;&#x6709;&#x6703;&#x554F;&#xFF1A;&#x300C;&#x554A;&#x4E0D;&#x662F;&#x8981;&#x4ECB;&#x7D39;<code>.git/logs</code>&#x561B;&#xFF1F;&#x300D;</p>
-<p>&#x554F;&#x5F97;&#x597D;&#xFF01;&#x731C;&#x731C;&#x525B;&#x624D;git reflogs&#x6A94;&#x6848;&#x5F9E;&#x54EA;&#x88E1;&#x8B80;&#x51FA;&#x4F86;&#xFF1F;</p>
-<p>&#x4E00;&#x6A23;&#x8ACB;&#x51FA;strace&#x5927;&#x5927;</p>
-<pre><code>$ strace -e open git reflog
-...
-open(&quot;/tmp/pcmanx/.git/logs/HEAD&quot;, O_RDONLY) = 3
-...
-</code></pre><p>&#x6709;&#x770B;&#x5230;<code>.git/logs/HEAD</code>&#x5427;&#xFF1F;&#x6709;&#x6C92;&#x6709;&#x60F3;&#x770B;&#x4E00;&#x4E0B;&#x88E1;&#x9762;&#x662F;&#x5565;&#xFF1F;&#x81F3;&#x5C11;&#x6211;&#x60F3;&#x770B;&#x3002;</p>
-<pre><code>$ cat .git/logs/HEAD
-...
-fd5d6abe34f41f8687c1fc5e2ab0a2f65c570304 c982c70f00875b83e4845ca35ef0ca4c70f73e64 Wen.Liao &lt;censored&gt; 1425997414 +0800    commit: file 1
-c982c70f00875b83e4845ca35ef0ca4c70f73e64 b85f4d4dca4012a2d1785750061fae9e03e817e1 Wen.Liao &lt;censored&gt; 1425997438 +0800    commit: file 2
-b85f4d4dca4012a2d1785750061fae9e03e817e1 fd5d6abe34f41f8687c1fc5e2ab0a2f65c570304 Wen.Liao &lt;censored&gt; 1425997673 +0800    checkout: moving from demo_reflog to master
-fd5d6abe34f41f8687c1fc5e2ab0a2f65c570304 b85f4d4dca4012a2d1785750061fae9e03e817e1 Wen.Liao &lt;censored&gt; 1425997732 +0800    checkout: moving from master to b85f4d4
-b85f4d4dca4012a2d1785750061fae9e03e817e1 b85f4d4dca4012a2d1785750061fae9e03e817e1 Wen.Liao &lt;censored&gt; 1425997746 +0800    checkout: moving from b85f4d4dca4012a2d1785750061fae9e03e817e1 to i_am_back
-</code></pre><p>&#x7CBE;&#x78BA;&#x7684;&#x4F86;&#x8AAA;&#xFF0C;<code>.git/logs</code>&#x4E0B;&#x9762;&#x4E0D;&#x53EA;&#x7D00;&#x9304;HEAD&#x7684;log&#xFF0C;&#x9084;&#x6709;&#x5404;&#x7A2E;ref&#x7684;log&#x3002;&#x6709;&#x8208;&#x8DA3;&#x7684;&#x670B;&#x53CB;&#x53EF;&#x4EE5;&#x81EA;&#x884C;&#x53C3;&#x8003;<a href="http://git-scm.com/docs/gitrepository-layout" target="_blank">&#x9019;&#x908A;</a>&#xFF0C;&#x4E26;&#x4E14;&#x9032;&#x53BB;&#x76EE;&#x9304;&#x901B;&#x901B;&#x3002;</p>
-<p><a name="g_1st_dir_obj"></a></p>
-<h2 id="objects">objects</h2>
-<p>&#x5148;&#x770B;&#x525B;clone&#x4E0B;&#x4F86;&#x7684;&#x76EE;&#x9304;&#x7D50;&#x69CB;</p>
-<pre><code>$ tree .git/objects/
-.git/objects/
-&#x251C;&#x2500;&#x2500; info
-&#x2514;&#x2500;&#x2500; pack
-    &#x251C;&#x2500;&#x2500; pack-6042320de285747900cc3263a47f7bab429cabf8.idx
-    &#x2514;&#x2500;&#x2500; pack-6042320de285747900cc3263a47f7bab429cabf8.pack
-</code></pre><p>&#x4F86;&#x751F;&#x4E00;&#x500B;&#x76EE;&#x9304;&#x548C;&#x4E26;&#x4E14;commit&#x4E00;&#x500B;&#x6771;&#x897F;&#x9032;&#x53BB;&#x3002;</p>
-<pre><code>$ mkdir tree
-$ echo test &gt; tree/file
-$ git add tree/file
-$ git commit tree/file -m &quot;test tree and file&quot;
-[master 2ba01ef] test tree and file
- 1 file changed, 1 insertion(+)
- create mode 100644 tree/file
-</code></pre><p>&#x7136;&#x5F8C;&#x770B;&#x770B;&#x9019;&#x500B;&#x76EE;&#x9304;&#x8B8A;&#x5316;&#x5427;</p>
-<pre><code>$ tree .git/objects/
-.git/objects/
-&#x251C;&#x2500;&#x2500; 2b
-&#x2502;   &#x2514;&#x2500;&#x2500; a01ef5583f35dd57b5fb5bde732f73bc315b6d
-&#x251C;&#x2500;&#x2500; 9d
-&#x2502;   &#x2514;&#x2500;&#x2500; aeafb9864cf43055ae93beb0afd6c7d144bfa4
-&#x251C;&#x2500;&#x2500; de
-&#x2502;   &#x2514;&#x2500;&#x2500; f69c2c316574aaf328e546486fa750eb9c53a0
-&#x251C;&#x2500;&#x2500; e1
-&#x2502;   &#x2514;&#x2500;&#x2500; b8ecbb1f19709f3a4867a0ffe08bb2e07acf19
-&#x251C;&#x2500;&#x2500; info
-&#x2514;&#x2500;&#x2500; pack
-    &#x251C;&#x2500;&#x2500; pack-6042320de285747900cc3263a47f7bab429cabf8.idx
-    &#x2514;&#x2500;&#x2500; pack-6042320de285747900cc3263a47f7bab429cabf8.pack
+            <span class="hljs-keyword">if</span> (<span class="hljs-built_in">strcmp</span>(<span class="hljs-string">&quot;oom_test&quot;</span>, p-&gt;comm) == <span class="hljs-number">0</span>) {
+                send_sig(SIGUSR2, p, <span class="hljs-number">0</span>);
+            }
 
-6 directories, 6 files
-</code></pre><p>&#x63A5;&#x4E0B;&#x4F86;&#x628A;&#x76EE;&#x9304;&#x548C;&#x6A94;&#x6848;&#x6DF7;&#x8D77;&#x4F86;&#xFF0C;&#x7528;<code>git cat-file -p</code>&#x770B;&#x770B;&#x88E1;&#x9762;&#x662F;&#x5565;</p>
-<pre><code>$ git cat-file -p 2ba01ef5583f35dd57b5fb5bde732f73bc315b6d
-tree def69c2c316574aaf328e546486fa750eb9c53a0
-parent fd5d6abe34f41f8687c1fc5e2ab0a2f65c570304
-author Wen.Liao &lt;censored&gt; 1425999641 +0800
-committer Wen.Liao &lt;censored&gt; 1425999641 +0800
+            printk(KERN_CRIT <span class="hljs-string">&quot;lowmem_shrink oom_test-----------------------------------------------&quot;</span>);
+        }
+    }
 
-test tree and file
-</code></pre><pre><code>$ git cat-file -p 9daeafb9864cf43055ae93beb0afd6c7d144bfa4
-test
-</code></pre><pre><code>$ git cat-file -p def69c2c316574aaf328e546486fa750eb9c53a0
-100644 blob 5bc4b3f69d730535eb3a8aee28d7ef9273225d50    .gitignore
-...
-040000 tree e1b8ecbb1f19709f3a4867a0ffe08bb2e07acf19    tree
-</code></pre><pre><code>$ git cat-file -p e1b8ecbb1f19709f3a4867a0ffe08bb2e07acf19
-100644 blob 9daeafb9864cf43055ae93beb0afd6c7d144bfa4    file
-</code></pre><p>&#x5176;&#x5BE6;&#x4E0D;&#x96E3;&#x731C;&#xFF0C;&#x4F60;local commit&#x7684;&#x6771;&#x897F;&#x6703;&#x88AB;&#x8655;&#x7406;&#x5F8C;&#x8B8A;&#x6210;object&#xFF0C;&#x4E26;&#x4E14;&#x4F9D;&#x7167;hash&#x5206;&#x9580;&#x5225;&#x985E;&#x5730;&#x5B58;&#x653E;&#x3002;</p>
-<p>&#x63A5;&#x4E0B;&#x4F86;&#x6211;&#x5011;&#x4F86;&#x505A;&#x500B;&#x6E2C;&#x8A66;</p>
-<pre><code>$ git gc
-Counting objects: 5006, done.
-Delta compression using up to 4 threads.
-Compressing objects: 100% (1070/1070), done.
-Writing objects: 100% (5006/5006), done.
-Total 5006 (delta 3914), reused 5001 (delta 3913)
-</code></pre><p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;&#x525B;&#x624D;&#x7684;&#x76EE;&#x9304;&#x5168;&#x90E8;&#x6D88;&#x5931;&#xFF0C;&#x800C;pack&#x76EE;&#x9304;&#x7684;&#x6A94;&#x6848;&#x540D;&#x7A31;&#x4E5F;&#x548C;&#x524D;&#x9762;&#x7684;&#x4E0D;&#x540C;&#x4E86;&#x3002;&#x5C0D;&#x7167;&#x4E0A;&#x9762;<code>git gc</code>&#x7684;&#x8A0A;&#x606F;&#xFF0C;&#x53EF;&#x4EE5;&#x77E5;&#x9053;<code>git gc</code>&#x505A;&#x4E86;&#x58D3;&#x7E2E;&#xFF0C;&#x4E26;&#x4E14;&#x5C07;&#x9019;&#x4E9B;object&#x4E00;&#x8D77;&#x58D3;&#x5230;pack&#x76EE;&#x9304;&#x7684;&#x6A94;&#x6848;&#x4E2D;&#x4E86;&#x3002;</p>
-<pre><code>$ tree .git/objects/
-.git/objects/
-&#x251C;&#x2500;&#x2500; info
-&#x2502;   &#x2514;&#x2500;&#x2500; packs
-&#x2514;&#x2500;&#x2500; pack
-    &#x251C;&#x2500;&#x2500; pack-57d163604c430e1919a18e97c5b1312291b62721.idx
-    &#x2514;&#x2500;&#x2500; pack-57d163604c430e1919a18e97c5b1312291b62721.pack
 
-2 directories, 3 files
-</code></pre><p>&#x6240;&#x4EE5;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x5F9E;&#x89C0;&#x5BDF;&#x4E2D;&#x505A;&#x51FA;&#x7D50;&#x8AD6;&#x3002;Git object&#x7684;&#x5B58;&#x653E;&#x6709;&#x5169;&#x7A2E;&#x578B;&#x5F0F;</p>
-<ul>
-<li>loose object&#xFF1A;&#x5C31;&#x662F;&#x525B;&#x624D;&#x770B;&#x5230;&#x7528;[HASH&#x524D;&#x5169;&#x78BC;]/[&#x5269;&#x4E0B;HASH] &#x7684;&#x76EE;&#x9304;&#x6A94;&#x6848;&#x7D50;&#x69CB;</li>
-<li>packed object: &#x628A;object&#x58D3;&#x7E2E;&#x6210;&#x5169;&#x500B;&#x6A94;&#x6848;</li>
-</ul>
-<p>&#x800C;looose object&#x578B;&#x5F0F;&#x7D93;&#x904E;<code>git gc</code>&#x5F8C;&#x6703;&#x6709;&#x53EF;&#x80FD;&#x8F49;&#x63DB;&#x6210;packed object&#xFF0C;&#x53CD;&#x4E4B;&#x4EA6;&#x7136;&#x3002;&#x8A73;&#x7D30;&#x898F;&#x5247;&#x554F;&#x7537;&#x4EBA;&#x3002;
-&#x7531;&#x65BC;<code>git gc</code>&#x662F;&#x7528;&#x4F86;<strong>&#x6E05;&#x9664;</strong>&#x548C;<strong>&#x6574;&#x7406;</strong>local repository&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#x505A;&#x4E86;<code>git gc</code>&#x662F;&#x6709;&#x53EF;&#x80FD;&#x522A;&#x9664;&#x7528;&#x4E0D;&#x5230;&#x7684;&#x8CC7;&#x6599;&#x3002;&#x8A73;&#x7D30;&#x60C5;&#x6CC1;&#x4E00;&#x6A23;&#x8ACB;&#x554F;&#x7537;&#x4EBA;<code>man git gc</code></p>
-<p><a name="g_1st_dir_ref"></a></p>
-<h2 id="refs">refs</h2>
-<ul>
-<li><a href="#g_bkg">&#x80CC;&#x666F;&#x77E5;&#x8B58;</a>&#x548C;<a href="#gpkref">packed-ref</a>&#x6709;&#x63D0;&#x5230;&#xFF0C;&#x5C31;&#x4E0D;&#x8981;&#x62D6;&#x81FA;&#x9322;&#x4E86;&#x3002;</li>
-</ul>
-<p><a name="g_ref"></a></p>
-<h2 id="%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99">&#x53C3;&#x8003;&#x8CC7;&#x6599;</h2>
-<ul>
-<li><a href="http://stackoverflow.com/questions/4084921/what-does-the-git-index-contain-exactly" target="_blank">Stackoverflow: What does the git index contain EXACTLY?</a></li>
-<li><a href="http://schacon.github.io/gitbook/7_the_git_index.html" target="_blank">Git Community Book: The Git Index</a></li>
-<li><a href="http://stackoverflow.com/questions/964876/head-and-orig-head-in-git" target="_blank">Stackoverflow: HEAD and ORIG_HEAD in Git</a></li>
-<li><a href="http://git-scm.com/book/en/v2/Git-Internals-Git-Objects" target="_blank">ProGit: 10.2 Git Internals - Git Objects</a></li>
-<li><a href="http://gitready.com/advanced/2009/03/23/whats-inside-your-git-directory.html" target="_blank">what&apos;s inside your .git directory</a></li>
-<li><a href="http://git-scm.com/docs/git-pack-refs" target="_blank">git-pack-refs - Pack heads and tags for efficient repository access</a></li>
-<li><a href="http://git-scm.com/book/en/v2/Customizing-Git-Git-Configuration#_git_config" target="_blank">ProGit: 8.1 Customizing Git - Git Configuration</a></li>
-<li><a href="http://git-scm.com/docs/gitrepository-layout" target="_blank">gitrepository-layout - Git Repository Layout</a></li>
-<li><a href="http://schacon.github.io/gitbook/7_how_git_stores_objects.html" target="_blank">Git Community Book: How Git Stores Objects</a></li>
-</ul>
+    <span class="hljs-keyword">if</span> (lowmem_adj_size &lt; array_size)
+        array_size = lowmem_adj_size;
+    <span class="hljs-keyword">if</span> (lowmem_minfree_size &lt; array_size)
+        array_size = lowmem_minfree_size;
+    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; array_size; i++) {
+        minfree = lowmem_minfree[i];
+        <span class="hljs-keyword">if</span> (other_free &lt; minfree &amp;&amp; other_file &lt; minfree) {
+            min_score_adj = lowmem_adj[i];
+            <span class="hljs-keyword">break</span>;
+        }
+    }
+    <span class="hljs-keyword">if</span> (sc-&gt;nr_to_scan &gt; <span class="hljs-number">0</span>)
+        lowmem_print(<span class="hljs-number">3</span>, <span class="hljs-string">&quot;lowmem_shrink %lu, %x, ofree %d %d, ma %d\n&quot;</span>,
+                     sc-&gt;nr_to_scan, sc-&gt;gfp_mask, other_free,
+                     other_file, min_score_adj);
+    rem = global_page_state(NR_ACTIVE_ANON) +
+          global_page_state(NR_ACTIVE_FILE) +
+          global_page_state(NR_INACTIVE_ANON) +
+          global_page_state(NR_INACTIVE_FILE);
+    <span class="hljs-keyword">if</span> (sc-&gt;nr_to_scan &lt;= <span class="hljs-number">0</span> || min_score_adj == OOM_SCORE_ADJ_MAX + <span class="hljs-number">1</span>) {
+        lowmem_print(<span class="hljs-number">5</span>, <span class="hljs-string">&quot;lowmem_shrink %lu, %x, return %d\n&quot;</span>,
+                     sc-&gt;nr_to_scan, sc-&gt;gfp_mask, rem);
+        <span class="hljs-keyword">return</span> rem;
+    }
+    selected_oom_score_adj = min_score_adj;
+
+    rcu_read_lock();
+    for_each_process(tsk) {
+        <span class="hljs-keyword">struct</span> task_struct *p;
+        <span class="hljs-keyword">int</span> oom_score_adj;
+
+        <span class="hljs-keyword">if</span> (tsk-&gt;flags &amp; PF_KTHREAD)
+            <span class="hljs-keyword">continue</span>;
+
+        p = find_lock_task_mm(tsk);
+        <span class="hljs-keyword">if</span> (!p)
+            <span class="hljs-keyword">continue</span>;
+
+        <span class="hljs-keyword">if</span> (test_tsk_thread_flag(p, TIF_MEMDIE) &amp;&amp;
+                time_before_eq(jiffies, lowmem_deathpending_timeout)) {
+            task_unlock(p);
+            rcu_read_unlock();
+            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+        }
+        oom_score_adj = p-&gt;signal-&gt;oom_score_adj;
+        <span class="hljs-keyword">if</span> (oom_score_adj &lt; min_score_adj) {
+            task_unlock(p);
+            <span class="hljs-keyword">continue</span>;
+        }
+        tasksize = get_mm_rss(p-&gt;mm);
+        task_unlock(p);
+        <span class="hljs-keyword">if</span> (tasksize &lt;= <span class="hljs-number">0</span>)
+            <span class="hljs-keyword">continue</span>;
+        <span class="hljs-keyword">if</span> (selected) {
+            <span class="hljs-keyword">if</span> (oom_score_adj &lt; selected_oom_score_adj)
+                <span class="hljs-keyword">continue</span>;
+            <span class="hljs-keyword">if</span> (oom_score_adj == selected_oom_score_adj &amp;&amp;
+                    tasksize &lt;= selected_tasksize)
+                <span class="hljs-keyword">continue</span>;
+        }
+        selected = p;
+        selected_tasksize = tasksize;
+        selected_oom_score_adj = oom_score_adj;
+        lowmem_print(<span class="hljs-number">2</span>, <span class="hljs-string">&quot;select &apos;%s&apos; (%d), adj %d, size %d, to kill\n&quot;</span>,
+                     p-&gt;comm, p-&gt;pid, oom_score_adj, tasksize);
+    }
+    <span class="hljs-keyword">if</span> (selected) {
+        lowmem_print(<span class="hljs-number">1</span>, <span class="hljs-string">&quot;Killing &apos;%s&apos; (%d), adj %d,\n&quot;</span> \
+                     <span class="hljs-string">&quot;   to free %ldkB on behalf of &apos;%s&apos; (%d) because\n&quot;</span> \
+                     <span class="hljs-string">&quot;   cache %ldkB is below limit %ldkB for oom_score_adj %d\n&quot;</span> \
+                     <span class="hljs-string">&quot;   Free memory is %ldkB above reserved\n&quot;</span>,
+                     selected-&gt;comm, selected-&gt;pid,
+                     selected_oom_score_adj,
+                     selected_tasksize * (<span class="hljs-keyword">long</span>)(PAGE_SIZE / <span class="hljs-number">1024</span>),
+                     current-&gt;comm, current-&gt;pid,
+                     other_file * (<span class="hljs-keyword">long</span>)(PAGE_SIZE / <span class="hljs-number">1024</span>),
+                     minfree * (<span class="hljs-keyword">long</span>)(PAGE_SIZE / <span class="hljs-number">1024</span>),
+                     min_score_adj,
+                     other_free * (<span class="hljs-keyword">long</span>)(PAGE_SIZE / <span class="hljs-number">1024</span>));
+        lowmem_deathpending_timeout = jiffies + HZ;
+        send_sig(SIGKILL, selected, <span class="hljs-number">0</span>);
+        set_tsk_thread_flag(selected, TIF_MEMDIE);
+        rem -= selected_tasksize;
+    }
+    lowmem_print(<span class="hljs-number">4</span>, <span class="hljs-string">&quot;lowmem_shrink %lu, %x, return %d\n&quot;</span>,
+                 sc-&gt;nr_to_scan, sc-&gt;gfp_mask, rem);
+    rcu_read_unlock();
+    <span class="hljs-keyword">return</span> rem;
+}
+
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">struct</span> shrinker lowmem_shrinker = {
+    .shrink = lowmem_shrink,
+    .seeks = DEFAULT_SEEKS * <span class="hljs-number">16</span>
+};
+
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> __<span class="hljs-function">init <span class="hljs-title">lowmem_init</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    register_shrinker(&amp;lowmem_shrinker);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> __<span class="hljs-function"><span class="hljs-built_in">exit</span> <span class="hljs-title">lowmem_exit</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    unregister_shrinker(&amp;lowmem_shrinker);
+}
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">ifdef</span> CONFIG_ANDROID_LOW_MEMORY_KILLER_AUTODETECT_OOM_ADJ_VALUES</span>
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">lowmem_oom_adj_to_oom_score_adj</span><span class="hljs-params">(<span class="hljs-keyword">int</span> oom_adj)</span>
+</span>{
+    <span class="hljs-keyword">if</span> (oom_adj == OOM_ADJUST_MAX)
+        <span class="hljs-keyword">return</span> OOM_SCORE_ADJ_MAX;
+    <span class="hljs-keyword">else</span>
+        <span class="hljs-keyword">return</span> (oom_adj * OOM_SCORE_ADJ_MAX) / -OOM_DISABLE;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">lowmem_autodetect_oom_adj_values</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">int</span> i;
+    <span class="hljs-keyword">int</span> oom_adj;
+    <span class="hljs-keyword">int</span> oom_score_adj;
+    <span class="hljs-keyword">int</span> array_size = ARRAY_SIZE(lowmem_adj);
+
+    <span class="hljs-keyword">if</span> (lowmem_adj_size &lt; array_size)
+        array_size = lowmem_adj_size;
+
+    <span class="hljs-keyword">if</span> (array_size &lt;= <span class="hljs-number">0</span>)
+        <span class="hljs-keyword">return</span>;
+
+    oom_adj = lowmem_adj[array_size - <span class="hljs-number">1</span>];
+    <span class="hljs-keyword">if</span> (oom_adj &gt; OOM_ADJUST_MAX)
+        <span class="hljs-keyword">return</span>;
+
+    oom_score_adj = lowmem_oom_adj_to_oom_score_adj(oom_adj);
+    <span class="hljs-keyword">if</span> (oom_score_adj &lt;= OOM_ADJUST_MAX)
+        <span class="hljs-keyword">return</span>;
+
+    lowmem_print(<span class="hljs-number">1</span>, <span class="hljs-string">&quot;lowmem_shrink: convert oom_adj to oom_score_adj:\n&quot;</span>);
+    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; array_size; i++) {
+        oom_adj = lowmem_adj[i];
+        oom_score_adj = lowmem_oom_adj_to_oom_score_adj(oom_adj);
+        lowmem_adj[i] = oom_score_adj;
+        lowmem_print(<span class="hljs-number">1</span>, <span class="hljs-string">&quot;oom_adj %d =&gt; oom_score_adj %d\n&quot;</span>,
+                     oom_adj, oom_score_adj);
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">lowmem_adj_array_set</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *val, <span class="hljs-keyword">const</span> <span class="hljs-keyword">struct</span> kernel_param *kp)</span>
+</span>{
+    <span class="hljs-keyword">int</span> ret;
+
+    ret = param_array_ops.<span class="hljs-built_in">set</span>(val, kp);
+
+    <span class="hljs-comment">/* HACK: Autodetect oom_adj values in lowmem_adj array */</span>
+    lowmem_autodetect_oom_adj_values();
+
+    <span class="hljs-keyword">return</span> ret;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">lowmem_adj_array_get</span><span class="hljs-params">(<span class="hljs-keyword">char</span> *buffer, <span class="hljs-keyword">const</span> <span class="hljs-keyword">struct</span> kernel_param *kp)</span>
+</span>{
+    <span class="hljs-keyword">return</span> param_array_ops.get(buffer, kp);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">lowmem_adj_array_free</span><span class="hljs-params">(<span class="hljs-keyword">void</span> *arg)</span>
+</span>{
+    param_array_ops.<span class="hljs-built_in">free</span>(arg);
+}
+
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">struct</span> kernel_param_ops lowmem_adj_array_ops = {
+    .<span class="hljs-built_in">set</span> = lowmem_adj_array_set,
+    .get = lowmem_adj_array_get,
+    .<span class="hljs-built_in">free</span> = lowmem_adj_array_free,
+};
+
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">struct</span> kparam_array __param_arr_adj = {
+    .max = ARRAY_SIZE(lowmem_adj),
+    .num = &amp;lowmem_adj_size,
+    .ops = &amp;param_ops_int,
+    .elemsize = <span class="hljs-keyword">sizeof</span>(lowmem_adj[<span class="hljs-number">0</span>]),
+    .elem = lowmem_adj,
+};
+<span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span></span>
+
+module_param_named(cost, lowmem_shrinker.seeks, <span class="hljs-keyword">int</span>, S_IRUGO | S_IWUSR);
+<span class="hljs-preprocessor">#<span class="hljs-keyword">ifdef</span> CONFIG_ANDROID_LOW_MEMORY_KILLER_AUTODETECT_OOM_ADJ_VALUES</span>
+__module_param_call(MODULE_PARAM_PREFIX, adj,
+                    &amp;lowmem_adj_array_ops,
+                    .arr = &amp;__param_arr_adj,
+                    S_IRUGO | S_IWUSR, -<span class="hljs-number">1</span>);
+__MODULE_PARM_TYPE(adj, <span class="hljs-string">&quot;array of int&quot;</span>);
+<span class="hljs-preprocessor">#<span class="hljs-keyword">else</span></span>
+module_param_array_named(adj, lowmem_adj, <span class="hljs-keyword">int</span>, &amp;lowmem_adj_size,
+                         S_IRUGO | S_IWUSR);
+<span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span></span>
+module_param_array_named(minfree, lowmem_minfree, uint, &amp;lowmem_minfree_size,
+                         S_IRUGO | S_IWUSR);
+module_param_named(debug_level, lowmem_debug_level, uint, S_IRUGO | S_IWUSR);
+
+module_init(lowmem_init);
+module_exit(lowmem_exit);
+
+MODULE_LICENSE(<span class="hljs-string">&quot;GPL&quot;</span>);
+</code></pre>
+<pre><code class="lang-c"><span class="hljs-keyword">if</span> (!<span class="hljs-built_in">strcmp</span>(current-&gt;comm, <span class="hljs-string">&quot;oom_test&quot;</span>)) {
+    printk(KERN_CRIT <span class="hljs-string">&quot;lowmem_shrink oom_test+++++++++++++++++++++++++++++++++++++++++++++++&quot;</span>);
+    printk(KERN_CRIT <span class="hljs-string">&quot;YAO lowmem_shrink PID=%d, PID name=%s\n&quot;</span>, current-&gt;pid, current-&gt;comm);
+    <span class="hljs-comment">// dump_stack();</span>
+    for_each_process(tsk) {
+        <span class="hljs-keyword">struct</span> task_struct *p;
+
+        p = find_lock_task_mm(tsk);
+
+        <span class="hljs-keyword">if</span> (!p)
+            <span class="hljs-keyword">continue</span>;
+
+        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">strcmp</span>(<span class="hljs-string">&quot;oom_test&quot;</span>, p-&gt;comm) == <span class="hljs-number">0</span>) {
+            send_sig(SIGUSR2, p, <span class="hljs-number">0</span>);
+        }
+
+        printk(KERN_CRIT <span class="hljs-string">&quot;lowmem_shrink oom_test-----------------------------------------------&quot;</span>);
+    }
+}
+</code></pre>
 
                     
                     </section>
@@ -7000,10 +6873,10 @@ Total 5006 (delta 3914), reused 5001 (delta 3913)
         </div>
 
         
-        <a href="../22/2213.html" class="navigation navigation-prev " aria-label="Previous page: Linux中誰來呼叫C語言中的main?"><i class="fa fa-angle-left"></i></a>
+        <a href="../linux_kernel/12235.html" class="navigation navigation-prev " aria-label="Previous page: 系統呼叫"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../22/2215.html" class="navigation navigation-next " aria-label="Next page: Linux中使用C語言載入data object 檔案資料"><i class="fa fa-angle-right"></i></a>
+        <a href="../linux_driver/index.html" class="navigation navigation-next " aria-label="Next page: Linux Driver"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

@@ -169,6 +169,7 @@
        * [Linux 行程](linux_kernel/12233.md)
        * [行程排程](linux_kernel/122334.md)
        * [系統呼叫](linux_kernel/12235.md)
+   * kernel 發 signal 通知 pid   task_struct->comm
 * [Linux Driver](linux_driver/README.md)
    * [Linux Device Model 三角關係](linux_driver/linux_device_model.md)
 * [OS](os/README.md)

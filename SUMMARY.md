@@ -400,4 +400,5 @@
    * [程式碼的可讀性比較](thinker/cheng_shi_ma_de_ke_du_xing_bi_jiao.md)
    * [軟體元件的使用](thinker/ruan_ti_yuan_jian_de_shi_yong.md)
 * [GCC](gcc/gcc.md)
+   * __thread關鍵字
 

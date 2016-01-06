@@ -403,5 +403,5 @@
    * [軟體元件的使用](thinker/ruan_ti_yuan_jian_de_shi_yong.md)
 * [GCC](gcc/gcc.md)
    * [__thread關鍵字](gcc/thread_guan_jian_zi.md)
-* FreeRTOS
+* [FreeRTOS](freertos/freertos.md)
 

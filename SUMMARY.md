@@ -404,5 +404,5 @@
 * [GCC](gcc/gcc.md)
    * [__thread關鍵字](gcc/thread_guan_jian_zi.md)
 * [FreeRTOS](freertos/freertos.md)
-   * qemu_freertos
+   * [qemu_freertos](freertos/qemufreertos.md)
 

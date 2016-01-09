@@ -410,5 +410,5 @@
        * [靜態分析 C 程序函數調用關係圖](tinyclub/jing_tai_fen_xi_c_cheng_xu_han_shu_diao_yong_guan_.md)
        * [動態分析 C 程序函數調用關係](tinyclub/dong_tai_fen_xi_c_cheng_xu_han_shu_diao_yong_guan_.md)
        * [函數調用關係繪製方法與逆向建模](tinyclub/han_shu_diao_yong_guan_xi_hui_zhi_fang_fa_yu_ni_xi.md)
-       * 動態分析 Linux 內核函數調用關係
+       * [動態分析 Linux 內核函數調用關係](tinyclub/dong_tai_fen_xi_linux_nei_he_han_shu_diao_yong_gua.md)
 

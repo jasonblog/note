@@ -104,7 +104,8 @@ Ok，把 `FlameGraph` 准备好：
 
 效果如下：
 
-![Simple Flame Graph For Calls][10]
+
+![](./images/calls-flame.svg)
 
 ## 更多准备
 
@@ -266,7 +267,10 @@ Ok，把 `FlameGraph` 准备好：
   * `perf script | stackcollapse-perf.pl > find.perf-outfolded` 转换为 FlameGraph 支持的格式
   * `flamegraph.pl find.perf-outfolded > find-flame.svg` 生成火焰图
 
-效果如下： ![The FlameGraph of the Profiling result of the find command][12]
+效果如下： 
+
+calls-flame.svg
+![The FlameGraph of the Profiling result of the find command][12]
 
 ## 小结
 

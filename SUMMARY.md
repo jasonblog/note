@@ -405,7 +405,6 @@
    * [__thread關鍵字](gcc/thread_guan_jian_zi.md)
 * [FreeRTOS](freertos/freertos.md)
    * [FreeRTOS-GCC-ARM926ejs_QEMU](freertos/qemufreertos.md)
-* [靜態分析 C 程序函數調用關係圖](tinyclub/callgraph-draw-the-calltree-of-c-functions.md)
 * [源碼分析之道](tinyclub/yuan_ma_fen_xi_zhi_dao.md)
 * [tinyclub](tinyclub/tinyclub.md)
 

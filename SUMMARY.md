@@ -406,5 +406,5 @@
 * [FreeRTOS](freertos/freertos.md)
    * [FreeRTOS-GCC-ARM926ejs_QEMU](freertos/qemufreertos.md)
 * [tinyclub](tinyclub/tinyclub.md)
-   * 源碼分析之道
+   * [源碼分析之道](tinyclub/yuan_ma_fen_xi_zhi_dao.md)
 

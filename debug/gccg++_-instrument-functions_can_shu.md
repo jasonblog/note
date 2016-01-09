@@ -1,7 +1,7 @@
 # gcc/g++ -instrument-functions 參數
 
 
-为项目太大，线程太多，gprof不可靠，于是找到了**finstrument-functions**
+為項目太大，線程太多，gprof不可靠，於是找到了**finstrument-functions**
 -finstrument-functions 會在每次進入與退出函式前呼叫 "__cyg_profile_func_enter" 與
 "__cyg_profile_func_exit" 這兩個 hook function。等等，「進入」與「退出」是又何解？
 C Programming Language 最經典之處在於，雖然沒有定義語言實做的方式，但實際上 function
@@ -192,15 +192,15 @@ Hello World!
 __cyg_profile_func_exit: func = 0x804847e, called by = 0xb7e6adec
 ```
 
-##参考
+##參考
 
-GCC 函式追蹤功能 finstrument-functions __attribute__ +用 Graphviz 可视化函数调用
+GCC 函式追蹤功能 finstrument-functions __attribute__ +用 Graphviz 可視化函數調用
 
-ibm 用 Graphviz 可视化函数调用  
+ibm 用 Graphviz 可視化函數調用  
 
 gcc/g++使用-finstrument-functions來觀察code每個function的呼叫
 
 http://www.logix.cz/michal/devel/CygProfiler/cyg-profile.c.xp
 
-http://gcc.gnu.org/onlinedocs/gcc-4.3.3/gcc/Code-Gen-Options.html#Code-Gen-Options  官方参数说明
+http://gcc.gnu.org/onlinedocs/gcc-4.3.3/gcc/Code-Gen-Options.html#Code-Gen-Options  官方參數說明
 

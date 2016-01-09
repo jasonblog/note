@@ -1,102 +1,102 @@
 # 動態分析 Linux 內核函數調用關係
 
-  - 函数调用
-  - 源码分析
+  - 函數調用
+  - 源碼分析
 categories:
   - C
-  - 源码分析 
+  - 源碼分析 
   - FlameGraph
   - Ftrace
   - Perf
 ---
 
 
-## 缘由
+## 緣由
 
-源码分析是程序员离不开的话题。
+源碼分析是程序員離不開的話題。
 
-无论是研究开源项目，还是平时做各类移植、开发，都避免不了对源码的深入解读。
+無論是研究開源項目，還是平時做各類移植、開發，都避免不了對源碼的深入解讀。
 
 工欲善其事，必先利其器。
 
-前两篇介绍了静态分析和应用程序部分的动态分析。这里开始讨论如何动态分析 Linux 内核部分。
+前兩篇介紹了靜態分析和應用程序部分的動態分析。這裡開始討論如何動態分析 Linux 內核部分。
 
-## 准备工作
+## 準備工作
 
 ### Ftrace
 
-类似于用户态的 `gprof`，在跟踪内核函数之前，需要对内核做额外的一些配置，在内核相关函数插入一些代码，以便获取必要信息，比如调用时间，调用次数，父函数等。
+類似於用戶態的 `gprof`，在跟蹤內核函數之前，需要對內核做額外的一些配置，在內核相關函數插入一些代碼，以便獲取必要信息，比如調用時間，調用次數，父函數等。
 
-早期的内核函数跟踪支持有 KFT，它基于 `-finstrument-functions`，在每个函数的出口、入口插入特定调用以便截获上面提到的各类信息。早期笔者就曾经维护过 KFT，并且成功移植到了 Loongson/MIPS 平台，相关邮件记录见：[kernel function tracing support for linux-mips][2]。不过 Linux 官方社区最终采用的却是 `Ftrace`，为什么呢？虽然是类似的思路，但是 `Ftrace` 有重大的创新：
+早期的內核函數跟蹤支持有 KFT，它基於 `-finstrument-functions`，在每個函數的出口、入口插入特定調用以便截獲上面提到的各類信息。早期筆者就曾經維護過 KFT，並且成功移植到了 Loongson/MIPS 平臺，相關郵件記錄見：[kernel function tracing support for linux-mips][2]。不過 Linux 官方社區最終採用的卻是 `Ftrace`，為什麼呢？雖然是類似的思路，但是 `Ftrace` 有重大的創新：
 
-  * Ftrace 只需要在函数入口插入一个外部调用：mcount，而 KFT 在入口和出口都要加
-  * Ftrace 巧妙的拦截了函数返回的地址，从而可以在运行时先跳到一个事先准备好的统一出口，记录各类信息，然后再返回原来的地址
-  * Ftrace 在链接完成以后，把所有插入点地址都记录到一张表中，然后默认把所有插入点都替换成为空指令（nop），因此默认情况下 Ftrace 的开销几乎是 0
-  * Ftrace 可以在运行时根据需要通过 Sysfs 接口使能和使用，即使在没有第三方工具的情况下也可以方便使用
+  * Ftrace 只需要在函數入口插入一個外部調用：mcount，而 KFT 在入口和出口都要加
+  * Ftrace 巧妙的攔截了函數返回的地址，從而可以在運行時先跳到一個事先準備好的統一出口，記錄各類信息，然後再返回原來的地址
+  * Ftrace 在鏈接完成以後，把所有插入點地址都記錄到一張表中，然後默認把所有插入點都替換成為空指令（nop），因此默認情況下 Ftrace 的開銷幾乎是 0
+  * Ftrace 可以在運行時根據需要通過 Sysfs 接口使能和使用，即使在沒有第三方工具的情況下也可以方便使用
 
-所以，本文只介绍 `Ftrace`，关于其详细用法，推荐看 `Ftrace` 作者 Steven 在 [LWN][3] 写的序列文章，例如：
+所以，本文只介紹 `Ftrace`，關於其詳細用法，推薦看 `Ftrace` 作者 Steven 在 [LWN][3] 寫的序列文章，例如：
 
   * Debugging the kernel using Ftrace: [1][4], [2][5]
   * [Secrets of the Ftrace function tracer][6]
   * [trace-cmd: A front-end for Ftrace][7]
 
-对于本文要介绍的内容，大家只要使能 `Ftrace` 内核配置就可以，我们不会直接使用它的底层接口：
+對於本文要介紹的內容，大家只要使能 `Ftrace` 內核配置就可以，我們不會直接使用它的底層接口：
 
     CONFIG_FUNCTION_TRACER
     CONFIG_DYNAMIC_FTRACE
     CONFIG_FUNCTION_GRAPH_TRACER
 
 
-除此之外，还需要把内核函数的符号表编译进去：
+除此之外，還需要把內核函數的符號表編譯進去：
 
     CONFIG_KALLSYMS=y
     CONFIG_KALLSYMS_ALL=y
 
 
-如果要直接使用 `Ftrace` 的话，可以安装下述工具，不过本文不做进一步介绍：
+如果要直接使用 `Ftrace` 的話，可以安裝下述工具，不過本文不做進一步介紹：
 
     $ sudo apt-get install trace-cmd kernelshark pytimerchart
 
 
 ### Perf
 
-`Perf` 最早是为取代 `Oprofile` 而生，从 2009 年开始只是增加了一个新的系统调用，如今强大到几乎把 `Oprofile` 逼退历史舞台。因为它不仅支持硬件性能计数器，还支持各种软件计数器，为 Linux 世界提供了一套完美的性能 Profiling 工具，当然，内核底层部分的函数 Profiling 离不开 `Ftrace` 支持。
+`Perf` 最早是為取代 `Oprofile` 而生，從 2009 年開始只是增加了一個新的系統調用，如今強大到幾乎把 `Oprofile` 逼退歷史舞臺。因為它不僅支持硬件性能計數器，還支持各種軟件計數器，為 Linux 世界提供了一套完美的性能 Profiling 工具，當然，內核底層部分的函數 Profiling 離不開 `Ftrace` 支持。
 
-关于 `Perf` 的详细用法，可以参考：[Perf Wiki][8]。
+關於 `Perf` 的詳細用法，可以參考：[Perf Wiki][8]。
 
-Ok，同样需要使能如下内核配置：
+Ok，同樣需要使能如下內核配置：
 
     CONFIG_HAVE_PERF_EVENTS=y
     CONFIG_PERF_EVENTS=y
 
 
-客户端安装：
+客戶端安裝：
 
     $ sudo apt-get install linux-tools-`uname -r`
 
 
 ### FlameGraph
 
-[FlameGraph][9] 是 Profiling 数据展示领域的一大创新，传统的树状结构占用的视觉面积很大，而且无法精准地找到热点，而 `FlameGraph` 通过火焰状的数据展示，采用层叠结构，占用页面空间小，可以快速清晰地展示出每条路径的占比，而且基于 SVG 可以自由缩放，基于 Javascript 可以动态地展示每个函数的具体样本和占比。
+[FlameGraph][9] 是 Profiling 數據展示領域的一大創新，傳統的樹狀結構佔用的視覺面積很大，而且無法精準地找到熱點，而 `FlameGraph` 通過火焰狀的數據展示，採用層疊結構，佔用頁面空間小，可以快速清晰地展示出每條路徑的佔比，而且基於 SVG 可以自由縮放，基於 Javascript 可以動態地展示每個函數的具體樣本和佔比。
 
-Ok，把 `FlameGraph` 准备好：
+Ok，把 `FlameGraph` 準備好：
 
     $ git clone https://github.com/brendangregg/FlameGraph.git
     $ sudo cp FlameGraph/flamegraph.pl /usr/local/bin/
     $ sudo cp FlameGraph/stackcollapse-perf.pl /usr/local/bin/
 
 
-在使用 `FlameGraph` 前，我们简单介绍一个例子以便更好地理解它的独到之处。
+在使用 `FlameGraph` 前，我們簡單介紹一個例子以便更好地理解它的獨到之處。
 
 > a;b;c;d 90 e; 10
 
-这个数据有三个信息：
+這個數據有三個信息：
 
-  * 函数调用关系：a 依次调用 b, c, d
-  * 调用次数占比：a 分支 90 次，e 分支 10 次
-  * 主要有两个大的分支：a 和 e
+  * 函數調用關係：a 依次調用 b, c, d
+  * 調用次數佔比：a 分支 90 次，e 分支 10 次
+  * 主要有兩個大的分支：a 和 e
 
-要渲染这个数据，如果用之前的 `dot` 描述语言，相对比较复杂一些，特别是当函数节点特别多的时候，几乎会没法查看，但是 `FlameGraph` 处理得很好，把上面的信息保存为 calls.log 并处理如下：
+要渲染這個數據，如果用之前的 `dot` 描述語言，相對比較複雜一些，特別是當函數節點特別多的時候，幾乎會沒法查看，但是 `FlameGraph` 處理得很好，把上面的信息保存為 calls.log 並處理如下：
 
     $ cd FlameGraph
     $ cat calls.log | flamegraph.pl > calls-flame.svg
@@ -107,11 +107,11 @@ Ok，把 `FlameGraph` 准备好：
 
 ![](./images/calls-flame.svg)
 
-## 更多准备
+## 更多準備
 
-日常程序开发时我们基本都只是关心用户态的情况，在系统级的优化中，则会兼顾系统库甚至内核部分，因为日常应用运行时的蛮多工作除了应用本身的各类操作外，还有蛮大一部分会访问到各类系统库，然后通过库访问到各类底层系统调用，进而访问到 Linux 内核空间。
+日常程序開發時我們基本都只是關心用戶態的情況，在系統級的優化中，則會兼顧系統庫甚至內核部分，因為日常應用運行時的蠻多工作除了應用本身的各類操作外，還有蠻大一部分會訪問到各類系統庫，然後通過庫訪問到各類底層系統調用，進而訪問到 Linux 內核空間。
 
-我们回到上篇文章的例子：`fib.c`，可以通过 `ltrace` 和 `strace` 查看库函数和系统调用的情况：
+我們回到上篇文章的例子：`fib.c`，可以通過 `ltrace` 和 `strace` 查看庫函數和系統調用的情況：
 
     $ ltrace -f -T -ttt -c ./fib 2>&1 > /dev/null
     % time     seconds  usecs/call     calls      function
@@ -140,7 +140,7 @@ Ok，把 `FlameGraph` 准备好：
     100.00    0.000224                    29         4 total
 
 
-上面文章可以看到应用本身的 `fibonnaci()` 占用了几乎 `100%` 的时间开销，但实际上在一个应用程序运行时，库函数和内核都有开销。上述 `ltrace` 反应了库函数的调用情况，`strace` 则反应了系统调用的情况，内核开销则是通过系统调用触发的，当然，还有一部分是内核本身调度，正文切换，内存分配等开销。大概的时间占比可以通过 `time` 命令查看：
+上面文章可以看到應用本身的 `fibonnaci()` 佔用了幾乎 `100%` 的時間開銷，但實際上在一個應用程序運行時，庫函數和內核都有開銷。上述 `ltrace` 反應了庫函數的調用情況，`strace` 則反應了系統調用的情況，內核開銷則是通過系統調用觸發的，當然，還有一部分是內核本身調度，正文切換，內存分配等開銷。大概的時間佔比可以通過 `time` 命令查看：
 
     $ time ./fib 2>&1 > /dev/null
     real        0m5.887s
@@ -148,21 +148,21 @@ Ok，把 `FlameGraph` 准备好：
     sys         0m0.004s
 
 
-接下来，咱们切入正题。通过基于 `Ftrace` 的 `Perf` 来综合看看一个应用程序运行时用户空间和内核空间两部分的调用情况并通过 `FlameGraph` 绘制出来。
+接下來，咱們切入正題。通過基於 `Ftrace` 的 `Perf` 來綜合看看一個應用程序運行時用戶空間和內核空間兩部分的調用情況並通過 `FlameGraph` 繪製出來。
 
-## 内核函数调用
+## 內核函數調用
 
-在使用 `Perf` 之前，除了上述内核配置外，还需要使能一个符号获取权限，否则结果会是一大堆 16 进制数字，看不到函数符号：
+在使用 `Perf` 之前，除了上述內核配置外，還需要使能一個符號獲取權限，否則結果會是一大堆 16 進制數字，看不到函數符號：
 
     $ echo 0 > /proc/sys/kernel/kptr_restrict
 
 
-咱们先分开来看看用户空间，库函数和系统调用的情况，以该命令为例：
+咱們先分開來看看用戶空間，庫函數和系統調用的情況，以該命令為例：
 
     find /proc/ -maxdepth 2 -name "vm" 2>&1 >/dev/null
 
 
-### 用户空间
+### 用戶空間
 
     $ valgrind --tool=callgrind find /proc/ -maxdepth 2 -name "vm" 2>&1 >/dev/null
     $ gprof2dot -f callgrind ./callgrind.out.24273 | dot -Tsvg -o find-callgrind.svg
@@ -176,7 +176,7 @@ Ok，把 `FlameGraph` 准备好：
 
 
 
-### 库函数
+### 庫函數
 
     $ ltrace -f -ttt -c find /proc/ -maxdepth 2 -name "vm" 2>&1 >/dev/null
     % time     seconds  usecs/call     calls      function
@@ -227,7 +227,7 @@ Ok，把 `FlameGraph` 准备好：
     100.00    9.558436                151045 total
 
 
-### 系统调用
+### 系統調用
 
     $ strace -f -ttt -c find /proc/ -maxdepth 2 -name "vm" 2>&1 >/dev/null
     % time     seconds  usecs/call     calls    errors syscall
@@ -254,9 +254,9 @@ Ok，把 `FlameGraph` 准备好：
     100.00    0.017709                  4286        10 total
 
 
-接下来，通过 `perf` 来看看内核部分：
+接下來，通過 `perf` 來看看內核部分：
 
-### 内核空间
+### 內核空間
 
     $ perf record -g find /proc -maxdepth 2 -name "vm" 2>&1 >/dev/null
     $ perf report -g --stdio
@@ -264,12 +264,12 @@ Ok，把 `FlameGraph` 准备好：
     $ flamegraph.pl find.perf-outfolded > find-flame.svg
 
 
-上述几条命令大体意思如下：
+上述幾條命令大體意思如下：
 
-  * `perf record -g` 记录后面跟着命令当次执行时的函数调用关系
-  * `perf report -g --stdio` 在控制台打印出获取到的函数关系数据（输出结果有点类似于树状图）
-  * `perf script | stackcollapse-perf.pl > find.perf-outfolded` 转换为 FlameGraph 支持的格式
-  * `flamegraph.pl find.perf-outfolded > find-flame.svg` 生成火焰图
+  * `perf record -g` 記錄後面跟著命令當次執行時的函數調用關係
+  * `perf report -g --stdio` 在控制檯打印出獲取到的函數關係數據（輸出結果有點類似於樹狀圖）
+  * `perf script | stackcollapse-perf.pl > find.perf-outfolded` 轉換為 FlameGraph 支持的格式
+  * `flamegraph.pl find.perf-outfolded > find-flame.svg` 生成火焰圖
 
 效果如下： 
 
@@ -277,31 +277,31 @@ Ok，把 `FlameGraph` 准备好：
 ![](./images/find-flame.svg)
 
 
-## 小结
+## 小結
 
-通过上述过程，咱们演示了如何分析一个应用程序执行时的内核空间部分函数调用情况，进而对前面两篇文章进行了较好的补充。
+通過上述過程，咱們演示瞭如何分析一個應用程序執行時的內核空間部分函數調用情況，進而對前面兩篇文章進行了較好的補充。
 
-整个序列到目前为止主要都是函数调用关系的分析。对于源码的分析也好，对于性能的优化也好，都是完全不够的：
+整個序列到目前為止主要都是函數調用關係的分析。對於源碼的分析也好，對於性能的優化也好，都是完全不夠的：
 
-  * 一方面，这个只能辅助理解到函数级别，无法理解到代码级别。要做进一步，得 `gcov` 和 `kgcov` 的支持。
-  * 如果要做性能分析，除了函数调用关系跟踪热点区域外，其实还缺少一些信息，比如整个调用时序，当前的处理器频率，内核调度情况等，并不能在这个序列体现。
+  * 一方面，這個只能輔助理解到函數級別，無法理解到代碼級別。要做進一步，得 `gcov` 和 `kgcov` 的支持。
+  * 如果要做性能分析，除了函數調用關係跟蹤熱點區域外，其實還缺少一些信息，比如整個調用時序，當前的處理器頻率，內核調度情況等，並不能在這個序列體現。
 
-接下来，针对该源码分析系列，我们会再补充三篇文章：
+接下來，針對該源碼分析系列，我們會再補充三篇文章：
 
-  * 函数调用关系（流程图）绘图方法介绍，将在现有的基础上再介绍几种新方法并分析优点和缺点。
-  * 代码级别的源码分析，通过 `gcov` 和 `kgcov` 进行分析。
+  * 函數調用關係（流程圖）繪圖方法介紹，將在現有的基礎上再介紹幾種新方法並分析優點和缺點。
+  * 代碼級別的源碼分析，通過 `gcov` 和 `kgcov` 進行分析。
 
-除此之外，我们会新开另外一个性能优化系列，来介绍各种性能优化的实例，包括应用程序与内核两个方面。
+除此之外，我們會新開另外一個性能優化系列，來介紹各種性能優化的實例，包括應用程序與內核兩個方面。
 
-## 倡议
+## 倡議
 
-最后，笔者想对那些开源工具的开发者和贡献者们致敬！
+最後，筆者想對那些開源工具的開發者和貢獻者們致敬！
 
-Linux 领域聚拢了太多的天才，创意如泉涌般不断滋润 IT 世界，本文用到的三大工具的原创作者都是这类天才的代表，敬仰之情无以言表。
+Linux 領域聚攏了太多的天才，創意如泉湧般不斷滋潤 IT 世界，本文用到的三大工具的原創作者都是這類天才的代表，敬仰之情無以言表。
 
-跟 Steven 有过一面之缘，而且在笔者 2009 年往官方社区提交 [Ftrace For MIPS][13] 时，他提供了诸多指导和帮助，感激之情化作无限专研的动力。
+跟 Steven 有過一面之緣，而且在筆者 2009 年往官方社區提交 [Ftrace For MIPS][13] 時，他提供了諸多指導和幫助，感激之情化作無限專研的動力。
 
-在这里，诚邀更多的一线工程师们汇聚到[泰晓科技][1]，一起协作，分享学习的心得，交流研发的经验，协同开发开源工具，一起致力于促进业界的交流与繁荣。目前已经有 15 个一线工程师参与进来，我们一同通过 `worktile` 协作，一起探讨，一起创作。如果乐意加入，可通过[联系我们][14]获得邀请。
+在這裡，誠邀更多的一線工程師們匯聚到[泰曉科技][1]，一起協作，分享學習的心得，交流研發的經驗，協同開發開源工具，一起致力於促進業界的交流與繁榮。目前已經有 15 個一線工程師參與進來，我們一同通過 `worktile` 協作，一起探討，一起創作。如果樂意加入，可通過[聯繫我們][14]獲得邀請。
 
 
 

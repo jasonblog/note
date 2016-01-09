@@ -403,11 +403,9 @@
    * [軟體元件的使用](thinker/ruan_ti_yuan_jian_de_shi_yong.md)
 * [GCC](gcc/gcc.md)
    * [__thread關鍵字](gcc/thread_guan_jian_zi.md)
-* [源碼分析之道](tinyclub/yuan_ma_fen_xi_zhi_dao.md)
-   * [靜態分析 C 程序函數調用關係圖](tinyclub/callgraph-draw-the-calltree-of-c-functions.md)
 * [FreeRTOS](freertos/freertos.md)
    * [FreeRTOS-GCC-ARM926ejs_QEMU](freertos/qemufreertos.md)
+* [源碼分析之道](tinyclub/yuan_ma_fen_xi_zhi_dao.md)
+   * [靜態分析 C 程序函數調用關係圖](tinyclub/callgraph-draw-the-calltree-of-c-functions.md)
 * [tinyclub](tinyclub/tinyclub.md)
-   * [源碼分析之道](tinyclub/yuan_ma_fen_xi_zhi_dao.md)
-       * [靜態分析 C 程序函數調用關係圖](tinyclub/callgraph-draw-the-calltree-of-c-functions.md)
 

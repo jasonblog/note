@@ -193,7 +193,8 @@ Callgraph 实际由三个工具组合而成。
 
     它会自动搜索 `kernel/` 目录并生成一副图，效果如下：
 
-    ![Linux CallGraph of update_process_times][7]
+
+![](./images/linux-update_process_times.svg)
 
     考虑到 `callgraph` 本身的检索效率比较低（采用grep），如果不能明确函数所在的目录，则可以先用 `cscope` 之类的建立索引，先通过这些索引快速找到函数所在的文件，然后用 `-d` 指定文件。
 
@@ -252,7 +253,7 @@ Callgraph 实际由三个工具组合而成。
 
 看下效果：
 
-![Linux 0.11 tree Graph of kernel/][8]
+![](./images/linux-0.11-kernel-tree.svg)
 
 ## What&#8217;s more?
 

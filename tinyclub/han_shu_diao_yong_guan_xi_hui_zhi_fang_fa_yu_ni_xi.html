@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="40.1.3" data-basepath=".." data-revision="Sun Jan 10 2016 01:12:34 GMT+0800 (CST)">
+    <div class="book" data-level="40.1.3" data-basepath=".." data-revision="Sun Jan 10 2016 01:25:06 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -6528,6 +6528,21 @@
             
         </li>
     
+        <li class="chapter " data-level="40.2" data-path="tinyclub/linux_hui_bian_yu_yan_kuai_su_shang_shou_ff1a_4_da.html">
+            
+                
+                    <a href="../tinyclub/linux_hui_bian_yu_yan_kuai_su_shang_shou_ff1a_4_da.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>40.2.</b>
+                        
+                        Linux 彙編語言快速上手：4大架構一塊學
+                    </a>
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -6667,18 +6682,17 @@ categories:</li>
 <p>&#x6A39;&#x72C0;&#x8ABF;&#x7528;&#x95DC;&#x4FC2;&#x662F;&#x6700;&#x5E38;&#x898B;&#x7684;&#x4E00;&#x7A2E;&#x5C55;&#x793A;&#x65B9;&#x5F0F;&#xFF0C;&#x5305;&#x62EC; <code>calltree</code>, <code>cflow</code> &#x7B49;&#x7684;&#x9ED8;&#x8A8D;&#x8F38;&#x51FA;&#x7D50;&#x679C;&#x90FD;&#x662F;&#x5982;&#x6B64;&#x3002;</p>
 <p>&#x9019;&#x88E1;&#x88DC;&#x5145;&#x4ECB;&#x7D39;&#x5169;&#x500B;&#x5DE5;&#x5177;&#xFF0C;&#x90FD;&#x662F;&#x7DE8;&#x8B6F;&#x5668;&#xFF0C;&#x4E00;&#x500B;&#x662F; <code>clang</code>&#xFF0C;&#x4E00;&#x500B;&#x662F; <code>gcc</code>&#x3002;</p>
 <h3 id="clang">clang</h3>
-<pre>$ sudo apt-get install clang
-$ clang -cc1 -ast-dump test.c 2&gt;/dev/null | egrep &quot;FunctionDecl|Function &quot;
-|-FunctionDecl 0x2eb9350 &lt;test.c:3:1, col:14&gt; a &apos;int (void)&apos;
-|-FunctionDecl 0x2eb94e0 &lt;line:4:1, col:21&gt; b &apos;int (int)&apos;
-|       `-DeclRefExpr 0x2eb9588 &lt;col:16&gt; &apos;int (void)&apos; Function 0x2eb9350 &apos;a&apos; &apos;int (void)&apos;
-|-FunctionDecl 0x2f027f0 &lt;line:6:1, line:15:1&gt; main &apos;int (void)&apos;
-|   |   `-DeclRefExpr 0x2f02970 &lt;col:9&gt; &apos;int (void)&apos; Function 0x2eb9350 &apos;a&apos; &apos;int (void)&apos;
-|   | | `-DeclRefExpr 0x2f029d8 &lt;col:9&gt; &apos;int (int)&apos; Function 0x2eb94e0 &apos;b&apos; &apos;int (int)&apos;
-|   | | `-DeclRefExpr 0x2f02cc0 &lt;col:9&gt; &apos;int (const char *restrict, ...)&apos; Function 0x2f02b70 &apos;scanf&apos; &apos;int (const char *restrict, ...)&apos;
-`-FunctionDecl 0x2f02b70 &lt;line:12:9&gt; scanf &apos;int (const char *restrict, ...)&apos; extern
-</pre>
-
+<pre><code class="lang-sh">$ sudo apt-get install clang
+$ clang -cc1 -ast-dump test.c <span class="hljs-number">2</span>&gt;/dev/null | egrep <span class="hljs-string">&quot;FunctionDecl|Function &quot;</span>
+|-FunctionDecl <span class="hljs-number">0</span>x2eb9350 &amp;lt;test.c:<span class="hljs-number">3</span>:<span class="hljs-number">1</span>, col:<span class="hljs-number">14</span>&gt; a <span class="hljs-string">&apos;int (void)&apos;</span>
+|-FunctionDecl <span class="hljs-number">0</span>x2eb94e0 &amp;lt;line:<span class="hljs-number">4</span>:<span class="hljs-number">1</span>, col:<span class="hljs-number">21</span>&gt; b <span class="hljs-string">&apos;int (int)&apos;</span>
+|       `-DeclRefExpr <span class="hljs-number">0</span>x2eb9588 &amp;lt;col:<span class="hljs-number">16</span>&gt; <span class="hljs-string">&apos;int (void)&apos;</span> Function <span class="hljs-number">0</span>x2eb9350 <span class="hljs-string">&apos;a&apos;</span> <span class="hljs-string">&apos;int (void)&apos;</span>
+|-FunctionDecl <span class="hljs-number">0</span>x2f027f0 &amp;lt;line:<span class="hljs-number">6</span>:<span class="hljs-number">1</span>, line:<span class="hljs-number">15</span>:<span class="hljs-number">1</span>&gt; main <span class="hljs-string">&apos;int (void)&apos;</span>
+|   |   `-DeclRefExpr <span class="hljs-number">0</span>x2f02970 &amp;lt;col:<span class="hljs-number">9</span>&gt; <span class="hljs-string">&apos;int (void)&apos;</span> Function <span class="hljs-number">0</span>x2eb9350 <span class="hljs-string">&apos;a&apos;</span> <span class="hljs-string">&apos;int (void)&apos;</span>
+|   | | `-DeclRefExpr <span class="hljs-number">0</span>x2f029d8 &amp;lt;col:<span class="hljs-number">9</span>&gt; <span class="hljs-string">&apos;int (int)&apos;</span> Function <span class="hljs-number">0</span>x2eb94e0 <span class="hljs-string">&apos;b&apos;</span> <span class="hljs-string">&apos;int (int)&apos;</span>
+|   | | `-DeclRefExpr <span class="hljs-number">0</span>x2f02cc0 &amp;lt;col:<span class="hljs-number">9</span>&gt; <span class="hljs-string">&apos;int (const char *restrict, ...)&apos;</span> Function <span class="hljs-number">0</span>x2f02b70 <span class="hljs-string">&apos;scanf&apos;</span> <span class="hljs-string">&apos;int (const char *restrict, ...)&apos;</span>
+`-FunctionDecl <span class="hljs-number">0</span>x2f02b70 &amp;lt;line:<span class="hljs-number">12</span>:<span class="hljs-number">9</span>&gt; scanf <span class="hljs-string">&apos;int (const char *restrict, ...)&apos;</span> extern
+</code></pre>
 <h3 id="gcc">gcc</h3>
 <p>&#x8F03;&#x65B0;&#x7248;&#x672C;&#x7684; <code>gcc</code> &#x5728;&#x7DE8;&#x8B6F;&#x904E;&#x7A0B;&#x4E2D;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x751F;&#x6210;&#x6D41;&#x7A0B;&#x5716;&#xFF0C;&#x4EE5;&#x4E4B;&#x524D;&#x7528;&#x5230; <code>fib.c</code> &#x70BA;&#x4F8B;&#xFF1A;</p>
 <p><code>$ gcc fib.c -fdump-tree-ssa-graph=fib</code></p>

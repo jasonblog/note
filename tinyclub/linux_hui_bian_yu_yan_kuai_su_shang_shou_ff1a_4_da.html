@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Hello world for bare metal ARM using QEMU | Jason note</title>
+        <title>Linux 彙編語言快速上手：4大架構一塊學 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,8 @@
         
     
     
-    <link rel="next" href="../arm_emulation/emulating_arm_pl011_serial_ports.html" />
     
-    
-    <link rel="prev" href="../arm_emulation/simplest_bare_metal_program_for_arm.html" />
+    <link rel="prev" href="../tinyclub/dong_tai_fen_xi_linux_nei_he_han_shu_diao_yong_gua.html" />
     
 
         <!-- head:end -->
@@ -48,7 +46,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="11.11" data-basepath=".." data-revision="Sun Jan 10 2016 01:25:06 GMT+0800 (CST)">
+    <div class="book" data-level="40.2" data-basepath=".." data-revision="Sun Jan 10 2016 01:25:06 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -2123,7 +2121,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="11.11" data-path="arm_emulation/hello_world_for_bare_metal_arm_using_qemu.html">
+        <li class="chapter " data-level="11.11" data-path="arm_emulation/hello_world_for_bare_metal_arm_using_qemu.html">
             
                 
                     <a href="../arm_emulation/hello_world_for_bare_metal_arm_using_qemu.html">
@@ -6528,7 +6526,7 @@
             
         </li>
     
-        <li class="chapter " data-level="40.2" data-path="tinyclub/linux_hui_bian_yu_yan_kuai_su_shang_shou_ff1a_4_da.html">
+        <li class="chapter active" data-level="40.2" data-path="tinyclub/linux_hui_bian_yu_yan_kuai_su_shang_shou_ff1a_4_da.html">
             
                 
                     <a href="../tinyclub/linux_hui_bian_yu_yan_kuai_su_shang_shou_ff1a_4_da.html">
@@ -6654,80 +6652,418 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="hello-world-for-bare-metal-arm-using-qemu">Hello world for bare metal ARM using QEMU</h1>
-<p>Last time I wrote about writing and debugging bare metal ARM software using the CodeSourcery toolchain. Now I want to exploit QEMU&#x2019;s emulation of a complete system and create the simplest &#x201C;Hello world!&#x201D; example.</p>
-<p>The QEMU emulator supports the VersatilePB platform, that contains an ARM926EJ-S core and, among other peripherals, four UART serial ports; the first serial port in particular (UART0) works  as a terminal when using the <strong>-nographic or &#x201C;-serial stdio&#x201D; </strong>qemu option. The memory map of the VersatilePB board is implemented in QEMU in this board-specific C source; from that I note the address where the UART0 is mapped: <strong>0x101f1000</strong>. The code that emulates the serial port inside QEMU (here in the source repository) implements a subset of the functionalities of the PL011 Prime Cell UART from ARM; there is a useful technical manual from the ARM info center that describes how to interact with the hardware. In details, there is a register (UARTDR) that is used to transmit (when writing in the register) and receive (when reading) bytes; this register is placed at offset <strong>0x0</strong>, so I need to read and write at the beginning of the memory allocated for the UART0.</p>
-<p>To implement the simple &#x201C;Hello world!&#x201D; printing, I wrote this test.c file:</p>
-<pre><code class="lang-c"><span class="hljs-keyword">volatile</span> <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> * <span class="hljs-keyword">const</span> UART0DR = (<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> *)<span class="hljs-number">0x101f1000</span>;
+                        <h1 id="linux-%E5%BD%99%E7%B7%A8%E8%AA%9E%E8%A8%80%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B%EF%BC%9A4%E5%A4%A7%E6%9E%B6%E6%A7%8B%E4%B8%80%E5%A1%8A%E5%AD%B8">Linux &#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x5FEB;&#x901F;&#x4E0A;&#x624B;&#xFF1A;4&#x5927;&#x67B6;&#x69CB;&#x4E00;&#x584A;&#x5B78;</h1>
+<hr>
+<p>title: Linux &#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x5FEB;&#x901F;&#x4E0A;&#x624B;&#xFF1A;4&#x5927;&#x67B6;&#x69CB;&#x4E00;&#x584A;&#x5B78;
+author: Wu Zhangjin
+layout: post
+permalink: /linux-assembly-language-quick-start/
+tags:</p>
+<ul>
+<li>Linux</li>
+<li>Qemu-User-Static</li>
+<li>X86
+categories:</li>
+<li>&#x5F59;&#x7DE8;</li>
+<li>ARM</li>
+<li>MIPS</li>
+<li>PowerPC</li>
+<li>X86</li>
+<li>Qemu</li>
+</ul>
+<hr>
+<blockquote>
+<p>By Falcon of <a href="http://tinylab.org" target="_blank">TinyLab.org</a>
+2015/05/13</p>
+</blockquote>
+<h2 id="%E5%89%8D%E8%A8%80">&#x524D;&#x8A00;</h2>
+<p>&#x842C;&#x4E8B;&#x958B;&#x982D;&#x96E3;&#x3002;&#x5982;&#x679C;&#x521D;&#x6B21;&#x63A5;&#x89F8;&#xFF0C;&#x53EF;&#x80FD;&#x6703;&#x89BA;&#x5F97;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x5F88;&#x96E3;&#x4E0B;&#x624B;&#x3002;&#x4F46;&#x73FE;&#x5982;&#x4ECA;&#xFF0C;&#x5B78;&#x7FD2;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x975E;&#x5E38;&#x65B9;&#x4FBF;&#xFF0C;&#x672C;&#x6587;&#x5C31;&#x6B64;&#x5C55;&#x958B;&#x3002;</p>
+<h2 id="%E5%AF%A6%E9%A9%97%E7%92%B0%E5%A2%83">&#x5BE6;&#x9A57;&#x74B0;&#x5883;</h2>
+<p>&#x65E9;&#x671F;&#x5B78;&#x7FD2;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x56F0;&#x96E3;&#xFF0C;&#x6709;&#x5F88;&#x5927;&#x4E00;&#x500B;&#x539F;&#x56E0;&#x662F;&#x6C92;&#x6709;&#x5408;&#x9069;&#x7684;&#x5BE6;&#x9A57;&#x74B0;&#x5883;&#xFF1A;</p>
+<ul>
+<li>&#x6C92;&#x6709;&#x9322;&#x8CB7;&#x958B;&#x767C;&#x677F;</li>
+<li>&#x627E;&#x4E0D;&#x5230;&#x5408;&#x9069;&#x7684;&#x958B;&#x767C;&#x677F;</li>
+<li>&#x6709;&#x4E86;&#x958B;&#x767C;&#x677F;&#x8DD1;&#x8D77;&#x4F86;&#x4E5F;&#x6C92;&#x90A3;&#x9EBC;&#x5BB9;&#x6613;</li>
+</ul>
+<p>&#x73FE;&#x5728;&#x5B78;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x6839;&#x672C;&#x4E0D;&#x9700;&#x8981;&#x958B;&#x767C;&#x677F;&#xFF0C;&#x53EF;&#x4EE5;&#x7528; <code>qemu-user-static</code> &#x76F4;&#x63A5;&#x904B;&#x884C;&#x5404;&#x7A2E;&#x67B6;&#x69CB;&#x7684;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x3002;</p>
+<p>&#x4EE5; Ubuntu &#x70BA;&#x4F8B;&#xFF0C;Windows &#x548C; Mac &#x4E0B;&#x7684;&#x7528;&#x6236;&#x53EF;&#x4EE5;&#x5148;&#x5B89;&#x88DD; VirtualBox + Ubuntu&#xFF0C;&#x518D;&#x5B89;&#x88DD;&#x9019;&#x500B;&#x3002;</p>
+<pre><code>sudo apt-get install qemu-user-static
+</code></pre><p>&#x63A5;&#x8457;&#x5B89;&#x88DD; gcc&#x3002;</p>
+<pre><code>sudo apt-get install gcc
+sudo apt-get install gcc-arm-linux-gnueabi gcc-aarch64-linux-gnu
+sudo apt-get install gcc-powerpc-linux-gnu gcc-powerpc64le-linux-gnu
+</code></pre><p>&#x56E0;&#x70BA; Ubuntu &#x81EA;&#x5E36;&#x7684;&#x4EA4;&#x53C9;&#x7DE8;&#x8B6F;&#x5DE5;&#x5177;&#x4E0D;&#x5168;&#xFF0C;&#x53EF;&#x4EE5;&#x5F9E; emdebian &#x9805;&#x76EE;&#x5B89;&#x88DD;&#x66F4;&#x591A;&#x4EA4;&#x53C9;&#x7DE8;&#x8B6F;&#x5DE5;&#x5177;&#x3002;</p>
+<pre><code>sudo -s
+echo deb http://www.emdebian.org/debian/ wheezy main &gt;&gt; /etc/apt/sources.list.d/emdebian.list
+apt-get install emdebian-archive-keyring
+apt-get update
+apt-get install gcc-4.3-mipsel-linux-gnu
+</code></pre><h2 id="hello-world">Hello World</h2>
+<p>&#x540C;&#x5927;&#x591A;&#x6578;&#x8CC7;&#x6599;&#x4E00;&#x6A23;&#xFF0C;&#x6211;&#x5011;&#x4E5F;&#x5F9E; Hello World &#x5165;&#x624B;&#x3002;</p>
+<p>&#x5B78;&#x7FD2;&#x4E00;&#x500B;&#x6771;&#x897F;&#x6BD4;&#x8F03;&#x9AD8;&#x6548;&#x7684;&#x65B9;&#x5F0F;&#x662F;&#x7167;&#x8C93;&#x756B;&#x864E;&#xFF0C;&#x54B1;&#x5011;&#x5148;&#x76F4;&#x63A5;&#x5F9E; C &#x8A9E;&#x8A00;&#x751F;&#x6210;&#x4E00;&#x500B;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x7A0B;&#x5E8F;&#x3002;</p>
+<h3 id="c-%E8%AA%9E%E8%A8%80%E7%89%88%E6%9C%AC">C &#x8A9E;&#x8A00;&#x7248;&#x672C;</h3>
+<p>&#x5148;&#x5BEB;&#x4E00;&#x500B; C &#x8A9E;&#x8A00;&#x7684; <code>hello.c</code>&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &amp;lt;stdio.h&gt;</span>
 
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">print_uart0</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *s)</span> </span>{
-    <span class="hljs-keyword">while</span>(*s != <span class="hljs-string">&apos;\0&apos;</span>) { <span class="hljs-comment">/* Loop until end of string */</span>
-        *UART0DR = (<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>)(*s); <span class="hljs-comment">/* Transmit char */</span>
-        s++; <span class="hljs-comment">/* Next char */</span>
-    }
-}
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span> *argv[])</span>
+</span>{
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Hello World\n&quot;</span>);
 
-
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">c_entry</span><span class="hljs-params">()</span> </span>{
-    print_uart0(<span class="hljs-string">&quot;Hello world!\n&quot;</span>);
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
 </code></pre>
-<p>The code is pretty straightforward; a couple of details:</p>
+<h3 id="%E5%BD%99%E7%B7%A8%E8%AA%9E%E8%A8%80%E7%89%88%E6%9C%AC">&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x7248;&#x672C;</h3>
+<p>&#x751F;&#x6210;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#xFF1A;</p>
+<pre><code>gcc -S hello.c
+</code></pre><p>&#x9ED8;&#x8A8D;&#x6703;&#x751F;&#x6210; hello.s&#xFF0C;&#x53EF;&#x4EE5;&#x7528; <code>-o hello-x86_64.s</code> &#x6307;&#x5B9A;&#x8F38;&#x51FA;&#x6587;&#x4EF6;&#x540D;&#x7A31;&#x3002;</p>
+<pre><code>gcc -S hello.c -o hello-x86_64.s
+</code></pre><p>&#x4E0B;&#x9762;&#x985E;&#x4F3C;&#x5730;&#xFF0C;&#x5217;&#x51FA;&#x6240;&#x6709; 4 &#x500B;&#x5E73;&#x81FA; 32&#x4F4D; &#x548C; 64&#x4F4D; &#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x751F;&#x6210;&#x8FA6;&#x6CD5;&#x3002;</p>
 <ul>
-<li>The volatile keyword is necessary to instruct the compiler that the memory pointed by UART0DR can change or has effects independently of the program.</li>
-<li>The unsigned int type enforces 32-bits read and write access.</li>
-<li>The QEMU model of the PL011 serial port ignores the transmit FIFO capabilities; in a real system on chip the &#x201C;Transmit FIFO Full&#x201D; flag must be checked in the UARTFR register before writing on the UARTDR register.</li>
+<li><p>X86</p>
+<pre><code>gcc -m32 -S hello.c -o hello-x86.s
+gcc -S hello.c -o hello-x86_64.s
+</code></pre></li>
 </ul>
-<p>The QEMU emulator is written especially to emulate Linux guest systems; for this reason its startup procedure is implemented specifically: the -kernel option loads a binary file (usually a Linux kernel) inside the system memory starting at address <strong>0x00010000</strong>. The emulator starts the execution at address <strong>0x00000000</strong>, where few instructions (already in place) are used to jump at the beginning of the kernel image. The interrupt table of ARM cores, usually placed at address <strong>0x00000000</strong>, is not present, and the peripheral interrupts are disabled at startup, as needed to boot a Linux kernel. Knowing this, to implement a working emulation I need to considerate a few things:</p>
 <ul>
-<li>The software must be compiled and linked to be placed at <strong>0x00010000</strong></li>
-<li>I need to create a binary image of our program</li>
-<li>I can ignore interrupt handling for now</li>
+<li><p>MIPS</p>
+<pre><code>mipsel-linux-gnu-gcc -S hello.c hello-mips.s
+mipsel-linux-gnu-gcc -mabi=64 -S hello.c -o hello-mips64.s
+</code></pre></li>
 </ul>
-<p>This is the startup.s assembler file I wrote, simplified from the one I wrote in the previous blog post:</p>
-<pre><code>.global _Reset
-_Reset:
- LDR sp, =stack_top
- BL c_entry
- B .
-</code></pre><p>And this is the linker script test.ld, modified from last time to place the program at the right address (thanks to Gnurou for the suggestion to specify only the text section of startup.o):</p>
-<pre><code>ENTRY(_Reset)
-SECTIONS
-{
- . = 0x10000;
- .startup . : { startup.o(.text) }
- .text : { *(.text) }
- .data : { *(.data) }
- .bss : { *(.bss COMMON) }
- . = ALIGN(8);
- . = . + 0x1000; /* 4kB of stack memory */
- stack_top = .;
-}
-</code></pre><p>To create the binary file, the CodeSourcery toolchain (arm-none-eabi type) must be installed and the PATH environmental variable must be set accordingly. These are the commands to run:</p>
-<pre><code class="lang-sh">$ arm-none-eabi-as -mcpu=arm926ej<span class="hljs-operator">-s</span> -g startup.s -o startup.o
-$ arm-none-eabi-gcc -c -mcpu=arm926ej<span class="hljs-operator">-s</span> -g test.c -o test.o
-$ arm-none-eabi-ld -T test.ld test.o startup.o -o test.elf
-$ arm-none-eabi-objcopy -O binary test.elf test.bin
-</code></pre>
-<p>These commands create a test.elf program and a test.bin binary image that I can use with the QEMU emulator for ARM systems. In Debian, QEMU can be installed running &#x201C;apt-get install qemu&#x201D; as root, and the installation includes the qemu-system-arm program that I need in my example. In Ubuntu machines, this program is not present in the qemu package but is placed instead in the qemu-kvm-extras package; for this reason the &#x201C;sudo apt-get install qemu-kvm-extras&#x201D; command must be used to install it.</p>
-<p>To run my program in the emulator, the command is:</p>
-<pre><code>$ qemu-system-arm -M versatilepb -m 128M -nographic -kernel test.bin
-</code></pre><p>The -M option specifies the emulated system. The program prints &#x201C;Hello world!&#x201D; in the
-terminal and runs indefinitely; to exit QEMU, press &#x201C;Ctrl + a&#x201D; and then &#x201C;x&#x201D;.</p>
-<p>It is possible also to debug the program using the CodeSourcery version of gdb, because QEMU implements a gdb connector using a TCP connection. To do so, I run the emulator with the correct options as follows:</p>
-<pre><code>$ qemu-system-arm -M versatilepb -m 128M -nographic -s -S -kernel test.bin
-</code></pre><p>This command freezes the system before executing any guest code, and waits for a connection on the TCP port 1234. From another terminal, I run arm-none-eabi-gdb and enter the commands:</p>
-<pre><code>target remote localhost:1234
-file test.elf
-</code></pre><p>This connects to the QEMU system and loads the debugging symbols of the test program, whose binary image is already loaded in the system memory. From there, it is possible to run the program with the continue command, single-step the program and debug it in general. The exit command in gdb closes both the debugger and the emulator.</p>
-<p>To summarize the necessary steps to create a &#x201C;Hello world&#x201D; program:</p>
 <ul>
-<li>Install CodeSourcery toolchain</li>
-<li>Install QEMU (in particular qemu-system-arm)</li>
-<li>Write the test.c, startup.s and test.ld source files</li>
-<li>Build the test ELF and binary image</li>
-<li>Run QEMU ARM emulator using the created binary image as a kernel</li>
-<li>Run the gdb debugger and attach to QEMU</li>
+<li><p>ARM</p>
+<pre><code>arm-linux-gnueabi-gcc -S hello.c -o hello-arm.s
+aarch64-linux-gnu-gcc -S hello.c -o hello-arm64.s
+</code></pre></li>
+</ul>
+<ul>
+<li><p>PowerPC</p>
+<pre><code>powerpc-linux-gnu-gcc -S hello.c -o hello-powerpc.s
+powerpc64le-linux-gnu-gcc -S hello.c -o hello-powerpc64.s
+</code></pre></li>
+</ul>
+<p>&#x6211;&#x5011;&#x5C31;&#x9019;&#x6A23;&#x8F15;&#x9B06;&#x5730;&#x7372;&#x5F97;&#x4E86;&#x6240;&#x6709;&#x5E73;&#x81FA;&#x7684;&#x7B2C;&#x4E00;&#x500B;&#x53EF;&#x4EE5;&#x6253;&#x5370; Hello World &#x7684;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x7A0B;&#x5E8F;&#xFF1A;hello-xx.s&#x3002;</p>
+<p>&#x5927;&#x5BB6;&#x53EF;&#x4EE5;&#x7528; <code>vim</code> &#x7B49;&#x7DE8;&#x8F2F;&#x5DE5;&#x5177;&#x6253;&#x958B;&#x9019;&#x4E9B;&#x6587;&#x4EF6;&#x8A66;&#x8B80;&#xFF0C;&#x8B80;&#x4E0D;&#x61C2;&#x4E5F;&#x6C92;&#x95DC;&#x4FC2;&#xFF0C;&#x6211;&#x5011;&#x4E0B;&#x4E00;&#x7BC0;&#x6703;&#x7D50;&#x5408;&#x5F8C;&#x7E8C;&#x7684;&#x53C3;&#x8003;&#x8CC7;&#x6599;&#x505A;&#x9032;&#x4E00;&#x6B65;&#x5206;&#x6790;&#x3002;</p>
+<h3 id="%E7%B7%A8%E8%AD%AF%E5%BD%99%E7%B7%A8%E8%AA%9E%E8%A8%80%E7%A8%8B%E5%BA%8F">&#x7DE8;&#x8B6F;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x7A0B;&#x5E8F;</h3>
+<p>&#x5728;&#x9032;&#x4E00;&#x6B65;&#x5206;&#x6790;&#x524D;&#xFF0C;&#x6211;&#x5011;&#x6F14;&#x793A;&#x5982;&#x4F55;&#x628A;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x7DE8;&#x8B6F;&#x6210;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x3002;</p>
+<h4 id="%E9%9D%9C%E6%85%8B%E7%B7%A8%E8%AD%AF">&#x975C;&#x614B;&#x7DE8;&#x8B6F;</h4>
+<p>&#x5982;&#x679C;&#x8981;&#x76F4;&#x63A5;&#x5728;&#x7576;&#x524D;&#x7CFB;&#x7D71;&#x4E2D;&#x904B;&#x884C;&#xFF0C;&#x7C21;&#x4FBF;&#x8D77;&#x898B;&#xFF0C;&#x9700;&#x8981;&#x628A;&#x5404;&#x985E;&#x5EAB;&#x975C;&#x614B;&#x7DE8;&#x8B6F;&#x9032;&#x53BB;&#xFF08;X86&#x5BE6;&#x969B;&#x4E0D;&#x9700;&#x8981;&#xFF0C;&#x56E0;&#x70BA;&#x4E3B;&#x6A5F;&#x672C;&#x8EAB;&#x5C31;&#x662F;X86&#x5E73;&#x81FA;&#xFF09;&#xFF0C;&#x53EF;&#x4EE5;&#x9019;&#x9EBC;&#x505A;&#xFF1A;</p>
+<ul>
+<li><p>X86</p>
+<pre><code>gcc -m32 -o hello-x86 hello-x86.s -static
+gcc -o hello-x86_64 hello-x86_64.s -static
+</code></pre></li>
+</ul>
+<ul>
+<li><p>MIPS</p>
+<pre><code>mipsel-linux-gnu-gcc -o hello-mips hello-mips.s -static
+</code></pre></li>
+</ul>
+<pre><code>&lt;!--        mipsel-linux-gnu-gcc -mabi=64 -Wl,-melf64ltsmip -o hello-mips64 hello-mips64.s -static --&gt;
+</code></pre><ul>
+<li><p>ARM</p>
+<pre><code>arm-linux-gnueabi-gcc -o hello-arm hello-arm.s -static
+aarch64-linux-gnu-gcc -o hello-arm64 hello-arm64.s -static
+</code></pre></li>
+</ul>
+<ul>
+<li><p>PowerPC</p>
+<pre><code>powerpc-linux-gnu-gcc -o hello-powerpc hello-powerpc.s -static
+</code></pre></li>
+</ul>
+<pre><code>&lt;!--        powerpc64le-linux-gnu-gcc -o hello-powerpc64 hello-powerpc64.s -static --&gt;
+</code></pre><h4 id="%E5%8B%95%E6%85%8B%E7%B7%A8%E8%AD%AF">&#x52D5;&#x614B;&#x7DE8;&#x8B6F;</h4>
+<p>&#x975C;&#x614B;&#x7DE8;&#x8B6F;&#x7684;&#x7F3A;&#x9EDE;&#x662F;&#x628A;&#x6240;&#x6709;&#x7528;&#x5230;&#x7684;&#x5EAB;&#x90FD;&#x9ED8;&#x8A8D;&#x7DE8;&#x8B6F;&#x9032;&#x4E86;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#xFF0C;&#x6703;&#x5C0E;&#x81F4;&#x7DE8;&#x8B6F;&#x51FA;&#x4F86;&#x7684;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x4F54;&#x7528;&#x8F03;&#x591A;&#x78C1;&#x76E4;&#xFF0C;&#x800C;&#x4E14;&#x5728;&#x904B;&#x884C;&#x6642;&#x4F54;&#x7528;&#x66F4;&#x591A;&#x5167;&#x5B58;&#x3002;</p>
+<p>&#x6240;&#x4EE5;&#x53EF;&#x4EE5;&#x8003;&#x616E;&#x7528;&#x52D5;&#x614B;&#x7DE8;&#x8B6F;&#x3002;&#x52D5;&#x614B;&#x7DE8;&#x8B6F;&#x8207;&#x975C;&#x614B;&#x7DE8;&#x8B6F;&#x7684;&#x5340;&#x5225;&#x662F;&#xFF0C;&#x52D5;&#x614B;&#x7DE8;&#x8B6F;&#x9700;&#x8981;&#x6709;&#x52D5;&#x614B;&#x5EAB;&#x88DD;&#x8F09;&#x548C;&#x93C8;&#x63A5;&#x5668;&#xFF1A;<code>ld.so</code> &#x6216;&#x8005; <code>ld-linux.so</code>&#xFF0C;&#x9019;&#x500B;&#x5DE5;&#x5177;&#x7684;&#x8DEF;&#x5F91;&#x9ED8;&#x8A8D;&#x5728; <code>/lib</code> &#x4E0B;&#x3002;&#x4F8B;&#x5982;&#xFF1A;</p>
+<pre><code>$ ldd hello-x86
+linux-gate.so.1 =&gt;  (0xf76ea000)
+libc.so.6 =&gt; /lib/i386-linux-gnu/libc.so.6 (0xf7508000)
+/lib/ld-linux.so.2 (0xf76eb000)
+$ mipsel-linux-gnu-readelf -l hello-mips | grep interpreter
+  [Requesting program interpreter: /lib/ld.so.1]
+</code></pre><p>&#x6240;&#x4EE5;&#xFF0C;&#x9664;&#x4E86; x86 &#x4EE5;&#x5916;&#xFF0C;&#x5C0D;&#x65BC;&#x76F8;&#x95DC;&#x5EAB;&#x90FD;&#x5B89;&#x88DD;&#x5728;&#x975E;&#x6A19;&#x6E96;&#x8DEF;&#x5F91;&#x4E0B;&#xFF0C;&#x6240;&#x4EE5;&#x52D5;&#x614B;&#x7DE8;&#x8B6F;&#x6216;&#x8005;&#x904B;&#x884C;&#x6642;&#xFF0C;&#x5176;&#x4ED6;&#x67B6;&#x69CB;&#x9700;&#x8981;&#x660E;&#x78BA;&#x6307;&#x5B9A;&#x5EAB;&#x7684;&#x8DEF;&#x5F91;&#x3002;&#x5148;&#x901A;&#x904E;&#x5982;&#x4E0B;&#x547D;&#x4EE4;&#x7372;&#x53D6; <code>ld.so</code> &#x7684;&#x5B89;&#x88DD;&#x8DEF;&#x5F91;&#xFF1A;</p>
+<pre><code>$ dpkg -L libc6-mipsel-cross | grep ld.so
+/usr/mipsel-linux-gnu/lib/ld.so.1
+</code></pre><p>&#x767C;&#x73FE;&#x6240;&#x6709;&#x5EAB;&#x90FD;&#x5B89;&#x88DD;&#x5728; <code>/usr/ARCH-linux-gnu[eabixx]/lib/</code> &#x4E0B;&#x9762;&#xFF0C;&#x6240;&#x4EE5;&#xFF0C;&#x53EF;&#x4EE5;&#x9019;&#x9EBC;&#x57F7;&#x884C;&#xFF1A;</p>
+<pre><code>$ LD_LIBRARY_PATH=/usr/mipsel-linux-gnu/lib/
+$ qemu-mipsel $LD_LIBRARY_PATH/ld.so.1 --library-path $LD_LIBRARY_PATH ./hello-mips
+
+&#x6216;&#x8005;
+
+$ qemu-mipsel -E LD_LIBRARY_PATH=$LD_LIBRARY_PATH $LD_LIBRARY_PATH/ld.so.1 ./hello-mips
+</code></pre><p>&#x901A;&#x904E;&#x4E0A;&#x9762;&#x7684;&#x65B9;&#x6CD5;&#x5728; x86 &#x4E0B;&#x57F7;&#x884C;&#x5176;&#x4ED6;&#x67B6;&#x69CB;&#x7684;&#x7A0B;&#x5E8F;&#x78BA;&#x5BE6;&#x4E0D;&#x65B9;&#x4FBF;&#xFF0C;&#x4E0D;&#x904E;&#x6BD4;&#x8CB7;&#x958B;&#x767C;&#x677F;&#x5212;&#x7B97;&#x591A;&#x4E86;&#x5427;&#x3002;&#x4F55;&#x6CC1;&#x54B1;&#x5011;&#x9084;&#x53EF;&#x4EE5;&#x5BEB;&#x500B;&#x8173;&#x672C;&#x4F86;&#x66FF;&#x4EE3;&#x4E0A;&#x9762;&#x7684;&#x4E00;&#x9577;&#x4E32;&#x7684;&#x547D;&#x4EE4;&#x3002;</p>
+<p>&#x5BE6;&#x969B;&#x4E0A;&#x54B1;&#x5011;&#x53EF;&#x4EE5;&#x66F4;&#x7C21;&#x5316;&#x4E00;&#x4E9B;&#xFF0C;&#x53EF;&#x4EE5;&#x5728;&#x7DE8;&#x8B6F;&#x6642;&#x6307;&#x5B9A; <code>ld.so</code> &#x7684;&#x5168;&#x8DEF;&#x5F91;&#xFF1A;</p>
+<pre><code>$ mipsel-linux-gnueabi-gcc -Wl,--dynamic-linker=/usr/mipsel-linux-gnueabi/lib/ld.so.1 -o hello hello.c
+$ readelf -l hello | grep interpreter
+  [Requesting program interpreter: /usr/arm-linux-gnueabi/lib/ld-linux.so.3]
+$ qemu-mipsel -E LD_LIBRARY_PATH=$LD_LIBRARY_PATH ./hello-mips
+</code></pre><p>&#x4E0D;&#x904E;&#x9019;&#x7A2E;&#x65B9;&#x6CD5;&#x4E5F;&#x4E0D;&#x662F;&#x90A3;&#x9EBC;&#x9760;&#x8B5C;&#x3002;</p>
+<p>&#x53EF;&#x9078;&#x7684;&#x8FA6;&#x6CD5;&#x662F;&#xFF0C;&#x7528; <code>debootstrap</code> &#x5B89;&#x88DD;&#x4E00;&#x500B;&#x5B8C;&#x6574;&#x7684;&#x652F;&#x6301;&#x5176;&#x4ED6;&#x67B6;&#x69CB;&#x7684;&#x6587;&#x4EF6;&#x7CFB;&#x7D71;&#xFF0C;&#x7136;&#x5F8C;&#x628A; <code>/usr/bin/qemu-XXX-static</code> &#x62F7;&#x8C9D;&#x5230;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#x7CFB;&#x7D71;&#x7684; <code>/usr/bin</code> &#x4E0B;&#xFF0C;&#x7136;&#x5F8C; <code>chroot</code> &#x904E;&#x53BB;&#x4F7F;&#x7528;&#x3002;&#x9019;&#x88E1;&#x4E0D;&#x505A;&#x9032;&#x4E00;&#x6B65;&#x4ECB;&#x7D39;&#x4E86;&#x3002;</p>
+<h3 id="%E5%BD%99%E7%B7%A8%E8%AA%9E%E8%A8%80%E5%88%86%E6%9E%90">&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x5206;&#x6790;</h3>
+<p>&#x4E0A;&#x9762;&#x4ECB;&#x7D39;&#x77AD;&#x5982;&#x4F55;&#x5FEB;&#x901F;&#x7372;&#x5F97;&#x4E00;&#x500B;&#x53EF;&#x4EE5;&#x6253;&#x5370; Hello World &#x7684;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x7A0B;&#x5E8F;&#x3002;&#x4E0D;&#x904E;&#x548B;&#x4E00;&#x770B;&#xFF0C;&#x7C21;&#x76F4;&#x662F;&#x5929;&#x66F8;&#x3002;</p>
+<p>&#x4F5C;&#x70BA;&#x5FEB;&#x901F;&#x4E0A;&#x624B;&#xFF0C;&#x54B1;&#x5011;&#x4E5F;&#x6C92;&#x6709;&#x904E;&#x591A;&#x7BC7;&#x5E45;&#x4F86;&#x4ECB;&#x7D39;&#x592A;&#x591A;&#x7684;&#x80CC;&#x666F;&#xFF0C;&#x56E0;&#x70BA;&#x6D89;&#x53CA;&#x7684;&#x80CC;&#x666F;&#x5BE6;&#x5728;&#x592A;&#x591A;&#x3002;&#x6703;&#x6D89;&#x53CA;&#x5230;&#xFF1A;</p>
+<ul>
+<li><a href="http://www.xfocus.net/articles/200105/174.html" target="_blank">ELF</a> &#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x683C;&#x5F0F;&#x4EE5;&#x53CA;&#x5404;&#x985E; Sections</li>
+<li><a href="http://blog.chinaunix.net/uid-16875687-id-2155704.html" target="_blank">&#x51FD;&#x6578;&#x8ABF;&#x7528;&#x7D04;&#x5B9A; ABI</a>&#xFF0C;&#x5305;&#x62EC;&#x53C3;&#x6578;&#x50B3;&#x905E;&#xFF0C;&#x68E7;&#x64CD;&#x4F5C;&#xFF0C;&#x8FD4;&#x56DE;&#x5730;&#x5740;&#x8655;&#x7406;&#x7B49;</li>
+<li><a href="https://stuff.mit.edu/afs/athena/project/rhel-doc/3/rhel-as-en-3/index.html" target="_blank">&#x5404;&#x7A2E; gas &#x507D;&#x6307;&#x4EE4;</a></li>
+<li><a href="details-of-a-dynamic-symlink">&#x5EAB;&#x51FD;&#x6578;&#x7684;&#x52D5;&#x614B;&#x93C8;&#x63A5;</a></li>
+</ul>
+<p>&#x9019;&#x4E9B;&#x5167;&#x5BB9;&#x662F;&#x4E0D;&#x53EF;&#x80FD;&#x5728;&#x5E7E;&#x767E;&#x6587;&#x5B57;&#x88E1;&#x982D;&#x63CF;&#x8FF0;&#x6E05;&#x695A;&#x7684;&#xFF0C;&#x6240;&#x4EE5;&#x4E7E;&#x8106;&#x8DF3;&#x904E;&#x4EA4;&#x7D66;&#x540C;&#x5B78;&#x5011;&#x81EA;&#x5DF1;&#x53C3;&#x8003;&#x5F8C;&#x7E8C;&#x8CC7;&#x6599;&#x5F8C;&#x518D;&#x56DE;&#x904E;&#x982D;&#x4F86;&#x95B1;&#x8B80;&#x3002;&#x54B1;&#x5011;&#x9032;&#x5165;&#x4E0B;&#x4E00;&#x7BC0;&#xFF0C;&#x770B;&#x770B;&#x66F4;&#x7C21;&#x55AE;&#x7684;&#x5BE6;&#x73FE;&#x3002;</p>
+<h2 id="%E9%80%B2%E9%9A%8E%E5%AD%B8%E7%BF%92">&#x9032;&#x968E;&#x5B78;&#x7FD2;</h2>
+<p>&#x5982;&#x679C;&#x662F;&#x7C21;&#x55AE;&#x6253;&#x5370; Hello World&#xFF0C;&#x54B1;&#x5011;&#x5176;&#x5BE6;&#x53EF;&#x4EE5;&#x4E0D;&#x7528;&#x8ABF;&#x7528;&#x5EAB;&#x51FD;&#x6578;&#xFF0C;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x8ABF;&#x7528;&#x7CFB;&#x7D71;&#x8ABF;&#x7528; <code>sys_write</code>&#x3002;<code>sys_write</code> &#x662F;&#x4E00;&#x500B;&#x6A19;&#x6E96;&#x7684; Posix &#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#xFF0C;&#x5404;&#x5E73;&#x81FA;&#x90FD;&#x652F;&#x6301;&#x3002;&#x53C3;&#x6578;&#x5B8C;&#x5168;&#x4E00;&#x81F4;&#xFF0C;&#x4E0D;&#x904E;&#x5404;&#x5E73;&#x81FA;&#x7684;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x865F;&#x53EF;&#x80FD;&#x6709;&#x5DEE;&#x7570;&#xFF1A;</p>
+<pre><code>ssize_t write(int fd, const void *buf, size_t count);
+</code></pre><p>&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x865F;&#x57FA;&#x672C;&#x90FD;&#x5B9A;&#x7FA9;&#x5728;&#xFF1A;<code>arch/ARCH/include/asm/unistd.h</code>&#x3002;&#x4F8B;&#x5982;&#xFF1A;</p>
+<pre><code>$ grep __NR_write -ur arch/mips/include/asm/
+arch/mips/include/asm/unistd.h:#define __NR_write           (__NR_Linux +   4)
+</code></pre><p>&#x800C; __NR_Linux &#x70BA; 4000&#xFF1A;</p>
+<pre><code> $ grep __NR_Linux -ur arch/mips/include/asm/ -m 1
+ arch/mips/include/asm/unistd.h:#define __NR_Linux          4000
+</code></pre><p>&#x6240;&#x4EE5;&#xFF0C;&#x5728; MIPS &#x4E0A;&#xFF0C;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x865F;&#x70BA; 4004&#xFF0C;&#x5177;&#x9AD4;&#x770B;&#x5F8C;&#x9762;&#x7684;&#x4F8B;&#x5B50;&#x3002;</p>
+<p>&#x4E0B;&#x9762;&#x4F86;&#x770B;&#x770B;&#x7C21;&#x5316;&#x5F8C;&#x7684;&#x4F8B;&#x5B50;&#xFF0C;&#x4F8B;&#x5B50;&#x5168;&#x90E8;&#x6458;&#x81EA;&#x5F8C;&#x6587;&#x7684;&#x53C3;&#x8003;&#x8CC7;&#x6599;&#x3002;</p>
+<h3 id="x86">X86</h3>
+<pre><code>.data                   # section declaration
+msg:
+    .string &quot;Hello, world!\n&quot;
+    len = . - msg   # length of our dear string
+.text                   # section declaration
+                        # we must export the entry point to the ELF linker or
+    .global _start      # loader. They conventionally recognize _start as their
+                        # entry point. Use ld -e foo to override the default.
+_start:
+# write our string to stdout
+    movl    $len,%edx   # third argument: message length
+    movl    $msg,%ecx   # second argument: pointer to message to write
+    movl    $1,%ebx     # first argument: file handle (stdout)
+    movl    $4,%eax     # system call number (sys_write)
+    int     $0x80       # call kernel
+# and exit
+    movl    $0,%ebx     # first argument: exit code
+    movl    $1,%eax     # system call number (sys_exit)
+    int     $0x80       # call kernel
+</code></pre><p>&#x7DE8;&#x8B6F;&#x548C;&#x93C8;&#x63A5;&#xFF1A;</p>
+<pre><code>$ as -o ia32-hello.o ia32-hello.s
+$ ld -o ia32-hello ia32-hello.o
+</code></pre><h3 id="mips">MIPS</h3>
+<pre><code># File: hello.s -- &quot;hello, world!&quot; in MIPS Assembly Programming
+# by falcon &amp;lt;wuzhangjin@gmail.com&gt;, 2008/05/21
+# refer to:
+#    [*] http://www.tldp.org/HOWTO/Assembly-HOWTO/mips.html
+#    [*] MIPS Assembly Language Programmer&#x2019;s Guide
+#    [*] See MIPS Run Linux(second version)
+# compile:
+#       $ as -o hello.o hello.s
+#       $ ld -e main -o hello hello.o
+
+# data section
+.rdata
+hello: .asciiz &quot;hello, world!\n&quot;
+length: .word . - hello            # length = current address - the string address
+
+# text section
+.text
+.globl main
+main:
+    # if compiled with gcc-4.2.3 in 2.6.18-6-qemu the following three statements are needed
+
+    .set noreorder
+    .cpload $t9
+    .set reorder
+
+            # there is no need to include regdef.h in gcc-4.2.3 in 2.6.18-6-qemu
+            # but you should use $a0, not a0, of course, you can use $4 directly
+
+            # print &quot;hello, world!&quot; with the sys_write system call,
+            # -- ssize_t write(int fd, const void *buf, size_t count);
+    li $a0, 1    # first argumen: the standard output, 1
+    la $a1, hello    # second argument: the string addr
+    lw $a2, length  # third argument: the string length
+    li $v0, 4004    # sys_write: system call number, defined as __NR_write in /usr/include/asm/unistd.h
+    syscall        # causes a system call trap.
+
+            # exit from this program via calling the sys_exit system call
+    move $a0, $0    # or &quot;li $a0, 0&quot;, set the normal exit status as 0
+            # you can print the exit status with &quot;echo $?&quot; after executing this program
+    li $v0, 4001    # 4001 is __NR_exit defined in /usr/include/asm/unistd.h
+    syscall
+</code></pre><p>&#x7DE8;&#x8B6F;&#x548C;&#x93C8;&#x63A5;&#xFF1A;</p>
+<pre><code>$ mipsel-linux-gnu-as -o mipsel-hello.o mipsel-hello.s
+$ mipsel-linux-gnu-ld -o mipsel-hello mipsel-hello.o
+</code></pre><h3 id="arm">ARM</h3>
+<h4 id="arm32">ARM32</h4>
+<pre><code>.data
+
+msg:
+    .ascii      &quot;Hello, ARM!\n&quot;
+len = . - msg
+
+
+.text
+
+.globl _start
+_start:
+    /* syscall write(int fd, const void *buf, size_t count) */
+    mov     %r0, $1     /* fd -&gt; stdout */
+    ldr     %r1, =msg   /* buf -&gt; msg */
+    ldr     %r2, =len   /* count -&gt; len(msg) */
+    mov     %r7, $4     /* write is syscall #4 */
+    swi     $0          /* invoke syscall */
+
+    /* syscall exit(int status) */
+    mov     %r0, $0     /* status -&gt; 0 */
+    mov     %r7, $1     /* exit is syscall #1 */
+    swi     $0          /* invoke syscall */
+</code></pre><p>&#x7DE8;&#x8B6F;&#x548C;&#x93C8;&#x63A5;&#xFF1A;</p>
+<pre><code>$ arm-linux-gnueabi-as -o arm-hello.o arm-hello.s
+$ arm-linux-gnueabi-ld -o arm-hello arm-hello.o
+</code></pre><h4 id="arm64">ARM64</h4>
+<pre><code>.text //code section
+.globl _start
+_start:
+    mov x0, 0     // stdout has file descriptor 0
+    ldr x1, =msg  // buffer to write
+    mov x2, len   // size of buffer
+    mov x8, 64    // sys_write() is at index 64 in kernel functions table
+    svc #0        // generate kernel call sys_write(stdout, msg, len);
+
+    mov x0, 123 // exit code
+    mov x8, 93  // sys_exit() is at index 93 in kernel functions table
+    svc #0      // generate kernel call sys_exit(123);
+
+.data //data section
+msg:
+    .ascii      &quot;Hello, ARM!\n&quot;
+len = . - msg
+</code></pre><p>&#x7DE8;&#x8B6F;&#x548C;&#x93C8;&#x63A5;&#xFF1A;</p>
+<pre><code>aarch64-linux-gnu-as -o aarch64-hello.o aarch64-hello.s
+aarch64-linux-gnu-ld -o aarch64-hello aarch64-hello.o
+</code></pre><h3 id="powerpc">PowerPC</h3>
+<h4 id="ppc32">PPC32</h4>
+<pre><code>
+.data                       # section declaration - variables only
+msg:
+    .string &quot;Hello, world!\n&quot;
+    len = . - msg       # length of our dear string
+.text                       # section declaration - begin code
+    .global _start
+_start:
+# write our string to stdout
+    li      0,4         # syscall number (sys_write)
+    li      3,1         # first argument: file descriptor (stdout)
+                        # second argument: pointer to message to write
+    lis     4,msg@ha    # load top 16 bits of &amp;#038;msg
+    addi    4,4,msg@l   # load bottom 16 bits
+    li      5,len       # third argument: message length
+    sc                  # call kernel
+# and exit
+    li      0,1         # syscall number (sys_exit)
+    li      3,1         # first argument: exit code
+    sc                  # call kernel
+</code></pre><p>&#x7DE8;&#x8B6F;&#x548C;&#x93C8;&#x63A5;&#xFF1A;</p>
+<pre><code>$ powerpc-linux-gnu-as -o ppc32-hello.o ppc32-hello.s
+$ powerpc-linux-gnu-ld -o ppc32-hello ppc32-hello.o
+</code></pre><h4 id="ppc64">PPC64</h4>
+<pre><code>.data                       # section declaration - variables only
+msg:
+    .string &quot;Hello, world!\n&quot;
+    len = . - msg       # length of our dear string
+.text                       # section declaration - begin code
+        .global _start
+        .section        &quot;.opd&quot;,&quot;aw&quot;
+        .align 3
+_start:
+        .quad   ._start,.TOC.@tocbase,0
+        .previous
+        .global  ._start
+._start:
+# write our string to stdout
+    li      0,4         # syscall number (sys_write)
+    li      3,1         # first argument: file descriptor (stdout)
+                        # second argument: pointer to message to write
+    # load the address of &apos;msg&apos;:
+                        # load high word into the low word of r4:
+    lis 4,msg@highest   # load msg bits 48-63 into r4 bits 16-31
+    ori 4,4,msg@higher  # load msg bits 32-47 into r4 bits  0-15
+    rldicr  4,4,32,31   # rotate r4&apos;s low word into r4&apos;s high word
+                        # load low word into the low word of r4:
+    oris    4,4,msg@h   # load msg bits 16-31 into r4 bits 16-31
+    ori     4,4,msg@l   # load msg bits  0-15 into r4 bits  0-15
+    # done loading the address of &apos;msg&apos;
+    li      5,len       # third argument: message length
+    sc                  # call kernel
+# and exit
+    li      0,1         # syscall number (sys_exit)
+    li      3,1         # first argument: exit code
+    sc                  # call kernel
+</code></pre><p>&#x7DE8;&#x8B6F;&#x548C;&#x93C8;&#x63A5;&#xFF1A;</p>
+<pre><code>$ powerpc-linux-gnu-as -a64 -o ppc64-hello.o ppc64-hello.s
+$ powerpc-linux-gnu-ld -melf64ppc -o ppc64-hello ppc64-hello.o
+</code></pre><h2 id="%E5%B0%8F%E7%B5%90">&#x5C0F;&#x7D50;</h2>
+<p>&#x5230;&#x9019;&#x88E1;&#xFF0C;&#x56DB;&#x7A2E;&#x4E3B;&#x6D41;&#x8655;&#x7406;&#x5668;&#x67B6;&#x69CB;&#x7684;&#x6700;&#x7C21;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x90FD;&#x73A9;&#x8F49;&#x4E86;&#xFF0C;&#x63A5;&#x4E0B;&#x4F86;&#x5C31;&#x662F;&#x6839;&#x64DA;&#x5F8C;&#x9762;&#x7684;&#x5404;&#x985E;&#x53C3;&#x8003;&#x8CC7;&#x6599;&#xFF0C;&#x628A;&#x5404;&#x9805;&#x57FA;&#x790E;&#x77E5;&#x8B58;&#x7814;&#x7A76;&#x900F;&#x5FB9;&#x5427;&#x3002;</p>
+<h2 id="%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99">&#x53C3;&#x8003;&#x8CC7;&#x6599;</h2>
+<h3 id="%E6%9B%B8%E7%B1%8D">&#x66F8;&#x7C4D;</h3>
+<ul>
+<li>X86: x86/x64 &#x9AD4;&#x7CFB;&#x63A2;&#x7D22;&#x53CA;&#x7DE8;&#x7A0B;</li>
+<li>ARM: ARM System Developers&#x2019; Guide: Designing and Optimizing System Software</li>
+<li>MIPS: See MIPS Run Linux</li>
+<li>PowerPC: PowerPC&#x2122; Microprocessor Common Hardware Reference Platform: A System Architecture</li>
+</ul>
+<h3 id="%E6%8C%87%E4%BB%A4%E6%89%8B%E5%86%8A">&#x6307;&#x4EE4;&#x624B;&#x518A;</h3>
+<ul>
+<li><a href="http://www.arm.com/products/processors/cortex-a/index.php" target="_blank">ARM</a></li>
+<li><a href="http://www.imgtec.com/mips/architectures/mips32.asp" target="_blank">MIPS</a></li>
+<li><a href="http://www.intel.sg/content/www/xa/en/search.html?toplevelcategory=none&amp;keyword=architectures" target="_blank">X86</a></li>
+<li><a href="http://www.ibm.com/developerworks/systems/library/es-archguide-v2.html" target="_blank">PowerPC</a></li>
+</ul>
+<h3 id="%E8%AA%B2%E7%A8%8B-%E6%96%87%E7%AB%A0">&#x8AB2;&#x7A0B;/&#x6587;&#x7AE0;</h3>
+<ul>
+<li><p>&#x57FA;&#x790E;</p>
+<ul>
+<li><a href="http://www.tldp.org/HOWTO/html_single/Assembly-HOWTO/" target="_blank">Linux Assembly HOWTO</a></li>
+<li><a href="http://www.ibm.com/developerworks/cn/linux/l-assembly/index.html#icomments" target="_blank">Linux &#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x958B;&#x767C;&#x6307;&#x5357;</a></li>
+<li><a href="http://www.ibm.com/developerworks/cn/linux/l-gas-nasm.html" target="_blank">Linux &#x5F59;&#x7DE8;&#x5668;&#xFF1A;&#x5C0D;&#x6BD4; GAS &#x548C; NASM</a></li>
+<li><a href="http://asm.sourceforge.net/resources.html" target="_blank">Linux &#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x8CC7;&#x6599;&#x5217;&#x8868;</a></li>
+<li><a href="https://stuff.mit.edu/afs/athena/project/rhel-doc/3/rhel-as-en-3/index.html" target="_blank">Using as, the Gnu Assembler</a></li>
+</ul>
+</li>
+<li><p>X86</p>
+<ul>
+<li><a href="http://www.cs.usfca.edu/~cruse/cs630f06/" target="_blank">CS630</a></li>
+<li><a href="cs630-qemu">Learn CS630 on Qemu in Ubuntu</a></li>
+<li><a href="http://www.ibm.com/developerworks/cn/linux/sdk/assemble/inline/index.html" target="_blank">Linux &#x4E2D; x86 &#x7684;&#x5167;&#x806F;&#x5F59;&#x7DE8;</a></li>
+<li><a href="as-an-executable-file-to-slim-down">&#x53F2;&#x4E0A;&#x53EF;&#x6253;&#x5370; Hello World&#x7684;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x7A0B;&#x5E8F;</a></li>
+</ul>
+</li>
+<li><p>ARM</p>
+<ul>
+<li><a href="http://peterdn.com/post/e28098Hello-World!e28099-in-ARM-assembly.aspx" target="_blank">&#x2018;Hello World!&#x2019; in ARM assembly</a></li>
+<li><a href="http://www.peter-cockerell.net/aalp/html/frames.html" target="_blank">ARM Assembly Language Programming</a></li>
+<li><a href="http://www.coranac.com/tonc/text/asm.htm" target="_blank">Whirlwind Tour of ARM Assembly</a></li>
+<li><a href="http://www.ethernut.de/en/documents/arm-inline-asm.html" target="_blank">ARM GCC Inline Assembler Cookbook</a></li>
+<li><a href="http://deker.ro/index.htm" target="_blank">Hello world in assembly language ARM64</a></li>
+</ul>
+</li>
+<li><p>MIPS</p>
+<ul>
+<li><a href="https://chortle.ccsu.edu/AssemblyTutorial/index.html" target="_blank">Programmed Introduction to MIPS Assembly Language</a></li>
+<li><a href="http://logos.cs.uic.edu/366/notes/MIPS%20Quick%20Tutorial.htm" target="_blank">MIPS Architecture and Assembly Language Overview</a></li>
+<li><a href="https://courses.cs.washington.edu/courses/cse401/04sp/pl0/mips.pdf" target="_blank">MIPS Assembly Language Programmer&#x2019;s Guide</a></li>
+<li><a href="http://courses.cs.washington.edu/courses/cse378/03wi/lectures/mips-asm-examples.html" target="_blank">MIPS Assembly Language Examples</a></li>
+<li><a href="http://blog.csdn.net/comcat/article/details/1557963" target="_blank">MIPS GCC &#x5D4C;&#x5165;&#x5F0F;&#x5F59;&#x7DE8;&#xFF08;&#x9F8D;&#x82AF;&#x9069;&#x7528;&#xFF09;</a></li>
+</ul>
+</li>
+<li><p>PowerPC</p>
+<ul>
+<li><a href="http://www.ibm.com/developerworks/cn/linux/l-powarch/index.html" target="_blank">PowerPC &#x9AD4;&#x7CFB;&#x7D50;&#x69CB;&#x958B;&#x767C;&#x8005;&#x6307;&#x5357;</a></li>
+<li><a href="http://www.ibm.com/developerworks/cn/linux/hardware/ppc/assembly/index.html" target="_blank">PowerPC &#x5F59;&#x7DE8;</a></li>
+<li>&#x7528;&#x65BC; Power &#x9AD4;&#x7CFB;&#x7D50;&#x69CB;&#x7684;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;, <a href="http://www.ibm.com/developerworks/cn/linux/l-powasm1.html" target="_blank">1</a>; <a href="http://www.ibm.com/developerworks/cn/linux/l-powasm2.html" target="_blank">2</a>, <a href="http://www.ibm.com/developerworks/cn/linux/l-powasm3.html" target="_blank">3</a>; <a href="http://www.ibm.com/developerworks/cn/linux/l-powasm4.html" target="_blank">4</a></li>
+<li><a href="http://www.ibm.com/developerworks/cn/aix/library/au-inline_assembly/index.html" target="_blank">PowerPC &#x5167;&#x806F;&#x5F59;&#x7DE8; &#x2013; &#x5F9E;&#x982D;&#x958B;&#x59CB;</a></li>
+</ul>
+</li>
+<li><p>ELF</p>
+<ul>
+<li><a href="http://www.xfocus.net/articles/200105/174.html" target="_blank">TN05.ELF.Format.Summary.pdf</a></li>
+</ul>
+</li>
 </ul>
 
                     
@@ -6739,10 +7075,8 @@ file test.elf
         </div>
 
         
-        <a href="../arm_emulation/simplest_bare_metal_program_for_arm.html" class="navigation navigation-prev " aria-label="Previous page: Simplest bare metal program for ARM"><i class="fa fa-angle-left"></i></a>
+        <a href="../tinyclub/dong_tai_fen_xi_linux_nei_he_han_shu_diao_yong_gua.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 動態分析 Linux 內核函數調用關係"><i class="fa fa-angle-left"></i></a>
         
-        
-        <a href="../arm_emulation/emulating_arm_pl011_serial_ports.html" class="navigation navigation-next " aria-label="Next page: Emulating ARM PL011 serial ports"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

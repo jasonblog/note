@@ -1,7 +1,7 @@
-# Linux 汇编语言快速上手：4大架构一块学
+# Linux 彙編語言快速上手：4大架構一塊學
 
 ---
-title: Linux 汇编语言快速上手：4大架构一块学
+title: Linux 彙編語言快速上手：4大架構一塊學
 author: Wu Zhangjin
 layout: post
 permalink: /linux-assembly-language-quick-start/
@@ -10,7 +10,7 @@ tags:
   - Qemu-User-Static
   - X86
 categories:
-  - 汇编
+  - 彙編
   - ARM
   - MIPS
   - PowerPC
@@ -24,31 +24,31 @@ categories:
 
 ## 前言
 
-万事开头难。如果初次接触，可能会觉得汇编语言很难下手。但现如今，学习汇编语言非常方便，本文就此展开。
+萬事開頭難。如果初次接觸，可能會覺得彙編語言很難下手。但現如今，學習彙編語言非常方便，本文就此展開。
 
-## 实验环境
+## 實驗環境
 
-早期学习汇编语言困难，有很大一个原因是没有合适的实验环境：
+早期學習彙編語言困難，有很大一個原因是沒有合適的實驗環境：
 
-  * 没有钱买开发板
-  * 找不到合适的开发板
-  * 有了开发板跑起来也没那么容易
+  * 沒有錢買開發板
+  * 找不到合適的開發板
+  * 有了開發板跑起來也沒那麼容易
 
-现在学汇编语言根本不需要开发板，可以用 `qemu-user-static` 直接运行各种架构的汇编语言。
+現在學彙編語言根本不需要開發板，可以用 `qemu-user-static` 直接運行各種架構的彙編語言。
 
-以 Ubuntu 为例，Windows 和 Mac 下的用户可以先安装 VirtualBox + Ubuntu，再安装这个。
+以 Ubuntu 為例，Windows 和 Mac 下的用戶可以先安裝 VirtualBox + Ubuntu，再安裝這個。
 
     sudo apt-get install qemu-user-static
 
 
-接着安装 gcc。
+接著安裝 gcc。
 
     sudo apt-get install gcc
     sudo apt-get install gcc-arm-linux-gnueabi gcc-aarch64-linux-gnu
     sudo apt-get install gcc-powerpc-linux-gnu gcc-powerpc64le-linux-gnu
 
 
-因为 Ubuntu 自带的交叉编译工具不全，可以从 emdebian 项目安装更多交叉编译工具。
+因為 Ubuntu 自帶的交叉編譯工具不全，可以從 emdebian 項目安裝更多交叉編譯工具。
 
     sudo -s
     echo deb http://www.emdebian.org/debian/ wheezy main >> /etc/apt/sources.list.d/emdebian.list
@@ -59,13 +59,13 @@ categories:
 
 ## Hello World
 
-同大多数资料一样，我们也从 Hello World 入手。
+同大多數資料一樣，我們也從 Hello World 入手。
 
-学习一个东西比较高效的方式是照猫画虎，咱们先直接从 C 语言生成一个汇编语言程序。
+學習一個東西比較高效的方式是照貓畫虎，咱們先直接從 C 語言生成一個彙編語言程序。
 
-### C 语言版本
+### C 語言版本
 
-先写一个 C 语言的 `hello.c`：
+先寫一個 C 語言的 `hello.c`：
 
 ```c
 #include &lt;stdio.h>
@@ -78,19 +78,19 @@ int main(int argc, char *argv[])
 }
 ```
 
-### 汇编语言版本
+### 彙編語言版本
 
-生成汇编语言：
+生成彙編語言：
 
     gcc -S hello.c
 
 
-默认会生成 hello.s，可以用 `-o hello-x86_64.s` 指定输出文件名称。
+默認會生成 hello.s，可以用 `-o hello-x86_64.s` 指定輸出文件名稱。
 
     gcc -S hello.c -o hello-x86_64.s
 
 
-下面类似地，列出所有 4 个平台 32位 和 64位 汇编语言生成办法。
+下面類似地，列出所有 4 個平臺 32位 和 64位 彙編語言生成辦法。
 
   * X86
 
@@ -116,17 +116,17 @@ int main(int argc, char *argv[])
         powerpc64le-linux-gnu-gcc -S hello.c -o hello-powerpc64.s
 
 
-我们就这样轻松地获得了所有平台的第一个可以打印 Hello World 的汇编语言程序：hello-xx.s。
+我們就這樣輕鬆地獲得了所有平臺的第一個可以打印 Hello World 的彙編語言程序：hello-xx.s。
 
-大家可以用 `vim` 等编辑工具打开这些文件试读，读不懂也没关系，我们下一节会结合后续的参考资料做进一步分析。
+大家可以用 `vim` 等編輯工具打開這些文件試讀，讀不懂也沒關係，我們下一節會結合後續的參考資料做進一步分析。
 
-### 编译汇编语言程序
+### 編譯彙編語言程序
 
-在进一步分析前，我们演示如何把汇编语言编译成可执行文件。
+在進一步分析前，我們演示如何把彙編語言編譯成可執行文件。
 
-#### 静态编译
+#### 靜態編譯
 
-如果要直接在当前系统中运行，简便起见，需要把各类库静态编译进去（X86实际不需要，因为主机本身就是X86平台），可以这么做：
+如果要直接在當前系統中運行，簡便起見，需要把各類庫靜態編譯進去（X86實際不需要，因為主機本身就是X86平臺），可以這麼做：
 
   * X86
 
@@ -154,11 +154,11 @@ int main(int argc, char *argv[])
 
     <!--        powerpc64le-linux-gnu-gcc -o hello-powerpc64 hello-powerpc64.s -static -->
 
-#### 动态编译
+#### 動態編譯
 
-静态编译的缺点是把所有用到的库都默认编译进了可执行文件，会导致编译出来的可执行文件占用较多磁盘，而且在运行时占用更多内存。
+靜態編譯的缺點是把所有用到的庫都默認編譯進了可執行文件，會導致編譯出來的可執行文件佔用較多磁盤，而且在運行時佔用更多內存。
 
-所以可以考虑用动态编译。动态编译与静态编译的区别是，动态编译需要有动态库装载和链接器：`ld.so` 或者 `ld-linux.so`，这个工具的路径默认在 `/lib` 下。例如：
+所以可以考慮用動態編譯。動態編譯與靜態編譯的區別是，動態編譯需要有動態庫裝載和鏈接器：`ld.so` 或者 `ld-linux.so`，這個工具的路徑默認在 `/lib` 下。例如：
 
     $ ldd hello-x86
     linux-gate.so.1 =>  (0xf76ea000)
@@ -168,13 +168,13 @@ int main(int argc, char *argv[])
       [Requesting program interpreter: /lib/ld.so.1]
 
 
-所以，除了 x86 以外，对于相关库都安装在非标准路径下，所以动态编译或者运行时，其他架构需要明确指定库的路径。先通过如下命令获取 `ld.so` 的安装路径：
+所以，除了 x86 以外，對於相關庫都安裝在非標準路徑下，所以動態編譯或者運行時，其他架構需要明確指定庫的路徑。先通過如下命令獲取 `ld.so` 的安裝路徑：
 
     $ dpkg -L libc6-mipsel-cross | grep ld.so
     /usr/mipsel-linux-gnu/lib/ld.so.1
 
 
-发现所有库都安装在 `/usr/ARCH-linux-gnu[eabixx]/lib/` 下面，所以，可以这么执行：
+發現所有庫都安裝在 `/usr/ARCH-linux-gnu[eabixx]/lib/` 下面，所以，可以這麼執行：
 
     $ LD_LIBRARY_PATH=/usr/mipsel-linux-gnu/lib/
     $ qemu-mipsel $LD_LIBRARY_PATH/ld.so.1 --library-path $LD_LIBRARY_PATH ./hello-mips
@@ -184,9 +184,9 @@ int main(int argc, char *argv[])
     $ qemu-mipsel -E LD_LIBRARY_PATH=$LD_LIBRARY_PATH $LD_LIBRARY_PATH/ld.so.1 ./hello-mips
 
 
-通过上面的方法在 x86 下执行其他架构的程序确实不方便，不过比买开发板划算多了吧。何况咱们还可以写个脚本来替代上面的一长串的命令。
+通過上面的方法在 x86 下執行其他架構的程序確實不方便，不過比買開發板划算多了吧。何況咱們還可以寫個腳本來替代上面的一長串的命令。
 
-实际上咱们可以更简化一些，可以在编译时指定 `ld.so` 的全路径：
+實際上咱們可以更簡化一些，可以在編譯時指定 `ld.so` 的全路徑：
 
     $ mipsel-linux-gnueabi-gcc -Wl,--dynamic-linker=/usr/mipsel-linux-gnueabi/lib/ld.so.1 -o hello hello.c
     $ readelf -l hello | grep interpreter
@@ -194,45 +194,45 @@ int main(int argc, char *argv[])
     $ qemu-mipsel -E LD_LIBRARY_PATH=$LD_LIBRARY_PATH ./hello-mips
 
 
-不过这种方法也不是那么靠谱。
+不過這種方法也不是那麼靠譜。
 
-可选的办法是，用 `debootstrap` 安装一个完整的支持其他架构的文件系统，然后把 `/usr/bin/qemu-XXX-static` 拷贝到目标文件系统的 `/usr/bin` 下，然后 `chroot` 过去使用。这里不做进一步介绍了。
+可選的辦法是，用 `debootstrap` 安裝一個完整的支持其他架構的文件系統，然後把 `/usr/bin/qemu-XXX-static` 拷貝到目標文件系統的 `/usr/bin` 下，然後 `chroot` 過去使用。這裡不做進一步介紹了。
 
-### 汇编语言分析
+### 彙編語言分析
 
-上面介绍了如何快速获得一个可以打印 Hello World 的汇编语言程序。不过咋一看，简直是天书。
+上面介紹瞭如何快速獲得一個可以打印 Hello World 的彙編語言程序。不過咋一看，簡直是天書。
 
-作为快速上手，咱们也没有过多篇幅来介绍太多的背景，因为涉及的背景实在太多。会涉及到：
+作為快速上手，咱們也沒有過多篇幅來介紹太多的背景，因為涉及的背景實在太多。會涉及到：
 
-  * [ELF][2] 可执行文件格式以及各类 Sections
-  * [函数调用约定 ABI][3]，包括参数传递，栈操作，返回地址处理等
-  * [各种 gas 伪指令][4]
-  * [库函数的动态链接][5]
+  * [ELF][2] 可執行文件格式以及各類 Sections
+  * [函數調用約定 ABI][3]，包括參數傳遞，棧操作，返回地址處理等
+  * [各種 gas 偽指令][4]
+  * [庫函數的動態鏈接][5]
 
-这些内容是不可能在几百文字里头描述清楚的，所以干脆跳过交给同学们自己参考后续资料后再回过头来阅读。咱们进入下一节，看看更简单的实现。
+這些內容是不可能在幾百文字裡頭描述清楚的，所以乾脆跳過交給同學們自己參考後續資料後再回過頭來閱讀。咱們進入下一節，看看更簡單的實現。
 
-## 进阶学习
+## 進階學習
 
-如果是简单打印 Hello World，咱们其实可以不用调用库函数，可以直接调用系统调用 `sys_write`。`sys_write` 是一个标准的 Posix 系统调用，各平台都支持。参数完全一致，不过各平台的系统调用号可能有差异：
+如果是簡單打印 Hello World，咱們其實可以不用調用庫函數，可以直接調用系統調用 `sys_write`。`sys_write` 是一個標準的 Posix 系統調用，各平臺都支持。參數完全一致，不過各平臺的系統調用號可能有差異：
 
     ssize_t write(int fd, const void *buf, size_t count);
 
 
-系统调用号基本都定义在：`arch/ARCH/include/asm/unistd.h`。例如：
+系統調用號基本都定義在：`arch/ARCH/include/asm/unistd.h`。例如：
 
     $ grep __NR_write -ur arch/mips/include/asm/
     arch/mips/include/asm/unistd.h:#define __NR_write           (__NR_Linux +   4)
 
 
-而 _\_NR\_Linux 为 4000：
+而 _\_NR\_Linux 為 4000：
 
      $ grep __NR_Linux -ur arch/mips/include/asm/ -m 1
      arch/mips/include/asm/unistd.h:#define __NR_Linux          4000
 
 
-所以，在 MIPS 上，系统调用号为 4004，具体看后面的例子。
+所以，在 MIPS 上，系統調用號為 4004，具體看後面的例子。
 
-下面来看看简化后的例子，例子全部摘自后文的参考资料。
+下面來看看簡化後的例子，例子全部摘自後文的參考資料。
 
 ### X86
 
@@ -258,7 +258,7 @@ _start:
     int     $0x80       # call kernel
 ```
 
-编译和链接：
+編譯和鏈接：
 
     $ as -o ia32-hello.o ia32-hello.s
     $ ld -o ia32-hello ia32-hello.o
@@ -310,7 +310,7 @@ main:
     syscall
 ```
 
-编译和链接：
+編譯和鏈接：
 
     $ mipsel-linux-gnu-as -o mipsel-hello.o mipsel-hello.s
     $ mipsel-linux-gnu-ld -o mipsel-hello mipsel-hello.o
@@ -345,7 +345,7 @@ _start:
     swi     $0          /* invoke syscall */
 ```
 
-编译和链接：
+編譯和鏈接：
 
     $ arm-linux-gnueabi-as -o arm-hello.o arm-hello.s
     $ arm-linux-gnueabi-ld -o arm-hello arm-hello.o
@@ -373,7 +373,7 @@ msg:
 len = . - msg
 ```
 
-编译和链接：
+編譯和鏈接：
 
     aarch64-linux-gnu-as -o aarch64-hello.o aarch64-hello.s
     aarch64-linux-gnu-ld -o aarch64-hello aarch64-hello.o
@@ -406,7 +406,7 @@ _start:
     sc                  # call kernel
 ```
 
-编译和链接：
+編譯和鏈接：
 
     $ powerpc-linux-gnu-as -o ppc32-hello.o ppc32-hello.s
     $ powerpc-linux-gnu-ld -o ppc32-hello ppc32-hello.o
@@ -449,48 +449,48 @@ _start:
     sc                  # call kernel
 ```
 
-编译和链接：
+編譯和鏈接：
 
     $ powerpc-linux-gnu-as -a64 -o ppc64-hello.o ppc64-hello.s
     $ powerpc-linux-gnu-ld -melf64ppc -o ppc64-hello ppc64-hello.o
 
 
-## 小结
+## 小結
 
-到这里，四种主流处理器架构的最简汇编语言都玩转了，接下来就是根据后面的各类参考资料，把各项基础知识研究透彻吧。
+到這裡，四種主流處理器架構的最簡彙編語言都玩轉了，接下來就是根據後面的各類參考資料，把各項基礎知識研究透徹吧。
 
-## 参考资料
+## 參考資料
 
-### 书籍
+### 書籍
 
-  * X86: x86/x64 体系探索及编程
+  * X86: x86/x64 體系探索及編程
   * ARM: ARM System Developers’ Guide: Designing and Optimizing System Software
   * MIPS: See MIPS Run Linux
   * PowerPC: PowerPC™ Microprocessor Common Hardware Reference Platform: A System Architecture
 
-### 指令手册
+### 指令手冊
 
   * [ARM][6]
   * [MIPS][7]
   * [X86][8]
   * [PowerPC][9]
 
-### 课程/文章
+### 課程/文章
 
-  * 基础
+  * 基礎
 
       * [Linux Assembly HOWTO][10]
-      * [Linux 汇编语言开发指南][11]
-      * [Linux 汇编器：对比 GAS 和 NASM][12]
-      * [Linux 汇编语言资料列表][13]
+      * [Linux 彙編語言開發指南][11]
+      * [Linux 彙編器：對比 GAS 和 NASM][12]
+      * [Linux 彙編語言資料列表][13]
       * [Using as, the Gnu Assembler][4]
 
   * X86
 
       * [CS630][14]
       * [Learn CS630 on Qemu in Ubuntu][15]
-      * [Linux 中 x86 的内联汇编][16]
-      * [史上可打印 Hello World的汇编语言程序][17]
+      * [Linux 中 x86 的內聯彙編][16]
+      * [史上可打印 Hello World的彙編語言程序][17]
 
   * ARM
 
@@ -506,14 +506,14 @@ _start:
       * [MIPS Architecture and Assembly Language Overview][34]
       * [MIPS Assembly Language Programmer’s Guide][24]
       * [MIPS Assembly Language Examples][25]
-      * [MIPS GCC 嵌入式汇编（龙芯适用）][26]
+      * [MIPS GCC 嵌入式彙編（龍芯適用）][26]
 
   * PowerPC
 
-      * [PowerPC 体系结构开发者指南][27]
-      * [PowerPC 汇编][28]
-      * 用于 Power 体系结构的汇编语言, [1][29]; [2][30], [3][31]; [4][32]
-      * [PowerPC 内联汇编 &#8211; 从头开始][33]
+      * [PowerPC 體系結構開發者指南][27]
+      * [PowerPC 彙編][28]
+      * 用於 Power 體系結構的彙編語言, [1][29]; [2][30], [3][31]; [4][32]
+      * [PowerPC 內聯彙編 &#8211; 從頭開始][33]
 
   * ELF
 

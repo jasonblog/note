@@ -143,8 +143,10 @@ Callgraph 实际由三个工具组合而成。
 
 
     看看效果：
+    
+![](./images/linux-0.11-setup_rw_floppy.svg)
 
-![Linux 0.11 CallGraph of setup_rw_floppy][6]
+
 
 ## 分析新版 Linux
 

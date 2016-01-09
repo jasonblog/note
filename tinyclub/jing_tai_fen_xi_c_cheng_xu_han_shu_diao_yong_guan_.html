@@ -37,6 +37,8 @@
         
     
     
+    <link rel="next" href="../tinyclub/dong_tai_fen_xi_c_cheng_xu_han_shu_diao_yong_guan_.html" />
+    
     
     <link rel="prev" href="../tinyclub/yuan_ma_f.html" />
     
@@ -46,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="40.1.1" data-basepath=".." data-revision="Sun Jan 10 2016 00:46:55 GMT+0800 (CST)">
+    <div class="book" data-level="40.1.1" data-basepath=".." data-revision="Sun Jan 10 2016 01:09:54 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -6476,6 +6478,51 @@
             
         </li>
     
+        <li class="chapter " data-level="40.1.2" data-path="tinyclub/dong_tai_fen_xi_c_cheng_xu_han_shu_diao_yong_guan_.html">
+            
+                
+                    <a href="../tinyclub/dong_tai_fen_xi_c_cheng_xu_han_shu_diao_yong_guan_.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>40.1.2.</b>
+                        
+                        動態分析 C 程序函數調用關係
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="40.1.3" data-path="tinyclub/han_shu_diao_yong_guan_xi_hui_zhi_fang_fa_yu_ni_xi.html">
+            
+                
+                    <a href="../tinyclub/han_shu_diao_yong_guan_xi_hui_zhi_fang_fa_yu_ni_xi.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>40.1.3.</b>
+                        
+                        函數調用關係繪製方法與逆向建模
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="40.1.4" data-path="tinyclub/dong_tai_fen_xi_linux_nei_he_han_shu_diao_yong_gua.html">
+            
+                
+                    <a href="../tinyclub/dong_tai_fen_xi_linux_nei_he_han_shu_diao_yong_gua.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>40.1.4.</b>
+                        
+                        動態分析 Linux 內核函數調用關係
+                    </a>
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -6718,10 +6765,8 @@ $ tar Jxf linux-3.10.73.tar.xz &amp;&amp; cd linux-3.10.73
 </code></pre></li>
 </ul>
 <pre><code>&#x5B83;&#x4F1A;&#x81EA;&#x52A8;&#x641C;&#x7D22; `kernel/` &#x76EE;&#x5F55;&#x5E76;&#x751F;&#x6210;&#x4E00;&#x526F;&#x56FE;&#xFF0C;&#x6548;&#x679C;&#x5982;&#x4E0B;&#xFF1A;
-
-![Linux CallGraph of update_process_times][7]
-
-&#x8003;&#x8651;&#x5230; `callgraph` &#x672C;&#x8EAB;&#x7684;&#x68C0;&#x7D22;&#x6548;&#x7387;&#x6BD4;&#x8F83;&#x4F4E;&#xFF08;&#x91C7;&#x7528;grep&#xFF09;&#xFF0C;&#x5982;&#x679C;&#x4E0D;&#x80FD;&#x660E;&#x786E;&#x51FD;&#x6570;&#x6240;&#x5728;&#x7684;&#x76EE;&#x5F55;&#xFF0C;&#x5219;&#x53EF;&#x4EE5;&#x5148;&#x7528; `cscope` &#x4E4B;&#x7C7B;&#x7684;&#x5EFA;&#x7ACB;&#x7D22;&#x5F15;&#xFF0C;&#x5148;&#x901A;&#x8FC7;&#x8FD9;&#x4E9B;&#x7D22;&#x5F15;&#x5FEB;&#x901F;&#x627E;&#x5230;&#x51FD;&#x6570;&#x6240;&#x5728;&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x7136;&#x540E;&#x7528; `-d` &#x6307;&#x5B9A;&#x6587;&#x4EF6;&#x3002;
+</code></pre><p><img src="images/linux-update_process_times.svg" alt=""></p>
+<pre><code>&#x8003;&#x8651;&#x5230; `callgraph` &#x672C;&#x8EAB;&#x7684;&#x68C0;&#x7D22;&#x6548;&#x7387;&#x6BD4;&#x8F83;&#x4F4E;&#xFF08;&#x91C7;&#x7528;grep&#xFF09;&#xFF0C;&#x5982;&#x679C;&#x4E0D;&#x80FD;&#x660E;&#x786E;&#x51FD;&#x6570;&#x6240;&#x5728;&#x7684;&#x76EE;&#x5F55;&#xFF0C;&#x5219;&#x53EF;&#x4EE5;&#x5148;&#x7528; `cscope` &#x4E4B;&#x7C7B;&#x7684;&#x5EFA;&#x7ACB;&#x7D22;&#x5F15;&#xFF0C;&#x5148;&#x901A;&#x8FC7;&#x8FD9;&#x4E9B;&#x7D22;&#x5F15;&#x5FEB;&#x901F;&#x627E;&#x5230;&#x51FD;&#x6570;&#x6240;&#x5728;&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x7136;&#x540E;&#x7528; `-d` &#x6307;&#x5B9A;&#x6587;&#x4EF6;&#x3002;
 
 &#x4F8B;&#x5982;&#xFF0C;&#x5047;&#x8BBE;&#x6211;&#x4EEC;&#x901A;&#x8FC7; `cs find g update_process_times` &#x627E;&#x5230;&#x8BE5;&#x51FD;&#x6570;&#x5728; `kernel/timer.c` &#x4E2D;&#x5B9A;&#x4E49;&#xFF0C;&#x5219;&#x53EF;&#x4EE5;&#xFF1A;
 
@@ -6752,7 +6797,7 @@ $ tree -L 2 | tree2dotx | dot -Tsvg -o tree.svg
 </code></pre><p>&#x5982;&#x679C;&#x89C9;&#x5F97;&#x4E00;&#x5F20;&#x56FE;&#x663E;&#x793A;&#x7684;&#x5185;&#x5BB9;&#x592A;&#x591A;&#xFF0C;&#x5219;&#x53EF;&#x4EE5;&#x6307;&#x5B9A;&#x67D0;&#x4E2A;&#x5F53;&#x524D;&#x6B63;&#x5728;&#x7814;&#x8BFB;&#x7684;&#x5185;&#x6838;&#x76EE;&#x5F55;&#xFF0C;&#x4F8B;&#x5982; <code>kernel</code> &#x90E8;&#x5206;&#xFF1A;</p>
 <pre><code>$ tree -L 2 kernel | tree2dotx -f Makefile | dot -Tsvg -o tree.svg
 </code></pre><p>&#x770B;&#x4E0B;&#x6548;&#x679C;&#xFF1A;</p>
-<p><img src="../wp-content/uploads/2015/04/callgraph/linux-0.11-kernel-tree.svg" alt="Linux 0.11 tree Graph of kernel/"></p>
+<p><img src="images/linux-0.11-kernel-tree.svg" alt=""></p>
 <h2 id="what-8217-s-more">What&#x2019;s more?</h2>
 <p>&#x4E0A;&#x6587;&#x5C55;&#x793A;&#x4E86;&#x5982;&#x4F55;&#x628A;&#x6E90;&#x7801;&#x7684;&#x8C03;&#x7528;&#x5173;&#x7CFB;&#x7528;&#x56FE;&#x6587;&#x7684;&#x65B9;&#x5F0F;&#x6E32;&#x67D3;&#x51FA;&#x6765;&#x3002;&#x597D;&#x5904;&#x663E;&#x800C;&#x6613;&#x89C1;&#xFF1A;</p>
 <ul>
@@ -6772,8 +6817,10 @@ $ tree -L 2 | tree2dotx | dot -Tsvg -o tree.svg
         </div>
 
         
-        <a href="../tinyclub/yuan_ma_f.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 源碼分析"><i class="fa fa-angle-left"></i></a>
+        <a href="../tinyclub/yuan_ma_f.html" class="navigation navigation-prev " aria-label="Previous page: 源碼分析"><i class="fa fa-angle-left"></i></a>
         
+        
+        <a href="../tinyclub/dong_tai_fen_xi_c_cheng_xu_han_shu_diao_yong_guan_.html" class="navigation navigation-next " aria-label="Next page: 動態分析 C 程序函數調用關係"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

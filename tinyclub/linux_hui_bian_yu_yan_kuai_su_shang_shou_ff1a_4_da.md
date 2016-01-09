@@ -67,7 +67,8 @@ categories:
 
 先写一个 C 语言的 `hello.c`：
 
-<pre>#include &lt;stdio.h>
+```c
+#include &lt;stdio.h>
 
 int main(int argc, char *argv[])
 {
@@ -75,7 +76,7 @@ int main(int argc, char *argv[])
 
         return 0;
 }
-</pre>
+```
 
 ### 汇编语言版本
 
@@ -235,7 +236,8 @@ int main(int argc, char *argv[])
 
 ### X86
 
-<pre>.data                   # section declaration
+```
+.data                   # section declaration
 msg:
     .string "Hello, world!\n"
     len = . - msg   # length of our dear string
@@ -254,7 +256,7 @@ _start:
     movl    $0,%ebx     # first argument: exit code
     movl    $1,%eax     # system call number (sys_exit)
     int     $0x80       # call kernel
-</pre>
+```
 
 编译和链接：
 
@@ -264,7 +266,8 @@ _start:
 
 ### MIPS
 
-<pre># File: hello.s -- "hello, world!" in MIPS Assembly Programming
+```
+# File: hello.s -- "hello, world!" in MIPS Assembly Programming
 # by falcon &lt;wuzhangjin@gmail.com>, 2008/05/21
 # refer to:
 #    [*] http://www.tldp.org/HOWTO/Assembly-HOWTO/mips.html
@@ -305,7 +308,7 @@ main:
             # you can print the exit status with "echo $?" after executing this program
     li $v0, 4001    # 4001 is __NR_exit defined in /usr/include/asm/unistd.h
     syscall
-</pre>
+```
 
 编译和链接：
 
@@ -317,7 +320,8 @@ main:
 
 #### ARM32
 
-<pre>.data
+```
+.data
 
 msg:
     .ascii      "Hello, ARM!\n"
@@ -339,7 +343,7 @@ _start:
     mov     %r0, $0     /* status -> 0 */
     mov     %r7, $1     /* exit is syscall #1 */
     swi     $0          /* invoke syscall */
-</pre>
+```
 
 编译和链接：
 
@@ -349,7 +353,8 @@ _start:
 
 #### ARM64
 
-<pre>.text //code section
+```
+.text //code section
 .globl _start
 _start:
     mov x0, 0     // stdout has file descriptor 0
@@ -366,7 +371,7 @@ _start:
 msg:
     .ascii      "Hello, ARM!\n"
 len = . - msg
-</pre>
+```
 
 编译和链接：
 
@@ -378,7 +383,9 @@ len = . - msg
 
 #### PPC32
 
-<pre>.data                       # section declaration - variables only
+```
+
+.data                       # section declaration - variables only
 msg:
     .string "Hello, world!\n"
     len = . - msg       # length of our dear string
@@ -397,7 +404,7 @@ _start:
     li      0,1         # syscall number (sys_exit)
     li      3,1         # first argument: exit code
     sc                  # call kernel
-</pre>
+```
 
 编译和链接：
 
@@ -407,7 +414,8 @@ _start:
 
 #### PPC64
 
-<pre>.data                       # section declaration - variables only
+```
+.data                       # section declaration - variables only
 msg:
     .string "Hello, world!\n"
     len = . - msg       # length of our dear string
@@ -439,7 +447,7 @@ _start:
     li      0,1         # syscall number (sys_exit)
     li      3,1         # first argument: exit code
     sc                  # call kernel
-</pre>
+```
 
 编译和链接：
 

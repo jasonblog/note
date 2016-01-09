@@ -37,7 +37,8 @@ categories:
 
 ### clang
 
-<pre>$ sudo apt-get install clang
+```sh
+$ sudo apt-get install clang
 $ clang -cc1 -ast-dump test.c 2>/dev/null | egrep "FunctionDecl|Function "
 |-FunctionDecl 0x2eb9350 &lt;test.c:3:1, col:14> a 'int (void)'
 |-FunctionDecl 0x2eb94e0 &lt;line:4:1, col:21> b 'int (int)'
@@ -47,7 +48,9 @@ $ clang -cc1 -ast-dump test.c 2>/dev/null | egrep "FunctionDecl|Function "
 |   | | `-DeclRefExpr 0x2f029d8 &lt;col:9> 'int (int)' Function 0x2eb94e0 'b' 'int (int)'
 |   | | `-DeclRefExpr 0x2f02cc0 &lt;col:9> 'int (const char *restrict, ...)' Function 0x2f02b70 'scanf' 'int (const char *restrict, ...)'
 `-FunctionDecl 0x2f02b70 &lt;line:12:9> scanf 'int (const char *restrict, ...)' extern
-</pre>
+```
+
+
 
 ### gcc
 

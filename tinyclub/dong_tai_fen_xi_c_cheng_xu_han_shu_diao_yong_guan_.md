@@ -107,7 +107,7 @@ Gprof 用于对某次应用的运行时代码执行情况进行分析。
 
 查看 `fib-gprof.svg` 如下：
 
-![Draw fibonacci by Gprof][4]
+![](./images/fib-gprof.svg)
 
 可以观察到，这个图表除了调用关系，还有每个函数的执行次数以及百分比。
 
@@ -134,7 +134,8 @@ Valgrind 不依赖 `-pg` 编译选项，可以直接编译运行：
 
 查看 `fib-callgrind.svg` 如下：
 
-![Draw fibonacii by Valgrind s callgrind][5]
+![](./images/fib-callgrind.svg)
+
 
 需要提到的是 Valgrind 提取出了比 gprof 更多的信息，包括 main 函数的父函数。
 
@@ -145,7 +146,9 @@ Valgrind 不依赖 `-pg` 编译选项，可以直接编译运行：
 
 结果如下：
 
-![Draw fibonacii by Valgrind s callgrind (All output)][6]
+
+
+![](./images/fib-callgrind-all.svg)
 
 所有的调用情况都展示出来了。热点调用分支用红色标记了出来。因为实际上一个程序运行时背后做了很多其他的事情，比如动态符号链接，还有比如 `main` 实际代码里头也调用到 `printf`，虽然占比很低。
 
@@ -154,7 +157,9 @@ Valgrind 不依赖 `-pg` 编译选项，可以直接编译运行：
     $ gprof2dot -f callgrind -n0 -e0 ./callgrind.out.22737 --root=main | dot -Tsvg -o fib-callgrind-main.svg
 
 
-![Draw fibonacii by Valgrind s callgrind (Only Main)][7]
+![](./images/fib-callgrind-main.svg)
+
+
 
 需要提到的是，实际上除了 `gprof2dot`，`kcachegrind` 也可以用来展示 `Valgrind's callgrind` 的数据：
 

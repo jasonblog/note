@@ -63,7 +63,8 @@ $ clang -cc1 -ast-dump test.c 2>/dev/null | egrep "FunctionDecl|Function "
 
 效果如下：
 
-![fib-gcc-dump-graph][2]
+
+![](./images/fib-gcc-dump-graph.svg)
 
 ## Graphviz: dot / twopi / fdp
 
@@ -86,7 +87,8 @@ $ cflow -b -m main init/main.c | tree2dotx | fdp -Tsvg -o linux-0.11-fdp.svg`
 
 效果如下：
 
-![Linux 0.11 main callgraph with fdp][3]
+
+![](./images/linux-0.11-fdp.svg)
 
 ## graph-easy
 
@@ -104,7 +106,8 @@ $ sudo perl -MCPAN -e 'install Graph::Easy::As_svg'`
 
 可以看到 `graph-easy` 的输出结果又是另外一种风格：
 
-![graph-easy output of linux-0.11 main callgraph][4]
+![](./images/linux-0.11-graph-easy.svg)
+
 
 ## FlameGraph
 
@@ -118,7 +121,8 @@ $ cflow -b -m main init/main.c | tree2dotx -o flame | flamegraph.pl > linux-0.11
 
 效果如下：
 
-![Linux 0.11 main callgraph with flame][5]
+
+![](./images/linux-0.11-flame.svg)
 
 ## 逆向建模
 

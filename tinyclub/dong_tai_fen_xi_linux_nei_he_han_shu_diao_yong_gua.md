@@ -170,7 +170,11 @@ Ok，把 `FlameGraph` 准备好：
 
 效果如下：
 
-![The Callgraph of the find command][11]
+
+
+![](./images/find-callgrind.svg)
+
+
 
 ### 库函数
 
@@ -269,8 +273,9 @@ Ok，把 `FlameGraph` 准备好：
 
 效果如下： 
 
-calls-flame.svg
-![The FlameGraph of the Profiling result of the find command][12]
+
+![](./images/find-flame.svg)
+
 
 ## 小结
 

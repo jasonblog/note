@@ -270,7 +270,7 @@
    * [Makefile 語法簡介](gunmake/205.md)
    * [Makefile 先編譯出so 後在編譯出執行檔](gunmake/206.md)
    * [利用 Autotools 來建立 Makefile 檔案](gunmake/autotools.md)
-   * GNU Makefile 雜項語法備忘
+   * [GNU Makefile 雜項語法備忘](gunmake/gnu_makefile_za_xiang_yu_fa_bei_wang.md)
 * [C++](c++/README.md)
    * [[轉]C++ 對象的內存佈局](c++/211.md)
    * [[轉] C++對象模型之簡述C++對象的內存佈局](c++/212.md)

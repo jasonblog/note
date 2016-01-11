@@ -88,7 +88,7 @@
    * [How to Build A Custom Linux Kernel For Qemu (2015 Edition)](qemu/79.md)
    * [X86 Kernel](qemu/710.md)
    * [FreeNOS](qemu/713.md)
-   * 建構 Linux 0.11 的開發環境
+   * [建構 Linux 0.11 的開發環境](qemu/jian_gou_linux_0__11_de_kai_fa_huan_jing.md)
 * [Linux Device Driver Programming](linux_device_driver_programming/README.md)
    * [Linux 裝置驅動程式的概要](linux_device_driver_programming/01.md)
    * [Linux 的授權](linux_device_driver_programming/02.md)

@@ -419,4 +419,5 @@
 * [OSVR](osvr/osvr.md)
    * [Linux Build Instructions](osvr/osvrbuild.md)
 * [CMake](cmake/cmake.md)
+   * CMake 初探
 

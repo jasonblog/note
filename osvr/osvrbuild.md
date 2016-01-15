@@ -15,12 +15,7 @@
 - CMake (3.0 or newer)
 
 ```sh
-sudo apt-get install libboost1.55-dev
-sudo apt-get install libboost-thread1.55-dev
-sudo apt-get install libboost-filesystem1.55-dev
-sudo apt-get install libboost-program-options1.55-dev
-sudo apt-get install libusb-1.0-0-dev
-sudo apt-get install libopencv-dev
+sudo apt-get install libboost1.55-dev markdown libsdl2-dev libboost-thread1.55-dev libboost-filesystem1.55-dev libboost-program-options1.55-dev libusb-1.0-0-dev libopencv-dev 
 ```
 
 ## Build these libraries first
@@ -37,6 +32,7 @@ git clone https://github.com/osvr/libfunctionality.git
 cd libfunctionality
 mkdir build ; cd build
 cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_INSTALL_PREFIX=/usr/local/libfunctionality
+make -j8
 sudo make install
 ```
 
@@ -48,8 +44,16 @@ git clone --recursive https://github.com/VRPN/jsoncpp
 cd jsoncpp
 mkdir build ; cd build
 cmake .. -DJSONCPP_WITH_CMAKE_PACKAGE=ON -DJSONCPP_LIB_BUILD_SHARED=OFF -DCMAKE_CXX_FLAGS=-fPIC -DCMAKE_INSTALL_PREFIX=/usr/local/jsoncpp
+make -j8
 sudo make install
 ```
+- Adding below to .bashrc file
+
+```sh
+PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/local/jsoncpp/lib/pkgconfig
+export PKG_CONFIG_PATH
+```
+
 ##Ready to build OSVR-Core
 
 ```sh
@@ -57,6 +61,7 @@ git clone --recursive https://github.com/OSVR/OSVR-Core.git
 cd OSVR-Core
 mkdir build ; cd build
 cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_INSTALL_PREFIX=/usr/local/osvr
+make -j8
 sudo make install
 ```
 - this will run the server, with the default config file, right from within the build tree.

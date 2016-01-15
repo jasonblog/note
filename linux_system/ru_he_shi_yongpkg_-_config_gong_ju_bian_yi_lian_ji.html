@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>分段機制和分頁機制 | Jason note</title>
+        <title>如何使用pkg-config工具編譯鏈接第三方庫 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../linux_kernel/1217.html" />
+    <link rel="next" href="../assembly/index.html" />
     
     
-    <link rel="prev" href="../linux_kernel/1215.html" />
+    <link rel="prev" href="../linux_system/yong_gcc_zi_zhi_library.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="12.16" data-basepath=".." data-revision="Sat Jan 16 2016 00:07:43 GMT+0800 (CST)">
+    <div class="book" data-level="15.19" data-basepath=".." data-revision="Sat Jan 16 2016 00:07:43 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -2504,7 +2504,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="12.16" data-path="linux_kernel/1216.html">
+        <li class="chapter " data-level="12.16" data-path="linux_kernel/1216.html">
             
                 
                     <a href="../linux_kernel/1216.html">
@@ -3335,7 +3335,7 @@
             
         </li>
     
-        <li class="chapter " data-level="15.19" data-path="linux_system/ru_he_shi_yongpkg_-_config_gong_ju_bian_yi_lian_ji.html">
+        <li class="chapter active" data-level="15.19" data-path="linux_system/ru_he_shi_yongpkg_-_config_gong_ju_bian_yi_lian_ji.html">
             
                 
                     <a href="../linux_system/ru_he_shi_yongpkg_-_config_gong_ju_bian_yi_lian_ji.html">
@@ -6750,34 +6750,85 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E5%88%86%E6%AE%B5%E6%A9%9F%E5%88%B6%E5%92%8C%E5%88%86%E9%A0%81%E6%A9%9F%E5%88%B6">&#x5206;&#x6BB5;&#x6A5F;&#x5236;&#x548C;&#x5206;&#x9801;&#x6A5F;&#x5236;</h1>
-<p>&#x4E00; &#x5206;&#x6BB5;&#x6A5F;&#x5236;</p>
-<p>&#x3000;&#x3000;1&#x3001;&#x4EC0;&#x9EBC;&#x662F;&#x5206;&#x6BB5;&#x6A5F;&#x5236;</p>
-<p>&#x3000;&#x3000; &#x5206;&#x6BB5;&#x6A5F;&#x5236;&#x5C31;&#x662F;&#x628A;&#x865B;&#x64EC;&#x5730;&#x5740;&#x7A7A;&#x9593;&#x4E2D;&#x7684;&#x865B;&#x64EC;&#x5167;&#x5B58;&#x7D44;&#x7E54;&#x6210;&#x4E00;&#x4E9B;&#x9577;&#x5EA6;&#x53EF;&#x8B8A;&#x7684;&#x7A31;&#x70BA;&#x6BB5;&#x7684;&#x5167;&#x5B58;&#x584A;&#x55AE;&#x5143;&#x3002;</p>
-<p>&#x3000;&#x3000;2&#x3001;&#x4EC0;&#x9EBC;&#x662F;&#x6BB5;</p>
-<p>&#x3000;&#x3000; &#x6BCF;&#x500B;&#x6BB5;&#x7531;&#x4E09;&#x500B;&#x53C3;&#x6578;&#x5B9A;&#x7FA9;&#xFF1A;&#x6BB5;&#x57FA;&#x5730;&#x5740;&#x3001;&#x6BB5;&#x9650;&#x9577;&#x548C;&#x6BB5;&#x5C6C;&#x6027;&#x3002;</p>
-<p>&#x3000;&#x3000; &#x6BB5;&#x7684;&#x57FA;&#x5730;&#x5740;&#x3001;&#x6BB5;&#x9650;&#x9577;&#x4EE5;&#x53CA;&#x6BB5;&#x7684;&#x4FDD;&#x8B77;&#x5C6C;&#x6027;&#x5B58;&#x5132;&#x5728;&#x4E00;&#x500B;&#x7A31;&#x70BA;&#x6BB5;&#x63CF;&#x8FF0;&#x7B26;&#x7684;&#x7D50;&#x69CB;&#x9805;&#x4E2D;&#x3002;</p>
-<p>&#x3000;&#x3000;3&#x3001;&#x6BB5;&#x7684;&#x4F5C;&#x7528;</p>
-<p>&#x3000;&#x3000; &#x6BB5;&#x53EF;&#x4EE5;&#x7528;&#x4F86;&#x5B58;&#x653E;&#x7A0B;&#x5E8F;&#x7684;&#x4EE3;&#x78BC;&#x3001;&#x6578;&#x64DA;&#x548C;&#x5806;&#x68E7;&#xFF0C;&#x6216;&#x8005;&#x7528;&#x4F86;&#x5B58;&#x653E;&#x7CFB;&#x7D71;&#x6578;&#x64DA;&#x7D50;&#x69CB;&#x3002;</p>
-<p>&#x3000;&#x3000;4&#x3001;&#x6BB5;&#x7684;&#x5B58;&#x5132;&#x5730;&#x5740;</p>
-<p>&#x3000;&#x3000; &#x7CFB;&#x7D71;&#x4E2D;&#x6240;&#x6709;&#x4F7F;&#x7528;&#x7684;&#x6BB5;&#x90FD;&#x5305;&#x542B;&#x5728;&#x8655;&#x7406;&#x5668;&#x7DDA;&#x6027;&#x5730;&#x5740;&#x7A7A;&#x9593;&#x4E2D;&#x3002;</p>
-<p>&#x3000;&#x3000;5&#x3001;&#x6BB5;&#x9078;&#x64C7;&#x7B26;</p>
-<p> &#x3000;&#x3000;&#x908F;&#x8F2F;&#x5730;&#x5740;&#x5305;&#x62EC;&#x4E00;&#x500B;&#x6BB5;&#x9078;&#x64C7;&#x7B26;&#x6216;&#x4E00;&#x500B;&#x504F;&#x79FB;&#x91CF;&#xFF0C;&#x6BB5;&#x9078;&#x64C7;&#x7B26;&#x662F;&#x4E00;&#x500B;&#x6BB5;&#x7684;&#x552F;&#x4E00;&#x6A19;&#x8B58;&#xFF0C;&#x63D0;&#x4F9B;&#x4E86;&#x6BB5;&#x63CF;&#x8FF0;&#x7B26;&#x8868;&#xFF0C;&#x6BB5;&#x63CF;&#x8FF0;&#x7B26;&#x8868;&#x6307;&#x660E;&#x77ED;&#x7684;&#x5927;&#x5C0F;&#x3001;&#x8A2A;&#x554F;&#x6B0A;&#x9650;&#x548C;&#x6BB5;&#x7684;&#x7279;&#x6B0A;&#x7D1A;&#x3001;&#x6BB5;&#x985E;&#x578B;&#x4EE5;&#x53CA;&#x6BB5;&#x7684;&#x7B2C;&#x4E00;&#x500B;&#x5B57;&#x7BC0;&#x5728;&#x7DDA;&#x6027;&#x5730;&#x5740;&#x7A7A;&#x9593;&#x4E2D;&#x7684;&#x4F4D;&#x7F6E;&#xFF08;&#x7A31;&#x70BA;&#x6BB5;&#x7684;&#x57FA;&#x5730;&#x5740;&#xFF09;&#x3002;&#x908F;&#x8F2F;&#x5730;&#x5740;&#x7684;&#x504F;&#x79FB;&#x91CF;&#x90E8;&#x5206;&#x5230;&#x6BB5;&#x7684;&#x57FA;&#x5730;&#x5740;&#x4E0A;&#x5C31;&#x53EF;&#x4EE5;&#x5B9A;&#x4F4D;&#x6BB5;&#x4E2D;&#x67D0;&#x500B;&#x5B57;&#x7BC0;&#x7684;&#x4F4D;&#x7F6E;&#x3002;&#x56E0;&#x6B64;&#x57FA;&#x5730;&#x5740;&#x52A0;&#x4E0A;&#x504F;&#x79FB;&#x91CF;&#x5C31;&#x5F62;&#x6210;&#x4E86;&#x8655;&#x7406;&#x5668;&#x7DDA;&#x6027;&#x5730;&#x5740;&#x7A7A;&#x9593;&#x4E2D;&#x7684;&#x5730;&#x5740;&#x3002;</p>
-<p>&#x3000;&#x3000;6 &#x908F;&#x8F2F;&#x5730;&#x5740;&#x5230;&#x7DDA;&#x6027;&#x5730;&#x5740;&#x7684;&#x8B8A;&#x63DB;&#x904E;&#x7A0B;</p>
-<p><img src="images/211729348199.png" alt=""></p>
-<p>&#x5982;&#x679C;&#x6C92;&#x6709;&#x958B;&#x555F;&#x5206;&#x9801;&#xFF0C;&#x90A3;&#x9EBC;&#x8655;&#x7406;&#x5668;&#x76F4;&#x63A5;&#x628A;&#x7DDA;&#x6027;&#x5730;&#x5740;&#x6620;&#x5C04;&#x5230;&#x7269;&#x7406;&#x5730;&#x5740;&#xFF0C;&#x5373;&#x7DDA;&#x6027;&#x5730;&#x5740;&#x88AB;&#x9001;&#x5230;&#x8655;&#x7406;&#x5668;&#x5730;&#x5740;&#x7E3D;&#x7DDA;&#x4E0A;&#xFF1B;&#x5982;&#x679C;&#x5C0D;&#x7DDA;&#x6027;&#x5730;&#x5740;&#x7A7A;&#x9593;&#x9032;&#x884C;&#x4E86;&#x5206;&#x9801;&#x8655;&#x7406;&#xFF0C;&#x90A3;&#x9EBC;&#x5C31;&#x6703;&#x4F7F;&#x7528;&#x4E8C;&#x7D1A;&#x5730;&#x5740;&#x8F49;&#x63DB;&#x628A;&#x7DDA;&#x6027;&#x5730;&#x5740;&#x8F49;&#x63DB;&#x6210;&#x7269;&#x7406;&#x5730;&#x5740;&#x3002;</p>
-<p>&#x3000;&#x3000;7&#x3001;&#x865B;&#x64EC;&#x5730;&#x5740;&#x5230;&#x7269;&#x7406;&#x5730;&#x5740;&#x7684;&#x8B8A;&#x63DB;&#x904E;&#x7A0B;</p>
-<p><img src="images/211730519762.png" alt=""></p>
-<p>1&#x3001;&#x4EC0;&#x9EBC;&#x662F;&#x5206;&#x9801;&#x6A5F;&#x5236;</p>
-<p>&#x3000;&#x3000; &#x5206;&#x9801;&#x6A5F;&#x5236;&#x5728;&#x6BB5;&#x6A5F;&#x5236;&#x4E4B;&#x5F8C;&#x9032;&#x884C;&#x7684;&#xFF0C;&#x5B83;&#x9032;&#x4E00;&#x6B65;&#x5C07;&#x7DDA;&#x6027;&#x5730;&#x5740;&#x8F49;&#x63DB;&#x70BA;&#x7269;&#x7406;&#x5730;&#x5740;&#x3002;</p>
-<p>&#x3000;&#x3000;2&#x3001;&#x5206;&#x9801;&#x6A5F;&#x5236;&#x7684;&#x5B58;&#x5132;</p>
-<p> &#x3000;&#x3000;&#x5206;&#x9801;&#x6A5F;&#x5236;&#x652F;&#x6301;&#x865B;&#x64EC;&#x5B58;&#x5132;&#x6280;&#x8853;&#xFF0C;&#x5728;&#x4F7F;&#x7528;&#x865B;&#x64EC;&#x5B58;&#x5132;&#x7684;&#x74B0;&#x5883;&#x4E2D;&#xFF0C;&#x5927;&#x5BB9;&#x91CF;&#x7684;&#x7DDA;&#x6027;&#x5730;&#x5740;&#x7A7A;&#x9593;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x5C0F;&#x584A;&#x7684;&#x7269;&#x7406;&#x5167;&#x5B58;&#xFF08;RAM&#x6216;ROM&#xFF09;&#x4EE5;&#x53CA;&#x67D0;&#x4E9B;&#x5916;&#x90E8;&#x5B58;&#x5132;&#x7A7A;&#x9593;&#x4F86;&#x6A21;&#x64EC;&#x3002;&#x7576;&#x4F7F;&#x7528;&#x5206;&#x9801;&#x6642;&#xFF0C;&#x6BCF;&#x500B;&#x6BB5;&#x88AB;&#x5283;&#x5206;&#x6210;&#x9801;&#x9762;&#xFF08;&#x901A;&#x5E38;&#x6BCF;&#x9801;&#x70BA;4K&#x5927;&#x5C0F;&#xFF09;&#xFF0C;&#x9801;&#x9762;&#x6703;&#x88AB;&#x5B58;&#x5132;&#x65BC;&#x7269;&#x7406;&#x5167;&#x5B58;&#x4E2D;&#x6216;&#x786C;&#x76E4;&#x4E2D;&#x3002;&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x901A;&#x904E;&#x7DAD;&#x8B77;&#x4E00;&#x500B;&#x9801;&#x76EE;&#x9304;&#x548C;&#x4E00;&#x4E9B;&#x9801;&#x8868;&#x4F86;&#x7559;&#x610F;&#x9019;&#x4E9B;&#x9801;&#x9762;&#x3002;&#x7576;&#x7A0B;&#x5E8F;&#xFF08;&#x6216;&#x4EFB;&#x52D9;&#xFF09;&#x8A66;&#x5716;&#x8A2A;&#x554F;&#x7DDA;&#x6027;&#x5730;&#x5740;&#x7A7A;&#x9593;&#x4E2D;&#x7684;&#x4E00;&#x500B;&#x5730;&#x5740;&#x4F4D;&#x7F6E;&#x6642;&#xFF0C;&#x8655;&#x7406;&#x5668;&#x5C31;&#x6703;&#x4F7F;&#x7528;&#x9801;&#x76EE;&#x9304;&#x548C;&#x9801;&#x8868;&#x628A;&#x7DDA;&#x6027;&#x5730;&#x5740;&#x8F49;&#x63DB;&#x6210;&#x4E00;&#x500B;&#x7269;&#x7406;&#x5730;&#x5740;&#xFF0C;&#x7136;&#x5F8C;&#x5728;&#x8A72;&#x5167;&#x5B58;&#x4F4D;&#x7F6E;&#x4E0A;&#x57F7;&#x884C;&#x6240;&#x8981;&#x6C42;&#x7684;&#x64CD;&#x4F5C;&#x3002;</p>
-<p>&#x3000;&#x3000;3&#x3001;&#x7DDA;&#x6027;&#x5730;&#x5740;&#x548C;&#x7269;&#x7406;&#x5730;&#x5740;&#x4E4B;&#x9593;&#x7684;&#x8B8A;&#x63DB;&#x904E;&#x7A0B;</p>
-<p><img src="images/211729570070.png" alt=""></p>
-<p>&#x4E09; &#x5206;&#x6BB5;&#x6A5F;&#x5236;&#x548C;&#x5206;&#x9801;&#x6A5F;&#x5236;&#x7684;&#x5340;&#x5225;</p>
-<p>&#x3000;&#x3000;1&#x3001;&#x5206;&#x9801;&#x6A5F;&#x5236;&#x6703;&#x4F7F;&#x7528;&#x5927;&#x5C0F;&#x56FA;&#x5B9A;&#x7684;&#x5167;&#x5B58;&#x584A;&#xFF0C;&#x800C;&#x5206;&#x6BB5;&#x7BA1;&#x7406;&#x5247;&#x4F7F;&#x7528;&#x4E86;&#x5927;&#x5C0F;&#x53EF;&#x8B8A;&#x7684;&#x584A;&#x4F86;&#x7BA1;&#x7406;&#x5167;&#x5B58;&#x3002;</p>
-<p>&#x3000;&#x3000;2&#x3001;&#x5206;&#x9801;&#x4F7F;&#x7528;&#x56FA;&#x5B9A;&#x5927;&#x5C0F;&#x7684;&#x584A;&#x66F4;&#x70BA;&#x9069;&#x5408;&#x7BA1;&#x7406;&#x7269;&#x7406;&#x5167;&#x5B58;&#xFF0C;&#x5206;&#x6BB5;&#x6A5F;&#x5236;&#x4F7F;&#x7528;&#x5927;&#x5C0F;&#x53EF;&#x8B8A;&#x7684;&#x584A;&#x66F4;&#x9069;&#x5408;&#x8655;&#x7406;&#x8907;&#x96DC;&#x7CFB;&#x7D71;&#x7684;&#x908F;&#x8F2F;&#x5206;&#x5340;&#x3002;</p>
-<p>&#x3000;&#x3000;3&#x3001;&#x6BB5;&#x8868;&#x5B58;&#x5132;&#x5728;&#x7DDA;&#x6027;&#x5730;&#x5740;&#x7A7A;&#x9593;&#xFF0C;&#x800C;&#x9801;&#x8868;&#x5247;&#x4FDD;&#x5B58;&#x5728;&#x7269;&#x7406;&#x5730;&#x5740;&#x7A7A;&#x9593;&#x3002;</p>
+                        <h1 id="%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8pkg-config%E5%B7%A5%E5%85%B7%E7%B7%A8%E8%AD%AF%E9%8F%88%E6%8E%A5%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%AB">&#x5982;&#x4F55;&#x4F7F;&#x7528;pkg-config&#x5DE5;&#x5177;&#x7DE8;&#x8B6F;&#x93C8;&#x63A5;&#x7B2C;&#x4E09;&#x65B9;&#x5EAB;</h1>
+<p>&#x6211;&#x5011;&#x5728;&#x4F7F;&#x7528;&#x7B2C;&#x4E09;&#x65B9;&#x5EAB;&#xFF08;&#x5982;OpenCV,Boost&#x7B49;&#xFF09;&#x6642;&#xFF0C;&#x96E3;&#x514D;&#x6703;&#x9047;&#x5230;&#x76F8;&#x95DC;&#x7684;&#x5EAB;&#x7684;&#x7DE8;&#x8B6F;&#x9023;&#x63A5;&#x554F;&#x984C;&#xFF0C;&#x800C;&#x6BCF;&#x6B21;&#x91CD;&#x8907;&#x7E41;&#x96DC;&#x7684;&#x914D;&#x7F6E;&#x7684;&#x78BA;&#x8B93;&#x4EBA;&#x61CA;&#x60F1;&#xFF0C;&#x800C;pkg-config1&#x5DE5;&#x5177;&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x500B;&#x76F8;&#x5C0D;&#x7C21;&#x55AE;&#x7684;&#x5EAB;&#x7684;&#x7DE8;&#x8B6F;&#x93C8;&#x63A5;&#x65B9;&#x6CD5;&#x3002;&#x9019;&#x88E1;&#x5C31;&#x7C21;&#x55AE;&#x4ECB;&#x7D39;&#x4E00;&#x4E0B;pkg-config&#x7684;&#x4F7F;&#x7528;&#x65B9;&#x6CD5;&#x3002;</p>
+<p>&#x6211;&#x5011;&#x77E5;&#x9053;&#xFF0C;&#x7B2C;&#x4E09;&#x65B9;&#x5EAB;&#x7684;&#x4F7F;&#x7528;&#x4E3B;&#x8981;&#x6D89;&#x53CA;&#x982D;&#x6587;&#x4EF6;&#x7684;&#x8DEF;&#x5F91;&#x8A2D;&#x7F6E;&#xFF0C;&#x5EAB;&#x7684;&#x8DEF;&#x5F91;&#x8A2D;&#x7F6E;&#x4EE5;&#x53CA;&#x52D5;&#x614B;&#x5EAB;&#x7684;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x8A2D;&#x7F6E;&#x3002;&#x7576;&#x7136;&#x6709;&#x7684;&#x5EAB;&#x7684;&#x4F7F;&#x7528;&#x662F;&#x50C5;&#x50C5;&#x9700;&#x8981;&#x982D;&#x6587;&#x4EF6;&#xFF0C;&#x4F8B;&#x5982;Eigen&#x4EE5;&#x53CA;&#x5927;&#x90E8;&#x5206;Boost&#xFF0C;&#x9019;&#x6A23;&#x5C31;&#x4E0D;&#x9700;&#x8981;&#x8A2D;&#x7F6E;&#x5EAB;&#x8DEF;&#x5F91;&#x548C;&#x52D5;&#x614B;&#x5EAB;&#x7684;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x3002;pkg-config&#x901A;&#x904E;&#x8B80;&#x53D6;&#x4E00;&#x500B;<em>.pc&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x7372;&#x53D6;&#x4E86;&#x5EAB;&#x7684;&#x982D;&#x6587;&#x4EF6;&#x4F4D;&#x7F6E;&#x548C;&#x5EAB;&#x7684;&#x8DEF;&#x5F91;&#x7B49;&#x4FE1;&#x606F;&#xFF0C;&#x7136;&#x5F8C;&#x544A;&#x77E5;&#x7DE8;&#x8B6F;&#x5668;&#xFF0C;&#x5BE6;&#x73FE;&#x5EAB;&#x7684;&#x81EA;&#x52D5;&#x4F7F;&#x7528;&#x3002;&#x4E00;&#x822C;&#x4F86;&#x8AAA;&#xFF0C;</em>.pc&#x6587;&#x4EF6;&#x7684;&#x5927;&#x9AD4;&#x5167;&#x5BB9;&#x5982;&#x4E0B;&#x683C;&#x5F0F;&#xFF1A;</p>
+<pre><code class="lang-c">prefix=/usr/local
+exec_prefix=${prefix}
+includedir=${prefix}/include
+libdir=${exec_prefix}/lib
+
+Name: foo
+Description: The foo library
+Version: <span class="hljs-number">1.0</span><span class="hljs-number">.0</span>
+Cflags: -I${includedir}/foo
+Libs: -L${libdir} -lfoo
+</code></pre>
+<p>&#x5176;&#x4E2D;&#xFF0C;</p>
+<ul>
+<li>prefix&#x4E00;&#x822C;&#x662F;&#x6307;&#x5B9A;&#x5EAB;&#x7684;&#x9ED8;&#x8A8D;&#x5B89;&#x88DD;&#x8DEF;&#x5F91;</li>
+<li>exec_prefix&#x4E00;&#x822C;&#x662F;&#x6307;&#x5EAB;&#x7684;&#x53E6;&#x5916;&#x6307;&#x5B9A;&#x7684;&#x5B89;&#x88DD;&#x8DEF;&#x5F91;</li>
+<li>inludedir&#x6307;&#x5B9A;&#x5EAB;&#x7684;&#x982D;&#x6587;&#x4EF6;&#x8DEF;&#x5F91;</li>
+<li>libdir&#x6307;&#x5B9A;&#x5EAB;&#x7684;lib&#x6587;&#x4EF6;&#x7684;&#x8DEF;&#x5F91;</li>
+<li>Name&#x6307;&#x5B9A;&#x5EAB;&#x7684;&#x540D;&#x7A31;&#xFF0C;&#x6BD4;&#x5982;OpenCV&#xFF0C;Boost&#x7B49;</li>
+<li>Description&#x8868;&#x793A;&#x5EAB;&#x7684;&#x63CF;&#x8FF0;</li>
+<li>Version&#x662F;&#x7248;&#x672C;&#x865F;</li>
+<li>Cflags&#x662F;gcc&#x93C8;&#x63A5;&#x982D;&#x6587;&#x4EF6;&#x7684;&#x6307;&#x4EE4;,&#x4EE5;-I&#x7DCA;&#x63A5;&#x982D;&#x6587;&#x4EF6;&#x8DEF;&#x5F91;&#x8A2D;&#x7F6E;</li>
+<li>Libs&#x662F;gcc&#x93C8;&#x63A5;lib&#x6587;&#x4EF6;&#x7684;&#x6307;&#x4EE4;, &#x662F;-L&#x7DCA;&#x63A5;lib&#x6587;&#x4EF6;&#x8DEF;&#x5F91;&#xFF0C;-l&#x7DCA;&#x63A5;&#x6240;&#x4F7F;&#x7528;&#x7684;lib&#x7684;&#x540D;&#x5B57;&#x3002;&#x9664;&#x6B64;&#x4E4B;&#x5916;&#x9084;&#x6709;&#x53E6;&#x5916;&#x4E00;&#x7A2E;&#x8A2D;&#x7F6E;&#x65B9;&#x6CD5;&#x5C31;&#x662F;&#x76F4;&#x63A5;&#x5BEB;&#x6210;&#x6240;&#x5F15;&#x7528;&#x7684;&#x5EAB;&#x6587;&#x4EF6;&#x8DEF;&#x5F91;&#x52A0;&#x5EAB;&#x7684;&#x540D;&#x7A31;&#xFF0C;&#x5373;Libs: ${libdir}/foo.a,OpenCV&#x63D0;&#x4F9B;&#x7684;*.pc&#x6587;&#x4EF6;&#x5C31;&#x662F;&#x9019;&#x6A23;&#x5BEB;&#x7684;&#x3002;</li>
+</ul>
+<p>&#x7576;&#x7136;&#x4E26;&#x4E0D;&#x662F;&#x6BCF;&#x500B;&#x5EAB;&#x90FD;&#x6703;&#x63D0;&#x4F9B;&#x5BEB;&#x597D;&#x7684;*.pc&#x6587;&#x4EF6;&#xFF0C;OpenCV&#x7684;linux&#x7248;&#x5C31;&#x63D0;&#x4F9B;&#x4E86;opencv.pc&#x6587;&#x4EF6;&#xFF0C;&#x800C;Boost&#x5C31;&#x6C92;&#x6709;&#x63D0;&#x4F9B;&#xFF0C;&#x9019;&#x88E1;&#x5C31;&#x9700;&#x8981;&#x81EA;&#x5DF1;&#x5BEB;&#x4E00;&#x500B;&#xFF0C;&#x4E0B;&#x9762;&#x8CBC;&#x51FA;&#x4E00;&#x500B;&#x6211;&#x5BEB;&#x597D;&#x7684;boost.pc&#x6587;&#x4EF6;&#x4F5C;&#x70BA;&#x53C3;&#x8003;&#x3002;boost&#x5EAB;&#x5927;&#x90E8;&#x5206;&#x5EAB;&#x662F;&#x4E0D;&#x9700;&#x8981;&#x7DE8;&#x8B6F;&#x7684;&#xFF0C;&#x50C5;&#x9700;&#x982D;&#x6587;&#x4EF6;&#x7684;&#xFF0C;&#x800C;&#x6211;&#x6700;&#x8FD1;&#x6B63;&#x597D;&#x7528;&#x5230;&#x9700;&#x8981;&#x7DE8;&#x8B6F;&#x7684;&#x5EAB;&#x6587;&#x4EF6;filesystem&#x548C;system&#xFF0C;&#x6240;&#x4EE5;&#x9019;&#x88E1;&#x7684;&#x793A;&#x4F8B;&#x4E00;&#x500B;&#x55AE;&#x7368;&#x4F7F;&#x7528;&#x9019;&#x5169;&#x500B;&#x5EAB;&#x6587;&#x4EF6;&#x7684;&#x65B9;&#x6CD5;&#x3002;</p>
+<pre><code class="lang-c">prefix=/usr/local
+exec_prefix=${prefix}/boost-<span class="hljs-number">1.55</span><span class="hljs-number">.0</span>
+libdir=${exec_prefix}/lib
+includedir=${exec_prefix}/include
+
+Name: Boost
+Description: A C++ Libraries
+Version: <span class="hljs-number">1.55</span><span class="hljs-number">.0</span>
+Cflags: -I${includedir}
+Libs:  -L${libdir}/ -lboost_filesystem -lboost_system
+</code></pre>
+<p>&#x9019;&#x88E1;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x4E00;&#x500B;&#x554F;&#x984C;&#xFF0C;&#x5C31;&#x662F;boost&#x5EAB;&#x7684;Libs&#x8A2D;&#x7F6E;&#x5728;&#x4F7F;&#x7528;-l&#x65B9;&#x6CD5;&#x662F;&#x9700;&#x8981;&#x53BB;&#x6389;&#x524D;&#x9762;&#x7684;lib&#x524D;&#x7DB4;&#xFF08;&#x5BE6;&#x969B;&#x751F;&#x6210;&#x7684;&#x9019;&#x5169;&#x500B;&#x6587;&#x4EF6;&#x5206;&#x5225;&#x662F;libboost_filesystem.a&#x548C;libboost_system.a&#xFF0C;&#x539F;&#x56E0;&#x53EF;&#x53C3;&#x8003;Link Your Program to a Boost Library&#xFF09;&#xFF0C;&#x800C;&#x5728;&#x4F7F;&#x7528;&#x7B2C;&#x4E8C;&#x7A2E;&#x65B9;&#x6CD5;&#x7684;&#x6642;&#x5019;&#x5247;&#x4E0D;&#x9700;&#x8981;&#xFF0C;&#x5373;</p>
+<pre><code class="lang-sh">Libs:  <span class="hljs-variable">${libdir}</span>/libboost_filesystem.a  <span class="hljs-variable">${libdir}</span>/libboost_system.a
+</code></pre>
+<p>&#x4E0A;&#x9762;&#x7684;&#x65B9;&#x6CD5;&#x4F7F;&#x7528;&#x7684;&#x662F;boost&#x7684;&#x975C;&#x614B;&#x5EAB;&#xFF0C;&#x800C;&#x5C0D;&#x65BC;&#x7B2C;&#x4E00;&#x7A2E;&#x65B9;&#x6CD5;&#x93C8;&#x63A5;&#x7684;&#x662F;&#x52D5;&#x614B;&#x5EAB;&#xFF0C;&#x9019;&#x662F;&#x9700;&#x8981;&#x8A2D;&#x7F6E;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x544A;&#x77E5;&#x7CFB;&#x7D71;&#x52D5;&#x614B;&#x5EAB;&#x7684;&#x4F4D;&#x7F6E;&#xFF0C;&#x5373;&#x4F7F;&#x7528;ldconfig&#x5DE5;&#x5177;&#xFF0C;&#x4EE5;boost&#x70BA;&#x4F8B;&#xFF0C;&#x9996;&#x5148;&#x6253;&#x958B;&#x4E00;&#x500B;boost.conf&#x6587;&#x4EF6;&#xFF0C;</p>
+<pre><code class="lang-sh">$ sudo gedit /etc/ld.so.conf.d/boost.conf
+</code></pre>
+<p>&#x52A0;&#x5165;boost&#x7684;&#x5EAB;&#x6587;&#x4EF6;&#x8DEF;&#x5F91;,&#x4F8B;&#x5982;</p>
+<pre><code class="lang-sh">/usr/<span class="hljs-built_in">local</span>/boost-<span class="hljs-number">1.55</span>.<span class="hljs-number">0</span>/lib
+</code></pre>
+<p>&#x7136;&#x5F8C;&#x57F7;&#x884C;</p>
+<pre><code class="lang-sh">$ sudo ldconfig
+</code></pre>
+<p>&#x628A;boost&#x5EAB;&#x8DEF;&#x5F91;&#x8B80;&#x5165;&#x7DE9;&#x5B58;&#xFF0C;&#x4F7F;&#x7CFB;&#x7D71;&#x80FD;&#x641C;&#x5C0B;&#x5230;&#x5EAB;&#x7684;&#x4F4D;&#x7F6E;&#x3002;&#x5982;&#x679C;&#x4E0D;&#x8A2D;&#x7F6E;&#x74B0;&#x5883;&#x904B;&#x884C;&#x7A0B;&#x5E8F;&#x6642;&#xFF0C;&#x5C31;&#x6703;&#x51FA;&#x73FE;cannot open shared object file: No such file or directory&#x7684;&#x5831;&#x932F;&#x3002;</p>
+<p>&#x53E6;&#x4E00;&#x500B;&#x5F88;&#x91CD;&#x7684;&#x554F;&#x984C;&#x662F;&#x544A;&#x8A34;pkg-config&#x5DE5;&#x5177;&#x4F60;&#x70BA;&#x5EAB;&#x6240;&#x5BEB;&#x7684;<em>.pc&#x6587;&#x4EF6;&#x7684;&#x8DEF;&#x5F91;&#xFF0C;&#x9019;&#x6A23;pkg-config&#x624D;&#x80FD;&#x627E;&#x5230;</em>.pc&#x6587;&#x4EF6;&#x4E26;&#x8B80;&#x53D6;&#x5EAB;&#x7684;&#x8DEF;&#x5F91;&#x93C8;&#x63A5;&#x4FE1;&#x606F;&#x3002;&#x8A2D;&#x7F6E;&#x74B0;&#x5883;&#x8B8A;&#x91CF;</p>
+<pre><code class="lang-sh">$ sudo gedit /etc/profile
+</code></pre>
+<p>&#x52A0;&#x5165;</p>
+<pre><code class="lang-sh"><span class="hljs-built_in">export</span> PKG_CONFIG_PATH=/usr/<span class="hljs-built_in">local</span>/boost-<span class="hljs-number">1.55</span>.<span class="hljs-number">0</span>/pkgconfig:<span class="hljs-variable">$PKG_CONFIG_PATH</span>
+</code></pre>
+<p>&#x9019;&#x88E1;&#x5047;&#x8A2D;boost-1.55.0&#x7684;pkgconfig&#x6587;&#x4EF6;boost.pc&#x653E;&#x5728;&#x4E86;/usr/local/boost-1.55.0/pkgconfig&#x4E0B;&#x3002;</p>
+<p>&#x4EE5;&#x4E0A;&#x6240;&#x6709;&#x6B65;&#x9A5F;&#x6E96;&#x5099;&#x597D;&#x4E86;&#x4EE5;&#x5F8C;&#x5C31;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;pkg-config&#x4E86;&#x3002;&#x4EE5;&#x4E0A;&#x9762;&#x5DF2;&#x7D93;&#x5BEB;&#x597D;&#x7684;boost.pc&#x6587;&#x4EF6;&#x6587;&#x4EF6;&#x70BA;&#x4F8B;&#xFF0C;&#x5728;&#x547D;&#x4EE4;&#x884C;&#x4E0B;&#x76F4;&#x63A5;&#x8F38;&#x5165;</p>
+<pre><code class="lang-sh">$ pkg-config --cflags boost
+</code></pre>
+<p>&#x5176;&#x8F38;&#x51FA;&#x70BA;</p>
+<pre><code class="lang-sh">-I/usr/<span class="hljs-built_in">local</span>/boost-<span class="hljs-number">1.55</span>.<span class="hljs-number">0</span>/include
+</code></pre>
+<p>&#x8F38;&#x5165;</p>
+<pre><code class="lang-sh">$ pkg-config --libs boost
+</code></pre>
+<p>&#x8F38;&#x51FA;</p>
+<pre><code class="lang-sh">-L/usr/<span class="hljs-built_in">local</span>/boost-<span class="hljs-number">1.55</span>.<span class="hljs-number">0</span>/lib/ -lboost_filesystem -lboost_system
+</code></pre>
+<p>&#x5C0D;&#x65BC;&#x93C8;&#x63A5;&#x975C;&#x614B;&#x5EAB;&#x6642;&#xFF0C;&#x53EF;&#x4EE5;&#x52A0;&#x5165;--static&#x9078;&#x9805;&#xFF0C;&#x5373;</p>
+<pre><code class="lang-sh">$ pkg-config --libs --static boost
+</code></pre>
+<p>&#x9019;&#x6A23;&#x901A;&#x904E;&#x9019;&#x4E9B;&#x547D;&#x4EE4;&#x5C31;&#x53EF;&#x4EE5;&#x5F88;&#x65B9;&#x4FBF;&#x7684;&#x5BE6;&#x73FE;&#x7A0B;&#x5E8F;&#x7684;&#x7DE8;&#x8B6F;&#x93C8;&#x63A5;&#xFF0C;&#x4F8B;&#x5982;&#x4F7F;&#x7528;g++&#x7DE8;&#x8B6F;&#x500B;foo&#x6587;&#x4EF6;&#xFF0C;&#x8ABF;&#x7528;&#x4E86;boost&#x5EAB;&#xFF0C;&#x5247;&#x53EF;&#x4EE5;&#x57F7;&#x884C;&#x5982;&#x4E0B;&#x547D;&#x4EE4;</p>
+<pre><code class="lang-sh">$ g++ `pkg-config --cflags --libs boost` -o foo foo.cpp
+</code></pre>
+<p>&#x4EE5;&#x4E0A;&#x8A9E;&#x53E5;&#x76F8;&#x7576;&#x65BC;&#x7528;pkg-config --cflags --libs boost&#x66FF;&#x63DB;&#x4E86;-I/usr/local/boost-1.55.0/include -L/usr/local/boost-1.55.0/lib/ -lboost_filesystem -lboost_system&#xFF0C;&#x5176;&#x5BE6;&#x9084;&#x662F;g++&#x7684;&#x90A3;&#x4E9B;&#x547D;&#x4EE4;&#x9078;&#x9805;&#x3002;</p>
+<p>&#x5C0D;&#x65BC;&#x652F;&#x6301;g++&#x7DE8;&#x8B6F;&#x547D;&#x4EE4;&#x9078;&#x9805;&#x7684;&#x958B;&#x767C;&#x74B0;&#x5883;&#xFF0C;&#x4F7F;&#x7528;pkg-config&#x4E5F;&#x662F;&#x975E;&#x5E38;&#x7C21;&#x55AE;&#x7684;&#xFF0C;&#x6BD4;&#x5982;CodeBlocks&#x548C;QtCreator&#x5C31;&#x652F;&#x6301;g++&#xFF0C;gcc&#x7DE8;&#x8B6F;&#x547D;&#x4EE4;&#xFF0C;&#x5177;&#x9AD4;&#x4F7F;&#x7528;&#x65B9;&#x6CD5;&#x53EF;&#x4EE5;&#x53C3;&#x8003;&#x53E6;&#x4E00;&#x7BC7;&#x535A;&#x5BA2;&#x5982;&#x4F55;&#x5728;CodeBlocks&#x548C;Qt Creator&#x958B;&#x767C;&#x74B0;&#x5883;&#x4E0B;&#x4F7F;&#x7528;OpenCV</p>
+<p>-L/usr/local/boost-1.55.0/lib/ -lboost_filesystem -lboost_system</p>
 
                     
                     </section>
@@ -6788,10 +6839,10 @@
         </div>
 
         
-        <a href="../linux_kernel/1215.html" class="navigation navigation-prev " aria-label="Previous page: 邏輯地址，線性地址及物理地址的區別"><i class="fa fa-angle-left"></i></a>
+        <a href="../linux_system/yong_gcc_zi_zhi_library.html" class="navigation navigation-prev " aria-label="Previous page: 用gcc 自製 Library"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../linux_kernel/1217.html" class="navigation navigation-next " aria-label="Next page: 段選擇器 段描述符 段描述符表 線性地址形成"><i class="fa fa-angle-right"></i></a>
+        <a href="../assembly/index.html" class="navigation navigation-next " aria-label="Next page: Assembly"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

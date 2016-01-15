@@ -209,6 +209,7 @@
    * [動態庫的鏈接和鏈接選項-L，-rpath-link，-rpath](linux_system/1515.md)
    * [LD_LIBRARY_PATH與-L的關係](linux_system/1516.md)
    * [shell環境變量以及set,env,export的區別](linux_system/1517.md)
+   * 用gcc 自製 Library
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

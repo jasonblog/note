@@ -46,7 +46,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="41.1" data-basepath=".." data-revision="Sat Jan 16 2016 00:07:43 GMT+0800 (CST)">
+    <div class="book" data-level="41.1" data-basepath=".." data-revision="Sat Jan 16 2016 04:49:34 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -6766,12 +6766,7 @@
 <li>Git</li>
 <li>CMake (3.0 or newer)</li>
 </ul>
-<pre><code class="lang-sh">sudo apt-get install libboost1.<span class="hljs-number">55</span>-dev
-sudo apt-get install libboost-thread1.<span class="hljs-number">55</span>-dev
-sudo apt-get install libboost-filesystem1.<span class="hljs-number">55</span>-dev
-sudo apt-get install libboost-program-options1.<span class="hljs-number">55</span>-dev
-sudo apt-get install libusb-<span class="hljs-number">1.0</span>-<span class="hljs-number">0</span>-dev
-sudo apt-get install libopencv-dev
+<pre><code class="lang-sh">sudo apt-get install libboost1.<span class="hljs-number">55</span>-dev markdown libsdl2-dev libboost-thread1.<span class="hljs-number">55</span>-dev libboost-filesystem1.<span class="hljs-number">55</span>-dev libboost-program-options1.<span class="hljs-number">55</span>-dev libusb-<span class="hljs-number">1.0</span>-<span class="hljs-number">0</span>-dev libopencv-dev
 </code></pre>
 <h2 id="build-these-libraries-first">Build these libraries first</h2>
 <pre><code>mkdir ~/osvr 
@@ -6783,6 +6778,7 @@ cd osvr
 <span class="hljs-built_in">cd</span> libfunctionality
 mkdir build ; <span class="hljs-built_in">cd</span> build
 cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_INSTALL_PREFIX=/usr/<span class="hljs-built_in">local</span>/libfunctionality
+make -j8
 sudo make install
 </code></pre>
 <ul>
@@ -6793,13 +6789,21 @@ git <span class="hljs-built_in">clone</span> --recursive https://github.com/VRPN
 <span class="hljs-built_in">cd</span> jsoncpp
 mkdir build ; <span class="hljs-built_in">cd</span> build
 cmake .. -DJSONCPP_WITH_CMAKE_PACKAGE=ON -DJSONCPP_LIB_BUILD_SHARED=OFF -DCMAKE_CXX_FLAGS=<span class="hljs-operator">-f</span>PIC -DCMAKE_INSTALL_PREFIX=/usr/<span class="hljs-built_in">local</span>/jsoncpp
+make -j8
 sudo make install
+</code></pre>
+<ul>
+<li>Adding below to .bashrc file</li>
+</ul>
+<pre><code class="lang-sh">PKG_CONFIG_PATH=<span class="hljs-variable">$PKG_CONFIG_PATH</span>:/usr/<span class="hljs-built_in">local</span>/jsoncpp/lib/pkgconfig
+<span class="hljs-built_in">export</span> PKG_CONFIG_PATH
 </code></pre>
 <h2 id="ready-to-build-osvr-core">Ready to build OSVR-Core</h2>
 <pre><code class="lang-sh">git <span class="hljs-built_in">clone</span> --recursive https://github.com/OSVR/OSVR-Core.git
 <span class="hljs-built_in">cd</span> OSVR-Core
 mkdir build ; <span class="hljs-built_in">cd</span> build
 cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_INSTALL_PREFIX=/usr/<span class="hljs-built_in">local</span>/osvr
+make -j8
 sudo make install
 </code></pre>
 <ul>

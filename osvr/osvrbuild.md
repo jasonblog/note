@@ -2,7 +2,7 @@
 
 
 ## Compiler: Clang or GCC or G++
-- need g++ for 4.8 or newer
+- need g++ 4.8 or newer
 
 - You will need to build jsoncpp and libfunctionality separately from OSVR-Core : see http://wiki.osvr.com/doku.php?id=startingcore
 

@@ -427,5 +427,5 @@
    * [閱讀他人的程式碼](treacecode/yue_du_ta_ren_de_cheng_shi_ma.md)
        * [讀懂程式碼，使心法皆為我所用](treacecode/du_dong_cheng_shi_ma_ff0c_shi_xin_fa_jie_wei_wo_su.md)
        * [摸清架構，便可輕鬆掌握全貌](treacecode/mo_qing_jia_gou_ff0c_bian_ke_qing_song_zhang_wo_qu.md)
-       * 優質工具在手，讀懂程式非難事
+       * [優質工具在手，讀懂程式非難事](treacecode/you_zhi_gong_ju_zai_shou_ff0c_du_dong_cheng_shi_fe.md)
 

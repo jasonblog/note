@@ -426,4 +426,5 @@
    * [磨練閱讀程式技巧，不受黑盒限制](treacecode/mo_lian_yue_du_cheng_shi_ji_qiao_ff0c_bu_shou_hei_.md)
    * [閱讀他人的程式碼](treacecode/yue_du_ta_ren_de_cheng_shi_ma.md)
        * [讀懂程式碼，使心法皆為我所用](treacecode/du_dong_cheng_shi_ma_ff0c_shi_xin_fa_jie_wei_wo_su.md)
+       * 摸清架構，便可輕鬆掌握全貌
 

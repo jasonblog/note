@@ -430,4 +430,5 @@
        * [摸清架構，便可輕鬆掌握全貌](treacecode/mo_qing_jia_gou_ff0c_bian_ke_qing_song_zhang_wo_qu.md)
        * [優質工具在手，讀懂程式非難事](treacecode/you_zhi_gong_ju_zai_shou_ff0c_du_dong_cheng_shi_fe.md)
        * [望文生義，進而推敲組件的作用](treacecode/wang_wen_sheng_yi_ff0c_jin_er_tui_qiao_zu_jian_de_.md)
+       * 找到程式入口，再由上而下抽絲剝繭
 

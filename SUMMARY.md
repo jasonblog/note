@@ -425,4 +425,5 @@
    * [我的原始碼閱讀之道](treacecode/wo_de_yuan_shi_ma_yue_du_zhi_dao.md)
    * [磨練閱讀程式技巧，不受黑盒限制](treacecode/mo_lian_yue_du_cheng_shi_ji_qiao_ff0c_bu_shou_hei_.md)
    * [閱讀他人的程式碼](treacecode/yue_du_ta_ren_de_cheng_shi_ma.md)
+       * 讀懂程式碼，使心法皆為我所用
 

@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="8.5" data-basepath=".." data-revision="Sat Jan 23 2016 00:28:49 GMT+0800 (CST)">
+    <div class="book" data-level="8.5" data-basepath=".." data-revision="Fri Jan 29 2016 01:53:25 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -7185,6 +7185,897 @@ inode &#x7D50;&#x69CB;&#x5728; mknod &#x6307;&#x4EE4;&#x5EFA;&#x7ACB; device fil
 &#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#xFF0C;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x60F3;&#x5340;&#x5206; open &#x7CFB;&#x7D71;&#x547C;&#x53EB;&#x7684;&#x8A71;&#xFF0C;&#x61C9;&#x8A72;&#x900F;&#x904E; file &#x7D50;&#x69CB;&#x7684;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x79C1;&#x6709;&#x6307;&#x6A19;&#x4F86;&#x9032;&#x884C;&#xFF0C;open handler &#x914D;&#x7F6E;&#x8CC7;&#x6E90;&#x6642;&#x5C07;&#x4E4B;&#x7D66;&#x300C;file-&gt;private_data&#x300D;&#xFF0C;close handler &#x91CB;&#x653E;&#x8CC7;&#x6E90;&#x6642;&#x4E5F;&#x662F;&#x5F9E; &#x300C;file-&gt;private_data&#x300D;&#x5C07;&#x4E4B;&#x91CB;&#x653E;&#x3002;
 inode &#x7D50;&#x69CB;&#x7684;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x79C1;&#x6709;&#x6307;&#x6A19;&#xFF0C;&#x53EF;&#x4EE5;&#x5728;&#x5B58;&#x653E; device file &#x76F8;&#x95DC;&#x8CC7;&#x8A0A;&#x6642;&#x4F7F;&#x7528;&#x3002;
 &#x7236; process &#x900F;&#x904E; fork() &#x7CFB;&#x7D71;&#x547C;&#x53EB;&#x7522;&#x751F;&#x5B50; process &#x6642;&#xFF0C;&#x6A94;&#x6848; handle &#x6703;&#x88AB;&#x5171;&#x7528;&#xFF0C;&#x6240;&#x4EE5; file &#x7D50;&#x69CB;&#x53EA;&#x6703;&#x6709;&#x4E00;&#x500B;&#xFF0C;&#x4F46;&#x6B64;&#x6642;&#x56E0;&#x70BA; file &#x6703;&#x88AB;&#x5169;&#x500B; process &#x5171;&#x540C;&#x4F7F;&#x7528;&#xFF0C;&#x6240;&#x4EE5; reference count &#x6539;&#x6210;&#x300C;2&#x300D;&#xFF0C;&#x5728;&#x9019;&#x5169;&#x500B; process &#x547C;&#x53EB; close() &#x6642;&#xFF0C;reference count &#x90FD;&#x6703;&#x6E1B;&#x4E00;&#xFF0C;&#x76F4;&#x5230; reference &#x8B8A;&#x6210;&#x300C;0&#x300D;&#x6642;&#xFF0C;&#x624D;&#x6703;&#x547C;&#x53EB;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684; close handler&#xFF0C;&#x4E4B;&#x5F8C; kernel &#x6703;&#x91CB;&#x653E;&#x4E0D;&#x518D;&#x9700;&#x8981;&#x7528;&#x5230;&#x7684; file &#x7D50;&#x69CB;&#x3002;</p>
+<p>&#x4F7F;&#x7528; open &#x8207; close &#x7684;&#x7BC4;&#x4F8B;&#x7A0B;&#x5F0F; 
+&#x9019;&#x96BB;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x6703;&#x767B;&#x8A18; major number&#xFF0C;&#x53EA;&#x652F;&#x63F4; open &#x8207; close handler&#x3002;</p>
+<pre><code class="lang-c">
+<span class="hljs-comment">/*
+ * devone.c - static registration major number with legacy interface
+ *
+ */</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/init.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/module.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/types.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/kernel.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/fs.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/cdev.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/sched.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;asm/current.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;asm/uaccess.h&gt;</span></span>
+
+MODULE_LICENSE(<span class="hljs-string">&quot;Dual BSD/GPL&quot;</span>);
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> DRIVER_NAME <span class="hljs-string">&quot;devone&quot;</span></span>
+
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> devone_major = <span class="hljs-number">0</span>;
+module_param(devone_major, uint, <span class="hljs-number">0</span>);
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">devone_open</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> inode *inode, <span class="hljs-keyword">struct</span> file *file)</span>
+</span>{
+    printk(<span class="hljs-string">&quot;%s: major %d minor %d (pid %d)\n&quot;</span>, __func__,
+           imajor(inode),
+           iminor(inode),
+           current-&gt;pid
+          );
+
+    inode-&gt;i_private = inode;
+    file-&gt;private_data = file;
+
+    printk(<span class="hljs-string">&quot;  i_private=%p private_data=%p\n&quot;</span>,
+           inode-&gt;i_private, file-&gt;private_data);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;     <span class="hljs-comment">/* success */</span>
+}
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">devone_close</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> inode *inode, <span class="hljs-keyword">struct</span> file *file)</span>
+</span>{
+    printk(<span class="hljs-string">&quot;%s: major %d minor %d (pid %d)\n&quot;</span>, __func__,
+           imajor(inode),
+           iminor(inode),
+           current-&gt;pid
+          );
+    printk(<span class="hljs-string">&quot;  i_private=%p private_data=%p\n&quot;</span>,
+           inode-&gt;i_private, file-&gt;private_data);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;     <span class="hljs-comment">/* success */</span>
+}
+
+<span class="hljs-keyword">struct</span> file_operations devone_fops = {
+    .open = devone_open,
+    .release = devone_close,
+};
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">devone_init</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">int</span> major;
+    <span class="hljs-keyword">int</span> ret = <span class="hljs-number">0</span>;
+
+    major = register_chrdev(devone_major, DRIVER_NAME, &amp;devone_fops);
+    <span class="hljs-keyword">if</span> ((devone_major &gt; <span class="hljs-number">0</span> &amp;&amp; major != <span class="hljs-number">0</span>) ||        <span class="hljs-comment">/* static allocation */</span>
+            (devone_major == <span class="hljs-number">0</span> &amp;&amp; major &lt; <span class="hljs-number">0</span>) ||    <span class="hljs-comment">/* dynamic allocation */</span>
+            major &lt; <span class="hljs-number">0</span>) {                           <span class="hljs-comment">/* else */</span>
+        printk(<span class="hljs-string">&quot;%s driver registration error\n&quot;</span>, DRIVER_NAME);
+        ret = major;
+        <span class="hljs-keyword">goto</span> error;
+    }
+    <span class="hljs-keyword">if</span> (devone_major == <span class="hljs-number">0</span>) {   <span class="hljs-comment">/* dynamic allocation */</span>
+        devone_major = major;
+    }
+
+    printk(<span class="hljs-string">&quot;%s driver(major %d) installed.\n&quot;</span>, DRIVER_NAME, devone_major);
+
+error:
+    <span class="hljs-keyword">return</span> (ret);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">devone_exit</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    unregister_chrdev(devone_major, DRIVER_NAME);
+
+    printk(<span class="hljs-string">&quot;%s driver removed.\n&quot;</span>, DRIVER_NAME);
+
+}
+
+module_init(devone_init);
+module_exit(devone_exit);
+</code></pre>
+<p><code>Major number</code> &#x662F;&#x4EE5; register_chrdev()
+&#x767B;&#x8A18;&#x7684;&#xFF0C;&#x7B2C;&#x4E00;&#x500B;&#x5F15;&#x6578;&#x50B3;&#x5165;0&#x7684;&#x8A71;&#xFF0C;&#x5C31;&#x6703;&#x52D5;&#x614B;&#x5206;&#x914D;&#xFF0C;&#x4F46;&#x662F;&#x70BA;&#x4E86;&#x5728; insmod &#x6642;&#x53EF;&#x4EE5;&#x900F;&#x904E;&#x5F15;&#x6578;&#x6307;&#x5B9A;&#xFF0C;&#x6240;&#x4EE5;&#x7528;&#x4E86; module_param &#x5DE8;&#x96C6;&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-keyword">static</span> <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> devone_major = <span class="hljs-number">0</span>; 
+module_param(devone_major, uint, <span class="hljs-number">0</span>);
+</code></pre>
+<p>module_param &#x5DE8;&#x96C6;&#x7684;&#x7B2C;&#x4E8C;&#x5F15;&#x6578;&#x662F;&#x8B8A;&#x6578;&#x7684;&#x8CC7;&#x6599;&#x578B;&#x5225;&#xFF0C;&#x7528;&#x4E86;&#x9019;&#x500B;&#x5DE8;&#x96C6;&#x5F8C;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x4E0B;&#x5217;&#x65B9;&#x5F0F;&#x900F;&#x904E;&#x5F15;&#x6578;&#x6539;&#x8B8A;&#x5168;&#x57DF;&#x8B8A;&#x6578;&#x7684;&#x521D;&#x59CB;&#x503C;:</p>
+<pre><code class="lang-c">/sbin/insmod ./sample.ko devone_major=<span class="hljs-number">261</span>
+</code></pre>
+<p>open &#x8207; close handler &#x662F;&#x5728; process context &#x5167;&#x904B;&#x4F5C;&#x7684;&#xFF0C;&#x6240;&#x4EE5;&#x53EF;&#x4EE5;&#x900F;&#x904E; current &#x5DE8;&#x96C6;&#x53D6;&#x5F97;&#x547C;&#x53EB; open &#x6216; close &#x7684; process &#x8CC7;&#x8A0A;&#xFF0C;&#x4F7F;&#x7528; current &#x5DE8;&#x96C6;&#xFF0C;&#x8981;&#x5F15;&#x5165;&#x5169;&#x500B;&#x6A19;&#x982D;&#x6A94;&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/sched.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;asm/current.h&gt;</span></span>
+</code></pre>
+<p>open handler &#x6703;&#x628A; inode &#x7D50;&#x69CB;&#x8207; file &#x7D50;&#x69CB;&#x7684;&#x6307;&#x6A19;&#x5206;&#x5225;&#x653E;&#x5230;&#x5404;&#x81EA;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x79C1;&#x6709;&#x6210;&#x54E1;&#x5167;</p>
+<ul>
+<li>Makefile </li>
+</ul>
+<pre><code class="lang-c">CFILES = devone.c 
+
+obj-m += sample.o
+sample-objs := $(CFILES:.c=.o)
+
+all:
+    make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
+
+clean:
+    make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
+</code></pre>
+<p>make &#x4E4B;&#x5F8C;&#x5F97;&#x5230; sample.ko &#xFF0C;&#x63A5;&#x8457;&#x8F09;&#x5165;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#xFF0C;&#x700F;&#x89BD;&#x300C;/proc/devices&#x300D;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x5206;&#x914D;&#x7684; major number&#xFF0C;&#x518D;&#x7528;&#x9019;&#x500B;&#x865F;&#x78BC;&#x900F;&#x904E; mknod &#x5EFA;&#x7ACB; device file&#xFF1A; </p>
+<pre><code class="lang-c">sudo /sbin/insmod ./sample.ko 
+/sbin/lsmod | grep sample 
+cat /proc/devices | grep devone 
+sudo /bin/mknod /dev/devone c <span class="hljs-number">250</span> <span class="hljs-number">0</span>
+</code></pre>
+<p>ls -l /dev/devone 
+&#x53EF;&#x4EE5;&#x770B;&#x5230; device file &#x7684;&#x6700;&#x521D;&#x6B0A;&#x9650;&#x662F;&#x300C;644&#x300D;&#xFF0C;&#x5982;&#x679C;&#x8981;&#x8B93;&#x4E00;&#x822C;&#x4F7F;&#x7528;&#x8005;&#x4E5F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#xFF0C;&#x5C31;&#x5FC5;&#x9808;&#x4FEE;&#x6539;&#x6B0A;&#x9650;&#xFF1A;</p>
+<pre><code class="lang-c">sudo /bin/insmod --mode=666 /dev/devone c `grep devone /proc/devices | awk &apos;{print $1}&apos;` 0
+</code></pre>
+<p>&#x63A5;&#x8457;&#x662F; user process &#x7684;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#xFF0C;&#x53EA;&#x6703;&#x6253;&#x958B;&#x3001;&#x63A5;&#x8457;&#x95DC;&#x9589; device file&#x3002; </p>
+<ul>
+<li>simple.c </li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-comment">/*
+ * # cc simple.c &amp;&amp; ./a.out
+ *
+ */</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/time.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/stat.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;fcntl.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;errno.h&gt;</span></span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> DEVFILE <span class="hljs-string">&quot;/dev/devone&quot;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">open_file</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">int</span> fd;
+
+    fd = open(DEVFILE, O_RDWR);
+    <span class="hljs-keyword">if</span> (fd == -<span class="hljs-number">1</span>) {
+        perror(<span class="hljs-string">&quot;open&quot;</span>);
+    }
+    <span class="hljs-keyword">return</span> (fd);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">close_file</span><span class="hljs-params">(<span class="hljs-keyword">int</span> fd)</span>
+</span>{
+    <span class="hljs-keyword">if</span> (close(fd) != <span class="hljs-number">0</span>) {
+        perror(<span class="hljs-string">&quot;close&quot;</span>);
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">int</span> fd;
+
+    fd = open_file();
+
+    sleep(<span class="hljs-number">20</span>);
+
+    close_file(fd);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>&#x9023;&#x7E8C;&#x57F7;&#x884C;&#x9019;&#x500B;&#x7A0B;&#x5F0F;&#x5169;&#x6B21;&#xFF0C;kernel buffer &#x6703;&#x986F;&#x793A;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684;&#x8A0A;&#x606F;&#xFF0C;&#x53EF;&#x4EE5;&#x767C;&#x73FE; inode &#x7D50;&#x69CB;&#x7684;&#x6307;&#x6A19;&#x90FD;&#x662F;&#x540C;&#x4E00;&#x500B;&#xFF0C;&#x4F46; file &#x7D50;&#x679C;&#x6307;&#x6A19;&#x5247;&#x4E0D;&#x540C;&#x3002; </p>
+<p>&#x63A5;&#x8457;&#x900F;&#x904E; fork() &#x8907;&#x88FD; process &#x770B;&#x770B;&#xFF0C;&#x5B50; process &#x95DC;&#x9589;&#x4E4B;&#x524D;&#x6253;&#x958B;&#x7684; file handle&#xFF0C;&#x7236; process &#x4E5F;&#x6703;&#x95DC;&#x9589; file handle&#x3002;</p>
+<ul>
+<li>fork.c </li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-comment">/*
+ * # cc fork.c &amp;&amp; ./a.out
+ *
+ */</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/time.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/stat.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;fcntl.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;errno.h&gt;</span></span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> DEVFILE <span class="hljs-string">&quot;/dev/devone&quot;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">open_file</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">int</span> fd;
+
+    fd = open(DEVFILE, O_RDWR);
+    <span class="hljs-keyword">if</span> (fd == -<span class="hljs-number">1</span>) {
+        perror(<span class="hljs-string">&quot;open&quot;</span>);
+    }
+    <span class="hljs-keyword">return</span> (fd);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">close_file</span><span class="hljs-params">(<span class="hljs-keyword">int</span> fd)</span>
+</span>{
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s called\n&quot;</span>, __func__);
+    <span class="hljs-keyword">if</span> (close(fd) != <span class="hljs-number">0</span>) {
+        perror(<span class="hljs-string">&quot;close&quot;</span>);
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">int</span> fd;
+    <span class="hljs-keyword">int</span> status;
+
+    fd = open_file();
+
+    <span class="hljs-keyword">if</span> (fork() == <span class="hljs-number">0</span>) {  <span class="hljs-comment">/* child process */</span>
+        sleep(<span class="hljs-number">3</span>);
+        close_file(fd);
+        <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);
+    }
+    wait(&amp;status);
+    sleep(<span class="hljs-number">10</span>);
+    close_file(fd);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>&#x7DE8;&#x8B6F;&#x57F7;&#x884C;&#x5F8C;&#xFF0C;&#x6BD4;&#x5C0D; kernel buffer &#x7684;&#x8A0A;&#x606F;&#xFF0C;&#x53EF;&#x4EE5;&#x767C;&#x73FE;&#x6700;&#x521D; close() &#x6642;&#xFF0C;&#x4E0D;&#x6703;&#x547C;&#x53EB;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684; close handler&#x3002; 
+&#x4F7F;&#x7528; register_chrdev() &#x6642;&#xFF0C;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x53EF;&#x4EE5;&#x81EA;&#x7531;&#x4F7F;&#x7528; minor number&#xFF0C;&#x5C31;&#x7B97; mknod &#x96A8;&#x610F;&#x6307;&#x5B9A; minor number&#xFF0C;user process &#x9084;&#x662F;&#x53EF;&#x4EE5;&#x958B;&#x555F;&#x6210;&#x529F;&#xFF0C;&#x4F46;&#x662F;&#x53EF;&#x4EE5;&#x7528;&#x5230;&#x7684; minor number &#x7BC4;&#x570D;&#x50C5;&#x9650; 0 ~ 255&#x3002; 
+&#x4F7F;&#x7528; cdev_add() &#x6642;&#xFF0C;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x9700;&#x8981;&#x660E;&#x78BA;&#x6307;&#x51FA;&#x60F3;&#x4F7F;&#x7528;&#x7684; minor number &#x7BC4;&#x570D;&#x3002; </p>
+<p>&#x4F7F;&#x7528; open &#x8207; close &#x7684;&#x7BC4;&#x4F8B;&#x7A0B;&#x5F0F; - cdev_add() [kernel 2.6 &#x63A8;&#x85A6;] 
+&#x628A;&#x4E0A;&#x4E00;&#x7BC0;&#x7684;&#x7A0B;&#x5F0F;&#x6539;&#x5BEB;&#x6210;&#x4F7F;&#x7528; cdev_add() &#x7684;&#x5F62;&#x5F0F;&#xFF0C;&#x4E0D;&#x540C;&#x7684;&#x5730;&#x65B9;&#x53EA;&#x6709;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684;&#x8F09;&#x5165;&#x3001;&#x5378;&#x9664;&#x90E8;&#x5206;&#xFF0C;open &#x8207; close handler &#x76F4;&#x63A5;&#x5EF6;&#x7528;&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-comment">/*
+ * devone.c
+ *
+ */</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/init.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/module.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/types.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/kernel.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/fs.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/cdev.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/sched.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;asm/current.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;asm/uaccess.h&gt;</span></span>
+
+MODULE_LICENSE(<span class="hljs-string">&quot;Dual BSD/GPL&quot;</span>);
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> DRIVER_NAME <span class="hljs-string">&quot;devone&quot;</span></span>
+
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> devone_devs = <span class="hljs-number">2</span>;        <span class="hljs-comment">/* device count */</span>
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> devone_major = <span class="hljs-number">0</span>;       <span class="hljs-comment">/* dynamic allocation */</span>
+module_param(devone_major, uint, <span class="hljs-number">0</span>);
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">struct</span> cdev devone_cdev;
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">devone_open</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> inode *inode, <span class="hljs-keyword">struct</span> file *file)</span>
+</span>{
+    printk(<span class="hljs-string">&quot;%s: major %d minor %d (pid %d)\n&quot;</span>, __func__,
+           imajor(inode),
+           iminor(inode),
+           current-&gt;pid
+          );
+
+    inode-&gt;i_private = inode;
+    file-&gt;private_data = file;
+
+    printk(<span class="hljs-string">&quot;  i_private=%p private_data=%p\n&quot;</span>,
+           inode-&gt;i_private, file-&gt;private_data);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">devone_close</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> inode *inode, <span class="hljs-keyword">struct</span> file *file)</span>
+</span>{
+    printk(<span class="hljs-string">&quot;%s: major %d minor %d (pid %d)\n&quot;</span>, __func__,
+           imajor(inode),
+           iminor(inode),
+           current-&gt;pid
+          );
+    printk(<span class="hljs-string">&quot;  i_private=%p private_data=%p\n&quot;</span>,
+           inode-&gt;i_private, file-&gt;private_data);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-keyword">struct</span> file_operations devone_fops = {
+    .open = devone_open,
+    .release = devone_close,
+};
+
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">devone_init</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">dev_t</span> dev = MKDEV(devone_major, <span class="hljs-number">0</span>);
+    <span class="hljs-keyword">int</span> alloc_ret = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">int</span> major;
+    <span class="hljs-keyword">int</span> cdev_err = <span class="hljs-number">0</span>;
+
+    alloc_ret = alloc_chrdev_region(&amp;dev, <span class="hljs-number">0</span>, devone_devs, DRIVER_NAME);
+    <span class="hljs-keyword">if</span> (alloc_ret)
+        <span class="hljs-keyword">goto</span> error;
+    devone_major = major = MAJOR(dev);
+
+    cdev_init(&amp;devone_cdev, &amp;devone_fops);
+    devone_cdev.owner = THIS_MODULE;
+
+    cdev_err = cdev_add(&amp;devone_cdev, MKDEV(devone_major, <span class="hljs-number">0</span>), devone_devs);
+    <span class="hljs-keyword">if</span> (cdev_err)
+        <span class="hljs-keyword">goto</span> error;
+
+    printk(KERN_ALERT <span class="hljs-string">&quot;%s driver(major %d) installed.\n&quot;</span>, DRIVER_NAME, major);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+
+error:
+    <span class="hljs-keyword">if</span> (cdev_err == <span class="hljs-number">0</span>)
+        cdev_del(&amp;devone_cdev);
+
+    <span class="hljs-keyword">if</span> (alloc_ret == <span class="hljs-number">0</span>)
+        unregister_chrdev_region(dev, devone_devs);
+
+    <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">devone_exit</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">dev_t</span> dev = MKDEV(devone_major, <span class="hljs-number">0</span>);
+
+    cdev_del(&amp;devone_cdev);
+    unregister_chrdev_region(dev, devone_devs);
+
+    printk(KERN_ALERT <span class="hljs-string">&quot;%s driver removed.\n&quot;</span>, DRIVER_NAME);
+}
+
+module_init(devone_init);
+module_exit(devone_exit);
+</code></pre>
+<p>Makefile &#x540C;&#x4E0A;&#x4F8B; </p>
+<p>devone_devs &#x5168;&#x57DF;&#x8B8A;&#x6578;&#x70BA;&#x4F7F;&#x7528;&#x7684; minor number &#x500B;&#x6578;&#xFF0C;&#x6B64;&#x7A0B;&#x5F0F;&#x4EE5; 2 &#x70BA;&#x521D;&#x59CB;&#x503C;&#xFF0C;&#x6240;&#x4EE5;&#x53EA;&#x6709;&#x300C;0&#x300D;&#x8207;&#x300C;1&#x300D;&#x9019;&#x5169;&#x500B; minor number &#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x3002; 
+&#x5373;&#x4F7F;&#x7A7A;&#x7528; <code>mknod</code> &#x5EFA;&#x7ACB;&#x4E86; minor number 0 ~ 3 &#x7684;&#x88DD;&#x7F6E;&#x6A94;&#xFF0C;user process &#x4E5F;&#x53EA;&#x80FD; open &#x300C;0&#x300D;&#x6216;&#x300C;1&#x300D;&#x7684;&#x88DD;&#x7F6E;&#x6A94;&#xFF0C;&#x5C0D;&#x65BC;&#x300C;2&#x300D;&#x53CA;&#x300C;3&#x300D;&#x7684;&#x88DD;&#x7F6E;&#x6A94;&#x6703;&#x7522;&#x751F; No such device or address &#x7684;&#x932F;&#x8AA4;&#x8A0A;&#x606F;&#x3002; 
+user process &#x7684;&#x7BC4;&#x4F8B;&#x7A0B;&#x5F0F;&#x78BC;&#x5982;&#x4E0B;(simple.c)&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-comment">/*
+ * # cc simple.c &amp;&amp; ./a.out
+ *
+ */</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/time.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/stat.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;fcntl.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;errno.h&gt;</span></span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> DEVFILE <span class="hljs-string">&quot;/dev/devone&quot;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> DEVCOUNT <span class="hljs-number">4</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">open_file</span><span class="hljs-params">(<span class="hljs-keyword">char</span> *filename)</span>
+</span>{
+    <span class="hljs-keyword">int</span> fd;
+
+    fd = open(filename, O_RDWR);
+    <span class="hljs-keyword">if</span> (fd == -<span class="hljs-number">1</span>) {
+        perror(<span class="hljs-string">&quot;open&quot;</span>);
+    }
+    <span class="hljs-keyword">return</span> (fd);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">close_file</span><span class="hljs-params">(<span class="hljs-keyword">int</span> fd)</span>
+</span>{
+    <span class="hljs-keyword">if</span> (close(fd) != <span class="hljs-number">0</span>) {
+        perror(<span class="hljs-string">&quot;close&quot;</span>);
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">int</span> fd[DEVCOUNT];
+    <span class="hljs-keyword">int</span> i;
+    <span class="hljs-keyword">char</span> file[BUFSIZ];
+
+    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span> ; i &lt; DEVCOUNT ; i++) {
+        <span class="hljs-built_in">snprintf</span>(file, <span class="hljs-keyword">sizeof</span>(file), <span class="hljs-string">&quot;%s%d&quot;</span>,DEVFILE, i);
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s\n&quot;</span>, file);
+        fd[i] = open_file(file);
+    }
+
+    sleep(<span class="hljs-number">5</span>);
+
+    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span> ; i &lt; DEVCOUNT ; i++) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;closing fd[%d]\n&quot;</span>, i);
+        close_file(fd[i]);
+    }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>read Handler &#x8207; write Handler 
+&#x9019;&#x908A;&#x8981;&#x4ECB;&#x7D39; read &#x8207; write handler &#x7684;&#x5BE6;&#x4F5C;&#x65B9;&#x5F0F;&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-keyword">ssize_t</span> *read(<span class="hljs-keyword">struct</span> file *filp, <span class="hljs-keyword">char</span> __user *buf, <span class="hljs-keyword">size_t</span> count, <span class="hljs-keyword">loff_t</span> *f_pos);
+</code></pre>
+<p>&#x53EA;&#x8981;&#x9019;&#x6A23;&#x5B9A;&#x7FA9; handler&#xFF0C;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x5C31;&#x80FD;&#x628A;&#x8CC7;&#x6599;&#x50B3;&#x7D66; user process&#x3002; 
+filp &#x5F15;&#x6578;&#x6307;&#x5411;&#x958B;&#x555F;&#x88DD;&#x7F6E;&#x6A94;&#x6642; kernel &#x5EFA;&#x7ACB;&#x7684; file &#x7D50;&#x69CB;&#xFF0C;&#x8DDF; open &#x6536;&#x5230;&#x7684;&#x6307;&#x6A19;&#x662F;&#x540C;&#x4E00;&#x500B;&#xFF0C;&#x56E0;&#x6B64;&#xFF0C;open handler &#x8A2D;&#x7D66;&#x300C;filp-&gt;private_data&#x300D;&#x6210;&#x54E1;&#x7684;&#x6307;&#x6A19;&#xFF0C;&#x5728; read handler &#x88E1;&#x4E5F;&#x53EF;&#x4EE5;&#x62FF;&#x4F86;&#x7528;&#x3002; 
+buf &#x5F15;&#x6578;&#x662F; user process &#x547C;&#x53EB; read() &#x6642;&#x6307;&#x5B9A;&#x7684;&#x7DE9;&#x885D;&#x5340;&#x6307;&#x6A19;&#xFF0C;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7121;&#x6CD5;&#x76F4;&#x63A5;&#x53D6;&#x7528; buf &#x6307;&#x6A19;&#xFF0C;&#x5FC5;&#x9808;&#x900F;&#x904E; copy_to_user() &#x9019;&#x500B; kernel &#x63D0;&#x4F9B;&#x7684;&#x51FD;&#x5F0F;&#x628A;&#x8CC7;&#x6599;&#x8907;&#x88FD;&#x904E;&#x53BB;&#xFF0C;&#x539F;&#x56E0;&#x662F;&#x4E4B;&#x524D;&#x6240;&#x63D0;&#x6709;&#x95DC;&#x300C;kernel space&#x300D;&#x8207;&#x300C;user space&#x300D;&#x7684;&#x4E0D;&#x540C;&#x3002; 
+count &#x5F15;&#x6578;&#x662F; user process &#x547C;&#x53EB; read() &#x6642;&#x63D0;&#x4F9B;&#x7684;&#x7DE9;&#x885D;&#x5340;&#x7A7A;&#x9593;&#x3002; 
+f_pos &#x5F15;&#x6578;&#x662F; offset&#xFF0C;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x53EF;&#x4EE5;&#x8996;&#x9700;&#x8981;&#x5C07;&#x4E4B;&#x66F4;&#x65B0;&#x3002; </p>
+<pre><code class="lang-c"><span class="hljs-keyword">ssize_t</span> *write(<span class="hljs-keyword">struct</span> file *filp, <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> __user *buf, <span class="hljs-keyword">size_t</span> count, <span class="hljs-keyword">loff_t</span> *f_pos);
+</code></pre>
+<p>write handler &#x7684; prototype &#x8207; read handler &#x5927;&#x81F4;&#x76F8;&#x540C;&#x3002; 
+write handler &#x662F;&#x5728; user process &#x8981;&#x50B3;&#x8CC7;&#x6599;&#x7D66;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x6642;&#x4F7F;&#x7528;&#x7684;&#xFF0C;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x9700;&#x900F;&#x904E; kernel &#x63D0;&#x4F9B;&#x7684; copy_from_user() &#x51FD;&#x5F0F;&#x5F9E; buf &#x5F15;&#x6578;&#x8B80;&#x5165;&#x8CC7;&#x6599;&#xFF0C;&#x7DE9;&#x885D;&#x5340;&#x7684;&#x5927;&#x5C0F;&#x662F; count bytes&#x3002; 
+&#x7528; read &#x8207; write &#x5BEB;&#x500B;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x6E2C;&#x8A66;&#x770B;&#x770B;&#xFF0C;User Process &#x5728;&#x4E00;&#x958B;&#x59CB;&#x5728;&#x8B80;&#x6A94;&#x6642;&#xFF0C;&#x6703;&#x5168;&#x8B80;&#x5230; 0xff&#xFF0C;&#x4E4B;&#x5F8C;&#x518D;&#x5BEB;&#x5165; 1 byte &#x8CC7;&#x6599;&#xFF0C;&#x518D;&#x8B80;&#x51FA;&#x5BEB;&#x5165;&#x5F8C;&#x7684;&#x8CC7;&#x6599;&#x3002; </p>
+<ul>
+<li>devone.c </li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-comment">/*
+ * devone.c
+ *
+ */</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/init.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/module.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/types.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/kernel.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/fs.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/cdev.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/sched.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;asm/current.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;asm/uaccess.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/slab.h&gt;</span></span>
+
+MODULE_LICENSE(<span class="hljs-string">&quot;Dual BSD/GPL&quot;</span>);
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> DRIVER_NAME <span class="hljs-string">&quot;devone&quot;</span></span>
+
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> devone_devs = <span class="hljs-number">1</span>;        <span class="hljs-comment">/* device count */</span>
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> devone_major = <span class="hljs-number">0</span>;       <span class="hljs-comment">/* dynamic allocation */</span>
+module_param(devone_major, uint, <span class="hljs-number">0</span>);
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">struct</span> cdev devone_cdev;
+
+<span class="hljs-keyword">struct</span> devone_data {
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> val;
+    <span class="hljs-keyword">rwlock_t</span> lock;
+};
+
+<span class="hljs-keyword">ssize_t</span> devone_write(<span class="hljs-keyword">struct</span> file *filp, <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> __user *buf, <span class="hljs-keyword">size_t</span> count, <span class="hljs-keyword">loff_t</span> *f_pos)
+{
+    <span class="hljs-keyword">struct</span> devone_data *p = filp-&gt;private_data;
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> val;
+    <span class="hljs-keyword">int</span> retval = <span class="hljs-number">0</span>;
+
+    printk(<span class="hljs-string">&quot;%s: count %d pos %lld\n&quot;</span>, __func__, count, *f_pos);
+
+    <span class="hljs-keyword">if</span> (count &gt;= <span class="hljs-number">1</span>) {
+        <span class="hljs-keyword">if</span> (copy_from_user(&amp;val, &amp;buf[<span class="hljs-number">0</span>], <span class="hljs-number">1</span>)) {
+            retval = -EFAULT;
+            <span class="hljs-keyword">goto</span> out;
+        }
+        <span class="hljs-comment">//printk(&quot;%02x &quot;, val);</span>
+
+        write_lock(&amp;p-&gt;lock);
+        p-&gt;val = val;
+        write_unlock(&amp;p-&gt;lock);
+        retval = count;
+    }
+
+out:
+    <span class="hljs-keyword">return</span> (retval);
+}
+
+<span class="hljs-keyword">ssize_t</span> devone_read(<span class="hljs-keyword">struct</span> file *filp, <span class="hljs-keyword">char</span> __user *buf, <span class="hljs-keyword">size_t</span> count, <span class="hljs-keyword">loff_t</span> *f_pos)
+{
+    <span class="hljs-keyword">struct</span> devone_data *p = filp-&gt;private_data;
+    <span class="hljs-keyword">int</span> i;
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> val;
+    <span class="hljs-keyword">int</span> retval;
+
+    read_lock(&amp;p-&gt;lock);
+    val = p-&gt;val;
+    read_unlock(&amp;p-&gt;lock);
+
+    printk(<span class="hljs-string">&quot;%s: count %d pos %lld\n&quot;</span>, __func__, count, *f_pos);
+
+    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span> ; i &lt; count ; i++) {
+        <span class="hljs-keyword">if</span> (copy_to_user(&amp;buf[i], &amp;val, <span class="hljs-number">1</span>)) {
+            retval = -EFAULT;
+            <span class="hljs-keyword">goto</span> out;
+        }
+    }
+
+    retval = count;
+out:
+    <span class="hljs-keyword">return</span> (retval);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">devone_open</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> inode *inode, <span class="hljs-keyword">struct</span> file *file)</span>
+</span>{
+    <span class="hljs-keyword">struct</span> devone_data *p;
+
+    printk(<span class="hljs-string">&quot;%s: major %d minor %d (pid %d)\n&quot;</span>, __func__,
+           imajor(inode),
+           iminor(inode),
+           current-&gt;pid
+          );
+
+    p = kmalloc(<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">struct</span> devone_data), GFP_KERNEL);
+    <span class="hljs-keyword">if</span> (p == <span class="hljs-literal">NULL</span>) {
+        printk(<span class="hljs-string">&quot;%s: Not memory\n&quot;</span>, __func__);
+        <span class="hljs-keyword">return</span> -ENOMEM;
+    }
+
+    p-&gt;val = <span class="hljs-number">0xff</span>;
+    rwlock_init(&amp;p-&gt;lock);
+
+    file-&gt;private_data = p;
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">devone_close</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> inode *inode, <span class="hljs-keyword">struct</span> file *file)</span>
+</span>{
+    printk(<span class="hljs-string">&quot;%s: major %d minor %d (pid %d)\n&quot;</span>, __func__,
+           imajor(inode),
+           iminor(inode),
+           current-&gt;pid
+          );
+
+    <span class="hljs-keyword">if</span> (file-&gt;private_data) {
+        kfree(file-&gt;private_data);
+        file-&gt;private_data = <span class="hljs-literal">NULL</span>;
+    }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-keyword">struct</span> file_operations devone_fops = {
+    .open = devone_open,
+    .release = devone_close,
+    .read = devone_read,
+    .write = devone_write,
+};
+
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">devone_init</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">dev_t</span> dev = MKDEV(devone_major, <span class="hljs-number">0</span>);
+    <span class="hljs-keyword">int</span> alloc_ret = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">int</span> major;
+    <span class="hljs-keyword">int</span> cdev_err = <span class="hljs-number">0</span>;
+
+    alloc_ret = alloc_chrdev_region(&amp;dev, <span class="hljs-number">0</span>, devone_devs, DRIVER_NAME);
+    <span class="hljs-keyword">if</span> (alloc_ret)
+        <span class="hljs-keyword">goto</span> error;
+    devone_major = major = MAJOR(dev);
+
+    cdev_init(&amp;devone_cdev, &amp;devone_fops);
+    devone_cdev.owner = THIS_MODULE;
+
+    cdev_err = cdev_add(&amp;devone_cdev, MKDEV(devone_major, <span class="hljs-number">0</span>), devone_devs);
+    <span class="hljs-keyword">if</span> (cdev_err)
+        <span class="hljs-keyword">goto</span> error;
+
+    printk(KERN_ALERT <span class="hljs-string">&quot;%s driver(major %d) installed.\n&quot;</span>, DRIVER_NAME, major);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+
+error:
+    <span class="hljs-keyword">if</span> (cdev_err == <span class="hljs-number">0</span>)
+        cdev_del(&amp;devone_cdev);
+
+    <span class="hljs-keyword">if</span> (alloc_ret == <span class="hljs-number">0</span>)
+        unregister_chrdev_region(dev, devone_devs);
+
+    <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">devone_exit</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">dev_t</span> dev = MKDEV(devone_major, <span class="hljs-number">0</span>);
+
+    cdev_del(&amp;devone_cdev);
+    unregister_chrdev_region(dev, devone_devs);
+
+    printk(KERN_ALERT <span class="hljs-string">&quot;%s driver removed.\n&quot;</span>, DRIVER_NAME);
+}
+
+module_init(devone_init);
+module_exit(devone_exit);
+</code></pre>
+<p>Makefile &#x540C;&#x4E0A;&#x4F8B; </p>
+<p>user process program </p>
+<ul>
+<li>sample.c</li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-comment">/*
+ * # cc test.c &amp;&amp; ./a.out
+ *
+ */</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/time.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/stat.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;fcntl.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;errno.h&gt;</span></span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> DEVFILE <span class="hljs-string">&quot;/dev/devone&quot;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">open_file</span><span class="hljs-params">(<span class="hljs-keyword">char</span> *filename)</span>
+</span>{
+    <span class="hljs-keyword">int</span> fd;
+
+    fd = open(filename, O_RDWR);
+    <span class="hljs-keyword">if</span> (fd == -<span class="hljs-number">1</span>) {
+        perror(<span class="hljs-string">&quot;open&quot;</span>);
+    }
+    <span class="hljs-keyword">return</span> (fd);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">close_file</span><span class="hljs-params">(<span class="hljs-keyword">int</span> fd)</span>
+</span>{
+    <span class="hljs-keyword">if</span> (close(fd) != <span class="hljs-number">0</span>) {
+        perror(<span class="hljs-string">&quot;close&quot;</span>);
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">read_file</span><span class="hljs-params">(<span class="hljs-keyword">int</span> fd)</span>
+</span>{
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> buf[<span class="hljs-number">8</span>], *p;
+    <span class="hljs-keyword">ssize_t</span> ret;
+
+    ret = read(fd, buf, <span class="hljs-keyword">sizeof</span>(buf));
+    <span class="hljs-keyword">if</span> (ret &gt; <span class="hljs-number">0</span>) {
+        p = buf;
+        <span class="hljs-keyword">while</span> (ret--)
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%02x &quot;</span>, *p++);
+    } <span class="hljs-keyword">else</span> {
+        perror(<span class="hljs-string">&quot;read&quot;</span>);
+    }
+
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n&quot;</span>);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">write_file</span><span class="hljs-params">(<span class="hljs-keyword">int</span> fd, <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> val)</span>
+</span>{
+    <span class="hljs-keyword">ssize_t</span> ret;
+
+    ret = write(fd, &amp;val, <span class="hljs-number">1</span>);
+    <span class="hljs-keyword">if</span> (ret &lt;= <span class="hljs-number">0</span>) {
+        perror(<span class="hljs-string">&quot;write&quot;</span>);
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">int</span> fd;
+    <span class="hljs-keyword">int</span> i;
+
+    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span> ; i &lt; <span class="hljs-number">2</span> ; i++) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;No. %d\n&quot;</span>, i + <span class="hljs-number">1</span>);
+
+        fd = open_file(DEVFILE);
+
+        read_file(fd);
+
+        write_file(fd, <span class="hljs-number">0x00</span>);
+        read_file(fd);
+
+        write_file(fd, <span class="hljs-number">0xC0</span>);
+        read_file(fd);
+
+        close_file(fd);
+    }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>&#x6B64;&#x7BC4;&#x6B64;&#x7684;&#x7CBE;&#x9AD3;&#x5728;&#x65BC; struct devone_data &#x7684;&#x61C9;&#x7528;&#xFF0C;&#x5305;&#x542B;&#x8A18;&#x61B6;&#x9AD4;&#x7684;&#x914D;&#x7F6E;&#x3001;&#x6307;&#x6A94;&#x7684;&#x904B;&#x7528;&#x2026;&#x7B49;&#x3002; 
+open handler &#x53CA; close handler &#x56E0;&#x70BA;&#x4F7F;&#x7528;&#x4E86; BKL(Big Kernel Lock) &#xFF0C;&#x6240;&#x4EE5;&#x76EE;&#x524D;&#x7684;&#x7248;&#x672C;&#x7121;&#x6CD5;&#x540C;&#x6642;&#x57F7;&#x884C;&#x591A;&#x500B;&#x547C;&#x53EB;&#x3002; 
+read handler &#x8207; write handler &#x6703;&#x5F9E; file &#x7D50;&#x69CB;&#x53C3;&#x8003; private_date &#x6210;&#x54E1;&#xFF0C;&#x5F9E;&#x800C;&#x5F97;&#x5230;&#x6578;&#x503C;&#x3002; 
+&#x4E0D;&#x7BA1;&#x662F; read handler &#x6216; write handler &#x90FD;&#x53EF;&#x80FD;&#x540C;&#x6642;&#x547C;&#x53EB;&#x591A;&#x6B21;&#xFF0C;&#x6240;&#x4EE5;&#x9700;&#x8981;&#x5BEB;&#x6210; reentrant(&#x53EF;&#x91CD;&#x9032;&#x5165;) &#x7684;&#x5F62;&#x5F0F;&#xFF0C;&#x6709;&#x9700;&#x8981;&#x7684;&#x8A71;&#xFF0C;&#x5C31;&#x5F97;&#x7528;&#x4E0A; semaphore &#x505A;&#x9396;&#x5B9A;&#x3002; 
+&#x6B64;&#x7BC4;&#x4F8B;&#x900F;&#x904E; reader/writer lock &#x4F86;&#x63A7;&#x5236; devone_data &#x7D50;&#x69CB;&#x6210;&#x54E1;&#x7684;&#x4FEE;&#x6539;&#x52D5;&#x4F5C;&#xFF0C;&#x5C31;&#x662F;&#x70BA;&#x4E86;&#x9810;&#x9632;&#x540C;&#x6642;&#x57F7;&#x884C; <code>p-&gt;val = val;</code> &#x6642;&#x6703;&#x767C;&#x751F;&#x885D;&#x7A81;&#x7684;&#x554F;&#x984C;&#x3002; </p>
+<p><code>&#x900F;&#x904E; Minor Number &#x5207;&#x63DB; Handler</code></p>
+<p>Minor number &#x662F;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x81EA;&#x5DF1;&#x7BA1;&#x7406;&#x7684;&#xFF0C;&#x5982;&#x679C;&#x5E0C;&#x671B;&#x4F9D;&#x4E0D;&#x540C;&#x7684; minor number &#x63D0;&#x4F9B;&#x4E0D;&#x540C;&#x529F;&#x80FD;&#x6642;&#xFF0C;&#x82E5;&#x5728; handler &#x5167;&#x4EE5; if &#x5224;&#x65B7; minor number &#x7684;&#x8A71;&#xFF0C;&#x6703;&#x5BEB;&#x51FA;&#x4E0D;&#x6613;&#x95B1;&#x8B80;&#x7684;&#x5957;&#x758A;&#x7A0B;&#x5F0F;&#x78BC;&#x3002; 
+open handler &#x6703;&#x62FF;&#x5230; file &#x7D50;&#x69CB;&#x6307;&#x6A19;&#xFF0C;&#x5982;&#x679C;&#x80FD;&#x5728;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x9019;&#x908A;&#x66F4;&#x63DB; f_op &#x6210;&#x54E1;&#x7684;&#x8A71;&#xFF0C;&#x4E5F;&#x80FD;&#x4F9D;&#x7167; minor number &#x5207;&#x63DB; handler&#xFF0C;&#x7A0B;&#x5F0F;&#x78BC;&#x8F03;&#x70BA;&#x6613;&#x8B80;&#x3002; </p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">devone_open</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> inode *inode, <span class="hljs-keyword">struct</span> file *file)</span> </span>{
+    swtich (iminor(inode)) {
+    <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>:
+        file-&gt;f_op = &amp;zero_fops;
+        <span class="hljs-keyword">break</span>;
+
+    <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:
+        file-&gt;f_op = &amp;one_fops;
+        <span class="hljs-keyword">break</span>;
+    <span class="hljs-keyword">default</span>:
+        <span class="hljs-keyword">return</span> -ENXIO;
+    }
+
+    <span class="hljs-keyword">if</span> (file-&gt;f_op &amp;&amp; file-&gt;f_op-&gt;open)
+        <span class="hljs-keyword">return</span> file-&gt;f_op-&gt;open(inode, file);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>&#x5176;&#x4E2D; zero_fops, one_fops &#x662F; struct file_operations &#x7684;&#x8B8A;&#x6578;&#xFF0C;&#x5404;&#x81EA;&#x5B9A;&#x7FA9;&#x81EA;&#x5DF1;&#x7684; handler&#x3002; </p>
+<h3 id="5-11%E3%80%81udev">5-11&#x3001;udev</h3>
+<p>&#x5C07; character &#x6216; block &#x985E;&#x578B;&#x7684;&#x88DD;&#x7F6E;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x8F09;&#x5165; kernel &#x5F8C;&#xFF0C;&#x8981;&#x5728; /dev &#x76EE;&#x9304;&#x4E0B;&#x5EFA;&#x7ACB;&#x5C0D;&#x61C9;&#x7684;&#x88DD;&#x7F6E;&#x6A94;&#xFF0C;&#x96A8;&#x8457;&#x786C;&#x9AD4;&#x7A2E;&#x985E;&#x4E0D;&#x65B7;&#x589E;&#x52A0;&#xFF0C;&#x9019;&#x500B;&#x65B9;&#x6CD5;&#x7684;&#x7834;&#x7DBB;&#x4E5F;&#x9010;&#x6F38;&#x986F;&#x73FE;&#x3002; 
+&#x56E0;&#x6B64;&#x51FA;&#x73FE;&#x4E86;&#x5E0C;&#x671B;&#x5728; OS &#x5075;&#x6E2C;&#x5230;&#x65B0;&#x786C;&#x9AD4;&#x6642;&#xFF0C;&#x53EF;&#x4EE5;&#x81EA;&#x52D5;&#x5EFA;&#x7ACB;&#x88DD;&#x7F6E;&#x6A94;&#xFF0C;&#x900F;&#x904E; hotplug &#x4E4B;&#x985E;&#x7684;&#x6A5F;&#x5236;&#xFF0C;&#x4E5F;&#x5E0C;&#x671B;&#x80FD;&#x505A;&#x5230;&#x5728;&#x79FB;&#x9664;&#x88DD;&#x7F6E;&#x6642;&#xFF0C;&#x81EA;&#x52D5;&#x522A;&#x9664;&#x88DD;&#x7F6E;&#x6A94;&#x3002; 
+/dev &#x662F;&#x5728; RAM &#x88E1;&#x9762;&#x7684;&#x6A94;&#x6848;&#x7CFB;&#x7D71;&#xFF0C;&#x6240;&#x4EE5;&#x7528; <code>mknod &#x5EFA;&#x7ACB;&#x7684;&#x88DD;&#x7F6E;&#x6A94;&#xFF0C;&#x91CD;&#x958B;&#x6A5F;&#x4E4B;&#x5F8C;&#x5C31;&#x6703;&#x6D88;&#x5931;</code>&#x3002; 
+&#x5728; OS &#x555F;&#x52D5;&#x6642;&#xFF0C;&#x56E0;&#x70BA;&#x8981;&#x52D5;&#x614B;&#x7522;&#x751F; /dev &#x5167;&#x5BB9;&#x7684;&#x95DC;&#x4FC2;&#xFF0C;&#x6240;&#x4EE5;&#x9700;&#x8981;&#x7A0D;&#x82B1;&#x6642;&#x9593;&#xFF0C;kernel &#x5728;&#x9032;&#x5165; runlevel 3 &#x4E4B;&#x5F8C;&#x7684; &#x300C;Starting udev&#x300D;&#x5C31;&#x662F;&#x5EFA;&#x7ACB;&#x88DD;&#x7F6E;&#x6A94;&#x7684;&#x5730;&#x65B9;&#x3002; 
+&#x5728; init daemon &#x958B;&#x59CB;&#x57F7;&#x884C;&#x4E4B;&#x524D;&#xFF0C;/dev &#x662F;&#x78C1;&#x789F;&#x4E0A;&#x7684;&#x76EE;&#x9304;&#xFF0C;&#x8981;&#x5728; RAM &#x88E1;&#x982D;&#x5EFA;&#x7ACB; udev &#x4E4B;&#x524D;&#xFF0C;&#x9808;&#x5148; unmount &#x624D;&#x884C;&#x3002; 
+&#x555F;&#x52D5;&#x6642; init daemon &#x7684; rc script(/etc/rc.d/rc.sysinit) &#x6703;&#x547C;&#x53EB;&#x300C;/sbin/start_udev&#x300D; script &#x5EFA;&#x7ACB;&#x88DD;&#x7F6E;&#x6A94;&#x3002; 
+&#x70BA;&#x4E86;&#x8B93; udev &#x80FD;&#x5920;&#x57F7;&#x884C;&#xFF0C;/dev &#x76EE;&#x9304;&#x4E0B;&#x9084;&#x662F;&#x8981;&#x6709;&#x4E00;&#x4E9B;&#x6700;&#x57FA;&#x672C;&#x7684;&#x88DD;&#x7F6E;&#x6A94;&#xFF0C;&#x9019;&#x4E9B;&#x88DD;&#x7F6E;&#x6A94;&#x8981;&#x7528; <code>MAKEDEV</code> &#x624B;&#x52D5;&#x5EFA;&#x7ACB;&#x3002; 
+&#x624B;&#x52D5;&#x5EFA;&#x7ACB;&#x7684;&#x88DD;&#x7F6E;&#x6A94;&#x6E05;&#x55AE;&#x53EF;&#x5728; /etc/udev/makedev.d &#x76EE;&#x9304;&#x5167;&#x627E;&#x5230;&#x3002; 
+&#x555F;&#x52D5; OS &#x5F8C;&#x8F09;&#x5165;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684;&#x8A71;&#xFF0C;&#x6703;&#x5C0D;&#x7CFB;&#x7D71;&#x65B0;&#x589E;&#x6A5F;&#x7F6E;&#xFF0C;udevd daemon &#x6703;&#x5075;&#x5074;&#x5230;&#x9019;&#x500B;&#x4E8B;&#x4EF6;&#xFF0C;&#x800C;&#x5F8C;&#x53BB;&#x6AA2;&#x67E5; /sys &#x76EE;&#x9304;&#x3002; 
+&#x5982;&#x679C;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x5EFA;&#x7ACB;&#x4E86;&#x300C;dev&#x300D;&#x6A19;&#x6848;&#x7684;&#x8A71;&#xFF0C;&#x6A94;&#x6848;&#x88E1;&#x6703;&#x6709; major/minor number&#xFF0C;&#x5982;&#x6B64; udevd &#x5C31;&#x80FD;&#x4EE5;&#x5B83;&#x5EFA;&#x7ACB;&#x88DD;&#x7F6E;&#x6A94;&#x3002; 
+&#x5EFA;&#x7ACB;&#x88DD;&#x7F6E;&#x6A94;&#x7684;&#x898F;&#x5247;&#x8A2D;&#x5B9A;&#x4F4D;&#x65BC; /etc/udev/rules.d/ &#x5167;&#x3002; </p>
+<p>&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684; udev &#x652F;&#x63F4; 
+&#x8981;&#x8B93;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x652F;&#x63F4; udev &#x7684;&#x8A71;&#xFF0C;&#x5FC5;&#x9808;&#x767B;&#x9304;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684; class&#xFF0C;&#x4E26;&#x5728; /sys/class &#x76EE;&#x9304;&#x4E0B;&#x5EFA;&#x7ACB;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x8CC7;&#x8A0A;&#xFF0C;&#x6B64;&#x5916;&#xFF0C;&#x9084;&#x8981;&#x914D;&#x5408;&#x9700;&#x6C42;&#x63D0;&#x4F9B;&#x898F;&#x5247;&#x6A94;&#x3002; 
+&#x8209;&#x4F8B;&#x8981;&#x65B0;&#x5EFA;&#x300C;/sys/class/devone/devone0/dev&#x300D;&#x3002; 
+&#x9996;&#x5148;&#x662F;&#x767B;&#x8A18; class&#xFF0C;&#x767B;&#x8A18; class &#x662F;&#x4F7F;&#x7528; class_create() &#x9019;&#x500B; kernel &#x51FD;&#x5F0F;&#xFF0C;&#x5176; prototype &#x5B9A;&#x7FA9;&#x5728; linux/device.h &#x5167;&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">class</span> *<span class="hljs-title">class_create</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> module *owner, <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *name)</span></span>;
+</code></pre>
+<p>&#x7B2C;&#x4E8C;&#x5F15;&#x6578; name &#x7528;&#x4F86;&#x6307;&#x5B9A; class &#x7684;&#x540D;&#x7A31;&#xFF0C;&#x6309;&#x4E0A;&#x9762;&#x7684;&#x4F8B;&#x5B50;&#x4F86;&#x8AAA;&#xFF0C;&#x5C31;&#x662F;&#x8981;&#x6307;&#x5B9A;&#x6210; &quot;devone&quot;&#x3002; 
+&#x51FD;&#x5F0F;&#x547C;&#x53EB;&#x7684;&#x6210;&#x529F;&#x8207;&#x5426;&#xFF0C;&#x53EF;&#x900F;&#x904E; IS_ERR() &#x4F86;&#x5224;&#x65B7;&#xFF0C;&#x4E0D;&#x80FD;&#x76F4;&#x63A5;&#x5224;&#x65B7;&#x662F;&#x5426;&#x70BA; NULL&#x3002; 
+&#x5378;&#x8F09;&#x9A45;&#x7A0B;&#x7A0B;&#x5F0F;&#x6642;&#xFF0C;&#x5FC5;&#x9808;&#x4E00;&#x4F75;&#x522A;&#x9664;&#x5148;&#x524D;&#x767B;&#x8A18;&#x7684; class&#xFF0C;&#x9019;&#x6642;&#x7528;&#x7684;&#x662F; class_destroy()&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">class_destroy</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> <span class="hljs-keyword">class</span> *cls)</span></span>;
+</code></pre>
+<p>&#x5EFA;&#x7ACB;&#x5B8C; /sys/class/devone &#x8CC7;&#x6599;&#x593E;&#x5F8C;&#xFF0C;&#x63A5;&#x8457;&#x8981;&#x5EFA;&#x7ACB;&#x300C;/sys/class/devone/devone0&#x300D;&#x9019;&#x500B;&#x88DD;&#x7F6E;&#x540D;&#x7A31;&#xFF0C;&#x7528;&#x7684;&#x662F; class_device_create()&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">struct</span> device *<span class="hljs-title">device_create</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> <span class="hljs-keyword">class</span> *cls, <span class="hljs-keyword">struct</span> class_device *parent, dev_t devt, <span class="hljs-keyword">struct</span> device *device, <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *fmt, ...)</span></span>;
+</code></pre>
+<p>&#x7B2C;&#x4E00;&#x5F15;&#x6578; cls &#x662F; class_create() &#x50B3;&#x56DE;&#x7684; class&#x3002; 
+&#x7B2C;&#x4E8C;&#x5F15;&#x6578; parent &#x662F;&#x6307;&#x5B9A;&#x4E0A;&#x5C64; class &#x6642;&#x4F7F;&#x7528;&#x7684;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x6307;&#x5B9A;&#x6210; NULL&#x3002; 
+&#x7B2C;&#x4E09;&#x5F15;&#x6578; devt &#x662F;&#x8981;&#x5728; dev &#x6A94;&#x986F;&#x793A;&#x7684; major/minor number&#xFF0C;&#x7528; <code>MKDEV</code> &#x5DE8;&#x96C6;&#x6307;&#x5B9A;&#x5373;&#x53EF;&#x3002; 
+&#x7B2C;&#x56DB;&#x5F15;&#x6578; device &#x5728;&#x60F3;&#x70BA; class &#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x9023;&#x7D50; &#x300C;struct device&#x300D;&#x6642;&#x53EF;&#x4EE5;&#x6307;&#x5B9A;&#xFF0C;&#x50B3;&#x5165; NULL &#x4E5F;&#x53EF;&#x3002; 
+&#x7B2C;&#x4E94;&#x5F15;&#x6578; fmt &#x662F;&#x88DD;&#x7F6E;&#x540D;&#x7A31;&#xFF0C;&#x4EE5;&#x4E0A;&#x4F8B;&#x4F86;&#x8AAA;&#x5C31;&#x662F; devone0 &#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x53EF;&#x8B8A;&#x5F15;&#x6578;&#x3002; 
+&#x5378;&#x8F09;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x6642;&#xFF0C;&#x9808;&#x522A;&#x9664;&#x5148;&#x524D;&#x767B;&#x8A18;&#x7684;&#x88DD;&#x7F6E;&#x540D;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; class_device_destroy()&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">class_device_destroy</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> <span class="hljs-keyword">class</span> *cls, dev_t devt)</span></span>;
+</code></pre>
+<p>&#x652F;&#x63F4; udev &#x7684;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7BC4;&#x4F8B;&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-comment">/*
+ * devone.c
+ *
+ */</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/init.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/module.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/types.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/kernel.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/fs.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/cdev.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/device.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;asm/uaccess.h&gt;</span></span>
+
+MODULE_LICENSE(<span class="hljs-string">&quot;Dual BSD/GPL&quot;</span>);
+
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> devone_devs = <span class="hljs-number">1</span>;        <span class="hljs-comment">/* device count */</span>
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> devone_major = <span class="hljs-number">0</span>;       <span class="hljs-comment">/* MAJOR: dynamic allocation */</span>
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> devone_minor = <span class="hljs-number">0</span>;       <span class="hljs-comment">/* MINOR: static allocation */</span>
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">struct</span> cdev devone_cdev;
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">struct</span> <span class="hljs-keyword">class</span> *devone_class = <span class="hljs-literal">NULL</span>;
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">dev_t</span> devone_dev;
+
+<span class="hljs-keyword">ssize_t</span> devone_read(<span class="hljs-keyword">struct</span> file *filp, <span class="hljs-keyword">char</span> __user *buf, <span class="hljs-keyword">size_t</span> count, <span class="hljs-keyword">loff_t</span> *f_pos)
+{
+    <span class="hljs-keyword">int</span> i;
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> val = <span class="hljs-number">0xc0</span>;
+    <span class="hljs-keyword">int</span> retval;
+    <span class="hljs-comment">//dump_stack();</span>
+
+    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span> ; i &lt; count ; i++) {
+        <span class="hljs-keyword">if</span> (copy_to_user(&amp;buf[i], &amp;val, <span class="hljs-number">1</span>)) {
+            retval = -EFAULT;
+            <span class="hljs-keyword">goto</span> out;
+        }
+    }
+
+    retval = count;
+out:
+    printk(KERN_ALERT <span class="hljs-string">&quot;0x%08X\n&quot;</span>, __builtin_return_address(<span class="hljs-number">0</span>));
+    <span class="hljs-keyword">return</span> (retval);
+}
+
+<span class="hljs-keyword">struct</span> file_operations devone_fops = {
+    .read = devone_read,
+};
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">devone_init</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">dev_t</span> dev = MKDEV(devone_major, <span class="hljs-number">0</span>);
+    <span class="hljs-keyword">int</span> alloc_ret = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">int</span> major;
+    <span class="hljs-keyword">int</span> cdev_err = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">struct</span> class_device *class_dev = <span class="hljs-literal">NULL</span>;
+
+    alloc_ret = alloc_chrdev_region(&amp;dev, <span class="hljs-number">0</span>, devone_devs, <span class="hljs-string">&quot;devone&quot;</span>);
+    <span class="hljs-keyword">if</span> (alloc_ret)
+        <span class="hljs-keyword">goto</span> error;
+    devone_major = major = MAJOR(dev);
+
+    cdev_init(&amp;devone_cdev, &amp;devone_fops);
+    devone_cdev.owner = THIS_MODULE;
+    devone_cdev.ops = &amp;devone_fops;
+    cdev_err = cdev_add(&amp;devone_cdev, MKDEV(devone_major, devone_minor), <span class="hljs-number">1</span>);
+    <span class="hljs-keyword">if</span> (cdev_err)
+        <span class="hljs-keyword">goto</span> error;
+
+    <span class="hljs-comment">/* register class */</span>
+    devone_class = class_create(THIS_MODULE, <span class="hljs-string">&quot;devone&quot;</span>);
+    <span class="hljs-keyword">if</span> (IS_ERR(devone_class)) {
+        <span class="hljs-keyword">goto</span> error;
+    }
+    devone_dev = MKDEV(devone_major, devone_minor);
+    class_dev = device_create(
+                    devone_class,
+                    <span class="hljs-literal">NULL</span>,
+                    devone_dev,
+                    <span class="hljs-literal">NULL</span>,
+                    <span class="hljs-string">&quot;devone%d&quot;</span>,
+                    devone_minor);
+
+    printk(KERN_ALERT <span class="hljs-string">&quot;devone driver(major %d) installed.\n&quot;</span>, major);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+
+error:
+    <span class="hljs-keyword">if</span> (cdev_err == <span class="hljs-number">0</span>)
+        cdev_del(&amp;devone_cdev);
+
+    <span class="hljs-keyword">if</span> (alloc_ret == <span class="hljs-number">0</span>)
+        unregister_chrdev_region(dev, devone_devs);
+
+    <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">devone_exit</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">dev_t</span> dev = MKDEV(devone_major, <span class="hljs-number">0</span>);
+
+    <span class="hljs-comment">/* unregister class */</span>
+    device_destroy(devone_class, devone_dev);
+    class_destroy(devone_class);
+
+    cdev_del(&amp;devone_cdev);
+    unregister_chrdev_region(dev, devone_devs);
+
+    printk(KERN_ALERT <span class="hljs-string">&quot;devone driver removed.\n&quot;</span>);
+
+}
+
+module_init(devone_init);
+module_exit(devone_exit);
+</code></pre>
+<p>&#x7BC4;&#x4F8B;&#x7684;&#x898F;&#x5247;&#x6A94;&#xFF1A; 
+/etc/udev/rules.d/51-devone.rules</p>
+<pre><code class="lang-c">KERNEL==<span class="hljs-string">&quot;devone[0-9]*&quot;</span>, GROUP=<span class="hljs-string">&quot;root&quot;</span>, MODE=<span class="hljs-string">&quot;0644&quot;</span>
+</code></pre>
+<p>&#x9019;&#x908A;&#x8A2D;&#x5B9A;&#x7684;&#x6B0A;&#x9650;&#x8B93;&#x4E00;&#x822C;&#x4F7F;&#x7528;&#x8005;&#x4E5F;&#x80FD;&#x6253;&#x958B;&#x88DD;&#x7F6E;&#x6A94;&#x3002; </p>
+<ul>
+<li>ps</li>
+</ul>
+<pre><code>1, &#x6A94;&#x540D;&#x4F3C;&#x4E4E;&#x662F;&#x96A8;&#x610F;&#x53D6;&#x7684;&#xFF0C;&#x53EA;&#x8981;&#x4E0D;&#x8207;&#x540C;&#x8CC7;&#x6599;&#x593E;&#x7684;&#x5176;&#x5B83;&#x6A94;&#x6848;&#x7522;&#x751F;&#x885D;&#x7A81;&#x5373;&#x53EF;&#x3002; 
+2, &#x8A66;&#x8457;&#x79FB;&#x9664;&#x5F8C;&#xFF0C;&#x767C;&#x73FE;&#x4EE5; root &#x7684;&#x6B0A;&#x9650;&#x9084;&#x662F;&#x80FD;&#x6253;&#x958B;&#x88DD;&#x7F6E;&#x6A94;&#xFF0C;&#x4F46;&#x4EE5; user &#x7684;&#x6B0A;&#x9650;&#x5C31;&#x4E0D;&#x884C;&#x3002;
+</code></pre><p>Makefile &#x540C;&#x4E0A;&#x4F8B; 
+&#x7DE8;&#x8B6F;&#x3001;&#x6E2C;&#x8A66;&#x904E;&#x7A0B;&#xFF1A; </p>
+<pre><code class="lang-c">insmod ./sample.ko 
+lsmod | grep sample 
+dmesg | tail 
+cat /proc/devices | grep devone 
+ls -l /dev/devone0 
+ls -l /sys/<span class="hljs-keyword">class</span>/devone/devone0/ 
+cat /sys/<span class="hljs-keyword">class</span>/devone/devone0/dev 
+hexdump -C -v -n <span class="hljs-number">32</span> /dev/devone0 
+rmmod sample 
+ls -l /dev/devone*
+</code></pre>
+<h3 id="5-12%E3%80%81%E7%B5%90%E8%AA%9E">5-12&#x3001;&#x7D50;&#x8A9E;</h3>
+<p>&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x591A;&#x534A;&#x8981;&#x8207; user process &#x901A;&#x8A0A;&#x624D;&#x6709;&#x8FA6;&#x6CD5;&#x5BE6;&#x73FE;&#x529F;&#x80FD;&#xFF0C;&#x800C;&#x5176;&#x901A;&#x8A0A;&#x65B9;&#x5F0F;&#x591A;&#x534A;&#x9075;&#x5FAA; UNIX &#x7684;&#x50B3;&#x7D71;&#x624B;&#x6CD5;&#xFF0C;&#x900F;&#x904E;&#x6A94;&#x6848;&#x4F86;&#x9032;&#x884C;&#x3002;</p>
 
                     
                     </section>

@@ -30,16 +30,17 @@ I/O port address 的讀寫方式有下面幾種：
 因此大量資料不適合經由 I/O port 傳送，另外硬體如果要提供 I/O port 的話，會佔用寶貴的電路板空間，所以最近的硬體多半完全不透過 I/O port 來通訊。 
 
 為了讓驅動程式之類的軟體可以操作 I/O port，CPU 提供了 I/O port 專用的 mnemonic(方便記憶的組合語言指令寫法)，而 linux kernel 為了讓驅動程式不必動用組合語言指令，所以提供了 C 語言可以取用的函式，這些函式定義在「asm/io.h」檔案內。 
-函式名稱	功能
 
-```c
-inb()	從 port 讀出 1 byte
-inw()	從 port 讀出 2 byte
-inl()	從 port 讀出 4 byte
-outb()	從 port 寫入 1 byte
-outw()	從 port 寫入 2 byte
-outl()	從 port 寫入 4 byte
-```
+
+<table border="1">
+<tbody><tr><td>函式名稱</td><td>功能</td></tr>
+<tr><td>inb()</td><td> 從 port 讀出 1 byte </td></tr>
+<tr><td>inw()</td><td> 從 port 讀出 2 byte </td></tr>
+<tr><td>inl()</td><td> 從 port 讀出 4 byte </td></tr>
+<tr><td>outb()</td><td> 從 port 寫入 1 byte </td></tr>
+<tr><td>outw()</td><td> 從 port 寫入 2 byte </td></tr>
+<tr><td>outl()</td><td> 從 port 寫入 4 byte </td></tr>
+</tbody></table>
 
 
 在讀寫 I/O port 的時候需要注意的是，近來 CPU 的性能愈來愈高，因此裝置有可能跟不上 CPU 的處理速度，因此 Linux 準備了會等待的函式，末尾的 「p」 就代表「pause」的意思：
@@ -210,8 +211,128 @@ address_space() 括弧內的數字意義：
 
 
 
-sparse 安裝完成後，就可以建構驅動程式，以往都是在命令列執行「make」，現在要多指定「C=1」或「C=2」，「C=1」會檢查需要重新編譯的檔案，「C=2」則會檢查所有的檔案。 
+sparse 安裝完成後，就可以建構驅動程式，以往都是在命令列執行「`make`」，現在要多指定「C=1」或「C=2」，「C=1」會檢查需要重新編譯的檔案，「C=2」則會檢查所有的檔案。 
 
 在執行 「make C=2」編譯 7-3 的範例程式後，會出現些許 warning，需修改程式碼如下： 
+
+```c
 char *reg; => char __iomem *reg; 
 printk(KERN_ALERT "%x\n", *reg); => printk(KERN_ALERT "%x\n", ioread8(reg)); 
+```
+
+### 7-6、記憶體屏障 
+C語言的程式被編譯器轉成組合語言，最後轉成機械語言才能在 CPU 上執行，而編譯器為了提昇程式執行的效率，有時會交換指令的執行順序。 
+
+但進這種調換法對驅動程式來說卻很有問題，在使用 MMIO 讀寫暫存器時，可能會造成意外的行為，如同之前提過，MMIO 是透過指標去存取裝置的暫存器，但編譯器只看指標存取動作而已。 
+
+比如說在準備執行 DMA (Direct Memory Access) 時，驅動程式常會用到下面這種寫法： 
+```c
+*a = ptr; /* 把 buffer 的位址寫入暫存器 */ 
+*b = len; /* 把 buffer 容量寫入暫存器 */ 
+*c = 1; /* 開始 DMA */ 
+先把 buffer 準備好後，再透過暫存器啟動 DMA，一定要到最後才能寫入「*c」，但如果經過編譯器的調換： 
+*b = len; /* 把 buffer 容量寫入暫存器 */ 
+*c = 1; /* 開始 DMA */ 
+*a = ptr; /* 把 buffer 的位址寫入暫存器 */ 
+```
+
+則會造成在 buffer 還沒準備好的情形下開始 DMA，有可能讓系統當掉。 
+
+為了應用這種情形， kernel 提供了「 Memory Barrier」(記憶體屏障) 的機制。 
+```c
+barrier() 
+barrier() 巨集會插入 memory barrier，gcc 不會把指令移過 memory barrier。 
+
+wmb() 
+wmb (Write Memory Barrier) 是使記憶體寫入順序維持與 C 原始碼一致的巨集。 
+
+rmb() 
+rmb (Read Memory Barrier) 能保証在這行之前的「記憶體讀取工作」已經全部執行完成。 
+
+mb() 
+mb (Memory Barrier) 這個巨集同時具備 wmb() 與 rmb() 的功能。 
+```
+
+
+###7-7、volatile 
+C語言的資料型態有「volatile(揮發性)」這麼一個修飾詞，為變數加上 volatile 修飾詞，可以：
+防止記憶體存取動作的最佳化
+防止刪除記憶體存取動作
+
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    int val, n;
+    int *p;
+
+    val = 2008;
+    p = &val;
+
+    n = *p;
+
+    printf("%d\n", val);
+
+    return 0;
+}
+```
+
+這個例子把 *p 指標向向的值存到 n 之內，但是卻沒用到 n 變數，因些編譯器可能會把存入 n 的動作刪除，但如果 *p 指標是 MMIO 位址的話，或許這代表「從裝置讀取暫存器內容」的動作，於是少掉這個動作的話，硬體可能就不會一如預想地運作，所以要在 MMIO 的指檔變數要加上 「volatile」才行：
+
+```c
+volatile int *p 
+```
+另一個例子：
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    int val, n;
+    int *p;
+
+    val = 2008;
+    p = &val;
+
+    n = *p;
+    n = *p;
+    n = *p;
+
+    printf("%d\n", n);
+
+    return 0;
+}
+
+```
+
+這個例子連續三次寫入 n 變數，編譯器最佳化時，可能把這些寫入動作整合成一個，但如果 *p 是 MMIO 位址的話，就可能造成問題，因此 *p 指標變數應該要加上 volatile 才對。 
+
+編譯器有沒有產生適切的組合語言碼，可以透過`「gcc -S」`來檢視組合語言碼(*.s)來判斷。 
+
+
+###7-8、行內組譯 
+有時光靠 C 語言無法控制硬體，還是需要讓組合語言上場，本節就在說明 C 語言原始碼內撰寫組合語言的方式。 
+
+`asm 關鍵字 `
+在 C 語言的原始碼內插入組合語言原始碼的動作稱為「Inline assembler(行內組譯)」，而行內組譯的關鍵字是「asm」。 
+asm 關鍵字的語言如下： 
+
+```c
+asm("組合語言指令碼" 
+: 輸出暫存器 
+: 輸入暫存器 
+: 會變更的暫存器 
+```
+
+`檢查組合語言碼` <br>
+要檢查產生的組合語言碼正確與否的話，可修改驅動程式的 Makefile ，在 CFLAGS 選項加上「-S」。 
+
+`稍微複雜的 asm 關鍵字 `
+
+
+
+###7-9、結語 
+控制硬體是驅動程式的主要工作，基本上透過指標讀寫硬體的暫存器就行了，但是編譯器在最佳化時有一些陷阱，開發時必須特別注意這些情形。

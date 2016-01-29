@@ -95,6 +95,7 @@
    * [準備開發裝置驅動程式](linux_device_driver_programming/03.md)
    * [開發驅動程式的第一步](linux_device_driver_programming/04.md)
    * [開發 driver 需要的基礎知識](linux_device_driver_programming/05.md)
+   * 控制硬體
 * [fcamel](fcamel/README.md)
    * [[轉]ld, ld.so 和 ldconfig 的行為](fcamel/01.md)
    * [[轉]解決 undefined symbol / reference](fcamel/02.md)

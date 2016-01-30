@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>[轉] 加速 linking time | Jason note</title>
+        <title>實際撰寫驅動程式 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../fcamel/07.html" />
+    <link rel="next" href="../linux_device_driver_programming/kong_zhi_ying_ti.html" />
     
     
-    <link rel="prev" href="../fcamel/05.html" />
+    <link rel="prev" href="../linux_device_driver_programming/05.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="9.6" data-basepath=".." data-revision="Sat Jan 30 2016 11:05:50 GMT+0800 (CST)">
+    <div class="book" data-level="8.6" data-basepath=".." data-revision="Sat Jan 30 2016 11:05:50 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1544,7 +1544,7 @@
             
         </li>
     
-        <li class="chapter " data-level="8.6" data-path="linux_device_driver_programming/shi_ji_zhuan_xie_qu_dong_cheng_shi.html">
+        <li class="chapter active" data-level="8.6" data-path="linux_device_driver_programming/shi_ji_zhuan_xie_qu_dong_cheng_shi.html">
             
                 
                     <a href="../linux_device_driver_programming/shi_ji_zhuan_xie_qu_dong_cheng_shi.html">
@@ -1700,7 +1700,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="9.6" data-path="fcamel/[]__linking_time.html">
+        <li class="chapter " data-level="9.6" data-path="fcamel/[]__linking_time.html">
             
                 
                     <a href="../fcamel/[]__linking_time.html">
@@ -7036,32 +7036,1993 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="-%E8%BD%89-%E5%8A%A0%E9%80%9F-linking-time">[&#x8F49;] &#x52A0;&#x901F; linking time</h1>
-<p>&#x983B;&#x7E41;&#x4FEE;&#x6539;&#x4E00;&#x9EDE;&#x7A0B;&#x5F0F;&#x53C8;&#x8981;&#x57F7;&#x884C;&#x770B;&#x7D50;&#x679C;&#x6642;, &#x4E3B;&#x8981;&#x7684;&#x6642;&#x9593;&#x90FD;&#x82B1;&#x5728; linking&#x3002;&#x9019;&#x6642;&#x624D;&#x9AD4;&#x6703;&#x5230;&#x7701;&#x4E0B; linking time &#x4E5F;&#x662F;&#x5F88;&#x91CD;&#x8981;&#x7684;&#x4E8B;&#x3002;</p>
-<p>&#x9019;&#x7BC7;&#x63D0;&#x5230;&#x5169;&#x500B;&#x6E1B;&#x5C11; linking time &#x7684;&#x505A;&#x6CD5;</p>
+                        <h1 id="%E5%AF%A6%E9%9A%9B%E6%92%B0%E5%AF%AB%E9%A9%85%E5%8B%95%E7%A8%8B%E5%BC%8F">&#x5BE6;&#x969B;&#x64B0;&#x5BEB;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;</h1>
+<p>&#x5EF6;&#x7E8C;&#x4E0A;&#x4E00;&#x7AE0;&#x7684;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x57FA;&#x790E;&#x77E5;&#x8B58;&#xFF0C;&#x7E7C;&#x7E8C;&#x4ECB;&#x7D39;&#x5BE6;&#x969B;&#x61C9;&#x7528;&#x6280;&#x5DE7;&#x3002; </p>
+<h3 id="6-1%E3%80%81ioctl">6-1&#x3001;IOCTL</h3>
+<p>&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x6E96;&#x5099;&#x4E86; read &#x8207; write &#x4ECB;&#x9762;&#x5C31;&#x80FD;&#x8207; user process &#x4EA4;&#x63DB;&#x8CC7;&#x6599;&#xFF0C;&#x4F46;&#x4ECD;&#x6709;&#x8A31;&#x591A;&#x4E8B;&#x60C5;&#x8FA6;&#x4E0D;&#x5230;&#xFF0C;&#x4F8B;&#x5982;&#xFF0C;&#x63A7;&#x5236;&#x786C;&#x9AD4;&#x66AB;&#x5B58;&#x5668;&#x3001;&#x6216;&#x662F;&#x6539;&#x8B8A;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x672C;&#x8EAB;&#x904B;&#x4F5C;&#x6A21;&#x5F0F;&#x7684;&#x60C5;&#x5F62;&#x7B49;&#x3002; 
+Linux &#x70BA;&#x4E86;&#x5BE6;&#x73FE;&#x9019;&#x4E9B;&#x7121;&#x6CD5;&#x900F;&#x904E; read &#x6216; write &#x5B8C;&#x6210;&#x7684; &#x300C;&#x8CC7;&#x6599;&#x4EA4;&#x63DB;&#x300D;&#x5DE5;&#x4F5C;&#xFF0C;&#x53E6;&#x5916;&#x6E96;&#x5099;&#x300C;IOCTL&#x300D;&#x4ECB;&#x9762;&#x3002; </p>
+<p><code>IOCTL &#x7684;&#x6A5F;&#x5236;</code></p>
+<p>IOCTL(I/O Control) &#x662F;&#x4E00;&#x7A2E;&#x7CFB;&#x7D71;&#x547C;&#x53EB;&#xFF0C;user process &#x547C;&#x53EB; ioctl() &#x5373;&#x53EF;&#x5C0D;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x9001;&#x51FA;&#x7CFB;&#x7D71;&#x547C;&#x53EB;&#xFF0C;&#x800C;&#x547C;&#x53EB;&#x5230;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684; IOCTL &#x8655;&#x7406;&#x51FD;&#x5F0F;&#x3002; 
+&#x8207; read() &#x8DDF; write() &#x4E00;&#x6A23;&#xFF0C;&#x53EF;&#x8DDF;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x4EA4;&#x63DB;&#x8CC7;&#x6599;&#xFF0C;&#x4F46; IOCTL &#x4EA4;&#x63DB;&#x8CC7;&#x6599;&#x7684;&#x683C;&#x5F0F;&#x53EF;&#x7531;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x958B;&#x767C;&#x8005;&#x81EA;&#x884C;&#x6C7A;&#x5B9A;&#xFF0C;&#x61C9;&#x7528;&#x8F03;&#x70BA;&#x9748;&#x6D3B;&#x3002; </p>
+<p>user process &#x547C;&#x53EB; ioctl() &#x7684; prototype&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">ioctl</span><span class="hljs-params">(<span class="hljs-keyword">int</span> d, <span class="hljs-keyword">int</span> request, ...)</span></span>;
+</code></pre>
+<p>&#x7B2C;&#x4E00;&#x5F15;&#x6578;(d) &#x662F;&#x88DD;&#x7F6E;&#x7F6E;&#x7684; handle&#x3002; <br>
+&#x7B2C;&#x4E8C;&#x5F15;&#x6578;(request) &#x662F;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x5B9A;&#x7FA9;&#x7684;&#x6307;&#x4EE4;&#x4EE3;&#x78BC;(32 bit)&#xFF0C;&#x4E00;&#x822C;&#x900F;&#x904E;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684;&#x5DE8;&#x96C6;&#x6307;&#x5B9A;&#x3002; <br>
+&#x7B2C;&#x4E09;&#x5F15;&#x6578;(&#x2026;) &#x4EE3;&#x8868;&#x53EF;&#x8B8A;&#x5F15;&#x6578;&#x3002; <br>
+&#x8981;&#x652F;&#x63F4; ioctl()&#xFF0C;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x5FC5;&#x9808;&#x63D0;&#x4F9B; IOCTL &#x65B9;&#x6CD5;&#xFF0C;&#x4E26;&#x5C07; file_operations &#x7D50;&#x69CB;&#x7684; ioctl &#x6210;&#x54E1;&#x8A2D;&#x5B9A;&#x51FD;&#x6578;&#x6307;&#x6A19;&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-keyword">int</span> (*ioctl) (<span class="hljs-keyword">struct</span> inode *inode, <span class="hljs-keyword">struct</span> file *filp, <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> cmd, <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> arg);
+</code></pre>
+<p>&#x7B2C;&#x4E00;&#x5F15;&#x6578;(inode) &#x662F; user process &#x958B;&#x555F;&#x7684;&#x88DD;&#x7F6E;&#x6A94;&#x76F8;&#x95DC;&#x8CC7;&#x8A0A;&#x3002; <br>
+&#x7B2C;&#x4E8C;&#x5F15;&#x6578;(filp) &#x901A;&#x5E38;&#x5728;&#x53D6;&#x51FA;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x79C1;&#x6709;&#x8CC7;&#x6599;&#x6642;&#xFF0C;&#x6703;&#x900F;&#x904E; filp &#x9032;&#x884C;&#x3002; <br>
+&#x7B2C;&#x4E09;&#x5F15;&#x6578;(cmd) &#x662F; IOCTL &#x7684;&#x6307;&#x4EE4;&#xFF0C;&#x900F;&#x904E;&#x6B64;&#x5F15;&#x6578;&#xFF0C;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x53EF;&#x4EE5;&#x5224;&#x65B7; user process &#x7A76;&#x7ADF;&#x60F3;&#x505A;&#x4EC0;&#x9EBC;&#x3002; <br>
+&#x7B2C;&#x56DB;&#x5F15;&#x6578;(arg) &#x76F8;&#x7576;&#x65BC; ioctl() &#x53EF;&#x8B8A;&#x5F15;&#x6578;(...) &#x7684;&#x53C3;&#x6578;&#xFF0C;&#x5167;&#x542B; user process &#x6307;&#x6A19;&#x3002; <br>
+ioctl() &#x662F; user process &#x547C;&#x53EB;&#x7684;&#xFF0C;&#x6240;&#x4EE5;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684; IOCTL &#x65B9;&#x6CD5;&#x662F;&#x5728; &#x300C;user context&#x300D;&#x5E95;&#x4E0B;&#x904B;&#x884C;&#xFF0C;&#x56E0;&#x6B64;&#x53EF;&#x4EE5; sleep&#xFF0C;&#x82E5;&#x7576; IOCTL &#x65B9;&#x6CD5;&#x5167;&#x6709; critical section &#x6642;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x300C;semaphore&#x300D;&#x4F86;&#x9396;&#x5B9A;&#x3002; </p>
+<p><code>IOCTL &#x6307;&#x4EE4;</code></p>
+<p>IOCTL &#x6307;&#x4EE4;&#x662F; unsigned int &#x578B;&#x5225;&#x7684;&#x8B8A;&#x6578;&#xFF0C;&#x5B83;&#x7684;&#x683C;&#x5F0F;&#x662F;&#x56FA;&#x5B9A;&#x7684;&#xFF0C;&#x4EE5;&#x5DE8;&#x96C6;&#x5B9A;&#x7FA9;&#x3002;
+| dir(2bit) | Size(14bit) | type(8bit) | nr(8bit) | 
+IOCTL &#x6307;&#x4EE4;&#x683C;&#x5F0F;&#x5B9A;&#x7FA9;&#x5728; include/asm-generic/ioctl.h&#x3002; 
+&#x9019;&#x4E9B;&#x5DE8;&#x96C6;&#x53EF;&#x4EE5;&#x7528;&#x4F86;&#x5728;&#x6A19;&#x982D;&#x6A94;&#x4E0B;&#x5B9A;&#x7FA9;&#xFF0C;&#x8B93;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x53CA; user process &#x53EF;&#x4EE5; include &#x9032;&#x4F86;&#x5171;&#x7528;&#x3002; </p>
 <ul>
-<li>&#x4F7F;&#x7528; ramdisk</li>
-<li>&#x7528; gold
-&#x6211;&#x672C;&#x4F86;&#x5C31;&#x6709;&#x7528; SSD, &#x6539;&#x5C07;&#x7DE8;&#x8B6F;&#x7D50;&#x679C;&#x5168;&#x653E;&#x5230; ramdisk &#x5F8C;, &#x63D0;&#x6607;&#x7684;&#x6548;&#x679C;&#x4E0D;&#x600E;&#x9EBC;&#x660E;&#x986F;&#x3002;&#x5230;&#x662F;&#x7528; gold &#x5F8C;&#x6E1B;&#x5C11;&#x4E86;&#x4E00;&#x534A;&#x7684; linking &#x6642;&#x9593;&#x3002;</li>
+<li>dev_ioctl.h</li>
 </ul>
-<p>&#x4E0D;&#x904E; gold &#x4E5F;&#x4E0D;&#x662F;&#x90A3;&#x9EBC;&#x5B8C;&#x7F8E;, &#x9019;&#x7BC7;&#x63D0;&#x5230;&#x4E00;&#x4E9B;&#x554F;&#x984C;&#x3002;&#x6211;&#x81EA;&#x5DF1;&#x7528;&#x7684;&#x6642;&#x5019;&#x767C;&#x89BA;&#x6EFF;&#x5E38;&#x9047;&#x5230; ld &#x53EF;&#x4EE5;&#x7DE8;, &#x4F46; gold &#x4E0D;&#x884C;&#x3002;&#x6700;&#x5F8C;&#x7684;&#x89E3;&#x5957;&#x65B9;&#x5F0F;&#x662F;&#x5BEB;&#x500B;&#x5C0F; script &#x5207;&#x63DB; /usr/bin/ld &#x9023;&#x5230;&#x7684;&#x7A0B;&#x5F0F;&#x3002;&#x4E0D;&#x5E38;&#x7DE8;&#x7684;&#x6771;&#x897F;&#x5C31;&#x66AB;&#x6642;&#x63DB;&#x56DE; ld &#x9023;&#x7D50;&#x500B;&#x4E00;&#x6B21;&#x5C31;&#x597D;&#x3002;</p>
-<pre><code>#!/bin/bash
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">ifndef</span> _DEVONE_IOCTL_H</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> _DEVONE_IOCTL_H</span>
 
-LD=/usr/bin/ld
-GNULD=${LD}.bfd
-GOLD=${LD}.gold
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span></span>
+
+<span class="hljs-keyword">struct</span> ioctl_cmd {
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> reg;
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> offset;
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> val;
+};
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> IOC_MAGIC <span class="hljs-string">&apos;d&apos;</span></span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> IOCTL_VALSET _IOW(IOC_MAGIC, <span class="hljs-number">1</span>, struct ioctl_cmd)</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> IOCTL_VALGET _IOR(IOC_MAGIC, <span class="hljs-number">2</span>, struct ioctl_cmd)</span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span></span>
+</code></pre>
+<p>&#x6B64;&#x4F8B;&#x7684; IOCTL_VALSET &#x5DE8;&#x96C6;&#x662F;&#x7528;&#x4F86;&#x50B3;&#x8CC7;&#x6599;&#x7D66;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#xFF0C; IOCTL_GET &#x5247;&#x662F;&#x5F9E;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x8B80;&#x56DE;&#x8CC7;&#x6599;&#x3002; 
+&#x5DE8;&#x96C6;&#x7684; type &#x5F15;&#x6578;&#x9577;&#x5EA6;&#x70BA; 1byte&#xFF0C;&#x6240;&#x4EE5;&#x901A;&#x5E38;&#x7528;&#x5B57;&#x5143;&#x5E38;&#x6578;&#x6307;&#x5B9A;&#xFF0C;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x540D;&#x7A31;&#x7684;&#x7B2C;&#x4E00;&#x500B;&#x5B57;&#x5143;&#x662F;&#x5F88;&#x5E38;&#x898B;&#x7684;&#x9078;&#x64C7;&#x3002; 
+&#x5F15;&#x6578; nr &#x662F;&#x6578;&#x503C;(number) &#x7684;&#x610F;&#x601D;&#xFF0C;&#x901A;&#x5E38;&#x70BA; IOCTL &#x6307;&#x4EE4;&#x9023;&#x7E8C;&#x7DE8;&#x865F;&#x3002; 
+&#x5F15;&#x6578; size &#x662F;&#x50B3;&#x7D66; ioctl() &#x53EF;&#x8B8A;&#x5F15;&#x6578;(...) &#x7684;&#x4ECB;&#x9762;&#x578B;&#x5225;&#x3002; 
+&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; _IOC_SIZE &#x5DE8;&#x96C6;&#x5F97;&#x77E5;&#x50B3;&#x7D66; ioctl() &#x53EF;&#x8B8A;&#x5F15;&#x6578;&#x7684;&#x7D50;&#x69CB;&#x5927;&#x5C0F;&#x3002; </p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> _IOC_SIZE(nr) (((nr) &gt;&gt; _IOC_SIZESHIFT) &amp; _IOC_SIZEMASK)</span>
+</code></pre>
+<p>&#x5728;&#x8B80;&#x5BEB; user process &#x6307;&#x6A19;&#x6642;&#xFF0C;&#x53EF;&#x4EE5;&#x5148;&#x547C;&#x53EB; access_ok() &#x5DE8;&#x96C6;&#x5224;&#x65B7;&#x6307;&#x6A19;&#x53EF;&#x5426;&#x8B80;&#x5BEB;&#x3002; </p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> access_ok(type, addr, size) (likely(__range_ok(addr, size) == <span class="hljs-number">0</span>))</span>
+</code></pre>
+<p><code>&#x6B0A;&#x9650;</code></p>
+<p>IOCTL &#x6307;&#x4EE4;&#x5982;&#x679C;&#x8981;&#x9650;&#x5236;&#x53EA;&#x6709; root &#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#xFF0C;&#x6B64;&#x6642; capable() &#x5C31;&#x5F88;&#x65B9;&#x4FBF;&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">capable</span><span class="hljs-params">(<span class="hljs-keyword">int</span> cap)</span></span>;
+</code></pre>
+<p>&#x9019;&#x500B;&#x51FD;&#x5F0F;&#x7684;&#x5F15;&#x6578;&#x53EF;&#x4EE5;&#x6307;&#x5B9A;&#x7684;&#x5DE8;&#x96C6;&#xFF0C;&#x5B9A;&#x7FA9;&#x5728; include/linux/capability.h &#x5167;&#x3002; 
+&#x8981;&#x6AA2;&#x67E5;&#x662F;&#x5426;&#x64C1;&#x6709; root &#x6B0A;&#x9650;&#xFF0C;&#x53EF;&#x4EE5;&#x5BEB;&#x6210;&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-keyword">if</span> (!capable(CAP_SYS_ADMIN)) { retval = -EPERM <span class="hljs-keyword">goto</span> done; }
+</code></pre>
+<p>&#x7BC4;&#x4F8B;&#x7A0B;&#x5F0F; 
+&#x4F7F;&#x7528; IOCTL &#x7684;&#x7BC4;&#x4F8B;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#xFF0C;read() &#x50B3;&#x56DE;&#x7684;&#x8CC7;&#x6599;&#x53EF;&#x900F;&#x904E; ioctl() &#x6539;&#x8B8A;&#xFF0C;&#x4F46;&#x9700;&#x8981; root &#x7684;&#x6B0A;&#x9650;&#x624D;&#x80FD;&#x4FEE;&#x6539;&#x3002; 
+&#x800C;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x5167;&#x7684;&#x8CC7;&#x6599;&#x8B80;&#x5BEB;&#x52D5;&#x4F5C;&#xFF0C;&#x4E5F;&#x900F;&#x904E;&#x8B80;&#x5BEB;&#x9396;&#x5B9A;(read-write lock)&#x4F86;&#x4FDD;&#x8B77;&#x3002; </p>
+<ul>
+<li>dev_ioctl.h </li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">ifndef</span> _DEVONE_IOCTL_H</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> _DEVONE_IOCTL_H</span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span></span>
+
+<span class="hljs-keyword">struct</span> ioctl_cmd {
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> reg;
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> offset;
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> val;
+};
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> IOC_MAGIC <span class="hljs-string">&apos;d&apos;</span></span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> IOCTL_VALSET _IOW(IOC_MAGIC, <span class="hljs-number">1</span>, struct ioctl_cmd)</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> IOCTL_VALGET _IOR(IOC_MAGIC, <span class="hljs-number">2</span>, struct ioctl_cmd)</span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span></span>
+</code></pre>
+<ul>
+<li>devone.c </li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-comment">/*
+ * devone.c
+ *
+ * Update: 2007/12/25 Yutaka Hirata
+ */</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/init.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/module.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/types.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/kernel.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/fs.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/cdev.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/device.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/poll.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;asm/uaccess.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/slab.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;devone_ioctl.h&quot;</span></span>
+
+MODULE_LICENSE(<span class="hljs-string">&quot;Dual BSD/GPL&quot;</span>);
+
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> devone_devs = <span class="hljs-number">1</span>;        <span class="hljs-comment">/* device count */</span>
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> devone_major = <span class="hljs-number">0</span>;       <span class="hljs-comment">/* MAJOR: dynamic allocation */</span>
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> devone_minor = <span class="hljs-number">0</span>;       <span class="hljs-comment">/* MINOR: static allocation */</span>
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">struct</span> cdev devone_cdev;
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">struct</span> <span class="hljs-keyword">class</span> *devone_class = <span class="hljs-literal">NULL</span>;
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">dev_t</span> devone_dev;
+
+<span class="hljs-keyword">struct</span> devone_data {
+    <span class="hljs-keyword">rwlock_t</span> lock;
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> val;
+};
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">devone_ioctl</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> file *filp,
+                 <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> cmd,
+                 <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> arg)</span>
+</span>{
+    <span class="hljs-keyword">struct</span> devone_data *dev = filp-&gt;private_data;
+    <span class="hljs-keyword">int</span> retval = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> val;
+    <span class="hljs-keyword">struct</span> ioctl_cmd data;
+
+    <span class="hljs-built_in">memset</span>(&amp;data, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(data));
+
+    <span class="hljs-keyword">switch</span> (cmd) {
+    <span class="hljs-keyword">case</span> IOCTL_VALSET:
+        <span class="hljs-keyword">if</span> (!capable(CAP_SYS_ADMIN)) {
+            retval = -EPERM;
+            <span class="hljs-keyword">goto</span> done;
+        }
+        <span class="hljs-keyword">if</span> (!access_ok(VERIFY_READ, (<span class="hljs-keyword">void</span> __user *)arg, _IOC_SIZE(cmd))) {
+            retval = -EFAULT;
+            <span class="hljs-keyword">goto</span> done;
+        }
+        <span class="hljs-keyword">if</span> ( copy_from_user(&amp;data, (<span class="hljs-keyword">int</span> __user *)arg, <span class="hljs-keyword">sizeof</span>(data)) ) {
+            retval = -EFAULT;
+            <span class="hljs-keyword">goto</span> done;
+        }
+
+        printk(<span class="hljs-string">&quot;IOCTL_cmd.val %u (%s)\n&quot;</span>, data.val, __func__);
+
+        write_lock(&amp;dev-&gt;lock);
+        dev-&gt;val = data.val;
+        write_unlock(&amp;dev-&gt;lock);
+
+        <span class="hljs-keyword">break</span>;
+
+    <span class="hljs-keyword">case</span> IOCTL_VALGET:
+        <span class="hljs-keyword">if</span> (!access_ok(VERIFY_WRITE, (<span class="hljs-keyword">void</span> __user *)arg, _IOC_SIZE(cmd))) {
+            retval = -EFAULT;
+            <span class="hljs-keyword">goto</span> done;
+        }
+        read_lock(&amp;dev-&gt;lock);
+        val = dev-&gt;val;
+        read_unlock(&amp;dev-&gt;lock);
+        data.val = val;
+        <span class="hljs-keyword">if</span> ( copy_to_user((<span class="hljs-keyword">int</span> __user *)arg, &amp;data, <span class="hljs-keyword">sizeof</span>(data)) ) {
+            retval = -EFAULT;
+            <span class="hljs-keyword">goto</span> done;
+        }
+        <span class="hljs-keyword">break</span>;
+
+    <span class="hljs-keyword">default</span>:
+        retval = -ENOTTY;
+        <span class="hljs-keyword">break</span>;
+    }
+
+done:
+    <span class="hljs-keyword">return</span> (retval);
+}
+
+<span class="hljs-keyword">ssize_t</span> devone_read(<span class="hljs-keyword">struct</span> file *filp, <span class="hljs-keyword">char</span> __user *buf, <span class="hljs-keyword">size_t</span> count, <span class="hljs-keyword">loff_t</span> *f_pos)
+{
+    <span class="hljs-keyword">struct</span> devone_data *dev = filp-&gt;private_data;
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> val;
+    <span class="hljs-keyword">int</span> retval;
+    <span class="hljs-keyword">int</span> i;
+
+    read_lock(&amp;dev-&gt;lock);
+    val = dev-&gt;val;
+    read_unlock(&amp;dev-&gt;lock);
+
+    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span> ; i &lt; count ; i++) {
+        <span class="hljs-keyword">if</span> (copy_to_user(&amp;buf[i], &amp;val, <span class="hljs-number">1</span>)) {
+            retval = -EFAULT;
+            <span class="hljs-keyword">goto</span> out;
+        }
+    }
+    retval = count;
+
+out:
+    <span class="hljs-keyword">return</span> (retval);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">devone_close</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> inode *inode, <span class="hljs-keyword">struct</span> file *filp)</span>
+</span>{
+    <span class="hljs-keyword">struct</span> devone_data *dev = filp-&gt;private_data;
+
+    <span class="hljs-keyword">if</span> (dev) {
+        kfree(dev);
+    }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;   <span class="hljs-comment">/* success */</span>
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">devone_open</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> inode *inode, <span class="hljs-keyword">struct</span> file *filp)</span>
+</span>{
+    <span class="hljs-keyword">struct</span> devone_data *dev;
+
+    dev = kmalloc(<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">struct</span> devone_data), GFP_KERNEL);
+    <span class="hljs-keyword">if</span> (dev == <span class="hljs-literal">NULL</span>) {
+        <span class="hljs-keyword">return</span> -ENOMEM;
+    }
+
+    <span class="hljs-comment">/* initialize members */</span>
+    rwlock_init(&amp;dev-&gt;lock);
+    dev-&gt;val = <span class="hljs-number">0xFF</span>;
+
+    filp-&gt;private_data = dev;
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;   <span class="hljs-comment">/* success */</span>
+}
+
+<span class="hljs-keyword">struct</span> file_operations devone_fops = {
+    .owner = THIS_MODULE,
+    .open = devone_open,
+    .release = devone_close,
+    .read = devone_read,
+    .unlocked_ioctl = devone_ioctl,
+};
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">devone_init</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">dev_t</span> dev = MKDEV(devone_major, <span class="hljs-number">0</span>);
+    <span class="hljs-keyword">int</span> alloc_ret = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">int</span> major;
+    <span class="hljs-keyword">int</span> cdev_err = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">struct</span> class_device *class_dev = <span class="hljs-literal">NULL</span>;
+
+    alloc_ret = alloc_chrdev_region(&amp;dev, <span class="hljs-number">0</span>, devone_devs, <span class="hljs-string">&quot;devone&quot;</span>);
+    <span class="hljs-keyword">if</span> (alloc_ret)
+        <span class="hljs-keyword">goto</span> error;
+    devone_major = major = MAJOR(dev);
+
+    cdev_init(&amp;devone_cdev, &amp;devone_fops);
+    devone_cdev.owner = THIS_MODULE;
+    devone_cdev.ops = &amp;devone_fops;
+    cdev_err = cdev_add(&amp;devone_cdev, MKDEV(devone_major, devone_minor), <span class="hljs-number">1</span>);
+    <span class="hljs-keyword">if</span> (cdev_err)
+        <span class="hljs-keyword">goto</span> error;
+
+    <span class="hljs-comment">/* register class */</span>
+    devone_class = class_create(THIS_MODULE, <span class="hljs-string">&quot;devone&quot;</span>);
+    <span class="hljs-keyword">if</span> (IS_ERR(devone_class)) {
+        <span class="hljs-keyword">goto</span> error;
+    }
+    devone_dev = MKDEV(devone_major, devone_minor);
+    class_dev = device_create(
+                    devone_class,
+                    <span class="hljs-literal">NULL</span>,
+                    devone_dev,
+                    <span class="hljs-literal">NULL</span>,
+                    <span class="hljs-string">&quot;devone%d&quot;</span>,
+                    devone_minor);
+
+    printk(KERN_ALERT <span class="hljs-string">&quot;devone driver(major %d) installed.\n&quot;</span>, major);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+
+error:
+    <span class="hljs-keyword">if</span> (cdev_err == <span class="hljs-number">0</span>)
+        cdev_del(&amp;devone_cdev);
+
+    <span class="hljs-keyword">if</span> (alloc_ret == <span class="hljs-number">0</span>)
+        unregister_chrdev_region(dev, devone_devs);
+
+    <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">devone_exit</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">dev_t</span> dev = MKDEV(devone_major, <span class="hljs-number">0</span>);
+
+    <span class="hljs-comment">/* unregister class */</span>
+    device_destroy(devone_class, devone_dev);
+    class_destroy(devone_class);
+
+    cdev_del(&amp;devone_cdev);
+    unregister_chrdev_region(dev, devone_devs);
+
+    printk(KERN_ALERT <span class="hljs-string">&quot;devone driver removed.\n&quot;</span>);
+
+}
+
+module_init(devone_init);
+module_exit(devone_exit);
+</code></pre>
+<ul>
+<li>Makefile</li>
+</ul>
+<pre><code class="lang-c">CFILES = devone.c 
+
+obj-m += sample.o
+sample-objs := $(CFILES:.c=.o)
+
+all:
+    make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
+
+clean:
+    make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
+</code></pre>
+<ul>
+<li>sample.c </li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-comment">/*
+ * cc -Wall -o app app.c
+ *
+ */</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;errno.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/stat.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;fcntl.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/ioctl.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;devone_ioctl.h&quot;</span></span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> DEVFILE <span class="hljs-string">&quot;/dev/devone0&quot;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">read_buffer</span><span class="hljs-params">(<span class="hljs-keyword">int</span> fd)</span>
+</span>{
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> buf[<span class="hljs-number">64</span>];
+    <span class="hljs-keyword">int</span> ret;
+    <span class="hljs-keyword">int</span> i;
+
+    ret = read(fd, buf, <span class="hljs-keyword">sizeof</span>(buf));
+    <span class="hljs-keyword">if</span> (ret == -<span class="hljs-number">1</span>) {
+        perror(<span class="hljs-string">&quot;read&quot;</span>);
+    }
+    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span> ; i &lt; ret ; i++) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%02x &quot;</span>, buf[i]);
+    }
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n&quot;</span>);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">struct</span> ioctl_cmd cmd;
+    <span class="hljs-keyword">int</span> ret;
+    <span class="hljs-keyword">int</span> fd;
+
+    fd = open(DEVFILE, O_RDWR);
+    <span class="hljs-keyword">if</span> (fd == -<span class="hljs-number">1</span>) {
+        perror(<span class="hljs-string">&quot;open&quot;</span>);
+        <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);
+    }
+
+    <span class="hljs-built_in">memset</span>(&amp;cmd, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(cmd));
+    ret = ioctl(fd, IOCTL_VALGET, &amp;cmd);
+    <span class="hljs-keyword">if</span> (ret == -<span class="hljs-number">1</span>) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;errno %d\n&quot;</span>, errno);
+        perror(<span class="hljs-string">&quot;ioctl&quot;</span>);
+    }
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;val %d\n&quot;</span>, cmd.val);
+
+    <span class="hljs-comment">// read buffer</span>
+    read_buffer(fd);
+
+    <span class="hljs-built_in">memset</span>(&amp;cmd, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(cmd));
+    cmd.val = <span class="hljs-number">0xCC</span>;
+    ret = ioctl(fd, IOCTL_VALSET, &amp;cmd);
+    <span class="hljs-keyword">if</span> (ret == -<span class="hljs-number">1</span>) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;errno %d\n&quot;</span>, errno);
+        perror(<span class="hljs-string">&quot;ioctl&quot;</span>);
+    }
+
+    <span class="hljs-comment">// read buffer</span>
+    read_buffer(fd);
+
+    <span class="hljs-built_in">memset</span>(&amp;cmd, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(cmd));
+    ret = ioctl(fd, IOCTL_VALGET, &amp;cmd);
+    <span class="hljs-keyword">if</span> (ret == -<span class="hljs-number">1</span>) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;errno %d\n&quot;</span>, errno);
+        perror(<span class="hljs-string">&quot;ioctl&quot;</span>);
+    }
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;val %d\n&quot;</span>, cmd.val);
+
+    close(fd);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>&#x57F7;&#x884C;&#x7BC4;&#x4F8B;&#xFF1A;</p>
+<pre><code class="lang-c">insmod sample.ko 
+lsmod | grep sample 
+ls -l /dev/devone0 
+hexdump -C -n <span class="hljs-number">16</span> /dev/devone0 
+./a.out
+</code></pre>
+<h3 id="6-2%E3%80%8164-bit-kernel">6-2&#x3001;64-bit kernel</h3>
+<p>&#x5728; 64-bit Linux &#x7684; kernel space &#x53EF;&#x4EE5;&#x57F7;&#x884C; 64-bit &#x8207; 32-bit &#x7684;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#xFF0C;&#x6240;&#x4EE5;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x4E5F;&#x5FC5;&#x9808;&#x6CE8;&#x610F;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x6709; 32-bit &#x8207; 64-bit &#x5169;&#x7A2E;&#x60C5;&#x5F62;&#x3002; </p>
+<p><code>Data Model(&#x8CC7;&#x6599;&#x6A21;&#x578B;)</code></p>
+<p>OS &#x5F9E;32-bit &#x8F49;&#x79FB;&#x5230; 64-bit &#x5E36;&#x4F86;&#x7684;&#x958B;&#x767C;&#x5DEE;&#x7570;&#xFF0C;&#x5728;&#x65BC;&#x8CC7;&#x6599;&#x578B;&#x5225;&#x7684;&#x5927;&#x5C0F;&#x6539;&#x8B8A;&#x4E86;&#xFF0C;&#x7A31;&#x70BA;&#x300C;&#x8CC7;&#x6599;&#x6A21;&#x578B;&#x7684;&#x5DEE;&#x7570;&#x300D;&#x3002; </p>
+<p><code>&#x8F49;&#x79FB;&#x5230; 64-bit &#x74B0;&#x5883;&#x7684;&#x8981;&#x9EDE;</code></p>
+<p>sizeof 
+32-bit linux &#x8207; 64-bit linux &#x4E0D;&#x540C;&#x4E4B;&#x8655;&#xFF0C;&#x9664;&#x4E86; pointer &#x7684;&#x5927;&#x5C0F;&#x7531; 4 bytes &#x6539;&#x8B8A;&#x70BA; 8 bytes &#x4E4B;&#x5916;&#xFF0C;long &#x7684;&#x9577;&#x5EA6;&#x4E5F;&#x7531; 4 bytes &#x6539;&#x70BA; 8bytes &#xFF0C;&#x6240;&#x4EE5;&#x4F7F;&#x7528; sizeof(long) &#x6240;&#x50B3;&#x56DE;&#x7684;&#x503C;&#x6703;&#x4E0D;&#x4E00;&#x6A23;&#xFF0C;&#x5728; 32-bit linux &#x53EF;&#x4EE5;&#x9806;&#x5229;&#x57F7;&#x884C;&#x7684;&#x7A0B;&#x5F0F;&#xFF0C;&#x5728; 64-bit linux &#x5247;&#x53EF;&#x80FD;&#x9020;&#x6210;&#x7DE9;&#x885D;&#x5340;&#x6EA2;&#x4F4D;&#x3002; </p>
+<p>&#x6578;&#x5B57;&#x578B;&#x5225;&#x8F49;&#x63DB; 
+&#x5728;&#x6BD4;&#x8F03;&#x5169;&#x500B;&#x6578;&#x503C;&#x6642;&#xFF0C;&#x5982;&#x679C;&#x5F7C;&#x6B64;&#x8CC7;&#x6599;&#x578B;&#x5225;&#x4E0D;&#x540C;&#xFF0C;&#x53EF;&#x80FD;&#x6703;&#x9020;&#x6210;&#x908F;&#x8F2F;&#x932F;&#x8AA4;&#x7684;&#x73FE;&#x8C61;&#xFF0C;&#x4E5F;&#x53EF;&#x80FD;&#x6703;&#x9020;&#x6210; 32-bit linux &#x8207; 64-bit linux &#x57F7;&#x884C;&#x7D50;&#x679C;&#x4E0D;&#x540C;&#x7684;&#x60C5;&#x6CC1;&#xFF0C;&#x7B97;&#x8853;&#x578B;&#x5225;&#x8F49;&#x63DB;&#x6A5F;&#x5236;&#x5982;&#x4E0B;&#xFF1A; 
+&#x5E7E;&#x4E4E;&#x5728;&#x6240;&#x6709;&#x7684;&#x60C5;&#x6CC1;&#x4E0B;&#xFF0C;&#x90FD;&#x6703;&#x628A; signed &#x6578;&#x5B57; &#x8F49;&#x63DB;&#x6210; unsigned &#x6578;&#x5B57;&#x7684;&#x578B;&#x5225;&#xFF0C;&#x4E4B;&#x5F8C;&#x518D;&#x4F5C;&#x6BD4;&#x8F03;&#xFF0C;&#x9664;&#x975E; unsigned &#x6578;&#x5B57;&#x9019;&#x7AEF;&#x7684;&#x7D1A;&#x5225;&#x6BD4;&#x8F03;&#x4F4E;&#xFF0C;&#x800C;&#x4E14; signed &#x7684;&#x8CC7;&#x6599;&#x578B;&#x5225;&#x7684; bit &#x6578;&#x76EE;&#x6BD4; unsigned &#x7684;&#x8CC7;&#x6599;&#x578B;&#x5225;&#x7684; bit &#x6578;&#x76EE;&#x591A;&#x3002; </p>
+<p>printf 
+&#x986F;&#x793A;&#x6307;&#x6A19;&#x7684;&#x4F4D;&#x5740;&#x901A;&#x5E38;&#x4F7F;&#x7528;&#x300C;%x&#x300D;&#xFF0C;&#x4F46;&#x5B83;&#x7684;&#x5BEC;&#x5EA6;&#x662F; 32-bit&#xFF0C;&#x7121;&#x6CD5;&#x5728; 64-bit &#x74B0;&#x5883;&#x4E0B;&#x986F;&#x793A;&#x6B63;&#x78BA;&#x7D50;&#x679C;&#xFF0C;&#x9700;&#x6539;&#x7528;&#x300C;%p&#x300D;&#x3002; </p>
+<p>&#x6574;&#x6578;&#x7684;&#x4E0A;&#x9650; 
+&#x5728; C &#x8A9E;&#x8A00;&#x4E2D;&#xFF0C;&#x5C07;&#x6574;&#x6578;&#x8996;&#x70BA; int &#x4F86;&#x8A08;&#x7B97;&#xFF0C;&#x5982;&#x679C;&#x5728; 64-bit &#x74B0;&#x5883;&#x4E0B;&#xFF0C;&#x60F3;&#x7528; 64-bit &#x4F86;&#x8A08;&#x7B97;&#xFF0C;&#x8981;&#x5728;&#x6578;&#x503C;&#x5F8C;&#x9762;&#x52A0;&#x4E0A;&#x300C;L&#x300D;&#x4F7F;&#x7528;&#x6210;&#x70BA; long long&#x3002; </p>
+<p>&#x6307;&#x6A19;&#x7684;&#x5DEE;&#x503C; 
+&#x6307;&#x6A19;&#x53EF;&#x4EE5;&#x76F8;&#x6E1B;&#xFF0C;&#x4F46;&#x5728; 64-bit &#x74B0;&#x5883;&#x4E0B;&#x6307;&#x6A19;&#x662F; 8 bytes &#x9577;&#xFF0C;&#x5FC5;&#x9808;&#x5C07;&#x76F8;&#x6E1B;&#x7D50;&#x679C;&#x653E;&#x5230; long &#x8B8A;&#x6578;&#x5167;&#x3002; </p>
+<p>&#x300C;-1&#x300D;&#x7684;&#x8655;&#x7406;&#x65B9;&#x5F0F; 
+&#x5728; 32-bit &#x74B0;&#x5883;&#x4E0B;&#xFF0C;-1&#x662F;&#x300C;0xffffffff&#x300D;&#xFF0C;&#x82E5;&#x662F;&#x5728; 64-bit &#x74B0;&#x5883;&#x4E0B;&#xFF0C;-1 &#x8F49;&#x6210; long &#x7684;&#x8A71;&#x662F;&#x300C;0xffffffffffffffff&#x300D;&#xFF0C;&#x4F46;&#x662F;&#x5982;&#x679C;&#x628A; -1 &#x5132;&#x5B58;&#x5230; unsigned int &#x4E4B;&#x985E;&#x7684; 32-bit &#x8B8A;&#x6578;&#x6642;&#xFF0C;&#x5C31;&#x6703;&#x7DAD;&#x6301;&#x300C;0xffffffff&#x300D;&#x7684;&#x5F62;&#x5F0F;&#x3002; </p>
+<p>NULL &#x8207; 0 
+&#x7A7A;&#x6307;&#x6A19;&#x7531;&#x300C;NULL&#x300D;&#x5DE8;&#x96C6;&#x5B9A;&#x7FA9;&#x7684;&#xFF0C;&#x5728; C &#x8A9E;&#x8A00;&#x901A;&#x5E38;&#x4EE5;&#x6307;&#x6A19;&#x5BE6;&#x4F5C;&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> NULL ((void*)<span class="hljs-number">0</span>)</span>
+</code></pre>
+<p><code>&#x5BE6;&#x4F5C; IOCTL &#x4ECB;&#x9762;</code></p>
+<p>&#x5BE6;&#x4F5C;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684; IOCTL &#x4ECB;&#x9762;&#x6642;&#xFF0C;&#x9700;&#x8003;&#x616E; 64-bit &#x74B0;&#x5883;&#x5E36;&#x4F86;&#x7684;&#x5F71;&#x97FF;&#xFF0C;&#x7279;&#x5225;&#x662F;&#x50B3;&#x905E; ioctl() &#x5F15;&#x6578;&#x7D50;&#x69CB;&#x7684;&#x52D5;&#x4F5C;&#x3002; 
+&#x6BD4;&#x5982;&#x8AAA;&#xFF0C;&#x4E0B;&#x9762;&#x9019;&#x500B;&#x7D50;&#x69CB;&#x7531;&#x65BC;&#x5167;&#x542B;&#x6307;&#x6A19;&#x6210;&#x54E1;&#xFF0C;&#x6240;&#x4EE5;&#x5728; 32-bit &#x8207; 64-bit &#x74B0;&#x5883;&#x4E0B;&#x7684;&#x5927;&#x5C0F;&#x3001;&#x8B8A;&#x6578;&#x504F;&#x79FB;&#x91CF;&#x4E26;&#x4E0D;&#x76F8;&#x540C;&#x3002; </p>
+<pre><code class="lang-c"><span class="hljs-keyword">struct</span> ioctl_com {
+    <span class="hljs-keyword">int</span> cmd;
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> size;
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> *buf;
+    <span class="hljs-keyword">int</span> flag;
+}
+</code></pre>
+<p>&#x5982;&#x679C;&#x6C92;&#x6709;&#x7528; <code>pack pragma(#pragma pack())</code>
+&#x6307;&#x5B9A;&#x8B8A;&#x6578;&#x6253;&#x5305;&#x65B9;&#x5F0F;&#x7684;&#x8A71;&#xFF0C;&#x7DE8;&#x8B6F;&#x5668;&#x6703;&#x70BA;&#x4E86;&#x63D0;&#x9AD8;&#x8A18;&#x61B6;&#x9AD4;&#x8B80;&#x5BEB;&#x6548;&#x7387;&#x3001;&#x61C9;&#x5C0D;&#x8655;&#x7406;&#x5668;&#x7684;&#x9650;&#x5236;&#xFF0C;&#x800C;&#x81EA;&#x52D5;&#x628A;&#x8B8A;&#x6578;&#x914D;&#x7F6E;&#x5728;&#x9069;&#x7576;&#x7684;&#x504F;&#x79FB;&#x91CF;&#x4E0A;&#x3002; 
+&#x5728; 32-bit &#x74B0;&#x5883;&#x662F;&#x4EE5; 4 bytes &#x70BA;&#x4E00;&#x500B;&#x55AE;&#x4F4D;&#xFF0C;&#x800C;&#x5728; 64-bit &#x74B0;&#x5883;&#x5247;&#x662F;&#x4EE5; 8 bytes &#x70BA;&#x914D;&#x7F6E;&#x55AE;&#x4F4D;&#xFF0C;&#x70BA;&#x4E86;&#x8B93;&#x7D50;&#x69CB;&#x7684;&#x5927;&#x5C0F;&#x80FD;&#x8CBC;&#x9F4A;&#x908A;&#x754C;&#xFF0C;&#x7D50;&#x69CB;&#x6700;&#x5F8C;&#x4E5F;&#x53EF;&#x80FD;&#x81EA;&#x52D5;&#x88DC;&#x4E0A;&#x7A7A;&#x767D;&#x3002; 
+&#x9019;&#x7A2E;&#x7D50;&#x69CB;&#x5927;&#x5C0F;&#x7684;&#x5DEE;&#x7570;&#x6703;&#x5F71;&#x97FF;&#x5728; 64-bit linux &#x74B0;&#x5883;&#x4E0B;&#x57F7;&#x884C;&#x7684; 32-bit &#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#xFF0C;&#x5982;&#x679C;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x8DDF;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x5C0D;&#x8A18;&#x61B6;&#x9AD4;&#x7684;&#x4F48;&#x5C40;&#x8A8D;&#x77E5;&#x4E0D;&#x540C;&#xFF0C;&#x5C31;&#x6703;&#x53C3;&#x8003;&#x5230;&#x4E0D;&#x5C0D;&#x7684;&#x5730;&#x65B9;&#xFF0C;&#x9032;&#x800C;&#x5F15;&#x767C;&#x932F;&#x8AA4;&#x3002;</p>
+<p>gcc &#x5B9A;&#x7FA9;&#x7684;&#x5DE8;&#x96C6; 
+32-bit &#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x767C;&#x51FA;&#x7684; IOCTL &#x7D50;&#x69CB;&#x5FC5;&#x9808;&#x8207; 64-bit &#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x4E00;&#x81F4;&#x624D;&#x884C;&#xFF0C;&#x5982;&#x6B64;&#xFF0C;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x5C31;&#x4E0D;&#x5FC5;&#x5340;&#x5206;&#x9019;&#x5169;&#x7A2E;&#x7D50;&#x69CB;&#x4F48;&#x5C40;&#x5DEE;&#x7570;&#x3002; 
+&#x8981;&#x9054;&#x5230;&#x9019;&#x500B;&#x76EE;&#x7684;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x7DE8;&#x8B6F;&#x5668;&#x5B9A;&#x7FA9;&#x7684;&#x5DE8;&#x96C6;&#xFF0C;&#x5982;&#x6B64;&#xFF0C;&#x5728;&#x7DE8;&#x8B6F;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x6642;&#xFF0C;&#x5224;&#x65B7;&#x662F; 32-bit &#x9084;&#x662F; 64-bit&#xFF0C;&#x8B93;&#x7D50;&#x69CB;&#x7684;&#x504F;&#x79FB;&#x91CF;&#x80FD;&#x4E00;&#x81F4;&#x3002; 
+64-bit gccc &#x6703;&#x5B9A;&#x7FA9;&#x4E0B;&#x9762;&#x9019;&#x985E;&#x5DE8;&#x96C6;&#xFF0C;&#x4EE3;&#x8868;&#x7DE8;&#x8B6F;&#x7684;&#x662F; 64-bit &#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#xFF1A; </p>
+<pre><code class="lang-c">*__LP64__ 
+*__ia64__
+</code></pre>
+<p>&#x4E0B;&#x9762;&#x9019;&#x5169;&#x500B;&#x6307;&#x4EE4;&#xFF0C;&#x90FD;&#x53EF;&#x4EE5;&#x7528;&#x4F86;&#x5217;&#x51FA;&#x5DE8;&#x96C6;&#x7684;&#x5B9A;&#x7FA9;&#xFF1A; </p>
+<pre><code class="lang-c">echo | gcc -v -E -dM - 
+echo | cpp -dM
+</code></pre>
+<p>IOCTL &#x7D50;&#x69CB;&#x7684;&#x5BEB;&#x6CD5; 
+&#x5C07;&#x65B0;&#x6539;&#x5BEB;&#x524D;&#x9762;&#x7684;&#x7BC4;&#x4F8B;&#x7D50;&#x69CB;&#xFF0C;&#x5982;&#x4E0B;&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-keyword">struct</span> ioctl_com {
+    <span class="hljs-keyword">int</span> cmd;
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> size;
+<span class="hljs-preprocessor">#<span class="hljs-keyword">ifdef</span> __LP64__</span>
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> *buf; <span class="hljs-comment">/* 8 bytes */</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">else</span></span>
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> *buf; <span class="hljs-comment">/* 4 bytes */</span>
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> mbz; <span class="hljs-comment">/* 4 bytes padding*/</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span> <span class="hljs-comment">/* __LP64__ */</span></span>
+    <span class="hljs-keyword">int</span> flag;
+    <span class="hljs-keyword">int</span> dummy_pad
+}
+</code></pre>
+<p>&#x8EAB;&#x70BA;&#x6307;&#x6A19;&#x7684; buf &#x6210;&#x54E1;&#x4F4D;&#x7F6E;&#x4E4B;&#x5F8C;&#xFF0C;&#x5728;&#x4EE5; 32-bit &#x7DE8;&#x8B6F;&#x6642;&#x660E;&#x78BA;&#x63D2;&#x5165;&#x5E73;&#x79FB;(mbz &#x6210;&#x54E1;) 
+&#x70BA;&#x4E86;&#x8B93;&#x7D50;&#x69CB;&#x5927;&#x5C0F;&#x662F; 8 bytes &#x7684;&#x500D;&#x6578;&#xFF0C;&#x6240;&#x4EE5;&#x5C3E;&#x7AEF;&#x4E5F;&#x52A0;&#x4E0A;&#x5E73;&#x79FB;(dummy_pad &#x6210;&#x54E1;)&#x3002; 
+&#x5982;&#x6B64;&#xFF0C;&#x5C31;&#x7B97;&#x4EE5; 32-bit &#x7DE8;&#x8B6F;&#xFF0C;&#x7D50;&#x69CB;&#x7684;&#x8A18;&#x61B6;&#x9AD4;&#x914D;&#x7F6E;&#x4E5F;&#x5C0D;&#x8207; 64-bit &#x6642;&#x76F8;&#x540C;&#x3002; 
+&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x8B80;&#x51FA; buf &#x6210;&#x54E1;&#x6642;&#x6703;&#x8B80;&#x5230; 8 bytes &#x8CC7;&#x6599;&#xFF0C;&#x4F46;&#x53EA;&#x8981;&#x4E8B;&#x5148;&#x5C07; mbz &#x8A2D;&#x70BA; 0&#xFF0C;&#x5C31;&#x80FD;&#x5F97;&#x5230;&#x6B63;&#x78BA;&#x7684; 32-bit &#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x6307;&#x6A19;(4 bytes)&#x3002; 
+&#x76EE;&#x524D;&#x7684;&#x7D50;&#x69CB;&#x662F;&#x5C08;&#x5C6C;&#x65BC;&#x300C;little endian&#x300D;&#xFF0C;&#x5982;&#x679C;&#x8981;&#x518D;&#x52A0;&#x4E0A;&#x652F;&#x63F4;&#x300C;big endian&#x300D;&#x7684;&#x8A71;&#xFF0C;&#x9700;&#x518D;&#x4F5C;&#x4FEE;&#x6539;&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-keyword">struct</span> ioctl_com {
+    <span class="hljs-keyword">int</span> cmd;
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> size;
+<span class="hljs-preprocessor">#<span class="hljs-keyword">ifdef</span> __LP64__</span>
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> *buf; <span class="hljs-comment">/* 8 bytes */</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">else</span></span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">ifdef</span> __LITTLE_ENDIAN_BITFIELD</span>
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> *buf; <span class="hljs-comment">/* 4 bytes */</span>
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> mbz; <span class="hljs-comment">/* 4 bytes padding*/</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">elif</span> __BIG_ENDIAN_BITFIELD</span>
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> mbz; <span class="hljs-comment">/* 4 bytes padding*/</span>
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> *buf; <span class="hljs-comment">/* 4 bytes */</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">else</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">error</span> <span class="hljs-string">&quot;Please fix &quot;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span></span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span> <span class="hljs-comment">/* __LP64__ */</span></span>
+    <span class="hljs-keyword">int</span> flag;
+    <span class="hljs-keyword">int</span> dummy_pad
+}
+</code></pre>
+<p><code>DMA</code></p>
+<p>DMA (Direct Memory Access) &#x50B3;&#x9001;&#x8CC7;&#x6599;&#x6642;&#x5FC5;&#x9808;&#x6CE8;&#x610F;&#x7684;&#x554F;&#x984C;&#x4E4B;&#x4E00;&#xFF0C;&#x662F; DMA &#x66AB;&#x5B58;&#x5340;&#x7684;&#x4F4D;&#x5740;&#x8B8A;&#x6210; 64 bits &#x6642;&#xFF0C;&#x6703;&#x4E0D;&#x6703;&#x51FA;&#x73FE;&#x554F;&#x984C;&#x3002; 
+&#x57F7;&#x884C; DMA &#x7684;&#x662F;&#x786C;&#x9AD4;&#x672C;&#x8EAB;&#xFF0C;&#x5982;&#x679C;&#x786C;&#x9AD4;&#x4E0D;&#x652F;&#x63F4; 64 bits &#x4F4D;&#x5740;&#xFF0C;&#x5C31;&#x5FC5;&#x9808;&#x9650;&#x5236;&#x5728; 32-bit &#x4F4D;&#x5740;&#x7BC4;&#x570D;&#x5167;&#x3002;</p>
+<h3 id="6-3%E3%80%81select-poll">6-3&#x3001;select/poll</h3>
+<p>&#x4EE5; open &#x7CFB;&#x7D71;&#x547C;&#x53EB;&#x958B;&#x555F;&#x6A94;&#x6848;&#x6642;&#xFF0C;&#x9810;&#x8A2D;&#x6703;&#x4EE5;&#x300C;blocking mode&#x300D;&#x958B;&#x555F;&#xFF0C;<code>block &#x6307;&#x7684;&#x662F; process &#x70BA;&#x4E86;&#x7B49;&#x5F85;&#x67D0;&#x4EF6;&#x4E8B;&#x60C5;&#x767C;&#x751F;&#xFF0C;&#x800C;&#x9032;&#x5165; sleep &#x72C0;&#x614B;&#x7684;&#x60C5;&#x5F62;&#x3002;</code>
+Linux &#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x591A;&#x4EE5; blocking mode &#x958B;&#x767C;&#xFF0C;&#x800C; windows &#x7684;&#x4E3B;&#x6D41;&#x5247;&#x662F; non-blocking mode&#x3002; 
+&#x5C0D;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x4F86;&#x8AAA;&#xFF0C;&#x5982;&#x679C; read &#x7CFB;&#x7D71;&#x547C;&#x53EB;&#x6703;&#x88AB; block &#x7684;&#x8A71;&#xFF0C;&#x6709;&#x6642;&#x53EF;&#x80FD;&#x6703;&#x5F15;&#x767C;&#x8A2D;&#x8A08;&#x4E0A;&#x7684;&#x554F;&#x984C;&#xFF0C;&#x6240;&#x4EE5; linux &#x6E96;&#x5099;&#x4E86;&#x4EE5;&#x4E0B;&#x7684;&#x63AA;&#x65BD;&#xFF1A;
+Non-block &#x6A21;&#x5F0F;
+&#x540C;&#x6642;&#x57F7;&#x884C;&#x591A;&#x500B;&#x540C;&#x6B65; I/O &#x5DE5;&#x4F5C;</p>
+<p>&#x555F;&#x7528; non-blocking &#x6A21;&#x5F0F;&#x5F8C;&#xFF0C;read() &#x8207; write() &#x5C31;&#x4E0D;&#x6703;&#x88AB; block &#x4E86;&#xFF0C;&#x800C;&#x662F;&#x50B3;&#x56DE;&#x300C;EAGAIN&#x300D;&#x932F;&#x8AA4;&#x78BC;(errno)&#x3002; 
+&#x5728;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x4E2D;&#xFF0C;&#x5982;&#x679C;&#x8981;&#x4F7F;&#x7528; non-blocking &#x6A21;&#x5F0F;&#x7684;&#x8A71;&#xFF0C;&#x5C31;&#x8981;&#x5728; open() &#x958B;&#x6A94;&#x6642;&#xFF0C;&#x4EE5; OR &#x6307;&#x5B9A;&#x300C;O_NONBLOCK&#x300D;&#x9078;&#x9805;&#x3002; </p>
+<pre><code class="lang-c">fd = open(DEVFILE, O_RDWR | O_NONBLOCK);
+<span class="hljs-keyword">if</span> ( fd == -<span class="hljs-number">1</span> ) {
+    perror(<span class="hljs-string">&quot;open&quot;</span>);
+    <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);
+}
+</code></pre>
+<p>&#x5728;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684;&#x90E8;&#x5206;&#xFF0C;&#x5982;&#x679C;&#x8981;&#x652F;&#x63F4; non-blocking &#x6A21;&#x5F0F;&#x7684;&#x8A71;&#xFF0C;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x4E5F;&#x9700;&#x8981;&#x6539;&#x5BEB;&#x624D;&#x884C;&#xFF0C;&#x6703;&#x5728;&#x4E0B;&#x9762;&#x7AE0;&#x7BC0;&#x4E2D;&#x63D0;&#x5230;&#x3002;</p>
+<p><code>&#x540C;&#x6642;&#x57F7;&#x884C;&#x591A;&#x500B;&#x540C;&#x6B65; I/O &#x5DE5;&#x4F5C;</code></p>
+<p>&#x540C;&#x6642;&#x57F7;&#x884C;&#x591A;&#x500B;&#x540C;&#x6B65; I/O &#x5DE5;&#x4F5C;(synchronous I/O multiplexing) &#x6307;&#x7684;&#x662F;&#x4F7F;&#x7528; select &#x7CFB;&#x7D71;&#x547C;&#x53EB;&#x3002; 
+&#x900F;&#x904E; select &#x7CFB;&#x7D71;&#x547C;&#x53EB;&#xFF0C;&#x53EF;&#x4EE5;&#x76E3;&#x8996;&#x591A;&#x500B; file handle &#x5728;&#x4E09;&#x7A2E;&#x72C0;&#x614B;&#x4E4B;&#x7684;&#x8B8A;&#x5316;(&#x53EF;&#x8B80;&#x53D6;&#x3001;&#x53EF;&#x5BEB;&#x5165;&#x3001;&#x767C;&#x751F;&#x932F;&#x8AA4;)&#x3002; 
+select &#x7CFB;&#x7D71;&#x547C;&#x53EB;&#x672C;&#x8EAB;&#x6703;&#x88AB; block&#xFF0C;&#x4F46;&#x662F;&#x53EF;&#x4EE5;&#x6307;&#x5B9A; timeout&#x3002; 
+read() &#x547C;&#x53EB;&#x5F8C;&#xFF0C;&#x6703;&#x4E00;&#x76F4;&#x7B49;&#x5230;&#x8CC7;&#x6599;&#x62B5;&#x9054;&#x70BA;&#x6B62;&#xFF0C;&#x6240;&#x4EE5;&#x53EF;&#x4EE5;&#x5728;&#x547C;&#x53EB; read() &#x4E4B;&#x524D;&#x5148;&#x547C;&#x53EB; select() &#x5224;&#x65B7;&#x8CC7;&#x6599;&#x62B5;&#x9054;&#x4E86;&#x6C92;&#x6709;(&#x80FD;&#x4E0D;&#x80FD;&#x8B80;&#x53D6;)&#xFF0C;&#x5982;&#x679C;&#x53EF;&#x4EE5;&#x8B80;&#x53D6;&#xFF0C;&#x518D;&#x547C;&#x53EB; read()&#x3002; </p>
+<pre><code class="lang-c">retval = select(fd+<span class="hljs-number">1</span>, &amp;rfds, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>, &amp;tv);
+<span class="hljs-keyword">if</span> ( retval ) {
+    read(fd, buf, <span class="hljs-keyword">sizeof</span>(buf));
+}
+</code></pre>
+<p>&#x4F7F;&#x7528; select() &#x6642;&#xFF0C;&#x6709;&#x5E7E;&#x500B;&#x7D93;&#x5E38;&#x7528;&#x5230;&#x7684;&#x51FD;&#x5F0F;&#x5DE8;&#x96C6;&#xFF0C;&#x8ACB;&#x60C5;&#x53EF;&#x4EE5;&#x53C3;&#x8003;&#x300C;man 2&#x300D;&#x3002; </p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">select</span><span class="hljs-params">(<span class="hljs-keyword">int</span> nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, <span class="hljs-keyword">struct</span> timeval *timeout)</span></span>; 
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">FD_CLR</span><span class="hljs-params">(<span class="hljs-keyword">int</span> fd, fd_set *<span class="hljs-built_in">set</span>)</span></span>; 
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">FD_ISSET</span><span class="hljs-params">(<span class="hljs-keyword">int</span> fd, fd_set *<span class="hljs-built_in">set</span>)</span></span>; 
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">FD_SET</span><span class="hljs-params">(<span class="hljs-keyword">int</span> fd, fd_set *<span class="hljs-built_in">set</span>)</span></span>; 
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">FD_ZERO</span><span class="hljs-params">(fd_set *<span class="hljs-built_in">set</span>)</span></span>;
+</code></pre>
+<p>&#x53E6;&#x5916;&#x9084;&#x6709;&#x500B;&#x8DDF; select() &#x5F88;&#x985E;&#x4F3C;&#x7684;&#x300C;poll()&#x300D;&#x7CFB;&#x7D71;&#x547C;&#x53EB;&#xFF0C;&#x4EE5;&#x57FA;&#x672C;&#x529F;&#x80FD;&#x4F86;&#x8AAA; select() &#x8207; poll() &#x90FD;&#x4E00;&#x6A23;&#xFF0C;&#x4F46;&#x6307;&#x5B9A; file handle &#x7684;&#x65B9;&#x5F0F;&#x4E0D;&#x540C;&#x3002; 
+&#x800C;&#x4E14;&#xFF0C;&#x5728;&#x6307;&#x5B9A;&#x591A;&#x500B; file handle &#x6642;&#xFF0C;poll() &#x8D70;&#x8A2A;&#x6240;&#x6709; file handle &#x7684;&#x901F;&#x5EA6;&#x8F03;&#x5FEB;&#xFF0C;&#x8ACB;&#x7D30;&#x7528;&#x6CD5;&#x53EF;&#x4EE5;&#x53C3;&#x8003;&#x300C;man 2 poll&#x300D;&#x3002; </p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">poll</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> pollfd *fds, nfds_t nfds, <span class="hljs-keyword">int</span> timeout)</span></span>;
+<span class="hljs-keyword">struct</span> pollfd {
+    <span class="hljs-keyword">int</span> fd; <span class="hljs-comment">/* file descriptor */</span>
+    <span class="hljs-keyword">short</span> events; <span class="hljs-comment">/* requested events */</span>
+    <span class="hljs-keyword">short</span> revents; <span class="hljs-comment">/* returned events */</span>
+};
+</code></pre>
+<p><code>&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684;&#x5BE6;&#x4F5C;</code>
+&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x60F3;&#x540C;&#x6642;&#x57F7;&#x884C;&#x591A;&#x500B;&#x540C;&#x6B65; I/O &#x5DE5;&#x4F5C;&#x6642;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x7684;&#x7CFB;&#x7D71;&#x547C;&#x53EB;&#x6709;&#x597D;&#x5E7E;&#x500B;&#xFF0C;&#x5305;&#x542B; select &#x8207; poll &#x7B49;&#xFF0C;&#x4F46;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x53EA;&#x9700;&#x8981;&#x6E96;&#x5099;&#x4E00;&#x500B;&#x51FD;&#x5F0F;&#x5C31;&#x5920;&#x4E86;&#xFF0C;kernel &#x53EA;&#x6703;&#x547C;&#x53EB;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x63D0;&#x4F9B;&#x7684;&#x9019;&#x500B;&#x51FD;&#x5F0F;&#x3002; 
+Character &#x985E;&#x578B;&#x7684;&#x88DD;&#x7F6E;&#x60F3;&#x652F;&#x63F4;&#x540C;&#x6642;&#x57F7;&#x884C;&#x591A;&#x500B;&#x540C;&#x6B65; I/O &#x5DE5;&#x4F5C;&#x7684;&#x8A71;&#xFF0C;&#x53EA;&#x8981;&#x5728;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x6E96;&#x5099; poll &#x65B9;&#x6CD5;&#x5373;&#x53EF;&#x3002; </p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">unsigned</span> <span class="hljs-title">int</span> <span class="hljs-params">(*poll)</span> <span class="hljs-params">(<span class="hljs-keyword">struct</span> file *, <span class="hljs-keyword">struct</span> poll_table_struct *)</span></span>;
+</code></pre>
+<p>poll &#x65B9;&#x6CD5;&#x6703;&#x5728; kernel &#x8655;&#x7406; select &#x8207; poll &#x4E4B;&#x985E;&#x7684;&#x7CFB;&#x7D71;&#x547C;&#x53EB;&#x6642;&#x7528;&#x5230;&#xFF0C;&#x5B83;&#x5FC5;&#x9808;&#x57F7;&#x884C;&#x7684;&#x5DE5;&#x4F5C;&#x5F88;&#x7C21;&#x55AE;&#xFF0C;&#x5305;&#x542B;&#xFF1A;</p>
+<ul>
+<li>&#x5728; wait queue &#x767B;&#x8A18;</li>
+<li>&#x50B3;&#x56DE;&#x76EE;&#x524D;&#x53EF;&#x4EE5;&#x64CD;&#x4F5C;&#x7684;&#x72C0;&#x614B;</li>
+</ul>
+<p>&#x5728;&#x547C;&#x53EB;&#x57F7;&#x884C;&#x591A;&#x500B;&#x540C;&#x6B65; I/O &#x5DE5;&#x4F5C;&#x7684;&#x7CFB;&#x7D71;&#x547C;&#x53EB;&#x6642;&#xFF0C;&#x300C;block &#x76F4;&#x5230;&#x72C0;&#x614B;&#x8B8A;&#x5316;&#x300D;&#x7684;&#x52D5;&#x4F5C;&#xFF0C;&#x6307;&#x7684;&#x662F;&#x5728; kernel &#x88E1;&#x9762; sleep&#x3002; 
+&#x8981; sleep &#xFF0C;&#x9700;&#x8981;&#x5148;&#x6E96;&#x5099; wait queue (wait_queue_head_t)&#xFF0C;&#x7531;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x8CA0;&#x8CAC;&#x63D0;&#x4F9B;&#x3002; 
+Wait queue &#x53EF;&#x4EE5;&#x53C3;&#x8003;&#x4EE5;&#x4E0B; 6.6 &#x7BC0; -&#x300C;Sleep &#x8207; Wake Up&#x300D;&#x3002; 
+&#x767B;&#x8A18; wait queue &#x7684;&#x5DE5;&#x4F5C;&#x53EF;&#x900F;&#x904E; poll_wait() &#x5B8C;&#x6210;&#xFF0C;&#x5B9A;&#x7FA9;&#x5728;&#x300C;linux/poll.h&#x300D;&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">poll_wait</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> file *filp, wait_queue_head_t *wait_address, poll_table *p)</span></span>;
+</code></pre>
+<p>&#x5728;&#x547C;&#x53EB;&#x540C;&#x6642;&#x57F7;&#x884C;&#x591A;&#x500B;&#x540C;&#x6B65; I/O &#x5DE5;&#x4F5C;&#x7684;&#x7CFB;&#x7D71;&#x547C;&#x53EB;&#x6642;&#xFF0C;&#x89E3;&#x9664; block &#x7684;&#x6642;&#x6A5F;&#xFF0C;&#x662F;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x900F;&#x904E;&#x50B3;&#x7D66; poll_wait() &#x7684; wait queue &#x88AB;&#x559A;&#x9192;&#x7684;&#x6642;&#x5019;&#x3002; 
+Kernel &#x5728;&#x88AB; wait queue &#x559A;&#x9192;&#x4E4B;&#x5F8C;&#xFF0C;&#x6703;&#x518D;&#x6B21;&#x547C;&#x53EB;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684; poll() &#x78BA;&#x8A8D;&#x662F;&#x5426;&#x5DF2;&#x6210;&#x70BA;&#x7B49;&#x5F85;&#x4E2D;&#x7684;&#x72C0;&#x614B; (&#x53EF;&#x5BEB;&#x5165;&#x6216;&#x53EF;&#x8B80;&#x51FA;)&#x3002; 
+&#x5982;&#x679C;&#x662F;&#x7684;&#x8A71; FD_ISSET &#x5DE8;&#x96C6;&#x5C31;&#x6703;&#x6210;&#x7ACB;&#xFF0C;&#x8981;&#x5224;&#x65B7;&#x662F;&#x5426;&#x70BA;&#x9019;&#x7A2E;&#x72C0;&#x614B;&#xFF0C;&#x7576;&#x7136;&#x9084;&#x662F;&#x9700;&#x8981;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x63D0;&#x4F9B;&#x8CC7;&#x8A0A;&#x624D;&#x884C;&#xFF0C;&#x9019;&#x500B;&#x8CC7;&#x8A0A;&#x5C31;&#x662F;&#x900F;&#x904E; poll() &#x65B9;&#x6CD5;&#x7684;&#x50B3;&#x56DE;&#x503C;&#x4F86;&#x8868;&#x793A;&#x3002; 
+&#x50B3;&#x56DE;&#x503C;&#x8981;&#x900F;&#x904E; linux/poll.h &#x5B9A;&#x7FA9;&#x7684;&#x5DE8;&#x96C6; OR &#x8D77;&#x4F86;&#x8868;&#x793A;&#xFF0C;&#x4EE5;&#x4E0B;&#x662F;&#x5E38;&#x7528;&#x5230;&#x7684;&#x7D44;&#x5408;&#xFF1A;</p>
+<table border="1">
+<caption></caption><tbody><tr><td>Bit OR</td><td>&#x610F;&#x7FA9;</td>
+</tr><tr><td>POLLIN | POLLRDNORM</td><td>&#x53EF;&#x8B80;&#x53D6;</td></tr>
+<tr><td>POLLOUT | POLLWRNORM</td><td>&#x53EF;&#x5BEB;&#x5165;</td></tr>
+<tr><td>POLLIN | POLLRDNORM | POLLOUT | POLLWRNORM</td><td>&#x53EF;&#x8B80;&#x5BEB;</td></tr>
+<tr><td>POLLERR</td><td>&#x767C;&#x751F;&#x932F;&#x8AA4;</td></tr>
+<tr><td>POLLHUP</td><td>&#x88DD;&#x7F6E;&#x96E2;&#x7DDA;(EOF)</td></tr>
+</tbody></table>
 
 
-current=$(\ls -l $LD | awk &apos;{print $NF}&apos;)
-if [ $current = $GNULD ]; then
-    sudo ln -fs ${GOLD} ${LD}
-    echo &quot;switch ld to ${GOLD}&quot;
-else
-    sudo ln -fs ${GNULD} ${LD}
-    echo &quot;switch ld to ${GNULD}&quot;
-fi
-</code></pre><p>&#x53E6;&#x5916; jserv &#x63D0;&#x5230; gcc &#x6709;&#x547D;&#x4EE4;&#x5217;&#x53C3;&#x6578;&#x53EF;&#x76F4;&#x63A5;&#x6307;&#x5B9A;&#x7528;&#x90A3;&#x500B; linker (ref.)&#x3002;wens &#x5247;&#x67E5;&#x5230; Debian/Ubuntu changelog &#x88E1;&#x6709;&#x5BEB; &#x4E0B;&#x53EF;&#x7528; -B/usr/lib/compat-ld &#x548C; -B/usr/lib/gold-ld for ld.gold&#x3002;</p>
-<p>&#x9806;&#x4FBF; google &#x4E00;&#x4E0B;&#x770B;&#x600E;&#x9EBC;&#x67E5; changelog, &#x4F3C;&#x4E4E;&#x662F;&#x770B; /usr/share/doc/binutils/changelog.Debian.gz &#x6216;&#x7528; aptitude changelog PKG, &#x4E0D;&#x904E;&#x9019;&#x5169;&#x500B;&#x4F5C;&#x6CD5;&#x90FD;&#x53EA;&#x6709;&#x6700;&#x8FD1;&#x7684; changelog, &#x6C92;&#x6709;&#x5B8C;&#x6574;&#x8A18;&#x9304;, &#x50CF;&#x67E5; binutils &#x6642;&#x5C31;&#x6C92;&#x6709;&#x627E;&#x5230;&#x4E0A;&#x9762;&#x63D0;&#x7684;&#x53C3;&#x6578;&#x8AAA;&#x660E;&#x3002;</p>
+<p>&#x4E0B;&#x5217;&#x662F; poll &#x65B9;&#x6CD5;&#x7684;&#x7A0B;&#x5F0F;&#x7247;&#x6BB5;&#xFF0C;poll &#x65B9;&#x6CD5;&#x5728;&#x5411; wait queue &#x767B;&#x8A18;&#x5B8C;&#x6210;&#x4E4B;&#x5F8C;&#x5FC5;&#x9808;&#x7ACB;&#x523B;&#x8FD4;&#x56DE;&#xFF0C;&#x4E0D;&#x80FD;&#x5728; poll &#x65B9;&#x6CD5;&#x88E1; sleep&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> <span class="hljs-title">devone_poll</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> file *filp, poll_table *wait)</span> </span>{
+    <span class="hljs-keyword">struct</span> devone_data *dev = filp-&gt;private_data;
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> mask = <span class="hljs-number">0</span>;
+
+    <span class="hljs-keyword">if</span> (dev == <span class="hljs-literal">NULL</span>)
+        <span class="hljs-keyword">return</span> -EBADFD;
+    poll_wait(filp, &amp;dev-&gt;read_wait, wait);
+    <span class="hljs-keyword">if</span> (dev-&gt;timeout_done == <span class="hljs-number">1</span>) { <span class="hljs-comment">/* readable */</span>
+        mask |= POLLIN | POLLRDNORM;
+    }
+    printk(<span class="hljs-string">&quot;%s returned (mask 0x%x)\n&quot;</span>, __func__, mask);
+    <span class="hljs-keyword">return</span> mask;
+}
+</code></pre>
+<p><code>&#x7BC4;&#x4F8B;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;</code></p>
+<p>&#x63A5;&#x8457;&#x4F86;&#x5BEB;&#x6EFF;&#x8DB3;&#x4E0B;&#x5217;&#x689D;&#x4EF6;&#x7684;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#xFF1A;</p>
+<ul>
+<li>&#x652F;&#x63F4; user process &#x767C;&#x51FA; read() &#x7CFB;&#x7D71;&#x547C;&#x53EB;</li>
+<li>&#x6709;&#x8CC7;&#x6599;&#x6642;&#xFF0C;read() &#x6703;&#x7ACB;&#x523B;&#x53CD;&#x56DE;</li>
+<li>&#x7121;&#x8CC7;&#x6599;&#x6642;&#xFF0C;read() &#x6703; sleep (block)</li>
+<li>&#x652F;&#x63F4; poll() &#x7CFB;&#x7D71;&#x547C;&#x53EB;</li>
+<li>&#x767C;&#x51FA; write() &#x6703;&#x5C0E;&#x81F4;&#x932F;&#x8AA4;</li>
+</ul>
+<p>&#x6A21;&#x64EC;&#x6709;&#x7121;&#x8CC7;&#x6599;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x662F;&#x5728;&#x6536;&#x5230; open() &#x7CFB;&#x7D71;&#x547C;&#x53EB;&#x6642;&#x555F;&#x52D5; kernel timer&#xFF0C;&#x7D93;&#x904E;&#x4E00;&#x6BB5;&#x6642;&#x9593;&#x5F8C; wake up&#xFF0C;&#x4F86;&#x6A21;&#x64EC;&#x6536;&#x5230;&#x65B0;&#x8CC7;&#x6599;&#x3002; <br>
+&#x6B64;&#x7BC4;&#x4F8B;&#x662F;&#x5047;&#x60F3;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x70BA;&#x4E86;&#x5F9E;&#x786C;&#x9AD4;&#x53D6;&#x5F97;&#x8CC7;&#x6599;&#xFF0C;&#x6240;&#x4EE5;&#x9001;&#x51FA; read() &#x7CFB;&#x7D71;&#x547C;&#x53EB;&#x7684;&#x60C5;&#x5F62;&#x3002; 
+&#x6C92;&#x6709;&#x8CC7;&#x6599;&#x6642;&#xFF0C;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x5167;&#x90E8;&#x9700;&#x8981; sleep&#xFF0C;&#x4F46;&#x662F;&#x8981;&#x80FD;&#x5728; user process &#x6536;&#x5230; signal &#x7684;&#x6642;&#x5019;&#x89E3;&#x9664; sleep &#x624D;&#x884C;&#x3002; <br>
+&#x9019;&#x7A2E;&#x7528;&#x9014;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; wait_event_interruptible() &#x9019;&#x500B; kernel &#x51FD;&#x5F0F;&#xFF0C;&#x5982;&#x679C;&#x8981;&#x907F;&#x514D;&#x932F;&#x904E; wake up &#x7684;&#x6642;&#x6A5F;&#xFF0C;&#x53EF;&#x4EE5;&#x6539;&#x7528; wait_event_interruptible_timeout() &#x9019;&#x500B;&#x9644;&#x5E36; time out &#x529F;&#x80FD;&#x7684;&#x51FD;&#x5F0F;&#x3002; <br>
+&#x9806;&#x9053;&#x4E00;&#x63D0;&#xFF0C;&#x5728;&#x6536;&#x7DB2;&#x8DEF;&#x5C01;&#x5305;&#x6642;&#xFF0C;&#x8655;&#x7406;&#x7684;&#x65B9;&#x5F0F;&#x4E5F;&#x5341;&#x5206;&#x985E;&#x4F3C;&#xFF0C;&#x662F;&#x900F;&#x904E;&#x5BE6;&#x4F5C;&#x65BC; net/core/datagram.c &#x7684; wiat_for_packet() &#x4F86;&#x7B49;&#x5F85;&#x7684;&#x3002; <br>
+&#x53E6;&#x4E00;&#x500B;&#x8981;&#x8003;&#x616E;&#x7684;&#x5730;&#x65B9;&#x662F; non-blocking mode &#x7684;&#x652F;&#x63F4;&#xFF0C;User process &#x4EE5; non-blocking mode &#x958B;&#x555F;&#x88DD;&#x7F6E;&#x6A94;&#x6642;&#xFF0C;read() &#x5C31;&#x4E0D;&#x80FD; block&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x5167;&#x4E0D;&#x80FD; sleep&#xFF0C;&#x6C92;&#x6709;&#x8CC7;&#x6599;&#x7684;&#x8A71;&#x5FC5;&#x9808;&#x50B3;&#x56DE;&#x932F;&#x8AA4;&#x78BC;&#x624D;&#x884C;&#x3002; <br></p>
+<p>main.c &#xFF0C;&#x7522;&#x751F; .ko &#x6A94;&#x7684;&#x9A45;&#x7A0B;&#x7A0B;&#x5F0F;&#x7A0B;&#x5F0F;&#x78BC;&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-comment">/*
+ * devone.c
+ *
+ * Update: 2007/12/19 Yutaka Hirata
+ */</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/init.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/module.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/types.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/kernel.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/fs.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/cdev.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/device.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/poll.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;asm/uaccess.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/sched.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/slab.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/semaphore.h&gt;</span></span>
+
+MODULE_LICENSE(<span class="hljs-string">&quot;Dual BSD/GPL&quot;</span>);
+
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> timeout_value = <span class="hljs-number">15</span>;
+<span class="hljs-comment">/* driver parameter */</span>
+module_param(timeout_value, uint, <span class="hljs-number">0</span>);
+
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> devone_devs = <span class="hljs-number">1</span>;        <span class="hljs-comment">/* device count */</span>
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> devone_major = <span class="hljs-number">0</span>;       <span class="hljs-comment">/* MAJOR: dynamic allocation */</span>
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> devone_minor = <span class="hljs-number">0</span>;       <span class="hljs-comment">/* MINOR: static allocation */</span>
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">struct</span> cdev devone_cdev;
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">struct</span> <span class="hljs-keyword">class</span> *devone_class = <span class="hljs-literal">NULL</span>;
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">dev_t</span> devone_dev;
+
+<span class="hljs-keyword">struct</span> devone_data {
+    <span class="hljs-keyword">struct</span> timer_list timeout;
+    <span class="hljs-keyword">spinlock_t</span> lock;
+    <span class="hljs-keyword">wait_queue_head_t</span> read_wait;
+    <span class="hljs-keyword">int</span> timeout_done;
+    <span class="hljs-keyword">struct</span> semaphore sem;
+};
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">devone_timeout</span><span class="hljs-params">(<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> arg)</span>
+</span>{
+    <span class="hljs-keyword">struct</span> devone_data *dev = (<span class="hljs-keyword">struct</span> devone_data *)arg;
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> flags;
+
+    printk(<span class="hljs-string">&quot;%s called\n&quot;</span>, __func__);
+
+    spin_lock_irqsave(&amp;dev-&gt;lock, flags);
+
+    dev-&gt;timeout_done = <span class="hljs-number">1</span>;
+    wake_up_interruptible(&amp;dev-&gt;read_wait);  <span class="hljs-comment">// &#x559A;&#x9192; sleep process</span>
+
+    spin_unlock_irqrestore(&amp;dev-&gt;lock, flags);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> <span class="hljs-title">devone_poll</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> file *filp, poll_table *wait)</span>
+</span>{
+    <span class="hljs-keyword">struct</span> devone_data *dev = filp-&gt;private_data;
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> mask = POLLOUT | POLLWRNORM;
+
+    printk(<span class="hljs-string">&quot;%s called\n&quot;</span>, __func__);
+    printk(KERN_ALERT <span class="hljs-string">&quot;0x%08X\n&quot;</span>, __builtin_return_address(<span class="hljs-number">0</span>));
+
+    <span class="hljs-keyword">if</span> (dev == <span class="hljs-literal">NULL</span>)
+        <span class="hljs-keyword">return</span> -EBADFD;
+
+    down(&amp;dev-&gt;sem);
+    poll_wait(filp, &amp;dev-&gt;read_wait, wait);
+    <span class="hljs-keyword">if</span> (dev-&gt;timeout_done == <span class="hljs-number">1</span>) {    <span class="hljs-comment">/* readable */</span>
+        mask |= POLLIN | POLLRDNORM;
+    }
+    up(&amp;dev-&gt;sem);
+
+    printk(<span class="hljs-string">&quot;%s returned (mask 0x%x)\n&quot;</span>, __func__,  mask);
+    <span class="hljs-keyword">return</span> (mask);
+}
+
+<span class="hljs-keyword">ssize_t</span> devone_write(<span class="hljs-keyword">struct</span> file *filp, <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> __user *buf, <span class="hljs-keyword">size_t</span> count, <span class="hljs-keyword">loff_t</span> *f_pos)
+{
+    printk(<span class="hljs-string">&quot;%s called\n&quot;</span>, __func__);
+    <span class="hljs-keyword">return</span> -EFAULT;
+}
+
+
+<span class="hljs-keyword">ssize_t</span> devone_read(<span class="hljs-keyword">struct</span> file *filp, <span class="hljs-keyword">char</span> __user *buf, <span class="hljs-keyword">size_t</span> count, <span class="hljs-keyword">loff_t</span> *f_pos)
+{
+    <span class="hljs-keyword">struct</span> devone_data *dev = filp-&gt;private_data;
+    <span class="hljs-keyword">int</span> i;
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> val;
+    <span class="hljs-keyword">int</span> retval;
+
+    printk(<span class="hljs-string">&quot;%s called\n&quot;</span>, __func__);
+
+
+    <span class="hljs-keyword">if</span> (down_interruptible(&amp;dev-&gt;sem))
+        <span class="hljs-keyword">return</span> -ERESTARTSYS;
+
+    <span class="hljs-keyword">if</span> (dev-&gt;timeout_done == <span class="hljs-number">0</span>) {   <span class="hljs-comment">/* no read */</span>
+        up(&amp;dev-&gt;sem);
+        <span class="hljs-keyword">if</span> (filp-&gt;f_flags &amp; O_NONBLOCK)   <span class="hljs-comment">/* Non-blocking mode */</span>
+            <span class="hljs-keyword">return</span> -EAGAIN;
+        <span class="hljs-keyword">do</span> {
+            retval = wait_event_interruptible_timeout(dev-&gt;read_wait,
+                     dev-&gt;timeout_done == <span class="hljs-number">1</span>, <span class="hljs-number">1</span>*HZ);
+            <span class="hljs-keyword">if</span> (retval == -ERESTARTSYS)
+                <span class="hljs-keyword">return</span> -ERESTARTSYS;
+        } <span class="hljs-keyword">while</span> (retval == <span class="hljs-number">0</span>);  <span class="hljs-comment">/* timeout elapsed */</span>
+
+        <span class="hljs-keyword">if</span> (down_interruptible(&amp;dev-&gt;sem))
+            <span class="hljs-keyword">return</span> -ERESTARTSYS;
+    }
+
+    val = <span class="hljs-number">0xff</span>;
+    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span> ; i &lt; count ; i++) {
+        <span class="hljs-keyword">if</span> (copy_to_user(&amp;buf[i], &amp;val, <span class="hljs-number">1</span>)) {
+            retval = -EFAULT;
+            <span class="hljs-keyword">goto</span> out;
+        }
+    }
+    retval = count;
+
+out:
+    dev-&gt;timeout_done = <span class="hljs-number">0</span>;
+    <span class="hljs-comment">/* restart timer */</span>
+    mod_timer(&amp;dev-&gt;timeout, jiffies + timeout_value*HZ);  <span class="hljs-comment">// timeout_value &#x79D2;&#x5F8C;call devone_timeout funtionset dev-&gt;timeout_done = 1 and devone_poll &#x51FD;&#x6578;&#x4E2D; mask |= POLLIN | POLLRDNORM;  , user space retval value 0 to 1</span>
+
+    up(&amp;dev-&gt;sem);
+
+    <span class="hljs-keyword">return</span> (retval);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">devone_close</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> inode *inode, <span class="hljs-keyword">struct</span> file *filp)</span>
+</span>{
+    <span class="hljs-keyword">struct</span> devone_data *dev = filp-&gt;private_data;
+
+    <span class="hljs-keyword">if</span> (dev) {
+        del_timer_sync(&amp;dev-&gt;timeout);
+        kfree(dev);
+    }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;   <span class="hljs-comment">/* success */</span>
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">devone_open</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> inode *inode, <span class="hljs-keyword">struct</span> file *filp)</span>
+</span>{
+    <span class="hljs-keyword">struct</span> devone_data *dev;
+
+    dev = kmalloc(<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">struct</span> devone_data), GFP_KERNEL);
+    <span class="hljs-keyword">if</span> (dev == <span class="hljs-literal">NULL</span>) {
+        <span class="hljs-keyword">return</span> -ENOMEM;
+    }
+
+    <span class="hljs-comment">/* initialize members */</span>
+    spin_lock_init(&amp;dev-&gt;lock);
+
+    init_waitqueue_head(&amp;dev-&gt;read_wait); <span class="hljs-comment">// &#x521D;&#x59CB;&#x5316;&#x7B49;&#x5F85;&#x968A;&#x5217;&#x982D;</span>
+
+    sema_init(&amp;dev-&gt;sem, <span class="hljs-number">1</span>);
+
+    init_timer(&amp;dev-&gt;timeout);
+    dev-&gt;timeout.function = devone_timeout;
+    dev-&gt;timeout.data = (<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span>)dev;
+
+    filp-&gt;private_data = dev;
+
+    <span class="hljs-comment">/* start timer */</span>
+    dev-&gt;timeout_done = <span class="hljs-number">0</span>;
+    mod_timer(&amp;dev-&gt;timeout, jiffies + timeout_value*HZ);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;   <span class="hljs-comment">/* success */</span>
+}
+
+<span class="hljs-keyword">struct</span> file_operations devone_fops = {
+    .owner = THIS_MODULE,
+    .open = devone_open,
+    .release = devone_close,
+    .read = devone_read,
+    .write = devone_write,
+    .poll = devone_poll,
+};
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">devone_init</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">dev_t</span> dev = MKDEV(devone_major, <span class="hljs-number">0</span>);
+    <span class="hljs-keyword">int</span> alloc_ret = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">int</span> major;
+    <span class="hljs-keyword">int</span> cdev_err = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">struct</span> class_device *class_dev = <span class="hljs-literal">NULL</span>;
+
+    alloc_ret = alloc_chrdev_region(&amp;dev, <span class="hljs-number">0</span>, devone_devs, <span class="hljs-string">&quot;devone&quot;</span>);
+    <span class="hljs-keyword">if</span> (alloc_ret)
+        <span class="hljs-keyword">goto</span> error;
+    devone_major = major = MAJOR(dev);
+
+    cdev_init(&amp;devone_cdev, &amp;devone_fops);
+    devone_cdev.owner = THIS_MODULE;
+    devone_cdev.ops = &amp;devone_fops;
+    cdev_err = cdev_add(&amp;devone_cdev, MKDEV(devone_major, devone_minor), <span class="hljs-number">1</span>);
+    <span class="hljs-keyword">if</span> (cdev_err)
+        <span class="hljs-keyword">goto</span> error;
+
+    <span class="hljs-comment">/* register class */</span>
+    devone_class = class_create(THIS_MODULE, <span class="hljs-string">&quot;devone&quot;</span>);
+    <span class="hljs-keyword">if</span> (IS_ERR(devone_class)) {
+        <span class="hljs-keyword">goto</span> error;
+    }
+    devone_dev = MKDEV(devone_major, devone_minor);
+    class_dev = device_create(
+                    devone_class,
+                    <span class="hljs-literal">NULL</span>,
+                    devone_dev,
+                    <span class="hljs-literal">NULL</span>,
+                    <span class="hljs-string">&quot;devone%d&quot;</span>,
+                    devone_minor);
+
+    printk(KERN_ALERT <span class="hljs-string">&quot;devone driver(major %d) installed.\n&quot;</span>, major);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+
+error:
+    <span class="hljs-keyword">if</span> (cdev_err == <span class="hljs-number">0</span>)
+        cdev_del(&amp;devone_cdev);
+
+    <span class="hljs-keyword">if</span> (alloc_ret == <span class="hljs-number">0</span>)
+        unregister_chrdev_region(dev, devone_devs);
+
+    <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">devone_exit</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">dev_t</span> dev = MKDEV(devone_major, <span class="hljs-number">0</span>);
+
+    <span class="hljs-comment">/* unregister class */</span>
+    device_destroy(devone_class, devone_dev);
+    class_destroy(devone_class);
+
+    cdev_del(&amp;devone_cdev);
+    unregister_chrdev_region(dev, devone_devs);
+
+    printk(KERN_ALERT <span class="hljs-string">&quot;devone driver removed.\n&quot;</span>);
+
+}
+
+module_init(devone_init);
+module_exit(devone_exit);
+</code></pre>
+<p>read.c - &#x4F9D;&#x7167; read() &#x7684; flag &#x7684;&#x8A2D;&#x5B9A;&#xFF0C;&#x6B64;&#x7A0B;&#x5F0F;&#x53EF;&#x4EE5;&#x5BEB;&#x6210; block mode &#x6216; non-block mode&#xFF0C;&#x4F9D; blocking &#x9019;&#x500B;&#x53C3;&#x6578;&#x4F86;&#x9078;&#x64C7;&#x3002; </p>
+<pre><code class="lang-c"><span class="hljs-comment">/*
+ * # cc blk.c &amp;&amp; ./a.out
+ *
+ */</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;errno.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/time.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/stat.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;fcntl.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;poll.h&gt;</span></span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> DEVFILE <span class="hljs-string">&quot;/dev/devone0&quot;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span> </span>{
+    <span class="hljs-keyword">int</span> fd;
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> buf[<span class="hljs-number">64</span>];
+    <span class="hljs-keyword">ssize_t</span> sz;
+    <span class="hljs-keyword">int</span> i;
+    <span class="hljs-keyword">int</span> blocking = <span class="hljs-number">0</span>;
+
+    <span class="hljs-keyword">if</span> (blocking) 
+        fd = open(DEVFILE, O_RDWR);
+    <span class="hljs-keyword">else</span>
+        fd = open(DEVFILE, O_RDWR|O_NONBLOCK);
+
+    <span class="hljs-keyword">if</span> (fd == -<span class="hljs-number">1</span>) {
+        perror(<span class="hljs-string">&quot;open&quot;</span>);
+        <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);
+    }
+
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;read() ...\n&quot;</span>);
+    sz = read(fd, buf, <span class="hljs-keyword">sizeof</span>(buf));
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;read() %d\n&quot;</span>, sz);
+
+    <span class="hljs-keyword">if</span> ( sz &gt; <span class="hljs-number">0</span> ) {
+        <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span> ; i &lt; sz ; i++) {
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%02x &quot;</span>, buf[i]);
+        }
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n&quot;</span>);
+
+    }
+    <span class="hljs-keyword">else</span> {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;errno %d\n&quot;</span>, errno);
+        perror(<span class="hljs-string">&quot;read&quot;</span>);
+    }
+
+    close(fd);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>; 
+}
+</code></pre>
+<p>select.c - &#x900F;&#x904E; select() &#x7B49;&#x5F85;&#xFF0C;&#x76F4;&#x5230;&#x53EF;&#x4EE5;&#x8B80;&#x53D6;&#x8CC7;&#x6599;&#x6642;&#x624D;&#x9001;&#x51FA; read()&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-comment">/*
+ * # cc select.c &amp;&amp; ./a.out
+ *
+ */</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/time.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/stat.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;fcntl.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> DEVFILE <span class="hljs-string">&quot;/dev/devone0&quot;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">int</span> fd;
+    fd_set rfds;
+    <span class="hljs-keyword">struct</span> timeval tv;
+    <span class="hljs-keyword">int</span> retval;
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> buf[<span class="hljs-number">64</span>];
+    <span class="hljs-keyword">ssize_t</span> sz;
+    <span class="hljs-keyword">int</span> i;
+
+    fd = open(DEVFILE, O_RDWR);
+    <span class="hljs-keyword">if</span> (fd == -<span class="hljs-number">1</span>) {
+        perror(<span class="hljs-string">&quot;open&quot;</span>);
+        <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);
+    }
+
+
+    <span class="hljs-keyword">do</span> {
+        FD_ZERO(&amp;rfds);
+        FD_SET(fd, &amp;rfds);
+        tv.tv_sec = <span class="hljs-number">5</span>;
+        tv.tv_usec = <span class="hljs-number">0</span>;
+
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;select() ...\n&quot;</span>);
+        retval = select(fd + <span class="hljs-number">1</span>, &amp;rfds, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>, &amp;tv);
+        <span class="hljs-keyword">if</span> (retval == -<span class="hljs-number">1</span>) {
+            perror(<span class="hljs-string">&quot;select&quot;</span>);
+            <span class="hljs-keyword">break</span>;
+        }
+
+        <span class="hljs-keyword">if</span> (retval) {
+            <span class="hljs-keyword">break</span>;
+        }
+    } <span class="hljs-keyword">while</span> (retval == <span class="hljs-number">0</span>);   <span class="hljs-comment">/* timeout elapsed */</span>
+
+    <span class="hljs-keyword">if</span> (FD_ISSET(fd, &amp;rfds)) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;read() ...\n&quot;</span>);
+        sz = read(fd, buf, <span class="hljs-keyword">sizeof</span>(buf));
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;read() %d\n&quot;</span>, sz);
+        <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span> ; i &lt; sz ; i++) {
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%02x &quot;</span>, buf[i]);
+        }
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n&quot;</span>);
+    }
+
+    close(fd);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>poll.c - &#x900F;&#x904E; poll() &#x7B49;&#x5F85;&#xFF0C;&#x76F4;&#x5230;&#x53EF;&#x4EE5;&#x8B80;&#x53D6;&#x8CC7;&#x6599;&#x6642;&#x624D;&#x9001;&#x51FA; read()&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-comment">/*
+ * # cc poll.c &amp;&amp; ./a.out
+ *
+ */</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/time.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/stat.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;fcntl.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;poll.h&gt;</span></span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> DEVFILE <span class="hljs-string">&quot;/dev/devone0&quot;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">int</span> fd;
+    <span class="hljs-keyword">struct</span> pollfd fds;
+    <span class="hljs-keyword">int</span> retval;
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> buf[<span class="hljs-number">64</span>];
+    <span class="hljs-keyword">ssize_t</span> sz;
+    <span class="hljs-keyword">int</span> i;
+
+    fd = open(DEVFILE, O_RDWR);
+    <span class="hljs-keyword">if</span> (fd == -<span class="hljs-number">1</span>) {
+        perror(<span class="hljs-string">&quot;open&quot;</span>);
+        <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);
+    }
+
+    <span class="hljs-keyword">do</span> {
+        fds.fd = fd;
+        fds.events = POLLIN;
+
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;poll() ...\n&quot;</span>);
+        retval = poll(&amp;fds, <span class="hljs-number">1</span>, <span class="hljs-number">5</span> * <span class="hljs-number">1000</span>); <span class="hljs-comment">// 5&#x79D2; timeout</span>
+        <span class="hljs-keyword">if</span> (retval == -<span class="hljs-number">1</span>) {
+            perror(<span class="hljs-string">&quot;poll&quot;</span>);
+            <span class="hljs-keyword">break</span>;
+        }
+
+        <span class="hljs-keyword">if</span> (retval) {
+            <span class="hljs-keyword">break</span>;
+        }
+    } <span class="hljs-keyword">while</span> (retval == <span class="hljs-number">0</span>);   <span class="hljs-comment">/* timeout elapsed */</span>
+
+    <span class="hljs-keyword">if</span> (fds.revents &amp; POLLIN) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;read() ...\n&quot;</span>);
+        sz = read(fd, buf, <span class="hljs-keyword">sizeof</span>(buf));
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;read() %ld\n&quot;</span>, sz);
+        <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span> ; i &lt; sz ; i++) {
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%02x &quot;</span>, buf[i]);
+        }
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n&quot;</span>);
+    }
+
+    close(fd);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<h3 id="6-4%E3%80%81procfs">6-4&#x3001;procfs</h3>
+<p>profs (/proc file system) &#x6307;&#x7684;&#x662F;&#x4F4D;&#x65BC; /proc &#x7684;&#x865B;&#x64EC;&#x6A94;&#x6848;&#x7CFB;&#x7D71; (&#x5BE6;&#x9AD4;&#x5728; RAM &#x4E4B;&#x5167;)&#xFF0C;&#x5167;&#x542B; kernel &#x8207;&#x5404;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684;&#x8A2D;&#x5B9A;&#x9078;&#x9805;&#x3002; 
+/proc &#x88E1;&#x9762;&#x7684;&#x5927;&#x591A;&#x6578;&#x6A94;&#x6848;&#x90FD;&#x662F;&#x552F;&#x8B80;&#x7684;&#xFF0C;&#x4F46;&#x4E5F;&#x6709;&#x4E9B;&#x6A94;&#x6848;&#x53EF;&#x8B93;&#x4F7F;&#x7528;&#x8005;&#x5BEB;&#x5165;&#x65B0;&#x8A2D;&#x5B9A;&#x3002; </p>
+<p><code>&#x5EFA;&#x7ACB;&#x552F;&#x8B80;&#x7684; procfs</code> <br></p>
+<p>&#x5728;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x521D;&#x59CB;&#x5316;&#x6642;&#xFF0C;&#x547C;&#x53EB; create_proc_read_entry() &#x5373;&#x53EF;&#x5EFA;&#x7ACB;&#x552F;&#x8B80;&#x7684; procfs &#x6A94;&#x6848;&#xFF0C;&#x5B9A;&#x7FA9;&#x7684;&#x6A19;&#x982D;&#x6A94;&#x662F; linux/proc_fs.h&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">struct</span> proc_dir_entry *<span class="hljs-title">create_proc_read_entry</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *name, mode_t mode, <span class="hljs-keyword">struct</span> proc_dir_entry *base, read_proc_t *read_proc, <span class="hljs-keyword">void</span> *data)</span></span>;
+</code></pre>
+<p>&#x5404;&#x5F15;&#x6578;&#x7684;&#x610F;&#x7FA9;&#x5982;&#x4E0B;&#xFF1A;</p>
+<table border="1">
+<tbody><tr><td>name</td><td>&#x5728; /proc &#x4E4B;&#x5167;&#x7684;&#x6A94;&#x6848;&#x540D;&#x7A31; </td></tr>
+<tr><td>mode</td><td>&#x6B0A;&#x9650; (&#x53EF; NULL) </td></tr>
+<tr><td>base</td><td>&#x4E0A;&#x5C64;&#x76EE;&#x9304; (&#x53EF; NULL) </td></tr>
+<tr><td>read_proc</td><td>&#x8B80;&#x53D6;&#x8655;&#x7406;&#x51FD;&#x5F0F; </td></tr>
+<tr><td>data</td><td>&#x79C1;&#x6709;&#x8CC7;&#x6599; (&#x53EF; NULL) </td></tr>
+</tbody></table>
+
+
+<p>&#x5176;&#x4E2D; read_proc &#x5F15;&#x6578;&#x8981;&#x50B3;&#x5165;&#x8B80;&#x53D6;&#x6642;&#x547C;&#x53EB;&#x7684;&#x8655;&#x7406;&#x51FD;&#x5F0F;&#x6307;&#x6A19;&#xFF0C;&#x9019;&#x500B;&#x51FD;&#x5F0F;&#x7684; prototype &#x5DF2; typedef &#x70BA; read_proc_t&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">typedef</span> <span class="hljs-title">int</span> <span class="hljs-params">(read_proc_t)</span> <span class="hljs-params">(<span class="hljs-keyword">char</span> *page, <span class="hljs-keyword">char</span> **start, off_t off, <span class="hljs-keyword">int</span> count, <span class="hljs-keyword">int</span> *eof, <span class="hljs-keyword">void</span> *data)</span></span>;
+</code></pre>
+<p>&#x5404;&#x5F15;&#x6578;&#x7684;&#x610F;&#x7FA9;&#x70BA;&#xFF1A;</p>
+<table border="1">
+<tbody><tr><td>page</td><td>Kernel &#x914D;&#x7F6E;&#x7684;&#x8A18;&#x61B6;&#x9AD4;&#x7A7A;&#x9593; </td></tr>
+<tr><td>start</td><td>&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x5BEB;&#x5165;&#x8CC7;&#x6599;&#x7684;&#x958B;&#x59CB;&#x4F4D;&#x5740;&#x6307;&#x6A19;(&#x7531;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x56DE;&#x50B3;)</td></tr>
+<tr><td>off</td><td>&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x50B3;&#x56DE;&#x8CC7;&#x6599;&#x7684;&#x504F;&#x79FB;&#x91CF;</td></tr>
+<tr><td>count</td><td>User process &#x4E00;&#x6B21;&#x8B80;&#x56DE;&#x7684;&#x91CF;</td></tr>
+<tr><td>eof</td><td>&#x901A;&#x77E5;&#x5DF2;&#x9054;&#x8CC7;&#x6599;&#x7D42;&#x9EDE;(&#x7531;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x56DE;&#x50B3;)</td></tr>
+<tr><td>data</td><td>create_proc_read_entry() &#x8A2D;&#x5B9A;&#x7684;&#x79C1;&#x6709;&#x8CC7;&#x6599;</td></tr>
+</tbody></table>
+
+<p>page &#x5F15;&#x6578;&#x662F; kernel &#x5206;&#x914D;&#x7684;&#x8A18;&#x61B6;&#x9AD4;&#xFF0C;&#x6240;&#x4EE5;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x5BEB;&#x5165;&#xFF0C;&#x4F46;&#x662F;&#x56E0;&#x70BA;&#x53EA;&#x5206;&#x914D;&#x4E86;&#x4E00;&#x500B; page &#x7684;&#x5927;&#x5C0F;(PAGE_SIZE)&#xFF0C;&#x6240;&#x4EE5;&#x5BEB;&#x5165;&#x7684;&#x8CC7;&#x6599;&#x91CF;&#x8D85;&#x904E; PAGE_SIZE &#x5C31;&#x6703;&#x7834;&#x58DE;&#x8A18;&#x61B6;&#x9AD4;&#x5167;&#x5BB9;&#x3002; 
+start &#x5F15;&#x6578;&#x5728;&#x547C;&#x53EB;&#x8B80;&#x53D6;&#x8655;&#x7406;&#x51FD;&#x5F0F;&#x4E4B;&#x5F8C;&#x7684;&#x503C;&#x662F;&#x300C;*start = NULL&#x300D;&#xFF0C;start &#x6307;&#x5411; page &#x9019;&#x584A;&#x8A18;&#x61B6;&#x9AD4;&#x7A7A;&#x9593;&#x88E1;&#x958B;&#x59CB;&#x5BEB;&#x5165;&#x8CC7;&#x6599;&#x7684;&#x4F4D;&#x7F6E;&#xFF0C;&#x7531;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x8CA0;&#x8CAC;&#x8A2D;&#x5B9A;&#xFF0C;&#x5982;&#x679C;&#x8CC7;&#x6599;&#x91CF;&#x6C92;&#x8D85;&#x904E; PAGE_SIZE &#x7684;&#x8A71;&#xFF0C;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x5C31;&#x4E0D;&#x5FC5;&#x52D5;&#x5230;&#x9019;&#x500B;&#x5F15;&#x6578;&#x3002; 
+off &#x5F15;&#x6578;&#x662F; kernel &#x8CA0;&#x8CAC;&#x66F4;&#x65B0;&#x7684;&#x504F;&#x79FB;&#x91CF;&#xFF0C;&#x4EE3;&#x8868;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x56DE;&#x50B3;&#x8CC7;&#x6599;&#x7684;&#x504F;&#x79FB;&#x91CF;&#xFF0C;&#x5982;&#x679C;&#x8CC7;&#x6599;&#x91CF;&#x6C92;&#x8D85;&#x904E; PAGE_SIZE &#x7684;&#x8A71;&#xFF0C;&#x5C31;&#x4E0D;&#x5FC5;&#x7279;&#x5730;&#x8655;&#x7406;&#x9019;&#x500B;&#x5F15;&#x6578;&#x3002; 
+count &#x5F15;&#x6578;&#x662F; user process &#x4E00;&#x6B21;&#x8B80;&#x56DE;&#x7684;&#x8CC7;&#x6599;&#x91CF;&#xFF0C;&#x901A;&#x5E38;&#x6BD4; PAGE_SIZE &#x5C0F;&#xFF0C;&#x8CC7;&#x6599;&#x91CF;&#x6C92;&#x8D85;&#x904E; PAGE_SIZE &#x7684;&#x8A71;&#xFF0C;&#x4E5F;&#x4E0D;&#x5FC5;&#x7279;&#x5730;&#x8655;&#x7406;&#x9019;&#x500B;&#x5F15;&#x6578;&#x3002; 
+&#x8B80;&#x53D6;&#x8655;&#x7406;&#x51FD;&#x5F0F;&#x7684;&#x5DE5;&#x4F5C;&#x5167;&#x5BB9;&#xFF0C;&#x5BE6;&#x4F5C;&#x65BC; fs/proc/generic &#x7684; proc_file_read()&#x3002; 
+&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x5378;&#x8F09;&#x6642;&#xFF0C;&#x8981;&#x547C;&#x53EB; remove_proc_entry() &#x6E05;&#x9664; procfs &#x7684;&#x5167;&#x5BB9;&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">remove_proc_entry</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *name, <span class="hljs-keyword">struct</span> proc_dir_entry *parent)</span></span>;
+</code></pre>
+<ul>
+<li>procfs.c</li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/module.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/init.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/proc_fs.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/seq_file.h&gt;</span></span>
+
+MODULE_LICENSE(<span class="hljs-string">&quot;Dual BSD/GPL&quot;</span>);
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> PROCNAME <span class="hljs-string">&quot;driver/sample&quot;</span></span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> DUMMY_BUFSIZ <span class="hljs-number">4096</span></span>
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">char</span> dummy[DUMMY_BUFSIZ];
+
+<span class="hljs-comment">/*&#x57F7;&#x884C;cat /proc/xxxx&#x6642;,&#x4EC0;&#x9EBC;&#x6642;&#x5019;&#x8ABF;&#x7528;read_proc,&#x4EC0;&#x9EBC;&#x6642;&#x5019;&#x8ABF;&#x7528;proc_fops-&gt;read&#x5462;?
+ * &#x7B54;&#x6848;:
+ * &#x5728;&#x8A3B;&#x518A;entry&#x7684;&#x6642;&#x5019;&#xFF0C;&#x5982;&#x679C;&#x63D0;&#x4F9B;read_proc,&#x8B80;&#x6587;&#x4EF6;&#x6642;&#x8ABF;&#x7528;&#x8DEF;&#x5F91;&#x70BA;
+ * proc_file_operations-&gt;read-&gt;proc_file_read-&gt;read_proc
+ * */</span>
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">sample_read_proc</span><span class="hljs-params">(<span class="hljs-keyword">char</span> *page, <span class="hljs-keyword">char</span> **start, off_t off,
+                            <span class="hljs-keyword">int</span> count, <span class="hljs-keyword">int</span> *eof, <span class="hljs-keyword">void</span> *data)</span>
+</span>{
+    <span class="hljs-keyword">int</span> len;
+
+    dump_stack();
+
+    printk(<span class="hljs-string">&quot;page=%p *start=%p off=%d count=%d *eof=%d data=%p\n&quot;</span>,
+           page, *start, (<span class="hljs-keyword">int</span>)off, count, *eof, data);
+
+    len = DUMMY_BUFSIZ;
+    <span class="hljs-keyword">if</span> (len &gt; PAGE_SIZE)
+        <span class="hljs-keyword">return</span> -ENOBUFS;
+
+    <span class="hljs-built_in">memcpy</span>(page, dummy, len);  <span class="hljs-comment">// dump &#x5167;&#x5BB9;ABC~Z, totoal 4096byte &#x5B58;&#x653E;&#x5230;page , user space &#x5728;&#x8B80;&#x53D6;page , len = 4096</span>
+    *eof = <span class="hljs-number">1</span>;
+
+    printk(<span class="hljs-string">&quot;len=%d (%s)\n&quot;</span>, len, __func__);
+    <span class="hljs-keyword">return</span> (len);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">sample_init</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">struct</span> proc_dir_entry *entry;
+    <span class="hljs-keyword">int</span> i;
+
+    <span class="hljs-comment">/* add /proc */</span>
+    entry = create_proc_read_entry(PROCNAME, S_IRUGO | S_IWUGO, <span class="hljs-literal">NULL</span>, sample_read_proc, <span class="hljs-literal">NULL</span>);
+    <span class="hljs-keyword">if</span> (entry == <span class="hljs-literal">NULL</span>) {
+        printk(KERN_WARNING <span class="hljs-string">&quot;sample: unable to create /proc entry\n&quot;</span>);
+    }
+
+    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span> ; i &lt; DUMMY_BUFSIZ ; i++) {
+        dummy[i] = <span class="hljs-string">&apos;A&apos;</span> + (i % <span class="hljs-number">26</span>);
+    }
+
+    printk(<span class="hljs-string">&quot;driver loaded\n&quot;</span>);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sample_exit</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    remove_proc_entry(PROCNAME, <span class="hljs-literal">NULL</span>);
+
+    printk(KERN_ALERT <span class="hljs-string">&quot;driver unloaded\n&quot;</span>);
+}
+
+module_init(sample_init);
+module_exit(sample_exit);
+</code></pre>
+<p>&#x57F7;&#x884C;&#x7BC4;&#x4F8B;&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor"># sudo /sbin/insmod ./sample.ko </span>
+<span class="hljs-preprocessor"># cat /proc/driver/sample | wc -c </span>
+<span class="hljs-preprocessor"># dmesg</span>
+</code></pre>
+<p><code>&#x5EFA;&#x7ACB;&#x53EF;&#x8B80;&#x5BEB;&#x7684; procfs</code></p>
+<p>&#x8981;&#x5EFA;&#x7ACB;&#x53EF;&#x8B80;&#x5BEB;&#x7684; procfs &#x9805;&#x76EE;&#x6642;&#xFF0C;&#x53EF;&#x900F;&#x904E; create_proc_entry() &#x6307;&#x8A18;&#x5230; /proc &#x4E4B;&#x5167;&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">struct</span> proc_dir_entry *<span class="hljs-title">create_proc_entry</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *name, mode_t mode, <span class="hljs-keyword">struct</span> proc_dir_entry *parent)</span></span>;
+</code></pre>
+<p>&#x5404;&#x5F15;&#x6578;&#x7684;&#x610F;&#x7FA9;&#x70BA;&#xFF1A;</p>
+<table border="1">
+<tbody><tr><td>name</td><td>/proc &#x4E4B;&#x5167;&#x7684;&#x9805;&#x76EE;&#x540D;&#x7A31;</td></tr>
+<tr><td>mode</td><td>&#x6B0A;&#x9650; (&#x53EF;NULL)</td></tr>
+<tr><td>base</td><td>&#x4E0A;&#x5C64;&#x76EE;&#x9304; (&#x53EF;NULL)</td></tr>
+</tbody></table>
+
+
+<p>&#x767B;&#x8A18;&#x8655;&#x7406;&#x51FD;&#x5F0F;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x662F;&#x70BA; create_proc_entry() &#x50B3;&#x56DE;&#x7684; proc_dir_entry &#x7D50;&#x69CB;&#x8A2D;&#x5B9A; read_proc &#x8207; write_proc &#x6210;&#x54E1;&#x3002; read_proc &#x6210;&#x54E1;&#x7684; prototype &#x8207;&#x4E0A;&#x7BC0;&#x76F8;&#x540C;&#xFF0C;&#x5DF2;&#x88AB; typedef &#x70BA; read_proc_t&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">typedef</span> <span class="hljs-title">int</span> <span class="hljs-params">(read_proc_t)</span> <span class="hljs-params">(<span class="hljs-keyword">char</span> *page, <span class="hljs-keyword">char</span> **start, off_t off, <span class="hljs-keyword">int</span> count, <span class="hljs-keyword">int</span> *eof, <span class="hljs-keyword">void</span> *data)</span></span>;
+</code></pre>
+<p>write_proc &#x6210;&#x54E1;&#x7684; prototype &#x4E5F;&#x5DF2;&#x88AB; typedef &#x70BA; write_proc_t&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">typedef</span> <span class="hljs-title">int</span> <span class="hljs-params">(write_proc_t)</span> <span class="hljs-params">(<span class="hljs-keyword">struct</span> file *file, <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> __user **buffer, <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> count, <span class="hljs-keyword">void</span> *data)</span></span>;
+</code></pre>
+<p>&#x9019;&#x5169;&#x500B; prototype &#x4E26;&#x4E0D;&#x76F8;&#x540C;&#xFF0C;&#x4E14; write_proc &#x6703;&#x6536;&#x5230; user process &#x50B3;&#x4F86;&#x7684;&#x8CC7;&#x6599;&#xFF0C;&#x6240;&#x4EE5;&#x5FC5;&#x9808;&#x900F;&#x904E; copy_from_user() &#x63A5;&#x6536;&#x9019;&#x4E9B;&#x8CC7;&#x6599;&#x3002; </p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/module.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/init.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/proc_fs.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/seq_file.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;asm/uaccess.h&gt;</span></span>
+
+MODULE_LICENSE(<span class="hljs-string">&quot;Dual BSD/GPL&quot;</span>);
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> PROCNAME <span class="hljs-string">&quot;driver/sample&quot;</span></span>
+
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> sample_flag = <span class="hljs-number">0</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">sample_proc_read</span><span class="hljs-params">(<span class="hljs-keyword">char</span> *page, <span class="hljs-keyword">char</span> **start, off_t off,
+                     <span class="hljs-keyword">int</span> count, <span class="hljs-keyword">int</span> *eof, <span class="hljs-keyword">void</span> *data)</span>
+</span>{
+    <span class="hljs-keyword">int</span> len;
+
+    printk(KERN_INFO <span class="hljs-string">&quot;%s called\n&quot;</span>, __func__);
+
+    <span class="hljs-keyword">if</span> (off &gt; <span class="hljs-number">0</span>) {
+        len = <span class="hljs-number">0</span>;
+    } <span class="hljs-keyword">else</span> {
+        len = <span class="hljs-built_in">sprintf</span>(page, <span class="hljs-string">&quot;%d\n&quot;</span>, sample_flag);
+    }
+
+    <span class="hljs-keyword">return</span> (len);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">sample_proc_write</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> file *file, <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *buffer, <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> count,
+                      <span class="hljs-keyword">void</span> *data)</span>
+</span>{
+    <span class="hljs-keyword">char</span> buf[<span class="hljs-number">16</span>];
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> len = count;
+    <span class="hljs-keyword">int</span> n;
+
+    printk(KERN_INFO <span class="hljs-string">&quot;%d (%s)\n&quot;</span>, (<span class="hljs-keyword">int</span>)len, __func__);
+
+    <span class="hljs-keyword">if</span> (len &gt;= <span class="hljs-keyword">sizeof</span>(buf))
+        len = <span class="hljs-keyword">sizeof</span>(buf) - <span class="hljs-number">1</span>;
+
+    <span class="hljs-keyword">if</span> (copy_from_user(buf, buffer, len))
+        <span class="hljs-keyword">return</span> -EFAULT;
+    buf[len] = <span class="hljs-string">&apos;\0&apos;</span>;
+
+    n = simple_strtol(buf, <span class="hljs-literal">NULL</span>, <span class="hljs-number">10</span>);
+    <span class="hljs-keyword">if</span> (n == <span class="hljs-number">0</span>)
+        sample_flag = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">else</span>
+        sample_flag = <span class="hljs-number">1</span>;
+
+    <span class="hljs-keyword">return</span> (len);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">sample_init</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">struct</span> proc_dir_entry *entry;
+
+    <span class="hljs-comment">/* add /proc */</span>
+    entry = create_proc_entry(PROCNAME, <span class="hljs-number">0666</span>, <span class="hljs-literal">NULL</span>);
+    <span class="hljs-keyword">if</span> (entry == <span class="hljs-literal">NULL</span>) {
+        printk(KERN_WARNING <span class="hljs-string">&quot;sample: unable to create /proc entry\n&quot;</span>);
+        <span class="hljs-keyword">return</span> -ENOMEM;
+    }
+
+    entry-&gt;read_proc = sample_proc_read;
+    entry-&gt;write_proc = sample_proc_write;
+    <span class="hljs-comment">// entry-&gt;owner = THIS_MODULE;</span>
+
+    printk(<span class="hljs-string">&quot;driver loaded\n&quot;</span>);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sample_exit</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    remove_proc_entry(PROCNAME, <span class="hljs-literal">NULL</span>);
+
+    printk(KERN_ALERT <span class="hljs-string">&quot;driver unloaded\n&quot;</span>);
+}
+
+module_init(sample_init);
+module_exit(sample_exit);
+</code></pre>
+<p>&#x57F7;&#x884C;&#x7BC4;&#x4F8B;&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor"># sudo /sbin/insmod ./sample.ko </span>
+<span class="hljs-preprocessor"># ls -l /proc/driver/sample </span>
+<span class="hljs-preprocessor"># cat /proc/driver/sample </span>
+<span class="hljs-preprocessor"># echo <span class="hljs-number">1</span> &gt; /proc/driver/sample </span>
+<span class="hljs-preprocessor"># cat /proc/driver/sample </span>
+<span class="hljs-preprocessor"># echo <span class="hljs-number">0</span> &gt; /proc/driver/sample </span>
+<span class="hljs-preprocessor"># cat /proc/driver/sample</span>
+</code></pre>
+<p>&#x5176;&#x5B83;&#x529F;&#x80FD; 
+&#x4F7F;&#x7528; proc_mkdir() &#x5373;&#x53EF;&#x5728; /proc &#x5EFA;&#x7ACB;&#x65B0;&#x76EE;&#x9304;&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">struct</span> proc_dir_entry *<span class="hljs-title">proc_mkdir</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *name, <span class="hljs-keyword">struct</span> proc_dir_entry *parent)</span></span>;
+</code></pre>
+<p>&#x8981;&#x5728;&#x65B0;&#x5EFA;&#x7ACB;&#x7684;&#x76EE;&#x9304;&#x4E2D;&#x653E;&#x5165;&#x6A94;&#x6848;&#x7684;&#x8A71;&#xFF0C;&#x53EA;&#x8981;&#x5C07; proc_mkdir() &#x7684;&#x50B3;&#x56DE;&#x503C;&#x7576;&#x6210;&#x300C;&#x4E0A;&#x5C64;&#x76EE;&#x9304;&#x300D;&#x900F;&#x904E; create_proc_entry() &#x7684;&#x7B2C;&#x4E09;&#x5F15;&#x6578;&#x50B3;&#x5165;&#x5373;&#x53EF;&#x3002; 
+&#x5247;&#x9664;&#x76EE;&#x9304;&#x6642;&#xFF0C;&#x53EF;&#x4EE5;&#x547C;&#x53EB; remove_proc_entry()&#x3002; 
+&#x547C;&#x53EB; proc_symlink() &#x5373;&#x53EF;&#x5728; /proc &#x4E4B;&#x5167;&#x5EFA;&#x7ACB; symbolic link&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">struct</span> proc_dir_entry *<span class="hljs-title">proc_symlink</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *name, <span class="hljs-keyword">struct</span> proc_dir_entry *parent, <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *dest)</span></span>;
+</code></pre>
+<h3 id="6-5%E3%80%81seq-file">6-5&#x3001;seq_file</h3>
+<p>/proc &#x5728;&#x8655;&#x9AD8;&#x5C0F;&#x8CC7;&#x6599;&#x6642;&#x5F88;&#x65B9;&#x4FBF;&#xFF0C;&#x4F46;&#x4E00;&#x65E6;&#x60F3;&#x4E00;&#x6B21;&#x4EA4;&#x63DB;&#x7684;&#x8CC7;&#x6599;&#x8D85;&#x904E; page size &#x5C31;&#x6703;&#x8B8A;&#x5F97;&#x5F88;&#x8907;&#x96DC;&#xFF0C;&#x53E6;&#x5916;&#x5982;&#x679C; /proc &#x7684;&#x6A94;&#x6848;&#x540C;&#x6642;&#x88AB;&#x8A31;&#x591A; process &#x8B80;&#x53D6;&#x6642;&#xFF0C;&#x4E5F;&#x53EF;&#x80FD;&#x9020;&#x6210;&#x554F;&#x984C;&#x3002; 
+&#x70BA;&#x4E86;&#x89E3;&#x6C7A;&#x9019;&#x4E9B;&#x56F0;&#x64FE;&#xFF0C;Linux &#x5B9A;&#x7FA9;&#x4E86;&#x65B0;&#x7684;&#x300C;seq_file&#x300D;&#x4ECB;&#x9762;&#x3002; </p>
+<p><code>seq_file &#x7684;&#x4F4D;&#x968E;</code></p>
+<p>seq_file &#x4E0D;&#x662F;&#x7528;&#x4F86;&#x53D6;&#x4EE3; /proc &#x7684;&#x6771;&#x897F;&#xFF0C;&#x800C;&#x662F;&#x505C;&#x7528; procfs &#x7684; read_proc &#x8207; write_proc &#x6539;&#x7528; proc_fops &#x7684;&#x4F5C;&#x6CD5;&#x3002; 
+&#x5C07; proc_fops &#x7684;&#x6210;&#x54E1;&#x767B;&#x8A18;&#x70BA; seq_file &#x63D0;&#x4F9B;&#x7684;&#x51FD;&#x5F0F;&#x7FA4;&#xFF0C;&#x5373;&#x53EF;&#x6539;&#x7528;&#x300C;seq_file&#x300D;&#x4ECB;&#x9762;&#x3002; 
+&#x4F7F;&#x7528; seq_file &#x4ECB;&#x9762;&#x7684;&#x8A71;&#xFF0C;&#x5C31;&#x4E0D;&#x5FC5;&#x7169;&#x60F1; page size&#xFF0C;&#x53EF;&#x4EE5;&#x8F15;&#x6613;&#x8F38;&#x51FA;&#x5927;&#x91CF;&#x8CC7;&#x6599;&#x3002; </p>
+<p><code>seq_file &#x7684;&#x7528;&#x6CD5;</code></p>
+<p>&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x9700;&#x8981;&#x628A; linux/seq_file.h &#x53CA; linux/proc_fs.h &#x9019;&#x5169;&#x500B;&#x6A19;&#x982D;&#x6A94;&#x4E00;&#x8D77; include &#x9032;&#x4F86;&#x3002; 
+seq_file &#x7684;&#x57FA;&#x672C;&#x7528;&#x6CD5;&#x70BA;&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-keyword">static</span> <span class="hljs-keyword">struct</span> seq_operations sample_seq_op = {
+    .start = as_start,
+    .next = as_next,
+    .stop = as_stop,
+    .show = as_show,
+};
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">sample_proc_open</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> inode *inode, <span class="hljs-keyword">struct</span> file *file)</span>
+</span>{
+    <span class="hljs-keyword">return</span> seq_open(file, &amp;sample_seq_op);
+}
+
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">struct</span> file_operations sample_operations = {
+    .open = sample_proc_open,
+    .read = seq_read,
+    .llseek = seq_lseek,
+    .release = seq_release,
+};
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">sample_init</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span> </span>{
+    <span class="hljs-keyword">struct</span> proc_dir_entry *entry;
+
+    entry = create_proc_entry(<span class="hljs-string">&quot;file name inside procfs&quot;</span>, S_IRUGO | S_IWUGO, <span class="hljs-literal">NULL</span>);
+    <span class="hljs-keyword">if</span> (entry)
+        entry-&gt;proc_fops = &amp;sample_operations;
+}
+</code></pre>
+<p>&#x91CD;&#x9EDE;&#x5728; seq_operations &#x7D50;&#x69CB;&#x5B9A;&#x7FA9;&#x7684;&#x56DB;&#x500B;&#x8655;&#x7406;&#x51FD;&#x5F0F;&#xFF1A;</p>
+<ul>
+<li>as_start()</li>
+<li>as_next()</li>
+<li>as_stop()</li>
+<li>as_show()</li>
+</ul>
+<p>&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x958B;&#x767C;&#x8005;&#x53EA;&#x8981;&#x8A2D;&#x8A08;&#x9019;&#x56DB;&#x500B;&#x8655;&#x7406;&#x51FD;&#x5F0F;&#x5373;&#x53EF;&#xFF0C;seq_file &#x4ECB;&#x9762;&#x539F;&#x5247;&#x4E0A;&#x53EA;&#x652F;&#x63F4;&#x300C;&#x8B80;&#x53D6;&#x300D;&#xFF0C;&#x6C92;&#x8FA6;&#x6CD5;&#x5BEB;&#x5165;&#x3002; 
+&#x5404;&#x6210;&#x54E1;&#x610F;&#x7FA9;&#x5982;&#x4E0B;&#xFF1A;</p>
+<table border="1">
+<tbody><tr><td>as_start</td><td>&#x958B;&#x59CB;&#x8B80;&#x53D6;&#x6642;&#x6700;&#x5148;&#x547C;&#x53EB;&#x7684;&#x51FD;&#x5F0F;&#x3002;&#x50B3;&#x56DE;&#x6700;&#x521D;&#x8CC7;&#x6599;(&#x8A18;&#x9304;)&#x7684;&#x7D22;&#x5F15;(&#x5F9E;1&#x8D77;&#x7B97;)&#xFF0C;&#x6C92;&#x6709;&#x8CC7;&#x6599;&#x6642;&#x50B3;&#x56DE;&#x300C;0&#x300D;</td></tr>
+<tr><td>as_next</td><td>&#x6709;&#x4E0B;&#x4E00;&#x7B46;&#x8CC7;&#x6599;&#x6642;&#xFF0C;&#x50B3;&#x56DE;&#x4E0B;&#x4E00;&#x7B46;&#x8CC7;&#x6599;&#x7684;&#x7D22;&#x5F15;&#xFF0C;&#x5426;&#x5247;&#x50B3;&#x56DE;&#x300C;0&#x300D;</td></tr>
+<tr><td>as_stop</td><td>&#x5728;&#x8B80;&#x5B8C;&#x6240;&#x6709;&#x8CC7;&#x6599;&#x4E4B;&#x5F8C;&#x547C;&#x53EB;&#x7684;&#x51FD;&#x5F0F;</td></tr>
+<tr><td>as_show</td><td>&#x986F;&#x793A;&#x8CC7;&#x6599;</td></tr>
+</tbody></table>
+
+<p>seq_file &#x7684;&#x89C0;&#x5FF5;&#x662F;&#x5F9E; C++ &#x8207; Java &#x7684;&#x8FED;&#x4EE3;&#x5668;(iterator) &#x5B78;&#x4F86;&#x7684;&#xFF0C;&#x9019;&#x908A;&#x5C31;&#x4E0D;&#x9644;&#x4E0A;&#x6D41;&#x7A0B;&#x5716;&#x3002; 
+&#x5404;&#x6210;&#x54E1;&#x51FD;&#x5F0F;&#x7684; prototype &#x5982;&#x4E0B;&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-keyword">void</span> * (*start) (<span class="hljs-keyword">struct</span> seq_file *m, <span class="hljs-keyword">loff_t</span> *pos); 
+<span class="hljs-keyword">void</span> (*stop) (<span class="hljs-keyword">struct</span> seq_file *m, <span class="hljs-keyword">void</span> *v); 
+<span class="hljs-keyword">void</span> * (*next) (<span class="hljs-keyword">struct</span> seq_file *m, <span class="hljs-keyword">void</span> *v, <span class="hljs-keyword">loff_t</span> *pos); 
+<span class="hljs-keyword">int</span> (*show) (<span class="hljs-keyword">struct</span> seq_file *m, <span class="hljs-keyword">void</span> *v);
+</code></pre>
+<p>start &#x8207; next &#x63A5;&#x5230;&#x7684;&#x300C;*pos&#x300D;&#x8B8A;&#x6578;&#x6703;&#x5F9E; 0 &#x958B;&#x59CB;&#xFF0C;&#x96A8;&#x8457;&#x9010;&#x9805;&#x8655;&#x7406;&#x8CC7;&#x6599;&#x7684;&#x904E;&#x7A0B;&#x90FD;&#x52A0;&#xFF0C;&#x589E;&#x52A0;&#x9019;&#x500B;&#x8B8A;&#x6578;&#x7684;&#x52D5;&#x4F5C;&#x662F;&#x7531;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x9032;&#x884C;&#x7684;&#xFF0C;kernel &#x4E0D;&#x6703;&#x4FEE;&#x6539;&#x3002; 
+start &#x8207; next &#x5982;&#x679C;&#x6709;&#x8981;&#x986F;&#x793A;&#x7684;&#x8CC7;&#x6599;&#xFF0C;&#x5C31;&#x8981;&#x4EE5; </p>
+<pre><code class="lang-c"><span class="hljs-keyword">void</span>*
+</code></pre>
+<p>&#x7684;&#x578B;&#x5225;&#x50B3;&#x56DE;&#x300C;1&#x4EE5;&#x4E0A;&#x300D;&#x7684;&#x7D22;&#x5F15;&#xFF0C;&#x5BE6;&#x969B;&#x4E0A;&#xFF0C;<code>void*</code> &#x7684;&#x4F7F;&#x7528;&#x65B9;&#x5F0F;&#x662F;&#x7531;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x81EA;&#x884C;&#x6C7A;&#x5B9A;&#xFF0C;&#x800C; kernel &#x53EA;&#x6703;&#x628A;&#x4EE5;&#x4E0B;&#x5169;&#x7A2E;&#x50B3;&#x56DE;&#x503C;&#x7576;&#x6210;&#x5DF2;&#x7D93;&#x6C92;&#x6709;&#x8CC7;&#x6599;&#xFF1A;</p>
+<ul>
+<li>NULL</li>
+<li>IS_ERR &#x5DE8;&#x96C6;&#x6210;&#x7ACB;&#x7684;&#x503C;(&#x8CA0;&#x6578;)</li>
+</ul>
+<p>&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#xFF0C;&#x5982;&#x679C;&#x628A;&#x5B83;&#x7576;&#x8CC7;&#x6599;&#x7D22;&#x5F15;&#x7684;&#x8A71;&#xFF0C;&#x9808;&#x6CE8;&#x610F;&#x8981;&#x300C;&#x5F9E;1&#x8D77;&#x7B97;&#x300D;&#x3002; 
+stop &#x5982;&#x679C;&#x4E0D;&#x9700;&#x8981;&#x505A;&#x984D;&#x5916;&#x8655;&#x7406;&#x7684;&#x8A71;&#xFF0C;&#x4E0D;&#x5BE6;&#x4F5C;&#x4E5F;&#x7121;&#x59A8;&#xFF0C;&#x4F46;&#x5982;&#x679C;&#x5728;&#x53D6;&#x7528;&#x8CC7;&#x6599;&#x6642;&#x5FC5;&#x9808;&#x9396;&#x5B9A;&#x7684;&#x8A71;&#xFF0C;&#x53EF;&#x4EE5;&#x5728; start &#x88E1;&#x9762;&#x9396;&#x5B9A;&#x3001;&#x5728; stop &#x91CB;&#x653E;&#x9396;&#x5B9A;&#x3002; 
+show &#x8CA0;&#x8CAC;&#x5C07;&#x8CC7;&#x6599;&#x986F;&#x793A;&#x7D66;&#x4F7F;&#x7528;&#x8005;&#xFF0C;&#x63A1;&#x7528;&#x4E0B;&#x5217; seq_file &#x5C08;&#x7528;&#x7684;&#x4ECB;&#x9762;&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">seq_printf</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> seq_file *m, <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *f, ...)</span></span>; 
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">seq_putc</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> seq_file *m, <span class="hljs-keyword">char</span> c)</span></span>; 
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">seq_puts</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> seq_file *m, <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *s)</span></span>;
+</code></pre>
+<p>seq_printf() &#x63A5;&#x53D7;&#x53EF;&#x8B8A;&#x5F15;&#x6578;&#xFF0C;seq_putc() &#x53EF;&#x8F38;&#x51FA;&#x4E00;&#x500B;&#x5B57;&#x5143;&#xFF0C;seq_puts() &#x5247;&#x8F38;&#x51FA;&#x4E00;&#x500B;&#x5B57;&#x4E32;&#x3002; </p>
+<p>seq_file.c - &#x7BC4;&#x4F8B;&#x7A0B;&#x5F0F; </p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/module.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/init.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/proc_fs.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/seq_file.h&gt;</span></span>
+
+MODULE_LICENSE(<span class="hljs-string">&quot;Dual BSD/GPL&quot;</span>);
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> PROCNAME <span class="hljs-string">&quot;sample&quot;</span></span>
+
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">char</span> *data_message[] = {
+    <span class="hljs-string">&quot;Fedora&quot;</span>,
+    <span class="hljs-string">&quot;Red Hat Enterprise Server&quot;</span>,
+    <span class="hljs-string">&quot;Debian&quot;</span>,
+    <span class="hljs-string">&quot;Vine&quot;</span>,
+    <span class="hljs-string">&quot;Ubuntu&quot;</span>,
+    <span class="hljs-number">0</span>
+};
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> *<span class="hljs-title">as_start</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> seq_file *m, loff_t *pos)</span>
+</span>{
+    <span class="hljs-keyword">loff_t</span> n = *pos;
+    <span class="hljs-keyword">char</span> **p;
+    <span class="hljs-keyword">int</span> i;
+
+    printk(<span class="hljs-string">&quot;%lld (%s)\n&quot;</span>, n, __func__);
+
+    <span class="hljs-keyword">if</span> (n == <span class="hljs-number">0</span>) {
+        seq_printf(m, <span class="hljs-string">&quot;=== seq_file header ===\n&quot;</span>);
+    }
+
+    p = data_message;
+    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span> ; p[i] ; i++) {
+        n--;
+        <span class="hljs-keyword">if</span> (n &lt; <span class="hljs-number">0</span>)
+            <span class="hljs-keyword">return</span> (<span class="hljs-keyword">void</span> *)(i + <span class="hljs-number">1</span>);
+    }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> *<span class="hljs-title">as_next</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> seq_file *m, <span class="hljs-keyword">void</span> *p, loff_t *pos)</span>
+</span>{
+    <span class="hljs-keyword">int</span> n = (<span class="hljs-keyword">int</span>)p;
+    <span class="hljs-keyword">char</span> **ptr;
+
+    printk(<span class="hljs-string">&quot;%u (%s)\n&quot;</span>, n, __func__);
+
+    (*pos)++;
+
+    ptr = data_message;
+    <span class="hljs-keyword">if</span> (ptr[n]) {   <span class="hljs-comment">/* exist next data */</span>
+        <span class="hljs-keyword">return</span> (<span class="hljs-keyword">void</span> *)(n + <span class="hljs-number">1</span>);   <span class="hljs-comment">/* next index */</span>
+    }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">as_stop</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> seq_file *m, <span class="hljs-keyword">void</span> *p)</span>
+</span>{
+    <span class="hljs-keyword">int</span> n = (<span class="hljs-keyword">int</span>)p;
+
+    printk(<span class="hljs-string">&quot;%u (%s)\n&quot;</span>, n, __func__);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">as_show</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> seq_file *m, <span class="hljs-keyword">void</span> *p)</span>
+</span>{
+    <span class="hljs-keyword">int</span> n = (<span class="hljs-keyword">int</span>)p - <span class="hljs-number">1</span>;
+
+    printk(<span class="hljs-string">&quot;%u (%s)\n&quot;</span>, (<span class="hljs-keyword">int</span>)p, __func__);
+
+    seq_printf(m, <span class="hljs-string">&quot;[%d] %s\n&quot;</span>, n, data_message[n]);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-comment">/* seq_file handler */</span>
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">struct</span> seq_operations sample_seq_op = {
+    .start    = as_start,
+    .next    = as_next,
+    .stop    = as_stop,
+    .show    = as_show,
+};
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">sample_proc_open</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> inode *inode, <span class="hljs-keyword">struct</span> file *file)</span>
+</span>{
+    <span class="hljs-keyword">return</span> seq_open(file, &amp;sample_seq_op);
+}
+
+<span class="hljs-comment">/* procfs handler */</span>
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">struct</span> file_operations sample_operations = {
+    .open = sample_proc_open,
+    .read = seq_read,
+    .llseek = seq_lseek,
+    .release = seq_release,
+};
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">sample_init</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">struct</span> proc_dir_entry *entry;
+
+    <span class="hljs-comment">/* add /proc */</span>
+    entry = create_proc_entry(PROCNAME, S_IRUGO | S_IWUGO, <span class="hljs-literal">NULL</span>);
+    <span class="hljs-keyword">if</span> (entry)
+        entry-&gt;proc_fops = &amp;sample_operations;
+
+    printk(<span class="hljs-string">&quot;driver loaded\n&quot;</span>);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sample_exit</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    remove_proc_entry(PROCNAME, <span class="hljs-literal">NULL</span>);
+
+    printk(KERN_ALERT <span class="hljs-string">&quot;driver unloaded\n&quot;</span>);
+}
+
+module_init(sample_init);
+module_exit(sample_exit);
+</code></pre>
+<p>&#x57F7;&#x884C;&#x7BC4;&#x4F8B;&#xFF1A; </p>
+<pre><code># sudo /sbin/insmod ./sample.ko 
+# ls -l /proc/sample 
+# cat /proc/sample 
+# dmesg
+</code></pre><p>seq_file.c - &#x7BC4;&#x4F8B;&#x7A0B;&#x5F0F; - 2 
+&#x900F;&#x904E; kernel &#x7684; task_init &#x8B8A;&#x6578;&#xFF0C;&#x5217;&#x51FA;&#x76EE;&#x524D;&#x7CFB;&#x7D71;&#x4E2D;&#x57F7;&#x884C;&#x7684;&#x6240;&#x6709; process&#x3002; 
+&#x5728;&#x53C3;&#x8003; task list &#x6642;&#xFF0C;Linux 2.6.18 &#x4E4B;&#x524D;&#x7684;&#x7248;&#x9762;&#x9700;&#x8981;&#x900F;&#x904E;&#x8B80;&#x53D6;&#x5C08;&#x7528;&#x7684; tasklist_lock &#x9032;&#x884C;&#x9396;&#x5B9A;&#xFF0C;&#x4F46; Linux 2.6.18 &#x4E4B;&#x5F8C;&#x7684;&#x7248;&#x672C;&#x4E0D;&#x518D;&#x532F;&#x51FA; tasklist_lock &#x7B26;&#x865F;&#xFF0C;&#x6539;&#x6210;&#x9700;&#x8981;&#x53D6;&#x5F97; RCU (Read Copy Update) &#x9396;&#x5B9A;&#x3002;</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/module.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/init.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/proc_fs.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/seq_file.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/sched.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/version.h&gt;</span></span>
+
+MODULE_LICENSE(<span class="hljs-string">&quot;Dual BSD/GPL&quot;</span>);
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> PROCNAME <span class="hljs-string">&quot;sample2&quot;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> *<span class="hljs-title">as_start</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> seq_file *m, loff_t *pos)</span>
+</span>{
+    <span class="hljs-keyword">loff_t</span> n = *pos;
+    <span class="hljs-keyword">struct</span> task_struct *p = <span class="hljs-literal">NULL</span>;
+
+    printk(<span class="hljs-string">&quot;%lld (%s)\n&quot;</span>, n, __func__);
+
+    <span class="hljs-keyword">if</span> (n == <span class="hljs-number">0</span>) {
+        seq_printf(m, <span class="hljs-string">&quot;=== seq_file header ===\n&quot;</span>);
+    }
+
+    <span class="hljs-comment">/* Acquire a read-only spinlock */</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">if</span> ( LINUX_VERSION_CODE &lt;= KERNEL_VERSION(<span class="hljs-number">2</span>,<span class="hljs-number">6</span>,<span class="hljs-number">18</span>) )</span>
+    read_lock(&amp;tasklist_lock);
+<span class="hljs-preprocessor">#<span class="hljs-keyword">else</span></span>
+    rcu_read_lock();
+<span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span></span>
+
+    <span class="hljs-keyword">if</span> (n == <span class="hljs-number">0</span>)
+        <span class="hljs-keyword">return</span> (&amp;init_task);   <span class="hljs-comment">/* swapper process */</span>
+
+    for_each_process(p) {  <span class="hljs-comment">/* init later process */</span>
+        n--;
+        <span class="hljs-keyword">if</span> (n &lt;= <span class="hljs-number">0</span>)
+            <span class="hljs-keyword">return</span> (p);
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> *<span class="hljs-title">as_next</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> seq_file *m, <span class="hljs-keyword">void</span> *p, loff_t *pos)</span>
+</span>{
+    <span class="hljs-keyword">struct</span> task_struct *tp = (<span class="hljs-keyword">struct</span> task_struct *)p;
+
+    printk(<span class="hljs-string">&quot;%lld (%s)\n&quot;</span>, *pos, __func__);
+
+    (*pos)++;
+
+    tp = next_task(tp);
+    <span class="hljs-keyword">if</span> (tp == &amp;init_task)
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;
+
+    <span class="hljs-keyword">return</span> (tp);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">as_stop</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> seq_file *m, <span class="hljs-keyword">void</span> *p)</span>
+</span>{
+    printk(<span class="hljs-string">&quot;%p (%s)\n&quot;</span>, p, __func__);
+
+    <span class="hljs-comment">/* Release a read-only spinlock */</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">if</span> ( LINUX_VERSION_CODE &lt;= KERNEL_VERSION(<span class="hljs-number">2</span>,<span class="hljs-number">6</span>,<span class="hljs-number">18</span>) )</span>
+    read_unlock(&amp;tasklist_lock);
+<span class="hljs-preprocessor">#<span class="hljs-keyword">else</span></span>
+    rcu_read_unlock();
+<span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span></span>
+}
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">as_show</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> seq_file *m, <span class="hljs-keyword">void</span> *p)</span>
+</span>{
+    <span class="hljs-keyword">struct</span> task_struct *tp = (<span class="hljs-keyword">struct</span> task_struct *)p;
+
+    printk(<span class="hljs-string">&quot;%p (%s)\n&quot;</span>, tp, __func__);
+
+    seq_printf(m, <span class="hljs-string">&quot;[%s] pid=%d\n&quot;</span>, tp-&gt;comm, tp-&gt;pid);
+    seq_printf(m, <span class="hljs-string">&quot;     tgid=%d\n&quot;</span>, tp-&gt;tgid);
+    seq_printf(m, <span class="hljs-string">&quot;     state=%ld\n&quot;</span>, tp-&gt;state);
+    seq_printf(m, <span class="hljs-string">&quot;     mm=0x%p\n&quot;</span>, tp-&gt;mm);
+    seq_printf(m, <span class="hljs-string">&quot;     utime=%lu\n&quot;</span>, tp-&gt;utime);
+    seq_printf(m, <span class="hljs-string">&quot;     stime=%lu\n&quot;</span>, tp-&gt;stime);
+    seq_printf(m, <span class="hljs-string">&quot;     oomkilladj=%d\n&quot;</span>, tp-&gt;oomkilladj);
+    seq_puts(m, <span class="hljs-string">&quot;\n&quot;</span>);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-comment">/* seq_file handler */</span>
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">struct</span> seq_operations sample_seq_op = {
+    .start    = as_start,
+    .next    = as_next,
+    .stop    = as_stop,
+    .show    = as_show,
+};
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">sample_proc_open</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> inode *inode, <span class="hljs-keyword">struct</span> file *file)</span>
+</span>{
+    <span class="hljs-keyword">return</span> seq_open(file, &amp;sample_seq_op);
+}
+
+<span class="hljs-comment">/* procfs handler */</span>
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">struct</span> file_operations sample_operations = {
+    .open = sample_proc_open,
+    .read = seq_read,
+    .llseek = seq_lseek,
+    .release = seq_release,
+};
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">sample_init</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">struct</span> proc_dir_entry *entry;
+
+    <span class="hljs-comment">/* add /proc */</span>
+    entry = create_proc_entry(PROCNAME, S_IRUGO | S_IWUGO, <span class="hljs-literal">NULL</span>);
+    <span class="hljs-keyword">if</span> (entry)
+        entry-&gt;proc_fops = &amp;sample_operations;
+
+    printk(<span class="hljs-string">&quot;driver loaded\n&quot;</span>);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sample_exit</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    remove_proc_entry(PROCNAME, <span class="hljs-literal">NULL</span>);
+
+    printk(KERN_ALERT <span class="hljs-string">&quot;driver unloaded\n&quot;</span>);
+}
+
+module_init(sample_init);
+module_exit(sample_exit);
+</code></pre>
+<p>&#x57F7;&#x884C;&#x7BC4;&#x4F8B;&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-preprocessor"># sudo /sbin/insmod ./sample.ko </span>
+<span class="hljs-preprocessor"># ls -l /proc/sample2 </span>
+<span class="hljs-preprocessor"># cat /proc/sample2 </span>
+<span class="hljs-preprocessor"># dmesg</span>
+</code></pre>
+<h3 id="6-6%E3%80%81sleep-%E8%88%87-wake-up">6-6&#x3001;Sleep &#x8207; Wake Up</h3>
+<p>&#x4ECB;&#x7D39; sleep &#x8207; wake up &#x89C0;&#x5FF5;&#x3002; </p>
+<p><code>Preemptive (&#x53EF;&#x88AB;&#x6436;&#x4F54;)</code></p>
+<p>&#x57F7;&#x884C; user process &#x6642;&#xFF0C;&#x6703;&#x6839;&#x64DA; kernel &#x5167;&#x5EFA;&#x7684;&#x6392;&#x7A0B;&#x6F14;&#x7B97;&#x6CD5;&#xFF0C;&#x7531; OS &#x5B9A;&#x671F;&#x5F37;&#x5236;&#x5207;&#x63DB;&#x57F7;&#x884C;&#x7684;&#x7A0B;&#x5F0F;&#xFF0C;&#x56E0;&#x6B64; user process &#x7A31;&#x70BA;&#x300C;preemptive(&#x53EF;&#x88AB;&#x6436;&#x4F54;)&#x300D;&#x3002; 
+&#x5207;&#x63DB; user process &#x7684;&#x662F; OS &#x672C;&#x8EAB; (Linux kernel)&#x3002; 
+&#x70BA; user process &#x6392;&#x7A0B;&#x7684;&#x6F14;&#x7B97;&#x6CD5;&#x6709;&#x8A31;&#x591A;&#x7A2E;&#xFF0C;&#x4F46;&#x8CA0;&#x8CAC;&#x5207;&#x63DB;&#x7684;&#x90FD;&#x662F; kernel/sched.c &#x88E1;&#x9762;&#x5BE6;&#x4F5C;&#x7684; &#x300C;schedule()&#x300D;&#x9019;&#x500B; kernel &#x51FD;&#x5F0F;&#x3002; 
+schedule() &#x5207;&#x63DB; process &#x7684;&#x52D5;&#x4F5C;&#x7A31;&#x70BA;&#x300C;context switch (&#x74B0;&#x5883;&#x5207;&#x63DB;)&#x300D;&#x3002; 
+schedule() &#x6703;&#x88AB; kernel &#x8A31;&#x591A;&#x5730;&#x65B9;&#x547C;&#x53EB;&#xFF0C;&#x4E3B;&#x8981;&#x547C;&#x53EB;&#x7684;&#x5730;&#x65B9;&#x5305;&#x542B;&#xFF1A;</p>
+<ul>
+<li>User context &#x958B;&#x59CB; sleep &#x7684;&#x6642;&#x5019;</li>
+<li>&#x5617;&#x8A66;&#x9396;&#x5B9A; spin lock &#x7684;&#x6642;&#x5019;(&#x555F;&#x7528; CONFIG_PREEMPT &#x7684;&#x60C5;&#x5F62;)</li>
+<li>Timer scheduler &#x5EF6;&#x9072;&#x547C;&#x53EB;&#x7684;&#x6642;&#x5019;</li>
+</ul>
+<p>&#x800C; Linux &#x7684; kernel space &#x4E26;&#x4E0D;&#x662F; preemptive &#x7684;&#xFF0C;&#x5305;&#x542B;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x5728;&#x5167;&#x7684; kernel &#x5DE5;&#x4F5C;&#x5167;&#x5BB9;&#x90FD;&#x4E0D;&#x662F; preemptive&#x3002; 
+&#x4F46;&#x662F;&#x6709;&#x500B;&#x4F8B;&#x5916;&#x7684;&#x60C5;&#x5F62;&#xFF0C;&#x5728;&#x767C;&#x751F;&#x786C;&#x9AD4;&#x4E2D;&#x65B7;&#x6642;&#xFF0C;&#x4E2D;&#x65B7;&#x51FD;&#x5F0F;&#x6703;&#x5F37;&#x5236;&#x53D6;&#x5F97; CPU &#x63A7;&#x5236;&#x6B0A;&#x3002; 
+&#x8CA0;&#x8CAC;&#x5728; user process &#x4E4B;&#x9593;&#x5207;&#x63DB;&#x7684;&#x5C31;&#x662F; kernel&#xFF0C;&#x800C; kernel &#x5167;&#x90E8;&#x4E26;&#x6C92;&#x6709;&#x5176;&#x5B83;&#x89D2;&#x8272;&#x8CA0;&#x8CAC;&#x6392;&#x7A0B;&#xFF0C;&#x4F46;&#x662F; kernel &#x5167;&#x90E8;&#x53EF;&#x4EE5;&#x660E;&#x78BA;&#x653E;&#x51FA; CPU &#x4F7F;&#x7528;&#x6B0A;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x76F4;&#x63A5;&#x547C;&#x53EB; schedule()&#x3002; 
+&#x7279;&#x5225;&#x662F;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#xFF0C;&#x6709;&#x6642;&#x9700;&#x7B49;&#x5F85;&#x786C;&#x9AD4;&#x5B8C;&#x6210;&#x5DE5;&#x4F5C;&#xFF0C;&#x6B64;&#x6642;&#x5C31;&#x9700;&#x8981;&#x66AB;&#x6642;&#x653E;&#x4E0B;&#x81EA;&#x5DF1;&#x7684;&#x5DE5;&#x4F5C;&#xFF0C;&#x8B93; CPU &#x53BB;&#x8655;&#x7406;&#x5176;&#x5B83;&#x4E8B;&#x60C5;&#x3002; 
+&#x70BA;&#x4E86;&#x8B93;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x80FD;&#x5728;&#x9032;&#x884C; DMA &#x4E4B;&#x985E;&#x5DE5;&#x4F5C;&#x6642;&#xFF0C;&#x53EF;&#x4EE5;&#x660E;&#x78BA;&#x91CB;&#x653E; CPU &#x4F7F;&#x7528;&#x6B0A;&#xFF0C;&#x6240;&#x4EE5; kernel &#x5C31;&#x63D0;&#x4F9B;&#x4E86; sleep &#x8207; wake up &#x7684;&#x529F;&#x80FD;&#x3002; </p>
+<p><code>Sleep &#x6709;&#x5371;&#x96AA;</code></p>
+<p>&#x547C;&#x53EB; sleep_on() &#x51FD;&#x5F0F;&#x5F8C;&#xFF0C;&#x5C31;&#x80FD;&#x5728; kernel &#x4E4B;&#x5167;&#x9032;&#x5165; sleep&#xFF0C;&#x300C;&#x9032;&#x5165;sleep&#x300D;&#x5177;&#x9AD4;&#x4F86;&#x8AAA;&#x662F;&#xFF1A;</p>
+<ul>
+<li>&#x4E2D;&#x65B7; user context &#x8981;&#x6C42; kernel &#x505A;&#x7684;&#x4E8B;&#x60C5;&#xFF0C;&#x660E;&#x78BA;&#x628A; CPU &#x4F7F;&#x7528;&#x6B0A;&#x4EA4;&#x7D66;&#x53E6;&#x4E00;&#x500B; user context</li>
+</ul>
+<p>&#x9019;&#x500B;&#x51FD;&#x5F0F;&#x7121;&#x6CD5;&#x5728; interrupt context &#x4E2D;&#x4F7F;&#x7528;&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">sleep_on</span><span class="hljs-params">(wait_queue_head_t *q)</span></span>;
+</code></pre>
+<p>&#x5F15;&#x6578;&#x8981;&#x50B3;&#x5165; wait_queue_head_t &#x7684;&#x6307;&#x6A19;&#xFF0C;&#x9019;&#x500B;&#x6307;&#x6A19;&#x9700;&#x5148;&#x4EE5; init_waitqueue_head() &#x521D;&#x59CB;&#x5316;&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">init_waitqueue_head</span><span class="hljs-params">(wait_queue_head_t *q)</span></span>;
+</code></pre>
+<p>sleep.c - &#x9019;&#x6BB5;&#x7A0B;&#x5F0F;&#x78BC;&#x5F88;&#x5371;&#x96AA;&#xFF0C;&#x53EA;&#x8981; sleep &#xFF0C;&#x5C31;&#x6703;&#x9192;&#x4E0D;&#x4F86;&#xFF0C;&#x56E0;&#x6B64;&#x7121;&#x6CD5;&#x5378;&#x8F09;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#xFF0C;&#x8981;&#x5FA9;&#x539F;&#x53EA;&#x8981;&#x91CD;&#x65B0;&#x958B;&#x6A5F;&#x4E00;&#x9014;&#xFF0C;&#x56B4;&#x683C;&#x4F86;&#x8AAA;&#xFF0C;&#x9019;&#x500B;&#x7A0B;&#x5F0F;&#x9023; insmod &#x90FD;&#x7121;&#x6CD5;&#x57F7;&#x884C;&#x5B8C;&#x6210;&#x3002;</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/module.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/init.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/sched.h&gt;</span></span>
+
+MODULE_LICENSE(<span class="hljs-string">&quot;Dual BSD/GPL&quot;</span>);
+
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">wait_queue_head_t</span> wait;
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">sample_init</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    printk(<span class="hljs-string">&quot;driver loaded\n&quot;</span>);
+
+    init_waitqueue_head(&amp;wait);
+    sleep_on(&amp;wait);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sample_exit</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    printk(KERN_ALERT <span class="hljs-string">&quot;driver unloaded\n&quot;</span>);
+}
+
+module_init(sample_init);
+module_exit(sample_exit);
+</code></pre>
+<p>&#x57F7;&#x884C;&#x7BC4;&#x4F8B;&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-preprocessor"># sudo /sbin/insmod ./sleep.ko </span>
+<span class="hljs-preprocessor"># ps aux | grep insmod </span>
+<span class="hljs-preprocessor"># kill -<span class="hljs-number">9</span> #pid </span>
+<span class="hljs-preprocessor"># ps aux | grep insmod</span>
+</code></pre>
+<p><code>Wake up</code></p>
+<p>&#x8981;&#x8B93;&#x7761;&#x8457;&#x7684;&#x4EBA;&#x8D77;&#x4F86;&#xFF0C;&#x4E00;&#x5B9A;&#x8981;&#x5225;&#x4EBA;&#x53EB;&#x5B83;&#xFF0C;&#x8CA0;&#x8CAC;&#x500B;&#x5DE5;&#x4F5C;&#x7684;&#x662F; wake_up()&#x3002; 
+wake_up() &#x7684;&#x5F15;&#x6578;&#x8DDF;&#x50B3;&#x7D66; sleep_on() &#x7684;&#x662F;&#x540C;&#x4E00;&#x500B;&#x6307;&#x6A19;&#xFF0C;&#x4F46;&#x662F;&#x5982;&#x679C;&#x5728;&#x547C;&#x53EB; sleep_on() &#x4E4B;&#x524D;&#x5C31;&#x547C;&#x53EB; wake_up() &#x7684;&#x8A71;&#xFF0C;&#x5247;&#x4EC0;&#x9EBC;&#x90FD;&#x4E0D;&#x6703;&#x505A;&#x3002; 
+&#x4EE5;&#x4E0B;&#x7BC4;&#x4F8B;&#x662F; kernel module &#x547C;&#x53EB; sleep_on() &#xFF0C;&#x7136;&#x5F8C;&#x7531;&#x53E6;&#x4E00;&#x500B; kernel module &#x547C;&#x53EB; wake_up() &#x628A;&#x5B83;&#x53EB;&#x9192;&#x7684;&#x4F8B;&#x5B50;&#xFF0C;&#x5176;&#x4E2D;&#x70BA;&#x4E86;&#x8B93;&#x5176;&#x5B83;&#x6A21;&#x7D44;&#x4E5F;&#x770B;&#x5F97;&#x5230; wait queue&#xFF0C;&#x6240;&#x4EE5;&#x7528; EXPORT_SYMBOL &#x5DE8;&#x96C6;&#x5C07;&#x4E4B;&#x532F;&#x51FA;&#x3002; </p>
+<pre><code class="lang-c"><span class="hljs-comment">//</span>
+<span class="hljs-comment">// devone.c</span>
+<span class="hljs-comment">//</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/init.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/module.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/types.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/kernel.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/fs.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/cdev.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;asm/uaccess.h&gt;</span></span>
+
+MODULE_LICENSE(<span class="hljs-string">&quot;Dual BSD/GPL&quot;</span>);
+
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> devone_devs = <span class="hljs-number">1</span>;
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> devone_major = <span class="hljs-number">0</span>;   <span class="hljs-comment">// dynamic allocation</span>
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">struct</span> cdev devone_cdev;
+
+<span class="hljs-keyword">wait_queue_head_t</span> yutaka_sample_wait;
+EXPORT_SYMBOL(yutaka_sample_wait);
+
+<span class="hljs-keyword">ssize_t</span> devone_read(<span class="hljs-keyword">struct</span> file *filp, <span class="hljs-keyword">char</span> __user *buf, <span class="hljs-keyword">size_t</span> count, <span class="hljs-keyword">loff_t</span> *f_pos)
+{
+    <span class="hljs-keyword">int</span> i;
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> val = <span class="hljs-number">0xff</span>;
+    <span class="hljs-keyword">int</span> retval;
+
+    init_waitqueue_head(&amp;yutaka_sample_wait);
+    sleep_on(&amp;yutaka_sample_wait);
+
+    printk(<span class="hljs-string">&quot;Wakeup! (%s)\n&quot;</span>, __func__);
+
+    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span> ; i &lt; count ; i++) {
+        <span class="hljs-keyword">if</span> (copy_to_user(&amp;buf[i], &amp;val, <span class="hljs-number">1</span>)) {
+            retval = -EFAULT;
+            <span class="hljs-keyword">goto</span> out;
+        }
+    }
+
+    retval = count;
+out:
+    <span class="hljs-keyword">return</span> (retval);
+}
+
+<span class="hljs-keyword">struct</span> file_operations devone_fops = {
+    .read = devone_read,
+};
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">devone_init</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">dev_t</span> dev = MKDEV(devone_major, <span class="hljs-number">0</span>);
+    <span class="hljs-keyword">int</span> ret;
+    <span class="hljs-keyword">int</span> major;
+    <span class="hljs-keyword">int</span> err;
+
+    ret = alloc_chrdev_region(&amp;dev, <span class="hljs-number">0</span>, devone_devs, <span class="hljs-string">&quot;devone&quot;</span>);
+    <span class="hljs-keyword">if</span> (ret &lt; <span class="hljs-number">0</span>)
+        <span class="hljs-keyword">return</span> ret;
+    devone_major = major = MAJOR(dev);
+
+    cdev_init(&amp;devone_cdev, &amp;devone_fops);
+    devone_cdev.owner = THIS_MODULE;
+    devone_cdev.ops = &amp;devone_fops;
+    err = cdev_add(&amp;devone_cdev, MKDEV(devone_major, <span class="hljs-number">0</span>), <span class="hljs-number">1</span>);
+    <span class="hljs-keyword">if</span> (err)
+        <span class="hljs-keyword">return</span> err;
+
+    printk(KERN_ALERT <span class="hljs-string">&quot;devone driver(major %d) installed.\n&quot;</span>, major);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">devone_exit</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">dev_t</span> dev = MKDEV(devone_major, <span class="hljs-number">0</span>);
+
+    printk(KERN_ALERT <span class="hljs-string">&quot;devone driver removed.\n&quot;</span>);
+
+    cdev_del(&amp;devone_cdev);
+
+    unregister_chrdev_region(dev, devone_devs);
+
+}
+
+module_init(devone_init);
+module_exit(devone_exit);
+</code></pre>
+<ul>
+<li>wakeup.c</li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/module.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/init.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/sched.h&gt;</span></span>
+
+MODULE_LICENSE(<span class="hljs-string">&quot;Dual BSD/GPL&quot;</span>);
+
+<span class="hljs-keyword">extern</span> <span class="hljs-keyword">wait_queue_head_t</span> yutaka_sample_wait;
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">sample_init</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">wait_queue_head_t</span> *wq = &amp;yutaka_sample_wait;
+
+    printk(<span class="hljs-string">&quot;driver loaded\n&quot;</span>);
+
+    wake_up(wq);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sample_exit</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    printk(KERN_ALERT <span class="hljs-string">&quot;driver unloaded\n&quot;</span>);
+}
+
+module_init(sample_init);
+module_exit(sample_exit);
+</code></pre>
+<p>&#x57F7;&#x884C;&#x7BC4;&#x4F8B;&#xFF1A; </p>
+<pre><code class="lang-c"># sudo /sbin/insmod ./devone.ko 
+# mknod --mode=644 /dev/devone c `grep devone /proc/devices | awk &apos;{print $1;}&apos;` 0 
+# ls -l /dev/devone 
+# hexdump -C -n 16 /dev/devone 
+# sudo /sbin/insmod ./wakeup.ko
+</code></pre>
+<p><code>&#x7981;&#x6B62;&#x4F7F;&#x7528; sleep_on()</code></p>
+<p>&#x5F9E;&#x524D;&#x9762;&#x7684;&#x4F8B;&#x5B50;&#x53EF;&#x4EE5;&#x767C;&#x73FE;&#xFF0C;&#x5982;&#x679C;&#x80FD;&#x4FDD;&#x8A3C;&#x5728; sleep_on() &#x57F7;&#x884C;&#x4E4B;&#x5F8C;&#x518D;&#x547C;&#x53EB; wake_up() &#x7684;&#x8A71;&#xFF0C;&#x5C31;&#x4E0D;&#x6703;&#x6709;&#x554F;&#x984C;&#xFF0C;&#x4F46;&#x5982;&#x679C;&#x5148;&#x57F7;&#x884C; wake_up() &#x518D;&#x57F7;&#x884C; sleep_on()&#xFF0C;&#x5247;&#x5C31;&#x6C92;&#x6709;&#x4EBA;&#x6703;&#x53BB;&#x53EB;&#x9192; sleep_on()&#xFF0C;&#x5C31;&#x7B97;&#x662F;&#x9001; KILL &#x4FE1;&#x865F;&#x7D66; process &#x4E5F;&#x7121;&#x6CD5;&#x89E3;&#x9664;&#x7761;&#x7720;&#xFF0C;&#x6240;&#x4EE5;&#x76EE;&#x524D; sleep_on() &#x6B63;&#x5728;&#x671D;&#x8457;&#x5EE2;&#x9664;&#x7684;&#x65B9;&#x5411;&#x524D;&#x9032;&#x3002;</p>
+<p><code>&#x6B63;&#x78BA;&#x7684; Sleep &#x65B9;&#x5F0F;</code></p>
+<p>sleep &#x8207; wake up &#x7684;&#x6B63;&#x78BA;&#x4F5C;&#x6CD5;&#x5DF2;&#x7D93;&#x5B9A;&#x578B;&#xFF1A;</p>
+<ul>
+<li>&#x4EE5; wait_event_timeout() &#x5165;&#x7761;</li>
+<li>&#x4EE5; wake_up() &#x559A;&#x9192;</li>
+</ul>
+<p>wait_event_timeout() &#x6703;&#xFF1A;</p>
+<ul>
+<li>&#x5728;&#x6EFF;&#x8DB3; wake up &#x689D;&#x4EF6;&#x7684;&#x6642;&#x5019;&#x89E3;&#x9664;&#x7761;&#x7720;</li>
+<li>&#x672A;&#x6EFF;&#x8DB3; wake up &#x689D;&#x4EF6;&#x7684;&#x6642;&#x5019;&#x4FDD;&#x6301;&#x7761;&#x7720;</li>
+<li>&#x7D93;&#x904E;&#x4E00;&#x6BB5;&#x6642;&#x9593;&#x5F8C;&#xFF0C;&#x81EA;&#x52D5;&#x89E3;&#x9664;&#x7761;&#x7720;</li>
+</ul>
+<p>&#x4F7F;&#x7528;&#x9019;&#x500B;&#x51FD;&#x5F0F;&#xFF0C;&#x53EF;&#x4EE5;&#x907F;&#x514D;&#x300C;&#x932F;&#x904E;&#x547C;&#x53EB;&#x6642;&#x9593;&#x300D;&#x800C;&#x9020;&#x6210;&#x7684;&#x300C;&#x6C38;&#x4E45;&#x7761;&#x7720;&#x300D;&#x554F;&#x984C;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x5728;&#x4E0D;&#x52D5;&#x7528; kernel timer &#x7684;&#x60C5;&#x6CC1;&#x4E0B;&#xFF0C;&#x9054;&#x6210; timeout &#x7684;&#x6548;&#x679C;&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">long</span> <span class="hljs-title">wait_event_timeout</span><span class="hljs-params">(wait_queue_head_t wq, condition, <span class="hljs-keyword">long</span> timeout)</span></span>;
+</code></pre>
+<p>wait_event_timeout&#x5DE8;&#x96C6;&#x5B9A;&#x7FA9;&#x5728; linux/wait.h&#xFF0C;&#x7B2C;&#x4E00;&#x5F15;&#x6578;&#x662F; wait_queue_head_t &#x8B8A;&#x6578;&#xFF0C;&#x7B2C;&#x4E8C;&#x5F15;&#x6578;&#x5247;&#x662F; process &#x559A;&#x9192;&#x7684;&#x689D;&#x4EF6;&#xFF0C;&#x7B2C;&#x4E09;&#x5F15;&#x6578;&#x662F;&#x6642;&#x9593;(&#x4EE5; jiffies &#x70BA;&#x55AE;&#x4F4D;). 
+wait_event_timeout() &#x6703;&#x5728;&#x6EFF;&#x8DB3;&#x689D;&#x4EF6;&#x6216;&#x662F;&#x88AB;&#x559A;&#x9192;&#x4E4B;&#x524D;&#x8B93; process &#x4FDD;&#x6301; sleep &#x72C0;&#x614B;&#xFF0C;&#x4F46;&#x5982;&#x679C;&#x88AB;&#x559A;&#x9192;&#x4E4B;&#x5F8C;&#xFF0C;&#x689D;&#x4EF6;&#x9084;&#x662F;&#x6C92;&#x6210;&#x7ACB;&#x7684;&#x8A71;&#xFF0C;&#x5C31;&#x6703;&#x518D;&#x6B21;&#x843D;&#x5165; sleep &#x72C0;&#x614B;&#x3002; 
+&#x53E6;&#x5916;&#xFF0C;&#x4E5F;&#x6709;&#x53EF;&#x88AB; signal &#x89E3;&#x9664; sleep &#x7684; wait_event_interruptiable_timeout() &#x5DE8;&#x96C6;&#x53EF;&#x4F9B;&#x4F7F;&#x7528;&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">long</span> <span class="hljs-title">wait_event_interruptible_timeout</span><span class="hljs-params">(wait_queue_head_t wq, condition, <span class="hljs-keyword">long</span> timeout)</span></span>;
+</code></pre>
+<ul>
+<li>main.c - wait_event_timeout() &#x7684;&#x7BC4;&#x4F8B;&#x7A0B;&#x5F0F; </li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/module.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/init.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/sched.h&gt;</span></span>
+
+MODULE_LICENSE(<span class="hljs-string">&quot;Dual BSD/GPL&quot;</span>);
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> SLEEP_TIMEOUT  (<span class="hljs-number">6</span>*HZ)</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> WAKEUP_TIMEOUT (<span class="hljs-number">5</span>*HZ)</span>
+
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">struct</span> timer_list tickfn;
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">wait_queue_head_t</span> wait;
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> condition = <span class="hljs-number">0</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sample_timeout</span><span class="hljs-params">(<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> arg)</span>
+</span>{
+    <span class="hljs-keyword">wait_queue_head_t</span> *wq = (<span class="hljs-keyword">wait_queue_head_t</span> *)arg;
+
+    printk(<span class="hljs-string">&quot;wq %p (%s)\n&quot;</span>, wq, __func__);
+    condition = <span class="hljs-number">1</span>;
+    wake_up(wq);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">sample_init</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">long</span> val;
+
+    printk(<span class="hljs-string">&quot;driver loaded: %p\n&quot;</span>, &amp;tickfn);
+
+    init_waitqueue_head(&amp;wait);
+
+    init_timer(&amp;tickfn);
+    tickfn.function = sample_timeout;
+    tickfn.data = (<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span>)&amp;wait;
+    tickfn.expires = jiffies + WAKEUP_TIMEOUT;
+    add_timer(&amp;tickfn);
+
+    condition = <span class="hljs-number">0</span>;
+    val = wait_event_timeout(wait, condition, SLEEP_TIMEOUT);
+    <span class="hljs-keyword">if</span> (val == <span class="hljs-number">0</span>) { <span class="hljs-comment">/* timeout */</span>
+        printk(<span class="hljs-string">&quot;Timeout ocurred. (%s)\n&quot;</span>, __func__);
+    }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sample_exit</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    del_timer_sync(&amp;tickfn);
+
+    printk(KERN_ALERT <span class="hljs-string">&quot;driver unloaded\n&quot;</span>);
+}
+
+module_init(sample_init);
+module_exit(sample_exit);
+</code></pre>
+<p><code>&#x9A57;&#x8A3C;&#x547C;&#x53EB;&#x6642;&#x6A5F;</code>
+wait_event_timeout() &#x8207; wake_up() &#x7684;&#x547C;&#x53EB;&#x6642;&#x6A5F;&#x6709;&#x5404;&#x7A2E;&#x8B8A;&#x5316;&#xFF0C;&#x4E0D;&#x7BA1;&#x662F;&#x4EE5;&#x54EA;&#x7A2E;&#x9806;&#x5E8F;&#x547C;&#x53EB;&#xFF0C;&#x9A45;&#x6A5F;&#x7A0B;&#x5F0F;&#x90FD;&#x4E0D;&#x80FD;&#x51FA;&#x554F;&#x984C;&#x3002; 
+&#x5982;&#x679C;&#x662F;&#x56E0;&#x70BA;&#x786C;&#x9AD4;&#x6545;&#x969C;&#x4E4B;&#x985E;&#x7684;&#x539F;&#x56E0;&#xFF0C;&#x5C0E;&#x81F4;&#x4E0D;&#x505C;&#x7522;&#x751F;&#x4E2D;&#x65B7;&#xFF0C;&#x9019;&#x7A2E;&#x60C5;&#x5F62;&#x4E0B;&#xFF0C;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x4E5F;&#x8981;&#x6709;&#x9069;&#x7576;&#x7684;&#x61C9;&#x5C0D;&#x624D;&#x884C;&#x3002; </p>
+<p><code>I2C&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;</code>
+&#x770B;&#x4E0D;&#x61C2;&#x2026;&#x76EE;&#x524D;&#x3002; </p>
+<p>6-7&#x3001;&#x5411; TTY &#x4E3B;&#x63A7;&#x53F0;&#x8F38;&#x51FA;&#x8A0A;&#x606F; 
+&#x4F7F;&#x7528; prink() &#x53EF;&#x4EE5;&#x628A;&#x8A0A;&#x606F;&#x9001;&#x5230; kernel buffer&#xFF0C;&#x4F46;&#x6C92;&#x8FA6;&#x6CD5;&#x986F;&#x793A;&#x5230;&#x4F7F;&#x7528;&#x8005;&#x7684;&#x7D42;&#x7AEF;&#x6A5F;&#x4E0A;&#x3002; 
+&#x800C;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x5728;&#x547C;&#x53EB; printf() &#x628A;&#x8CC7;&#x6599;&#x986F;&#x793A;&#x5230;&#x756B;&#x9762;&#x4E0A;&#x6642;&#xFF0C;&#x4E5F;&#x662F;&#x56E0;&#x70BA;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x900F;&#x904E; shell &#x57F7;&#x884C;&#xFF0C;&#x800C; shell &#x63A7;&#x5236;&#x8457; TTY(Tele-Typewriter) &#x7684;&#x7DE3;&#x6545;&#x3002; 
+&#x6240;&#x4EE5;&#x7576;&#x7A0B;&#x5F0F;&#x5207;&#x96E2; shell &#x6210;&#x70BA; daemon (&#x7236;&#x7A0B;&#x5E8F;&#x8B8A;&#x6210; init process) &#x7684;&#x6642;&#x5019;&#xFF0C;&#x547C;&#x53EB; printf() &#x4E5F;&#x6703;&#x5931;&#x53BB;&#x4F5C;&#x7528;&#x3002; 
+&#x4F46;&#x5982;&#x679C;&#x9650;&#x5B9A;&#x5728;&#x9019;&#x7A2E;&#x60C5;&#x5F62;&#x4E0B;&#x7684;&#x8A71;&#xFF1A;</p>
+<ul>
+<li>&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x5728; user context &#x904B;&#x4F5C;</li>
+</ul>
+<p>&#x5C31;&#x53EF;&#x4EE5;&#x8B93;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x5411;&#x4F7F;&#x7528;&#x8005;&#x7684;&#x7D42;&#x7AEF;&#x6A5F;&#x9001;&#x51FA;&#x8A0A;&#x606F;&#xFF0C;&#x53D6;&#x5F97; user context &#x7684;&#x65B9;&#x5F0F;&#x662F; current &#x5DE8;&#x96C6;(linux/sched.h)&#xFF0C;TTY &#x7684;&#x6307;&#x6A19;&#x53D6;&#x5F97;&#x65B9;&#x5F0F;&#x5982;&#x4E0B;&#xFF1A; </p>
+<pre><code class="lang-c">courrnt-&gt;signal-&gt;tty
+</code></pre>
+<p>tty.c - &#x50B3;&#x9001;&#x8A0A;&#x606F;&#x5230; tty &#x7684;&#x7BC4;&#x4F8B; </p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/module.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/init.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/tty.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/sched.h&gt;</span></span>
+
+MODULE_LICENSE(<span class="hljs-string">&quot;Dual BSD/GPL&quot;</span>);
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">hook_tty_console</span><span class="hljs-params">(<span class="hljs-keyword">char</span> *msg)</span>
+</span>{
+    <span class="hljs-keyword">struct</span> tty_struct *tty;
+
+    tty = current-&gt;signal-&gt;tty;
+    <span class="hljs-keyword">if</span> (tty != <span class="hljs-literal">NULL</span>) {
+        ((tty-&gt;driver)-&gt;write)(tty, msg, <span class="hljs-built_in">strlen</span>(msg));
+        ((tty-&gt;driver)-&gt;write)(tty, <span class="hljs-string">&quot;\r\n&quot;</span>, <span class="hljs-number">2</span>);
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">sample_init</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    printk(<span class="hljs-string">&quot;driver loaded \n&quot;</span>);
+
+    hook_tty_console(<span class="hljs-string">&quot;This message is written by sample driver&quot;</span>);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sample_exit</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    printk(KERN_ALERT <span class="hljs-string">&quot;driver unloaded\n&quot;</span>);
+}
+
+module_init(sample_init);
+module_exit(sample_exit);
+</code></pre>
+<h3 id="6-8%E3%80%81interrupt-hook">6-8&#x3001;Interrupt Hook</h3>
+<p>&#x5728;&#x786C;&#x9AD4;&#x7522;&#x751F;&#x4E2D;&#x65B7;&#x6642;&#xFF0C;&#x5C31;&#x6703;&#x547C;&#x53EB;&#x9019;&#x500B; IRQ (Interrupt Request) &#x5C0D;&#x61C9;&#x7684;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#xFF0C;IRQ &#x7684;&#x5206;&#x914D;&#x60C5;&#x5F62;&#x53EF;&#x5230; /proc/interrupts &#x67E5;&#x95B1;&#x3002; <br>
+IRQ &#x53EF;&#x4EE5;&#x540C;&#x6642;&#x5206;&#x914D;&#x7D66;&#x591A;&#x500B;&#x4E0D;&#x540C;&#x7684;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#xFF0C;IRQ &#x5728;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x4E4B;&#x9593;&#x662F;&#x53EF;&#x4EE5;&#x5171;&#x4EAB;&#x7684;&#x3002; <br>
+&#x4E2D;&#x65B7;&#x8655;&#x7406;&#x7A0B;&#x5E8F;&#x7684;&#x767B;&#x8A18;&#x5DE5;&#x4F5C;&#x53EF;&#x900F;&#x904E; request_irq() &#x5B8C;&#x6210;&#xFF0C;&#x5728; kernel &#x6536;&#x5230; IRQ &#x6642;&#xFF0C;&#x6703;&#x547C;&#x53EB;&#x6240;&#x6709;&#x5C0D;&#x61C9;&#x7684;&#x4E2D;&#x65B7;&#x8655;&#x7406;&#x7A0B;&#x5F0F;&#x3002; <br>
+&#x8209;&#x500B;&#x4F8B;&#x5B50;&#xFF0C;&#x4F86;&#x5C0D;&#x7DB2;&#x8DEF;&#x5361;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684; IRQ16 &#x767B;&#x8A18;&#x7BC4;&#x4F8B;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x5167;&#x7684;&#x4E2D;&#x65B7;&#x8655;&#x7406;&#x7A0B;&#x5E8F;&#x770B;&#x770B;&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/module.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/init.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/interrupt.h&gt;</span></span>
+
+MODULE_LICENSE(<span class="hljs-string">&quot;Dual BSD/GPL&quot;</span>);
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> IRQ_NUM <span class="hljs-number">17</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> irqreturn_t <span class="hljs-title">sample_intr</span><span class="hljs-params">(<span class="hljs-keyword">int</span> irq, <span class="hljs-keyword">void</span> *dev_id)</span>
+</span>{
+    printk(<span class="hljs-string">&quot;irq %d dev_id %p (%s)\n&quot;</span>, irq, dev_id, __func__);
+
+    <span class="hljs-keyword">return</span> IRQ_NONE;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">sample_init</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    printk(<span class="hljs-string">&quot;driver loaded \n&quot;</span>);
+
+    <span class="hljs-keyword">if</span> (request_irq(IRQ_NUM,
+                    sample_intr,
+                    IRQF_SHARED,
+                    <span class="hljs-string">&quot;sample_intr&quot;</span>,
+                    (<span class="hljs-keyword">void</span> *)sample_intr)) {
+
+    }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sample_exit</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    free_irq(IRQ_NUM, (<span class="hljs-keyword">void</span> *)sample_intr);
+
+    printk(KERN_ALERT <span class="hljs-string">&quot;driver unloaded\n&quot;</span>);
+}
+
+module_init(sample_init);
+module_exit(sample_exit);
+</code></pre>
+<p>&#x57F7;&#x884C;&#x7BC4;&#x4F8B;&#xFF1A; </p>
+<pre><code class="lang-c"><span class="hljs-preprocessor"># cat /proc/interrupts </span>
+<span class="hljs-preprocessor"># sudo /sbin/insmod ./devone.ko </span>
+<span class="hljs-preprocessor"># sudo tail -f /var/log/messages </span>
+<span class="hljs-preprocessor"># dmesg | tail </span>
+<span class="hljs-preprocessor"># sudo /sbin/rmmod devone </span>
+<span class="hljs-preprocessor"># cat /proc/interrupts</span>
+</code></pre>
+<h3 id="6-9%E3%80%81%E7%B5%90%E8%AA%9E">6-9&#x3001;&#x7D50;&#x8A9E;</h3>
+<p>&#x5982;&#x679C; user process &#x900F;&#x904E; IOCTL &#x63A7;&#x5236;&#x7A0B;&#x5F0F;&#x4F7F;&#x7528; select() &#x8207; poll() &#x4E4B;&#x985E;&#x7684;&#x7CFB;&#x7D71;&#x547C;&#x53EB;&#x7684;&#x8A71;&#xFF0C;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x9019;&#x908A;&#x4E5F;&#x5FC5;&#x9808;&#x914D;&#x5408;&#x5BE6;&#x4F5C;&#xFF0C;&#x53E6;&#x5916;&#x5982;&#x679C;&#x8981;&#x5728; /proc &#x63D0;&#x4F9B;&#x8CC7;&#x6599;&#x6642;&#xFF0C;&#x4E5F;&#x5FC5;&#x9808;&#x914D;&#x5408;&#x4FEE;&#x6539;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x3002; 
+&#x63A5;&#x8457;&#x662F; sleep &#x8207; wake up &#x7684;&#x624B;&#x6CD5;&#xFF0C;&#x5982;&#x679C;&#x6C92;&#x6709;&#x614E;&#x91CD;&#x5730;&#x9032;&#x884C;&#x8A2D;&#x8A08;&#xFF0C;&#x5F88;&#x53EF;&#x80FD;&#x6703;&#x8B93; user process &#x5B8C;&#x5168;&#x7121;&#x6CD5;&#x904B;&#x4F5C;&#x3002;</p>
 
                     
                     </section>
@@ -7072,10 +9033,10 @@ fi
         </div>
 
         
-        <a href="../fcamel/05.html" class="navigation navigation-prev " aria-label="Previous page: [轉] 用 strace 和 ltrace 找出用到的 system call 和 library call"><i class="fa fa-angle-left"></i></a>
+        <a href="../linux_device_driver_programming/05.html" class="navigation navigation-prev " aria-label="Previous page: 開發 driver 需要的基礎知識"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../fcamel/07.html" class="navigation navigation-next " aria-label="Next page: [轉] 從 C 呼叫 C++ 函式的過程理解程式編譯、連結的原理"><i class="fa fa-angle-right"></i></a>
+        <a href="../linux_device_driver_programming/kong_zhi_ying_ti.html" class="navigation navigation-next " aria-label="Next page: 控制硬體"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

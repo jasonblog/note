@@ -428,7 +428,6 @@
    * [[轉]閱讀程式碼的心理層面](treacecode/8f495d_yue_du_cheng_shi_ma_de_xin_li_ceng_mian.md)
    * [我的原始碼閱讀之道](treacecode/wo_de_yuan_shi_ma_yue_du_zhi_dao.md)
    * [磨練閱讀程式技巧，不受黑盒限制](treacecode/mo_lian_yue_du_cheng_shi_ji_qiao_ff0c_bu_shou_hei_.md)
-       * 找到程式入口，再由上而下抽絲剝繭
    * [閱讀他人的程式碼](treacecode/yue_du_ta_ren_de_cheng_shi_ma.md)
        * [讀懂程式碼，使心法皆為我所用](treacecode/du_dong_cheng_shi_ma_ff0c_shi_xin_fa_jie_wei_wo_su.md)
        * [摸清架構，便可輕鬆掌握全貌](treacecode/mo_qing_jia_gou_ff0c_bian_ke_qing_song_zhang_wo_qu.md)

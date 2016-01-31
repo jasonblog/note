@@ -443,8 +443,8 @@
    * [詞法分析器](c_compiler/ci_fa_fen_xi_qi.md)
    * [遞歸下降](c_compiler/di_gui_xia_jiang.md)
    * [變量定義](c_compiler/bian_liang_ding_yi.md)
-   * [函数定义](c_compiler/han_shu_ding_yi.md)
-   * [语句](c_compiler/yu_ju.md)
-   * [表达式](c_compiler/biao_da_shi.md)
-   * [总结](c_compiler/zong_jie.md)
+   * [函數定義](c_compiler/han_shu_ding_yi.md)
+   * [語句](c_compiler/yu_ju.md)
+   * [表達式](c_compiler/biao_da_shi.md)
+   * [總結](c_compiler/zong_jie.md)
 

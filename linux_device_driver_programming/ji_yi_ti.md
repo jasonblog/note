@@ -329,7 +329,7 @@ dma_data_direction direction);
 dma_data_direction 是列舉常數，指定 DMA_TO_DEVICE 代表「要把資料從記憶體傳給裝置」，也就是執行 flush cache 的動作。 
 指定 DMA_FROM_DEVICE 代表「要讀取裝置傳到記憶體的資料」，也就是執行 purge cache 的動作。 
 
-IA-32 在硬體層及保証 cache coherency，所以驅動程式不必特別控制 cache，但若要移植到其它平台時，則需特別注意。 
+IA-32 在硬體層及保証 cache coherency，所以驅動程式不必特別控制 cache，但若要移植到其它平臺時，則需特別注意。 
 
 
 

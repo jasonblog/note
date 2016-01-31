@@ -1,7 +1,7 @@
 # 建構 Linux 0.11 的開發環境
 
 
-參考平台 Ubuntu Linux 15.10 x86_64
+參考平臺 Ubuntu Linux 15.10 x86_64
 
 安裝必要的套件
 ```

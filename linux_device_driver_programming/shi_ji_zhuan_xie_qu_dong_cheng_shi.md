@@ -1420,7 +1420,7 @@ struct proc_dir_entry *proc_symlink(const char *name, struct proc_dir_entry *par
 ### 6-5、seq_file 
 
 /proc 在處高小資料時很方便，但一旦想一次交換的資料超過 page size 就會變得很複雜，另外如果 /proc 的檔案同時被許多 process 讀取時，也可能造成問題。 
-為了解決這些困擾，Linux 定義了新的「seq_file」介面。 
+為瞭解決這些困擾，Linux 定義了新的「seq_file」介面。 
 
 `seq_file 的位階 `
 
@@ -1804,7 +1804,7 @@ schedule() 會被 kernel 許多地方呼叫，主要呼叫的地方包含：
 - Timer scheduler 延遲呼叫的時候
 
 而 Linux 的 kernel space 並不是 preemptive 的，包含驅動程式在內的 kernel 工作內容都不是 preemptive。 
-但是有個例外的情形，在發生硬體中斷時，中斷函式會強制取得 CPU 控制權。 
+但是有個例外的情形，在發生硬體中斷時，中斷函式會強製取得 CPU 控制權。 
 負責在 user process 之間切換的就是 kernel，而 kernel 內部並沒有其它角色負責排程，但是 kernel 內部可以明確放出 CPU 使用權，也就是直接呼叫 schedule()。 
 特別是驅動程式，有時需等待硬體完成工作，此時就需要暫時放下自己的工作，讓 CPU 去處理其它事情。 
 為了讓驅動程式能在進行 DMA 之類工作時，可以明確釋放 CPU 使用權，所以 kernel 就提供了 sleep 與 wake up 的功能。 
@@ -2097,7 +2097,7 @@ wait_event_timeout() 與 wake_up() 的呼叫時機有各種變化，不管是以
 `I2C驅動程式 `
 看不懂…目前。 
 
-6-7、向 TTY 主控台輸出訊息 
+6-7、向 TTY 主控臺輸出訊息 
 使用 prink() 可以把訊息送到 kernel buffer，但沒辦法顯示到使用者的終端機上。 
 而應用程式在呼叫 printf() 把資料顯示到畫面上時，也是因為應用程式透過 shell 執行，而 shell 控制著 TTY(Tele-Typewriter) 的緣故。 
 所以當程式切離 shell 成為 daemon (父程序變成 init process) 的時候，呼叫 printf() 也會失去作用。 

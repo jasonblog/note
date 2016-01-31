@@ -100,7 +100,7 @@ $ gcc -c -fPIC hello.c world.c
 ```
 
 
-編譯時要加上 `-fPIC` 用來產生 position-independent code。也可以用 -fpic 參數。 (不太清楚差異，只知道 -fPIC 較通用於不同平台，但產生的code較大，而且編譯速度較慢)。
+編譯時要加上 `-fPIC` 用來產生 position-independent code。也可以用 -fpic 參數。 (不太清楚差異，只知道 -fPIC 較通用於不同平臺，但產生的code較大，而且編譯速度較慢)。
 
 
 ```sh

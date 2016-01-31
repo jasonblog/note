@@ -20,17 +20,17 @@
 
 ---
 ## 概論
-CMake是1999年推出的開源自由軟體計劃，目的是提供不同平台之間共同的編譯環境。他的特點有：
+CMake是1999年推出的開源自由軟體計劃，目的是提供不同平臺之間共同的編譯環境。他的特點有：
 
-* 支援不同平台。
-* **可以**將Build和原本程式碼分開。不分開稱為in-place build，而分開的情況稱為out-place build。out-place build的附加功能就是同樣一包套件可以同時編譯成不同平台的binary並且分別放在不同的目錄中。
+* 支援不同平臺。
+* **可以**將Build和原本程式碼分開。不分開稱為in-place build，而分開的情況稱為out-place build。out-place build的附加功能就是同樣一包套件可以同時編譯成不同平臺的binary並且分別放在不同的目錄中。
 * 支援cache加快編譯速度。
 
 CMake的執行流程簡單來說是
 
 * 開發者使用CMake語法寫編譯描述，存到CMakeLists.txt。
-* 使用者執行cmake，cmake首先會根據開發描述的規格產生該平台對應的編譯環境檔案如Makefile等。
-* 使用者執行make或是平台上的編譯方法產生最後的結果。
+* 使用者執行cmake，cmake首先會根據開發描述的規格產生該平臺對應的編譯環境檔案如Makefile等。
+* 使用者執行make或是平臺上的編譯方法產生最後的結果。
 * 使用者執行cmake install安裝軟體。
 
 另外一點值得注意的是cmake本身沒有提供uninstall功能。
@@ -120,7 +120,7 @@ if: yes
 $ cmake  .
 if: yes
 ```
-看一下目前目錄會發現新的檔案`CMakeCache.txt`，找一下裏面的字串`test`會看到
+看一下目前目錄會發現新的檔案`CMakeCache.txt`，找一下裡面的字串`test`會看到
 ```
 $ grep test CMakeCache.txt 
 ...
@@ -128,7 +128,7 @@ test:STRING=yes
 ...
 
 ```
-**結論就是CMake的確有cache，而且不小心cache會影響到執行的結果。**另外其實`set(..)`裏面也可以cache行為的相關參數，這邊就先跳過不談。
+**結論就是CMake的確有cache，而且不小心cache會影響到執行的結果。**另外其實`set(..)`裡面也可以cache行為的相關參數，這邊就先跳過不談。
 
 ---
 #### 迴圈
@@ -522,7 +522,7 @@ test/
 ## 參考資料
 
 * [CMake 官方網站](http://www.cmake.org/)
-* [CMake-tutorial 投影片，強力推荐](https://github.com/TheErk/CMake-tutorial)
+* [CMake-tutorial 投影片，強力推薦](https://github.com/TheErk/CMake-tutorial)
 * [CMake Syntax](http://www.cmake.org/cmake/help/syntax.html)
 * [「貓也會的 CMake」簡報上線](http://blog.linux.org.tw/~jserv/archives/001991.html)
 * [cmake 官方網站 wiki](http://www.cmake.org/Wiki/CMake)

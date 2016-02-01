@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>磨練閱讀程式技巧，不受黑盒限制 | Jason note</title>
+        <title>讓cmake顯示gcc/g++的編譯信息 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../treacecode/yue_du_ta_ren_de_cheng_shi_ma.html" />
+    <link rel="next" href="../treacecode/treace_code.html" />
     
     
-    <link rel="prev" href="../treacecode/wo_de_yuan_shi_ma_yue_du_zhi_dao.html" />
+    <link rel="prev" href="../cmake/cmake_chu_tan.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="43.3" data-basepath=".." data-revision="Mon Feb 01 2016 20:51:52 GMT+0800 (CST)">
+    <div class="book" data-level="42.2" data-basepath=".." data-revision="Mon Feb 01 2016 20:51:52 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -6735,7 +6735,7 @@
             
         </li>
     
-        <li class="chapter " data-level="42.2" data-path="cmake/rang_cmake_xian_shi_gcc__g_de_bian_yi_xin_xi.html">
+        <li class="chapter active" data-level="42.2" data-path="cmake/rang_cmake_xian_shi_gcc__g_de_bian_yi_xin_xi.html">
             
                 
                     <a href="../cmake/rang_cmake_xian_shi_gcc__g_de_bian_yi_xin_xi.html">
@@ -6801,7 +6801,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="43.3" data-path="treacecode/mo_lian_yue_du_cheng_shi_ji_qiao_ff0c_bu_shou_hei_.html">
+        <li class="chapter " data-level="43.3" data-path="treacecode/mo_lian_yue_du_cheng_shi_ji_qiao_ff0c_bu_shou_hei_.html">
             
                 
                     <a href="../treacecode/mo_lian_yue_du_cheng_shi_ji_qiao_ff0c_bu_shou_hei_.html">
@@ -7209,41 +7209,118 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E7%A3%A8%E7%B7%B4%E9%96%B1%E8%AE%80%E7%A8%8B%E5%BC%8F%E6%8A%80%E5%B7%A7%EF%BC%8C%E4%B8%8D%E5%8F%97%E9%BB%91%E7%9B%92%E9%99%90%E5%88%B6">&#x78E8;&#x7DF4;&#x95B1;&#x8B80;&#x7A0B;&#x5F0F;&#x6280;&#x5DE7;&#xFF0C;&#x4E0D;&#x53D7;&#x9ED1;&#x76D2;&#x9650;&#x5236;</h1>
-<p>&#x57FA;&#x65BC;&#x9ED1;&#x76D2;&#x5B50;&#x5316;&#x7684;&#x8EDF;&#x9AD4;&#x5143;&#x4EF6;&#x5C01;&#x88DD;&#x9032;&#x884C;&#x958B;&#x767C;&#xFF0C;&#x5DF2;&#x7D93;&#x662F;&#x5EE3;&#x6CDB;&#x63A5;&#x53D7;&#x800C;&#x4E14;&#x6D41;&#x884C;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x4E0D;&#x904E;&#x6210;&#x4E5F;&#x9ED1;&#x76D2;&#xFF0C;&#x6557;&#x6216;&#x8A31;&#x4E5F;&#x5728;&#x9ED1;&#x76D2;&#x3002;&#x4E16;&#x4E0A;&#x6C92;&#x6709;&#x5B8C;&#x7F8E;&#x7684;&#x9ED1;&#x76D2;&#x5B50;&#xFF0C;&#x958B;&#x653E;&#x539F;&#x59CB;&#x78BC;&#x8EDF;&#x9AD4;&#x8B93;&#x6211;&#x5011;&#x6709;&#x6A5F;&#x6703;&#x4FEE;&#x6B63;&#x5176;&#x4E2D;&#x7684;&#x7455;&#x75B5;&#xFF0C;&#x4E5F;&#x53EF;&#x52A0;&#x4EE5;&#x6539;&#x9020;&#xFF0C;&#x4F7F;&#x5B83;&#x7684;&#x5A01;&#x529B;&#x66F4;&#x70BA;&#x5F37;&#x5927;&#x3002;</p>
-<p>&#x7269;&#x4EF6;&#x5C0E;&#x5411;&#x7684;&#x8A2D;&#x8A08;&#x65B9;&#x6CD5;&#xFF0C;&#x4E5F;&#x4FC3;&#x6210;&#x4E86;&#x5143;&#x4EF6;&#x5316;&#x8EDF;&#x9AD4;&#x958B;&#x767C;&#x6A21;&#x5F0F;&#x7684;&#x98A8;&#x884C;&#x3002;&#x7576;&#x4F60;&#x8D8A;&#x662F;&#x91CD;&#x8996;&#x91CD;&#x8907;&#x4F7F;&#x7528;&#x3001;&#x591A;&#x578B;&#x3001;&#x5C01;&#x88DD;&#x3001;&#x4ECB;&#x9762;&#x5316;&#x7B49;&#x8A2D;&#x8A08;&#x7684;&#x89C0;&#x5FF5;&#x6642;&#xFF0C;&#x5C31;&#x53EF;&#x80FD;&#x6703;&#x5728;&#x4E0D;&#x77E5;&#x4E0D;&#x89BA;&#x9593;&#xFF0C;&#x990A;&#x6210;&#x4EE5;&#x8A2D;&#x8A08;&#x9ED1;&#x76D2;&#x5B50;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x4F86;&#x8A2D;&#x8A08;&#x81EA;&#x5DF1;&#x6240;&#x958B;&#x767C;&#x7684;&#x8EDF;&#x9AD4;&#x6A21;&#x7D44;&#xFF0C;&#x4EE5;&#x53CA;&#x7528;&#x9ED1;&#x76D2;&#x5B50;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x4F86;&#x770B;&#x5F85;&#x4ED6;&#x4EBA;&#x6240;&#x8A2D;&#x8A08;&#x7684;&#x8EDF;&#x9AD4;&#x6A21;&#x7D44;&#x3002;</p>
-<h3 id="%E5%B0%81%E5%8D%B0%E4%BA%86%E8%BB%9F%E9%AB%94%E7%9A%84%E8%A4%87%E9%9B%9C%E5%BA%A6%EF%BC%8C%E9%96%8B%E7%99%BC%E7%94%A2%E8%83%BD%E5%A4%A7%E8%BA%8D%E9%80%B2">&#x5C01;&#x5370;&#x4E86;&#x8EDF;&#x9AD4;&#x7684;&#x8907;&#x96DC;&#x5EA6;&#xFF0C;&#x958B;&#x767C;&#x7522;&#x80FD;&#x5927;&#x8E8D;&#x9032;</h3>
-<p>&#x4EBA;&#x5011;&#x5C07;&#x8EDF;&#x9AD4;&#x6A21;&#x7D44;&#x6253;&#x9020;&#x6210;&#x9ED1;&#x76D2;&#x5B50;&#x7684;&#x578B;&#x614B;&#xFF0C;&#x662F;&#x70BA;&#x4E86;&#x5C07;&#x8EDF;&#x9AD4;&#x9AD8;&#x5EA6;&#x7684;&#x8907;&#x96DC;&#x5EA6;&#xFF0C;&#x5C01;&#x5370;&#x5728;&#x9019;&#x500B;&#x9ED1;&#x76D2;&#x5B50;&#x4E2D;&#x3002;&#x8209;&#x51E1;&#x90A3;&#x4E9B;&#x9AD8;&#x5EA6;&#x8026;&#x5408;&#x7684;&#x3001;&#x5BB9;&#x6613;&#x6709;&#x6240;&#x8B8A;&#x52D5;&#x7684;&#x3001;&#x4E0D;&#x6B32;&#x5916;&#x754C;&#x77E5;&#x6089;&#x7684;&#x300C;&#x9ED1;&#x6697;&#x4E8B;&#x7269;&#x300D;&#xFF0C;&#x4E00;&#x5F8B;&#x5C07;&#x5B83;&#x5011;&#x5C01;&#x9396;&#x5728;&#x9ED1;&#x8272;&#x7684;&#x76D2;&#x5B50;&#x4E4B;&#x4E2D;&#x3002;</p>
-<p>&#x514B;&#x670D;&#x4E86;&#x5C0D;&#x958B;&#x767C;&#x8005;&#x5A01;&#x8105;&#x751A;&#x5927;&#x7684;&#x8907;&#x96DC;&#x5EA6;&#x4E4B;&#x5F8C;&#xFF0C;&#x8EDF;&#x9AD4;&#x7684;&#x958B;&#x767C;&#x751F;&#x7522;&#x529B;&#xFF0C;&#x4E0D;&#x50C5;&#x5C07;&#x5927;&#x5E45;&#x8E8D;&#x5347;&#xFF0C;&#x800C;&#x4E14;&#x8207;&#x65E5;&#x4FF1;&#x9032;&#x3002;&#x6F38;&#x6F38;&#x7684;&#xFF0C;&#x958B;&#x767C;&#x8005;&#x53CD;&#x800C;&#x8981;&#x5B78;&#x7FD2;&#x8A66;&#x8457;&#x4E0D;&#x53BB;&#x63A2;&#x7D22;&#x3001;&#x78B0;&#x89F8;&#x9ED1;&#x76D2;&#x5B50;&#x4E2D;&#x7684;&#x4E8B;&#x7269;&#xFF0C;&#x751A;&#x81F3;&#x8981;&#x5C0D;&#x5B83;&#x5011;&#x8996;&#x800C;&#x4E0D;&#x898B;&#x3002;&#x56E0;&#x70BA;&#x53EA;&#x6709;&#x5728;&#x5B83;&#x4E0D;&#x66DD;&#x9732;&#x5167;&#x90E8;&#x5BE6;&#x4F5C;&#x53CA;&#x7D50;&#x69CB;&#x7684;&#x60C5;&#x6CC1;&#x4E0B;&#xFF0C;&#x624D;&#x80FD;&#x88AB;&#x904B;&#x7528;&#x5F97;&#x66F4;&#x597D;&#x3002;&#x540C;&#x6A23;&#x7684;&#xFF0C;&#x4E5F;&#x53EA;&#x6709;&#x5728;&#x4E0D;&#x77E5;&#x9053;&#x5167;&#x90E8;&#x5BE6;&#x4F5C;&#x53CA;&#x7D50;&#x69CB;&#x7684;&#x60C5;&#x6CC1;&#x4E0B;&#xFF0C;&#x624D;&#x80FD;&#x5584;&#x7528;&#x5B83;&#x3002;</p>
-<p>&#x5C0D;&#x65BC;&#x985E;&#x5225;&#x5EAB;&#x6216;&#x5143;&#x4EF6;&#x5EAB;&#x7684;&#x5EFA;&#x9020;&#x8005;&#x800C;&#x8A00;&#xFF0C;&#x6253;&#x9020;&#x51FA;&#x5167;&#x5BB9;&#x8D8A;&#x4F86;&#x8D8A;&#x8C50;&#x5BCC;&#x3001;&#x652F;&#x63F4;&#x8D8A;&#x4F86;&#x8D8A;&#x5EE3;&#x6CDB;&#x3001;&#x800C;&#x5A01;&#x529B;&#x4E5F;&#x8D8A;&#x4F86;&#x8D8A;&#x5F37;&#x5927;&#x7684;&#x985E;&#x5225;&#x53CA;&#x5143;&#x4EF6;&#xFF0C;&#x4E0D;&#x50C5;&#x63D0;&#x5347;&#x958B;&#x767C;&#x751F;&#x7522;&#x529B;&#xFF0C;&#x540C;&#x6642;&#x4E5F;&#x8B93;&#x7A0B;&#x5F0F;&#x4EBA;&#x5F9E;&#x4E8B;&#x958B;&#x767C;&#x7684;&#x9580;&#x6ABB;&#x964D;&#x4F4E;&#x3002;</p>
-<p>&#x8A31;&#x591A;&#x525B;&#x5165;&#x9580;&#x7684;&#x7A0B;&#x5F0F;&#x4EBA;&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x77E5;&#x9053;&#x6709;&#x4EC0;&#x9EBC;&#x53EF;&#x7528;&#x7684;&#x5143;&#x4EF6;&#xFF0C;&#x63A5;&#x8457;&#x5C07;&#x5B83;&#x5011;&#x515C;&#x5728;&#x4E00;&#x584A;&#xFF0C;&#x4FBF;&#x53EF;&#x4EE5;&#x8F15;&#x6613;&#x5730;&#x958B;&#x767C;&#x51FA;&#x8A31;&#x591A;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x3002;&#x9019;&#x7576;&#x7136;&#x662F;&#x8EDF;&#x9AD4;&#x958B;&#x767C;&#x6A21;&#x5F0F;&#x7684;&#x4E00;&#x5927;&#x8E8D;&#x9032;&#x2500;&#x2500;&#x958B;&#x767C;&#x901F;&#x5EA6;&#x66F4;&#x5FEB;&#x3001;&#x800C;&#x4E14;&#x66F4;&#x5BB9;&#x6613;&#x3002;</p>
-<h3 id="%E9%BB%91%E7%9B%92%E5%AD%90%E4%B9%9F%E5%8F%AF%E8%83%BD%E6%88%90%E7%82%BA%E5%B0%88%E6%A1%88%E7%9A%84%E5%9C%B0%E9%9B%B7">&#x9ED1;&#x76D2;&#x5B50;&#x4E5F;&#x53EF;&#x80FD;&#x6210;&#x70BA;&#x5C08;&#x6848;&#x7684;&#x5730;&#x96F7;</h3>
-<p>&#x5B8C;&#x7F8E;&#x7684;&#x9ED1;&#x76D2;&#x5B50;&#x5F88;&#x68D2;&#xFF0C;&#x4F46;&#x662F;&#x5E7E;&#x4E4E;&#x4E0D;&#x5B58;&#x5728;&#x3002;&#x4F60;&#x6240;&#x4F7F;&#x7528;&#x7684;&#x9ED1;&#x76D2;&#x5B50;&#x90FD;&#x96E3;&#x514D;&#x6709;&#x7F3A;&#x9677;&#x3002;&#x5B83;&#x6216;&#x8A31;&#x5167;&#x85CF;&#x81ED;&#x87F2;&#xFF0C;&#x6216;&#x8A31;&#x6548;&#x7387;&#x8868;&#x73FE;&#x4E0D;&#x7B26;&#x5408;&#x4F60;&#x7684;&#x671F;&#x5F85;&#x3002;&#x9ED1;&#x76D2;&#x5B50;&#x672C;&#x8EAB;&#x70BA;&#x4E86;&#x96B1;&#x85CF;&#x5167;&#x90E8;&#x5BE6;&#x4F5C;&#xFF0C;&#x6703;&#x8A2D;&#x4E0B;&#x4E00;&#x9053;&#x53C8;&#x4E00;&#x9053;&#x7684;&#x9632;&#x7DDA;&#xFF0C;&#x5C07;&#x4F60;&#x6240;&#x80FD;&#x89F8;&#x53CA;&#x7684;&#x7BC4;&#x570D;&#xFF0C;&#x963B;&#x64CB;&#x65BC;&#x9ED1;&#x76D2;&#x5B50;&#x4E4B;&#x5916;&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x8EAB;&#x70BA;&#x9ED1;&#x76D2;&#x5B50;&#x7684;&#x4F7F;&#x7528;&#x8005;&#xFF0C;&#x7576;&#x4F60;&#x6240;&#x9762;&#x5C0D;&#x7684;&#x662F;&#x4E00;&#x500B;&#x6709;&#x7F3A;&#x9677;&#x7684;&#x9ED1;&#x76D2;&#x5B50;&#x6642;&#xFF0C;&#x901A;&#x5E38;&#x53EA;&#x80FD;&#x5F92;&#x547C;&#x8CA0;&#x8CA0;&#xFF0C;&#x671B;&#x8457;&#x5B83;&#x767C;&#x5446;&#x4E86;&#x3002;</p>
-<p>&#x958B;&#x767C;&#x8005;&#x64CD;&#x99D5;&#x8457;&#x5341;&#x5206;&#x5148;&#x9032;&#x7684;&#x958B;&#x767C;&#x5DE5;&#x5177;&#x9AD8;&#x901F;&#x524D;&#x9032;&#xFF0C;&#x4F46;&#x4E00;&#x65E6;&#x9047;&#x4E0A;&#x4E86;&#x610F;&#x6599;&#x4E4B;&#x5916;&#x7684;&#x963B;&#x7919;&#x6642;&#xFF0C;&#x537B;&#x6642;&#x5E38;&#x53EA;&#x80FD;&#x5728;&#x539F;&#x5730;&#x8E0F;&#x6B65;&#x3001;&#x96E3;&#x4EE5;&#x5F80;&#x524D;&#x518D;&#x9032;&#x534A;&#x5C3A;&#x3002;&#x9019;&#x7121;&#x7591;&#x662F;&#x9ED1;&#x76D2;&#x5B50;&#x5316;&#x5F8C;&#x7684;&#x8EDF;&#x9AD4;&#x958B;&#x767C;&#xFF0C;&#x6700;&#x5E38;&#x9047;&#x5230;&#x7684;&#x554F;&#x984C;&#xFF0C;&#x7A0B;&#x5F0F;&#x4EBA;&#x53EA;&#x662F;&#x5143;&#x4EF6;&#x7684;&#x4F7F;&#x7528;&#x8005;&#xFF0C;&#x7576;&#x5143;&#x4EF6;&#x767C;&#x751F;&#x554F;&#x984C;&#x6642;&#xFF0C;&#x591A;&#x534A;&#x96BB;&#x80FD;&#x675F;&#x624B;&#x7121;&#x7B56;&#xFF0C;&#x800C;&#x9019;&#x4E5F;&#x6703;&#x9020;&#x6210;&#x958B;&#x767C;&#x9032;&#x5EA6;&#x56B4;&#x91CD;&#x7684;&#x9072;&#x6EEF;&#xFF0C;&#x751A;&#x81F3;&#x8B93;&#x7CFB;&#x7D71;&#x7121;&#x6CD5;&#x5982;&#x9810;&#x671F;&#x5B8C;&#x6210;&#xFF0C;&#x9ED1;&#x76D2;&#x5B50;&#x53CD;&#x800C;&#x6210;&#x4E86;&#x554F;&#x984C;&#x7684;&#x6839;&#x6E90;&#x6240;&#x5728;&#x3002;</p>
-<h3 id="%E5%95%8F%E9%A1%8C%E5%8F%AF%E8%83%BD%E6%98%AF%E4%BD%BF%E7%94%A8%E7%9A%84%E6%96%B9%E5%BC%8F%E4%B8%8D%E6%AD%A3%E7%A2%BA">&#x554F;&#x984C;&#x53EF;&#x80FD;&#x662F;&#x4F7F;&#x7528;&#x7684;&#x65B9;&#x5F0F;&#x4E0D;&#x6B63;&#x78BA;</h3>
-<p>&#x53E6;&#x4E00;&#x65B9;&#x9762;&#xFF0C;&#x9ED1;&#x76D2;&#x5B50;&#x4E0D;&#x50C5;&#x5C01;&#x5370;&#x4E86;&#x5167;&#x90E8;&#x7684;&#x7D50;&#x69CB;&#x53CA;&#x5BE6;&#x4F5C;&#x65B9;&#x5F0F;&#xFF0C;&#x6709;&#x6642;&#x5B83;&#x67D0;&#x7A2E;&#x7A0B;&#x5EA6;&#x5C07;&#x81EA;&#x8EAB;&#x7684;&#x904B;&#x4F5C;&#x65B9;&#x5F0F;&#xFF0C;&#x751A;&#x81F3;&#x662F;&#x76F8;&#x95DC;&#x7684;&#x77E5;&#x8B58;&#x7D66;&#x5C01;&#x9396;&#x65BC;&#x5167;&#x90E8;&#x3002;&#x8A31;&#x591A;&#x60C5;&#x6CC1;&#x4E0B;&#xFF0C;&#x4E0D;&#x61C2;&#x5F97;&#x76F8;&#x95DC;&#x904B;&#x4F5C;&#x65B9;&#x5F0F;&#x53CA;&#x77E5;&#x8B58;&#xFF0C;&#x4ECD;&#x80FD;&#x5728;&#x4E00;&#x77E5;&#x534A;&#x89E3;&#x7684;&#x60C5;&#x6CC1;&#x4E0B;&#x4F7F;&#x7528;&#x9019;&#x6A23;&#x7684;&#x5143;&#x4EF6;&#x3002;&#x4F46;&#x6709;&#x6642;&#x5019;&#x4F7F;&#x7528;&#x9ED1;&#x76D2;&#x5B50;&#x5143;&#x4EF6;&#x9020;&#x6210;&#x7684;&#x969C;&#x7919;&#xFF0C;&#x4E26;&#x4E0D;&#x5728;&#x9ED1;&#x76D2;&#x5B50;&#x672C;&#x8EAB;&#xFF0C;&#x800C;&#x662F;&#x5728;&#x65BC;&#x4F7F;&#x7528;&#x5B83;&#x7684;&#x65B9;&#x5F0F;&#x4E26;&#x4E0D;&#x6B63;&#x78BA;&#x3002;</p>
-<p>&#x5C31;&#x62FF;&#x95DC;&#x806F;&#x5F0F;&#x8CC7;&#x6599;&#x5EAB;&#x7CFB;&#x7D71;&#x505A;&#x70BA;&#x4F8B;&#x5B50;&#xFF0C;&#x5C0D;&#x8A31;&#x591A;&#x7A0B;&#x5F0F;&#x4EBA;&#x800C;&#x8A00;&#xFF0C;&#x5B83;&#x5C31;&#x662F;&#x4E00;&#x500B;&#x6975;&#x70BA;&#x5927;&#x578B;&#x7684;&#x9ED1;&#x76D2;&#x5B50;&#x3002;&#x4ED6;&#x5011;&#x5E7E;&#x4E4E;&#x4E0D;&#x660E;&#x767D;&#x95DC;&#x806F;&#x5F0F;&#x8CC7;&#x6599;&#x5EAB;&#x7A76;&#x7ADF;&#x662F;&#x5982;&#x4F55;&#x5BE6;&#x4F5C;&#x7684;&#xFF0C;&#x4E5F;&#x4E0D;&#x77E5;&#x9053;&#x5B83;&#x662F;&#x5982;&#x4F55;&#x6709;&#x6548;&#x7387;&#x5730;&#x5132;&#x5B58;&#x8CC7;&#x6599;&#xFF0C;&#x66F4;&#x4E0D;&#x77E5;&#x9053;&#x5B83;&#x662F;&#x900F;&#x904E;&#x4EC0;&#x9EBC;&#x6A23;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x63D0;&#x4F9B;&#x8AF8;&#x5982;&#x67E5;&#x8A62;&#x3001;&#x6392;&#x5E8F;&#x4E4B;&#x985E;&#x7684;&#x64CD;&#x4F5C;&#x3002;</p>
-<p>&#x5C0D;&#x7A0B;&#x5F0F;&#x4EBA;&#x4F86;&#x8AAA;&#xFF0C;&#x8CC7;&#x6599;&#x5EAB;&#x7CFB;&#x7D71;&#x662F;&#x500B;&#x5927;&#x578B;&#x9ED1;&#x76D2;&#xFF0C;&#x8207;&#x9019;&#x500B;&#x9ED1;&#x76D2;&#x5B50;&#x6E9D;&#x901A;&#x7684;&#x4ECB;&#x9762;&#xFF0C;&#x4FBF;&#x662F;&#x9AD8;&#x5EA6;&#x62BD;&#x8C61;&#x5316;&#x7684;SQL&#x3002;SQL&#x5C01;&#x88DD;&#x4E86;&#x4EBA;&#x5011;&#x64CD;&#x4F5C;&#x8CC7;&#x6599;&#x7684;&#x9700;&#x6C42;&#xFF0C;&#x4E26;&#x4EE5;&#x4E00;&#x500B;&#x8DB3;&#x5920;&#x5F48;&#x6027;&#x4E14;&#x8207;&#x5E95;&#x5C64;&#x5BE6;&#x4F5C;&#x65B9;&#x5F0F;&#x7368;&#x7ACB;&#x7684;&#x8A9E;&#x8A00;&#x52A0;&#x4EE5;&#x8868;&#x8FF0;&#x3002;&#x9019;&#x7576;&#x7136;&#x7C21;&#x5316;&#x4E86;&#x4EBA;&#x5011;&#x5728;&#x958B;&#x767C;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x6642;&#x6240;&#x9700;&#x64B0;&#x5BEB;&#x7528;&#x7684;&#x7A0B;&#x5F0F;&#x4EE5;&#x64CD;&#x4F5C;&#x8CC7;&#x6599;&#xFF0C;&#x4E5F;&#x964D;&#x4F4E;&#x4E86;&#x64B0;&#x5BEB;&#x6B64;&#x985E;&#x7A0B;&#x5F0F;&#x7684;&#x9580;&#x6ABB;&#xFF0C;&#x4F46;&#x662F;&#xFF0C;&#x5C0D;&#x65BC;&#x8CC7;&#x6599;&#x5EAB;&#x904B;&#x4F5C;&#x65B9;&#x5F0F;&#x4E0D;&#x719F;&#x6089;&#x7684;&#x7A0B;&#x5F0F;&#x4EBA;&#xFF0C;&#x5F80;&#x5F80;&#x53C8;&#x5341;&#x5206;&#x5BB9;&#x6613;&#x5BEB;&#x51FA;&#x6548;&#x80FD;&#x4F4E;&#x843D;&#x7684;SQL&#x8FF0;&#x53E5;&#x3002;</p>
-<p>&#x55AE;&#x770B;SQL&#x8FF0;&#x53E5;&#x7684;&#x908F;&#x8F2F;&#x672C;&#x8EAB;&#x4E26;&#x7121;&#x7455;&#x75B5;&#xFF0C;&#x4F46;&#x56E0;&#x70BA;&#x7A0B;&#x5F0F;&#x4EBA;&#x4E0D;&#x77AD;&#x89E3;SQL&#x8FF0;&#x53E5;&#x7684;&#x7279;&#x6027;&#xFF0C;&#x9020;&#x6210;&#x4E86;&#x57F7;&#x884C;&#x6548;&#x80FD;&#x4F4E;&#x843D;&#x3002;&#x9019;&#x6A23;&#x7684;&#x554F;&#x984C;&#x96B1;&#x85CF;&#x5728;&#x7CFB;&#x7D71;&#x4E2D;&#xFF0C;&#x5BE6;&#x5728;&#x96E3;&#x4EE5;&#x5BDF;&#x89BA;&#xFF0C;&#x56E0;&#x70BA;&#x5B83;&#x908F;&#x8F2F;&#x4E0A;&#x662F;&#x5C0D;&#x7684;&#x3001;&#x6216;&#x662F;&#x770B;&#x4F3C;&#x662F;&#x5C0D;&#x7684;&#x3002;&#x9019;&#x4F7F;&#x5F97;&#x9ED1;&#x76D2;&#x5B50;&#x9020;&#x6210;&#x7684;&#x969C;&#x7919;&#x66F4;&#x70BA;&#x56B4;&#x91CD;&#x3002;</p>
-<p>&#x5927;&#x91CF;&#x501A;&#x9760;&#x9ED1;&#x76D2;&#x5B50;&#x6240;&#x884D;&#x751F;&#x51FA;&#x4F86;&#x7684;&#x554F;&#x984C;&#x2500;&#x2500;&#x4E0D;&#x50C5;&#x9047;&#x4E0A;&#x4E86;&#x7121;&#x6CD5;&#x89E3;&#x6C7A;&#xFF0C;&#x751A;&#x81F3;&#x9084;&#x53EF;&#x80FD;&#x6703;&#x56E0;&#x70BA;&#x5C0D;&#x5B83;&#x7684;&#x4E0D;&#x77AD;&#x89E3;&#xFF0C;&#x800C;&#x767C;&#x751F;&#x8AA4;&#x7528;&#x3002;</p>
-<p>&#x9019;&#x50CF;&#x662F;&#x4E00;&#x500B;&#x5169;&#x96E3;&#x7684;&#x5C40;&#x9762;&#x3002;&#x9ED1;&#x76D2;&#x5B50;&#x8B93;&#x7A0B;&#x5F0F;&#x4EBA;&#x5011;&#x53C8;&#x611B;&#x53C8;&#x6068;&#xFF0C;&#x4ED6;&#x5011;&#x611B;&#x7528;&#x5305;&#x88DD;&#x6210;&#x70BA;&#x9ED1;&#x76D2;&#x5B50;&#x7684;&#x73FE;&#x6210;&#x5143;&#x4EF6;&#xFF0C;&#x56E0;&#x70BA;&#x5B83;&#x80FD;&#x8B93;&#x751F;&#x7522;&#x529B;&#x5927;&#x589E;&#x3002;&#x4F46;&#x7576;&#x554F;&#x984C;&#x51FA;&#x5728;&#x9ED1;&#x76D2;&#x5B50;&#x5316;&#x7684;&#x5143;&#x4EF6;&#x6642;&#xFF0C;&#x7A0B;&#x5F0F;&#x4EBA;&#x53C8;&#x6703;&#x6C23;&#x5F97;&#x7259;&#x7662;&#x7662;&#x7684;&#xFF0C;&#x56E0;&#x70BA;&#x660E;&#x660E;&#x77E5;&#x9053;&#x554F;&#x984C;&#x51FA;&#x5728;&#x54EA;&#x88E1;&#xFF0C;&#x537B;&#x53C8;&#x7121;&#x53EF;&#x65BD;&#x529B;&#x4E4B;&#x8655;&#xFF0C;&#x56E0;&#x70BA;&#x5B8C;&#x5168;&#x4E0D;&#x77E5;&#x9053;&#x9ED1;&#x76D2;&#x5B50;&#x662F;&#x5982;&#x4F55;&#x5BE6;&#x4F5C;&#xFF0C;&#x800C;&#x4E14;&#x5373;&#x4F7F;&#x77E5;&#x9053;&#x5982;&#x4F55;&#x5BE6;&#x4F5C;&#xFF0C;&#x4E5F;&#x7121;&#x6CD5;&#x52A0;&#x4EE5;&#x4FEE;&#x6539;&#x3002;</p>
-<h3 id="%E9%96%8B%E6%94%BE%E5%8E%9F%E5%A7%8B%E7%A2%BC%E7%9A%84%E9%BB%91%E7%9B%92%E5%AD%90%EF%BC%8C%E4%BD%BF%E6%88%91%E5%80%91%E4%B8%8D%E8%87%B4%E6%9C%9B%E7%9B%92%E8%88%88%E5%98%86">&#x958B;&#x653E;&#x539F;&#x59CB;&#x78BC;&#x7684;&#x9ED1;&#x76D2;&#x5B50;&#xFF0C;&#x4F7F;&#x6211;&#x5011;&#x4E0D;&#x81F4;&#x671B;&#x76D2;&#x8208;&#x5606;</h3>
-<p>&#x8457;&#x540D;&#x8CC7;&#x8A0A;&#x6280;&#x8853;&#x4F5C;&#x5BB6;&#x4FAF;&#x6377;&#x66FE;&#x7528;&#x300C;&#x8EDF;&#x9AD4;&#x662F;&#x5426;&#x6709;&#x958B;&#x653E;&#x539F;&#x59CB;&#x78BC;&#x300D;&#xFF0C;&#x4F86;&#x505A;&#x70BA;&#x8EDF;&#x9AD4;&#x7A76;&#x7ADF;&#x662F;&#x9ED1;&#x76D2;&#x5B50;&#x9084;&#x662F;&#x767D;&#x76D2;&#x5B50;&#x7684;&#x5206;&#x91CE;&#xFF0C;&#x4FBF;&#x662F;&#x7AD9;&#x5728;&#x76D2;&#x5B50;&#x662F;&#x5426;&#x80FD;&#x88AB;&#x6253;&#x958B;&#x6216;&#x770B;&#x7A7F;&#x7684;&#x89C0;&#x9EDE;&#x4E4B;&#x4E0A;&#x3002;&#x7576;&#x6211;&#x5011;&#x624B;&#x4E0A;&#x63E1;&#x6709;&#x5143;&#x4EF6;&#x7684;&#x539F;&#x59CB;&#x78BC;&#x6642;&#xFF0C;&#x7576;&#x554F;&#x984C;&#x51FA;&#x5728;&#x5143;&#x4EF6;&#x6642;&#xFF0C;&#x4FBF;&#x6709;&#x6A5F;&#x6703;&#x81EA;&#x884C;&#x4FEE;&#x6B63;&#x5143;&#x4EF6;&#x7684;&#x554F;&#x984C;&#xFF0C;&#x800C;&#x4E0D;&#x81F4;&#x65BC;&#x53EA;&#x80FD;&#x671B;&#x76D2;&#x8208;&#x5606;&#xFF0C;&#x9019;&#x6B63;&#x662F;&#x4F7F;&#x7528;&#x958B;&#x653E;&#x539F;&#x59CB;&#x78BC;&#x8EDF;&#x9AD4;&#x7684;&#x512A;&#x52E2;&#x6240;&#x5728;&#x3002;</p>
-<p>&#x8EDF;&#x9AD4;&#x6A21;&#x7D44;&#x7A76;&#x7ADF;&#x662F;&#x4E0D;&#x662F;&#x4E00;&#x5177;&#x9ED1;&#x76D2;&#x5B50;&#xFF0C;&#x5176;&#x5BE6;&#x6211;&#x4E26;&#x4E0D;&#x8A8D;&#x70BA;&#x662F;&#x55AE;&#x5F9E;&#x6709;&#x7121;&#x958B;&#x653E;&#x539F;&#x59CB;&#x78BC;&#x4F86;&#x8AD6;&#x65B7;&#x3002;&#x9ED1;&#x76D2;&#x5B50;&#x5316;&#x7684;&#x5305;&#x88DD;&#x662F;&#x4E00;&#x7A2E;&#x8A2D;&#x8A08;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x4E5F;&#x662F;&#x4E00;&#x7A2E;&#x770B;&#x5F85;&#x8EDF;&#x9AD4;&#x6A21;&#x7D44;&#x7684;&#x65B9;&#x5F0F;&#x3002;&#x5373;&#x4F7F;&#x662F;&#x958B;&#x653E;&#x539F;&#x59CB;&#x78BC;&#x7684;&#x8EDF;&#x9AD4;&#xFF0C;&#x4ECD;&#x7136;&#x53EF;&#x4EE5;&#x7528;&#x9ED1;&#x76D2;&#x5B50;&#x7684;&#x89D2;&#x5EA6;&#x4F86;&#x52A0;&#x4EE5;&#x5C0D;&#x5F85;&#xFF0C;&#x53EA;&#x4E0D;&#x904E;&#x6211;&#x5011;&#x4ECD;&#x7136;&#x4FDD;&#x6709;&#x5C07;&#x9019;&#x500B;&#x9ED1;&#x76D2;&#x5B50;&#x62C6;&#x958B;&#x7684;&#x6A5F;&#x6703;&#x3002;</p>
-<p>&#x5728;&#x5927;&#x591A;&#x6578;&#x7684;&#x61C9;&#x7528;&#x60C5;&#x5883;&#x4E0B;&#xFF0C;&#x6211;&#x5011;&#x4ECD;&#x5C07;&#x958B;&#x653E;&#x539F;&#x59CB;&#x78BC;&#x7684;&#x8EDF;&#x9AD4;&#x5143;&#x4EF6;&#x8996;&#x70BA;&#x9ED1;&#x76D2;&#x5B50;&#xFF0C;&#x4E26;&#x4E14;&#x900F;&#x904E;&#x5B83;&#x7684;&#x4ECB;&#x9762;&#x8207;&#x4E4B;&#x76F8;&#x63A5;&#xFF0C;&#x4E26;&#x4E0D;&#x6703;&#x5C07;&#x624B;&#x4F38;&#x9032;&#x9019;&#x9ED1;&#x76D2;&#x4E4B;&#x4E2D;&#x3002;&#x7562;&#x7ADF;&#x9019;&#x9ED1;&#x8272;&#x7684;&#x5916;&#x76D2;&#xFF0C;&#x4F5C;&#x7528;&#x5728;&#x65BC;&#x4FDD;&#x8B77;&#x6211;&#x5011;&#x514D;&#x65BC;&#x89F8;&#x53CA;&#x76D2;&#x5167;&#x7684;&#x8907;&#x96DC;&#x4E8B;&#x7269;&#xFF0C;&#x4E26;&#x4E14;&#x8207;&#x4E4B;&#x76F8;&#x9694;&#x7D55;&#x3002;</p>
-<p>&#x4F46;&#x662F;&#xFF0C;&#x7576;&#x6211;&#x5011;&#x767C;&#x73FE;&#x9019;&#x9ED1;&#x76D2;&#x5B58;&#x5728;&#x7455;&#x75B5;&#x6642;&#xFF0C;&#x6191;&#x85C9;&#x8457;&#x958B;&#x653E;&#x7684;&#x539F;&#x59CB;&#x78BC;&#xFF0C;&#x4FBF;&#x6709;&#x6A5F;&#x6703;&#x6253;&#x958B;&#x76D2;&#x5B50;&#xFF0C;&#x4E26;&#x4E14;&#x81EA;&#x884C;&#x4FEE;&#x6B63;&#x9ED1;&#x76D2;&#x4E2D;&#x7684;&#x6F5B;&#x5728;&#x7455;&#x75B5;&#xFF0C;&#x4E0D;&#x518D;&#x675F;&#x624B;&#x7121;&#x7B56;&#x3002;
-&#x6709;&#x4E86;&#x958B;&#x653E;&#x7684;&#x539F;&#x59CB;&#x78BC;&#xFF0C;&#x4F60;&#x751A;&#x81F3;&#x53EF;&#x4EE5;&#x81EA;&#x884C;&#x6539;&#x9020;&#x9ED1;&#x76D2;&#x5B50;&#xFF0C;&#x4F7F;&#x5B83;&#x7684;&#x5A01;&#x529B;&#x66F4;&#x70BA;&#x5F37;&#x5927;&#x3002;</p>
-<h3 id="%E6%9C%89%E8%83%BD%E5%8A%9B%E6%8B%86%E8%A7%A3%E9%BB%91%E7%9B%92%E5%AD%90%EF%BC%8C%E6%89%8D%E4%B8%8D%E6%9C%83%E5%8F%97%E7%9B%92%E5%AD%90%E9%99%90%E5%88%B6">&#x6709;&#x80FD;&#x529B;&#x62C6;&#x89E3;&#x9ED1;&#x76D2;&#x5B50;&#xFF0C;&#x624D;&#x4E0D;&#x6703;&#x53D7;&#x76D2;&#x5B50;&#x9650;&#x5236;</h3>
-<p>&#x80FD;&#x4E0D;&#x80FD;&#x62C6;&#x89E3;&#x9ED1;&#x76D2;&#x5B50;&#xFF0C;&#x6709;&#x6642;&#x4E0D;&#x50C5;&#x548C;&#x6709;&#x6C92;&#x6709;&#x958B;&#x653E;&#x539F;&#x59CB;&#x78BC;&#x7684;&#x5F62;&#x5F0F;&#x6709;&#x95DC;&#xFF0C;&#x4E5F;&#x548C;&#x7A0B;&#x5F0F;&#x4EBA;&#x672C;&#x8EAB;&#x7684;&#x80FD;&#x529B;&#x6709;&#x95DC;&#x3002;&#x4FAF;&#x6377;&#x66FE;&#x7D93;&#x8AAA;&#x904E;&#xFF1A;&#x300C;&#x6E90;&#x78BC;&#x4E4B;&#x524D;&#x4E86;&#x7121;&#x7955;&#x5BC6;&#x300D;&#x3002;&#x7684;&#x78BA;&#xFF0C;&#x7576;&#x4F60;&#x624B;&#x4E0A;&#x5DF2;&#x7D93;&#x6301;&#x6709;&#x8EDF;&#x9AD4;&#x6240;&#x6709;&#x7684;&#x539F;&#x59CB;&#x78BC;&#x6642;&#xFF0C;&#x770B;&#x4F3C;&#x6240;&#x6709;&#x5967;&#x7955;&#x7686;&#x5DF2;&#x70BA;&#x4F60;&#x6240;&#x638C;&#x63E1;&#x3002;</p>
-<p>&#x4E0D;&#x904E;&#xFF0C;&#x539F;&#x59CB;&#x78BC;&#x7684;&#x95B1;&#x8B80;&#x6280;&#x5DE7;&#xFF0C;&#x4EBA;&#x4EBA;&#x5404;&#x6709;&#x529F;&#x529B;&#xFF0C;&#x9AD8;&#x4E0B;&#x4E0D;&#x540C;&#xFF0C;&#x6BCF;&#x500B;&#x8B80;&#x8005;&#x80FD;&#x61C2;&#x7684;&#x7A0B;&#x5EA6;&#xFF0C;&#x81EA;&#x7136;&#x4E5F;&#x5C31;&#x6DF1;&#x6DFA;&#x4E0D;&#x4E00;&#x3002;&#x800C;&#x5728;&#x539F;&#x59CB;&#x78BC;&#x4E4B;&#x5916;&#xFF0C;&#x9084;&#x6709;&#x66F4;&#x591A;&#x5167;&#x96B1;&#x7684;&#x6771;&#x897F;&#xFF0C;&#x4E0D;&#x6613;&#x55AE;&#x9760;&#x539F;&#x59CB;&#x78BC;&#xFF0C;&#x4FBF;&#x7406;&#x89E3;&#x7B87;&#x4E2D;&#x5967;&#x5999;&#xFF0C;&#x4F8B;&#x5982;&#x6F14;&#x7B97;&#x6CD5;&#x3001;&#x6578;&#x5B78;&#xFF0C;&#x6216;&#x8005;&#x662F;&#x5C08;&#x696D;&#x7684;&#x9818;&#x57DF;&#x77E5;&#x8B58;&#xFF0C;&#x4E26;&#x4E0D;&#x662F;&#x7247;&#x9762;&#x900F;&#x904E;&#x539F;&#x59CB;&#x78BC;&#xFF0C;&#x4FBF;&#x80FD;&#x4E00;&#x7ABA;&#x5802;&#x5967;&#x7684;&#x3002;</p>
-<p>&#x7576;&#x6211;&#x5011;&#x8A66;&#x8457;&#x62C6;&#x89E3;&#x9ED1;&#x76D2;&#x5B50;&#x6642;&#xFF0C;&#x4F34;&#x96A8;&#x8457;&#x9700;&#x8981;&#x88DC;&#x5145;&#x76F8;&#x95DC;&#x7684;&#x9818;&#x57DF;&#x77E5;&#x8B58;&#xFF0C;&#x624D;&#x80FD;&#x66F4;&#x5168;&#x9762;&#x5730;&#x7406;&#x89E3;&#x539F;&#x59CB;&#x78BC;&#x7684;&#x904B;&#x4F5C;&#x65B9;&#x5F0F;&#x53CA;&#x884C;&#x70BA;&#x3002;</p>
-<p>&#x57FA;&#x65BC;&#x9ED1;&#x76D2;&#x5B50;&#x5316;&#x7684;&#x8EDF;&#x9AD4;&#x5143;&#x4EF6;&#x5C01;&#x88DD;&#x9032;&#x884C;&#x958B;&#x767C;&#xFF0C;&#x5DF2;&#x7D93;&#x662F;&#x5EE3;&#x6CDB;&#x63A5;&#x53D7;&#x800C;&#x4E14;&#x6D41;&#x884C;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x800C;&#x4E14;&#x5C0D;&#x65BC;&#x751F;&#x7522;&#x529B;&#x7D55;&#x5C0D;&#x662F;&#x5927;&#x6709;&#x52A9;&#x76CA;&#x3002;&#x7A0B;&#x5F0F;&#x4EBA;&#x5FC5;&#x9808;&#x5B78;&#x8457;&#x4EE5;&#x770B;&#x5F85;&#x9ED1;&#x76D2;&#x5B50;&#x7684;&#x65B9;&#x5F0F;&#x4F86;&#x8A2D;&#x8A08;&#x3001;&#x4F7F;&#x7528;&#x8EDF;&#x9AD4;&#x6A21;&#x7D44;&#x3002;</p>
-<p>&#x4E0D;&#x904E;&#x6210;&#x4E5F;&#x9ED1;&#x76D2;&#xFF0C;&#x6557;&#x6216;&#x8A31;&#x4E5F;&#x5728;&#x9ED1;&#x76D2;&#x3002;&#x4E16;&#x4E0A;&#x6C92;&#x6709;&#x5B8C;&#x7F8E;&#x7684;&#x9ED1;&#x76D2;&#x5B50;&#xFF0C;&#x5728;&#x958B;&#x767C;&#x6642;&#xFF0C;&#x5BDF;&#x89BA;&#x5230;&#x554F;&#x984C;&#x51FA;&#x5728;&#x9ED1;&#x76D2;&#x5B50;&#x672C;&#x8EAB;&#x6642;&#xFF0C;&#x6050;&#x6015;&#x90FD;&#x662F;&#x8A31;&#x591A;&#x7A0B;&#x5F0F;&#x4EBA;&#x6700;&#x5927;&#x7684;&#x60E1;&#x5922;&#x3002;&#x5728;&#x9019;&#x500B;&#x6642;&#x5019;&#xFF0C;&#x7A81;&#x986F;&#x51FA;&#x958B;&#x653E;&#x539F;&#x59CB;&#x78BC;&#x8EDF;&#x9AD4;&#x7684;&#x512A;&#x9EDE;&#xFF0C;&#x5B83;&#x8CE6;&#x4E88;&#x6211;&#x5011;&#x4E00;&#x628A;&#x6253;&#x958B;&#x9ED1;&#x76D2;&#x5B50;&#x7684;&#x9470;&#x5319;&#x3002;</p>
-<p>&#x4F46;&#x60F3;&#x8981;&#x5584;&#x7528;&#x9019;&#x958B;&#x653E;&#x539F;&#x59CB;&#x78BC;&#x7684;&#x5143;&#x4EF6;&#xFF0C;&#x7A0B;&#x5F0F;&#x4EBA;&#x5FC5;&#x9808;&#x78E8;&#x7DF4;&#x95B1;&#x8B80;&#x4ED6;&#x4EBA;&#x7A0B;&#x5F0F;&#x78BC;&#x7684;&#x6280;&#x5DE7;&#xFF0C;&#x624D;&#x80FD;&#x4E0D;&#x53D7;&#x9ED1;&#x76D2;&#x5B50;&#x9650;&#x5236;&#xFF0C;&#x540C;&#x6642;&#x53C8;&#x80FD;&#x52A0;&#x4EE5;&#x904B;&#x7528;&#x3002;</p>
-<h2 id="reference">Reference</h2>
+                        <h1 id="%E8%AE%93cmake%E9%A1%AF%E7%A4%BAgcc-g-%E7%9A%84%E7%B7%A8%E8%AD%AF%E4%BF%A1%E6%81%AF">&#x8B93;cmake&#x986F;&#x793A;gcc/g++&#x7684;&#x7DE8;&#x8B6F;&#x4FE1;&#x606F;</h1>
+<p>&#x6700;&#x8FD1;&#x5B78;&#x7FD2;&#x4E86;&#x4E00;&#x4E0B;cmake&#xFF0C;&#x7D42;&#x65BC;&#x518D;&#x4E5F;&#x4E0D;&#x7528;&#x64D4;&#x5FC3;&#x4E0D;&#x6703;&#x5BEB;Makefile&#x4E86;&#x3002;&#x8D95;&#x7DCA;&#x4F86;&#x70AB;&#x4E00;&#x4E0B;hello world&#xFF01;</p>
+<p>   &#x9805;&#x76EE;&#x76EE;&#x9304;&#x7D50;&#x69CB;
+&#x7B2C;&#x4E00;&#x500B;&#x9805;&#x76EE;&#xFF0C;&#x80AF;&#x5B9A;&#x662F;&#x5927;&#x5BB6;&#x90FD;&#x61C2;&#x7684;&#x300C;hello world&#x300D;&#x4E86;&#x3002;&#x90A3;&#x5C31;&#x5148;&#x4F86;&#x770B;&#x4E00;&#x4E0B;&#x9019;&#x500B;&#x300C;&#x9F90;&#x5927;&#x300D;&#x7684;&#x9805;&#x76EE;&#x7D50;&#x69CB;&#x5427;&#x3002;</p>
+<pre><code class="lang-c">[study@leoox hello]$ tree
+.
+|-- CMakeLists.txt
+|-- build
+`-- main.c
+
+<span class="hljs-number">1</span> directory, <span class="hljs-number">2</span> files
+</code></pre>
+<p>&#x54C8;&#x54C8;&#xFF0C;&#x5176;&#x5BE6;&#x5C31;&#x53EA;&#x6709;&#x4E00;&#x500B;&#x4EE3;&#x78BC;&#x6587;&#x4EF6; main.c&#x3002;&#x6E90;&#x78BC;&#x5167;&#x5BB9;&#x561B;&#xFF0C;&#x7A0B;&#x5E8F;&#x54E1;&#x90FD;&#x77E5;&#x9053;&#x3002;</p>
 <ul>
-<li><a href="http://www.ithome.com.tw/node/50699" target="_blank">http://www.ithome.com.tw/node/50699</a></li>
+<li>main.c</li>
 </ul>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>** argv)</span>
+</span>{
+  <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;hello world\n&quot;</span>);
+  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>&#x81F3;&#x65BC;CMakeLists.txt&#x561B;&#xFF0C;&#x90A3;&#x7576;&#x7136;&#x5C31;&#x662F;&#x4ECA;&#x5929;&#x7684;&#x4E3B;&#x89D2;&#x4E86;&#x3002;&#x63DB;&#x53E5;&#x8A71;&#x8AAA;&#xFF0C;&#x4EE5;&#x524D;&#x7684;Makefile(makefile)&#x5DF2;&#x7D93;&#x88AB;CMakeLists.txt&#x53D6;&#x4EE3;&#x4E86;&#x3002;&#x7A0D;&#x5F8C;&#x518D;&#x91CD;&#x9EDE;&#x4ECB;&#x7D39;&#x3002;</p>
+<p>&#x9084;&#x6709;&#x4E00;&#x500B;&#x7A7A;&#x6587;&#x4EF6;&#x593E;build&#xFF0C;&#x5E79;&#x561B;&#x7528;&#x7684;&#x5462;&#x3002;&#x5B83;&#x5C31;&#x76F8;&#x7576;&#x65BC;&#x4E00;&#x500B;&#x5783;&#x573E;&#x6876;&#xFF0C;&#x6211;&#x5011;&#x5BE6;&#x7528;cmake&#x7684;&#x5916;&#x90E8;&#x69CB;&#x5EFA;&#x7684;&#x65B9;&#x5F0F;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x7DE8;&#x8B6F;&#x904E;&#x7A0B;&#x4E2D;&#x7522;&#x751F;&#x7684;&#x4E00;&#x4E9B;&#x4E2D;&#x9593;&#x6587;&#x4EF6;&#xFF0C;&#x6BD4;&#x5982;.o&#x6587;&#x4EF6;&#xFF0C;cmake&#x672C;&#x8EAB;&#x7684;&#x4E2D;&#x9593;&#x6587;&#x4EF6;&#x7B49;&#x7B49;&#x90FD;&#x6703;&#x653E;&#x5230;build&#x88E1;&#x9762;&#x3002;&#x800C;&#x6211;&#x5011;&#x7684;&#x6E90;&#x78BC;&#x76EE;&#x9304;&#x4E7E;&#x4E7E;&#x6DE8;&#x6DE8;&#xFF0C;&#x662F;&#x4E0D;&#x662F;&#x5F88;&#x9069;&#x5408;&#x6709;&#x4EE3;&#x78BC;&#x6F54;&#x7656;&#x7684;&#x4F60;&#x5462;&#x3002;</p>
+<h2 id="%E6%93%BC%E8%B5%B7%E8%A2%96%E5%AD%90%E5%AF%ABcmake">&#x64FC;&#x8D77;&#x8896;&#x5B50;&#x5BEB;cmake</h2>
+<p>&#x6309;&#x7167;&#x4EE5;&#x524D;&#xFF0C;&#x6211;&#x5C31;&#x5F97;&#x53BB;&#x627E;&#x5176;&#x4ED6;&#x9805;&#x76EE;&#x7684;Makefile&#x904E;&#x4F86;&#x6539;&#xFF0C;&#x7136;&#x5F8C;&#x6E4A;&#x5408;&#x7684;&#x7528;&#x4E86;&#x3002;&#x53EF;&#x73FE;&#x5728;&#xFF0C;&#x6211;&#x53EF;&#x4EE5;&#x300C;&#x9A55;&#x50B2;&#x300D;&#x7684;&#x8AAA;&#xFF0C;&#x6211;&#x53EF;&#x4EE5;&#x767D;&#x624B;&#x8D77;&#x5BB6;&#x641E;&#x5B9A;CMakeLists.txt&#x3002;&#x4E00;&#x8D77;&#x898B;&#x8B49;&#x5947;&#x8E5F;&#xFF01;</p>
+<pre><code class="lang-c">project(hello)
+cmake_minimum_required(VERSION <span class="hljs-number">2.8</span>)
+add_executable(hello main.c)
+</code></pre>
+<p>&#x54C8;&#x54C8;&#xFF0C;&#x5C31;&#x662F;&#x9019;&#x9EBC;&#x7C21;&#x55AE;&#x3002;&#x5C31;3&#x884C;cmake&#x8A9E;&#x6CD5;&#x3002;&#x5176;&#x5BE6;&#x524D;&#x9762;2&#x884C;&#x53EF;&#x4EE5;&#x4E0D;&#x5BEB;&#xFF0C;&#x4F60;&#x53EA;&#x5BEB;&#x4E00;&#x884C;&#x5C31;&#x53EF;&#x4EE5;&#x4E86;&#x3002;&#x65E2;&#x7136;&#x5BEB;&#x4E86;&#xFF0C;&#x5C31;&#x7A0D;&#x5FAE;&#x89E3;&#x91CB;&#x4E00;&#x4E0B;&#x8A9E;&#x6CD5;&#x5427;&#xFF08;&#x592A;&#x6DF1;&#x5165;&#xFF0C;&#x6211;&#x4E5F;&#x4E0D;&#x61C2;&#xFF09;&#x3002;</p>
+<h2 id="project-projectname-cxx-c-java">PROJECT(projectname [CXX] [C] [JAVA])</h2>
+<p>&#x7528;&#x65BC;&#x6307;&#x5B9A;&#x5DE5;&#x7A0B;&#x540D;&#x5B57;&#xFF0C;[]&#x70BA;&#x53EF;&#x9078;&#x5167;&#x5BB9;&#xFF0C;&#x9ED8;&#x8A8D;&#x8868;&#x793A;&#x652F;&#x6301;&#x6240;&#x6709;&#x8A9E;&#x8A00;&#x3002;&#x6CE8;&#x610F;&#x9019;&#x689D;&#x6307;&#x4EE4;&#x9084;&#x96B1;&#x5F0F;&#x5B9A;&#x7FA9;&#x4E86;&#x53E6;&#x5916;&#x5169;&#x500B;&#x8B8A;&#x91CF;<projectName>_BINARY_DIR &#x548C;<projectName>_SOURCE_DIR&#x3002;&#x6211;&#x5011;&#x9019;&#x88E1;&#x7684;project&#x5B9A;&#x7FA9;&#x70BA;&#x4E86;hello&#xFF0C;&#x6240;&#x4EE5;&#x9019;&#x5169;&#x500B;&#x8B8A;&#x91CF;&#x5C31;&#x662F;${hello_BINARY_DIR} &#x548C; ${hello_SOURCE_DIR}&#x3002;&#x4EC0;&#x9EBC;&#x610F;&#x601D;&#x5462;&#xFF0C;&#x53EF;&#x4EE5;&#x7528;message&#x547D;&#x4EE4;&#x6253;&#x5370;&#x51FA;&#x4F86;&#x770B;&#x770B;&#x4ED6;&#x7684;&#x503C;&#x3002;</projectName></projectName></p>
+<p>${hello_BINARY_DIR} &#xFF1A;&#x5C31;&#x662F;cmake&#x8981;&#xFF08;&#x69CB;&#x5EFA;&#xFF09;&#x7DE8;&#x8B6F;&#x6211;&#x5011;&#x7684;&#x9805;&#x76EE;&#xFF08;main.c&#xFF09;&#x7684;&#x5177;&#x9AD4;&#x8DEF;&#x5F91;&#x3002;&#x9019;&#x88E1;&#x7576;&#x7136;&#x5C31;&#x662F;build&#x3002;</p>
+<p>${hello_SOURCE_DIR} &#xFF1A;&#x5C31;&#x662F;&#x6211;&#x5011;&#x9805;&#x76EE;&#x7684;&#x6E90;&#x78BC;&#x7684;&#x5177;&#x9AD4;&#x8DEF;&#x5F91;&#xFF0C;&#x9019;&#x88E1;&#x7576;&#x7136;&#x662F;&#x9805;&#x76EE;&#x7684;&#x6839;&#x76EE;&#x9304;&#x3002;</p>
+<p>&#x5982;&#x679C;&#x63A1;&#x7528;&#x7684;&#x662F;&#x5167;&#x90E8;&#x69CB;&#x5EFA;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x5373;&#x76F4;&#x63A5;&#x5728;&#x9805;&#x76EE;&#x6839;&#x76EE;&#x9304;&#x4E0B;&#x904B;&#x884C;cmake&#xFF0C;&#x90A3;&#x9019;&#x5169;&#x500B;&#x8B8A;&#x91CF;&#x7684;&#x503C;&#x662F;&#x4E00;&#x6A23;&#x7684;&#x3002;&#x4E0D;&#x904E;&#x4E00;&#x822C;&#x5F88;&#x5C11;&#x4F7F;&#x7528;&#x9019;&#x5169;&#x500B;&#x8B8A;&#x91CF;&#x3002;&#x5927;&#x5BB6;&#x90FD;&#x6BD4;&#x8F03;&#x559C;&#x6B61;&#x7528; ${CMAKE_SOURCE_DIR} &#x548C; ${CMAKE_BINARY_DIR}.</p>
+<h3 id="cmake-minimum-required">cmake_minimum_required</h3>
+<p>&#x9019;&#x500B;&#x5C31;&#x6BD4;&#x8F03;&#x597D;&#x7406;&#x89E3;&#x4E86;&#xFF0C;&#x5C31;&#x662F;&#x9019;&#x500B;&#x9805;&#x76EE;&#x8981;&#x6C42;&#x7684;cmake&#x7248;&#x672C;&#x4E0D;&#x80FD;&#x4F4E;&#x65BC;2.8&#x7248;&#x672C;&#x3002;&#x7576;&#x4F7F;&#x7528;&#x65B0;&#x7248;&#x672C;&#x7684;cmake&#x624D;&#x6709;&#x7684;&#x7279;&#x6027;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x5C31;&#x9700;&#x8981;&#x52A0;&#x4E0A;&#x9019;&#x500B;&#x4E86;&#x3002;</p>
+<h3 id="add-executable">add_executable</h3>
+<p>&#x9867;&#x540D;&#x601D;&#x7FA9;&#xFF0C;&#x5C31;&#x662F;&#x8981;&#x751F;&#x6210;&#x4E00;&#x500B;&#x53EF;&#x57F7;&#x884C;&#x7A0B;&#x5E8F;hello&#x5504;&#x3002;&#x6CE8;&#x610F;&#x9019;&#x88E1;&#x7684;hello&#x548C;project&#x88E1;&#x9762;&#x7684;hello&#x662F;&#x6C92;&#x6709;&#x95DC;&#x4FC2;&#x7684;&#x3002;&#x9019;&#x88E1;&#x7684;hello&#xFF0C;&#x662F;&#x8AAA;&#x6700;&#x7D42;&#x7DE8;&#x8B6F;&#x51FA;&#x4F86;&#x7684;&#x4E8C;&#x9032;&#x5236;&#x6587;&#x4EF6;&#x540D;&#x5B57;&#x53EB;hello&#x3002;&#x4F60;&#x53EF;&#x4EE5;&#x6539;&#x6210;&#x4F60;&#x559C;&#x6B61;&#x7684;&#x540D;&#x5B57;&#x3002;&#x90A3;hello&#x7576;&#x7136;&#x662F;&#x901A;&#x904E;main.c&#x4F86;&#x7DE8;&#x8B6F;&#x7684;&#x4E86;&#x3002;&#x5982;&#x679C;&#x6709;&#x591A;&#x500B;.c&#x6587;&#x4EF6;&#xFF0C;&#x4E00;&#x4F75;&#x5728;&#x5F8C;&#x9762;&#x52A0;&#x5165;&#x5C31;&#x884C;&#x3002;&#x4F46;&#x662F;&#x5982;&#x679C;&#x4F60;&#x6DF1;&#x5165;&#x5B78;&#x7FD2;&#x4E86;cmake&#xFF0C;&#x5176;&#x5BE6;&#x662F;&#x4E0D;&#x7528;&#x4E00;&#x500B;&#x4E00;&#x500B;&#x624B;&#x5DE5;&#x5BEB;.c&#x6587;&#x4EF6;&#x7684;&#x3002;&#x9019;&#x88E1;&#x53EA;&#x6709;&#x4E00;&#x500B;main.c&#x5C31;&#x7121;&#x6240;&#x8B02;&#x4E86;&#x3002;</p>
+<p>&#x52A0;&#x4E0A;message&#x6253;&#x5370;cmake&#x8ABF;&#x8A66;&#x4FE1;&#x606F;&#x5F8C;&#x7684;cmake&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c">project(hello)
+cmake_minimum_required(VERSION <span class="hljs-number">2.8</span>)
+message(STATUS <span class="hljs-string">&quot;src dir = ${hello_SOURCE_DIR}&quot;</span>)
+message(STATUS <span class="hljs-string">&quot;binary dir = ${hello_BINARY_DIR}&quot;</span>)
+message(STATUS <span class="hljs-string">&quot;leoox src dir = ${CMAKE_SOURCE_DIR}&quot;</span>)
+message(STATUS <span class="hljs-string">&quot;leoox binary dir = ${CMAKE_BINARY_DIR}&quot;</span>)
+add_executable(hello main.c)
+</code></pre>
+<h2 id="%E6%84%89%E5%BF%AB%E7%9A%84%E7%B7%A8%E8%AD%AF%E9%A0%85%E7%9B%AE%E5%90%A7">&#x6109;&#x5FEB;&#x7684;&#x7DE8;&#x8B6F;&#x9805;&#x76EE;&#x5427;</h2>
+<p>&#x904B;&#x884C;cmake&#x7684;&#x65B9;&#x5F0F;&#x5C31;&#x662F; &#xFF1A;</p>
+<p>cmake CMakeLists.txt&#x6240;&#x5728;&#x7684;&#x8DEF;&#x5F91;</p>
+<p>&#x6211;&#x5011;&#x63A1;&#x7528;&#x5916;&#x90E8;&#x69CB;&#x5EFA;&#x7684;&#x65B9;&#x5F0F;&#x3002;&#x5230;build&#x6587;&#x4EF6;&#x593E;&#x88E1;&#x9762;&#xFF08;cd build&#xFF09;</p>
+<pre><code class="lang-c">[study@leoox build]$ cmake ..
+-- The C compiler identification is GNU <span class="hljs-number">4.1</span><span class="hljs-number">.2</span>
+-- The CXX compiler identification is GNU <span class="hljs-number">4.1</span><span class="hljs-number">.2</span>
+-- Check <span class="hljs-keyword">for</span> working C compiler: /usr/bin/cc
+-- Check <span class="hljs-keyword">for</span> working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check <span class="hljs-keyword">for</span> working CXX compiler: /usr/bin/c++
+-- Check <span class="hljs-keyword">for</span> working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- src dir = /home/study/program/cmake/hello
+-- binary dir = /home/study/program/cmake/hello/build
+-- leoox src dir = /home/study/program/cmake/hello
+-- leoox binary dir = /home/study/program/cmake/hello/build
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/study/program/cmake/hello/build
+[study@Thrift build]$ ls
+CMakeCache.txt  CMakeFiles  Makefile  cmake_install.cmake
+[study@leoox build]$ ls ..
+CMakeLists.txt  build  main.c
+[study@leoox build]$
+</code></pre>
+<p>&#x54C8;&#x54C8;&#xFF0C;&#x592A;&#x597D;&#x4E86;&#x3002;cmake&#x5E6B;&#x6211;&#x751F;&#x6210;&#x4E86;Makefile&#x3002;&#x800C;&#x4EE3;&#x78BC;&#x5916;&#x9762;&#x9084;&#x662F;&#x975E;&#x5E38;&#x4E7E;&#x6DE8;&#x7684;&#xFF0C;&#x5C31;&#x4E00;&#x500B;mian.c&#x3002;&#x901A;&#x904E;message&#x6253;&#x5370;&#x51FA;&#x4F86;&#x7684;&#x4FE1;&#x606F;&#x770B;&#xFF0C;&#x679C;&#x7136;&#x9A57;&#x8B49;&#x4E86;&#x4E0A;&#x9762;&#x7684;&#x89E3;&#x91CB;&#x3002;</p>
+<p>&#x90A3;&#x63A5;&#x4E0B;&#x4F86;&#x5C31;&#x53EF;&#x4EE5;&#x958B;&#x5FC3;&#x7684;make&#x4E86;</p>
+<pre><code class="lang-c">[study@leooxbuild]$ make
+Scanning dependencies of target hello
+[<span class="hljs-number">100</span>%] Building C object CMakeFiles/hello.dir/main.c.o
+Linking C executable hello
+[<span class="hljs-number">100</span>%] Built target hello
+[study@Thrift build]$ ls ..
+CMakeLists.txt  build  main.c
+[study@leoox build]$ ls
+CMakeCache.txt  CMakeFiles  Makefile  cmake_install.cmake  hello
+[study@leoox build]$ ./hello
+hello world
+</code></pre>
+<h3 id="%E8%AE%93make%E6%9B%B4%E9%80%8F%E6%98%8E%E4%BA%9B">&#x8B93;make&#x66F4;&#x900F;&#x660E;&#x4E9B;</h3>
+<p>make&#x9806;&#x5229;&#x7684;&#x57F7;&#x884C;&#x6210;&#x529F;&#x4E86;&#xFF0C;&#x4E5F;&#x5F97;&#x5230;&#x4E86;&#x6211;&#x5011;&#x671F;&#x5F85;&#x7684;&#x300C;hello world&#x300D;&#x3002;&#x4F46;&#x662F;make&#x7684;&#x4FE1;&#x606F;&#x592A;&#x7C21;&#x55AE;&#x4E86;&#xFF0C;&#x611F;&#x89BA;&#x7A7A;&#x843D;&#x843D;&#x7684;&#x3002;&#x4EE5;&#x524D;&#x7684;Makefile&#x53EF;&#x90FD;&#x662F;&#x6253;&#x5370;&#x51FA;gcc &#x7B49;&#x8A73;&#x7D30;&#x7DE8;&#x8B6F;&#x904E;&#x7A0B;&#x7684;&#x54E6;&#x3002;</p>
+<p>&#x4E0D;&#x8981;&#x64D4;&#x5FC3;&#xFF0C;make&#x7684;&#x6642;&#x5019;&#x52A0;&#x500B;&#x53C3;&#x6578;&#x5C31;&#x884C;&#x4E86;&#x3002;</p>
+<p><code>make VERBOSE=1  // CMake-generated Makefiles only support VERBOSE=1, not V=1</code></p>
+<p>&#x9019;&#x6A23;&#x4F60;&#x5C31;&#x53EF;&#x4EE5;&#x5728;&#x7DE8;&#x8B6F;&#x4FE1;&#x606F;&#x88E1;&#x9762;&#x770B;&#x5230;&#x4F60;&#x60F3;&#x8981;&#x7684;&#x8A73;&#x7D30;&#x7684;gcc/g++&#x7684;&#x7DE8;&#x8B6F;&#x53C3;&#x6578;&#x4E86;&#x3002;&#x6BD4;&#x5982;&#xFF1A;</p>
+<p>[100%] Building C object CMakeFiles/hello.dir/main.c.o
+/usr/bin/cc -o CMakeFiles/hello.dir/main.c.o -c /home/study/program/cmake/hello/main.c
+Linking C executable hello</p>
+<p>&#x4EC0;&#x9EBC;&#xFF0C;&#x8981;&#x5728;make&#x7684;&#x6642;&#x5019;&#x5BEB;&#x53C3;&#x6578;&#x3002;&#x592A;&#x4E0D;&#x53CB;&#x597D;&#x4E86;&#x3002;cmake&#x77E5;&#x9053;&#x4F60;&#x61F6;&#xFF0C;&#x6240;&#x4EE5;&#x4E5F;&#x5E6B;&#x4F60;&#x641E;&#x5B9A;&#x4E86;&#x3002;&#x5728;CMakeLists.txt&#x88E1;&#x9762;&#x52A0;&#x4E0A;&#x9019;&#x53E5;&#x6307;&#x4EE4;&#x5C31;&#x53EF;&#x4EE5;&#x4E86;&#x3002;</p>
+<p>set(CMAKE_VERBOSE_MAKEFILE ON)</p>
+<pre><code class="lang-c">project(hello)
+cmake_minimum_required(VERSION <span class="hljs-number">2.8</span>)
+<span class="hljs-built_in">set</span>(CMAKE_VERBOSE_MAKEFILE ON)
+message(STATUS <span class="hljs-string">&quot;src dir = ${hello_SOURCE_DIR}&quot;</span>)
+message(STATUS <span class="hljs-string">&quot;binary dir = ${hello_BINARY_DIR}&quot;</span>)
+message(STATUS <span class="hljs-string">&quot;leoox src dir = ${CMAKE_SOURCE_DIR}&quot;</span>)
+message(STATUS <span class="hljs-string">&quot;leoox binary dir = ${CMAKE_BINARY_DIR}&quot;</span>)
+add_executable(hello main.c)
+</code></pre>
 
                     
                     </section>
@@ -7254,10 +7331,10 @@
         </div>
 
         
-        <a href="../treacecode/wo_de_yuan_shi_ma_yue_du_zhi_dao.html" class="navigation navigation-prev " aria-label="Previous page: 我的原始碼閱讀之道"><i class="fa fa-angle-left"></i></a>
+        <a href="../cmake/cmake_chu_tan.html" class="navigation navigation-prev " aria-label="Previous page: CMake 初探"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../treacecode/yue_du_ta_ren_de_cheng_shi_ma.html" class="navigation navigation-next " aria-label="Next page: 閱讀他人的程式碼"><i class="fa fa-angle-right"></i></a>
+        <a href="../treacecode/treace_code.html" class="navigation navigation-next " aria-label="Next page: Treace code"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

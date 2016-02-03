@@ -394,6 +394,7 @@
    * [時脈算換](arduino/shi_mai_suan_huan.md)
    * [邱小新8051](arduino/qiu_xiao_xin.md)
        * [I2C protocol 時間計算](arduino/i2c_protocol_shi_jian_ji_suan.md)
+       * 8051 clock
 * [edb](linux_reverse/README.md)
    * [EDB (Evan's Debugger)](linux_reverse/rdb.md)
 * [Debug Tips](debug/debug_tips.md)

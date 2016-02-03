@@ -50,3 +50,103 @@
 
 ## 文字編碼的救贖 - Unicode
 所以到底發生了什麼問題? 原因很簡單，沒有一個統一的編碼可以讓程式來處理，也沒有一種編碼方式可以表示所有的文字，我們看看超級記事本的情況
+
+
+![](./images/old_programs1.png)
+
+同樣的邏輯，同樣的程式，但因為不同編碼而得維護不同的版本，這就是在那個年代裡遇到的問題，為了解決這樣的難題， Unicode 便被提出來了， Unicode 可以表示不同的語言，同時，不同的編碼也都可以和 Unicode 進行轉換
+
+
+![](./images/unicode1.png)
+
+因此處理文字的程式，只要能夠處理 Unicode ，就等於是可以處理各種不同的文字語系，再也不需要為了不同的編碼各別處理了
+
+![](./images/new_program1.png)
+
+##Python的Unicode支援
+Python的Unicode支援非常的優秀，簡單而且好用，如果你有寫過PHP就會發現那根本不叫支援Unicode，在Python裡的字串有兩種，一種是 str ，另一種則是 unicode，在Python表示unicode字串的方式，是在字串前面加上一個u，而且很重要的一點是，為了讓Python直譯器能正確地解析我們在程式碼裡打的中文字，我們得告訴它我們用的是什麼編碼，因此得加上
+
+```py
+# -*- coding: utf8 -*-
+```
+
+在程式碼開頭的地方，如果你用的是其它編碼來儲存Python的模組，就將utf8改成其它的編碼名稱，但通常都是預設utf8，忘記加上這一行就在程式使用中文的話，會出現下面的錯誤
+
+```
+SyntaxError: Non-ASCII character '\xe4' in file D:\example.py on line 1, but no encoding declared; see http://www.python.org/peps/pep-0263.html for details
+```
+
+以下是範例
+
+```py
+# -*- coding: utf8 -*-
+msg = u'今天天氣真好'
+print msg
+print u'字數:', len(msg)
+輸出的結果會是
+```
+
+
+
+輸出的結果會是
+```
+今天天氣真好
+字數: 6
+```
+
+一個很常見到的錯誤是忘記加上 u ，這樣產生出來的字串是 str 而非 unicode，其文字的編碼會依照目前python檔案的文字編碼，或著是命令提示列的編碼來決定，例如
+
+```py
+# -*- coding: utf8 -*-
+msg = '今天天氣真好'
+print msg
+print '字數:', len(msg)
+```
+
+輸出的結果會是
+
+```py
+今天天氣真好
+字數: 18
+```
+
+你可能會覺得很奇怪，為什麼 “今天天氣真好” 應該是6個字，在這裡卻是18個字，原因很簡單，對於 unicode 來說，基本單位是 “字”，而且每個字的儲存空間較大，它可以容納任何的字，在 unicode 裡一個字母就只佔一個位置，但是 str 就不一樣了， str 的基本單位是 byte，而因為文字編碼是以多個 byte 來表示一個字，例如 Big5 即是以2個 byte 來表示一個中文字，因此如果 Unicode 和 Big5 編碼的中文字相比就會像這個樣子
+
+![](./images/unicode_vs_string1.png)
+
+但我們在此使用的是 UTF-8 編碼，不同於 Big5 只能編碼中文， UTF-8 能編碼任何 Unicode 支援的文字，因此所需要的數字範圍就更大，為了能夠表達足夠的文字，因此 UTF-8 採取動態長度編碼，也就是每個字會由幾個 byte 組成是不一定的
+
+```
+註解 在Python3因為字串已經全部統一成 unicode ，所以不必加上 u ，這是Python2和Python3的重要差別之一，需要特別注意
+```
+
+
+##與外界溝通 - decode與encode
+
+在上面我們學到了如何表示 unicode 字串，但是事實上是， unicode 字串只能存在程式的內部，並沒有一個統一的表達方式，並沒有辦法和外界溝通，因此當我們想把字串存到檔案裡，或著透過網路傳給別人，得先將 unicode 字串編碼成成 str 字串，相對地，當我們想開啟某種編碼的檔案時，我們得進行解碼
+
+Python編碼或解碼的方式很簡單，透過encode與decode的函數呼叫，我們可以在 unicode 和 str 兩種之間進行轉換
+
+
+![](./images/decode_encode1.png)
+
+由於 UTF-8 可以編碼任何字集，同時還有兼容 ASCII 的優點，因此通常我們使用的編碼都是 UTF-8，編碼只要呼叫unicode的.encode函數即可，以下是編碼的簡單的範例
+
+```py
+# -*- coding: utf8 -*-
+msg = u'今天天氣真好'
+encoded = msg.encode('utf8')
+print repr(encoded)
+```
+
+相反的，解碼一樣簡單
+
+```py
+# -*- coding: utf8 -*-
+encoded = '\xe4\xbb\x8a\xe5\xa4\xa9\xe5\xa4\xa9\xe6\xb0\xa3\xe7\x9c\x9f\xe5\xa5\xbd'
+msg = encoded.decode('utf8')
+print msg
+```
+
+
+那麼，Python到底支援哪幾種編碼，其編碼的名稱又該去哪裡查呢? 請看 Python支援的標準編碼

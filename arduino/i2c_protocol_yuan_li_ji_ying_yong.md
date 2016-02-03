@@ -52,6 +52,64 @@ void i2c_stop(void)
 
 
 
+```c
+bit i2c_write(unsigned char value)
+{
+    char i=9;
+    bit  ack;
+    // upload data
+    while(--i)
+    {
+        i2c_wait2();
+        I2C_SDA = (value & 0x80) ? HIGH : LOW;
+        i2c_wait2();
+        // send data
+        I2C_SCL = HIGH;
+        i2c_wait();
+        value <<= 1;
+        I2C_SCL = LOW;
+    }
+    // get acknowledgement
+    i2c_wait2();
+    I2C_SDA = HIGH;
+    i2c_wait2();
+    I2C_SCL = HIGH;
+    i2c_wait2();
+    ack = I2C_SDA;
+    i2c_wait2();
+    I2C_SCL = LOW;
+    // return acknowledge
+    return ack;
+}
+unsigned char i2c_read(bit acknowledge)
+{
+    char i=9;
+    unsigned char value=0;
+    // read data
+    while(--i)
+    {
+        value <<= 1;
+        i2c_wait();
+        I2C_SCL = HIGH;
+        i2c_wait2();
+        value |= I2C_SDA;
+        i2c_wait2();
+        I2C_SCL = LOW;
+    }
+    // send acknowledge
+    i2c_wait2();
+    I2C_SDA = acknowledge;
+    i2c_wait2();
+    I2C_SCL = HIGH;
+    i2c_wait();
+    I2C_SCL = LOW;
+    // return data
+    return value;
+}
+```
+
+
+
 - 完整程式碼
 
 ```c

@@ -381,6 +381,7 @@
    * [選擇Python科學計算發行版](python/296.md)
    * [Python常用的數學函數](python/297.md)
    * [Python 的編碼](python/python_de_bian_ma.md)
+   * 瞭解Unicode
 * [Vim](vim/README.md)
 * [TDD](tdd/README.md)
    * [程式設計師升級必練內功：TDD Kata](tdd/311.md)

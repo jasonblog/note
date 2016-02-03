@@ -24,3 +24,53 @@
 執行機械指令的數量換算
 
 雖然Arduino C語言的一個指令往往由好幾個甚至數十個機械指令構成，但除非微處理器忙著解決複雜的「中斷」程式，導致來不及處理序列資料，緩衝區不太會發生溢位情況。
+
+
+---
+
+
+一般每個指令需要二到三個machine cycle不等，
+
+每個machinecycle費時12個clock，因此如果接上12Mhz的震盪器，則也1Mips的運算量。
+
+1T或4T，代表可在1個clock或4個clock完成一個machine cycle。
+所以如果要計算運算速度，要先知道`Xtal 的震盪頻率`跟`Machine cycle所消耗clock數`。
+
+
+---
+
+以傳統的標準8051來舉例
+
+clock time:
+由外部晶體震盪或IC內部RC震盪產生的clock
+010101....週而復始
+常用頻率為1M~24M(可更高)
+
+machine cycle(機械週期):8051一個動作所需要的的時間
+通常為clock time*12
+
+
+instruction  cycle(指令週期):
+8051一個指令所需要多少機械週期
+每個指令大多為1~2機械週期 除法指令較複雜需要4個機械週期(DIV、MUL)
+instruction  cycle可以藉由查表來得知
+http://elearning.stut.edu.tw/mechelec/ch3.htm
+
+
+假設我們使用以下元件:
+MCU:AT89S51 相容性(8051)
+外部石英震盪器頻率:12M HZ
+
+clock time= 1/12M sec
+
+machine cycle = clock time * 12 = 1us
+
+```c
+mov a,rn    ;(Cycle=1) 這個指令要花1us
+mul AB      ;(Cycle=4) 這個指令要花4us
+ajmp 00h    ;(Cycle=2)             2us
+```
+
+
+---
+

@@ -10,6 +10,7 @@ I²C的參考設計使用一個7位元長度的位址空間但保留了16個位�
 I2C 的啟動條件及停止條件
 
 
+http://1.bp.blogspot.com/_oFwqa1MEfKA/Sd29SMWtYYI/AAAAAAAAAVs/4OKuGHtciXE/s1600-h/i2c4.JPG
 
 
 ```c

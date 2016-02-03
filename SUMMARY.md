@@ -392,7 +392,7 @@
    * [使用gdb實時調式arduino](arduino/arduinogdb.md)
    * [Arduino UNO控制板簡介](arduino/arduino_unokong_zhi_ban_jian_jie.md)
    * [時脈算換](arduino/shi_mai_suan_huan.md)
-   * 邱小新
+   * [邱小新](arduino/qiu_xiao_xin.md)
 * [edb](linux_reverse/README.md)
    * [EDB (Evan's Debugger)](linux_reverse/rdb.md)
 * [Debug Tips](debug/debug_tips.md)

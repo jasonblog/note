@@ -378,6 +378,7 @@
    * [Python-網頁爬蟲-&-文本處理-&-科學計算-&-機器學習-&-數據挖掘兵器譜](python/295.md)
    * [選擇Python科學計算發行版](python/296.md)
    * [Python常用的數學函數](python/297.md)
+   * example
 * [Vim](vim/README.md)
 * [TDD](tdd/README.md)
    * [程式設計師升級必練內功：TDD Kata](tdd/311.md)

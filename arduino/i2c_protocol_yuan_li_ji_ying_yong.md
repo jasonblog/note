@@ -49,7 +49,7 @@ void i2c_stop(void)
 - 在傳送完第八個 bit 之後，再等待 slave 接受完成後，需將 SDA 設成 HIGH，此時 slave 會將 SDA 拉回 LOW，表示接受動作完成。如果 acknowledge=HIGH，也就是 slave 沒有拉成 LOW 則表示傳送失敗。
 
 ![](./images/i2c1.JPG)
-
+![](./images/i2c5.JPG)
 
 
 ```c
@@ -107,8 +107,73 @@ unsigned char i2c_read(bit acknowledge)
     return value;
 }
 ```
+![](./images/i2c6.JPG)
 
 
+**完整寫入流程**
+
+![](./images/i2c7.JPG)
+
+### 標準 I2C 讀寫流程 by Philips
+- 讀取完最後一個 byte 時，記得要回傳 no acknowledge(SDA=HIGH)，表示已經沒有要繼續讀取資料。
+
+- 讀取完最後一個 byte 時，回傳 acknowledge(SDA=LOW)，再傳送 stop signal，則會造成後續的讀寫動作失敗。(這是在讀取 PCF8593 的經驗)
+
+**完整讀取流程**
+![](./images/i2c8.JPG)
+
+
+**複合式讀寫流程**
+
+###常用 I2C NVRAM 讀寫流程 by Philips PCF8953
+
+- 一般 RTC 都有帶一些 NVRAM 或是讀寫 EEPROM，需要先指定讀寫的 register address 才可以。所以在寫時，先寫入 slave address 後，需再寫入 register address，讓 chip 知道你要寫入的起始位址，接下來才能寫入 data。
+
+- 由於讀取前也要先寫入 register address，所以一般 NVRAM 讀取動作都是使用標準複合式流程，也就是先寫入 register address，再下一次 start conditon，再做讀取動作。
+
+![](./images/i2c9.JPG)
+
+```c
+void i2c_write_byte(unsigned char slave_addr, unsigned char reg_addr, unsigned char value)
+{
+    char i=10;
+
+    EA = 0;
+    while (--i)
+    {
+        i2c_start();
+        if(i2c_write(slave_addr)) continue;
+        if(i2c_write(reg_addr)) continue;
+        if(i2c_write(value)) continue;
+        i2c_stop();
+        break;
+    }
+    EA = 1;
+}
+
+unsigned char i2c_read_byte(unsigned char slave_addr, unsigned char reg_addr)
+{
+    char i=10;
+    unsigned char value=0;
+
+    EA = 0;
+    while (--i)
+    {
+        // send register address
+        i2c_start();
+        if(i2c_write(slave_addr&0xfe)) continue;
+        if(i2c_write(reg_addr)) continue;
+        // read data
+        i2c_start();
+        if(i2c_write(slave_addr | 1)) continue;
+        value = i2c_read(1);
+        i2c_stop();
+        break;
+    }
+    EA = 1;
+    return value;
+}
+```
 
 - 完整程式碼
 

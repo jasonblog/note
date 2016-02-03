@@ -396,7 +396,7 @@
    * [邱小新8051](arduino/qiu_xiao_xin.md)
        * [I2C protocol 時間計算](arduino/i2c_protocol_shi_jian_ji_suan.md)
        * [8051 clock](arduino/8051_clock.md)
-       * I2C protocol 原理及應用
+       * [I2C protocol 原理及應用](arduino/i2c_protocol_yuan_li_ji_ying_yong.md)
 * [edb](linux_reverse/README.md)
    * [EDB (Evan's Debugger)](linux_reverse/rdb.md)
 * [Debug Tips](debug/debug_tips.md)

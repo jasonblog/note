@@ -7,11 +7,52 @@ I²C (Inter-Integrated Circuit) 是內部整合電路的稱呼，是一種串列
 I²C的參考設計使用一個7位元長度的位址空間但保留了16個位址，所以在一組匯流排最多可和112個節點通訊。常見的I²C匯流排依傳輸速率的不同而有不同的模式：標準模式（100 Kbit/s）、低速模式（10 Kbit/s），但時脈頻率可被允許下降至零，這代表可以暫停通訊。而新一代的I²C匯流排可以和更多的節點（支援10位元長度的位址空間）以更快的速率通訊：快速模式（400 Kbit/s）、高速模式（3.4 Mbit/s）。
 
 
-I2C 的啟動條件及停止條件
+###I2C 的啟動條件及停止條件
+
+![](./images/i2c4.JPG)
 
 
-http://1.bp.blogspot.com/_oFwqa1MEfKA/Sd29SMWtYYI/AAAAAAAAAVs/4OKuGHtciXE/s1600-h/i2c4.JPG
+- I2C start condition 有二種情況，如上圖所示，虛線表示 read 動作時的第二次 start condition，實線表示 r/w 時的第一次 start condition。
 
+- I2C stop condition 只有一種情況，如上圖所示。
+
+
+```c
+void i2c_start(void)
+{
+    // for second start signal on i2c_read
+    I2C_SDA = HIGH;
+    I2C_SCL = HIGH;
+    i2c_wait();
+
+    // send start signal
+    I2C_SDA = LOW;
+    i2c_wait2();
+    I2C_SCL = LOW;
+}
+
+void i2c_stop(void)
+{
+    i2c_wait2();
+    I2C_SDA = LOW;
+    i2c_wait2();
+    I2C_SCL = HIGH;
+    i2c_wait2();
+    I2C_SDA = HIGH;
+}
+```
+###I2C 的讀寫動作
+- 當 SCL=HIGH 時，表示 SDA 穩定，可以做讀取動作。
+- 當 SCL=LOW 時，表示 SDA 混亂，不可以讀取；因為此時可以設定 SDA 的值，也就是做寫入動作。
+- master 每一次傳送八個 bit，最後 slave 會回傳一個 ack bit，表示接受是否完成。
+- master 每一次接受八個 bit，最後 master 要傳送一個 ack bit，表示接受已經完成。
+- 在傳送完第八個 bit 之後，再等待 slave 接受完成後，需將 SDA 設成 HIGH，此時 slave 會將 SDA 拉回 LOW，表示接受動作完成。如果 acknowledge=HIGH，也就是 slave 沒有拉成 LOW 則表示傳送失敗。
+
+![](./images/i2c1.JPG)
+
+
+
+- 完整程式碼
 
 ```c
 //=============================================================================

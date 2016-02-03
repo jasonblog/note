@@ -371,6 +371,7 @@
 * [OpenWrt](openwrt/README.md)
    * [OpenWRT 編譯環境搭建](openwrt/281.md)
 * [Python](python/README.md)
+   * example
    * [安裝 Jupyter](python/jupyter.md)
    * [編譯python & 安裝pip](python/292.md)
    * [pip 使用詳解](python/293.md)
@@ -378,7 +379,6 @@
    * [Python-網頁爬蟲-&-文本處理-&-科學計算-&-機器學習-&-數據挖掘兵器譜](python/295.md)
    * [選擇Python科學計算發行版](python/296.md)
    * [Python常用的數學函數](python/297.md)
-   * example
 * [Vim](vim/README.md)
 * [TDD](tdd/README.md)
    * [程式設計師升級必練內功：TDD Kata](tdd/311.md)

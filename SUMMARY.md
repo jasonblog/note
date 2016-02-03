@@ -392,6 +392,7 @@
    * [使用gdb實時調式arduino](arduino/arduinogdb.md)
    * [Arduino UNO控制板簡介](arduino/arduino_unokong_zhi_ban_jian_jie.md)
    * [時脈算換](arduino/shi_mai_suan_huan.md)
+       * I2C protocol 原理及應用
    * [邱小新8051](arduino/qiu_xiao_xin.md)
        * [I2C protocol 時間計算](arduino/i2c_protocol_shi_jian_ji_suan.md)
        * [8051 clock](arduino/8051_clock.md)

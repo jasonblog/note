@@ -1,5 +1,7 @@
 # 8051 clock
 
+![](./images/7.JPG)
+
 
 - 一個機械週期 (Machine Cycle) 是由 6 個狀態週期 (State) S1-S6 組成。而每一個狀態週期包含 2 個振盪週期分別稱為 Pl 與 P2 。
 

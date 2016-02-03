@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>[轉]GDB的妙用 | Jason note</title>
+        <title>I2C | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../gdb/183.html" />
+    <link rel="next" href="../linux_reverse/index.html" />
     
     
-    <link rel="prev" href="../gdb/181.html" />
+    <link rel="prev" href="../arduino/i2c_protocol_yuan_li_ji_ying_yong.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="18.2" data-basepath=".." data-revision="Wed Feb 03 2016 23:37:26 GMT+0800 (CST)">
+    <div class="book" data-level="34.6" data-basepath=".." data-revision="Wed Feb 03 2016 23:37:26 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -3951,7 +3951,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="18.2" data-path="gdb/182.html">
+        <li class="chapter " data-level="18.2" data-path="gdb/182.html">
             
                 
                     <a href="../gdb/182.html">
@@ -6287,7 +6287,7 @@
             
         </li>
     
-        <li class="chapter " data-level="34.6" data-path="arduino/i2c.html">
+        <li class="chapter active" data-level="34.6" data-path="arduino/i2c.html">
             
                 
                     <a href="../arduino/i2c.html">
@@ -7310,23 +7310,8 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="-%E8%BD%89-gdb%E7%9A%84%E5%A6%99%E7%94%A8">[&#x8F49;]GDB&#x7684;&#x5999;&#x7528;</h1>
-<p><a href="http://blog.vgod.tw/2006/06/21/gdb%E7%9A%84%E5%A6%99%E7%94%A8/?variant=zh-tw" target="_blank">http://blog.vgod.tw/2006/06/21/gdb%E7%9A%84%E5%A6%99%E7%94%A8/?variant=zh-tw</a></p>
-<p>&#x4ECA;&#x5929;&#x6709;&#x500B;&#x540C;&#x5B78;&#x8DD1;&#x4F86;&#x8DDF;&#x6211;&#x6C42;&#x6551;&#x3002;&#x4ED6;&#x8AAA;&#x6709;&#x96BB;&#x91CD;&#x8981;&#x7684;&#x7A0B;&#x5F0F;&#x5728;&#x5DE5;&#x4F5C;&#x7AD9;&#x4E0A;&#x9762;&#x8DD1;&#xFF0C;&#x4F46;&#x6C92;&#x6709;&#x653E;&#x5728;screen&#x88E1;&#x9762;&#xFF0C;&#x53EF;&#x662F;Windows&#x7684;&#x9375;&#x76E4;&#x6ED1;&#x9F20;&#x90FD;&#x5361;&#x6B7B;&#x4E86;&#xFF0C;&#x6709;&#x6C92;&#x6709;&#x8FA6;&#x6CD5;&#x80FD;&#x91CD;&#x65B0;&#x958B;&#x6A5F;&#xFF08;&#x4E5F;&#x5C31;&#x662F;&#x95DC;&#x6389;windows&#x4E0A;&#x7684;terminal, putty&#xFF09;&#x800C;&#x4E14;&#x8B93;&#x7A0B;&#x5F0F;&#x80FD;&#x7E7C;&#x7E8C;&#x8DD1;&#x4E0B;&#x53BB;..&#x3002;
-&#x5176;&#x5BE6;&#x6211;&#x4EE5;&#x524D;&#x4E5F;&#x9047;&#x904E;&#x540C;&#x6A23;&#x7684;&#x554F;&#x984C;&#xFF0C;&#x53EA;&#x662F;&#x4E00;&#x76F4;&#x6C92;&#x53BB;&#x60F3;&#x600E;&#x9EBC;&#x89E3;&#x6C7A;&#xFF0C;&#x5F8C;&#x4F86;&#x90FD;&#x7FD2;&#x6163;&#x7528;screen&#xFF0C;&#x5C31;&#x81EA;&#x7136;&#x4E0D;&#x6703;&#x9047;&#x5230;&#x9019;&#x554F;&#x984C;&#x4E86;&#x3002;&#x53EF;&#x662F;&#x6211;&#x6700;&#x8FD1;&#x767C;&#x73FE;&#xFF0C;&#x5176;&#x5BE6;&#x6709;&#x4E0D;&#x5C11;&#x4EBA;&#x90FD;&#x4E0D;&#x77E5;&#x9053;UNIX&#x4E0A;&#x6709;screen&#x9019;&#x500B;&#x597D;&#x6771;&#x897F;&#xFF0C;&#x65BC;&#x662F;&#x96BB;&#x8981;&#x8DD1;&#x4E9B;&#x91CD;&#x8981;&#x7684;&#x7A0B;&#x5F0F;&#xFF0C;&#x5C31;&#x5F97;&#x64FA;&#x4E00;&#x500B;terminal&#x5728;&#x684C;&#x9762;&#x4E0A;&#xFF0C;&#x800C;&#x4E14;&#x5343;&#x5343;&#x842C;&#x842C;&#x4E0D;&#x80FD;&#x95DC;&#x6389;&#xFF0C;&#x5426;&#x5247;&#x8DD1;&#x4E86;&#x6578;&#x5929;&#x7684;&#x7D50;&#x679C;&#x5C31;&#x9019;&#x6A23;&#x767D;&#x8CBB;&#x4E86;&#x3002;</p>
-<p>&#x4ECA;&#x5929;&#x518D;&#x6B21;&#x78B0;&#x5230;&#x9019;&#x500B;&#x554F;&#x984C;&#x6642;&#xFF0C;&#x4ED4;&#x7D30;&#x60F3;&#x4E86;&#x4E00;&#x4E0B;&#xFF0C;terminal&#x95DC;&#x6389;&#x6703;&#x8B93;&#x7A0B;&#x5F0F;&#x4E2D;&#x65B7;&#x7684;&#x95DC;&#x9375;&#x5728;&#x65BC;&#xFF0C;&#x7A0B;&#x5F0F;&#x6703;&#x5728;terminal&#x95DC;&#x9589;&#x6642;&#x6536;&#x5230;SIGHUP&#x9019;&#x500B;signal&#xFF0C;&#x800C;&#x4E0D;&#x8655;&#x7406;&#x9019;&#x500B;signal&#x7684;&#x7D50;&#x679C;&#x5C31;&#x662F;&#x7D50;&#x675F;&#x7A0B;&#x5F0F;&#x3002;&#x5728;&#x4EE5;&#x524D;&#x9084;&#x4E0D;&#x77E5;&#x9053;screen&#x9019;&#x6771;&#x897F;&#x524D;&#xFF0C;&#x90FD;&#x5F97;&#x7528;nohup&#x9019;&#x500B;&#x6307;&#x4EE4;&#x4F86;&#x4E8B;&#x5148;&#x6514;&#x622A;SIGHUP&#x3002;</p>
-<p>&#x90A3;&#x73FE;&#x5728;&#x78B0;&#x5230;&#x7684;&#x554F;&#x984C;&#x5C31;&#x662F;&#xFF0C;&#x6709;&#x6C92;&#x6709;&#x8FA6;&#x6CD5;&#x5728;&#x7A0B;&#x5F0F;&#x57F7;&#x884C;&#x5230;&#x4E00;&#x534A;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x5148;&#x5728;&#x5B83;&#x6536;&#x5230;SIGHUP&#x4E4B;&#x524D;&#x628A;&#x9019;signal&#x64CB;&#x4E0B;&#x4F86;&#xFF1F;&#x6216;&#x662F;&#x76F4;&#x63A5;&#x5728;&#x5B83;&#x57F7;&#x884C;&#x4E2D;&#x4FEE;&#x6539;&#x5B83;&#x7684;&#x7A0B;&#x5F0F;&#x78BC;&#xFF0C;&#x8B93;&#x5B83;&#x5FFD;&#x7565;SIGHUP&#x2026;&#xFF1F;</p>
-<p>&#x60F3;&#x5728;runtime&#x6642;&#x8B8A;&#x66F4;&#x7A0B;&#x5F0F;&#x7684;&#x884C;&#x70BA;&#xFF0C;&#x8B93;&#x6211;&#x99AC;&#x4E0A;&#x60F3;&#x5230;gdb&#x9019;&#x500B;&#x597D;&#x6771;&#x897F;&#x3002;gdb&#x53EF;&#x4EE5;&#x5728;&#x7A0B;&#x5F0F;&#x57F7;&#x884C;&#x5230;&#x4E00;&#x534A;&#x6642;&#xFF0C;attach&#x5230;&#x5B83;&#x7684;process&#x4E0A;&#xFF0C;&#x63A5;&#x8457;&#x5C31;&#x80FD;&#x505A;&#x6240;&#x6709;gdb&#x80FD;&#x505A;&#x7684;&#x4E8B;&#x60C5;..&#x3002;gdb&#x80FD;&#x505A;&#x7684;&#x7576;&#x7136;&#x4E0D;&#x53EA;&#x662F;debug&#x5566;&#xFF0C;gdb&#x53EF;&#x4EE5;&#x5728;runtime&#x6539;&#x8B8A;&#x7A0B;&#x5F0F;&#x7684;&#x57F7;&#x884C;&#x6D41;&#x7A0B;&#x548C;&#x884C;&#x70BA;&#xFF0C;&#x9084;&#x80FD;&#x6514;&#x622A;&#x7A0B;&#x5F0F;&#x672C;&#x4F86;&#x61C9;&#x8A72;&#x8981;&#x6536;&#x5230;&#x7684;signal&#x2026;&#xFF0C;&#x54A6;&#xFF0C;&#x9019;&#x597D;&#x50CF;&#x5C31;&#x662F;&#x89E3;&#x7B54;&#x4E86;&#x561B;&#xFF01;</p>
-<p>&#x5F9E;Debugging with GDB&#x53EF;&#x4EE5;&#x67E5;&#x5230;&#xFF0C;&#x53EA;&#x8981;&#x5728;gdb&#x88E1;&#x8F38;&#x5165;&#x9019;&#x6A23;&#x7684;&#x6307;&#x4EE4;&#xFF0C;&#x5E95;&#x4E0B;&#x7684;&#x7A0B;&#x5F0F;&#x5C31;&#x4E0D;&#x6703;&#x6536;&#x5230;SIGHUP&#x4E86;&#x3002;</p>
-<p>handle SIGHUP nopass</p>
-<p>&#x6240;&#x4EE5;&#x9019;&#x554F;&#x984C;&#x7684;&#x89E3;&#x6CD5;&#x5F88;&#x7C21;&#x55AE;&#x3002;</p>
-<pre><code>1.&#x5F9E;&#x53E6;&#x4E00;&#x81FA;&#x96FB;&#x8166;&#x9023;&#x4E0A;&#x6B63;&#x5728;&#x8DD1;&#x91CD;&#x8981;&#x7A0B;&#x5F0F;&#x7684;&#x5DE5;&#x4F5C;&#x7AD9;
-2.&#x7528;ps&#x548C;grep&#x627E;&#x51FA;&#x90A3;&#x500B;&#x7A0B;&#x5F0F;&#x7684;pid
-3.&#x7528;gdb attach&#x5B83;: gdb [program] [pid]
-4.&#x5728;gdb&#x5167;&#x8F38;&#x5165;: handle SIGHUP nopass
-5.&#x628A;&#x7576;&#x6389;&#x7684;windows&#x91CD;&#x65B0;&#x958B;&#x6A5F;&#xFF0C;&#x5728;gdb&#x5167;&#x8F38;&#x5165;continue&#x8B93;&#x7A0B;&#x5F0F;&#x7E7C;&#x7E8C;&#x57F7;&#x884C;
-6.&#x4F60;&#x6703;&#x770B;&#x5230;gdb&#x6514;&#x622A;&#x5230;SIGHUP&#x7684;&#x8A0A;&#x606F;&#xFF0C;&#x518D;&#x8F38;&#x5165;continue&#x5C31;&#x53EF;&#x4EE5;&#x4E86;
-</code></pre>
+                        <h1 id="i2c">I2C</h1>
+
                     
                     </section>
                 
@@ -7336,10 +7321,10 @@
         </div>
 
         
-        <a href="../gdb/181.html" class="navigation navigation-prev " aria-label="Previous page: 簡易 GDB Script 教學，應用"><i class="fa fa-angle-left"></i></a>
+        <a href="../arduino/i2c_protocol_yuan_li_ji_ying_yong.html" class="navigation navigation-prev " aria-label="Previous page: I2C protocol 原理及應用"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../gdb/183.html" class="navigation navigation-next " aria-label="Next page: GDB中應該知道的幾個調試方法"><i class="fa fa-angle-right"></i></a>
+        <a href="../linux_reverse/index.html" class="navigation navigation-next " aria-label="Next page: edb"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

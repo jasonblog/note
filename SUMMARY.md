@@ -177,6 +177,7 @@
    * [kernel 發 signal 通知 pid   task_struct->comm](linux_kernel/kernel_fa_signal_tong_zhi_pid_task_struct_-_comm.md)
 * [Linux Driver](linux_driver/README.md)
    * [Linux Device Model 三角關係](linux_driver/linux_device_model.md)
+   * NAPI與pure interrupt driver的效能比較
 * [OS](os/README.md)
    * [[轉]打造簡易作業系統](os/141.md)
        * [(一) 開機Hello World實例](os/14111.md)

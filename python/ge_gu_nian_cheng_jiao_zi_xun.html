@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="29.1.1" data-basepath=".." data-revision="Thu Feb 04 2016 00:16:27 GMT+0800 (CST)">
+    <div class="book" data-level="29.1.1" data-basepath=".." data-revision="Thu Feb 04 2016 00:38:35 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -7379,12 +7379,19 @@
                         <h1 id="%E5%80%8B%E8%82%A1%E5%B9%B4%E6%88%90%E4%BA%A4%E8%B3%87%E8%A8%8A">&#x500B;&#x80A1;&#x5E74;&#x6210;&#x4EA4;&#x8CC7;&#x8A0A;</h1>
 <pre><code class="lang-py"><span class="hljs-comment"># coding=utf-8</span>
 <span class="hljs-keyword">import</span> requests
+
 payload ={
 <span class="hljs-string">&apos;download&apos;</span>:<span class="hljs-string">&apos;csv&apos;</span>,
 <span class="hljs-string">&apos;CO_ID&apos;</span>:<span class="hljs-string">&apos;2103&apos;</span>
 }
+
 res = requests.post(<span class="hljs-string">&apos;http://www.twse.com.tw/ch/trading/exchange/FMNPTK/FMNPTKMAIN.php&apos;</span>, verify=<span class="hljs-keyword">False</span> , data = payload)
+
+<span class="hljs-comment">#print type(res.content.decode(&quot;big5&quot;).encode(&quot;utf-8&quot;))</span>
 <span class="hljs-keyword">print</span> (res.content).decode(<span class="hljs-string">&quot;big5&quot;</span>).encode(<span class="hljs-string">&quot;utf-8&quot;</span>)
+
+<span class="hljs-keyword">with</span> open(<span class="hljs-string">&quot;aa.csv&quot;</span>, <span class="hljs-string">&quot;w+&quot;</span>) <span class="hljs-keyword">as</span> f:
+    f.write(str(res.content).decode(<span class="hljs-string">&quot;big5&quot;</span>).encode(<span class="hljs-string">&quot;utf-8&quot;</span>))
 </code></pre>
 
                     

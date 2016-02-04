@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="29.1.1" data-basepath=".." data-revision="Thu Feb 04 2016 00:38:35 GMT+0800 (CST)">
+    <div class="book" data-level="29.1.1" data-basepath=".." data-revision="Fri Feb 05 2016 02:07:59 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -7380,14 +7380,17 @@
 <pre><code class="lang-py"><span class="hljs-comment"># coding=utf-8</span>
 <span class="hljs-keyword">import</span> requests
 
-payload ={
+payload = {
 <span class="hljs-string">&apos;download&apos;</span>:<span class="hljs-string">&apos;csv&apos;</span>,
 <span class="hljs-string">&apos;CO_ID&apos;</span>:<span class="hljs-string">&apos;2103&apos;</span>
 }
 
 res = requests.post(<span class="hljs-string">&apos;http://www.twse.com.tw/ch/trading/exchange/FMNPTK/FMNPTKMAIN.php&apos;</span>, verify=<span class="hljs-keyword">False</span> , data = payload)
 
+<span class="hljs-comment">#print type(res.content)</span>
+<span class="hljs-comment">#print type(res.content.decode(&quot;big5&quot;))</span>
 <span class="hljs-comment">#print type(res.content.decode(&quot;big5&quot;).encode(&quot;utf-8&quot;))</span>
+
 <span class="hljs-keyword">print</span> (res.content).decode(<span class="hljs-string">&quot;big5&quot;</span>).encode(<span class="hljs-string">&quot;utf-8&quot;</span>)
 
 <span class="hljs-keyword">with</span> open(<span class="hljs-string">&quot;aa.csv&quot;</span>, <span class="hljs-string">&quot;w+&quot;</span>) <span class="hljs-keyword">as</span> f:

@@ -459,5 +459,5 @@
    * [表達式](c_compiler/biao_da_shi.md)
    * [總結](c_compiler/zong_jie.md)
 * [Log](log/log.md)
-   * 打印log
+   * [打印log](log/da_yin_log.md)
 

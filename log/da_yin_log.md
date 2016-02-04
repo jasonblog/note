@@ -23,13 +23,13 @@ if (count % 10 == 0) {
 dump_stack()
 
 
-dump_stack不准确的原因分析
+dump_stack不準確的原因分析
 
-kernel panic后打印的堆栈信息是调用dump_stack函数获得的。而dump_stack的原理是遍历堆栈，把所有可能是内核函数的内容找出来，并打印对应的函数。因为函数调用时会把下一条指令的地址放到堆栈中。所以只要找到这些return address，就可以找到这些return address所在函数，进而打印函数的调用关系。 
-     但是dump_stack可能不准确，可能的原因有三： 
-     1.所有这些可以找到的函数地址，存在/proc/kallsyms中。它并不包括内核中所有的函数，而只包括内核中stext~etext和sinittext~einittext范围的函数，及模块中的函数。详细可参考scripts/kallsyms.c 
-     2.一些函数在编译时进行了优化，把call指令优化为jmp指令，这样在调用时就不会把return address放到堆栈，导致dump_stack时在堆栈中找不到对应的信息。 
-     3.堆栈中可能有一些数值，它们不是return address，但是在内核函数地址的范围里，这些数值会被误认为return address从而打印出错误的调用关系。 
+kernel panic後打印的堆棧信息是調用dump_stack函數獲得的。而dump_stack的原理是遍歷堆棧，把所有可能是內核函數的內容找出來，並打印對應的函數。因為函數調用時會把下一條指令的地址放到堆棧中。所以只要找到這些return address，就可以找到這些return address所在函數，進而打印函數的調用關係。 
+     但是dump_stack可能不準確，可能的原因有三： 
+     1.所有這些可以找到的函數地址，存在/proc/kallsyms中。它並不包括內核中所有的函數，而只包括內核中stext~etext和sinittext~einittext範圍的函數，及模塊中的函數。詳細可參考scripts/kallsyms.c 
+     2.一些函數在編譯時進行了優化，把call指令優化為jmp指令，這樣在調用時就不會把return address放到堆棧，導致dump_stack時在堆棧中找不到對應的信息。 
+     3.堆棧中可能有一些數值，它們不是return address，但是在內核函數地址的範圍裡，這些數值會被誤認為return address從而打印出錯誤的調用關係。 
      
 ```
 

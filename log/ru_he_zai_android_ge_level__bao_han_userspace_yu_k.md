@@ -1,16 +1,16 @@
-# 如何在 Android 各 level ( 包含 user space 与 kernel space ) 使用dump call stack的方法
+# 如何在 Android 各 level ( 包含 user space 與 kernel space ) 使用dump call stack的方法
 
 
-瞭解 Android 各 level ( UI, framework 与 HAL) 与 kernel 间, 如何印出 call stack, 方便追 code 与 debug
+瞭解 Android 各 level ( UI, framework 與 HAL) 與 kernel 間, 如何印出 call stack, 方便追 code 與 debug
 
 - kernel call stack
 - Android Java layer
 - Android framework ( written by c++)
 - Android HAL ( written by c )
-- Call Stack 没有出现 function name 
+- Call Stack 沒有出現 function name 
 
 ##kernel call stack
-如果想知道call stack,也就是说, 我们想知道是谁call到func_foo(). 此时,我们可以利用 dump_stack(),放在你想dump back trace的地方就OK啰.
+如果想知道call stack,也就是說, 我們想知道是誰call到func_foo(). 此時,我們可以利用 dump_stack(),放在你想dump back trace的地方就OK囉.
   
 ```c  
 void func_foo(void){
@@ -27,7 +27,7 @@ void func_foo(void){
 
 
 ## Java layer call stack
-在Java档案, 可以使用下述方法得到dump call stack
+在Java檔案, 可以使用下述方法得到dump call stack
 
 ```c
 Slog.d(Thread.currentThread().getStackTrace()[2].getClassName(), "YAO ["+ Thread.currentThread().getStackTrace()[2].getMethodName() +" | "+Thread.currentThre      ad().getStackTrace()[2].getFileName()+":"+Thread.currentThread().getStackTrace()[2].getLineNumber()+"]");
@@ -44,7 +44,7 @@ public void foo(boolean state, int flags) {
 ```
 ## C++ layer call stack
 
-在C/C++ 档案, Android 已经有写了frameworks/native/libs/utils/CallStack.cpp 供我们使用
+在C/C++ 檔案, Android 已經有寫了frameworks/native/libs/utils/CallStack.cpp 供我們使用
 
 ```c
 #include <utils/CallStack.h>
@@ -59,8 +59,8 @@ void foo(void) {
 }
 ```
 
-如果你所使用是Android 4.4 之后
-请改用
+如果你所使用是Android 4.4 之後
+請改用
 
 ```c
 #include <utils/CallStack.h>
@@ -76,14 +76,14 @@ void foo(void) {
 ```
 
 
-##在Android.mk 记得要加
+##在Android.mk 記得要加
 ```c
 LOCAL_SHARED_LIBRARIES += libutils
 ```
 
 
 ##C layer call stack
-由于C去call C++需要做一些宣告, 所以将它独立出来方便使用(dump_stack.cpp与 dump_stack.h)
+由於C去call C++需要做一些宣告, 所以將它獨立出來方便使用(dump_stack.cpp與 dump_stack.h)
 
 - dump_stack.h
 
@@ -117,8 +117,8 @@ extern "C"{
 }
 ```
 
-如果你所使用是Android 4.4 之后
-请改用
+如果你所使用是Android 4.4 之後
+請改用
 
 ```c
 #include "dump_stack.h"
@@ -135,7 +135,7 @@ extern "C"{
 }
 ```
 
-同样地, Android.mk也需要修改
+同樣地, Android.mk也需要修改
 
 ```c
 LOCAL_SRC_FILES := \
@@ -144,7 +144,7 @@ LOCAL_SRC_FILES := \
 
 LOCAL_SHARED_LIBRARIES += libutils
 ```
-接下来在C file中要使用时只要
+接下來在C file中要使用時只要
 
 ```c
 extern void dump_stack_android();
@@ -159,8 +159,8 @@ void function_a()
 ```
 
 
-##[ Call Stack 没有出现 function name]
-有时我们会发现在C++ 或 C 语言中使用 CallStack , 在 call dump 中并没有出现 function name
+##[ Call Stack 沒有出現 function name]
+有時我們會發現在C++ 或 C 語言中使用 CallStack , 在 call dump 中並沒有出現 function name
 
 
 ```c
@@ -175,22 +175,22 @@ D/XXX  (  147): #07  pc 0000d208  /system/lib/libc.so (__thread_entry+72)
 D/XXX  (  147): #08  pc 0000d3a4  /system/lib/libc.so (pthread_create+240)
 ```
 
-我们追一下 CallStack 是如何被实作
-先回顾一下 CallStack 是如何被使用 (以 Android 4.4 为例)
+我們追一下 CallStack 是如何被實作
+先回顧一下 CallStack 是如何被使用 (以 Android 4.4 為例)
 ```c
 CallStack stack;  
 stack.update();  
 stack.log();  
  ```
  
- 先看一下 update( ) function 的定义 ( it is under system/core/include/utils/CallStack.h)
+ 先看一下 update( ) function 的定義 ( it is under system/core/include/utils/CallStack.h)
  
  ```c
 // Immediately collect the stack traces for the specified thread.  
 void update(int32_t ignoreDepth=1, int32_t maxDepth=MAX_DEPTH, pid_t tid=CURRENT_THREAD);  
 ```
    
-所以透过 update( ) function, 我们可以设定想看哪一个 thread 并 dump 出多少层的 call stack, 如果都没写, 就是以当前的 thread 去做 call stack dump, update( ) function 会将实际可以 dump 多少的 frame 给抓出来, 其中 frame 的数量记录在 mCount 变数, 各 frame 的资讯则记录在 mStack[ ] 里面, 接下来再透过 log( ) function 把 call stack 里的 program counter 所记载的记忆体位址去把相对应的 function name 给解析出来.
+所以透過 update( ) function, 我們可以設定想看哪一個 thread 並 dump 出多少層的 call stack, 如果都沒寫, 就是以當前的 thread 去做 call stack dump, update( ) function 會將實際可以 dump 多少的 frame 給抓出來, 其中 frame 的數量記錄在 mCount 變數, 各 frame 的資訊則記錄在 mStack[ ] 裡面, 接下來再透過 log( ) function 把 call stack 裡的 program counter 所記載的記憶體位址去把相對應的 function name 給解析出來.
 
 
 ```c
@@ -200,7 +200,7 @@ void update(int32_t ignoreDepth=1, int32_t maxDepth=MAX_DEPTH, pid_t tid=CURRENT
 ```
 
 
-看一下 get_backtrace_symbols( ) 在做些什么
+看一下 get_backtrace_symbols( ) 在做些什麼
 
 ```c
 void get_backtrace_symbols(const backtrace_frame_t* backtrace, size_t frames,
@@ -222,8 +222,8 @@ void get_backtrace_symbols(const backtrace_frame_t* backtrace, size_t frames,
    release_my_map_info_list(milist);
 ```
 
-这是因为它是使用 dladdr() 去读取该share lib的 dynamic symbol 而获取 function name
+這是因為它是使用 dladdr() 去讀取該share lib的 dynamic symbol 而獲取 function name
 (http://stackoverflow.com/questions/11731229/dladdr-doesnt-return-the-function-name )
 
-但是如果该 function 是宣告成 static, 该 function name 就不会出现在 dynamic symbol 里 (你可以使用 arm-linux-androideabi-nm -D xxxx.so | grep the_function_name , 如果没有出现, 就表示该 funciton name 并不在 dynamic symbol 里),  遇到这情况就只好使用 add2line 指令去读 out folder 下的 symbol 了, 各位可以参考我另一篇文章 http://janbarry0914.blogspot.tw/2011/07/android-crash-tombstone.html . 感谢.
+但是如果該 function 是宣告成 static, 該 function name 就不會出現在 dynamic symbol 裡 (你可以使用 arm-linux-androideabi-nm -D xxxx.so | grep the_function_name , 如果沒有出現, 就表示該 funciton name 並不在 dynamic symbol 裡),  遇到這情況就只好使用 add2line 指令去讀 out folder 下的 symbol 了, 各位可以參考我另一篇文章 http://janbarry0914.blogspot.tw/2011/07/android-crash-tombstone.html . 感謝.
 

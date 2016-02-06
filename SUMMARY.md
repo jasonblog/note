@@ -389,7 +389,7 @@
    * [燒錄新版系統](raspberry_pi/321.md)
    * [Hello world on qemu Raspberry Pi](raspberry_pi/322.md)
    * [自己動手編譯 Raspberry Pi 的 Kernel](raspberry_pi/rpi_kernel.md)
-   * Building and Deploying Raspberry PI Kernel
+   * [Building and Deploying Raspberry PI Kernel](raspberry_pi/building_and_deploying_raspberry_pi_kernel.md)
 * [OpenGL](opengl/opengl.md)
    * [opengl(mesa) for ubuntu14.04](opengl/mesa.md)
    * [ubuntu 14.04 安裝OpenGL（基於freeglut）](opengl/1.md)

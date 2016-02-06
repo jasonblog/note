@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>QEMU | Jason note</title>
+        <title>Linux內核調試方法 gdboc gdboe JTAG | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../qemu/my_qrmu.html" />
+    <link rel="next" href="../linux_driver/index.html" />
     
     
-    <link rel="prev" href="../ubuntu/ubuntu_installer.html" />
+    <link rel="prev" href="../linux_kernel/kernel_fa_signal_tong_zhi_pid_task_struct_-_comm.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="7" data-basepath=".." data-revision="Sat Feb 06 2016 13:53:17 GMT+0800 (CST)">
+    <div class="book" data-level="12.25" data-basepath=".." data-revision="Sat Feb 06 2016 13:53:17 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1222,7 +1222,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="7" data-path="qemu/index.html">
+        <li class="chapter " data-level="7" data-path="qemu/index.html">
             
                 
                     <a href="../qemu/index.html">
@@ -2780,7 +2780,7 @@
             
         </li>
     
-        <li class="chapter " data-level="12.25" data-path="linux_kernel/linuxnei_he_diaoshi_fang_fagdboc_gdboe_jtag.html">
+        <li class="chapter active" data-level="12.25" data-path="linux_kernel/linuxnei_he_diaoshi_fang_fagdboc_gdboe_jtag.html">
             
                 
                     <a href="../linux_kernel/linuxnei_he_diaoshi_fang_fagdboc_gdboe_jtag.html">
@@ -7472,52 +7472,21 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h2 id="debug-assembly-with-gdb-for-armv8-on-qemu">Debug Assembly with GDB for ARMv8 on QEMU</h2>
-<h3 id="build-from-source-code">build from source code</h3>
-<p>assume you have installed QEMU, cross-compiler include cross-platform GDB</p>
-<p>ARMv8 source code:</p>
-<p><code>test.S</code></p>
-<pre><code>.globl _start
-
-_start:
-  mov x0, #0
-  mov x1, #1
-  mov x2, #2
-loop:
-  b loop
-</code></pre><ul>
-<li><p>compile:</p>
-<p>  <code>aarch64-linux-gnu-as -o test.o test.S</code></p>
+                        <h1 id="linux%E5%85%A7%E6%A0%B8%E8%AA%BF%E8%A9%A6%E6%96%B9%E6%B3%95-gdboc-gdboe-jtag">Linux&#x5167;&#x6838;&#x8ABF;&#x8A66;&#x65B9;&#x6CD5; gdboc gdboe JTAG</h1>
+<ol>
+<li><p>&#x975E;&#x5D4C;&#x5165;&#x5F0F;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x958B;&#x767C;&#xFF1A;
+&#x7DE8;&#x8B6F;&#x6642;&#x52A0;&#x4E0A;&#x8ABF;&#x8A66;&#x4FE1;&#x606F;, &#x5728;Makefile&#x88E1;&#x52A0;&#x4E0A; CFLAGS += -g, &#x4F7F;&#x7528;gdb&#xFF08;&#x6587;&#x672C;&#x754C;&#x9762;&#xFF09;&#x8ABF;&#x8A66;&#xFF0C; &#x6216;&#x8005;&#x5883;&#x52A0;&#x578B;cgdb&#xFF0C; &#x5716;&#x5F62;&#x754C;&#x9762;&#x6709;DDD&#x7B49;&#x7B49;&#x3002;</p>
 </li>
-<li><p>link:</p>
-<p>  <code>aarch64-linux-gnu-ld -o test test.o -o test test.o</code></p>
+<li><p>&#x5D4C;&#x5165;&#x5F0F;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x958B;&#x767C;&#xFF1A;
+&#x7DE8;&#x8B6F;&#x6642;&#x52A0;&#x4E0A;&#x8ABF;&#x8A66;&#x4FE1;&#x606F;, &#x5728;Makefile&#x88E1;&#x52A0;&#x4E0A; CFLAGS += -g, &#x5728;&#x958B;&#x767C;&#x6A5F;&#x4E0A;&#x904B;&#x884C;gdb&#x901A;&#x904E;&#x7DB2;&#x7D61;&#x9023;&#x63A5;&#x5230;&#x76EE;&#x6A19;&#x6A5F;&#xFF0C;&#x76EE;&#x6A19;&#x6A5F;&#x904B;&#x884C;gdbserver.</p>
 </li>
-<li><p>objdump (optional):</p>
-<p>  <code>aarch64-linux-gnu-objdump -d test</code></p>
+<li><p>Linux&#x5167;&#x6838;&#x8ABF;&#x8A66;&#x65B9;&#x6CD5;&#xFF1A;
+&#x6E90;&#x4EE3;&#x78BC;&#x7D1A;&#x8ABF;&#x8A66;&#xFF1A;kgdb&#xFF0C;kgdb&#x8ABF;&#x8A66;&#x9700;&#x8981;&#x5728;make menuconfig&#x5167;&#x6838;&#x9078;&#x9805;&#x4E2D;&#x9078;&#x4E0A;gdboc(&#x4E32;&#x53E3;&#xFF09;&#xFF0C;&#x6216;&#x8005;gdboe(&#x4EE5;&#x592A;&#x7DB2;&#xFF09;&#x548C;&#x76F8;&#x61C9;&#x5728;&#x7684;&#x9078;&#x9805;&#x3002;kgdboc&#x9700;&#x8981;&#x7279;&#x5225;&#x7684;&#x4E32;&#x53E3;&#x9A45;&#x52D5;&#x7A0B;&#x5E8F;&#xFF0C;&#x4F8B;&#x5982;8250&#x3002;</p>
 </li>
-<li><p>start gdb server: (use port 11111 and run in deamon)</p>
-<p>  <code>qemu-aarch64 -g 11111 test &amp;</code></p>
-</li>
-<li><p>start gdb:    (specified the execute file)</p>
-<p>  <code>aarch64-linux-gnu-gdb test</code></p>
-</li>
-</ul>
-<h3 id="gdb-commands">GDB commands</h3>
-<pre><code>(gdb) target remote localhost:11111     #connect from localhost:11111
-(gdb) disassemble           #show the disassemble
-(gdb) display /10i $pc-16       #show 10 instruction near the PC register
+</ol>
+<p>&#x6E90;&#x4EE3;&#x78BC;&#x7D1A;&#x8ABF;&#x8A66;&#xFF1A;JTAG&#x8ABF;&#x8A66;&#xFF0C;&#x9700;&#x8981;&#x786C;&#x4EF6;&#x300C;&#x4EFF;&#x771F;&#x5668;&#x300D;&#xFF0C;&#x4F8B;&#x5982;Jlink, BDI3000&#x7B49;&#x3002;</p>
+<p>&#x6211;&#x7684;&#x7D93;&#x9A57;&#xFF1A;gdb, gdbserver, Jlink&#x90FD;&#x4F7F;&#x7528;&#x904E;&#x3002;Jlink&#x8ABF;&#x8A66;&#x6642;&#xFF0C;&#x5728;&#x958B;&#x767C;&#x6A5F;windows&#x5E73;&#x53F0;&#x4E0A;&#x904B;&#x884C;&#x300C;Jlink&#x81EA;&#x5E36;&#x7684;gdb&#x670D;&#x52D9;&#x5668;&#x300D;&#xFF0C;&#x901A;&#x904E;Linux&#x7684;gdb&#x7DB2;&#x7D61;&#x9023;&#x63A5;&#x5230;&#x300C;Jlink&#x81EA;&#x5E36;&#x7684;gdb&#x670D;&#x52D9;&#x5668;&#x300D;&#x3002;kgdbc&#x5728;Mini2440&#x4E0A;&#x4E0D;&#x6210;&#x529F;, &#x56E0;&#x70BA;&#x9700;&#x8981;&#x7279;&#x5225;&#x7684;&#x4E32;&#x53E3;&#x9A45;&#x52D5;&#x3002;</p>
 
-(gdb) x /16 0x400000           #show 16 word on memory 0x400000
-(gdb) b *0x400080     #add a breakpoint with address
-
-
-(gdb) ni    #next instruction
-(gdb) si    #step instruction
-(gdb) c    #continue exec until breakpoint
-
-(gdb) info register         #show register
-(gdb) display  /x $x0   #display x0 register
-</code></pre>
                     
                     </section>
                 
@@ -7527,10 +7496,10 @@ loop:
         </div>
 
         
-        <a href="../ubuntu/ubuntu_installer.html" class="navigation navigation-prev " aria-label="Previous page: Ubuntu installer"><i class="fa fa-angle-left"></i></a>
+        <a href="../linux_kernel/kernel_fa_signal_tong_zhi_pid_task_struct_-_comm.html" class="navigation navigation-prev " aria-label="Previous page: kernel 發 signal 通知 pid   task_struct-&gt;comm"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../qemu/my_qrmu.html" class="navigation navigation-next " aria-label="Next page: X86_QEMU"><i class="fa fa-angle-right"></i></a>
+        <a href="../linux_driver/index.html" class="navigation navigation-next " aria-label="Next page: Linux Driver"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

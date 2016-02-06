@@ -17,6 +17,7 @@ git clone https://github.com/raspberrypi/linux.git
 
 The Raspberry PI kernel source will be downloaded to the 'linux' subdirectory (1.5-2 GB):
 
+![](./images/df-output-1.png)
 
 Download Raspberry PI cross-compilers by running the following command on your build machine:
 git clone https://github.com/raspberrypi/tools

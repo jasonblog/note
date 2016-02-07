@@ -465,4 +465,5 @@
    * [打印log](log/da_yin_log.md)
    * [如何在 Android 各 level ( 包含 user space 與 kernel space ) 使用dump call stack的方法](log/ru_he_zai_android_ge_level__bao_han_userspace_yu_k.md)
 * [embedded](embedded/embedded.md)
+   * JTAG是把屠龍刀，說說其作用和原理
 

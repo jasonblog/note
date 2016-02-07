@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>oops調試 | Jason note</title>
+        <title>使用GDB分析二進位資料 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../linux_kernel/126.html" />
+    <link rel="next" href="../mooc_linux_kernel/index.html" />
     
     
-    <link rel="prev" href="../linux_kernel/124.html" />
+    <link rel="prev" href="../gdb/1811.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="12.5" data-basepath=".." data-revision="Sun Feb 07 2016 17:27:33 GMT+0800 (CST)">
+    <div class="book" data-level="18.12" data-basepath=".." data-revision="Sun Feb 07 2016 17:27:33 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -2399,7 +2399,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="12.5" data-path="linux_kernel/125.html">
+        <li class="chapter " data-level="12.5" data-path="linux_kernel/125.html">
             
                 
                     <a href="../linux_kernel/125.html">
@@ -4116,7 +4116,7 @@
             
         </li>
     
-        <li class="chapter " data-level="18.12" data-path="gdb/shi_yong_gdb_fen_xi_er_jin_wei_zi_liao.html">
+        <li class="chapter active" data-level="18.12" data-path="gdb/shi_yong_gdb_fen_xi_er_jin_wei_zi_liao.html">
             
                 
                     <a href="../gdb/shi_yong_gdb_fen_xi_er_jin_wei_zi_liao.html">
@@ -7523,52 +7523,321 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="oops%E8%AA%BF%E8%A9%A6">oops&#x8ABF;&#x8A66;</h1>
-<p>&#x7576;kernel oops&#x5F8C;</p>
-<pre><code class="lang-sh">$ objdump <span class="hljs-operator">-d</span> blk-core.o | head
-$ grep blk_queue_congestion_threshold /boot/System.map-<span class="hljs-number">2.6</span>.<span class="hljs-number">39</span>
-$ objdump --source <span class="hljs-operator">-d</span> --adjust-vma=<span class="hljs-number">0</span>xc11ac9d4 blk-core.o &gt; /tmp/<span class="hljs-built_in">log</span>
+                        <h1 id="%E4%BD%BF%E7%94%A8gdb%E5%88%86%E6%9E%90%E4%BA%8C%E9%80%B2%E4%BD%8D%E8%B3%87%E6%96%99">&#x4F7F;&#x7528;GDB&#x5206;&#x6790;&#x4E8C;&#x9032;&#x4F4D;&#x8CC7;&#x6599;</h1>
+<p>&#x5047;&#x8A2D;&#x6211;&#x5011;&#x7684;&#x7A0B;&#x5F0F;&#x78BC;&#x662F; stat.c&#xFF0C;&#x53D6;&#x81EA; stat() example&#x3002;</p>
+<ul>
+<li>stat.c</li>
+</ul>
+<pre><code class="lang-c">stat() example
+
+Script started on Fri May <span class="hljs-number">02</span> <span class="hljs-number">12</span>:<span class="hljs-number">54</span>:<span class="hljs-number">12</span> <span class="hljs-number">1997</span>
+sh-<span class="hljs-number">2.00</span>$ cat statfile.c
+<span class="hljs-comment">/* statfile - get file status using stat(path, buf) system call.
+   Synopsis:
+      include files:  &lt;sys/types.h&gt;
+                      &lt;sys/stat.h&gt;
+
+     int stat(path, buf)
+     char * path;
+     struct stat * buf;
+
+From /usr/include/sys/stat.h, we have the following description of the
+stat structure, used by stat and fstat.
+
+struct  stat
+{
+    dev_t    st_dev;             ID of device containing a directory
+                       entry for this file.  File serial
+                       no + device ID uniquely identify 
+                       the file within the system 
+    ino_t    st_ino;             File serial number 
+    mode_t    st_mode;         File mode; see #define&apos;s below 
+    nlink_t    st_nlink;         Number of links 
+    uid_t    st_uid;             User ID of the file&apos;s owner 
+    gid_t    st_gid;             Group ID of the file&apos;s group 
+    dev_t    st_rdev;         ID of device 
+                       This entry is defined only for 
+                       character or block special files 
+    off_t    st_size;         File size in bytes 
+    time_t    st_atime;         Time of last access 
+    int    st_spare1;
+    time_t    st_mtime;         Time of last data modification 
+    int    st_spare2;
+    time_t    st_ctime;         Time of last file status change 
+    int    st_spare3;
+                     Time measured in seconds since 
+                       00:00:00 GMT, Jan. 1, 1970 
+    uint_t    st_blksize;         Size of block in file 
+        int    st_blocks;                # blocks allocated for file 
+        uint_t  st_flags;                user defined flags for file 
+        uint_t  st_gen;                  file generation number 
+
+};
+
+*****************/</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/stat.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;time.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;pwd.h&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">report</span><span class="hljs-params">(<span class="hljs-keyword">char</span> *, <span class="hljs-keyword">struct</span> stat *)</span></span>;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span> * argv[])</span>
+<span class="hljs-comment">/* Print status of files on argument list. */</span>
+</span>{
+   <span class="hljs-keyword">struct</span> stat status_buf;
+   <span class="hljs-keyword">if</span> (argc &lt; <span class="hljs-number">2</span>)
+   {
+      <span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;statfile file1 ...\n&quot;</span>);
+      <span class="hljs-built_in">exit</span>(-<span class="hljs-number">1</span>);
+   }
+   <span class="hljs-keyword">while</span>(--argc)
+   {
+      <span class="hljs-keyword">if</span>( stat(*++argv, &amp;status_buf) &lt; <span class="hljs-number">0</span> )
+         perror(*argv);
+      <span class="hljs-keyword">else</span>
+         report(*argv, &amp;status_buf);
+   }
+}
+
+<span class="hljs-comment">/* Possible access modes... one for each octal value. */</span>
+<span class="hljs-keyword">char</span> * accesses[] = {<span class="hljs-string">&quot;...&quot;</span>, <span class="hljs-string">&quot;..x&quot;</span>, <span class="hljs-string">&quot;.w.&quot;</span>, <span class="hljs-string">&quot;.wx&quot;</span>, <span class="hljs-string">&quot;r..&quot;</span>, <span class="hljs-string">&quot;r.x&quot;</span>, <span class="hljs-string">&quot;rw.&quot;</span>, <span class="hljs-string">&quot;rwx&quot;</span>};
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">report</span><span class="hljs-params">( <span class="hljs-keyword">char</span> * name, <span class="hljs-keyword">struct</span> stat * buffer)</span>
+<span class="hljs-comment">/* Decode and present the status information. */</span>
+</span>{
+   <span class="hljs-keyword">int</span> i;
+   <span class="hljs-keyword">struct</span> passwd * passent;
+   ushort mode = buffer -&gt; st_mode;
+   <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n %s :\n&quot;</span>, name);
+   <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; Last access : %s\n&quot;</span>, ctime( &amp;(buffer -&gt; st_atime)) );
+   <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; Last modification : %s\n&quot;</span>, ctime( &amp;(buffer -&gt; st_mtime)));
+   <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; Last status change : %s\n&quot;</span>, ctime( &amp;(buffer -&gt; st_ctime)));
+   <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; Current file size : %ld \n&quot;</span>, buffer -&gt; st_size);
+
+   <span class="hljs-comment">/* type dev_t is int*/</span>
+   <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; Directory entry is on device %d.\n&quot;</span>, buffer -&gt; st_dev);
+
+   <span class="hljs-comment">/* type ino_t is unsigned  */</span>
+   <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; Inode number is %lu\n&quot;</span>, buffer -&gt; st_ino);
+
+   <span class="hljs-comment">/* Identify the owner by number and by name. */</span>
+   passent = getpwuid(buffer -&gt; st_uid);
+   <span class="hljs-keyword">if</span>(passent != <span class="hljs-literal">NULL</span>)
+      <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;The owner of the file is #%d - %s\n&quot;</span>,
+          buffer -&gt; st_uid, passent -&gt; pw_name);
+   <span class="hljs-keyword">else</span>
+      <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; The owner of the file is #%d - unknown\n&quot;</span>, buffer -&gt; st_uid);
+
+   <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; Access mode 0%o: &quot;</span>, mode);
+   <span class="hljs-keyword">for</span>(i = <span class="hljs-number">6</span>; i &gt;= <span class="hljs-number">0</span>; i -=<span class="hljs-number">3</span>)
+      <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s&quot;</span>, accesses[(mode &gt;&gt; i) &amp; <span class="hljs-number">7</span>]);
+   <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n&quot;</span>);
+}
+
+
+sh-<span class="hljs-number">2.00</span>$ statfile pi*
+
+ pipe3a.c :
+ Last access : Wed Apr <span class="hljs-number">30</span> <span class="hljs-number">08</span>:<span class="hljs-number">09</span>:<span class="hljs-number">06</span> <span class="hljs-number">1997</span>
+
+ Last modification : Sat Apr  <span class="hljs-number">1</span> <span class="hljs-number">07</span>:<span class="hljs-number">53</span>:<span class="hljs-number">41</span> <span class="hljs-number">1995</span>
+
+ Last status change : Wed Jan <span class="hljs-number">29</span> <span class="hljs-number">10</span>:<span class="hljs-number">05</span>:<span class="hljs-number">55</span> <span class="hljs-number">1997</span>
+
+ Current file size : <span class="hljs-number">10046</span> 
+ Directory entry is on device <span class="hljs-number">8393735.</span>
+ Inode number is <span class="hljs-number">59931</span>
+The owner of the file is <span class="hljs-preprocessor">#<span class="hljs-number">20</span> - rossa</span>
+ Access mode <span class="hljs-number">0100640</span>: rw.r.....
+
+ pipe3b.c :
+ Last access : Wed Apr <span class="hljs-number">30</span> <span class="hljs-number">08</span>:<span class="hljs-number">09</span>:<span class="hljs-number">06</span> <span class="hljs-number">1997</span>
+
+ Last modification : Sat Apr  <span class="hljs-number">1</span> <span class="hljs-number">11</span>:<span class="hljs-number">47</span>:<span class="hljs-number">31</span> <span class="hljs-number">1995</span>
+
+ Last status change : Wed Jan <span class="hljs-number">29</span> <span class="hljs-number">10</span>:<span class="hljs-number">05</span>:<span class="hljs-number">55</span> <span class="hljs-number">1997</span>
+
+ Current file size : <span class="hljs-number">10838</span> 
+ Directory entry is on device <span class="hljs-number">8393735.</span>
+ Inode number is <span class="hljs-number">59932</span>
+The owner of the file is <span class="hljs-preprocessor">#<span class="hljs-number">20</span> - rossa</span>
+ Access mode <span class="hljs-number">0100640</span>: rw.r.....
+
+ pipeblock.c :
+ Last access : Wed Apr <span class="hljs-number">30</span> <span class="hljs-number">08</span>:<span class="hljs-number">09</span>:<span class="hljs-number">06</span> <span class="hljs-number">1997</span>
+
+ Last modification : Thu Apr  <span class="hljs-number">6</span> <span class="hljs-number">08</span>:<span class="hljs-number">20</span>:<span class="hljs-number">33</span> <span class="hljs-number">1995</span>
+
+ Last status change : Wed Jan <span class="hljs-number">29</span> <span class="hljs-number">10</span>:<span class="hljs-number">05</span>:<span class="hljs-number">55</span> <span class="hljs-number">1997</span>
+
+ Current file size : <span class="hljs-number">641</span> 
+ Directory entry is on device <span class="hljs-number">8393735.</span>
+ Inode number is <span class="hljs-number">59935</span>
+The owner of the file is <span class="hljs-preprocessor">#<span class="hljs-number">20</span> - rossa</span>
+ Access mode <span class="hljs-number">0100640</span>: rw.r.....
+
+ pipes.ex :
+ Last access : Wed Apr <span class="hljs-number">30</span> <span class="hljs-number">08</span>:<span class="hljs-number">09</span>:<span class="hljs-number">06</span> <span class="hljs-number">1997</span>
+
+ Last modification : Thu Apr  <span class="hljs-number">6</span> <span class="hljs-number">12</span>:<span class="hljs-number">32</span>:<span class="hljs-number">15</span> <span class="hljs-number">1995</span>
+
+ Last status change : Wed Jan <span class="hljs-number">29</span> <span class="hljs-number">10</span>:<span class="hljs-number">05</span>:<span class="hljs-number">55</span> <span class="hljs-number">1997</span>
+
+ Current file size : <span class="hljs-number">3707</span> 
+ Directory entry is on device <span class="hljs-number">8393735.</span>
+ Inode number is <span class="hljs-number">59937</span>
+The owner of the file is <span class="hljs-preprocessor">#<span class="hljs-number">20</span> - rossa</span>
+ Access mode <span class="hljs-number">0100640</span>: rw.r.....
+sh-<span class="hljs-number">2.00</span>$ <span class="hljs-built_in">exit</span>
+<span class="hljs-built_in">exit</span>
+
+script done on Fri May <span class="hljs-number">02</span> <span class="hljs-number">12</span>:<span class="hljs-number">54</span>:<span class="hljs-number">40</span> <span class="hljs-number">1997</span>
 </code></pre>
-<p>&#x6216;&#x8005;&#x9019;&#x6A23;</p>
-<pre><code class="lang-sh"><span class="hljs-comment"># gdb vmlinux</span>
-(gdb) disassemble blk_run_queue
-Dump of assembler code <span class="hljs-keyword">for</span> <span class="hljs-keyword">function</span> blk_run_queue:
-<span class="hljs-number">0</span>xc1242270 : push %ebp
-<span class="hljs-number">0</span>xc1242271 : mov %esp,%ebp
-<span class="hljs-number">0</span>xc1242273 : sub <span class="hljs-variable">$0x8</span>,%esp
-<span class="hljs-number">0</span>xc1242276 : mov %ebx,(%esp)
-<span class="hljs-number">0</span>xc1242279 : mov %eax,%ebx
-<span class="hljs-number">0</span>xc124227b : mov %esi,<span class="hljs-number">0</span>x4(%esp)
-<span class="hljs-number">0</span>xc124227f : mov <span class="hljs-number">0</span>x220(%eax),%eax
-<span class="hljs-number">0</span>xc1242285 : call <span class="hljs-number">0</span>xc1661b60 &lt;_raw_spin_lock_irqsave&gt;
-<span class="hljs-number">0</span>xc124228a : mov %eax,%esi
-<span class="hljs-number">0</span>xc124228c : mov %ebx,%eax
-<span class="hljs-number">0</span>xc124228e : call <span class="hljs-number">0</span>xc123f890 &lt;__blk_run_queue&gt;
-<span class="hljs-number">0</span>xc1242293 : mov <span class="hljs-number">0</span>x220(%ebx),%eax
-<span class="hljs-number">0</span>xc1242299 : mov %esi,%edx
-<span class="hljs-number">0</span>xc124229b : call <span class="hljs-number">0</span>xc1661ba0 &lt;_raw_spin_unlock_irqrestore&gt;
-<span class="hljs-number">0</span>xc12422a0 : mov (%esp),%ebx
-<span class="hljs-number">0</span>xc12422a3 : mov <span class="hljs-number">0</span>x4(%esp),%esi
-<span class="hljs-number">0</span>xc12422a7 : mov %ebp,%esp
-<span class="hljs-number">0</span>xc12422a9 : pop %ebp
-<span class="hljs-number">0</span>xc12422aa : ret
-End of assembler dump.
-(gdb)
+<p>&#x7DE8;&#x8B6F;&#x4E26;&#x57F7;&#x884C;&#x7A0B;&#x5F0F;:</p>
+<pre><code class="lang-c">gcc -o stat -g stat.c
+./stat stat.c
 </code></pre>
-<p>&#x53E6;&#x5916;~/git/home/source/linux/linux-3.1/Documentation/oops-tracing.txt&#x9084;&#x6709;&#x5EFA;&#x8B70;&#xFF1A;</p>
-<pre><code class="lang-sh">cat /proc/kmsg <span class="hljs-comment">#&#x7121;&#x9650;&#x8F38;&#x51FA;</span>
-vga=<span class="hljs-number">791</span>
-<span class="hljs-comment"># make block/blk-core.s</span>
-CHK include/linux/version.h
-CHK include/generated/utsrelease.h
-CALL scripts/checksyscalls.sh
-CC block/blk-core.s
-<span class="hljs-comment">#</span>
+<p>&#x9810;&#x671F;&#x6703;&#x770B;&#x5230;&#x4EE5;&#x4E0B;&#x8F38;&#x51FA;:</p>
+<pre><code class="lang-c">...
+ Current file size : <span class="hljs-number">1712</span> 
+ Directory entry is on device <span class="hljs-number">2065.</span>
+ Inode number is <span class="hljs-number">393676</span>
+The owner of the file is <span class="hljs-preprocessor">#<span class="hljs-number">1000</span> - jserv</span>
+ Access mode <span class="hljs-number">0100664</span>: rw.rw.r..
 </code></pre>
-<p>&#x6211;&#x7684;&#x5EFA;&#x8B70;&#x6709;&#xFF1A;
-gnome-terminal&#x6EFE;&#x52D5;&#x8A2D;&#x6210;&#x7121;&#x9650;</p>
-<pre><code class="lang-sh"><span class="hljs-comment"># echo 3 &gt; /sys/devices/virtual/graphics/fbcon/rotate</span>
+<h2 id="%E7%94%A8-gdb-%E8%A7%80%E5%AF%9F">&#x7528; GDB &#x89C0;&#x5BDF;</h2>
+<pre><code class="lang-c"> $ gdb -q stat
+Reading symbols from stat...done.
+(gdb) <span class="hljs-built_in">list</span> <span class="hljs-number">20</span>
+<span class="hljs-number">15</span>              <span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;statfile file1 ...\n&quot;</span>);
+<span class="hljs-number">16</span>              <span class="hljs-built_in">exit</span>(-<span class="hljs-number">1</span>);
+<span class="hljs-number">17</span>           }
+<span class="hljs-number">18</span>           <span class="hljs-keyword">while</span>(--argc)
+<span class="hljs-number">19</span>           {
+<span class="hljs-number">20</span>              <span class="hljs-keyword">if</span>( stat(*++argv, &amp;status_buf) &lt; <span class="hljs-number">0</span> )
+<span class="hljs-number">21</span>                 perror(*argv);
+<span class="hljs-number">22</span>              <span class="hljs-keyword">else</span>
+<span class="hljs-number">23</span>                 report(*argv, &amp;status_buf);
+<span class="hljs-number">24</span>
 </code></pre>
+<p>&#x628A;&#x4E2D;&#x65B7;&#x9EDE;&#x8A2D;&#x5B9A;&#x5728;&#x8F38;&#x51FA;&#x4E4B;&#x524D;</p>
+<pre><code class="lang-c">(gdb) <span class="hljs-keyword">break</span> <span class="hljs-number">23</span>
+Breakpoint <span class="hljs-number">1</span> at <span class="hljs-number">0x40086e</span>: file stat.c, line <span class="hljs-number">23.</span>
+(gdb) run stat.c
+Starting program: /tmp/stat stat.c
+
+Breakpoint <span class="hljs-number">1</span>, main (argc=<span class="hljs-number">1</span>, argv=<span class="hljs-number">0x7fffffffe0d0</span>) at stat.c:<span class="hljs-number">23</span>
+<span class="hljs-number">23</span>                 report(*argv, &amp;status_buf);
+</code></pre>
+<p>&#x89C0;&#x5BDF; status_buf &#x9019;&#x500B; struct stat &#x7684;&#x5167;&#x5BB9;:</p>
+<pre><code class="lang-c">(gdb) print &amp;status_buf
+$1 = (struct stat *) 0x7fffffffdf40
+(gdb) print status_buf
+$2 = {st_dev = 2065, st_ino = 393676, st_nlink = 1, st_mode = 33204, 
+  st_uid = 1000, st_gid = 1000, __pad0 = 0, st_rdev = 0, st_size = 1712, 
+  st_blksize = 4096, st_blocks = 8, st_atim = {tv_sec = 1454821389, 
+    tv_nsec = 333331710}, st_mtim = {tv_sec = 1454821384, 
+    tv_nsec = 649439778}, st_ctim = {tv_sec = 1454821384, 
+    tv_nsec = 649439778}, __glibc_reserved = {0, 0, 0}}
+(gdb) print sizeof(struct stat)
+$3 = 144
+</code></pre>
+<p>&#x6E96;&#x5099;&#x5C07; struct stat &#x7684;&#x5167;&#x5BB9;&#x8F38;&#x51FA;&#x5230;&#x5916;&#x90E8;&#x6A94;&#x6848;</p>
+<pre><code class="lang-c">(gdb) print <span class="hljs-number">0x7fffffffdf40</span> + <span class="hljs-number">144</span>
+$<span class="hljs-number">4</span> = <span class="hljs-number">140737488347088</span>
+(gdb) dump memory output-file <span class="hljs-number">0x7fffffffdf40</span> <span class="hljs-number">0x7fffffffdfd0</span>
+</code></pre>
+<p>&#x6CE8;&#x610F;&#x5230;&#x5341;&#x9032;&#x4F4D;&#x7684; 140737488347088 &#x5C31;&#x7B49;&#x65BC; 0x7fffffffdfd0</p>
+<p>&#x6309;&#x4E0B; <code>Ctrl-D</code>&#xFF0C;&#x7D50;&#x675F; gdb&#x3002;&#x63A5;&#x8457;&#x518D;&#x91CD;&#x65B0;&#x57F7;&#x884C; stat &#x57F7;&#x884C;&#x6A94;&#x4E00;&#x6B21;&#x3002;&#x9019;&#x6B21;&#x57F7;&#x884C;&#x6642;&#x4E0D;&#x7528;&#x52A0;&#x53C3;&#x6578; (argument)&#xFF0C;&#x56E0;&#x70BA;&#x6211;&#x5011;&#x53EA;&#x5728;&#x610F; struct stat &#x7684;&#x5167;&#x5BB9;&#xFF1A;</p>
+<pre><code class="lang-c">$ gdb -q stat
+Reading symbols from stat...done.
+(gdb) <span class="hljs-keyword">break</span> main
+Breakpoint <span class="hljs-number">1</span> at <span class="hljs-number">0x4007ee</span>: file stat.c, line <span class="hljs-number">11.</span>
+(gdb) run
+Starting program: /tmp/stat 
+
+Breakpoint <span class="hljs-number">1</span>, main (argc=<span class="hljs-number">1</span>, argv=<span class="hljs-number">0x7fffffffe0e8</span>) at stat.c:<span class="hljs-number">11</span>
+<span class="hljs-number">11</span>        {
+(gdb) <span class="hljs-built_in">list</span>
+<span class="hljs-number">6</span>        
+<span class="hljs-number">7</span>        <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">report</span><span class="hljs-params">(<span class="hljs-keyword">char</span> *, <span class="hljs-keyword">struct</span> stat *)</span></span>;
+<span class="hljs-number">8</span>        
+<span class="hljs-number">9</span>        <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span> * argv[])</span>
+10        <span class="hljs-comment">/* Print status of files on argument list. */</span>
+11        </span>{
+<span class="hljs-number">12</span>           <span class="hljs-keyword">struct</span> stat status_buf;
+<span class="hljs-number">13</span>           <span class="hljs-keyword">if</span> (argc &lt; <span class="hljs-number">2</span>)
+<span class="hljs-number">14</span>           {
+<span class="hljs-number">15</span>              <span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;statfile file1 ...\n&quot;</span>);
+</code></pre>
+<p>&#x5982;&#x679C;&#x9019;&#x6642;&#x5019;&#x53BB;&#x89C0;&#x5BDF; struct stat &#x7684;&#x5167;&#x5BB9;&#xFF0C;&#x7576;&#x7136;&#x662F;&#x6C92;&#x4EC0;&#x9EBC;&#x610F;&#x7FA9;&#xFF1A;</p>
+<pre><code class="lang-c">(gdb) print status_buf
+$<span class="hljs-number">1</span> = {st_dev = <span class="hljs-number">140737347973624</span>, st_ino = <span class="hljs-number">140737354101952</span>, st_nlink = <span class="hljs-number">0</span>, 
+  st_mode = <span class="hljs-number">0</span>, st_uid = <span class="hljs-number">0</span>, st_gid = <span class="hljs-number">0</span>, __pad0 = <span class="hljs-number">0</span>, st_rdev = <span class="hljs-number">0</span>, st_size = <span class="hljs-number">0</span>, 
+  st_blksize = <span class="hljs-number">140737488347384</span>, st_blocks = <span class="hljs-number">1</span>, st_atim = {
+    tv_sec = <span class="hljs-number">140737488347168</span>, tv_nsec = <span class="hljs-number">140737354101952</span>}, st_mtim = {
+    tv_sec = <span class="hljs-number">0</span>, tv_nsec = <span class="hljs-number">1</span>}, st_ctim = {tv_sec = <span class="hljs-number">4197021</span>, tv_nsec = <span class="hljs-number">4196064</span>}, 
+  __glibc_reserved = {<span class="hljs-number">0</span>, <span class="hljs-number">4196944</span>, <span class="hljs-number">4196064</span>}}
+</code></pre>
+<p>&#x6BD4;&#x65B9;&#x8AAA; <code>st_mode = 0, st_uid = 0, st_gid = 0</code> &#x9019;&#x6839;&#x672C;&#x4E0D;&#x7B26;&#x5408;&#x73FE;&#x5728;&#x7684;&#x74B0;&#x5883;&#x3002;</p>
+<p>&#x4F46;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x4E4B;&#x524D;&#x8F38;&#x51FA;&#x7684;&#x6A94;&#x6848; output-file &#x9084;&#x539F;&#x8A18;&#x61B6;&#x9AD4;&#x5167;&#x5BB9;:</p>
+<pre><code class="lang-c">(gdb) print &amp;status_buf
+$<span class="hljs-number">2</span> = (<span class="hljs-keyword">struct</span> stat *) <span class="hljs-number">0x7fffffffdf60</span>
+(gdb) restore output-file binary <span class="hljs-number">0x7fffffffdf60</span>
+Restoring binary file output-<span class="hljs-function">file into <span class="hljs-title">memory</span> <span class="hljs-params">(<span class="hljs-number">0x7fffffffdf60</span> to <span class="hljs-number">0x7fffffffdff0</span>
+</span></span></code></pre>
+<p>&#x9019;&#x6642;&#x5019;&#x518D;&#x4F86;&#x89C0;&#x5BDF;&#x4E00;&#x6B21;:</p>
+<pre><code class="lang-c">(gdb) print status_buf
+$<span class="hljs-number">3</span> = {st_dev = <span class="hljs-number">2065</span>, st_ino = <span class="hljs-number">393676</span>, st_nlink = <span class="hljs-number">1</span>, st_mode = <span class="hljs-number">33204</span>, 
+  st_uid = <span class="hljs-number">1000</span>, st_gid = <span class="hljs-number">1000</span>, __pad0 = <span class="hljs-number">0</span>, st_rdev = <span class="hljs-number">0</span>, st_size = <span class="hljs-number">1712</span>, 
+  st_blksize = <span class="hljs-number">4096</span>, st_blocks = <span class="hljs-number">8</span>, st_atim = {tv_sec = <span class="hljs-number">1454821389</span>, 
+    tv_nsec = <span class="hljs-number">333331710</span>}, st_mtim = {tv_sec = <span class="hljs-number">1454821384</span>, 
+    tv_nsec = <span class="hljs-number">649439778</span>}, st_ctim = {tv_sec = <span class="hljs-number">1454821384</span>, 
+    tv_nsec = <span class="hljs-number">649439778</span>}, __glibc_reserved = {<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>}}
+</code></pre>
+<p>&#x9019;&#x6642;&#x5019;&#x5C31;&#x6709;&#x610F;&#x7FA9;&#x4E86;&#xFF0C;&#x6BD4;&#x65B9;&#x8AAA; <code>st_uid = 1000, st_gid = 1000</code> &#x5C31;&#x662F;&#x6211;&#x81EA;&#x5DF1;&#x3002;</p>
+<p>&#x6240;&#x4EE5;&#x9019;&#x6642;&#x6211;&#x5011;&#x5C31;&#x53EF;&#x4EE5;&#x4F5C;&#x4EE5;&#x4E0B;&#x64CD;&#x4F5C;&#xFF1A;</p>
+<pre><code class="lang-c">(gdb) print status_buf.st_uid
+$<span class="hljs-number">4</span> = <span class="hljs-number">1000</span>
+(gdb) print status_buf.st_atim
+$<span class="hljs-number">5</span> = {tv_sec = <span class="hljs-number">1454821389</span>, tv_nsec = <span class="hljs-number">333331710</span>}
+</code></pre>
+<p>&#x8981;&#x8A08;&#x7B97; offset &#x4E5F;&#x884C;&#xFF0C;&#x9019;&#x4E5F;&#x662F;&#x5728;&#x5176;&#x4ED6;&#x7A0B;&#x5F0F;&#x8A9E;&#x8A00;&#x4E2D;&#xFF0C;&#x8B80;&#x53D6;&#x6A94;&#x6848;&#x7684; seek &#x504F;&#x79FB;&#x91CF;&#x3002;</p>
+<pre><code class="lang-c">(gdb) print &amp;status_buf.st_atim
+$<span class="hljs-number">6</span> = (<span class="hljs-keyword">struct</span> timespec *) <span class="hljs-number">0x7fffffffdfa8</span>
+(gdb) print &amp;status_buf.st_size
+$<span class="hljs-number">7</span> = (<span class="hljs-keyword">__off_t</span> *) <span class="hljs-number">0x7fffffffdf90</span>
+(gdb) print <span class="hljs-number">0x7fffffffdfa8</span> - <span class="hljs-number">0x7fffffffdf90</span>
+$<span class="hljs-number">8</span> = <span class="hljs-number">24</span>
+</code></pre>
+<h2 id="%E7%94%A8%E5%B7%A5%E5%85%B7%E6%88%96%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80%E6%93%B7%E5%8F%96%E4%BA%8C%E9%80%B2%E4%BD%8D%E5%85%A7%E5%AE%B9">&#x7528;&#x5DE5;&#x5177;&#x6216;&#x7A0B;&#x5F0F;&#x8A9E;&#x8A00;&#x64F7;&#x53D6;&#x4E8C;&#x9032;&#x4F4D;&#x5167;&#x5BB9;</h2>
+<p>&#x57FA;&#x65BC;&#x524D;&#x8FF0;&#x7684;&#x5BE6;&#x9A57;&#xFF0C;&#x6211;&#x5011;&#x8981;&#x5206;&#x6790;&#x8F38;&#x51FA;&#x7684;&#x6A94;&#x6848;&#x5C31;&#x5BB9;&#x6613;&#x4E86;&#x3002;&#x6BD4;&#x65B9;&#x8AAA;&#x6211;&#x5011;&#x5148;&#x8A08;&#x7B97; st_size &#x7684;&#x504F;&#x79FB;&#x91CF;</p>
+<pre><code class="lang-c">(gdb) print 0x7fffffffdf90 - 0x7fffffffdf60
+$1 = 48
+(gdb) whatis status_buf-&gt;st_size
+type = __off_t
+(gdb) print sizeof(status_buf-&gt;st_size)
+$9 = 8
+</code></pre>
+<p>&#x7528; hexdump &#x4F86;&#x5C0D;&#x7167;&#x6A94;&#x6848;&#x5167;&#x5BB9;&#xFF1A;</p>
+<pre><code class="lang-c">(gdb) shell hexdump output-file
+<span class="hljs-number">0000000</span> <span class="hljs-number">0811</span> <span class="hljs-number">0000</span> <span class="hljs-number">0000</span> <span class="hljs-number">0000</span> <span class="hljs-number">01</span>cc <span class="hljs-number">0006</span> <span class="hljs-number">0000</span> <span class="hljs-number">0000</span>
+<span class="hljs-number">0000010</span> <span class="hljs-number">0001</span> <span class="hljs-number">0000</span> <span class="hljs-number">0000</span> <span class="hljs-number">0000</span> <span class="hljs-number">81</span>b4 <span class="hljs-number">0000</span> <span class="hljs-number">03e8</span> <span class="hljs-number">0000</span>
+<span class="hljs-number">0000020</span> <span class="hljs-number">03e8</span> <span class="hljs-number">0000</span> <span class="hljs-number">0000</span> <span class="hljs-number">0000</span> <span class="hljs-number">0000</span> <span class="hljs-number">0000</span> <span class="hljs-number">0000</span> <span class="hljs-number">0000</span>
+<span class="hljs-number">0000030</span> <span class="hljs-number">06</span>b0 <span class="hljs-number">0000</span> <span class="hljs-number">0000</span> <span class="hljs-number">0000</span> <span class="hljs-number">1000</span> <span class="hljs-number">0000</span> <span class="hljs-number">0000</span> <span class="hljs-number">0000</span>
+<span class="hljs-number">0000040</span> <span class="hljs-number">0008</span> <span class="hljs-number">0000</span> <span class="hljs-number">0000</span> <span class="hljs-number">0000</span> d00d <span class="hljs-number">56</span>b6 <span class="hljs-number">0000</span> <span class="hljs-number">0000</span>
+<span class="hljs-number">0000050</span> <span class="hljs-number">3</span>cfe <span class="hljs-number">13</span>de <span class="hljs-number">0000</span> <span class="hljs-number">0000</span> d008 <span class="hljs-number">56</span>b6 <span class="hljs-number">0000</span> <span class="hljs-number">0000</span>
+<span class="hljs-number">0000060</span> aa22 <span class="hljs-number">26</span>b5 <span class="hljs-number">0000</span> <span class="hljs-number">0000</span> d008 <span class="hljs-number">56</span>b6 <span class="hljs-number">0000</span> <span class="hljs-number">0000</span>
+<span class="hljs-number">0000070</span> aa22 <span class="hljs-number">26</span>b5 <span class="hljs-number">0000</span> <span class="hljs-number">0000</span> <span class="hljs-number">0000</span> <span class="hljs-number">0000</span> <span class="hljs-number">0000</span> <span class="hljs-number">0000</span>
+<span class="hljs-number">0000080</span> <span class="hljs-number">0000</span> <span class="hljs-number">0000</span> <span class="hljs-number">0000</span> <span class="hljs-number">0000</span> <span class="hljs-number">0000</span> <span class="hljs-number">0000</span> <span class="hljs-number">0000</span> <span class="hljs-number">0000</span>
+<span class="hljs-number">0000090</span>
+</code></pre>
+<p>status_buf-&gt;st_size &#x8DDD;&#x96E2; status_buf &#x958B;&#x982D;&#x7684;&#x504F;&#x79FB;&#x91CF;&#x70BA; 48&#xFF0C;&#x800C; 10 &#x9032;&#x4F4D;&#x7684; 48 &#x5C31;&#x662F; 16 &#x9032;&#x4F4D;&#x7684; 0x30&#xFF0C;&#x8981;&#x6CE8;&#x610F;&#x4E0A;&#x9762;&#x7684; hexdump &#x55AE;&#x4F4D;&#x90FD;&#x662F; 16 &#x9032;&#x4F4D;&#xFF0C;&#x6240;&#x4EE5;&#x6211;&#x5011;&#x76EE;&#x6A19;&#x653E;&#x5728;&#x9019;&#x884C;&#x7684;&#x524D; 8 bytes:</p>
+<pre><code class="lang-c"><span class="hljs-number">0000030</span> | <span class="hljs-number">06</span>b0 <span class="hljs-number">0000</span> <span class="hljs-number">0000</span> <span class="hljs-number">0000</span> <span class="hljs-number">1000</span> <span class="hljs-number">0000</span> <span class="hljs-number">0000</span> <span class="hljs-number">0000</span>
+</code></pre>
+<p>&#x986F;&#x7136; 0x000006b0 &#x5C31;&#x662F; 10 &#x9032;&#x4F4D;&#x7684; 1712&#xFF0C;&#x4E5F;&#x5C31;&#x662F; status_buf.st_size &#x7684;&#x5167;&#x5BB9;&#x3002;</p>
 
                     
                     </section>
@@ -7579,10 +7848,10 @@ gnome-terminal&#x6EFE;&#x52D5;&#x8A2D;&#x6210;&#x7121;&#x9650;</p>
         </div>
 
         
-        <a href="../linux_kernel/124.html" class="navigation navigation-prev " aria-label="Previous page: 分析oops的機器碼"><i class="fa fa-angle-left"></i></a>
+        <a href="../gdb/1811.html" class="navigation navigation-prev " aria-label="Previous page: 用GDB追蹤glibc代碼執行過程"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../linux_kernel/126.html" class="navigation navigation-next " aria-label="Next page: 可搶佔"><i class="fa fa-angle-right"></i></a>
+        <a href="../mooc_linux_kernel/index.html" class="navigation navigation-next " aria-label="Next page: Linux內核分析雲課堂學習筆記"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

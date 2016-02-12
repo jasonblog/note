@@ -468,4 +468,5 @@
 * [embedded](embedded/embedded.md)
    * [JTAG是把屠龍刀，說說其作用和原理](embedded/jtagshi_ba_tu_long_dao_ff0c_shuo_shuo_qi_zuo_yong_.md)
 * [node.js](nodejs/nodejs.md)
+   * 安裝 NodeJS、NPM
 

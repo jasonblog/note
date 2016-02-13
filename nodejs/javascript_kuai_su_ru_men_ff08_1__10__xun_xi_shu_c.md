@@ -13,7 +13,7 @@ console.log('Hello JavaScript!');
 Hello JavaScript!
 ```
 
-![](./images/qemu.png)
+![](./images/C4001.jpg)
 
 文字內容必須以單引號（'）或是雙引號（"）包覆，如此JavaScript會將其視為一般的字串進行處理。瀏覽器均提供了控制台視窗以方便開發者觀察程式的輸出內容，以Chrome為例，按下Ctrl+Shift+I（或 F12）組合鍵開啟控制台畫面如下：
 

@@ -8,7 +8,7 @@
         <title>Linux 內核的編譯系統 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,14 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-search/search.css">
+        
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +56,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="12.18" data-basepath=".." data-revision="Sat Feb 13 2016 12:47:18 GMT+0800 (CST)">
+    <div class="book"
+        data-level="12.18"
+        data-chapter-title="Linux 內核的編譯系統"
+        data-filepath="linux_kernel/1218.md"
+        data-basepath=".."
+        data-revision="Sun Feb 14 2016 02:04:57 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -4131,6 +4142,21 @@
             
         </li>
     
+        <li class="chapter " data-level="18.13" data-path="gdb/cgdb_bian_yi.html">
+            
+                
+                    <a href="../gdb/cgdb_bian_yi.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>18.13.</b>
+                        
+                        cgdb 編譯＆使用
+                    </a>
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -7657,80 +7683,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -7745,7 +7698,7 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="linux-%E5%85%A7%E6%A0%B8%E7%9A%84%E7%B7%A8%E8%AD%AF%E7%B3%BB%E7%B5%B1">Linux &#x5167;&#x6838;&#x7684;&#x7DE8;&#x8B6F;&#x7CFB;&#x7D71;</h1>
+                        <h1 id="linux-&#x5167;&#x6838;&#x7684;&#x7DE8;&#x8B6F;&#x7CFB;&#x7D71;">Linux &#x5167;&#x6838;&#x7684;&#x7DE8;&#x8B6F;&#x7CFB;&#x7D71;</h1>
 <p>Linux  &#x7684;&#x7DE8;&#x8B6F;&#x4F7F;&#x7528; GNU make &#x5DE5;&#x5177;&#x4F86;&#x6AA2;&#x67E5;&#x6574;&#x500B;&#x7CFB;&#x7D71;&#x7684;&#x6587;&#x4EF6;&#x548C;&#x8ABF;&#x7528; gcc &#x5DE5;&#x5177;&#x4EE5;&#x53CA;&#x8173;&#x672C;&#x5B8C;&#x6210;&#x7DE8;&#x8B6F;&#x6E90;&#x4EE3;&#x78BC;&#x751F;&#x6210; image &#x7B49;&#x64CD;&#x4F5C;&#x3002;&#x8981;&#x4E86;&#x89E3;&#x6574;&#x500B;&#x7DE8;&#x8B6F;&#x7CFB;&#x7D71;&#xFF0C;&#x6211;&#x5011;&#x9996;&#x5148;&#x8981;&#x4E86;&#x89E3; Linux &#x5167;&#x6838;&#x7684; Makefile &#x6587;&#x4EF6;&#x3002;</p>
 <p>Linux &#x7684; &#x7DE8;&#x8B6F;&#x7CFB;&#x7D71;&#x5305;&#x62EC; 5 &#x500B;&#x90E8;&#x5206;</p>
 <pre><code>Makefile          &#x9802;&#x5C64;&#x7684; Makefile &#x6587;&#x4EF6;
@@ -7754,7 +7707,7 @@ arch/$(ARCH)/Makefile &#x5E73;&#x81FA; Makefile &#x6587;&#x4EF6;
 scripts/Makefile.* &#x8173;&#x672C;&#x898F;&#x5247;
 kbuild Makefiles &#x5927;&#x6982; 500 &#x591A;&#x500B;&#x5176;&#x4ED6;&#x7684; Makefile &#x6587;&#x4EF6;
 </code></pre><h2 id="makefile">Makefile</h2>
-<h3 id="%E6%9F%A5%E7%9C%8B%E7%89%88%E6%9C%AC">&#x67E5;&#x770B;&#x7248;&#x672C;</h3>
+<h3 id="&#x67E5;&#x770B;&#x7248;&#x672C;">&#x67E5;&#x770B;&#x7248;&#x672C;</h3>
 <p>&#x5728;&#x5167;&#x6838;&#x6E90;&#x4EE3;&#x78BC;&#x7684;&#x6839;&#x76EE;&#x9304;&#x6709;&#x4E00;&#x500B; Makefile &#x6587;&#x4EF6;&#xFF0C;&#x9019;&#x662F;&#x7DE8;&#x8B6F;&#x5167;&#x6838;&#x7684;&#x5165;&#x53E3;&#xFF0C;&#x4E0D;&#x7BA1;&#x57F7;&#x884C;&#x914D;&#x7F6E;&#x9084;&#x662F;&#x7DE8;&#x8B6F;&#xFF0C;make &#x547D;&#x4EE4;&#x9996;&#x5148;&#x8B80;&#x53D6;&#x9019;&#x500B;&#x6587;&#x4EF6;&#x3002;&#x9019;&#x500B;&#x6587;&#x4EF6;&#x9996;&#x5148;&#x6307;&#x660E;&#x77AD;&#x5167;&#x6838;&#x7684;&#x7248;&#x672C;&#xFF1A;
 &#x6211;&#x5011;&#x9019;&#x88E1;&#x662F; 3.10</p>
 <pre><code>VERSION = 3
@@ -7762,7 +7715,7 @@ PATCHLEVEL = 10
 SUBLEVEL = 0
 EXTRAVERSION =
 NAME = Unicycling Gorilla
-</code></pre><h3 id="%E8%99%95%E7%90%86%E5%8F%83%E6%95%B8">&#x8655;&#x7406;&#x53C3;&#x6578;</h3>
+</code></pre><h3 id="&#x8655;&#x7406;&#x53C3;&#x6578;">&#x8655;&#x7406;&#x53C3;&#x6578;</h3>
 <p>&#x7136;&#x5F8C;&#x8655;&#x7406; command line &#xFF0C;&#x4E00;&#x5171;&#x6709; 5  &#x500B; command line</p>
 <pre><code>V : &#x8A2D;&#x5B9A;&#x7DE8;&#x8B6F;&#x6642;&#xFF0C;&#x8F38;&#x51FA;&#x4FE1;&#x606F;&#x7684;&#x7B49;&#x7D1A;&#xFF0C;&#x4F8B;&#x5982;&#x4F60;&#x53EF;&#x4EE5;&#x7528; make V=1&#xFF0C; &#x67E5;&#x770B;&#x7DE8;&#x8B6F;&#x6642;&#x57F7;&#x884C;&#x7684;&#x6240;&#x6709;&#x547D;&#x4EE4;&#xFF0C;&#x5305;&#x62EC; gcc &#x53C3;&#x6578;&#x90FD;&#x6703;&#x6253;&#x5370;&#x51FA;&#x4F86;
 C :  &#x4EE3;&#x78BC;&#x6AA2;&#x67E5;&#xFF0C;&#x4F7F;&#x7528; sparse&#xFF0C;&#x6AA2;&#x67E5;&#x6E90;&#x6587;&#x4EF6;&#x3002;
@@ -7780,12 +7733,12 @@ CC      drivers/misc/eeprom/eeprom_93cx6.mod.o
 LD [M]  drivers/misc/eeprom/eeprom_93cx6.ko
 </code></pre><p><code>O</code>&#x53C3;&#x6578;&#x7684;&#x6307;&#x5B9A;&#xFF0C;&#x6703;&#x6539;&#x8B8A;&#x6574;&#x500B;&#x7DE8;&#x8B6F;&#x51FA;&#x4F86;&#x7684;&#x6587;&#x4EF6;&#x7684;&#x7D50;&#x69CB;&#xFF0C;&#x4F8B;&#x5982;&#x54E6;&#x6211;&#x5011;&#x6709;&#x591A;&#x500B;&#x5E73;&#x81FA;&#x8981;&#x7DE8;&#x8B6F;&#xFF0C;&#x4F60;&#x5C31;&#x9700;&#x8981;&#x70BA;&#x6BCF;&#x500B;&#x5E73;&#x81FA; clone &#x4E00;&#x4EFD;&#x5167;&#x6838;&#x4EE3;&#x78BC;&#x4E86;&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x8A2D;&#x7F6E;&#x4E0D;&#x540C;&#x7684;&#x8F38;&#x51FA;&#x8DEF;&#x5F91;&#x5373;&#x53EF;&#xFF1A;</p>
 <p>make O=atmel&#xFF0C;  make O=asus  &#xFF08;O &#x53C3;&#x6578;&#x6703;&#x8986;&#x84CB; KBUILD_OUTPUT &#x8B8A;&#x91CF;&#xFF09;&#xFF0C;&#x76F8;&#x61C9;&#x7684;&#x6587;&#x4EF6;&#x4E5F;&#x6703;&#x751F;&#x6210;&#x5728;&#x76EE;&#x6A19;&#x8DEF;&#x5F91;&#x4E0B;&#xFF0C;&#x4F8B;&#x5982; uImage &#x5C31;&#x5728; atmel/arch/arm/boot/uImage</p>
-<h3 id="%E7%8D%B2%E5%8F%96%E4%BF%A1%E6%81%AF">&#x7372;&#x53D6;&#x4FE1;&#x606F;</h3>
+<h3 id="&#x7372;&#x53D6;&#x4FE1;&#x606F;">&#x7372;&#x53D6;&#x4FE1;&#x606F;</h3>
 <p>&#x63A5;&#x4E0B;&#x4F86;&#x7CFB;&#x7D71;&#x5C31;&#x6703;&#x7372;&#x53D6;&#x4EA4;&#x53C9;&#x7DE8;&#x8B6F;&#x74B0;&#x5883;&#x548C;&#x9078;&#x64C7;&#x4E0D;&#x540C;&#x7684; gcc &#x548C; bin &#x5DE5;&#x5177;&#x96C6;</p>
 <pre><code>ARCH            ?= $(SUBARCH)
 CROSS_COMPILE   ?= $(CONFIG_CROSS_COMPILE:&quot;%&quot;=%)
 </code></pre><p>arch &#x8B8A;&#x91CF;&#x8A2D;&#x7F6E;&#x76EE;&#x6A19;&#x5E73;&#x81FA;&#xFF0C; cross compile &#x8A2D;&#x7F6E;&#x4EA4;&#x53C9;&#x7DE8;&#x8B6F;&#x93C8;&#x3002;</p>
-<h3 id="%E5%81%BD%E7%9B%AE%E6%A8%99">&#x507D;&#x76EE;&#x6A19;</h3>
+<h3 id="&#x507D;&#x76EE;&#x6A19;">&#x507D;&#x76EE;&#x6A19;</h3>
 <p>&#x7576;&#x7CFB;&#x7D71;&#x4FE1;&#x606F;&#x7372;&#x53D6;&#x6210;&#x529F;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x57F7;&#x884C;&#x7DE8;&#x8B6F;&#x547D;&#x4EE4;&#x4E86;&#xFF0C;&#x6BCF;&#x4E00;&#x500B;&#x507D;&#x76EE;&#x6A19;&#x90FD;&#x53EF;&#x4EE5;&#x4F5C;&#x70BA;&#x4E00;&#x500B;&#x7DE8;&#x8B6F;&#x547D;&#x4EE4;&#xFF1A;&#xFF08;&#x5927;&#x6982;&#x6709; 40 &#x500B;&#x5DE6;&#x53F3;&#x7684;&#x507D;&#x76EE;&#x6A19;&#xFF09;&#xFF0C;&#x4F46;&#x662F;&#x6211;&#x5011;&#x6703;&#x4F7F;&#x7528;&#x5230;&#x7684;&#x4E26;&#x6C92;&#x6709;&#x9019;&#x9EBC;&#x591A;&#xFF0C;&#x53EF;&#x4EE5;&#x7528; make help &#x67E5;&#x770B;&#x6211;&#x5011;&#x4F7F;&#x7528;&#x7684;&#x7DE8;&#x8B6F;&#x547D;&#x4EE4;&#xFF1A;</p>
 <pre><code>make help
 Cleaning targets:
@@ -7924,9 +7877,25 @@ make mrproper       &#x522A;&#x9664;&#x6240;&#x6709;&#x751F;&#x6210;&#x7684;&#x6
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/lunr.min.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/search.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"search":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

@@ -8,7 +8,7 @@
         <title>動態庫注入、ltrace、strace、Valgrind | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,14 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-search/search.css">
+        
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +56,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="15.2.6" data-basepath=".." data-revision="Sat Feb 13 2016 12:47:18 GMT+0800 (CST)">
+    <div class="book"
+        data-level="15.2.6"
+        data-chapter-title="動態庫注入、ltrace、strace、Valgrind"
+        data-filepath="linux_system/1526.md"
+        data-basepath=".."
+        data-revision="Sun Feb 14 2016 02:04:57 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -4131,6 +4142,21 @@
             
         </li>
     
+        <li class="chapter " data-level="18.13" data-path="gdb/cgdb_bian_yi.html">
+            
+                
+                    <a href="../gdb/cgdb_bian_yi.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>18.13.</b>
+                        
+                        cgdb 編譯＆使用
+                    </a>
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -7657,80 +7683,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -7745,9 +7698,9 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E5%8B%95%E6%85%8B%E5%BA%AB%E6%B3%A8%E5%85%A5%E3%80%81ltrace%E3%80%81strace%E3%80%81valgrind">&#x52D5;&#x614B;&#x5EAB;&#x6CE8;&#x5165;&#x3001;ltrace&#x3001;strace&#x3001;Valgrind</h1>
+                        <h1 id="&#x52D5;&#x614B;&#x5EAB;&#x6CE8;&#x5165;&#x3001;ltrace&#x3001;strace&#x3001;valgrind">&#x52D5;&#x614B;&#x5EAB;&#x6CE8;&#x5165;&#x3001;ltrace&#x3001;strace&#x3001;Valgrind</h1>
 <p>&#x5BE6;&#x969B;&#x4E0A;&#xFF0C;Linux&#x7684;&#x8ABF;&#x8A66;&#x65B9;&#x6CD5;&#x975E;&#x5E38;&#x591A;&#xFF0C;&#x91DD;&#x5C0D;&#x4E0D;&#x540C;&#x7684;&#x554F;&#x984C;&#xFF0C;&#x4E0D;&#x540C;&#x7684;&#x5834;&#x666F;&#xFF0C;&#x4E0D;&#x540C;&#x7684;&#x61C9;&#x7528;&#xFF0C;&#x90FD;&#x6709;&#x4E0D;&#x540C;&#x7684;&#x65B9;&#x6CD5;&#x3002;&#x5F88;&#x96E3;&#x53BB;&#x6982;&#x62EC;&#x3002;&#x672C;&#x7BC7;&#x6587;&#x7AE0;&#x4E3B;&#x8981;&#x6D89;&#x53CA;&#x672C;&#x5C08;&#x6B04;&#x9084;&#x6C92;&#x6709;&#x6DB5;&#x84CB;&#xFF0C;&#x4F46;&#x662F;&#x7684;&#x78BA;&#x6709;&#x5F88;&#x91CD;&#x8981;&#x7684;&#x65B9;&#x6CD5;&#x3002;&#x672C;&#x6587;&#x4E3B;&#x8981;&#x5305;&#x62EC;&#x52D5;&#x614B;&#x5EAB;&#x6CE8;&#x5165;&#x8ABF;&#x8A66;&#xFF1B;&#x4F7F;&#x7528;ltrace&#x547D;&#x4EE4;&#x8655;&#x7406;&#x52D5;&#x614B;&#x5EAB;&#x7684;&#x8ABF;&#x8A66;&#xFF1B;&#x4F7F;&#x7528;strace&#x8ABF;&#x8A66;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x7684;&#x554F;&#x984C;&#xFF1B;Valgrind&#x7684;&#x7C21;&#x8981;&#x4ECB;&#x7D39;&#x3002;</p>
-<h2 id="1-%E5%8B%95%E6%85%8B%E5%BA%AB%E6%B3%A8%E5%85%A5">1. &#x52D5;&#x614B;&#x5EAB;&#x6CE8;&#x5165;</h2>
+<h2 id="1-&#x52D5;&#x614B;&#x5EAB;&#x6CE8;&#x5165;">1. &#x52D5;&#x614B;&#x5EAB;&#x6CE8;&#x5165;</h2>
 <p>&#x5982;&#x4F55;&#x6392;&#x9664;&#x5176;&#x4ED6;library&#x7684;&#x8ABF;&#x7528;&#x554F;&#x984C;&#xFF1F;&#x52D5;&#x614B;&#x5EAB;&#x6CE8;&#x5165;&#xFF08;library injection&#xFF09;&#x6709;&#x53EF;&#x80FD;&#x6703;&#x8B93;&#x4F60;&#x4E8B;&#x534A;&#x529F;&#x500D;&#x3002;</p>
 <p>&#x4E00;&#x500B;&#x5927;&#x578B;&#x7684;&#x8EDF;&#x4EF6;&#x7CFB;&#x7D71;&#xFF0C;&#x6703;&#x7528;&#x5230;&#x975E;&#x5E38;&#x591A;&#x7684;&#x52D5;&#x614B;&#x5EAB;&#x3002;&#x90A3;&#x9EBC;&#x5982;&#x679C;&#x8A72;&#x52D5;&#x614B;&#x5EAB;&#x7684;&#x4E00;&#x500B;api&#x8ABF;&#x7528;&#x51FA;&#x4E86;&#x554F;&#x984C;&#xFF0C;&#x800C;&#x8ABF;&#x7528;&#x8A72;api&#x7684;&#x5730;&#x65B9;&#x975E;&#x5E38;&#x975E;&#x5E38;&#x591A;&#xFF0C;&#x4E0D;&#x540C;&#x7684;&#x8ABF;&#x7528;&#x90FD;&#x5206;&#x6563;&#x7684;&#x8A18;&#x9304;&#x5728;&#x4E0D;&#x540C;&#x7684;log&#x88E1;&#x3002;&#x90A3;&#x9EBC;&#xFF0C;&#x5982;&#x4F55;&#x5FEB;&#x901F;&#x7684;&#x627E;&#x5230;&#x662F;&#x54EA;&#x500B;&#x8ABF;&#x7528;&#x8005;&#x51FA;&#x7684;&#x554F;&#x984C;&#xFF1F; &#x7576;&#x7136;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x52D5;&#x614B;&#x5EAB;&#x6CE8;&#x5165;&#x7684;&#x65B9;&#x5F0F;&#x53BB;&#x8ABF;&#x8A66;&#x3002;</p>
 <p>&#x4E0B;&#x9762;&#x7684;&#x4EE3;&#x78BC;hook&#x4E86;&#x5169;&#x500B;&#x5E38;&#x898B;&#x7684;&#x51FD;&#x6578;memcpy&#x548C;socket&#xFF1A;</p>
@@ -7879,9 +7832,25 @@ Extension&#x3002;&#x53EF;&#x4EE5;&#x5229;&#x7528;core&#x63D0;&#x4F9B;&#x7684;&#x
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/lunr.min.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/search.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"search":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

@@ -8,7 +8,7 @@
         <title>gcc/g++ -instrument-functions 參數 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,14 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-search/search.css">
+        
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +56,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="36.1" data-basepath=".." data-revision="Sat Feb 13 2016 12:47:18 GMT+0800 (CST)">
+    <div class="book"
+        data-level="36.1"
+        data-chapter-title="gcc/g++ -instrument-functions 參數"
+        data-filepath="debug/gccg++_-instrument-functions_can_shu.md"
+        data-basepath=".."
+        data-revision="Sun Feb 14 2016 02:04:57 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -4131,6 +4142,21 @@
             
         </li>
     
+        <li class="chapter " data-level="18.13" data-path="gdb/cgdb_bian_yi.html">
+            
+                
+                    <a href="../gdb/cgdb_bian_yi.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>18.13.</b>
+                        
+                        cgdb 編譯＆使用
+                    </a>
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -7657,80 +7683,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -7745,7 +7698,7 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="gcc-g-instrument-functions-%E5%8F%83%E6%95%B8">gcc/g++ -instrument-functions &#x53C3;&#x6578;</h1>
+                        <h1 id="gccg-instrumentfunctions-&#x53C3;&#x6578;">gcc/g++ -instrument-functions &#x53C3;&#x6578;</h1>
 <p>&#x70BA;&#x9805;&#x76EE;&#x592A;&#x5927;&#xFF0C;&#x7DDA;&#x7A0B;&#x592A;&#x591A;&#xFF0C;gprof&#x4E0D;&#x53EF;&#x9760;&#xFF0C;&#x65BC;&#x662F;&#x627E;&#x5230;&#x4E86;<strong>finstrument-functions</strong>
 -finstrument-functions &#x6703;&#x5728;&#x6BCF;&#x6B21;&#x9032;&#x5165;&#x8207;&#x9000;&#x51FA;&#x51FD;&#x5F0F;&#x524D;&#x547C;&#x53EB; &quot;<strong>cyg_profile_func_enter&quot; &#x8207;
 &quot;</strong>cyg_profile_func_exit&quot; &#x9019;&#x5169;&#x500B; hook function&#x3002;&#x7B49;&#x7B49;&#xFF0C;&#x300C;&#x9032;&#x5165;&#x300D;&#x8207;&#x300C;&#x9000;&#x51FA;&#x300D;&#x662F;&#x53C8;&#x4F55;&#x89E3;&#xFF1F;
@@ -7925,7 +7878,7 @@ nihao
 Hello World!
 __cyg_profile_func_exit: func = <span class="hljs-number">0x804847e</span>, called by = <span class="hljs-number">0xb7e6adec</span>
 </code></pre>
-<h2 id="%E5%8F%83%E8%80%83">&#x53C3;&#x8003;</h2>
+<h2 id="&#x53C3;&#x8003;">&#x53C3;&#x8003;</h2>
 <p>GCC &#x51FD;&#x5F0F;&#x8FFD;&#x8E64;&#x529F;&#x80FD; finstrument-functions <strong>attribute</strong> +&#x7528; Graphviz &#x53EF;&#x8996;&#x5316;&#x51FD;&#x6578;&#x8ABF;&#x7528;</p>
 <p>ibm &#x7528; Graphviz &#x53EF;&#x8996;&#x5316;&#x51FD;&#x6578;&#x8ABF;&#x7528;  </p>
 <p>gcc/g++&#x4F7F;&#x7528;-finstrument-functions&#x4F86;&#x89C0;&#x5BDF;code&#x6BCF;&#x500B;function&#x7684;&#x547C;&#x53EB;</p>
@@ -7972,9 +7925,25 @@ __cyg_profile_func_exit: func = <span class="hljs-number">0x804847e</span>, call
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/lunr.min.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/search.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"search":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

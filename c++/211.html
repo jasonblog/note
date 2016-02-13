@@ -8,7 +8,7 @@
         <title>[轉]C++ 對象的內存佈局 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,14 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-search/search.css">
+        
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +56,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="21.1" data-basepath=".." data-revision="Sat Feb 13 2016 12:47:18 GMT+0800 (CST)">
+    <div class="book"
+        data-level="21.1"
+        data-chapter-title="[轉]C++ 對象的內存佈局"
+        data-filepath="c++/211.md"
+        data-basepath=".."
+        data-revision="Sun Feb 14 2016 02:04:57 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -4131,6 +4142,21 @@
             
         </li>
     
+        <li class="chapter " data-level="18.13" data-path="gdb/cgdb_bian_yi.html">
+            
+                
+                    <a href="../gdb/cgdb_bian_yi.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>18.13.</b>
+                        
+                        cgdb 編譯＆使用
+                    </a>
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -7657,80 +7683,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -7745,14 +7698,14 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="c-%E5%B0%8D%E8%B1%A1%E7%9A%84%E5%85%A7%E5%AD%98%E4%BD%88%E5%B1%80">C++ &#x5C0D;&#x8C61;&#x7684;&#x5167;&#x5B58;&#x4F48;&#x5C40;</h1>
+                        <h1 id="c-&#x5C0D;&#x8C61;&#x7684;&#x5167;&#x5B58;&#x4F48;&#x5C40;">C++ &#x5C0D;&#x8C61;&#x7684;&#x5167;&#x5B58;&#x4F48;&#x5C40;</h1>
 <p>07&#x5E74;12&#x6708;&#xFF0C;&#x6211;&#x5BEB;&#x4E86;&#x4E00;&#x7BC7;&#x300A;C++&#x865B;&#x51FD;&#x6578;&#x8868;&#x89E3;&#x6790;&#x300B;&#x7684;&#x6587;&#x7AE0;&#xFF0C;&#x5F15;&#x8D77;&#x4E86;&#x5927;&#x5BB6;&#x7684;&#x8208;&#x8DA3;&#x3002;&#x6709;&#x5F88;&#x591A;&#x670B;&#x53CB;&#x5C0D;&#x6211;&#x7684;&#x6587;&#x7AE0;&#x7559;&#x4E86;&#x8A00;&#xFF0C;&#x6709;&#x9F13;&#x52F5;&#x6211;&#x7684;&#xFF0C;&#x6709;&#x6279;&#x8A55;&#x6211;&#x7684;&#xFF0C;&#x9084;&#x6709;&#x5F88;&#x591A;&#x554F;&#x554F;&#x984C;&#x7684;&#x3002;&#x6211;&#x5728;&#x9019;&#x88E1;&#x4E00;&#x4F75;&#x5C0D;&#x5927;&#x5BB6;&#x7684;&#x7559;&#x8A00;&#x8868;&#x793A;&#x611F;&#x8B1D;&#x3002;&#x9019;&#x4E5F;&#x662F;&#x6211;&#x70BA;&#x4EC0;&#x9EBC;&#x518D;&#x5BEB;&#x4E00;&#x7BC7;&#x7E8C;&#x8A00;&#x7684;&#x539F;&#x56E0;&#x3002;&#x56E0;&#x70BA;&#xFF0C;&#x5728;&#x4E0A;&#x4E00;&#x7BC7;&#x6587;&#x7AE0;&#x4E2D;&#xFF0C;&#x6211;&#x7528;&#x4E86;&#x7684;&#x793A;&#x4F8B;&#x90FD;&#x662F;&#x975E;&#x5E38;&#x7C21;&#x55AE;&#x7684;&#xFF0C;&#x4E3B;&#x8981;&#x662F;&#x70BA;&#x4E86;&#x8AAA;&#x660E;&#x4E00;&#x4E9B;&#x6A5F;&#x7406;&#x4E0A;&#x7684;&#x554F;&#x984C;&#xFF0C;&#x4E5F;&#x662F;&#x70BA;&#x4E86;&#x5716;&#x4E00;&#x4E9B;&#x8868;&#x9054;&#x4E0A;&#x65B9;&#x4FBF;&#x548C;&#x7C21;&#x55AE;&#x3002;&#x4E0D;&#x60F3;&#xFF0C;&#x9019;&#x7BC7;&#x6587;&#x7AE0;&#x6210;&#x70BA;&#x4E86;&#x6253;&#x958B;C++&#x5C0D;&#x8C61;&#x6A21;&#x578B;&#x5167;&#x5B58;&#x4F48;&#x5C40;&#x7684;&#x4E00;&#x500B;&#x5F15;&#x5B50;&#xFF0C;&#x5F15;&#x767C;&#x4E86;&#x5927;&#x5BB6;&#x5C0D;C++&#x5C0D;&#x8C61;&#x7684;&#x66F4;&#x6DF1;&#x5C64;&#x6B21;&#x7684;&#x8A0E;&#x8AD6;&#x3002;&#x7576;&#x7136;&#xFF0C;&#x6211;&#x4E4B;&#x524D;&#x7684;&#x6587;&#x7AE0;&#x9084;&#x6709;&#x5F88;&#x591A;&#x65B9;&#x9762;&#x6C92;&#x6709;&#x6D89;&#x53CA;&#xFF0C;&#x5F9E;&#x6211;&#x500B;&#x4EBA;&#x611F;&#x89BA;&#x4E0B;&#x4F86;&#xFF0C;&#x5728;&#x8AC7;&#x8AD6;&#x865B;&#x51FD;&#x6578;&#x8868;&#x88E1;&#xFF0C;&#x81F3;&#x5C11;&#x6709;&#x4EE5;&#x4E0B;&#x9019;&#x4E9B;&#x5167;&#x5BB9;&#x6C92;&#x6709;&#x6D89;&#x53CA;&#xFF1A;</p>
 <pre><code>1&#xFF09;&#x6709;&#x6210;&#x54E1;&#x8B8A;&#x91CF;&#x7684;&#x60C5;&#x6CC1;&#x3002;
 2&#xFF09;&#x6709;&#x91CD;&#x8907;&#x7E7C;&#x627F;&#x7684;&#x60C5;&#x6CC1;&#x3002;
 3&#xFF09;&#x6709;&#x865B;&#x64EC;&#x7E7C;&#x627F;&#x7684;&#x60C5;&#x6CC1;&#x3002;
 4&#xFF09;&#x6709;&#x947D;&#x77F3;&#x578B;&#x865B;&#x64EC;&#x7E7C;&#x627F;&#x7684;&#x60C5;&#x6CC1;&#x3002;
 </code></pre><p>&#x9019;&#x4E9B;&#x90FD;&#x662F;&#x6211;&#x672C;&#x7BC7;&#x6587;&#x7AE0;&#x9700;&#x8981;&#x5411;&#x5927;&#x5BB6;&#x8AAA;&#x660E;&#x7684;&#x6771;&#x897F;&#x3002;&#x6240;&#x4EE5;&#xFF0C;&#x9019;&#x7BC7;&#x6587;&#x7AE0;&#x5C07;&#x6703;&#x662F;&#x300A;C++&#x865B;&#x51FD;&#x6578;&#x8868;&#x89E3;&#x6790;&#x300B;&#x7684;&#x4E00;&#x500B;&#x7E8C;&#x7BC7;&#xFF0C;&#x4E5F;&#x662F;&#x4E00;&#x7BC7;&#x9AD8;&#x7D1A;&#x9032;&#x968E;&#x7684;&#x6587;&#x7AE0;&#x3002;&#x6211;&#x5E0C;&#x671B;&#x5927;&#x5BB6;&#x5728;&#x8B80;&#x9019;&#x7BC7;&#x6587;&#x7AE0;&#x4E4B;&#x524D;&#x5C0D;C++&#x6709;&#x4E00;&#x5B9A;&#x7684;&#x57FA;&#x790E;&#x548C;&#x4E86;&#x89E3;&#xFF0C;&#x4E26;&#x80FD;&#x5148;&#x8B80;&#x6211;&#x7684;&#x4E0A;&#x4E00;&#x7BC7;&#x6587;&#x7AE0;&#x3002;&#x56E0;&#x70BA;&#x9019;&#x7BC7;&#x6587;&#x7AE0;&#x7684;&#x6DF1;&#x5EA6;&#x53EF;&#x80FD;&#x6703;&#x6BD4;&#x8F03;&#x6DF1;&#xFF0C;&#x800C;&#x4E14;&#x6703;&#x6BD4;&#x8F03;&#x96DC;&#x4E82;&#xFF0C;&#x6211;&#x5E0C;&#x671B;&#x4F60;&#x5728;&#x8B80;&#x672C;&#x7BC7;&#x6587;&#x7AE0;&#x6642;&#x4E0D;&#x6703;&#x6709;&#x5927;&#x8166;&#x601D;&#x7DAD;&#x7D0A;&#x4E82;&#x5C0E;&#x81F4;&#x5927;&#x8166;&#x6B7B;&#x6A5F;&#x7684;&#x60C5;&#x6CC1;&#x3002;;-)</p>
-<h3 id="%E5%B0%8D%E8%B1%A1%E7%9A%84%E5%BD%B1%E9%9F%BF%E5%9B%A0%E7%B4%A0">&#x5C0D;&#x8C61;&#x7684;&#x5F71;&#x97FF;&#x56E0;&#x7D20;</h3>
+<h3 id="&#x5C0D;&#x8C61;&#x7684;&#x5F71;&#x97FF;&#x56E0;&#x7D20;">&#x5C0D;&#x8C61;&#x7684;&#x5F71;&#x97FF;&#x56E0;&#x7D20;</h3>
 <p>&#x7C21;&#x800C;&#x8A00;&#x4E4B;&#xFF0C;&#x6211;&#x5011;&#x4E00;&#x500B;&#x985E;&#x53EF;&#x80FD;&#x6703;&#x6709;&#x5982;&#x4E0B;&#x7684;&#x5F71;&#x97FF;&#x56E0;&#x7D20;&#xFF1A;</p>
 <pre><code>1&#xFF09;&#x6210;&#x54E1;&#x8B8A;&#x91CF;
 2&#xFF09;&#x865B;&#x51FD;&#x6578;&#xFF08;&#x7522;&#x751F;&#x865B;&#x51FD;&#x6578;&#x8868;&#xFF09;
@@ -7787,7 +7740,7 @@ pFun();
 <p>&#x672C;&#x7BC7;&#x6587;&#x7AE0;&#x4E2D;&#x7684;&#x4F8B;&#x7A0B;&#x6216;&#x5167;&#x5B58;&#x4F48;&#x5C40;&#x4E3B;&#x8981;&#x4F7F;&#x7528;&#x5982;&#x4E0B;&#x7DE8;&#x8B6F;&#x5668;&#x548C;&#x7CFB;&#x7D71;&#xFF1A;</p>
 <pre><code>1&#xFF09;Windows XP &#x548C; VC++ 2003
 2&#xFF09;Cygwin &#x548C; G++ 3.4.4
-</code></pre><h3 id="%E5%96%AE%E4%B8%80%E7%9A%84%E4%B8%80%E8%88%AC%E7%B9%BC%E6%89%BF">&#x55AE;&#x4E00;&#x7684;&#x4E00;&#x822C;&#x7E7C;&#x627F;</h3>
+</code></pre><h3 id="&#x55AE;&#x4E00;&#x7684;&#x4E00;&#x822C;&#x7E7C;&#x627F;">&#x55AE;&#x4E00;&#x7684;&#x4E00;&#x822C;&#x7E7C;&#x627F;</h3>
 <p>&#x4E0B;&#x9762;&#xFF0C;&#x6211;&#x5011;&#x5047;&#x8A2D;&#x6709;&#x5982;&#x4E0B;&#x6240;&#x793A;&#x7684;&#x4E00;&#x500B;&#x7E7C;&#x627F;&#x95DC;&#x4FC2;&#xFF1A;
 <img src="images/dd01.jpg" alt=""></p>
 <p>&#x8ACB;&#x6CE8;&#x610F;&#xFF0C;&#x5728;&#x9019;&#x500B;&#x7E7C;&#x627F;&#x95DC;&#x4FC2;&#x4E2D;&#xFF0C;&#x7236;&#x985E;&#xFF0C;&#x5B50;&#x985E;&#xFF0C;&#x5B6B;&#x5B50;&#x985E;&#x90FD;&#x6709;&#x81EA;&#x5DF1;&#x7684;&#x4E00;&#x500B;&#x6210;&#x54E1;&#x8B8A;&#x91CF;&#x3002;&#x800C;&#x4E86;&#x985E;&#x8986;&#x84CB;&#x4E86;&#x7236;&#x985E;&#x7684;f()&#x65B9;&#x6CD5;&#xFF0C;&#x5B6B;&#x5B50;&#x985E;&#x8986;&#x84CB;&#x4E86;&#x5B50;&#x985E;&#x7684;g_child()&#x53CA;&#x5176;&#x8D85;&#x985E;&#x7684;f()&#x3002;</p>
@@ -7855,7 +7808,7 @@ GrandChild gc;
 <pre><code>1&#xFF09;&#x865B;&#x51FD;&#x6578;&#x8868;&#x5728;&#x6700;&#x524D;&#x9762;&#x7684;&#x4F4D;&#x7F6E;&#x3002;
 2&#xFF09;&#x6210;&#x54E1;&#x8B8A;&#x91CF;&#x6839;&#x64DA;&#x5176;&#x7E7C;&#x627F;&#x548C;&#x8072;&#x660E;&#x9806;&#x5E8F;&#x4F9D;&#x6B21;&#x653E;&#x5728;&#x5F8C;&#x9762;&#x3002;
 3&#xFF09;&#x5728;&#x55AE;&#x4E00;&#x7684;&#x7E7C;&#x627F;&#x4E2D;&#xFF0C;&#x88AB;overwrite&#x7684;&#x865B;&#x51FD;&#x6578;&#x5728;&#x865B;&#x51FD;&#x6578;&#x8868;&#x4E2D;&#x5F97;&#x5230;&#x4E86;&#x66F4;&#x65B0;&#x3002;
-</code></pre><h3 id="%E5%A4%9A%E9%87%8D%E7%B9%BC%E6%89%BF">&#x591A;&#x91CD;&#x7E7C;&#x627F;</h3>
+</code></pre><h3 id="&#x591A;&#x91CD;&#x7E7C;&#x627F;">&#x591A;&#x91CD;&#x7E7C;&#x627F;</h3>
 <p>&#x4E0B;&#x9762;&#xFF0C;&#x518D;&#x8B93;&#x6211;&#x5011;&#x4F86;&#x770B;&#x770B;&#x591A;&#x91CD;&#x7E7C;&#x627F;&#x4E2D;&#x7684;&#x60C5;&#x6CC1;&#xFF0C;&#x5047;&#x8A2D;&#x6709;&#x4E0B;&#x9762;&#x9019;&#x6A23;&#x4E00;&#x500B;&#x985E;&#x7684;&#x7E7C;&#x627F;&#x95DC;&#x4FC2;&#x3002;&#x6CE8;&#x610F;&#xFF1A;&#x5B50;&#x985E;&#x53EA;overwrite&#x4E86;&#x7236;&#x985E;&#x7684;f()&#x51FD;&#x6578;&#xFF0C;&#x800C;&#x9084;&#x6709;&#x4E00;&#x500B;&#x662F;&#x81EA;&#x5DF1;&#x7684;&#x51FD;&#x6578;&#xFF08;&#x6211;&#x5011;&#x9019;&#x6A23;&#x505A;&#x7684;&#x76EE;&#x7684;&#x662F;&#x70BA;&#x4E86;&#x7528;g1()&#x4F5C;&#x70BA;&#x4E00;&#x500B;&#x6A19;&#x8A18;&#x4F86;&#x6A19;&#x660E;&#x5B50;&#x985E;&#x7684;&#x865B;&#x51FD;&#x6578;&#x8868;&#xFF09;&#x3002;&#x800C;&#x4E14;&#x6BCF;&#x500B;&#x985E;&#x4E2D;&#x90FD;&#x6709;&#x4E00;&#x500B;&#x81EA;&#x5DF1;&#x7684;&#x6210;&#x54E1;&#x8B8A;&#x91CF;&#xFF1A;</p>
 <p><img src="images/dd03.jpg" alt=""></p>
 <p>&#x6211;&#x5011;&#x7684;&#x985E;&#x7E7C;&#x627F;&#x7684;&#x6E90;&#x4EE3;&#x78BC;&#x5982;&#x4E0B;&#x6240;&#x793A;&#xFF1A;&#x7236;&#x985E;&#x7684;&#x6210;&#x54E1;&#x521D;&#x59CB;&#x70BA;10&#xFF0C;20&#xFF0C;30&#xFF0C;&#x5B50;&#x985E;&#x7684;&#x70BA;100</p>
@@ -8000,7 +7953,7 @@ s++;
 2&#xFF09;  &#x5B50;&#x985E;&#x7684;&#x6210;&#x54E1;&#x51FD;&#x6578;&#x88AB;&#x653E;&#x5230;&#x4E86;&#x7B2C;&#x4E00;&#x500B;&#x7236;&#x985E;&#x7684;&#x8868;&#x4E2D;&#x3002;
 3&#xFF09;  &#x5167;&#x5B58;&#x4F48;&#x5C40;&#x4E2D;&#xFF0C;&#x5176;&#x7236;&#x985E;&#x4F48;&#x5C40;&#x4F9D;&#x6B21;&#x6309;&#x8072;&#x660E;&#x9806;&#x5E8F;&#x6392;&#x5217;&#x3002;
 4&#xFF09;  &#x6BCF;&#x500B;&#x7236;&#x985E;&#x7684;&#x865B;&#x8868;&#x4E2D;&#x7684;f()&#x51FD;&#x6578;&#x90FD;&#x88AB;overwrite&#x6210;&#x4E86;&#x5B50;&#x985E;&#x7684;f()&#x3002;&#x9019;&#x6A23;&#x505A;&#x5C31;&#x662F;&#x70BA;&#x77AD;&#x89E3;&#x6C7A;&#x4E0D;&#x540C;&#x7684;&#x7236;&#x985E;&#x985E;&#x578B;&#x7684;&#x6307;&#x91DD;&#x6307;&#x5411;&#x540C;&#x4E00;&#x500B;&#x5B50;&#x985E;&#x5BE6;&#x4F8B;&#xFF0C;&#x800C;&#x80FD;&#x5920;&#x8ABF;&#x7528;&#x5230;&#x5BE6;&#x969B;&#x7684;&#x51FD;&#x6578;&#x3002;
-</code></pre><h3 id="%E9%87%8D%E8%A4%87%E7%B9%BC%E6%89%BF">&#x91CD;&#x8907;&#x7E7C;&#x627F;</h3>
+</code></pre><h3 id="&#x91CD;&#x8907;&#x7E7C;&#x627F;">&#x91CD;&#x8907;&#x7E7C;&#x627F;</h3>
 <p>&#x4E0B;&#x9762;&#x6211;&#x5011;&#x518D;&#x4F86;&#x770B;&#x770B;&#xFF0C;&#x767C;&#x751F;&#x91CD;&#x8907;&#x7E7C;&#x627F;&#x7684;&#x60C5;&#x6CC1;&#x3002;&#x6240;&#x8B02;&#x91CD;&#x8907;&#x7E7C;&#x627F;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x67D0;&#x500B;&#x57FA;&#x985E;&#x88AB;&#x9593;&#x63A5;&#x5730;&#x91CD;&#x8907;&#x7E7C;&#x627F;&#x4E86;&#x591A;&#x6B21;&#x3002;</p>
 <p>&#x4E0B;&#x5716;&#x662F;&#x4E00;&#x500B;&#x7E7C;&#x627F;&#x5716;&#xFF0C;&#x6211;&#x5011;&#x91CD;&#x8F09;&#x4E86;&#x7236;&#x985E;&#x7684;f()&#x51FD;&#x6578;&#x3002;
 <img src="images/dd05.jpg" alt=""></p>
@@ -8425,7 +8378,7 @@ pFun = (Fun)pVtab[<span class="hljs-number">11</span>][<span class="hljs-number"
 4&#xFF09;VC++&#x4E2D;&#x7684;&#x5167;&#x5B58;&#x4F48;&#x5C40;&#x6709;&#x5169;&#x500B;&#x5730;&#x5740;&#x6211;&#x6709;&#x4E9B;&#x4E0D;&#x662F;&#x5F88;&#x660E;&#x767D;&#xFF0C;&#x5728;&#x5176;&#x4E2D;&#x6211;&#x7528;&#x7D05;&#x8272;&#x6A19;&#x51FA;&#x4E86;&#x3002;&#x53D6;&#x5176;&#x5167;&#x5BB9;&#x662F;-4&#x3002;&#x63A5;&#x9053;&#x7406;&#x4F86;&#x8AAA;&#xFF0C;&#x9019;&#x500B;&#x6307;&#x91DD;&#x61C9;&#x8A72;&#x662F;&#x6307;&#x5411;B&#x985E;&#x5BE6;&#x4F8B;&#x7684;&#x5167;&#x5B58;&#x5730;&#x5740;&#xFF08;&#x9019;&#x500B;&#x505A;&#x6CD5;&#x5C31;&#x662F;&#x70BA;&#x4E86;&#x4FDD;&#x8B49;&#x91CD;&#x8907;&#x7684;&#x7236;&#x985E;&#x53EA;&#x6709;&#x4E00;&#x500B;&#x5BE6;&#x4F8B;&#x7684;&#x6280;&#x8853;&#xFF09;&#x3002;&#x4F46;&#x53D6;&#x503C;&#x5F8C;&#x537B;&#x4E0D;&#x662F;&#x3002;&#x9019;&#x9EDE;&#x6211;&#x76EE;&#x524D;&#x9084;&#x4E26;&#x4E0D;&#x592A;&#x6E05;&#x695A;&#xFF0C;&#x9084;&#x5411;&#x5927;&#x5BB6;&#x8ACB;&#x6559;&#x3002;
 
 5&#xFF09;GCC&#x7684;&#x5167;&#x5B58;&#x4F48;&#x5C40;&#x4E2D;&#x5728;B1&#x548C;B2&#x4E2D;&#x5247;&#x6C92;&#x6709;&#x6307;&#x5411;B&#x7684;&#x6307;&#x91DD;&#x3002;&#x9019;&#x9EDE;&#x53EF;&#x4EE5;&#x7406;&#x89E3;&#xFF0C;&#x7DE8;&#x8B6F;&#x5668;&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x8A08;&#x7B97;B1&#x548C;B2&#x7684;size&#x800C;&#x5F97;&#x51FA;B&#x7684;&#x504F;&#x79FB;&#x91CF;&#x3002;
-</code></pre><h3 id="%E7%B5%90%E6%9D%9F%E8%AA%9E">&#x7D50;&#x675F;&#x8A9E;</h3>
+</code></pre><h3 id="&#x7D50;&#x675F;&#x8A9E;">&#x7D50;&#x675F;&#x8A9E;</h3>
 <p>C++&#x9019;&#x9580;&#x8A9E;&#x8A00;&#x662F;&#x4E00;&#x9580;&#x6BD4;&#x8F03;&#x8907;&#x96DC;&#x7684;&#x8A9E;&#x8A00;&#xFF0C;&#x5C0D;&#x65BC;&#x7A0B;&#x5E8F;&#x54E1;&#x4F86;&#x8AAA;&#xFF0C;&#x6211;&#x5011;&#x4F3C;&#x4E4E;&#x6C38;&#x9060;&#x6478;&#x4E0D;&#x6E05;&#x695A;&#x9019;&#x9580;&#x8A9E;&#x8A00;&#x63F9;&#x8457;&#x6211;&#x5011;&#x5728;&#x5E79;&#x4E86;&#x4EC0;&#x9EBC;&#x3002;&#x9700;&#x8981;&#x719F;&#x6089;&#x9019;&#x9580;&#x8A9E;&#x8A00;&#xFF0C;&#x6211;&#x5011;&#x5C31;&#x5FC5;&#x9700;&#x8981;&#x4E86;&#x89E3;C++&#x88E1;&#x9762;&#x7684;&#x90A3;&#x4E9B;&#x6771;&#x897F;&#xFF0C;&#x9700;&#x8981;&#x6211;&#x5011;&#x53BB;&#x4E86;&#x89E3;&#x4ED6;&#x5F8C;&#x9762;&#x7684;&#x5167;&#x5B58;&#x5C0D;&#x8C61;&#x3002;&#x9019;&#x6A23;&#x6211;&#x5011;&#x624D;&#x80FD;&#x771F;&#x6B63;&#x7684;&#x77AD;&#x89E3;C++&#xFF0C;&#x5F9E;&#x800C;&#x80FD;&#x5920;&#x66F4;&#x597D;&#x7684;&#x4F7F;&#x7528;C++&#x9019;&#x9580;&#x6700;&#x96E3;&#x7684;&#x7DE8;&#x7A0B;&#x8A9E;&#x8A00;&#x3002;</p>
 <p>&#x5728;&#x6587;&#x7AE0;&#x675F;&#x4E4B;&#x524D;&#x9084;&#x662F;&#x4ECB;&#x7D39;&#x4E00;&#x4E0B;&#x81EA;&#x5DF1;&#x5427;&#x3002;&#x6211;&#x5F9E;&#x4E8B;&#x8EDF;&#x4EF6;&#x7814;&#x767C;&#x6709;&#x5341;&#x500B;&#x5E74;&#x982D;&#x4E86;&#xFF0C;&#x76EE;&#x524D;&#x662F;&#x8EDF;&#x4EF6;&#x958B;&#x767C;&#x6280;&#x8853;&#x4E3B;&#x7BA1;&#xFF0C;&#x6280;&#x8853;&#x65B9;&#x9762;&#xFF0C;&#x4E3B;&#x653B;Unix/C/C++&#xFF0C;&#x6BD4;&#x8F03;&#x559C;&#x6B61;&#x7DB2;&#x7D61;&#x4E0A;&#x7684;&#x6280;&#x8853;&#xFF0C;&#x6BD4;&#x5982;&#x5206;&#x4F48;&#x5F0F;&#x8A08;&#x7B97;&#xFF0C;&#x7DB2;&#x683C;&#x8A08;&#x7B97;&#xFF0C;P2P&#xFF0C;Ajax&#x7B49;&#x4E00;&#x5207;&#x548C;&#x4E92;&#x806F;&#x7DB2;&#x76F8;&#x95DC;&#x7684;&#x6771;&#x897F;&#x3002;&#x7BA1;&#x7406;&#x65B9;&#x9762;&#x6BD4;&#x8F03;&#x64C5;&#x9577;&#x65BC;&#x5718;&#x968A;&#x5EFA;&#x8A2D;&#xFF0C;&#x6280;&#x8853;&#x8DA8;&#x52E2;&#x5206;&#x6790;&#xFF0C;&#x9805;&#x76EE;&#x7BA1;&#x7406;&#x3002;&#x6B61;&#x8FCE;&#x5927;&#x5BB6;&#x548C;&#x6211;&#x4EA4;&#x6D41;&#xFF0C;&#x6211;&#x7684;MSN&#x548C;Email&#x662F;&#xFF1A;haoel@hotmail.com</p>
 
@@ -8469,9 +8422,25 @@ pFun = (Fun)pVtab[<span class="hljs-number">11</span>][<span class="hljs-number"
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/lunr.min.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/search.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"search":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

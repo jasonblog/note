@@ -8,7 +8,7 @@
         <title>[轉]Debug Xorg with GDB on Ubuntu | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,14 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-search/search.css">
+        
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +56,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="18.5" data-basepath=".." data-revision="Sat Feb 13 2016 12:47:18 GMT+0800 (CST)">
+    <div class="book"
+        data-level="18.5"
+        data-chapter-title="[轉]Debug Xorg with GDB on Ubuntu"
+        data-filepath="gdb/185.md"
+        data-basepath=".."
+        data-revision="Sun Feb 14 2016 02:04:57 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -4131,6 +4142,21 @@
             
         </li>
     
+        <li class="chapter " data-level="18.13" data-path="gdb/cgdb_bian_yi.html">
+            
+                
+                    <a href="../gdb/cgdb_bian_yi.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>18.13.</b>
+                        
+                        cgdb 編譯＆使用
+                    </a>
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -7657,80 +7683,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -7753,7 +7706,7 @@
 Kernel: 3.2.0-34-generic #53-Ubuntu
 xserver-xorg-core: 2:1.11.4-0ubuntu10.13
 xserver-xorg-input-evdev: 1:2.7.0-0ubuntu1.2
-</code></pre><h3 id="%E5%89%8D%E6%83%85%E6%8F%90%E8%A6%81">&#x524D;&#x60C5;&#x63D0;&#x8981;</h3>
+</code></pre><h3 id="&#x524D;&#x60C5;&#x63D0;&#x8981;">&#x524D;&#x60C5;&#x63D0;&#x8981;</h3>
 <p>&#x672C;&#x4F86;&#x53EA;&#x662F;&#x9664;&#x932F; trackpad (&#x89F8;&#x78B0;&#x677F;&#xFF09;&#x7684;&#x4E00;&#x4E9B;&#x884C;&#x70BA;&#xFF0C;&#x9019;&#x985E;&#x7684;&#x5DE5;&#x5177;&#x5F88;&#x591A;&#x50CF;&#x662F;</p>
 <pre><code>xinput
 xev
@@ -7761,7 +7714,7 @@ lsinput
 input-event
 evtest
 </code></pre><p>&#x4F46;&#x662F;&#x6E96;&#x5099;&#x8981;&#x7528; input-event and evtest&#xFF0C;&#x537B;&#x767C;&#x751F; Operation not permit&#xFF0C;&#x4E5F;&#x6C92;&#x60F3;&#x5230;&#x8981;&#x600E;&#x9EBC;&#x89E3;&#x53EA;&#x597D;&#x958B;&#x59CB;&#x7528; GDB&#x3002;</p>
-<h3 id="%E8%A8%AD%E5%AE%9A-debug-symbol-%E4%BE%86%E6%BA%90">&#x8A2D;&#x5B9A; debug symbol &#x4F86;&#x6E90;</h3>
+<h3 id="&#x8A2D;&#x5B9A;-debug-symbol-&#x4F86;&#x6E90;">&#x8A2D;&#x5B9A; debug symbol &#x4F86;&#x6E90;</h3>
 <pre><code>echo &quot;deb http://ddebs.ubuntu.com $(lsb_release -cs) main restricted universe multiverse&quot; | sudo tee -a /etc/apt/sources.list.d/ddebs.list
 
 echo &quot;deb http://ddebs.ubuntu.com $(lsb_release -cs)-updates main restricted universe multiverse
@@ -7770,7 +7723,7 @@ deb http://ddebs.ubuntu.com $(lsb_release -cs)-proposed main restricted universe
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 428D7C01
 
 sudo apt-get update
-</code></pre><h3 id="%E5%B0%8B%E6%89%BE%E8%A6%81%E5%AE%89%E8%A3%9D%E7%9A%84-symbol-packages">&#x5C0B;&#x627E;&#x8981;&#x5B89;&#x88DD;&#x7684; symbol packages</h3>
+</code></pre><h3 id="&#x5C0B;&#x627E;&#x8981;&#x5B89;&#x88DD;&#x7684;-symbol-packages">&#x5C0B;&#x627E;&#x8981;&#x5B89;&#x88DD;&#x7684; symbol packages</h3>
 <p>&#x5148;&#x7528; lsof &#x627E;&#x5230;&#x8981;&#x9664;&#x932F;&#x7684; evdev_drv.so &#x662F;&#x90A3;&#x652F;&#x7A0B;&#x5F0F;&#x5728;&#x7528;&#xFF1A;</p>
 <pre><code>sudo lsof /usr/lib/xorg/modules/input/evdev_drv.so
 lsof: WARNING: can&apos;t stat() fuse.gvfsd-fuse file system /run/user/1000/gvfs
@@ -7783,7 +7736,7 @@ xserver-xorg-core: /usr/bin/Xorg
 </code></pre><p>&#x6700;&#x5F8C;&#x5C31;&#x5B89;&#x88DD;&#x4ED6;&#x5011;&#x7684; dbgsym&#xFF0C;&#x9806;&#x4FBF;&#x4E5F;&#x628A; source code &#x6293;&#x4E0B;&#x4F86;&#xFF1A;</p>
 <pre><code>$ sudo apt-get install xserver-xorg-core-dbgsym xserver-xorg-input-evdev-dbgsym
 $ apt-get source xserver-xorg-core xserver-xorg-input-evdev
-</code></pre><h3 id="%E9%99%A4%E9%8C%AF">&#x9664;&#x932F;</h3>
+</code></pre><h3 id="&#x9664;&#x932F;">&#x9664;&#x932F;</h3>
 <p>&#x7531;&#x65BC;&#x4F7F;&#x7528; GDB &#x9664;&#x932F; Xorg &#x6703;&#x9020;&#x6210;&#x6574;&#x500B;&#x756B;&#x9762;&#x90FD;&#x66AB;&#x505C;&#xFF0C;&#x8ACB;&#x7528; ssh &#x9023;&#x5230; target &#x518D;&#x958B;&#x555F; GDB&#x3002;</p>
 <p>&#x7528; cgdb &#x6307;&#x5B9A;&#x9664;&#x932F;&#x7A0B;&#x5F0F;&#x53CA;&#x5176; PID&#x3002;&#x6B63;&#x5E38;&#x8F09;&#x5165; symbols &#x61C9;&#x8A72;&#x6703;&#x6709; reading symbols ... done &#x90A3;&#x884C;&#x3002;</p>
 <pre><code>$ sudo cgdb -- /usr/bin/Xorg `pidof X`
@@ -7909,9 +7862,25 @@ vim gdb plugin - pyclewn and dbgsym
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/lunr.min.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/search.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"search":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

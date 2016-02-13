@@ -8,7 +8,7 @@
         <title>Static 與 Shared 的函式庫撰寫 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,14 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-search/search.css">
+        
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +56,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="15.10" data-basepath=".." data-revision="Sat Feb 13 2016 12:47:18 GMT+0800 (CST)">
+    <div class="book"
+        data-level="15.10"
+        data-chapter-title="Static 與 Shared 的函式庫撰寫"
+        data-filepath="linux_system/1510.md"
+        data-basepath=".."
+        data-revision="Sun Feb 14 2016 02:04:57 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -4131,6 +4142,21 @@
             
         </li>
     
+        <li class="chapter " data-level="18.13" data-path="gdb/cgdb_bian_yi.html">
+            
+                
+                    <a href="../gdb/cgdb_bian_yi.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>18.13.</b>
+                        
+                        cgdb 編譯＆使用
+                    </a>
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -7657,80 +7683,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -7745,7 +7698,7 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="static-%E8%88%87-shared-%E7%9A%84%E5%87%BD%E5%BC%8F%E5%BA%AB%E6%92%B0%E5%AF%AB">Static &#x8207; Shared &#x7684;&#x51FD;&#x5F0F;&#x5EAB;&#x64B0;&#x5BEB;</h1>
+                        <h1 id="static-&#x8207;-shared-&#x7684;&#x51FD;&#x5F0F;&#x5EAB;&#x64B0;&#x5BEB;">Static &#x8207; Shared &#x7684;&#x51FD;&#x5F0F;&#x5EAB;&#x64B0;&#x5BEB;</h1>
 <p>&#x7C21;&#x55AE;&#x4F86;&#x8AAA;&#x51FD;&#x5F0F;&#x5EAB;&#x5206;&#x70BA;&#x5169;&#x7A2E;&#x985E;&#x578B;&#xFF1A; <code>Static&#xFE5D;&#x975C;&#x614B;&#xFE5E;&#x548C; Shared&#xFE5D;&#x5171;&#x4EAB;&#xFE5E;</code>&#xFF0C;&#x524D;&#x8005;&#x4F60;&#x53EF;&#x4EE5;&#x60F3;&#x50CF;&#x662F;&#x5D4C;&#x5165;&#x5F0F;&#xFF0C;&#x5C07;&#x51FD;&#x5F0F;&#x5D4C;&#x5165;&#x5230;&#x4E3B;&#x7A0B;&#x5F0F;&#x4E2D;&#xFF1B;&#x5F8C;&#x8005;&#x662F;&#x4E3B;&#x7A0B;&#x5F0F;&#x80FD;&#x4EE5; Dynamic (&#x52D5;&#x614B;)&#x65B9;&#x5F0F;&#x6307;&#x5B9A;&#x547C;&#x53EB;&#x7684;&#x5916;&#x90E8;&#x51FD;&#x5F0F;&#x5EAB;&#x3002;</p>
 <p>&#x6700;&#x8FD1;&#x5C07;&#x4E00;&#x4E9B;&#x7A0B;&#x5F0F;&#x6A21;&#x7D44;&#x5316;&#xFF0C;&#x628A;&#x8A31;&#x591A;&#x51FD;&#x5F0F;&#x5206;&#x9580;&#x5225;&#x985E;&#x62C9;&#x5230;&#x4E3B;&#x7A0B;&#x5F0F;&#x5916;&#x505A;&#x6210;&#x51FD;&#x5F0F;&#x5EAB;&#x6A21;&#x7D44;&#x3002;&#x9019;&#x5DE5;&#x7A0B;&#x96D6;&#x4E0D;&#x7B97;&#x6D69;&#x5927;&#xFF0C;&#x4F46;&#x4E5F;&#x633A;&#x7D2F;&#x4EBA;&#x7684;&#x3002;&#x56E0;&#x70BA;&#x51FD;&#x5F0F;&#x5EAB;&#x7684;&#x64B0;&#x5BEB;&#x5F88;&#x6709;&#x5BE6;&#x7528;&#x50F9;&#x503C;&#xFF0C;&#x6211;&#x5C31;&#x96A8;&#x624B;&#x5C07;&#x5B83;&#x8A18;&#x4E0B;&#x4F86;&#xFF0C;&#x9084;&#x6709;&#x5C07;&#x4EE5;&#x524D;&#x6240;&#x770B;&#x904E;&#x7684;&#x6587;&#x4EF6;&#x91CD;&#x65B0;&#x7FFB;&#x51FA;&#x4F86;&#x5FA9;&#x7FD2;&#x4E00;&#x756A;&#x3002;&#x6709;&#x4E00;&#x7BC7; <a href="http://www.tldp.org/HOWTO/Program-Library-HOWTO/index.html" target="_blank">&#x300A;Program Library HOWTO&#x300B;</a>&#x8A73;&#x7D30;&#x8A18;&#x8F09;&#x4E86;&#x64B0;&#x5BEB;&#x51FD;&#x5F0F;&#x5EAB;&#x7684;&#x65B9;&#x6CD5;&#x548C;&#x904E;&#x7A0B;&#xFF0C;&#x6709;&#x8208;&#x8DA3;&#x7684;&#x4EBA;&#x53EF;&#x4EE5;&#x53C3;&#x8003;&#x3002;</p>
 <p>&#x64B0;&#x5BEB;&#x7A0B;&#x5F0F;&#x6642;&#xFF0C;&#x7A0B;&#x5F0F;&#x78BC;&#x88E1;&#x7684;&#x4EFB;&#x4F55;&#x5DE5;&#x4F5C;&#xFF0C;&#x6263;&#x9664;&#x7A0B;&#x5F0F;&#x8A9E;&#x6CD5;&#x4E0D;&#x7B97;&#xFF0C;&#x7E3D;&#x662F;&#x7531;&#x8A31;&#x8A31;&#x591A;&#x591A;&#x51FD;&#x5F0F;&#x6240;&#x7D44;&#x6210;&#xFF0C;&#x53EF;&#x5225;&#x4EE5;&#x70BA;&#x9019;&#x4E9B;&#x51FD;&#x5F0F;&#x662F;&#x96FB;&#x8166;&#x5167;&#x5EFA;&#x7684;&#xFF0C;CPU&#x53EF;&#x6C92;&#x6709;&#x9019;&#x9EBC;&#x53B2;&#x5BB3;&#xFF0C;&#x53EF;&#x4EE5;&#x5167;&#x5EFA;&#x9019;&#x6A23;&#x9F90;&#x5927;&#x7684;&#x6307;&#x4EE4;&#x96C6;&#x3002;&#x9019;&#x4E9B;&#x51FD;&#x5F0F;&#x90FD;&#x662F;&#x7531;&#x524D;&#x4EBA;&#x4E0D;&#x65B7;&#x767C;&#x5C55;&#x63D0;&#x4F9B;&#x7684;&#xFF0C;&#x53EF;&#x80FD;&#x662F;&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x7814;&#x767C;&#x8005;&#xFF0C;&#x4E5F;&#x53EF;&#x80FD;&#x662F;&#x67D0;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x7684;&#x8A2D;&#x8A08;&#x8005;&#x3002;</p>
@@ -7754,13 +7707,13 @@
 <p>&#x95DC;&#x65BC; Static Library &#xFF0C;&#x61C9;&#x8A72;&#x5927;&#x591A;&#x7A0B;&#x5F0F;&#x8A2D;&#x8A08;&#x8005;&#x90FD;&#x5F88;&#x719F;&#x6089;&#xFF0C;&#x5C31;&#x662F;&#x5C07;&#x81EA;&#x5B9A;&#x7684;&#x51FD;&#x5F0F;&#x5BEB;&#x518D;&#x4E0D;&#x540C;&#x7684; .c &#x6A94;&#x4E2D;&#xFF0C;&#x5728;&#x7DE8;&#x8B6F;&#x6642;&#xFF0C;&#x900F;&#x904E;&#x7DE8;&#x8B6F;&#x5668;&#x53BB;&#x9023;&#x7D50;&#x5404;&#x500B; .c &#x7522;&#x751F;&#x51FA;&#x4F86;&#x7684;&#x4E8C;&#x9032;&#x4F4D; .o &#x6A94;&#xFF0C;&#x5C07;&#x6240;&#x6709;&#x7684;&#x51FD;&#x5F0F;&#x90FD;&#x5BEB;&#x5165;&#x540C;&#x4E00;&#x57F7;&#x884C;&#x6A94;&#x4E2D;&#xFF0C;&#x4F7F;&#x57F7;&#x884C;&#x6A94;&#x4E3B;&#x7A0B;&#x5F0F;&#x80FD;&#x5920;&#x4F7F;&#x7528;&#x9019;&#x4E9B;&#x5916;&#x90E8;&#x51FD;&#x5F0F;&#x3002;</p>
 <p>Shared Library &#x53EF;&#x5C31;&#x6C92;&#x6709;&#x9019;&#x9EBC;&#x4E2D;&#x592E;&#x96C6;&#x6B0A;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x5C07;&#x51FD;&#x5F0F;&#x5EAB;&#x505A;&#x6210;&#x4E00;&#x500B;&#x500B;&#x7684; .so &#x6A94;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x5C07;&#x5B83;&#x653E;&#x5165;&#x7CFB;&#x7D71;&#x51FD;&#x5F0F;&#x5EAB;&#x8CC7;&#x6599;&#x593E;&#x4E2D;&#xFF0C;&#x8B93;&#x6240;&#x6709;&#x7A0B;&#x5F0F;&#x90FD;&#x80FD;&#x547C;&#x53EB;&#x4ED6;&#x3002;&#x7576;&#x4F60;&#x60F3;&#x8981;&#x5C07;&#x81EA;&#x5B9A;&#x7684;&#x51FD;&#x5F0F;&#x7DE8;&#x8B6F;&#x6210; Shared Library &#x6642;&#xFF0C;&#x53EF;&#x7528;&#x4EE5;&#x4E0B;&#x6307;&#x4EE4;&#xFF1A;</p>
 <p>&#x6458;&#x9304;&#x65BC;<a href="http://www.tldp.org/HOWTO/Program-Library-HOWTO/more-examples.html#AEN300" target="_blank">&#x300A;Program Library - More Example&#x300B;</a></p>
-<h3 id="%E5%B0%87%E8%87%AA%E5%AE%9A%E5%87%BD%E5%BC%8F%E7%9A%84-c-%E6%AA%94%E6%A1%88%E7%B7%A8%E8%AD%AF%E6%88%90-o">&#x5C07;&#x81EA;&#x5B9A;&#x51FD;&#x5F0F;&#x7684; .c &#x6A94;&#x6848;&#x7DE8;&#x8B6F;&#x6210; .o</h3>
+<h3 id="&#x5C07;&#x81EA;&#x5B9A;&#x51FD;&#x5F0F;&#x7684;-c-&#x6A94;&#x6848;&#x7DE8;&#x8B6F;&#x6210;-o">&#x5C07;&#x81EA;&#x5B9A;&#x51FD;&#x5F0F;&#x7684; .c &#x6A94;&#x6848;&#x7DE8;&#x8B6F;&#x6210; .o</h3>
 <pre><code>gcc -fPIC -Wall -g -c libhello.c
-</code></pre><h3 id="%E5%B0%87-o-%E9%80%A3%E7%B5%90%E6%88%90-so-%E6%AA%94">&#x5C07; .o &#x9023;&#x7D50;&#x6210; .so &#x6A94;</h3>
+</code></pre><h3 id="&#x5C07;-o-&#x9023;&#x7D50;&#x6210;-so-&#x6A94;">&#x5C07; .o &#x9023;&#x7D50;&#x6210; .so &#x6A94;</h3>
 <pre><code>gcc -g -shared -Wl,-soname,libhello.so.0 -o libhello.so.0.0 libhello.o -lc
 </code></pre><p>Shared Library &#x53E6;&#x4E00;&#x9805;&#x7279;&#x9EDE;&#x5C31;&#x662F;&#x53EF;&#x4EE5;&#x52D5;&#x614B;&#x8F09;&#x5165;&#xFF0C;&#x4F60;&#x4E0D;&#x5FC5;&#x5728;&#x7DE8;&#x8B6F;&#x6642;&#x5C31;&#x6307;&#x5B9A;&#x4F7F;&#x7528;&#xFF0C;&#x53EF;&#x4EE5;&#x5728;&#x7A0B;&#x5F0F;&#x4E2D;&#x5224;&#x65B7;&#x662F;&#x5426;&#x5B58;&#x5728;&#x9032;&#x800C;&#x52D5;&#x614B;&#x8F09;&#x5165;&#xFF0C;&#x9019;&#x6A23;&#x7684;&#x597D;&#x8655;&#x53EF;&#x7528;&#x5728;&#x6A21;&#x7D44;&#x5316;&#x7684;&#x7A0B;&#x5F0F;&#xFF0C;&#x5728;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x67D0;&#x4E9B;&#x529F;&#x80FD;&#x6642;&#x624D;&#x8F09;&#x5165;&#x5FC5;&#x8981;&#x7684;&#x51FD;&#x5F0F;&#x5EAB;&#x3002;&#x5982;&#x679C;&#x8981;&#x5728;&#x4F60;&#x7684;&#x7A0B;&#x5F0F;&#x4E2D;&#x52D5;&#x614B;&#x8F09;&#x5165;&#x51FD;&#x5F0F;&#x5EAB;&#xFF0C;&#x8981;&#x505A;&#x4EE5;&#x4E0B;&#x5169;&#x6B65;&#x9A5F;&#xFF1A;</p>
 <p>&#x6458;&#x9304;&#x65BC;<a href="http://www.tldp.org/HOWTO/Program-Library-HOWTO/more-examples.html#AEN300" target="_blank">&#x300A;Program Library - More Example&#x300B;</a></p>
-<h5 id="1-%E5%9C%A8%E4%BD%A0%E7%9A%84%E7%A8%8B%E5%BC%8F%E4%B8%AD%E5%8C%85%E5%90%AB-dlfcn-h-%E4%B8%A6%E4%BD%BF%E7%94%A8-dlopen-%E7%AD%89%E5%87%BD%E5%BC%8F%E5%8B%95%E6%85%8B%E5%91%BC%E5%8F%AB-library">1. &#x5728;&#x4F60;&#x7684;&#x7A0B;&#x5F0F;&#x4E2D;&#x5305;&#x542B; <code>dlfcn.h</code> &#x4E26;&#x4F7F;&#x7528; <code>dlopen()</code> &#x7B49;&#x51FD;&#x5F0F;&#x52D5;&#x614B;&#x547C;&#x53EB; Library</h5>
+<h5 id="1-&#x5728;&#x4F60;&#x7684;&#x7A0B;&#x5F0F;&#x4E2D;&#x5305;&#x542B;-dlfcnh-&#x4E26;&#x4F7F;&#x7528;-dlopen-&#x7B49;&#x51FD;&#x5F0F;&#x52D5;&#x614B;&#x547C;&#x53EB;-library">1. &#x5728;&#x4F60;&#x7684;&#x7A0B;&#x5F0F;&#x4E2D;&#x5305;&#x542B; <code>dlfcn.h</code> &#x4E26;&#x4F7F;&#x7528; <code>dlopen()</code> &#x7B49;&#x51FD;&#x5F0F;&#x52D5;&#x614B;&#x547C;&#x53EB; Library</h5>
 <pre><code class="lang-c"><span class="hljs-comment">/* demo_dynamic.c -- demonstrate dynamic loading and
 use of the &quot;hello&quot; routine */</span>
 
@@ -7810,7 +7763,7 @@ dlclose(module);
 <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
 </code></pre>
-<h5 id="2-%E5%9C%A8%E7%B7%A8%E8%AD%AF%E6%99%82%E5%8A%A0%E4%B8%8A-ldl">2. &#x5728;&#x7DE8;&#x8B6F;&#x6642;&#x52A0;&#x4E0A; <code>-ldl</code></h5>
+<h5 id="2-&#x5728;&#x7DE8;&#x8B6F;&#x6642;&#x52A0;&#x4E0A;-ldl">2. &#x5728;&#x7DE8;&#x8B6F;&#x6642;&#x52A0;&#x4E0A; <code>-ldl</code></h5>
 <pre><code>gcc -g -o demo_dynamic demo_dynamic.o -ldl
 </code></pre><p>Library &#x7684;&#x64B0;&#x5BEB;&#x548C;&#x898F;&#x5283;&#xFF0C;&#x5728;&#x5927;&#x7CFB;&#x7D71;&#x7684;&#x7814;&#x767C;&#x5C08;&#x6848;&#x5F88;&#x597D;&#x7528;&#xFF0C;&#x53EF;&#x4EE5;&#x4EE4;&#x5404;&#x500B;&#x529F;&#x80FD;&#x7684;&#x7A0B;&#x5F0F;&#x78BC;&#x5206;&#x958B;&#x7DAD;&#x8B77;&#xFF0C;&#x800C;&#x4E14;&#x7576;&#x67D0;&#x4E00;&#x5C0F;&#x529F;&#x80FD;&#x66F4;&#x65B0;&#xFF0C;&#x4E0D;&#x5FC5;&#x5C07;&#x6574;&#x500B;&#x5C08;&#x6848;&#x7A0B;&#x5F0F;&#x90FD;&#x91CD;&#x65B0;&#x7DE8;&#x8B6F;&#xFF0C;&#x4F7F;&#x6574;&#x500B;&#x7CFB;&#x7D71;&#x7814;&#x767C;&#x6D41;&#x7A0B;&#x66F4;&#x7C21;&#x5316;&#x3002;</p>
 
@@ -7854,9 +7807,25 @@ dlclose(module);
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/lunr.min.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/search.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"search":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

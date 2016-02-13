@@ -8,7 +8,7 @@
         <title>函數幀應用一：誰調用了main？ | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,14 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-search/search.css">
+        
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +56,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="24.11" data-basepath=".." data-revision="Sat Feb 13 2016 12:47:18 GMT+0800 (CST)">
+    <div class="book"
+        data-level="24.11"
+        data-chapter-title="函數幀應用一：誰調用了main？"
+        data-filepath="simplelinux/main.md"
+        data-basepath=".."
+        data-revision="Sun Feb 14 2016 02:04:57 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -4131,6 +4142,21 @@
             
         </li>
     
+        <li class="chapter " data-level="18.13" data-path="gdb/cgdb_bian_yi.html">
+            
+                
+                    <a href="../gdb/cgdb_bian_yi.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>18.13.</b>
+                        
+                        cgdb 編譯＆使用
+                    </a>
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -7657,80 +7683,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -7746,16 +7699,17 @@
                     <section class="normal" id="section-">
                     
                         <p><a name="top"></a></p>
-<h1 align="center">&#x8AB0;&#x8ABF;&#x7528;&#x4E86;main&#xFF1F;
+<h1 align="center" id="&#x8AB0;&#x8ABF;&#x7528;&#x4E86;main&#xFF1F;
+">&#x8AB0;&#x8ABF;&#x7528;&#x4E86;main&#xFF1F;
 </h1>
 
 <p>&#x9019;&#x662F;&#x51FD;&#x6578;&#x5E40;&#x7684;&#x61C9;&#x7528;&#x4E4B;&#x4E00;&#x3002;</p>
-<h2 id="%E6%93%8D%E4%BD%9C%E5%8F%AF%E8%A1%8C%E6%80%A7">&#x64CD;&#x4F5C;&#x53EF;&#x884C;&#x6027;</h2>
+<h2 id="&#x64CD;&#x4F5C;&#x53EF;&#x884C;&#x6027;">&#x64CD;&#x4F5C;&#x53EF;&#x884C;&#x6027;</h2>
 <p>&#x3000;&#x3000;&#x5F9E;&#x4E0A;&#x4E00;&#x7BC7;&#x4E2D;&#x53EF;&#x4EE5;&#x767C;&#x73FE;&#xFF1A;&#x7528;&#x5E40;&#x6307;&#x91DD; ebp &#x53EF;&#x4EE5;&#x56DE;&#x6EAF;&#x5230;&#x6240;&#x6709;&#x7684;&#x51FD;&#x6578;&#x5E40;&#xFF0C;
 &#x90A3;&#x9EBC; main &#x51FD;&#x6578;&#x5E40;&#x4E4B;&#x4E0A;&#x7684;&#x51FD;&#x6578;&#x5E40;&#x81EA;&#x7136;&#x4E5F;&#x662F;&#x53EF;&#x4EE5;&#x7684;&#xFF1B;
 &#x800C;&#x5E40;&#x4E2D; &#x820A;ebp &#x7684;&#x4E0A;&#x4E00;&#x500B;&#x56DB;&#x5B57;&#x7BC0;&#x5B58;&#x7684;&#x662F;&#x51FD;&#x6578;&#x7684;&#x8FD4;&#x56DE;&#x5730;&#x5740;&#xFF0C;
 &#x7531;&#x9019;&#x500B;&#x5730;&#x5740;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x5224;&#x65B7;&#x51FA;&#x8AB0;&#x8ABF;&#x7528;&#x4E86;&#x9019;&#x500B;&#x51FD;&#x6578;&#x3002;</p>
-<h2 id="%E6%BA%96%E5%82%99%E6%B4%BB%E5%8B%95">&#x6E96;&#x5099;&#x6D3B;&#x52D5;</h2>
+<h2 id="&#x6E96;&#x5099;&#x6D3B;&#x52D5;">&#x6E96;&#x5099;&#x6D3B;&#x52D5;</h2>
 <p>&#x4E0B;&#x9762;&#x5C31;&#x662F;&#x9019;&#x6B21;&#x9ED1;&#x5BA2;&#x884C;&#x52D5;&#x7684;&#x4E3B;&#x89D2;&#xFF08;up.c&#xFF09;&#xFF1A;</p>
 <pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
 
@@ -7791,7 +7745,7 @@ p[0]&#x662F; &#x820A;ebp&#xFF08;&#x4E0A;&#x4E00;&#x5E40;&#x7684;&#x5E40;&#x6307;
 <p>&#x3000;&#x3000;&#x70BA;&#x4EC0;&#x9EBC;&#x7D42;&#x6B62;&#x689D;&#x4EF6;&#x662F; p==NULL &#x5462;&#xFF1F;&#x9019;&#x662F; gcc &#x70BA;&#x4E86;&#x652F;&#x63F4;&#x6211;&#x5011;&#x7684;
 &#x9ED1;&#x5BA2;&#x884C;&#x52D5;&#x7279;&#x610F;&#x5728;&#x958B;&#x59CB;&#x57F7;&#x884C;&#x7A0B;&#x5E8F;&#x7684;&#x6642;&#x5019;&#x5C07; ebp &#x6E05;&#x96F6;&#x4E86;&#xFF0C;
 &#x6240;&#x4EE5;&#x7B2C;&#x4E00;&#x6B21;&#x57F7;&#x884C;&#x67D0;&#x500B;&#x51FD;&#x6578;&#x7684;&#x6642;&#x5019;&#x58D3;&#x68E7;&#x7684; &#x820A;ebp &#x662F; NULL&#x3002;</p>
-<h2 id="%E9%96%8B%E5%A7%8B%E8%A1%8C%E5%8B%95">&#x958B;&#x59CB;&#x884C;&#x52D5;</h2>
+<h2 id="&#x958B;&#x59CB;&#x884C;&#x52D5;">&#x958B;&#x59CB;&#x884C;&#x52D5;</h2>
 <p>&#x3000;&#x3000;&#x6211;&#x5011;&#x4F7F;&#x7528;&#x975C;&#x614B;&#x93C8;&#x63A5;&#x7684;&#x65B9;&#x5F0F;&#x7DE8;&#x8B6F; up.c
 &#xFF08;&#x975C;&#x614B;&#x93C8;&#x63A5;&#x7684;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x4E2D;&#x5305;&#x542B;&#x6240;&#x6709;&#x7528;&#x6236;&#x614B;&#x4E0B;&#x57F7;&#x884C;&#x7684;&#x4EE3;&#x78BC;&#xFF09;&#xFF0C;
 &#x7136;&#x5F8C;&#x57F7;&#x884C;&#x5B83;&#xFF1A;</p>
@@ -7801,7 +7755,7 @@ p[0]&#x662F; &#x820A;ebp&#xFF08;&#x4E0A;&#x4E00;&#x5E40;&#x7684;&#x5E40;&#x6307;
 <span class="hljs-number">0x80481e1</span>
 [lqy@localhost temp]$
 </code></pre>
-<h2 id="%E5%88%86%E6%9E%90%E7%B5%90%E6%9E%9C">&#x5206;&#x6790;&#x7D50;&#x679C;</h2>
+<h2 id="&#x5206;&#x6790;&#x7D50;&#x679C;">&#x5206;&#x6790;&#x7D50;&#x679C;</h2>
 <p>up &#x6253;&#x5370;&#x4E86;&#x4E86;&#x5169;&#x500B;&#x6307;&#x5411;&#x4EE3;&#x78BC;&#x5340;&#x7684;&#x5730;&#x5740;&#xFF0C;
 &#x63A5;&#x8457;&#x5C31;&#x770B;&#x5B83;&#x5011;&#x662F;&#x5C6C;&#x65BC;&#x54EA;&#x5169;&#x500B;&#x51FD;&#x6578;&#x4E86;&#xFF1A;</p>
 <pre><code class="lang-c">nm up | sort &gt; up.txt
@@ -7874,9 +7828,25 @@ sort &#x6392;&#x5E8F;&#x5F8C;<b>&#x8F38;&#x51FA;&#x91CD;&#x5B9A;&#x5411;</b>&#x5
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/lunr.min.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/search.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"search":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

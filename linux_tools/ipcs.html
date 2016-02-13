@@ -8,7 +8,7 @@
         <title>ipcs 查詢進程間通信狀態 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,14 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-search/search.css">
+        
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +56,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="3.3.7" data-basepath=".." data-revision="Sat Feb 13 2016 12:47:18 GMT+0800 (CST)">
+    <div class="book"
+        data-level="3.3.7"
+        data-chapter-title="ipcs 查詢進程間通信狀態"
+        data-filepath="linux_tools/ipcs.md"
+        data-basepath=".."
+        data-revision="Sun Feb 14 2016 02:04:57 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -4131,6 +4142,21 @@
             
         </li>
     
+        <li class="chapter " data-level="18.13" data-path="gdb/cgdb_bian_yi.html">
+            
+                
+                    <a href="../gdb/cgdb_bian_yi.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>18.13.</b>
+                        
+                        cgdb 編譯＆使用
+                    </a>
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -7657,80 +7683,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -7745,10 +7698,10 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="ipcs-%E6%9F%A5%E8%A9%A2%E9%80%B2%E7%A8%8B%E9%96%93%E9%80%9A%E4%BF%A1%E7%8B%80%E6%85%8B">ipcs &#x67E5;&#x8A62;&#x9032;&#x7A0B;&#x9593;&#x901A;&#x4FE1;&#x72C0;&#x614B;</h1>
+                        <h1 id="ipcs-&#x67E5;&#x8A62;&#x9032;&#x7A0B;&#x9593;&#x901A;&#x4FE1;&#x72C0;&#x614B;">ipcs &#x67E5;&#x8A62;&#x9032;&#x7A0B;&#x9593;&#x901A;&#x4FE1;&#x72C0;&#x614B;</h1>
 <p>ipcs&#x662F;Linux&#x4E0B;&#x986F;&#x793A;&#x9032;&#x7A0B;&#x9593;&#x901A;&#x4FE1;&#x8A2D;&#x65BD;&#x72C0;&#x614B;&#x7684;&#x5DE5;&#x5177;&#x3002;&#x53EF;&#x4EE5;&#x986F;&#x793A;&#x6D88;&#x606F;&#x968A;&#x5217;&#x3001;&#x5171;&#x4EAB;&#x5167;&#x5B58;&#x548C;&#x4FE1;&#x865F;&#x91CF;&#x7684;&#x4FE1;&#x606F;&#x3002;&#x5C0D;&#x65BC;&#x7A0B;&#x5E8F;&#x54E1;&#x975E;&#x5E38;&#x6709;&#x7528;&#xFF0C;&#x666E;&#x901A;&#x7684;&#x7CFB;&#x7D71;&#x7BA1;&#x7406;&#x54E1;&#x4E00;&#x822C;&#x7528;&#x4E0D;&#x5230;&#x6B64;&#x6307;&#x4EE4;&#x3002;</p>
-<h3 id="7-1-ipc%E8%B3%87%E6%BA%90%E6%9F%A5%E8%A9%A2">7.1. IPC&#x8CC7;&#x6E90;&#x67E5;&#x8A62;</h3>
-<h3 id="%E6%9F%A5%E7%9C%8B%E7%B3%BB%E7%B5%B1%E4%BD%BF%E7%94%A8%E7%9A%84ipc%E8%B3%87%E6%BA%90">&#x67E5;&#x770B;&#x7CFB;&#x7D71;&#x4F7F;&#x7528;&#x7684;IPC&#x8CC7;&#x6E90;</h3>
+<h3 id="71-ipc&#x8CC7;&#x6E90;&#x67E5;&#x8A62;">7.1. IPC&#x8CC7;&#x6E90;&#x67E5;&#x8A62;</h3>
+<h3 id="&#x67E5;&#x770B;&#x7CFB;&#x7D71;&#x4F7F;&#x7528;&#x7684;ipc&#x8CC7;&#x6E90;">&#x67E5;&#x770B;&#x7CFB;&#x7D71;&#x4F7F;&#x7528;&#x7684;IPC&#x8CC7;&#x6E90;</h3>
 <pre><code>$ipcs
 
 ------ Shared Memory Segments --------
@@ -7764,7 +7717,7 @@ key        msqid      owner      perms      used-bytes   messages
 <pre><code>$ipcs -m &#x67E5;&#x770B;&#x7CFB;&#x7D71;&#x4F7F;&#x7528;&#x7684;IPC&#x5171;&#x4EAB;&#x5167;&#x5B58;&#x8CC7;&#x6E90;
 $ipcs -q &#x67E5;&#x770B;&#x7CFB;&#x7D71;&#x4F7F;&#x7528;&#x7684;IPC&#x968A;&#x5217;&#x8CC7;&#x6E90;
 $ipcs -s &#x67E5;&#x770B;&#x7CFB;&#x7D71;&#x4F7F;&#x7528;&#x7684;IPC&#x4FE1;&#x865F;&#x91CF;&#x8CC7;&#x6E90;
-</code></pre><h3 id="%E6%9F%A5%E7%9C%8Bipc%E8%B3%87%E6%BA%90%E8%A2%AB%E8%AA%B0%E4%BD%94%E7%94%A8">&#x67E5;&#x770B;IPC&#x8CC7;&#x6E90;&#x88AB;&#x8AB0;&#x4F54;&#x7528;</h3>
+</code></pre><h3 id="&#x67E5;&#x770B;ipc&#x8CC7;&#x6E90;&#x88AB;&#x8AB0;&#x4F54;&#x7528;">&#x67E5;&#x770B;IPC&#x8CC7;&#x6E90;&#x88AB;&#x8AB0;&#x4F54;&#x7528;</h3>
 <p>&#x793A;&#x4F8B;&#xFF1A;&#x6709;&#x500B;IPCKEY(51036)&#xFF0C;&#x9700;&#x8981;&#x67E5;&#x8A62;&#x5176;&#x662F;&#x5426;&#x88AB;&#x4F54;&#x7528;&#xFF1B;</p>
 <p>&#x9996;&#x5148;&#x901A;&#x904E;&#x8A08;&#x7B97;&#x5668;&#x5C07;&#x5176;&#x8F49;&#x70BA;&#x5341;&#x516D;&#x9032;&#x5236;:</p>
 <pre><code>51036 -&gt; c75c
@@ -7775,7 +7728,7 @@ $ipcs -s &#x67E5;&#x770B;&#x7CFB;&#x7D71;&#x4F7F;&#x7528;&#x7684;IPC&#x4FE1;&#x8
 <pre><code>$ipcs | grep c75c
 0x0000c75c 40403197   tdea3    666        536870912  2
 0x0000c75c 5079070    tdea3    666        4
-</code></pre><h3 id="7-2-%E7%B3%BB%E7%B5%B1ipc%E5%8F%83%E6%95%B8%E6%9F%A5%E8%A9%A2">7.2. &#x7CFB;&#x7D71;IPC&#x53C3;&#x6578;&#x67E5;&#x8A62;</h3>
+</code></pre><h3 id="72-&#x7CFB;&#x7D71;ipc&#x53C3;&#x6578;&#x67E5;&#x8A62;">7.2. &#x7CFB;&#x7D71;IPC&#x53C3;&#x6578;&#x67E5;&#x8A62;</h3>
 <pre><code>ipcs -l
 
 ------ Shared Memory Limits --------
@@ -7796,7 +7749,7 @@ max queues system wide = 2048
 max size of message (bytes) = 524288
 default max size of queue (bytes) = 5242880
 </code></pre><p>&#x4EE5;&#x4E0A;&#x8F38;&#x51FA;&#x986F;&#x793A;&#xFF0C;&#x76EE;&#x524D;&#x9019;&#x500B;&#x7CFB;&#x7D71;&#x7684;&#x5141;&#x8A31;&#x7684;&#x6700;&#x5927;&#x5167;&#x5B58;&#x70BA;1073741824kb&#xFF1B;&#x6700;&#x5927;&#x53EF;&#x4F7F;&#x7528;128&#x500B;&#x4FE1;&#x865F;&#x91CF;&#xFF0C;&#x6BCF;&#x500B;&#x6D88;&#x606F;&#x7684;&#x6700;&#x5927;&#x9577;&#x5EA6;&#x70BA;524288bytes&#xFF1B;</p>
-<h3 id="7-3-%E4%BF%AE%E6%94%B9ipc%E7%B3%BB%E7%B5%B1%E5%8F%83%E6%95%B8">7.3. &#x4FEE;&#x6539;IPC&#x7CFB;&#x7D71;&#x53C3;&#x6578;</h3>
+<h3 id="73-&#x4FEE;&#x6539;ipc&#x7CFB;&#x7D71;&#x53C3;&#x6578;">7.3. &#x4FEE;&#x6539;IPC&#x7CFB;&#x7D71;&#x53C3;&#x6578;</h3>
 <p>&#x4EE5;linux&#x7CFB;&#x7D71;&#x70BA;&#x4F8B;&#xFF0C;&#x5728;root&#x7528;&#x6236;&#x4E0B;&#x4FEE;&#x6539;/etc/sysctl.conf &#x6587;&#x4EF6;&#xFF0C;&#x4FDD;&#x5B58;&#x5F8C;&#x4F7F;&#x7528;sysctl -p&#x751F;&#x6548;:</p>
 <pre><code>$cat /etc/sysctl.conf
 # &#x4E00;&#x500B;&#x6D88;&#x606F;&#x7684;&#x6700;&#x5927;&#x9577;&#x5EA6;
@@ -7819,7 +7772,7 @@ kernel.shmmni=4096
 #&#x6B64;&#x53C3;&#x6578;&#x70BA;&#x7CFB;&#x7D71;&#x9ED8;&#x8A8D;&#xFF0C;&#x53EF;&#x4EE5;&#x4E0D;&#x7528;&#x4FEE;&#x6539;
 #kernel.sem = &lt;semmsl&gt; &lt;semmni&gt;*&lt;semmsl&gt; &lt;semopm&gt; &lt;semmni&gt;
 kernel.sem = 250 32000 32 128
-</code></pre><h3 id="%E9%A1%AF%E7%A4%BA%E8%BC%B8%E5%85%A5%E4%B8%8D%E5%B8%B6%E6%A8%99%E8%AA%8C%E7%9A%84-ipcs%EF%BC%9A%E7%9A%84%E8%BC%B8%E5%87%BA">&#x986F;&#x793A;&#x8F38;&#x5165;&#x4E0D;&#x5E36;&#x6A19;&#x8A8C;&#x7684; ipcs&#xFF1A;&#x7684;&#x8F38;&#x51FA;:</h3>
+</code></pre><h3 id="&#x986F;&#x793A;&#x8F38;&#x5165;&#x4E0D;&#x5E36;&#x6A19;&#x8A8C;&#x7684;-ipcs&#xFF1A;&#x7684;&#x8F38;&#x51FA;">&#x986F;&#x793A;&#x8F38;&#x5165;&#x4E0D;&#x5E36;&#x6A19;&#x8A8C;&#x7684; ipcs&#xFF1A;&#x7684;&#x8F38;&#x51FA;:</h3>
 <pre><code>$ipcs
 IPC status from /dev/mem as of Mon Aug 14 15:03:46 1989
 T    ID         KEY        MODE       OWNER     GROUP
@@ -7839,7 +7792,7 @@ Semaphores:
 s  131072    0x4d02086a --ra-ra----   root      system
 s   65537    0x00000000 --ra-------   root      system
 s 1310722    0x000133d0 --ra-------   7003      30720
-</code></pre><h3 id="7-4-%E6%B8%85%E9%99%A4ipc%E8%B3%87%E6%BA%90">7.4. &#x6E05;&#x9664;IPC&#x8CC7;&#x6E90;</h3>
+</code></pre><h3 id="74-&#x6E05;&#x9664;ipc&#x8CC7;&#x6E90;">7.4. &#x6E05;&#x9664;IPC&#x8CC7;&#x6E90;</h3>
 <p>&#x4F7F;&#x7528;ipcrm &#x547D;&#x4EE4;&#x4F86;&#x6E05;&#x9664;IPC&#x8CC7;&#x6E90;&#xFF1A;&#x9019;&#x500B;&#x547D;&#x4EE4;&#x540C;&#x6642;&#x6703;&#x5C07;&#x8207;ipc&#x5C0D;&#x8C61;&#x76F8;&#x95DC;&#x806F;&#x7684;&#x6578;&#x64DA;&#x4E5F;&#x4E00;&#x8D77;&#x79FB;&#x9664;&#x3002;&#x7576;&#x7136;&#xFF0C;&#x53EA;&#x6709;root&#x7528;&#x6236;&#xFF0C;&#x6216;&#x8005;ipc&#x5C0D;&#x8C61;&#x7684;&#x5275;&#x5EFA;&#x8005;&#x624D;&#x6709;&#x9019;&#x9805;&#x6B0A;&#x5229;&#xFF1B;</p>
 <p>ipcrm&#x7528;&#x6CD5;:</p>
 <pre><code>ipcrm -M shmkey  &#x79FB;&#x9664;&#x7528;shmkey&#x5275;&#x5EFA;&#x7684;&#x5171;&#x4EAB;&#x5167;&#x5B58;&#x6BB5;
@@ -7848,7 +7801,7 @@ ipcrm -Q msgkey  &#x79FB;&#x9664;&#x7528;msqkey&#x5275;&#x5EFA;&#x7684;&#x6D88;&
 ipcrm -q msqid  &#x79FB;&#x9664;&#x7528;msqid&#x6A19;&#x8B58;&#x7684;&#x6D88;&#x606F;&#x968A;&#x5217;
 ipcrm -S semkey  &#x79FB;&#x9664;&#x7528;semkey&#x5275;&#x5EFA;&#x7684;&#x4FE1;&#x865F;
 ipcrm -s semid  &#x79FB;&#x9664;&#x7528;semid&#x6A19;&#x8B58;&#x7684;&#x4FE1;&#x865F;
-</code></pre><h3 id="%E6%B8%85%E9%99%A4%E7%95%B6%E5%89%8D%E7%94%A8%E6%88%B6%E5%89%B5%E5%BB%BA%E7%9A%84%E6%89%80%E6%9C%89%E7%9A%84ipc%E8%B3%87%E6%BA%90">&#x6E05;&#x9664;&#x7576;&#x524D;&#x7528;&#x6236;&#x5275;&#x5EFA;&#x7684;&#x6240;&#x6709;&#x7684;IPC&#x8CC7;&#x6E90;:</h3>
+</code></pre><h3 id="&#x6E05;&#x9664;&#x7576;&#x524D;&#x7528;&#x6236;&#x5275;&#x5EFA;&#x7684;&#x6240;&#x6709;&#x7684;ipc&#x8CC7;&#x6E90;">&#x6E05;&#x9664;&#x7576;&#x524D;&#x7528;&#x6236;&#x5275;&#x5EFA;&#x7684;&#x6240;&#x6709;&#x7684;IPC&#x8CC7;&#x6E90;:</h3>
 <pre><code>ipcs -q | awk &apos;{ print &quot;ipcrm -q &quot;$2}&apos; | sh &gt; /dev/null 2&gt;&amp;1;
 ipcs -m | awk &apos;{ print &quot;ipcrm -m &quot;$2}&apos; | sh &gt; /dev/null 2&gt;&amp;1;
 ipcs -s | awk &apos;{ print &quot;ipcrm -s &quot;$2}&apos; | sh &gt; /dev/null 2&gt;&amp;1;
@@ -7893,9 +7846,25 @@ ipcs -s | awk &apos;{ print &quot;ipcrm -s &quot;$2}&apos; | sh &gt; /dev/null 2
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/lunr.min.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/search.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"search":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

@@ -8,7 +8,7 @@
         <title>動態分析 Linux 內核函數調用關係 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,14 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-search/search.css">
+        
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +56,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="40.1.4" data-basepath=".." data-revision="Sat Feb 13 2016 12:47:18 GMT+0800 (CST)">
+    <div class="book"
+        data-level="40.1.4"
+        data-chapter-title="動態分析 Linux 內核函數調用關係"
+        data-filepath="tinyclub/dong_tai_fen_xi_linux_nei_he_han_shu_diao_yong_gua.md"
+        data-basepath=".."
+        data-revision="Sun Feb 14 2016 02:04:57 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -4131,6 +4142,21 @@
             
         </li>
     
+        <li class="chapter " data-level="18.13" data-path="gdb/cgdb_bian_yi.html">
+            
+                
+                    <a href="../gdb/cgdb_bian_yi.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>18.13.</b>
+                        
+                        cgdb 編譯＆使用
+                    </a>
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -7657,80 +7683,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -7745,7 +7698,7 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E5%8B%95%E6%85%8B%E5%88%86%E6%9E%90-linux-%E5%85%A7%E6%A0%B8%E5%87%BD%E6%95%B8%E8%AA%BF%E7%94%A8%E9%97%9C%E4%BF%82">&#x52D5;&#x614B;&#x5206;&#x6790; Linux &#x5167;&#x6838;&#x51FD;&#x6578;&#x8ABF;&#x7528;&#x95DC;&#x4FC2;</h1>
+                        <h1 id="&#x52D5;&#x614B;&#x5206;&#x6790;-linux-&#x5167;&#x6838;&#x51FD;&#x6578;&#x8ABF;&#x7528;&#x95DC;&#x4FC2;">&#x52D5;&#x614B;&#x5206;&#x6790; Linux &#x5167;&#x6838;&#x51FD;&#x6578;&#x8ABF;&#x7528;&#x95DC;&#x4FC2;</h1>
 <ul>
 <li>&#x51FD;&#x6578;&#x8ABF;&#x7528;</li>
 <li>&#x6E90;&#x78BC;&#x5206;&#x6790;
@@ -7757,12 +7710,12 @@ categories:</li>
 <li>Perf</li>
 </ul>
 <hr>
-<h2 id="%E7%B7%A3%E7%94%B1">&#x7DE3;&#x7531;</h2>
+<h2 id="&#x7DE3;&#x7531;">&#x7DE3;&#x7531;</h2>
 <p>&#x6E90;&#x78BC;&#x5206;&#x6790;&#x662F;&#x7A0B;&#x5E8F;&#x54E1;&#x96E2;&#x4E0D;&#x958B;&#x7684;&#x8A71;&#x984C;&#x3002;</p>
 <p>&#x7121;&#x8AD6;&#x662F;&#x7814;&#x7A76;&#x958B;&#x6E90;&#x9805;&#x76EE;&#xFF0C;&#x9084;&#x662F;&#x5E73;&#x6642;&#x505A;&#x5404;&#x985E;&#x79FB;&#x690D;&#x3001;&#x958B;&#x767C;&#xFF0C;&#x90FD;&#x907F;&#x514D;&#x4E0D;&#x4E86;&#x5C0D;&#x6E90;&#x78BC;&#x7684;&#x6DF1;&#x5165;&#x89E3;&#x8B80;&#x3002;</p>
 <p>&#x5DE5;&#x6B32;&#x5584;&#x5176;&#x4E8B;&#xFF0C;&#x5FC5;&#x5148;&#x5229;&#x5176;&#x5668;&#x3002;</p>
 <p>&#x524D;&#x5169;&#x7BC7;&#x4ECB;&#x7D39;&#x4E86;&#x975C;&#x614B;&#x5206;&#x6790;&#x548C;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x90E8;&#x5206;&#x7684;&#x52D5;&#x614B;&#x5206;&#x6790;&#x3002;&#x9019;&#x88E1;&#x958B;&#x59CB;&#x8A0E;&#x8AD6;&#x5982;&#x4F55;&#x52D5;&#x614B;&#x5206;&#x6790; Linux &#x5167;&#x6838;&#x90E8;&#x5206;&#x3002;</p>
-<h2 id="%E6%BA%96%E5%82%99%E5%B7%A5%E4%BD%9C">&#x6E96;&#x5099;&#x5DE5;&#x4F5C;</h2>
+<h2 id="&#x6E96;&#x5099;&#x5DE5;&#x4F5C;">&#x6E96;&#x5099;&#x5DE5;&#x4F5C;</h2>
 <h3 id="ftrace">Ftrace</h3>
 <p>&#x985E;&#x4F3C;&#x65BC;&#x7528;&#x6236;&#x614B;&#x7684; <code>gprof</code>&#xFF0C;&#x5728;&#x8DDF;&#x8E64;&#x5167;&#x6838;&#x51FD;&#x6578;&#x4E4B;&#x524D;&#xFF0C;&#x9700;&#x8981;&#x5C0D;&#x5167;&#x6838;&#x505A;&#x984D;&#x5916;&#x7684;&#x4E00;&#x4E9B;&#x914D;&#x7F6E;&#xFF0C;&#x5728;&#x5167;&#x6838;&#x76F8;&#x95DC;&#x51FD;&#x6578;&#x63D2;&#x5165;&#x4E00;&#x4E9B;&#x4EE3;&#x78BC;&#xFF0C;&#x4EE5;&#x4FBF;&#x7372;&#x53D6;&#x5FC5;&#x8981;&#x4FE1;&#x606F;&#xFF0C;&#x6BD4;&#x5982;&#x8ABF;&#x7528;&#x6642;&#x9593;&#xFF0C;&#x8ABF;&#x7528;&#x6B21;&#x6578;&#xFF0C;&#x7236;&#x51FD;&#x6578;&#x7B49;&#x3002;</p>
 <p>&#x65E9;&#x671F;&#x7684;&#x5167;&#x6838;&#x51FD;&#x6578;&#x8DDF;&#x8E64;&#x652F;&#x6301;&#x6709; KFT&#xFF0C;&#x5B83;&#x57FA;&#x65BC; <code>-finstrument-functions</code>&#xFF0C;&#x5728;&#x6BCF;&#x500B;&#x51FD;&#x6578;&#x7684;&#x51FA;&#x53E3;&#x3001;&#x5165;&#x53E3;&#x63D2;&#x5165;&#x7279;&#x5B9A;&#x8ABF;&#x7528;&#x4EE5;&#x4FBF;&#x622A;&#x7372;&#x4E0A;&#x9762;&#x63D0;&#x5230;&#x7684;&#x5404;&#x985E;&#x4FE1;&#x606F;&#x3002;&#x65E9;&#x671F;&#x7B46;&#x8005;&#x5C31;&#x66FE;&#x7D93;&#x7DAD;&#x8B77;&#x904E; KFT&#xFF0C;&#x4E26;&#x4E14;&#x6210;&#x529F;&#x79FB;&#x690D;&#x5230;&#x4E86; Loongson/MIPS &#x5E73;&#x81FA;&#xFF0C;&#x76F8;&#x95DC;&#x90F5;&#x4EF6;&#x8A18;&#x9304;&#x898B;&#xFF1A;<a href="http://www.linux-mips.org/archives/linux-mips/2009-04/msg00244.html" target="_blank">kernel function tracing support for linux-mips</a>&#x3002;&#x4E0D;&#x904E; Linux &#x5B98;&#x65B9;&#x793E;&#x5340;&#x6700;&#x7D42;&#x63A1;&#x7528;&#x7684;&#x537B;&#x662F; <code>Ftrace</code>&#xFF0C;&#x70BA;&#x4EC0;&#x9EBC;&#x5462;&#xFF1F;&#x96D6;&#x7136;&#x662F;&#x985E;&#x4F3C;&#x7684;&#x601D;&#x8DEF;&#xFF0C;&#x4F46;&#x662F; <code>Ftrace</code> &#x6709;&#x91CD;&#x5927;&#x7684;&#x5275;&#x65B0;&#xFF1A;</p>
@@ -7816,7 +7769,7 @@ $ sudo cp FlameGraph/stackcollapse-perf.pl /usr/local/bin/
 $ cat calls.log | flamegraph.pl &gt; calls-flame.svg
 </code></pre><p>&#x6548;&#x679C;&#x5982;&#x4E0B;&#xFF1A;</p>
 <p><img src="images/calls-flame.svg" alt=""></p>
-<h2 id="%E6%9B%B4%E5%A4%9A%E6%BA%96%E5%82%99">&#x66F4;&#x591A;&#x6E96;&#x5099;</h2>
+<h2 id="&#x66F4;&#x591A;&#x6E96;&#x5099;">&#x66F4;&#x591A;&#x6E96;&#x5099;</h2>
 <p>&#x65E5;&#x5E38;&#x7A0B;&#x5E8F;&#x958B;&#x767C;&#x6642;&#x6211;&#x5011;&#x57FA;&#x672C;&#x90FD;&#x53EA;&#x662F;&#x95DC;&#x5FC3;&#x7528;&#x6236;&#x614B;&#x7684;&#x60C5;&#x6CC1;&#xFF0C;&#x5728;&#x7CFB;&#x7D71;&#x7D1A;&#x7684;&#x512A;&#x5316;&#x4E2D;&#xFF0C;&#x5247;&#x6703;&#x517C;&#x9867;&#x7CFB;&#x7D71;&#x5EAB;&#x751A;&#x81F3;&#x5167;&#x6838;&#x90E8;&#x5206;&#xFF0C;&#x56E0;&#x70BA;&#x65E5;&#x5E38;&#x61C9;&#x7528;&#x904B;&#x884C;&#x6642;&#x7684;&#x883B;&#x591A;&#x5DE5;&#x4F5C;&#x9664;&#x4E86;&#x61C9;&#x7528;&#x672C;&#x8EAB;&#x7684;&#x5404;&#x985E;&#x64CD;&#x4F5C;&#x5916;&#xFF0C;&#x9084;&#x6709;&#x883B;&#x5927;&#x4E00;&#x90E8;&#x5206;&#x6703;&#x8A2A;&#x554F;&#x5230;&#x5404;&#x985E;&#x7CFB;&#x7D71;&#x5EAB;&#xFF0C;&#x7136;&#x5F8C;&#x901A;&#x904E;&#x5EAB;&#x8A2A;&#x554F;&#x5230;&#x5404;&#x985E;&#x5E95;&#x5C64;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#xFF0C;&#x9032;&#x800C;&#x8A2A;&#x554F;&#x5230; Linux &#x5167;&#x6838;&#x7A7A;&#x9593;&#x3002;</p>
 <p>&#x6211;&#x5011;&#x56DE;&#x5230;&#x4E0A;&#x7BC7;&#x6587;&#x7AE0;&#x7684;&#x4F8B;&#x5B50;&#xFF1A;<code>fib.c</code>&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x904E; <code>ltrace</code> &#x548C; <code>strace</code> &#x67E5;&#x770B;&#x5EAB;&#x51FD;&#x6578;&#x548C;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x7684;&#x60C5;&#x6CC1;&#xFF1A;</p>
 <pre><code>$ ltrace -f -T -ttt -c ./fib 2&gt;&amp;1 &gt; /dev/null
@@ -7850,17 +7803,17 @@ real        0m5.887s
 user        0m5.881s
 sys         0m0.004s
 </code></pre><p>&#x63A5;&#x4E0B;&#x4F86;&#xFF0C;&#x54B1;&#x5011;&#x5207;&#x5165;&#x6B63;&#x984C;&#x3002;&#x901A;&#x904E;&#x57FA;&#x65BC; <code>Ftrace</code> &#x7684; <code>Perf</code> &#x4F86;&#x7D9C;&#x5408;&#x770B;&#x770B;&#x4E00;&#x500B;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x904B;&#x884C;&#x6642;&#x7528;&#x6236;&#x7A7A;&#x9593;&#x548C;&#x5167;&#x6838;&#x7A7A;&#x9593;&#x5169;&#x90E8;&#x5206;&#x7684;&#x8ABF;&#x7528;&#x60C5;&#x6CC1;&#x4E26;&#x901A;&#x904E; <code>FlameGraph</code> &#x7E6A;&#x88FD;&#x51FA;&#x4F86;&#x3002;</p>
-<h2 id="%E5%85%A7%E6%A0%B8%E5%87%BD%E6%95%B8%E8%AA%BF%E7%94%A8">&#x5167;&#x6838;&#x51FD;&#x6578;&#x8ABF;&#x7528;</h2>
+<h2 id="&#x5167;&#x6838;&#x51FD;&#x6578;&#x8ABF;&#x7528;">&#x5167;&#x6838;&#x51FD;&#x6578;&#x8ABF;&#x7528;</h2>
 <p>&#x5728;&#x4F7F;&#x7528; <code>Perf</code> &#x4E4B;&#x524D;&#xFF0C;&#x9664;&#x4E86;&#x4E0A;&#x8FF0;&#x5167;&#x6838;&#x914D;&#x7F6E;&#x5916;&#xFF0C;&#x9084;&#x9700;&#x8981;&#x4F7F;&#x80FD;&#x4E00;&#x500B;&#x7B26;&#x865F;&#x7372;&#x53D6;&#x6B0A;&#x9650;&#xFF0C;&#x5426;&#x5247;&#x7D50;&#x679C;&#x6703;&#x662F;&#x4E00;&#x5927;&#x5806; 16 &#x9032;&#x5236;&#x6578;&#x5B57;&#xFF0C;&#x770B;&#x4E0D;&#x5230;&#x51FD;&#x6578;&#x7B26;&#x865F;&#xFF1A;</p>
 <pre><code>$ echo 0 &gt; /proc/sys/kernel/kptr_restrict
 </code></pre><p>&#x54B1;&#x5011;&#x5148;&#x5206;&#x958B;&#x4F86;&#x770B;&#x770B;&#x7528;&#x6236;&#x7A7A;&#x9593;&#xFF0C;&#x5EAB;&#x51FD;&#x6578;&#x548C;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x7684;&#x60C5;&#x6CC1;&#xFF0C;&#x4EE5;&#x8A72;&#x547D;&#x4EE4;&#x70BA;&#x4F8B;&#xFF1A;</p>
 <pre><code>find /proc/ -maxdepth 2 -name &quot;vm&quot; 2&gt;&amp;1 &gt;/dev/null
-</code></pre><h3 id="%E7%94%A8%E6%88%B6%E7%A9%BA%E9%96%93">&#x7528;&#x6236;&#x7A7A;&#x9593;</h3>
+</code></pre><h3 id="&#x7528;&#x6236;&#x7A7A;&#x9593;">&#x7528;&#x6236;&#x7A7A;&#x9593;</h3>
 <pre><code>$ valgrind --tool=callgrind find /proc/ -maxdepth 2 -name &quot;vm&quot; 2&gt;&amp;1 &gt;/dev/null
 $ gprof2dot -f callgrind ./callgrind.out.24273 | dot -Tsvg -o find-callgrind.svg
 </code></pre><p>&#x6548;&#x679C;&#x5982;&#x4E0B;&#xFF1A;</p>
 <p><img src="images/find-callgrind.svg" alt=""></p>
-<h3 id="%E5%BA%AB%E5%87%BD%E6%95%B8">&#x5EAB;&#x51FD;&#x6578;</h3>
+<h3 id="&#x5EAB;&#x51FD;&#x6578;">&#x5EAB;&#x51FD;&#x6578;</h3>
 <pre><code>$ ltrace -f -ttt -c find /proc/ -maxdepth 2 -name &quot;vm&quot; 2&gt;&amp;1 &gt;/dev/null
 % time     seconds  usecs/call     calls      function
 ------ ----------- ----------- --------- --------------------
@@ -7908,7 +7861,7 @@ $ gprof2dot -f callgrind ./callgrind.out.24273 | dot -Tsvg -o find-callgrind.svg
   0.00    0.000051          51         1 strrchr
 ------ ----------- ----------- --------- --------------------
 100.00    9.558436                151045 total
-</code></pre><h3 id="%E7%B3%BB%E7%B5%B1%E8%AA%BF%E7%94%A8">&#x7CFB;&#x7D71;&#x8ABF;&#x7528;</h3>
+</code></pre><h3 id="&#x7CFB;&#x7D71;&#x8ABF;&#x7528;">&#x7CFB;&#x7D71;&#x8ABF;&#x7528;</h3>
 <pre><code>$ strace -f -ttt -c find /proc/ -maxdepth 2 -name &quot;vm&quot; 2&gt;&amp;1 &gt;/dev/null
 % time     seconds  usecs/call     calls    errors syscall
 ------ ----------- ----------- --------- --------- ----------------
@@ -7933,7 +7886,7 @@ $ gprof2dot -f callgrind ./callgrind.out.24273 | dot -Tsvg -o find-callgrind.svg
 ------ ----------- ----------- --------- --------- ----------------
 100.00    0.017709                  4286        10 total
 </code></pre><p>&#x63A5;&#x4E0B;&#x4F86;&#xFF0C;&#x901A;&#x904E; <code>perf</code> &#x4F86;&#x770B;&#x770B;&#x5167;&#x6838;&#x90E8;&#x5206;&#xFF1A;</p>
-<h3 id="%E5%85%A7%E6%A0%B8%E7%A9%BA%E9%96%93">&#x5167;&#x6838;&#x7A7A;&#x9593;</h3>
+<h3 id="&#x5167;&#x6838;&#x7A7A;&#x9593;">&#x5167;&#x6838;&#x7A7A;&#x9593;</h3>
 <pre><code>$ perf record -g find /proc -maxdepth 2 -name &quot;vm&quot; 2&gt;&amp;1 &gt;/dev/null
 $ perf report -g --stdio
 $ perf script | stackcollapse-perf.pl &gt; find.perf-outfolded
@@ -7947,7 +7900,7 @@ $ flamegraph.pl find.perf-outfolded &gt; find-flame.svg
 </ul>
 <p>&#x6548;&#x679C;&#x5982;&#x4E0B;&#xFF1A; </p>
 <p><img src="images/find-flame.svg" alt=""></p>
-<h2 id="%E5%B0%8F%E7%B5%90">&#x5C0F;&#x7D50;</h2>
+<h2 id="&#x5C0F;&#x7D50;">&#x5C0F;&#x7D50;</h2>
 <p>&#x901A;&#x904E;&#x4E0A;&#x8FF0;&#x904E;&#x7A0B;&#xFF0C;&#x54B1;&#x5011;&#x6F14;&#x793A;&#x77AD;&#x5982;&#x4F55;&#x5206;&#x6790;&#x4E00;&#x500B;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x57F7;&#x884C;&#x6642;&#x7684;&#x5167;&#x6838;&#x7A7A;&#x9593;&#x90E8;&#x5206;&#x51FD;&#x6578;&#x8ABF;&#x7528;&#x60C5;&#x6CC1;&#xFF0C;&#x9032;&#x800C;&#x5C0D;&#x524D;&#x9762;&#x5169;&#x7BC7;&#x6587;&#x7AE0;&#x9032;&#x884C;&#x4E86;&#x8F03;&#x597D;&#x7684;&#x88DC;&#x5145;&#x3002;</p>
 <p>&#x6574;&#x500B;&#x5E8F;&#x5217;&#x5230;&#x76EE;&#x524D;&#x70BA;&#x6B62;&#x4E3B;&#x8981;&#x90FD;&#x662F;&#x51FD;&#x6578;&#x8ABF;&#x7528;&#x95DC;&#x4FC2;&#x7684;&#x5206;&#x6790;&#x3002;&#x5C0D;&#x65BC;&#x6E90;&#x78BC;&#x7684;&#x5206;&#x6790;&#x4E5F;&#x597D;&#xFF0C;&#x5C0D;&#x65BC;&#x6027;&#x80FD;&#x7684;&#x512A;&#x5316;&#x4E5F;&#x597D;&#xFF0C;&#x90FD;&#x662F;&#x5B8C;&#x5168;&#x4E0D;&#x5920;&#x7684;&#xFF1A;</p>
 <ul>
@@ -7960,7 +7913,7 @@ $ flamegraph.pl find.perf-outfolded &gt; find-flame.svg
 <li>&#x4EE3;&#x78BC;&#x7D1A;&#x5225;&#x7684;&#x6E90;&#x78BC;&#x5206;&#x6790;&#xFF0C;&#x901A;&#x904E; <code>gcov</code> &#x548C; <code>kgcov</code> &#x9032;&#x884C;&#x5206;&#x6790;&#x3002;</li>
 </ul>
 <p>&#x9664;&#x6B64;&#x4E4B;&#x5916;&#xFF0C;&#x6211;&#x5011;&#x6703;&#x65B0;&#x958B;&#x53E6;&#x5916;&#x4E00;&#x500B;&#x6027;&#x80FD;&#x512A;&#x5316;&#x7CFB;&#x5217;&#xFF0C;&#x4F86;&#x4ECB;&#x7D39;&#x5404;&#x7A2E;&#x6027;&#x80FD;&#x512A;&#x5316;&#x7684;&#x5BE6;&#x4F8B;&#xFF0C;&#x5305;&#x62EC;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x8207;&#x5167;&#x6838;&#x5169;&#x500B;&#x65B9;&#x9762;&#x3002;</p>
-<h2 id="%E5%80%A1%E8%AD%B0">&#x5021;&#x8B70;</h2>
+<h2 id="&#x5021;&#x8B70;">&#x5021;&#x8B70;</h2>
 <p>&#x6700;&#x5F8C;&#xFF0C;&#x7B46;&#x8005;&#x60F3;&#x5C0D;&#x90A3;&#x4E9B;&#x958B;&#x6E90;&#x5DE5;&#x5177;&#x7684;&#x958B;&#x767C;&#x8005;&#x548C;&#x8CA2;&#x737B;&#x8005;&#x5011;&#x81F4;&#x656C;&#xFF01;</p>
 <p>Linux &#x9818;&#x57DF;&#x805A;&#x650F;&#x4E86;&#x592A;&#x591A;&#x7684;&#x5929;&#x624D;&#xFF0C;&#x5275;&#x610F;&#x5982;&#x6CC9;&#x6E67;&#x822C;&#x4E0D;&#x65B7;&#x6ECB;&#x6F64; IT &#x4E16;&#x754C;&#xFF0C;&#x672C;&#x6587;&#x7528;&#x5230;&#x7684;&#x4E09;&#x5927;&#x5DE5;&#x5177;&#x7684;&#x539F;&#x5275;&#x4F5C;&#x8005;&#x90FD;&#x662F;&#x9019;&#x985E;&#x5929;&#x624D;&#x7684;&#x4EE3;&#x8868;&#xFF0C;&#x656C;&#x4EF0;&#x4E4B;&#x60C5;&#x7121;&#x4EE5;&#x8A00;&#x8868;&#x3002;</p>
 <p>&#x8DDF; Steven &#x6709;&#x904E;&#x4E00;&#x9762;&#x4E4B;&#x7DE3;&#xFF0C;&#x800C;&#x4E14;&#x5728;&#x7B46;&#x8005; 2009 &#x5E74;&#x5F80;&#x5B98;&#x65B9;&#x793E;&#x5340;&#x63D0;&#x4EA4; <a href="http://lwn.net/Articles/361128/" target="_blank">Ftrace For MIPS</a> &#x6642;&#xFF0C;&#x4ED6;&#x63D0;&#x4F9B;&#x4E86;&#x8AF8;&#x591A;&#x6307;&#x5C0E;&#x548C;&#x5E6B;&#x52A9;&#xFF0C;&#x611F;&#x6FC0;&#x4E4B;&#x60C5;&#x5316;&#x4F5C;&#x7121;&#x9650;&#x5C08;&#x7814;&#x7684;&#x52D5;&#x529B;&#x3002;</p>
@@ -8006,9 +7959,25 @@ $ flamegraph.pl find.perf-outfolded &gt; find-flame.svg
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/lunr.min.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/search.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"search":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

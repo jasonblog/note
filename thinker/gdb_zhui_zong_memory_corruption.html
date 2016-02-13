@@ -8,7 +8,7 @@
         <title>GDB 追蹤 memory corruption | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,14 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-search/search.css">
+        
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +56,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="37.6" data-basepath=".." data-revision="Sat Feb 13 2016 12:47:18 GMT+0800 (CST)">
+    <div class="book"
+        data-level="37.6"
+        data-chapter-title="GDB 追蹤 memory corruption"
+        data-filepath="thinker/gdb_zhui_zong_memory_corruption.md"
+        data-basepath=".."
+        data-revision="Sun Feb 14 2016 02:04:57 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -4131,6 +4142,21 @@
             
         </li>
     
+        <li class="chapter " data-level="18.13" data-path="gdb/cgdb_bian_yi.html">
+            
+                
+                    <a href="../gdb/cgdb_bian_yi.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>18.13.</b>
+                        
+                        cgdb 編譯＆使用
+                    </a>
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -7657,80 +7683,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -7745,7 +7698,7 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="gdb-%E8%BF%BD%E8%B9%A4-memory-corruption">GDB &#x8FFD;&#x8E64; memory corruption</h1>
+                        <h1 id="gdb-&#x8FFD;&#x8E64;-memory-corruption">GDB &#x8FFD;&#x8E64; memory corruption</h1>
 <p>&#x5728;&#x4E0D;&#x4E45;&#x4E4B;&#x524D;&#xFF0C;&#x5728; GDB &#x81EA;&#x52D5;&#x5316; debug &#x9019;&#x7BC7;&#x6587;&#x7AE0;&#x4E2D;&#xFF0C;&#x7C21;&#x55AE;&#x63D0;&#x5230;&#x5982;&#x4F55;&#x7528; script &#x63A7;&#x5236; gdb &#x3002;&#x800C;&#x4ECA;&#x5929;&#x53C8;&#x56E0;&#x70BA; MadButterfly &#x7684;&#x7BC4;&#x4F8B;&#x7A0B;&#x5F0F;&#x88E1;&#x7684;&#x67D0;&#x500B; bug &#xFF0C;&#x518D;&#x6B21;&#x4F7F;&#x7528;&#x76F8;&#x540C;&#x7684;&#x6280;&#x5DE7;&#x3002;&#x9019;&#x6B21;&#x9047;&#x5230;&#x7684;&#x662F;&#x4E00;&#x7A2E;&#x5178;&#x578B;&#x7684;&#x932F;&#x8AA4;&#xFF0C;<code>&#x67D0;&#x584A;&#x8A18;&#x61B6;&#x9AD4;&#x4E0D;&#x77E5;&#x4F55;&#x6642;&#x88AB;&#x4FEE;&#x6539;&#xFF0C;&#x9020;&#x6210;&#x7A0B;&#x5F0F;&#x932F;&#x8AA4;&#x3002;</code>
 &#x6211;&#x5C07;&#x554F;&#x984C;&#x7C21;&#x5316;&#x4E00;&#x4E0B;&#x3002;&#x6709;&#x4E00;&#x500B;&#x8B8A;&#x6578; V&#xFF0C;&#x5728;&#x7A0B;&#x5F0F;&#x4E00;&#x555F;&#x52D5;&#x4E4B;&#x5F8C;&#x5C31;&#x6703; initialize &#x6210;&#x7279;&#x5B9A;&#x503C; k&#x3002;&#x4F46;&#x56E0;&#x672A;&#x77E5;&#x539F;&#x56E0;&#xFF0C;&#x7D50;&#x679C; V &#x4E0D;&#x77E5;&#x4F55;&#x6642;&#x88AB;&#x6539;&#x6210; m&#x3002;&#x70BA;&#x4E86;&#x8981;&#x67E5;&#x51FA;&#x5012;&#x5E95;&#x662F;&#x8AB0;&#x6539;&#x4E86; V &#x7684;&#x503C;&#xFF0C;&#x4E00;&#x822C;&#x7684;&#x505A;&#x6CD5;&#x662F;&#x6AA2;&#x8996;&#x7A0B;&#x5F0F;&#x6D41;&#x7A0B;&#xFF0C;&#x627E;&#x51FA;&#x6240;&#x6709;&#x53EF;&#x80FD;&#x6703;&#x6539;&#x5230; V &#x7684;&#x5730;&#x65B9;&#x3002;&#x4F46;&#x6709;&#x6642;&#x4FAF;&#x6839;&#x672C;&#x662F; pointer &#x4E82;&#x6307;&#xFF0C;&#x4E0D;&#x5C0F;&#x5FC3;&#x6539;&#x5230;&#x8A72;&#x8B8A;&#x6578;&#x3002;&#x9019;&#x6642;&#x8089;&#x773C;&#x6AA2;&#x8996;&#x7684;&#x65B9;&#x6CD5;&#x5C31;&#x4E0D;&#x592A;&#x53EF;&#x884C;&#x4E86;&#x3002;&#x9019;&#x6642;&#xFF0C;&#x6700;&#x91CD;&#x8981;&#x7684;&#x662F;&#x627E;&#x51FA;&#x7A0B;&#x5F0F;&#x662F;&#x57F7;&#x884C;&#x5230;&#x4EC0;&#x9EBC;&#x6B65;&#x9A5F;&#x6642;&#xFF0C;&#x8A72;&#x8B8A;&#x6578;&#x6703;&#x88AB;&#x6539;&#x8B8A;&#x3002;</p>
 <p>&#x5982;&#x679C;&#x4EE5;&#x4E00;&#x822C;&#x7684;&#x505A;&#x6CD5;&#xFF0C;&#x5C31;&#x662F;&#x5230;&#x8655; printf() &#xFF0C;&#x7136;&#x5F8C;&#x4E0D;&#x65B7;&#x7684; compile &#x3001;&#x91CD;&#x65B0;&#x57F7;&#x884C;&#x3002;&#x9019;&#x5F88;&#x6C92;&#x6709;&#x6548;&#x7387;&#xFF0C;&#x56E0;&#x70BA;&#x7121;&#x6CD5;&#x52D5;&#x614B;&#x6AA2;&#x8996;&#x5176;&#x5B83;&#x8B8A;&#x6578;&#xFF0C;&#x4EE5;&#x9032;&#x884C;&#x6BD4;&#x8F03;&#x3002;&#x6BD4;&#x8F03;&#x6709;&#x6548;&#x7684;&#x65B9;&#x6CD5;&#x662F;&#xFF0C;&#x5728;&#x8A72;&#x8B8A;&#x6578;&#x88AB;&#x4FEE;&#x6539;&#x6642;&#x80FD;&#x81EA;&#x52D5;&#x8B93; gdb &#x505C;&#x4E0B;&#x4F86;&#x3002;&#x9019;&#x6642;&#xFF0C;&#x5728; gdb &#x8A2D;&#x5B9A; watchpoint &#x5C31;&#x53EF;&#x4EE5;&#x9054;&#x5230;&#x9019;&#x500B;&#x76EE;&#x7684;&#x3002;&#x4F46;&#xFF0C;&#x6709;&#x4E9B;&#x5E73;&#x81FA;&#x7684; hardware &#x4E26;&#x4E0D;&#x652F;&#x63F4; watchpoint &#xFF0C;&#x9019;&#x6642; gdb &#x6703;&#x4EE5;&#x9023;&#x7E8C; single step &#x7684;&#x65B9;&#x5F0F;&#x57F7;&#x884C;&#xFF0C;&#x4EE5;&#x9054;&#x5230; watchpoint &#x7684;&#x6548;&#x679C;&#x3002;&#x4F46;&#x9019;&#x6703;&#x975E;&#x5E38;&#x975E;&#x5E38;&#x7684;&#x6162;&#x3002;&#x5982;&#x679C;&#x7A0B;&#x5F0F;&#x8907;&#x96DC;&#x7684;&#x8A71;&#xFF0C;&#x9019;&#x5E7E;&#x4E4E;&#x4E0D;&#x53EF;&#x884C;&#x3002;&#x9019;&#x6642;&#xFF0C;&#x900F;&#x904E;&#x9069;&#x7576;&#x7684;&#x8A2D;&#x5B9A; break point &#xFF0C;&#x66F4;&#x80FD;&#x5FEB;&#x901F;&#x7684;&#x9396;&#x5B9A;&#x554F;&#x984C;&#x7684;&#x767C;&#x751F;&#x9EDE;&#x3002;</p>
@@ -7814,9 +7767,25 @@ end
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/lunr.min.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/search.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"search":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

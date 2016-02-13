@@ -8,7 +8,7 @@
         <title>創建 Daemon 程式 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,14 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-search/search.css">
+        
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +56,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="15.4" data-basepath=".." data-revision="Sat Feb 13 2016 12:47:18 GMT+0800 (CST)">
+    <div class="book"
+        data-level="15.4"
+        data-chapter-title="創建 Daemon 程式"
+        data-filepath="linux_system/154.md"
+        data-basepath=".."
+        data-revision="Sun Feb 14 2016 02:04:57 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -4131,6 +4142,21 @@
             
         </li>
     
+        <li class="chapter " data-level="18.13" data-path="gdb/cgdb_bian_yi.html">
+            
+                
+                    <a href="../gdb/cgdb_bian_yi.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>18.13.</b>
+                        
+                        cgdb 編譯＆使用
+                    </a>
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -7657,80 +7683,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -7745,7 +7698,7 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E5%89%B5%E5%BB%BA-daemon-%E7%A8%8B%E5%BC%8F">&#x5275;&#x5EFA; Daemon &#x7A0B;&#x5F0F;</h1>
+                        <h1 id="&#x5275;&#x5EFA;-daemon-&#x7A0B;&#x5F0F;">&#x5275;&#x5EFA; Daemon &#x7A0B;&#x5F0F;</h1>
 <p>Daemon &#x7684;&#x539F;&#x610F;&#x5176;&#x5BE6;&#x5C31;&#x662F;&#x5C0F;&#x7CBE;&#x9748;&#xFF08;&#x6216;&#x662F;&#x5C0F;&#x60E1;&#x9B54;&#xFF09;&#xFF0C;&#x4E00;&#x822C;&#x4EBA;&#x662F;&#x770B;&#x4E0D;&#x898B;&#x7684;&#x3002;&#x800C; Daemon &#x7A0B;&#x5F0F;&#x662F;&#x6307;&#x5E38;&#x99D0;&#x5728; Linux&#xFF08;&#x6216; Unix/Unix-Like&#xFF09;&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x80CC;&#x666F;&#x4E2D;&#x57F7;&#x884C;&#x7684;&#x884C;&#x7A0B;&#xFF0C;&#x7121;&#x6CD5;&#x88AB;&#x4F7F;&#x7528;&#x8005;&#x76F4;&#x63A5;&#x64CD;&#x4F5C;&#x6216;&#x63A7;&#x5236;&#x3002;&#x9019;&#x4E9B; Daemon &#x53EF;&#x80FD;&#x662F;&#x500B; Server &#x5728;&#x7B49;&#x5F85;&#x8207;&#x8655;&#x7406; Client &#x7AEF;&#x7684;&#x8ACB;&#x6C42;&#xFF0C;&#x4E5F;&#x53EF;&#x80FD;&#x662F;&#x7CFB;&#x7D71;&#x7684;&#x7DAD;&#x8B77;&#x7A0B;&#x5F0F;&#x3002;</p>
 <p>&#x884C;&#x7A0B;&#x5728;&#x57F7;&#x884C;&#x904E;&#x7A0B;&#x4E2D;&#x5C07;&#x81EA;&#x5DF1;&#x8F49;&#x63DB;&#x70BA; daemon &#x4E00;&#x822C;&#x800C;&#x8A00;&#x8981;&#x7D93;&#x904E;&#x4EE5;&#x4E0B;&#x5E7E;&#x500B;&#x6B65;&#x9A5F;&#xFF1A;</p>
 <ul>
@@ -7809,7 +7762,7 @@
 }
 </code></pre>
 <p>&#x5373;&#x4FBF;&#x73FE;&#x5728; Linux &#x6A19;&#x6E96;&#x51FD;&#x5F0F;&#x5EAB;&#x5DF2;&#x7D93;&#x6709;&#x51FD;&#x5F0F; int daemon(int nochdir, int noclose); &#x53EF;&#x4EE5;&#x7D93;&#x7531;&#x547C;&#x53EB;&#x5F8C;&#x8F15;&#x9B06;&#x7684;&#x8F49;&#x63DB;&#x70BA; daemon &#x7A0B;&#x5F0F;&#x3002;&#x4F46;&#x57FA;&#x65BC;&#x8981;&#x4E86;&#x89E3;&#x7B87;&#x4E2D;&#x539F;&#x7406;&#x8207;&#x904B;&#x7528;&#x7684;&#x9748;&#x6D3B;&#x6027;&#xFF0C;&#x9084;&#x662F;&#x5EFA;&#x8B70;&#x81EA;&#x5DF1;&#x5BEB;&#x5BEB;&#x6BD4;&#x8F03;&#x8E0F;&#x5BE6;&#x3002;</p>
-<h3 id="%E5%BB%B6%E4%BC%B8%E9%96%B1%E8%AE%80">&#x5EF6;&#x4F38;&#x95B1;&#x8B80;</h3>
+<h3 id="&#x5EF6;&#x4F38;&#x95B1;&#x8B80;">&#x5EF6;&#x4F38;&#x95B1;&#x8B80;</h3>
 <ul>
 <li>Unix network programming. volume1. 2/e &#x2013; Richard Stevens</li>
 <li>Linux Daemon Writing HOWTO</li>
@@ -7855,9 +7808,25 @@
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/lunr.min.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/search.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"search":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

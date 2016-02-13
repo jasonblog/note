@@ -8,7 +8,7 @@
         <title>Shared Libraries Setup | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,14 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-search/search.css">
+        
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +56,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="2.1" data-basepath=".." data-revision="Sat Feb 13 2016 12:47:18 GMT+0800 (CST)">
+    <div class="book"
+        data-level="2.1"
+        data-chapter-title="Shared Libraries Setup"
+        data-filepath="shared_libraries/11.md"
+        data-basepath=".."
+        data-revision="Sun Feb 14 2016 02:04:57 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -4131,6 +4142,21 @@
             
         </li>
     
+        <li class="chapter " data-level="18.13" data-path="gdb/cgdb_bian_yi.html">
+            
+                
+                    <a href="../gdb/cgdb_bian_yi.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>18.13.</b>
+                        
+                        cgdb 編譯＆使用
+                    </a>
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -7657,80 +7683,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -7746,7 +7699,7 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="shared-libraries-setup">Shared Libraries Setup</h1>
-<h3 id="linux-%E5%8B%95%E6%85%8B%E8%A3%9D%E8%BC%89%E5%8B%95%E6%85%8B%E5%BA%AB-ldd%EF%BC%8Cldconfig%EF%BC%8Cld-so-conf-ld-so-cache">linux &#x52D5;&#x614B;&#x88DD;&#x8F09;&#x52D5;&#x614B;&#x5EAB; ldd&#xFF0C;ldconfig&#xFF0C;ld.so.conf, ld.so.cache</h3>
+<h3 id="linux-&#x52D5;&#x614B;&#x88DD;&#x8F09;&#x52D5;&#x614B;&#x5EAB;-ldd&#xFF0C;ldconfig&#xFF0C;ldsoconf-ldsocache">linux &#x52D5;&#x614B;&#x88DD;&#x8F09;&#x52D5;&#x614B;&#x5EAB; ldd&#xFF0C;ldconfig&#xFF0C;ld.so.conf, ld.so.cache</h3>
 <p>&#x524D;&#x9762;&#x6211;&#x5011;&#x4ECB;&#x7D39;&#x904E;&#xFF0C;GCC&#x7DE8;&#x8B6F;C++&#x7A0B;&#x5E8F;&#x7684;&#x90A3;&#x4E9B;&#x6B65;&#x9A5F;&#xFF0C;&#x5176;&#x4E2D;&#x5305;&#x62EC;&#x7DE8;&#x8B6F;&#x7684;&#x6642;&#x5019;include&#x7684;&#x641C;&#x7D22;&#x76EE;&#x9304;&#xFF0C;&#x93C8;&#x63A5;&#x7684;&#x6642;&#x5019;&#x5EAB;&#x7684;&#x641C;&#x7D22;&#x76EE;&#x9304;&#xFF08;&#x9019;&#x88E1;&#x7684;&#x5EAB;&#x5305;&#x542B;&#x5169;&#x7A2E;&#x5EAB;&#xFF09;&#x3002;&#x9084;&#x6709;&#x4E00;&#x500B;&#x6642;&#x5019;&#xFF0C;&#x9700;&#x8981;&#x641C;&#x7D22;&#x8DEF;&#x5F91;&#xFF0C;&#x90A3;&#x5C31;&#x662F;&#x88DD;&#x8F09;&#x52D5;&#x614B;&#x5EAB;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x9019;&#x500B;&#x6642;&#x5019;&#x8207;GCC&#x7121;&#x95DC;&#x4E86;&#x3002;&#x800C;&#x662F;&#x8207;linux&#x7CFB;&#x7D71;&#x81EA;&#x8EAB;&#x6709;&#x95DC;&#x4FC2;&#x3002;</p>
 <p>&#x52D5;&#x614B;&#x8F49;&#x8F09;&#x52D5;&#x614B;&#x5EAB;&#xFF0C;&#x662F;&#x70BA;&#x57FA;&#x65BC;&#x52D5;&#x614B;&#x5EAB;&#x7DE8;&#x8B6F;&#x93C8;&#x63A5;&#x800C;&#x4F86;&#x7684;&#x53EF;&#x57F7;&#x884C;&#x7A0B;&#x5E8F;&#x8A2D;&#x5B9A;&#x7684;&#x4E00;&#x500B;&#x7A0B;&#x5E8F;&#x57F7;&#x884C;&#x904E;&#x7A0B;&#x4E2D;&#x9700;&#x8981;&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x5C0D;&#x65BC;&#x90A3;&#x4E9B;&#x53EA;&#x57FA;&#x65BC;&#x975C;&#x614B;&#x5EAB;&#x7684;&#x53EF;&#x57F7;&#x884C;&#x7A0B;&#x5E8F;&#x4F86;&#x8AAA;&#xFF0C;&#x9019;&#x500B;&#x529F;&#x80FD;&#x6C92;&#x6709;&#x4EC0;&#x9EBC;&#x7528;&#x3002;</p>
 <pre><code>1)&#x57F7;&#x884C;&#x9019;&#x500B;&#x52D5;&#x4F5C;&#x7684;linux&#x7A0B;&#x5E8F;&#xFF1A;  /usr/bin/ld
@@ -7770,7 +7723,7 @@
 export LD_LIBRARY_PATH=&#x300D;/usr/lib/old:/opt/lib &#x4F86;&#x5275;&#x5EFA;&#x4FEE;&#x6539;&#x9019;&#x500B;&#x8B8A;&#x91CF;&#x3002;
 &#x7B2C;&#x4E09;&#x500B;&#xFF0C;&#x624D;&#x662F;/etc/ld.so.conf
 &#x6700;&#x5F8C;&#x3002;&#x5247;&#x662F;&#x7CFB;&#x7D71;&#x9ED8;&#x8A8D;&#x8DEF;&#x5F91;&#x3002;</p>
-<h3 id="linux-%E7%92%B0%E5%A2%83%E8%AE%8A%E9%87%8F%E8%A8%AD%E7%BD%AE%E6%96%B9%E6%B3%95%E7%B8%BD%E7%B5%90%EF%BC%88path%EF%BC%8Fld-library-path%EF%BC%89">linux &#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x8A2D;&#x7F6E;&#x65B9;&#x6CD5;&#x7E3D;&#x7D50;&#xFF08;PATH&#xFF0F;LD_LIBRARY_PATH&#xFF09;</h3>
+<h3 id="linux-&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x8A2D;&#x7F6E;&#x65B9;&#x6CD5;&#x7E3D;&#x7D50;&#xFF08;path&#xFF0F;ldlibrarypath&#xFF09;">linux &#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x8A2D;&#x7F6E;&#x65B9;&#x6CD5;&#x7E3D;&#x7D50;&#xFF08;PATH&#xFF0F;LD_LIBRARY_PATH&#xFF09;</h3>
 <p>PATH&#x548C;LD_LIBRARY_PATH&#x672C;&#x8CEA;&#x90FD;&#x662F;&#x8B8A;&#x91CF;&#xFF0C;&#x6240;&#x8B02;&#x8B8A;&#x91CF;&#x7684;&#x610F;&#x601D;&#x5C31;&#x662F;&#x7531;&#x5225;&#x4EBA;&#x8CE6;&#x503C;&#x7522;&#x751F;&#x7684;&#xFF0C;&#x76F4;&#x89BA;&#x5F80;&#x5F80;&#x6703;&#x8B93;&#x6211;&#x5011;&#x6DFB;&#x52A0;&#x548C;&#x6E1B;&#x5C11;&#x9019;&#x500B;&#x8B8A;&#x91CF;&#x672C;&#x8EAB;&#x7684;&#x67D0;&#x4E9B;&#x8DEF;&#x5F91;&#xFF0C;&#x5BE6;&#x969B;&#x4E0A;&#x9019;&#x662F;&#x4E0D;&#x6B63;&#x78BA;&#x7684;&#x3002;&#x6B63;&#x78BA;&#x7684;&#x505A;&#x6CD5;&#x662F;&#x6211;&#x5011;&#x8981;&#x53BB;&#x4FEE;&#x6539;&#x8CE6;&#x4E88;&#x9019;&#x500B;&#x8B8A;&#x91CF;&#x6578;&#x503C;&#x7684;&#x90A3;&#x4E9B;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#xFF0C;&#x52A0;&#x4E00;&#x689D;&#x8DEF;&#x5F91;&#x6216;&#x8005;&#x6E1B;&#x4E00;&#x689D;&#x3002;&#x8AAA;&#x5230;&#x5E95;&#x8B8A;&#x91CF;&#x53EA;&#x95DC;&#x4E4E;&#x986F;&#x793A;&#xFF0C;&#x4E0D;&#x95DC;&#x4E4E;&#x5176;&#x7528;&#x65BC;&#x986F;&#x793A;&#x7684;&#x5167;&#x5BB9;&#x3002;</p>
 <p>PATH:  &#x53EF;&#x57F7;&#x884C;&#x7A0B;&#x5E8F;&#x7684;&#x67E5;&#x627E;&#x8DEF;&#x5F91;
 &#x67E5;&#x770B;&#x7576;&#x524D;&#x74B0;&#x5883;&#x8B8A;&#x91CF;:
@@ -7835,9 +7788,25 @@ echo $PATH</p>
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/lunr.min.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/search.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"search":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

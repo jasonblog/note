@@ -8,7 +8,7 @@
         <title>C++函數調用的參數傳遞方法總結（通過gdb+反彙編） | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,14 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-search/search.css">
+        
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +56,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="15.2.3" data-basepath=".." data-revision="Sat Feb 13 2016 12:47:18 GMT+0800 (CST)">
+    <div class="book"
+        data-level="15.2.3"
+        data-chapter-title="C++函數調用的參數傳遞方法總結（通過gdb+反彙編）"
+        data-filepath="linux_system/1523.md"
+        data-basepath=".."
+        data-revision="Sun Feb 14 2016 02:04:57 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -4131,6 +4142,21 @@
             
         </li>
     
+        <li class="chapter " data-level="18.13" data-path="gdb/cgdb_bian_yi.html">
+            
+                
+                    <a href="../gdb/cgdb_bian_yi.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>18.13.</b>
+                        
+                        cgdb 編譯＆使用
+                    </a>
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -7657,80 +7683,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -7745,10 +7698,10 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="c-%E5%87%BD%E6%95%B8%E8%AA%BF%E7%94%A8%E7%9A%84%E5%8F%83%E6%95%B8%E5%82%B3%E9%81%9E%E6%96%B9%E6%B3%95%E7%B8%BD%E7%B5%90%EF%BC%88%E9%80%9A%E9%81%8Egdb-%E5%8F%8D%E5%BD%99%E7%B7%A8%EF%BC%89">C++&#x51FD;&#x6578;&#x8ABF;&#x7528;&#x7684;&#x53C3;&#x6578;&#x50B3;&#x905E;&#x65B9;&#x6CD5;&#x7E3D;&#x7D50;&#xFF08;&#x901A;&#x904E;gdb+&#x53CD;&#x5F59;&#x7DE8;&#xFF09;</h1>
+                        <h1 id="c&#x51FD;&#x6578;&#x8ABF;&#x7528;&#x7684;&#x53C3;&#x6578;&#x50B3;&#x905E;&#x65B9;&#x6CD5;&#x7E3D;&#x7D50;&#xFF08;&#x901A;&#x904E;gdb&#x53CD;&#x5F59;&#x7DE8;&#xFF09;">C++&#x51FD;&#x6578;&#x8ABF;&#x7528;&#x7684;&#x53C3;&#x6578;&#x50B3;&#x905E;&#x65B9;&#x6CD5;&#x7E3D;&#x7D50;&#xFF08;&#x901A;&#x904E;gdb+&#x53CD;&#x5F59;&#x7DE8;&#xFF09;</h1>
 <p>&#x4E0A;&#x4E00;&#x7BC7;&#x6587;&#x7AE0;&#x300A;Linux Debugging:&#x4F7F;&#x7528;&#x53CD;&#x5F59;&#x7DE8;&#x7406;&#x89E3;C++&#x7A0B;&#x5E8F;&#x51FD;&#x6578;&#x8ABF;&#x7528;&#x68E7;&#x300B;&#x6C92;&#x60F3;&#x5230;&#x80FD;&#x5F97;&#x5230;&#x90A3;&#x9EBC;&#x591A;&#x4EBA;&#x7684;&#x559C;&#x611B;&#xFF0C;&#x56E0;&#x70BA;&#x90A3;&#x7BC7;&#x6587;&#x7AE0;&#x662F;&#x4EE5;32&#x4F4D;&#x7684;C++&#x666E;&#x901A;&#x51FD;&#x6578;&#xFF08;&#x975E;&#x985E;&#x6210;&#x54E1;&#x51FD;&#x6578;&#xFF09;&#x70BA;&#x4F8B;&#x5B50;&#x5BEB;&#x7684;&#xFF0C;&#x56E0;&#x6B64;&#x53EA;&#x662F;&#x4E00;&#x500B;&#x7279;&#x6B8A;&#x7684;&#x4F8B;&#x5B50;&#x3002;&#x672C;&#x6587;&#x5C07;&#x51FD;&#x6578;&#x8ABF;&#x7528;&#x6642;&#x7684;&#x53C3;&#x6578;&#x50B3;&#x905E;&#x65B9;&#x6CD5;&#x9032;&#x884C;&#x4E00;&#x4E0B;&#x7E3D;&#x7D50;&#x3002;&#x7E3D;&#x7D50;&#x5C07;&#x70BA;C++&#x666E;&#x901A;&#x51FD;&#x6578;&#x3001;&#x985E;&#x6210;&#x54E1;&#x51FD;&#x6578;&#xFF1B;32&#x4F4D;&#x548C;64&#x4F4D;&#x9032;&#x884C;&#x7E3D;&#x7D50;&#x3002;</p>
 <p>&#x5EFA;&#x8B70;&#x9084;&#x662F;&#x8B80;&#x4E00;&#x4E0B;Linux Debugging:&#x4F7F;&#x7528;&#x53CD;&#x5F59;&#x7DE8;&#x7406;&#x89E3;C++&#x7A0B;&#x5E8F;&#x51FD;&#x6578;&#x8ABF;&#x7528;&#x68E7;&#xFF0C;&#x9019;&#x6A23;&#x672C;&#x6587;&#x7684;&#x7D50;&#x8AD6;&#x5C07;&#x975E;&#x5E38;&#x5BB9;&#x6613;&#x7406;&#x89E3;&#xFF0C;&#x5C07;&#x975E;&#x5E38;&#x597D;&#x7684;&#x70BA;CoreDump&#x5206;&#x6790;&#x958B;&#x4E00;&#x500B;&#x597D;&#x982D;&#x3002;&#x800C;&#x4E14;&#xFF0C;&#x5B83;&#x4E5F;&#x662F;32&#x4F4D;C++ &#x666E;&#x901A;&#x51FD;&#x6578;&#x7684;&#x8ABF;&#x7528;&#x7684;&#x6BD4;&#x8F03;&#x597D;&#x7684;&#x4F8B;&#x5B50;&#xFF0C;&#x7562;&#x7ADF;&#x5F9E;&#x5F59;&#x7DE8;&#x7684;&#x89D2;&#x5EA6;&#xFF0C;&#x5C07;&#x53C3;&#x6578;&#x5982;&#x4F55;&#x50B3;&#x905E;&#x7684;&#x9032;&#x884C;&#x4E86;&#x6BD4;&#x8F03;&#x597D;&#x7684;&#x8AAA;&#x660E;&#x3002;</p>
-<h2 id="1-32%E4%BD%8D%E7%A8%8B%E5%BA%8F%E6%99%AE%E9%80%9A%E5%87%BD%E6%95%B8">1. 32&#x4F4D;&#x7A0B;&#x5E8F;&#x666E;&#x901A;&#x51FD;&#x6578;</h2>
+<h2 id="1-32&#x4F4D;&#x7A0B;&#x5E8F;&#x666E;&#x901A;&#x51FD;&#x6578;">1. 32&#x4F4D;&#x7A0B;&#x5E8F;&#x666E;&#x901A;&#x51FD;&#x6578;</h2>
 <p>&#x666E;&#x901A;&#x51FD;&#x6578;&#x7684;&#x610F;&#x601D;&#x662F;&#x975E;class member function</p>
 <pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">func2</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b)</span>
 </span>{
@@ -7813,7 +7766,7 @@ $1 = 1111
 (gdb) p *(int*)($ebp+12)
 $2 = 2222
 </code></pre><p>&#x5176;&#x5BE6;32&#x4F4D;&#x7684;&#x7A0B;&#x5E8F;&#x4E5F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x5BC4;&#x5B58;&#x5668;&#x50B3;&#x905E;&#x53C3;&#x6578;&#x3002;&#x8ACB;&#x770B;&#x4E0B;&#x4E00;&#x7BC0;&#x3002;</p>
-<h3 id="2-32%E4%BD%8D%E6%99%AE%E9%80%9A%E5%87%BD%E6%95%B8-%E9%80%9A%E9%81%8E%E5%AF%84%E5%AD%98%E5%99%A8%E5%82%B3%E9%81%9E%E5%8F%83%E6%95%B8">2. 32&#x4F4D;&#x666E;&#x901A;&#x51FD;&#x6578;-&#x901A;&#x904E;&#x5BC4;&#x5B58;&#x5668;&#x50B3;&#x905E;&#x53C3;&#x6578;</h3>
+<h3 id="2-32&#x4F4D;&#x666E;&#x901A;&#x51FD;&#x6578;&#x901A;&#x904E;&#x5BC4;&#x5B58;&#x5668;&#x50B3;&#x905E;&#x53C3;&#x6578;">2. 32&#x4F4D;&#x666E;&#x901A;&#x51FD;&#x6578;-&#x901A;&#x904E;&#x5BC4;&#x5B58;&#x5668;&#x50B3;&#x905E;&#x53C3;&#x6578;</h3>
 <p>&#x53EF;&#x4EE5;&#x4F7F;&#x7528;GCC&#x7684;&#x64F4;&#x5C55;&#x529F;&#x80FD;<strong>attribute</strong>&#x4F7F;&#x5F97;&#x53C3;&#x6578;&#x50B3;&#x905E;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x5BC4;&#x5B58;&#x5668;&#x3002;
 &#x4FEE;&#x6539;&#x7B2C;&#x4E00;&#x7BC0;&#x7684;&#x51FD;&#x6578;&#xFF1A;</p>
 <pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> STACKCALL __attribute__((regparm(<span class="hljs-number">3</span>)))</span>
@@ -7872,7 +7825,7 @@ $1 = 4444
 (gdb)
 </code></pre>
 <p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;&#x524D;&#x4E09;&#x500B;&#x53C3;&#x6578;&#x5206;&#x5225;&#x901A;&#x904E;eax/edx/ecx&#x50B3;&#x905E;&#xFF0C;&#x7B2C;&#x56DB;&#x500B;&#x53C3;&#x6578;&#x901A;&#x904E;&#x68E7;&#x50B3;&#x905E;&#x3002;&#x9019;&#x7A2E;&#x50B3;&#x905E;&#x65B9;&#x5F0F;&#x88AB;&#x7A31;&#x70BA;fastcall</p>
-<h3 id="3-32%E4%BD%8D-class-member-function-%E5%8F%83%E6%95%B8%E5%82%B3%E9%81%9E%E6%96%B9%E5%BC%8F">3. 32&#x4F4D; class member function &#x53C3;&#x6578;&#x50B3;&#x905E;&#x65B9;&#x5F0F;</h3>
+<h3 id="3-32&#x4F4D;-class-member-function-&#x53C3;&#x6578;&#x50B3;&#x905E;&#x65B9;&#x5F0F;">3. 32&#x4F4D; class member function &#x53C3;&#x6578;&#x50B3;&#x905E;&#x65B9;&#x5F0F;</h3>
 <p>&#x6211;&#x5011;&#x901A;&#x904E;&#x5B8F;USINGSTACK&#x5F37;&#x5236;&#x4F7F;&#x7528;&#x68E7;&#x4F86;&#x50B3;&#x905E;&#x53C3;&#x6578;&#x3002;</p>
 <pre><code class="lang-cpp"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> USINGSTACK __attribute__((regparm(<span class="hljs-number">0</span>)))</span>
 <span class="hljs-keyword">class</span> Test
@@ -7924,7 +7877,7 @@ $<span class="hljs-number">2</span> = <span class="hljs-number">2222</span>
 $<span class="hljs-number">3</span> = {number = <span class="hljs-number">3333</span>}
 </code></pre>
 <p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;class&#x6210;&#x54E1;&#x51FD;&#x6578;&#x7684;&#x7B2C;&#x4E00;&#x500B;&#x53C3;&#x6578;&#x662F;&#x5C0D;&#x8C61;&#x7684;&#x6307;&#x91DD;&#x3002;&#x901A;&#x904E;&#x9019;&#x7A2E;&#x65B9;&#x5F0F;&#xFF0C;&#x6210;&#x54E1;&#x51FD;&#x6578;&#x53EF;&#x4EE5;&#x548C;&#x975E;&#x6210;&#x54E1;&#x51FD;&#x6578;&#x4EE5;&#x985E;&#x4F3C;&#x7684;&#x65B9;&#x5F0F;&#x9032;&#x884C;&#x8ABF;&#x7528;&#x3002;</p>
-<h3 id="4-x86-64-class-member-function-%E7%9A%84%E5%8F%83%E6%95%B8%E5%82%B3%E9%81%9E">4. x86-64 class member function &#x7684;&#x53C3;&#x6578;&#x50B3;&#x905E;</h3>
+<h3 id="4-x8664-class-member-function-&#x7684;&#x53C3;&#x6578;&#x50B3;&#x905E;">4. x86-64 class member function &#x7684;&#x53C3;&#x6578;&#x50B3;&#x905E;</h3>
 <p>&#x5728;x86-64&#x4E2D;&#xFF0C;&#x6574;&#x5F62;&#x548C;&#x6307;&#x91DD;&#x578B;&#x53C3;&#x6578;&#x7684;&#x53C3;&#x6578;&#x5F9E;&#x5DE6;&#x5230;&#x53F3;&#x4F9D;&#x6B21;&#x4FDD;&#x5B58;&#x5230;rdi&#xFF0C;rsi&#xFF0C;rdx&#xFF0C;rcx&#xFF0C;r8&#xFF0C;r9&#x4E2D;&#x3002;&#x6D6E;&#x9EDE;&#x578B;&#x53C3;&#x6578;&#x6703;&#x4FDD;&#x5B58;&#x5230;xmm0&#xFF0C;xmm1&#x2026;&#x2026;&#x3002;&#x591A;&#x9918;&#x7684;&#x53C3;&#x6578;&#x6703;&#x4FDD;&#x6301;&#x5230;&#x68E7;&#x4E0A;&#x3002;</p>
 <p>&#x4E0B;&#x9762;&#x9019;&#x500B;&#x4F8B;&#x5B50;&#x5C07;&#x50B3;&#x905E;&#x4E5D;&#x500B;&#x53C3;&#x6578;&#x3002;&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x5B83;&#x4F86;&#x9A57;&#x8B49;&#x4E00;&#x4E0B;&#x5404;&#x500B;&#x5BC4;&#x5B58;&#x5668;&#x7684;&#x4F7F;&#x7528;&#x60C5;&#x6CC1;&#xFF1A;</p>
 <pre><code class="lang-cpp"><span class="hljs-keyword">class</span> Test
@@ -8039,7 +7992,7 @@ $<span class="hljs-number">8</span> = <span class="hljs-number">9.99900000000000
 </code></pre>
 <p>&#x7E3D;&#x7D50;&#xFF1A;</p>
 <p>&#x5728;x86-64&#x4E2D;&#xFF0C;&#x6574;&#x5F62;&#x548C;&#x6307;&#x91DD;&#x578B;&#x53C3;&#x6578;&#x7684;&#x53C3;&#x6578;&#x5F9E;&#x5DE6;&#x5230;&#x53F3;&#x4F9D;&#x6B21;&#x4FDD;&#x5B58;&#x5230;rdi&#xFF0C;rsi&#xFF0C;rdx&#xFF0C;rcx&#xFF0C;r8&#xFF0C;r9&#x4E2D;&#x3002;&#x6D6E;&#x9EDE;&#x578B;&#x53C3;&#x6578;&#x6703;&#x4FDD;&#x5B58;&#x5230;xmm0&#xFF0C;xmm1&#x2026;&#x2026;&#x3002;&#x591A;&#x9918;&#x7684;&#x53C3;&#x6578;&#x6703;&#x4FDD;&#x6301;&#x5230;&#x68E7;&#x4E0A;&#x3002;</p>
-<h3 id="5-%E7%B8%BD%E7%B5%90">5. &#x7E3D;&#x7D50;</h3>
+<h3 id="5-&#x7E3D;&#x7D50;">5. &#x7E3D;&#x7D50;</h3>
 <p><code>32&#x4F4D;&#xFF1A;</code></p>
 <pre><code>  1&#xFF09;&#x9ED8;&#x8A8D;&#x7684;&#x50B3;&#x905E;&#x65B9;&#x6CD5;&#x4E0D;&#x4F7F;&#x7528;&#x5BC4;&#x5B58;&#x5668;&#xFF0C;&#x4F7F;&#x7528;ebp+8&#x53EF;&#x4EE5;&#x8A2A;&#x554F;&#x7B2C;&#x4E00;&#x500B;&#x53C3;&#x6578;&#xFF0C;ebp+16&#x53EF;&#x4EE5;&#x8A2A;&#x554F;&#x7B2C;&#x4E8C;&#x500B;&#x53C3;&#x6578;&#x3002;&#x3002;&#x3002;
 
@@ -8096,9 +8049,25 @@ $<span class="hljs-number">8</span> = <span class="hljs-number">9.99900000000000
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/lunr.min.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/search.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"search":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

@@ -8,7 +8,7 @@
         <title>pstack 跟蹤進程棧 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,14 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-search/search.css">
+        
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +56,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="3.3.5" data-basepath=".." data-revision="Sat Feb 13 2016 12:47:18 GMT+0800 (CST)">
+    <div class="book"
+        data-level="3.3.5"
+        data-chapter-title="pstack 跟蹤進程棧"
+        data-filepath="linux_tools/pstack.md"
+        data-basepath=".."
+        data-revision="Sun Feb 14 2016 02:04:57 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -4131,6 +4142,21 @@
             
         </li>
     
+        <li class="chapter " data-level="18.13" data-path="gdb/cgdb_bian_yi.html">
+            
+                
+                    <a href="../gdb/cgdb_bian_yi.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>18.13.</b>
+                        
+                        cgdb 編譯＆使用
+                    </a>
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -7657,80 +7683,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -7745,7 +7698,7 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="pstack-%E8%B7%9F%E8%B9%A4%E9%80%B2%E7%A8%8B%E6%A3%A7">pstack &#x8DDF;&#x8E64;&#x9032;&#x7A0B;&#x68E7;</h1>
+                        <h1 id="pstack-&#x8DDF;&#x8E64;&#x9032;&#x7A0B;&#x68E7;">pstack &#x8DDF;&#x8E64;&#x9032;&#x7A0B;&#x68E7;</h1>
 <p>&#x6B64;&#x547D;&#x4EE4;&#x53EF;&#x986F;&#x793A;&#x6BCF;&#x500B;&#x9032;&#x7A0B;&#x7684;&#x68E7;&#x8DDF;&#x8E64;&#x3002;pstack &#x547D;&#x4EE4;&#x5FC5;&#x9808;&#x7531;&#x76F8;&#x61C9;&#x9032;&#x7A0B;&#x7684;&#x5C6C;&#x4E3B;&#x6216; root &#x904B;&#x884C;&#x3002;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; pstack &#x4F86;&#x78BA;&#x5B9A;&#x9032;&#x7A0B;&#x639B;&#x8D77;&#x7684;&#x4F4D;&#x7F6E;&#x3002;&#x6B64;&#x547D;&#x4EE4;&#x5141;&#x8A31;&#x4F7F;&#x7528;&#x7684;&#x552F;&#x4E00;&#x9078;&#x9805;&#x662F;&#x8981;&#x6AA2;&#x67E5;&#x7684;&#x9032;&#x7A0B;&#x7684; PID&#x3002;&#x8ACB;&#x53C3;&#x898B; proc(1) &#x624B;&#x518A;&#x9801;&#x3002;</p>
 <p>&#x9019;&#x500B;&#x547D;&#x4EE4;&#x5728;&#x6392;&#x67E5;&#x9032;&#x7A0B;&#x554F;&#x984C;&#x6642;&#x975E;&#x5E38;&#x6709;&#x7528;&#xFF0C;&#x6BD4;&#x5982;&#x6211;&#x5011;&#x767C;&#x73FE;&#x4E00;&#x500B;&#x670D;&#x52D9;&#x4E00;&#x76F4;&#x8655;&#x65BC;work&#x72C0;&#x614B;&#xFF08;&#x5982;&#x5047;&#x6B7B;&#x72C0;&#x614B;&#xFF0C;&#x597D;&#x4F3C;&#x6B7B;&#x5FAA;&#x74B0;&#xFF09;&#xFF0C;&#x4F7F;&#x7528;&#x9019;&#x500B;&#x547D;&#x4EE4;&#x5C31;&#x80FD;&#x8F15;&#x9B06;&#x5B9A;&#x4F4D;&#x554F;&#x984C;&#x6240;&#x5728;&#xFF1B;&#x53EF;&#x4EE5;&#x5728;&#x4E00;&#x6BB5;&#x6642;&#x9593;&#x5167;&#xFF0C;&#x591A;&#x57F7;&#x884C;&#x5E7E;&#x6B21;pstack&#xFF0C;&#x82E5;&#x767C;&#x73FE;&#x4EE3;&#x78BC;&#x68E7;&#x7E3D;&#x662F;&#x505C;&#x5728;&#x540C;&#x4E00;&#x500B;&#x4F4D;&#x7F6E;&#xFF0C;&#x90A3;&#x500B;&#x4F4D;&#x7F6E;&#x5C31;&#x9700;&#x8981;&#x91CD;&#x9EDE;&#x95DC;&#x6CE8;&#xFF0C;&#x5F88;&#x53EF;&#x80FD;&#x5C31;&#x662F;&#x51FA;&#x554F;&#x984C;&#x7684;&#x5730;&#x65B9;&#xFF1B;</p>
 <p>&#x793A;&#x4F8B;&#xFF1A;&#x67E5;&#x770B;bash&#x7A0B;&#x5E8F;&#x9032;&#x7A0B;&#x68E7;:</p>
@@ -7808,9 +7761,25 @@ tdev1  11474 11402  0 20:32 pts/2    00:00:00 grep bash
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/lunr.min.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/search.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"search":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

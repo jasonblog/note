@@ -8,7 +8,7 @@
         <title>Linker script初探 - GNU linker ld手冊略讀 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,14 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-search/search.css">
+        
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +56,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="22.1" data-basepath=".." data-revision="Sat Feb 13 2016 12:47:18 GMT+0800 (CST)">
+    <div class="book"
+        data-level="22.1"
+        data-chapter-title="Linker script初探 - GNU linker ld手冊略讀"
+        data-filepath="22/221.md"
+        data-basepath=".."
+        data-revision="Sun Feb 14 2016 02:04:57 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -4131,6 +4142,21 @@
             
         </li>
     
+        <li class="chapter " data-level="18.13" data-path="gdb/cgdb_bian_yi.html">
+            
+                
+                    <a href="../gdb/cgdb_bian_yi.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>18.13.</b>
+                        
+                        cgdb 編譯＆使用
+                    </a>
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -7657,80 +7683,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -7745,7 +7698,7 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="linker-script%E5%88%9D%E6%8E%A2-gnu-linker-ld%E6%89%8B%E5%86%8A%E7%95%A5%E8%AE%80">Linker script&#x521D;&#x63A2; - GNU linker ld&#x624B;&#x518A;&#x7565;&#x8B80;</h1>
+                        <h1 id="linker-script&#x521D;&#x63A2;--gnu-linker-ld&#x624B;&#x518A;&#x7565;&#x8B80;">Linker script&#x521D;&#x63A2; - GNU linker ld&#x624B;&#x518A;&#x7565;&#x8B80;</h1>
 <p>&#x95DC;&#x65BC;&#x4E00;&#x500B;&#x7A0B;&#x5F0F;&#x7684;binary&#x8981;&#x600E;&#x9EBC;&#x5B58;&#x653E;&#x5176;&#x5BE6;&#x662F;&#x5F88;&#x6709;&#x8DA3;&#x7684;&#x554F;&#x984C;&#xFF0C;&#x6211;&#x4EE5;&#x524D;&#x90FD;&#x6C92;&#x6709;&#x53BB;&#x60F3;&#x9019;&#x500B;&#x554F;&#x984C;&#x3002;&#x5F8C;&#x4F86;&#x7576;&#x7D44;&#x88DD;&#x5DE5;&#x4E45;&#x4E86;&#x4EE5;&#x5F8C;&#x5C31;&#x5FCD;&#x4E0D;&#x4F4F;&#x6703;&#x60F3;&#x77E5;&#x9053;&#x9019;&#x4E9B;&#x3002;&#x96A8;&#x4FBF;&#x60F3;&#x4E00;&#x4E0B;&#x5C31;&#x6709;&#x5F88;&#x591A;&#x554F;&#x984C;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;</p>
 <ul>
 <li>&#x7A0B;&#x5F0F;&#x78BC;&#x548C;&#x8CC7;&#x6599;&#x8981;&#x600E;&#x9EBC;&#x653E;&#xFF1F;</li>
@@ -7756,7 +7709,7 @@
 ...</li>
 </ul>
 <p>&#x9019;&#x4E9B;&#x554F;&#x984C;&#x5217;&#x51FA;&#x4F86;&#x771F;&#x7684;&#x662F;&#x300C;&#x7F44;&#x7AF9;&#x96E3;&#x66F8;&#x300D;&#xFF0C;&#x4E0D;&#x904E;&#x6211;&#x60F3;&#x6574;&#x9AD4;&#x4F86;&#x8AAA;&#x81F3;&#x5C11;&#x5728;Linux&#x4E0B;&#x9762;&#x5F9E;binutils&#x4E0B;&#x624B;&#x61C9;&#x8A72;&#x662F;&#x6C92;&#x932F;&#x3002;&#x7B2C;&#x4E00;&#x500B;&#x554F;&#x984C;&#x61C9;&#x8A72;&#x548C;linker&#x6709;&#x95DC;&#x4FC2;&#x3002;&#x6240;&#x4EE5;&#x6211;&#x5148;&#x53BB;&#x770B;ld&#x6587;&#x4EF6;&#x4E2D;&#x7684;linker script&#xFF0C;&#x5E0C;&#x671B;&#x53EF;&#x4EE5;&#x89E3;&#x6C7A;&#x6211;&#x7684;&#x7591;&#x60D1;&#x3002;&#x5C31;&#x7B97;&#x548C;&#x6211;&#x7684;&#x554F;&#x984C;&#x7121;&#x95DC;&#xFF0C;&#x81F3;&#x5C11;&#x53EF;&#x4EE5;&#x7559;&#x4E0B;&#x4E00;&#x4E9B;&#x4E2D;&#x6587;&#x53C3;&#x8003;&#x8CC7;&#x6599;&#xFF0C;&#x9020;&#x798F;&#x9700;&#x8981;&#x7684;&#x670B;&#x53CB;&#x3002;</p>
-<h2 id="%E7%9B%AE%E9%8C%84">&#x76EE;&#x9304;</h2>
+<h2 id="&#x76EE;&#x9304;">&#x76EE;&#x9304;</h2>
 <ul>
 <li><a href="#intro">&#x7C21;&#x4ECB;</a></li>
 <li><a href="#bkg">&#x80CC;&#x666F;&#x77E5;&#x8B58;</a><ul>
@@ -7799,7 +7752,7 @@
 </ul>
 <hr>
 <p><a name="intro"></a></p>
-<h2 id="%E7%B0%A1%E4%BB%8B">&#x7C21;&#x4ECB;</h2>
+<h2 id="&#x7C21;&#x4ECB;">&#x7C21;&#x4ECB;</h2>
 <p><code>ld</code>&#x662F;GNU linker&#x7684;&#x7A0B;&#x5F0F;&#x3002;<code>ld</code>&#x5403;&#x591A;&#x500B;object (<em>.o)&#x6A94;&#x6216;archive (</em>.a)&#x6A94;&#xFF0C;&#x5C07;&#x4ED6;&#x5011;&#x7684;&#x8CC7;&#x6599;relocate&#x9084;&#x6709;symbol reference&#x8CC7;&#x8A0A;&#x4E00;&#x4F75;&#x8F38;&#x51FA;&#x5230;&#x65B0;&#x7684;binary&#x3002;link&#x901A;&#x5E38;&#x662F;compile&#x7522;&#x751F;binary&#x7684;&#x6700;&#x5F8C;&#x6B65;&#x9A5F;&#x3002;<code>ld</code>&#x5728;&#x57F7;&#x884C;&#x7684;&#x6642;&#x5019;&#x4F9D;&#x7167;<strong>Linker command language</strong>&#x6A94;&#x6848;&#x63CF;&#x8FF0;&#x53BB;&#x7522;&#x751F;binary&#x3002;ld&#x652F;&#x63F4;&#x4E0D;&#x540C;&#x7684;binary format <a href="https://sourceware.org/binutils/docs/ld/BFD.html#BFD" target="_blank">(BFD: Binary File Descriptor)</a></p>
 <p>&#x6BCF;&#x6B21;link&#x7684;&#x6642;&#x5019;&#xFF0C;&#x90FD;&#x6703;&#x4F9D;&#x7167;&#x7279;&#x5B9A;&#x7684;&#x547D;&#x4EE4;&#x53BB;&#x7522;&#x751F;&#x65B0;&#x7684;object&#x6A94;&#x3002;&#x800C;&#x9019;&#x4E9B;&#x547D;&#x4EE4;&#x5C31;&#x662F;linker script&#xFF1B;&#x63DB;&#x53E5;&#x8A71;&#x8AAA;&#xFF0C;linker script&#x63D0;&#x4F9B;&#x4E00;&#x9023;&#x4E32;&#x7684;&#x547D;&#x4EE4;&#x8B93;linker&#x7167;&#x8868;&#x64CD;&#x8AB2;&#x3002;Linker script&#x63CF;&#x8FF0;&#x7684;&#x547D;&#x4EE4;&#x6709;</p>
 <ul>
@@ -7810,7 +7763,7 @@
 <p>&#x56E0;&#x70BA;&#x6BCF;&#x6B21;link&#x4E00;&#x5B9A;&#x6703;&#x4F9D;&#x64DA;linker script&#x53BB;link&#xFF0C;&#x6240;&#x4EE5;&#x7576;<code>ld</code>&#x6C92;&#x6709;&#x6307;&#x5B9A;linker script&#x7684;&#x6642;&#x5019;&#xFF0C;&#x7CFB;&#x7D71;&#x6703;&#x4F7F;&#x7528;&#x9810;&#x8A2D;&#x7684;linker script&#x3002;&#x800C;<code>ld --verbose</code>&#x53EF;&#x4EE5;&#x986F;&#x793A;&#x9810;&#x8A2D;&#x7684;linkder script&#x3002;link&#x6642;&#x6307;&#x5B9A;&#x81EA;&#x5E79;&#x7684;linker script&#x5247;&#x4F7F;&#x7528;<code>ld -T &#x81EA;&#x5DF1;&#x7684;linker script</code>&#x3002;</p>
 <hr>
 <p><a name="bkg"></a></p>
-<h2 id="%E8%83%8C%E6%99%AF%E7%9F%A5%E8%AD%98">&#x80CC;&#x666F;&#x77E5;&#x8B58;</h2>
+<h2 id="&#x80CC;&#x666F;&#x77E5;&#x8B58;">&#x80CC;&#x666F;&#x77E5;&#x8B58;</h2>
 <ul>
 <li>object &#x6A94;&#x683C;&#x5F0F;&#xFF1A;&#x8F38;&#x5165;&#x6A94;&#x6848;&#x548C;&#x8F38;&#x51FA;&#x6A94;&#x6848;&#x6240;&#x9075;&#x5FAA;&#x7684;&#x683C;&#x5F0F;</li>
 <li>object &#x6A94;&#x6848;&#xFF1A;&#x8F38;&#x5165;&#x6A94;&#x6848;&#x548C;&#x8F38;&#x51FA;&#x6A94;&#x6848;</li>
@@ -7844,7 +7797,7 @@
 <li><a href="http://www.slideshare.net/jserv/from-source-to-binary-how-gnu-toolchain-works/46" target="_blank">&#x53C3;&#x8003;&#x793A;&#x610F;&#x5716;: (Jim Huang) How GNU Toolchain Works&#x6295;&#x5F71;&#x7247; </a></li>
 </ul>
 <p><a name="bkg-layout"></a></p>
-<h4 id="section-%E8%A8%98%E6%86%B6%E9%AB%94%E4%BD%8D%E5%9D%80">Section &#x8A18;&#x61B6;&#x9AD4;&#x4F4D;&#x5740;</h4>
+<h4 id="section-&#x8A18;&#x61B6;&#x9AD4;&#x4F4D;&#x5740;">Section &#x8A18;&#x61B6;&#x9AD4;&#x4F4D;&#x5740;</h4>
 <ul>
 <li>Output section&#x5982;&#x679C;&#x88AB;&#x8F09;&#x5165;&#x8A18;&#x61B6;&#x9AD4;&#xFF0C;&#x6703;&#x5B58;&#x653E;&#x5169;&#x7A2E;&#x8A18;&#x61B6;&#x9AD4;&#x4F4D;&#x5740;<ul>
 <li>VMA: Virtual Memory Address<ul>
@@ -7875,7 +7828,7 @@
 </ul>
 <hr>
 <p><a name="fmt"></a></p>
-<h2 id="linker-script-%E6%A0%BC%E5%BC%8F%E6%A6%82%E8%AB%96">Linker script &#x683C;&#x5F0F;&#x6982;&#x8AD6;</h2>
+<h2 id="linker-script-&#x683C;&#x5F0F;&#x6982;&#x8AD6;">Linker script &#x683C;&#x5F0F;&#x6982;&#x8AD6;</h2>
 <ul>
 <li>&#x4EE5;&#x6587;&#x5B57;&#x6A94;&#x5B58;&#x653E;</li>
 <li>&#x7531;&#x591A;&#x500B;command&#x7D44;&#x6210;</li>
@@ -7893,7 +7846,7 @@
 </ul>
 <hr>
 <p><a name="ex"></a></p>
-<h2 id="%E5%BE%9Elinker-script-%E7%AF%84%E4%BE%8B%E9%96%8B%E5%A7%8B">&#x5F9E;Linker script &#x7BC4;&#x4F8B;&#x958B;&#x59CB;</h2>
+<h2 id="&#x5F9E;linker-script-&#x7BC4;&#x4F8B;&#x958B;&#x59CB;">&#x5F9E;Linker script &#x7BC4;&#x4F8B;&#x958B;&#x59CB;</h2>
 <pre><code class="lang-c">SECTIONS
 {
     . = <span class="hljs-number">0x10000</span>;
@@ -7916,7 +7869,7 @@
 <p>&#x53E6;&#x5916;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;ld&#x6703;&#x81EA;&#x52D5;&#x5E6B;&#x4F60;&#x8655;&#x7406;<a href="http://en.wikipedia.org/wiki/Data_structure_alignment" target="_blank">alignment&#x7684;&#x554F;&#x984C;</a>&#xFF0C;&#x6240;&#x4EE5;&#x4E0D;&#x7528;&#x64D4;&#x5FC3;section&#x4E4B;&#x9593;&#x7684;aligment&#x554F;&#x984C;&#x3002;</p>
 <hr>
 <p><a name="cmd"></a></p>
-<h2 id="linker-script-%E5%91%BD%E4%BB%A4%E6%A0%BC%E5%BC%8F">linker script &#x547D;&#x4EE4;&#x683C;&#x5F0F;</h2>
+<h2 id="linker-script-&#x547D;&#x4EE4;&#x683C;&#x5F0F;">linker script &#x547D;&#x4EE4;&#x683C;&#x5F0F;</h2>
 <ul>
 <li><code>ENTRY(symbol)</code><ul>
 <li>&#x8A2D;&#x5B9A;&#x67D0;&#x500B;symbol&#x70BA;&#x7A0B;&#x5F0F;&#x57F7;&#x884C;&#x7684;&#x7B2C;&#x4E00;&#x500B;&#x6307;&#x4EE4;&#x8D77;&#x59CB;&#x9EDE;&#xFF0C;&#x5728;&#x6211;&#x7684;&#x9810;&#x8A2D;linker script&#x4E2D;&#x662F;<code>ENTRY(_start)</code>&#xFF0C;&#x7136;&#x5F8C;&#x53BB;&#x53CD;&#x7D44;&#x8B6F;&#x96A8;&#x4FBF;&#x4E00;&#x500B;C&#x7DE8;&#x8B6F;&#x51FA;&#x4F86;&#x7684;&#x57F7;&#x884C;&#x6A94;&#xFF0C;&#x627E;&#x5B57;&#x4E32;<code>_start</code>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x88E1;&#x9762;&#x53C8;&#x53BB;&#x547C;&#x53EB;&#x4E86;<code>__libc_start_main@plt</code>&#x3002;</li>
@@ -7941,7 +7894,7 @@
   <span class="hljs-number">40046</span>a:       <span class="hljs-number">66</span> <span class="hljs-number">0f</span> <span class="hljs-number">1f</span> <span class="hljs-number">44</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span>       nopw   <span class="hljs-number">0x0</span>(%rax,%rax,<span class="hljs-number">1</span>)
 </code></pre>
 <p><a name="cmd-file"></a></p>
-<h3 id="%E6%AA%94%E6%A1%88%E7%9B%B8%E9%97%9C%E5%91%BD%E4%BB%A4">&#x6A94;&#x6848;&#x76F8;&#x95DC;&#x547D;&#x4EE4;</h3>
+<h3 id="&#x6A94;&#x6848;&#x76F8;&#x95DC;&#x547D;&#x4EE4;">&#x6A94;&#x6848;&#x76F8;&#x95DC;&#x547D;&#x4EE4;</h3>
 <ul>
 <li><code>INCLUDE filename</code><ul>
 <li>&#x5728;&#x770B;&#x5230;&#x9019;&#x500B;&#x547D;&#x4EE4;&#x7684;&#x6642;&#x5019;&#x624D;&#x53BB;&#x8F09;&#x5165;<code>filename</code>&#x9019;&#x500B;<strong>linker script</strong>&#x3002;&#x53EF;&#x4EE5;&#x88AB;&#x653E;&#x5728;&#x4E0D;&#x540C;&#x7684;&#x547D;&#x4EE4;&#x5982;SETCTION, MEMORY&#x7B49;&#x3002;</li>
@@ -7973,7 +7926,7 @@
 </li>
 </ul>
 <p><a name="cmd-obj"></a></p>
-<h3 id="object%E6%AA%94%E6%A1%88%E7%9B%B8%E9%97%9C%E6%A0%BC%E5%BC%8F%E5%91%BD%E4%BB%A4">Object&#x6A94;&#x6848;&#x76F8;&#x95DC;&#x683C;&#x5F0F;&#x547D;&#x4EE4;</h3>
+<h3 id="object&#x6A94;&#x6848;&#x76F8;&#x95DC;&#x683C;&#x5F0F;&#x547D;&#x4EE4;">Object&#x6A94;&#x6848;&#x76F8;&#x95DC;&#x683C;&#x5F0F;&#x547D;&#x4EE4;</h3>
 <ul>
 <li><code>OUTPUT_FORMAT(bfdname)</code><ul>
 <li>&#x6307;&#x5B9A;&#x8F38;&#x51FA;object&#x6A94;&#x6848;&#x7684;binary &#x6A94;&#x6848;&#x683C;&#x5F0F;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;<code>objdump -i</code>&#x5217;&#x51FA;&#x652F;&#x63F4;&#x7684;binary &#x6A94;&#x6848;&#x683C;&#x5F0F;</li>
@@ -7989,7 +7942,7 @@
 </li>
 </ul>
 <p><a name="cmd-alias"></a></p>
-<h3 id="%E8%A8%AD%E5%AE%9A%E8%A8%98%E6%86%B6%E9%AB%94%E5%8D%80%E5%A1%8Aalias%E5%91%BD%E4%BB%A4">&#x8A2D;&#x5B9A;&#x8A18;&#x61B6;&#x9AD4;&#x5340;&#x584A;alias&#x547D;&#x4EE4;</h3>
+<h3 id="&#x8A2D;&#x5B9A;&#x8A18;&#x61B6;&#x9AD4;&#x5340;&#x584A;alias&#x547D;&#x4EE4;">&#x8A2D;&#x5B9A;&#x8A18;&#x61B6;&#x9AD4;&#x5340;&#x584A;alias&#x547D;&#x4EE4;</h3>
 <ul>
 <li><code>REGION_ALIAS(alias, region)</code><ul>
 <li>&#x8A2D;&#x5B9A;<code>MEMORY</code>&#x547D;&#x4EE4;&#x4E2D;&#x5340;&#x584A;&#x7684;alias&#xFF0C;&#x4E00;&#x822C;&#x4F86;&#x8AAA;&#xFF0C;&#x7528;&#x5728;&#x4E0D;&#x540C;&#x7684;&#x5E73;&#x81FA;&#x9700;&#x8981;&#x76F8;&#x540C;&#x7684;memory layout&#x6642;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x3002;&#x8209;&#x4F8B;&#x4F86;&#x8AAA;&#xFF0C;&#x7576;&#x6709;3&#x500B;&#x5E73;&#x81FA;&#xFF0C;&#x8A18;&#x61B6;&#x9AD4;layout&#x90FD;&#x662F;&#x76F8;&#x540C;&#xFF0C;&#x90A3;&#x9EBC;&#x53EF;&#x4EE5;<ul>
@@ -8029,7 +7982,7 @@
        }
 </code></pre>
 <p><a name="cmd-misc"></a></p>
-<h3 id="%E6%9C%AA%E5%88%86%E9%A1%9E%E7%9A%84%E5%91%BD%E4%BB%A4-%E7%AF%80%E9%8C%84%EF%BC%89">&#x672A;&#x5206;&#x985E;&#x7684;&#x547D;&#x4EE4; (&#x7BC0;&#x9304;&#xFF09;</h3>
+<h3 id="&#x672A;&#x5206;&#x985E;&#x7684;&#x547D;&#x4EE4;-&#x7BC0;&#x9304;&#xFF09;">&#x672A;&#x5206;&#x985E;&#x7684;&#x547D;&#x4EE4; (&#x7BC0;&#x9304;&#xFF09;</h3>
 <ul>
 <li><code>ASSERT(exp, message)</code><ul>
 <li>&#x689D;&#x4EF6;&#x4E0D;&#x6210;&#x7ACB;&#x5C31;&#x5674;&#x8A0A;&#x606F;&#x4E26;&#x7D50;&#x675F;link</li>
@@ -8063,12 +8016,12 @@
     }
 }
 INSERT AFTER .text;
-</code></pre><h2 id="-a-name-assign-a"><a name="assign"></a></h2>
-<h2 id="%E8%A8%AD%E5%AE%9Asymbol%E7%9A%84%E5%80%BC">&#x8A2D;&#x5B9A;symbol&#x7684;&#x503C;</h2>
+</code></pre><h2 id=""><a name="assign"></a></h2>
+<h2 id="&#x8A2D;&#x5B9A;symbol&#x7684;&#x503C;">&#x8A2D;&#x5B9A;symbol&#x7684;&#x503C;</h2>
 <p>linker script&#x63D0;&#x4F9B;&#x8A2D;&#x5B9A;<strong>symbol</strong>&#x6578;&#x503C;&#x7684;&#x65B9;&#x6CD5;&#x3002;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C;&#x9019;&#x908A;&#x7684;symbol&#x53EF;&#x4EE5;&#x6307;&#x4E00;&#x500B;&#x5168;&#x57DF;&#x8B8A;&#x6578;&#x3001;<code>SECTION</code>&#x547D;&#x4EE4;&#x4E2D;&#x7684;location counter&#xFF08;&#x5C31;&#x662F;<code>.</code>&#x958B;&#x982D;&#x7684;&#x8CC7;&#x6599;&#x5982;<code>.text</code>&#xFF09;</p>
 <p>&#x4F7F;&#x7528;&#x65B9;&#x5F0F;&#x4ECB;&#x7D39;&#x5982;&#x4E0B;&#xFF1A;</p>
 <p><a name="assign-op"></a></p>
-<h3 id="%E5%9F%BA%E6%9C%AC%E9%81%8B%E7%AE%97">&#x57FA;&#x672C;&#x904B;&#x7B97;</h3>
+<h3 id="&#x57FA;&#x672C;&#x904B;&#x7B97;">&#x57FA;&#x672C;&#x904B;&#x7B97;</h3>
 <pre><code class="lang-c">symbol = expression ;
 symbol += expression ;
 symbol -= expression ;
@@ -8104,13 +8057,13 @@ SECTIONS
 </li>
 </ul>
 <p><a name="assign-hid"></a></p>
-<h3 id="hidden%E5%91%BD%E4%BB%A4">HIDDEN&#x547D;&#x4EE4;</h3>
+<h3 id="hidden&#x547D;&#x4EE4;">HIDDEN&#x547D;&#x4EE4;</h3>
 <ul>
 <li><code>HIDDEN(&#x8981;&#x96B1;&#x85CF;&#x7684;symbol)</code>
 &#x53EF;&#x4EE5;&#x628A;&#x4ED6;&#x7406;&#x89E3;&#x6210;&#x52A0;&#x4E86;<code>static</code>&#x7684;&#x5168;&#x57DF;&#x8B8A;&#x6578;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#x9019;&#x500B;symbol&#x53EA;&#x5728;&#x9019;&#x500B;&#x8655;&#x7406;&#x7BC4;&#x570D;&#x4E2D;&#x624D;&#x80FD;&#x6478;&#x5230;&#x3002;</li>
 </ul>
 <p><a name="assign-prov"></a></p>
-<h3 id="provide%E5%91%BD%E4%BB%A4">PROVIDE&#x547D;&#x4EE4;</h3>
+<h3 id="provide&#x547D;&#x4EE4;">PROVIDE&#x547D;&#x4EE4;</h3>
 <ul>
 <li><code>PROVIDE&#x547D;&#x4EE4;(symbol = expression)</code><ul>
 <li>&#x7C21;&#x55AE;&#x4F86;&#x8AAA;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x7684;&#x7A0B;&#x5F0F;&#x5DF2;&#x7D93;&#x6709;&#x9019;&#x500B;symbol&#xFF08;&#x51FD;&#x6578;&#x6216;&#x8B8A;&#x6578;&#xFF09;&#xFF0C;&#x5C31;&#x7528;&#x4F60;&#x7684;&#xFF1B;&#x5426;&#x5247;&#x5C31;&#x4F7F;&#x7528;&#x9019;&#x908A;&#x63D0;&#x4F9B;&#x7684;symbol&#x3002;&#x624B;&#x518A;&#x4E0A;&#x8AAA;&#x662F;&#x7D66;&#x7279;&#x6B8A;&#x7684;linker&#x4F7F;&#x7528;&#x7684;&#x3002;&#x60F3;&#x77E5;&#x9053;&#x4ED6;&#x63D0;&#x7684;use case&#x53EF;&#x4EE5;&#x770B;<a href="https://sourceware.org/binutils/docs/ld/PROVIDE.html#PROVIDE" target="_blank">&#x9019;&#x908A;</a>&#xFF0C;&#x6211;&#x662F;&#x6C92;&#x4EC0;&#x9EBC;&#x611F;&#x89BA;&#x3002;</li>
@@ -8118,7 +8071,7 @@ SECTIONS
 </li>
 </ul>
 <p><a name="assign-hid-prov"></a></p>
-<h3 id="provide-hidden%E5%91%BD%E4%BB%A4">PROVIDE_HIDDEN&#x547D;&#x4EE4;</h3>
+<h3 id="providehidden&#x547D;&#x4EE4;">PROVIDE_HIDDEN&#x547D;&#x4EE4;</h3>
 <ul>
 <li><code>PROVIDE_HIDDEN(symbol = expression)</code><ul>
 <li>&#x548C;PROVIDE&#x547D;&#x4EE4;&#x76F8;&#x540C;&#xFF0C;&#x5DEE;&#x5225;&#x662F;&#x9019;&#x500B;symbol&#x53EA;&#x5728;&#x9019;&#x500B;&#x8655;&#x7406;&#x7BC4;&#x570D;&#x4E2D;&#x624D;&#x80FD;&#x6478;&#x5230;&#xFF0C;&#x4E00;&#x5982;HIDDEN&#x547D;&#x4EE4;&#x3002;</li>
@@ -8126,7 +8079,7 @@ SECTIONS
 </li>
 </ul>
 <p><a name="assign-src"></a></p>
-<h3 id="%E8%AB%87%E8%AB%87source-code%E5%92%8Clinker-script-symbol%E7%9A%84%E9%97%9C%E4%BF%82">&#x8AC7;&#x8AC7;source code&#x548C;linker script symbol&#x7684;&#x95DC;&#x4FC2;</h3>
+<h3 id="&#x8AC7;&#x8AC7;source-code&#x548C;linker-script-symbol&#x7684;&#x95DC;&#x4FC2;">&#x8AC7;&#x8AC7;source code&#x548C;linker script symbol&#x7684;&#x95DC;&#x4FC2;</h3>
 <p>&#x9019;&#x7BC0;&#x5F88;&#x6709;&#x8DA3;&#xFF0C;&#x89E3;&#x7B54;&#x6211;&#x7684;&#x4E00;&#x4E9B;&#x5C0F;&#x554F;&#x984C;&#x3002;</p>
 <ul>
 <li>&#x8B8A;&#x6578;&#x5982;&#x4F55;&#x5B58;&#x653E;&#x5728;binary&#x4E2D;&#xFF1F;<ul>
@@ -8215,7 +8168,7 @@ SECTIONS
 </ul>
 <hr>
 <p><a name="sec"></a></p>
-<h2 id="setcion%E5%91%BD%E4%BB%A4">SETCION&#x547D;&#x4EE4;</h2>
+<h2 id="setcion&#x547D;&#x4EE4;">SETCION&#x547D;&#x4EE4;</h2>
 <p>&#x5176;&#x5BE6;&#x4E00;&#x958B;&#x59CB;&#x662F;&#x70BA;&#x4E86;&#x770B;&#x61C2;&#x9019;&#x500B;&#x547D;&#x4EE4;&#x624D;&#x6703;&#x60F3;&#x770B;linker script&#x7684;&#x3002;&#x5982;&#x679C;&#x63A5;&#x89F8;&#x904E;&#x5F88;&#x5C0F;&#x578B;&#x7684;Embedded OS&#x5C31;&#x6703;&#x767C;&#x73FE;&#x5F88;&#x591A;&#x90FD;&#x662F;&#x81EA;&#x5E79;linker script&#xFF1B;&#x800C;&#x9019;&#x4E9B;scripts&#x4E3B;&#x8981;&#x7684;&#x63CF;&#x8FF0;&#x547D;&#x4EE4;&#x5C31;&#x662F;<code>SETCION</code>&#x3002;</p>
 <p>&#x597D;&#x4E86;&#xFF0C;&#x5EE2;&#x8A71;&#x5C11;&#x8AAA;&#xFF0C;&#x9032;&#x5165;&#x4E3B;&#x984C;&#x3002;SECTION&#x547D;&#x4EE4;&#x7684;&#x529F;&#x7528;&#x662F;</p>
 <ul>
@@ -8245,7 +8198,7 @@ SECTIONS
 <li>&#x7B2C;&#x4E00;&#x500B;&#x5403;&#x5230;&#x7684;&#x8F38;&#x5165;object&#x6A94;&#x6848;section&#x5C07;&#x7576;&#x4F5C;&#x4F4D;&#x5740;0&#x7684;&#x8D77;&#x59CB;&#x9EDE;</li>
 </ul>
 <p><a name="sec-output-desc"></a></p>
-<h3 id="%E8%BC%B8%E5%87%BAobject%E6%AA%94%E6%A1%88%E7%9A%84section%E6%8F%8F%E8%BF%B0">&#x8F38;&#x51FA;object&#x6A94;&#x6848;&#x7684;section&#x63CF;&#x8FF0;</h3>
+<h3 id="&#x8F38;&#x51FA;object&#x6A94;&#x6848;&#x7684;section&#x63CF;&#x8FF0;">&#x8F38;&#x51FA;object&#x6A94;&#x6848;&#x7684;section&#x63CF;&#x8FF0;</h3>
 <pre><code class="lang-c">section [address] [(type)] :
     [AT(lma)]
     [ALIGN(section_align) | ALIGN_WITH_INPUT]
@@ -8273,12 +8226,12 @@ SECTIONS
 <li>=fillexp</li>
 </ul>
 <p><a name="sec-output-name"></a></p>
-<h3 id="%E8%BC%B8%E5%87%BAobject%E6%AA%94%E6%A1%88%E7%9A%84section-%E5%91%BD%E5%90%8D">&#x8F38;&#x51FA;object&#x6A94;&#x6848;&#x7684;section &#x547D;&#x540D;</h3>
+<h3 id="&#x8F38;&#x51FA;object&#x6A94;&#x6848;&#x7684;section-&#x547D;&#x540D;">&#x8F38;&#x51FA;object&#x6A94;&#x6848;&#x7684;section &#x547D;&#x540D;</h3>
 <ul>
 <li>&#x5FC5;&#x9808;&#x7B26;&#x5408;&#x4F60;&#x8981;&#x8F38;&#x51FA;object&#x6A94;&#x6848;binary format&#x898F;&#x5B9A;&#x3002;</li>
 </ul>
 <p><a name="sec-output-addr"></a></p>
-<h4 id="%E8%BC%B8%E5%87%BAobject%E6%AA%94%E6%A1%88section-%E5%91%BD%E4%BB%A4-address%E6%AC%84%E4%BD%8D">&#x8F38;&#x51FA;object&#x6A94;&#x6848;section &#x547D;&#x4EE4;: address&#x6B04;&#x4F4D;</h4>
+<h4 id="&#x8F38;&#x51FA;object&#x6A94;&#x6848;section-&#x547D;&#x4EE4;-address&#x6B04;&#x4F4D;">&#x8F38;&#x51FA;object&#x6A94;&#x6848;section &#x547D;&#x4EE4;: address&#x6B04;&#x4F4D;</h4>
 <p>address&#x662F;<a href="#sec-output-desc">section</a>&#x7684;&#x4E00;&#x500B;optional&#x6B04;&#x4F4D;&#xFF0C;&#x4F7F;&#x7528;&#x7684;&#x8A18;&#x61B6;&#x9AD4;&#x7A7A;&#x9593;&#x70BA;<a href="#bkg-layout">VMA</a>&#x3002;&#x5982;&#x679C;&#x6C92;&#x6709;&#x6307;&#x5B9A;&#x7684;&#x8A71;&#xFF0C;linker&#x6703;&#x4F9D;&#x4E0B;&#x9762;&#x7684;&#x65B9;&#x5F0F;&#x8A2D;&#x5B9A;&#x8F38;&#x51FA;object&#x6A94;&#x6848;section &#x7684;VMA&#x3002;&#x8A72;VMA&#x6703;&#x9075;&#x5FAA;section &#x7684;alignment&#x898F;&#x7BC4;&#x3002;</p>
 <ul>
 <li>&#x6709;&#x8A2D;&#x5B9A;<code>region</code>&#x7684;&#x8A71;&#x5C31;&#x5F9E;region&#x5167;&#x5269;&#x9918;&#x7A7A;&#x9593;&#x958B;&#x59CB;&#x4F4D;&#x5740;</li>
@@ -8293,10 +8246,10 @@ SECTIONS
 </ul>
 <p>&#x53E6;&#x5916;&#x4E00;&#x9EDE;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x8A2D;&#x5B9A;&#x5F8C;locale counter&#x4E5F;&#x6703;&#x8DDF;&#x8457;&#x6539;&#x8B8A;&#x3002;</p>
 <p><a name="sec-input-desc"></a></p>
-<h4 id="%E8%BC%B8%E5%85%A5object%E6%AA%94%E6%A1%88%E7%9A%84section%E6%8F%8F%E8%BF%B0">&#x8F38;&#x5165;object&#x6A94;&#x6848;&#x7684;section&#x63CF;&#x8FF0;</h4>
+<h4 id="&#x8F38;&#x5165;object&#x6A94;&#x6848;&#x7684;section&#x63CF;&#x8FF0;">&#x8F38;&#x5165;object&#x6A94;&#x6848;&#x7684;section&#x63CF;&#x8FF0;</h4>
 <p>&#x9019;&#x90E8;&#x4EFD;&#x53EF;&#x4EE5;&#x8AAA;&#x662F;&#x6574;&#x500B;<code>output-section-command</code>&#x7684;&#x91CD;&#x9EDE;&#xFF0C;&#x76EE;&#x7684;&#x662F;&#x544A;&#x8A34;linker&#x8B80;&#x53D6;&#x8F38;&#x5165;object&#x6A94;&#x6848;&#x5F8C;&#xFF0C;&#x600E;&#x9EBC;&#x628A;&#x9019;&#x4E9B;&#x6A94;&#x6848;&#x88E1;&#x9762;&#x7684;section&#x8907;&#x88FD;&#x5230;&#x8F38;&#x51FA;object&#x6A94;&#x6848;&#x88E1;&#x9762;<strong>&#x9069;&#x7576;&#x5730;</strong>section&#x3002;</p>
 <p><a name="sec-input-desc-basic"></a></p>
-<h4 id="%E8%BC%B8%E5%85%A5object%E6%AA%94%E6%A1%88%E7%9A%84section-%E5%9F%BA%E7%A4%8E%E6%A6%82%E5%BF%B5">&#x8F38;&#x5165;object&#x6A94;&#x6848;&#x7684;section &#x57FA;&#x790E;&#x6982;&#x5FF5;</h4>
+<h4 id="&#x8F38;&#x5165;object&#x6A94;&#x6848;&#x7684;section-&#x57FA;&#x790E;&#x6982;&#x5FF5;">&#x8F38;&#x5165;object&#x6A94;&#x6848;&#x7684;section &#x57FA;&#x790E;&#x6982;&#x5FF5;</h4>
 <p>&#x683C;&#x5F0F;&#x70BA;<code>&#x6A94;&#x6848;(section1  section2 ...)</code>&#xFF0C;&#x6A94;&#x6848;&#x652F;&#x63F4;<a href="https://sourceware.org/binutils/docs/ld/Input-Section-Wildcards.html#Input-Section-Wildcards" target="_blank">&#x842C;&#x7528;&#x5B57;&#x5143;</a>&#x3002;</p>
 <p>&#x6240;&#x4EE5;&#x5E38;&#x770B;&#x5230;&#x7684;<code>*(.text)</code>&#x7684;&#x610F;&#x601D;&#x662F;&#xFF1A;&#x6240;&#x6709;&#x8F38;&#x5165;object&#x6A94;&#x6848;&#x88E1;&#x9762;&#x7684;<code>.text</code> section&#x3002;</p>
 <p>&#x6307;&#x5B9A;&#x591A;&#x500B;section&#x7684;&#x65B9;&#x5F0F;&#x6709;&#x5169;&#x7A2E;</p>
@@ -8334,7 +8287,7 @@ SECTIONS
 </ul>
 <hr>
 <p><a name="ref"></a></p>
-<h2 id="%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99">&#x53C3;&#x8003;&#x8CC7;&#x6599;</h2>
+<h2 id="&#x53C3;&#x8003;&#x8CC7;&#x6599;">&#x53C3;&#x8003;&#x8CC7;&#x6599;</h2>
 <ul>
 <li><a href="https://sourceware.org/binutils/docs/ld/Scripts.html#Scripts" target="_blank">GNU linker ld: Linker Scripts</a></li>
 <li><a href="http://www.slideshare.net/jserv/from-source-to-binary-how-gnu-toolchain-works" target="_blank">from Source to Binary: How GNU Toolchain Works</a></li>
@@ -8383,9 +8336,25 @@ SECTIONS
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/lunr.min.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/search.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"search":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

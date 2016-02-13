@@ -8,7 +8,7 @@
         <title>孤兒進程與殭屍進程[總結] | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,14 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-search/search.css">
+        
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +56,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="15.12" data-basepath=".." data-revision="Sat Feb 13 2016 12:47:18 GMT+0800 (CST)">
+    <div class="book"
+        data-level="15.12"
+        data-chapter-title="孤兒進程與殭屍進程[總結]"
+        data-filepath="linux_system/1512.md"
+        data-basepath=".."
+        data-revision="Sun Feb 14 2016 02:04:57 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -4131,6 +4142,21 @@
             
         </li>
     
+        <li class="chapter " data-level="18.13" data-path="gdb/cgdb_bian_yi.html">
+            
+                
+                    <a href="../gdb/cgdb_bian_yi.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>18.13.</b>
+                        
+                        cgdb 編譯＆使用
+                    </a>
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -7657,80 +7683,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -7745,14 +7698,14 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E5%AD%A4%E5%85%92%E9%80%B2%E7%A8%8B%E8%88%87%E6%AE%AD%E5%B1%8D%E9%80%B2%E7%A8%8B-%E7%B8%BD%E7%B5%90">&#x5B64;&#x5152;&#x9032;&#x7A0B;&#x8207;&#x6BAD;&#x5C4D;&#x9032;&#x7A0B;[&#x7E3D;&#x7D50;]</h1>
-<h2 id="1%E3%80%81%E5%89%8D%E8%A8%80">1&#x3001;&#x524D;&#x8A00;</h2>
+                        <h1 id="&#x5B64;&#x5152;&#x9032;&#x7A0B;&#x8207;&#x6BAD;&#x5C4D;&#x9032;&#x7A0B;&#x7E3D;&#x7D50;">&#x5B64;&#x5152;&#x9032;&#x7A0B;&#x8207;&#x6BAD;&#x5C4D;&#x9032;&#x7A0B;[&#x7E3D;&#x7D50;]</h1>
+<h2 id="1&#x3001;&#x524D;&#x8A00;">1&#x3001;&#x524D;&#x8A00;</h2>
 <p>&#x3000;&#x3000;&#x4E4B;&#x524D;&#x5728;&#x770B;&#x300A;unix&#x74B0;&#x5883;&#x9AD8;&#x7D1A;&#x7DE8;&#x7A0B;&#x300B;&#x7B2C;&#x516B;&#x7AE0;&#x9032;&#x7A0B;&#x6642;&#x5019;&#xFF0C;&#x63D0;&#x5230;&#x5B64;&#x5152;&#x9032;&#x7A0B;&#x548C;&#x6BAD;&#x5C4D;&#x9032;&#x7A0B;&#xFF0C;&#x4E00;&#x76F4;&#x5C0D;&#x9019;&#x5169;&#x500B;&#x6982;&#x5FF5;&#x6BD4;&#x8F03;&#x6A21;&#x7CCA;&#x3002;&#x4ECA;&#x5929;&#x88AB;&#x4EBA;&#x554F;&#x5230;&#x4EC0;&#x9EBC;&#x662F;&#x5B64;&#x5152;&#x9032;&#x7A0B;&#x548C;&#x6BAD;&#x5C4D;&#x9032;&#x7A0B;&#xFF0C;&#x6703;&#x5E36;&#x4F86;&#x4EC0;&#x9EBC;&#x554F;&#x984C;&#xFF0C;&#x600E;&#x9EBC;&#x89E3;&#x6C7A;&#xFF0C;&#x6211;&#x53EA;&#x505C;&#x7559;&#x5728;&#x6982;&#x5FF5;&#x4E0A;&#x9762;&#xFF0C;&#x6C92;&#x6709;&#x6DF1;&#x5165;&#xFF0C;&#x500D;&#x611F;&#x615A;&#x6127;&#x3002;&#x665A;&#x4E0A;&#x56DE;&#x4F86;google&#x4E86;&#x4E00;&#x4E0B;&#xFF0C;&#x518D;&#x6B21;&#x53C3;&#x8003;APUE&#xFF0C;&#x8A8D;&#x771F;&#x7E3D;&#x7D50;&#x4E00;&#x4E0B;&#xFF0C;&#x52A0;&#x6DF1;&#x7406;&#x89E3;&#x3002;</p>
-<h2 id="2%E3%80%81%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5">2&#x3001;&#x57FA;&#x672C;&#x6982;&#x5FF5;</h2>
+<h2 id="2&#x3001;&#x57FA;&#x672C;&#x6982;&#x5FF5;">2&#x3001;&#x57FA;&#x672C;&#x6982;&#x5FF5;</h2>
 <p>&#x3000;&#x3000;&#x6211;&#x5011;&#x77E5;&#x9053;&#x5728;unix/linux&#x4E2D;&#xFF0C;&#x6B63;&#x5E38;&#x60C5;&#x6CC1;&#x4E0B;&#xFF0C;&#x5B50;&#x9032;&#x7A0B;&#x662F;&#x901A;&#x904E;&#x7236;&#x9032;&#x7A0B;&#x5275;&#x5EFA;&#x7684;&#xFF0C;&#x5B50;&#x9032;&#x7A0B;&#x5728;&#x5275;&#x5EFA;&#x65B0;&#x7684;&#x9032;&#x7A0B;&#x3002;&#x5B50;&#x9032;&#x7A0B;&#x7684;&#x7D50;&#x675F;&#x548C;&#x7236;&#x9032;&#x7A0B;&#x7684;&#x904B;&#x884C;&#x662F;&#x4E00;&#x500B;&#x7570;&#x6B65;&#x904E;&#x7A0B;,&#x5373;&#x7236;&#x9032;&#x7A0B;&#x6C38;&#x9060;&#x7121;&#x6CD5;&#x9810;&#x6E2C;&#x5B50;&#x9032;&#x7A0B; &#x5230;&#x5E95;&#x4EC0;&#x9EBC;&#x6642;&#x5019;&#x7D50;&#x675F;&#x3002; &#x7576;&#x4E00;&#x500B; &#x9032;&#x7A0B;&#x5B8C;&#x6210;&#x5B83;&#x7684;&#x5DE5;&#x4F5C;&#x7D42;&#x6B62;&#x4E4B;&#x5F8C;&#xFF0C;&#x5B83;&#x7684;&#x7236;&#x9032;&#x7A0B;&#x9700;&#x8981;&#x8ABF;&#x7528;wait()&#x6216;&#x8005;waitpid()&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x53D6;&#x5F97;&#x5B50;&#x9032;&#x7A0B;&#x7684;&#x7D42;&#x6B62;&#x72C0;&#x614B;&#x3002;</p>
 <p>&#x3000;&#x3000;<strong>&#x5B64;&#x5152;&#x9032;&#x7A0B;&#xFF1A;&#x4E00;&#x500B;&#x7236;&#x9032;&#x7A0B;&#x9000;&#x51FA;&#xFF0C;&#x800C;&#x5B83;&#x7684;&#x4E00;&#x500B;&#x6216;&#x591A;&#x500B;&#x5B50;&#x9032;&#x7A0B;&#x9084;&#x5728;&#x904B;&#x884C;&#xFF0C;&#x90A3;&#x9EBC;&#x90A3;&#x4E9B;&#x5B50;&#x9032;&#x7A0B;&#x5C07;&#x6210;&#x70BA;&#x5B64;&#x5152;&#x9032;&#x7A0B;&#x3002;&#x5B64;&#x5152;&#x9032;&#x7A0B;&#x5C07;&#x88AB;init&#x9032;&#x7A0B;(&#x9032;&#x7A0B;&#x865F;&#x70BA;1)&#x6240;&#x6536;&#x990A;&#xFF0C;&#x4E26;&#x7531;init&#x9032;&#x7A0B;&#x5C0D;&#x5B83;&#x5011;&#x5B8C;&#x6210;&#x72C0;&#x614B;&#x6536;&#x96C6;&#x5DE5;&#x4F5C;&#x3002;</strong></p>
 <p>&#x3000;&#x3000;<strong>&#x6BAD;&#x5C4D;&#x9032;&#x7A0B;&#xFF1A;&#x4E00;&#x500B;&#x9032;&#x7A0B;&#x4F7F;&#x7528;fork&#x5275;&#x5EFA;&#x5B50;&#x9032;&#x7A0B;&#xFF0C;&#x5982;&#x679C;&#x5B50;&#x9032;&#x7A0B;&#x9000;&#x51FA;&#xFF0C;&#x800C;&#x7236;&#x9032;&#x7A0B;&#x4E26;&#x6C92;&#x6709;&#x8ABF;&#x7528;wait&#x6216;waitpid&#x7372;&#x53D6;&#x5B50;&#x9032;&#x7A0B;&#x7684;&#x72C0;&#x614B;&#x4FE1;&#x606F;&#xFF0C;&#x90A3;&#x9EBC;&#x5B50;&#x9032;&#x7A0B;&#x7684;&#x9032;&#x7A0B;&#x63CF;&#x8FF0;&#x7B26;&#x4ECD;&#x7136;&#x4FDD;&#x5B58;&#x5728;&#x7CFB;&#x7D71;&#x4E2D;&#x3002;&#x9019;&#x7A2E;&#x9032;&#x7A0B;&#x7A31;&#x4E4B;&#x70BA;&#x50F5;&#x6B7B;&#x9032;&#x7A0B;&#x3002;</strong></p>
-<h2 id="3%E3%80%81%E5%95%8F%E9%A1%8C%E5%8F%8A%E5%8D%B1%E5%AE%B3">3&#x3001;&#x554F;&#x984C;&#x53CA;&#x5371;&#x5BB3;</h2>
+<h2 id="3&#x3001;&#x554F;&#x984C;&#x53CA;&#x5371;&#x5BB3;">3&#x3001;&#x554F;&#x984C;&#x53CA;&#x5371;&#x5BB3;</h2>
 <p>&#x3000;&#x3000;unix&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x7A2E;&#x6A5F;&#x5236;&#x53EF;&#x4EE5;&#x4FDD;&#x8B49;&#x53EA;&#x8981;&#x7236;&#x9032;&#x7A0B;&#x60F3;&#x77E5;&#x9053;&#x5B50;&#x9032;&#x7A0B;&#x7D50;&#x675F;&#x6642;&#x7684;&#x72C0;&#x614B;&#x4FE1;&#x606F;&#xFF0C; &#x5C31;&#x53EF;&#x4EE5;&#x5F97;&#x5230;&#x3002;&#x9019;&#x7A2E;&#x6A5F;&#x5236;&#x5C31;&#x662F;: &#x5728;&#x6BCF;&#x500B;&#x9032;&#x7A0B;&#x9000;&#x51FA;&#x7684;&#x6642;&#x5019;,&#x5167;&#x6838;&#x91CB;&#x653E;&#x8A72;&#x9032;&#x7A0B;&#x6240;&#x6709;&#x7684;&#x8CC7;&#x6E90;,&#x5305;&#x62EC;&#x6253;&#x958B;&#x7684;&#x6587;&#x4EF6;,&#x4F54;&#x7528;&#x7684;&#x5167;&#x5B58;&#x7B49;&#x3002; &#x4F46;&#x662F;&#x4ECD;&#x7136;&#x70BA;&#x5176;&#x4FDD;&#x7559;&#x4E00;&#x5B9A;&#x7684;&#x4FE1;&#x606F;(&#x5305;&#x62EC;&#x9032;&#x7A0B;&#x865F;the process ID,&#x9000;&#x51FA;&#x72C0;&#x614B;the termination status of the process,&#x904B;&#x884C;&#x6642;&#x9593;the amount of CPU time taken by the process&#x7B49;)&#x3002;&#x76F4;&#x5230;&#x7236;&#x9032;&#x7A0B;&#x901A;&#x904E;wait / waitpid&#x4F86;&#x53D6;&#x6642;&#x624D;&#x91CB;&#x653E;&#x3002; &#x4F46;&#x9019;&#x6A23;&#x5C31;&#x5C0E;&#x81F4;&#x4E86;&#x554F;&#x984C;&#xFF0C;<strong>&#x5982;&#x679C;&#x9032;&#x7A0B;&#x4E0D;&#x8ABF;&#x7528;wait / waitpid&#x7684;&#x8A71;&#xFF0C; &#x90A3;&#x9EBC;&#x4FDD;&#x7559;&#x7684;&#x90A3;&#x6BB5;&#x4FE1;&#x606F;&#x5C31;&#x4E0D;&#x6703;&#x91CB;&#x653E;&#xFF0C;&#x5176;&#x9032;&#x7A0B;&#x865F;&#x5C31;&#x6703;&#x4E00;&#x76F4;&#x88AB;&#x4F54;&#x7528;&#xFF0C;&#x4F46;&#x662F;&#x7CFB;&#x7D71;&#x6240;&#x80FD;&#x4F7F;&#x7528;&#x7684;&#x9032;&#x7A0B;&#x865F;&#x662F;&#x6709;&#x9650;&#x7684;&#xFF0C;&#x5982;&#x679C;&#x5927;&#x91CF;&#x7684;&#x7522;&#x751F;&#x50F5;&#x6B7B;&#x9032;&#x7A0B;&#xFF0C;&#x5C07;&#x56E0;&#x70BA;&#x6C92;&#x6709;&#x53EF;&#x7528;&#x7684;&#x9032;&#x7A0B;&#x865F;&#x800C;&#x5C0E;&#x81F4;&#x7CFB;&#x7D71;&#x4E0D;&#x80FD;&#x7522;&#x751F;&#x65B0;&#x7684;&#x9032;&#x7A0B;. &#x6B64;&#x5373;&#x70BA;&#x6BAD;&#x5C4D;&#x9032;&#x7A0B;&#x7684;&#x5371;&#x5BB3;&#xFF0C;&#x61C9;&#x7576;&#x907F;&#x514D;&#x3002;</strong></p>
 <p><code>&#x5B64;&#x5152;&#x9032;&#x7A0B;&#x662F;&#x6C92;&#x6709;&#x7236;&#x9032;&#x7A0B;&#x7684;&#x9032;&#x7A0B;&#xFF0C;&#x5B64;&#x5152;&#x9032;&#x7A0B;&#x9019;&#x500B;&#x91CD;&#x4EFB;&#x5C31;&#x843D;&#x5230;&#x4E86;init&#x9032;&#x7A0B;&#x8EAB;&#x4E0A;</code>&#xFF0C;init&#x9032;&#x7A0B;&#x5C31;&#x597D;&#x50CF;&#x662F;&#x4E00;&#x500B;&#x6C11;&#x653F;&#x5C40;&#xFF0C;&#x5C08;&#x9580;&#x8CA0;&#x8CAC;&#x8655;&#x7406;&#x5B64;&#x5152;&#x9032;&#x7A0B;&#x7684;&#x5584;&#x5F8C;&#x5DE5;&#x4F5C;&#x3002;&#x6BCF;&#x7576;&#x51FA;&#x73FE;&#x4E00;&#x500B;&#x5B64;&#x5152;&#x9032;&#x7A0B;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x5167;&#x6838;&#x5C31;&#x628A;&#x5B64; &#x5152;&#x9032;&#x7A0B;&#x7684;&#x7236;&#x9032;&#x7A0B;&#x8A2D;&#x7F6E;&#x70BA;init&#xFF0C;&#x800C;init&#x9032;&#x7A0B;&#x6703;&#x5FAA;&#x74B0;&#x5730;wait()&#x5B83;&#x7684;&#x5DF2;&#x7D93;&#x9000;&#x51FA;&#x7684;&#x5B50;&#x9032;&#x7A0B;&#x3002;&#x9019;&#x6A23;&#xFF0C;&#x7576;&#x4E00;&#x500B;&#x5B64;&#x5152;&#x9032;&#x7A0B;&#x6DD2;&#x6DBC;&#x5730;&#x7D50;&#x675F;&#x4E86;&#x5176;&#x751F;&#x547D;&#x9031;&#x671F;&#x7684;&#x6642;&#x5019;&#xFF0C;init&#x9032;&#x7A0B;&#x5C31;&#x6703;&#x4EE3;&#x8868;&#x9EE8;&#x548C;&#x653F;&#x5E9C;&#x51FA;&#x9762;&#x8655;&#x7406;&#x5B83;&#x7684;&#x4E00;&#x5207;&#x5584;&#x5F8C;&#x5DE5;&#x4F5C;&#x3002;&#x56E0;&#x6B64;&#x5B64;&#x5152;&#x9032;&#x7A0B;&#x4E26;&#x4E0D;&#x6703;&#x6709;&#x4EC0;&#x9EBC;&#x5371;&#x5BB3;&#x3002;</p>
 <p>&#x3000;&#x3000;<code>&#x4EFB;&#x4F55;&#x4E00;&#x500B;&#x5B50;&#x9032;&#x7A0B;(init&#x9664;&#x5916;)&#x5728;exit()&#x4E4B;&#x5F8C;&#xFF0C;&#x4E26;&#x975E;&#x99AC;&#x4E0A;&#x5C31;&#x6D88;&#x5931;&#x6389;&#xFF0C;&#x800C;&#x662F;&#x7559;&#x4E0B;&#x4E00;&#x500B;&#x7A31;&#x70BA;&#x6BAD;&#x5C4D;&#x9032;&#x7A0B;(Zombie)&#x7684;&#x6578;&#x64DA;&#x7D50;&#x69CB;</code> <code>&#xFF0C;&#x7B49;&#x5F85;&#x7236;&#x9032;&#x7A0B;&#x8655;&#x7406;&#x3002;</code>&#x9019;&#x662F;&#x6BCF;&#x500B; &#x5B50;&#x9032;&#x7A0B;&#x5728;&#x7D50;&#x675F;&#x6642;&#x90FD;&#x8981;&#x7D93;&#x904E;&#x7684;&#x968E;&#x6BB5;&#x3002;&#x5982;&#x679C;&#x5B50;&#x9032;&#x7A0B;&#x5728;exit()&#x4E4B;&#x5F8C;&#xFF0C;&#x7236;&#x9032;&#x7A0B;&#x6C92;&#x6709;&#x4F86;&#x5F97;&#x53CA;&#x8655;&#x7406;&#xFF0C;&#x9019;&#x6642;&#x7528;ps&#x547D;&#x4EE4;&#x5C31;&#x80FD;&#x770B;&#x5230;&#x5B50;&#x9032;&#x7A0B;&#x7684;&#x72C0;&#x614B;&#x662F;&#x201C;Z&#x201D;&#x3002;&#x5982;&#x679C;&#x7236;&#x9032;&#x7A0B;&#x80FD;&#x53CA;&#x6642; &#x8655;&#x7406;&#xFF0C;&#x53EF;&#x80FD;&#x7528;ps&#x547D;&#x4EE4;&#x5C31;&#x4F86;&#x4E0D;&#x53CA;&#x770B;&#x5230;&#x5B50;&#x9032;&#x7A0B;&#x7684;&#x6BAD;&#x5C4D;&#x72C0;&#x614B;&#xFF0C;&#x4F46;&#x9019;&#x4E26;&#x4E0D;&#x7B49;&#x65BC;&#x5B50;&#x9032;&#x7A0B;&#x4E0D;&#x7D93;&#x904E;&#x6BAD;&#x5C4D;&#x72C0;&#x614B;&#x3002;  &#x5982;&#x679C;&#x7236;&#x9032;&#x7A0B;&#x5728;&#x5B50;&#x9032;&#x7A0B;&#x7D50;&#x675F;&#x4E4B;&#x524D;&#x9000;&#x51FA;&#xFF0C;&#x5247;&#x5B50;&#x9032;&#x7A0B;&#x5C07;&#x7531;init&#x63A5;&#x7BA1;&#x3002;init&#x5C07;&#x6703;&#x4EE5;&#x7236;&#x9032;&#x7A0B;&#x7684;&#x8EAB;&#x4EFD;&#x5C0D;&#x6BAD;&#x5C4D;&#x72C0;&#x614B;&#x7684;&#x5B50;&#x9032;&#x7A0B;&#x9032;&#x884C;&#x8655;&#x7406;&#x3002;</p>
@@ -7967,7 +7920,7 @@
 </code></pre>
 <p>&#x6E2C;&#x8A66;&#x7D50;&#x679C;&#x5982;&#x4E0B;&#x5716;&#x6240;&#x793A;&#xFF1A;</p>
 <p><img src="images/21005536-5a5c2ab4e536470696f864df58ac13e7.png" alt=""></p>
-<h2 id="5%E3%80%81%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99">5&#x3001;&#x53C3;&#x8003;&#x8CC7;&#x6599;</h2>
+<h2 id="5&#x3001;&#x53C3;&#x8003;&#x8CC7;&#x6599;">5&#x3001;&#x53C3;&#x8003;&#x8CC7;&#x6599;</h2>
 <p>&#x300A;unix&#x74B0;&#x5883;&#x9AD8;&#x7D1A;&#x7DE8;&#x7A0B;&#x300B;&#x7B2C;&#x516B;&#x7AE0;</p>
 <p><a href="http://www.rosoo.net/a/201109/15071.html" target="_blank">http://www.rosoo.net/a/201109/15071.html</a></p>
 <p><a href="http://blog.chinaunix.net/uid-1829236-id-3166986.html" target="_blank">http://blog.chinaunix.net/uid-1829236-id-3166986.html</a></p>
@@ -8015,9 +7968,25 @@
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/lunr.min.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/search.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"search":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

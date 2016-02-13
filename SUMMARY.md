@@ -470,4 +470,5 @@
 * [node.js](nodejs/nodejs.md)
    * [安裝 NodeJS、NPM](nodejs/an_zhuang_nodejs__npm.md)
    * [JavaScript 快速入門[轉]](nodejs/javascript_kuai_su_ru_95805b_8f495d.md)
+       * JavaScript 快速入門（序）
 

@@ -472,4 +472,5 @@
    * [JavaScript 快速入門[轉]](nodejs/javascript_kuai_su_ru_95805b_8f495d.md)
        * [JavaScript 快速入門（序）](nodejs/javascript_kuai_su_ru_men_ff08_xu_ff09.md)
        * [JavaScript 快速入門（1/10）－ 訊息輸出](nodejs/javascript_kuai_su_ru_men_ff08_1__10__xun_xi_shu_c.md)
+       * JavaScript 快速入門（2/10）－ 變數與資料型別
 

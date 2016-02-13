@@ -474,5 +474,5 @@
        * [JavaScript 快速入門（1/10）－ 訊息輸出](nodejs/javascript_kuai_su_ru_men_ff08_1__10__xun_xi_shu_c.md)
        * [JavaScript 快速入門（2/10）－ 變數與資料型別](nodejs/javascript_kuai_su_ru_men_ff08_2__10__bian_shu_yu_.md)
        * [JavaScript 快速入門（3/10）－ 數字/ 字串/ 布林值](nodejs/javascript_kuai_su_ru_men_ff08_3__10__shu_5b57_zi_.md)
-       * JavaScript 快速入門（4/10）－ 運算子
+       * [JavaScript 快速入門（4/10）－ 運算子](nodejs/javascript_kuai_su_ru_men_ff08_4__10__yun_suan_zi.md)
 

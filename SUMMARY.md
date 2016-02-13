@@ -477,5 +477,5 @@
        * [JavaScript 快速入門（4/10）－ 運算子](nodejs/javascript_kuai_su_ru_men_ff08_4__10__yun_suan_zi.md)
        * [JavaScript 快速入門（5/10）－ 敘述句 if / switch](nodejs/javascript_kuai_su_ru_men_ff08_5__10__xu_shu_ju_if.md)
        * [JavaScript 快速入門（6/10）－ 迴圈](nodejs/javascript_kuai_su_ru_men_ff08_6__10__hui_quan.md)
-       * JavaScript 快速入門（7/10）－ 函式
+       * [JavaScript 快速入門（7/10）－ 函式](nodejs/javascript_kuai_su_ru_men_ff08_7__10__han_shi.md)
 

@@ -121,7 +121,7 @@ TARGET_LINK_LIBRARIES (hello hello_lib)
 ADD_LIBRARY (hello_lib hello_lib.c)
 ```
 
-接著，我在根目錄下建了一個 build 的子目錄，然後在裏頭執行起了 cmake，試試 out-source building。
+接著，我在根目錄下建了一個 build 的子目錄，然後在裡頭執行起了 cmake，試試 out-source building。
 
 ```sh
 drakes-computer:~/Code/cmake/hello_lib/build Drake$ cmake ..
@@ -146,7 +146,7 @@ Linking C executable hello
 drakes-computer:~/Code/cmake/hello_lib/build Drake$ src/hello 
 Hello World!
 ```
-經過這樣的實驗後，發覺 cmake 產生出來的 Makefile 會自動地幫我設定好 libhello_lib.a (from hello_lib.c & hello_lib.h）與 hello（from hello_main.c）的設定，雖然還不是很了解怎麼控制 hello 與 libhello_lib.a 的目錄位置，不過應該就是${HELLO_SOURCE_DIR} 或是 ${HELLO_BINARY_DIR} 這幾個變數決定的吧，這晚一點真的需要時，再去查一下就 ok 了（我猜啦@@）。
+經過這樣的實驗後，發覺 cmake 產生出來的 Makefile 會自動地幫我設定好 libhello_lib.a (from hello_lib.c & hello_lib.h）與 hello（from hello_main.c）的設定，雖然還不是很瞭解怎麼控制 hello 與 libhello_lib.a 的目錄位置，不過應該就是${HELLO_SOURCE_DIR} 或是 ${HELLO_BINARY_DIR} 這幾個變數決定的吧，這晚一點真的需要時，再去查一下就 ok 了（我猜啦@@）。
 
 ##實驗三：試試使用外部函式庫 libpng 的情況
 
@@ -154,7 +154,7 @@ Hello World!
 
 現在問題來了，我要怎麼寫 CMakeLists.txt 檔呢? 至少要讓它產生的 Makefile 有把 libpng/zlib 的 header including path 與 library path 給加進來才行，如果還要自己去找出來的話…那我還要 cmake 幹麻 = = 在這邊，我做了一點點弊。
 
-依 Jserv 投影片上的說法，cmake 使用 modules 的方式來得知要怎麼產生 Makefile（當然不止產生 Makefile 這件事，不過我覺得一開始單就這樣想也不妨），於是我去看了一下 cmake 預設的 modules 有哪些，發現到有個叫 FindPNG.cmake 的檔，太棒了，就是它了，一定可以從裏頭找到些什麼線索。（這也是為什麼我選擇拿 libpng 做實驗）
+依 Jserv 投影片上的說法，cmake 使用 modules 的方式來得知要怎麼產生 Makefile（當然不止產生 Makefile 這件事，不過我覺得一開始單就這樣想也不妨），於是我去看了一下 cmake 預設的 modules 有哪些，發現到有個叫 FindPNG.cmake 的檔，太棒了，就是它了，一定可以從裡頭找到些什麼線索。（這也是為什麼我選擇拿 libpng 做實驗）
 
 在這個檔的一開始看到如下的解釋：
 

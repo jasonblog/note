@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Hello world on qemu Raspberry Pi | Jason note</title>
+        <title>gcc中-pthread和-lpthread的區別 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../raspberry_pi/rpi_kernel.html" />
+    <link rel="next" href="../freertos/freertos.html" />
     
     
-    <link rel="prev" href="../raspberry_pi/321.html" />
+    <link rel="prev" href="../gcc/thread_guan_jian_zi.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="32.2" data-basepath=".." data-revision="Tue Feb 16 2016 01:45:10 GMT+0800 (CST)">
+    <div class="book" data-level="38.2" data-basepath=".." data-revision="Tue Feb 16 2016 01:45:10 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -6180,7 +6180,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="32.2" data-path="raspberry_pi/322.html">
+        <li class="chapter " data-level="32.2" data-path="raspberry_pi/322.html">
             
                 
                     <a href="../raspberry_pi/322.html">
@@ -6775,7 +6775,7 @@
             
         </li>
     
-        <li class="chapter " data-level="38.2" data-path="gcc/gcc4e2d-_pthread_548c-_lpthread_de_qu_bie.html">
+        <li class="chapter active" data-level="38.2" data-path="gcc/gcc4e2d-_pthread_548c-_lpthread_de_qu_bie.html">
             
                 
                     <a href="../gcc/gcc4e2d-_pthread_548c-_lpthread_de_qu_bie.html">
@@ -7858,110 +7858,74 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="hello-world-on-qemu-raspberry-pi">Hello world on qemu Raspberry Pi</h1>
-<h2 id="1-install-raspberry-pi-qemu">1.Install Raspberry Pi qemu</h2>
-<pre><code>git clone -b rpi https://github.com/Torlus/qemu/ qemu_rpi
-cd qemu_rpi
-./configure --prefix=/usr/local/qemu_rpi --target-list=arm-softmmu,arm-linux-user,armeb-linux-user --enable-sdl
-make &amp; sudo make install
-</code></pre><h2 id="2-sample-helloworld">2.Sample Helloworld</h2>
-<h3 id="boot-asm">boot.asm</h3>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#   reference:</span>
-<span class="hljs-preprocessor">#   david leels &lt;davidontech@gmail.com&gt;</span>
-<span class="hljs-preprocessor">#   http:<span class="hljs-comment">//stackoverflow.com/questions/6870712/beagleboard-bare-metal-programming</span></span>
-<span class="hljs-preprocessor">#</span>
-
-<span class="hljs-preprocessor">#UART3 THR_REG register address</span>
-.equ UART3_THR_REG, <span class="hljs-number">0x20201000</span>
-
-.arm
-
-_start:
-    ldr r0,=UART3_THR_REG
-    adr    r1,.L0
-    bl helloworld
-.L1:
-    b    .L1
-
-.align <span class="hljs-number">2</span>
-.L0:
-    .ascii    <span class="hljs-string">&quot;helloworld\n\0&quot;</span>
+                        <h1 id="gcc%E4%B8%AD-pthread%E5%92%8C-lpthread%E7%9A%84%E5%8D%80%E5%88%A5">gcc&#x4E2D;-pthread&#x548C;-lpthread&#x7684;&#x5340;&#x5225;</h1>
+<p>&#x6700;&#x8FD1;&#x5728;&#x4F7F;&#x7528;linux mint15&#xFF0C;&#x88E1;&#x9762;&#x81EA;&#x5E36;&#x7684;gcc&#x6642;4.7&#x7684;&#xFF0C;&#x7576;&#x6211;&#x7DE8;&#x8B6F;&#x591A;&#x7DDA;&#x7A0B;&#x7A0B;&#x5E8F;&#x6642;&#xFF0C;&#x4F7F;&#x7528;-lpthread&#x5C45;&#x7136;&#x8AAA;&#x6C92;&#x6709;&#x627E;&#x5230;&#x7DDA;&#x7A0B;&#x5EAB;&#x51FD;&#x6578;&#xFF01;&#xFF01;&#xFF01;&#x7136;&#x5F8C;man&#x4E86;&#x4E00;&#x4E0B;&#xFF0C;&#x624D;&#x767C;&#x73FE;&#x5728;gcc 4.7&#x4E2D;&#x93C8;&#x63A5;&#x7DDA;&#x7A0B;&#x5EAB;&#x4F7F;&#x7528;-pthread&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x7528;-lpthread&#xFF0C;&#x70BA;&#x4E86;&#x641E;&#x6E05;&#x695A;&#x4ED6;&#x5011;&#x4E4B;&#x9593;&#x7684;&#x5340;&#x5225;&#xFF0C;&#x6211;&#x9032;&#x884C;&#x4E86;&#x4EE5;&#x4E0B;&#x6E2C;&#x8A66;&#xFF08;&#x6E2C;&#x8A66;&#x65B9;&#x6CD5;&#x6211;&#x67E5;&#x627E;&#x4E86;&#x597D;&#x591A;&#x7DB2;&#x4E0A;&#x7684;&#x8CC7;&#x6599;&#xFF09;&#xFF1A;
+&#x7528;gcc&#x7DE8;&#x8B6F;&#x4F7F;&#x7528;&#x4E86;POSIX thread&#x7684;&#x7A0B;&#x5E8F;&#x6642;&#x901A;&#x5E38;&#x9700;&#x8981;&#x52A0;&#x984D;&#x5916;&#x7684;&#x9078;&#x9805;&#xFF0C;&#x4EE5;&#x4FBF;&#x4F7F;&#x7528;thread-safe&#x7684;&#x5EAB;&#x53CA;&#x982D;&#x6587;&#x4EF6;&#xFF0C;&#x4E00;&#x4E9B;&#x8001;&#x7684;&#x66F8;&#x88E1;&#x8AAA;&#x76F4;&#x63A5;&#x589E;&#x52A0;&#x93C8;&#x63A5;&#x9078;&#x9805; -lpthread &#x5C31;&#x53EF;&#x4EE5;&#x4E86;&#xFF0C;&#x50CF;&#x9019;&#x6A23;&#xFF1A;</p>
+<pre><code class="lang-sh">gcc -c x.c  
+gcc x.o -ox -lpthread
 </code></pre>
-<h3 id="helloworld-c-r0-r0-for-argv0-r1-for-argv1">helloworld.c -r0, r0 for argv0 , r1 for argv1</h3>
-<pre><code class="lang-c"><span class="hljs-comment">/*
-helloworld.c:
-Copyright (C) 2009  david leels &lt;davidontech@gmail.com&gt;
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see http://www.gnu.org/licenses/.
-*/</span>
-
-
-<span class="hljs-comment">// this will call by bl helloworld, *addr is r0 , *p is r1</span>
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">helloworld</span><span class="hljs-params">(<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> *addr,<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *p)</span></span>{
-    <span class="hljs-keyword">while</span>(*p){
-        *addr=*p++;
-    };
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-}
+<p>&#x800C;gcc&#x624B;&#x518A;&#x88E1;&#x5247;&#x6307;&#x51FA;&#x61C9;&#x8A72;&#x5728;&#x7DE8;&#x8B6F;&#x548C;&#x93C8;&#x63A5;&#x6642;&#x90FD;&#x589E;&#x52A0; -pthread &#x9078;&#x9805;&#xFF0C;&#x50CF;&#x9019;&#x6A23;&#xFF1A;</p>
+<pre><code class="lang-sh">gcc -pthread -c x.c  
+gcc x.o -ox -pthread
 </code></pre>
-<h3 id="linker-ld-linkscript-linker-text-section-to-0x80000000">linker.ld linkscript, linker text section to 0x80000000.</h3>
-<pre><code class="lang-c"><span class="hljs-comment">/*
-* reference:
-* http://stackoverflow.com/questions/6870712/beagleboard-bare-metal-programming
-*/</span>
-
-<span class="hljs-comment">/* rammap */</span>
-MEMORY
-{
-    ram : ORIGIN = <span class="hljs-number">0x80000000</span>, LENGTH = <span class="hljs-number">0x10000</span>
-}
-
-SECTIONS
-{
-    .text : { *(.text*) } &gt; ram
-}
+<p>&#x90A3;&#x9EBC; -pthread &#x76F8;&#x6BD4;&#x65BC; -lpthread &#x93C8;&#x63A5;&#x9078;&#x9805;&#x7A76;&#x7ADF;&#x591A;&#x505A;&#x4E86;&#x4EC0;&#x9EBC;&#x5DE5;&#x4F5C;&#x5462;&#xFF1F;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x5728;verbose&#x6A21;&#x5F0F;&#x4E0B;&#x57F7;&#x884C;&#x4E00;&#x4E0B;&#x5C0D;&#x61C9;&#x7684;gcc&#x547D;&#x4EE4;&#x884C;&#x770B;&#x51FA;&#x4F86;&#x3002;&#x4E0B;&#x9762;&#x662F;&#x8001;&#x5F0F;&#x7684;&#x76F4;&#x63A5;&#x52A0; -lpthread &#x93C8;&#x63A5;&#x9078;&#x9805;&#x7684;&#x8F38;&#x51FA;&#x7D50;&#x679C;&#xFF1A;</p>
+<pre><code class="lang-sh">$ gcc -v -c x.c  
+...  
+/usr/lib/gcc/i486-linux-gnu/<span class="hljs-number">4.2</span>.<span class="hljs-number">4</span>/cc1 -quiet -v x.c -quiet -dumpbase x.c  
+-mtune=generic -auxbase x -version -fstack-protector -fstack-protector -o /tmp/cch4ASTF.s  
+...  
+as --traditional-format -V -Qy -o x.o /tmp/cch4ASTF.s  
+...  
+$ gcc -v x.o -ox -lpthread  
+...  
+ /usr/lib/gcc/i486-linux-gnu/<span class="hljs-number">4.2</span>.<span class="hljs-number">4</span>/collect2 --eh-frame-hdr -m elf_i386 --hash-style=both  
+-dynamic-linker /lib/ld-linux.so.<span class="hljs-number">2</span> -ox  
+/usr/lib/gcc/i486-linux-gnu/<span class="hljs-number">4.2</span>.<span class="hljs-number">4</span>/../../../../lib/crt1.o  
+/usr/lib/gcc/i486-linux-gnu/<span class="hljs-number">4.2</span>.<span class="hljs-number">4</span>/../../../../lib/crti.o  
+/usr/lib/gcc/i486-linux-gnu/<span class="hljs-number">4.2</span>.<span class="hljs-number">4</span>/crtbegin.o  
+-L/opt/intel/Compiler/<span class="hljs-number">11.1</span>/<span class="hljs-number">046</span>/tbb/ia32/cc4.<span class="hljs-number">1.0</span>_libc2.<span class="hljs-number">4</span>_kernel2.<span class="hljs-number">6.16</span>.<span class="hljs-number">21</span>/lib/../lib  
+-L/usr/lib/gcc/i486-linux-gnu/<span class="hljs-number">4.2</span>.<span class="hljs-number">4</span>  
+-L/usr/lib/gcc/i486-linux-gnu/<span class="hljs-number">4.2</span>.<span class="hljs-number">4</span>  
+-L/usr/lib/gcc/i486-linux-gnu/<span class="hljs-number">4.2</span>.<span class="hljs-number">4</span>/../../../../lib  
+-L/lib/../lib  
+-L/usr/lib/../lib  
+-L/opt/intel/Compiler/<span class="hljs-number">11.1</span>/<span class="hljs-number">046</span>/lib/ia32  
+-L/opt/intel/Compiler/<span class="hljs-number">11.1</span>/<span class="hljs-number">046</span>/tbb/ia32/cc4.<span class="hljs-number">1.0</span>_libc2.<span class="hljs-number">4</span>_kernel2.<span class="hljs-number">6.16</span>.<span class="hljs-number">21</span>/lib  
+-L/usr/lib/gcc/i486-linux-gnu/<span class="hljs-number">4.2</span>.<span class="hljs-number">4</span>/../../..  
+x.o -lpthread -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc  
+--as-needed -lgcc_s --no-as-needed  
+/usr/lib/gcc/i486-linux-gnu/<span class="hljs-number">4.2</span>.<span class="hljs-number">4</span>/crtend.o /usr/lib/gcc/i486-linux-gnu/<span class="hljs-number">4.2</span>.<span class="hljs-number">4</span>/../../../../lib/crtn.o
 </code></pre>
-<h3 id="makefile">Makefile</h3>
-<pre><code class="lang-c">ARMGNU = arm-none-eabi
-
-AOPS = --warn --fatal-warnings
-COPS = -Wall -Werror -O2 -nostdlib -nostartfiles -ffreestanding
-
-boot.bin: boot.<span class="hljs-keyword">asm</span>
-    $(ARMGNU)-gcc -O2 -c helloworld.c
-    $(ARMGNU)-as boot.<span class="hljs-keyword">asm</span> -o boot.o
-    $(ARMGNU)-ld -T linker.ld boot.o helloworld.o -o boot.elf
-    $(ARMGNU)-objcopy boot.elf -O binary boot.bin
-
-clean:
-    rm *.elf *.o *.bin -f
+<p>&#x4E0B;&#x9762;&#x662F;&#x5728;&#x7DE8;&#x8B6F;&#x548C;&#x93C8;&#x63A5;&#x6642;&#x5206;&#x5225;&#x6307;&#x5B9A; -pthread &#x9078;&#x9805;&#x7684;&#x8F38;&#x51FA;&#x7D50;&#x679C;&#xFF1A;</p>
+<pre><code class="lang-sh">$ gcc -v -pthread -c x.c  
+...  
+/usr/lib/gcc/i486-linux-gnu/<span class="hljs-number">4.2</span>.<span class="hljs-number">4</span>/cc1 -quiet -v &lt;strong&gt;-D_REENTRANT&lt;/strong&gt;  
+ x.c -quiet -dumpbase x.c  
+-mtune=generic -auxbase x -version -fstack-protector -fstack-protector -o /tmp/cc205IQf.s  
+...  
+as --traditional-format -V -Qy -o x.o /tmp/cc205IQf.s  
+...  
+$ gcc -v x.o -ox -pthread  
+/usr/lib/gcc/i486-linux-gnu/<span class="hljs-number">4.2</span>.<span class="hljs-number">4</span>/collect2 --eh-frame-hdr -m elf_i386 --hash-style=both  
+-dynamic-linker /lib/ld-linux.so.<span class="hljs-number">2</span> -ox  
+/usr/lib/gcc/i486-linux-gnu/<span class="hljs-number">4.2</span>.<span class="hljs-number">4</span>/../../../../lib/crt1.o  
+/usr/lib/gcc/i486-linux-gnu/<span class="hljs-number">4.2</span>.<span class="hljs-number">4</span>/../../../../lib/crti.o  
+/usr/lib/gcc/i486-linux-gnu/<span class="hljs-number">4.2</span>.<span class="hljs-number">4</span>/crtbegin.o  
+-L/opt/intel/Compiler/<span class="hljs-number">11.1</span>/<span class="hljs-number">046</span>/tbb/ia32/cc4.<span class="hljs-number">1.0</span>_libc2.<span class="hljs-number">4</span>_kernel2.<span class="hljs-number">6.16</span>.<span class="hljs-number">21</span>/lib/../lib  
+-L/usr/lib/gcc/i486-linux-gnu/<span class="hljs-number">4.2</span>.<span class="hljs-number">4</span>  
+-L/usr/lib/gcc/i486-linux-gnu/<span class="hljs-number">4.2</span>.<span class="hljs-number">4</span>  
+-L/usr/lib/gcc/i486-linux-gnu/<span class="hljs-number">4.2</span>.<span class="hljs-number">4</span>/../../../../lib  
+-L/lib/../lib  
+-L/usr/lib/../lib  
+-L/opt/intel/Compiler/<span class="hljs-number">11.1</span>/<span class="hljs-number">046</span>/lib/ia32  
+-L/opt/intel/Compiler/<span class="hljs-number">11.1</span>/<span class="hljs-number">046</span>/tbb/ia32/cc4.<span class="hljs-number">1.0</span>_libc2.<span class="hljs-number">4</span>_kernel2.<span class="hljs-number">6.16</span>.<span class="hljs-number">21</span>/lib  
+-L/usr/lib/gcc/i486-linux-gnu/<span class="hljs-number">4.2</span>.<span class="hljs-number">4</span>/../../..  
+x.o -lgcc --as-needed -lgcc_s --no-as-needed &lt;strong&gt;-lpthread&lt;/strong&gt;  
+ -lc -lgcc  
+--as-needed -lgcc_s --no-as-needed  
+/usr/lib/gcc/i486-linux-gnu/<span class="hljs-number">4.2</span>.<span class="hljs-number">4</span>/crtend.o /usr/li
 </code></pre>
-<h2 id="run-on-qemu">run on Qemu</h2>
-<pre><code class="lang-c">/usr/local/qemu_rpi/bin/qemu-system-arm -kernel boot.bin -cpu arm1176 -m <span class="hljs-number">256</span> -M raspi -serial stdio
-</code></pre>
-<h2 id="run-on-raspberry-pi-b-board">run on Raspberry Pi B+ board</h2>
-<p>1.download offical boot firmware&#xFF0C;<a href="https://github.com/raspberrypi/firmware/tree/master/boot" target="_blank">https://github.com/raspberrypi/firmware/tree/master/boot</a></p>
-<p> copy start.elf, bootcode.bin to SD card&#x3002;</p>
-<p>2.copy boot.bin to SD card replace kernel.img&#xFF0C;using UART port check result&#xFF0C;console shows Helloworld.</p>
-<p>appendix
-<img src="images/hackpad.com_qivrzCRU6mW_p.263538_1414775778651_PL2303HXD.jpg" alt=""></p>
-<p><img src="images/hackpad.com_qivrzCRU6mW_p.263538_1414775756743_Raspberry-Pi-GPIO-Layout-Model-B-Plus-312x1024.png" alt=""></p>
-<h2 id="refence">Refence</h2>
-<p><a href="http://wiki.osdev.org/Raspberry_Pi_Bare_Bones" target="_blank">http://wiki.osdev.org/Raspberry_Pi_Bare_Bones</a>
-<a href="https://lbd.hackpad.com/ep/pad/static/dUGFyJw9Hva" target="_blank">https://lbd.hackpad.com/ep/pad/static/dUGFyJw9Hva</a></p>
+<p> &#x53EF;&#x898B;&#x7DE8;&#x8B6F;&#x9078;&#x9805;&#x4E2D;&#x6307;&#x5B9A; -pthread &#x6703;&#x9644;&#x52A0;&#x4E00;&#x500B;&#x5B8F;&#x5B9A;&#x7FA9;<code>-D_REENTRANT</code>&#xFF0C;&#x8A72;&#x5B8F;&#x6703;&#x5C0E;&#x81F4; libc &#x982D;&#x6587;&#x4EF6;&#x9078;&#x64C7;&#x90A3;&#x4E9B;thread-safe&#x7684;&#x5BE6;&#x73FE;&#xFF1B;&#x93C8;&#x63A5;&#x9078;&#x9805;&#x4E2D;&#x6307;&#x5B9A; -pthread &#x5247;&#x540C; -lpthread &#x4E00;&#x6A23;&#xFF0C;&#x53EA;&#x8868;&#x793A;&#x93C8;&#x63A5; POSIX thread &#x5EAB;&#x3002;&#x7531;&#x65BC; libc &#x7528;&#x65BC;&#x9069;&#x61C9; thread-safe &#x7684;&#x5B8F;&#x5B9A;&#x7FA9;&#x53EF;&#x80FD;&#x8B8A;&#x5316;&#xFF0C;&#x56E0;&#x6B64;&#x5728;&#x7DE8;&#x8B6F;&#x548C;&#x93C8;&#x63A5;&#x6642;&#x90FD;&#x4F7F;&#x7528; -pthread &#x9078;&#x9805;&#x800C;&#x4E0D;&#x662F;&#x50B3;&#x7D71;&#x7684; -lpthread &#x80FD;&#x5920;&#x4FDD;&#x6301;&#x5411;&#x5F8C;&#x517C;&#x5BB9;&#xFF0C;&#x4E26;&#x63D0;&#x9AD8;&#x547D;&#x4EE4;&#x884C;&#x7684;&#x4E00;&#x81F4;&#x6027;&#x3002;</p>
 
                     
                     </section>
@@ -7972,10 +7936,10 @@ clean:
         </div>
 
         
-        <a href="../raspberry_pi/321.html" class="navigation navigation-prev " aria-label="Previous page: 燒錄新版系統"><i class="fa fa-angle-left"></i></a>
+        <a href="../gcc/thread_guan_jian_zi.html" class="navigation navigation-prev " aria-label="Previous page: __thread關鍵字"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../raspberry_pi/rpi_kernel.html" class="navigation navigation-next " aria-label="Next page: 自己動手編譯 Raspberry Pi 的 Kernel"><i class="fa fa-angle-right"></i></a>
+        <a href="../freertos/freertos.html" class="navigation navigation-next " aria-label="Next page: FreeRTOS"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

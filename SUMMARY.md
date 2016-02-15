@@ -428,7 +428,7 @@
    * [軟體元件的使用](thinker/ruan_ti_yuan_jian_de_shi_yong.md)
 * [GCC](gcc/gcc.md)
    * [__thread關鍵字](gcc/thread_guan_jian_zi.md)
-   * gcc中-pthread和-lpthread的區別
+   * [gcc中-pthread和-lpthread的區別](gcc/gcc4e2d-_pthread_548c-_lpthread_de_qu_bie.md)
 * [FreeRTOS](freertos/freertos.md)
    * [FreeRTOS-GCC-ARM926ejs_QEMU](freertos/qemufreertos.md)
 * [tinyclub](tinyclub/tinyclub.md)

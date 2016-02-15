@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>函數幀應用一：誰調用了main？ | Jason note</title>
+        <title>把玩 CMake 的第一步 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../simplelinux/recur.html" />
+    <link rel="next" href="../treacecode/treace_code.html" />
     
     
-    <link rel="prev" href="../simplelinux/frame.html" />
+    <link rel="prev" href="../cmake/rang_cmake_xian_shi_gcc__g_de_bian_yi_xin_xi.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="24.11" data-basepath=".." data-revision="Mon Feb 15 2016 21:25:00 GMT+0800 (CST)">
+    <div class="book" data-level="42.3" data-basepath=".." data-revision="Mon Feb 15 2016 21:25:00 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -5415,7 +5415,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="24.11" data-path="simplelinux/main.html">
+        <li class="chapter " data-level="24.11" data-path="simplelinux/main.html">
             
                 
                     <a href="../simplelinux/main.html">
@@ -7007,7 +7007,7 @@
             
         </li>
     
-        <li class="chapter " data-level="42.3" data-path="cmake/ba_wan_cmake_de_di_yi_bu.html">
+        <li class="chapter active" data-level="42.3" data-path="cmake/ba_wan_cmake_de_di_yi_bu.html">
             
                 
                     <a href="../cmake/ba_wan_cmake_de_di_yi_bu.html">
@@ -7790,94 +7790,191 @@
                 
                     <section class="normal" id="section-">
                     
-                        <p><a name="top"></a></p>
-<h1 align="center">&#x8AB0;&#x8ABF;&#x7528;&#x4E86;main&#xFF1F;
-</h1>
-
-<p>&#x9019;&#x662F;&#x51FD;&#x6578;&#x5E40;&#x7684;&#x61C9;&#x7528;&#x4E4B;&#x4E00;&#x3002;</p>
-<h2 id="%E6%93%8D%E4%BD%9C%E5%8F%AF%E8%A1%8C%E6%80%A7">&#x64CD;&#x4F5C;&#x53EF;&#x884C;&#x6027;</h2>
-<p>&#x3000;&#x3000;&#x5F9E;&#x4E0A;&#x4E00;&#x7BC7;&#x4E2D;&#x53EF;&#x4EE5;&#x767C;&#x73FE;&#xFF1A;&#x7528;&#x5E40;&#x6307;&#x91DD; ebp &#x53EF;&#x4EE5;&#x56DE;&#x6EAF;&#x5230;&#x6240;&#x6709;&#x7684;&#x51FD;&#x6578;&#x5E40;&#xFF0C;
-&#x90A3;&#x9EBC; main &#x51FD;&#x6578;&#x5E40;&#x4E4B;&#x4E0A;&#x7684;&#x51FD;&#x6578;&#x5E40;&#x81EA;&#x7136;&#x4E5F;&#x662F;&#x53EF;&#x4EE5;&#x7684;&#xFF1B;
-&#x800C;&#x5E40;&#x4E2D; &#x820A;ebp &#x7684;&#x4E0A;&#x4E00;&#x500B;&#x56DB;&#x5B57;&#x7BC0;&#x5B58;&#x7684;&#x662F;&#x51FD;&#x6578;&#x7684;&#x8FD4;&#x56DE;&#x5730;&#x5740;&#xFF0C;
-&#x7531;&#x9019;&#x500B;&#x5730;&#x5740;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x5224;&#x65B7;&#x51FA;&#x8AB0;&#x8ABF;&#x7528;&#x4E86;&#x9019;&#x500B;&#x51FD;&#x6578;&#x3002;</p>
-<h2 id="%E6%BA%96%E5%82%99%E6%B4%BB%E5%8B%95">&#x6E96;&#x5099;&#x6D3B;&#x52D5;</h2>
-<p>&#x4E0B;&#x9762;&#x5C31;&#x662F;&#x9019;&#x6B21;&#x9ED1;&#x5BA2;&#x884C;&#x52D5;&#x7684;&#x4E3B;&#x89D2;&#xFF08;up.c&#xFF09;&#xFF1A;</p>
+                        <h1 id="%E6%8A%8A%E7%8E%A9-cmake-%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AD%A5">&#x628A;&#x73A9; CMake &#x7684;&#x7B2C;&#x4E00;&#x6B65;</h1>
+<h2 id="%E5%AF%A6%E9%A9%97%E4%B8%80%EF%BC%9A%E5%96%AE%E4%B8%80%E7%A8%8B%E5%BC%8F%E6%AA%94%E7%9A%84-hello-world">&#x5BE6;&#x9A57;&#x4E00;&#xFF1A;&#x55AE;&#x4E00;&#x7A0B;&#x5F0F;&#x6A94;&#x7684; Hello World</h2>
+<p>&#x5148;&#x4F86;&#x500B;&#x7C21;&#x55AE;&#x7684; Hello World &#x5427;!! &#x6E96;&#x5099;&#x4E86;&#x5169;&#x500B;&#x6A94;&#x6848;&#xFF1A;&#x4E00;&#x500B; hello.c &#x8207; CMakeLists.txt&#xFF0C;&#x9019;&#x5169;&#x500B;&#x6A94;&#x653E;&#x5728;&#x540C;&#x4E00;&#x500B;&#x76EE;&#x9304;&#x3002;</p>
+<ul>
+<li>hello.c</li>
+</ul>
 <pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
-</span>{
-    <span class="hljs-keyword">int</span> *p;
-
-    <span class="hljs-comment">// &#x4EE5;&#x4E0B;&#x9019;&#x884C;&#x5167;&#x806F;&#x5F59;&#x7DE8;&#x5C07; ebp &#x5BC4;&#x5B58;&#x5668;&#x7684;&#x503C;&#x5B58;&#x5230;&#x6307;&#x91DD; p &#x4E2D;</span>
-    __asm__(<span class="hljs-string">&quot;movl %%ebp, %0&quot;</span>
-            :<span class="hljs-string">&quot;=m&quot;</span>(p));
-
-    <span class="hljs-keyword">while</span>(p != <span class="hljs-literal">NULL</span>){
-        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%p\n&quot;</span>, p[<span class="hljs-number">1</span>]);
-        p = (<span class="hljs-keyword">int</span>*)(p[<span class="hljs-number">0</span>]);
-    }
-
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>{
+  <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Hello World!\n&quot;</span>);
+  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
 </code></pre>
-<p>&#x9996;&#x5148;&#xFF0C;&#x8ACB;&#x5141;&#x8A31;&#x6211;&#x4F7F;&#x7528;&#x4E00;&#x4E0B; gcc &#x5167;&#x806F;&#x5F59;&#x7DE8;&#xFF0C;
-&#x9019;&#x88E1;&#x7C21;&#x55AE;&#x7684;&#x89E3;&#x91CB;&#x4E00;&#x4E0B;&#xFF1A;</p>
-<ol>
-<li>&quot;=m&quot;(p) &#x8868;&#x793A;&#x5C07;&#x5167;&#x5B58;&#x8B8A;&#x91CF; p &#x4F5C;&#x70BA;&#x4E00;&#x500B;&#x8F38;&#x51FA;&#x64CD;&#x4F5C;&#x6578;</li>
-<li>%0 &#x4EE3;&#x8868;&#x7684;&#x662F;&#x7B2C;&#x4E00;&#x500B;&#x64CD;&#x4F5C;&#x6578;&#xFF0C;&#x90A3;&#x5C31;&#x662F; p &#x4E86;</li>
-<li>&#x70BA;&#x4E86;&#x8207;&#x64CD;&#x4F5C;&#x6578;&#x5340;&#x5225;&#x958B;&#x4F86;&#xFF0C;&#x5BC4;&#x5B58;&#x5668;&#x8981;&#x591A;&#x52A0;&#x500B; %&#xFF0C;
-%%ebp &#x8868;&#x793A;&#x7684;&#x5C31;&#x662F; ebp &#x5BC4;&#x5B58;&#x5668;</li>
-</ol>
-<p>&#x7E3D;&#x4E4B;&#xFF0C;&#x9019;&#x584A;&#x5167;&#x806F;&#x5F59;&#x7DE8;&#x5C07; ebp &#x5BC4;&#x5B58;&#x5668;&#x7684;&#x503C;&#x8CE6;&#x7D66;&#x4E86;&#x6307;&#x91DD; p&#x3002;</p>
-<p>&#x7136;&#x5F8C;&#x89E3;&#x91CB;&#x4E00;&#x4E0B;while&#x5FAA;&#x74B0;&#xFF1A;&#x5FAA;&#x74B0;&#x4E2D;&#xFF0C;&#x9996;&#x5148;&#x6253;&#x5370; p[1]&#xFF0C;
-p[1]&#x5C31;&#x662F;&#x8A72;&#x5E40;&#x6240;&#x5B58;&#x7684;&#x8FD4;&#x56DE;&#x5730;&#x5740;&#xFF1B;&#x7136;&#x5F8C;&#x5C07;&#x6307;&#x91DD; p &#x6539;&#x70BA; p[0]&#xFF0C;
-p[0]&#x662F; &#x820A;ebp&#xFF08;&#x4E0A;&#x4E00;&#x5E40;&#x7684;&#x5E40;&#x6307;&#x91DD;&#xFF09;&#xFF1B;
-&#x9019;&#x6A23;&#xFF0C;&#x7A0B;&#x5E8F;&#x5C07;&#x6309;&#x7167;<b>&#x8ABF;&#x7528;&#x9806;&#x5E8F;&#x7684;&#x9006;&#x5E8F;</b>&#x6253;&#x5370;&#x51FA;&#x5404;&#x500B;&#x8FD4;&#x56DE;&#x5730;&#x5740;&#x3002;</p>
-<p>&#x3000;&#x3000;&#x70BA;&#x4EC0;&#x9EBC;&#x7D42;&#x6B62;&#x689D;&#x4EF6;&#x662F; p==NULL &#x5462;&#xFF1F;&#x9019;&#x662F; gcc &#x70BA;&#x4E86;&#x652F;&#x63F4;&#x6211;&#x5011;&#x7684;
-&#x9ED1;&#x5BA2;&#x884C;&#x52D5;&#x7279;&#x610F;&#x5728;&#x958B;&#x59CB;&#x57F7;&#x884C;&#x7A0B;&#x5E8F;&#x7684;&#x6642;&#x5019;&#x5C07; ebp &#x6E05;&#x96F6;&#x4E86;&#xFF0C;
-&#x6240;&#x4EE5;&#x7B2C;&#x4E00;&#x6B21;&#x57F7;&#x884C;&#x67D0;&#x500B;&#x51FD;&#x6578;&#x7684;&#x6642;&#x5019;&#x58D3;&#x68E7;&#x7684; &#x820A;ebp &#x662F; NULL&#x3002;</p>
-<h2 id="%E9%96%8B%E5%A7%8B%E8%A1%8C%E5%8B%95">&#x958B;&#x59CB;&#x884C;&#x52D5;</h2>
-<p>&#x3000;&#x3000;&#x6211;&#x5011;&#x4F7F;&#x7528;&#x975C;&#x614B;&#x93C8;&#x63A5;&#x7684;&#x65B9;&#x5F0F;&#x7DE8;&#x8B6F; up.c
-&#xFF08;&#x975C;&#x614B;&#x93C8;&#x63A5;&#x7684;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x4E2D;&#x5305;&#x542B;&#x6240;&#x6709;&#x7528;&#x6236;&#x614B;&#x4E0B;&#x57F7;&#x884C;&#x7684;&#x4EE3;&#x78BC;&#xFF09;&#xFF0C;
-&#x7136;&#x5F8C;&#x57F7;&#x884C;&#x5B83;&#xFF1A;</p>
-<pre><code class="lang-c">[lqy@localhost temp]$ gcc -<span class="hljs-keyword">static</span> -o up up.c
-[lqy@localhost temp]$ ./up
-<span class="hljs-number">0x8048464</span>
-<span class="hljs-number">0x80481e1</span>
-[lqy@localhost temp]$
+<ul>
+<li>CMakeLists.txt</li>
+</ul>
+<pre><code class="lang-c">PROJECT (HELLO)
+SET (HELLO_SRCS hello.c)
+ADD_EXECUTABLE (hello ${HELLO_SRCS})
 </code></pre>
-<h2 id="%E5%88%86%E6%9E%90%E7%B5%90%E6%9E%9C">&#x5206;&#x6790;&#x7D50;&#x679C;</h2>
-<p>up &#x6253;&#x5370;&#x4E86;&#x4E86;&#x5169;&#x500B;&#x6307;&#x5411;&#x4EE3;&#x78BC;&#x5340;&#x7684;&#x5730;&#x5740;&#xFF0C;
-&#x63A5;&#x8457;&#x5C31;&#x770B;&#x5B83;&#x5011;&#x662F;&#x5C6C;&#x65BC;&#x54EA;&#x5169;&#x500B;&#x51FD;&#x6578;&#x4E86;&#xFF1A;</p>
-<pre><code class="lang-c">nm up | sort &gt; up.txt
+<p>&#x63A5;&#x4E0B;&#x4F86;&#x5C31;&#x76F4;&#x63A5;&#x57F7;&#x884C; cmake .&#xFF0C;&#x7136;&#x5F8C; cmake &#x5C31;&#x63A5;&#x8457;&#xFF0C;&#x7522;&#x751F;&#x4E86;&#x4E00;&#x4E9B;&#x6A94;&#x6848;&#x51FA;&#x4F86;&#xFF08;&#x5982;&#x4E0B;&#x5217;&#x8868;&#xFF09;&#xFF0C;&#x5305;&#x62EC;&#x6700;&#x6700;&#x91CD;&#x8981;&#x7684; Makefile&#x3002;</p>
+<pre><code class="lang-sh">drakes-computer:~/Code/cmake/hello Drake$ cmake .
+-- Check <span class="hljs-keyword">for</span> working C compiler: /usr/bin/gcc
+-- Check <span class="hljs-keyword">for</span> working C compiler: /usr/bin/gcc -- works
+-- Check size of void*
+-- Check size of void* - <span class="hljs-keyword">done</span>
+-- Check <span class="hljs-keyword">for</span> working CXX compiler: /usr/bin/c++
+-- Check <span class="hljs-keyword">for</span> working CXX compiler: /usr/bin/c++ -- works
+-- Configuring <span class="hljs-keyword">done</span>
+-- Generating <span class="hljs-keyword">done</span>
+-- Build files have been written to: /Users/Drake/Code/cmake/hello
+drakes-computer:~/Code/cmake/hello Drake$ ll
+total <span class="hljs-number">64</span>
+-rw-r--r--    <span class="hljs-number">1</span> Drake  Drake  <span class="hljs-number">10007</span> Mar <span class="hljs-number">23</span> <span class="hljs-number">17</span>:<span class="hljs-number">06</span> CMakeCache.txt
+drwxr-xr-x   <span class="hljs-number">13</span> Drake  Drake    <span class="hljs-number">442</span> Mar <span class="hljs-number">23</span> <span class="hljs-number">17</span>:<span class="hljs-number">06</span> CMakeFiles
+-rw-r--r--    <span class="hljs-number">1</span> Drake  Drake     <span class="hljs-number">78</span> Mar <span class="hljs-number">18</span> <span class="hljs-number">23</span>:<span class="hljs-number">47</span> CMakeLists.txt
+-rw-r--r--    <span class="hljs-number">1</span> Drake  Drake   <span class="hljs-number">4125</span> Mar <span class="hljs-number">23</span> <span class="hljs-number">17</span>:<span class="hljs-number">06</span> Makefile
+-rw-r--r--    <span class="hljs-number">1</span> Drake  Drake   <span class="hljs-number">1406</span> Mar <span class="hljs-number">23</span> <span class="hljs-number">17</span>:<span class="hljs-number">06</span> cmake_install.cmake
+-rw-r--r--    <span class="hljs-number">1</span> Drake  Drake     <span class="hljs-number">74</span> Mar <span class="hljs-number">18</span> <span class="hljs-number">23</span>:<span class="hljs-number">36</span> hello.c
+</code></pre>
+<p>&#x6709;&#x4E86; Makefile&#xFF0C;&#x57F7;&#x884C; make &#x5F8C;&#xFF0C;&#x5C31;&#x6703;&#x7522;&#x751F;&#x4E00;&#x500B;&#x53EB; hello &#x7684;&#x7A0B;&#x5F0F;&#x51FA;&#x4F86;&#x4E86;&#x3002;&#x9019;&#x597D;&#x50CF;&#x6C92;&#x4EC0;&#x9EBC;&#x7279;&#x5225;&#x7684;&#xFF0C;&#x56E0;&#x70BA;&#x53EA;&#x6709;&#x4E00;&#x500B; hello.c&#xFF0C;&#x4E5F;&#x6C92;&#x7528;&#x5230;&#x4EC0;&#x9EBC;&#x7279;&#x5225;&#x7684;&#x51FD;&#x5F0F;&#x5EAB;&#x4E4B;&#x985E;&#x7684;&#xFF0C;&#x81EA;&#x5DF1;&#x76F4;&#x63A5;&#x547C;&#x53EB; gcc &#x4F86; compile &#x4E5F;&#x884C;&#xFF0C;&#x552F;&#x4E00;&#x7684;&#x5DEE;&#x5225;&#x662F;&#xFF0C;&#x53EF;&#x4EE5;&#x900F;&#x904E; cmake &#x5E6B;&#x6211;&#x5011;&#x751F;&#x51FA;&#x4E00;&#x500B; Makefile &#x800C;&#x5DF2;&#x3002;</p>
+<h2 id="%E5%AF%A6%E9%A9%97%E4%BA%8C%EF%BC%9A%E6%8A%8A-hello-world-%E8%AE%8A%E6%88%90%E5%87%BD%E5%BC%8F%E5%BA%AB">&#x5BE6;&#x9A57;&#x4E8C;&#xFF1A;&#x628A; Hello World &#x8B8A;&#x6210;&#x51FD;&#x5F0F;&#x5EAB;</h2>
+<p>&#x7DCA;&#x63A5;&#x8457;&#xFF0C;&#x6211;&#x60F3;&#x8AAA;&#x4F86;&#x8A66;&#x8A66;&#x53E6;&#x4E00;&#x7A2E;&#x60C5;&#x6CC1;&#xFF08;&#x53C3;&#x8003;&#x81EA;&#x5B98;&#x65B9;&#x7BC4;&#x4F8B;&#xFF09;&#x3002;&#x628A;&#x539F;&#x4F86;&#x7684; Hello World &#x6539;&#x5BEB;&#x4E00;&#x4E0B;&#xFF0C;&#x5BEB;&#x4E00;&#x500B; hello() &#xFF08;&#x6A94;&#x540D;&#x5C31;&#x53EB; hello_lib.c&#xFF09;&#x7684;&#x51FD;&#x5F0F;&#xFF0C;&#x7136;&#x5F8C;&#x7522;&#x751F;&#x4E00;&#x500B;&#x975C;&#x614B;&#x51FD;&#x5F0F;&#x5EAB;&#xFF08;static library&#xFF09;&#xFF08;&#x5728; Linux &#x4E0B;&#xFF0C;&#x526F;&#x6A94;&#x540D;&#x662F; .a&#xFF09;&#xFF0C;&#x63A5;&#x8457;&#x518D;&#x5BEB;&#x4E00;&#x500B;&#x4E3B;&#x7A0B;&#x5F0F;&#xFF08;&#x6A94;&#x540D;&#x53EB; hello_main.c&#xFF09;&#xFF0C;&#x5B83;&#x6703;&#x53BB; link &#x6211;&#x5011;&#x81EA;&#x5DF1;&#x5BEB;&#x7684;&#x51FD;&#x5F0F;&#x5EAB;&#xFF0C;&#x7136;&#x5F8C;&#x76F4;&#x63A5;&#x547C;&#x53EB; hello()&#x3002;</p>
+<p>&#x65BC;&#x662F;&#x4E4E;&#xFF0C;&#x6211;&#x5011;&#x9700;&#x8981; 3+1 &#x500B;&#x6A94;&#x6848;&#xFF0C;&#x5206;&#x5225;&#x662F; hello_main.c, hello_lib.c &#x8207; CMakeLists.txt&#xFF0C;&#x5916;&#x52A0;&#x4E00;&#x500B; hello_lib.h&#xFF08;&#x7D66; hello_main.c include &#x7528;&#x7684;&#xFF09;&#x3002;&#x53C8;&#xFF0C;&#x6211;&#x60F3;&#x5728;&#x9019;&#x908A;&#x8A66;&#x4E00;&#x4E0B;&#xFF0C;&#x8B93;&#x51FD;&#x5F0F;&#x5EAB;&#x7684;&#x7A0B;&#x5F0F;&#x78BC;&#x653E;&#x5728; lib &#x9019;&#x500B;&#x5B50;&#x76EE;&#x9304;&#x4E0B;&#xFF0C;&#x4E3B;&#x7A0B;&#x5F0F;&#x653E;&#x5728; src &#x9019;&#x500B;&#x5B50;&#x76EE;&#x9304;&#x4E0B;&#xFF0C;&#x65BC;&#x662F;&#x76EE;&#x9304;&#x7D50;&#x69CB;&#x8207;&#x6A94;&#x6848;&#x5167;&#x5BB9;&#x5206;&#x5225;&#x5982;&#x4E0B;&#x6240;&#x793A;&#xFF1A;</p>
+<pre><code class="lang-sh">drakes-computer:~/Code/cmake/hello_lib Drake$ tree 
+.
+|-- CMakeLists.txt
+|-- lib
+|   |-- CMakeLists.txt
+|   |-- hello_lib.c
+|   `-- hello_lib.h
+`-- src
+    |-- CMakeLists.txt
+    `-- hello_main.c
+
+<span class="hljs-number">2</span> directories, <span class="hljs-number">6</span> files
 </code></pre>
 <ul>
-<li>nm up &#x53EF;&#x5217;&#x51FA;&#x5404;&#x500B;&#x5168;&#x5C40;&#x51FD;&#x6578;&#x7684;&#x5730;&#x5740;</li>
-<li>| sort &gt; up.txt &#x901A;&#x904E;<b>&#x7BA1;&#x9053;</b>&#x5C07; nm up &#x7684;&#x8F38;&#x51FA;&#x4F5C;&#x70BA; sort &#x7684;&#x8F38;&#x5165;&#xFF0C;
-sort &#x6392;&#x5E8F;&#x5F8C;<b>&#x8F38;&#x51FA;&#x91CD;&#x5B9A;&#x5411;</b>&#x5230; up.txt &#x6587;&#x4EF6;&#x4E2D;&#xFF08;&#x8F38;&#x51FA;&#x6709;1910&#x884C;&#xFF0C;
-&#x4E0D;&#x5F97;&#x4E0D;&#x9019;&#x9EBC;&#x505A;o(&#x256F;&#x25A1;&#x2570;)o&#xFF09;</li>
+<li>hello_lib.c</li>
 </ul>
-<p>&#x7136;&#x5F8C;&#x767C;&#x73FE;&#x5169;&#x500B;&#x5730;&#x5740;&#x5206;&#x5225;&#x4F4D;&#x65BC; <code>__libc_start_main</code>&#x3001;_start &#x4E2D;&#xFF1A;</p>
-<pre><code class="lang-c">...
-<span class="hljs-number">08048140</span> T _init
-<span class="hljs-number">080481</span>c0 T _start
-<span class="hljs-number">080481f</span>0 t __do_global_dtors_aux
-<span class="hljs-number">08048260</span> t frame_dummy
-<span class="hljs-number">080482</span>bc T main
-<span class="hljs-number">08048300</span> T __libc_start_main
-<span class="hljs-number">080484</span>d0 T __libc_check_standard_fds
-...
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">hello</span><span class="hljs-params">()</span> </span>{
+  <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Hello World!\n&quot;</span>);
+  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
 </code></pre>
-<p>&#x5BE6;&#x969B;&#x4E0A;&#x7A0B;&#x5E8F;&#x6B63;&#x597D;&#x662F;&#x5F9E; _start &#x958B;&#x59CB;&#x57F7;&#x884C;&#x7684;&#xFF0C;
-&#x800C;&#x4E14;&#x5F9E; up &#x7684;&#x53CD;&#x5F59;&#x7DE8;&#x7D50;&#x679C;&#x4E2D;&#x53EF;&#x770B;&#x51FA; _start &#x7684;&#x7B2C;&#x4E00;&#x689D;&#x6307;&#x4EE4;
- xor %ebp,%ebp &#x5C31;&#x662F;&#x90A3;&#x689D;&#x50B3;&#x8AAA;&#x4E2D;&#x7684;&#x5C07; ebp &#x6E05;&#x96F6;&#x7684;&#x6307;&#x4EE4;
-&#xFF08;&#x5169;&#x500B;&#x4E00;&#x6A23;&#x7684;&#x6578;&#x76F8;&#x7570;&#x6216;&#x7684;&#x7D50;&#x679C;&#x4E00;&#x5B9A;&#x662F;0&#xFF09;&#x3002;</p>
-<p>&#x90A3;&#x9EBC;&#x8ABF;&#x7528; main &#x51FD;&#x6578;&#x4E4B;&#x524D;&#x7A0B;&#x5E8F;&#x90FD;&#x5E79;&#x4E86;&#x4E9B;&#x5565;&#x4E8B;&#x5462;&#xFF1F;
-&#x6BD4;&#x5982;&#x8AAA;<b>&#x5806;&#x7684;&#x521D;&#x59CB;&#x5316;</b>&#xFF0C;&#x5982;&#x679C;&#x662F; C++ &#x7A0B;&#x5E8F;&#x7684;&#x8A71;&#xFF0C;
-&#x5168;&#x5C40;&#x5C0D;&#x8C61;&#x7684;&#x69CB;&#x9020;&#x4E5F;&#x662F;&#x5728; main &#x4E4B;&#x524D;&#x5B8C;&#x6210;&#x7684;
-&#xFF08;&#x4E0D;&#x80FD;&#x8B93; main &#x4E2D;&#x4F7F;&#x7528;&#x5168;&#x5C40;&#x5C0D;&#x8C61;&#x7684;&#x6642;&#x5019;&#x7ADF;&#x7136;&#x9084;&#x6C92;&#x69CB;&#x9020;&#x5427;&#xFF01;&#xFF09;&#xFF0C;
-&#x800C;&#x5168;&#x5C40;&#x5C0D;&#x8C61;&#x7684;&#x6790;&#x69CB;&#x4E5F;&#x76F8;&#x7576;&#x6709;&#x8DA3;&#x5730;&#x5728; main &#x57F7;&#x884C;&#x5B8C;&#x4E86;&#x4E4B;&#x5F8C;&#x624D;&#x57F7;&#x884C;&#x3002;</p>
-<p>main &#x5728;&#x4F60;&#x5FC3;&#x76EE;&#x4E2D;&#x7684;&#x5730;&#x4F4D;&#x662F;&#x4E0D;&#x662F;&#x4E00;&#x843D;&#x5343;&#x4E08;&#x4E86;&#xFF1F;</p>
+<ul>
+<li>hello_lib.h</li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">hello</span><span class="hljs-params">()</span></span>;
+</code></pre>
+<ul>
+<li>hello_main.c</li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;hello_lib.h&gt;</span></span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>{
+  hello();
+  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>&#x56E0;&#x70BA;&#x65B0;&#x589E;&#x4E86;&#x5169;&#x500B;&#x5B50;&#x76EE;&#x9304;&#xFF08;lib, src&#xFF09;&#xFF0C;&#x65BC;&#x662F;&#x9019;&#x908A;&#x5229;&#x7528;&#x5230; cmake &#x7684;&#x53E6;&#x4E00;&#x500B;&#x529F;&#x80FD;&#xFF0C;&#x8B93;&#x6BCF;&#x500B;&#x5B50;&#x76EE;&#x9304;&#x6709;&#x5404;&#x81EA;&#x7684; CMakeLists.txt &#x53BB;&#x63CF;&#x8FF0;&#x5404;&#x81EA;&#x7684;&#x72C0;&#x6CC1;&#x3002;</p>
+<ul>
+<li>~/CMakeLists.txt</li>
+</ul>
+<pre><code class="lang-sh">PROJECT (HELLO)
+ADD_SUBDIRECTORY (lib)
+ADD_SUBDIRECTORY (src)
+</code></pre>
+<ul>
+<li>~/src/CMakeLists.txt</li>
+</ul>
+<pre><code class="lang-c">INCLUDE_DIRECTORIES (${HELLO_SOURCE_DIR}/lib)
+LINK_DIRECTORIES (${HELLO_BINARY_DIR}/lib)
+ADD_EXECUTABLE (hello hello_main.c)
+TARGET_LINK_LIBRARIES (hello hello_lib)
+</code></pre>
+<ul>
+<li>~/lib/CMakeLists.txt</li>
+</ul>
+<pre><code class="lang-c">ADD_LIBRARY (hello_lib hello_lib.c)
+</code></pre>
+<p>&#x63A5;&#x8457;&#xFF0C;&#x6211;&#x5728;&#x6839;&#x76EE;&#x9304;&#x4E0B;&#x5EFA;&#x4E86;&#x4E00;&#x500B; build &#x7684;&#x5B50;&#x76EE;&#x9304;&#xFF0C;&#x7136;&#x5F8C;&#x5728;&#x88CF;&#x982D;&#x57F7;&#x884C;&#x8D77;&#x4E86; cmake&#xFF0C;&#x8A66;&#x8A66; out-source building&#x3002;</p>
+<pre><code class="lang-sh">drakes-computer:~/Code/cmake/hello_lib/build Drake$ cmake ..
+-- Check <span class="hljs-keyword">for</span> working C compiler: /usr/bin/gcc
+-- Check <span class="hljs-keyword">for</span> working C compiler: /usr/bin/gcc -- works
+-- Check size of void*
+-- Check size of void* - <span class="hljs-keyword">done</span>
+-- Check <span class="hljs-keyword">for</span> working CXX compiler: /usr/bin/c++
+-- Check <span class="hljs-keyword">for</span> working CXX compiler: /usr/bin/c++ -- works
+-- Configuring <span class="hljs-keyword">done</span>
+-- Generating <span class="hljs-keyword">done</span>
+-- Build files have been written to: /Users/Drake/Code/cmake/hello_lib/build
+drakes-computer:~/Code/cmake/hello_lib/build Drake$ make
+Scanning dependencies of target hello_lib
+[ <span class="hljs-number">50</span>%] Building C object lib/CMakeFiles/hello_lib.dir/hello_lib.o
+Linking C static library libhello_lib.a
+[ <span class="hljs-number">50</span>%] Built target hello_lib
+Scanning dependencies of target hello
+[<span class="hljs-number">100</span>%] Building C object src/CMakeFiles/hello.dir/hello_main.o
+Linking C executable hello
+[<span class="hljs-number">100</span>%] Built target hello
+drakes-computer:~/Code/cmake/hello_lib/build Drake$ src/hello 
+Hello World!
+</code></pre>
+<p>&#x7D93;&#x904E;&#x9019;&#x6A23;&#x7684;&#x5BE6;&#x9A57;&#x5F8C;&#xFF0C;&#x767C;&#x89BA; cmake &#x7522;&#x751F;&#x51FA;&#x4F86;&#x7684; Makefile &#x6703;&#x81EA;&#x52D5;&#x5730;&#x5E6B;&#x6211;&#x8A2D;&#x5B9A;&#x597D; libhello_lib.a (from hello_lib.c &amp; hello_lib.h&#xFF09;&#x8207; hello&#xFF08;from hello_main.c&#xFF09;&#x7684;&#x8A2D;&#x5B9A;&#xFF0C;&#x96D6;&#x7136;&#x9084;&#x4E0D;&#x662F;&#x5F88;&#x4E86;&#x89E3;&#x600E;&#x9EBC;&#x63A7;&#x5236; hello &#x8207; libhello_lib.a &#x7684;&#x76EE;&#x9304;&#x4F4D;&#x7F6E;&#xFF0C;&#x4E0D;&#x904E;&#x61C9;&#x8A72;&#x5C31;&#x662F;${HELLO_SOURCE_DIR} &#x6216;&#x662F; ${HELLO_BINARY_DIR} &#x9019;&#x5E7E;&#x500B;&#x8B8A;&#x6578;&#x6C7A;&#x5B9A;&#x7684;&#x5427;&#xFF0C;&#x9019;&#x665A;&#x4E00;&#x9EDE;&#x771F;&#x7684;&#x9700;&#x8981;&#x6642;&#xFF0C;&#x518D;&#x53BB;&#x67E5;&#x4E00;&#x4E0B;&#x5C31; ok &#x4E86;&#xFF08;&#x6211;&#x731C;&#x5566;@@&#xFF09;&#x3002;</p>
+<h2 id="%E5%AF%A6%E9%A9%97%E4%B8%89%EF%BC%9A%E8%A9%A6%E8%A9%A6%E4%BD%BF%E7%94%A8%E5%A4%96%E9%83%A8%E5%87%BD%E5%BC%8F%E5%BA%AB-libpng-%E7%9A%84%E6%83%85%E6%B3%81">&#x5BE6;&#x9A57;&#x4E09;&#xFF1A;&#x8A66;&#x8A66;&#x4F7F;&#x7528;&#x5916;&#x90E8;&#x51FD;&#x5F0F;&#x5EAB; libpng &#x7684;&#x60C5;&#x6CC1;</h2>
+<p>&#x63A5;&#x8457;&#x4F86;&#x8A66;&#x8A66;&#x4F7F;&#x7528;&#x5916;&#x90E8;&#x51FD;&#x5F0F;&#x5EAB;&#x7684;&#x60C5;&#x6CC1;&#x597D;&#x4E86;&#xFF0C;&#x5C31;&#x62FF; libpng &#x9019;&#x500B;&#x51FD;&#x6578;&#x5F0F;&#xFF0C;&#x7136;&#x5F8C;&#x5BEB;&#x500B;&#x7C21;&#x55AE;&#x7684;&#x6E2C;&#x8A66;&#x7A0B;&#x5F0F;&#x597D;&#x4E86;&#x3002;&#x6211;&#x4E0A;&#x7DB2; google &#x4E86;&#x4E00;&#x4E0B;&#xFF0C;&#x501F;&#x4E86;<a href="http://zarb.org/~gc/html/libpng.html" target="_blank"> Guillaume Cottenceau</a> &#x5BEB;&#x7684; libpng-short-example.c &#x9019;&#x500B;&#x4F8B;&#x5B50;&#x4F86;&#x7528;&#x3002;&#x9996;&#x5148;&#x9700;&#x8981;&#x5B89;&#x88DD;&#x597D; libpng&#xFF08;&#x8207; zlib&#xFF09;&#xFF0C;&#x5728; Debian/Ubuntu &#x4E0A;&#x982D;&#xFF0C;&#x900F;&#x904E; apt-get install libpng &#x4E4B;&#x985E;&#x7684;&#x5C31;&#x641E;&#x5B9A;&#x4E86;&#xFF0C;&#x800C;&#x5728; Mac &#x4E0A;&#x7684;&#x8A71;&#xFF0C;&#x6211;&#x662F;&#x900F;&#x904E; MacPorts &#x7684; port install libpng &#x4F86;&#x5B89;&#x88DD;&#x7684;&#x3002;&#x5728;&#x9019;&#x908A;&#x8981;&#x611F;&#x8B1D; apt &#x8207; ports &#x5718;&#x968A;&#x7684;&#x52AA;&#x529B;&#xFF0C;&#x8B93;&#x6211;&#x53EF;&#x4EE5;&#x4E00;&#x4E0B;&#x5B50;&#x5C31;&#x8655;&#x7406;&#x597D;&#x9019;&#x985E;&#x53EF;&#x80FD;&#x6703;&#x5F88;&#x68D8;&#x624B;&#x7684;&#x554F;&#x984C;&#x3002;</p>
+<p>&#x73FE;&#x5728;&#x554F;&#x984C;&#x4F86;&#x4E86;&#xFF0C;&#x6211;&#x8981;&#x600E;&#x9EBC;&#x5BEB; CMakeLists.txt &#x6A94;&#x5462;? &#x81F3;&#x5C11;&#x8981;&#x8B93;&#x5B83;&#x7522;&#x751F;&#x7684; Makefile &#x6709;&#x628A; libpng/zlib &#x7684; header including path &#x8207; library path &#x7D66;&#x52A0;&#x9032;&#x4F86;&#x624D;&#x884C;&#xFF0C;&#x5982;&#x679C;&#x9084;&#x8981;&#x81EA;&#x5DF1;&#x53BB;&#x627E;&#x51FA;&#x4F86;&#x7684;&#x8A71;&#x2026;&#x90A3;&#x6211;&#x9084;&#x8981; cmake &#x5E79;&#x9EBB; = = &#x5728;&#x9019;&#x908A;&#xFF0C;&#x6211;&#x505A;&#x4E86;&#x4E00;&#x9EDE;&#x9EDE;&#x5F0A;&#x3002;</p>
+<p>&#x4F9D; Jserv &#x6295;&#x5F71;&#x7247;&#x4E0A;&#x7684;&#x8AAA;&#x6CD5;&#xFF0C;cmake &#x4F7F;&#x7528; modules &#x7684;&#x65B9;&#x5F0F;&#x4F86;&#x5F97;&#x77E5;&#x8981;&#x600E;&#x9EBC;&#x7522;&#x751F; Makefile&#xFF08;&#x7576;&#x7136;&#x4E0D;&#x6B62;&#x7522;&#x751F; Makefile &#x9019;&#x4EF6;&#x4E8B;&#xFF0C;&#x4E0D;&#x904E;&#x6211;&#x89BA;&#x5F97;&#x4E00;&#x958B;&#x59CB;&#x55AE;&#x5C31;&#x9019;&#x6A23;&#x60F3;&#x4E5F;&#x4E0D;&#x59A8;&#xFF09;&#xFF0C;&#x65BC;&#x662F;&#x6211;&#x53BB;&#x770B;&#x4E86;&#x4E00;&#x4E0B; cmake &#x9810;&#x8A2D;&#x7684; modules &#x6709;&#x54EA;&#x4E9B;&#xFF0C;&#x767C;&#x73FE;&#x5230;&#x6709;&#x500B;&#x53EB; FindPNG.cmake &#x7684;&#x6A94;&#xFF0C;&#x592A;&#x68D2;&#x4E86;&#xFF0C;&#x5C31;&#x662F;&#x5B83;&#x4E86;&#xFF0C;&#x4E00;&#x5B9A;&#x53EF;&#x4EE5;&#x5F9E;&#x88CF;&#x982D;&#x627E;&#x5230;&#x4E9B;&#x4EC0;&#x9EBC;&#x7DDA;&#x7D22;&#x3002;&#xFF08;&#x9019;&#x4E5F;&#x662F;&#x70BA;&#x4EC0;&#x9EBC;&#x6211;&#x9078;&#x64C7;&#x62FF; libpng &#x505A;&#x5BE6;&#x9A57;&#xFF09;</p>
+<p>&#x5728;&#x9019;&#x500B;&#x6A94;&#x7684;&#x4E00;&#x958B;&#x59CB;&#x770B;&#x5230;&#x5982;&#x4E0B;&#x7684;&#x89E3;&#x91CB;&#xFF1A;</p>
+<pre><code class="lang-sh"><span class="hljs-comment"># - Find the native PNG includes and library</span>
+<span class="hljs-comment">#</span>
+
+<span class="hljs-comment"># This module defines</span>
+<span class="hljs-comment">#  PNG_INCLUDE_DIR, where to find png.h, etc.</span>
+<span class="hljs-comment">#  PNG_LIBRARIES, the libraries to link against to use PNG.</span>
+<span class="hljs-comment">#  PNG_DEFINITIONS - You should ADD_DEFINITONS(${PNG_DEFINITIONS}) before compiling code that includes png library files.</span>
+<span class="hljs-comment">#  PNG_FOUND, If false, do not try to use PNG.</span>
+<span class="hljs-comment"># also defined, but not for general use are</span>
+<span class="hljs-comment">#  PNG_LIBRARY, where to find the PNG library.</span>
+<span class="hljs-comment"># None of the above will be defined unles zlib can be found.</span>
+<span class="hljs-comment"># PNG depends on Zlib</span>
+</code></pre>
+<p>&#x65BC;&#x662F;&#x6211;&#x5F88;&#x5FEB;&#x5730;&#x4F9D;&#x8457;&#x9019;&#x8AAA;&#x660E;&#xFF0C;&#x5BEB;&#x51FA;&#x500B; CMakeLists.txt &#x6A94;&#x4E86; ^&gt;^</p>
+<pre><code class="lang-sh">PROJECT (PNGSAMPLE)
+FIND_PACKAGE (PNG REQUIRED)
+ADD_DEFINITIONS (<span class="hljs-variable">${PNG_DEFINITIONS}</span>)
+<span class="hljs-comment">#LINK_DIRECTORIES (${PNG_LIBRARY})</span>
+INCLUDE_DIRECTORIES (<span class="hljs-variable">${PNG_INCLUDE_DIR}</span>)
+LINK_LIBRARIES (<span class="hljs-variable">${PNG_LIBRARIES}</span>)
+ADD_EXECUTABLE (pngsample libpng-short-example.c)
+</code></pre>
+<p>&#x5BE6;&#x9A57;&#x56DB;&#xFF1A;&#x63DB;&#x8A66;&#x8A66;&#x5BEB;&#x500B;&#x7C21;&#x55AE;&#x7684; Qt4 &#x7A0B;&#x5F0F;
+&#x7A0B;&#x5F0F;&#x78BC;&#x53D6;&#x81EA;&#x826F;&#x845B;&#x683C;&#x7684;&#x7B2C;&#x4E00;&#x500B; Qt4 &#x7A0B;&#x5F0F;&#x3002;</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;QApplication&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;QLabel&gt;</span></span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span> *argv[])</span>
+</span>{
+    <span class="hljs-function">QApplication <span class="hljs-title">app</span> <span class="hljs-params">(argc, argv)</span></span>;
+    <span class="hljs-function">QLabel <span class="hljs-title">label</span> <span class="hljs-params">(<span class="hljs-string">&quot;Hello World!&quot;</span>)</span></span>;
+    label.setWindowTitle (<span class="hljs-string">&quot;Qt First!!&quot;</span>);
+    label.resize (<span class="hljs-number">200</span>, <span class="hljs-number">100</span>);
+    label.show ();
+    <span class="hljs-keyword">return</span> app.exec();
+}
+</code></pre>
+<ul>
+<li>CMakeLists.txt</li>
+</ul>
+<pre><code class="lang-sh">project (qthelloworld)
+
+cmake_minimum_required (VERSION <span class="hljs-number">2.4</span>.<span class="hljs-number">0</span>)
+
+find_package (Qt4 REQUIRED)
+<span class="hljs-comment">#add_definitions (${QT_DEFINITIONS})</span>
+<span class="hljs-comment">#link_directories (${QT_LIBRARY_DIR})</span>
+<span class="hljs-comment">#include_directories (${QT_INCLUDES})</span>
+include (<span class="hljs-variable">${QT_USE_FILE}</span>)
+
+add_executable (qthelloworld hello.cpp)
+target_link_libraries (qthelloworld <span class="hljs-variable">${QT_LIBRARIES}</span> <span class="hljs-variable">${QT_QTGUI_LIBRARY}</span>)
+</code></pre>
+<h2 id="%E5%AF%A6%E9%A9%97%E4%BA%94%EF%BC%9A%E6%8A%8A%E7%8E%A9%E4%B8%80%E4%B8%8B-jserv-%E6%8F%90%E4%BE%9B%E7%9A%84-cmake-samples">&#x5BE6;&#x9A57;&#x4E94;&#xFF1A;&#x628A;&#x73A9;&#x4E00;&#x4E0B; Jserv &#x63D0;&#x4F9B;&#x7684; cmake-samples</h2>
+<p>&#x4E0B;&#x6B21;&#x518D;&#x5BEB;&#x597D;&#x4E86;&#x2026;</p>
+<h2 id="%E5%BF%83%E5%BE%97">&#x5FC3;&#x5F97;</h2>
+<p>&#x611F;&#x89BA; cmake &#x7684;&#x78BA;&#x662F;&#x597D;&#x7528;&#x5F88;&#x591A;&#xFF0C;&#x6BD4; automake &#x4F86;&#x5F97;&#x7C21;&#x55AE;&#x592A;&#x591A;&#x4E86;&#x3002;</p>
 
                     
                     </section>
@@ -7888,10 +7985,10 @@ sort &#x6392;&#x5E8F;&#x5F8C;<b>&#x8F38;&#x51FA;&#x91CD;&#x5B9A;&#x5411;</b>&#x5
         </div>
 
         
-        <a href="../simplelinux/frame.html" class="navigation navigation-prev " aria-label="Previous page: 函數幀"><i class="fa fa-angle-left"></i></a>
+        <a href="../cmake/rang_cmake_xian_shi_gcc__g_de_bian_yi_xin_xi.html" class="navigation navigation-prev " aria-label="Previous page: 讓cmake顯示gcc/g++的編譯信息"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../simplelinux/recur.html" class="navigation navigation-next " aria-label="Next page: 函數幀應用二：所有遞歸都可以變循環"><i class="fa fa-angle-right"></i></a>
+        <a href="../treacecode/treace_code.html" class="navigation navigation-next " aria-label="Next page: Treace code"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

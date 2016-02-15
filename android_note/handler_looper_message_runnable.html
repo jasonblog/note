@@ -8,7 +8,7 @@
         <title>android的消息處理機制（圖+源碼分析）——Looper,Handler,Message | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.6.7">
+        <meta name="generator" content="GitBook 2.4.1">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,14 +32,6 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
-        
-        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-search/search.css">
-        
-    
-        
-        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
-        
-    
     
 
         
@@ -56,16 +48,13 @@
     <body>
         <!-- body:start -->
         
-    <div class="book"
-        data-level="5.3"
-        data-chapter-title="android的消息處理機制（圖+源碼分析）——Looper,Handler,Message"
-        data-filepath="android_note/handler_looper_message_runnable.md"
-        data-basepath=".."
-        data-revision="Sun Feb 14 2016 02:04:57 GMT+0800 (CST)"
-        data-innerlanguage="">
+    <div class="book" data-level="5.3" data-basepath=".." data-revision="Mon Feb 15 2016 21:25:00 GMT+0800 (CST)">
     
 
 <div class="book-summary">
+    <div class="book-search" role="search">
+        <input type="text" placeholder="Type to search" class="form-control" />
+    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -6081,6 +6070,21 @@
             
         </li>
     
+        <li class="chapter " data-level="29.11" data-path="python/python_debug_ru_men.html">
+            
+                
+                    <a href="../python/python_debug_ru_men.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>29.11.</b>
+                        
+                        python debug 入門
+                    </a>
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -7003,6 +7007,21 @@
             
         </li>
     
+        <li class="chapter " data-level="42.3" data-path="cmake/ba_wan_cmake_de_di_yi_bu.html">
+            
+                
+                    <a href="../cmake/ba_wan_cmake_de_di_yi_bu.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>42.3.</b>
+                        
+                        把玩 CMake 的第一步
+                    </a>
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -7683,7 +7702,80 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
+    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
+    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
+    <div id="font-settings-wrapper" class="dropdown pull-left">
+        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
+        </a>
+        <div class="dropdown-menu font-settings">
+    <div class="dropdown-caret">
+        <span class="caret-outer"></span>
+        <span class="caret-inner"></span>
+    </div>
+
+    <div class="buttons">
+        <button type="button" id="reduce-font-size" class="button size-2">A</button>
+        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
+    </div>
+
+    <div class="buttons font-family-list">
+        <button type="button" data-font="0" class="button">Serif</button>
+        <button type="button" data-font="1" class="button">Sans</button>
+    </div>
+
+    <div class="buttons color-theme-list">
+        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
+        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
+        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
+    </div>
+</div>
+
+    </div>
+
+    <!-- Actions Right -->
+    
+    <div class="dropdown pull-right">
+        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
+        </a>
+        <div class="dropdown-menu font-settings dropdown-left">
+            <div class="dropdown-caret">
+                <span class="caret-outer"></span>
+                <span class="caret-inner"></span>
+            </div>
+            <div class="buttons">
+                <button type="button" data-sharing="twitter" class="button">
+                    Share on Twitter
+                </button>
+                <button type="button" data-sharing="google-plus" class="button">
+                    Share on Google
+                </button>
+                <button type="button" data-sharing="facebook" class="button">
+                    Share on Facebook
+                </button>
+                <button type="button" data-sharing="weibo" class="button">
+                    Share on Weibo
+                </button>
+                <button type="button" data-sharing="instapaper" class="button">
+                    Share on Instapaper
+                </button>
+            </div>
+        </div>
+    </div>
+    
+
+    
+    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
+    
+    
+    
+
 
     <!-- Title -->
     <h1>
@@ -7698,10 +7790,10 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="android&#x7684;&#x6D88;&#x606F;&#x8655;&#x7406;&#x6A5F;&#x5236;&#xFF08;&#x5716;&#x6E90;&#x78BC;&#x5206;&#x6790;&#xFF09;&#x2014;&#x2014;looperhandlermessage">android&#x7684;&#x6D88;&#x606F;&#x8655;&#x7406;&#x6A5F;&#x5236;&#xFF08;&#x5716;+&#x6E90;&#x78BC;&#x5206;&#x6790;&#xFF09;&#x2014;&#x2014;Looper,Handler,Message</h1>
+                        <h1 id="android%E7%9A%84%E6%B6%88%E6%81%AF%E8%99%95%E7%90%86%E6%A9%9F%E5%88%B6%EF%BC%88%E5%9C%96-%E6%BA%90%E7%A2%BC%E5%88%86%E6%9E%90%EF%BC%89%E2%80%94%E2%80%94looper-handler-message">android&#x7684;&#x6D88;&#x606F;&#x8655;&#x7406;&#x6A5F;&#x5236;&#xFF08;&#x5716;+&#x6E90;&#x78BC;&#x5206;&#x6790;&#xFF09;&#x2014;&#x2014;Looper,Handler,Message</h1>
 <p>&#x4F5C;&#x70BA;&#x4E00;&#x500B;&#x5927;&#x4E09;&#x7684;&#x9810;&#x5099;&#x7A0B;&#x5E8F;&#x54E1;&#xFF0C;&#x6211;&#x5B78;&#x7FD2;android&#x7684;&#x4E00;&#x5927;&#x6A02;&#x8DA3;&#x662F;&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x6E90;&#x78BC;&#x5B78;&#x7FD2;google&#x5927;&#x725B;&#x5011;&#x7684;&#x8A2D;&#x8A08;&#x601D;&#x60F3;&#x3002;android&#x6E90;&#x78BC;&#x4E2D;&#x5305;&#x542B;&#x4E86;&#x5927;&#x91CF;&#x7684;&#x8A2D;&#x8A08;&#x6A21;&#x5F0F;&#xFF0C;&#x9664;&#x6B64;&#x4EE5;&#x5916;&#xFF0C;android sdk&#x9084;&#x7CBE;&#x5FC3;&#x70BA;&#x6211;&#x5011;&#x8A2D;&#x8A08;&#x4E86;&#x5404;&#x7A2E;helper&#x985E;&#xFF0C;&#x5C0D;&#x65BC;&#x548C;&#x6211;&#x4E00;&#x6A23;&#x6E34;&#x671B;&#x6C34;&#x5E73;&#x5F97;&#x5230;&#x9032;&#x968E;&#x7684;&#x4EBA;&#x4F86;&#x8AAA;&#xFF0C;&#x90FD;&#x592A;&#x503C;&#x5F97;&#x4E00;&#x8B80;&#x4E86;&#x3002;&#x9019;&#x4E0D;&#xFF0C;&#x524D;&#x5E7E;&#x5929;&#x70BA;&#x4E86;&#x77AD;&#x89E3;android&#x7684;&#x6D88;&#x606F;&#x8655;&#x7406;&#x6A5F;&#x5236;&#xFF0C;&#x6211;&#x770B;&#x4E86;<strong>Looper&#xFF0C;Handler&#xFF0C;Message</strong>&#x9019;&#x5E7E;&#x500B;&#x985E;&#x7684;&#x6E90;&#x78BC;&#xFF0C;&#x7D50;&#x679C;&#x53C8;&#x4E00;&#x6B21;&#x88AB;googler&#x7684;&#x8A2D;&#x8A08;&#x9707;&#x64BC;&#x4E86;&#xFF0C;&#x7279;&#x8207;&#x5927;&#x5BB6;&#x5206;&#x4EAB;&#x3002;</p>
 <p>android&#x7684;&#x6D88;&#x606F;&#x8655;&#x7406;&#x6709;&#x4E09;&#x500B;&#x6838;&#x5FC3;&#x985E;&#xFF1A;Looper,Handler&#x548C;Message&#x3002;&#x5176;&#x5BE6;&#x9084;&#x6709;&#x4E00;&#x500B;Message Queue&#xFF08;&#x6D88;&#x606F;&#x968A;&#x5217;&#xFF09;&#xFF0C;&#x4F46;&#x662F;MQ&#x88AB;&#x5C01;&#x88DD;&#x5230;Looper&#x88E1;&#x9762;&#x4E86;&#xFF0C;&#x6211;&#x5011;&#x4E0D;&#x6703;&#x76F4;&#x63A5;&#x8207;MQ&#x6253;&#x4EA4;&#x9053;&#xFF0C;&#x56E0;&#x6B64;&#x6211;&#x6C92;&#x5C07;&#x5176;&#x4F5C;&#x70BA;&#x6838;&#x5FC3;&#x985E;&#x3002;&#x4E0B;&#x9762;&#x4E00;&#x4E00;&#x4ECB;&#x7D39;&#xFF1A;</p>
-<h3 id="&#x7DDA;&#x7A0B;&#x7684;&#x9B54;&#x6CD5;&#x5E2B;-looper">&#x7DDA;&#x7A0B;&#x7684;&#x9B54;&#x6CD5;&#x5E2B; Looper</h3>
+<h3 id="%E7%B7%9A%E7%A8%8B%E7%9A%84%E9%AD%94%E6%B3%95%E5%B8%AB-looper">&#x7DDA;&#x7A0B;&#x7684;&#x9B54;&#x6CD5;&#x5E2B; Looper</h3>
 <p>Looper&#x7684;&#x5B57;&#x9762;&#x610F;&#x601D;&#x662F;&#x300C;&#x5FAA;&#x74B0;&#x8005;&#x300D;&#xFF0C;&#x5B83;&#x88AB;&#x8A2D;&#x8A08;&#x7528;&#x4F86;&#x4F7F;&#x4E00;&#x500B;&#x666E;&#x901A;&#x7DDA;&#x7A0B;&#x8B8A;&#x6210;<strong>Looper&#x7DDA;&#x7A0B;</strong>&#x3002;&#x6240;&#x8B02;Looper&#x7DDA;&#x7A0B;&#x5C31;&#x662F;&#x5FAA;&#x74B0;&#x5DE5;&#x4F5C;&#x7684;&#x7DDA;&#x7A0B;&#x3002;&#x5728;&#x7A0B;&#x5E8F;&#x958B;&#x767C;&#x4E2D;&#xFF08;&#x5C24;&#x5176;&#x662F;GUI&#x958B;&#x767C;&#x4E2D;&#xFF09;&#xFF0C;&#x6211;&#x5011;&#x7D93;&#x5E38;&#x6703;&#x9700;&#x8981;&#x4E00;&#x500B;&#x7DDA;&#x7A0B;&#x4E0D;&#x65B7;&#x5FAA;&#x74B0;&#xFF0C;&#x4E00;&#x65E6;&#x6709;&#x65B0;&#x4EFB;&#x52D9;&#x5247;&#x57F7;&#x884C;&#xFF0C;&#x57F7;&#x884C;&#x5B8C;&#x7E7C;&#x7E8C;&#x7B49;&#x5F85;&#x4E0B;&#x4E00;&#x500B;&#x4EFB;&#x52D9;&#xFF0C;&#x9019;&#x5C31;&#x662F;Looper&#x7DDA;&#x7A0B;&#x3002;&#x4F7F;&#x7528;Looper&#x985E;&#x5275;&#x5EFA;Looper&#x7DDA;&#x7A0B;&#x5F88;&#x7C21;&#x55AE;&#xFF1A;</p>
 <pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LooperThread</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Thread</span> </span>{
     <span class="hljs-annotation">@Override</span>
@@ -7816,7 +7908,7 @@
 <p>2.Looper&#x5167;&#x90E8;&#x6709;&#x4E00;&#x500B;&#x6D88;&#x606F;&#x968A;&#x5217;&#xFF0C;loop()&#x65B9;&#x6CD5;&#x8ABF;&#x7528;&#x5F8C;&#x7DDA;&#x7A0B;&#x958B;&#x59CB;&#x4E0D;&#x65B7;&#x5F9E;&#x968A;&#x5217;&#x4E2D;&#x53D6;&#x51FA;&#x6D88;&#x606F;&#x57F7;&#x884C;</p>
 <p>3.Looper&#x4F7F;&#x4E00;&#x500B;&#x7DDA;&#x7A0B;&#x8B8A;&#x6210;Looper&#x7DDA;&#x7A0B;&#x3002;</p>
 <p>&#x90A3;&#x9EBC;&#xFF0C;&#x6211;&#x5011;&#x5982;&#x4F55;&#x5F80;MQ&#x4E0A;&#x6DFB;&#x52A0;&#x6D88;&#x606F;&#x5462;&#xFF1F;&#x4E0B;&#x9762;&#x6709;&#x8ACB;Handler&#xFF01;&#xFF08;&#x638C;&#x8072;~~~&#xFF09;</p>
-<h3 id="&#x7570;&#x6B65;&#x8655;&#x7406;&#x5927;&#x5E2B;-handler">&#x7570;&#x6B65;&#x8655;&#x7406;&#x5927;&#x5E2B; Handler</h3>
+<h3 id="%E7%95%B0%E6%AD%A5%E8%99%95%E7%90%86%E5%A4%A7%E5%B8%AB-handler">&#x7570;&#x6B65;&#x8655;&#x7406;&#x5927;&#x5E2B; Handler</h3>
 <p>&#x4EC0;&#x9EBC;&#x662F;handler&#xFF1F;handler&#x626E;&#x6F14;&#x4E86;&#x5F80;MQ&#x4E0A;&#x6DFB;&#x52A0;&#x6D88;&#x606F;&#x548C;&#x8655;&#x7406;&#x6D88;&#x606F;&#x7684;&#x89D2;&#x8272;&#xFF08;&#x53EA;&#x8655;&#x7406;&#x7531;&#x81EA;&#x5DF1;&#x767C;&#x51FA;&#x7684;&#x6D88;&#x606F;&#xFF09;&#xFF0C;<strong>&#x5373;&#x901A;&#x77E5;MQ&#x5B83;&#x8981;&#x57F7;&#x884C;&#x4E00;&#x500B;&#x4EFB;&#x52D9;(sendMessage)&#xFF0C;&#x4E26;&#x5728;loop&#x5230;&#x81EA;&#x5DF1;&#x7684;&#x6642;&#x5019;&#x57F7;&#x884C;&#x8A72;&#x4EFB;&#x52D9;(handleMessage)&#xFF0C;&#x6574;&#x500B;&#x904E;&#x7A0B;&#x662F;&#x7570;&#x6B65;&#x7684;</strong>&#x3002;handler&#x5275;&#x5EFA;&#x6642;&#x6703;&#x95DC;&#x806F;&#x4E00;&#x500B;looper&#xFF0C;&#x9ED8;&#x8A8D;&#x7684;&#x69CB;&#x9020;&#x65B9;&#x6CD5;&#x5C07;&#x95DC;&#x806F;&#x7576;&#x524D;&#x7DDA;&#x7A0B;&#x7684;looper&#xFF0C;&#x4E0D;&#x904E;&#x9019;&#x4E5F;&#x662F;&#x53EF;&#x4EE5;set&#x7684;&#x3002;&#x9ED8;&#x8A8D;&#x7684;&#x69CB;&#x9020;&#x65B9;&#x6CD5;&#xFF1A;</p>
 <pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">handler</span> </span>{
 
@@ -7872,7 +7964,7 @@
 <p>&#x52A0;&#x5165;handler&#x5F8C;&#x7684;&#x6548;&#x679C;&#x5982;&#x4E0B;&#x5716;&#xFF1A;</p>
 <p><img src="images/2011091322483894.png" alt="images"></p>
 <p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;<strong>&#x4E00;&#x500B;&#x7DDA;&#x7A0B;&#x53EF;&#x4EE5;&#x6709;&#x591A;&#x500B;Handler&#xFF0C;&#x4F46;&#x662F;&#x96BB;&#x80FD;&#x6709;&#x4E00;&#x500B;Looper&#xFF01;</strong></p>
-<h3 id="handler&#x767C;&#x9001;&#x6D88;&#x606F;">Handler&#x767C;&#x9001;&#x6D88;&#x606F;</h3>
+<h3 id="handler%E7%99%BC%E9%80%81%E6%B6%88%E6%81%AF">Handler&#x767C;&#x9001;&#x6D88;&#x606F;</h3>
 <p>&#x6709;&#x4E86;handler&#x4E4B;&#x5F8C;&#xFF0C;&#x6211;&#x5011;&#x5C31;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; post(Runnable), postAtTime(Runnable, long), postDelayed(Runnable, long), sendEmptyMessage(int), sendMessage(Message), sendMessageAtTime(Message, long)&#x548C; sendMessageDelayed(Message, long)&#x9019;&#x4E9B;&#x65B9;&#x6CD5;&#x5411;MQ&#x4E0A;&#x767C;&#x9001;&#x6D88;&#x606F;&#x4E86;&#x3002;&#x5149;&#x770B;&#x9019;&#x4E9B;API&#x4F60;&#x53EF;&#x80FD;&#x6703;&#x89BA;&#x5F97;handler&#x80FD;&#x767C;&#x5169;&#x7A2E;&#x6D88;&#x606F;&#xFF0C;&#x4E00;&#x7A2E;&#x662F;Runnable&#x5C0D;&#x8C61;&#xFF0C;&#x4E00;&#x7A2E;&#x662F;message&#x5C0D;&#x8C61;&#xFF0C;&#x9019;&#x662F;&#x76F4;&#x89C0;&#x7684;&#x7406;&#x89E3;&#xFF0C;&#x4F46;&#x5176;&#x5BE6;post&#x767C;&#x51FA;&#x7684;Runnable&#x5C0D;&#x8C61;&#x6700;&#x5F8C;&#x90FD;&#x88AB;&#x5C01;&#x88DD;&#x6210;message&#x5C0D;&#x8C61;&#x4E86;&#xFF0C;&#x898B;&#x6E90;&#x78BC;&#xFF1A;</p>
 <pre><code class="lang-java"><span class="hljs-comment">// &#x6B64;&#x65B9;&#x6CD5;&#x7528;&#x65BC;&#x5411;&#x95DC;&#x806F;&#x7684;MQ&#x4E0A;&#x767C;&#x9001;Runnable&#x5C0D;&#x8C61;&#xFF0C;&#x5B83;&#x7684;run&#x65B9;&#x6CD5;&#x5C07;&#x5728;handler&#x95DC;&#x806F;&#x7684;looper&#x7DDA;&#x7A0B;&#x4E2D;&#x57F7;&#x884C;</span>
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">post</span><span class="hljs-params">(Runnable r)</span>
@@ -7907,7 +7999,7 @@
 <p>1.message.target&#x70BA;&#x8A72;handler&#x5C0D;&#x8C61;&#xFF0C;&#x9019;&#x78BA;&#x4FDD;&#x4E86;looper&#x57F7;&#x884C;&#x5230;&#x8A72;message&#x6642;&#x80FD;&#x627E;&#x5230;&#x8655;&#x7406;&#x5B83;&#x7684;handler&#xFF0C;&#x5373;loop()&#x65B9;&#x6CD5;&#x4E2D;&#x7684;&#x95DC;&#x9375;&#x4EE3;&#x78BC;</p>
 <pre><code>msg.target.dispatchMessage(msg);
 </code></pre><p>2.post&#x767C;&#x51FA;&#x7684;message&#xFF0C;&#x5176;callback&#x70BA;Runnable&#x5C0D;&#x8C61;</p>
-<h3 id="handler&#x8655;&#x7406;&#x6D88;&#x606F;">Handler&#x8655;&#x7406;&#x6D88;&#x606F;</h3>
+<h3 id="handler%E8%99%95%E7%90%86%E6%B6%88%E6%81%AF">Handler&#x8655;&#x7406;&#x6D88;&#x606F;</h3>
 <p>&#x8AAA;&#x5B8C;&#x4E86;&#x6D88;&#x606F;&#x7684;&#x767C;&#x9001;&#xFF0C;&#x518D;&#x4F86;&#x770B;&#x4E0B;handler&#x5982;&#x4F55;&#x8655;&#x7406;&#x6D88;&#x606F;&#x3002;&#x6D88;&#x606F;&#x7684;&#x8655;&#x7406;&#x662F;&#x901A;&#x904E;&#x6838;&#x5FC3;&#x65B9;&#x6CD5;dispatchMessage(Message msg)&#x8207;&#x9264;&#x5B50;&#x65B9;&#x6CD5;handleMessage(Message msg)&#x5B8C;&#x6210;&#x7684;&#xFF0C;&#x898B;&#x6E90;&#x78BC;</p>
 <pre><code class="lang-java"><span class="hljs-comment">// &#x8655;&#x7406;&#x6D88;&#x606F;&#xFF0C;&#x8A72;&#x65B9;&#x6CD5;&#x7531;looper&#x8ABF;&#x7528;</span>
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">dispatchMessage</span><span class="hljs-params">(Message msg)</span> </span>{
@@ -7936,7 +8028,7 @@
     }
 </code></pre>
 <p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;&#x9664;&#x4E86;handleMessage(Message msg)&#x548C;Runnable&#x5C0D;&#x8C61;&#x7684;run&#x65B9;&#x6CD5;&#x7531;&#x958B;&#x767C;&#x8005;&#x5BE6;&#x73FE;&#x5916;&#xFF08;&#x5BE6;&#x73FE;&#x5177;&#x9AD4;&#x908F;&#x8F2F;&#xFF09;&#xFF0C;handler&#x7684;&#x5167;&#x90E8;&#x5DE5;&#x4F5C;&#x6A5F;&#x5236;&#x5C0D;&#x958B;&#x767C;&#x8005;&#x662F;&#x900F;&#x660E;&#x7684;&#x3002;&#x9019;&#x6B63;&#x662F;handler API&#x8A2D;&#x8A08;&#x7684;&#x7CBE;&#x5999;&#x4E4B;&#x8655;&#xFF01;</p>
-<h3 id="handler&#x7684;&#x7528;&#x8655;">Handler&#x7684;&#x7528;&#x8655;</h3>
+<h3 id="handler%E7%9A%84%E7%94%A8%E8%99%95">Handler&#x7684;&#x7528;&#x8655;</h3>
 <p>&#x6211;&#x5728;&#x5C0F;&#x6A19;&#x984C;&#x4E2D;&#x5C07;handler&#x63CF;&#x8FF0;&#x70BA;&#x300C;&#x7570;&#x6B65;&#x8655;&#x7406;&#x5927;&#x5E2B;&#x300D;&#xFF0C;&#x9019;&#x6B78;&#x529F;&#x65BC;Handler&#x64C1;&#x6709;&#x4E0B;&#x9762;&#x5169;&#x500B;&#x91CD;&#x8981;&#x7684;&#x7279;&#x9EDE;&#xFF1A;</p>
 <p>1.handler&#x53EF;&#x4EE5;&#x5728;<strong>&#x4EFB;&#x610F;&#x7DDA;&#x7A0B;&#x767C;&#x9001;&#x6D88;&#x606F;</strong>&#xFF0C;&#x9019;&#x4E9B;&#x6D88;&#x606F;&#x6703;&#x88AB;&#x6DFB;&#x52A0;&#x5230;&#x95DC;&#x806F;&#x7684;MQ&#x4E0A;&#x3002;
 <img src="images/2011091409532564.png" alt="images"></p>
@@ -8006,7 +8098,7 @@
 }
 </code></pre>
 <p>&#x7576;&#x7136;&#xFF0C;handler&#x80FD;&#x505A;&#x7684;&#x9060;&#x9060;&#x4E0D;&#x50C5;&#x5982;&#x6B64;&#xFF0C;&#x7531;&#x65BC;&#x5B83;&#x80FD;post Runnable&#x5C0D;&#x8C61;&#xFF0C;&#x5B83;&#x9084;&#x80FD;&#x8207;Looper&#x914D;&#x5408;&#x5BE6;&#x73FE;&#x7D93;&#x5178;&#x7684;Pipeline Thread(&#x6D41;&#x6C34;&#x7DDA;&#x7DDA;&#x7A0B;)&#x6A21;&#x5F0F;&#x3002;&#x8ACB;&#x53C3;&#x8003;&#x6B64;&#x6587;&#x300A;Android Guts: Intro to Loopers and Handlers&#x300B;</p>
-<h3 id="&#x5C01;&#x88DD;&#x4EFB;&#x52D9;-message">&#x5C01;&#x88DD;&#x4EFB;&#x52D9; Message</h3>
+<h3 id="%E5%B0%81%E8%A3%9D%E4%BB%BB%E5%8B%99-message">&#x5C01;&#x88DD;&#x4EFB;&#x52D9; Message</h3>
 <p>&#x5728;&#x6574;&#x500B;&#x6D88;&#x606F;&#x8655;&#x7406;&#x6A5F;&#x5236;&#x4E2D;&#xFF0C;message&#x53C8;&#x53EB;task&#xFF0C;&#x5C01;&#x88DD;&#x4E86;&#x4EFB;&#x52D9;&#x651C;&#x5E36;&#x7684;&#x4FE1;&#x606F;&#x548C;&#x8655;&#x7406;&#x8A72;&#x4EFB;&#x52D9;&#x7684;handler&#x3002;message&#x7684;&#x7528;&#x6CD5;&#x6BD4;&#x8F03;&#x7C21;&#x55AE;&#xFF0C;&#x9019;&#x88E1;&#x4E0D;&#x505A;&#x7E3D;&#x7D50;&#x4E86;&#x3002;&#x4F46;&#x662F;&#x6709;&#x9019;&#x9EBC;&#x5E7E;&#x9EDE;&#x9700;&#x8981;&#x6CE8;&#x610F;&#xFF08;&#x5F85;&#x88DC;&#x5145;&#xFF09;&#xFF1A;</p>
 <p>1.&#x5118;&#x7BA1;Message&#x6709;public&#x7684;&#x9ED8;&#x8A8D;&#x69CB;&#x9020;&#x65B9;&#x6CD5;&#xFF0C;&#x4F46;&#x662F;&#x4F60;&#x61C9;&#x8A72;&#x901A;&#x904E;Message.obtain()&#x4F86;&#x5F9E;&#x6D88;&#x606F;&#x6C60;&#x4E2D;&#x7372;&#x5F97;&#x7A7A;&#x6D88;&#x606F;&#x5C0D;&#x8C61;&#xFF0C;&#x4EE5;&#x7BC0;&#x7701;&#x8CC7;&#x6E90;&#x3002;</p>
 <p>2.&#x5982;&#x679C;&#x4F60;&#x7684;message&#x53EA;&#x9700;&#x8981;&#x651C;&#x5E36;&#x7C21;&#x55AE;&#x7684;int&#x4FE1;&#x606F;&#xFF0C;&#x8ACB;&#x512A;&#x5148;&#x4F7F;&#x7528;Message.arg1&#x548C;Message.arg2&#x4F86;&#x50B3;&#x905E;&#x4FE1;&#x606F;&#xFF0C;&#x9019;&#x6BD4;&#x7528;Bundle&#x66F4;&#x7701;&#x5167;&#x5B58;</p>
@@ -8053,25 +8145,9 @@
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
-    
-    <script src="../gitbook/plugins/gitbook-plugin-search/lunr.min.js"></script>
-    
-
-    
-    <script src="../gitbook/plugins/gitbook-plugin-search/search.js"></script>
-    
-
-    
-    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
-    
-
-    
-    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
-    
-
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"search":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
+    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>arm交叉編譯器gnueabi、none-eabi、arm-eabi、gnueabihf、gnueabi區別 | Jason note</title>
+        <title>CMake for windows | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../gdb/index.html" />
+    <link rel="next" href="../treacecode/treace_code.html" />
     
     
-    <link rel="prev" href="../toolchain/172.html" />
+    <link rel="prev" href="../cmake/cmake_ru_9580_jia_ru_bian_yi_xuan_xiang.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="17.3" data-basepath=".." data-revision="Tue Feb 16 2016 00:42:38 GMT+0800 (CST)">
+    <div class="book" data-level="42.6" data-basepath=".." data-revision="Tue Feb 16 2016 00:42:38 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -3915,7 +3915,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="17.3" data-path="toolchain/173.html">
+        <li class="chapter " data-level="17.3" data-path="toolchain/173.html">
             
                 
                     <a href="../toolchain/173.html">
@@ -7060,7 +7060,7 @@
             
         </li>
     
-        <li class="chapter " data-level="42.6" data-path="cmake/cmake_for_windows.html">
+        <li class="chapter active" data-level="42.6" data-path="cmake/cmake_for_windows.html">
             
                 
                     <a href="../cmake/cmake_for_windows.html">
@@ -7843,87 +7843,19 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="arm%E4%BA%A4%E5%8F%89%E7%B7%A8%E8%AD%AF%E5%99%A8gnueabi%E3%80%81none-eabi%E3%80%81arm-eabi%E3%80%81gnueabihf%E3%80%81gnueabi%E5%8D%80%E5%88%A5">arm&#x4EA4;&#x53C9;&#x7DE8;&#x8B6F;&#x5668;gnueabi&#x3001;none-eabi&#x3001;arm-eabi&#x3001;gnueabihf&#x3001;gnueabi&#x5340;&#x5225;</h1>
-<h3 id="%E5%91%BD%E5%90%8D%E8%A6%8F%E5%89%87">&#x547D;&#x540D;&#x898F;&#x5247;</h3>
-<p>&#x4EA4;&#x53C9;&#x7DE8;&#x8B6F;&#x5DE5;&#x5177;&#x93C8;&#x7684;&#x547D;&#x540D;&#x898F;&#x5247;&#x70BA;&#xFF1A;<code>arch</code> [<code>-vendor</code>] [<code>-os</code>] [<code>-(gnu)eabi</code>]</p>
+                        <h1 id="cmake-for-windows">CMake for windows</h1>
 <ul>
-<li>arch &#x2013; &#x9AD4;&#x7CFB;&#x67B6;&#x69CB;&#xFF0C;&#x5982;ARM&#xFF0C;MIPS</li>
-<li>vendor &#x2013; &#x5DE5;&#x5177;&#x93C8;&#x63D0;&#x4F9B;&#x5546;</li>
-<li>os &#x2013; &#x76EE;&#x6A19;&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;</li>
-<li><p>eabi &#x2013; &#x5D4C;&#x5165;&#x5F0F;&#x61C9;&#x7528;&#x4E8C;&#x9032;&#x5236;&#x63A5;&#x53E3;&#xFF08;Embedded Application Binary Interface&#xFF09;
-&#x6839;&#x64DA;&#x5C0D;&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x7684;&#x652F;&#x6301;&#x8207;&#x5426;&#xFF0C;ARM GCC&#x53EF;&#x5206;&#x70BA;&#x652F;&#x6301;&#x548C;&#x4E0D;&#x652F;&#x6301;&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#xFF0C;&#x5982;</p>
-</li>
-<li><p>arm-none-eabi&#xFF1A;&#x9019;&#x500B;&#x662F;&#x6C92;&#x6709;&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x7684;&#xFF0C;&#x81EA;&#x7136;&#x4E0D;&#x53EF;&#x80FD;&#x652F;&#x6301;&#x90A3;&#x4E9B;&#x8DDF;&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x95DC;&#x4FC2;&#x5BC6;&#x5207;&#x7684;&#x51FD;&#x6578;&#xFF0C;&#x6BD4;&#x5982;fork(2)&#x3002;&#x4ED6;&#x4F7F;&#x7528;&#x7684;&#x662F;newlib&#x9019;&#x500B;&#x5C08;&#x7528;&#x65BC;&#x5D4C;&#x5165;&#x5F0F;&#x7CFB;&#x7D71;&#x7684;C&#x5EAB;&#x3002;</p>
-</li>
-<li>arm-none-linux-eabi&#xFF1A;&#x7528;&#x65BC;Linux&#x7684;&#xFF0C;&#x4F7F;&#x7528;Glibc</li>
+<li>CMakeLists.txt </li>
 </ul>
-<h2 id="%E5%AF%A6%E4%BE%8B">&#x5BE6;&#x4F8B;</h2>
-<h3 id="1%E3%80%81arm-none-eabi-gcc">1&#x3001;arm-none-eabi-gcc</h3>
-<p>&#xFF08;ARM architecture&#xFF0C;no vendor&#xFF0C;not target an operating system&#xFF0C;complies with the ARM EABI&#xFF09;
-&#x7528;&#x65BC;&#x7DE8;&#x8B6F; ARM &#x67B6;&#x69CB;&#x7684;&#x88F8;&#x6A5F;&#x7CFB;&#x7D71;&#xFF08;&#x5305;&#x62EC; ARM Linux &#x7684; boot&#x3001;kernel&#xFF0C;&#x4E0D;&#x9069;&#x7528;&#x7DE8;&#x8B6F; Linux &#x61C9;&#x7528; Application&#xFF09;&#xFF0C;&#x4E00;&#x822C;&#x9069;&#x5408; ARM7&#x3001;Cortex-M &#x548C; Cortex-R &#x5167;&#x6838;&#x7684;&#x82AF;&#x7247;&#x4F7F;&#x7528;&#xFF0C;&#x6240;&#x4EE5;&#x4E0D;&#x652F;&#x6301;&#x90A3;&#x4E9B;&#x8DDF;&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x95DC;&#x4FC2;&#x5BC6;&#x5207;&#x7684;&#x51FD;&#x6578;&#xFF0C;&#x6BD4;&#x5982;fork(2)&#xFF0C;&#x4ED6;&#x4F7F;&#x7528;&#x7684;&#x662F; newlib &#x9019;&#x500B;&#x5C08;&#x7528;&#x65BC;&#x5D4C;&#x5165;&#x5F0F;&#x7CFB;&#x7D71;&#x7684;C&#x5EAB;&#x3002;</p>
-<h3 id="2%E3%80%81arm-none-linux-gnueabi-gcc">2&#x3001;arm-none-linux-gnueabi-gcc</h3>
-<p>(ARM architecture, no vendor, creates binaries that run on the Linux operating system, and uses the GNU EABI)</p>
-<p>&#x4E3B;&#x8981;&#x7528;&#x65BC;&#x57FA;&#x65BC;ARM&#x67B6;&#x69CB;&#x7684;Linux&#x7CFB;&#x7D71;&#xFF0C;&#x53EF;&#x7528;&#x65BC;&#x7DE8;&#x8B6F; ARM &#x67B6;&#x69CB;&#x7684; u-boot&#x3001;Linux&#x5167;&#x6838;&#x3001;linux&#x61C9;&#x7528;&#x7B49;&#x3002;arm-none-linux-gnueabi&#x57FA;&#x65BC;GCC&#xFF0C;&#x4F7F;&#x7528;Glibc&#x5EAB;&#xFF0C;&#x7D93;&#x904E; Codesourcery &#x516C;&#x53F8;&#x512A;&#x5316;&#x904E;&#x63A8;&#x51FA;&#x7684;&#x7DE8;&#x8B6F;&#x5668;&#x3002;arm-none-linux-gnueabi-xxx &#x4EA4;&#x53C9;&#x7DE8;&#x8B6F;&#x5DE5;&#x5177;&#x7684;&#x6D6E;&#x9EDE;&#x904B;&#x7B97;&#x975E;&#x5E38;&#x512A;&#x79C0;&#x3002;&#x4E00;&#x822C;ARM9&#x3001;ARM11&#x3001;Cortex-A &#x5167;&#x6838;&#xFF0C;&#x5E36;&#x6709; Linux &#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x7684;&#x6703;&#x7528;&#x5230;&#x3002;</p>
-<h3 id="3%E3%80%81arm-eabi-gcc">3&#x3001;arm-eabi-gcc</h3>
-<p>Android ARM &#x7DE8;&#x8B6F;&#x5668;&#x3002;</p>
-<h3 id="4%E3%80%81armcc">4&#x3001;armcc</h3>
-<p>ARM &#x516C;&#x53F8;&#x63A8;&#x51FA;&#x7684;&#x7DE8;&#x8B6F;&#x5DE5;&#x5177;&#xFF0C;&#x529F;&#x80FD;&#x548C; arm-none-eabi &#x985E;&#x4F3C;&#xFF0C;&#x53EF;&#x4EE5;&#x7DE8;&#x8B6F;&#x88F8;&#x6A5F;&#x7A0B;&#x5E8F;&#xFF08;u-boot&#x3001;kernel&#xFF09;&#xFF0C;&#x4F46;&#x662F;&#x4E0D;&#x80FD;&#x7DE8;&#x8B6F; Linux &#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x3002;armcc&#x4E00;&#x822C;&#x548C;ARM&#x958B;&#x767C;&#x5DE5;&#x5177;&#x4E00;&#x8D77;&#xFF0C;Keil MDK&#x3001;ADS&#x3001;RVDS&#x548C;DS-5&#x4E2D;&#x7684;&#x7DE8;&#x8B6F;&#x5668;&#x90FD;&#x662F;armcc&#xFF0C;&#x6240;&#x4EE5; armcc &#x7DE8;&#x8B6F;&#x5668;&#x90FD;&#x662F;&#x6536;&#x8CBB;&#x7684;&#xFF08;&#x611B;&#x570B;&#x7248;&#x9664;&#x5916;&#xFF0C;&#x5475;&#x5475;~~&#xFF09;&#x3002;</p>
-<h3 id="5%E3%80%81arm-none-uclinuxeabi-gcc-%E5%92%8C-arm-none-symbianelf-gcc">5&#x3001;arm-none-uclinuxeabi-gcc &#x548C; arm-none-symbianelf-gcc</h3>
-<p>arm-none-uclinuxeabi &#x7528;&#x65BC;uCLinux&#xFF0C;&#x4F7F;&#x7528;Glibc&#x3002;</p>
-<p>arm-none-symbianelf &#x7528;&#x65BC;symbian&#xFF0C;&#x6C92;&#x7528;&#x904E;&#xFF0C;&#x4E0D;&#x77E5;&#x9053;C&#x5EAB;&#x662F;&#x4EC0;&#x9EBC; &#x3002;</p>
-<h3 id="codesourcery">Codesourcery</h3>
-<p><code>Codesourcery</code>&#x63A8;&#x51FA;&#x7684;&#x7522;&#x54C1;&#x53EB;Sourcery G++ Lite Edition&#xFF0C;&#x5176;&#x4E2D;&#x57FA;&#x65BC;command-line&#x7684;&#x7DE8;&#x8B6F;&#x5668;&#x662F;&#x514D;&#x8CBB;&#x7684;&#xFF0C;&#x5728;&#x5B98;&#x7DB2;&#x4E0A;&#x53EF;&#x4EE5;&#x4E0B;&#x8F09;&#xFF0C;&#x800C;&#x5176;&#x4E2D;&#x5305;&#x542B;&#x7684;IDE&#x548C;debug &#x5DE5;&#x5177;&#x662F;&#x6536;&#x8CBB;&#x7684;&#xFF0C;&#x7576;&#x7136;&#x4E5F;&#x6709;30&#x5929;&#x8A66;&#x7528;&#x7248;&#x672C;&#x7684;&#x3002;</p>
-<p>&#x76EE;&#x524D;CodeSourcery&#x5DF2;&#x7D93;&#x7531;&#x660E;&#x5C0E;&#x570B;&#x969B;(Mentor Graphics)&#x6536;&#x8CFC;&#xFF0C;&#x6240;&#x4EE5;&#x539F;&#x672C;&#x7684;&#x7DB2;&#x7AD9;&#x98A8;&#x683C;&#x5DF2;&#x7D93;&#x5168;&#x90E8;&#x8B8A;&#x70BA; Mentor &#x6A23;&#x5F0F;&#xFF0C;&#x4F46;&#x662F; Sourcery G++ Lite Edition &#x540C;&#x6A23;&#x53EF;&#x4EE5;&#x8A3B;&#x518A;&#x5F8C;&#x514D;&#x8CBB;&#x4E0B;&#x8F09;&#x3002;</p>
-<p>Codesourcery&#x4E00;&#x76F4;&#x662F;&#x5728;&#x505A;ARM&#x76EE;&#x6A19; GCC &#x7684;&#x958B;&#x767C;&#x548C;&#x512A;&#x5316;&#xFF0C;&#x5B83;&#x7684;ARM GCC&#x5728;&#x76EE;&#x524D;&#x5728;&#x5E02;&#x5834;&#x4E0A;&#x975E;&#x5E38;&#x512A;&#x79C0;&#xFF0C;&#x5F88;&#x591A; patch &#x53EF;&#x80FD;&#x9084;&#x6C92;&#x88AB;gcc&#x63A5;&#x53D7;&#xFF0C;&#x6240;&#x4EE5;&#x9084;&#x662F;&#x61C9;&#x8A72;&#x76F4;&#x63A5;&#x7528;&#x5B83;&#x7684;&#xFF08;&#x800C;&#x4E14;&#x4ED6;&#x63D0;&#x4F9B;Windows&#x4E0B;[mingw&#x4EA4;&#x53C9;&#x7DE8;&#x8B6F;&#x7684;]&#x548C;Linux&#x4E0B;&#x7684;&#x4E8C;&#x9032;&#x88FD;&#x7248;&#x672C;&#xFF0C;&#x6BD4;&#x8F03;&#x65B9;&#x4FBF;&#xFF1B;&#x5982;&#x679C;&#x4E0D;&#x662F;&#x5F88;&#x6709;&#x6642;&#x9593;&#x548C;&#x8208;&#x8DA3;&#xFF0C;&#x4E0D;&#x5EFA;&#x8B70;&#x4E0B;&#x8F09; src &#x6E90;&#x78BC;&#x5305;&#x81EA;&#x5DF1;&#x7DE8;&#x8B6F;&#xFF0C;&#x5F88;&#x9EBB;&#x7169;&#xFF0C;Codesourcery&#x7D66;&#x7684;shell&#x8173;&#x672C;&#x5F88;&#x591A;&#x6642;&#x5019;&#x6839;&#x672C;&#x6C92;&#x8FA6;&#x6CD5;&#x76F4;&#x63A5;&#x7528;&#xFF0C;&#x5F97;&#x81EA;&#x884C;&#x63D0;&#x53D6;&#x95DC;&#x9375;&#x7684;&#x90E8;&#x5206;&#x624B;&#x5DE5;&#x57F7;&#x884C;&#xFF0C;&#x53C8;&#x8CBB;&#x7CBE;&#x529B;&#x53C8;&#x8CBB;&#x6642;&#x9593;&#xFF0C;&#x5982;&#x679C;&#x60F3;&#x77E5;&#x9053;&#x7D30;&#x7BC0;&#xFF0C;&#x5176;&#x5BE6;&#x4E0D;&#x7528;&#x81EA;&#x5DF1;&#x7DE8;&#x8B6F;&#x4E00;&#x904D;&#xFF0C;&#x770B;&#x770B;&#x4ED6;&#x662F;&#x7528;&#x4EC0;&#x9EBC;&#x6B65;&#x9A5F;&#x69CB;&#x5EFA;&#x7684;&#x5373;&#x53EF;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x5C0D;&#x4EA4;&#x53C9;&#x7DE8;&#x8B6F;&#x5668;&#x611F;&#x8208;&#x8DA3;&#x7684;&#x8A71;&#x3002;</p>
-<h3 id="abi-%E5%92%8C-eabi">ABI &#x548C; EABI</h3>
-<p><code>ABI</code>&#xFF1A;&#x4E8C;&#x9032;&#x5236;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x63A5;&#x53E3;(Application Binary Interface (ABI) for the ARM Architecture)&#x3002;&#x5728;&#x8A08;&#x7B97;&#x6A5F;&#x4E2D;&#xFF0C;&#x61C9;&#x7528;&#x4E8C;&#x9032;&#x5236;&#x63A5;&#x53E3;&#x63CF;&#x8FF0;&#x4E86;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#xFF08;&#x6216;&#x8005;&#x5176;&#x4ED6;&#x985E;&#x578B;&#xFF09;&#x548C;&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x4E4B;&#x9593;&#x6216;&#x5176;&#x4ED6;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x7684;&#x4F4E;&#x7D1A;&#x63A5;&#x53E3;&#x3002;</p>
-<p><code>EABI</code>&#xFF1A;&#x5D4C;&#x5165;&#x5F0F;ABI&#x3002;&#x5D4C;&#x5165;&#x5F0F;&#x61C9;&#x7528;&#x4E8C;&#x9032;&#x5236;&#x63A5;&#x53E3;&#x6307;&#x5B9A;&#x4E86;&#x6587;&#x4EF6;&#x683C;&#x5F0F;&#x3001;&#x6578;&#x64DA;&#x985E;&#x578B;&#x3001;&#x5BC4;&#x5B58;&#x5668;&#x4F7F;&#x7528;&#x3001;&#x5806;&#x7A4D;&#x7D44;&#x7E54;&#x512A;&#x5316;&#x548C;&#x5728;&#x4E00;&#x500B;&#x5D4C;&#x5165;&#x5F0F;&#x8EDF;&#x4EF6;&#x4E2D;&#x7684;&#x53C3;&#x6578;&#x7684;&#x6A19;&#x6E96;&#x7D04;&#x5B9A;&#x3002;&#x958B;&#x767C;&#x8005;&#x4F7F;&#x7528;&#x81EA;&#x5DF1;&#x7684;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x4E5F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; EABI &#x4F5C;&#x70BA;&#x8207;&#x517C;&#x5BB9;&#x7684;&#x7DE8;&#x8B6F;&#x5668;&#x751F;&#x6210;&#x7684;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x7684;&#x63A5;&#x53E3;&#x3002;</p>
-<p>&#x5169;&#x8005;&#x4E3B;&#x8981;&#x5340;&#x5225;&#x662F;&#xFF0C;ABI&#x662F;&#x8A08;&#x7B97;&#x6A5F;&#x4E0A;&#x7684;&#xFF0C;EABI&#x662F;&#x5D4C;&#x5165;&#x5F0F;&#x5E73;&#x81FA;&#x4E0A;&#xFF08;&#x5982;ARM&#xFF0C;MIPS&#x7B49;&#xFF09;&#x3002;</p>
-<p><code>arm-linux-gnueabi-gcc &#x548C; arm-linux-gnueabihf-gcc</code></p>
-<p>&#x5169;&#x500B;&#x4EA4;&#x53C9;&#x7DE8;&#x8B6F;&#x5668;&#x5206;&#x5225;&#x9069;&#x7528;&#x65BC; armel &#x548C; armhf &#x5169;&#x500B;&#x4E0D;&#x540C;&#x7684;&#x67B6;&#x69CB;&#xFF0C;armel &#x548C; armhf &#x9019;&#x5169;&#x7A2E;&#x67B6;&#x69CB;&#x5728;&#x5C0D;&#x5F85;&#x6D6E;&#x9EDE;&#x904B;&#x7B97;&#x63A1;&#x53D6;&#x4E86;&#x4E0D;&#x540C;&#x7684;&#x7B56;&#x7565;&#xFF08;&#x6709; fpu &#x7684; arm &#x624D;&#x80FD;&#x652F;&#x6301;&#x9019;&#x5169;&#x7A2E;&#x6D6E;&#x9EDE;&#x904B;&#x7B97;&#x7B56;&#x7565;&#xFF09;&#x3002;</p>
-<p>&#x5176;&#x5BE6;&#x9019;&#x5169;&#x500B;&#x4EA4;&#x53C9;&#x7DE8;&#x8B6F;&#x5668;&#x53EA;&#x4E0D;&#x904E;&#x662F; gcc &#x7684;&#x9078;&#x9805; -mfloat-abi &#x7684;&#x9ED8;&#x8A8D;&#x503C;&#x4E0D;&#x540C;&#x3002;gcc &#x7684;&#x9078;&#x9805; -mfloat-abi &#x6709;&#x4E09;&#x7A2E;&#x503C; soft&#x3001;softfp&#x3001;hard&#xFF08;&#x5176;&#x4E2D;&#x5F8C;&#x5169;&#x8005;&#x90FD;&#x8981;&#x6C42; arm &#x88E1;&#x6709; fpu &#x6D6E;&#x9EDE;&#x904B;&#x7B97;&#x55AE;&#x5143;&#xFF0C;soft &#x8207;&#x5F8C;&#x5169;&#x8005;&#x662F;&#x517C;&#x5BB9;&#x7684;&#xFF0C;&#x4F46; softfp &#x548C; hard &#x5169;&#x7A2E;&#x6A21;&#x5F0F;&#x4E92;&#x4E0D;&#x517C;&#x5BB9;&#xFF09;&#xFF1A;</p>
-<ul>
-<li><p>soft&#xFF1A; &#x4E0D;&#x7528;fpu&#x9032;&#x884C;&#x6D6E;&#x9EDE;&#x8A08;&#x7B97;&#xFF0C;&#x5373;&#x4F7F;&#x6709;fpu&#x6D6E;&#x9EDE;&#x904B;&#x7B97;&#x55AE;&#x5143;&#x4E5F;&#x4E0D;&#x7528;&#xFF0C;&#x800C;&#x662F;&#x4F7F;&#x7528;&#x8EDF;&#x4EF6;&#x6A21;&#x5F0F;&#x3002;</p>
-</li>
-<li><p>softfp&#xFF1A; armel&#x67B6;&#x69CB;&#xFF08;&#x5C0D;&#x61C9;&#x7684;&#x7DE8;&#x8B6F;&#x5668;&#x70BA; arm-linux-gnueabi-gcc &#xFF09;&#x63A1;&#x7528;&#x7684;&#x9ED8;&#x8A8D;&#x503C;&#xFF0C;&#x7528;fpu&#x8A08;&#x7B97;&#xFF0C;&#x4F46;&#x662F;&#x50B3;&#x53C3;&#x6578;&#x7528;&#x666E;&#x901A;&#x5BC4;&#x5B58;&#x5668;&#x50B3;&#xFF0C;&#x9019;&#x6A23;&#x4E2D;&#x65B7;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x4FDD;&#x5B58;&#x666E;&#x901A;&#x5BC4;&#x5B58;&#x5668;&#xFF0C;&#x4E2D;&#x65B7;&#x8CA0;&#x8377;&#x5C0F;&#xFF0C;&#x4F46;&#x662F;&#x53C3;&#x6578;&#x9700;&#x8981;&#x8F49;&#x63DB;&#x6210;&#x6D6E;&#x9EDE;&#x7684;&#x518D;&#x8A08;&#x7B97;&#x3002;</p>
-</li>
-<li><p>hard&#xFF1A; armhf&#x67B6;&#x69CB;&#xFF08;&#x5C0D;&#x61C9;&#x7684;&#x7DE8;&#x8B6F;&#x5668; arm-linux-gnueabihf-gcc &#xFF09;&#x63A1;&#x7528;&#x7684;&#x9ED8;&#x8A8D;&#x503C;&#xFF0C;&#x7528;fpu&#x8A08;&#x7B97;&#xFF0C;&#x50B3;&#x53C3;&#x6578;&#x4E5F;&#x7528;fpu&#x4E2D;&#x7684;&#x6D6E;&#x9EDE;&#x5BC4;&#x5B58;&#x5668;&#x50B3;&#xFF0C;&#x7701;&#x53BB;&#x4E86;&#x8F49;&#x63DB;&#xFF0C;&#x6027;&#x80FD;&#x6700;&#x597D;&#xFF0C;&#x4F46;&#x662F;&#x4E2D;&#x65B7;&#x8CA0;&#x8377;&#x9AD8;&#x3002;</p>
-</li>
-</ul>
-<p>&#x628A;&#x4EE5;&#x4E0B;&#x6E2C;&#x8A66;&#x4F7F;&#x7528;&#x7684;C&#x6587;&#x4EF6;&#x5167;&#x5BB9;&#x4FDD;&#x5B58;&#x6210; mfloat.c&#xFF1A;</p>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
-</span>{
-    <span class="hljs-keyword">double</span> a, b, c;
-    a = <span class="hljs-number">23.543</span>;
-    b = <span class="hljs-number">323.234</span>;
-    c = b / a;
-    <span class="hljs-built_in">printf</span>(&#x201C;the <span class="hljs-number">13</span> / <span class="hljs-number">2</span> = % f\n&#x201D;, c);
-    <span class="hljs-built_in">printf</span>(&#x201C;hello world !\n&#x201D;);
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-}
+<pre><code class="lang-sh"><span class="hljs-built_in">set</span>(libfunctionality_DIR <span class="hljs-string">&quot;D:/libfunctionality-binary/install/lib/cmake/libfunctionality&quot;</span>)
+<span class="hljs-built_in">set</span>(OpenCV_DIR <span class="hljs-string">&quot;D:/opencv/build&quot;</span>)
+<span class="hljs-built_in">set</span>(jsoncpp_DIR <span class="hljs-string">&quot;D:/jsoncpp-binary/install/lib/cmake/jsoncpp&quot;</span>)
+<span class="hljs-built_in">set</span>(BOOST_LIBRARYDIR <span class="hljs-string">&quot;D:/boost_1_59_0/libs&quot;</span>)
+<span class="hljs-built_in">set</span>(BOOST_ROOT <span class="hljs-string">&quot;D:/boost_1_59_0&quot;</span>)
+<span class="hljs-built_in">set</span>(BOOST_INCLUDE_DIR <span class="hljs-string">&quot;D:/boost_1_59_0&quot;</span>)
 </code></pre>
-<ul>
-<li>1&#x3001;&#x4F7F;&#x7528; arm-linux-gnueabihf-gcc &#x7DE8;&#x8B6F;&#xFF0C;&#x4F7F;&#x7528;&#x201C;-v&#x201D;&#x9078;&#x9805;&#x4EE5;&#x7372;&#x53D6;&#x66F4;&#x8A73;&#x7D30;&#x7684;&#x4FE1;&#x606F;&#xFF1A;<pre><code class="lang-sh"><span class="hljs-comment"># arm-linux-gnueabihf-gcc -v mfloat.c</span>
-COLLECT_GCC_OPTIONS=&#x2019;-v&#x2019; &#x2018;-march=armv7<span class="hljs-operator">-a</span>&#x2019; &#x2018;-mfloat-abi=hard&#x2019; &#x2018;-mfpu=vfpv3<span class="hljs-operator">-d</span>16&#x2032; &#x2018;-mthumb&#x2019;
--mfloat-abi=hard
+<pre><code class="lang-sh">cmake -G <span class="hljs-string">&quot;Visual Studio 12 Win64&quot;</span> ../
 </code></pre>
-</li>
-</ul>
-<p>&#x53EF;&#x770B;&#x51FA;&#x4F7F;&#x7528;hard&#x786C;&#x4EF6;&#x6D6E;&#x9EDE;&#x6A21;&#x5F0F;&#x3002;</p>
-<ul>
-<li>2&#x3001;&#x4F7F;&#x7528; arm-linux-gnueabi-gcc &#x7DE8;&#x8B6F;&#xFF1A;<pre><code class="lang-sh"><span class="hljs-comment"># arm-linux-gnueabi-gcc -v mfloat.c</span>
-COLLECT_GCC_OPTIONS=&#x2019;-v&#x2019; &#x2018;-march=armv7<span class="hljs-operator">-a</span>&#x2019; &#x2018;-mfloat-abi=softfp&#x2019; &#x2018;-mfpu=vfpv3<span class="hljs-operator">-d</span>16&#x2032; &#x2018;-mthumb&#x2019;
--mfloat-abi=softfp
-</code></pre>
-</li>
-</ul>
-<p>&#x53EF;&#x770B;&#x51FA;&#x4F7F;&#x7528;softfp&#x6A21;&#x5F0F;&#x3002;</p>
-<p><img src="images/1461f9b2f976c97cbf509fac059688a1.png" alt=""></p>
-<h3 id="%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99">&#x53C3;&#x8003;&#x8CC7;&#x6599;</h3>
-<p>&#x4EA4;&#x53C9;&#x7DE8;&#x8B6F;&#x5668; arm-linux-gnueabi &#x548C; arm-linux-gnueabihf &#x7684;&#x5340;&#x5225;&#xFF1A;<a href="http://www.cnblogs.com/xiaotlili/p/3306100.html" target="_blank">http://www.cnblogs.com/xiaotlili/p/3306100.html</a>
-arm-none-linux-gnueabi&#xFF0C;arm-none-eabi &#x8207;arm-eabi &#x5340;&#x5225;&#xFF1A;<a href="http://blog.csdn.net/mantis_1984/article/details/21049273" target="_blank">http://blog.csdn.net/mantis_1984/article/details/21049273</a>
-What&#x2019;s the difference between arm-linux- / arm-none-linux-gnueabi- / arm-fsl-linux-gnueabi- in LTIB?<a href="https://community.freescale.com/thread/313490" target="_blank">https://community.freescale.com/thread/313490</a></p>
 
                     
                     </section>
@@ -7934,10 +7866,10 @@ What&#x2019;s the difference between arm-linux- / arm-none-linux-gnueabi- / arm-
         </div>
 
         
-        <a href="../toolchain/172.html" class="navigation navigation-prev " aria-label="Previous page: buildroot install"><i class="fa fa-angle-left"></i></a>
+        <a href="../cmake/cmake_ru_9580_jia_ru_bian_yi_xuan_xiang.html" class="navigation navigation-prev " aria-label="Previous page: CMake 入門/加入編譯選項"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../gdb/index.html" class="navigation navigation-next " aria-label="Next page: GDB"><i class="fa fa-angle-right"></i></a>
+        <a href="../treacecode/treace_code.html" class="navigation navigation-next " aria-label="Next page: Treace code"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

@@ -63,3 +63,28 @@ cmake ../ -DCMAKE_C_FLAGS=-DDEBUG
 make 
 ./hello
 ```
+
+
+
+跟一般用Mafefile 可以直接在 make 時候加上 CFLAGS=-DDEBUG 但是cmake 無法
+
+```sh
+CC      = gcc
+CFLAGS  = -g
+RM      = rm -f
+
+
+default: all
+
+all: Hello
+
+Hello: hello.c
+	$(CC) $(CFLAGS) -o Hello hello.c
+
+clean veryclean:
+	$(RM) Hello
+```
+
+```sh
+make CFLAGS=-DDEBUG 
+```

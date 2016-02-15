@@ -1,0 +1,2 @@
+# cmake CFLAGS CXXFLAGS
+

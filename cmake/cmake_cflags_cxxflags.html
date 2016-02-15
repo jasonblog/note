@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>照妖鏡和火眼金睛 | Jason note</title>
+        <title>cmake CFLAGS CXXFLAGS | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../simplelinux/242.html" />
+    <link rel="next" href="../treacecode/treace_code.html" />
     
     
-    <link rel="prev" href="../simplelinux/index.html" />
+    <link rel="prev" href="../cmake/ba_wan_cmake_de_di_yi_bu.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="24.1" data-basepath=".." data-revision="Mon Feb 15 2016 22:13:48 GMT+0800 (CST)">
+    <div class="book" data-level="42.4" data-basepath=".." data-revision="Mon Feb 15 2016 22:13:48 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -5265,7 +5265,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="24.1" data-path="simplelinux/241.html">
+        <li class="chapter " data-level="24.1" data-path="simplelinux/241.html">
             
                 
                     <a href="../simplelinux/241.html">
@@ -7030,7 +7030,7 @@
             
         </li>
     
-        <li class="chapter " data-level="42.4" data-path="cmake/cmake_cflags_cxxflags.html">
+        <li class="chapter active" data-level="42.4" data-path="cmake/cmake_cflags_cxxflags.html">
             
                 
                     <a href="../cmake/cmake_cflags_cxxflags.html">
@@ -7813,135 +7813,52 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 align="center">&#x7167;&#x5996;&#x93E1;&#x548C;&#x706B;&#x773C;&#x91D1;&#x775B;
-</h1>
-
-<p>&#x3000;&#x3000;&#x5982;&#x679C;&#x5728; linux &#x4E0B;&#x7DE8;&#x5BEB; C &#x7A0B;&#x5E8F;&#xFF0C;
-&#x90A3;&#x9EBC;&#x4F60;&#x5C07;&#x7372;&#x5F97;&#x5169;&#x500B;&#x7280;&#x5229;&#x7684;&#x6CD5;&#x5BF6;&#xFF1A;</p>
-<hr>
-<h2 id="%E7%85%A7%E5%A6%96%E9%8F%A1">&#x7167;&#x5996;&#x93E1;</h2>
-<p>&#x4E00;&#x500B;C&#x7A0B;&#x5E8F;&#xFF08;max.c&#xFF09;&#xFF1A;</p>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> MAX(a,b) ((a)&gt;=(b)?(a):(b))</span>
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>{
-    <span class="hljs-keyword">int</span> c=MAX(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>); <span class="hljs-comment">// &#x6CE8;&#x6CE8;&#x6CE8;&#x8A3B;&#x91CB;</span>
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-}
+                        <h1 id="cmake-cflags-cxxflags">cmake CFLAGS CXXFLAGS</h1>
+<ul>
+<li>CMakeLists.txt </li>
+</ul>
+<pre><code class="lang-sh"><span class="hljs-built_in">set</span>(CMAKE_BUILD_TYPE DEBUG)
+<span class="hljs-built_in">set</span>(CMAKE_C_FLAGS <span class="hljs-string">&quot;-O0 -ggdb&quot;</span>)
+<span class="hljs-built_in">set</span>(CMAKE_C_FLAGS_DEBUG <span class="hljs-string">&quot;-O0 -ggdb&quot;</span>)
+<span class="hljs-built_in">set</span>(CMAKE_C_FLAGS_RELEASE <span class="hljs-string">&quot;-O0 -ggdb&quot;</span>)
+<span class="hljs-built_in">set</span>(CMAKE_CXX_FLAGS <span class="hljs-string">&quot;-O0 -ggdb&quot;</span>)
+<span class="hljs-built_in">set</span>(CMAKE_CXX_FLAGS_DEBUG <span class="hljs-string">&quot;-O0 -ggdb&quot;</span>)
+<span class="hljs-built_in">set</span>(CMAKE_CXX_FLAGS_RELEASE <span class="hljs-string">&quot;-O0 -ggdb&quot;</span>)
 </code></pre>
-<p>&#x7A0B;&#x5E8F;&#x5F88;&#x7C21;&#x55AE;&#xFF0C;&#x5C31;&#x662F;&#x5B9A;&#x7FA9;&#x548C;&#x4F7F;&#x7528;&#x4E00;&#x500B;MAX&#x5B8F;&#xFF0C;
-&#x5B8F;&#x5728;&#x6B63;&#x5F0F;&#x7DE8;&#x8B6F;&#x524D;&#x662F;&#x6703;&#x88AB;&#x66FF;&#x63DB;&#x70BA;&#x672C;&#x4F86;&#x9762;&#x76EE;&#x7684;&#xFF0C;
-&#x6211;&#x5011;&#x73FE;&#x5728;&#x770B;&#x5230;&#x7684;&#x4E0D;&#x662F;&#x5B83;&#x7684;&#x771F;&#x8EAB;&#x3002;&#x8B93;&#x6211;&#x5011;&#x7528;&#x7167;&#x5996;&#x93E1;&#x4F86;&#x7167;&#x7167;&#xFF1A;</p>
-<pre><code class="lang-c">gcc -E -o max2.c max.c
-</code></pre>
-<p>&#x9019;&#x88E1;&#x7684; -o max2.c &#x662F;&#x8B93; gcc
-&#x628A;&#x8981;&#x8F38;&#x51FA;&#x6771;&#x897F;&#x8F38;&#x51FA;&#x5230; max2.c &#x6587;&#x4EF6;&#x4E2D;&lt;/em&gt;&#x3002;</p>
-<p>&#x5996;&#x602A;&#xFF01;&#x5FEB;&#x5FEB;&#x73FE;&#x5F62;&#x5427;&#xFF1A;</p>
-<pre><code class="lang-c"><span class="hljs-preprocessor"># <span class="hljs-number">1</span> <span class="hljs-string">&quot;max.c&quot;</span></span>
-<span class="hljs-preprocessor"># <span class="hljs-number">1</span> <span class="hljs-string">&quot;&lt;built-in&gt;&quot;</span></span>
-<span class="hljs-preprocessor"># <span class="hljs-number">1</span> <span class="hljs-string">&quot;&lt;&#x547D;&#x4EE4;&#x884C;&gt;&quot;</span></span>
-<span class="hljs-preprocessor"># <span class="hljs-number">1</span> <span class="hljs-string">&quot;max.c&quot;</span></span>
-
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>{
- <span class="hljs-keyword">int</span> c=((<span class="hljs-number">1</span>)&gt;=(<span class="hljs-number">2</span>)?(<span class="hljs-number">1</span>):(<span class="hljs-number">2</span>));
- <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-}
-</code></pre>
-<p><code>&#x3000;</code>&#x4E0A;&#x9762;&#x5C31;&#x662F;max2.c&#x4E2D;&#x7684;&#x5167;&#x5BB9;&#xFF0C;MAX(1,2) &#x88AB;&#x66FF;&#x63DB;&#x6210;&#x4E86;
-((1)&gt;=(2)?(1):(2))&#xFF0C;&#x9019;&#x96BB;&#x5B7D;&#x755C;&#x7D42;&#x65BC;&#x73FE;&#x5F62;&#x4E86;&#xFF01;</p>
-<p>&#x3000;&#x3000;&#x7167;&#x5996;&#x93E1;&#x7684;&#x4F5C;&#x7528;&#x5C31;&#x662F;&#x66FF;&#x63DB;&#x5B8F;&#xFF0C;&#x4F46;&#x662F;&#x5B8F;&#x597D;&#x50CF;&#x5927;&#x5BB6;&#x90FD;&#x4E0D;&#x592A;&#x7528;&#x3002;
-&#x4E0D;&#x904E;&#x5B8F;&#x5728; &#x73FE;&#x4EE3; linux &#x5167;&#x6838;&#x6E90;&#x4EE3;&#x78BC;&#x4E2D;&#x7C21;&#x76F4;&#x662F;&#x904B;&#x7528;&#x5230;&#x4E86;&#x6975;&#x81F4;&#xFF0C;
-&#x751A;&#x81F3;&#x53EF;&#x4EE5;&#x8AAA; linux &#x5167;&#x6838;&#x662F;&#x7531; C&#x3001;&#x5B8F;&#x3001;&#x5F59;&#x7DE8; &#x5BEB;&#x51FA;&#x4F86;&#x7684;&#x3002;
-&#x5B8F;&#x662F;&#x53EF;&#x4EE5;&#x5D4C;&#x5957;&#x7684;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#x5B8F;&#x7684; &#x53C3;&#x6578; &#x6216; &#x53F3;&#x90E8;
-&#x4E2D;&#x9084;&#x53EF;&#x4EE5;&#x51FA;&#x73FE;&#x80FD;&#x5920;&#x88AB;&#x66FF;&#x63DB;&#x7684;&#x5B8F;&#xFF0C;
-&#x6240;&#x4EE5;&#x60C5;&#x6CC1;&#x5C31;&#x76F8;&#x7576;&#x8907;&#x96DC;&#x4E86;&#x2014;&#x2014;&#x5341;&#x500B;&#x5B57;&#x7B26;&#x7684;&#x7C21;&#x55AE;&#x7684;&#x4E00;&#x689D;&#x8A9E;&#x53E5;&#xFF0C;
-&#x7576;&#x88AB;&#x9084;&#x539F;&#x70BA;&#x672C;&#x4F86;&#x9762;&#x76EE;&#x6642;&#xFF0C;&#x53EF;&#x80FD;&#x5C31;&#x8B8A;&#x6210;&#x4E03;&#x516B;&#x5341;&#x500B;&#x5B57;&#x7B26;&#x4E86;&#xFF0C;
-&#x8981;&#x5206;&#x6790;&#x9019;&#x6A23;&#x7684;&#x8A9E;&#x53E5;&#xFF0C;&#x7167;&#x5996;&#x93E1;&#x5C31;&#x5927;&#x986F;&#x795E;&#x5A01;&#x4E86;&#x3002;</p>
-<p>&#x3000;&#x3000;&#x95DC;&#x65BC;&#x5B8F;&#xFF0C;&#x5F8C;&#x9762;&#x6703;&#x7368;&#x7ACB;&#x51FA;&#x4E00;&#x7BC7;&#x4F86;&#x4ECB;&#x7D39;&#x3002;</p>
-<hr>
-<h2 id="%E7%81%AB%E7%9C%BC%E9%87%91%E7%9D%9B">&#x706B;&#x773C;&#x91D1;&#x775B;</h2>
-<p>&#x3000;&#x3000;&#x7167;&#x5996;&#x93E1;&#x61C9;&#x8A72;&#x662F;&#x4E0D;&#x5982;&#x706B;&#x773C;&#x91D1;&#x775B;&#x7684;&#xFF0C;
-&#x706B;&#x773C;&#x91D1;&#x775B;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x53CA;&#x5176;&#x5FAE;&#x5C0F;&#x7684;&#x7D30;&#x7BC0;&#x3002;&#x4E0B;&#x9762;&#x6211;&#x5BEB;&#x4E86;&#x500B;Hello World
-&#xFF08;hello.c&#xFF09;&#xFF1A;</p>
+<ul>
+<li>hello.c</li>
+</ul>
 <pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
 
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>{
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Hello, World!\n&quot;</span>);
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">ifdef</span> DEBUG</span>
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Debug run\n&quot;</span>);
+<span class="hljs-preprocessor">#<span class="hljs-keyword">else</span></span>
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Release run\n&quot;</span>);
+<span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span></span>
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
 </code></pre>
-<p>Hello World &#x5C31;&#x4E0D;&#x7528;&#x89E3;&#x91CB;&#x4E86;&#x5427;&#xFF0C;&#x9F0E;&#x9F0E;&#x6709;&#x540D;&#x554A;&#xFF01;O(&#x2229;_&#x2229;)O~&#xFF0C;
-&#x7136;&#x5F8C;&#x6211;&#x5011;&#x7528;&#x706B;&#x773C;&#x91D1;&#x775B;&#x4F86;&#x770B;&#x4E00;&#x4E0B;&#xFF1A;</p>
-<pre><code class="lang-c">gcc -S -o hello.s hello.c
+<ul>
+<li>CMakeLists.txt add <code>SET (CMAKE_C_FLAGS &quot;-O0 -ggdb -D DEBUG&quot;)</code></li>
+</ul>
+<pre><code class="lang-sh">PROJECT (HELLO)
+SET (HELLO_SRCS hello.c)
+SET (CMAKE_C_FLAGS <span class="hljs-string">&quot;<span class="hljs-variable">${CMAKE_C_FLAGS}</span> -O0 -ggdb -D DEBUG&quot;</span>)
+ADD_EXECUTABLE (hello <span class="hljs-variable">${HELLO_SRCS}</span>)
 </code></pre>
-<p>Hello World &#x7684;&#x5F59;&#x7DE8;&#x7248;&#x5C31;&#x51FA;&#x4F86;&#x4E86;(hello.s)&#xFF1A;</p>
-<pre><code class="lang-c">    .file    <span class="hljs-string">&quot;hello.c&quot;</span>
-    .section    .rodata
-.LC0:
-    .<span class="hljs-built_in">string</span>    <span class="hljs-string">&quot;Hello, World!&quot;</span>
-    .text
-.globl main
-    .type    main, @function
-main:
-    pushl    %ebp
-    movl    %esp, %ebp
-    andl    $-<span class="hljs-number">16</span>, %esp
-    subl    $<span class="hljs-number">16</span>, %esp
-    movl    $.LC0, (%esp)
-    call    <span class="hljs-built_in">puts</span>
-    movl    $<span class="hljs-number">0</span>, %eax
-    leave
-    ret
-    .size    main, .-main
-    .ident    <span class="hljs-string">&quot;GCC: (GNU) 4.5.1 20100924 (Red Hat 4.5.1-4)&quot;</span>
-    .section    .note.GNU-<span class="hljs-built_in">stack</span>,<span class="hljs-string">&quot;&quot;</span>,@progbits
+<pre><code class="lang-sh">mkdir build ; <span class="hljs-built_in">cd</span> build;
+cmake ../
+make 
+./hello
 </code></pre>
-<p><code>&#x3000;</code>&#x5176;&#x5167;&#x5BB9;&#x6211;&#x5011;&#x5F8C;&#x9762;&#x518D;&#x6162;&#x6162;&#x5206;&#x6790;&#xFF0C;
-&#x73FE;&#x5728;&#x53EA;&#x8981;&#x77E5;&#x9053;&#x600E;&#x9EBC;&#x7528;&#x201C;&#x706B;&#x773C;&#x91D1;&#x775B;&#x201D;&#x5C31;&#x884C;&#x4E86;&#xFF0C;
-&#x63A5;&#x4E0B;&#x4F86;&#x7684;&#x5E7E;&#x7BC7;&#x90FD;&#x5F97;&#x9760;&#x609F;&#x7A7A;&#x4E86;&#x3002;</p>
-<hr>
-<p>&#x3000;&#x3000;&#x7167;&#x5996;&#x93E1;&#x548C;&#x706B;&#x773C;&#x91D1;&#x775B;&#x5176;&#x5BE6;&#x90FD;&#x662F;&#x9760;&#x622A;&#x65B7;&#x7DE8;&#x8B6F;&#x904E;&#x7A0B;
-&#x5F97;&#x5230;&#x4E2D;&#x9593;&#x7522;&#x7269;&#x7684;&#xFF0C;gcc&#x7684;&#x5B8C;&#x6574;&#x7DE8;&#x8B6F;&#x904E;&#x7A0B;&#x662F;&#xFF1A;</p>
-<pre><code>&#x9810;&#x8655;&#x7406;-&gt;&#x7DE8;&#x8B6F;-&gt;&#x5F59;&#x7DE8;-&gt;&#x93C8;&#x63A5;
-</code></pre><p><code>&#x3000;</code>&#x4F7F;&#x7528;&#x4E0D;&#x540C;&#x7684;&#x7DE8;&#x8B6F;&#x9078;&#x9805;&#x53EF;&#x4EE5;&#x5F97;&#x51FA;&#x4E0D;&#x540C;&#x7684;&#x4E2D;&#x9593;&#x7522;&#x7269;&#xFF1A;</p>
-<table border="1">
- <tr>
-  <th>&#x7DE8;&#x8B6F;&#x968E;&#x6BB5;</th>
-  <th>&#x547D;&#x4EE4;</th>
-  <th>&#x622A;&#x65B7;&#x5F8C;&#x7684;&#x7522;&#x7269;</th>
- </tr>
- <tr>
-  <td></td>
-  <td></td>
-  <td>C&#x6E90;&#x7A0B;&#x5E8F;</td>
- </tr>
- <tr>
-  <td>&#x9810;&#x8655;&#x7406;</td>
-  <td>gcc -E</td>
-  <td>&#x66FF;&#x63DB;&#x4E86;&#x5B8F;&#x7684;C&#x6E90;&#x7A0B;&#x5E8F;(&#x6C92;&#x6709;&#x4E86;#define,#include&#x2026;),
-    &#x522A;&#x9664;&#x4E86;&#x8A3B;&#x91CB;</td>
- </tr>
- <tr>
-  <td>&#x7DE8;&#x8B6F;</td>
-  <td>gcc -S</td>
-  <td>&#x5F59;&#x7DE8;&#x6E90;&#x7A0B;&#x5E8F;</td>
- </tr>
- <tr>
-  <td>&#x5F59;&#x7DE8;</td>
-  <td>gcc -c</td>
-  <td>&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#xFF0C;&#x4E8C;&#x9032;&#x5236;&#x6587;&#x4EF6;&#xFF0C;
-  &#x5141;&#x8A31;&#x6709;&#x4E0D;&#x5728;&#x6B64;&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x5916;&#x90E8;&#x8B8A;&#x91CF;&#x3001;&#x51FD;&#x6578;</td>
- </tr>
- <tr>
-  <td>&#x93C8;&#x63A5;</td>
-  <td>gcc</td>
-  <td>&#x53EF;&#x57F7;&#x884C;&#x7A0B;&#x5E8F;&#xFF0C;&#x4E00;&#x822C;&#x7531;&#x591A;&#x500B;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#x6216;&#x5EAB;&#x93C8;&#x63A5;&#x800C;&#x6210;&#xFF0C;
-    &#x4E8C;&#x9032;&#x5236;&#x6587;&#x4EF6;&#xFF0C;&#x6240;&#x6709;&#x8B8A;&#x91CF;&#x3001;&#x51FD;&#x6578;&#x90FD;&#x5FC5;&#x9808;&#x627E;&#x5F97;&#x5230;</td>
- </tr>
-</table>
-
-<p>&#x3000;&#x3000;&#x4E5F;&#x8A31;&#x6709;&#x540C;&#x5B78;&#x767C;&#x73FE;&#x4E86; -c &#x6211;&#x9084;&#x6C92;&#x8B1B;&#x5462;&#xFF01;
-&#x4E8C;&#x9032;&#x5236;&#x6587;&#x4EF6;&#x7684;&#x5206;&#x6790;&#x5F8C;&#x9762;&#x4E5F;&#x6709;&#x7528;&#x5230;&#xFF0C;&#x4F46;&#x662F;&#x5F88;&#x5C11;&#xFF0C;&#x7528;&#x5230;&#x7684;&#x6642;&#x5019;&#x518D;&#x8AAA;&#x5427;&#x3002;</p>
+<p>or </p>
+<pre><code class="lang-sh"><span class="hljs-built_in">export</span> CFLAGS=-DDEBUG ;
+cmake ../
+make 
+./hello
+</code></pre>
 
                     
                     </section>
@@ -7952,10 +7869,10 @@ main:
         </div>
 
         
-        <a href="../simplelinux/index.html" class="navigation navigation-prev " aria-label="Previous page: simplelinux"><i class="fa fa-angle-left"></i></a>
+        <a href="../cmake/ba_wan_cmake_de_di_yi_bu.html" class="navigation navigation-prev " aria-label="Previous page: 把玩 CMake 的第一步"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../simplelinux/242.html" class="navigation navigation-next " aria-label="Next page: 局部變量"><i class="fa fa-angle-right"></i></a>
+        <a href="../treacecode/treace_code.html" class="navigation navigation-next " aria-label="Next page: Treace code"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

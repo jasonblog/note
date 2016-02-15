@@ -55,3 +55,11 @@ make
 ./hello
 ```
 
+
+or 
+
+```
+cmake ../ -DCMAKE_C_FLAGS=-DDEBUG
+make 
+./hello
+```

@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Linux NFS Root under QEMU ARM emulator | Jason note</title>
+        <title>CMake 入門/加入編譯選項 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../arm_emulation/trying_debian_for_arm_on_qemu.html" />
+    <link rel="next" href="../treacecode/treace_code.html" />
     
     
-    <link rel="prev" href="../arm_emulation/busybox_for_arm_on_qemu.html" />
+    <link rel="prev" href="../cmake/cmake_cflags_cxxflags.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="11.5" data-basepath=".." data-revision="Mon Feb 15 2016 22:45:54 GMT+0800 (CST)">
+    <div class="book" data-level="42.5" data-basepath=".." data-revision="Mon Feb 15 2016 22:45:54 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -2108,7 +2108,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="11.5" data-path="arm_emulation/linux_nfs_root_under_qemu_arm_emulator.html">
+        <li class="chapter " data-level="11.5" data-path="arm_emulation/linux_nfs_root_under_qemu_arm_emulator.html">
             
                 
                     <a href="../arm_emulation/linux_nfs_root_under_qemu_arm_emulator.html">
@@ -7045,7 +7045,7 @@
             
         </li>
     
-        <li class="chapter " data-level="42.5" data-path="cmake/cmake_ru_9580_jia_ru_bian_yi_xuan_xiang.html">
+        <li class="chapter active" data-level="42.5" data-path="cmake/cmake_ru_9580_jia_ru_bian_yi_xuan_xiang.html">
             
                 
                     <a href="../cmake/cmake_ru_9580_jia_ru_bian_yi_xuan_xiang.html">
@@ -7828,62 +7828,130 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="linux-nfs-root-under-qemu-arm-emulator">Linux NFS Root under QEMU ARM emulator</h1>
-<p>Developing a root filesystem for embedded Linux architectures can present some inconveniences: for example if the filesystem should be loaded into the embedded system every time and it&#x2019;s not always an easy/quick task, or if the disk space is very low. The Linux kernel has the ability to read the root filesystem from the network, specifically from a NFS share, and this can be exploited to solve these problems. A common setup is having an embedded board running a Linux kernel, connected via Ethernet to a server with a directory exported through NFS and a cross-compiler installed. Testing a new root filesystem becomes as easy as resetting the board. When using QEMU as a target instead of a real board, the inconvenience is similar: the root filesystem image should be created every time. Fortunately, QEMU offers a network model that allows to access the host as thought it was connected with an Ethernet network. The details of the default connection can be found in the documentation; briefly, a virtual LAN is created where the guest virtual system is given address 10.0.2.15 while the host workstation can be accessed using address 10.0.2.2.</p>
-<h1 id="prerequisites">Prerequisites</h1>
-<ul>
-<li>qemu-system-arm: can be installed on Ubuntu with &#x201C;sudo apt-get install qemu-kvm-extras&#x201C;, on Debian with &#x201C;aptitude install qemu&#x201D; as root</li>
-<li>NFS server: can be installed on Ubuntu or Debian with the nfs-kernel-server package</li>
-<li>curses developer libraries: can be installed on Ubuntu or Debian with the libncurses-dev package</li>
-<li>arm-none-linux-gnueabi toolchain:  can be downloaded from the the CodeSourcery ARM GNU/Linux toolchain page</li>
-<li>zImage: the Linux kernel created in my previous post here</li>
-<li>Busybox _install: the Busybox-based file system created in my previous post here</li>
-</ul>
-<h1 id="exporting-root">Exporting root</h1>
-<p>We will create an exported folder with our user permissions: in this way the user is free to compile ARM software and copy it inside the shared folder. For QEMU to be able to read/write the folder, it should gain the same access permissions as our user.  This can be done using NFS functionality that maps the anonymous access to a custom user. Find your uid and gid numeric values with the id command; for example, mine are both 1000. Then from the command line, as root, run:</p>
-<pre><code class="lang-sh"><span class="hljs-comment"># mkdir -p /srv/nfs/</span>
-<span class="hljs-comment"># chown 1000:1000 /srv/nfs</span>
+                        <h1 id="cmake-%E5%85%A5%E9%96%80-%E5%8A%A0%E5%85%A5%E7%B7%A8%E8%AD%AF%E9%81%B8%E9%A0%85">CMake &#x5165;&#x9580;/&#x52A0;&#x5165;&#x7DE8;&#x8B6F;&#x9078;&#x9805;</h1>
+<h2 id="%E9%A1%AF%E7%A4%BA%E6%9B%B4%E5%A4%9A%E5%BB%BA%E7%BD%AE%E8%A8%8A%E6%81%AF">&#x986F;&#x793A;&#x66F4;&#x591A;&#x5EFA;&#x7F6E;&#x8A0A;&#x606F;</h2>
+<p>&#x5728;&#x9810;&#x8A2D;&#x7684;&#x60C5;&#x6CC1;&#x4E0B;&#xFF0C;CMake &#x751F;&#x6210;&#x7684; makefile &#x53EA;&#x6703;&#x986F;&#x793A;&#x7DE8;&#x8B6F;&#x7684;&#x9032;&#x5EA6;&#xFF0C;&#x4E26;&#x4E0D;&#x6703;&#x628A;&#x5404;&#x6B65;&#x9A5F;&#x5BE6;&#x969B;&#x8ABF;&#x7528;&#x7684;&#x547D;&#x4EE4;&#x3001;&#x53C3;&#x6578;&#x4E00;&#x4E00;&#x5217;&#x51FA;&#xFF0C;&#x4F46;&#x5728;&#x5F88;&#x591A;&#x6642;&#x5019;&#x6211;&#x5011;&#x9700;&#x8981;&#x78BA;&#x77E5;&#x7DE8;&#x8B6F;&#x6642;&#x5012;&#x5E95;&#x4F7F;&#x7528;&#x4E86;&#x54EA;&#x4E9B;&#x7DE8;&#x8B6F;&#x9078;&#x9805;&#x3002;&#x5176;&#x4E2D;&#x4E00;&#x500B;&#x65B9;&#x6CD5;&#x662F;&#x76F4;&#x63A5;&#x5728; CMakeList.txt &#x7576;&#x4E2D;&#x52A0;&#x5165;&#x9019;&#x4E00;&#x884C;</p>
+<pre><code class="lang-c"><span class="hljs-built_in">set</span>(CMAKE_VERBOSE_MAKEFILE ON)
 </code></pre>
-<p>Then edit the file /etc/exports adding the following line:</p>
-<pre><code>/srv/nfs 127.0.0.1(rw,sync,no_subtree_check,all_squash,insecure,anonuid=1000,anongid=1000)
-</code></pre><p>A reader pointed out that this method does not work for more complex filesystems. For things to work properly, the /etc/exports should contain instead:</p>
-<pre><code>/srv/nfs 127.0.0.1(rw,sync,no_subtree_check,no_root_squash,insecure)
-</code></pre><p>The no_root_squash option is needed to access these files as root from the NFS client. Then the exported root filesystem should have normal ownership (uid=0 and gid=0 for example) so the root privileges are needed also to manipulate the files in /srv/nfs/.
-Run the command as root:</p>
-<pre><code># exportfs -av
-</code></pre><p>You can check that the folder is effectively exported by running as root:</p>
-<pre><code class="lang-sh"><span class="hljs-comment"># mkdir ~/nfs_test</span>
-<span class="hljs-comment"># mount localhost:/srv/nfs ~/nfs_test</span>
-<span class="hljs-comment"># umount ~/nfs_test</span>
+<p>&#x4E0D;&#x904E;&#x82E5;&#x662F;&#x6211;&#x5011;&#x4E0D;&#x5E0C;&#x671B;&#x66F4;&#x52D5; CMakeList.txt&#xFF0C;&#x53EF;&#x4EE5;&#x7B49;&#x5230;&#x57F7;&#x884C;&#x6642;&#x518D;&#x52A0;&#x5165;&#x9078;&#x9805;</p>
+<pre><code class="lang-c">$ cmake -DCMAKE_VERBOSE_MAKEFILE=ON ...options...
+$ make
+
+&#x6216;
+
+$ cmake ...options...
+$ make VERBOSE=<span class="hljs-number">1</span>
 </code></pre>
-<h1 id="populating-the-root-filesystem">Populating the root filesystem</h1>
-<p>Now we can populate the folder with an ARM root filesystem; we will use a Busybox root tree, that can be built by following my previous post here, and add some initialization files. Copy the _install directory that is generated with Busybox build into the NFS share, in order to have the /srv/nfs/_install folder containing the roof filesystem. Then create some missing folders as your user:</p>
-<pre><code>$ cd /srv/nfs/_install
-$ mkdir -p dev proc sys etc/init.d
-</code></pre><p>As said before, in order to make things work with more complex filesystems the files should have the correct ownership (uid=0 and gid=0 for example). To set these permissions a normal user would need root privileges.</p>
-<p>Another possibility is to:</p>
+<h2 id="%E9%A0%90%E8%A8%AD%E7%9A%84%E7%B7%A8%E8%AD%AF%E7%B5%84%E6%85%8B">&#x9810;&#x8A2D;&#x7684;&#x7DE8;&#x8B6F;&#x7D44;&#x614B;</h2>
+<p>&#x900F;&#x904E;&#x6307;&#x5B9A; CMAKE_BUILD_TYPE &#x8B8A;&#x6578;&#x5373;&#x53EF;&#x6539;&#x8B8A;&#x7DE8;&#x8B6F;&#x7D44;&#x614B;&#xFF0C;&#x9810;&#x8A2D;&#x7684; CMAKE_BUILD_TYPE &#x662F;
+None&#xFF0C;&#x5373;&#x4E0D;&#x52A0;&#x4E0A;&#x4EFB;&#x4F55;&#x984D;&#x5916;&#x7DE8;&#x8B6F;&#x9078;&#x9805;&#x3002;&#x5167;&#x5EFA;&#x7684; CMAKE_BUILD_TYPE &#x652F;&#x63F4;&#x4EE5;&#x4E0B;&#x5E7E;&#x7A2E;&#x7D44;&#x614B;&#xFF1A;</p>
 <ul>
-<li>run a fakeroot shell (fakeroot /bin/bash)</li>
-<li>populate the root filesystem with Busybox and other files as fake &#x201C;root&#x201D;</li>
-<li>create an archive with tar</li>
-<li>the real root user extracts the tar file into /srv/nfs/</li>
+<li>None : &#x7DE8;&#x8B6F;&#x5668;&#x9810;&#x8A2D;&#x503C;</li>
+<li>Debug &#xFF1A; &#x7522;&#x751F;&#x9664;&#x932F;&#x8CC7;&#x8A0A;</li>
+<li>Release &#xFF1A; &#x9032;&#x884C;&#x57F7;&#x884C;&#x901F;&#x5EA6;&#x6700;&#x4F73;&#x5316;</li>
+<li>RelWithDebInfo &#xFF1A; &#x9032;&#x884C;&#x57F7;&#x884C;&#x901F;&#x5EA6;&#x6700;&#x4F73;&#x5316;&#xFF0C;&#x4F46;&#x4ECD;&#x7136;&#x6703;&#x555F;&#x7528; debug flag</li>
+<li>MinSizeRel &#xFF1A; &#x9032;&#x884C;&#x7A0B;&#x5F0F;&#x78BC;&#x6700;&#x5C0F;&#x5316;</li>
 </ul>
-<p>The first program that the Linux kernel executes is /sbin/init; this program reads a setting file (if available) to know what to do. In our case we want the initialization simply to run a shell script and open a console. Create the file /srv/nfs/_install/etc/inittab with the following contents:</p>
-<pre><code>::sysinit:/etc/init.d/rcS
-::respawn:/sbin/getty -n -l /bin/sh -L 115200 tty1 vt100
-::restart:/sbin/init
-</code></pre><p>The rcS file, as seen in my previous post about Busybox, can be used to populate the system directories. In our case, since the root tree is owned by a user in the host workstation, we cannot create device nodes; a possible workaround is to mount a temporary filesystem into the /dev directory. Create a new file called /srv/nfs/_install/etc/init.d/rcS with execute permissions (using &#x201C;chmod +x&#x201C;), that includes the following content:</p>
-<pre><code>mount -t proc none /proc
-mount -t sysfs none /sys
-mount -t ramfs ramfs /dev
-/sbin/mdev -s
-</code></pre><h1 id="booting-linux">Booting Linux</h1>
-<p>Now we are ready to test the boot process. Run the following command from the directory where the Linux kernel image is located:</p>
-<pre><code>$ qemu-system-arm -M versatilepb -m 128M -kernel zImage -append &quot;root=/dev/nfs
-nfsroot=10.0.2.2:/srv/nfs/_install rw ip=10.0.2.15::10.0.2.1:255.255.255.0
-init=/sbin/init&quot;
-</code></pre><p>The kernel should perform the boot and then a shell should appear. You can try to create a file inside QEMU and see that it appears also in the host system; note that the file&#x2019;s owner is the user set in the exports file. At the same time, you can write files into the exported folders and they can be accessed by the virtual guest ARM system as well.</p>
-<p>To troubleshoot the NFS connection, the log file /var/log/syslog in the host system can be examined.</p>
+<p>&#x96D6;&#x7136; CMAKE_BUILD_TYPE &#x53EF;&#x4EE5;&#x7531; CMakeList.txt &#x8A2D;&#x5B9A;&#xFF0C;&#x4E00;&#x822C;&#x4F86;&#x8AAA;&#x6211;&#x5011;&#x66F4;&#x504F;&#x597D;&#x5230;&#x4E86;&#x57F7;&#x884C; CMake &#x6642;&#x624D;&#x7531;&#x547D;&#x4EE4;&#x5217;&#x6307;&#x5B9A;&#x3002;
+&#x4EE5;&#x524D;&#x4E00;&#x7AE0;&#x7684;&#x4F8B;&#x5B50;&#x4F86;&#x8AAA;&#x660E;&#xFF1A;</p>
+<ul>
+<li>ex2/<ul>
+<li>build/</li>
+<li>src/<ul>
+<li>CMakeLists.txt</li>
+<li>calc.c</li>
+<li>calc.h</li>
+<li>main.c</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>&#x5047;&#x8A2D;&#x6211;&#x5011;&#x73FE;&#x5728;&#x5DE5;&#x4F5C;&#x76EE;&#x9304;&#x662F; ex2/build&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x57F7;&#x884C;&#x4EE5;&#x4E0B;&#x7684;&#x6307;&#x4EE4;&#x7522;&#x751F; Release &#x7D44;&#x614B;&#x7684;&#x57F7;&#x884C;&#x6A94;</p>
+<pre><code class="lang-sh">$ mkdir release
+$ <span class="hljs-built_in">cd</span> release
+$ cmake -DCMAKE_BUILD_TYPE=Release ../../src
+</code></pre>
+<h2 id="%E6%8E%A7%E5%88%B6%E7%B7%A8%E8%AD%AF%E9%81%B8%E9%A0%85%E7%9A%84%E8%AE%8A%E6%95%B8%E5%92%8C%E6%8C%87%E4%BB%A4">&#x63A7;&#x5236;&#x7DE8;&#x8B6F;&#x9078;&#x9805;&#x7684;&#x8B8A;&#x6578;&#x548C;&#x6307;&#x4EE4;</h2>
+<h3 id="%E5%8A%A0%E5%85%A5%E7%B7%A8%E8%AD%AF%E9%81%B8%E9%A0%85">&#x52A0;&#x5165;&#x7DE8;&#x8B6F;&#x9078;&#x9805;</h3>
+<p>&#x8B8A;&#x6578; CMAKE<em>C_FLAGS &#x5B58;&#x653E;&#x7684;&#x5167;&#x5BB9;&#x6703;&#x88AB;&#x50B3;&#x7D66; C &#x7DE8;&#x8B6F;&#x5668;&#xFF0C;&#x4F5C;&#x7528;&#x5728;&#x6240;&#x6709;&#x7684;&#x7DE8;&#x8B6F;&#x7D44;&#x614B;&#x4E0A;&#x3002;&#x5982;&#x679C;&#x5E0C;&#x671B;&#x53EA;&#x91DD;&#x5C0D;&#x7279;&#x5B9A;&#x4E00;&#x7A2E;&#x7D44;&#x614B;&#x6709;&#x6548;&#xFF0C;&#x53EF;&#x4EE5;&#x8A2D;&#x5B9A; CMAKE_C_FLAGS</em>&lt;&#x7DE8;&#x8B6F;&#x7D44;&#x614B;&gt;&#xFF0C;&#x4F8B;&#x5982; CMAKE_C_FLAGS_RELEASE&#x3001;CMAKE_C_FLAGS_DEBUG&#x3002;
+&#x8209;&#x500B;&#x5177;&#x9AD4;&#x7684;&#x4F8B;&#x5B50;&#xFF0C;&#x5728; Visual C++ &#x5E95;&#x4E0B;&#x7DE8;&#x8B6F;&#x542B;&#x6709; sprintf &#x7684;&#x539F;&#x59CB;&#x78BC;&#x6642;&#xFF0C;&#x5E38;&#x5E38;&#x6536;&#x5230; C4996 &#x8B66;&#x544A;&#xFF0C;&#x9664;&#x4E86;&#x53EF;&#x4EE5;&#x5728;&#x539F;&#x59CB;&#x78BC;&#x4E2D;&#x4F7F;&#x7528; #pragma &#x95DC;&#x9589;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x900F;&#x904E;&#x7DE8;&#x8B6F;&#x9078;&#x9805;&#x641E;&#x5B9A;&#x3002;&#x5728; CMakeLists.txt &#x8A2D;&#x5B9A;&#x7DE8;&#x8B6F;&#x9078;&#x9805;&#x7684;&#x65B9;&#x5F0F;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-sh"><span class="hljs-keyword">if</span>(MSVC)
+    <span class="hljs-built_in">set</span>(CMAKE_C_FLAGS <span class="hljs-string">&quot;<span class="hljs-variable">${CMAKE_C_FLAGS}</span> /wd4996&quot;</span>)
+endif()
+</code></pre>
+<p>&#x5728;&#x52A0;&#x5165;&#x7DE8;&#x8B6F;&#x9078;&#x9805;&#x6642;&#xFF0C;&#x8A18;&#x5F97;&#x8981;&#x5148;&#x5224;&#x65B7;&#x7DE8;&#x8B6F;&#x5668;&#x7684;&#x7A2E;&#x985E;&#xFF0C;&#x56E0;&#x70BA;&#x6BCF;&#x4E00;&#x7A2E;&#x7DE8;&#x8B6F;&#x5668;&#x7684;&#x53C3;&#x6578;&#x683C;&#x5F0F;&#x90FD;&#x4E0D;&#x4E00;&#x6A23;&#x3002;&#x5728;&#x9019;&#x88E1; MSVC &#x662F;&#x4E00;&#x500B; BOOL &#x503C;&#xFF0C;&#x7576;&#x6307;&#x5B9A; Generator &#x70BA; Visual C++ &#x6642; MSVC &#x7684;&#x503C;&#x70BA; TRUE&#xFF0C;&#x5426;&#x5247;&#x70BA; FALSE&#x3002;
+&#x91DD;&#x5C0D; C++ &#x7DE8;&#x8B6F;&#x5668;&#x4E5F;&#x6709;&#x5C0D;&#x61C9;&#x7684;&#x8B8A;&#x6578; CMAKE<em>CXX_FLAGS &#x548C; CMAKE_CXX_FLAGS</em>&lt;&#x7DE8;&#x8B6F;&#x7D44;&#x614B;&gt;&#x3002;</p>
+<h3 id="%E5%8A%A0%E5%85%A5%E9%80%A3%E7%B5%90%E9%81%B8%E9%A0%85">&#x52A0;&#x5165;&#x9023;&#x7D50;&#x9078;&#x9805;</h3>
+<p>CMAKE_EXE_LINKER_FLAGS &#x8B8A;&#x6578;&#x6C7A;&#x5B9A;&#x4E86;&#x9023;&#x7D50;&#x57F7;&#x884C;&#x6A94;&#x6642;&#x50B3;&#x7D66;&#x7DE8;&#x8B6F;&#x5668;&#x7684;&#x9078;&#x9805;&#xFF0C;&#x540C;&#x6A23;&#x4E5F;&#x6709;&#x5404;&#x7A2E;&#x4E0D;&#x540C;&#x7DE8;&#x8B6F;&#x7D44;&#x614B;&#x7684;&#x8B8A;&#x5F62;&#x3002;
+&#x8209;&#x500B;&#x5177;&#x9AD4;&#x7684;&#x4F8B;&#x5B50;&#xFF0C;&#x65B0;&#x7248;&#x7684; MinGW (GCC 4.5)&#x9810;&#x8A2D;&#x52D5;&#x614B;&#x9023;&#x7D50;&#x57FA;&#x790E;&#x7A0B;&#x5F0F;&#x5EAB;&#xFF0C;&#x7136;&#x800C;&#x5728;&#x7DE8;&#x8B6F;&#x6642;&#x537B;&#x6703;&#x56E0;&#x70BA;&#x6C92;&#x6709;&#x555F;&#x7528; auto-import&#xFF0C;&#x4F7F;&#x5F97;&#x7DE8;&#x8B6F;&#x5668;&#x767C;&#x51FA;&#x8B66;&#x544A;&#xFF0C;&#x6709;&#x6642;&#x9023;&#x7D50;&#x51FA;&#x4F86;&#x7684;&#x57F7;&#x884C;&#x6A94;&#x6709;&#x8AA4;&#x3002;&#x5176;&#x4E2D;&#x4E00;&#x7A2E;&#x89E3;&#x6C7A;&#x65B9;&#x6CD5;&#x662F;&#x5728;&#x7DE8;&#x8B6F;&#x6642;&#x52A0;&#x5165;&#x300C;-Wl,--enable-auto- import&#x300D;&#xFF0C;&#x53E6;&#x5916;&#x6211;&#x5011;&#x4E5F;&#x53EF;&#x4EE5;&#x63A1;&#x7528;&#x975C;&#x614B;&#x9023;&#x7D50;&#xFF1A;</p>
+<pre><code class="lang-sh"><span class="hljs-keyword">if</span>(MINGW)
+    <span class="hljs-built_in">set</span>(CMAKE_EXE_LINKER_FLAGS <span class="hljs-string">&quot;-static&quot;</span>)
+    <span class="hljs-built_in">set</span>(CMAKE_EXE_LINKER_FLAGS_RELEASE <span class="hljs-string">&quot;-s&quot;</span>)
+endif()
+</code></pre>
+<p>&#x4E0A;&#x9762;&#x4F7F;&#x5F97; MinGW &#x5404;&#x7A2E;&#x7D44;&#x614B;&#x90FD;&#x63A1;</p>
+<h3 id="%E5%8A%A0%E5%85%A5-preprocessor-%E5%AE%9A%E7%BE%A9">&#x52A0;&#x5165; Preprocessor &#x5B9A;&#x7FA9;</h3>
+<p>&#x6307;&#x4EE4; add_definitions &#x53EF;&#x4EE5;&#x7528;&#x4F86;&#x52A0;&#x5165; Preprocessor &#x5B9A;&#x7FA9;&#xFF0C;&#x4F5C;&#x7528;&#x7BC4;&#x570D;&#x70BA;&#x6240;&#x5728;&#x8CC7;&#x6599;&#x593E;&#x4E0B;&#x7684;&#x7DE8;&#x8B6F;&#x55AE;&#x5143;&#x3002;&#x683C;&#x5F0F;&#x5982;&#x4E0B;</p>
+<pre><code class="lang-sh">add_definitions(<span class="hljs-string">&quot;-DFOO -DBAR&quot;</span>)
+</code></pre>
+<p>&#x9019;&#x500B;&#x6307;&#x4EE4;&#x539F;&#x672C;&#x53EA;&#x662F;&#x55AE;&#x7D14;&#x7528;&#x4F86;&#x52A0;&#x5165; Preprocessor &#x5B9A;&#x7FA9;&#xFF0C;&#x4F46;&#x4E8B;&#x5BE6;&#x4E0A;&#x5DEE;&#x4E0D;&#x591A;&#x6240;&#x6709;&#x7DE8;&#x8B6F;&#x9078;&#x9805;&#x90FD;&#x53EF;&#x4EE5;&#x900F;&#x904E; add_definitions &#x50B3;&#x7D66;&#x7DE8;&#x8B6F;&#x5668;&#x3002;</p>
+<h3 id="%E5%8A%A0%E5%85%A5%E7%B7%A8%E8%AD%AF%E5%99%A8%E6%90%9C%E5%B0%8B%E8%B7%AF%E5%BE%91">&#x52A0;&#x5165;&#x7DE8;&#x8B6F;&#x5668;&#x641C;&#x5C0B;&#x8DEF;&#x5F91;</h3>
+<p>&#x4EE5;&#x4E0B;&#x5169;&#x500B;&#x6307;&#x4EE4;&#x5206;&#x5225;&#x7528;&#x4F86;&#x52A0;&#x5165;&#x7DE8;&#x8B6F;&#x5668;&#x5C0B;&#x627E;&#x6A19;&#x982D;&#x6A94;&#x3001;&#x7A0B;&#x5F0F;&#x5EAB;&#x7684;&#x8DEF;&#x5F91;&#xFF0C;&#x5728; gcc &#x76F8;&#x7576;&#x65BC; -I &#x548C; -L &#x9078;&#x9805;&#x3002;</p>
+<pre><code class="lang-sh">include_directories([AFTER|BEFORE] [SYSTEM] dir1 dir2 ...)
+link_directories(dir1 dir2 ...)
+</code></pre>
+<p>include_directories(dir) &#x9810;&#x8A2D;&#x6703;&#x5C07; dir &#x52A0;&#x5165;&#x76EE;&#x524D;&#x5F15;&#x5165;&#x8DEF;&#x5F91;&#x5217;&#x8868;&#x7684;&#x5F8C;&#x9762;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x5229;&#x7528; AFTER &#x548C; BEFORE &#x8ABF;&#x6574; dir &#x61C9;&#x8A72;&#x88AB;&#x52A0;&#x5230;&#x5217;&#x8868;&#x7684;&#x524D;&#x7AEF;&#x9084;&#x662F;&#x5F8C;&#x7AEF;</p>
+<h2 id="%E4%BD%BF%E7%94%A8%E5%B1%AC%E6%80%A7%E6%8E%A7%E5%88%B6%E7%B7%A8%E8%AD%AF%E9%81%B8%E9%A0%85">&#x4F7F;&#x7528;&#x5C6C;&#x6027;&#x63A7;&#x5236;&#x7DE8;&#x8B6F;&#x9078;&#x9805;</h2>
+<p>&#x4EE5;&#x4E0A;&#x4ECB;&#x7D39;&#x7684;&#x8B8A;&#x6578;&#x548C;&#x6307;&#x4EE4;&#x90FD;&#x662F;&#x5C6C;&#x65BC;&#x5168;&#x57DF;&#x7BC4;&#x570D;&#x7684;&#x8A2D;&#x5B9A;&#xFF0C;&#x5982;&#x679C;&#x5E0C;&#x671B;&#x9078;&#x9805;&#x50C5;&#x5C0D;&#x4E00;&#x500B; target &#x6709;&#x6548;&#xFF0C;&#x5C31;&#x5FC5;&#x9808;&#x5F9E; target &#x7684;&#x5C6C;&#x6027;(properties)&#x4E0B;&#x624B;&#x3002;
+&#x5728; CMake &#x88E1;&#x4E00;&#x500B; target &#x6700;&#x7D42;&#x7684;&#x8F38;&#x51FA;&#x6A94;&#x540D;&#x3001;&#x7DE8;&#x8B6F;&#x9023;&#x7D50;&#x9078;&#x9805;&#x7B49;&#x7B49;&#x90FD;&#x662F;&#x7531;&#x5C6C;&#x6027;&#x63A7;&#x5236;&#xFF0C;&#x82E5;&#x6C92;&#x6709;&#x624B;&#x5DE5;&#x8A2D;&#x5B9A;&#x9019;&#x4E9B;&#x5C6C;&#x6027;&#xFF0C;&#x5247; CMake &#x6703;&#x7531;&#x76F8;&#x95DC;&#x7684;&#x5168;&#x57DF;&#x8B8A;&#x6578;&#x4F86;&#x6C7A;&#x5B9A;&#x5C6C;&#x6027;&#x503C;&#x3002;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x5229;&#x7528; set_target_properties() &#x6307;&#x4EE4;&#x55AE;&#x7368;&#x6307;&#x5B9A;&#x4E00;&#x500B; target &#x7684;&#x5C6C;&#x6027;&#xFF0C;&#x5982;&#x6B64;&#x4E00;&#x4F86;&#x5C31;&#x53EF;&#x4EE5;&#x84CB;&#x904E;&#x5168;&#x57DF;&#x8B8A;&#x6578;&#x7684;&#x8A2D;&#x5B9A;&#x3002;
+set_target_properties() &#x6307;&#x4EE4;&#x683C;&#x5F0F;&#x5982;&#x4E0B;</p>
+<pre><code class="lang-sh"><span class="hljs-built_in">set</span>_target_properties(target1 target2 ...
+    PROPERTIES
+    &#x5C6C;&#x6027;&#x540D;&#x7A31;<span class="hljs-number">1</span>  &#x503C;
+    &#x5C6C;&#x6027;&#x540D;&#x7A31;<span class="hljs-number">2</span>  &#x503C;
+    ...
+    )
+</code></pre>
+<p>&#x63A7;&#x5236;&#x7DE8;&#x8B6F;&#x9078;&#x9805;&#x7684;&#x5C6C;&#x6027;&#x662F; COMPILE<em>FLAGS&#xFF0C;&#x9023;&#x7D50;&#x5247;&#x7531; LINK_FLAGS &#x548C; LINK_FLAGS</em>&lt;&#x7DE8;&#x8B6F;&#x7D44;&#x614B;&gt; &#x5C6C;&#x6027;&#x63A7;&#x5236;&#x3002;&#x53E6;&#x5916;&#x6211;&#x5011;&#x4E5F;&#x53EF;&#x4EE5;&#x900F;&#x904E; COMPILE<em>DEFINITIONS &#x548C; COMPILE_DEFINITIONS</em>&lt;&#x7DE8;&#x8B6F;&#x7D44;&#x614B;&gt; &#x52A0;&#x5165; preprocessor &#x5B9A;&#x7FA9;&#xFF0C;&#x5982;&#x540C; add_definitions() &#x6307;&#x4EE4;&#x4E00;&#x6A23;&#xFF0C;&#x9019;&#x5169;&#x500B;&#x5C6C;&#x6027;&#x5BE6;&#x969B;&#x4E0A;&#x4E5F;&#x53EF;&#x4EE5;&#x7528;&#x4F86;&#x52A0;&#x5165;&#x5E7E;&#x4E4E;&#x6240;&#x6709;&#x7684;&#x7DE8;&#x8B6F;&#x9078;&#x9805;&#x3002;
+&#x8209;&#x4F8B;&#x4F86;&#x8AAA;</p>
+<pre><code class="lang-sh"><span class="hljs-built_in">set</span>_target_properties(app
+    PROPERTIES
+    LINK_FLAGS          -static
+    LINK_FLAGS_RELEASE  <span class="hljs-operator">-s</span>
+    )
+</code></pre>
+<p>&#x6703;&#x4F7F; app &#x9019;&#x500B;&#x7A0B;&#x5F0F;&#x5728;&#x6240;&#x6709;&#x60C5;&#x6CC1;&#x4E0B;&#x90FD;&#x63A1;&#x7528; -static &#x9078;&#x9805;&#xFF0C;&#x4E26;&#x4E14;&#x5728; release build &#x6642;&#x63A1;&#x7528; -static -s &#x9078;&#x9805;&#x3002;&#x9019;&#x4E9B;&#x5C6C;&#x6027;&#x6703;&#x84CB;&#x904E;&#x539F;&#x5148;&#x5168;&#x57DF;&#x8B8A;&#x6578;&#x7684;&#x8A2D;&#x5B9A;&#xFF0C;&#x800C;&#x4E14;&#x50C5;&#x4F5C;&#x7528;&#x5728; app &#x9019;&#x500B; target &#x4E0A;&#x3002;</p>
+<h2 id="%E5%9C%A8%E7%B7%A8%E8%AD%AF%E6%9C%9F%E6%8C%87%E5%AE%9A%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8">&#x5728;&#x7DE8;&#x8B6F;&#x671F;&#x6307;&#x5B9A;&#x74B0;&#x5883;&#x8B8A;&#x6578;</h2>
+<p>&#x9664;&#x4E86;&#x900F;&#x904E;&#x8B8A;&#x6578;&#x548C;&#x5C6C;&#x6027;&#x4E4B;&#x5916;&#xFF0C;&#x9084;&#x53EF;&#x4EE5;&#x7B49;&#x5230;&#x7DE8;&#x8B6F;&#x671F;&#x624D;&#x7D66;&#x5B9A;&#x74B0;&#x5883;&#x8B8A;&#x6578;&#xFF0C;&#x5982;</p>
+<pre><code class="lang-sh">$ <span class="hljs-built_in">export</span> CXXFLAGS=-O2
+$ cmake .
+$ make
+</code></pre>
+<h2 id="%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A0%85">&#x6CE8;&#x610F;&#x4E8B;&#x9805;</h2>
+<h3 id="%E5%B0%8F%E5%BF%83%E8%A6%86%E5%AF%AB%E8%AE%8A%E6%95%B8">&#x5C0F;&#x5FC3;&#x8986;&#x5BEB;&#x8B8A;&#x6578;</h3>
+<p>&#x50CF; CMAKE_C_FLAGS_RELEASE&#x3001;CMAKE_C_FLAGS_DEBUG &#x9019;&#x4E9B;&#x8B8A;&#x6578;&#xFF0C;CMake &#x6703;&#x81EA;&#x52D5;&#x4F9D;&#x7167; Generator &#x6307;&#x5B9A;&#x7684;&#x7DE8;&#x8B6F;&#x5668;&#x521D;&#x59CB;&#x5316;&#x3002;&#x4F8B;&#x5982;&#x5728; gcc &#x4E0B; CMAKE_C_FLAGS_RELEASE &#x9810;&#x8A2D;&#x7684;&#x503C;&#x70BA; -O3 -DNDEBUG&#xFF0C;&#x800C; CMAKE_C_FLAGS_DEBUG &#x9810;&#x8A2D;&#x503C;&#x70BA; -g&#x3002;
+&#x5C0F;&#x5FC3;&#x4E0B;&#x9762;&#x9019;&#x7A2E;&#x5BEB;&#x6CD5;&#xFF1A;</p>
+<pre><code class="lang-sh"><span class="hljs-built_in">set</span>(CMAKE_C_FLAGS_RELEASE <span class="hljs-string">&quot;-fno-inline&quot;</span>)
+</code></pre>
+<p>&#x539F;&#x610F;&#x53EF;&#x80FD;&#x662F;&#x5E0C;&#x671B;&#x5728;&#x505A;&#x6700;&#x4F73;&#x5316;&#x6642;&#x5FFD;&#x7565; inline &#x95DC;&#x9375;&#x5B57;&#xFF0C;&#x4F46;&#x662F;&#x9019;&#x6A23;&#x4E00;&#x4F86;&#x5176;&#x5BE6;&#x6703;&#x628A;&#x539F;&#x672C;&#x7684; -O3 -DNDEBUG &#x7D66;&#x8986;&#x5BEB;&#x6389;&#xFF0C;&#x6240;&#x4EE5;&#x7A0B;&#x5F0F;&#x4E26;&#x4E0D;&#x6703;&#x505A;&#x4EFB;&#x4F55;&#x6700;&#x4F73;&#x5316;&#x3002;
+&#x6BD4;&#x8F03;&#x597D;&#x7684;&#x5BEB;&#x6CD5;&#x61C9;&#x8A72;&#x662F;&#xFF1A;</p>
+<pre><code class="lang-sh"><span class="hljs-built_in">set</span>(CMAKE_C_FLAGS_RELEASE <span class="hljs-string">&quot;<span class="hljs-variable">${CMAKE_C_FLAGS_RELEASE}</span> -fno-inline&quot;</span>)
+</code></pre>
+<p>&#x6216;&#x8005;</p>
+<pre><code class="lang-sh"><span class="hljs-built_in">set</span>(CMAKE_C_FLAGS_RELEASE <span class="hljs-string">&quot;-O3 -DNDEBUG -fno-inline&quot;</span>)
+</code></pre>
+<h2 id="%E6%B3%A8%E6%84%8F%E5%AD%97%E4%B8%B2%E5%92%8C%E4%B8%B2%E5%88%97%E7%9A%84%E4%B8%8D%E5%90%8C">&#x6CE8;&#x610F;&#x5B57;&#x4E32;&#x548C;&#x4E32;&#x5217;&#x7684;&#x4E0D;&#x540C;</h2>
+<pre><code class="lang-sh"><span class="hljs-built_in">set</span>(CMAKE_EXE_LINKER_FLAGS <span class="hljs-string">&quot;-static&quot;</span>)
+
+<span class="hljs-built_in">set</span>(CMAKE_EXE_LINKER_FLAGS <span class="hljs-string">&quot;<span class="hljs-variable">${CMAKE_EXE_LINKER_FLAGS}</span> -s&quot;</span>)   <span class="hljs-comment"># ... (1)</span>
+<span class="hljs-built_in">set</span>(CMAKE_EXE_LINKER_FLAGS <span class="hljs-variable">${CMAKE_EXE_LINKER_FLAGS}</span> <span class="hljs-string">&quot;-s&quot;</span>)   <span class="hljs-comment"># ... (2)</span>
+</code></pre>
+<ul>
+<li>(1) &#x6703;&#x50B3;&#x905E; -static -s &#x7D66;&#x7DE8;&#x8B6F;&#x5668; (2) &#x6703;&#x50B3;&#x905E; -static;-s &#x7D66;&#x7DE8;&#x8B6F;&#x5668;</li>
+</ul>
+<h2 id="reference">Reference</h2>
+<p><a href="https://zh.wikibooks.org/zh-tw/CMake_%E5%85%A5%E9%96%80/%E5%8A%A0%E5%85%A5%E7%B7%A8%E8%AD%AF%E9%81%B8%E9%A0%85" target="_blank">https://zh.wikibooks.org/zh-tw/CMake_%E5%85%A5%E9%96%80/%E5%8A%A0%E5%85%A5%E7%B7%A8%E8%AD%AF%E9%81%B8%E9%A0%85</a></p>
 
                     
                     </section>
@@ -7894,10 +7962,10 @@ init=/sbin/init&quot;
         </div>
 
         
-        <a href="../arm_emulation/busybox_for_arm_on_qemu.html" class="navigation navigation-prev " aria-label="Previous page: Busybox for ARM on QEMU"><i class="fa fa-angle-left"></i></a>
+        <a href="../cmake/cmake_cflags_cxxflags.html" class="navigation navigation-prev " aria-label="Previous page: cmake CFLAGS CXXFLAGS"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../arm_emulation/trying_debian_for_arm_on_qemu.html" class="navigation navigation-next " aria-label="Next page: Trying Debian for ARM on QEMU"><i class="fa fa-angle-right"></i></a>
+        <a href="../treacecode/treace_code.html" class="navigation navigation-next " aria-label="Next page: Treace code"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

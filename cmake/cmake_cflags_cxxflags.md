@@ -35,7 +35,7 @@ int main() {
 ```sh
 PROJECT (HELLO)
 SET (HELLO_SRCS hello.c)
-SET (CMAKE_C_FLAGS "-O0 -ggdb -D DEBUG")
+SET (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0 -ggdb -D DEBUG")
 ADD_EXECUTABLE (hello ${HELLO_SRCS})
 ```
 

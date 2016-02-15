@@ -443,6 +443,7 @@
    * [CMake 初探](cmake/cmake_chu_tan.md)
    * [讓cmake顯示gcc/g++的編譯信息](cmake/rang_cmake_xian_shi_gcc__g_de_bian_yi_xin_xi.md)
    * [把玩 CMake 的第一步](cmake/ba_wan_cmake_de_di_yi_bu.md)
+   * cmake CFLAGS CXXFLAGS
 * [Treace code](treacecode/treace_code.md)
    * [[轉]閱讀程式碼的心理層面](treacecode/8f495d_yue_du_cheng_shi_ma_de_xin_li_ceng_mian.md)
    * [我的原始碼閱讀之道](treacecode/wo_de_yuan_shi_ma_yue_du_zhi_dao.md)

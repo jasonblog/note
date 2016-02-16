@@ -476,6 +476,7 @@
    * [JTAG是把屠龍刀，說說其作用和原理](embedded/jtagshi_ba_tu_long_dao_ff0c_shuo_shuo_qi_zuo_yong_.md)
 * [Linux Network](linux_network/linux_network.md)
    * [Linux Socket 入門](linux_network/linux_socket_ru_men.md)
+   * Socket programming 筆記
 * [node.js](nodejs/nodejs.md)
    * [安裝 NodeJS、NPM](nodejs/an_zhuang_nodejs__npm.md)
    * [JavaScript 快速入門[轉]](nodejs/javascript_kuai_su_ru_95805b_8f495d.md)

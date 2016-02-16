@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Linux內存管理之分段機制 | Jason note</title>
+        <title>gdb 展開 C/C++ 的 macro | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../linux_kernel/1215.html" />
+    <link rel="next" href="../mooc_linux_kernel/index.html" />
     
     
-    <link rel="prev" href="../linux_kernel/1213.html" />
+    <link rel="prev" href="../gdb/gdb_c++_xiao_ji_qiao.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="12.14" data-basepath=".." data-revision="Wed Feb 17 2016 01:13:05 GMT+0800 (CST)">
+    <div class="book" data-level="18.15" data-basepath=".." data-revision="Wed Feb 17 2016 01:13:05 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -2534,7 +2534,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="12.14" data-path="linux_kernel/1214.html">
+        <li class="chapter " data-level="12.14" data-path="linux_kernel/1214.html">
             
                 
                     <a href="../linux_kernel/1214.html">
@@ -4161,7 +4161,7 @@
             
         </li>
     
-        <li class="chapter " data-level="18.15" data-path="gdb/gdb_zhan_kai_c__c++_de_macro.html">
+        <li class="chapter active" data-level="18.15" data-path="gdb/gdb_zhan_kai_c__c++_de_macro.html">
             
                 
                     <a href="../gdb/gdb_zhan_kai_c__c++_de_macro.html">
@@ -7939,30 +7939,34 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="linux%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8B%E5%88%86%E6%AE%B5%E6%A9%9F%E5%88%B6">Linux&#x5167;&#x5B58;&#x7BA1;&#x7406;&#x4E4B;&#x5206;&#x6BB5;&#x6A5F;&#x5236;</h1>
-<p><img src="images/memory.png" alt=""></p>
-<p>&#x908F;&#x8F2F;&#x5730;&#x5740;&#x5C31;&#x662F;&#x6211;&#x5011;&#x666E;&#x901A;&#x7684;&#x6BB5;+&#x504F;&#x79FB;&#x7684;&#x8868;&#x73FE;&#x65B9;&#x5F0F;&#xFF0C;&#x800C;&#x7DDA;&#x6027;&#x5730;&#x5740;&#x5C31;&#x662F;&#x6BB5;+&#x504F;&#x79FB;&#x4E4B;&#x5F8C;&#x7B97;&#x51FA;&#x4F86;&#x7684;&#x4E00;&#x500B;&#x5730;&#x5740;&#xFF0C;&#x524D;&#x8005;&#x53EF;&#x4EE5;&#x8A8D;</p>
-<p>&#x70BA;&#x662F;&#x4E8C;&#x7DAD;&#x7684;&#x5730;&#x5740;&#xFF0C;&#x800C;&#x5F8C;&#x8005;&#x53EF;&#x4EE5;&#x7406;&#x89E3;&#x662F;&#x4E00;&#x7DAD;&#x7684;&#x3002;&#x7DDA;&#x6027;&#x5730;&#x5740;&#x548C;&#x865B;&#x64EC;&#x5730;&#x5740;&#x7684;&#x6982;&#x5FF5;&#x76F8;&#x63A5;&#x8FD1;&#xFF0C;&#x4E0D;&#x77E5;&#x9053;&#x5176;&#x6839;&#x672C;&#x7684;&#x5340;&#x5225;&#x3002;&#x800C;</p>
-<p>&#x7269;&#x7406;&#x5730;&#x5740;&#x5C31;&#x662F;&#x5BE6;&#x969B;&#x5728;&#x5730;&#x5740;&#x7E3D;&#x7DDA;&#x4E0A;&#x50B3;&#x8F38;&#x7684;&#x5730;&#x5740;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x7269;&#x7406;&#x5167;&#x5B58;&#x8A2A;&#x554F;&#x7684;&#x771F;&#x6B63;&#x5730;&#x5740;&#x3002;</p>
-<p>&#x5982;&#x4E0A;&#x5716;&#xFF0C;Linux&#x5728;&#x5167;&#x5B58;&#x7BA1;&#x7406;&#x4E0A;&#xFF0C;&#x628A;&#x908F;&#x8F2F;&#x5730;&#x5740;&#x901A;&#x904E;&#x5206;&#x6BB5;&#x6A5F;&#x5236;&#x8B8A;&#x5316;&#x6210;&#x7DDA;&#x6027;&#x5730;&#x5740;&#xFF0C;&#x7DDA;&#x6027;&#x5730;&#x5740;&#x4E5F;&#x5C31;&#x662F;4G&#xFF08;32&#x4F4D;&#x7CFB;&#x7D71;&#xFF09;</p>
-<p>&#x7684;&#x7A0B;&#x5E8F;&#x5730;&#x5740;&#x3002;&#x7DDA;&#x6027;&#x5730;&#x5740;&#x518D;&#x901A;&#x904E;&#x5206;&#x9801;&#x6A5F;&#x5236;&#x8F49;&#x5316;&#x6210;&#x7269;&#x7406;&#x5730;&#x5740;&#xFF0C;&#x6700;&#x5F8C;CPU&#x53BB;&#x8A2A;&#x554F;&#x7269;&#x7406;&#x5730;&#x5740;&#x3002;
-&#x53BB;&#x5E74;&#x5BEB;&#x500B;&#x4E00;&#x7BC7;&#x95DC;&#x65BC;IA32&#x5167;&#x5B58;&#x5C0B;&#x5740;&#x7684;&#x6587;&#x7AE0;&#xFF0C;&#x73FE;&#x5728;&#x518D;&#x91CD;&#x6EAB;&#x4E0B;&#x3002;&#x4E0B;&#x9762;&#x662F;&#x4E00;&#x5F35;&#x5F88;&#x597D;&#x7684;&#x5167;&#x5B58;&#x5C0B;&#x5740;&#x5716;</p>
-<p><img src="images/memory_man.png" alt=""></p>
-<p>&#x63A1;&#x7528;&#x5206;&#x6BB5;&#x6A5F;&#x5236;&#x7684;&#x597D;&#x8655;&#x5C31;&#x662F;&#x65B9;&#x4FBF;&#x4E86;&#x7A0B;&#x5E8F;&#x54E1;&#x7684;&#x7DE8;&#x78BC;&#xFF0C;&#x628A;&#x6574;&#x500B;&#x5730;&#x5740;&#x5206;&#x6210;&#x4E0D;&#x540C;&#x7684;&#x6578;&#x64DA;&#x6BB5;&#xFF0C;&#x4EE3;&#x78BC;&#x6BB5;&#xFF0C;&#x6578;&#x64DA;&#x6BB5;&#xFF0C;&#x5806;&#x68E7;</p>
-<p>&#x7B49;&#x7B49;&#x3002;&#x6BCF;&#x500B;&#x6BB5;&#x90FD;&#x662F;&#x52D5;&#x614B;&#x8ABF;&#x6574;&#x7684;&#xFF0C;&#x5728;&#x7A0B;&#x5E8F;&#x91CD;&#x5B9A;&#x5411;&#x7684;&#x6642;&#x5019;&#x3002;&#x90A3;&#x9EBC;&#x5C0D;&#x65BC;&#x6BCF;&#x4E00;&#x500B;&#x6BB5;&#x7684;&#x57FA;&#x672C;&#x4FE1;&#x606F;&#xFF1A;&#x6BB5;&#x7684;&#x8D77;&#x59CB;&#x5730;&#x5740;&#xFF0C;</p>
-<p>&#x6BB5;&#x7684;&#x9577;&#x5EA6;&#xFF0C;&#x6BB5;&#x7684;&#x8A2A;&#x554F;&#x6B0A;&#x9650;&#x7B49;&#xFF0C;&#x90FD;&#x6703;&#x4FDD;&#x5B58;&#x5728;&#x6BB5;&#x63CF;&#x8FF0;&#x8868;&#x4E2D;&#xFF08;&#x4E0A;&#x9762;&#x7684;GDT&#xFF09;&#xFF0C;GDT&#x662F;&#x5B58;&#x5728;&#x7269;&#x7406;&#x5167;&#x5B58;&#x4E2D;&#x7684;&#x3002;&#x4E5F;&#x5C31;&#x8AAA;</p>
-<p>&#x6211;&#x5011;&#x666E;&#x901A;&#x7684;&#x7A0B;&#x5E8F;&#x57F7;&#x884C;&#x4E00;&#x689D;&#x6307;&#x4EE4;&#x7684;&#x6642;&#x5019;&#xFF08;&#x6BD4;&#x5982;C&#x8A9E;&#x8A00;&#x4E2D;&#x7684;&amp;&#x64CD;&#x4F5C;&#xFF09;&#xFF0C;&#x6211;&#x5011;&#x64CD;&#x4F5C;&#x7684;&#x662F;&#x4E00;&#x500B;&#x908F;&#x8F2F;&#x5730;&#x5740;&#xFF0C;&#x908F;&#x8F2F;&#x5730;&#x5740;&#x5FC5;&#x9808;</p>
-<p>&#x901A;&#x904E;&#x6BB5;&#x6A5F;&#x5236;&#x8F49;&#x5316;&#x6210;&#x7DDA;&#x6027;&#x5730;&#x5740;&#xFF0C;&#x800C;&#x6839;&#x64DA;&#x4EC0;&#x9EBC;&#x8F49;&#x5316;&#x5462;&#xFF1F;&#x5C31;&#x662F;GDT&#xFF01;GDT&#x6703;&#x544A;&#x8A34;&#x4F60;&#x5728;&#x7DDA;&#x6027;&#x5730;&#x5740;&#x54EA;&#x88E1;&#x5230;&#x54EA;&#x88E1;&#x662F;&#x4F60;&#x7684;&#x6578;</p>
-<p>&#x64DA;&#x6BB5;&#xFF0C;&#x54EA;&#x88E1;&#x5230;&#x54EA;&#x88E1;&#x662F;&#x4EE3;&#x78BC;&#x6BB5;&#x3002;&#x90A3;&#x9EBC;&#x6211;&#x5011;&#x600E;&#x9EBC;&#x627E;&#x5230;GDT&#x5462;&#xFF1F;GDT&#x662F;&#x5728;&#x5167;&#x5B58;&#x88E1;&#x7684;&#xFF0C;&#x9019;&#x5C31;&#x7528;&#x5230;&#x5BC4;&#x5B58;&#x5668;GDTR&#x4E86;&#xFF0C;</p>
-<p>GDTR&#x6703;&#x544A;&#x8A34;&#x4F60;GDT&#x5728;&#x5167;&#x5B58;&#x7684;&#x8D77;&#x59CB;&#x4F4D;&#x7F6E;&#xFF0C;&#x7136;&#x5F8C;&#x5C31;&#x53EF;&#x4EE5;&#x53BB;&#x554F;GDT&#x6211;&#x8981;&#x8A2A;&#x554F;&#x7684;&#x908F;&#x8F2F;&#x5730;&#x5740;&#x6240;&#x5C0D;&#x61C9;&#x7684;&#x7DDA;&#x6027;&#x5730;&#x5740;&#x662F;&#x4EC0;</p>
-<p>&#x9EBC;&#x3002;&#x518D;&#x6DF1;&#x5165;&#x9EDE;&#xFF0C;&#x4E0A;&#x9762;&#x8AAA;&#x7684;&#x4E86;GDT&#x88E1;&#x9762;&#x662F;&#x63CF;&#x8FF0;&#x6BCF;&#x500B;&#x6BB5;&#x7684;&#x57FA;&#x672C;&#x4FE1;&#x606F;&#x7684;&#xFF0C;&#x5176;&#x4E2D;&#x5C31;&#x662F;&#x6BCF;&#x500B;&#x6BB5;&#x5728;&#x7DDA;&#x6027;&#x5730;&#x5740;&#x88E1;&#x5C0D;&#x61C9;&#x7684;&#x8D77;&#x59CB;</p>
-<p>&#x4F4D;&#x7F6E;&#x3002;</p>
-<p>GDT&#x88E1;&#x9762;&#x5B58;&#x7684;&#x662F;&#x5404;&#x500B;&#x6BB5;&#x7684;&#x7D22;&#x5F15;&#xFF0C;&#x53EB;&#x505A;&#x6BB5;&#x9078;&#x64C7;&#x5B50;&#xFF08;Seg.Selector&#xFF09;&#xFF0C;&#x73FE;&#x4EE3;&#x8A08;&#x7B97;&#x6A5F;&#x70BA;&#x4E86;&#x6E1B;&#x5C11;&#x5C0D;&#x5167;&#x5B58;&#x8A2A;&#x554F;&#x7684;&#x6B21;&#x6578;&#xFF0C;</p>
-<p>&#x5C31;&#x628A;&#x6BB5;&#x9078;&#x64C7;&#x5B50;&#x5B58;&#x65BC;&#x6211;&#x5011;&#x5E73;&#x6642;&#x8AAA;&#x7684;CS&#x5BC4;&#x5B58;&#x5668;&#xFF0C;DS&#x5BC4;&#x5B58;&#x5668;&#x7B49;&#xFF0C;&#x9019;&#x6A23;&#xFF0C;&#x4E00;&#x500B;&#x908F;&#x8F2F;&#x5730;&#x5740;&#x5230;&#x7DDA;&#x6027;&#x5730;&#x5740;&#x7684;&#x8F49;&#x63DB;&#x5C31;&#x5927;&#x5927;&#x5730;</p>
-<p>&#x52A0;&#x5FEB;&#x4E86;&#x3002;</p>
-<p>&#x73FE;&#x5728;&#x5B8C;&#x6574;&#x5730;&#x8AAA;&#x4E00;&#x904D;&#x4E0A;&#x9762;&#x5206;&#x6BB5;&#x7684;&#x6574;&#x500B;&#x6D41;&#x7A0B;&#xFF0C;&#x5C0D;&#x65BC;&#x4E00;&#x500B;&#x908F;&#x8F2F;&#x5730;&#x5740;&#xFF08;&#x6BB5;&#xFF1A;&#x504F;&#x79FB;&#xFF09;&#xFF0C;&#x9996;&#x5148;&#x901A;&#x904E;GDTR&#x627E;&#x5230;GDT&#xFF0C;GDT</p>
-<p>&#x88E1;&#x9762;&#x662F;&#x6BB5;&#x9078;&#x64C7;&#x5B50;&#xFF0C;&#x76F4;&#x63A5;&#x5F9E;&#x6BB5;&#x5BC4;&#x5B58;&#x5668;&#x7372;&#x5F97;&#xFF0C;&#x901A;&#x904E;&#x6BB5;&#x9078;&#x64C7;&#x5B50;&#x627E;&#x5230;&#x8A72;&#x6BB5;&#x5728;&#x5167;&#x5B58;&#x88E1;&#x7684;&#x57FA;&#x5730;&#x5740;&#xFF0C;&#x7136;&#x5F8C;&#x52A0;&#x4E0A;&#x908F;&#x8F2F;&#x5730;&#x5740;&#x7684;&#x504F;</p>
-<p>&#x79FB;&#x90E8;&#x5206;&#xFF0C;&#x9019;&#x5C31;&#x5B8C;&#x6574;&#x5730;&#x5F97;&#x5230;&#x4E86;&#x4E00;&#x500B;&#x7DDA;&#x6027;&#x5730;&#x5740;&#x3002;</p>
+                        <h1 id="gdb-%E5%B1%95%E9%96%8B-c-c-%E7%9A%84-macro">gdb &#x5C55;&#x958B; C/C++ &#x7684; macro</h1>
+<ul>
+<li>test.cpp</li>
+</ul>
+<pre><code class="lang-cpp"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> MA(x) MB(x) { cout &lt;&lt; <span class="hljs-string">&quot;Hello World. I am &quot;</span> &lt;&lt; #x &lt;&lt; <span class="hljs-string">&quot;.&quot;</span> &lt;&lt; endl; }</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> MB(x) void fun_ ## x ()</span>
+
+MA(Mozzenior)
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>** argv)</span>
+</span>{
+    fun_Mozzenior();
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<ul>
+<li>-g3</li>
+</ul>
+<pre><code class="lang-sh">g++ test.cpp  -g3
+
+cgdb ./a.out
+
+(gdb) macro expand MA(Mozzenior)
+expands to: void <span class="hljs-function"><span class="hljs-title">fun_Mozzenior</span></span> () { cout &lt;&lt; <span class="hljs-string">&quot;Hello World. I am &quot;</span> &lt;&lt; <span class="hljs-string">&quot;Mozzenior&quot;</span> &lt;&lt; <span class="hljs-string">&quot;.&quot;</span> &lt;&lt; endl; }
+</code></pre>
 
                     
                     </section>
@@ -7973,10 +7977,10 @@
         </div>
 
         
-        <a href="../linux_kernel/1213.html" class="navigation navigation-prev " aria-label="Previous page: IA32CPU內存管理機制"><i class="fa fa-angle-left"></i></a>
+        <a href="../gdb/gdb_c++_xiao_ji_qiao.html" class="navigation navigation-prev " aria-label="Previous page: gdb C++ 小技巧"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../linux_kernel/1215.html" class="navigation navigation-next " aria-label="Next page: 邏輯地址，線性地址及物理地址的區別"><i class="fa fa-angle-right"></i></a>
+        <a href="../mooc_linux_kernel/index.html" class="navigation navigation-next " aria-label="Next page: Linux內核分析雲課堂學習筆記"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

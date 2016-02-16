@@ -264,6 +264,7 @@
    * [使用GDB分析二進位資料](gdb/shi_yong_gdb_fen_xi_er_jin_wei_zi_liao.md)
    * [cgdb 編譯＆使用](gdb/cgdb_bian_yi.md)
    * [gdb C++ 小技巧](gdb/gdb_c++_xiao_ji_qiao.md)
+   * gdb 展開 C/C++ 的 macro
 * [Linux內核分析雲課堂學習筆記](mooc_linux_kernel/README.md)
    * [圖解分析彙編代碼以理解計算機是如何工作的](mooc_linux_kernel/191.md)
    * [基於mykernel的一個簡單的時間片輪轉多道程序內核代碼分析](mooc_linux_kernel/192.md)

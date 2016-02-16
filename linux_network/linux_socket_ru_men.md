@@ -7,6 +7,8 @@
 
 既然要使用socket那麼當然要先include它的函式庫
 
+![](./images/4a83b89243c39.png)
+
 ```c
 #include <sys/socket.h>
 #include <netinet/in.h>

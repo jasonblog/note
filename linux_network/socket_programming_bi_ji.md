@@ -35,11 +35,11 @@
 
 ###Socket endpoint
 
-TCP/IP 的communication是由2個endpoint組成。一個endpoint是由一個ip加一個port，所以一台電腦可以有很多的endpoint。PF_INET是internet protocol family; AF_INET是internet address family (Normally PF_INET = AF_INET = 2)。
+TCP/IP 的communication是由2個endpoint組成。一個endpoint是由一個ip加一個port，所以一臺電腦可以有很多的endpoint。PF_INET是internet protocol family; AF_INET是internet address family (Normally PF_INET = AF_INET = 2)。
 
 
 ###Host / Hostname
-host指的是internet上的一台電腦 (computer, file server, etc)，而hostname則是用來識別此電腦的名稱，有時會跟domain name混用，雖然有些技術上的差異，如www.google.com，主要是用來uniquely identify。
+host指的是internet上的一臺電腦 (computer, file server, etc)，而hostname則是用來識別此電腦的名稱，有時會跟domain name混用，雖然有些技術上的差異，如www.google.com，主要是用來uniquely identify。
 
 
 ### Host address data type
@@ -243,7 +243,7 @@ htons() / ntohs(): 轉換sin_port
 htonl()/ ntohl: 轉換sin_addr
 ```
 
-ex: ina.sin_addr.s_addr = inet_addr("10.12.110.57"); //obsolete of inet_aton (ascii to network)，但不是每個平台都有implement inet_aton()
+ex: ina.sin_addr.s_addr = inet_addr("10.12.110.57"); //obsolete of inet_aton (ascii to network)，但不是每個平臺都有implement inet_aton()
 Typical use:
 
 ```c

@@ -1,7 +1,7 @@
 # Linux Socket 入門
 
 
-在兩台LINUX系統下使用socket進行傳輸。
+在兩臺LINUX系統下使用socket進行傳輸。
 
 首先介紹client端:
 

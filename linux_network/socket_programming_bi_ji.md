@@ -7,8 +7,8 @@
 
 ##Socket
 1. socket是IPC所使用的一種API。
-
 2. 也稱為Berkeley Socket或BSD Socket
-
 3. Connection-oriented socket (TCP)
-4. 
+
+
+![](./images/4a83b89243c39.png)

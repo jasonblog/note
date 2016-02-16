@@ -469,6 +469,7 @@
    * [語句](c_compiler/yu_ju.md)
    * [表達式](c_compiler/biao_da_shi.md)
    * [總結](c_compiler/zong_jie.md)
+* Linux Network
 * [Log](log/log.md)
    * [打印log](log/da_yin_log.md)
    * [如何在 Android 各 level ( 包含 user space 與 kernel space ) 使用dump call stack的方法](log/ru_he_zai_android_ge_level__bao_han_userspace_yu_k.md)
@@ -488,5 +489,4 @@
        * [JavaScript 快速入門（8/10）－ 物件](nodejs/javascript_kuai_su_ru_men_ff08_8__10__wu_jian.md)
        * [JavaScript 快速入門（9/10）－ 陣列](nodejs/javascript_kuai_su_ru_men_ff08_9__10__zhen_lie.md)
        * [JavaScript 快速入門（10/10）－ 使用內建物件](nodejs/javascript_kuai_su_ru_men_ff08_10__10__shi_yong_ne.md)
-* Linux Network
 

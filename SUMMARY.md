@@ -502,5 +502,5 @@
        * [退出時不顯示提示信息](100_gdb_tips/quit-gdb-silently.md)
        * [輸出信息多時不會暫停輸出](100_gdb_tips/set-pagination-off.md)
    * [函數](100_gdb_tips/han_shu.md)
-       * 列出函數的名字
+       * [列出函數的名字](100_gdb_tips/info-function.md)
 

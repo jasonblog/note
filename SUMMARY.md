@@ -217,6 +217,7 @@
    * [shell環境變量以及set,env,export的區別](linux_system/1517.md)
    * [用gcc 自製 Library](linux_system/yong_gcc_zi_zhi_library.md)
    * [如何使用pkg-config工具編譯鏈接第三方庫](linux_system/ru_he_shi_yongpkg_-_config_gong_ju_bian_yi_lian_ji.md)
+   * stdout & stderr & fflush()
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

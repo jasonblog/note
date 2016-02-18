@@ -503,5 +503,5 @@
        * [退出時不顯示提示信息](100_gdb_tips/quit-gdb-silently.md)
    * [函數](100_gdb_tips/han_shu.md)
        * [列出函數的名字](100_gdb_tips/info-function.md)
-   * 斷點
+   * [斷點](100_gdb_tips/duan_dian.md)
 

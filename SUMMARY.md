@@ -506,5 +506,5 @@
    * [斷點](100_gdb_tips/duan_dian.md)
    * [觀察點](100_gdb_tips/guan_cha_dian.md)
    * [Catchpoint](100_gdb_tips/catchpoint.md)
-   * 打印
+   * [打印](100_gdb_tips/da_yin.md)
 

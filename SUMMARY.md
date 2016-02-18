@@ -497,5 +497,5 @@
 * [100 gdb tips](100_gdb_tips/100_gdb_tips.md)
    * [信息顯示](100_gdb_tips/xin_xi_xian_shi.md)
        * [顯示gdb版本信息](100_gdb_tips/show-version.md)
-       * 顯示gdb版權相關信息
+       * [顯示gdb版權相關信息](100_gdb_tips/show-copying-warranty.md)
 

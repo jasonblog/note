@@ -508,4 +508,5 @@
    * [Catchpoint](100_gdb_tips/catchpoint.md)
    * [打印](100_gdb_tips/da_yin.md)
    * 多進程/線程
+   * core dump文件
 

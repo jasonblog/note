@@ -516,5 +516,5 @@
    * 腳本
    * [源文件](100_gdb_tips/yuan_wen_jian.md)
    * [圖形化界面](100_gdb_tips/tu_xing_hua_jie_mian.md)
-   * 其它
+   * [其它](100_gdb_tips/qi_ta.md)
 

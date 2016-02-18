@@ -509,7 +509,7 @@
    * [打印](100_gdb_tips/da_yin.md)
    * [多進程/線程](100_gdb_tips/duo_jin_7a0b_xian_cheng.md)
    * [core dump文件](100_gdb_tips/core_dumpwen_jian.md)
-   * 彙編
+   * [彙編](100_gdb_tips/hui_bian.md)
    * 改變程序的執行
    * 信號
    * [共享庫](100_gdb_tips/gong_xiang_ku.md)

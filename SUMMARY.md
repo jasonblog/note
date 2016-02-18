@@ -511,7 +511,7 @@
    * [core dump文件](100_gdb_tips/core_dumpwen_jian.md)
    * [彙編](100_gdb_tips/hui_bian.md)
    * 改變程序的執行
-   * 信號
+   * [信號](100_gdb_tips/xin_hao.md)
    * [共享庫](100_gdb_tips/gong_xiang_ku.md)
    * 腳本
    * [源文件](100_gdb_tips/yuan_wen_jian.md)

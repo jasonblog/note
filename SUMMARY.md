@@ -589,7 +589,7 @@
        * [使用“$_siginfo”變量](100_gdb_tips/use-$_siginfo-variable.md)
    * [共享庫](100_gdb_tips/gong_xiang_ku.md)
        * [顯示共享鏈接庫信息](100_gdb_tips/info_sharedlibrary.md)
-   * [腳本](100_gdb_tips/100_gdb_tips/jiao_ben.md)
+   * [腳本](100_gdb_tips/jiao_ben.md)
        * [配置gdb init文件](100_gdb_tips/config-gdbinit.md)
        * [按何種方式解析腳本文件](100_gdb_tips/set-script-extension.md)
        * [保存歷史命令](100_gdb_tips/save-history-commands.md)

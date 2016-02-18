@@ -498,5 +498,5 @@
    * [信息顯示](100_gdb_tips/xin_xi_xian_shi.md)
        * [顯示gdb版本信息](100_gdb_tips/show-version.md)
        * [顯示gdb版權相關信息](100_gdb_tips/show-copying-warranty.md)
-       * 啟動時不顯示提示信息
+       * [啟動時不顯示提示信息](100_gdb_tips/start-gdb-silently.md)
 

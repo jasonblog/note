@@ -496,4 +496,5 @@
        * [JavaScript 快速入門（10/10）－ 使用內建物件](nodejs/javascript_kuai_su_ru_men_ff08_10__10__shi_yong_ne.md)
 * [100 gdb tips](100_gdb_tips/100_gdb_tips.md)
    * [信息顯示](100_gdb_tips/xin_xi_xian_shi.md)
+       * 顯示gdb版本信息
 

@@ -501,4 +501,5 @@
        * [啟動時不顯示提示信息](100_gdb_tips/start-gdb-silently.md)
        * [退出時不顯示提示信息](100_gdb_tips/quit-gdb-silently.md)
        * [輸出信息多時不會暫停輸出](100_gdb_tips/set-pagination-off.md)
+   * 函數
 

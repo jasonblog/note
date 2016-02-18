@@ -498,9 +498,9 @@
    * [信息顯示](100_gdb_tips/xin_xi_xian_shi.md)
        * [顯示gdb版本信息](100_gdb_tips/show-version.md)
        * [顯示gdb版權相關信息](100_gdb_tips/show-copying-warranty.md)
+       * [輸出信息多時不會暫停輸出](100_gdb_tips/set-pagination-off.md)
        * [啟動時不顯示提示信息](100_gdb_tips/start-gdb-silently.md)
        * [退出時不顯示提示信息](100_gdb_tips/quit-gdb-silently.md)
        * [函數](100_gdb_tips/han_shu.md)
            * [列出函數的名字](100_gdb_tips/info-function.md)
-       * [輸出信息多時不會暫停輸出](100_gdb_tips/set-pagination-off.md)
 

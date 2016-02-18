@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>kernel 發 signal 通知 pid   task_struct-&gt;comm | Jason note</title>
+        <title>腳本 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../linux_kernel/linuxnei_he_diaoshi_fang_fagdboc_gdboe_jtag.html" />
+    <link rel="next" href="../100_gdb_tips/config-gdbinit.html" />
     
     
-    <link rel="prev" href="../linux_kernel/12235.html" />
+    <link rel="prev" href="../100_gdb_tips/info_sharedlibrary.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="12.24" data-basepath=".." data-revision="Fri Feb 19 2016 01:41:35 GMT+0800 (CST)">
+    <div class="book" data-level="49.13" data-basepath=".." data-revision="Fri Feb 19 2016 01:41:35 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -2765,7 +2765,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="12.24" data-path="linux_kernel/kernel_fa_signal_tong_zhi_pid_task_struct_-_comm.html">
+        <li class="chapter " data-level="12.24" data-path="linux_kernel/kernel_fa_signal_tong_zhi_pid_task_struct_-_comm.html">
             
                 
                     <a href="../linux_kernel/kernel_fa_signal_tong_zhi_pid_task_struct_-_comm.html">
@@ -9346,7 +9346,7 @@
             
         </li>
     
-        <li class="chapter " data-level="49.13" data-path="100_gdb_tips/jiao_ben.html">
+        <li class="chapter active" data-level="49.13" data-path="100_gdb_tips/jiao_ben.html">
             
                 
                     <a href="../100_gdb_tips/jiao_ben.html">
@@ -9826,383 +9826,7 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="kernel-%E7%99%BC-signal-%E9%80%9A%E7%9F%A5-pid-task-struct-comm">kernel &#x767C; signal &#x901A;&#x77E5; pid   task_struct-&gt;comm</h1>
-<p>&#x7531; kernel space &#x627E;&#x5230; oom_test process name &#x4E4B;&#x5F8C;&#x900F;&#x904E; send_sig &#x901A;&#x77E5; oom_test &#x9019;&#x652F;process </p>
-<h2 id="user-space">user space</h2>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;signal.h&gt;</span></span>
-
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> MEGABYTE <span class="hljs-number">1024</span>*<span class="hljs-number">1024</span></span>
-
-
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">signal_handler</span><span class="hljs-params">(<span class="hljs-keyword">int</span> signum)</span>
-</span>{
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;signal %d \n&quot;</span>, signum);
-    <span class="hljs-keyword">if</span> (signum == SIGUSR2) {
-        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;oom_test SIGUSR2\n&quot;</span>);
-    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (signum == SIGUSR1) {
-        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;SIGUSR1\n&quot;</span>);
-    }
-}
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>* argv[])</span>
-</span>{
-    <span class="hljs-keyword">void</span>* myblock = <span class="hljs-literal">NULL</span>;
-    <span class="hljs-keyword">int</span> count = <span class="hljs-number">0</span>;
-    signal(SIGUSR2, signal_handler);
-
-    <span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>) {
-        myblock = (<span class="hljs-keyword">void</span>*) <span class="hljs-built_in">malloc</span>(MEGABYTE);
-
-        <span class="hljs-keyword">if</span> (!myblock) {
-            <span class="hljs-keyword">break</span>;
-        }
-
-        <span class="hljs-comment">//sleep(1);</span>
-
-        <span class="hljs-built_in">memset</span>(myblock, <span class="hljs-number">1</span>, MEGABYTE);
-        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;11 Currently allocating %d MB\n&quot;</span>, ++count);
-    }
-
-    <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);
-}
-</code></pre>
-<h2 id="kernel-space">kernel space</h2>
-<ul>
-<li>lowmemorykiller.c</li>
-</ul>
-<pre><code class="lang-c"><span class="hljs-comment">/* drivers/misc/lowmemorykiller.c
- *
- * The lowmemorykiller driver lets user-space specify a set of memory thresholds
- * where processes with a range of oom_score_adj values will get killed. Specify
- * the minimum oom_score_adj values in
- * /sys/module/lowmemorykiller/parameters/adj and the number of free pages in
- * /sys/module/lowmemorykiller/parameters/minfree. Both files take a comma
- * separated list of numbers in ascending order.
- *
- * For example, write &quot;0,8&quot; to /sys/module/lowmemorykiller/parameters/adj and
- * &quot;1024,4096&quot; to /sys/module/lowmemorykiller/parameters/minfree to kill
- * processes with a oom_score_adj value of 8 or higher when the free memory
- * drops below 4096 pages and kill processes with a oom_score_adj value of 0 or
- * higher when the free memory drops below 1024 pages.
- *
- * The driver considers memory used for caches to be free, but if a large
- * percentage of the cached memory is locked this can be very inaccurate
- * and processes may not get killed until the normal oom killer is triggered.
- *
- * Copyright (C) 2007-2008 Google, Inc.
- *
- * This software is licensed under the terms of the GNU General Public
- * License version 2, as published by the Free Software Foundation, and
- * may be copied, distributed, and modified under those terms.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- */</span>
-
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> pr_fmt(fmt) KBUILD_MODNAME <span class="hljs-string">&quot;: &quot;</span> fmt</span>
-
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/module.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/kernel.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/mm.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/oom.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/sched.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/swap.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/rcupdate.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/notifier.h&gt;</span></span>
-
-<span class="hljs-keyword">int</span> test_lowmemorykiller = <span class="hljs-number">0</span>;
-
-<span class="hljs-keyword">static</span> <span class="hljs-keyword">uint32_t</span> lowmem_debug_level = <span class="hljs-number">1</span>;
-<span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> lowmem_adj[<span class="hljs-number">6</span>] = {
-    <span class="hljs-number">0</span>,
-    <span class="hljs-number">1</span>,
-    <span class="hljs-number">6</span>,
-    <span class="hljs-number">12</span>,
-};
-<span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> lowmem_adj_size = <span class="hljs-number">4</span>;
-<span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> lowmem_minfree[<span class="hljs-number">6</span>] = {
-    <span class="hljs-number">3</span> * <span class="hljs-number">512</span>,    <span class="hljs-comment">/* 6MB */</span>
-    <span class="hljs-number">2</span> * <span class="hljs-number">1024</span>,    <span class="hljs-comment">/* 8MB */</span>
-    <span class="hljs-number">4</span> * <span class="hljs-number">1024</span>,    <span class="hljs-comment">/* 16MB */</span>
-    <span class="hljs-number">16</span> * <span class="hljs-number">1024</span>,    <span class="hljs-comment">/* 64MB */</span>
-};
-<span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> lowmem_minfree_size = <span class="hljs-number">4</span>;
-
-<span class="hljs-keyword">static</span> <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> lowmem_deathpending_timeout;
-
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> lowmem_print(level, x...)            \
-    do {                        \
-        <span class="hljs-keyword">if</span> (lowmem_debug_level &gt;= (level))    \
-            pr_info(x);            \
-    } while (<span class="hljs-number">0</span>)</span>
-
-<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">lowmem_shrink</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> shrinker *s, <span class="hljs-keyword">struct</span> shrink_control *sc)</span>
-</span>{
-    <span class="hljs-keyword">struct</span> task_struct *tsk;
-    <span class="hljs-keyword">struct</span> task_struct *selected = <span class="hljs-literal">NULL</span>;
-    <span class="hljs-keyword">int</span> rem = <span class="hljs-number">0</span>;
-    <span class="hljs-keyword">int</span> tasksize;
-    <span class="hljs-keyword">int</span> i;
-    <span class="hljs-keyword">int</span> min_score_adj = OOM_SCORE_ADJ_MAX + <span class="hljs-number">1</span>;
-    <span class="hljs-keyword">int</span> minfree = <span class="hljs-number">0</span>;
-    <span class="hljs-keyword">int</span> selected_tasksize = <span class="hljs-number">0</span>;
-    <span class="hljs-keyword">int</span> selected_oom_score_adj;
-    <span class="hljs-keyword">int</span> array_size = ARRAY_SIZE(lowmem_adj);
-    <span class="hljs-keyword">int</span> other_free = global_page_state(NR_FREE_PAGES) - totalreserve_pages;
-    <span class="hljs-keyword">int</span> other_file = global_page_state(NR_FILE_PAGES) -
-                     global_page_state(NR_SHMEM);
-
-    printk(KERN_CRIT <span class="hljs-string">&quot;lowmem_shrink test_lowmemorykiller addr=%p\n&quot;</span>, &amp;test_lowmemorykiller);
-
-    <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">strcmp</span>(current-&gt;comm, <span class="hljs-string">&quot;oom_test&quot;</span>)) {
-        printk(KERN_CRIT <span class="hljs-string">&quot;lowmem_shrink oom_test+++++++++++++++++++++++++++++++++++++++++++++++&quot;</span>);
-        printk(KERN_CRIT <span class="hljs-string">&quot;YAO lowmem_shrink PID=%d, PID name=%s\n&quot;</span>, current-&gt;pid, current-&gt;comm);
-        <span class="hljs-comment">// dump_stack();</span>
-        for_each_process(tsk) {
-            <span class="hljs-keyword">struct</span> task_struct *p;
-
-            p = find_lock_task_mm(tsk);
-
-            <span class="hljs-keyword">if</span> (!p)
-                <span class="hljs-keyword">continue</span>;
-
-            <span class="hljs-keyword">if</span> (<span class="hljs-built_in">strcmp</span>(<span class="hljs-string">&quot;oom_test&quot;</span>, p-&gt;comm) == <span class="hljs-number">0</span>) {
-                send_sig(SIGUSR2, p, <span class="hljs-number">0</span>);
-            }
-
-            printk(KERN_CRIT <span class="hljs-string">&quot;lowmem_shrink oom_test-----------------------------------------------&quot;</span>);
-        }
-    }
-
-
-    <span class="hljs-keyword">if</span> (lowmem_adj_size &lt; array_size)
-        array_size = lowmem_adj_size;
-    <span class="hljs-keyword">if</span> (lowmem_minfree_size &lt; array_size)
-        array_size = lowmem_minfree_size;
-    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; array_size; i++) {
-        minfree = lowmem_minfree[i];
-        <span class="hljs-keyword">if</span> (other_free &lt; minfree &amp;&amp; other_file &lt; minfree) {
-            min_score_adj = lowmem_adj[i];
-            <span class="hljs-keyword">break</span>;
-        }
-    }
-    <span class="hljs-keyword">if</span> (sc-&gt;nr_to_scan &gt; <span class="hljs-number">0</span>)
-        lowmem_print(<span class="hljs-number">3</span>, <span class="hljs-string">&quot;lowmem_shrink %lu, %x, ofree %d %d, ma %d\n&quot;</span>,
-                     sc-&gt;nr_to_scan, sc-&gt;gfp_mask, other_free,
-                     other_file, min_score_adj);
-    rem = global_page_state(NR_ACTIVE_ANON) +
-          global_page_state(NR_ACTIVE_FILE) +
-          global_page_state(NR_INACTIVE_ANON) +
-          global_page_state(NR_INACTIVE_FILE);
-    <span class="hljs-keyword">if</span> (sc-&gt;nr_to_scan &lt;= <span class="hljs-number">0</span> || min_score_adj == OOM_SCORE_ADJ_MAX + <span class="hljs-number">1</span>) {
-        lowmem_print(<span class="hljs-number">5</span>, <span class="hljs-string">&quot;lowmem_shrink %lu, %x, return %d\n&quot;</span>,
-                     sc-&gt;nr_to_scan, sc-&gt;gfp_mask, rem);
-        <span class="hljs-keyword">return</span> rem;
-    }
-    selected_oom_score_adj = min_score_adj;
-
-    rcu_read_lock();
-    for_each_process(tsk) {
-        <span class="hljs-keyword">struct</span> task_struct *p;
-        <span class="hljs-keyword">int</span> oom_score_adj;
-
-        <span class="hljs-keyword">if</span> (tsk-&gt;flags &amp; PF_KTHREAD)
-            <span class="hljs-keyword">continue</span>;
-
-        p = find_lock_task_mm(tsk);
-        <span class="hljs-keyword">if</span> (!p)
-            <span class="hljs-keyword">continue</span>;
-
-        <span class="hljs-keyword">if</span> (test_tsk_thread_flag(p, TIF_MEMDIE) &amp;&amp;
-                time_before_eq(jiffies, lowmem_deathpending_timeout)) {
-            task_unlock(p);
-            rcu_read_unlock();
-            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-        }
-        oom_score_adj = p-&gt;signal-&gt;oom_score_adj;
-        <span class="hljs-keyword">if</span> (oom_score_adj &lt; min_score_adj) {
-            task_unlock(p);
-            <span class="hljs-keyword">continue</span>;
-        }
-        tasksize = get_mm_rss(p-&gt;mm);
-        task_unlock(p);
-        <span class="hljs-keyword">if</span> (tasksize &lt;= <span class="hljs-number">0</span>)
-            <span class="hljs-keyword">continue</span>;
-        <span class="hljs-keyword">if</span> (selected) {
-            <span class="hljs-keyword">if</span> (oom_score_adj &lt; selected_oom_score_adj)
-                <span class="hljs-keyword">continue</span>;
-            <span class="hljs-keyword">if</span> (oom_score_adj == selected_oom_score_adj &amp;&amp;
-                    tasksize &lt;= selected_tasksize)
-                <span class="hljs-keyword">continue</span>;
-        }
-        selected = p;
-        selected_tasksize = tasksize;
-        selected_oom_score_adj = oom_score_adj;
-        lowmem_print(<span class="hljs-number">2</span>, <span class="hljs-string">&quot;select &apos;%s&apos; (%d), adj %d, size %d, to kill\n&quot;</span>,
-                     p-&gt;comm, p-&gt;pid, oom_score_adj, tasksize);
-    }
-    <span class="hljs-keyword">if</span> (selected) {
-        lowmem_print(<span class="hljs-number">1</span>, <span class="hljs-string">&quot;Killing &apos;%s&apos; (%d), adj %d,\n&quot;</span> \
-                     <span class="hljs-string">&quot;   to free %ldkB on behalf of &apos;%s&apos; (%d) because\n&quot;</span> \
-                     <span class="hljs-string">&quot;   cache %ldkB is below limit %ldkB for oom_score_adj %d\n&quot;</span> \
-                     <span class="hljs-string">&quot;   Free memory is %ldkB above reserved\n&quot;</span>,
-                     selected-&gt;comm, selected-&gt;pid,
-                     selected_oom_score_adj,
-                     selected_tasksize * (<span class="hljs-keyword">long</span>)(PAGE_SIZE / <span class="hljs-number">1024</span>),
-                     current-&gt;comm, current-&gt;pid,
-                     other_file * (<span class="hljs-keyword">long</span>)(PAGE_SIZE / <span class="hljs-number">1024</span>),
-                     minfree * (<span class="hljs-keyword">long</span>)(PAGE_SIZE / <span class="hljs-number">1024</span>),
-                     min_score_adj,
-                     other_free * (<span class="hljs-keyword">long</span>)(PAGE_SIZE / <span class="hljs-number">1024</span>));
-        lowmem_deathpending_timeout = jiffies + HZ;
-        send_sig(SIGKILL, selected, <span class="hljs-number">0</span>);
-        set_tsk_thread_flag(selected, TIF_MEMDIE);
-        rem -= selected_tasksize;
-    }
-    lowmem_print(<span class="hljs-number">4</span>, <span class="hljs-string">&quot;lowmem_shrink %lu, %x, return %d\n&quot;</span>,
-                 sc-&gt;nr_to_scan, sc-&gt;gfp_mask, rem);
-    rcu_read_unlock();
-    <span class="hljs-keyword">return</span> rem;
-}
-
-<span class="hljs-keyword">static</span> <span class="hljs-keyword">struct</span> shrinker lowmem_shrinker = {
-    .shrink = lowmem_shrink,
-    .seeks = DEFAULT_SEEKS * <span class="hljs-number">16</span>
-};
-
-<span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> __<span class="hljs-function">init <span class="hljs-title">lowmem_init</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
-</span>{
-    register_shrinker(&amp;lowmem_shrinker);
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-}
-
-<span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> __<span class="hljs-function"><span class="hljs-built_in">exit</span> <span class="hljs-title">lowmem_exit</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
-</span>{
-    unregister_shrinker(&amp;lowmem_shrinker);
-}
-
-<span class="hljs-preprocessor">#<span class="hljs-keyword">ifdef</span> CONFIG_ANDROID_LOW_MEMORY_KILLER_AUTODETECT_OOM_ADJ_VALUES</span>
-<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">lowmem_oom_adj_to_oom_score_adj</span><span class="hljs-params">(<span class="hljs-keyword">int</span> oom_adj)</span>
-</span>{
-    <span class="hljs-keyword">if</span> (oom_adj == OOM_ADJUST_MAX)
-        <span class="hljs-keyword">return</span> OOM_SCORE_ADJ_MAX;
-    <span class="hljs-keyword">else</span>
-        <span class="hljs-keyword">return</span> (oom_adj * OOM_SCORE_ADJ_MAX) / -OOM_DISABLE;
-}
-
-<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">lowmem_autodetect_oom_adj_values</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
-</span>{
-    <span class="hljs-keyword">int</span> i;
-    <span class="hljs-keyword">int</span> oom_adj;
-    <span class="hljs-keyword">int</span> oom_score_adj;
-    <span class="hljs-keyword">int</span> array_size = ARRAY_SIZE(lowmem_adj);
-
-    <span class="hljs-keyword">if</span> (lowmem_adj_size &lt; array_size)
-        array_size = lowmem_adj_size;
-
-    <span class="hljs-keyword">if</span> (array_size &lt;= <span class="hljs-number">0</span>)
-        <span class="hljs-keyword">return</span>;
-
-    oom_adj = lowmem_adj[array_size - <span class="hljs-number">1</span>];
-    <span class="hljs-keyword">if</span> (oom_adj &gt; OOM_ADJUST_MAX)
-        <span class="hljs-keyword">return</span>;
-
-    oom_score_adj = lowmem_oom_adj_to_oom_score_adj(oom_adj);
-    <span class="hljs-keyword">if</span> (oom_score_adj &lt;= OOM_ADJUST_MAX)
-        <span class="hljs-keyword">return</span>;
-
-    lowmem_print(<span class="hljs-number">1</span>, <span class="hljs-string">&quot;lowmem_shrink: convert oom_adj to oom_score_adj:\n&quot;</span>);
-    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; array_size; i++) {
-        oom_adj = lowmem_adj[i];
-        oom_score_adj = lowmem_oom_adj_to_oom_score_adj(oom_adj);
-        lowmem_adj[i] = oom_score_adj;
-        lowmem_print(<span class="hljs-number">1</span>, <span class="hljs-string">&quot;oom_adj %d =&gt; oom_score_adj %d\n&quot;</span>,
-                     oom_adj, oom_score_adj);
-    }
-}
-
-<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">lowmem_adj_array_set</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *val, <span class="hljs-keyword">const</span> <span class="hljs-keyword">struct</span> kernel_param *kp)</span>
-</span>{
-    <span class="hljs-keyword">int</span> ret;
-
-    ret = param_array_ops.<span class="hljs-built_in">set</span>(val, kp);
-
-    <span class="hljs-comment">/* HACK: Autodetect oom_adj values in lowmem_adj array */</span>
-    lowmem_autodetect_oom_adj_values();
-
-    <span class="hljs-keyword">return</span> ret;
-}
-
-<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">lowmem_adj_array_get</span><span class="hljs-params">(<span class="hljs-keyword">char</span> *buffer, <span class="hljs-keyword">const</span> <span class="hljs-keyword">struct</span> kernel_param *kp)</span>
-</span>{
-    <span class="hljs-keyword">return</span> param_array_ops.get(buffer, kp);
-}
-
-<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">lowmem_adj_array_free</span><span class="hljs-params">(<span class="hljs-keyword">void</span> *arg)</span>
-</span>{
-    param_array_ops.<span class="hljs-built_in">free</span>(arg);
-}
-
-<span class="hljs-keyword">static</span> <span class="hljs-keyword">struct</span> kernel_param_ops lowmem_adj_array_ops = {
-    .<span class="hljs-built_in">set</span> = lowmem_adj_array_set,
-    .get = lowmem_adj_array_get,
-    .<span class="hljs-built_in">free</span> = lowmem_adj_array_free,
-};
-
-<span class="hljs-keyword">static</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">struct</span> kparam_array __param_arr_adj = {
-    .max = ARRAY_SIZE(lowmem_adj),
-    .num = &amp;lowmem_adj_size,
-    .ops = &amp;param_ops_int,
-    .elemsize = <span class="hljs-keyword">sizeof</span>(lowmem_adj[<span class="hljs-number">0</span>]),
-    .elem = lowmem_adj,
-};
-<span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span></span>
-
-module_param_named(cost, lowmem_shrinker.seeks, <span class="hljs-keyword">int</span>, S_IRUGO | S_IWUSR);
-<span class="hljs-preprocessor">#<span class="hljs-keyword">ifdef</span> CONFIG_ANDROID_LOW_MEMORY_KILLER_AUTODETECT_OOM_ADJ_VALUES</span>
-__module_param_call(MODULE_PARAM_PREFIX, adj,
-                    &amp;lowmem_adj_array_ops,
-                    .arr = &amp;__param_arr_adj,
-                    S_IRUGO | S_IWUSR, -<span class="hljs-number">1</span>);
-__MODULE_PARM_TYPE(adj, <span class="hljs-string">&quot;array of int&quot;</span>);
-<span class="hljs-preprocessor">#<span class="hljs-keyword">else</span></span>
-module_param_array_named(adj, lowmem_adj, <span class="hljs-keyword">int</span>, &amp;lowmem_adj_size,
-                         S_IRUGO | S_IWUSR);
-<span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span></span>
-module_param_array_named(minfree, lowmem_minfree, uint, &amp;lowmem_minfree_size,
-                         S_IRUGO | S_IWUSR);
-module_param_named(debug_level, lowmem_debug_level, uint, S_IRUGO | S_IWUSR);
-
-module_init(lowmem_init);
-module_exit(lowmem_exit);
-
-MODULE_LICENSE(<span class="hljs-string">&quot;GPL&quot;</span>);
-</code></pre>
-<pre><code class="lang-c"><span class="hljs-keyword">if</span> (!<span class="hljs-built_in">strcmp</span>(current-&gt;comm, <span class="hljs-string">&quot;oom_test&quot;</span>)) {
-    printk(KERN_CRIT <span class="hljs-string">&quot;lowmem_shrink oom_test+++++++++++++++++++++++++++++++++++++++++++++++&quot;</span>);
-    printk(KERN_CRIT <span class="hljs-string">&quot;YAO lowmem_shrink PID=%d, PID name=%s\n&quot;</span>, current-&gt;pid, current-&gt;comm);
-    <span class="hljs-comment">// dump_stack();</span>
-    for_each_process(tsk) {
-        <span class="hljs-keyword">struct</span> task_struct *p;
-
-        p = find_lock_task_mm(tsk);
-
-        <span class="hljs-keyword">if</span> (!p)
-            <span class="hljs-keyword">continue</span>;
-
-        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">strcmp</span>(<span class="hljs-string">&quot;oom_test&quot;</span>, p-&gt;comm) == <span class="hljs-number">0</span>) {
-            send_sig(SIGUSR2, p, <span class="hljs-number">0</span>);
-        }
-
-        printk(KERN_CRIT <span class="hljs-string">&quot;lowmem_shrink oom_test-----------------------------------------------&quot;</span>);
-    }
-}
-</code></pre>
+                        <h1 id="%E8%85%B3%E6%9C%AC">&#x8173;&#x672C;</h1>
 
                     
                     </section>
@@ -10213,10 +9837,10 @@ MODULE_LICENSE(<span class="hljs-string">&quot;GPL&quot;</span>);
         </div>
 
         
-        <a href="../linux_kernel/12235.html" class="navigation navigation-prev " aria-label="Previous page: 系統呼叫"><i class="fa fa-angle-left"></i></a>
+        <a href="../100_gdb_tips/info_sharedlibrary.html" class="navigation navigation-prev " aria-label="Previous page: 顯示共享鏈接庫信息"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../linux_kernel/linuxnei_he_diaoshi_fang_fagdboc_gdboe_jtag.html" class="navigation navigation-next " aria-label="Next page: Linux內核調試方法 gdboc gdboe JTAG"><i class="fa fa-angle-right"></i></a>
+        <a href="../100_gdb_tips/config-gdbinit.html" class="navigation navigation-next " aria-label="Next page: 配置gdb init文件"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

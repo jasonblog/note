@@ -512,7 +512,7 @@
    * 彙編
    * 改變程序的執行
    * 信號
-   * 共享庫
+   * [共享庫](100_gdb_tips/gong_xiang_ku.md)
    * 腳本
    * [源文件](100_gdb_tips/yuan_wen_jian.md)
    * [圖形化界面](100_gdb_tips/tu_xing_hua_jie_mian.md)

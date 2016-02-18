@@ -510,7 +510,7 @@
    * [多進程/線程](100_gdb_tips/duo_jin_7a0b_xian_cheng.md)
    * [core dump文件](100_gdb_tips/core_dumpwen_jian.md)
    * [彙編](100_gdb_tips/hui_bian.md)
-   * 改變程序的執行
+   * [改變程序的執行](100_gdb_tips/gai_bian_cheng_xu_de_zhi_xing.md)
    * [信號](100_gdb_tips/xin_hao.md)
    * [共享庫](100_gdb_tips/gong_xiang_ku.md)
    * 腳本

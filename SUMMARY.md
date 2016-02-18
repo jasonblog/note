@@ -494,4 +494,5 @@
        * [JavaScript 快速入門（8/10）－ 物件](nodejs/javascript_kuai_su_ru_men_ff08_8__10__wu_jian.md)
        * [JavaScript 快速入門（9/10）－ 陣列](nodejs/javascript_kuai_su_ru_men_ff08_9__10__zhen_lie.md)
        * [JavaScript 快速入門（10/10）－ 使用內建物件](nodejs/javascript_kuai_su_ru_men_ff08_10__10__shi_yong_ne.md)
+* 100 gdb tips
 

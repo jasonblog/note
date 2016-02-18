@@ -1,0 +1,2 @@
+# core dump文件
+

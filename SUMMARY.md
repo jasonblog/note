@@ -507,4 +507,5 @@
    * [觀察點](100_gdb_tips/guan_cha_dian.md)
    * [Catchpoint](100_gdb_tips/catchpoint.md)
    * [打印](100_gdb_tips/da_yin.md)
+   * 多進程/線程
 

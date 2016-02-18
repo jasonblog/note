@@ -504,5 +504,5 @@
    * [函數](100_gdb_tips/han_shu.md)
        * [列出函數的名字](100_gdb_tips/info-function.md)
    * [斷點](100_gdb_tips/duan_dian.md)
-   * 觀察點
+   * [觀察點](100_gdb_tips/guan_cha_dian.md)
 

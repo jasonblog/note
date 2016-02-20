@@ -118,3 +118,122 @@ int main(int argc, char *argv[])
 ```
 
 结果：
+
+![](./images/mickole/15205716-26808bb005184cbcad09ccaa887e46b4.png)
+
+可以看到第一次发送信号是在5s以后，之后每隔一秒发送一次信号
+
+示例二：获得产生时钟信号的剩余时间
+
+
+```c
+#include <unistd.h>
+#include <sys/stat.h>
+#include <sys/wait.h>
+#include <sys/types.h>
+#include <fcntl.h>
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <errno.h>
+#include <string.h>
+#include <signal.h>
+#include <sys/time.h>
+
+
+#define ERR_EXIT(m) \
+    do \
+    { \
+        perror(m); \
+        exit(EXIT_FAILURE); \
+    } while(0)
+
+
+int main(int argc, char *argv[])
+{
+    struct timeval tv_interval = {1, 0};
+    struct timeval tv_value = {1, 0};
+    struct itimerval it;
+    it.it_interval = tv_interval;
+    it.it_value = tv_value;
+    setitimer(ITIMER_REAL, &it, NULL);
+
+    int i;
+    for (i=0; i<10000; i++);
+
+//第一种方式获得剩余时间
+    struct itimerval oit;
+    setitimer(ITIMER_REAL, &it, &oit);//利用oit获得剩余时间产生时钟信号
+    printf("%d %d %d %d\n", (int)oit.it_interval.tv_sec, (int)oit.it_interval.tv_usec, (int)oit.it_value.tv_sec, (int)oit.it_value.tv_usec);
+//第二种方式获得剩余时间
+    //getitimer(ITIMER_REAL, &it);
+    //printf("%d %d %d %d\n", (int)it.it_interval.tv_sec, (int)it.it_interval.tv_usec, (int)it.it_value.tv_sec, (int)it.it_value.tv_usec);
+
+    return 0;
+}
+```
+
+结果：
+
+用第一种方式：
+
+
+![](./images/mickole/15205717-c717a3776f1942859c84712f5c17d7f4.png)
+
+用第二种方式：利用getitimer在不重新设置时钟的情况下获取剩余时间
+
+![](./images/mickole/15205718-c81746804586411a93c3dff4ab69d045.png)
+
+剩余时间是指：距离下一次调用定时器产生信号所需时间，这里由于for循环不到一秒就执行完，定时器还来不及产生时钟信号，所以有剩余时间
+
+示例三：每隔一秒发出一个SIGALRM，每隔0.5秒发出一个SIGVTALRM信号
+
+```c
+#include <signal.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <sys/time.h>
+
+void sigroutine(int signo)
+{
+    switch (signo) {
+    case SIGALRM:
+        printf("Catch a signal -- SIGALRM\n ");
+        break;
+
+    case SIGVTALRM:
+        printf("Catch a signal -- SIGVTALRM\n ");
+        break;
+    }
+
+    return;
+}
+
+int main()
+{
+    struct itimerval value, value2;
+
+    printf("process id is %d\n ", getpid());
+    signal(SIGALRM, sigroutine);
+    signal(SIGVTALRM, sigroutine);
+    value.it_value.tv_sec = 1;
+    value.it_value.tv_usec = 0;
+    value.it_interval.tv_sec = 1;
+    value.it_interval.tv_usec = 0;
+    setitimer(ITIMER_REAL, &value, NULL);
+
+    value2.it_value.tv_sec = 0;
+    value2.it_value.tv_usec = 500000;
+    value2.it_interval.tv_sec = 0;
+    value2.it_interval.tv_usec = 500000;
+    setitimer(ITIMER_VIRTUAL, &value2, NULL);
+    for (;;) ;
+}
+```
+
+结果：
+
+
+![](./images/mickole/15205719-c46d1fdb990a40e3bb09d8a78743d8f6.png)
+
+可知确实是没两次SIGVTALRM一次SIGALRM

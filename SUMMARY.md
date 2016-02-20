@@ -223,6 +223,7 @@
        * [linux系统编程之文件与IO（二）：系统调用read和write](linux_system/linuxxi_tong_bian_cheng_zhi_wen_jian_yu_io_ff08_er.md)
        * [linux系统编程之文件与IO（三）：利用lseek()创建空洞文件](linux_system/linuxxi_tong_bian_cheng_zhi_wen_jian_yu_io_ff08_sa.md)
        * [linux系统编程之文件与IO（四）：目录访问相关系统调用](linux_system/linuxxi_tong_bian_cheng_zhi_wen_jian_yu_io_ff08_si.md)
+       * linux系统编程之文件与IO（五）：stat（）系统调用获取文件信息
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

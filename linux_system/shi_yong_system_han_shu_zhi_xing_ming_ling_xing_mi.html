@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>選擇函數堆棧幀 | Jason note</title>
+        <title>使用system()函数执行命令行命令简述 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../100_gdb_tips/up-down-select-frame.html" />
+    <link rel="next" href="../assembly/index.html" />
     
     
-    <link rel="prev" href="../100_gdb_tips/set-debug-entry-values.html" />
+    <link rel="prev" href="../linux_system/stdout_&amp;_stderr_&amp;_fflush.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="49.2.8" data-basepath=".." data-revision="Sun Feb 21 2016 04:00:27 GMT+0800 (CST)">
+    <div class="book" data-level="15.22" data-basepath=".." data-revision="Sun Feb 21 2016 04:00:27 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -3933,7 +3933,7 @@
             
         </li>
     
-        <li class="chapter " data-level="15.22" data-path="linux_system/shi_yong_system_han_shu_zhi_xing_ming_ling_xing_mi.html">
+        <li class="chapter active" data-level="15.22" data-path="linux_system/shi_yong_system_han_shu_zhi_xing_ming_ling_xing_mi.html">
             
                 
                     <a href="../linux_system/shi_yong_system_han_shu_zhi_xing_ming_ling_xing_mi.html">
@@ -8582,7 +8582,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="49.2.8" data-path="100_gdb_tips/select-frame.html">
+        <li class="chapter " data-level="49.2.8" data-path="100_gdb_tips/select-frame.html">
             
                 
                     <a href="../100_gdb_tips/select-frame.html">
@@ -10327,72 +10327,81 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E9%81%B8%E6%93%87%E5%87%BD%E6%95%B8%E5%A0%86%E6%A3%A7%E5%B9%80">&#x9078;&#x64C7;&#x51FD;&#x6578;&#x5806;&#x68E7;&#x5E40;</h1>
-<h2 id="%E4%BE%8B%E5%AD%90">&#x4F8B;&#x5B50;</h2>
-<pre><code>#include &lt;stdio.h&gt;
+                        <h1 id="%E4%BD%BF%E7%94%A8system-%E5%87%BD%E6%95%B0%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%91%BD%E4%BB%A4%E7%AE%80%E8%BF%B0">&#x4F7F;&#x7528;system()&#x51FD;&#x6570;&#x6267;&#x884C;&#x547D;&#x4EE4;&#x884C;&#x547D;&#x4EE4;&#x7B80;&#x8FF0;</h1>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;stdlib.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;process.h&gt;</span></span>
+</code></pre>
+<p>&#x51FD;&#x6570;&#x539F;&#x578B;&#xFF1A;int system(const char *command)</p>
+<p>system&#x51FD;&#x6570;&#x53EF;&#x4EE5;&#x8C03;&#x7528;&#x4E00;&#x4E9B;DOS&#x6216;&#x8005;&#x547D;&#x4EE4;&#x884C;&#x547D;&#x4EE4;,&#x6BD4;&#x5982;</p>
+<p>system(&quot;cls&quot;);//&#x6E05;&#x5C4F;,&#x7B49;&#x4E8E;&#x5728;DOS&#x4E0A;&#x4F7F;&#x7528;cls&#x547D;&#x4EE4;</p>
+<p>system(&#x201C;ls -al&#x201D;);//&#x6E05;&#x5C4F;,&#x7B49;&#x4E8E;&#x5728;unix&#x4E0A;&#x4F7F;&#x7528;ls -al&#x547D;&#x4EE4;</p>
+<p>&#x6210;&#x529F;&#x4E86;&#x8FD4;&#x56DE;0 &#x5931;&#x8D25;&#x4E86;&#x8FD4;&#x56DE;-1</p>
+<p>&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF1A;&#x8BE5;&#x51FD;&#x6570;&#x5BF9;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x5904;&#x7406;&#x548C;c&#x4E2D;&#x7684;&#x4E60;&#x60EF;&#x4E00;&#x81F4;&#xFF0C;&#x6BD4;&#x5982;&#x8BF4;&#xFF1A;&#x5982;&#x679C;&#x8F93;&#x51FA;&#x53CD;&#x659C;&#x6760;&#x9700;&#x8981; \
+&#x4F8B;&#x5982;:
+system(&quot;dir c:\windows&quot;);
+&#x6CE8;&#x610F;&#x8F6C;&#x4E49;&#x5B57;&#x7B26;&#x7B49;&#x7684;&#x9650;&#x5236;&#x5C31;&#x53EF;&#x4EE5;&#x4E86;</p>
+<p>system()&#x51FD;&#x6570;&#x529F;&#x80FD;&#x5F3A;&#x5927;&#xFF0C;&#x5F88;&#x591A;&#x4EBA;&#x7528;&#x5374;&#x5BF9;&#x5B83;&#x7684;&#x539F;&#x7406;&#x77E5;&#x4E4B;&#x751A;&#x5C11;&#x5148;&#x770B;linux&#x7248;system&#x51FD;&#x6570;&#x7684;&#x6E90;&#x7801;&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/wait.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;errno.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
 
-int func1(int a)
-{
-        return 2 * a;
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">system</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* cmdstring)</span>
+</span>{
+    <span class="hljs-keyword">pid_t</span> pid;
+    <span class="hljs-keyword">int</span> status;
+
+    <span class="hljs-keyword">if</span> (cmdstring == <span class="hljs-literal">NULL</span>) {
+        <span class="hljs-keyword">return</span> (<span class="hljs-number">1</span>);
+    }
+
+    <span class="hljs-keyword">if</span> ((pid = fork()) &lt; <span class="hljs-number">0</span>) {
+        status = -<span class="hljs-number">1</span>;
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (pid = <span class="hljs-number">0</span>) {
+        execl(<span class="hljs-string">&quot;/bin/sh&quot;</span>, <span class="hljs-string">&quot;sh&quot;</span>, <span class="hljs-string">&quot;-c&quot;</span>, cmdstring, (<span class="hljs-keyword">char</span>*)<span class="hljs-number">0</span>);
+        -<span class="hljs-built_in">exit</span>(<span class="hljs-number">127</span>); <span class="hljs-comment">//&#x5B50;&#x8FDB;&#x7A0B;&#x6B63;&#x5E38;&#x6267;&#x884C;&#x5219;&#x4E0D;&#x4F1A;&#x6267;&#x884C;&#x6B64;&#x8BED;&#x53E5;</span>
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">while</span> (waitpid(pid, &amp;status, <span class="hljs-number">0</span>) &lt; <span class="hljs-number">0</span>) {
+            <span class="hljs-keyword">if</span> (errno != EINTER) {
+                status = -<span class="hljs-number">1</span>;
+                <span class="hljs-keyword">break</span>;
+            }
+        }
+    }
+
+    <span class="hljs-keyword">return</span> status;
 }
-
-int func2(int a)
-{
-        int c = 0;
-        c = 2 * func1(a);
-        return c;
-}
-
-int func3(int a)
-{
-        int c = 0;
-        c = 2 * func2(a);
-        return c;
-}
-
-int main(void)
-{
-        printf(&quot;%d\n&quot;, func3(10));
-        return 0;
-}
-</code></pre><h2 id="%E6%8A%80%E5%B7%A7">&#x6280;&#x5DE7;</h2>
-<p>&#x7528;gdb&#x8ABF;&#x8A66;&#x7A0B;&#x5E8F;&#x6642;&#xFF0C;&#x7576;&#x7A0B;&#x5E8F;&#x66AB;&#x505C;&#x5F8C;&#xFF0C;&#x53EF;&#x4EE5;&#x7528;&#x201C;<code>frame n</code>&#x201D;&#x547D;&#x4EE4;&#x9078;&#x64C7;&#x51FD;&#x6578;&#x5806;&#x68E7;&#x5E40;&#xFF0C;&#x5176;&#x4E2D;<code>n</code>&#x662F;&#x5C64;&#x6578;&#x3002;&#x4EE5;&#x4E0A;&#x9762;&#x7A0B;&#x5E8F;&#x70BA;&#x4F8B;&#xFF1A;  </p>
-<pre><code>(gdb) b test.c:5
-Breakpoint 1 at 0x40053d: file test.c, line 5.
-(gdb) r
-Starting program: /home/nanxiao/test
-
-Breakpoint 1, func1 (a=10) at test.c:5
-5               return 2 * a;
-(gdb) bt
-#0  func1 (a=10) at test.c:5
-#1  0x0000000000400560 in func2 (a=10) at test.c:11
-#2  0x0000000000400586 in func3 (a=10) at test.c:18
-#3  0x000000000040059e in main () at test.c:24
-(gdb) frame 2
-#2  0x0000000000400586 in func3 (a=10) at test.c:18
-18              c = 2 * func2(a);
-</code></pre><p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x7A0B;&#x5E8F;&#x65B7;&#x4F4F;&#x5F8C;&#xFF0C;&#x6700;&#x5167;&#x5C64;&#x7684;&#x51FD;&#x6578;&#x5E40;&#x70BA;&#x7B2C;<code>0</code>&#x5E40;&#x3002;&#x57F7;&#x884C;<code>frame 2</code>&#x547D;&#x4EE4;&#x5F8C;&#xFF0C;&#x7576;&#x524D;&#x7684;&#x5806;&#x68E7;&#x5E40;&#x8B8A;&#x6210;&#x4E86;<code>fun3</code>&#x7684;&#x51FD;&#x6578;&#x5E40;&#x3002;</p>
-<p>&#x4E5F;&#x53EF;&#x4EE5;&#x7528;&#x201C;<code>frame addr</code>&#x201D;&#x547D;&#x4EE4;&#x9078;&#x64C7;&#x51FD;&#x6578;&#x5806;&#x68E7;&#x5E40;&#xFF0C;&#x5176;&#x4E2D;<code>addr</code>&#x662F;&#x5806;&#x68E7;&#x5730;&#x5740;&#x3002;&#x4ECD;&#x4EE5;&#x4E0A;&#x9762;&#x7A0B;&#x5E8F;&#x70BA;&#x4F8B;&#xFF1A;  </p>
-<pre><code>(gdb) frame 2
-#2  0x0000000000400586 in func3 (a=10) at test.c:18
-18              c = 2 * func2(a);
-(gdb) i frame
-Stack level 2, frame at 0x7fffffffe590:
- rip = 0x400586 in func3 (test.c:18); saved rip = 0x40059e
- called by frame at 0x7fffffffe5a0, caller of frame at 0x7fffffffe568
- source language c.
- Arglist at 0x7fffffffe580, args: a=10
- Locals at 0x7fffffffe580, Previous frame&apos;s sp is 0x7fffffffe590
- Saved registers:
-  rbp at 0x7fffffffe580, rip at 0x7fffffffe588
-(gdb) frame 0x7fffffffe568
-#1  0x0000000000400560 in func2 (a=10) at test.c:11
-11              c = 2 * func1(a);
-</code></pre><p>&#x4F7F;&#x7528;&#x201C;<code>i frame</code>&#x201D;&#x547D;&#x4EE4;&#x53EF;&#x4EE5;&#x77E5;&#x9053;<code>0x7fffffffe568</code>&#x662F;<code>func2</code>&#x7684;&#x51FD;&#x6578;&#x5806;&#x68E7;&#x5E40;&#x5730;&#x5740;&#xFF0C;&#x4F7F;&#x7528;&#x201C;<code>frame 0x7fffffffe568</code>&#x201D;&#x53EF;&#x4EE5;&#x5207;&#x63DB;&#x5230;<code>func2</code>&#x7684;&#x51FD;&#x6578;&#x5806;&#x68E7;&#x5E40;&#x3002;</p>
-<p>&#x53C3;&#x898B;<a href="https://sourceware.org/gdb/onlinedocs/gdb/Selection.html#Selection" target="_blank">gdb&#x624B;&#x518A;</a>.</p>
-<h2 id="%E8%B2%A2%E7%8D%BB%E8%80%85">&#x8CA2;&#x737B;&#x8005;</h2>
-<p>nanxiao</p>
+</code></pre>
+<p>&#x5148;&#x5206;&#x6790;&#x4E00;&#x4E0B;&#x539F;&#x7406;&#xFF0C;&#x7136;&#x540E;&#x518D;&#x770B;&#x4E0A;&#x9762;&#x7684;&#x4EE3;&#x7801;&#x5927;&#x5BB6;&#x4F30;&#x8BA1;&#x5C31;&#x80FD;&#x770B;&#x61C2;&#x4E86;&#xFF1A;  </p>
+<p>&#x5F53;system&#x63A5;&#x53D7;&#x7684;&#x547D;&#x4EE4;&#x4E3A;NULL&#x65F6;&#x76F4;&#x63A5;&#x8FD4;&#x56DE;&#xFF0C;&#x5426;&#x5219;fork&#x51FA;&#x4E00;&#x4E2A;&#x5B50;&#x8FDB;&#x7A0B;&#xFF0C;&#x56E0;&#x4E3A;fork&#x5728;&#x4E24;&#x4E2A;&#x8FDB;&#x7A0B;&#xFF1A;&#x7236;&#x8FDB;&#x7A0B;&#x548C;&#x5B50;&#x8FDB;&#x7A0B;&#x4E2D;&#x90FD;&#x8FD4;&#x56DE;&#xFF0C;&#x8FD9;&#x91CC;&#x8981;&#x68C0;&#x67E5;&#x8FD4;&#x56DE;&#x7684;pid&#xFF0C;fork&#x5728;&#x5B50;&#x8FDB;&#x7A0B;&#x4E2D;&#x8FD4;&#x56DE;0&#xFF0C;&#x5728;&#x7236;&#x8FDB;&#x7A0B;&#x4E2D;&#x8FD4;&#x56DE;&#x5B50;&#x8FDB;&#x7A0B;&#x7684;pid&#xFF0C;&#x7236;&#x8FDB;&#x7A0B;&#x4F7F;&#x7528;waitpid&#x7B49;&#x5F85;&#x5B50;&#x8FDB;&#x7A0B;&#x7ED3;&#x675F;&#xFF0C;&#x5B50;&#x8FDB;&#x7A0B;&#x5219;&#x662F;&#x8C03;&#x7528;execl&#x6765;&#x542F;&#x52A8;&#x4E00;&#x4E2A;&#x7A0B;&#x5E8F;&#x4EE3;&#x66FF;&#x81EA;&#x5DF1;&#xFF0C;execl(&quot;/bin/sh&quot;, &quot;sh&quot;, &quot;-c&quot;, cmdstring, (char*)0)&#x662F;&#x8C03;&#x7528;shell&#xFF0C;&#x8FD9;&#x4E2A;shell&#x7684;&#x8DEF;&#x5F84;&#x662F;/bin/sh&#xFF0C;&#x540E;&#x9762;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x90FD;&#x662F;&#x53C2;&#x6570;&#xFF0C;&#x7136;&#x540E;&#x5B50;&#x8FDB;&#x7A0B;&#x5C31;&#x53D8;&#x6210;&#x4E86;&#x4E00;&#x4E2A;shell&#x8FDB;&#x7A0B;&#xFF0C;&#x8FD9;&#x4E2A;shell&#x7684;&#x53C2;&#x6570;
+&#x662F;cmdstring&#xFF0C;&#x5C31;&#x662F;system&#x63A5;&#x53D7;&#x7684;&#x53C2;&#x6570;&#x3002;&#x5728;windows&#x4E2D;&#x7684;shell&#x662F;command&#xFF0C;&#x60F3;&#x5FC5;&#x5927;&#x5BB6;&#x5F88;&#x719F;&#x6089;shell&#x63A5;&#x53D7;&#x547D;&#x4EE4;&#x4E4B;&#x540E;&#x505A;&#x7684;&#x4E8B;&#x4E86;&#x3002;</p>
+<p>&#x5982;&#x679C;&#x4E0A;&#x9762;&#x7684;&#x4F60;&#x6CA1;&#x6709;&#x770B;&#x61C2;&#xFF0C;&#x90A3;&#x6211;&#x518D;&#x89E3;&#x91CA;&#x4E0B;fork&#x7684;&#x539F;&#x7406;&#xFF1A;&#x5F53;&#x4E00;&#x4E2A;&#x8FDB;&#x7A0B;A&#x8C03;&#x7528;fork&#x65F6;&#xFF0C;&#x7CFB;&#x7EDF;&#x5185;&#x6838;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x8FDB;&#x7A0B;B&#xFF0C;&#x5E76;&#x5C06;A&#x7684;&#x5185;&#x5B58;&#x6620;&#x50CF;&#x590D;&#x5236;&#x5230;B&#x7684;&#x8FDB;&#x7A0B;&#x7A7A;&#x95F4;&#x4E2D;&#xFF0C;&#x56E0;&#x4E3A;A&#x548C;B&#x662F;&#x4E00;&#x6837;&#x7684;&#xFF0C;&#x90A3;&#x4E48;&#x4ED6;&#x4EEC;&#x600E;&#x4E48;&#x77E5;&#x9053;&#x81EA;&#x5DF1;&#x662F;&#x7236;&#x8FDB;&#x7A0B;&#x8FD8;&#x662F;&#x5B50;&#x8FDB;&#x7A0B;&#x5462;&#xFF0C;&#x770B;fork&#x7684;&#x8FD4;&#x56DE;&#x503C;&#x5C31;&#x77E5;&#x9053;&#xFF0C;&#x4E0A;&#x9762;&#x4E5F;&#x8BF4;&#x4E86;fork&#x5728;&#x5B50;&#x8FDB;&#x7A0B;&#x4E2D;&#x8FD4;&#x56DE;0&#xFF0C;&#x5728;&#x7236;&#x8FDB;&#x7A0B;&#x4E2D;&#x8FD4;&#x56DE;&#x5B50;&#x8FDB;&#x7A0B;&#x7684;pid&#x3002;</p>
+<p>windows&#x4E2D;&#x7684;&#x60C5;&#x51B5;&#x4E5F;&#x7C7B;&#x4F3C;&#xFF0C;&#x5C31;&#x662F;execl&#x6362;&#x4E86;&#x4E2A;&#x53C8;&#x81ED;&#x53C8;&#x957F;&#x7684;&#x540D;&#x5B57;&#xFF0C;&#x53C2;&#x6570;&#x540D;&#x4E5F;&#x6362;&#x7684;&#x770B;&#x4E86;&#x8BA9;&#x4EBA;&#x53D1;&#x6655;&#x7684;&#xFF0C;&#x6211;&#x5728;MSDN&#x4E2D;&#x627E;&#x5230;&#x4E86;&#x539F;&#x578B;&#xFF0C;&#x7ED9;&#x5927;&#x5BB6;&#x770B;&#x770B;&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-function">HINSTANCE   <span class="hljs-title">ShellExecute</span><span class="hljs-params">(
+               HWND   hwnd,
+               LPCTSTR   lpVerb,
+               LPCTSTR   lpFile,
+               LPCTSTR   lpParameters,
+               LPCTSTR   lpDirectory, 
+               INT   nShowCmd 
+   )</span></span>;
+</code></pre>
+<p>&#x7528;&#x6CD5;&#x89C1;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c">ShellExecute(<span class="hljs-literal">NULL</span>,   <span class="hljs-string">&quot;open&quot;</span>,   <span class="hljs-string">&quot;c:\\a.reg&quot;</span>,   <span class="hljs-literal">NULL</span>,   <span class="hljs-literal">NULL</span>,   SW_SHOWNORMAL);
+</code></pre>
+<p>&#x4F60;&#x4E5F;&#x8BB8;&#x4F1A;&#x5947;&#x602A; ShellExecute&#x4E2D;&#x6709;&#x4E2A;&#x7528;&#x6765;&#x4F20;&#x9012;&#x7236;&#x8FDB;&#x7A0B;&#x73AF;&#x5883;&#x53D8;&#x91CF;&#x7684;&#x53C2;&#x6570; lpDirectory&#xFF0C;linux&#x4E2D;&#x7684; execl&#x5374;&#x6CA1;&#x6709;&#xFF0C;&#x8FD9;&#x662F;&#x56E0;&#x4E3A;execl&#x662F;&#x7F16;&#x8BD1;&#x5668;&#x7684;&#x51FD;&#x6570;&#xFF08;&#x5728;&#x4E00;&#x5B9A;&#x7A0B;&#x5EA6;&#x4E0A;&#x9690;&#x85CF;&#x5177;&#x4F53;&#x7CFB;&#x7EDF;&#x5B9E;&#x73B0;&#xFF09;&#xFF0C;&#x5728;linux&#x4E2D;&#x5B83;&#x4F1A;&#x63A5;&#x7740;&#x4EA7;&#x751F;&#x4E00;&#x4E2A;linux&#x7CFB;&#x7EDF;&#x7684;&#x8C03;&#x7528; execve, &#x539F;&#x578B;&#x89C1;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">execve</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> * file,<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> **argv,<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> **envp)</span></span>;
+</code></pre>
+<p>&#x770B;&#x5230;&#x8FD9;&#x91CC;&#x4F60;&#x5C31;&#x4F1A;&#x660E;&#x767D;&#x4E3A;&#x4EC0;&#x4E48;system&#xFF08;&#xFF09;&#x4F1A;&#x63A5;&#x53D7;&#x7236;&#x8FDB;&#x7A0B;&#x7684;&#x73AF;&#x5883;&#x53D8;&#x91CF;&#xFF0C;&#x4F46;&#x662F;&#x7528;system&#x6539;&#x53D8;&#x73AF;&#x5883;&#x53D8;&#x91CF;&#x540E;&#xFF0C;system&#x4E00;&#x8FD4;&#x56DE;&#x4E3B;&#x51FD;&#x6570;&#x8FD8;&#x662F;&#x6CA1;&#x53D8;&#x3002;&#x539F;&#x56E0;&#x4ECE;system&#x7684;&#x5B9E;&#x73B0;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;&#x5B83;&#x662F;&#x901A;&#x8FC7;&#x4EA7;&#x751F;&#x65B0;&#x8FDB;&#x7A0B;&#x5B9E;&#x73B0;&#x7684;&#xFF0C;&#x4ECE;&#x6211;&#x7684;&#x5206;&#x6790;&#x4E2D;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x7236;&#x8FDB;&#x7A0B;&#x548C;&#x5B50;&#x8FDB;&#x7A0B;&#x95F4;&#x6CA1;&#x6709;&#x8FDB;&#x7A0B;&#x901A;&#x4FE1;&#xFF0C;&#x5B50;&#x8FDB;&#x7A0B;&#x81EA;&#x7136;&#x6539;&#x53D8;&#x4E0D;&#x4E86;&#x7236;&#x8FDB;&#x7A0B;&#x7684;&#x73AF;&#x5883;&#x53D8;&#x91CF;&#xFF0C;DOS&#x65E9;&#x6B7B;&#x7FD8;&#x7FD8;&#x4E86;&#xFF0C;&#x8FD8;&#x662F;&#x73A9;linux&#x5427;&#x3002;</p>
+<p>&#x6CE8;&#xFF1A; linux&#x4E0B;&#x6267;&#x884C;&#x7CFB;&#x7EDF;&#x547D;&#x4EE4;&#x7528;execl&#x51FD;&#x6570;&#xFF1A;</p>
+<p>Linux&#x4E0B;&#x5934;&#x6587;&#x4EF6;</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">execl</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *path, <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *arg, ...)</span></span>;
+</code></pre>
+<p>&#x4F8B;&#x5982;&#xFF1A;
+// &#x6267;&#x884C;/bin&#x76EE;&#x5F55;&#x4E0B;&#x7684;ls, &#x7B2C;&#x4E00;&#x53C2;&#x6570;&#x4E3A;&#x7A0B;&#x5E8F;&#x540D;ls, &#x7B2C;&#x4E8C;&#x4E2A;&#x53C2;&#x6570;&#x4E3A;&quot;-al&quot;, &#x7B2C;&#x4E09;&#x4E2A;&#x53C2;&#x6570;&#x4E3A;&quot;/etc/passwd&quot;</p>
+<pre><code class="lang-c">execl(<span class="hljs-string">&quot;/bin/ls&quot;</span>, <span class="hljs-string">&quot;ls&quot;</span>, <span class="hljs-string">&quot;-al&quot;</span>, <span class="hljs-string">&quot;/etc/passwd&quot;</span>, (<span class="hljs-keyword">char</span> *) <span class="hljs-number">0</span>);
+</code></pre>
 
                     
                     </section>
@@ -10403,10 +10412,10 @@ Stack level 2, frame at 0x7fffffffe590:
         </div>
 
         
-        <a href="../100_gdb_tips/set-debug-entry-values.html" class="navigation navigation-prev " aria-label="Previous page: 打印尾調用堆棧幀信息"><i class="fa fa-angle-left"></i></a>
+        <a href="../linux_system/stdout_&amp;_stderr_&amp;_fflush.html" class="navigation navigation-prev " aria-label="Previous page: stdout &amp; stderr &amp; fflush()"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../100_gdb_tips/up-down-select-frame.html" class="navigation navigation-next " aria-label="Next page: 向上或向下切換函數堆棧幀"><i class="fa fa-angle-right"></i></a>
+        <a href="../assembly/index.html" class="navigation navigation-next " aria-label="Next page: Assembly"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

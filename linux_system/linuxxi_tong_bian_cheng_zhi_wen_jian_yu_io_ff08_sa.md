@@ -1,13 +1,13 @@
-# linux系统编程之文件与IO（三）：利用lseek()创建空洞文件
+# linux系統編程之文件與IO（三）：利用lseek()創建空洞文件
 
 
-一、lseek（）系统调用
+一、lseek（）系統調用
 
-功能说明：
+功能說明：
 
-通过指定相对于开始位置、当前位置或末尾位置的字节数来重定位 curp，这取决于 lseek() 函数中指定的位置
+通過指定相對於開始位置、當前位置或末尾位置的字節數來重定位 curp，這取決於 lseek() 函數中指定的位置
 
-函数原型：
+函數原型：
 ```c
 #include <sys/types.h> 
 #include <unistd.h>
@@ -15,27 +15,27 @@
 
 off_t lseek(int fd, off_t offset, int whence);
 
-参数说明：
+參數說明：
 
 fd：文件描述符
 
-offset：偏移量，该值可正可负，负值为向前移
+offset：偏移量，該值可正可負，負值為向前移
 
-whence：搜索的起始位置，有三个选项：
+whence：搜索的起始位置，有三個選項：
 
-(1).SEEK_SET: 当前位置为文件的开头，新位置为偏移量大小 
-(2).SEEK_CUR: 当前位置为文件指针位置，新位置为当前位置加上偏移量大小 
-(3).SEEK_END: 当前位置为文件结尾，新位置为偏移量大小
+(1).SEEK_SET: 當前位置為文件的開頭，新位置為偏移量大小 
+(2).SEEK_CUR: 當前位置為文件指針位置，新位置為當前位置加上偏移量大小 
+(3).SEEK_END: 當前位置為文件結尾，新位置為偏移量大小
 
 返回值：文件新的偏移值
 
-二、利用lseek（）产生空洞文件（hole）
+二、利用lseek（）產生空洞文件（hole）
 
-说明：
+說明：
 
 The lseek() function allows the file offset to be set beyond the end of the file (but this does not change the size of the file).  If  data  is later written at this point, subsequent  reads of the data in the gap (a "hole") return null bytes ('\0') until data is  actually  written  into the gap.
 
-程序代码：
+程序代碼：
 
 ```c
 #include <stdio.h>
@@ -66,6 +66,6 @@ int main(void)
     return 0;
 }
 ```
-测试结果：
+測試結果：
 
 ![](./images/mickole/10134537-542bb78625084a03aced284b42daa075.png)

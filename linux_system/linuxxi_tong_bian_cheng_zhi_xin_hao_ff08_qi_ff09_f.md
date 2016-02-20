@@ -1,7 +1,7 @@
-# linux系统编程之信号（七）：被信号中断的系统调用和库函数处理方式
+# linux系統編程之信號（七）：被信號中斷的系統調用和庫函數處理方式
 
 
- 一些IO系统调用执行时, 如 read 等待输入期间, 如果收到一个信号,系统将中断read, 转而执行信号处理函数. 当信号处理返回后, 系统遇到了一个问题: 是重新开始这个系统调用, 还是让系统调用失败?早期UNIX系统的做法是, 中断系统调用, 并让系统调用失败, 比如read返回 -1, 同时设置 errno 为 EINTR中断了的系统调用是没有完成的调用, 它的失败是临时性的, 如果再次调用则可能成功, 这并不是真正的失败, 所以要对这种情况进行处理, 典型的方式为:
+ 一些IO系統調用執行時, 如 read 等待輸入期間, 如果收到一個信號,系統將中斷read, 轉而執行信號處理函數. 當信號處理返回後, 系統遇到了一個問題: 是重新開始這個系統調用, 還是讓系統調用失敗?早期UNIX系統的做法是, 中斷系統調用, 並讓系統調用失敗, 比如read返回 -1, 同時設置 errno 為 EINTR中斷了的系統調用是沒有完成的調用, 它的失敗是臨時性的, 如果再次調用則可能成功, 這並不是真正的失敗, 所以要對這種情況進行處理, 典型的方式為:
  
  ```c
  while (1)
@@ -20,7 +20,7 @@
 }
  ```
  
-这样做逻辑比较繁琐, 事实上, 我们可以从信号的角度来解决这个问题,  安装信号的时候, 设置 SA_RESTART属性, 那么当信号处理函数返回后, 被该信号中断的系统调用将自动恢复.
+這樣做邏輯比較繁瑣, 事實上, 我們可以從信號的角度來解決這個問題,  安裝信號的時候, 設置 SA_RESTART屬性, 那麼當信號處理函數返回後, 被該信號中斷的系統調用將自動恢復.
 
 示例程序：
 
@@ -48,8 +48,8 @@ int main(int argc, char **argv)
     action.sa_handler = sig_handler;
     sigemptyset(&action.sa_mask);
     action.sa_flags = 0;
-    /* 版本1:不设置SA_RESTART属性
-     * 版本2:设置SA_RESTART属性 */
+    /* 版本1:不設置SA_RESTART屬性
+     * 版本2:設置SA_RESTART屬性 */
     //action.sa_flags |= SA_RESTART;
 
     sigaction(SIGINT, NULL, &old_action);
@@ -71,20 +71,20 @@ int main(int argc, char **argv)
 }
 ```
 
-当sa_flags不设置：SA_RESTART时：
+當sa_flags不設置：SA_RESTART時：
 
-结果：
+結果：
 
 ![](./images/mickole/15194226-27f5b049479a4698b9b7f69797ee5486.png)
 
-设置后：
+設置後：
 
-当被中断后，重新执行
+當被中斷後，重新執行
 
 ![](./images/mickole/15194227-e6ee0be4187640a38fadd549f82116df.png)
 
 ```c
-man帮助说明：
+man幫助說明：
 
 Interruption of system calls and library functions by signal handlers
        If a signal handler is invoked while a system call or library

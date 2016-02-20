@@ -1,18 +1,18 @@
-# linux系统编程之文件与IO（四）：目录访问相关系统调用
+# linux系統編程之文件與IO（四）：目錄訪問相關係統調用
 
 
-- 1. 目录操作相关的系统调用 
-    - 1.1 mkdir和rmdir系统调用 
-    - 1.1.1 实例 
-    - 1.2 chdir, getcwd系统调用 
-    - 1.2.1 实例 
+- 1. 目錄操作相關的系統調用 
+    - 1.1 mkdir和rmdir系統調用 
+    - 1.1.1 實例 
+    - 1.2 chdir, getcwd系統調用 
+    - 1.2.1 實例 
     - 1.3 opendir, closedir, readdir, 
-    - 1.3.1 实例:递归便利目录
+    - 1.3.1 實例:遞歸便利目錄
     
 
-## 1. 目录操作相关的系统调用
+## 1. 目錄操作相關的系統調用
 
-### 1.1 mkdir和rmdir系统调用
+### 1.1 mkdir和rmdir系統調用
 
 ```c
 filename: mk_rm_dir.c 
@@ -23,7 +23,7 @@ return:
     S    0 
     F    -1 
 note: 
-    mode权限至少要有执行权限。 
+    mode權限至少要有執行權限。 
 ```
 ```c
 #include <unistd.h> 
@@ -32,10 +32,10 @@ return:
     S    0 
     F    -1 
 note: 
-    pathname目录必须是空目录。 
+    pathname目錄必須是空目錄。 
 ```
 
-###   1.1.1 实例
+###   1.1.1 實例
 ```c
 #include <unistd.h>
 #include <sys/stat.h>
@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
     return 0;
 }
 ```
-###  1.2 chdir, getcwd系统调用
+###  1.2 chdir, getcwd系統調用
 
 ```c
 #include <unistd.h> 
@@ -68,11 +68,11 @@ return:
     S    buf 
     F    NULL 
 
-    buf是缓冲地址，size是buf的长度。该缓冲必须有足够的长度以容纳绝对路径名加上一个null终止符。
+    buf是緩衝地址，size是buf的長度。該緩衝必須有足夠的長度以容納絕對路徑名加上一個null終止符。
     
 ```
 
-###     1.2.1 实例
+###     1.2.1 實例
 
 - filename:ch_get_dir.c
 
@@ -93,7 +93,7 @@ int main(void)
     return 0;
 }
 ```
-测试：
+測試：
 
 ```c
 [qtlldr@qtldr editing]$ ./ch_get_dir 
@@ -110,23 +110,23 @@ now the directory is /tmp
 #include <dirent.h> 
 DIR *opendir(const char *dirname); 
 return: 
-    S    DIR指针 
+    S    DIR指針 
     F    NULL 
 note: 
-    DIR是一种目录结构，类似FILE。 
+    DIR是一種目錄結構，類似FILE。 
 
 #include <sys/types.h> 
 #include <dirent.h> 
 struct dirent *readir(DIR *dirp); 
 return: 
-    S    一个指向保存目录流下一个目录项的dirent指针 
+    S    一個指向保存目錄流下一個目錄項的dirent指針 
     F    NULL 
 note: 
     struct dirent { 
-        char    d_name[NAME + 1]; /* \0结尾的文件名 */ 
+        char    d_name[NAME + 1]; /* \0結尾的文件名 */ 
     } 
-    到达目录尾或出错返回NULL，但是到达目录尾不会设置errno，出错则设置。 
-    如果在readir的同时有其他进程在目录中创建或者删除文件爱你，readdir不保证能列处该目录中所有文件。
+    到達目錄尾或出錯返回NULL，但是到達目錄尾不會設置errno，出錯則設置。 
+    如果在readir的同時有其他進程在目錄中創建或者刪除文件愛你，readdir不保證能列處該目錄中所有文件。
 
 #include <sys/types.h> 
 #include <dirent.h> 
@@ -136,28 +136,28 @@ return:
     F    -1 
 ```
 
-###   1.3.1 实例:递归便利目录
+###   1.3.1 實例:遞歸便利目錄
 
 ```c
-filename:help.txt 帮助文档 
-            本程序只为学习linux目录操作而写 
+filename:help.txt 幫助文檔 
+            本程序只為學習linux目錄操作而寫 
 printdir 
-    输出目录文件或者统计目录中的文件数目 
-语法： 
+    輸出目錄文件或者統計目錄中的文件數目 
+語法： 
     printdir [option] <files...> 
-选项： 
+選項： 
     -l 
-        输出目录下的文件名 
+        輸出目錄下的文件名 
     -c 
-        统计目录下的文件 
+        統計目錄下的文件 
     -d n 
-        指定最大层次，最大为30 
-默认行为： 
-    如果没有指定选项，那么只输出该目录下的文件名 
+        指定最大層次，最大為30 
+默認行為： 
+    如果沒有指定選項，那麼只輸出該目錄下的文件名 
 BUG: 
-    -l与 -c选项不能同时使用，如果同时使用统计出错。(以后会修正） 
+    -l與 -c選項不能同時使用，如果同時使用統計出錯。(以後會修正） 
 
-            本程序只为学习linux目录操作而写 
+            本程序只為學習linux目錄操作而寫 
 ```
 
 - filename:printdir.c
@@ -172,8 +172,8 @@ BUG:
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#define INDENT_DEPTH    (4) /* 列举文件时的缩进数 */
-#define DEPTH_MAX (30)    /* 递归便利的最大层次 */
+#define INDENT_DEPTH    (4) /* 列舉文件時的縮進數 */
+#define DEPTH_MAX (30)    /* 遞歸便利的最大層次 */
 #define HELPFILE ("help.txt")
 typedef int count_t;
 struct nfiletype {
@@ -187,8 +187,8 @@ struct nfiletype {
     count_t    nlink;
     count_t ntotol;
     count_t nunknow;
-};/*记录各个类型文件的数目*/
-int    DEPTH = 20; /* 递归层级限制 */
+};/*記錄各個類型文件的數目*/
+int    DEPTH = 20; /* 遞歸層級限制 */
 int idepth_count = 1;
 int idepth_print = 1;
 
@@ -239,7 +239,7 @@ int main(int argc, char **argv)
                 return 0;
         }
     }
-    /* 如果没有选项，那么默认是打印目录 */
+    /* 如果沒有選項，那麼默認是打印目錄 */
     if (!print_flag && !count_flag)
         print_flag = 1;
     for( ; optind < argc; optind++) {
@@ -267,12 +267,12 @@ int main(int argc, char **argv)
     return 0;
 }
 /*
- *function: 对该目录下的文件类型进行统计
+ *function: 對該目錄下的文件類型進行統計
  * input arg:
- *        pathname:目录名指针
- *        nfile:记录文件类型数目的结构体指针
+ *        pathname:目錄名指針
+ *        nfile:記錄文件類型數目的結構體指針
  * return：
- *        记录文件类型数目的结构体指针
+ *        記錄文件類型數目的結構體指針
  */
 
 static struct nfiletype *count_files(const char *pathname,
@@ -282,7 +282,7 @@ static struct nfiletype *count_files(const char *pathname,
     struct dirent *entry;
     struct stat    statbuf;
     //printf("DEBUG-- in count_files -- %s\n", pathname);
-    /* 层次控制 */    
+    /* 層次控制 */    
     if (idepth_count > DEPTH)
         return NULL;
     idepth_count++;
@@ -292,7 +292,7 @@ static struct nfiletype *count_files(const char *pathname,
     }
     chdir(pathname);
     while ((entry = readdir(dp)) != NULL) {
-        /* 跳过 . 和 .. */
+        /* 跳過 . 和 .. */
         if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
             continue;
         /* 取得文件信息 */
@@ -300,8 +300,8 @@ static struct nfiletype *count_files(const char *pathname,
             fprintf(stderr, "can not test the %s's type\n", entry->d_name);
             return NULL;
         }
-        /* 统计文件数目 */
-        if (S_ISDIR(statbuf.st_mode)) { /* 是目录就递归吧 */
+        /* 統計文件數目 */
+        if (S_ISDIR(statbuf.st_mode)) { /* 是目錄就遞歸吧 */
             //printf("DEBUG -- directory %s\n", entry->d_name);
             count_files(entry->d_name, nfile);
             nfile->ndir++;
@@ -328,9 +328,9 @@ static struct nfiletype *count_files(const char *pathname,
     return nfile;
  }
  /*
-nblock; *function:列出目录中的文件
+nblock; *function:列出目錄中的文件
 nlink;  *input arg:
-ntotol; *        pathname: 目录名
+ntotol; *        pathname: 目錄名
  *return:
  *        void
  */
@@ -340,7 +340,7 @@ static void   printdir(const char *pathname, int indent)
     DIR *dp;
     struct dirent *entry;
     struct stat    statbuf;
-    /* 层次控制 */    
+    /* 層次控制 */    
     if (idepth_print > DEPTH)
         return ;
     idepth_print++;
@@ -350,14 +350,14 @@ static void   printdir(const char *pathname, int indent)
     }
     chdir(pathname);
     while ((entry = readdir(dp)) != NULL) {
-        /* 跳过 . 和 .. */
+        /* 跳過 . 和 .. */
         if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
             continue;
         if (lstat(entry->d_name, &statbuf) == -1) {
             fprintf(stderr, "can not test the %s's type\n", entry->d_name);
             return ;
         }
-        if (S_ISDIR(statbuf.st_mode)) { /* 是目录就递归吧 */
+        if (S_ISDIR(statbuf.st_mode)) { /* 是目錄就遞歸吧 */
             printf("%*s%s/\n", indent," ",  entry->d_name);
             printdir(entry->d_name, indent + INDENT_DEPTH);
         }

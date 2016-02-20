@@ -1,11 +1,11 @@
-# linux系统编程：setjmp和longjmp函数用法
+# linux系統編程：setjmp和longjmp函數用法
 
 
 ```c
 #include <stdio.h>
 #include <setjmp.h>
 
-//jmp_buf：数组，保存栈信息即运行环境
+//jmp_buf：數組，保存棧信息即運行環境
 jmp_buf buf;
 
 double Divide(double a, double b)
@@ -16,9 +16,9 @@ double Divide(double a, double b)
         return a / b;
     }
 }
-//setjmp保存当前栈信息，成功返回0，当执行到longjmp时，
-//恢复栈信息即跳转到setjmp位置重新执行setjmp
-//且此次返回值根据longjmp函数参数给定
+//setjmp保存當前棧信息，成功返回0，當執行到longjmp時，
+//恢復棧信息即跳轉到setjmp位置重新執行setjmp
+//且此次返回值根據longjmp函數參數給定
 int main(void)
 {
     int ret;
@@ -36,15 +36,15 @@ int main(void)
 }
 ```
 
-运行结果：
+運行結果：
 
 division ...
 
 divisiong by zero
 
-其实上次错误处理模式已经是c++异常处理雏形
+其實上次錯誤處理模式已經是c++異常處理雛形
 
-上述相当于：
+上述相當於：
 
 ```c
 #include <iostream>
@@ -73,4 +73,4 @@ int main(void)
 }
 ```
 
-运行结果同上
+運行結果同上

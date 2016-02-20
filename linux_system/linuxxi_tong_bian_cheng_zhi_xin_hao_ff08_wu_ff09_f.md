@@ -1,8 +1,8 @@
-# linux系统编程之信号（五）：信号集操作函数，信号阻塞与未决
+# linux系統編程之信號（五）：信號集操作函數，信號阻塞與未決
 
 
-## 一，信号集及相关操作函数
-信号集被定义为一种数据类型：
+## 一，信號集及相關操作函數
+信號集被定義為一種數據類型：
 
 ```c
 typedef struct {
@@ -10,7 +10,7 @@ typedef struct {
 } sigset_t
 ```
 
-信号集用来描述信号的集合，每个信号占用一位（64位）。Linux所支持的所有信号可以全部或部分的出现在信号集中，主要与信号阻塞相关函数配合使用。下面是为信号集操作定义的相关函数：
+信號集用來描述信號的集合，每個信號佔用一位（64位）。Linux所支持的所有信號可以全部或部分的出現在信號集中，主要與信號阻塞相關函數配合使用。下面是為信號集操作定義的相關函數：
 
 ```c
 #include <signal.h>
@@ -27,15 +27,15 @@ int sigismember(const sigset_t *set, int signum)；
 ```
  
 ```
-sigemptyset(sigset_t *set)初始化由set指定的信号集，信号集里面的所有信号被清空，相当于64为置0；
+sigemptyset(sigset_t *set)初始化由set指定的信號集，信號集裡面的所有信號被清空，相當於64為置0；
 
-sigfillset(sigset_t *set)调用该函数后，set指向的信号集中将包含linux支持的64种信号，相当于64为都置1；
+sigfillset(sigset_t *set)調用該函數後，set指向的信號集中將包含linux支持的64種信號，相當於64為都置1；
 
-sigaddset(sigset_t *set, int signum)在set指向的信号集中加入signum信号，相当于将给定信号所对应的位置1；
+sigaddset(sigset_t *set, int signum)在set指向的信號集中加入signum信號，相當於將給定信號所對應的位置1；
 
-sigdelset(sigset_t *set, int signum)在set指向的信号集中删除signum信号，相当于将给定信号所对应的位置0；
+sigdelset(sigset_t *set, int signum)在set指向的信號集中刪除signum信號，相當於將給定信號所對應的位置0；
 
-sigismember(const sigset_t *set, int signum)判定信号signum是否在set指向的信号集中，相当于检查给定信号所对应的位是0还是1。
+sigismember(const sigset_t *set, int signum)判定信號signum是否在set指向的信號集中，相當於檢查給定信號所對應的位是0還是1。
 ```
 
 示例程序：
@@ -73,15 +73,15 @@ void print_sigset(sigset_t *set)
 }
 ```
 
-结果：
+結果：
 
 ![](./images/mickole/15154939-5338c18bf100462facfc7389b4cbd62b.png)
 
-可以看到添加信号的相应位置1.
+可以看到添加信號的相應位置1.
 
-## 二，信号阻塞与未决
+## 二，信號阻塞與未決
 
-man帮助说明：
+man幫助說明：
 
 ```c
 Signal mask and pending signals
@@ -96,16 +96,16 @@ Signal mask and pending signals
        to manipulate the signal mask.
 ```
 
-执行信号的处理动作称为信号递达（Delivery），信号从产生到递达之间的状态，称为信号未决（Pending）。进程可以选择阻塞（Block）某个信号。被阻塞的信号产生时将保持在未决状态，直到进程解除对此信号的阻塞，才执行递达的动作。注意，阻塞和忽略是不同的，只要信号被阻塞就不会递达，而忽略是在递达之后可选的一种处理动作。每个进程都有一个用来描述哪些信号递送到进程时将被阻塞的信号集，该信号集中的所有信号在递送到进程后都将被阻塞。
-信号在内核中的表示可以看作是这样的：
+執行信號的處理動作稱為信號遞達（Delivery），信號從產生到遞達之間的狀態，稱為信號未決（Pending）。進程可以選擇阻塞（Block）某個信號。被阻塞的信號產生時將保持在未決狀態，直到進程解除對此信號的阻塞，才執行遞達的動作。注意，阻塞和忽略是不同的，只要信號被阻塞就不會遞達，而忽略是在遞達之後可選的一種處理動作。每個進程都有一個用來描述哪些信號遞送到進程時將被阻塞的信號集，該信號集中的所有信號在遞送到進程後都將被阻塞。
+信號在內核中的表示可以看作是這樣的：
 ![](./images/mickole/15154939-8bed754413d541949f099cf6c1dc2fc5.png)
 
-看图说话：
-block集（阻塞集、屏蔽集）：一个进程所要屏蔽的信号，在对应要屏蔽的信号位置1
-pending集（未决信号集）：如果某个信号在进程的阻塞集中，则也在未决集中对应位置1，表示该信号不能被递达，不会被处理
-handler（信号处理函数集）：表示每个信号所对应的信号处理函数，当信号不在未决集中时，将被调用
+看圖說話：
+block集（阻塞集、屏蔽集）：一個進程所要屏蔽的信號，在對應要屏蔽的信號位置1
+pending集（未決信號集）：如果某個信號在進程的阻塞集中，則也在未決集中對應位置1，表示該信號不能被遞達，不會被處理
+handler（信號處理函數集）：表示每個信號所對應的信號處理函數，當信號不在未決集中時，將被調用
  
-以下是与信号阻塞及未决相关的函数操作：
+以下是與信號阻塞及未決相關的函數操作：
 
 ```c
 #include <signal.h>
@@ -117,17 +117,17 @@ int sigpending(sigset_t *set));
 int sigsuspend(const sigset_t *mask))；
 ```
  
-- sigprocmask()函数能够根据参数how来实现对信号集的操作，操作主要有三种：
-    - SIG_BLOCK 在进程当前阻塞信号集中添加set指向信号集中的信号，相当于：mask=mask|set
-    - SIG_UNBLOCK 如果进程阻塞信号集中包含set指向信号集中的信号，则解除对该信号的阻塞，相当于：mask=mask|~set
-    - SIG_SETMASK 更新进程阻塞信号集为set指向的信号集，相当于mask=set
+- sigprocmask()函數能夠根據參數how來實現對信號集的操作，操作主要有三種：
+    - SIG_BLOCK 在進程當前阻塞信號集中添加set指向信號集中的信號，相當於：mask=mask|set
+    - SIG_UNBLOCK 如果進程阻塞信號集中包含set指向信號集中的信號，則解除對該信號的阻塞，相當於：mask=mask|~set
+    - SIG_SETMASK 更新進程阻塞信號集為set指向的信號集，相當於mask=set
     
 
-sigpending(sigset_t *set))获得当前已递送到进程，却被阻塞的所有信号，在set指向的信号集中返回结果。
+sigpending(sigset_t *set))獲得當前已遞送到進程，卻被阻塞的所有信號，在set指向的信號集中返回結果。
 
-sigsuspend(const sigset_t *mask))用于在接收到某个信号之前, 临时用mask替换进程的信号掩码, 并暂停进程执行，直到收到信号为止。
+sigsuspend(const sigset_t *mask))用於在接收到某個信號之前, 臨時用mask替換進程的信號掩碼, 並暫停進程執行，直到收到信號為止。
 
-sigsuspend 返回后将恢复调用之前的信号掩码。信号处理函数完成后，进程将继续执行。该系统调用始终返回-1，并将errno设置为EINTR。
+sigsuspend 返回後將恢復調用之前的信號掩碼。信號處理函數完成後，進程將繼續執行。該系統調用始終返回-1，並將errno設置為EINTR。
 
 示例程序：
 
@@ -177,7 +177,7 @@ int main(int argc, char *argv[])
     if (signal(SIGQUIT, handler) == SIG_ERR)
         ERR_EXIT("signal error");
 
-    sigprocmask(SIG_BLOCK, &bset, NULL);//将信号加入进程阻塞集中
+    sigprocmask(SIG_BLOCK, &bset, NULL);//將信號加入進程阻塞集中
     for (;;)
     {
         sigpending(&pset);
@@ -201,12 +201,12 @@ void handler(int sig)
 }
 ```
 
-结果：
+結果：
 
 
 ![](./images/mickole/15154940-680c08c9e5d84c6fa2648c067be4cd70.png)
 
-说明：程序首先将SIGINT信号加入进程阻塞集（屏蔽集）中，一开始并没有发送SIGINT信号，所以进程未决集中没有处于未决态的信号，当我们连续按下ctrl+c时，向进程发送SIGINT信号，由于SIGINT信号处于进程的阻塞集中，所以发送的SIGINT信号不能递达，也是就是处于未决状态，所以当我打印未决集合时发现SIGINT所对应的位为1，现在我们按下ctrl+\，发送SIGQUIT信号，由于此信号并没被进程阻塞，所以SIGQUIT信号直接递达，执行对应的处理函数，在该处理函数中解除进程对SIGINT信号的阻塞，所以之前发送的SIGINT信号递达了，执行对应的处理函数，但由于SIGINT信号是不可靠信号，不支持排队，所以最终只有一个信号递达。
+說明：程序首先將SIGINT信號加入進程阻塞集（屏蔽集）中，一開始並沒有發送SIGINT信號，所以進程未決集中沒有處於未決態的信號，當我們連續按下ctrl+c時，向進程發送SIGINT信號，由於SIGINT信號處於進程的阻塞集中，所以發送的SIGINT信號不能遞達，也是就是處於未決狀態，所以當我打印未決集合時發現SIGINT所對應的位為1，現在我們按下ctrl+\，發送SIGQUIT信號，由於此信號並沒被進程阻塞，所以SIGQUIT信號直接遞達，執行對應的處理函數，在該處理函數中解除進程對SIGINT信號的阻塞，所以之前發送的SIGINT信號遞達了，執行對應的處理函數，但由於SIGINT信號是不可靠信號，不支持排隊，所以最終只有一個信號遞達。
 
 ```c
 #include <signal.h>
@@ -216,9 +216,9 @@ void handler(int sig)
 #include <string.h>
 #include <unistd.h>
 
-/* 版本1, 可靠信号将被递送多次 */
+/* 版本1, 可靠信號將被遞送多次 */
 #define MYSIGNAL SIGRTMIN+5
-/* 版本2, 不可靠信号只被递送一次 */
+/* 版本2, 不可靠信號只被遞送一次 */
 //#define MYSIGNAL SIGTERM
 
 void sig_handler(int signum)
@@ -231,22 +231,22 @@ int main(int argc, char **argv)
     sigset_t block, pending;
     int sig, flag;
 
-    /* 设置信号的handler */
+    /* 設置信號的handler */
     signal(MYSIGNAL, sig_handler);
 
-    /* 屏蔽此信号 */
+    /* 屏蔽此信號 */
     sigemptyset(&block);
     sigaddset(&block, MYSIGNAL);
     printf("block signal\n");
     sigprocmask(SIG_BLOCK, &block, NULL);
 
-    /* 发两次信号, 看信号将会被触发多少次 */
+    /* 發兩次信號, 看信號將會被觸發多少次 */
     printf("---> send a signal --->\n");
     kill(getpid(), MYSIGNAL);
     printf("---> send a signal --->\n");
     kill(getpid(), MYSIGNAL);
 
-    /* 检查当前的未决信号 */
+    /* 檢查當前的未決信號 */
     flag = 0;
     sigpending(&pending);
     for (sig = 1; sig < NSIG; sig++) {
@@ -259,11 +259,11 @@ int main(int argc, char **argv)
         printf("no pending signal\n");
     }
 
-    /* 解除此信号的屏蔽, 未决信号将被递送 */
+    /* 解除此信號的屏蔽, 未決信號將被遞送 */
     printf("unblock signal\n");
     sigprocmask(SIG_UNBLOCK, &block, NULL);
 
-    /* 再次检查未决信号 */
+    /* 再次檢查未決信號 */
     flag = 0;
     sigpending(&pending);
     for (sig = 1; sig < NSIG; sig++) {
@@ -280,14 +280,14 @@ int main(int argc, char **argv)
 }
 ```
 
-结果：
+結果：
 
 
 
 ![](./images/mickole/15154941-796b58cf14884f3bb3d6fc9277641cbf.png)
 
-两次执行结果不同：第一次连续发送两次不可靠信号，最后解除阻塞时，只有一个递达，说明不可靠信号不支持排队。
+兩次執行結果不同：第一次連續發送兩次不可靠信號，最後解除阻塞時，只有一個遞達，說明不可靠信號不支持排隊。
 
-第二次执行时，连续两次发送可靠信号，解除阻塞后，都递达，说明可靠信号支持排队。
+第二次執行時，連續兩次發送可靠信號，解除阻塞後，都遞達，說明可靠信號支持排隊。
 
-ok，这节就写到这吧
+ok，這節就寫到這吧

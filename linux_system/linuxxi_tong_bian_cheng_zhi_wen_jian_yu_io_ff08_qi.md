@@ -1,22 +1,22 @@
-# linux系统编程之文件与IO（七）：时间函数小结
+# linux系統編程之文件與IO（七）：時間函數小結
 
 
-从系统时钟获取时间方式
+從系統時鐘獲取時間方式
 
-time函数介绍：
-- 1、函数名称: localtime
-- 2、函数名称: asctime
-- 3、函数名称: ctime
-- 4、函数名称: difftime
-- 5、函数名称: gmtime
-- 6、函数名称: time
-- 7、函数名称: tzset
+time函數介紹：
+- 1、函數名稱: localtime
+- 2、函數名稱: asctime
+- 3、函數名稱: ctime
+- 4、函數名稱: difftime
+- 5、函數名稱: gmtime
+- 6、函數名稱: time
+- 7、函數名稱: tzset
 
 
 
-time.h是C/C++中的日期和时间头文件。
+time.h是C/C++中的日期和時間頭文件。
 
-代码示例
+代碼示例
 
 ```c
 #include <stdio.h>
@@ -25,30 +25,30 @@ time.h是C/C++中的日期和时间头文件。
 int main(void)
 {
     time_t timer = time(NULL);
-    printf("ctime is %s\n", ctime(&timer)); //得到日历时间
+    printf("ctime is %s\n", ctime(&timer)); //得到日曆時間
     return 0;
 }
 ```
 
-从系统时钟获取时间方式
+從系統時鐘獲取時間方式
 
 ```c
 time_t time(time_t* timer)
 ```
 
-得到从标准计时点（一般是1970年1月1日午夜）到当前时间的秒数。
+得到從標準計時點（一般是1970年1月1日午夜）到當前時間的秒數。
 ```c
 clock_t clock(void)
 ```
-得到从程序启动到此次函数调用时累计的毫秒数。
+得到從程序啟動到此次函數調用時累計的毫秒數。
 
-### time函数介绍
+### time函數介紹
 
-- 1、函数名称: localtime
+- 1、函數名稱: localtime
 
-函数原型: struct tm *localtime(const time_t *timer)<br>
-函数功能: 返回一个以tm结构表达的机器时间信息<br>
-函数返回: 以tm结构表达的时间，结构tm定义如下:<br>
+函數原型: struct tm *localtime(const time_t *timer)<br>
+函數功能: 返回一個以tm結構表達的機器時間信息<br>
+函數返回: 以tm結構表達的時間，結構tm定義如下:<br>
 
 ```c
 struct tm {
@@ -64,9 +64,9 @@ struct tm {
 };
 ```
 
-参数说明: timer-使用time()函数获得的机器时间
+參數說明: timer-使用time()函數獲得的機器時間
 
-所属文件: `<time.h>`
+所屬文件: `<time.h>`
 
 ```c
 #include <time.h>
@@ -84,20 +84,20 @@ int main()
     return 0;
 }
 ```
-- 2、函数名称: asctime
+- 2、函數名稱: asctime
 
-函数原型: char* asctime(struct tm * ptr)<br>
-函数功能: 得到机器时间(日期时间转换为ASCII码)<br>
-函数返回: 返回的时间字符串格式为：星期,月,日,小时：分：秒,年<br>
-参数说明: 结构指针ptr应通过函数localtime()和gmtime()得到<br>
+函數原型: char* asctime(struct tm * ptr)<br>
+函數功能: 得到機器時間(日期時間轉換為ASCII碼)<br>
+函數返回: 返回的時間字符串格式為：星期,月,日,小時：分：秒,年<br>
+參數說明: 結構指針ptr應通過函數localtime()和gmtime()得到<br>
 
-- 3、函数名称: ctime
+- 3、函數名稱: ctime
 
-函数原型: char *ctime(long time)<br>
-函数功能: 得到日历时间<br>
-函数返回: 返回字符串格式：星期,月,日,小时:分:秒,年<br>
-参数说明: time-该参数应由函数time获得<br>
-所属文件: `<time.h>`
+函數原型: char *ctime(long time)<br>
+函數功能: 得到日曆時間<br>
+函數返回: 返回字符串格式：星期,月,日,小時:分:秒,年<br>
+參數說明: time-該參數應由函數time獲得<br>
+所屬文件: `<time.h>`
 
 ```c
 #include <stdio.h>
@@ -112,14 +112,14 @@ int main()
     return 0;
 }
 ```
-- 4、函数名称: difftime
+- 4、函數名稱: difftime
 
 
-函数原型: double difftime(time_t time2, time_t time1)<br>
-函数功能: 得到两次机器时间差，单位为秒<br>
-函数返回: 时间差，单位为秒<br>
-参数说明: time1-机器时间一,time2-机器时间二.该参数应使用time函数获得<br>
-所属文件: `<time.h>`
+函數原型: double difftime(time_t time2, time_t time1)<br>
+函數功能: 得到兩次機器時間差，單位為秒<br>
+函數返回: 時間差，單位為秒<br>
+參數說明: time1-機器時間一,time2-機器時間二.該參數應使用time函數獲得<br>
+所屬文件: `<time.h>`
 
 
 ```c
@@ -142,13 +142,13 @@ int main()
 }
 ```
 
-- 5、函数名称: gmtime
+- 5、函數名稱: gmtime
 
-函数原型: struct tm *gmtime(time_t *time)<br>
-函数功能: 得到以结构tm表示的时间信息<br>
-函数返回: 以结构tm表示的时间信息指针<br>
-参数说明: time-用函数time()得到的时间信息<br>
-所属文件: `<time.h>`
+函數原型: struct tm *gmtime(time_t *time)<br>
+函數功能: 得到以結構tm表示的時間信息<br>
+函數返回: 以結構tm表示的時間信息指針<br>
+參數說明: time-用函數time()得到的時間信息<br>
+所屬文件: `<time.h>`
 
 ```c
 #include <stdio.h>
@@ -175,13 +175,13 @@ int main()
 }
 ```
 
-- 6、函数名称: time
+- 6、函數名稱: time
 
-函数原型: time_t time(time_t *timer)<br>
-函数功能: 得到机器的日历时间或者设置日历时间<br>
-函数返回: 机器日历时间<br>
-参数说明: timer=NULL时得到机器日历时间，timer=时间数值时，用于设置日历时间，time_t是一个long类型<br>
-所属文件: `<time.h>`
+函數原型: time_t time(time_t *timer)<br>
+函數功能: 得到機器的日曆時間或者設置日曆時間<br>
+函數返回: 機器日曆時間<br>
+參數說明: timer=NULL時得到機器日曆時間，timer=時間數值時，用於設置日曆時間，time_t是一個long類型<br>
+所屬文件: `<time.h>`
 
 ```c
 #include <time.h>
@@ -196,13 +196,13 @@ int main()
     return 0;
 }
 ```
-- 7、函数名称: tzset
+- 7、函數名稱: tzset
 
-函数原型: void tzset(void)<br>
-函数功能: UNIX兼容函数，用于得到时区，在DOS环境下无用途<br>
-函数返回:<br>
-参数说明:<br>
-所属文件: `<time.h>`
+函數原型: void tzset(void)<br>
+函數功能: UNIX兼容函數，用於得到時區，在DOS環境下無用途<br>
+函數返回:<br>
+參數說明:<br>
+所屬文件: `<time.h>`
 
 ```c
 #include <time.h>

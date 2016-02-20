@@ -1,4 +1,4 @@
-# linux系统编程之信号（六）：信号发送函数sigqueue和信号安装函数sigaction
+# linux系統編程之信號（六）：信號發送函數sigqueue和信號安裝函數sigaction
 
 
 ## 一，sigaction()
@@ -8,11 +8,11 @@
 int sigaction(int signum,const struct sigaction *act,struct sigaction *oldact));
 ```
 
-sigaction函数用于改变进程接收到特定信号后的行为。该函数的第一个参数为信号的值，可以为除SIGKILL及SIGSTOP外的任何一个特定有效的信号（为这两个信号定义自己的处理函数，将导致信号安装错误）。第二个参数是指向结构sigaction的一个实例的指针，在结构sigaction的实例中，指定了对特定信号的处理，可以为空，进程会以缺省方式对信号处理；第三个参数oldact指向的对象用来保存原来对相应信号的处理，可指定oldact为NULL。如果把第二、第三个参数都设为NULL，那么该函数可用于检查信号的有效性。
+sigaction函數用於改變進程接收到特定信號後的行為。該函數的第一個參數為信號的值，可以為除SIGKILL及SIGSTOP外的任何一個特定有效的信號（為這兩個信號定義自己的處理函數，將導致信號安裝錯誤）。第二個參數是指向結構sigaction的一個實例的指針，在結構sigaction的實例中，指定了對特定信號的處理，可以為空，進程會以缺省方式對信號處理；第三個參數oldact指向的對象用來保存原來對相應信號的處理，可指定oldact為NULL。如果把第二、第三個參數都設為NULL，那麼該函數可用於檢查信號的有效性。
 
-第二个参数最为重要，其中包含了对指定信号的处理、信号所传递的信息、信号处理函数执行过程中应屏蔽掉哪些函数等等。
+第二個參數最為重要，其中包含了對指定信號的處理、信號所傳遞的信息、信號處理函數執行過程中應屏蔽掉哪些函數等等。
 
-sigaction结构定义如下：
+sigaction結構定義如下：
 
 ```c
 struct sigaction {
@@ -25,22 +25,22 @@ struct sigaction {
     void (*sa_restorer)(void)；
 }
 ```
-其中，sa_restorer，已过时，POSIX不支持它，不应再被使用。
+其中，sa_restorer，已過時，POSIX不支持它，不應再被使用。
 
-1、联合数据结构中的两个元素_sa_handler以及*_sa_sigaction指定信号关联函数，即用户指定的信号处理函数。除了可以是用户自定义的处理函数外，还可以为SIG_DFL(采用缺省的处理方式)，也可以为SIG_IGN（忽略信号）。
+1、聯合數據結構中的兩個元素_sa_handler以及*_sa_sigaction指定信號關聯函數，即用戶指定的信號處理函數。除了可以是用戶自定義的處理函數外，還可以為SIG_DFL(採用缺省的處理方式)，也可以為SIG_IGN（忽略信號）。
 
-2、由_sa_handler指定的处理函数只有一个参数，即信号值，所以信号不能传递除信号值之外的任何信息；由_sa_sigaction是指定的信号处理函数带有三个参数，是为实时信号而设的（当然同样支持非实时信号），它指定一个3参数信号处理函数。第一个参数为信号值，第三个参数没有使用（posix没有规范使用该参数的标准），第二个参数是指向siginfo_t结构的指针，结构中包含信号携带的数据值，参数所指向的结构如下：
+2、由_sa_handler指定的處理函數只有一個參數，即信號值，所以信號不能傳遞除信號值之外的任何信息；由_sa_sigaction是指定的信號處理函數帶有三個參數，是為實時信號而設的（當然同樣支持非實時信號），它指定一個3參數信號處理函數。第一個參數為信號值，第三個參數沒有使用（posix沒有規範使用該參數的標準），第二個參數是指向siginfo_t結構的指針，結構中包含信號攜帶的數據值，參數所指向的結構如下：
 
 ```c
 typedef struct siginfo_t {
-    int si_signo;//信号编号
-    int si_errno;//如果为非零值则错误代码与之关联
-    int si_code;//说明进程如何接收信号以及从何处收到
-    pid_t si_pid;//适用于SIGCHLD，代表被终止进程的PID
-    pid_t si_uid;//适用于SIGCHLD,代表被终止进程所拥有进程的UID
-    int si_status;//适用于SIGCHLD，代表被终止进程的状态
-    clock_t si_utime;//适用于SIGCHLD，代表被终止进程所消耗的用户时间
-    clock_t si_stime;//适用于SIGCHLD，代表被终止进程所消耗系统的时间
+    int si_signo;//信號編號
+    int si_errno;//如果為非零值則錯誤代碼與之關聯
+    int si_code;//說明進程如何接收信號以及從何處收到
+    pid_t si_pid;//適用於SIGCHLD，代表被終止進程的PID
+    pid_t si_uid;//適用於SIGCHLD,代表被終止進程所擁有進程的UID
+    int si_status;//適用於SIGCHLD，代表被終止進程的狀態
+    clock_t si_utime;//適用於SIGCHLD，代表被終止進程所消耗的用戶時間
+    clock_t si_stime;//適用於SIGCHLD，代表被終止進程所消耗系統的時間
     sigval_t si_value;
     int si_int;
     void* si_ptr;
@@ -50,7 +50,7 @@ typedef struct siginfo_t {
 };
 ```
 
-siginfo_t结构中的联合数据成员确保该结构适应所有的信号，比如对于实时信号来说，则实际采用下面的结构形式：
+siginfo_t結構中的聯合數據成員確保該結構適應所有的信號，比如對於實時信號來說，則實際採用下面的結構形式：
 
 ```c
 typedef struct {
@@ -62,7 +62,7 @@ typedef struct {
 
 ```
 
-结构的第四个域同样为一个联合数据结构：
+結構的第四個域同樣為一個聯合數據結構：
 
 ```c
 union sigval {
@@ -70,37 +70,37 @@ union sigval {
     void* sival_ptr;
 }
 ```
-采用联合数据结构，说明siginfo_t结构中的si_value要么持有一个4字节的整数值，要么持有一个指针，这就构成了与信号相关的数据。在信号的处理函数中，包含这样的信号相关数据指针，但没有规定具体如何对这些数据进行操作，操作方法应该由程序开发人员根据具体任务事先约定。
+採用聯合數據結構，說明siginfo_t結構中的si_value要麼持有一個4字節的整數值，要麼持有一個指針，這就構成了與信號相關的數據。在信號的處理函數中，包含這樣的信號相關數據指針，但沒有規定具體如何對這些數據進行操作，操作方法應該由程序開發人員根據具體任務事先約定。
 
-sigval结构体：系统调用sigqueue发送信号时，sigqueue的第三个参数就是sigval联合数据结构，当调用sigqueue时，该数据结构中的数据就将拷贝到信号处理函数的第二个参数中。这样，在发送信号同时，就可以让信号传递一些附加信息。信号可以传递信息对程序开发是非常有意义的。
+sigval結構體：系統調用sigqueue發送信號時，sigqueue的第三個參數就是sigval聯合數據結構，當調用sigqueue時，該數據結構中的數據就將拷貝到信號處理函數的第二個參數中。這樣，在發送信號同時，就可以讓信號傳遞一些附加信息。信號可以傳遞信息對程序開發是非常有意義的。
 
-`siginfo_t.si_value与sigqueue(pid_t pid, int sig, const union sigval val)第三个参数关联即：`
+`siginfo_t.si_value與sigqueue(pid_t pid, int sig, const union sigval val)第三個參數關聯即：`
 
-`所以通过siginfo_t.si_value可以获得sigqueue(pid_t pid, int sig, const union sigval val)第三个参数传递过来的数据。`
+`所以通過siginfo_t.si_value可以獲得sigqueue(pid_t pid, int sig, const union sigval val)第三個參數傳遞過來的數據。`
 
 `如：siginfo_t.si_value.sival_int或siginfo_t.si_value.sival_ptr`
 
-`其实siginfo_t.si_int直接与sigval.sival_int关联`
+`其實siginfo_t.si_int直接與sigval.sival_int關聯`
 
-`siginfo_t.si_ptr直接与sigval.sival_ptr关联，所以也可同这种方式获得sigqueue发送过来的数据。`
+`siginfo_t.si_ptr直接與sigval.sival_ptr關聯，所以也可同這種方式獲得sigqueue發送過來的數據。`
 
 
-信号参数的传递过程可图示如下：
+信號參數的傳遞過程可圖示如下：
 
 
 ![](./images/mickole/0_13131295725nwM.gif)
 
-3、sa_mask指定在信号处理程序执行过程中，哪些信号应当被阻塞。缺省情况下当前信号本身被阻塞，防止信号的嵌套发送，除非指定SA_NODEFER或者SA_NOMASK标志位，处理程序执行完后，被阻塞的信号开始执行。
+3、sa_mask指定在信號處理程序執行過程中，哪些信號應當被阻塞。缺省情況下當前信號本身被阻塞，防止信號的嵌套發送，除非指定SA_NODEFER或者SA_NOMASK標誌位，處理程序執行完後，被阻塞的信號開始執行。
 
-注：请注意sa_mask指定的信号阻塞的前提条件，是在由sigaction（）安装信号的处理函数执行过程中由sa_mask指定的信号才被阻塞。
+注：請注意sa_mask指定的信號阻塞的前提條件，是在由sigaction（）安裝信號的處理函數執行過程中由sa_mask指定的信號才被阻塞。
 
-4、sa_flags中包含了许多标志位，包括刚刚提到的SA_NODEFER及SA_NOMASK标志位。另一个比较重要的标志位是SA_SIGINFO，当设定了该标志位时，表示信号附带的参数可以被传递到信号处理函数中，因此，应该为sigaction结构中的sa_sigaction指定处理函数，而不应该为sa_handler指定信号处理函数，否则，设置该标志变得毫无意义。即使为sa_sigaction指定了信号处理函数，如果不设置SA_SIGINFO，信号处理函数同样不能得到信号传递过来的数据，在信号处理函数中对这些信息的访问都将导致段错误（Segmentation fault）。
+4、sa_flags中包含了許多標誌位，包括剛剛提到的SA_NODEFER及SA_NOMASK標誌位。另一個比較重要的標誌位是SA_SIGINFO，當設定了該標誌位時，表示信號附帶的參數可以被傳遞到信號處理函數中，因此，應該為sigaction結構中的sa_sigaction指定處理函數，而不應該為sa_handler指定信號處理函數，否則，設置該標誌變得毫無意義。即使為sa_sigaction指定了信號處理函數，如果不設置SA_SIGINFO，信號處理函數同樣不能得到信號傳遞過來的數據，在信號處理函數中對這些信息的訪問都將導致段錯誤（Segmentation fault）。
 
-注：很多文献在阐述该标志位时都认为，如果设置了该标志位，就必须定义三参数信号处理函数。实际不是这样的，验证方法很简单：自己实现一个单一参数信号处理函数，并在程序中设置该标志位，可以察看程序的运行结果。实际上，可以把该标志位看成信号是否传递参数的开关，如果设置该位，则传递参数；否则，不传递参数。
+注：很多文獻在闡述該標誌位時都認為，如果設置了該標誌位，就必須定義三參數信號處理函數。實際不是這樣的，驗證方法很簡單：自己實現一個單一參數信號處理函數，並在程序中設置該標誌位，可以察看程序的運行結果。實際上，可以把該標誌位看成信號是否傳遞參數的開關，如果設置該位，則傳遞參數；否則，不傳遞參數。
 
 ##二，sigqueue()
 
-之前学过kill,raise,alarm,abort等功能稍简单的信号发送函数，现在我们学习一种新的功能比较强大的信号发送函数sigqueue.
+之前學過kill,raise,alarm,abort等功能稍簡單的信號發送函數，現在我們學習一種新的功能比較強大的信號發送函數sigqueue.
 
 ```c
 #include <sys/types.h>
@@ -108,11 +108,11 @@ sigval结构体：系统调用sigqueue发送信号时，sigqueue的第三个参�
 int sigqueue(pid_t pid, int sig, const union sigval val)
 ```
 
-调用成功返回 0；否则，返回 -1。
+調用成功返回 0；否則，返回 -1。
 
-sigqueue()是比较新的发送信号系统调用，主要是针对实时信号提出的（当然也支持前32种），支持信号带有参数，与函数sigaction()配合使用。
+sigqueue()是比較新的發送信號系統調用，主要是針對實時信號提出的（當然也支持前32種），支持信號帶有參數，與函數sigaction()配合使用。
 
-sigqueue的第一个参数是指定接收信号的进程ID，第二个参数确定即将发送的信号，第三个参数是一个联合数据结构union sigval，指定了信号传递的参数，即通常所说的4字节值。
+sigqueue的第一個參數是指定接收信號的進程ID，第二個參數確定即將發送的信號，第三個參數是一個聯合數據結構union sigval，指定了信號傳遞的參數，即通常所說的4字節值。
 
 ```c
 typedef union sigval {
@@ -121,12 +121,12 @@ typedef union sigval {
 } sigval_t;
 ```
 
-sigqueue()比kill()传递了更多的附加信息，但sigqueue()只能向一个进程发送信号，而不能发送信号给一个进程组。如果signo=0，将会执行错误检查，但实际上不发送任何信号，0值信号可用于检查pid的有效性以及当前进程是否有权限向目标进程发送信号。
+sigqueue()比kill()傳遞了更多的附加信息，但sigqueue()只能向一個進程發送信號，而不能發送信號給一個進程組。如果signo=0，將會執行錯誤檢查，但實際上不發送任何信號，0值信號可用於檢查pid的有效性以及當前進程是否有權限向目標進程發送信號。
 
-在调用sigqueue时，sigval_t指定的信息会拷贝到对应sig 注册的3参数信号处理函数的siginfo_t结构中，这样信号处理函数就可以处理这些信息了。由于sigqueue系统调用支持发送带参数信号，所以比kill()系统调用的功能要灵活和强大得多。
+在調用sigqueue時，sigval_t指定的信息會拷貝到對應sig 註冊的3參數信號處理函數的siginfo_t結構中，這樣信號處理函數就可以處理這些信息了。由於sigqueue系統調用支持發送帶參數信號，所以比kill()系統調用的功能要靈活和強大得多。
 
-##三，sigqueue与sigaction应用实例
-实例一：利用sigaction安装SIGINT信号
+##三，sigqueue與sigaction應用實例
+實例一：利用sigaction安裝SIGINT信號
 
 ```c
 #include <unistd.h>
@@ -157,8 +157,8 @@ int main(int argc, char *argv[])
     act.sa_handler = handler;
     sigemptyset(&act.sa_mask);
     act.sa_flags = 0;
-    //因为不关心SIGINT上一次的struct sigaction所以，oact为NULL
-    //与signal(handler,SIGINT)相同
+    //因為不關心SIGINT上一次的struct sigaction所以，oact為NULL
+    //與signal(handler,SIGINT)相同
     if (sigaction(SIGINT, &act, NULL) < 0)
         ERR_EXIT("sigaction error\n");
 
@@ -173,11 +173,11 @@ void handler(int sig)
 }
 ```
 
-结果：
+結果：
 
 ![](./images/mickole/15192104-5f531ba85b4f496f9a51f5c42b96d7ce.png)
 
-实例二：利用sigaction实现signal，实际上signal底层实现就是利用sigaction
+實例二：利用sigaction實現signal，實際上signal底層實現就是利用sigaction
 
 ```c
 #include <unistd.h>
@@ -231,15 +231,15 @@ void handler(int sig)
 }
 ```
 
-结果：
+結果：
 
 
 
 ![](./images/mickole/15192104-80ffc43833ae4d34b190710202e86c18.png)
 
-可知my_signal与系统调用signal具有相同的效果
+可知my_signal與系統調用signal具有相同的效果
 
-实例三：验证sigaction.sa_mask效果
+實例三：驗證sigaction.sa_mask效果
 
 ```c
 #include <unistd.h>
@@ -302,15 +302,15 @@ void handler(int sig)
 }
 ```
 
-结果：
+結果：
 
 
 
 ![](./images/mickole/15192105-8b8baf15acfd4ebbbbb4761b7aacf2b1.png)
 
-可知，安装信号SIGINT时，将SIGQUIT加入到sa_mask阻塞集中，则当SIGINT信号正在执行处理函数时，SIGQUIT信号将被阻塞，只有当SIGINT信号处理函数执行完后才解除对SIGQUIT信号的阻塞，由于SIGQUIT是不可靠信号，不支持排队，所以只递达一次
+可知，安裝信號SIGINT時，將SIGQUIT加入到sa_mask阻塞集中，則當SIGINT信號正在執行處理函數時，SIGQUIT信號將被阻塞，只有當SIGINT信號處理函數執行完後才解除對SIGQUIT信號的阻塞，由於SIGQUIT是不可靠信號，不支持排隊，所以只遞達一次
 
-示例四：给自身发送int型数据
+示例四：給自身發送int型數據
 
 ```c
 #include <stdio.h>
@@ -319,14 +319,14 @@ void handler(int sig)
 #include <stdlib.h>
 
 void sighandler(int signo, siginfo_t *info,void *ctx);
-//给自身传递信息
+//給自身傳遞信息
 int main(void)
 {
 
     struct sigaction act;
     act.sa_sigaction = sighandler;
     sigemptyset(&act.sa_mask);
-    act.sa_flags = SA_SIGINFO;//信息传递开关
+    act.sa_flags = SA_SIGINFO;//信息傳遞開關
     if(sigaction(SIGINT,&act,NULL) == -1){
         perror("sigaction error");
         exit(EXIT_FAILURE);
@@ -343,18 +343,18 @@ int main(void)
 
 void sighandler(int signo, siginfo_t *info,void *ctx)
 {
-    //以下两种方式都能获得sigqueue发来的数据
+    //以下兩種方式都能獲得sigqueue發來的數據
     printf("receive the data from siqueue by info->si_int is %d\n",info->si_int);
     printf("receive the data from siqueue by info->si_value.sival_int is %d\n",info->si_value.sival_int);
 
 }
 ```
 
-结果：
+結果：
 
 ![](./images/mickole/15192106-f58fa5147535489fa93ca157e2eea255.png)
 
-示例五：进程间传递数据
+示例五：進程間傳遞數據
 
 接收端：
 
@@ -365,14 +365,14 @@ void sighandler(int signo, siginfo_t *info,void *ctx)
 #include <stdlib.h>
 
 void sighandler(int signo, siginfo_t *info,void *ctx);
-//给自身传递信息
+//給自身傳遞信息
 int main(void)
 {
 
     struct sigaction act;
     act.sa_sigaction = sighandler;
     sigemptyset(&act.sa_mask);
-    act.sa_flags = SA_SIGINFO;//信息传递开关
+    act.sa_flags = SA_SIGINFO;//信息傳遞開關
     if(sigaction(SIGINT,&act,NULL) == -1){
         perror("sigaction error");
         exit(EXIT_FAILURE);
@@ -386,14 +386,14 @@ int main(void)
 
 void sighandler(int signo, siginfo_t *info,void *ctx)
 {
-    //以下两种方式都能获得sigqueue发来的数据
+    //以下兩種方式都能獲得sigqueue發來的數據
     printf("receive the data from siqueue by info->si_int is %d\n",info->si_int);
     printf("receive the data from siqueue by info->si_value.sival_int is %d\n",info->si_value.sival_int);
 
 }
 ```
 
-发送端：
+發送端：
 
 ```c
 #include <stdio.h>
@@ -420,8 +420,8 @@ int main(int argc, char **argv)
 }
 ```
 
-结果：
+結果：
 
 ![](./images/mickole/15192107-710bc1936127483d92d46c875332e7f9.png)
 
-由图可知接收成功
+由圖可知接收成功

@@ -1,7 +1,7 @@
-# 利用backtrace和backtrace_symbols函数打印调用栈信息
+# 利用backtrace和backtrace_symbols函數打印調用棧信息
 
 
-在头文件"execinfo.h"中声明了三个函数用于获取当前线程的函数调用堆栈。
+在頭文件"execinfo.h"中聲明瞭三個函數用於獲取當前線程的函數調用堆棧。
 
 ```c
 #include <execinfo.h>
@@ -9,7 +9,7 @@ int backtrace(void **buffer, int size);
 char **backtrace_symbols(void *const *buffer, int size);
 void backtrace_symbols_fd(void *const *buffer, int size, int fd);
 ```
-man 帮助：
+man 幫助：
 
 ```c
 DESCRIPTION        
@@ -50,25 +50,25 @@ DESCRIPTION
 int backtrace(void **buffer,int size)
 ```
 
-该函数用与获取当前线程的调用堆栈,获取的信息将会被存放在buffer中,它是一个指针数组。参数 size 用来指定buffer中可以保存多少个void* 元素。函数返回值是实际获取的指针个数,最大不超过size大小在buffer中的指针实际是从堆栈中获取的返回地址,每一个堆栈框架有一个返回地址。
-注意某些编译器的优化选项对获取正确的调用堆栈有干扰,另外内联函数没有堆栈框架;删除框架指针也会使无法正确解析堆栈内容
+該函數用與獲取當前線程的調用堆棧,獲取的信息將會被存放在buffer中,它是一個指針數組。參數 size 用來指定buffer中可以保存多少個void* 元素。函數返回值是實際獲取的指針個數,最大不超過size大小在buffer中的指針實際是從堆棧中獲取的返回地址,每一個堆棧框架有一個返回地址。
+注意某些編譯器的優化選項對獲取正確的調用堆棧有干擾,另外內聯函數沒有堆棧框架;刪除框架指針也會使無法正確解析堆棧內容
 
 ```c
 char ** backtrace_symbols (void *const *buffer, int size)
 ```
 
-backtrace_symbols将从backtrace函数获取的信息转化为一个字符串数组. 参数buffer应该是从backtrace函数获取的数组指针,size是该数组中的元素个数(backtrace的返回值)，函数返回值是一个指向字符串数组的指针,它的大小同buffer相同.每个字符串包含了一个相对于buffer中对应元素的可打印信息.它包括函数名，函数的偏移地址,和实际的返回地址
-现在,只有使用ELF二进制格式的程序和苦衷才能获取函数名称和偏移地址.在其他系统,只有16进制的返回地址能被获取.另外,你可能需要传递相应的标志给链接器,以能支持函数名功能(比如,在使用GNU ld的系统中,你需要传递(-rdynamic))
+backtrace_symbols將從backtrace函數獲取的信息轉化為一個字符串數組. 參數buffer應該是從backtrace函數獲取的數組指針,size是該數組中的元素個數(backtrace的返回值)，函數返回值是一個指向字符串數組的指針,它的大小同buffer相同.每個字符串包含了一個相對於buffer中對應元素的可打印信息.它包括函數名，函數的偏移地址,和實際的返回地址
+現在,只有使用ELF二進制格式的程序和苦衷才能獲取函數名稱和偏移地址.在其他系統,只有16進制的返回地址能被獲取.另外,你可能需要傳遞相應的標誌給鏈接器,以能支持函數名功能(比如,在使用GNU ld的系統中,你需要傳遞(-rdynamic))
 
-backtrace_symbols生成的字符串都是malloc出来的，但是不要最后一个一个的free，因为backtrace_symbols是根据backtrace给出的call stack层数，一次性的malloc出来一块内存来存放结果字符串的，所以，像上面代码一样，只需要在最后，free backtrace_symbols的返回指针就OK了。这一点backtrace的manual中也是特别提到的。
-注意:如果不能为字符串获取足够的空间函数的返回值将会为NULL
+backtrace_symbols生成的字符串都是malloc出來的，但是不要最後一個一個的free，因為backtrace_symbols是根據backtrace給出的call stack層數，一次性的malloc出來一塊內存來存放結果字符串的，所以，像上面代碼一樣，只需要在最後，free backtrace_symbols的返回指針就OK了。這一點backtrace的manual中也是特別提到的。
+注意:如果不能為字符串獲取足夠的空間函數的返回值將會為NULL
 
 ```c
 void backtrace_symbols_fd (void *const *buffer, int size, int fd)
 ```
 
-backtrace_symbols_fd与backtrace_symbols 函数具有相同的功能,不同的是它不会给调用者返回字符串数组,而是将结果写入文件描述符为fd的文件中,每个函数对应一行.它不需要调用malloc函数,因此适用于有可能调用该函数会失败的情况。
-man手册中示例：
+backtrace_symbols_fd與backtrace_symbols 函數具有相同的功能,不同的是它不會給調用者返回字符串數組,而是將結果寫入文件描述符為fd的文件中,每個函數對應一行.它不需要調用malloc函數,因此適用於有可能調用該函數會失敗的情況。
+man手冊中示例：
 
 ```c
 #include <execinfo.h>
@@ -130,11 +130,11 @@ main(int argc, char *argv[])
 }
 ```
 
-结果：
+結果：
 
 ![](./images/mickole/08210822-19cb015d899d43d8a8467ff173b25894.png)
 
-总结：使用以下几个函数既可完成堆栈信息的打印 
+總結：使用以下幾個函數既可完成堆棧信息的打印 
 
 ```c
 int backtrace(void** buffer, int size)
@@ -151,9 +151,9 @@ char* abi::__cxa_demangle
 
 ```
 
-1. backtrace可以在程序运行的任何地方被调用，返回各个调用函数的返回地址，可以限制最大调用栈返回层数。
+1. backtrace可以在程序運行的任何地方被調用，返回各個調用函數的返回地址，可以限制最大調用棧返回層數。
 
-2. 在backtrace拿到函数返回地址之后，backtrace_symbols可以将其转换为编译符号，这些符号是编译期间就确定的
+2. 在backtrace拿到函數返回地址之後，backtrace_symbols可以將其轉換為編譯符號，這些符號是編譯期間就確定的
 
-3. 根据backtrace_symbols返回的编译符号，abi::__cxa_demangle可以找到具体地函数方法
+3. 根據backtrace_symbols返回的編譯符號，abi::__cxa_demangle可以找到具體地函數方法
 

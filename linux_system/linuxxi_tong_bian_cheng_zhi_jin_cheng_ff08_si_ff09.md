@@ -1,24 +1,24 @@
-# linux系统编程之进程（四）：进程退出exit，_exit区别即atexit函数
+# linux系統編程之進程（四）：進程退出exit，_exit區別即atexit函數
 
 
-## 一，进程终止有5种方式：
+## 一，進程終止有5種方式：
 
 - 正常退出：
-    - 从main函数返回
-    - 调用exit
-    - 调用_exit
+    - 從main函數返回
+    - 調用exit
+    - 調用_exit
 
 
-- 异常退出：
-    - 调用abort
-    - 由信号终止
+- 異常退出：
+    - 調用abort
+    - 由信號終止
 
-##二，exit和_exit区别：
+##二，exit和_exit區別：
 
 
 ![](./images/mickole/12164358-cc25532dd77e43e59caab3472e9f319e.png)
 
-- 关于_exit()：
+- 關於_exit()：
 
 ```c
        #include <unistd.h>
@@ -45,7 +45,7 @@ DESCRIPTION
 
 ```
 
-- 关于exit()：
+- 關於exit()：
 
 ```c
 #include <stdlib.h>
@@ -79,31 +79,31 @@ DESCRIPTION
        termination, respectively. 
 ```
 
-`和exit比较一下，exit()函数定义在stdlib.h中，而_exit()定义在unistd.h中`，
+`和exit比較一下，exit()函數定義在stdlib.h中，而_exit()定義在unistd.h中`，
 
-注：exit()就是退出，传入的参数是程序退出时的状态码，0表示正常退出，其他表示非正常退出，一般都用-1或者1，标准C里有EXIT_SUCCESS和EXIT_FAILURE两个宏，用exit(EXIT_SUCCESS);
+注：exit()就是退出，傳入的參數是程序退出時的狀態碼，0表示正常退出，其他表示非正常退出，一般都用-1或者1，標準C裡有EXIT_SUCCESS和EXIT_FAILURE兩個宏，用exit(EXIT_SUCCESS);
 
-- `_exit()函数的作用最为简单：直接使进程停止运行，清除其使用的内存空间，并销毁其在内核中的各种数据结构；exit() 函数则在这些基础上作了一些包装，在执行退出之前加了若干道工序。 `
+- `_exit()函數的作用最為簡單：直接使進程停止運行，清除其使用的內存空間，並銷燬其在內核中的各種數據結構；exit() 函數則在這些基礎上作了一些包裝，在執行退出之前加了若干道工序。 `
 
 
-- `exit()函数与_exit()函数最大的区别就在于exit()函数在调用exit系统调用之前要检查文件的打开情况，把文件缓冲区中的内容写回文件，就是"清理I/O缓冲"。`
+- `exit()函數與_exit()函數最大的區別就在於exit()函數在調用exit系統調用之前要檢查文件的打開情況，把文件緩衝區中的內容寫回文件，就是"清理I/O緩衝"。`
 
-- exit()在结束调用它的进程之前，要进行如下步骤： 
-    - 调用atexit()注册的函数（出口函数）；按ATEXIT注册时相反的顺序调用所有由它注册的函数,这使得我们可以指定在程序终止时执行自己的清理动作.例如,保存程序状态信息于某个文件,解开对共享数据库上的锁等.
-    - cleanup()；关闭所有打开的流，这将导致写所有被缓冲的输出，删除用TMPFILE函数建立的所有临时文件.
-    - 最后调用_exit()函数终止进程。
+- exit()在結束調用它的進程之前，要進行如下步驟： 
+    - 調用atexit()註冊的函數（出口函數）；按ATEXIT註冊時相反的順序調用所有由它註冊的函數,這使得我們可以指定在程序終止時執行自己的清理動作.例如,保存程序狀態信息於某個文件,解開對共享數據庫上的鎖等.
+    - cleanup()；關閉所有打開的流，這將導致寫所有被緩衝的輸出，刪除用TMPFILE函數建立的所有臨時文件.
+    - 最後調用_exit()函數終止進程。
 
 - _exit做3件事（man）： 
     - Any  open file descriptors belonging to the process are closed 
     - any children of the process are inherited  by process 1, init 
     - the process's parent is sent a SIGCHLD signal
 
-`exit执行完清理工作后就调用_exit来终止进程。`
+`exit執行完清理工作後就調用_exit來終止進程。`
 
 ## 三，atexit()
-atexit可以注册终止处理程序，ANSI C规定最多可以注册32个终止处理程序。
+atexit可以註冊終止處理程序，ANSI C規定最多可以註冊32個終止處理程序。
 
-终止处理程序的调用与注册次序相反
+終止處理程序的調用與註冊次序相反
 
 ```c
 #include <stdlib.h>
@@ -160,11 +160,11 @@ int main(void)
     exit(EXIT_SUCCESS);
 }
 ```
-运行结果：
+運行結果：
 
 ![](./images/mickole/12164359-8da2be7eef5b4ae5873e25a615a30a0a.png)
 
-当调用fork时，子进程继承父进程注册的atexit：
+當調用fork時，子進程繼承父進程註冊的atexit：
 
 示例程序：
 ```c
@@ -209,12 +209,12 @@ int main(void)
 }
 ```
 
-运行结果：
+運行結果：
 
 
 ![](./images/mickole/12164359-fb9c4a3d1b28464193ae697731f0e023.png)
 
-当atexit注册的函数中有一个没有正常返回或被kill，则后续的注册函数都不会被执行
+當atexit註冊的函數中有一個沒有正常返回或被kill，則後續的註冊函數都不會被執行
 
 示例程序：
 
@@ -248,9 +248,9 @@ int main(void)
     exit(EXIT_SUCCESS);
 }
 ```
-运行结果：
+運行結果：
 
 
 ![](./images/mickole/12164400-8ea08b6b9d844e819bb05c70de415127.png)
 
-可见最后那个fun1没有执行
+可見最後那個fun1沒有執行

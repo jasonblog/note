@@ -1,8 +1,8 @@
-# linux系统编程之信号（四）：alarm和可重入函数
+# linux系統編程之信號（四）：alarm和可重入函數
 
 
 ### 一，alarm()
-在将可重入函数之前我们先来了解下alarm()函数使用：
+在將可重入函數之前我們先來了解下alarm()函數使用：
 
 ```c
 #include <unistd.h>
@@ -10,11 +10,11 @@
 unsigned int alarm(unsigned int seconds)
 ```
 
-系统调用alarm安排内核为调用进程在指定的seconds秒后发出一个SIGALRM的信号。如果指定的参数seconds为0，则不再发送 SIGALRM信号。后一次设定将取消前一次的设定。该调用返回值为上次定时调用到发送之间剩余的时间，或者因为没有前一次定时调用而返回0。
+系統調用alarm安排內核為調用進程在指定的seconds秒後發出一個SIGALRM的信號。如果指定的參數seconds為0，則不再發送 SIGALRM信號。後一次設定將取消前一次的設定。該調用返回值為上次定時調用到發送之間剩餘的時間，或者因為沒有前一次定時調用而返回0。
 
-注意，在使用时，alarm只设定为发送一次信号，如果要多次发送，就要多次使用alarm调用。
+注意，在使用時，alarm只設定為發送一次信號，如果要多次發送，就要多次使用alarm調用。
 
-man帮助说明：
+man幫助說明：
 
 ```c
 DESCRIPTION 
@@ -72,25 +72,25 @@ void handler(int sig)
     alarm(1);
 }
 ```
-结果：
+結果：
 
 ![](./images/mickole/15112934-3e7acb07b78d4706a0c7894c0ed19eb9.png)
 
-因为在使用时，alarm只设定为发送一次信号，如果要多次发送，就要多次使用alarm调用，所以可在信号处理函数中调用alarm()实现每隔指点秒受发送SIGALRM信号。
+因為在使用時，alarm只設定為發送一次信號，如果要多次發送，就要多次使用alarm調用，所以可在信號處理函數中調用alarm()實現每隔指點秒受發送SIGALRM信號。
 
 
-##二，可重入函数
-为了增强程序的稳定性，在信号处理函数中应使用可重入函数。
+##二，可重入函數
+為了增強程序的穩定性，在信號處理函數中應使用可重入函數。
 
-信号处理程序中应当使用可再入（可重入）函数（注：所谓可重入函数是指一个可以被多个任务调用的过程，任务在调用时不必担心数据是否会出错）。因为进程在收到信号后，就将跳转到信号处理函数去接着执行。如果信号处理函数中使用了不可重入函数，那么信号处理函数可能会修改原来进程中不应该被修改的数据，这样进程从信号处理函数中返回接着执行时，可能会出现不可预料的后果。不可再入函数在信号处理函数中被视为不安全函数。
+信號處理程序中應當使用可再入（可重入）函數（注：所謂可重入函數是指一個可以被多個任務調用的過程，任務在調用時不必擔心數據是否會出錯）。因為進程在收到信號後，就將跳轉到信號處理函數去接著執行。如果信號處理函數中使用了不可重入函數，那麼信號處理函數可能會修改原來進程中不應該被修改的數據，這樣進程從信號處理函數中返回接著執行時，可能會出現不可預料的後果。不可再入函數在信號處理函數中被視為不安全函數。
 
-满足下列条件的函数多数是不可再入的：（1）使用静态的数据结构，如getlogin()，gmtime()，getgrgid()，getgrnam()，getpwuid()以及getpwnam()等等；（2）函数实现时，调用了malloc（）或者free()函数；（3）实现时使用了标准I/O函数的。
+滿足下列條件的函數多數是不可再入的：（1）使用靜態的數據結構，如getlogin()，gmtime()，getgrgid()，getgrnam()，getpwuid()以及getpwnam()等等；（2）函數實現時，調用了malloc（）或者free()函數；（3）實現時使用了標準I/O函數的。
 
-The Open Group视下列函数为可再入的：
+The Open Group視下列函數為可再入的：
 
 _exit（）、access（）、alarm（）、cfgetispeed（）、cfgetospeed（）、cfsetispeed（）、cfsetospeed（）、chdir（）、chmod（）、chown（） 、close（）、creat（）、dup（）、dup2（）、execle（）、execve（）、fcntl（）、fork（）、fpathconf（）、fstat（）、fsync（）、getegid（）、 geteuid（）、getgid（）、getgroups（）、getpgrp（）、getpid（）、getppid（）、getuid（）、kill（）、link（）、lseek（）、mkdir（）、mkfifo（）、 open（）、pathconf（）、pause（）、pipe（）、raise（）、read（）、rename（）、rmdir（）、setgid（）、setpgid（）、setsid（）、setuid（）、 sigaction（）、sigaddset（）、sigdelset（）、sigemptyset（）、sigfillset（）、sigismember（）、signal（）、sigpending（）、sigprocmask（）、sigsuspend（）、sleep（）、stat（）、sysconf（）、tcdrain（）、tcflow（）、tcflush（）、tcgetattr（）、tcgetpgrp（）、tcsendbreak（）、tcsetattr（）、tcsetpgrp（）、time（）、times（）、 umask（）、uname（）、unlink（）、utime（）、wait（）、waitpid（）、write（）。
 
-即使信号处理函数使用的都是"安全函数"，同样要注意进入处理函数时，首先要保存errno的值，结束时，再恢复原值。因为，信号处理过程中，errno值随时可能被改变。另外，longjmp()以及siglongjmp()没有被列为可再入函数，因为不能保证紧接着两个函数的其它调用是安全的。
+即使信號處理函數使用的都是"安全函數"，同樣要注意進入處理函數時，首先要保存errno的值，結束時，再恢復原值。因為，信號處理過程中，errno值隨時可能被改變。另外，longjmp()以及siglongjmp()沒有被列為可再入函數，因為不能保證緊接著兩個函數的其它調用是安全的。
 
 示例程序：
 
@@ -153,18 +153,18 @@ void handler(int sig)
 }
 ```
 
-结果：
+結果：
 
 
 ![](./images/mickole/15112935-82df6bdec112471a821026c43eb1319d.png)
 
 
-也是程序创建了一个结构体，设置一个全局变量，然后在main函数中利用两个局部变量分别给全局变量赋值，由于这个赋值操作是可被中断的，如以上每一次结构体的赋值可视为两步：
+也是程序創建了一個結構體，設置一個全局變量，然後在main函數中利用兩個局部變量分別給全局變量賦值，由於這個賦值操作是可被中斷的，如以上每一次結構體的賦值可視為兩步：
 
 g_data.a=zeros.a;
 
 g_data.b=zeros.b;
 
-所以当g_data.a=one.a;做完然后被中断，跑去执行处理函数，在处理函数中调用unsafe_fun（）打印全局变量值，可知结果是全局变量a值变了，b值还是之前的没来的及改变，所以出现了1,0
+所以當g_data.a=one.a;做完然後被中斷，跑去執行處理函數，在處理函數中調用unsafe_fun（）打印全局變量值，可知結果是全局變量a值變了，b值還是之前的沒來的及改變，所以出現了1,0
 
-所以结果不确定
+所以結果不確定

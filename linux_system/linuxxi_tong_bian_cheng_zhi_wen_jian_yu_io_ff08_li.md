@@ -1,11 +1,11 @@
-# linux系统编程之文件与IO（六）：实现ls -l功能
+# linux系統編程之文件與IO（六）：實現ls -l功能
 
 
-本文利用以下系统调用实现ls -l命令的功能：
+本文利用以下系統調用實現ls -l命令的功能：
 
  
 
-###1，lstat：获得文件状态,
+###1，lstat：獲得文件狀態,
 
 ###2，getpwuid：
 
@@ -68,7 +68,7 @@ int main(void)
     return 0;
 }
 ```
-运行结果：
+運行結果：
 
 ![](./images/mickole/10222053-ef72efcd773c4ae1ba5bd227f787535a.png)
 
@@ -77,9 +77,9 @@ int main(void)
 ```c
 #include <grp.h>
 
-struct group *getgrnam(const char *name);//根据组名获得组信息
+struct group *getgrnam(const char *name);//根據組名獲得組信息
 
-struct group *getgrgid(gid_t gid);//根据组ID获得组信息
+struct group *getgrgid(gid_t gid);//根據組ID獲得組信息
 ```
 
 
@@ -103,7 +103,7 @@ The group structure is defined in <grp.h> as follows:
 
 ```
 
-### 4，readlink:读取软链接文件的内容
+### 4，readlink:讀取軟鏈接文件的內容
 
 ```c
 #include <unistd.h>
@@ -156,11 +156,11 @@ int main(int argc,char **argv)
 }
 ```
 
-运行结果：
+運行結果：
 
 ![](./images/mickole/10222054-f9127c33a2294cf7b814a00a7ce6042f.png)
 
-现在利用相关的系统调用实现ls –l功能：
+現在利用相關的系統調用實現ls –l功能：
 
 程序如下：
 
@@ -236,7 +236,7 @@ void lsdir(char *dirname)
 }
 
 //-rw-r--r--.   1            zxy        zxy        2586        Jul 10 17:00    ls.c
-//类型及权限  硬链接数        拥有者    所属组    文件大小    创建时间        文件名
+//類型及權限  硬鏈接數        擁有者    所屬組    文件大小    創建時間        文件名
 void lsfile(char *filename)
 {
     struct stat tmpstat;
@@ -272,7 +272,7 @@ void lsfile(char *filename)
 
 }
 
-//获得文件类型
+//獲得文件類型
 char getFileType(struct stat *st)
 {
     char type = '-';
@@ -303,7 +303,7 @@ char getFileType(struct stat *st)
     return type;
 }
 
-//获得文件访问权限
+//獲得文件訪問權限
 void getFilePerm(struct stat *st, char *perm)
 {
     mode_t mode = st->st_mode;
@@ -327,7 +327,7 @@ void getFilePerm(struct stat *st, char *perm)
         perm[9] = 'x';
 }
 ```
-运行结果：
+運行結果：
 
 
 ![](./images/mickole/10222055-68d4119fdad4427ea338089a6e0b7707.png)

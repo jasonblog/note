@@ -1,26 +1,26 @@
-# linux系统编程之管道（二）：管道读写规则
+# linux系統編程之管道（二）：管道讀寫規則
 
 
-##一，管道读写规则
-当没有数据可读时
+##一，管道讀寫規則
+當沒有數據可讀時
 
-- O_NONBLOCK disable：read调用阻塞，即进程暂停执行，一直等到有数据来到为止。
-- O_NONBLOCK enable：read调用返回-1，errno值为EAGAIN。
+- O_NONBLOCK disable：read調用阻塞，即進程暫停執行，一直等到有數據來到為止。
+- O_NONBLOCK enable：read調用返回-1，errno值為EAGAIN。
 
-当管道满的时候
+當管道滿的時候
 
-- O_NONBLOCK disable： write调用阻塞，直到有进程读走数据
-- O_NONBLOCK enable：调用返回-1，errno值为EAGAIN
-如果所有管道写端对应的文件描述符被关闭，则read返回0
+- O_NONBLOCK disable： write調用阻塞，直到有進程讀走數據
+- O_NONBLOCK enable：調用返回-1，errno值為EAGAIN
+如果所有管道寫端對應的文件描述符被關閉，則read返回0
 
-如果所有管道读端对应的文件描述符被关闭，则write操作会产生信号SIGPIPE
+如果所有管道讀端對應的文件描述符被關閉，則write操作會產生信號SIGPIPE
 
-当要写入的数据量不大于PIPE_BUF时，linux将保证写入的原子性。
+當要寫入的數據量不大於PIPE_BUF時，linux將保證寫入的原子性。
 
-当要写入的数据量大于PIPE_BUF时，linux将不再保证写入的原子性。
+當要寫入的數據量大於PIPE_BUF時，linux將不再保證寫入的原子性。
 
-##二，验证示例
-示例一：O_NONBLOCK disable：read调用阻塞，即进程暂停执行，一直等到有数据来到为止。
+##二，驗證示例
+示例一：O_NONBLOCK disable：read調用阻塞，即進程暫停執行，一直等到有數據來到為止。
 
 ```c
 #include <stdio.h>
@@ -42,13 +42,13 @@ int main(void)
         exit(EXIT_FAILURE);
     }
     if(pid == 0){
-        close(fds[0]);//子进程关闭读端
+        close(fds[0]);//子進程關閉讀端
         sleep(10);
         write(fds[1],"hello",5);
         exit(EXIT_SUCCESS);
     }
 
-    close(fds[1]);//父进程关闭写端
+    close(fds[1]);//父進程關閉寫端
     char buf[10] = {0};
     read(fds[0],buf,10);
     printf("receive datas = %s\n",buf);
@@ -56,18 +56,18 @@ int main(void)
 }
 ```
 
-结果：
+結果：
 
 
 
 ![](./images/mickole/15235629-af26450d2c354dc28c2398c4b3d87c86.png)
 
 
-说明：管道创建时默认打开了文件描述符，且默认是阻塞（block）模式打开
+說明：管道創建時默認打開了文件描述符，且默認是阻塞（block）模式打開
 
-所以这里，我们让子进程先睡眠10s，父进程因为没有数据从管道中读出，被阻塞了，直到子进程睡眠结束，向管道中写入数据后，父进程才读到数据
+所以這裡，我們讓子進程先睡眠10s，父進程因為沒有數據從管道中讀出，被阻塞了，直到子進程睡眠結束，向管道中寫入數據後，父進程才讀到數據
 
-示例二：O_NONBLOCK enable：read调用返回-1，errno值为EAGAIN。
+示例二：O_NONBLOCK enable：read調用返回-1，errno值為EAGAIN。
 
 ```c
 #include <stdio.h>
@@ -89,16 +89,16 @@ int main(void)
         exit(EXIT_FAILURE);
     }
     if(pid == 0){
-        close(fds[0]);//子进程关闭读端
+        close(fds[0]);//子進程關閉讀端
         sleep(10);
         write(fds[1],"hello",5);
         exit(EXIT_SUCCESS);
     }
 
-    close(fds[1]);//父进程关闭写端
+    close(fds[1]);//父進程關閉寫端
     char buf[10] = {0};
-    int flags = fcntl(fds[0], F_GETFL);//先获取原先的flags
-    fcntl(fds[0],F_SETFL,flags | O_NONBLOCK);//设置fd为阻塞模式
+    int flags = fcntl(fds[0], F_GETFL);//先獲取原先的flags
+    fcntl(fds[0],F_SETFL,flags | O_NONBLOCK);//設置fd為阻塞模式
     int ret;
     ret = read(fds[0],buf,10);
     if(ret == -1){
@@ -112,11 +112,11 @@ int main(void)
 }
 ```
 
-结果：
+結果：
 
 ![](./images/mickole/15235630-29b0897f5c774705a2ca3dedc16f7880.png)
 
-示例三：如果所有管道`写端对应的文件描述符被关闭`，则read返回0
+示例三：如果所有管道`寫端對應的文件描述符被關閉`，則read返回0
 
 ```c
 #include <stdio.h>
@@ -138,11 +138,11 @@ int main(void)
         exit(EXIT_FAILURE);
     }
     if(pid == 0){
-        close(fds[1]);//子进程关闭写端
+        close(fds[1]);//子進程關閉寫端
         exit(EXIT_SUCCESS);
     }
 
-    close(fds[1]);//父进程关闭写端
+    close(fds[1]);//父進程關閉寫端
     char buf[10] = {0};
 
     int ret;
@@ -153,15 +153,15 @@ int main(void)
 }
 ```
 
-结果：
+結果：
 
 
 ![](./images/mickole/15235630-2f814961e2f043a7bd735bde67c94e00.png)
 
 
-可知确实返回0，表示读到了文件末尾，并不表示出错
+可知確實返回0，表示讀到了文件末尾，並不表示出錯
 
-示例四：如果所有管道`读端对应的文件描述符被关闭`，则write操作会产生信号SIGPIPE
+示例四：如果所有管道`讀端對應的文件描述符被關閉`，則write操作會產生信號SIGPIPE
 
 
 ```c
@@ -191,12 +191,12 @@ int main(void)
         exit(EXIT_FAILURE);
     }
     if(pid == 0){
-        close(fds[0]);//子进程关闭读端
+        close(fds[0]);//子進程關閉讀端
         exit(EXIT_SUCCESS);
     }
 
-    close(fds[0]);//父进程关闭读端
-    sleep(1);//确保子进程也将读端关闭
+    close(fds[0]);//父進程關閉讀端
+    sleep(1);//確保子進程也將讀端關閉
     int ret;
     ret = write(fds[1],"hello",5);
     if(ret == -1){
@@ -211,15 +211,15 @@ void sighandler(int signo)
 }
 ```
 
-结果：
+結果：
 
 
 
 ![](./images/mickole/15235631-9f3c0544f74c41c2a10804d89813ad5d.png)
 
-可知当所有读端都关闭时，write时确实产生SIGPIPE信号
+可知當所有讀端都關閉時，write時確實產生SIGPIPE信號
 
-示例五：O_NONBLOCK disable： write调用阻塞，直到有进程读走数据
+示例五：O_NONBLOCK disable： write調用阻塞，直到有進程讀走數據
 
 
 ```c
@@ -238,7 +238,7 @@ int main(void)
     int ret;
     int count = 0;
     while(1){
-        ret = write(fds[1],"A",1);//fds[1]默认是阻塞模式
+        ret = write(fds[1],"A",1);//fds[1]默認是阻塞模式
         if(ret == -1){
             perror("write error");
             break;
@@ -250,14 +250,14 @@ int main(void)
 }
 ```
 
-结果：
+結果：
 
 
 ![](./images/mickole/15235632-2296c3a37df94495ba3acdae0249381c.png)
 
-说明：fd打开时默认是阻塞模式，当pipe缓冲区满时，write操作确实阻塞了，等待其他进程将数据从管道中取走
+說明：fd打開時默認是阻塞模式，當pipe緩衝區滿時，write操作確實阻塞了，等待其他進程將數據從管道中取走
 
-示例六：O_NONBLOCK enable：调用返回-1，errno值为EAGAIN
+示例六：O_NONBLOCK enable：調用返回-1，errno值為EAGAIN
 
 
 ```c
@@ -278,7 +278,7 @@ int main(void)
     int flags = fcntl(fds[1],F_GETFL);
     fcntl(fds[1],F_SETFL,flags|O_NONBLOCK);
     while(1){
-        ret = write(fds[1],"A",1);//fds[1]默认是阻塞模式
+        ret = write(fds[1],"A",1);//fds[1]默認是阻塞模式
         if(ret == -1){
             perror("write error");
             break;
@@ -291,13 +291,13 @@ int main(void)
 }
 ```
 
-结果：
+結果：
 
 ![](./images/mickole/15235632-5010fa00a1e343dabb480f505c6fceb9.png)
 
-可知也出现EGIN错误，管道容量是65536字节
+可知也出現EGIN錯誤，管道容量是65536字節
 
-man 7 pipe说明：
+man 7 pipe說明：
 
 ```c
 Pipe capacity
@@ -315,9 +315,9 @@ Pipe capacity
 
 ```
 
-## 三，管道写与PIPE_BUF关系
+## 三，管道寫與PIPE_BUF關係
 
-man帮助说明：
+man幫助說明：
 ```c
 PIPE_BUF
        POSIX.1-2001 says that write(2)s of less than PIPE_BUF bytes must be
@@ -333,17 +333,17 @@ PIPE_BUF
        O_NONBLOCK disabled, n <= PIPE_BUF
               All n bytes are written atomically; write(2) may block if
               there is not room for n bytes to be written immediately
-       阻塞模式时且n<PIPE_BUF:写入具有原子性，如果没有足够的空间供n个字节全部写入，则阻塞直到有足够空间将n个字节全部写入管道       
+       阻塞模式時且n<PIPE_BUF:寫入具有原子性，如果沒有足夠的空間供n個字節全部寫入，則阻塞直到有足夠空間將n個字節全部寫入管道       
        O_NONBLOCK enabled, n <= PIPE_BUF
               If there is room to write n bytes to the pipe, then write(2)
               succeeds immediately, writing all n bytes; otherwise write(2)
               fails, with errno set to EAGAIN.
-      非阻塞模式时且n<PIPE_BUF：写入具有原子性，立即全部成功写入，否则一个都不写入，返回错误
+      非阻塞模式時且n<PIPE_BUF：寫入具有原子性，立即全部成功寫入，否則一個都不寫入，返回錯誤
        O_NONBLOCK disabled, n > PIPE_BUF
               The write is nonatomic: the data given to write(2) may be
               interleaved with write(2)s by other process; the write(2)
               blocks until n bytes have been written.
-      阻塞模式时且n>PIPE_BUF：不具有原子性，可能中间有其他进程穿插写入，直到将n字节全部写入才返回，否则阻塞等待写入
+      阻塞模式時且n>PIPE_BUF：不具有原子性，可能中間有其他進程穿插寫入，直到將n字節全部寫入才返回，否則阻塞等待寫入
        O_NONBLOCK enabled, n > PIPE_BUF
               If the pipe is full, then write(2) fails, with errno set to
               EAGAIN.  Otherwise, from 1 to n bytes may be written (i.e., a
@@ -351,14 +351,14 @@ PIPE_BUF
               value from write(2) to see how many bytes were actually
               written), and these bytes may be interleaved with writes by
               other processes.
-   非阻塞模式时且N>PIPE_BUF：如果管道满的，则立即失败，一个都不写入，返回错误，如果不满，则返回写入的字节数为1~n，即部分写入，写入时可能有其他进程穿插写入
-当要写入的数据量不大于PIPE_BUF时，linux将保证写入的原子性。
-当要写入的数据量大于PIPE_BUF时，linux将不再保证写入的原子性。
-注：管道容量不一定等于PIPE_BUF
+   非阻塞模式時且N>PIPE_BUF：如果管道滿的，則立即失敗，一個都不寫入，返回錯誤，如果不滿，則返回寫入的字節數為1~n，即部分寫入，寫入時可能有其他進程穿插寫入
+當要寫入的數據量不大於PIPE_BUF時，linux將保證寫入的原子性。
+當要寫入的數據量大於PIPE_BUF時，linux將不再保證寫入的原子性。
+注：管道容量不一定等於PIPE_BUF
 
 ```
 
-示例：当写入数据大于PIPE_BUF时
+示例：當寫入數據大於PIPE_BUF時
 
 ```c
 #include <stdio.h>
@@ -397,7 +397,7 @@ int main(void)
 
     pid_t pid;
     pid = fork();
-    if (pid == 0)//第一个子进程
+    if (pid == 0)//第一個子進程
     {
         close(pipefd[0]);
         ret = write(pipefd[1], a, sizeof(a));
@@ -408,7 +408,7 @@ int main(void)
     pid = fork();
 
     
-    if (pid == 0)//第二个子进程
+    if (pid == 0)//第二個子進程
     {
         close(pipefd[0]);
         ret = write(pipefd[1], b, sizeof(b));
@@ -419,7 +419,7 @@ int main(void)
     pid = fork();
 
     
-    if (pid == 0)//第三个子进程
+    if (pid == 0)//第三個子進程
     {
         close(pipefd[0]);
         ret = write(pipefd[1], c, sizeof(c));
@@ -447,10 +447,10 @@ int main(void)
 }
 ```
 
-结果：
+結果：
 
 ![](./images/mickole/15235633-e3ddbcff513c4c9481942a5cf893004d.png)
 
 ![](./images/mickole/15235634-b80b49897f37442ca1c19bb88fbc8287.png)
 
-可见各子进程间出现穿插写入，并没保证原子性写入，且父进程在子进程编写时边读。
+可見各子進程間出現穿插寫入，並沒保證原子性寫入，且父進程在子進程編寫時邊讀。

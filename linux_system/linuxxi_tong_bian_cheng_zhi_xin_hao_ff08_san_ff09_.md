@@ -1,10 +1,10 @@
-# linux系统编程之信号（三）：信号安装、signal、kill，arise讲解
+# linux系統編程之信號（三）：信號安裝、signal、kill，arise講解
 
 
-## 一，信号安装
-如果进程要处理某一信号，那么就要在进程中安装该信号。安装信号主要用来确定信号值及进程针对该信号值的动作之间的映射关系，即进程将要处理哪个信号；该信号被传递给进程时，将执行何种操作。
+## 一，信號安裝
+如果進程要處理某一信號，那麼就要在進程中安裝該信號。安裝信號主要用來確定信號值及進程針對該信號值的動作之間的映射關係，即進程將要處理哪個信號；該信號被傳遞給進程時，將執行何種操作。
 
-linux主要有两个函数实现信号的安装：signal()、sigaction()。其中signal()只有两个参数，不支持信号传递信息，主要是用于前32种非实时信号的安装；而sigaction()是较新的函数（由两个系统调用实现：sys_signal以及sys_rt_sigaction），有三个参数，支持信号传递信息，主要用来与 sigqueue() 系统调用配合使用，当然，sigaction()同样支持非实时信号的安装。sigaction()优于signal()主要体现在支持信号带有参数。
+linux主要有兩個函數實現信號的安裝：signal()、sigaction()。其中signal()只有兩個參數，不支持信號傳遞信息，主要是用於前32種非實時信號的安裝；而sigaction()是較新的函數（由兩個系統調用實現：sys_signal以及sys_rt_sigaction），有三個參數，支持信號傳遞信息，主要用來與 sigqueue() 系統調用配合使用，當然，sigaction()同樣支持非實時信號的安裝。sigaction()優於signal()主要體現在支持信號帶有參數。
 
 ## 二，signal()用法
 
@@ -17,20 +17,20 @@ typedef void (*__sighandler_t) (int);
 void (*signal(int signum, void (*handler))(int)))(int);
 ```
 
-如果该函数原型不容易理解的话，可以参考下面的分解方式来理解：
+如果該函數原型不容易理解的話，可以參考下面的分解方式來理解：
 
 ```c
 typedef void (*sighandler_t)(int)；
 sighandler_t signal(int signum, sighandler_t handler));
 ```
 
-第一个参数指定信号的值，第二个参数指定针对前面信号值的处理，可以忽略该信号（参数设为SIG_IGN）；可以采用系统默认方式处理信号(参数设为SIG_DFL)；也可以自己实现处理方式(参数指定一个函数地址)。
+第一個參數指定信號的值，第二個參數指定針對前面信號值的處理，可以忽略該信號（參數設為SIG_IGN）；可以採用系統默認方式處理信號(參數設為SIG_DFL)；也可以自己實現處理方式(參數指定一個函數地址)。
 
-如果signal()调用成功，返回最后一次也就是上一次为安装信号signum而调用signal()时的handler值；失败则返回SIG_ERR。
+如果signal()調用成功，返回最後一次也就是上一次為安裝信號signum而調用signal()時的handler值；失敗則返回SIG_ERR。
 
-传递给信号处理例程的整数参数是信号值，这样可以使得一个信号处理例程处理多个信号。
+傳遞給信號處理例程的整數參數是信號值，這樣可以使得一個信號處理例程處理多個信號。
 
-man帮助说明：
+man幫助說明：
 
 ```c
 DESCRIPTION 
@@ -80,7 +80,7 @@ int main(void)
         perror("signal errror");
         exit(EXIT_FAILURE);
     }
-    for(; ;);//有时间让我们发送信号
+    for(; ;);//有時間讓我們發送信號
 
 
     return 0;
@@ -93,15 +93,15 @@ void sig_handler(int signo)
 ```
 
 
-结果：
+結果：
 
 
 ![](./images/mickole/15105414-0a7167b956194698bfd1158b19632428.png)
 
 
-可知我们捕获了SIGINT信号，每当我们按下ctrl+c或利用kill发送SIGINT信号时，执行我们安装的信号处理函数，当我们按下：ctrl+\或kill –SIGQUIT pid发送SIGQUIT信号时，程序退出，那是因为进程对SIGQUIT信号的默认处理动作是退出程序。
+可知我們捕獲了SIGINT信號，每當我們按下ctrl+c或利用kill發送SIGINT信號時，執行我們安裝的信號處理函數，當我們按下：ctrl+\或kill –SIGQUIT pid發送SIGQUIT信號時，程序退出，那是因為進程對SIGQUIT信號的默認處理動作是退出程序。
 
-现在我们来获得进程的最后一次为安装信号时所指定的处理函数：
+現在我們來獲得進程的最後一次為安裝信號時所指定的處理函數：
 
 ```c
 #include <stdio.h>
@@ -122,7 +122,7 @@ int main(void)
     }
 
     printf("the previous value of the signal handler is %d\n",(int)prehandler);
-    //for(; ;);//有时间让我们发送信号
+    //for(; ;);//有時間讓我們發送信號
 
 
     return 0;
@@ -134,12 +134,12 @@ void sig_handler(int signo)
 }
 ```
 
-结果：
+結果：
 
 
 ![](./images/mickole/15105415-78272e5f17aa4fa8b97ff938f0578aef.png)
 
-为0，由前面的宏定义：#define SIG_DFL ((__sighandler_t) 0)，可知处理动作为SIG_DFL，而SIGINT默认的处理动作就是终止进程
+為0，由前面的宏定義：#define SIG_DFL ((__sighandler_t) 0)，可知處理動作為SIG_DFL，而SIGINT默認的處理動作就是終止進程
 
 示例：
 
@@ -161,46 +161,46 @@ int main(void)
         exit(EXIT_FAILURE);
     }
 
-    for(; ;);//有时间让我们发送信号
+    for(; ;);//有時間讓我們發送信號
 
 
     return 0;
 }
 ```
 
-结果：
+結果：
 
 ![](./images/mickole/15105416-6bf49837e54c43db8a149bb0face8180.png)
 
 
-## 三，kill()发送信号
-发送信号的主要函数有：kill()、raise()、 sigqueue()、alarm()、setitimer()以及abort()。
+## 三，kill()發送信號
+發送信號的主要函數有：kill()、raise()、 sigqueue()、alarm()、setitimer()以及abort()。
 
-这里我们先将kill函数使用：
+這裡我們先將kill函數使用：
 ```c
 #include <sys/types.h>
 #include <signal.h>
 int kill(pid_t pid,int signo)
 ```
 
-该系统调用可以用来向任何进程或进程组发送任何信号。参数pid的值为信号的接收进程
+該系統調用可以用來向任何進程或進程組發送任何信號。參數pid的值為信號的接收進程
 
-- pid>0 进程ID为pid的进程
-- pid=0 同一个进程组的进程
-- pid<0 pid!=-1 进程组ID为 -pid的所有进程
-- pid=-1 除发送给每一个调用进程有权限发送的进程除自身及1（init）进程外
+- pid>0 進程ID為pid的進程
+- pid=0 同一個進程組的進程
+- pid<0 pid!=-1 進程組ID為 -pid的所有進程
+- pid=-1 除發送給每一個調用進程有權限發送的進程除自身及1（init）進程外
 
-Sinno是信号值，当为0时（即空信号），实际不发送任何信号，但照常进行错误检查，因此，可用于检查目标进程是否存在，以及当前进程是否具有向目标发送信号的权限（root权限的进程可以向任何进程发送信号，非root权限的进程只能向属于同一个session或者同一个用户的进程发送信号）。
+Sinno是信號值，當為0時（即空信號），實際不發送任何信號，但照常進行錯誤檢查，因此，可用於檢查目標進程是否存在，以及當前進程是否具有向目標發送信號的權限（root權限的進程可以向任何進程發送信號，非root權限的進程只能向屬於同一個session或者同一個用戶的進程發送信號）。
 
-Kill()最常用于pid>0时的信号发送。该调用执行成功时，返回值为0；错误时，返回-1，并设置相应的错误代码errno。下面是一些可能返回的错误代码：
+Kill()最常用於pid>0時的信號發送。該調用執行成功時，返回值為0；錯誤時，返回-1，並設置相應的錯誤代碼errno。下面是一些可能返回的錯誤代碼：
 
-EINVAL：指定的信号sig无效。
+EINVAL：指定的信號sig無效。
 
-ESRCH：参数pid指定的进程或进程组不存在。注意，在进程表项中存在的进程，可能是一个还没有被wait收回，但已经终止执行的僵死进程。
+ESRCH：參數pid指定的進程或進程組不存在。注意，在進程表項中存在的進程，可能是一個還沒有被wait收回，但已經終止執行的僵死進程。
 
-EPERM： 进程没有权力将这个信号发送到指定接收信号的进程。因为，一个进程被允许将信号发送到进程pid时，必须拥有root权力，或者是发出调用的进程的UID 或EUID与指定接收的进程的UID或保存用户ID（savedset-user-ID）相同。如果参数pid小于-1，即该信号发送给一个组，则该错误表示组中有成员进程不能接收该信号。
+EPERM： 進程沒有權力將這個信號發送到指定接收信號的進程。因為，一個進程被允許將信號發送到進程pid時，必須擁有root權力，或者是發出調用的進程的UID 或EUID與指定接收的進程的UID或保存用戶ID（savedset-user-ID）相同。如果參數pid小於-1，即該信號發送給一個組，則該錯誤表示組中有成員進程不能接收該信號。
 
-man帮助说明：
+man幫助說明：
 
 ```c
 DESCRIPTION 
@@ -302,9 +302,9 @@ void handler(int sig)
 
 ![](./images/mickole/15105416-91c0f7b4f4f241818b9b07977be1e028.png)
 
-以上程序里有子进程给父进程发送SIGUSR1信号，父进程收到信号后，睡眠被中断，然后去执行信号处理函数，返回后继续睡眠剩余的时间后退出程序。
+以上程序裡有子進程給父進程發送SIGUSR1信號，父進程收到信號後，睡眠被中斷，然後去執行信號處理函數，返回後繼續睡眠剩餘的時間後退出程序。
 
-现在利用kill给与给定pid同组所有进程发送信号：
+現在利用kill給與給定pid同組所有進程發送信號：
 
 ```c
 #include <unistd.h>
@@ -357,14 +357,14 @@ void handler(int sig)
    printf("recv a sig=%d\n", sig);
 }
 ```
-结果：
+結果：
 
 ![](./images/mickole/15105417-e627506332834f879b7734375be879bb.png)
 
 
-可知收到进行了两次信号处理函数的执行：因为当前所属组中只有父子两个进程，从上可知有两种方式给组进程发送信号：kill和killpg
+可知收到進行了兩次信號處理函數的執行：因為當前所屬組中只有父子兩個進程，從上可知有兩種方式給組進程發送信號：kill和killpg
 
-## 四，arise函数
+## 四，arise函數
 
 ```c
 #include <signal.h>
@@ -372,9 +372,9 @@ void handler(int sig)
 int raise(int signo)
 ```
 
-向进程本身发送信号，参数为即将发送的信号值。调用成功返回 0；否则，返回 -1。
+向進程本身發送信號，參數為即將發送的信號值。調用成功返回 0；否則，返回 -1。
 
-man帮助说明：
+man幫助說明：
 
 ```c
 DESCRIPTION 
@@ -425,9 +425,9 @@ void sig_handler(int signo)
 }
 ```
 
-结果：
+結果：
 
 ![](./images/mickole/15105418-0f7b17ea8b5b40d68fdd52989b996019.png)
 
-可知两种方式都可以给自身发送信号。
+可知兩種方式都可以給自身發送信號。
 

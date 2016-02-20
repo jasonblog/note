@@ -1,7 +1,7 @@
-# linux系统编程之信号（八）：三种时间结构及定时器setitimer()详解
+# linux系統編程之信號（八）：三種時間結構及定時器setitimer()詳解
 
 
-##一，三种时间结构
+##一，三種時間結構
 
 ```c
 time_t://seconds
@@ -20,9 +20,9 @@ struct timespec {
 
 ##二，setitimer()
 
-现在的系统中很多程序不再使用alarm调用，而是使用setitimer调用来设置定时器，用getitimer来得到定时器的状态，
+現在的系統中很多程序不再使用alarm調用，而是使用setitimer調用來設置定時器，用getitimer來得到定時器的狀態，
 
-这两个调用的声明格式如下：
+這兩個調用的聲明格式如下：
 ```c
 #include <sys/time.h>
 
@@ -30,32 +30,32 @@ int getitimer(int which, struct itimerval *curr_value);
 int setitimer(int which, const struct itimerval *new_value,struct itimerval *old_value);
 ```
 
-参数:
+參數:
 
-- 第一个参数which指定定时器类型
-- 第二个参数是结构itimerval的一个实例，结构itimerval形式
-- 第三个参数可不做处理。
+- 第一個參數which指定定時器類型
+- 第二個參數是結構itimerval的一個實例，結構itimerval形式
+- 第三個參數可不做處理。
 
-返回值:成功返回0失败返回-1
+返回值:成功返回0失敗返回-1
 
-该系统调用给进程提供了三个定时器，它们各自有其独有的计时域，当其中任何一个到达，就发送一个相应的信号给进程，并使得计时器重新开始。三个计时器由参数which指定，如下所示：
+該系統調用給進程提供了三個定時器，它們各自有其獨有的計時域，當其中任何一個到達，就發送一個相應的信號給進程，並使得計時器重新開始。三個計時器由參數which指定，如下所示：
 
-TIMER_REAL：按实际时间计时，计时到达将给进程发送`SIGALRM`信号。
+TIMER_REAL：按實際時間計時，計時到達將給進程發送`SIGALRM`信號。
 
-ITIMER_VIRTUAL：仅当进程执行时才进行计时。计时到达将发送`SIGVTALRM`信号给进程。
+ITIMER_VIRTUAL：僅當進程執行時才進行計時。計時到達將發送`SIGVTALRM`信號給進程。
 
-ITIMER_PROF：当进程执行时和系统为该进程执行动作时都计时。与ITIMER_VIR-TUAL是一对，该定时器经常用来统计进程在用户态和内核态花费的时间。计时到达将发送`SIGPROF`信号给进程。
+ITIMER_PROF：當進程執行時和系統為該進程執行動作時都計時。與ITIMER_VIR-TUAL是一對，該定時器經常用來統計進程在用戶態和內核態花費的時間。計時到達將發送`SIGPROF`信號給進程。
 
-定时器中的参数value用来指明定时器的时间，其结构如下：
+定時器中的參數value用來指明定時器的時間，其結構如下：
 
 ```c
 struct itimerval {
-    struct timeval it_interval; /* 第一次之后每隔多长时间 */
-    struct timeval it_value; /* 第一次调用要多长时间 */
+    struct timeval it_interval; /* 第一次之後每隔多長時間 */
+    struct timeval it_value; /* 第一次調用要多長時間 */
 };
 ```
 
-该结构中timeval结构定义如下：
+該結構中timeval結構定義如下：
 
 ```c
 truct timeval {
@@ -64,11 +64,11 @@ truct timeval {
 };
 ```
 
-在setitimer 调用中，参数ovalue如果不为空，则其中保留的是上次调用设定的值。定时器将it_value递减到0时，产生一个信号，并将it_value的值设定为it_interval的值，然后重新开始计时，如此往复。当it_value设定为0时，计时器停止，或者当它计时到期，而it_interval 为0时停止。调用成功时，返回0；错误时，返回-1，并设置相应的错误代码errno：
+在setitimer 調用中，參數ovalue如果不為空，則其中保留的是上次調用設定的值。定時器將it_value遞減到0時，產生一個信號，並將it_value的值設定為it_interval的值，然後重新開始計時，如此往復。當it_value設定為0時，計時器停止，或者當它計時到期，而it_interval 為0時停止。調用成功時，返回0；錯誤時，返回-1，並設置相應的錯誤代碼errno：
 
-EFAULT：参数value或ovalue是无效的指针。
+EFAULT：參數value或ovalue是無效的指針。
 
-EINVAL：参数which不是ITIMER_REAL、ITIMER_VIRT或ITIMER_PROF中的一个。
+EINVAL：參數which不是ITIMER_REAL、ITIMER_VIRT或ITIMER_PROF中的一個。
 
 示例一：
 
@@ -117,13 +117,13 @@ int main(int argc, char *argv[])
 }
 ```
 
-结果：
+結果：
 
 ![](./images/mickole/15205716-26808bb005184cbcad09ccaa887e46b4.png)
 
-可以看到第一次发送信号是在5s以后，之后每隔一秒发送一次信号
+可以看到第一次發送信號是在5s以後，之後每隔一秒發送一次信號
 
-示例二：获得产生时钟信号的剩余时间
+示例二：獲得產生時鐘信號的剩餘時間
 
 
 ```c
@@ -161,11 +161,11 @@ int main(int argc, char *argv[])
     int i;
     for (i=0; i<10000; i++);
 
-//第一种方式获得剩余时间
+//第一種方式獲得剩餘時間
     struct itimerval oit;
-    setitimer(ITIMER_REAL, &it, &oit);//利用oit获得剩余时间产生时钟信号
+    setitimer(ITIMER_REAL, &it, &oit);//利用oit獲得剩餘時間產生時鐘信號
     printf("%d %d %d %d\n", (int)oit.it_interval.tv_sec, (int)oit.it_interval.tv_usec, (int)oit.it_value.tv_sec, (int)oit.it_value.tv_usec);
-//第二种方式获得剩余时间
+//第二種方式獲得剩餘時間
     //getitimer(ITIMER_REAL, &it);
     //printf("%d %d %d %d\n", (int)it.it_interval.tv_sec, (int)it.it_interval.tv_usec, (int)it.it_value.tv_sec, (int)it.it_value.tv_usec);
 
@@ -173,20 +173,20 @@ int main(int argc, char *argv[])
 }
 ```
 
-结果：
+結果：
 
-用第一种方式：
+用第一種方式：
 
 
 ![](./images/mickole/15205717-c717a3776f1942859c84712f5c17d7f4.png)
 
-用第二种方式：利用getitimer在不重新设置时钟的情况下获取剩余时间
+用第二種方式：利用getitimer在不重新設置時鐘的情況下獲取剩餘時間
 
 ![](./images/mickole/15205718-c81746804586411a93c3dff4ab69d045.png)
 
-剩余时间是指：距离下一次调用定时器产生信号所需时间，这里由于for循环不到一秒就执行完，定时器还来不及产生时钟信号，所以有剩余时间
+剩餘時間是指：距離下一次調用定時器產生信號所需時間，這裡由於for循環不到一秒就執行完，定時器還來不及產生時鐘信號，所以有剩餘時間
 
-示例三：每隔一秒发出一个SIGALRM，每隔0.5秒发出一个SIGVTALRM信号
+示例三：每隔一秒發出一個SIGALRM，每隔0.5秒發出一個SIGVTALRM信號
 
 ```c
 #include <signal.h>
@@ -231,9 +231,9 @@ int main()
 }
 ```
 
-结果：
+結果：
 
 
 ![](./images/mickole/15205719-c46d1fdb990a40e3bb09d8a78743d8f6.png)
 
-可知确实是没两次SIGVTALRM一次SIGALRM
+可知確實是沒兩次SIGVTALRM一次SIGALRM

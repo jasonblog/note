@@ -67,3 +67,5 @@ int main(void)
 }
 ```
 测试结果：
+
+![](./images/mickole/10134537-542bb78625084a03aced284b42daa075.png)

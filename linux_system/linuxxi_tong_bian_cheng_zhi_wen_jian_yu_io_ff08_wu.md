@@ -248,3 +248,6 @@ void fileperm(struct stat *buf, char *perm)
 }
 ```
 运行结果：
+
+![](./images/mickole/10170426-43f72f00ab644dfbbbb53c5213202f4a.png)
+

@@ -246,6 +246,7 @@
        * [linux系统编程之管道（一）：匿名管道（pipe)](linux_system/linuxxi_tong_bian_cheng_zhi_guan_dao_ff08_yi_ff09_.md)
        * [linux系统编程之管道（二）：管道读写规则](linux_system/linuxxi_tong_bian_cheng_zhi_guan_dao_ff08_er_ff09_.md)
        * [linux系统编程之管道（三）：命令管道（FIFO)](linux_system/linuxxi_tong_bian_cheng_zhi_guan_dao_ff08_san_ff09.md)
+       * linux系统编程之错误处理：perror,strerror和errno
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

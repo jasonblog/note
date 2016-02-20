@@ -47,3 +47,90 @@ DESCRIPTION
 创建管道后示意图：
 
 
+![](./images/mickole/15215909-979f3be84c96439888a1c2c6bac9efb3.png)
+
+
+##三，利用管道进行父子进程间数据传输
+示例一：子进程向管道中写数据，父进程从管道中读出数据
+
+```c
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <fcntl.h> 
+
+int main(void)
+{
+    int fds[2];
+    if(pipe(fds) == -1){
+        perror("pipe error");
+        exit(EXIT_FAILURE);
+    }
+    pid_t pid;
+    pid = fork();
+    if(pid == -1){
+        perror("fork error");
+        exit(EXIT_FAILURE);
+    }
+    if(pid == 0){
+        close(fds[0]);//子进程关闭读端
+        write(fds[1],"hello",5);
+        exit(EXIT_SUCCESS);
+    }
+
+    close(fds[1]);//父进程关闭写端
+    char buf[10] = {0};
+    read(fds[0],buf,10);
+    printf("receive datas = %s\n",buf);
+    return 0;
+}
+```
+
+结果：
+
+![](./images/mickole/15215910-55f416b1ff3349ab83be0ca53c6fefe9.png)
+
+示例二：利用管道实现ls |wc –w功能
+
+
+```c
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <fcntl.h> 
+
+int main(void)
+{
+    int fds[2];
+    if(pipe(fds) == -1){
+        perror("pipe error");
+        exit(EXIT_FAILURE);
+    }
+    pid_t pid;
+    pid = fork();
+    if(pid == -1){
+        perror("fork error");
+        exit(EXIT_FAILURE);
+    }
+    if(pid == 0){
+        
+        dup2(fds[1],STDOUT_FILENO);//复制文件描述符且指定新复制的fd为标准输出
+        close(fds[0]);//子进程关闭读端
+        close(fds[1]);
+        execlp("ls","ls",NULL);
+        fprintf(stderr,"exec error\n");
+        exit(EXIT_FAILURE);
+    }
+
+    dup2(fds[0],STDIN_FILENO);
+    close(fds[1]);//父进程关闭写端
+    close(fds[0]);
+    execlp("wc","wc","-w",NULL);
+    fprintf(stderr, "error execute wc\n");
+    exit(EXIT_FAILURE);
+}
+```
+
+结果：
+
+![](./images/mickole/15215911-c796a130100a41b182953ca4b5bc3135.png)

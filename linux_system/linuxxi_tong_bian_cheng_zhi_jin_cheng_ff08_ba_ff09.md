@@ -174,3 +174,164 @@ void creat_daemon(void)
 ```
 结果：
 
+![](./images/mickole/13191708-dc3544d132f64360a4b6ccb54d936958.png)
+
+结果显示：当我一普通用户执行a.out时，进程表中并没有出现新创建的守护进程，但当我以root用户执行时，成功了，并在/目录下创建了daemon.log文件，cat查看后确实每个一分钟写入一次。为什么只能root执行，那是因为当我们创建守护进程时，已经将当前目录切换我/目录，所以当我之后创建daemon.log文件是其实是在/目录下，那肯定不行，因为普通用户没有权限，或许你会问那为啥没报错呢？其实是有出错，只不过我们在创建守护进程时已经将标准输入关闭并重定向到/dev/null，所以看不到错误信息。
+
+四，利用库函数daemon()创建守护进程
+
+
+其实我们完全可以利用daemon()函数创建守护进程，其函数原型：
+
+```c
+#include <unistd.h>
+
+int daemon(int nochdir, int noclose);
+```
+
+```c
+DESCRIPTION 
+       The daemon() function is for programs wishing to detach themselves from 
+       the controlling terminal and run in the background as system daemons.
+
+       If nochdir is zero, daemon()  changes  the  process’s  current  working 
+       directory to the root directory ("/"); otherwise,
+
+       If  noclose is zero, daemon() redirects standard input, standard output 
+       and standard error to /dev/null; otherwise,  no  changes  are  made  to 
+       these file descriptors. 
+
+```
+
+功能：创建一个守护进程
+
+参数：
+
+nochdir：=0将当前目录更改至“/”
+
+noclose：=0将标准输入、标准输出、标准错误重定向至“/dev/null”
+
+返回值：
+
+成功：0
+
+失败：-1
+
+现在我们利用daemon()改写刚才那个程序：
+
+```c
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <time.h>
+#include <fcntl.h>
+#include <string.h>
+#include <sys/stat.h>
+
+#define ERR_EXIT(m) \
+do\
+{\
+    perror(m);\
+    exit(EXIT_FAILURE);\
+}\
+while (0);\
+
+void creat_daemon(void);
+int main(void)
+{
+    time_t t;
+    int fd;
+    if(daemon(0,0) == -1)
+        ERR_EXIT("daemon error");
+    while(1){
+        fd = open("daemon.log",O_WRONLY|O_CREAT|O_APPEND,0644);
+        if(fd == -1)
+            ERR_EXIT("open error");
+        t = time(0);
+        char *buf = asctime(localtime(&t));
+        write(fd,buf,strlen(buf));
+        close(fd);
+        sleep(60);
+            
+    }
+    return 0;
+}
+```
+当daemon(0,0)时：
+
+![](./images/mickole/13191709-6113dc1e30824da28d1a2321f831f6a3.png)
+
+结果同刚才一样，也是只有root才能成功，普通用户执行时看不到错误信息
+
+现在让daemon(0,1)，就是不关闭标准输入输出结果：
+
+![](./images/mickole/13191709-70776a014a9a4eb19a7f8ae5ae1de893.png)
+
+这次普通用户执行成功了，以为没有切换到/目录下，有权限
+
+其实我们可以利用我们刚才写的创建守护进程程序默认daemon()实现：
+
+代码如下：
+
+```c
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <time.h>
+#include <fcntl.h>
+#include <string.h>
+#include <sys/stat.h>
+
+#define ERR_EXIT(m) \
+do\
+{\
+    perror(m);\
+    exit(EXIT_FAILURE);\
+}\
+while (0);\
+
+void creat_daemon(int nochdir, int noclose);
+int main(void)
+{
+    time_t t;
+    int fd;
+    creat_daemon(0,0);
+    while(1){
+        fd = open("daemon.log",O_WRONLY|O_CREAT|O_APPEND,0644);
+        if(fd == -1)
+            ERR_EXIT("open error");
+        t = time(0);
+        char *buf = asctime(localtime(&t));
+        write(fd,buf,strlen(buf));
+        close(fd);
+        sleep(60);
+            
+    }
+    return 0;
+}
+void creat_daemon(int nochdir, int noclose)
+{
+    pid_t pid;
+    pid = fork();
+    if( pid == -1)
+        ERR_EXIT("fork error");
+    if(pid > 0 )
+        exit(EXIT_SUCCESS);
+    if(setsid() == -1)
+        ERR_EXIT("SETSID ERROR");
+    if(nochdir == 0)
+        chdir("/");
+    if(noclose == 0){
+            int i;
+    for( i = 0; i < 3; ++i)
+    {
+        close(i);
+        open("/dev/null", O_RDWR);
+        dup(0);
+        dup(0);
+    }
+
+    umask(0);
+    return;
+}
+```

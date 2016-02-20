@@ -108,10 +108,17 @@ Linux支持不可靠信号，但是对不可靠信号机制做了改进：在调
 
 共64种：
 
-![](./images/mickole/)
-![](./images/mickole/)
-![](./images/mickole/)
-![](./images/mickole/)
-![](./images/mickole/)
-![](./images/mickole/)
-![](./images/mickole/)
+![](./images/mickole/14104401-6f6416cacb394c9a880c948c05236e25.png)
+
+![](./images/mickole/14104401-e14c06f2ab494f408848ce388450a2df.png)
+
+![](./images/mickole/14104402-d790cda545eb4608a58aacf0dd9e4187.png)
+
+### 3、进程对信号的响应
+进程可以通过三种方式来响应一个信号：（1）忽略信号，即对信号不做任何处理，其中，有两个信号不能忽略：SIGKILL及SIGSTOP；（2）捕捉信号。定义信号处理函数，当信号发生时，执行相应的处理函数；（3）执行缺省操作，Linux对每种信号都规定了默认操作，详细情况请参考[2]以及其它资料。注意，进程对实时信号的缺省反应是进程终止。
+
+Linux究竟采用上述三种方式的哪一个来响应信号，取决于传递给相应API函数的参数。
+
+注：本文参考：http://blog.csdn.net/lmh12506/article/details/6681663和
+
+ http://blog.csdn.net/johnny710vip/article/details/6990514

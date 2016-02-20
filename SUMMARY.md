@@ -219,6 +219,7 @@
    * [如何使用pkg-config工具編譯鏈接第三方庫](linux_system/ru_he_shi_yongpkg_-_config_gong_ju_bian_yi_lian_ji.md)
    * [stdout & stderr & fflush()](linux_system/stdout_&_stderr_&_fflush.md)
    * [linux系统编程](linux_system/linuxxi_tong_bian_cheng.md)
+       * linux系统编程之文件与IO（一）：文件描述符、open，close
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

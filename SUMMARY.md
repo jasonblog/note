@@ -233,7 +233,6 @@
        * [linux系统编程之进程（四）：进程退出exit，_exit区别即atexit函数](linux_system/linuxxi_tong_bian_cheng_zhi_jin_cheng_ff08_si_ff09.md)
        * [linux系统编程之进程（五）：exec系列函数（execl,execlp,execle,execv,execvp)使用](linux_system/linuxxi_tong_bian_cheng_zhi_jin_cheng_ff08_wu_ff09.md)
        * [linux系统编程之进程（六）：父进程查询子进程的退出,wait,waitpid](linux_system/linuxxi_tong_bian_cheng_zhi_jin_cheng_ff08_liu_ff0.md)
-* linux系统编程之进程（七）：system()函数使用
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

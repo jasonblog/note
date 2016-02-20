@@ -218,7 +218,7 @@
    * [用gcc 自製 Library](linux_system/yong_gcc_zi_zhi_library.md)
    * [如何使用pkg-config工具編譯鏈接第三方庫](linux_system/ru_he_shi_yongpkg_-_config_gong_ju_bian_yi_lian_ji.md)
    * [stdout & stderr & fflush()](linux_system/stdout_&_stderr_&_fflush.md)
-   * linux系统编程
+   * [linux系统编程](linux_system/linuxxi_tong_bian_cheng.md)
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

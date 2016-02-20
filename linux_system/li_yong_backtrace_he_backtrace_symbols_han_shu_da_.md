@@ -132,3 +132,28 @@ main(int argc, char *argv[])
 
 结果：
 
+![](./images/mickole/08210822-19cb015d899d43d8a8467ff173b25894.png)
+
+总结：使用以下几个函数既可完成堆栈信息的打印 
+
+```c
+int backtrace(void** buffer, int size)
+
+char** backtrace_symbols(void* const* buffer, int size)
+
+char* abi::__cxa_demangle
+(
+    const char* mangled_name,
+    char* output_buffer,
+    size_t* length,
+    int* status
+)
+
+```
+
+1. backtrace可以在程序运行的任何地方被调用，返回各个调用函数的返回地址，可以限制最大调用栈返回层数。
+
+2. 在backtrace拿到函数返回地址之后，backtrace_symbols可以将其转换为编译符号，这些符号是编译期间就确定的
+
+3. 根据backtrace_symbols返回的编译符号，abi::__cxa_demangle可以找到具体地函数方法
+

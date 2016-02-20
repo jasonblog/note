@@ -329,10 +329,8 @@ void getFilePerm(struct stat *st, char *perm)
 ```
 运行结果：
 
+
 ![](./images/mickole/10222055-68d4119fdad4427ea338089a6e0b7707.png)
-
-
-
 
 
 

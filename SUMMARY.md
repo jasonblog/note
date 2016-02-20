@@ -244,7 +244,7 @@
        * [linux系统编程之信号（七）：被信号中断的系统调用和库函数处理方式](linux_system/linuxxi_tong_bian_cheng_zhi_xin_hao_ff08_qi_ff09_f.md)
        * [linux系统编程之信号（八）：三种时间结构及定时器setitimer()详解](linux_system/linuxxi_tong_bian_cheng_zhi_xin_hao_ff08_ba_ff09_f.md)
        * [linux系统编程之管道（一）：匿名管道（pipe)](linux_system/linuxxi_tong_bian_cheng_zhi_guan_dao_ff08_yi_ff09_.md)
-       * linux系统编程之管道（二）：管道读写规则
+       * [linux系统编程之管道（二）：管道读写规则](linux_system/linuxxi_tong_bian_cheng_zhi_guan_dao_ff08_er_ff09_.md)
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

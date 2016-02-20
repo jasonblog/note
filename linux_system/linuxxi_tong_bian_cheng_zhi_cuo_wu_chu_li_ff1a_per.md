@@ -52,3 +52,35 @@ int main(void)
 
 测试结果：
 
+![](./images/mickole/09231539-668a38c75b414bb49318cc61d434b60b.png)
+
+
+```c
+#include <string.h>
+char *strerror(int errnum);
+```
+
+它返回errnum的值所对应的错误提示信息，例如errnum等于12的话，它就会返回"Cannot allocate memory"。
+
+测试程序：
+
+```
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+#include <errno.h>
+
+int main(void)
+{
+    int fd = 10;
+    int ret;
+    ret = close(fd);
+    if(ret == -1)
+        fprintf(stderr, "close error with msg is: %s\n",strerror(errno));
+    return 0;
+}
+```
+
+测试结果：
+
+![](./images/mickole/09231539-98ad26641a494ac3b790885ec56362c6.png)

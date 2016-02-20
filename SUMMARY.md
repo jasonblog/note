@@ -239,7 +239,7 @@
        * [linux系统编程之信号（二）：信号处理流程（产生、注册、注销、执行）](linux_system/linuxxi_tong_bian_cheng_zhi_xin_hao_ff08_er_ff09_f.md)
        * [linux系统编程之信号（三）：信号安装、signal、kill，arise讲解](linux_system/linuxxi_tong_bian_cheng_zhi_xin_hao_ff08_san_ff09_.md)
        * [linux系统编程之信号（四）：alarm和可重入函数](linux_system/linuxxi_tong_bian_cheng_zhi_xin_hao_ff08_si_ff09_f.md)
-       * linux系统编程之信号（五）：信号集操作函数，信号阻塞与未决
+       * [linux系统编程之信号（五）：信号集操作函数，信号阻塞与未决](linux_system/linuxxi_tong_bian_cheng_zhi_xin_hao_ff08_wu_ff09_f.md)
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

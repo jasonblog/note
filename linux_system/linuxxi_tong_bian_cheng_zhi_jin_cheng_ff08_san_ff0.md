@@ -94,6 +94,7 @@ int main(void)
 当加上sleep后，子进程先执行完：
 
 ![](./images/mickole/12154307-6e2d0b2701724252ae9cfe87b2a6a82d.png)
+
 这次可以正确看到想要的结果。
 
 ## 三，孤儿进程、僵尸进程
@@ -246,6 +247,7 @@ int main(void)
 结果出错了，
 
 使用vfork且exit退出：
+
 ![](./images/mickole/12154310-91b8fc089f2c4fd68d354810615a2e69.png)
 
 结果正常，父子进程共享

@@ -61,5 +61,11 @@ int main(void)
     return 0;
 }
 ```
-
-13113018-881e2058fb294bcb805836350d6f3aa0.png
+![](./images/mickole/13113018-881e2058fb294bcb805836350d6f3aa0.png)
+![](./images/mickole/)
+![](./images/mickole/)
+![](./images/mickole/)
+![](./images/mickole/)
+![](./images/mickole/)
+![](./images/mickole/)
+![](./images/mickole/)

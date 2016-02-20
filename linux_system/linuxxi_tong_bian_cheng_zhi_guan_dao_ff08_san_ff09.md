@@ -125,3 +125,169 @@ int main(int argc, char **argv)
     return 0;
 }
 ```
+
+
+![](./images/mickole/16110333-a7fa36b526834f2cb296d40733acb4e0.png)
+
+示例二：`如果当前打开操作是为读而打开FIFO时，若已经有相应进程为写而打开该FIFO，则当前打开操作将成功返回；否则，可能阻塞直到有相应进程为写而打开该FIFO（当前打开操作设置了阻塞标志）；或者，成功返回（当前打开操作没有设置阻塞标志）。`
+
+```c
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <fcntl.h>
+
+int main(int argc, char **argv)
+{
+
+    int fd;
+    
+    //fd = open("mypipe",O_RDONLY| O_NONBLOCK);//非阻塞模式打开
+    fd = open("mypipe",O_RDONLY);//默认是阻塞模式打开
+    if(fd == -1){
+        perror("open error");
+        exit(EXIT_FAILURE);
+    }
+    printf("read open  FIFO success\n");
+    return 0;
+}
+```
+
+结果：
+
+![](./images/mickole/16110334-74dbca8ee448490984498b7c49fe114d.png)
+
+第一次以非阻塞打开
+
+第二次以阻塞模式打开
+
+示例三：`如果当前打开操作是为写而打开FIFO时，如果已经有相应进程为读而打开该FIFO，则当前打开操作将成功返回；否则，可能阻塞直到有相应进程为读而打开该FIFO（当前打开操作设置了阻塞标志）；或者，返回ENXIO错误（当前打开操作没有设置阻塞标志）。`
+
+```c
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <fcntl.h>
+
+int main(int argc, char **argv)
+{
+
+    int fd;
+    
+    //fd = open("mypipe",O_WRONLY| O_NONBLOCK);//非阻塞模式打开
+    fd = open("mypipe",O_WRONLY);//默认是阻塞模式打开
+    if(fd == -1){
+        perror("open error");
+        exit(EXIT_FAILURE);
+    }
+    printf("read open  FIFO success\n");
+    return 0;
+}
+```
+结果：
+
+
+![](./images/mickole/16110335-ab9bd250b5874dbc89d6980ebe476267.png)
+
+第一次以非阻塞模式打开
+
+第二次以阻塞模式打开
+
+示例四：不同进程间利用命名管道实现文件复制
+
+#### 写管道进程：
+
+```c
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <fcntl.h>
+
+int main(int argc, char **argv)
+{
+    if(argc != 2){
+        fprintf(stderr,"usage:%s srcfile\n",argv[0]);
+        exit(EXIT_FAILURE);
+    }
+    int infd;
+    infd = open(argv[1],O_RDONLY);
+    if(infd == -1){
+        perror("open error");
+        exit(EXIT_FAILURE);
+    }
+
+    if(mkfifo("tmpfifo",0644) == -1){
+        perror("mkfifo error");
+        exit(EXIT_FAILURE);
+    }
+    int fd ;
+    fd = open("tmpfifo",O_WRONLY);
+    if(fd == -1){
+        perror("open error");
+        exit(EXIT_FAILURE);
+    }
+    char buf[1024*4];
+    int n = 0;
+    while((n = read(infd,buf,1024*4))){
+        write(fd,buf,n);
+    }
+    close(infd);
+    close(fd);
+    printf("write success\n");
+    return 0;
+}
+```
+
+#### 读进程：
+
+```c
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <fcntl.h>
+
+int main(int argc, char **argv)
+{
+    if(argc != 2){
+        fprintf(stderr,"usage:%s desfile\n",argv[0]);
+        exit(EXIT_FAILURE);
+    }
+    int outfd;
+    outfd = open(argv[1],O_WRONLY|O_CREAT|O_TRUNC);
+    if(outfd == -1){
+        perror("open error");
+        exit(EXIT_FAILURE);
+    }
+
+    int fd ;
+    fd = open("tmpfifo",O_RDONLY);
+    if(fd == -1){
+        perror("open error");
+        exit(EXIT_FAILURE);
+    }
+    char buf[1024*4];
+    int n = 0;
+    while((n = read(fd,buf,1024*4))){
+        write(outfd,buf,n);
+    }
+    close(fd);
+    close(outfd);
+    unlink("tmpfifo");
+    printf("read success\n");
+    return 0;
+}
+```
+
+结果：
+
+![](./images/mickole/16110335-6193cf8ba21a486dbc182723e3a1ec25.png)
+
+复制成功！

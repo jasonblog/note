@@ -107,3 +107,11 @@ Linux支持不可靠信号，但是对不可靠信号机制做了改进：在调
 查看linux所支持的信号可用：kill –l
 
 共64种：
+
+![](./images/mickole/)
+![](./images/mickole/)
+![](./images/mickole/)
+![](./images/mickole/)
+![](./images/mickole/)
+![](./images/mickole/)
+![](./images/mickole/)

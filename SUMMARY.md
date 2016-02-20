@@ -248,6 +248,7 @@
        * [linux系统编程之管道（三）：命令管道（FIFO)](linux_system/linuxxi_tong_bian_cheng_zhi_guan_dao_ff08_san_ff09.md)
        * [linux系统编程之错误处理：perror,strerror和errno](linux_system/linuxxi_tong_bian_cheng_zhi_cuo_wu_chu_li_ff1a_per.md)
        * [利用backtrace和backtrace_symbols函数打印调用栈信息](linux_system/li_yong_backtrace_he_backtrace_symbols_han_shu_da_.md)
+       * linux系统编程：setjmp和longjmp函数用法
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

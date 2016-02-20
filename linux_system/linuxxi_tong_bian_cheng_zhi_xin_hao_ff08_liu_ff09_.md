@@ -86,3 +86,342 @@ sigval结构体：系统调用sigqueue发送信号时，sigqueue的第三个参�
 
 
 信号参数的传递过程可图示如下：
+
+
+![](./images/mickole/0_13131295725nwM.gif)
+
+3、sa_mask指定在信号处理程序执行过程中，哪些信号应当被阻塞。缺省情况下当前信号本身被阻塞，防止信号的嵌套发送，除非指定SA_NODEFER或者SA_NOMASK标志位，处理程序执行完后，被阻塞的信号开始执行。
+
+注：请注意sa_mask指定的信号阻塞的前提条件，是在由sigaction（）安装信号的处理函数执行过程中由sa_mask指定的信号才被阻塞。
+
+4、sa_flags中包含了许多标志位，包括刚刚提到的SA_NODEFER及SA_NOMASK标志位。另一个比较重要的标志位是SA_SIGINFO，当设定了该标志位时，表示信号附带的参数可以被传递到信号处理函数中，因此，应该为sigaction结构中的sa_sigaction指定处理函数，而不应该为sa_handler指定信号处理函数，否则，设置该标志变得毫无意义。即使为sa_sigaction指定了信号处理函数，如果不设置SA_SIGINFO，信号处理函数同样不能得到信号传递过来的数据，在信号处理函数中对这些信息的访问都将导致段错误（Segmentation fault）。
+
+注：很多文献在阐述该标志位时都认为，如果设置了该标志位，就必须定义三参数信号处理函数。实际不是这样的，验证方法很简单：自己实现一个单一参数信号处理函数，并在程序中设置该标志位，可以察看程序的运行结果。实际上，可以把该标志位看成信号是否传递参数的开关，如果设置该位，则传递参数；否则，不传递参数。
+
+##二，sigqueue()
+
+之前学过kill,raise,alarm,abort等功能稍简单的信号发送函数，现在我们学习一种新的功能比较强大的信号发送函数sigqueue.
+
+```c
+#include <sys/types.h>
+#include <signal.h>
+int sigqueue(pid_t pid, int sig, const union sigval val)
+```
+
+调用成功返回 0；否则，返回 -1。
+
+sigqueue()是比较新的发送信号系统调用，主要是针对实时信号提出的（当然也支持前32种），支持信号带有参数，与函数sigaction()配合使用。
+
+sigqueue的第一个参数是指定接收信号的进程ID，第二个参数确定即将发送的信号，第三个参数是一个联合数据结构union sigval，指定了信号传递的参数，即通常所说的4字节值。
+
+```c
+typedef union sigval {
+    int  sival_int;
+    void* sival_ptr;
+} sigval_t;
+```
+
+sigqueue()比kill()传递了更多的附加信息，但sigqueue()只能向一个进程发送信号，而不能发送信号给一个进程组。如果signo=0，将会执行错误检查，但实际上不发送任何信号，0值信号可用于检查pid的有效性以及当前进程是否有权限向目标进程发送信号。
+
+在调用sigqueue时，sigval_t指定的信息会拷贝到对应sig 注册的3参数信号处理函数的siginfo_t结构中，这样信号处理函数就可以处理这些信息了。由于sigqueue系统调用支持发送带参数信号，所以比kill()系统调用的功能要灵活和强大得多。
+
+##三，sigqueue与sigaction应用实例
+实例一：利用sigaction安装SIGINT信号
+
+```c
+#include <unistd.h>
+#include <sys/stat.h>
+#include <sys/wait.h>
+#include <sys/types.h>
+#include <fcntl.h>
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <errno.h>
+#include <string.h>
+#include <signal.h>
+
+
+#define ERR_EXIT(m) \
+    do \
+    { \
+        perror(m); \
+        exit(EXIT_FAILURE); \
+    } while(0)
+
+void handler(int sig);
+
+int main(int argc, char *argv[])
+{
+    struct sigaction act;
+    act.sa_handler = handler;
+    sigemptyset(&act.sa_mask);
+    act.sa_flags = 0;
+    //因为不关心SIGINT上一次的struct sigaction所以，oact为NULL
+    //与signal(handler,SIGINT)相同
+    if (sigaction(SIGINT, &act, NULL) < 0)
+        ERR_EXIT("sigaction error\n");
+
+    for (;;)
+        pause();
+    return 0;
+}
+
+void handler(int sig)
+{
+    printf("recv a sig=%d\n", sig);
+}
+```
+
+结果：
+
+![](./images/mickole/15192104-5f531ba85b4f496f9a51f5c42b96d7ce.png)
+
+实例二：利用sigaction实现signal，实际上signal底层实现就是利用sigaction
+
+```c
+#include <unistd.h>
+#include <sys/stat.h>
+#include <sys/wait.h>
+#include <sys/types.h>
+#include <fcntl.h>
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <errno.h>
+#include <string.h>
+#include <signal.h>
+
+
+#define ERR_EXIT(m) \
+    do \
+    { \
+        perror(m); \
+        exit(EXIT_FAILURE); \
+    } while(0)
+
+void handler(int sig);
+__sighandler_t my_signal(int sig, __sighandler_t handler);
+
+int main(int argc, char *argv[])
+{
+    my_signal(SIGINT, handler);
+    for (;;)
+        pause();
+    return 0;
+}
+
+__sighandler_t my_signal(int sig, __sighandler_t handler)
+{
+    struct sigaction act;
+    struct sigaction oldact;
+    act.sa_handler = handler;
+    sigemptyset(&act.sa_mask);
+    act.sa_flags = 0;
+
+    if (sigaction(sig, &act, &oldact) < 0)
+        return SIG_ERR;
+
+    return oldact.sa_handler;
+}
+
+void handler(int sig)
+{
+    printf("recv a sig=%d\n", sig);
+}
+```
+
+结果：
+
+
+
+![](./images/mickole/15192104-80ffc43833ae4d34b190710202e86c18.png)
+
+可知my_signal与系统调用signal具有相同的效果
+
+实例三：验证sigaction.sa_mask效果
+
+```c
+#include <unistd.h>
+#include <sys/stat.h>
+#include <sys/wait.h>
+#include <sys/types.h>
+#include <fcntl.h>
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <errno.h>
+#include <string.h>
+#include <signal.h>
+
+
+#define ERR_EXIT(m) \
+    do \
+    { \
+        perror(m); \
+        exit(EXIT_FAILURE); \
+    } while(0)
+
+void handler(int sig);
+
+int main(int argc, char *argv[])
+{
+    struct sigaction act;
+    act.sa_handler = handler;
+    sigemptyset(&act.sa_mask);
+    sigaddset(&act.sa_mask, SIGQUIT);
+    act.sa_flags = 0;
+
+    if (sigaction(SIGINT, &act, NULL) < 0)
+        ERR_EXIT("sigaction error");
+
+    struct sigaction act2;
+    act2.sa_handler = handler;
+    sigemptyset(&act2.sa_mask);
+    act2.sa_flags = 0;
+
+    if (sigaction(SIGQUIT, &act2, NULL) < 0)
+        ERR_EXIT("sigaction error");
+
+    for (;;)
+        pause();
+    return 0;
+}
+
+void handler(int sig)
+{
+    if(sig == SIGINT){
+
+        printf("recv a SIGINT signal\n");
+        sleep(5);
+    }
+    if (sig == SIGQUIT)
+    {
+        printf("recv a SIGQUIT signal\n");
+    }
+}
+```
+
+结果：
+
+
+
+![](./images/mickole/15192105-8b8baf15acfd4ebbbbb4761b7aacf2b1.png)
+
+可知，安装信号SIGINT时，将SIGQUIT加入到sa_mask阻塞集中，则当SIGINT信号正在执行处理函数时，SIGQUIT信号将被阻塞，只有当SIGINT信号处理函数执行完后才解除对SIGQUIT信号的阻塞，由于SIGQUIT是不可靠信号，不支持排队，所以只递达一次
+
+示例四：给自身发送int型数据
+
+```c
+#include <stdio.h>
+#include <unistd.h>
+#include <signal.h>
+#include <stdlib.h>
+
+void sighandler(int signo, siginfo_t *info,void *ctx);
+//给自身传递信息
+int main(void)
+{
+
+    struct sigaction act;
+    act.sa_sigaction = sighandler;
+    sigemptyset(&act.sa_mask);
+    act.sa_flags = SA_SIGINFO;//信息传递开关
+    if(sigaction(SIGINT,&act,NULL) == -1){
+        perror("sigaction error");
+        exit(EXIT_FAILURE);
+    }
+    sleep(2);
+    union sigval mysigval;
+    mysigval.sival_int = 100;
+    if(sigqueue(getpid(),SIGINT,mysigval) == -1){
+        perror("sigqueue error");
+        exit(EXIT_FAILURE);
+    }
+    return 0;
+}
+
+void sighandler(int signo, siginfo_t *info,void *ctx)
+{
+    //以下两种方式都能获得sigqueue发来的数据
+    printf("receive the data from siqueue by info->si_int is %d\n",info->si_int);
+    printf("receive the data from siqueue by info->si_value.sival_int is %d\n",info->si_value.sival_int);
+
+}
+```
+
+结果：
+
+![](./images/mickole/15192106-f58fa5147535489fa93ca157e2eea255.png)
+
+示例五：进程间传递数据
+
+接收端：
+
+```c
+#include <stdio.h>
+#include <unistd.h>
+#include <signal.h>
+#include <stdlib.h>
+
+void sighandler(int signo, siginfo_t *info,void *ctx);
+//给自身传递信息
+int main(void)
+{
+
+    struct sigaction act;
+    act.sa_sigaction = sighandler;
+    sigemptyset(&act.sa_mask);
+    act.sa_flags = SA_SIGINFO;//信息传递开关
+    if(sigaction(SIGINT,&act,NULL) == -1){
+        perror("sigaction error");
+        exit(EXIT_FAILURE);
+    }
+    for(; ;){
+        printf("waiting a SIGINT signal....\n");
+        pause();
+    }
+    return 0;
+}
+
+void sighandler(int signo, siginfo_t *info,void *ctx)
+{
+    //以下两种方式都能获得sigqueue发来的数据
+    printf("receive the data from siqueue by info->si_int is %d\n",info->si_int);
+    printf("receive the data from siqueue by info->si_value.sival_int is %d\n",info->si_value.sival_int);
+
+}
+```
+
+发送端：
+
+```c
+#include <stdio.h>
+#include <unistd.h>
+#include <signal.h>
+#include <stdlib.h>
+
+int main(int argc, char **argv)
+{
+    if(argc != 2){
+        fprintf(stderr,"usage:%s pid\n",argv[0]);
+        exit(EXIT_FAILURE);
+    }
+    pid_t pid = atoi(argv[1]);    
+    sleep(2);
+    union sigval mysigval;
+    mysigval.sival_int = 100;
+    printf("sending SIGINT signal to %d......\n",pid);
+    if(sigqueue(pid,SIGINT,mysigval) == -1){
+        perror("sigqueue error");
+        exit(EXIT_FAILURE);
+    }
+    return 0;
+}
+```
+
+结果：
+
+![](./images/mickole/15192107-710bc1936127483d92d46c875332e7f9.png)
+
+由图可知接收成功

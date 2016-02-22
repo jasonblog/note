@@ -251,6 +251,7 @@
    * [如何使用pkg-config工具編譯鏈接第三方庫](linux_system/ru_he_shi_yongpkg_-_config_gong_ju_bian_yi_lian_ji.md)
    * [stdout & stderr & fflush()](linux_system/stdout_&_stderr_&_fflush.md)
    * [使用system()函數執行命令行命令簡述](linux_system/shi_yong_system_han_shu_zhi_xing_ming_ling_xing_mi.md)
+   * ldconfig及 LD_LIBRARY_PATH,LD_DEBUG ,LD_PRELOAD
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

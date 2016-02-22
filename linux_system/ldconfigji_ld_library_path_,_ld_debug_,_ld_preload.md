@@ -1,0 +1,2 @@
+# ldconfig及 LD_LIBRARY_PATH,LD_DEBUG ,LD_PRELOAD
+

@@ -301,7 +301,7 @@
    * [gdb C++ 小技巧](gdb/gdb_c++_xiao_ji_qiao.md)
    * [gdb 展開 C/C++ 的 macro](gdb/gdb_zhan_kai_c__c++_de_macro.md)
    * [solib-absolute-prefix 和solib-search-path的區別](gdb/solib-absolute-prefix_he_solib_-_search_-_path_de_.md)
-   * 利用gdb進行shared library的除錯
+   * [利用gdb進行shared library的除錯](gdb/li_yong_gdb_jin_xing_shared_library_de_chu_cuo.md)
 * [Linux內核分析雲課堂學習筆記](mooc_linux_kernel/README.md)
    * [圖解分析彙編代碼以理解計算機是如何工作的](mooc_linux_kernel/191.md)
    * [基於mykernel的一個簡單的時間片輪轉多道程序內核代碼分析](mooc_linux_kernel/192.md)

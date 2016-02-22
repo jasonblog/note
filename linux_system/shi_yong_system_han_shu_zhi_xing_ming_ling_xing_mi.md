@@ -1,27 +1,27 @@
-# 使用system()函数执行命令行命令简述
+# 使用system()函數執行命令行命令簡述
 
 ```c
 #include<stdlib.h>
 #include <process.h>
 ```
 
-函数原型：int system(const char *command)
+函數原型：int system(const char *command)
 
-system函数可以调用一些DOS或者命令行命令,比如
+system函數可以調用一些DOS或者命令行命令,比如
 
-system("cls");//清屏,等于在DOS上使用cls命令
+system("cls");//清屏,等於在DOS上使用cls命令
 
-system(“ls -al”);//清屏,等于在unix上使用ls -al命令
+system(“ls -al”);//清屏,等於在unix上使用ls -al命令
 
-成功了返回0 失败了返回-1
+成功了返回0 失敗了返回-1
 
-需要注意的是：该函数对字符串的处理和c中的习惯一致，比如说：如果输出反斜杠需要 \\
+需要注意的是：該函數對字符串的處理和c中的習慣一致，比如說：如果輸出反斜槓需要 \\
 例如:
 system("dir c:\\windows");
-注意转义字符等的限制就可以了
+注意轉義字符等的限制就可以了
 
 
-system()函数功能强大，很多人用却对它的原理知之甚少先看linux版system函数的源码：
+system()函數功能強大，很多人用卻對它的原理知之甚少先看linux版system函數的源碼：
 
 ```c
 #include <sys/types.h>
@@ -42,7 +42,7 @@ int system(const char* cmdstring)
         status = -1;
     } else if (pid = 0) {
         execl("/bin/sh", "sh", "-c", cmdstring, (char*)0);
-        -exit(127); //子进程正常执行则不会执行此语句
+        -exit(127); //子進程正常執行則不會執行此語句
     } else {
         while (waitpid(pid, &status, 0) < 0) {
             if (errno != EINTER) {
@@ -57,14 +57,14 @@ int system(const char* cmdstring)
 
 
 ```
-先分析一下原理，然后再看上面的代码大家估计就能看懂了：  
+先分析一下原理，然後再看上面的代碼大家估計就能看懂了：  
 
-当system接受的命令为NULL时直接返回，否则fork出一个子进程，因为fork在两个进程：父进程和子进程中都返回，这里要检查返回的pid，fork在子进程中返回0，在父进程中返回子进程的pid，父进程使用waitpid等待子进程结束，子进程则是调用execl来启动一个程序代替自己，execl("/bin/sh", "sh", "-c", cmdstring, (char*)0)是调用shell，这个shell的路径是/bin/sh，后面的字符串都是参数，然后子进程就变成了一个shell进程，这个shell的参数
-是cmdstring，就是system接受的参数。在windows中的shell是command，想必大家很熟悉shell接受命令之后做的事了。
+當system接受的命令為NULL時直接返回，否則fork出一個子進程，因為fork在兩個進程：父進程和子進程中都返回，這裡要檢查返回的pid，fork在子進程中返回0，在父進程中返回子進程的pid，父進程使用waitpid等待子進程結束，子進程則是調用execl來啟動一個程序代替自己，execl("/bin/sh", "sh", "-c", cmdstring, (char*)0)是調用shell，這個shell的路徑是/bin/sh，後面的字符串都是參數，然後子進程就變成了一個shell進程，這個shell的參數
+是cmdstring，就是system接受的參數。在windows中的shell是command，想必大家很熟悉shell接受命令之後做的事了。
    
-如果上面的你没有看懂，那我再解释下fork的原理：当一个进程A调用fork时，系统内核创建一个新的进程B，并将A的内存映像复制到B的进程空间中，因为A和B是一样的，那么他们怎么知道自己是父进程还是子进程呢，看fork的返回值就知道，上面也说了fork在子进程中返回0，在父进程中返回子进程的pid。
+如果上面的你沒有看懂，那我再解釋下fork的原理：當一個進程A調用fork時，系統內核創建一個新的進程B，並將A的內存映像複製到B的進程空間中，因為A和B是一樣的，那麼他們怎麼知道自己是父進程還是子進程呢，看fork的返回值就知道，上面也說了fork在子進程中返回0，在父進程中返回子進程的pid。
 
-windows中的情况也类似，就是execl换了个又臭又长的名字，参数名也换的看了让人发晕的，我在MSDN中找到了原型，给大家看看：
+windows中的情況也類似，就是execl換了個又臭又長的名字，參數名也換的看了讓人發暈的，我在MSDN中找到了原型，給大家看看：
 
 ```c
 HINSTANCE   ShellExecute(
@@ -77,25 +77,25 @@ HINSTANCE   ShellExecute(
    );   
 ```
 
-用法见下：
+用法見下：
 
 ```c
 ShellExecute(NULL,   "open",   "c:\\a.reg",   NULL,   NULL,   SW_SHOWNORMAL);  
 ```
 
-你也许会奇怪 ShellExecute中有个用来传递父进程环境变量的参数 lpDirectory，linux中的 execl却没有，这是因为execl是编译器的函数（在一定程度上隐藏具体系统实现），在linux中它会接着产生一个linux系统的调用 execve, 原型见下：
+你也許會奇怪 ShellExecute中有個用來傳遞父進程環境變量的參數 lpDirectory，linux中的 execl卻沒有，這是因為execl是編譯器的函數（在一定程度上隱藏具體系統實現），在linux中它會接著產生一個linux系統的調用 execve, 原型見下：
 
 ```c
 int execve(const char * file,const char **argv,const char **envp);
 ```
 
-看到这里你就会明白为什么system（）会接受父进程的环境变量，但是用system改变环境变量后，system一返回主函数还是没变。原因从system的实现可以看到，它是通过产生新进程实现的，从我的分析中可以看到父进程和子进程间没有进程通信，子进程自然改变不了父进程的环境变量，DOS早死翘翘了，还是玩linux吧。
+看到這裡你就會明白為什麼system（）會接受父進程的環境變量，但是用system改變環境變量後，system一返回主函數還是沒變。原因從system的實現可以看到，它是通過產生新進程實現的，從我的分析中可以看到父進程和子進程間沒有進程通信，子進程自然改變不了父進程的環境變量，DOS早死翹翹了，還是玩linux吧。
 
 
 
-注： linux下执行系统命令用execl函数：
+注： linux下執行系統命令用execl函數：
 
-Linux下头文件
+Linux下頭文件
 
 ```c
 #include <unistd.h>
@@ -103,7 +103,7 @@ int execl(const char *path, const char *arg, ...);
 ```
 
 例如：
-// 执行/bin目录下的ls, 第一参数为程序名ls, 第二个参数为"-al", 第三个参数为"/etc/passwd"
+// 執行/bin目錄下的ls, 第一參數為程序名ls, 第二個參數為"-al", 第三個參數為"/etc/passwd"
 
 ```c
 execl("/bin/ls", "ls", "-al", "/etc/passwd", (char *) 0);

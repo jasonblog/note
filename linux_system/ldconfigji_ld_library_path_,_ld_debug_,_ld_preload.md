@@ -2,20 +2,20 @@
 
 
 
-1. 往/lib和/usr/lib里面加东西，是不用修改/etc/ld.so.conf的，但是完了之后要调一下ldconfig，不然这个library会找不到
+1. 往/lib和/usr/lib裡面加東西，是不用修改/etc/ld.so.conf的，但是完了之後要調一下ldconfig，不然這個library會找不到
 
-2. 想往上面两个目录以外加东西的时候，一定要修改/etc/ld.so.conf，然后再调用ldconfig，不然也会找不到
-比 如安装了一个mysql到/usr/local/mysql，mysql有一大堆library在/usr/local/mysql/lib下面，这时就 需要在/etc/ld.so.conf下面加一行/usr/local/mysql/lib，保存过后ldconfig一下，新的library才能在程 序运行时被找到。
+2. 想往上面兩個目錄以外加東西的時候，一定要修改/etc/ld.so.conf，然後再調用ldconfig，不然也會找不到
+比 如安裝了一個mysql到/usr/local/mysql，mysql有一大堆library在/usr/local/mysql/lib下面，這時就 需要在/etc/ld.so.conf下面加一行/usr/local/mysql/lib，保存過後ldconfig一下，新的library才能在程 序運行時被找到。
 
-3. 如果想在这两个目录以外放lib，但是又不想在/etc/ld.so.conf中加东西（或者是没有权限加东西）。那也可以，就是export一个全局变 量LD_LIBRARY_PATH，然后运行程序的时候就会去这个目录中找library。一般来讲这只是一种临时的解决方案，在没有权限或临时需要的时 候使用。
+3. 如果想在這兩個目錄以外放lib，但是又不想在/etc/ld.so.conf中加東西（或者是沒有權限加東西）。那也可以，就是export一個全局變 量LD_LIBRARY_PATH，然後運行程序的時候就會去這個目錄中找library。一般來講這只是一種臨時的解決方案，在沒有權限或臨時需要的時 候使用。
 
-4. ldconfig做的这些东西都与运行程序时有关，跟编译时一点关系都没有。编译的时候还是该加-L就得加，不要混淆了。
+4. ldconfig做的這些東西都與運行程序時有關，跟編譯時一點關係都沒有。編譯的時候還是該加-L就得加，不要混淆了。
 
-5. 总之，就是不管做了什么关于library的变动后，最好都ldconfig一下，不然会出现一些意想不到的结果。不会花太多的时间，但是会省很多的事。
+5. 總之，就是不管做了什麼關於library的變動後，最好都ldconfig一下，不然會出現一些意想不到的結果。不會花太多的時間，但是會省很多的事。
 
 
 
-##几个特殊的环境变量：
+##幾個特殊的環境變量：
  
 ###LD_DEBUG的用法：
 
@@ -38,19 +38,19 @@ a filename can be specified using the LD_DEBUG_OUTPUT environment variable.
 ```
 
 ```sh
-Linux支持共享库已经有悠久的历史了，不再是什么新概念了。大家都知道如何编译、连接以及动态加载(dlopen/dlsym/dlclose) 共享库。但是，可能很多人，甚至包括一些高手，对共享库相关的一些环境变量认识模糊。当然，不知道这些环境变量，也可以用共享库，但是，若知道它们，可能就会用得更好。下面介绍一些常用的环境变量，希望对家有所帮助：
+Linux支持共享庫已經有悠久的歷史了，不再是什麼新概念了。大家都知道如何編譯、連接以及動態加載(dlopen/dlsym/dlclose) 共享庫。但是，可能很多人，甚至包括一些高手，對共享庫相關的一些環境變量認識模糊。當然，不知道這些環境變量，也可以用共享庫，但是，若知道它們，可能就會用得更好。下面介紹一些常用的環境變量，希望對家有所幫助：
 
  
 
-LD_LIBRARY_PATH 这个环境变量是大家最为熟悉的，它告诉loader：在哪些目录中可以找到共享库。可以设置多个搜索目录，这些目录之间用冒号分隔开。在linux下，还提供了另外一种方式来完成同样的功能，你可以把这些目录加到/etc/ld.so.conf中，或则在/etc/ld.so.conf.d里创建一个文件，把目录加到这个文件里。当然，这是系统范围内全局有效的，而环境变量只对当前shell有效。按照惯例，除非你用上述方式指明，loader是不会在当前目录下去找共享库的，正如shell不会在当前目前找可执行文件一样。
+LD_LIBRARY_PATH 這個環境變量是大家最為熟悉的，它告訴loader：在哪些目錄中可以找到共享庫。可以設置多個搜索目錄，這些目錄之間用冒號分隔開。在linux下，還提供了另外一種方式來完成同樣的功能，你可以把這些目錄加到/etc/ld.so.conf中，或則在/etc/ld.so.conf.d裡創建一個文件，把目錄加到這個文件裡。當然，這是系統範圍內全局有效的，而環境變量只對當前shell有效。按照慣例，除非你用上述方式指明，loader是不會在當前目錄下去找共享庫的，正如shell不會在當前目前找可執行文件一樣。
 
  
 
-LD_PRELOAD 这个环境变量对于程序员来说，也是特别有用的。它告诉loader：在解析函数地址时，优先使用LD_PRELOAD里指定的共享库中的函数。这为调试提供了方便，比如，对于C/C++程序来说，内存错误最难解决了。常见的做法就是重载malloc系列函数，但那样做要求重新编译程序，比较麻烦。使用LD_PRELOAD机制，就不用重新编译了，把包装函数库编译成共享库，并在LD_PRELOAD加入该共享库的名称，这些包装函数就会自动被调用了。在linux下，还提供了另外一种方式来完成同样的功能，你可以把要优先加载的共享库的文件名写在/etc/ld.so.preload里。当然，这是系统范围内全局有效的，而环境变量只对当前shell有效。
+LD_PRELOAD 這個環境變量對於程序員來說，也是特別有用的。它告訴loader：在解析函數地址時，優先使用LD_PRELOAD裡指定的共享庫中的函數。這為調試提供了方便，比如，對於C/C++程序來說，內存錯誤最難解決了。常見的做法就是重載malloc系列函數，但那樣做要求重新編譯程序，比較麻煩。使用LD_PRELOAD機制，就不用重新編譯了，把包裝函數庫編譯成共享庫，並在LD_PRELOAD加入該共享庫的名稱，這些包裝函數就會自動被調用了。在linux下，還提供了另外一種方式來完成同樣的功能，你可以把要優先加載的共享庫的文件名寫在/etc/ld.so.preload裡。當然，這是系統範圍內全局有效的，而環境變量只對當前shell有效。
 
  
 
-LD_ DEBUG 这个环境变量比较好玩，有时使用它，可以帮助你查找出一些共享库的疑难杂症（比如同名函数引起的问题）。同时，利用它，你也可以学到一些共享库加载过程的知识。它的参数如下：
+LD_ DEBUG 這個環境變量比較好玩，有時使用它，可以幫助你查找出一些共享庫的疑難雜症（比如同名函數引起的問題）。同時，利用它，你也可以學到一些共享庫加載過程的知識。它的參數如下：
 
   libs display library search paths
 
@@ -73,24 +73,24 @@ LD_ DEBUG 这个环境变量比较好玩，有时使用它，可以帮助你查�
   help display this help message and exit
 
 
-BIND_NOW 这个环境变量与dlopen中的flag的意义是一致，只是dlopen中的flag适用于显示加载的情况，而BIND_NOW/BIND_NOT适用于隐式加载。
+BIND_NOW 這個環境變量與dlopen中的flag的意義是一致，只是dlopen中的flag適用於顯示加載的情況，而BIND_NOW/BIND_NOT適用於隱式加載。
 
  
 
-LD_PROFILE/LD_PROFILE_OUTPUT：为指定的共享库产生profile数据，LD_PROFILE指定共享库的名称，LD_PROFILE_OUTPUT指定输出profile文件的位置，是一个目录，且必须存在，默认的目录为/var/tmp/或/var/profile。通过profile数据，你可以得到一些该共享库中函数的使用统计信息。
+LD_PROFILE/LD_PROFILE_OUTPUT：為指定的共享庫產生profile數據，LD_PROFILE指定共享庫的名稱，LD_PROFILE_OUTPUT指定輸出profile文件的位置，是一個目錄，且必須存在，默認的目錄為/var/tmp/或/var/profile。通過profile數據，你可以得到一些該共享庫中函數的使用統計信息。
 ```
 
 
-Linux 运行的时候，是如何管理共享库(*.so)的？在 Linux 下面，共享库的寻找和加载是由 /lib/ld.so 实现的。 ld.so 在标准路经(/lib, /usr/lib) 中寻找应用程序用到的共享库。
+Linux 運行的時候，是如何管理共享庫(*.so)的？在 Linux 下面，共享庫的尋找和加載是由 /lib/ld.so 實現的。 ld.so 在標準路經(/lib, /usr/lib) 中尋找應用程序用到的共享庫。
 
 
-但是，如果需要用到的共享库在非标准路经，ld.so 怎么找到它呢？
+但是，如果需要用到的共享庫在非標準路經，ld.so 怎麼找到它呢？
 
 
-目前，Linux 通用的做法是将非标准路经加入 /etc/ld.so.conf，然后运行 ldconfig 生成 /etc/ld.so.cache。 ld.so 加载共享库的时候，会从 ld.so.cache 查找。
+目前，Linux 通用的做法是將非標準路經加入 /etc/ld.so.conf，然後運行 ldconfig 生成 /etc/ld.so.cache。 ld.so 加載共享庫的時候，會從 ld.so.cache 查找。
 
 
-传 统上， Linux 的先辈 Unix 还有一个环境变量 - LD_LIBRARY_PATH 来处理非标准路经的共享库。ld.so 加载共享库的时候，也会查找这个变量所设置的路经。但是，有不少声音主张要避免使用 LD_LIBRARY_PATH 变量，尤其是作为全局变量。这些声音是：
+傳 統上， Linux 的先輩 Unix 還有一個環境變量 - LD_LIBRARY_PATH 來處理非標準路經的共享庫。ld.so 加載共享庫的時候，也會查找這個變量所設置的路經。但是，有不少聲音主張要避免使用 LD_LIBRARY_PATH 變量，尤其是作為全局變量。這些聲音是：
 
 
 * LD_LIBRARY_PATH is not the answer - http://prefetch.net/articles/linkers.badldlibrary.html
@@ -98,24 +98,24 @@ Linux 运行的时候，是如何管理共享库(*.so)的？在 Linux 下面，�
 * Why LD_LIBRARY_PATH is bad - http://xahlee.org/UnixResource_dir/_/ldpath.html 
 
 * LD_LIBRARY_PATH - just say no - http://blogs.sun.com/rie/date/20040710
-解决这一问题的另一方法是在编译的时候通过 -R<path> 选项指定 run-time path。
+解決這一問題的另一方法是在編譯的時候通過 -R<path> 選項指定 run-time path。
 
 
 ```sh
-1. 往/lib和/usr/lib里面加东西，是不用修改/etc/ld.so.conf的，但是完了之后要调一下ldconfig，不然这个library会找不到
+1. 往/lib和/usr/lib裡面加東西，是不用修改/etc/ld.so.conf的，但是完了之後要調一下ldconfig，不然這個library會找不到
 
 
-2. 想往上面两个目录以外加东西的时候，一定要修改/etc/ld.so.conf，然后再调用ldconfig，不然也会找不到
-比如安装了一个mysql到/usr/local/mysql，mysql有一大堆library在/usr/local/mysql/lib下面，这时就需要在/etc/ld.so.conf下面加一行/usr/local/mysql/lib，保存过后ldconfig一下，新的library才能在程序运行时被找到。
+2. 想往上面兩個目錄以外加東西的時候，一定要修改/etc/ld.so.conf，然後再調用ldconfig，不然也會找不到
+比如安裝了一個mysql到/usr/local/mysql，mysql有一大堆library在/usr/local/mysql/lib下面，這時就需要在/etc/ld.so.conf下面加一行/usr/local/mysql/lib，保存過後ldconfig一下，新的library才能在程序運行時被找到。
 
 
-3. 如果想在这两个目录以外放lib，但是又不想在/etc/ld.so.conf中加东西（或者是没有权限加东西）。那也可以，就是export一个全局变量LD_LIBRARY_PATH，然后运行程序的时候就会去这个目录中找library。一般来讲这只是一种临时的解决方案，在没有权限或临时需要的时候使用。
+3. 如果想在這兩個目錄以外放lib，但是又不想在/etc/ld.so.conf中加東西（或者是沒有權限加東西）。那也可以，就是export一個全局變量LD_LIBRARY_PATH，然後運行程序的時候就會去這個目錄中找library。一般來講這只是一種臨時的解決方案，在沒有權限或臨時需要的時候使用。
 
 
-4. ldconfig做的这些东西都与运行程序时有关，跟编译时一点关系都没有。编译的时候还是该加-L就得加，不要混淆了。
+4. ldconfig做的這些東西都與運行程序時有關，跟編譯時一點關係都沒有。編譯的時候還是該加-L就得加，不要混淆了。
 
 
-5. 总之，就是不管做了什么关于library的变动后，最好都ldconfig一下，不然会出现一些意想不到的结果。不会花太多的时间，但是会省很多的事。
+5. 總之，就是不管做了什麼關於library的變動後，最好都ldconfig一下，不然會出現一些意想不到的結果。不會花太多的時間，但是會省很多的事。
 
 ```
 http://hi.baidu.com/fanzier/blog/item/222ba3ec74cb9a2463d09fb5.html
@@ -123,11 +123,11 @@ http://hi.baidu.com/fanzier/blog/item/222ba3ec74cb9a2463d09fb5.html
 
 
 
-LD_LIBRARY_PATH 这个环境变量是大家最为熟悉的，它告诉loader：在哪些目录中可以找到共享库。可以设置多个搜索目录，这些目录之间用冒号分隔开。在linux下，还提供了另外一种方式来完成同样的功能，你可以把这些目录加到/etc/ld.so.conf中，或则在/etc/ld.so.conf.d里创建一个文件，把目录加到这个文件里。当然，这是系统范围内全局有效的，而环境变量只对当前shell有效。按照惯例，除非你用上述方式指明，loader是不会在当前目录下去找共享库的，正如shell不会在当前目前找可执行文件一样。
+LD_LIBRARY_PATH 這個環境變量是大家最為熟悉的，它告訴loader：在哪些目錄中可以找到共享庫。可以設置多個搜索目錄，這些目錄之間用冒號分隔開。在linux下，還提供了另外一種方式來完成同樣的功能，你可以把這些目錄加到/etc/ld.so.conf中，或則在/etc/ld.so.conf.d裡創建一個文件，把目錄加到這個文件裡。當然，這是系統範圍內全局有效的，而環境變量只對當前shell有效。按照慣例，除非你用上述方式指明，loader是不會在當前目錄下去找共享庫的，正如shell不會在當前目前找可執行文件一樣。
  
 
 
-LD_DEBUG 是 glibc 中的 loader 为了方便自身调试而设置的一个环境变量。通过设置这个环境变量，可以方便的看到 loader 的加载过程。 以在 64位 centos 上编译安装 memcached 为例，安装阶段顺利，执行 memcached 命令时出现错误：
+LD_DEBUG 是 glibc 中的 loader 為了方便自身調試而設置的一個環境變量。通過設置這個環境變量，可以方便的看到 loader 的加載過程。 以在 64位 centos 上編譯安裝 memcached 為例，安裝階段順利，執行 memcached 命令時出現錯誤：
 
 ```sh
 #memcached –h
@@ -137,7 +137,7 @@ cannot open shared object file: No such file or directory
 /usr/lib/libevent-1.4.so.2
 ```
 
-##设置 LD_DEBUG 变量获得更多信息:
+##設置 LD_DEBUG 變量獲得更多信息:
 
 ```sh
 #LD_DEBUG=help ls
@@ -158,7 +158,7 @@ To direct the debugging output into a file instead of standard output
 a filename can be specified using the LD_DEBUG_OUTPUT environment variable.
 ```
 
-##库依赖的问题，使用 libs 参数:
+##庫依賴的問題，使用 libs 參數:
 
 ```sh
 #LD_DEBUG=libs /usr/local/memcached/bin/memcached –h

@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>使用命令的縮寫形式 | Jason note</title>
+        <title>ldconfig及 LD_LIBRARY_PATH,LD_DEBUG ,LD_PRELOAD | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../100_gdb_tips/run-shell-command.html" />
+    <link rel="next" href="../assembly/index.html" />
     
     
-    <link rel="prev" href="../100_gdb_tips/preprocessor-macro.html" />
+    <link rel="prev" href="../linux_system/shi_yong_system_han_shu_zhi_xing_ming_ling_xing_mi.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="49.16.3" data-basepath=".." data-revision="Tue Feb 23 2016 02:29:19 GMT+0800 (CST)">
+    <div class="book" data-level="15.23" data-basepath=".." data-revision="Tue Feb 23 2016 02:29:19 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -3948,7 +3948,7 @@
             
         </li>
     
-        <li class="chapter " data-level="15.23" data-path="linux_system/ldconfigji_ld_library_path_,_ld_debug_,_ld_preload.html">
+        <li class="chapter active" data-level="15.23" data-path="linux_system/ldconfigji_ld_library_path_,_ld_debug_,_ld_preload.html">
             
                 
                     <a href="../linux_system/ldconfigji_ld_library_path_,_ld_debug_,_ld_preload.html">
@@ -10166,7 +10166,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="49.16.3" data-path="100_gdb_tips/use-short-command.html">
+        <li class="chapter " data-level="49.16.3" data-path="100_gdb_tips/use-short-command.html">
             
                 
                     <a href="../100_gdb_tips/use-short-command.html">
@@ -10402,39 +10402,151 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E4%BD%BF%E7%94%A8%E5%91%BD%E4%BB%A4%E7%9A%84%E7%B8%AE%E5%AF%AB%E5%BD%A2%E5%BC%8F">&#x4F7F;&#x7528;&#x547D;&#x4EE4;&#x7684;&#x7E2E;&#x5BEB;&#x5F62;&#x5F0F;</h1>
-<h2 id="%E6%8A%80%E5%B7%A7">&#x6280;&#x5DE7;</h2>
-<p>&#x5728;gdb&#x4E2D;&#xFF0C;&#x4F60;&#x4E0D;&#x7528;&#x5FC5;&#x9808;&#x8F38;&#x5165;&#x5B8C;&#x6574;&#x7684;&#x547D;&#x4EE4;&#xFF0C;&#x53EA;&#x9700;&#x547D;&#x4EE4;&#x7684;&#xFF08;&#x524D;&#xFF09;&#x5E7E;&#x500B;&#x5B57;&#x6BCD;&#x5373;&#x53EF;&#x3002;&#x898F;&#x5247;&#x662F;&#xFF0C;&#x53EA;&#x8981;&#x9019;&#x500B;&#x7E2E;&#x5BEB;&#x4E0D;&#x6703;&#x548C;&#x5176;&#x5B83;&#x547D;&#x4EE4;&#x6709;&#x6B67;&#x7FA9;&#xFF08;&#x6CE8;&#xFF0C;&#x662F;&#x5426;&#x6709;&#x6B67;&#x7FA9;&#xFF0C;&#x9019;&#x500B;&#x898F;&#x5247;&#x5F9E;&#x6587;&#x6A94;&#x4E0A;&#x770B;&#x4E0D;&#x51FA;&#xFF0C;&#x770B;&#x8D77;&#x4F86;&#x9700;&#x8981;&#x67E5;&#x770B;gdb&#x7684;&#x6E90;&#x4EE3;&#x78BC;&#xFF0C;&#x6216;&#x8005;&#x5728;&#x5BE6;&#x969B;&#x4F7F;&#x7528;&#x4E2D;&#x9032;&#x884C;&#x7E3D;&#x7D50;&#xFF09;&#x3002;&#x4E5F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;tab&#x9375;&#x9032;&#x884C;&#x547D;&#x4EE4;&#x88DC;&#x5168;&#x3002;</p>
-<p>&#x5176;&#x4E2D;&#x8A31;&#x591A;&#x5E38;&#x7528;&#x547D;&#x4EE4;&#x53EA;&#x4F7F;&#x7528;&#x7B2C;&#x4E00;&#x500B;&#x5B57;&#x6BCD;&#x5C31;&#x53EF;&#x4EE5;&#xFF0C;&#x6BD4;&#x5982;&#xFF1A;</p>
-<pre><code>b -&gt; break
-c -&gt; continue
-d -&gt; delete
-f -&gt; frame
-i -&gt; info
-j -&gt; jump
-l -&gt; list
-n -&gt; next
-p -&gt; print
-r -&gt; run
-s -&gt; step
-u -&gt; until
-</code></pre><p>&#x4E5F;&#x6709;&#x4F7F;&#x7528;&#x5169;&#x500B;&#x6216;&#x5E7E;&#x500B;&#x5B57;&#x6BCD;&#x7684;&#xFF0C;&#x6BD4;&#x5982;&#xFF1A;  </p>
-<pre><code>aw -&gt; awatch
-bt -&gt; backtrace
-dir -&gt; directory
-disas -&gt; disassemble
-fin -&gt; finish
-ig -&gt; ignore
-ni -&gt; nexti
-rw -&gt; rwatch
-si -&gt; stepi
-tb -&gt; tbreak
-wa -&gt; watch
-win -&gt; winheight
-</code></pre><p>&#x53E6;&#x5916;&#xFF0C;&#x5982;&#x679C;&#x76F4;&#x63A5;&#x6309;&#x56DE;&#x8ECA;&#x9375;&#xFF0C;&#x6703;&#x91CD;&#x8907;&#x57F7;&#x884C;&#x4E0A;&#x4E00;&#x6B21;&#x7684;&#x547D;&#x4EE4;&#x3002;</p>
-<h2 id="%E8%B2%A2%E7%8D%BB%E8%80%85">&#x8CA2;&#x737B;&#x8005;</h2>
-<p>xmj</p>
-<p>nanxiao</p>
+                        <h1 id="ldconfig%E5%8F%8A-ld-library-path-ld-debug-ld-preload">ldconfig&#x53CA; LD_LIBRARY_PATH,LD_DEBUG ,LD_PRELOAD</h1>
+<ol>
+<li><p>&#x5F80;/lib&#x548C;/usr/lib&#x88E1;&#x9762;&#x52A0;&#x6771;&#x897F;&#xFF0C;&#x662F;&#x4E0D;&#x7528;&#x4FEE;&#x6539;/etc/ld.so.conf&#x7684;&#xFF0C;&#x4F46;&#x662F;&#x5B8C;&#x4E86;&#x4E4B;&#x5F8C;&#x8981;&#x8ABF;&#x4E00;&#x4E0B;ldconfig&#xFF0C;&#x4E0D;&#x7136;&#x9019;&#x500B;library&#x6703;&#x627E;&#x4E0D;&#x5230;</p>
+</li>
+<li><p>&#x60F3;&#x5F80;&#x4E0A;&#x9762;&#x5169;&#x500B;&#x76EE;&#x9304;&#x4EE5;&#x5916;&#x52A0;&#x6771;&#x897F;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x4E00;&#x5B9A;&#x8981;&#x4FEE;&#x6539;/etc/ld.so.conf&#xFF0C;&#x7136;&#x5F8C;&#x518D;&#x8ABF;&#x7528;ldconfig&#xFF0C;&#x4E0D;&#x7136;&#x4E5F;&#x6703;&#x627E;&#x4E0D;&#x5230;
+&#x6BD4; &#x5982;&#x5B89;&#x88DD;&#x4E86;&#x4E00;&#x500B;mysql&#x5230;/usr/local/mysql&#xFF0C;mysql&#x6709;&#x4E00;&#x5927;&#x5806;library&#x5728;/usr/local/mysql/lib&#x4E0B;&#x9762;&#xFF0C;&#x9019;&#x6642;&#x5C31; &#x9700;&#x8981;&#x5728;/etc/ld.so.conf&#x4E0B;&#x9762;&#x52A0;&#x4E00;&#x884C;/usr/local/mysql/lib&#xFF0C;&#x4FDD;&#x5B58;&#x904E;&#x5F8C;ldconfig&#x4E00;&#x4E0B;&#xFF0C;&#x65B0;&#x7684;library&#x624D;&#x80FD;&#x5728;&#x7A0B; &#x5E8F;&#x904B;&#x884C;&#x6642;&#x88AB;&#x627E;&#x5230;&#x3002;</p>
+</li>
+<li><p>&#x5982;&#x679C;&#x60F3;&#x5728;&#x9019;&#x5169;&#x500B;&#x76EE;&#x9304;&#x4EE5;&#x5916;&#x653E;lib&#xFF0C;&#x4F46;&#x662F;&#x53C8;&#x4E0D;&#x60F3;&#x5728;/etc/ld.so.conf&#x4E2D;&#x52A0;&#x6771;&#x897F;&#xFF08;&#x6216;&#x8005;&#x662F;&#x6C92;&#x6709;&#x6B0A;&#x9650;&#x52A0;&#x6771;&#x897F;&#xFF09;&#x3002;&#x90A3;&#x4E5F;&#x53EF;&#x4EE5;&#xFF0C;&#x5C31;&#x662F;export&#x4E00;&#x500B;&#x5168;&#x5C40;&#x8B8A; &#x91CF;LD_LIBRARY_PATH&#xFF0C;&#x7136;&#x5F8C;&#x904B;&#x884C;&#x7A0B;&#x5E8F;&#x7684;&#x6642;&#x5019;&#x5C31;&#x6703;&#x53BB;&#x9019;&#x500B;&#x76EE;&#x9304;&#x4E2D;&#x627E;library&#x3002;&#x4E00;&#x822C;&#x4F86;&#x8B1B;&#x9019;&#x53EA;&#x662F;&#x4E00;&#x7A2E;&#x81E8;&#x6642;&#x7684;&#x89E3;&#x6C7A;&#x65B9;&#x6848;&#xFF0C;&#x5728;&#x6C92;&#x6709;&#x6B0A;&#x9650;&#x6216;&#x81E8;&#x6642;&#x9700;&#x8981;&#x7684;&#x6642; &#x5019;&#x4F7F;&#x7528;&#x3002;</p>
+</li>
+<li><p>ldconfig&#x505A;&#x7684;&#x9019;&#x4E9B;&#x6771;&#x897F;&#x90FD;&#x8207;&#x904B;&#x884C;&#x7A0B;&#x5E8F;&#x6642;&#x6709;&#x95DC;&#xFF0C;&#x8DDF;&#x7DE8;&#x8B6F;&#x6642;&#x4E00;&#x9EDE;&#x95DC;&#x4FC2;&#x90FD;&#x6C92;&#x6709;&#x3002;&#x7DE8;&#x8B6F;&#x7684;&#x6642;&#x5019;&#x9084;&#x662F;&#x8A72;&#x52A0;-L&#x5C31;&#x5F97;&#x52A0;&#xFF0C;&#x4E0D;&#x8981;&#x6DF7;&#x6DC6;&#x4E86;&#x3002;</p>
+</li>
+<li><p>&#x7E3D;&#x4E4B;&#xFF0C;&#x5C31;&#x662F;&#x4E0D;&#x7BA1;&#x505A;&#x4E86;&#x4EC0;&#x9EBC;&#x95DC;&#x65BC;library&#x7684;&#x8B8A;&#x52D5;&#x5F8C;&#xFF0C;&#x6700;&#x597D;&#x90FD;ldconfig&#x4E00;&#x4E0B;&#xFF0C;&#x4E0D;&#x7136;&#x6703;&#x51FA;&#x73FE;&#x4E00;&#x4E9B;&#x610F;&#x60F3;&#x4E0D;&#x5230;&#x7684;&#x7D50;&#x679C;&#x3002;&#x4E0D;&#x6703;&#x82B1;&#x592A;&#x591A;&#x7684;&#x6642;&#x9593;&#xFF0C;&#x4F46;&#x662F;&#x6703;&#x7701;&#x5F88;&#x591A;&#x7684;&#x4E8B;&#x3002;</p>
+</li>
+</ol>
+<h2 id="%E5%B9%BE%E5%80%8B%E7%89%B9%E6%AE%8A%E7%9A%84%E7%92%B0%E5%A2%83%E8%AE%8A%E9%87%8F%EF%BC%9A">&#x5E7E;&#x500B;&#x7279;&#x6B8A;&#x7684;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#xFF1A;</h2>
+<h3 id="ld-debug%E7%9A%84%E7%94%A8%E6%B3%95%EF%BC%9A">LD_DEBUG&#x7684;&#x7528;&#x6CD5;&#xFF1A;</h3>
+<pre><code class="lang-sh">[root@ljj c_c++]<span class="hljs-comment"># LD_DEBUG=help ls</span>
+Valid options <span class="hljs-keyword">for</span> the LD_DEBUG environment variable are:
+  libs        display library search paths
+  reloc       display relocation processing
+  files       display progress <span class="hljs-keyword">for</span> input file
+  symbols     display symbol table processing
+  bindings    display information about symbol binding
+  versions    display version dependencies
+  all         all previous options combined
+  statistics  display relocation statistics
+  unused      determined unused DSOs
+  <span class="hljs-built_in">help</span>        display this <span class="hljs-built_in">help</span> message and <span class="hljs-built_in">exit</span>
+To direct the debugging output into a file instead of standard output
+a filename can be specified using the LD_DEBUG_OUTPUT environment variable.
+[root@ljj c_c++]<span class="hljs-comment">#`</span>
+</code></pre>
+<pre><code class="lang-sh">Linux&#x652F;&#x6301;&#x5171;&#x4EAB;&#x5EAB;&#x5DF2;&#x7D93;&#x6709;&#x60A0;&#x4E45;&#x7684;&#x6B77;&#x53F2;&#x4E86;&#xFF0C;&#x4E0D;&#x518D;&#x662F;&#x4EC0;&#x9EBC;&#x65B0;&#x6982;&#x5FF5;&#x4E86;&#x3002;&#x5927;&#x5BB6;&#x90FD;&#x77E5;&#x9053;&#x5982;&#x4F55;&#x7DE8;&#x8B6F;&#x3001;&#x9023;&#x63A5;&#x4EE5;&#x53CA;&#x52D5;&#x614B;&#x52A0;&#x8F09;(dlopen/dlsym/dlclose) &#x5171;&#x4EAB;&#x5EAB;&#x3002;&#x4F46;&#x662F;&#xFF0C;&#x53EF;&#x80FD;&#x5F88;&#x591A;&#x4EBA;&#xFF0C;&#x751A;&#x81F3;&#x5305;&#x62EC;&#x4E00;&#x4E9B;&#x9AD8;&#x624B;&#xFF0C;&#x5C0D;&#x5171;&#x4EAB;&#x5EAB;&#x76F8;&#x95DC;&#x7684;&#x4E00;&#x4E9B;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x8A8D;&#x8B58;&#x6A21;&#x7CCA;&#x3002;&#x7576;&#x7136;&#xFF0C;&#x4E0D;&#x77E5;&#x9053;&#x9019;&#x4E9B;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x7528;&#x5171;&#x4EAB;&#x5EAB;&#xFF0C;&#x4F46;&#x662F;&#xFF0C;&#x82E5;&#x77E5;&#x9053;&#x5B83;&#x5011;&#xFF0C;&#x53EF;&#x80FD;&#x5C31;&#x6703;&#x7528;&#x5F97;&#x66F4;&#x597D;&#x3002;&#x4E0B;&#x9762;&#x4ECB;&#x7D39;&#x4E00;&#x4E9B;&#x5E38;&#x7528;&#x7684;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#xFF0C;&#x5E0C;&#x671B;&#x5C0D;&#x5BB6;&#x6709;&#x6240;&#x5E6B;&#x52A9;&#xFF1A;
+
+
+
+LD_LIBRARY_PATH &#x9019;&#x500B;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x662F;&#x5927;&#x5BB6;&#x6700;&#x70BA;&#x719F;&#x6089;&#x7684;&#xFF0C;&#x5B83;&#x544A;&#x8A34;loader&#xFF1A;&#x5728;&#x54EA;&#x4E9B;&#x76EE;&#x9304;&#x4E2D;&#x53EF;&#x4EE5;&#x627E;&#x5230;&#x5171;&#x4EAB;&#x5EAB;&#x3002;&#x53EF;&#x4EE5;&#x8A2D;&#x7F6E;&#x591A;&#x500B;&#x641C;&#x7D22;&#x76EE;&#x9304;&#xFF0C;&#x9019;&#x4E9B;&#x76EE;&#x9304;&#x4E4B;&#x9593;&#x7528;&#x5192;&#x865F;&#x5206;&#x9694;&#x958B;&#x3002;&#x5728;linux&#x4E0B;&#xFF0C;&#x9084;&#x63D0;&#x4F9B;&#x4E86;&#x53E6;&#x5916;&#x4E00;&#x7A2E;&#x65B9;&#x5F0F;&#x4F86;&#x5B8C;&#x6210;&#x540C;&#x6A23;&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x628A;&#x9019;&#x4E9B;&#x76EE;&#x9304;&#x52A0;&#x5230;/etc/ld.so.conf&#x4E2D;&#xFF0C;&#x6216;&#x5247;&#x5728;/etc/ld.so.conf.d&#x88E1;&#x5275;&#x5EFA;&#x4E00;&#x500B;&#x6587;&#x4EF6;&#xFF0C;&#x628A;&#x76EE;&#x9304;&#x52A0;&#x5230;&#x9019;&#x500B;&#x6587;&#x4EF6;&#x88E1;&#x3002;&#x7576;&#x7136;&#xFF0C;&#x9019;&#x662F;&#x7CFB;&#x7D71;&#x7BC4;&#x570D;&#x5167;&#x5168;&#x5C40;&#x6709;&#x6548;&#x7684;&#xFF0C;&#x800C;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x53EA;&#x5C0D;&#x7576;&#x524D;shell&#x6709;&#x6548;&#x3002;&#x6309;&#x7167;&#x6163;&#x4F8B;&#xFF0C;&#x9664;&#x975E;&#x4F60;&#x7528;&#x4E0A;&#x8FF0;&#x65B9;&#x5F0F;&#x6307;&#x660E;&#xFF0C;loader&#x662F;&#x4E0D;&#x6703;&#x5728;&#x7576;&#x524D;&#x76EE;&#x9304;&#x4E0B;&#x53BB;&#x627E;&#x5171;&#x4EAB;&#x5EAB;&#x7684;&#xFF0C;&#x6B63;&#x5982;shell&#x4E0D;&#x6703;&#x5728;&#x7576;&#x524D;&#x76EE;&#x524D;&#x627E;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x4E00;&#x6A23;&#x3002;
+
+
+
+LD_PRELOAD &#x9019;&#x500B;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x5C0D;&#x65BC;&#x7A0B;&#x5E8F;&#x54E1;&#x4F86;&#x8AAA;&#xFF0C;&#x4E5F;&#x662F;&#x7279;&#x5225;&#x6709;&#x7528;&#x7684;&#x3002;&#x5B83;&#x544A;&#x8A34;loader&#xFF1A;&#x5728;&#x89E3;&#x6790;&#x51FD;&#x6578;&#x5730;&#x5740;&#x6642;&#xFF0C;&#x512A;&#x5148;&#x4F7F;&#x7528;LD_PRELOAD&#x88E1;&#x6307;&#x5B9A;&#x7684;&#x5171;&#x4EAB;&#x5EAB;&#x4E2D;&#x7684;&#x51FD;&#x6578;&#x3002;&#x9019;&#x70BA;&#x8ABF;&#x8A66;&#x63D0;&#x4F9B;&#x4E86;&#x65B9;&#x4FBF;&#xFF0C;&#x6BD4;&#x5982;&#xFF0C;&#x5C0D;&#x65BC;C/C++&#x7A0B;&#x5E8F;&#x4F86;&#x8AAA;&#xFF0C;&#x5167;&#x5B58;&#x932F;&#x8AA4;&#x6700;&#x96E3;&#x89E3;&#x6C7A;&#x4E86;&#x3002;&#x5E38;&#x898B;&#x7684;&#x505A;&#x6CD5;&#x5C31;&#x662F;&#x91CD;&#x8F09;malloc&#x7CFB;&#x5217;&#x51FD;&#x6578;&#xFF0C;&#x4F46;&#x90A3;&#x6A23;&#x505A;&#x8981;&#x6C42;&#x91CD;&#x65B0;&#x7DE8;&#x8B6F;&#x7A0B;&#x5E8F;&#xFF0C;&#x6BD4;&#x8F03;&#x9EBB;&#x7169;&#x3002;&#x4F7F;&#x7528;LD_PRELOAD&#x6A5F;&#x5236;&#xFF0C;&#x5C31;&#x4E0D;&#x7528;&#x91CD;&#x65B0;&#x7DE8;&#x8B6F;&#x4E86;&#xFF0C;&#x628A;&#x5305;&#x88DD;&#x51FD;&#x6578;&#x5EAB;&#x7DE8;&#x8B6F;&#x6210;&#x5171;&#x4EAB;&#x5EAB;&#xFF0C;&#x4E26;&#x5728;LD_PRELOAD&#x52A0;&#x5165;&#x8A72;&#x5171;&#x4EAB;&#x5EAB;&#x7684;&#x540D;&#x7A31;&#xFF0C;&#x9019;&#x4E9B;&#x5305;&#x88DD;&#x51FD;&#x6578;&#x5C31;&#x6703;&#x81EA;&#x52D5;&#x88AB;&#x8ABF;&#x7528;&#x4E86;&#x3002;&#x5728;linux&#x4E0B;&#xFF0C;&#x9084;&#x63D0;&#x4F9B;&#x4E86;&#x53E6;&#x5916;&#x4E00;&#x7A2E;&#x65B9;&#x5F0F;&#x4F86;&#x5B8C;&#x6210;&#x540C;&#x6A23;&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x628A;&#x8981;&#x512A;&#x5148;&#x52A0;&#x8F09;&#x7684;&#x5171;&#x4EAB;&#x5EAB;&#x7684;&#x6587;&#x4EF6;&#x540D;&#x5BEB;&#x5728;/etc/ld.so.preload&#x88E1;&#x3002;&#x7576;&#x7136;&#xFF0C;&#x9019;&#x662F;&#x7CFB;&#x7D71;&#x7BC4;&#x570D;&#x5167;&#x5168;&#x5C40;&#x6709;&#x6548;&#x7684;&#xFF0C;&#x800C;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x53EA;&#x5C0D;&#x7576;&#x524D;shell&#x6709;&#x6548;&#x3002;
+
+
+
+LD_ DEBUG &#x9019;&#x500B;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x6BD4;&#x8F03;&#x597D;&#x73A9;&#xFF0C;&#x6709;&#x6642;&#x4F7F;&#x7528;&#x5B83;&#xFF0C;&#x53EF;&#x4EE5;&#x5E6B;&#x52A9;&#x4F60;&#x67E5;&#x627E;&#x51FA;&#x4E00;&#x4E9B;&#x5171;&#x4EAB;&#x5EAB;&#x7684;&#x7591;&#x96E3;&#x96DC;&#x75C7;&#xFF08;&#x6BD4;&#x5982;&#x540C;&#x540D;&#x51FD;&#x6578;&#x5F15;&#x8D77;&#x7684;&#x554F;&#x984C;&#xFF09;&#x3002;&#x540C;&#x6642;&#xFF0C;&#x5229;&#x7528;&#x5B83;&#xFF0C;&#x4F60;&#x4E5F;&#x53EF;&#x4EE5;&#x5B78;&#x5230;&#x4E00;&#x4E9B;&#x5171;&#x4EAB;&#x5EAB;&#x52A0;&#x8F09;&#x904E;&#x7A0B;&#x7684;&#x77E5;&#x8B58;&#x3002;&#x5B83;&#x7684;&#x53C3;&#x6578;&#x5982;&#x4E0B;&#xFF1A;
+
+  libs display library search paths
+
+  reloc display relocation processing
+
+  files display progress <span class="hljs-keyword">for</span> input file
+
+  symbols display symbol table processing
+
+  bindings display information about symbol binding
+
+  versions display version dependencies
+
+  all all previous options combined
+
+  statistics display relocation statistics
+
+  unused determined unused DSOs
+
+  <span class="hljs-built_in">help</span> display this <span class="hljs-built_in">help</span> message and <span class="hljs-built_in">exit</span>
+
+
+BIND_NOW &#x9019;&#x500B;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x8207;dlopen&#x4E2D;&#x7684;flag&#x7684;&#x610F;&#x7FA9;&#x662F;&#x4E00;&#x81F4;&#xFF0C;&#x53EA;&#x662F;dlopen&#x4E2D;&#x7684;flag&#x9069;&#x7528;&#x65BC;&#x986F;&#x793A;&#x52A0;&#x8F09;&#x7684;&#x60C5;&#x6CC1;&#xFF0C;&#x800C;BIND_NOW/BIND_NOT&#x9069;&#x7528;&#x65BC;&#x96B1;&#x5F0F;&#x52A0;&#x8F09;&#x3002;
+
+
+
+LD_PROFILE/LD_PROFILE_OUTPUT&#xFF1A;&#x70BA;&#x6307;&#x5B9A;&#x7684;&#x5171;&#x4EAB;&#x5EAB;&#x7522;&#x751F;profile&#x6578;&#x64DA;&#xFF0C;LD_PROFILE&#x6307;&#x5B9A;&#x5171;&#x4EAB;&#x5EAB;&#x7684;&#x540D;&#x7A31;&#xFF0C;LD_PROFILE_OUTPUT&#x6307;&#x5B9A;&#x8F38;&#x51FA;profile&#x6587;&#x4EF6;&#x7684;&#x4F4D;&#x7F6E;&#xFF0C;&#x662F;&#x4E00;&#x500B;&#x76EE;&#x9304;&#xFF0C;&#x4E14;&#x5FC5;&#x9808;&#x5B58;&#x5728;&#xFF0C;&#x9ED8;&#x8A8D;&#x7684;&#x76EE;&#x9304;&#x70BA;/var/tmp/&#x6216;/var/profile&#x3002;&#x901A;&#x904E;profile&#x6578;&#x64DA;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x5F97;&#x5230;&#x4E00;&#x4E9B;&#x8A72;&#x5171;&#x4EAB;&#x5EAB;&#x4E2D;&#x51FD;&#x6578;&#x7684;&#x4F7F;&#x7528;&#x7D71;&#x8A08;&#x4FE1;&#x606F;&#x3002;
+</code></pre>
+<p>Linux &#x904B;&#x884C;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x662F;&#x5982;&#x4F55;&#x7BA1;&#x7406;&#x5171;&#x4EAB;&#x5EAB;(*.so)&#x7684;&#xFF1F;&#x5728; Linux &#x4E0B;&#x9762;&#xFF0C;&#x5171;&#x4EAB;&#x5EAB;&#x7684;&#x5C0B;&#x627E;&#x548C;&#x52A0;&#x8F09;&#x662F;&#x7531; /lib/ld.so &#x5BE6;&#x73FE;&#x7684;&#x3002; ld.so &#x5728;&#x6A19;&#x6E96;&#x8DEF;&#x7D93;(/lib, /usr/lib) &#x4E2D;&#x5C0B;&#x627E;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x7528;&#x5230;&#x7684;&#x5171;&#x4EAB;&#x5EAB;&#x3002;</p>
+<p>&#x4F46;&#x662F;&#xFF0C;&#x5982;&#x679C;&#x9700;&#x8981;&#x7528;&#x5230;&#x7684;&#x5171;&#x4EAB;&#x5EAB;&#x5728;&#x975E;&#x6A19;&#x6E96;&#x8DEF;&#x7D93;&#xFF0C;ld.so &#x600E;&#x9EBC;&#x627E;&#x5230;&#x5B83;&#x5462;&#xFF1F;</p>
+<p>&#x76EE;&#x524D;&#xFF0C;Linux &#x901A;&#x7528;&#x7684;&#x505A;&#x6CD5;&#x662F;&#x5C07;&#x975E;&#x6A19;&#x6E96;&#x8DEF;&#x7D93;&#x52A0;&#x5165; /etc/ld.so.conf&#xFF0C;&#x7136;&#x5F8C;&#x904B;&#x884C; ldconfig &#x751F;&#x6210; /etc/ld.so.cache&#x3002; ld.so &#x52A0;&#x8F09;&#x5171;&#x4EAB;&#x5EAB;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x6703;&#x5F9E; ld.so.cache &#x67E5;&#x627E;&#x3002;</p>
+<p>&#x50B3; &#x7D71;&#x4E0A;&#xFF0C; Linux &#x7684;&#x5148;&#x8F29; Unix &#x9084;&#x6709;&#x4E00;&#x500B;&#x74B0;&#x5883;&#x8B8A;&#x91CF; - LD_LIBRARY_PATH &#x4F86;&#x8655;&#x7406;&#x975E;&#x6A19;&#x6E96;&#x8DEF;&#x7D93;&#x7684;&#x5171;&#x4EAB;&#x5EAB;&#x3002;ld.so &#x52A0;&#x8F09;&#x5171;&#x4EAB;&#x5EAB;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x4E5F;&#x6703;&#x67E5;&#x627E;&#x9019;&#x500B;&#x8B8A;&#x91CF;&#x6240;&#x8A2D;&#x7F6E;&#x7684;&#x8DEF;&#x7D93;&#x3002;&#x4F46;&#x662F;&#xFF0C;&#x6709;&#x4E0D;&#x5C11;&#x8072;&#x97F3;&#x4E3B;&#x5F35;&#x8981;&#x907F;&#x514D;&#x4F7F;&#x7528; LD_LIBRARY_PATH &#x8B8A;&#x91CF;&#xFF0C;&#x5C24;&#x5176;&#x662F;&#x4F5C;&#x70BA;&#x5168;&#x5C40;&#x8B8A;&#x91CF;&#x3002;&#x9019;&#x4E9B;&#x8072;&#x97F3;&#x662F;&#xFF1A;</p>
+<ul>
+<li><p>LD_LIBRARY_PATH is not the answer - <a href="http://prefetch.net/articles/linkers.badldlibrary.html" target="_blank">http://prefetch.net/articles/linkers.badldlibrary.html</a></p>
+</li>
+<li><p>Why LD<em>LIBRARY_PATH is bad - <a href="http://xahlee.org/UnixResource_dir/" target="_blank">http://xahlee.org/UnixResource_dir/</a></em>/ldpath.html </p>
+</li>
+<li><p>LD_LIBRARY_PATH - just say no - <a href="http://blogs.sun.com/rie/date/20040710" target="_blank">http://blogs.sun.com/rie/date/20040710</a>
+&#x89E3;&#x6C7A;&#x9019;&#x4E00;&#x554F;&#x984C;&#x7684;&#x53E6;&#x4E00;&#x65B9;&#x6CD5;&#x662F;&#x5728;&#x7DE8;&#x8B6F;&#x7684;&#x6642;&#x5019;&#x901A;&#x904E; -R<path></path> &#x9078;&#x9805;&#x6307;&#x5B9A; run-time path&#x3002;</p>
+</li>
+</ul>
+<pre><code class="lang-sh"><span class="hljs-number">1</span>. &#x5F80;/lib&#x548C;/usr/lib&#x88E1;&#x9762;&#x52A0;&#x6771;&#x897F;&#xFF0C;&#x662F;&#x4E0D;&#x7528;&#x4FEE;&#x6539;/etc/ld.so.conf&#x7684;&#xFF0C;&#x4F46;&#x662F;&#x5B8C;&#x4E86;&#x4E4B;&#x5F8C;&#x8981;&#x8ABF;&#x4E00;&#x4E0B;ldconfig&#xFF0C;&#x4E0D;&#x7136;&#x9019;&#x500B;library&#x6703;&#x627E;&#x4E0D;&#x5230;
+
+
+<span class="hljs-number">2</span>. &#x60F3;&#x5F80;&#x4E0A;&#x9762;&#x5169;&#x500B;&#x76EE;&#x9304;&#x4EE5;&#x5916;&#x52A0;&#x6771;&#x897F;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x4E00;&#x5B9A;&#x8981;&#x4FEE;&#x6539;/etc/ld.so.conf&#xFF0C;&#x7136;&#x5F8C;&#x518D;&#x8ABF;&#x7528;ldconfig&#xFF0C;&#x4E0D;&#x7136;&#x4E5F;&#x6703;&#x627E;&#x4E0D;&#x5230;
+&#x6BD4;&#x5982;&#x5B89;&#x88DD;&#x4E86;&#x4E00;&#x500B;mysql&#x5230;/usr/<span class="hljs-built_in">local</span>/mysql&#xFF0C;mysql&#x6709;&#x4E00;&#x5927;&#x5806;library&#x5728;/usr/<span class="hljs-built_in">local</span>/mysql/lib&#x4E0B;&#x9762;&#xFF0C;&#x9019;&#x6642;&#x5C31;&#x9700;&#x8981;&#x5728;/etc/ld.so.conf&#x4E0B;&#x9762;&#x52A0;&#x4E00;&#x884C;/usr/<span class="hljs-built_in">local</span>/mysql/lib&#xFF0C;&#x4FDD;&#x5B58;&#x904E;&#x5F8C;ldconfig&#x4E00;&#x4E0B;&#xFF0C;&#x65B0;&#x7684;library&#x624D;&#x80FD;&#x5728;&#x7A0B;&#x5E8F;&#x904B;&#x884C;&#x6642;&#x88AB;&#x627E;&#x5230;&#x3002;
+
+
+<span class="hljs-number">3</span>. &#x5982;&#x679C;&#x60F3;&#x5728;&#x9019;&#x5169;&#x500B;&#x76EE;&#x9304;&#x4EE5;&#x5916;&#x653E;lib&#xFF0C;&#x4F46;&#x662F;&#x53C8;&#x4E0D;&#x60F3;&#x5728;/etc/ld.so.conf&#x4E2D;&#x52A0;&#x6771;&#x897F;&#xFF08;&#x6216;&#x8005;&#x662F;&#x6C92;&#x6709;&#x6B0A;&#x9650;&#x52A0;&#x6771;&#x897F;&#xFF09;&#x3002;&#x90A3;&#x4E5F;&#x53EF;&#x4EE5;&#xFF0C;&#x5C31;&#x662F;<span class="hljs-built_in">export</span>&#x4E00;&#x500B;&#x5168;&#x5C40;&#x8B8A;&#x91CF;LD_LIBRARY_PATH&#xFF0C;&#x7136;&#x5F8C;&#x904B;&#x884C;&#x7A0B;&#x5E8F;&#x7684;&#x6642;&#x5019;&#x5C31;&#x6703;&#x53BB;&#x9019;&#x500B;&#x76EE;&#x9304;&#x4E2D;&#x627E;library&#x3002;&#x4E00;&#x822C;&#x4F86;&#x8B1B;&#x9019;&#x53EA;&#x662F;&#x4E00;&#x7A2E;&#x81E8;&#x6642;&#x7684;&#x89E3;&#x6C7A;&#x65B9;&#x6848;&#xFF0C;&#x5728;&#x6C92;&#x6709;&#x6B0A;&#x9650;&#x6216;&#x81E8;&#x6642;&#x9700;&#x8981;&#x7684;&#x6642;&#x5019;&#x4F7F;&#x7528;&#x3002;
+
+
+<span class="hljs-number">4</span>. ldconfig&#x505A;&#x7684;&#x9019;&#x4E9B;&#x6771;&#x897F;&#x90FD;&#x8207;&#x904B;&#x884C;&#x7A0B;&#x5E8F;&#x6642;&#x6709;&#x95DC;&#xFF0C;&#x8DDF;&#x7DE8;&#x8B6F;&#x6642;&#x4E00;&#x9EDE;&#x95DC;&#x4FC2;&#x90FD;&#x6C92;&#x6709;&#x3002;&#x7DE8;&#x8B6F;&#x7684;&#x6642;&#x5019;&#x9084;&#x662F;&#x8A72;&#x52A0;-L&#x5C31;&#x5F97;&#x52A0;&#xFF0C;&#x4E0D;&#x8981;&#x6DF7;&#x6DC6;&#x4E86;&#x3002;
+
+
+<span class="hljs-number">5</span>. &#x7E3D;&#x4E4B;&#xFF0C;&#x5C31;&#x662F;&#x4E0D;&#x7BA1;&#x505A;&#x4E86;&#x4EC0;&#x9EBC;&#x95DC;&#x65BC;library&#x7684;&#x8B8A;&#x52D5;&#x5F8C;&#xFF0C;&#x6700;&#x597D;&#x90FD;ldconfig&#x4E00;&#x4E0B;&#xFF0C;&#x4E0D;&#x7136;&#x6703;&#x51FA;&#x73FE;&#x4E00;&#x4E9B;&#x610F;&#x60F3;&#x4E0D;&#x5230;&#x7684;&#x7D50;&#x679C;&#x3002;&#x4E0D;&#x6703;&#x82B1;&#x592A;&#x591A;&#x7684;&#x6642;&#x9593;&#xFF0C;&#x4F46;&#x662F;&#x6703;&#x7701;&#x5F88;&#x591A;&#x7684;&#x4E8B;&#x3002;
+</code></pre>
+<p><a href="http://hi.baidu.com/fanzier/blog/item/222ba3ec74cb9a2463d09fb5.html" target="_blank">http://hi.baidu.com/fanzier/blog/item/222ba3ec74cb9a2463d09fb5.html</a></p>
+<p>LD_LIBRARY_PATH &#x9019;&#x500B;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x662F;&#x5927;&#x5BB6;&#x6700;&#x70BA;&#x719F;&#x6089;&#x7684;&#xFF0C;&#x5B83;&#x544A;&#x8A34;loader&#xFF1A;&#x5728;&#x54EA;&#x4E9B;&#x76EE;&#x9304;&#x4E2D;&#x53EF;&#x4EE5;&#x627E;&#x5230;&#x5171;&#x4EAB;&#x5EAB;&#x3002;&#x53EF;&#x4EE5;&#x8A2D;&#x7F6E;&#x591A;&#x500B;&#x641C;&#x7D22;&#x76EE;&#x9304;&#xFF0C;&#x9019;&#x4E9B;&#x76EE;&#x9304;&#x4E4B;&#x9593;&#x7528;&#x5192;&#x865F;&#x5206;&#x9694;&#x958B;&#x3002;&#x5728;linux&#x4E0B;&#xFF0C;&#x9084;&#x63D0;&#x4F9B;&#x4E86;&#x53E6;&#x5916;&#x4E00;&#x7A2E;&#x65B9;&#x5F0F;&#x4F86;&#x5B8C;&#x6210;&#x540C;&#x6A23;&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x628A;&#x9019;&#x4E9B;&#x76EE;&#x9304;&#x52A0;&#x5230;/etc/ld.so.conf&#x4E2D;&#xFF0C;&#x6216;&#x5247;&#x5728;/etc/ld.so.conf.d&#x88E1;&#x5275;&#x5EFA;&#x4E00;&#x500B;&#x6587;&#x4EF6;&#xFF0C;&#x628A;&#x76EE;&#x9304;&#x52A0;&#x5230;&#x9019;&#x500B;&#x6587;&#x4EF6;&#x88E1;&#x3002;&#x7576;&#x7136;&#xFF0C;&#x9019;&#x662F;&#x7CFB;&#x7D71;&#x7BC4;&#x570D;&#x5167;&#x5168;&#x5C40;&#x6709;&#x6548;&#x7684;&#xFF0C;&#x800C;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x53EA;&#x5C0D;&#x7576;&#x524D;shell&#x6709;&#x6548;&#x3002;&#x6309;&#x7167;&#x6163;&#x4F8B;&#xFF0C;&#x9664;&#x975E;&#x4F60;&#x7528;&#x4E0A;&#x8FF0;&#x65B9;&#x5F0F;&#x6307;&#x660E;&#xFF0C;loader&#x662F;&#x4E0D;&#x6703;&#x5728;&#x7576;&#x524D;&#x76EE;&#x9304;&#x4E0B;&#x53BB;&#x627E;&#x5171;&#x4EAB;&#x5EAB;&#x7684;&#xFF0C;&#x6B63;&#x5982;shell&#x4E0D;&#x6703;&#x5728;&#x7576;&#x524D;&#x76EE;&#x524D;&#x627E;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x4E00;&#x6A23;&#x3002;</p>
+<p>LD_DEBUG &#x662F; glibc &#x4E2D;&#x7684; loader &#x70BA;&#x4E86;&#x65B9;&#x4FBF;&#x81EA;&#x8EAB;&#x8ABF;&#x8A66;&#x800C;&#x8A2D;&#x7F6E;&#x7684;&#x4E00;&#x500B;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x3002;&#x901A;&#x904E;&#x8A2D;&#x7F6E;&#x9019;&#x500B;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#xFF0C;&#x53EF;&#x4EE5;&#x65B9;&#x4FBF;&#x7684;&#x770B;&#x5230; loader &#x7684;&#x52A0;&#x8F09;&#x904E;&#x7A0B;&#x3002; &#x4EE5;&#x5728; 64&#x4F4D; centos &#x4E0A;&#x7DE8;&#x8B6F;&#x5B89;&#x88DD; memcached &#x70BA;&#x4F8B;&#xFF0C;&#x5B89;&#x88DD;&#x968E;&#x6BB5;&#x9806;&#x5229;&#xFF0C;&#x57F7;&#x884C; memcached &#x547D;&#x4EE4;&#x6642;&#x51FA;&#x73FE;&#x932F;&#x8AA4;&#xFF1A;</p>
+<pre><code class="lang-sh"><span class="hljs-comment">#memcached &#x2013;h</span>
+/usr/<span class="hljs-built_in">local</span>/memcached/bin/memcached: error <span class="hljs-keyword">while</span> loading shared libraries: libevent-<span class="hljs-number">1.4</span>.so.<span class="hljs-number">2</span>:
+cannot open shared object file: No such file or directory
+<span class="hljs-comment">#find / -name libevent-1.4.so.2</span>
+/usr/lib/libevent-<span class="hljs-number">1.4</span>.so.<span class="hljs-number">2</span>
+</code></pre>
+<h2 id="%E8%A8%AD%E7%BD%AE-ld-debug-%E8%AE%8A%E9%87%8F%E7%8D%B2%E5%BE%97%E6%9B%B4%E5%A4%9A%E4%BF%A1%E6%81%AF">&#x8A2D;&#x7F6E; LD_DEBUG &#x8B8A;&#x91CF;&#x7372;&#x5F97;&#x66F4;&#x591A;&#x4FE1;&#x606F;:</h2>
+<pre><code class="lang-sh"><span class="hljs-comment">#LD_DEBUG=help ls</span>
+Valid options <span class="hljs-keyword">for</span> the LD_DEBUG environment variable are:
+
+  libs        display library search paths
+  reloc       display relocation processing
+  files       display progress <span class="hljs-keyword">for</span> input file
+  symbols     display symbol table processing
+  bindings    display information about symbol binding
+  versions    display version dependencies
+  all         all previous options combined
+  statistics  display relocation statistics
+  unused      determined unused DSOs
+  <span class="hljs-built_in">help</span>        display this <span class="hljs-built_in">help</span> message and <span class="hljs-built_in">exit</span>
+
+To direct the debugging output into a file instead of standard output
+a filename can be specified using the LD_DEBUG_OUTPUT environment variable.
+</code></pre>
+<h2 id="%E5%BA%AB%E4%BE%9D%E8%B3%B4%E7%9A%84%E5%95%8F%E9%A1%8C%EF%BC%8C%E4%BD%BF%E7%94%A8-libs-%E5%8F%83%E6%95%B8">&#x5EAB;&#x4F9D;&#x8CF4;&#x7684;&#x554F;&#x984C;&#xFF0C;&#x4F7F;&#x7528; libs &#x53C3;&#x6578;:</h2>
+<pre><code class="lang-sh"><span class="hljs-comment">#LD_DEBUG=libs /usr/local/memcached/bin/memcached &#x2013;h</span>
+<span class="hljs-number">9808</span>:      find library=libevent-<span class="hljs-number">1.4</span>.so.<span class="hljs-number">2</span> [<span class="hljs-number">0</span>]; searching
+<span class="hljs-number">9808</span>:      search cache=/etc/ld.so.cache
+<span class="hljs-number">9808</span>:      search path=/lib64/tls/x86_64:/lib64/tls:/lib64/x86_64:/lib64:/usr/lib64/tls/x86_64
+/usr/lib64/tls:/usr/lib64/x86_64:/usr/lib64
+(system search path)
+<span class="hljs-number">9808</span>:      trying file=/lib64/tls/x86_64/libevent-<span class="hljs-number">1.4</span>.so.<span class="hljs-number">2</span>
+<span class="hljs-number">9808</span>:      trying file=/lib64/tls/libevent-<span class="hljs-number">1.4</span>.so.<span class="hljs-number">2</span>
+<span class="hljs-number">9808</span>:      trying file=/lib64/x86_64/libevent-<span class="hljs-number">1.4</span>.so.<span class="hljs-number">2</span>
+<span class="hljs-number">9808</span>:      trying file=/lib64/libevent-<span class="hljs-number">1.4</span>.so.<span class="hljs-number">2</span>
+<span class="hljs-number">9808</span>:      trying file=/usr/lib64/tls/x86_64/libevent-<span class="hljs-number">1.4</span>.so.<span class="hljs-number">2</span>
+<span class="hljs-number">9808</span>:      trying file=/usr/lib64/tls/libevent-<span class="hljs-number">1.4</span>.so.<span class="hljs-number">2</span>
+<span class="hljs-number">9808</span>:      trying file=/usr/lib64/x86_64/libevent-<span class="hljs-number">1.4</span>.so.<span class="hljs-number">2</span>
+<span class="hljs-number">9808</span>:      trying file=/usr/lib64/libevent-<span class="hljs-number">1.4</span>.so.<span class="hljs-number">2</span>
+<span class="hljs-number">9808</span>:      /usr/<span class="hljs-built_in">local</span>/memcached/bin/memcached: error <span class="hljs-keyword">while</span> loading shared libraries: libevent-<span class="hljs-number">1.4</span>.so.<span class="hljs-number">2</span>: cannot open shared object file: No such file or directory
+</code></pre>
 
                     
                     </section>
@@ -10445,10 +10557,10 @@ win -&gt; winheight
         </div>
 
         
-        <a href="../100_gdb_tips/preprocessor-macro.html" class="navigation navigation-prev " aria-label="Previous page: 支持預處理器宏信息"><i class="fa fa-angle-left"></i></a>
+        <a href="../linux_system/shi_yong_system_han_shu_zhi_xing_ming_ling_xing_mi.html" class="navigation navigation-prev " aria-label="Previous page: 使用system()函數執行命令行命令簡述"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../100_gdb_tips/run-shell-command.html" class="navigation navigation-next " aria-label="Next page: 在gdb中執行shell命令和make"><i class="fa fa-angle-right"></i></a>
+        <a href="../assembly/index.html" class="navigation navigation-next " aria-label="Next page: Assembly"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

@@ -650,5 +650,5 @@
        * [設置被調試程序的環境變量](100_gdb_tips/set-program-env.md)
        * [得到命令的幫助信息](100_gdb_tips/help.md)
        * [記錄執行gdb的過程](100_gdb_tips/set-logging.md)
-* compiler
+* [compiler](compiler/compiler.md)
 

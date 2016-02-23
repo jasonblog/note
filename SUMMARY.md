@@ -640,6 +640,7 @@
        * [得到命令的幫助信息](100_gdb_tips/help.md)
        * [記錄執行gdb的過程](100_gdb_tips/set-logging.md)
 * [compiler](compiler/compiler.md)
+   * sss
 * [手把手教你構建 C 語言編譯器](c_compiler/shou_ba_shou_jiao_ni_gou_jian_c_yu_yan_bian_yi_qi.md)
    * [前言](c_compiler/qian_yan.md)
    * [設計](c_compiler/she_ji.md)

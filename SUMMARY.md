@@ -639,6 +639,7 @@
        * [設置被調試程序的環境變量](100_gdb_tips/set-program-env.md)
        * [得到命令的幫助信息](100_gdb_tips/help.md)
        * [記錄執行gdb的過程](100_gdb_tips/set-logging.md)
+* [compiler](compiler/compiler.md)
 * [手把手教你構建 C 語言編譯器](c_compiler/shou_ba_shou_jiao_ni_gou_jian_c_yu_yan_bian_yi_qi.md)
    * [前言](c_compiler/qian_yan.md)
    * [設計](c_compiler/she_ji.md)
@@ -650,5 +651,4 @@
    * [語句](c_compiler/yu_ju.md)
    * [表達式](c_compiler/biao_da_shi.md)
    * [總結](c_compiler/zong_jie.md)
-* [compiler](compiler/compiler.md)
 

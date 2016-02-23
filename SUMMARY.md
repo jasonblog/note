@@ -651,5 +651,5 @@
        * [語句](c_compiler/yu_ju.md)
        * [表達式](c_compiler/biao_da_shi.md)
        * [總結](c_compiler/zong_jie.md)
-   * 自己動手寫編譯器、鏈接器
+   * [自己動手寫編譯器、鏈接器](compiler/zi_ji_dong_shou_xie_bian_yi_qi_3001_lian_jie_qi.md)
 

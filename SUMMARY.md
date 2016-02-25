@@ -655,5 +655,5 @@
    * [自己動手寫編譯器、鏈接器](compiler/zi_ji_dong_shou_xie_bian_yi_qi_3001_lian_jie_qi.md)
    * [深入淺出教你寫編譯器](compiler/shen_ru_qian_chu_jiao_ni_xie_bian_yi_qi.md)
 * [linked_and_loader](linkedand_loader.md)
-   * 把共享庫(SO)加載到指定的內存地址
+   * [把共享庫(SO)加載到指定的內存地址](ba_gong_xiang_5eab28_so_jia_zai_dao_zhi_ding_de_ne.md)
 

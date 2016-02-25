@@ -657,4 +657,5 @@
 * [linked_and_loader](linked_and_loader/linked_and_loader.md)
    * [把共享庫(SO)加載到指定的內存地址](bagong_xiang_5eab28_so_jia_zai_dao_zhi_ding_de_ne_.md)
    * [Linux GOT與PLT](linked_and_loader/linux_gotyu_plt.md)
+   * GOT和PLT原理简析
 

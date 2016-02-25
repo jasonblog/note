@@ -172,4 +172,21 @@ Breakpoint 3 at 0x7ffff7df078b: file ../sysdeps/x86_64/dl-trampoline.S, line 40.
 
 
 
+## 延伸阅读
 
+[1] Reversing the ELF Stepping with GDB during PLT uses and .GOT fixup
+    http://packetstormsecurity.org/files/view/25642/elf-runtime-fixup.txt
+[2] AMD64 Application Binary Interface (v 0.99)
+    http://www.x86-64.org/documentation/abi.pdf
+[3] PLT and GOT - the key to code sharing and dynamic libraries
+    http://www.technovelty.org/linux/pltgot.html
+[4] examining PLT/GOT structures
+    http://althing.cs.dartmouth.edu/secref/resources/plt-got.txt
+[5] Debugging with GDB
+    http://sourceware.org/gdb/current/onlinedocs/gdb/
+[6] 共享库函数调用原理
+    http://blog.csdn.net/absurd/article/details/3169860
+[7] How main() is executed on Linux 
+    http://linuxgazette.net/issue84/hawk.html
+[8] Gentle Introduction to x86-64 Assembly
+    http://www.x86-64.org/documentation/assembly.html

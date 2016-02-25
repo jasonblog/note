@@ -97,6 +97,9 @@ foo & foo2是兩個共享庫中的函數，
 0000000000000000       F *UND*  0000000000000000              foo2 <---- 1
 0000000000000000       F *UND*  0000000000000000              foo  <---- 2
 0000000000601028 g     O .bss   0000000000000004              xyz
+```
+
+```sh
 [dyno@ubuntu:plt]$ readelf --sections --wide main.exe | grep got
   [22] .got              PROGBITS        0000000000600fe0 000fe0 000008 08  WA  0   0  8
   [23] .got.plt          PROGBITS        0000000000600fe8 000fe8 000030 08  WA  0   0  8
@@ -113,9 +116,7 @@ Breakpoint 1, main () at main.c:4
 4       xyz = 100;
 ### 加載ld的符號表，(/usr/lib/debug/lib/*是libc6-dbg安裝的debug symbol。)
 ### 注意 add-symbol-file的第三個參數，地址是如何得到的。
-```
 
-```sh
 
 (gdb) info sharedlibrary
 From                To                  Syms Read   Shared Object Library
@@ -125,10 +126,8 @@ From                To                  Syms Read   Shared Object Library
 (gdb) add-symbol-file /usr/lib/debug/lib/x86_64-linux-gnu/ld-2.13.so 0x00007ffff7ddcaf0
 (gdb) directory ~/codes/debsrc/eglibc-2.13/elf
 (gdb) set disassemble-next-line on
-### foo() 現在是 <foo@plt>
-```
 
-```sh
+### foo() 現在是 <foo@plt>
 (gdb) disassemble main
 Dump of assembler code for function main:
    0x0000000000400674 <+0>: push   %rbp
@@ -138,9 +137,7 @@ Dump of assembler code for function main:
    0x0000000000400687 <+19>:  callq  0x400578 <foo@plt> <----
    0x000000000040068c <+24>:  mov    $0x0,%eax
    0x0000000000400691 <+29>:  callq  0x400578 <foo@plt>
-```
 
-```sh
 (gdb) disassemble 0x400578
 Dump of assembler code for function foo@plt:
    0x0000000000400578 <+0>: jmpq   *0x200a92(%rip)        # 0x601010 <_GLOBAL_OFFSET_TABLE_+40>
@@ -148,11 +145,10 @@ Dump of assembler code for function foo@plt:
    0x0000000000400583 <+11>:  jmpq   0x400548  <----
 End of assembler dump.
 </foo@plt></foo@plt></xyz>
+
 ### pushq是什麼？翻譯函數所需要的參數，這個是第一個參數reloc_index，是函數foo在GOT中的偏移量。
 ### $rip裡存了下一條指令,所以實際上將要執行順序下一條指令
-```
 
-```sh
 (gdb) p/x 0x40057e + 0x200a92
 $3 = 0x601010
 ### 這就是PLT的精妙之處，第一次執行，轉到哪裡去了呢？
@@ -167,17 +163,14 @@ No function contains specified address.
    0x40055e <__libc_start_main@plt+6>:    pushq  $0x0
 ### 又一個pushq， link_map .got.plt,是翻譯需要的第二個參數。
 ### 再次jumpq，where？where？
-```
 
-```sh
+
 (gdb) x/a 0x600ff8
 0x600ff8 <_GLOBAL_OFFSET_TABLE_+16>:  0x7ffff7df0760
 (gdb) info symbol 0x7ffff7df0760
 _dl_runtime_resolve in section .text of /usr/lib/debug/lib/x86_64-linux-gnu/ld-2.13.so
 ### 看看_dl_runtime_resolve是怎麼工作的...
-```
 
-```sh
 (gdb) break _dl_runtime_resolve
 (gdb) info breakpoints
 Num     Type           Disp Enb Address            What
@@ -188,9 +181,7 @@ Num     Type           Disp Enb Address            What
 0x0000000000400548 in ?? ()
 => 0x0000000000400548:    ff 35 a2 0a 20 00  pushq  0x200aa2(%rip)        # 0x600ff0 <_GLOBAL_OFFSET_TABLE_+8>
 ### 上面提到的第二個參數
-```
 
-```sh
 (gdb) x/x 0x600ff0
 0x600ff0 <_GLOBAL_OFFSET_TABLE_+8>: 0x00007ffff7ffe2e8
 (gdb) list _dl_runtime_resolve
@@ -208,10 +199,9 @@ Num     Type           Disp Enb Address            What
 42  movq %rax, %r11     # Save return value      <----真正的共享庫裡函數地址
 43  movq 48(%rsp), %r9  # Get register content back.
 ...
-### 設置斷點，看地址在GOT表中的變化
-```
 
-```sh
+### 設置斷點，看地址在GOT表中的變化
+
 (gdb) info line _dl_runtime_resolve
 Line 30 of "../sysdeps/x86_64/dl-trampoline.S" starts at address 0x7ffff7df0760 <_dl_runtime_resolve>
    and ends at 0x7ffff7df0764 <_dl_runtime_resolve+4>.

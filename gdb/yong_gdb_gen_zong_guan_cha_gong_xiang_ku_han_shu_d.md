@@ -23,6 +23,66 @@ sudo apt-get install build-essential
 sudo apt-get source libc6
 ```
 
+- main.c
+
+```c
+#include "test.h"
+
+int main() {
+    xyz = 100;
+    foo();
+    foo();
+    foo2();
+    foo2();
+
+    return 0;
+}
+```
+
+- test.c
+
+```c
+#include "test.h"
+
+int xyz = 4;
+
+int foo() {
+    return xyz;
+}
+
+int foo2() {
+    return xyz * 2;
+}
+```
+
+- test.h
+
+```c
+#ifndef TEST_H
+#define TEST_H
+
+extern int xyz;
+int foo();
+
+#endif
+```
+
+```c
+all:
+	gcc -g -fPIC -c -o test.o test.c
+	gcc -g -shared -Wl,-soname,libtest.so -o libtest.so test.o -lc
+	gcc -g -I. -L. main.c -o main.exe -ltest 
+
+tar:
+	tar zcvf main.tar.gz main.c test.c test.h Makefile
+
+clean:
+	rm -f *.so *.o *.exe
+
+.PHONY: all tar clean
+```
+
+
 ```sh
 mkdir whatever; cd whatever; make
 main.c  <---- 主程序

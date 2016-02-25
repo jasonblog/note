@@ -1,0 +1,2 @@
+# Linux GOT與PLT
+

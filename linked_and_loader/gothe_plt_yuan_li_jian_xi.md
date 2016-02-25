@@ -61,7 +61,13 @@ gcc main.c -o main -L./ -lvec
 
 生成可執行文件main。-L./ -lvec表示鏈接當前目錄下的動態鏈接庫libvec.so。
 
-使用命令objdump -d -s > main.dmp反彙編main。
+使用命令
+
+```sh
+objdump -ds main > main.dmp
+```
+
+反彙編main。
 
 反彙編生成的文件中，主要有三個段與對動態庫函數addvec的調用有關：.got.plt，.plt和代碼段.text。
 

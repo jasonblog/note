@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="44.1" data-basepath=".." data-revision="Fri Feb 26 2016 01:08:28 GMT+0800 (CST)">
+    <div class="book" data-level="44.1" data-basepath=".." data-revision="Fri Feb 26 2016 02:18:36 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -10624,6 +10624,46 @@ kernel panic&#x5F8C;&#x6253;&#x5370;&#x7684;&#x5806;&#x68E7;&#x4FE1;&#x606F;&#x6
     <span class="hljs-keyword">else</span>:
         <span class="hljs-keyword">pass</span>
         <span class="hljs-keyword">print</span> <span class="hljs-string">&quot;please input python test.py filename&quot;</span>
+</code></pre>
+<ul>
+<li>linux getpid gettid</li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;pthread.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/syscall.h&gt;</span> </span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> gettid() syscall(__NR_gettid)  </span>
+
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">void</span>* (*<span class="hljs-keyword">start_routine_t</span>)(<span class="hljs-keyword">void</span>*);
+
+<span class="hljs-function"><span class="hljs-keyword">void</span>* <span class="hljs-title">someThread</span><span class="hljs-params">(<span class="hljs-keyword">void</span>* tmp)</span>
+</span>{
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;PID of this process: %d\n&quot;</span>, getpid());
+    <span class="hljs-comment">// printf(&quot;The ID of this thread is: %u\n&quot;, (unsigned int)pthread_self());</span>
+
+    <span class="hljs-comment">// /usr/include/asm-i386/unistd.h </span>
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;The ID of this of this thread is: %ld\n&quot;</span>, gettid());
+    sleep(<span class="hljs-number">2</span>); <span class="hljs-comment">// Keep it alive so we&apos;re sure the second thread gets a unique ID.</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;
+}
+
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>** argv)</span>
+</span>{
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;PID of this process: %d\n&quot;</span>, getpid());
+    <span class="hljs-keyword">pthread_t</span> thread1, thread2;
+    pthread_create(&amp;thread1, <span class="hljs-literal">NULL</span>, someThread, <span class="hljs-literal">NULL</span>);
+    sleep(<span class="hljs-number">1</span>); <span class="hljs-comment">// Hack to avoid race for stdout.</span>
+    pthread_create(&amp;thread2, <span class="hljs-literal">NULL</span>, someThread, <span class="hljs-literal">NULL</span>);
+    pthread_join(thread1, <span class="hljs-literal">NULL</span>);
+    pthread_join(thread2, <span class="hljs-literal">NULL</span>);
+    <span class="hljs-keyword">return</span> (<span class="hljs-number">0</span>);
+}
+</code></pre>
+<pre><code class="lang-c">gcc -Wall -g -pthread test.c -o test
+./test
 </code></pre>
 
                     

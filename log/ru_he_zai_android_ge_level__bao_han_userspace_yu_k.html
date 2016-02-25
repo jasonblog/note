@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="44.2" data-basepath=".." data-revision="Fri Feb 26 2016 02:18:36 GMT+0800 (CST)">
+    <div class="book" data-level="44.2" data-basepath=".." data-revision="Fri Feb 26 2016 02:23:34 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -10709,6 +10709,54 @@ D/XXX  (  <span class="hljs-number">147</span>): <span class="hljs-preprocessor"
 <p>&#x9019;&#x662F;&#x56E0;&#x70BA;&#x5B83;&#x662F;&#x4F7F;&#x7528; dladdr() &#x53BB;&#x8B80;&#x53D6;&#x8A72;share lib&#x7684; dynamic symbol &#x800C;&#x7372;&#x53D6; function name
 (<a href="http://stackoverflow.com/questions/11731229/dladdr-doesnt-return-the-function-name" target="_blank">http://stackoverflow.com/questions/11731229/dladdr-doesnt-return-the-function-name</a> )</p>
 <p>&#x4F46;&#x662F;&#x5982;&#x679C;&#x8A72; function &#x662F;&#x5BA3;&#x544A;&#x6210; static, &#x8A72; function name &#x5C31;&#x4E0D;&#x6703;&#x51FA;&#x73FE;&#x5728; dynamic symbol &#x88E1; (&#x4F60;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; arm-linux-androideabi-nm -D xxxx.so | grep the_function_name , &#x5982;&#x679C;&#x6C92;&#x6709;&#x51FA;&#x73FE;, &#x5C31;&#x8868;&#x793A;&#x8A72; funciton name &#x4E26;&#x4E0D;&#x5728; dynamic symbol &#x88E1;),  &#x9047;&#x5230;&#x9019;&#x60C5;&#x6CC1;&#x5C31;&#x53EA;&#x597D;&#x4F7F;&#x7528; add2line &#x6307;&#x4EE4;&#x53BB;&#x8B80; out folder &#x4E0B;&#x7684; symbol &#x4E86;, &#x5404;&#x4F4D;&#x53EF;&#x4EE5;&#x53C3;&#x8003;&#x6211;&#x53E6;&#x4E00;&#x7BC7;&#x6587;&#x7AE0; <a href="http://janbarry0914.blogspot.tw/2011/07/android-crash-tombstone.html" target="_blank">http://janbarry0914.blogspot.tw/2011/07/android-crash-tombstone.html</a> . &#x611F;&#x8B1D;.</p>
+<ul>
+<li>android &#x4E2D; c++ &#x5229;&#x7528; constructor &amp; deconstructor &#x6BCF;&#x500B;&#x51FD;&#x6578;&#x9032;&#x51FA;&#x6253;&#x5370;</li>
+</ul>
+<pre><code class="lang-cpp"><span class="hljs-keyword">class</span> __CallLog__
+{
+<span class="hljs-keyword">private</span>:
+    <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* logtag;
+    <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* file;
+    <span class="hljs-keyword">int32_t</span> line;
+    <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* func;
+    <span class="hljs-keyword">int64_t</span> mEnterTime;
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-keyword">inline</span> __CallLog__(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* __logtag, <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* __file, <span class="hljs-keyword">int32_t</span> __line,
+                       <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* __func):
+        logtag(__logtag), file(__file), line(__line), func(__func),
+        mEnterTime(android::uptimeMillis())
+    {
+        LOG(LOG_DEBUG, logtag, <span class="hljs-string">&quot;TID:%d ...%s:%d:\tEnter %s\n&quot;</span>,
+            <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">int32_t</span>&gt;(syscall(__NR_gettid)), <span class="hljs-built_in">strrchr</span>(file, <span class="hljs-string">&apos;/&apos;</span>), line, func);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-keyword">void</span> <span class="hljs-title">timeDiff</span><span class="hljs-params">(int32_t diffLine)</span>
+    </span>{
+        LOG(LOG_DEBUG, logtag,
+            <span class="hljs-string">&quot;TID:%d ...%s:%d:\tTime diff from line %d is %lld millis\n&quot;</span>,
+            <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">int32_t</span>&gt;(syscall(__NR_gettid)), <span class="hljs-built_in">strrchr</span>(file, <span class="hljs-string">&apos;/&apos;</span>), line, diffLine,
+            android::uptimeMillis() - mEnterTime);
+    }
+
+    <span class="hljs-keyword">inline</span> ~__CallLog__()
+    {
+        LOG(LOG_DEBUG, logtag, <span class="hljs-string">&quot;TID:%d ...%s:%d:\tLeave %s (takes %llu millis)\n&quot;</span>,
+            <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">int32_t</span>&gt;(syscall(__NR_gettid)), <span class="hljs-built_in">strrchr</span>(file, <span class="hljs-string">&apos;/&apos;</span>), line, func,
+            android::uptimeMillis() - mEnterTime);
+    }
+};
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> GLOGENTRY(args...) __CallLog__ __call_log__(LOG_TAG, __FILE__, __LINE__, __FUNCTION__);</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> GLOGTENTRY(logtag, args...) __CallLog__ __call_log__(logtag, __FILE__, __LINE__, __FUNCTION__);</span>
+
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>* argv[])</span>
+</span>{
+    GLOGENTRY();
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
 
                     
                     </section>

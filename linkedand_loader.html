@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="50" data-basepath="." data-revision="Thu Feb 25 2016 22:44:44 GMT+0800 (CST)">
+    <div class="book" data-level="50" data-basepath="." data-revision="Fri Feb 26 2016 00:16:05 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -10393,6 +10393,13 @@
             
         </li>
     
+        <li class="chapter " data-level="50.2" >
+            
+            <span><b>50.2.</b> Linux GOT與PLT</span>
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -10505,6 +10512,181 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="linked-and-loader">linked_and_loader</h1>
+<p>&#x8B80;&#x300A;&#x6DF1;&#x5165;&#x7406;&#x89E3;&#x8A08;&#x7B97;&#x6A5F;&#x7CFB;&#x7D71;&#x300B;&#x7B2C;&#x4E03;&#x7AE0;&#x300A;&#x93C8;&#x63A5;&#x300B;&#x7B46;&#x8A18;&#x3002;</p>
+<p>&#x5728;ELF&#x6587;&#x4EF6;&#x7684;&#x52D5;&#x614B;&#x9023;&#x63A5;&#x6A5F;&#x5236;&#x4E2D;&#xFF0C;&#x6BCF;&#x4E00;&#x500B;&#x5916;&#x90E8;&#x5B9A;&#x7FA9;&#x7684;&#x7B26;&#x865F;&#x5728;&#x5168;&#x5C40;&#x504F;&#x79FB;&#x8868; (Global Offset Table&#xFF0C;GOT)&#x4E2D;&#x6709;&#x76F8;&#x61C9;&#x7684;&#x689D;&#x76EE;&#xFF0C;&#x5982;&#x679C;&#x7B26;&#x865F;&#x662F;&#x51FD;&#x6578;&#x5247;&#x5728;&#x904E;&#x7A0B;&#x9023;&#x63A5;&#x8868;(Procedure Linkage Table&#xFF0C;PLT)&#x4E2D;&#x4E5F;&#x6709;&#x76F8;&#x61C9;&#x7684;&#x689D;&#x76EE;&#xFF0C;&#x4E14;&#x4E00;&#x500B;PLT&#x689D;&#x76EE;&#x5C0D;&#x61C9;&#x4E00;&#x500B;GOT&#x689D;&#x76EE;&#x3002;&#x4EE5;&#x7C21;&#x55AE;&#x7684;&#x4F8B;&#x5B50;&#x89C0;&#x5BDF;GOT&#x8207;PLT&#x7684;&#x8B8A;&#x5316;&#x6A5F;&#x5236;&#x3002;&#x4E0B;&#x9762;&#x662F;&#x4E00;&#x500B;&#x7C21;&#x55AE;&#x7684;Hello World&#x7A0B;&#x5E8F;&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">showmsg</span><span class="hljs-params">(<span class="hljs-keyword">char</span> *szMsg)</span>
+</span>{
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s\n&quot;</span>, szMsg);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span> **argv)</span>
+</span>{
+    <span class="hljs-keyword">char</span> szMsg[] = <span class="hljs-string">&quot;Hello, world!&quot;</span>;
+    showmsg(szMsg);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>&#x4F7F;&#x7528;gcc&#x7DE8;&#x8B6F;&#xFF1A;</p>
+<pre><code class="lang-c">gcc -o a.out -g helloworld.c
+</code></pre>
+<p>&#x4F7F;&#x7528;objdump -S a.out&#x67E5;&#x770B;&#x53CD;&#x5F59;&#x7DE8;&#x4EE3;&#x78BC;&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">showmsg</span><span class="hljs-params">(<span class="hljs-keyword">char</span> *szMsg)</span>
+</span>{
+ <span class="hljs-number">8048434</span>:    <span class="hljs-number">55</span>                       push   %ebp
+ <span class="hljs-number">8048435</span>:    <span class="hljs-number">89</span> e5                    mov    %esp,%ebp
+ <span class="hljs-number">8048437</span>:    <span class="hljs-number">83</span> ec <span class="hljs-number">18</span>                 sub    $<span class="hljs-number">0x18</span>,%<span class="hljs-function">esp
+    <span class="hljs-title">printf</span><span class="hljs-params">(<span class="hljs-string">&quot;%s\n&quot;</span>, szMsg)</span></span>;
+ <span class="hljs-number">804843</span>a:    <span class="hljs-number">8</span>b <span class="hljs-number">45</span> <span class="hljs-number">08</span>                 mov    <span class="hljs-number">0x8</span>(%ebp),%eax
+ <span class="hljs-number">804843</span>d:    <span class="hljs-number">89</span> <span class="hljs-number">04</span> <span class="hljs-number">24</span>                 mov    %eax,(%esp)
+ <span class="hljs-number">8048440</span>:    e8 <span class="hljs-number">0</span>b ff ff ff           call   <span class="hljs-number">8048350</span> &lt;<span class="hljs-built_in">puts</span>@plt&gt;
+}
+ <span class="hljs-number">8048445</span>:    c9                       leave  
+ <span class="hljs-number">8048446</span>:    c3                       ret
+</code></pre>
+<p>&#x5C0D;printf&#x7684;&#x8ABF;&#x7528;&#x88AB;&#x7DE8;&#x8B6F;&#x5668;&#x6539;&#x6210;&#x4E86;puts@plt&#xFF0C;&#x4F4D;&#x65BC;0&#xD7;08048350&#xFF0C;&#x9019;&#x662F;&#x4E00;&#x500B;PLT&#xFF08;Procedure Linkage Table&#xFF09;&#x689D;&#x76EE;&#xFF0C;&#x5F80;&#x4E0A;&#x7FFB;&#x67E5;&#x770B;&#x9019;&#x500B;&#x5730;&#x5740;&#x7684;&#x4EE3;&#x78BC;&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-number">08048350</span> &lt;<span class="hljs-built_in">puts</span>@plt&gt;:
+ <span class="hljs-number">8048350</span>:    ff <span class="hljs-number">25</span> <span class="hljs-number">04</span> a0 <span class="hljs-number">04</span> <span class="hljs-number">08</span>        jmp    *<span class="hljs-number">0x804a004</span>
+ <span class="hljs-number">8048356</span>:    <span class="hljs-number">68</span> <span class="hljs-number">08</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span>           push   $<span class="hljs-number">0x8</span>
+ <span class="hljs-number">804835</span>b:    e9 d0 ff ff ff           jmp    <span class="hljs-number">8048330</span> &lt;_init+<span class="hljs-number">0x38</span>&gt;
+</code></pre>
+<p>&#x7B2C;&#x4E00;&#x689D;&#x6307;&#x4EE4;&#x8DF3;&#x8F49;&#x5230;0x0804a004&#x5730;&#x5740;&#x8655;&#x7684;&#x503C;&#x53BB;&#x57F7;&#x884C;&#xFF0C;&#x5BE6;&#x969B;&#x4E0A;0x0804a004&#x5C31;&#x662F;&#x4E00;&#x500B;&#x5C0D;&#x61C9;&#x7684;GOT&#xFF08;Global Offset Table&#xFF09;&#x689D;&#x76EE;&#x7684;&#x4F4D;&#x7F6E;&#x4E86;&#x3002;&#x4F7F;&#x7528;</p>
+<pre><code class="lang-c">objdump -R a.out
+</code></pre>
+<p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF1A;</p>
+<pre><code class="lang-c">a.out:     file format elf32-i386
+
+DYNAMIC RELOCATION RECORDS
+OFFSET   TYPE              VALUE 
+<span class="hljs-number">08049f</span>f0 R_386_GLOB_DAT    __gmon_start__
+<span class="hljs-number">0804</span>a000 R_386_JUMP_SLOT   __stack_chk_fail
+<span class="hljs-number">0804</span>a004 R_386_JUMP_SLOT   <span class="hljs-built_in">puts</span>
+<span class="hljs-number">0804</span>a008 R_386_JUMP_SLOT   __gmon_start__
+<span class="hljs-number">0804</span>a00c R_386_JUMP_SLOT   __libc_start_main
+</code></pre>
+<p>&#x5C31;&#x662F;puts&#x90A3;&#x4E00;&#x689D;&#x7684;offset&#x7684;&#x503C;&#x3002;</p>
+<p>&#x4E0B;&#x9762;&#x7528;gdb&#x52D5;&#x614B;&#x8ABF;&#x8A66;a.out&#xFF0C;&#x67E5;&#x770B;GOT&#x548C;PLT&#x689D;&#x76EE;&#x7684;&#x8B8A;&#x5316;&#xFF1A;</p>
+<pre><code class="lang-c">gdb a.out
+(gdb) l
+<span class="hljs-number">1</span>    <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-number">2</span>    
+<span class="hljs-number">3</span>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">showmsg</span><span class="hljs-params">(<span class="hljs-keyword">char</span> *szMsg)</span>
+4    </span>{
+<span class="hljs-number">5</span>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s\n&quot;</span>, szMsg);
+<span class="hljs-number">6</span>    }
+<span class="hljs-number">7</span>    
+<span class="hljs-number">8</span>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span> **argv)</span>
+9    </span>{
+<span class="hljs-number">10</span>        <span class="hljs-keyword">char</span> szMsg[] = <span class="hljs-string">&quot;Hello, world!&quot;</span>;
+(gdb) b main
+Breakpoint <span class="hljs-number">1</span> at <span class="hljs-number">0x8048457</span>: file helloworld.c, line <span class="hljs-number">9.</span>
+(gdb) r
+Starting program: /home/winson/linuxc/a.out 
+
+Breakpoint <span class="hljs-number">1</span>, main (argc=<span class="hljs-number">1</span>, argv=<span class="hljs-number">0xbffff394</span>) at helloworld.c:<span class="hljs-number">9</span>
+<span class="hljs-number">9</span>    {
+</code></pre>
+<p>&#x73FE;&#x5728;&#x770B;&#x4E00;&#x4E0B;&#x5730;&#x5740;0x804a004&#x88E1;&#x7684;&#x503C;&#x662F;&#x591A;&#x5C11;&#xFF1A;</p>
+<pre><code class="lang-c">(gdb) x <span class="hljs-number">0x804a004</span>
+<span class="hljs-number">0x804a004</span> &lt;<span class="hljs-built_in">puts</span>@got.plt&gt;:    <span class="hljs-number">0x08048356</span>
+</code></pre>
+<p>&#x5C31;&#x662F;puts@plt&#x7684;&#x7B2C;&#x4E8C;&#x689D;&#x6307;&#x4EE4;&#x4E86;&#xFF0C;&#x53EF;&#x4EE5;&#x67E5;&#x770B;puts@plt&#x7684;&#x4EE3;&#x78BC;&#xFF0C;&#x6216;&#x8005;&#x53CD;&#x5F59;&#x7DE8;0&#xD7;08048356&#x8655;&#x7684;&#x4EE3;&#x78BC;&#xFF1A;</p>
+<pre><code class="lang-c">(gdb) disas <span class="hljs-number">0x08048356</span>
+Dump of assembler code <span class="hljs-keyword">for</span> function <span class="hljs-built_in">puts</span>@plt:
+   <span class="hljs-number">0x08048350</span> &lt;+<span class="hljs-number">0</span>&gt;:    jmp    *<span class="hljs-number">0x804a004</span>
+   <span class="hljs-number">0x08048356</span> &lt;+<span class="hljs-number">6</span>&gt;:    push   $<span class="hljs-number">0x8</span>
+   <span class="hljs-number">0x0804835b</span> &lt;+<span class="hljs-number">11</span>&gt;:    jmp    <span class="hljs-number">0x8048330</span>
+End of assembler dump.
+</code></pre>
+<p>&#x5176;&#x5BE6;&#x7B2C;&#x4E00;&#x689D;&#x6307;&#x4EE4;&#x57F7;&#x884C;&#x5F8C;&#x5C31;&#x662F;jmp&#x5230;&#x4E86;&#x7B2C;&#x4E8C;&#x689D;&#x6307;&#x4EE4;&#x3002;&#x63A5;&#x8457;push&#x4E00;&#x500B;&#x6A19;&#x8B58;&#xFF0C;&#x9019;&#x88E1;&#x662F;0&#xD7;08&#x3002;&#x7B2C;&#x4E00;&#x6B21;&#x57F7;&#x884C;&#x5B8C;&#x4EE5;&#x5F8C;&#xFF0C;&#x6703;&#x4FEE;&#x6539;GOT&#x689D;&#x76EE;&#x7684;&#x5167;&#x5BB9;&#xFF08;&#x9019;&#x88E1;&#x5C31;&#x662F;&#x4FEE;&#x6539;0x0804a004&#x7684;&#x5167;&#x5BB9;&#x4E86;&#xFF09;&#x3002;</p>
+<p>&#x7D66;showmsg&#x4E0B;&#x65B7;&#x9EDE;&#xFF0C;&#x8B93;&#x5176;&#x57F7;&#x884C;&#x5B8C;printf&#x4E4B;&#x5F8C;&#xFF0C;&#x518D;&#x6B21;&#x67E5;&#x770B;GOT&#x689D;&#x76EE;&#x7684;&#x5167;&#x5BB9;&#xFF1A;</p>
+<pre><code class="lang-c">(gdb) b <span class="hljs-number">5</span>
+Breakpoint <span class="hljs-number">2</span> at <span class="hljs-number">0x804843a</span>: file helloworld.c, line <span class="hljs-number">5.</span>
+(gdb) c
+Continuing.
+
+Breakpoint <span class="hljs-number">2</span>, showmsg (szMsg=<span class="hljs-number">0xbffff2de</span> <span class="hljs-string">&quot;Hello, world!&quot;</span>) at helloworld.c:<span class="hljs-number">5</span>
+<span class="hljs-number">5</span>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s\n&quot;</span>, szMsg);
+(gdb) n
+Hello, world!
+<span class="hljs-number">6</span>    }
+(gdb) x <span class="hljs-number">0x0804a004</span>
+<span class="hljs-number">0x804a004</span> &lt;<span class="hljs-built_in">puts</span>@got.plt&gt;:    <span class="hljs-number">0x001913b0</span>
+</code></pre>
+<p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x73FE;&#x5728;GOT&#x689D;&#x76EE;&#x76F4;&#x63A5;&#x6307;&#x5411;&#x771F;&#x6B63;&#x7684;&#x51FD;&#x6578;&#x4E86;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x4E4B;&#x5F8C;&#x7684;&#x8ABF;&#x7528;&#xFF0C;&#x5148;&#x8DF3;&#x8F49;&#x5230;PLT&#x689D;&#x76EE;&#xFF0C;&#x7136;&#x5F8C;&#x7D93;&#x7531;GOT&#x689D;&#x76EE;&#x76F4;&#x63A5;&#x8DF3;&#x8F49;&#x5230;&#x51FD;&#x6578;&#x4EE3;&#x78BC;&#xFF0C;&#x6BD4;&#x4E4B;&#x524D;&#x5C11;&#x4E86;&#x4E00;&#x4E9B;&#x6307;&#x4EE4;&#xFF0C;&#x66F4;&#x52A0;&#x5FEB;&#x901F;&#x3002;</p>
+<p>&#x5176;&#x5BE6;&#x5C31;&#x662F;&#x7B2C;&#x4E00;&#x6B21;&#x8ABF;&#x7528;&#x51FD;&#x6578;&#x4E4B;&#x5F8C;&#xFF0C;&#x6703;&#x4FEE;&#x6539;GOT&#x689D;&#x76EE;&#x7684;&#x5167;&#x5BB9;&#xFF0C;&#x7B2C;&#x4E00;&#x6B21;&#x76F8;&#x5C0D;&#x4F86;&#x8AAA;&#x6162;&#x4E00;&#x9EDE;&#xFF0C;&#x4EE5;&#x5F8C;&#x5FEB;&#x4E00;&#x9EDE;&#x3002;Linux&#x7684;&#x6771;&#x897F;&#x525B;&#x63A5;&#x89F8;&#xFF0C;&#x5982;&#x6709;&#x932F;&#x8AA4;&#xFF0C;&#x6B61;&#x8FCE;&#x6307;&#x6B63;&#x3002;</p>
+<p><code>PLT&#x5176;&#x5BE6;&#x662F;&#x5EF6;&#x9072;&#x7D81;&#x5B9A;&#x6280;&#x8853;</code>&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x7B49;&#x5230;&#x8ABF;&#x7528;&#x51FD;&#x6578;&#x7684;&#x6642;&#x5019;&#x624D;&#x9032;&#x884C;&#x51FD;&#x6578;&#x5730;&#x5740;&#x7684;&#x5B9A;&#x4F4D;&#x3002;&#x793A;&#x4F8B;&#x4EE3;&#x78BC;&#xFF1A;</p>
+<pre><code class="lang-c">(gdb) disas main
+Dump of assembler code for function main:
+   0x0804841d &lt;+0&gt;:    push   %ebp
+   0x0804841e &lt;+1&gt;:    mov    %esp,%ebp
+   0x08048420 &lt;+3&gt;:    and    $0xfffffff0,%esp
+   0x08048423 &lt;+6&gt;:    sub    $0x10,%esp
+   0x08048426 &lt;+9&gt;:    movl   $0x80484d0,(%esp)
+   0x0804842d &lt;+16&gt;:    call   0x80482f0 &lt;puts@plt&gt;  ; &#x8DDF;&#x8E64;0x080482f0
+   0x08048432 &lt;+21&gt;:    mov    $0x0,%eax
+   0x08048437 &lt;+26&gt;:    leave  
+   0x08048438 &lt;+27&gt;:    ret    
+End of assembler dump.
+
+(gdb) b *0x0804842d
+Breakpoint 1 at 0x804842d
+(gdb) r
+Starting program: /home/winson/Documents/test 
+
+Breakpoint 1, 0x0804842d in main ()
+(gdb) disas main
+Dump of assembler code for function main:
+   0x0804841d &lt;+0&gt;:    push   %ebp
+   0x0804841e &lt;+1&gt;:    mov    %esp,%ebp
+   0x08048420 &lt;+3&gt;:    and    $0xfffffff0,%esp
+   0x08048423 &lt;+6&gt;:    sub    $0x10,%esp
+   0x08048426 &lt;+9&gt;:    movl   $0x80484d0,(%esp)
+=&gt; 0x0804842d &lt;+16&gt;:    call   0x80482f0 &lt;puts@plt&gt;  ; &#x8DDF;&#x8E64;0x080482f0
+   0x08048432 &lt;+21&gt;:    mov    $0x0,%eax
+   0x08048437 &lt;+26&gt;:    leave  
+   0x08048438 &lt;+27&gt;:    ret    
+End of assembler dump.
+
+(gdb) disas 0x080482f0
+Dump of assembler code for function puts@plt:
+   0x080482f0 &lt;+0&gt;:    jmp    *0x804a00c            ; &#x67E5;&#x770B;0x804a00c&#x5167;&#x5B58;
+   0x080482f6 &lt;+6&gt;:    push   $0x0
+   0x080482fb &lt;+11&gt;:    jmp    0x80482e0
+End of assembler dump.
+
+(gdb) x 0x0804a00c
+0x804a00c &lt;puts@got.plt&gt;:    0x080482f6           ; &#x5BE6;&#x969B;&#x4E0A;&#x662F;&#x8DF3;&#x8F49;&#x56DE;&#x53BB;&#x57F7;&#x884C;&#x4E0B;&#x4E00;&#x689D;&#x6307;&#x4EE4;
+
+(gdb) x /30i 0x080482e0
+   0x80482e0:    pushl  0x804a004
+   0x80482e6:    jmp    *0x804a008                    ; &#x8DDF;&#x8E64;&#x9032;&#x5165;
+   0x80482ec:    add    %al,(%eax)
+   0x80482ee:    add    %al,(%eax)
+   0x80482f0 &lt;puts@plt&gt;:    jmp    *0x804a00c
+   0x80482f6 &lt;puts@plt+6&gt;:    push   $0x0
+   0x80482fb &lt;puts@plt+11&gt;:    jmp    0x80482e0
+   ...
+
+(gdb) x /1xw 0x0804a008
+0x804a008:    0xb7ff24f0
+
+(gdb) b *0x080482e6
+Breakpoint 2 at 0x80482e6
+(gdb) c
+Continuing.
+
+Breakpoint 2, 0x080482e6 in ?? ()
+(gdb) ni
+_dl_runtime_resolve () at ../sysdeps/i386/dl-trampoline.S:28
+28    ../sysdeps/i386/dl-trampoline.S: No such file or directory.
+(gdb) i r eip
+eip            0xb7ff24f0    0xb7ff24f0 &lt;_dl_runtime_resolve&gt;
+(gdb)
+</code></pre>
+<p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x7B2C;&#x4E00;&#x6B21;&#x5176;&#x5BE6;&#x662F;&#x8ABF;&#x7528;_dl_runtime_resolve&#x9032;&#x884C;GOT&#x5C0D;&#x61C9;&#x7684;&#x8868;&#x9805;&#x7684;&#x4FEE;&#x6539;&#xFF0C;&#x4EE5;&#x5F8C;&#x5C31;&#x76F4;&#x63A5;&#x5F9E;GOT&#x8ABF;&#x8F49;&#x5230;&#x771F;&#x6B63;&#x7684;&#x51FD;&#x6578;&#x4E86;&#x3002;&#x66F4;&#x8A73;&#x7D30;&#x7684;&#x5167;&#x5BB9;&#x53EF;&#x4EE5;&#x53C3;&#x8003;&#x300A;&#x7A0B;&#x5E8F;&#x54E1;&#x7684;&#x81EA;&#x6211;&#x4FEE;&#x990A;&#x300B;&#x7B2C;200&#x9801;&#x5EF6;&#x9072;&#x7D81;&#x5B9A;&#xFF08;PLT&#xFF09;&#x3002;</p>
 
                     
                     </section>

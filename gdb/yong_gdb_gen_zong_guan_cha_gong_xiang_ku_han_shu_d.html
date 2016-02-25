@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="18.19" data-basepath=".." data-revision="Thu Feb 25 2016 22:44:44 GMT+0800 (CST)">
+    <div class="book" data-level="18.19" data-basepath=".." data-revision="Fri Feb 26 2016 00:16:05 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -10393,6 +10393,13 @@
             
         </li>
     
+        <li class="chapter " data-level="50.2" >
+            
+            <span><b>50.2.</b> Linux GOT與PLT</span>
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -10582,7 +10589,8 @@ foo &amp; foo2&#x662F;&#x5169;&#x500B;&#x5171;&#x4EAB;&#x5EAB;&#x4E2D;&#x7684;&#
 <span class="hljs-number">0000000000000000</span>       F *UND*  <span class="hljs-number">0000000000000000</span>              foo2 &lt;---- <span class="hljs-number">1</span>
 <span class="hljs-number">0000000000000000</span>       F *UND*  <span class="hljs-number">0000000000000000</span>              foo  &lt;---- <span class="hljs-number">2</span>
 <span class="hljs-number">0000000000601028</span> g     O .bss   <span class="hljs-number">0000000000000004</span>              xyz
-[dyno@ubuntu:plt]$ readelf --sections --wide main.exe | grep got
+</code></pre>
+<pre><code class="lang-sh">[dyno@ubuntu:plt]$ readelf --sections --wide main.exe | grep got
   [<span class="hljs-number">22</span>] .got              PROGBITS        <span class="hljs-number">0000000000600</span>fe0 <span class="hljs-number">000</span>fe0 <span class="hljs-number">000008</span> <span class="hljs-number">08</span>  WA  <span class="hljs-number">0</span>   <span class="hljs-number">0</span>  <span class="hljs-number">8</span>
   [<span class="hljs-number">23</span>] .got.plt          PROGBITS        <span class="hljs-number">0000000000600</span>fe8 <span class="hljs-number">000</span>fe8 <span class="hljs-number">000030</span> <span class="hljs-number">08</span>  WA  <span class="hljs-number">0</span>   <span class="hljs-number">0</span>  <span class="hljs-number">8</span>
 </code></pre>
@@ -10595,8 +10603,8 @@ Breakpoint <span class="hljs-number">1</span>, main () at main.c:<span class="hl
 <span class="hljs-number">4</span>       xyz = <span class="hljs-number">100</span>;
 <span class="hljs-comment">### &#x52A0;&#x8F09;ld&#x7684;&#x7B26;&#x865F;&#x8868;&#xFF0C;(/usr/lib/debug/lib/*&#x662F;libc6-dbg&#x5B89;&#x88DD;&#x7684;debug symbol&#x3002;)</span>
 <span class="hljs-comment">### &#x6CE8;&#x610F; add-symbol-file&#x7684;&#x7B2C;&#x4E09;&#x500B;&#x53C3;&#x6578;&#xFF0C;&#x5730;&#x5740;&#x662F;&#x5982;&#x4F55;&#x5F97;&#x5230;&#x7684;&#x3002;</span>
-</code></pre>
-<pre><code class="lang-sh">
+
+
 (gdb) info sharedlibrary
 From                To                  Syms Read   Shared Object Library
 <span class="hljs-number">0</span>x00007ffff7ddcaf0  <span class="hljs-number">0</span>x00007ffff7df5a66  Yes (*)     /lib64/ld-linux-x86-<span class="hljs-number">64</span>.so.<span class="hljs-number">2</span>
@@ -10605,9 +10613,9 @@ From                To                  Syms Read   Shared Object Library
 (gdb) add-symbol-file /usr/lib/debug/lib/x86_64-linux-gnu/ld-<span class="hljs-number">2.13</span>.so <span class="hljs-number">0</span>x00007ffff7ddcaf0
 (gdb) directory ~/codes/debsrc/eglibc-<span class="hljs-number">2.13</span>/elf
 (gdb) <span class="hljs-built_in">set</span> disassemble-next-line on
+
 <span class="hljs-comment">### foo() &#x73FE;&#x5728;&#x662F; &lt;foo@plt&gt;</span>
-</code></pre>
-<pre><code class="lang-sh">(gdb) disassemble main
+(gdb) disassemble main
 Dump of assembler code <span class="hljs-keyword">for</span> <span class="hljs-keyword">function</span> main:
    <span class="hljs-number">0</span>x0000000000400674 &lt;+<span class="hljs-number">0</span>&gt;: push   %rbp
    <span class="hljs-number">0</span>x0000000000400675 &lt;+<span class="hljs-number">1</span>&gt;: mov    %rsp,%rbp
@@ -10616,18 +10624,19 @@ Dump of assembler code <span class="hljs-keyword">for</span> <span class="hljs-k
    <span class="hljs-number">0</span>x0000000000400687 &lt;+<span class="hljs-number">19</span>&gt;:  callq  <span class="hljs-number">0</span>x400578 &lt;foo@plt&gt; &lt;----
    <span class="hljs-number">0</span>x000000000040068c &lt;+<span class="hljs-number">24</span>&gt;:  mov    <span class="hljs-variable">$0x0</span>,%eax
    <span class="hljs-number">0</span>x0000000000400691 &lt;+<span class="hljs-number">29</span>&gt;:  callq  <span class="hljs-number">0</span>x400578 &lt;foo@plt&gt;
-</code></pre>
-<pre><code class="lang-sh">(gdb) disassemble <span class="hljs-number">0</span>x400578
+
+(gdb) disassemble <span class="hljs-number">0</span>x400578
 Dump of assembler code <span class="hljs-keyword">for</span> <span class="hljs-keyword">function</span> foo@plt:
    <span class="hljs-number">0</span>x0000000000400578 &lt;+<span class="hljs-number">0</span>&gt;: jmpq   *<span class="hljs-number">0</span>x200a92(%rip)        <span class="hljs-comment"># 0x601010 &lt;_GLOBAL_OFFSET_TABLE_+40&gt;</span>
    <span class="hljs-number">0</span>x000000000040057e &lt;+<span class="hljs-number">6</span>&gt;: pushq  <span class="hljs-variable">$0x2</span>            &lt;----
    <span class="hljs-number">0</span>x0000000000400583 &lt;+<span class="hljs-number">11</span>&gt;:  jmpq   <span class="hljs-number">0</span>x400548  &lt;----
 End of assembler dump.
 &lt;/foo@plt&gt;&lt;/foo@plt&gt;&lt;/xyz&gt;
+
 <span class="hljs-comment">### pushq&#x662F;&#x4EC0;&#x9EBC;&#xFF1F;&#x7FFB;&#x8B6F;&#x51FD;&#x6578;&#x6240;&#x9700;&#x8981;&#x7684;&#x53C3;&#x6578;&#xFF0C;&#x9019;&#x500B;&#x662F;&#x7B2C;&#x4E00;&#x500B;&#x53C3;&#x6578;reloc_index&#xFF0C;&#x662F;&#x51FD;&#x6578;foo&#x5728;GOT&#x4E2D;&#x7684;&#x504F;&#x79FB;&#x91CF;&#x3002;</span>
 <span class="hljs-comment">### $rip&#x88E1;&#x5B58;&#x4E86;&#x4E0B;&#x4E00;&#x689D;&#x6307;&#x4EE4;,&#x6240;&#x4EE5;&#x5BE6;&#x969B;&#x4E0A;&#x5C07;&#x8981;&#x57F7;&#x884C;&#x9806;&#x5E8F;&#x4E0B;&#x4E00;&#x689D;&#x6307;&#x4EE4;</span>
-</code></pre>
-<pre><code class="lang-sh">(gdb) p/x <span class="hljs-number">0</span>x40057e + <span class="hljs-number">0</span>x200a92
+
+(gdb) p/x <span class="hljs-number">0</span>x40057e + <span class="hljs-number">0</span>x200a92
 <span class="hljs-variable">$3</span> = <span class="hljs-number">0</span>x601010
 <span class="hljs-comment">### &#x9019;&#x5C31;&#x662F;PLT&#x7684;&#x7CBE;&#x5999;&#x4E4B;&#x8655;&#xFF0C;&#x7B2C;&#x4E00;&#x6B21;&#x57F7;&#x884C;&#xFF0C;&#x8F49;&#x5230;&#x54EA;&#x88E1;&#x53BB;&#x4E86;&#x5462;&#xFF1F;</span>
 ?
@@ -10641,14 +10650,15 @@ No <span class="hljs-keyword">function</span> contains specified address.
    <span class="hljs-number">0</span>x40055e &lt;__libc_start_main@plt+<span class="hljs-number">6</span>&gt;:    pushq  <span class="hljs-variable">$0x0</span>
 <span class="hljs-comment">### &#x53C8;&#x4E00;&#x500B;pushq&#xFF0C; link_map .got.plt,&#x662F;&#x7FFB;&#x8B6F;&#x9700;&#x8981;&#x7684;&#x7B2C;&#x4E8C;&#x500B;&#x53C3;&#x6578;&#x3002;</span>
 <span class="hljs-comment">### &#x518D;&#x6B21;jumpq&#xFF0C;where&#xFF1F;where&#xFF1F;</span>
-</code></pre>
-<pre><code class="lang-sh">(gdb) x/a <span class="hljs-number">0</span>x600ff8
+
+
+(gdb) x/a <span class="hljs-number">0</span>x600ff8
 <span class="hljs-number">0</span>x600ff8 &lt;_GLOBAL_OFFSET_TABLE_+<span class="hljs-number">16</span>&gt;:  <span class="hljs-number">0</span>x7ffff7df0760
 (gdb) info symbol <span class="hljs-number">0</span>x7ffff7df0760
 _dl_runtime_resolve <span class="hljs-keyword">in</span> section .text of /usr/lib/debug/lib/x86_64-linux-gnu/ld-<span class="hljs-number">2.13</span>.so
 <span class="hljs-comment">### &#x770B;&#x770B;_dl_runtime_resolve&#x662F;&#x600E;&#x9EBC;&#x5DE5;&#x4F5C;&#x7684;...</span>
-</code></pre>
-<pre><code class="lang-sh">(gdb) <span class="hljs-built_in">break</span> _dl_runtime_resolve
+
+(gdb) <span class="hljs-built_in">break</span> _dl_runtime_resolve
 (gdb) info breakpoints
 Num     Type           Disp Enb Address            What
 <span class="hljs-number">1</span>       breakpoint     keep y   <span class="hljs-number">0</span>x0000000000400678 <span class="hljs-keyword">in</span> main at main.c:<span class="hljs-number">4</span>
@@ -10658,8 +10668,8 @@ Num     Type           Disp Enb Address            What
 <span class="hljs-number">0</span>x0000000000400548 <span class="hljs-keyword">in</span> ?? ()
 =&gt; <span class="hljs-number">0</span>x0000000000400548:    ff <span class="hljs-number">35</span> a2 <span class="hljs-number">0</span>a <span class="hljs-number">20</span> <span class="hljs-number">00</span>  pushq  <span class="hljs-number">0</span>x200aa2(%rip)        <span class="hljs-comment"># 0x600ff0 &lt;_GLOBAL_OFFSET_TABLE_+8&gt;</span>
 <span class="hljs-comment">### &#x4E0A;&#x9762;&#x63D0;&#x5230;&#x7684;&#x7B2C;&#x4E8C;&#x500B;&#x53C3;&#x6578;</span>
-</code></pre>
-<pre><code class="lang-sh">(gdb) x/x <span class="hljs-number">0</span>x600ff0
+
+(gdb) x/x <span class="hljs-number">0</span>x600ff0
 <span class="hljs-number">0</span>x600ff0 &lt;_GLOBAL_OFFSET_TABLE_+<span class="hljs-number">8</span>&gt;: <span class="hljs-number">0</span>x00007ffff7ffe2e8
 (gdb) list _dl_runtime_resolve
 ...
@@ -10676,9 +10686,10 @@ Num     Type           Disp Enb Address            What
 <span class="hljs-number">42</span>  movq %rax, %r11     <span class="hljs-comment"># Save return value      &lt;----&#x771F;&#x6B63;&#x7684;&#x5171;&#x4EAB;&#x5EAB;&#x88E1;&#x51FD;&#x6578;&#x5730;&#x5740;</span>
 <span class="hljs-number">43</span>  movq <span class="hljs-number">48</span>(%rsp), %r9  <span class="hljs-comment"># Get register content back.</span>
 ...
+
 <span class="hljs-comment">### &#x8A2D;&#x7F6E;&#x65B7;&#x9EDE;&#xFF0C;&#x770B;&#x5730;&#x5740;&#x5728;GOT&#x8868;&#x4E2D;&#x7684;&#x8B8A;&#x5316;</span>
-</code></pre>
-<pre><code class="lang-sh">(gdb) info line _dl_runtime_resolve
+
+(gdb) info line _dl_runtime_resolve
 Line <span class="hljs-number">30</span> of <span class="hljs-string">&quot;../sysdeps/x86_64/dl-trampoline.S&quot;</span> starts at address <span class="hljs-number">0</span>x7ffff7df0760 &lt;_dl_runtime_resolve&gt;
    and ends at <span class="hljs-number">0</span>x7ffff7df0764 &lt;_dl_runtime_resolve+<span class="hljs-number">4</span>&gt;.
 (gdb) <span class="hljs-built_in">break</span> ../sysdeps/x86_64/dl-trampoline.S:<span class="hljs-number">40</span>

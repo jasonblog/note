@@ -102,3 +102,49 @@ if __name__=='__main__':
 
 
 ```
+
+
+- linux getpid gettid
+
+
+```c
+#include <stdio.h>
+#include <pthread.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/syscall.h> 
+
+#define gettid() syscall(__NR_gettid)  
+
+typedef void* (*start_routine_t)(void*);
+
+void* someThread(void* tmp)
+{
+    printf("PID of this process: %d\n", getpid());
+    // printf("The ID of this thread is: %u\n", (unsigned int)pthread_self());
+
+    // /usr/include/asm-i386/unistd.h 
+    printf("The ID of this of this thread is: %ld\n", gettid());
+    sleep(2); // Keep it alive so we're sure the second thread gets a unique ID.
+    return NULL;
+}
+
+
+int main(int argc, char** argv)
+{
+    printf("PID of this process: %d\n", getpid());
+    pthread_t thread1, thread2;
+    pthread_create(&thread1, NULL, someThread, NULL);
+    sleep(1); // Hack to avoid race for stdout.
+    pthread_create(&thread2, NULL, someThread, NULL);
+    pthread_join(thread1, NULL);
+    pthread_join(thread2, NULL);
+    return (0);
+}
+```
+
+```c
+gcc -Wall -g -pthread test.c -o test
+./test
+```
+

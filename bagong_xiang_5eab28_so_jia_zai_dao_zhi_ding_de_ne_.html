@@ -37,8 +37,10 @@
         
     
     
+    <link rel="next" href="./linked_and_loader/linux_gotyu_plt.html" />
     
-    <link rel="prev" href="./linkedand_loader.html" />
+    
+    <link rel="prev" href="./linked_and_loader/linked_and_loader.html" />
     
 
         <!-- head:end -->
@@ -46,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="50.1" data-basepath="." data-revision="Fri Feb 26 2016 00:16:05 GMT+0800 (CST)">
+    <div class="book" data-level="50.1" data-basepath="." data-revision="Fri Feb 26 2016 00:40:46 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -10360,10 +10362,10 @@
             
         </li>
     
-        <li class="chapter " data-level="50" data-path="linkedand_loader.html">
+        <li class="chapter " data-level="50" data-path="linked_and_loader/linked_and_loader.html">
             
                 
-                    <a href="./linkedand_loader.html">
+                    <a href="./linked_and_loader/linked_and_loader.html">
                 
                         <i class="fa fa-check"></i>
                         
@@ -10376,10 +10378,10 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="50.1" data-path="ba_gong_xiang_5eab28_so_jia_zai_dao_zhi_ding_de_ne.html">
+        <li class="chapter active" data-level="50.1" data-path="bagong_xiang_5eab28_so_jia_zai_dao_zhi_ding_de_ne_.html">
             
                 
-                    <a href="./ba_gong_xiang_5eab28_so_jia_zai_dao_zhi_ding_de_ne.html">
+                    <a href="./bagong_xiang_5eab28_so_jia_zai_dao_zhi_ding_de_ne_.html">
                 
                         <i class="fa fa-check"></i>
                         
@@ -10391,9 +10393,17 @@
             
         </li>
     
-        <li class="chapter " data-level="50.2" >
+        <li class="chapter " data-level="50.2" data-path="linked_and_loader/linux_gotyu_plt.html">
             
-            <span><b>50.2.</b> Linux GOT與PLT</span>
+                
+                    <a href="./linked_and_loader/linux_gotyu_plt.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>50.2.</b>
+                        
+                        Linux GOT與PLT
+                    </a>
             
             
         </li>
@@ -10579,17 +10589,17 @@ PROVIDE (__executable_start = <span class="hljs-number">0</span>x08048000); . = 
 }
 </code></pre>
 <p>&#x6309;&#x7167;ld script&#x7684;&#x8A9E;&#x6CD5;&#xFF0C;&#x6211;&#x628A;&#x5B83;&#x4FEE;&#x6539;&#x70BA;(&#x7D05;&#x8272;&#x90E8;&#x5206;&#x70BA;&#x65B0;&#x589E;&#x884C;)&#xFF1A;</p>
-<pre><code>/* Script for -z combreloc: combine and sort reloc sections */
-OUTPUT_FORMAT(&quot;elf32-i386&quot;, &quot;elf32-i386&quot;,
-        &quot;elf32-i386&quot;)
+<pre><code class="lang-sh">/* Script <span class="hljs-keyword">for</span> -z combreloc: combine and sort reloc sections */
+OUTPUT_FORMAT(<span class="hljs-string">&quot;elf32-i386&quot;</span>, <span class="hljs-string">&quot;elf32-i386&quot;</span>,
+        <span class="hljs-string">&quot;elf32-i386&quot;</span>)
 OUTPUT_ARCH(i386)
     ENTRY(_start)
-    SEARCH_DIR(&quot;/usr/i386-redhat-linux/lib&quot;); SEARCH_DIR(&quot;/usr/local/lib&quot;); SEARCH_DIR(&quot;/lib&quot;); SEARCH_DIR(&quot;/usr/lib&quot;);
+    SEARCH_DIR(<span class="hljs-string">&quot;/usr/i386-redhat-linux/lib&quot;</span>); SEARCH_DIR(<span class="hljs-string">&quot;/usr/local/lib&quot;</span>); SEARCH_DIR(<span class="hljs-string">&quot;/lib&quot;</span>); SEARCH_DIR(<span class="hljs-string">&quot;/usr/lib&quot;</span>);
     SECTIONS
 {
 /* Read-only sections, merged into text segment: */
-PROVIDE (__executable_start = 0x08048000); . = 0x08048000 + SIZEOF_HEADERS;
-. = 0x00c00000;
+PROVIDE (__executable_start = <span class="hljs-number">0</span>x08048000); . = <span class="hljs-number">0</span>x08048000 + SIZEOF_HEADERS;
+. = <span class="hljs-number">0</span>x00c00000;
 .interp : { *(.interp)  }
 .hash : { *(.hash)  }
 .dynsym : { *(.dynsym)  }
@@ -10598,7 +10608,8 @@ PROVIDE (__executable_start = 0x08048000); . = 0x08048000 + SIZEOF_HEADERS;
 .gnu.version_d : { *(.gnu.version_d)  }
 .gnu.version_r : { *(.gnu.version_r)  }
 }
-</code></pre><p>&#x7528;&#x9019;&#x500B;ld script&#x518D;&#x6B21;&#x6E2C;&#x8A66;&#xFF0C;&#x4E00;&#x5207;&#x6B63;&#x5E38;&#x3002;&#x53C8;&#x9A57;&#x8B49;&#x591A;&#x500B;&#x5171;&#x4EAB;&#x5EAB;&#x7684;&#x60C5;&#x6CC1;&#xFF0C;&#x4E5F;&#x6B63;&#x5E38;&#xFF0C;&#x4E0B;&#x9762;&#x662F;&#x6E2C;&#x8A66;&#x6578;&#x64DA;&#xFF1A;</p>
+</code></pre>
+<p>&#x7528;&#x9019;&#x500B;ld script&#x518D;&#x6B21;&#x6E2C;&#x8A66;&#xFF0C;&#x4E00;&#x5207;&#x6B63;&#x5E38;&#x3002;&#x53C8;&#x9A57;&#x8B49;&#x591A;&#x500B;&#x5171;&#x4EAB;&#x5EAB;&#x7684;&#x60C5;&#x6CC1;&#xFF0C;&#x4E5F;&#x6B63;&#x5E38;&#xFF0C;&#x4E0B;&#x9762;&#x662F;&#x6E2C;&#x8A66;&#x6578;&#x64DA;&#xFF1A;</p>
 <ul>
 <li>test.c</li>
 </ul>
@@ -10632,12 +10643,12 @@ PROVIDE (__executable_start = 0x08048000); . = 0x08048000 + SIZEOF_HEADERS;
 <li>Makefile</li>
 </ul>
 <pre><code class="lang-sh">all:
-    gcc -shared -g -Xlinker --script -Xlinker ld.s test.c -o libtest.so
-    gcc -shared -g -Xlinker --script -Xlinker ld1.s <span class="hljs-built_in">test</span>1.c -o libtest1.so
-    gcc -g main.c -L./ -ltest -ltest1 -o test.exe
+   gcc -shared -g -Xlinker --script -Xlinker ld.s test.c -o libtest.so
+   gcc -shared -g -Xlinker --script -Xlinker ld1.s <span class="hljs-built_in">test</span>1.c -o libtest1.so
+   gcc -g main.c -L./ -ltest -ltest1 -o test.exe
 
 clean:
-    rm <span class="hljs-operator">-f</span> *.so *.exe
+   rm <span class="hljs-operator">-f</span> *.so *.exe
 </code></pre>
 <pre><code class="lang-sh">libtest.so&#x7684;&#x52A0;&#x8F09;&#x5730;&#x5740;&#x70BA;&#xFF1A;<span class="hljs-number">0</span>x00c00000
 libtest1.so&#x7684;&#x52A0;&#x8F09;&#x5730;&#x5740;&#x70BA;&#xFF1A;<span class="hljs-number">0</span>x00d00000
@@ -10672,7 +10683,6 @@ b7fdf000-b7fe0000 rw-p b7fdf000 <span class="hljs-number">00</span>:<span class=
 b7fed000-b7ff0000 rw-p b7fed000 <span class="hljs-number">00</span>:<span class="hljs-number">00</span> <span class="hljs-number">0</span> 
 bf8db000-bf8f0000 rw-p bf8db000 <span class="hljs-number">00</span>:<span class="hljs-number">00</span> <span class="hljs-number">0</span> [stack]
 </code></pre>
-<p>&#x3000;&#x3000; </p>
 
                     
                     </section>
@@ -10683,8 +10693,10 @@ bf8db000-bf8f0000 rw-p bf8db000 <span class="hljs-number">00</span>:<span class=
         </div>
 
         
-        <a href="./linkedand_loader.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: linked_and_loader"><i class="fa fa-angle-left"></i></a>
+        <a href="./linked_and_loader/linked_and_loader.html" class="navigation navigation-prev " aria-label="Previous page: linked_and_loader"><i class="fa fa-angle-left"></i></a>
         
+        
+        <a href="./linked_and_loader/linux_gotyu_plt.html" class="navigation navigation-next " aria-label="Next page: Linux GOT與PLT"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

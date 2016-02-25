@@ -656,4 +656,5 @@
    * [深入淺出教你寫編譯器](compiler/shen_ru_qian_chu_jiao_ni_xie_bian_yi_qi.md)
 * [linked_and_loader](linkedand_loader.md)
    * [把共享庫(SO)加載到指定的內存地址](ba_gong_xiang_5eab28_so_jia_zai_dao_zhi_ding_de_ne.md)
+   * Linux GOT与PLT
 

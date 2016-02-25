@@ -25,7 +25,13 @@ void addvec(int *x, int *y, int *z, int n){
 }
 ```
 
-通過命令gcc -fPIC -shared addvec.c -o libvec.so可以把上面的程序轉換為動態庫libvec.so。
+通過命令
+
+```sh
+gcc -fPIC -shared addvec.c -o libvec.so
+```
+
+可以把上面的程序轉換為動態庫libvec.so。
 
 ###2. 調用動態庫的主程序。
 

@@ -654,4 +654,5 @@
        * [總結](c_compiler/zong_jie.md)
    * [自己動手寫編譯器、鏈接器](compiler/zi_ji_dong_shou_xie_bian_yi_qi_3001_lian_jie_qi.md)
    * [深入淺出教你寫編譯器](compiler/shen_ru_qian_chu_jiao_ni_xie_bian_yi_qi.md)
+* linked_and_loader
 

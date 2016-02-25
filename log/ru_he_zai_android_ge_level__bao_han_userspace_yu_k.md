@@ -227,3 +227,54 @@ void get_backtrace_symbols(const backtrace_frame_t* backtrace, size_t frames,
 
 但是如果該 function 是宣告成 static, 該 function name 就不會出現在 dynamic symbol 裡 (你可以使用 arm-linux-androideabi-nm -D xxxx.so | grep the_function_name , 如果沒有出現, 就表示該 funciton name 並不在 dynamic symbol 裡),  遇到這情況就只好使用 add2line 指令去讀 out folder 下的 symbol 了, 各位可以參考我另一篇文章 http://janbarry0914.blogspot.tw/2011/07/android-crash-tombstone.html . 感謝.
 
+
+
+- android 中 c++ 利用 constructor & deconstructor 每個函數進出打印
+
+
+```cpp
+class __CallLog__
+{
+private:
+    const char* logtag;
+    const char* file;
+    int32_t line;
+    const char* func;
+    int64_t mEnterTime;
+public:
+    inline __CallLog__(const char* __logtag, const char* __file, int32_t __line,
+                       const char* __func):
+        logtag(__logtag), file(__file), line(__line), func(__func),
+        mEnterTime(android::uptimeMillis())
+    {
+        LOG(LOG_DEBUG, logtag, "TID:%d ...%s:%d:\tEnter %s\n",
+            static_cast<int32_t>(syscall(__NR_gettid)), strrchr(file, '/'), line, func);
+    }
+
+    inline void timeDiff(int32_t diffLine)
+    {
+        LOG(LOG_DEBUG, logtag,
+            "TID:%d ...%s:%d:\tTime diff from line %d is %lld millis\n",
+            static_cast<int32_t>(syscall(__NR_gettid)), strrchr(file, '/'), line, diffLine,
+            android::uptimeMillis() - mEnterTime);
+    }
+
+    inline ~__CallLog__()
+    {
+        LOG(LOG_DEBUG, logtag, "TID:%d ...%s:%d:\tLeave %s (takes %llu millis)\n",
+            static_cast<int32_t>(syscall(__NR_gettid)), strrchr(file, '/'), line, func,
+            android::uptimeMillis() - mEnterTime);
+    }
+};
+
+#define GLOGENTRY(args...) __CallLog__ __call_log__(LOG_TAG, __FILE__, __LINE__, __FUNCTION__);
+#define GLOGTENTRY(logtag, args...) __CallLog__ __call_log__(logtag, __FILE__, __LINE__, __FUNCTION__);
+
+
+int main(int argc, char* argv[])
+{
+    GLOGENTRY();
+
+    return 0;
+}
+```

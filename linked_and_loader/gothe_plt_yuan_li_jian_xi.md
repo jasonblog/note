@@ -1,5 +1,8 @@
 # GOT和PLT原理簡析
 
+
+![](./images/plt_after.png)
+
 GOT(Global Offset Table)和PLT(Procedure Linkage Table)是Linux系統下面ELF格式的可執行文件中，用於定位全局變量和過程的數據信息。以C程序為例，一個程序可能會包含多個文件，可執行文件的生成過程通常由以下幾步組成。
 
 1. 編譯器把每個.c文件編譯成彙編(.s)文件。

@@ -62,6 +62,7 @@ libattr.so.1 => /lib/libattr.so.1 (0x00007fc204565000)
 同時也將資料記錄一份在 /etc/ld.so.cache 這個檔案當中吶！
 
 
+![](./images/ldconfig.gif)
 
 圖 5.2.1、使用 ldconfig 預載入動態函式庫到記憶體中
 

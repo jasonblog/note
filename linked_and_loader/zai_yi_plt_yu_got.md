@@ -119,7 +119,7 @@ which has no line number information.
 下面来说明foo的执行：当代码第一次执行foo函数，进程查找GOT表，找不到该函数，这个时候跳转到PLT[0] 使用_dl_runtime_resolve查找foo函数的绝对地址，当找到该函数绝对地址后，进入foo函数执行，foo函数中存在printf () 函数，这个函数和之前main函数中的printf() 不同，重新使用_dl_runtime_resolve 查找libc中的puts函数，将其插入到GOT表中。
 
 
-```c
+```sh
 (gdb) disassemble
 Dump of assembler code for function foo@plt:
    0x00000000004005e0 <+0>:   jmpq   *0x200a4a(%rip)        # 0x601030 <foo@got.plt>

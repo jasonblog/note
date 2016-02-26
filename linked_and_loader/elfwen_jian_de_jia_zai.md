@@ -1,40 +1,40 @@
-# ELF文件的加载
+# ELF文件的加載
 
 
-linux 中用户态与内核态的联系是通过system call进行调用的。最近由于学习了不同的调式工具，以及解析elf文件的objdump，正好可以来熟练一下载入流程。
-首先，我先介绍一下ELF文件格式：
+linux 中用戶態與內核態的聯繫是通過system call進行調用的。最近由於學習了不同的調式工具，以及解析elf文件的objdump，正好可以來熟練一下載入流程。
+首先，我先介紹一下ELF文件格式：
 
 ```c
 #define EI_NIDENT 16
 typedef struct{
-    unsigned char e_ident[EI_NIDENT];    //目标文件标识信息
-    Elf32_Half e_type;                             //目标文件类型
-    Elf32_Half e_machine;                       //目标体系结构类型
-    Elf32_Word e_version;                      //目标文件版本
-    Elf32_Addr e_entry;                          //程序入口的虚拟地址,若没有，可为0
-    Elf32_Off e_phoff;                            //程序头部表格（Program Header Table）的偏移量（按字节计算）,若没有，可为0
-    Elf32_Off e_shoff;                            //节区头部表格（Section Header Table）的偏移量（按字节计算）,若没有，可为0
-    Elf32_Word e_flags;                        //保存与文件相关的，特定于处理器的标志。标志名称采用 EF_machine_flag的格式。
-    Elf32_Half e_ehsize;                        //ELF 头部的大小（以字节计算）。
-    Elf32_Half e_phentsize;                   //程序头部表格的表项大小（按字节计算）。
-    Elf32_Half e_phnum;                      //程序头部表格的表项数目。可以为 0。
-    Elf32_Half e_shentsize;                  //节区头部表格的表项大小（按字节计算）。
-    Elf32_Half e_shnum;      //节区头部表格的表项数目。可以为 0。
-    Elf32_Half e_shstrndx;  //节区头部表格中与节区名称字符串表相关的表项的索引。如果文件没有节区名称字符串表，此参数可以为 SHN_UNDEF。
+    unsigned char e_ident[EI_NIDENT];    //目標文件標識信息
+    Elf32_Half e_type;                             //目標文件類型
+    Elf32_Half e_machine;                       //目標體系結構類型
+    Elf32_Word e_version;                      //目標文件版本
+    Elf32_Addr e_entry;                          //程序入口的虛擬地址,若沒有，可為0
+    Elf32_Off e_phoff;                            //程序頭部表格（Program Header Table）的偏移量（按字節計算）,若沒有，可為0
+    Elf32_Off e_shoff;                            //節區頭部表格（Section Header Table）的偏移量（按字節計算）,若沒有，可為0
+    Elf32_Word e_flags;                        //保存與文件相關的，特定於處理器的標誌。標誌名稱採用 EF_machine_flag的格式。
+    Elf32_Half e_ehsize;                        //ELF 頭部的大小（以字節計算）。
+    Elf32_Half e_phentsize;                   //程序頭部表格的表項大小（按字節計算）。
+    Elf32_Half e_phnum;                      //程序頭部表格的表項數目。可以為 0。
+    Elf32_Half e_shentsize;                  //節區頭部表格的表項大小（按字節計算）。
+    Elf32_Half e_shnum;      //節區頭部表格的表項數目。可以為 0。
+    Elf32_Half e_shstrndx;  //節區頭部表格中與節區名稱字符串表相關的表項的索引。如果文件沒有節區名稱字符串表，此參數可以為 SHN_UNDEF。
 }Elf32_Ehdr;
 ```
 
 
-我们先用一个最简单的hello world来说明elf文件载入流程。
+我們先用一個最簡單的hello world來說明elf文件載入流程。
 
 
-gcc在编译时，所有程序的链接都是动态链接的，也就是说需要解释器。由此可见，我们的Hello World程序在被内核加载到内存，内核跳到用户空间后并不是执行Hello World的，而是先把控制权交到用户空间的解释器，由解释器加载运行用户程序所需要的动态库（Hello World需要libc），然后控制权才会转移到用户程序。
+gcc在編譯時，所有程序的鏈接都是動態鏈接的，也就是說需要解釋器。由此可見，我們的Hello World程序在被內核加載到內存，內核跳到用戶空間後並不是執行Hello World的，而是先把控制權交到用戶空間的解釋器，由解釋器加載運行用戶程序所需要的動態庫（Hello World需要libc），然後控制權才會轉移到用戶程序。
 
-首先我们要知道`glic就是一个kernel 与 app 的交流窗口`，`ld_linux_so是一个动态装入器（linked dynamic）`
+首先我們要知道`glic就是一個kernel 與 app 的交流窗口`，`ld_linux_so是一個動態裝入器（linked dynamic）`
 
-当我们call PLT表时，就是动态调用so文件，其实也可以称为重定向。printf函数的调用已经换成了puts函数。其中的call指令就是调用puts函数。但从上面的代码可以看出，它调用的是puts@plt这个标号，它代表什么意思呢？在进一步说明符号的动态解析过程以前，需要先了解两个概念，一个是global offset table就是GOT表，一个是procedure linkage table（PLT）。
+當我們call PLT表時，就是動態調用so文件，其實也可以稱為重定向。printf函數的調用已經換成了puts函數。其中的call指令就是調用puts函數。但從上面的代碼可以看出，它調用的是puts@plt這個標號，它代表什麼意思呢？在進一步說明符號的動態解析過程以前，需要先了解兩個概念，一個是global offset table就是GOT表，一個是procedure linkage table（PLT）。
 
-首先 我们先反汇编这个elf文件
+首先 我們先反彙編這個elf文件
 
 ```sh
 Breakpoint 1, 0x0000000000400530 in main ()
@@ -75,7 +75,7 @@ No function contains program counter for selected frame.
 (gdb) stepi
 0x0000000000400406 in ?? ()
 (gdb) stepi
-0x0000003cf16149b0 in _dl_runtime_resolve () from /lib64/ld-linux-x86-64.so.2   #动态装入函数
+0x0000003cf16149b0 in _dl_runtime_resolve () from /lib64/ld-linux-x86-64.so.2   #動態裝入函數
 (gdb) disassemble
 <strong>Dump of assembler code for function _dl_runtime_resolve:</strong>
 => 0x0000003cf16149b0 <+0>:    sub    $0x38,%rsp
@@ -103,12 +103,12 @@ End of assembler dump.
 (gdb)
 ```
 
-`从上面，我们能看出stepi中间有两项是空的，那正是GOT[0]是空的，GOT[1] GOT[2]是一个函数的地址。`
+`從上面，我們能看出stepi中間有兩項是空的，那正是GOT[0]是空的，GOT[1] GOT[2]是一個函數的地址。`
 
-`GOT表的前三项保留，GOT[1]保存的是一个地址，指向已经加载的共享库的链表地址（前面提到加载的共享库会形成一个链表）；GOT[2]保存的是一个函数的地址(dl_runtime_resolve这个函数的入口)，这个函数的主要作用就是找到某个符号的地址，并把它写到与此符号相关的GOT项中，然后将控制转移到目标函数。`
+`GOT表的前三項保留，GOT[1]保存的是一個地址，指向已經加載的共享庫的鏈表地址（前面提到加載的共享庫會形成一個鏈表）；GOT[2]保存的是一個函數的地址(dl_runtime_resolve這個函數的入口)，這個函數的主要作用就是找到某個符號的地址，並把它寫到與此符號相關的GOT項中，然後將控制轉移到目標函數。`
 
 
-从调用puts函数到现在，总共有两次压栈操作，一次是压入puts函数的重定向信息的偏移量，一次是GOT[1]（共享库链表的地址）。上面的movl操作就是将这数据分别取到一系列的寄存器，然后调用_dl_fixup（从寄存器取参数），此函数完成的功能就是找到puts函数的实际加载地址，并将它写到GOT中，然后通过寄存器将此值返回给_dl_runtime_resolve。栈顶为puts函数的返回地址（main函数中call指令的下一条指令），这样，当puts函数返回时，就返回到正确的位置。
+從調用puts函數到現在，總共有兩次壓棧操作，一次是壓入puts函數的重定向信息的偏移量，一次是GOT[1]（共享庫鏈表的地址）。上面的movl操作就是將這數據分別取到一系列的寄存器，然後調用_dl_fixup（從寄存器取參數），此函數完成的功能就是找到puts函數的實際加載地址，並將它寫到GOT中，然後通過寄存器將此值返回給_dl_runtime_resolve。棧頂為puts函數的返回地址（main函數中call指令的下一條指令），這樣，當puts函數返回時，就返回到正確的位置。
 
 
 ```sh
@@ -135,7 +135,7 @@ Disassembly of section .plt:
   40043b:   e9 c0 ff ff ff          jmpq   400400 <_init+0x20>
   ```
   
-除PLT0以外（就是puts@plt-0x10所标记的内容），其它的所有PLT项的形式都是一样的，而且最后的jmp指令都是0x400400，即PLT0为目标的。
+除PLT0以外（就是puts@plt-0x10所標記的內容），其它的所有PLT項的形式都是一樣的，而且最後的jmp指令都是0x400400，即PLT0為目標的。
 
 
 ```sh
@@ -155,14 +155,14 @@ End of assembler dump.
 
 ```
 
-从上面可以看出，这个地址就是GOT表中的一项。它里面的内容是0x00400416，即puts@plt中的第二条指令。原来链接器在把所需要的共享库加载进内存后，并没有把共享库中的函数的地址写到GOT表项中，而是延迟到函数的第一次调用时，才会对函数的地址进行定位。
+從上面可以看出，這個地址就是GOT表中的一項。它裡面的內容是0x00400416，即puts@plt中的第二條指令。原來鏈接器在把所需要的共享庫加載進內存後，並沒有把共享庫中的函數的地址寫到GOT表項中，而是延遲到函數的第一次調用時，才會對函數的地址進行定位。
 
-这样我们就从so文件中加载了一个库函数。
+這樣我們就從so文件中加載了一個庫函數。
 
-`当然，如果是第二次调用puts函数，那么就不需要这么复杂的过程，而只要通过GOT表中已经确定的函数地址直接进行跳转即可。下图是前面过程的一个示意图，红色为第一次函数调用的顺序，蓝色为后续函数调用的顺序（第1步都要执行）。`
+`當然，如果是第二次調用puts函數，那麼就不需要這麼複雜的過程，而只要通過GOT表中已經確定的函數地址直接進行跳轉即可。下圖是前面過程的一個示意圖，紅色為第一次函數調用的順序，藍色為後續函數調用的順序（第1步都要執行）。`
 
 ![](./images/289baeed-3f91-3651-b81b-159632d1cf45.png)
 
-##参考
+##參考
 
 http://blog.csdn.net/flydream0/article/details/8719036

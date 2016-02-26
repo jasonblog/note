@@ -160,10 +160,15 @@ End of assembler dump.
 
 
 
+![](./images/289baeed-3f91-3651-b81b-159632d1cf45.png)
 
 
 
 
 
-
+##参考：
+http://www.lizhaozhong.info/archives/524
+http://flint.cs.yale.edu/cs422/doc/ELF_Format.pdf
+http://rickgray.me/2015/08/07/use-gdb-to-study-got-and-plt.html
+http://blog.csdn.net/anzhsoft/article/details/18776111
 

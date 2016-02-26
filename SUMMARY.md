@@ -659,5 +659,5 @@
    * [Linux GOT與PLT](linked_and_loader/linux_gotyu_plt.md)
    * [GOT和PLT原理簡析](linked_and_loader/gothe_plt_yuan_li_jian_xi.md)
    * [Linux 動態連結資料庫](linked_and_loader/linux_dong_tai_lian_jie_zi_liao_ku.md)
-   * 通过 GDB 调试理解 GOT/PLT
+   * [通过 GDB 调试理解 GOT/PLT](linked_and_loader/tongguo_gdb_diao_shi_li_jie_got__plt.md)
 

@@ -161,6 +161,8 @@ End of assembler dump.
 
 `当然，如果是第二次调用puts函数，那么就不需要这么复杂的过程，而只要通过GOT表中已经确定的函数地址直接进行跳转即可。下图是前面过程的一个示意图，红色为第一次函数调用的顺序，蓝色为后续函数调用的顺序（第1步都要执行）。`
 
+![](./images/289baeed-3f91-3651-b81b-159632d1cf45.png)
+
 ##参考
 
 http://blog.csdn.net/flydream0/article/details/8719036

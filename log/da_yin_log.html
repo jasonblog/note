@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="44.1" data-basepath=".." data-revision="Fri Feb 26 2016 21:41:17 GMT+0800 (CST)">
+    <div class="book" data-level="44.1" data-basepath=".." data-revision="Fri Feb 26 2016 21:59:17 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -10679,6 +10679,69 @@ kernel panic&#x5F8C;&#x6253;&#x5370;&#x7684;&#x5806;&#x68E7;&#x4FE1;&#x606F;&#x6
 </code></pre>
 <pre><code class="lang-c">gcc -Wall -g -pthread test.c -o test
 ./test
+</code></pre>
+<ul>
+<li>linux c++ constructor deconstructor log</li>
+</ul>
+<pre><code class="lang-cpp"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;time.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/syscall.h&gt;</span></span>
+
+<span class="hljs-comment">//#define gettid() syscall(__NR_gettid)</span>
+
+<span class="hljs-keyword">class</span> __CallLog__
+{
+<span class="hljs-keyword">private</span>:
+    <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* logtag;
+    <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* file;
+    <span class="hljs-keyword">int</span> line;
+    <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* func;
+    <span class="hljs-keyword">long</span> mEnterTime;
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-keyword">inline</span> __CallLog__(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* __logtag, <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* __file, <span class="hljs-keyword">int</span> __line,
+                       <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* __func):
+        logtag(__logtag), file(__file), line(__line), func(__func),
+        mEnterTime(clock()) {
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s\n&quot;</span>, file);
+        ::<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;TAG=%s TID:%d ...%s:%d:\tEnter %s\n&quot;</span>,
+                 logtag, <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">int</span>&gt;(syscall(__NR_gettid)), <span class="hljs-built_in">strrchr</span>(file, <span class="hljs-string">&apos;/&apos;</span>), line, func);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-keyword">void</span> <span class="hljs-title">timeDiff</span><span class="hljs-params">(<span class="hljs-keyword">int</span> diffLine)</span> </span>{
+<span class="hljs-preprocessor">#<span class="hljs-keyword">if</span> <span class="hljs-number">0</span></span>
+        LOG(LOG_DEBUG, logtag,
+            <span class="hljs-string">&quot;TID:%d ...%s:%d:\tTime diff from line %d is %lld millis\n&quot;</span>,
+            <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">int32_t</span>&gt;(syscall(__NR_gettid)), <span class="hljs-built_in">strrchr</span>(file, <span class="hljs-string">&apos;/&apos;</span>), line, diffLine,
+            android::uptimeMillis() - mEnterTime);
+<span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span></span>
+    }
+
+    <span class="hljs-keyword">inline</span> ~__CallLog__() {
+        ::<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;TAG=%s TID:%d ...%s:%d:\tLeave %s (takes %ld millis)\n&quot;</span>,
+                 logtag, <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">int</span>&gt;(syscall(__NR_gettid)), <span class="hljs-built_in">strrchr</span>(file, <span class="hljs-string">&apos;/&apos;</span>), line, func, clock() - mEnterTime);
+    }
+};
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> GLOGENTRY(args...) __CallLog__ __call_log__(LOG_TAG, __FILE__, __LINE__, __FUNCTION__);</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> GLOGTENTRY(logtag, args...) __CallLog__ __call_log__(logtag, __FILE__, __LINE__, __FUNCTION__);</span>
+
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> LOG_TAG <span class="hljs-string">&quot;YAO&quot;</span></span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>* argv[])</span>
+</span>{
+    GLOGENTRY();
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<ul>
+<li>windows &#x5370;&#x51FA; pid tid , &#x9700;&#x8981;&#x88DD; pthread lib</li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;process.h&gt;</span></span>
+<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;PID =%d, TID=%d\n&quot;</span>, _getpid(), pthread_self());
 </code></pre>
 
                     

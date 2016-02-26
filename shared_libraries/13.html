@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="1.3" data-basepath=".." data-revision="Fri Feb 26 2016 21:41:17 GMT+0800 (CST)">
+    <div class="book" data-level="1.3" data-basepath=".." data-revision="Fri Feb 26 2016 21:59:17 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -10609,14 +10609,16 @@ etc
 <pre><code class="lang-sh"><span class="hljs-number">0</span> <span class="hljs-number">3</span>,<span class="hljs-number">6</span> * * * /usr/bin/nohup /usr/bin/python /home/xxx/xx.py <span class="hljs-number">2</span>&gt;&amp;<span class="hljs-number">1</span> | tee /tmp/xx.log &amp;
 </code></pre>
 <ul>
-<li>&#x522A;&#x9664;crontab&#x6A94;&#x6848;</li>
-</ul>
-<pre><code>crontab -e
-</code></pre><ul>
 <li>&#x7DE8;&#x8F2F;crontab&#x6A94;&#x6848;</li>
 </ul>
-<pre><code>crontab -r
-</code></pre><ul>
+<pre><code class="lang-sh">crontab <span class="hljs-operator">-e</span>
+</code></pre>
+<ul>
+<li>&#x522A;&#x9664;crontab&#x6A94;&#x6848;</li>
+</ul>
+<pre><code class="lang-sh">crontab -r
+</code></pre>
+<ul>
 <li>restart</li>
 </ul>
 <pre><code class="lang-sh">/etc/init.d/cron restart
@@ -10625,12 +10627,17 @@ etc
 <ul>
 <li>Big-5 To Utf-8</li>
 </ul>
-<pre><code>iconv -f big5 -t utf-8 big5.txt -o utf8.txt
-</code></pre><ul>
+<pre><code class="lang-sh">iconv <span class="hljs-operator">-f</span> big5 -t utf-<span class="hljs-number">8</span> big5.txt -o utf8.txt
+</code></pre>
+<ul>
 <li>Utf-8 To Big-5</li>
 </ul>
-<pre><code>iconv -f utf-8 -t big5 utf8.txt -o big5.txt
+<pre><code class="lang-sh">iconv <span class="hljs-operator">-f</span> utf-<span class="hljs-number">8</span> -t big5 utf8.txt -o big5.txt
 </code></pre>
+<h2 id="%E6%AA%94%E6%A1%88%E7%AC%AC%E4%B8%80%E8%A1%8C%E5%8A%A0%E5%85%A5%E5%AD%97%E4%B8%B2">&#x6A94;&#x6848;&#x7B2C;&#x4E00;&#x884C;&#x52A0;&#x5165;&#x5B57;&#x4E32;</h2>
+<pre><code class="lang-sh">sed -i <span class="hljs-string">&apos;1i\&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;&apos;</span>  *.md
+</code></pre>
+
                     
                     </section>
                 

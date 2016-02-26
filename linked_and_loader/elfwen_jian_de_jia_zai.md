@@ -102,3 +102,65 @@ No function contains program counter for selected frame.
 End of assembler dump.
 (gdb)
 ```
+
+`从上面，我们能看出stepi中间有两项是空的，那正是GOT[0]是空的，GOT[1] GOT[2]是一个函数的地址。`
+
+`GOT表的前三项保留，GOT[1]保存的是一个地址，指向已经加载的共享库的链表地址（前面提到加载的共享库会形成一个链表）；GOT[2]保存的是一个函数的地址(dl_runtime_resolve这个函数的入口)，这个函数的主要作用就是找到某个符号的地址，并把它写到与此符号相关的GOT项中，然后将控制转移到目标函数。`
+
+
+从调用puts函数到现在，总共有两次压栈操作，一次是压入puts函数的重定向信息的偏移量，一次是GOT[1]（共享库链表的地址）。上面的movl操作就是将这数据分别取到一系列的寄存器，然后调用_dl_fixup（从寄存器取参数），此函数完成的功能就是找到puts函数的实际加载地址，并将它写到GOT中，然后通过寄存器将此值返回给_dl_runtime_resolve。栈顶为puts函数的返回地址（main函数中call指令的下一条指令），这样，当puts函数返回时，就返回到正确的位置。
+
+
+```sh
+Disassembly of section .plt:
+ 
+0000000000400400 <puts@plt-0x10>:
+  400400:   ff 35 02 0c 20 00       pushq  0x200c02(%rip)        # 601008 <_GLOBAL_OFFSET_TABLE_+0x8>
+  400406:   ff 25 04 0c 20 00       jmpq   *0x200c04(%rip)        # 601010 <_GLOBAL_OFFSET_TABLE_+0x10>
+  40040c:   0f 1f 40 00             nopl   0x0(%rax)
+ 
+0000000000400410 <puts@plt>:
+  400410:   ff 25 02 0c 20 00       jmpq   *0x200c02(%rip)        # 601018 <_GLOBAL_OFFSET_TABLE_+0x18>
+  400416:   68 00 00 00 00          pushq  $0x0
+  40041b:   e9 e0 ff ff ff          jmpq   400400 <_init+0x20>
+ 
+0000000000400420 <__libc_start_main@plt>:
+  400420:   ff 25 fa 0b 20 00       jmpq   *0x200bfa(%rip)        # 601020 <_GLOBAL_OFFSET_TABLE_+0x20>
+  400426:   68 01 00 00 00          pushq  $0x1
+  40042b:   e9 d0 ff ff ff          jmpq   400400 <_init+0x20>
+ 
+0000000000400430 <__gmon_start__@plt>:
+  400430:   ff 25 f2 0b 20 00       jmpq   *0x200bf2(%rip)        # 601028 <_GLOBAL_OFFSET_TABLE_+0x28>
+  400436:   68 02 00 00 00          pushq  $0x2
+  40043b:   e9 c0 ff ff ff          jmpq   400400 <_init+0x20>
+  ```
+  
+除PLT0以外（就是puts@plt-0x10所标记的内容），其它的所有PLT项的形式都是一样的，而且最后的jmp指令都是0x400400，即PLT0为目标的。
+
+
+```sh
+(gdb) x/w 0x601018
+0x601018 <puts@got.plt>:  0x00400416
+(gdb) disassemble
+Dump of assembler code for function puts@plt:
+=> 0x0000000000400410 <+0>:    jmpq   *0x200c02(%rip)        # 0x601018 <puts@got.plt>
+   0x0000000000400416 <+6>:   pushq  $0x0
+   0x000000000040041b <+11>:  jmpq   0x400400
+End of assembler dump.
+(gdb) x/32x 0x601018
+0x601018 <puts@got.plt>:  0x00400416  0x00000000  0xf1a21910  0x0000003c
+0x601028 <__gmon_start__@got.plt>:    0x00400436  0x00000000  0x00000000  0x00000000
+0x601038:   0x00000000  0x00000000  0x00000000  0x00000000
+0x601048:   0x00000000  0x00000000  0x00000000  0x00000000
+
+```
+
+从上面可以看出，这个地址就是GOT表中的一项。它里面的内容是0x00400416，即puts@plt中的第二条指令。原来链接器在把所需要的共享库加载进内存后，并没有把共享库中的函数的地址写到GOT表项中，而是延迟到函数的第一次调用时，才会对函数的地址进行定位。
+
+这样我们就从so文件中加载了一个库函数。
+
+`当然，如果是第二次调用puts函数，那么就不需要这么复杂的过程，而只要通过GOT表中已经确定的函数地址直接进行跳转即可。下图是前面过程的一个示意图，红色为第一次函数调用的顺序，蓝色为后续函数调用的顺序（第1步都要执行）。`
+
+##参考
+
+http://blog.csdn.net/flydream0/article/details/8719036

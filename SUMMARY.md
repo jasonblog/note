@@ -662,5 +662,5 @@
    * [通過 GDB 調試理解 GOT/PLT](linked_and_loader/tongguo_gdb_diao_shi_li_jie_got__plt.md)
    * [ELF文件的加載](linked_and_loader/elfwen_jian_de_jia_zai.md)
    * [再議PLT與GOT](linked_and_loader/zai_yi_plt_yu_got.md)
-   * [Linux gcc链接动态库出错：LIBRARY_PATH和LD_LIBRARY_PATH的区别](linked_and_loader/linux_gcclian_jie_dong_tai_ku_chu_cuo_ff1a_library.md)
+   * [Linux gcc鏈接動態庫出錯：LIBRARY_PATH和LD_LIBRARY_PATH的區別](linked_and_loader/linux_gcclian_jie_dong_tai_ku_chu_cuo_ff1a_library.md)
 

@@ -113,9 +113,9 @@ Linux官方内核文档中提到的oops信息被放在内核源代码Documentati
 
 处理panic后的系统自动重启panic.c源文件有个方法，当panic挂起后，指定超时时间，可以重新启动机器，这就是前面说的panic超时重启。
 
+- vi linux-2.6.31.8/kernel/panic.c 
 
 ```c
-# vi linux-2.6.31.8/kernel/panic.c ...
 
 if (panic_timeout > 0)
 {
@@ -142,4 +142,53 @@ if (panic_timeout > 0)
 } ...
 ```
 
+### 修改方法：
+
+```sh
+/etc/sysctl.conf文件中加入
+kernel.panic = 30 #panic错误中自动重启，等待时间为30秒
+kernel.sysrq=1 #激活Magic SysRq！ 否则，键盘鼠标没有响应
+```
+
+设置kernel.sysrq=1使得鼠标键盘有反应了之后按住 [ALT]+[SysRq]+[COMMAND], 这里SysRq是Print SCR键，而COMMAND按以下来解释:
+
+```sh
+b – 立即重启
+e – 发送SIGTERM给init之外的系统进程
+o – 关机
+s – sync同步所有的文件系统
+u – 试图重新挂载文件系统
+```
+
+很多网友安装linux出现“Kernel panic-not syncing fatal exception in interrupt”是由于网卡驱动原因。解决方法：将选项“Onboard Lan”的选项“Disabled”,重启从光驱启动即可。等安装完系统之后，再进入BIOS将“Onboard Lan”的选项给“enable”，下载相应的网卡驱动安装。
+如出现以下报错：
+init() r8168 … 
+… …
+… ：Kernel panic: Fatal exception
+r8168是网卡型号。
+在BIOS中禁用网卡，从光驱启动安装系统。再从网上下载网卡驱动安装。
+
+```sh
+#tar  vjxf  r8168-8.014.00.tar.bz2
+# make  clean  modules       (as root or with sudo)
+# make  install
+# depmod  -a
+# modprobe  r8168
+```
+
+安装好系统后reboot进入BIOS把网卡打开。
+
+另有网友在Kernel panic出错信息中看到“alc880”，这是个声卡类型。尝试着将声卡关闭，重启系统，搞定。
+
+安装linux系统遇到安装完成之后，无法启动系统出现Kernel panic-not syncing fatal exception。很多情况是由于板载声卡、网卡、或是cpu 超线程功能（Hyper-Threading ）引起的。这类问题的解决办法就是先查看错误代码中的信息，找到错误所指向的硬件，将其禁用。系统启动后，安装好相应的驱动，再启用该硬件即可。
+
+另外出现`“Kernel Panic — not syncing: attempted to kill init”和“Kernel Panic — not syncing: attempted to kill idle task”`有时把内存互相换下位置或重新插拔下可以解决问题。
+
+还有一种情况，swap交换分区没有配置的时候，也会出现”kernel panic – not syncing : attempted to kill init”，已在RHEL6.2_64bit上测试。
+
+##参考：
+http://blog.csdn.net/ylyuanlu/article/details/9115159
+http://wiki.linuxdeepin.com/index.php?title=Linux_kernel_panic&oldid=7764
+http://www.vpsee.com/2010/08/reboot-linux-after-a-kernel-panic/
+http://www.4byte.cn/question/721620/how-to-detect-a-kernel-panic-on-a-remote-machine.html
 

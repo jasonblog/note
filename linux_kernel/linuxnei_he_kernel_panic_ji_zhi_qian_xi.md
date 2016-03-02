@@ -1,21 +1,21 @@
-# Linux内核kernel panic机制浅析
+# Linux內核kernel panic機制淺析
 
-1.简介：
+1.簡介：
 
-内核错误(Kernel panic)是指操作系统在监测到内部的致命错误，并无法安全处理此错误时采取的动作。一旦到这个情况，kernel就尽可能把它此时能获取的全部信息都打印出来，至于能打印出多少信息，那就看是哪种情况导致它panic了。`这个概念主要被限定在Unix以及类Unix系统中；对于Microsoft Windows系统，等同的概念通常被称为蓝屏死机`。
-
-
-操作系统内核中处理Kernel panic的子程序（在AT&T派生类以及BSD类Unix中，通常称为panic()）通常被设计用来向控制台输出错误信息，向磁盘保存一份内核内存的转储，以便事后的调试，然后等待系统被手动重新引导，或自动重新引导。该程序提供的技术性信息通常是用来帮助系统管理员或者软件开发者诊断问题的。
-
-操作系统试图读写无效或不允许的内存地址是导致内核错误的一个常见原因。内核错误也有可能在遇到硬件错误或操作系统BUG时发生。在许多情况中，操作系统可以在内存访问违例发生时继续运行。然而，系统处于不稳定状态时，操作系统通常会停止工作以避免造成破坏安全和数据损坏的风险，并提供错误的诊断信息。内核错误在早期的Unix系统中被引入，显示了在Unix与Multics在设计哲学上的主要差异之一。Multics的开发者Tom van Vleck曾引述了一段在这个问题上与Unix开发者Dennis Ritchie的讨论：
-
-我提醒Dennis说，我在Multics中写的近半数代码都是错误恢复代码。 他说：“我们不需要这些。我们有称为panic的子程序，如果发生了错误就可以调用这个函数，使得系统崩溃， 然后你可以在大厅里面大叫：‘嘿，重启机器’。”
-
-原始的`panic()`函数从UNIX第五版开始到基于VAX的UNIX 32V期间几乎没有变化，只是输出一条错误信息，然后就使系统进入NOP的死循环中。当改进UNIX的基础代码的时候，panic()函数也有所改进，可以向控制台输出多种格式的调试信息。
+內核錯誤(Kernel panic)是指操作系統在監測到內部的致命錯誤，並無法安全處理此錯誤時採取的動作。一旦到這個情況，kernel就儘可能把它此時能獲取的全部信息都打印出來，至於能打印出多少信息，那就看是哪種情況導致它panic了。`這個概念主要被限定在Unix以及類Unix系統中；對於Microsoft Windows系統，等同的概念通常被稱為藍屏死機`。
 
 
+操作系統內核中處理Kernel panic的子程序（在AT&T派生類以及BSD類Unix中，通常稱為panic()）通常被設計用來向控制檯輸出錯誤信息，向磁盤保存一份內核內存的轉儲，以便事後的調試，然後等待系統被手動重新引導，或自動重新引導。該程序提供的技術性信息通常是用來幫助系統管理員或者軟件開發者診斷問題的。
 
-kernel panic 主要有以下几个出错提示：
+操作系統試圖讀寫無效或不允許的內存地址是導致內核錯誤的一個常見原因。內核錯誤也有可能在遇到硬件錯誤或操作系統BUG時發生。在許多情況中，操作系統可以在內存訪問違例發生時繼續運行。然而，系統處於不穩定狀態時，操作系統通常會停止工作以避免造成破壞安全和數據損壞的風險，並提供錯誤的診斷信息。內核錯誤在早期的Unix系統中被引入，顯示了在Unix與Multics在設計哲學上的主要差異之一。Multics的開發者Tom van Vleck曾引述了一段在這個問題上與Unix開發者Dennis Ritchie的討論：
+
+我提醒Dennis說，我在Multics中寫的近半數代碼都是錯誤恢復代碼。 他說：“我們不需要這些。我們有稱為panic的子程序，如果發生了錯誤就可以調用這個函數，使得系統崩潰， 然後你可以在大廳裡面大叫：‘嘿，重啟機器’。”
+
+原始的`panic()`函數從UNIX第五版開始到基於VAX的UNIX 32V期間幾乎沒有變化，只是輸出一條錯誤信息，然後就使系統進入NOP的死循環中。當改進UNIX的基礎代碼的時候，panic()函數也有所改進，可以向控制檯輸出多種格式的調試信息。
+
+
+
+kernel panic 主要有以下幾個出錯提示：
 
 ```sh
 Kernel panic - not syncing fatal exception in interrupt
@@ -24,94 +24,94 @@ kernel panic - not syncing: killing interrupt handler!
 Kernel Panic - not syncing：Attempted to kill init!
 ```
 
-2.什么能导致kernel panic：
+2.什麼能導致kernel panic：
 
-一般出现下面的情况，就认为是发生了kernel panic:
+一般出現下面的情況，就認為是發生了kernel panic:
 
-- 机器彻底被锁定，不能使用
+- 機器徹底被鎖定，不能使用
 
-- 数字键(Num Lock)，大写锁定键(Caps Lock)，滚动锁定键(Scroll Lock)不停闪烁。
+- 數字鍵(Num Lock)，大寫鎖定鍵(Caps Lock)，滾動鎖定鍵(Scroll Lock)不停閃爍。
 
-- 如果在终端下，应该可以看到内核dump出来的信息（包括一段”Aieee”信息或者”Oops”信息）
+- 如果在終端下，應該可以看到內核dump出來的信息（包括一段”Aieee”信息或者”Oops”信息）
 
-- 和Windows蓝屏相似
+- 和Windows藍屏相似
 
-有两种主要类型kernel panic：
+有兩種主要類型kernel panic：
 
 ```sh
-hard panic(也就是Aieee信息输出)
+hard panic(也就是Aieee信息輸出)
 
-soft panic (也就是Oops信息输出)
+soft panic (也就是Oops信息輸出)
 ```
 
-只有`加载到内核空间的驱动模块`才能`直接`导致kernel panic，你可以在系统正常的情况下，使用lsmod查看当前系统加载了哪些模块。 除此之外，`内建在内核里的组件`（比如memory map等）也能导致panic。因为hard panic和soft panic本质上不同，因此我们分别讨论。
+只有`加載到內核空間的驅動模塊`才能`直接`導致kernel panic，你可以在系統正常的情況下，使用lsmod查看當前系統加載了哪些模塊。 除此之外，`內建在內核裡的組件`（比如memory map等）也能導致panic。因為hard panic和soft panic本質上不同，因此我們分別討論。
 
 
 ### 2.1 hard panic
 
 原因
 
-`对于hard panic而言，最大的可能性是驱动模块的中断处理(interrupt handler)导致的`，`一般是因为驱动模块在中断处理程序中访问一个空指针(null pointre)`。一旦发生这种情况，驱动模块就无法处理新的中断请求，最终导致系统崩溃。
+`對於hard panic而言，最大的可能性是驅動模塊的中斷處理(interrupt handler)導致的`，`一般是因為驅動模塊在中斷處理程序中訪問一個空指針(null pointre)`。一旦發生這種情況，驅動模塊就無法處理新的中斷請求，最終導致系統崩潰。
 
-例如：在多核系统中，包括AP应用处理器、mcu微控制器和modem处理器等系统中，mcu控制器用于系统的低功耗控制，mcu微控制器由于某种原因超时向AP应用处理器发送一个超时中断，AP接受中断后调用中断处理函数读取mcu的状态寄存器，发现是mcu的超时中断，就在中断处理程序中主动引用一个空指针，迫使AP处理器打印堆栈信息然后重启linux系统。这就是一个典型的hard panic。
+例如：在多核系統中，包括AP應用處理器、mcu微控制器和modem處理器等系統中，mcu控制器用於系統的低功耗控制，mcu微控制器由於某種原因超時向AP應用處理器發送一個超時中斷，AP接受中斷後調用中斷處理函數讀取mcu的狀態寄存器，發現是mcu的超時中斷，就在中斷處理程序中主動引用一個空指針，迫使AP處理器打印堆棧信息然後重啟linux系統。這就是一個典型的hard panic。
 
 信息收集
 
-根据panic的状态不同，内核将记录所有在系统锁定之前的信息。因为kenrel panic是一种很严重的错误，不能确定系统能记录多少信息，下面是一些需要收集的关键信息，他们非常重要，因此尽可能收集全，当然如果系统启动的时候就kernel panic，那就无法知道能收集到多少有用的信息了。
+根據panic的狀態不同，內核將記錄所有在系統鎖定之前的信息。因為kenrel panic是一種很嚴重的錯誤，不能確定系統能記錄多少信息，下面是一些需要收集的關鍵信息，他們非常重要，因此儘可能收集全，當然如果系統啟動的時候就kernel panic，那就無法知道能收集到多少有用的信息了。
 
-- `/var/log/messages`: 幸运的时候，整个kernel panic栈跟踪信息都能记录在这里。
+- `/var/log/messages`: 幸運的時候，整個kernel panic棧跟蹤信息都能記錄在這裡。
 
-- 应用程序/库日志: 可能可以从这些日志信息里能看到发生panic之前发生了什么。
+- 應用程序/庫日誌: 可能可以從這些日誌信息裡能看到發生panic之前發生了什麼。
 
-- 其他发生panic之前的信息，或者知道如何重现panic那一刻的状态
+- 其他發生panic之前的信息，或者知道如何重現panic那一刻的狀態
 
-- 终端屏幕dump信息，一般OS被锁定后，复制，粘贴肯定是没戏了，因此这类信息，你可以需要借助数码相机或者原始的纸笔工具了。
+- 終端屏幕dump信息，一般OS被鎖定後，複製，粘貼肯定是沒戲了，因此這類信息，你可以需要藉助數碼相機或者原始的紙筆工具了。
 
-实际上，当内核发生panic时，linux系统会默认立即重启系统，当然这只是默认情况，除非你修改了产生panic时重启定时时间，这个值默认情况下是0，即立刻重启系统。所以当panic时没有把kernel信息导入文件的话，那么可能你很难再找到panic产生的地方。
+實際上，當內核發生panic時，linux系統會默認立即重啟系統，當然這只是默認情況，除非你修改了產生panic時重啟定時時間，這個值默認情況下是0，即立刻重啟系統。所以當panic時沒有把kernel信息導入文件的話，那麼可能你很難再找到panic產生的地方。
 
 
-Linux的稳定性勿容置疑，但是有些时候一些Kernel的致命错误还是会发生（有些时候甚至是因为硬件的原因或驱动故障），`Kernel Panic会导致系统crash，并且默认的系统会一直hung在那里，直到你去把它重新启动！ 不过你可以在/etc/sysctl.conf文件中加入`
+Linux的穩定性勿容置疑，但是有些時候一些Kernel的致命錯誤還是會發生（有些時候甚至是因為硬件的原因或驅動故障），`Kernel Panic會導致系統crash，並且默認的系統會一直hung在那裡，直到你去把它重新啟動！ 不過你可以在/etc/sysctl.conf文件中加入`
 
 ### 2.2 soft panic(oops)
 
-在Linux上，oops即Linux内核的行为不正确，并产生了一份相关的错误日志。`许多类型的oops会导致kernel panic，即令系统立即停止工作，但部分oops也允许继续操作，作为与稳定性的妥协。这个概念只代表一个简单的错误。`
+在Linux上，oops即Linux內核的行為不正確，併產生了一份相關的錯誤日誌。`許多類型的oops會導致kernel panic，即令系統立即停止工作，但部分oops也允許繼續操作，作為與穩定性的妥協。這個概念只代表一個簡單的錯誤。`
 
-`当内核检测到问题时，它会打印一个oops信息然后终止全部相关进程`。oops信息可以帮助Linux内核工程师调试，检测oops出现的条件，并修复导致oops的程序错误。
-Linux官方内核文档中提到的oops信息被放在内核源代码Documentation/oops-tracing.txt中。通常klogd是用来将oops信息从内核缓存中提取出来的，然而，在某些系统上，例如最近的Debian发行版中，rsyslogd代替了klogd，因此，缺少klogd进程并不能说明log文件中缺少oops信息的原因。
-若系统遇到了oops，一些内部资源可能不再可用。即使系统看起来工作正常，非预期的副作用可能导致活动进程被终止。oops常常导致kernel panic，若系统试图使用被禁用的资源。Kernelloops提到了一种用于收集和提交oops到 http://www.kerneloops.org/ 的软件 。Kerneloops.org同时也提供oops的统计信息。
+`當內核檢測到問題時，它會打印一個oops信息然後終止全部相關進程`。oops信息可以幫助Linux內核工程師調試，檢測oops出現的條件，並修復導致oops的程序錯誤。
+Linux官方內核文檔中提到的oops信息被放在內核源代碼Documentation/oops-tracing.txt中。通常klogd是用來將oops信息從內核緩存中提取出來的，然而，在某些系統上，例如最近的Debian發行版中，rsyslogd代替了klogd，因此，缺少klogd進程並不能說明log文件中缺少oops信息的原因。
+若系統遇到了oops，一些內部資源可能不再可用。即使系統看起來工作正常，非預期的副作用可能導致活動進程被終止。oops常常導致kernel panic，若系統試圖使用被禁用的資源。Kernelloops提到了一種用於收集和提交oops到 http://www.kerneloops.org/ 的軟件 。Kerneloops.org同時也提供oops的統計信息。
 
 
-症状：
-- 1.没有hard panic严重
-- 2.`通常导致段错误(segmentation fault)`
-- 3.`可以看到一个oops信息，/var/log/messages里可以搜索到’Oops’`
-- 4.机器稍微还能用（但是收集信息后，应该重启系统）
+症狀：
+- 1.沒有hard panic嚴重
+- 2.`通常導致段錯誤(segmentation fault)`
+- 3.`可以看到一個oops信息，/var/log/messages裡可以搜索到’Oops’`
+- 4.機器稍微還能用（但是收集信息後，應該重啟系統）
 
 原因:
-`凡是非中断处理引发的模块崩溃都将导致soft panic。在这种情况下，驱动本身会崩溃，但是还不至于让系统出现致命性失败，因为它没有锁定中断处理例程`。导致hard panic的原因同样对soft panic也有用（比如在运行时访问一个空指针）
+`凡是非中斷處理引發的模塊崩潰都將導致soft panic。在這種情況下，驅動本身會崩潰，但是還不至於讓系統出現致命性失敗，因為它沒有鎖定中斷處理例程`。導致hard panic的原因同樣對soft panic也有用（比如在運行時訪問一個空指針）
 
 信息收集：
-`当soft panic发生时，内核将产生一个包含内核符号(kernel symbols)信息的dump数据，这个将记录在/var/log/messages里`。为了开始排查故障，可以使用ksymoops工具来把内核符号信息转成有意义的数据。
-为了生成ksymoops文件,需要：
-从/var/log/messages里找到的堆栈跟踪文本信息保存为一个新文件。确保删除了时间戳(timestamp)，否则ksymoops会失败。
-运行ksymoops程序（如果没有，请安装）
-详细的ksymoops执行用法，可以参考ksymoops(8)手册。
+`當soft panic發生時，內核將產生一個包含內核符號(kernel symbols)信息的dump數據，這個將記錄在/var/log/messages裡`。為了開始排查故障，可以使用ksymoops工具來把內核符號信息轉成有意義的數據。
+為了生成ksymoops文件,需要：
+從/var/log/messages裡找到的堆棧跟蹤文本信息保存為一個新文件。確保刪除了時間戳(timestamp)，否則ksymoops會失敗。
+運行ksymoops程序（如果沒有，請安裝）
+詳細的ksymoops執行用法，可以參考ksymoops(8)手冊。
 
-## 3.Kernel panic实例:
+## 3.Kernel panic實例:
 
-今天就遇到 一个客户机器内核报错：“Kernel panic-not syncing fatal exception”，重启后正常，几个小时后出现同样报错，系统down了，有时重启后可恢复有时重启后仍然报同样的错误。
+今天就遇到 一個客戶機器內核報錯：“Kernel panic-not syncing fatal exception”，重啟後正常，幾個小時後出現同樣報錯，系統down了，有時重啟後可恢復有時重啟後仍然報同樣的錯誤。
 
-`什么是fatal exception?`
+`什麼是fatal exception?`
 
-`“致命异常（fatal exception）表示一种例外情况，这种情况要求导致其发生的程序关闭。通常，异常（exception）可能是任何意想不到的情况（它不仅仅包括程序错误）。致命异常简单地说就是异常不能被妥善处理以至于程序不能继续运行。`
+`“致命異常（fatal exception）表示一種例外情況，這種情況要求導致其發生的程序關閉。通常，異常（exception）可能是任何意想不到的情況（它不僅僅包括程序錯誤）。致命異常簡單地說就是異常不能被妥善處理以至於程序不能繼續運行。`
 
-`软件应用程序通过几个不同的代码层与操作系统及其他应用程序相联系。当异常（exception）在某个代码层发生时，为了查找所有异常处理的代码，各个代码层都会将这个异常发送给下一层，这样就能够处理这种异常。如果在所有层都没有这种异常处理的代码，致命异常（fatal exception）错误信息就会由操作系统显示出来。这个信息可能还包含一些关于该致命异常错误发生位置的秘密信息（比如在程序存储范围中的十六进制的位置）。这些额外的信息对用户而言没有什么价值，但是可以帮助技术支持人员或开发人员调试程序。`
+`軟件應用程序通過幾個不同的代碼層與操作系統及其他應用程序相聯繫。當異常（exception）在某個代碼層發生時，為了查找所有異常處理的代碼，各個代碼層都會將這個異常發送給下一層，這樣就能夠處理這種異常。如果在所有層都沒有這種異常處理的代碼，致命異常（fatal exception）錯誤信息就會由操作系統顯示出來。這個信息可能還包含一些關於該致命異常錯誤發生位置的祕密信息（比如在程序存儲範圍中的十六進制的位置）。這些額外的信息對用戶而言沒有什麼價值，但是可以幫助技術支持人員或開發人員調試程序。`
 
 
 
-`当致命异常（fatal exception）发生时，操作系统没有其他的求助方式只能关闭应用程序，并且在有些情况下是关闭操作系统本身。当使用一种特殊的应用程序时，如果反复出现致命异常错误的话，应将这个问题报告给软件供应商。 ” 而且此时键盘无任何反应，必然使用reset键硬重启。`
+`當致命異常（fatal exception）發生時，操作系統沒有其他的求助方式只能關閉應用程序，並且在有些情況下是關閉操作系統本身。當使用一種特殊的應用程序時，如果反覆出現致命異常錯誤的話，應將這個問題報告給軟件供應商。 ” 而且此時鍵盤無任何反應，必然使用reset鍵硬重啟。`
 
-处理panic后的系统自动重启panic.c源文件有个方法，当panic挂起后，指定超时时间，可以重新启动机器，这就是前面说的panic超时重启。
+處理panic後的系統自動重啟panic.c源文件有個方法，當panic掛起後，指定超時時間，可以重新啟動機器，這就是前面說的panic超時重啟。
 
 - vi linux-2.6.31.8/kernel/panic.c 
 
@@ -146,27 +146,27 @@ if (panic_timeout > 0)
 
 ```sh
 /etc/sysctl.conf文件中加入
-kernel.panic = 30 #panic错误中自动重启，等待时间为30秒
-kernel.sysrq=1 #激活Magic SysRq！ 否则，键盘鼠标没有响应
+kernel.panic = 30 #panic錯誤中自動重啟，等待時間為30秒
+kernel.sysrq=1 #激活Magic SysRq！ 否則，鍵盤鼠標沒有響應
 ```
 
-设置kernel.sysrq=1使得鼠标键盘有反应了之后按住 [ALT]+[SysRq]+[COMMAND], 这里SysRq是Print SCR键，而COMMAND按以下来解释:
+設置kernel.sysrq=1使得鼠標鍵盤有反應了之後按住 [ALT]+[SysRq]+[COMMAND], 這裡SysRq是Print SCR鍵，而COMMAND按以下來解釋:
 
 ```sh
-b – 立即重启
-e – 发送SIGTERM给init之外的系统进程
-o – 关机
-s – sync同步所有的文件系统
-u – 试图重新挂载文件系统
+b – 立即重啟
+e – 發送SIGTERM給init之外的系統進程
+o – 關機
+s – sync同步所有的文件系統
+u – 試圖重新掛載文件系統
 ```
 
-很多网友安装linux出现“Kernel panic-not syncing fatal exception in interrupt”是由于网卡驱动原因。解决方法：将选项“Onboard Lan”的选项“Disabled”,重启从光驱启动即可。等安装完系统之后，再进入BIOS将“Onboard Lan”的选项给“enable”，下载相应的网卡驱动安装。
-如出现以下报错：
+很多網友安裝linux出現“Kernel panic-not syncing fatal exception in interrupt”是由於網卡驅動原因。解決方法：將選項“Onboard Lan”的選項“Disabled”,重啟從光驅啟動即可。等安裝完系統之後，再進入BIOS將“Onboard Lan”的選項給“enable”，下載相應的網卡驅動安裝。
+如出現以下報錯：
 init() r8168 … 
 … …
 … ：Kernel panic: Fatal exception
-r8168是网卡型号。
-在BIOS中禁用网卡，从光驱启动安装系统。再从网上下载网卡驱动安装。
+r8168是網卡型號。
+在BIOS中禁用網卡，從光驅啟動安裝系統。再從網上下載網卡驅動安裝。
 
 ```sh
 #tar  vjxf  r8168-8.014.00.tar.bz2
@@ -176,17 +176,17 @@ r8168是网卡型号。
 # modprobe  r8168
 ```
 
-安装好系统后reboot进入BIOS把网卡打开。
+安裝好系統後reboot進入BIOS把網卡打開。
 
-另有网友在Kernel panic出错信息中看到“alc880”，这是个声卡类型。尝试着将声卡关闭，重启系统，搞定。
+另有網友在Kernel panic出錯信息中看到“alc880”，這是個聲卡類型。嘗試著將聲卡關閉，重啟系統，搞定。
 
-安装linux系统遇到安装完成之后，无法启动系统出现Kernel panic-not syncing fatal exception。很多情况是由于板载声卡、网卡、或是cpu 超线程功能（Hyper-Threading ）引起的。这类问题的解决办法就是先查看错误代码中的信息，找到错误所指向的硬件，将其禁用。系统启动后，安装好相应的驱动，再启用该硬件即可。
+安裝linux系統遇到安裝完成之後，無法啟動系統出現Kernel panic-not syncing fatal exception。很多情況是由於板載聲卡、網卡、或是cpu 超線程功能（Hyper-Threading ）引起的。這類問題的解決辦法就是先查看錯誤代碼中的信息，找到錯誤所指向的硬件，將其禁用。系統啟動後，安裝好相應的驅動，再啟用該硬件即可。
 
-另外出现`“Kernel Panic — not syncing: attempted to kill init”和“Kernel Panic — not syncing: attempted to kill idle task”`有时把内存互相换下位置或重新插拔下可以解决问题。
+另外出現`“Kernel Panic — not syncing: attempted to kill init”和“Kernel Panic — not syncing: attempted to kill idle task”`有時把內存互相換下位置或重新插拔下可以解決問題。
 
-还有一种情况，swap交换分区没有配置的时候，也会出现”kernel panic – not syncing : attempted to kill init”，已在RHEL6.2_64bit上测试。
+還有一種情況，swap交換分區沒有配置的時候，也會出現”kernel panic – not syncing : attempted to kill init”，已在RHEL6.2_64bit上測試。
 
-##参考：
+##參考：
 http://blog.csdn.net/ylyuanlu/article/details/9115159
 http://wiki.linuxdeepin.com/index.php?title=Linux_kernel_panic&oldid=7764
 http://www.vpsee.com/2010/08/reboot-linux-after-a-kernel-panic/

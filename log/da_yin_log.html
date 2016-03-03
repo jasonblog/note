@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="44.1" data-basepath=".." data-revision="Thu Mar 03 2016 00:21:19 GMT+0800 (CST)">
+    <div class="book" data-level="44.1" data-basepath=".." data-revision="Thu Mar 03 2016 23:27:27 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -10832,6 +10832,13 @@ kernel panic&#x5F8C;&#x6253;&#x5370;&#x7684;&#x5806;&#x68E7;&#x4FE1;&#x606F;&#x6
 </ul>
 <pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;process.h&gt;</span></span>
 <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;PID =%d, TID=%d\n&quot;</span>, _getpid(), pthread_self());
+</code></pre>
+<h3 id="windows%E4%B8%8B%E5%A6%82%E4%BD%95%E7%94%A8c%E8%AA%9E%E8%A8%80%E6%89%93%E5%8D%B0%E7%95%B6%E5%89%8D%E9%80%B2%E7%A8%8B%E7%9A%84%E9%80%B2%E7%A8%8B%E8%99%9F%EF%BC%9F">Windows&#x4E0B;&#x5982;&#x4F55;&#x7528;C&#x8A9E;&#x8A00;&#x6253;&#x5370;&#x7576;&#x524D;&#x9032;&#x7A0B;&#x7684;&#x9032;&#x7A0B;&#x865F;&#xFF1F;</h3>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;windows.h&gt;</span> // for GetCurrentProcessId  </span>
+
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;!!!! imuPath=&quot;</span> &lt;&lt; m_imuPath
+        &lt;&lt; <span class="hljs-string">&quot; pid=&quot;</span> &lt;&lt; GetCurrentProcessId()
+        &lt;&lt; <span class="hljs-string">&quot; tid=&quot;</span> &lt;&lt; GetCurrentThreadId() &lt;&lt; <span class="hljs-built_in">std</span>::endl;
 </code></pre>
 
                     

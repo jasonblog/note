@@ -215,3 +215,13 @@ int main(int argc, char* argv[])
 printf("PID =%d, TID=%d\n", _getpid(), pthread_self());
 ```
 
+### Windows下如何用C語言打印當前進程的進程號？
+
+```c
+#include <windows.h> // for GetCurrentProcessId  
+
+std::cout << "!!!! imuPath=" << m_imuPath
+		<< " pid=" << GetCurrentProcessId()
+		<< " tid=" << GetCurrentThreadId() << std::endl;
+```
+

@@ -2,6 +2,13 @@
 
 Raspberry Pi 除了是個很方便的小玩具之外，同時也非常適合用他來學習和 Linux 以及 Linux Kernel 的相關知識，本篇將講解如何自己編譯最新的 Linux Kernel 給你的 Raspberry Pi 使用。
 
+
+```c
+1.u-boot: https://github.com/gonzoua/u-boot-pi.git
+2.kernel: https://github.com/raspberrypi/linux.git
+3.toolchain: https://github.com/raspberrypi/tools.git
+```
+
 ## 取得編譯用的 toolchain 與工具
 
 

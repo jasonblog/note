@@ -666,4 +666,5 @@
    * [再議PLT與GOT](linked_and_loader/zai_yi_plt_yu_got.md)
    * [Linux gcc鏈接動態庫出錯：LIBRARY_PATH和LD_LIBRARY_PATH的區別](linked_and_loader/linux_gcclian_jie_dong_tai_ku_chu_cuo_ff1a_library.md)
    * [LIBRARY_PATH和LD_LIBRARY_PATH環境變量的區別](linked_and_loader/librarypath_he_ld_library_path_huan_jing_bian_lian.md)
+* Bochs
 

@@ -1,42 +1,42 @@
-# OS dev的Bochs调试
+# OS dev的Bochs調試
 
 
-最近在弄一个自己的hobby OS，作为菜鸟在调试时候积累一些经验，记录一下。
-##Bochs调试
-Bochs自带调试功能，但是如果你是apt装上的是不行的，下源码来自己编译，编译选项为：
+最近在弄一個自己的hobby OS，作為菜鳥在調試時候積累一些經驗，記錄一下。
+##Bochs調試
+Bochs自帶調試功能，但是如果你是apt裝上的是不行的，下源碼來自己編譯，編譯選項為：
 
 
 ```sh
 ./configure --enable-debugger --enable-disasm
 ```
 
-这个我只是尝试过，在OS的loader阶段可能会用到，当如果进入C语言实现部分的代码如何调试?我希望看到C的源码级别调试，而不是汇编的。
+這個我只是嘗試過，在OS的loader階段可能會用到，當如果進入C語言實現部分的代碼如何調試?我希望看到C的源碼級別調試，而不是彙編的。
 
-##Bochs + gdb调试
+##Bochs + gdb調試
 
-同样需要在编译的时候加上选项，这个选项必须注意，否则在gdb调试的时候会出现”Cannot find bounds of current function”之类的问题。
+同樣需要在編譯的時候加上選項，這個選項必須注意，否則在gdb調試的時候會出現”Cannot find bounds of current function”之類的問題。
 
 ```sh
 ./configure --enable-debugger --enable-disasm --enable-gdb-stub
 ```
 
-诡异的是这个–enable-gdb-stub选项和上面的 –enable-debugger选项只能`二选一`。也行，编译出来后重命名吧。编译完成后在Bochs的配置文件.bashrc中加上这么一行:
+詭異的是這個–enable-gdb-stub選項和上面的 –enable-debugger選項只能`二選一`。也行，編譯出來後重命名吧。編譯完成後在Bochs的配置文件.bashrc中加上這麼一行:
 
 ```sh
 gdbstub: enabled=1, port=1234, text_base=0, data_base=0, bss_base=0
 ```
 
-另外注意kernel的代码也需要加入-g编译选项。最后在编译完成后的文件是带调试信息的，但是我们在用Bochs启动的img文件不需要这些，现在比如kernel.elf是带编译信息的kernel 文件，用下面的这个步骤去掉调试信息，据说也可以用strip来。
+另外注意kernel的代碼也需要加入-g編譯選項。最後在編譯完成後的文件是帶調試信息的，但是我們在用Bochs啟動的img文件不需要這些，現在比如kernel.elf是帶編譯信息的kernel 文件，用下面的這個步驟去掉調試信息，據說也可以用strip來。
 
 
 ```sh
 cmd="objcopy -R .pdr -R .comment -R .note -S -O binary kernel.elf kernel.bin"
 
 cat boot.bin setup.bin kernel.bin > ../a.img;
-Bochs 使用的是这个a.img文件， gdb载入的是kernel.elf文件。
+Bochs 使用的是這個a.img文件， gdb載入的是kernel.elf文件。
 ```
 
-启动Bochs后会等待gdb连进来(其实Qemu也可以这样进行调试的)，查资料过程中发现还可在调试的目录加上.gdbinit，这样每次启动gdb就不那么麻烦了：
+啟動Bochs後會等待gdb連進來(其實Qemu也可以這樣進行調試的)，查資料過程中發現還可在調試的目錄加上.gdbinit，這樣每次啟動gdb就不那麼麻煩了：
 
 ```sh
 file ./objs/kernel.elf
@@ -47,17 +47,17 @@ b kmain
 
 ## 一些有用tips
 
-OS的代码中经常会有内联汇编，有的时候一条内联过去就崩溃了，所以在gdb里需要查看反汇编语句和registers。下面这些gdb指令比较有用：
+OS的代碼中經常會有內聯彙編，有的時候一條內聯過去就崩潰了，所以在gdb裡需要查看反彙編語句和registers。下面這些gdb指令比較有用：
 
 ```sh
-(gdb) info line main.c:26  (查看main.c:26行在目标文件中的位置，为0x1cbc) 
+(gdb) info line main.c:26  (查看main.c:26行在目標文件中的位置，為0x1cbc) 
 Line 26 of "./kernel/main.c" starts at address 0x1cbc <kmain> and ends at 0x1cc2 <kmain+6>.
 
 (gdb) info line *0x1cbc  (上面的反操作)
 Line 26 of "./kernel/main.c" starts at address 0x1cbc <kmain> and ends at 0x1cc2 <kmain+6>.
 
 
-(反汇编kmain函数，箭头指向的是当前运行的汇编代码)
+(反彙編kmain函數，箭頭指向的是當前運行的彙編代碼)
 (gdb) disas kmain  
 Dump of assembler code for function kmain:
 => 0x00001cbc <+0>:	push   ebp
@@ -77,7 +77,7 @@ Dump of assembler code for function kmain:
    0x00001cfd <+65>:	call   0xc13 <gdt_init>
 ```
 
-要正确的看到反汇编最好设置好gdb里面的汇编指令集，对于Nasm设置”set disassembly-flavor intel”,在.gdbinit里面弄好就行。
-最后info registers查看cpu寄存器内容，info registers %eax只查看eax内容，而 info all-registers会把cpu的所有寄存器内容显示出来，不过cr0,cr3这些貌似没有 :(。看看这里GDB参考。
+要正確的看到反彙編最好設置好gdb裡面的彙編指令集，對於Nasm設置”set disassembly-flavor intel”,在.gdbinit裡面弄好就行。
+最後info registers查看cpu寄存器內容，info registers %eax只查看eax內容，而 info all-registers會把cpu的所有寄存器內容顯示出來，不過cr0,cr3這些貌似沒有 :(。看看這裡GDB參考。
 
 

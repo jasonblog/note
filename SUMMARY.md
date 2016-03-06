@@ -442,7 +442,7 @@
    * [Raspberry Pi 2 Bare Metal Multicore JTAG Debugging](raspberry_pi/raspberry_pi_2_bare_metal_multicore_jtag_debugging.md)
    * [rpi, serial and kgdb](raspberry_pi/rpi,_serial_and_kgdb.md)
    * [[Raspberry Pi Project] How does Raspberry Pi boot?](raspberry_pi/[raspberry_pi_project]_how_does_raspberry_pi_boot.md)
-   * [Raspberry Pi Project] Compile and update Raspbian kernel
+   * [[Raspberry Pi Project] Compile and update Raspbian kernel](raspberry_pi/[raspberry_pi_project]_compile_and_update_raspbian.md)
 * [OpenGL](opengl/opengl.md)
    * [opengl(mesa) for ubuntu14.04](opengl/mesa.md)
    * [ubuntu 14.04 安裝OpenGL（基於freeglut）](opengl/1.md)

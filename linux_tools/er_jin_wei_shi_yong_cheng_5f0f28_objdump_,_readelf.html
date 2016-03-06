@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>10 條 Linux | Jason note</title>
+        <title>二進位實用程式(objdump, readelf,ar, nm等) | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../shared_libraries/cntotw.html" />
+    <link rel="next" href="../bggdb/index.html" />
     
     
-    <link rel="prev" href="../shared_libraries/12.html" />
+    <link rel="prev" href="../linux_tools/jdbshell.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="1.1" data-basepath=".." data-revision="Sun Mar 06 2016 12:59:24 GMT+0800 (CST)">
+    <div class="book" data-level="3.6" data-basepath=".." data-revision="Sun Mar 06 2016 12:59:24 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -95,7 +95,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="1.1" data-path="shared_libraries/lsof.html">
+        <li class="chapter " data-level="1.1" data-path="shared_libraries/lsof.html">
             
                 
                     <a href="../shared_libraries/lsof.html">
@@ -785,7 +785,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.6" data-path="linux_tools/er_jin_wei_shi_yong_cheng_5f0f28_objdump_,_readelf.html">
+        <li class="chapter active" data-level="3.6" data-path="linux_tools/er_jin_wei_shi_yong_cheng_5f0f28_objdump_,_readelf.html">
             
                 
                     <a href="../linux_tools/er_jin_wei_shi_yong_cheng_5f0f28_objdump_,_readelf.html">
@@ -10705,104 +10705,390 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="lsof">lsof</h1>
-<p>&#x9019; 10 &#x689D; Linux &#x547D;&#x4EE4;&#x4F9D;&#x6B21;&#x662F;&#xFF1A;</p>
-<p>pgrep&#xFF1A;&#x6BD4;&#x5982;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; pgrep -u root &#x4F86;&#x4EE3;&#x66FF; ps -ef | egrep &#x300E;^root &#x300E; | awk &#x300E;{print $2}&#x300F;&#xFF0C;&#x4EE5;&#x4FBF;&#x6293;&#x53D6;&#x5C6C;&#x65BC; root &#x7684; PID&#x3002;</p>
-<p>pstree&#xFF1A;&#x6211;&#x89BA;&#x5F97;&#x9019;&#x500B;&#x547D;&#x4EE4;&#x5F88;&#x9177;&#xFF0C;&#x5B83;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x5217;&#x51FA;&#x9032;&#x7A0B;&#x6A39;&#xFF0C;&#x6216;&#x8005;&#x63DB;&#x53E5;&#x8A71;&#x8AAA;&#x662F;&#x6309;&#x7167;&#x6A39;&#x72C0;&#x7D50;&#x69CB;&#x4F86;&#x5217;&#x51FA;&#x9032;&#x7A0B;&#x3002;</p>
-<p>bc&#xFF1A;&#x9019;&#x500B;&#x547D;&#x4EE4;&#x5728;&#x6211;&#x7684;&#x7CFB;&#x7D71;&#x4E2D;&#x6C92;&#x6709;&#x627E;&#x5230;&#xFF0C;&#x53EF;&#x80FD;&#x9700;&#x8981;&#x5B89;&#x88DD;&#x3002;&#x9019;&#x662F;&#x7528;&#x4F86;&#x57F7;&#x884C;&#x8A08;&#x7B97;&#x7684;&#x4E00;&#x500B;&#x547D;&#x4EE4;&#xFF0C;&#x5982;&#x4F7F;&#x7528;&#x5B83;&#x4F86;&#x958B;&#x5E73;&#x65B9;&#x6839;&#x3002;</p>
-<p>split&#xFF1A;&#x9019;&#x662F;&#x4E00;&#x500B;&#x5F88;&#x6709;&#x7528;&#x7684;&#x547D;&#x4EE4;&#xFF0C;&#x5B83;&#x53EF;&#x4EE5;&#x5C07;&#x4E00;&#x500B;&#x5927;&#x6587;&#x4EF6;&#x5206;&#x5272;&#x6210;&#x5E7E;&#x500B;&#x5C0F;&#x7684;&#x90E8;&#x5206;&#x3002;&#x6BD4;&#x5982;&#xFF1A;split -b 2m largefile LF_ &#x6703;&#x5C07; largefile &#x5206;&#x5272;&#x6210;&#x5E36;&#x6709; LF &#x6587;&#x4EF6;&#x540D;&#x524D;&#x7DB4;&#x4E14;&#x5927;&#x5C0F;&#x70BA; 2 MB &#x7684;&#x5C0F;&#x6587;&#x4EF6;&#x3002;</p>
-<p>nl&#xFF1A;&#x80FD;&#x5920;&#x986F;&#x793A;&#x884C;&#x865F;&#x7684;&#x547D;&#x4EE4;&#x3002;&#x5728;&#x95B1;&#x8B80;&#x8173;&#x672C;&#x6216;&#x4EE3;&#x78BC;&#x6642;&#xFF0C;&#x9019;&#x500B;&#x547D;&#x4EE4;&#x61C9;&#x8A72;&#x975E;&#x5E38;&#x6709;&#x7528;&#x3002;&#x5982;&#xFF1A;nl wireless.h | head&#x3002;
-mkfifo&#xFF1A;&#x4F5C;&#x8005;&#x8AAA;&#x9019;&#x662F;&#x4ED6;&#x6700;&#x559C;&#x6B61;&#x7684;&#x547D;&#x4EE4;&#x3002;&#x8A72;&#x547D;&#x4EE4;&#x4F7F;&#x5F97;&#x5176;&#x4ED6;&#x547D;&#x4EE4;&#x80FD;&#x5920;&#x901A;&#x904E;&#x4E00;&#x500B;&#x547D;&#x540D;&#x7684;&#x7BA1;&#x9053;&#x9032;&#x884C;&#x901A;&#x4FE1;&#x3002;&#x55EF;&#xFF0C;&#x807D;&#x8D77;&#x4F86;&#x6709;&#x9EDE;&#x7A7A;&#x6D1E;&#x3002;&#x8209;&#x4F8B;&#x8AAA;&#x660E;&#xFF0C;&#x5148;&#x5275;&#x5EFA;&#x4E00;&#x500B;&#x7BA1;&#x9053;&#x4E26;&#x5BEB;&#x5165;&#x5167;&#x5BB9;&#xFF1A; mkfifo ive-been-piped ls -al split/* | head &gt; ive-been-piped</p>
-<p>&#x7136;&#x5F8C;&#x5C31;&#x53EF;&#x4EE5;&#x8B80;&#x53D6;&#x4E86;&#xFF1A;head ive-been-piped&#x3002;</p>
-<p>ldd&#xFF1A;&#x5176;&#x4F5C;&#x7528;&#x662F;&#x8F38;&#x51FA;&#x6307;&#x5B9A;&#x6587;&#x4EF6;&#x4F9D;&#x8CF4;&#x7684;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#x3002;&#x6BD4;&#x5982;&#xFF0C;&#x901A;&#x904E; ldd /usr/java/jre1.5.0_11/bin/java &#x53EF;&#x4EE5;&#x77AD;&#x89E3;&#x54EA;&#x4E9B;&#x7DDA;&#x7A0B;&#x5EAB;&#x93C8;&#x63A5;&#x5230;&#x4E86; java &#x4F9D;&#x8CF4;&#xFF08;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#xFF09;&#x4E86;&#x54EA;&#x4E9B;&#x5EAB;&#x3002;&#xFF08;&#x611F;&#x8B1D; NetSnail &#x7684;&#x6307;&#x6B63;&#x3002;&#xFF09;</p>
-<p>col&#xFF1A;&#x53EF;&#x4EE5;&#x5C07; man &#x624B;&#x518A;&#x9801;&#x4FDD;&#x5B58;&#x70BA;&#x7121;&#x683C;&#x5F0F;&#x7684;&#x6587;&#x672C;&#x6587;&#x4EF6;&#x3002;&#x5982;&#xFF1A; PAGER=cat man less | col -b &gt; less.txt</p>
-<p>xmlwf&#xFF1A;&#x80FD;&#x5920;&#x6AA2;&#x6E2C; XML &#x6587;&#x6A94;&#x662F;&#x5426;&#x826F;&#x597D;&#x3002;&#x6BD4;&#x5982;&#xFF1A; curl -s &#x300E;<a href="http://bashcurescancer.com" target="_blank">http://bashcurescancer.com</a>&apos; &gt; bcc.html xmlwf bcc.html perl -i -pe &#x300E;s@
-@
-@g&apos; bcc.html xmlwf bcc.html bcc.html:104:2: mismatched tag</p>
-<p>lsof&#xFF1A;&#x5217;&#x51FA;&#x6253;&#x958B;&#x7684;&#x6587;&#x4EF6;&#x3002;&#x5982;&#xFF1A;&#x901A;&#x904E; lsof | grep TCP &#x53EF;&#x4EE5;&#x627E;&#x5230;&#x6253;&#x958B;&#x7684;&#x7AEF;&#x53E3;&#x3002;</p>
-<p>&#x95DC;&#x65BC;lsof&#xFF0C;&#x7DB2;&#x7BA1;&#x54E1;&#x61C9;&#x8A72;&#x77AD;&#x89E3;&#x4EE5;&#x4E0B;&#x9019;&#x500B;&#x7528;&#x6CD5;&#xFF1A;</p>
-<h1 id="%E9%A1%AF%E7%A4%BA%E7%95%B6%E5%89%8Dssh%E7%9A%84%E9%80%A3%E6%8E%A5%E7%94%A8%E6%88%B6%E5%92%8C%E6%BA%90ip%E5%9C%B0%E5%9D%80">&#x986F;&#x793A;&#x7576;&#x524D;SSH&#x7684;&#x9023;&#x63A5;&#x7528;&#x6236;&#x548C;&#x6E90;IP&#x5730;&#x5740;</h1>
-<p>$ sudo lsof -n | grep sshd | grep TCP | cut -c18-28,70-
-root  TCP <em>:22 (LISTEN)
-root  TCP </em>:22 (LISTEN)
-root  TCP 1.2.3.4:22-&gt;6.7.8.9:2544 (ESTABLISHED)
-huangwei  TCP 1.2.3.4:22-&gt;6.7.8.9:2544 (ESTABLISHED)
-root  TCP 1.2.3.4:22-&gt;6.7.8.9:29340 (ESTABLISHED)
-huangwei  TCP 1.2.3.4:22-&gt;6.7.8.9:29340 (ESTABLISHED)
-root  TCP 1.2.3.4:22-&gt;6.7.8.9:33223 (ESTABLISHED)
-huangwei  TCP 1.2.3.4:22-&gt;6.7.8.9:33223 (ESTABLISHED)
-huangwei  TCP [::1]:cisco-sccp (LISTEN)
-huangwei  TCP 127.0.0.1:cisco-sccp (LISTEN)
-huangwei  TCP 1.2.3.4:40183-&gt;74.125.227.8:https (ESTABLISHED)
-root  TCP 1.2.3.4:22-&gt;6.7.8.9:43698 (ESTABLISHED)
-huangwei  TCP 1.2.3.4:22-&gt;6.7.8.9:43698 (ESTABLISHED)
-root  TCP 1.2.3.4:22-&gt;6.7.8.9:44943 (ESTABLISHED)
-huangwei  TCP 1.2.3.4:22-&gt;6.7.8.9:44943 (ESTABLISHED)
-huangwei  TCP 1.2.3.4:38038-&gt;74.125.227.20:www (ESTABLISHED)
-&#x770B;&#x770B;&#x662F;&#x8AB0;&#x5728;&#x5927;&#x91CF;&#x4E26;&#x767C;&#x9023;&#x63A5;&#x5462;&#xFF1F;</p>
-<p>DDoS&#xFF1F;&#x7DB2;&#x7AD9;&#x7BA1;&#x7406;&#x54E1;&#x7684;&#x5669;&#x5922;&#xFF01;&#x4E00;&#x689D;&#x300D;&#x7C21;&#x55AE;&#x300D;&#x547D;&#x4EE4;&#x5C31;&#x80FD;&#x627E;&#x51FA;script kids&#xFF1F;&#x770B;&#x904E;&#x4F86;&#xFF1A;</p>
-<p>$ sudo netstat -anp |grep &apos;tcp|udp&apos; | awk &apos;{print $5}&apos; | cut -d: -f1 | sort | uniq -c | sort -nr
-      8 192.168.0.218
-      7 192.168.0.38
-      6 192.168.0.14
-      6 0.0.0.0
-      2 192.168.0.166
-      2 192.168.0.110
-      2 192.168.0.10
-      1 192.168.232.223
-      1 192.168.0.70
-      1 192.168.0.6
-      1 192.168.0.50
-      1 192.168.0.22
-      1 192.168.0.210
-      1 192.168.0.194
-&#x770B;&#x770B;&#x73FE;&#x5728;&#x670D;&#x52D9;&#x5668;&#x6253;&#x958B;&#x4E86;&#x591A;&#x5C11;&#x7AEF;&#x53E3;&#xFF1F;&#x770B;&#x904E;&#x4F86;&#xFF1A;</p>
-<p>$ sudo lsof -i
-COMMAND    PID     USER   FD   TYPE  DEVICE SIZE/OFF NODE NAME
-mysqld    1190    mysql   10u  IPv4    5022      0t0  TCP localhost:mysql (LISTEN)
-apache2   1347     root    3u  IPv4    5327      0t0  TCP <em>:www (LISTEN)
-svnserve  1759      svn    3u  IPv4    6612      0t0  TCP ooxx-vpn:svn (LISTEN)
-sshd      2583     root    3r  IPv4 1194924      0t0  TCP 192.168.1.176:8822-&gt;192.168.2.223:40876 (ESTABLISHED)
-sshd      2651 huangwei    3u  IPv4 1194924      0t0  TCP 192.168.1.176:8822-&gt;192.168.2.223:40876 (ESTABLISHED)
-apache2   2714 www-data    3u  IPv4    5327      0t0  TCP </em>:www (LISTEN)
-apache2   2715 www-data    3u  IPv4    5327      0t0  TCP <em>:www (LISTEN)
-apache2   2722 www-data    3u  IPv4    5327      0t0  TCP </em>:www (LISTEN)
-apache2   2722 www-data   11u  IPv4 1198941      0t0  TCP ooxx-vpn:www-&gt;192.168.0.50:4068 (ESTABLISHED)
-apache2   2723 www-data    3u  IPv4    5327      0t0  TCP <em>:www (LISTEN)
-apache2   2725 www-data    3u  IPv4    5327      0t0  TCP </em>:www (LISTEN)
-apache2   2725 www-data   11u  IPv4 1198939      0t0  TCP ooxx-vpn:www-&gt;192.168.0.194:15397 (ESTABLISHED)
-apache2   2734 www-data    3u  IPv4    5327      0t0  TCP <em>:www (LISTEN)
-apache2   2809 www-data    3u  IPv4    5327      0t0  TCP </em>:www (LISTEN)
-apache2   2809 www-data   11u  IPv4 1198940      0t0  TCP ooxx-vpn:www-&gt;192.168.0.218:1521 (ESTABLISHED)
-apache2   2810 www-data    3u  IPv4    5327      0t0  TCP <em>:www (LISTEN)
-apache2   2811 www-data    3u  IPv4    5327      0t0  TCP </em>:www (LISTEN)
-apache2   2818 www-data    3u  IPv4    5327      0t0  TCP <em>:www (LISTEN)
-apache2   2819 www-data    3u  IPv4    5327      0t0  TCP </em>:www (LISTEN)
-apache2   2845 www-data    3u  IPv4    5327      0t0  TCP <em>:www (LISTEN)
-apache2   2845 www-data   11u  IPv4 1198938      0t0  TCP ooxx-vpn:www-&gt;192.168.0.14:36802 (ESTABLISHED)
-proftpd   7191      ftp    0u  IPv4   29954      0t0  TCP ooxx-vpn:ftp (LISTEN)
-sshd      9720     root    3u  IPv4   47070      0t0  TCP </em>:8822 (LISTEN)
-sshd      9720     root    4u  IPv6   47072      0t0  TCP *:8822 (LISTEN)
-svnserve 11217      svn    4u  IPv4 1019658      0t0  TCP ooxx-vpn:svn-&gt;192.168.0.166:6211 (ESTABLISHED)
-svnserve 11350      svn    4u  IPv4 1020389      0t0  TCP ooxx-vpn:svn-&gt;192.168.0.166:6286 (ESTABLISHED)
-svnserve 12706      svn    4u  IPv4  627093      0t0  TCP ooxx-vpn:svn-&gt;192.168.0.22:1084 (ESTABLISHED)
-&#x770B;&#x770B;&#x672C;&#x6A5F;&#x4E0A;&#x6240;&#x6709;&#x4F54;&#x7528; TCP 80&#x7AEF;&#x53E3;&#x7684;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;</p>
-<p>$ sudo lsof -i tcp:80
-&#x6A23;&#x4F8B;&#x8F38;&#x51FA;&#x5982;&#x4E0B;&#xFF1A;</p>
-<p>COMMAND   PID     USER   FD   TYPE  DEVICE SIZE/OFF NODE NAME
-apache2  2827 www-data    3u  IPv4 1609898      0t0  TCP <em>:www (LISTEN)
-apache2  2827 www-data   11u  IPv4 2026780      0t0  TCP ooxx-vpn:www-&gt;192.168.0.22:14949 (ESTABLISHED)
-apache2  2875 www-data    3u  IPv4 1609898      0t0  TCP </em>:www (LISTEN)
-apache2  2919 www-data    3u  IPv4 1609898      0t0  TCP <em>:www (LISTEN)
-apache2  2920 www-data    3u  IPv4 1609898      0t0  TCP </em>:www (LISTEN)
-apache2  2921 www-data    3u  IPv4 1609898      0t0  TCP <em>:www (LISTEN)
-apache2  2924 www-data    3u  IPv4 1609898      0t0  TCP </em>:www (LISTEN)
-apache2  2926 www-data    3u  IPv4 1609898      0t0  TCP <em>:www (LISTEN)
-apache2  2928 www-data    3u  IPv4 1609898      0t0  TCP </em>:www (LISTEN)
-apache2  2930 www-data    3u  IPv4 1609898      0t0  TCP <em>:www (LISTEN)
-apache2  2932 www-data    3u  IPv4 1609898      0t0  TCP </em>:www (LISTEN)
-apache2  2933 www-data    3u  IPv4 1609898      0t0  TCP <em>:www (LISTEN)
-apache2 26081     root    3u  IPv4 1609898      0t0  TCP </em>:www (LISTEN)</p>
+                        <h1 id="%E4%BA%8C%E9%80%B2%E4%BD%8D%E5%AF%A6%E7%94%A8%E7%A8%8B%E5%BC%8F-objdump-readelf-ar-nm%E7%AD%89">&#x4E8C;&#x9032;&#x4F4D;&#x5BE6;&#x7528;&#x7A0B;&#x5F0F;(objdump, readelf,ar, nm&#x7B49;)</h1>
+<p>GNU &#x4E8C;&#x9032;&#x4F4D;&#x5BE6;&#x7528;&#x7A0B;&#x5F0F;Binutils (GNU binary utilities)&#x5305;&#x62EC;&#xFF1A;<code>objdump&#x3001;readelf&#x3001;addr2line&#x3001;strip&#x3001;ar&#x3001;nm&#x3001;ldd&#x3001;ngprof&#x3001;gcov</code>&#x7B49;&#x3002;</p>
+<h2 id="%E4%B8%80%E3%80%82-objdump-%E9%A1%AF%E7%A4%BA%E4%BA%8C%E9%80%B2%E4%BD%8D%E6%AA%94%E6%A1%88%E8%B3%87%E8%A8%8A">&#x4E00;&#x3002; objdump - &#x986F;&#x793A;&#x4E8C;&#x9032;&#x4F4D;&#x6A94;&#x6848;&#x8CC7;&#x8A0A;</h2>
+<p>objdump&#x53EF;&#x4EE5;&#x6839;&#x64DA;&#x76EE;&#x7684;&#x6A94;&#x6848;&#x4F86;&#x751F;&#x6210;&#x53EF;&#x8B80;&#x6027;&#x6BD4;&#x8F03;&#x597D;&#x7684;&#x5F59;&#x7DE8;&#x6A94;&#x3002;&#x5E38;&#x7528;&#x7684;&#x547D;&#x4EE4;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-sh">gcc -g3 test.c -o test.o 
+objdump -Slz test.o
+</code></pre>
+<p>objdump&#x547D;&#x4EE4;&#x4ECB;&#x7D39;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x904E;<code>man objdump</code>&#x5728;linux&#x74B0;&#x5883;&#x4E0B;&#x7372;&#x53D6;&#x5230;&#x3002; </p>
+<pre><code class="lang-sh">  [<span class="hljs-operator">-a</span>] [-b bfdname | 
+       --target=bfdname] [-C] [--debugging] 
+       [<span class="hljs-operator">-d</span>] [-D] 
+       [--disassemble-zeroes] 
+       [-EB|-EL|--endian={big|little}] [<span class="hljs-operator">-f</span>] 
+       [-h] [-i|--info] 
+       [-j section | --section=section] 
+       [<span class="hljs-operator">-l</span>] [-m machine ] [--prefix-addresses] 
+       [-r] [-R] 
+       [<span class="hljs-operator">-s</span>|--full-contents] [-S|--source] 
+       [--[no-]show-raw-insn] [--stabs] [-t] 
+       [-T] [-x] 
+       [--start-address=address] [--stop-address=address] 
+       [--adjust-vma=offset] [--version] [--help] 
+       objfile... 
+  <span class="hljs-operator">-a</span>, --archive-headers    Display archive header information 
+  <span class="hljs-operator">-f</span>, --file-headers       Display the contents of the overall file header 
+  -p, --private-headers    Display object format specific file header contents 
+  -h, --[section-]headers  Display the contents of the section headers 
+  -x, --all-headers        Display the contents of all headers 
+  <span class="hljs-operator">-d</span>, --disassemble        Display assembler contents of executable sections 
+  -D, --disassemble-all    Display assembler contents of all sections 
+  -S, --source             Intermix <span class="hljs-built_in">source</span> code with disassembly 
+  <span class="hljs-operator">-s</span>, --full-contents      Display the full contents of all sections requested 
+  -g, --debugging          Display debug information <span class="hljs-keyword">in</span> object file 
+  <span class="hljs-operator">-e</span>, --debugging-tags     Display debug information using ctags style 
+  -G, --stabs              Display (<span class="hljs-keyword">in</span> raw form) any STABS info <span class="hljs-keyword">in</span> the file 
+  -W, --dwarf              Display DWARF info <span class="hljs-keyword">in</span> the file 
+  -t, --syms               Display the contents of the symbol table(s) 
+  -T, --dynamic-syms       Display the contents of the dynamic symbol table 
+  -r, --reloc              Display the relocation entries <span class="hljs-keyword">in</span> the file 
+  -R, --dynamic-reloc      Display the dynamic relocation entries <span class="hljs-keyword">in</span> the file 
+  @                  Read options from 
+  -v, --version            Display this program<span class="hljs-string">&apos;s version number 
+  -i, --info               List object formats and architectures supported 
+  -H, --help               Display this information
+
+--archive-headers 
+-a &#x986F;&#x793A;&#x6A94;&#x6848;&#x5EAB;&#x7684;&#x6210;&#x54E1;&#x8CC7;&#x8A0A;&#xFF0C;&#x8207; ar tv &#x985E;&#x4F3C;
+     objdump -a libpcap.a 
+     &#x548C; ar -tv libpcap.a &#x986F;&#x793A;&#x7D50;&#x679C;&#x6BD4;&#x8F03;&#x6BD4;&#x8F03; 
+     &#x986F;&#x7136;&#x9019;&#x500B;&#x9078;&#x9805;&#x6C92;&#x6709;&#x4EC0;&#x9EBC;&#x610F;&#x601D;&#x3002;
+--adjust-vma=offset 
+     When   dumping   information, first add offset to all 
+     the section addresses.   This is useful if the   sec- 
+     tion   addresses   do   not correspond   to the symbol 
+     table, which can happen when   putting   sections   at 
+     particular   addresses when using a format which can 
+     not represent section addresses, such as a.out.
+-b bfdname 
+--target=bfdname 
+     &#x6307;&#x5B9A;&#x76EE;&#x7684;&#x78BC;&#x683C;&#x5F0F;&#x3002;&#x9019;&#x4E0D;&#x662F;&#x5FC5;&#x9808;&#x7684;&#xFF0C;objdump&#x80FD;&#x81EA;&#x52D5;&#x8B58;&#x5225;&#x8A31;&#x591A;&#x683C;&#x5F0F;&#xFF0C; 
+     &#x6BD4;&#x5982;&#xFF1A;objdump -b oasys -m vax -h fu.o 
+     &#x986F;&#x793A;fu.o&#x7684;&#x982D;&#x90E8;&#x6458;&#x8981;&#x8CC7;&#x8A0A;&#xFF0C;&#x660E;&#x78BA;&#x6307;&#x51FA;&#x8A72;&#x6A94;&#x662F;Vax&#x7CFB;&#x7D71;&#x4E0B;&#x7528;Oasys 
+     &#x7DE8;&#x8B6F;&#x5668;&#x751F;&#x6210;&#x7684;&#x76EE;&#x7684;&#x6A94;&#x6848;&#x3002;objdump -i&#x5C07;&#x7D66;&#x51FA;&#x9019;&#x88E1;&#x53EF;&#x4EE5;&#x6307;&#x5B9A;&#x7684; 
+     &#x76EE;&#x7684;&#x78BC;&#x683C;&#x5F0F;&#x5217;&#x8868;
+--demangle 
+-C &#x5C07;&#x5E95;&#x5C64;&#x7684;&#x7B26;&#x865F;&#x540D;&#x89E3;&#x78BC;&#x6210;&#x4F7F;&#x7528;&#x8005;&#x7D1A;&#x540D;&#x5B57;&#xFF0C;&#x9664;&#x4E86;&#x53BB;&#x6389;&#x6240;&#x6709;&#x958B;&#x982D; 
+    &#x7684;&#x5E95;&#x7DDA;&#x4E4B;&#x5916;&#xFF0C;&#x9084;&#x4F7F;&#x5F97;C++&#x51FD;&#x6578;&#x540D;&#x4EE5;&#x53EF;&#x7406;&#x89E3;&#x7684;&#x65B9;&#x5F0F;&#x986F;&#x793A;&#x51FA;&#x4F86;&#x3002;
+--debugging 
+     &#x986F;&#x793A;&#x8ABF;&#x8A66;&#x8CC7;&#x8A0A;&#x3002;&#x4F01;&#x5716;&#x89E3;&#x6790;&#x4FDD;&#x5B58;&#x5728;&#x6A94;&#x4E2D;&#x7684;&#x8ABF;&#x8A66;&#x8CC7;&#x8A0A;&#x4E26;&#x4EE5;C&#x8A9E;&#x8A00; 
+     &#x7684;&#x8A9E;&#x6CD5;&#x986F;&#x793A;&#x51FA;&#x4F86;&#x3002;&#x50C5;&#x50C5;&#x652F;&#x63F4;&#x67D0;&#x4E9B;&#x985E;&#x578B;&#x7684;&#x8ABF;&#x8A66;&#x8CC7;&#x8A0A;&#x3002;
+--disassemble 
+-d &#x53CD;&#x5F59;&#x7DE8;&#x90A3;&#x4E9B;&#x61C9;&#x8A72;&#x9084;&#x6709;&#x6307;&#x4EE4;&#x6A5F;&#x5668;&#x78BC;&#x7684;section
+--disassemble-all 
+-D &#x8207; -d &#x985E;&#x4F3C;&#xFF0C;&#x4F46;&#x53CD;&#x5F59;&#x7DE8;&#x6240;&#x6709;section
+--prefix-addresses 
+     &#x53CD;&#x5F59;&#x7DE8;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x986F;&#x793A;&#x6BCF;&#x4E00;&#x884C;&#x7684;&#x5B8C;&#x6574;&#x4F4D;&#x5740;&#x3002;&#x9019;&#x662F;&#x4E00;&#x7A2E;&#x6BD4;&#x8F03;&#x8001;&#x7684;&#x53CD;&#x5F59;&#x7DE8;&#x683C;&#x5F0F;&#x3002; 
+     &#x986F;&#x793A;&#x6548;&#x679C;&#x4E26;&#x4E0D;&#x7406;&#x60F3;&#xFF0C;&#x4F46;&#x53EF;&#x80FD;&#x6703;&#x7528;&#x5230;&#x5176;&#x4E2D;&#x7684;&#x67D0;&#x4E9B;&#x986F;&#x793A;&#xFF0C;&#x81EA;&#x5DF1;&#x53EF;&#x4EE5;&#x5C0D;&#x6BD4;&#x3002;
+--disassemble-zeroes 
+     &#x4E00;&#x822C;&#x53CD;&#x5F59;&#x7DE8;&#x8F38;&#x51FA;&#x5C07;&#x7701;&#x7565;&#x5927;&#x584A;&#x7684;&#x96F6;&#xFF0C;&#x8A72;&#x9078;&#x9805;&#x4F7F;&#x5F97;&#x9019;&#x4E9B;&#x96F6;&#x584A;&#x4E5F;&#x88AB;&#x53CD;&#x5F59;&#x7DE8;&#x3002;
+-EB 
+-EL 
+--endian={big|little} 
+     &#x9019;&#x500B;&#x9078;&#x9805;&#x5C07;&#x5F71;&#x97FF;&#x53CD;&#x5F59;&#x7DE8;&#x51FA;&#x4F86;&#x7684;&#x6307;&#x4EE4;&#x3002; 
+     little-endian&#x5C31;&#x662F;&#x6211;&#x5011;&#x7576;&#x5E74;&#x5728;dos&#x4E0B;&#x73A9;&#x5F59;&#x7DE8;&#x7684;&#x6642;&#x5019;&#x5E38;&#x8AAA;&#x7684;&#x9AD8;&#x4F4D;&#x5728;&#x9AD8;&#x4F4D;&#x5740;&#xFF0C; 
+     x86&#x90FD;&#x662F;&#x9019;&#x7A2E;&#x3002;
+--file-headers 
+-f &#x986F;&#x793A;objfile&#x4E2D;&#x6BCF;&#x500B;&#x6A94;&#x7684;&#x6574;&#x9AD4;&#x982D;&#x90E8;&#x6458;&#x8981;&#x8CC7;&#x8A0A;&#x3002;
+--section-headers 
+--headers 
+-h &#x986F;&#x793A;&#x76EE;&#x7684;&#x6A94;&#x6848;&#x5404;&#x500B;section&#x7684;&#x982D;&#x90E8;&#x6458;&#x8981;&#x8CC7;&#x8A0A;&#x3002;
+--help &#x7C21;&#x77ED;&#x7684;&#x8AAC;&#x660E;&#x8CC7;&#x8A0A;&#x3002;
+--info 
+-i &#x986F;&#x793A;&#x5C0D;&#x65BC; -b &#x6216;&#x8005; -m &#x9078;&#x9805;&#x53EF;&#x7528;&#x7684;&#x67B6;&#x69CB;&#x548C;&#x76EE;&#x6A19;&#x683C;&#x5F0F;&#x6E05;&#x55AE;&#x3002;
+--section=name 
+-j name &#x50C5;&#x50C5;&#x986F;&#x793A;&#x6307;&#x5B9A;section&#x7684;&#x8CC7;&#x8A0A;
+--line-numbers 
+-l &#x7528;&#x6A94;&#x6848;&#x540D;&#x548C;&#x884C;&#x865F;&#x6A19;&#x6CE8;&#x76F8;&#x61C9;&#x7684;&#x76EE;&#x6A19;&#x4EE3;&#x78BC;&#xFF0C;&#x50C5;&#x50C5;&#x548C;-d&#x3001;-D&#x6216;&#x8005;-r&#x4E00;&#x8D77;&#x4F7F;&#x7528; 
+    &#x4F7F;&#x7528;-ld&#x548C;&#x4F7F;&#x7528;-d&#x7684;&#x5340;&#x5225;&#x4E0D;&#x662F;&#x5F88;&#x5927;&#xFF0C;&#x5728;&#x6E90;&#x78BC;&#x7D1A;&#x8ABF;&#x8A66;&#x7684;&#x6642;&#x5019;&#x6709;&#x7528;&#xFF0C;&#x8981;&#x6C42; 
+    &#x7DE8;&#x8B6F;&#x6642;&#x4F7F;&#x7528;&#x4E86;-g&#x4E4B;&#x985E;&#x7684;&#x8ABF;&#x8A66;&#x7DE8;&#x8B6F;&#x9078;&#x9805;&#x3002;
+--architecture=machine 
+-m machine 
+     &#x6307;&#x5B9A;&#x53CD;&#x5F59;&#x7DE8;&#x76EE;&#x7684;&#x6A94;&#x6848;&#x6642;&#x4F7F;&#x7528;&#x7684;&#x67B6;&#x69CB;&#xFF0C;&#x7576;&#x5F85;&#x53CD;&#x5F59;&#x7DE8;&#x6A94;&#x672C;&#x8EAB;&#x6C92;&#x6709;&#x63CF;&#x8FF0; 
+     &#x67B6;&#x69CB;&#x8CC7;&#x8A0A;&#x7684;&#x6642;&#x5019;(&#x6BD4;&#x5982;S-records)&#xFF0C;&#x9019;&#x500B;&#x9078;&#x9805;&#x5F88;&#x6709;&#x7528;&#x3002;&#x53EF;&#x4EE5;&#x7528;-i&#x9078;&#x9805; 
+     &#x5217;&#x51FA;&#x9019;&#x88E1;&#x80FD;&#x5920;&#x6307;&#x5B9A;&#x7684;&#x67B6;&#x69CB;
+--reloc 
+-r &#x986F;&#x793A;&#x6A94;&#x7684;&#x91CD;&#x5B9A;&#x4F4D;&#x5165;&#x53E3;&#x3002;&#x5982;&#x679C;&#x548C;-d&#x6216;&#x8005;-D&#x4E00;&#x8D77;&#x4F7F;&#x7528;&#xFF0C;&#x91CD;&#x5B9A;&#x4F4D;&#x90E8;&#x5206;&#x4EE5;&#x53CD;&#x532F; 
+    &#x7DE8;&#x5F8C;&#x7684;&#x683C;&#x5F0F;&#x986F;&#x793A;&#x51FA;&#x4F86;&#x3002;
+--dynamic-reloc 
+-R &#x986F;&#x793A;&#x6A94;&#x7684;&#x52D5;&#x614B;&#x91CD;&#x5B9A;&#x4F4D;&#x5165;&#x53E3;&#xFF0C;&#x50C5;&#x50C5;&#x5C0D;&#x65BC;&#x52D5;&#x614B;&#x76EE;&#x7684;&#x6A94;&#x6848;&#x6709;&#x610F;&#x7FA9;&#xFF0C;&#x6BD4;&#x5982;&#x67D0;&#x4E9B; 
+    &#x5171;&#x7528;&#x5EAB;&#x3002;
+--full-contents 
+-s &#x986F;&#x793A;&#x6307;&#x5B9A;section&#x7684;&#x5B8C;&#x6574;&#x5167;&#x5BB9;&#x3002;
+     objdump --section=.text -s inet.o | more
+--source 
+-S &#x76E1;&#x53EF;&#x80FD;&#x53CD;&#x5F59;&#x7DE8;&#x51FA;&#x539F;&#x59CB;&#x7A0B;&#x5F0F;&#x78BC;&#xFF0C;&#x5C24;&#x5176;&#x7576;&#x7DE8;&#x8B6F;&#x7684;&#x6642;&#x5019;&#x6307;&#x5B9A;&#x4E86;-g&#x9019;&#x7A2E;&#x8ABF;&#x8A66;&#x53C3;&#x6578;&#x6642;&#xFF0C; 
+    &#x6548;&#x679C;&#x6BD4;&#x8F03;&#x660E;&#x986F;&#x3002;&#x96B1;&#x542B;&#x4E86;-d&#x53C3;&#x6578;&#x3002;
+--show-raw-insn 
+     &#x53CD;&#x5F59;&#x7DE8;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x986F;&#x793A;&#x6BCF;&#x689D;&#x5F59;&#x7DE8;&#x6307;&#x4EE4;&#x5C0D;&#x61C9;&#x7684;&#x6A5F;&#x5668;&#x78BC;&#xFF0C;&#x9664;&#x975E;&#x6307;&#x5B9A;&#x4E86; 
+     --prefix-addresses&#xFF0C;&#x9019;&#x5C07;&#x662F;&#x7F3A;&#x7701;&#x9078;&#x9805;&#x3002;
+--no-show-raw-insn 
+     &#x53CD;&#x5F59;&#x7DE8;&#x6642;&#xFF0C;&#x4E0D;&#x986F;&#x793A;&#x5F59;&#x7DE8;&#x6307;&#x4EE4;&#x7684;&#x6A5F;&#x5668;&#x78BC;&#xFF0C;&#x9019;&#x662F;&#x6307;&#x5B9A; --prefix-addresses 
+     &#x9078;&#x9805;&#x6642;&#x7684;&#x7F3A;&#x7701;&#x8A2D;&#x7F6E;&#x3002;
+--stabs 
+     Display the contents of the .stab, .stab.index, and 
+     .stab.excl sections from an ELF file.   This is only 
+     useful   on   systems   (such as Solaris 2.0) in which 
+     .stab debugging symbol-table entries are carried in 
+     an ELF section. &amp;
+</span></code></pre>
+<h2 id="%E4%BA%8C%E3%80%82-readelf-%E9%A1%AF%E7%A4%BAelf%E6%AA%94%E8%B3%87%E8%A8%8A">&#x4E8C;&#x3002; readelf -- &#x986F;&#x793A;elf&#x6A94;&#x8CC7;&#x8A0A;</h2>
+<p>LINUX &#x5E73;&#x81FA;&#x4E0B;&#x4E09;&#x7A2E;&#x4E3B;&#x8981;&#x7684;&#x53EF;&#x57F7;&#x884C;&#x6A94;&#x683C;&#x5F0F;&#xFF1A;a.out&#xFF08;assembler and link editor output &#x5F59;&#x7DE8;&#x5668;&#x548C;&#x9023;&#x7D50;&#x7DE8;&#x8F2F;&#x5668;&#x7684;&#x8F38;&#x51FA;&#xFF09;&#x3001;COFF&#xFF08;Common Object File Format &#x901A;&#x7528;&#x7269;&#x4EF6;&#x6A94;&#x6848;&#x683C;&#x5F0F;&#xFF09;&#x3001;ELF&#xFF08;Executable and Linking Format &#x53EF;&#x57F7;&#x884C;&#x548C;&#x9023;&#x7D50;&#x683C;&#x5F0F;&#xFF09;&#x3002;
+a.out &#x6A94;&#x5305;&#x542B; 7 &#x500B; section&#xFF0C;&#x683C;&#x5F0F;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-sh"><span class="hljs-built_in">exec</span> header&#xFF08;&#x57F7;&#x884C;&#x982D;&#x90E8;&#xFF0C;&#x4E5F;&#x53EF;&#x7406;&#x89E3;&#x70BA;&#x6A94;&#x982D;&#x90E8;&#xFF09;
+text segment&#xFF08;&#x6587;&#x672C;&#x6BB5;&#xFF09;
+data segment(&#x8CC7;&#x6599;&#x6BB5;)
+text relocations(&#x6587;&#x672C;&#x91CD;&#x5B9A;&#x4F4D;&#x6BB5;)
+data relocations&#xFF08;&#x8CC7;&#x6599;&#x91CD;&#x5B9A;&#x4F4D;&#x6BB5;&#xFF09;
+symbol table&#xFF08;&#x7B26;&#x865F;&#x8868;&#xFF09;
+string table&#xFF08;&#x5B57;&#x4E32;&#x8868;&#xFF09;
+</code></pre>
+<p>&#x57F7;&#x884C;&#x982D;&#x90E8;&#x7684;&#x8CC7;&#x6599;&#x7D50;&#x69CB;&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-keyword">struct</span> exec {
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> a_midmag; <span class="hljs-comment">/* &#x9B54;&#x6578;&#x548C;&#x5176;&#x5B83;&#x8CC7;&#x8A0A; */</span>
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> a_text; <span class="hljs-comment">/* &#x6587;&#x672C;&#x6BB5;&#x7684;&#x9577;&#x5EA6; */</span>
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> a_data; <span class="hljs-comment">/* &#x8CC7;&#x6599;&#x6BB5;&#x7684;&#x9577;&#x5EA6; */</span>
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> a_bss; <span class="hljs-comment">/* BSS&#x6BB5;&#x7684;&#x9577;&#x5EA6; */</span>
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> a_syms; <span class="hljs-comment">/* &#x7B26;&#x865F;&#x8868;&#x7684;&#x9577;&#x5EA6; */</span>
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> a_entry; <span class="hljs-comment">/* &#x7A0B;&#x5F0F;&#x9032;&#x5165;&#x9EDE; */</span>
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> a_trsize; <span class="hljs-comment">/* &#x6587;&#x672C;&#x91CD;&#x5B9A;&#x4F4D;&#x8868;&#x7684;&#x9577;&#x5EA6; */</span>
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> a_drsize; <span class="hljs-comment">/* &#x8CC7;&#x6599;&#x91CD;&#x5B9A;&#x4F4D;&#x8868;&#x7684;&#x9577;&#x5EA6; */</span>
+
+};
+</code></pre>
+<p>a.out &#x7684;&#x683C;&#x5F0F;&#x975E;&#x5E38;&#x7DCA;&#x6E4A;&#xFF0C;&#x53EA;&#x5305;&#x542B;&#x4E86;&#x7A0B;&#x5F0F;&#x904B;&#x884C;&#x6240;&#x5FC5;&#x9808;&#x7684;&#x8CC7;&#x8A0A;&#xFF08;&#x6587;&#x672C;&#x3001;&#x8CC7;&#x6599;&#x3001;BSS&#xFF09;&#xFF0C;&#x800C;&#x4E14;&#x6BCF;&#x500B; section &#x7684;&#x9806;&#x5E8F;&#x662F;&#x56FA;&#x5B9A;&#x7684;&#x3002;&#x9019;&#x7A2E;&#x7D50;&#x69CB;&#x7F3A;&#x4E4F;&#x64F4;&#x5C55;&#x6027;&#xFF0C;a.out &#x6A94;&#x4E2D;&#x5305;&#x542B;&#x7B26;&#x865F;&#x8868;&#x548C;&#x5169;&#x500B;&#x91CD;&#x5B9A;&#x4F4D;&#x8868;&#xFF0C;&#x9019;&#x4E09;&#x500B;&#x8868;&#x7684;&#x5167;&#x5BB9;&#x5728;&#x9023;&#x63A5;&#x76EE;&#x7684;&#x6A94;&#x6848;&#x4EE5;&#x751F;&#x6210;&#x53EF;&#x57F7;&#x884C;&#x6A94;&#x6642;&#x8D77;&#x4F5C;&#x7528;&#x3002;&#x5728;&#x6700;&#x7D42;&#x53EF;&#x57F7;&#x884C;&#x7684; a.out &#x6587;&#x4EF6;&#x4E2D;&#xFF0C;&#x9019;&#x4E09;&#x500B;&#x8868;&#x7684;&#x9577;&#x5EA6;&#x90FD;&#x70BA; 0&#x3002;a.out &#x6A94;&#x5728;&#x9023;&#x63A5;&#x6642;&#x5C31;&#x628A;&#x6240;&#x6709;&#x5916;&#x90E8;&#x5B9A;&#x7FA9;&#x5305;&#x542B;&#x5728;&#x53EF;&#x57F7;&#x884C;&#x7A0B;&#x5F0F;&#x4E2D;&#xFF0C;&#x5982;&#x679C;&#x5F9E;&#x7A0B;&#x5F0F;&#x8A2D;&#x8A08;&#x7684;&#x89D2;&#x5EA6;&#x4F86;&#x770B;&#xFF0C;&#x9019;&#x662F;&#x4E00;&#x7A2E;&#x786C;&#x7DE8;&#x78BC;&#x65B9;&#x5F0F;&#xFF0C;&#x6216;&#x8005;&#x53EF;&#x7A31;&#x70BA;&#x6A21;&#x7D44;&#x4E4B;&#x9593;&#x662F;&#x5F37;&#x85D5;&#x548C;&#x7684;&#x3002;a.out &#x662F;&#x65E9;&#x671F;UNIX&#x7CFB;&#x7D71;&#x4F7F;&#x7528;&#x7684;&#x53EF;&#x57F7;&#x884C;&#x6A94;&#x683C;&#x5F0F;&#xFF0C;&#x7531; AT&amp;T &#x8A2D;&#x8A08;&#xFF0C;&#x73FE;&#x5728;&#x57FA;&#x672C;&#x4E0A;&#x5DF2;&#x88AB; ELF &#x6A94;&#x6848;&#x683C;&#x5F0F;&#x4EE3;&#x66FF;&#x3002;a.out &#x7684;&#x8A2D;&#x8A08;&#x6BD4;&#x8F03;&#x7C21;&#x55AE;&#xFF0C;&#x4F46;&#x5176;&#x8A2D;&#x8A08;&#x601D;&#x60F3;&#x660E;&#x986F;&#x7684;&#x88AB;&#x5F8C;&#x7E8C;&#x7684;&#x53EF;&#x57F7;&#x884C;&#x6A94;&#x683C;&#x5F0F;&#x6240;&#x7E7C;&#x627F;&#x548C;&#x767C;&#x63DA;&#x3002;&#x9019;&#x88E1;&#x6211;&#x5011;&#x8457;&#x91CD;&#x4ECB;&#x7D39;elf&#x683C;&#x5F0F;&#x3002;</p>
+<h3 id="1-elf%E6%A0%BC%E5%BC%8F%E4%BB%8B%E7%B4%B9">1. elf&#x683C;&#x5F0F;&#x4ECB;&#x7D39;</h3>
+<p>Executable and linking format(ELF)&#x6A94;&#x662F;Linux&#x7CFB;&#x7D71;&#x4E0B;&#x7684;&#x4E00;&#x7A2E;&#x5E38;&#x7528;&#x76EE;&#x7684;&#x6A94;&#x6848;(object file)&#x683C;&#x5F0F;&#xFF0C;&#x6709;&#x4E09;&#x7A2E;&#x4E3B;&#x8981;&#x985E;&#x578B;:</p>
+<ul>
+<li><p>(1)&#x9069;&#x65BC;&#x9023;&#x63A5;&#x7684;&#x53EF;&#x91CD;&#x5B9A;&#x4F4D;&#x6587;&#x4EF6;(relocatable file)&#xFF0C;&#x53EF;&#x8207;&#x5176;&#x5B83;&#x76EE;&#x7684;&#x6A94;&#x6848;&#x4E00;&#x8D77;&#x5275;&#x5EFA;&#x53EF;&#x57F7;&#x884C;&#x6A94;&#x548C;&#x5171;&#x7528;&#x76EE;&#x7684;&#x6A94;&#x6848; &#xFF08;.obj or .o&#xFF09;</p>
+</li>
+<li><p>(2)&#x9069;&#x65BC;&#x57F7;&#x884C;&#x7684;&#x53EF;&#x57F7;&#x884C;&#x6A94;(executable file)&#xFF0C;&#x7528;&#x65BC;&#x63D0;&#x4F9B;&#x7A0B;&#x5F0F;&#x7684;&#x9032;&#x7A0B;&#x6620;&#x5C04;&#xFF0C;&#x8F09;&#x5165;&#x7684;&#x8A18;&#x61B6;&#x9AD4;&#x57F7;&#x884C;&#x3002;</p>
+</li>
+<li><p>(3)&#x5171;&#x7528;&#x76EE;&#x7684;&#x6A94;&#x6848;(shared object file),&#x9023;&#x63A5;&#x5668;&#x53EF;&#x5C07;&#x5B83;&#x8207;&#x5176;&#x5B83;&#x53EF;&#x91CD;&#x5B9A;&#x4F4D;&#x6587;&#x4EF6;&#x548C;&#x5171;&#x7528;&#x76EE;&#x7684;&#x6A94;&#x6848;&#x9023;&#x63A5;&#x6210;&#x5176;&#x5B83;&#x7684;&#x76EE;&#x7684;&#x6A94;&#x6848;&#xFF0C;&#x52D5;&#x614B;&#x9023;&#x63A5;&#x5668;&#x53C8;&#x53EF;&#x5C07;&#x5B83;&#x8207;&#x53EF;&#x57F7;&#x884C;&#x6A94;&#x548C;&#x5176;&#x5B83;&#x5171;&#x7528;&#x76EE;&#x7684;&#x6A94;&#x6848;&#x7D50;&#x5408;&#x8D77;&#x4F86;&#x5275;&#x5EFA;&#x4E00;&#x500B;&#x9032; &#x7A0B;&#x6620;&#x5C04;&#x3002;</p>
+</li>
+</ul>
+<p>ELF&#x6A94;&#x5167;&#x5BB9;&#x6709;&#x5169;&#x500B;&#x5E73;&#x884C;&#x7684;&#x8996;&#x89D2;:&#x4E00;&#x500B;&#x662F;&#x7A0B;&#x5F0F;&#x9023;&#x63A5;&#x89D2;&#x5EA6;&#xFF0C;&#x53E6;&#x4E00;&#x500B;&#x662F;&#x7A0B;&#x5F0F;&#x904B;&#x884C;&#x89D2;&#x5EA6;&#x3002;
+ELF header&#x5728;&#x6A94;&#x958B;&#x59CB;&#x8655;&#x63CF;&#x8FF0;&#x4E86;&#x6574;&#x500B;&#x6A94;&#x7684;&#x7D44;&#x7E54;&#xFF0C;Section&#x63D0;&#x4F9B;&#x4E86;&#x76EE;&#x7684;&#x6A94;&#x6848;&#x7684;&#x5404;&#x9805;&#x8CC7;&#x8A0A;&#xFF08;&#x5982;&#x6307;&#x4EE4;&#x3001;&#x8CC7;&#x6599;&#x3001;&#x7B26;&#x865F;&#x8868;&#x3001;&#x91CD;&#x5B9A;&#x4F4D;&#x8CC7;&#x8A0A;&#x7B49;&#xFF09;&#xFF0C;Program header table&#x6307;&#x51FA;&#x600E;&#x6A23;&#x5275;&#x5EFA;&#x9032;&#x7A0B;&#x6620;&#x5C04;&#xFF0C;&#x542B;&#x6709;&#x6BCF;&#x500B;program header&#x7684;&#x5165;&#x53E3;&#xFF0C;Section header table&#x5305;&#x542B;&#x6BCF;&#x4E00;&#x500B;section&#x7684;&#x5165;&#x53E3;&#xFF0C;&#x7D66;&#x51FA;&#x540D;&#x5B57;&#x3001;&#x5927;&#x5C0F;&#x7B49;&#x8CC7;&#x8A0A;&#x3002;</p>
+<p>&#x6BB5;&#x7531;&#x82E5;&#x5E72;&#x500B;&#x7BC0;(Section)&#x69CB;&#x6210;,&#x7BC0;&#x982D;&#x8868;&#x5C0D;&#x6BCF;&#x4E00;&#x500B;&#x7BC0;&#x7684;&#x8CC7;&#x8A0A;&#x6709;&#x76F8;&#x95DC;&#x63CF;&#x8FF0;&#x3002;&#x5C0D;&#x53EF;&#x57F7;&#x884C;&#x7A0B;&#x5F0F;&#x800C;&#x8A00;&#xFF0C;&#x7BC0;&#x982D;&#x8868;&#x662F;&#x53EF;&#x9078;&#x7684;&#x3002;ELF&#x982D;&#x90E8;&#x662F;&#x4E00;&#x500B;&#x95DC;&#x65BC;&#x672C;&#x6A94;&#x7684;&#x8DEF;&#x7DDA;&#x5716; &#xFF08;road map&#xFF09;&#xFF0C;&#x5F9E;&#x7E3D;&#x9AD4;&#x4E0A;&#x63CF;&#x8FF0;&#x6A94;&#x7684;&#x7D50;&#x69CB;&#x3002;&#x4E0B;&#x9EB5;&#x662F;ELF&#x982D;&#x90E8;&#x7684;&#x8CC7;&#x6599;&#x7D50;&#x69CB;&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> {
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> e_ident[EI_NIDENT]; <span class="hljs-comment">/* &#x9B54;&#x6578;&#x548C;&#x76F8;&#x95DC;&#x8CC7;&#x8A0A; */</span>
+    Elf32_Half e_type; <span class="hljs-comment">/* &#x76EE;&#x7684;&#x6A94;&#x6848;&#x985E;&#x578B; */</span>
+    Elf32_Half e_machine; <span class="hljs-comment">/* &#x786C;&#x9AD4;&#x9AD4;&#x7CFB; */</span>
+    Elf32_Word e_version; <span class="hljs-comment">/* &#x76EE;&#x7684;&#x6A94;&#x6848;&#x7248;&#x672C; */</span>
+    Elf32_Addr e_entry; <span class="hljs-comment">/* &#x7A0B;&#x5F0F;&#x9032;&#x5165;&#x9EDE; */</span>
+    Elf32_Off e_phoff; <span class="hljs-comment">/* &#x7A0B;&#x5F0F;&#x982D;&#x90E8;&#x504F;&#x79FB;&#x91CF; */</span>
+    Elf32_Off e_shoff; <span class="hljs-comment">/* &#x7BC0;&#x982D;&#x90E8;&#x504F;&#x79FB;&#x91CF; */</span>
+    Elf32_Word e_flags; <span class="hljs-comment">/* &#x8655;&#x7406;&#x5668;&#x7279;&#x5B9A;&#x6A19;&#x8A8C; */</span>
+    Elf32_Half e_ehsize; <span class="hljs-comment">/* ELF&#x982D;&#x90E8;&#x9577;&#x5EA6; */</span>
+    Elf32_Half e_phentsize; <span class="hljs-comment">/* &#x7A0B;&#x5F0F;&#x982D;&#x90E8;&#x4E2D;&#x4E00;&#x500B;&#x689D;&#x76EE;&#x7684;&#x9577;&#x5EA6; */</span>
+    Elf32_Half e_phnum; <span class="hljs-comment">/* &#x7A0B;&#x5F0F;&#x982D;&#x90E8;&#x689D;&#x76EE;&#x500B;&#x6578; */</span>
+    Elf32_Half e_shentsize; <span class="hljs-comment">/* &#x7BC0;&#x982D;&#x90E8;&#x4E2D;&#x4E00;&#x500B;&#x689D;&#x76EE;&#x7684;&#x9577;&#x5EA6; */</span>
+    Elf32_Half e_shnum; <span class="hljs-comment">/* &#x7BC0;&#x982D;&#x90E8;&#x689D;&#x76EE;&#x500B;&#x6578; */</span> Elf32_Half
+    e_shstrndx; <span class="hljs-comment">/* &#x7BC0;&#x982D;&#x90E8;&#x5B57;&#x5143;&#x8868;&#x7D22;&#x5F15; */</span>
+
+} Elf32_Ehdr;
+</code></pre>
+<h3 id="2-readelf-%E5%91%BD%E4%BB%A4">2.  readelf &#x547D;&#x4EE4;</h3>
+<p>readelf&#x547D;&#x4EE4;&#x53EF;&#x4EE5;&#x986F;&#x793A;&#x7B26;&#x865F;&#x3001;&#x6BB5;&#x8CC7;&#x8A0A;&#x3001;&#x4E8C;&#x9032;&#x4F4D;&#x6A94;&#x6848;&#x683C;&#x5F0F;&#x7684;&#x8CC7;&#x8A0A;&#x7B49;&#xFF0C;&#x9019;&#x5728;&#x5206;&#x6790;&#x7DE8;&#x8B6F;&#x5668;&#x5982;&#x4F55;&#x5DE5;&#x5F9E;&#x539F;&#x59CB;&#x7A0B;&#x5F0F;&#x78BC;&#x5275;&#x5EFA;&#x4E8C;&#x9032;&#x4F4D;&#x6A94;&#x6848;&#x6642;&#x975E;&#x5E38;&#x6709;&#x7528;&#x3002;</p>
+<pre><code class="lang-sh">$ readelf -h a.out
+</code></pre>
+<pre><code class="lang-sh">ELF Header:
+Magic:   <span class="hljs-number">7</span>f <span class="hljs-number">45</span> <span class="hljs-number">4</span>c <span class="hljs-number">46</span> <span class="hljs-number">02</span> <span class="hljs-number">01</span> <span class="hljs-number">01</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span>
+Class:
+ELF64
+Data:                              <span class="hljs-number">2</span><span class="hljs-string">&apos;s complement, little endian
+Version:                           1 (current)
+OS/ABI:                            UNIX - System V
+ABI Version:                       0
+Type:                              EXEC (Executable file)
+Machine:                           Advanced Micro Devices X86-64
+Version:                           0x1
+Entry point address:               0x4003c0
+Start of program headers:          64 (bytes into file)
+Start of section headers:          2704 (bytes into file)
+Flags:                             0x0
+Size of this header:               64 (bytes)
+Size of program headers:           56 (bytes)
+Number of program headers:         8
+Size of section headers:           64 (bytes)
+Number of section headers:         29
+Section header string table index: 26
+</span></code></pre>
+<h2 id="%E4%B8%89%E3%80%82-addr2line-%E5%B0%87%E4%BD%8D%E5%9D%80%E5%B0%8D%E6%87%89%E5%88%B0%E6%AA%94%E6%A1%88%E5%90%8D%E5%92%8C%E8%A1%8C%E8%99%9F">&#x4E09;&#x3002; addr2line -- &#x5C07;&#x4F4D;&#x5740;&#x5C0D;&#x61C9;&#x5230;&#x6A94;&#x6848;&#x540D;&#x548C;&#x884C;&#x865F;</h2>
+<h2 id="%E5%9B%9B%E3%80%82-as-gnu%E5%BD%99%E7%B7%A8%E5%99%A8">&#x56DB;&#x3002; as -- GNU&#x5F59;&#x7DE8;&#x5668;</h2>
+<p>as&#x5DE5;&#x5177;&#x4E3B;&#x8981;&#x7528;&#x4F86;&#x5C07;&#x7D44;&#x5408;&#x8A9E;&#x8A00;&#x7DE8;&#x5BEB;&#x7684;&#x4F86;&#x6E90;&#x7A0B;&#x5F0F;&#x8F49;&#x63DB;&#x6210;&#x4E8C;&#x9032;&#x4F4D;&#x5F62;&#x5F0F;&#x7684;&#x76EE;&#x6A19;&#x4EE3;&#x78BC;&#x3002;Linux&#x5E73;&#x81FA;&#x7684;&#x6A19;&#x6E96;&#x5F59;&#x7DE8;&#x5668;&#x662F;GAS&#xFF0C;&#x5B83;&#x662F;Gnu GCC&#x7DE8;&#x8B6F;&#x5668;&#x6240;&#x4F9D;&#x8CF4;&#x7684;&#x5F8C;&#x81FA;&#x5F59;&#x7DE8;&#x5DE5;&#x5177;&#xFF0C;&#x901A;&#x5E38;&#x5305;&#x542B;&#x5728;Binutils&#x5957;&#x88DD;&#x8EDF;&#x9AD4;&#x4E2D;&#x3002;</p>
+<h2 id="%E4%BA%94%E3%80%82-ld-gnu%E9%80%A3%E7%B5%90%E7%A8%8B%E5%BC%8F">&#x4E94;&#x3002; ld -- GNU&#x9023;&#x7D50;&#x7A0B;&#x5F0F;</h2>
+<p>&#x540C;as&#x4E00;&#x6A23;&#xFF0C;ld&#x4E5F;&#x662F;GNU Binutils&#x5DE5;&#x5177;&#x96C6;&#x4E2D;&#x91CD;&#x8981;&#x7684;&#x5DE5;&#x5177;&#xFF0C;Linux&#x4F7F;&#x7528;ld&#x4F5C;&#x70BA;&#x6A19;&#x6E96;&#x7684;&#x9023;&#x7D50;&#x7A0B;&#x5F0F;&#xFF0C;&#x7531;&#x5F59;&#x7DE8;&#x5668;&#x7522;&#x751F;&#x7684;&#x76EE;&#x6A19;&#x4EE3;&#x78BC;&#x662F;&#x4E0D;&#x80FD;&#x76F4;&#x63A5;&#x5728;&#x96FB;&#x8166;&#x4E0A;&#x904B;&#x884C;&#x7684;&#xFF0C;&#x5B83;&#x5FC5;&#x9808;&#x7D93;&#x904E;&#x9023;&#x7D50;&#x5668;&#x7684;&#x8655; &#x7406;&#x624D;&#x80FD;&#x751F;&#x6210;&#x53EF;&#x57F7;&#x884C;&#x4EE3;&#x78BC;&#xFF0C;&#x9023;&#x7D50;&#x662F;&#x5275;&#x5EFA;&#x4E00;&#x500B;&#x53EF;&#x57F7;&#x884C;&#x7A0B;&#x5F0F;&#x7684;&#x6700;&#x5F8C;&#x4E00;&#x500B;&#x6B65;&#x9A5F;&#xFF0C;ld&#x53EF;&#x4EE5;&#x5C07;&#x591A;&#x500B;&#x76EE;&#x7684;&#x6A94;&#x6848;&#x9023;&#x7D50;&#x6210;&#x70BA;&#x53EF;&#x57F7;&#x884C;&#x7A0B;&#x5F0F;&#xFF0C;&#x540C;&#x6642;&#x6307;&#x5B9A;&#x4E86;&#x7A0B;&#x5F0F;&#x5728;&#x904B;&#x884C;&#x6642;&#x662F;&#x5982;&#x4F55;&#x57F7;&#x884C;&#x7684;&#x3002;</p>
+<h2 id="%E5%85%AD%E3%80%82-ar">&#x516D;&#x3002; ar</h2>
+<p>ar&#x547D;&#x4EE4;&#x53EF;&#x4EE5;&#x7528;&#x4F86;&#x5275;&#x5EFA;&#x3001;&#x4FEE;&#x6539;&#x5EAB;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x5F9E;&#x5EAB;&#x4E2D;&#x63D0;&#x51FA;&#x55AE;&#x500B;&#x6A21;&#x7D44;&#x3002;&#x5EAB;&#x662F;&#x4E00;&#x55AE;&#x7368;&#x7684;&#x6A94;&#xFF0C;&#x88E1;&#x9762;&#x5305;&#x542B;&#x4E86;&#x6309;&#x7167;&#x7279;&#x5B9A;&#x7684;&#x7D50;&#x69CB;&#x7D44;&#x7E54;&#x8D77;&#x4F86;&#x7684;&#x5176;&#x5B83;&#x7684;&#x4E00;&#x4E9B;&#x6587;&#x4EF6;&#xFF08;&#x7A31;&#x505A;&#x6B64;&#x5EAB;&#x6587;&#x4EF6;&#x7684; member&#xFF09;&#x3002;&#x539F;&#x59CB;&#x6A94;&#x7684;&#x5167;&#x5BB9;&#x3001;&#x6A21;&#x5F0F;&#x3001;&#x6642;&#x9593;&#x6233;&#x8A18;&#x3001;&#x5C6C;&#x4E3B;&#x3001;&#x7D44;&#x7B49;&#x5C6C;&#x6027;&#x90FD;&#x4FDD;&#x7559;&#x5728;&#x5EAB;&#x6A94;&#x4E2D;&#x3002;&#x6709;&#x95DC;ar&#x547D;&#x4EE4;&#x4F7F;&#x7528;&#x7684;&#x4F8B;&#x5B50;&#xFF0C;&#xFF08;&#x5F15;&#x81EA;<a href="http://blog.163.com/huang_bp/blog/getBlog.do?bid=fks_083075087083082069083086083095085084082066085095094064083&#xFF09;&#xFF1A;" target="_blank">http://blog.163.com/huang_bp/blog/getBlog.do?bid=fks_083075087083082069083086083095085084082066085095094064083&#xFF09;&#xFF1A;</a></p>
+<h4 id="1-%E8%A6%81%E5%89%B5%E5%BB%BA%E4%B8%80%E5%80%8B%E5%BA%AB%EF%BC%8C%E8%AB%8B%E8%BC%B8%E5%85%A5%EF%BC%9A">1. &#x8981;&#x5275;&#x5EFA;&#x4E00;&#x500B;&#x5EAB;&#xFF0C;&#x8ACB;&#x8F38;&#x5165;&#xFF1A;</h4>
+<pre><code class="lang-sh">ar -v -q lib.a strlen.o strcpy.o
+</code></pre>
+<p>&#x5982;&#x679C; lib.a &#x5EAB;&#x4E0D;&#x5B58;&#x5728;&#xFF0C;&#x5247;&#x6B64;&#x547D;&#x4EE4;&#x5275;&#x5EFA;&#x5B83;&#xFF0C;&#x4E26;&#x5C07;&#x6587;&#x4EF6; strlen.o &#x548C; strcpy.o &#x7684;&#x526F;&#x672C;&#x8F38;&#x5165;&#x5176;&#x4E2D;&#x3002;&#x5982;&#x679C; lib.a &#x5EAB;&#x5B58;&#x5728;&#xFF0C;&#x5247;&#x6B64;&#x547D;&#x4EE4;&#x5728;&#x4E0D;&#x6AA2;&#x67E5;&#x76F8;&#x540C;&#x6210;&#x54E1;&#x7684;&#x60C5;&#x6CC1;&#x4E0B;&#xFF0C;&#x5C07;&#x65B0;&#x7684;&#x6210;&#x54E1;&#x6DFB;&#x52A0;&#x5230;&#x672B;&#x5C3E;&#x3002;v &#x6A19;&#x8A8C;&#x8A2D;&#x7F6E;&#x8A73;&#x7D30;&#x65B9;&#x5F0F;&#xFF0C;&#x5728;&#x6B64;&#x65B9;&#x5F0F;&#x4E2D; ar&#x547D;&#x4EE4;&#x5728;&#x5176;&#x9032;&#x884C;&#x6642;&#x986F;&#x793A;&#x9032;&#x7A0B;&#x5831;&#x544A;&#x3002;</p>
+<h4 id="2-%E8%A6%81%E9%A1%AF%E7%A4%BA%E5%BA%AB%E7%9A%84%E7%9B%AE%E9%8C%84%EF%BC%8C%E8%AB%8B%E8%BC%B8%E5%85%A5%EF%BC%9A">2.     &#x8981;&#x986F;&#x793A;&#x5EAB;&#x7684;&#x76EE;&#x9304;&#xFF0C;&#x8ACB;&#x8F38;&#x5165;&#xFF1A;</h4>
+<pre><code class="lang-sh">ar -v -t lib.a
+</code></pre>
+<p>&#x6B64;&#x547D;&#x4EE4;&#x5217;&#x51FA;&#x4E86; lib.a &#x5EAB;&#x7684;&#x76EE;&#x9304;&#xFF0C;&#x986F;&#x793A;&#x985E;&#x4F3C;&#x65BC; ls -l &#x547D;&#x4EE4;&#x7684;&#x8F38;&#x51FA;&#x7684;&#x9577;&#x5217;&#x8868;&#x3002;&#x8981;&#x53EA;&#x5217;&#x51FA;&#x6210;&#x54E1;&#x6A94;&#x6848;&#x540D;&#x7A31;&#xFF0C;&#x5247;&#x7701;&#x7565; -v&#x6A19;&#x8A8C;&#x3002;</p>
+<h4 id="3-%E8%A6%81%E6%9B%BF%E6%8F%9B%E6%88%96%E6%B7%BB%E5%8A%A0%E6%96%B0%E6%88%90%E5%93%A1%E5%88%B0%E5%BA%AB%E4%B8%AD%EF%BC%8C%E8%AB%8B%E8%BC%B8%E5%85%A5%EF%BC%9A">3.     &#x8981;&#x66FF;&#x63DB;&#x6216;&#x6DFB;&#x52A0;&#x65B0;&#x6210;&#x54E1;&#x5230;&#x5EAB;&#x4E2D;&#xFF0C;&#x8ACB;&#x8F38;&#x5165;&#xFF1A;</h4>
+<pre><code class="lang-sh">ar -v -r lib.a strlen.o strcat.o
+</code></pre>
+<p>&#x6B64;&#x547D;&#x4EE4;&#x66FF;&#x63DB;&#x6210;&#x54E1; strlen.o &#x548C; strcat.o&#x3002;&#x5982;&#x679C; lib.a &#x5982;&#x793A;&#x4F8B; 1 &#x4E2D;&#x986F;&#x793A;&#x7684;&#x90A3;&#x6A23;&#x5275;&#x5EFA;&#xFF0C;&#x5247;&#x66FF;&#x63DB; strlen.o &#x6210;&#x54E1;&#x3002;&#x56E0;&#x70BA;&#x4E0D;&#x5B58;&#x5728;&#x540D;&#x70BA; strcat.o &#x7684;&#x6210;&#x54E1;&#xFF0C;&#x6240;&#x4EE5;&#x5B83;&#x88AB;&#x6DFB;&#x52A0;&#x5230;&#x5EAB;&#x7684;&#x672B;&#x5C3E;&#x3002;</p>
+<h4 id="4-%E8%A6%81%E6%8C%87%E5%AE%9A%E5%9C%A8%E4%BD%95%E8%99%95%E6%8F%92%E5%85%A5%E6%96%B0%E6%88%90%E5%93%A1%EF%BC%8C%E8%AB%8B%E8%BC%B8%E5%85%A5%EF%BC%9A">4.     &#x8981;&#x6307;&#x5B9A;&#x5728;&#x4F55;&#x8655;&#x63D2;&#x5165;&#x65B0;&#x6210;&#x54E1;&#xFF0C;&#x8ACB;&#x8F38;&#x5165;&#xFF1A;</h4>
+<pre><code class="lang-sh">ar -v -r -b strlen.o lib.a strcmp.o
+</code></pre>
+<p>&#x6B64;&#x547D;&#x4EE4;&#x6DFB;&#x52A0; strcmp.o &#x6587;&#x4EF6;&#xFF0C;&#x4E26;&#x5C07;&#x8A72;&#x65B0;&#x6210;&#x54E1;&#x7F6E;&#x65BC; strlen.o &#x6210;&#x54E1;&#x4E4B;&#x524D;&#x3002;</p>
+<h4 id="5-%E8%A6%81%E6%9B%B4%E6%96%B0%E4%B8%80%E5%80%8B%E5%B7%B2%E7%B6%93%E6%9B%B4%E6%94%B9%E9%81%8E%E7%9A%84%E6%88%90%E5%93%A1%EF%BC%8C%E8%AB%8B%E8%BC%B8%E5%85%A5%EF%BC%9A">5.     &#x8981;&#x66F4;&#x65B0;&#x4E00;&#x500B;&#x5DF2;&#x7D93;&#x66F4;&#x6539;&#x904E;&#x7684;&#x6210;&#x54E1;&#xFF0C;&#x8ACB;&#x8F38;&#x5165;&#xFF1A;</h4>
+<pre><code class="lang-sh">ar -v -r -u lib.a strcpy.o
+</code></pre>
+<p>&#x6B64;&#x547D;&#x4EE4;&#x66FF;&#x63DB;&#x73FE;&#x6709; strcpy.o &#x6210;&#x54E1;&#xFF0C;&#x4F46;&#x50C5;&#x7576;&#x6587;&#x4EF6; strcpy.o &#x81EA;&#x5F9E;&#x6700;&#x5F8C;&#x4E00;&#x6B21;&#x6DFB;&#x52A0;&#x5230;&#x5EAB;&#x5F8C;&#x5DF2;&#x7D93;&#x4FEE;&#x6539;&#x6642;&#x624D;&#x66FF;&#x63DB;&#x5B83;&#x3002;</p>
+<h4 id="6-%E8%A6%81%E6%9B%B4%E6%94%B9%E5%BA%AB%E6%88%90%E5%93%A1%E7%9A%84%E9%A0%86%E5%BA%8F%EF%BC%8C%E8%AB%8B%E8%BC%B8%E5%85%A5%EF%BC%9A">6.     &#x8981;&#x66F4;&#x6539;&#x5EAB;&#x6210;&#x54E1;&#x7684;&#x9806;&#x5E8F;&#xFF0C;&#x8ACB;&#x8F38;&#x5165;&#xFF1A;</h4>
+<pre><code class="lang-sh">ar -v -m <span class="hljs-operator">-a</span> strcmp.o lib.a strcat.o strcpy.o
+</code></pre>
+<p>&#x6B64;&#x547D;&#x4EE4;&#x5C07;&#x6210;&#x54E1; strcat.o &#x548C; strcpy.o &#x79FB;&#x52D5;&#x5230;&#x7DCA;&#x8DDF;&#x5728; strcmp.o &#x6210; &#x54E1;&#x4E4B;&#x5F8C;&#x7684;&#x4F4D;&#x7F6E;&#x3002;&#x4FDD;&#x7559; strcat.o &#x548C; strcpy.o &#x6210;&#x54E1;&#x7684;&#x76F8;&#x5C0D;&#x9806;&#x5E8F;&#x3002;&#x63DB;&#x53E5;&#x8A71;&#x8AAA;&#xFF0C;&#x5982;&#x679C;&#x5728;&#x79FB;&#x52D5;&#x4E4B;&#x524D; strcpy.o &#x6210;&#x54E1;&#x5728; strcat.o &#x6210;&#x54E1;&#x4E4B;&#x524D;&#xFF0C;&#x90A3;&#x9EBC;&#xFF08;&#x79FB;&#x52D5;&#x5F8C;&#xFF09;&#x5B83;&#x4F9D;&#x820A;&#x5982;&#x6B64;&#x3002;</p>
+<h4 id="7-%E8%A6%81%E8%A7%A3%E5%A3%93%E7%B8%AE%E5%BA%AB%E6%88%90%E5%93%A1%EF%BC%8C%E8%AB%8B%E8%BC%B8%E5%85%A5%EF%BC%9A">7.     &#x8981;&#x89E3;&#x58D3;&#x7E2E;&#x5EAB;&#x6210;&#x54E1;&#xFF0C;&#x8ACB;&#x8F38;&#x5165;&#xFF1A;</h4>
+<pre><code class="lang-sh">ar -v -x lib.a strcat.o strcpy.o
+</code></pre>
+<p>&#x6B64;&#x547D;&#x4EE4;&#x5C07;&#x6210;&#x54E1; strcat.o &#x548C; strcpy.o &#x5206;&#x5225;&#x8907;&#x88FD;&#x5230;&#x540D;&#x70BA; strcat.o &#x548C; strcpy.o &#x7684;&#x6587;&#x4EF6;&#x3002;</p>
+<h4 id="8-%E8%A6%81%E8%A7%A3%E5%A3%93%E7%B8%AE%E4%B8%A6%E9%87%8D%E5%91%BD%E5%90%8D%E4%B8%80%E5%80%8B%E6%88%90%E5%93%A1%EF%BC%8C%E8%AB%8B%E8%BC%B8%E5%85%A5%EF%BC%9A">8.     &#x8981;&#x89E3;&#x58D3;&#x7E2E;&#x4E26;&#x91CD;&#x547D;&#x540D;&#x4E00;&#x500B;&#x6210;&#x54E1;&#xFF0C;&#x8ACB;&#x8F38;&#x5165;&#xFF1A;</h4>
+<pre><code class="lang-sh">ar -p lib.a strcpy.o &gt;stringcopy.o
+</code></pre>
+<p>&#x6B64;&#x547D;&#x4EE4;&#x5C07;&#x6210;&#x54E1; strcpy.o &#x8907;&#x88FD;&#x5230;&#x4E00;&#x500B;&#x540D;&#x70BA; stringcopy.o &#x7684;&#x6587;&#x4EF6;&#x3002;</p>
+<h4 id="9-%E8%A6%81%E5%88%AA%E9%99%A4%E4%B8%80%E5%80%8B%E6%88%90%E5%93%A1%EF%BC%8C%E8%AB%8B%E8%BC%B8%E5%85%A5%EF%BC%9A">9.     &#x8981;&#x522A;&#x9664;&#x4E00;&#x500B;&#x6210;&#x54E1;&#xFF0C;&#x8ACB;&#x8F38;&#x5165;&#xFF1A;</h4>
+<pre><code class="lang-sh">ar -v <span class="hljs-operator">-d</span> lib.a strlen.o
+</code></pre>
+<p>&#x6B64;&#x547D;&#x4EE4;&#x5F9E; lib.a &#x5EAB;&#x4E2D;&#x522A;&#x9664;&#x6210;&#x54E1; strlen.o&#x3002;</p>
+<h4 id="10-%E8%A6%81%E5%BE%9E%E5%A4%9A%E5%80%8B%E7%94%A8-ld-%E5%91%BD%E4%BB%A4%E5%89%B5%E5%BB%BA%E7%9A%84%E5%85%B1%E7%94%A8%E6%A8%A1%E7%B5%84%E4%B8%AD%E5%89%B5%E5%BB%BA%E4%B8%80%E5%80%8B%E5%A3%93%E7%B8%AE%E6%96%87%E4%BB%B6%E5%BA%AB%EF%BC%8C%E8%AB%8B%E8%BC%B8%E5%85%A5%EF%BC%9A">10.   &#x8981;&#x5F9E;&#x591A;&#x500B;&#x7528; ld &#x547D;&#x4EE4;&#x5275;&#x5EFA;&#x7684;&#x5171;&#x7528;&#x6A21;&#x7D44;&#x4E2D;&#x5275;&#x5EFA;&#x4E00;&#x500B;&#x58D3;&#x7E2E;&#x6587;&#x4EF6;&#x5EAB;&#xFF0C;&#x8ACB;&#x8F38;&#x5165;&#xFF1A;</h4>
+<pre><code class="lang-sh">ar -r -v libshr.a shrsub.o shrsub2.o shrsub3.o ...
+</code></pre>
+<p>&#x6B64;&#x547D;&#x4EE4;&#x5F9E;&#x540D;&#x70BA; shrsub.o&#x3001;shrsub2.o&#x3001;shrsub3.o &#x7B49;&#x7B49;&#x7684;&#x5171;&#x7528;&#x6A21;&#x7D44;&#x4E2D;&#x5275;&#x5EFA;&#x540D;&#x70BA; libshr.a &#x7684;&#x58D3;&#x7E2E;&#x6587;&#x4EF6;&#x5EAB;&#x3002;&#x8981;&#x7DE8;&#x8B6F;&#x4E26;&#x9023;&#x7D50;&#x4F7F;&#x7528; libshr.a &#x58D3;&#x7E2E;&#x6587;&#x4EF6;&#x5EAB;&#x7684; main &#x7A0B;&#x5F0F;&#xFF0C;&#x8ACB;&#x4F7F;&#x7528;&#x4EE5;&#x4E0B;&#x547D;&#x4EE4;&#xFF1A;
+cc -o main main.c -L/u/sharedlib -lshr
+main &#x7A0B;&#x5F0F;&#x73FE;&#x5728;&#x662F;&#x53EF;&#x57F7;&#x884C;&#x7684;&#x3002;main &#x7A0B;&#x5F0F;&#x5F15;&#x7528;&#x7684;&#x4EFB;&#x4F55;&#x7B26;&#x865F;&#xFF08;&#x5305;&#x542B;&#x5728;libshr.a &#x58D3;&#x7E2E;&#x6587;&#x4EF6;&#x5EAB;&#x4E2D;&#xFF09;&#x5DF2;&#x7D93;&#x56E0;&#x5EF6;&#x9072;&#x89E3;&#x6790;&#x5EA6;&#x800C;&#x4F5C;&#x4E86;&#x6A19;&#x8A18;&#x3002;-l &#x6A19;&#x8A8C;&#x6307;&#x5B9A;&#x61C9;&#x5728; libshr.a &#x5EAB;&#x4E2D;&#x641C;&#x7D22;&#x9019;&#x4E9B;&#x7B26;&#x865F;&#x3002;</p>
+<h4 id="11-%E8%A6%81%E5%88%97%E5%87%BA-lib-a-%E7%9A%84%E5%85%A7%E5%AE%B9%EF%BC%88%E5%BF%BD%E7%95%A5%E4%BB%BB%E4%BD%95-32-%E4%BD%8D%E7%9B%AE%E7%9A%84%E6%AA%94%E6%A1%88%EF%BC%89%EF%BC%8C%E8%AB%8B%E8%BC%B8%E5%85%A5%EF%BC%9A">11.   &#x8981;&#x5217;&#x51FA; lib.a &#x7684;&#x5167;&#x5BB9;&#xFF08;&#x5FFD;&#x7565;&#x4EFB;&#x4F55; 32 &#x4F4D;&#x76EE;&#x7684;&#x6A94;&#x6848;&#xFF09;&#xFF0C;&#x8ACB;&#x8F38;&#x5165;&#xFF1A;</h4>
+<pre><code class="lang-sh">ar -X64 -t -v lib.a
+</code></pre>
+<h4 id="12-%E8%A6%81%E5%BE%9E-lib-a-%E8%A7%A3%E5%A3%93%E7%B8%AE%E6%89%80%E6%9C%89-32-%E4%BD%8D%E7%9A%84%E7%9B%AE%E7%9A%84%E6%AA%94%E6%A1%88%EF%BC%8C%E8%AB%8B%E8%BC%B8%E5%85%A5%EF%BC%9A">12.   &#x8981;&#x5F9E; lib.a &#x89E3;&#x58D3;&#x7E2E;&#x6240;&#x6709; 32 &#x4F4D;&#x7684;&#x76EE;&#x7684;&#x6A94;&#x6848;&#xFF0C;&#x8ACB;&#x8F38;&#x5165;&#xFF1A;</h4>
+<pre><code class="lang-sh">ar -X32 -x lib.a
+</code></pre>
+<h4 id="13-%E8%A6%81%E5%88%97%E5%87%BA-lib-a-%E4%B8%AD%E7%9A%84%E6%89%80%E6%9C%89%E6%AA%94%EF%BC%8C%E7%84%A1%E8%AB%96%E6%98%AF-32-%E4%BD%8D%E3%80%8164-%E4%BD%8D%E5%85%83%E6%88%96%E9%9D%9E%E7%89%A9%E4%BB%B6%EF%BC%8C%E8%AB%8B%E8%BC%B8%E5%85%A5%EF%BC%9A">13.   &#x8981;&#x5217;&#x51FA; lib.a &#x4E2D;&#x7684;&#x6240;&#x6709;&#x6A94;&#xFF0C;&#x7121;&#x8AD6;&#x662F; 32 &#x4F4D;&#x3001;64 &#x4F4D;&#x5143;&#x6216;&#x975E;&#x7269;&#x4EF6;&#xFF0C;&#x8ACB;&#x8F38;&#x5165;&#xFF1A;</h4>
+<pre><code class="lang-sh">ar -X32_64 -t -v lib.a
+</code></pre>
+<h2 id="%E4%B8%83%E3%80%82nm">&#x4E03;&#x3002;nm</h2>
+<p>nm&#x7528;&#x4F86;&#x5217;&#x51FA;&#x76EE;&#x7684;&#x6A94;&#x6848;&#x7684;&#x7B26;&#x865F;&#x6E05;&#x55AE;&#x3002;&#x4E0B;&#x9EB5;&#x662F;nm&#x547D;&#x4EE4;&#x7684;&#x683C;&#x5F0F;&#xFF1A;</p>
+<pre><code class="lang-sh">nm[<span class="hljs-operator">-a</span>|--debug-syms][-g|--extern-only][-B] 
+[-C|--demangle][-D|--dynamic][<span class="hljs-operator">-s</span>|--print-armap] 
+[-o|--print-file-name][-n|--numeric-sort] 
+[-p|--no-sort][-r|--reverse-sort][--size-sort] 
+[-u|--undefined-only][<span class="hljs-operator">-l</span>|--line-numbers][--help] 
+[--version][-tradix|--radix=radix] 
+[-P|--portability][-fformat|--format=format] 
+[--target=bfdname][objfile...]
+</code></pre>
+<p>&#x5982;&#x679C;&#x6C92;&#x6709;&#x70BA;nm&#x547D;&#x4EE4;&#x6307;&#x51FA;&#x76EE;&#x7684;&#x6A94;&#x6848;&#xFF0C;&#x5247;nm&#x5047;&#x5B9A;&#x76EE;&#x7684;&#x6A94;&#x6848;&#x662F;a.out&#x3002;&#x4E0B;&#x9762;&#x5217;&#x51FA;&#x8A72;&#x547D;&#x4EE4;&#x7684;&#x4EFB;&#x9078;&#x9805;&#xFF0C;&#x5927;&#x90E8;&#x5206;&#x652F;&#x63F4;&#x201C;-&#x201D;&#x958B;&#x982D;&#x7684;&#x77ED;&#x683C;&#x5F0F;&#x548C;&#x201C;-&#x201C;&#x958B;&#x982D;&#x7684;&#x9577;&#x683C; &#x5F0F;&#x3002; -A&#x3001;-o&#x6216;--print-file-name&#xFF1A;&#x5728;&#x627E;&#x5230;&#x7684;&#x5404;&#x500B;&#x7B26;&#x865F;&#x7684;&#x540D;&#x5B57;&#x524D;&#x52A0;&#x4E0A;&#x6A94;&#x6848;&#x540D;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x5728;&#x6B64;&#x6A94;&#x7684;&#x6240;&#x6709;&#x7B26;&#x865F;&#x524D;&#x53EA;&#x51FA;&#x73FE;&#x6A94;&#x6848;&#x540D;&#x4E00;&#x6B21;&#x3002;</p>
+<h2 id="%E5%85%AB%E3%80%82objcopy">&#x516B;&#x3002;objcopy</h2>
+<p>&#x5B83;&#x53EF;&#x4EE5;&#x628A;&#x76EE;&#x7684;&#x6A94;&#x6848;&#x7684;&#x5167;&#x5BB9;&#x5F9E;&#x4E00;&#x7A2E;&#x6A94;&#x6848;&#x683C;&#x5F0F;&#x8907;&#x88FD;&#x5230;&#x53E6;&#x4E00;&#x7A2E;&#x683C;&#x5F0F;&#x7684;&#x76EE;&#x7684;&#x6A94;&#x6848;&#x4E2D;&#x3002;&#x901A;&#x904E;objcopy&#x53EF;&#x4EE5;&#x5BE6;&#x73FE;&#x5C0D;elf&#x4E0D;&#x540C;&#x6A21;&#x7D44;&#x7684;&#x5206;&#x6790;&#xFF0C;&#x540C;&#x6642;&#x5BE6;&#x73FE;&#x985E;&#x4F3C;strip &#x7684;&#x529F;&#x80FD;&#x3002;</p>
+<h2 id="%E4%B9%9D%E3%80%82ldd">&#x4E5D;&#x3002;ldd</h2>
+<p>ldd &#x547D;&#x4EE4;&#x53EF;&#x4EE5;&#x7528;&#x4F86;&#x7522;&#x770B;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x5C0D;&#x5EAB;&#x7684;&#x4F9D;&#x8CF4;&#x95DC;&#x4FC2;&#xFF0C;&#x5728;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x79FB;&#x690D;&#x904E;&#x7A0B;&#x4E2D;&#x5F88;&#x6709;&#x7528;&#x3002;&#x53EF;&#x4EE5;&#x9996;&#x5148;&#x78BA;&#x8A8D;&#x8981;&#x79FB;&#x690D;&#x5E73;&#x6642;&#x662F;&#x5426;&#x652F;&#x63F4;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x6240;&#x4F9D;&#x8CF4;&#x7684;&#x5EAB;&#x3002;&#x4F8B;&#x5982;&#xFF1A;</p>
+<pre><code class="lang-sh">$ ldd aout 
+        libc.so.<span class="hljs-number">6</span> =&gt; /lib64/tls/libc.so.<span class="hljs-number">6</span> (<span class="hljs-number">0</span>x0000002a9566c000) 
+        /lib64/ld-linux-x86-<span class="hljs-number">64</span>.so.<span class="hljs-number">2</span> (<span class="hljs-number">0</span>x0000002a95556000)
+</code></pre>
+<h2 id="%E5%8D%81%E3%80%82size">&#x5341;&#x3002;size</h2>
+<p>size &#x5217;&#x51FA;&#x76EE;&#x7684;&#x6A21;&#x7D44;&#x6216;&#x6A94;&#x7684;&#x4EE3;&#x78BC;&#x5C3A;&#x5BF8;</p>
+<pre><code class="lang-sh">$ size a.out 
+   text    data     bss     dec     hex filename 
+   <span class="hljs-number">1241</span>     <span class="hljs-number">512</span>       <span class="hljs-number">8</span>    <span class="hljs-number">1761</span>     <span class="hljs-number">6</span>e1 a.out
+</code></pre>
+<h2 id="%E5%8D%81%E4%B8%80%E3%80%82ranlib">&#x5341;&#x4E00;&#x3002;ranlib</h2>
+<p>ranlib &#x751F;&#x6210;&#x7D22;&#x5F15;&#x4EE5;&#x52A0;&#x5FEB;&#x5C0D;&#x6B78;&#x6A94;&#x6A94;&#x7684;&#x8A2A;&#x554F;&#xFF0C;&#x4E26;&#x5C07;&#x7D50;&#x679C;&#x4FDD;&#x5B58;&#x5230;&#x9019;&#x500B;&#x6B78;&#x6A94;&#x6A94;&#x4E2D;&#xFF0C;&#x5728;&#x7D22;&#x5F15;&#x4E2D;&#x5217;&#x51FA;&#x4E86;&#x6B78;&#x6A94;&#x6A94;&#x5404;&#x500B;&#x6210;&#x54E1;&#x6240;&#x5B9A;&#x7FA9;&#x7684;&#x53EF;&#x91CD;&#x5206;&#x914D;&#x76EE;&#x7684;&#x6A94;&#x6848;&#x3002;ar -s&#x53EF;&#x4EE5;&#x5BE6;&#x73FE;&#x985E;&#x4F3C;&#x7684;&#x529F;&#x80FD;&#x3002;</p>
+<h2 id="%E5%8D%81%E4%BA%8C%E3%80%82strings">&#x5341;&#x4E8C;&#x3002;strings</h2>
+<p>strings &#x5217;&#x5370;&#x53EF;&#x5217;&#x5370;&#x7684;&#x76EE;&#x6A19;&#x4EE3;&#x78BC;&#x5B57;&#x5143;&#xFF08;&#x81F3;&#x5C11;4&#x500B;&#x5B57;&#x5143;&#xFF09;&#xFF0C;&#x5217;&#x5370;&#x5B57;&#x5143;&#x591A;&#x5C11;&#x53EF;&#x4EE5;&#x63A7;&#x5236;.&#x5C0D;&#x65BC;&#x5176;&#x5B83;&#x5404;&#x5F0F;&#x7684;&#x6A94;&#xFF0C;&#x5217;&#x5370;&#x5B57;&#x4E32;&#x3002;&#x5217;&#x5370;&#x67D0;&#x500B;&#x6A94;&#x7684;&#x53EF;&#x5217;&#x5370;&#x5B57;&#x4E32;&#xFF0C;&#x9019;&#x4E9B;&#x5B57;&#x4E32;&#x6700;&#x5C11;4&#x500B;&#x5B57; &#x7B26;&#x9577;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x9078;&#x9805;&#x201C;-n&#x201D;&#x8A2D;&#x7F6E;&#x5B57;&#x4E32;&#x7684;&#x6700;&#x5C0F;&#x9577;&#x5EA6;&#x3002;&#x9810;&#x8A2D;&#x60C5;&#x6CC1;&#x4E0B;&#xFF0C;&#x5B83;&#x53EA;&#x5217;&#x5370;&#x76EE;&#x7684;&#x6A94;&#x6848;&#x521D;&#x59CB;&#x5316;&#x548C;&#x53EF;&#x8F09;&#x5165;&#x6BB5;&#x4E2D;&#x7684;&#x53EF;&#x5217;&#x5370;&#x5B57;&#x5143;&#xFF1B;&#x5C0D;&#x65BC;&#x5176;&#x4ED6;&#x985E;&#x578B;&#x7684;&#x7684;&#x6A94;&#x5B83;&#x5217;&#x5370;&#x6574;&#x500B;&#x6A94; &#x7684;&#x53EF;&#x5217;&#x5370;&#x5B57;&#x5143;&#xFF0C;&#x9019;&#x500B;&#x7A0B;&#x5F0F;&#x5C0D;&#x65BC;&#x77AD;&#x89E3;&#x975E;&#x6587;&#x5B57;&#x6A94;&#x5167;&#x5BB9;&#x5F88;&#x6709;&#x8AAC;&#x660E;&#x3002;</p>
+<h2 id="%E5%8D%81%E4%B8%89%E3%80%82strip">&#x5341;&#x4E09;&#x3002;strip</h2>
+<p>&#x522A;&#x9664;&#x76EE;&#x7684;&#x6A94;&#x6848;&#x4E2D;&#x7684;&#x5168;&#x90E8;&#x6216;&#x8005;&#x7279;&#x5B9A;&#x7B26;&#x865F;&#xFF0C;&#x9019;&#x6A23;&#x53EF;&#x4EE5;&#x6E1B;&#x5C0F;&#x53EF;&#x57F7;&#x884C;&#x6A94;&#x7684;&#x5927;&#x5C0F;&#x3002;&#x5728;&#x5D4C;&#x5165;&#x5F0F;&#x61C9;&#x7528;&#x4E2D;&#xFF0C;&#x53EF;&#x57F7;&#x884C;&#x6A94;&#x4E00;&#x822C;&#x5B58;&#x653E;&#x5728;flash&#x4E2D;&#xFF0C;&#x7A7A;&#x9593;&#x6709;&#x9650;&#xFF0C;&#x56E0;&#x6B64;&#x5728;&#x7522;&#x54C1; release&#x7684;&#x904E;&#x7A0B;&#x4E2D;&#x63A1;&#x7528;strip&#x5C0D;&#x7A0B;&#x5F0F;&#x9032;&#x884C;&#x88C1;&#x526A;&#x5F88;&#x6709;&#x5FC5;&#x8981;&#x3002;</p>
+<h2 id="%E5%8D%81%E4%B8%89%E3%80%82gprof">&#x5341;&#x4E09;&#x3002;gprof</h2>
+<p>gprof&#x662F;Linux&#x4E0B;&#x4E00;&#x500B;&#x5F37;&#x6709;&#x529B;&#x7684;&#x7A0B;&#x5F0F;&#x5206;&#x6790;&#x5DE5;&#x5177;&#x3002;&#x80FD;&#x5920;&#x4EE5;&#x201C;&#x65E5;&#x8A8C;&#x201D;&#x7684;&#x5F62;&#x5F0F;&#x8A18;&#x9304;&#x7A0B;&#x5F0F;&#x904B;&#x884C;&#x6642;&#x7684;&#x7D71;&#x8A08;&#x8CC7;&#x8A0A;&#xFF1A;&#x7A0B;&#x5F0F;&#x904B;&#x884C;&#x4E2D;&#x5404;&#x500B;&#x51FD;&#x6578;&#x6D88;&#x8017;&#x7684;&#x6642;&#x9593;&#x548C;&#x51FD;&#x5F0F;&#x547C;&#x53EB;&#x95DC; &#x7CFB;&#xFF0C;&#x4EE5;&#x53CA;&#x6BCF;&#x500B;&#x51FD;&#x6578;&#x88AB;&#x8ABF;&#x7528;&#x7684;&#x6B21;&#x6578;&#x7B49;&#x7B49;&#x3002;&#x5F9E;&#x800C;&#x53EF;&#x4EE5;&#x8AAC;&#x660E;&#x7A0B;&#x5F0F;&#x5E2B;&#x627E;&#x51FA;&#x773E;&#x591A;&#x51FD;&#x6578;&#x4E2D;&#x8017;&#x6642;&#x6700;&#x591A;&#x7684;&#x51FD;&#x6578;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x8AAC;&#x660E;&#x7A0B;&#x5F0F;&#x5E2B;&#x5206;&#x6790;&#x7A0B;&#x5F0F;&#x7684;&#x904B;&#x884C;&#x6D41;&#x7A0B;&#x3002;&#x76F8;&#x4FE1;&#x9019;&#x4E9B;&#x529F;&#x80FD;&#x5C0D;&#x65BC;&#x5206;&#x6790;&#x958B;&#x6E90;&#x4EE3; &#x78BC;&#x7684;&#x7A0B;&#x5F0F;&#x5E2B;&#x4F86;&#x8AAA;&#xFF0C;&#x6709;&#x8457;&#x76F8;&#x7576;&#x5927;&#x7684;&#x8A98;&#x60D1;&#x529B;;&#x540C;&#x6642;&#x6211;&#x5011;&#x4E5F;&#x53EF;&#x4EE5;&#x501F;&#x52A9;gprof&#x9032;&#x884C;&#x6027;&#x80FD;&#x512A;&#x5316;&#x548C;&#x5206;&#x6790;&#x3002;
+&#x7528;gprof&#x5C0D;&#x7A0B;&#x5F0F;&#x9032;&#x884C;&#x5206;&#x6790;&#x4E3B;&#x8981;&#x5206;&#x4EE5;&#x4E0B;&#x4E09;&#x500B;&#x6B65;&#x9A5F;&#xFF1A;</p>
+<ul>
+<li>&#x7528;&#x7DE8;&#x8B6F;&#x5668;&#x5C0D;&#x7A0B;&#x5F0F;&#x9032;&#x884C;&#x7DE8;&#x8B6F;&#xFF0C;&#x52A0;&#x4E0A;-pg&#x53C3;&#x6578;&#x3002;</li>
+<li>&#x904B;&#x884C;&#x7DE8;&#x8B6F;&#x5F8C;&#x7684;&#x7A0B;&#x5F0F;&#x3002;</li>
+<li>&#x7528;gprof&#x547D;&#x4EE4;&#x67E5;&#x770B;&#x7A0B;&#x5F0F;&#x7684;&#x904B;&#x884C;&#x6642;&#x8CC7;&#x8A0A;&#x3002;</li>
+</ul>
+<p>&#x5148;&#x4EE5;&#x4E00;&#x500B;&#x7C21;&#x55AE;&#x7684;&#x4F8B;&#x5B50;&#x6F14;&#x793A;&#x4E00;&#x4E0B;&#x5427;&#x3002;&#x96A8;&#x4FBF;&#x627E;&#x4E00;&#x500B;&#x80FD;&#x5920;&#x904B;&#x884C;&#x7684;&#x7A0B;&#x5F0F;&#x7684;&#x539F;&#x59CB;&#x7A0B;&#x5F0F;&#x78BC;&#xFF0C;&#x6BD4;&#x5982;&#x4E0B;&#x9762;&#x7684;&#x6A94;test.c&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">IsEven</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span>
+</span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span> == x &amp; <span class="hljs-number">1</span>;
+}
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>* argv[] {
+    <span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>;
+
+    <span class="hljs-keyword">while</span> (++i &lt; <span class="hljs-number">1000</span>)</span> <span class="hljs-title">IsEven</span><span class="hljs-params">(i)</span></span>;
+}
+</code></pre>
+<p>&#x9996;&#x5148;&#xFF0C;&#x7528;&#x4EE5;&#x4E0B;&#x547D;&#x4EE4;&#x9032;&#x884C;&#x7DE8;&#x8B6F;&#xFF1A;</p>
+<pre><code class="lang-sh">[root@localhost]<span class="hljs-comment">#gcc &#x2013;o test &#x2013;pg test.c</span>
+</code></pre>
+<p>&#x7136;&#x5F8C;&#xFF0C;&#x904B;&#x884C;&#x53EF;&#x57F7;&#x884C;&#x6A94;test</p>
+<pre><code class="lang-sh">[root@localhost]<span class="hljs-comment">#./test</span>
+</code></pre>
+<p>&#x904B;&#x884C;&#x5F8C;&#xFF0C;&#x5728;&#x76EE;&#x524D;&#x7684;&#x76EE;&#x9304;&#x4E0B;&#x5C07;&#x751F;&#x6210;&#x4E00;&#x500B;&#x6A94;<code>gmon.out</code>&#xFF0C;&#x9019;&#x5C31;&#x662F;gprof&#x751F;&#x6210;&#x7684;&#x6A94;&#xFF0C;&#x4FDD;&#x5B58;&#x6709;&#x7A0B;&#x5F0F;&#x904B;&#x884C;&#x671F;&#x9593;&#x51FD;&#x5F0F;&#x547C;&#x53EB;&#x7B49;&#x8CC7;&#x8A0A;&#x3002;
+&#x6700;&#x5F8C;&#xFF0C;&#x7528;gprof&#x547D;&#x4EE4;&#x67E5;&#x770B;gmon.out&#x4FDD;&#x5B58;&#x7684;&#x8CC7;&#x8A0A;&#xFF1A;</p>
+<pre><code class="lang-sh">[root@localhost]<span class="hljs-comment">#gprof test gmon.out &#x2013;b</span>
+</code></pre>
+<p>&#x9019;&#x6A23;&#x5C31;&#x6709;&#x4E00;&#x5927;&#x5806;&#x8CC7;&#x8A0A;&#x8F38;&#x51FA;&#x5230;&#x87A2;&#x5E55;&#x4E0A;&#xFF0C;&#x6709;&#x51FD;&#x6578;&#x57F7;&#x884C;&#x55AE;&#x9593;&#xFF0C;&#x51FD;&#x5F0F;&#x547C;&#x53EB;&#x95DC;&#x4FC2;&#x5716;&#x7B49;&#x7B49;&#xFF0C;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-sh">Flat profile:
+Each sample counts as <span class="hljs-number">0.01</span> seconds.
+no time accumulated
+  %   cumulative   self              self     total          
+time   seconds   seconds    calls  Ts/call  Ts/call  name   
+  <span class="hljs-number">0.00</span>      <span class="hljs-number">0.00</span>     <span class="hljs-number">0.00</span>     <span class="hljs-number">1000</span>     <span class="hljs-number">0.00</span>     <span class="hljs-number">0.00</span>  IsEven(int)
+                     Call graph
+granularity: each sample hit covers <span class="hljs-number">2</span> byte(s) no time propagated
+index % time    self  children    called     name
+                <span class="hljs-number">0.00</span>    <span class="hljs-number">0.00</span>    <span class="hljs-number">1000</span>/<span class="hljs-number">1000</span>        main [<span class="hljs-number">7</span>]
+[<span class="hljs-number">8</span>]      <span class="hljs-number">0.0</span>    <span class="hljs-number">0.00</span>    <span class="hljs-number">0.00</span>    <span class="hljs-number">1000</span>         IsEven(int) [<span class="hljs-number">8</span>]
+-----------------------------------------------
+Index by <span class="hljs-keyword">function</span> name
+   [<span class="hljs-number">8</span>] IsEven(int)
+</code></pre>
+<p>&#x4EE5;&#x4E0A;&#x4ECB;&#x7D39;&#x4E86;gprof&#x6700;&#x7C21;&#x55AE;&#x7684;&#x4F7F;&#x7528;&#x65B9;&#x6CD5;&#xFF0C;&#x4E0B;&#x9762;&#x91DD;&#x5C0D;&#x5176;&#x4F7F;&#x7528;&#x904E;&#x7A0B;&#x4E2D;&#x7684;&#x4E09;&#x500B;&#x6B65;&#x9A5F;&#x8A73;&#x7D30;&#x8AAA;&#x660E;&#x3002;
+&#x7DE8;&#x8B6F;&#x548C;&#x9023;&#x7D50;
+&#x4E0A;&#x9762;&#x7684;&#x4F8B;&#x5B50;&#x4E2D;&#xFF0C;&#x7A0B;&#x5F0F;&#x6BD4;&#x8F03;&#x7C21;&#x55AE;&#xFF0C;&#x53EA;&#x6709;&#x4E00;&#x500B;&#x6A94;&#x3002;&#x5982;&#x679C;&#x539F;&#x59CB;&#x7A0B;&#x5F0F;&#x78BC;&#x6709;&#x591A;&#x500B;&#x6A94;&#xFF0C;&#x6216;&#x8005;&#x4EE3;&#x78BC;&#x7D50;&#x69CB;&#x6BD4;&#x8F03;&#x8907;&#x96DC;&#xFF0C;&#x7DE8;&#x8B6F;&#x904E;&#x7A0B;&#x4E2D;&#x5148;&#x751F;&#x6210;&#x82E5;&#x5E72;&#x500B;&#x76EE;&#x7684;&#x6A94;&#x6848;&#xFF0C;&#x7136;&#x5F8C;&#x53C8;&#x7531;&#x9023;&#x7D50;&#x5668;&#x5C07;&#x9019;&#x4E9B; &#x76EE;&#x7684;&#x6A94;&#x6848;&#x9023;&#x7D50;&#x5230;&#x4E00;&#x8D77;&#xFF0C;&#x9019;&#x6642;&#x8A72;&#x600E;&#x9EBC;&#x4F7F;&#x7528;gprof&#x5462;&#xFF1F;
+&#x5C0D;&#x65BC;&#x7531;&#x591A;&#x500B;&#x539F;&#x59CB;&#x6A94;&#x6848;&#x7D44;&#x6210;&#x7684;&#x7A0B;&#x5F0F;&#xFF0C;&#x7DE8;&#x8B6F;&#x6642;&#x9700;&#x8981;&#x5728;&#x751F;&#x6210;&#x6BCF;&#x500B;.o&#x6A94;&#x7684;&#x6642;&#x5019;&#x52A0;&#x4E0A;-pg&#x53C3;&#x6578;&#xFF0C;&#x540C;&#x6642;&#x5728;&#x9023;&#x7D50;&#x7684;&#x6642;&#x5019;&#x4E5F;&#x8981;&#x52A0;&#x4E0A;-pg&#x53C3;&#x6578;&#x3002;&#x5C0D;&#x65BC;&#x9023;&#x7D50;&#x5668;&#x4E0D;&#x662F;GCC&#x7684;&#x60C5; &#x6CC1;&#xFF0C;&#x5982;ld&#xFF0C;&#x53C8;&#x6709;&#x7279;&#x6B8A;&#x7684;&#x8981;&#x6C42;&#x3002;
+&#x540C;&#x6642;&#xFF0C;-pg&#x53C3;&#x6578;&#x53EA;&#x80FD;&#x8A18;&#x9304;&#x539F;&#x59CB;&#x7A0B;&#x5F0F;&#x78BC;&#x4E2D;&#x5404;&#x500B;&#x51FD;&#x6578;&#x7684;&#x8ABF;&#x7528;&#x95DC;&#x4FC2;&#xFF0C;&#x800C;&#x4E0D;&#x80FD;&#x8A18;&#x9304;&#x5EAB;&#x51FD;&#x6578;&#x7684;&#x8ABF;&#x7528;&#x60C5;&#x6CC1;&#x3002;&#x8981;&#x60F3;&#x8A18;&#x9304;&#x6BCF;&#x500B;&#x5EAB;&#x51FD;&#x6578;&#x7684;&#x8ABF;&#x7528;&#x60C5;&#x6CC1;&#xFF0C;&#x9023;&#x7D50;&#x7684;&#x6642;&#x5019;&#x5FC5;&#x9808;&#x6307;&#x5B9A;&#x5EAB;&#x51FD;&#x6578;&#x7684;&#x52D5; &#x614B;&#xFF08;&#x6216;&#x8005;&#x975C;&#x614B;&#xFF09;&#x7A0B;&#x5F0F;&#x5EAB;libc_p.a&#xFF0C;&#x5373;&#x52A0;&#x4E0A;-lc_p&#xFF0C;&#x800C;&#x4E0D;&#x662F;-lc&#x3002;
+&#x9084;&#x8981;&#x8AAA;&#x660E;&#x7684;&#x662F;&#xFF0C;&#x5982;&#x679C;&#x6709;&#x4E00;&#x90E8;&#x5206;&#x4EE3;&#x78BC;&#x5728;&#x7DE8;&#x8B6F;&#x6642;&#x6307;&#x5B9A;&#x4E86;-pg&#x53C3;&#x6578;&#xFF0C;&#x800C;&#x53E6;&#x4E00;&#x90E8;&#x5206;&#x4EE3;&#x78BC;&#x6C92;&#x6709;&#x6307;&#x5B9A;&#xFF0C;&#x5247;&#x751F;&#x6210;&#x7684;gmon.out&#x6A94;&#x4E2D;&#x5C07;&#x7F3A;&#x5C11;&#x4E00;&#x90E8;&#x5206;&#x51FD;&#x6578;&#xFF0C;&#x4E5F;&#x6C92;&#x6709;&#x90A3;&#x4E9B; &#x51FD;&#x6578;&#x7684;&#x8ABF;&#x7528;&#x95DC;&#x4FC2;&#x3002;&#x4F46;&#x662F;&#x4E26;&#x4E0D;&#x5F71;&#x97FF;gprof&#x5C0D;&#x5176;&#x5B83;&#x51FD;&#x6578;&#x9032;&#x884C;&#x8A18;&#x9304;&#x3002;
+&#x904B;&#x884C;
+&#x7DE8;&#x8B6F;&#x597D;&#x7684;&#x7A0B;&#x5F0F;&#x904B;&#x884C;&#x6642;&#x548C;&#x904B;&#x884C;&#x4E00;&#x822C;&#x7684;&#x7A0B;&#x5F0F;&#x6C92;&#x6709;&#x4EC0;&#x9EBC;&#x4E0D;&#x540C;&#xFF0C;&#x53EA;&#x662F;&#x6BD4;&#x6B63;&#x5E38;&#x7684;&#x7A0B;&#x5F0F;&#x591A;&#x751F;&#x6210;&#x4E86;&#x4E00;&#x500B;&#x6A94;gmon.out&#x3002;&#x6CE8;&#x610F;&#xFF0C;&#x9019;&#x500B;&#x6A94;&#x6848;&#x540D;&#x662F;&#x56FA;&#x5B9A;&#x7684;&#xFF0C;&#x6C92;&#x6CD5;&#x901A;&#x904E;&#x53C3;&#x6578;&#x7684; &#x8A2D;&#x7F6E;&#x9032;&#x884C;&#x6539;&#x8B8A;&#x3002;&#x5982;&#x679C;&#x7A0B;&#x5F0F;&#x76EE;&#x9304;&#x4E2D;&#x5DF2;&#x7D93;&#x6709;&#x4E00;&#x500B;gmon.out&#xFF0C;&#x5247;&#x5B83;&#x6703;&#x88AB;&#x65B0;&#x7684;gmon.out&#x8986;&#x84CB;&#x6389;&#x3002;
+&#x95DC;&#x65BC;&#x751F;&#x6210;&#x7684;gmon.out&#x6A94;&#x6240;&#x5728;&#x7684;&#x76EE;&#x9304;&#xFF0C;&#x4E5F;&#x6709;&#x4EE5;&#x4E0B;&#x7D04;&#x5B9A;&#xFF1A;&#x7A0B;&#x5F0F;&#x9000;&#x51FA;&#x6642;&#x6240;&#x904B;&#x884C;&#x7684;&#x6A94;&#x6240;&#x5728;&#x76EE;&#x9304;&#x5C31;&#x662F;&#x751F;&#x6210;&#x7684;gmon.out&#x6A94;&#x6240;&#x5728;&#x7684;&#x76EE;&#x9304;&#x3002;&#x5982;&#x679C;&#x4E00;&#x500B;&#x7A0B; &#x5E8F;&#x57F7;&#x884C;&#x904E;&#x7A0B;&#x4E2D;&#x8ABF;&#x7528;&#x4E86;&#x53E6;&#x4E00;&#x500B;&#x7A0B;&#x5F0F;&#xFF0C;&#x4E26;&#x5728;&#x53E6;&#x4E00;&#x500B;&#x7A0B;&#x5F0F;&#x7684;&#x904B;&#x884C;&#x4E2D;&#x7D42;&#x6B62;&#xFF0C;&#x5247;gmon.out&#x6703;&#x5728;&#x53E6;&#x4E00;&#x500B;&#x7A0B;&#x5F0F;&#x6240;&#x5728;&#x7684;&#x76EE;&#x9304;&#x4E2D;&#x751F;&#x6210;&#x3002;
+&#x9084;&#x6709;&#x4E00;&#x9EDE;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x5C31;&#x662F;&#x7576;&#x7A0B;&#x5F0F;&#x975E;&#x6B63;&#x5E38;&#x7D42;&#x6B62;&#x6642;&#x4E0D;&#x6703;&#x751F;&#x6210;gmon.out&#x6A94;&#xFF0C;&#x4E5F;&#x56E0;&#x6B64;&#x5C31;&#x6C92;&#x6CD5;&#x67E5;&#x770B;&#x7A0B;&#x5F0F;&#x904B;&#x884C;&#x6642;&#x7684;&#x8CC7;&#x8A0A;&#x3002;&#x53EA;&#x6709;&#x7576;&#x7A0B;&#x5F0F;&#x5F9E;main&#x51FD;&#x6578;&#x4E2D;&#x6B63;&#x5E38;&#x9000;&#x51FA;&#xFF0C; &#x6216;&#x8005;&#x901A;&#x904E;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;exit()&#x51FD;&#x6578;&#x800C;&#x9000;&#x51FA;&#x6642;&#xFF0C;&#x624D;&#x6703;&#x751F;&#x6210;gmon.out&#x6587;&#x4EF6;&#x3002;&#x800C;&#x901A;&#x904E;&#x5E95;&#x5C64;&#x8ABF;&#x7528;&#x5982;_exit()&#x7B49;&#x9000;&#x51FA;&#x6642;&#x4E0D;&#x6703;&#x751F;&#x6210;gmon.out&#x3002;
+&#x67E5;&#x770B;
+&#x67E5;&#x770B;&#x7A0B;&#x5F0F;&#x904B;&#x884C;&#x8CC7;&#x8A0A;&#x7684;&#x547D;&#x4EE4;&#x662F;gprof&#xFF0C;&#x5B83;&#x4EE5;gmon.out&#x6A94;&#x4F5C;&#x70BA;&#x8F38;&#x5165;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x5C07;gmon.out&#x6A94;&#x7FFB;&#x8B6F;&#x6210;&#x53EF;&#x8B80;&#x7684;&#x5F62;&#x5F0F;&#x5C55;&#x73FE;&#x7D66;&#x7528;&#x6236;&#x3002;&#x5176;&#x547D;&#x4EE4;&#x683C;&#x5F0F;&#x5982; &#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-sh">gprof [&#x53EF;&#x57F7;&#x884C;&#x6A94;] [gmon.out&#x6587;&#x4EF6;] [&#x5176;&#x5B83;&#x53C3;&#x6578;]
+</code></pre>
+<p>&#x65B9;&#x62EC;&#x865F;&#x4E2D;&#x7684;&#x5167;&#x5BB9;&#x53EF;&#x4EE5;&#x7701;&#x7565;&#x3002;&#x5982;&#x679C;&#x7701;&#x7565;&#x4E86;&#x201C;&#x53EF;&#x57F7;&#x884C;&#x6A94;&#x201D;&#xFF0C;gprof&#x6703;&#x5728;&#x76EE;&#x524D;&#x7684;&#x76EE;&#x9304;&#x4E0B;&#x641C;&#x7D22;a.out&#x6A94;&#x4F5C;&#x70BA;&#x53EF;&#x57F7;&#x884C;&#x6A94;&#xFF0C;&#x800C;&#x5982;&#x679C;&#x7701;&#x7565;&#x4E86;gmon.out&#x6587; &#x4EF6;&#xFF0C;gprof&#x4E5F;&#x6703;&#x5728;&#x76EE;&#x524D;&#x7684;&#x76EE;&#x9304;&#x4E0B;&#x5C0B;&#x627E;gmon.out&#x3002;&#x5176;&#x5B83;&#x53C3;&#x6578;&#x53EF;&#x4EE5;&#x63A7;&#x5236;gprof&#x8F38;&#x51FA;&#x5167;&#x5BB9;&#x7684;&#x683C;&#x5F0F;&#x7B49;&#x8CC7;&#x8A0A;&#x3002;&#x6700;&#x5E38;&#x7528;&#x7684;&#x53C3;&#x6578;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-sh">-b &#x4E0D;&#x518D;&#x8F38;&#x51FA;&#x7D71;&#x8A08;&#x5716;&#x8868;&#x4E2D;&#x6BCF;&#x500B;&#x6B04;&#x4F4D;&#x7684;&#x8A73;&#x7D30;&#x63CF;&#x8FF0;&#x3002;
+-p &#x53EA;&#x8F38;&#x51FA;&#x51FD;&#x6578;&#x7684;&#x8ABF;&#x7528;&#x5716;&#xFF08;Call graph&#x7684;&#x90A3;&#x90E8;&#x5206;&#x8CC7;&#x8A0A;&#xFF09;&#x3002;
+-q &#x53EA;&#x8F38;&#x51FA;&#x51FD;&#x6578;&#x7684;&#x6642;&#x9593;&#x6D88;&#x8017;&#x6E05;&#x55AE;&#x3002;
+<span class="hljs-operator">-e</span> Name &#x4E0D;&#x518D;&#x8F38;&#x51FA;&#x51FD;&#x6578;Name
+</code></pre>
+<p>&#x53CA;&#x5176;&#x5B50;&#x51FD;&#x6578;&#x7684;&#x8ABF;&#x7528;&#x5716;&#xFF08;&#x9664;&#x975E;&#x5B83;&#x5011;&#x6709;&#x672A;&#x88AB;&#x9650;&#x5236;&#x7684;&#x5176;&#x5B83;&#x7236;&#x51FD;&#x6578;&#xFF09;&#x3002;&#x53EF;&#x4EE5;&#x7D66;&#x5B9A;&#x591A;&#x500B; -e &#x6A19;&#x8A8C;&#x3002;<br>
+&#x4E00;&#x500B; -e &#x6A19;&#x8A8C;&#x53EA;&#x80FD;&#x6307;&#x5B9A;&#x4E00;&#x500B;&#x51FD;&#x6578;&#x3002;<br>
+-E Name &#x4E0D;&#x518D;&#x8F38;&#x51FA;&#x51FD;&#x6578;Name &#x53CA;&#x5176;&#x5B50;&#x51FD;&#x6578;&#x7684;&#x8ABF;&#x7528;&#x5716;&#xFF0C;&#x6B64;&#x6A19;&#x8A8C;&#x985E;&#x4F3C;&#x65BC; -e &#x6A19;&#x8A8C;&#xFF0C;&#x4F46;&#x5B83;&#x5728;&#x7E3D;&#x6642;&#x9593;&#x548C;&#x767E;&#x5206;&#x6BD4;&#x6642;&#x9593;&#x7684;&#x8A08;&#x7B97;&#x4E2D;&#x6392;&#x9664;&#x4E86;&#x7531;&#x51FD;&#x6578;Name &#x53CA;&#x5176;&#x5B50;&#x51FD;&#x6578;&#x6240;&#x7528;&#x7684;&#x6642;&#x9593;&#x3002;<br>
+-f Name &#x8F38;&#x51FA;&#x51FD;&#x6578;Name &#x53CA;&#x5176;&#x5B50;&#x51FD;&#x6578;&#x7684;&#x8ABF;&#x7528;&#x5716;&#x3002;&#x53EF;&#x4EE5;&#x6307;&#x5B9A;&#x591A;&#x500B; -f &#x6A19;&#x8A8C;&#x3002;<br>
+&#x4E00;&#x500B; -f &#x6A19;&#x8A8C;&#x53EA;&#x80FD;&#x6307;&#x5B9A;&#x4E00;&#x500B;&#x51FD;&#x6578;&#x3002;<br>
+-F Name &#x8F38;&#x51FA;&#x51FD;&#x6578;Name &#x53CA;&#x5176;&#x5B50;&#x51FD;&#x6578;&#x7684;&#x8ABF;&#x7528;&#x5716;&#xFF0C;&#x5B83;&#x985E;&#x4F3C;&#x65BC; -f &#x6A19;&#x8A8C;&#xFF0C;&#x4F46;&#x5B83;&#x5728;&#x7E3D;&#x6642;&#x9593;&#x548C;&#x767E;&#x5206;&#x6BD4;&#x6642;&#x9593;&#x8A08;&#x7B97;&#x4E2D;&#x50C5;&#x4F7F;&#x7528;&#x6240;&#x5217;&#x5370;&#x7684;&#x5E38;&#x5F0F;&#x7684;&#x6642;&#x9593;&#x3002;<br>
+&#x53EF;&#x4EE5;&#x6307;&#x5B9A;&#x591A;&#x500B; -F &#x6A19;&#x8A8C;&#x3002;&#x4E00;&#x500B; -F &#x6A19;&#x8A8C;&#x53EA;&#x80FD;&#x6307;&#x5B9A;&#x4E00;&#x500B;&#x51FD;&#x6578;&#x3002;<br>
+-F &#x6A19;&#x8A8C;&#x8986;&#x84CB; -E &#x6A19;&#x8A8C;&#x3002;<br>
+-z &#x986F;&#x793A;&#x4F7F;&#x7528;&#x6B21;&#x6578;&#x70BA;&#x96F6;&#x7684;&#x5E38;&#x5F0F;&#xFF08;&#x6309;&#x7167;&#x8ABF;&#x7528;&#x8A08;&#x6578;&#x548C;&#x7D2F;&#x7A4D;&#x6642;&#x9593;&#x8A08;&#x7B97;&#xFF09;&#x3002;<br>
+&#x4E0D;&#x904E;,gprof&#x4E0D;&#x80FD;&#x986F;&#x793A;&#x7269;&#x4EF6;&#x4E4B;&#x9593;&#x7684;&#x7E7C;&#x627F;&#x95DC;&#x4FC2;,&#x9019;&#x4E5F;&#x662F;&#x5B83;&#x7684;&#x5F31;&#x9EDE;.</p>
+<h2 id="%E5%8F%83%E8%80%83%E6%96%87%E7%8D%BB%EF%BC%9A">&#x53C3;&#x8003;&#x6587;&#x737B;&#xFF1A;</h2>
+<ol>
+<li><a href="http://www.diybl.com/course/6_system/linux/Linuxjs/2008813/135859.html" target="_blank">http://www.diybl.com/course/6_system/linux/Linuxjs/2008813/135859.html</a></li>
+<li><a href="http://www.diybl.com/course/3_program/c++/cppjs/2008624/128167.html" target="_blank">http://www.diybl.com/course/3_program/c++/cppjs/2008624/128167.html</a></li>
+<li><a href="http://www.diybl.com/course/3_program/vc/vc_js/20090307/159174.html" target="_blank">http://www.diybl.com/course/3_program/vc/vc_js/20090307/159174.html</a></li>
+<li>&#x7A0B;&#x5F0F;&#x5206;&#x6790;&#x5DE5;&#x5177;gprof&#x4ECB;&#x7D39; <a href="http://www.cnblogs.com/huangpeng/archive/2009/02/17/1392456.html" target="_blank">http://www.cnblogs.com/huangpeng/archive/2009/02/17/1392456.html</a></li>
+<li>&#x719F;&#x6089;binutils&#x5DE5;&#x5177;&#x96C6; <a href="http://yunli.blog.51cto.com/831344/186727" target="_blank">http://yunli.blog.51cto.com/831344/186727</a> &#xFF08;&#x63A8;&#x85A6;&#xFF09;</li>
+</ol>
 
                     
                     </section>
@@ -10813,10 +11099,10 @@ apache2 26081     root    3u  IPv4 1609898      0t0  TCP </em>:www (LISTEN)</p>
         </div>
 
         
-        <a href="../shared_libraries/12.html" class="navigation navigation-prev " aria-label="Previous page: Command"><i class="fa fa-angle-left"></i></a>
+        <a href="../linux_tools/jdbshell.html" class="navigation navigation-prev " aria-label="Previous page: Jdbshell"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../shared_libraries/cntotw.html" class="navigation navigation-next " aria-label="Next page: Open Chinese Convert 開放中文轉換"><i class="fa fa-angle-right"></i></a>
+        <a href="../bggdb/index.html" class="navigation navigation-next " aria-label="Next page: Beej&#39;s Quick Guide to GDB"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

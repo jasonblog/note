@@ -357,7 +357,7 @@
        * [GNU LD 手冊略讀 (2): Chapter 3.6 SETCIONS](22/22183.md)
        * [GNU LD 手冊略讀 (3): Chapter 3.7 ~ Chapter 3.11](22/22184.md)
    * [GNU: The C Preprocessor 導讀](22/2219.md)
-   * [from-source-to-binary-how-gnu-toolchain-works](from-source-to-binary-how-gnu-toolchain-works.md)
+   * [from-source-to-binary-how-gnu-toolchain-works](22/from-source-to-binary-how-gnu-toolchain-works.md)
 * [Shell](shell/README.md)
    * [shell十三問](shell/230.md)
        * [何為shell](shell/2311.md)

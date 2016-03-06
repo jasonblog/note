@@ -440,7 +440,7 @@
    * [Building and Deploying Raspberry PI Kernel](raspberry_pi/building_and_deploying_raspberry_pi_kernel.md)
    * [Preparing Raspberry PI for JTAG Debugging](raspberry_pi/preparing_raspberry_pi_for_jtag_debugging.md)
    * [Raspberry Pi 2 Bare Metal Multicore JTAG Debugging](raspberry_pi/raspberry_pi_2_bare_metal_multicore_jtag_debugging.md)
-   * rpi, serial and kgdb
+   * [rpi, serial and kgdb](raspberry_pi/rpi,_serial_and_kgdb.md)
 * [OpenGL](opengl/opengl.md)
    * [opengl(mesa) for ubuntu14.04](opengl/mesa.md)
    * [ubuntu 14.04 安裝OpenGL（基於freeglut）](opengl/1.md)

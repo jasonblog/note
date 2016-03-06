@@ -668,5 +668,4 @@
    * [LIBRARY_PATH和LD_LIBRARY_PATH環境變量的區別](linked_and_loader/librarypath_he_ld_library_path_huan_jing_bian_lian.md)
 * [Bochs](Bochs/bochs.md)
    * [OS dev的Bochs調試](Bochs/os_devde_bochs_diao_shi.md)
-   * [bochs 源码编译安装 ubuntu redhat9.0](Bochs/bochs_yuan_ma_bian_yi_an_zhuang_ubuntu_redhat9__0.md)
 

@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="7.15" data-basepath=".." data-revision="Mon Mar 07 2016 06:00:53 GMT+0800 (CST)">
+    <div class="book" data-level="7.15" data-basepath=".." data-revision="Mon Mar 07 2016 06:23:35 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -10898,6 +10898,22 @@ c
 <li>&#x4F7F;&#x7528;ssh &#x767B;&#x5165;</li>
 </ul>
 <pre><code class="lang-sh">ssh -p <span class="hljs-number">5555</span> root@localhost
+</code></pre>
+<h2 id="%E7%94%A8-scp-sshfs-%E5%BB%BA%E6%A7%8B%E4%BE%BF%E5%88%A9%E7%9A%84%E9%96%8B%E7%99%BC%E7%92%B0%E5%A2%83">&#x7528; scp/sshfs &#x5EFA;&#x69CB;&#x4FBF;&#x5229;&#x7684;&#x958B;&#x767C;&#x74B0;&#x5883;</h2>
+<p>&#x4EE5;&#x4E0B;&#x6307;&#x4EE4;&#x90FD;&#x5728; Host &#x7AEF;&#x57F7;&#x884C;
+&#x8907;&#x88FD; file.txt &#x5230; ARM &#x74B0;&#x5883;&#x7684;/root(&#x8209;&#x4F8B;)</p>
+<pre><code class="lang-sh">scp -P <span class="hljs-number">2200</span> file.txt root@localhost:/root
+scp -P <span class="hljs-number">5555</span> kernel_build.log root@localhost:/home/root
+</code></pre>
+<p>&#x76F4;&#x63A5;&#x4F7F;&#x7528;ssh&#x9060;&#x7AEF;&#x64CD;&#x4F5C;(&#x4EE5;&#x7DE8;&#x8B6F;go&#x7A0B;&#x5F0F;&#x70BA;&#x4F8B;&#x5B50;&#xFF0C;&#x5F8C;&#x9762;&#x63A5;&#x60F3;&#x8981;&#x505A;&#x7684;&#x4E8B;&#x60C5;&#x5C31;&#x5C0D;&#x4E86;)</p>
+<pre><code class="lang-sh">ssh -p2200 root@localhost /go/bin/go build hello.go
+</code></pre>
+<p>&#x8981;&#x4E00;&#x76F4;&#x7528; scp &#x8907;&#x88FD;&#x6A94;&#x6848;&#x5230; QEMU &#x74B0;&#x5883;&#x5F88;&#x9EBB;&#x7169;&#xFF0C;&#x800C;&#x4E14;&#x53C8;&#x6703;&#x4F54;&#x7528; QEMU image &#x7684;&#x7A7A;&#x9593;&#xFF0C;&#x9019;&#x6642;&#x5019;&#x5C31;&#x53EF;&#x4EE5;&#x900F;&#x904E; sshfs&#x3002;&#x4EE5;&#x4E0B;&#x793A;&#x7BC4;&#x5C07; QEMU/ARM &#x74B0;&#x5883;&#x7684; /tmp &#x639B;&#x8F09;&#x5728; host &#x7AEF;&#x7684; target &#x76EE;&#x9304;:</p>
+<pre><code class="lang-sh">mkdir -p target
+sshfs root@localhost:/tmp target -p <span class="hljs-number">2200</span>
+</code></pre>
+<p>&#x5728;&#x95DC;&#x9589; ARM &#x4E4B;&#x524D;&#xFF0C;&#x8A18;&#x5F97;&#x8981; umount&#xFF0C;&#x4E0D;&#x7136;&#x8CC7;&#x6599;&#x6703;&#x907A;&#x5931;</p>
+<pre><code class="lang-sh">fusermount -u target
 </code></pre>
 <h2 id="debugfs-%E8%AA%BF%E8%A9%A6">debugfs &#x8ABF;&#x8A66;</h2>
 <p>&#x5728;kernel&#x88E1;&#x6709;&#x4E00;&#x500B;debugfs&#x6587;&#x4EF6;&#x7CFB;&#x7D71;,&#x53EF;&#x80FD;&#x67E5;&#x4E0B;&#x7576;&#x524D;&#x8A2D;&#x7F6E;&#x7684;&#x96FB;&#x6E90;&#x72C0;&#x614B;.&#x9700;&#x8981;&#x5728;kernel&#x4E2D;&#x6253;&#x958B;&#x9019;&#x500B;CONFIG_DEBUG_FS&#x5B8F;&#x5B9A;&#x7FA9;.</p>

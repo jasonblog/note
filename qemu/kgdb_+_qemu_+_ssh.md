@@ -51,6 +51,21 @@ $ tar xvf core-image-sato-dev-qemux86-64.tar.bz2 -C disk
 qemu-system-x86_64 -m 512 -kernel ./obj/linux-x86-basic/arch/x86/boot/bzImage -localtime -append "root=/dev/sda" -boot c -hda ./busybox.img -k en-us -redir tcp:5555::22
 ```
 
+```sh
+qemu-system-x86_64 \
+-enable-kvm -m 1024 \
+-localtime \
+-kernel obj/$LINUX_PALTFORM/arch/x86_64/boot/bzImage \
+-hda ./busybox.img \
+-boot c \
+-append "root=/dev/sda" \
+-redir tcp:5555::22
+```
+
+```sh
+ssh -p 5555 root@localhost
+```
+
 
 ## debugfs 調試
 在kernel裡有一個debugfs文件系統,可能查下當前設置的電源狀態.需要在kernel中打開這個CONFIG_DEBUG_FS宏定義.

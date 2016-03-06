@@ -46,7 +46,7 @@
        * [trace-cmd](linux_tools/trace-cmd.md)
    * [Doxygen](linux_tools/doxygen.md)
    * [Jdbshell](linux_tools/jdbshell.md)
-   * 二進位實用程式(objdump, readelf,ar, nm等)
+   * [二進位實用程式(objdump, readelf,ar, nm等)](linux_tools/er_jin_wei_shi_yong_cheng_5f0f28_objdump_,_readelf.md)
 * [Beej's Quick Guide to GDB](bggdb/README.md)
 * [Android note](android_note/README.md)
    * [android resource](android_note/514.md)

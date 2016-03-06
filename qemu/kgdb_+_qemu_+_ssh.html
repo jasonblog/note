@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="7.15" data-basepath=".." data-revision="Mon Mar 07 2016 05:39:25 GMT+0800 (CST)">
+    <div class="book" data-level="7.15" data-basepath=".." data-revision="Mon Mar 07 2016 06:00:53 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -10868,6 +10868,36 @@ $ tar xvf core-image-sato-dev-qemux86-<span class="hljs-number">64</span>.tar.bz
 <h2 id="qemu-x86-64%E5%95%9F%E5%8B%95%E5%8F%83%E6%95%B8">qemu X86_64&#x555F;&#x52D5;&#x53C3;&#x6578;:</h2>
 <p>&#x5982;&#x679C;&#x4F60;&#x7684;&#x786C;&#x76E4;&#x662F;sata&#x63A5;&#x53E3;&#x7684;&#xFF0C;&#x4F60;&#x4E5F;&#x8A31;&#x9700;&#x8981;&#x5C07;&#x4E0A;&#x9762;&#x7684; &#x300C;root=/dev/hda&#x300D; &#x66FF;&#x63DB;&#x70BA; &#x300C;root=/dev/sda&#x300D;.</p>
 <pre><code class="lang-sh">qemu-system-x86_64 -m <span class="hljs-number">512</span> -kernel ./obj/linux-x86-basic/arch/x86/boot/bzImage -localtime -append <span class="hljs-string">&quot;root=/dev/sda&quot;</span> -boot c -hda ./busybox.img -k en-us -redir tcp:<span class="hljs-number">5555</span>::<span class="hljs-number">22</span>
+</code></pre>
+<pre><code class="lang-sh">qemu-system-x86_64 \
+-enable-kvm -m <span class="hljs-number">1024</span> \
+-localtime \
+-kernel obj/<span class="hljs-variable">$LINUX_PALTFORM</span>/arch/x86_64/boot/bzImage \
+-hda ./busybox.img \
+-boot c \
+-append <span class="hljs-string">&quot;root=/dev/sda&quot;</span> \
+-redir tcp:<span class="hljs-number">5555</span>::<span class="hljs-number">22</span>
+</code></pre>
+<ul>
+<li>&#x4F7F;&#x7528;kgdb</li>
+</ul>
+<pre><code class="lang-sh">qemu-system-x86_64 <span class="hljs-operator">-s</span> -S \
+-localtime \
+-kernel obj/<span class="hljs-variable">$LINUX_PALTFORM</span>/arch/x86_64/boot/bzImage \
+-hda ./busybox.img \
+-boot c \
+-append <span class="hljs-string">&quot;root=/dev/sda&quot;</span> \
+-redir tcp:<span class="hljs-number">5555</span>::<span class="hljs-number">22</span>
+</code></pre>
+<pre><code class="lang-sh">cgdb ./obj/linux-x86-basic/vmlinux
+target remote localhost:<span class="hljs-number">1234</span>
+b *start_kernel
+c
+</code></pre>
+<ul>
+<li>&#x4F7F;&#x7528;ssh &#x767B;&#x5165;</li>
+</ul>
+<pre><code class="lang-sh">ssh -p <span class="hljs-number">5555</span> root@localhost
 </code></pre>
 <h2 id="debugfs-%E8%AA%BF%E8%A9%A6">debugfs &#x8ABF;&#x8A66;</h2>
 <p>&#x5728;kernel&#x88E1;&#x6709;&#x4E00;&#x500B;debugfs&#x6587;&#x4EF6;&#x7CFB;&#x7D71;,&#x53EF;&#x80FD;&#x67E5;&#x4E0B;&#x7576;&#x524D;&#x8A2D;&#x7F6E;&#x7684;&#x96FB;&#x6E90;&#x72C0;&#x614B;.&#x9700;&#x8981;&#x5728;kernel&#x4E2D;&#x6253;&#x958B;&#x9019;&#x500B;CONFIG_DEBUG_FS&#x5B8F;&#x5B9A;&#x7FA9;.</p>

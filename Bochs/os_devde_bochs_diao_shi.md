@@ -81,7 +81,7 @@ Dump of assembler code for function kmain:
 最後info registers查看cpu寄存器內容，info registers %eax只查看eax內容，而 info all-registers會把cpu的所有寄存器內容顯示出來，不過cr0,cr3這些貌似沒有 :(。看看這裡GDB參考。
 
 
-###2.1 编译安装 bochs 不还调试信息
+###2.1 編譯安裝 bochs 不還調試信息
  
 ```sh
 tar xvfz bochs-2.3.5.tar.gz
@@ -90,7 +90,7 @@ cd bochs-2.3.5
 make ; make install
 ```
 
-###2.2编译安装 bochs 汇编试试
+###2.2編譯安裝 bochs 彙編試試
 
 ```sh
 ./configure --prefix=/opt/bochs/debug --enable-plugins --enable-debugger --enable-disasm
@@ -98,19 +98,19 @@ make
 make install
 ```
 
-###2.3 编译安装 bochs gdb调试
+###2.3 編譯安裝 bochs gdb調試
 
 ```sh
 ./configure --prefix=/opt/bochs/gdbstub --enable-plugins --enable-disasm --enable-gdb-stub 
 make
 make install
 ```
-注意:这里编译两次bochs 是因为如果一步到位configure 
+注意:這裡編譯兩次bochs 是因為如果一步到位configure 
 ```sh
 ./configure --enable-gdb-stub --enable-disasm --enable-debugger 
 ```
 
-它会很生气
+它會很生氣
 ```sh
 configure: error: --enable-debugger and --enable-gdb-stub are mutually exclusive
 ```

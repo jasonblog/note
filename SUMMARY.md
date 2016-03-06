@@ -670,5 +670,5 @@
 * [Bochs](Bochs/bochs.md)
    * [OS dev的Bochs調試](Bochs/os_devde_bochs_diao_shi.md)
 * [Nginx](nginx/nginx.md)
-   * [nginx 模块 使用gdb调试nginx源码](nginx/nginx_mo_kuai_shi_yong_gdb_diao_shi_nginx_yuan_ma.md)
+   * [nginx 模塊 使用gdb調試nginx源碼](nginx/nginx_mo_kuai_shi_yong_gdb_diao_shi_nginx_yuan_ma.md)
 

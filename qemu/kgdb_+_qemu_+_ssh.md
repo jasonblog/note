@@ -87,6 +87,34 @@ c
 ssh -p 5555 root@localhost
 ```
 
+## 用 scp/sshfs 建構便利的開發環境
+
+以下指令都在 Host 端執行
+複製 file.txt 到 ARM 環境的/root(舉例)
+```sh
+scp -P 2200 file.txt root@localhost:/root
+scp -P 5555 kernel_build.log root@localhost:/home/root
+```
+
+直接使用ssh遠端操作(以編譯go程式為例子，後面接想要做的事情就對了)
+
+```sh
+ssh -p2200 root@localhost /go/bin/go build hello.go
+```
+
+要一直用 scp 複製檔案到 QEMU 環境很麻煩，而且又會佔用 QEMU image 的空間，這時候就可以透過 sshfs。以下示範將 QEMU/ARM 環境的 /tmp 掛載在 host 端的 target 目錄:
+
+```sh
+mkdir -p target
+sshfs root@localhost:/tmp target -p 2200
+```
+
+在關閉 ARM 之前，記得要 umount，不然資料會遺失
+
+```sh
+fusermount -u target
+```
+
 
 ## debugfs 調試
 在kernel裡有一個debugfs文件系統,可能查下當前設置的電源狀態.需要在kernel中打開這個CONFIG_DEBUG_FS宏定義.

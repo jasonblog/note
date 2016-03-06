@@ -62,6 +62,27 @@ qemu-system-x86_64 \
 -redir tcp:5555::22
 ```
 
+- 使用kgdb
+
+```sh
+qemu-system-x86_64 -s -S \
+-localtime \
+-kernel obj/$LINUX_PALTFORM/arch/x86_64/boot/bzImage \
+-hda ./busybox.img \
+-boot c \
+-append "root=/dev/sda" \
+-redir tcp:5555::22
+```
+
+```sh
+cgdb ./obj/linux-x86-basic/vmlinux
+target remote localhost:1234
+b *start_kernel
+c
+```
+
+- 使用ssh 登入
+
 ```sh
 ssh -p 5555 root@localhost
 ```

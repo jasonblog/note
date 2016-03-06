@@ -10,13 +10,13 @@ dwc_otg指的是HS OTG USB Controller driver相關參數.例如lpm_enable=0 即�
 
 - console=ttyAMA0,115200
 
-RPi用ttyAMA0做為UART port(GPIO 8 and 10)的終端定義,所以這裡表示在UART port上開console.如果後續需要使用UART為其他用途,則需要把這部分拿掉,以免干擾
+RPi用ttyAMA0做為UART port(GPIO 8 and 10)的終端定義,所以這裡表示在UART port上開console.如果後續需要使用UART為其他用途,則需要把這部分拿掉,以免幹擾
 
 
 - kgdboc=ttyAMA0,115200 
 
 
-在UART port上開KGDB debug port. 如果後續需要使用UART為其他用途,則需要把這部分拿掉,以免干擾
+在UART port上開KGDB debug port. 如果後續需要使用UART為其他用途,則需要把這部分拿掉,以免幹擾
 
 - console=tty1
 

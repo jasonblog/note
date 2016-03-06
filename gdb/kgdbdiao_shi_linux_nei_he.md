@@ -1,44 +1,44 @@
-# KGDB调试LINUX内核
+# KGDB調試LINUX內核
 
 
 摘要: 
-本文介绍了如何在DB12X板子上开启KGDB调试功能.如何运行AGENT-PROXY进行代理串口的访问.如何运行GDB单步跟踪. 
+本文介紹瞭如何在DB12X板子上開啟KGDB調試功能.如何運行AGENT-PROXY進行代理串口的訪問.如何運行GDB單步跟蹤. 
 
-1.环境 
-我的环境是: 
-一块DB12X ATHEROS AP 板子,MIPS架构,内核LINUX 2.6.31 
-一台UBUNTU 14.04电脑. 
+1.環境 
+我的環境是: 
+一塊DB12X ATHEROS AP 板子,MIPS架構,內核LINUX 2.6.31 
+一臺UBUNTU 14.04電腦. 
 
-2.修改内核配置 
-进入SDK的LINUX内核目录 
+2.修改內核配置 
+進入SDK的LINUX內核目錄 
 ```sh
 cd linux/kernels/mips-linux-2.6.31/arch/mips/configs/ 
 ```
 
-采用DEBUG版本的配置文件 
+採用DEBUG版本的配置文件 
 
 ```sh
 cp db12x-debug_defconf db12x_defconf
 ```
 
-3.关闭看门狗 
+3.關閉看門狗 
 ```sh
 cd linux/kernels/mips-linux-2.6.31/arch/mips/atheros/ 
 vi wdt.c
 ```
 
-找到70行,然后注释掉: 
+找到70行,然後註釋掉: 
 ```c
 //ath_reg_wr(ATH_WATCHDOG_TMR, usec);
 ```
 
-４.编译内核
+４.編譯內核
 
-５.修改kermit的脚本启动参数
+５.修改kermit的腳本啟動參數
 
-需要增加`kgdboc=ttyS0,115200 kgdbwait` 参数 
+需要增加`kgdboc=ttyS0,115200 kgdbwait` 參數 
 `kgdboc` 指的是OVER CONSOLE的KGDB使能 
-`KGDBWAIT`指的是启动一开始就等着GDB连接 
+`KGDBWAIT`指的是啟動一開始就等著GDB連接 
 如果如下: 
 
 ```sh
@@ -47,10 +47,10 @@ INPUT 10 “ar7240>”
 ```
 
 6.配置串口代理 
-启动agent-proxy,在5550端口侦听,等待ＴＥＬＮＥＴ连接 
-在５５５１端口侦听,ＧＤＢ的连接. 
-所有连接的数据都代理到串口/dev/ttyUSB0去,波特率１１５２００ 
-ubuntu主机上运行的结果如下: 
+啟動agent-proxy,在5550端口偵聽,等待ＴＥＬＮＥＴ連接 
+在５５５１端口偵聽,ＧＤＢ的連接. 
+所有連接的數據都代理到串口/dev/ttyUSB0去,波特率１１５２００ 
+ubuntu主機上運行的結果如下: 
 
 ```sh
 sudo ./agent-proxy 5550^5551 0 /dev/ttyUSB0,115200 
@@ -61,10 +61,10 @@ Agent Proxy running. pid: 15130
 
 telnet 到串口５５５０ 
 telnet localhost 5550 
-这样就相当于运行minicom连接串口了一样,能够看到串串口的输出.
+這樣就相當於運行minicom連接串口了一樣,能夠看到串串口的輸出.
 
-启动内核 
-此时会停在kdb处. 
+啟動內核 
+此時會停在kdb處. 
 如下: 
 ```sh
 ar7240> boot
@@ -93,15 +93,15 @@ kdb>
 ```
 
 
-表示,已经进入等待远端GDB连接状态.
+表示,已經進入等待遠端GDB連接狀態.
 
-９.运行GDB连接内核KGDB 
+９.運行GDB連接內核KGDB 
 
 ```sh
 /opt/toolchains/mips-linux-uclibc/4.2.4/usr/bin/mips-linux-uclibc-gdb vmlinux 
-进入了gdb中,再输入如下命令,(gdb)是提示符: 
+進入了gdb中,再輸入如下命令,(gdb)是提示符: 
 (gdb) tar rem localhost:5551 
-会有如下输出: 
+會有如下輸出: 
 /opt/toolchains/mips-linux-uclibc/4.2.4/usr/bin/mips-linux-uclibc-gdb ./vmlinux 
 GNU gdb 6.8 
 Copyright (C) 2008 Free Software Foundation, Inc. 
@@ -127,11 +127,11 @@ Remote debugging using localhost:5551
 Continuing.
 ```
 
-这时,就可以用GDB的命令进行内核的调试.
+這時,就可以用GDB的命令進行內核的調試.
 
-如果启动参数中没有指定`KGDBWAIT`,也没关系,进入ＤＢ１２Ｘ板子串口执行 
+如果啟動參數中沒有指定`KGDBWAIT`,也沒關係,進入ＤＢ１２Ｘ板子串口執行 
 
 ```sh
 echo g >/proc/sysrq-trigger
 ```
-以便让GDB停下来,进入到(gdb)提示符下,以便添加断点.
+以便讓GDB停下來,進入到(gdb)提示符下,以便添加斷點.

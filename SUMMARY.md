@@ -669,4 +669,5 @@
    * [LIBRARY_PATH和LD_LIBRARY_PATH環境變量的區別](linked_and_loader/librarypath_he_ld_library_path_huan_jing_bian_lian.md)
 * [Bochs](Bochs/bochs.md)
    * [OS dev的Bochs調試](Bochs/os_devde_bochs_diao_shi.md)
+* Nginx
 

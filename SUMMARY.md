@@ -236,7 +236,7 @@
        * [core真的那麼難以追蹤嗎？](linux_system/1528.md)
        * [一次生產環境下的“內存洩露”](linux_system/1529.md)
    * [Linux 作業系統分析](linux_system/linux_zuo_ye_xi_tong_fen_xi.md)
-       * 破解Linux操作系统的奥秘
+       * [破解Linux操作系统的奥秘](linux_system/po_jie_linux_cao_zuo_xi_tong_de_ao_mi.md)
    * [如何更新linux console畫面](linux_system/151.md)
    * [服務器進程為何通常fork()兩次](linux_system/153.md)
    * [創建 Daemon 程式](linux_system/154.md)

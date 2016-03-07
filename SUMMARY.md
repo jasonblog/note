@@ -439,7 +439,7 @@
    * [瞭解Unicode](python/liao_jie_unicode.md)
    * [python debug 入門](python/python_debug_ru_men.md)
 * [Vim](vim/vimmd.md)
-   * HOWTO - vi, vim
+   * [HOWTO - vi, vim](vim/howto_-_vi,_vim.md)
 * [TDD](tdd/README.md)
    * [程式設計師升級必練內功：TDD Kata](tdd/311.md)
 * [Raspberry_Pi](raspberry_pi/README.md)

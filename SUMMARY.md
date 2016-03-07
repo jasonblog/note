@@ -235,6 +235,7 @@
        * [使用反彙編理解動態庫函數調用方式GOT/PLT](linux_system/1527.md)
        * [core真的那麼難以追蹤嗎？](linux_system/1528.md)
        * [一次生產環境下的“內存洩露”](linux_system/1529.md)
+   * Linux 作業系統分析
    * [如何更新linux console畫面](linux_system/151.md)
    * [服務器進程為何通常fork()兩次](linux_system/153.md)
    * [創建 Daemon 程式](linux_system/154.md)
@@ -256,7 +257,6 @@
    * [stdout & stderr & fflush()](linux_system/stdout_&_stderr_&_fflush.md)
    * [使用system()函數執行命令行命令簡述](linux_system/shi_yong_system_han_shu_zhi_xing_ming_ling_xing_mi.md)
    * [ldconfig及 LD_LIBRARY_PATH,LD_DEBUG ,LD_PRELOAD](linux_system/ldconfigji_ld_library_path_,_ld_debug_,_ld_preload.md)
-   * Linux 作業系統分析
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

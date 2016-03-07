@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>顯示寄存器窗口 | Jason note</title>
+        <title>gdb 遠程qemu-arm調試 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../100_gdb_tips/winheight.html" />
+    <link rel="next" href="../mooc_linux_kernel/index.html" />
     
     
-    <link rel="prev" href="../100_gdb_tips/layout-asm.html" />
+    <link rel="prev" href="../gdb/gdbdiao_shi_yuan_li_ptrace_xi_tong_diao_yong.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="47.15.3" data-basepath=".." data-revision="Mon Mar 07 2016 23:00:30 GMT+0800 (CST)">
+    <div class="book" data-level="17.23" data-basepath=".." data-revision="Mon Mar 07 2016 23:00:30 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -4938,7 +4938,7 @@
             
         </li>
     
-        <li class="chapter " data-level="17.23" data-path="gdb/gdb_yuan_cheng_qemu_-_arm_diao_shi.html">
+        <li class="chapter active" data-level="17.23" data-path="gdb/gdb_yuan_cheng_qemu_-_arm_diao_shi.html">
             
                 
                     <a href="../gdb/gdb_yuan_cheng_qemu_-_arm_diao_shi.html">
@@ -10211,7 +10211,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="47.15.3" data-path="100_gdb_tips/layout-regs.html">
+        <li class="chapter " data-level="47.15.3" data-path="100_gdb_tips/layout-regs.html">
             
                 
                     <a href="../100_gdb_tips/layout-regs.html">
@@ -10993,136 +10993,82 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E9%A1%AF%E7%A4%BA%E5%AF%84%E5%AD%98%E5%99%A8%E7%AA%97%E5%8F%A3">&#x986F;&#x793A;&#x5BC4;&#x5B58;&#x5668;&#x7A97;&#x53E3;</h1>
-<h2 id="%E4%BE%8B%E5%AD%90">&#x4F8B;&#x5B50;</h2>
-<pre><code>#include &lt;stdio.h&gt;
+                        <h1 id="gdb-%E9%81%A0%E7%A8%8Bqemu-arm%E8%AA%BF%E8%A9%A6">gdb &#x9060;&#x7A0B;qemu-arm&#x8ABF;&#x8A66;</h1>
+<p>&#x628A; c &#x7DE8;&#x8B6F;&#x6210; arm &#x6307;&#x4EE4;&#x7684;&#x53EF;&#x904B;&#x884C;&#x6587;&#x4EF6;</p>
+<p> /usr/bin/arm-linux-gnueabi-g++ hello.cpp 
+cat hello.cpp </p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
 
-void fun1(void)
-{
-        int i = 0;
-
-        i++;
-        i = i * 2;
-        printf(&quot;%d\n&quot;, i);
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">crash</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">char</span>* a = <span class="hljs-number">0</span>;
+    *a = <span class="hljs-number">0</span>;
 }
 
-void fun2(void)
-{
-        int j = 0;
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;hello world\n&quot;</span>);
+    crash();
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;after crash\n&quot;</span>);
 
-        fun1();
-        j++;
-        j = j * 2;
-        printf(&quot;%d\n&quot;, j);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
+</code></pre>
+<p>&#x76F4;&#x63A5;&#x57F7;&#x884C;&#x5831;&#x932F;&#x3002;&#x7531;&#x65BC; host &#x662F; linux x86</p>
+<pre><code class="lang-sh">$ ./a.out 
+-bash: ./a.out: cannot execute binary file
+</code></pre>
+<p>&#x8981;&#x7528; qemu-arm &#x4F86;&#x57F7;&#x884C;&#xFF0C; &#x7D50;&#x679C;&#x662F;&#x671F;&#x671B;&#x7684;</p>
+<pre><code class="lang-sh">qemu-arm -L  /usr/arm-linux-gnueabi/  a.out 
 
-int main(void)
-{
-        fun2();
-        return 0;
-}
-</code></pre><h2 id="%E6%8A%80%E5%B7%A7">&#x6280;&#x5DE7;</h2>
-<p>&#x4F7F;&#x7528;gdb&#x5716;&#x5F62;&#x5316;&#x8ABF;&#x8A66;&#x754C;&#x9762;&#x6642;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x201C;<code>layout regs</code>&#x201D;&#x547D;&#x4EE4;&#x986F;&#x793A;&#x5BC4;&#x5B58;&#x5668;&#x7A97;&#x53E3;&#x3002;&#x4EE5;&#x8ABF;&#x8A66;&#x4E0A;&#x9762;&#x7A0B;&#x5E8F;&#x70BA;&#x4F8B;&#xFF1A;  </p>
-<pre><code>&#x250C;&#x2500;&#x2500;Register group: general&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2510;
-&#x2502;rax            0x34e4590f60     227169341280     rbx            0x0      0                        &#x2502;
-&#x2502;rcx            0x0      0                        rdx            0x7fffffffe4b8   140737488348344  &#x2502;
-&#x2502;rsi            0x7fffffffe4a8   140737488348328  rdi            0x1      1                        &#x2502;
-&#x2502;rbp            0x7fffffffe3c0   0x7fffffffe3c0   rsp            0x7fffffffe3c0   0x7fffffffe3c0   &#x2502;
-&#x2502;r8             0x34e458f300     227169334016     r9             0x34e3a0e9f0     227157273072     &#x2502;
-&#x2502;r10            0x7fffffffe210   140737488347664  r11            0x34e421ec20     227165727776     &#x2502;
-&#x2502;r12            0x4003e0 4195296                  r13            0x7fffffffe4a0   140737488348320  &#x2502;
-&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;
-   &#x2502;17              j++;                                                                           &#x2502;
-   &#x2502;18              j = j * 2;                                                                     &#x2502;
-   &#x2502;19              printf(&quot;%d\n&quot;, j);                                                             &#x2502;
-   &#x2502;20      }                                                                                      &#x2502;
-   &#x2502;21                                                                                             &#x2502;
-   &#x2502;22      int main(void)                                                                         &#x2502;
-   &#x2502;23      {                                                                                      &#x2502;
-  &gt;&#x2502;24              fun2();                                                                        &#x2502;
-   &#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;
-native process 12552 In: main                                               Line: 24   PC: 0x40052b
-Reading symbols from a...done.
-(gdb) start
-Temporary breakpoint 1 at 0x40052b: file a.c, line 24.
-Starting program: /home/nan/a
+hello world
+qemu: uncaught target signal <span class="hljs-number">11</span> (Segmentation fault) - core dumped
+Segmentation fault (core dumped)
+</code></pre>
+<p>&#x9032;&#x884C;&#x9060;&#x7A0B;&#x8ABF;&#x8A66;&#xFF08;&#x95DC;&#x9375;&#x662F;&#x6DFB;&#x52A0; -g &#x53C3;&#x6578;&#xFF0C;&#x6307;&#x5B9A;port&#x70BA;1235) </p>
+<pre><code class="lang-sh">qemu-arm -g <span class="hljs-number">1235</span> -L  /usr/arm-linux-gnueabi/  a.out
+</code></pre>
+<p>&#x904B;&#x884C;&#x7528; linux-x86 &#x7684; gdb &#x4E26;&#x4E0D;&#x80FD;&#x6253;&#x5370; symbol</p>
+<pre><code class="lang-sh">(gdb) target remote :<span class="hljs-number">1235</span>
+Remote debugging using :<span class="hljs-number">1235</span>
+(gdb) c
+Continuing.
 
-Temporary breakpoint 1, main () at a.c:24
+Program received signal SIGSEGV, Segmentation fault.
+<span class="hljs-number">0</span>x00000000 <span class="hljs-keyword">in</span> ?? ()
+(gdb) bt
+<span class="hljs-comment">#0  0x00000000 in ?? ()</span>
+Cannot access memory at address <span class="hljs-number">0</span>x0
+(gdb) file /home/payne/hello/a.out
+A program is being debugged already.
+Are you sure you want to change the file? (y or n) y
+Reading symbols from /home/payne/hello/a.out...(no debugging symbols found)...done.
+(gdb) bt
+<span class="hljs-comment">#0  0x00000000 in ?? ()</span>
+Cannot access memory at address <span class="hljs-number">0</span>x0
 (gdb)
-</code></pre><p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;&#x986F;&#x793A;&#x4E86;&#x901A;&#x7528;&#x5BC4;&#x5B58;&#x5668;&#x7684;&#x5167;&#x5BB9;&#x3002;<br>&#x5982;&#x679C;&#x60F3;&#x67E5;&#x770B;&#x6D6E;&#x9EDE;&#x5BC4;&#x5B58;&#x5668;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x201C;<code>tui reg float</code>&#x201D;&#x547D;&#x4EE4;&#xFF1A;  </p>
-<pre><code>&#x250C;&#x2500;&#x2500;Register group: float&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2510;
-&#x2502;st0            0        (raw 0x00000000000000000000)                                              &#x2502;
-&#x2502;st1            0        (raw 0x00000000000000000000)                                              &#x2502;
-&#x2502;st2            0        (raw 0x00000000000000000000)                                              &#x2502;
-&#x2502;st3            0        (raw 0x00000000000000000000)                                              &#x2502;
-&#x2502;st4            0        (raw 0x00000000000000000000)                                              &#x2502;
-&#x2502;st5            0        (raw 0x00000000000000000000)                                              &#x2502;
-&#x2502;st6            0        (raw 0x00000000000000000000)                                              &#x2502;
-&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;
-   &#x2502;16              fun1();                                                                        &#x2502;
-   &#x2502;17              j++;                                                                           &#x2502;
-   &#x2502;18              j = j * 2;                                                                     &#x2502;
-   &#x2502;19              printf(&quot;%d\n&quot;, j);                                                             &#x2502;
-   &#x2502;20      }                                                                                      &#x2502;
-   &#x2502;21                                                                                             &#x2502;
-   &#x2502;22      int main(void)                                                                         &#x2502;
-   &#x2502;23      {                                                                                      &#x2502;
-   &#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;
-native process 12552 In: main                                               Line: 24   PC: 0x40052b
-Temporary breakpoint 1 at 0x40052b: file a.c, line 24.
-Starting program: /home/nan/a
+</code></pre>
+<p>&#x61F7;&#x7591;&#x8981;&#x4F7F;&#x7528; arm &#x7684; gdb 
+&#x53C3;&#x898B; <a href="http://mazhijing.blog.51cto.com/215535/40759&#x3002;" target="_blank">http://mazhijing.blog.51cto.com/215535/40759&#x3002;</a> &#x7DE8;&#x8B6F;&#x4E86; arm &#x7684;gdb, &#x904B;&#x884C;&#x5F8C;&#x5B9A;&#x4F4D;&#x5230; crash()</p>
+<pre><code class="lang-sh">qemu-arm -L  /usr/arm-linux-gnueabi/  ./gdb 
+(gdb) target remote :<span class="hljs-number">1235</span>
+Remote debugging using :<span class="hljs-number">1235</span>
+warning: Can not parse XML target description; XML support was disabled at compile time
+<span class="hljs-number">0</span>x40801c40 <span class="hljs-keyword">in</span> ?? ()
+(gdb) file /home/payne/hello/a.out
+A program is being debugged already.
+Are you sure you want to change the file?
+ (y or n) y
+Reading symbols from /home/payne/hello/a.out...(no debugging symbols found)...done.
+(gdb) c
+Continuing.
 
-Temporary breakpoint 1, main () at a.c:24
-(gdb) tui reg float
-</code></pre><p>&#x201C;<code>tui reg system</code>&#x201D;&#x547D;&#x4EE4;&#x986F;&#x793A;&#x7CFB;&#x7D71;&#x5BC4;&#x5B58;&#x5668;&#xFF1A;  </p>
-<pre><code>&#x250C;&#x2500;&#x2500;Register group: system&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2510;
-&#x2502;orig_rax       0xffffffffffffffff       -1                                                        &#x2502;
-&#x2502;                                                                                                  &#x2502;
-&#x2502;                                                                                                  &#x2502;
-&#x2502;                                                                                                  &#x2502;
-&#x2502;                                                                                                  &#x2502;
-&#x2502;                                                                                                  &#x2502;
-&#x2502;                                                                                                  &#x2502;
-&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;
-   &#x2502;16              fun1();                                                                        &#x2502;
-   &#x2502;17              j++;                                                                           &#x2502;
-   &#x2502;18              j = j * 2;                                                                     &#x2502;
-   &#x2502;19              printf(&quot;%d\n&quot;, j);                                                             &#x2502;
-   &#x2502;20      }                                                                                      &#x2502;
-   &#x2502;21                                                                                             &#x2502;
-   &#x2502;22      int main(void)                                                                         &#x2502;
-   &#x2502;23      {                                                                                      &#x2502;
-   &#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;
-native process 12552 In: main                                               Line: 24   PC: 0x40052b
-
-Temporary breakpoint 1, main () at a.c:24
-(gdb) tui reg system
+Program received signal SIGSEGV, Segmentation fault.
+<span class="hljs-number">0</span>x0000841e <span class="hljs-keyword">in</span> crash() ()
 (gdb)
-</code></pre><p>&#x60F3;&#x5207;&#x63DB;&#x56DE;&#x986F;&#x793A;&#x901A;&#x7528;&#x5BC4;&#x5B58;&#x5668;&#x5167;&#x5BB9;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x201C;<code>tui reg general</code>&#x201D;&#x547D;&#x4EE4;&#xFF1A;  </p>
-<pre><code>&#x250C;&#x2500;&#x2500;Register group: general&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2510;
-&#x2502;rax            0x34e4590f60     227169341280     rbx            0x0      0                        &#x2502;
-&#x2502;rcx            0x0      0                        rdx            0x7fffffffe4b8   140737488348344  &#x2502;
-&#x2502;rsi            0x7fffffffe4a8   140737488348328  rdi            0x1      1                        &#x2502;
-&#x2502;rbp            0x7fffffffe3c0   0x7fffffffe3c0   rsp            0x7fffffffe3c0   0x7fffffffe3c0   &#x2502;
-&#x2502;r8             0x34e458f300     227169334016     r9             0x34e3a0e9f0     227157273072     &#x2502;
-&#x2502;r10            0x7fffffffe210   140737488347664  r11            0x34e421ec20     227165727776     &#x2502;
-&#x2502;r12            0x4003e0 4195296                  r13            0x7fffffffe4a0   140737488348320  &#x2502;
-&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;
-   &#x2502;16              fun1();                                                                        &#x2502;
-   &#x2502;17              j++;                                                                           &#x2502;
-   &#x2502;18              j = j * 2;                                                                     &#x2502;
-   &#x2502;19              printf(&quot;%d\n&quot;, j);                                                             &#x2502;
-   &#x2502;20      }                                                                                      &#x2502;
-   &#x2502;21                                                                                             &#x2502;
-   &#x2502;22      int main(void)                                                                         &#x2502;
-   &#x2502;23      {                                                                                      &#x2502;
-   &#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;
-native process 12552 In: main                                               Line: 24   PC: 0x40052b
-(gdb) tui reg general
-(gdb)
-</code></pre><p>&#x53C3;&#x898B;<a href="https://sourceware.org/gdb/onlinedocs/gdb/TUI-Commands.html" target="_blank">gdb&#x624B;&#x518A;</a>.</p>
-<h2 id="%E8%B2%A2%E7%8D%BB%E8%80%85">&#x8CA2;&#x737B;&#x8005;</h2>
-<p>nanxiao</p>
+</code></pre>
+<h2 id="%E7%B5%90%E8%AB%96%EF%BC%9A">&#x7D50;&#x8AD6;&#xFF1A;</h2>
+<p>&#x96E3;&#x9053;&#x8AAA; arm &#x7684; gdbserver, &#x5C31;&#x50C5;&#x50C5;&#x80FD;&#x7528; arm &#x7684; gdb&#xFF1F;</p>
 
                     
                     </section>
@@ -11133,10 +11079,10 @@ native process 12552 In: main                                               Line
         </div>
 
         
-        <a href="../100_gdb_tips/layout-asm.html" class="navigation navigation-prev " aria-label="Previous page: 顯示彙編代碼窗口"><i class="fa fa-angle-left"></i></a>
+        <a href="../gdb/gdbdiao_shi_yuan_li_ptrace_xi_tong_diao_yong.html" class="navigation navigation-prev " aria-label="Previous page: GDB調試原理 ptrace系統調用"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../100_gdb_tips/winheight.html" class="navigation navigation-next " aria-label="Next page: 調整窗口大小"><i class="fa fa-angle-right"></i></a>
+        <a href="../mooc_linux_kernel/index.html" class="navigation navigation-next " aria-label="Next page: Linux內核分析雲課堂學習筆記"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

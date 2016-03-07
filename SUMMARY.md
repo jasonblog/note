@@ -91,6 +91,7 @@
    * [FreeNOS](qemu/713.md)
    * [建構 Linux 0.11 的開發環境](qemu/jian_gou_linux_0__11_de_kai_fa_huan_jing.md)
    * [KGDB + QEMU + SSH](qemu/kgdb_+_qemu_+_ssh.md)
+   * 打造属于自己的linux发行版
 * [Linux Device Driver Programming](linux_device_driver_programming/README.md)
    * [Linux 裝置驅動程式的概要](linux_device_driver_programming/01.md)
    * [Linux 的授權](linux_device_driver_programming/02.md)

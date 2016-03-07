@@ -239,6 +239,7 @@
        * [破解Linux操作系统的奥秘](linux_system/po_jie_linux_cao_zuo_xi_tong_de_ao_mi.md)
        * [How program works](linux_system/how_program_works.md)
        * [进程的创建与可执行程序的加载](linux_system/jin_cheng_de_chuang_jian_yu_ke_zhi_xing_cheng_xu_d.md)
+       * 内核装载ELF的过程总结
    * [如何更新linux console畫面](linux_system/151.md)
    * [服務器進程為何通常fork()兩次](linux_system/153.md)
    * [創建 Daemon 程式](linux_system/154.md)

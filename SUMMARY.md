@@ -314,6 +314,7 @@
    * [利用gdb進行shared library的除錯](gdb/li_yong_gdb_jin_xing_shared_library_de_chu_cuo.md)
    * [用GDB跟蹤觀察共享庫函數的地址翻譯過程](gdb/yong_gdb_gen_zong_guan_cha_gong_xiang_ku_han_shu_d.md)
    * [KGDB調試LINUX內核](gdb/kgdbdiao_shi_linux_nei_he.md)
+   * GDB调试原理 ptrace系统调用
 * [Linux內核分析雲課堂學習筆記](mooc_linux_kernel/README.md)
    * [圖解分析彙編代碼以理解計算機是如何工作的](mooc_linux_kernel/191.md)
    * [基於mykernel的一個簡單的時間片輪轉多道程序內核代碼分析](mooc_linux_kernel/192.md)

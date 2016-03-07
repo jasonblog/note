@@ -1,28 +1,28 @@
-# 打造属于自己的linux发行版
+# 打造屬於自己的linux發行版
 
 
-linux的启动过程，包括BIOS的加电自检POST，拷贝MBR的信息（启动BootLoader），加载内核，挂载根文件安系统这几大步熟悉grub的话会知道linux启动时grub中有三项：`root，kernel，initrd`。其三项的作用分别是：
+linux的啟動過程，包括BIOS的加電自檢POST，拷貝MBR的信息（啟動BootLoader），加載內核，掛載根文件安系統這幾大步熟悉grub的話會知道linux啟動時grub中有三項：`root，kernel，initrd`。其三項的作用分別是：
 
 ```sh
-1.指定内核所在的目录
-2.指定内核的名称，以及挂载根目录的方式，还有向内核传递一定的参数
-3.initrd实际就是个小的linux系统，在一般的系统中initrd的作用是：启动一个很小的linux用来挂载真实的linux。
+1.指定內核所在的目錄
+2.指定內核的名稱，以及掛載根目錄的方式，還有向內核傳遞一定的參數
+3.initrd實際就是個小的linux系統，在一般的系統中initrd的作用是：啟動一個很小的linux用來掛載真實的linux。
 ```
 
-今天的目的就是从内核开始，打造一个属于自己的linux。
+今天的目的就是從內核開始，打造一個屬於自己的linux。
 
 
 
-环境：Ubuntu13.04 gcc4.7.3<br>
-相关的准备工作：
-内核的编译<br> 
-qemu的安装<br>
+環境：Ubuntu13.04 gcc4.7.3<br>
+相關的準備工作：
+內核的編譯<br> 
+qemu的安裝<br>
 
-##制作根系统目录
+##製作根系統目錄
 
-1）创建init程序 
+1）創建init程序 
 
-首先创建一个init.c文件，代码如下:
+首先創建一個init.c文件，代碼如下:
 
 ```c
 #include<stdio.h>
@@ -32,34 +32,34 @@ int main()
     return 0;
 }
 ```
-静态编译成一个可执行文件。
+靜態編譯成一個可執行文件。
 
 ```sh
 gcc -static -o init init.c
 ```
 
-2）建立引导根目录映像
+2）建立引導根目錄映像
 
-终端运行：
+終端運行：
 ```sh
 dd if=/dev/zero of=initrd.img bs=4096 count=1024
 mkfs.ext3 initrd.img
 ```
-有提示，输入y。
+有提示，輸入y。
 
 
-###关于dd
-dd 是 Linux/UNIX 下的一个非常有用的命令，作用是用指定大小的块拷贝一个文件，并在拷贝的同时进行指定的转换。<br>
+###關於dd
+dd 是 Linux/UNIX 下的一個非常有用的命令，作用是用指定大小的塊拷貝一個文件，並在拷貝的同時進行指定的轉換。<br>
 
 ```sh
-语法：dd [选项] 
-if =输入文件（或设备名称）。 
-of =输出文件（或设备名称）。 
-ibs = bytes 一次读取bytes字节，即读入缓冲区的字节数。 
+語法：dd [選項] 
+if =輸入文件（或設備名稱）。 
+of =輸出文件（或設備名稱）。 
+ibs = bytes 一次讀取bytes字節，即讀入緩衝區的字節數。 
 ...
 ```
 
-3）创建rootfs目录，并挂载
+3）創建rootfs目錄，並掛載
 
 ```sh
 mkdir rootfs
@@ -67,29 +67,29 @@ sudo mount -o loop initrd.img rootfs
 ```
 
 4）在rootfs中添加一些文件
-将init拷贝到initrd4M.img的目标根目录下（因为linux启动后期会在根目录中寻找一个应用程序来运行，在根目录下提供init是一种可选方案）
+將init拷貝到initrd4M.img的目標根目錄下（因為linux啟動後期會在根目錄中尋找一個應用程序來運行，在根目錄下提供init是一種可選方案）
 ```sh
 cp init rootfs/
 ```
 
-准备dev目录：
+準備dev目錄：
 
 ```sh
 sudo mkdir rootfs/dev
 ```
 
-linux启动过程中会启用console设备:
+linux啟動過程中會啟用console設備:
 sudo mknod rootfs/dev/console c 5 1
-另外需要提供一个linux根设备，我们使用ram:
+另外需要提供一個linux根設備，我們使用ram:
 
 ```sh
 sudo mknod rootfs/dev/ram b 1 0
 sudo umount rootfs
 ```
-至此，一个包含简单应用程序的根目录initrd4M.img映像就准备好。
+至此，一個包含簡單應用程序的根目錄initrd4M.img映像就準備好。
 
 mknod 
-用于制作字符或块相关文件
+用於製作字符或塊相關文件
 
 
 用qemu跑一下：
@@ -102,18 +102,18 @@ qemu -kernel ../linux-3.9.2/arch/x86/boot/bzImage -initrd initrd.img -append "ro
 
 ## 整合busybox
 
-busybox简介
-BusyBox 是一个集成了一百多个最常用linux命令和工具的软件。BusyBox 包含了一些简单的工具，例如ls、cat和echo等等，还包含了一些更大、更复杂的工具，例如grep、find、mount以及telnet。有些人将 BusyBox 称为 Linux 工具里的瑞士军刀。简单的说BusyBox就好像是个大工具箱，它集成压缩了 Linux 的许多工具和命令，也包含了 Android 系统的自带的shell。
-BusyBox 将许多具有共性的小版本的UNIX工具结合到一个单一的可执行文件。这样的集合可以替代大部分常用工具比如的GNU fileutils ， shellutils等工具，BusyBox提供了一个比较完善的环境，可以适用于任何小的或嵌入式系统。
+busybox簡介
+BusyBox 是一個集成了一百多個最常用linux命令和工具的軟件。BusyBox 包含了一些簡單的工具，例如ls、cat和echo等等，還包含了一些更大、更復雜的工具，例如grep、find、mount以及telnet。有些人將 BusyBox 稱為 Linux 工具裡的瑞士軍刀。簡單的說BusyBox就好像是個大工具箱，它集成壓縮了 Linux 的許多工具和命令，也包含了 Android 系統的自帶的shell。
+BusyBox 將許多具有共性的小版本的UNIX工具結合到一個單一的可執行文件。這樣的集合可以替代大部分常用工具比如的GNU fileutils ， shellutils等工具，BusyBox提供了一個比較完善的環境，可以適用於任何小的或嵌入式系統。
 
-下载源码：http://www.busybox.net/
-这里选择1.20稳定版。
-解压，终端进入目录执行：
+下載源碼：http://www.busybox.net/
+這裡選擇1.20穩定版。
+解壓，終端進入目錄執行：
 ```sh
 make menuconfig
 ```
 
-勾选下面的选项：
+勾選下面的選項：
 ```sh
 Build Options
 Build BusyBox as a static binary (no shared libs)
@@ -121,120 +121,120 @@ Build BusyBox as a static binary (no shared libs)
 
 ![](./images/20130615122706234)
 
-这个选项是一定要选择的,这样才能把busybox编译成静态链接的可执行文件,运行时才独立于其他函数库.否则必需要其他库文件才能运行,在单一个linux内核不能使他正常工作.
+這個選項是一定要選擇的,這樣才能把busybox編譯成靜態鏈接的可執行文件,運行時才獨立於其他函數庫.否則必需要其他庫文件才能運行,在單一個linux內核不能使他正常工作.
 
-现在直接make的话会报错：`‘RLIMIT_FSIZE’ undeclared`
-论坛上的回答是没有包含  sys/resource.h，则在include/libbb.h 中添加：
+現在直接make的話會報錯：`‘RLIMIT_FSIZE’ undeclared`
+論壇上的回答是沒有包含  sys/resource.h，則在include/libbb.h 中添加：
 
 ```c
 #include <sys/resource.h>  
 ```
 
-接下来执行：
+接下來執行：
 ```sh
-#编译busybox
+#編譯busybox
 make 
-#安装busybox
+#安裝busybox
 make install 
 ```
-安装好之后在文件夹下出现一个_install文件夹，编译完成。
+安裝好之後在文件夾下出現一個_install文件夾，編譯完成。
 
 ![](./images/20130615124957765)
 
-下面来整合根文件系统。
-新建一个文件夹，终端cd进去，将之前的initrd.img拷贝进来。
+下面來整合根文件系統。
+新建一個文件夾，終端cd進去，將之前的initrd.img拷貝進來。
 ```sh
-#创建文件夹
+#創建文件夾
 mkdir rootfs
-#挂载镜像
+#掛載鏡像
 sudo mount -o loop initrd.img rootfs/ 
-#将busybox添加进来
+#將busybox添加進來
 cd ../busybox-1.20.2/
 sudo make CONFIG_PREFIX=../Opuntu/rootfs/ install
-#查看rootfs中结构
+#查看rootfs中結構
 cd ../Opuntu
 ls rootfs
- #卸载分区
+ #卸載分區
 sudo umount rootfs/
 ```
 
-`运行命令时注意目录结构！`<br>
-linux的系统下的目录都是干嘛的？<br>
-linux下的文件结构，看看每个文件夹都是干吗用的
+`運行命令時注意目錄結構！`<br>
+linux的系統下的目錄都是幹嘛的？<br>
+linux下的文件結構，看看每個文件夾都是幹嗎用的
 
 ```sh
-/bin 二进制可执行命令 
-/dev 设备特殊文件 
-/etc 系统管理和配置文件 
-/etc/rc.d 启动的配置文件和脚本 
-/home 用户主目录的基点，比如用户user的主目录就是/home/user，可以用~user表示 
-/lib 标准程序设计库，又叫动态链接共享库，作用类似windows里的.dll文件 
-/sbin 系统管理命令，这里存放的是系统管理员使用的管理程序 
-/tmp 公用的临时文件存储点 
-/root 系统管理员的主目录（呵呵，特权阶级） 
-/mnt 系统提供这个目录是让用户临时挂载其他的文件系统。 
+/bin 二進制可執行命令 
+/dev 設備特殊文件 
+/etc 系統管理和配置文件 
+/etc/rc.d 啟動的配置文件和腳本 
+/home 用戶主目錄的基點，比如用戶user的主目錄就是/home/user，可以用~user表示 
+/lib 標準程序設計庫，又叫動態鏈接共享庫，作用類似windows裡的.dll文件 
+/sbin 系統管理命令，這裡存放的是系統管理員使用的管理程序 
+/tmp 公用的臨時文件存儲點 
+/root 系統管理員的主目錄（呵呵，特權階級） 
+/mnt 系統提供這個目錄是讓用戶臨時掛載其他的文件系統。 
 ...
 ```
-##qemu测试
+##qemu測試
 ```sh
 qemu -kernel ../linux-3.9.2/arch/x86/boot/bzImage -initrd initrd.img -append "root=/dev/ram init=/bin/sh"
 ```
 
-装载好之后可以在qemu中运行busybox的命令，效果如下：
+裝載好之後可以在qemu中運行busybox的命令，效果如下：
 
 ![](./images/20130616205424343)
 
 ##整合grub
-关于Grub
-GNU GRUB（简称“GRUB”）是一个来自GNU项目的多操作系统启动程序。GRUB是多启动规范的实现，它允许用户可以在计算机内同时拥有多个操作系统，并在计算机启动时选择希望运行的操作系统。GRUB可用于选择操作系统分区上的不同内核，也可用于向这些内核传递启动参数。
-首先来测试一下grub.
-从ftp://alpha.gnu.org/gnu/grub/下载GRUB Legacy的最后一个版本0.97的编译好的文件grub-0.97-i386-pc.tar.gz.
-解压之后中端cd进去，执行下面的命令。
+關於Grub
+GNU GRUB（簡稱“GRUB”）是一個來自GNU項目的多操作系統啟動程序。GRUB是多啟動規範的實現，它允許用戶可以在計算機內同時擁有多個操作系統，並在計算機啟動時選擇希望運行的操作系統。GRUB可用於選擇操作系統分區上的不同內核，也可用於向這些內核傳遞啟動參數。
+首先來測試一下grub.
+從ftp://alpha.gnu.org/gnu/grub/下載GRUB Legacy的最後一個版本0.97的編譯好的文件grub-0.97-i386-pc.tar.gz.
+解壓之後中端cd進去，執行下面的命令。
 
 ```sh
-#建立软盘映像：
+#建立軟盤映像：
 dd if=/dev/zero of=boot.img bs=512 count=2880
-#在boot.img中安装grub：
+#在boot.img中安裝grub：
 sudo losetup /dev/loop0 boot.img
 sudo dd if=./grub-0.97-i386-pc/boot/grub/stage1 of=/dev/loop0 bs=512 count=1
 sudo dd if=./grub-0.97-i386-pc/boot/grub/stage2 of=/dev/loop0 bs=512 seek=1
 sudo losetup -d /dev/loop0
 ```
 
-在qemu中测试是否可以进入grub
+在qemu中測試是否可以進入grub
 
 ```sh
 qemu -fda boot.img
 ```
 ![](./images/20130616110258062)
 OK.
-接下来将grub，kernel，busybox一起整合，离胜利只还有一步 - - 。
-先你自己发行版取一个库一些的名字，比如Opuntu...(Opensuse+ubuntu),创建一个以它命名的文件夹。
+接下來將grub，kernel，busybox一起整合，離勝利只還有一步 - - 。
+先你自己發行版取一個庫一些的名字，比如Opuntu...(Opensuse+ubuntu),創建一個以它命名的文件夾。
 
 ```sh
-#拷贝boot.img到当前目录
+#拷貝boot.img到當前目錄
 sudo cp ../grub-0.97-i386-pc/boot.img ./
-#创建rootfs文件夹
+#創建rootfs文件夾
 mkdir rootfs
-#创建一个32M的磁盘镜像文件
+#創建一個32M的磁盤鏡像文件
 dd if=/dev/zero of=/dev/zero of=Opuntu.img bs=4096 count=8192
-#给磁盘映像分区
+#給磁盤映像分區
 fdisk -C 16065 -H 255 -S 63 Opuntu.img
 ```
 
-解释：设置Opuntu.img的磁头数为255、磁道数为16065、扇区数为63，同时给磁盘分区。
-这里我们只分一个区，并设置该分区为引导分区。示意图如下：
+解釋：設置Opuntu.img的磁頭數為255、磁道數為16065、扇區數為63，同時給磁盤分區。
+這裡我們只分一個區，並設置該分區為引導分區。示意圖如下：
 
 ![](./images/20130616183140578)
 ```sh
-#格式化分区
+#格式化分區
 sudo losetup -o 1048576 /dev/loop0 Opuntu.img
 sudo mkfs.ext3 -m 0 /dev/loop0
 ```
-解释：我们把前面的2048个扇区（0~2047）作为引导扇区使用，格式化分区从第2048个扇区开始，所以1048576=2048*512
+解釋：我們把前面的2048個扇區（0~2047）作為引導扇區使用，格式化分區從第2048個扇區開始，所以1048576=2048*512
 
 ```sh
-#拷贝之前做好的initrd.img和bzImage.img到rootfs
+#拷貝之前做好的initrd.img和bzImage.img到rootfs
 sudo mount /dev/loop0 rootfs/
 sudo cp ../linux-3.9.2/arch/x86/boot/bzImage ./rootfs/
 sudo cp ../rootfs/initrd.img ./rootfs/
@@ -248,7 +248,7 @@ sudo cp ../grub-0.97-i386-pc/boot/grub/* ./rootfs/boot/grub
 sudo vi ./rootfs/boot/grub/menu.lst
 ```
 
-内容：
+內容：
 
 ```sh
 default 0
@@ -260,105 +260,105 @@ initrd (hd0,0)/initrd.img
 ```
 
 ```sh
-#卸载磁盘镜像
+#卸載磁盤鏡像
 sudo umount rootfs
 sudo losetup -d /dev/loop0
 ```
 
 ```sh
-#利用grub启动软盘，在硬盘映像上添加grub功能
+#利用grub啟動軟盤，在硬盤映像上添加grub功能
 qemu -boot a -fda boot.img -hda Opuntu.img
 ```
 
-执行图中的两步（注意空格）：
+執行圖中的兩步（注意空格）：
 
 ![](./images/20130616213616781)
 
 
-运行成功之后，Opuntu.img就是我们的最终成果了，集成了busybox,grub,linux kernel3.92!
+運行成功之後，Opuntu.img就是我們的最終成果了，集成了busybox,grub,linux kernel3.92!
 
 ```sh
 qemu -hda Opuntu.img
 ```
 
-用qemu跑起来：
+用qemu跑起來：
 
 ![](./images/20130616214002343)
 ![](./images/20130616214027078)
 
-##参考：
-鸟哥私房菜 第二十二章：开关机流程与loader
-制作可用grub引导Linux系统的磁盘映像文件 - http://blog.sina.com.cn/s/blog_70dd169101013gcw.html
+##參考：
+鳥哥私房菜 第二十二章：開關機流程與loader
+製作可用grub引導Linux系統的磁盤映像文件 - http://blog.sina.com.cn/s/blog_70dd169101013gcw.html
 
-详细讲解Linux启动流程及启动用到的配置文件及脚本 - http://guodayong.blog.51cto.com/263451/1168731
+詳細講解Linux啟動流程及啟動用到的配置文件及腳本 - http://guodayong.blog.51cto.com/263451/1168731
 
-## 更新内核
-直接安装的系统内核版本一般不是最新，用
+## 更新內核
+直接安裝的系統內核版本一般不是最新，用
 
 ```sh
 uname -a  
 ```
-命令可以查看内核的版本号，比如我的就是：
+命令可以查看內核的版本號，比如我的就是：
 
 ![](./images/20130530105838024)
 
-下面来手动更新内核到最新的稳定版本。
+下面來手動更新內核到最新的穩定版本。
 
-1.获取源码
+1.獲取源碼
 
-最新的稳定版本是3.9.4.
-下载好之后解压到 /usr/src 文件夹下
+最新的穩定版本是3.9.4.
+下載好之後解壓到 /usr/src 文件夾下
 
 ```sh
 sudo tar -xvf linux-3.9.4.tar.xz -C /usr/src/  
 ```
 
-2.配置内核
-将原来的配置文件拷过来
+2.配置內核
+將原來的配置文件拷過來
 
 ```sh
 cp /usr/src/linux-headers-2.6.32-27-generic/.config .config  
 ```
 
-首先进行一下配置，进入到 /usr/src//linux-3.9.4 文件夹下，执行
+首先進行一下配置，進入到 /usr/src//linux-3.9.4 文件夾下，執行
 
 ```sh
 make menuconfig  
 ```
 
-报错：
+報錯：
 ```sh
 *** Unable to find the ncurses libraries or the
 *** required header files.
 ```
-缺少ncurses库（一个管理应用程序在字符终端显示的函数库），怒装之：
+缺少ncurses庫（一個管理應用程序在字符終端顯示的函數庫），怒裝之：
 
 ```sh
 sudo apt-get install ncurses-dev  
 ```
-重新执行make menuconfig<br>
-选Load，然后Ok，然后Save。<br>
+重新執行make menuconfig<br>
+選Load，然後Ok，然後Save。<br>
 
 
 
 ![](./images/20130530193054963)
 
 
-3.编译和安装
-终端执行：
+3.編譯和安裝
+終端執行：
 
 ```sh
-make bzImage #编译kernel  
-make modules #编译模块  
-make modules_install  #先安装模块
-make install #安装内核
+make bzImage #編譯kernel  
+make modules #編譯模塊  
+make modules_install  #先安裝模塊
+make install #安裝內核
 ```
 
-编译的时间由机器性能决定。
+編譯的時間由機器性能決定。
 
-make install之后，grub已经自动更新，不用再手动设置引导。
-重启，进入ubuntu，更新后的第一次加载会有些慢。
-再次查看内核版本，终端运行
+make install之後，grub已經自動更新，不用再手動設置引導。
+重啟，進入ubuntu，更新後的第一次加載會有些慢。
+再次查看內核版本，終端運行
 
 ```sh
 uname -a  
@@ -367,24 +367,24 @@ uname -a
 ![](./images/20130530193611812)
 
 
-###添加系统调用
+###添加系統調用
 
-系统调用的原理如下：
+系統調用的原理如下：
 ![](./images/20130530200110780)
 
 
-源码目录下涉及内核的三个文件有：
+源碼目錄下涉及內核的三個文件有：
 
 ```sh
-/kernel/sys.c                                         //定义系统调用
-/arch/x86/syscalls/syscall_32.tbl      //设置系统调用号
-/include/linux/syscalls.h                     //系统调用的头文件
+/kernel/sys.c                                         //定義系統調用
+/arch/x86/syscalls/syscall_32.tbl      //設置系統調用號
+/include/linux/syscalls.h                     //系統調用的頭文件
 ```
 
-下面来实现一个简单的系统调用。
+下面來實現一個簡單的系統調用。
 
-1）系统调用函数的实现。
-在/kernel/sys.c的最后添加下面的代码：
+1）系統調用函數的實現。
+在/kernel/sys.c的最後添加下面的代碼：
 
 ```c
 asmlinkage int sys_callquansilang(int num)
@@ -394,10 +394,10 @@ asmlinkage int sys_callquansilang(int num)
 }
 ```
 
-2)设置系统调用号
+2)設置系統調用號
 
-编辑arch/x86/syscalls/syscall_32.tbl
-文件，发现已经由350个定义号的系统调用，照葫芦画葫芦娃，在最后添加自己的系统调用：
+編輯arch/x86/syscalls/syscall_32.tbl
+文件，發現已經由350個定義號的系統調用，照葫蘆畫葫蘆娃，在最後添加自己的系統調用：
 
 
 
@@ -405,34 +405,34 @@ asmlinkage int sys_callquansilang(int num)
 351 i386    callquansilang      sys_callquansilang  
 ```
 
-注意要与之前定义的函数对应。
+注意要與之前定義的函數對應。
 
-3）添加系统调用的声明到头文件
+3）添加系統調用的聲明到頭文件
 
-打开 /include/linux/syscalls.h ，倒数第二行添加
+打開 /include/linux/syscalls.h ，倒數第二行添加
 
 ```c
 asmlinkage int sys_callquansilang(int num); 
 ```
-4）重新编译内核并安装。
+4）重新編譯內核並安裝。
 
 
 ```sh
-sudo make mrproper  #清除久的编译文件
-sudo make             #编译
+sudo make mrproper  #清除久的編譯文件
+sudo make             #編譯
 ```
 
-安装：
+安裝：
 
 ```sh
-make modules_install  #先安装模块
-make install #安装内核
+make modules_install  #先安裝模塊
+make install #安裝內核
 ```
-重启系统。
+重啟系統。
 
-5）测试
+5）測試
 
-创建一个main.c
+創建一個main.c
 
 ```c
 #include <unistd.h>
@@ -445,22 +445,22 @@ int main()
 }
 ```
 
-编译运行，然后用
+編譯運行，然後用
 
 ```c
 sudo dmesg -c
 ```
 
-查看系统调用log（写系统log会有一点延迟）。
+查看系統調用log（寫系統log會有一點延遲）。
 
 
 ![](./images/20130530215124845)
 
 
-##参考
-向linux内核添加系统调用新老内核比较 - http://www.cnblogs.com/albert1017/archive/2013/05/27/3101760.html
-ubuntu 12.10 x64 下编译新内核 + 系统调用方法  -  http://blog.csdn.net/dslovemz/article/details/8744352
-Linux添加内核系统调用报告 - http://blog.csdn.net/yming0221/article/details/6559767
+##參考
+向linux內核添加系統調用新老內核比較 - http://www.cnblogs.com/albert1017/archive/2013/05/27/3101760.html
+ubuntu 12.10 x64 下編譯新內核 + 系統調用方法  -  http://blog.csdn.net/dslovemz/article/details/8744352
+Linux添加內核系統調用報告 - http://blog.csdn.net/yming0221/article/details/6559767
 
 
 

@@ -97,6 +97,15 @@ mknod
 qemu -kernel ../linux-3.9.2/arch/x86/boot/bzImage -initrd initrd.img -append "root=/dev/ram init=/init"
 ```
 
+![](./images/20130616201444750)
+![](./images/20130615122706234)
+![](./images/20130615124957765)
+![](./images/20130616205424343)
+![](./images/20130616110258062)
+![](./images/20130616183140578)
+![](./images/20130616213616781)
+![](./images/20130616214002343)
+![](./images/20130616214027078)
 
 
 ## 更新内核

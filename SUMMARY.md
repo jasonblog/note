@@ -182,7 +182,6 @@
 * [《深入Linux設備驅動程序內核機制》之MMAP內存頁面示例](linux_driver/napiyu_pure_interrupt_driver_de_xiao_neng_bi_jiao.md)
 * [Linux Driver](linux_driver/README.md)
    * [Linux Device Model 三角關係](linux_driver/linux_device_model.md)
-   * [《深入Linux設備驅動程序內核機制》之MMAP內存頁面示例](linux_driver/napiyu_pure_interrupt_driver_de_xiao_neng_bi_jiao.md)
 * [OS](os/README.md)
    * [[轉]打造簡易作業系統](os/141.md)
        * [(一) 開機Hello World實例](os/14111.md)

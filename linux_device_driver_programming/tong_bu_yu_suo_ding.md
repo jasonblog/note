@@ -755,4 +755,74 @@ module_exit(devone_exit);
 spinlock 的測試程式： 
 
 ```c
+/*
+ * # cc main.c && ./a.out
+ *
+ */
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/time.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+
+#define DEVFILE "/dev/devone0"
+
+int main(void)
+{
+    int fd;
+    int i;
+    ssize_t size;
+    char buf[32];
+
+    fd = open(DEVFILE, O_RDWR);
+    if (fd == -1) {
+        perror("open");
+        exit(1);
+    }
+
+    for ( ;; ) {
+        size = read(fd, buf, sizeof(buf));
+        for (i = 0 ; i < size ; i++) {
+            printf("%02x ", buf[i] & 0xff);
+        }
+        printf("\n");
+
+        sleep(3);
+    }
+
+    close(fd);
+
+    return 0;
+}
 ```
+
+實際執行這個程式後，會發現 kernel 沒過多久就當了，原因是驅動程式陷入死結，持續佔用 100% CPU 等待解鎖的後果就是 OS 失去反應，要復原只要重開機。 
+
+當掉的原因是 user context 取得 spinlock 時沒有禁止本地處理器處理 interrupt，鎖定期間收到 interrupt 的話，在 timer 處理函式又會嘗試取得鎖定，但解除鎖定需要離開 busy-loop，切換到 user process 繼續執行才行，於是產生了死結。 
+
+要修正上述的範例，可以把 spin_lock() 換成 spin_lock_irqsave()，spin_unlock() 換成 spin_unlock_irqrestore() 
+
+##10-9、其它 
+linux kernel 內部提供各式各樣的同步機制，舉例如下： 
+
+###10-9.1、核心搶佔執行(Kernel preemption) 
+說 linux 是 preemptive 系統，其實只對了一半，因為可以被 preempt 的只有應用程式而已，而 linux kernel 並不是 preemptive，驅機程式也包含在內。 
+
+但新版的 linux kernel 支援先進的 kernel preemption 功能(需啟動對應的 kernel 配置選項)，這個想法基於取得 spinlock 時可以釋出執行資源，如果在等待鎖定的過程中不執行 busy-loop，而是讓其它程式使用 CPU 的話，就可以提高效率。 
+
+###10-9.2、大核心鎖(Big Kernel Lock) 
+「Big Kernel Lock」是鎖定整個 linux kernel 的機制，可透過 lock_kernel() 與 unlock_kernel() 函式使用，這是先前為了讓 linux kernel 支援多處理器時，暫時引進的鎖定機制，將來會希望把 BKL 徹底清除。 
+
+###10-9.3、讀寫鎖定(Reader-Writer Lock) 
+某些 critical section 希望讀取時不必鎖定，而是在寫入時才鎖定，所以準備了「Reader-Writer Lock」機制，可以透過 read_lock() 與 write_lock() 函式取用。 
+
+###10-9.4、計數讀寫鎖定(Seqlock) 
+這是一種 spinlock，透過 write_seqlock() 與 read_seqbegin() 等函式提供服務，linux kernel 主要是用此機制來維護系統計時器。 
+
+###10-9.5、RCU 
+「RCU (Read Copy Update)」是種較特殊的鎖定方式，透過 rcu_read_lock() 與 rcu_dereference() 等函式提供服務。 
+
+##10-10、結語 
+在單 CPU 的年，通常不必煩惱「同步與鎖定」的問題，但目前是多核處理器當道的年代，在設計驅動程式時，一定要把「同步與鎖定」納入考量。

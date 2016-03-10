@@ -143,7 +143,7 @@ cat /proc/interrupts
 
 
 因此 linux kernel 提供了「tasklet」機制，讓中斷處理程序只需要完成最重要的部分即可，稍後再執行剩下的工作。 
-一般用語常為「延遲中斷」或「軟體中斷」，Windows 稱為「DPC(Deferred Procedue Call)」，HP-UX 則稱為「software trigger」，各平台的稱呼都不盡相同。 
+一般用語常為「延遲中斷」或「軟體中斷」，Windows 稱為「DPC(Deferred Procedue Call)」，HP-UX 則稱為「software trigger」，各平臺的稱呼都不盡相同。 
 使用 tasklet 機制，可以讓中斷處理程序儘快結束，以便中斷控制器接收下一個中斷，提高系統整體效能。 
 在中斷處理程序呼叫 tasklet 時，tasklet 並不會立刻開始執行，它會等到系統有空閒時才開始執行。 
 
@@ -240,7 +240,7 @@ module_exit(sample_exit);
 ```
 
 ##11-4、Work queue 
-tasklet 雖然可以用來延後處理一些中斷情形留下的工作，但 tasklet 還是只能在 interrupt context 中執行。 
+tasklet 雖然可以用來延後處理一些中斷情形留下的工作，但 tasklet 還是隻能在 interrupt context 中執行。 
 因此 linux 還提供了「work queue」機制，允許中斷情形的後續處理工作在 user space 執行。 
 
 work queu 的原理是延後處理工作時，排進 wait queue 的等待隊伍之中，一個 work queue 有一個對應的 kernel daemon，會在適當時機以 kernel daemon 處理這些延後的工作，而 kernel daemon 是一隻在 user context 執行的程式。 

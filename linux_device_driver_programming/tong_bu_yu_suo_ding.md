@@ -510,7 +510,7 @@ void local_irq_restore(unsigned long flags);
 要保護 interrupt context 之內的 critical section 時，不能用 semaphore，而是要使用「spinlock(自旋鎖)」，semaphore 在等待的時候會 sleep，而 spinlock 則是對在原地 busy-loop，也就是會佔住一顆 CPU，直到等到為止，因此 spinlock 在使用時有個鐵則：
 極力縮短 critical section 的處理時間
 
-使用 spinlock 時，如果有 critical section 同時出現在 interrupt context 與 user context 的話，則兩邊都必須使用 spinlock，若是只有在 user context 出現的 critical section 則應該用 semaphore 來鎖定。 
+使用 spinlock 時，如果有 critical section 同時出現在 interrupt context 與 user context 的話，則兩邊都必須使用 spinlock，若是隻有在 user context 出現的 critical section 則應該用 semaphore 來鎖定。 
 
 ###10-8.1、限制 
 在使用 spinlock 時，擁有鎖定時可以做的事是有限制的：
@@ -534,7 +534,7 @@ spinlock_t lock;
 spin_lock_init(spinlock_t *lock); 
 ```
 
-要取得 spinlock 多半只要呼叫 spin_lock_irqsave() ： 
+要取得 spinlock 多半隻要呼叫 spin_lock_irqsave() ： 
 ```c
 spin_lock_irqsave(spinlock_t *lock, unsigned long flags); 
 spin_lock_irqsave() 會將呼叫的程式碼所在的處理器中斷設定存到 flags 

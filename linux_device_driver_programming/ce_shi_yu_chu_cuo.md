@@ -215,7 +215,7 @@ kernel.sysrq = 1
 ```
 
 Magic SysRq 的呼叫方法：
-主控台種類	按鍵方式
+主控臺種類	按鍵方式
 VGA	Alt+SysRq(Print Screen) + 指令
 Serial console	Break訊號 + 指令
 
@@ -226,7 +226,7 @@ Magic SysRq 可用的輔助指令隨架構而異，說明文件位於 Documentat
 
 ## 16-7、oops 訊息
 
-linux kernel 內部發生某些矛盾時，會在主控台顯示 oops 訊息(panic 訊息)。 
+linux kernel 內部發生某些矛盾時，會在主控臺顯示 oops 訊息(panic 訊息)。 
 linux kernel 在發現自身矛盾時，會時會判斷無法保證後續正常運作，這時就會明確呼叫 panic()： 
 
 ```sh

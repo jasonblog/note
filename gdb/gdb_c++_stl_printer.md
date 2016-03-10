@@ -1,14 +1,14 @@
 # GDB C++ STL printer
 
 
-GDB的自定义命令非常有用，通过自定义命令，直接操作容器中的数据，可以方便的查看STL容器中的数据。
+GDB的自定義命令非常有用，通過自定義命令，直接操作容器中的數據，可以方便的查看STL容器中的數據。
 
-这个链接dbinit_stl_views是Dan C Marinescu写的查看STL容器的自定义命令（如果不适合你的STL版本的话，可以自行修改）。把它添加到你的.gdbinit中，就可以方便的查看STL容器了。它提供了查看vector，list，map，multimap，set，multiset，deque，stack，queue，priority_queue，bitset，string，widestring等对象的方法，非常好用！
+這個鏈接dbinit_stl_views是Dan C Marinescu寫的查看STL容器的自定義命令（如果不適合你的STL版本的話，可以自行修改）。把它添加到你的.gdbinit中，就可以方便的查看STL容器了。它提供了查看vector，list，map，multimap，set，multiset，deque，stack，queue，priority_queue，bitset，string，widestring等對象的方法，非常好用！
 
 ```sh
-1. 下载 http://www.yolinux.com/TUTORIALS/src/dbinit_stl_views-1.03.txt
+1. 下載 http://www.yolinux.com/TUTORIALS/src/dbinit_stl_views-1.03.txt
 2. #cat dbinit_stl_views-1.03.txt >> ~/.gdbinit
-3. 若正处于gdb中，运行命令:
+3. 若正處於gdb中，運行命令:
 (gdb) source ~/.gdbinit
 ```
 
@@ -712,7 +712,7 @@ set print sevenbit-strings off
 
 ```
 
-###一些常用内置的命令
+###一些常用內置的命令
 ```sh
 Data type   GDB command   
 std::vector<T>    pvector stl_variable   

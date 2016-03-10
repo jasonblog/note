@@ -102,6 +102,7 @@
    * [記憶體](linux_device_driver_programming/ji_yi_ti.md)
    * [計時器](linux_device_driver_programming/ji_shi_qi.md)
    * [同步與鎖定](linux_device_driver_programming/tong_bu_yu_suo_ding.md)
+   * 中斷
 * [fcamel](fcamel/README.md)
    * [[轉]ld, ld.so 和 ldconfig 的行為](fcamel/01.md)
    * [[轉]解決 undefined symbol / reference](fcamel/02.md)

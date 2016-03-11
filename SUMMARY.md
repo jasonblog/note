@@ -339,7 +339,7 @@
    * [[轉]C++ 虛函數表解析](c++/214.md)
    * [如何判斷 C++ 物件的類別?](c++/215.md)
    * [A Simple C++ Function Call Stack Trace Utility](c++/a_simple_c++_function_call_stack_trace_utility.md)
-   * 探索C++虚函数在g++中的实现
+   * [探索C++虚函数在g++中的实现](c++/tan_suo_c_xu_han_shu_zai_g_zhong_de_shi_xian.md)
 * [GNU make](gunmake/README.md)
    * [如何調試makefile變量](gunmake/201.md)
    * [跟我一起寫Makefile:make運行](gunmake/202.md)

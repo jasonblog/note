@@ -462,7 +462,7 @@
    * [[Raspberry Pi Project] How does Raspberry Pi boot?](raspberry_pi/[raspberry_pi_project]_how_does_raspberry_pi_boot.md)
    * [[Raspberry Pi Project] Compile and update Raspbian kernel](raspberry_pi/[raspberry_pi_project]_compile_and_update_raspbian.md)
    * [[Raspberry Pi Project] kernel啟動參數](raspberry_pi/[raspberry_pi_project]_kernelqi_dong_can_shu.md)
-   * Raspberry Pi 編譯 Linux 核心
+   * [Raspberry Pi 編譯 Linux 核心](raspberry_pi/raspberry_pi_bian_yi_linux_he_xin.md)
 * [OpenGL](opengl/opengl.md)
    * [opengl(mesa) for ubuntu14.04](opengl/mesa.md)
    * [ubuntu 14.04 安裝OpenGL（基於freeglut）](opengl/1.md)

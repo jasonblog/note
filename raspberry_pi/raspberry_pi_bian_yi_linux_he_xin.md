@@ -31,7 +31,7 @@ apt-get install gcc-arm-linux-gnueabihf
 cd linux
 ```
 
-進行編譯之前，要先設定編譯的各種選項，這裏我們使用預設的編譯設定：
+進行編譯之前，要先設定編譯的各種選項，這裡我們使用預設的編譯設定：
 ```sh
 make -j4 ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- bcmrpi_defconfig
 ```
@@ -59,7 +59,7 @@ make -j4 ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- modules
 這裡的 `-j4` 是讓 `make `可以同時執行` 4 `個 jobs，利用多核心的 CPU 來加速編譯，您可以依照您的 PC 的 CPU 核心數來調整這個值。
 
 ###STEP 5
-因為我們是在另外一台 PC 中編譯的，所以編譯完之後，要再把編譯好的核心複製到 Raspberry Pi 上面，您也可以直接將 Raspberry Pi 的 MicroSD 卡直接插在 PC 上，這樣就可以將新的核心直接安裝上去，我這裡是用手動複製的方式，兩種做法其實差不多。
+因為我們是在另外一臺 PC 中編譯的，所以編譯完之後，要再把編譯好的核心複製到 Raspberry Pi 上面，您也可以直接將 Raspberry Pi 的 MicroSD 卡直接插在 PC 上，這樣就可以將新的核心直接安裝上去，我這裡是用手動複製的方式，兩種做法其實差不多。
 
 將編譯好的 Linux 核心複製出來：
 ```sh

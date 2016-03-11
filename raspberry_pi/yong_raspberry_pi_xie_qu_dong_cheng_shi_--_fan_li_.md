@@ -299,7 +299,7 @@ crw-rw-rw- 1 root root 246, 1 juin  23 12:41 /dev/LED_1
 
 ##參考資料：
 
-台灣樹莓派 -- 用Raspberry Pi學Linux驅動程式
+臺灣樹莓派 -- 用Raspberry Pi學Linux驅動程式
 
 http://fr.slideshare.net/raspberrypi-tw/write-adevicedriveronraspberrypihowto
 https://github.com/wendlers/rpi-kmod-samples

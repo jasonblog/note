@@ -1,7 +1,5 @@
 # Raspberry Pi 編譯 Linux 核心
 
-
-
 這裡介紹如何自己編譯 Raspberry Pi 的 Linux 核心，打造自己所需要的系統。
 
 ###編譯 Raspberry Pi 的 Linux 核心

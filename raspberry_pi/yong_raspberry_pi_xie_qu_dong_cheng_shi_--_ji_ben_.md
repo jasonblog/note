@@ -26,6 +26,7 @@
 
 下圖是補充擬人化敘述沒法說明的部份(圖片來源：參考資料2.)
 
+![](./images/system_call.jpg)
 
 
 當使用者要使用系統的一個裝置(device)，系統必須有一個相應的字符裝置驅動程式(character device driver，這也就是我們現在要學的)，而這個character device driver 會在虛擬檔案系統(virtual file system)創造一個字符裝置檔案(character device file)，例如本文的/dev/video0或我們下一篇會建立的/dev/LED_0，使用者就能透過開啟此虛擬檔案的方式，告訴系統他想要這裝製作什麼，系統再依照字符裝置驅動程式的設定決定要怎麼回應。

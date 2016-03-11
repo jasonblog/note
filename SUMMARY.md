@@ -492,7 +492,7 @@
    * [程式註解如何寫](thinker/cheng_shi_zhu_jie_ru_he_xie.md)
    * [程式碼的可讀性比較](thinker/cheng_shi_ma_de_ke_du_xing_bi_jiao.md)
    * [軟體元件的使用](thinker/ruan_ti_yuan_jian_de_shi_yong.md)
-* [GCC](gcc/gcc.md)
+* [GCC_and_Clang](gcc/gcc.md)
    * [__thread關鍵字](gcc/thread_guan_jian_zi.md)
    * [gcc中-pthread和-lpthread的區別](gcc/gcc4e2d-_pthread_548c-_lpthread_de_qu_bie.md)
 * [FreeRTOS](freertos/freertos.md)

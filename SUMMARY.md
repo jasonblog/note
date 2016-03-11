@@ -496,6 +496,7 @@
    * [gcc中-pthread和-lpthread的區別](gcc/gcc4e2d-_pthread_548c-_lpthread_de_qu_bie.md)
    * [__thread關鍵字](gcc/thread_guan_jian_zi.md)
    * [GCC](gcc/gcc_title.md)
+       * G++ fdump-class-hierarchy output
 * [FreeRTOS](freertos/freertos.md)
    * [FreeRTOS-GCC-ARM926ejs_QEMU](freertos/qemufreertos.md)
 * [tinyclub](tinyclub/tinyclub.md)

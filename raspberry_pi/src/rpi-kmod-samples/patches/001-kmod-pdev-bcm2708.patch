@@ -1,0 +1,48 @@
+--- linux-git/arch/arm/mach-bcm2708/bcm2708.c	2013-04-24 22:05:48.901891698 +0200
++++ linux-rpi-3.6.y/arch/arm/mach-bcm2708/bcm2708.c	2013-04-16 21:11:59.766484788 +0200
+@@ -261,6 +261,26 @@
+ 	&uart0_device,
+ };
+ 
++/* START: Sample platform device */
++struct pdevmod_data {
++	char *greeting;
++	int	  number;
++};
++
++static struct pdevmod_data pdevmod_device_data = {
++	.greeting = "Hallo from the board definition!",
++	.number = 42,
++};
++
++static struct platform_device pdevmod_device = {
++	.name = "pdevmod",
++	.id = -1,
++	.dev = {
++		.platform_data = &pdevmod_device_data,
++	}
++};
++/* END: Sample platform device */
++
+ static struct resource bcm2708_dmaman_resources[] = {
+ 	{
+ 	 .start = DMA_BASE,
+@@ -366,7 +386,7 @@
+ 	       },
+ };
+ 
+-bool fiq_fix_enable = true;
++extern bool fiq_fix_enable;
+ 
+ static struct resource bcm2708_usb_resources_no_fiq_fix[] = {
+ 	[0] = {
+@@ -740,6 +760,9 @@
+ 	bcm_register_device(&bcm2835_hwmon_device);
+ 	bcm_register_device(&bcm2835_thermal_device);
+ 
++	/* sample platform device */
++	bcm_register_device(&pdevmod_device);
++
+ 	for (i = 0; i < ARRAY_SIZE(amba_devs); i++) {
+ 		struct amba_device *d = amba_devs[i];
+ 		amba_device_register(d, &iomem_resource);

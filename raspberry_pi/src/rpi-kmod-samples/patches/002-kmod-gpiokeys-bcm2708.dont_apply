@@ -1,0 +1,59 @@
+--- linux-git/arch/arm/mach-bcm2708/bcm2708.c	2013-04-30 20:51:07.548962870 +0200
++++ linux-git.bak/arch/arm/mach-bcm2708/bcm2708.c	2013-04-30 21:07:10.776010219 +0200
+@@ -34,6 +34,10 @@
+ #include <linux/spi/spi.h>
+ #include <linux/w1-gpio.h>
+ 
++/* for GPIO button sample */
++#include <linux/gpio_keys.h>
++#include <linux/gpio.h>
++
+ #include <linux/version.h>
+ #include <linux/clkdev.h>
+ #include <asm/system.h>
+@@ -281,6 +285,30 @@
+ };
+ /* END: Sample platform device */
+ 
++/* START: Sample GPIO keys */
++static struct gpio_keys_button gpio_buttons[] = {
++	{
++		.code			= BTN_EXTRA,
++		.gpio			= 17,
++		.desc			= "user",
++		.wakeup			= 1,
++	},
++};
++
++static struct gpio_keys_platform_data gpio_key_info = {
++	.buttons	= gpio_buttons,
++	.nbuttons	= ARRAY_SIZE(gpio_buttons),
++};
++
++static struct platform_device keys_gpio = {
++	.name	= "gpio-keys",
++	.id	= -1,
++	.dev	= {
++		.platform_data	= &gpio_key_info,
++	},
++};
++/* END: Sample GPIO keys */
++
+ static struct resource bcm2708_dmaman_resources[] = {
+ 	{
+ 	 .start = DMA_BASE,
+@@ -763,6 +791,14 @@
+ 	/* sample platform device */
+ 	bcm_register_device(&pdevmod_device);
+ 
++	/* sample GPIO buttons */
++	if (gpio_request_one(17, GPIOF_IN, "button#1")) {
++		printk(KERN_ERR "Unable to request GPIO for BUTTON\n");
++	}
++	else {
++		bcm_register_device(&keys_gpio);
++	}
++
+ 	for (i = 0; i < ARRAY_SIZE(amba_devs); i++) {
+ 		struct amba_device *d = amba_devs[i];
+ 		amba_device_register(d, &iomem_resource);

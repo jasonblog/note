@@ -349,6 +349,7 @@
    * [Makefile 先編譯出so 後在編譯出執行檔](gunmake/206.md)
    * [利用 Autotools 來建立 Makefile 檔案](gunmake/autotools.md)
    * [GNU Makefile 雜項語法備忘](gunmake/gnu_makefile_za_xiang_yu_fa_bei_wang.md)
+   * scons取代makefile编译C/C++工程
 * [[轉]國王的耳朵是驢耳朵](22/README.md)
    * [Linker script初探 - GNU linker ld手冊略讀](22/221.md)
    * [GNU ld初探](22/222.md)

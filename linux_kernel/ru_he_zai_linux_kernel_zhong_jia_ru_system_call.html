@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>[轉] 列出用到的 shared library | Jason note</title>
+        <title>如何在linux kernel 中加入system call | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../fcamel/04.html" />
+    <link rel="next" href="../linux_driver/index.html" />
     
     
-    <link rel="prev" href="../fcamel/02.html" />
+    <link rel="prev" href="../linux_kernel/linuxnei_he_kernel_panic_ji_zhi_qian_xi.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="8.3" data-basepath=".." data-revision="Sun Mar 13 2016 02:33:56 GMT+0800 (CST)">
+    <div class="book" data-level="11.27" data-basepath=".." data-revision="Sun Mar 13 2016 02:33:56 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1730,7 +1730,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="8.3" data-path="fcamel/03.html">
+        <li class="chapter " data-level="8.3" data-path="fcamel/03.html">
             
                 
                     <a href="../fcamel/03.html">
@@ -2885,7 +2885,7 @@
             
         </li>
     
-        <li class="chapter " data-level="11.27" data-path="linux_kernel/ru_he_zai_linux_kernel_zhong_jia_ru_system_call.html">
+        <li class="chapter active" data-level="11.27" data-path="linux_kernel/ru_he_zai_linux_kernel_zhong_jia_ru_system_call.html">
             
                 
                     <a href="../linux_kernel/ru_he_zai_linux_kernel_zhong_jia_ru_system_call.html">
@@ -11283,23 +11283,65 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="-%E8%BD%89-%E5%88%97%E5%87%BA%E7%94%A8%E5%88%B0%E7%9A%84-shared-library">[&#x8F49;] &#x5217;&#x51FA;&#x7528;&#x5230;&#x7684; shared library</h1>
-<p>static library &#x5C31;&#x662F;&#x4E00;&#x5305; object file, &#x6C92;&#x4EC0;&#x9EBC;&#x9700;&#x8981;&#x63D0;&#x7684;, static library &#x6C92;&#x6709;&#x8A18;&#x9304;&#x5176;&#x5B83;&#x8CC7;&#x8A0A;&#x3002;&#x6240;&#x4EE5;, &#x7DE8; shared library &#x6216; executable &#x6642;&#x8981;&#x81EA;&#x884C;&#x8655;&#x7406;&#x597D; static library &#x7684;&#x76F8;&#x4F9D;&#x6027;, &#x5728;&#x524D;&#x7BC7;&#x6709;&#x63D0;&#x5230;&#x4E00;&#x9EDE;&#x8CC7;&#x8A0A;&#x3002;</p>
-<p>shared library &#x6709;&#x5169;&#x7A2E;, &#x4E00;&#x7A2E;&#x5728; linking &#x6642;&#x8981;&#x6307;&#x5B9A;&#x597D; shared library &#x7528;&#x5230;&#x7684; undefined symbol &#x653E;&#x5728;&#x90A3;&#x4E9B; shared library &#x88E1;, &#x5F85;&#x57F7;&#x884C;&#x6642;&#x518D;&#x8F09;&#x5165;&#x5230;&#x8A18;&#x61B6;&#x9AD4;&#x4F7F;&#x7528;; &#x53E6;&#x4E00;&#x7A2E;&#x7528; dlopen() &#x548C; dlsym() &#x8F09;&#x5165; (&#x9019;&#x5169;&#x500B;&#x51FD;&#x5F0F;&#x5B58;&#x5728; libdl &#x5167;)&#x3002;</p>
-<p>&#x524D;&#x8005;&#x6BD4;&#x8F03;&#x55AE;&#x7D14;, <strong>&#x53EF;&#x7528; ldd &#x900F;&#x904E;&#x975C;&#x614B;&#x5206;&#x6790;&#x77AD;&#x89E3;&#x7528;&#x5230;&#x90A3;&#x4E9B; shared library, &#x4E14;&#x5404;&#x81EA;&#x5BE6;&#x969B;&#x6307;&#x5230;&#x7684;&#x6A94;&#x6848;</strong>&#x3002;ldd &#x672C;&#x8EAB;&#x662F;&#x4E00;&#x500B; shell script, &#x7528;&#x5230; ld.so &#x4E8B;&#x5148;&#x5B9A;&#x7FA9;&#x7684;&#x4E00;&#x4E9B;&#x6A5F;&#x5236; (LD_TRACE_LOADED_OBJECTS) &#x4F86;&#x8B80;&#x53D6;&#x8CC7;&#x6599;, man ld.so &#x88E1;&#x6709;&#x76F8;&#x95DC;&#x7684;&#x8AAA;&#x660E;&#x3002;&#x5176;&#x4E2D; LD_LIBRARY_PATH &#x548C; LD_PRELOAD &#x76F8;&#x7576;&#x5BE6;&#x7528;, &#x7121;&#x6CD5;&#x5728;&#x9023;&#x7D50;&#x6642;&#x89E3;&#x6C7A;&#x554F;&#x984C;&#x6642;, &#x81F3;&#x5C11;&#x9084;&#x6709;&#x9019;&#x62DB;&#x53EF;&#x5728;&#x8F09;&#x5165;&#x6642;&#x8655;&#x7406;&#x3002;</p>
-<p>&#x82E5;&#x60F3;&#x5206;&#x6790;&#x900F;&#x904E; dlopen() &#x8F09;&#x5165;&#x7684;&#x52D5;&#x614B;&#x51FD;&#x5F0F;&#x5EAB;, &#x6709;&#x5E7E;&#x500B;&#x505A;&#x6CD5;</p>
+                        <h1 id="%E5%A6%82%E4%BD%95%E5%9C%A8linux-kernel-%E4%B8%AD%E5%8A%A0%E5%85%A5system-call">&#x5982;&#x4F55;&#x5728;linux kernel &#x4E2D;&#x52A0;&#x5165;system call</h1>
+<p>&#x5EFA;&#x7ACB;&#x4E00;&#x500B;&#x53EB;helloworld.c&#x7684;&#x7A0B;&#x5F0F;&#xFF0C;&#x9019;&#x500B;&#x5C31;&#x662F;&#x6211;&#x5011;&#x7684;system call&#x3002;</p>
 <ul>
-<li><p>&#x5728;&#x7A0B;&#x5F0F;&#x57F7;&#x884C;&#x4E2D;&#x89C0;&#x5BDF; /proc/PID/maps, &#x9019;&#x500B;&#x6A94;&#x6848;&#x8A18;&#x9304; process &#x7528;&#x5230;&#x7684;&#x5404;&#x5340;&#x6BB5;&#x8A18;&#x61B6;&#x9AD4;&#x70BA;&#x4F55;, &#x53EF;&#x5F9E;&#x5C0D;&#x61C9;&#x5230;&#x7684;&#x6A94;&#x6848;&#x770B;&#x51FA;&#x6709;&#x8F09;&#x5165;&#x7684; shared library&#x3002;&#x5FC5;&#x8981;&#x6642;&#x53EF;&#x914D;&#x5408; gdb &#x5728;&#x60F3;&#x89C0;&#x5BDF;&#x7684;&#x90E8;&#x4EFD;&#x505C;&#x4F4F;, &#x518D;&#x5F9E;&#x5916;&#x90E8;&#x770B; /proc/PID/maps&#x3002;&#x9019;&#x88E1;&#x6216; man proc &#x6709;&#x76F8;&#x95DC;&#x8AAA;&#x660E;&#x3002;</p>
-</li>
-<li><p>&#x7528; strace &#x57F7;&#x884C;&#x7A0B;&#x5F0F;, &#x89C0;&#x5BDF;&#x958B;&#x555F;&#x7684;&#x6A94;&#x6848;: strace -f -e open PROGRAM 2&gt;&amp;1 | grep &quot;.so&quot;
-&#x5C31;&#x6211;&#x81EA;&#x5DF1;&#x5C0F;&#x8A66;&#x7684;&#x5FC3;&#x5F97;, &#x770B; /proc/PID/maps &#x6700;&#x7A69;, &#x4E14;&#x65B9;&#x4FBF;&#x770B;&#x5404;&#x5225; process&#x3001;thread &#x8F09;&#x5165;&#x7684;&#x51FD;&#x5F0F;&#x5EAB;, &#x4E5F;&#x4E0D;&#x6703;&#x62D6;&#x6162;&#x89C0;&#x5BDF;&#x76EE;&#x6A19;&#x7684;&#x57F7;&#x884C;&#x7A0B;&#x5F0F;&#x3002;&#x4E0D;&#x904E; strace &#x4E0D;&#x9700;&#x914D;&#x5408; gdb &#x505C;&#x5728;&#x8A72;&#x505C;&#x7684;&#x5730;&#x65B9;, &#x5C31;&#x300C;&#x5FEB;&#x7BE9;&#x300D;&#x7684;&#x89D2;&#x5EA6;&#x4F86;&#x770B;, &#x4E5F;&#x6EFF;&#x6709;&#x7528;&#x7684;, &#x52A0;&#x4E0A; -f &#x5F8C;&#x65B9;&#x4FBF;&#x8FFD;&#x8E64; multi-process&#x3001;multi-thread, &#x4E0D;&#x904E;&#x57F7;&#x884C;&#x901F;&#x5EA6;&#x597D;&#x50CF;&#x6709;&#x6162;&#x4E00;&#x4E9B;, &#x4E0D;&#x592A;&#x78BA;&#x5B9A;&#x3002;&#x4E4B;&#x5F8C;&#x518D;&#x6BD4;&#x8F03;&#x770B;&#x770B;&#x5169;&#x8005;&#x9069;&#x5408;&#x7684;&#x4F7F;&#x7528;&#x6642;&#x6A5F;&#x3002;</p>
-</li>
+<li>kernel &#x5E95;&#x4E0B; &#x5EFA;&#x7ACB;  helloworld.c</li>
 </ul>
-<p>&#x53C3;&#x8003;&#x8CC7;&#x6599;</p>
-<ul>
-<li>&#x300A;Linux Tutorial - Static, Shared Dynamic and Loadable Linux Libraries&#x300B;</li>
-</ul>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/linkage.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/kernel.h&gt;</span></span>
 
+<span class="hljs-function">asmlinkage <span class="hljs-keyword">int</span> <span class="hljs-title">sys_helloworld</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span>;
+
+<span class="hljs-function">asmlinkage <span class="hljs-keyword">int</span> <span class="hljs-title">sys_helloworld</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    printk(KERN_EMERG <span class="hljs-string">&quot;hello world!&quot;</span>);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+}
+</code></pre>
+<ul>
+<li>include/linux/syscalls.h  &#x589E;&#x52A0;</li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-function">asmlinkage <span class="hljs-keyword">int</span> <span class="hljs-title">sys_helloworld</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span>;
+</code></pre>
+<p>syscall_32.tbl&#xFF0C;&#x5728;&#x6700;&#x5F8C;&#x52A0;&#x4E0A;</p>
+<pre><code class="lang-c"><span class="hljs-number">350</span>     i386    helloworld              sys_helloworld
+</code></pre>
+<p>&#x6CE8;&#x610F;&#xFF1A;&#x7DE8;&#x865F;&#x4E0D;&#x4E00;&#x5B9A;&#x70BA;350&#xFF0C;&#x5982;&#x679C;&#x5E0C;&#x671B;&#x7528;&#x5728;64bit&#x7684;kernel&#x4E0A;&#xFF0C;&#x8ACB;&#x628A;syscall_32.tbl&#x6539;&#x6210;syscall_64.tbl&#xFF0C;&#x4E26;&#x628A;&#x9019;&#x884C;&#x6539;&#x6210;&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-number">350</span>     common  helloworld              sys_helloworld
+</code></pre>
+<p>kernel/Makefile&#xFF0C;&#x52A0;&#x9019;&#x4E00;&#x884C;&#xFF1A;</p>
+<pre><code class="lang-c">obj-y                   += helloworld.o
+</code></pre>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;syscall.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span> </span>{
+    <span class="hljs-keyword">int</span> a=syscall(<span class="hljs-number">350</span>);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>&#x7DE8;&#x8B6F;&#x53CA;&#x57F7;&#x884C;&#x6E2C;&#x8A66;&#x7A0B;&#x5F0F;&#xFF1A;</p>
+<pre><code class="lang-sh">gcc -o <span class="hljs-built_in">test</span> test.c
+./<span class="hljs-built_in">test</span>
+</code></pre>
+<pre><code class="lang-sh">ldd <span class="hljs-built_in">test</span>
+    linux-vdso.so.<span class="hljs-number">1</span> =&gt;  (<span class="hljs-number">0</span>x00007fff1c720000)
+    libc.so.<span class="hljs-number">6</span> =&gt; /lib/x86_64-linux-gnu/libc.so.<span class="hljs-number">6</span> (<span class="hljs-number">0</span>x00007f5a69a50000)
+    /lib64/ld-linux-x86-<span class="hljs-number">64</span>.so.<span class="hljs-number">2</span> (<span class="hljs-number">0</span>x000055ae57f4d000)
+</code></pre>
+<p>&#x7528; qemu &#x9700;&#x8981;&#x628A; libc.so.6 &#xFF06; ld-linux-x86-64.so.2 &#x653E;&#x9032; qemu &#x7CFB;&#x7D71;&#x88E1;&#x9762;</p>
+<pre><code class="lang-sh">scp -P <span class="hljs-number">5555</span> /lib/x86_64-linux-gnu/libc.so.<span class="hljs-number">6</span> root@localhost:/lib
+scp -P <span class="hljs-number">5555</span> /lib64/ld-linux-x86-<span class="hljs-number">64</span>.so.<span class="hljs-number">2</span> root@localhost:/lib64
+</code></pre>
+<p>&#x4E0D;&#x7136;&#x7DE8;&#x8B6F;&#x8981; -static</p>
+<pre><code class="lang-sh">gcc -o -static <span class="hljs-built_in">test</span> test.c
+</code></pre>
+<ul>
+<li>dmesg &#x53EF;&#x4EE5;&#x770B;&#x5230;</li>
+</ul>
+<pre><code>&lt;0&gt;[  327.782077] hello world!
+</code></pre>
                     
                     </section>
                 
@@ -11309,10 +11351,10 @@
         </div>
 
         
-        <a href="../fcamel/02.html" class="navigation navigation-prev " aria-label="Previous page: [轉]解決 undefined symbol / reference"><i class="fa fa-angle-left"></i></a>
+        <a href="../linux_kernel/linuxnei_he_kernel_panic_ji_zhi_qian_xi.html" class="navigation navigation-prev " aria-label="Previous page: Linux內核kernel panic機制淺析"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../fcamel/04.html" class="navigation navigation-next " aria-label="Next page: [轉]用 LD_PRELOAD 替換動態連結的函式庫"><i class="fa fa-angle-right"></i></a>
+        <a href="../linux_driver/index.html" class="navigation navigation-next " aria-label="Next page: Linux Driver"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

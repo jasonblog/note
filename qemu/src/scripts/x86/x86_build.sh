@@ -175,6 +175,11 @@ EOF
     time make -C $KERNEL O=../obj/$LINUX_PALTFORM -j12 2>&1 | tee kernel_build.log
 }
 
+kernel_build() {
+    make -C $KERNEL O=../obj/$LINUX_PALTFORM clean
+    time make -C $KERNEL O=../obj/$LINUX_PALTFORM -j12 2>&1 | tee kernel_build.log
+}
+
 qemu() {
     qemu-system-x86_64 \
     -enable-kvm -m 1024 \
@@ -213,6 +218,7 @@ while true; do
         -r|--run) qemu; exit 0;;
         -i|--initramfs) initramfs; exit 0;;
         -d|--debug) gdb; exit 0;;
+        -k|--kernel) kernel_build; exit 0;;
         --) shift; break;;
     esac
     shift

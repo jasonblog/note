@@ -182,6 +182,7 @@
    * [kernel 發 signal 通知 pid   task_struct->comm](linux_kernel/kernel_fa_signal_tong_zhi_pid_task_struct_-_comm.md)
    * [Linux內核調試方法 gdboc gdboe JTAG](linux_kernel/linuxnei_he_diaoshi_fang_fagdboc_gdboe_jtag.md)
    * [Linux內核kernel panic機制淺析](linux_kernel/linuxnei_he_kernel_panic_ji_zhi_qian_xi.md)
+   * 如何在linux kernel 中加入system call
 * [Linux Driver](linux_driver/README.md)
    * [《深入Linux設備驅動程序內核機制》之MMAP內存頁面示例](linux_driver/napiyu_pure_interrupt_driver_de_xiao_neng_bi_jiao.md)
    * [Linux Device Model 三角關係](linux_driver/linux_device_model.md)

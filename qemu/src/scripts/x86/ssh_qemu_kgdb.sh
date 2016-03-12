@@ -68,8 +68,8 @@ clean_build() {
     wget http://adtrepo.yoctoproject.org/2.0.0/rootfs/qemux86-64/core-image-sato-qemux86-64.tar.gz
     wget -P /tmp/ "$KERNEL_SRC_URL" && tar xJf "/tmp/`basename $KERNEL_SRC_URL`" -C "$KERNEL" --strip-components=1
 
-    y '' | dd if=/dev/zero of=./busybox.img bs=1M count=4096
-    mkfs.ext3 busybox.img
+    dd if=/dev/zero of=./busybox.img bs=1M count=4096
+    yes '' | mkfs.ext3 busybox.img
     mkdir disk
     sudo mount -o loop busybox.img disk
     sudo tar xvf core-image-sato-qemux86-64.tar.gz -C disk

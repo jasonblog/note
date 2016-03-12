@@ -8,8 +8,8 @@ SConstruct文件就功能而言相當於Makefile文件，就內容而言則是Py
 Program('hello.c')
 Program('new_hello','hello_c')   前為目標，後為源文件
 Program(['prog.c','file1.c','file2.c'])  多個源文件
-Program(『program'，['prog.c','file1.c','file2.c'])   指定目標文件，多個源文件
-Program('program『，Glob('*.c'))
+Program('program',['prog.c','file1.c','file2.c'])   指定目標文件，多個源文件
+Program('program', Glob('*.c'))
 Program('program',Split('main.c file.c file2.c'))  多個原文件更清晰的寫法
 src_files=Split("""main.c
                            file1.c

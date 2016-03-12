@@ -119,7 +119,7 @@ CONFIG_MMIOTRACE=y
 CONFIG_PERCPU_RWSEM=y
 EOF
 
-    yes '' | make -C $KERNEL O=../obj/$LINUX_PALTFORM oldconfig
+    'yes' | make -C $KERNEL O=../obj/$LINUX_PALTFORM oldconfig
     make -C $KERNEL O=../obj/$LINUX_PALTFORM clean
     time make -C $KERNEL O=../obj/$LINUX_PALTFORM -j12 2>&1 | tee kernel_build.log
 }

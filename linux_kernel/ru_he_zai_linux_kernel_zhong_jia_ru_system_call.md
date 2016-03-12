@@ -51,12 +51,34 @@ int main(void) {
 }
 ```
 
+
+
 編譯及執行測試程式：
 
 ```sh
 gcc -o test test.c
 ./test
 ```
+
+```sh
+ldd test
+	linux-vdso.so.1 =>  (0x00007fff1c720000)
+	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f5a69a50000)
+	/lib64/ld-linux-x86-64.so.2 (0x000055ae57f4d000)
+```
+
+用 qemu 需要把 libc.so.6 ＆ ld-linux-x86-64.so.2 放進 qemu 系統裡面
+
+```sh
+scp -P 5555 /lib/x86_64-linux-gnu/libc.so.6 root@localhost:/lib
+scp -P 5555 /lib64/ld-linux-x86-64.so.2 root@localhost:/lib64
+```
+
+不然編譯要 -static
+```sh
+gcc -o -static test test.c
+```
+
 
 
 - dmesg 可以看到

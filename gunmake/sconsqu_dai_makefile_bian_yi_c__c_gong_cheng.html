@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>gdb 遠程qemu-arm調試 | Jason note</title>
+        <title>SCons筆記(詳細版) | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../gdb/gdbxian_shi_jie_gou_ti.html" />
+    <link rel="next" href="../22/index.html" />
     
     
-    <link rel="prev" href="../gdb/gdbdiao_shi_yuan_li_ptrace_xi_tong_diao_yong.html" />
+    <link rel="prev" href="../gunmake/gnu_makefile_za_xiang_yu_fa_bei_wang.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="17.23" data-basepath=".." data-revision="Sat Mar 12 2016 17:13:11 GMT+0800 (CST)">
+    <div class="book" data-level="20.9" data-basepath=".." data-revision="Sat Mar 12 2016 17:13:11 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -4991,7 +4991,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="17.23" data-path="gdb/gdb_yuan_cheng_qemu_-_arm_diao_shi.html">
+        <li class="chapter " data-level="17.23" data-path="gdb/gdb_yuan_cheng_qemu_-_arm_diao_shi.html">
             
                 
                     <a href="../gdb/gdb_yuan_cheng_qemu_-_arm_diao_shi.html">
@@ -5474,7 +5474,7 @@
             
         </li>
     
-        <li class="chapter " data-level="20.9" data-path="gunmake/sconsqu_dai_makefile_bian_yi_c__c_gong_cheng.html">
+        <li class="chapter active" data-level="20.9" data-path="gunmake/sconsqu_dai_makefile_bian_yi_c__c_gong_cheng.html">
             
                 
                     <a href="../gunmake/sconsqu_dai_makefile_bian_yi_c__c_gong_cheng.html">
@@ -11268,82 +11268,207 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="gdb-%E9%81%A0%E7%A8%8Bqemu-arm%E8%AA%BF%E8%A9%A6">gdb &#x9060;&#x7A0B;qemu-arm&#x8ABF;&#x8A66;</h1>
-<p>&#x628A; c &#x7DE8;&#x8B6F;&#x6210; arm &#x6307;&#x4EE4;&#x7684;&#x53EF;&#x904B;&#x884C;&#x6587;&#x4EF6;</p>
-<p> /usr/bin/arm-linux-gnueabi-g++ hello.cpp 
-cat hello.cpp </p>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
-
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">crash</span><span class="hljs-params">()</span>
-</span>{
-    <span class="hljs-keyword">char</span>* a = <span class="hljs-number">0</span>;
-    *a = <span class="hljs-number">0</span>;
-}
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
-</span>{
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;hello world\n&quot;</span>);
-    crash();
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;after crash\n&quot;</span>);
-
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-}
+                        <h1 id="scons%E5%8F%96%E4%BB%A3makefile%E7%B7%A8%E8%AD%AFc-c-%E5%B7%A5%E7%A8%8B">scons&#x53D6;&#x4EE3;makefile&#x7DE8;&#x8B6F;C/C++&#x5DE5;&#x7A0B;</h1>
+<h2 id="1-%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8">1. &#x57FA;&#x672C;&#x4F7F;&#x7528;</h2>
+<p>SConstruct&#x6587;&#x4EF6;&#x5C31;&#x529F;&#x80FD;&#x800C;&#x8A00;&#x76F8;&#x7576;&#x65BC;Makefile&#x6587;&#x4EF6;&#xFF0C;&#x5C31;&#x5167;&#x5BB9;&#x800C;&#x8A00;&#x5247;&#x662F;Python&#x8173;&#x672C;&#xFF0C;scons&#x8B80;&#x5165;&#x5B83;&#x6642;&#xFF0C;&#x6703;&#x628A;&#x8173;&#x672C;&#x7684;&#x547D;&#x4EE4;&#x90FD;&#x57F7;&#x884C;&#x4E00;&#x904D;&#xFF0C;&#x4F46;&#x5177;&#x9AD4;&#x7DE8;&#x8B6F;&#x904E;&#x7A0B;&#x5247;&#x6709;scons&#x81EA;&#x5DF1;&#x76F8;&#x6A5F;&#x800C;&#x5B9A;&#x3002;</p>
+<pre><code class="lang-sh">Program(<span class="hljs-string">&apos;hello.c&apos;</span>)
+Program(<span class="hljs-string">&apos;new_hello&apos;</span>,<span class="hljs-string">&apos;hello_c&apos;</span>)   &#x524D;&#x70BA;&#x76EE;&#x6A19;&#xFF0C;&#x5F8C;&#x70BA;&#x6E90;&#x6587;&#x4EF6;
+Program([<span class="hljs-string">&apos;prog.c&apos;</span>,<span class="hljs-string">&apos;file1.c&apos;</span>,<span class="hljs-string">&apos;file2.c&apos;</span>])  &#x591A;&#x500B;&#x6E90;&#x6587;&#x4EF6;
+Program(&#x300E;program<span class="hljs-string">&apos;&#xFF0C;[&apos;</span>prog.c<span class="hljs-string">&apos;,&apos;</span>file1.c<span class="hljs-string">&apos;,&apos;</span>file2.c<span class="hljs-string">&apos;])   &#x6307;&#x5B9A;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#xFF0C;&#x591A;&#x500B;&#x6E90;&#x6587;&#x4EF6;
+Program(&apos;</span>program&#x300E;&#xFF0C;Glob(<span class="hljs-string">&apos;*.c&apos;</span>))
+Program(<span class="hljs-string">&apos;program&apos;</span>,Split(<span class="hljs-string">&apos;main.c file.c file2.c&apos;</span>))  &#x591A;&#x500B;&#x539F;&#x6587;&#x4EF6;&#x66F4;&#x6E05;&#x6670;&#x7684;&#x5BEB;&#x6CD5;
+src_files=Split(<span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;main.c
+                           file1.c
+                           file2.c&quot;</span><span class="hljs-string">&quot;&quot;</span>)
+Program(target=<span class="hljs-string">&apos;program&apos;</span>,<span class="hljs-built_in">source</span>=src_files)
 </code></pre>
-<p>&#x76F4;&#x63A5;&#x57F7;&#x884C;&#x5831;&#x932F;&#x3002;&#x7531;&#x65BC; host &#x662F; linux x86</p>
-<pre><code class="lang-sh">$ ./a.out 
--bash: ./a.out: cannot execute binary file
+<h2 id="2-%E7%B7%A8%E8%AD%AF%E5%A4%9A%E5%80%8B%E7%9B%AE%E6%A8%99%E6%96%87%E4%BB%B6%E5%B0%B1%E5%A4%9A%E6%AC%A1%E8%AA%BF%E7%94%A8program">2. &#x7DE8;&#x8B6F;&#x591A;&#x500B;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#x5C31;&#x591A;&#x6B21;&#x8ABF;&#x7528;Program()</h2>
+<p>3.8  &#x591A;&#x500B;&#x7A0B;&#x5E8F;&#x5171;&#x4EAB;&#x6E90;&#x6587;&#x4EF6;</p>
+<pre><code class="lang-sh">eg.<span class="hljs-number">1</span>  
+       Program(Split(<span class="hljs-string">&apos;foo.c common1.c common2.c&apos;</span>))
+       Program(<span class="hljs-string">&apos;bar&apos;</span>, Split(<span class="hljs-string">&apos;bar1.c bar2.c common1.c common2.c&apos;</span>))
+eg.<span class="hljs-number">2</span>    
+       common = [<span class="hljs-string">&apos;common1.c&apos;</span>, <span class="hljs-string">&apos;common2.c&apos;</span>]
+       foo_files = [<span class="hljs-string">&apos;foo.c&apos;</span>] + common
+       bar_files = [<span class="hljs-string">&apos;bar1.c&apos;</span>, <span class="hljs-string">&apos;bar2.c&apos;</span>] + common
+       Program(<span class="hljs-string">&apos;foo&apos;</span>, foo_files)
+       Program(<span class="hljs-string">&apos;bar&apos;</span>, bar_files)
 </code></pre>
-<p>&#x8981;&#x7528; qemu-arm &#x4F86;&#x57F7;&#x884C;&#xFF0C; &#x7D50;&#x679C;&#x662F;&#x671F;&#x671B;&#x7684;</p>
-<pre><code class="lang-sh">qemu-arm -L  /usr/arm-linux-gnueabi/  a.out 
+<h2 id="4-%E5%BA%AB%E7%B7%A8%E8%AD%AF%E5%92%8C%E9%8F%88%E6%8E%A5">4. &#x5EAB;&#x7DE8;&#x8B6F;&#x548C;&#x93C8;&#x63A5;</h2>
+<h3 id="4-1-%E5%BA%AB%E7%B7%A8%E8%AD%AF">4.1 &#x5EAB;&#x7DE8;&#x8B6F;</h3>
+<pre><code class="lang-sh">Library(<span class="hljs-string">&apos;foo&apos;</span>, [<span class="hljs-string">&apos;f1.c&apos;</span>, <span class="hljs-string">&apos;f2.c&apos;</span>, <span class="hljs-string">&apos;f3.c&apos;</span>])
+</code></pre>
+<h3 id="4-1-1-%E4%BD%A0%E7%94%9A%E8%87%B3%E5%8F%AF%E4%BB%A5%E5%9C%A8%E6%96%87%E4%BB%B6list%E8%A3%A1%E6%B7%B7%E7%94%A8%E6%BA%90%E6%96%87%E4%BB%B6%E5%92%8C-o%E6%96%87%E4%BB%B6">4.1.1  &#x4F60;&#x751A;&#x81F3;&#x53EF;&#x4EE5;&#x5728;&#x6587;&#x4EF6;List&#x88E1;&#x6DF7;&#x7528;&#x6E90;&#x6587;&#x4EF6;&#x548C;.o&#x6587;&#x4EF6;</h3>
+<pre><code class="lang-sh">Library(<span class="hljs-string">&apos;foo&apos;</span>, [<span class="hljs-string">&apos;f1.c&apos;</span>, <span class="hljs-string">&apos;f2.o&apos;</span>, <span class="hljs-string">&apos;f3.c&apos;</span>, <span class="hljs-string">&apos;f4.o&apos;</span>])
+</code></pre>
+<h3 id="4-1-2-%E9%A1%AF%E5%BC%8F%E7%B7%A8%E8%AD%AF%E9%9D%9C%E6%85%8B%E5%BA%AB">4.1.2  &#x986F;&#x5F0F;&#x7DE8;&#x8B6F;&#x975C;&#x614B;&#x5EAB;</h3>
+<pre><code class="lang-sh">StaticLibrary(<span class="hljs-string">&apos;foo&apos;</span>, [<span class="hljs-string">&apos;f1.c&apos;</span>, <span class="hljs-string">&apos;f2.c&apos;</span>, <span class="hljs-string">&apos;f3.c&apos;</span>])
+</code></pre>
+<h3 id="4-1-3-%E7%B7%A8%E8%AD%AF%E5%8B%95%E6%85%8B%E5%BA%AB">4.1.3 &#x7DE8;&#x8B6F;&#x52D5;&#x614B;&#x5EAB;</h3>
+<pre><code class="lang-sh">SharedLibrary(<span class="hljs-string">&apos;foo&apos;</span>, [<span class="hljs-string">&apos;f1.c&apos;</span>, <span class="hljs-string">&apos;f2.c&apos;</span>, <span class="hljs-string">&apos;f3.c&apos;</span>])
+</code></pre>
+<h2 id="4-2-%E5%BA%AB%E9%8F%88%E6%8E%A5">4.2 &#x5EAB;&#x93C8;&#x63A5;</h2>
+<pre><code class="lang-sh">Library(<span class="hljs-string">&apos;foo&apos;</span>, [<span class="hljs-string">&apos;f1.c&apos;</span>, <span class="hljs-string">&apos;f2.c&apos;</span>, <span class="hljs-string">&apos;f3.c&apos;</span>])
+    Program(<span class="hljs-string">&apos;prog.c&apos;</span>, LIBS=[<span class="hljs-string">&apos;foo&apos;</span>, <span class="hljs-string">&apos;bar&apos;</span>], LIBPATH=<span class="hljs-string">&apos;.&apos;</span>)
+</code></pre>
+<p>&#x4E0D;&#x7528;&#x6307;&#x660E;&#x5EAB;&#x7684;&#x524D;&#x7DB4;&#x548C;&#x5F8C;&#x7DB4;&#xFF0C;&#x5982;lib,.a&#x7B49;&#x3002;</p>
+<h2 id="4-3-%E6%89%BE%E5%88%B0%E5%BA%AB%EF%BC%9A-libpath%E8%AE%8A%E9%87%8F">4.3 &#x627E;&#x5230;&#x5EAB;&#xFF1A;$LIBPATH&#x8B8A;&#x91CF;</h2>
+<pre><code class="lang-sh">Program(<span class="hljs-string">&apos;prog.c&apos;</span>, LIBS = <span class="hljs-string">&apos;m&apos;</span>,
+                LIBPATH = [<span class="hljs-string">&apos;/usr/lib&apos;</span>, <span class="hljs-string">&apos;/usr/local/lib&apos;</span>])
+Unix&#x4E0A;     LIBPATH = <span class="hljs-string">&apos;/usr/lib:/usr/local/lib&apos;</span>
+Windows&#x4E0A;  LIBPATH = <span class="hljs-string">&apos;C:\\lib;D:\\lib&apos;</span>
+</code></pre>
+<h2 id="5-%E7%AF%80%E9%BB%9E%E5%B0%8D%E8%B1%A1%EF%BC%88nodes%EF%BC%89">5. &#x7BC0;&#x9EDE;&#x5C0D;&#x8C61;&#xFF08;nodes&#xFF09;</h2>
+<p>SCons&#x628A;&#x6240;&#x6709;&#x77E5;&#x9053;&#x7684;&#x6587;&#x4EF6;&#x548C;&#x76EE;&#x9304;&#x8868;&#x793A;&#x70BA;&#x7BC0;&#x9EDE;&#x3002;
+5.1 builder&#x65B9;&#x6CD5;&#x7684;&#x8FD4;&#x56DE;&#x503C;&#x90FD;&#x662F;&#x7BC0;&#x9EDE;&#x5C0D;&#x8C61;List,&#x9019;&#x4E00;&#x9EDE;&#x5F88;&#x91CD;&#x8981;&#xFF0C;&#x5728;python&#x4E2D;List+List&#x9084;&#x662F;List&#xFF0C;&#x4E0B;&#x9762;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x61C9;&#x7528;&#x3002;</p>
+<pre><code class="lang-sh">hello_list = Object(<span class="hljs-string">&apos;hello.c&apos;</span>, CCFLAGS=<span class="hljs-string">&apos;-DHELLO&apos;</span>)
+goodbye_list = Object(<span class="hljs-string">&apos;goodbye.c&apos;</span>, CCFLAGS=<span class="hljs-string">&apos;-DGOODBYE&apos;</span>)
+Program(hello_list + goodbye_list)
+</code></pre>
+<p>&#x9019;&#x88E1;&#x5982;&#x679C;&#x4E0D;&#x4F7F;&#x7528;&#x8B8A;&#x91CF;&#x7684;&#x8A71;&#xFF0C;&#x5C31;&#x4E0D;&#x80FD;&#x8DE8;&#x5E73;&#x53F0;&#x4F7F;&#x7528;&#x4E86;&#xFF0C;&#x56E0;&#x70BA;&#x4E0D;&#x540C;&#x7CFB;&#x7D71;object&#x64F4;&#x5C55;&#x540D;&#x662F;&#x4E0D;&#x540C;&#x7684;</p>
+<h3 id="5-2-%E9%A1%AF%E7%A4%BA%E5%89%B5%E5%BB%BA%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E9%8C%84%E7%AF%80%E9%BB%9E">5.2 &#x986F;&#x793A;&#x5275;&#x5EFA;&#x6587;&#x4EF6;&#x548C;&#x76EE;&#x9304;&#x7BC0;&#x9EDE;</h3>
+<pre><code class="lang-sh">hello_c = File(<span class="hljs-string">&apos;hello.c&apos;</span>)
+Program(hello_c)
+classes = Dir(<span class="hljs-string">&apos;classes&apos;</span>)
+Java(classes, <span class="hljs-string">&apos;src&apos;</span>)
+</code></pre>
+<p>&#x4E00;&#x822C;&#xFF0C;&#x4F60;&#x4E0D;&#x7528;&#x986F;&#x5F0F;&#x8ABF;&#x7528;&#x4ED6;&#x5011;&#xFF0C;&#x56E0;&#x70BA;builder&#x65B9;&#x6CD5;&#x6703;&#x81EA;&#x52D5;&#x8655;&#x7406;&#x6587;&#x4EF6;&#x540D;&#x5B57;&#x7B26;&#x4E32;&#x4E26;&#x8F49;&#x63DB;&#x70BA;&#x7BC0;&#x9EDE;&#x7684;&#x3002;
+&#x7576;&#x4F60;&#x4E0D;&#x77E5;&#x9053;&#x76EE;&#x6A19;&#x662F;&#x6587;&#x4EF6;&#x9084;&#x662F;&#x76EE;&#x9304;&#x6642;&#xFF1A;</p>
+<pre><code class="lang-sh">xyzzy = Entry(<span class="hljs-string">&apos;xyzzy&apos;</span>)
+</code></pre>
+<h3 id="5-3-%E6%89%93%E5%8D%B0%E7%AF%80%E9%BB%9E%E6%96%87%E4%BB%B6%E5%90%8D">5.3 &#x6253;&#x5370;&#x7BC0;&#x9EDE;&#x6587;&#x4EF6;&#x540D;</h3>
+<pre><code class="lang-sh">hello_c = File(<span class="hljs-string">&apos;hello.c&apos;</span>)
+Program(hello_c)
 
-hello world
-qemu: uncaught target signal <span class="hljs-number">11</span> (Segmentation fault) - core dumped
-Segmentation fault (core dumped)
-</code></pre>
-<p>&#x9032;&#x884C;&#x9060;&#x7A0B;&#x8ABF;&#x8A66;&#xFF08;&#x95DC;&#x9375;&#x662F;&#x6DFB;&#x52A0; -g &#x53C3;&#x6578;&#xFF0C;&#x6307;&#x5B9A;port&#x70BA;1235) </p>
-<pre><code class="lang-sh">qemu-arm -g <span class="hljs-number">1235</span> -L  /usr/arm-linux-gnueabi/  a.out
-</code></pre>
-<p>&#x904B;&#x884C;&#x7528; linux-x86 &#x7684; gdb &#x4E26;&#x4E0D;&#x80FD;&#x6253;&#x5370; symbol</p>
-<pre><code class="lang-sh">(gdb) target remote :<span class="hljs-number">1235</span>
-Remote debugging using :<span class="hljs-number">1235</span>
-(gdb) c
-Continuing.
+classes = Dir(<span class="hljs-string">&apos;classes&apos;</span>)
+Java(classes, <span class="hljs-string">&apos;src&apos;</span>)
 
-Program received signal SIGSEGV, Segmentation fault.
-<span class="hljs-number">0</span>x00000000 <span class="hljs-keyword">in</span> ?? ()
-(gdb) bt
-<span class="hljs-comment">#0  0x00000000 in ?? ()</span>
-Cannot access memory at address <span class="hljs-number">0</span>x0
-(gdb) file /home/payne/hello/a.out
-A program is being debugged already.
-Are you sure you want to change the file? (y or n) y
-Reading symbols from /home/payne/hello/a.out...(no debugging symbols found)...done.
-(gdb) bt
-<span class="hljs-comment">#0  0x00000000 in ?? ()</span>
-Cannot access memory at address <span class="hljs-number">0</span>x0
-(gdb)
+object_list = Object(<span class="hljs-string">&apos;hello.c&apos;</span>)
+program_list = Program(object_list)
+<span class="hljs-built_in">print</span> <span class="hljs-string">&quot;The object file is:&quot;</span>, object_list[<span class="hljs-number">0</span>]
+<span class="hljs-built_in">print</span> <span class="hljs-string">&quot;The program file is:&quot;</span>, program_list[<span class="hljs-number">0</span>]
 </code></pre>
-<p>&#x61F7;&#x7591;&#x8981;&#x4F7F;&#x7528; arm &#x7684; gdb 
-&#x53C3;&#x898B; <a href="http://mazhijing.blog.51cto.com/215535/40759&#x3002;" target="_blank">http://mazhijing.blog.51cto.com/215535/40759&#x3002;</a> &#x7DE8;&#x8B6F;&#x4E86; arm &#x7684;gdb, &#x904B;&#x884C;&#x5F8C;&#x5B9A;&#x4F4D;&#x5230; crash()</p>
-<pre><code class="lang-sh">qemu-arm -L  /usr/arm-linux-gnueabi/  ./gdb 
-(gdb) target remote :<span class="hljs-number">1235</span>
-Remote debugging using :<span class="hljs-number">1235</span>
-warning: Can not parse XML target description; XML support was disabled at compile time
-<span class="hljs-number">0</span>x40801c40 <span class="hljs-keyword">in</span> ?? ()
-(gdb) file /home/payne/hello/a.out
-A program is being debugged already.
-Are you sure you want to change the file?
- (y or n) y
-Reading symbols from /home/payne/hello/a.out...(no debugging symbols found)...done.
-(gdb) c
-Continuing.
+<h3 id="5-4-%E6%8A%8A%E7%AF%80%E9%BB%9E%E6%96%87%E4%BB%B6%E5%90%8D%E7%95%B6%E4%BD%9C%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%BE%86%E4%BD%BF%E7%94%A8">5.4 &#x628A;&#x7BC0;&#x9EDE;&#x6587;&#x4EF6;&#x540D;&#x7576;&#x4F5C;&#x5B57;&#x7B26;&#x4E32;&#x4F86;&#x4F7F;&#x7528;</h3>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> os.path
+program_list = Program(<span class="hljs-string">&apos;hello.c&apos;</span>)
+program_name = str(program_list[<span class="hljs-number">0</span>])
+<span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> os.path.exists(program_name):
+    <span class="hljs-keyword">print</span> program_name, <span class="hljs-string">&quot;does not exist!&quot;</span>
+</code></pre>
+<p>&#x6B64;&#x4F8B;&#x5224;&#x65B7;&#x4E86;&#x6587;&#x4EF6;&#x662F;&#x5426;&#x5B58;&#x5728;</p>
+<h2 id="6-%E4%BE%9D%E8%B3%B4%E9%97%9C%E4%BF%82">6. &#x4F9D;&#x8CF4;&#x95DC;&#x4FC2;</h2>
+<h3 id="6-1">6.1</h3>
+<p>Decider&#x51FD;&#x6578;&#xFF0C;&#x78BA;&#x5B9A;&#x6587;&#x4EF6;&#x662F;&#x5426;&#x88AB;&#x4FEE;&#x6539;</p>
+<h4 id="6-1-1-%E9%BB%98%E8%AA%8D%E4%BD%BF%E7%94%A8md5%E6%AA%A2%E6%9F%A5%E6%BA%90%E6%96%87%E4%BB%B6%E5%85%A7%E5%AE%B9%E8%80%8C%E4%B8%8D%E6%98%AF%E6%99%82%E9%96%93%E6%88%B3%EF%BC%8C%E7%94%A8touch%E4%B8%8D%E7%AE%97%E4%BF%AE%E6%94%B9%E9%81%8E">6.1.1 &#x9ED8;&#x8A8D;&#x4F7F;&#x7528;MD5&#x6AA2;&#x67E5;&#x6E90;&#x6587;&#x4EF6;&#x5167;&#x5BB9;&#x800C;&#x4E0D;&#x662F;&#x6642;&#x9593;&#x6233;&#xFF0C;&#x7528;touch&#x4E0D;&#x7B97;&#x4FEE;&#x6539;&#x904E;</h4>
+<p>&#x986F;&#x793A;&#x8ABF;&#x7528;</p>
+<pre><code class="lang-sh">Program(<span class="hljs-string">&apos;hello.c&apos;</span>)
+Decider(<span class="hljs-string">&apos;MD5&apos;</span>)
+</code></pre>
+<h4 id="6-1-2-%E4%BD%BF%E7%94%A8%E6%99%82%E9%96%93%E6%88%B3">6.1.2 &#x4F7F;&#x7528;&#x6642;&#x9593;&#x6233;</h4>
+<pre><code class="lang-sh">Program(<span class="hljs-string">&apos;hello.c&apos;</span>)
+Decider(<span class="hljs-string">&apos;timestamp-newer&apos;</span>)
+</code></pre>
+<p>&#x8207;&#x4E0B;&#x9762;&#x8A9E;&#x53E5;&#x7B49;&#x50F9;</p>
+<pre><code class="lang-sh">Program(<span class="hljs-string">&apos;hello.c&apos;</span>)
+Decider(<span class="hljs-string">&apos;make&apos;</span>)
+</code></pre>
+<p>&#x66F4;&#x8A73;&#x7D30;&#x7684;&#x6AA2;&#x67E5;</p>
+<pre><code class="lang-sh">Program(<span class="hljs-string">&apos;hello.c&apos;</span>)
+Decider(<span class="hljs-string">&apos;timestamp-match&apos;</span>)
+</code></pre>
+<h4 id="6-1-3-%E5%85%A9%E8%80%85%E5%90%8C%E6%99%82%E4%BD%BF%E7%94%A8">6.1.3 &#x5169;&#x8005;&#x540C;&#x6642;&#x4F7F;&#x7528;</h4>
+<pre><code class="lang-sh">Program(<span class="hljs-string">&apos;hello.c&apos;</span>)
+Decider(<span class="hljs-string">&apos;MD5-timestamp&apos;</span>)
+</code></pre>
+<h3 id="6-3-cpppath-%E9%9A%B1%E5%90%AB%E4%BE%9D%E8%B3%B4%E9%97%9C%E4%BF%82">6.3 $CPPPATH &#x96B1;&#x542B;&#x4F9D;&#x8CF4;&#x95DC;&#x4FC2;</h3>
+<pre><code class="lang-sh">Program(<span class="hljs-string">&apos;hello.c&apos;</span>, CPPPATH = [<span class="hljs-string">&apos;include&apos;</span>, <span class="hljs-string">&apos;/home/project/inc&apos;</span>])
+</code></pre>
+<p>&#x6703;&#x5728;&#x7DE8;&#x8B6F;&#x6642;&#x52A0; -I</p>
+<h3 id="6-4-%E7%B7%A9%E8%A1%9D%E9%9A%B1%E5%BC%8F%E4%BE%9D%E8%B3%B4%E9%97%9C%E4%BF%82">6.4 &#x7DE9;&#x885D;&#x96B1;&#x5F0F;&#x4F9D;&#x8CF4;&#x95DC;&#x4FC2;</h3>
+<pre><code class="lang-sh">% scons -Q --implicit-cache hello  &#x904B;&#x884C;&#x9078;&#x9805;
+SetOption(<span class="hljs-string">&apos;implicit_cache&apos;</span>, <span class="hljs-number">1</span>)      &#x5BEB;&#x5728;&#x8173;&#x672C;&#x88E1;
+</code></pre>
+<p>&#x9019;&#x6A23;&#x4E0B;&#x6B21;&#x5C31;&#x4E0D;&#x7528;&#x5F9E;&#x982D;&#x958B;&#x59CB;&#x627E;&#x4F9D;&#x8CF4;&#x95DC;&#x4FC2;&#x4E86;</p>
+<pre><code class="lang-sh">% scons -Q --implicit-deps-changed hello
+</code></pre>
+<p>&#x518D;&#x6253;&#x958B;</p>
+<h3 id="6-5-%E9%A1%AF%E5%BC%8F%E4%BE%9D%E8%B3%B4%E9%97%9C%E4%BF%82%EF%BC%9A-depends%E5%87%BD%E6%95%B8">6.5 &#x986F;&#x5F0F;&#x4F9D;&#x8CF4;&#x95DC;&#x4FC2;&#xFF1A; Depends&#x51FD;&#x6578;</h3>
+<p>&#x7576;Scons&#x6C92;&#x6709;&#x627E;&#x5230;&#x95DC;&#x4FC2;&#x6642;</p>
+<pre><code class="lang-sh">hello = Program(<span class="hljs-string">&apos;hello.c&apos;</span>)
+Depends(hello, <span class="hljs-string">&apos;other_file&apos;</span>)
+</code></pre>
+<h3 id="6-6-%E7%B8%BD%E6%98%AF%E7%B7%A8%E8%AD%AF">6.6    &#x7E3D;&#x662F;&#x7DE8;&#x8B6F;</h3>
+<pre><code class="lang-sh">hello = Program(<span class="hljs-string">&apos;hello.c&apos;</span>)
+AlwaysBuild(hello)
+</code></pre>
+<h2 id="7-%E7%92%B0%E5%A2%83">7. &#x74B0;&#x5883;</h2>
+<h3 id="7-2-%E5%89%B5%E5%BB%BA%E7%92%B0%E5%A2%83">7.2 &#x5275;&#x5EFA;&#x74B0;&#x5883;</h3>
+<h4 id="7-2-1">7.2.1</h4>
+<pre><code class="lang-py">imp ort os
+env = Environment(CC = <span class="hljs-string">&apos;gcc&apos;</span>, CCFLAGS = <span class="hljs-string">&apos;-O2&apos;</span>)
+env.Program(<span class="hljs-string">&apos;foo.c&apos;</span>)
+</code></pre>
+<p>% scons -Q</p>
+<h4 id="7-2-2-%E7%8D%B2%E5%8F%96%E7%92%B0%E5%A2%83%E8%AE%8A%E9%87%8F">7.2.2 &#x7372;&#x53D6;&#x74B0;&#x5883;&#x8B8A;&#x91CF;</h4>
+<pre><code class="lang-sh">env = Environment()
+<span class="hljs-built_in">print</span> <span class="hljs-string">&quot;CC is:&quot;</span>, env[<span class="hljs-string">&apos;CC&apos;</span>]
+</code></pre>
+<p>% scons -Q
+CC is: cc
+scons: `.&apos; is up to date.</p>
+<pre><code class="lang-sh">env = Environment(FOO = <span class="hljs-string">&apos;foo&apos;</span>, BAR = <span class="hljs-string">&apos;bar&apos;</span>)
+dict = env.Dictionary()
+<span class="hljs-keyword">for</span> key <span class="hljs-keyword">in</span> [<span class="hljs-string">&apos;OBJSUFFIX&apos;</span>, <span class="hljs-string">&apos;LIBSUFFIX&apos;</span>, <span class="hljs-string">&apos;PROGSUFFIX&apos;</span>]:
+    <span class="hljs-built_in">print</span> <span class="hljs-string">&quot;key = %s, value = %s&quot;</span> % (key, dict[key])
+</code></pre>
+<p>This SConstruct file will print the specified dictionary items for us on POSIX systems as follows:</p>
+<pre><code class="lang-sh">% scons -Q
+key = OBJSUFFIX, value = .o
+key = LIBSUFFIX, value = .a
+key = PROGSUFFIX, value = 
+scons: `.<span class="hljs-string">&apos; is up to date.
+</span></code></pre>
+<h2 id="13-install%E5%AE%89%E8%A3%9D%E6%96%87%E4%BB%B6%E8%87%B3%E5%85%B6%E4%BB%96%E6%96%87%E4%BB%B6%E5%A4%BE">13. Install&#x5B89;&#x88DD;&#x6587;&#x4EF6;&#x81F3;&#x5176;&#x4ED6;&#x6587;&#x4EF6;&#x593E;</h2>
+<pre><code class="lang-sh">env = Environment()
+hello = env.Program(<span class="hljs-string">&apos;hello.c&apos;</span>)
+env.Install(<span class="hljs-string">&apos;/usr/bin&apos;</span>, hello)
+</code></pre>
+<h3 id="13-1-%E5%9C%A8%E7%9B%AE%E9%8C%84%E8%A3%A1%E5%AE%89%E8%A3%9D%E5%A4%9A%E5%80%8B%E6%96%87%E4%BB%B6">13.1 &#x5728;&#x76EE;&#x9304;&#x88E1;&#x5B89;&#x88DD;&#x591A;&#x500B;&#x6587;&#x4EF6;</h3>
+<pre><code class="lang-sh">env = Environment()
+hello = env.Program(<span class="hljs-string">&apos;hello.c&apos;</span>)
+goodbye = env.Program(<span class="hljs-string">&apos;goodbye.c&apos;</span>)
+env.Install(<span class="hljs-string">&apos;/usr/bin&apos;</span>, [hello, goodbye])
+env.Alias(<span class="hljs-string">&apos;install&apos;</span>, <span class="hljs-string">&apos;/usr/bin&apos;</span>)
+</code></pre>
+<h3 id="13-2-%E4%B8%80%E5%80%8B%E6%96%87%E4%BB%B6%E4%B8%8D%E5%90%8C%E5%AD%98%E6%94%BE">13.2 &#x4E00;&#x500B;&#x6587;&#x4EF6;&#x4E0D;&#x540C;&#x5B58;&#x653E;</h3>
+<pre><code class="lang-sh">env = Environment()
+hello = env.Program(<span class="hljs-string">&apos;hello.c&apos;</span>)
+env.InstallAs(<span class="hljs-string">&apos;/usr/bin/hello-new&apos;</span>, hello)
+env.Alias(<span class="hljs-string">&apos;install&apos;</span>, <span class="hljs-string">&apos;/usr/bin&apos;</span>)
 
-Program received signal SIGSEGV, Segmentation fault.
-<span class="hljs-number">0</span>x0000841e <span class="hljs-keyword">in</span> crash() ()
-(gdb)
+% scons -Q install
+cc -o hello.o -c hello.c
+cc -o hello hello.o
+Install file: <span class="hljs-string">&quot;hello&quot;</span> as <span class="hljs-string">&quot;/usr/bin/hello-new&quot;</span>
 </code></pre>
-<h2 id="%E7%B5%90%E8%AB%96%EF%BC%9A">&#x7D50;&#x8AD6;&#xFF1A;</h2>
-<p>&#x96E3;&#x9053;&#x8AAA; arm &#x7684; gdbserver, &#x5C31;&#x50C5;&#x50C5;&#x80FD;&#x7528; arm &#x7684; gdb&#xFF1F;</p>
+<h2 id="14-%E5%B9%B3%E5%8F%B0%E7%8D%A8%E7%AB%8B%E7%9A%84%E6%96%87%E4%BB%B6%E7%B3%BB%E7%B5%B1%E6%93%8D%E4%BD%9C">14 &#x5E73;&#x53F0;&#x7368;&#x7ACB;&#x7684;&#x6587;&#x4EF6;&#x7CFB;&#x7D71;&#x64CD;&#x4F5C;</h2>
+<h3 id="14-1-%E8%A4%87%E8%A3%BD">14.1 &#x8907;&#x88FD;</h3>
+<pre><code class="lang-sh">Command(<span class="hljs-string">&quot;file.out&quot;</span>, <span class="hljs-string">&quot;file.in&quot;</span>, Copy(<span class="hljs-string">&quot;<span class="hljs-variable">$TARGET</span>&quot;</span>, <span class="hljs-string">&quot;<span class="hljs-variable">$SOURCE</span>&quot;</span>))
+</code></pre>
+<p>&#x6216;&#x8005;</p>
+<pre><code class="lang-sh">Command(<span class="hljs-string">&quot;file.out&quot;</span>, [], Copy(<span class="hljs-string">&quot;<span class="hljs-variable">$TARGET</span>&quot;</span>, <span class="hljs-string">&quot;file.in&quot;</span>))
+</code></pre>
+<h2 id="16-%E5%A4%9A%E5%B1%A4%E7%9B%AE%E9%8C%84%E6%A7%8B%E5%BB%BA">16. &#x591A;&#x5C64;&#x76EE;&#x9304;&#x69CB;&#x5EFA;</h2>
+<p><code>Sconconstruct&#x5728;&#x6700;&#x9802;&#x5C64;</code></p>
+<h3 id="16-1-sconscript%E6%96%87%E4%BB%B6%E5%8F%AF%E4%BB%A5%E5%B1%A4%E5%B1%A4%E5%8C%85%E5%90%AB">16.1 SConscript&#x6587;&#x4EF6;&#x53EF;&#x4EE5;&#x5C64;&#x5C64;&#x5305;&#x542B;</h3>
+<pre><code class="lang-sh">SConscript([<span class="hljs-string">&apos;drivers/SConscript&apos;</span>, <span class="hljs-string">&apos;parser/SConscript&apos;</span>, <span class="hljs-string">&apos;utilities/SConscript&apos;</span>])
+</code></pre>
+<p>&#x5728;drivers&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-sh">SConscript([<span class="hljs-string">&apos;display/SConscript&apos;</span>, <span class="hljs-string">&apos;mouse/SConscript&apos;</span>])
+</code></pre>
+<h3 id="16-2-%E5%B0%8D%E6%96%87%E4%BB%B6sconscript%E7%9A%84%E7%9B%B8%E5%B0%8D%E7%9B%AE%E9%8C%84">16.2 &#x5C0D;&#x6587;&#x4EF6;SConscript&#x7684;&#x76F8;&#x5C0D;&#x76EE;&#x9304;</h3>
+<pre><code class="lang-sh">SConscript([<span class="hljs-string">&apos;prog1/SConscript&apos;</span>, <span class="hljs-string">&apos;prog2/SConscript&apos;</span>])
+</code></pre>
 
                     
                     </section>
@@ -11354,10 +11479,10 @@ Program received signal SIGSEGV, Segmentation fault.
         </div>
 
         
-        <a href="../gdb/gdbdiao_shi_yuan_li_ptrace_xi_tong_diao_yong.html" class="navigation navigation-prev " aria-label="Previous page: GDB調試原理 ptrace系統調用"><i class="fa fa-angle-left"></i></a>
+        <a href="../gunmake/gnu_makefile_za_xiang_yu_fa_bei_wang.html" class="navigation navigation-prev " aria-label="Previous page: GNU Makefile 雜項語法備忘"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../gdb/gdbxian_shi_jie_gou_ti.html" class="navigation navigation-next " aria-label="Next page: gdb顯示結構體"><i class="fa fa-angle-right"></i></a>
+        <a href="../22/index.html" class="navigation navigation-next " aria-label="Next page: [轉]國王的耳朵是驢耳朵"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

@@ -69,7 +69,7 @@ clean_build() {
     wget -P /tmp/ "$KERNEL_SRC_URL" && tar xJf "/tmp/`basename $KERNEL_SRC_URL`" -C "$KERNEL" --strip-components=1
 
     dd if=/dev/zero of=./busybox.img bs=1M count=4096
-    yes '' | mkfs.ext3 busybox.img
+    'yes' | mkfs.ext3 busybox.img
     mkdir disk
     sudo mount -o loop busybox.img disk
     sudo tar xvf core-image-sato-qemux86-64.tar.gz -C disk
@@ -119,7 +119,7 @@ CONFIG_MMIOTRACE=y
 CONFIG_PERCPU_RWSEM=y
 EOF
 
-    'yes' | make -C $KERNEL O=../obj/$LINUX_PALTFORM oldconfig
+    yes '' | make -C $KERNEL O=../obj/$LINUX_PALTFORM oldconfig
     make -C $KERNEL O=../obj/$LINUX_PALTFORM clean
     time make -C $KERNEL O=../obj/$LINUX_PALTFORM -j12 2>&1 | tee kernel_build.log
 }

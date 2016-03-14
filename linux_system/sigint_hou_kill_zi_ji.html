@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>堆棧的使用 | Jason note</title>
+        <title>SIGINT 後 KILL 自己 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../assembly/1618.html" />
+    <link rel="next" href="../assembly/index.html" />
     
     
-    <link rel="prev" href="../assembly/1616.html" />
+    <link rel="prev" href="../linux_system/ldconfigji_ld_library_path_,_ld_debug_,_ld_preload.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="15.2.7" data-basepath=".." data-revision="Mon Mar 14 2016 22:17:26 GMT+0800 (CST)">
+    <div class="book" data-level="14.25" data-basepath=".." data-revision="Mon Mar 14 2016 22:17:26 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -4157,7 +4157,7 @@
             
         </li>
     
-        <li class="chapter " data-level="14.25" data-path="linux_system/sigint_hou_kill_zi_ji.html">
+        <li class="chapter active" data-level="14.25" data-path="linux_system/sigint_hou_kill_zi_ji.html">
             
                 
                     <a href="../linux_system/sigint_hou_kill_zi_ji.html">
@@ -4314,7 +4314,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="15.2.7" data-path="assembly/1617.html">
+        <li class="chapter " data-level="15.2.7" data-path="assembly/1617.html">
             
                 
                     <a href="../assembly/1617.html">
@@ -11298,109 +11298,45 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E5%A0%86%E6%A3%A7%E7%9A%84%E4%BD%BF%E7%94%A8">&#x5806;&#x68E7;&#x7684;&#x4F7F;&#x7528;</h1>
-<p>&#x5806;&#x68E7;&#x662F;&#x5167;&#x5B58;&#x4E2D;&#x7528;&#x65BC;&#x5B58;&#x653E;&#x6578;&#x64DA;&#x7684;&#x5C08;&#x9580;&#x4FDD;&#x7559;&#x7684;&#x5340;&#x57DF;&#xFF0C;&#x8A72;&#x5340;&#x57DF;&#x7684;&#x6578;&#x64DA;&#x5B58;&#x653E;&#x548C;&#x522A;&#x9664;&#x65B9;&#x5F0F;&#x6BD4;&#x8F03;&#x7279;&#x6B8A;&#x3002;&#x4E00;&#x822C;&#x5167;&#x5B58;&#x5340;&#x57DF;&#x6578;&#x64DA;&#x5143;&#x7D20;&#x6309;&#x7167;&#x9023;&#x7E8C;&#x7684;&#x65B9;&#x5F0F;&#x5B58;&#x653E;&#x5230;&#x6578;&#x64DA;&#x6BB5;&#xFF0C;&#x5728;&#x6578;&#x64DA;&#x6BB5;&#x4E2D;&#x6700;&#x4F4E;&#x5167;&#x5B58;&#x958B;&#x59CB;&#x5B58;&#x653E;&#xFF0C;&#x7136;&#x5F8C;&#x5411;&#x66F4;&#x9AD8;&#x7684;&#x5167;&#x5B58;&#x4F4D;&#x7F6E;&#x4F9D;&#x6B21;&#x5B58;&#x653E;&#x3002;&#x800C;&#x5806;&#x68E7;&#x4FDD;&#x7559;&#x5728;&#x5167;&#x5B58;&#x5340;&#x57DF;&#x7684;&#x672B;&#x5C3E;&#x4F4D;&#x7F6E;&#xFF0C;&#x4E26;&#x4E14;&#x5728;&#x7576;&#x6578;&#x64DA;&#x5B58;&#x653E;&#x5728;&#x5806;&#x68E7;&#x4E2D;&#x6642;&#xFF0C;&#x5B83;&#x5411;&#x4E0B;&#x589E;&#x9577;&#x3002;&#x7A0B;&#x5E8F;&#x904B;&#x884C;&#x6642;&#x4F7F;&#x7528;&#x7684;&#x4EFB;&#x4F55;&#x547D;&#x4EE4;&#x884C;&#x53C3;&#x6578;&#x90FD;&#x88AB;&#x9001;&#x5165;&#x5806;&#x68E7;&#x4E2D;&#xFF0C;&#x4E26;&#x4E14;&#x5806;&#x68E7;&#x6307;&#x91DD;&#x88AB;&#x8A2D;&#x7F6E;&#x70BA;&#x6307;&#x5411;&#x6578;&#x64DA;&#x5143;&#x7D20;&#x7684;&#x5E95;&#x90E8;&#x3002;</p>
-<p>&#x7576;&#x6BCF;&#x500B;&#x6578;&#x64DA;&#x88AB;&#x6DFB;&#x52A0;&#x5230;&#x5806;&#x68E7;&#x6578;&#x64DA;&#x5340;&#x57DF;&#x4E2D;&#x6642;&#xFF0C;&#x4F7F;&#x7528;&#x4E00;&#x500B;&#x6307;&#x91DD;&#x8DDF;&#x8E64;&#x5806;&#x68E7;&#x7684;&#x958B;&#x59CB;&#x4F4D;&#x7F6E;&#x3002;&#x5BC4;&#x5B58;&#x5668;esp&#x5305;&#x542B;&#x5806;&#x68E7;&#x8D77;&#x59CB;&#x4F4D;&#x7F6E;&#x7684;&#x5167;&#x5B58;&#x5730;&#x5740;&#xFF0C;&#x6240;&#x4EE5;&#x5728;&#x7DE8;&#x5BEB;&#x7A0B;&#x5E8F;&#x6642;&#xFF0C;&#x4E0D;&#x5141;&#x8A31;&#x628A;esp&#x5BC4;&#x5B58;&#x5668;&#x7528;&#x4F5C;&#x5176;&#x5B83;&#x7528;&#x9014;&#xFF0C;&#x5982;&#x679C;&#x5806;&#x68E7;&#x8D77;&#x59CB;&#x4F4D;&#x7F6E;&#x4E1F;&#x5931;&#x4E86;&#xFF0C;&#x7A0B;&#x5E8F;&#x904B;&#x884C;&#x5C07;&#x51FA;&#x73FE;&#x610F;&#x60F3;&#x4E0D;&#x5230;&#x7684;&#x7D50;&#x679C;&#x3002;&#x5728;&#x7DE8;&#x5BEB;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x6642;&#xFF0C;&#x4E3B;&#x8981;&#x5DE5;&#x4F5C;&#x6642;&#x8DDF;&#x8E64;&#x5806;&#x68E7;&#x4E2D;&#x7684;&#x6578;&#x64DA;&#xFF0C;&#x4E0D;&#x9700;&#x8981;&#x624B;&#x52D5;&#x53BB;&#x8A2D;&#x7F6E;&#x5806;&#x68E7;&#x6307;&#x91DD;&#xFF0C;IA-32&#x6307;&#x4EE4;&#x96C6;&#x5305;&#x542B;&#x6307;&#x4EE4;&#x7528;&#x65BC;&#x8A2A;&#x554F;&#x5806;&#x68E7;&#x6578;&#x64DA;&#x7684;&#x6307;&#x4EE4;&#x3002;</p>
-<p>&#x628A;&#x65B0;&#x7684;&#x6578;&#x64DA;&#x653E;&#x5230;&#x5806;&#x68E7;&#x4E2D;&#x7A31;&#x70BA;&#x5165;&#x68E7;&#xFF0C;&#x5176;&#x5C0D;&#x61C9;&#x6307;&#x4EE4;&#x70BA;push&#xFF0C;&#x683C;&#x5F0F;&#x70BA;&#xFF1A;</p>
-<pre><code>pushx source
-</code></pre><p>x&#x662F;&#x4E00;&#x500B;&#x5B57;&#x7B26;&#xFF0C;&#x8868;&#x793A;&#x6578;&#x64DA;&#x9577;&#x5EA6;&#xFF0C;&#x985E;&#x4F3C;mov&#x6307;&#x4EE4;&#xFF0C;&#x4F46;&#x53EA;&#x80FD;&#x662F;l&#xFF08;32&#x4F4D;&#xFF09;&#x548C;w&#xFF08;16&#x4F4D;&#xFF09;&#x3002;source&#x70BA;push&#x64CD;&#x4F5C;&#x7684;&#x6578;&#x64DA;&#x5143;&#x7D20;&#xFF0C;&#x53EF;&#x4EE5;&#x662F;16&#x4F4D;&#x6216;32&#x4F4D;&#x5BC4;&#x5B58;&#x5668;&#x3001;16&#x6216;32&#x4F4D;&#x5167;&#x5B58;&#x503C;&#x3001;16&#x4F4D;&#x6BB5;&#x5BC4;&#x5B58;&#x5668;&#x3001;8&#x4F4D;&#x6216;16&#x4F4D;&#x6216;32&#x4F4D;&#x7ACB;&#x5373;&#x6578;&#x503C;&#x3002;
-&#x5F9E;&#x5806;&#x68E7;&#x4E2D;&#x7372;&#x53D6;&#x6578;&#x64DA;&#x4F7F;&#x7528;pop&#x547D;&#x4EE4;&#xFF0C;&#x5176;&#x683C;&#x5F0F;&#x70BA;&#xFF1A;</p>
-<pre><code>popx dest
-</code></pre><p>x&#x8868;&#x793A;&#x6578;&#x64DA;&#x9577;&#x5EA6;&#xFF0C;dest&#x70BA;&#x63A5;&#x53D7;&#x6578;&#x64DA;&#x7684;&#x76EE;&#x6A19;&#xFF0C;&#x53EF;&#x4EE5;&#x662F;16&#x4F4D;&#x6216;32&#x70BA;&#x5BC4;&#x5B58;&#x5668;&#x3001;16&#x6216;32&#x70BA;&#x5167;&#x5B58;&#x4F4D;&#x7F6E;&#xFF0C;16&#x4F4D;&#x6BB5;&#x5BC4;&#x5B58;&#x5668;&#x3002;
-&#x5982;&#x4E0B;&#x4E00;&#x500B;&#x793A;&#x4F8B;&#x53EF;&#x4EE5;&#x5E6B;&#x52A9;&#x7406;&#x89E3;&#x5806;&#x68E7;&#x662F;&#x5982;&#x4F55;&#x5DE5;&#x4F5C;&#x7684;&#xFF1A;</p>
-<pre><code>#pushpop.s
-.section .data
-data:
-    .int 111
+                        <h1 id="sigint-%E5%BE%8C-kill-%E8%87%AA%E5%B7%B1">SIGINT &#x5F8C; KILL &#x81EA;&#x5DF1;</h1>
+<pre><code class="lang-c"><span class="hljs-comment">/* signal1.c */</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;signal.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
 
-.section .text
-.globl _start
-_start:
-    nop
-    movl $91, %eax
-    movw $45, %bx
-    movb $22, %cl
+<span class="hljs-keyword">struct</span> product {
+    <span class="hljs-keyword">char</span>      str[<span class="hljs-number">100</span>];
+    <span class="hljs-keyword">double</span>    price;
+};
 
-    pushl %eax
-    pushw %bx
-    pushl %ecx
-    pushl data
-    pushl $data
+<span class="hljs-keyword">struct</span> product p1;
 
-    popl %edx
-    popl %edx
-    popl %edx
-    popw %dx
-    popl %edx
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">mess</span><span class="hljs-params">(<span class="hljs-keyword">int</span> sig)</span>
+</span>{
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;&#x8A0A;&#x865F;&#x4EE3;&#x865F;: %d\n&quot;</span>, sig);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;&#x54C1;&#x540D;&#x70BA; %s\n&quot;</span>, p1.str);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;&#x552E;&#x50F9;&#x70BA; %.2lf\n&quot;</span>, p1.price);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;&#x542B;&#x7A05;&#x50F9;&#x70BA; %.2lf\n&quot;</span>, p1.price * <span class="hljs-number">1.05</span>);
+    (<span class="hljs-keyword">void</span>) signal(SIGINT, SIG_DFL);
+    kill(getpid(), SIGINT);
+}
 
-    movl $0, %ebx
-    movl $1, %eax
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    (<span class="hljs-keyword">void</span>) signal(SIGINT, mess);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;&#x8F38;&#x5165;&#x54C1;&#x540D;: &quot;</span>);
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%s&quot;</span>, &amp;p1.str);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;&#x8F38;&#x5165;&#x552E;&#x50F9;: &quot;</span>);
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%lf&quot;</span>, &amp;p1.price);
 
-    int $0x80
-</code></pre><p>&#x4F7F;&#x7528;&#x4E0A;&#x4E00;&#x7BC0;Makefile&#x7DE8;&#x8B6F;&#x93C8;&#x63A5;&#x7A0B;&#x5E8F;&#xFF0C;&#x5728;&#x8ABF;&#x8A66;&#x5668;&#x4E2D;&#x904B;&#x884C;&#x8A72;&#x7A0B;&#x5E8F;&#xFF0C;&#x4E26;&#x4E14;&#x76E3;&#x8996;esp&#x5BC4;&#x5B58;&#x5668;&#x7684;&#x503C;&#x3002;</p>
-<pre><code>(gdb) b _start
-Breakpoint 1 at 0x8048074: file pushpop.s, line 9.
-(gdb) r
-Starting program: /home/allen/as/3_pushpop/pushpop
+    <span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Press CTRL-C\n&quot;</span>);
+        sleep(<span class="hljs-number">2</span>);
+    }
 
-Breakpoint 1, _start () at pushpop.s:9
-9    nop
-(gdb) info registers
-eax            0x0 0
-ecx            0x0 0
-edx            0x0 0
-ebx            0x0 0
-esp            0xbffff3c0 0xbffff3c0
-ebp            0x0 0x0
-esi            0x0 0
-edi            0x0 0
-eip            0x8048074 0x8048074 &lt;_start&gt;
-eflags         0x212 [ AF IF ]
-cs             0x73 115
-ss             0x7b 123
-ds             0x7b 123
-es             0x7b 123
-fs             0x0 0
-gs             0x0 0
-(gdb)
-</code></pre><p>&#x7136;&#x5F8C;&#x55AE;&#x6B65;&#x57F7;&#x884C;&#xFF0C;&#x67E5;&#x770B;&#x5BC4;&#x5B58;&#x5668;&#x503C;&#xFF1A;</p>
-<pre><code>(gdb) print/x $esp
-$3 = 0xbffff3c0
-(gdb) s
-12    movb $22, %cl
-(gdb) print/x $esp
-$4 = 0xbffff3c0
-(gdb) s
-14    pushl %eax
-(gdb) print/x $esp
-$5 = 0xbffff3c0
-(gdb) s
-15    pushw %bx
-(gdb) print/x $esp
-$6 = 0xbffff3bc
-(gdb) s
-16    pushl %ecx
-(gdb) print/x $esp
-$7 = 0xbffff3ba
-(gdb) s
-17    pushl data
-(gdb) print/x $esp
-$8 = 0xbffff3b6
-(gdb) s
-18    pushl $data
-(gdb) print/x $esp
-$9 = 0xbffff3b2
-(gdb)
-</code></pre><p>&#x53EF;&#x4EE5;&#x767C;&#x73FE;esp&#x6307;&#x91DD;&#x79FB;&#x52D5;&#x4E86;&#xFF0C;&#x6C92;push&#x4E00;&#x6B21;&#xFF0C;esp&#x5BC4;&#x5B58;&#x5668;&#x905E;&#x6E1B;&#x4E86;&#xFF0C;&#x6307;&#x5411;&#x65B0;&#x7684;&#x5806;&#x68E7;&#x8D77;&#x59CB;&#x4F4D;&#x7F6E;&#x3002;&#x9019;&#x8AAA;&#x660E;&#x5806;&#x68E7;&#x5728;&#x5167;&#x5B58;&#x4E2D;&#x78BA;&#x5BE6;&#x5411;&#x4E0B;&#x64F4;&#x5C55;&#x4E86;&#x3002;
-&#x57F7;&#x884C;&#x5B8C;&#x6240;&#x6709;pop&#x547D;&#x4EE4;&#xFF1A;</p>
-<pre><code>(gdb) s
-24    popl %edx
-(gdb) s
-26    movl $0, %ebx
-(gdb) print/x $esp
-$12 = 0xbffff3c0
-(gdb)
-</code></pre><p>&#x767C;&#x73FE;&#x5728;&#x6240;&#x6709;&#x6578;&#x64DA;&#x51FA;&#x68E7;&#x4E4B;&#x5F8C;&#xFF0C;&#x5806;&#x68E7;&#x5176;&#x5BE6;&#x4F4D;&#x7F6E;&#x6062;&#x5FA9;&#x5230;&#x4E4B;&#x524D;&#x6578;&#x64DA;&#x9032;&#x68E7;&#x7684;&#x5730;&#x5740;&#x4E86;&#x3002;pop&#x547D;&#x4EE4;&#x6BCF;&#x5F48;&#x51FA;&#x4E00;&#x500B;&#x6578;&#x64DA;&#xFF0C;esp&#x5BC4;&#x5B58;&#x5668;&#x905E;&#x589E;&#xFF0C;&#x986F;&#x793A;&#x5806;&#x68E7;&#x9577;&#x5EA6;&#x5728;&#x5167;&#x5B58;&#x4E2D;&#x5411;&#x4E0A;&#x64F4;&#x5C55;&#x4E86;&#x3002;</p>
+    <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);
+}
+</code></pre>
 
                     
                     </section>
@@ -11411,10 +11347,10 @@ $12 = 0xbffff3c0
         </div>
 
         
-        <a href="../assembly/1616.html" class="navigation navigation-prev " aria-label="Previous page: 數據的傳送"><i class="fa fa-angle-left"></i></a>
+        <a href="../linux_system/ldconfigji_ld_library_path_,_ld_debug_,_ld_preload.html" class="navigation navigation-prev " aria-label="Previous page: ldconfig及 LD_LIBRARY_PATH,LD_DEBUG ,LD_PRELOAD"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../assembly/1618.html" class="navigation navigation-next " aria-label="Next page: 條件跳轉"><i class="fa fa-angle-right"></i></a>
+        <a href="../assembly/index.html" class="navigation navigation-next " aria-label="Next page: Assembly"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

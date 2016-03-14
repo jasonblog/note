@@ -264,6 +264,7 @@
    * [stdout & stderr & fflush()](linux_system/stdout_&_stderr_&_fflush.md)
    * [使用system()函數執行命令行命令簡述](linux_system/shi_yong_system_han_shu_zhi_xing_ming_ling_xing_mi.md)
    * [ldconfig及 LD_LIBRARY_PATH,LD_DEBUG ,LD_PRELOAD](linux_system/ldconfigji_ld_library_path_,_ld_debug_,_ld_preload.md)
+   * SIGINT 後 KILL 自己
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

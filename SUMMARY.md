@@ -184,7 +184,7 @@
    * [Linux內核kernel panic機制淺析](linux_kernel/linuxnei_he_kernel_panic_ji_zhi_qian_xi.md)
    * [如何在linux kernel 中加入system call](linux_kernel/ru_he_zai_linux_kernel_zhong_jia_ru_system_call.md)
    * [MY_example](linux_kernel/myexample.md)
-       * send pid to kernel by ioctl and kernel send_sig to user space 
+       * [send pid to kernel by ioctl and kernel send_sig to user space](linux_kernel/send_pid_to_kernel_by_ioctl_and_kernel_sendsig_to_.md)
 * [Linux Driver](linux_driver/README.md)
    * [《深入Linux設備驅動程序內核機制》之MMAP內存頁面示例](linux_driver/napiyu_pure_interrupt_driver_de_xiao_neng_bi_jiao.md)
    * [Linux Device Model 三角關係](linux_driver/linux_device_model.md)

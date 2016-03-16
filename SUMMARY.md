@@ -459,6 +459,7 @@
    * [Python 的編碼](python/python_de_bian_ma.md)
    * [瞭解Unicode](python/liao_jie_unicode.md)
    * [python debug 入門](python/python_debug_ru_men.md)
+   * Python 直譯器如何處理字串編碼
 * [Vim](vim/vim.md)
    * [HOWTO - vi, vim](vim/howto_-_vi,_vim.md)
 * [TDD](tdd/README.md)

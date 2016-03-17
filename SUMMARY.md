@@ -269,7 +269,7 @@
    * [SIGINT 後 KILL 自己](linux_system/sigint_hou_kill_zi_ji.md)
    * [my_note](linux_system/mynote.md)
        * [thread_create &  signal  使用技巧](linux_system/threadcreate_&_signal_shi_yong_ji_qiao.md)
-   * pthread_sigmask 控制线程的信号掩码
+   * [pthread_sigmask 控制线程的信号掩码](linux_system/pthreadsigmask_kong_zhi_xian_cheng_de_xin_hao_yan_.md)
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

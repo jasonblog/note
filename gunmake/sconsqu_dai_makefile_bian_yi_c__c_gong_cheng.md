@@ -75,7 +75,7 @@ hello_list = Object('hello.c', CCFLAGS='-DHELLO')
 goodbye_list = Object('goodbye.c', CCFLAGS='-DGOODBYE')
 Program(hello_list + goodbye_list)
 ```
-這裡如果不使用變量的話，就不能跨平台使用了，因為不同系統object擴展名是不同的
+這裡如果不使用變量的話，就不能跨平臺使用了，因為不同系統object擴展名是不同的
 
 ###5.2 顯示創建文件和目錄節點
 ```sh
@@ -242,7 +242,7 @@ cc -o hello.o -c hello.c
 cc -o hello hello.o
 Install file: "hello" as "/usr/bin/hello-new"
 ```
-##14 平台獨立的文件系統操作
+##14 平臺獨立的文件系統操作
 ###14.1 複製
 ```sh
 Command("file.out", "file.in", Copy("$TARGET", "$SOURCE"))

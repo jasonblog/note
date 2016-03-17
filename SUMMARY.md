@@ -268,6 +268,7 @@
    * [ldconfig及 LD_LIBRARY_PATH,LD_DEBUG ,LD_PRELOAD](linux_system/ldconfigji_ld_library_path_,_ld_debug_,_ld_preload.md)
    * [SIGINT 後 KILL 自己](linux_system/sigint_hou_kill_zi_ji.md)
    * [my_note](linux_system/mynote.md)
+       * thread_create &  signal  使用技巧
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

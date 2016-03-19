@@ -180,3 +180,49 @@ title Mini Linux (3.13.8-soul)
 ```
 
 
+![](./images/wKioL1M749SzOSbTAABbxGWYUss105.jpg)
+
+測試基本啟動以正常。但是提示沒有腳本文件。
+
+![](./images/wKiom1M76ySD12Q6AADsTSEU74I721.jpg)
+測試可以配置IP地址；也能ping網關。
+
+3、提供rc腳本
+
+```sh
+[root@soul sysroot]# vim etc/fstab
+/dev/sda1       /boot   ext4    defaults        0 0
+proc            /proc   proc    defaults        0 0
+sysfs           /sys    sysfs   defaults        0 0
+/dev/sda2       /       ext4    defaults        0 0
+/dev/sda3       swap    swap    defaults        0 0
+[root@soul sysroot]# mkdir etc/init.d
+[root@soul sysroot]# vim etc/rc.d/rc.sysinit
+#!/bin/sh
+#
+echo -e "\tWelcome to \033[36mMini Linux\033[0m Soul"
+mount -a
+mdev -s
+ifconfig lo 172.0.0.1
+ifconfig eth0 172.16.40.2
+[root@soul sysroot]# chmod +x etc/rc.d/rc.sysinit
+[root@soul sysroot]# vim etc/inittab
+::sysinit:/etc/rc.d/rc.sysinit
+console::respawn:-/bin/sh
+::ctrlaltdel:/sbin/reboot
+::shutdown:/bin/umount -a -r
+[root@soul sysroot]#sync
+#測試啟動
+```
+![](./images/wKioL1M78cbAbUkrAAGfldiU4OU526.jpg)
+![](./images/wKiom1M78f7wBwrNAAEquagbxS8957.jpg)
+
+
+測試啟動正常。
+
+![](./images/wKiom1M7-Vzg3pKMAAC5XYSpBC4301.jpg)
+![](./images/wKioL1M8H8ihYb9JAAD-zhJkZsI958.jpg)
+![](./images/wKiom1M_X6rwLxBlAAJ5T5-oU5A813.jpg)
+
+
+

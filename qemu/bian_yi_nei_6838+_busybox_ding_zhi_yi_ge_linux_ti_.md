@@ -690,7 +690,32 @@ dropbear.k  dropbear.s  init.d  rc.sysdown  rc.sysinit
 `nginx.k' -> `init.d/nginx'
 ```
 
+4、開機測試
+
+這裡可能由於沒有啟動的先後順序；如按照之前的啟動方式會導致都無法開機自動啟動；這裡更改了開機啟動腳本：
+
+```sh
+[root@soul sysroot]# vim etc/rc.d/rc.sysinit
+#下面是分開啟動的；否則會啟動失敗
+mdev -s
+mkdir /dev/pts
+mount -a
+mount -n -o remount,rw /
+/etc/rc.d/dropbear.s start
+/etc/rc.d/nginx.s start
+```
+
 ![](./images/wKiom1M_X6rwLxBlAAJ5T5-oU5A813.jpg)
 
 
+```sh
+Xshell:\> ssh 172.16.40.2
+Connecting to 172.16.40.2:22...
+Connection established.
+To escape to local shell, press 'Ctrl+Alt+]'.
+[root@Soul ~]#su - soul
+[soul@Soul ~]$
+#測試ssh登陸和切換賬戶都是沒有問題的。
+```
 
+到此；本實驗結束；且需要的功能都以實現；關於程序的開機啟動和關機關閉的問題；這個問題也琢磨了很長時間；個人感覺應該是次順問題；所以如需實現；可能需要更改啟動/關閉腳本文件。

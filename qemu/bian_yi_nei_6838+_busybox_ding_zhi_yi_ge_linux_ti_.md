@@ -220,6 +220,43 @@ console::respawn:-/bin/sh
 
 測試啟動正常。
 
+## 三、實現密碼登陸；且可以ssh遠程連接
+
+1、提供虛擬終端；更改之前的inittab文件
+
+```sh
+[root@soul sysroot]# vim etc/inittab
+::sysinit:/etc/rc.d/rc.sysinit
+::respawn:/sbin/getty 19200 tty1
+::respawn:/sbin/getty 19200 tty2
+::respawn:/sbin/getty 19200 tty3
+::respawn:/sbin/getty 19200 tty4
+::respawn:/sbin/getty 19200 tty5
+::respawn:/sbin/getty 19200 tty6
+::ctrlaltdel:/sbin/reboot
+::shutdown:/bin/umount -a -r
+[root@soul sysroot]# sync
+```
+
+2、提供密碼文件
+
+
+```sh
+#這裡以原有的機器上的密碼文件追加到新的系統文件裡
+[root@soul sysroot]# head -1 /etc/passwd > /mnt/sysroot/etc/passwd
+[root@soul sysroot]# grep soul /etc/passwd >> /mnt/sysroot/etc/passwd
+[root@soul sysroot]# vim /mnt/sysroot/etc/passwd
+#更改默認shell
+root:x:0:0:root:/root:/bin/sh
+soul:x:500:500::/home/soul:/bin/sh
+[root@soul sysroot]# head -1 /etc/group > /mnt/sysroot/etc/group
+[root@soul sysroot]# grep soul /etc/group >> /mnt/sysroot/etc/group
+[root@soul sysroot]# head -1 /etc/shadow > /mnt/sysroot/etc/shadow
+[root@soul sysroot]# grep soul /etc/shadow >> /mnt/sysroot/etc/shadow
+[root@soul sysroot]# chmod 400 /mnt/sysroot/etc/shadow
+#sync後直接測試；一般tty1登陸是有問題的。
+```
+
 ![](./images/wKiom1M7-Vzg3pKMAAC5XYSpBC4301.jpg)
 ![](./images/wKioL1M8H8ihYb9JAAD-zhJkZsI958.jpg)
 ![](./images/wKiom1M_X6rwLxBlAAJ5T5-oU5A813.jpg)

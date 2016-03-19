@@ -91,7 +91,7 @@
    * [建構 Linux 0.11 的開發環境](qemu/jian_gou_linux_0__11_de_kai_fa_huan_jing.md)
    * [KGDB + QEMU + SSH](qemu/kgdb_+_qemu_+_ssh.md)
    * [打造屬於自己的linux發行版](qemu/da_zao_shu_yu_zi_ji_de_linux_fa_xing_ban.md)
-   * 編譯內核+BusyBox定製一個Linux提供ssh和web服務
+   * [編譯內核+BusyBox定製一個Linux提供ssh和web服務](qemu/bian_yi_nei_6838+_busybox_ding_zhi_yi_ge_linux_ti_.md)
 * [fcamel](fcamel/README.md)
    * [[轉]ld, ld.so 和 ldconfig 的行為](fcamel/01.md)
    * [[轉]解決 undefined symbol / reference](fcamel/02.md)

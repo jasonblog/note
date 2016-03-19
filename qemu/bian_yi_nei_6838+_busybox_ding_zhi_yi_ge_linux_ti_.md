@@ -263,8 +263,433 @@ soul:x:500:500::/home/soul:/bin/sh
 
 測試登陸成功。
 
+3、提供主機名等信息
 
+```sh
+[root@soul sysroot]# mkdir etc/sysconfig
+[root@soul sysroot]# vim etc/sysconfig/network
+HOSTNAME=Soul.com
+[root@soul etc]# vim profile        設置環境變量
+export PS1='[\u@\h \W]\$'
+export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/sbin:/usr/local/bin
+[root@soul sysroot]# vim etc/rc.d/rc.sysinit
+#!/bin/sh
+#
+echo -e "\tWelcome to \033[36mMini Linux\033[0m Soul"
+[ -r /etc/sysconfig/network ] && . /etc/sysconfig/network
+[ -z "$HOSTNAME" -o "$HOSTNAME" == "(none)" ] && HOSTNAME=localhost
+/bin/hostname $HOSTNAME
+[ -r /etc/profile ] && . /etc/profile
+mdev -s
+mount -a
+ifconfig lo 172.0.0.1
+ifconfig eth0 172.16.40.2
+[root@soul sysroot]# vim etc/issue
+Welcome to Mini Linux Soul
+kernel \r
+```
+4、編譯安裝dropbear提供ssh服務
+
+```sh
+[root@soul ~]# tar xf dropbear-2013.58.tar.bz2
+[root@soul ~]# cd dropbear-2013.58
+[root@soul dropbear-2013.58]# ./configure
+[root@soul dropbear-2013.58]# make PROGRAMS="dropbear dbclient dropbearkey dropbearconvert scp"
+[root@soul dropbear-2013.58]# make PROGRAMS="dropbear dbclient dropbearkey dropbearconvert scp" install
+[root@soul dropbear-2013.58]# mkdir /etc/dropbear
+[root@soul dropbear-2013.58]# dropbearkey -t rsa -s 1024 -f /etc/dropbear/dropbear_rsa_host_key
+[root@soul dropbear-2013.58]# dropbearkey -t dss -f /etc/dropbear/dropbear_dss_host_key
+[root@soul dropbear-2013.58]# dropbear -p 2222
+[root@soul dropbear-2013.58]# ss -tunl | grep 2222
+tcp    LISTEN     0      20                    :::2222                 :::*
+tcp    LISTEN     0      20                     *:2222                  *:*
+[root@soul dropbear-2013.58]# 測試是否可以登陸
+#用腳本來複製命令和依賴的庫文件到Mini系統上
+[root@soul ~]# sh cp.sh
+You can input [q|Q] quit.
+Enter a command: dropbear
+Copy successful.
+Enter a command: dropbearkey
+Copy successful.
+Enter a command: scp
+Copy successful.
+Enter a command: bash
+Copy successful.
+Enter a command: q
+You choose quit.
+[root@soul ~]#
+#認證庫
+[root@soul ~]# cp -d /lib64/libnss_files* /mnt/sysroot/lib64/
+[root@soul ~]# cp -d /usr/lib64/libnss3.so /mnt/sysroot/usr/lib64/
+[root@soul ~]# cp -d /usr/lib64/libnss_files.so /mnt/sysroot/usr/lib64/
+[root@soul ~]# cp /etc/nsswitch.conf /mnt/sysroot/etc/
+[root@soul ~]# vim /mnt/sysroot/etc/shells
+#安全shell
+/bin/sh
+/bin/hush
+/sbin/nologin
+/bin/bash
+/bin/ash
+#在Mini系統生成key文件
+[root@soul ~]# mkdir /mnt/sysroot/etc/dropbear
+[root@soul ~]# dropbearkey -t dss -f /mnt/sysroot/etc/dropbear/dropbear_dss_host_key
+[root@soul ~]# dropbearkey -t rsa -s 1024 -f /mnt/sysroot/etc/dropbear/dropbear_rsa_host_key
+[root@soul ~]# mkdir /mnt/sysroot/var/run    存放pid文件
+```
+
+5、掛載pts
+
+```sh
+[root@soul sysroot]# vim etc/rc.d/rc.sysinit
+mdev -s    #這個下面添加一行
+mkdir /dev/pts
+mount -a
+[root@soul sysroot]# vim etc/fstab
+/dev/sda1       /boot           ext4            defaults        0 0
+proc            /proc           proc            defaults        0 0
+sysfs           /sys            sysfs           defaults        0 0
+#下面加一行
+devpts          /dev/pts        devpts          defaults        0 0
+```
+
+6、提供dropbear的啟動腳本
+
+```sh
+[root@soul sysroot]# mkdir etc/rc.d/init.d
+[root@soul sysroot]# vim etc/rc.d/init.d/dropbear
+#!/bin/bash
+#
+# description: dropbear ssh daemon
+# chkconfig: 2345 66 33
+#
+dsskey=/etc/dropbear/dropbear_dss_host_key
+rsakey=/etc/dropbear/dropbear_rsa_host_key
+lockfile=/var/lock/subsys/dropbear
+pidfile=/var/run/dropbear.pid
+dropbear=/usr/local/sbin/dropbear
+dropbearkey=/usr/local/bin/dropbearkey
+[ -r /etc/rc.d/init.d/functions ] && . /etc/rc.d/init.d/functions
+[ -r /etc/sysconfig/dropbear ] && . /etc/sysconfig/dropbear
+keysize=1024
+port=22
+gendsskey() {
+    [ -d /etc/dropbear ] || mkdir /etc/dropbear
+    echo -n "Starting generate the dss key: "
+    $dropbearkey -t dss -f $dsskey &> /dev/null
+    RETVAL=$?
+    if [ $RETVAL -eq 0 ]; then
+        success
+        echo
+        return 0
+    else
+        failure
+        echo
+        return 1
+    fi
+}
+genrsakey() {
+    [ -d /etc/dropbear ] || mkdir /etc/dropbear
+    echo -n "Starting generate the rsa key: "
+    $dropbearkey -t rsa -s $keysize -f $rsakey &> /dev/null
+    RETVAL=$?
+    if [ $RETVAL -eq 0 ]; then
+        success
+        echo
+        return 0
+    else
+        failure
+        echo
+        return 1
+    fi
+}
+start() {
+    [ -e $dsskey ] || gendsskey
+    [ -e $rsakey ] || genrsakey
+    if [ -e $lockfile ]; then
+        echo -n "dropbear daemon is already running: "
+        success
+        echo
+        exit 0
+    fi
+    echo -n "Starting dropbear: "
+    daemon --pidfile="$pidfile" $dropbear -p $port -d $dsskey -r $rsakey
+    RETVAL=$?
+    echo
+    if [ $RETVAL -eq 0 ]; then
+        touch $lockfile
+        return 0
+    else
+        rm -f $lockfile $pidfile
+        return 1
+    fi
+}
+stop() {
+    if [ ! -e $lockfile ]; then
+        echo -n "dropbear service is stopped: "
+        success
+        echo
+        exit 1
+    fi
+    echo -n "Stopping dropbear daemon: "
+    killproc dropbear
+    RETVAL=$?
+    echo
+    if [ $RETVAL -eq 0 ]; then
+        rm -f $lockfile $pidfile
+        return 0
+    else
+        return 1
+    fi
+}
+status() {
+    if [ -e $lockfile ]; then
+        echo "dropbear is running..."
+    else
+        echo "dropbear is stopped..."
+    fi
+}
+usage() {
+    echo "Usage: dropbear {start|stop|restart|status|gendsskey|genrsakey}"
+}
+case $1 in
+    start)
+        start ;;
+    stop)
+        stop ;;
+    restart)
+        stop
+        start
+        ;;
+    status)
+        status
+        ;;
+    gendsskey)
+        gendsskey
+        ;;
+    genrsakey)
+        genrsakey
+        ;;
+    *)
+        usage
+        ;;
+esac                                                                                                                                                                                                                                                            
+[root@soul sysroot]# chmod +x etc/rc.d/init.d/dropbear
+[root@soul sysroot]# cp /etc/rc.d/init.d/functions etc/rc.d/init.d/
+#做啟動腳本鏈接文件
+[root@soul ~]# cd /mnt/sysroot/etc/rc.d/
+[root@soul rc.d]# ln -sv init.d/dropbear dropbear.s
+[root@soul rc.d]# ln -sv init.d/dropbear dropbear.k
+`dropbear.k' -> `init.d/dropbear'
+[root@soul rc.d]# ll
+total 8
+lrwxrwxrwx. 1 root root   15 Apr  2 22:09 dropbear.k -> init.d/dropbear
+lrwxrwxrwx. 1 root root   15 Apr  2 22:09 dropbear.s -> init.d/dropbear
+#查看是否連接成功
+[root@soul etc]# vim rc.d/rc.sysinit
+mkdir /dev/pts
+#下面加一行
+/etc/rc.d/*.s start
+```
+7、提供關機服務腳本
+
+```sh
+[root@soul etc]# vim rc.d/rc.sysdown
+#!/bin/sh
+#
+sync
+sleep 5
+/etc/rc.d/*.k stop
+/bin/umount -a -r
+poweroff
+[root@soul etc]# chmod +x rc.d/rc.sysdown
+[root@soul etc]# vim inittab
+#更改下面這行為執行腳本
+::shutdown:/etc/rc.d/rc.sysdown
+#測試啟動遠程連接
+```
 ![](./images/wKioL1M8H8ihYb9JAAD-zhJkZsI958.jpg)
+
+測試tty1也可以正常登陸；只是需要等待一會在登陸即可
+
+```sh
+Xshell:\> ssh 172.16.40.2
+Connecting to 172.16.40.2:22...
+Connection established.
+To escape to local shell, press 'Ctrl+Alt+]'.
+[root@Soul ~]#ifconfig
+eth0      Link encap:Ethernet  HWaddr 00:0C:29:38:36:2B
+          inet addr:172.16.40.2  Bcast:172.16.255.255  Mask:255.255.0.0
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:67 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:28 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:6415 (6.2 KiB)  TX bytes:3538 (3.4 KiB)
+          Interrupt:19 Base address:0x2000
+#測試開機可以自動啟動dropbear；並可以遠程登陸
+```
+
+## 四、安裝nginx；提供web服務
+
+1、安裝；下載地址：http://nginx.org/
+
+```sh
+[root@soul ~]# cd nginx-1.4.2
+[root@soul nginx-1.4.2]# ./configure --prefix=/usr/local --conf-path=/etc/nginx/nginx.conf --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log --user=nginx --group=nginx --without-pcre --without-http_rewrite_module --without-http_geo_module --without-http_uwsgi_module --without-http_fastcgi_module  --without-http_scgi_module --without-http_memcached_module
+[root@soul nginx-1.4.2]# make && make install
+[root@soul nginx-1.4.2]# useradd nginx
+[root@soul nginx-1.4.2]# nginx
+[root@soul nginx-1.4.2]# ss -tunl | grep 80
+tcp    LISTEN     0      128                    *:80                    *:*
+[root@soul nginx-1.4.2]# 在瀏覽器測試下
+```
+
+2、移植nginx
+
+```sh
+[root@soul ~]# sh cp.sh
+You can input [q|Q] quit.
+Enter a command: nginx
+Copy successful.
+Enter a command: q
+You choose quit.
+[root@soul ~]#
+[root@soul ~]# cp /etc/nginx/ /mnt/sysroot/etc/ -r
+[root@soul ~]# grep "^nginx" /etc/passwd >> /mnt/sysroot/etc/passwd
+[root@soul ~]# grep "^nginx" /etc/group >> /mnt/sysroot/etc/group
+[root@soul ~]# grep "^nginx" /etc/shadow >> /mnt/sysroot/etc/shadow
+[root@soul ~]# mkdir /mnt/sysroot/usr/local/html
+[root@soul ~]# vim /mnt/sysroot/usr/local/html/index.html
+<h1>Welcome to Nginx</h1>
+[root@soul ~]#
+```
+
+3、提供服務腳本
+
+```sh
+#由於nginx的腳本如調用functions函數；可能會導致依賴其他redhat系統獨有的函數；會導致開機無法自啟動；也會影響其他程序導致無法啟動；所以需要自行寫個腳本。
+[root@soul ~]# vi /mnt/sysroot/etc/rc.d/nginx
+#!/bin/sh
+#
+# Startup script for the Nginx
+# chkconfig: - 88 63
+# description: Nginx is a free,open-source,high-performance HTTP Server and reverse proxy.
+# program:/usr/local/sbin/nginx
+# config:/etc/nginx/nginx.conf
+# pidfile:/usr/local/logs/nginx.pid
+                                                                                                                                                                                                                                                                                                                  
+# Synopsis:
+#        nginx [--help] [--version] {start|stop|restart|reload|status}
+                                                                                                                                                                                                                                                                                                                  
+                                                                                                                                                                                                                                                                                                                  
+# Define variable
+nginx=/usr/local/sbin/nginx
+pidfile=/usr/local/logs/nginx.pid
+PROGRAM=`basename $0`
+nginx_conf=/etc/nginx/nginx.conf
+alog=/var/log/nginx/access.log
+elog=/var/log/nginx/error.log
+VERSION=1.4.2
+                  
+# Functions
+usage(){
+    echo "Usage: $PROGRAM [--help] [--version] {start|stop|restart|reload|status}"
+}
+                                                                                                                                                                                                                                                                                                                  
+version(){
+    echo "Version:$VERSION"
+}
+                                                                                                                                                                                                                                                                                                                  
+start(){
+if [ -e $pidfile ]
+   then
+    echo "Nginx already running..."
+   else
+    [ -f $alog ] || touch $alog
+    [ -f $elog ] || touch $elog
+    echo -e "Starting Nginx:\t\t\t\t\t\t\t\c"
+    $nginx -c $nginx_conf
+    touch $pidfile
+    echo -e "[ \c"
+    echo -e "\033[0;32mOK\033[0m\c"
+    echo -e " ]\c"
+    echo -e "\r"
+fi
+}
+                                                                                                                                                                                                                                                                                                                  
+stop(){
+if [ -e $pidfile ]
+   then
+    echo -e "Stopping Nginx:\t\t\t\t\t\t\t\c"
+    /usr/bin/killall $PROGRAM &> /dev/null
+    rm -f $pidfile
+    echo -e "[ \c"
+    echo -e "\033[0;32mOK\033[0m\c"
+    echo -e " ]\c"
+    echo -e "\r"
+   else
+    echo "Nginx already stopped..."
+fi
+}
+                                                                                                                                                                                                                                                                                                                  
+reload(){
+if [ -e $pidfile ]
+   then
+    echo -e "Reloading Nginx:\t\t\t\t\t\t\c"
+    kill -HUP `pidof $PROGRAM`
+    echo -e "[ \c"
+    echo -e "\033[0;32mOK\033[0m\c"
+    echo -e " ]\c"
+    echo -e "\r"
+   else
+    echo "Nginx is not running..."
+fi
+}
+                                                                                                                                                                                                                                                                                                                  
+status(){
+    if [ -e $pidfile ];then
+        echo  "Nginx is running..."
+       else
+        echo  "Nginx is stopped..."
+    fi
+}
+
+case $1 in
+        start)
+            start
+            ;;
+        stop)
+            stop
+            ;;
+        restart)
+            stop
+        sleep2
+            start
+            ;;
+        reload)
+            reload
+            ;;
+        status)
+            status
+            ;;
+        --help)
+            usage
+            ;;
+        --version)
+            version
+            ;;
+        *)
+            usage
+esac
+[root@soul ~]# chmod +x /mnt/sysroot/etc/rc.d/init.d/nginx
+[root@soul ~]# cd /mnt/sysroot/etc/rc.d/
+[root@soul rc.d]# ls
+dropbear.k  dropbear.s  init.d  rc.sysdown  rc.sysinit
+[root@soul rc.d]# ln -sv init.d/nginx nginx.s
+`nginx.s' -> `init.d/nginx'
+[root@soul rc.d]# ln -sv init.d/nginx nginx.k
+`nginx.k' -> `init.d/nginx'
+```
+
 ![](./images/wKiom1M_X6rwLxBlAAJ5T5-oU5A813.jpg)
 
 

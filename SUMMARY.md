@@ -498,6 +498,7 @@
        * [8051 clock](arduino/8051_clock.md)
        * [I2C protocol 原理及應用](arduino/i2c_protocol_yuan_li_ji_ying_yong.md)
    * [I2C](arduino/i2c.md)
+   * 讓 arduino 不需要使用 sudo
 * [edb](linux_reverse/README.md)
    * [EDB (Evan's Debugger)](linux_reverse/rdb.md)
 * [Debug Tips](debug/debug_tips.md)

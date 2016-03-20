@@ -102,6 +102,8 @@ clean_build() {
     chmod 755 bin/tftp_push
     chmod 755 bin/tftp_get
 
+cd $TOP/initramfs/"$BUSYBOX_PALTFORM"
+
 cat << EOF >>init
 #!/bin/sh
 

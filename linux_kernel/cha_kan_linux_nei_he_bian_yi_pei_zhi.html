@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>打印數組中任意連續元素值 | Jason note</title>
+        <title>查看Linux內核編譯配置 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../100_gdb_tips/print-array-indexes.html" />
+    <link rel="next" href="../linux_driver/index.html" />
     
     
-    <link rel="prev" href="../100_gdb_tips/print-large-array.html" />
+    <link rel="prev" href="../linux_kernel/ru_he_zai_linux_kernel_zhong_jia_ru_system_call.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="45.6.4" data-basepath=".." data-revision="Sun Mar 20 2016 16:58:18 GMT+0800 (CST)">
+    <div class="book" data-level="10.29" data-basepath=".." data-revision="Sun Mar 20 2016 16:58:18 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -2778,7 +2778,7 @@
             
         </li>
     
-        <li class="chapter " data-level="10.29" data-path="linux_kernel/cha_kan_linux_nei_he_bian_yi_pei_zhi.html">
+        <li class="chapter active" data-level="10.29" data-path="linux_kernel/cha_kan_linux_nei_he_bian_yi_pei_zhi.html">
             
                 
                     <a href="../linux_kernel/cha_kan_linux_nei_he_bian_yi_pei_zhi.html">
@@ -9692,7 +9692,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="45.6.4" data-path="100_gdb_tips/print-consecutive-array-elements.html">
+        <li class="chapter " data-level="45.6.4" data-path="100_gdb_tips/print-consecutive-array-elements.html">
             
                 
                     <a href="../100_gdb_tips/print-consecutive-array-elements.html">
@@ -11539,37 +11539,16 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E6%89%93%E5%8D%B0%E6%95%B8%E7%B5%84%E4%B8%AD%E4%BB%BB%E6%84%8F%E9%80%A3%E7%BA%8C%E5%85%83%E7%B4%A0%E5%80%BC">&#x6253;&#x5370;&#x6578;&#x7D44;&#x4E2D;&#x4EFB;&#x610F;&#x9023;&#x7E8C;&#x5143;&#x7D20;&#x503C;</h1>
-<h2 id="%E4%BE%8B%E5%AD%90">&#x4F8B;&#x5B50;</h2>
-<pre><code>int main(void)
-{
-  int array[201];
-  int i;
-
-  for (i = 0; i &lt; 201; i++)
-    array[i] = i;
-
-  return 0;
-}
-</code></pre><h2 id="%E6%8A%80%E5%B7%A7">&#x6280;&#x5DE7;</h2>
-<p>&#x5728;gdb&#x4E2D;&#xFF0C;&#x5982;&#x679C;&#x8981;&#x6253;&#x5370;&#x6578;&#x7D44;&#x4E2D;&#x4EFB;&#x610F;&#x9023;&#x7E8C;&#x5143;&#x7D20;&#x7684;&#x503C;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x201C;<code>p array[index]@num</code>&#x201D;&#x547D;&#x4EE4;&#xFF08;<code>p</code>&#x662F;<code>print</code>&#x547D;&#x4EE4;&#x7684;&#x7E2E;&#x5BEB;&#xFF09;&#x3002;&#x5176;&#x4E2D;<code>index</code>&#x662F;&#x6578;&#x7D44;&#x7D22;&#x5F15;&#xFF08;&#x5F9E;0&#x958B;&#x59CB;&#x8A08;&#x6578;&#xFF09;&#xFF0C;<code>num</code>&#x662F;&#x9023;&#x7E8C;&#x591A;&#x5C11;&#x500B;&#x5143;&#x7D20;&#x3002;&#x4EE5;&#x4E0A;&#x9762;&#x4EE3;&#x78BC;&#x70BA;&#x4F8B;&#xFF1A;</p>
-<pre><code>(gdb) p array
-$8 = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
-  32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62,
-  63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93,
-  94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119,
-  120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144,
-  145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169,
-  170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194,
-  195, 196, 197, 198, 199...}
-(gdb) p array[60]@10
-$9 = {60, 61, 62, 63, 64, 65, 66, 67, 68, 69}
-</code></pre><p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x6253;&#x5370;&#x4E86;<code>array</code>&#x6578;&#x7D44;&#x7B2C;60~69&#x500B;&#x5143;&#x7D20;&#x7684;&#x503C;&#x3002;<br>&#x5982;&#x679C;&#x8981;&#x6253;&#x5370;&#x5F9E;&#x6578;&#x7D44;&#x958B;&#x982D;&#x9023;&#x7E8C;&#x5143;&#x7D20;&#x7684;&#x503C;&#xFF0C;&#x4E5F;&#x53EF;&#x4F7F;&#x7528;&#x9019;&#x500B;&#x547D;&#x4EE4;&#xFF1A;&#x201C;<code>p *array@num</code>&#x201D;&#xFF1A;</p>
-<pre><code>(gdb) p *array@10
-$2 = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
-</code></pre><p>&#x8A73;&#x60C5;&#x53C3;&#x898B;<a href="https://sourceware.org/gdb/current/onlinedocs/gdb/Arrays.html#Arrays" target="_blank">gdb&#x624B;&#x518A;</a></p>
-<h2 id="%E8%B2%A2%E7%8D%BB%E8%80%85">&#x8CA2;&#x737B;&#x8005;</h2>
-<p>nanxiao</p>
+                        <h1 id="%E6%9F%A5%E7%9C%8Blinux%E5%85%A7%E6%A0%B8%E7%B7%A8%E8%AD%AF%E9%85%8D%E7%BD%AE">&#x67E5;&#x770B;Linux&#x5167;&#x6838;&#x7DE8;&#x8B6F;&#x914D;&#x7F6E;</h1>
+<p>&#x6709;&#x6642;&#x5019;&#x6211;&#x5011;&#x9700;&#x8981;&#x67E5;&#x770B;Linux&#x7CFB;&#x7D71;&#x7684;&#x5167;&#x6838;&#x662F;&#x5426;&#x5728;&#x7DE8;&#x8B6F;&#x7684;&#x6642;&#x5019;&#x7684;&#x7DE8;&#x8B6F;&#x9078;&#x9805;&#xFF0C;&#x5F9E;&#x800C;&#x78BA;&#x5B9A;&#x67D0;&#x500B;&#x6A21;&#x584A;&#x662F;&#x5426;&#x5DF2;&#x7D93;&#x52A0;&#x5165;&#x5230;&#x5167;&#x6838;&#x4EE5;&#x53CA;&#x53C3;&#x6578;&#x8A2D;&#x7F6E;&#x7B49;&#x7B49;&#x3002;</p>
+<p>&#x65B9;&#x6CD5;&#x6709;&#x5169;&#x7A2E;&#xFF1A;</p>
+<pre><code class="lang-sh"><span class="hljs-comment"># zcat /proc/config.gz</span>
+<span class="hljs-comment"># cat /boot/config-$(uname -r)</span>
+</code></pre>
+<p>&#x7B2C;&#x4E00;&#x7A2E;&#x65B9;&#x6CD5;&#x8981;&#x6C42;&#x5728;&#x5167;&#x6838;&#x7DE8;&#x8B6F;&#x6642;&#x589E;&#x6E1B;&#x76F8;&#x61C9;&#x7684;&#x9078;&#x9805;&#x624D;&#x6703;&#x751F;&#x6210;&#xFF0C;&#x5F88;&#x591A;&#x7CFB;&#x7D71;&#x627E;&#x4E0D;&#x5230;/proc/config.gz&#x9019;&#x500B;&#x6587;&#x4EF6;&#x3002;&#x4E0D;&#x904E;&#x7B2C;&#x4E8C;&#x7A2E;&#x65B9;&#x6CD5;&#x901A;&#x5E38;&#x4E0D;&#x6703;&#x9047;&#x5230;&#x4EC0;&#x9EBC;&#x554F;&#x984C;&#x3002;&#x6E96;&#x78BA;&#x7684;&#x8AAA;&#xFF0C;&#x9019;&#x5169;&#x500B;&#x6587;&#x4EF6;&#x5C31;&#x662F;&#x5167;&#x6838;&#x7DE8;&#x8B6F;&#x4F7F;&#x4F7F;&#x7528;&#x7684;config&#x6587;&#x4EF6;&#x3002;</p>
+<p>&#x6BD4;&#x5982;&#x67E5;&#x770B;bcache&#x662F;&#x5426;&#x7DE8;&#x8B6F;&#x9032;&#x4E86;&#x5167;&#x6838;&#xFF1A;</p>
+<pre><code class="lang-sh"><span class="hljs-comment"># cat /boot/config-$(uname -r) | grep BCACHE</span>
+</code></pre>
 
                     
                     </section>
@@ -11580,10 +11559,10 @@ $2 = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
         </div>
 
         
-        <a href="../100_gdb_tips/print-large-array.html" class="navigation navigation-prev " aria-label="Previous page: 打印大數組中的內容"><i class="fa fa-angle-left"></i></a>
+        <a href="../linux_kernel/ru_he_zai_linux_kernel_zhong_jia_ru_system_call.html" class="navigation navigation-prev " aria-label="Previous page: 如何在linux kernel 中加入system call"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../100_gdb_tips/print-array-indexes.html" class="navigation navigation-next " aria-label="Next page: 打印數組的索引下標"><i class="fa fa-angle-right"></i></a>
+        <a href="../linux_driver/index.html" class="navigation navigation-next " aria-label="Next page: Linux Driver"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

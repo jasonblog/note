@@ -177,7 +177,7 @@
    * [如何在linux kernel 中加入system call](linux_kernel/ru_he_zai_linux_kernel_zhong_jia_ru_system_call.md)
    * [查看Linux內核編譯配置](linux_kernel/cha_kan_linux_nei_he_bian_yi_pei_zhi.md)
    * [Ubuntu更換內核方法](linux_kernel/ubuntugeng_huan_nei_he_fang_fa.md)
-   * [调试工具ltrace strace ftrace的使用](linux_kernel/diao_shi_gong_ju_ltrace_strace_ftrace_de_shi_yong.md)
+   * [調試工具ltrace strace ftrace的使用](linux_kernel/diao_shi_gong_ju_ltrace_strace_ftrace_de_shi_yong.md)
 * [Linux Driver](linux_driver/README.md)
    * [Linux Device Driver Programming](linux_device_driver_programming/README.md)
        * [Linux 裝置驅動程式的概要](linux_device_driver_programming/01.md)

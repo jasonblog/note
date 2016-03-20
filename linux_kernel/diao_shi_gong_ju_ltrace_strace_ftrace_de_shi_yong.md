@@ -257,7 +257,14 @@ tracing_on() or tracing_off()
 
 跟踪模块运行状况时，使用 ftrace 命令操作序列在用户态进行必要的设置，而在代码中则可以通过 traceing_on() 控制在进入特定代码区域时开启跟踪信息，并在遇到某些条件时通过 tracing_off() 暂停；读者可以在查看完感兴趣的信息后，将 1 写入 tracing_on 文件以继续记录跟踪信息。实践中，可以通过宏来控制是否将对这些函数的调用编译进内核模块，这样可以在调试时将其开启，在最终发布时将其关闭。 用户态的应用程序可以通过直接读写文件 tracing_on 来控制记录跟踪信息的暂停状态，以便了解应用程序运行期间内核中发生的活动。
 
-如果我们要开启追踪功能。echo 1 > tracing_on echo function_graph >current_tracer 另外我们也可以设置要追踪的pid值 event buffer等
+如果我们要开启追踪功能。
+
+```sh
+echo 1 > tracing_on 
+echo function_graph >current_tracer 
+```
+
+另外我们也可以设置要追踪的pid值 event buffer等
 
 
 ```sh
@@ -291,7 +298,56 @@ ftrace 不仅可以追踪内核中的函数，也可以追踪用户态下的函�
 
 
 ```c
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
+int main(int argc, char** argv)
+{
+    int ret;
+    int fd;
+    int i = 0;
+    char pidbuf[20];
+    pid_t id;
+
+    id = fork();
+
+    if (id < 0) {
+        fprintf(stderr, "Error in fork");
+        exit(-1);
+    } else if (id == 0) {
+        scanf("%d", &i);
+
+        ret = execv("hello", NULL);
+
+        if (ret == -1) {
+            fprintf(stderr, "Error in execv");
+            exit(-1);
+        }
+    } else {
+        sprintf(pidbuf, "%ld", (long)id);
+        fd = open("/sys/kernel/debug/tracing/set_ftrace_pid", O_CREAT | O_RDWR, 0660);
+
+        if (fd < 0) {
+            fprintf(stderr, "Error in open");
+            exit(-1);
+        }
+
+        write(fd, pidbuf, strlen(pidbuf));
+        close(fd);
+        fd = open("/sys/kernel/debug/tracing/tracing_on", O_CREAT | O_RDWR, 0660);
+        write(fd, "1", 2);
+        close(fd);
+        printf("!!!!\n");
+        sleep(5);
+    }
+
+    return 0;
+}
 ```
-
+然后使用ftrace进行追踪，可以得到一个system call的完整的结果。
  

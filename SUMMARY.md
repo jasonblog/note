@@ -1,7 +1,7 @@
 # Summary
 
 * [Introduction](README.md)
-   *  Other
+   * Other
 * [Command](shared_libraries/12.md)
    * [10 條 Linux](shared_libraries/lsof.md)
    * [Open Chinese Convert 開放中文轉換](shared_libraries/cntotw.md)
@@ -716,4 +716,5 @@
    * [OS dev的Bochs調試](Bochs/os_devde_bochs_diao_shi.md)
 * [Nginx](nginx/nginx.md)
    * [nginx 模塊 使用gdb調試nginx源碼](nginx/nginx_mo_kuai_shi_yong_gdb_diao_shi_nginx_yuan_ma.md)
+* Other
 

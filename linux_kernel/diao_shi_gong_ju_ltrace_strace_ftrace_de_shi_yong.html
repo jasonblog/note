@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>初學Linux中進程調度與進程切換過程 | Jason note</title>
+        <title>調試工具ltrace strace ftrace的使用 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../mooc_linux_kernel/199.html" />
+    <link rel="next" href="../linux_driver/index.html" />
     
     
-    <link rel="prev" href="../mooc_linux_kernel/198.html" />
+    <link rel="prev" href="../linux_kernel/ubuntugeng_huan_nei_he_fang_fa.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="17.8" data-basepath=".." data-revision="Sun Mar 20 2016 18:17:01 GMT+0800 (CST)">
+    <div class="book" data-level="10.31" data-basepath=".." data-revision="Sun Mar 20 2016 18:17:01 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -2808,7 +2808,7 @@
             
         </li>
     
-        <li class="chapter " data-level="10.31" data-path="linux_kernel/diao_shi_gong_ju_ltrace_strace_ftrace_de_shi_yong.html">
+        <li class="chapter active" data-level="10.31" data-path="linux_kernel/diao_shi_gong_ju_ltrace_strace_ftrace_de_shi_yong.html">
             
                 
                     <a href="../linux_kernel/diao_shi_gong_ju_ltrace_strace_ftrace_de_shi_yong.html">
@@ -5382,7 +5382,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="17.8" data-path="mooc_linux_kernel/197.html">
+        <li class="chapter " data-level="17.8" data-path="mooc_linux_kernel/197.html">
             
                 
                     <a href="../mooc_linux_kernel/197.html">
@@ -11569,128 +11569,291 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E5%88%9D%E5%AD%B8linux%E4%B8%AD%E9%80%B2%E7%A8%8B%E8%AA%BF%E5%BA%A6%E8%88%87%E9%80%B2%E7%A8%8B%E5%88%87%E6%8F%9B%E9%81%8E%E7%A8%8B">&#x521D;&#x5B78;Linux&#x4E2D;&#x9032;&#x7A0B;&#x8ABF;&#x5EA6;&#x8207;&#x9032;&#x7A0B;&#x5207;&#x63DB;&#x904E;&#x7A0B;</h1>
-<p>&#x7B2C;&#x516B;&#x8B1B; &#x9032;&#x7A0B;&#x7684;&#x5207;&#x63DB;&#x548C;&#x7CFB;&#x7D71;&#x7684;&#x4E00;&#x822C;&#x57F7;&#x884C;&#x904E;&#x7A0B;</p>
-<p>@2015.04</p>
-<h2 id="%E4%B8%80%E3%80%81%E7%90%86%E8%AB%96%E7%9F%A5%E8%AD%98">&#x4E00;&#x3001;&#x7406;&#x8AD6;&#x77E5;&#x8B58;</h2>
-<p>Linux&#x7CFB;&#x7D71;&#x7684;&#x4E00;&#x822C;&#x57F7;&#x884C;&#x904E;&#x7A0B;</p>
-<p>&#x6700;&#x4E00;&#x822C;&#x7684;&#x60C5;&#x6CC1;&#xFF1A;&#x6B63;&#x5728;&#x904B;&#x884C;&#x7684;&#x7528;&#x6236;&#x614B;&#x9032;&#x7A0B;X&#x5207;&#x63DB;&#x5230;&#x904B;&#x884C;&#x7528;&#x6236;&#x614B;&#x9032;&#x7A0B;Y&#x7684;&#x904E;&#x7A0B;</p>
-<pre><code>1. &#x6B63;&#x5728;&#x904B;&#x884C;&#x7684;&#x7528;&#x6236;&#x614B;&#x9032;&#x7A0B;X
-2. &#x767C;&#x751F;&#x4E2D;&#x65B7;&#x2014;&#x2014;save cs:eip/esp/eflags(current) to kernel stack, then load cs:eip(entry of a specific ISR) and ss:esp(point to kernel stack).
-3. SAVE_ALL //&#x4FDD;&#x5B58;&#x73FE;&#x5834;&#xFF0C;&#x9019;&#x88E1;&#x662F;&#x5DF2;&#x7D93;&#x9032;&#x5165;&#x5167;&#x6838;&#x4E2D;&#x65B7;&#x8655;&#x88E1;&#x904E;&#x7A0B;
-4. &#x4E2D;&#x65B7;&#x8655;&#x7406;&#x904E;&#x7A0B;&#x4E2D;&#x6216;&#x4E2D;&#x65B7;&#x8FD4;&#x56DE;&#x524D;&#x8ABF;&#x7528;&#x4E86;schedule()&#xFF0C;&#x5176;&#x4E2D;&#x7684;switch_to&#x505A;&#x4E86;&#x95DC;&#x9375;&#x7684;&#x9032;&#x7A0B;&#x4E0A;&#x4E0B;&#x6587;&#x5207;&#x63DB;
-5. &#x6A19;&#x865F;1&#x4E4B;&#x5F8C;&#x958B;&#x59CB;&#x904B;&#x884C;&#x7528;&#x6236;&#x614B;&#x9032;&#x7A0B;Y(&#x9019;&#x88E1;Y&#x66FE;&#x7D93;&#x901A;&#x904E;&#x4EE5;&#x4E0A;&#x6B65;&#x9A5F;&#x88AB;&#x5207;&#x63DB;&#x51FA;&#x53BB;&#x904E;&#x56E0;&#x6B64;&#x53EF;&#x4EE5;&#x5F9E;&#x6A19;&#x865F;1&#x7E7C;&#x7E8C;&#x57F7;&#x884C;)
-6. restore_all //&#x6062;&#x5FA9;&#x73FE;&#x5834;
-7. iret - pop cs:eip/ss:esp/eflags from kernel stack
-8. &#x7E7C;&#x7E8C;&#x904B;&#x884C;&#x7528;&#x6236;&#x614B;&#x9032;&#x7A0B;Y
-</code></pre><h3 id="%E5%B9%BE%E7%A8%AE%E7%89%B9%E6%AE%8A%E6%83%85%E6%B3%81">&#x5E7E;&#x7A2E;&#x7279;&#x6B8A;&#x60C5;&#x6CC1;</h3>
+                        <h1 id="%E8%AA%BF%E8%A9%A6%E5%B7%A5%E5%85%B7ltrace-strace-ftrace%E7%9A%84%E4%BD%BF%E7%94%A8">&#x8ABF;&#x8A66;&#x5DE5;&#x5177;ltrace strace ftrace&#x7684;&#x4F7F;&#x7528;</h1>
+<p>&#x6700;&#x8FD1;&#x5B78;&#x7FD2;&#x4E86;&#x4E00;&#x4E9B;&#x8ABF;&#x8A66;&#x5DE5;&#x5177;&#xFF0C;&#x5305;&#x62EC;ltrace strace ftrace&#x3002;&#x9019;&#x4E9B;&#x90FD;&#x5C6C;&#x65BC;&#x4E0D;&#x540C;&#x5C64;&#x7D1A;&#x7684;&#x8ABF;&#x8A66;&#x5DE5;&#x5177;&#x3002; &#x4E0B;&#x9762;&#x662F;&#x6211;&#x756B;&#x7684;&#x7C21;&#x6613;&#x7684;&#x5C64;&#x6B21;&#x95DC;&#x4FC2;&#x5716;&#x3002;</p>
+<pre><code class="lang-sh">  App
+  |
+  |  &lt;--------ltrace
+  |
+libc ld  &lt; -------strace
+  |
+  |     &lt;----------systemtap
+ kernel  &lt;---------ftrace
+</code></pre>
+<p>systemtap&#x662F;&#x7576;&#x4E0B;&#x529F;&#x80FD;&#x5F37;&#x5927;&#x7684;&#x5167;&#x6838;&#x51FD;&#x6578;&#x8FFD;&#x8E64;&#x5DE5;&#x5177;&#xFF0C;&#x6211;&#x5011;&#x7DE8;&#x5BEB;&#x7279;&#x5B9A;&#x7684;script&#x5C31;&#x53EF;&#x4EE5;&#x8ABF;&#x8A66;&#x5167;&#x6838;&#x51FD;&#x6578;&#xFF0C;&#x7531;&#x65BC;&#x9019;&#x500B;&#x7BC7;&#x5E45;&#x6709;&#x9650;&#xFF0C;&#x6211;&#x5C07;&#x5728;&#x5176;&#x4ED6;&#x6587;&#x7AE0;&#x4E2D;&#x9032;&#x884C;&#x4ECB;&#x7D39;&#x3002;</p>
+<p>&#x5148;&#x5F9E;&#x6700;&#x7C21;&#x55AE;&#x7684;&#x8AAA;&#x8D77;ltrace&#x8D77;&#x3002; &#x62FF;&#x6700;&#x7C21;&#x55AE;&#x7684;hello world&#x7A0B;&#x5E8F;&#x4F86;&#x8AAA;&#xFF0C;printf&#x8ABF;&#x7528;&#x7684;lic&#x88E1;&#x9762;&#x7684;&#x5EAB;&#x51FD;&#x6578;&#x8AAA;&#x767D;&#x4E86;&#x5C31;&#x662F;put&#xFF08;&#xFF09;,put()&#x51FD;&#x6578;&#x8FD4;&#x56DE;&#x503C;&#x5C31;&#x662F;&#x6253;&#x5370;&#x5B57;&#x7B26;&#x7684;&#x500B;&#x6578;&#xFF0C;&#x5305;&#x62EC;&#x8F49;&#x79FB;&#x5B57;&#x7B26;\n&#x3002;</p>
+<pre><code class="lang-sh">[root@localhost day3]<span class="hljs-comment"># ltrace -f ./hello</span>
+[pid <span class="hljs-number">15439</span>] __libc_start_main(<span class="hljs-number">0</span>x40052c, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>x7fff226b6888, <span class="hljs-number">0</span>x400560
+[pid <span class="hljs-number">15439</span>] puts(<span class="hljs-string">&quot;Hello world&quot;</span>Hello world
+)                                                    = <span class="hljs-number">12</span>
+[pid <span class="hljs-number">15439</span>] puts(<span class="hljs-string">&quot;Hello world&quot;</span>Hello world
+)                                                    = <span class="hljs-number">12</span>
+[pid <span class="hljs-number">15439</span>] +++ exited (status <span class="hljs-number">0</span>) +++
+[root@localhost day3]<span class="hljs-comment">#</span>
+</code></pre>
+<p>&#x4E0B;&#x9762;&#x6211;&#x4F86;&#x8AAA;&#x4E00;&#x4E0B;strace&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x8FFD;&#x8E64;system call &#x8207; signal&#x3002;&#x6240;&#x8B02;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#xFF0C;&#x5C31;&#x662F;&#x5167;&#x6838;&#x63D0;&#x4F9B;&#x7684;&#x3001;&#x529F;&#x80FD;&#x5341;&#x5206;&#x5F37;&#x5927;&#x7684;&#x4E00;&#x7CFB;&#x5217;&#x7684;&#x51FD;&#x6578;&#x3002;&#x9019;&#x4E9B;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x662F;&#x5728;&#x5167;&#x6838;&#x4E2D;&#x5BE6;&#x73FE;&#x7684;&#xFF0C;&#x6BD4;&#x5982;linux&#x4E2D;&#x7684;POSIX&#x6A19;&#x6E96;&#x5C31;&#x662F;&#x6307;&#x7684;&#x9019;&#x4E00;&#x4E9B;&#x3002;&#x518D;&#x901A;&#x904E;&#x4E00;&#x5B9A;&#x7684;&#x65B9;&#x5F0F;&#x628A;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x7D66;&#x7528;&#x6236;&#xFF0C;&#x4E00;&#x822C;&#x90FD;&#x901A;&#x904E;&#x9580;(gate)&#x9677;&#x5165;(trap)&#x5BE6;&#x73FE;&#x3002;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x662F;&#x7528;&#x6236;&#x7A0B;&#x5E8F;&#x548C;&#x5167;&#x6838;&#x4EA4;&#x4E92;&#x7684;&#x63A5;&#x53E3;&#x3002;</p>
+<pre><code class="lang-sh">[root@localhost day3]<span class="hljs-comment"># strace -f ./hello</span>
+execve(<span class="hljs-string">&quot;./hello&quot;</span>, [<span class="hljs-string">&quot;./hello&quot;</span>], [/* <span class="hljs-number">51</span> vars */]) = <span class="hljs-number">0</span>
+brk(<span class="hljs-number">0</span>)                                  = <span class="hljs-number">0</span>x184e000
+mmap(NULL, <span class="hljs-number">4096</span>, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -<span class="hljs-number">1</span>, <span class="hljs-number">0</span>) = <span class="hljs-number">0</span>x7ff8cecb5000
+access(<span class="hljs-string">&quot;/etc/ld.so.preload&quot;</span>, R_OK)      = -<span class="hljs-number">1</span> ENOENT (No such file or directory)
+open(<span class="hljs-string">&quot;/etc/ld.so.cache&quot;</span>, O_RDONLY|O_CLOEXEC) = <span class="hljs-number">3</span>
+fstat(<span class="hljs-number">3</span>, {st_mode=S_IFREG|<span class="hljs-number">0644</span>, st_size=<span class="hljs-number">114694</span>, ...}) = <span class="hljs-number">0</span>
+mmap(NULL, <span class="hljs-number">114694</span>, PROT_READ, MAP_PRIVATE, <span class="hljs-number">3</span>, <span class="hljs-number">0</span>) = <span class="hljs-number">0</span>x7ff8cec98000
+close(<span class="hljs-number">3</span>)                                = <span class="hljs-number">0</span>
+open(<span class="hljs-string">&quot;/lib64/libc.so.6&quot;</span>, O_RDONLY|O_CLOEXEC) = <span class="hljs-number">3</span>
+<span class="hljs-built_in">read</span>(<span class="hljs-number">3</span>, <span class="hljs-string">&quot;\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0&gt;\0\1\0\0\0\20\33\242\361&lt;\0\0\0&quot;</span>..., <span class="hljs-number">832</span>) = <span class="hljs-number">832</span> 
+fstat(<span class="hljs-number">3</span>, {st_mode=S_IFREG|<span class="hljs-number">0755</span>, st_size=<span class="hljs-number">2071376</span>, ...}) = <span class="hljs-number">0</span> 
+mmap(<span class="hljs-number">0</span>x3cf1a00000, <span class="hljs-number">3896312</span>, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, <span class="hljs-number">3</span>, <span class="hljs-number">0</span>) = <span class="hljs-number">0</span>x3cf1a00000 
+mprotect(<span class="hljs-number">0</span>x3cf1bad000, <span class="hljs-number">2097152</span>, PROT_NONE) = <span class="hljs-number">0</span> 
+mmap(<span class="hljs-number">0</span>x3cf1dad000, <span class="hljs-number">24576</span>, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, <span class="hljs-number">3</span>, <span class="hljs-number">0</span>x1ad000) = <span class="hljs-number">0</span>x3cf1dad000 mmap(<span class="hljs-number">0</span>x3cf1db3000, <span class="hljs-number">17400</span>, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -<span class="hljs-number">1</span>, <span class="hljs-number">0</span>) = <span class="hljs-number">0</span>x3cf1db3000 
+close(<span class="hljs-number">3</span>)                                = <span class="hljs-number">0</span> 
+mmap(NULL, <span class="hljs-number">4096</span>, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -<span class="hljs-number">1</span>, <span class="hljs-number">0</span>) = <span class="hljs-number">0</span>x7ff8cec97000 
+mmap(NULL, <span class="hljs-number">8192</span>, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -<span class="hljs-number">1</span>, <span class="hljs-number">0</span>) = <span class="hljs-number">0</span>x7ff8cec95000 
+arch_prctl(ARCH_SET_FS, <span class="hljs-number">0</span>x7ff8cec95740) = <span class="hljs-number">0</span> 
+mprotect(<span class="hljs-number">0</span>x3cf1dad000, <span class="hljs-number">16384</span>, PROT_READ) = <span class="hljs-number">0</span> 
+mprotect(<span class="hljs-number">0</span>x600000, <span class="hljs-number">4096</span>, PROT_READ)     = <span class="hljs-number">0</span> 
+mprotect(<span class="hljs-number">0</span>x3cf1820000, <span class="hljs-number">4096</span>, PROT_READ) = <span class="hljs-number">0</span> 
+munmap(<span class="hljs-number">0</span>x7ff8cec98000, <span class="hljs-number">114694</span>)          = <span class="hljs-number">0</span> 
+fstat(<span class="hljs-number">1</span>, {st_mode=S_IFCHR|<span class="hljs-number">0620</span>, st_rdev=makedev(<span class="hljs-number">136</span>, <span class="hljs-number">0</span>), ...}) = <span class="hljs-number">0</span> 
+mmap(NULL, <span class="hljs-number">4096</span>, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -<span class="hljs-number">1</span>, <span class="hljs-number">0</span>) = <span class="hljs-number">0</span>x7ff8cecb4000 
+write(<span class="hljs-number">1</span>, <span class="hljs-string">&quot;Hello world\n&quot;</span>, <span class="hljs-number">12</span>Hello world )           = <span class="hljs-number">12</span> 
+write(<span class="hljs-number">1</span>, <span class="hljs-string">&quot;Hello world\n&quot;</span>, <span class="hljs-number">12</span>Hello world )           = <span class="hljs-number">12</span> 
+<span class="hljs-built_in">exit</span>_group(<span class="hljs-number">0</span>)                           = ? +++ 
+exited with <span class="hljs-number">0</span> +++ 
+[root@localhost day3]<span class="hljs-comment">#</span>
+</code></pre>
+<p>&#x901A;&#x904E;&#x67E5;&#x770B;&#x4E0A;&#x9762;&#x7684;system call&#xFF0C;&#x6211;&#x5011;&#x5C31;&#x6703;&#x5C0D;elf&#x6587;&#x4EF6;&#x8F09;&#x5165;&#x6D41;&#x7A0B;&#x6709;&#x4E00;&#x500B;&#x6E05;&#x6670;&#x7684;&#x8A8D;&#x8B58;&#x3002;</p>
+<p>&#x6D41;&#x7A0B;&#xFF1A;</p>
+<pre><code class="lang-sh"><span class="hljs-number">1</span>.&#x8ABF;&#x7528;execve()&#x51FD;&#x6578;&#x57F7;&#x884C;&#x8F09;&#x5165;
+
+<span class="hljs-number">2</span>.brk() allocate new space to load the infomation of programmer
+
+<span class="hljs-number">3</span>.mmap()&#x628A;elf&#x982D;&#x8F09;&#x5165;virtual address
+
+<span class="hljs-number">4</span>.&#x5148;&#x93C8;&#x63A5;ld.so&#x8207;ld.so.cache&#x4E2D;&#x662F;&#x5426;&#x5B58;&#x5728;&#x4E4B;&#x524D;&#x8ABF;&#x7528;&#x904E;&#x5EAB;&#x51FD;&#x6578;&#x7684;&#x7D55;&#x5C0D;&#x5730;&#x5740;
+
+<span class="hljs-number">5</span>.&#x67E5;&#x770B;file &#x72C0;&#x614B;&#x7684;fstat()&#xFF0C;&#x5305;&#x62EC;r w x &#x7B49;
+
+<span class="hljs-number">6</span>.&#x8B80;&#x53D6;ELF&#x982D;&#xFF0C;&#x4E26;&#x6620;&#x5C04;&#x5230;&#x865B;&#x64EC;&#x5730;&#x5740;&#xFF0C;&#x9032;&#x884C;&#x5167;&#x5B58;&#x4FDD;&#x8B77;mprotect&#xFF08;&#xFF09;
+
+<span class="hljs-number">7</span>.&#x8F09;&#x5165;libc.so&#x5EAB;&#x51FD;&#x6578;
+
+<span class="hljs-number">8</span>.arch_prctl()&#x8A2D;&#x7F6E;&#x904B;&#x884C;&#x74B0;&#x5883;&#x7684;&#x9AD4;&#x7CFB;&#x7D50;&#x69CB;
+
+<span class="hljs-number">9</span>.write&#xFF08;&#xFF09;&#x5C31;&#x662F;&#x5167;&#x6838;&#x4E2D;&#x5BEB;&#x51FD;&#x6578;&#xFF0C;&#x5305;&#x62EC;&#x9AEE;&#x6D88;&#x606F;&#x7D66;&#x5176;&#x4ED6;&#x7684;&#x7528;&#x6236;&#xFF0C;&#x5BEB;&#x5165;&#x8A2D;&#x5099;&#x7B49;&#x3002; 
+
+<span class="hljs-number">10</span>.&#x5B8C;&#x6210;&#x8ABF;&#x7528;&#xFF0C;&#x9000;&#x51FA;&#x3002;
+</code></pre>
+<p>Ftrace &#x662F;&#x4E00;&#x500B;&#x5167;&#x6838;&#x4E2D;&#x7684;&#x8FFD;&#x8E64;&#x5668;&#xFF0C;&#x7528;&#x65BC;&#x5E6B;&#x52A9;&#x7CFB;&#x7D71;&#x958B;&#x767C;&#x8005;&#x6216;&#x8A2D;&#x8A08;&#x8005;&#x67E5;&#x770B;&#x5167;&#x6838;&#x904B;&#x884C;&#x60C5;&#x6CC1;&#xFF0C;&#x5B83;&#x53EF;&#x4EE5;&#x88AB;&#x7528;&#x4F86;&#x8ABF;&#x8A66;&#x6216;&#x8005;&#x5206;&#x6790;&#x5EF6;&#x9072;/&#x6027;&#x80FD;&#x554F;&#x984C;&#x3002;&#x6700;&#x65E9; ftrace &#x662F;&#x4E00;&#x500B; function tracer&#xFF0C;&#x50C5;&#x80FD;&#x5920;&#x8A18;&#x9304;&#x5167;&#x6838;&#x7684;&#x51FD;&#x6578;&#x8ABF;&#x7528;&#x6D41;&#x7A0B;&#x3002;&#x5982;&#x4ECA; ftrace &#x5DF2;&#x7D93;&#x6210;&#x70BA;&#x4E00;&#x500B; framework&#xFF0C;&#x63A1;&#x7528; plugin &#x7684;&#x65B9;&#x5F0F;&#x652F;&#x6301;&#x958B;&#x767C;&#x4EBA;&#x54E1;&#x6DFB;&#x52A0;&#x66F4;&#x591A;&#x7A2E;&#x985E;&#x7684; trace &#x529F;&#x80FD;&#x3002;</p>
+<p>Ftrace&#x9700;&#x8981;kernel&#x652F;&#x6301; </p>
+<pre><code class="lang-sh">CONFIG_FUNCTION_TRACER 
+CONFIG_FUNCTION_GRAPH_TRACER 
+CONFIG_CONTEXT_SWITCH_TRACER 
+CONFIG_NOP_TRACER 
+CONFIG_SCHED_TRACER Debugfs
+</code></pre>
+<p>&#x52FE;&#x9078;&#xFF0C;&#x9019;&#x6A23;&#x624D;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;ftrace&#x4E2D;&#x7684;&#x4E00;&#x4E9B;&#x7279;&#x5B9A;&#x529F;&#x80FD;&#x3002;</p>
+<p>&#x7DE8;&#x8B6F;&#x5167;&#x6838;&#x5B8C;&#x6210;&#x5F8C;&#xFF0C;&#x91CD;&#x65B0;&#x958B;&#x6A5F;&#x8F09;&#x5165;&#x65B0;&#x5167;&#x6838;&#x3002; ftrace&#x4E0D;&#x540C;&#x65BC;&#x5176;&#x4ED6;&#x7684;&#x8ABF;&#x8A66;&#x5DE5;&#x5177;&#xFF0C;&#x4ED6;&#x9700;&#x8981;debugfs&#x7684;&#x8F14;&#x52A9;&#x3002;debugfs&#x662F;&#x4E00;&#x7A2E;&#x7279;&#x6B8A;&#x7684;&#x6587;&#x4EF6;&#x7CFB;&#x7D71;&#xFF0C;&#x672C;&#x8EAB;&#x7121;&#x6CD5;&#x9032;&#x884C;&#x7DE8;&#x8F2F;&#xFF0C;&#x4EFB;&#x4F55;&#x5BEB;&#x5165;&#x4FE1;&#x606F;&#x90FD;&#x8981;&#x9760;echo&#x8F09;&#x5165;&#x3002;&#x53E6;&#x5916;&#x7531;&#x65BC;&#x662F;kernel debug&#xFF0C;&#x6240;&#x4EE5;&#x9700;&#x8981;&#x6700;&#x9AD8;&#x7684;root&#x6B0A;&#x9650;&#x3002; &#x6211;&#x5011;&#x8981;&#x5148;&#x639B;&#x8F09;&#x9019;&#x500B;&#x6587;&#x4EF6;&#x7CFB;&#x7D71;&#x5230;&#x7279;&#x6B8A;&#x7684;&#x6587;&#x4EF6;&#x76EE;&#x9304;&#x3002;&#x9019;&#x500B;/mnt/&#x8207;/sys/kernel/debug/tracing&#x662F;&#x7B49;&#x540C;&#x7684;&#x3002;</p>
+<pre><code class="lang-sh">[root@localhost /]<span class="hljs-comment"># mount -t debugfs debugfs /mnt/ </span>
+[root@localhost /]<span class="hljs-comment"># cd /mnt/ </span>
+[root@localhost mnt]<span class="hljs-comment"># ls </span>
+acpi         cleancache     dri            hid        iwlwifi             mei     <span class="hljs-built_in">sched</span>_features  usb             x86 bdi          cxgb4          dynamic_debug  ideapad    kernel_page_tables  mmc0    sleep_time      vgaswitcheroo   xen bluetooth    debug_objects  extfrag        ieee80211  kprobes             rcu     <span class="hljs-built_in">suspend</span>_stats   virtio-ports boot_params  dma_buf        frontswap      ips        mce                 regmap  tracing         wakeup_sources
+[root@localhost mnt]<span class="hljs-comment"># cd tracing/ </span>
+[root@localhost tracing]<span class="hljs-comment"># ls </span>
+available_events            enabled_<span class="hljs-built_in">functions</span>         max_graph_depth  <span class="hljs-built_in">set</span>_ftrace_filter   stack_trace_filter  tracing_cpumask available_filter_<span class="hljs-built_in">functions</span>  events                    options          <span class="hljs-built_in">set</span>_ftrace_notrace  trace               tracing_max_latency available_tracers           free_buffer               per_cpu          <span class="hljs-built_in">set</span>_ftrace_pid      trace_clock         tracing_on buffer_size_kb              <span class="hljs-keyword">function</span>_profile_enabled  printk_formats   <span class="hljs-built_in">set</span>_graph_<span class="hljs-keyword">function</span>  trace_marker        tracing_thresh buffer_total_size_kb        instances                 README           snapshot            trace_options       uprobe_events current_tracer              kprobe_events             saved_cmdlines   stack_max_size      trace_pipe          uprobe_profile dyn_ftrace_total_info       kprobe_profile            <span class="hljs-built_in">set</span>_event        stack_trace         trace_<span class="hljs-built_in">stat</span>
+</code></pre>
+<p>============= Ftrace &#x7684;&#x666E;&#x901A;&#x4F7F;&#x7528;&#x6B65;&#x9A5F;&#x5982;&#x4E0B;&#xFF1A;===============================</p>
+<p>&#x639B;&#x8F09;Debugfs: Ftrace &#x901A;&#x904E; debugfs &#x5411;&#x7528;&#x6236;&#x614B;&#x63D0;&#x4F9B;&#x8A2A;&#x554F;&#x63A5;&#x53E3;&#x3002;&#x914D;&#x7F6E;&#x5167;&#x6838;&#x6642;&#x6FC0;&#x6D3B; debugfs &#x5F8C;&#x6703;&#x5275;&#x5EFA;&#x76EE;&#x9304; /sys/kernel/debug &#xFF0C;debugfs &#x6587;&#x4EF6;&#x7CFB;&#x7D71;&#x5C31;&#x662F;&#x639B;&#x8F09; &#x5230;&#x8A72;&#x76EE;&#x9304;&#x3002; </p>
+<h3 id="1-1-%E9%81%8B%E8%A1%8C%E6%99%82%E6%8E%9B%E8%BC%89%EF%BC%9A-officially-mount-method">1.1 &#x904B;&#x884C;&#x6642;&#x639B;&#x8F09;&#xFF1A; Officially mount method :</h3>
+<pre><code class="lang-sh"><span class="hljs-comment"># mount -t debugfs nodev /sys/kernel/debug</span>
+OR:
+<span class="hljs-comment"># mkdir /debug</span>
+<span class="hljs-comment"># mount -t debugfs nodev /debug</span>
+<span class="hljs-comment"># cd /debug/tracing</span>
+
+OR: <span class="hljs-comment"># mount -t debugfs nodev /sys/kernel/debug</span>
+<span class="hljs-comment"># ln -s /sys/kernel/debug /debug</span>
+</code></pre>
+<h3 id="1-2-%E7%B3%BB%E7%B5%B1%E5%95%9F%E5%8B%95%E8%87%AA%E5%8B%95%E6%8E%9B%E8%BC%89%EF%BC%9A-%E8%A6%81%E5%9C%A8%E7%B3%BB%E7%B5%B1%E5%95%9F%E5%8B%95%E8%87%AA%E5%8B%95%E6%8E%9B%E8%BC%89debugfs%EF%BC%8C%E9%9C%80%E8%A6%81%E5%B0%87%E5%A6%82%E4%B8%8B%E5%85%A7%E5%AE%B9%E6%B7%BB%E5%8A%A0%E5%88%B0">1.2 &#x7CFB;&#x7D71;&#x555F;&#x52D5;&#x81EA;&#x52D5;&#x639B;&#x8F09;&#xFF1A; &#x8981;&#x5728;&#x7CFB;&#x7D71;&#x555F;&#x52D5;&#x81EA;&#x52D5;&#x639B;&#x8F09;debugfs&#xFF0C;&#x9700;&#x8981;&#x5C07;&#x5982;&#x4E0B;&#x5167;&#x5BB9;&#x6DFB;&#x52A0;&#x5230;</h3>
+<pre><code class="lang-sh">/etc/fstab &#x6587;&#x4EF6;&#xFF1A; debugfs /sys/kernel/debug debugfs defaults <span class="hljs-number">0</span> <span class="hljs-number">0</span>
+</code></pre>
 <ul>
-<li>&#x901A;&#x904E;&#x4E2D;&#x65B7;&#x8655;&#x7406;&#x904E;&#x7A0B;&#x4E2D;&#x7684;&#x8ABF;&#x5EA6;&#x6642;&#x6A5F;&#xFF0C;&#x7528;&#x6236;&#x614B;&#x9032;&#x7A0B;&#x8207;&#x5167;&#x6838;&#x7DDA;&#x7A0B;&#x4E4B;&#x9593;&#x4E92;&#x76F8;&#x5207;&#x63DB;&#x548C;&#x5167;&#x6838;&#x7DDA;&#x7A0B;&#x4E4B;&#x9593;&#x4E92;&#x76F8;&#x5207;&#x63DB;&#xFF0C;&#x8207;&#x6700;&#x4E00;&#x822C;&#x7684;&#x60C5;&#x6CC1;&#x975E;&#x5E38;&#x985E;&#x4F3C;&#xFF0C;&#x53EA;&#x662F;&#x5167;&#x6838;&#x7DDA;&#x7A0B;&#x904B;&#x884C;&#x904E;&#x7A0B;&#x4E2D;&#x767C;&#x751F;&#x4E2D;&#x65B7;&#x6C92;&#x6709;&#x9032;&#x7A0B;&#x7528;&#x6236;&#x614B;&#x548C;&#x5167;&#x6838;&#x614B;&#x7684;&#x8F49;&#x63DB;&#xFF1B;</li>
-<li>&#x5167;&#x6838;&#x7DDA;&#x7A0B;&#x4E3B;&#x52D5;&#x8ABF;&#x7528;schedule()&#xFF0C;&#x53EA;&#x6709;&#x9032;&#x7A0B;&#x4E0A;&#x4E0B;&#x6587;&#x7684;&#x5207;&#x63DB;&#xFF0C;&#x6C92;&#x6709;&#x767C;&#x751F;&#x4E2D;&#x65B7;&#x4E0A;&#x4E0B;&#x6587;&#x7684;&#x5207;&#x63DB;&#xFF0C;&#x8207;&#x6700;&#x4E00;&#x822C;&#x7684;&#x60C5;&#x6CC1;&#x7565;&#x7C21;&#x7565;&#xFF1B;</li>
-<li>&#x5275;&#x5EFA;&#x5B50;&#x9032;&#x7A0B;&#x7684;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x5728;&#x5B50;&#x9032;&#x7A0B;&#x4E2D;&#x7684;&#x57F7;&#x884C;&#x8D77;&#x9EDE;&#x53CA;&#x8FD4;&#x56DE;&#x7528;&#x6236;&#x614B;&#xFF0C;&#x5982;fork&#xFF1B;</li>
-<li>&#x52A0;&#x8F09;&#x4E00;&#x500B;&#x65B0;&#x7684;&#x53EF;&#x57F7;&#x884C;&#x7A0B;&#x5E8F;&#x5F8C;&#x8FD4;&#x56DE;&#x5230;&#x7528;&#x6236;&#x614B;&#x7684;&#x60C5;&#x6CC1;&#xFF0C;&#x5982;execve&#xFF1B;</li>
-</ul>
-<h3 id="%E9%80%B2%E7%A8%8B%E7%9A%84%E8%AA%BF%E5%BA%A6%E6%99%82%E6%A9%9F%E8%88%87%E9%80%B2%E7%A8%8B%E7%9A%84%E5%88%87%E6%8F%9B">&#x9032;&#x7A0B;&#x7684;&#x8ABF;&#x5EA6;&#x6642;&#x6A5F;&#x8207;&#x9032;&#x7A0B;&#x7684;&#x5207;&#x63DB;</h3>
-<p>&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x539F;&#x7406;&#x4E2D;&#x4ECB;&#x7D39;&#x4E86;&#x5927;&#x91CF;&#x9032;&#x7A0B;&#x8ABF;&#x5EA6;&#x7B97;&#x6CD5;&#xFF0C;&#x9019;&#x4E9B;&#x7B97;&#x6CD5;&#x5F9E;&#x5BE6;&#x73FE;&#x7684;&#x89D2;&#x5EA6;&#x770B;&#x50C5;&#x50C5;&#x662F;&#x5F9E;&#x904B;&#x884C;&#x968A;&#x5217;&#x4E2D;&#x9078;&#x64C7;&#x4E00;&#x500B;&#x65B0;&#x9032;&#x7A0B;&#xFF0C;&#x9078;&#x64C7;&#x7684;&#x904E;&#x7A0B;&#x4E2D;&#x904B;&#x7528;&#x4E86;&#x4E0D;&#x540C;&#x7684;&#x7B56;&#x7565;&#x800C;&#x5DF2;&#x3002;</p>
-<p>&#x5C0D;&#x65BC;&#x7406;&#x89E3;&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x7684;&#x5DE5;&#x4F5C;&#x6A5F;&#x5236;&#xFF0C;&#x53CD;&#x800C;&#x662F;&#x9032;&#x7A0B;&#x7684;&#x8ABF;&#x5EA6;&#x6642;&#x6A5F;&#x8207;&#x9032;&#x7A0B;&#x7684;&#x5207;&#x63DB;&#x6A5F;&#x5236;&#x66F4;&#x70BA;&#x95DC;&#x9375;&#x3002;</p>
-<h3 id="%E9%80%B2%E7%A8%8B%E8%AA%BF%E5%BA%A6%E7%9A%84%E6%99%82%E6%A9%9F">&#x9032;&#x7A0B;&#x8ABF;&#x5EA6;&#x7684;&#x6642;&#x6A5F;</h3>
-<ul>
-<li>&#x4E2D;&#x65B7;&#x8655;&#x7406;&#x904E;&#x7A0B;&#xFF08;&#x5305;&#x62EC;&#x6642;&#x9418;&#x4E2D;&#x65B7;&#x3001;I/O&#x4E2D;&#x65B7;&#x3001;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x548C;&#x7570;&#x5E38;&#xFF09;&#x4E2D;&#xFF0C;&#x76F4;&#x63A5;&#x8ABF;&#x7528;schedule()&#xFF0C;&#x6216;&#x8005;&#x8FD4;&#x56DE;&#x7528;&#x6236;&#x614B;&#x6642;&#x6839;&#x64DA;need_resched&#x6A19;&#x8A18;&#x8ABF;&#x7528;schedule()&#xFF1B;&#x6BD4;&#x5982;sleep&#xFF0C;&#x5C31;&#x53EF;&#x80FD;&#x76F4;&#x63A5;&#x8ABF;&#x7528;&#x4E86;schedule</li>
-<li>&#x5167;&#x6838;&#x7DDA;&#x7A0B;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x8ABF;&#x7528;schedule()&#x9032;&#x884C;&#x9032;&#x7A0B;&#x5207;&#x63DB;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x5728;&#x4E2D;&#x65B7;&#x8655;&#x7406;&#x904E;&#x7A0B;&#x4E2D;&#x9032;&#x884C;&#x8ABF;&#x5EA6;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#x5167;&#x6838;&#x7DDA;&#x7A0B;&#x4F5C;&#x70BA;&#x4E00;&#x985E;&#x7684;&#x7279;&#x6B8A;&#x7684;&#x9032;&#x7A0B;&#x53EF;&#x4EE5;&#x4E3B;&#x52D5;&#x8ABF;&#x5EA6;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x88AB;&#x52D5;&#x8ABF;&#x5EA6;&#xFF1B;</li>
-<li>&#x7528;&#x6236;&#x614B;&#x9032;&#x7A0B;&#x7121;&#x6CD5;&#x5BE6;&#x73FE;&#x4E3B;&#x52D5;&#x8ABF;&#x5EA6;&#xFF0C;&#x50C5;&#x80FD;&#x901A;&#x904E;&#x9677;&#x5165;&#x5167;&#x6838;&#x614B;&#x5F8C;&#x7684;&#x67D0;&#x500B;&#x6642;&#x6A5F;&#x9EDE;&#x9032;&#x884C;&#x8ABF;&#x5EA6;&#xFF0C;&#x5373;&#x5728;&#x4E2D;&#x65B7;&#x8655;&#x7406;&#x904E;&#x7A0B;&#x4E2D;&#x9032;&#x884C;&#x8ABF;&#x5EA6;&#x3002;&#x7528;&#x6236;&#x614B;&#x9032;&#x7A0B;&#x53EA;&#x80FD;&#x88AB;&#x52D5;&#x8ABF;&#x5EA6;&#x3002;</li>
-</ul>
-<h3 id="%E9%80%B2%E7%A8%8B%E7%9A%84%E5%88%87%E6%8F%9B">&#x9032;&#x7A0B;&#x7684;&#x5207;&#x63DB;</h3>
-<ul>
-<li>&#x70BA;&#x4E86;&#x63A7;&#x5236;&#x9032;&#x7A0B;&#x7684;&#x57F7;&#x884C;&#xFF0C;&#x5167;&#x6838;&#x5FC5;&#x9808;&#x6709;&#x80FD;&#x529B;&#x639B;&#x8D77;&#x6B63;&#x5728;CPU&#x4E0A;&#x57F7;&#x884C;&#x7684;&#x9032;&#x7A0B;&#xFF0C;&#x4E26;&#x6062;&#x5FA9;&#x4EE5;&#x524D;&#x639B;&#x8D77;&#x7684;&#x67D0;&#x500B;&#x9032;&#x7A0B;&#x7684;&#x57F7;&#x884C;&#xFF0C;&#x9019;&#x53EB;&#x505A;&#x9032;&#x7A0B;&#x5207;&#x63DB;&#x3001;&#x4EFB;&#x52D9;&#x5207;&#x63DB;&#x3001;&#x4E0A;&#x4E0B;&#x6587;&#x5207;&#x63DB;&#xFF1B;&#x5373;&#x9032;&#x7A0B;&#x4E0A;&#x4E0B;&#x6587;&#x5207;&#x63DB;&#xFF01;</li>
-<li>&#x639B;&#x8D77;&#x6B63;&#x5728;CPU&#x4E0A;&#x57F7;&#x884C;&#x7684;&#x9032;&#x7A0B;&#xFF0C;&#x8207;&#x4E2D;&#x65B7;&#x6642;&#x4FDD;&#x5B58;&#x73FE;&#x5834;&#x662F;&#x4E0D;&#x540C;&#x7684;&#xFF0C;&#x4E2D;&#x65B7;&#x524D;&#x5F8C;&#x662F;&#x5728;&#x540C;&#x4E00;&#x500B;&#x9032;&#x7A0B;&#x4E0A;&#x4E0B;&#x6587;&#x4E2D;&#xFF0C;&#x53EA;&#x662F;&#x7531;&#x7528;&#x6236;&#x614B;&#x8F49;&#x5411;&#x5167;&#x6838;&#x614B;&#x57F7;&#x884C;&#xFF1B;</li>
-<li>&#x9032;&#x7A0B;&#x4E0A;&#x4E0B;&#x6587;&#x5305;&#x542B;&#x4E86;&#x9032;&#x7A0B;&#x57F7;&#x884C;&#x9700;&#x8981;&#x7684;&#x6240;&#x6709;&#x4FE1;&#x606F;
-&#x7528;&#x6236;&#x5730;&#x5740;&#x7A7A;&#x9593;&#xFF1A;&#x5305;&#x62EC;&#x7A0B;&#x5E8F;&#x4EE3;&#x78BC;&#xFF0C;&#x6578;&#x64DA;&#xFF0C;&#x7528;&#x6236;&#x5806;&#x68E7;&#x7B49;
-&#x63A7;&#x5236;&#x4FE1;&#x606F;&#xFF1A;&#x9032;&#x7A0B;&#x63CF;&#x8FF0;&#x7B26;&#xFF0C;&#x5167;&#x6838;&#x5806;&#x68E7;&#x7B49;
-&#x786C;&#x4EF6;&#x4E0A;&#x4E0B;&#x6587;&#xFF08;&#x6CE8;&#x610F;&#x4E2D;&#x65B7;&#x4E5F;&#x8981;&#x4FDD;&#x5B58;&#x786C;&#x4EF6;&#x4E0A;&#x4E0B;&#x6587;&#x53EA;&#x662F;&#x4FDD;&#x5B58;&#x7684;&#x65B9;&#x6CD5;&#x4E0D;&#x540C;&#xFF09;</li>
-<li>schedule()&#x51FD;&#x6578;&#x9078;&#x64C7;&#x4E00;&#x500B;&#x65B0;&#x7684;&#x9032;&#x7A0B;&#x4F86;&#x904B;&#x884C;&#xFF0C;&#x4E26;&#x8ABF;&#x7528;context_switch&#x9032;&#x884C;&#x4E0A;&#x4E0B;&#x6587;&#x7684;&#x5207;&#x63DB;&#xFF0C;&#x9019;&#x500B;&#x5B8F;&#x8ABF;&#x7528;switch_to&#x4F86;&#x9032;&#x884C;&#x95DC;&#x9375;&#x4E0A;&#x4E0B;&#x6587;&#x5207;&#x63DB;<ul>
-<li>next = pick_next_task(rq, prev);//&#x9032;&#x7A0B;&#x8ABF;&#x5EA6;&#x7B97;&#x6CD5;&#x90FD;&#x5C01;&#x88DD;&#x9019;&#x500B;&#x51FD;&#x6578;&#x5167;&#x90E8;</li>
-<li>ontext_switch(rq, prev, next);//&#x9032;&#x7A0B;&#x4E0A;&#x4E0B;&#x6587;&#x5207;&#x63DB;</li>
-<li>switch_to&#x5229;&#x7528;&#x4E86;prev&#x548C;next&#x5169;&#x500B;&#x53C3;&#x6578;&#xFF1A;prev&#x6307;&#x5411;&#x7576;&#x524D;&#x9032;&#x7A0B;&#xFF0C;next&#x6307;&#x5411;&#x88AB;&#x8ABF;&#x5EA6;&#x7684;&#x9032;&#x7A0B;</li>
-</ul>
+<li><p>&#x9078;&#x64C7;&#x4E00;&#x7A2E; tracer: # cat current_tracer nop // no option # cat available_tracers blk function_graph function nop # echo function_graph &gt; current_tracer</p>
+</li>
+<li><p>&#x6253;&#x958B;&#x95DC;&#x9589;&#x8FFD;&#x8E64;&#xFF08;&#x5728;&#x8001;&#x7684;&#x5167;&#x6838;&#x4E0A;&#x6709;tracing_enabled&#xFF0C;&#x9700;&#x8981;&#x7D66;tracing_enabled&#x548C;tracing_on&#x540C;&#x6642;&#x8CE6;1 &#x624D;&#x80FD;&#x6253;&#x958B;&#x8FFD;&#x8E64;&#xFF0C;&#x800C;&#x5728;&#x65B0;&#x7684;&#x5167;&#x6838;&#x4E0A;&#x53BB;&#x6389;tracing_enabled&#x53EA;&#x9700;&#x8981;&#x63A7;&#x5236;tracing_on &#x5373;&#x53EF;&#x6253;&#x958B;&#x95DC;&#x9589;&#x8FFD;&#x8E64;&#xFF09; # echo 1 &gt; tracing_on; run_test; echo 0 &gt; tracing_on</p>
 </li>
 </ul>
-<pre><code class="lang-cpp">#define switch_to(prev, next, last)                     \
-{ \
-    /*                               \
+<p>&#x6CE8;&#xFF1A;&#x5176;&#x5BE6;ftrace_enabled&#x4E26;&#x4E0D;&#x662F;&#x53BB;&#x6389;&#x4E86;&#xFF0C;&#x800C;&#x662F;&#x5F9E; tracing&#x76EE;&#x9304;&#x4E2D;&#x53BB;&#x6389;&#xFF0C;&#x6211;&#x5011;&#x9084;&#x662F;&#x53EF;&#x4EE5;&#x5728; /proc/sys/kernel/ftrace_enabled &#x76EE;&#x9304;&#x4E0B;&#x770B;&#x5230;&#x4ED6;&#x7684;&#x8EAB;&#x5F71;&#xFF0C;&#x800C;&#x4E14;&#x9ED8;&#x8A8D;&#x5DF2;&#x7D93;&#x88AB;&#x8A2D;&#x7F6E;&#x70BA;1&#xFF0C;&#x6240;&#x4EE5;&#x73FE;&#x5728;&#x6211;&#x5011;&#x53EA;&#x9700;&#x8981;echo 1&#x5230;tracing_on &#x4E2D;&#x5373;&#x53EF;&#x6253;&#x958B;&#x8FFD;&#x8E64;&#x3002; $ cat /proc/sys/kernel/ftrace_enabled 1</p>
+<h2 id="%E6%9F%A5%E7%9C%8B%E8%BF%BD%E8%B9%A4%E7%B5%90%E6%9E%9C%EF%BC%9A">&#x67E5;&#x770B;&#x8FFD;&#x8E64;&#x7D50;&#x679C;&#xFF1A;</h2>
+<p>ftrace &#x7684;&#x8F38;&#x51FA;&#x4FE1;&#x606F;&#x4E3B;&#x8981;&#x4FDD;&#x5B58;&#x5728; 3 &#x500B;&#x6587;&#x4EF6;&#x4E2D;&#x3002;</p>
+<ul>
+<li>Trace&#xFF0C;&#x8A72;&#x6587;&#x4EF6;&#x4FDD;&#x5B58; ftrace &#x7684;&#x8F38;&#x51FA;&#x4FE1;&#x606F;&#xFF0C;&#x5176;&#x5167;&#x5BB9;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x95B1;&#x8B80;&#x3002;</li>
+<li>latency_trace&#xFF0C;&#x4FDD;&#x5B58;&#x8207; trace &#x76F8;&#x540C;&#x7684;&#x4FE1;&#x606F;&#xFF0C;&#x4E0D;&#x904E;&#x7D44;&#x7E54;&#x65B9;&#x5F0F;&#x7565;&#x6709;&#x4E0D;&#x540C;&#x3002;&#x4E3B;&#x8981;&#x70BA;&#x4E86;&#x7528;&#x6236;&#x80FD;&#x65B9;&#x4FBF;&#x5730;&#x5206;&#x6790;&#x7CFB;&#x7D71;&#x4E2D;&#x6709;&#x95DC;&#x5EF6;&#x9072;&#x7684;&#x4FE1;&#x606F;&#x3002;</li>
+<li>trace_pipe &#x662F;&#x4E00;&#x500B;&#x7BA1;&#x9053;&#x6587;&#x4EF6;&#xFF0C;&#x4E3B;&#x8981;&#x70BA;&#x4E86;&#x65B9;&#x4FBF;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x8B80;&#x53D6; trace &#x5167;&#x5BB9;&#x3002;&#x7B97;&#x662F;&#x64F4;&#x5C55;&#x63A5;&#x53E3;&#x5427;&#x3002;</li>
+</ul>
+<p>&#x6240;&#x4EE5;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x67E5;&#x770B; trace &#x8FFD;&#x8E64;&#x6587;&#x4EF6;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x5728;&#x8FFD;&#x8E64;&#x4E4B;&#x524D;&#x4F7F;&#x7528;trace_pipe &#x5C07;&#x8FFD;&#x8E64;&#x7D50;&#x679C;&#x76F4;&#x63A5;&#x5C0E;&#x5411;&#x5176;&#x4ED6;&#x7684;&#x6587;&#x4EF6;&#x3002; &#x6BD4;&#x5982;&#xFF1A; # cat trace_pipe &gt; /tmp/log &amp; # cat /tmp/log OR # cat trace</p>
+<p>============= Ftrace &#x7684;&#x9032;&#x968E;&#x4F7F;&#x7528;&#xFF1A;================</p>
+<p>&#x4F7F;&#x7528; echo pid &gt; set_ftrace_pid &#x4F86;&#x8FFD;&#x8E64;&#x7279;&#x5B9A;&#x7684;&#x9032;&#x7A0B;&#xFF01;</p>
+<h2 id="2-%E8%BF%BD%E8%B9%A4%E4%BA%8B%E4%BB%B6%EF%BC%9A">2. &#x8FFD;&#x8E64;&#x4E8B;&#x4EF6;&#xFF1A;</h2>
+<pre><code class="lang-sh">    <span class="hljs-number">2.1</span> &#x9996;&#x5148;&#x67E5;&#x770B;&#x4E8B;&#x4EF6;&#x6587;&#x4EF6;&#x593E;&#x4E0B;&#x9762;&#x6709;&#x54EA;&#x4E9B;&#x9078;&#x9805;&#xFF1A;
+        <span class="hljs-comment"># ls events/</span>
+    block       ext4    header_event  jbd2    napi    raw_syscalls  &#x2026;&#x2026; <span class="hljs-built_in">enable</span>
+        <span class="hljs-comment"># ls events/sched/</span>
+    <span class="hljs-built_in">enable</span>          <span class="hljs-built_in">sched</span>_kthread_stop_ret  <span class="hljs-built_in">sched</span>_process_<span class="hljs-built_in">exit</span>  <span class="hljs-built_in">sched</span>_process_<span class="hljs-built_in">wait</span>  &#x2026;&#x2026;
 
-    * Context-switching clobbers all registers, so we clobber   \
-    * them explicitly, via unused output variables.      \
-    * (EAX and EBP is not listed because EBP is saved/restored   \
-    * explicitly for wchan access and EAX is the return value of    \
-    * __switch_to())                      \
-    */                                 \
+    <span class="hljs-number">2.2</span> &#x8FFD;&#x8E64;&#x4E00;&#x500B;/&#x82E5;&#x5E72;&#x4E8B;&#x4EF6;&#xFF1A;
+        <span class="hljs-comment"># echo 1 &gt; events/sched/sched_wakeup/enable</span>
+        <span class="hljs-comment"># cat trace | head -10</span>
+        <span class="hljs-comment"># tracer: nop</span>
+        <span class="hljs-comment">#TASK-PID  CPU#  TIMESTAMP    FUNCTION</span>
+        <span class="hljs-comment">#   |       |       |           |</span>
+        bash-<span class="hljs-number">2613</span> [<span class="hljs-number">001</span>] <span class="hljs-number">425.078164</span>: <span class="hljs-built_in">sched</span>_wakeup: task bash:<span class="hljs-number">2613</span> [<span class="hljs-number">120</span>] success=<span class="hljs-number">0</span> [<span class="hljs-number">001</span>]
+        bash-<span class="hljs-number">2613</span> [<span class="hljs-number">001</span>] <span class="hljs-number">425.078184</span>: <span class="hljs-built_in">sched</span>_wakeup: task bash:<span class="hljs-number">2613</span> [<span class="hljs-number">120</span>] success=<span class="hljs-number">0</span> [<span class="hljs-number">001</span>]
+        ...
 
-    unsigned long ebx, ecx, edx, esi, edi; \
-    asm volatile(&quot;pushfl\n\t&quot;      /* save    flags */    \
-    &quot;pushl %%ebp\n\t&quot;        /* save    EBP   */  \
-    &quot;movl %%esp,%[prev_sp]\n\t&quot;  /* save    ESP   */  \
-    &quot;movl %[next_sp],%%esp\n\t&quot;  /* restore ESP   */  \
-    &quot;movl $1f,%[prev_ip]\n\t&quot;    /* save    EIP   */  \
-    &quot;pushl %[next_ip]\n\t&quot;   /* restore EIP   */     \
-    __switch_canary                    \
-    &quot;jmp __switch_to\n&quot;  /* regparm call  */  \
-    &quot;1:\t&quot; /*&#x4E0B;&#x4E00;&#x500B;&#x9032;&#x7A0B;&#x958B;&#x59CB;&#x57F7;&#x884C;&#x7684;&#x5730;&#x65B9;&#xFF01;*/                        \
-    &quot;popl %%ebp\n\t&quot;     /* restore EBP   */     \
-    &quot;popfl\n&quot;         /* restore flags */   \
-    /* output parameters */                 \
-    : [prev_sp] &quot;=m&quot;(prev-&gt;thread.sp),      \
-    [prev_ip] &quot;=m&quot;(prev-&gt;thread.ip),         \
-    &quot;=a&quot;(last),                  \
-    /* clobbered output registers: */      \
-    &quot;=b&quot;(ebx), &quot;=c&quot;(ecx), &quot;=d&quot;(edx),       \
-    &quot;=S&quot;(esi), &quot;=D&quot;(edi)              \
-    __switch_canary_oparam                 \
-    /* input parameters: */                 \
-    : [next_sp]  &quot;m&quot;(next-&gt;thread.sp),         \
-    [next_ip]  &quot;m&quot;(next-&gt;thread.ip),        \
-    /* regparm parameters for __switch_to(): */   \
-    [prev]     &quot;a&quot;(prev),               \
-    [next]     &quot;d&quot;(next)                \
-    __switch_canary_iparam                 \
-    : /* reloaded segment registers */            \
-    &quot;memory&quot;);
-} while (0)
+    <span class="hljs-number">2.3</span> &#x8FFD;&#x8E64;&#x4E00;&#x985E;&#x4E8B;&#x4EF6;&#xFF1A;
+        <span class="hljs-comment"># echo 1 &gt; events/sched/enable</span>
+        <span class="hljs-comment"># cat trace | head -10</span>
+        <span class="hljs-comment"># tracer: nop</span>
+        <span class="hljs-comment">#TASK-PID        CPU#  TIMESTAMP    FUNCTION</span>
+        <span class="hljs-comment">#   |             |       |           |</span>
+        events/<span class="hljs-number">0</span>-<span class="hljs-number">9</span>      [<span class="hljs-number">000</span>] <span class="hljs-number">638.042792</span>: <span class="hljs-built_in">sched</span>_switch: task events/<span class="hljs-number">0</span>:<span class="hljs-number">9</span> [<span class="hljs-number">120</span>] (S) ==&gt; kondemand/<span class="hljs-number">0</span>:<span class="hljs-number">1305</span> [<span class="hljs-number">120</span>]
+        ondemand/<span class="hljs-number">0</span>-<span class="hljs-number">1305</span> [<span class="hljs-number">000</span>] <span class="hljs-number">638.042796</span>: <span class="hljs-built_in">sched</span>_<span class="hljs-built_in">stat</span>_<span class="hljs-built_in">wait</span>: task: restorecond:<span class="hljs-number">1395</span> <span class="hljs-built_in">wait</span>: <span class="hljs-number">15023</span> [ns]
+        ...
+
+    <span class="hljs-number">2.4</span> &#x8FFD;&#x8E64;&#x6240;&#x6709;&#x4E8B;&#x4EF6;&#xFF1A;
+        <span class="hljs-comment"># echo 1 &gt; events/enable</span>
+        <span class="hljs-comment"># cat trace | head -10</span>
+        <span class="hljs-comment"># tracer: nop</span>
+        <span class="hljs-comment">#TASK-PID    CPU#  TIMESTAMP    FUNCTION</span>
+        <span class="hljs-comment">#   |         |       |           |</span>
+        cpid-<span class="hljs-number">1470</span>   [<span class="hljs-number">001</span>]   <span class="hljs-number">794.947181</span>:   kfree: call_site=ffffffff810c996d ptr=(null)
+        acpid-<span class="hljs-number">1470</span>  [<span class="hljs-number">001</span>]   <span class="hljs-number">794.947182</span>: sys_<span class="hljs-built_in">read</span> -&gt; <span class="hljs-number">0</span>x1
+        acpid-<span class="hljs-number">1470</span>  [<span class="hljs-number">001</span>]   <span class="hljs-number">794.947183</span>: sys_<span class="hljs-built_in">exit</span>: NR <span class="hljs-number">0</span> = <span class="hljs-number">1</span>
+        ...
 </code></pre>
-<h2 id="%E4%BA%8C%E3%80%81%E5%AF%A6%E9%A9%97">&#x4E8C;&#x3001;&#x5BE6;&#x9A57;</h2>
-<h3 id="%E5%AF%A6%E9%A9%97%E5%85%A7%E5%AE%B9">&#x5BE6;&#x9A57;&#x5167;&#x5BB9;</h3>
-<pre><code>1.&#x7406;&#x89E3;Linux&#x7CFB;&#x7D71;&#x4E2D;&#x9032;&#x7A0B;&#x8ABF;&#x5EA6;&#x7684;&#x6642;&#x6A5F;&#xFF0C;&#x53EF;&#x4EE5;&#x5728;&#x5167;&#x6838;&#x4EE3;&#x78BC;&#x4E2D;&#x641C;&#x7D22;schedule()&#x51FD;&#x6578;&#xFF0C;&#x770B;&#x90FD;&#x662F;&#x54EA;&#x88E1;&#x8ABF;&#x7528;&#x4E86;schedule()&#xFF0C;&#x5224;&#x65B7;&#x6211;&#x5011;&#x8AB2;&#x7A0B;&#x5167;&#x5BB9;&#x4E2D;&#x7684;&#x7E3D;&#x7D50;&#x662F;&#x5426;&#x6E96;&#x78BA;&#xFF1B;
-2.&#x4F7F;&#x7528;gdb&#x8DDF;&#x8E64;&#x5206;&#x6790;&#x4E00;&#x500B;schedule()&#x51FD;&#x6578; &#xFF0C;&#x9A57;&#x8B49;&#x60A8;&#x5C0D;Linux&#x7CFB;&#x7D71;&#x9032;&#x7A0B;&#x8ABF;&#x5EA6;&#x8207;&#x9032;&#x7A0B;&#x5207;&#x63DB;&#x904E;&#x7A0B;&#x7684;&#x7406;&#x89E3;&#xFF1B;&#x63A8;&#x85A6;&#x5728;&#x5BE6;&#x9A57;&#x6A13;Linux&#x865B;&#x64EC;&#x6A5F;&#x74B0;&#x5883;&#x4E0B;&#x5B8C;&#x6210;&#x5BE6;&#x9A57;&#x3002;
-3.&#x7279;&#x5225;&#x95DC;&#x6CE8;&#x4E26;&#x4ED4;&#x7D30;&#x5206;&#x6790;switch_to&#x4E2D;&#x7684;&#x5F59;&#x7DE8;&#x4EE3;&#x78BC;&#xFF0C;&#x7406;&#x89E3;&#x9032;&#x7A0B;&#x4E0A;&#x4E0B;&#x6587;&#x7684;&#x5207;&#x63DB;&#x6A5F;&#x5236;&#xFF0C;&#x4EE5;&#x53CA;&#x8207;&#x4E2D;&#x65B7;&#x4E0A;&#x4E0B;&#x6587;&#x5207;&#x63DB;&#x7684;&#x95DC;&#x4FC2;&#xFF1B;
-</code></pre><h3 id="%E5%AF%A6%E9%A9%97%E6%AD%A5%E9%A9%9F">&#x5BE6;&#x9A57;&#x6B65;&#x9A5F;</h3>
-<ul>
-<li>&#x6253;&#x958B;&#x5BE6;&#x9A57;&#x6A13;&#x865B;&#x64EC;&#x6A5F; <a href="https://www.shiyanlou.com/courses/running/890" target="_blank">https://www.shiyanlou.com/courses/running/890</a></li>
-<li>&#x5728;shell&#x4E2D;&#x4F9D;&#x6B21;&#x904B;&#x884C;&#x4EE5;&#x4E0B;&#x547D;&#x4EE4;&#xFF0C;&#x7372;&#x53D6;&#x672C;&#x6B21;&#x5BE6;&#x9A57;&#x7684;&#x4EE3;&#x78BC;&#xFF0C;&#x4E26;&#x7DE8;&#x8B6F;&#x904B;&#x884C;</li>
-</ul>
-<pre><code>cd LinuxKernel
-rm menu -rf
-git clone https://github.com/mengning/menu.git
-cd menu
-mv test_exec.c test.c
-make rootfs
-</code></pre><p>&#x6548;&#x679C;&#x5982;&#x4E0B;&#xFF1A;</p>
-<p><img src="images/20150427003152124" alt=""></p>
-<ul>
-<li>&#x95DC;&#x9589;QEMU&#x7A97;&#x53E3;&#xFF0C;&#x5728;shell&#x7A97;&#x53E3;&#x4E2D;&#xFF0C;cd LinuxKernel&#x56DE;&#x9000;&#x5230;LinuxKernel&#x76EE;&#x9304;&#xFF0C;&#x4F7F;&#x7528;&#x4E0B;&#x9762;&#x7684;&#x547D;&#x4EE4;&#x555F;&#x52D5;&#x5167;&#x6838;&#x4E26;&#x5728;CPU&#x904B;&#x884C;&#x4EE3;&#x78BC;&#x524D;&#x505C;&#x4E0B;&#x4EE5;&#x4FBF;&#x8ABF;&#x8A66;&#xFF1A;</li>
-</ul>
-<pre><code>qemu -kernel linux-3.18.6/arch/x86/boot/bzImage -initrd rootfs.img -s -S
-</code></pre><p>&#x63A5;&#x4E0B;&#x4F86;&#xFF0C;&#x6211;&#x5011;&#x5C31;&#x53EF;&#x4EE5;&#x6C34;&#x5E73;&#x5206;&#x5272;&#x4E00;&#x500B;&#x65B0;&#x7684;shell&#x7A97;&#x53E3;&#x51FA;&#x4F86;&#xFF0C;&#x4F9D;&#x6B21;&#x4F7F;&#x7528;&#x4E0B;&#x9762;&#x7684;&#x547D;&#x4EE4;&#x555F;&#x52D5;gdb&#x8ABF;&#x8A66;</p>
-<pre><code>gdb
-(gdb) file linux-3.18.6/vmlinux
-(gdb) target remote:1234
-</code></pre><p>&#x4E26;&#x5728;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;</p>
-<p>&#x95DC;&#x9589;QEMU&#x7A97;&#x53E3;&#xFF0C;&#x5728;shell&#x7A97;&#x53E3;&#x4E2D;&#xFF0C;cd LinuxKernel&#x56DE;&#x9000;&#x5230;LinuxKernel&#x76EE;&#x9304;&#xFF0C;&#x4F7F;&#x7528;&#x4E0B;&#x9762;&#x7684;&#x547D;&#x4EE4;&#x555F;&#x52D5;&#x5167;&#x6838;&#x4E26;&#x5728;CPU&#x904B;&#x884C;&#x4EE3;&#x78BC;&#x524D;&#x505C;&#x4E0B;&#x4EE5;&#x4FBF;&#x8ABF;&#x8A66;&#xFF1A;</p>
-<p>qemu -kernel linux-3.18.6/arch/x86/boot/bzImage -initrd rootfs.img -s -S
-&#x63A5;&#x4E0B;&#x4F86;&#xFF0C;&#x6211;&#x5011;&#x5C31;&#x53EF;&#x4EE5;&#x6C34;&#x5E73;&#x5206;&#x5272;&#x4E00;&#x500B;&#x65B0;&#x7684;shell&#x7A97;&#x53E3;&#x51FA;&#x4F86;&#xFF0C;&#x4F9D;&#x6B21;&#x4F7F;&#x7528;&#x4E0B;&#x9762;&#x7684;&#x547D;&#x4EE4;&#x555F;&#x52D5;gdb&#x8ABF;&#x8A66;</p>
-<pre><code>gdb
-(gdb) file linux-3.18.6/vmlinux
-(gdb) target remote:1234
-</code></pre><p>&#x4E26;&#x5728;&#x5167;&#x6838;&#x51FD;&#x6578;schedule&#x7684;&#x5165;&#x53E3;&#x8655;&#x8A2D;&#x7F6E;&#x65B7;&#x9EDE;&#xFF0C;&#x63A5;&#x4E0B;&#x4F86;&#x8F38;&#x5165;c&#x7E7C;&#x7E8C;&#x57F7;&#x884C;&#xFF0C;&#x5247;&#x7CFB;&#x7D71;&#x5373;&#x53EF;&#x505C;&#x5728;&#x8A72;&#x51FD;&#x6578;&#x8655;&#xFF0C;&#x63A5;&#x4E0B;&#x4F86;&#x6211;&#x5011;&#x5C31;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x547D;&#x4EE4;n&#x6216;&#x8005;s&#x9010;&#x6B65;&#x8DDF;&#x8E64;&#xFF0C;&#x53EF;&#x4EE5;&#x8A73;&#x7D30;&#x700F;&#x89BD;pick_next_task&#xFF0C;switch_to&#x7B49;&#x51FD;&#x6578;&#x7684;&#x57F7;&#x884C;&#x904E;&#x7A0B;&#xFF0C;&#x6709;&#x5716;&#x70BA;&#x8B49;&#xFF1A;</p>
-<p><img src="images/20150427004613043" alt=""></p>
+<h2 id="3-stack-trace">3. stack_trace</h2>
+<pre><code class="lang-sh">    <span class="hljs-comment"># echo 1 &gt; /proc/sys/kernel/stack_tracer_enabled</span>
+OR  <span class="hljs-comment"># kernel command line &#x201C;stacktrace&#x201D;</span>
+&#x67E5;&#x770B;&#xFF1A; <span class="hljs-comment"># cat stack_trace</span>
+</code></pre>
+<h2 id="4-%E5%B0%87%E8%A6%81%E8%B7%9F%E8%B9%A4%E7%9A%84%E5%87%BD%E6%95%B8%E5%AF%AB%E5%85%A5%E6%96%87%E4%BB%B6">4. &#x5C07;&#x8981;&#x8DDF;&#x8E64;&#x7684;&#x51FD;&#x6578;&#x5BEB;&#x5165;&#x6587;&#x4EF6;</h2>
+<p>set_ftrace_filter &#xFF0C;&#x5C07;&#x4E0D;&#x5E0C;&#x671B;&#x8DDF;&#x8E64;&#x7684;&#x51FD;&#x6578;&#x5BEB;&#x5165;&#x6587;&#x4EF6; set_ftrace_notrace&#x3002;&#x901A;&#x5E38;&#x76F4;&#x63A5;&#x64CD;&#x4F5C;&#x6587;&#x4EF6; set_ftrace_filter &#x5C31;&#x53EF;&#x4EE5;&#x4E86;.</p>
+<p>============= Ftrace &#x63D0;&#x4F9B;&#x7684;&#x51FD;&#x6578;&#x4F7F;&#x7528;=============</p>
+<p>&#x5167;&#x6838;&#x982D;&#x6587;&#x4EF6; include/linux/kernel.h &#x4E2D;&#x63CF;&#x8FF0;&#x4E86; ftrace &#x63D0;&#x4F9B;&#x7684;&#x5DE5;&#x5177;&#x51FD;&#x6578;&#x7684;&#x539F;&#x578B;&#xFF0C;&#x9019;&#x4E9B;&#x51FD;&#x6578;&#x5305;&#x62EC; trace_printk&#x3001;tracing_on/tracing_off &#x7B49;&#x3002;</p>
+<p>&#x4F7F;&#x7528; <code>trace_printk</code> &#x6253;&#x5370;&#x8DDF;&#x8E64;&#x4FE1;&#x606F;
+ftrace &#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x500B;&#x7528;&#x65BC;&#x5411; ftrace &#x8DDF;&#x8E64;&#x7DE9;&#x885D;&#x5340;&#x8F38;&#x51FA;&#x8DDF;&#x8E64;&#x4FE1;&#x606F;&#x7684;&#x5DE5;&#x5177;&#x51FD;&#x6578;&#xFF0C;&#x53EB;&#x505A; trace_printk()&#xFF0C;&#x5B83;&#x7684;&#x4F7F;&#x7528;&#x65B9;&#x5F0F;&#x8207; printk() &#x985E;&#x4F3C;&#x3002;&#x53EF;&#x4EE5;&#x901A;&#x904E; trace &#x6587;&#x4EF6;&#x8B80;&#x53D6;&#x8A72;&#x51FD;&#x6578;&#x7684;&#x8F38;&#x51FA;&#x3002;&#x5F9E;&#x982D;&#x6587;&#x4EF6; include/linux/kernel.h &#x4E2D;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;&#x5728;&#x6FC0;&#x6D3B;&#x914D;&#x7F6E; CONFIG_TRACING &#x5F8C;&#xFF0C;trace_printk() &#x5B9A;&#x7FA9;&#x70BA;&#x5B8F;&#xFF1A; #define trace_printk(fmt, args&#x2026;) \ &#x2026; &#x6240;&#x4EE5;&#x5728;&#x4F7F;&#x7528;&#x6642;&#xFF1A;(&#x4F8B;&#x5B50;&#x662F;&#x5728;&#x4E00;&#x500B;&#x5167;&#x6838;&#x6A21;&#x584A;&#x4E2D;&#x6DFB;&#x52A0;&#x6253;&#x5370;&#x4FE1;&#x606F;)</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/init.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/module.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/kernel.h&gt;</span></span>
+MODULE_LICENSE(<span class="hljs-string">&quot;GPL&quot;</span>);
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">ftrace_demo_init</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    trace_printk(<span class="hljs-string">&quot;Can not see this in trace unless loaded for the second time\n&quot;</span>);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ftrace_demo_exit</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    trace_printk(<span class="hljs-string">&quot;Module unloading\n&quot;</span>);
+}
+
+module_init(ftrace_demo_init);
+module_exit(ftrace_demo_exit);
+</code></pre>
+<p>&#x4F7F;&#x7528; tracing_on/tracing_off &#x63A7;&#x5236;&#x8DDF;&#x8E64;&#x4FE1;&#x606F;&#x7684;&#x8A18;&#x9304;
+&#x5728;&#x8DDF;&#x8E64;&#x904E;&#x7A0B;&#x4E2D;&#xFF0C;&#x6709;&#x6642;&#x5019;&#x5728;&#x6AA2;&#x6E2C;&#x5230;&#x67D0;&#x4E9B;&#x4E8B;&#x4EF6;&#x767C;&#x751F;&#x6642;&#xFF0C;&#x60F3;&#x8981;&#x505C;&#x6B62;&#x8DDF;&#x8E64;&#x4FE1;&#x606F;&#x7684;&#x8A18;&#x9304;&#xFF0C;&#x9019;&#x6A23;&#xFF0C;&#x8DDF;&#x8E64;&#x7DE9;&#x885D;&#x5340;&#x4E2D;&#x8F03;&#x65B0;&#x7684;&#x6578;&#x64DA;&#x662F;&#x8207;&#x8A72;&#x4E8B;&#x4EF6;&#x6709;&#x95DC;&#x7684;&#x3002;&#x5728;&#x7528;&#x6236;&#x614B;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x5411;&#x6587;&#x4EF6; tracing_on &#x5BEB;&#x5165; 0 &#x4F86;&#x505C;&#x6B62;&#x8A18;&#x9304;&#x8DDF;&#x8E64;&#x4FE1;&#x606F;&#xFF0C;&#x5BEB;&#x5165; 1 &#x6703;&#x7E7C;&#x7E8C;&#x8A18;&#x9304;&#x8DDF;&#x8E64;&#x4FE1;&#x606F;&#x3002;&#x800C;&#x5728;&#x5167;&#x6838;&#x4EE3;&#x78BC;&#x4E2D;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x51FD;&#x6578; tracing_on() &#x548C; tracing_off() &#x4F86;&#x505A;&#x5230;&#x9019;&#x4E00;&#x9EDE;&#xFF0C;&#x5B83;&#x5011;&#x7684;&#x884C;&#x70BA;&#x985E;&#x4F3C;&#x65BC;&#x5C0D; /sys/kernel/debug/tracing &#x4E0B;&#x7684;&#x6587;&#x4EF6; tracing_on &#x5206;&#x5225;&#x57F7;&#x884C;&#x5BEB; 1 &#x548C; &#x5BEB; 0 &#x7684;&#x64CD;&#x4F5C;&#x3002;</p>
+<p>&#x4F7F;&#x7528;&#x9019;&#x5169;&#x500B;&#x51FD;&#x6578;&#xFF0C;&#x6703;&#x5C0D;&#x8DDF;&#x8E64;&#x4FE1;&#x606F;&#x7684;&#x8A18;&#x9304;&#x63A7;&#x5236;&#x5730;&#x66F4;&#x6E96;&#x78BA;&#x4E00;&#x4E9B;&#xFF0C;&#x9019;&#x662F;&#x56E0;&#x70BA;&#x5728;&#x7528;&#x6236;&#x614B;&#x5BEB;&#x6587;&#x4EF6; tracing_on &#x5230;&#x5BE6;&#x969B;&#x66AB;&#x505C;&#x8DDF;&#x8E64;&#xFF0C;&#x4E2D;&#x9593;&#x7531;&#x65BC;&#x4E0A;&#x4E0B;&#x6587;&#x5207;&#x63DB;&#x3001;&#x7CFB;&#x7D71;&#x8ABF;&#x5EA6;&#x63A7;&#x5236;&#x7B49;&#x53EF;&#x80FD;&#x5DF2;&#x7D93;&#x7D93;&#x904E;&#x8F03;&#x9577;&#x7684;&#x6642;&#x9593;&#xFF0C;&#x9019;&#x6A23;&#x6703;&#x7A4D;&#x7D2F;&#x5927;&#x91CF;&#x7684;&#x8DDF;&#x8E64;&#x4FE1;&#x606F;&#xFF0C;&#x800C;&#x611F;&#x8208;&#x8DA3;&#x7684;&#x90A3;&#x90E8;&#x5206;&#x53EF;&#x80FD;&#x6703;&#x88AB;&#x8986;&#x84CB;&#x6389;&#x4E86;&#x3002;</p>
+<p>&#x5BE6;&#x969B;&#x4EE3;&#x78BC;&#x4E2D;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x7279;&#x5B9A;&#x689D;&#x4EF6;&#xFF08;&#x6BD4;&#x5982;&#x6AA2;&#x6E2C;&#x5230;&#x67D0;&#x7A2E;&#x7570;&#x5E38;&#x72C0;&#x6CC1;&#xFF0C;&#x7B49;&#x7B49;&#xFF09;&#x4F86;&#x63A7;&#x5236;&#x8DDF;&#x8E64;&#x4FE1;&#x606F;&#x7684;&#x8A18;&#x9304;&#xFF0C;&#x51FD;&#x6578;&#x7684;&#x4F7F;&#x7528;&#x65B9;&#x5F0F;&#x985E;&#x4F3C;&#x5982;&#x4E0B;&#x7684;&#x5F62;&#x5F0F;&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-keyword">if</span> (condition)
+tracing_on() <span class="hljs-function">or <span class="hljs-title">tracing_off</span><span class="hljs-params">()</span>
+</span></code></pre>
+<p>&#x8DDF;&#x8E64;&#x6A21;&#x584A;&#x904B;&#x884C;&#x72C0;&#x6CC1;&#x6642;&#xFF0C;&#x4F7F;&#x7528; ftrace &#x547D;&#x4EE4;&#x64CD;&#x4F5C;&#x5E8F;&#x5217;&#x5728;&#x7528;&#x6236;&#x614B;&#x9032;&#x884C;&#x5FC5;&#x8981;&#x7684;&#x8A2D;&#x7F6E;&#xFF0C;&#x800C;&#x5728;&#x4EE3;&#x78BC;&#x4E2D;&#x5247;&#x53EF;&#x4EE5;&#x901A;&#x904E; traceing_on() &#x63A7;&#x5236;&#x5728;&#x9032;&#x5165;&#x7279;&#x5B9A;&#x4EE3;&#x78BC;&#x5340;&#x57DF;&#x6642;&#x958B;&#x555F;&#x8DDF;&#x8E64;&#x4FE1;&#x606F;&#xFF0C;&#x4E26;&#x5728;&#x9047;&#x5230;&#x67D0;&#x4E9B;&#x689D;&#x4EF6;&#x6642;&#x901A;&#x904E; tracing_off() &#x66AB;&#x505C;&#xFF1B;&#x8B80;&#x8005;&#x53EF;&#x4EE5;&#x5728;&#x67E5;&#x770B;&#x5B8C;&#x611F;&#x8208;&#x8DA3;&#x7684;&#x4FE1;&#x606F;&#x5F8C;&#xFF0C;&#x5C07; 1 &#x5BEB;&#x5165; tracing_on &#x6587;&#x4EF6;&#x4EE5;&#x7E7C;&#x7E8C;&#x8A18;&#x9304;&#x8DDF;&#x8E64;&#x4FE1;&#x606F;&#x3002;&#x5BE6;&#x8E10;&#x4E2D;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x5B8F;&#x4F86;&#x63A7;&#x5236;&#x662F;&#x5426;&#x5C07;&#x5C0D;&#x9019;&#x4E9B;&#x51FD;&#x6578;&#x7684;&#x8ABF;&#x7528;&#x7DE8;&#x8B6F;&#x9032;&#x5167;&#x6838;&#x6A21;&#x584A;&#xFF0C;&#x9019;&#x6A23;&#x53EF;&#x4EE5;&#x5728;&#x8ABF;&#x8A66;&#x6642;&#x5C07;&#x5176;&#x958B;&#x555F;&#xFF0C;&#x5728;&#x6700;&#x7D42;&#x767C;&#x4F48;&#x6642;&#x5C07;&#x5176;&#x95DC;&#x9589;&#x3002; &#x7528;&#x6236;&#x614B;&#x7684;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x76F4;&#x63A5;&#x8B80;&#x5BEB;&#x6587;&#x4EF6; tracing_on &#x4F86;&#x63A7;&#x5236;&#x8A18;&#x9304;&#x8DDF;&#x8E64;&#x4FE1;&#x606F;&#x7684;&#x66AB;&#x505C;&#x72C0;&#x614B;&#xFF0C;&#x4EE5;&#x4FBF;&#x4E86;&#x89E3;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x904B;&#x884C;&#x671F;&#x9593;&#x5167;&#x6838;&#x4E2D;&#x767C;&#x751F;&#x7684;&#x6D3B;&#x52D5;&#x3002;</p>
+<p>&#x5982;&#x679C;&#x6211;&#x5011;&#x8981;&#x958B;&#x555F;&#x8FFD;&#x8E64;&#x529F;&#x80FD;&#x3002;</p>
+<pre><code class="lang-sh"><span class="hljs-built_in">echo</span> <span class="hljs-number">1</span> &gt; tracing_on 
+<span class="hljs-built_in">echo</span> <span class="hljs-keyword">function</span>_graph &gt;current_tracer
+</code></pre>
+<p>&#x53E6;&#x5916;&#x6211;&#x5011;&#x4E5F;&#x53EF;&#x4EE5;&#x8A2D;&#x7F6E;&#x8981;&#x8FFD;&#x8E64;&#x7684;pid&#x503C; event buffer&#x7B49;</p>
+<pre><code class="lang-sh"><span class="hljs-comment"># tracer: function_graph</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># CPU  DURATION                  FUNCTION CALLS</span>
+<span class="hljs-comment"># |     |   |                     |   |   |   |</span>
+ <span class="hljs-number">2</span>)               |     <span class="hljs-function"><span class="hljs-title">update_curr</span></span>() {
+ <span class="hljs-number">2</span>)   <span class="hljs-number">0.147</span> us    |        update_min_vruntime();
+ <span class="hljs-number">2</span>)               |            <span class="hljs-function"><span class="hljs-title">cpuacct_charge</span></span>() {
+ <span class="hljs-number">2</span>)   <span class="hljs-number">0.097</span> us    |            debug_lockdep_rcu_enabled();
+ <span class="hljs-number">2</span>)   <span class="hljs-number">0.082</span> us    |            rcu_is_cpu_idle();
+ <span class="hljs-number">2</span>)   <span class="hljs-number">0.120</span> us    |            debug_lockdep_rcu_enabled();
+ <span class="hljs-number">2</span>)   <span class="hljs-number">0.098</span> us    |            debug_lockdep_rcu_enabled();
+ <span class="hljs-number">2</span>)   <span class="hljs-number">0.094</span> us    |            rcu_is_cpu_idle();
+ <span class="hljs-number">2</span>)   <span class="hljs-number">0.099</span> us    |            rcu_lockdep_current_cpu_online();
+ <span class="hljs-number">2</span>)   <span class="hljs-number">0.072</span> us    |            debug_lockdep_rcu_enabled();
+ <span class="hljs-number">2</span>)   <span class="hljs-number">0.071</span> us    |            rcu_is_cpu_idle();
+ <span class="hljs-number">2</span>)   <span class="hljs-number">6.935</span> us    |                    }
+ <span class="hljs-number">2</span>)   <span class="hljs-number">8.757</span> us    |      }
+ <span class="hljs-number">2</span>)   <span class="hljs-number">0.269</span> us    |            __compute_runnable_contrib();
+ <span class="hljs-number">2</span>)   <span class="hljs-number">0.093</span> us    |            __update_entity_load_avg_contrib();
+ <span class="hljs-number">2</span>)   <span class="hljs-number">0.188</span> us    |            update_cfs_rq_blocked_load();
+ <span class="hljs-number">2</span>)   <span class="hljs-number">0.113</span> us    |            update_cfs_shares();
+ <span class="hljs-number">2</span>)               |            <span class="hljs-built_in">sched</span>_slice.isra.<span class="hljs-function"><span class="hljs-title">38</span></span>() {
+ <span class="hljs-number">2</span>)   <span class="hljs-number">0.206</span> us    |            calc_delta_mine();
+ <span class="hljs-number">2</span>)   <span class="hljs-number">0.962</span> us    |    }
+</code></pre>
+<p>ftrace &#x4E0D;&#x50C5;&#x53EF;&#x4EE5;&#x8FFD;&#x8E64;&#x5167;&#x6838;&#x4E2D;&#x7684;&#x51FD;&#x6578;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x8FFD;&#x8E64;&#x7528;&#x6236;&#x614B;&#x4E0B;&#x7684;&#x51FD;&#x6578;&#x662F;&#x5982;&#x4F55;trap in kernel &#x7136;&#x5F8C;ret&#x7684;&#x3002; &#x6BD4;&#x5982;&#x6211;&#x5011;&#x5BEB;&#x4E00;&#x500B;fork&#x7684;demo</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/stat.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;fcntl.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>** argv)</span>
+</span>{
+    <span class="hljs-keyword">int</span> ret;
+    <span class="hljs-keyword">int</span> fd;
+    <span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">char</span> pidbuf[<span class="hljs-number">20</span>];
+    <span class="hljs-keyword">pid_t</span> id;
+
+    id = fork();
+
+    <span class="hljs-keyword">if</span> (id &lt; <span class="hljs-number">0</span>) {
+        <span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;Error in fork&quot;</span>);
+        <span class="hljs-built_in">exit</span>(-<span class="hljs-number">1</span>);
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (id == <span class="hljs-number">0</span>) {
+        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;i);
+
+        ret = execv(<span class="hljs-string">&quot;hello&quot;</span>, <span class="hljs-literal">NULL</span>);
+
+        <span class="hljs-keyword">if</span> (ret == -<span class="hljs-number">1</span>) {
+            <span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;Error in execv&quot;</span>);
+            <span class="hljs-built_in">exit</span>(-<span class="hljs-number">1</span>);
+        }
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-built_in">sprintf</span>(pidbuf, <span class="hljs-string">&quot;%ld&quot;</span>, (<span class="hljs-keyword">long</span>)id);
+        fd = open(<span class="hljs-string">&quot;/sys/kernel/debug/tracing/set_ftrace_pid&quot;</span>, O_CREAT | O_RDWR, <span class="hljs-number">0660</span>);
+
+        <span class="hljs-keyword">if</span> (fd &lt; <span class="hljs-number">0</span>) {
+            <span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;Error in open&quot;</span>);
+            <span class="hljs-built_in">exit</span>(-<span class="hljs-number">1</span>);
+        }
+
+        write(fd, pidbuf, <span class="hljs-built_in">strlen</span>(pidbuf));
+        close(fd);
+        fd = open(<span class="hljs-string">&quot;/sys/kernel/debug/tracing/tracing_on&quot;</span>, O_CREAT | O_RDWR, <span class="hljs-number">0660</span>);
+        write(fd, <span class="hljs-string">&quot;1&quot;</span>, <span class="hljs-number">2</span>);
+        close(fd);
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;!!!!\n&quot;</span>);
+        sleep(<span class="hljs-number">5</span>);
+    }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>&#x7136;&#x5F8C;&#x4F7F;&#x7528;ftrace&#x9032;&#x884C;&#x8FFD;&#x8E64;&#xFF0C;&#x53EF;&#x4EE5;&#x5F97;&#x5230;&#x4E00;&#x500B;system call&#x7684;&#x5B8C;&#x6574;&#x7684;&#x7D50;&#x679C;&#x3002;</p>
 
                     
                     </section>
@@ -11701,10 +11864,10 @@ make rootfs
         </div>
 
         
-        <a href="../mooc_linux_kernel/198.html" class="navigation navigation-prev " aria-label="Previous page: 初學《Linux內核如何裝載和啟動一個可執行程序》"><i class="fa fa-angle-left"></i></a>
+        <a href="../linux_kernel/ubuntugeng_huan_nei_he_fang_fa.html" class="navigation navigation-prev " aria-label="Previous page: Ubuntu更換內核方法"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../mooc_linux_kernel/199.html" class="navigation navigation-next " aria-label="Next page: Linux內核學習總結"><i class="fa fa-angle-right"></i></a>
+        <a href="../linux_driver/index.html" class="navigation navigation-next " aria-label="Next page: Linux Driver"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

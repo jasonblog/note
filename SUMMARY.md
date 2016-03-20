@@ -718,4 +718,5 @@
    * [nginx 模塊 使用gdb調試nginx源碼](nginx/nginx_mo_kuai_shi_yong_gdb_diao_shi_nginx_yuan_ma.md)
 * [Other](other/other.md)
    * [練寫作可以讓你成為「神級程式設計師」，但不是不二法門](other/lian_xie_zuo_ke_yi_rang_ni_cheng_wei_300c_shen_ji_.md)
+   * 編程的智慧
 

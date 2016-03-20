@@ -115,6 +115,12 @@ mount -t proc none /proc
 mount -t sysfs none /sys
 mount -t ramfs none /dev
 mdev -s
+
+z6:6:respawn:/sbin/sulogin
+S0:12345:respawn:/sbin/getty -L 115200 ttyS0
+S1:12345:respawn:/sbin/getty -L 115200 ttyS1
+1:12345:respawn:/sbin/getty 38400 tty1
+
 echo -e "\nBoot took $(cut -d" " -f1 /proc/uptime) seconds\n"
 exec /bin/sh
 EOF

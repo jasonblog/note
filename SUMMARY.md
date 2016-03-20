@@ -175,6 +175,7 @@
    * [如何在linux kernel 中加入system call](linux_kernel/ru_he_zai_linux_kernel_zhong_jia_ru_system_call.md)
    * [MY_example](linux_kernel/myexample.md)
        * [send pid to kernel by ioctl and kernel send_sig to user space](linux_kernel/send_pid_to_kernel_by_ioctl_and_kernel_sendsig_to_.md)
+   * 查看Linux內核編譯配置
 * [Linux Driver](linux_driver/README.md)
    * [Linux Device Driver Programming](linux_device_driver_programming/README.md)
        * [Linux 裝置驅動程式的概要](linux_device_driver_programming/01.md)

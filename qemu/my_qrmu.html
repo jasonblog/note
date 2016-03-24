@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="6.1" data-basepath=".." data-revision="Thu Mar 24 2016 01:19:47 GMT+0800 (CST)">
+    <div class="book" data-level="6.1" data-basepath=".." data-revision="Fri Mar 25 2016 00:47:30 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -76,19 +76,6 @@
                         Introduction
                     </a>
             
-            
-            <ul class="articles">
-                
-    
-        <li class="chapter " data-level="0.1" >
-            
-            <span><b>0.1.</b> Other</span>
-            
-            
-        </li>
-    
-
-            </ul>
             
         </li>
     
@@ -11669,9 +11656,11 @@ init                 <span class="hljs-number">100</span>% |********************
 </span>
 BUSYBOX_SRC_URL=<span class="hljs-string">&quot;http://busybox.net/downloads/busybox-1.23.2.tar.bz2&quot;</span>
 KERNEL_SRC_URL=<span class="hljs-string">&quot;https://www.kernel.org/pub/linux/kernel/v4.x/testing/linux-4.3-rc3.tar.xz&quot;</span>
+DROPBEAR_SRC_URL=<span class="hljs-string">&quot;https://matt.ucc.asn.au/dropbear/dropbear-2016.73.tar.bz2&quot;</span>
 
 BUSYBOX=<span class="hljs-string">&quot;busybox_src&quot;</span>
 KERNEL=<span class="hljs-string">&quot;linux_src&quot;</span>
+DROPBEAR=<span class="hljs-string">&quot;dropbear_src&quot;</span>
 
 BUSYBOX_PALTFORM=<span class="hljs-string">&quot;busybox-x86&quot;</span>
 LINUX_PALTFORM=<span class="hljs-string">&quot;linux-x86-basic&quot;</span>
@@ -11732,9 +11721,11 @@ USAGE
 
     mkdir <span class="hljs-string">&quot;<span class="hljs-variable">$BUSYBOX</span>&quot;</span>
     mkdir <span class="hljs-string">&quot;<span class="hljs-variable">$KERNEL</span>&quot;</span>
+    mkdir <span class="hljs-string">&quot;<span class="hljs-variable">$DROPBEAR</span>&quot;</span>
 
     wget -P /tmp/ <span class="hljs-string">&quot;<span class="hljs-variable">$BUSYBOX_SRC_URL</span>&quot;</span> &amp;&amp; tar xjf <span class="hljs-string">&quot;/tmp/`basename <span class="hljs-variable">$BUSYBOX_SRC_URL</span>`&quot;</span> -C <span class="hljs-string">&quot;<span class="hljs-variable">$BUSYBOX</span>&quot;</span> --strip-components=<span class="hljs-number">1</span>
     wget -P /tmp/ <span class="hljs-string">&quot;<span class="hljs-variable">$KERNEL_SRC_URL</span>&quot;</span> &amp;&amp; tar xJf <span class="hljs-string">&quot;/tmp/`basename <span class="hljs-variable">$KERNEL_SRC_URL</span>`&quot;</span> -C <span class="hljs-string">&quot;<span class="hljs-variable">$KERNEL</span>&quot;</span> --strip-components=<span class="hljs-number">1</span>
+    wget -P /tmp/ <span class="hljs-string">&quot;<span class="hljs-variable">$DROPBEAR_SRC_URL</span>&quot;</span> &amp;&amp; tar xjf <span class="hljs-string">&quot;/tmp/`basename <span class="hljs-variable">$DROPBEAR_SRC_URL</span>`&quot;</span> -C <span class="hljs-string">&quot;<span class="hljs-variable">$DROPBEAR</span>&quot;</span> --strip-components=<span class="hljs-number">1</span>
 
     <span class="hljs-comment">## build busybox</span>
     <span class="hljs-built_in">cd</span> <span class="hljs-variable">$TOP</span>/<span class="hljs-variable">$BUSYBOX</span>
@@ -11769,6 +11760,13 @@ USAGE
     chmod <span class="hljs-number">755</span> bin/tftp_push
     chmod <span class="hljs-number">755</span> bin/tftp_get
 
+<span class="hljs-built_in">cd</span> <span class="hljs-variable">$TOP</span>/initramfs/<span class="hljs-string">&quot;<span class="hljs-variable">$BUSYBOX_PALTFORM</span>&quot;</span>
+
+<span class="hljs-comment"># f0409</span>
+cat &lt;&lt; EOF &gt;&gt;etc/passwd
+root:<span class="hljs-number">95</span>OnzVR4r6HAM:<span class="hljs-number">0</span>:<span class="hljs-number">0</span>:root:/root:/bin/sh
+EOF
+
 cat &lt;&lt; EOF &gt;&gt;init
 <span class="hljs-shebang">#!/bin/sh
 </span>
@@ -11782,11 +11780,30 @@ mount -t proc none /proc
 mount -t sysfs none /sys
 mount -t ramfs none /dev
 mdev <span class="hljs-operator">-s</span>
+
+<span class="hljs-comment"># tty &amp; ssh</span>
+mkdir -p /dev/pts
+mount -t devpts devpts /dev/pts
+dropbear -p <span class="hljs-number">2222</span>
+
 <span class="hljs-built_in">echo</span> <span class="hljs-operator">-e</span> <span class="hljs-string">&quot;\nBoot took <span class="hljs-variable">$(cut -d&quot; &quot; -f1 /proc/uptime)</span> seconds\n&quot;</span>
 <span class="hljs-built_in">exec</span> /bin/sh
 EOF
 
     chmod +x init
+
+    <span class="hljs-comment"># build dropbear</span>
+    <span class="hljs-built_in">cd</span> <span class="hljs-variable">$TOP</span>/<span class="hljs-variable">$DROPBEAR</span>
+    ./configure --prefix=<span class="hljs-string">&quot;<span class="hljs-variable">$TOP</span>&quot;</span>/initramfs/<span class="hljs-string">&quot;<span class="hljs-variable">$BUSYBOX_PALTFORM</span>&quot;</span>
+    make PROGRAMS=<span class="hljs-string">&quot;dropbear dbclient dropbearkey dropbearconvert scp&quot;</span>
+    make PROGRAMS=<span class="hljs-string">&quot;dropbear dbclient dropbearkey dropbearconvert scp&quot;</span> install
+    <span class="hljs-built_in">cd</span> <span class="hljs-variable">$TOP</span>/initramfs/<span class="hljs-string">&quot;<span class="hljs-variable">$BUSYBOX_PALTFORM</span>&quot;</span>
+    mkdir -p etc/dropbear
+    rm -rf share
+    <span class="hljs-built_in">cd</span> bin
+    ./dropbearkey -t dss <span class="hljs-operator">-f</span> ../etc/dropbear/dropbear_dss_host_key
+    ./dropbearkey -t rsa <span class="hljs-operator">-s</span> <span class="hljs-number">1024</span> <span class="hljs-operator">-f</span> ../etc/dropbear/dropbear_rsa_host_key
+    <span class="hljs-built_in">cd</span> ..
 
     find . -print0 \
         | cpio --null -ov --format=newc \
@@ -11842,6 +11859,11 @@ EOF
     time make -C <span class="hljs-variable">$KERNEL</span> O=../obj/<span class="hljs-variable">$LINUX_PALTFORM</span> -j12 <span class="hljs-number">2</span>&gt;&amp;<span class="hljs-number">1</span> | tee kernel_build.log
 }
 
+<span class="hljs-function"><span class="hljs-title">kernel_build</span></span>() {
+    make -C <span class="hljs-variable">$KERNEL</span> O=../obj/<span class="hljs-variable">$LINUX_PALTFORM</span> clean
+    time make -C <span class="hljs-variable">$KERNEL</span> O=../obj/<span class="hljs-variable">$LINUX_PALTFORM</span> -j12 <span class="hljs-number">2</span>&gt;&amp;<span class="hljs-number">1</span> | tee kernel_build.log
+}
+
 <span class="hljs-function"><span class="hljs-title">qemu</span></span>() {
     qemu-system-x86_64 \
     -enable-kvm -m <span class="hljs-number">1024</span> \
@@ -11880,6 +11902,7 @@ EOF
         -r|--run) qemu; <span class="hljs-built_in">exit</span> <span class="hljs-number">0</span>;;
         -i|--initramfs) initramfs; <span class="hljs-built_in">exit</span> <span class="hljs-number">0</span>;;
         <span class="hljs-operator">-d</span>|--debug) gdb; <span class="hljs-built_in">exit</span> <span class="hljs-number">0</span>;;
+        -k|--kernel) kernel_build; <span class="hljs-built_in">exit</span> <span class="hljs-number">0</span>;;
         --) <span class="hljs-built_in">shift</span>; <span class="hljs-built_in">break</span>;;
     <span class="hljs-keyword">esac</span>
     <span class="hljs-built_in">shift</span>

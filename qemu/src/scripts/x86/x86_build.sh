@@ -2,9 +2,11 @@
 
 BUSYBOX_SRC_URL="http://busybox.net/downloads/busybox-1.23.2.tar.bz2"
 KERNEL_SRC_URL="https://www.kernel.org/pub/linux/kernel/v4.x/testing/linux-4.3-rc3.tar.xz"
+DROPBEAR_SRC_URL="https://matt.ucc.asn.au/dropbear/dropbear-2016.73.tar.bz2"
 
 BUSYBOX="busybox_src"
 KERNEL="linux_src"
+DROPBEAR="dropbear_src"
 
 BUSYBOX_PALTFORM="busybox-x86"
 LINUX_PALTFORM="linux-x86-basic"
@@ -65,9 +67,11 @@ clean_build() {
 
     mkdir "$BUSYBOX"
     mkdir "$KERNEL"
+    mkdir "$DROPBEAR"
         
     wget -P /tmp/ "$BUSYBOX_SRC_URL" && tar xjf "/tmp/`basename $BUSYBOX_SRC_URL`" -C "$BUSYBOX" --strip-components=1
     wget -P /tmp/ "$KERNEL_SRC_URL" && tar xJf "/tmp/`basename $KERNEL_SRC_URL`" -C "$KERNEL" --strip-components=1
+    wget -P /tmp/ "$DROPBEAR_SRC_URL" && tar xjf "/tmp/`basename $DROPBEAR_SRC_URL`" -C "$DROPBEAR" --strip-components=1
 
     ## build busybox
     cd $TOP/$BUSYBOX
@@ -104,6 +108,11 @@ clean_build() {
 
 cd $TOP/initramfs/"$BUSYBOX_PALTFORM"
 
+# f0409
+cat << EOF >>etc/passwd
+root:95OnzVR4r6HAM:0:0:root:/root:/bin/sh
+EOF
+
 cat << EOF >>init
 #!/bin/sh
 
@@ -117,11 +126,30 @@ mount -t proc none /proc
 mount -t sysfs none /sys
 mount -t ramfs none /dev
 mdev -s
+
+# tty & ssh
+mkdir -p /dev/pts
+mount -t devpts devpts /dev/pts
+dropbear -p 2222
+
 echo -e "\nBoot took $(cut -d" " -f1 /proc/uptime) seconds\n"
 exec /bin/sh
 EOF
 
     chmod +x init
+
+    # build dropbear
+    cd $TOP/$DROPBEAR
+    ./configure --prefix="$TOP"/initramfs/"$BUSYBOX_PALTFORM"
+    make PROGRAMS="dropbear dbclient dropbearkey dropbearconvert scp"
+    make PROGRAMS="dropbear dbclient dropbearkey dropbearconvert scp" install
+    cd $TOP/initramfs/"$BUSYBOX_PALTFORM"
+    mkdir -p etc/dropbear
+    rm -rf share
+    cd bin
+    ./dropbearkey -t dss -f ../etc/dropbear/dropbear_dss_host_key
+    ./dropbearkey -t rsa -s 1024 -f ../etc/dropbear/dropbear_rsa_host_key
+    cd ..
 
     find . -print0 \
         | cpio --null -ov --format=newc \

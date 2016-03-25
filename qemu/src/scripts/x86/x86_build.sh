@@ -132,6 +132,11 @@ mkdir -p /dev/pts
 mount -t devpts devpts /dev/pts
 dropbear -p 2222
 
+# mount devpts in order to use telnetd
+#mkdir /dev/pts
+#mount -t devpts devpts /dev/pts
+/usr/sbin/telnetd -l /bin/login
+
 echo -e "\nBoot took $(cut -d" " -f1 /proc/uptime) seconds\n"
 exec /bin/sh
 EOF

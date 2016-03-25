@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="6.1" data-basepath=".." data-revision="Fri Mar 25 2016 00:47:30 GMT+0800 (CST)">
+    <div class="book" data-level="6.1" data-basepath=".." data-revision="Sat Mar 26 2016 00:13:40 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -11785,6 +11785,11 @@ mdev <span class="hljs-operator">-s</span>
 mkdir -p /dev/pts
 mount -t devpts devpts /dev/pts
 dropbear -p <span class="hljs-number">2222</span>
+
+<span class="hljs-comment"># mount devpts in order to use telnetd</span>
+<span class="hljs-comment">#mkdir /dev/pts</span>
+<span class="hljs-comment">#mount -t devpts devpts /dev/pts</span>
+/usr/sbin/telnetd <span class="hljs-operator">-l</span> /bin/login
 
 <span class="hljs-built_in">echo</span> <span class="hljs-operator">-e</span> <span class="hljs-string">&quot;\nBoot took <span class="hljs-variable">$(cut -d&quot; &quot; -f1 /proc/uptime)</span> seconds\n&quot;</span>
 <span class="hljs-built_in">exec</span> /bin/sh

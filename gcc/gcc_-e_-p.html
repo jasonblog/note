@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>調試已經運行的進程 | Jason note</title>
+        <title>gcc -E -P | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../100_gdb_tips/set-follow-fork-mode-child.html" />
+    <link rel="next" href="../gcc/clang.html" />
     
     
-    <link rel="prev" href="../100_gdb_tips/duo_jin_7a0b_xian_cheng.html" />
+    <link rel="prev" href="../gcc/g++_fdump-class-hierarchy_output.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="45.7.1" data-basepath=".." data-revision="Sat Mar 26 2016 01:04:48 GMT+0800 (CST)">
+    <div class="book" data-level="36.1.4" data-basepath=".." data-revision="Sat Mar 26 2016 01:04:48 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -8290,7 +8290,7 @@
             
         </li>
     
-        <li class="chapter " data-level="36.1.4" data-path="gcc/gcc_-e_-p.html">
+        <li class="chapter active" data-level="36.1.4" data-path="gcc/gcc_-e_-p.html">
             
                 
                     <a href="../gcc/gcc_-e_-p.html">
@@ -9970,7 +9970,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="45.7.1" data-path="100_gdb_tips/attach-process.html">
+        <li class="chapter " data-level="45.7.1" data-path="100_gdb_tips/attach-process.html">
             
                 
                     <a href="../100_gdb_tips/attach-process.html">
@@ -11586,96 +11586,45 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E8%AA%BF%E8%A9%A6%E5%B7%B2%E7%B6%93%E9%81%8B%E8%A1%8C%E7%9A%84%E9%80%B2%E7%A8%8B">&#x8ABF;&#x8A66;&#x5DF2;&#x7D93;&#x904B;&#x884C;&#x7684;&#x9032;&#x7A0B;</h1>
-<h2 id="%E4%BE%8B%E5%AD%90">&#x4F8B;&#x5B50;</h2>
-<pre><code>#include &lt;stdio.h&gt;
-#include &lt;pthread.h&gt;
-void *thread_func(void *p_arg)
-{
-        while (1)
-        {
-                printf(&quot;%s\n&quot;, (char*)p_arg);
-                sleep(10);
-        }
-}
-int main(void)
-{
-        pthread_t t1, t2;
-
-        pthread_create(&amp;t1, NULL, thread_func, &quot;Thread 1&quot;);
-        pthread_create(&amp;t2, NULL, thread_func, &quot;Thread 2&quot;);
-
-        sleep(1000);
-        return;
-}
-</code></pre><h2 id="%E6%8A%80%E5%B7%A7">&#x6280;&#x5DE7;</h2>
-<p>&#x8ABF;&#x8A66;&#x5DF2;&#x7D93;&#x904B;&#x884C;&#x7684;&#x9032;&#x7A0B;&#x6709;&#x5169;&#x7A2E;&#x65B9;&#x6CD5;&#xFF1A;&#x4E00;&#x7A2E;&#x662F;gdb&#x555F;&#x52D5;&#x6642;&#xFF0C;&#x6307;&#x5B9A;&#x9032;&#x7A0B;&#x7684;ID&#xFF1A;gdb program processID&#xFF08;&#x4E5F;&#x53EF;&#x4EE5;&#x7528;-p&#x6216;&#x8005;--pid&#x6307;&#x5B9A;&#x9032;&#x7A0B;ID&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;gdb program -p=10210&#xFF09;&#x3002;&#x4EE5;&#x4E0A;&#x9762;&#x4EE3;&#x78BC;&#x70BA;&#x4F8B;&#xFF0C;&#x7528;&#x201C;ps&#x201D;&#x547D;&#x4EE4;&#x5DF2;&#x7D93;&#x7372;&#x5F97;&#x9032;&#x7A0B;ID&#x70BA;10210&#xFF1A;</p>
-<pre><code>bash-3.2# gdb -q a 10210
-Reading symbols from /data/nan/a...done.
-Attaching to program `/data/nan/a&apos;, process 10210
-[New process 10210]
-Retry #1:
-Retry #2:
-Retry #3:
-Retry #4:
-Reading symbols from /usr/lib/libc.so.1...(no debugging symbols found)...done.
-[Thread debugging using libthread_db enabled]
-[New LWP    3        ]
-[New LWP    2        ]
-[New Thread 1 (LWP 1)]
-[New Thread 2 (LWP 2)]
-[New Thread 3 (LWP 3)]
-Loaded symbols for /usr/lib/libc.so.1
-Reading symbols from /lib/ld.so.1...(no debugging symbols found)...done.
-Loaded symbols for /lib/ld.so.1
-[Switching to Thread 1 (LWP 1)]
-0xfeeeae55 in ___nanosleep () from /usr/lib/libc.so.1
-(gdb) bt
-#0  0xfeeeae55 in ___nanosleep () from /usr/lib/libc.so.1
-#1  0xfeedcae4 in sleep () from /usr/lib/libc.so.1
-#2  0x080509ef in main () at a.c:17
-</code></pre><p>&#x5982;&#x679C;&#x5ACC;&#x6BCF;&#x6B21;ps&#x67E5;&#x770B;&#x9032;&#x7A0B;&#x865F;&#x6BD4;&#x8F03;&#x9EBB;&#x7169;&#xFF0C;&#x8ACB;&#x5617;&#x8A66;&#x5982;&#x4E0B;&#x8173;&#x672C;</p>
-<pre><code class="lang-shell"># &#x4FDD;&#x5B58;&#x70BA;xgdb.sh&#xFF08;&#x6DFB;&#x52A0;&#x53EF;&#x57F7;&#x884C;&#x6B0A;&#x9650;&#xFF09;
-# &#x7528;&#x6CD5; xgdb.sh a 
-prog_bin=$1
-running_name=$(basename $prog_bin)
-pid=$(/sbin/pidof $running_name)
-gdb attach $pid
+                        <h1 id="gcc-e-p">gcc -E -P</h1>
+<p>&#x6587;&#x4EF6;1&quot;header1.h&quot;&#xFF0C;&#x5167;&#x5BB9;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> A1 <span class="hljs-number">10</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> A2 <span class="hljs-number">0x0A</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> A3 (A1+<span class="hljs-number">1</span>)</span>
 </code></pre>
-<p>&#x53E6;&#x4E00;&#x7A2E;&#x662F;&#x5148;&#x555F;&#x52D5;gdb&#xFF0C;&#x7136;&#x5F8C;&#x7528;&#x201C;attach&#x201D;&#x547D;&#x4EE4;&#x201C;&#x9644;&#x8457;&#x201D;&#x5728;&#x9032;&#x7A0B;&#x4E0A;&#xFF1A;</p>
-<pre><code>bash-3.2# gdb -q a
-Reading symbols from /data/nan/a...done.
-(gdb) attach 10210
-Attaching to program `/data/nan/a&apos;, process 10210
-[New process 10210]
-Retry #1:
-Retry #2:
-Retry #3:
-Retry #4:
-Reading symbols from /usr/lib/libc.so.1...(no debugging symbols found)...done.
-[Thread debugging using libthread_db enabled]
-[New LWP    3        ]
-[New LWP    2        ]
-[New Thread 1 (LWP 1)]
-[New Thread 2 (LWP 2)]
-[New Thread 3 (LWP 3)]
-Loaded symbols for /usr/lib/libc.so.1
-Reading symbols from /lib/ld.so.1...(no debugging symbols found)...done.
-Loaded symbols for /lib/ld.so.1
-[Switching to Thread 1 (LWP 1)]
-0xfeeeae55 in ___nanosleep () from /usr/lib/libc.so.1
-(gdb) bt
-#0  0xfeeeae55 in ___nanosleep () from /usr/lib/libc.so.1
-#1  0xfeedcae4 in sleep () from /usr/lib/libc.so.1
-#2  0x080509ef in main () at a.c:17
-</code></pre><p>&#x5982;&#x679C;&#x4E0D;&#x60F3;&#x7E7C;&#x7E8C;&#x8ABF;&#x8A66;&#x4E86;&#xFF0C;&#x53EF;&#x4EE5;&#x7528;&#x201C;detach&#x201D;&#x547D;&#x4EE4;&#x201C;&#x812B;&#x96E2;&#x201D;&#x9032;&#x7A0B;&#xFF1A;</p>
-<pre><code>(gdb) detach
-Detaching from program: /data/nan/a, process 10210
-(gdb) bt
-No stack.
-</code></pre><p>&#x8A73;&#x60C5;&#x53C3;&#x898B;<a href="https://sourceware.org/gdb/current/onlinedocs/gdb/Attach.html#index-attach" target="_blank">gdb&#x624B;&#x518A;</a></p>
-<h2 id="%E8%B2%A2%E7%8D%BB%E8%80%85">&#x8CA2;&#x737B;&#x8005;</h2>
-<p>nanxiao</p>
+<p>&#x6587;&#x4EF6;2&quot;header2.h&quot;&#xFF0C;&#x5167;&#x5BB9;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;header1.h&quot;</span></span>
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> st_Shit
+{
+  <span class="hljs-keyword">int</span>  m1[A1];
+  <span class="hljs-keyword">int</span>  m2[A2];
+  <span class="hljs-keyword">char</span> m3[A3];
+}t_Shit;
+</code></pre>
+<p>&#x4F7F;&#x7528;&#x5982;&#x4E0B;&#x547D;&#x4EE4;&#xFF1A;</p>
+<pre><code class="lang-c">gcc -E -P  -&lt; header2.h &gt; shit.h
+header2.h&#x4E2D;&#x7684;&#x5B8F;&#x5C55;&#x958B;&#x4E4B;&#x5F8C;&#xFF0C;&#x751F;&#x6210;shit.h&#x6587;&#x4EF6;&#xFF0C;&#x5167;&#x5BB9;&#x5982;&#x4E0B;&#xFF1A;
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> st_Shit
+{
+ <span class="hljs-keyword">int</span>  m1[<span class="hljs-number">10</span> ];
+ <span class="hljs-keyword">int</span>  m2[<span class="hljs-number">0x0A</span> ];
+ <span class="hljs-keyword">char</span> m3[(<span class="hljs-number">10</span> +<span class="hljs-number">1</span>) ];
+}t_Shit;
+</code></pre>
+<p>&#x5982;&#x679C;&#x4E0D;&#x4F7F;&#x7528;-P&#x958B;&#x95DC;&#xFF0C;&#x547D;&#x4EE4;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c">gcc -E -&lt; header2.h &gt; shit.h
+header2.h&#x4E2D;&#x7684;&#x5B8F;&#x5C55;&#x958B;&#x4E4B;&#x5F8C;&#xFF0C;&#x751F;&#x6210;shit.h&#x6587;&#x4EF6;&#xFF0C;&#x5167;&#x5BB9;&#x5982;&#x4E0B;&#xFF1A;
+<span class="hljs-preprocessor"># <span class="hljs-number">1</span> <span class="hljs-string">&quot;&quot;</span></span>
+<span class="hljs-preprocessor"># <span class="hljs-number">1</span> <span class="hljs-string">&quot;header1.h&quot;</span> <span class="hljs-number">1</span></span>
+<span class="hljs-preprocessor"># <span class="hljs-number">1</span> <span class="hljs-string">&quot;&quot;</span> <span class="hljs-number">2</span></span>
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> st_Shit
+{
+ <span class="hljs-keyword">int</span>  m1[<span class="hljs-number">10</span> ];
+ <span class="hljs-keyword">int</span>  m2[<span class="hljs-number">0x0A</span> ];
+ <span class="hljs-keyword">char</span> m3[(<span class="hljs-number">10</span> +<span class="hljs-number">1</span>) ];
+}t_Shit;
+</code></pre>
+<p>&#x53EF;&#x898B;&#xFF0C;<code>-P</code>&#x9078;&#x9805;&#x80FD;&#x5920;&#x5C4F;&#x853D;&#x6389;&#x9019;&#x4E9B;&#x5783;&#x573E;&#x5167;&#x5BB9;</p>
 
                     
                     </section>
@@ -11686,10 +11635,10 @@ No stack.
         </div>
 
         
-        <a href="../100_gdb_tips/duo_jin_7a0b_xian_cheng.html" class="navigation navigation-prev " aria-label="Previous page: 多進程/線程"><i class="fa fa-angle-left"></i></a>
+        <a href="../gcc/g++_fdump-class-hierarchy_output.html" class="navigation navigation-prev " aria-label="Previous page: memory layout C++ objects for g++"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../100_gdb_tips/set-follow-fork-mode-child.html" class="navigation navigation-next " aria-label="Next page: 調試子進程"><i class="fa fa-angle-right"></i></a>
+        <a href="../gcc/clang.html" class="navigation navigation-next " aria-label="Next page: Clang"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

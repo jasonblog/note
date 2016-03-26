@@ -1,0 +1,2 @@
+# OpenMP in linux
+

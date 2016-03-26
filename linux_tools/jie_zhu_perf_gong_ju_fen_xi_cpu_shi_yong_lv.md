@@ -1,17 +1,17 @@
-# 借助PERF工具分析CPU使用率
+# 藉助PERF工具分析CPU使用率
 
 
-如果CPU的使用率突然暴涨，如何迅速定位是哪个进程、哪段代码引起的呢？我们需要一个profiling工具，对CPU上执行的代码进行采样、统计，告诉我们CPU到底在忙些什么。
+如果CPU的使用率突然暴漲，如何迅速定位是哪個進程、哪段代碼引起的呢？我們需要一個profiling工具，對CPU上執行的代碼進行採樣、統計，告訴我們CPU到底在忙些什麼。
 
-perf 就是这样的工具。我们举个例子看看 perf 是怎样工作的。
+perf 就是這樣的工具。我們舉個例子看看 perf 是怎樣工作的。
 
-首先我们用以下命令模拟出CPU利用率暴涨的现象：
+首先我們用以下命令模擬出CPU利用率暴漲的現象：
 
 ```sh
 $ cat /dev/zero > /dev/null
 ```
 
-然后我们看到 CPU 1 的 %system 飙升到95%：
+然後我們看到 CPU 1 的 %system 飆升到95%：
 
 
 ```sh
@@ -24,7 +24,7 @@ $ cat /dev/zero > /dev/null
 
 ```
 
-现在我们用 perf 工具采样：
+現在我們用 perf 工具採樣：
 
 ```sh
 # perf record -a -e cycles -o cycle.perf -g sleep 10
@@ -32,9 +32,9 @@ $ cat /dev/zero > /dev/null
 [ perf record: Captured and wrote 4.953 MB cycle.perf (~216405 samples) ]
 ```
 
-注：”-a”表示对所有CPU采样，如果只需针对特定的CPU，可以使用”-C”选项。
+注：”-a”表示對所有CPU採樣，如果只需針對特定的CPU，可以使用”-C”選項。
 
-把采样的数据生成报告：
+把採樣的數據生成報告：
 
 ```sh
 # perf report -i cycle.perf | more
@@ -69,5 +69,5 @@ $ cat /dev/zero > /dev/null
 ...
 ```
 
-我们很清楚地看到，CPU利用率有75%来自 cat 进程 的 sys_read 系统调用，perf 甚至精确地告诉了我们是消耗在 read_zero 这个 kernel routine 上。
+我們很清楚地看到，CPU利用率有75%來自 cat 進程 的 sys_read 系統調用，perf 甚至精確地告訴了我們是消耗在 read_zero 這個 kernel routine 上。
 

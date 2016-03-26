@@ -3,7 +3,7 @@
 
 在手機上面，Application 的實作往往會影響到效能好壞以及是否夠省電，其中 Application 的 CPU 使用量會是一個非常關鍵的因素。
 
-以下就拿使用 Firefox OS 的手機來做舉例說明，首先透過下面的 top 指令，可以看到整體 System 以及 Application 的 CPU 使用量，有助於了解 System 或者是 Application 的負載。
+以下就拿使用 Firefox OS 的手機來做舉例說明，首先透過下面的 top 指令，可以看到整體 System 以及 Application 的 CPU 使用量，有助於瞭解 System 或者是 Application 的負載。
 
 ```sh
 peter@pchang:~$ adb shell top -s cpu -m 10 -d 1
@@ -36,7 +36,7 @@ User 65 + Nice 30 + Sys 23 + Idle 2 + IOW 3 + IRQ 0 + SIRQ 0 = 123
 
 
 為了要進一步分析 Application 的效能瓶頸，可以使用 Linux 上分析的工具， `perf` (Download from Tegra Android Toolkit)。
-Perf 是根據 Linux Kernel 已經定義的 perf_event 來紀錄程式運作的過程，所以只要是 Linux based system 都可以支援，包含 Android/Firefox OS phone。目前 perf_event 在 Linux Kernel 上預設為啓動，所以使用 perf 只要準備好 Application debug symbols 就可以來進行分析。有興趣的朋友可以參考 perf kernel support ，來進一步確定你的手機是否有啟動 perf_event。
+Perf 是根據 Linux Kernel 已經定義的 perf_event 來紀錄程式運作的過程，所以只要是 Linux based system 都可以支援，包含 Android/Firefox OS phone。目前 perf_event 在 Linux Kernel 上預設為啟動，所以使用 perf 只要準備好 Application debug symbols 就可以來進行分析。有興趣的朋友可以參考 perf kernel support ，來進一步確定你的手機是否有啟動 perf_event。
 
 Perf 上也有類似 top 指令，可以看到整體 System 的負載，譬如下面的結果，就可以看到 WebGLContext::Conver 佔用了最多 CPU 資源。
 

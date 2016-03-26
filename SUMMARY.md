@@ -49,7 +49,7 @@
    * [二進位實用程式(objdump, readelf,ar, nm等)](linux_tools/er_jin_wei_shi_yong_cheng_5f0f28_objdump_,_readelf.md)
    * [UNIX 下繪圖面面觀](linux_tools/unix_xia_hui_tu_mian_mian_guan.md)
    * [performance 分析](linux_tools/performance_fen_xi.md)
-       * Application 效能分析有妙招 — 使用 perf 走天下
+       * [Application 效能分析有妙招 — 使用 perf 走天下](linux_tools/application_xiao_neng_fen_xi_you_miao_zhao__shi_yo.md)
 * [Android note](android_note/README.md)
    * [android resource](android_note/514.md)
    * [什麼時候用startService，什麼時候用bindService](android_note/startservice_bindservice.md)

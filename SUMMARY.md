@@ -51,7 +51,7 @@
    * [performance 分析](linux_tools/performance_fen_xi.md)
        * [Application 效能分析有妙招 — 使用 perf 走天下](linux_tools/application_xiao_neng_fen_xi_you_miao_zhao__shi_yo.md)
        * [借助PERF工具分析CPU使用率](linux_tools/jie_zhu_perf_gong_ju_fen_xi_cpu_shi_yong_lv.md)
-       * linux下的内核测试工具——perf使用简介
+       * [linux下的内核测试工具——perf使用简介](linux_tools/linuxxia_de_nei_he_ce_shi_gong_ju_2014_2014_perf_s.md)
 * [Android note](android_note/README.md)
    * [android resource](android_note/514.md)
    * [什麼時候用startService，什麼時候用bindService](android_note/startservice_bindservice.md)

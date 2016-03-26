@@ -34,6 +34,64 @@ make install
 ![](images/20130824153316203.png)
 
 
+事件分为以下三种：
+
+```sh
+1）Hardware Event 是由 PMU 硬件产生的事件，比如 cache 命中，当您需要了解程序对硬件特性的使用情况时，便需要对这些事件进行采样；
+2）Software Event 是内核软件产生的事件，比如进程切换，tick 数等 ;
+3）Tracepoint event 是内核中的静态 tracepoint 所触发的事件，这些 tracepoint 用来判断程序运行期间内核的行为细节，比如 slab 分配器的分配次数等。
+```
+
+上述每一个事件都可以用于采样，并生成一项统计数据，时至今日，尚没有文档对每一个 event 的含义进行详细解释。
 
 
+## 3. perf stat——概览程序的运行情况
 
+
+面对一个问题程序，最好采用自顶向下的策略。先整体看看该程序运行时各种统计事件的大概，再针对某些方向深入细节。而不要一下子扎进琐碎细节，会一叶障目的。
+
+
+有些程序慢是因为计算量太大，其多数时间都应该在使用 CPU 进行计算，这叫做 CPU bound 型；有些程序慢是因为过多的 IO，这种时候其 CPU 利用率应该不高，这叫做 IO bound 型；对于 CPU bound 程序的调优和 IO bound 的调优是不同的。
+
+如果您认同这些说法的话，Perf stat 应该是您最先使用的一个工具。它通过概括精简的方式提供被调试程序运行的整体情况和汇总数据。   
+
+本篇中，我们将在以后使用这个例子test1.c：
+测试用例：test1
+
+```c
+//test.c
+void longa()
+{
+    int i, j;
+
+    for (i = 0; i < 1000000; i++) {
+        j = i;    //am I silly or crazy? I feel boring and desperate.
+    }
+}
+
+void foo2()
+{
+    int i;
+
+    for (i = 0 ; i < 10; i++) {
+        longa();
+    }
+}
+
+void foo1()
+{
+    int i;
+
+    for (i = 0; i < 100; i++) {
+        longa();
+    }
+}
+
+int main(void)
+{
+    foo1();
+    foo2();
+}
+```
+
+将它编译为可执行文件 test1

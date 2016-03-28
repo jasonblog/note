@@ -199,6 +199,7 @@ clean_build() {
 
 cd $TOP/initramfs/"$BUSYBOX_PALTFORM"
 
+# root::0:0:root:/:/bin/sh  // 不用密碼
 # f0409
 cat << EOF >>etc/passwd
 root:95OnzVR4r6HAM:0:0:root:/root:/bin/sh

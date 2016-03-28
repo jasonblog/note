@@ -495,7 +495,7 @@
    * [用 Raspberry pi 寫驅動程式 -- 範例1：LED](raspberry_pi/yong_raspberry_pi_xie_qu_dong_cheng_shi_--_fan_li_.md)
    * [在Raspberry pi 上建立自己的system call](raspberry_pi/zai_raspberry_pi_shang_jian_li_zi_ji_de_system_cal.md)
    * [Raspberry pi GPIO 控制](raspberry_pi/raspberry_pi_gpio_kong_zhi.md)
-   * Raspberry Pi的開始流程
+   * [Raspberry Pi的開始流程](raspberry_pi/raspberry_pide_kai_shi_liu_cheng.md)
 * [OpenGL](opengl/opengl.md)
    * [opengl(mesa) for ubuntu14.04](opengl/mesa.md)
    * [ubuntu 14.04 安裝OpenGL（基於freeglut）](opengl/1.md)

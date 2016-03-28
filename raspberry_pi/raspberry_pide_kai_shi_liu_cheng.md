@@ -19,7 +19,8 @@ The boot sequence of the Raspberry Pi is basically this:
 - Stage 3 is loader.bin. It knows about the .elf format and loads start.elf
 
 
-hackpad.com_EbKivaLmAIK_p.263538_1415096785393_xEB4q.png
+![](./images/hackpad.com_EbKivaLmAIK_p.263538_1415096785393_xEB4q.png)
+
 
 
 figure source:http://raspberrypi.stackexchange.com/questions/10442/what-is-the-boot-sequence

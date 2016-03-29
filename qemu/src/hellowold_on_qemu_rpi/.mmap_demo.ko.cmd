@@ -1,0 +1,1 @@
+cmd_/home/shihyu/testtest/mmap_demo.ko := ld -r -m elf_x86_64 -T ./scripts/module-common.lds --build-id  -o /home/shihyu/testtest/mmap_demo.ko /home/shihyu/testtest/mmap_demo.o /home/shihyu/testtest/mmap_demo.mod.o

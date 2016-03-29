@@ -1,12 +1,12 @@
-# 用Qemu模拟ARM
+# 用Qemu模擬ARM
 
 
 
-前面已经安装并配置了编译链和qemu，现在可以用qemu来模拟arm平台了。
+前面已經安裝並配置了編譯鏈和qemu，現在可以用qemu來模擬arm平臺了。
 
 ###1. Hello, Qemu!
 
-输入下面的代码:
+輸入下面的代碼:
 - hello.c
 
 ```c
@@ -19,7 +19,7 @@ int main()
 }
 ```
 
-编译并运行:
+編譯並運行:
 
 ```sh
 $ arm-none-linux-gnueabi-gcc -o hello hello.c -static
@@ -29,7 +29,7 @@ hello: ELF 32-bit LSB  executable, ARM, EABI5 version 1 (SYSV), \
  statically linked, for GNU/Linux 2.6.16, not stripped
 ```
 
-不加-static变量的话，运行时则需要使用-L选项链接到相应的运行库
+不加-static變量的話，運行時則需要使用-L選項鍊接到相應的運行庫
 
 ```sh
 $ qemu-arm -L /home/dash/CodeSourcery/\
@@ -42,7 +42,7 @@ hello_1: ELF 32-bit LSB  executable, ARM, EABI5 version 1 (SYSV),\
 ```
 
 
-动态编译和静态编译生成的文件大小差别：
+動態編譯和靜態編譯生成的文件大小差別：
 
 ```sh
 $ ls -l -h
@@ -53,33 +53,33 @@ total 656K
 
 ###小插曲1：
 
-系统里安装了两套编译链arm-none-eabi-和arm-none-linux-eabi-,很容易让人混淆，可参考编译链的命名规则：
+系統裡安裝了兩套編譯鏈arm-none-eabi-和arm-none-linux-eabi-,很容易讓人混淆，可參考編譯鏈的命名規則：
 
-arch(架构)-vendor(厂商名)–(os(操作系统名)–)abi(Application Binary Interface，应用程序二进制接口)
+arch(架構)-vendor(廠商名)–(os(操作系統名)–)abi(Application Binary Interface，應用程序二進制接口)
 
 
-举例说明：
+舉例說明：
 
-- x86_64-w64-mingw32 = x86_64 “arch”字段 (=AMD64), w64 (=mingw-w64 是”vendor”字段), mingw32 (=GCC所见的win32 API)
-- i686-unknown-linux-gnu = 32位 GNU/linux编译链
-- arm-none-linux-gnueabi = ARM 架构, 无vendor字段, linux 系统, gnueabi ABI.
-- arm-none-eabi = ARM架构, 无厂商, eabi ABI(embedded abi)
+- x86_64-w64-mingw32 = x86_64 “arch”字段 (=AMD64), w64 (=mingw-w64 是”vendor”字段), mingw32 (=GCC所見的win32 API)
+- i686-unknown-linux-gnu = 32位 GNU/linux編譯鏈
+- arm-none-linux-gnueabi = ARM 架構, 無vendor字段, linux 系統, gnueabi ABI.
+- arm-none-eabi = ARM架構, 無廠商, eabi ABI(embedded abi)
 
-两种编译链的主要区别在于库的差别，前者没有后者的库多，后者主要用于在有操作系统的时候编译APP用的。前者不包括标准输入输出库在内的很多C标准库，适合于做面向硬件的类似单片机那样的开发。因而如果采用arm-none-eabi-gcc来编译hello.c会出现链接错误。
+兩種編譯鏈的主要區別在於庫的差別，前者沒有後者的庫多，後者主要用於在有操作系統的時候編譯APP用的。前者不包括標準輸入輸出庫在內的很多C標準庫，適合於做面向硬件的類似單片機那樣的開發。因而如果採用arm-none-eabi-gcc來編譯hello.c會出現鏈接錯誤。
 
 ### 小插曲2：
 
-qemu-arm和qemu-system-arm的区别：
+qemu-arm和qemu-system-arm的區別：
 
 
-- qemu-arm是用户模式的模拟器(更精确的表述应该是系统调用模拟器)，而qemu-system-arm则是系统模拟器，它可以模拟出整个机器并运行操作系统
+- qemu-arm是用戶模式的模擬器(更精確的表述應該是系統調用模擬器)，而qemu-system-arm則是系統模擬器，它可以模擬出整個機器並運行操作系統
 
-- qemu-arm仅可用来运行二进制文件，因此你可以交叉编译完例如hello world之类的程序然后交给qemu-arm来运行，简单而高效。而qemu-system-arm则需要你把hello world程序下载到客户机操作系统能访问到的硬盘里才能运行。
+- qemu-arm僅可用來運行二進制文件，因此你可以交叉編譯完例如hello world之類的程序然後交給qemu-arm來運行，簡單而高效。而qemu-system-arm則需要你把hello world程序下載到客戶機操作系統能訪問到的硬盤裡才能運行。
 
 
-###2. 使用qemu-system-arm运行Linux内核
+###2. 使用qemu-system-arm運行Linux內核
 
-从www.kernel.org下载最新内核,而后解压
+從www.kernel.org下載最新內核,而後解壓
 
 ```sh
 $ tar xJf linux-3.10.tar.xz
@@ -88,26 +88,26 @@ $ make ARCH=arm versatile_defconfig
 $ make menuconfig ARCH=arm CROSS_COMPILE=arm-none-linux-gnueabi-
 ```
 
-上面的命令指定内核架构为arm，交叉编译链为arm-none-linux-gnueabi, 需要在make menuconfig弹出的窗口中选择到 “Kernel Features”, 激活“Use the ARM EABI to compile the kernel”, 如果不激活这个选项的话，内核将无法加载接下来要制作的initramfs。
+上面的命令指定內核架構為arm，交叉編譯鏈為arm-none-linux-gnueabi, 需要在make menuconfig彈出的窗口中選擇到 “Kernel Features”, 激活“Use the ARM EABI to compile the kernel”, 如果不激活這個選項的話，內核將無法加載接下來要製作的initramfs。
 
-如果需要在u-boot上加载内核，就要编译为uImage的格式，uImage通过mkimage程序来压缩的，ArchLinux的yaourt仓库里可以找到这个包：
+如果需要在u-boot上加載內核，就要編譯為uImage的格式，uImage通過mkimage程序來壓縮的，ArchLinux的yaourt倉庫裡可以找到這個包：
 
 ```sh
 $ yaourt -S mkimage
 ```
-安装好mkimage后，开始编译内核，因为CPU有4核，所以开启了-j8选项以加速编译:
+安裝好mkimage後，開始編譯內核，因為CPU有4核，所以開啟了-j8選項以加速編譯:
 
 ```sh
 $ make ARCH=arm CROSS_COMPILE=arm-none-linux-gnueabi- all -j8 uImage 
 ```
 
-接下来我们可以在qemu-system-arm中测试我们的内核了
+接下來我們可以在qemu-system-arm中測試我們的內核了
 
 ```sh
 $ qemu-system-arm -M versatilepb -m 128M -kernel ./arch/arm/boot/uImage
 ```
 
-在弹出的窗口中可以内核运行到了kernel panic状态，这是因为内核无法加载root镜像的缘故，我们将制作一个最简单的hello world的文件系统，告知kernel运行之。
+在彈出的窗口中可以內核運行到了kernel panic狀態，這是因為內核無法加載root鏡像的緣故，我們將製作一個最簡單的hello world的文件系統，告知kernel運行之。
 
 -  init.c
 
@@ -121,7 +121,7 @@ void main()
 }
 ```
 
-编译并制作启动镜像:
+編譯並製作啟動鏡像:
 
 ```sh
 $ arm-none-linux-gnueabi-gcc -o init init.c -static
@@ -131,40 +131,40 @@ $ file initramfs
 initramfs: ASCII cpio archive (SVR4 with no CRC)
 ```
 
-接下来我们回到编译目录下执行：
+接下來我們回到編譯目錄下執行：
 
 ```sh
 $ qemu-system-arm -M versatilepb -kernel ./arch/arm/boot/uImage  -initrd
 ../initramfs -serial stdio -append "console=tty1"
 ```
 
-这时候可以看到，kernel运行并在Qemu自带的终端里打印出”Hello World!“。
+這時候可以看到，kernel運行並在Qemu自帶的終端裡打印出”Hello World!“。
 
-如果我们改变console变量为ttyAMA0, 将在启动qemu-system-arm的本终端上打印出qemu的输出。
+如果我們改變console變量為ttyAMA0, 將在啟動qemu-system-arm的本終端上打印出qemu的輸出。
 
-## 1. 关于Bootloader:
+## 1. 關於Bootloader:
 
-(引导程序)位于电脑或其他计算机应用上，是指引导操作系统启动的程序。引导程序启动方式和程序视应用机型种类而不同。例如在普通的个人电脑上，引导程序通常分为两部分：第一阶段引导程序位于主引导记录（MBR），用以引导位于某个分区上的第二阶段引导程序，如NTLDR、GNU GRUB等。
+(引導程序)位於電腦或其他計算機應用上，是指引導操作系統啟動的程序。引導程序啟動方式和程序視應用機型種類而不同。例如在普通的個人電腦上，引導程序通常分為兩部分：第一階段引導程序位於主引導記錄（MBR），用以引導位於某個分區上的第二階段引導程序，如NTLDR、GNU GRUB等。
 
-嵌入式系统中常见的Bootloader主要有以下几种:
+嵌入式系統中常見的Bootloader主要有以下幾種:
 
-- Das U-Boot 是一个主要用于嵌入式系统的开机载入程序，可以支持多种不同的计算机系统结构，包括PPC、ARM、AVR32、MIPS、x86、68k、Nios与MicroBlaze。
+- Das U-Boot 是一個主要用於嵌入式系統的開機載入程序，可以支持多種不同的計算機系統結構，包括PPC、ARM、AVR32、MIPS、x86、68k、Nios與MicroBlaze。
 
-- vivi是由mizi公司设计为ARM处理器系列设计的一个bootloader.
+- vivi是由mizi公司設計為ARM處理器系列設計的一個bootloader.
 
-- Redboot (Red Hat Embedded Debug and Bootstrap)是Red Hat公司开发的一个独立运行在嵌入式系统上的BootLoader程序，是目前比较流行的一个功能、可移植性好的BootLoader。
+- Redboot (Red Hat Embedded Debug and Bootstrap)是Red Hat公司開發的一個獨立運行在嵌入式系統上的BootLoader程序，是目前比較流行的一個功能、可移植性好的BootLoader。
 
-## 2. 关于“裸机编程(Bare-Metal)”:
-
-
-微控制器开发人员很熟悉这个概念， Bare-Metal是指的你的程序和处理器之间没有任何东西——你写的程序将直接运行在处理器上, 换言之，开发人员是在直接操控硬件。在裸机编程的场景中，需要由开发人员检查并排除任何一个可以导致系统崩溃的风险。
-
-“Bare-Metal”要求开发人员了解关于硬件的细节，所以接下来我们将对编译链和qemu本身进行分析。
+## 2. 關於“裸機編程(Bare-Metal)”:
 
 
-## 3. 下载qemu源码包并查询相关硬件信息：
+微控制器開發人員很熟悉這個概念， Bare-Metal是指的你的程序和處理器之間沒有任何東西——你寫的程序將直接運行在處理器上, 換言之，開發人員是在直接操控硬件。在裸機編程的場景中，需要由開發人員檢查並排除任何一個可以導致系統崩潰的風險。
 
-ArchLinux采用ABS(Arch Build System)来管理源码包，下面的步骤将qemu源码包下载到本地，更详细的关于ABS的操作可以在ArchLinux的Wiki中找到
+“Bare-Metal”要求開發人員瞭解關於硬件的細節，所以接下來我們將對編譯鏈和qemu本身進行分析。
+
+
+## 3. 下載qemu源碼包並查詢相關硬件信息：
+
+ArchLinux採用ABS(Arch Build System)來管理源碼包，下面的步驟將qemu源碼包下載到本地，更詳細的關於ABS的操作可以在ArchLinux的Wiki中找到
 
 ```sh
 $ pacman -S abs
@@ -175,7 +175,7 @@ $ cp -r /var/abs/extra/qemu/ ~/abs
 $ cd ~/abs && makepkg -s --asroot -o
 ```
 
-得到versatilepb开发板的CPU型号, 可以看到”arm926”是我们要的结果。
+得到versatilepb開發板的CPU型號, 可以看到”arm926”是我們要的結果。
 
 ```sh
 $ grep "arm" src/qemu-1.4.2/hw/versatilepb.c 
@@ -187,7 +187,7 @@ static struct arm_boot_info versatile_binfo;
     arm_load_kernel(cpu, &versatile_binfo);
 ```
 
-得到versatilepb开发板的串口寄存器硬件信息：
+得到versatilepb開發板的串口寄存器硬件信息：
 
 ```sh
 $ grep "UART*" src/qemu-1.4.2/hw/versatilepb.c 
@@ -197,20 +197,20 @@ $ grep "UART*" src/qemu-1.4.2/hw/versatilepb.c
     /*  0x101f3000 UART2.  */
 ```
 
-所以说开源是王道嘛，很快就查到了每一个需要了解的细节。UART0在内存中map到的地址是0x101f1000, 我们直接往这个地址写数据，就可以在终端上看到数据输出了。
+所以說開源是王道嘛，很快就查到了每一個需要了解的細節。UART0在內存中map到的地址是0x101f1000, 我們直接往這個地址寫數據，就可以在終端上看到數據輸出了。
 
-##4. 查看编译链支持的平台：
+##4. 查看編譯鏈支持的平臺：
 
 ```sh
 $ cat ~/CodeSourcery/Sourcery_CodeBench_Lite_for_ARM_EABI/share/doc/arm-arm-none-eabi/info/gcc.info | grep arm926
      `arm926ej-s', `arm940t', `arm9tdmi', `arm10tdmi', `arm1020t',
 ```
 
-arm926ej-s是被支持的，因此我们可以用这套编译链来生成需要的裸机调试代码。
+arm926ej-s是被支持的，因此我們可以用這套編譯鏈來生成需要的裸機調試代碼。
 
-##5. 启动应用程序init.c的编写:
+##5. 啟動應用程序init.c的編寫:
 
-首先创建应用程序init.c：
+首先創建應用程序init.c：
 
 -  init.c
 
@@ -231,19 +231,19 @@ int my_init()
 }
 ```
 
-init.c中，我们首先声明一个volatile变UART0_PTR,volatile关键字用于告知编译器此变量是用于直接访问内存映像设备的，即串口0内存地址
+init.c中，我們首先聲明一個volatile變UART0_PTR,volatile關鍵字用於告知編譯器此變量是用於直接訪問內存映像設備的，即串口0內存地址
 
-display()函数则是用于将字符串中的字符按顺序输出到串口0, 直到遇到字符串结尾。
+display()函數則是用於將字符串中的字符按順序輸出到串口0, 直到遇到字符串結尾。
 
-my_init()调用了display(), 接下来我们将把它作为C入口函数.
+my_init()調用了display(), 接下來我們將把它作為C入口函數.
 
-预编译init.c:
+預編譯init.c:
 
 ```sh
 $ arm-none-eabi-gcc -c -mcpu=arm926ej-s init.c -o init.o
 ```
 
-## 6. 启动代码start.s编写：
+## 6. 啟動代碼start.s編寫：
 - start.s
 
 
@@ -325,7 +325,7 @@ Hello Open World
 volatile unsigned char* const UART0_PTR = (unsigned char*)0x0101f2000; 
 ```
 
-按照步驟3～7里重新編譯，並運行以查看結果:
+按照步驟3～7裡重新編譯，並運行以查看結果:
 
 ```sh
 # 沒有反應！

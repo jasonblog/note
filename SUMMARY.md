@@ -97,6 +97,7 @@
    * [KGDB + QEMU + SSH](qemu/kgdb_+_qemu_+_ssh.md)
    * [打造屬於自己的linux發行版](qemu/da_zao_shu_yu_zi_ji_de_linux_fa_xing_ban.md)
    * [編譯內核+BusyBox定製一個Linux提供ssh和web服務](qemu/bian_yi_nei_6838+_busybox_ding_zhi_yi_ge_linux_ti_.md)
+   * 用Qemu模拟ARM
 * [fcamel](fcamel/README.md)
    * [[轉]ld, ld.so 和 ldconfig 的行為](fcamel/01.md)
    * [[轉]解決 undefined symbol / reference](fcamel/02.md)

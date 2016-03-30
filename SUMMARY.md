@@ -53,6 +53,7 @@
        * [藉助PERF工具分析CPU使用率](linux_tools/jie_zhu_perf_gong_ju_fen_xi_cpu_shi_yong_lv.md)
        * [linux下的內核測試工具——perf使用簡介](linux_tools/linuxxia_de_nei_he_ce_shi_gong_ju_2014_2014_perf_s.md)
        * [Perf -- Linux下的系统性能调优工具，第 1 部分](linux_tools/perf_--_linuxxia_de_xi_tong_xing_neng_diao_you_gon.md)
+       * Perf -- Linux下的系统性能调优工具，第 2 部分
 * [Android note](android_note/README.md)
    * [android resource](android_note/514.md)
    * [什麼時候用startService，什麼時候用bindService](android_note/startservice_bindservice.md)

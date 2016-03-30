@@ -365,6 +365,9 @@ Ping-pong 是一种现象，在多 CPU 系统中，多个 CPU 共享的内存会
 
 图 1. perf timechart
 
+
+![](./images/image001.jpg)
+
 人们说，只有黑白两色是一个人内心压抑的象征，Timechart 用不同的颜色代表不同的含义。上图的最上面一行是图例，告诉人们每种颜色所代表的含义。蓝色表示忙碌，红色表示 idle，灰色表示等待，等等。
 
 接下来是 per-cpu 信息，上图所示的系统中有两个处理器，可以看到在采样期间，两个处理器忙碌程度的概括。蓝色多的地方表示忙碌，因此上图告诉我们，CPU1 很忙，而 CPU2 很闲。
@@ -380,3 +383,77 @@ Timechart 可以显示更详细的信息，上图实际上是一个矢量图形 
 
 图 2. perf timechart detail
  
+![](./images/image002.jpg)
+
+上图中需要注意的是几条绿色的短线，表示进程通信，即准备绘图。假如通信的两个进程在图中上下相邻，那么绿线可以连接他们。但如果不相邻，则只会显示如上图所示的被截断的绿色短线。
+
+蓝色部分表示进程忙碌，黄色部分表示该进程的时间片已经用完，但仍处于就绪状态，在等待调度器给予 CPU。
+
+通过这张图，便可以较直观地看到进程在一段时间内的详细行为。
+
+## 使用 Script 增强 perf 的功能
+
+通常，面对看似复杂，实则较有规律的计算机输出，程序员们总是会用脚本来进行处理：比如给定一个文本文件，想从中找出有多少个数字 0125，人们不会打开文件然后用肉眼去一个一个地数，而是用 grep 命令来进行处理。
+
+perf 的输出虽然是文本格式，但还是不太容易分析和阅读。往往也需要进一步处理，perl 和 python 是目前最强大的两种脚本语言。Tom Zanussi 将 perl 和 python 解析器嵌入到 perf 程序中，从而使得 perf 能够自动执行 perl 或者 python 脚本进一步进行处理，从而为 perf 提供了强大的扩展能力。因为任何人都可以编写新的脚本，对 perf 的原始输出数据进行所需要的进一步处理。这个特性所带来的好处很类似于 plug-in 之于 eclipse。
+
+下面的命令可以查看系统中已经安装的脚本：
+
+```sh
+ # perf trace -l 
+    List of available trace scripts: 
+      syscall-counts [comm]                system-wide syscall counts 
+      syscall-counts-by-pid [comm]         system-wide syscall counts, by pid 
+      failed-syscalls-by-pid [comm]        system-wide failed syscalls, by pid 
+。。。
+```
+
+比如 failed-syscalls 脚本，执行的效果如下：
+
+```sh
+ # perf trace record failed-syscalls 
+    ^C[ perf record: Woken up 11 times to write data ]                         
+    [ perf record: Captured and wrote 1.939 MB perf.data (~84709 samples) ]   
+
+ perf trace report failed-syscalls 
+    perf trace started with Perl script \ 
+	 /root/libexec/perf-core/scripts/perl/failed-syscalls.pl 
+
+    failed syscalls, by comm: 
+
+    comm                    # errors 
+    --------------------  ---------- 
+    firefox                     1721 
+    claws-mail                   149 
+    konsole                       99 
+    X                             77 
+    emacs                         56 
+    [...] 
+
+    failed syscalls, by syscall: 
+
+    syscall                           # errors 
+    ------------------------------  ---------- 
+    sys_read                              2042 
+    sys_futex                              130 
+    sys_mmap_pgoff                          71 
+    sys_access                              33 
+    sys_stat64                               5 
+    sys_inotify_add_watch                    4 
+    [...]
+```
+
+该报表分别按进程和按系统调用显示失败的次数。非常简单明了，而如果通过普通的 perf record 加 perf report 命令，则需要自己手工或者编写脚本来统计这些数字。
+
+我想重要的不仅是学习目前已经存在的这些脚本，而是理解如何利用 perf 的脚本功能开发新的功能。但如何写 perf 脚本超出了本文的范围，要想描述清楚估计需要一篇单独的文章。因此不再赘述。
+
+
+##结束语
+从 2.6.31 开始，一晃居然也有几个年头了，期间每一个内核版本都会有新的 perf 特性。因此于我而言，阅读新的 changelog 并在其中发现 perf 的新功能已经成为一项乐趣，类似喜欢陈奕迅的人们期待他创作出新的专辑一般。
+
+本文写到这里可以暂时告一段落，还有一些命令没有介绍，而且或许就在此时此刻，新的功能已经加入 perf 家族了。所以当您读到这篇文章时，本文恐怕已经开始泛黄，然而我依旧感到高兴，因为我正在经历一个伟大时代，Linux 的黄金时代吧。
+
+本人水平有限，必然有写的不对的地方，还希望能和大家一起交流。
+
+
+

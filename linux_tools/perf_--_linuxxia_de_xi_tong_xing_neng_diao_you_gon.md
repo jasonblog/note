@@ -376,3 +376,82 @@ for 循环编译成为 IA 汇编后如下：
  jmp    ForLoop 
  EndForLoop:
 ```
+
+图 4. BTB buffer
+
+![](./images/btb_buf.jpg)
+
+这个 buffer 完全精确地描述了整个循环迭代的分支判定情况，因此下次运行同一个循环时，处理器便可以做出完全正确的预测。但假如迭代次数为 20，则该 BTB 随着时间推移而不能完全准确地描述该循环的分支预测执行情况，处理器将做出错误的判断。
+
+我们将测试程序进行少许的修改，将迭代次数从 20 减少到 10，为了让逻辑不变，j++ 变成了 j+=2；
+清单 5. 没有 BTB 失效的代码
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+void foo()
+{
+    int i, j;
+
+    for (i = 0; i < 10; i++) {
+        j += 2;
+    }
+}
+int main(void)
+{
+    int i;
+
+    for (i = 0; i < 100000000; i++) {
+        foo();
+    }
+
+    return 0;
+}
+```
+
+此时再次用 perf stat 采样得到如下结果：
+
+```sh
+ [lm@ovispoly perf]$ ./perf stat ./t3 
+
+  Performance counter stats for './t3: 
+
+ 2784.004851 task-clock-msecs # 0.927 CPUs 
+ 90 context-switches # 0.000 M/sec 
+ 8 CPU-migrations # 0.000 M/sec 
+ 81 page-faults # 0.000 M/sec 
+ 33632545 cycles # 12.081 M/sec (scaled from 99.63%) 
+ 42996 instructions # 0.001 IPC (scaled from 99.71%) 
+ 1474321780 branches # 529.569 M/sec (scaled from 99.78%) 
+ 49733 branch-misses # 0.003 % (scaled from 99.35%) 
+ 7073107 cache-references # 2.541 M/sec (scaled from 99.42%) 
+ 47958540 cache-misses # 17.226 M/sec (scaled from 99.33%) 
+
+  3.002673524 seconds time elapsed
+```
+Branch-misses 减少了。
+
+本例只是为了演示 perf 对 PMU 的使用，本身并无意义，关于充分利用 processor 进行调优可以参考 Intel 公司出品的调优手册，其他的处理器可能有不同的方法，还希望读者明鉴。
+
+###小结
+以上介绍的这些 perf 用法主要着眼点在于对于应用程序的性能统计分析，本文的第二部分将继续讲述 perf 的一些特殊用法，并偏重于内核本身的性能统计分析。
+
+调优是需要综合知识的工作，要不断地修炼自己。
+
+Perf 虽然是一把宝剑，但宝剑配英雄，只有武功高强的大侠才能随心所欲地使用它。以我的功力，也只能道听途说地讲述一些关于宝刀的事情。但若本文能引起您对宝刀的兴趣，那么也算是有一点儿作用了。
+
+
+## 参考资料
+
+- 2.6.34 源代码 tools 目录下的文档。
+- Lwn 上的文章 Perfcounters added to the mainline以及 Scripting support for perf。
+- Ingo Molnar 写的关于 sched perf的教材。
+- Arjan van de Ven ’ s 关于 timechart 的 blog。
+- IBM Developerworks 网站上的文章 用 OProfile 彻底了解性能。
+- Intel 公司的 Jeff Andrews 写的 Branch and Loop Reorganization to Prevent Mispredicts。
+- 在 developerWorks Linux 专区 寻找为 Linux 开发人员（包括 Linux 新手入门）准备的更多参考资料，查阅我们 最受欢迎的文章和教程。
+- 在 developerWorks 上查阅所有 Linux 技巧 和 Linux 教程。
+- 随时关注 developerWorks 技术活动和网络广播。
+讨论
+- 加入 developerWorks 中文社区，developerWorks 社区是一个面向全球 IT 专业人员，可以提供博客、书签、wiki、群组、联系、共享和协作等社区功能的专业社交网络社区。

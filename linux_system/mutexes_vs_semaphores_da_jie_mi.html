@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Mutexes VS Semaphores 大揭秘 | Jason note</title>
+        <title>Mutexes VS Semaphores 大揭祕 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="13.31" data-basepath=".." data-revision="Fri Apr 01 2016 00:19:00 GMT+0800 (CST)">
+    <div class="book" data-level="13.31" data-basepath=".." data-revision="Fri Apr 01 2016 02:42:26 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -4514,7 +4514,7 @@
                         
                             <b>13.31.</b>
                         
-                        Mutexes VS Semaphores 大揭秘
+                        Mutexes VS Semaphores 大揭祕
                     </a>
             
             
@@ -11666,6 +11666,42 @@
             
         </li>
     
+        <li class="chapter " data-level="51" data-path="dsalgo.html">
+            
+                
+                    <a href="../dsalgo.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>51.</b>
+                        
+                        DS_ALGO
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="51.1" data-path="nei_he_shuang_xiang_lian_biao_de_shi_yong.html">
+            
+                
+                    <a href="../nei_he_shuang_xiang_lian_biao_de_shi_yong.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>51.1.</b>
+                        
+                        內核雙向鏈表的使用
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
 
 
             
@@ -11772,7 +11808,7 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="mutexes-vs-semaphores-%E5%A4%A7%E6%8F%AD%E7%A7%98">Mutexes VS Semaphores &#x5927;&#x63ED;&#x79D8;</h1>
+                        <h1 id="mutexes-vs-semaphores-%E5%A4%A7%E6%8F%AD%E7%A5%95">Mutexes VS Semaphores &#x5927;&#x63ED;&#x7955;</h1>
 <p>Mutex &#x8207; Semaphore &#x90FD;&#x662F;&#x7528;&#x5728;&#x4FDD;&#x8B77; critical section&#xFF0C;&#x78BA;&#x4FDD;&#x591A;&#x500B; process &#x5E73;&#x884C;&#x904B;&#x4F5C;&#x4E26;&#x5B58;&#x53D6;&#x8CC7;&#x6E90;&#x6642;&#xFF0C;&#x57F7;&#x884C;&#x7D50;&#x679C;&#x4E0D;&#x6703;&#x56E0;&#x70BA;&#x57F7;&#x884C;&#x7A0B;&#x5E8F;&#x7684;&#x6642;&#x9593;&#x5148;&#x5F8C;&#x7684;&#x5F71;&#x97FF;&#x800C;&#x5C0E;&#x81F4;&#x932F;&#x8AA4;&#x3002;
 Mutex(Mutual Exclusion) &#x8207; Semaphore &#x7684;&#x5DEE;&#x5225;&#x5728;&#x65BC;:</p>
 <ul>
@@ -11781,7 +11817,7 @@ Mutex(Mutual Exclusion) &#x8207; Semaphore &#x7684;&#x5DEE;&#x5225;&#x5728;&#x65
 <li><p>process &#x4F7F;&#x7528; semaphore &#x6642;&#xFF0C;process &#x7E3D;&#x662F;&#x767C;&#x51FA;&#x4FE1;&#x865F;(signal)&#xFF0C;&#x6216;&#x8005;&#x7E3D;&#x662F;&#x63A5;&#x6536;&#x4FE1;&#x865F;(wait)&#xFF0C;&#x540C;&#x4E00;&#x500B; process &#x4E0D;&#x6703;&#x5148;&#x5F8C;&#x9032;&#x884C; signal &#x8207; wait&#x3002;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#xFF0C;process &#x8981;&#x561B;&#x7576; producer&#xFF0C;&#x8981;&#x561B;&#x7576; consumer&#xFF0C;&#x4E0D;&#x80FD;&#x5169;&#x8005;&#x90FD;&#x662F;&#x3002;Semaphore &#x662F;&#x70BA;&#x4E86;&#x4FDD;&#x8B77; process &#x7684;&#x57F7;&#x884C;&#x540C;&#x6B65;&#x6027;&#x3002;</p>
 </li>
 </ul>
-<p>Mutex &#x8207; Semaphore &#x8981;&#x89E3;&#x6C7A;&#x7684;&#x662F;&#x4E0D;&#x540C;&#x7684;&#x554F;&#x984C;&#x3002;&#x4E86;&#x89E3;&#x9019;&#x500B;&#x90E8;&#x4EFD;&#x5F8C;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x4F86;&#x5340;&#x5206; mutex &#x8207; binary semaphore&#x3002;mutex &#x78BA;&#x4FDD;&#x6578;&#x500B; process &#x5728;&#x4E00;&#x500B;&#x6642;&#x9593;&#x9EDE;&#x4E0A;&#xFF0C;&#x53EA;&#x80FD;&#x6709;&#x4E00;&#x500B; process &#x5B58;&#x53D6;&#x55AE;&#x9805;&#x8CC7;&#x6E90;&#xFF0C;&#x800C; semaphore &#x5247;&#x662F;&#x8B93;&#x6578;&#x500B; producer &#x8207; &#x6578;&#x500B; consumer &#x5728;&#x8A0A;&#x865F;&#x4E0A;&#x9032;&#x884C;&#x5408;&#x4F5C;&#x3002;</p>
+<p>Mutex &#x8207; Semaphore &#x8981;&#x89E3;&#x6C7A;&#x7684;&#x662F;&#x4E0D;&#x540C;&#x7684;&#x554F;&#x984C;&#x3002;&#x77AD;&#x89E3;&#x9019;&#x500B;&#x90E8;&#x4EFD;&#x5F8C;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x4F86;&#x5340;&#x5206; mutex &#x8207; binary semaphore&#x3002;mutex &#x78BA;&#x4FDD;&#x6578;&#x500B; process &#x5728;&#x4E00;&#x500B;&#x6642;&#x9593;&#x9EDE;&#x4E0A;&#xFF0C;&#x53EA;&#x80FD;&#x6709;&#x4E00;&#x500B; process &#x5B58;&#x53D6;&#x55AE;&#x9805;&#x8CC7;&#x6E90;&#xFF0C;&#x800C; semaphore &#x5247;&#x662F;&#x8B93;&#x6578;&#x500B; producer &#x8207; &#x6578;&#x500B; consumer &#x5728;&#x8A0A;&#x865F;&#x4E0A;&#x9032;&#x884C;&#x5408;&#x4F5C;&#x3002;</p>
 <p>&#x53E6;&#x4E00;&#x500B; mutex &#x8207; binary semaphore &#x7684;&#x5DEE;&#x7570;&#x5728;&#x65BC;&#xFF0C;&#x4F7F;&#x7528; mutex &#x6703;&#x5C0E;&#x81F4; priority inversion&#x3002;&#x4E5F;&#x56E0;&#x6B64; mutex &#x4E2D;&#x591A;&#x534A;&#x63A1;&#x7528;&#x4E86;&#x4E00;&#x4E9B;&#x6A5F;&#x5236;&#x4F86;&#x9632;&#x6B62; Priority Inversion&#x3002;Priority Inversion &#x662F;&#x57FA;&#x65BC; process &#x6301;&#x6709; mutex &#x7684;&#x6982;&#x5FF5;&#xFF0C;&#x4F7F;&#x5F97;&#x6578;&#x500B;&#x4E0D;&#x540C; priority &#x7684; process &#xFF0C;&#x5728;&#x7B49;&#x5F85;&#x8CC7;&#x6E90;&#x6642;&#x900F;&#x904E; mutex &#x50B3;&#x905E; priority&#xFF0C;&#x907F;&#x514D; priority inversion &#x767C;&#x751F;&#x3002;</p>
 <p>&#x8A3B;&#xFF1A;Mutex&#x8207;Semaphore&#x5728;&#x5F88;&#x591A;&#x66F8;&#x3001;&#x6587;&#x7AE0;&#x4E2D;&#x90FD;&#x6709;&#x5F88;&#x591A;&#x4E0D;&#x540C;&#x7684;&#x89E3;&#x91CB;&#x3002;&#x6211;&#x8A8D;&#x70BA;&#x9019;&#x7BC7;&#x6587;&#x7AE0;&#x8AC7;&#x7684;&#x662F;&#x6700;&#x56B4;&#x683C;&#x5B9A;&#x7FA9;&#x7684; Semaphore (Dijkstra &#x6240;&#x63D0;&#x51FA;)&#xFF0C;&#x56E0;&#x6B64;&#x5169;&#x8005;&#x6709;&#x76F8;&#x7576;&#x4E0D;&#x540C;&#x7684;&#x5340;&#x5206;&#x3002;&#x800C;&#x5F8C;&#x884D;&#x751F;&#x51FA;&#x7684; semaphore &#xFF0C;&#x5247;&#x5305;&#x542B;&#x4E86; counting semaphore &#x8207; binary semaphore&#xFF0C;&#x4E5F;&#x624D;&#x80FD;&#x5920;&#x7528;&#x65BC;&#x4FDD;&#x8B77;&#x8CC7;&#x6E90;&#xFF0C;&#x6216;&#x662F;&#x8655;&#x7406; multiple identical resources &#x7684;&#x554F;&#x984C;&#x3002;</p>
 <p>Other Link:</p>

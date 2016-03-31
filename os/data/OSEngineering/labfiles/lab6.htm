@@ -1,0 +1,860 @@
+<html>
+  <head>
+    <title>6.828 Fall 2007 Lab 6: the shell</title>
+    <link rel="stylesheet" href="../labs.css" tppabs="http://grid.hust.edu.cn/zyshao/Teaching_Material/OSEngineering/labs.css" type="text/css" />
+  </head>
+
+  <body>
+    <h1>6.828 Fall 2007 Lab 6: the shell</h1> 
+    <p>
+    <b>
+    Handed out Wednesday, November 21, 2007<br>
+    Tarball Due Thursday, December 6, 2007<br>
+	Private Demos on December 10 and 11, 2007<br>
+	In Class Demos on December 12, 2007<br>
+    </b>
+    <p>
+
+    <h1>Introduction</h1>
+
+      In this lab you will flesh out your kernel and library operating
+      system enough to run a shell on the console.
+      You will do this in steps:
+      <ol>
+      <li>You will generalize the file descriptor support to handle
+          a variety of file types rather than just on-disk files.
+          This will pave the way for pipes and a console device.
+      <li>You will change <code>fork</code> and <code>spawn</code> to
+          share their file descriptors with the child environment.
+          Sharing them across <code>fork</code> and <code>spawn</code>
+          allows the parent to set up i/o redirection before starting the
+          child.  This enables i/o redirection of child programs without
+          needing to do anything special in the child.
+      <li>You will implement pipes.
+      <li>You will implement the system call linkage
+          for the keyboard driver.  We have provided the hardware driver
+          itself as well as the console device file support.
+      <li>You will implement pipes and redirection in the shell.
+          We have provided a basic shell.
+      </ol><p>
+
+    <h2>Lab Requirements</h2>
+
+      Unlike in previous labs, in this lab you may work in pairs.
+      If you are working in a pair, you <i>must</i> email by
+      Wednesday, November 28 to tell us.
+      <p>
+
+      To complete the assignment, you will have to demonstrate your 
+      shell for us in person the last week of the term.  Dates and a 
+      sign-up form will be posted soon.
+      <p>
+
+	  Every group should be prepared to do a 5 minute
+          in-class demo on Wednesday December 12, 2007.
+      <p>
+
+      <b>Late policy</b>.  If you are working in a pair, you may
+      combine your late days, so if one of you has one day and the
+      other also has one day, you can turn in the assignment up to
+      two days late without penalty.  However,
+      the assignment <i>must</i> be turned in by 
+      the evening of Friday, December 14, even if you have enough
+      late days (or want to use penalty days) to be able to hand it in later.
+      Labs received after Friday, December 14 will receive an F.
+      <p>
+
+    <h2>Getting Started</h2>
+
+      Download the lab 6 code from <a
+      href="javascript:if(confirm(%27http://pdos.lcs.mit.edu/6.828/2007/labs/lab6/lab6-handout.tar.gz  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://pdos.lcs.mit.edu/6.828/2007/labs/lab6/lab6-handout.tar.gz%27" tppabs="http://pdos.lcs.mit.edu/6.828/2007/labs/lab6/lab6-handout.tar.gz">
+      http://pdos.lcs.mit.edu/6.828/2007/labs/lab6/lab6-handout.tar.gz</a>, and unpack
+      it into your 6.828 directory as before.  You will need to
+      merge our new code for this lab and your source tree.  <p>
+
+      The pingpong and primes test should still work.
+      Check this by runing <code>gmake run-pingpong</code>
+      and <code>gmake run-primes</code>.
+      <p>
+
+      The file system tests will not work yet.
+      To facilitate file descriptor sharing and multiple
+      types of files, the implementation of routines like
+      <code>open</code>, <code>close</code>, <code>read</code>,
+      and <code>write</code> have changed.  As the first exercise in this lab,
+      you will adapt your solutions from lab 5 to fit in this framework.<p>
+
+    <h1>Exercise 1: the file system switch</h1>
+
+      In this lab, we will add pipes and console input to the
+      fledgling library operating system.
+      Like Unix does, our system will present
+      these resources as file descriptors manipulated
+      via the <code>read</code>/<code>write</code>/<code>close</code>
+      file interface.
+
+      <p>
+      The file support we wrote in the last lab assumed that
+      disk files were the only possible type of file.
+      In this exercise, we will address that shortcoming,
+      making files a generic concept,
+      implemented by the disk file, pipe, and console devices.
+
+      <p>
+      The generic file descriptor code is in <code>lib/fd.c</code>. 
+      You already encountered this code in lab 5,
+      but now you will now need to understand it in more detail
+      in order to implement other kinds of file descriptors.
+
+      <p>
+      As we outlined in lab 5,
+      each environment has a file descriptor table located at virtual address
+      <code>FDTABLE</code> (which happens to be 0xCFC00000).
+      Each page in the table represents a single file descriptor.
+      For example, file descriptor 2 is represented
+      by the page at <code>FDTABLE+2*PGSIZE</code>.  If the file descriptor is
+      closed, there is no page mapped there.  The file descriptor page
+      contains a <code>struct Fd</code>, declared in <code>inc/fd.h</code>:
+<pre>
+	struct Fd
+	{
+		u_int fd_dev_id_id;	// device id 
+		u_int fd_offset;	// offset for read/write
+		u_int fd_omode;		// open mode
+	};
+</pre>
+      The <code>fd_offset</code> and <code>fd_omode</code> are the current
+      file descriptor offset and open mode.  <code>Fd_dev_id</code> lets us know
+      which device implements the <code>read</code>, <code>write</code>,
+      <code>close</code> and <code>stat</code>. <p>
+
+      Each device exports a <code>struct Dev</code> with function pointers:
+<pre>
+	struct Dev
+	{
+		u_int dev_id;
+		char *dev_name;
+		int (*dev_read)(struct Fd*, void *buf, u_int n);
+		int (*dev_write)(struct Fd*, const void *buf, u_int n);
+		int (*dev_close)(struct Fd*);
+		int (*dev_stat)(struct Fd*, struct Stat*);
+	};
+</pre>
+      The <code>devtab</code> in <code>lib/fd.c</code> lists the known devices.
+      To find the device responsible for a given <code>struct Fd</code>, 
+      <code>dev_lookup</code> looks through <code>devtab</code>
+      for a device with
+      <code>dev_id == fd_dev_id_id</code>.  (The <code>struct Fd</code> cannot
+      simply contain a pointer to the appropriate <code>struct Dev</code>,
+      because we want to share them among different programs.  Pointers in one
+      program are not likely to be valid in others.)  To keep things simple, the
+      device ids are just characters: <code>'c'</code> for console,
+      <code>'p'</code> for pipe, and <code>'f'</code> for file system.
+      <p>
+
+      As before, each file descriptor has a 4MB region of virtual memory
+      reserved for its own use.  The file system device still uses this range 
+      to map the file.  The pipe device will use it to map the pipe buffer.
+      <p>
+
+      To make things concrete, let's consider the implementation of
+      two of the generic functions: <code>write</code> and <code>dup</code>.
+      <code>Write</code> looks like this:
+<pre>
+	int
+	write(int fdnum, const void *buf, u_int n)
+	{
+		int r;
+		struct Dev *dev;
+		struct Fd *fd;
+	
+		if ((r = fd_lookup(fdnum, &amp;fd)) &lt; 0
+		||  (r = dev_lookup(fd-&gt;fd_dev_id_id, &amp;dev)) &lt; 0)
+		        return r;
+		if ((fd-&gt;fd_omode &amp; O_ACCMODE) == O_RDONLY)
+		        return -E_INVAL;
+		r = (*dev-&gt;dev_write)(fd, buf, n, fd-&gt;fd_offset);
+		if (r &gt; 0)
+		        fd-&gt;fd_offset += r;
+		return r;
+	}
+</pre>
+      <code>Fd_lookup</code>, which you implemented in lab 5,
+      checks whether the page corresponding to 
+      <code>fdnum</code> is mapped.  If not, it returns an error. 
+      Otherwise, it stores sets <code>fd</code> to point at the page. 
+      Then <code>dev_lookup</code> searches for the appropriate device.
+      Next, we check that the file is not open read-only.
+      Now we have the <code>fd</code> and the <code>dev</code> and can
+      call the <code>dev</code>-specific <code>write</code> function.
+      If this is successful, we update the <code>fd_offset</code>.
+      <p>
+
+      <code>Dup</code> looks like this:
+<pre>
+	int
+	dup(int oldfdnum, int newfdnum)
+	{
+	        int i, r;
+	        u_int ova, nva, pte;
+	        struct Fd *oldfd, *newfd;
+	
+	        if ((r = fd_lookup(oldfdnum, &amp;oldfd)) &lt; 0)
+	                return r;
+	        close(newfdnum);
+
+	        newfd = (struct Fd*)INDEX2FD(newfdnum);
+	        sys_mem_map(0, (u_int)oldfd, 0, (u_int)newfd, vpt[VPN(oldfd)]&amp;PTE_USER);
+
+	        ova = fd2data(oldfd);
+	        nva = fd2data(newfd);
+	        if (vpd[PDX(ova)])
+	                for (i=0; i&lt;PDMAP; i+=BY2PG) {
+	                        pte = vpt[VPN(ova+i)];
+	                        if(pte&amp;PTE_P)
+	                                sys_mem_map(0, ova+i, 0, nva+i, pte&amp;PTE_USER);
+	                }
+	        return newfdnum;
+	}
+</pre>
+      <code>Dup</code> tweaks the file descriptor table so that after the call,
+      referring to <code>newfdnum</code> will
+      be just like referring to <code>oldfdnum</code>.
+      We use <code>fd_lookup</code> to find the <code>struct Fd</code> for the
+      old file descriptor.
+      If the file descriptor isn't valid or isn't open, we return an error.
+      Otherwise, we can go ahead.  First, close <code>newfdnum</code> in case it
+      is already open.  Then just copy the mappings for <code>oldfdnum</code>
+      into the mapping area for <code>newfdnum</code>.
+      First we copy the <code>struct Fd</code> page in the file descriptor table.
+      Then we scan the virtual address space reserved for the old descriptor, 
+      copying any mappings into the virtual address space reserved for the new 
+      descriptor. <p>
+
+      If we needed to, we could add a <code>dev_dup</code> function pointer to
+      <code>struct Dev</code> in order to allow device implementations to run 
+      their own code in response to <code>dup</code>, but for our purposes it 
+      isn't necessary. <p>
+
+      Make sure you understand these code snippets.  You may find it useful
+      to consult the rest of <code>lib/fd.c</code> as well as 
+      <code>lib/console.c</code>, an example device implementation.
+      
+      <p>
+      Run <code>gmake run-icode</code> to check that file operations
+      and spawn still work.  If you see:
+<pre>
+	init: running sh
+	init: starting sh
+        &lt;probably some error here&gt;
+</pre>
+      then all is well.<p>
+
+    <h1>Exercise 2: sharing library code across fork and spawn</h1>
+
+      We would like to share file descriptor state across
+      <code>fork</code> and <code>spawn</code>, but file descriptor state is kept
+      in user-space memory.  Right now, on <code>fork</code>, the memory
+      will be marked copy-on-write,
+      so the state will be duplicated rather than shared.
+      (This means that running "<code>(date; ls) &gt;file</code>" will
+      not work properly, because even though date updates its own file offset,
+      ls will not see the change.)
+      On <code>spawn</code>, the memory will be
+      left behind, not copied at all.  (Effectively, the spawned environment
+      starts with no open file descriptors.)
+      <p>
+
+      We will change both <code>fork</code> and <code>spawn</code> to know that 
+      certain regions of memory are used by the "library operating system" and
+      should always be shared.  Rather than hard-code a list of regions somewhere,
+      we will set an otherwise-unused bit in the page table entries (just like
+      we did with the <code>PTE_COW</code> bit in <code>fork</code>). <p>
+
+      We have defined a new <code>PTE_SHARE</code> bit
+      in <code>inc/lib.h</code>.
+      This bit is one of the three PTE bits
+      that are marked "available for software use"
+      in the Intel and AMD manuals.
+      We will establish the convention that
+      if a page table entry has this bit set,
+      the PTE should be copied directly from parent to child
+      in both <code>fork</code> and <code>spawn</code>.
+      Note that this is different from marking it copy-on-write:
+      as described in the first paragraph,
+      we want to make sure to <i>share</i>
+      updates to the page.<p>
+
+      <div class="todo required">
+        <p><span class="header">Exercise 1.</span>
+
+      Change <code>duppage</code> in <code>lib/fork.c</code> to follow
+      the new convention.  If the page table entry has the <code>PTE_SHARE</code>
+      bit set, just copy the mapping directly.
+      (Note that you should use <code>PTE_USER</code>, not <code>PTE_FLAGS</code>,
+      to mask out the relevant bits from the page table entry. <code>PTE_FLAGS</code>
+      picks up the accessed and dirty bits as well.)
+      <p>
+      </p></div>
+
+      <div class="todo required">
+        <p><span class="header">Exercise 2.</span>
+      Change <code>spawn</code> in <code>lib/spawn.c</code> to propagate
+      the <code>PTE_SHARE</code> pages.  After it finishes
+      setting up the child virtual address space but before it marks the
+      child runnable, it should loop through all the page table
+      entries in the current process (just like <code>fork</code> did), copying any
+      mappings that have the <code>PTE_SHARE</code> bit set.<p>
+      </p></div>
+
+      Use <code>gmake run-testpteshare</code> to check that your code is 
+      behaving properly.<p>
+      You should see lines that say "<code>fork handles PTE_SHARE right</code>"
+      and "<code>spawn handles PTE_SHARE right</code>".
+      
+
+      <div class="todo required">
+        <p><span class="header">Exercise 3.</span>
+      Change the file server so that
+      all the file descriptor table pages and the file data pages get mapped
+      with <code>PTE_SHARE</code>.<p>
+      </p></div>
+
+      Use <code>gmake run-testfdsharing</code> to check that file descriptors are shared
+      properly.
+      You should see lines that say "<code>read in child succeeded</code>" and 
+      "<code>read in parent succeeded</code>".<p>
+
+    <h1>Exercise 3: pipes</h1>
+
+      Now we are ready to implement a new kind of file: pipes.  
+      A pipe is a shared data buffer accessed via two file descriptors:
+      one is for writing data into the pipe, and one is for reading data out of it.
+      <p>
+
+      You may wish to read the
+      <a href="javascript:if(confirm(%27http://www.freebsd.org/cgi/man.cgi?query=pipe&manpath=Unix+Seventh+Edition  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.freebsd.org/cgi/man.cgi?query=pipe&manpath=Unix+Seventh+Edition%27" tppabs="http://www.freebsd.org/cgi/man.cgi?query=pipe&manpath=Unix+Seventh+Edition">pipe manual page [1]</a> for a description,
+      the V6 pipe implementation
+      (<code>/usr/sys/ken/pipe.c</code>) for details,
+      and
+      <a href="javascript:if(confirm(%27http://cm.bell-labs.com/cm/cs/who/dmr/hist.html  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://cm.bell-labs.com/cm/cs/who/dmr/hist.html#pipes%27" tppabs="http://cm.bell-labs.com/cm/cs/who/dmr/hist.html#pipes">pipe section
+      of Dennis Ritchie's UNIX history paper [2]</a> for interesting history.
+<pre>
+ [1] http://www.freebsd.org/cgi/man.cgi?query=pipe&manpath=Unix+Seventh+Edition
+ [2] http://cm.bell-labs.com/cm/cs/who/dmr/hist.html#pipes
+</pre><p>
+
+      In your library operating system, a pipe is represented by a single
+      <code>struct Pipe</code>.
+      For sharing purposes, each <code>struct Pipe</code> is on its own page.
+<pre>
+	#define PIPEBUFSIZ 32
+	struct Pipe {
+		u_int p_rpos;		// read position
+		u_int p_wpos;		// write position
+		u_char p_buf[PIPEBUFSIZ];	// data buffer
+	};
+</pre>
+      The bytes written to the pipe can be thought of as numbered
+      starting at 0.  The read position gives the number of the next
+      byte to be read.  The write position gives the number of the next
+      byte that will be written.  The reader and writer share the pipe structure,
+      but coordinate via these two variables: only the reader updates <code>p_rpos</code>
+      and only the writer updates <code>p_wpos</code>.  <p>
+
+      Since the pipe buffer is not 
+      infinite, byte <code>i</code> is stored in pipe buffer index <code>i%PIPEBUFSIZ</code>.
+      <p>
+
+      To read a byte from a pipe, the reader copies <code>p_buf[p_rpos%PIPEBUFSIZ]</code>
+      and increments <code>p_rpos</code>.  But the pipe might be empty!  First the reader
+      has to yield until <code>p_rpos &lt; p_wpos</code>.<p>
+
+      To write to a pipe, the writer stores into <code>p_buf[p_wpos%PIPEBUFSIZ]</code>
+      and increments <code>p_wpos</code>.  But the pipe might be full!  First the
+      writer must wait until <code>p_wpos - p_rpos &lt; PIPEBUFSIZ</code>. <p>
+
+      There is a final catch -- maybe we are trying to read from an empty pipe
+      but all the writers have exited.  Then there is no chance that there will
+      ever be more data in the pipe, so waiting is futile.  In such a case, Unix
+      signals end-of-file by returning 0.  So will we.  To detect that there are
+      no writers left, we could put reader and writer counts into the pipe structure
+      and update them every time we fork or spawn and every time an environment exits.
+      This is fragile -- what if the environment doesn't exit cleanly? 
+      Instead we can use the kernel's page reference counts, which are guaranteed
+      to be accurate. <p>
+
+      Recall that the kernel page structures are mapped in the user environments as
+      <code>pages</code>.  The library function <code>pageref(void *ptr)</code> 
+      returns the number of page table references to the page containing the virtual
+      address <code>ptr</code>.  So, for example, if <code>fd</code> is a pointer to
+      a particular <code>struct Fd</code>, <code>pageref(fd)</code> will tell us how
+      many different references there are to that structure.<p>
+
+      Three pages are allocated for each pipe: the <code>struct Fd</code> for the
+      reader descriptor <code>rfd</code>, the <code>struct Fd</code>
+      for the writer descriptor <code>wfd</code>,
+      and the <code>struct Pipe</code> <code>p</code> shared by both.
+      The following equation holds: <code>pageref(rfd) + pageref(wfd) = pageref(p)</code>.
+      Therefore, a reader can check whether there are any writers left by computing
+      <code>pageref(wfd) = pageref(p) - pageref(rfd)</code>: there are no writers if
+      <code>pageref(p) == pageref(rfd)</code>.  A writer can check for readers in the
+      same manner.<p>
+
+      <div class="todo required">
+        <p><span class="header">Exercise 4.</span>
+      Implement pipes in <code>lib/pipe.c</code>. <p>
+      </p></div>
+
+      Test your code by running <code>gmake run-testpipe</code> and
+      <code>gmake run-primespipe</code>.  You should make it through 
+      the first few primes, but don't be surprised if, after a while,
+      <code>primespipe</code> panics with a read or write error. 
+      We'll fix that in the next exercise.
+
+    <h1>Exercise 3b: races, races everywhere</h1>
+
+      We've gotten through the semester without worrying too much about
+      concurrency in JOS.  This was mostly intentional,
+      since the best way to tame concurrency is to avoid it completely.
+      We made the kernel <i>cooperatively scheduled</i>, meaning it only
+      gives up the processor when it chooses to.  Unlike UNIX, our kernel
+      doesn't have to worry about device interrupts causing bits of program
+      to run when we weren't expecting them.
+      <p>
+
+      User-space programs are <i>preemptively scheduled</i>: if an environment
+      is the middle of something important and the clock interrupt comes along, 
+      too bad -- it has to stop and pick up again later.  (This is transparent
+      to the environment, since the kernel saves and restores its registers
+      as though nothing had happened.)<p>
+
+      Preemptive scheduling isn't a problem as long as all the environments
+      are completely isolated from each other -- if they can't interfere with
+      one another, the task switches aren't likely to be a problem. <p>
+
+      We've seen that sometimes it's useful for different environments to 
+      "interfere constructively" with each other, in the form of IPC and
+      shared memory pages.  Unfortunately, preemptive scheduling and shared
+      mutable state is a recipe for trouble.  We'd been lucky so far, but
+      our luck just ran out.<p>
+
+      There are a couple of race conditions in the implementation of pipes.
+      They center around the test for whether a pipe is closed.<p>
+
+      Recall that in <code>_pipeisclosed</code>, we simply check whether
+      "<code>pageref(fd structure) == pageref(pipe structure)</code>", where <code>pageref</code> 
+      uses the VPT to get the physical page number holding the given pointer
+      and then looks up the 
+      kernel-maintained
+      reference count for that page in the <code>pages</code> array.<p>
+
+      <code>_pipeisclosed</code> compares two reference counts which typically
+      change together.  If, under some conditions, this comparison gives the wrong
+      answer, we might think the other end of pipe is closed even when it isn't.
+      <p>
+
+      If we think of the result of <code>_pipeisclosed</code> as being
+      stored across these two words in memory (the two reference counts),
+      then <code>_pipeisclosed</code> might fail when the writing of the two
+      words is not done atomically and also might fail when the reading of
+      the two words is not done atomically.  It turns out that both cases can happen.
+      We fix the first by being careful about ordering the writes.
+      We fix the second by implementing support for a limited form
+      of restartable atomic sequences (RAS).
+      <p>
+
+      Remember that anything we do inside the kernel runs without interruption
+      (unless we explicitly yield the processor).  From user space, any such changes
+      are atomic -- the user environment sees the whole change or none of it.
+      Our problems happen because the reads and writes of the data are done in
+      user space, and thus not atomic.<p>
+
+      <h2>The update race</h2>
+
+      The first race happens because the reference count updates do not happen 
+      atomically.  Recall our supposed invariant:
+      <code>pageref(p[0]) + pageref(p[1]) == pageref(pipe structure)</code>.
+      (We're being a little sloppy with notation here -- in the code <code>pfd[0]</code>
+      and <code>pfd[1]</code> are integers, so we really mean <code>pageref</code>
+      applied to the corresponding <code>struct Fd</code> pointers.)
+      Because the reference counts change one by one, the invariant can be
+      temporarily violated.
+      For concreteness, suppose we run:
+<pre>
+	pipe(p);
+	if(fork() == 0){
+		close(p[1]);
+		read(p[0], buf, sizeof buf);
+	}else{
+		close(p[0]);
+		write(p[1], msg, strlen(msg));
+	}
+</pre>
+      The following might happen:
+      <ul>
+      <li>The child runs first after the fork.  It closes <code>p[1]</code>
+          but a clock interrupt comes along before the read, switching
+          execution to the parent.
+      <li>The parent starts to <code>close(p[0])</code>, which will
+          unmap the shared pipe structure and then unmap the fd page for <code>p[0]</code>.
+          A clock interrupt comes along between the two unmappings, 
+          switching execution back to the child. 
+      <li>Now the reference count on <code>p[0]</code> is 2 (both parent and child
+          have it mapped) and the reference count on <code>p[1]</code> is 1
+          (only the parent has it mapped).
+          But the reference count for the pipe structure is 2:
+          the child has it mapped for <code>p[0]</code>,
+          and the parent has it mapped for <code>p[1]</code> but not <code>p[0]</code>,
+          which is still in the middle of being closed.
+          The invariant no longer holds.
+      <li>The child runs.  <code>Read</code> sees the buffer is empty
+          and then decides the pipe is closed because <code>pageref(p[0])</code>
+          and <code>pageref(pipe structure)</code> are both 2.
+          Oops.
+      </ul><p>
+
+      The same problem can happen with <code>dup</code>, if an environment
+      is interrupted between mapping the file descriptor page and mapping
+      the pipe data page. <p>
+
+      Run <code>gmake run-testpiperace</code> to see the race in action.
+      When the race actually happens, the test code will print
+      <code>RACE: pipe appears closed</code>.
+      (You should read <code>user/testpiperace.c</code> and make
+      sure you understand what's going on.)<p>
+
+      Since each system call can only map or unmap a single page,
+      the two mappings cannot be updated atomically, so neither can 
+      the reference counts.
+      Since two reference counts cannot be updated atomically,
+      the invariant cannot be maintained -- it is temporarily broken
+      when one reference count is updated but not the other.
+      One way to fix the problem would be to add new system calls to map or unmap
+      two pages at a time.  Then the two mappings (and thus the two reference counts)
+      could be updated in one system call, making them atomic from the user-space point
+      of view.  We won't do this.<p>
+
+      Instead, we can relax the invariant, since <code>_pipeisclosed</code>
+      doesn't actually need all of it.
+      What <code>_pipeisclosed</code> really needs
+      is the following conditions:
+      <ul>
+      <li><code>pageref(p[0]) == pageref(pipe structure)</code> if and only if
+          all the writers are closed.
+      <li><code>pageref(p[1]) == pageref(pipe structure)</code> if and only if
+          all the readers are closed.
+      </ul><p>
+
+      The race happens because while a pipe is half-mapped or half-unmapped
+      there is an fd reference but not a pipe structure reference, so
+      <code>pageref(p[0])+pageref(p[1]) > pageref(pipe structure)</code>.
+      As a consequence, <code>pageref(p[0])</code> might equal
+      <code>pageref(pipe structure)</code> even though <code>pageref(p[1])</code> is non-zero.<p>
+
+      Suppose instead we arrange that while pipes are half-mapped or half-unmapped,
+      <code>pageref(p[0])+pageref(p[1]) < pageref(pipe structure)</code>.
+      Then the conditions would be satisfied, and <code>_pipeisclosed</code>
+      would not give incorrect answers about intermediate states.
+      <p>
+
+      We can do this by making sure that the fd structure is never mapped
+      without the pipe structure also being mapped.  
+      This leads to a pair of rules:
+      <ul>
+      <li>always map the pipe structure, then the fd structure.
+      <li>always unmap the fd structure, then the pipe structure.
+      </ul>
+      If we follow these rules, then the reader reference count and
+      the pipe reference count
+      can only be equal when all the writers are gone, and vice versa.<p>
+
+      <div class="todo required">
+        <p><span class="header">Exercise 5.</span>
+      Change the code that implements closing and dupping of pipes
+      to follow these rules, eliminating the race.
+      Hint: you only need to change <code>pipeclose</code>
+      and <code>dup</code>.</p></div>
+
+      Make sure you understand why it's okay that <code>pipe</code> 
+      (the function that creates a new pipe) doesn't
+      follow these rules.  (Maybe we will ask you during the meeting with
+      the TAs.)<p>
+
+      Test your code by running <code>gmake run-testpiperace</code>.
+      If the race is gone, you won't see "<code>RACE: pipe appears closed</code>"
+      and should see <code>race didn't happen</code>.
+
+      <h2>The read race</h2>
+
+      The second race occurs because there is no guarantee that the
+      reads in <code>_pipeisclosed</code> will happen atomically.
+      If another process dups or closes <code>fd</code>
+      between the call to <code>pageref(fd)</code> and the call
+      to <code>pageref(p)</code>, the comparison will be meaningless.
+      To make it concrete, suppose that we run:
+<pre>
+	pipe(p);
+	if(fork() == 0){
+		close(p[1]);
+		read(p[0], buf, sizeof buf);
+	}else{
+		close(p[0]);
+		write(p[1], msg, strlen(msg));
+	}
+</pre>
+      The following might happen:
+      <ol>
+      <li>Suppose the child runs first after the fork.
+          It closes <code>p[1]</code> and then tries to read from <code>p[0]</code>.
+          The pipe is empty, so <code>read</code> checks to see whether the pipe is closed
+          before yielding.
+          Inside <code>_pipeisclosed</code>, <code>pageref(fd)</code> returns 2
+          (both the parent and the child have <code>p[0]</code> open), but then
+          a clock interrupt happens.
+      <li>Now the kernel chooses to run the parent for a little while.
+          The parent closes <code>p[0]</code> and writes <code>msg</code>
+          into the pipe.  <code>Msg</code> is very long, so the
+          <code>write</code> yields halfway to let a reader (the child)
+          empty the pipe.
+      <li>Back in the child, <code>_pipeisclosed</code> continues.
+          It calls <code>pageref(p)</code>, which returns 2
+          (the child has a reference associated with <code>p[0]</code>,
+          and the parent has a reference associated with <code>p[1]</code>).
+          The counts match, so <code>_pipeisclosed</code>
+          reports that the pipe is closed. 
+          Oops.<p>
+
+          (If the child checked again, <code>pageref(fd)</code> would now return 1,
+          but <code>_pipeisclosed</code> is
+          holding onto the 2 from before, unaware that something might
+          have happened in the interim to change the count.)
+      </ol><p>
+
+      Run "gmake run-testpiperace2" to see this race in action.
+      Like before, you should see "<code>RACE: pipe appears closed</code>"
+      when the race occurs.<p>
+
+      This race is a little simpler to fix.  Comparing the counts can only be
+      incorrect if another environment ran between when we looked up the first
+      count and when we looked up the second count.
+      In other words, we need to make sure that <code>_pipeisclosed</code> executes
+      atomically.<p>
+
+      Since <code>_pipeisclosed</code> does not change any variables (it only
+      reads them), it is safe to run multiple times.  If we had some way
+      to check whether <code>_pipeisclosed</code> got interrupted, we could
+      repeatedly run it until it a run completed without being interrupted.
+      Since <code>_pipeisclosed</code> is so short, it will usually not be 
+      interrupted.<p>
+
+      To tell whether it is being interrupted, we will use the
+      <code>env_runs</code> variable in the environment structure.
+      Each time the kernel context switches back to an environment, it
+      will increment
+      <code>env_runs</code>.  Thus, user code can record <code>env-&gt;env_runs</code>,
+      do its computation, and then look at <code>env-&gt;env_runs</code> again.
+      If <code>env_runs</code> didn't change, then the environment was not
+      interrupted.  Conversely, if <code>env_runs</code> did change,
+      then the environment was interrupted.<p>
+
+      Effectively, the <code>env_runs</code> counter enables support for
+      restarting read-only atomic sequences from user space.  <p>
+
+      <div class="todo required">
+        <p><span class="header">Exercise 6.</span>
+      If your kernel does not already maintain the <code>env_runs</code>
+	  counter properly, change it to do so.
+      (Hint: you only need to add one line of code.)
+      </p></div>
+
+      <div class="todo required">
+        <p><span class="header">Exercise 7.</span>
+      Change <code>_pipeisclosed</code> to repeat the
+      check until it completes without interruption.
+      Print "<code>pipe race avoided\n</code>" when you notice an interrupt
+      <i>and</i> the check would have returned 1 (erroneously indicating
+      that the pipe was closed).
+      </p></div>
+
+      Run "gmake run-testpiperace2" to check whether the race still happens.
+      If it's gone, you should not see "<code>RACE: pipe appears closed</code>",
+      and you should see "<code>race didn't happen</code>".
+      You should also see plenty of your "avoided" messages, indicating places
+      where the race would have happened if you weren't being so careful.
+      The test prints the current iteration count every ten iterations.
+      You should see a couple of "avoided" messages per ten iterations.<p>
+
+<p>
+<div class="todo challenge">
+  <p><span class="header">Challenge!</span>
+	If multiple environments read from a pipe 
+	simultaneously, what happens?  Fix this.
+</p></div>
+
+
+      <h3>Real-world example: reading 64-bit interrupt counters on a 32-bit machine</h3>
+
+      This trick of restarting interrupted reads
+      appears in other contexts as well.  
+      For example, in a preemptible x86 kernel,
+      a system call might need to read a 64-bit counter that an interrupt 
+      routine updates.  Since the x86 is a 32-bit machine, reading a 64-bit value
+      is not atomic.  Suppose the counter is at <code>0x 00000001 FFFFFFFF</code> and
+      gets incremented to <code>0x 00000002 00000000</code> during a read.
+      The read might get one half before the update and the other half after,
+      yielding either <code>0x 00000001 00000000</code> or <code>0x 00000002 FFFFFFFF</code>,
+      both of which are nowhere near the real value.  We'd like the read
+      be atomic; that is, we'd like it to return either the old or new value,
+      but not a mix of the two. <p>
+
+      If the counter runs slowly enough that it takes
+      a significant amount of time to go up by 2^32, then instead of protecting
+      the value with a lock, the reader can use the high 32 bits as a way to 
+      see whether an interrupt happened between the two word accesses:
+<pre>
+	// Copy 64-bit counter src into dst, being careful about read races.
+	struct split64 {
+		// assumes little-endian memory
+		uint lo;
+		uint hi;
+	};
+	void
+	readcounter(uint64 *src64, uint64 *dst64)
+	{
+		struct split64 *src;
+		struct split64 *dst;
+
+		src = (struct split64*)src64;
+		dst = (struct split64*)dst64;
+
+     		do {
+			dst-&gt;hi = src-&gt;hi;	// read high bits
+			dst-&gt;lo = src-&gt;lo;	// read low bits
+		} while (dst-&gt;hi != src-&gt;hi);	// do over if high bits changed
+	}
+</pre>
+       Suppose <code>src-&gt;hi</code> changes between the two times it is read
+       (in the body and in the condition).  Then an interrupt happened 
+       at some point and we may or may not have a bogus <code>dst</code>
+       like in the examples above.  We assume the worst and try again. <p>
+
+       On the other hand, suppose <code>src-&gt;hi</code> is the same before
+       and after the read of <code>src-&gt;lo</code>.  Then perhaps no interrupt
+       happened.  In this case, the copy is good, so we can stop.
+       But perhaps an the interrupt occurred that changed only the bottom 32 bits.
+       If the read of <code>src-&gt;lo</code> happened before the interrupt, then
+       <code>dst</code> has the pre-interrupt value.  If the read of <code>src-&gt;lo</code>
+       happened after the interrupt, then <code>dst</code> has the post-interrupt
+       value.  Either way, the read executed atomically, so we can stop.
+
+    <h1>Exercise 4: the keyboard interface</h1>
+
+      We're going to write a shell, so we need a way to type at it.
+      <code>bochs</code> has been displaying output we write to
+      the printer port, but there is no good way to give it input.
+      Instead, we'll use the X11-based interface 
+      and use CGA output and a keyboard driver.  We've written the keyboard driver
+      for you in <code>kern/console.c</code>, but you need to attach it to the rest
+      of the system. <p>
+
+      <div class="todo required">
+        <p><span class="header">Exercise 8.</span>
+      In your <code>kern/trap.c</code>, call <code>kbd_intr</code> to handle trap
+      <code>IRQ_OFFSET+IRQ_KBD</code>.  <p>
+      </p></div>
+
+      We implemented the console input/output file type for you,
+      in <code>user/console.c</code>.  <p>
+
+      Test your code by running <code>gmake xrun-testkbd</code> and type
+      a few lines.  The system should echo your lines back to you as you finish them.
+      Make sure you type into the X window <code>bochs</code> brings up, not the console.
+
+    <h1>Exercise 5: the shell</h1>
+
+      Run <code>gmake xrun-icode</code>.  This will run your kernel inside the
+      X11 Bochs starting <code>user/icode</code>.  <code>Icode</code> execs <code>init</code>,
+      which will set up the console as file descriptors 0 and 1 (standard input and
+      standard output).  It will then spawn <code>sh</code>, the shell.
+      Run <code>ls</code>.<p>
+
+      <div class="todo required">
+        <p><span class="header">Exercise 9.</span>
+      The shell can only run simple commands.  It has no redirection or pipes.
+      It is your job to add these.  Flesh out <code>user/sh.c</code>.
+      <p>
+      </p></div>
+
+      Once your shell is working, you should be able to run the following
+      commands:
+<pre>
+	echo hello world | cat
+	cat lorem >out
+	cat out
+	cat lorem |num
+	cat lorem |num |num |num |num |num
+	lsfd
+	cat script
+	sh &lt;script
+</pre>
+      Note that the user library routine <code>printf</code> prints straight
+      to the console, without using the file descriptor code.  This is great
+      for debugging but not great for piping into other programs.
+      To print output to a particular file descriptor (for example, 1, standard output),
+      use <code>fprintf(1, "...", ...)</code>.  See <code>user/ls.c</code> for examples. <p>
+
+      Run <code>gmake run-testshell</code> to test your shell.
+      <code>Testshell</code> simply feeds the above commands (also found in
+      <code>fs/testshell.sh</code>) into the shell and then checks that the
+      output matches <code>fs/testshell.key</code>.<p>
+
+<p>
+<div class="todo challenge">
+  <p><span class="header">Challenge!</span>
+      Add more features to the shell.
+      Some possibilities include:
+      <ul>
+        <li>backgrounding commands (<code>ls &</code>)
+        <li>multiple commands per line (<code>ls; echo hi</code>)
+        <li>command grouping (<code>(ls; echo hi) | cat > out</code>)
+	<li>environment variable expansion (<code>echo $hello</code>)
+        <li>quoting (<code>echo "a | b"</code>)
+        <li>command-line history and/or editing
+        <li>tab completion
+        <li>directories, cd, and a PATH for command-lookup.
+	<li>file creation
+	<li>ctl-c to kill the running environment
+      </ul>
+      but feel free to do something not on this list.  Be creative.
+</p></div>
+
+<div class="todo challenge">
+  <p><span class="header">Challenge!</span>
+        There is a bug in our disk file implementation
+        related to multiple programs writing to the same file descriptor.
+	Suppose they are properly sequenced to avoid simultaneous
+        writes (for example, running "<code>(ls; ls; ls; ls) &gt;file</code>"
+        would be properly sequenced since there's only one writer at a time).
+        Even then, this is likely to cause a page fault in one of the
+        <code>ls</code> instances during a write.  Identify the reason 
+        and fix this.<p>
+</p></div>
+
+
+<br>
+This ends the lab.  As usual, you can grade your submission
+with <code>gmake grade</code> and hand it in with <code>gmake
+handin</code>. You only need to handin <i>non-challenge</i> portions
+of the assignment by December 6th.  By December 10th and 11th, you
+should be prepared to show off your challenge to the TAs and
+then to the class.<p>
+
+
+<hr>
+<i>Version: $Revision: 1.5 $. Last modified: $Date: 2007/12/04 06:00:06 $</i>
+
+  </body>
+</html>
+
+

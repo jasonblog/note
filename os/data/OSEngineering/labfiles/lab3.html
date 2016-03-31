@@ -1,0 +1,1417 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<title>Lab 3: User Environments</title>
+</head>
+<body>
+
+<h1>6.828 Fall 2007 Lab 3: User Environments</h1>
+
+<p>
+<b>Handed out Wednesday, September 26, 2007<br>
+Part A due Thursday, October 4, 2007<br>
+Part B due Thursday, October 11, 2007<br>
+</b>
+
+<h2>Introduction</h2>
+
+<p>
+In this lab you will implement the basic kernel facilities
+required to get a protected user-mode environment (i.e., "process") running.
+You will enhance the JOS kernel
+to set up the data structures to keep track of user environments,
+create a single user environment,
+load a program image into it,
+and start it running.
+You will also make the JOS kernel capable
+of handling any system calls the user environment makes
+and handling any other exceptions it causes.
+
+<p>
+<b>Note:</b>
+In this lab, the terms <i>environment</i> and <i>process</i> are
+interchangeable - they have roughly the same meaning.  We introduce the
+term "environment" instead of the traditional term "process"
+in order to stress the point that JOS environments do not provide
+the same semantics as UNIX processes,
+even though they are roughly comparable.
+</p>
+
+<h3>Getting Started</h3>
+
+<p>
+Download our reference code for lab 3 from
+<a href="javascript:if(confirm(%27http://grid.hust.edu.cn/zyshao/Teaching_Material/OSEngineering/labfiles/lab3-handout.tar.gz  \n\nThis file was not retrieved by Teleport Pro, because the server reports that this file cannot be found.  \n\nDo you want to open it from the server?%27))window.location=%27http://grid.hust.edu.cn/zyshao/Teaching_Material/OSEngineering/labfiles/lab3-handout.tar.gz%27" tppabs="http://grid.hust.edu.cn/zyshao/Teaching_Material/OSEngineering/labfiles/lab3-handout.tar.gz">
+http://pdos.lcs.mit.edu/6.828/2007/labs/lab3/lab3-handout.tar.gz</a>,
+untar it into your 6.828 directory,
+and merge the changes between lab2 and lab3
+into your working kernel source tree
+as you did before for lab2.
+As we mentioned before,
+the <code>diff</code> and <code>patch</code> utilities
+can be very useful for this purpose,
+as well as their "big brother" <code>cvs</code>.
+
+<p>
+Lab 3 contains a number of new source files,
+which you should browse through as your merge them into your kernel:
+
+<p>
+<table align=center>
+<tr>	<td>	<tt>inc/</tt>
+	<td>	<tt>env.h</tt>
+	<td>	Public definitions for user-mode environments
+<tr>	<td>
+	<td>	<tt>trap.h</tt>
+	<td>	Public definitions for trap handling
+<tr>	<td>
+	<td>	<tt>syscall.h</tt>
+	<td>	Public definitions for system calls
+		from user environments to the kernel
+<tr>	<td>
+	<td>	<tt>lib.h</tt>
+	<td>	Public definitions for the user-mode support library
+
+<tr>	<td>	<tt>kern/</tt>
+	<td>	<tt>env.h</tt>
+	<td>	Kernel-private definitions for user-mode environments
+<tr>	<td>
+	<td>	<tt>env.c</tt>
+	<td>	Kernel code implementing user-mode environments
+<tr>	<td>
+	<td>	<tt>trap.h</tt>
+	<td>	Kernel-private trap handling definitions
+<tr>	<td>
+	<td>	<tt>trap.c</tt>
+	<td>	Trap handling code
+<tr>	<td>
+	<td>	<tt>trapentry.S</tt>
+	<td>	Assembly-language trap handler entry-points
+<tr>	<td>
+	<td>	<tt>syscall.h</tt>
+	<td>	Kernel-private definitions for system call handling
+<tr>	<td>
+	<td>	<tt>syscall.c</tt>
+	<td>	System call implementation code
+
+<tr>	<td>	<tt>lib/</tt>
+	<td>	<tt>Makefrag</tt>
+	<td>	Makefile fragment to build user-mode library,
+		<tt>obj/lib/libuser.a</tt>
+<tr>	<td>
+	<td>	<tt>entry.S</tt>
+	<td>	Assembly-language entry-point for user environments
+<tr>	<td>
+	<td>	<tt>libmain.c</tt>
+	<td>	User-mode library setup code called from <tt>entry.S</tt>
+<tr>	<td>
+	<td>	<tt>syscall.c</tt>
+	<td>	User-mode system call stub functions
+<tr>	<td>
+	<td>	<tt>console.c</tt>
+	<td>	User-mode implementations of
+		<tt>putchar</tt> and <tt>getchar</tt>,
+		providing console I/O
+<tr>	<td>
+	<td>	<tt>exit.c</tt>
+	<td>	User-mode implementation of <tt>exit</tt>
+<tr>	<td>
+	<td>	<tt>panic.c</tt>
+	<td>	User-mode implementation of <tt>panic</tt>
+
+<tr>	<td>	<tt>user/</tt>
+	<td>	<tt>*</tt>
+	<td>	Various test programs to check kernel lab 3 code
+</table>
+
+<p>
+In addition, a number of the source files we handed out for lab2
+are modified in lab3.
+To see the differences, you can type:
+
+<pre>
+$ <b>diff -ur lab2 lab3</b>
+</pre>
+
+<h3>Lab Requirements</h3>
+
+This lab is divided into two parts, A and B.
+Part A is due a week after this lab was assigned;
+you should <tt>gmake handin</tt> your lab before the Part A deadline,
+even though your code may not yet pass all of the grade script tests.
+(If it does, great!)
+You only need to have all the grade script tests passing
+by the Part B deadline at the end of the second week.
+
+<p>
+As in lab 2,
+you will need to do all of the regular exercises described in the lab
+and <i>at least one</i> challenge problem.
+Additionally, you will need to write up brief answers
+to the questions posed in the lab
+and a short (e.g., one or two paragraph) description of what you did
+to solve your chosen challenge problem.
+If you implement more than one challenge problem,
+you only need to describe one of them in the write-up,
+though of course you are welcome to do more.
+Place the write-up in a file called <tt>answers.txt</tt> (plain text)
+or <tt>answers.html</tt> (HTML format)
+in the top level of your <tt>lab2</tt> directory
+before handing in your work.
+
+<h3>Debugging tips</h3>
+
+For all its faults, Bochs is still a much more 
+hospitable debugging environment than a real processor.
+Put it to work for you!  
+
+<ul>
+<li>	The command <code>info idt</code> will print
+	the current interrupt descriptor table (IDT).
+	This is useful for checking whether you set it up correctly.
+
+<li>	The <code>vb</code> command sets a breakpoint
+	at a particular <tt>CS:EIP</tt> address.
+	Since the kernel code segment selector is 8,
+	<code>vb 8:0xf0101234</code>
+	sets a breakpoint at the given kernel address.
+	Similarly,
+	since the user segment selector is 0x1b, <code>vb 0x1b:0x80020</code>
+	sets a breakpoint at the given user address.
+</ul>
+
+Finally, note that passing all the <code>gmake grade</code> tests
+does not mean your code is perfect.  It may have subtle bugs that will
+only be tickled by future labs.
+All your kernel code is running in the same address space with no protection.
+If you get weird crashes
+that don't seem to be explainable by a bug in the crashing code,
+it's likely that they're due to a bug somewhere else that is
+modifying memory used by the crashing code.
+
+<h3>Inline Assembly</h3>
+
+In this section you may find GCC's inline assembly language feature useful,
+although it is also possible to complete the lab without using it.
+At the very least, you will need to be able to understand
+the fragments of inline assembly language ("asm" statements)
+that already exist in the source code we gave you.
+You can find several sources of information
+on GCC inline assembly language
+on the class <a href="javascript:if(confirm(%27http://grid.hust.edu.cn/zyshao/Teaching_Material/reference.html  \n\nThis file was not retrieved by Teleport Pro, because the server reports that this file cannot be found.  \n\nDo you want to open it from the server?%27))window.location=%27http://grid.hust.edu.cn/zyshao/Teaching_Material/reference.html%27" tppabs="http://grid.hust.edu.cn/zyshao/Teaching_Material/reference.html">reference materials</a> page.
+
+<h3>Hand-In Procedure</h3>
+
+<p>
+As before,
+you can test your code against our test scripts
+by running <code>gmake grade</code>.
+When you are done,
+run <code>gmake handin</code> to tar up and hand in your source tree.
+</p>
+
+
+<h2>Part A: User Environments and Exception Handling</h2>
+
+The new include file <tt>inc/env.h</tt>
+contains basic definitions for user environments in JOS;
+read it now.
+The kernel uses the <tt>Env</tt> data structure
+to keep track of each user environment.
+In this lab you will initially create just one environment,
+but you will need to design the JOS kernel
+to support multiple environments;
+lab 4 will take advantage of this feature
+by allowing a user environment to <tt>fork</tt> other environments.
+
+<p>
+As you can see in <tt>kern/env.c</tt>,
+the kernel maintains three main global variables
+pertaining to environments:
+
+<p>
+<pre>
+struct Env *envs = NULL;		/* All environments */
+struct Env *curenv = NULL;	        /* the current env */
+static struct Env_list env_free_list;	/* Free list */
+</pre>
+
+<p>
+Once JOS gets up and running,
+the <tt>envs</tt> pointer points to an array of <tt>Env</tt> structures
+representing all the environments in the system.
+In our design,
+the JOS kernel will support a maximum of <tt>NENV</tt>
+simultaneously active environments,
+although there will typically be far fewer running environments
+at any given time.
+(<tt>NENV</tt> is a constant <tt>#define</tt>'d in <tt>inc/env.h</tt>.)
+Once it is allocated,
+the <tt>envs</tt> array will contain
+a single instance of the <tt>Env</tt> data structure
+for each of the <tt>NENV</tt> possible environments.
+
+<p>
+The JOS kernel keeps all of the inactive <tt>Env</tt> structures
+on the <code>env_free_list</code>.
+This design allows extremely quick and efficient allocation and
+deallocation of environments,
+as they merely have to be added to or removed from the free list.
+
+<p>
+The kernel uses the <code>curenv</code> variable
+to keep track of the <i>currently executing</i> environment at any given time.
+During boot up, before the first environment is run,
+<tt>curenv</tt> is initially set to <code>NULL</code>.
+
+<h3>Environment State</h3>
+
+The <tt>Env</tt> structure
+is defined in <tt>inc/env.h</tt> as follows
+(although more fields will be added in future labs):
+
+<p>
+<pre>
+struct Env {
+        struct Trapframe env_tf;        // Saved registers
+        LIST_ENTRY(Env) env_link;       // Free list link pointers
+        u_int env_id;                   // Unique environment identifier
+        u_int env_parent_id;            // env_id of this env's parent
+        u_int env_status;               // Status of the environment
+                                                                                
+        // Address space
+        Pde  *env_pgdir;                // Kernel virtual address of page dir
+        u_int env_cr3;                  // Physical address of page dir
+};
+</pre>
+
+<p>
+Here's what the <tt>Env</tt> fields are for:
+
+<p>
+<dl>
+<dt><b>env_tf</b>:
+<dd>	This structure, defined in <tt>inc/trap.h</tt>,
+	holds the saved register values for the environment
+	while that environment is <i>not</i> running:
+	i.e., when the kernel or a different environment is running.
+	The kernel saves these when
+	switching from user to kernel mode,
+	so that the environment can later be resumed where it left off.
+
+<dt><b>env_link</b>:
+<dd>	This is a pair of pointers allowing the <tt>Env</tt> to be placed on
+	the <code>env_free_list</code>.
+	See <code>inc/queue.h</code> for details.
+
+<dt><b>env_id</b>:
+<dd>	The kernel stores here a value
+	that uniquely identifiers
+	the environment currently using this <tt>Env</tt> structure
+	(i.e., using this particular slot in the <tt>envs</tt> array).
+	After a user environment terminates,
+	the kernel may re-allocate
+	the same <tt>Env</tt> structure to a different environment -
+	but the new environment
+	will have a different <tt>env_id</tt> from the old one
+	even though the new environment
+	is re-using the same slot in the <tt>envs</tt> array.
+
+<dt><b>env_parent_id</b>:
+<dd>	The kernel stores here the <tt>env_id</tt>
+	of the environment that created this environment.
+	In this way the environments can form a ``family tree,''
+	which will be useful for making security decisions
+	about which environments are allowed to do what to whom.
+<dd>
+
+<dt><b>env_status</b>:
+<dd>	This variable holds one of the following values:
+	<dl>
+	<dt><code>ENV_FREE</code>:
+	<dd>	Indicates that the <tt>Env</tt> structure is inactive,
+		and therefore on the <tt>env_free_list</tt>.
+	<dt><code>ENV_RUNNABLE</code>:
+	<dd>	Indicates that the <tt>Env</tt> structure
+		represents a currently active environment,
+		and the environment is waiting to run on the processor.
+	<dt><code>ENV_NOT_RUNNABLE</code>:
+	<dd>	Indicates that the <tt>Env</tt> structure
+		represents a currently active environment,
+		but it is not currently ready to run:
+		for example, because it is waiting
+		for an interprocess communication (IPC)
+		from another environment.
+	</dl>
+
+<dt><b>env_pgdir</b>:
+<dd>	This variable holds the kernel <i>virtual address</i> 
+	of this environment's page directory.
+
+<dt><b>env_cr3</b>:
+<dd>	This variable holds the corresponding <i>physical address</i>
+	for this environment's page directory.
+</dl>
+
+<p>
+Like a Unix process, a JOS environment couples the concepts of
+"thread" and "address space".  The thread is defined primarily by the
+saved registers (the <code>env_tf</code> field), and the address space
+is defined by the page directory and page tables pointed to by
+<code>env_pgdir</code> and <code>env_cr3</code>.  To run an
+environment, the kernel must set up the CPU with <i>both</i> the saved
+registers and the appropriate address space.
+</p>
+
+<p>
+Our <code>struct Env</code> is analogous to <code>struct proc</code>
+in xv6.  Both structures hold the environment's (i.e., process's)
+user-mode register state directly within the <code>env_tf</code>
+substructure (dubbed simply <code>tf</code> in the case of xv6).  In JOS,
+individual environments do not have their own kernel stacks as
+processes do in xv6.  Instead, all JOS kernel code runs on a
+<i>single</i> kernel stack.
+</p>
+
+<h3>Allocating the Environments Array</h3>
+
+<p>
+In lab 2,
+you allocated memory in <tt>i386_vm_init()</tt>
+for the <code>pages[]</code> array,
+which is a table the kernel uses to keep track of
+which pages are free and which are not.
+You will now need to modify <tt>i386_vm_init()</tt> further
+to allocate a similar array of <tt>Env</tt> structures,
+called <tt>envs</tt>.
+
+<p>
+<center><table border=1 width=80%><tr><td bgcolor=#e0e0ff>
+	<b>Exercise 1.</b>
+	Modify <tt>i386_vm_init()</tt> in <tt>kern/pmap.c</tt>
+	to allocate and map the <tt>envs</tt> array.
+	This array consists of
+	exactly <tt>NENV</tt> instances of the <tt>Env</tt> structure,
+	laid out consecutively in the kernel's virtual address space
+	starting at address <tt>UENVS</tt>
+	(defined in <tt>inc/memlayout.h</tt>).
+	You should allocate and map this array
+	the same way as you did the <tt>pages</tt> array.
+</table></center>
+
+
+<h3>Creating and Running Environments</h3>
+
+<p>
+You will now write the code in <tt>kern/env.c</tt> necessary to run a
+user environment.  Because we do not yet have a filesystem, we will
+set up the kernel to load a static binary image that is <i>embedded
+within the kernel itself</i>. JOS embeds
+this binary in the kernel as a <i>real</i> ELF executable image.
+
+<p>
+The Lab 3 <tt>GNUmakefile</tt> generates a number of binary images in
+the <tt>obj/user/</tt> directory.  If you look at
+<tt>kern/Makefrag</tt>, you will notice some magic that "links" these
+binaries directly into the kernel executable as if they were
+<tt>.o</tt> files.  The <tt>-b binary</tt> option on the linker
+command line causes these files to be linked in as "raw" uninterpreted
+binary files rather than as regular <tt>.o</tt> files produced by the
+compiler.  (As far as the linker is concerned, these files do not have
+to be ELF images at all - they could be anything, such as text files
+or pictures!)  If you look at <tt>obj/kern/kernel.sym</tt> after
+building the kernel, you will notice that the linker has "magically"
+produced a number of funny symbols with obscure names like
+<tt>_binary_obj_user_hello_start</tt>,
+<tt>_binary_obj_user_hello_end</tt>, and
+<tt>_binary_obj_user_hello_size</tt>.  The linker generates these
+symbol names by mangling the file names of the binary files; the
+symbols provide the regular kernel code with a way to reference the
+embedded binary files.
+
+<p>
+In <tt>i386_init()</tt> in <tt>kern/init.c</tt> you'll see code to run
+one of these binary images in an environment.  However, the critical
+functions to set up user environments are not complete; you will need
+to fill them in.
+
+<p>
+<center><table border=1 width=80%><tr><td bgcolor=#e0e0ff>
+	<b>Exercise 2.</b>
+	In the file <code>env.c</code>,
+	finish coding the following functions:
+	<dl>
+	<dt>	<tt>env_init()</tt>:
+	<dd>	initialize all of the <tt>Env</tt> structures
+		in the <tt>envs</tt> array
+		and add them to the <tt>env_free_list</tt>.
+	<dt>	<tt>env_setup_vm()</tt>:
+	<dd>	allocate a page directory for a new environment
+		and initialize the kernel portion
+		of the new environment's address space.
+	<dt>	<tt>segment_alloc()</tt>:
+	<dd>	allocates and maps physical memory for an environment
+	<dt>	<tt>load_icode()</tt>:
+	<dd>	you will need to parse an ELF binary image,
+		much like the boot loader already does,
+		and load its contents into the user address space
+		of a new environment.
+	<dt>	<tt>env_create()</tt>:
+	<dd>	allocate an environment with <tt>env_alloc</tt>
+		and call <tt>load_icode</tt> load an ELF binary into it.
+	<dt>	<tt>env_run()</tt>:
+	<dd>	start a given environment running in user mode.
+	</dl>
+
+	<p>
+	As you write these functions,
+	you might find the new cprintf verb <code>%e</code>
+	useful -- it prints a description corresponding to an error code.
+	For example, 
+	<pre>
+	r = -E_NO_MEM;
+	panic("env_alloc: %e", r);
+	</pre>
+	will panic with the message "env_alloc: out of memory".
+</table></center>
+
+<p>
+Once you are done you should compile your kernel and run it under Bochs.
+If all goes well, your system should crash in the user program
+while it is trying to make a system call, since you haven't implemented
+system calls yet; you should examine what happened as
+explained below.
+Below is a call graph of the code up to the point where the user
+code is invoked. 
+Make sure you understand the purpose of each step.
+
+    <ul> 
+    <li> <code>start</code> (<code>kern/entry.S</code>)
+    <li> <code>i386_init</code>
+        <ul> 
+        <li> <code>cons_init</code>
+        <li> <code>i386_detect_memory</code>
+        <li> <code>i386_vm_init</code>
+        <li> <code>page_init</code>
+        <li> <code>env_init</code>
+        <li> <code>idt_init</code> (still incomplete at this point)
+        <li> <code>env_create</code>
+        <li> <code>env_run</code>
+            <ul>
+            <li> <code>env_pop_tf</code>
+            </ul>
+        </ul>
+    </ul>
+
+<p>
+Set a Bochs breakpoint at <tt>env_pop_tf</tt>,
+which should be the last function you hit before actually entering user mode.
+Step through this function;
+the processor should enter user mode after the <tt>iret</tt> instruction.
+You should then see the first instruction
+in the user environment's executable,
+which is the <tt>cmpl</tt> instruction at the label <tt>start</tt>
+in <tt>lib/entry.S</tt>.
+You should be able to single-step through
+this user mode environment code
+until you first hit an <tt>int&nbsp;$0x30</tt> instruction,
+which is the instruction that user-mode code executes
+to make a system call.  Unless you've changed the code  
+in <tt>i386_init</tt>, the first system call you'll hit
+is <tt>sys_cputs</tt>, which is called by 
+<tt>cprintf</tt> to put characters to the console.
+(See <tt>lib/syscall.c</tt> for more details.)
+If you cannot get to this point,
+then something is wrong with your address space setup
+or program loading code;
+go back and fix it before continuing.
+
+<h3>Handling Interrupts and Exceptions</h3>
+
+At this point,
+the first <tt>int&nbsp;$0x30</tt> system call instruction in user space
+is a dead end:
+once the processor gets into user mode,
+there is no way to get back out.
+You will now need to implement
+basic exception and system call handling,
+so that it is possible for the kernel to recover control of the processor
+from user-mode code.
+The first thing you should do
+is thoroughly familiarize yourself with
+the x86 interrupt and exception mechanism.
+
+<p>
+<center><table border=1 width=80%><tr><td bgcolor=#e0e0ff>
+	<b>Exercise 3.</b>
+	Read
+	<a href="javascript:if(confirm(%27http://grid.hust.edu.cn/zyshao/Teaching_Material/readings/i386/c09.htm  \n\nThis file was not retrieved by Teleport Pro, because the server reports that this file cannot be found.  \n\nDo you want to open it from the server?%27))window.location=%27http://grid.hust.edu.cn/zyshao/Teaching_Material/readings/i386/c09.htm%27" tppabs="http://grid.hust.edu.cn/zyshao/Teaching_Material/readings/i386/c09.htm">
+	Chapter 9, Exceptions and Interrupts</a>
+	in the
+	<a href="javascript:if(confirm(%27http://grid.hust.edu.cn/zyshao/Teaching_Material/readings/i386/toc.htm  \n\nThis file was not retrieved by Teleport Pro, because the server reports that this file cannot be found.  \n\nDo you want to open it from the server?%27))window.location=%27http://grid.hust.edu.cn/zyshao/Teaching_Material/readings/i386/toc.htm%27" tppabs="http://grid.hust.edu.cn/zyshao/Teaching_Material/readings/i386/toc.htm">80386 Programmer's Manual</a>
+	(or Chapter 5 of the <a href="javascript:if(confirm(%27http://grid.hust.edu.cn/zyshao/Teaching_Material/readings/ia32/IA32-3A.pdf  \n\nThis file was not retrieved by Teleport Pro, because the server reports that this file cannot be found.  \n\nDo you want to open it from the server?%27))window.location=%27http://grid.hust.edu.cn/zyshao/Teaching_Material/readings/ia32/IA32-3A.pdf%27" tppabs="http://grid.hust.edu.cn/zyshao/Teaching_Material/readings/ia32/IA32-3A.pdf">
+	IA-32 Developer's Manual</a>),
+	if you haven't already.
+</table></center>
+
+<p>
+In this lab we generally follow Intel's terminology
+for interrupts, exceptions, and the like.
+However,
+terms such as exception, trap, interrupt, fault and
+abort have no standard meaning
+across architectures or operating systems,
+and are often used without regard to the subtle distinctions between them
+on a particular architecture such as the x86.
+When you see these terms outside of this lab,
+the meanings might be slightly different.
+</p>
+
+<h3>Basics of Protected Control Transfer</h3>
+
+Exceptions and interrupts are both
+"protected control transfers,"
+which cause the processor to switch from user to kernel mode
+(CPL=0) without giving the user-mode code any opportunity
+to interfere with the functioning of the kernel or other environments.
+In Intel's terminology,
+an <i>interrupt</i> is a protected control transfer
+that is caused by an asynchronous event usually external to the processor,
+such as notification of external device I/O activity.
+An <i>exception</i>, in contrast,
+is a protected control transfer
+caused synchronously by the currently running code,
+for example due to a divide by zero or an invalid memory access.
+
+<p>
+In order to ensure that these protected control transfers
+are actually <i>protected</i>,
+the processor's interrupt/exception mechanism is designed so that
+the code currently running when the interrupt or exception occurs
+<i>does not get to choose arbitrarily where the kernel is entered or how</i>.
+Instead,
+the processor ensures that the kernel can be entered
+only under carefully controlled conditions.
+On the x86, this protection is provided
+on the basis of two particular mechanisms:
+
+<p>
+<ol>
+<li><p>	<b>The Interrupt Descriptor Table.</b>
+	The processor ensures that interrupts and exceptions
+	can only cause the kernel to be entered
+	at a few specific, well-defined entry-points
+	<i>determined by the kernel itself</i>,
+	and not by the code currently running
+	when the interrupt or exception is taken.
+
+	<p>
+	The x86 allows up to 256 different
+        interrupt or exception entry points into the kernel,
+        each with a different <i>interrupt vector</i>.
+        A vector is a number between 0 and 256.
+        An interrupt's vector is determined by the
+        source of the interrupt: different devices, error
+        conditions, and application requests to the kernel
+        generate interrupts with different vectors.
+        The CPU uses the vector as an index
+	into the processor's <i>interrupt descriptor table</i> (IDT),
+	which the kernel sets up in kernel-private memory,
+	much like the GDT.
+	From the appropriate entry in this table
+	the processor loads:
+	<ul>
+	<li>	the value to load into
+		the instruction pointer (<tt>EIP</tt>) register,
+		pointing to the kernel code designated
+		to handle that type of exception.
+	<li>	the value to load into
+		the code segment (<tt>CS</tt>) register,
+		which includes in bits 0-1 the privilege level
+		at which the exception handler is to run.
+		(In JOS, all exceptions are handled in kernel mode,
+		or privilege level 0.)
+	</ul>
+
+<li><p>	<b>The Task State Segment.</b>
+	The processor needs a place
+	to save the <i>old</i> processor state
+	before the interrupt or exception occurred,
+	such as the original values of <tt>EIP</tt> and <tt>CS</tt>
+	before the processor invoked the exception handler,
+	so that the exception handler can later restore that old state
+	and resume the interrupted code from where it left off.
+	But this save area for the old processor state
+	must in turn be protected from unprivileged user-mode code;
+	otherwise buggy or malicious user code
+	could easily compromise the kernel.
+
+	<p>
+	For this reason,
+	when an x86 processor takes an interrupt or trap
+	that causes a privilege level change from user to kernel mode,
+        it also switches to a stack in the kernel's memory.
+	The processor pushes (on this new stack)
+        <tt>SS</tt>, <tt>ESP</tt>, <tt>EFLAGS</tt>, <tt>CS</tt>, <tt>EIP</tt>, and an optional error code.
+        Then it loads the <tt>CS</tt> and <tt>EIP</tt> from the interrupt descriptor,
+        and the new kernel-memory <tt>ESP</tt> and <tt>SS</tt>.
+	The new <tt>ESP</tt> and <tt>SS</tt>
+	come from a structure
+	called the <i>task state segment</i> (TSS).
+
+	<p>
+	Although the TSS is large
+	and can potentially serve a variety of purposes,
+	JOS only uses it to define
+	the kernel stack that the processor should switch to
+	when it transfers from user to kernel mode.
+	Since "kernel mode" in JOS
+	is privilege level 0 on the x86,
+	the processor uses the <tt>ESP0</tt> and <tt>SS0</tt> fields of the TSS
+	to define the kernel stack when entering kernel mode.
+        JOS doesn't use any other TSS fields.
+</ol>
+
+<h3>Types of Exceptions and Interrupts</h3>
+
+<p>
+All of the synchronous exceptions
+that the x86 processor can generate internally
+use interrupt vectors between 0 and 31,
+and therefore map to IDT entries 0-31.
+For example,
+a page fault always causes an exception through vector 14.
+Interrupt vectors greater than 31 are only used by
+<i>software interrupts</i>,
+which can be generated by the <tt>INT</tt> instruction, or
+asynchronous <i>hardware interrupts</i>,
+caused by external devices when they need attention.
+
+<p>
+In this section we will extend JOS to handle
+the internally generated x86 exceptions in vectors 0-31.
+In the next section we will make JOS handle
+software interrupt vector 0x30,
+which JOS (fairly arbitrarily) uses as its system call interrupt vector.
+In Lab 4 we will extend JOS to handle externally generated hardware interrupts
+such as the clock interrupt.
+
+<h3>An Example</h3>
+
+Let's put these pieces together and trace through an example.
+Let's say the processor is executing code in a user environment
+and encounters a divide instruction that attempts to divide by zero.
+
+<ol>
+<li>	The processor switches to the stack defined by the
+	<tt>SS0</tt> and <tt>ESP0</tt> fields of the TSS,
+	which in JOS will hold the values
+	<tt>GD_KD</tt> and <tt>KSTACKTOP</tt>, respectively.
+
+<li>	The processor pushes the exception parameters on the
+	kernel stack, starting at address <tt>KSTACKTOP</tt>:
+	<pre>
+                     +--------------------+ KSTACKTOP             
+                     | 0x00000   old SS   |     " - 4
+                     |      old ESP       |     " - 8
+                     |     old EFLAGS     |     " - 12
+                     | 0x00000 | old CS   |     " - 16
+                     |      old EIP       |     " - 20 <---- ESP 
+                     +--------------------+             
+	</pre>
+<!-- " -->
+
+<li>	Because we're handling a divide error,
+	which is interrupt vector 0 on the x86,
+	the processor reads IDT entry 0 and sets
+	<code>CS:EIP</code> to point to the handler function defined there.
+
+<li>	The handler function takes control and handles the exception,
+	for example by terminating the user environment.
+</ol>
+
+<p>
+For certain types of x86 exceptions,
+in addition to the "standard" five words above,
+the processor pushes onto the stack another word
+containing an <i>error code</i>.
+The page fault exception, number 14,
+is an important example.
+See the 80386 manual to determine for which exception numbers
+the processor pushes an error code,
+and what the error code means in that case.
+When the processor pushes an error code,
+the stack would look as follows at the beginning of the exception handler
+when coming in from user mode:
+	<pre>
+                     +--------------------+ KSTACKTOP             
+                     | 0x00000   old SS   |     " - 4
+                     |      old ESP       |     " - 8
+                     |     old EFLAGS     |     " - 12
+                     | 0x00000 | old CS   |     " - 16
+                     |      old EIP       |     " - 20
+                     |     error code     |     " - 24 <---- ESP 
+                     +--------------------+             
+	</pre>
+
+<h3>Nested Exceptions and Interrupts</h3>
+
+<p>
+The processor can take exceptions and interrupts
+both from kernel and user mode.
+It is only when entering the kernel from user mode, however,
+that the x86 processor automatically switches stacks
+before pushing its old register state onto the stack
+and invoking the appropriate exception handler through the IDT.
+If the processor is <i>already</i> in kernel mode
+when the interrupt or exception occurs
+(the low 2 bits of the <tt>CS</tt> register are already zero),
+then the kernel just pushes more values on the same kernel stack.
+In this way, the kernel can gracefully handle <i>nested exceptions</i>
+caused by code within the kernel itself.
+This capability is an important tool in implementing protection,
+as we will see later in the section on system calls.
+
+<p>
+If the processor is already in kernel mode
+and takes a nested exception,
+since it does not need to switch stacks,
+it does not save the old <tt>SS</tt> or <tt>ESP</tt> registers.
+For exception types that do not push an error code,
+the kernel stack therefore looks like the following
+on entry to the exception handler:
+<pre>
+                     +--------------------+ <---- old ESP
+                     |     old EFLAGS     |     " - 4
+                     | 0x00000 | old CS   |     " - 8
+                     |      old EIP       |     " - 12
+                     +--------------------+             
+</pre>
+<!-- " -->
+
+<p>
+For exception types that push an error code,
+the processor pushes the error code immediately after the old <tt>EIP</tt>,
+as before.
+
+<p>
+There is one important caveat to the processor's nested exception capability.
+If the processor takes an exception while already in kernel mode,
+and <i>cannot push its old state onto the kernel stack</i> for any reason
+such as lack of stack space,
+then there is nothing the processor can do to recover,
+so it simply resets itself.
+Needless to say, the kernel should be designed so that this can't happen.
+
+<h3>Setting Up the IDT</h3>
+
+<p>
+You should now have the basic information you need
+in order to set up the IDT and handle exceptions in JOS.
+For now, you will set up the IDT to handle 
+interrupt vectors 0-31 (the processor exceptions)
+and interrupts 32-47 (the device IRQs).
+We may add additional interrupts later.
+
+<p>
+The header files <tt>inc/trap.h</tt> and <tt>kern/trap.h</tt>
+contain important definitions related to interrupts and exceptions
+that you will need to become familiar with.
+The file <tt>kern/trap.h</tt> contains definitions
+that are strictly private to the kernel,
+while <tt>inc/trap.h</tt>
+contains definitions that may also be useful
+to user-level programs and libraries.
+</p>
+
+<p>
+Note:
+Some of the exceptions in the range 0-31 are defined by Intel to be
+reserved.
+Since they will never be generated by the processor,
+it doesn't really matter how you handle them.
+Do whatever you think is cleanest.
+</p>
+
+<p>
+The overall flow of control that you should achieve is depicted below: 
+</p>
+
+<pre>
+      IDT                   trapentry.S         trap.c
+   
++----------------+                        
+|   &handler1    |---------> handler1:          trap (struct Trapframe *tf)
+|                |             // do stuff      {
+|                |             call trap          // handle the exception/interrupt
+|                |             // undo stuff    }
++----------------+
+|   &handler2    |--------> handler2:
+|                |            // do stuff
+|                |            call trap
+|                |            // undo stuff
++----------------+
+       .
+       .
+       .
++----------------+
+|   &handlerX    |--------> handlerX:
+|                |             // do stuff
+|                |             call trap
+|                |             // undo stuff
++----------------+
+</pre>
+
+<p>
+Each exception or interrupt should have
+its own handler in <code>trapentry.S</code>
+and <tt>idt_init()</tt> should initialize the IDT with the addresses
+of these handlers.
+Each of the handlers should build a <code>struct Trapframe</code>
+(see <code>inc/trap.h</code>) on the stack and call 
+<code>trap()</code> (in <code>trap.c</code>)
+with a pointer to the Trapframe.
+</p>
+
+<p>
+<code>trap()</code> handles the
+exception/interrupt or dispatches to a specific
+handler function.
+If and when <tt>trap()</tt> returns,
+the code in <tt>trapentry.S</tt>
+restores the old CPU state saved in the Trapframe
+and then uses the <tt>iret</tt> instruction
+to return from the exception.
+</p>
+
+<p>
+<center><table border=1 width=80%><tr><td bgcolor=#e0e0ff>
+	<b>Exercise 4.</b>
+
+	Edit <code>trapentry.S</code> and <code>trap.c</code> and
+	implement the features described above.  The macros
+	<code>TRAPHANDLER</code> and <code>TRAPHANDLER_NOEC</code> in
+	<code>trapentry.S</code> should help you, as well as the T_*
+	defines in <code>inc/trap.h</code>.  You will need to add an
+	entry point in <code>trapentry.S</code> (using those macros)
+	for each trap defined in <code>inc/trap.h</code>.  You will
+	also need to modify <code>idt_init()</code> to initialize the
+	<code>idt</code> to point to each of these entry points
+	defined in <code>trapentry.S</code>; the <tt>SETGATE</tt>
+        macro will be helpful here.
+	</p>
+
+	<p>
+	Hint: your code should perform the following steps:
+	<ol>
+	<li>push values to make the stack look like a struct Trapframe
+	<li>load GD_KD into <tt>%ds</tt> and <tt>%es</tt>
+	<li><tt>pushl %esp</tt>
+		to pass a pointer to the Trapframe as an argument to trap()
+	<li><tt>call trap</tt>
+	<li>pop the values pushed in steps 1-3
+	<li><tt>iret</tt>
+	</ol>
+
+	<p>
+	Consider using the <code>pushal</code> and <code>popal</code>
+	instructions; they fit nicely with the layout of the <code>struct
+	Trapframe</code>.
+
+	<p>
+	Test your trap handling code
+	using some of the test programs in the <tt>user</tt> directory
+	that cause exceptions before making any system calls,
+	such as <tt>user/divzero</tt>.
+	You should be able to get <tt>make grade</tt>
+	to succeed on the <tt>divzero</tt>, <tt>softint</tt>,
+	and <tt>badsegment</tt> tests at this point.
+</table></center>
+
+<p>
+<center><table border=1 width=80%><tr><td bgcolor=#ffe0e0>
+	<i>Challenge!</i> You probably have a lot of very similar code
+	right now, between the lists of <code>TRAPHANDLER</code> in
+	<code>trapentry.S</code> and their installations in
+	<code>trap.c</code>.  Clean this up.  Change the macros in
+	<code>trapentry.S</code> to automatically generate a table for
+	<code>trap.c</code> to use.  Note that you can switch between
+	laying down code and data in the assembler by using the
+	directives <code>.text</code> and <code>.data</code>.
+	</table></center>
+
+<h4>Questions</h4>
+Answer the following questions in your <tt>answers.txt</tt>:
+<ol>
+<li>	What is the purpose of having an individual handler function for
+	each exception/interrupt?  (i.e., if all exceptions/interrupts were
+	delivered to the same handler, what feature that exists in
+	the current implementation could not be provided?)
+
+<li>	Did you have to do anything
+	to make the <tt>user/softint</tt> program behave correctly
+	(i.e., as the grade script expects)?
+	<i>Why</i> is this the correct behavior?
+	What happens if the kernel actually allows <tt>softint</tt>'s
+	<tt>int $14</tt> instruction to invoke the kernel's page fault handler
+	(which is interrupt vector 14)?
+</ol>
+
+<h2>Part B: Page Faults, Breakpoints Exceptions, and System Calls</h2>
+
+Now that your kernel has basic exception handling capabilities,
+you will refine it to provide important operating system primitives
+that depend on exception handling.
+
+<h3>Handling Page Faults</h3>
+
+The page fault exception, interrupt vector 14 (<tt>T_PGFLT</tt>),
+is a particularly important one that we will exercise heavily
+throughout this lab and the next.
+When the processor takes a page fault,
+it stores the linear address that caused the fault
+in a special processor control register, <tt>CR2</tt>.
+In <tt>trap.c</tt>
+we have provided the beginnings of a special function,
+<tt>page_fault_handler()</tt>,
+to handle page fault exceptions.
+
+<p>
+<center><table border=1 width=80%><tr><td bgcolor=#e0e0ff>
+	<b>Exercise 5.</b>
+	Modify <tt>trap_dispatch()</tt>
+	to dispatch page fault exceptions
+	to <tt>page_fault_handler()</tt>.
+	You should now be able to get <tt>make grade</tt>
+	to succeed on the <tt>faultread</tt>, <tt>faultreadkernel</tt>,
+	<tt>faultwrite</tt>, and <tt>faultwritekernel</tt> tests.
+	If any of them don't work, figure out why and fix them.
+</table></center>
+
+<p>
+You will further refine the kernel's page fault handling below,
+as you implement system calls.
+
+<h3>The Breakpoint Exception</h3>
+
+The breakpoint exception, interrupt vector 3 (<tt>T_BRKPT</tt>),
+is normally used to allow debuggers
+to insert breakpoints in a program's code
+by temporarily replacing the relevant program instruction
+with the special 1-byte <tt>int3</tt> software interrupt instruction.
+In JOS we will abuse this exception slightly
+by turning it into a primitive pseudo-system call
+that any user environment can use to invoke the JOS kernel monitor.
+This usage is actually somewhat appropriate
+if we think of the JOS kernel monitor as a primitive debugger.
+The user-mode implementation of <tt>panic()</tt> in <tt>lib/panic.c</tt>,
+for example,
+performs an <tt>int3</tt> after displaying its panic message.
+
+<p>
+<center><table border=1 width=80%><tr><td bgcolor=#e0e0ff>
+	<b>Exercise 6.</b>
+	Modify <tt>trap_dispatch()</tt>
+	to make breakpoint exceptions invoke the kernel monitor.
+	You should now be able to get <tt>make grade</tt>
+	to succeed on the <tt>breakpoint</tt> test.
+</table></center>
+
+<p>
+<center><table border=1 width=80%><tr><td bgcolor=#ffe0e0>
+	<i>Challenge!</i>
+	Modify the JOS kernel monitor so that
+	you can 'continue' execution from the current location
+	(e.g., after the <tt>int3</tt>,
+	if the kernel monitor was invoked via the breakpoint exception),
+	and so that you can single-step one instruction at a time.
+	You will need to understand certain bits
+	of the <tt>EFLAGS</tt> register
+	in order to implement single-stepping.
+
+	<p>
+	<i>Optional:</i>
+	If you're feeling really adventurous,
+	find some x86 disassembler source code -
+	e.g., by ripping it out of Bochs,
+	or out of GNU binutils, or just write it yourself -
+	and extend the JOS kernel monitor
+	to be able to disassemble and display instructions
+	as you are stepping through them.
+	Combined with the symbol table loading 
+        from lab 2,
+	this is the stuff of which real kernel debuggers are made.
+</table></center>
+
+<h4>Questions</h4>
+Answer the following questions in your <tt>answers.txt</tt>:
+<ol>
+<li>	The break point test case will either generate a break point
+	exception or a general protection fault depending on how you initialized
+	the break point entry in the IDT (i.e., your call to
+	<code>SETGATE</code> from <code>idt_init</code>).  Why?
+	How did you need to set it in order to get the breakpoint exception
+	to work as specified above?
+
+<li>	What do you think is the point of these mechanisms,
+	particularly in light of
+	what the <tt>user/softint</tt> test program does?
+</ol>
+
+
+<h3>System calls</h3>
+
+User processes ask the kernel to do things for them by
+invoking system calls.  When the user process invokes a system call,
+the processor enters kernel mode,
+the processor and the kernel cooperate
+to save the user process's state,
+the kernel executes appropriate code in order to carry out the system
+call, and then resumes the user process.  The exact
+details of how the user process gets the kernel's attention
+and how it specifies which call it wants to execute vary
+from system to system.
+<p>
+
+<!--
+In V6, user processes executed the <code>sys</code> instruction
+to get the kernel's attention.
+The user process specifies the type of system call
+with a constant in the instruction itself.  The
+arguments to the system call are also in the instruction
+stream, or in registers, or on the stack, or some combination
+of the three.  The kernel passes the return value
+back to the user process in <code>r0</code>.
+<p>
+-->
+
+In the JOS kernel, we will use the <code>int</code>
+instruction, which causes a processor interrupt.
+In particular, we will use <code>int&nbsp;$0x30</code>
+as the system call interrupt.
+We have defined the constant
+<code>T_SYSCALL</code> to 0x30 for you.  You will have to
+set up the interrupt descriptor to allow user processes to
+cause that interrupt.  Note that interrupt 0x30 cannot be
+generated by hardware, so there is no ambiguity caused by
+allowing user code to generate it.
+<p>
+
+The application will pass the system call number and
+the system call arguments in registers.  This way, the kernel won't
+need to grub around in the user environment's stack
+or instruction stream.  The
+system call number will go in <code>%eax</code>, and the
+arguments (up to five of them) will go in <code>%edx</code>,
+<code>%ecx</code>, <code>%ebx</code>, <code>%edi</code>,
+and <code>%esi</code>, respectively.  The kernel passes the
+return value back in <code>%eax</code>.  The assembly code to
+invoke a system call has been written for you, in
+<code>syscall()</code> in <code>lib/syscall.c</code>.  You
+should read through it and make sure you understand what
+is going on.
+<p>
+
+<p>
+<center><table border=1 width=80%><tr><td bgcolor=#e0e0ff>
+	<b>Exercise 7.</b>
+	Add a handler in the kernel
+	for interrupt vector <code>T_SYSCALL</code>.
+	You will have to edit <code>kern/trapentry.S</code> and
+	<code>kern/trap.c</code>'s <code>idt_init()</code>.  You
+	also need to change <code>trap_dispatch()</code> to handle the
+	system call interrupt by calling <code>syscall()</code>
+	(defined in <tt>kern/syscall.c</tt>)
+	with the appropriate arguments,
+	and then arranging for
+	the return value to be passed back to the user process
+	in <code>%eax</code>.
+	Finally, you need to implement <code>syscall()</code> in
+	<code>kern/syscall.c</code>.
+	Make sure <code>syscall()</code> returns <code>-E_INVAL</code>
+	if the system call number is invalid.
+	You should read and understand <code>lib/syscall.c</code>
+	(especially the inline assembly routine) in order to confirm
+	your understanding of the system call interface.
+	You may also find it helpful to read <code>inc/syscall.h</code>.
+
+	<p>
+	Run the <tt>user/hello</tt> program under your kernel.
+	It should print "<code>hello, world</code>" on the console
+	and then cause a page fault in user mode.
+	If this does not happen, it probably means
+	your system call handler isn't quite right.
+</table></center>
+
+<p>
+<center><table border=1 width=80%><tr><td bgcolor=#ffe0e0>
+	<i>Challenge!</i>
+
+	Implement system calls using the <code>sysenter</code> and
+	<code>sysexit</code> instructions instead of using
+	<code>int&nbsp;0x30</code> and <code>iret</code>.  <br>
+
+	The <code>sysenter/sysexit</code> instructions were designed
+	by Intel to be faster than <code>int/iret</code>.  They do
+	this by using registers instead of the stack and by making
+	assumptions about how the segmentation registers are used.
+	The exact details of these instructions can be found in Volume
+	2B of the Intel reference manuals.<br>
+
+	The easiest way to add support for these instructions in JOS
+	is to add a <code>sysenter_handler</code> in
+	<code>kern/trapentry.S</code> that creates the same trap frame
+	that is normally created by an <code>int&nbsp;0x30</code>
+	instruction (being sure to save the correct return address and
+	stack pointer provided by the user environment).  Then,
+	instead of calling into <code>trap</code>, push the arguments
+	to <code>syscall</code> and call <code>syscall</code>
+	directly.  Once <code>syscall</code> returns, set everything
+	up for and execute the <code>sysexit</code> instruction. <br>
+
+	You will also need to add code to <code>kern/init.c</code> to
+	set up the necessary model specific registers (MSRs).  Look at
+	the <code>enable_sep_cpu</code> function in <a
+	href="javascript:if(confirm(%27http://lwn.net/Articles/18414/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://lwn.net/Articles/18414/%27" tppabs="http://lwn.net/Articles/18414/">this diff</a> for an
+	example of this, and you can find an implementation of
+	<code>wrmsr</code> to add to <code>/inc/x86.h</code> <a
+	href="javascript:if(confirm(%27http://www.garloff.de/kurt/linux/k6mod.c  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.garloff.de/kurt/linux/k6mod.c%27" tppabs="http://www.garloff.de/kurt/linux/k6mod.c">here</a>).
+	Finally, <code>lib/syscall.c</code> must be changed to support
+	making a system call with <code>sysenter</code>.  Here is a
+	possible register layout for the <code>sysenter</code>
+	instruction:<br>
+
+	<pre>
+	eax                - syscall number
+	edx, ecx, ebx, edi - arg1, arg2, arg3, arg4
+	esi                - return pc
+	ebp                - return esp
+	esp                - trashed by sysenter
+        </pre>
+
+	GCC's inline assembler does not support directly loading
+	values into <code>ebp</code>, so you will need to add code to
+	save (push) and restore (pop) it yourself (and you may want to
+	do the same thing for <code>esi</code> as well).  The return
+	address can be put into <code>esi</code> by using an
+	instruction like <code>leal after_sysenter_label,
+	%%esi</code>. <br>
+
+	Note that this only supports 4 arguments, so you will need to
+	leave the old method of doing system calls around if you want
+	to support 5 argument system calls as well.<br>
+
+	Finally, in order for Bochs to support these instructions, it
+	must be compiled with the <code>--enable-sep</code> option, in
+	addition to the other options listed on the tools page.
+</table></center>
+
+<h3>User-mode startup</h3>
+
+<p>
+A user program starts running at the top of
+<code>lib/entry.S</code>.  After some setup, this code
+calls <code>libmain()</code>, in <code>lib/libmain.c</code>.
+You should modify <code>libmain()</code> to initialize the global pointer
+<code>env</code> to point at this environment's
+<code>struct Env</code> in the <code>envs[]</code> array.
+(Note that <code>lib/entry.S</code> has already defined <code>envs</code>
+to point at the <code>UENVS</code> mapping you set up in lab 2.)
+Hint: look in <code>inc/env.h</code> and use
+<code>sys_getenvid</code>.
+
+<p>
+<code>libmain()</code> then calls <code>umain</code>, which,
+in the case of the hello program, is in
+<code>user/hello.c</code>.  Note that after printing
+"<code>hello, world</code>", it tries to access
+<code>env->env_id</code>.  This is why it faulted earlier.
+Now that you've initialized <code>env</code> properly,
+it should not fault.
+If it still faults, you probably haven't mapped the
+<code>UENVS</code> area user-readable (back in lab 1 in 
+<code>pmap.c</code>; this is the first time we've actually
+used the <code>UENVS</code> area).
+
+<p>
+<center><table border=1 width=80%><tr><td bgcolor=#e0e0ff>
+	<b>Exercise 8.</b>
+	Add the required code to the user library, then 
+	boot your kernel.  You should see <code>user/hello</code>
+	print "<code>hello, world</code>" and then print "<code>i
+	am environment 00000800</code>".
+	<tt>user/hello</tt> then attempts to "exit"
+	by calling <tt>sys_env_destroy()</tt>
+	(see <tt>lib/libmain.c</tt> and <tt>lib/exit.c</tt>).
+	Since the kernel currently only supports one user environment,
+	it should report that it has destroyed the only environment
+	and then drop into the kernel monitor.
+</table></center>
+
+<h3>Page faults and memory protection</h3>
+
+<p>
+Memory protection is a crucial feature of an operating system,
+ensuring that
+bugs in one program cannot corrupt other programs or corrupt the operating
+system itself.
+
+<p>
+Operating systems usually rely on hardware support
+to implement memory protection. 
+The OS keeps the hardware informed about which virtual addresses
+are valid and which are not.  When a program tries to access an invalid
+address or one for which it has no permissions, the processor stops the
+program at the instruction causing the fault and then traps
+into the kernel with information about the attempted operation.
+If the fault is fixable, the kernel can fix it and let the program 
+continue running.  If the fault is not fixable, then the program cannot
+continue, since it will never get past the instruction causing the fault.
+
+<p>
+As an example of a fixable fault, consider an automatically extended stack.
+In many systems the kernel initially allocates a single stack page, and then
+if a program faults accessing pages further down the stack, the kernel
+will allocate those pages automatically and let the program continue.
+By doing this, the kernel only allocates as much stack memory as
+the program needs, but the program can work under the illusion that it
+has an arbitrarily large stack.
+
+<p>
+System calls present an interesting problem for memory protection.
+Most system call interfaces let user programs pass pointers to the 
+kernel.  These pointers point at user buffers to be read or written.
+The kernel then dereferences these pointers
+while carrying out the system call.
+There are two problems with this:
+
+<p>
+<ol>
+<li>
+	A page fault in the kernel
+	is taken a lot more seriously than a page fault in a user program.
+	If the kernel page-faults, that's usually a kernel bug, and the
+	fault handler will panic the kernel
+	(and hence the whole system).
+	In a system call,
+	when the kernel is dereferencing pointers to the user's address space,
+	we need a way to remember that any page faults these dereferences cause
+	are actually on behalf of the user program.
+	<p>
+
+<li>
+	The kernel typically has more memory permissions than the user program.
+	The user program might pass a pointer to a system call that points
+        to memory that the kernel can read or write but that the program
+        cannot.
+        The kernel must be careful not to be tricked into dereferencing
+        such a pointer, since that might reveal private information or
+	destroy the integrity of the kernel.
+</ol>
+
+<!-- 
+This danger is one instance of a classic security problem
+known as the "confused deputy" problem.
+The kernel is acting as a trusted "deputy",
+which has the special privileges necessary
+to implement important services needed by untrusted users -
+but if users can confuse the kernel into using those special privileges
+in unintended ways, the security model breaks down.
+
+            (<i>Challenge</i>!!! Explore the literature
+		on the confused deputy problem
+		available on the Internet,
+		and identify other aspects of the design of this toy kernel
+		and existing well-known operating systems
+		in which this security risk may occur.)
+            <p>
+-->
+
+<p>
+For both of these reasons the kernel must be extremely careful when 
+handling pointers presented by user programs.
+
+<p>
+You will now solve these two problems with 
+a single mechanism that scrutinizes
+all pointers passed from userspace into the kernel.
+When a program passes the kernel a pointer, the kernel will check
+that the address is in the user part of the address space,
+and that the page table would allow the memory operation.
+
+<p>
+Thus, the kernel will never suffer a page fault due to dereferencing
+a user-supplied pointer.
+If the kernel does page fault, it should panic and terminate.
+
+<p>
+<center><table border=1 width=80%><tr><td bgcolor=#e0e0ff>
+	<b>Exercise 9.</b>
+
+	Change <code>kern/trap.c</code> to panic if a page
+   	fault happens in kernel mode.
+
+	<p>
+	Hint: to determine whether a fault happened in user mode or
+	in kernel mode, check the low bits of the <code>tf_cs</code>.
+
+	<p>Read <code>user_mem_assert</code> in <code>kern/pmap.c</code>
+  	and implement <code>user_mem_check</code> in that same file.
+
+	<p>
+	Change <code>kern/syscall.c</code> to sanity check arguments
+	to system calls.
+
+	<p>
+	Change <code>kern/init.c</code> to run <code>user/buggyhello</code>
+	instead of <code>user/hello</code>.  Compile your kernel and boot it.
+	The environment should be destroyed,
+	and the kernel should <i>not</i> panic.
+	You should see:
+
+	<pre>
+	[00001000] user_mem_check assertion failure for va 00000001
+	[00001000] free env 00001000
+	Destroyed the only environment - nothing more to do!
+	</pre>
+</table></center>
+
+<p>
+Note that the same mechanism you just implemented also works for 
+malicious user applications (such as <code>user/evilhello</code>).
+
+<center><table border=1 width=80%><tr><td bgcolor=#e0e0ff>
+	<b>Exercise 10.</b>
+
+	<p>
+	Change <code>kern/init.c</code> to run <code>user/evilhello</code>.
+	Compile your kernel and boot it.
+	The environment should be destroyed,
+	and the kernel should not panic.
+	You should see:
+
+	<pre>
+	[00000000] new env 00001000
+	[00001000] user_mem_check assertion failure for va f0100020
+	[00001000] free env 00001000
+	</pre>
+</table></center>
+
+<p>
+<b>This completes the lab.</b>
+Make sure you pass all the <tt>gmake grade</tt> tests,
+and hand in your work with <tt>gmake handin</tt>.
+
+<hr>
+<i>Version: $Revision: 1.6 $. Last modified: $Date: 2007/09/25 01:12:26 $</i>
+
+</body>
+</html>
+<!--  LocalWords:  diff Bochs IDT Inline GCC's inline asm GCC struct Env envs
+ -->
+<!--  LocalWords:  curenv env Trapframe tf int env's Pde pgdir dir cr IPC alloc
+ -->
+<!--  LocalWords:  IA GDT TSS KSTACKTOP SS EFLAGS EIP pre IRQs
+ -->
+<!--  LocalWords:  binutils PFM va ip eip TRanslate
+ -->

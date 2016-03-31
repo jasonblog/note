@@ -121,7 +121,7 @@ int main(void)
 以 cache miss 事件觸發採樣便可以知道 cache miss 的分佈，即 cache 失效經常發生在哪些程序代碼中。如此等等。
 
 
-因此讓我們先來了解一下 perf 中能夠觸發採樣的事件有哪些。
+因此讓我們先來瞭解一下 perf 中能夠觸發採樣的事件有哪些。
 
 ####Perf list，perf 事件
 使用 perf list 命令可以列出所有能夠觸發 perf 採樣點的事件。比如

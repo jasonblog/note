@@ -286,7 +286,7 @@
    * [C 的 Thread Pool 筆記](linux_system/c_de_thread_pool_bi_ji.md)
    * [IP addresses from a C program](linux_system/ip_addresses_from_a_c_program.md)
    * [OpenMP in linux](linux_system/openmp_in_linux.md)
-   * [Mutexes VS Semaphores 大揭秘](linux_system/mutexes_vs_semaphores_da_jie_mi.md)
+   * [Mutexes VS Semaphores 大揭祕](linux_system/mutexes_vs_semaphores_da_jie_mi.md)
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)
@@ -737,5 +737,5 @@
    * [練寫作可以讓你成為「神級程式設計師」，但不是不二法門](other/lian_xie_zuo_ke_yi_rang_ni_cheng_wei_300c_shen_ji_.md)
    * [編程的智慧](other/bian_cheng_de_zhi_hui.md)
 * [DS_ALGO](dsalgo.md)
-   * [内核双向链表的使用](nei_he_shuang_xiang_lian_biao_de_shi_yong.md)
+   * [內核雙向鏈表的使用](nei_he_shuang_xiang_lian_biao_de_shi_yong.md)
 

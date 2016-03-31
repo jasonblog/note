@@ -1,7 +1,7 @@
-# 内核双向链表的使用
+# 內核雙向鏈表的使用
 
 
-从内核里获取 Simple doubly linked list implementation， 稍加修改就可以在我们的应用层程序里使用linux内核的高效双向链表结构,比如可以从官方linux内核 的双向链表实现裁减相应的哈希链表之后，增加offsetof和container_of两个强大的定位结构体指针 位置和定义struct list_head，就可以加入到应用项目里使用了。例如: lish.h
+從內核裡獲取 Simple doubly linked list implementation， 稍加修改就可以在我們的應用層程序裡使用linux內核的高效雙向鏈表結構,比如可以從官方linux內核 的雙向鏈表實現裁減相應的哈希鏈表之後，增加offsetof和container_of兩個強大的定位結構體指針 位置和定義struct list_head，就可以加入到應用項目裡使用了。例如: lish.h
 
 
 ```c
@@ -36,7 +36,7 @@ int main(int argc, char* argv[])
 {
     int i;
     struct user* p_user, *pos;
-    LIST_HEAD(list_head); //定义链表头
+    LIST_HEAD(list_head); //定義鏈表頭
 
     for (i = 0; i < 3; i++) {
         p_user = new_user();
@@ -53,14 +53,14 @@ int main(int argc, char* argv[])
 
 ```
 
-- 定义一个user结构体系， 特别的node成员为链表操作指针
-- LIST_HEAD 定义一个链表头
-- new_user() 函数动态分配一个user结构内存并初始化自己的链表node成员
-- list_add_tail() 函数所数据链接到链表头
-- list_for_each_entry()函数遍历链表头，获取动态分配的结构数据
-- free_user()函数功能遍历链表头，释放动态分配的结构数据
+- 定義一個user結構體系， 特別的node成員為鏈表操作指針
+- LIST_HEAD 定義一個鏈表頭
+- new_user() 函數動態分配一個user結構內存並初始化自己的鏈表node成員
+- list_add_tail() 函數所數據鏈接到鏈表頭
+- list_for_each_entry()函數遍歷鏈表頭，獲取動態分配的結構數據
+- free_user()函數功能遍歷鏈表頭，釋放動態分配的結構數據
 
-更多链表操作功能看一下list.h的说明就很明白了。
+更多鏈表操作功能看一下list.h的說明就很明白了。
 
 - list.h
 

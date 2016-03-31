@@ -37,7 +37,7 @@
         
     
     
-    <link rel="next" href="../android_note/index.html" />
+    <link rel="next" href="../linux_tools/xi_tong_ji_xing_neng_fen_xi_gong_ju__perf.html" />
     
     
     <link rel="prev" href="../linux_tools/perf_--_linuxxia_de_xi_tong_xing_neng_diao_you_gon.html" />
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="3.8.5" data-basepath=".." data-revision="Wed Mar 30 2016 23:50:31 GMT+0800 (CST)">
+    <div class="book" data-level="3.8.5" data-basepath=".." data-revision="Thu Mar 31 2016 22:29:50 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -901,6 +901,21 @@
                             <b>3.8.5.</b>
                         
                         Perf -- Linux下的系統性能調優工具，第 2 部分
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.8.6" data-path="linux_tools/xi_tong_ji_xing_neng_fen_xi_gong_ju__perf.html">
+            
+                
+                    <a href="../linux_tools/xi_tong_ji_xing_neng_fen_xi_gong_ju__perf.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.8.6.</b>
+                        
+                        系統級性能分析工具 — Perf
                     </a>
             
             
@@ -11783,7 +11798,7 @@
  <span class="hljs-comment"># (For a higher level overview, try: perf report --sort comm,dso) </span>
  <span class="hljs-comment">#</span>
 </code></pre>
-<p> &#x9019;&#x500B;&#x5831;&#x544A;&#x8A73;&#x7D30;&#x8AAA;&#x660E;&#x4E86;&#x5728; ls &#x904B;&#x884C;&#x671F;&#x9593;&#x767C;&#x751F;&#x4E86;&#x591A;&#x5C11;&#x6B21;&#x7CFB;&#x7D71;&#x8ABF;&#x7528; ( &#x4E0A;&#x4F8B;&#x4E2D;&#x6709; 101 &#x6B21; )&#xFF0C;&#x591A;&#x6578;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x90FD;&#x767C;&#x751F;&#x5728;&#x54EA;&#x4E9B;&#x5730;&#x65B9; (97% &#x90FD;&#x767C;&#x751F;&#x5728; ld-2.12.so &#x4E2D; )&#x3002;</p>
+<p> &#x9019;&#x500B;&#x5831;&#x544A;&#x8A73;&#x7D30;&#x8AAA;&#x660E;&#x77AD;&#x5728; ls &#x904B;&#x884C;&#x671F;&#x9593;&#x767C;&#x751F;&#x4E86;&#x591A;&#x5C11;&#x6B21;&#x7CFB;&#x7D71;&#x8ABF;&#x7528; ( &#x4E0A;&#x4F8B;&#x4E2D;&#x6709; 101 &#x6B21; )&#xFF0C;&#x591A;&#x6578;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x90FD;&#x767C;&#x751F;&#x5728;&#x54EA;&#x4E9B;&#x5730;&#x65B9; (97% &#x90FD;&#x767C;&#x751F;&#x5728; ld-2.12.so &#x4E2D; )&#x3002;</p>
 <p>&#x6709;&#x4E86;&#x9019;&#x500B;&#x5831;&#x544A;&#xFF0C;&#x6216;&#x8A31;&#x6211;&#x80FD;&#x5920;&#x767C;&#x73FE;&#x66F4;&#x591A;&#x53EF;&#x4EE5;&#x8ABF;&#x512A;&#x7684;&#x5730;&#x65B9;&#x3002;&#x6BD4;&#x5982;&#x51FD;&#x6578; foo() &#x4E2D;&#x767C;&#x751F;&#x4E86;&#x904E;&#x591A;&#x7684;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#xFF0C;&#x90A3;&#x9EBC;&#x6211;&#x5C31;&#x53EF;&#x4EE5;&#x601D;&#x8003;&#x662F;&#x5426;&#x6709;&#x8FA6;&#x6CD5;&#x6E1B;&#x5C11;&#x5176;&#x4E2D;&#x6709;&#x4E9B;&#x4E0D;&#x5FC5;&#x8981;&#x7684;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x3002;</p>
 <p>&#x60A8;&#x53EF;&#x80FD;&#x6703;&#x8AAA; strace &#x4E5F;&#x53EF;&#x4EE5;&#x505A;&#x540C;&#x6A23;&#x4E8B;&#x60C5;&#x554A;&#xFF0C;&#x7684;&#x78BA;&#xFF0C;&#x7D71;&#x8A08;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x9019;&#x4EF6;&#x4E8B;&#x5B8C;&#x5168;&#x53EF;&#x4EE5;&#x7528; strace &#x5B8C;&#x6210;&#xFF0C;&#x4F46; perf &#x9084;&#x53EF;&#x4EE5;&#x5E79;&#x4E9B;&#x5225;&#x7684;&#xFF0C;&#x60A8;&#x6240;&#x9700;&#x8981;&#x7684;&#x5C31;&#x662F;&#x4FEE;&#x6539; -e &#x9078;&#x9805;&#x5F8C;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x3002;</p>
 <p>&#x7F85;&#x5217; tracepoint &#x5BE6;&#x5728;&#x662F;&#x4E0D;&#x592A;&#x5730;&#x9053;&#xFF0C;&#x672C;&#x6587;&#x7576;&#x7136;&#x4E0D;&#x6703;&#x9019;&#x9EBC;&#x505A;&#x3002;&#x4F46;&#x5B78;&#x7FD2;&#x6BCF;&#x4E00;&#x500B; tracepoint &#x662F;&#x6709;&#x610F;&#x7FA9;&#x7684;&#xFF0C;&#x985E;&#x4F3C;&#x80CC;&#x55AE;&#x8A5E;&#x4E4B;&#x65BC;&#x5B78;&#x7FD2;&#x82F1;&#x8A9E;&#x4E00;&#x6A23;&#xFF0C;&#x662F;&#x4E00;&#x9805;&#x7DE9;&#x6162;&#x75DB;&#x82E6;&#x537B;&#x4E0D;&#x5F97;&#x4E0D;&#x505A;&#x7684;&#x4E8B;&#x60C5;&#x3002;</p>
@@ -12106,7 +12121,7 @@ Timechart &#x53EF;&#x4EE5;&#x986F;&#x793A;&#x66F4;&#x8A73;&#x7D30;&#x7684;&#x4FE
         <a href="../linux_tools/perf_--_linuxxia_de_xi_tong_xing_neng_diao_you_gon.html" class="navigation navigation-prev " aria-label="Previous page: Perf -- Linux下的系統性能調優工具，第 1 部分"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../android_note/index.html" class="navigation navigation-next " aria-label="Next page: Android note"><i class="fa fa-angle-right"></i></a>
+        <a href="../linux_tools/xi_tong_ji_xing_neng_fen_xi_gong_ju__perf.html" class="navigation navigation-next " aria-label="Next page: 系統級性能分析工具 — Perf"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

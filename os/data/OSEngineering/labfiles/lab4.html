@@ -1,0 +1,1256 @@
+<html>
+<head>
+<title>Lab 4: Preemptive Multitasking</title>
+<link rel="stylesheet" href="../labs.css" tppabs="http://grid.hust.edu.cn/zyshao/Teaching_Material/OSEngineering/labs.css" type="text/css" />
+</head>
+<body>
+
+<h1>6.828 Fall 2006 Lab 4: Preemptive Multitasking</h1>
+
+<p><b>
+Handed out Wednesday, October 10 <br>
+Part A due Thursday, October 18 <br>
+Part B due Thursday, October 25 <br>
+Part C due Thursday, November 1
+</b>
+
+<h2>Introduction</h2>
+
+In this lab you will implement preemptive multitasking among multiple
+simultaneously active user-mode environments.  In part A you will
+first implement round-robin scheduling and the basic environment
+management system calls (calls that create and destroy environments,
+and allocate/map memory).
+
+In part B, you will implement a Unix-like <tt>fork()</tt>,
+which allows one user-mode environment to fork off other, "child"
+environments, which start off as "clones" of the parent but
+can subsequently execute independently of the parent.
+
+Finally, in part C you will add support for inter-process
+communication (IPC), allowing different user-mode environments to
+communicate and synchronize with each other explicitly.  You will also
+add support for hardware clock interrupts and preemption.
+
+<h3>Getting Started</h3>
+
+Download the lab 4 code from <a
+href="javascript:if(confirm(%27http://pdos.lcs.mit.edu/6.828/2007/labs/lab4/lab4.tar.gz  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://pdos.lcs.mit.edu/6.828/2007/labs/lab4/lab4.tar.gz%27" tppabs="http://pdos.lcs.mit.edu/6.828/2007/labs/lab4/lab4.tar.gz">
+http://pdos.lcs.mit.edu/6.828/2007/labs/lab4/lab4.tar.gz</a>, and unpack
+it into your 6.828 directory as before.
+
+As usual, you will need to merge our new code for this lab into your
+source tree, or copy the changes that you have made in the previous
+labs over to our tree.
+
+<h3>Lab Requirements</h3>
+
+This lab is divided into three parts, A, B, and C.
+We have allocated one week in the schedule for each part.
+
+<p>
+As before,
+you will need to do all of the regular exercises described in the lab
+and <i>at least one</i> challenge problem.
+(You do not need to do one challenge problem per part,
+just one for the whole lab.)
+Additionally, you will need to write up a brief
+description of the challenge problem that you implemented.
+If you implement more than one challenge problem,
+you only need to describe one of them in the write-up,
+though of course you are welcome to do more.
+Place the write-up in a file called <tt>answers.txt</tt> (plain text)
+or <tt>answers.html</tt> (HTML format)
+in the top level of your <tt>lab4</tt> directory
+before handing in your work.
+
+<h2>Part A: User-level Environment Creation and Cooperative Multitasking</h2>
+
+In the first part of this lab,
+you will implement some new JOS kernel system calls
+to allow user-level environments to create
+additional new environments.
+You will also implement <i>cooperative</i> round-robin scheduling,
+allowing the kernel to switch from one environment to another
+when the current environment voluntarily relinquishes the CPU (or exits).
+Later in part C you will implement <i>preemptive</i> scheduling,
+which allows the kernel to re-take control of the CPU from an environment
+after a certain time has passed even if the environment does not cooperate.
+
+<h3>Round-Robin Scheduling</h3>
+
+<p>
+Your first task in this lab is to change the JOS kernel
+so that it does not always just run the environment in <tt>envs[0]</tt>,
+but instead can alternate between multiple environments
+in "round-robin" fashion.
+Round-robin scheduling in JOS works as follows:
+
+<ul>
+<li>	The first environment, in <tt>envs[0]</tt>,
+	will from now on always be a special <i>idle</i> environment,
+	which always runs the program <tt>user/idle.c</tt>.
+	The purpose of this program is simply to "waste time"
+	whenever the processor has nothing better to do -
+	it just perpetually attempts to give up the CPU
+	to another environment.
+	Read the code and comments in <tt>user/idle.c</tt>
+	for other useful details.
+	We have modified <tt>kern/init.c</tt> for you
+	to create this special idle environment in <tt>envs[0]</tt>
+	before creating the first "real" environment in <tt>envs[1]</tt>.
+
+<li>	The function <tt>sched_yield()</tt> in the new <tt>kern/sched.c</tt>
+	is responsible for selecting a new environment to run.
+	It searches sequentially through the <tt>envs[]</tt> array
+	in circular fashion,
+	starting just after the previously running environment
+	(or at the beginning of the array
+	if there was no previously running environment),
+	picks the first environment it finds
+	with a status of <tt>ENV_RUNNABLE</tt>
+	(see <tt>inc/env.h</tt>),
+	and calls <tt>env_run()</tt> to jump into that environment.
+	However, <tt>sched_yield()</tt> is aware
+	that <tt>envs[0]</tt> is the special idle environment,
+	and <i>never</i> picks it unless
+	there are <i>no other</i> runnable environments.
+
+<li>	We have implemented a new system call for you,
+	<tt>sys_yield()</tt>,
+	which user environments can call
+	to invoke the kernel's <tt>sched_yield()</tt> function
+	and thereby voluntarily give up the CPU to a different environment.
+	As you can see in <tt>user/idle.c</tt>,
+	the idle environment does this routinely.
+
+<li>	Whenever the kernel switches from one environment to another,
+	it must ensure the old environment's registers are saved
+	so they can be restored properly later. Why?
+        Where does this happen?
+</ul>
+
+<div class="todo required">
+<p><span class="header">Exercise 1.</span>
+	Implement round-robin scheduling in <tt>sched_yield()</tt>
+	as described above.  Don't forget to modify
+	<tt>syscall()</tt> to dispatch <tt>sys_yield()</tt>.
+
+	<p>
+	Modify <tt>kern/init.c</tt> to create two (or more!) environments
+	that all run the program <tt>user/yield.c</tt>.
+	You should see the environments
+	switch back and forth between each other
+	five times before terminating, like this:
+<pre>
+...
+Hello, I am environment 00001001.
+Hello, I am environment 00001002.
+Back in environment 00001001, iteration 0.
+Back in environment 00001002, iteration 0.
+Back in environment 00001001, iteration 1.
+Back in environment 00001002, iteration 1.
+...
+</pre>
+	After the <tt>yield</tt> programs exit, the idle environment
+        should run and invoke the JOS kernel debugger.
+	If all this does not happen,
+	then fix your code before proceeding.
+</p></div>
+
+<p>
+Question:
+In your implementation of <code>env_run()</code> you should have
+called <code>lcr3()</code>.  Before and after the call to
+<code>lcr3()</code>, your code makes references (at least it should)
+to the variable <code>e</code>, the argument to <code>env_run</code>.
+Upon loading the <code>%cr3</code> register, the addressing context
+used by the MMU is instantly changed.  But a virtual
+address (namely <code>e</code>) has meaning relative to a given
+address context--the address context specifies the physical address to
+which the virtual address maps.  Why can the pointer <code>e</code> be
+dereferenced both before and after the addressing switch?
+
+<p>
+<div class="todo challenge">
+<p><span class="header">Challenge!</span>
+	Add a less trivial scheduling policy to the kernel,
+	such as a fixed-priority scheduler that allows each environment
+	to be assigned a priority
+	and ensures that higher-priority environments
+	are always chosen in preference to lower-priority environments.
+	If you're feeling really adventurous,
+	try implementing a Unix-style adjustable-priority scheduler
+	or even a lottery or stride scheduler.
+	(Look up "lottery scheduling" and "stride scheduling" in Google.)
+	
+	<p>
+	Write a test program or two
+	that verifies that your scheduling algorithm is working correctly
+	(i.e., the right environments get run in the right order).
+	It may be easier to write these test programs
+	once you have implemented <tt>fork()</tt> and IPC
+	in parts B and C of this lab.
+</p></div>
+
+<p>
+<div class="todo challenge">
+<p><span class="header">Challenge!</span>
+	The JOS kernel currently does not allow applications
+	to use the x86 processor's x87 floating-point unit (FPU),
+	MMX instructions, or Streaming SIMD Extensions (SSE).
+	Extend the <tt>Env</tt> structure
+	to provide a save area for the processor's floating point state,
+	and extend the context switching code
+	to save and restore this state properly
+	when switching from one environment to another.
+	The <tt>FXSAVE</tt> and <tt>FXRSTOR</tt> instructions may be useful,
+	but note that these are not in the old i386 user's manual
+	because they were introduced in more recent processors.
+	Write a user-level test program
+	that does something cool with floating-point.
+</p></div>
+
+
+<h3>System Calls for Environment Creation</h3>
+
+<p>
+Although your kernel is now capable of running and switching between
+multiple user-level environments,
+it is still limited to running environments
+that the <i>kernel</i> initially set up.
+You will now implement the necessary JOS system calls
+to allow <i>user</i> environments to create and start
+other new user environments.
+
+<p>
+Unix provides the <code>fork()</code> system call
+as its process creation primitive.
+Unix <tt>fork()</tt> copies
+the entire address space of calling process (the parent)
+to create a new process (the child).
+The only differences between the two observable from user space
+are their process IDs and parent process IDs
+(as returned by <code>getpid</code> and <code>getppid</code>).
+In the parent,
+<code>fork()</code> returns the child's process ID,
+while in the child, <code>fork()</code> returns 0.
+By default, each process gets its own private address space, and
+neither process's modifications to memory are visible to the other.
+
+<p>
+You will provide a different, more primitive
+set of JOS system calls
+for creating new user-mode environments.
+With these system calls you will be able to implement
+a Unix-like <tt>fork()</tt> entirely in user space,
+in addition to other styles of environment creation.
+The new system calls you will write for JOS are as follows:
+
+
+<dl>
+<dt>	<tt>sys_exofork</tt>:</dt>
+<dd>	This system call creates a new environment with an almost blank slate:
+	nothing is mapped in the user portion of its address space,
+	and it is not runnable.
+	The new environment will have the same register state as the
+	parent environment at the time of the <code>sys_exofork</code> call.
+	In the parent, <code>sys_exofork</code>
+	will return the <code>envid_t</code> of the newly created
+	environment
+	(or a negative error code if the environment allocation failed).
+	In the child, however, it will return 0.
+	(Since the child starts out marked as not runnable,
+	<code>sys_exofork</code> will not actually return in the child
+	until the parent has explicitly allowed this
+	by marking the child runnable using....)</dd>
+
+<dt>	<tt>sys_env_set_status</tt>:</dt>
+<dd>	Sets the status of a specified environment
+	to <tt>ENV_RUNNABLE</tt> or <tt>ENV_NOT_RUNNABLE</tt>.
+	This system call is typically used
+	to mark a new environment ready to run,
+	once its address space and register state
+	has been fully initialized.</dd>
+
+<dt>	<tt>sys_page_alloc</tt>:</dt>
+<dd>	Allocates a page of physical memory
+	and maps it at a given virtual address
+	in a given environment's address space.</dd>
+
+<dt>	<tt>sys_page_map</tt>:</dt>
+<dd>	Copy a page mapping (<i>not</i> the contents of a page!)
+	from one environment's address space to another,
+	leaving a memory sharing arrangement in place
+	so that the new and the old mappings both refer to
+	the same page of physical memory.</dd>
+
+<dt>	<tt>sys_page_unmap</tt>:</dt>
+<dd>	Unmap a page mapped at a given virtual address
+	in a given environment.</dd>
+</dl>
+
+
+<p>
+For all of the system calls above that accept environment IDs,
+the JOS kernel supports the convention
+that a value of 0 means "the current environment."
+This convention is implemented by <code>envid2env()</code>
+in <tt>kern/env.c</tt>.
+
+<p>
+We have provided a very primitive implementation
+of a Unix-like <tt>fork()</tt>
+in the test program <tt>user/dumbfork.c</tt>.
+This test program uses the above system calls
+to create and run a child environment
+with a copy of its own address space.
+The two environments
+then switch back and forth using <tt>sys_yield</tt>
+as in the previous exercise.
+The parent exits after 10 iterations,
+whereas the child exits after 20.
+
+<p>
+<div class="todo required">
+<p><span class="header">Exercise 2.</span>
+	Implement the system calls described above
+	in <tt>kern/syscall.c</tt>.
+	You will need to use various functions
+	in <tt>kern/pmap.c</tt> and <tt>kern/env.cc</tt>,
+	particularly <tt>envid2env()</tt>.
+	For now, whenever you call <tt>envid2env()</tt>,
+	pass 1 in the <tt>checkperm</tt> parameter.
+	Be sure you check for any invalid system call arguments,
+	returning <tt>-E_INVAL</tt> in that case.
+	Test your JOS kernel with <tt>user/dumbfork</tt>
+	and make sure it works before proceeding.
+</p></div>
+
+<p>
+<div class="todo challenge">
+<p><span class="header">Challenge!</span>
+	Add the additional system calls necessary
+	to <i>read</i> all of the vital state of an existing environment
+	as well as set it up.
+	Then implement a user mode program that forks off a child environment,
+	runs it for a while (e.g., a few iterations of <tt>sys_yield()</tt>),
+	then takes a complete snapshot or <i>checkpoint</i>
+	of the child environment,
+	runs the child for a while longer,
+	and finally restores the child environment to the state it was in
+	at the checkpoint
+	and continues it from there.
+	Thus, you are effectively "replaying"
+	the execution of the child environment from an intermediate state.
+	Make the child environment perform some interaction with the user
+	using <tt>sys_cgetc()</tt> or <tt>readline()</tt>
+	so that the user can view and mutate its internal state,
+	and verify that with your checkpoint/restart
+	you can give the child environment a case of selective amnesia,
+	making it "forget" everything that happened beyond a certain point.
+</p></div>
+
+
+<p>
+This completes Part A of the lab;
+hand it in using <tt>make handin</tt> as usual.
+
+<h2>Part B: Copy-on-Write Fork</h2>
+
+As mentioned earlier,
+Unix provides the <code>fork()</code> system call
+as its primary process creation primitive.
+The <tt>fork()</tt> system call
+copies the address space of the calling process (the parent)
+to create a new process (the child).
+
+<p>
+xv6 Unix implements <code>fork()</code> by copying the parent's
+entire data segment into a new memory region allocated for the child.
+This is essentially the same approach
+that <tt>dumbfork()</tt> takes.
+The copying of the parent's address into the child is
+the most expensive part of the <tt>fork()</tt> operation.
+
+<p>
+However, a call to <tt>fork()</tt>
+is frequently followed almost immediately
+by a call to <tt>exec()</tt> in the child process,
+which replaces the child's memory with a new program.
+This is what the the shell typically does, for example.
+In this case,
+the time spent copying the parent's address space is largely wasted,
+because the child process will use
+very little of its memory before calling <tt>exec()</tt>.
+
+<p>
+For this reason,
+later versions of Unix took advantage
+of virtual memory hardware
+to allow the parent and child to <i>share</i>
+the memory mapped into their respective address spaces
+until one of the processes actually modifies it.  
+This technique is known as <i>copy-on-write</i>.
+To do this,
+on <tt>fork()</tt> the kernel would
+copy the address space <i>mappings</i>
+from the parent to the child
+instead of the contents of the mapped pages,
+and at the same time mark the now-shared pages read-only.
+When one of the two processes tries to write to one of these shared pages,
+the process takes a page fault.
+At this point, the Unix kernel realizes that the page
+was really a "virtual" or "copy-on-write" copy,
+and so it makes a new, private copy of the page for the faulting process.
+In this way, the contents of individual pages aren't actually copied
+until they are actually written to.
+This optimization makes a <code>fork()</code> followed by
+an <code>exec()</code> in the child much cheaper:
+the child will probably only need to copy one page
+(the current page of its stack)
+before it calls <code>exec()</code>.
+
+<p>
+In the next piece of this lab, you will implement a "proper"
+Unix-like <code>fork()</code> with copy-on-write,
+as a user space library routine.
+Implementing <tt>fork()</tt> and copy-on-write support in user space
+has the benefit that the kernel remains much simpler
+and thus more likely to be correct.
+It also lets individual user-mode programs
+define their own semantics for <code>fork()</code>.
+A program that wants a slightly different implementation
+(for example, the expensive always-copy version like <tt>dumbfork()</tt>,
+or one in which the parent and child actually share memory afterward)
+can easily provide its own.
+
+<h3>User-level page fault handling</h3>
+
+A user-level copy-on-write <tt>fork()</tt> needs to know about
+page faults on write-protected pages, so that's what you'll
+implement first.
+Copy-on-write is only one of many possible uses
+for user-level page fault handling.
+
+<p>
+It's common to set up an address space so that page faults
+indicate when some action needs to take place.
+For example,
+most Unix kernels initially map only a single page
+in a new process's stack region,
+and allocate and map additional stack pages later "on demand"
+as the process's stack consumption increases
+and causes page faults on stack addresses that are not yet mapped.
+A typical Unix kernel must keep track of what action to take
+when a page fault occurs in each region of a process's space.
+For example,
+a fault in the stack region will typically
+allocate and map new page of physical memory.
+A fault in the program's BSS region will typically
+allocate  a new page, fill it with zeroes, and map it.
+In systems with demand-paged executables,
+a fault in the text region will read the corresponding page
+of the binary off of disk and then map it.
+
+<p>
+This is a lot of information for the kernel to keep track of.
+Instead of taking the traditional Unix approach,
+you will decide what to do about each page fault in user space,
+where bugs are less damaging.
+This design has the added benefit of allowing 
+programs great flexibility in defining their memory regions;
+you'll use user-level page fault handling later
+for mapping and accessing files on a disk-based file system.
+
+<h4>Setting the Page Fault Handler</h4>
+
+In order to handle its own page faults,
+a user environment will need to register
+a <i>page fault handler entrypoint</i> with the JOS kernel.
+The user environment registers its page fault entrypoint
+via the new <tt>sys_env_set_pgfault_upcall</tt> system call.
+We have added a new member to the <tt>Env</tt> structure,
+<tt>env_pgfault_upcall</tt>,
+to record this information.
+
+<p>
+<div class="todo required">
+<p><span class="header">Exercise 4.</span>
+	Implement the <tt>sys_env_set_pgfault_upcall</tt> system call.
+	Be sure to enable permission checking
+	when looking up the environment ID of the target environment,
+	since this is a "dangerous" system call.
+</p></div>
+
+<h4>Normal and Exception Stacks in User Environments</h4>
+
+During normal execution,
+a user environment in JOS
+will run on the <i>normal</i> user stack:
+its <tt>ESP</tt> register starts out pointing at <tt>USTACKTOP</tt>,
+and the stack data it pushes resides on the page
+between <tt>USTACKTOP-PGSIZE</tt> and <tt>USTACKTOP-1</tt> inclusive.
+When a page fault occurs in user mode,
+however,
+the kernel will restart the user environment
+running a designated user-level page fault handler
+on a different stack,
+namely the <i>user exception</i> stack.
+In essence, we will make the JOS kernel
+implement automatic "stack switching"
+on behalf of the user environment,
+in much the same way that the x86 <i>processor</i>
+already implements stack switching on behalf of JOS
+when transferring from user mode to kernel mode!
+
+<p>
+The JOS user exception stack is also one page in size,
+and its top is defined to be at virtual address <code>UXSTACKTOP</code>,
+so the valid bytes of the user exception stack
+are from <tt>UXSTACKTOP-PGSIZE</tt> through <tt>UXSTACKTOP-1</tt> inclusive.
+While running on this exception stack,
+the user-level page fault handler
+can use JOS's regular system calls to map new pages or adjust mappings
+so as to fix whatever problem originally caused the page fault.
+Then the user-level page fault handler returns,
+via an assembly language stub,
+to the faulting code on the original stack. 
+
+<p>
+Each user environment that wants to support user-level page fault handling
+will need to allocate memory for its own exception stack,
+using the <tt>sys_page_alloc()</tt> system call introduced in part A.
+
+<h4>Invoking the User Page Fault Handler</h4>
+
+<p>
+You will now need to
+change the page fault handling code in <code>kern/trap.c</code>
+to handle page faults from user mode as follows.
+We will call the state of the user environment at the time of the 
+fault the <i>trap-time</i> state.  
+
+<p>
+If there is no page fault handler registered,
+the JOS kernel destroys the user environment with a message as before.
+Otherwise,
+the kernel sets up a trap frame on the exception stack that looks like
+a <tt>struct UTrapframe</tt> from <tt>inc/trap.h</tt>:
+
+<pre>
+                    &lt;-- UXSTACKTOP
+trap-time esp
+trap-time eflags
+trap-time eip
+trap-time eax       start of struct PushRegs
+trap-time ecx
+trap-time edx
+trap-time ebx
+trap-time esp
+trap-time ebp
+trap-time esi
+trap-time edi       end of struct PushRegs
+tf_err (error code)
+fault_va            &lt;-- %esp when handler is run
+</pre>
+
+<p>
+The kernel then arranges for the user environment to resume execution
+with the page fault handler
+running on the exception stack with this stack frame;
+you must figure out how to make this happen.
+The <code>fault_va</code> is the virtual address
+that caused the page fault.
+
+<p>
+If the user environment is <i>already</i> running on the user exception stack
+when an exception occurs,
+then the page fault handler itself has faulted.
+In this case,
+you should start the new stack frame just under the current
+<code>tf->tf_esp</code> rather than at <code>UXSTACKTOP</code>.
+You should first push an empty 32-bit word, then a <tt>struct UTrapframe</tt>.
+
+<p>
+To test whether <code>tf->tf_esp</code> is already on the user
+exception stack, check whether it is in the range
+between <tt>UXSTACKTOP-PGSIZE</tt> and <tt>UXSTACKTOP-1</tt>, inclusive.
+
+<p>
+<div class="todo required">
+<p><span class="header">Exercise 5.</span>
+	Implement the code in <tt>kern/trap.c</tt>
+	required to dispatch page faults the user-mode handler.
+	Be sure to take appropriate precautions
+	when writing into the exception stack.
+	(What happens if the user environment runs out of space
+	on the exception stack?)
+</p></div>
+
+<h4>User-mode Page Fault Entrypoint</h4>
+
+<p>
+Next, you need to implement the assembly routine that will
+take care of calling the C page fault handler and resume
+execution at the original faulting instruction.
+This assembly routine is the handler that will be registered
+with the kernel using <tt>sys_env_set_pgfault_upcall()</tt>.
+
+<p>
+<div class="todo required">
+<p><span class="header">Exercise 6.</span>
+	Implement the <code>_pgfault_upcall</code> routine
+	in <code>lib/pfentry.S</code>.
+        The interesting part is returning to the original point in
+        the user code that caused the page fault.
+        You'll return directly there, without going back through
+        the kernel.
+        The hard part is simultaneously switching stacks and
+        re-loading the EIP.
+</p></div>
+
+<p>
+Finally, you need to implement the C user library side
+of the user-level page fault handling mechanism.
+
+<p>
+<div class="todo required">
+<p><span class="header">Exercise 7.</span>
+	Finish <code>set_pgfault_handler()</code>
+	in <code>lib/pgfault.c</code>.
+</p></div>
+
+<h4>Testing</h4>
+
+Change <code>kern/init.c</code> to run <code>user/faultread</code>.
+Build your kernel and run it.  You should see:
+
+<pre>
+[00000000] new env 00001000
+[00000000] new env 00001001
+[00001001] user fault va 00000000 ip 0080003a
+TRAP frame ...
+[00001001] free env 00001001
+</pre>
+<p>
+
+Change <code>kern/init.c</code> to run <code>user/faultdie</code>.
+Build your kernel and run it.  You should see:
+
+<pre>
+[00000000] new env 00001000
+[00000000] new env 00001001
+i faulted at va deadbeef, err 6
+[00001001] exiting gracefully
+[00001001] free env 00001001
+</pre>
+
+<p>
+Change <code>kern/init.c</code> to run <code>user/faultalloc</code>.
+Build your kernel and run it.  You should see:
+
+<p>
+<pre>
+[00000000] new env 00001000
+[00000000] new env 00001001
+fault deadbeef
+this string was faulted in at deadbeef
+fault cafebffe
+fault cafec000
+this string was faulted in at cafebffe
+[00001001] exiting gracefully
+[00001001] free env 00001001
+</pre>
+
+<p>
+If you see only the first "this string" line,
+it means you are not handling
+recursive page faults properly.
+
+<p>
+Change <code>kern/init.c</code> to run <code>user/faultallocbad</code>.
+Build your kernel and run it.  You should see:
+
+<p>
+<pre>
+[00000000] new env 00001000
+[00000000] new env 00001001
+[00001001] user_mem_check assertion failure for va deadbeef
+TRAP frame ...
+[00001001] free env 00001001
+</pre>
+(Your ip may differ from ours but should begin <code>f01</code>.)
+
+<p>
+Make sure you understand why <code>user/faultalloc</code> and
+<code>user/faultallocbad</code> behave differently.
+
+<p>
+<div class="todo challenge">
+<p><span class="header">Challenge!</span>
+	Extend your kernel so that not only page faults,
+	but <i>all</i> types of processor exceptions
+	that code running in user space can generate,
+	can be redirected to a user-mode exception handler.
+	Write user-mode test programs
+	to test user-mode handling of various exceptions
+	such as divide-by-zero, general protection fault,
+	and illegal opcode.
+</p></div>
+
+
+<h3>Implementing Copy-on-Write Fork</h3>
+
+You now have the kernel facilities
+to implement copy-on-write <code>fork()</code>
+entirely in user space.
+
+<p>
+We have provided a skeleton for your <tt>fork()</tt>
+in <tt>lib/fork.c</tt>.
+Like <tt>dumbfork()</tt>,
+<tt>fork()</tt> creates a new environment,
+then scans through the parent environment's entire address space
+and sets up corresponding page mappings in the child.
+The key difference is that,
+while <tt>dumbfork()</tt> copied <i>pages</i>,
+<tt>fork()</tt> will initially only copy page <i>mappings</i>.
+<tt>fork()</tt> will
+copy each page only when one of the environments tries to write it.
+
+<p>
+The basic control flow for <code>fork()</code> is as follows:
+
+<p>
+<ol>
+<li>	The parent installs <code>pgfault()</code>
+	as the C-level page fault handler,
+	using the <code>set_pgfault_handler()</code> function
+	you implemented above.
+
+<li>	The parent calls <code>sys_exofork()</code> to create
+	a child environment.
+
+<li>	For each writable or copy-on-write page in its address space below UTOP,
+	the parent maps the page copy-on-write into the address
+	space of the child and then <i>remaps</i> the page copy-on-write
+	in its own address space. The parent sets both PTEs so that the
+        page is not writeable, and to contain <tt>PTE_COW</tt> in the
+        "avail" field to distinguish copy-on-write pages from genuine
+        read-only pages.
+	<p>
+	The exception stack is <i>not</i> remapped this way, however.
+	Instead you need to allocate a fresh page in the child for
+	the exception stack.  Since the page fault handler will be 
+	doing the actual copying and the page fault handler runs
+	on the exception stack, the exception stack cannot be made
+	copy-on-write: who would copy it?
+
+<li>	The parent sets the user page fault entrypoint for the child
+	to look like its own.
+
+<li>	The child is now ready to run, so the parent marks it runnable.
+</ol>
+
+<p>
+Each time one of the environments writes a copy-on-write page that it
+hasn't yet written, it will take a page fault.
+Here's the control flow for the user page fault handler:
+<p>
+<ol>
+<li>	Kernel propagates page fault to <code>_pgfault_upcall</code>,
+	which calls <tt>fork()</tt>'s <code>pgfault()</code> handler.
+
+<li>	<code>pgfault()</code> checks that the fault is a write
+	(check <code>FEC_WR</code>) and that the PTE for the page is
+	marked <code>PTE_COW</code>.
+	If not, panic.
+<li>	<code>pgfault()</code> allocates a new page mapped
+	at a temporary location and copies
+	the contents of the faulting page contents into it.
+	Then the fault handler maps the new page at the
+	appropriate address with read/write permissions,
+	in place of the old read-only mapping.
+</ol>
+<p>
+
+<p>
+<div class="todo required">
+<p><span class="header">Exercise 8.</span>
+	Implement <code>fork</code> and <code>pgfault</code>
+	in <code>lib/fork.c</code>.
+
+	<p>
+	Test your code with the <tt>forktree</tt> program.
+	It should produce the following messages,
+	with interspersed 'new env', 'free env',
+	and 'exiting gracefully' messages.
+        The messages may not appear in this order, and the
+        environment IDs may be different.
+
+	<pre>
+	1001: I am ''
+	1802: I am '0'
+	2801: I am '00'
+	3802: I am '000'
+	2003: I am '1'
+	5001: I am '11'
+	4802: I am '10'
+	6801: I am '100'
+	5803: I am '110'
+	3004: I am '01'
+	8001: I am '011'
+	7803: I am '010'
+	4005: I am '001'
+	6006: I am '111'
+	7007: I am '101'
+	</pre>
+</p></div>
+
+<p>
+<div class="todo challenge">
+<p><span class="header">Challenge!</span>
+	Implement a shared-memory <code>fork()</code>
+	called <code>sfork()</code>.  This version should have the parent
+	and child <i>share</i> all their memory pages
+	(so writes in one environment appear in the other)
+	except for pages in the stack area,
+	which should be treated in the usual copy-on-write manner.
+	Modify <tt>user/forktree.c</tt>
+	to use <tt>sfork()</tt> instead of regular <tt>fork()</tt>.
+	Also, once you have finished implementing IPC in part C,
+	use your <tt>sfork()</tt> to run <code>user/pingpongs</code>.
+	You will have to find a new way to provide the functionality
+	of the global <code>env</code> pointer.
+</p></div>
+
+<p>
+<div class="todo challenge">
+<p><span class="header">Challenge!</span>
+	Your implementation of <code>fork</code> 
+	makes a huge number of system calls.  On the x86, switching into
+	the kernel has non-trivial cost.  Augment the system call interface
+	so that it is possible to send a batch of system calls at once.
+	Then change <code>fork</code> to use this interface.
+	
+	<p>How much faster is your new <code>fork</code>?
+
+	<p>You can answer this (roughly) by using analytical
+	arguments to estimate how much of an improvement batching
+	system calls will make to the performance of your
+	<tt>fork</tt>: How expensive is an <tt>int 0x30</tt>
+	instruction? How many times do you execute <tt>int 0x30</tt>
+	in your <tt>fork</tt>? Is accessing the <tt>TSS</tt> stack
+	switch also expensive? And so on...
+
+	<p>Alternatively, you can boot your kernel on real hardware
+	and <i>really</i> benchmark your code. See the <tt>RDTSC</tt>
+	(read time-stamp counter) instruction, defined in the IA32
+	manual, which counts the number of clock cycles that have
+	elapsed since the last processor reset. Bochs doesn't emulate
+	this instruction faithfully.
+	
+</p></div>
+
+<p>
+This ends part B.  As usual, you can grade your submission
+with <code>gmake grade</code> and hand it in with <code>gmake
+handin</code>.
+
+
+<h2>Part C: Preemptive Multitasking and Inter-Process communication (IPC)</h2>
+
+In the final part of lab 4
+you will modify the kernel to preempt uncooperative environments
+and to allowing environments to pass messages to each other explicitly.
+
+<h3>Clock Interrupts and Preemption</h3>
+
+<p>
+Modify <tt>kern/init.c</tt> to run the <tt>user/spin</tt> test program.
+This test program forks off a child environment,
+which simply spins forever in a tight loop
+once it receives control of the CPU.
+Neither the parent environment nor the kernel ever regains the CPU.
+This is obviously not an ideal situation
+in terms of protecting the system from bugs or malicious code
+in user-mode environments,
+because any user-mode environment can bring the whole system to a halt
+simply by getting into an infinite loop and never giving back the CPU.
+In order to allow the kernel to <i>preempt</i> a running environment,
+forcefully retake control of the CPU from it,
+we must extend the JOS kernel to support external hardware interrupts
+from the clock hardware.
+
+<h4>Interrupt discipline</h4>
+
+<p>
+External interrupts (i.e., device interrupts) are referred to as IRQs.
+There are 16 possible IRQs, numbered 0 through 15.
+The mapping from IRQ number to IDT entry is not fixed.
+<code>Pic_init</code> in <code>picirq.c</code> maps IRQs 0-15
+to IDT entries <code>IRQ_OFFSET</code> through <code>IRQ_OFFSET+15</code>.
+
+<p>
+In <tt>kern/picirq.h</tt>,
+<code>IRQ_OFFSET</code> is defined to be decimal 32.
+Thus the IDT entries 32-47 correspond to the IRQs 0-15.
+For example, the clock interrupt is IRQ 0.
+Thus, IDT[32] contains the address of
+the clock's interrupt handler routine in the kernel.
+This <code>IRQ_OFFSET</code> is chosen so that the device interrupts
+do not overlap with the processor exceptions,
+which could obviously cause confusion.
+(In fact, in the early days of PCs running MS-DOS,
+the <tt>IRQ_OFFSET</tt> effectively <i>was</i> zero,
+which indeed caused massive confusion between handling hardware interrupts
+and handling processor exceptions!)
+
+<p>
+In JOS, we make a key simplification compared to xv6 Unix.
+External device interrupts are <i>always</i> disabled
+when in the kernel (and, like xv6, enabled when in user space).
+External interrupts are controlled by the <code>FL_IF</code> flag bit
+of the <code>%eflags</code> register
+(see <tt>inc/mmu.h</tt>).
+When this bit is set, external interrupts are enabled.
+While the bit can be modified in several ways,
+because of our simplification, we will handle it solely
+through the process of saving and restoring <code>%eflags</code> register
+as we enter and leave user mode.
+
+<p>
+You will have to ensure that the <code>FL_IF</code> flag is set in
+user environments when they run so that when an interrupt arrives, it
+gets passed through to the processor and handled by your interrupt code.
+Otherwise, interrupts are <i>masked</i>,
+or ignored until interrupts are re-enabled.
+Interrupts are masked by default after processor reset,
+and so far we have never gotten around to enabling them.
+
+<p>
+<div class="todo required">
+<p><span class="header">Exercise 9.</span>
+	Modify <tt>kern/trapentry.S</tt> and <tt>kern/trap.c</tt> to
+	initialize the appropriate entries in the IDT and provide
+	handlers for IRQs 0 through 15.  Then modify the code
+	in <code>env_alloc()</code> in <tt>kern/env.c</tt> to ensure
+	that user environments are always run with interrupts enabled.
+
+	<p>
+	The processor never pushes an error code
+	or checks the Descriptor Privilege Level (DPL) of the IDT entry
+	when invoking a hardware interrupt handler.
+	You might want to re-read section 9.2 of the
+	<a href="javascript:if(confirm(%27http://grid.hust.edu.cn/zyshao/Teaching_Material/readings/i386/toc.htm  \n\nThis file was not retrieved by Teleport Pro, because the server reports that this file cannot be found.  \n\nDo you want to open it from the server?%27))window.location=%27http://grid.hust.edu.cn/zyshao/Teaching_Material/readings/i386/toc.htm%27" tppabs="http://grid.hust.edu.cn/zyshao/Teaching_Material/readings/i386/toc.htm">
+	80386 Reference Manual</a>,
+	or section 5.8 of the
+	<a href="javascript:if(confirm(%27http://grid.hust.edu.cn/zyshao/Teaching_Material/readings/ia32/IA32-3A.pdf  \n\nThis file was not retrieved by Teleport Pro, because the server reports that this file cannot be found.  \n\nDo you want to open it from the server?%27))window.location=%27http://grid.hust.edu.cn/zyshao/Teaching_Material/readings/ia32/IA32-3A.pdf%27" tppabs="http://grid.hust.edu.cn/zyshao/Teaching_Material/readings/ia32/IA32-3A.pdf">
+	IA-32 Intel Architecture Software Developer's Manual, Volume 3</a>,
+	at this time.
+
+	<p>
+	After doing this exercise,
+	if you run your kernel with any test program
+	that runs for a non-trivial length of time
+	(e.g., <tt>dumbfork</tt>),
+	you should see a kernel panic shortly into the program's execution.
+	This is because our code has set up the clock hardware
+	to generate clock interrupts,
+	and interrupts are now enabled in the processor,
+	but JOS isn't yet handling them.
+</p></div>
+
+<h4>Handling Clock Interrupts</h4>
+
+<p>
+In the <tt>user/spin</tt> program,
+after the child environment was first run,
+it just spun in a loop,
+and the kernel never got control back.
+We need to program the hardware to generate clock interrupts periodically,
+which will force control back to the kernel
+where we can switch control to a different user environment.
+
+<p>
+The calls to <code>pic_init</code> and <code>kclock_init</code>
+(from <code>i386_init</code> in <code>init.c</code>),
+which we have written for you,
+set up the clock and the interrupt controller to generate interrupts.
+You now need to write the code to handle these interrupts.
+</p>
+
+<p>
+<div class="todo required">
+<p><span class="header">Exercise 10.</span>
+	Modify the kernel's <tt>trap_dispatch()</tt> function
+	so that it calls <tt>sched_yield()</tt>
+	to find and run a different environment
+	whenever a clock interrupt takes place.
+
+	<p>
+	You should now be able to get the <tt>user/spin</tt> test to work:
+	the parent environment should fork off the child,
+	<tt>sys_yield()</tt> to it a couple times
+	but in each case regain control of the CPU after one time slice,
+	and finally kill the child environment and terminate gracefully.
+</p></div>
+
+<p>
+Make sure you can answer the following questions:
+
+<ol>
+<li> How many instruction of user code are executed between each
+interrupt?  
+
+<li> How many instructions of kernel code are executed to handle the
+interrupt?
+<br>
+Hint: use the <code>vb</code> command mentioned earlier.
+</p>
+</ol>
+
+This is a great time to do some <i>regression testing</i>.  Make sure that you
+haven't broken any earlier part of that lab that used to work (e.g.
+<tt>forktree</tt>) by enabling interrupts.  Run <tt>gmake grade</tt> to see
+for sure. You should now get 55/65 points on the lab.
+
+
+<h3>Inter-Process communication (IPC)</h3>
+
+(Technically in JOS this is "inter-environment communication" or "IEC",
+but everyone else calls it IPC, so we'll use the standard
+term.) <p>
+
+We've been focusing on the isolation aspects of the operating
+system, the ways it provides the illusion that each program
+has a machine all to itself.  Another important service of
+an operating system is to allow programs to communicate
+with each other when they want to.  It can be quite powerful
+to let programs interact with other programs.  The Unix
+pipe model is the canonical example.  <p>
+
+There are many models for interprocess communication. Even
+today there are still debates about which models are best.
+We won't get into that debate.
+Instead, we'll implement a simple IPC mechanism and then try it out.
+<p>
+
+<h4>IPC in JOS</h4>
+
+You will implement a few additional JOS kernel system calls
+that collectively provide a simple interprocess communication mechanism.
+You will implement two
+system calls, <code>sys_ipc_recv</code> and
+<code>sys_ipc_can_send</code>.
+Then you will implement two library wrappers
+<code>ipc_recv</code> and <code>ipc_send</code>.
+
+<p>
+The "messages" that user environments can send to each other
+using JOS's IPC mechanism
+consist of two components:
+a single 32-bit value,
+and optionally a single page mapping.
+Allowing environments to pass page mappings in messages
+provides an efficient way to transfer more data
+than will fit into a single 32-bit integer,
+and also allows environments to set up shared memory arrangements easily.
+
+<h4>Sending and Receiving Messages</h4>
+
+<p>
+To receive a message, an environment calls
+<code>sys_ipc_recv</code>.
+This system call de-schedules the current
+environment and does not run it again until a message has
+been received.
+When an environment is waiting to receive a message,
+<i>any</i> other environment can send it a message -
+not just a particular environment,
+and not just environments that have a parent/child arrangement
+with the receiving environment.
+In other words, the permission checking that you implemented in Part A
+will not apply to IPC,
+because the IPC system calls are carefully designed so as to be "safe":
+an environment cannot cause another environment to malfunction
+simply by sending it messages
+(unless the target environment is also buggy).
+
+<p>
+To try to send a value, an environment calls
+<code>sys_ipc_can_send</code> with both the receiver's
+environment id and the value to be sent.  If the named
+environment is actually receiving (it has called
+<code>sys_ipc_recv</code> and not gotten a value yet),
+then the send delivers the message and returns 0.  Otherwise
+the send returns <code>-E_IPC_NOT_RECV</code> to indicate
+that the target environment is not currently expecting
+to receive a value.
+
+<p>
+A library function <code>ipc_recv</code> in user space will take care
+of calling <code>sys_ipc_recv</code> and then looking up
+the information about the received values in the current
+environment's <code>struct Env</code>.
+
+<p>
+Similarly, a library function <code>ipc_send</code> will
+take care of repeatedly calling <code>sys_ipc_can_send</code>
+until the send succeeds.
+
+<h4>Transferring Pages</h4>
+
+<p>
+When an environment calls <code>sys_ipc_recv</code>
+with a nonzero <code>dstva</code> parameter,
+the environment is stating that it is willing to receive a page mapping.
+If the sender sends a page,
+then that page should be mapped at <code>dstva</code>
+in the receiver's address space.
+If the receiver already had a page mapped at <code>dstva</code>,
+then that previous page is unmapped.
+
+<p>
+When an environment calls <code>sys_ipc_can_send</code>
+with a nonzero <code>srcva</code>,
+it means the sender wants to send the page
+currently mapped at <code>srcva</code> to the receiver,
+with permissions <code>perm</code>.
+After a successful IPC,
+the sender keeps its original mapping
+for the page at <code>srcva</code> in its address space,
+but the receiver also obtains a mapping for this same physical page
+at the <code>dstva</code> originally specified by the receiver,
+in the receiver's address space.
+As a result this page becomes shared between the sender and receiver.
+
+<p>
+If either the sender or the receiver does not indicate
+that a page should be transferred,
+then no page is transferred.
+After any IPC
+the kernel sets the new field <code>env_ipc_perm</code>
+in the receiver's <code>Env</code> structure
+to the permissions of the page received,
+or zero if no page was received.
+
+
+<h4>Implementing IPC</h4>
+
+<p>
+<div class="todo required">
+<p><span class="header">Exercise 11.</span>
+	Implement <code>sys_ipc_recv</code> and
+	<code>sys_ipc_can_send</code> in <code>kern/syscall.c</code>.
+	When you call <code>envid2env</code> in these routines, you should
+	set the <code>checkperm</code> flag to 0,
+	meaning that any environment is allowed to send
+	IPC messages to any other environment,
+	and the kernel does no special permission checking
+	other than verifying that the target envid is valid.
+
+	<p>Then implement
+	the <code>ipc_recv</code> and <code>ipc_send</code> functions
+	in <code>lib/ipc.c</code>.
+
+	<p>
+	Use the <tt>user/pingpong</tt> and <tt>user/primes</tt> functions
+	to test your IPC mechanism.
+	You might find it interesting to read <code>user/primes.c</code>
+	to see all the forking and IPC going on behind the scenes.
+</p></div>
+
+<p>
+<div class="todo challenge">
+<p><span class="header">Challenge!</span>
+	The <code>ipc_send</code> function is not very fair.
+	Run three copies of <code>user/fairness</code> and you will
+	see this problem.  The first two copies are both trying to send to 
+	the third copy, but only one of them will ever succeed.
+	Make the IPC fair, so that each copy has approximately
+	equal chance of succeeding.
+</p></div>
+
+<p>
+<div class="todo challenge">
+<p><span class="header">Challenge!</span>
+	Why does <code>ipc_send</code>
+	have to loop?  Change the system call interface so it
+	doesn't have to.  Make sure you can handle multiple
+	environments trying to send to one environment at the
+	same time.
+</p></div>
+
+<p>
+<div class="todo challenge">
+<p><span class="header">Challenge!</span>
+	The prime sieve is only one neat use of
+	message passing between a large number of concurrent programs.
+	Read C. A. R. Hoare, ``Communicating Sequential Processes,''
+	<i>Communications of the ACM</i> 21(8) (August 1978), 666-667,
+	and implement the matrix multiplication example.
+</p></div>
+
+<p>
+<div class="todo challenge">
+<p><span class="header">Challenge!</span>
+	Probably the most impressive example of 
+	the power of message passing is Doug McIlroy's power series
+	calculator, described in 
+	<a href="javascript:if(confirm(%27http://plan9.bell-labs.com/who/rsc/thread/squint.pdf  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://plan9.bell-labs.com/who/rsc/thread/squint.pdf%27" tppabs="http://plan9.bell-labs.com/who/rsc/thread/squint.pdf"
+	>M. Douglas McIlroy, ``Squinting at 
+	Power Series,'' <i>Software--Practice and Experience</i>, 20(7)
+	(July 1990), 661-683</a>.  Implement his
+	power series calculator and compute the power series for 
+	<i>sin</i>(1+<i>x</i>^2).
+</p></div>
+
+<p>
+<div class="todo challenge">
+<p><span class="header">Challenge!</span>
+	Make JOS's IPC mechanism more efficient
+	by applying some of the techniques from Liedtke's paper,
+	"Improving IPC by Kernel Design",
+	or any other tricks you may think of.
+	Feel free to modify the kernel's system call API for this purpose,
+	as long as your code is backwards compatible
+	with what our grading scripts expect.
+</p></div>
+
+<p>
+<div class="todo challenge">
+<p><span class="header">Challenge!</span>
+	Generalize the JOS IPC interface so it is more like L4's,
+	supporting more complex message formats.
+</p></div>
+
+
+<!-- Challenge problems: other IPC, matrix multiply, power
+series -->
+
+<p> This ends part C.  As usual, you can grade your submission
+with <code>gmake grade</code> and hand it in with <code>gmake
+handin</code>.  If you are trying to figure out why a particular
+test case is failing, run <code>sh grade.sh -v</code>, which will
+show you the output of the kernel builds and Bochs runs for each
+test, until a test fails.  When a test fails, the script will stop,
+and then you can inspect <code>bochs.out</code> to see what the
+kernel actually printed.
+
+<hr>
+<i>Version: $Revision: 1.5 $. Last modified: $Date: 2007/10/11 22:43:11 $</i>
+
+</body>
+</html>
+
+
+<!--  LocalWords:  IPC MMU Google FPU MMX SSE IDs Unmap BSS entrypoint JOS's tf
+ -->
+<!--  LocalWords:  eip eflags esp va env ip deadbeef cafebffe cafec PFM UTOP IA
+ -->
+<!--  LocalWords:  PTE Bochs IRQs IRQ IDT clock's DPL IEC envid Hoare McIlroy's
+ -->
+<!--  LocalWords:  McIlroy Liedtke's
+ -->

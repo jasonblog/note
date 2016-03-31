@@ -1,0 +1,997 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+  <head>
+    <title>Lab 5: File Systems and Spawn</title>
+    <link rel="stylesheet" href="../labs.css" tppabs="http://grid.hust.edu.cn/zyshao/Teaching_Material/OSEngineering/labs.css" type="text/css" />
+  </head>
+
+<body>
+
+<h1>6.828 Fall 2007 Lab 5: File Systems and Spawn</h1>
+
+<p>
+<b>
+Handed out Wednesday, October 31 1, 2007<br>
+Part A due Thursday, November 8, 2007<br>
+Part B due <b>Wednesday</b>, November 21, 2007<br>
+</b>
+
+</p><h2>Introduction</h2>
+
+<p>
+In this lab, you will implement a simple disk-based file system,
+and then write <code>exec</code> code to load and run
+an executable stored in this on-disk file system.
+The file system itself will be implemented in micro-kernel fashion,
+outside the kernel but within its own user-space environment.
+Other environments access the file system
+by making IPC requests to this special file system environment.
+The <code>exec</code> functionality, however,
+will be implemented in neither the kernel nor the file system,
+but in typical exokernel fashion,
+as part of the user space library operating system
+that is linked into each application that wants to use it.
+</p>
+
+<h3>Getting Started</h3>
+
+<p>
+Download the lab 5 code from
+<a href="javascript:if(confirm(%27http://pdos.lcs.mit.edu/6.828/2007/labs/lab5/lab5-handout.tar.gz  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://pdos.lcs.mit.edu/6.828/2007/labs/lab5/lab5-handout.tar.gz%27" tppabs="http://pdos.lcs.mit.edu/6.828/2007/labs/lab5/lab5-handout.tar.gz">
+http://pdos.lcs.mit.edu/6.828/2007/labs/lab5/lab5-handout.tar.gz</a>, and unpack
+it into your 6.828 directory as before.
+As usual, you will need to
+merge our new code for this lab into your source tree or vice versa.
+
+</p><p>
+The main new component for this lab is the file system server,
+located in the new <code>fs</code> directory.
+Scan through all the files in this directory
+to get a feel for what all is new.
+Also, there are some new file system-related source files
+in the <code>user</code> and <tt>lib</tt> directories,
+particularly <code>lib/fsipc.c</code>, <code>lib/file.c</code>,
+<code>lib/spawn.c</code>,
+and new global header files <code>inc/fs.h</code>
+and <tt>inc/fd.h</tt>.
+Be sure to scan through all of these files.
+
+<p>
+You should run the pingpong, primes, and forktree test cases from lab 4 again
+after merging in the new lab 5 code.
+You will need to comment out the <code>ENV_CREATE</code> line that starts 
+<code>fs/fs</code> to avoid Bochs panicing
+because <code>fs/fs</code> does some I/O. Similarly,
+temporarily comment out the call to <code>close_all()</code> in
+<code>lib/exit.c</code>; this function calls subroutines that
+you will implement later in the lab, and therefore will panic
+if called.
+If your lab 4 code doesn't contain any bugs, the test cases
+should run fine.    Don't proceed until they work.
+</p><p>
+If they don't work,
+use <code>diff -u -r lab4 lab5</code> to review all the 
+changes, making sure there isn't any code you wrote for lab4 (or before)
+missing from lab 5.
+Make sure that lab 4 still works.
+Then go on to lab 5.
+</p><p>
+
+<h3>Lab Requirements</h3>
+
+This lab is divided into two parts, A and B.
+As before,
+you will need to do all of the regular exercises described in the lab
+and <i>at least one</i> challenge problem.
+(You do not need to do one challenge problem per part,
+just one for the whole lab.)
+Additionally, you will need to write up brief answers
+to the questions posed in the lab
+and a short (e.g., one or two paragraph) description of what you did
+to solve your chosen challenge problem.
+If you implement more than one challenge problem,
+you only need to describe one of them in the write-up,
+though of course you are welcome to do more.
+Place the write-up in a file called <tt>answers.txt</tt> (plain text)
+or <tt>answers.html</tt> (HTML format)
+in the top level of your <tt>lab5</tt> directory
+before handing in your work.
+
+</p><h1>5. File system preliminaries</h1>
+
+<p>
+The file system you will work with is much simpler
+than most "real" file systems including that of xv6 UNIX,
+but it is powerful enough to provide the standard "basic" features:
+creating, reading, writing, and deleting files
+organized in a hierarchical directory structure.
+
+</p><p>
+We are (for the moment anyway)
+developing only a "single-user" operating system,
+which provides protection sufficient to catch bugs
+but not to protect multiple mutually suspicious users from each other.
+Our file system therefore does not support the UNIX notions
+of file ownership or permissions.
+Our file system also currently does not support hard links, symbolic links,
+time stamps, or special device files
+like most UNIX file systems do.
+
+</p><h2>On-Disk File System Structure</h2>
+
+<p>
+Most UNIX file systems divide available disk space
+into two main types of regions:
+<i>inode</i> regions and <i>data</i> regions.
+UNIX file systems assign one <i>inode</i> to each file in the file system;
+a file's inode holds critical meta-data about the file
+such as its <code>stat</code> attributes and pointers to its data blocks.
+The data regions are divided into much larger (typically 8KB or more)
+<i>data blocks</i>, within which the file system stores
+file data and directory meta-data.
+Directory entries contain file names and pointers to inodes;
+a file is said to be <i>hard-linked</i>
+if multiple directory entries in the file system
+refer to that file's inode.
+Since our file system will not support hard links,
+we do not need this level of indirection
+and therefore can make a convenient simplification:
+our file system will not use inodes at all,
+but instead we will simply store all of a file's (or sub-directory's) meta-data
+within the (one and only) directory entry describing that file.
+
+</p><p>
+Both files and directories logically consist of a series of data blocks,
+which may be scattered throughout the disk
+much like the pages of an environment's virtual address space
+can be scattered throughout physical memory.
+The file system allows user processes
+to read and write the contents of files directly,
+but the file system handles all modifications to directories itself
+as a part of performing actions such as file creation and deletion.
+Our file system <i>does</i>, however, allow user environments
+to <i>read</i> directory meta-data directly
+(e.g., with <code>read</code> and <code>write</code>),
+which means that user environments can perform directory scanning operations
+themselves (e.g., to implement the <code>ls</code> program)
+rather than having to rely on additional special calls to the file system.
+The disadvantage of this approach to directory scanning,
+and the reason most modern UNIX variants discourage it,
+is that it makes application programs dependent
+on the format of directory meta-data,
+making it difficult to change the file system's internal layout
+without changing or at least recompiling application programs as well.
+
+</p><h3>Sectors and Blocks</h3>
+
+Most disks cannot perform reads and writes at byte granularity,
+but can only perform reads and writes in units of <i>sectors</i>,
+which today are almost universally 512 bytes each.
+File systems actually allocate and use disk storage in units of <i>blocks</i>.
+Be wary of the distinction between the two terms:
+<i>sector size</i> is a property of the disk hardware,
+whereas <i>block size</i> is an aspect of the operating system using the disk.
+A file system's block size must be <i>at least</i>
+the sector size of the underlying disk,
+but could be greater.
+
+<p>
+The UNIX xv6 file system uses a block size of 512 bytes,
+the same as the sector size of the underlying disk.
+Most modern file systems use a larger block size, however,
+because storage space has gotten much cheaper
+and it is more efficient to manage storage at larger granularities.
+Our file system will use a block size of 4096 bytes,
+conveniently matching the processor's page size.
+
+</p><h3>Superblocks</h3>
+
+<img src="disk.png" tppabs="http://grid.hust.edu.cn/zyshao/Teaching_Material/OSEngineering/labfiles/disk.png" align="right">
+
+<p>
+File systems typically reserve certain disk blocks,
+at "easy-to-find" locations on the disk
+such as the very start or the very end,
+to hold meta-data describing properties of <i>the file system as a whole</i>,
+such as the block size, disk size,
+any meta-data required to find the root directory,
+the time the file system was last mounted,
+the time the file system was last checked for errors,
+and so on.
+These special blocks are called <i>superblocks</i>.
+
+</p><p>
+Our file system will have exactly one superblock,
+which will always be at block 1 on the disk.
+Its layout is defined by <code>struct Super</code> in <code>inc/fs.h</code>.
+Block 0 is typically reserved to hold boot loaders and partition tables,
+so file systems generally never use the <i>very</i> first disk block.
+Most "real" file systems maintain multiple superblocks,
+replicated throughout several widely-spaced regions of the disk,
+so that if one of them is corrupted
+or the disk develops a media error in that region,
+the other superblocks can still be found and used to access the file system.
+
+</p><h3>The Block Bitmap: Managing Free Disk Blocks</h3>
+
+<p>
+In the same way that the kernel must manage the system's physical memory
+to ensure that a given physical page is used for only one purpose at a time,
+a file system must manage the blocks of storage on a disk
+to ensure that a given disk block is used for only one purpose at a time.
+In <code>pmap.c</code> you keep the <code>Page</code> structures
+for all free physical pages
+on a linked list, <code>page_free_list</code>,
+to keep track of the free physical pages.
+In file systems it is more common to keep track of free disk blocks
+using a <i>bitmap</i> rather than a linked list,
+because a bitmap is more storage-efficient than a linked list
+and easier to keep consistent.
+Searching for a free block in a bitmap can take more CPU time
+than simply removing the first element of a linked list,
+but for file systems this isn't a problem
+because the I/O cost of actually accessing the free block after we find it
+dominates for performance purposes.
+
+</p><p>
+To set up a free block bitmap,
+we reserve a contiguous region of space on the disk
+large enough to hold one bit for each disk block.
+For example, since our file system uses 4096-byte blocks,
+each bitmap block contains 4096*8=32768 bits,
+or enough bits to describe 32768 disk blocks.
+In other words, for every 32768 disk blocks the file system uses,
+we must reserve one disk block for the block bitmap.
+A given bit in the bitmap is set if the corresponding block is free,
+and clear if the corresponding block is in use.
+The block bitmap in our file system
+always starts at disk block 2,
+immediately after the superblock.
+For simplicity we will reserve enough bitmap blocks to hold one bit
+for each block in the <i>entire</i> disk,
+including the blocks containing the superblock and the bitmap itself.
+We will simply make sure that the bitmap bits
+corresponding to these special, "reserved" areas of the disk
+are always clear (marked in-use).
+
+</p><h3>File Meta-data</h3>
+
+<img src="file.png" tppabs="http://grid.hust.edu.cn/zyshao/Teaching_Material/OSEngineering/labfiles/file.png" align="right">
+
+<p>
+The layout of the meta-data describing a file in our file system
+is described by <code>struct File</code> in <code>inc/fs.h</code>.
+This meta-data includes the file's name, size,
+type (regular file or directory),
+and pointers to the blocks comprising the file.
+Unlike in most "real" file systems,
+for simplicity we will use this one <code>File</code> structure
+to represent file meta-data as it appears
+<i>both on disk and in memory</i>.
+Some of the fields in the structure (currently, only <code>f_dir</code>)
+are only meaningful while the <code>File</code> structure is in memory;
+whenever we read a <code>File</code> structure from disk into memory,
+we clear these fields.
+
+</p><p>
+The <code>block</code> array in <code>struct File</code> contains space
+to store the block numbers
+of the first 10 (<code>NDIRECT</code>) blocks of the file,
+which we call the file's <i>direct</i> blocks.
+For small files up to 10*4096 = 40KB in size,
+this means that the block numbers of <i>all</i> of the file's blocks
+will fit directly within the <code>File</code> structure itself.
+For larger files, however, we need a place
+to hold the rest of the file's block numbers.
+For any file greater than 40KB in size, therefore,
+we allocate an additional disk block, called the file's <i>indirect block</i>,
+to hold up to 4096/4 = 1024 additional block numbers.
+To keep bookkeeping simple, we leave the first 10 numbers in the indirect block
+unused.  Thus, the 10th block number is the 10th slot in the indirect block
+(rather than the 0th, as might be done if we were being very space-efficient).
+<!-- XXX FIX THE PICTURE -->
+Our file system therefore allows files to be up to 1024 blocks,
+or four megabytes, in size.
+To support larger files,
+"real" file systems typically support
+<i>double-</i> and <i>triple-indirect blocks</i> as well.
+
+</p><h3>Directories versus Regular Files</h3>
+
+<p>
+A <code>File</code> structure in our file system
+can represent either a <i>regular</i> file or a directory;
+these two types of "files" are distinguished by the <code>type</code> field
+in the <code>File</code> structure.
+The file system manages regular files and directory-files
+in exactly the same way,
+except that it does not interpret the contents of the data blocks
+associated with regular files at all,
+whereas the file system interprets the contents
+of a directory-file as a series of <code>File</code> structures
+describing the files and subdirectories within the directory.
+
+</p><p>
+The superblock in our file system
+contains a <code>File</code> structure
+(the <code>root</code> field in <code>struct Super</code>),
+which holds the meta-data for the file system's root directory.
+The contents of this directory-file
+is a sequence of <code>File</code> structures
+describing the files and directories located
+within the root directory of the file system.
+Any subdirectories in the root directory
+may in turn contain more <code>File</code> structures
+representing sub-subdirectories, and so on.
+
+</p><h1>Part A: The File System Server</h1>
+
+</p><h2>Disk Access</h2>
+
+<p>
+The file system server in our operating system
+needs to be able to access the disk,
+but we have not yet implemented any disk access functionality in our kernel.
+Instead of taking the conventional "monolithic" operating system strategy
+of adding an IDE disk driver to the kernel
+along with the necessary system calls to allow the file system to access it,
+we will instead implement the IDE disk driver
+as part of the user-level file system environment.
+We will still need to modify the kernel slightly,
+in order to set things up so that the file system environment
+has the privileges it needs to implement disk access itself.
+
+</p><p>
+It is easy to implement disk access in user space this way
+as long as we rely on polling, "programmed I/O" (PIO)-based disk access
+and do not use disk interrupts.
+It is possible to implement interrupt-driven device drivers in user mode as well
+(the L3 and L4 kernels do this, for example),
+but it is much more difficult
+since the kernel must field device interrupts
+and dispatch them to the correct user-mode environment.
+
+</p><p>
+The x86 processor uses the IOPL bits in the EFLAGS register
+to determine whether protected-mode code
+is allowed to perform special device I/O instructions
+such as the IN and OUT instructions.
+Since all of the IDE disk registers we need to access
+are located in the x86's I/O space rather than being memory-mapped,
+giving "I/O privilege" to the file system environment
+is the <i>only</i> thing we need to do
+in order to allow the file system to access these registers.
+In effect, the IOPL bits in the EFLAGS register
+provides the kernel with a simple "all-or-nothing" method
+of controlling whether user-mode code can access I/O space.
+In our case, we want the file system environment
+to be able to access I/O space,
+but we do not want any other environments
+to be able to access I/O space at all.
+
+</p><p>
+To keep things simple,
+from now on we will arrange things
+so that the file system is <i>always</i> user environment 1.
+(Recall that the idle loop is always user environment 0.)
+
+</p><p>
+In the tests that follow, if you fail a test, the <code>obj/fs/fs.img</code>
+is likely to be left inconsistent.  Be sure to remove it before running
+<code>gmake grade</code> or <code>gmake bochs</code>.
+
+</p><p>
+<div class="todo required">
+<p><span class="header">Exercise 1.</span>
+Modify your kernel's environment initialization function,
+<code>env_alloc</code> in <code>env.c</code>,
+so that it gives environment 1 I/O privilege,
+but never gives that privilege to any other environment.
+<p>
+Use <code>gmake grade</code> to test your code.
+</p></div>
+
+</p><p>
+Do you have to do anything else
+to ensure that this I/O privilege setting
+is saved and restored properly when you subsequently switch
+from one environment to another?
+Make sure you understand how this environment state is handled.
+
+</p><p>
+Read through the files in the new <code>fs</code> directory in the source tree.
+The file <code>fs/ide.c</code> implements our minimal PIO-based disk driver.
+The file <code>fs/serv.c</code> contains the <code>umain</code> function
+for the file system server.
+
+</p><p>
+Note that the new <code>.bochsrc</code> file in this lab
+sets up Bochs to use the file <code>kern/bochs.img</code>
+as the image for disk 0 (typically "Drive C" under DOS/Windows) as before,
+and to use file the (new) file <code>obj/fs/fs.img</code>
+as the image for disk 1 ("Drive D").
+In this lab your file system should only ever touch disk 1;
+disk 0 is used only to boot the kernel.
+If you manage to corrupt either disk image in some way,
+you can reset both of them to their original, "pristine" versions
+simply by typing:
+
+</p><pre>$ <b>rm obj/kern/bochs.img obj/fs/fs.img</b>
+$ <b>gmake</b>
+</pre>
+
+<p>
+<div class="todo challenge">
+<p><span class="header">Challenge!</span>
+	Implement interrupt-driven IDE disk access,
+	with or without DMA.
+	You can decide whether to move the device driver into the kernel,
+	keep it in user space along with the file system,
+	or even (if you really want to get into the micro-kernel spirit)
+	move it into a separate environment of its own.
+</div>
+
+
+</p><h2>The Block Cache</h2>
+
+In our file system,
+we will implement a simple "buffer cache"
+with the help of the processor's virtual memory system.
+Our file system will be limited to handling disks of size 3GB or less.
+We reserve a large, fixed 3GB region
+of the file system environment's address space,
+from 0x10000000 (<code>DISKMAP</code>)
+up to 0xD0000000 (<code>DISKMAP+DISKMAX</code>),
+to map pages containing the corresponding disk block
+when that disk block is in memory.
+Pages of virtual address space in this region
+for disk blocks that are not in memory are left unmapped.
+For example,
+disk block 0 is mapped at virtual address 0x10000000
+whenever it is in memory,
+disk block 1 is mapped at virtual address 0x10001000,
+and so on.
+The file system
+can tell whether a block is mapped by consulting the <code>vpt</code>.
+
+<p>
+Since our file system environment has its own virtual address space
+independent of the virtual address spaces
+of all other environments in the system,
+and the <i>only</i> thing the file system needs to do
+is to implement file access,
+it is reasonable to reserve most of the file system environment's address space
+in this way.
+It would be awkward for a "real" file system implementation
+on a 32-bit machine to do this
+since modern disks are larger than 3GB.
+Such a buffer cache management approach
+may still be reasonable on a machine with a 64-bit address space,
+such as Intel's Itanic or AMD's Athlon 64 processors.
+
+</p><p>
+<div class="todo required">
+<p><span class="header">Exercise 2.</span>
+Implement the <code>read_block</code> and <code>write_block</code> functions
+in <code>fs/fs.c</code>.
+The <code>read_block</code> function
+should test to see if the requested block is already in memory,
+and if not, allocate a page and read in the block
+using <code>ide_read</code>.
+Keep in mind that there are multiple disk sectors per block/page,
+and that <code>read_block</code> needs to return the virtual address
+at which the requested block was mapped.
+<p>
+The <code>write_block</code> function
+may assume that the indicated block is already in memory,
+and simply writes it out to disk.
+We will use the VM hardware to keep track of whether a disk
+block has been modified since it was last read from or written to disk.
+To see whether a block needs writing,
+we can just look to see if the <code>PTE_D</code> "dirty" bit
+is set in the <code>vpt</code> entry.
+(The <code>PTE_D</code> bit is set by the processor; see 5.2.4.3 in <a
+href="javascript:if(confirm(%27http://pdos.csail.mit.edu/6.828/2005/readings/i386/s05_02.htm  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://pdos.csail.mit.edu/6.828/2005/readings/i386/s05_02.htm%27" tppabs="http://pdos.csail.mit.edu/6.828/2005/readings/i386/s05_02.htm">chapter
+5</a> of the 386 reference manual.)
+After writing the block, <code>write_block</code> should clear
+the <code>PTE_D</code> bit using <code>sys_page_map</code>.
+</p><p>
+Use <code>gmake grade</code> to test your code.
+</p><p>
+</p></div>
+
+</p><h2>The Block Bitmap</h2>
+
+<p>
+After <code>fs_init</code> calls <code>read_super</code>
+(which we have provided)
+to read and check the file system superblock,
+<code>fs_init</code> calls <code>read_bitmap</code>
+to read and perform basic validity checking
+on the disk's block bitmap.
+For speed and simplicity,
+our file system will <i>always</i> keep the entire block bitmap in memory.
+
+</p><p>
+<div class="todo required">
+<p><span class="header">Exercise 3.</span>
+Implement <code>read_bitmap</code>.
+It should check that all of the "reserved" blocks in the file system -
+block 0, block 1 (the superblock),
+and all the blocks holding the block bitmap itself,
+are marked in-use.
+Use the provided <code>block_is_free</code> routine for this purpose.
+You may simply panic if the file system is invalid.
+<p>
+Use <code>gmake grade</code> to test your code.
+</p></div>
+
+</p><p>
+<div class="todo required">
+<p><span class="header">Exercise 4.</span>
+Use <code>block_is_free</code> as a model
+to implement <code>alloc_block_num</code>,
+which scans the block bitmap for a free block,
+marks that block in-use,
+and returns the block number.
+When you allocate a block, you should <i>immediately</i> flush the
+changed bitmap block to disk with <code>write_block</code>, to help
+file system consistency.
+<p>
+Use <code>gmake grade</code> to test your code.
+</p></div>
+
+</p><h2>File Operations</h2>
+
+<p>
+We have provided a variety of functions in <code>fs/fs.c</code>
+to implement the basic facilities you will need
+to interpret and manage <code>File</code> structures,
+allocate and/or find a given block of a file,
+scan and manage the entries of directory-files,
+and walk the file system from the root
+to resolve an absolute pathname.
+Read through <i>all</i> of the code in <code>fs/fs.c</code> <i>carefully</i>
+and make sure you understand what each function does
+before proceeding.
+
+</p><p>
+<div class="todo required">
+<p><span class="header">Exercise 5.</span>
+Fill in the remaining functions in <code>fs/fs.c</code>
+that implement "top-level" file operations:
+<code>file_open</code>,
+<code>file_get_block</code>,
+<code>file_truncate_blocks</code>,
+and <code>file_flush</code>.
+<p>
+Use <code>gmake grade</code> to test your code.
+</p></div>
+
+</p><p>
+You may notice that there are two operations conspicuously absent
+from this set of functions implementing "basic" file operations:
+namely, read and write.
+This is because our file server
+will not implement read and write operations 
+on behalf of client environments,
+but instead will use our kernel's IPC-based page remapping functionality
+to <i>pass mapped pages</i> to file system clients,
+which these client environments can then read and write directly.
+The page mappings we pass to clients will be
+exactly those pages that represent in-memory file blocks
+in the file system's own buffer cache, fetched via
+<code>file_get_block</code>.
+You will see the user-space <code>read</code> and <code>write</code> in part B.
+
+<p>
+<div class="todo challenge">
+<p><span class="header">Challenge!</span>
+	The file system code uses synchronous writes
+	to keep the file system fairly consistent in the event of a crash.
+	Implement soft updates instead.
+</div>
+
+</p><h2>Client/Server File System Access</h2>
+
+<!-- XXX perhaps we should change ipc_send so that the
+error handling can be done by serve -->
+
+Now that we have implemented the necessary functionality
+within the file system server itself,
+we must make it accessible to other environments
+that wish to use the file system.
+There are two pieces of code required to make this happen:
+client stubs and server stubs.
+Together, they form a <i>remote procedure call</i>, or RPC, abstraction,
+where we make IPC-based communication across address spaces appear
+as if they were ordinary C function calls within client applications.
+
+<p>
+The <i>client stubs</i>,
+which we have implemented for you and provided in <code>lib/fsipc.c</code>,
+implement the "client side" of the file system server's IPC protocol.
+Like <code>fork</code>,
+these functions are linked into <i>each</i> application
+that wants to use the file system.
+When a client application needs to communicate with the file server,
+it will use the client stubs to perform this communication.
+Each client stub uses <code>ipc_send</code> to send a message to the server,
+and then uses <code>ipc_recv</code> to wait for a reply to its request.
+
+</p><p>
+<div class="todo required">
+<p><span class="header">Exercise 6.</span>
+The <i>server stubs</i> are located in the file server itself,
+implemented in <code>fs/serv.c</code>.
+These stubs accept IPC requests from clients,
+decode and validate the arguments,
+and serve those requests using the file access functions in <code>fs/fs.c</code>.
+We have provided a skeleton for this server stub code,
+but you will need to fill it out.
+Use the client stubs in <code>lib/fsipc.c</code>
+to help you figure out the exact protocol
+between the client and the server.
+<p>
+Use <code>gmake grade</code> to test your code.
+</p></div>
+
+</p><h1>Part B: File System Access from Client Environments</h1>
+
+<h2>Client-Side File Descriptors</h2>
+
+<p>
+Although we can write applications
+that directly use the client-side stubs in <code>lib/fsipc.c</code>
+to communicate with the file system server and perform file operations,
+this approach would be inconvenient for many applications
+because the IPC-based file server interface is still somewhat "low-level"
+and does not provide conventional read/write operations.
+To read or write a file,
+the application would first have to reserve a portion of its address space,
+map the appropriate blocks of the file into that address region
+by making requests to the file server,
+read and/or change the appropriate portions of those mapped pages,
+and finally send a "close" request to the file server
+to ensure that the changes get written to disk.
+We will write library routines
+to perform these tasks on behalf of the application,
+so that the application can use conventional UNIX-style file access operations
+such as <code>read</code>, <code>write</code>, and <code>seek</code>.
+
+</p><p>
+The client-side code
+that implements these UNIX-style file operations
+is located in <code>lib/fd.c</code> and <code>lib/file.c</code>.
+<tt>lib/fd.c</tt> contains functions
+to allocate and manage generic Unix-like file descriptors,
+while <tt>lib/file.c</tt> specifically implements file descriptors
+referring to files managed by the file server.
+We have implemented most of the functions in both of these files for you;
+the only ones you need to fill in are
+<tt>fd_alloc</tt> and <tt>fd_lookup</tt> in <tt>lib/fd.c</tt>,
+and <code>open</code> and <code>close</code> in <tt>lib/file.c</tt>.
+
+<p>
+The file descriptor layer defines two new virtual address regions
+within each application environment's address space.
+The first is the <i>file descriptor table</i> area,
+starting at address <tt>FDTABLE</tt>,
+reserves one 4KB page worth of address space
+for each of the up to <tt>MAXFD</tt> (currently 32)
+file descriptors the application can have open at once.
+At any given time,
+a particular file descriptor table page is mapped
+if and only if the corresponding file descriptor is in use.
+
+<p>
+The second new virtual address region is the <i>file mapping area</i>,
+starting at virtual address <tt>FILEBASE</tt>.
+Like the file descriptor table,
+the file mapping area is organized as a table indexed by file descriptor,
+except the "table entries" in the file mapping area
+consist of 4MB rather than 4KB of address space.
+In particular,
+for each of the <tt>MAXFD</tt> possible file descriptors,
+we reserve a fixed 4MB region in the file mapping area
+in which to map the <i>contents</i> of currently open files.
+Since our file server only supports files of up to 4MB in size,
+these client-side functions are not imposing any new restrictions
+by only reserving 4MB of space to map the contents of each open file.
+
+</p><p>
+<div class="todo required">
+<p><span class="header">Exercise 7.</span>
+Implement <code>fd_alloc</code> and <tt>fd_lookup</tt>.
+<tt>fd_alloc</tt> finds an unused file descriptor number,
+and returns a pointer to the corresponding file descriptor table entry.
+Similarly, <tt>fd_lookup</tt> checks
+to make sure a given file descriptor number is currently active,
+and if so returns a pointer to the corresponding file descriptor table entry.
+</p></div>
+
+</p><p>
+<div class="todo required">
+<p><span class="header">Exercise 8.</span>
+Implement <code>open</code>.
+It must find an unused file descriptor
+using the <tt>fd_alloc()</tt> function we have provided,
+make an IPC request to the file server to open the file,
+and then map all the file's pages
+into the appropriate reserved region of the client's address space.
+Be sure your code fails gracefully
+if the maximum number of files are already open,
+or if any of the IPC requests to the file server fail.
+<p>
+Use <code>gmake grade</code> to test your code.
+</p></div>
+
+</p><p>
+<div class="todo required">
+<p><span class="header">Exercise 9.</span>
+Implement <code>close</code>.
+It must first notify the file server of any pages it has modified
+and then make a request to the file server to close the file.
+When the file server is asked to close the file, it will write the new data to disk.
+(Be sure you understand why the file system
+cannot just rely on the <code>PTE_D</code> bits
+in its own mappings of the file's pages
+to determine whether or not those pages were modified.)
+Finally, the <code>close</code> function should unmap all mapped pages
+in the reserved file-mapping region for the previously-open file,
+to help catch bugs in which the application might try to access that region
+after the file is closed.
+<p>
+Use <code>gmake grade</code> to test your code.
+</p></div>
+
+<p>
+<div class="todo challenge">
+<p><span class="header">Challenge!</span>
+	Add support to the file server and the client-side code
+	for files greater than 4MB in size.
+</div>
+
+<p>
+<div class="todo challenge">
+<p><span class="header">Challenge!</span>
+	Make the file access operations lazy,
+	so that the pages of a file are only mapped
+	into the client environment's address space when they are touched.
+	Be sure you can still handle error conditions gracefully,
+	such as the file server running out of memory
+	while the application is trying to read a particular file block.
+</div>
+
+<p>
+<div class="todo challenge">
+<p><span class="header">Challenge!</span>
+	Change the file system
+	to keep most file meta-data in Unix-style inodes
+	rather than in directory entries,
+	and add support for hard links between files.
+</div>
+
+
+</p><h2>Spawning Processes</h2>
+
+In this exercise you will implement <code>spawn</code>,
+which creates a new environment,
+loads a program image from the file system into it,
+and then starts the child environment running this program.
+The parent process then continues running independently of the child.
+The <code>spawn</code> function effectively acts like a <code>fork</code> in UNIX
+followed by an immediate <code>exec</code> in the child process.
+
+<p>
+We are implementing <code>spawn</code> rather than a UNIX-style <code>exec</code>
+because <code>spawn</code> is easier to implement from user space
+in "exokernel fashion", without special help from the kernel.
+Think about what you would have to do
+in order to implement <code>exec</code> in user space,
+and be sure you understand why it is harder.
+
+<!-- XXX note here about spawn vs exec and shared file descriptors -->
+
+</p><p>
+<div class="todo required">
+<p><span class="header">Exercise 10.</span>
+The skeleton for the <code>spawn</code> function is in <code>lib/spawn.c</code>.
+We will put off the implementation of argument passing until the next exercise.
+Fill it in so that it operates roughly as follows:
+<ol>
+<li>Create a new environment.
+</li><li>Allocate a stack at <code>USTACKTOP - BY2PG</code>
+using the provided <code>init_stack</code> function.
+</li><li>Load the program text, data, and bss
+at the appropriate addresses specified in the ELF executable.
+Don't forget to clear to zero any portions of these program segments
+that are <i>not</i> loaded from the executable file.
+</li><li>Initialize the child's register state
+using the new <code>sys_set_trapframe</code> system call.
+</li><li>Start it running from the entry point
+specified in the executable's ELF header.
+</li></ol>
+<p>
+Use <code>gmake grade</code> to test your code.
+</p></div>
+
+When you test your code,
+running the <code>user/icode</code> program from <code>kern/init.c</code>
+will attempt to spawn <code>/init</code> from the file system.
+You can add new files to the file system by editing the rules in
+<code>fs/Makefrag</code>.
+
+<p>
+<div class="todo challenge">
+<p><span class="header">Challenge!</span>
+	Implement Unix-style <code>exec</code>.
+</div>
+
+<p>
+<div class="todo challenge">
+<p><span class="header">Challenge!</span>
+	Implement a shared library loading mechanism of some kind,
+	and move the user-level library code
+	(<tt>libos.c</tt>, <tt>fork.c</tt>, etc.)
+	into a shared library.
+</div>
+
+
+</p><h2>Spawn arguments</h2>
+
+In this exercise, you'll extend <code>spawn</code> with the ability
+to pass arguments to the new environment.
+
+For example,
+<pre>spawn("simple", "-f", "foo", "-c", "junk", NULL);  // NOTICE: the trailing NULL!
+</pre>
+
+This call should invoke the program <code>simple</code>
+so that it can access its arguments as:
+<pre>void
+umain (int argc, char *argv[])
+{
+   int i;
+   for (i = 0; i &lt; argc; i++) {
+     print ("  argv[", i, "] = ");
+     sys_cputs (argv[i]);
+     sys_cputs ("\n");
+   }
+}
+
+Output:
+  argv[0] = "simple"
+  argv[1] = "-f"
+  argv[2] = "foo"
+  argv[3] = "-c"
+  argv[4] = "junk"
+</pre>
+
+There are two components of this work: what the parent does and what
+the child does.
+<ol>
+
+<li> <b>On the parent side:</b>
+<code>spawn</code> must setup the new environment's initial stack page
+so that the arguments are available to the child's <tt>umain()</tt> function.
+The parent should format the memory
+according to the following diagram.  
+
+<pre> 
+USTACKTOP: 
+         +--------------+
+         |   block of   | Block of strings.  In the example
+         |    memory    | "simple", "-f", "foo", "-c", and
+         | holding NULL | "junk" would be stored here. 
+         |  terminated  |
+         | argv strings |
+         +--------------+
+         |  &amp;argv[n]    |  Next, comes the argv array--an array of 
+         |     .        |  pointers to the string. Each &amp;argv[*] points 
+         |     .        |  into the "block of strings" above.
+         |     .        |
+         |  &amp;argv[1]    |
+         |  &amp;argv[0]    |&lt;-.
+         +--------------+   |
+         |   argv ptr   |__/  In the body of umain, access to argc 
+%esp -&gt;  |   argc       |     and argv reference these two values.
+         +--------------+
+</pre>
+
+<p>
+If these values are on the stack when <code>umain</code> is called,
+then <code>umain</code> will be able to access its arguments via the
+<code>int argc</code> and <code> char *argv[]</code> parameters.
+</p>
+
+<p>
+Warning: the diagram shows the memory at <code>USTACKTOP</code> since
+this is where it will be mapped in the child's address space.
+However, be careful!  When the parent formats the arguments, it must
+do so at a temporary address, since it can't (well,
+shouldn't) map over its own stack.  Similarly, take care when setting the
+pointers arg ptr, &amp;argv[0] .. &amp;argv[n].  These pointers need to
+account for the fact that the data will be remapped into the child at
+<code>USTACKTOP</code>.
+</p>
+
+<p>
+<div class="todo required">
+<p><span class="header">Exercise 11.</span>
+We have set up <tt>spawn()</tt>
+so that it calls a helper function in the same source file,
+<tt>init_stack()</tt>, to set up the new child environment's stack.
+Most of the code for <tt>init_stack()</tt> is done for you;
+it allocates a temporary page and maps it into the parent's address space
+at a fixed address (from <tt>TMPPAGE</tt> through <tt>TMPPAGETOP-1</tt>),
+then (after the point at which you need to insert code)
+re-maps that page into the child's address space ending at <tt>USTACKTOP</tt>.
+You just need to copy the argument array and argument strings
+into the stack page at its temporary mapping in the parent,
+as indicated by the comments in the code.
+Be sure to change the line that sets <tt>*init_esp</tt>
+in order to give the child environment the correct initial stack pointer.
+The child's initial stack pointer should point to its 'argc' argument,
+as shown in the figure above.
+<p>
+Use <code>gmake grade</code> to test your code.
+</p></div>
+
+
+</p></li><li>
+<p>
+<b>Now for the child side of the <code>spawn</code></b>: examine the
+entry path of the child process under the <code>start</code> label.
+You'll see that it is written such that <code>libmain()</code> and
+<code>umain()</code> both take arguments <code>(int argc, char
+*argv[])</code>.  
+<tt>libmain()</tt> simply passes its arguments along to <tt>umain()</tt>.
+You'll also notice that the entry path also takes
+care of the case when a new process is created by the kernel, in which
+case no arguments are passed.  
+</p>
+
+<p>
+The code on the child side has been done for you;
+you do not need to make any changes.
+</p>
+</li></ol>
+
+<p>
+<i>
+Technical Detail:</i> Actually only the <code>argc</code> and the
+<code>argv ptr</code> must be placed on the new env's stack.  The
+<code>argv ptr</code> must point to the <code>&amp;argv[0]
+.. &amp;argv[n]</code> array, each of which point to a string.  As a
+consequence, the <code>&amp;argv[0] .. &amp;argv[n]</code> array and the
+"block of strings" can be located anywhere in the new env's address
+space--not necessarily on the stack.  In practice, we find it
+convenient to store all of these values on the stack as has been
+presented in this exercise.
+</p>
+
+
+Questions:
+<ol>
+<li>How long approximately did it take you to do this lab?
+</li></ol>
+
+This completes the lab.
+Enjoy your Thanksgiving Break!
+
+<hr>
+<i>Version: $Revision: 1.3 $. Last modified: $Date: 2007/10/31 16:47:20 $</i>
+
+</body></html>
+
+<!--  LocalWords:  IPC exokernel lib inc pingpong forktree Bochs inode inodes
+ -->
+<!--  LocalWords:  granularities Superblocks superblocks superblock IDE PIO rm
+ -->
+<!--  LocalWords:  IOPL EFLAGS obj gmake AMD's Athlon VM fd alloc FDTABLE MAXFD
+ -->
+<!--  LocalWords:  FILEBASE unmap bss libos foo umain int argc argv cputs ptr
+ -->
+<!--  LocalWords:  USTACKTOP esp arg init TMPPAGE TMPPAGETOP libmain env's
+ -->

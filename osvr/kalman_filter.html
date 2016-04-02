@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>加載可執行程序和core dump文件 | Jason note</title>
+        <title>kalman filter | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../100_gdb_tips/hui_bian.html" />
+    <link rel="next" href="../treacecode/treace_code.html" />
     
     
-    <link rel="prev" href="../100_gdb_tips/generate-core-dump-file.html" />
+    <link rel="prev" href="../osvr/osvrbuild.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="45.8.2" data-basepath=".." data-revision="Sun Apr 03 2016 05:48:48 GMT+0800 (CST)">
+    <div class="book" data-level="39.2" data-basepath=".." data-revision="Sun Apr 03 2016 05:48:48 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -8751,7 +8751,7 @@
             
         </li>
     
-        <li class="chapter " data-level="39.2" data-path="osvr/kalman_filter.html">
+        <li class="chapter active" data-level="39.2" data-path="osvr/kalman_filter.html">
             
                 
                     <a href="../osvr/kalman_filter.html">
@@ -10402,7 +10402,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="45.8.2" data-path="100_gdb_tips/load-executable-and-coredump-file.html">
+        <li class="chapter " data-level="45.8.2" data-path="100_gdb_tips/load-executable-and-coredump-file.html">
             
                 
                     <a href="../100_gdb_tips/load-executable-and-coredump-file.html">
@@ -11889,43 +11889,163 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E5%8A%A0%E8%BC%89%E5%8F%AF%E5%9F%B7%E8%A1%8C%E7%A8%8B%E5%BA%8F%E5%92%8Ccore-dump%E6%96%87%E4%BB%B6">&#x52A0;&#x8F09;&#x53EF;&#x57F7;&#x884C;&#x7A0B;&#x5E8F;&#x548C;core dump&#x6587;&#x4EF6;</h1>
-<h2 id="%E4%BE%8B%E5%AD%90">&#x4F8B;&#x5B50;</h2>
-<pre><code>#include &lt;stdio.h&gt;
+                        <h1 id="kalman-filter">kalman filter</h1>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;Wire.h&quot;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;I2Cdev.h&quot;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;MPU6050.h&quot;</span></span>
 
-int main(void) {
-        int *p = NULL;
-        printf(&quot;hello world\n&quot;);
-        *p = 0;
-        return 0;
+MPU6050 accelgyro;
+
+<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> now, lastTime = <span class="hljs-number">0</span>;
+<span class="hljs-keyword">float</span> dt;                                   <span class="hljs-comment">//&#x5FAE;&#x5206;&#x6642;&#x9593;</span>
+
+<span class="hljs-keyword">int16_t</span> ax, ay, az, gx, gy, gz;             <span class="hljs-comment">//&#x52A0;&#x901F;&#x5EA6;&#x8A08;&#x9640;&#x87BA;&#x5100;&#x539F;&#x59CB;&#x6578;&#x64DA;</span>
+<span class="hljs-keyword">float</span> aax=<span class="hljs-number">0</span>, aay=<span class="hljs-number">0</span>,aaz=<span class="hljs-number">0</span>, agx=<span class="hljs-number">0</span>, agy=<span class="hljs-number">0</span>, agz=<span class="hljs-number">0</span>;    <span class="hljs-comment">//&#x89D2;&#x5EA6;&#x8B8A;&#x91CF;</span>
+<span class="hljs-keyword">long</span> axo = <span class="hljs-number">0</span>, ayo = <span class="hljs-number">0</span>, azo = <span class="hljs-number">0</span>;             <span class="hljs-comment">//&#x52A0;&#x901F;&#x5EA6;&#x8A08;&#x504F;&#x79FB;&#x91CF;</span>
+<span class="hljs-keyword">long</span> gxo = <span class="hljs-number">0</span>, gyo = <span class="hljs-number">0</span>, gzo = <span class="hljs-number">0</span>;             <span class="hljs-comment">//&#x9640;&#x87BA;&#x5100;&#x504F;&#x79FB;&#x91CF;</span>
+
+<span class="hljs-keyword">float</span> pi = <span class="hljs-number">3.1415926</span>;
+<span class="hljs-keyword">float</span> AcceRatio = <span class="hljs-number">16384.0</span>;                  <span class="hljs-comment">//&#x52A0;&#x901F;&#x5EA6;&#x8A08;&#x6BD4;&#x4F8B;&#x4FC2;&#x6578;</span>
+<span class="hljs-keyword">float</span> GyroRatio = <span class="hljs-number">131.0</span>;                    <span class="hljs-comment">//&#x9640;&#x87BA;&#x5100;&#x6BD4;&#x4F8B;&#x4FC2;&#x6578;</span>
+
+<span class="hljs-keyword">uint8_t</span> n_sample = <span class="hljs-number">8</span>;                       <span class="hljs-comment">//&#x52A0;&#x901F;&#x5EA6;&#x8A08;&#x6FFE;&#x6CE2;&#x7B97;&#x6CD5;&#x63A1;&#x6A23;&#x500B;&#x6578;</span>
+<span class="hljs-keyword">float</span> aaxs[<span class="hljs-number">8</span>] = {<span class="hljs-number">0</span>}, aays[<span class="hljs-number">8</span>] = {<span class="hljs-number">0</span>}, aazs[<span class="hljs-number">8</span>] = {<span class="hljs-number">0</span>};         <span class="hljs-comment">//x,y&#x8EF8;&#x63A1;&#x6A23;&#x968A;&#x5217;</span>
+<span class="hljs-keyword">long</span> aax_sum, aay_sum,aaz_sum;                      <span class="hljs-comment">//x,y&#x8EF8;&#x63A1;&#x6A23;&#x548C;</span>
+
+<span class="hljs-keyword">float</span> a_x[<span class="hljs-number">10</span>]={<span class="hljs-number">0</span>}, a_y[<span class="hljs-number">10</span>]={<span class="hljs-number">0</span>},a_z[<span class="hljs-number">10</span>]={<span class="hljs-number">0</span>} ,g_x[<span class="hljs-number">10</span>]={<span class="hljs-number">0</span>} ,g_y[<span class="hljs-number">10</span>]={<span class="hljs-number">0</span>},g_z[<span class="hljs-number">10</span>]={<span class="hljs-number">0</span>}; <span class="hljs-comment">//&#x52A0;&#x901F;&#x5EA6;&#x8A08;&#x5354;&#x65B9;&#x5DEE;&#x8A08;&#x7B97;&#x968A;&#x5217;</span>
+<span class="hljs-keyword">float</span> Px=<span class="hljs-number">1</span>, Rx, Kx, Sx, Vx, Qx;             <span class="hljs-comment">//x&#x8EF8;&#x5361;&#x723E;&#x66FC;&#x8B8A;&#x91CF;</span>
+<span class="hljs-keyword">float</span> Py=<span class="hljs-number">1</span>, Ry, Ky, Sy, Vy, Qy;             <span class="hljs-comment">//y&#x8EF8;&#x5361;&#x723E;&#x66FC;&#x8B8A;&#x91CF;</span>
+<span class="hljs-keyword">float</span> Pz=<span class="hljs-number">1</span>, Rz, Kz, Sz, Vz, Qz;             <span class="hljs-comment">//z&#x8EF8;&#x5361;&#x723E;&#x66FC;&#x8B8A;&#x91CF;</span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">setup</span><span class="hljs-params">()</span>
+</span>{
+    Wire.begin();
+    Serial.begin(<span class="hljs-number">115200</span>);
+
+    accelgyro.initialize();                 <span class="hljs-comment">//&#x521D;&#x59CB;&#x5316;</span>
+
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">short</span> times = <span class="hljs-number">200</span>;             <span class="hljs-comment">//&#x63A1;&#x6A23;&#x6B21;&#x6578;</span>
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;times;i++)
+    {
+        accelgyro.getMotion6(&amp;ax, &amp;ay, &amp;az, &amp;gx, &amp;gy, &amp;gz); <span class="hljs-comment">//&#x8B80;&#x53D6;&#x516D;&#x8EF8;&#x539F;&#x59CB;&#x6578;&#x503C;</span>
+        axo += ax; ayo += ay; azo += az;      <span class="hljs-comment">//&#x63A1;&#x6A23;&#x548C;</span>
+        gxo += gx; gyo += gy; gzo += gz;
+
+    }
+
+    axo /= times; ayo /= times; azo /= times; <span class="hljs-comment">//&#x8A08;&#x7B97;&#x52A0;&#x901F;&#x5EA6;&#x8A08;&#x504F;&#x79FB;</span>
+    gxo /= times; gyo /= times; gzo /= times; <span class="hljs-comment">//&#x8A08;&#x7B97;&#x9640;&#x87BA;&#x5100;&#x504F;&#x79FB;</span>
 }
-</code></pre><h2 id="%E6%8A%80%E5%B7%A7">&#x6280;&#x5DE7;</h2>
-<p>&#x4F8B;&#x5B50;&#x7A0B;&#x5E8F;&#x8A2A;&#x554F;&#x4E86;&#x4E00;&#x500B;&#x7A7A;&#x6307;&#x91DD;&#xFF0C;&#x6240;&#x4EE5;&#x7A0B;&#x5E8F;&#x6703;crash&#x4F75;&#x7522;&#x751F;core dump&#x6587;&#x4EF6;&#x3002;&#x7528;gdb&#x8ABF;&#x8A66;core dump&#x6587;&#x4EF6;&#xFF0C;&#x901A;&#x5E38;&#x7528;&#x9019;&#x500B;&#x547D;&#x4EE4;&#x5F62;&#x5F0F;&#xFF1A;&#x201C;gdb path/to/the/executable path/to/the/coredump&#x201D;&#xFF0C;&#x7136;&#x5F8C;gdb&#x6703;&#x986F;&#x793A;&#x7A0B;&#x5E8F;crash&#x7684;&#x4F4D;&#x7F6E;&#xFF1A;</p>
-<pre><code>bash-3.2# gdb -q /data/nan/a /var/core/core.a.22268.1402638140
-Reading symbols from /data/nan/a...done.
-[New LWP 1]
-[Thread debugging using libthread_db enabled]
-[New Thread 1 (LWP 1)]
-Core was generated by `./a&apos;.
-Program terminated with signal 11, Segmentation fault.
-#0  0x0000000000400cdb in main () at a.c:6
-6               *p = 0;
-</code></pre><p>&#x6709;&#x6642;&#x6211;&#x5011;&#x60F3;&#x5728;gdb&#x555F;&#x52D5;&#x5F8C;&#xFF0C;&#x52D5;&#x614B;&#x52A0;&#x8F09;&#x53EF;&#x57F7;&#x884C;&#x7A0B;&#x5E8F;&#x548C;core dump&#x6587;&#x4EF6;&#xFF0C;&#x9019;&#x6642;&#x53EF;&#x4EE5;&#x7528;&#x201C;file&#x201D;&#x548C;&#x201C;core&#x201D;&#xFF08;core-file&#x547D;&#x4EE4;&#x7E2E;&#x5BEB;&#xFF09;&#x547D;&#x4EE4;&#x3002;&#x201C;file&#x201D;&#x547D;&#x4EE4;&#x7528;&#x4F86;&#x8B80;&#x53D6;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x7684;&#x7B26;&#x865F;&#x8868;&#x4FE1;&#x606F;&#xFF0C;&#x800C;&#x201C;core&#x201D;&#x547D;&#x4EE4;&#x5247;&#x662F;&#x6307;&#x5B9A;core dump&#x6587;&#x4EF6;&#x7684;&#x4F4D;&#x7F6E;&#xFF1A;</p>
-<pre><code>bash-3.2# gdb -q
-(gdb) file /data/nan/a
-Reading symbols from /data/nan/a...done.
-(gdb) core /var/core/core.a.22268.1402638140
-[New LWP 1]
-[Thread debugging using libthread_db enabled]
-[New Thread 1 (LWP 1)]
-Core was generated by `./a&apos;.
-Program terminated with signal 11, Segmentation fault.
-#0  0x0000000000400cdb in main () at a.c:6
-6               *p = 0;
-</code></pre><p>&#x53EF;&#x4EE5;&#x770B;&#x5230;gdb&#x540C;&#x6A23;&#x986F;&#x793A;&#x7A0B;&#x5E8F;crash&#x7684;&#x4F4D;&#x7F6E;&#x3002; </p>
-<p>&#x9019;&#x5169;&#x500B;&#x547D;&#x4EE4;&#x53EF;&#x53C3;&#x898B;<a href="https://sourceware.org/gdb/onlinedocs/gdb/Files.html#index-core-dump-file" target="_blank">gdb&#x624B;&#x518A;</a></p>
-<h2 id="%E8%B2%A2%E7%8D%BB%E8%80%85">&#x8CA2;&#x737B;&#x8005;</h2>
-<p>nanxiao</p>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">loop</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> now = millis();             <span class="hljs-comment">//&#x7576;&#x524D;&#x6642;&#x9593;(ms)</span>
+    dt = (now - lastTime) / <span class="hljs-number">1000.0</span>;           <span class="hljs-comment">//&#x5FAE;&#x5206;&#x6642;&#x9593;(s)</span>
+    lastTime = now;                           <span class="hljs-comment">//&#x4E0A;&#x4E00;&#x6B21;&#x63A1;&#x6A23;&#x6642;&#x9593;(ms)</span>
+
+    accelgyro.getMotion6(&amp;ax, &amp;ay, &amp;az, &amp;gx, &amp;gy, &amp;gz); <span class="hljs-comment">//&#x8B80;&#x53D6;&#x516D;&#x8EF8;&#x539F;&#x59CB;&#x6578;&#x503C;</span>
+
+    <span class="hljs-keyword">float</span> accx = ax / AcceRatio;              <span class="hljs-comment">//x&#x8EF8;&#x52A0;&#x901F;&#x5EA6;</span>
+    <span class="hljs-keyword">float</span> accy = ay / AcceRatio;              <span class="hljs-comment">//y&#x8EF8;&#x52A0;&#x901F;&#x5EA6;</span>
+    <span class="hljs-keyword">float</span> accz = az / AcceRatio;              <span class="hljs-comment">//z&#x8EF8;&#x52A0;&#x901F;&#x5EA6;</span>
+
+    aax = <span class="hljs-built_in">atan</span>(accy / accz) * (-<span class="hljs-number">180</span>) / pi;    <span class="hljs-comment">//y&#x8EF8;&#x5C0D;&#x65BC;z&#x8EF8;&#x7684;&#x593E;&#x89D2;</span>
+    aay = <span class="hljs-built_in">atan</span>(accx / accz) * <span class="hljs-number">180</span> / pi;       <span class="hljs-comment">//x&#x8EF8;&#x5C0D;&#x65BC;z&#x8EF8;&#x7684;&#x593E;&#x89D2;</span>
+    aaz = <span class="hljs-built_in">atan</span>(accz / accy) * <span class="hljs-number">180</span> / pi;       <span class="hljs-comment">//z&#x8EF8;&#x5C0D;&#x65BC;y&#x8EF8;&#x7684;&#x593E;&#x89D2;</span>
+
+    aax_sum = <span class="hljs-number">0</span>;                              <span class="hljs-comment">// &#x5C0D;&#x65BC;&#x52A0;&#x901F;&#x5EA6;&#x8A08;&#x539F;&#x59CB;&#x6578;&#x64DA;&#x7684;&#x6ED1;&#x52D5;&#x52A0;&#x6B0A;&#x6FFE;&#x6CE2;&#x7B97;&#x6CD5;</span>
+    aay_sum = <span class="hljs-number">0</span>;
+    aaz_sum = <span class="hljs-number">0</span>;
+
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>;i&lt;n_sample;i++)
+    {
+        aaxs[i-<span class="hljs-number">1</span>] = aaxs[i];
+        aax_sum += aaxs[i] * i;
+        aays[i-<span class="hljs-number">1</span>] = aays[i];
+        aay_sum += aays[i] * i;
+        aazs[i-<span class="hljs-number">1</span>] = aazs[i];
+        aaz_sum += aazs[i] * i;
+
+    }
+
+    aaxs[n_sample-<span class="hljs-number">1</span>] = aax;
+    aax_sum += aax * n_sample;
+    aax = (aax_sum / (<span class="hljs-number">11</span>*n_sample/<span class="hljs-number">2.0</span>)) * <span class="hljs-number">9</span> / <span class="hljs-number">7.0</span>; <span class="hljs-comment">//&#x89D2;&#x5EA6;&#x8ABF;&#x5E45;&#x81F3;0-90&#xB0;</span>
+    aays[n_sample-<span class="hljs-number">1</span>] = aay;                        <span class="hljs-comment">//&#x6B64;&#x8655;&#x61C9;&#x7528;&#x5BE6;&#x9A57;&#x6CD5;&#x53D6;&#x5F97;&#x5408;&#x9069;&#x7684;&#x4FC2;&#x6578;</span>
+    aay_sum += aay * n_sample;                     <span class="hljs-comment">//&#x672C;&#x4F8B;&#x4FC2;&#x6578;&#x70BA;9/7</span>
+    aay = (aay_sum / (<span class="hljs-number">11</span>*n_sample/<span class="hljs-number">2.0</span>)) * <span class="hljs-number">9</span> / <span class="hljs-number">7.0</span>;
+    aazs[n_sample-<span class="hljs-number">1</span>] = aaz; 
+    aaz_sum += aaz * n_sample;
+    aaz = (aaz_sum / (<span class="hljs-number">11</span>*n_sample/<span class="hljs-number">2.0</span>)) * <span class="hljs-number">9</span> / <span class="hljs-number">7.0</span>;
+
+    <span class="hljs-keyword">float</span> gyrox = - (gx-gxo) / GyroRatio * dt; <span class="hljs-comment">//x&#x8EF8;&#x89D2;&#x901F;&#x5EA6;</span>
+    <span class="hljs-keyword">float</span> gyroy = - (gy-gyo) / GyroRatio * dt; <span class="hljs-comment">//y&#x8EF8;&#x89D2;&#x901F;&#x5EA6;</span>
+    <span class="hljs-keyword">float</span> gyroz = - (gz-gzo) / GyroRatio * dt; <span class="hljs-comment">//z&#x8EF8;&#x89D2;&#x901F;&#x5EA6;</span>
+    agx += gyrox;                             <span class="hljs-comment">//x&#x8EF8;&#x89D2;&#x901F;&#x5EA6;&#x7A4D;&#x5206;</span>
+    agy += gyroy;                             <span class="hljs-comment">//x&#x8EF8;&#x89D2;&#x901F;&#x5EA6;&#x7A4D;&#x5206;</span>
+    agz += gyroz;
+
+    <span class="hljs-comment">/* kalman start */</span>
+    Sx = <span class="hljs-number">0</span>; Rx = <span class="hljs-number">0</span>;
+    Sy = <span class="hljs-number">0</span>; Ry = <span class="hljs-number">0</span>;
+    Sz = <span class="hljs-number">0</span>; Rz = <span class="hljs-number">0</span>;
+
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>;i&lt;<span class="hljs-number">10</span>;i++)
+    {                 <span class="hljs-comment">//&#x6E2C;&#x91CF;&#x503C;&#x5E73;&#x5747;&#x503C;&#x904B;&#x7B97;</span>
+        a_x[i-<span class="hljs-number">1</span>] = a_x[i];                      <span class="hljs-comment">//&#x5373;&#x52A0;&#x901F;&#x5EA6;&#x5E73;&#x5747;&#x503C;</span>
+        Sx += a_x[i];
+        a_y[i-<span class="hljs-number">1</span>] = a_y[i];
+        Sy += a_y[i];
+        a_z[i-<span class="hljs-number">1</span>] = a_z[i];
+        Sz += a_z[i];
+
+    }
+
+    a_x[<span class="hljs-number">9</span>] = aax;
+    Sx += aax;
+    Sx /= <span class="hljs-number">10</span>;                                 <span class="hljs-comment">//x&#x8EF8;&#x52A0;&#x901F;&#x5EA6;&#x5E73;&#x5747;&#x503C;</span>
+    a_y[<span class="hljs-number">9</span>] = aay;
+    Sy += aay;
+    Sy /= <span class="hljs-number">10</span>;                                 <span class="hljs-comment">//y&#x8EF8;&#x52A0;&#x901F;&#x5EA6;&#x5E73;&#x5747;&#x503C;</span>
+    a_z[<span class="hljs-number">9</span>] = aaz;
+    Sz += aaz;
+    Sz /= <span class="hljs-number">10</span>;
+
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">10</span>;i++)
+    {
+        Rx += sq(a_x[i] - Sx);
+        Ry += sq(a_y[i] - Sy);
+        Rz += sq(a_z[i] - Sz);
+
+    }
+
+    Rx = Rx / <span class="hljs-number">9</span>;                              <span class="hljs-comment">//&#x5F97;&#x5230;&#x65B9;&#x5DEE;</span>
+    Ry = Ry / <span class="hljs-number">9</span>;                        
+    Rz = Rz / <span class="hljs-number">9</span>;
+
+    Px = Px + <span class="hljs-number">0.0025</span>;                         <span class="hljs-comment">// 0.0025&#x5728;&#x4E0B;&#x9762;&#x6709;&#x8AAA;&#x660E;...</span>
+    Kx = Px / (Px + Rx);                      <span class="hljs-comment">//&#x8A08;&#x7B97;&#x5361;&#x723E;&#x66FC;&#x589E;&#x76CA;</span>
+    agx = agx + Kx * (aax - agx);             <span class="hljs-comment">//&#x9640;&#x87BA;&#x5100;&#x89D2;&#x5EA6;&#x8207;&#x52A0;&#x901F;&#x5EA6;&#x8A08;&#x901F;&#x5EA6;&#x758A;&#x52A0;</span>
+    Px = (<span class="hljs-number">1</span> - Kx) * Px;                       <span class="hljs-comment">//&#x66F4;&#x65B0;p&#x503C;</span>
+
+    Py = Py + <span class="hljs-number">0.0025</span>;
+    Ky = Py / (Py + Ry);
+    agy = agy + Ky * (aay - agy); 
+    Py = (<span class="hljs-number">1</span> - Ky) * Py;
+
+    Pz = Pz + <span class="hljs-number">0.0025</span>;
+    Kz = Pz / (Pz + Rz);
+    agz = agz + Kz * (aaz - agz); 
+    Pz = (<span class="hljs-number">1</span> - Kz) * Pz;
+
+    <span class="hljs-comment">/* kalman end */</span>
+
+    Serial.print(agx);Serial.print(<span class="hljs-string">&quot;,&quot;</span>);
+    Serial.print(agy);Serial.print(<span class="hljs-string">&quot;,&quot;</span>);
+    Serial.print(agz);Serial.println();
+
+}
+</code></pre>
 
                     
                     </section>
@@ -11936,10 +12056,10 @@ Program terminated with signal 11, Segmentation fault.
         </div>
 
         
-        <a href="../100_gdb_tips/generate-core-dump-file.html" class="navigation navigation-prev " aria-label="Previous page: 為調試進程產生core dump文件"><i class="fa fa-angle-left"></i></a>
+        <a href="../osvr/osvrbuild.html" class="navigation navigation-prev " aria-label="Previous page: Linux Build Instructions"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../100_gdb_tips/hui_bian.html" class="navigation navigation-next " aria-label="Next page: 彙編"><i class="fa fa-angle-right"></i></a>
+        <a href="../treacecode/treace_code.html" class="navigation navigation-next " aria-label="Next page: Treace code"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

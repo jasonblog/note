@@ -736,7 +736,7 @@
 * [Other](other/other.md)
    * [練寫作可以讓你成為「神級程式設計師」，但不是不二法門](other/lian_xie_zuo_ke_yi_rang_ni_cheng_wei_300c_shen_ji_.md)
    * [編程的智慧](other/bian_cheng_de_zhi_hui.md)
-* [DS_ALGO](ds_algo/dsalgo.md)
+* [DS_ALGO](ds_algo/dsalgomd.md)
    * [內核雙向鏈表的使用](nei_he_shuang_xiang_lian_biao_de_shi_yong.md)
 * C
 

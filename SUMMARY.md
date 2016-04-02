@@ -554,7 +554,7 @@
    * [Linux 彙編語言快速上手：4大架構一塊學](tinyclub/linux_hui_bian_yu_yan_kuai_su_shang_shou_ff1a_4_da.md)
 * [VR](osvr/osvr.md)
    * [Linux Build Instructions](osvr/osvrbuild.md)
-   * kalman filter
+   * [kalman filter](osvr/kalman_filter.md)
 * [Treace code](treacecode/treace_code.md)
    * [[轉]閱讀程式碼的心理層面](treacecode/8f495d_yue_du_cheng_shi_ma_de_xin_li_ceng_mian.md)
    * [我的原始碼閱讀之道](treacecode/wo_de_yuan_shi_ma_yue_du_zhi_dao.md)

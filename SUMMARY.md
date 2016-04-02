@@ -55,6 +55,7 @@
        * [Perf -- Linux下的系統性能調優工具，第 1 部分](linux_tools/perf_--_linuxxia_de_xi_tong_xing_neng_diao_you_gon.md)
        * [Perf -- Linux下的系統性能調優工具，第 2 部分](linux_tools/perf_--_linuxxia_de_xi_tong_xing_neng_diao_you_gon2.md)
        * [系統級性能分析工具 — Perf](linux_tools/xi_tong_ji_xing_neng_fen_xi_gong_ju__perf.md)
+       * perf 性能分析实例——使用perf优化cache利用率
 * [Android note](android_note/README.md)
    * [android resource](android_note/514.md)
    * [什麼時候用startService，什麼時候用bindService](android_note/startservice_bindservice.md)

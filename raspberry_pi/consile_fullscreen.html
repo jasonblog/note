@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>OSVR | Jason note</title>
+        <title>consile fullscreen | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../osvr/osvrbuild.html" />
+    <link rel="next" href="../opengl/opengl.html" />
     
     
-    <link rel="prev" href="../tinyclub/linux_hui_bian_yu_yan_kuai_su_shang_shou_ff1a_4_da.html" />
+    <link rel="prev" href="../raspberry_pi/raspberry_pide_kai_shi_liu_cheng.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="39" data-basepath=".." data-revision="Sun Apr 03 2016 04:18:34 GMT+0800 (CST)">
+    <div class="book" data-level="30.17" data-basepath=".." data-revision="Sun Apr 03 2016 04:18:34 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -7895,7 +7895,7 @@
             
         </li>
     
-        <li class="chapter " data-level="30.17" data-path="raspberry_pi/consile_fullscreen.html">
+        <li class="chapter active" data-level="30.17" data-path="raspberry_pi/consile_fullscreen.html">
             
                 
                     <a href="../raspberry_pi/consile_fullscreen.html">
@@ -8720,7 +8720,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="39" data-path="osvr/osvr.html">
+        <li class="chapter " data-level="39" data-path="osvr/osvr.html">
             
                 
                     <a href="../osvr/osvr.html">
@@ -11874,7 +11874,63 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="osvr">OSVR</h1>
+                        <h1 id="consile-fullscreen">consile fullscreen</h1>
+<pre><code class="lang-sh"><span class="hljs-comment"># For more options and information see</span>
+<span class="hljs-comment"># http://www.raspberrypi.org/documentation/configuration/config-txt.md</span>
+<span class="hljs-comment"># Some settings may impact device functionality. See link above for details</span>
+
+<span class="hljs-comment"># uncomment if you get no picture on HDMI for a default &quot;safe&quot; mode</span>
+<span class="hljs-comment">#hdmi_safe=1</span>
+
+<span class="hljs-comment"># uncomment this if your display has a black border of unused pixels visible</span>
+<span class="hljs-comment"># and your display can output without overscan</span>
+<span class="hljs-built_in">disable</span>_overscan=<span class="hljs-number">1</span>
+
+<span class="hljs-comment"># uncomment the following to adjust overscan. Use positive numbers if console</span>
+<span class="hljs-comment"># goes off screen, and negative if there is too much border</span>
+overscan_left=<span class="hljs-number">0</span>
+overscan_right=<span class="hljs-number">0</span>
+overscan_top=<span class="hljs-number">0</span>
+overscan_bottom=<span class="hljs-number">0</span>
+
+<span class="hljs-comment"># uncomment to force a console size. By default it will be display&apos;s size minus</span>
+<span class="hljs-comment"># overscan.</span>
+<span class="hljs-comment">#framebuffer_width=1080</span>
+<span class="hljs-comment">#framebuffer_height=1920</span>
+
+<span class="hljs-comment"># uncomment if hdmi display is not detected and composite is being output</span>
+<span class="hljs-comment">#hdmi_force_hotplug=1</span>
+
+<span class="hljs-comment"># uncomment to force a specific HDMI mode (this will force VGA)</span>
+<span class="hljs-comment">#hdmi_group=1</span>
+<span class="hljs-comment">#hdmi_mode=1</span>
+
+<span class="hljs-comment"># uncomment to force a HDMI mode rather than DVI. This can make audio work in</span>
+<span class="hljs-comment"># DMT (computer monitor) modes</span>
+<span class="hljs-comment">#hdmi_drive=2</span>
+
+<span class="hljs-comment"># uncomment to increase signal to HDMI, if you have interference, blanking, or</span>
+<span class="hljs-comment"># no display</span>
+<span class="hljs-comment">#config_hdmi_boost=4</span>
+
+<span class="hljs-comment"># uncomment for composite PAL</span>
+<span class="hljs-comment">#sdtv_mode=2</span>
+
+<span class="hljs-comment">#uncomment to overclock the arm. 700 MHz is the default.</span>
+<span class="hljs-comment">#arm_freq=800</span>
+
+<span class="hljs-comment"># Uncomment some or all of these to enable the optional hardware interfaces</span>
+<span class="hljs-comment">#dtparam=i2c_arm=on</span>
+<span class="hljs-comment">#dtparam=i2s=on</span>
+<span class="hljs-comment">#dtparam=spi=on</span>
+
+<span class="hljs-comment"># Uncomment this to enable the lirc-rpi module</span>
+<span class="hljs-comment">#dtoverlay=lirc-rpi</span>
+
+<span class="hljs-comment"># Additional overlays and parameters are documented /boot/overlays/README</span>
+display_rotate=<span class="hljs-number">1</span>
+gpu_mem=<span class="hljs-number">256</span>
+</code></pre>
 
                     
                     </section>
@@ -11885,10 +11941,10 @@
         </div>
 
         
-        <a href="../tinyclub/linux_hui_bian_yu_yan_kuai_su_shang_shou_ff1a_4_da.html" class="navigation navigation-prev " aria-label="Previous page: Linux 彙編語言快速上手：4大架構一塊學"><i class="fa fa-angle-left"></i></a>
+        <a href="../raspberry_pi/raspberry_pide_kai_shi_liu_cheng.html" class="navigation navigation-prev " aria-label="Previous page: Raspberry Pi的開始流程"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../osvr/osvrbuild.html" class="navigation navigation-next " aria-label="Next page: Linux Build Instructions"><i class="fa fa-angle-right"></i></a>
+        <a href="../opengl/opengl.html" class="navigation navigation-next " aria-label="Next page: OpenGL"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

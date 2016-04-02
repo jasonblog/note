@@ -1,25 +1,25 @@
-# offsetof与container_of
+# offsetof與container_of
 
 
 ###1、前言
 
-　　今天在看代码时，遇到offsetof和container_of两个宏，觉得很有意思，功能很强大。offsetof是用来判断结构体中成员的偏移位置，container_of宏用来根据成员的地址来获取结构体的地址。两个宏设计的很巧妙，值得学习。linux内核中有着两个宏的定义，并在链表结构中得到应用。不得不提一下linux内核中的链表，设计的如此之妙，只需要两个指针就搞定了。后续认真研究一下这个链表结构。
+　　今天在看代碼時，遇到offsetof和container_of兩個宏，覺得很有意思，功能很強大。offsetof是用來判斷結構體中成員的偏移位置，container_of宏用來根據成員的地址來獲取結構體的地址。兩個宏設計的很巧妙，值得學習。linux內核中有著兩個宏的定義，並在鏈表結構中得到應用。不得不提一下linux內核中的鏈表，設計的如此之妙，只需要兩個指針就搞定了。後續認真研究一下這個鏈表結構。
 
 ###2、offsetof宏
 
-　　使用offsetof宏需要包含stddef.h头文件，实例可以参考：http://www.cplusplus.com/reference/cstddef/offsetof/。
+　　使用offsetof宏需要包含stddef.h頭文件，實例可以參考：http://www.cplusplus.com/reference/cstddef/offsetof/。
 
-offsetof宏的定义如下：
+offsetof宏的定義如下：
 
 ```c
 #define offsetof(type, member) (size_t)&(((type*)0)->member)
 ```
 
-巧妙之处在于将地址0强制转换为type类型的指针，从而定位到member在结构体中偏移位置。编译器认为0是一个有效的地址，从而认为0是type指针的起始地址。
+巧妙之處在於將地址0強制轉換為type類型的指針，從而定位到member在結構體中偏移位置。編譯器認為0是一個有效的地址，從而認為0是type指針的起始地址。
 
 ###3、container_of宏
 
-使用container_of宏需要包含linux/kernel.h头文件，container_of宏的定义如下所示：
+使用container_of宏需要包含linux/kernel.h頭文件，container_of宏的定義如下所示：
 
 
 ```c
@@ -29,24 +29,24 @@ offsetof宏的定义如下：
 ```
 
 
-container_of宏分为两部分，
+container_of宏分為兩部分，
 
 第一部分：
 ```c
 const typeof( ((type *)0)->member ) *__mptr = (ptr);
 ```
-通过typeof定义一个member指针类型的指针变量__mptr，（即__mptr是指向member类型的指针），并将__mptr赋值为ptr。
+通過typeof定義一個member指針類型的指針變量__mptr，（即__mptr是指向member類型的指針），並將__mptr賦值為ptr。
 
 第二部分：
 ```c
 (type *)( (char *)__mptr - offsetof(type,member))
 ```
-，通过offsetof宏计算出member在type中的偏移，然后用member的实际地址__mptr减去偏移，得到type的起始地址，即指向type类型的指针。
+，通過offsetof宏計算出member在type中的偏移，然後用member的實際地址__mptr減去偏移，得到type的起始地址，即指向type類型的指針。
 
-第一部分的目的是为了将统一转换为member类型指针。
+第一部分的目的是為了將統一轉換為member類型指針。
 
 
-###4、测试程序
+###4、測試程序
 ```c
 #include <stdio.h>
 #include <stdlib.h>
@@ -84,7 +84,7 @@ int main()
     return 0;
 }
 ```
-测试结果：
+測試結果：
 
 ```sh
 id offset: 0
@@ -95,7 +95,7 @@ stu address:0xb41010
 ptr address:0xb41010
 ```
 
-###5、参考网址
+###5、參考網址
 
 http://blog.csdn.net/thomas_nuaa/article/details/3542572
 http://blog.chinaunix.net/uid-28489159-id-3549971.html

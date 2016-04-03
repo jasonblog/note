@@ -12,7 +12,7 @@ deb http://mirrordirector.raspbian.org/raspbian/ wheezy main contrib non-free rp
 ```
 
 
-其中套件伺服器遠在國外，可到Raspbian Repository Mirrors查詢鏡像站，有台灣的，所以試試在sources.list首行加入：
+其中套件伺服器遠在國外，可到Raspbian Repository Mirrors查詢鏡像站，有臺灣的，所以試試在sources.list首行加入：
 
 ```sh
 deb ftp://ftp.yzu.edu.tw/Linux/raspbian/raspbian/ wheezy main contrib non-free rpi
@@ -30,4 +30,4 @@ Fetched 51.0 MB in 58s (877 kB/s)
 
 若是http://ftp.yzu.edu.tw/Linux/raspbian/raspbian/只有30 kB/s，若是原http://mirrordirector.raspbian.org/raspbian/則是150 kB/s，當然啦，這些數據僅供參考。
 
-另外，可先用指令netselect判斷哪個站台最快。
+另外，可先用指令netselect判斷哪個站臺最快。

@@ -506,6 +506,7 @@
    * [consile fullscreen](raspberry_pi/consile_fullscreen.md)
    * [Raspberry Pi：Raspbian增加deb套件的下載來源](raspberry_pi/raspberry_piraspbianzeng_jia_deb_tao_jian_de_xia_z.md)
    * [使用 C++ 讀取 MPU-6050 加速度計與陀螺儀感測資料](raspberry_pi/shi_yong_c_++_du_qu_mpu_-_6050_jia_su_du_ji_yu_tuo.md)
+   * 使用 MPU-6050 的 DMP 來取得更精準的運動感測資料
 * [OpenGL](opengl/opengl.md)
    * [opengl(mesa) for ubuntu14.04](opengl/mesa.md)
    * [ubuntu 14.04 安裝OpenGL（基於freeglut）](opengl/1.md)

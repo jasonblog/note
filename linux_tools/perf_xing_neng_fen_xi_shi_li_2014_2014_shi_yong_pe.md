@@ -32,16 +32,22 @@ Perf是Linux kernel自帶的系統性能優化工具。Perf的優勢在於與Lin
 - test.c
 
 ```c
-#define NUM 393216
+#include <stdio.h>
+
+#define NUM 39216
+
+int add(int* a, int* b, int num);
 
 int main()
 {
-    float a[NUM], b[NUM];
+    int a[NUM], b[NUM];
     int i;
 
     for (i = 0; i < 1000; i++) {
         add(a, b, NUM);
     }
+
+    return 0;
 }
 
 int add(int* a, int* b, int num)
@@ -53,17 +59,24 @@ int add(int* a, int* b, int num)
         a++;
         b++;
     }
+
+    return 0;
 }
 ```
 - test2.c
 
 
 ```c
+#include <stdio.h>
 #define NUM 39216
-typedef struct {
+
+typedef struct _Array Array;
+struct _Array {
     float a;
     float b;
-} Array;
+};
+
+int add(Array* myarray, int num);
 
 int main()
 {
@@ -73,6 +86,8 @@ int main()
     for (j = 0; j < 1000; j++) {
         add(myarray, NUM);
     }
+
+    return 0;
 }
 
 int add(Array* myarray, int num)
@@ -83,8 +98,9 @@ int add(Array* myarray, int num)
         myarray->a = myarray->a + myarray->b;
         myarray++;
     }
-}
 
+    return 0;
+}
 ```
 
 注：我們設置數組大小NUM為39216，因為cache大小是3072KB，這樣設定可以讓A數組填滿cache，方便對比。

@@ -45,3 +45,96 @@ $ sudo apt-get install linux-tools-3.16.0-50-generic linux-cloud-tools-3.16.0-50
 
 如果你不是切換到 root 的情況下輸入 $ perf top，會出現以下錯誤畫面：
 
+![](./images/charles620016.hackpad.com_lifHi7P9FAL_p.431773_1443532263301_Selection_001.png)
+
+`kernel.perf_event_paranoid` 是用來決定你在沒有 root 權限下 (Normal User) 使用 perf 時，你可以取得哪些 event data。預設值是 kernel.perf_event_paranoid＝1，你可以輸入 
+
+```sh
+$ cat /proc/sys/kernel/perf_event_paranoid 
+```
+
+來查看權限值。一共有四種權限值:
+
+- 2 : 不允許任何量測。但部份用來查看或分析已存在的紀錄的指令仍可使用，如 perf ls、perf report、perf timechart、 perf trace。
+- 1 : 不允許 CPU events data。但可以使用 perf stat、perf record 並取得 Kernel profiling data。
+- 0 : 不允許 raw tracepoint access。但可以使用 perf stat、perf record 並取得 CPU events data。
+- -1: 權限全開
+最後如果要檢測 cache miss event ，需要先取消 kernel pointer 的限制。
+
+```sh
+$ sudo sh -c " echo 0 > /proc/sys/kernel/kptr_restrict"
+```
+
+先來個範例暖身吧！
+
+一開始，我們先使用第一次作業 `計算圓周率` 的程式來體會一下 perf 使用。
+
+
+```c
+#include <stdio.h>
+#include <unistd.h>
+
+double compute_pi_baseline(size_t N) {
+    double pi = 0.0;
+    double dt = 1.0 / N;
+    for (size_t i = 0; i < N; i++) {
+        double x = (double) i / N;
+        pi += dt / (1.0 + x * x);
+    }
+    return pi * 4.0;
+}
+int main() {
+    printf("pid: %d\n", getpid());
+    sleep(10);
+    compute_pi_baseline(50000000);
+    return 0;
+}
+```
+
+執行上述程式後，會看到 pid: 顯示數字，然後開啟新的終端機畫面，設定 pid 的值 $ export pid=，後方加上剛看到的數字。之後再執行 perf:
+
+```sh
+perf top -p $pid
+```
+
+應該會得到類似下面的結果：
+
+![](./images/charles620016.hackpad.com_lifHi7P9FAL_p.431773_1443547847244_Selection_001.png)
+
+預設的 performance event 是 “cycles”，所以這條指令可以分析出消耗 CPU 週期最多的部份，結果顯示函式 compute_pi_baseline() 佔了近 99.9％，跟預期一樣，此函式是程式中的「熱點」！
+
+##作業要求
+
+- 詳細閱讀 Week #3 課程的 案例分析: Phone Book，研究降低 cache miss 的方法
+- 在 GitHub 上 fork phonebook，然後適度修改 phonebook_opt.c 和 phonebook_opt.h 兩個檔案，使得這兩者執行時期的 cache miss 降低。請用 perf 驗證，而且改進的過程中，不能有功能方面的減損。
+    - phonebook_orig.[ch] 不需要修改，我們關注的是 phonebook_opt.[ch]，當然要修改 main.c 也是允許的
+    - findName() 的時間必須比 Week #3 課程 列出的數據，來得更快
+    - append() 的時間可以比原始版本稍久，但不應該增加太多
+    - main.c 應該只有一份，不要建立新的 main()，善用 Makefile 定義對應的 CFLAGS
+    - 在執行程式(phonebook_orig 和 phonebook_opt) 前，先清空 cache:
+    ```sh
+    $ echo "echo 1 > /proc/sys/vm/drop_caches" | sudo sh
+    ```
+
+- 除了修改程式，也要編輯 Hackpad 下方「作業區」，增添開發紀錄和 GitHub 連結
+    - 至少要列出效能分析，以及充份說明你如何改善效能。請使用 gnuplot 建立圖表
+
+- 務必使用 astyle 排版，詳細使用方式見 README.md
+    - 可能的效能改進方向：
+    - 改寫 struct __PHONE_BOOK_ENTRY 的成員，搬動到新的結構中
+    - 使用 hash function 來加速查詢
+    - 既然 first name, last name, address 都是合法的英文 (可假設成立)，使用字串壓縮的演算法，降低資料表示的成本
+    - 使用 binary search tree 改寫演算法
+- 截止日期：
+    - Oct 12, 2015 (含) 之前
+    - 越早在 GitHub 上有動態、越早接受 code review，評分越高
+
+###挑戰題
+
+- 除了降低 findName() 的 cache miss 與執行成本，append() 也該想辦法縮減時間
+    - 建立 phone book 時，既然 lastName - 是索引值，可以優先建立搜尋表格，其他資料可稍後再補上
+    - 用 PThread 建立 manager/worker thread model
+- 支援 fuzzy search，允許搜尋 lastName 時，不用精準打出正確的寫法
+    - 比方說電話簿有一筆資料是 McDonald，但若使用者輸入 MacDonald 或 McDonalds，也一併檢索出來
+- 改善電話簿的效能分析，透過大量的重複執行，找出 95% 信賴區間，而且允許動態新增資料 (較符合現實) 和查詢
+

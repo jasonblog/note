@@ -211,6 +211,7 @@
        * [(五) 使用Local Descriptor Table (LDT)](os/1415.md)
        * [(六) 簡介Call Gate](os/1416.md)
        * [(七) 利用Call Gate與TSS (Task-State Segment)實現特權等級的轉換](os/1417.md)
+   * Page Table size太大之解決
 * [Linux System](linux_system/README.md)
    * [linux系統編程](linux_system/linuxxi_tong_bian_cheng.md)
        * [linux系統編程之文件與IO（一）：文件描述符、open，close](linux_system/linuxxi_tong_bian_cheng_zhi_wen_jian_yu_io_ff08_yi.md)

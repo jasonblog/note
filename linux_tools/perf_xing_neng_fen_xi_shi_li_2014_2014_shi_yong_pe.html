@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="3.8.7" data-basepath=".." data-revision="Sun Apr 03 2016 21:19:58 GMT+0800 (CST)">
+    <div class="book" data-level="3.8.7" data-basepath=".." data-revision="Mon Apr 04 2016 02:35:00 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -11966,16 +11966,22 @@
 <ul>
 <li>test.c</li>
 </ul>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> NUM <span class="hljs-number">393216</span></span>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> NUM <span class="hljs-number">39216</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-keyword">int</span>* a, <span class="hljs-keyword">int</span>* b, <span class="hljs-keyword">int</span> num)</span></span>;
 
 <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
 </span>{
-    <span class="hljs-keyword">float</span> a[NUM], b[NUM];
+    <span class="hljs-keyword">int</span> a[NUM], b[NUM];
     <span class="hljs-keyword">int</span> i;
 
     <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">1000</span>; i++) {
         add(a, b, NUM);
     }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
 
 <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-keyword">int</span>* a, <span class="hljs-keyword">int</span>* b, <span class="hljs-keyword">int</span> num)</span>
@@ -11987,16 +11993,23 @@
         a++;
         b++;
     }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
 </code></pre>
 <ul>
 <li>test2.c</li>
 </ul>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> NUM <span class="hljs-number">39216</span></span>
-<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> {
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> NUM <span class="hljs-number">39216</span></span>
+
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> _Array Array;
+<span class="hljs-keyword">struct</span> _Array {
     <span class="hljs-keyword">float</span> a;
     <span class="hljs-keyword">float</span> b;
-} Array;
+};
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">add</span><span class="hljs-params">(Array* myarray, <span class="hljs-keyword">int</span> num)</span></span>;
 
 <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
 </span>{
@@ -12006,6 +12019,8 @@
     <span class="hljs-keyword">for</span> (j = <span class="hljs-number">0</span>; j &lt; <span class="hljs-number">1000</span>; j++) {
         add(myarray, NUM);
     }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
 
 <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">add</span><span class="hljs-params">(Array* myarray, <span class="hljs-keyword">int</span> num)</span>
@@ -12016,6 +12031,8 @@
         myarray-&gt;a = myarray-&gt;a + myarray-&gt;b;
         myarray++;
     }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
 </code></pre>
 <p>&#x6CE8;&#xFF1A;&#x6211;&#x5011;&#x8A2D;&#x7F6E;&#x6578;&#x7D44;&#x5927;&#x5C0F;NUM&#x70BA;39216&#xFF0C;&#x56E0;&#x70BA;cache&#x5927;&#x5C0F;&#x662F;3072KB&#xFF0C;&#x9019;&#x6A23;&#x8A2D;&#x5B9A;&#x53EF;&#x4EE5;&#x8B93;A&#x6578;&#x7D44;&#x586B;&#x6EFF;cache&#xFF0C;&#x65B9;&#x4FBF;&#x5C0D;&#x6BD4;&#x3002;

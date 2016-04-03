@@ -158,6 +158,51 @@ sudo chmod 666 /dev/i2c-*
 
 如果您對於樹莓派的應用有興趣，建議您可以繼續閱讀物聯網的相關文章。
 
+
+
+
+---
+
+If kernel version is higher than 3.17 then you need to edit `/boot/config.txt`and add:
+
+```sh
+dtparam=i2c1=on
+dtparam=i2c_arm=on 
+```
+
+Next we need to install/activate the kernel modules. Modify `/etc/modules` file and add these 2 lines:
+
+```sh
+i2c-bcm2708 
+i2c-dev
+```
+
+Next update to check if there spi and i2c modules are blacklisted. Open `/etc/modprobe.d/raspi-blacklist.conf` and comment the following lines (`if exists`) by placing # in front of them:
+
+```sh
+blacklist spi-bcm2708
+blacklist i2c-bcm2708
+```
+All done. Now reboot then connect again via SSH to RaspberryPI and check if you can read BMP180 device:
+
+```sh
+# ls /dev/i2c*
+/dev/i2c-1
+```
+```sh
+# sudo i2cdetect -y 1
+	0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
+	00:          -- -- -- -- -- -- -- -- -- -- -- -- -- 
+	10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+	20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+	30: -- -- -- -- -- -- -- -- -- 39 -- -- -- -- -- -- 
+	40: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+	50: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+	60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+	70: -- -- -- -- -- -- -- 77 
+>
+```
+
 ##參考資料：
 
 PiBits、David Grayson’s blog、raspy-juice、SUNXI、ozzmaker.com、大兵萊恩

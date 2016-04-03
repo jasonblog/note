@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Debugging ARM programs inside QEMU | Jason note</title>
+        <title>Page Table size太大之解決 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../arm_emulation/u-boot_for_arm_on_qemu.html" />
+    <link rel="next" href="../linux_system/index.html" />
     
     
-    <link rel="prev" href="../arm_emulation/trying_debian_for_arm_on_qemu.html" />
+    <link rel="prev" href="../os/1417.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="9.7" data-basepath=".." data-revision="Sun Apr 03 2016 13:56:16 GMT+0800 (CST)">
+    <div class="book" data-level="12.2" data-basepath=".." data-revision="Sun Apr 03 2016 13:56:16 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -2183,7 +2183,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="9.7" data-path="arm_emulation/debugging_arm_programs_inside_qemu.html">
+        <li class="chapter " data-level="9.7" data-path="arm_emulation/debugging_arm_programs_inside_qemu.html">
             
                 
                     <a href="../arm_emulation/debugging_arm_programs_inside_qemu.html">
@@ -3350,7 +3350,7 @@
             
         </li>
     
-        <li class="chapter " data-level="12.2" data-path="os/page_table_sizetai_da_zhi_jie_jue.html">
+        <li class="chapter active" data-level="12.2" data-path="os/page_table_sizetai_da_zhi_jie_jue.html">
             
                 
                     <a href="../os/page_table_sizetai_da_zhi_jie_jue.html">
@@ -11904,145 +11904,74 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="debugging-arm-programs-inside-qemu">Debugging ARM programs inside QEMU</h1>
-<p>Recently I wanted to debug a Linux program running inside an ARM system emulated with QEMU. I went into some troubles, so I&#x2019;m going to write here the procedure that worked for me. I wanted to use gdbserver to run a program inside QEMU, and then connect to it from a GDB instance running on my PC, using a TCP link. gdbserver is a piece of software that implements some of the GDB functionalities (the debugging stubs) and then offers the possibility to connect to a full GDB instance through the network (or through a serial port). What I wanted to obtain is illustrated in the following figure.</p>
-<p><img src="images/qemu-gdbserver.png" alt=""></p>
-<p>The color blue indicates software compiled to run on my Ubuntu PC (32-bit x86) while the color green indicates software compiled to run on ARM. qemu-system-arm is the software that emulates a VersatilePB platform; I tried to use the one that can be installed through Ubuntu repositories (the package is qemu-kvm-extras) but it froze running the last version of Linux (2.6.35). For this reason I decided to compile the upstream version and use that one. The GDB server and &#x201C;client&#x201D; come from the CodeSourcery compiler collection for ARM, as well as the compiler used to cross-compile the software for ARM. The program I&#x2019;ll debug in this example is the simple GNU Hello, that doesn&#x2019;t do very much beyond printing &#x201C;Hello World&#x201D;, but is a nice example of cross-compilation with GNU Autotools.</p>
-<h1 id="prerequisites">Prerequisites</h1>
-<p>In order to follow this procedure, I installed:</p>
+                        <h1 id="page-table-size%E5%A4%AA%E5%A4%A7%E4%B9%8B%E8%A7%A3%E6%B1%BA">Page Table size&#x592A;&#x5927;&#x4E4B;&#x89E3;&#x6C7A;</h1>
+<p>page&#x7684;&#x5927;&#x5C0F;&#x6C7A;&#x5B9A;&#x4E86;&#x6620;&#x5C04;&#x7684;&#x7C92;&#x5EA6;(granularity):</p>
+<p> &#x5982;&#x679C;&#x6211;&#x5011;&#x628A;page&#x5207;1MB&#xFF0C;&#x90A3;64MB&#x7684;&#x8A18;&#x61B6;&#x9AD4;&#x5C31;&#x9700;&#x8981;64MB/1MB&#x7684;PTE&#xFF0C;&#x6BCF;&#x500B;PTE&#x662F;32bits(4bytes)&#xFF0C;64x4=256bytes&#x9801;&#x8868;&#x9805;&#x7A7A;&#x9593;&#x3002;4G&#x5C31;&#x662F;4096x6=16384=16K</p>
+<h2 id="page-table-size%E5%A4%AA%E5%A4%A7%E4%B9%8B%E8%A7%A3%E6%B1%BA">Page Table size&#x592A;&#x5927;&#x4E4B;&#x89E3;&#x6C7A;</h2>
+<h3 id="-%E6%B3%95%E4%B8%80-multilevel-paging-%E5%A4%9A%E5%B1%A4%E7%9A%84%E5%88%86%E9%A0%81">[&#x6CD5;&#x4E00;]Multilevel paging(&#x591A;&#x5C64;&#x7684;&#x5206;&#x9801;)</h3>
+<p>&#x5C07;page table&#x518D;&#x4E88;&#x4EE5;&#x5206;&#x9801;</p>
+<h3 id="%E4%BE%8B1%EF%BC%9Asingle-level-paging">&#x4F8B;1&#xFF1A;single level paging</h3>
+<p>&#x5047;&#x8A2D;</p>
 <ul>
-<li>CodeSourcery GNU/Linux toolchain for ARM</li>
-<li>The native x86 toolchain (build-essentials package in Ubuntu) to compile QEMU</li>
-<li>DDD as a graphic interface to the debugger</li>
-<li>cpio, an utility to create the Linux filesystem image.</li>
-<li>the package libncurses5-dev to run the menu configurations of both Linux kernel and - Busybox</li>
-<li>libsdl-dev and zlib1g-dev to compile QEMU</li>
+<li>page size&#xFF1A;1024 Bytes</li>
+<li>Logical Address&#xFF1A;32 Bits</li>
+<li>page table entry&#xFF1A;4 bytes</li>
+<li>&#x2235;d&#x4F54;10 bits</li>
+<li>&#x2234;p&#x4F54;32-10=22 bits
+&#x21D2;page table size = 4 byte * 222&#x500B;entries = 16 MB &#x21D2; Too Large!!</li>
 </ul>
-<pre><code class="lang-sh">$ sudo apt-get install build-essential ddd cpio libncurses5-dev libsdl-dev zlib1g-dev
-$ wget http://www.codesourcery.com/sgpp/lite/arm/portal/package6490/public/arm-none-linux-gnueabi/arm-<span class="hljs-number">2010</span>q1-<span class="hljs-number">202</span>-arm-none-linux-gnueabi.bin
-$ chmod +x arm-<span class="hljs-number">2010</span>q1-<span class="hljs-number">202</span>-arm-none-linux-gnueabi.bin
-$ ./arm-<span class="hljs-number">2010</span>q1-<span class="hljs-number">202</span>-arm-none-linux-gnueabi.bin
-</code></pre>
-<p>I installed the toolchain in the default directory &#x201C;~/CodeSourcery&#x201D;. The gdbserver executable in my case can be found at the path &#x201C;/home/francesco/CodeSourcery/Sourcery_G++_Lite/arm-none-linux-gnueabi/libc/usr/bin/gdbserver&#x201D;.</p>
-<p>Note that the following procedure is run in a dedicated folder, and no root access is required from now on. At the end of the procedure about 1 Gigabyte of hard disk space was used.</p>
-<h1 id="linux-kernel">Linux Kernel</h1>
-<p>First of all, I took the new kernel version from the official repositories.</p>
-<pre><code class="lang-sh">$ wget http://www.kernel.org/pub/linux/kernel/v2.<span class="hljs-number">6</span>/linux-<span class="hljs-number">2.6</span>.<span class="hljs-number">35</span>.tar.bz2
-$ tar xjf linux-<span class="hljs-number">2.6</span>.<span class="hljs-number">35</span>.tar.bz2
-$ <span class="hljs-built_in">cd</span> linux-<span class="hljs-number">2.6</span>.<span class="hljs-number">35</span>/
-$ make ARCH=arm versatile_defconfig
-$ make ARCH=arm menuconfig
-</code></pre>
-<p>When the menu appears, I go into the &#x201C;Kernel Features&#x201D; section and enable EABI support; then I exit (saving the configuration) and compile:</p>
-<pre><code class="lang-sh">$ make ARCH=arm CROSS_COMPILE=arm-none-linux-gnueabi- all
-$ <span class="hljs-built_in">cd</span> ..
-</code></pre>
-<h1 id="busybox">Busybox</h1>
-<p>Next, I take the latest version of Busybox; in a previous tutorial I compiled it statically, but this time I will not, because gdbserver (that I plan to use) needs shared libraries anyway.</p>
-<pre><code class="lang-sh">$ wget http://busybox.net/downloads/busybox-<span class="hljs-number">1.17</span>.<span class="hljs-number">1</span>.tar.bz2
-$ tar xjf busybox-<span class="hljs-number">1.17</span>.<span class="hljs-number">1</span>.tar.bz2
-$ <span class="hljs-built_in">cd</span> busybox-<span class="hljs-number">1.17</span>.<span class="hljs-number">1</span>
-$ make ARCH=arm CROSS_COMPILE=arm-none-linux-gnueabi- defconfig
-$ make ARCH=arm CROSS_COMPILE=arm-none-linux-gnueabi- install
-$ <span class="hljs-built_in">cd</span> ..
-</code></pre>
-<p>The result is the folder &#x201C;busybox-1.17.1/_install&#x201D;, containing a minimal root filesystem that lacks shared libraries.</p>
-<h1 id="qemu">QEMU</h1>
-<p>I recompiled from source only the QEMU binaries needed to emulate an ARM system.</p>
-<pre><code class="lang-sh">$ wget http://download.savannah.gnu.org/releases/qemu/qemu-<span class="hljs-number">0.12</span>.<span class="hljs-number">5</span>.tar.gz
-$ tar xzf qemu-<span class="hljs-number">0.12</span>.<span class="hljs-number">5</span>.tar.gz
-$ <span class="hljs-built_in">cd</span> qemu-<span class="hljs-number">0.12</span>.<span class="hljs-number">5</span>
-$ ./configure --enable-sdl --disable-kvm --enable-debug --target-list=arm-softmmu
-$ ./make
-$ <span class="hljs-built_in">cd</span> ..
-</code></pre>
-<p>The relevant result is the program &#x201C;./qemu-0.12.5/arm-softmmu/qemu-system-arm&#x201D; that will be used to emulate the VersatilePB platform.</p>
-<h1 id="gnu-hello">GNU Hello</h1>
-<p>This package needs to be configured for cross-compilation; turns out it&#x2019;s very easy to do: it needs just the prefix of the cross-compiler.</p>
-<pre><code class="lang-sh">$ wget http://ftp.gnu.org/gnu/hello/hello-<span class="hljs-number">2.6</span>.tar.gz
-$ tar xzf hello-<span class="hljs-number">2.6</span>.tar.gz
-$ <span class="hljs-built_in">cd</span> hello-<span class="hljs-number">2.6</span>
-$ ./configure --host=arm-none-linux-gnueabi
-$ make
-$ <span class="hljs-built_in">cd</span> ..
-</code></pre>
-<p>The result is the ARM-executable &#x201C;hello-2.6/src/hello&#x201D;.</p>
-<h1 id="complete-the-filesystem">Complete the filesystem</h1>
-<p>All the ARM binaries involved (busybox, gdbserver, hello) need shared libraries. The Codesourcery toolchain offers these libraries in a subfolder of its installation. In my case it&#x2019;s &#x201C;/home/francesco/CodeSourcery/Sourcery_G++_Lite/arm-none-linux-gnueabi/libc/lib/&#x201D;. In order to discover what are the needed libraries I used the readelf tool distributed in the CodeSourcery toolchain. In particular, I ran:</p>
-<pre><code class="lang-sh">$ arm-none-linux-gnueabi-readelf hello-<span class="hljs-number">2.6</span>/src/hello <span class="hljs-operator">-a</span> |grep lib
- [Requesting program interpreter: /lib/ld-linux.so.<span class="hljs-number">3</span>]
- <span class="hljs-number">0</span>x00000001 (NEEDED)                     Shared library: [libgcc_s.so.<span class="hljs-number">1</span>]
- <span class="hljs-number">0</span>x00000001 (NEEDED)                     Shared library: [libc.so.<span class="hljs-number">6</span>]
-<span class="hljs-number">00010694</span>  <span class="hljs-number">00000216</span> R_ARM_JUMP_SLOT   <span class="hljs-number">0000835</span>c   __libc_start_main
- <span class="hljs-number">2</span>: <span class="hljs-number">0000835</span>c     <span class="hljs-number">0</span> FUNC    GLOBAL DEFAULT  UND __libc_start_main@GLIBC_2.<span class="hljs-number">4</span> (<span class="hljs-number">2</span>)
- <span class="hljs-number">89</span>: <span class="hljs-number">0000844</span>c     <span class="hljs-number">4</span> FUNC    GLOBAL DEFAULT   <span class="hljs-number">12</span> __libc_csu_fini
- <span class="hljs-number">91</span>: <span class="hljs-number">0000835</span>c     <span class="hljs-number">0</span> FUNC    GLOBAL DEFAULT  UND __libc_start_main@@GLIBC_
- <span class="hljs-number">101</span>: <span class="hljs-number">00008450</span>   <span class="hljs-number">204</span> FUNC    GLOBAL DEFAULT   <span class="hljs-number">12</span> __libc_csu_init
- <span class="hljs-number">000000</span>: Version: <span class="hljs-number">1</span>  File: libgcc_s.so.<span class="hljs-number">1</span>  Cnt: <span class="hljs-number">1</span>
- <span class="hljs-number">0</span>x0020: Version: <span class="hljs-number">1</span>  File: libc.so.<span class="hljs-number">6</span>  Cnt: <span class="hljs-number">1</span>
-</code></pre>
-<p>The hello binary requires three shared libraries: &#x201C;ld-linux.so.3&#x2033;, &#x201C;libgcc_s.so.1&#x2033; and &#x201C;libc.so.6&#x2033;. I executed this command for all three binaries, and I copied the required libraries into the Busybox filesystem, together with the gdbserver executable and the hello executable.</p>
-<pre><code class="lang-sh">$ <span class="hljs-built_in">cd</span> busybox-<span class="hljs-number">1.17</span>.<span class="hljs-number">1</span>/_install
-$ mkdir -p lib
-$ cp /home/francesco/CodeSourcery/Sourcery_G++_Lite/arm-none-linux-gnueabi/libc/lib/ld-linux.so.<span class="hljs-number">3</span> lib/
-$ cp /home/francesco/CodeSourcery/Sourcery_G++_Lite/arm-none-linux-gnueabi/libc/lib/libgcc_s.so.<span class="hljs-number">1</span> lib/
-$ cp /home/francesco/CodeSourcery/Sourcery_G++_Lite/arm-none-linux-gnueabi/libc/lib/libm.so.<span class="hljs-number">6</span> lib/
-$ cp /home/francesco/CodeSourcery/Sourcery_G++_Lite/arm-none-linux-gnueabi/libc/lib/libc.so.<span class="hljs-number">6</span> lib/
-$ cp /home/francesco/CodeSourcery/Sourcery_G++_Lite/arm-none-linux-gnueabi/libc/lib/libdl.so.<span class="hljs-number">2</span> lib/
-$ cp /home/francesco/CodeSourcery/Sourcery_G++_Lite/arm-none-linux-gnueabi/libc/usr/bin/gdbserver usr/bin/
-$ cp ../../hello-<span class="hljs-number">2.6</span>/src/hello usr/bin/
-$ <span class="hljs-built_in">cd</span> ../../
-</code></pre>
-<p>For my experiment I need a working network from the guest ARM system side, so I prepared an initialization script to enable it. Extending from my previous tutorial, here is the script &#x201C;rcS&#x201D; that i used.</p>
-<pre><code class="lang-sh"><span class="hljs-shebang">#!/bin/sh</span>
-mount -t proc none /proc
-mount -t sysfs none /sys
-/sbin/mdev <span class="hljs-operator">-s</span>
-ifconfig lo up
-ifconfig eth0 <span class="hljs-number">10.0</span>.<span class="hljs-number">2.15</span> netmask <span class="hljs-number">255.255</span>.<span class="hljs-number">255.0</span>
-route add default gw <span class="hljs-number">10.0</span>.<span class="hljs-number">2.1</span>
-</code></pre>
-<p>Next, I copy rcS it inside the &#x201C;etc/init.d&#x201D; directory of the Busybox filesystem and create a compressed filesystem image:</p>
-<pre><code class="lang-sh">$ <span class="hljs-built_in">cd</span> busybox-<span class="hljs-number">1.17</span>.<span class="hljs-number">1</span>/_install
-$ mkdir -p proc sys dev etc etc/init.d
-$ cp ../../rcS etc/init.d
-$ chmod +x etc/init.d/rcS
-$ find . | cpio -o --format=newc | gzip &gt; ../../rootfs.img.gz
-$ <span class="hljs-built_in">cd</span> ../../
-</code></pre>
-<h1 id="running-and-debugging">Running and debugging</h1>
+<h4 id="%E4%BE%8B2%EF%BC%9Atwo-level-paging">&#x4F8B;2&#xFF1A;Two-Level paging</h4>
+<p>Two-Level paging</p>
+<p>4K pages = 12-bit offset; 1 master page = 4K/4 = 1K entries = 10bits Secondary page table size = 32 - 12 - 10 = 10 bits = 1K entries * 4 = 4K</p>
+<h4 id="%E4%BE%8B3%EF%BC%9A3-level-paging">&#x4F8B;3&#xFF1A;3-Level paging</h4>
+<h3 id="-%E6%B3%95%E4%BA%8C-hashing-page-table-%E9%9B%9C%E6%B9%8A">[&#x6CD5;&#x4E8C;]Hashing Page Table(&#x96DC;&#x6E4A;)</h3>
+<p>Def&#xFF1A;</p>
 <ul>
-<li>Now I have put everything in place:<ul>
-<li>A compressed kernel image</li>
-<li>QEMU</li>
-<li>A compressed filesystem image containing:<ul>
-<li>Busybox</li>
-<li>rcS initialization script</li>
-<li>GNU Hello binary compiled for ARM</li>
-<li>gdbserver for ARM</li>
-<li>Required shared libraries</li>
+<li><p>&#x5C07;Logical Address&#x4E2D;&#x7684;p(page#)&#x7D93;&#x7531;Hashing function&#x8A08;&#x7B97;&#x53D6;&#x5F97;Hashing Table(page table)&#x7684;Bucket Address</p>
+</li>
+<li><p>&#x800C;&#x5728;&#x6BCF;&#x500B;Bucket&#x4E2D;&#xFF0C;&#x7686;&#x4EE5;linked list&#x4E32;&#x9023;&#x5177;&#x76F8;&#x540C;Hashing address&#x7684;page number&#x53CA;&#x5C0D;&#x61C9;&#x7684;frame number</p>
+</li>
+</ul>
+<p>Node structure&#x70BA;&#xFF1A;</p>
+<ul>
+<li><p>&#x56E0;&#x6B64;&#xFF0C;&#x6211;&#x5011;&#x6703;&#x53BB;linked list&#x4E2D;search&#x7B26;&#x5408;&#x7684;page number&#x4E4B;&#x7BC0;&#x9EDE;&#x3002;&#x53D6;&#x5F97;f&#xFF0C;&#x7136;&#x5F8C;&#x8207;d&#x76F8;&#x52A0;&#x5F97;&#x51FA;physical address
+&#x5716;&#x793A;&#xFF1A;</p>
+<h3 id="-%E6%B3%95%E4%B8%89-invert-page-table-%E5%8F%8D%E8%BD%89%E5%88%86%E9%A0%81%E8%A1%A8">[&#x6CD5;&#x4E09;]Invert Page Table(&#x53CD;&#x8F49;&#x5206;&#x9801;&#x8868;)</h3>
+</li>
+<li><p>Def&#xFF1A;&#x4EE5;physical memory&#x70BA;&#x5C0D;&#x8C61;&#xFF0C;&#x5EFA;&#x7ACB;&#x4E00;&#x500B;&#x8868;&#x683C;(&#x82E5;&#x6709;m&#x500B;Frames&#xFF0C;Table Entry&#x6709;m&#x683C;)
+&#x6BCF;&#x500B;entry&#x8A18;&#x9304;&#x6B64;&#x9801;&#x6846;&#x88AB;&#x54EA;&#x500B;process&#x7684;&#x54EA;&#x500B;page&#x6240;&#x4F54;&#x7528;
+&#x4EE5;<Process id,="" Page="" No=""></Process></p>
+<ul>
+<li><p>Logical Address&#x2192;Physical Address&#x5716;&#x793A;</p>
+</li>
+<li><p>&#x512A;&#x9EDE;&#xFF1A;&#x5927;&#x5E45;&#x964D;&#x4F4E;page table size</p>
+</li>
+<li>&#x7F3A;&#x9EDE;&#xFF1A;<ul>
+<li>searching Invert page table&#x975E;&#x5E38;&#x8017;&#x6642;</li>
+<li>&#x7121;&#x6CD5;&#x652F;&#x63F4;Memory sharing</li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
-<p>To run the plaform the command line is:</p>
-<pre><code>$ ./qemu-0.12.5/arm-softmmu/qemu-system-arm -M versatilepb -m 128M -kernel
-./linux-2.6.35/arch/arm/boot/zImage -initrd ./rootfs.img.gz -append &quot;root=/dev/ram
-rdinit=/sbin/init&quot; -redir tcp:1234::1234
-</code></pre><p>The &#x201C;redir&#x201D; option will redirect any TCP communication from port 1234 of my Ubuntu PC to port 1234 of the guest ARM system. The system will boot,  and a console can be opened with root access. Inside the bash prompt, I run the debugging server:</p>
-<pre><code># gdbserver --multi 10.0.2.15:1234
-</code></pre><p>This command will launch a server that waits for a GDB connection from port 1234. On my PC I open the debugger:</p>
-<pre><code>$ ddd --debugger arm-none-linux-gnueabi-gdb
-</code></pre><p>It is also possible to run the arm-none-linux-gnueabi-gdb command alone or connected to another front-end. In order to debug the remote program, I need to tell GDB to consider the ARM shared libraries instead of the local ones (that are for 32-bit x86); otherwise on execution the debugger will complain that the libraries don&#x2019;t match.</p>
-<pre><code>set solib-absolute-prefix nonexistantpath
-set solib-search-path /home/francesco/CodeSourcery/Sourcery_G++_Lite/arm-none-linux-gnueabi/libc/lib/
-file ./hello-2.6/src/hello
-target extended-remote localhost:1234
-set remote exec-file /usr/bin/hello
-break main
-run
-</code></pre><p>At this point the debugging goes on as usual.</p>
+<h3 id="example">example</h3>
+<p>&#x908F;&#x8F2F;&#x4F4D;&#x5740;&#x6709; 32 bits &#x3001;page size 4kB&#x3001;&#x6BCF;&#x4E00;&#x500B; table entry &#x4F54; 4 bytes
+&#x6C42; page table size?</p>
+<p>[Page][Offset] = 32 bits
+Offset &#x7684;&#x9577;&#x5EA6;&#xFF0C;&#x8981;&#x80FD;&#x5B9A;&#x5740;&#x4E00;&#x500B; page &#x5927;&#x5C0F;( 4KB = 2^12 byte) &#xFF0C;
+&#x6240;&#x4EE5; Offset &#x9577;&#x5EA6;&#x70BA; 12 bits &#x908F;&#x8F2F;&#x4F4D;&#x5740;&#x6709; 32bits &#x6263;&#x53BB; Offset &#x7684; 12 bits &#xFF0C;
+&#x9084;&#x5269; 20bits&#xFF0C;&#x9019;&#x8868;&#x793A;&#x4E00;&#x500B; process &#x6700;&#x591A;&#x7528; 2^20 pages &#xFF0C;
+&#x6240;&#x4EE5;&#x7CFB;&#x7D71;&#x4E2D; page table &#x6700;&#x591A;&#x6709; 2^20 &#x500B; entry</p>
+<p>page table size &#x6700;&#x5927;&#x6703;&#x662F;&#xFF1A; 2^20 * 4bytes(&#x6BCF;&#x500B; entry &#x5927;&#x5C0F;) = 4MB</p>
+<h4 id="in-singlelevel-pagetable-you-need-the-whole-table-to-access-even-a-small-amount-of-data-less-memory-references-i-e-2-20-pages-each-pte-occupying-4bytes-as-you-assumed">In <code>singlelevel pagetable</code> you need the whole table to access even a small amount of data(less memory references). i.e 2^20 pages each PTE occupying 4bytes as you assumed.</h4>
+<p>Space required to access any data is <code>2^20 * 4bytes = 4MB</code></p>
+<h4 id="paging-pages-is-multi-level-paging-in-multilevel-paging-it-is-more-specific-you-can-with-the-help-of-multi-level-organization-decide-which-specific-page-among-the-2-20-pages-your-data-exists-and-select-it-so-here-you-need-only-that-specific-page-to-be-in-the-memory-while-you-run-the-process">Paging pages is <code>multi-level paging</code>.In multilevel paging it is more specific, you can with the help of multi-level organization decide which specific page among the 2^20 pages your data exists, and select it . So here you need only that specific page to be in the memory while you run the process.</h4>
+<p>In the <code>2 level case</code> that you discussed you need 1st level pagetable and then 1 of the 2^10 pagetables in second level. </p>
+<p>So, 
+1st level size = 2^10 <em> 4bytes = <code>4KB</code><br> 
+2nd level we need only 1 among the 2^10 pagetables = so size is 2^10 </em> 4bytes = <code>4KB</code><br></p>
+<p>Total size required is now : <code>4KB + 4KB = 8KB</code>.</p>
+<p>Final comparision is <code>4MB vs 8KB</code> .</p>
 
                     
                     </section>
@@ -12053,10 +11982,10 @@ run
         </div>
 
         
-        <a href="../arm_emulation/trying_debian_for_arm_on_qemu.html" class="navigation navigation-prev " aria-label="Previous page: Trying Debian for ARM on QEMU"><i class="fa fa-angle-left"></i></a>
+        <a href="../os/1417.html" class="navigation navigation-prev " aria-label="Previous page: (七) 利用Call Gate與TSS (Task-State Segment)實現特權等級的轉換"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../arm_emulation/u-boot_for_arm_on_qemu.html" class="navigation navigation-next " aria-label="Next page: U-boot for ARM on QEMU"><i class="fa fa-angle-right"></i></a>
+        <a href="../linux_system/index.html" class="navigation navigation-next " aria-label="Next page: Linux System"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

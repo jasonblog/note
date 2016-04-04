@@ -1,45 +1,45 @@
-# Linux设备模型(2)_Kobject
+# Linux設備模型(2)_Kobject
 
 
 ##1. 前言
 
-Kobject是Linux设备模型的基础，也是设备模型中最难理解的一部分（可参考Documentation/kobject.txt的表述）。因此有必要先把它分析清楚。
+Kobject是Linux設備模型的基礎，也是設備模型中最難理解的一部分（可參考Documentation/kobject.txt的表述）。因此有必要先把它分析清楚。
 
 ##2. 基本概念
 
-由“Linux设备模型(1)_基本概念”可知，Linux设备模型的核心是使用Bus、Class、Device、Driver四个核心数据结构，将大量的、不同功能的硬件设备（以及驱动该硬件设备的方法），以树状结构的形式，进行归纳、抽象，从而方便Kernel的统一管理。
-而硬件设备的数量、种类是非常多的，这就决定了Kernel中将会有大量的有关设备模型的数据结构。这些数据结构一定有一些共同的功能，需要抽象出来统一实现，否则就会不可避免的产生冗余代码。这就是Kobject诞生的背景。
-目前为止，Kobject主要提供如下功能：
+由“Linux設備模型(1)_基本概念”可知，Linux設備模型的核心是使用Bus、Class、Device、Driver四個核心數據結構，將大量的、不同功能的硬件設備（以及驅動該硬件設備的方法），以樹狀結構的形式，進行歸納、抽象，從而方便Kernel的統一管理。
+而硬件設備的數量、種類是非常多的，這就決定了Kernel中將會有大量的有關設備模型的數據結構。這些數據結構一定有一些共同的功能，需要抽象出來統一實現，否則就會不可避免的產生冗餘代碼。這就是Kobject誕生的背景。
+目前為止，Kobject主要提供如下功能：
 
-- 通过parent指针，可以将所有Kobject以层次结构的形式组合起来。
+- 通過parent指針，可以將所有Kobject以層次結構的形式組合起來。
 
-- 使用一个引用计数（reference count），来记录Kobject被引用的次数，并在引用次数变为0时把它释放（这是Kobject诞生时的唯一功能）。
+- 使用一個引用計數（reference count），來記錄Kobject被引用的次數，並在引用次數變為0時把它釋放（這是Kobject誕生時的唯一功能）。
 
-- 和sysfs虚拟文件系统配合，将每一个Kobject及其特性，以文件的形式，开放到用户空间（有关sysfs，会在其它文章中专门描述，本文不会涉及太多内容）。
+- 和sysfs虛擬文件系統配合，將每一個Kobject及其特性，以文件的形式，開放到用戶空間（有關sysfs，會在其它文章中專門描述，本文不會涉及太多內容）。
 
-注1：在Linux中，Kobject几乎不会单独存在。它的主要功能，就是内嵌在一个大型的数据结构中，为这个数据结构提供一些底层的功能实现。 
+注1：在Linux中，Kobject幾乎不會單獨存在。它的主要功能，就是內嵌在一個大型的數據結構中，為這個數據結構提供一些底層的功能實現。 
 
-注2：Linux driver开发者，很少会直接使用Kobject以及它提供的接口，而是使用构建在Kobject之上的设备模型接口。
+注2：Linux driver開發者，很少會直接使用Kobject以及它提供的接口，而是使用構建在Kobject之上的設備模型接口。
 
 
-## 3. 代码解析
+## 3. 代碼解析
 
 ###3.1 在Linux Kernel source code中的位置
 
-在Kernel源代码中，Kobject由如下两个文件实现：
+在Kernel源代碼中，Kobject由如下兩個文件實現：
 - include/linux/kobject.h
 - lib/kobject.c
 
-其中kobject.h为Kobject的头文件，包含所有的数据结构定义和接口声明。kobject.c为核心功能的实现。
+其中kobject.h為Kobject的頭文件，包含所有的數據結構定義和接口聲明。kobject.c為核心功能的實現。
 
-### 3.2 主要的数据结构
+### 3.2 主要的數據結構
 
-在描述数据结构之前，有必要说明一下Kobject, Kset和Ktype这三个概念。
-Kobject是基本数据类型，每个Kobject都会在"/sys/“文件系统中以目录的形式出现。
-Ktype代表Kobject（`严格地讲，是包含了Kobject的数据结构`）的属性操作集合（由于通用性，多个Kobject可能共用同一个属性操作集，因此把Ktype独立出来了）。 
-`注3：在设备模型中，ktype的命名和解释，都非常抽象，理解起来非常困难，后面会详细说明。`
+在描述數據結構之前，有必要說明一下Kobject, Kset和Ktype這三個概念。
+Kobject是基本數據類型，每個Kobject都會在"/sys/“文件系統中以目錄的形式出現。
+Ktype代表Kobject（`嚴格地講，是包含了Kobject的數據結構`）的屬性操作集合（由於通用性，多個Kobject可能共用同一個屬性操作集，因此把Ktype獨立出來了）。 
+`注3：在設備模型中，ktype的命名和解釋，都非常抽象，理解起來非常困難，後面會詳細說明。`
 
-Kset是一个特殊的Kobject（因此它也会在"/sys/“文件系统中以目录的形式出现），它用来集合相似的Kobject（这些Kobject可以是相同属性的，也可以不同属性的）。
+Kset是一個特殊的Kobject（因此它也會在"/sys/“文件系統中以目錄的形式出現），它用來集合相似的Kobject（這些Kobject可以是相同屬性的，也可以不同屬性的）。
 
 - 首先看一下Kobject的原型
 
@@ -61,31 +61,31 @@ struct kobject {
 };
 ```
 
-name，该Kobject的名称，同时也是sysfs中的目录名称。由于Kobject添加到Kernel时，需要根据名字注册到sysfs中，之后就不能再直接修改该字段。如果需要修改Kobject的名字，需要调用kobject_rename接口，该接口会主动处理sysfs的相关事宜。
-entry，用于将Kobject加入到Kset中的list_head。
+name，該Kobject的名稱，同時也是sysfs中的目錄名稱。由於Kobject添加到Kernel時，需要根據名字註冊到sysfs中，之後就不能再直接修改該字段。如果需要修改Kobject的名字，需要調用kobject_rename接口，該接口會主動處理sysfs的相關事宜。
+entry，用於將Kobject加入到Kset中的list_head。
 
-parent，指向parent kobject，以此形成层次结构（在sysfs就表现为目录结构）。
+parent，指向parent kobject，以此形成層次結構（在sysfs就表現為目錄結構）。
 
-kset，该kobject属于的Kset。可以为NULL。如果存在，且没有指定parent，则会把Kset作为parent（别忘了Kset是一个特殊的Kobject）。
+kset，該kobject屬於的Kset。可以為NULL。如果存在，且沒有指定parent，則會把Kset作為parent（別忘了Kset是一個特殊的Kobject）。
 
-ktype，该Kobject属于的kobj_type。每个Kobject必须有一个ktype，或者Kernel会提示错误。
+ktype，該Kobject屬於的kobj_type。每個Kobject必須有一個ktype，或者Kernel會提示錯誤。
 
-sd，该Kobject在sysfs中的表示。
+sd，該Kobject在sysfs中的表示。
 
-kref，"struct kref”类型（在include/linux/kref.h中定义）的变量，为一个可用于原子操作的引用计数。
+kref，"struct kref”類型（在include/linux/kref.h中定義）的變量，為一個可用於原子操作的引用計數。
 
-state_initialized，指示该Kobject是否已经初始化，以在Kobject的Init，Put，Add等操作时进行异常校验。
+state_initialized，指示該Kobject是否已經初始化，以在Kobject的Init，Put，Add等操作時進行異常校驗。
 
-state_in_sysfs，指示该Kobject是否已在sysfs中呈现，以便在自动注销时从sysfs中移除。
+state_in_sysfs，指示該Kobject是否已在sysfs中呈現，以便在自動註銷時從sysfs中移除。
 
-state_add_uevent_sent/state_remove_uevent_sent，记录是否已经向用户空间发送ADD uevent，如果有，且没有发送remove uevent，则在自动注销时，补发REMOVE uevent，以便让用户空间正确处理。
+state_add_uevent_sent/state_remove_uevent_sent，記錄是否已經向用戶空間發送ADD uevent，如果有，且沒有發送remove uevent，則在自動註銷時，補發REMOVE uevent，以便讓用戶空間正確處理。
 
-uevent_suppress，如果该字段为1，则表示忽略所有上报的uevent事件。
+uevent_suppress，如果該字段為1，則表示忽略所有上報的uevent事件。
 
-`注4：Uevent提供了“用户空间通知”的功能实现，通过该功能，当内核中有Kobject的增加、删除、修改等动作时，会通知用户空间。有关该功能的具体内容，会在其它文章详细描述。`
+`注4：Uevent提供了“用戶空間通知”的功能實現，通過該功能，當內核中有Kobject的增加、刪除、修改等動作時，會通知用戶空間。有關該功能的具體內容，會在其它文章詳細描述。`
 
 
-- Kset的原型为
+- Kset的原型為
 
 
 ```c
@@ -98,13 +98,13 @@ struct kset {
 };
 ```
 
-list/list_lock，用于保存该kset下所有的kobject的链表。
+list/list_lock，用於保存該kset下所有的kobject的鏈表。
 
-kobj，该kset自己的kobject（kset是一个特殊的kobject，也会在sysfs中以目录的形式体现）。
+kobj，該kset自己的kobject（kset是一個特殊的kobject，也會在sysfs中以目錄的形式體現）。
 
-uevent_ops，该kset的uevent操作函数集。当任何Kobject需要上报uevent时，都要调用它所从属的kset的uevent_ops，添加环境变量，或者过滤event（kset可以决定哪些event可以上报）。因此，如果一个kobject不属于任何kset时，是不允许发送uevent的。
+uevent_ops，該kset的uevent操作函數集。當任何Kobject需要上報uevent時，都要調用它所從屬的kset的uevent_ops，添加環境變量，或者過濾event（kset可以決定哪些event可以上報）。因此，如果一個kobject不屬於任何kset時，是不允許發送uevent的。
 
-- Ktype的原型为
+- Ktype的原型為
 
 ```c
 /* include/linux/kobject.h, line 108 */
@@ -117,27 +117,27 @@ struct kobj_type {
 };
 ```
 
-release，通过该回调函数，可以将包含该种类型kobject的数据结构的内存空间释放掉。
+release，通過該回調函數，可以將包含該種類型kobject的數據結構的內存空間釋放掉。
 
-sysfs_ops，该种类型的Kobject的sysfs文件系统接口。
+sysfs_ops，該種類型的Kobject的sysfs文件系統接口。
 
-default_attrs，该种类型的Kobject的atrribute列表（所谓attribute，就是sysfs文件系统中的一个文件）。将会在Kobject添加到内核时，一并注册到sysfs中。
+default_attrs，該種類型的Kobject的atrribute列表（所謂attribute，就是sysfs文件系統中的一個文件）。將會在Kobject添加到內核時，一併註冊到sysfs中。
 
-child_ns_type/namespace，和文件系统（sysfs）的命名空间有关，这里不再详细说明。
-
-
-
-##总结，Ktype以及整个Kobject机制的理解。 
-Kobject的核心功能是：保持一个引用计数，当该计数减为0时，自动释放（由本文所讲的kobject模块负责） Kobject所占用的meomry空间。这就决定了Kobject必须是动态分配的（只有这样才能动态释放）。 
-
-而Kobject大多数的使用场景，是内嵌在大型的数据结构中（如Kset、device_driver等），因此这些大型的数据结构，也必须是动态分配、动态释放的。那么释放的时机是什么呢？是内嵌的Kobject释放时。但是Kobject的释放是由Kobject模块自动完成的（在引用计数为0时），那么怎么一并释放包含自己的大型数据结构呢？ 
-
-这时Ktype就派上用场了。我们知道，Ktype中的release回调函数负责释放Kobject（甚至是包含Kobject的数据结构）的内存空间，那么Ktype及其内部函数，是由谁实现呢？是由上层数据结构所在的模块！因为只有它，才清楚Kobject嵌在哪个数据结构中，并通过Kobject指针以及自身的数据结构类型，找到需要释放的上层数据结构的指针，然后释放它。 
-
-讲到这里，就清晰多了。所以，每一个内嵌Kobject的数据结构，例如kset、device、device_driver等等，都要实现一个Ktype，并定义其中的回调函数。同理，sysfs相关的操作也一样，必须经过ktype的中转，因为sysfs看到的是Kobject，而真正的文件操作的主体，是内嵌Kobject的上层数据结构！ 
+child_ns_type/namespace，和文件系統（sysfs）的命名空間有關，這裡不再詳細說明。
 
 
-顺便提一下，Kobject是面向对象的思想在Linux kernel中的极致体现，但C语言的优势却不在这里，所以Linux kernel需要用比较巧妙（也很啰嗦）的手段去实现，
+
+##總結，Ktype以及整個Kobject機制的理解。 
+Kobject的核心功能是：保持一個引用計數，當該計數減為0時，自動釋放（由本文所講的kobject模塊負責） Kobject所佔用的meomry空間。這就決定了Kobject必須是動態分配的（只有這樣才能動態釋放）。 
+
+而Kobject大多數的使用場景，是內嵌在大型的數據結構中（如Kset、device_driver等），因此這些大型的數據結構，也必須是動態分配、動態釋放的。那麼釋放的時機是什麼呢？是內嵌的Kobject釋放時。但是Kobject的釋放是由Kobject模塊自動完成的（在引用計數為0時），那麼怎麼一併釋放包含自己的大型數據結構呢？ 
+
+這時Ktype就派上用場了。我們知道，Ktype中的release回調函數負責釋放Kobject（甚至是包含Kobject的數據結構）的內存空間，那麼Ktype及其內部函數，是由誰實現呢？是由上層數據結構所在的模塊！因為只有它，才清楚Kobject嵌在哪個數據結構中，並通過Kobject指針以及自身的數據結構類型，找到需要釋放的上層數據結構的指針，然後釋放它。 
+
+講到這裡，就清晰多了。所以，每一個內嵌Kobject的數據結構，例如kset、device、device_driver等等，都要實現一個Ktype，並定義其中的回調函數。同理，sysfs相關的操作也一樣，必須經過ktype的中轉，因為sysfs看到的是Kobject，而真正的文件操作的主體，是內嵌Kobject的上層數據結構！ 
+
+
+順便提一下，Kobject是面向對象的思想在Linux kernel中的極致體現，但C語言的優勢卻不在這裡，所以Linux kernel需要用比較巧妙（也很囉嗦）的手段去實現，
 
 ---
 
@@ -146,21 +146,21 @@ Kobject的核心功能是：保持一个引用计数，当该计数减为0时，
 ###3.3.1 Kobject使用流程
 
 
-Kobject大多数情况下（有一种例外，下面会讲）会嵌在其它数据结构中使用，其使用流程如下：
+Kobject大多數情況下（有一種例外，下面會講）會嵌在其它數據結構中使用，其使用流程如下：
 
-- 定义一个struct kset类型的指针，并在初始化时为它分配空间，添加到内核中
-- 根据实际情况，定义自己所需的数据结构原型，该数据结构中包含有Kobject
-- 定义一个适合自己的ktype，并实现其中回调函数
-- 在需要使用到包含Kobject的数据结构时，动态分配该数据结构，并分配Kobject空间，添加到内核中
-- 每一次引用数据结构时，调用kobject_get接口增加引用计数；引用结束时，调用kobject_put接口，减少引用计数
-- 当引用计数减少为0时，Kobject模块调用ktype所提供的release接口，释放上层数据结构以及Kobject的内存空间
+- 定義一個struct kset類型的指針，並在初始化時為它分配空間，添加到內核中
+- 根據實際情況，定義自己所需的數據結構原型，該數據結構中包含有Kobject
+- 定義一個適合自己的ktype，並實現其中回調函數
+- 在需要使用到包含Kobject的數據結構時，動態分配該數據結構，並分配Kobject空間，添加到內核中
+- 每一次引用數據結構時，調用kobject_get接口增加引用計數；引用結束時，調用kobject_put接口，減少引用計數
+- 當引用計數減少為0時，Kobject模塊調用ktype所提供的release接口，釋放上層數據結構以及Kobject的內存空間
  
-上面有提过，有一种例外，Kobject不再嵌在其它数据结构中，可以单独使用，这个例外就是：开发者只需要在sysfs中创建一个目录，而不需要其它的kset、ktype的操作。这时可以直接调用kobject_create_and_add接口，分配一个kobject结构并把它添加到kernel中。
+上面有提過，有一種例外，Kobject不再嵌在其它數據結構中，可以單獨使用，這個例外就是：開發者只需要在sysfs中創建一個目錄，而不需要其它的kset、ktype的操作。這時可以直接調用kobject_create_and_add接口，分配一個kobject結構並把它添加到kernel中。
 
-### 3.3.2 Kobject的分配和释放
-前面讲过，Kobject必须动态分配，而不能静态定义或者位于堆栈之上，它的分配方法有两种。
+### 3.3.2 Kobject的分配和釋放
+前面講過，Kobject必須動態分配，而不能靜態定義或者位於堆棧之上，它的分配方法有兩種。
 
-####1. 通过kmalloc自行分配（一般是跟随上层数据结构分配），并在初始化后添加到kernel。这种方法涉及如下接口：
+####1. 通過kmalloc自行分配（一般是跟隨上層數據結構分配），並在初始化後添加到kernel。這種方法涉及如下接口：
 
 ```c
 /* include/linux/kobject.h, line 85 */
@@ -176,36 +176,36 @@ int kobject_init_and_add(struct kobject* kobj,
 ```
 
 
-kobject_init，初始化通过kmalloc等内存分配函数获得的struct kobject指针。主要执行逻辑为：
+kobject_init，初始化通過kmalloc等內存分配函數獲得的struct kobject指針。主要執行邏輯為：
 
-- 确认kobj和ktype不为空
-- 如果该指针已经初始化过（判断kobj->state_initialized），打印错误提示及堆栈信息（但不是致命错误，所以还可以继续）
-- 初始化kobj内部的参数，包括引用计数、list、各种标志等
-- 根据输入参数，将ktype指针赋予kobj->ktype
+- 確認kobj和ktype不為空
+- 如果該指針已經初始化過（判斷kobj->state_initialized），打印錯誤提示及堆棧信息（但不是致命錯誤，所以還可以繼續）
+- 初始化kobj內部的參數，包括引用計數、list、各種標誌等
+- 根據輸入參數，將ktype指針賦予kobj->ktype
 
-kobject_add，将初始化完成的kobject添加到kernel中，参数包括需要添加的kobject、该kobject的parent（用于形成层次结构，可以为空）、用于提供kobject name的格式化字符串。主要执行逻辑为：
-- 确认kobj不为空，确认kobj已经初始化，否则错误退出
-- 调用内部接口kobject_add_varg，完成添加操作
+kobject_add，將初始化完成的kobject添加到kernel中，參數包括需要添加的kobject、該kobject的parent（用於形成層次結構，可以為空）、用於提供kobject name的格式化字符串。主要執行邏輯為：
+- 確認kobj不為空，確認kobj已經初始化，否則錯誤退出
+- 調用內部接口kobject_add_varg，完成添加操作
 
-kobject_init_and_add，是上面两个接口的组合，不再说明。
-==========================内部接口======================================
-kobject_add_varg，解析格式化字符串，将结果赋予kobj->name，之后调用kobject_add_internal接口，完成真正的添加操作。
+kobject_init_and_add，是上面兩個接口的組合，不再說明。
+==========================內部接口======================================
+kobject_add_varg，解析格式化字符串，將結果賦予kobj->name，之後調用kobject_add_internal接口，完成真正的添加操作。
 
-kobject_add_internal，将kobject添加到kernel。主要执行逻辑为：
+kobject_add_internal，將kobject添加到kernel。主要執行邏輯為：
 
-- 校验kobj以及kobj->name的合法性，若不合法打印错误信息并退出
-- 调用kobject_get增加该kobject的parent的引用计数（如果存在parent的话）
-- 如果存在kset（即kobj->kset不为空），则调用kobj_kset_join接口加入kset。同时，如果该kobject没有parent，却存在kset，则将它的parent设为kset（kset是一个特殊的kobject），并增加kset的引用计数
-- 通过create_dir接口，调用sysfs的相关接口，在sysfs下创建该kobject对应的目录
-- 如果创建失败，执行后续的回滚操作，否则将kobj->state_in_sysfs置为1
+- 校驗kobj以及kobj->name的合法性，若不合法打印錯誤信息並退出
+- 調用kobject_get增加該kobject的parent的引用計數（如果存在parent的話）
+- 如果存在kset（即kobj->kset不為空），則調用kobj_kset_join接口加入kset。同時，如果該kobject沒有parent，卻存在kset，則將它的parent設為kset（kset是一個特殊的kobject），並增加kset的引用計數
+- 通過create_dir接口，調用sysfs的相關接口，在sysfs下創建該kobject對應的目錄
+- 如果創建失敗，執行後續的回滾操作，否則將kobj->state_in_sysfs置為1
 
-kobj_kset_join，负责将kobj加入到对应kset的链表中。
+kobj_kset_join，負責將kobj加入到對應kset的鏈表中。
 
 
-这种方式分配的kobject，会在引用计数变为0时，由kobject_put调用其ktype的release接口，释放内存空间，具体可参考后面有关kobject_put的讲解。
+這種方式分配的kobject，會在引用計數變為0時，由kobject_put調用其ktype的release接口，釋放內存空間，具體可參考後面有關kobject_put的講解。
 
-####2. 使用kobject_create创建
-Kobject模块可以使用kobject_create自行分配空间，并内置了一个ktype（dynamic_kobj_ktype），用于在计数为0是释放空间。代码如下：
+####2. 使用kobject_create創建
+Kobject模塊可以使用kobject_create自行分配空間，並內置了一個ktype（dynamic_kobj_ktype），用於在計數為0是釋放空間。代碼如下：
 
 
 ```c
@@ -231,15 +231,15 @@ static struct kobj_type dynamic_kobj_ktype = {
 
 ```
 
-kobject_create，该接口为kobj分配内存空间，并以dynamic_kobj_ktype为参数，调用kobject_init接口，完成后续的初始化操作。
+kobject_create，該接口為kobj分配內存空間，並以dynamic_kobj_ktype為參數，調用kobject_init接口，完成後續的初始化操作。
 
-kobject_create_and_add，是kobject_create和kobject_add的组合，不再说明。
+kobject_create_and_add，是kobject_create和kobject_add的組合，不再說明。
 
-dynamic_kobj_release，直接调用kfree释放kobj的空间。
+dynamic_kobj_release，直接調用kfree釋放kobj的空間。
 
-### 3.3.3 Kobject引用计数的修改
+### 3.3.3 Kobject引用計數的修改
 
-通过kobject_get和kobject_put可以修改kobject的引用计数，并在计数为0时，调用ktype的release接口，释放占用空间。
+通過kobject_get和kobject_put可以修改kobject的引用計數，並在計數為0時，調用ktype的release接口，釋放佔用空間。
 
 ```c
 /* include/linux/kobject.h, line 103 */
@@ -247,20 +247,20 @@ extern struct kobject *kobject_get(struct kobject *kobj);
 extern void kobject_put(struct kobject *kobj);
 ```
 
-kobject_get，调用kref_get，增加引用计数。
-kobject_put，以内部接口kobject_release为参数，调用kref_put。kref模块会在引用计数为零时，调用kobject_release。
-==========================内部接口======================================
-kobject_release，通过kref结构，获取kobject指针，并调用kobject_cleanup接口继续。
-kobject_cleanup，负责释放kobject占用的空间，主要执行逻辑如下：
+kobject_get，調用kref_get，增加引用計數。
+kobject_put，以內部接口kobject_release為參數，調用kref_put。kref模塊會在引用計數為零時，調用kobject_release。
+==========================內部接口======================================
+kobject_release，通過kref結構，獲取kobject指針，並調用kobject_cleanup接口繼續。
+kobject_cleanup，負責釋放kobject佔用的空間，主要執行邏輯如下：
 
-- 检查该kobject是否有ktype，如果没有，打印警告信息
-- 如果该kobject向用户空间发送了ADD uevent但没有发送REMOVE uevent，补发REMOVE uevent
-- 如果该kobject有在sysfs文件系统注册，调用kobject_del接口，删除它在sysfs中的注册
-- 调用该kobject的ktype的release接口，释放内存空间
-- 释放该kobject的name所占用的内存空间
+- 檢查該kobject是否有ktype，如果沒有，打印警告信息
+- 如果該kobject向用戶空間發送了ADD uevent但沒有發送REMOVE uevent，補發REMOVE uevent
+- 如果該kobject有在sysfs文件系統註冊，調用kobject_del接口，刪除它在sysfs中的註冊
+- 調用該kobject的ktype的release接口，釋放內存空間
+- 釋放該kobject的name所佔用的內存空間
 
-###3.3.4 Kset的初始化、注册
-Kset是一个特殊的kobject，因此其初始化、注册等操作也会调用kobject的相关接口，除此之外，会有它特有的部分。另外，和Kobject一样，kset的内存分配，可以由上层软件通过kmalloc自行分配，也可以由Kobject模块负责分配，具体如下。
+###3.3.4 Kset的初始化、註冊
+Kset是一個特殊的kobject，因此其初始化、註冊等操作也會調用kobject的相關接口，除此之外，會有它特有的部分。另外，和Kobject一樣，kset的內存分配，可以由上層軟件通過kmalloc自行分配，也可以由Kobject模塊負責分配，具體如下。
 
 ```c
 /* include/linux/kobject.h, line 166 */
@@ -273,14 +273,14 @@ extern struct kset* __must_check kset_create_and_add(const char* name,
 
 ```
 
-kset_init，该接口用于初始化已分配的kset，主要包括调用kobject_init_internal初始化其kobject，然后初始化kset的链表。需要注意的时，如果使用此接口，上层软件必须提供该kset中的kobject的ktype。
+kset_init，該接口用於初始化已分配的kset，主要包括調用kobject_init_internal初始化其kobject，然後初始化kset的鏈表。需要注意的時，如果使用此接口，上層軟件必須提供該kset中的kobject的ktype。
 
-kset_register，先调用kset_init，然后调用kobject_add_internal将其kobject添加到kernel。
+kset_register，先調用kset_init，然後調用kobject_add_internal將其kobject添加到kernel。
 
 
-kset_unregister，直接调用kobject_put释放其kobject。当其kobject的引用计数为0时，即调用ktype的release接口释放kset占用的空间。
+kset_unregister，直接調用kobject_put釋放其kobject。當其kobject的引用計數為0時，即調用ktype的release接口釋放kset佔用的空間。
 
-kset_create_and_add，会调用内部接口kset_create动态创建一个kset，并调用kset_register将其注册到kernel。
+kset_create_and_add，會調用內部接口kset_create動態創建一個kset，並調用kset_register將其註冊到kernel。
 
-==========================内部接口======================================
-kset_create，该接口使用kzalloc分配一个kset空间，并定义一个kset_ktype类型的ktype，用于释放所有由它分配的kset空间。
+==========================內部接口======================================
+kset_create，該接口使用kzalloc分配一個kset空間，並定義一個kset_ktype類型的ktype，用於釋放所有由它分配的kset空間。

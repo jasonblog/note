@@ -368,6 +368,7 @@
    * [如何判斷 C++ 物件的類別?](c++/215.md)
    * [A Simple C++ Function Call Stack Trace Utility](c++/a_simple_c++_function_call_stack_trace_utility.md)
    * [探索C++虛函數在g++中的實現](c++/tan_suo_c_xu_han_shu_zai_g_zhong_de_shi_xian.md)
+   * 樸實的C++設計 
 * [GNU make](gunmake/README.md)
    * [CMake](cmake/cmake.md)
        * [CMake 初探](cmake/cmake_chu_tan.md)

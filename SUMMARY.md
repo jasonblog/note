@@ -469,7 +469,7 @@
        * [Polymorphism in C](26/2624.md)
 * [設計模式](design_pattern/README.md)
    * [23種設計模式的趣味解釋](design_pattern/271.md)
-   * 设计模式經驗談
+   * [设计模式經驗談](design_pattern/she_ji_mo_shi_jing_yan_tan.md)
 * [OpenWrt](openwrt/README.md)
    * [OpenWRT 編譯環境搭建](openwrt/281.md)
 * [Python](python/README.md)

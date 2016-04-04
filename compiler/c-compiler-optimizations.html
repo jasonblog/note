@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>內聯彙編 | Jason note</title>
+        <title>C-compiler-optimizations | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../simplelinux/dynamicstack.html" />
+    <link rel="next" href="../linked_and_loader/linked_and_loader.html" />
     
     
-    <link rel="prev" href="../simplelinux/staticstack.html" />
+    <link rel="prev" href="../compiler/shen_ru_qian_chu_jiao_ni_xie_bian_yi_qi.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="22.21" data-basepath=".." data-revision="Mon Apr 04 2016 19:24:14 GMT+0800 (CST)">
+    <div class="book" data-level="46.4" data-basepath=".." data-revision="Mon Apr 04 2016 19:24:14 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -7064,7 +7064,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="22.21" data-path="simplelinux/inlineasm.html">
+        <li class="chapter " data-level="22.21" data-path="simplelinux/inlineasm.html">
             
                 
                     <a href="../simplelinux/inlineasm.html">
@@ -11487,7 +11487,7 @@
             
         </li>
     
-        <li class="chapter " data-level="46.4" data-path="compiler/c-compiler-optimizations.html">
+        <li class="chapter active" data-level="46.4" data-path="compiler/c-compiler-optimizations.html">
             
                 
                     <a href="../compiler/c-compiler-optimizations.html">
@@ -11994,174 +11994,333 @@
                 
                     <section class="normal" id="section-">
                     
-                        <p><a name="top"></a></p>
-<h1 align="center">&#x5167;&#x806F;&#x5F59;&#x7DE8;
-</h1>
-
-<p>&#x3000;&#x3000;&#x5167;&#x806F;&#x5F59;&#x7DE8;&#x662F;&#x6307;&#x5728; C/C++ &#x4EE3;&#x78BC;&#x4E2D;&#x5D4C;&#x5165;&#x7684;&#x5F59;&#x7DE8;&#x4EE3;&#x78BC;&#xFF0C;
-&#x8207;&#x5168;&#x90E8;&#x662F;&#x5F59;&#x7DE8;&#x7684;&#x5F59;&#x7DE8;&#x6E90;&#x6587;&#x4EF6;&#x4E0D;&#x540C;&#xFF0C;&#x5B83;&#x5011;&#x88AB;&#x5D4C;&#x5165;&#x5230; C/C++ &#x7684;&#x5927;&#x74B0;&#x5883;&#x4E2D;&#x3002;</p>
-<h2 id="%E4%B8%80%E3%80%81gcc-%E5%85%A7%E8%81%AF%E5%BD%99%E7%B7%A8">&#x4E00;&#x3001;gcc &#x5167;&#x806F;&#x5F59;&#x7DE8;</h2>
-<p>gcc &#x5167;&#x806F;&#x5F59;&#x7DE8;&#x7684;&#x683C;&#x5F0F;&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre><code class="lang-c"><span class="hljs-keyword">asm</span> ( &#x5F59;&#x7DE8;&#x8A9E;&#x53E5;
-    : &#x8F38;&#x51FA;&#x64CD;&#x4F5C;&#x6578;        <span class="hljs-comment">// &#x975E;&#x5FC5;&#x9700;</span>
-    : &#x8F38;&#x5165;&#x64CD;&#x4F5C;&#x6578;        <span class="hljs-comment">// &#x975E;&#x5FC5;&#x9700;</span>
-    : &#x5176;&#x4ED6;&#x88AB;&#x6C59;&#x67D3;&#x7684;&#x5BC4;&#x5B58;&#x5668;    <span class="hljs-comment">// &#x975E;&#x5FC5;&#x9700;</span>
-    );
-</code></pre>
-<p>&#x6211;&#x5011;&#x901A;&#x904E;&#x4E00;&#x500B;&#x7C21;&#x55AE;&#x7684;&#x4F8B;&#x5B50;&#x4F86;&#x77AD;&#x89E3;&#x4E00;&#x4E0B;&#x5B83;&#x7684;&#x683C;&#x5F0F;&#xFF08;gcc_add.c&#xFF09;&#xFF1A;</p>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+                        <h1 id="c-compiler-optimizations">C-compiler-optimizations</h1>
+<h2 id="branch-optimization">Branch Optimization</h2>
+<h3 id="if-optimization">If optimization</h3>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">f</span> <span class="hljs-params">(<span class="hljs-keyword">int</span> *p)</span>
 </span>{
-    <span class="hljs-keyword">int</span> a=<span class="hljs-number">1</span>, b=<span class="hljs-number">2</span>, c=<span class="hljs-number">0</span>;
-
-    <span class="hljs-comment">// &#x86CB;&#x75BC;&#x7684; add &#x64CD;&#x4F5C;</span>
-    <span class="hljs-keyword">asm</span>(
-        <span class="hljs-string">&quot;addl %2, %0&quot;</span>        <span class="hljs-comment">// 1</span>
-        : <span class="hljs-string">&quot;=g&quot;</span>(c)            <span class="hljs-comment">// 2</span>
-        : <span class="hljs-string">&quot;0&quot;</span>(a), <span class="hljs-string">&quot;g&quot;</span>(b)    <span class="hljs-comment">// 3</span>
-        : <span class="hljs-string">&quot;memory&quot;</span>);        <span class="hljs-comment">// 4</span>
-
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;&#x73FE;&#x5728;c&#x662F;:%d\n&quot;</span>, c);
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">if</span> (p) g(<span class="hljs-number">1</span>);
+  <span class="hljs-keyword">if</span> (p) g(<span class="hljs-number">2</span>);
+  <span class="hljs-keyword">return</span>;
 }
 </code></pre>
-<p>&#x5167;&#x806F;&#x5F59;&#x7DE8;&#x4E2D;&#xFF1A;</p>
-<ol>
-<li>&#x7B2C;1&#x884C;&#x662F;&#x5F59;&#x7DE8;&#x8A9E;&#x53E5;&#xFF0C;&#x7528;&#x96D9;&#x5F15;&#x865F;&#x5F15;&#x8D77;&#x4F86;&#xFF0C;
-<b>&#x591A;&#x689D;&#x8A9E;&#x53E5;&#x7528; ; &#x6216;&#x8005; \n\t &#x4F86;&#x5206;&#x9694;&#x3002;</b></li>
-<li><p>&#x7B2C;2&#x884C;&#x662F;&#x8F38;&#x51FA;&#x64CD;&#x4F5C;&#x6578;&#xFF0C;&#x90FD;&#x662F; &quot;=?&quot;(var) &#x7684;&#x5F62;&#x5F0F;&#xFF0C;
-var &#x53EF;&#x4EE5;&#x662F;&#x4EFB;&#x610F;&#x5167;&#x5B58;&#x8B8A;&#x91CF;&#xFF08;&#x8F38;&#x51FA;&#x7D50;&#x679C;&#x6703;&#x5B58;&#x5230;&#x9019;&#x500B;&#x8B8A;&#x91CF;&#x4E2D;&#xFF09;&#xFF0C;
-? &#x4E00;&#x822C;&#x662F;&#x4E0B;&#x9762;&#x9019;&#x4E9B;&#x6A19;&#x8B58;&#x7B26;
-&#xFF08;&#x8868;&#x793A;&#x5167;&#x806F;&#x5F59;&#x7DE8;&#x4E2D;&#x7528;&#x4EC0;&#x9EBC;&#x4F86;&#x4EE3;&#x7406;&#x9019;&#x500B;&#x64CD;&#x4F5C;&#x6578;&#xFF09;&#xFF1A;</p>
-<ul>
-<li>a,b,c,d,S,D &#x5206;&#x5225;&#x4EE3;&#x8868; eax,ebx,ecx,edx,esi,edi &#x5BC4;&#x5B58;&#x5668;</li>
-<li>r &#x4E0A;&#x9762;&#x7684;&#x5BC4;&#x5B58;&#x5668;&#x7684;&#x4EFB;&#x610F;&#x4E00;&#x500B;&#xFF08;&#x8AB0;&#x9592;&#x8457;&#x5C31;&#x7528;&#x8AB0;&#xFF09;</li>
-<li>m &#x5167;&#x5B58;</li>
-<li>i &#x7ACB;&#x5373;&#x6578;&#xFF08;&#x5E38;&#x91CF;&#xFF0C;&#x53EA;&#x7528;&#x65BC;&#x8F38;&#x5165;&#x64CD;&#x4F5C;&#x6578;&#xFF09;</li>
-<li><p>g &#x5BC4;&#x5B58;&#x5668;&#x3001;&#x5167;&#x5B58;&#x3001;&#x7ACB;&#x5373;&#x6578; &#x90FD;&#x884C;&#xFF08;gcc&#x4F60;&#x770B;&#x8457;&#x8FA6;&#xFF09;</p>
-<p><b>&#x5728;&#x5F59;&#x7DE8;&#x4E2D;&#x7528; %&#x5E8F;&#x865F; &#x4F86;&#x4EE3;&#x8868;&#x9019;&#x4E9B;&#x8F38;&#x5165;/&#x8F38;&#x51FA;&#x64CD;&#x4F5C;&#x6578;&#xFF0C;
-&#x5E8F;&#x865F;&#x5F9E; 0 &#x958B;&#x59CB;&#x3002;&#x70BA;&#x4E86;&#x8207;&#x64CD;&#x4F5C;&#x6578;&#x5340;&#x5206;&#x958B;&#x4F86;&#xFF0C;
-&#x5BC4;&#x5B58;&#x5668;&#x7528;&#x5169;&#x500B;%&#x5F15;&#x51FA;&#xFF0C;&#x5982;&#xFF1A;%%eax</b></p>
-</li>
-</ul>
-</li>
-<li>&#x7B2C;3&#x884C;&#x662F;&#x8F38;&#x5165;&#x64CD;&#x4F5C;&#x6578;&#xFF0C;&#x90FD;&#x662F; &quot;?&quot;(var) &#x7684;&#x5F62;&#x5F0F;&#xFF0C;
-<b>? &#x9664;&#x4E86;&#x53EF;&#x4EE5;&#x662F;&#x4E0A;&#x9762;&#x7684;&#x90A3;&#x4E9B;&#x6A19;&#x8B58;&#x7B26;&#xFF0C;&#x9084;&#x53EF;&#x4EE5;&#x662F;&#x8F38;&#x51FA;&#x64CD;&#x4F5C;&#x6578;&#x7684;&#x5E8F;&#x865F;&#xFF0C;
-&#x8868;&#x793A;&#x7528; var &#x4F86;&#x521D;&#x59CB;&#x5316;&#x8A72;&#x8F38;&#x51FA;&#x64CD;&#x4F5C;&#x6578;</b>&#xFF0C;
-&#x4E0A;&#x9762;&#x7684;&#x7A0B;&#x5E8F;&#x4E2D; %0 &#x548C; %1 &#x5C31;&#x662F;&#x4E00;&#x500B;&#x6771;&#x897F;&#xFF0C;&#x521D;&#x59CB;&#x5316;&#x70BA; 1&#xFF08;a&#x7684;&#x503C;&#xFF09;&#x3002;</li>
-<li>&#x7B2C;4&#x884C;&#x6A19;&#x51FA;&#x90A3;&#x4E9B;&#x5728;&#x5F59;&#x7DE8;&#x4EE3;&#x78BC;&#x4E2D;&#x4FEE;&#x6539;&#x4E86;&#x7684;&#x3001;
-&#x53C8;&#x6C92;&#x6709;&#x5728;&#x8F38;&#x5165;/&#x8F38;&#x51FA;&#x5217;&#x8868;&#x4E2D;&#x5217;&#x51FA;&#x7684;&#x5BC4;&#x5B58;&#x5668;&#xFF0C;
-&#x9019;&#x6A23; gcc &#x5C31;&#x4E0D;&#x6703;&#x64C5;&#x81EA;&#x4F7F;&#x7528;&#x9019;&#x4E9B;&quot;&#x5371;&#x96AA;&#x7684;&quot;&#x5BC4;&#x5B58;&#x5668;&#x3002;
-&#x9084;&#x53EF;&#x4EE5;&#x7528; &quot;memory&quot; &#x8868;&#x793A;&#x5728;&#x5167;&#x806F;&#x5F59;&#x7DE8;&#x4E2D;&#x4FEE;&#x6539;&#x4E86;&#x5167;&#x5B58;&#xFF0C;
-&#x4E4B;&#x524D;&#x7DE9;&#x5B58;&#x5728;&#x5BC4;&#x5B58;&#x5668;&#x4E2D;&#x7684;&#x5167;&#x5B58;&#x8B8A;&#x91CF;&#x9700;&#x8981;&#x91CD;&#x65B0;&#x8B80;&#x53D6;&#x3002;</li>
-</ol>
-<p>&#x4E0A;&#x9762;&#x9019;&#x4E00;&#x6BB5;&#x5167;&#x806F;&#x5F59;&#x7DE8;&#x7684;&#x6548;&#x679C;&#x5C31;&#x662F;&#xFF0C;
-&#x628A;a&#x8207;b&#x7684;&#x548C;&#x5B58;&#x5165;&#x4E86;c&#x3002;&#x7576;&#x7136;&#x9019;&#x53EA;&#x662F;&#x4E00;&#x500B;&#x793A;&#x4F8B;&#x7A0B;&#x5E8F;&#xFF0C;
-&#x8AB0;&#x8981;&#x771F;&#x9019;&#x9EBC;&#x7528;&#x5C31;&#x86CB;&#x75BC;&#x4E86;&#xFF0C;
-<b>&#x5167;&#x806F;&#x5F59;&#x7DE8;&#x4E00;&#x822C;&#x5728;&#x4E0D;&#x5F97;&#x4E0D;&#x7528;&#x7684;&#x60C5;&#x6CC1;&#x4E0B;&#x624D;&#x4F7F;&#x7528;</b>&#x3002;</p>
-<h2 id="%E4%BA%8C%E3%80%81vc-%E5%85%A7%E8%81%AF%E5%BD%99%E7%B7%A8">&#x4E8C;&#x3001;VC &#x5167;&#x806F;&#x5F59;&#x7DE8;</h2>
-<p>gcc &#x5167;&#x806F;&#x5F59;&#x7DE8;&#x88AB;&#x8A2D;&#x8A08;&#x5F97;&#x5F88;&#x8907;&#x96DC;&#xFF0C;&#x521D;&#x5B78;&#x8005;&#x770B;&#x4E86;&#x5F80;&#x5F80;&#x982D;&#x5927;&#xFF0C;
-&#x800C; VC &#x7684;&#x5167;&#x806F;&#x5F59;&#x7DE8;&#x5C31;&#x7C21;&#x55AE;&#x591A;&#x4E86;&#xFF1A;</p>
-<pre><code class="lang-c">__asm{
-    &#x5F59;&#x7DE8;&#x8A9E;&#x53E5;
-}
-</code></pre>
-<p>&#x4E00;&#x500B;&#x4F8B;&#x5B50;&#x7A0B;&#x5E8F;&#x5982;&#x4E0B;&#xFF08;vc_add.c&#xFF09;&#xFF1A;</p>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+<p>Can be simply replaced by</p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">f</span> <span class="hljs-params">(<span class="hljs-keyword">int</span> *p)</span> 
 </span>{
-    <span class="hljs-keyword">int</span> a=<span class="hljs-number">1</span>, b=<span class="hljs-number">2</span>, c=<span class="hljs-number">0</span>;
+    <span class="hljs-keyword">if</span> (p) {
+        g(<span class="hljs-number">1</span>);
+        g(<span class="hljs-number">2</span>);
 
-    <span class="hljs-comment">// &#x86CB;&#x75BC;&#x7684; add &#x64CD;&#x4F5C;</span>
-    __asm{
-        push eax    <span class="hljs-comment">// &#x4FDD;&#x8B77; eax</span>
-
-        mov eax, a    <span class="hljs-comment">// eax = a;</span>
-        add eax, b    <span class="hljs-comment">// eax = eax + b;</span>
-        mov c, eax    <span class="hljs-comment">// c = eax;</span>
-
-        pop eax        <span class="hljs-comment">// &#x6062;&#x5FA9; eax</span>
     }
-
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;&#x73FE;&#x5728;c&#x662F;:%d\n&quot;</span>, c);
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">return</span>;
 }
 </code></pre>
-<p>VC &#x7684;&#x5167;&#x806F;&#x5F59;&#x7DE8;&#x4E2D;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x4EE5;&#x8B8A;&#x91CF;&#x540D;&#x7684;&#x5F62;&#x5F0F;&#x4F7F;&#x7528;&#x5C40;&#x90E8;&#x8B8A;&#x91CF;&#xFF0C;
-&#x9019;&#x5C31;&#x65B9;&#x4FBF;&#x591A;&#x4E86;&#x3002;<b>&#x4F46;&#x662F;&#xFF0C;
-VC &#x5167;&#x806F;&#x5F59;&#x7DE8;&#x4E2D;&#x6709;&#x4E9B;&#x8B8A;&#x91CF;&#x540D;&#x662F;&#x4FDD;&#x7559;&#x7684;&#xFF0C;&#x6BD4;&#x5982;&#xFF1A;size&#xFF0C;
-&#x4F7F;&#x7528;&#x9019;&#x4E9B;&#x8B8A;&#x91CF;&#x540D;&#x5C31;&#x6703;&#x5831;&#x932F;&#xFF08;&#x628A;b&#x6539;&#x6210;size&#xFF0C;
-&#x4E0A;&#x9762;&#x7684;&#x7A0B;&#x5E8F;&#x5C31;&#x7DE8;&#x8B6F;&#x4E0D;&#x901A;&#x904E;&#x4E86;&#xFF09;&#x3002;&#x6240;&#x4EE5;&#xFF0C;&#x8D77;&#x540D;&#x5B57;&#x4E00;&#x5B9A;&#x8981;&#x5C0F;&#x5FC3;&#xFF01;</b></p>
-<p>&#x3000;&#x3000;&#x56E0;&#x70BA; VC &#x6C92;&#x6709;&#x8F38;&#x5165;/&#x8F38;&#x51FA;&#x64CD;&#x4F5C;&#x6578;&#x5217;&#x8868;&#xFF0C;
-&#x5B83;&#x4E5F;&#x4E0D;&#x770B;&#x4F60;&#x7684;&#x5F59;&#x7DE8;&#x4EE3;&#x78BC;&#xFF08;&#x76F4;&#x63A5;&#x62FF;&#x53BB;&#x7528;&#xFF09;&#xFF0C;
-&#x6240;&#x4EE5;&#x5B83;&#x4E0D;&#x77E5;&#x9053;&#x4F60;&#x4FEE;&#x6539;&#x4E86;&#x54EA;&#x4E9B;&#x5BC4;&#x5B58;&#x5668;&#xFF0C;
-&#x9019;&#x4E9B;&#x8981;&#x4FEE;&#x6539;&#x7684;&#x5BC4;&#x5B58;&#x5668;&#x53EF;&#x80FD;&#x4FDD;&#x5B58;&#x8457;&#x91CD;&#x8981;&#x6578;&#x64DA;&#xFF0C;
-&#x6240;&#x4EE5;&#x7528; push/pop &#x4F86; &#x4FDD;&#x8B77;/&#x6062;&#x5FA9; &#x8981;&#x4FEE;&#x6539;&#x7684;&#x5BC4;&#x5B58;&#x5668;&#x3002;
-&#x800C; gcc &#x5C31;&#x4E0D;&#x9700;&#x8981;&#xFF0C;&#x5B83;&#x80FD;&#x5F9E;&#x8F38;&#x5165;/&#x8F38;&#x51FA;&#x5217;&#x8868;&#x4E2D;&#x7372;&#x5F97;&#x8C50;&#x5BCC;&#x7684;&#x4FE1;&#x606F;
-&#x4F86;&#x8ABF;&#x5291;&#x5404;&#x500B;&#x5BC4;&#x5B58;&#x5668;&#x7684;&#x4F7F;&#x7528;&#xFF0C;
-&#x4E26;&#x9032;&#x884C;&#x512A;&#x5316;&#xFF0C;&#x6240;&#x4EE5;&#x5F9E;&#x6548;&#x7387;&#x4E0A;&#x8AAA; VC &#x5B8C;&#x6557;&#xFF01;</p>
-<h2 id="%E4%B8%89%E3%80%81%E7%82%BA%E4%BB%80%E9%BA%BC%E7%94%A8%E5%85%A7%E8%81%AF%E5%BD%99%E7%B7%A8">&#x4E09;&#x3001;&#x70BA;&#x4EC0;&#x9EBC;&#x7528;&#x5167;&#x806F;&#x5F59;&#x7DE8;</h2>
-<p>&#x3000;&#x3000;&#x7528;&#x5167;&#x806F;&#x5F59;&#x7DE8;&#x7684;&#x4E3B;&#x8981;&#x76EE;&#x7684;&#x662F;&#x70BA;&#x4E86;&#x63D0;&#x9AD8;&#x6548;&#x7387;&#xFF1A;
-&#x5047;&#x8A2D;&#x6709;&#x4E00;&#x500B;&#x6BD4;&#x8F03;&#x6587;&#x672C;&#x5DEE;&#x7570;&#x7684;&#x7A0B;&#x5E8F; diff&#xFF0C;
-&#x5B83;&#x82B1;&#x4E86; 99% &#x7684;&#x6642;&#x9593;&#x5728; strcmp &#x9019;&#x500B;&#x51FD;&#x6578;&#x4E0A;&#xFF0C;
-&#x5982;&#x679C;&#x7528;&#x5167;&#x806F;&#x5F59;&#x7DE8;&#x5BE6;&#x73FE;&#x7684;&#x4E00;&#x500B;&#x9AD8;&#x6548;&#x7684; strcmp &#x6BD4;&#x7528; C &#x8A9E;&#x8A00;&#x5BE6;&#x73FE;&#x7684;&#x5FEB;
- 1 &#x500D;&#xFF0C;&#x90A3;&#x9EBC;&#x5C08;&#x5BB6;&#x82B1;&#x5728;&#x9019;&#x500B;&#x5C0F;&#x5C0F;&#x51FD;&#x6578;&#x4E0A;&#x7684;&#x5FC3;&#x601D;&#x5C31;&#x80FD;&#x5920;&#x5C07;&#x6574;&#x500B;&#x7A0B;&#x5E8F;&#x7684;&#x6548;&#x7387;
-&#x63D0;&#x9AD8;&#x5DEE;&#x4E0D;&#x591A; 1 &#x500D;&#xFF0C;&#x9019;&#x662F;&#x5F88;&#x503C;&#x5F97;&#x53BB;&#x505A;&#x7684;&quot;&#x65A4;&#x65A4;&#x8A08;&#x8F03;&quot;&#x3002;</p>
-<p>&#x3000;&#x3000;&#x9084;&#x6709;&#x4E00;&#x500B;&#x76EE;&#x7684;&#x5C31;&#x662F;&#x70BA;&#x4E86;&#x5BE6;&#x73FE; C &#x8A9E;&#x8A00;&#x7121;&#x6CD5;&#x5BE6;&#x73FE;&#x7684;&#x90E8;&#x5206;&#xFF0C;
-&#x6BD4;&#x5982;&#x8AAA; IO &#x64CD;&#x4F5C;&#xFF0C;&#x9084;&#x6709;&#x6211;&#x5011;&#x4E0A;&#x4E00;&#x7BC7;&#x4E2D;&#x63D0;&#x5230;&#x7684;&#x81EA;&#x4E3B;&#x4FEE;&#x6539; esp &#x5BC4;&#x5B58;&#x5668;
-&#x4E5F;&#x662F;&#x5FC5;&#x9808;&#x7528;&#x532F;&#x7DE8;&#x624D;&#x80FD;&#x5BE6;&#x73FE;&#x7684;&#x3002;</p>
-<h2 id="%E5%9B%9B%E3%80%81memcpy">&#x56DB;&#x3001;memcpy</h2>
-<p>&#x3000;&#x3000;&#x5B78; gcc &#x5167;&#x806F;&#x5F59;&#x7DE8;&#x6700;&#x597D;&#x7684;&#x5C0E;&#x5E2B;&#x83AB;&#x904E;&#x65BC; linux &#x5167;&#x6838;&#xFF0C;
-&#x6709;&#x5F88;&#x591A;&#x5E38;&#x7528;&#x7684;&#x5C0F;&#x51FD;&#x6578;&#x5982; memcpy&#x3001;strlen&#x3001;strcpy&#x3001;&#x2026;&#x2026;
-&#x5176;&#x4E2D;&#x90FD;&#x6709;&#x77ED;&#x5C0F;&#x7CBE;&#x608D;&#x7684;&#x5167;&#x806F;&#x5F59;&#x7DE8;&#x7248;&#x672C;&#xFF0C;
-&#x5982;&#x5728; linux 2.6.37 &#x4E2D;&#x7684; memcpy &#x51FD;&#x6578;&#xFF1A;</p>
-<pre><code class="lang-c">// &#x4F4D;&#x65BC; /arch/x86/boot/compressed/misc.c
-void *memcpy(void *dest, const void *src, size_t n)
+<h3 id="value-range-optimization">Value Range Optimization</h3>
+<pre><code class="lang-c"><span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt; <span class="hljs-number">100</span>; i++) {
+    <span class="hljs-keyword">if</span> (i)
+        g();
+}
+</code></pre>
+<p>The <code>if</code> expression can be eliminated since it is already known that <code>i</code> is a positive integer.</p>
+<pre><code class="lang-c">
+<span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt; <span class="hljs-number">100</span>; i++) {
+    g();
+}
+</code></pre>
+<h3 id="branch-elimination">Branch elimination</h3>
+<pre><code class="lang-c"><span class="hljs-keyword">goto</span> L1;
+  <span class="hljs-comment">//do something</span>
+
+L1:
+  <span class="hljs-keyword">goto</span> L2 <span class="hljs-comment">//L1 branch is unnecessary</span>
+</code></pre>
+<h3 id="unswitching">Unswitching</h3>
+<p>As opposed to checking if some condition or the other is true inside of a loop, you can take the <code>if</code> out of the loop and then loop.</p>
+<pre><code class="lang-c"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; N; i++) 
+    <span class="hljs-keyword">if</span> (x)
+        a[i] = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">else</span>
+        b[i] = <span class="hljs-number">0</span>;
+</code></pre>
+<pre><code class="lang-c"><span class="hljs-keyword">if</span> (x)
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; N; i++)
+        a[i] = <span class="hljs-number">0</span>
+<span class="hljs-keyword">else</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; N; i++)
+        b[i] = <span class="hljs-number">0</span>;
+</code></pre>
+<h3 id="tail-recursion">Tail Recursion</h3>
+<p>A tail recursive call can be replaced by a <code>goto</code> statement which avoids keeping track of the stack frame.</p>
+<p>Let&apos;s take a simple recursive function</p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">f</span><span class="hljs-params">(<span class="hljs-keyword">int</span> i)</span> </span>{
+    <span class="hljs-keyword">if</span> (i &gt; <span class="hljs-number">0</span>) {
+        g(i);
+        <span class="hljs-keyword">return</span> f(i - <span class="hljs-number">1</span>)
+    }
+    <span class="hljs-keyword">else</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>Now let&apos;s optimize it</p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">f</span> <span class="hljs-params">(<span class="hljs-keyword">int</span> i)</span> </span>{
+    entry:
+
+    <span class="hljs-keyword">if</span> (i &gt; <span class="hljs-number">0</span>) {
+        g(i);
+        i--;
+        <span class="hljs-keyword">goto</span> entry;
+    }
+    <span class="hljs-keyword">else</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<h3 id="try-catch-block-optimization">Try/Catch block optimization</h3>
+<p>Try/Catch blocks that never throw an exception can be optimized</p>
+<pre><code class="lang-c"><span class="hljs-keyword">try</span> {
+    <span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>;
+} <span class="hljs-keyword">catch</span> (Exception e) {
+    <span class="hljs-comment">//some code</span>
+}
+</code></pre>
+<p>Can be turned into <code>int i = 1;</code></p>
+<h2 id="loop-optimizations">Loop Optimizations</h2>
+<h3 id="loop-unrolling">Loop unrolling</h3>
+<p>When the different iterations of a loop are independent</p>
+<pre><code class="lang-c"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">100</span>; i++) {
+    g();
+}
+</code></pre>
+<p>The loop can be optimized</p>
+<pre><code class="lang-c"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">100</span>; i += <span class="hljs-number">2</span>) {
+    g();
+    g();
+}
+</code></pre>
+<p>This can of course be done even more aggressively</p>
+<h3 id="loop-collapsing">Loop Collapsing</h3>
+<pre><code class="lang-c"><span class="hljs-keyword">int</span> a[<span class="hljs-number">100</span>][<span class="hljs-number">300</span>];
+
+<span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">300</span>; i++)
+  <span class="hljs-keyword">for</span> (j = <span class="hljs-number">0</span>; j &lt; <span class="hljs-number">100</span>; j++)
+    a[j][i] = <span class="hljs-number">0</span>;
+</code></pre>
+<p>Nested loops can be collapsed into a single loop where the index iterates over range(0,\product_j index_j)</p>
+<pre><code class="lang-c"><span class="hljs-keyword">int</span> a[<span class="hljs-number">100</span>][<span class="hljs-number">300</span>];
+<span class="hljs-keyword">int</span> *p = &amp;a[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>];
+
+<span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">30000</span>; i++)
+  *p++ = <span class="hljs-number">0</span>;
+</code></pre>
+<h3 id="loop-fusion">Loop fusion</h3>
+<p>Two separate loops can be fused together</p>
+<pre><code class="lang-c"><span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">300</span>; i++)
+  a[i] = a[i] + <span class="hljs-number">3</span>;
+
+<span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">300</span>; i++)
+  b[i] = b[i] + <span class="hljs-number">4</span>;
+</code></pre>
+<pre><code class="lang-c"><span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">300</span>; i++) {
+  a[i] = a[i] + <span class="hljs-number">3</span>;
+  b[i] = b[i] + <span class="hljs-number">4</span>;
+}
+</code></pre>
+<h3 id="forward-store">Forward store</h3>
+<p>Stores to global variables in loops can be moved out of the loop</p>
+<pre><code class="lang-c"><span class="hljs-keyword">int</span> sum;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">f</span> <span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+  <span class="hljs-keyword">int</span> i;
+
+  sum = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">100</span>; i++)
+    sum += a[i];
+}
+</code></pre>
+<pre><code class="lang-c"><span class="hljs-keyword">int</span> sum;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">f</span> <span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+  <span class="hljs-keyword">int</span> i;
+  <span class="hljs-keyword">register</span> <span class="hljs-keyword">int</span> t;
+
+  t = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">100</span>; i++)
+    t += a[i];
+  sum = t;
+}
+</code></pre>
+<h2 id="access-pattern-optimization">Access pattern optimization</h2>
+<h3 id="volative-optimization">Volative Optimization</h3>
+<p><code>volatile</code> keyword is used to declare objects that may have unintended side effects.</p>
+<pre><code class="lang-c"><span class="hljs-keyword">volatile</span> <span class="hljs-keyword">int</span> x,y;
+<span class="hljs-keyword">int</span> a[SIZE];
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">f</span> <span class="hljs-params">(<span class="hljs-keyword">void</span>)</span> </span>{
+    <span class="hljs-keyword">int</span> i;
+    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>;  i &lt; SIZE; i++)
+        a[i] = x + y;
+}
+</code></pre>
+<p>You would think that you could hoist the computation of <code>x+y</code> outside of the loop </p>
+<pre><code class="lang-c"><span class="hljs-keyword">volatile</span> <span class="hljs-keyword">int</span> x,y;
+<span class="hljs-keyword">int</span> a[SIZE];
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">f</span> <span class="hljs-params">(<span class="hljs-keyword">void</span>)</span> </span>{
+    <span class="hljs-keyword">int</span> i;
+    <span class="hljs-keyword">int</span> temp = x + y;
+    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>;  i &lt; SIZE; i++)
+        a[i] = temp;
+}
+</code></pre>
+<p>However if <code>x</code> and <code>y</code> are volatile then this optimization might in fact be incorrect which is why compilers will not perform it.</p>
+<h3 id="quick-optimization">Quick Optimization</h3>
+<p>Accessed objects can be cached into a temporary variable</p>
+<pre><code class="lang-java">{
+    <span class="hljs-keyword">for</span>(i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++)
+          arr[i] = obj.i + volatile_var;
+}
+</code></pre>
+<p>Below is the code fragment after Quick Optimization.</p>
+<pre><code class="lang-java">{
+         t = obj.i;
+         <span class="hljs-keyword">for</span>(i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++)
+           arr[i] = t + volatile_var;
+}
+</code></pre>
+<h3 id="printf-optimization">printf Optimization</h3>
+<p>Calling <code>printf()</code> invokes the external library function <code>printf()</code></p>
+<pre><code>#include &lt;stdio.h&gt;
+
+void f (char *s)
 {
-    int d0, d1, d2;
-    asm volatile(
-        &quot;rep ; movsl\n\t&quot;
-        &quot;movl %4,%%ecx\n\t&quot;
-        &quot;rep ; movsb\n\t&quot;
-        : &quot;=&amp;c&quot; (d0), &quot;=&amp;D&quot; (d1), &quot;=&amp;S&quot; (d2)
-        : &quot;0&quot; (n &gt;&gt; 2), &quot;g&quot; (n &amp; 3), &quot;1&quot; (dest), &quot;2&quot; (src)
-        : &quot;memory&quot;);
+  printf (&quot;%s&quot;, s);
+}
+</code></pre><p>The string can be formatted at compile time using</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
 
-    return dest;
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">f</span> <span class="hljs-params">(<span class="hljs-keyword">char</span> *s)</span>
+</span>{
+  <span class="hljs-built_in">fputs</span> (s, <span class="hljs-built_in">stdout</span>);
 }
 </code></pre>
-<p>&#x8207; gcc_add.c &#x76F8;&#x6BD4;&#xFF0C;&#x9019;&#x500B;&#x51FD;&#x6578;&#x8981;&#x8907;&#x96DC;&#x4E0D;&#x5C11;&#xFF1A;</p>
-<ul>
-<li>&#x95DC;&#x9375;&#x5B57; volatile &#x662F;&#x544A;&#x8A34; gcc &#x4E0D;&#x8981;&#x5617;&#x8A66;&#x53BB;&#x79FB;&#x52D5;&#x3001;
-&#x522A;&#x9664;&#x9019;&#x6BB5;&#x5167;&#x806F;&#x5F59;&#x7DE8;&#x3002;</li>
-<li>rep ; movsl &#x7684;&#x5DE5;&#x4F5C;&#x6D41;&#x7A0B;&#x5982;&#x4E0B;&#xFF1A;</li>
-</ul>
-<pre><code class="lang-c"><span class="hljs-keyword">while</span>(ecx) {
-    movl (%esi), (%edi);
-    esi += <span class="hljs-number">4</span>;
-    edi += <span class="hljs-number">4</span>;
-    ecx--;
+<h3 id="dead-code-elimination">Dead code elimination</h3>
+<p>Unused code is removed</p>
+<pre><code class="lang-c"><span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>;
+<span class="hljs-keyword">return</span> <span class="hljs-comment">//something else</span>
+</code></pre>
+<h3 id="constant-propagation-constant-folding">Constant Propagation/Constant folding</h3>
+<pre><code class="lang-c"><span class="hljs-keyword">int</span> x = <span class="hljs-number">3</span>;
+<span class="hljs-keyword">int</span> y = <span class="hljs-number">4</span> + x; <span class="hljs-comment">//replaced by y = 7</span>
+
+<span class="hljs-keyword">return</span> (x + y) <span class="hljs-comment">//replaced by 10</span>
+</code></pre>
+<h3 id="instruction-combining">Instruction combining</h3>
+<p>Below is a simple case of this, loop unrolling can reveal instances where instruction combining is possible</p>
+<pre><code class="lang-c">i++;
+i++;
+
+i += <span class="hljs-number">2</span>
+</code></pre>
+<h3 id="narrowing">Narrowing</h3>
+<pre><code class="lang-c"><span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">short</span> <span class="hljs-keyword">int</span> s;
+
+(s &gt;&gt; <span class="hljs-number">20</span>)      <span class="hljs-comment">/* all bits of precision have been shifted out, thus 0 */</span>
+(s &gt; <span class="hljs-number">0x10000</span>)  <span class="hljs-comment">/* 16 bit value can&apos;t be greater than 17 bit, thus 0 */</span>
+(s == -<span class="hljs-number">1</span>)      <span class="hljs-comment">/* can&apos;t be negative, thus 0 */</span>
+</code></pre>
+<h3 id="integer-multiply">Integer Multiply</h3>
+<p>This a well known one, given an expression </p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">f</span> <span class="hljs-params">(<span class="hljs-keyword">int</span> i,<span class="hljs-keyword">int</span> n)</span>
+</span>{
+  <span class="hljs-keyword">return</span> i * n;
 }
 </code></pre>
-<p>rep ; movsb &#x8207;&#x6B64;&#x985E;&#x4F3C;&#xFF0C;&#x53EA;&#x662F;&#x6BCF;&#x6B21;&#x62F7;&#x8C9D;&#x7684;&#x4E0D;&#x662F;&#x96D9;&#x5B57;&#xFF08;4&#x5B57;&#x7BC0;&#xFF09;&#xFF0C;
-&#x800C;&#x662F;&#x5B57;&#x7BC0;&#x3002;</p>
-<ul>
-<li><b>&quot;=&amp;D&quot; (d1) &#x4E0D;&#x662F;&#x60F3;&#x5C07; edi &#x7684;&#x6700;&#x7D42;&#x503C;&#x8F38;&#x51FA;&#x5230; d1 &#x4E2D;&#xFF0C;
-&#x800C;&#x662F;&#x60F3;&#x544A;&#x8A34; gcc edi&#x7684;&#x503C;&#x65E9;&#x5C31;&#x6539;&#x4E86;&#xFF0C;
-&#x4E0D;&#x8981;&#x8A8D;&#x70BA;&#x5B83;&#x7684;&#x503C;&#x9084;&#x662F;&#x521D;&#x59CB;&#x5316;&#x6642;&#x7684; dest&#xFF0C;
-&#x907F;&#x514D;&quot;&#x541D;&#x55C7;&#x7684;&quot; gcc &#x628A;&#x4FEE;&#x6539;&#x4E86;&#x7684; edi &#x9084;&#x7576;&#x505A; dest &#x4F86;&#x7528;&#x3002;</b>
-&#x800C; d0&#x3001;d1&#x3001;d2 &#x5728;&#x958B;&#x555F;&#x512A;&#x5316;&#x5F8C;&#x6703;&#x88AB; gcc &#x7121;&#x8996;&#x6389;
-&#xFF08;&#x8F38;&#x51FA;&#x5230;&#x5B83;&#x5011;&#x7684;&#x503C;&#x6C92;&#x6709;&#x88AB;&#x7528;&#x904E;&#xFF09;&#x3002;</li>
-</ul>
-<p>memcpy &#x5148;&#x8907;&#x88FD;&#x4E00;&#x500B;&#x4E00;&#x500B;&#x7684;&#x96D9;&#x5B57;&#xFF0C;
-&#x5230;&#x6700;&#x5F8C;&#x5982;&#x679C;&#x9084;&#x6709;&#x6C92;&#x8907;&#x88FD;&#x5B8C;&#x7684;&#xFF08;&#x5C11;&#x65BC;4&#x500B;&#x5B57;&#x7BC0;&#xFF09;&#xFF0C;
-&#x518D;&#x4E00;&#x500B;&#x4E00;&#x500B;&#x5B57;&#x7BC0;&#x5730;&#x8907;&#x88FD;&#x3002;
-&#x6211;&#x6700;&#x7D42;&#x5BE6;&#x73FE;&#x7684; d_printf &#x5C31;&#x6A21;&#x4EFF;&#x4E86;&#x9019;&#x500B;&#x51FD;&#x6578;&#x3002;</p>
-<p><b>&#x6DF1;&#x5165;&#x7814;&#x7A76;&#xFF1A;</b><br>
-<a target="_blank" href="http://www.ibiblio.org/gferg/ldp/GCC-Inline-Assembly-HOWTO.html">gcc &#x5167;&#x806F;&#x5F59;&#x7DE8; HOWTO &#x6587;&#x6A94;&lt;/a&gt;<br>
-<a target="_blank" href="http://lxr.free-electrons.com/ident">Linux Cross Reference&#x2014;&#x2014;&#x5404;&#x7248;&#x672C; linux &#x5167;&#x6838;&#x51FD;&#x6578;&#x6AA2;&#x7D22;</a></a></p>
+<p>Multiplication can be replaced by leftwise bitwise shifting</p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">f</span> <span class="hljs-params">(<span class="hljs-keyword">int</span> i)</span>
+</span>{
+  <span class="hljs-keyword">return</span> i &lt;&lt; (n-<span class="hljs-number">1</span>);
+}
+</code></pre>
+<h3 id="integer-mod-optimization">Integer mod optimization</h3>
+<p>Another known one, integer divide is really expensive on hardware.</p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">f</span> <span class="hljs-params">(<span class="hljs-keyword">int</span> x,<span class="hljs-keyword">int</span> y)</span>
+</span>{
+  <span class="hljs-keyword">return</span> x % y;
+}
+</code></pre>
+<p>Hacker&apos;s delight is a wonderful book that&apos;s encyclopedic in its treatment of cool bit tricks such as the one below.</p>
+<pre><code class="lang-c">
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">f</span> <span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span>
+</span>{
+  <span class="hljs-keyword">int</span> temp = x &amp; (y-<span class="hljs-number">1</span>);
+  <span class="hljs-keyword">return</span> (x &lt; <span class="hljs-number">0</span>) ? ((temp == <span class="hljs-number">0</span>) ? <span class="hljs-number">0</span> : (temp | ~(y-<span class="hljs-number">1</span>))) : temp;
+}
+</code></pre>
+<h3 id="block-merging">Block Merging</h3>
+<p>Suppose you had the following code fragment</p>
+<pre><code>int a;
+int b;
+
+void f (int x, int y)
+{
+  goto L1;                   /* basic block 1 */
+
+L2:                          /* basic block 2 */
+  b = x + y;
+  goto L3;
+
+L1:                          /* basic block 3 */
+  a = x + y;
+  goto L2;
+
+L3:                          /* basic block 4 */
+  return;
+}
+</code></pre><p>The different blocks will be optimized into one</p>
+<pre><code class="lang-c"><span class="hljs-keyword">int</span> a;
+<span class="hljs-keyword">int</span> b;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">f</span> <span class="hljs-params">(<span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> y)</span>
+</span>{
+  a = x + y;                 <span class="hljs-comment">/* basic block 1 */</span>
+  b = x + y;
+  <span class="hljs-keyword">return</span>;
+}
+</code></pre>
+<h3 id="common-subexpression">Common SubExpression</h3>
+<p>The second code fragment above can further be optimzed into </p>
+<pre><code class="lang-c">tmp = x + y
+a   = tmp
+b   = tmp
+<span class="hljs-keyword">return</span>;
+</code></pre>
+<h3 id="function-inlining">Function inlining</h3>
+<p>A lot of optimizations can be discovered if a function call is replaced by the body of the function</p>
+<p>Suppose we wish to implement a substraction function given a working addition function</p>
+<pre><code class="lang-c">
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">add</span> <span class="hljs-params">(<span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> y)</span>
+</span>{
+  <span class="hljs-keyword">return</span> x + y;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">sub</span> <span class="hljs-params">(<span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> y)</span>
+</span>{
+  <span class="hljs-keyword">return</span> add (x, -y);
+}
+</code></pre>
+<p>Expanding add() at the call site in sub() yields:</p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">sub</span> <span class="hljs-params">(<span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> y)</span>
+</span>{
+  <span class="hljs-keyword">return</span> x + -y;
+}
+</code></pre>
+<p>which can be further optimized to:</p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">sub</span> <span class="hljs-params">(<span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> y)</span>
+</span>{
+  <span class="hljs-keyword">return</span> x - y;
+}
+</code></pre>
 
                     
                     </section>
@@ -12172,10 +12331,10 @@ void *memcpy(void *dest, const void *src, size_t n)
         </div>
 
         
-        <a href="../simplelinux/staticstack.html" class="navigation navigation-prev " aria-label="Previous page: C語言的棧是靜態的"><i class="fa fa-angle-left"></i></a>
+        <a href="../compiler/shen_ru_qian_chu_jiao_ni_xie_bian_yi_qi.html" class="navigation navigation-prev " aria-label="Previous page: 深入淺出教你寫編譯器"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../simplelinux/dynamicstack.html" class="navigation navigation-next " aria-label="Next page: 彙編實現的動態棧"><i class="fa fa-angle-right"></i></a>
+        <a href="../linked_and_loader/linked_and_loader.html" class="navigation navigation-next " aria-label="Next page: linked_and_loader"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

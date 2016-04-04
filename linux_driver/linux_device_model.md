@@ -1,5 +1,7 @@
 # Linux Device Model 三角關係
 
+![](./images/1343287430_3988.PNG)
+
 Linux Device Model由bus, device, driver所組成。其關係為: bus是cpu與device溝通的橋樑，而driver賦與device行為的能力。因此有人說，device是男人，driver是女人，而bus則是媒人。媒人有match的功能，讓男人與女人彼此 認識。在coldplug的時代，男人先登記後，由媒人去match女人。而後來的hotplug，則讓女人先提供資訊，讓後來有意願的男人match。 device與driver對bus而言，就沒有一定誰先誰後了。
 
 ###基礎

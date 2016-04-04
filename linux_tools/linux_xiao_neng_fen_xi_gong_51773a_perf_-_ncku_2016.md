@@ -26,14 +26,14 @@ $ sudo apt-get install astyle colordiff gnuplot
 ```
 
 關於 GNU/Linux 指令，請參閱 鳥哥的 Linux 私房菜
-本系列課程全程使用 GNU/Linux，全世界有十幾億台裝置內建 Linux 系統，學習 Linux 是相當划算的投資！
+本系列課程全程使用 GNU/Linux，全世界有十幾億臺裝置內建 Linux 系統，學習 Linux 是相當划算的投資！
 - [熟悉 Git 和 GitHub 操作](http://wiki.csie.ncku.edu.tw/github)
     - 30 天精通 Git 版本控管
 
 
 ##Linux 效能分析工具: Perf
 
-Perf 全名是 Performance Event，是在 Linux 2.6.31 以後內建的系統效能分析工具，它隨著核心一併釋出。藉由 perf，應用程式可以利用 PMU (Performance Monitoring Unit), tracepoint 和核心內部的特殊計數器 (counter) 來進行統計，另外還能同時分析運行中的核心程式碼，從而更全面了解應用程式中的效能瓶頸
+Perf 全名是 Performance Event，是在 Linux 2.6.31 以後內建的系統效能分析工具，它隨著核心一併釋出。藉由 perf，應用程式可以利用 PMU (Performance Monitoring Unit), tracepoint 和核心內部的特殊計數器 (counter) 來進行統計，另外還能同時分析運行中的核心程式碼，從而更全面瞭解應用程式中的效能瓶頸
 詳細閱讀 [Linux 效能分析工具](http://wiki.csie.ncku.edu.tw/embedded/perf-tutorial): Perf 並在自己的 Linux 開發環境實驗
 
 

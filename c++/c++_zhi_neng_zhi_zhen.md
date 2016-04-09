@@ -1,2 +1,416 @@
 # C++ 智能指针
 
+
+一、RefBase.h
+
+```cpp
+class RefBase
+{
+public:
+    void incStrong(const void* id) const;
+    void decStrong(const void* id) const;
+    int  getStrongCount() const;
+
+    class weakref_type
+    {
+    public:
+        RefBase* refBase() const;
+        void incWeak(const void* id);
+        void decWeak(const void* id);
+        bool attemptIncStrong(const void* id);
+        int getWeakCount() const;
+    };
+
+    weakref_type* createWeak(const void* id) const;
+    weakref_type* getWeakRefs() const;
+
+protected:
+    RefBase();
+    virtual ~RefBase();//delete this时候会调用子类
+
+    enum {
+        OBJECT_LIFETIME_WEAK    = 0x0001,
+        OBJECT_LIFETIME_FOREVER = 0x0003
+    };
+
+    void extendObjectLifetime(int  mode);
+
+    enum {
+        FIRST_INC_STRONG = 0x0001
+    };
+
+    virtual bool            onIncStrongAttempted(int flags,
+            const void* id);//子类可以覆盖
+
+private:
+    //friend class weakref_type;
+    class weakref_impl; //不能include，只能前向声明
+    RefBase(const RefBase& o);
+    RefBase&    operator=(const RefBase& o);
+    weakref_impl* const mRefs;
+};
+
+// ---------------------------------------------------------------------------
+
+template <typename T>
+class sp
+{
+public:
+    typedef typename RefBase::weakref_type weakref_type;
+    //相当于typedef  RefBase::weakref_type weakref_typ
+    //
+    sp(T* other);
+    sp(const sp<T>& other);
+    ~sp();
+
+    inline  T*      get() const
+    {
+        return m_ptr;
+    }
+
+private:
+    template<typename Y> friend class
+    wp;//wp可以操作sp的私有变量，如构造函数
+    sp(T* p, weakref_type* refs);
+    T* m_ptr;
+};
+
+// ---------------------------------------------------------------------------
+
+template <typename T>
+class wp
+{
+public:
+    typedef  RefBase::weakref_type weakref_type;
+    wp(T* other);
+    wp(const wp<T>& other);
+    ~wp();
+    sp<T> promote() const;
+    inline  weakref_type* get_refs() const
+    {
+        return m_refs;
+    }
+private:
+    T*              m_ptr;//strongPointer
+    weakref_type*   m_refs;//weakref_impl
+
+};
+
+// ---------------------------------------------------------------------------
+
+template<typename T>
+sp<T>::sp(T* other)
+    : m_ptr(other)//strongPointer
+{
+    if (other) {
+        other->incStrong(this);
+    }
+}
+
+template<typename T>
+sp<T>::sp(const sp<T>& other)
+    : m_ptr(other.m_ptr)
+{
+    if (m_ptr) {
+        m_ptr->incStrong(this);
+    }
+}
+
+template<typename T>
+sp<T>::~sp()
+{
+    if (m_ptr) {
+        m_ptr->decStrong(this);
+    }
+}
+
+template<typename T>
+sp<T>::sp(T* p, weakref_type* refs)
+    : m_ptr((p && refs->attemptIncStrong(this)) ? p : 0)
+{
+}
+
+// ---------------------------------------------------------------------------
+
+template<typename T>
+wp<T>::wp(T* other)
+    : m_ptr(other)//strongPointer
+{
+    if (other) {
+        m_refs = other->createWeak(this);    //weakref_impl
+    }
+}
+
+template<typename T>
+wp<T>::wp(const wp<T>& other)
+    : m_ptr(other.m_ptr), m_refs(other.m_refs)
+{
+    if (m_ptr) {
+        m_refs->incWeak(this);
+    }
+}
+
+
+template<typename T>
+wp<T>::~wp()
+{
+    if (m_ptr) {
+        m_refs->decWeak(this);
+    }
+}
+
+template<typename T>
+sp<T> wp<T>::promote() const
+{
+    return sp<T>(m_ptr, m_refs);
+}
+
+```
+
+二、RefBase.cpp
+
+```cpp
+#include "RefBase.h"
+#include <iostream>
+using namespace std;
+#define INITIAL_STRONG_VALUE (1<<28)
+
+class RefBase::weakref_impl : public RefBase::weakref_type
+{
+public:
+    volatile int    mStrong;
+    volatile int    mWeak;
+    RefBase* const      mBase;
+    volatile int    mFlags;
+
+    weakref_impl(RefBase* base)
+        : mStrong(INITIAL_STRONG_VALUE)
+        , mWeak(0)
+        , mBase(base)
+        , mFlags(0)
+    {
+    }
+
+    ~weakref_impl()
+    {
+        cout << "~weakref_impl" << endl;
+    }
+};
+
+// ---------------------------------------------------------------------------
+
+void RefBase::incStrong(const void* id) const
+{
+    weakref_impl* const refs = mRefs;
+    refs->incWeak(id);
+
+    const int c = refs->mStrong++;
+
+    if (c != INITIAL_STRONG_VALUE)  {
+        return;
+    }
+
+    refs->mStrong = refs->mStrong - INITIAL_STRONG_VALUE;
+}
+
+void RefBase::decStrong(const void* id) const
+{
+    weakref_impl* const refs = mRefs;
+    const int c = --refs->mStrong;
+
+    if (c == 0) {
+        if ((refs->mFlags & OBJECT_LIFETIME_WEAK) !=
+            OBJECT_LIFETIME_WEAK) { //受到强指针控制
+            delete this;
+        }
+    }
+
+    refs->decWeak(id);
+}
+
+int RefBase::getStrongCount() const
+{
+    return mRefs->mStrong;
+}
+
+RefBase* RefBase::weakref_type::refBase() const
+{
+    return static_cast<const weakref_impl*>(this)->mBase;
+}
+
+void RefBase::weakref_type::incWeak(const void* id)
+{
+    weakref_impl* const impl = static_cast<weakref_impl*>(this);
+    impl->mWeak++;
+}
+
+void RefBase::weakref_type::decWeak(const void* id)
+{
+    weakref_impl* const impl = static_cast<weakref_impl*>(this);
+    const int c = --impl->mWeak;
+
+    if (c != 0) {
+        return;
+    }
+
+    if ((impl->mFlags & OBJECT_LIFETIME_WEAK) !=
+        OBJECT_LIFETIME_WEAK) { //受强指针控制
+        if (impl->mStrong == INITIAL_STRONG_VALUE) {
+            delete impl->mBase;
+        } else {
+            delete impl;
+        }
+    } else {
+        if ((impl->mFlags & OBJECT_LIFETIME_FOREVER) !=
+            OBJECT_LIFETIME_FOREVER) { //受弱指针控制
+            delete impl->mBase;
+        }
+    }
+}
+
+bool RefBase::weakref_type::attemptIncStrong(const void* id)
+{
+    incWeak(id);//先增加，后面有减少，整体不变
+
+    weakref_impl* const impl = static_cast<weakref_impl*>(this);
+
+    int curCount = impl->mStrong;
+
+    if (curCount > 0 &&
+        curCount != INITIAL_STRONG_VALUE) {//mStrong变化过，且大于0
+        impl->mStrong = curCount + 1;
+        curCount = impl->mStrong;
+    }
+
+    if (curCount <= 0 ||
+        curCount ==
+        INITIAL_STRONG_VALUE) {//mStrong没有变化过；或者变化后，为0
+        bool allow;
+
+        if (curCount == INITIAL_STRONG_VALUE) {
+            allow = (impl->mFlags & OBJECT_LIFETIME_WEAK) != OBJECT_LIFETIME_WEAK
+                    || impl->mBase->onIncStrongAttempted(FIRST_INC_STRONG, id);
+        } else {
+            allow = (impl->mFlags & OBJECT_LIFETIME_WEAK) == OBJECT_LIFETIME_WEAK
+                    && impl->mBase->onIncStrongAttempted(FIRST_INC_STRONG, id);
+        }
+
+        if (!allow) {
+            decWeak(id);//再减少
+            return false;
+        }
+
+        curCount = impl->mStrong++;
+    }
+
+
+
+    if (curCount == INITIAL_STRONG_VALUE) {
+        impl->mStrong = impl->mStrong - INITIAL_STRONG_VALUE;
+    }
+
+    return true;
+}
+
+int RefBase::weakref_type::getWeakCount() const
+{
+    return static_cast<const weakref_impl*>(this)->mWeak;
+}
+
+RefBase::weakref_type* RefBase::createWeak(const void* id) const
+{
+    mRefs->incWeak(id);
+    return mRefs;
+}
+
+RefBase::weakref_type* RefBase::getWeakRefs() const
+{
+    return mRefs;
+}
+
+RefBase::RefBase()
+    : mRefs(new weakref_impl(this))
+{
+}
+
+RefBase::~RefBase()
+{
+    if (mRefs->mWeak == 0) {
+        delete mRefs;
+    }
+}
+
+void RefBase::extendObjectLifetime(int mode)
+{
+    mRefs->mFlags = mode;
+}
+
+bool RefBase::onIncStrongAttempted(int flags, const void* id)
+{
+    return (flags & FIRST_INC_STRONG) ? true : false;
+}
+```
+
+```cpp
+void RefBase::decStrong(const void* id) const
+{
+    weakref_impl* const refs = mRefs;
+    const int c = --refs->mStrong;
+
+    if (c == 0) {
+        if ((refs->mFlags & OBJECT_LIFETIME_WEAK) !=
+            OBJECT_LIFETIME_WEAK) { //受到强指针控制
+            delete this;
+        }
+
+    }
+
+    refs->decWeak(id);
+}
+```
+
+减少强引用计数时候，同时减少弱引用计数，如果强引用计数为0，并且受强指针控制，那么调用子类和RefBase的析构函数
+
+```cpp
+void RefBase::weakref_type::decWeak(const void* id)
+{
+    weakref_impl* const impl = static_cast<weakref_impl*>(this);
+    const int c = --impl->mWeak;
+
+    if (c != 0) {
+        return;
+    }
+
+    if ((impl->mFlags & OBJECT_LIFETIME_WEAK) !=
+        OBJECT_LIFETIME_WEAK) { //受强指针控制
+        if (impl->mStrong == INITIAL_STRONG_VALUE) {
+            delete impl->mBase;
+        } else {
+            delete impl;
+        }
+    } else {
+        if ((impl->mFlags & OBJECT_LIFETIME_FOREVER) !=
+            OBJECT_LIFETIME_FOREVER) { //受弱指针控制
+            delete impl->mBase;
+        }
+    }
+}
+```
+
+
+```cpp
+RefBase::~RefBase()  
+{  
+    if (mRefs->mWeak == 0) {  
+        delete mRefs;  
+    }  
+}  
+```
+
+- 减少弱引用计数，如果弱引用计数为0，并且受弱指针控制，那么调用delete impl->mBase，调用上面的析构函数，因为此时mWeek==0，所以执行delete mRefs
+- 如果弱引用计数为0，并且不受强指针，也不受弱指针控制，那么由自己调用delete来删除
+- 如果弱引用计数为0，并且受强指针控制，如果强引用计数为0，那么只delete impl，因为RefBase及其子类已经被delelte掉了
+- 如果弱引用计数为0，并且受强指针控制，如果强引用计数为INITIAL_STRONG_VALUE，那么说明RefBase及其子类还没有删除，那么要delelte impl->mBase，调用上面的析构函数，因为此时mWeek==0，所以执行delete mRefs
+
+
+

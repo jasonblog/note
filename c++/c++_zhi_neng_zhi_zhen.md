@@ -1,4 +1,4 @@
-# C++ 智能指针
+# C++ 智能指針
 
 
 一、RefBase.h
@@ -26,7 +26,7 @@ public:
 
 protected:
     RefBase();
-    virtual ~RefBase();//delete this时候会调用子类
+    virtual ~RefBase();//delete this時候會調用子類
 
     enum {
         OBJECT_LIFETIME_WEAK    = 0x0001,
@@ -40,11 +40,11 @@ protected:
     };
 
     virtual bool            onIncStrongAttempted(int flags,
-            const void* id);//子类可以覆盖
+            const void* id);//子類可以覆蓋
 
 private:
     //friend class weakref_type;
-    class weakref_impl; //不能include，只能前向声明
+    class weakref_impl; //不能include，只能前向聲明
     RefBase(const RefBase& o);
     RefBase&    operator=(const RefBase& o);
     weakref_impl* const mRefs;
@@ -57,7 +57,7 @@ class sp
 {
 public:
     typedef typename RefBase::weakref_type weakref_type;
-    //相当于typedef  RefBase::weakref_type weakref_typ
+    //相當於typedef  RefBase::weakref_type weakref_typ
     //
     sp(T* other);
     sp(const sp<T>& other);
@@ -70,7 +70,7 @@ public:
 
 private:
     template<typename Y> friend class
-    wp;//wp可以操作sp的私有变量，如构造函数
+    wp;//wp可以操作sp的私有變量，如構造函數
     sp(T* p, weakref_type* refs);
     T* m_ptr;
 };
@@ -220,7 +220,7 @@ void RefBase::decStrong(const void* id) const
 
     if (c == 0) {
         if ((refs->mFlags & OBJECT_LIFETIME_WEAK) !=
-            OBJECT_LIFETIME_WEAK) { //受到强指针控制
+            OBJECT_LIFETIME_WEAK) { //受到強指針控制
             delete this;
         }
     }
@@ -254,7 +254,7 @@ void RefBase::weakref_type::decWeak(const void* id)
     }
 
     if ((impl->mFlags & OBJECT_LIFETIME_WEAK) !=
-        OBJECT_LIFETIME_WEAK) { //受强指针控制
+        OBJECT_LIFETIME_WEAK) { //受強指針控制
         if (impl->mStrong == INITIAL_STRONG_VALUE) {
             delete impl->mBase;
         } else {
@@ -262,7 +262,7 @@ void RefBase::weakref_type::decWeak(const void* id)
         }
     } else {
         if ((impl->mFlags & OBJECT_LIFETIME_FOREVER) !=
-            OBJECT_LIFETIME_FOREVER) { //受弱指针控制
+            OBJECT_LIFETIME_FOREVER) { //受弱指針控制
             delete impl->mBase;
         }
     }
@@ -270,21 +270,21 @@ void RefBase::weakref_type::decWeak(const void* id)
 
 bool RefBase::weakref_type::attemptIncStrong(const void* id)
 {
-    incWeak(id);//先增加，后面有减少，整体不变
+    incWeak(id);//先增加，後面有減少，整體不變
 
     weakref_impl* const impl = static_cast<weakref_impl*>(this);
 
     int curCount = impl->mStrong;
 
     if (curCount > 0 &&
-        curCount != INITIAL_STRONG_VALUE) {//mStrong变化过，且大于0
+        curCount != INITIAL_STRONG_VALUE) {//mStrong變化過，且大於0
         impl->mStrong = curCount + 1;
         curCount = impl->mStrong;
     }
 
     if (curCount <= 0 ||
         curCount ==
-        INITIAL_STRONG_VALUE) {//mStrong没有变化过；或者变化后，为0
+        INITIAL_STRONG_VALUE) {//mStrong沒有變化過；或者變化後，為0
         bool allow;
 
         if (curCount == INITIAL_STRONG_VALUE) {
@@ -296,7 +296,7 @@ bool RefBase::weakref_type::attemptIncStrong(const void* id)
         }
 
         if (!allow) {
-            decWeak(id);//再减少
+            decWeak(id);//再減少
             return false;
         }
 
@@ -359,7 +359,7 @@ void RefBase::decStrong(const void* id) const
 
     if (c == 0) {
         if ((refs->mFlags & OBJECT_LIFETIME_WEAK) !=
-            OBJECT_LIFETIME_WEAK) { //受到强指针控制
+            OBJECT_LIFETIME_WEAK) { //受到強指針控制
             delete this;
         }
 
@@ -369,7 +369,7 @@ void RefBase::decStrong(const void* id) const
 }
 ```
 
-减少强引用计数时候，同时减少弱引用计数，如果强引用计数为0，并且受强指针控制，那么调用子类和RefBase的析构函数
+減少強引用計數時候，同時減少弱引用計數，如果強引用計數為0，並且受強指針控制，那麼調用子類和RefBase的析構函數
 
 ```cpp
 void RefBase::weakref_type::decWeak(const void* id)
@@ -382,7 +382,7 @@ void RefBase::weakref_type::decWeak(const void* id)
     }
 
     if ((impl->mFlags & OBJECT_LIFETIME_WEAK) !=
-        OBJECT_LIFETIME_WEAK) { //受强指针控制
+        OBJECT_LIFETIME_WEAK) { //受強指針控制
         if (impl->mStrong == INITIAL_STRONG_VALUE) {
             delete impl->mBase;
         } else {
@@ -390,7 +390,7 @@ void RefBase::weakref_type::decWeak(const void* id)
         }
     } else {
         if ((impl->mFlags & OBJECT_LIFETIME_FOREVER) !=
-            OBJECT_LIFETIME_FOREVER) { //受弱指针控制
+            OBJECT_LIFETIME_FOREVER) { //受弱指針控制
             delete impl->mBase;
         }
     }
@@ -407,10 +407,10 @@ RefBase::~RefBase()
 }  
 ```
 
-- 减少弱引用计数，如果弱引用计数为0，并且受弱指针控制，那么调用delete impl->mBase，调用上面的析构函数，因为此时mWeek==0，所以执行delete mRefs
-- 如果弱引用计数为0，并且不受强指针，也不受弱指针控制，那么由自己调用delete来删除
-- 如果弱引用计数为0，并且受强指针控制，如果强引用计数为0，那么只delete impl，因为RefBase及其子类已经被delelte掉了
-- 如果弱引用计数为0，并且受强指针控制，如果强引用计数为INITIAL_STRONG_VALUE，那么说明RefBase及其子类还没有删除，那么要delelte impl->mBase，调用上面的析构函数，因为此时mWeek==0，所以执行delete mRefs
+- 減少弱引用計數，如果弱引用計數為0，並且受弱指針控制，那麼調用delete impl->mBase，調用上面的析構函數，因為此時mWeek==0，所以執行delete mRefs
+- 如果弱引用計數為0，並且不受強指針，也不受弱指針控制，那麼由自己調用delete來刪除
+- 如果弱引用計數為0，並且受強指針控制，如果強引用計數為0，那麼只delete impl，因為RefBase及其子類已經被delelte掉了
+- 如果弱引用計數為0，並且受強指針控制，如果強引用計數為INITIAL_STRONG_VALUE，那麼說明RefBase及其子類還沒有刪除，那麼要delelte impl->mBase，調用上面的析構函數，因為此時mWeek==0，所以執行delete mRefs
 
 ```cpp
 bool RefBase::weakref_type::attemptIncStrong(const void* id)
@@ -460,7 +460,7 @@ if (curCount > 0 && curCount != INITIAL_STRONG_VALUE)
 }
 ```
 
-如果此时强引用计数不为0，或者初始值，那么说明RefBase及其子类还没有删除，所以可以提升为强引用
+如果此時強引用計數不為0，或者初始值，那麼說明RefBase及其子類還沒有刪除，所以可以提升為強引用
 
 ```cpp
 allow = (impl->mFlags& OBJECT_LIFETIME_WEAK) == OBJECT_LIFETIME_WEAK
@@ -468,8 +468,8 @@ allow = (impl->mFlags& OBJECT_LIFETIME_WEAK) == OBJECT_LIFETIME_WEAK
 
 ```
 
-- 如果此时强引用计数为0，并且还受强指针控制，那么此时，RefBase及其子类已经被删除了，所以不能提升为强引用
-- 如果此时强引用计数为0，并且还受弱指针控制，那么此时，RefBase及其子类还没有删除，能不能提升就看impl->mBase->onIncStrongAttempted(FIRST_INC_STRONG, id)的了
+- 如果此時強引用計數為0，並且還受強指針控制，那麼此時，RefBase及其子類已經被刪除了，所以不能提升為強引用
+- 如果此時強引用計數為0，並且還受弱指針控制，那麼此時，RefBase及其子類還沒有刪除，能不能提升就看impl->mBase->onIncStrongAttempted(FIRST_INC_STRONG, id)的了
 
 ```cpp
 allow = (impl->mFlags&OBJECT_LIFETIME_WEAK) != OBJECT_LIFETIME_WEAK  
@@ -477,9 +477,9 @@ allow = (impl->mFlags&OBJECT_LIFETIME_WEAK) != OBJECT_LIFETIME_WEAK
 ```
 
 
-- 如果此时强引用计数为INITIAL_STRONG_VALUE，并且还受强指针控制，此时RefBase及其子类还没有删除，所以能够提升。
+- 如果此時強引用計數為INITIAL_STRONG_VALUE，並且還受強指針控制，此時RefBase及其子類還沒有刪除，所以能夠提升。
 
-- 如果此时强引用计数为INITIAL_STRONG_VALUE，并且还受弱指针控制，此时RefBase及其子类还没有删除，能不能提升就看impl->mBase->onIncStrongAttempted(FIRST_INC_STRONG, id)的了
+- 如果此時強引用計數為INITIAL_STRONG_VALUE，並且還受弱指針控制，此時RefBase及其子類還沒有刪除，能不能提升就看impl->mBase->onIncStrongAttempted(FIRST_INC_STRONG, id)的了
 
 
 - main.cpp
@@ -676,6 +676,6 @@ Weak Ref Count: 3.
 Destory StrongClass Object.
 ~weakref_impl
 ```
-## 本文参考
+## 本文參考
 
 http://blog.csdn.net/luoshengyang/article/details/6786239

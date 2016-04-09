@@ -676,3 +676,6 @@ Weak Ref Count: 3.
 Destory StrongClass Object.
 ~weakref_impl
 ```
+## 本文参考
+
+http://blog.csdn.net/luoshengyang/article/details/6786239

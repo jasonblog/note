@@ -21,7 +21,7 @@ public:
 
     ~weakref_impl()
     {
-        cout << "~weakref_impl" << endl;
+        // cout << "~weakref_impl" << endl;
     }
 };
 

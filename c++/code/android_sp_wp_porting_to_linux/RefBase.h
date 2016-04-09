@@ -52,15 +52,14 @@ class sp
 public:
     typedef typename RefBase::weakref_type weakref_type;
     //相当于typedef  RefBase::weakref_type weakref_typ
-    //
+    inline sp() : m_ptr(0) {  }
     sp(T* other);
     sp(const sp<T>& other);
     ~sp();
 
-    inline  T*      get() const
-    {
-        return m_ptr;
-    }
+    inline  T&      operator* () const  { return *m_ptr; }
+    inline  T*      operator-> () const { return m_ptr;  }
+    inline  T*      get() const         { return m_ptr; }
 
 private:
     template<typename Y> friend class

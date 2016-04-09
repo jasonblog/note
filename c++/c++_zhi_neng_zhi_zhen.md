@@ -412,5 +412,267 @@ RefBase::~RefBase()
 - 如果弱引用计数为0，并且受强指针控制，如果强引用计数为0，那么只delete impl，因为RefBase及其子类已经被delelte掉了
 - 如果弱引用计数为0，并且受强指针控制，如果强引用计数为INITIAL_STRONG_VALUE，那么说明RefBase及其子类还没有删除，那么要delelte impl->mBase，调用上面的析构函数，因为此时mWeek==0，所以执行delete mRefs
 
+```cpp
+bool RefBase::weakref_type::attemptIncStrong(const void* id)
+{
+    incWeak(id);
+    weakref_impl* const impl = static_cast<weakref_impl*>(this);
+    int curCount = impl->mStrong;
+
+    if (curCount > 0 && curCount != INITIAL_STRONG_VALUE) {
+        impl->mStrong = curCount + 1;
+        curCount = impl->mStrong;
+    }
+
+    if (curCount <= 0 || curCount == INITIAL_STRONG_VALUE) {
+        bool allow;
+
+        if (curCount == INITIAL_STRONG_VALUE) {
+            allow = (impl->mFlags & OBJECT_LIFETIME_WEAK) != OBJECT_LIFETIME_WEAK
+                    || impl->mBase->onIncStrongAttempted(FIRST_INC_STRONG, id);
+        } else {
+            allow = (impl->mFlags & OBJECT_LIFETIME_WEAK) == OBJECT_LIFETIME_WEAK
+                    && impl->mBase->onIncStrongAttempted(FIRST_INC_STRONG, id);
+        }
+
+        if (!allow) {
+            decWeak(id);
+            return false;
+        }
+
+        curCount = impl->mStrong++;
+    }
+
+    if (curCount == INITIAL_STRONG_VALUE + 1) {
+        impl->mStrong = impl->mStrong - INITIAL_STRONG_VALUE;
+    }
+
+    return true;
+}
+```
 
 
+```cpp
+if (curCount > 0 && curCount != INITIAL_STRONG_VALUE)
+{
+    impl->mStrong = curCount + 1;
+    curCount = impl->mStrong;
+}
+```
+
+如果此时强引用计数不为0，或者初始值，那么说明RefBase及其子类还没有删除，所以可以提升为强引用
+
+```cpp
+allow = (impl->mFlags& OBJECT_LIFETIME_WEAK) == OBJECT_LIFETIME_WEAK
+        && impl->mBase->onIncStrongAttempted(FIRST_INC_STRONG, id);
+
+```
+
+- 如果此时强引用计数为0，并且还受强指针控制，那么此时，RefBase及其子类已经被删除了，所以不能提升为强引用
+- 如果此时强引用计数为0，并且还受弱指针控制，那么此时，RefBase及其子类还没有删除，能不能提升就看impl->mBase->onIncStrongAttempted(FIRST_INC_STRONG, id)的了
+
+```cpp
+allow = (impl->mFlags&OBJECT_LIFETIME_WEAK) != OBJECT_LIFETIME_WEAK  
+      || impl->mBase->onIncStrongAttempted(FIRST_INC_STRONG, id);  
+```
+
+
+- 如果此时强引用计数为INITIAL_STRONG_VALUE，并且还受强指针控制，此时RefBase及其子类还没有删除，所以能够提升。
+
+- 如果此时强引用计数为INITIAL_STRONG_VALUE，并且还受弱指针控制，此时RefBase及其子类还没有删除，能不能提升就看impl->mBase->onIncStrongAttempted(FIRST_INC_STRONG, id)的了
+
+
+- main.cpp
+
+```cpp
+#include <stdio.h>
+#include <iostream>
+#include "RefBase.h"
+using namespace std;
+
+#define INITIAL_STRONG_VALUE (1<<28)
+
+class WeightClass: public RefBase
+{
+public:
+    void printRefCount()
+    {
+        int strong = getStrongCount();
+        weakref_type* ref = getWeakRefs();
+
+        printf("-----------------------\n");
+        printf("Strong Ref Count: %d.\n",
+               (strong == INITIAL_STRONG_VALUE ? 0 : strong));
+        printf("Weak Ref Count: %d.\n", ref->getWeakCount());
+        printf("-----------------------\n");
+    }
+};
+
+class StrongClass: public WeightClass
+{
+public:
+    StrongClass()
+    {
+        printf("Construct StrongClass Object.\n");
+    }
+
+    virtual ~StrongClass()
+    {
+        printf("Destory StrongClass Object.\n");
+    }
+};
+
+class WeakClass: public WeightClass
+{
+public:
+    WeakClass()
+    {
+        extendObjectLifetime(OBJECT_LIFETIME_WEAK);
+
+        printf("Construct WeakClass Object.\n");
+    }
+
+    virtual ~WeakClass()
+    {
+        printf("Destory WeakClass Object.\n");
+    }
+};
+
+class ForeverClass: public WeightClass
+{
+public:
+    ForeverClass()
+    {
+        extendObjectLifetime(OBJECT_LIFETIME_FOREVER);
+
+        printf("Construct ForeverClass Object.\n");
+    }
+
+    virtual ~ForeverClass()
+    {
+        printf("Destory ForeverClass Object.\n");
+    }
+};
+
+void TestStrongClass(StrongClass* pStrongClass)
+{
+    wp<StrongClass> wpOut = pStrongClass;
+    pStrongClass->printRefCount();
+    {
+        sp<StrongClass> spInner = pStrongClass;
+        pStrongClass->printRefCount();
+    }
+    pStrongClass->printRefCount();
+    sp<StrongClass> spOut = wpOut.promote();
+    printf("spOut: %p.\n", spOut.get());
+    pStrongClass->printRefCount();
+}
+
+void TestStrongClass2(StrongClass* pStrongClass)
+{
+    wp<StrongClass> wpOut = pStrongClass;
+    pStrongClass->printRefCount();
+}
+
+void TestStrongClass4(StrongClass* pStrongClass)
+{
+    wp<StrongClass> wpOut = pStrongClass;
+    pStrongClass->printRefCount();
+    sp<StrongClass> spInner = pStrongClass;
+    pStrongClass->printRefCount();
+    sp<StrongClass> spOut = wpOut.promote();
+    printf("spOut: %p.\n", spOut.get());
+    pStrongClass->printRefCount();
+}
+
+void TestStrongClass3(StrongClass* pStrongClass)
+{
+    wp<StrongClass> wpOut = pStrongClass;
+    pStrongClass->printRefCount();
+    sp<StrongClass> spOut = wpOut.promote();
+    printf("spOut: %p.\n", spOut.get());
+    pStrongClass->printRefCount();
+}
+
+void TestWeakClass(WeakClass* pWeakClass)
+{
+    wp<WeakClass> wpOut = pWeakClass;
+    pWeakClass->printRefCount();
+    {
+        sp<WeakClass> spInner = pWeakClass;
+        pWeakClass->printRefCount();
+    }
+
+    pWeakClass->printRefCount();
+    sp<WeakClass> spOut = wpOut.promote();
+    printf("spOut: %p.\n", spOut.get());
+    pWeakClass->printRefCount();
+}
+
+void TestForeverClass(ForeverClass* pForeverClass)
+{
+    wp<ForeverClass> wpOut = pForeverClass;
+    pForeverClass->printRefCount();
+    {
+        sp<ForeverClass> spInner = pForeverClass;
+        pForeverClass->printRefCount();
+    }
+    pForeverClass->printRefCount();
+}
+
+int main(int argc, char** argv)
+{
+    /*      printf("Test Strong Class: \n");
+     StrongClass* pStrongClass = new StrongClass();
+     TestStrongClass(pStrongClass);*/
+
+    /*        printf("Test Strong Class2: \n");
+     StrongClass* pStrongClass = new StrongClass();
+     TestStrongClass2(pStrongClass);*/
+
+    /*        printf("\nTest Weak Class: \n");
+     WeakClass* pWeakClass = new WeakClass();
+     TestWeakClass(pWeakClass);*/
+
+    /*        printf("\nTest Froever Class: \n");
+     ForeverClass* pForeverClass = new ForeverClass();
+     TestForeverClass(pForeverClass);
+     pForeverClass->printRefCount();
+     delete pForeverClass;*/
+
+    /*   printf("Test Strong Class3: \n");
+     StrongClass* pStrongClass = new StrongClass();
+     TestStrongClass3(pStrongClass);*/
+
+    printf("Test Strong Class4: \n");
+    StrongClass* pStrongClass = new StrongClass();
+    TestStrongClass4(pStrongClass);
+
+    return 0;
+}
+
+```
+
+```sh
+g++ main.cpp RefBase.cpp -o main
+```
+
+```sh
+Test Strong Class4: 
+Construct StrongClass Object.
+-----------------------
+Strong Ref Count: 0.
+Weak Ref Count: 1.
+-----------------------
+-----------------------
+Strong Ref Count: 1.
+Weak Ref Count: 2.
+-----------------------
+spOut: 0x2308c20.
+-----------------------
+Strong Ref Count: 2.
+Weak Ref Count: 3.
+-----------------------
+Destory StrongClass Object.
+~weakref_impl
+```

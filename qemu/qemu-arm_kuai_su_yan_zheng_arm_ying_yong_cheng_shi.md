@@ -28,11 +28,11 @@ int main()
 
     shared_ptr<Example> pInt(new Example());
     cout << (*pInt).e << endl;
-    cout << "pInt引用计数: " << pInt.use_count() << endl;
+    cout << "pInt引用計數: " << pInt.use_count() << endl;
 
     shared_ptr<Example> pInt2 = pInt;
-    cout << "pInt引用计数: " << pInt.use_count() << endl;
-    cout << "pInt2引用计数: " << pInt2.use_count() << endl;
+    cout << "pInt引用計數: " << pInt.use_count() << endl;
+    cout << "pInt2引用計數: " << pInt2.use_count() << endl;
 }
 ```
 
@@ -46,8 +46,8 @@ qemu-arm ./test
 ```sh
 Example Constructor...
 1
-pInt引用计数: 1
-pInt引用计数: 2
-pInt2引用计数: 2
+pInt引用計數: 1
+pInt引用計數: 2
+pInt2引用計數: 2
 Example Destructor...
 ```

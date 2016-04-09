@@ -610,30 +610,42 @@ const int32_t c = android_atomic_inc(&refs->mStrong);
 ```
 
 ###三是如果發現是首次調用這個對象的incStrong函數，就會調用一個這個對象的onFirstRef函數，讓對象有機會在對象被首次引用時做一些處理邏輯：
-[cpp] view plain copy 在CODE上查看代碼片派生到我的代碼片
-if (c != INITIAL_STRONG_VALUE)  {  
-return;  
-}  
 
+```cpp
+if (c != INITIAL_STRONG_VALUE)
+{
+    return;
+}
 android_atomic_add(-INITIAL_STRONG_VALUE, &refs->mStrong);  
 const_cast<RefBase*>(this)->onFirstRef();  
+```
+
 這裡的c返回的是refs->mStrong加1前的值，如果發現等於INITIAL_STRONG_VALUE，就說明這個對象的強引用計數是第一次被增加，因此，refs->mStrong就是初始化為INITIAL_STRONG_VALUE的，它的值為：
-[cpp] view plain copy 在CODE上查看代碼片派生到我的代碼片
+
+```cpp
 #define INITIAL_STRONG_VALUE (1<<28)  
+```
+
 這個值加1後等於1<<28 + 1，不等於1，因此，後面要再減去-INITIAL_STRONG_VALUE，於是，refs->mStrong就等於1了，就表示當前對象的強引用計數值為1了，這與這個對象是第一次被增加強引用計數值的邏輯是一致的。
+
 回過頭來看弱引用計數是如何增加的，首先是調用weakref_impl類的addWeakRef函數，我們知道，在Release版本中，這個函數也不做，而在Debug版本中，這個函數增加了一個ref_entry對象到了weakref_impl對象的mWeakRefs列表中，表示此weakref_impl對象的弱引用計數被增加了一次。接著又調用了weakref_impl類的incWeak函數，真正增加弱引用計數值就是在這個函數實現的了，weakref_impl類的incWeak函數繼承於其父類weakref_type的incWeak函數：
 
-[cpp] view plain copy 在CODE上查看代碼片派生到我的代碼片
-void RefBase::weakref_type::incWeak(const void* id)  
-{  
-weakref_impl* const impl = static_cast<weakref_impl*>(this);  
-impl->addWeakRef(id);  
-const int32_t c = android_atomic_inc(&impl->mWeak);  
-LOG_ASSERT(c >= 0, "incWeak called on %p after last weak ref", this);  
-}  
+```cpp
+void RefBase::weakref_type::incWeak(const void* id)
+{
+    weakref_impl* const impl = static_cast<weakref_impl*>(this);
+    impl->addWeakRef(id);
+    const int32_t c = android_atomic_inc(&impl->mWeak);
+    LOG_ASSERT(c >= 0, "incWeak called on %p after last weak ref", this);
+}
+```
+
 增加弱引用計數是下面語句執行的：
-[cpp] view plain copy 在CODE上查看代碼片派生到我的代碼片
+
+```cpp
 const int32_t c = android_atomic_inc(&impl->mWeak);  
+```
+
 但是前面為什麼又調用了一次addWeakRef函數呢？前面不是已經調用過了嗎？在Release版本中，因為weakref_impl類的addWeakRef函數是空實現，這裡再調用一次沒有什麼害處，但是如果在Debug版本，豈不是冗餘了嗎？搞不清，有人問過負責開發Android系統Binder通信機制模塊的作者Dianne Hackborn這個問題，他是這樣回答的：
 http://groups.google.com/group/android-platform/browse_thread/thread/cc641db8487dd83
 
@@ -649,127 +661,167 @@ code and it isn't working and need to do this to fix it.
 
 再來看看強指針類的析構函數的實現：
 
+```cpp
+template<typename T>
+sp<T>::~sp()
+{
+    if (m_ptr) {
+        m_ptr->decStrong(this);
+    }
+}
+```
 
-[cpp] view plain copy 在CODE上查看代碼片派生到我的代碼片
-template<typename T>  
-sp<T>::~sp()  
-{  
-if (m_ptr) m_ptr->decStrong(this);  
-}  
 同樣，這裡的m_ptr指向的目標對象一定是繼承了RefBase類的，因此，這裡調用的是RefBase類的decStrong函數，這也是定義在frameworks/base/libs/utils/RefBase.cpp文件中：
 
-[cpp] view plain copy 在CODE上查看代碼片派生到我的代碼片
-void RefBase::decStrong(const void* id) const  
-{  
-weakref_impl* const refs = mRefs;  
-refs->removeStrongRef(id);  
-const int32_t c = android_atomic_dec(&refs->mStrong);  
-#if PRINT_REFS  
-LOGD("decStrong of %p from %p: cnt=%d\n", this, id, c);  
-#endif  
-LOG_ASSERT(c >= 1, "decStrong() called on %p too many times", refs);  
-if (c == 1) {  
-const_cast<RefBase*>(this)->onLastStrongRef(id);  
-if ((refs->mFlags&OBJECT_LIFETIME_WEAK) != OBJECT_LIFETIME_WEAK) {  
-delete this;  
-}  
-}  
-refs->removeWeakRef(id);  
-refs->decWeak(id);  
-}  
+```cpp
+void RefBase::decStrong(const void* id) const
+{
+    weakref_impl* const refs = mRefs;
+    refs->removeStrongRef(id);
+    const int32_t c = android_atomic_dec(&refs->mStrong);
+#if PRINT_REFS
+    LOGD("decStrong of %p from %p: cnt=%d\n", this, id, c);
+#endif
+    LOG_ASSERT(c >= 1, "decStrong() called on %p too many times", refs);
+
+    if (c == 1) {
+        const_cast<RefBase*>(this)->onLastStrongRef(id);
+
+        if ((refs->mFlags & OBJECT_LIFETIME_WEAK) != OBJECT_LIFETIME_WEAK) {
+            delete this;
+        }
+    }
+
+    refs->removeWeakRef(id);
+    refs->decWeak(id);
+}
+```
+
 這裡的refs->removeStrongRef函數調用語句是對應前面在RefBase::incStrong函數裡的refs->addStrongRef函數調用語句的，在Release版本中，這也是一個空實現函數，真正實現強引用計數減1的操作是下面語句：
-[cpp] view plain copy 在CODE上查看代碼片派生到我的代碼片
+
+```cpp
 const int32_t c = android_atomic_dec(&refs->mStrong);  
+```
+
 如果發現減1前，此對象的強引用計數為1，就說明從此以後，就再沒有地方引用這個目標對象了，這時候，就要看看是否要delete這個目標對象了：
 
-[cpp] view plain copy 在CODE上查看代碼片派生到我的代碼片
-if (c == 1) {  
-const_cast<RefBase*>(this)->onLastStrongRef(id);  
-if ((refs->mFlags&OBJECT_LIFETIME_WEAK) != OBJECT_LIFETIME_WEAK) {  
-delete this;  
-}  
-}  
+```cpp
+if (c == 1)
+{
+    const_cast<RefBase*>(this)->onLastStrongRef(id);
+
+    if ((refs->mFlags & OBJECT_LIFETIME_WEAK) != OBJECT_LIFETIME_WEAK) {
+        delete this;
+    }
+}
+```
 在強引用計數為0的情況下，如果對象的標誌位OBJECT_LIFETIME_WEAK被設置了，就說明這個對象的生命週期是受弱引用計數所控制的，因此，這時候就不能delete對象，要等到弱引用計數也為0的情況下，才能delete這個對象。
+
 接下來的ref->removeWeakRef函數調用語句是對應前面在RefBase::incStrong函數裡的refs->addWeakRef函數調用語句的，在Release版本中，這也是一個空實現函數，真正實現強引用計數減1的操作下面的refs->decWeak函數，weakref_impl類沒有實現自己的decWeak函數，它繼承了weakref_type類的decWeak函數：
 
 
-[cpp] view plain copy 在CODE上查看代碼片派生到我的代碼片
-void RefBase::weakref_type::decWeak(const void* id)  
-{  
-weakref_impl* const impl = static_cast<weakref_impl*>(this);  
-impl->removeWeakRef(id);  
-const int32_t c = android_atomic_dec(&impl->mWeak);  
-LOG_ASSERT(c >= 1, "decWeak called on %p too many times", this);  
-if (c != 1) return;  
+```cpp
+void RefBase::weakref_type::decWeak(const void* id)
+{
+    weakref_impl* const impl = static_cast<weakref_impl*>(this);
+    impl->removeWeakRef(id);
+    const int32_t c = android_atomic_dec(&impl->mWeak);
+    LOG_ASSERT(c >= 1, "decWeak called on %p too many times", this);
 
-if ((impl->mFlags&OBJECT_LIFETIME_WEAK) != OBJECT_LIFETIME_WEAK) {  
-if (impl->mStrong == INITIAL_STRONG_VALUE)  
-delete impl->mBase;  
-else {  
-//            LOGV("Freeing refs %p of old RefBase %p\n", this, impl->mBase);  
-delete impl;  
-}  
-} else {  
-impl->mBase->onLastWeakRef(id);  
-if ((impl->mFlags&OBJECT_LIFETIME_FOREVER) != OBJECT_LIFETIME_FOREVER) {  
-delete impl->mBase;  
-}  
-}  
-}  
+    if (c != 1) {
+        return;
+    }
+
+    if ((impl->mFlags & OBJECT_LIFETIME_WEAK) != OBJECT_LIFETIME_WEAK) {
+        if (impl->mStrong == INITIAL_STRONG_VALUE) {
+            delete impl->mBase;
+        } else {
+            //            LOGV("Freeing refs %p of old RefBase %p\n", this, impl->mBase);
+            delete impl;
+        }
+    } else {
+        impl->mBase->onLastWeakRef(id);
+
+        if ((impl->mFlags & OBJECT_LIFETIME_FOREVER) != OBJECT_LIFETIME_FOREVER) {
+            delete impl->mBase;
+        }
+    }
+}
+```
+
+ 
 這裡又一次調用了weakref_impl對象的removeWeakRef函數，這也是和RefBase::weakref_type::incWeak函數裡面的impl->addWeakRef語句所對應的，實現弱引用計數減1的操作是下面語句：
 
-[cpp] view plain copy 在CODE上查看代碼片派生到我的代碼片
+```cpp
 const int32_t c = android_atomic_dec(&impl->mWeak);  
+```
+
 減1前如果發現不等於1，那麼就什麼也不用做就返回了，如果發現等於1，就說明當前對象的弱引用計數值為0了，這時候，就要看看是否要delete這個對象了：
 
-[cpp] view plain copy 在CODE上查看代碼片派生到我的代碼片
-if ((impl->mFlags&OBJECT_LIFETIME_WEAK) != OBJECT_LIFETIME_WEAK) {  
-if (impl->mStrong == INITIAL_STRONG_VALUE)  
-delete impl->mBase;  
-else {  
-//      LOGV("Freeing refs %p of old RefBase %p\n", this, impl->mBase);  
-delete impl;  
-}  
-} else {  
-impl->mBase->onLastWeakRef(id);  
-if ((impl->mFlags&OBJECT_LIFETIME_FOREVER) != OBJECT_LIFETIME_FOREVER) {  
-delete impl->mBase;  
-}  
-}  
+```cpp
+
+if ((impl->mFlags& OBJECT_LIFETIME_WEAK) != OBJECT_LIFETIME_WEAK)
+{
+    if (impl->mStrong == INITIAL_STRONG_VALUE) {
+        delete impl->mBase;
+    } else {
+        //      LOGV("Freeing refs %p of old RefBase %p\n", this, impl->mBase);
+        delete impl;
+    }
+} else
+{
+    impl->mBase->onLastWeakRef(id);
+
+    if ((impl->mFlags & OBJECT_LIFETIME_FOREVER) != OBJECT_LIFETIME_FOREVER) {
+        delete impl->mBase;
+    }
+}
+```
+ 
 如果目標對象的生命週期是不受弱引用計數控制的，就執行下面語句：
 
-[cpp] view plain copy 在CODE上查看代碼片派生到我的代碼片
-if (impl->mStrong == INITIAL_STRONG_VALUE)  
-delete impl->mBase;  
-else {  
-//  LOGV("Freeing refs %p of old RefBase %p\n", this, impl->mBase);  
-delete impl;  
-}  
+```cpp
+
+if (impl->mStrong == INITIAL_STRONG_VALUE)
+{
+    delete impl->mBase;
+} else
+{
+    //  LOGV("Freeing refs %p of old RefBase %p\n", this, impl->mBase);
+    delete impl;
+}
+```
+ 
 這個代碼段是什麼意思呢？這裡是減少對象的弱引用計數的地方，如果調用到這裡，那麼就說明前面一定有增加過此對象的弱引用計數，而增加對象的弱引用計數有兩種場景的，一種場景是增加對象的強引用計數的時候，會同時增加對象的弱引用計數，另一種場景是當我們使用一個弱指針來指向對象時，在弱指針對象的構造函數裡面，也會增加對象的弱引用計數，不過這時候，就只是增加對象的弱引用計數了，並沒有同時增加對象的強引用計數。因此，這裡在減少對象的弱引用計數時，就要分兩種情況來考慮。
+
 如果是前一種場景，這裡的impl->mStrong就必然等於0，而不會等於INITIAL_STRONG_VALUE值，因此，這裡就不需要delete目標對象了（impl->mBase），因為前面的RefBase::decStrong函數會負責delete這個對象。這裡唯一需要做的就是把weakref_impl對象delete掉，但是，為什麼要在這裡delete這個weakref_impl對象呢？這裡的weakref_impl對象是在RefBase的構造函數裡面new出來的，理論上說應該在在RefBase的析構函數裡delete掉這個weakref_impl對象的。在RefBase的析構函數裡面，的確是會做這件事情：
 
+```cpp
+RefBase::~RefBase()
+{
+    //    LOGV("Destroying RefBase %p (refs %p)\n", this, mRefs);
+    if (mRefs->mWeak == 0) {
+        //        LOGV("Freeing refs %p of old RefBase %p\n", mRefs, this);
+        delete mRefs;
+    }
+}
+```
 
-[cpp] view plain copy 在CODE上查看代碼片派生到我的代碼片
-RefBase::~RefBase()  
-{  
-//    LOGV("Destroying RefBase %p (refs %p)\n", this, mRefs);  
-if (mRefs->mWeak == 0) {  
-//        LOGV("Freeing refs %p of old RefBase %p\n", mRefs, this);  
-delete mRefs;  
-}  
-}  
 但是不要忘記，在這個場景下，目標對象是前面的RefBase::decStrong函數delete掉的，這時候目標對象就會被析構，但是它的弱引用計數值尚未執行減1操作，因此，這裡的mRefs->mWeak == 0條件就不成立，於是就不會delete這個weakref_impl對象，因此，就延遲到執行這裡decWeak函數時再執行。
 
 如果是後一種情景，這裡的impl->mStrong值就等於INITIAL_STRONG_VALUE了，這時候由於沒有地方會負責delete目標對象，因此，就需要把目標對象（imp->mBase）delete掉了，否則就會造成內存洩漏。在delete這個目標對象的時候，就會執行RefBase類的析構函數，這時候目標對象的弱引用計數等於0，於是，就會把weakref_impl對象也一起delete掉了。
 
 回到外層的if語句中，如果目標對象的生命週期是受弱引用計數控制的，就執行下面語句：
 
+```cpp
+impl->mBase->onLastWeakRef(id);
 
-[cpp] view plain copy 在CODE上查看代碼片派生到我的代碼片
-impl->mBase->onLastWeakRef(id);  
-if ((impl->mFlags&OBJECT_LIFETIME_FOREVER) != OBJECT_LIFETIME_FOREVER) {  
-delete impl->mBase;  
-}  
+if ((impl->mFlags& OBJECT_LIFETIME_FOREVER) != OBJECT_LIFETIME_FOREVER)
+{
+    delete impl->mBase;
+}
+```
+
 理論上說，如果目標對象的生命週期是受弱引用計數控制的，那麼當強引用計數和弱引用計數都為0的時候，這時候就應該delete目標對象了，但是這裡還有另外一層控制，我們可以設置目標對象的標誌值為OBJECT_LIFETIME_FOREVER，即目標對象的生命週期完全不受強引用計數和弱引用計數控制，在這種情況下，即使目標對象的強引用計數和弱引用計數都同時為0，這裡也不能delete這個目標對象，那麼，由誰來delete掉呢？當然是誰new出來的，就誰來delete掉了，這時候智能指針就完全退化為普通指針了，這裡的智能指針設計的非常強大。
 分析到這裡，有必要小結一下：
 
@@ -781,407 +833,492 @@ C. 如果對象的標誌位被設置為OBJECT_LIFETIME_FOREVER，那麼對象就
 
 到了這裡，強指針就分析完成了，最後來分析弱指針。
 
-4. 弱指針
+###4. 弱指針
 
 弱指針所使用的引用計數類與強指針一樣，都是RefBase類，因此，這裡就不再重複介紹了，我們直接來弱指針的實現，它定義在frameworks/base/include/utils/RefBase.h文件中：
 
-[cpp] view plain copy 在CODE上查看代碼片派生到我的代碼片
-template <typename T>  
-class wp  
-{  
-public:  
-typedef typename RefBase::weakref_type weakref_type;  
+```cpp
+template <typename T>
+class wp
+{
+public:
+    typedef typename RefBase::weakref_type weakref_type;
 
-inline wp() : m_ptr(0) { }  
+    inline wp() : m_ptr(0) { }
 
-wp(T* other);  
-wp(const wp<T>& other);  
-wp(const sp<T>& other);  
-template<typename U> wp(U* other);  
-template<typename U> wp(const sp<U>& other);  
-template<typename U> wp(const wp<U>& other);  
+    wp(T* other);
+    wp(const wp<T>& other);
+    wp(const sp<T>& other);
+    template<typename U> wp(U* other);
+    template<typename U> wp(const sp<U>& other);
+    template<typename U> wp(const wp<U>& other);
 
-~wp();  
+    ~wp();
 
-// Assignment  
+    // Assignment
 
-wp& operator = (T* other);  
-wp& operator = (const wp<T>& other);  
-wp& operator = (const sp<T>& other);  
+    wp& operator = (T* other);
+    wp& operator = (const wp<T>& other);
+    wp& operator = (const sp<T>& other);
 
-template<typename U> wp& operator = (U* other);  
-template<typename U> wp& operator = (const wp<U>& other);  
-template<typename U> wp& operator = (const sp<U>& other);  
+    template<typename U> wp& operator = (U* other);
+    template<typename U> wp& operator = (const wp<U>& other);
+    template<typename U> wp& operator = (const sp<U>& other);
 
-void set_object_and_refs(T* other, weakref_type* refs);  
+    void set_object_and_refs(T* other, weakref_type* refs);
 
-// promotion to sp  
+    // promotion to sp
 
-sp<T> promote() const;  
+    sp<T> promote() const;
 
-// Reset  
+    // Reset
 
-void clear();  
+    void clear();
 
-// Accessors  
+    // Accessors
 
-inline  weakref_type* get_refs() const { return m_refs; }  
+    inline  weakref_type* get_refs() const
+    {
+        return m_refs;
+    }
 
-inline  T* unsafe_get() const { return m_ptr; }  
+    inline  T* unsafe_get() const
+    {
+        return m_ptr;
+    }
 
-// Operators  
+    // Operators
 
-COMPARE_WEAK(==)  
-COMPARE_WEAK(!=)  
-COMPARE_WEAK(>)  
-COMPARE_WEAK(<)  
-COMPARE_WEAK(<=)  
-COMPARE_WEAK(>=)  
+    COMPARE_WEAK( ==)
+    COMPARE_WEAK( !=)
+    COMPARE_WEAK( >)
+    COMPARE_WEAK( <)
+    COMPARE_WEAK( <=)
+    COMPARE_WEAK( >=)
 
-inline bool operator == (const wp<T>& o) const {  
-return (m_ptr == o.m_ptr) && (m_refs == o.m_refs);  
-}  
-template<typename U>  
-inline bool operator == (const wp<U>& o) const {  
-return m_ptr == o.m_ptr;  
-}  
+    inline bool operator == (const wp<T>& o) const
+    {
+        return (m_ptr == o.m_ptr) && (m_refs == o.m_refs);
+    }
+    template<typename U>
+    inline bool operator == (const wp<U>& o) const
+    {
+        return m_ptr == o.m_ptr;
+    }
 
-inline bool operator > (const wp<T>& o) const {  
-return (m_ptr == o.m_ptr) ? (m_refs > o.m_refs) : (m_ptr > o.m_ptr);  
-}  
-template<typename U>  
-inline bool operator > (const wp<U>& o) const {  
-return (m_ptr == o.m_ptr) ? (m_refs > o.m_refs) : (m_ptr > o.m_ptr);  
-}  
+    inline bool operator > (const wp<T>& o) const
+    {
+        return (m_ptr == o.m_ptr) ? (m_refs > o.m_refs) : (m_ptr > o.m_ptr);
+    }
+    template<typename U>
+    inline bool operator > (const wp<U>& o) const
+    {
+        return (m_ptr == o.m_ptr) ? (m_refs > o.m_refs) : (m_ptr > o.m_ptr);
+    }
 
-inline bool operator < (const wp<T>& o) const {  
-return (m_ptr == o.m_ptr) ? (m_refs < o.m_refs) : (m_ptr < o.m_ptr);  
-}  
-template<typename U>  
-inline bool operator < (const wp<U>& o) const {  
-return (m_ptr == o.m_ptr) ? (m_refs < o.m_refs) : (m_ptr < o.m_ptr);  
-}  
-inline bool operator != (const wp<T>& o) const { return m_refs != o.m_refs; }  
-template<typename U> inline bool operator != (const wp<U>& o) const { return !operator == (o); }  
-inline bool operator <= (const wp<T>& o) const { return !operator > (o); }  
-template<typename U> inline bool operator <= (const wp<U>& o) const { return !operator > (o); }  
-inline bool operator >= (const wp<T>& o) const { return !operator < (o); }  
-template<typename U> inline bool operator >= (const wp<U>& o) const { return !operator < (o); }  
+    inline bool operator < (const wp<T>& o) const
+    {
+        return (m_ptr == o.m_ptr) ? (m_refs < o.m_refs) : (m_ptr < o.m_ptr);
+    }
+    template<typename U>
+    inline bool operator < (const wp<U>& o) const
+    {
+        return (m_ptr == o.m_ptr) ? (m_refs < o.m_refs) : (m_ptr < o.m_ptr);
+    }
+    inline bool operator != (const wp<T>& o) const
+    {
+        return m_refs != o.m_refs;
+    }
+    template<typename U> inline bool operator != (const wp<U>& o) const
+    {
+        return !operator == (o);
+    }
+    inline bool operator <= (const wp<T>& o) const
+    {
+        return !operator > (o);
+    }
+    template<typename U> inline bool operator <= (const wp<U>& o) const
+    {
+        return !operator > (o);
+    }
+    inline bool operator >= (const wp<T>& o) const
+    {
+        return !operator < (o);
+    }
+    template<typename U> inline bool operator >= (const wp<U>& o) const
+    {
+        return !operator < (o);
+    }
 
-private:  
-template<typename Y> friend class sp;  
-template<typename Y> friend class wp;  
+private:
+    template<typename Y> friend class sp;
+    template<typename Y> friend class wp;
 
-T*              m_ptr;  
-weakref_type*   m_refs;  
-};  
+    T*              m_ptr;
+    weakref_type*   m_refs;
+};
+```
+  
 與強指針類相比，它們都有一個成員變量m_ptr指向目標對象，但是弱指針還有一個額外的成員變量m_refs，它的類型是weakref_type指針，下面我們分析弱指針的構造函數時再看看它是如果初始化的。這裡我們需要關注的仍然是弱指針的構造函數和析構函數。
 先來看構造函數：
 
-[cpp] view plain copy 在CODE上查看代碼片派生到我的代碼片
-template<typename T>  
-wp<T>::wp(T* other)  
-: m_ptr(other)  
-{  
-if (other) m_refs = other->createWeak(this);  
-}  
+```cpp
+template<typename T>
+wp<T>::wp(T* other)
+    : m_ptr(other)
+{
+    if (other) {
+        m_refs = other->createWeak(this);
+    }
+}
+```
+
 這裡的參數other一定是繼承了RefBase類，因此，這裡調用了RefBase類的createWeak函數，它定義在frameworks/base/libs/utils/RefBase.cpp文件中：
 
-[cpp] view plain copy 在CODE上查看代碼片派生到我的代碼片
-RefBase::weakref_type* RefBase::createWeak(const void* id) const  
-{  
-mRefs->incWeak(id);  
-return mRefs;  
-}  
+```cpp
+RefBase::weakref_type* RefBase::createWeak(const void* id) const
+{
+    mRefs->incWeak(id);
+    return mRefs;
+}
+```
+
 這裡的成員變量mRefs的類型為weakref_impl指針，weakref_impl類的incWeak函數我們在前面已經看過了，它的作用就是增加對象的弱引用計數。函數最後返回mRefs，於是，弱指針對象的成員變量m_refs就指向目標對象的weakref_impl對象了。
 再來看析構函數：
 
-[cpp] view plain copy 在CODE上查看代碼片派生到我的代碼片
-template<typename T>  
-wp<T>::~wp()  
-{  
-if (m_ptr) m_refs->decWeak(this);  
-}  
+```cpp
+template<typename T>
+wp<T>::~wp()
+{
+    if (m_ptr) {
+        m_refs->decWeak(this);
+    }
+}
+```
+
 這裡，弱指針在析構的時候，與強指針析構不一樣，它直接就調用目標對象的weakref_impl對象的decWeak函數來減少弱引用計數了，當弱引用計數為0的時候，就會根據在目標對象的標誌位（0、OBJECT_LIFETIME_WEAK或者OBJECT_LIFETIME_FOREVER）來決定是否要delete目標對象，前面我們已經介紹過了，這裡就不再介紹了。
+
 分析到這裡，弱指針還沒介紹完，它最重要的特性我們還沒有分析到。前面我們說過，弱指針的最大特點是它不能直接操作目標對象，這是怎麼樣做到的呢？秘密就在於弱指針類沒有重載*和->操作符號，而強指針重載了這兩個操作符號。但是，如果我們要操作目標對象，應該怎麼辦呢，這就要把弱指針升級為強指針了：
 
 
-[cpp] view plain copy 在CODE上查看代碼片派生到我的代碼片
-template<typename T>  
-sp<T> wp<T>::promote() const  
-{  
-return sp<T>(m_ptr, m_refs);  
-}  
+```cpp
+template<typename T>
+sp<T> wp<T>::promote() const
+{
+    return sp<T>(m_ptr, m_refs);
+}
+```
+
 升級的方式就使用成員變量m_ptr和m_refs來構造一個強指針sp，這裡的m_ptr為指目標對象的一個指針，而m_refs則是指向目標對象裡面的weakref_impl對象。
 我們再來看看這個強指針的構造過程：
 
-[cpp] view plain copy 在CODE上查看代碼片派生到我的代碼片
-template<typename T>  
-sp<T>::sp(T* p, weakref_type* refs)  
-: m_ptr((p && refs->attemptIncStrong(this)) ? p : 0)  
-{  
-}  
+```cpp
+template<typename T>
+sp<T>::sp(T* p, weakref_type* refs)
+    : m_ptr((p && refs->attemptIncStrong(this)) ? p : 0)
+{
+}
+```
+
 主要就是初始化指向目標對象的成員變量m_ptr了，如果目標對象還存在，這個m_ptr就指向目標對象，如果目標對象已經不存在，m_ptr就為NULL，升級成功與否就要看refs->attemptIncStrong函數的返回結果了：
-[cpp] view plain copy 在CODE上查看代碼片派生到我的代碼片
-bool RefBase::weakref_type::attemptIncStrong(const void* id)  
-{  
-incWeak(id);  
 
-weakref_impl* const impl = static_cast<weakref_impl*>(this);  
 
-int32_t curCount = impl->mStrong;  
-LOG_ASSERT(curCount >= 0, "attemptIncStrong called on %p after underflow",  
-this);  
-while (curCount > 0 && curCount != INITIAL_STRONG_VALUE) {  
-if (android_atomic_cmpxchg(curCount, curCount+1, &impl->mStrong) == 0) {  
-break;  
-}  
-curCount = impl->mStrong;  
-}  
+```cpp
+bool RefBase::weakref_type::attemptIncStrong(const void* id)
+{
+    incWeak(id);
 
-if (curCount <= 0 || curCount == INITIAL_STRONG_VALUE) {  
-bool allow;  
-if (curCount == INITIAL_STRONG_VALUE) {  
-// Attempting to acquire first strong reference...  this is allowed  
-// if the object does NOT have a longer lifetime (meaning the  
-// implementation doesn't need to see this), or if the implementation  
-// allows it to happen.  
-allow = (impl->mFlags&OBJECT_LIFETIME_WEAK) != OBJECT_LIFETIME_WEAK  
-|| impl->mBase->onIncStrongAttempted(FIRST_INC_STRONG, id);  
-} else {  
-// Attempting to revive the object...  this is allowed  
-// if the object DOES have a longer lifetime (so we can safely  
-// call the object with only a weak ref) and the implementation  
-// allows it to happen.  
-allow = (impl->mFlags&OBJECT_LIFETIME_WEAK) == OBJECT_LIFETIME_WEAK  
-&& impl->mBase->onIncStrongAttempted(FIRST_INC_STRONG, id);  
-}  
-if (!allow) {  
-decWeak(id);  
-return false;  
-}  
-curCount = android_atomic_inc(&impl->mStrong);  
+    weakref_impl* const impl = static_cast<weakref_impl*>(this);
 
-// If the strong reference count has already been incremented by  
-// someone else, the implementor of onIncStrongAttempted() is holding  
-// an unneeded reference.  So call onLastStrongRef() here to remove it.  
-// (No, this is not pretty.)  Note that we MUST NOT do this if we  
-// are in fact acquiring the first reference.  
-if (curCount > 0 && curCount < INITIAL_STRONG_VALUE) {  
-impl->mBase->onLastStrongRef(id);  
-}  
-}  
+    int32_t curCount = impl->mStrong;
+    LOG_ASSERT(curCount >= 0, "attemptIncStrong called on %p after underflow",
+               this);
 
-impl->addWeakRef(id);  
-impl->addStrongRef(id);  
+    while (curCount > 0 && curCount != INITIAL_STRONG_VALUE) {
+        if (android_atomic_cmpxchg(curCount, curCount + 1, &impl->mStrong) == 0) {
+            break;
+        }
 
-#if PRINT_REFS  
-LOGD("attemptIncStrong of %p from %p: cnt=%d\n", this, id, curCount);  
-#endif  
+        curCount = impl->mStrong;
+    }
 
-if (curCount == INITIAL_STRONG_VALUE) {  
-android_atomic_add(-INITIAL_STRONG_VALUE, &impl->mStrong);  
-impl->mBase->onFirstRef();  
-}  
+    if (curCount <= 0 || curCount == INITIAL_STRONG_VALUE) {
+        bool allow;
 
-return true;  
-}  
+        if (curCount == INITIAL_STRONG_VALUE) {
+            // Attempting to acquire first strong reference...  this is allowed
+            // if the object does NOT have a longer lifetime (meaning the
+            // implementation doesn't need to see this), or if the implementation
+            // allows it to happen.
+            allow = (impl->mFlags & OBJECT_LIFETIME_WEAK) != OBJECT_LIFETIME_WEAK
+                    || impl->mBase->onIncStrongAttempted(FIRST_INC_STRONG, id);
+        } else {
+            // Attempting to revive the object...  this is allowed
+            // if the object DOES have a longer lifetime (so we can safely
+            // call the object with only a weak ref) and the implementation
+            // allows it to happen.
+            allow = (impl->mFlags & OBJECT_LIFETIME_WEAK) == OBJECT_LIFETIME_WEAK
+                    && impl->mBase->onIncStrongAttempted(FIRST_INC_STRONG, id);
+        }
+
+        if (!allow) {
+            decWeak(id);
+            return false;
+        }
+
+        curCount = android_atomic_inc(&impl->mStrong);
+
+        // If the strong reference count has already been incremented by
+        // someone else, the implementor of onIncStrongAttempted() is holding
+        // an unneeded reference.  So call onLastStrongRef() here to remove it.
+        // (No, this is not pretty.)  Note that we MUST NOT do this if we
+        // are in fact acquiring the first reference.
+        if (curCount > 0 && curCount < INITIAL_STRONG_VALUE) {
+            impl->mBase->onLastStrongRef(id);
+        }
+    }
+
+    impl->addWeakRef(id);
+    impl->addStrongRef(id);
+
+#if PRINT_REFS
+    LOGD("attemptIncStrong of %p from %p: cnt=%d\n", this, id, curCount);
+#endif
+
+    if (curCount == INITIAL_STRONG_VALUE) {
+        android_atomic_add(-INITIAL_STRONG_VALUE, &impl->mStrong);
+        impl->mBase->onFirstRef();
+    }
+
+    return true;
+}
+
+```
+
 這個函數的作用是試圖增加目標對象的強引用計數，但是有可能會失敗，失敗的原因可能是因為目標對象已經被delete掉了，或者是其它的原因，下面會分析到。前面我們在討論強指針的時候說到，增加目標對象的強引用計數的同時，也會增加目標對象的弱引用計數，因此，函數在開始的地方首先就是調用incWeak函數來先增加目標對象的引用計數，如果後面試圖增加目標對象的強引用計數失敗時，會調用decWeak函數來回滾前面的incWeak操作。
 
 這裡試圖增加目標對象的強引用計數時，分兩種情況討論，一種情況是此時目標對象正在被其它強指針引用，即它的強引用計數大於0，並且不等於INITIAL_STRONG_VALUE，另一種情況是此時目標對象沒有被任何強指針引用，即它的強引用計數小於等於0，或者等於INITIAL_STRONG_VALUE。
 
 第一種情況比較簡單，因為這時候說明目標對象一定存在，因此，是可以將這個弱指針提升為強指針的，在這種情況下，只要簡單地增加目標對象的強引用計數值就行了：
 
-[cpp] view plain copy 在CODE上查看代碼片派生到我的代碼片
-while (curCount > 0 && curCount != INITIAL_STRONG_VALUE) {  
-if (android_atomic_cmpxchg(curCount, curCount+1, &impl->mStrong) == 0) {  
-break;  
-}  
-curCount = impl->mStrong;  
-}  
+```cpp
+while (curCount > 0 && curCount != INITIAL_STRONG_VALUE)
+{
+    if (android_atomic_cmpxchg(curCount, curCount + 1, &impl->mStrong) == 0) {
+        break;
+    }
+
+    curCount = impl->mStrong;
+}
+```
+
 當我們在這裡對目標對象的強引用計數執行加1操作時，要保證原子性，因為其它地方也有可能正在對這個目標對象的強引用計數執行加1的操作，前面我們一般是調用android_atomic_inc函數來完成，但是這裡是通過調用android_atomic_cmpxchg函數來完成，android_atomic_cmpxchg函數是體系結構相關的函數，在提供了一些特殊的指令的體系結構上，調用android_atomic_cmpxchg函數來執行加1操作的效率會比調用android_atomic_inc函數更高一些。函數android_atomic_cmpxchg是在system/core/include/cutils/atomic.h文件中定義的一個宏：
-[cpp] view plain copy 在CODE上查看代碼片派生到我的代碼片
+
+```cpp
 int android_atomic_release_cas(int32_t oldvalue, int32_t newvalue,  
 volatile int32_t* addr);  
 
 #define android_atomic_cmpxchg android_atomic_release_cas  
+```
+
 它實際執行的函數是android_atomic_release_cas，這個函數的工作原理大概是這樣的：如果它發現*addr == oldvalue，就會執行*addr = newvalue的操作，然後返回0，否則什麼也不做，返回1。在我們討論的這個場景中，oldvalue等於curCount，而newvalue等於curCount + 1，於是，在*addr == oldvalue的條件下，就相當於是對目標對象的強引用計數值增加了1。什麼情況下*addr != oldvalue呢？在調用android_atomic_release_cas函數之前，oldvalue和值就是從地址addr讀出來的，如果在執行android_atomic_release_cas函數的時候，有其它地方也對地址addr進行操作，那麼就會有可能出現*addr != oldvalue的情況，這時候就說明其它地方也在操作目標對象的強引用計數了，因此，這裡就不能執行增加目標對象的強引用計數的操作了，它必須要等到其它地方操作完目標對象的強引用計數之後再重新執行，這就是為什麼要通過一個while循環來執行了。
+
 第二種情況比較複雜一點，因為這時候目標對象可能還存在，也可能不存了，這要根據實際情況來判斷。如果此時目標對象的強引用計數值等於INITIAL_STRONG_VALUE，說明此目標對象還從未被強指針引用過，這時候弱指針能夠被提升為強指針的條件就為：
 
-[cpp] view plain copy 在CODE上查看代碼片派生到我的代碼片
+```cpp
 allow = (impl->mFlags&OBJECT_LIFETIME_WEAK) != OBJECT_LIFETIME_WEAK  
 || impl->mBase->onIncStrongAttempted(FIRST_INC_STRONG, id);  
+```
+
 即如果目標對象的生命週期只受到強引用計數控制或者在目標對象的具體實現中總是允許這種情況發生。怎麼理解呢？如果目標對象的生命週期只受強引用計數控制（它的標誌位mFlags為0），而這時目標對象又還未被強指針引用過，它自然就不會被delete掉，因此，這時候可以判斷出目標對象是存在的；如果目標對象的生命週期受弱引用計數控制（OBJECT_LIFETIME_WEAK），這時候由於目標對象正在被弱指針引用，因此，弱引用計數一定不為0，目標對象一定存在；如果目標對象的生命週期不受引用計數控制（BJECT_LIFETIME_FOREVER），這時候目標對象也是下在被弱指針引用，因此，目標對象的所有者必須保證這個目標對象還沒有被delete掉，否則就會出問題了。在後面兩種場景下，因為目標對象的生命週期都是不受強引用計數控制的，而現在又要把弱指針提升為強指針，就需要進一步調用目標對象的onIncStrongAttempted來看看是否允許這種情況發生，這又該怎麼理解呢？可以這樣理解，目標對象的設計者可能本身就不希望這個對象被強指針引用，只能通過弱指針來引用它，因此，這裡它就可以重載其父類的onIncStrongAttempted函數，然後返回false，這樣就可以阻止弱指針都被提升為強指針。在RefBase類中，其成員函數onIncStrongAttempted默認是返回true的：
 
-[cpp] view plain copy 在CODE上查看代碼片派生到我的代碼片
-bool RefBase::onIncStrongAttempted(uint32_t flags, const void* id)  
-{  
-return (flags&FIRST_INC_STRONG) ? true : false;  
-}  
+```cpp
+bool RefBase::onIncStrongAttempted(uint32_t flags, const void* id)
+{
+    return (flags & FIRST_INC_STRONG) ? true : false;
+}
+```
+
 如果此時目標對象的強引用計數值小於等於0，那就說明該對象之前一定被強指針引用過，這時候就必須保證目標對象是被弱引用計數控制的（BJECT_LIFETIME_WEAK），否則的話，目標對象就已經被delete了。同樣，這裡也要調用一下目標對象的onIncStrongAttempted成員函數，來詢問一下目標對象在強引用計數值小於等於0的時候，是否允計將弱指針提升為強指針。下面這個代碼段就是執行上面所說的邏輯：
 
-[cpp] view plain copy 在CODE上查看代碼片派生到我的代碼片
+```cpp
 allow = (impl->mFlags&OBJECT_LIFETIME_WEAK) == OBJECT_LIFETIME_WEAK  
 && impl->mBase->onIncStrongAttempted(FIRST_INC_STRONG, id);  
+```
+
 繼續往下看：
-[cpp] view plain copy 在CODE上查看代碼片派生到我的代碼片
-if (!allow) {  
-decWeak(id);  
-return false;  
-}  
+
+```cpp
+if (!allow)
+{
+    decWeak(id);
+    return false;
+}
+
 curCount = android_atomic_inc(&impl->mStrong);  
+```
+
 如果allow值為false，那麼就說明不允計把這個弱指針提升為強指針，因此就返回false了，在返回之前，要先調用decWeak函數來減少目標對象的弱引用計數，因為函數的開頭不管三七二十一，首先就調用了incWeak來增加目標對象的弱引用計數值。
 函數attemptIncStrong的主體邏輯大概就是這樣了，比較複雜，讀者要細細體會一下。函數的最後，如果此弱指針是允計提升為強指針的，並且此目標對象是第一次被強指針引用，還需要調整一下目標對象的強引用計數值：
 
-[cpp] view plain copy 在CODE上查看代碼片派生到我的代碼片
-if (curCount == INITIAL_STRONG_VALUE) {  
-android_atomic_add(-INITIAL_STRONG_VALUE, &impl->mStrong);  
-impl->mBase->onFirstRef();  
-}  
+```cpp
+if (curCount == INITIAL_STRONG_VALUE)
+{
+    android_atomic_add(-INITIAL_STRONG_VALUE, &impl->mStrong);
+    impl->mBase->onFirstRef();
+}
+```
+ 
 這個邏輯我們在前面分析強指針時已經分析過了，這裡不再詳述。
 分析到這裡，弱指針就介紹完了。強指針和弱指針的關係比較密切，同時它們也比較複雜，下面我們再舉一個例子來說明強指針和弱指針的用法，同時也驗證一下它們的實現原理。
 
-5. 強指針和弱指針的用法
+###5. 強指針和弱指針的用法
 
 參考在Ubuntu上為Android系統內置C可執行程序測試Linux內核驅動程序一文，我們在external目錄下建立一個C++工程目錄weightpointer，它裡面有兩個文件，一個weightpointer.cpp文件，另外一個是Android.mk文件。
 
 源文件weightpointer.cpp的內容如下：
-[cpp] view plain copy 在CODE上查看代碼片派生到我的代碼片
-#include <stdio.h>  
-#include <utils/RefBase.h>  
 
-#define INITIAL_STRONG_VALUE (1<<28)  
+```cpp
+#include <stdio.h>
+#include <utils/RefBase.h>
 
-using namespace android;  
+#define INITIAL_STRONG_VALUE (1<<28)
 
-class WeightClass : public RefBase  
-{  
-public:  
-void printRefCount()  
-{  
-int32_t strong = getStrongCount();  
-weakref_type* ref = getWeakRefs();  
+using namespace android;
 
-printf("-----------------------\n");  
-printf("Strong Ref Count: %d.\n", (strong  == INITIAL_STRONG_VALUE ? 0 : strong));  
-printf("Weak Ref Count: %d.\n", ref->getWeakCount());  
-printf("-----------------------\n");  
-}  
-};  
+class WeightClass : public RefBase
+{
+public:
+    void printRefCount()
+    {
+        int32_t strong = getStrongCount();
+        weakref_type* ref = getWeakRefs();
 
-class StrongClass : public WeightClass  
-{  
-public:  
-StrongClass()  
-{  
-printf("Construct StrongClass Object.\n");  
-}  
+        printf("-----------------------\n");
+        printf("Strong Ref Count: %d.\n",
+               (strong  == INITIAL_STRONG_VALUE ? 0 : strong));
+        printf("Weak Ref Count: %d.\n", ref->getWeakCount());
+        printf("-----------------------\n");
+    }
+};
 
-virtual ~StrongClass()  
-{  
-printf("Destory StrongClass Object.\n");  
-}  
-};  
+class StrongClass : public WeightClass
+{
+public:
+    StrongClass()
+    {
+        printf("Construct StrongClass Object.\n");
+    }
 
-
-class WeakClass : public WeightClass  
-{  
-public:  
-WeakClass()  
-{  
-extendObjectLifetime(OBJECT_LIFETIME_WEAK);  
-
-printf("Construct WeakClass Object.\n");  
-}  
-
-virtual ~WeakClass()  
-{  
-printf("Destory WeakClass Object.\n");  
-}  
-};  
-
-class ForeverClass : public WeightClass  
-{  
-public:  
-ForeverClass()  
-{  
-extendObjectLifetime(OBJECT_LIFETIME_FOREVER);  
-
-printf("Construct ForeverClass Object.\n");  
-}  
-
-virtual ~ForeverClass()  
-{  
-printf("Destory ForeverClass Object.\n");  
-}  
-};  
+    virtual ~StrongClass()
+    {
+        printf("Destory StrongClass Object.\n");
+    }
+};
 
 
-void TestStrongClass(StrongClass* pStrongClass)  
-{  
-wp<StrongClass> wpOut = pStrongClass;  
-pStrongClass->printRefCount();  
+class WeakClass : public WeightClass
+{
+public:
+    WeakClass()
+    {
+        extendObjectLifetime(OBJECT_LIFETIME_WEAK);
 
-{  
-sp<StrongClass> spInner = pStrongClass;  
-pStrongClass->printRefCount();  
-}  
+        printf("Construct WeakClass Object.\n");
+    }
 
-sp<StrongClass> spOut = wpOut.promote();  
-printf("spOut: %p.\n", spOut.get());  
-}  
+    virtual ~WeakClass()
+    {
+        printf("Destory WeakClass Object.\n");
+    }
+};
 
-void TestWeakClass(WeakClass* pWeakClass)  
-{  
-wp<WeakClass> wpOut = pWeakClass;  
-pWeakClass->printRefCount();  
+class ForeverClass : public WeightClass
+{
+public:
+    ForeverClass()
+    {
+        extendObjectLifetime(OBJECT_LIFETIME_FOREVER);
 
-{  
-sp<WeakClass> spInner = pWeakClass;  
-pWeakClass->printRefCount();  
-}  
+        printf("Construct ForeverClass Object.\n");
+    }
 
-pWeakClass->printRefCount();  
-sp<WeakClass> spOut = wpOut.promote();  
-printf("spOut: %p.\n", spOut.get());  
-}  
+    virtual ~ForeverClass()
+    {
+        printf("Destory ForeverClass Object.\n");
+    }
+};
 
 
-void TestForeverClass(ForeverClass* pForeverClass)  
-{  
-wp<ForeverClass> wpOut = pForeverClass;  
-pForeverClass->printRefCount();  
+void TestStrongClass(StrongClass* pStrongClass)
+{
+    wp<StrongClass> wpOut = pStrongClass;
+    pStrongClass->printRefCount();
 
-{  
-sp<ForeverClass> spInner = pForeverClass;  
-pForeverClass->printRefCount();  
-}  
-}  
+    {
+        sp<StrongClass> spInner = pStrongClass;
+        pStrongClass->printRefCount();
+    }
 
-int main(int argc, char** argv)  
-{  
-printf("Test Strong Class: \n");  
-StrongClass* pStrongClass = new StrongClass();  
-TestStrongClass(pStrongClass);  
+    sp<StrongClass> spOut = wpOut.promote();
+    printf("spOut: %p.\n", spOut.get());
+}
 
-printf("\nTest Weak Class: \n");  
-WeakClass* pWeakClass = new WeakClass();  
-TestWeakClass(pWeakClass);  
+void TestWeakClass(WeakClass* pWeakClass)
+{
+    wp<WeakClass> wpOut = pWeakClass;
+    pWeakClass->printRefCount();
 
-printf("\nTest Froever Class: \n");  
-ForeverClass* pForeverClass = new ForeverClass();  
-TestForeverClass(pForeverClass);  
-pForeverClass->printRefCount();  
-delete pForeverClass;  
+    {
+        sp<WeakClass> spInner = pWeakClass;
+        pWeakClass->printRefCount();
+    }
 
-return 0;  
-}  
+    pWeakClass->printRefCount();
+    sp<WeakClass> spOut = wpOut.promote();
+    printf("spOut: %p.\n", spOut.get());
+}
+
+
+void TestForeverClass(ForeverClass* pForeverClass)
+{
+    wp<ForeverClass> wpOut = pForeverClass;
+    pForeverClass->printRefCount();
+
+    {
+        sp<ForeverClass> spInner = pForeverClass;
+        pForeverClass->printRefCount();
+    }
+}
+
+int main(int argc, char** argv)
+{
+    printf("Test Strong Class: \n");
+    StrongClass* pStrongClass = new StrongClass();
+    TestStrongClass(pStrongClass);
+
+    printf("\nTest Weak Class: \n");
+    WeakClass* pWeakClass = new WeakClass();
+    TestWeakClass(pWeakClass);
+
+    printf("\nTest Froever Class: \n");
+    ForeverClass* pForeverClass = new ForeverClass();
+    TestForeverClass(pForeverClass);
+    pForeverClass->printRefCount();
+    delete pForeverClass;
+
+    return 0;
+}
+
+```
+
 首先定義了一個基類WeightClass，繼承於RefBase類，它只有一個成員函數printRefCount，作用是用來輸出引用計數。接著分別定義了三個類StrongClass、WeakClass和ForeverClass，其中實例化StrongClass類的得到的對象的標誌位為默認值0，實例化WeakClass類的得到的對象的標誌位為OBJECT_LIFETIME_WEAK，實例化ForeverClass類的得到的對象的標誌位為OBJECT_LIFETIME_FOREVER，後兩者都是通過調用RefBase類的extendObjectLifetime成員函數來設置的。
+
 在main函數裡面，分別實例化了這三個類的對象出來，然後分別傳給TestStrongClass函數、TestWeakClass函數和TestForeverClass函數來說明智能指針的用法，我們主要是通過考察它們的強引用計數和弱引用計數來驗證智能指針的實現原理。
 
 編譯腳本文件Android.mk的內容如下：
 
-[plain] view plain copy 在CODE上查看代碼片派生到我的代碼片
+```sh
 LOCAL_PATH := $(call my-dir)  
 include $(CLEAR_VARS)  
 LOCAL_MODULE_TAGS := optional  
@@ -1191,19 +1328,29 @@ LOCAL_SHARED_LIBRARIES := \
 libcutils \  
 libutils  
 include $(BUILD_EXECUTABLE)  
+```
+
 最後，我們參照如何單獨編譯Android源代碼中的模塊一文，使用mmm命令對工程進行編譯：
-[plain] view plain copy 在CODE上查看代碼片派生到我的代碼片
+```sh
 USER-NAME@MACHINE-NAME:~/Android$ mmm ./external/weightpointer  
+```
+
 編譯之後，就可以打包了：
-[plain] view plain copy 在CODE上查看代碼片派生到我的代碼片
+
+```sh
 USER-NAME@MACHINE-NAME:~/Android$ make snod  
+```
 最後得到可執行程序weightpointer就位於設備上的/system/bin/目錄下。啟動模擬器，通過adb shell命令進入到模擬器終端，進入到/system/bin/目錄，執行weightpointer可執行程序，驗證程序是否按照我們設計的邏輯運行：
-[plain] view plain copy 在CODE上查看代碼片派生到我的代碼片
+
+```sh
 USER-NAME@MACHINE-NAME:~/Android$ adb shell  
 root@android:/ # cd system/bin/          
 root@android:/system/bin # ./weightpointer    
+```
+
 執行TestStrongClass函數的輸出為：
-[plain] view plain copy 在CODE上查看代碼片派生到我的代碼片
+
+```sh
 Test Strong Class:   
 Construct StrongClass Object.  
 -----------------------  
@@ -1216,11 +1363,13 @@ Weak Ref Count: 2.
 -----------------------  
 Destory StrongClass Object.  
 spOut: 0x0.  
+```
+
 在TestStrongClass函數裡面，首先定義一個弱批針wpOut指向從main函數傳進來的StrongClass對象，這時候我們可以看到StrongClass對象的強引用計數和弱引用計數值分別為0和1；接著在一個大括號裡面定義一個強指針spInner指向這個StrongClass對象，這時候我們可以看到StrongClass對象的強引用計數和弱引用計數值分別為1和2；當程序跳出了大括號之後，強指針spInner就被析構了，從上面的分析我們知道，強指針spInner析構時，會減少目標對象的強引用計數值，因為前面得到的強引用計數值為1，這裡減1後，就變為0了，又由於這個StrongClass對象的生命週期只受強引用計數控制，因此，這個StrongClass對象就被delete了，這一點可以從後面的輸出（「Destory StrongClass Object.」）以及試圖把弱指針wpOut提升為強指針時得到的對象指針為0x0得到驗證。
 
 執行TestWeakClass函數的輸出為：
 
-[plain] view plain copy 在CODE上查看代碼片派生到我的代碼片
+```sh
 Test Weak Class:   
 Construct WeakClass Object.  
 -----------------------  
@@ -1237,11 +1386,13 @@ Weak Ref Count: 1.
 -----------------------  
 spOut: 0xa528.  
 Destory WeakClass Object.  
+```
+
 TestWeakClass函數和TestStrongClass函數的執行過程基本一樣，所不同的是當程序跳出大括號之後，雖然這個WeakClass對象的強引用計數值已經為0，但是由於它的生命週期同時受強引用計數和弱引用計數控制，而這時它的弱引用計數值大於0，因此，這個WeakClass對象不會被delete掉，這一點可以從後面試圖把弱批針wpOut提升為強指針時得到的對象指針不為0得到驗證。
 
 執行TestForeverClass函數的輸出來：
 
-[plain] view plain copy 在CODE上查看代碼片派生到我的代碼片
+```sh
 Test Froever Class:   
 Construct ForeverClass Object.  
 -----------------------  
@@ -1252,13 +1403,17 @@ Weak Ref Count: 1.
 Strong Ref Count: 1.  
 Weak Ref Count: 2.  
 -----------------------  
+````
+
 當執行完TestForeverClass函數返回到main函數的輸出來：
-[plain] view plain copy 在CODE上查看代碼片派生到我的代碼片
+```sh
 -----------------------  
 Strong Ref Count: 0.  
 Weak Ref Count: 0.  
 -----------------------  
 Destory ForeverClass Object.  
+```
+
 這裡我們可以看出，雖然這個ForeverClass對象的強引用計數和弱引用計數值均為0了，但是它不自動被delete掉，雖然由我們手動地delete這個對象，它才會被析構，這是因為這個ForeverClass對象的生命週期是既不受強引用計數值控制，也不會弱引用計數值控制。
 這樣，從TestStrongClass、TestWeakClass和TestForeverClass這三個函數的輸出就可以驗證了我們上面對Android系統的強指針和弱指針的實現原理的分析。
 

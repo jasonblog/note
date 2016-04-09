@@ -372,6 +372,7 @@
    * [A Simple C++ Function Call Stack Trace Utility](c++/a_simple_c++_function_call_stack_trace_utility.md)
    * [探索C++虛函數在g++中的實現](c++/tan_suo_c_xu_han_shu_zai_g_zhong_de_shi_xian.md)
    * [樸實的C++設計](c++/pu_shi_de_c_she_ji.md)
+   * C++ 智能指针
 * [GNU make](gunmake/README.md)
    * [CMake](cmake/cmake.md)
        * [CMake 初探](cmake/cmake_chu_tan.md)

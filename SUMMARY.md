@@ -83,7 +83,7 @@
    * [Analyzing UI Performance with Systrace](android_note/522.md)
    * [Android 常用指令](android_note/523.md)
    * [Android下設置CPU核心數和頻率](android_note/524.md)
-   * Android系統的智能指針（輕量級指針、強指針和弱指針）的實現原理分析
+   * [Android系統的智能指針（輕量級指針、強指針和弱指針）的實現原理分析](android_note/androidxi_tong_de_zhi_neng_zhi_zhen_ff08_qing_lian.md)
 * [Ubuntu](ubuntu/README.md)
    * [Ubuntu installer](ubuntu/ubuntu_installer.md)
 * [QEMU](qemu/README.md)

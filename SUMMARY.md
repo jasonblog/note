@@ -376,7 +376,7 @@
    * [探索C++虛函數在g++中的實現](c++/tan_suo_c_xu_han_shu_zai_g_zhong_de_shi_xian.md)
    * [樸實的C++設計](c++/pu_shi_de_c_she_ji.md)
    * [C++ 智能指針](c++/c++_zhi_neng_zhi_zhen.md)
-   * Mutex::Autolock  for c++
+   * [Mutex::Autolock  for c++](c++/mutexautolock_for_c_++.md)
 * [GNU make](gunmake/README.md)
    * [CMake](cmake/cmake.md)
        * [CMake 初探](cmake/cmake_chu_tan.md)

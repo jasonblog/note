@@ -26,7 +26,7 @@ public:
 
 protected:
     RefBase();
-    virtual ~RefBase();//delete this時候會調用子類
+    virtual ~RefBase();//delete this时候会调用子类
 
     enum {
         OBJECT_LIFETIME_WEAK    = 0x0001,
@@ -40,11 +40,11 @@ protected:
     };
 
     virtual bool            onIncStrongAttempted(int flags,
-            const void* id);//子類可以覆蓋
+            const void* id);//子类可以覆盖
 
 private:
     //friend class weakref_type;
-    class weakref_impl; //不能include，只能前向聲明
+    class weakref_impl; //不能include，只能前向声明
     RefBase(const RefBase& o);
     RefBase&    operator=(const RefBase& o);
     weakref_impl* const mRefs;
@@ -57,20 +57,19 @@ class sp
 {
 public:
     typedef typename RefBase::weakref_type weakref_type;
-    //相當於typedef  RefBase::weakref_type weakref_typ
-    //
+    //相当于typedef  RefBase::weakref_type weakref_typ
+    inline sp() : m_ptr(0) {  }
     sp(T* other);
     sp(const sp<T>& other);
     ~sp();
 
-    inline  T*      get() const
-    {
-        return m_ptr;
-    }
+    inline  T&      operator* () const  { return *m_ptr; }
+    inline  T*      operator-> () const { return m_ptr;  }
+    inline  T*      get() const         { return m_ptr; }
 
 private:
     template<typename Y> friend class
-    wp;//wp可以操作sp的私有變量，如構造函數
+    wp;//wp可以操作sp的私有变量，如构造函数
     sp(T* p, weakref_type* refs);
     T* m_ptr;
 };
@@ -164,7 +163,6 @@ sp<T> wp<T>::promote() const
 {
     return sp<T>(m_ptr, m_refs);
 }
-
 ```
 
 二、RefBase.cpp
@@ -193,7 +191,7 @@ public:
 
     ~weakref_impl()
     {
-        cout << "~weakref_impl" << endl;
+        // cout << "~weakref_impl" << endl;
     }
 };
 
@@ -220,7 +218,7 @@ void RefBase::decStrong(const void* id) const
 
     if (c == 0) {
         if ((refs->mFlags & OBJECT_LIFETIME_WEAK) !=
-            OBJECT_LIFETIME_WEAK) { //受到強指針控制
+            OBJECT_LIFETIME_WEAK) { //受到强指针控制
             delete this;
         }
     }
@@ -254,7 +252,7 @@ void RefBase::weakref_type::decWeak(const void* id)
     }
 
     if ((impl->mFlags & OBJECT_LIFETIME_WEAK) !=
-        OBJECT_LIFETIME_WEAK) { //受強指針控制
+        OBJECT_LIFETIME_WEAK) { //受强指针控制
         if (impl->mStrong == INITIAL_STRONG_VALUE) {
             delete impl->mBase;
         } else {
@@ -262,7 +260,7 @@ void RefBase::weakref_type::decWeak(const void* id)
         }
     } else {
         if ((impl->mFlags & OBJECT_LIFETIME_FOREVER) !=
-            OBJECT_LIFETIME_FOREVER) { //受弱指針控制
+            OBJECT_LIFETIME_FOREVER) { //受弱指针控制
             delete impl->mBase;
         }
     }
@@ -270,21 +268,21 @@ void RefBase::weakref_type::decWeak(const void* id)
 
 bool RefBase::weakref_type::attemptIncStrong(const void* id)
 {
-    incWeak(id);//先增加，後面有減少，整體不變
+    incWeak(id);//先增加，后面有减少，整体不变
 
     weakref_impl* const impl = static_cast<weakref_impl*>(this);
 
     int curCount = impl->mStrong;
 
     if (curCount > 0 &&
-        curCount != INITIAL_STRONG_VALUE) {//mStrong變化過，且大於0
+        curCount != INITIAL_STRONG_VALUE) {//mStrong变化过，且大于0
         impl->mStrong = curCount + 1;
         curCount = impl->mStrong;
     }
 
     if (curCount <= 0 ||
         curCount ==
-        INITIAL_STRONG_VALUE) {//mStrong沒有變化過；或者變化後，為0
+        INITIAL_STRONG_VALUE) {//mStrong没有变化过；或者变化后，为0
         bool allow;
 
         if (curCount == INITIAL_STRONG_VALUE) {
@@ -296,7 +294,7 @@ bool RefBase::weakref_type::attemptIncStrong(const void* id)
         }
 
         if (!allow) {
-            decWeak(id);//再減少
+            decWeak(id);//再减少
             return false;
         }
 

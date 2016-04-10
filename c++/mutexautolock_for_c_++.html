@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>使用“$_exitcode”變量 | Jason note</title>
+        <title>Mutex::Autolock  for c++ | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../100_gdb_tips/core_dumpwen_jian.html" />
+    <link rel="next" href="../gunmake/index.html" />
     
     
-    <link rel="prev" href="../100_gdb_tips/maint-info-program-space.html" />
+    <link rel="prev" href="../c++/c++_zhi_neng_zhi_zhen.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="45.7.11" data-basepath=".." data-revision="Mon Apr 11 2016 01:27:27 GMT+0800 (CST)">
+    <div class="book" data-level="18.10" data-basepath=".." data-revision="Mon Apr 11 2016 01:27:27 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -5891,7 +5891,7 @@
             
         </li>
     
-        <li class="chapter " data-level="18.10" data-path="c++/mutexautolock_for_c_++.html">
+        <li class="chapter active" data-level="18.10" data-path="c++/mutexautolock_for_c_++.html">
             
                 
                     <a href="../c++/mutexautolock_for_c_++.html">
@@ -10606,7 +10606,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="45.7.11" data-path="100_gdb_tips/use-$_exitcode.html">
+        <li class="chapter " data-level="45.7.11" data-path="100_gdb_tips/use-$_exitcode.html">
             
                 
                     <a href="../100_gdb_tips/use-$_exitcode.html">
@@ -12159,60 +12159,187 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E4%BD%BF%E7%94%A8%E2%80%9C-exitcode%E2%80%9D%E8%AE%8A%E9%87%8F">&#x4F7F;&#x7528;&#x201C;$_exitcode&#x201D;&#x8B8A;&#x91CF;</h1>
-<h2 id="%E4%BE%8B%E5%AD%90">&#x4F8B;&#x5B50;</h2>
-<pre><code>int main(void)
-{
-    return 0;
-}
-</code></pre><h2 id="%E6%8A%80%E5%B7%A7">&#x6280;&#x5DE7;</h2>
-<p>&#x7576;&#x88AB;&#x8ABF;&#x8A66;&#x7684;&#x7A0B;&#x5E8F;&#x6B63;&#x5E38;&#x9000;&#x51FA;&#x6642;&#xFF0C;gdb&#x6703;&#x4F7F;&#x7528;<code>$_exitcode</code>&#x9019;&#x500B;&#x201C;<code>convenience variable</code>&#x201D;&#x8A18;&#x9304;&#x7A0B;&#x5E8F;&#x9000;&#x51FA;&#x6642;&#x7684;&#x201C;<code>exit code</code>&#x201D;&#x3002;&#x4EE5;&#x8ABF;&#x8A66;&#x4E0A;&#x9762;&#x7A0B;&#x5E8F;&#x70BA;&#x4F8B;:</p>
-<pre><code>[root@localhost nan]# gdb -q a
-Reading symbols from a...done.
-(gdb) start
-Temporary breakpoint 1 at 0x400478: file a.c, line 3.
-Starting program: /home/nan/a
+                        <h1 id="mutex-autolock-for-c">Mutex::Autolock  for c++</h1>
+<ul>
+<li>Mutex.cpp</li>
+</ul>
+<pre><code class="lang-cpp"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;pthread.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;Mutex.h&quot;</span></span>
 
-Temporary breakpoint 1, main () at a.c:3
-3               return 0;
-(gdb) n
-4       }
-(gdb)
-0x00000034e421ed1d in __libc_start_main () from /lib64/libc.so.6
-(gdb)
-Single stepping until exit from function __libc_start_main,
-which has no line number information.
-[Inferior 1 (process 1185) exited normally]
-(gdb) p $_exitcode
-$1 = 0
-</code></pre><p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x6253;&#x5370;&#x7684;<code>$_exitcode</code>&#x7684;&#x503C;&#x70BA;<code>0</code>&#x3002;<br>&#x6539;&#x8B8A;&#x7A0B;&#x5E8F;&#xFF0C;&#x8FD4;&#x56DE;&#x503C;&#x6539;&#x70BA;<code>1</code>&#xFF1A;</p>
-<pre><code>int main(void)
-{
-    return 0;
-}
-</code></pre><p>&#x63A5;&#x8457;&#x8ABF;&#x8A66;&#xFF1A;  </p>
-<pre><code>[root@localhost nan]# gdb -q a
-Reading symbols from a...done.
-(gdb) start
-Temporary breakpoint 1 at 0x400478: file a.c, line 3.
-Starting program: /home/nan/a
+<span class="hljs-keyword">int</span> ret = <span class="hljs-number">1234</span>;
+Mutex mLock;
 
-Temporary breakpoint 1, main () at a.c:3
-3               return 1;
-(gdb)
-(gdb) n
-4       }
-(gdb)
-0x00000034e421ed1d in __libc_start_main () from /lib64/libc.so.6
-(gdb)
-Single stepping until exit from function __libc_start_main,
-which has no line number information.
-[Inferior 1 (process 2603) exited with code 01]
-(gdb) p $_exitcode
-$1 = 1
-</code></pre><p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x6253;&#x5370;&#x7684;<code>$_exitcode</code>&#x7684;&#x503C;&#x8B8A;&#x70BA;<code>1</code>&#x3002;<br>&#x53C3;&#x898B;<a href="https://sourceware.org/gdb/onlinedocs/gdb/Convenience-Vars.html" target="_blank">gdb&#x624B;&#x518A;</a>.</p>
-<h2 id="%E8%B2%A2%E7%8D%BB%E8%80%85">&#x8CA2;&#x737B;&#x8005;</h2>
-<p>nanxiao</p>
+<span class="hljs-function"><span class="hljs-keyword">void</span>* <span class="hljs-title">show_message</span><span class="hljs-params">(<span class="hljs-keyword">void</span>* ptr)</span>
+</span>{
+    <span class="hljs-keyword">char</span>* message;
+    <span class="hljs-keyword">int</span> x = <span class="hljs-number">5</span>;
+
+    Mutex::Autolock _l(mLock);
+
+    message = (<span class="hljs-keyword">char</span>*) ptr;
+
+    <span class="hljs-keyword">for</span> (x = <span class="hljs-number">5</span> ; x &gt; <span class="hljs-number">0</span> ; --x) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s \n&quot;</span>, message);
+        usleep(<span class="hljs-number">300</span>);
+    }
+
+    pthread_exit((<span class="hljs-keyword">void</span>*)&amp;ret);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">pthread_t</span> thread1;
+    <span class="hljs-keyword">pthread_t</span> thread2;
+    <span class="hljs-keyword">int</span> *ret1 = <span class="hljs-literal">NULL</span>;
+    <span class="hljs-keyword">int</span> *ret2 = <span class="hljs-literal">NULL</span>;
+
+    pthread_create(&amp;thread1, <span class="hljs-literal">NULL</span> , show_message , (<span class="hljs-keyword">void</span>*) <span class="hljs-string">&quot;Thread 1&quot;</span>);
+    pthread_create(&amp;thread2, <span class="hljs-literal">NULL</span> , show_message , (<span class="hljs-keyword">void</span>*) <span class="hljs-string">&quot;Thread 2&quot;</span>);
+    pthread_join( thread1, (<span class="hljs-keyword">void</span>**)&amp;ret1);
+    pthread_join( thread2, (<span class="hljs-keyword">void</span>**)&amp;ret2);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;return value from thread1 = %d\n&quot;</span>, *ret1);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;return value from thread2 = %d\n&quot;</span>, *ret2);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<pre><code class="lang-sh">g++ -o Mutex Mutex.cpp -lpthread
+</code></pre>
+<ul>
+<li>Mutex.h</li>
+</ul>
+<pre><code class="lang-cpp">/*
+ * Copyright (C) 2007 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+#ifndef _LIBS_UTILS_MUTEX_H
+#define _LIBS_UTILS_MUTEX_H
+
+#include &lt;stdint.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;time.h&gt;
+
+#define HAVE_PTHREADS
+typedef int status_t;
+
+#if defined(HAVE_PTHREADS)
+# include &lt;pthread.h&gt;
+#endif
+
+// ---------------------------------------------------------------------------
+
+/*
+ * Simple mutex class.  The implementation is system-dependent.
+ *
+ * The mutex must be unlocked by the thread that locked it.  They are not
+ * recursive, i.e. the same thread can&apos;t lock it multiple times.
+ */
+class Mutex {
+public:
+    enum {
+        PRIVATE = 0,
+        SHARED = 1
+    };
+
+                Mutex();
+                Mutex(const char* name);
+                Mutex(int type, const char* name = NULL);
+                ~Mutex();
+
+    // lock or unlock the mutex
+    status_t    lock();
+    void        unlock();
+
+    // lock if possible; returns 0 on success, error otherwise
+    status_t    tryLock();
+
+    // Manages the mutex automatically. It&apos;ll be locked when Autolock is
+    // constructed and released when Autolock goes out of scope.
+    class Autolock {
+    public:
+        inline Autolock(Mutex&amp; mutex) : mLock(mutex)  { mLock.lock(); }
+        inline Autolock(Mutex* mutex) : mLock(*mutex) { mLock.lock(); }
+        inline ~Autolock() { mLock.unlock(); }
+    private:
+        Mutex&amp; mLock;
+    };
+
+private:
+    // A mutex cannot be copied
+                Mutex(const Mutex&amp;);
+    Mutex&amp;      operator = (const Mutex&amp;);
+
+#if defined(HAVE_PTHREADS)
+    pthread_mutex_t mMutex;
+#else
+    void    _init();
+    void*   mState;
+#endif
+};
+
+// ---------------------------------------------------------------------------
+
+#if defined(HAVE_PTHREADS)
+
+inline Mutex::Mutex() {
+    pthread_mutex_init(&amp;mMutex, NULL);
+}
+inline Mutex::Mutex(__attribute__((unused)) const char* name) {
+    pthread_mutex_init(&amp;mMutex, NULL);
+}
+inline Mutex::Mutex(int type, __attribute__((unused)) const char* name) {
+    if (type == SHARED) {
+        pthread_mutexattr_t attr;
+        pthread_mutexattr_init(&amp;attr);
+        pthread_mutexattr_setpshared(&amp;attr, PTHREAD_PROCESS_SHARED);
+        pthread_mutex_init(&amp;mMutex, &amp;attr);
+        pthread_mutexattr_destroy(&amp;attr);
+    } else {
+        pthread_mutex_init(&amp;mMutex, NULL);
+    }
+}
+inline Mutex::~Mutex() {
+    pthread_mutex_destroy(&amp;mMutex);
+}
+inline status_t Mutex::lock() {
+    return -pthread_mutex_lock(&amp;mMutex);
+}
+inline void Mutex::unlock() {
+    pthread_mutex_unlock(&amp;mMutex);
+}
+inline status_t Mutex::tryLock() {
+    return -pthread_mutex_trylock(&amp;mMutex);
+}
+
+#endif // HAVE_PTHREADS
+
+// ---------------------------------------------------------------------------
+
+/*
+ * Automatic mutex.  Declare one of these at the top of a function.
+ * When the function returns, it will go out of scope, and release the
+ * mutex.
+ */
+
+typedef Mutex::Autolock AutoMutex;
+
+// ---------------------------------------------------------------------------
+
+#endif // _LIBS_UTILS_MUTEX_H
+</code></pre>
 
                     
                     </section>
@@ -12223,10 +12350,10 @@ $1 = 1
         </div>
 
         
-        <a href="../100_gdb_tips/maint-info-program-space.html" class="navigation navigation-prev " aria-label="Previous page: 打印程序進程空間信息"><i class="fa fa-angle-left"></i></a>
+        <a href="../c++/c++_zhi_neng_zhi_zhen.html" class="navigation navigation-prev " aria-label="Previous page: C++ 智能指針"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../100_gdb_tips/core_dumpwen_jian.html" class="navigation navigation-next " aria-label="Next page: core dump文件"><i class="fa fa-angle-right"></i></a>
+        <a href="../gunmake/index.html" class="navigation navigation-next " aria-label="Next page: GNU make"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

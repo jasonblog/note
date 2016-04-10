@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="18.9" data-basepath=".." data-revision="Sun Apr 10 2016 00:40:19 GMT+0800 (CST)">
+    <div class="book" data-level="18.9" data-basepath=".." data-revision="Sun Apr 10 2016 22:44:54 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1347,6 +1347,21 @@
                             <b>4.24.</b>
                         
                         Android下設置CPU核心數和頻率
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.25" data-path="android_note/androidxi_tong_de_zhi_neng_zhi_zhen_ff08_qing_lian.html">
+            
+                
+                    <a href="../android_note/androidxi_tong_de_zhi_neng_zhi_zhen_ff08_qing_lian.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.25.</b>
+                        
+                        Android系統的智能指針（輕量級指針、強指針和弱指針）的實現原理分析
                     </a>
             
             
@@ -12101,165 +12116,164 @@
                     
                         <h1 id="c-%E6%99%BA%E8%83%BD%E6%8C%87%E9%87%9D">C++ &#x667A;&#x80FD;&#x6307;&#x91DD;</h1>
 <p>&#x4E00;&#x3001;RefBase.h</p>
-<pre><code class="lang-cpp"><span class="hljs-keyword">class</span> RefBase
+<pre><code class="lang-cpp">class RefBase
 {
-<span class="hljs-keyword">public</span>:
-    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">incStrong</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">void</span>* id)</span> <span class="hljs-keyword">const</span></span>;
-    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">decStrong</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">void</span>* id)</span> <span class="hljs-keyword">const</span></span>;
-    <span class="hljs-function"><span class="hljs-keyword">int</span>  <span class="hljs-title">getStrongCount</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span></span>;
+public:
+    void incStrong(const void* id) const;
+    void decStrong(const void* id) const;
+    int  getStrongCount() const;
 
-    <span class="hljs-keyword">class</span> weakref_type
+    class weakref_type
     {
-    <span class="hljs-keyword">public</span>:
-        <span class="hljs-function">RefBase* <span class="hljs-title">refBase</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span></span>;
-        <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">incWeak</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">void</span>* id)</span></span>;
-        <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">decWeak</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">void</span>* id)</span></span>;
-        <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">attemptIncStrong</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">void</span>* id)</span></span>;
-        <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">getWeakCount</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span></span>;
+    public:
+        RefBase* refBase() const;
+        void incWeak(const void* id);
+        void decWeak(const void* id);
+        bool attemptIncStrong(const void* id);
+        int getWeakCount() const;
     };
 
-    <span class="hljs-function">weakref_type* <span class="hljs-title">createWeak</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">void</span>* id)</span> <span class="hljs-keyword">const</span></span>;
-    <span class="hljs-function">weakref_type* <span class="hljs-title">getWeakRefs</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span></span>;
+    weakref_type* createWeak(const void* id) const;
+    weakref_type* getWeakRefs() const;
 
-<span class="hljs-keyword">protected</span>:
+protected:
     RefBase();
-    <span class="hljs-keyword">virtual</span> ~RefBase();<span class="hljs-comment">//delete this&#x6642;&#x5019;&#x6703;&#x8ABF;&#x7528;&#x5B50;&#x985E;</span>
+    virtual ~RefBase();//delete this&#x6642;&#x5019;&#x6703;&#x8ABF;&#x7528;&#x5B50;&#x985E;
 
-    <span class="hljs-keyword">enum</span> {
-        OBJECT_LIFETIME_WEAK    = <span class="hljs-number">0x0001</span>,
-        OBJECT_LIFETIME_FOREVER = <span class="hljs-number">0x0003</span>
+    enum {
+        OBJECT_LIFETIME_WEAK    = 0x0001,
+        OBJECT_LIFETIME_FOREVER = 0x0003
     };
 
-    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">extendObjectLifetime</span><span class="hljs-params">(<span class="hljs-keyword">int</span>  mode)</span></span>;
+    void extendObjectLifetime(int  mode);
 
-    <span class="hljs-keyword">enum</span> {
-        FIRST_INC_STRONG = <span class="hljs-number">0x0001</span>
+    enum {
+        FIRST_INC_STRONG = 0x0001
     };
 
-    <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-keyword">bool</span>            <span class="hljs-title">onIncStrongAttempted</span><span class="hljs-params">(<span class="hljs-keyword">int</span> flags,
-            <span class="hljs-keyword">const</span> <span class="hljs-keyword">void</span>* id)</span></span>;<span class="hljs-comment">//&#x5B50;&#x985E;&#x53EF;&#x4EE5;&#x8986;&#x84CB;</span>
+    virtual bool            onIncStrongAttempted(int flags,
+            const void* id);//&#x5B50;&#x985E;&#x53EF;&#x4EE5;&#x8986;&#x84CB;
 
-<span class="hljs-keyword">private</span>:
-    <span class="hljs-comment">//friend class weakref_type;</span>
-    <span class="hljs-keyword">class</span> weakref_impl; <span class="hljs-comment">//&#x4E0D;&#x80FD;include&#xFF0C;&#x53EA;&#x80FD;&#x524D;&#x5411;&#x8072;&#x660E;</span>
-    RefBase(<span class="hljs-keyword">const</span> RefBase&amp; o);
-    RefBase&amp;    <span class="hljs-keyword">operator</span>=(<span class="hljs-keyword">const</span> RefBase&amp; o);
-    weakref_impl* <span class="hljs-keyword">const</span> mRefs;
+private:
+    //friend class weakref_type;
+    class weakref_impl; //&#x4E0D;&#x80FD;include&#xFF0C;&#x53EA;&#x80FD;&#x524D;&#x5411;&#x8072;&#x660E;
+    RefBase(const RefBase&amp; o);
+    RefBase&amp;    operator=(const RefBase&amp; o);
+    weakref_impl* const mRefs;
 };
 
-<span class="hljs-comment">// ---------------------------------------------------------------------------</span>
+// ---------------------------------------------------------------------------
 
-<span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;
-<span class="hljs-keyword">class</span> sp
+template &lt;typename T&gt;
+class sp
 {
-<span class="hljs-keyword">public</span>:
-    <span class="hljs-keyword">typedef</span> <span class="hljs-keyword">typename</span> RefBase::weakref_type weakref_type;
-    <span class="hljs-comment">//&#x76F8;&#x7576;&#x65BC;typedef  RefBase::weakref_type weakref_typ</span>
-    <span class="hljs-comment">//</span>
+public:
+    typedef typename RefBase::weakref_type weakref_type;
+    //&#x76F8;&#x7576;&#x65BC;typedef  RefBase::weakref_type weakref_typ
+    inline sp() : m_ptr(0) {  }
     sp(T* other);
-    sp(<span class="hljs-keyword">const</span> sp&lt;T&gt;&amp; other);
+    sp(const sp&lt;T&gt;&amp; other);
     ~sp();
 
-    <span class="hljs-function"><span class="hljs-keyword">inline</span>  T*      <span class="hljs-title">get</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span>
-    </span>{
-        <span class="hljs-keyword">return</span> m_ptr;
-    }
+    inline  T&amp;      operator* () const  { return *m_ptr; }
+    inline  T*      operator-&gt; () const { return m_ptr;  }
+    inline  T*      get() const         { return m_ptr; }
 
-<span class="hljs-keyword">private</span>:
-    <span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> Y&gt; <span class="hljs-keyword">friend</span> <span class="hljs-keyword">class</span>
-    wp;<span class="hljs-comment">//wp&#x53EF;&#x4EE5;&#x64CD;&#x4F5C;sp&#x7684;&#x79C1;&#x6709;&#x8B8A;&#x91CF;&#xFF0C;&#x5982;&#x69CB;&#x9020;&#x51FD;&#x6578;</span>
+private:
+    template&lt;typename Y&gt; friend class
+    wp;//wp&#x53EF;&#x4EE5;&#x64CD;&#x4F5C;sp&#x7684;&#x79C1;&#x6709;&#x8B8A;&#x91CF;&#xFF0C;&#x5982;&#x69CB;&#x9020;&#x51FD;&#x6578;
     sp(T* p, weakref_type* refs);
     T* m_ptr;
 };
 
-<span class="hljs-comment">// ---------------------------------------------------------------------------</span>
+// ---------------------------------------------------------------------------
 
-<span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;
-<span class="hljs-keyword">class</span> wp
+template &lt;typename T&gt;
+class wp
 {
-<span class="hljs-keyword">public</span>:
-    <span class="hljs-keyword">typedef</span>  RefBase::weakref_type weakref_type;
+public:
+    typedef  RefBase::weakref_type weakref_type;
     wp(T* other);
-    wp(<span class="hljs-keyword">const</span> wp&lt;T&gt;&amp; other);
+    wp(const wp&lt;T&gt;&amp; other);
     ~wp();
-    sp&lt;T&gt; promote() <span class="hljs-keyword">const</span>;
-    <span class="hljs-function"><span class="hljs-keyword">inline</span>  weakref_type* <span class="hljs-title">get_refs</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span>
-    </span>{
-        <span class="hljs-keyword">return</span> m_refs;
+    sp&lt;T&gt; promote() const;
+    inline  weakref_type* get_refs() const
+    {
+        return m_refs;
     }
-<span class="hljs-keyword">private</span>:
-    T*              m_ptr;<span class="hljs-comment">//strongPointer</span>
-    weakref_type*   m_refs;<span class="hljs-comment">//weakref_impl</span>
+private:
+    T*              m_ptr;//strongPointer
+    weakref_type*   m_refs;//weakref_impl
 
 };
 
-<span class="hljs-comment">// ---------------------------------------------------------------------------</span>
+// ---------------------------------------------------------------------------
 
-<span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;
+template&lt;typename T&gt;
 sp&lt;T&gt;::sp(T* other)
-    : m_ptr(other)<span class="hljs-comment">//strongPointer</span>
+    : m_ptr(other)//strongPointer
 {
-    <span class="hljs-keyword">if</span> (other) {
-        other-&gt;incStrong(<span class="hljs-keyword">this</span>);
+    if (other) {
+        other-&gt;incStrong(this);
     }
 }
 
-<span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;
-sp&lt;T&gt;::sp(<span class="hljs-keyword">const</span> sp&lt;T&gt;&amp; other)
+template&lt;typename T&gt;
+sp&lt;T&gt;::sp(const sp&lt;T&gt;&amp; other)
     : m_ptr(other.m_ptr)
 {
-    <span class="hljs-keyword">if</span> (m_ptr) {
-        m_ptr-&gt;incStrong(<span class="hljs-keyword">this</span>);
+    if (m_ptr) {
+        m_ptr-&gt;incStrong(this);
     }
 }
 
-<span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;
+template&lt;typename T&gt;
 sp&lt;T&gt;::~sp()
 {
-    <span class="hljs-keyword">if</span> (m_ptr) {
-        m_ptr-&gt;decStrong(<span class="hljs-keyword">this</span>);
+    if (m_ptr) {
+        m_ptr-&gt;decStrong(this);
     }
 }
 
-<span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;
+template&lt;typename T&gt;
 sp&lt;T&gt;::sp(T* p, weakref_type* refs)
-    : m_ptr((p &amp;&amp; refs-&gt;attemptIncStrong(<span class="hljs-keyword">this</span>)) ? p : <span class="hljs-number">0</span>)
+    : m_ptr((p &amp;&amp; refs-&gt;attemptIncStrong(this)) ? p : 0)
 {
 }
 
-<span class="hljs-comment">// ---------------------------------------------------------------------------</span>
+// ---------------------------------------------------------------------------
 
-<span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;
+template&lt;typename T&gt;
 wp&lt;T&gt;::wp(T* other)
-    : m_ptr(other)<span class="hljs-comment">//strongPointer</span>
+    : m_ptr(other)//strongPointer
 {
-    <span class="hljs-keyword">if</span> (other) {
-        m_refs = other-&gt;createWeak(<span class="hljs-keyword">this</span>);    <span class="hljs-comment">//weakref_impl</span>
+    if (other) {
+        m_refs = other-&gt;createWeak(this);    //weakref_impl
     }
 }
 
-<span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;
-wp&lt;T&gt;::wp(<span class="hljs-keyword">const</span> wp&lt;T&gt;&amp; other)
+template&lt;typename T&gt;
+wp&lt;T&gt;::wp(const wp&lt;T&gt;&amp; other)
     : m_ptr(other.m_ptr), m_refs(other.m_refs)
 {
-    <span class="hljs-keyword">if</span> (m_ptr) {
-        m_refs-&gt;incWeak(<span class="hljs-keyword">this</span>);
+    if (m_ptr) {
+        m_refs-&gt;incWeak(this);
     }
 }
 
 
-<span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;
+template&lt;typename T&gt;
 wp&lt;T&gt;::~wp()
 {
-    <span class="hljs-keyword">if</span> (m_ptr) {
-        m_refs-&gt;decWeak(<span class="hljs-keyword">this</span>);
+    if (m_ptr) {
+        m_refs-&gt;decWeak(this);
     }
 }
 
-<span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;
-sp&lt;T&gt; wp&lt;T&gt;::promote() <span class="hljs-keyword">const</span>
+template&lt;typename T&gt;
+sp&lt;T&gt; wp&lt;T&gt;::promote() const
 {
-    <span class="hljs-keyword">return</span> sp&lt;T&gt;(m_ptr, m_refs);
+    return sp&lt;T&gt;(m_ptr, m_refs);
 }
 </code></pre>
 <p>&#x4E8C;&#x3001;RefBase.cpp</p>
@@ -12286,7 +12300,7 @@ sp&lt;T&gt; wp&lt;T&gt;::promote() <span class="hljs-keyword">const</span>
 
     ~weakref_impl()
     {
-        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;~weakref_impl&quot;</span> &lt;&lt; endl;
+        <span class="hljs-comment">// cout &lt;&lt; &quot;~weakref_impl&quot; &lt;&lt; endl;</span>
     }
 };
 

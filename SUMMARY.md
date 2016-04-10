@@ -295,6 +295,7 @@
    * [IP addresses from a C program](linux_system/ip_addresses_from_a_c_program.md)
    * [OpenMP in linux](linux_system/openmp_in_linux.md)
    * [Mutexes VS Semaphores 大揭祕](linux_system/mutexes_vs_semaphores_da_jie_mi.md)
+   * dlopen &  dlsym 用法
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

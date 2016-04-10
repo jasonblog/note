@@ -117,10 +117,10 @@ void *dlopen(const char *filename, int flag);
 
 *(void **)(&my_printf) = dlsym(handle, "my_printf");
 
-先&my_printf，再转换成void **，最后是把该指针指向的地方赋值
+先&my_printf，再轉換成void **，最後是把該指針指向的地方賦值
 
 void **p = (void **)&my_printf;
 *p = dlsym(...
 
-任何指针都可以转换成void *
+任何指針都可以轉換成void *
 ```

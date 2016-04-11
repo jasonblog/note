@@ -478,6 +478,7 @@
 * [設計模式](design_pattern/README.md)
    * [23種設計模式的趣味解釋](design_pattern/271.md)
    * [設計模式經驗談](design_pattern/she_ji_mo_shi_jing_yan_tan.md)
+   * 設計模式整理列表
 * [OpenWrt](openwrt/README.md)
    * [OpenWRT 編譯環境搭建](openwrt/281.md)
 * [Python](python/README.md)

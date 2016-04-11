@@ -1,26 +1,26 @@
 # libevent 專案分析
 
 
-我理解libevent是一个轻量级的，跨平台+高效的（C语言实现）事件驱动库，类似于ACE项目中的ACE_Reactor，它实现了网络通讯套接口I/O事件，定时器事件，信号事件的监听和事件处理函数回调机制。从项目主页可以了解到libevent已经支持   /dev/poll ,  kqueue(2) ,  event ports ,  POSIX  select(2) ,  Windows  select() ,  poll(2) , and  epoll(4) 方式的事件监测和驱动机制 
+我理解libevent是一個輕量級的，跨平臺+高效的（C語言實現）事件驅動庫，類似於ACE項目中的ACE_Reactor，它實現了網絡通訊套接口I/O事件，定時器事件，信號事件的監聽和事件處理函數回調機制。從項目主頁可以瞭解到libevent已經支持   /dev/poll ,  kqueue(2) ,  event ports ,  POSIX  select(2) ,  Windows  select() ,  poll(2) , and  epoll(4) 方式的事件監測和驅動機制 
 
-项目主页： http://libevent.org/ <br>
-维基百科： http://zh.wikipedia.org/wiki/Libevent <br>
-参考资料： http://blog.csdn.net/sparkliang/article/details/4957667 <br>
+項目主頁： http://libevent.org/ <br>
+維基百科： http://zh.wikipedia.org/wiki/Libevent <br>
+參考資料： http://blog.csdn.net/sparkliang/article/details/4957667 <br>
 
-PS：在分析开源项目代码之前，需首先了解该项目的特性，应用场景和价值，这些信息一方面可以从项目的主页获取，另一方面可以通过搜索引擎从技术论坛，博客等方面获取。最好选择和自己工作/兴趣比较相关的项目，这样有利于分析的深入和坚持，并及时体现收益。 
-
-
-###下载源代码 
-从项目主页可以很方便的下载当前版本的源码，我下载的版本是 libevent-2.0.17-stable.tar.gz 
+PS：在分析開源項目代碼之前，需首先了解該項目的特性，應用場景和價值，這些信息一方面可以從項目的主頁獲取，另一方面可以通過搜索引擎從技術論壇，博客等方面獲取。最好選擇和自己工作/興趣比較相關的項目，這樣有利於分析的深入和堅持，並及時體現收益。 
 
 
-###代码量分析 
-通过Wine运行SourceCounter工具对该项目进行代码量统计，可以看到该项目代码量大概5W多行，且代码工程结构简单，比较适合像我这样对开源项目代码分析经验不足的人 
-PS：在开始分析项目源码之前，分析该项目的代码量可以大致评估该项目的难度和分析计划，分析工程结构可以大致评估该项目的重点部分，以免一开始就满腔热血地栽在一个深坑里（比较复杂的开源项目），而后面又不了了之 
+###下載源代碼 
+從項目主頁可以很方便的下載當前版本的源碼，我下載的版本是 libevent-2.0.17-stable.tar.gz 
 
 
-###编译和安装 
-在将源码包在本地解压后即可以编译和安装。这里和其他开源项目差不多，没有什么特别的，只是为了方便后面通过调试的手段来分析源码，编译的时候最好编译成debug模式，如下 
+###代碼量分析 
+通過Wine運行SourceCounter工具對該項目進行代碼量統計，可以看到該項目代碼量大概5W多行，且代碼工程結構簡單，比較適合像我這樣對開源項目代碼分析經驗不足的人 
+PS：在開始分析項目源碼之前，分析該項目的代碼量可以大致評估該項目的難度和分析計劃，分析工程結構可以大致評估該項目的重點部分，以免一開始就滿腔熱血地栽在一個深坑裡（比較複雜的開源項目），而後面又不了了之 
+
+
+###編譯和安裝 
+在將源碼包在本地解壓後即可以編譯和安裝。這裡和其他開源項目差不多，沒有什麼特別的，只是為了方便後面通過調試的手段來分析源碼，編譯的時候最好編譯成debug模式，如下 
 
 
 ```sh
@@ -29,18 +29,18 @@ PS：在开始分析项目源码之前，分析该项目的代码量可以大致
 #make install 
 ```
 
-安装完成后，libevent库的头文件会安装在/usr/local/include目录下，而库文件会安装在/usr/local/lib目录下，故需确保/usr/local/lib在LD_LIBRARY_PATH变量包含的路径中 
-PS：卸载的方法 
+安裝完成後，libevent庫的頭文件會安裝在/usr/local/include目錄下，而庫文件會安裝在/usr/local/lib目錄下，故需確保/usr/local/lib在LD_LIBRARY_PATH變量包含的路徑中 
+PS：卸載的方法 
 
 ```sh
 #make uninstall 
 #make clean 
 ```
 
-编写测试应用代码 
-该项目源码包中的sample目录中其实已经有些例子，但我还是情愿参考样例自己写一个，好久没Coding了 ：） 
+編寫測試應用代碼 
+該項目源碼包中的sample目錄中其實已經有些例子，但我還是情願參考樣例自己寫一個，好久沒Coding了 ：） 
 
-mytimer.c : 实现一个定时器事件处理函数，并通过libevent的事件驱动机制定时调用 
+mytimer.c : 實現一個定時器事件處理函數，並通過libevent的事件驅動機制定時調用 
 
 ```c
 #include <sys/types.h>
@@ -91,14 +91,14 @@ int main(int argc, char** argv)
 }
 ```
 
-编译 ：
+編譯 ：
 
 ```sh
 gcc -g -I/usr/local/include -o mytimer mytimer.c -L/usr/local/lib -levent 
 ```
 
 
-运行 ： $ ./mytimer  
+運行 ： $ ./mytimer  
 
 ```sh
 handle_timer function is called  
@@ -108,27 +108,27 @@ handle_timer function is called
 ```
 
 
-通过例程调试libevent 
+通過例程調試libevent 
 
-通过gdb去调试mytimer时发现其链接的是libevent的动态库，且无法在libevent库的函数上设置断点 ：（ 
-安装glibc的静态库：# yum install glibc-static libstdc++-static 
-静态编译命令：
+通過gdb去調試mytimer時發現其鏈接的是libevent的動態庫，且無法在libevent庫的函數上設置斷點 ：（ 
+安裝glibc的靜態庫：# yum install glibc-static libstdc++-static 
+靜態編譯命令：
 
 ```sh
 gcc -g -I/usr/local/include -o mytimer mytimer.c -L/usr/local/lib -static -levent -lc -lrt
 ```
-这样就可以通过gdb调试例程时，在libevent库的函数上设置断点 
+這樣就可以通過gdb調試例程時，在libevent庫的函數上設置斷點 
 
 ###初始化 
-libevent库的使用是从对event_base结构初始化开始的，前面例程中使用的方法是不带任何参数的 event_base_new 函数，类似的还有 event_init 函数。前者创建并初始化了一个默认的event_config结构，然后调用event_base_new_with_config函数；而后者更加简单，用了一个NULL做为参数调用event_base_new_with_config函数。所以可以理解libevent库的初始化核心是 event_base_new_with_config 函数，对该函数的分析留给后面，这次不打算分析到具体函数的实现 ：） 
+libevent庫的使用是從對event_base結構初始化開始的，前面例程中使用的方法是不帶任何參數的 event_base_new 函數，類似的還有 event_init 函數。前者創建並初始化了一個默認的event_config結構，然後調用event_base_new_with_config函數；而後者更加簡單，用了一個NULL做為參數調用event_base_new_with_config函數。所以可以理解libevent庫的初始化核心是 event_base_new_with_config 函數，對該函數的分析留給後面，這次不打算分析到具體函數的實現 ：） 
 
 
 
-###事件定义 
-libevent库实现的就是事件监听和驱动机制，该库中对事件的定义是event结构。该结构不是很复杂，但比较重要，这里列出几个比较重要的成员变量 
+###事件定義 
+libevent庫實現的就是事件監聽和驅動機制，該庫中對事件的定義是event結構。該結構不是很複雜，但比較重要，這裡列出幾個比較重要的成員變量 
 
 
-1，双向事件链表 
+1，雙向事件鏈表 
 
 ```c
 TAILQ_ENTRY(event) ev_active_next; 
@@ -137,7 +137,7 @@ TAILQ_ENTRY(event) ev_next;
 
 其中
 
-TAILQ_ENTRY宏在event2/event_struct.h文件中定义如下 
+TAILQ_ENTRY宏在event2/event_struct.h文件中定義如下 
 
 ```c
 /* Fix so that people don't have to run with <sys/queue.h> */ 
@@ -151,7 +151,7 @@ TAILQ_ENTRY宏在event2/event_struct.h文件中定义如下
 #endif /* !TAILQ_ENTRY */
 ```
 
-2，事件对应的句柄 
+2，事件對應的句柄 
 
 SOCKET事件句柄   
 ```c
@@ -167,7 +167,7 @@ struct {
 } ev_io;
 ````
 
-信号事件句柄 
+信號事件句柄 
 ```c
 /* used by signal events */
 struct {
@@ -180,13 +180,13 @@ struct {
 
 PS：<br>
 
-1，IO事件句柄与信号事件句柄通过union方式定义；<br>
-2，定时器事件是靠时间差比较来监听，所以这里没有定时器事件的句柄 <br>
-3，event_base指针： 通过该成员变量，event事件可以知道自己注册在哪个event_base 
+1，IO事件句柄與信號事件句柄通過union方式定義；<br>
+2，定時器事件是靠時間差比較來監聽，所以這裡沒有定時器事件的句柄 <br>
+3，event_base指針： 通過該成員變量，event事件可以知道自己註冊在哪個event_base 
 ```c
 struct event_base *ev_base; 
 ```
-4，event属性 ： 
+4，event屬性 ： 
 ```c
 short ev_events;
 /**
@@ -217,7 +217,7 @@ short ev_events;
 /**@}*/
 ```
 
-5，event标识： 
+5，event標識： 
 ```c
 short ev_flags; 
 #define EVLIST_TIMEOUT 0x01 
@@ -227,14 +227,14 @@ short ev_flags;
 #define EVLIST_INTERNAL 0x10 
 #define EVLIST_INIT 0x80 
 ```
-6，事件优先级：数值越小，优先级越高，默认为适中 
+6，事件優先級：數值越小，優先級越高，默認為適中 
 
 ```c
 ev_uint8_t ev_pri; 
 ```
 
 
-7，事件对应的回调函数指针及参数
+7，事件對應的回調函數指針及參數
 
 ```c
 /* allows us to adopt for different types of events */ 
@@ -244,55 +244,55 @@ void *ev_arg;
 
 ###事件初始化 
 
-和event相关的函数有下面几个： 
+和event相關的函數有下面幾個： 
 
 ```c
-event创建： event_new 
-event设置： event_set ， event_assign 
-event释放: event_free 
-其中最核心的是event_assign函数，这里分析 其参数的意义，说明事件关注的方面 
+event創建： event_new 
+event設置： event_set ， event_assign 
+event釋放: event_free 
+其中最核心的是event_assign函數，這裡分析 其參數的意義，說明事件關注的方面 
 
 int event_assign(struct event *ev, struct event_base *base, evutil_socket_t fd, short events, void (*callback)(evutil_socket_t, short, void *), void *arg) 
 
-struct event *ev  ：event事件指针 
-struct event_base *base  ： event_base指针 
-evutil_socket_t fd  ： 套接口句柄，其他类型事件可以赋值-1 
-short events  ： 事件的属性 
-void (*callback)(evutil_socket_t, short, void *)  ： 事件处理回调函数指针 
-void *arg  ： 事件处理回调函数参数 
+struct event *ev  ：event事件指針 
+struct event_base *base  ： event_base指針 
+evutil_socket_t fd  ： 套接口句柄，其他類型事件可以賦值-1 
+short events  ： 事件的屬性 
+void (*callback)(evutil_socket_t, short, void *)  ： 事件處理回調函數指針 
+void *arg  ： 事件處理回調函數參數 
 ```
 
-###注册事件 
+###註冊事件 
 
-例程中通过event_add函数注册一个定时事件，实际上注册事件是由event_add_internal函数实现，event_add函数会为调用event_add_internal函数增加锁保护。event_add_internal函数通过事件的ev_events属性判断事件类型，从而调用不同函数实现事件注册 
-对于IO事件的注册由evmap_io_add函数实现 
+例程中通過event_add函數註冊一個定時事件，實際上註冊事件是由event_add_internal函數實現，event_add函數會為調用event_add_internal函數增加鎖保護。event_add_internal函數通過事件的ev_events屬性判斷事件類型，從而調用不同函數實現事件註冊 
+對於IO事件的註冊由evmap_io_add函數實現 
 
 ```c
 int evmap_io_add(struct event_base *base, evutil_socket_t fd, struct event *ev) 
 ```
 
-PS ：相关的其他几个和IO事件操作函数evmap_io_init，evmap_io_del，evmap_io_active 
+PS ：相關的其他幾個和IO事件操作函數evmap_io_init，evmap_io_del，evmap_io_active 
 
 
-对于Signal事件的注册由evmap_signal_add函数实现 
+對於Signal事件的註冊由evmap_signal_add函數實現 
 
 ```c
 int evmap_signal_add(struct event_base *base, int sig, struct event *ev) 
 ```
 
-PS ： 相关的其他几个和Signal事件操作函数 evmap_signal_init， evmap_signal_del， evmap_signal_active 
+PS ： 相關的其他幾個和Signal事件操作函數 evmap_signal_init， evmap_signal_del， evmap_signal_active 
 
 
 
-对于定时器事件的注册由 event_add_internal参数中的const struct timeval *tv参数决定？？？ 
+對於定時器事件的註冊由 event_add_internal參數中的const struct timeval *tv參數決定？？？ 
 
 
-###事件驱动
+###事件驅動
 
-例程通过调用event_base_dispatch函数驱动事件，实际上事件驱动机制是由event_base_loop函数封装实现的。这里需注意event_base结构的成员变量const struct eventop *evsel，这个指针指向 eventops数组中的一个元素，根据宏定义选择不同的事件监听机制（例如poll/select/epoll等），这里先不细说。 
+例程通過調用event_base_dispatch函數驅動事件，實際上事件驅動機制是由event_base_loop函數封裝實現的。這裡需注意event_base結構的成員變量const struct eventop *evsel，這個指針指向 eventops數組中的一個元素，根據宏定義選擇不同的事件監聽機制（例如poll/select/epoll等），這裡先不細說。 
 
-事件回调 
-在源代码中一时还没发现是在哪里回调了事件处理函数，换一种途径，通过gdb在例程的时间事件处理函数设置断点跟踪，可以发现事件处理函数是由 event_process_active_single_queue 函数调用的，关系如下： 
+事件回調 
+在源代碼中一時還沒發現是在哪裡回調了事件處理函數，換一種途徑，通過gdb在例程的時間事件處理函數設置斷點跟蹤，可以發現事件處理函數是由 event_process_active_single_queue 函數調用的，關係如下： 
 
 ```sh
 (gdb) where 

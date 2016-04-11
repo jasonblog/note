@@ -631,41 +631,28 @@ swap(c1,c2);同上
 ```
 
 ####元素存取
-
+```cpp
 c.at(index);
-
 c[index];
-
 c.front();返回第一个元素
-
 c.back();
-
+```
  
-插入和删除：
-
+####插入和删除：
+```cpp
 c.insert(pos.elem);
-
 c.insert(pos,n.elem); 插入n个elem
-
 c.insert(pos,beg,end); 在pos出插入beg，end区间内的所有元素。
-
 c.push_back(elem);
-
 c.pop_back();
-
 c.erase(pos); 删除pos上的元素，返回下一个元素
-
 c.erase(beg,end);
-
 c.resize(num);将元素数量改为num，如果size变大了，多出来的新元素都要一default方式构建。
-
 c.resize(num,elem);将元素数量改为num，如果size变大了，多出来的新元素是elem的副本。
-
 c.clear();删除所有。
+```
 
- 
-
-vector的reserve和resize
+####vector的reserve和resize
 
 reserve只分配空间，而不创建对象，size()不变。而resize分配空间而且用空对象填充.
 
@@ -679,12 +666,13 @@ vector有而deque无的：capacity(), reserve();
 
 deque有而vector无的：push_front(elem), pop_front(); push_back(elem), pop_back();
 
-STL提供的另两种容器queue、stack，其实都只不过是一种adaptor，它们简单地修饰deque的界面而成为另外的容器类型
+STL提供的另两种容器`queue、stack`，其实都只不过是一种adaptor，它们简单地修饰deque的界面而成为另外的容器类型
 
  
 
-List详解：
+###List详解：
 
+```cpp
 for_each  (.begin(), .end(), “函数”);
 
 count (.begin(), .end(), 100, jishuqi);
@@ -730,10 +718,10 @@ remove(*.begin(),*.end(),"要删除的对象");
 stable_partition()是一个有趣的函数。它重新排列元素，使得满足指定条件的元素排在不满足条件的元素前面。它维持着两组元素的顺序关系。
 
 splice 把另一个list中的元素结合到一个list中。它从源list中删除元素。
-
+```
  
 
-Set Map详解：
+###Set Map详解：
 
 STL map和set的使用虽不复杂，但也有一些不易理解的地方，如：
 
@@ -765,16 +753,15 @@ C++ STL中标准关联容器set, multiset, map, multimap内部采用的就是一
 
  
 
-泛型算法：
+###泛型算法：
 
 所有算法的前两个参数都是一对iterators：[first，last)，用来指出容器内一个范围内的元素。
 
 每个算法的声明中，都表现出它所需要的最低层次的iterator类型。
 
- 
 
 常用算法：
-
+```cpp
 accumulate() 元素累加
 
 adjacent_difference() 相邻元素的差额
@@ -908,25 +895,25 @@ unique() 将重复的元素摺叠缩编，使成唯一
 unique_copy() 将重复的元素摺叠缩编，使成唯一，并复制到他处
 
 upper_bound() 上限
-
+```
  
 
  
 
-四、注意细节：
+###四、注意细节：
+
+```cpp
 1、auto_ptr 不能用new[]所生成的array作为初值，因为释放内存时用的是delete，而不是delete[]
 
 2、就搜寻速度而言，hash table通常比二叉树还要快5~10倍。hash table不是C++标准程序库的一员。
 
-3、迭代器使用过程中优先选用前置式递增操作符（++iter）而不是选择后置式递增操作符（iter++）。
+迭代器使用过程中优先选用前置式递增操作符（++iter）而不是选择后置式递增操作符（iter++）。
 
 3、迭代器三个辅助函数：advance(),distance(),iter_swap()。
 
-       advance()可令迭代器前进
-
-       distance()可处理迭代器之间的距离。
-
-       iter_swap()可交换两个迭代器所指内容。
+advance()可令迭代器前进
+distance()可处理迭代器之间的距离。
+iter_swap()可交换两个迭代器所指内容。
 
 4、hasp函数 makeheap()、push_heap()、pop_heap()、sort_heap()
 
@@ -982,88 +969,126 @@ Map内的相同数值的元素只能出现一次，Multimap内可包含多个数
 
 17、string 与 数字之间的转换，转换的方法有很多种，一般使用stringstream来实现转换。比如：
 
+```
+```cpp
 #include  <iostream>
+#include  <sstream>
+#include  <string>
+using namespace std;
 
-#include  <sstream>  
+int main()
+{
+    int   i = 0;
+    string   temp;
+    stringstream   s;
 
-#include  <string>  
+    //string转换为数字
+    temp = "1234";
+    s << temp;
+    s >> i;
+    cout << i << endl;
 
-using   namespace   std;  
+    //数字转换为string
+    i = 256;
+    s << i;
+    temp = s.str();
+    cout << temp << end;
 
-int   main()  
-
-{  
-
-  int   i=0;  
-
-  string   temp;    
-
-  stringstream   s;  
-
-  //string转换为数字
-
-  temp = “1234”; 
-
-  s<<temp;  
-
-  s>>i;  
-
-  cout<<i<<endl;  
-
- 
-
-//数字转换为string
-
-i=256;
-
-s<<i;
-
-temp = s.str();
-
-cout<<temp<<end;
-
- 
-
-system("pause");  
-
-return   0;
-
+    return   0;
 }
-
- 
+```
 
 18、对于自定义的结构体，放入容器中，最好不要对容器进行内存初始化（不要调用memset,zeromemory函数），否则如果结构体中有指针类型的变量时，就会出现问题。
-
- 
 
 19、Vector的函数泄漏问题
 
 定义了一个
-
+```cpp
 struct temp
-
 {
-
-     char name[256];
-
-     int i;
-
+    char name[256];
+    int i;
 }
 
 Vector<temp> vect;
+```
 
 当对这个vect执行pushback一些temp的结构体后，执行clear这样是否会内存泄露？可以释放掉temp结构体中的name内存吗？
 
 解决方法：
 
-不行，clear只是把那些元素全部删除掉，并不是释放内存。再者，你这样的定义容器是不需要释放内存的，如果你这样定义，std::vector <temp> *pVec。就需要了。先pVec->clear()再pVec->swap( (std::vector <temp>)(*pVec) )。就能实现内存的释放。
+`不行，clear只是把那些元素全部删除掉，并不是释放内存。再者，你这样的定义容器是不需要释放内存的，如果你这样定义，`
+
+```cpp
+std::vector <temp> *pVec 就需要了。
+先pVec->clear()
+再
+pVec->swap( (std::vector <temp>)(*pVec) )。
+```
+
+就能实现内存的释放。
 
  
 
-20、stl之map erase方法的正确使用 STL的map表里有一个erase方法用来从一个map中删除掉指令的一个节点，不存在任何问题。 如果删除多一个节点时，需要使用正确的调用方法。比如下面的方法是有问题： for(ITER iter=mapTest.begin();iter!=mapTest.end();++iter) { cout<<iter->first<<":"<<iter->second<<endl; mapTest.erase(iter); } 这是一种错误的写法,会导致程序行为不可知.究其原因是map 是关联容器,对于关联容器来说，如果某一个元素已经被删除，那么其对应的迭代器就失效了，不应该再被使用；否则会导致程序无定义的行为。
+20、stl之map erase方法的正确使用
 
-正确的使用方法： 1).使用删除之前的迭代器定位下一个元素。STL建议的使用方式 for(ITER iter=mapTest.begin();iter!=mapTest.end();) { cout<<iter->first<<":"<<iter->second<<endl; mapTest.erase(iter++); }
+STL的map表里有一个erase方法用来从一个map中删除掉指令的一个节点，不存在任何问题。 如果删除多一个节点时，需要使用正确的调用方法。比如下面的方法是有问题： 
 
-或者 for(ITER iter=mapTest.begin();iter!=mapTest.end();) { ITER iterTmp = iter; iter++; cout<<iterTmp->first<<":"<<iterTmp->second<<endl; mapTest.erase(iterTmp); }
+```cpp
+for (ITER iter = mapTest.begin(); iter != mapTest.end(); ++iter)
+{
+    cout << iter->first << ":" << iter->second << endl;
+    mapTest.erase(iter);
+}
+```
 
-2). erase() 成员函数返回下一个元素的迭代器 for(ITER iter=mapTest.begin();iter!=mapTest.end();) { cout<<iter->first<<":"<<iter->second<<endl; iter=mapTest.erase(iter); }
+这是一种`错误`的写法,会导致程序行为不可知.究其原因是map 是关联容器,对于关联容器来说，如果某一个元素已经被删除，那么其对应的迭代器就失效了，不应该再被使用；否则会导致程序无定义的行为。
+
+正确的使用方法： 1).使用删除之前的迭代器定位下一个元素。STL建议的使用方式 
+
+```cpp
+for (ITER iter = mapTest.begin(); iter != mapTest.end();)
+{
+    cout << iter->first << ":" << iter->second << endl;
+    mapTest.erase(iter++);
+}
+```
+
+或者 
+
+```cpp
+for (ITER iter = mapTest.begin(); iter != mapTest.end();)
+{
+    ITER iterTmp = iter;
+    iter++;
+    cout << iterTmp->first << ":" << iterTmp->second << endl;
+    mapTest.erase(iterTmp);
+}
+```
+
+2). erase() 成员函数返回下一个元素的迭代器 
+
+```cpp
+for (ITER iter = mapTest.begin(); iter != mapTest.end();)
+{
+    cout << iter->first << ":" << iter->second << endl;
+    iter = mapTest.erase(iter);
+}
+```
+
+##推荐书籍：
+
+《C++标准程序库》
+本书将焦点放在标准模板库（Standard Template Library）身上，检验其中的容器（containers）、迭代器（iterators）、仿函数（functors）和算法（algorithms）。你还可以找到特殊容器、字符串（strings）、数值类别、国际化议题、IOStream。每一个组件都有深刻的呈现，包括其介绍、设计、运用实例、细部解说、陷阱、意想不到的危险，以及相关类别和函数的确切标记（signature）和定义。一份见解深刻的基础概念介绍和一个程序库综合鸟瞰，会对新手带来快速的提升。
+
+《泛型编程与STL》
+
+阐述了泛型程序设计的中心观念:concepts,modeling, refinement,并为你展示这些观念如何导出 STL的基础概念:iterators, containers, function objects.循此路线,你可以把 STL想象为一个由 concepts(而非明确之functions或 classes)组成的 library.你将学习其正式结构并因此获得其潜在威力之完整优势.
+
+《Effective STL》
+
+阐述了如何有效地使用STL（Standard Template Library,标准模板库）进行编程。书中讲述了如何将STL组件组合在一起，从而利用库的设计。这些内容会帮助你针对简单的问题开发出简单、直接的解决方案，并且针对复杂的问题开发出精致的解决方案。书中还描述了常见的STL使用错误，并告诉你如何避免这些错误。
+
+《STL源码剖析》
+
+了解源码，看到vector的实现、list的实现、heap的实现、deque的实现、RB-tree的实现、hash-table的实现、set/map的实现；你将看到各种算法（排序、搜寻、排列组合、数据移动与复制…）的实现；你甚至将看到底层的memory pool和高阶抽象的traits机制的实现。

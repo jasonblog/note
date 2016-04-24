@@ -755,7 +755,7 @@
    * [Linux 靜態庫與共享庫的使用](linked_and_loader/linux_jing_tai_ku_yu_gong_xiang_ku_de_shi_yong.md)
    * [linux 下動態鏈接實現原理](linked_and_loader/linux_xia_dong_tai_lian_jie_shi_xian_yuan_li.md)
    * [Linux 共用程式庫的組織](linked_and_loader/linux_gong_yong_cheng_shi_ku_de_zu_zhi.md)
-   * 動態載入函式庫 (Dynamically Lodaded Libraries)
+   * [動態載入函式庫 (Dynamically Lodaded Libraries)](linked_and_loader/dong_tai_zai_ru_han_shi_ku__dynamically_lodaded_li.md)
 * [Bochs](Bochs/bochs.md)
    * [OS dev的Bochs調試](Bochs/os_devde_bochs_diao_shi.md)
 * [Nginx](nginx/nginx.md)

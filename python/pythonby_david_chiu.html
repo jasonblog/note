@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>閱讀他人的程式碼 | Jason note</title>
+        <title>Python_by_David_Chiu | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../treacecode/du_dong_cheng_shi_ma_ff0c_shi_xin_fa_jie_wei_wo_su.html" />
+    <link rel="next" href="../python/jupyter.html" />
     
     
-    <link rel="prev" href="../treacecode/mo_lian_yue_du_cheng_shi_ji_qiao_ff0c_bu_shou_hei_.html" />
+    <link rel="prev" href="../python/python_xin_wen_guan_jian_zi_cha_xun.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="40.4" data-basepath=".." data-revision="Tue Apr 26 2016 22:53:06 GMT+0800 (CST)">
+    <div class="book" data-level="27.1.4" data-basepath=".." data-revision="Tue Apr 26 2016 22:53:06 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -7647,7 +7647,7 @@
             
         </li>
     
-        <li class="chapter " data-level="27.1.4" data-path="python/pythonby_david_chiu.html">
+        <li class="chapter active" data-level="27.1.4" data-path="python/pythonby_david_chiu.html">
             
                 
                     <a href="../python/pythonby_david_chiu.html">
@@ -9192,7 +9192,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="40.4" data-path="treacecode/yue_du_ta_ren_de_cheng_shi_ma.html">
+        <li class="chapter " data-level="40.4" data-path="treacecode/yue_du_ta_ren_de_cheng_shi_ma.html">
             
                 
                     <a href="../treacecode/yue_du_ta_ren_de_cheng_shi_ma.html">
@@ -12345,11 +12345,565 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E9%96%B1%E8%AE%80%E4%BB%96%E4%BA%BA%E7%9A%84%E7%A8%8B%E5%BC%8F%E7%A2%BC-by-%E7%8E%8B%E5%BB%BA%E8%88%88">&#x95B1;&#x8B80;&#x4ED6;&#x4EBA;&#x7684;&#x7A0B;&#x5F0F;&#x78BC; by &#x738B;&#x5EFA;&#x8208;</h1>
-<h2 id="reference">Reference</h2>
+                        <h1 id="python-by-david-chiu">Python_by_David_Chiu</h1>
 <ul>
-<li><a href="http://www.ithome.com.tw/node/47895" target="_blank">http://www.ithome.com.tw/node/47895</a></li>
+<li>ptt Gossiping</li>
 </ul>
+<pre><code class="lang-py"><span class="hljs-comment"># ptt extraction</span>
+<span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+rs = requests.session()
+payload = {
+<span class="hljs-string">&apos;from&apos;</span>:<span class="hljs-string">&apos;/bbs/Gossiping/index.html&apos;</span>,
+<span class="hljs-string">&apos;yes&apos;</span>:<span class="hljs-string">&apos;yes&apos;</span>
+}
+res1 = rs.post(<span class="hljs-string">&quot;https://www.ptt.cc/ask/over18&quot;</span>, data=payload, verify=<span class="hljs-keyword">False</span>)
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">7649</span>, <span class="hljs-number">7600</span>, -<span class="hljs-number">1</span>):
+    res = rs.get(<span class="hljs-string">&quot;https://www.ptt.cc/bbs/Gossiping/index%d.html&quot;</span>%i, verify=<span class="hljs-keyword">False</span>)
+    soup = BeautifulSoup(res.text)
+    tr = soup.select(<span class="hljs-string">&quot;.r-ent&quot;</span>)
+    <span class="hljs-keyword">for</span> rec <span class="hljs-keyword">in</span>  tr:
+       <span class="hljs-comment"># print rec.select(&apos;.title&apos;)[0].text.encode(&apos;utf-8&apos;).strip()</span>
+        <span class="hljs-keyword">if</span> <span class="hljs-string">&quot;&#x6C5F;&quot;</span> <span class="hljs-keyword">in</span> rec.select(<span class="hljs-string">&apos;.title&apos;</span>)[<span class="hljs-number">0</span>].text.encode(<span class="hljs-string">&apos;utf-8&apos;</span>).strip():
+            <span class="hljs-keyword">print</span>  rec.select(<span class="hljs-string">&apos;.title&apos;</span>)[<span class="hljs-number">0</span>].text.strip()
+</code></pre>
+<ul>
+<li>highspeed_rail</li>
+</ul>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+payload ={
+<span class="hljs-string">&apos;StartStation&apos;</span>:<span class="hljs-string">&apos;977abb69-413a-4ccf-a109-0272c24fd490&apos;</span>,
+<span class="hljs-string">&apos;EndStation&apos;</span>:<span class="hljs-string">&apos;fbd828d8-b1da-4b06-a3bd-680cdca4d2cd&apos;</span>,
+<span class="hljs-string">&apos;SearchDate&apos;</span>:<span class="hljs-string">&apos;2015/01/07&apos;</span>,
+<span class="hljs-string">&apos;SearchTime&apos;</span>:<span class="hljs-string">&apos;10:00&apos;</span>,
+<span class="hljs-string">&apos;SearchWay&apos;</span>:<span class="hljs-string">&apos;DepartureInMandarin&apos;</span>          
+}
+res = requests.post(<span class="hljs-string">&quot;http://www.thsrc.com.tw/tw/TimeTable/SearchResult&quot;</span>, data=payload)
+soup = BeautifulSoup(res.text)
+timetable = soup.select(<span class="hljs-string">&quot;.time_check_result&quot;</span>)
+timetable[<span class="hljs-number">0</span>].select(<span class="hljs-string">&apos;tr&apos;</span>)
+
+<span class="hljs-keyword">for</span> tr <span class="hljs-keyword">in</span> timetable[<span class="hljs-number">0</span>].select(<span class="hljs-string">&apos;tr&apos;</span>):
+    <span class="hljs-keyword">print</span> <span class="hljs-string">&quot;%s\t%s\t%s&quot;</span>%(tr.select(<span class="hljs-string">&quot;.column1&quot;</span>)[<span class="hljs-number">0</span>].text,tr.select(<span class="hljs-string">&quot;.column3&quot;</span>)[<span class="hljs-number">0</span>].text,tr.select(<span class="hljs-string">&quot;.column4&quot;</span>)[<span class="hljs-number">0</span>].text)
+</code></pre>
+<ul>
+<li>FB_GRAPH_API</li>
+</ul>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">import</span> json
+access_token = <span class="hljs-string">&apos;&lt;acces token&gt;&apos;</span>
+res = requests.get(<span class="hljs-string">&quot;https://graph.facebook.com/v2.2/me/friends?access_token=%s&quot;</span>%(access_token))
+js = json.loads(res.text)
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> js[<span class="hljs-string">&apos;data&apos;</span>]:
+    <span class="hljs-keyword">print</span> i[<span class="hljs-string">&apos;name&apos;</span>], i[<span class="hljs-string">&apos;id&apos;</span>]
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-comment"># -*- coding: utf-8 -*- </span>
+<span class="hljs-keyword">from</span> selenium <span class="hljs-keyword">import</span> selenium 
+<span class="hljs-keyword">from</span> selenium <span class="hljs-keyword">import</span> webdriver
+<span class="hljs-keyword">from</span> selenium.common.exceptions <span class="hljs-keyword">import</span> NoSuchElementException
+<span class="hljs-keyword">from</span> selenium.webdriver.common.keys <span class="hljs-keyword">import</span> Keys
+<span class="hljs-keyword">import</span> time
+
+browser = webdriver.Firefox() 
+<span class="hljs-comment">#browser = webdriver.Ie(&apos;IEDriverServer.exe&apos;) </span>
+
+browser.get(<span class="hljs-string">&apos;http://jirs.judicial.gov.tw/FJUD/FJUDQRY01_1.aspx&apos;</span>) 
+time.sleep(<span class="hljs-number">3</span>) 
+elem = browser.find_element_by_name(<span class="hljs-string">&quot;dy1&quot;</span>) 
+elem.send_keys(<span class="hljs-string">u&apos;103&apos;</span> + Keys.RETURN) 
+<span class="hljs-keyword">print</span> browser.find_element_by_tag_name(<span class="hljs-string">&quot;body&quot;</span>).text
+
+
+browser.close()
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> requests
+res = requests.get(<span class="hljs-string">&quot;http://140.115.236.11/query_tea.asp?STR=ZA101&amp;Query=%ACd%B8%DF&amp;MM2=1&amp;YY2=2015&amp;item2=%AFZ%AF%C5&quot;</span>)
+res.encoding = <span class="hljs-string">&quot;big5&quot;</span>
+<span class="hljs-keyword">print</span> res.text
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> requests
+header = {<span class="hljs-string">&apos;user-agent&apos;</span>:<span class="hljs-string">&apos;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36&apos;</span>}
+res = requests.get(<span class="hljs-string">&quot;https://www.google.com.tw/search?tbs=sbi%3AAMhZZisDdaia0AXISbyJd4X5hHQCRAQCgZMV-EbUWeSAAu1pRFVlaPE8OFg9ABtUKsyL1Mv-FEH0V6Au_1jUrygpKCIufrYROqHRkaFeELfwD40fp03kp2bSKJFZL9T_1VR_1yyXV_1Rl-Eq9_1a9JfuY-8QC_1fPWOISfFyVfSVB4NR8F63F-Gh4shJyYrFN5S144Cst9qQtmonNcxMKitRyCVMhzViFlUrUi8rr-3ZhJdjKcHS-GcoxbFoy6ima-ngIHoIjlQh7B462BjDdOTppgwwy1KK7-SqY11ai-IyapTJec7JkFS_182sfULocSDtL3TZiwDxLiUP1GZws9fTtgQp1wmzRS78JcoEups3pgh_1CAIqIj9cb22eABqchmgdr2cxIHVxJzhqh491nHs1_1qbLY8Hb9r03JxvErYf8r-Ju-j7LjdwHhpqwA1U2HB6tHkjmnz5qvw1GciQiLHlierin3aPAxqw3w4W959fOlot4hS5YjceWFREvxtELeSQI-UgPfGkgbCkCZrlmqXAwLh9gEahKdkwecjCWdEliC9AxL_1j4bkerV3itA69S8_1Uw4k7CWPLV-hNfzhNQkXPGSnUrhMpVXJGrteAfyxUtSqhZ5EujWkkzY8PWrcV8BwFfeDth_1gBNbT5kCMyyLLHErK2KWPgls8-mg7-RqxcyhP5UV79qA9RMk4bkVjz_1vnoNChzJv_15gZqWTQeYqUzPVEKLi7BgyMCLNCXhw3jAUD3oeJ0aYlffOPM0iCO1CxbMXr-wqG_1QdqzC2ed_19I5Juvz0SLWgqGsDdXm-oN3aEb1-htaXwMLhepm3kvXrTeqCwNhfeWuvsXz2lW14qd8dtTI4hr8WMAZEPNWsac3v9VbyRegzs8JB52GMo-jcVSUDKefHcrrBsg59LHIjIM7s4u_1UUbuSXt7HFPOI2o044fmWsk18FC_1ATbKdjXHyKxnnvedpYa9m_1UJZlzAvweOXaxO3RTFskQL5vS4yVy3IpuwRGdww7KpPfC0ZDIiGiVs2e5xBH4QaJMsaCHcDQeAamAqH8kftefPszuREL6RzRv189fEkZTIg0o-RLc2rJfjZmqQWbmGEB1h_1NBISzCLOewafC5zyVh7Vd7mdFfBj89_1VVmitlqGILb_12iCOH8oMmw9_1pO2etB9Z5fKbK2ALa0R7Q2MO4kpZZamgKoZNVsIswG9_1sSkF_1v--hk9_1wZs2XDUwn7vfK1pniBx9e5UaiTTFhJZ4IX-Xo8udOLdsfTYa7b77Ljo09wBbGCqML5dH9oLsnPaywDDoe1cv9FmBgQsv23gfGEvn6HuUJwqVOG6y8PPcqRkP8j2rSn2MbgTyd4Oq0M0tic_1d9ds8QkwkTW9tSl1c0cK2D55W17kOMZnoQAr5rB5N_1zA6OgerTGevOvydt8kx7_1elGEzUeL1cJhU8nlWf_1Rf8qFBeoNqS71hKomupwVHfWa-Y7ef4UpaZHP8vN2EVBTSpskiPQb59yx3nWXhzojbCueMWs8A&amp;btnG=%E4%BB%A5%E5%9C%96%E6%90%9C%E5%B0%8B&quot;</span>, headers = header)
+<span class="hljs-keyword">print</span> res.text
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> requests
+header = {<span class="hljs-string">&apos;user-agent&apos;</span>:<span class="hljs-string">&apos;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36&apos;</span>}
+res = requests.get(<span class="hljs-string">&quot;https://www.google.com.tw/search?tbs=sbi%3AAMhZZisDdaia0AXISbyJd4X5hHQCRAQCgZMV-EbUWeSAAu1pRFVlaPE8OFg9ABtUKsyL1Mv-FEH0V6Au_1jUrygpKCIufrYROqHRkaFeELfwD40fp03kp2bSKJFZL9T_1VR_1yyXV_1Rl-Eq9_1a9JfuY-8QC_1fPWOISfFyVfSVB4NR8F63F-Gh4shJyYrFN5S144Cst9qQtmonNcxMKitRyCVMhzViFlUrUi8rr-3ZhJdjKcHS-GcoxbFoy6ima-ngIHoIjlQh7B462BjDdOTppgwwy1KK7-SqY11ai-IyapTJec7JkFS_182sfULocSDtL3TZiwDxLiUP1GZws9fTtgQp1wmzRS78JcoEups3pgh_1CAIqIj9cb22eABqchmgdr2cxIHVxJzhqh491nHs1_1qbLY8Hb9r03JxvErYf8r-Ju-j7LjdwHhpqwA1U2HB6tHkjmnz5qvw1GciQiLHlierin3aPAxqw3w4W959fOlot4hS5YjceWFREvxtELeSQI-UgPfGkgbCkCZrlmqXAwLh9gEahKdkwecjCWdEliC9AxL_1j4bkerV3itA69S8_1Uw4k7CWPLV-hNfzhNQkXPGSnUrhMpVXJGrteAfyxUtSqhZ5EujWkkzY8PWrcV8BwFfeDth_1gBNbT5kCMyyLLHErK2KWPgls8-mg7-RqxcyhP5UV79qA9RMk4bkVjz_1vnoNChzJv_15gZqWTQeYqUzPVEKLi7BgyMCLNCXhw3jAUD3oeJ0aYlffOPM0iCO1CxbMXr-wqG_1QdqzC2ed_19I5Juvz0SLWgqGsDdXm-oN3aEb1-htaXwMLhepm3kvXrTeqCwNhfeWuvsXz2lW14qd8dtTI4hr8WMAZEPNWsac3v9VbyRegzs8JB52GMo-jcVSUDKefHcrrBsg59LHIjIM7s4u_1UUbuSXt7HFPOI2o044fmWsk18FC_1ATbKdjXHyKxnnvedpYa9m_1UJZlzAvweOXaxO3RTFskQL5vS4yVy3IpuwRGdww7KpPfC0ZDIiGiVs2e5xBH4QaJMsaCHcDQeAamAqH8kftefPszuREL6RzRv189fEkZTIg0o-RLc2rJfjZmqQWbmGEB1h_1NBISzCLOewafC5zyVh7Vd7mdFfBj89_1VVmitlqGILb_12iCOH8oMmw9_1pO2etB9Z5fKbK2ALa0R7Q2MO4kpZZamgKoZNVsIswG9_1sSkF_1v--hk9_1wZs2XDUwn7vfK1pniBx9e5UaiTTFhJZ4IX-Xo8udOLdsfTYa7b77Ljo09wBbGCqML5dH9oLsnPaywDDoe1cv9FmBgQsv23gfGEvn6HuUJwqVOG6y8PPcqRkP8j2rSn2MbgTyd4Oq0M0tic_1d9ds8QkwkTW9tSl1c0cK2D55W17kOMZnoQAr5rB5N_1zA6OgerTGevOvydt8kx7_1elGEzUeL1cJhU8nlWf_1Rf8qFBeoNqS71hKomupwVHfWa-Y7ef4UpaZHP8vN2EVBTSpskiPQb59yx3nWXhzojbCueMWs8A&amp;btnG=%E4%BB%A5%E5%9C%96%E6%90%9C%E5%B0%8B&quot;</span>, headers = header)
+<span class="hljs-keyword">print</span> res.text
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">import</span> json
+res = requests.get(<span class="hljs-string">&quot;http://www.gretai.org.tw/web/stock/aftertrading/daily_trading_info/st43_result.php?l=zh-tw&amp;d=104%2F01&amp;stkno=3290&amp;_=1420965808599&quot;</span>)
+j = json.loads(res.text)
+<span class="hljs-keyword">print</span> j[<span class="hljs-string">&apos;stkName&apos;</span>]
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">import</span> json
+url =<span class="hljs-string">&quot;http://www.gretai.org.tw/web/stock/aftertrading/daily_trading_info/st43_result.php?l=zh-tw&amp;d=%s&amp;stkno=3290&amp;_=1421136081459&quot;</span>
+dt = <span class="hljs-string">&quot;104/1&quot;</span>
+<span class="hljs-keyword">from</span> datetime <span class="hljs-keyword">import</span> timedelta
+<span class="hljs-keyword">from</span> dateutil.relativedelta <span class="hljs-keyword">import</span> relativedelta
+
+getyear =  dt.split(<span class="hljs-string">&apos;/&apos;</span>,<span class="hljs-number">1</span>) 
+bctime =  str(int(getyear[<span class="hljs-number">0</span>]) + <span class="hljs-number">1911</span>) +<span class="hljs-string">&quot;/&quot;</span>+ getyear[<span class="hljs-number">1</span>]
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>,<span class="hljs-number">10</span>):
+    ts =  (datetime.strptime(bctime, <span class="hljs-string">&quot;%Y/%m&quot;</span>) - relativedelta(months=i)).strftime(<span class="hljs-string">&quot;%Y/%m&quot;</span>)
+    ts2 = ts.split(<span class="hljs-string">&apos;/&apos;</span>,<span class="hljs-number">1</span>)
+    ts3 = str(int(ts2[<span class="hljs-number">0</span>]) - <span class="hljs-number">1911</span>) + <span class="hljs-string">&apos;/&apos;</span> + ts2 [<span class="hljs-number">1</span>]
+    res = requests.get(url %(ts3))
+    j = json.loads(res.text)
+    <span class="hljs-keyword">for</span> price <span class="hljs-keyword">in</span> j[<span class="hljs-string">&apos;aaData&apos;</span>]:
+        <span class="hljs-keyword">print</span> price[<span class="hljs-number">0</span>]
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-comment">#! coding = UTF-8 </span>
+__author__ = <span class="hljs-string">&apos;john.chen&apos;</span> 
+<span class="hljs-keyword">import</span> requests 
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup 
+index = <span class="hljs-number">1</span> <span class="hljs-comment"># &#x6392;&#x884C;&#x540D;&#x6B21; </span>
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, <span class="hljs-number">5</span>): <span class="hljs-comment"># &#x5171;5&#x9801; </span>
+    res = requests.get(<span class="hljs-string">&quot;https://tw.news.yahoo.com/sentiment/informative/%d.html&quot;</span>%i, verify=<span class="hljs-keyword">False</span>) 
+    soup = BeautifulSoup(res.text) 
+    <span class="hljs-keyword">for</span> txt <span class="hljs-keyword">in</span> soup.select(<span class="hljs-string">&quot;#mediasentimentlisttemp .story&quot;</span>): 
+        <span class="hljs-keyword">print</span> index, 
+        index += <span class="hljs-number">1</span> 
+        <span class="hljs-keyword">print</span> txt.text.strip()
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-comment">#-*- coding:utf-8 -*-</span>
+<span class="hljs-keyword">import</span> requests,time
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">88</span>,<span class="hljs-number">89</span>):   <span class="hljs-comment">#&#x8DD1;88~103&#x5E74;</span>
+    <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>):  <span class="hljs-comment">#&#x8DD1;1-12&#x6708;&#x4EFD;</span>
+        <span class="hljs-comment">#header = {&apos;user-agent&apos;:&apos;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36&apos;}</span>
+        payload={
+            <span class="hljs-string">&apos;myear&apos;</span>:<span class="hljs-string">&apos;%d&apos;</span>%i,
+            <span class="hljs-string">&apos;mmon&apos;</span>:<span class="hljs-string">&apos;%s&apos;</span>%str(j +<span class="hljs-number">100</span>)[<span class="hljs-number">1</span>:]   <span class="hljs-comment">#%d integer &#x6574;&#x6578;</span>
+        }
+        user_post=requests.post(<span class="hljs-string">&apos;http://www.twse.com.tw/ch/trading/indices/MI_5MINS_HIST/MI_5MINS_HIST.php&apos;</span>,data=payload)
+        user_post.encoding = <span class="hljs-string">&quot;big5&quot;</span>
+        <span class="hljs-comment">#print user_post.text.encode(&apos;utf-8&apos;)</span>
+        soup=BeautifulSoup(user_post.text.encode(<span class="hljs-string">&apos;utf-8&apos;</span>))
+        <span class="hljs-keyword">for</span> td <span class="hljs-keyword">in</span> soup.select(<span class="hljs-string">&quot;.board_trad&quot;</span>):    <span class="hljs-comment">#&#x5F9E;&#x6587;&#x4EF6;&#x88E1;&#x9762;&#x53D6;&#x5F97;&#x6240;&#x6709;&#x7684;&#x9023;&#x7D50;&#xFF0C;board_trad&#x662F;table class</span>
+            <span class="hljs-keyword">print</span> td.text.encode(<span class="hljs-string">&apos;utf-8&apos;</span>) 
+            <span class="hljs-comment">#time.sleep(5)</span>
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>,<span class="hljs-number">13</span>):
+    <span class="hljs-keyword">if</span> i &lt;<span class="hljs-number">10</span>:
+        month = <span class="hljs-string">&quot;0&quot;</span> + str(i)
+    <span class="hljs-keyword">else</span>:
+        month = i
+    <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>,<span class="hljs-number">32</span>):
+        <span class="hljs-keyword">if</span> j &lt;<span class="hljs-number">10</span>:
+            day = <span class="hljs-string">&quot;0&quot;</span> + str(j)
+        <span class="hljs-keyword">else</span>:
+            day = j
+
+        res = requests.get(<span class="hljs-string">&quot;http://www.twse.com.tw/ch/trading/fund/BFI82U/BFI82U.php?report1=day&amp;input_date=104%2F01%2F29&amp;mSubmit=%ACd%B8%DF&amp;yr=2015&amp;w_date=20150126&amp;m_date=20150101&quot;</span>)
+        res.encoding = <span class="hljs-string">&quot;big5&quot;</span>
+        soup = BeautifulSoup(res.text)
+        <span class="hljs-keyword">for</span> td <span class="hljs-keyword">in</span> soup.select(<span class="hljs-string">&quot;.board_trad tr&quot;</span>):
+            <span class="hljs-keyword">print</span> td.text.strip()
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-comment"># encode=utf-8</span>
+
+<span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+
+res = requests.get(<span class="hljs-string">&quot;http://www.accupass.com/search/r/1/5/0/0/1/0&quot;</span>, verify = <span class="hljs-keyword">False</span>)
+soup = BeautifulSoup(res.text)
+
+<span class="hljs-keyword">for</span> event <span class="hljs-keyword">in</span> soup.select(<span class="hljs-string">&quot;.APCSS_linkBox-event&quot;</span>):
+    <span class="hljs-keyword">print</span> <span class="hljs-string">&apos; &apos;</span>.join(event.text.split())
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">import</span> json
+res  =  requests.get(<span class="hljs-string">&quot;https://graph.facebook.com/v2.2/divajody/posts?access_token=&lt;access_token&gt;&amp;format=json&amp;method=get&amp;pretty=0&amp;suppress_http_code=1&quot;</span>)
+js = json.loads(res.text)
+<span class="hljs-keyword">for</span> mes <span class="hljs-keyword">in</span>  js[<span class="hljs-string">&apos;data&apos;</span>]:
+    <span class="hljs-keyword">if</span> <span class="hljs-string">&apos;message&apos;</span> <span class="hljs-keyword">in</span> mes:
+        <span class="hljs-keyword">print</span> mes[<span class="hljs-string">&apos;message&apos;</span>]
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+res = requests.get(<span class="hljs-string">&quot;http://www.mobile01.com/category.php?id=6&quot;</span>)
+soup = BeautifulSoup(res.text)
+grp = soup.select(<span class="hljs-string">&quot;.item .group&quot;</span>)
+<span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> grp:
+    <span class="hljs-keyword">print</span> <span class="hljs-string">&quot;http://www.mobile01.com/&quot;</span>+ item[<span class="hljs-string">&apos;href&apos;</span>], item.select(<span class="hljs-string">&apos;img&apos;</span>)[<span class="hljs-number">0</span>][<span class="hljs-string">&apos;src&apos;</span>], item.select(<span class="hljs-string">&apos;h3&apos;</span>)[<span class="hljs-number">0</span>].text, item.select(<span class="hljs-string">&apos;p&apos;</span>)[<span class="hljs-number">0</span>].text
+</code></pre>
+<pre><code class="lang-py">! coding=UTF-<span class="hljs-number">8</span>
+<span class="hljs-keyword">import</span> requests,time
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+<span class="hljs-comment">#group = [&apos;3474&apos;,&apos;4938&apos;,&apos;3481&apos;,&apos;2330&apos;,&apos;2303&apos;,&apos;2882&apos;,&apos;2357&apos;,&apos;1303&apos;,&apos;2883&apos;,\</span>
+<span class="hljs-comment">#         &apos;1301&apos;,&apos;2002&apos;,&apos;2311&apos;,&apos;2317&apos;,&apos;1402&apos;,&apos;2892&apos;,&apos;2880&apos;,&apos;2801&apos;,&apos;1216&apos;,\</span>
+<span class="hljs-comment">#         &apos;1101&apos;,&apos;1102&apos;,&apos;2382&apos;,&apos;2308&apos;,&apos;1326&apos;,&apos;2886&apos;,&apos;2891&apos;,&apos;2325&apos;,&apos;2105&apos;,\</span>
+<span class="hljs-comment">#         &apos;2395&apos;,&apos;2408&apos;,&apos;2412&apos;,&apos;2409&apos;,&apos;2207&apos;,&apos;2301&apos;,&apos;9904&apos;,&apos;2912&apos;,&apos;2354&apos;,\</span>
+<span class="hljs-comment">#         &apos;2474&apos;,&apos;3045&apos;,&apos;2454&apos;,&apos;2881&apos;,&apos;2887&apos;,&apos;4904&apos;,&apos;2885&apos;,&apos;3008&apos;,&apos;2498&apos;,\</span>
+<span class="hljs-comment">#         &apos;2884&apos;,&apos;2890&apos;,&apos;6505&apos;,&apos;5880&apos;,&apos;2227&apos;,&apos;0050&apos;]</span>
+group = [<span class="hljs-string">&apos;3474&apos;</span>]
+<span class="hljs-keyword">for</span> stock <span class="hljs-keyword">in</span> group:   
+    bid_detail=open(stock+<span class="hljs-string">&quot;.txt&quot;</span>,<span class="hljs-string">&apos;w&apos;</span>)
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">2014</span>,<span class="hljs-number">2015</span>): 
+        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>,<span class="hljs-number">13</span>): 
+            year = i
+            month=j
+            <span class="hljs-keyword">try</span>:
+                url = <span class="hljs-string">&quot;http://www.twse.com.tw/ch/trading/exchange/STOCK_DAY/genpage/Report{}{}/{}{}_F3_1_8_{}.php?STK_NO={}&amp;myear={}&amp;mmon={}#&quot;</span>
+                res = requests.get(url.format(year,month,year,month,stock,stock,year,month))     
+            <span class="hljs-keyword">except</span>:
+                <span class="hljs-keyword">pass</span>
+            <span class="hljs-comment"># print res.encoding </span>
+            soup=BeautifulSoup(res.text.encode(<span class="hljs-string">&apos;ISO-8859-1&apos;</span>))
+            <span class="hljs-keyword">for</span> tr <span class="hljs-keyword">in</span> soup.select(<span class="hljs-string">&quot;.board_trad tr&quot;</span>)[<span class="hljs-number">2</span>:-<span class="hljs-number">1</span>]: 
+                <span class="hljs-keyword">for</span> td <span class="hljs-keyword">in</span> tr.select(<span class="hljs-string">&apos;td&apos;</span>):
+                    <span class="hljs-keyword">print</span> td.text,
+                    bid_detail.write(td.text.encode(<span class="hljs-string">&apos;utf-8&apos;</span>))
+                <span class="hljs-keyword">print</span> 
+                bid_detail.write(<span class="hljs-string">&quot;\n&quot;</span>)
+bid_detail.close()
+time.sleep(<span class="hljs-number">3</span>)
+</code></pre>
+<pre><code class="lang-py">f = open(<span class="hljs-string">&quot;0050_bid_detail.txt&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>)
+<span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> f.readlines():
+    element = line.strip().split()
+    day = element[<span class="hljs-number">0</span>]
+    <span class="hljs-keyword">print</span> day
+f.close()
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">import</span> re
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+<span class="hljs-keyword">import</span> json
+payload = {
+<span class="hljs-string">&apos;Cookie&apos;</span>:<span class="hljs-string">&apos;_ts_id=3C0C3D0B3E09300333; _gat=1; _ga=GA1.3.1930341740.1424415555&apos;</span>,
+<span class="hljs-string">&apos;Host&apos;</span>:<span class="hljs-string">&apos;mybid.ruten.com.tw&apos;</span>,
+<span class="hljs-string">&apos;User-Agent&apos;</span>:<span class="hljs-string">&apos;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36&apos;</span>
+}
+res = requests.get(<span class="hljs-string">&apos;http://mybid.ruten.com.tw/credit/point?bestmask&amp;sell&apos;</span>, headers=payload)
+res.encoding = <span class="hljs-string">&apos;big5&apos;</span>
+li =  re.search(<span class="hljs-string">&apos;var f_list=(.*);&apos;</span>,res.text)
+
+jele = json.loads(li.group(<span class="hljs-number">1</span>))
+<span class="hljs-keyword">for</span> ele <span class="hljs-keyword">in</span>  jele[<span class="hljs-string">&apos;OrderList&apos;</span>]:
+        <span class="hljs-keyword">print</span> ele[<span class="hljs-string">&apos;date&apos;</span>], ele[<span class="hljs-string">&apos;name&apos;</span>], ele[<span class="hljs-string">&apos;money&apos;</span>], <span class="hljs-string">&apos;http://goods.ruten.com.tw/item/show?&apos;</span> + ele[<span class="hljs-string">&apos;no&apos;</span>]
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+<span class="hljs-keyword">import</span> json
+res = requests.get(<span class="hljs-string">&quot;http://graphics8.nytimes.com/packages/js/nytint/projects/tax_incentives/states/grants/AL.json?true=grants&quot;</span>)
+
+jele = json.loads(res.text.split(<span class="hljs-string">&quot;grants(&quot;</span>)[<span class="hljs-number">1</span>].encode(<span class="hljs-string">&apos;utf-8&apos;</span>).strip(<span class="hljs-string">&quot;)&quot;</span>))
+<span class="hljs-keyword">for</span> ele <span class="hljs-keyword">in</span>  jele:
+    s = BeautifulSoup(ele[<span class="hljs-number">2</span>])
+    <span class="hljs-keyword">print</span> ele[<span class="hljs-number">0</span>], ele[<span class="hljs-number">1</span>], s.text, ele[<span class="hljs-number">3</span>]
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">import</span> re
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+<span class="hljs-keyword">import</span> json
+res = requests.get(<span class="hljs-string">&apos;http://maps.googleapis.com/maps/api/geocode/json?address=%E5%8F%B0%E5%8C%97%E5%B8%82%E5%A4%A7%E5%AE%89%E5%8D%80%E5%AE%89%E5%92%8C%E8%B7%AF23%E5%B7%B711%E8%99%9F1%E6%A8%93&amp;sensor=true_or_false&apos;</span>)
+jele = json.loads(res.text)
+<span class="hljs-keyword">for</span> address <span class="hljs-keyword">in</span> jele[<span class="hljs-string">&apos;results&apos;</span>]:
+    <span class="hljs-keyword">print</span> address[<span class="hljs-string">&apos;formatted_address&apos;</span>], address[<span class="hljs-string">&apos;geometry&apos;</span>][<span class="hljs-string">&apos;location&apos;</span>]
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+
+domain = <span class="hljs-string">&apos;http://welcome2japan.tw/attractions/rest/&apos;</span>
+
+dic = {}
+res = requests.get(<span class="hljs-string">&quot;http://welcome2japan.tw/attractions/rest/&quot;</span>)
+soup = BeautifulSoup(res.text)
+<span class="hljs-keyword">for</span> url <span class="hljs-keyword">in</span> soup.select(<span class="hljs-string">&apos;.green a&apos;</span>):
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> (domain + url[<span class="hljs-string">&apos;href&apos;</span>]) <span class="hljs-keyword">in</span> dic:  
+            dic[domain + url[<span class="hljs-string">&apos;href&apos;</span>]] = domain + url[<span class="hljs-string">&apos;href&apos;</span>]
+<span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> dic:
+    <span class="hljs-keyword">print</span> item
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-comment">#&#x5F9E;links.txt&#x7684;&#x6BCF;&#x4E00;&#x500B;link&#x53BB;&#x722C;&#x537B;&#x722C;&#x4E0D;&#x51FA;&#x51AC;&#x897F;</span>
+
+links = open(<span class="hljs-string">&apos;links.txt&apos;</span>, <span class="hljs-string">&apos;r&apos;</span>)
+<span class="hljs-keyword">for</span> row <span class="hljs-keyword">in</span> links.readlines():
+    <span class="hljs-keyword">print</span> row.strip()
+    page = requests.get(row.strip())
+    soup = BeautifulSoup(page.text.encode(<span class="hljs-string">&apos;utf8&apos;</span>))
+    x = soup.select(<span class="hljs-string">&apos;center table table table tr&apos;</span>)
+    <span class="hljs-comment">#print x</span>
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> x:
+        <span class="hljs-keyword">if</span> len(i.select(<span class="hljs-string">&apos;td&apos;</span>))&gt;<span class="hljs-number">0</span>:
+            <span class="hljs-keyword">try</span>:
+                <span class="hljs-keyword">print</span> i.select(<span class="hljs-string">&apos;font&apos;</span>)[<span class="hljs-number">0</span>].text.strip()+<span class="hljs-string">&apos;,&apos;</span>+i.select(<span class="hljs-string">&apos;font&apos;</span>)[<span class="hljs-number">1</span>].text.strip()+<span class="hljs-string">&apos;,&apos;</span>+i.select(<span class="hljs-string">&apos;font&apos;</span>)[<span class="hljs-number">2</span>].text.strip()+<span class="hljs-string">&apos;,&apos;</span>+i.select(<span class="hljs-string">&apos;font&apos;</span>)[<span class="hljs-number">3</span>].text.strip()
+            <span class="hljs-keyword">except</span>:
+                <span class="hljs-keyword">pass</span>
+</code></pre>
+<pre><code class="lang-py">
+<span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+<span class="hljs-keyword">for</span> page <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>):
+    res = requests.get(<span class="hljs-string">&apos;http://www.gotokyo.org/search/tw/result/list?q=&amp;cx=015974231524706679776%3Amw9yltsgebg&amp;ie=UTF-8&amp;cof=FORID%3A9&amp;genre=&amp;accessibility=&amp;use_acc_js=1&amp;area_cd=&amp;city_cd=&amp;keyword=&amp;mode=&amp;pno_list={0}&amp;pno_photo=&amp;status=1&amp;category=001&amp;language=tw&apos;</span>.format(page))
+    res.encoding = <span class="hljs-string">&apos;utf-8&apos;</span>
+    soup = BeautifulSoup(res.text)
+    <span class="hljs-keyword">for</span> ele <span class="hljs-keyword">in</span> soup.select(<span class="hljs-string">&apos;.box_result_list&apos;</span>):
+        <span class="hljs-keyword">print</span> ele.select(<span class="hljs-string">&apos;a&apos;</span>)[<span class="hljs-number">0</span>].text
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+text = <span class="hljs-string">&apos;&apos;&apos;&lt;html&gt;&lt;option value=&quot;A&quot;&gt;&#x81FA;&#x5317;&#x5E02;&lt;/option&gt;
+&lt;option value=&quot;C&quot;&gt;&#x57FA;&#x9686;&#x5E02;&lt;/option&gt;
+&lt;option value=&quot;F&quot;&gt;&#x65B0;&#x5317;&#x5E02;&lt;/option&gt;&lt;/html&gt;&apos;&apos;&apos;</span>
+
+soup = BeautifulSoup(text)
+<span class="hljs-keyword">for</span> val <span class="hljs-keyword">in</span> soup.select(<span class="hljs-string">&apos;option&apos;</span>):
+    <span class="hljs-keyword">print</span> val[<span class="hljs-string">&apos;value&apos;</span>]
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+res = requests.get(<span class="hljs-string">&apos;http://allrecipes.com/recipes/appetizers-and-snacks/main.aspx&apos;</span>)
+soup = BeautifulSoup(res.text)
+<span class="hljs-keyword">print</span> soup.select(<span class="hljs-string">&apos;.ingredientSrchBtn&apos;</span>)
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> re
+f = open(<span class="hljs-string">&apos;xaa&apos;</span>, <span class="hljs-string">&apos;r&apos;</span>)
+f2 = open(<span class="hljs-string">&apos;xaa.out&apos;</span>,<span class="hljs-string">&apos;w&apos;</span>)
+<span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> f.readlines():
+        ele =  line.strip()
+        m1 = re.match(<span class="hljs-string">&apos;.*act=(.*?);.*&apos;</span>, ele)
+        act = m1.group(<span class="hljs-number">1</span>) <span class="hljs-keyword">if</span> m1 <span class="hljs-keyword">else</span> <span class="hljs-keyword">None</span>
+        m2 = re.match(<span class="hljs-string">&apos;.*uid=(.*?);.*&apos;</span>, ele)
+        uid = m2.group(<span class="hljs-number">1</span>) <span class="hljs-keyword">if</span> m2 <span class="hljs-keyword">else</span> <span class="hljs-keyword">None</span>
+        m3 = re.match(<span class="hljs-string">&apos;.*erUid=(.*?);.*&apos;</span>, ele)
+        erUid = m3.group(<span class="hljs-number">1</span>) <span class="hljs-keyword">if</span> m3 <span class="hljs-keyword">else</span> <span class="hljs-keyword">None</span>
+        m4 = re.match(<span class="hljs-string">&apos;.*pid=(.*?);.*&apos;</span>, ele)
+        pid = m4.group(<span class="hljs-number">1</span>) <span class="hljs-keyword">if</span> m4 <span class="hljs-keyword">else</span> <span class="hljs-keyword">None</span>
+        m5 = re.match(<span class="hljs-string">&apos;.*cat=(.*?);.*&apos;</span>, ele)
+        cat = m5.group(<span class="hljs-number">1</span>) <span class="hljs-keyword">if</span> m5 <span class="hljs-keyword">else</span> <span class="hljs-keyword">None</span>
+        f2.write(<span class="hljs-string">&quot;%s\t%s\t%s\t%s\t%s\n&quot;</span>%(act, uid, erUid, pid, cat))
+f2.close()
+f.close()
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> re, sys,json
+f = open(<span class="hljs-string">&apos;out/MergeParsed.out&apos;</span>,<span class="hljs-string">&apos;r&apos;</span>)
+dic = {}
+<span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> f.readlines():
+        ele =  line.strip()
+        info = ele.split(<span class="hljs-string">&apos;\t&apos;</span>)
+        <span class="hljs-keyword">if</span> info[<span class="hljs-number">1</span>] == <span class="hljs-string">&apos;view&apos;</span>:
+                <span class="hljs-keyword">if</span> info[<span class="hljs-number">2</span>] <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> dic:
+                        dic[info[<span class="hljs-number">2</span>]] = {<span class="hljs-string">&apos;uid&apos;</span>: info[<span class="hljs-number">2</span>], <span class="hljs-string">&apos;view&apos;</span>:[info[<span class="hljs-number">4</span>]]}
+                <span class="hljs-keyword">else</span>:
+                        dic[info[<span class="hljs-number">2</span>]][<span class="hljs-string">&apos;view&apos;</span>].append(info[<span class="hljs-number">4</span>])
+        <span class="hljs-keyword">elif</span> info[<span class="hljs-number">1</span>] == <span class="hljs-string">&apos;order&apos;</span>:
+                <span class="hljs-keyword">if</span> info[<span class="hljs-number">2</span>] <span class="hljs-keyword">in</span> dic:
+                        dic[info[<span class="hljs-number">2</span>]][<span class="hljs-string">&apos;order&apos;</span>] = info[<span class="hljs-number">6</span>]
+                        <span class="hljs-keyword">print</span> json.dumps(dic[info[<span class="hljs-number">2</span>]])
+                        <span class="hljs-keyword">del</span> dic[info[<span class="hljs-number">2</span>]]
+f.close()
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> re, sys
+n = sys.argv[<span class="hljs-number">1</span>]
+f = open(n, <span class="hljs-string">&apos;r&apos;</span>)
+f2 = open(<span class="hljs-string">&apos;%s.out&apos;</span>%(n),<span class="hljs-string">&apos;w&apos;</span>)
+<span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> f.readlines():
+        ele =  line.strip()
+        m0 = re.match(<span class="hljs-string">&quot;.*- - \[(.*?)\].*&quot;</span>, ele)
+        dt = m0.group(<span class="hljs-number">1</span>) <span class="hljs-keyword">if</span> m0 <span class="hljs-keyword">else</span> <span class="hljs-keyword">None</span>
+        m1 = re.match(<span class="hljs-string">&apos;.*act=(.*?);.*&apos;</span>, ele)
+        act = m1.group(<span class="hljs-number">1</span>) <span class="hljs-keyword">if</span> m1 <span class="hljs-keyword">else</span> <span class="hljs-keyword">None</span>
+        m2 = re.match(<span class="hljs-string">&apos;.*uid=(.*?);.*&apos;</span>, ele)
+        uid = m2.group(<span class="hljs-number">1</span>) <span class="hljs-keyword">if</span> m2 <span class="hljs-keyword">else</span> <span class="hljs-keyword">None</span>
+        m3 = re.match(<span class="hljs-string">&apos;.*erUid=(.*?);.*&apos;</span>, ele)
+        erUid = m3.group(<span class="hljs-number">1</span>) <span class="hljs-keyword">if</span> m3 <span class="hljs-keyword">else</span> <span class="hljs-keyword">None</span>
+        m4 = re.match(<span class="hljs-string">&apos;.*pid=(.*?);.*&apos;</span>, ele)
+        pid = m4.group(<span class="hljs-number">1</span>) <span class="hljs-keyword">if</span> m4 <span class="hljs-keyword">else</span> <span class="hljs-keyword">None</span>
+        m5 = re.match(<span class="hljs-string">&apos;.*cat=(.*?);.*&apos;</span>, ele)
+        cat = m5.group(<span class="hljs-number">1</span>) <span class="hljs-keyword">if</span> m5 <span class="hljs-keyword">else</span> <span class="hljs-keyword">None</span>
+        m6 = re.match(<span class="hljs-string">&apos;.*plist=(.*?);.*&apos;</span>, ele)
+        plist = m6.group(<span class="hljs-number">1</span>) <span class="hljs-keyword">if</span> m6 <span class="hljs-keyword">else</span> <span class="hljs-keyword">None</span>
+        <span class="hljs-keyword">if</span> uid != <span class="hljs-string">&apos;&apos;</span>:
+                f2.write(<span class="hljs-string">&quot;%s\t%s\t%s\t%s\t%s\t%s\t%s\n&quot;</span>%(dt,act, uid, erUid, pid, cat, plist))
+f2.close()
+f.close()
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+res = requests.get(<span class="hljs-string">&apos;https://www.ptt.cc/bbs/Food/M.1431510360.A.FEB.html&apos;</span>, verify=<span class="hljs-keyword">False</span>)
+soup = BeautifulSoup(res.text)
+<span class="hljs-comment">#print soup</span>
+<span class="hljs-keyword">print</span> soup.select(<span class="hljs-string">&apos;#main-container&apos;</span>)[<span class="hljs-number">0</span>].text
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+res = requests.get(<span class="hljs-string">&apos;https://www.ptt.cc/bbs/Food/M.1431510360.A.FEB.html&apos;</span>, verify=<span class="hljs-keyword">False</span>)
+soup = BeautifulSoup(res.text)
+<span class="hljs-comment">#print soup</span>
+<span class="hljs-keyword">print</span> soup.select(<span class="hljs-string">&apos;#main-content&apos;</span>)[<span class="hljs-number">0</span>].contents[<span class="hljs-number">4</span>]
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+res = requests.get(<span class="hljs-string">&apos;https://www.ptt.cc/bbs/MobileComm/M.1431523087.A.802.html&apos;</span>, verify=<span class="hljs-keyword">False</span>)
+soup = BeautifulSoup(res.text)
+mc = soup.select(<span class="hljs-string">&apos;#main-content&apos;</span>)[<span class="hljs-number">0</span>]
+[i.decompose() <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> mc.select(<span class="hljs-string">&apos;span&apos;</span>)]
+[i.decompose() <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> mc.select(<span class="hljs-string">&apos;div&apos;</span>)]
+<span class="hljs-keyword">print</span> mc
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+res = requests.get(<span class="hljs-string">&apos;http://www.ipeen.com.tw/shop/70978-%E5%8F%B0%E7%81%A3%E9%81%94%E7%BE%8E%E6%A8%82&apos;</span>)
+soup = BeautifulSoup(res.text)
+<span class="hljs-keyword">print</span> soup.select(<span class="hljs-string">&apos;h1&apos;</span>)[<span class="hljs-number">0</span>].text.strip()
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+res = requests.get(<span class="hljs-string">&apos;http://www.ipeen.com.tw/shop/70978-%E5%8F%B0%E7%81%A3%E9%81%94%E7%BE%8E%E6%A8%82&apos;</span>)
+soup = BeautifulSoup(res.text)
+<span class="hljs-keyword">print</span> soup.select(<span class="hljs-string">&apos;.info h1&apos;</span>)
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> requests
+header  = {<span class="hljs-string">&apos;User-Agent&apos;</span>:<span class="hljs-string">&apos;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.81 Safari/537.36&apos;</span>,
+<span class="hljs-string">&apos;Cookie&apos;</span>:<span class="hljs-string">&apos;ASP.NET_SessionId=vkwwsfz4wjg3ej2o24mvac55; _ga=GA1.3.1009046832.1433175011; _gat=1; JubFrm-pagebox=%5EcourtFullName%3DTPDV%60%5Edy1%3D104%5Edm1%3D1%5Edd1%3D1%5Edy2%3D104%5Edm2%3D6%5Edd2%3D1%5Ejcatagory%3D0%5Eissimple%3D-1; y=p=VOUqAM8JSOHlsY%2byfpFRE3vG5r1FlWQQ%2bOuqDXyVne7gOxzydtBd08ujzgKglcOj; x=j=ExKZIgGGiQD19KUxjSulmQb58Xq9tzxh/6k2CZDMXMbqn+pyISjsF42Gyv8r7WXOK2TSUk8PjqCjFgL8iLOg+rhTDZRS/LF6A3yiOorRKBbqqfvT9nsAos6HffvejAESNTDqD1WguB6T7rQNSzOeq5kex9NSLQZUItrs84CqGL2v06p7VA8mxEwzCTHWAR1K2hgLnuTA4OwNIi895B4ZUOdZk4RVXu3nRwXQ+8uEnsY508rOpEzUh+n3Q72p/Dks3lfSuQ/0YF+ZtIfJegXo0b1HyufYOYRQsLZkW05Racc=&apos;</span>,    
+}
+res = requests.get(<span class="hljs-string">&apos;http://fyjud.lawbank.com.tw/content3.aspx?p=tCqhCVJajSdSvECB24EhgQGmqpHQnLGUaI76sp7fUFw%3d&apos;</span>, headers = header)
+<span class="hljs-keyword">print</span> res.text
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">import</span> re
+res = requests.get(<span class="hljs-string">&apos;http://odds.zso8.com/html/match.html?t=20150624225319&apos;</span>)
+res.encoding = <span class="hljs-string">&apos;utf-8&apos;</span>
+m = re.findall(<span class="hljs-string">&apos;m\[\d+\]=\&quot;(.*?)\&quot;.split\(\&apos;,\&apos;\);&apos;</span>, res.text)
+<span class="hljs-keyword">for</span> ele <span class="hljs-keyword">in</span> m:
+    <span class="hljs-keyword">print</span> ele.split(<span class="hljs-string">&apos;,&apos;</span>)[<span class="hljs-number">9</span>]
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+res = requests.get(<span class="hljs-string">&apos;http://tw.taobao.com/product/%E5%A4%9A%E6%A8%A3%E5%B1%8B-%E8%91%AB%E8%98%86-%E4%BF%9D%E6%BA%AB%E6%9D%AF.htm&apos;</span>)
+soup = BeautifulSoup(res.text)
+<span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> soup.select(<span class="hljs-string">&apos;.item&apos;</span>):
+    <span class="hljs-keyword">print</span> item.select(<span class="hljs-string">&apos;strong&apos;</span>)[<span class="hljs-number">0</span>].text
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-comment"># -*- coding: utf-8 -*-</span>
+<span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+res = requests.get(<span class="hljs-string">&apos;http://www.tdcc.com.tw/smWeb/QryStock.jsp?SCA_DATE=20150724&amp;SqlMethod=StockNo&amp;StockNo=2330&amp;StockName=&amp;sub=%ACd%B8%DF&apos;</span>)
+soup  = BeautifulSoup(res.text)
+stock = []
+table = soup.select(<span class="hljs-string">&apos;.mt&apos;</span>)[<span class="hljs-number">1</span>]
+<span class="hljs-keyword">for</span> ele <span class="hljs-keyword">in</span> table.select(<span class="hljs-string">&apos;tr&apos;</span>)[<span class="hljs-number">1</span>:]:
+    td = ele.select(<span class="hljs-string">&apos;td&apos;</span>)
+    <span class="hljs-keyword">print</span> td[<span class="hljs-number">0</span>].text.encode(<span class="hljs-string">&apos;utf-8&apos;</span>), td[<span class="hljs-number">1</span>].text.encode(<span class="hljs-string">&apos;utf-8&apos;</span>) td[<span class="hljs-number">2</span>].text.encode(<span class="hljs-string">&apos;utf-8&apos;</span>), \
+          td[<span class="hljs-number">3</span>].text.encode(<span class="hljs-string">&apos;utf-8&apos;</span>), td[<span class="hljs-number">4</span>].text.encode(<span class="hljs-string">&apos;utf-8&apos;</span>)
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup <span class="hljs-keyword">as</span> bs
+res = requests.get(<span class="hljs-string">&apos;https://tw.bid.yahoo.com/tw/show/auctions?userID=Y6216276935&amp;u=%3AY6216276935&amp;clf=1#bd&apos;</span>)
+soup = bs(res.text)
+<span class="hljs-keyword">for</span> ele <span class="hljs-keyword">in</span> soup.select(<span class="hljs-string">&apos;#yaubhil li&apos;</span>):
+    <span class="hljs-keyword">print</span> ele.select(<span class="hljs-string">&apos;a&apos;</span>)[<span class="hljs-number">0</span>][<span class="hljs-string">&apos;href&apos;</span>] , ele.select(<span class="hljs-string">&apos;a img&apos;</span>)[<span class="hljs-number">0</span>][<span class="hljs-string">&apos;title&apos;</span>], ele.select(<span class="hljs-string">&apos;a img&apos;</span>)[<span class="hljs-number">0</span>][<span class="hljs-string">&apos;src&apos;</span>]
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-comment"># -*- coding: utf-8 -*- </span>
+<span class="hljs-keyword">from</span> selenium <span class="hljs-keyword">import</span> selenium 
+<span class="hljs-keyword">from</span> selenium <span class="hljs-keyword">import</span> webdriver
+<span class="hljs-keyword">from</span> selenium.common.exceptions <span class="hljs-keyword">import</span> NoSuchElementException
+<span class="hljs-keyword">from</span> selenium.webdriver.common.keys <span class="hljs-keyword">import</span> Keys
+<span class="hljs-keyword">import</span> time
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+
+browser = webdriver.Firefox() 
+
+soup = BeautifulSoup(browser.page_source)
+<span class="hljs-keyword">while</span> len(soup.select(<span class="hljs-string">&apos;.pager-right&apos;</span>)) &gt; <span class="hljs-number">0</span>:
+    <span class="hljs-keyword">for</span> ele <span class="hljs-keyword">in</span> soup.select(<span class="hljs-string">&apos;.hotel-info&apos;</span>):
+        <span class="hljs-keyword">print</span> <span class="hljs-string">&quot;%s\t%s\t%s&quot;</span>%(ele.select(<span class="hljs-string">&apos;h3 a&apos;</span>)[<span class="hljs-number">0</span>].text, ele.select(<span class="hljs-string">&apos;h3 i&apos;</span>)[<span class="hljs-number">0</span>].text, ele.select(<span class="hljs-string">&apos;.property-snippet strong&apos;</span>)[<span class="hljs-number">0</span>].text.strip())
+    browser.find_element_by_link_text(<span class="hljs-string">&quot;Next&quot;</span>).click()
+    soup = BeautifulSoup(browser.page_source)
+    time.sleep(<span class="hljs-number">1</span>)
+
+browser.close()
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">import</span> json
+<span class="hljs-keyword">import</span> math
+n = <span class="hljs-number">963</span>
+pages = int(math.ceil(float(n)/<span class="hljs-number">10</span>))
+<span class="hljs-keyword">for</span> page <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, pages+<span class="hljs-number">1</span>):
+    res = requests.get(<span class="hljs-string">&apos;http://www.agoda.com/api/zh-tw/Main/GetReviewComments?HotelId=908412&amp;travellerTypeId=0&amp;pageSize=10&amp;pageNo={}&amp;sortingOption=1&apos;</span>.format(page))
+    jd = json.loads(res.text)
+    <span class="hljs-keyword">for</span> review <span class="hljs-keyword">in</span> json.loads(res.text)[<span class="hljs-string">&apos;Comments&apos;</span>]:
+        <span class="hljs-keyword">print</span> review[<span class="hljs-string">&apos;ReviewTitle&apos;</span>]
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+<span class="hljs-keyword">import</span> base64
+payload = {}
+res = requests.get(<span class="hljs-string">&apos;http://www.twse.com.tw/ch/trading/exchange/BWIBBU/BWIBBU_d.php&apos;</span>)
+res.encoding = <span class="hljs-string">&apos;big5&apos;</span>
+soup = BeautifulSoup(res.text)
+<span class="hljs-keyword">for</span> input_tag <span class="hljs-keyword">in</span> soup.select(<span class="hljs-string">&apos;input&apos;</span>):
+    <span class="hljs-keyword">if</span> input_tag.get(<span class="hljs-string">&apos;type&apos;</span>) == <span class="hljs-string">&apos;hidden&apos;</span>:
+        payload[input_tag.get(<span class="hljs-string">&apos;name&apos;</span>)] = base64.b64encode(input_tag.get(<span class="hljs-string">&apos;value&apos;</span>).encode(<span class="hljs-string">&apos;utf-8&apos;</span>))
+<span class="hljs-comment">#print payload[&apos;html&apos;]</span>
+res2 = requests.post(<span class="hljs-string">&apos;http://www.twse.com.tw/ch/trading/exchange/BWIBBU/BWIBBU_print.php?language=ch&amp;save=csv&apos;</span>, data=payload, stream=<span class="hljs-keyword">True</span>)
+<span class="hljs-keyword">from</span> shutil <span class="hljs-keyword">import</span> copyfileobj
+
+f = open(<span class="hljs-string">&apos;export2.csv&apos;</span>, <span class="hljs-string">&apos;wb&apos;</span>)
+copyfileobj(res2.raw, f)
+f.close()
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup <span class="hljs-keyword">as</span> bs
+rs = requests.session()
+
+payload = {
+<span class="hljs-string">&apos;pageTypeHidden&apos;</span>:<span class="hljs-string">&apos;1&apos;</span>,
+<span class="hljs-string">&apos;code&apos;</span>:<span class="hljs-string">&apos;1101&apos;</span>,
+<span class="hljs-string">&apos;ctl00$ContentPlaceHolder1$DropDownList1&apos;</span>:<span class="hljs-string">&apos;2015&#x5E74;6&#x6708;&apos;</span>
+}
+res = rs.get(<span class="hljs-string">&apos;http://www.cnyes.com/twstock/directorholder/1101.htm&apos;</span>)
+
+<span class="hljs-comment">#print res.text</span>
+
+soup = bs(res.text)
+hidden = soup.select(<span class="hljs-string">&apos;input&apos;</span>)
+<span class="hljs-keyword">for</span> hid <span class="hljs-keyword">in</span> hidden:
+    <span class="hljs-keyword">if</span> hid.get(<span class="hljs-string">&apos;value&apos;</span>) <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">None</span> <span class="hljs-keyword">and</span> hid.get(<span class="hljs-string">&apos;value&apos;</span>) != <span class="hljs-string">&apos;&apos;</span>:
+        payload[hid.get(<span class="hljs-string">&apos;name&apos;</span>)] = hid.get(<span class="hljs-string">&apos;value&apos;</span>)
+
+res2 = rs.post(<span class="hljs-string">&apos;http://www.cnyes.com/twstock/directorholder/1101.htm&apos;</span>, data= payload)
+soup = bs(res2.text)
+
+table = soup.select(<span class="hljs-string">&apos;.tabvl&apos;</span>)[<span class="hljs-number">0</span>]
+<span class="hljs-keyword">for</span> tr <span class="hljs-keyword">in</span> table.select(<span class="hljs-string">&apos;tr&apos;</span>)[<span class="hljs-number">1</span>:]:
+    <span class="hljs-keyword">for</span> td <span class="hljs-keyword">in</span> tr.select(<span class="hljs-string">&apos;td&apos;</span>):
+        <span class="hljs-keyword">print</span> td.text,
+    <span class="hljs-keyword">print</span>
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup <span class="hljs-keyword">as</span> bs
+html = <span class="hljs-string">&quot;&quot;&quot;
+&lt;div class=&quot;aaa&quot;&gt;
+    Hello,how are you?
+     &lt;a&gt;wwww&lt;/a&gt;
+     &lt;strong&gt;yyy&lt;/strong&gt;
+      I&apos;am fine.
+&lt;/div&gt;
+&quot;&quot;&quot;</span>
+soup = bs(html, <span class="hljs-string">&apos;html5lib&apos;</span>)
+soup.strong.decompose()
+soup.a.decompose()
+<span class="hljs-keyword">print</span> soup.text
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">import</span> pandas
+<span class="hljs-keyword">import</span> json
+
+url = <span class="hljs-string">&apos;http://ecshweb.pchome.com.tw/search/v3.3/all/results?q=%E5%88%AE%E9%AC%8D%E5%88%80&amp;page=2&amp;sort=rnk/dc&apos;</span>
+
+r = requests.get(url)
+jd = json.loads(r.text)
+df = pandas.DataFrame(jd[<span class="hljs-string">&apos;prods&apos;</span>])
+df.head()
+</code></pre>
 
                     
                     </section>
@@ -12360,10 +12914,10 @@
         </div>
 
         
-        <a href="../treacecode/mo_lian_yue_du_cheng_shi_ji_qiao_ff0c_bu_shou_hei_.html" class="navigation navigation-prev " aria-label="Previous page: 磨練閱讀程式技巧，不受黑盒限制"><i class="fa fa-angle-left"></i></a>
+        <a href="../python/python_xin_wen_guan_jian_zi_cha_xun.html" class="navigation navigation-prev " aria-label="Previous page: Python 新聞關鍵字查詢"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../treacecode/du_dong_cheng_shi_ma_ff0c_shi_xin_fa_jie_wei_wo_su.html" class="navigation navigation-next " aria-label="Next page: 讀懂程式碼，使心法皆為我所用"><i class="fa fa-angle-right"></i></a>
+        <a href="../python/jupyter.html" class="navigation navigation-next " aria-label="Next page: 安裝 Jupyter"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

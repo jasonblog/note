@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>處理器指令碼及IA-32平臺瞭解 | Jason note</title>
+        <title>PTTcrawler (PTT文章爬蟲) | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../assembly/1613.html" />
+    <link rel="next" href="../python/jupyter.html" />
     
     
-    <link rel="prev" href="../assembly/1611.html" />
+    <link rel="prev" href="../python/pythonby_david_chiu.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="14.2.2" data-basepath=".." data-revision="Tue Apr 26 2016 23:07:33 GMT+0800 (CST)">
+    <div class="book" data-level="27.1.5" data-basepath=".." data-revision="Tue Apr 26 2016 23:07:33 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -4737,7 +4737,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="14.2.2" data-path="assembly/1612.html">
+        <li class="chapter " data-level="14.2.2" data-path="assembly/1612.html">
             
                 
                     <a href="../assembly/1612.html">
@@ -7662,7 +7662,7 @@
             
         </li>
     
-        <li class="chapter " data-level="27.1.5" data-path="python/pttcrawler_pttwen_zhang_pa_87f229.html">
+        <li class="chapter active" data-level="27.1.5" data-path="python/pttcrawler_pttwen_zhang_pa_87f229.html">
             
                 
                     <a href="../python/pttcrawler_pttwen_zhang_pa_87f229.html">
@@ -12360,196 +12360,192 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E8%99%95%E7%90%86%E5%99%A8%E6%8C%87%E4%BB%A4%E7%A2%BC%E5%8F%8Aia-32%E5%B9%B3%E8%87%BA%E7%9E%AD%E8%A7%A3">&#x8655;&#x7406;&#x5668;&#x6307;&#x4EE4;&#x78BC;&#x53CA;IA-32&#x5E73;&#x81FA;&#x77AD;&#x89E3;</h1>
-<p>&#x7248;&#x6B0A;&#x8072;&#x660E;&#xFF1A;&#x5C0A;&#x91CD;&#x539F;&#x5275;&#xFF0C;&#x8F49;&#x8F09;&#x8ACB;&#x4FDD;&#x7559;&#x51FA;&#x8655;&#xFF1A;blog.csdn.net/shallnet&#xFF0C;&#x6587;&#x7AE0;&#x50C5;&#x4F9B;&#x5B78;&#x7FD2;&#x4EA4;&#x6D41;&#xFF0C;&#x8ACB;&#x52FF;&#x7528;&#x65BC;&#x5546;&#x696D;&#x7528;&#x9014;&#x3011;
-        &#x5728;&#x8A08;&#x7B97;&#x6A5F;&#x64CD;&#x4F5C;&#x7684;&#x6700;&#x5E95;&#x5C64;&#xFF0C;&#x6240;&#x6709;&#x8A08;&#x7B97;&#x6A5F;&#x8655;&#x7406;&#x5668;&#x90FD;&#x6309;&#x7167;&#x88FD;&#x9020;&#x5EE0;&#x5546;&#x5728;&#x8655;&#x7406;&#x5668;&#x5167;&#x90E8;&#x5B9A;&#x7FA9;&#x7684;&#x4E8C;&#x9032;&#x5236;&#x4EE3;&#x78BC;&#x4F86;&#x64CD;&#x4F5C;&#x6578;&#x64DA;&#xFF0C;&#x9019;&#x4E9B;&#x4EE3;&#x78BC;&#x5B9A;&#x7FA9;&#x4E86;&#x8655;&#x7406;&#x5668;&#x61C9;&#x8A72;&#x5229;&#x7528;&#x7A0B;&#x5E8F;&#x54E1;&#x63D0;&#x4F9B;&#x7684;&#x6578;&#x64DA;&#x5B8C;&#x6210;&#x76F8;&#x61C9;&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x9019;&#x4E9B;&#x9810;&#x7F6E;&#x7684;&#x4EE3;&#x78BC;&#x88AB;&#x7A31;&#x70BA;&#x6307;&#x4EE4;&#x78BC;&#x3002;&#x4E0D;&#x540C;&#x985E;&#x578B;&#x7684;&#x8655;&#x7406;&#x5668;&#x7684;&#x6307;&#x4EE4;&#x78BC;&#x662F;&#x4E0D;&#x4E00;&#x6A23;&#x7684;&#xFF0C;&#x4F46;&#x8655;&#x7406;&#x6307;&#x4EE4;&#x78BC;&#x7684;&#x65B9;&#x5F0F;&#x662F;&#x985E;&#x4F3C;&#x7684;&#x3002;</p>
-<p>&#x7576;&#x8A08;&#x7B97;&#x6A5F;&#x8655;&#x7406;&#x5668;&#x82AF;&#x7247;&#x904B;&#x884C;&#x6642;&#xFF0C;&#x4ED6;&#x6703;&#x8B80;&#x53D6;&#x5B58;&#x5132;&#x5728;&#x5167;&#x5B58;&#x4E2D;&#x7684;&#x6307;&#x4EE4;&#x78BC;&#xFF0C;&#x6BCF;&#x500B;&#x6307;&#x4EE4;&#x78BC;&#x5305;&#x542B;&#x4E0D;&#x540C;&#x9577;&#x5EA6;&#x5B57;&#x7BC0;&#x7684;&#x4FE1;&#x606F;&#xFF0C;&#x9019;&#x4E9B;&#x4FE1;&#x606F;&#x6307;&#x793A;&#x8655;&#x7406;&#x5668;&#x5B8C;&#x6210;&#x7279;&#x5B9A;&#x4EFB;&#x52D9;&#x3002;&#x6BCF;&#x689D;&#x6307;&#x4EE4;&#x78BC;&#x90FD;&#x662F;&#x5F9E;&#x5167;&#x5B58;&#x8B80;&#x53D6;&#xFF0C;&#x6307;&#x4EE4;&#x6240;&#x9700;&#x7684;&#x64CD;&#x4F5C;&#x6578;&#x64DA;&#x4E5F;&#x662F;&#x5F9E;&#x5167;&#x5B58;&#x8B80;&#x53D6;&#x3002;</p>
-<p>&#x6BCF;&#x689D;&#x6307;&#x4EE4;&#x90FD;&#x5FC5;&#x9808;&#x5305;&#x542B;&#x81F3;&#x5C11;&#x4E00;&#x500B;&#x5B57;&#x7BC0;&#x7684;&#x64CD;&#x4F5C;&#x78BC;&#xFF0C;&#x64CD;&#x4F5C;&#x78BC;&#x5B9A;&#x7FA9;&#x8655;&#x7406;&#x5668;&#x61C9;&#x8A72;&#x5B8C;&#x6210;&#x4EC0;&#x9EBC;&#x6A23;&#x7684;&#x64CD;&#x4F5C;&#x3002;&#x6BCF;&#x500B;&#x8655;&#x7406;&#x5668;&#x90FD;&#x6709;&#x81EA;&#x5DF1;&#x5B9A;&#x7FA9;&#x597D;&#x7684;&#x64CD;&#x4F5C;&#x78BC;&#x3002;</p>
-<p>Intel IA-32&#x7CFB;&#x5217;&#x5FAE;&#x8655;&#x7406;&#x5668;&#x4F7F;&#x7528;&#x5C08;&#x9580;&#x683C;&#x5F0F;&#x7684;&#x6307;&#x4EE4;&#x78BC;&#xFF0C;&#x77AD;&#x89E3;&#x4E00;&#x4E0B;&#x9019;&#x4E9B;&#x6307;&#x4EE4;&#x683C;&#x5F0F;&#x5C0D;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x7A0B;&#x5E8F;&#x8A2D;&#x8A08;&#x6703;&#x6709;&#x6240;&#x5E6B;&#x52A9;&#x3002;IA-32&#x6307;&#x4EE4;&#x78BC;&#x683C;&#x5F0F;&#x6709;&#x56DB;&#x500B;&#x4E3B;&#x8981;&#x90E8;&#x5206;&#x69CB;&#x6210;&#xFF1A;</p>
-<ul>
-<li>&#x53EF;&#x9078;&#x6307;&#x4EE4;&#x524D;&#x7DB4;</li>
-<li>&#x64CD;&#x4F5C;&#x78BC;</li>
-<li>&#x53EF;&#x9078;&#x4FEE;&#x98FE;&#x7B26;</li>
-<li>&#x53EF;&#x9078;&#x6578;&#x64DA;&#x5143;&#x7D20;
-&#x4E0B;&#x5716;&#x70BA;IA-32&#x6307;&#x4EE4;&#x78BC;&#x683C;&#x5F0F;&#x7684;&#x4F48;&#x5C40;&#x3002;</li>
-</ul>
-<p><img src="images/20150506233823365.png" alt=""></p>
-<p>&#x5982;&#x4E0A;&#x5716;&#x6240;&#x793A;&#xFF0C;IA-32&#x6307;&#x4EE4;&#x683C;&#x5F0F;&#x4E2D;&#x552F;&#x4E00;&#x5FC5;&#x9808;&#x7684;&#x90E8;&#x5206;&#x662F;&#x64CD;&#x4F5C;&#x78BC;&#x3002;&#x6BCF;&#x500B;&#x6307;&#x4EE4;&#x78BC;&#x90FD;&#x5FC5;&#x9808;&#x5305;&#x542B;&#x64CD;&#x4F5C;&#x78BC;&#xFF0C;&#x5176;&#x5B9A;&#x7FA9;&#x4E86;&#x6307;&#x4EE4;&#x57F7;&#x884C;&#x7684;&#x57FA;&#x672C;&#x4EFB;&#x52D9;&#x3002;</p>
-<p>&#x6307;&#x4EE4;&#x524D;&#x7DB4;&#x53EF;&#x4EE5;&#x5305;&#x542B;0-4&#x500B;&#x4FEE;&#x6539;&#x64CD;&#x4F5C;&#x78BC;&#x884C;&#x70BA;&#x7684;1&#x5B57;&#x7BC0;&#x524D;&#x7DB4;&#x3002;&#x6309;&#x7167;&#x524D;&#x7DB4;&#x529F;&#x80FD;&#xFF0C;&#x9019;&#x4E9B;&#x524D;&#x7DB4;&#x88AB;&#x5206;&#x6210;&#x56DB;&#x500B;&#x7D44;&#xFF0C;&#x4FEE;&#x6539;&#x64CD;&#x4F5C;&#x78BC;&#x6642;&#xFF0C;&#x6BCF;&#x500B;&#x7D44;&#x7684;&#x524D;&#x7DB4;&#x4E00;&#x6B21;&#x53EA;&#x80FD;&#x4F7F;&#x7528;&#x4E00;&#x500B;&#xFF08;&#x6700;&#x591A;4&#x500B;&#xFF09;&#x3002;&#x56DB;&#x500B;&#x524D;&#x7DB4;&#x5982;&#x4E0B;&#xFF1A;
-&#x9396;&#x5B9A;&#x524D;&#x7DB4;&#x548C;&#x91CD;&#x8907;&#x524D;&#x7DB4;
-&#x6BB5;&#x8986;&#x84CB;&#x524D;&#x7DB4;&#x548C;&#x5206;&#x652F;&#x63D0;&#x793A;&#x524D;&#x7DB4;
-&#x64CD;&#x4F5C;&#x6578;&#x9577;&#x5EA6;&#x8986;&#x84CB;&#x524D;&#x7DB4;
-&#x5730;&#x5740;&#x9577;&#x5EA6;&#x8986;&#x84CB;&#x524D;&#x7DB4;</p>
-<p>&#x4E00;&#x4E9B;&#x64CD;&#x4F5C;&#x78BC;&#x9700;&#x8981;&#x53E6;&#x5916;&#x7684;&#x4FEE;&#x98FE;&#x7B26;&#x4F86;&#x5B9A;&#x7FA9;&#x57F7;&#x884C;&#x529F;&#x80FD;&#x4E2D;&#x6D89;&#x53CA;&#x5230;&#x7684;&#x5BC4;&#x5B58;&#x5668;&#x548C;&#x5167;&#x5B58;&#x5730;&#x5740;&#x3002;&#x4FEE;&#x98FE;&#x7B26;&#x5305;&#x542B;&#x4E09;&#x90E8;&#x5206;&#xFF1A;
-&#xFF08;ModR/M&#xFF09;&#x5C0B;&#x5740;&#x65B9;&#x5F0F;&#x5B57;&#x7BC0;
-SIB&#xFF08;&#x6BD4;&#x4F8B;&#x7D22;&#x5F15;&#x57FA;&#x5740;&#xFF09;&#x5B57;&#x7BC0;
-1&#x3001;2&#x6216;4&#x500B;&#x5730;&#x5740;&#x79FB;&#x4F4D;&#x5B57;&#x7BC0;
-ModR/M&#x5B57;&#x7BC0;&#x7531;&#x4E09;&#x500B;&#x5B57;&#x6BB5;&#x7684;&#x4FE1;&#x606F;&#x69CB;&#x6210;&#x3002;&#x5982;&#x4E0B;&#x5716;&#xFF1A;</p>
-<p><img src="images/20150506233740509.png" alt=""></p>
-<p>mod&#x5B57;&#x6BB5;&#x548C;r/m&#x5B57;&#x6BB5;&#x4E00;&#x8D77;&#x4F7F;&#x7528;&#xFF0C;&#x7528;&#x65BC;&#x5B9A;&#x7FA9;&#x6307;&#x4EE4;&#x4F7F;&#x7528;&#x7684;&#x5BC4;&#x5B58;&#x5668;&#x6216;&#x5C0B;&#x5740;&#x6A21;&#x5F0F;&#x3002;
-reg/opcode&#x7528;&#x65BC;&#x5141;&#x8A31;&#x4F7F;&#x7528;&#x66F4;&#x591A;&#x7684;&#x4E09;&#x4F4D;&#x9032;&#x4E00;&#x6B65;&#x5B9A;&#x7FA9;&#x64CD;&#x4F5C;&#x78BC;&#x529F;&#x80FD;&#xFF0C;&#x6216;&#x7528;&#x65BC;&#x5B9A;&#x7FA9;&#x5BC4;&#x5B58;&#x5668;&#x7684;&#x503C;&#x3002;
-SIB&#x5B57;&#x6BB5;&#x4E5F;&#x7531;3&#x500B;&#x5B57;&#x6BB5;&#x7684;&#x4FE1;&#x606F;&#x69CB;&#x6210;&#x3002;&#x5982;&#x4E0B;&#x5716;</p>
-<p><img src="images/20150506234008915.png" alt=""></p>
-<p>&#x6BD4;&#x4F8B;&#x5B57;&#x6BB5;&#x6307;&#x5B9A;&#x64CD;&#x4F5C;&#x7684;&#x6BD4;&#x4F8B;&#x56E0;&#x7D20;&#xFF0C;&#x7D22;&#x5F15;&#x5B57;&#x6BB5;&#x6307;&#x5B9A;&#x5167;&#x5B58;&#x8A2A;&#x554F;&#x4E2D;&#x7528;&#x4F5C;&#x7D22;&#x5F15;&#x5BC4;&#x5B58;&#x5668;&#x7684;&#x5BC4;&#x5B58;&#x5668;&#xFF0C;&#x57FA;&#x5740;&#x5B57;&#x6BB5;&#x6307;&#x5B9A;&#x7528;&#x4F5C;&#x5167;&#x5B58;&#x8A2A;&#x554F;&#x7684;&#x57FA;&#x5740;&#x5BC4;&#x5B58;&#x5668;&#x7684;&#x5BC4;&#x5B58;&#x5668;&#x3002;</p>
-<p>&#x5730;&#x5740;&#x79FB;&#x4F4D;&#x5B57;&#x7BC0;&#x7528;&#x4F86;&#x6307;&#x5B9A;&#x5C0D;&#x65BC;ModR/M&#x548C;SIB&#x5B57;&#x7BC0;&#x4E2D;&#x5B9A;&#x7FA9;&#x7684;&#x5167;&#x5B58;&#x4F4D;&#x7F6E;&#x4F4D;&#x7F6E;&#x7684;&#x504F;&#x79FB;&#x91CF;&#x3002;
-&#x6578;&#x64DA;&#x5143;&#x7D20;&#x5728;&#x6307;&#x4EE4;&#x78BC;&#x7684;&#x6700;&#x5F8C;&#x90E8;&#x5206;&#xFF0C;&#x4E00;&#x4E9B;&#x6307;&#x4EE4;&#x78BC;&#x5F9E;&#x5167;&#x5B58;&#x4F4D;&#x7F6E;&#x6216;&#x8655;&#x7406;&#x5668;&#x5BC4;&#x5B58;&#x5668;&#x8B80;&#x53D6;&#x6578;&#x64DA;&#xFF0C;&#x800C;&#x4E00;&#x4E9B;&#x6307;&#x4EE4;&#x78BC;&#x5728;&#x5176;&#x6307;&#x4EE4;&#x672C;&#x8EAB;&#x4E4B;&#x5167;&#x5C31;&#x6709;&#x5305;&#x542B;&#x6578;&#x64DA;&#x3002;</p>
-<p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;&#x4F7F;&#x7528;&#x8655;&#x7406;&#x5668;&#x7684;&#x6307;&#x4EE4;&#x78BC;&#x9032;&#x884C;&#x7A0B;&#x5E8F;&#x8A2D;&#x8A08;&#x662F;&#x5341;&#x5206;&#x56F0;&#x96E3;&#x7684;&#xFF0C;&#x6240;&#x4EE5;&#x624D;&#x6709;&#x4E86;&#x5F8C;&#x9762;&#x7684;&#x9AD8;&#x7D1A;&#x8A9E;&#x8A00;&#x3002;&#x4F46;&#x8655;&#x7406;&#x5668;&#x6839;&#x672C;&#x4E0D;&#x77E5;&#x9053;&#x5982;&#x4F55;&#x8655;&#x7406;&#x9AD8;&#x7D1A;&#x8A9E;&#x8A00;&#xFF0C;&#x5FC5;&#x9808;&#x901A;&#x904E;&#x67D0;&#x7A2E;&#x6A5F;&#x5236;&#x628A;&#x9AD8;&#x7D1A;&#x8A9E;&#x8A00;&#x4EE3;&#x78BC;&#x8F49;&#x63DB;&#x70BA;&#x8655;&#x7406;&#x5668;&#x80FD;&#x5920;&#x8655;&#x7406;&#x7684;&#x6307;&#x4EE4;&#x78BC;&#x624D;&#x80FD;&#x8655;&#x7406;&#x3002;</p>
-<p>&#x4F7F;&#x7528;&#x532F;&#x7DE8;&#x8A9E;&#x8A00;&#x7A0B;&#x5E8F;&#x8A2D;&#x8A08;&#x5FC5;&#x9808;&#x8981;&#x5148;&#x4E86;&#x89E3;&#x8655;&#x7406;&#x5668;&#x74B0;&#x5883;&#xFF0C;&#x4E0D;&#x540C;&#x985E;&#x578B;&#x7684;&#x8655;&#x7406;&#x5668;&#x7684;&#x6307;&#x4EE4;&#x78BC;&#x662F;&#x4E0D;&#x4E00;&#x6A23;&#x7684;&#x3002;&#x6211;&#x5011;&#x5C07;&#x4EE5;AI-32&#x5E73;&#x81FA;&#x70BA;&#x4F8B;&#x4F86;&#x8B1B;&#x8FF0;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x3002;</p>
-<p>&#x96D6;&#x7136;&#x4E0D;&#x540C;&#x8655;&#x7406;&#x5668;&#x7CFB;&#x5217;&#x7D50;&#x5408;&#x4E86;&#x4E0D;&#x540C;&#x7684;&#x6307;&#x4EE4;&#x96C6;&#x5408;&#x548C;&#x529F;&#x80FD;&#xFF0C;&#x4F46;&#x5927;&#x591A;&#x6578;&#x8655;&#x7406;&#x5668;&#x90FD;&#x4F7F;&#x7528;&#x4E86;&#x76F8;&#x540C;&#x7684;&#x6838;&#x5FC3;&#x7D44;&#x4EF6;&#x96C6;&#x5408;&#x3002;&#x8A08;&#x7B97;&#x6A5F;&#x4E00;&#x822C;&#x5305;&#x542B;&#x5982;&#x4E0B;&#x56DB;&#x500B;&#x7D44;&#x4EF6;&#xFF1A;</p>
-<p><img src="images/20150506233914031.png" alt=""></p>
-<p>&#x8655;&#x7406;&#x5668;&#x5305;&#x542B;&#x63A7;&#x5236;&#x8A08;&#x7B97;&#x6A5F;&#x64CD;&#x4F5C;&#x7684;&#x786C;&#x4EF6;&#x548C;&#x6307;&#x4EE4;&#x78BC;&#xFF0C;&#x5176;&#x901A;&#x904E;3&#x500B;&#x55AE;&#x7368;&#x7684;&#x7E3D;&#x7DDA;&#xFF1A;&#x63A7;&#x5236;&#x7E3D;&#x7DDA;&#x3001;&#x5730;&#x5740;&#x7E3D;&#x7DDA;&#x3001;&#x6578;&#x64DA;&#x7E3D;&#x7DDA;&#xFF0C;&#x8655;&#x7406;&#x5668;&#x88AB;&#x9023;&#x63A5;&#x5230;&#x8A08;&#x7B97;&#x6A5F;&#x7684;&#x5176;&#x4ED6;&#x5143;&#x7D20;&#xFF08;&#x5167;&#x5B58;&#x5B58;&#x5132;&#x55AE;&#x5143;&#x3001;&#x8F38;&#x5165;&#x8A2D;&#x5099;&#x548C;&#x8F38;&#x51FA;&#x8A2D;&#x5099;&#xFF09;&#x3002;&#x8655;&#x7406;&#x5668;&#x7531;&#x5F88;&#x591A;&#x7D44;&#x4EF6;&#x69CB;&#x6210;&#xFF0C;&#x5728;&#x8655;&#x7406;&#x5668;&#x8655;&#x7406;&#x6578;&#x64DA;&#x7684;&#x904E;&#x7A0B;&#x4E2D;&#xFF0C;&#x6BCF;&#x500B;&#x7D44;&#x4EF6;&#x90FD;&#x6709;&#x5176;&#x4F5C;&#x7528;&#xFF0C;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x7A0B;&#x5E8F;&#x6709;&#x8A2A;&#x554F;&#x548C;&#x63A7;&#x5236;&#x6240;&#x6709;&#x9019;&#x4E9B;&#x7D44;&#x4EF6;&#x7684;&#x80FD;&#x529B;&#xFF0C;&#x6240;&#x4EE5;&#x77AD;&#x89E3;&#x9019;&#x4E9B;&#x7D44;&#x4EF6;&#x5F88;&#x91CD;&#x8981;&#x3002;&#x8655;&#x7406;&#x5668;&#x4E3B;&#x8981;&#x7D44;&#x4EF6;&#x5982;&#x4E0B;&#xFF1A;</p>
-<ul>
-<li>&#x63A7;&#x5236;&#x55AE;&#x5143;</li>
-<li>&#x57F7;&#x884C;&#x55AE;&#x5143;</li>
-<li>&#x5BC4;&#x5B58;&#x5668;</li>
-<li>&#x6A19;&#x8A8C;</li>
-</ul>
-<p>&#x63A7;&#x5236;&#x55AE;&#x5143;&#x662F;&#x8655;&#x7406;&#x5668;&#x7684;&#x4E2D;&#x5FC3;&#xFF0C;&#x63A7;&#x5236;&#x55AE;&#x5143;&#x7684;&#x4E3B;&#x8981;&#x4F5C;&#x7528;&#x6642;&#x63A7;&#x5236;&#x8655;&#x7406;&#x5668;&#x5728;&#x4F55;&#x6642;&#x505A;&#x4F55;&#x7A2E;&#x64CD;&#x4F5C;&#x3002;&#x63A7;&#x5236;&#x55AE;&#x5143;&#x5BE6;&#x73FE;4&#x500B;&#x57FA;&#x672C;&#x529F;&#x80FD;&#xFF1A;</p>
-<ul>
-<li>&#x5F9E;&#x5167;&#x5B58;&#x7372;&#x5F97;&#x6307;&#x4EE4;&#x3002;</li>
-<li>&#x5C0D;&#x6307;&#x4EE4;&#x9032;&#x884C;&#x5206;&#x6790;&#x4EE5;&#x4FBF;&#x9032;&#x884C;&#x64CD;&#x4F5C;&#x3002;</li>
-<li>&#x5F9E;&#x5167;&#x5B58;&#x7372;&#x5F97;&#x6240;&#x9700;&#x7D50;&#x679C;&#x3002;</li>
-<li>&#x6709;&#x5FC5;&#x8981;&#x5247;&#x5B58;&#x5132;&#x7D50;&#x679C;&#x3002;</li>
-</ul>
-<p>&#x57F7;&#x884C;&#x55AE;&#x5143;&#x8CA0;&#x8CAC;&#x57F7;&#x884C;&#x8655;&#x7406;&#x5668;&#x6307;&#x4EE4;&#x3002;&#x57F7;&#x884C;&#x55AE;&#x5143;&#x7531;&#x4E00;&#x500B;&#x6216;&#x591A;&#x500B;&#x7B97;&#x8853;&#x908F;&#x8F2F;&#x55AE;&#x5143;&#x69CB;&#x6210;&#xFF08;ALU&#xFF09;&#x3002;
-&#x5BC4;&#x5B58;&#x5668;&#x7528;&#x65BC;&#x89E3;&#x6C7A;&#x8655;&#x7406;&#x5668;&#x5F9E;&#x5167;&#x5B58;&#x8B80;&#x53D6;&#x6578;&#x64DA;&#x6642;&#x9700;&#x8981;&#x7B49;&#x5F85;&#x7684;&#x554F;&#x984C;&#x3002;&#x5728;&#x8655;&#x7406;&#x5668;&#x8A2A;&#x554F;&#x6578;&#x64DA;&#x5143;&#x7D20;&#x6642;&#xFF0C;&#x8ACB;&#x6C42;&#x88AB;&#x9AEE;&#x9001;&#x5230;&#x8655;&#x7406;&#x5668;&#x5916;&#x90E8;&#xFF0C;&#x901A;&#x904E;&#x63A7;&#x5236;&#x7E3D;&#x7DDA;&#x9032;&#x5165;&#x5B58;&#x5132;&#x55AE;&#x5143;&#xFF0C;&#x57F7;&#x884C;&#x8A72;&#x904E;&#x7A0B;&#x6642;&#x8655;&#x7406;&#x5668;&#x8655;&#x65BC;&#x7B49;&#x5F85;&#x72C0;&#x614B;&#x3002;&#x800C;&#x5BC4;&#x5B58;&#x5668;&#x80FD;&#x5920;&#x5B58;&#x5132;&#x8981;&#x8655;&#x7406;&#x7684;&#x6578;&#x64DA;&#x5143;&#x7D20;&#xFF0C;&#x800C;&#x7121;&#x9700;&#x8A2A;&#x554F;&#x5167;&#x5B58;&#x55AE;&#x5143;&#x3002;&#x4F46;&#x662F;&#x8655;&#x7406;&#x5668;&#x82AF;&#x7247;&#x4E2D;&#x5167;&#x7F6E;&#x7684;&#x5BC4;&#x5B58;&#x5668;&#x6578;&#x91CF;&#x662F;&#x6709;&#x9650;&#x7684;&#x3002;IA-32&#x5E73;&#x81FA;&#x5177;&#x6709;&#x4E0D;&#x540C;&#x9577;&#x5EA6;&#x7684;&#x591A;&#x7D44;&#x5BC4;&#x5B58;&#x5668;&#x3002;&#x901A;&#x7528;&#x5BC4;&#x5B58;&#x5668;&#x7528;&#x65BC;&#x81E8;&#x6642;&#x5B58;&#x5132;&#x6578;&#x64DA;&#xFF1B;&#x6BB5;&#x5BC4;&#x5B58;&#x5668;&#x7528;&#x65BC;&#x5F15;&#x7528;&#x5167;&#x5B58;&#x4F4D;&#x7F6E;&#xFF1B;&#x6307;&#x4EE4;&#x6307;&#x91DD;&#x5BC4;&#x5B58;&#x5668;&#xFF0C;&#x53C8;&#x7A31;&#x70BA;&#x7A0B;&#x5E8F;&#x8A08;&#x6578;&#x5668;&#xFF08;PC&#xFF09;&#xFF0C;&#x8DDF;&#x8E64;&#x8981;&#x57F7;&#x884C;&#x7684;&#x4E0B;&#x4E00;&#x689D;&#x6307;&#x4EE4;&#x78BC;&#xFF1B;&#x63A7;&#x5236;&#x5BC4;&#x5B58;&#x5668;&#x7528;&#x65BC;&#x78BA;&#x5B9A;&#x8655;&#x7406;&#x5668;&#x7684;&#x64CD;&#x4F5C;&#x6A21;&#x5F0F;&#x3002;</p>
-<p>&#x901A;&#x7528;&#x5BC4;&#x5B58;&#x5668;&#x53CA;&#x5176;&#x7528;&#x8655;&#x63CF;&#x8FF0;&#x5982;&#x4E0B;&#x8868;&#xFF1A;</p>
-<div style="background-color:rgb(255,255,255)">
-<ul style="margin-top:0px; margin-bottom:0px; background-color:inherit">
-<li style="background-color:inherit"><span style="font-family:Microsoft YaHei">&#x63A7;&#x5236;&#x55AE;&#x5143;</span></li><li style="background-color:inherit"><span style="font-family:Microsoft YaHei">&#x57F7;&#x884C;&#x55AE;&#x5143;</span></li><li style="background-color:inherit"><span style="font-family:Microsoft YaHei">&#x5BC4;&#x5B58;&#x5668;</span></li><li style="background-color:inherit"><span style="font-family:Microsoft YaHei">&#x6A19;&#x8A8C;</span></li></ul>
-<div style="background-color:inherit"><span style="font-family:Microsoft YaHei">&#xA0; &#xA0; &#xA0; &#xA0; &#x63A7;&#x5236;&#x55AE;&#x5143;&#x662F;&#x8655;&#x7406;&#x5668;&#x7684;&#x4E2D;&#x5FC3;&#xFF0C;&#x63A7;&#x5236;&#x55AE;&#x5143;&#x7684;&#x4E3B;&#x8981;&#x4F5C;&#x7528;&#x6642;&#x63A7;&#x5236;&#x8655;&#x7406;&#x5668;&#x5728;&#x4F55;&#x6642;&#x505A;&#x4F55;&#x7A2E;&#x64CD;&#x4F5C;&#x3002;&#x63A7;&#x5236;&#x55AE;&#x5143;&#x5BE6;&#x73FE;4&#x500B;&#x57FA;&#x672C;&#x529F;&#x80FD;&#xFF1A;</span></div>
-<div style="background-color:inherit">
-<ol style="margin-top:0px; margin-bottom:0px; background-color:inherit">
-<li style="background-color:inherit"><span style="font-family:Microsoft YaHei">&#x5F9E;&#x5167;&#x5B58;&#x7372;&#x5F97;&#x6307;&#x4EE4;&#x3002;</span></li><li style="background-color:inherit"><span style="font-family:Microsoft YaHei">&#x5C0D;&#x6307;&#x4EE4;&#x9032;&#x884C;&#x5206;&#x6790;&#x4EE5;&#x4FBF;&#x9032;&#x884C;&#x64CD;&#x4F5C;&#x3002;</span></li><li style="background-color:inherit"><span style="font-family:Microsoft YaHei">&#x5F9E;&#x5167;&#x5B58;&#x7372;&#x5F97;&#x6240;&#x9700;&#x7D50;&#x679C;&#x3002;</span></li><li style="background-color:inherit"><span style="font-family:Microsoft YaHei">&#x6709;&#x5FC5;&#x8981;&#x5247;&#x5B58;&#x5132;&#x7D50;&#x679C;&#x3002;</span></li></ol>
-<div style="background-color:inherit"><span style="font-family:Microsoft YaHei">&#xA0; &#xA0; &#xA0; &#xA0; &#x57F7;&#x884C;&#x55AE;&#x5143;&#x8CA0;&#x8CAC;&#x57F7;&#x884C;&#x8655;&#x7406;&#x5668;&#x6307;&#x4EE4;&#x3002;&#x57F7;&#x884C;&#x55AE;&#x5143;&#x7531;&#x4E00;&#x500B;&#x6216;&#x591A;&#x500B;&#x7B97;&#x8853;&#x908F;&#x8F2F;&#x55AE;&#x5143;&#x69CB;&#x6210;&#xFF08;ALU&#xFF09;&#x3002;</span></div>
-</div>
-<div style="background-color:inherit"><span style="font-family:Microsoft YaHei">&#xA0; &#xA0; &#xA0; &#xA0; &#x5BC4;&#x5B58;&#x5668;&#x7528;&#x65BC;&#x89E3;&#x6C7A;&#x8655;&#x7406;&#x5668;&#x5F9E;&#x5167;&#x5B58;&#x8B80;&#x53D6;&#x6578;&#x64DA;&#x6642;&#x9700;&#x8981;&#x7B49;&#x5F85;&#x7684;&#x554F;&#x984C;&#x3002;&#x5728;&#x8655;&#x7406;&#x5668;&#x8A2A;&#x554F;&#x6578;&#x64DA;&#x5143;&#x7D20;&#x6642;&#xFF0C;&#x8ACB;&#x6C42;&#x88AB;&#x9AEE;&#x9001;&#x5230;&#x8655;&#x7406;&#x5668;&#x5916;&#x90E8;&#xFF0C;&#x901A;&#x904E;&#x63A7;&#x5236;&#x7E3D;&#x7DDA;&#x9032;&#x5165;&#x5B58;&#x5132;&#x55AE;&#x5143;&#xFF0C;&#x57F7;&#x884C;&#x8A72;&#x904E;&#x7A0B;&#x6642;&#x8655;&#x7406;&#x5668;&#x8655;&#x65BC;&#x7B49;&#x5F85;&#x72C0;&#x614B;&#x3002;&#x800C;&#x5BC4;&#x5B58;&#x5668;&#x80FD;&#x5920;&#x5B58;&#x5132;&#x8981;&#x8655;&#x7406;&#x7684;&#x6578;&#x64DA;&#x5143;&#x7D20;&#xFF0C;&#x800C;&#x7121;&#x9700;&#x8A2A;&#x554F;&#x5167;&#x5B58;&#x55AE;&#x5143;&#x3002;&#x4F46;&#x662F;&#x8655;&#x7406;&#x5668;&#x82AF;&#x7247;&#x4E2D;&#x5167;&#x7F6E;&#x7684;&#x5BC4;&#x5B58;&#x5668;&#x6578;&#x91CF;&#x662F;&#x6709;&#x9650;&#x7684;&#x3002;IA-32&#x5E73;&#x81FA;&#x5177;&#x6709;&#x4E0D;&#x540C;&#x9577;&#x5EA6;&#x7684;&#x591A;&#x7D44;&#x5BC4;&#x5B58;&#x5668;&#x3002;&#x901A;&#x7528;&#x5BC4;&#x5B58;&#x5668;&#x7528;&#x65BC;&#x81E8;&#x6642;&#x5B58;&#x5132;&#x6578;&#x64DA;&#xFF1B;&#x6BB5;&#x5BC4;&#x5B58;&#x5668;&#x7528;&#x65BC;&#x5F15;&#x7528;&#x5167;&#x5B58;&#x4F4D;&#x7F6E;&#xFF1B;&#x6307;&#x4EE4;&#x6307;&#x91DD;&#x5BC4;&#x5B58;&#x5668;&#xFF0C;&#x53C8;&#x7A31;&#x70BA;&#x7A0B;&#x5E8F;&#x8A08;&#x6578;&#x5668;&#xFF08;PC&#xFF09;&#xFF0C;&#x8DDF;&#x8E64;&#x8981;&#x57F7;&#x884C;&#x7684;&#x4E0B;&#x4E00;&#x689D;&#x6307;&#x4EE4;&#x78BC;&#xFF1B;&#x63A7;&#x5236;&#x5BC4;&#x5B58;&#x5668;&#x7528;&#x65BC;&#x78BA;&#x5B9A;&#x8655;&#x7406;&#x5668;&#x7684;&#x64CD;&#x4F5C;&#x6A21;&#x5F0F;&#x3002;</span></div>
-<div style="background-color:inherit"><span style="font-family:Microsoft YaHei">&#xA0; &#xA0; &#xA0; &#xA0; &#x901A;&#x7528;&#x5BC4;&#x5B58;&#x5668;&#x53CA;&#x5176;&#x7528;&#x8655;&#x63CF;&#x8FF0;&#x5982;&#x4E0B;&#x8868;&#xFF1A;</span></div>
-<table border="1" cellpadding="2" cellspacing="0" style="border-collapse:collapse; margin-top:10px; margin-bottom:10px; display:table; background-color:inherit">
-<tbody style="background-color:inherit">
-<tr style="background-color:inherit">
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">EAX</span></div>
-</td>
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">&#x7528;&#x65BC;&#x64CD;&#x4F5C;&#x6578;&#x548C;&#x7D50;&#x679C;&#x6578;&#x64DA;&#x7684;&#x7D2F;&#x52A0;&#x5668;</span></div>
-</td>
-</tr>
-<tr style="background-color:inherit">
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">EBX</span></div>
-</td>
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">&#x6307;&#x5411;&#x6578;&#x64DA;&#x5167;&#x5B58;&#x6BB5;&#x4E2D;&#x7684;&#x6578;&#x64DA;&#x6307;&#x91DD;</span></div>
-</td>
-</tr>
-<tr style="background-color:inherit">
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">ECX</span></div>
-</td>
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">&#x5B57;&#x7B26;&#x4E32;&#x548C;&#x5FAA;&#x74B0;&#x64CD;&#x4F5C;&#x7684;&#x8A08;&#x6578;&#x5668;</span></div>
-</td>
-</tr>
-<tr style="background-color:inherit">
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:28px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">EDX</span></div>
-</td>
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:28px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">I/O&#x6307;&#x91DD;</span></div>
-</td>
-</tr>
-<tr style="background-color:inherit">
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">EDI</span></div>
-</td>
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">&#x7528;&#x65BC;&#x5B57;&#x7B26;&#x4E32;&#x64CD;&#x4F5C;&#x7684;&#x76EE;&#x6A19;&#x7684;&#x6578;&#x64DA;&#x6307;&#x91DD;</span></div>
-</td>
-</tr>
-<tr style="background-color:inherit">
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">ESI</span></div>
-</td>
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">&#x7528;&#x65BC;&#x5B57;&#x7B26;&#x4E32;&#x64CD;&#x4F5C;&#x7684;&#x6E90;&#x7684;&#x6578;&#x64DA;&#x6307;&#x91DD;</span></div>
-</td>
-</tr>
-<tr style="background-color:inherit">
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<span style="font-family:Microsoft YaHei">ESP</span></td>
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">&#x5806;&#x68E7;&#x6307;&#x91DD;</span></div>
-</td>
-</tr>
-<tr style="background-color:inherit">
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">EBP</span></div>
-</td>
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">&#x5806;&#x68E7;&#x6578;&#x64DA;&#x6307;&#x91DD;</span></div>
-</td>
-</tr>
-</tbody>
-</table>
-<span style="font-family:Microsoft YaHei">&#x6BB5;&#x5BC4;&#x5B58;&#x5668;&#x53CA;&#x5176;&#x63CF;&#x8FF0;&#xFF1A;</span></div>
+                        <h1 id="pttcrawler-ptt%E6%96%87%E7%AB%A0%E7%88%AC%E8%9F%B2">PTTcrawler (PTT&#x6587;&#x7AE0;&#x722C;&#x87F2;)</h1>
+<pre><code class="lang-py"><span class="hljs-comment">#coding=utf-8 </span>
+<span class="hljs-keyword">import</span> re
+<span class="hljs-keyword">import</span> sys
+<span class="hljs-keyword">import</span> json
+<span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">import</span> io
+<span class="hljs-keyword">import</span> random
+<span class="hljs-keyword">from</span> time <span class="hljs-keyword">import</span> sleep
+<span class="hljs-keyword">from</span> datetime <span class="hljs-keyword">import</span> datetime
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup  
+requests.packages.urllib3.disable_warnings()
 
-<div style="background-color:rgb(255,255,255)">
-<table border="1" cellpadding="2" cellspacing="0" style="font-size:undefined; border-collapse:collapse; margin-top:10px; margin-bottom:10px; display:table; background-color:inherit">
-<tbody style="background-color:inherit">
-<tr style="background-color:inherit">
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">CS</span></div>
-</td>
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">&#x4EE3;&#x78BC;&#x6BB5;</span></div>
-</td>
-</tr>
-<tr style="background-color:inherit">
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">DS</span></div>
-</td>
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">&#x6578;&#x64DA;&#x6BB5;</span></div>
-</td>
-</tr>
-<tr style="background-color:inherit">
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">SS</span></div>
-</td>
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">&#x5806;&#x68E7;&#x6BB5;</span></div>
-</td>
-</tr>
-<tr style="background-color:inherit">
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">ES</span></div>
-</td>
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">&#x9644;&#x52A0;&#x6BB5;&#x6307;&#x91DD;</span></div>
-</td>
-</tr>
-<tr style="background-color:inherit">
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">FS</span></div>
-</td>
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">&#x9644;&#x52A0;&#x6BB5;&#x6307;&#x91DD;</span></div>
-</td>
-</tr>
-<tr style="background-color:inherit">
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">GS</span></div>
-</td>
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">&#x9644;&#x52A0;&#x6BB5;&#x6307;&#x91DD;</span></div>
-</td>
-</tr>
-</tbody>
-</table>
-<div style="background-color:inherit"><span style="font-family:Microsoft YaHei">&#xA0; &#xA0; &#xA0; &#xA0; &#x8655;&#x7406;&#x5668;&#x6A19;&#x8A8C;&#x78BA;&#x5B9A;&#x8655;&#x7406;&#x5668;&#x5BE6;&#x73FE;&#x7684;&#x6BCF;&#x500B;&#x64CD;&#x4F5C;&#x662F;&#x5426;&#x6210;&#x529F;&#x3002;</span></div>
-</div>
+PttName=<span class="hljs-string">&quot;&quot;</span>
+load={
+<span class="hljs-string">&apos;from&apos;</span>:<span class="hljs-string">&apos;/bbs/&apos;</span>+PttName+<span class="hljs-string">&apos;/index.html&apos;</span>,
+<span class="hljs-string">&apos;yes&apos;</span>:<span class="hljs-string">&apos;yes&apos;</span> 
+}
 
+rs=requests.session()
+res=rs.post(<span class="hljs-string">&apos;https://www.ptt.cc/ask/over18&apos;</span>,verify=<span class="hljs-keyword">False</span>,data=load)
+FILENAME=<span class="hljs-string">&quot;&quot;</span>
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">PageCount</span><span class="hljs-params">(PttName)</span>:</span>
+    res=rs.get(<span class="hljs-string">&apos;https://www.ptt.cc/bbs/&apos;</span>+PttName+<span class="hljs-string">&apos;/index.html&apos;</span>,verify=<span class="hljs-keyword">False</span>)
+    soup=BeautifulSoup(res.text,<span class="hljs-string">&apos;html.parser&apos;</span>)
+    ALLpageURL = soup.select(<span class="hljs-string">&apos;.btn.wide&apos;</span>)[<span class="hljs-number">1</span>][<span class="hljs-string">&apos;href&apos;</span>]
+    ALLpage=int(getPageNumber(ALLpageURL))+<span class="hljs-number">1</span>
+    <span class="hljs-keyword">return</span>  ALLpage 
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">crawler</span><span class="hljs-params">(PttName,ParsingPage)</span>:</span>
+        ALLpage=PageCount(PttName)
+        g_id = <span class="hljs-number">0</span>;
+
+    <span class="hljs-keyword">for</span> number  <span class="hljs-keyword">in</span> range(ALLpage, ALLpage-int(ParsingPage),-<span class="hljs-number">1</span>):
+            res=rs.get(<span class="hljs-string">&apos;https://www.ptt.cc/bbs/&apos;</span>+PttName+<span class="hljs-string">&apos;/index&apos;</span>+str(number)+<span class="hljs-string">&apos;.html&apos;</span>,verify=<span class="hljs-keyword">False</span>)
+            soup = BeautifulSoup(res.text,<span class="hljs-string">&apos;html.parser&apos;</span>)
+        <span class="hljs-keyword">for</span> tag <span class="hljs-keyword">in</span> soup.select(<span class="hljs-string">&apos;div.title&apos;</span>):
+        <span class="hljs-keyword">try</span>:
+                    atag=tag.find(<span class="hljs-string">&apos;a&apos;</span>)
+                    time=random.uniform(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>)/<span class="hljs-number">5</span>
+                    <span class="hljs-comment">#print &apos;time:&apos;,time</span>
+                    sleep(time)
+                    <span class="hljs-keyword">if</span>(atag):
+                       URL=atag[<span class="hljs-string">&apos;href&apos;</span>]   
+                       link=<span class="hljs-string">&apos;https://www.ptt.cc&apos;</span>+URL
+                       <span class="hljs-comment">#print link</span>
+                   g_id = g_id+<span class="hljs-number">1</span>
+               parseGos(link,g_id)                     
+        <span class="hljs-keyword">except</span>:
+                    <span class="hljs-keyword">print</span> <span class="hljs-string">&apos;error:&apos;</span>,URL
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">parseGos</span><span class="hljs-params">(link , g_id)</span>:</span>
+        res=rs.get(link,verify=<span class="hljs-keyword">False</span>)
+        soup = BeautifulSoup(res.text,<span class="hljs-string">&apos;html.parser&apos;</span>)
+        <span class="hljs-comment"># author</span>
+        author  = soup.select(<span class="hljs-string">&apos;.article-meta-value&apos;</span>)[<span class="hljs-number">0</span>].text
+        <span class="hljs-comment">#author = soup.find(&quot;span&quot;, {&apos;class&apos;: &apos;article-meta-value&apos;}).text              </span>
+        <span class="hljs-comment">#print &apos;author:&apos;,author</span>
+        <span class="hljs-comment"># title</span>
+        title = soup.select(<span class="hljs-string">&apos;.article-meta-value&apos;</span>)[<span class="hljs-number">2</span>].text
+        <span class="hljs-comment">#print &apos;title:&apos;,title</span>
+        <span class="hljs-comment"># date</span>
+        date = soup.select(<span class="hljs-string">&apos;.article-meta-value&apos;</span>)[<span class="hljs-number">3</span>].text
+        <span class="hljs-comment">#print &apos;date:&apos;,date</span>
+        <span class="hljs-comment"># ip       </span>
+        <span class="hljs-keyword">try</span>:
+                targetIP=<span class="hljs-string">u&apos;&#x203B; &#x767C;&#x4FE1;&#x7AD9;: &#x6279;&#x8E22;&#x8E22;&#x5BE6;&#x696D;&#x574A;&apos;</span>
+                ip =  soup.find(string = re.compile(targetIP))
+                ip = re.search(<span class="hljs-string">r&quot;[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*&quot;</span>,ip).group()
+        <span class="hljs-keyword">except</span>:
+                ip = <span class="hljs-string">&quot;ip is not find&quot;</span>
+        <span class="hljs-comment">#print &apos;ip:&apos;,ip</span>
+
+        <span class="hljs-comment"># content</span>
+        content = soup.find(id=<span class="hljs-string">&quot;main-content&quot;</span>).text
+        target_content=<span class="hljs-string">u&apos;&#x203B; &#x767C;&#x4FE1;&#x7AD9;: &#x6279;&#x8E22;&#x8E22;&#x5BE6;&#x696D;&#x574A;(ptt.cc),&apos;</span>
+        content = content.split(target_content)
+        content = content[<span class="hljs-number">0</span>].split(date)
+        main_content = content[<span class="hljs-number">1</span>].replace(<span class="hljs-string">&apos;\n&apos;</span>, <span class="hljs-string">&apos;  &apos;</span>).replace(<span class="hljs-string">&apos;\t&apos;</span>, <span class="hljs-string">&apos;  &apos;</span>)
+        <span class="hljs-comment">#print &apos;content:&apos;,main_content</span>
+
+        <span class="hljs-comment"># message</span>
+        num , g , b , n ,message = <span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,{}
+        <span class="hljs-keyword">for</span> tag <span class="hljs-keyword">in</span> soup.select(<span class="hljs-string">&apos;div.push&apos;</span>):
+                num += <span class="hljs-number">1</span>
+                push_tag = tag.find(<span class="hljs-string">&quot;span&quot;</span>, {<span class="hljs-string">&apos;class&apos;</span>: <span class="hljs-string">&apos;push-tag&apos;</span>}).text
+                <span class="hljs-comment">#print &quot;push_tag:&quot;,push_tag</span>
+                push_userid = tag.find(<span class="hljs-string">&quot;span&quot;</span>, {<span class="hljs-string">&apos;class&apos;</span>: <span class="hljs-string">&apos;push-userid&apos;</span>}).text       
+                <span class="hljs-comment">#print &quot;push_userid:&quot;,push_userid</span>
+                push_content = tag.find(<span class="hljs-string">&quot;span&quot;</span>, {<span class="hljs-string">&apos;class&apos;</span>: <span class="hljs-string">&apos;push-content&apos;</span>}).text   
+                push_content = push_content[<span class="hljs-number">1</span>:]
+                <span class="hljs-comment">#print &quot;push_content:&quot;,push_content</span>
+                push_ipdatetime = tag.find(<span class="hljs-string">&quot;span&quot;</span>, {<span class="hljs-string">&apos;class&apos;</span>: <span class="hljs-string">&apos;push-ipdatetime&apos;</span>}).text   
+                push_ipdatetime = remove(push_ipdatetime, <span class="hljs-string">&apos;\n&apos;</span>)
+                <span class="hljs-comment">#print &quot;push-ipdatetime:&quot;,push_ipdatetime </span>
+
+                message[num]={<span class="hljs-string">&quot;&#x72C0;&#x614B;&quot;</span>:push_tag.encode(<span class="hljs-string">&apos;utf-8&apos;</span>),<span class="hljs-string">&quot;&#x7559;&#x8A00;&#x8005;&quot;</span>:push_userid.encode(<span class="hljs-string">&apos;utf-8&apos;</span>),
+                              <span class="hljs-string">&quot;&#x7559;&#x8A00;&#x5167;&#x5BB9;&quot;</span>:push_content.encode(<span class="hljs-string">&apos;utf-8&apos;</span>),<span class="hljs-string">&quot;&#x7559;&#x8A00;&#x6642;&#x9593;&quot;</span>:push_ipdatetime.encode(<span class="hljs-string">&apos;utf-8&apos;</span>)}
+                <span class="hljs-keyword">if</span> push_tag == <span class="hljs-string">u&apos;&#x63A8; &apos;</span>:
+                        g += <span class="hljs-number">1</span>
+                <span class="hljs-keyword">elif</span> push_tag == <span class="hljs-string">u&apos;&#x5653; &apos;</span>:
+                        b += <span class="hljs-number">1</span>
+                <span class="hljs-keyword">else</span>:
+                        n += <span class="hljs-number">1</span>
+
+        messageNum = {<span class="hljs-string">&quot;g&quot;</span>:g,<span class="hljs-string">&quot;b&quot;</span>:b,<span class="hljs-string">&quot;n&quot;</span>:n,<span class="hljs-string">&quot;all&quot;</span>:num}
+        <span class="hljs-comment"># json-data  type(d) dict</span>
+
+        d={ <span class="hljs-string">&quot;a_ID&quot;</span>:g_id , <span class="hljs-string">&quot;b_&#x4F5C;&#x8005;&quot;</span>:author.encode(<span class="hljs-string">&apos;utf-8&apos;</span>), <span class="hljs-string">&quot;c_&#x6A19;&#x984C;&quot;</span>:title.encode(<span class="hljs-string">&apos;utf-8&apos;</span>), <span class="hljs-string">&quot;d_&#x65E5;&#x671F;&quot;</span>:date.encode(<span class="hljs-string">&apos;utf-8&apos;</span>),
+            <span class="hljs-string">&quot;e_ip&quot;</span>:ip.encode(<span class="hljs-string">&apos;utf-8&apos;</span>), <span class="hljs-string">&quot;f_&#x5167;&#x6587;&quot;</span>:main_content.encode(<span class="hljs-string">&apos;utf-8&apos;</span>), <span class="hljs-string">&quot;g_&#x63A8;&#x6587;&quot;</span>:message,<span class="hljs-string">&quot;h_&#x63A8;&#x6587;&#x7E3D;&#x6578;&quot;</span>:messageNum}
+        json_data = json.dumps(d,ensure_ascii=<span class="hljs-keyword">False</span>,indent=<span class="hljs-number">4</span>,sort_keys=<span class="hljs-keyword">True</span>)+<span class="hljs-string">&apos;,&apos;</span>
+    store(json_data) 
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">store</span><span class="hljs-params">(data)</span>:</span>
+    <span class="hljs-keyword">with</span> open(FILENAME, <span class="hljs-string">&apos;a&apos;</span>) <span class="hljs-keyword">as</span> f:
+        f.write(data)
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">remove</span><span class="hljs-params">(value, deletechars)</span>:</span>
+    <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> deletechars:
+        value = value.replace(c,<span class="hljs-string">&apos;&apos;</span>)
+    <span class="hljs-keyword">return</span> value.rstrip();
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">getPageNumber</span><span class="hljs-params">(content)</span> :</span>
+    startIndex = content.find(<span class="hljs-string">&apos;index&apos;</span>)
+    endIndex = content.find(<span class="hljs-string">&apos;.html&apos;</span>)
+    pageNumber = content[startIndex+<span class="hljs-number">5</span> : endIndex]
+    <span class="hljs-keyword">return</span> pageNumber
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:  
+   PttName = str(sys.argv[<span class="hljs-number">1</span>])
+   ParsingPage = int(sys.argv[<span class="hljs-number">2</span>])
+   FILENAME=<span class="hljs-string">&apos;data-&apos;</span>+PttName+<span class="hljs-string">&apos;-&apos;</span>+datetime.now().strftime(<span class="hljs-string">&apos;%Y-%m-%d-%H-%M-%S&apos;</span>)+<span class="hljs-string">&apos;.json&apos;</span>
+   store(<span class="hljs-string">&apos;[&apos;</span>) 
+   <span class="hljs-keyword">print</span> <span class="hljs-string">&apos;Start parsing [&apos;</span>,PttName,<span class="hljs-string">&apos;]....&apos;</span>
+   crawler(PttName,ParsingPage)
+   store(<span class="hljs-string">&apos;]&apos;</span>) 
+
+
+   <span class="hljs-keyword">with</span> open(FILENAME, <span class="hljs-string">&apos;r&apos;</span>) <span class="hljs-keyword">as</span> f:
+        p = f.read()
+   <span class="hljs-keyword">with</span> open(FILENAME, <span class="hljs-string">&apos;w&apos;</span>) <span class="hljs-keyword">as</span> f:
+        <span class="hljs-comment">#f.write(p.replace(&apos;,]&apos;,&apos;]&apos;))</span>
+        f.write(p[:-<span class="hljs-number">2</span>]+<span class="hljs-string">&apos;]&apos;</span>)
+</code></pre>
+<p>A crawler for web PTT </p>
+<p>PTT&#x6587;&#x7AE0;&#x722C;&#x87F2;</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=qq3kuDU3k50&amp;feature=youtu.be" target="_blank">Demo Video</a> - Linux</li>
+</ul>
+<p>&#x7279;&#x8272;</p>
+<ul>
+<li>&#x6293;&#x53D6;PTT &#x6587;&#x7AE0;</li>
+</ul>
+<p>&#x8F38;&#x51FA;&#x683C;&#x5F0F;
+    &#x8F38;&#x51FA; .json&#xFF0C;&#x683C;&#x5F0F;&#x5982;&#x4E0B;</p>
+<pre><code>&quot;a_ID&quot;: &#x7DE8;&#x865F;,
+&quot;b_&#x4F5C;&#x8005;&quot;: &#x4F5C;&#x8005;&#x540D;,
+&quot;c_&#x6A19;&#x984C;&quot;: &#x6A19;&#x984C;,
+&quot;d_&#x65E5;&#x671F;&quot;: &#x767C;&#x6587;&#x6642;&#x9593;,
+&quot;e_ip&quot;: &#x767C;&#x6587;ip,
+&quot;f_&#x5167;&#x6587;&quot;: &#x5167;&#x6587;,
+&quot;g_&#x63A8;&#x6587;&quot;: {
+    &quot;&#x63A8;&#x6587;&#x7DE8;&#x865F;&quot;: {
+        &quot;&#x72C0;&#x614B;&quot;: &#x63A8; or &#x5653; or &#x2192;,
+        &quot;&#x7559;&#x8A00;&#x5167;&#x5BB9;&quot;: &#x7559;&#x8A00;&#x5167;&#x5BB9;,
+        &quot;&#x7559;&#x8A00;&#x6642;&#x9593;&quot;: &#x7559;&#x8A00;&#x6642;&#x9593;,
+        &quot;&#x7559;&#x8A00;&#x8005;&quot;: &#x7559;&#x8A00;&#x8005;
+    }
+},
+&quot;h_&#x63A8;&#x6587;&#x7E3D;&#x6578;&quot;: {
+    &quot;all&quot;: &#x63A8;&#x6587;&#x6578;&#x76EE;,
+    &quot;b&quot;: &#x5653;&#x6578;,
+    &quot;g&quot;: &#x63A8;&#x6578;,
+    &quot;n&quot;: &#x2192;&#x6578;
+}
+</code></pre><h3 id="%E5%9F%B7%E8%A1%8C%E7%92%B0%E5%A2%83">&#x57F7;&#x884C;&#x74B0;&#x5883;</h3>
+<p>Python 2.7.3</p>
+<h3 id="%E5%9F%B7%E8%A1%8C%E6%96%B9%E6%B3%95">&#x57F7;&#x884C;&#x65B9;&#x6CD5;</h3>
+<pre><code>$ python pttcrawler.py [&#x7248;&#x540D;]  [&#x6293;&#x53D6;&#x9801;&#x6578;]
+</code></pre><h3 id="%E7%AF%84%E4%BE%8B">&#x7BC4;&#x4F8B;</h3>
+<p>  &#x722C;PTT Gossiping&#x7248; 2&#x9801; &#x6587;&#x7AE0;&#x5167;&#x5BB9;</p>
+<pre><code>$ python pttcrawler.py  Gossiping  2
+</code></pre><p>  &#x5047;&#x8A2D;&#x7E3D;&#x5171;&#x6709;100&#x9801;&#xFF0C;&#x5247;&#x6703;&#x722C;&#x53D6;</p>
+<p>  <a href="https://www.ptt.cc/bbs/Gossiping/index100.html" target="_blank">https://www.ptt.cc/bbs/Gossiping/index100.html</a> &#x81F3; <a href="https://www.ptt.cc/bbs/Gossiping/index101.html" target="_blank">https://www.ptt.cc/bbs/Gossiping/index101.html</a> &#x4E4B;&#x9593;&#x7684;&#x5167;&#x5BB9;&#x3002;</p>
 
                     
                     </section>
@@ -12560,10 +12556,10 @@ SIB&#x5B57;&#x6BB5;&#x4E5F;&#x7531;3&#x500B;&#x5B57;&#x6BB5;&#x7684;&#x4FE1;&#x6
         </div>
 
         
-        <a href="../assembly/1611.html" class="navigation navigation-prev " aria-label="Previous page: 現代計算機結構組成與工作過程"><i class="fa fa-angle-left"></i></a>
+        <a href="../python/pythonby_david_chiu.html" class="navigation navigation-prev " aria-label="Previous page: Python_by_David_Chiu"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../assembly/1613.html" class="navigation navigation-next " aria-label="Next page: 相關開發工具"><i class="fa fa-angle-right"></i></a>
+        <a href="../python/jupyter.html" class="navigation navigation-next " aria-label="Next page: 安裝 Jupyter"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

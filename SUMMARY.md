@@ -485,6 +485,7 @@
 * [Python](python/README.md)
    * [example](python/example.md)
        * [個股年成交資訊](python/ge_gu_nian_cheng_jiao_zi_xun.md)
+       * Python 基本爬蟲程式 以 Google 新聞為例
    * [安裝 Jupyter](python/jupyter.md)
    * [編譯python & 安裝pip](python/292.md)
    * [pip 使用詳解](python/293.md)

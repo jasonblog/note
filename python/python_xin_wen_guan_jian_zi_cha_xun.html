@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>使用“$_thread”變量 | Jason note</title>
+        <title>Python 新聞關鍵字查詢 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../100_gdb_tips/add-copy-inferiors.html" />
+    <link rel="next" href="../python/jupyter.html" />
     
     
-    <link rel="prev" href="../100_gdb_tips/set-scheduler-locking-on.html" />
+    <link rel="prev" href="../python/python_ji_ben_pa_chong_cheng_shi_yi_google_xin_wen.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="45.7.8" data-basepath=".." data-revision="Tue Apr 26 2016 22:13:39 GMT+0800 (CST)">
+    <div class="book" data-level="27.1.3" data-basepath=".." data-revision="Tue Apr 26 2016 22:13:39 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -7632,7 +7632,7 @@
             
         </li>
     
-        <li class="chapter " data-level="27.1.3" data-path="python/python_xin_wen_guan_jian_zi_cha_xun.html">
+        <li class="chapter active" data-level="27.1.3" data-path="python/python_xin_wen_guan_jian_zi_cha_xun.html">
             
                 
                     <a href="../python/python_xin_wen_guan_jian_zi_cha_xun.html">
@@ -10651,7 +10651,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="45.7.8" data-path="100_gdb_tips/use-$_thread-variable.html">
+        <li class="chapter " data-level="45.7.8" data-path="100_gdb_tips/use-$_thread-variable.html">
             
                 
                     <a href="../100_gdb_tips/use-$_thread-variable.html">
@@ -12330,76 +12330,34 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E4%BD%BF%E7%94%A8%E2%80%9C-thread%E2%80%9D%E8%AE%8A%E9%87%8F">&#x4F7F;&#x7528;&#x201C;$_thread&#x201D;&#x8B8A;&#x91CF;</h1>
-<h2 id="%E4%BE%8B%E5%AD%90">&#x4F8B;&#x5B50;</h2>
-<pre><code>#include &lt;stdio.h&gt;
-#include &lt;pthread.h&gt;
+                        <h1 id="python-%E6%96%B0%E8%81%9E%E9%97%9C%E9%8D%B5%E5%AD%97%E6%9F%A5%E8%A9%A2">Python &#x65B0;&#x805E;&#x95DC;&#x9375;&#x5B57;&#x67E5;&#x8A62;</h1>
+<pre><code class="lang-py"><span class="hljs-keyword">from</span> BeautifulSoup <span class="hljs-keyword">import</span> BeautifulSoup
+<span class="hljs-keyword">import</span> urllib2
 
-int a = 0;
+site= <span class="hljs-string">&quot;http://www.google.com/search?q=2103&quot;</span>
+hdr = {<span class="hljs-string">&apos;User-Agent&apos;</span>: <span class="hljs-string">&apos;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11&apos;</span>,
+       <span class="hljs-string">&apos;Accept&apos;</span>: <span class="hljs-string">&apos;text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8&apos;</span>,
+       <span class="hljs-string">&apos;Accept-Charset&apos;</span>: <span class="hljs-string">&apos;ISO-8859-1,utf-8;q=0.7,*;q=0.3&apos;</span>,
+       <span class="hljs-string">&apos;Accept-Encoding&apos;</span>: <span class="hljs-string">&apos;none&apos;</span>,
+       <span class="hljs-string">&apos;Accept-Language&apos;</span>: <span class="hljs-string">&apos;en-US,en;q=0.8&apos;</span>,
+       <span class="hljs-string">&apos;Connection&apos;</span>: <span class="hljs-string">&apos;keep-alive&apos;</span>}
 
-void *thread1_func(void *p_arg)
-{
-        while (1)
-        {
-                a++;
-                sleep(10);
-        }
-}
+req = urllib2.Request(site, headers=hdr)
 
-void *thread2_func(void *p_arg)
-{
-        while (1)
-        {
-                a++;
-                sleep(10);
-        }
-}
-
-int main(void)
-{
-        pthread_t t1, t2;
-
-        pthread_create(&amp;t1, NULL, thread1_func, &quot;Thread 1&quot;);
-        pthread_create(&amp;t2, NULL, thread2_func, &quot;Thread 2&quot;);
-
-        sleep(1000);
-        return;
-}
-</code></pre><h2 id="%E6%8A%80%E5%B7%A7">&#x6280;&#x5DE7;</h2>
-<p>gdb&#x5F9E;7.2&#x7248;&#x672C;&#x5F15;&#x5165;&#x4E86;<code>$_thread</code>&#x9019;&#x500B;&#x201C;<code>convenience variable</code>&#x201D;&#xFF0C;&#x7528;&#x4F86;&#x4FDD;&#x5B58;&#x7576;&#x524D;&#x6B63;&#x5728;&#x8ABF;&#x8A66;&#x7684;&#x7DDA;&#x7A0B;&#x865F;&#x3002;&#x9019;&#x500B;&#x8B8A;&#x91CF;&#x5728;&#x5BEB;&#x65B7;&#x9EDE;&#x547D;&#x4EE4;&#x6216;&#x662F;&#x547D;&#x4EE4;&#x8173;&#x672C;&#x6642;&#x6703;&#x5F88;&#x6709;&#x7528;&#x3002;&#x4EE5;&#x4E0A;&#x9762;&#x7A0B;&#x5E8F;&#x70BA;&#x4F8B;:</p>
-<pre><code>(gdb) wa a
-Hardware watchpoint 2: a
-(gdb) command 2
-Type commands for breakpoint(s) 2, one per line.
-End with a line saying just &quot;end&quot;.
-&gt;printf &quot;thread id=%d\n&quot;, $_thread
-&gt;end
-</code></pre><p>&#x9996;&#x5148;&#x8A2D;&#x7F6E;&#x4E86;&#x89C0;&#x5BDF;&#x9EDE;&#xFF1A;&#x201C;wa a&#x201D;&#xFF08;<code>wa</code>&#x662F;<code>watch</code>&#x547D;&#x4EE4;&#x7E2E;&#x5BEB;&#xFF09;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x7576;<code>a</code>&#x7684;&#x503C;&#x767C;&#x751F;&#x8B8A;&#x5316;&#x6642;&#xFF0C;&#x7A0B;&#x5E8F;&#x6703;&#x66AB;&#x505C;&#xFF0C;&#x63A5;&#x4E0B;&#x4F86;&#x5728;<code>commands</code>&#x8A9E;&#x53E5;&#x4E2D;&#x6253;&#x5370;&#x7DDA;&#x7A0B;&#x865F;&#x3002;<br>&#x7136;&#x5F8C;&#x7E7C;&#x7E8C;&#x57F7;&#x884C;&#x7A0B;&#x5E8F;&#xFF1A;</p>
-<pre><code>(gdb) c
-Continuing.
-[New Thread 0x7ffff782c700 (LWP 20928)]
-[Switching to Thread 0x7ffff782c700 (LWP 20928)]
-Hardware watchpoint 2: a
-
-Old value = 0
-New value = 1
-thread1_func (p_arg=0x400718) at a.c:11
-11                      sleep(10);
-thread id=2
-(gdb) c
-Continuing.
-[New Thread 0x7ffff6e2b700 (LWP 20929)]
-[Switching to Thread 0x7ffff6e2b700 (LWP 20929)]
-Hardware watchpoint 2: a
-
-Old value = 1
-New value = 2
-thread2_func (p_arg=0x400721) at a.c:20
-20                      sleep(10);
-thread id=3
-</code></pre><p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x7A0B;&#x5E8F;&#x66AB;&#x505C;&#x6642;&#xFF0C;&#x6703;&#x6253;&#x5370;&#x7DDA;&#x7A0B;&#x865F;&#xFF1A;&#x201C;<code>thread id=2</code>&#x201D;&#x6216;&#x8005;&#x201C;<code>thread id=3</code>&#x201D;&#x3002;<br>&#x53C3;&#x898B;<a href="https://sourceware.org/gdb/onlinedocs/gdb/Threads.html" target="_blank">gdb&#x624B;&#x518A;</a>.</p>
-<h2 id="%E8%B2%A2%E7%8D%BB%E8%80%85">&#x8CA2;&#x737B;&#x8005;</h2>
-<p>nanxiao</p>
+<span class="hljs-keyword">try</span>:
+    page = urllib2.urlopen(req).read()
+    soup = BeautifulSoup(page)
+    ka=soup.findAll(<span class="hljs-string">&apos;cite&apos;</span>,attrs={<span class="hljs-string">&apos;class&apos;</span>:<span class="hljs-string">&apos;_Rm&apos;</span>})
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> ka:
+        <span class="hljs-keyword">print</span> i.text
+<span class="hljs-keyword">except</span> urllib2.HTTPError, e:
+    <span class="hljs-keyword">print</span> e.fp.read()
+</code></pre>
+<ul>
+<li>query 2103</li>
+</ul>
+<pre><code class="lang-sh">http://www.google.com/search?q=<span class="hljs-number">2103</span>
+</code></pre>
 
                     
                     </section>
@@ -12410,10 +12368,10 @@ thread id=3
         </div>
 
         
-        <a href="../100_gdb_tips/set-scheduler-locking-on.html" class="navigation navigation-prev " aria-label="Previous page: 只允許一個線程運行"><i class="fa fa-angle-left"></i></a>
+        <a href="../python/python_ji_ben_pa_chong_cheng_shi_yi_google_xin_wen.html" class="navigation navigation-prev " aria-label="Previous page: Python 基本爬蟲程式 以 Google 新聞為例"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../100_gdb_tips/add-copy-inferiors.html" class="navigation navigation-next " aria-label="Next page: 一個gdb會話中同時調試多個程序"><i class="fa fa-angle-right"></i></a>
+        <a href="../python/jupyter.html" class="navigation navigation-next " aria-label="Next page: 安裝 Jupyter"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

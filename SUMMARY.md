@@ -297,6 +297,7 @@
    * [Mutexes VS Semaphores 大揭祕](linux_system/mutexes_vs_semaphores_da_jie_mi.md)
    * [dlopen &  dlsym 用法](linux_system/dlopen_&_dlsym_yong_fa.md)
    * [pthread_create & pthread_join & pthread_exit 基本用法](linux_system/pthreadcreate_&_pthread_join_&_pthread_exit_ji_ben.md)
+   * LINUX下動態庫調用靜態庫的方法
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

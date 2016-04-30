@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>IP addresses from a C program | Jason note</title>
+        <title>LINUX下動態庫調用靜態庫的方法 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../linux_system/openmp_in_linux.html" />
+    <link rel="next" href="../assembly/index.html" />
     
     
-    <link rel="prev" href="../linux_system/c_de_thread_pool_bi_ji.html" />
+    <link rel="prev" href="../linux_system/pthreadcreate_&amp;_pthread_join_&amp;_pthread_exit_ji_ben.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="13.29" data-basepath=".." data-revision="Sat Apr 30 2016 23:27:40 GMT+0800 (CST)">
+    <div class="book" data-level="13.34" data-basepath=".." data-revision="Sat Apr 30 2016 23:27:40 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -4595,7 +4595,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="13.29" data-path="linux_system/ip_addresses_from_a_c_program.html">
+        <li class="chapter " data-level="13.29" data-path="linux_system/ip_addresses_from_a_c_program.html">
             
                 
                     <a href="../linux_system/ip_addresses_from_a_c_program.html">
@@ -4670,7 +4670,7 @@
             
         </li>
     
-        <li class="chapter " data-level="13.34" data-path="linux_system/linuxxia_dong_tai_ku_diao_yong_jing_tai_ku_de_fang.html">
+        <li class="chapter active" data-level="13.34" data-path="linux_system/linuxxia_dong_tai_ku_diao_yong_jing_tai_ku_de_fang.html">
             
                 
                     <a href="../linux_system/linuxxia_dong_tai_ku_diao_yong_jing_tai_ku_de_fang.html">
@@ -12375,72 +12375,132 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="ip-addresses-from-a-c-program">IP addresses from a C program</h1>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stropts.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/socket.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/ioctl.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/netdevice.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;arpa/inet.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;netinet/in.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
+                        <h1 id="linux%E4%B8%8B%E5%8B%95%E6%85%8B%E5%BA%AB%E8%AA%BF%E7%94%A8%E9%9D%9C%E6%85%8B%E5%BA%AB%E7%9A%84%E6%96%B9%E6%B3%95">LINUX&#x4E0B;&#x52D5;&#x614B;&#x5EAB;&#x8ABF;&#x7528;&#x975C;&#x614B;&#x5EAB;&#x7684;&#x65B9;&#x6CD5;</h1>
+<p>&#x6709;&#x9019;&#x6A23;&#x4E00;&#x7A2E;&#x60C5;&#x5F62;&#xFF0C;&#x5728;&#x5275;&#x5EFA;&#x4E00;&#x500B;&#x52D5;&#x614B;&#x5EAB;&#x7684;&#x540C;&#x6642;&#xFF0C;&#x53EF;&#x80FD;&#x6703;&#x8ABF;&#x7528;&#x4E00;&#x500B;&#x975C;&#x614B;&#x5EAB;&#xFF0C;&#x9019;&#x500B;&#x975C;&#x614B;&#x5EAB;&#x53EF;&#x80FD;&#x662F;&#x4F60;&#x81EA;&#x5DF1;&#x5BEB;&#x7684;&#xFF0C;&#x4E5F;&#x53EF;&#x80FD;&#x662F;&#x7B2C;&#x4E09;&#x65B9;&#x7684;&#x3002;&#x6BD4;&#x5982;&#x6709;&#x4E0B;&#x9762;&#x4E94;&#x500B;&#x6587;&#x4EF6;&#xFF0C;&#x751F;&#x6210;&#x4E00;&#x500B;&#x975C;&#x614B;&#x5EAB;&#xFF0C;&#x4E00;&#x500B;&#x52D5;&#x614B;&#x5EAB;&#xFF0C;&#x4E00;&#x500B;&#x57F7;&#x884C;&#x6587;&#x4EF6;</p>
+<ul>
+<li>static.h</li>
+</ul>
+<pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">static_print</span><span class="hljs-params">()</span></span>;
+</code></pre>
+<ul>
+<li>static.cpp</li>
+</ul>
+<pre><code class="lang-cpp"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;static.h&quot;</span></span>
 
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">print_addresses</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> domain)</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">static_print</span><span class="hljs-params">()</span>
 </span>{
-    <span class="hljs-keyword">int</span> s;
-    <span class="hljs-keyword">struct</span> ifconf ifconf;
-    <span class="hljs-keyword">struct</span> ifreq ifr[<span class="hljs-number">50</span>];
-    <span class="hljs-keyword">int</span> ifs;
-    <span class="hljs-keyword">int</span> i;
-
-    s = socket(domain, SOCK_STREAM, <span class="hljs-number">0</span>);
-
-    <span class="hljs-keyword">if</span> (s &lt; <span class="hljs-number">0</span>) {
-        perror(<span class="hljs-string">&quot;socket&quot;</span>);
-        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-    }
-
-    ifconf.ifc_buf = (<span class="hljs-keyword">char</span>*) ifr;
-    ifconf.ifc_len = <span class="hljs-keyword">sizeof</span> ifr;
-
-    <span class="hljs-keyword">if</span> (ioctl(s, SIOCGIFCONF, &amp;ifconf) == -<span class="hljs-number">1</span>) {
-        perror(<span class="hljs-string">&quot;ioctl&quot;</span>);
-        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-    }
-
-    ifs = ifconf.ifc_len / <span class="hljs-keyword">sizeof</span>(ifr[<span class="hljs-number">0</span>]);
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;interfaces = %d:\n&quot;</span>, ifs);
-
-    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; ifs; i++) {
-        <span class="hljs-keyword">char</span> ip[INET_ADDRSTRLEN];
-        <span class="hljs-keyword">struct</span> sockaddr_in* s_in = (<span class="hljs-keyword">struct</span> sockaddr_in*) &amp;ifr[i].ifr_addr;
-
-        <span class="hljs-keyword">if</span> (!inet_ntop(domain, &amp;s_in-&gt;sin_addr, ip, <span class="hljs-keyword">sizeof</span>(ip))) {
-            perror(<span class="hljs-string">&quot;inet_ntop&quot;</span>);
-            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-        }
-
-        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s - %s\n&quot;</span>, ifr[i].ifr_name, ip);
-    }
-
-    close(s);
-
-    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;This is static_print function&quot;</span> &lt;&lt; <span class="hljs-built_in">std</span>::endl;
 }
+</code></pre>
+<ul>
+<li>shared.h</li>
+</ul>
+<pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">shared_print</span><span class="hljs-params">()</span></span>;
+</code></pre>
+<ul>
+<li>shared.cpp</li>
+</ul>
+<pre><code class="lang-cpp"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;shared.h&quot;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;static.h&quot;</span></span>
 
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>* argv[])</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">shared_print</span><span class="hljs-params">()</span>
 </span>{
-    <span class="hljs-keyword">int</span> domains[] = { AF_INET, AF_INET6 };
-    <span class="hljs-keyword">int</span> i;
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;This is shared_print function&quot;</span> &lt;&lt; <span class="hljs-built_in">std</span>::endl;
+    static_print();
+}
+</code></pre>
+<ul>
+<li>test.cpp</li>
+</ul>
+<pre><code class="lang-cpp"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;shared.h&quot;</span></span>
 
-    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-keyword">sizeof</span>(domains) / <span class="hljs-keyword">sizeof</span>(domains[<span class="hljs-number">0</span>]); i++)
-        <span class="hljs-keyword">if</span> (!print_addresses(domains[i])) {
-            <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
-        }
-
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    shared_print();
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
 </code></pre>
+<h3 id="1%E3%80%81-%E5%8B%95%E6%85%8B%E5%BA%AB%E6%98%AF%E5%8B%95%E6%85%8B%E5%BA%AB%EF%BC%8C%E9%9D%9C%E6%85%8B%E5%BA%AB%E6%98%AF%E9%9D%9C%E6%85%8B%E5%BA%AB%EF%BC%8C%E5%90%84%E8%87%AA%E7%B7%A8%E8%AD%AF%E8%87%AA%E5%B7%B1%E7%9A%84%EF%BC%8C%E7%84%B6%E5%BE%8C%E5%9C%A8%E6%9C%80%E7%B5%82%E4%BD%BF%E7%94%A8%E7%9A%84%E5%8F%AF%E5%9F%B7%E8%A1%8C%E6%96%87%E4%BB%B6%E4%B8%8A%E5%86%8D%E5%8B%95%E6%85%8B%E7%B7%A8%E8%AD%AF%E5%8A%A0%E8%BC%89%E3%80%82%E6%8C%89%E4%B8%8A%E9%9D%A2%E7%9A%84%E4%BE%8B%E5%AD%90%E4%BE%86%E8%AA%AA%E6%98%8E%EF%BC%9A">1&#x3001;  &#x52D5;&#x614B;&#x5EAB;&#x662F;&#x52D5;&#x614B;&#x5EAB;&#xFF0C;&#x975C;&#x614B;&#x5EAB;&#x662F;&#x975C;&#x614B;&#x5EAB;&#xFF0C;&#x5404;&#x81EA;&#x7DE8;&#x8B6F;&#x81EA;&#x5DF1;&#x7684;&#xFF0C;&#x7136;&#x5F8C;&#x5728;&#x6700;&#x7D42;&#x4F7F;&#x7528;&#x7684;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x4E0A;&#x518D;&#x52D5;&#x614B;&#x7DE8;&#x8B6F;&#x52A0;&#x8F09;&#x3002;&#x6309;&#x4E0A;&#x9762;&#x7684;&#x4F8B;&#x5B50;&#x4F86;&#x8AAA;&#x660E;&#xFF1A;</h3>
+<p>&#x975C;&#x614B;&#x5EAB;&#x7684;.o&#x6587;&#x4EF6;&#x4E0D;&#x7528;-fPIC&#x751F;&#x6210;. &#x751F;&#x6210;&#x52D5;&#x614B;&#x5EAB;&#x6642;&#x4E0D;&#x52A0;&#x8868;&#x614B;&#x5EAB;.</p>
+<pre><code>&#x751F;&#x6210;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x6642;&#x52A0;&#x8F09;&#x52D5;&#x614B;&#x5EAB;&#x548C;&#x975C;&#x614B;&#x5EAB;.
+</code></pre><pre><code class="lang-sh">g++ -c static.cpp // &#x751F;&#x6210;static.o
+ar -r libstatic.a static.o // &#x751F;&#x6210;&#x975C;&#x614B;&#x5EAB;libstatic.a
+g++ -c <span class="hljs-operator">-f</span>PIC shared.cpp // &#x751F;&#x6210;shared.o
+g++ -shared shared.o -o libshared.so // &#x751F;&#x6210;&#x52D5;&#x614B;&#x5EAB;libshared.so
+</code></pre>
+<p>&#x6CE8;: -shared&#x662F;g++&#x7684;&#x9078;&#x9805;,&#x8207;shared.o&#x7121;&#x95DC;. &#x9019;&#x6642;&#x5982;&#x679C;&#x52A0;-lstatic. error:relocation R_X86_64_32 against `a local symbol&apos; can not be used when making a shared object; recompile with &#x2013;fPIC</p>
+<p>&#xFF08;&#x9019;&#x88E1;&#x6E2C;&#x8A66;&#x6C92;&#x6709;&#x51FA;&#x73FE;&#x9019;&#x500B;&#x554F;&#x984C;&#xFF0C;&#x7279;&#x610F;&#x6E2C;&#x8A66;&#x4E86;&#x4E00;&#x4E0B;&#xFF09;</p>
+<pre><code class="lang-sh">g++ test.cpp  -L. -lshared -lstatic -o test.exe // link libshared.so &#x5230;test.exe&#x4E2D;
+</code></pre>
+<h3 id="2%E3%80%81-%E6%8A%8A%E9%9D%9C%E6%85%8B%E5%BA%AB%E7%9B%B4%E6%8E%A5%E6%89%93%E5%88%B0%E5%8B%95%E6%85%8B%E5%BA%AB%E4%B8%AD%E5%8E%BB%E3%80%82">2&#x3001;  &#x628A;&#x975C;&#x614B;&#x5EAB;&#x76F4;&#x63A5;&#x6253;&#x5230;&#x52D5;&#x614B;&#x5EAB;&#x4E2D;&#x53BB;&#x3002;</h3>
+<p>&#x975C;&#x614B;&#x5EAB;&#x7684;.o&#x6587;&#x4EF6;&#x4E5F;&#x7528;-fPIC&#x751F;&#x6210;. &#x751F;&#x6210;&#x52D5;&#x614B;&#x5EAB;&#x6642;&#x628A;&#x975C;&#x614B;&#x5EAB;&#x52A0;&#x5165;.</p>
+<p>&#x751F;&#x6210;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x6642;&#x53EA;&#x52A0;&#x8F09;&#x52D5;&#x614B;&#x5EAB;</p>
+<pre><code class="lang-sh">g++ -c <span class="hljs-operator">-f</span>PIC static.cpp // &#x751F;&#x6210;static.o
+ar -r libstatic.a static.o // &#x751F;&#x6210;&#x975C;&#x614B;&#x5EAB;libstatic.a
+g++ -c <span class="hljs-operator">-f</span>PIC shared.cpp // &#x751F;&#x6210;shared.o
+g++ -shared shared.o -L. -lstatic -o libshared.so   // &#x751F;&#x6210;&#x52D5;&#x614B;&#x5EAB;libshared.so
+</code></pre>
+<p>&#x6CE8;: -shared&#x662F;g++&#x7684;&#x9078;&#x9805;,&#x8207;shared.o&#x7121;&#x95DC;. <code>-lstatic&#x9078;&#x9805;&#x628A;libstatic.a&#x7684;&#x51FD;&#x6578;&#x52A0;&#x5165;&#x52D5;&#x614B;&#x5EAB;&#x4E2D;.</code></p>
+<pre><code class="lang-sh">g++ test.cpp  -L. -lshared -o test.exe // link libshared.so &#x5230;test.exe&#x4E2D;.
+</code></pre>
+<p>&#x9019;&#x500B;&#x4F8B;&#x5B50;&#x662F;&#x5F9E;&#x7DB2;&#x4E0A;&#x627E;&#x4F86;&#x7684;&#xFF0C;&#x975E;&#x5E38;&#x611F;&#x8B1D;&#x3002;</p>
+<p>&#x81F3;&#x65BC;&#x54EA;&#x7A2E;&#x65B9;&#x5F0F;&#x597D;&#xFF0C;&#x500B;&#x4EBA;&#x9084;&#x662F;&#x89BA;&#x5F97;&#x770B;&#x4F60;&#x7684;&#x5BE6;&#x969B;&#x61C9;&#x7528;&#x60C5;&#x6CC1;&#xFF0C;&#x4EC1;&#x8005;&#x898B;&#x4EC1;&#xFF0C;&#x667A;&#x8005;&#x898B;&#x667A;&#x3002;</p>
+<h2 id="gcc%E7%B7%A8%E8%AD%AF%E5%8F%83%E6%95%B8-fpic%E7%9A%84%E4%B8%80%E4%BA%9B%E5%95%8F%E9%A1%8C">gcc&#x7DE8;&#x8B6F;&#x53C3;&#x6578;-fPIC&#x7684;&#x4E00;&#x4E9B;&#x554F;&#x984C;</h2>
+<pre><code class="lang-sh">shared <span class="hljs-operator">-f</span>PIC liberr.c -o liberr.so
+</code></pre>
+<p><code>-fPIC &#x4F5C;&#x7528;&#x65BC;&#x7DE8;&#x8B6F;&#x968E;&#x6BB5;&#xFF0C;&#x544A;&#x8A34;&#x7DE8;&#x8B6F;&#x5668;&#x7522;&#x751F;&#x8207;&#x4F4D;&#x7F6E;&#x7121;&#x95DC;&#x4EE3;&#x78BC;(Position-Independent Code)&#xFF0C;
+  &#x5247;&#x7522;&#x751F;&#x7684;&#x4EE3;&#x78BC;&#x4E2D;&#xFF0C;&#x6C92;&#x6709;&#x7D55;&#x5C0D;&#x5730;&#x5740;&#xFF0C;&#x5168;&#x90E8;&#x4F7F;&#x7528;&#x76F8;&#x5C0D;&#x5730;&#x5740;&#xFF0C;&#x6545;&#x800C;&#x4EE3;&#x78BC;&#x53EF;&#x4EE5;&#x88AB;&#x52A0;&#x8F09;&#x5668;&#x52A0;&#x8F09;&#x5230;&#x5167;&#x5B58;&#x7684;&#x4EFB;&#x610F;
+  &#x4F4D;&#x7F6E;&#xFF0C;&#x90FD;&#x53EF;&#x4EE5;&#x6B63;&#x78BA;&#x7684;&#x57F7;&#x884C;</code>&#x3002;</p>
+<p>  <code>&#x9019;&#x6B63;&#x662F;&#x5171;&#x4EAB;&#x5EAB;&#x6240;&#x8981;&#x6C42;&#x7684;&#xFF0C;&#x5171;&#x4EAB;&#x5EAB;&#x88AB;&#x52A0;&#x8F09;&#x6642;&#xFF0C;&#x5728;&#x5167;&#x5B58;&#x7684;&#x4F4D;&#x7F6E;&#x4E0D;&#x662F;&#x56FA;&#x5B9A;&#x7684;&#x3002;</code></p>
+<p>gcc -shared -fPIC -o 1.so 1.c &#x9019;&#x88E1;&#x6709;&#x4E00;&#x500B;-fPIC&#x53C3;&#x6578; PIC&#x5C31;&#x662F;position independent code PIC&#x4F7F;.so&#x6587;&#x4EF6;&#x7684;&#x4EE3;&#x78BC;&#x6BB5;&#x8B8A;&#x70BA;&#x771F;&#x6B63;&#x610F;&#x7FA9;&#x4E0A;&#x7684;&#x5171;&#x4EAB; &#x5982;&#x679C;&#x4E0D;&#x52A0;-fPIC,&#x5247;&#x52A0;&#x8F09;.so&#x6587;&#x4EF6;&#x7684;&#x4EE3;&#x78BC;&#x6BB5;&#x6642;,&#x4EE3;&#x78BC;&#x6BB5;&#x5F15;&#x7528;&#x7684;&#x6578;&#x64DA;&#x5C0D;&#x8C61;&#x9700;&#x8981;&#x91CD;&#x5B9A;&#x4F4D;, &#x91CD;&#x5B9A;&#x4F4D;&#x6703;&#x4FEE;&#x6539;&#x4EE3;&#x78BC;&#x6BB5;&#x7684;&#x5167;&#x5BB9;,&#x9019;&#x5C31;&#x9020;&#x6210;&#x6BCF;&#x500B;&#x4F7F;&#x7528;&#x9019;&#x500B;.so&#x6587;&#x4EF6;&#x4EE3;&#x78BC;&#x6BB5;&#x7684;&#x9032;&#x7A0B;&#x5728;&#x5167;&#x6838;&#x88E1;&#x90FD;&#x6703;&#x751F;&#x6210;&#x9019;&#x500B;.so&#x6587;&#x4EF6;&#x4EE3;&#x78BC;&#x6BB5;&#x7684;copy.&#x6BCF;&#x500B;copy&#x90FD;&#x4E0D;&#x4E00;&#x6A23;,&#x53D6;&#x6C7A;&#x65BC; &#x9019;&#x500B;.so&#x6587;&#x4EF6;&#x4EE3;&#x78BC;&#x6BB5;&#x548C;&#x6578;&#x64DA;&#x6BB5;&#x5167;&#x5B58;&#x6620;&#x5C04;&#x7684;&#x4F4D;&#x7F6E;. </p>
+<p><code>&#x4E0D;&#x52A0;fPIC&#x7DE8;&#x8B6F;&#x51FA;&#x4F86;&#x7684;so,&#x662F;&#x8981;&#x518D;&#x52A0;&#x8F09;&#x6642;&#x6839;&#x64DA;&#x52A0;&#x8F09;&#x5230;&#x7684;&#x4F4D;&#x7F6E;&#x518D;&#x6B21;&#x91CD;&#x5B9A;&#x4F4D;&#x7684;.</code>(&#x56E0;&#x70BA;&#x5B83;&#x88E1;&#x9762;&#x7684;&#x4EE3;&#x78BC;&#x4E26;&#x4E0D;&#x662F;&#x4F4D;&#x7F6E;&#x7121;&#x95DC;&#x4EE3;&#x78BC;)
+<code>&#x5982;&#x679C;&#x88AB;&#x591A;&#x500B;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x5171;&#x540C;&#x4F7F;&#x7528;,&#x90A3;&#x9EBC;&#x5B83;&#x5011;&#x5FC5;&#x9808;&#x6BCF;&#x500B;&#x7A0B;&#x5E8F;&#x7DAD;&#x8B77;&#x4E00;&#x4EFD;so&#x7684;&#x4EE3;&#x78BC;&#x526F;&#x672C;&#x4E86;.(&#x56E0;&#x70BA;so&#x88AB;&#x6BCF;&#x500B;&#x7A0B;&#x5E8F;&#x52A0;&#x8F09;&#x7684;&#x4F4D;&#x7F6E;&#x90FD;&#x4E0D;&#x540C;,&#x986F;&#x7136;&#x9019;&#x4E9B;&#x91CD;&#x5B9A;&#x4F4D;&#x5F8C;&#x7684;&#x4EE3;&#x78BC;&#x4E5F;&#x4E0D;&#x540C;,&#x7576;&#x7136;&#x4E0D;&#x80FD;&#x5171;&#x4EAB;)</code></p>
+<p><code>&#x6211;&#x5011;&#x7E3D;&#x662F;&#x7528;fPIC&#x4F86;&#x751F;&#x6210;so,&#x4E5F;&#x5F9E;&#x4F86;&#x4E0D;&#x7528;fPIC&#x4F86;&#x751F;&#x6210;a.</code></p>
+<p><code>fPIC&#x8207;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x53EF;&#x4EE5;&#x8AAA;&#x57FA;&#x672C;&#x6C92;&#x6709;&#x95DC;&#x4FC2;,libc.so&#x4E00;&#x6A23;&#x53EF;&#x4EE5;&#x4E0D;&#x7528;fPIC&#x7DE8;&#x8B6F;,&#x53EA;&#x662F;&#x9019;&#x6A23;&#x7684;so&#x5FC5;&#x9808;&#x8981;&#x5728;&#x52A0;&#x8F09;&#x5230;&#x7528;&#x6236;&#x7A0B;&#x5E8F;&#x7684;&#x5730;&#x5740;&#x7A7A;&#x9593;&#x6642;&#x91CD;&#x5B9A;&#x5411;&#x6240;&#x6709;&#x8868;&#x76EE;.</code></p>
+<p>&#x56E0;&#x6B64;,&#x4E0D;&#x7528;fPIC&#x7DE8;&#x8B6F;so&#x4E26;&#x4E0D;&#x7E3D;&#x662F;&#x4E0D;&#x597D;.
+&#x5982;&#x679C;&#x4F60;&#x6EFF;&#x8DB3;&#x4EE5;&#x4E0B;4&#x500B;&#x9700;&#x6C42;/&#x689D;&#x4EF6;:</p>
+<pre><code class="lang-sh"><span class="hljs-number">1</span>.&#x8A72;&#x5EAB;&#x53EF;&#x80FD;&#x9700;&#x8981;&#x7D93;&#x5E38;&#x66F4;&#x65B0;
+<span class="hljs-number">2</span>.&#x8A72;&#x5EAB;&#x9700;&#x8981;&#x975E;&#x5E38;&#x9AD8;&#x7684;&#x6548;&#x7387;(&#x5C24;&#x5176;&#x662F;&#x6709;&#x5F88;&#x591A;&#x5168;&#x5C40;&#x91CF;&#x7684;&#x4F7F;&#x7528;&#x6642;)
+<span class="hljs-number">3</span>.&#x8A72;&#x5EAB;&#x4E26;&#x4E0D;&#x5F88;&#x5927;.
+<span class="hljs-number">4</span>.&#x8A72;&#x5EAB;&#x57FA;&#x672C;&#x4E0D;&#x9700;&#x8981;&#x88AB;&#x591A;&#x500B;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x5171;&#x4EAB;
+</code></pre>
+<p>&#x5982;&#x679C;&#x7528;&#x6C92;&#x6709;&#x52A0;&#x9019;&#x500B;&#x53C3;&#x6578;&#x7684;&#x7DE8;&#x8B6F;&#x5F8C;&#x7684;&#x5171;&#x4EAB;&#x5EAB;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x7684;&#x8A71;&#xFF0C;&#x53EF;&#x80FD;&#x662F;&#x5169;&#x500B;&#x539F;&#x56E0;&#xFF1A;</p>
+<pre><code class="lang-sh"><span class="hljs-number">1</span>&#xFF1A;gcc&#x9ED8;&#x8A8D;&#x958B;&#x555F;<span class="hljs-operator">-f</span>PIC&#x9078;&#x9805;
+<span class="hljs-number">2</span>&#xFF1A;loader&#x4F7F;&#x4F60;&#x7684;&#x4EE3;&#x78BC;&#x4F4D;&#x7F6E;&#x7121;&#x95DC;
+</code></pre>
+<p>&#x5F9E;GCC&#x4F86;&#x770B;&#xFF0C;shared&#x61C9;&#x8A72;&#x662F;&#x5305;&#x542B;fPIC&#x9078;&#x9805;&#x7684;&#xFF0C;&#x4F46;&#x4F3C;&#x4E4E;&#x4E0D;&#x662F;&#x6240;&#x4EE5;&#x7CFB;&#x7D71;&#x90FD;&#x652F;&#x6301;&#xFF0C;&#x6240;&#x4EE5;&#x6700;&#x597D;&#x986F;&#x5F0F;&#x52A0;&#x4E0A;fPIC&#x9078;&#x9805;&#x3002;&#x53C3;&#x898B;&#x5982;&#x4E0B;</p>
+<pre><code class="lang-sh">`-shared<span class="hljs-string">&apos;
+     Produce a shared object which can then be linked with other
+     objects to form an executable.  Not all systems support this
+     option.  For predictable results, you must also specify the same
+     set of options that were used to generate code (`-fpic&apos;</span>, `<span class="hljs-operator">-f</span>PIC<span class="hljs-string">&apos;,
+     or model suboptions) when you specify this option.(1)
+</span></code></pre>
+<p>-fPIC &#x7684;&#x4F7F;&#x7528;&#xFF0C;&#x6703;&#x751F;&#x6210; PIC &#x4EE3;&#x78BC;&#xFF0C;.so &#x8981;&#x6C42;&#x70BA; PIC&#xFF0C;&#x4EE5;&#x9054;&#x5230;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x7684;&#x76EE;&#x7684;&#xFF0C;&#x5426;&#x5247;&#xFF0C;&#x7121;&#x6CD5;&#x5BE6;&#x73FE;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x3002;</p>
+<p><code>non-PIC &#x8207; PIC &#x4EE3;&#x78BC;&#x7684;&#x5340;&#x5225;&#x4E3B;&#x8981;&#x5728;&#x65BC; access global data, jump label &#x7684;&#x4E0D;&#x540C;&#x3002;</code></p>
+<p>&#x6BD4;&#x5982;&#x4E00;&#x689D; access global data &#x7684;&#x6307;&#x4EE4;&#xFF0C;
+non-PIC &#x7684;&#x5F62;&#x52E2;&#x662F;&#xFF1A;ld r3, var1
+PIC &#x7684;&#x5F62;&#x5F0F;&#x5247;&#x662F;&#xFF1A;ld r3, var1-offset@GOT,&#x610F;&#x601D;&#x662F;&#x5F9E; GOT &#x8868;&#x7684; index &#x70BA; var1-offset &#x7684;&#x5730;&#x65B9;&#x8655;
+&#x6307;&#x793A;&#x7684;&#x5730;&#x5740;&#x8655;&#x88DD;&#x8F09;&#x4E00;&#x500B;&#x503C;,&#x5373;var1-offset@GOT&#x8655;&#x7684;4&#x500B; byte &#x5176;&#x5BE6;&#x5C31;&#x662F; var1 &#x7684;&#x5730;&#x5740;&#x3002;&#x9019;&#x500B;&#x5730;&#x5740;&#x53EA;&#x6709;&#x5728;&#x904B;&#x884C;&#x7684;&#x6642;&#x5019;&#x624D;&#x77E5;&#x9053;&#xFF0C;&#x662F;&#x7531; dynamic-loader(ld-linux.so) &#x586B;&#x9032;&#x53BB;&#x7684;&#x3002;</p>
+<p>&#x518D;&#x6BD4;&#x5982; jump label &#x6307;&#x4EE4;
+non-PIC &#x7684;&#x5F62;&#x52E2;&#x662F;&#xFF1A;jump printf &#xFF0C;&#x610F;&#x601D;&#x662F;&#x8ABF;&#x7528; printf&#x3002;
+PIC &#x7684;&#x5F62;&#x5F0F;&#x5247;&#x662F;&#xFF1A;jump printf-offset@GOT,
+<code>&#x610F;&#x601D;&#x662F;&#x8DF3;&#x5230; GOT &#x8868;&#x7684; index &#x70BA; printf-offset &#x7684;&#x5730;&#x65B9;&#x8655;&#x6307;&#x793A;&#x7684;&#x5730;&#x5740;&#x53BB;&#x57F7;&#x884C;&#xFF0C;
+&#x9019;&#x500B;&#x5730;&#x5740;&#x8655;&#x7684;&#x4EE3;&#x78BC;&#x64FA;&#x653E;&#x5728; .plt section&#xFF0C;
+&#x6BCF;&#x500B;&#x5916;&#x90E8;&#x51FD;&#x6578;&#x5C0D;&#x61C9;&#x4E00;&#x6BB5;&#x9019;&#x6A23;&#x7684;&#x4EE3;&#x78BC;&#xFF0C;&#x5176;&#x529F;&#x80FD;&#x662F;&#x547C;&#x53EB;dynamic-loader(ld-linux.so) &#x4F86;&#x67E5;&#x627E;&#x51FD;&#x6578;&#x7684;&#x5730;&#x5740;(&#x672C;&#x4F8B;&#x4E2D;&#x662F; printf)&#xFF0C;&#x7136;&#x5F8C;&#x5C07;&#x5176;&#x5730;&#x5740;&#x5BEB;&#x5230; GOT &#x8868;&#x7684; index &#x70BA; printf-offset &#x7684;&#x5730;&#x65B9;&#xFF0C;</code></p>
+<p>&#x540C;&#x6642;&#x57F7;&#x884C;&#x9019;&#x500B;&#x51FD;&#x6578;&#x3002;&#x9019;&#x6A23;&#xFF0C;&#x7B2C;2&#x6B21;&#x547C;&#x53EB; printf &#x7684;&#x6642;&#x5019;&#xFF0C;&#x5C31;&#x6703;&#x76F4;&#x63A5;&#x8DF3;&#x5230; printf &#x7684;&#x5730;&#x5740;&#xFF0C;&#x800C;&#x4E0D;&#x5FC5;&#x518D;&#x67E5;&#x627E;&#x4E86;&#x3002;</p>
+<p><code>GOT &#x662F; data section, &#x662F;&#x4E00;&#x500B; table, &#x9664;&#x5C08;&#x7528;&#x7684;&#x5E7E;&#x500B; entry&#xFF0C;&#x6BCF;&#x500B; entry &#x7684;&#x5167;&#x5BB9;&#x53EF;&#x4EE5;&#x518D;&#x57F7;&#x884C;&#x7684;&#x6642;&#x5019;&#x4FEE;&#x6539;&#xFF1B;</code></p>
+<p><code>PLT &#x662F; text section, &#x662F;&#x4E00;&#x6BB5;&#x4E00;&#x6BB5;&#x7684; code&#xFF0C;&#x57F7;&#x884C;&#x4E2D;&#x4E0D;&#x9700;&#x8981;&#x4FEE;&#x6539;&#x3002;</code></p>
+<p>&#x6BCF;&#x500B; target &#x5BE6;&#x73FE; PIC &#x7684;&#x6A5F;&#x5236;&#x4E0D;&#x540C;&#xFF0C;&#x4F46;&#x5927;&#x540C;&#x5C0F;&#x7570;&#x3002;&#x6BD4;&#x5982; MIPS &#x6C92;&#x6709; .plt, &#x800C;&#x662F;&#x53EB; .stub&#xFF0C;&#x529F;&#x80FD;&#x548C; .plt &#x4E00;&#x6A23;&#x3002;</p>
+<p>&#x53EF;&#x898B;&#xFF0C;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x57F7;&#x884C;&#x5F88;&#x8907;&#x96DC;&#xFF0C;&#x6BD4;&#x975C;&#x614B;&#x93C8;&#x63A5;&#x57F7;&#x884C;&#x6642;&#x9593;&#x9577;;&#x4F46;&#x662F;&#xFF0C;&#x6975;&#x5927;&#x7684;&#x7BC0;&#x7701;&#x4E86; size&#xFF0C;PIC &#x548C;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x6280;&#x8853;&#x662F;&#x8A08;&#x7B97;&#x6A5F;&#x767C;&#x5C55;&#x53F2;&#x4E0A;&#x975E;&#x5E38;&#x91CD;&#x8981;&#x7684;&#x4E00;&#x500B;&#x91CC;&#x7A0B;&#x7891;&#x3002;</p>
+<p>gcc manul&#x4E0A;&#x9762;&#x6709;&#x8AAA;
+-fpic        If the GOT size for the linked executable exceeds a machine-specific maximum size, you get an error message from the linker indicating that -fpic does not work; in that case, recompile with -fPIC instead. (These maximums are 8k on the SPARC and 32k on the m68k and RS/6000. The 386 has no such limit.)</p>
+<p>-fPIC       If supported for the target machine, emit position-independent code, suitable for dynamic linking and avoiding any limit on the size of the global offset table. This option makes a difference on the m68k, PowerPC and SPARC. Position-independent code requires special support, and therefore works only on certain machines.</p>
+<p>&#x95DC;&#x9375;&#x5728;&#x65BC;GOT&#x5168;&#x5C40;&#x504F;&#x79FB;&#x91CF;&#x8868;&#x88E1;&#x9762;&#x7684;&#x8DF3;&#x8F49;&#x9805;&#x5927;&#x5C0F;&#x3002;
+intel&#x8655;&#x7406;&#x5668;&#x61C9;&#x8A72;&#x662F;&#x7D71;&#x4E00;4&#x5B57;&#x7BC0;&#xFF0C;&#x6C92;&#x6709;&#x554F;&#x984C;&#x3002;
+powerpc&#x4E0A;&#x7531;&#x65BC;&#x5F59;&#x7DE8; </p>
 
                     
                     </section>
@@ -12451,10 +12511,10 @@
         </div>
 
         
-        <a href="../linux_system/c_de_thread_pool_bi_ji.html" class="navigation navigation-prev " aria-label="Previous page: C 的 Thread Pool 筆記"><i class="fa fa-angle-left"></i></a>
+        <a href="../linux_system/pthreadcreate_&amp;_pthread_join_&amp;_pthread_exit_ji_ben.html" class="navigation navigation-prev " aria-label="Previous page: pthread_create &amp; pthread_join &amp; pthread_exit 基本用法"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../linux_system/openmp_in_linux.html" class="navigation navigation-next " aria-label="Next page: OpenMP in linux"><i class="fa fa-angle-right"></i></a>
+        <a href="../assembly/index.html" class="navigation navigation-next " aria-label="Next page: Assembly"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

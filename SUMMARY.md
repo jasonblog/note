@@ -396,7 +396,7 @@
    * [利用 Autotools 來建立 Makefile 檔案](gunmake/autotools.md)
    * [GNU Makefile 雜項語法備忘](gunmake/gnu_makefile_za_xiang_yu_fa_bei_wang.md)
    * [SCons筆記(詳細版)](gunmake/sconsqu_dai_makefile_bian_yi_c__c_gong_cheng.md)
-   * 高級Makefile技巧
+   * [高級Makefile技巧](gunmake/gao_ji_makefile_ji_qiao.md)
 * [[轉]國王的耳朵是驢耳朵](22/README.md)
    * [Linker script初探 - GNU linker ld手冊略讀](22/221.md)
    * [GNU ld初探](22/222.md)

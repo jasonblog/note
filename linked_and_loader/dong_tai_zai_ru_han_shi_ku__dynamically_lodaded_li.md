@@ -6,7 +6,7 @@
 
 從 Linux 檔案格式的觀點來看，動態載入函式庫與共用函式庫並沒有什麼差別，它被編譯成標準的目的檔或標準的共用函式庫。主要的不同在於當程式連結或啟動時，函式庫並不會自動被載入，相反的，是由 API 來開啟，尋找符號，處理錯誤與關閉函式庫，C 語言需要加入` <dlfcn.h>` 這個標頭檔來使用這些 API。
 
-Linux 使用的介面基本上跟 Solaris 一樣，都是 dlopen()，但是並不是所有的平台都支援。HP-UX 使用 shl_load() 的機制而 Windows 使用完全不同的 DLLs 介面，如果考慮到平台間的可攜性，可能就必須考慮使用隱藏不同平台間差異的包裝函式庫，一種方法是使用 glib，glib 使用平台基本的動態載入函式實作可攜性的介面，在 glib 的網站可以得到更多的相關資訊 [Dynamic Loading of Modules](http://developer.gnome.org/glib/stable/glib-Dynamic-Loading-of-Modules.html)，另一種方法是使用 libltdl，它是 GNU libtool 的一部分，想知道更多資訊的話可以去尋找 CORBA Object Request Broker (ORB) 的資料，這篇文章主要介紹 Linux 和 Solaris 提供的介面。
+Linux 使用的介面基本上跟 Solaris 一樣，都是 dlopen()，但是並不是所有的平臺都支援。HP-UX 使用 shl_load() 的機制而 Windows 使用完全不同的 DLLs 介面，如果考慮到平臺間的可攜性，可能就必須考慮使用隱藏不同平臺間差異的包裝函式庫，一種方法是使用 glib，glib 使用平臺基本的動態載入函式實作可攜性的介面，在 glib 的網站可以得到更多的相關資訊 [Dynamic Loading of Modules](http://developer.gnome.org/glib/stable/glib-Dynamic-Loading-of-Modules.html)，另一種方法是使用 libltdl，它是 GNU libtool 的一部分，想知道更多資訊的話可以去尋找 CORBA Object Request Broker (ORB) 的資料，這篇文章主要介紹 Linux 和 Solaris 提供的介面。
 
 
 ###dlopen()<br>
@@ -46,7 +46,7 @@ void* dlsym(void* handle, char* symbol);
 
 handle 是從 dlopen 回傳的値，symbol 是一個由 ‘\0’ 結束的字串。如果可以避免的話，不要把 dlsym() 回傳的値存成 void* pointer，因為這樣會導致之後每次需要使用時都必須轉型一次 (對之後要維護的人來說可能會遺失一些資訊)。
 
-如果符號沒有被找到，dlsym() 會回傳 NULL。如果知道符號不會是 NULL 或 0，那可能沒有問題，否則可能會有模棱兩可的情況，如果回傳值是 NULL，代表沒有找到符號，還是這個符號的值就是 NULL 呢，標準的做法是呼叫 dlerror() 函式 (需要先清空之前發生的錯誤)，然後再呼叫 dlsym() 尋找符號，最後再呼叫 dlerror() 看是否有錯誤發生。程式片段看起來可能像這樣：
+如果符號沒有被找到，dlsym() 會回傳 NULL。如果知道符號不會是 NULL 或 0，那可能沒有問題，否則可能會有模稜兩可的情況，如果回傳值是 NULL，代表沒有找到符號，還是這個符號的值就是 NULL 呢，標準的做法是呼叫 dlerror() 函式 (需要先清空之前發生的錯誤)，然後再呼叫 dlsym() 尋找符號，最後再呼叫 dlerror() 看是否有錯誤發生。程式片段看起來可能像這樣：
 
 ```c
 dlerror();     /* clear error code */

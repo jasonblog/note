@@ -23,7 +23,7 @@ for item in soup.select(".esc-body"):
 
 ```sh
 ======[ 1 ]=========
-助台船繳錢獲釋外交部：非默認日主張
+助臺船繳錢獲釋外交部：非默認日主張
 http://www.cna.com.tw/news/aipl/201604260398-1.aspx
 ======[ 2 ]=========
 翁啟惠該走嗎？
@@ -62,7 +62,7 @@ http://www.appledaily.com.tw/realtimenews/article/new/20160426/847399/
 不滿翁啟惠請假立院教委會可能不開會
 http://www.cna.com.tw/news/aipl/201604260482-1.aspx
 ======[ 14 ]=========
-市旗被嫌「全台最醜」 卓冠廷：市府該讓市旗相關法令明確化
+市旗被嫌「全臺最醜」 卓冠廷：市府該讓市旗相關法令明確化
 http://news.ltn.com.tw/news/politics/breakingnews/1676972
 ======[ 15 ]=========
 財報－中國汽車銷售冷現代汽車Q1利潤減11%
@@ -71,7 +71,7 @@ http://www.nownews.com/n/2016/04/26/2077783
 房市回溫？建築貸款餘額創4個月高點
 http://www.nownews.com/n/2016/04/26/2077778
 ======[ 17 ]=========
-Apple Pay登台？擬520前交行政院定奪
+Apple Pay登臺？擬520前交行政院定奪
 http://www.chinatimes.com/realtimenews/20160426005723-260410
 ======[ 18 ]=========
 鋼鐵：鋼廠繼續大幅上調長材價格
@@ -101,7 +101,7 @@ http://www.nownews.com/n/2016/04/26/2077052
 德甲／多特蒙德願讓隊長離隊也歡迎葛斯回家
 http://www.nownews.com/n/2016/04/26/2077622
 ======[ 27 ]=========
-性愛片網上瘋傳蛇精男哭認與女友錄着玩
+性愛片網上瘋傳蛇精男哭認與女友錄著玩
 http://tw.on.cc/cn/bkn/cnt/news/20160424/bkncn-20160424121626036-0424_05011_001.html
 ======[ 28 ]=========
 侯佩岑出席活動大談媽媽經
@@ -110,7 +110,7 @@ https://video.udn.com/topic/557/479381
 林彥君日本出外景變臉狠狠打槍張立東
 http://www.nownews.com/n/2016/04/26/2076319
 ======[ 30 ]=========
-北捷電力異常象山至台北車站暫時停駛
+北捷電力異常象山至臺北車站暫時停駛
 http://www.appledaily.com.tw/realtimenews/article/new/20160426/847468/
 ======[ 31 ]=========
 惡客不滿飛機延誤摑女地勤還囂張稱「又如何」（有片）
@@ -119,7 +119,7 @@ http://china.hket.com/article/1415150/?r=mcsdrs
 停棺逾半年未下葬新北最高罰5萬
 http://www.appledaily.com.tw/realtimenews/article/new/20160426/847253/
 ======[ 33 ]=========
-張志軍會北市里長參訪團強調基層交流
+張志軍會北市裡長參訪團強調基層交流
 http://www.cna.com.tw/news/acn/201604260480-1.aspx
 ======[ 34 ]=========
 江蘇漢報復鄰居斬六童再到鄰市血洗岳父家

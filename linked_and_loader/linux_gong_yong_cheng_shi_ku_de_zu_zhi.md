@@ -32,7 +32,7 @@ Solaris 和 Linux 採用 SO-NAME 的命名機制來記錄共用程式庫的依�
 使用編譯器連結一個 `libname.so.x.y.z` 的時候，只要在命令列裡指定 `-lname` 即可，編譯器會在系統中的相關路徑 (-L 參數指定)，搜尋最新的 ‘name’ 程式庫，這個 ‘name’ 又稱為共用程式庫的連結名稱 (Link Name)
 
 ##符號版本
-為了解決次版本序號交會問題 (Minor-revision Rendezvous Problem) 而使用的機制，基本概念是讓每個匯出匯入符號都有一個相關聯的版本序號，Linux 下的 Glibc 從 2.1 之後開始支援。
+為瞭解決次版本序號交會問題 (Minor-revision Rendezvous Problem) 而使用的機制，基本概念是讓每個匯出匯入符號都有一個相關聯的版本序號，Linux 下的 Glibc 從 2.1 之後開始支援。
 
 ##Solaris 中的符號版本機制
 Solaris 的 ld 連結器為共用程式庫增加了版本機制 (Versioning) 和範圍機制 (Scoping)，程式設計師可以在連結共用程式庫時編寫符號版本腳本 (version script) 的檔案

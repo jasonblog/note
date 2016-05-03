@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Debug Tips | Jason note</title>
+        <title>懶人除錯法 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../debug/gccg++_-instrument-functions_can_shu.html" />
+    <link rel="next" href="../mooc_linux_kernel/index.html" />
     
     
-    <link rel="prev" href="../linux_reverse/rdb.html" />
+    <link rel="prev" href="../gdb/zhi_yao_chu_wen_ti_ff0c3c_del__c4_zha_85e53c_del__.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="34" data-basepath=".." data-revision="Wed May 04 2016 01:37:17 GMT+0800 (CST)">
+    <div class="book" data-level="16.29" data-basepath=".." data-revision="Wed May 04 2016 01:37:17 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -5624,7 +5624,7 @@
             
         </li>
     
-        <li class="chapter " data-level="16.29" data-path="gdb/lan_ren_chu_cuo_fa.html">
+        <li class="chapter active" data-level="16.29" data-path="gdb/lan_ren_chu_cuo_fa.html">
             
                 
                     <a href="../gdb/lan_ren_chu_cuo_fa.html">
@@ -8627,7 +8627,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="34" data-path="debug/debug_tips.html">
+        <li class="chapter " data-level="34" data-path="debug/debug_tips.html">
             
                 
                     <a href="../debug/debug_tips.html">
@@ -12450,7 +12450,195 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="debug-tips">Debug Tips</h1>
+                        <h1 id="%E6%87%B6%E4%BA%BA%E9%99%A4%E9%8C%AF%E6%B3%95">&#x61F6;&#x4EBA;&#x9664;&#x932F;&#x6CD5;</h1>
+<p>&#x7528;&#x6CD5;&#x5982;&#x4E0B;:</p>
+<ol>
+<li><p>&#x5C07; debug.sh, gdbgen.py &#x8DDF; test.cpp &#x653E;&#x5728;&#x540C;&#x4E00;&#x500B;&#x76EE;&#x9304;&#xFF0C;&#x540C;&#x6642; chmod +x debug.sh gdbgen.py</p>
+</li>
+<li><p>&#x57F7;&#x884C; ./debug.sh
+&#x9019;&#x6642;&#x5019;&#x6703;&#x81EA;&#x52D5;&#x7DE8;&#x51FA; test.exe
+&#x81EA;&#x52D5;&#x5C55;&#x51FA; test.gdb &#x548C; test.bps ( break points for debug )
+&#x9084;&#x6709; test.log.gdb ( &#x653E; gdb &#x57F7;&#x884C;&#x7684;&#x7D00;&#x9304; )</p>
+</li>
+<li><p>&#x57F7;&#x884C; <code>grep &apos;CMD&apos; test.log.gdb</code> &#x53EF;&#x4EE5;&#x770B;&#x5230;&#x7C21;&#x5316;&#x7684;&#x9664;&#x932F;&#x7D00;&#x9304;&#x5982;..</p>
+</li>
+</ol>
+<pre><code class="lang-sh">CMD&gt;&gt;===leave d()===
+CMD&gt;&gt;<span class="hljs-variable">$5</span> = <span class="hljs-number">8</span>
+CMD&gt;&gt;===enter e()===
+CMD&gt;&gt;===enter d()===
+CMD&gt;&gt;===enter b()===
+CMD&gt;&gt;===enter a()===
+CMD&gt;&gt;===leave a()===
+CMD&gt;&gt;count:
+CMD&gt;&gt;===leave d()===
+CMD&gt;&gt;===enter a()===
+CMD&gt;&gt;===leave a()===
+CMD&gt;&gt;<span class="hljs-variable">$6</span> = <span class="hljs-number">12</span>
+</code></pre>
+<p>&#x6216;&#x662F;&#x76F4;&#x63A5;&#x5BDF;&#x770B; test.log.gdb &#x88E1;&#x8A73;&#x7D30;&#x7684;&#x9664;&#x932F;&#x7D00;&#x9304;&#x3002;</p>
+<h3 id="%E7%A8%8B%E5%BC%8F%E5%8E%9F%E7%90%86">&#x7A0B;&#x5F0F;&#x539F;&#x7406;:</h3>
+<ul>
+<li>&#x5E0C;&#x671B;&#x53EF;&#x4EE5;&#x985E;&#x4F3C; doxygen, &#x53EA;&#x8981;&#x5728;&#x7A0B;&#x5F0F;&#x5BEB;&#x4E0A;&#x4E00;&#x4E9B;&#x8A3B;&#x89E3;&#xFF0C;&#x5C31;&#x80FD;&#x81EA;&#x52D5;&#x5C55;&#x958B; gdb debug script &#x4E26;&#x81EA;&#x52D5;&#x6279;&#x6B21;&#x57F7;&#x884C;. </li>
+</ul>
+<p>&#x5982;&#x6B64;&#x4E00;&#x4F86;&#xFF0C;&#x6211;&#x5011;&#x5C31;&#x53EF;&#x4EE5;&#x4E0D;&#x7528;&#x6BCF;&#x6B21;&#x8CBB;&#x795E;&#x53BB;&#x67E5;&#x51FA;&#x6BCF;&#x500B;&#x4E0D;&#x65B7;&#x8B8A;&#x52D5;&#x7684;&#x9664;&#x932F;&#x65B7;&#x9EDE;&#xFF0C;&#x540C;&#x6642;&#x4E5F;&#x80FD;&#x7528;&#x6279;&#x6B21;&#x57F7;&#x884C;&#x4F86;&#x53D6;&#x4EE3;&#x6BCF;&#x6B21;&#x7528;&#x624B;&#x52D5;&#x7684;&#x57F7;&#x884C; gdb &#x6307;&#x4EE4;&#x3002;</p>
+<p>&#x8B93;&#x4F7F;&#x7528;&#x8005;&#x4E5F;&#x80FD;&#x81EA;&#x884C;&#x57F7;&#x884C; debug.sh&#xFF0C;&#x5C31;&#x80FD;&#x65B9;&#x4FBF;&#x53D6;&#x5F97;&#x9664;&#x932F;&#x7D00;&#x9304;&#x8F49;&#x4EA4; developers &#x3002;&#x904E;&#x7A0B;&#x4E0D;&#x9700;&#x8981;&#x518D;&#x884C;&#x53E6;&#x5916;&#x6559;&#x4F7F;&#x7528;&#x8005;&#x57F7;&#x884C;&#x90A3;&#x4E9B;  gdb &#x9664;&#x932F;&#x6307;&#x4EE4;&#x3002;</p>
+<ul>
+<li>&#x5728;&#x7A0B;&#x5F0F;&#x884C;&#x9593;&#x52A0;&#x4E0A; &quot;// gdb: &quot; &#x7684;&#x6A19;&#x8A18;&#xFF0C;&#x7136;&#x5F8C;&#x5F8C;&#x9762;&#x5BEB;&#x4E0A; gdb &#x7684; commands</li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">b</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-comment">// gdb: echo ===enter b()===</span>
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;bbbb&quot;</span> &lt;&lt; endl;
+    a();
+    count--;
+    <span class="hljs-comment">// gdb: echo count:</span>
+    <span class="hljs-comment">// gdb: print count</span>
+    <span class="hljs-comment">// gdb: echo ===leave b()===</span>
+}
+</code></pre>
+<ul>
+<li><p>debug.sh &#x8DDF; gdbgen.py &#x6703;&#x5408;&#x529B;&#x722C;&#x51FA;&#x7A0B;&#x5F0F;&#x88E1;&#x76F8;&#x95DC;&#x7684; marks &#x8DDF;&#x884C;&#x865F;&#xFF0C;&#x7136;&#x5F8C;&#x8F38;&#x51FA; gdb auto scripts, &#x4E26;&#x81EA;&#x52D5;&#x57F7;&#x884C;&#x3002;&#x5176;&#x4E2D; test.bps &#x5C31;&#x662F;&#x5404;&#x6307;&#x5B9A;&#x65B7;&#x9EDE;&#x81EA;&#x52D5;&#x5C55;&#x958B;&#x7684;&#x547D;&#x4EE4;&#x5340;&#x584A;&#x3002;</p>
+</li>
+<li><p>&#x6240;&#x6709;&#x7684;&#x9664;&#x932F;&#x8CC7;&#x8A0A;&#xFF0C;&#x5305;&#x62EC; call stack &#x8DDF; &#x8B8A;&#x6578;&#x8CC7;&#x6599;&#xFF0C;&#x90FD;&#x662F; run-time &#x7684;&#x3002;&#x7528; &quot;backtrace 2&quot; &#x518D;&#x52A0;&#x4E0A;&#x9069;&#x7576;&#x7684;&#x7E2E;&#x6392;&#x8DDF; parsing, &#x53EF;&#x4EE5;&#x4F5C;&#x51FA; run-time function invorking tree.</p>
+</li>
+</ul>
+<p>&#x5927;&#x6982;&#x662F;&#x9019;&#x6A23;&#xFF0C;&#x5E0C;&#x671B;&#x7D66;&#x6709;&#x8208;&#x8DA3;&#x7684;&#x4EBA;&#x53C3;&#x8003;&#x770B;&#x770B;&#xFF0C;&#x6709;&#x4E0D;&#x6E05;&#x695A;&#x7684;&#x5730;&#x65B9;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x665A;&#x4E0A;&#x4E00;&#x8D77;&#x4F86;&#x8A66;&#x73A9;&#x770B;&#x770B; :-)</p>
+<p>sincerely, Mat.</p>
+<ul>
+<li>debug.sh</li>
+</ul>
+<pre><code class="lang-sh"><span class="hljs-shebang">#!/bin/bash
+</span>
+g++ -g test.cpp -o test.exe
+
+grep -Hn <span class="hljs-string">&quot;gdb:&quot;</span> test.cpp | ./gdbgen.py &gt; test.bps
+
+cat &gt; ./test.gdb &lt;&lt;EOF
+<span class="hljs-built_in">set</span> <span class="hljs-built_in">break</span> pending on
+<span class="hljs-built_in">set</span> pagination off
+<span class="hljs-built_in">set</span> logging on ./test.log.gdb
+<span class="hljs-built_in">set</span> verbose off
+
+<span class="hljs-comment"># set the most earlier entry point</span>
+<span class="hljs-built_in">break</span> main 
+
+run 
+
+<span class="hljs-comment"># read the generated breakpoints</span>
+<span class="hljs-built_in">source</span> ./test.bps 
+
+<span class="hljs-built_in">continue</span>
+quit
+EOF
+
+gdb -batch -x ./test.gdb ./test.exe &gt; ./test.log  &amp;
+</code></pre>
+<ul>
+<li>gdbgen.py</li>
+</ul>
+<pre><code class="lang-py"><span class="hljs-comment">#!/usr/bin/python                                                                                 </span>
+
+<span class="hljs-keyword">import</span> os
+<span class="hljs-keyword">import</span> sys
+<span class="hljs-keyword">import</span> subprocess
+
+<span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> sys.stdin:
+
+  <span class="hljs-comment"># get line</span>
+  d1 = line.find(<span class="hljs-string">&quot;:&quot;</span>)
+  bp_file= os.path.basename(line[:d1])
+  d2 = line.find(<span class="hljs-string">&quot;:&quot;</span>,d1+<span class="hljs-number">1</span>)
+  bp_line = line[d1+<span class="hljs-number">1</span>:d2]
+
+  <span class="hljs-comment"># get commands</span>
+  bp_tag=<span class="hljs-string">&quot;gdb:&quot;</span>
+  d3 = line.find( bp_tag, d2+<span class="hljs-number">1</span> )
+  bp_cmds = line[d3+bp_tag.__len__():]
+
+  <span class="hljs-comment"># pipe out</span>
+  sys.stdout.write( <span class="hljs-string">&quot;break &quot;</span> + bp_file + <span class="hljs-string">&quot;:&quot;</span> + bp_line + <span class="hljs-string">&quot;\n&quot;</span>)
+  sys.stdout.write( <span class="hljs-string">&quot;commands&quot;</span> + <span class="hljs-string">&quot;\n&quot;</span>)
+  sys.stdout.write( <span class="hljs-string">&quot;  &quot;</span> + <span class="hljs-string">&quot;echo CMD&gt;&gt;&quot;</span> + <span class="hljs-string">&quot;\n&quot;</span> )
+  sys.stdout.write( <span class="hljs-string">&quot;  &quot;</span> + bp_cmds )
+  sys.stdout.write( <span class="hljs-string">&quot;  &quot;</span> + <span class="hljs-string">&quot;echo \\n&quot;</span> + <span class="hljs-string">&quot;\n&quot;</span> )
+  sys.stdout.write( <span class="hljs-string">&quot;  &quot;</span> + <span class="hljs-string">&quot;bt 2&quot;</span> + <span class="hljs-string">&quot;\n&quot;</span>)
+  sys.stdout.write( <span class="hljs-string">&quot;  &quot;</span> + <span class="hljs-string">&quot;continue&quot;</span> + <span class="hljs-string">&quot;\n&quot;</span>)
+  sys.stdout.write( <span class="hljs-string">&quot;end&quot;</span> + <span class="hljs-string">&quot;\n\n&quot;</span>)
+</code></pre>
+<ul>
+<li>test.cpp</li>
+</ul>
+<pre><code class="lang-cpp"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-keyword">int</span> count = <span class="hljs-number">3</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">a</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-comment">// gdb: echo ===enter a()===</span>
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;aaaa&quot;</span> &lt;&lt; endl;
+    count++;
+    <span class="hljs-comment">// gdb: echo ===leave a()===</span>
+    <span class="hljs-comment">// gdb: print count</span>
+}
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">b</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-comment">// gdb: echo ===enter b()===</span>
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;bbbb&quot;</span> &lt;&lt; endl;
+    a();
+    count--;
+    <span class="hljs-comment">// gdb: echo count:</span>
+    <span class="hljs-comment">// gdb: print count</span>
+    <span class="hljs-comment">// gdb: echo ===leave b()===</span>
+}
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">c</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-comment">// gdb: echo ===enter c()===</span>
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;cccc&quot;</span> &lt;&lt; endl;
+    count++;
+    a();
+    count++;
+    b();
+    <span class="hljs-comment">// gdb: print count</span>
+    <span class="hljs-comment">// gdb: echo ===leave c()===</span>
+}
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">d</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-comment">// gdb: echo ===enter d()===</span>
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;dddd&quot;</span> &lt;&lt; endl;
+    count++;
+    b();
+    <span class="hljs-comment">// gdb: echo ===leave d()===</span>
+}
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">e</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-comment">// gdb: echo ===enter e()===</span>
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;eeee&quot;</span> &lt;&lt; endl;
+    d();
+    count++;
+    a();
+    count++;
+    <span class="hljs-comment">// gdb: print count</span>
+    <span class="hljs-comment">// gdb: echo ===leave e()===</span>
+}
+
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    a();
+    <span class="hljs-comment">// gdb: print count</span>
+    b();
+    <span class="hljs-comment">// gdb: print count</span>
+    c();
+    <span class="hljs-comment">// gdb: print count</span>
+    d();
+    <span class="hljs-comment">// gdb: print count</span>
+    e();
+}
+</code></pre>
 
                     
                     </section>
@@ -12461,10 +12649,10 @@
         </div>
 
         
-        <a href="../linux_reverse/rdb.html" class="navigation navigation-prev " aria-label="Previous page: EDB (Evan&#39;s Debugger)"><i class="fa fa-angle-left"></i></a>
+        <a href="../gdb/zhi_yao_chu_wen_ti_ff0c3c_del__c4_zha_85e53c_del__.html" class="navigation navigation-prev " aria-label="Previous page: 只要出問題，&lt;del&gt;C4炸藥&lt;/del&gt; gdb 都能搞定"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../debug/gccg++_-instrument-functions_can_shu.html" class="navigation navigation-next " aria-label="Next page: gcc/g++ -instrument-functions 參數"><i class="fa fa-angle-right"></i></a>
+        <a href="../mooc_linux_kernel/index.html" class="navigation navigation-next " aria-label="Next page: Linux內核分析雲課堂學習筆記"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

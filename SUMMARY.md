@@ -358,7 +358,7 @@
    * [GDB C++ STL printer](gdb/gdb_c++_stl_printer.md)
    * [GDB dashboard: debug info at a glance](gdb/gdb_dashboard_debug_info_at_a_glance.md)
    * [在程式碼中使用 signal() 插入中斷點，讓 GDB 暫停程式做 debugging](gdb/zai_cheng_shi_ma_zhong_shi_yong_signal__cha_ru_zho.md)
-   * 只要出問題，<del>C4炸藥</del> gdb 都能搞定
+   * [只要出問題，<del>C4炸藥</del> gdb 都能搞定](gdb/zhi_yao_chu_wen_ti_ff0c3c_del__c4_zha_85e53c_del__.md)
 * [Linux內核分析雲課堂學習筆記](mooc_linux_kernel/README.md)
    * [圖解分析彙編代碼以理解計算機是如何工作的](mooc_linux_kernel/191.md)
    * [基於mykernel的一個簡單的時間片輪轉多道程序內核代碼分析](mooc_linux_kernel/192.md)

@@ -506,6 +506,7 @@
    * [python debug 入門](python/python_debug_ru_men.md)
    * [Python 直譯器如何處理字串編碼](python/python_zhi_yi_qi_ru_he_chu_li_zi_chuan_bian_ma.md)
    * [Python--線性代數篇](python/pythonxian_xing_dai_shu_pian.md)
+   * python字符串连接的N种方式 
 * [Vim](vim/vim.md)
    * [HOWTO - vi, vim](vim/howto_-_vi,_vim.md)
 * [TDD](tdd/README.md)

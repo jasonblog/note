@@ -494,7 +494,7 @@
        * [Python 新聞關鍵字查詢](python/python_xin_wen_guan_jian_zi_cha_xun.md)
        * [PTTcrawler (PTT文章爬蟲)](python/pttcrawler_pttwen_zhang_pa_87f229.md)
        * [Python_by_David_Chiu](python/pythonby_david_chiu.md)
-       * google news 爬文
+       * [google news 爬文](python/google_news_pa_wen.md)
    * [安裝 Jupyter](python/jupyter.md)
    * [編譯python & 安裝pip](python/292.md)
    * [pip 使用詳解](python/293.md)

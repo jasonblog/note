@@ -48,3 +48,4 @@ With every new version of ARM, there’re new extensions provided, the v8 archit
     - The Large Physical Address extension provides the means for each of the software environments to utilize efficiently the available physical memory when handling large amounts of data
     
 
+V5_to_V8_Architecture.jpg

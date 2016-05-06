@@ -803,11 +803,210 @@ now I can describe load/store instructions, don’t care addressing mode, I show
 Single Register
 Save a register into a memory
 
-ldr: Load register works with:
-Register offset:  LDR <Xt>, [<Xn|SP>, <R><m>{, <extend> {<amount>}}]
-Immediate offset: LDR <Xt>, [<Xn|SP>], #<simm>
-PC-relative literal: LDR <Xt>, <label
-str: Store register:
-register offset: STR <Xt>, [<Xn|SP>, <R><m>{, <extend> {<amount>}}]
-immediate offset: STR <Xt>, [<Xn|SP>], #<simm>
+- ldr: Load register works with:
+    - Register offset:  LDR <Xt>, [<Xn|SP>, <R><m>{, <extend> {<amount>}}]
+    - Immediate offset: LDR <Xt>, [<Xn|SP>], #<simm>
+    - PC-relative literal: LDR <Xt>, <label
+- str: Store register:
+    - register offset: STR <Xt>, [<Xn|SP>, <R><m>{, <extend> {<amount>}}]
+    - immediate offset: STR <Xt>, [<Xn|SP>], #<simm>
+
 <simm> is signed immediate byte offset, in the range -256 to 255
+
+## Pair of Registers
+
+Save the two registers specified into memory address of Xn or SP
+- ldp load pair: LDP <Xt1>, <Xt2>, [<Xn|SP>], #<imm>
+- stp store pair: STP <Xt1>, <Xt2>, [<Xn|SP>], #<imm>
+<imm> is signed immediate byte offset, a  multiple of 8 in the range -512 to 504
+
+##Data processing – immediate
+
+Arithmetic (immediate)
+
+<table border="1">
+<tbody>
+<tr>
+<td><strong>ADD</strong></td>
+<td>ADD (immediate)</td>
+<td>ADD &lt;Xd|SP&gt;, &lt;Xn|SP&gt;, #&lt;imm&gt;{, &lt;shift&gt;}<span style="color: #008000;">; Rd = Rn + shift(imm)</span></td>
+</tr>
+<tr>
+<td><strong>ADDS</strong></td>
+<td>Add and set flags</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>SUB</strong></td>
+<td>Subtract</td>
+<td>&nbsp;SUB &lt;Xd|SP&gt;, &lt;Xn|SP&gt;, #&lt;imm&gt;{, &lt;shift&gt;}<span style="color: #008000;">;&nbsp;Rd = Rn – shift(imm)</span></td>
+</tr>
+<tr>
+<td><strong>SUBS</strong></td>
+<td>Subtract and set flags</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>CMP</strong></td>
+<td>Compare</td>
+<td>&nbsp;CMP &lt;Xn|SP&gt;, #&lt;imm&gt;{, &lt;shift&gt;}</td>
+</tr>
+<tr>
+<td><strong>CMN</strong></td>
+<td>Compare negative</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+Where: <shift> Is the optional shift type to be applied to the second source operand, defaulting to LSL.
+The shift operators LSL (logical shift left), ASR (arithm sift right) and LSR (logical shift right) accept an immediate shift <amount> in the range 0 to one less than the register width of the instruction, inclusive.
+
+## Logical
+<table border="1">
+<tbody>
+<tr>
+<td><strong>AND</strong></td>
+<td>Bitwise</td>
+<td>AND &lt;Xd|SP&gt;, &lt;Xn&gt;, #&lt;imm&gt;&nbsp;<span style="color: #008000;"> ;Rd = Rn AND imm</span></td>
+</tr>
+<tr>
+<td><strong>ANDS</strong></td>
+<td>Bitwise AND and set flags</td>
+<td>ANDS &lt;Xd&gt;, &lt;Xn&gt;, #&lt;imm&gt;<span style="color: #008000;"> ;Rd = Rn AND imm</span></td>
+</tr>
+<tr>
+<td><strong>EOR</strong></td>
+<td>Bitwise exclusive</td>
+<td>EOR &lt;Xd|SP&gt;, &lt;Xn&gt;, #&lt;imm&gt;<span style="color: #008000;"> ;Rd = Rn EOR imm</span></td>
+</tr>
+<tr>
+<td><strong>ORR</strong></td>
+<td>Bitwise inclusive</td>
+<td>ORR &lt;Xd|SP&gt;, &lt;Xn&gt;, #&lt;imm&gt;<span style="color: #008000;"> ;Rd = Rn OR imm</span></td>
+</tr>
+<tr>
+<td><strong>TST</strong></td>
+<td>Test bits</td>
+<td>TST &lt;Xn&gt;, #&lt;imm&gt;&nbsp; <span style="color: #008000;">;Rn AND imm</span></td>
+</tr>
+</tbody>
+</table>
+
+##Move
+Instructions to move wide immediate (16bit):
+
+<table border="1">
+<tbody>
+<tr>
+<td><strong>MOVZ</strong></td>
+<td>Move wide with zero</td>
+<td>&nbsp;MOVZ &lt;Xd&gt;, #&lt;imm&gt;{, LSL #&lt;shift&gt;}<span style="color: #008000;"> ;Rd = LSL (imm16, shift)</span></td>
+</tr>
+<tr>
+<td><strong>MOVN</strong></td>
+<td>Move wide with NOT</td>
+<td>&nbsp;MOVN &lt;Xd&gt;, #&lt;imm&gt;{, LSL #&lt;shift&gt;}<span style="color: #008000;"> ;Rd = NOT (LSL (imm16, shift))</span></td>
+</tr>
+<tr>
+<td><strong>MOVK</strong></td>
+<td>Move 16-bit immediate into register, keeping other bits unchange</td>
+<td>&nbsp;MOVK &lt;Xd&gt;, #&lt;imm&gt;{, LSL #&lt;shift&gt;} <span style="color: #008000;">;&nbsp;Rd&lt;shift+15:shift&gt; = imm16</span></td>
+</tr>
+</tbody>
+</table>
+
+
+There are also an instruction to move immediate:
+```c
+MOV <Xd>, #<imm>  ;Rd = imm
+```
+but his three versions are aliases of movz, movn and movk
+
+## PC-relative address calculation
+
+- The ADR instruction adds a signed, 21-bit immediate to the value of the program counter that fetched this instruction, and then writes the result to a general-purpose register:
+ADR <Xd>, <label>
+
+- The ADRP instruction permits the calculation of the address at a 4KB aligned memory region. In conjunction with an ADD(immediate) instruction, or  a Load/Store instruction with a 12-bit immediate offset, this allows for the calculation of, or access to, any address within ±4GB of the current PC:
+ADRP <Xd>, <label>
+
+## Shift
+
+<table border="1">
+<tbody>
+<tr>
+<td><strong>ASR</strong></td>
+<td>Arithmetic shift right</td>
+<td>&nbsp;ASR &lt;Xd&gt;, &lt;Xn&gt;, #&lt;bits to shift&gt;</td>
+</tr>
+<tr>
+<td><strong>LSL</strong></td>
+<td>Logical shift left</td>
+<td>&nbsp;LSL &lt;Xd&gt;, &lt;Xn&gt;, #&lt;shift&gt;</td>
+</tr>
+<tr>
+<td><strong>LSR</strong></td>
+<td>Logical shift right</td>
+<td>&nbsp;LSR &lt;Xd&gt;, &lt;Xn&gt;, #&lt;shift&gt;</td>
+</tr>
+<tr>
+<td><strong>ROR</strong></td>
+<td>Rotate right</td>
+<td>&nbsp;ROR &lt;Xd&gt;, &lt;Xs&gt;, #&lt;bits to shift&gt;</td>
+</tr>
+</tbody>
+</table>
+
+##Data processing – register
+
+###Arithmetic (shifted register)
+
+- ADD: Add
+- ADDS: Add and set setting the condition flags
+- SUB: Subtract
+- SUBS: Subtract and set flags
+- CMN: Compare negative
+- CMP: Compare
+- NEG: Negate ;
+- Rd = 0 – shift(Rm, amount)
+- NEGS: Negate and set flags
+
+
+How ADD works, the others are similar:
+```c
+ADD <Xd>, <Xn>, <Xm>{, <shift> #<amount>}
+Rd = Rn + shift(Rm, amount);
+```
+There’re also the `Arithmetic with carry` instructions which accept two source registers, with the carry flag as an additional input to the calculation and don’t support shift.
+
+- ADC: Add with carry
+
+```c
+ ADC <Xd>, <Xn>, <Xm>
+```
+
+- ADCS: Add with carry and set flags
+
+```c
+ADCS <Xd>, <Xn>, <Xm> ;Rd = Rn + Rm + C
+```
+
+- SBC: Subtract with carry
+
+```c
+SBC <Xd>, <Xn>, <Xm> ;Rd = Rn – Rm – 1 + C
+```
+
+- SBCS: Subtract with carry and set flags
+- NGC: Negate with carry
+
+```c
+NGC <Xd>, <Xm>  ;Rd = 0 – Rm – 1 + C
+```
+
+- NGCS: Negate with carry and set flags
+
+
+## Logical (shifted register)
+

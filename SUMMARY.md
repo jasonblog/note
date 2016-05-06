@@ -387,7 +387,7 @@
    * [Mutex::Autolock  for c++](c++/mutexautolock_for_c_++.md)
    * [C++ STL 學習總結(全面)](c++/c++_stl_xue_xi_zong_7d5028_quan_976229.md)
 * [GNU make](gunmake/README.md)
-   * example
+   * [example](gunmake/example.md)
    * [CMake](cmake/cmake.md)
        * [CMake 初探](cmake/cmake_chu_tan.md)
        * [CMake 入門](gunmake/204.md)

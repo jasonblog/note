@@ -515,7 +515,7 @@
    * [Python 直譯器如何處理字串編碼](python/python_zhi_yi_qi_ru_he_chu_li_zi_chuan_bian_ma.md)
    * [Python--線性代數篇](python/pythonxian_xing_dai_shu_pian.md)
    * [python字符串连接的N种方式](python/pythonzi_fu_chuan_lian_jie_de_n_zhong_fang_shi.md)
-   * Python调用Linux下的动态库(so) 
+   * [Python调用Linux下的动态库(so)](python/pythondiao_yong_linux_xia_de_dong_tai_5e9328_so.md)
 * [Vim](vim/vim.md)
    * [HOWTO - vi, vim](vim/howto_-_vi,_vim.md)
 * [TDD](tdd/README.md)

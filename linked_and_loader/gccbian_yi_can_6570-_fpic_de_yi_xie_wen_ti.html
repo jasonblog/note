@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>memory layout C++ objects for g++ | Jason note</title>
+        <title>gcc編譯參數-fPIC的一些問題 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../gcc/gcc_-e_-p.html" />
+    <link rel="next" href="../Bochs/bochs.html" />
     
     
-    <link rel="prev" href="../gcc/gcc4e2d-_pthread_548c-_lpthread_de_qu_bie.html" />
+    <link rel="prev" href="../linked_and_loader/dong_tai_zai_ru_han_shi_ku__dynamically_lodaded_li.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="36.1.3" data-basepath=".." data-revision="Sat May 07 2016 04:55:32 GMT+0800 (CST)">
+    <div class="book" data-level="47.14" data-basepath=".." data-revision="Sat May 07 2016 04:55:32 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -9076,7 +9076,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="36.1.3" data-path="gcc/g++_fdump-class-hierarchy_output.html">
+        <li class="chapter " data-level="36.1.3" data-path="gcc/g++_fdump-class-hierarchy_output.html">
             
                 
                     <a href="../gcc/g++_fdump-class-hierarchy_output.html">
@@ -12243,7 +12243,7 @@
             
         </li>
     
-        <li class="chapter " data-level="47.14" data-path="linked_and_loader/gccbian_yi_can_6570-_fpic_de_yi_xie_wen_ti.html">
+        <li class="chapter active" data-level="47.14" data-path="linked_and_loader/gccbian_yi_can_6570-_fpic_de_yi_xie_wen_ti.html">
             
                 
                     <a href="../linked_and_loader/gccbian_yi_can_6570-_fpic_de_yi_xie_wen_ti.html">
@@ -12651,194 +12651,64 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="g-fdump-class-hierarchy-output">G++ fdump-class-hierarchy output</h1>
-<ul>
-<li>layout.cpp</li>
-</ul>
-<pre><code class="lang-cpp"><span class="hljs-keyword">class</span> VBase
-{
-    <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-keyword">void</span> <span class="hljs-title">corge</span><span class="hljs-params">()</span></span>;
-    <span class="hljs-keyword">int</span> j;
-};
-
-<span class="hljs-keyword">class</span> SBase1
-{
-    <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-keyword">void</span> <span class="hljs-title">grault</span><span class="hljs-params">()</span></span>;
-    <span class="hljs-keyword">int</span> k;
-};
-
-<span class="hljs-keyword">class</span> SBase2
-{
-    <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-keyword">void</span> <span class="hljs-title">grault</span><span class="hljs-params">()</span></span>;
-    <span class="hljs-keyword">int</span> k;
-};
-
-<span class="hljs-keyword">class</span> SBase3
-{
-    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">grault</span><span class="hljs-params">()</span></span>;
-    <span class="hljs-keyword">int</span> k;
-};
-
-<span class="hljs-keyword">class</span> Class : <span class="hljs-keyword">public</span> SBase1, SBase2, SBase3, <span class="hljs-keyword">virtual</span> VBase
-{
-<span class="hljs-keyword">public</span>:
-    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">bar</span><span class="hljs-params">()</span></span>;
-    <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-keyword">void</span> <span class="hljs-title">baz</span><span class="hljs-params">()</span></span>;
-    <span class="hljs-comment">// virtual member function templates not allowed, thinking about memory</span>
-    <span class="hljs-comment">// layout and vtables will tell you why</span>
-    <span class="hljs-comment">// template&lt;typename T&gt;</span>
-    <span class="hljs-comment">// virtual void quux();</span>
-<span class="hljs-keyword">private</span>:
-    <span class="hljs-keyword">int</span> i;
-    <span class="hljs-keyword">char</span> c;
-<span class="hljs-keyword">public</span>:
-    <span class="hljs-keyword">float</span> f;
-<span class="hljs-keyword">private</span>:
-    <span class="hljs-keyword">double</span> d;
-<span class="hljs-keyword">public</span>:
-    <span class="hljs-keyword">short</span> s;
-};
-
-<span class="hljs-keyword">class</span> Derived : <span class="hljs-keyword">public</span> Class
-{
-    <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-keyword">void</span> <span class="hljs-title">qux</span><span class="hljs-params">()</span></span>;
-};
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
-</span>{
-    <span class="hljs-keyword">return</span> <span class="hljs-keyword">sizeof</span>(Derived);
-}
+                        <h1 id="gcc%E7%B7%A8%E8%AD%AF%E5%8F%83%E6%95%B8-fpic%E7%9A%84%E4%B8%80%E4%BA%9B%E5%95%8F%E9%A1%8C">gcc&#x7DE8;&#x8B6F;&#x53C3;&#x6578;-fPIC&#x7684;&#x4E00;&#x4E9B;&#x554F;&#x984C;</h1>
+<p>-fPIC &#x4F5C;&#x7528;&#x65BC;&#x7DE8;&#x8B6F;&#x968E;&#x6BB5;&#xFF0C;&#x544A;&#x8A34;&#x7DE8;&#x8B6F;&#x5668;&#x7522;&#x751F;&#x8207;&#x4F4D;&#x7F6E;&#x7121;&#x95DC;&#x4EE3;&#x78BC;(Position-Independent Code)&#xFF0C;
+<code>&#x5247;&#x7522;&#x751F;&#x7684;&#x4EE3;&#x78BC;&#x4E2D;&#xFF0C;&#x6C92;&#x6709;&#x7D55;&#x5C0D;&#x5730;&#x5740;&#xFF0C;&#x5168;&#x90E8;&#x4F7F;&#x7528;&#x76F8;&#x5C0D;&#x5730;&#x5740;&#xFF0C;&#x6545;&#x800C;&#x4EE3;&#x78BC;&#x53EF;&#x4EE5;&#x88AB;&#x52A0;&#x8F09;&#x5668;&#x52A0;&#x8F09;&#x5230;&#x5167;&#x5B58;&#x7684;&#x4EFB;&#x610F;&#x4F4D;&#x7F6E;&#xFF0C;&#x90FD;&#x53EF;&#x4EE5;&#x6B63;&#x78BA;&#x7684;&#x57F7;&#x884C;</code>&#x3002;&#x9019;&#x6B63;&#x662F;&#x5171;&#x4EAB;&#x5EAB;&#x6240;&#x8981;&#x6C42;&#x7684;&#xFF0C;&#x5171;&#x4EAB;&#x5EAB;&#x88AB;&#x52A0;&#x8F09;&#x6642;&#xFF0C;&#x5728;&#x5167;&#x5B58;&#x7684;&#x4F4D;&#x7F6E;&#x4E0D;&#x662F;&#x56FA;&#x5B9A;&#x7684;&#x3002;</p>
+<pre><code class="lang-sh">gcc -shared <span class="hljs-operator">-f</span>PIC -o <span class="hljs-number">1</span>.so <span class="hljs-number">1</span>.c
 </code></pre>
-<pre><code class="lang-sh">g++ -fdump-class-hierarchy layout.cpp
+<p>&#x9019;&#x88E1;&#x6709;&#x4E00;&#x500B;-fPIC&#x53C3;&#x6578;<br>
+PIC&#x5C31;&#x662F;position independent code<br>
+PIC&#x4F7F;.so&#x6587;&#x4EF6;&#x7684;&#x4EE3;&#x78BC;&#x6BB5;&#x8B8A;&#x70BA;&#x771F;&#x6B63;&#x610F;&#x7FA9;&#x4E0A;&#x7684;&#x5171;&#x4EAB;<br></p>
+<p><code>&#x5982;&#x679C;&#x4E0D;&#x52A0;-fPIC,&#x5247;&#x52A0;&#x8F09;.so&#x6587;&#x4EF6;&#x7684;&#x4EE3;&#x78BC;&#x6BB5;&#x6642;,&#x4EE3;&#x78BC;&#x6BB5;&#x5F15;&#x7528;&#x7684;&#x6578;&#x64DA;&#x5C0D;&#x8C61;&#x9700;&#x8981;&#x91CD;&#x5B9A;&#x4F4D;,&#x91CD;&#x5B9A;&#x4F4D;&#x6703;&#x4FEE;&#x6539;&#x4EE3;&#x78BC;&#x6BB5;&#x7684;&#x5167;&#x5BB9;,&#x9019;&#x5C31;&#x9020;&#x6210;&#x6BCF;&#x500B;&#x4F7F;&#x7528;&#x9019;&#x500B;.so&#x6587;&#x4EF6;&#x4EE3;&#x78BC;&#x6BB5;&#x7684;&#x9032;&#x7A0B;&#x5728;&#x5167;&#x6838;&#x88E1;&#x90FD;&#x6703;&#x751F;&#x6210;&#x9019;&#x500B;.so&#x6587;&#x4EF6;&#x4EE3;&#x78BC;&#x6BB5;&#x7684;copy.&#x6BCF;&#x500B;copy&#x90FD;&#x4E0D;&#x4E00;&#x6A23;,&#x53D6;&#x6C7A;&#x65BC;&#x9019;&#x500B;.so&#x6587;&#x4EF6;&#x4EE3;&#x78BC;&#x6BB5;&#x548C;&#x6578;&#x64DA;&#x6BB5;&#x5167;&#x5B58;&#x6620;&#x5C04;&#x7684;&#x4F4D;&#x7F6E;.</code></p>
+<p><code>&#x4E0D;&#x52A0;fPIC&#x7DE8;&#x8B6F;&#x51FA;&#x4F86;&#x7684;so,&#x662F;&#x8981;&#x518D;&#x52A0;&#x8F09;&#x6642;&#x6839;&#x64DA;&#x52A0;&#x8F09;&#x5230;&#x7684;&#x4F4D;&#x7F6E;&#x518D;&#x6B21;&#x91CD;&#x5B9A;&#x4F4D;&#x7684;.(&#x56E0;&#x70BA;&#x5B83;&#x88E1;&#x9762;&#x7684;&#x4EE3;&#x78BC;&#x4E26;&#x4E0D;&#x662F;&#x4F4D;&#x7F6E;&#x7121;&#x95DC;&#x4EE3;&#x78BC;)</code></p>
+<p>&#x5982;&#x679C;&#x88AB;&#x591A;&#x500B;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x5171;&#x540C;&#x4F7F;&#x7528;,&#x90A3;&#x9EBC;&#x5B83;&#x5011;&#x5FC5;&#x9808;&#x6BCF;&#x500B;&#x7A0B;&#x5E8F;&#x7DAD;&#x8B77;&#x4E00;&#x4EFD;so&#x7684;&#x4EE3;&#x78BC;&#x526F;&#x672C;&#x4E86;.(&#x56E0;&#x70BA;so&#x88AB;&#x6BCF;&#x500B;&#x7A0B;&#x5E8F;&#x52A0;&#x8F09;&#x7684;&#x4F4D;&#x7F6E;&#x90FD;&#x4E0D;&#x540C;,&#x986F;&#x7136;&#x9019;&#x4E9B;&#x91CD;&#x5B9A;&#x4F4D;&#x5F8C;&#x7684;&#x4EE3;&#x78BC;&#x4E5F;&#x4E0D;&#x540C;,&#x7576;&#x7136;&#x4E0D;&#x80FD;&#x5171;&#x4EAB;)
+&#x6211;&#x5011;&#x7E3D;&#x662F;&#x7528;fPIC&#x4F86;&#x751F;&#x6210;so,&#x4E5F;&#x5F9E;&#x4F86;&#x4E0D;&#x7528;fPIC&#x4F86;&#x751F;&#x6210;a.
+fPIC&#x8207;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x53EF;&#x4EE5;&#x8AAA;&#x57FA;&#x672C;&#x6C92;&#x6709;&#x95DC;&#x4FC2;,libc.so&#x4E00;&#x6A23;&#x53EF;&#x4EE5;&#x4E0D;&#x7528;fPIC&#x7DE8;&#x8B6F;,&#x53EA;&#x662F;&#x9019;&#x6A23;&#x7684;so&#x5FC5;&#x9808;&#x8981;&#x5728;&#x52A0;&#x8F09;&#x5230;&#x7528;&#x6236;&#x7A0B;&#x5E8F;&#x7684;&#x5730;&#x5740;&#x7A7A;&#x9593;&#x6642;&#x91CD;&#x5B9A;&#x5411;&#x6240;&#x6709;&#x8868;&#x76EE;.</p>
+<p>&#x56E0;&#x6B64;,&#x4E0D;&#x7528;fPIC&#x7DE8;&#x8B6F;so&#x4E26;&#x4E0D;&#x7E3D;&#x662F;&#x4E0D;&#x597D;.<br>
+&#x5982;&#x679C;&#x4F60;&#x6EFF;&#x8DB3;&#x4EE5;&#x4E0B;4&#x500B;&#x9700;&#x6C42;/&#x689D;&#x4EF6;:<br></p>
+<pre><code class="lang-sh"><span class="hljs-number">1</span>.&#x8A72;&#x5EAB;&#x53EF;&#x80FD;&#x9700;&#x8981;&#x7D93;&#x5E38;&#x66F4;&#x65B0;
+<span class="hljs-number">2</span>.&#x8A72;&#x5EAB;&#x9700;&#x8981;&#x975E;&#x5E38;&#x9AD8;&#x7684;&#x6548;&#x7387;(&#x5C24;&#x5176;&#x662F;&#x6709;&#x5F88;&#x591A;&#x5168;&#x5C40;&#x91CF;&#x7684;&#x4F7F;&#x7528;&#x6642;)
+<span class="hljs-number">3</span>.&#x8A72;&#x5EAB;&#x4E26;&#x4E0D;&#x5F88;&#x5927;.
+<span class="hljs-number">4</span>.&#x8A72;&#x5EAB;&#x57FA;&#x672C;&#x4E0D;&#x9700;&#x8981;&#x88AB;&#x591A;&#x500B;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x5171;&#x4EAB;
 </code></pre>
-<ul>
-<li>layout.cpp.002t.class</li>
-</ul>
-<pre><code class="lang-sh">Vtable <span class="hljs-keyword">for</span> VBase
-VBase::_ZTV5VBase: <span class="hljs-number">3</span>u entries
-<span class="hljs-number">0</span>     (int (*)(...))<span class="hljs-number">0</span>
-<span class="hljs-number">8</span>     (int (*)(...))(&amp; _ZTI5VBase)
-<span class="hljs-number">16</span>    (int (*)(...))VBase::corge
-
-Class VBase
-   size=<span class="hljs-number">16</span> align=<span class="hljs-number">8</span>
-   base size=<span class="hljs-number">12</span> base align=<span class="hljs-number">8</span>
-VBase (<span class="hljs-number">0</span>x0x7f693a34a4e0) <span class="hljs-number">0</span>
-    vptr=((&amp; VBase::_ZTV5VBase) + <span class="hljs-number">16</span>u)
-
-Vtable <span class="hljs-keyword">for</span> SBase1
-SBase1::_ZTV6SBase1: <span class="hljs-number">3</span>u entries
-<span class="hljs-number">0</span>     (int (*)(...))<span class="hljs-number">0</span>
-<span class="hljs-number">8</span>     (int (*)(...))(&amp; _ZTI6SBase1)
-<span class="hljs-number">16</span>    (int (*)(...))SBase1::grault
-
-Class SBase1
-   size=<span class="hljs-number">16</span> align=<span class="hljs-number">8</span>
-   base size=<span class="hljs-number">12</span> base align=<span class="hljs-number">8</span>
-SBase1 (<span class="hljs-number">0</span>x0x7f693a34a540) <span class="hljs-number">0</span>
-    vptr=((&amp; SBase1::_ZTV6SBase1) + <span class="hljs-number">16</span>u)
-
-Vtable <span class="hljs-keyword">for</span> SBase2
-SBase2::_ZTV6SBase2: <span class="hljs-number">3</span>u entries
-<span class="hljs-number">0</span>     (int (*)(...))<span class="hljs-number">0</span>
-<span class="hljs-number">8</span>     (int (*)(...))(&amp; _ZTI6SBase2)
-<span class="hljs-number">16</span>    (int (*)(...))SBase2::grault
-
-Class SBase2
-   size=<span class="hljs-number">16</span> align=<span class="hljs-number">8</span>
-   base size=<span class="hljs-number">12</span> base align=<span class="hljs-number">8</span>
-SBase2 (<span class="hljs-number">0</span>x0x7f693a34a5a0) <span class="hljs-number">0</span>
-    vptr=((&amp; SBase2::_ZTV6SBase2) + <span class="hljs-number">16</span>u)
-
-Class SBase3
-   size=<span class="hljs-number">4</span> align=<span class="hljs-number">4</span>
-   base size=<span class="hljs-number">4</span> base align=<span class="hljs-number">4</span>
-SBase3 (<span class="hljs-number">0</span>x0x7f693a34a600) <span class="hljs-number">0</span>
-
-Vtable <span class="hljs-keyword">for</span> Class
-Class::_ZTV5Class: <span class="hljs-number">12</span>u entries
-<span class="hljs-number">0</span>     <span class="hljs-number">64</span>u
-<span class="hljs-number">8</span>     (int (*)(...))<span class="hljs-number">0</span>
-<span class="hljs-number">16</span>    (int (*)(...))(&amp; _ZTI5Class)
-<span class="hljs-number">24</span>    (int (*)(...))SBase1::grault
-<span class="hljs-number">32</span>    (int (*)(...))Class::baz
-<span class="hljs-number">40</span>    (int (*)(...))-<span class="hljs-number">16</span>
-<span class="hljs-number">48</span>    (int (*)(...))(&amp; _ZTI5Class)
-<span class="hljs-number">56</span>    (int (*)(...))SBase2::grault
-<span class="hljs-number">64</span>    <span class="hljs-number">0</span>u
-<span class="hljs-number">72</span>    (int (*)(...))-<span class="hljs-number">64</span>
-<span class="hljs-number">80</span>    (int (*)(...))(&amp; _ZTI5Class)
-<span class="hljs-number">88</span>    (int (*)(...))VBase::corge
-
-VTT <span class="hljs-keyword">for</span> Class
-Class::_ZTT5Class: <span class="hljs-number">2</span>u entries
-<span class="hljs-number">0</span>     ((&amp; Class::_ZTV5Class) + <span class="hljs-number">24</span>u)
-<span class="hljs-number">8</span>     ((&amp; Class::_ZTV5Class) + <span class="hljs-number">88</span>u)
-
-Class Class
-   size=<span class="hljs-number">80</span> align=<span class="hljs-number">8</span>
-   base size=<span class="hljs-number">58</span> base align=<span class="hljs-number">8</span>
-Class (<span class="hljs-number">0</span>x0x7f693a352200) <span class="hljs-number">0</span>
-    vptridx=<span class="hljs-number">0</span>u vptr=((&amp; Class::_ZTV5Class) + <span class="hljs-number">24</span>u)
-  SBase1 (<span class="hljs-number">0</span>x0x7f693a34a660) <span class="hljs-number">0</span>
-      primary-for Class (<span class="hljs-number">0</span>x0x7f693a352200)
-  SBase2 (<span class="hljs-number">0</span>x0x7f693a34a6c0) <span class="hljs-number">16</span>
-      vptr=((&amp; Class::_ZTV5Class) + <span class="hljs-number">56</span>u)
-  SBase3 (<span class="hljs-number">0</span>x0x7f693a34a720) <span class="hljs-number">28</span>
-  VBase (<span class="hljs-number">0</span>x0x7f693a34a780) <span class="hljs-number">64</span> virtual
-      vptridx=<span class="hljs-number">8</span>u vbaseoffset=-<span class="hljs-number">24</span> vptr=((&amp; Class::_ZTV5Class) + <span class="hljs-number">88</span>u)
-
-Vtable <span class="hljs-keyword">for</span> Derived
-Derived::_ZTV7Derived: <span class="hljs-number">13</span>u entries
-<span class="hljs-number">0</span>     <span class="hljs-number">64</span>u
-<span class="hljs-number">8</span>     (int (*)(...))<span class="hljs-number">0</span>
-<span class="hljs-number">16</span>    (int (*)(...))(&amp; _ZTI7Derived)
-<span class="hljs-number">24</span>    (int (*)(...))SBase1::grault
-<span class="hljs-number">32</span>    (int (*)(...))Class::baz
-<span class="hljs-number">40</span>    (int (*)(...))Derived::qux
-<span class="hljs-number">48</span>    (int (*)(...))-<span class="hljs-number">16</span>
-<span class="hljs-number">56</span>    (int (*)(...))(&amp; _ZTI7Derived)
-<span class="hljs-number">64</span>    (int (*)(...))SBase2::grault
-<span class="hljs-number">72</span>    <span class="hljs-number">0</span>u
-<span class="hljs-number">80</span>    (int (*)(...))-<span class="hljs-number">64</span>
-<span class="hljs-number">88</span>    (int (*)(...))(&amp; _ZTI7Derived)
-<span class="hljs-number">96</span>    (int (*)(...))VBase::corge
-
-Construction vtable <span class="hljs-keyword">for</span> Class (<span class="hljs-number">0</span>x0x7f693a352380 instance) <span class="hljs-keyword">in</span> Derived
-Derived::_ZTC7Derived0_5Class: <span class="hljs-number">9</span>u entries
-<span class="hljs-number">0</span>     <span class="hljs-number">64</span>u
-<span class="hljs-number">8</span>     (int (*)(...))<span class="hljs-number">0</span>
-<span class="hljs-number">16</span>    (int (*)(...))(&amp; _ZTI5Class)
-<span class="hljs-number">24</span>    (int (*)(...))SBase1::grault
-<span class="hljs-number">32</span>    (int (*)(...))Class::baz
-<span class="hljs-number">40</span>    <span class="hljs-number">0</span>u
-<span class="hljs-number">48</span>    (int (*)(...))-<span class="hljs-number">64</span>
-<span class="hljs-number">56</span>    (int (*)(...))(&amp; _ZTI5Class)
-<span class="hljs-number">64</span>    (int (*)(...))VBase::corge
-
-VTT <span class="hljs-keyword">for</span> Derived
-Derived::_ZTT7Derived: <span class="hljs-number">4</span>u entries
-<span class="hljs-number">0</span>     ((&amp; Derived::_ZTV7Derived) + <span class="hljs-number">24</span>u)
-<span class="hljs-number">8</span>     ((&amp; Derived::_ZTC7Derived0_5Class) + <span class="hljs-number">24</span>u)
-<span class="hljs-number">16</span>    ((&amp; Derived::_ZTC7Derived0_5Class) + <span class="hljs-number">64</span>u)
-<span class="hljs-number">24</span>    ((&amp; Derived::_ZTV7Derived) + <span class="hljs-number">96</span>u)
-
-Class Derived
-   size=<span class="hljs-number">80</span> align=<span class="hljs-number">8</span>
-   base size=<span class="hljs-number">58</span> base align=<span class="hljs-number">8</span>
-Derived (<span class="hljs-number">0</span>x0x7f693a33f138) <span class="hljs-number">0</span>
-    vptridx=<span class="hljs-number">0</span>u vptr=((&amp; Derived::_ZTV7Derived) + <span class="hljs-number">24</span>u)
-  Class (<span class="hljs-number">0</span>x0x7f693a352380) <span class="hljs-number">0</span>
-      primary-for Derived (<span class="hljs-number">0</span>x0x7f693a33f138)
-      subvttidx=<span class="hljs-number">8</span>u
-    SBase1 (<span class="hljs-number">0</span>x0x7f693a34a840) <span class="hljs-number">0</span>
-        primary-for Class (<span class="hljs-number">0</span>x0x7f693a352380)
-    SBase2 (<span class="hljs-number">0</span>x0x7f693a34a8a0) <span class="hljs-number">16</span>
-        vptr=((&amp; Derived::_ZTV7Derived) + <span class="hljs-number">64</span>u)
-    SBase3 (<span class="hljs-number">0</span>x0x7f693a34a900) <span class="hljs-number">28</span>
-    VBase (<span class="hljs-number">0</span>x0x7f693a34a960) <span class="hljs-number">64</span> virtual
-        vptridx=<span class="hljs-number">24</span>u vbaseoffset=-<span class="hljs-number">24</span> vptr=((&amp; Derived::_ZTV7Derived) + <span class="hljs-number">96</span>u)
+<p>&#x5982;&#x679C;&#x7528;&#x6C92;&#x6709;&#x52A0;&#x9019;&#x500B;&#x53C3;&#x6578;&#x7684;&#x7DE8;&#x8B6F;&#x5F8C;&#x7684;&#x5171;&#x4EAB;&#x5EAB;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x7684;&#x8A71;&#xFF0C;&#x53EF;&#x80FD;&#x662F;&#x5169;&#x500B;&#x539F;&#x56E0;&#xFF1A;</p>
+<pre><code class="lang-sh"><span class="hljs-number">1</span>&#xFF1A;gcc&#x9ED8;&#x8A8D;&#x958B;&#x555F;<span class="hljs-operator">-f</span>PIC&#x9078;&#x9805;
+<span class="hljs-number">2</span>&#xFF1A;loader&#x4F7F;&#x4F60;&#x7684;&#x4EE3;&#x78BC;&#x4F4D;&#x7F6E;&#x7121;&#x95DC;
 </code></pre>
+<p>&#x5F9E;GCC&#x4F86;&#x770B;&#xFF0C;shared&#x61C9;&#x8A72;&#x662F;&#x5305;&#x542B;fPIC&#x9078;&#x9805;&#x7684;&#xFF0C;&#x4F46;&#x4F3C;&#x4E4E;&#x4E0D;&#x662F;&#x6240;&#x4EE5;&#x7CFB;&#x7D71;&#x90FD;&#x652F;&#x6301;&#xFF0C;&#x6240;&#x4EE5;&#x6700;&#x597D;&#x986F;&#x5F0F;&#x52A0;&#x4E0A;fPIC&#x9078;&#x9805;&#x3002;&#x53C3;&#x898B;&#x5982;&#x4E0B;</p>
+<pre><code class="lang-sh">`-shared<span class="hljs-string">&apos;
+     Produce a shared object which can then be linked with other
+     objects to form an executable.  Not all systems support this
+     option.  For predictable results, you must also specify the same
+     set of options that were used to generate code (`-fpic&apos;</span>, `<span class="hljs-operator">-f</span>PIC<span class="hljs-string">&apos;,
+     or model suboptions) when you specify this option.(1)
+</span></code></pre>
+<p>-fPIC &#x7684;&#x4F7F;&#x7528;&#xFF0C;&#x6703;&#x751F;&#x6210; PIC &#x4EE3;&#x78BC;&#xFF0C;.so &#x8981;&#x6C42;&#x70BA; PIC&#xFF0C;&#x4EE5;&#x9054;&#x5230;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x7684;&#x76EE;&#x7684;&#xFF0C;&#x5426;&#x5247;&#xFF0C;&#x7121;&#x6CD5;&#x5BE6;&#x73FE;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x3002;</p>
+<p><code>non-PIC &#x8207; PIC &#x4EE3;&#x78BC;&#x7684;&#x5340;&#x5225;&#x4E3B;&#x8981;&#x5728;&#x65BC; access global data, jump label &#x7684;&#x4E0D;&#x540C;&#x3002;</code></p>
+<p>&#x6BD4;&#x5982;&#x4E00;&#x689D; access global data &#x7684;&#x6307;&#x4EE4;&#xFF0C;<br>
+non-PIC &#x7684;&#x5F62;&#x52E2;&#x662F;&#xFF1A;ld r3, var1<br>
+PIC &#x7684;&#x5F62;&#x5F0F;&#x5247;&#x662F;&#xFF1A;ld r3, var1-offset@GOT,&#x610F;&#x601D;&#x662F;&#x5F9E; GOT &#x8868;&#x7684; index &#x70BA; var1-offset &#x7684;&#x5730;&#x65B9;&#x8655;
+&#x6307;&#x793A;&#x7684;&#x5730;&#x5740;&#x8655;&#x88DD;&#x8F09;&#x4E00;&#x500B;&#x503C;,&#x5373;var1-offset@GOT<code>&#x8655;&#x7684;4&#x500B; byte &#x5176;&#x5BE6;&#x5C31;&#x662F; var1 &#x7684;&#x5730;&#x5740;</code>&#x3002;&#x9019;&#x500B;&#x5730;&#x5740;&#x53EA;&#x6709;&#x5728;&#x904B;&#x884C;&#x7684;&#x6642;&#x5019;&#x624D;&#x77E5;&#x9053;&#xFF0C;&#x662F;&#x7531; dynamic-loader(ld-linux.so) &#x586B;&#x9032;&#x53BB;&#x7684;&#x3002;</p>
+<p>&#x518D;&#x6BD4;&#x5982; jump label &#x6307;&#x4EE4;<br>
+non-PIC &#x7684;&#x5F62;&#x52E2;&#x662F;&#xFF1A;jump printf &#xFF0C;&#x610F;&#x601D;&#x662F;&#x8ABF;&#x7528; printf&#x3002;<br>
+PIC &#x7684;&#x5F62;&#x5F0F;&#x5247;&#x662F;&#xFF1A;jump printf-offset@GOT,<br>
+<code>&#x610F;&#x601D;&#x662F;&#x8DF3;&#x5230; GOT &#x8868;&#x7684; index &#x70BA; printf-offset &#x7684;&#x5730;&#x65B9;&#x8655;&#x6307;&#x793A;&#x7684;&#x5730;&#x5740;&#x53BB;&#x57F7;&#x884C;&#xFF0C;
+&#x9019;&#x500B;&#x5730;&#x5740;&#x8655;&#x7684;&#x4EE3;&#x78BC;&#x64FA;&#x653E;&#x5728; .plt section&#xFF0C;</code></p>
+<p><code>&#x6BCF;&#x500B;&#x5916;&#x90E8;&#x51FD;&#x6578;&#x5C0D;&#x61C9;&#x4E00;&#x6BB5;&#x9019;&#x6A23;&#x7684;&#x4EE3;&#x78BC;&#xFF0C;&#x5176;&#x529F;&#x80FD;&#x662F;&#x547C;&#x53EB;dynamic-loader(ld-linux.so) &#x4F86;&#x67E5;&#x627E;&#x51FD;&#x6578;&#x7684;&#x5730;&#x5740;(&#x672C;&#x4F8B;&#x4E2D;&#x662F; printf)&#xFF0C;&#x7136;&#x5F8C;&#x5C07;&#x5176;&#x5730;&#x5740;&#x5BEB;&#x5230; GOT &#x8868;&#x7684; index &#x70BA; printf-offset &#x7684;&#x5730;&#x65B9;&#xFF0C;</code></p>
+<p>&#x540C;&#x6642;&#x57F7;&#x884C;&#x9019;&#x500B;&#x51FD;&#x6578;&#x3002;&#x9019;&#x6A23;&#xFF0C;&#x7B2C;2&#x6B21;&#x547C;&#x53EB; printf &#x7684;&#x6642;&#x5019;&#xFF0C;&#x5C31;&#x6703;&#x76F4;&#x63A5;&#x8DF3;&#x5230; printf &#x7684;&#x5730;&#x5740;&#xFF0C;&#x800C;&#x4E0D;&#x5FC5;&#x518D;&#x67E5;&#x627E;&#x4E86;&#x3002;</p>
+<p><code>GOT &#x662F; data section, &#x662F;&#x4E00;&#x500B; table, &#x9664;&#x5C08;&#x7528;&#x7684;&#x5E7E;&#x500B; entry&#xFF0C;&#x6BCF;&#x500B; entry &#x7684;&#x5167;&#x5BB9;&#x53EF;&#x4EE5;&#x518D;&#x57F7;&#x884C;&#x7684;&#x6642;&#x5019;&#x4FEE;&#x6539;&#xFF1B;
+PLT &#x662F; text section, &#x662F;&#x4E00;&#x6BB5;&#x4E00;&#x6BB5;&#x7684; code&#xFF0C;&#x57F7;&#x884C;&#x4E2D;&#x4E0D;&#x9700;&#x8981;&#x4FEE;&#x6539;&#x3002;</code></p>
+<p>&#x6BCF;&#x500B; target &#x5BE6;&#x73FE; PIC &#x7684;&#x6A5F;&#x5236;&#x4E0D;&#x540C;&#xFF0C;&#x4F46;&#x5927;&#x540C;&#x5C0F;&#x7570;&#x3002;&#x6BD4;&#x5982; MIPS &#x6C92;&#x6709; .plt, &#x800C;&#x662F;&#x53EB; .stub&#xFF0C;&#x529F;&#x80FD;&#x548C; .plt &#x4E00;&#x6A23;&#x3002;</p>
+<p>&#x53EF;&#x898B;&#xFF0C;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x57F7;&#x884C;&#x5F88;&#x8907;&#x96DC;&#xFF0C;&#x6BD4;&#x975C;&#x614B;&#x93C8;&#x63A5;&#x57F7;&#x884C;&#x6642;&#x9593;&#x9577;;&#x4F46;&#x662F;&#xFF0C;&#x6975;&#x5927;&#x7684;&#x7BC0;&#x7701;&#x4E86; size&#xFF0C;PIC &#x548C;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x6280;&#x8853;&#x662F;&#x8A08;&#x7B97;&#x6A5F;&#x767C;&#x5C55;&#x53F2;&#x4E0A;&#x975E;&#x5E38;&#x91CD;&#x8981;&#x7684;&#x4E00;&#x500B;&#x91CC;&#x7A0B;&#x7891;&#x3002;</p>
+<p>gcc manul&#x4E0A;&#x9762;&#x6709;&#x8AAA;
+-fpic        If the GOT size for the linked executable exceeds a machine-specific maximum size, you get an error message from the linker indicating that -fpic does not work; in that case, recompile with -fPIC instead. (These maximums are 8k on the SPARC and 32k on the m68k and RS/6000. The 386 has no such limit.)</p>
+<p>-fPIC       If supported for the target machine, emit position-independent code, suitable for dynamic linking and avoiding any limit on the size of the global offset table. This option makes a difference on the m68k, PowerPC and SPARC. Position-independent code requires special support, and therefore works only on certain machines.</p>
+<p>&#x95DC;&#x9375;&#x5728;&#x65BC;GOT&#x5168;&#x5C40;&#x504F;&#x79FB;&#x91CF;&#x8868;&#x88E1;&#x9762;&#x7684;&#x8DF3;&#x8F49;&#x9805;&#x5927;&#x5C0F;&#x3002;
+intel&#x8655;&#x7406;&#x5668;&#x61C9;&#x8A72;&#x662F;&#x7D71;&#x4E00;4&#x5B57;&#x7BC0;&#xFF0C;&#x6C92;&#x6709;&#x554F;&#x984C;&#x3002;
+powerpc&#x4E0A;&#x7531;&#x65BC;&#x5F59;&#x7DE8;&#x78BC;&#x6216;&#x8005;&#x6A5F;&#x5668;&#x78BC;&#x7684;&#x7279;&#x6B8A;&#x8981;&#x6C42;&#xFF0C;&#x6240;&#x4EE5;&#x8DF3;&#x8F49;&#x9805;&#x5206;&#x70BA;&#x77ED;&#x3001;&#x9577;&#x5169;&#x7A2E;&#x3002;</p>
+<p><code>-fpic&#x70BA;&#x4E86;&#x7BC0;&#x7D04;&#x5167;&#x5B58;&#xFF0C;&#x5728;GOT&#x88E1;&#x9762;&#x9810;&#x7559;&#x4E86;&#x201C;&#x77ED;&#x201D;&#x9577;&#x5EA6;&#x3002;</code></p>
+<p>&#x800C;</p>
+<p><code>-fPIC&#x5247;&#x63A1;&#x7528;&#x4E86;&#x66F4;&#x5927;&#x7684;&#x8DF3;&#x8F49;&#x9805;&#x3002;</code></p>
 
                     
                     </section>
@@ -12849,10 +12719,10 @@ Derived (<span class="hljs-number">0</span>x0x7f693a33f138) <span class="hljs-nu
         </div>
 
         
-        <a href="../gcc/gcc4e2d-_pthread_548c-_lpthread_de_qu_bie.html" class="navigation navigation-prev " aria-label="Previous page: gcc中-pthread和-lpthread的區別"><i class="fa fa-angle-left"></i></a>
+        <a href="../linked_and_loader/dong_tai_zai_ru_han_shi_ku__dynamically_lodaded_li.html" class="navigation navigation-prev " aria-label="Previous page: 動態載入函式庫 (Dynamically Lodaded Libraries)"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../gcc/gcc_-e_-p.html" class="navigation navigation-next " aria-label="Next page: gcc -E -P"><i class="fa fa-angle-right"></i></a>
+        <a href="../Bochs/bochs.html" class="navigation navigation-next " aria-label="Next page: Bochs"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

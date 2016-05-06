@@ -387,6 +387,7 @@
    * [Mutex::Autolock  for c++](c++/mutexautolock_for_c_++.md)
    * [C++ STL 學習總結(全面)](c++/c++_stl_xue_xi_zong_7d5028_quan_976229.md)
 * [GNU make](gunmake/README.md)
+   * example
    * [CMake](cmake/cmake.md)
        * [CMake 初探](cmake/cmake_chu_tan.md)
        * [CMake 入門](gunmake/204.md)
@@ -405,7 +406,6 @@
    * [SCons筆記(詳細版)](gunmake/sconsqu_dai_makefile_bian_yi_c__c_gong_cheng.md)
    * [高級Makefile技巧](gunmake/gao_ji_makefile_ji_qiao.md)
    * [Makefile條件編譯debug版和release版](gunmake/makefiletiao_jian_bian_yi_debug_ban_he_release_ban.md)
-   * example
 * [[轉]國王的耳朵是驢耳朵](22/README.md)
    * [Linker script初探 - GNU linker ld手冊略讀](22/221.md)
    * [GNU ld初探](22/222.md)

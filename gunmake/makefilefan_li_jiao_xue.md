@@ -289,9 +289,9 @@ clean:
     @rm -rf *.o  
 ```
 
-這個Makefile看起來開始嚇人了！首先宣告這個Makefile所使用到的command是bash的語法。如果不需告則預設是sh，但是linux的sh就是bash，因此如果你是csh的擁護者，請你一定要宣告她。並且要注意的是，在GNU make裡，變數與變數值之間可以有空格(VAR = value，這個習慣跟csh一樣)也可以沒有空格(VAR=vlaue，這個習慣跟bash一樣)；不過如果在其他平台，如Solaris、HPUX或是AIX，很可能要使用具有空格的形式宣告才行。為了Makefile的可移植性，建議使用具有空格的表示方法。
+這個Makefile看起來開始嚇人了！首先宣告這個Makefile所使用到的command是bash的語法。如果不需告則預設是sh，但是linux的sh就是bash，因此如果你是csh的擁護者，請你一定要宣告她。並且要注意的是，在GNU make裡，變數與變數值之間可以有空格(VAR = value，這個習慣跟csh一樣)也可以沒有空格(VAR=vlaue，這個習慣跟bash一樣)；不過如果在其他平臺，如Solaris、HPUX或是AIX，很可能要使用具有空格的形式宣告才行。為了Makefile的可移植性，建議使用具有空格的表示方法。
 
-SUFFIXS與PHONY都是變數，代表隱含、內定的target。例如宣告了.c, .cpp, .f77, .f這些副檔名到SUFFIXS變數，是告訴make這些副檔名也要加入隱含規則的行列。事實上，.c, .cpp, .o都已經在make的隱含規則裡了，再次宣告只是為了讓閱讀者更加明確知道這些檔案會被隱含規則處理。而PHONY變數則是讓make知道該target不是某個檔案，只是一個標記。假設make跑到line 15，發現沒有dependency，而工作目錄內恰好有一個clean的檔案，make會認為無條件需求而不去執行我們所要求的clean的動作；為了解決這個極少發生的窘境，細心的開發者還是會把PHONY變數加進Makefile裡。
+SUFFIXS與PHONY都是變數，代表隱含、內定的target。例如宣告了.c, .cpp, .f77, .f這些副檔名到SUFFIXS變數，是告訴make這些副檔名也要加入隱含規則的行列。事實上，.c, .cpp, .o都已經在make的隱含規則裡了，再次宣告只是為了讓閱讀者更加明確知道這些檔案會被隱含規則處理。而PHONY變數則是讓make知道該target不是某個檔案，只是一個標記。假設make跑到line 15，發現沒有dependency，而工作目錄內恰好有一個clean的檔案，make會認為無條件需求而不去執行我們所要求的clean的動作；為瞭解決這個極少發生的窘境，細心的開發者還是會把PHONY變數加進Makefile裡。
 
 line 11所出現的$@以及line 13出現的$<稱為自動變數，$@代表target本身，$<代表第一個dependency。line 12大量出現的%則是樣式規則，她就是幫助我們簡化Makefile最好的朋友。
 
@@ -379,7 +379,7 @@ dep:
 line 45的.cpp.o :是%.cpp: %.o的縮寫，千萬別誤會這是一個標記或假項目喔！line 48作者自訂了一個隱含方法，與前例的line 12是相同的意義。
 
 作者很謹慎的利用SUFFIXES(SUFFIXS也適用在GNU make)來定義隱含規則的list。第一個.SUFFIXES:後面沒有接任何東西，表示清空suffix清單；第二個.SUFFIXES:接了.cpp .o兩個副檔名，告訴make只需要關心這兩者就好，其他不必花費心思隱含編譯。只是gcc在編譯時，-I以及-L預設都會把當前目錄包含進去，其實-I. 是多餘的；但是整體的撰寫方式算是嚴謹清晰且流暢！
-了解了target與dependency的關係以及隱含規則的符號之後，還剩下一個大重點：command。每行command都是一次獨立的command，彼此毫無關聯性。如果要具有連貫性的command必須寫成連續的一行，例如：
+瞭解了target與dependency的關係以及隱含規則的符號之後，還剩下一個大重點：command。每行command都是一次獨立的command，彼此毫無關聯性。如果要具有連貫性的command必須寫成連續的一行，例如：
 
 
 ```sh
@@ -417,7 +417,7 @@ clean:
     rm -f pssac *.o
 ```
 
-首先，將${VAR}跟$(VAR)混合使用是容易造成混淆的；第二，使用者並不知道什麼是LINK.c，從這個名稱實在無法猜出到底該給她什麼變數值。第三，GMT_INC與GMT_LIBS看起來像是某個程式的headers與libraries路徑，但是要碰巧有個使用者跟作者一樣有相同的環境變數名稱，是很困難的。第四，其實可以利用$<來代替$@.o，因為他是第一個dependency；第五，sacio.o是作者給的，並不是使用者可以自己編譯的。這會造成不同平台的使用者極大的困擾 --即使她所有的變數都辛苦的解決了，但是她的硬體是sparc，若這個sacio.o是linux x86或其他平台上編譯的，那麼這個程式根本就不可能編譯成功。
+首先，將${VAR}跟$(VAR)混合使用是容易造成混淆的；第二，使用者並不知道什麼是LINK.c，從這個名稱實在無法猜出到底該給她什麼變數值。第三，GMT_INC與GMT_LIBS看起來像是某個程式的headers與libraries路徑，但是要碰巧有個使用者跟作者一樣有相同的環境變數名稱，是很困難的。第四，其實可以利用$<來代替$@.o，因為他是第一個dependency；第五，sacio.o是作者給的，並不是使用者可以自己編譯的。這會造成不同平臺的使用者極大的困擾 --即使她所有的變數都辛苦的解決了，但是她的硬體是sparc，若這個sacio.o是linux x86或其他平臺上編譯的，那麼這個程式根本就不可能編譯成功。
 非常感謝我的老友焜銘給我許多指導、建議以及內容的指正，又提供我一個製作程式碼highlight以及行數的網站，讓我寫範例時能更輕鬆！
 
 [quickhighlighter.com](http://quickhighlighter.com/)
@@ -431,10 +431,10 @@ clean:
 GNU make使用手冊 中譯版
 
 如何寫一個簡單的Makefile
-裡面包含許多章節，由王森所翻譯，其翻譯的品質非常的高。
+裡麵包含許多章節，由王森所翻譯，其翻譯的品質非常的高。
 
 用Open Source工具開發軟體: 新軟體開發觀念
-黃郁熙前輩所撰寫，非常有系統的教學。
+黃鬱熙前輩所撰寫，非常有系統的教學。
 
 Using GCC to create static and shared library
 PTT版友cole945所撰寫，針對各種libraries作詳盡的介紹。

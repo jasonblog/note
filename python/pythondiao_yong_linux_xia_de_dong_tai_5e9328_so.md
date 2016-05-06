@@ -1,4 +1,4 @@
-# Python调用Linux下的动态库(so)
+# Python調用Linux下的動態庫(so)
 
 - linuxany.c
 

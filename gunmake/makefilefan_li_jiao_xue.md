@@ -428,8 +428,6 @@ clean:
 
 
 ## 參考
-
-
 GNU make使用手冊 中譯版
 
 如何寫一個簡單的Makefile

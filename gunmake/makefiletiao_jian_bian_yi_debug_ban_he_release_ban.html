@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>列出函數的名字 | Jason note</title>
+        <title>Makefile條件編譯debug版和release版 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../100_gdb_tips/step-and-next-function.html" />
+    <link rel="next" href="../22/index.html" />
     
     
-    <link rel="prev" href="../100_gdb_tips/han_shu.html" />
+    <link rel="prev" href="../gunmake/gao_ji_makefile_ji_qiao.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="45.2.1" data-basepath=".." data-revision="Sat May 07 2016 01:17:56 GMT+0800 (CST)">
+    <div class="book" data-level="19.11" data-basepath=".." data-revision="Sat May 07 2016 01:17:56 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -6308,7 +6308,7 @@
             
         </li>
     
-        <li class="chapter " data-level="19.11" data-path="gunmake/makefiletiao_jian_bian_yi_debug_ban_he_release_ban.html">
+        <li class="chapter active" data-level="19.11" data-path="gunmake/makefiletiao_jian_bian_yi_debug_ban_he_release_ban.html">
             
                 
                     <a href="../gunmake/makefiletiao_jian_bian_yi_debug_ban_he_release_ban.html">
@@ -9991,7 +9991,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="45.2.1" data-path="100_gdb_tips/info-function.html">
+        <li class="chapter " data-level="45.2.1" data-path="100_gdb_tips/info-function.html">
             
                 
                     <a href="../100_gdb_tips/info-function.html">
@@ -12540,71 +12540,50 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E5%88%97%E5%87%BA%E5%87%BD%E6%95%B8%E7%9A%84%E5%90%8D%E5%AD%97">&#x5217;&#x51FA;&#x51FD;&#x6578;&#x7684;&#x540D;&#x5B57;</h1>
-<h2 id="%E4%BE%8B%E5%AD%90">&#x4F8B;&#x5B50;</h2>
-<pre><code>#include &lt;stdio.h&gt;
-#include &lt;pthread.h&gt;
-void *thread_func(void *p_arg)
-{
-        while (1)
-        {
-                sleep(10);
-        }
-}
-int main(void)
-{
-        pthread_t t1, t2;
+                        <h1 id="makefile%E6%A2%9D%E4%BB%B6%E7%B7%A8%E8%AD%AFdebug%E7%89%88%E5%92%8Crelease%E7%89%88">Makefile&#x689D;&#x4EF6;&#x7DE8;&#x8B6F;debug&#x7248;&#x548C;release&#x7248;</h1>
+<p>&#x4E00;&#x822C;&#xFF0C;&#x5728;&#x958B;&#x767C;&#x6E2C;&#x8A66;&#x968E;&#x6BB5;&#x7528;debug&#x7248;&#x672C;&#xFF0C;&#x800C;&#x4E0A;&#x7DDA;&#x767C;&#x4F48;&#x7528;release&#x7248;&#x672C;&#x3002;</p>
+<p>&#x4F7F;&#x7528;Makefile&#x5B9A;&#x88FD;&#x7DE8;&#x8B6F;&#x4E0D;&#x540C;&#x7248;&#x672C;&#xFF0C;&#x907F;&#x514D;&#x4FEE;&#x6539;&#x7A0B;&#x5E8F;&#x548C;Makefile&#x6587;&#x4EF6;&#xFF0C;&#x5C07;&#x6703;&#x5341;&#x5206;&#x65B9;&#x4FBF;&#x3002;</p>
+<p>&#x8B80;&#x4E86;&#x4E00;&#x4E9B;&#x8CC7;&#x6599;&#xFF0C;&#x627E;&#x5230;&#x4E00;&#x500B;&#x89E3;&#x6C7A;&#x65B9;&#x6CD5;&#xFF0C;Makefile&#x9810;&#x5B9A;&#x7FA9;&#x5B8F;&#x8207;&#x689D;&#x4EF6;&#x5224;&#x65B7;&#xFF0C;&#x7D50;&#x5408;make&#x9810;&#x5B9A;&#x7FA9;&#x8B8A;&#x91CF;&#xFF0C;&#x9032;&#x884C;&#x689D;&#x4EF6;&#x7DE8;&#x8B6F;&#x3002;</p>
+<p>&#x6BD4;&#x5982;&#xFF0C;&#x6709;&#x4E00;&#x500B;test.cpp&#xFF0C;&#x5305;&#x542B;&#x9019;&#x6BB5;&#x4EE3;&#x78BC;</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">ifdef</span> debug</span>
+<span class="hljs-comment">//your code</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span></span>
+</code></pre>
+<p>&#x4F60;&#x5E0C;&#x671B;&#x5728;debug&#x7248;&#x672C;&#x8981;&#x57F7;&#x884C;&#x5B83;&#xFF0C;&#x5728;release&#x7248;&#x672C;&#x4E0D;&#x57F7;&#x884C;&#x3002;</p>
+<p>&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x5BEB;&#x9019;&#x6A23;&#x7684;&#x4E00;&#x500B;Makefile&#xFF1A;</p>
+<pre><code class="lang-sh">ver = debug
 
-        pthread_create(&amp;t1, NULL, thread_func, &quot;Thread 1&quot;);
-        pthread_create(&amp;t2, NULL, thread_func, &quot;Thread 2&quot;);
+ifeq ($(ver), debug)
+ALL: <span class="hljs-built_in">test</span>_d
+CXXFLAGS = -c -g -Ddebug
+<span class="hljs-keyword">else</span>
+ALL: <span class="hljs-built_in">test</span>_r
+CXXFLAGS = -c -O3 
+endif
 
-        sleep(1000);
-        return;
-}
-</code></pre><h2 id="%E6%8A%80%E5%B7%A7">&#x6280;&#x5DE7;</h2>
-<p>&#x4F7F;&#x7528;gdb&#x8ABF;&#x8A66;&#x6642;&#xFF0C;&#x4F7F;&#x7528;&#x201C;<code>info functions</code>&#x201D;&#x547D;&#x4EE4;&#x53EF;&#x4EE5;&#x5217;&#x51FA;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x7684;&#x6240;&#x6709;&#x51FD;&#x6578;&#x540D;&#x7A31;&#x3002;&#x4EE5;&#x4E0A;&#x9762;&#x4EE3;&#x78BC;&#x70BA;&#x4F8B;&#xFF1A;</p>
-<pre><code>(gdb) info functions
-All defined functions:
+<span class="hljs-built_in">test</span>_d: test.do
+    g++ -o <span class="hljs-variable">$@</span> $^
 
-File a.c:
-int main(void);
-void *thread_func(void *);
+<span class="hljs-built_in">test</span>_r: test.ro
+    g++ -o <span class="hljs-variable">$@</span> $^
 
-Non-debugging symbols:
-0x0805079c  _PROCEDURE_LINKAGE_TABLE_
-0x080507ac  _cleanup@plt
-0x080507bc  atexit
-0x080507bc  atexit@plt
-0x080507cc  __fpstart
-0x080507cc  __fpstart@plt
-0x080507dc  exit@plt
-0x080507ec  __deregister_frame_info_bases@plt
-0x080507fc  __register_frame_info_bases@plt
-0x0805080c  _Jv_RegisterClasses@plt
-0x0805081c  sleep
-0x0805081c  sleep@plt
-0x0805082c  pthread_create@plt
-0x0805083c  _start
-0x080508b4  _mcount
-0x080508b8  __do_global_dtors_aux
-0x08050914  frame_dummy
-0x080509f4  __do_global_ctors_aux
-0x08050a24  _init
-0x08050a31  _fini
-</code></pre><p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x6703;&#x5217;&#x51FA;&#x51FD;&#x6578;&#x539F;&#x578B;&#x4EE5;&#x53CA;&#x4E0D;&#x5E36;&#x8ABF;&#x8A66;&#x4FE1;&#x606F;&#x7684;&#x51FD;&#x6578;&#x3002;</p>
-<p>&#x53E6;&#x5916;&#x9019;&#x500B;&#x547D;&#x4EE4;&#x4E5F;&#x652F;&#x6301;&#x6B63;&#x5247;&#x8868;&#x9054;&#x5F0F;&#xFF1A;&#x201C;<code>info functions regex</code>&#x201D;&#xFF0C;&#x9019;&#x6A23;&#x53EA;&#x6703;&#x5217;&#x51FA;&#x7B26;&#x5408;&#x6B63;&#x5247;&#x8868;&#x9054;&#x5F0F;&#x7684;&#x51FD;&#x6578;&#x540D;&#x7A31;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;</p>
-<pre><code>(gdb) info functions thre*
-All functions matching regular expression &quot;thre*&quot;:
+%.do: %.cpp
+    g++ $(CXXFLAGS) $&lt; -o <span class="hljs-variable">$@</span>
 
-File a.c:
-void *thread_func(void *);
-
-Non-debugging symbols:
-0x0805082c  pthread_create@plt
-</code></pre><p>&#x53EF;&#x4EE5;&#x770B;&#x5230;gdb&#x53EA;&#x6703;&#x5217;&#x51FA;&#x540D;&#x5B57;&#x88E1;&#x5305;&#x542B;&#x201C;<code>thre</code>&#x201D;&#x7684;&#x51FD;&#x6578;&#x3002;</p>
-<p>&#x8A73;&#x60C5;&#x53C3;&#x898B;<a href="https://sourceware.org/gdb/onlinedocs/gdb/Symbols.html" target="_blank">gdb&#x624B;&#x518A;</a></p>
-<h2 id="%E8%B2%A2%E7%8D%BB%E8%80%85">&#x8CA2;&#x737B;&#x8005;</h2>
-<p>nanxiao</p>
+%.ro: %.cpp
+    g++ $(CXXFLAGS) $&lt; -o <span class="hljs-variable">$@</span>
+</code></pre>
+<p>&#x7C21;&#x55AE;&#x8AAA;&#x4E00;&#x4E0B;&#xFF0C;Makefile&#x6839;&#x64DA;ver&#x7684;&#x4E0D;&#x540C;&#x5B9A;&#x7FA9;&#x4E86;&#x4E0D;&#x540C;&#x7684;&#x7DE8;&#x8B6F;&#x9078;&#x9805;CXXFLAGS&#x8207;&#x8F38;&#x51FA;&#x7A0B;&#x5E8F;ALL&#xFF0C;</p>
+<p>debug&#x7248;&#x672C;&#x8F38;&#x51FA;&#x7A0B;&#x5E8F;&#x662F;test_d&#xFF0C;release&#x7248;&#x672C;&#x8F38;&#x51FA;&#x7A0B;&#x5E8F;&#x662F;test_r</p>
+<p>debug&#x7248;&#x672C;&#x7DE8;&#x8B6F;&#x9078;&#x9805;&#x662F;&quot;-c -g -Ddebug&quot;&#xFF0C;release&#x7248;&#x672C;&#x7DE8;&#x8B6F;&#x9078;&#x9805;&#x662F;&quot;-c -O3&quot;</p>
+<p>debug&#x7248;&#x672C;object&#x6587;&#x4EF6;&#x5F8C;&#x7DB4;&#x662F;&quot;.do&quot;&#xFF0C;release&#x7248;&#x672C;object&#x6587;&#x4EF6;&#x5F8C;&#x7DB4;&#x662F;&quot;.ro&quot;</p>
+<p>debug&#x7248;&#x672C;&#x7DE8;&#x8B6F;&#x9078;&#x9805;&#x4F7F;&#x7528;&quot;-D&quot;&#x5B9A;&#x7FA9;&#x5B8F;debug&#xFF0C;&#x4F7F;&#x5F97;your code&#x80FD;&#x5920;&#x57F7;&#x884C;&#x3002;</p>
+<p>&#x4E0D;&#x540C;&#x7248;&#x672C;&#x7684;&#x7DE8;&#x8B6F;&#x9078;&#x9805;&#x3001;object&#x6587;&#x4EF6;&#x3001;&#x8F38;&#x51FA;&#x7A0B;&#x5E8F;&#x5747;&#x4E0D;&#x540C;&#xFF0C;&#x6240;&#x4EE5;&#x53EF;&#x4EE5;&#x540C;&#x6642;&#x7DE8;&#x8B6F;&#x5169;&#x500B;&#x7248;&#x672C;&#x7684;&#x7A0B;&#x5E8F;&#xFF0C;&#x4E92;&#x4E0D;&#x5F71;&#x97FF;&#x3002;</p>
+<p>Makefile&#x57F7;&#x884C;&#x6642;&#xFF0C;&#x9996;&#x5148;&#x5224;&#x65B7;ver&#x8B8A;&#x91CF;&#xFF0C;&#x5982;&#x679C;ver&#x7684;&#x503C;&#x662F;debug&#xFF0C;&#x7DE8;&#x8B6F;debug&#x7248;&#xFF0C;&#x5426;&#x5247;&#x7DE8;&#x8B6F;release&#x7248;&#x3002;&#x7576;&#x7136;&#xFF0C;&#x9ED8;&#x8A8D;&#x60C5;&#x6CC1;&#x4E0B;&#x662F;&#x7DE8;&#x8B6F;debug&#x7248;&#x7684;&#x3002;</p>
+<p>&#x5982;&#x679C;&#x60F3;&#x7DE8;&#x8B6F;release&#x7248;&#xFF0C;&#x8981;&#x600E;&#x9EBC;&#x505A;&#xFF1F;</p>
+<p>&#x53EA;&#x8981;&#x5728;&#x57F7;&#x884C;make&#x6642;&#xFF0C;&#x5C0D;ver&#x8B8A;&#x91CF;&#x8CE6;&#x503C;&#xFF0C;&#x4F7F;&#x5F97;ver&#x7684;&#x503C;&#x4E0D;&#x70BA;debug&#xFF0C;&#x6BD4;&#x5982;</p>
+<pre><code class="lang-sh"><span class="hljs-comment"># make ver=release</span>
+</code></pre>
 
                     
                     </section>
@@ -12615,10 +12594,10 @@ Non-debugging symbols:
         </div>
 
         
-        <a href="../100_gdb_tips/han_shu.html" class="navigation navigation-prev " aria-label="Previous page: 函數"><i class="fa fa-angle-left"></i></a>
+        <a href="../gunmake/gao_ji_makefile_ji_qiao.html" class="navigation navigation-prev " aria-label="Previous page: 高級Makefile技巧"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../100_gdb_tips/step-and-next-function.html" class="navigation navigation-next " aria-label="Next page: 是否進入帶調試信息的函數"><i class="fa fa-angle-right"></i></a>
+        <a href="../22/index.html" class="navigation navigation-next " aria-label="Next page: [轉]國王的耳朵是驢耳朵"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

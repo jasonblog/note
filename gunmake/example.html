@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="19.1" data-basepath=".." data-revision="Sat May 07 2016 04:55:32 GMT+0800 (CST)">
+    <div class="book" data-level="19.1" data-basepath=".." data-revision="Mon May 09 2016 20:18:12 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -12682,26 +12682,30 @@ clean:
 CC = gcc
 CXX = g++
 LDFLAGS = -lm
-CFLAGS = -Wall -pedantic -ggdb3 -O0 -std=c99 -lpthread -static
+CFLAGS = -Wall -pedantic -ggdb3 -O0
 
-<span class="hljs-number">0505</span> = <span class="hljs-number">0505</span>.o
-<span class="hljs-number">2</span>DMI = <span class="hljs-number">2</span>DMI.o
-IFBP2D = IFBP2D.o
-IFBP = IFBP.o
+<span class="hljs-number">0505</span>_OBJS = <span class="hljs-number">0505</span>.o
+<span class="hljs-number">2</span>DMI_OBJS = <span class="hljs-number">2</span>DMI.o
+IFBP2D_OBJS = IFBP2D.o
+IFBP_OBJS = IFBP.o
 
 all: <span class="hljs-number">0505</span> <span class="hljs-number">2</span>DMI IFBP2D IFBP
 
-<span class="hljs-number">0505</span>: <span class="hljs-variable">${0505}</span>
-    <span class="hljs-variable">${CXX}</span> -o <span class="hljs-variable">$@</span> $? <span class="hljs-variable">${LDFLAGS}</span> <span class="hljs-variable">${CFLAGS}</span>
+<span class="hljs-number">0505</span>: <span class="hljs-variable">${0505_OBJS}</span>
+    <span class="hljs-variable">${CXX}</span> -o <span class="hljs-variable">$@</span> $? 
 
-<span class="hljs-number">2</span>DMI: <span class="hljs-variable">${2DMI}</span>
-    <span class="hljs-variable">${CXX}</span> -o <span class="hljs-variable">$@</span> $? <span class="hljs-variable">${LDFLAGS}</span> <span class="hljs-variable">${CFLAGS}</span>
+<span class="hljs-number">2</span>DMI: <span class="hljs-variable">${2DMI_OBJS}</span>
+    <span class="hljs-variable">${CXX}</span> -o <span class="hljs-variable">$@</span> $?
 
-IFBP2D: <span class="hljs-variable">${IFBP2D}</span>
-    <span class="hljs-variable">${CXX}</span> -o <span class="hljs-variable">$@</span> $? <span class="hljs-variable">${LDFLAGS}</span> <span class="hljs-variable">${CFLAGS}</span>
+IFBP2D: <span class="hljs-variable">${IFBP2D_OBJS}</span>
+    <span class="hljs-variable">${CXX}</span> -o <span class="hljs-variable">$@</span> $?
 
-IFBP: <span class="hljs-variable">${IFBP}</span>
-    <span class="hljs-variable">${CXX}</span> -o <span class="hljs-variable">$@</span> $? <span class="hljs-variable">${LDFLAGS}</span> <span class="hljs-variable">${CFLAGS}</span>
+IFBP: <span class="hljs-variable">${IFBP2D_OBJS}</span>
+    <span class="hljs-variable">${CXX}</span> -o <span class="hljs-variable">$@</span> $?
+
+.SUFFIXES : .cpp
+.cpp.o:
+    $(CXX) $(CFLAGS) $(LDFLAGS) -c $&lt;
 
 clean:
     rm <span class="hljs-operator">-f</span> *.o <span class="hljs-number">0505</span> <span class="hljs-number">2</span>DMI IFBP2D IFBP

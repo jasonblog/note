@@ -94,6 +94,12 @@ g++ -shared shared.o -L. -lstatic -o libshared.so   // 生成動態庫libshared.
 g++ test.cpp  -L. -lshared -o test.exe // link libshared.so 到test.exe中.
 ```
 
+```sh
+This is shared_print function
+This is static_print function
+```
+
+
 這個例子是從網上找來的，非常感謝。
 
 至於哪種方式好，個人還是覺得看你的實際應用情況，仁者見仁，智者見智。

@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>在gdb中執行cd和pwd命令 | Jason note</title>
+        <title>C语言互斥锁-双条件变量实现循环打印 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../100_gdb_tips/set-prompt.html" />
+    <link rel="next" href="../assembly/index.html" />
     
     
-    <link rel="prev" href="../100_gdb_tips/run-shell-command.html" />
+    <link rel="prev" href="../linux_system/linuxxia_dong_tai_ku_diao_yong_jing_tai_ku_de_fang.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="45.16.5" data-basepath=".." data-revision="Sun May 15 2016 21:40:45 GMT+0800 (CST)">
+    <div class="book" data-level="13.35" data-basepath=".." data-revision="Sun May 15 2016 21:40:45 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -4700,7 +4700,7 @@
             
         </li>
     
-        <li class="chapter " data-level="13.35" data-path="linux_system/cyu_yan_hu_chi_9501-_shuang_tiao_jian_bian_liang_s.html">
+        <li class="chapter active" data-level="13.35" data-path="linux_system/cyu_yan_hu_chi_9501-_shuang_tiao_jian_bian_liang_s.html">
             
                 
                     <a href="../linux_system/cyu_yan_hu_chi_9501-_shuang_tiao_jian_bian_liang_s.html">
@@ -11710,7 +11710,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="45.16.5" data-path="100_gdb_tips/run-cd-pwd.html">
+        <li class="chapter " data-level="45.16.5" data-path="100_gdb_tips/run-cd-pwd.html">
             
                 
                     <a href="../100_gdb_tips/run-cd-pwd.html">
@@ -12828,17 +12828,85 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E5%9C%A8gdb%E4%B8%AD%E5%9F%B7%E8%A1%8Ccd%E5%92%8Cpwd%E5%91%BD%E4%BB%A4">&#x5728;gdb&#x4E2D;&#x57F7;&#x884C;cd&#x548C;pwd&#x547D;&#x4EE4;</h1>
-<h2 id="%E6%8A%80%E5%B7%A7">&#x6280;&#x5DE7;</h2>
-<p>&#x662F;&#x7684;&#xFF0C;gdb&#x78BA;&#x5BE6;&#x652F;&#x6301;&#x9019;&#x5169;&#x500B;&#x547D;&#x4EE4;&#xFF0C;&#x96D6;&#x7136;&#x6211;&#x6C92;&#x6709;&#x60F3;&#x5230;&#x5B83;&#x5011;&#x6709;&#x4EC0;&#x9EBC;&#x7279;&#x5225;&#x7684;&#x7528;&#x8655;&#x3002;</p>
-<p>&#x4E5F;&#x8A31;&#xFF0C;&#x7576;&#x4F60;&#x555F;&#x52D5;gdb&#x4E4B;&#x5F8C;&#xFF0C;&#x767C;&#x73FE;&#x9700;&#x8981;&#x5207;&#x63DB;&#x5DE5;&#x4F5C;&#x76EE;&#x9304;&#xFF0C;&#x4F46;&#x53C8;&#x4E0D;&#x60F3;&#x9000;&#x51FA;gdb&#x7684;&#x6642;&#x5019;&#xFF1A;</p>
-<pre><code>(gdb) pwd
-Working directory /home/xmj.
-(gdb) cd tmp
-Working directory /home/xmj/tmp.
-</code></pre><p>&#x8A73;&#x60C5;&#x53C3;&#x898B;<a href="https://sourceware.org/gdb/onlinedocs/gdb/Working-Directory.html#Working-Directory" target="_blank">gdb&#x624B;&#x518A;</a></p>
-<h2 id="%E8%B2%A2%E7%8D%BB%E8%80%85">&#x8CA2;&#x737B;&#x8005;</h2>
-<p>xmj</p>
+                        <h1 id="c%E8%AF%AD%E8%A8%80%E4%BA%92%E6%96%A5%E9%94%81-%E5%8F%8C%E6%9D%A1%E4%BB%B6%E5%8F%98%E9%87%8F%E5%AE%9E%E7%8E%B0%E5%BE%AA%E7%8E%AF%E6%89%93%E5%8D%B0">C&#x8BED;&#x8A00;&#x4E92;&#x65A5;&#x9501;-&#x53CC;&#x6761;&#x4EF6;&#x53D8;&#x91CF;&#x5B9E;&#x73B0;&#x5FAA;&#x73AF;&#x6253;&#x5370;</h1>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;error.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;pthread.h&gt;</span></span>
+
+<span class="hljs-keyword">int</span> number[<span class="hljs-number">10</span>]={<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">7</span>,<span class="hljs-number">8</span>,<span class="hljs-number">9</span>,<span class="hljs-number">10</span>}; 
+<span class="hljs-keyword">pthread_mutex_t</span> mutex;
+<span class="hljs-keyword">pthread_cond_t</span> cond;
+<span class="hljs-keyword">pthread_cond_t</span> cond2;
+<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;        <span class="hljs-comment">//&#x6570;&#x7EC4;&#x4E0B;&#x6807;</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">read_even</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>        <span class="hljs-comment">//&#x6B64;&#x7EBF;&#x7A0B;&#x7528;&#x6765;&#x6253;&#x5370;&#x5076;&#x6570;</span>
+</span>{
+    <span class="hljs-keyword">do</span>
+    {
+        pthread_mutex_lock(&amp;mutex);<span class="hljs-comment">//&#x9501;&#x5B9A;&#x4E92;&#x65A5;&#x9501;</span>
+        <span class="hljs-keyword">if</span>(i%<span class="hljs-number">2</span>==<span class="hljs-number">0</span>)        <span class="hljs-comment">//&#x5BF9;&#x5E94;&#x662F;&#x5947;&#x6570;&#xFF0C;&#x5C31;&#x963B;&#x585E;&#x7EBF;&#x7A0B;</span>
+        {
+            <span class="hljs-comment">/*&#x963B;&#x585E;&#x7EBF;&#x7A0B;,&#x7B49;&#x5F85;&#x53E6;&#x5916;&#x4E00;&#x4E2A;&#x7EBF;&#x7A0B;&#x53D1;&#x9001;&#x4FE1;&#x53F7;&#xFF0C;&#x540C;&#x65F6;&#x4E3A;&#x516C;&#x5171;&#x6570;&#x636E;&#x533A;&#x89E3;&#x9501;*/</span>
+            pthread_cond_wait(&amp;cond,&amp;mutex);
+        }
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(i%<span class="hljs-number">2</span>==<span class="hljs-number">1</span>)<span class="hljs-comment">//&#x5076;&#x6570;&#xFF0C;&#x6253;&#x5370;</span>
+        {
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;thread2---&gt;number[%d]=%d\n&quot;</span>,i,number[i]);
+            i++;
+            pthread_cond_signal(&amp;cond2);<span class="hljs-comment">//&#x6761;&#x4EF6;&#x6539;&#x53D8;&#xFF0C;&#x5524;&#x9192;&#x963B;&#x585E;&#x7684;&#x7EBF;&#x7A0B;</span>
+        }
+        pthread_mutex_unlock(&amp;mutex);<span class="hljs-comment">//&#x6253;&#x5F00;&#x4E92;&#x65A5;&#x9501;</span>
+    }<span class="hljs-keyword">while</span>(i&lt;=<span class="hljs-number">9</span>);
+    pthread_exit(<span class="hljs-literal">NULL</span>);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">read_odd</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>        <span class="hljs-comment">//&#x6B64;&#x7EBF;&#x7A0B;&#x7528;&#x6765;&#x6253;&#x5370;&#x5947;&#x6570;</span>
+</span>{
+    <span class="hljs-keyword">do</span>
+    {
+        pthread_mutex_lock(&amp;mutex);
+        <span class="hljs-keyword">if</span>(i%<span class="hljs-number">2</span>==<span class="hljs-number">1</span>)
+        {
+            pthread_cond_wait(&amp;cond2,&amp;mutex);
+        }
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(i%<span class="hljs-number">2</span>==<span class="hljs-number">0</span>)
+        {
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;thread1---&gt;number[%d]=%d\n&quot;</span>,i,number[i]);
+            i++;
+            pthread_cond_signal(&amp;cond);<span class="hljs-comment">//&#x6761;&#x4EF6;&#x6539;&#x53D8;&#xFF0C;&#x5524;&#x9192;&#x963B;&#x585E;&#x7684;&#x7EBF;&#x7A0B;    </span>
+        }
+        pthread_mutex_unlock(&amp;mutex);
+    }<span class="hljs-keyword">while</span>(i&lt;=<span class="hljs-number">9</span>);
+    pthread_exit(<span class="hljs-literal">NULL</span>);
+}
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc,<span class="hljs-keyword">char</span> **argv)</span>
+</span>{
+    <span class="hljs-keyword">pthread_t</span> id,id2;<span class="hljs-keyword">int</span> ret=-<span class="hljs-number">1</span>;
+    pthread_cond_init(&amp;cond,<span class="hljs-literal">NULL</span>);<span class="hljs-comment">//&#x521D;&#x59CB;&#x5316;&#x6761;&#x4EF6;&#x53D8;&#x91CF;</span>
+    pthread_cond_init(&amp;cond2,<span class="hljs-literal">NULL</span>);
+    pthread_mutex_init(&amp;mutex,<span class="hljs-literal">NULL</span>);<span class="hljs-comment">//&#x521D;&#x59CB;&#x5316;&#x4E92;&#x65A5;&#x9501;</span>
+    ret=pthread_create(&amp;id,<span class="hljs-literal">NULL</span>,(<span class="hljs-keyword">void</span> *)read_odd,<span class="hljs-literal">NULL</span>);
+    <span class="hljs-keyword">if</span>(ret!=<span class="hljs-number">0</span>)
+    {
+        <span class="hljs-built_in">printf</span> (<span class="hljs-string">&quot;Create pthread error!\n&quot;</span>);
+        <span class="hljs-built_in">exit</span> (<span class="hljs-number">1</span>);
+    }
+    ret=pthread_create(&amp;id2,<span class="hljs-literal">NULL</span>,(<span class="hljs-keyword">void</span> *)read_even,<span class="hljs-literal">NULL</span>);<span class="hljs-comment">//&#x8FD4;&#x56DE;&#x503C;&#x4E3A;0&#xFF0C;&#x521B;&#x5EFA;&#x6210;&#x529F;</span>
+    <span class="hljs-keyword">if</span>(ret!=<span class="hljs-number">0</span>)
+    {
+        <span class="hljs-built_in">printf</span> (<span class="hljs-string">&quot;Create pthread error!\n&quot;</span>);
+        <span class="hljs-built_in">exit</span> (<span class="hljs-number">1</span>);
+    }
+    pthread_join(id,<span class="hljs-literal">NULL</span>);
+    pthread_join(id2,<span class="hljs-literal">NULL</span>);
+    pthread_mutex_destroy(&amp;mutex);<span class="hljs-comment">//&#x9500;&#x6BC1;&#x4E92;&#x65A5;&#x9501;</span>
+    pthread_cond_destroy(&amp;cond);<span class="hljs-comment">//&#x9500;&#x6BC1;&#x6761;&#x4EF6;&#x53D8;&#x91CF;</span>
+    pthread_cond_destroy(&amp;cond2);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
 
                     
                     </section>
@@ -12849,10 +12917,10 @@ Working directory /home/xmj/tmp.
         </div>
 
         
-        <a href="../100_gdb_tips/run-shell-command.html" class="navigation navigation-prev " aria-label="Previous page: 在gdb中執行shell命令和make"><i class="fa fa-angle-left"></i></a>
+        <a href="../linux_system/linuxxia_dong_tai_ku_diao_yong_jing_tai_ku_de_fang.html" class="navigation navigation-prev " aria-label="Previous page: LINUX下動態庫調用靜態庫的方法"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../100_gdb_tips/set-prompt.html" class="navigation navigation-next " aria-label="Next page: 設置命令提示符"><i class="fa fa-angle-right"></i></a>
+        <a href="../assembly/index.html" class="navigation navigation-next " aria-label="Next page: Assembly"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

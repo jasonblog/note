@@ -299,7 +299,7 @@
    * [dlopen &  dlsym 用法](linux_system/dlopen_&_dlsym_yong_fa.md)
    * [pthread_create & pthread_join & pthread_exit 基本用法](linux_system/pthreadcreate_&_pthread_join_&_pthread_exit_ji_ben.md)
    * [LINUX下動態庫調用靜態庫的方法](linux_system/linuxxia_dong_tai_ku_diao_yong_jing_tai_ku_de_fang.md)
-   * [C语言互斥锁-双条件变量实现循环打印](linux_system/cyu_yan_hu_chi_9501-_shuang_tiao_jian_bian_liang_s.md)
+   * [C語言互斥鎖-雙條件變量實現循環打印](linux_system/cyu_yan_hu_chi_9501-_shuang_tiao_jian_bian_liang_s.md)
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

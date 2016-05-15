@@ -795,5 +795,5 @@
 * [STM32](stm32/stm32.md)
    * [STM32的FPU體驗](stm32/stm32de_fpu_ti_yan.md)
 * [hacker](hacker/hacker/hacker.md)
-   * c9s
+   * [c9s](hacker/c9s/c9s.md)
 

@@ -796,5 +796,5 @@
    * [STM32的FPU體驗](stm32/stm32de_fpu_ti_yan.md)
 * [hacker](hacker/hacker/hacker.md)
    * [c9s](hacker/c9s/c9s.md)
-       * 快速進入工作狀況的十個要點
+       * [快速進入工作狀況的十個要點](hacker/c9s/kuai_su_jin_ru_gong_zuo_zhuang_kuang_de_shi_ge_yao.md)
 

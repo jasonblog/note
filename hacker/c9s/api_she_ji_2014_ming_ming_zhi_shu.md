@@ -194,7 +194,7 @@ query-
 
 上面說的 get- 不該調用遠端 API 或資料庫操作，讀者肯定心中充滿了疑問，「什麼？不用 get? 我看你才不懂吧」
 
-事實上，還有一個 prefix 很好用，就是 query-，query 意味著查詢，而且是帶有條件的，所以使用者可能會期望 query- method 有條件參數可以傳遞。查詢有很多種含義，不管是 database query, api query 都算是 query，當開發者查看 API 規格，甚至只看得到 caller 怎麼呼叫，”query-” 很明顯的就可以讓開發者了解 — 喔，這個可能得花一點時間，而且可能會有一些 ”溝通” 要做
+事實上，還有一個 prefix 很好用，就是 query-，query 意味著查詢，而且是帶有條件的，所以使用者可能會期望 query- method 有條件參數可以傳遞。查詢有很多種含義，不管是 database query, api query 都算是 query，當開發者查看 API 規格，甚至只看得到 caller 怎麼呼叫，”query-” 很明顯的就可以讓開發者瞭解 — 喔，這個可能得花一點時間，而且可能會有一些 ”溝通” 要做
 
 ```js
 do-

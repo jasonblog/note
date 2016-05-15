@@ -31,7 +31,7 @@ $car->setKey("key of the car");
 $car->drive(); // drive requires wheel property
 ```
 
-其中 Wheel 跟 Color 很明顯的是必要參數，因為 drive() 方法需要 wheel，原因是，現實生活中一台車子是不允許臨時改輪子數或顏色的 :p。
+其中 Wheel 跟 Color 很明顯的是必要參數，因為 drive() 方法需要 wheel，原因是，現實生活中一臺車子是不允許臨時改輪子數或顏色的 :p。
 
 思考一下，倘若開發者忘記呼叫 setWheel 就直接呼叫 drive() ，不就會造成錯誤嗎?
 

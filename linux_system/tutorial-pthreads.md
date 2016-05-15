@@ -38,128 +38,128 @@
 ## 摘要
 In shared memory multiprocessor architectures, threads can be used to implement parallelism. Historically, hardware vendors have implemented their own proprietary versions of threads, making portability a concern for software developers. For UNIX systems, a standardized C language threads programming interface has been specified by the IEEE POSIX 1003.1c standard. Implementations that adhere to this standard are referred to as POSIX threads, or Pthreads.
 
-在共享内存的多处理器架构中，线程可以被用来实现并行计算。由于历史原因，硬件供应商实现了他们自己私有版本的线程，这使得软件开发者不得不考虑可移植性。对于UNIX系统，一种标准的C语言线程编程接口被IEEE POSIX 1003.1c标准所指定。在此所述的对该标准的实现被称之为POSIX线程，也称之为Pthreads。
+在共享內存的多處理器架構中，線程可以被用來實現並行計算。由於歷史原因，硬件供應商實現了他們自己私有版本的線程，這使得軟件開發者不得不考慮可移植性。對於UNIX系統，一種標準的C語言線程編程接口被IEEE POSIX 1003.1c標準所指定。在此所述的對該標準的實現被稱之為POSIX線程，也稱之為Pthreads。
 
 The tutorial begins with an introduction to concepts, motivations, and design considerations for using Pthreads. Each of the three major classes of routines in the Pthreads API are then covered: Thread Management, Mutex Variables, and Condition Variables. Example codes are used throughout to demonstrate how to use most of the Pthreads routines needed by a new Pthreads programmer. The tutorial concludes with a discussion of LLNL specifics and how to mix MPI with pthreads. A lab exercise, with numerous example codes (C Language) is also included.
 
-本教程从对概念、动机、设计考虑的介绍开始。然后覆盖Pthreads API中三个主要的例程类型：线程管理、互斥变量、条件变量。从头到尾的示例代码用来展示一个Pthread新手需要的绝大部分Pthread例程。本教程以对LLNL的细节讨论和如何将Pthread与MPI结合作为结束。同时还包含一个拥有大量C语言示例代码的实验练习。
+本教程從對概念、動機、設計考慮的介紹開始。然後覆蓋Pthreads API中三個主要的例程類型：線程管理、互斥變量、條件變量。從頭到尾的示例代碼用來展示一個Pthread新手需要的絕大部分Pthread例程。本教程以對LLNL的細節討論和如何將Pthread與MPI結合作為結束。同時還包含一個擁有大量C語言示例代碼的實驗練習。
 
 Level/Prerequisites: This tutorial is one of the eight tutorials in the 4+ day "Using LLNL's Supercomputers" workshop. It is deal for those who are new to parallel programming with threads. A basic understanding of parallel programming in C is required. For those who are unfamiliar with Parallel Programming in general, the material covered in [EC3500: Introduction To Parallel Computing](https://computing.llnl.gov/tutorials/parallel_comp) would be helpful. 
 
-水平/前置条件：本教程是4+天“使用LLNL的超级计算机”进修班8篇教程中的一篇。它是那些刚刚接触使用线程进行并行编程的人的理想教程。需要基本理解在C语言中进行并行编程。对于那些连并行编程的大概都不了解的人，建议先看看[EC3500: 并行编程简介](https://computing.llnl.gov/tutorials/parallel_comp)里提到的资料，应该会有帮助。
+水平/前置條件：本教程是4+天“使用LLNL的超級計算機”進修班8篇教程中的一篇。它是那些剛剛接觸使用線程進行並行編程的人的理想教程。需要基本理解在C語言中進行並行編程。對於那些連並行編程的大概都不瞭解的人，建議先看看[EC3500: 並行編程簡介](https://computing.llnl.gov/tutorials/parallel_comp)裡提到的資料，應該會有幫助。
 
 ## Pthreads Overview
 ## Pthread概述
 
 ### What is a Thread?
-### 线程是什么？
+### 線程是什麼？
 
 - Technically, a thread is defined as an independent stream of instructions that can be scheduled to run as such by the operating system. But what does this mean?
-- 从技术上讲，线程被定义为一个独立的指令流，它能被作系统调度进而运行。但是这是什么意思？
+- 從技術上講，線程被定義為一個獨立的指令流，它能被作系統調度進而運行。但是這是什麼意思？
 - To the software developer, the concept of a "procedure" that runs independently from its main program may best describe a thread.
-- 对软件开发者而言，某个“过程”能独立于主程序运行这样的概念也许最能描述线程。
+- 對軟件開發者而言，某個“過程”能獨立於主程序運行這樣的概念也許最能描述線程。
 - To go one step further, imagine a main program (a.out) that contains a number of procedures. Then imagine all of these procedures being able to be scheduled to run simultaneously and/or independently by the operating system. That would describe a "multi-threaded" program.
-- 更进一步，想像一个包含许多过程的主程序（a.out）。然后想像所有这些过程能够被操作系统调度成独立或者不独立地同时执行。这就描述一个“多线程”程序。
+- 更進一步，想像一個包含許多過程的主程序（a.out）。然後想像所有這些過程能夠被操作系統調度成獨立或者不獨立地同時執行。這就描述一個“多線程”程序。
 - How is this accomplished?
-- 这是如何完成的？
+- 這是如何完成的？
 - Before understanding a thread, one first needs to understand a UNIX process. A process is created by the operating system, and requires a fair amount of "overhead". Processes contain information about program resources and program execution state, including:
-- 在理解线程之前，你需要先理解UNIX的进程。一个进程被操作系统创建，并且请求相当数量的“开销”。进程包含程序资源与程序执行状态的信息，包括：
+- 在理解線程之前，你需要先理解UNIX的進程。一個進程被操作系統創建，並且請求相當數量的“開銷”。進程包含程序資源與程序執行狀態的信息，包括：
 
     - Process ID, process group ID, user ID, and group ID
-    - 进程ID、进程组ID、用户ID、组ID
+    - 進程ID、進程組ID、用戶ID、組ID
     - Environment
-    - 环境变量
+    - 環境變量
     - Working directory
-    - 工作目录
+    - 工作目錄
     - Program instructions
-    - 程序执令
+    - 程序執令
     - Registers
     - 寄存器
     - Stack
-    - 栈
+    - 棧
     - Heap
     - 堆
     - File descriptors
     - 文件描述符
     - Signal actions
-    - 信号动作
+    - 信號動作
     - Shared libraries
-    - 共享库
+    - 共享庫
     - Inter-process communication tools (such as message queues, pipes, semaphores, or shared memory)
-    - 进程间通讯工具（例如消息队列、管道、信号量以及共享内存）
-    - ![UNIX进程](./tutorial-pthreads/unix_process.gif)
-    - ![UNIX进程中的线程](./tutorial-pthreads/threads_within_a_unix_process.gif)
+    - 進程間通訊工具（例如消息隊列、管道、信號量以及共享內存）
+    - ![UNIX進程](./tutorial-pthreads/unix_process.gif)
+    - ![UNIX進程中的線程](./tutorial-pthreads/threads_within_a_unix_process.gif)
 - Threads use and exist within these process resources, yet are able to be scheduled by the operating system and run as independent entities largely because they duplicate only the bare essential resources that enable them to exist as executable code.
-- 线程使用进程的资源且位于进程资源内，却能被操作系统当成独立实体调度并且独立执行，这主要是因为它们仅复制了让它们成为可执行代码刚刚够的必须的资源。
+- 線程使用進程的資源且位於進程資源內，卻能被操作系統當成獨立實體調度並且獨立執行，這主要是因為它們僅複製了讓它們成為可執行代碼剛剛夠的必須的資源。
 - This independent flow of control is accomplished because a thread maintains its own:
-- 能做到独立控制流是因为线程维护着它自己的：
+- 能做到獨立控制流是因為線程維護著它自己的：
     - Stack pointer
-    - 栈指针
+    - 棧指針
     - Registers
     - 寄存器
     - Scheduling properties (such as policy or priority)
-    - 调度属性（例如策略与优先级）
+    - 調度屬性（例如策略與優先級）
     - Set of pending and blocked signals
-    - 一系列等待的与阻塞的信号
+    - 一系列等待的與阻塞的信號
     - Thread specific data
-    - 线程特有数据
+    - 線程特有數據
 - So, in summary, in the UNIX environment a thread:
-- 综上，在UNIX环境下，一个线程：
+- 綜上，在UNIX環境下，一個線程：
     - Exists within a process and uses the process resources
-    - 存在于一个进程里面并且使用该进程的资源
+    - 存在於一個進程裡面並且使用該進程的資源
     - Has its own independent flow of control as long as its parent process exists and the OS supports it
-    - 拥有它自己独立的控制流，只要它的父进程存在并且操作系统支持
+    - 擁有它自己獨立的控制流，只要它的父進程存在並且操作系統支持
     - Duplicates only the essential resources it needs to be independently schedulable
-    - 仅复制独立调度所必须的资源
+    - 僅複製獨立調度所必須的資源
     - May share the process resources with other threads that act equally independently (and dependently)
-    - 可能与行为同样独立（或者依赖）的其他线程共享进程资源
+    - 可能與行為同樣獨立（或者依賴）的其他線程共享進程資源
     - Dies if the parent process dies - or something similar
-    - 因父进程挂掉而挂掉——或者其他类似的规则
+    - 因父進程掛掉而掛掉——或者其他類似的規則
     - Is "lightweight" because most of the overhead has already been accomplished through the creation of its process
-    - 是轻量级的，因为大部分开销已经在创建进程的时候完成了。
+    - 是輕量級的，因為大部分開銷已經在創建進程的時候完成了。
 - Because threads within the same process share resources:
-- 因为属于同一个进程线程们共享资源，所以：
+- 因為屬於同一個進程線程們共享資源，所以：
     - Changes made by one thread to shared system resources (such as closing a file) will be seen by all other threads.
-    - 由某个线程引起的对共享系统资源的变更（比如关闭一个文件）将会被其他所有线程看见。
+    - 由某個線程引起的對共享系統資源的變更（比如關閉一個文件）將會被其他所有線程看見。
     - Two pointers having the same value point to the same data.
-    - 拥有相同值的两个指针指向同一块数据。
+    - 擁有相同值的兩個指針指向同一塊數據。
     - Reading and writing to the same memory locations is possible, and therefore requires explicit synchronization by the programmer.
-    - 同时读和写同一个内存地址是可能的，因此需要编程人员作出明确的同步。
+    - 同時讀和寫同一個內存地址是可能的，因此需要編程人員作出明確的同步。
 
 ### What are Pthreads?
-### Pthread是什么？
+### Pthread是什麼？
 - Historically, hardware vendors have implemented their own proprietary versions of threads. These implementations differed substantially from each other making it difficult for programmers to develop portable threaded applications.
-- 由于历史原因，硬件供应商实现了他们自己的专有的线程版本。这些实现相互之间有大量的不同，这使得程序员开发可移植的多线程应用变得很难。
+- 由於歷史原因，硬件供應商實現了他們自己的專有的線程版本。這些實現相互之間有大量的不同，這使得程序員開發可移植的多線程應用變得很難。
 - In order to take full advantage of the capabilities provided by threads, a standardized programming interface was required.
-- 为了充分利用线程提供的能力，一个标准化的编程接口不可缺少。
+- 為了充分利用線程提供的能力，一個標準化的編程接口不可缺少。
     - For UNIX systems, this interface has been specified by the IEEE POSIX 1003.1c standard (1995).
-    - 对UNIX系统而言，这个接口被IEEE POSIX 1003.1c标准所指定。
+    - 對UNIX系統而言，這個接口被IEEE POSIX 1003.1c標準所指定。
     - Implementations adhering to this standard are referred to as POSIX threads, or Pthreads.
-    - 在这里所指的对标准的实现称为POSIX线程，也叫Pthread。
+    - 在這裡所指的對標準的實現稱為POSIX線程，也叫Pthread。
     - Most hardware vendors now offer Pthreads in addition to their proprietary API's.
-    - 大多数硬件供应商现在除了他们专有的API之外都提供了Pthread。
+    - 大多數硬件供應商現在除了他們專有的API之外都提供了Pthread。
 - The POSIX standard has continued to evolve and undergo revisions, including the Pthreads specification.
-- POSIX标准一直在发展并经受修订，包括Pthread设计规格。
+- POSIX標準一直在發展並經受修訂，包括Pthread設計規格。
 - Some useful links:
-- 一些有用的链接：
+- 一些有用的鏈接：
     - [POSIX 1003.1-2008](http://standards.ieee.org/findstds/standard/1003.1-2008.html)
     - [posix faq](www.opengroup.org/austin/papers/posix_faq.html)
     - [ieee std](www.unix.org/version3/ieee_std.html)
 - Pthreads are defined as a set of C language programming types and procedure calls, implemented with a pthread.h header/include file and a thread library - though this library may be part of another library, such as libc, in some implementations.
-- Pthread被定义为一系列C语言编程里的类型和过程调用，随一个pthread.h头文件/include文件以及一个线程库而实现。尽管在某些实现里，这线程库是作为另一个库的一部分而存在，例如libc。
+- Pthread被定義為一系列C語言編程裡的類型和過程調用，隨一個pthread.h頭文件/include文件以及一個線程庫而實現。儘管在某些實現裡，這線程庫是作為另一個庫的一部分而存在，例如libc。
 
 ### Why Pthreads?
-### 为什么是Pthread？
+### 為什麼是Pthread？
 #### Light Weight:
-#### 轻量：
+#### 輕量：
 - When compared to the cost of creating and managing a process, a thread can be created with much less operating system overhead. Managing threads requires fewer system resources than managing processes.
-- 与创建和管理一个进程的消耗相比，一个线程能以相当少的操作系统开销创建出来。管理线程比管理进程所需系统资源更少。
+- 與創建和管理一個進程的消耗相比，一個線程能以相當少的操作系統開銷創建出來。管理線程比管理進程所需系統資源更少。
 - For example, the following table compares timing results for the fork() subroutine and the pthread_create() subroutine. Timings reflect 50,000 process/thread creations, were performed with the time utility, and units are in seconds, no optimization flags.
-- 比如说，下表比较了fork()子例程和pthread_create()子例程在时间上的消耗结果。时间反映了50000个进程/线程的创建，用time工具命令执行，单位为秒，没有使用优化标记。
+- 比如說，下表比較了fork()子例程和pthread_create()子例程在時間上的消耗結果。時間反映了50000個進程/線程的創建，用time工具命令執行，單位為秒，沒有使用優化標記。
 
 Note: don't expect the sytem and user times to add up to real time, because these are SMP systems with multiple CPUs/cores working on the problem at the same time. At best, these are approximations run on local machines, past and present.
 
-注意：不要妄想系统时间加上用户时间等于实际时间，因为这些是对称多处理器（SMP）系统，拥有多个CPU/核心同时在问题上工作。充其量，在本地机上运行时它们相近，不管是过去还是当今的机器。
+注意：不要妄想系統時間加上用戶時間等於實際時間，因為這些是對稱多處理器（SMP）系統，擁有多個CPU/核心同時在問題上工作。充其量，在本地機上運行時它們相近，不管是過去還是當今的機器。
 
 <table>
     <thead>
@@ -265,17 +265,17 @@ Note: don't expect the sytem and user times to add up to real time, because thes
 Source: [fork vs thread](https://computing.llnl.gov/tutorials/pthreads/fork_vs_thread.txt "fork_vs_thread.txt")
 
 #### Efficient communications/Data Exchange:
-#### 高效的交流/数据交换：
+#### 高效的交流/數據交換：
 - The primary motivation for considering the use of Pthreads on a multi-processor architecture is to achieve optimum performance. In particular, if an application is using MPI for on-node communications, there is a potential that performance could be improved by using Pthreads instead.
-- 考虑在多处理器架构上用Pthread的主要动机是达到最佳性能。特别是如果一个应用使用MPI做单点交流，那么有很有可能通过使用Pthread代替MPI让性能得到提升。
+- 考慮在多處理器架構上用Pthread的主要動機是達到最佳性能。特別是如果一個應用使用MPI做單點交流，那麼有很有可能通過使用Pthread代替MPI讓性能得到提升。
 - MPI libraries usually implement on-node task communication via shared memory, which involves at least one memory copy operation (process to process).
-- MPI库通常通过共享内存实现单点任务沟通，这至少牵扯到内存复制操作（进程到进程）。
+- MPI庫通常通過共享內存實現單點任務溝通，這至少牽扯到內存複製操作（進程到進程）。
 - For Pthreads there is no intermediate memory copy required because threads share the same address space within a single process. There is no data transfer, per se. It can be as efficient as simply passing a pointer.
-- 对Pthread来说不存在中间内存复制的需求，因为在同一个单独进程里面线程们共享相同的地址空间。本质上没有数据传输。它可以做到仅仅传输一个指针那样的高效。
+- 對Pthread來說不存在中間內存複製的需求，因為在同一個單獨進程裡面線程們共享相同的地址空間。本質上沒有數據傳輸。它可以做到僅僅傳輸一個指針那樣的高效。
 - In the worst case scenario, Pthread communications become more of a cache-to-CPU or memory-to-CPU bandwidth issue. These speeds are much higher than MPI shared memory communications.
-- 在最糟糕的情况下，Pthread交流更多地成为一个缓存至CPU或者CPU至缓存带宽问题。它们的速度远比MPI的内存交流快得多。
+- 在最糟糕的情況下，Pthread交流更多地成為一個緩存至CPU或者CPU至緩存帶寬問題。它們的速度遠比MPI的內存交流快得多。
 - For example: some local comparisons, past and present, are shown below:
-- 比如：下面展示了过去与现在的一些本地机器的比较：
+- 比如：下面展示了過去與現在的一些本地機器的比較：
 
 <table>
     <thead>
@@ -330,187 +330,187 @@ Source: [fork vs thread](https://computing.llnl.gov/tutorials/pthreads/fork_vs_t
 </table>
 
 #### Other Common Reasons:
-#### 其他常见原因：
+#### 其他常見原因：
 - Threaded applications offer potential performance gains and practical advantages over non-threaded applications in several other ways:
-- 在其他许多方面，多线程应用提供了潜在的性能收益和在非多线程应用之上的实用的优势：
+- 在其他許多方面，多線程應用提供了潛在的性能收益和在非多線程應用之上的實用的優勢：
     - Overlapping CPU work with I/O: For example, a program may have sections where it is performing a long I/O operation. While one thread is waiting for an I/O system call to complete, CPU intensive work can be performed by other threads.
-    - 重叠的CPU工作与I/O：例如，一个程序可能拥有某个执行长时间I/O操作的区块。当其中一个线程在等待I/O系统调用的结束时，CPU密集的工作可以在另一个线程执行。
+    - 重疊的CPU工作與I/O：例如，一個程序可能擁有某個執行長時間I/O操作的區塊。當其中一個線程在等待I/O系統調用的結束時，CPU密集的工作可以在另一個線程執行。
     - Priority/real-time scheduling: tasks which are more important can be scheduled to supersede or interrupt lower priority tasks.
-    - 优先级/实时调度：更重要的任务可以在调度时取代或者中断低优先级的任务。
+    - 優先級/實時調度：更重要的任務可以在調度時取代或者中斷低優先級的任務。
     - Asynchronous event handling: tasks which service events of indeterminate frequency and duration can be interleaved. For example, a web server can both transfer data from previous requests and manage the arrival of new requests.
-    - 异步的事件处理：服务不确定频率和持续时间的事件的任务可以交错进行。例如一个Web服务既可以传输先前的请求的数据也可以处理新到来的请求。
+    - 異步的事件處理：服務不確定頻率和持續時間的事件的任務可以交錯進行。例如一個Web服務既可以傳輸先前的請求的數據也可以處理新到來的請求。
 - A perfect example is the typical web browser, where many interleaved tasks can be happening at the same time, and where tasks can vary in priority.
-- 一个完美的例子是典型的WEB浏览器，在这里许多交错的任务在同时发生，任务的优先级可以不同。
+- 一個完美的例子是典型的WEB瀏覽器，在這裡許多交錯的任務在同時發生，任務的優先級可以不同。
 - Another good example is a modern operating system, which makes extensive use of threads. A screenshot of the MS Windows OS and applications using threads is shown below.
-- 另一个好例子是现代操作系统，它广泛地使用了线程。下面展示了微软Windows操作系统和应用程序使用的线程的屏幕截图。
+- 另一個好例子是現代操作系統，它廣泛地使用了線程。下面展示了微軟Windows操作系統和應用程序使用的線程的屏幕截圖。
 
-![资源监视器截图](./tutorial-pthreads/resource_monitor.jpg)
+![資源監視器截圖](./tutorial-pthreads/resource_monitor.jpg)
 
 ## Pthreads Overview
 ## Pthread概述
 ### Designing Threaded Programs
-### 设计多线程程序
+### 設計多線程程序
 #### Parallel Programming:
-#### 并行编程：
+#### 並行編程：
 
 - On modern, multi-core machines, pthreads are ideally suited for parallel programming, and whatever applies to parallel programming in general, applies to parallel pthreads programs.
-- 在现代、多核心的机器上，pthread是理想上适合并行编程，同时不管怎样适用于通用的并行编程，适用于并行的pthread程序。
+- 在現代、多核心的機器上，pthread是理想上適合並行編程，同時不管怎樣適用於通用的並行編程，適用於並行的pthread程序。
 - There are many considerations for designing parallel programs, such as:
-- 设计一个并行程序需要考虑许多，例如：
+- 設計一個並行程序需要考慮許多，例如：
     - What type of parallel programming model to use?
-    - 使用哪种类型的并行编程模型？
+    - 使用哪種類型的並行編程模型？
     - Problem partitioning
-    - 问题分解
+    - 問題分解
     - Load balancing
-    - 负载平衡
+    - 負載平衡
     - Communications
     - 交流
     - Data dependencies
-    - 数据依赖
+    - 數據依賴
     - Synchronization and race conditions
-    - 同步与竞态条件
+    - 同步與競態條件
     - Memory issues
-    - 内存问题
+    - 內存問題
     - I/O issues
-    - I/O问题
+    - I/O問題
     - Program complexity
-    - 程序复杂性
+    - 程序複雜性
     - Programmer effort/costs/time
-    - 编程人员工作量/费用/时间
+    - 編程人員工作量/費用/時間
     - ...
     - ……
 - Covering these topics is beyond the scope of this tutorial, however interested readers can obtain a quick overview in the [Introduction to Parallel Computing](https://computing.llnl.gov/tutorials/parallel_comp) tutorial.
-- 这些主题已经超出了本教程的范围，然而对这些感兴趣的读者可以从[并行计算简介](https://computing.llnl.gov/tutorials/parallel_comp)教程中获得简要概述。
+- 這些主題已經超出了本教程的範圍，然而對這些感興趣的讀者可以從[並行計算簡介](https://computing.llnl.gov/tutorials/parallel_comp)教程中獲得簡要概述。
 - In general though, in order for a program to take advantage of Pthreads, it must be able to be organized into discrete, independent tasks which can execute concurrently. For example, if routine1 and routine2 can be interchanged, interleaved and/or overlapped in real time, they are candidates for threading.
-- 但是一般来说，想让一个程序能利用Pthread的优势，它必须能够被组织成离散的独立的任务，这些任务能同时地执行。例如，例程1和例程2能被实时地交换、交叉或者重叠，那么它们是多线程的候选人。
+- 但是一般來說，想讓一個程序能利用Pthread的優勢，它必須能夠被組織成離散的獨立的任務，這些任務能同時地執行。例如，例程1和例程2能被實時地交換、交叉或者重疊，那麼它們是多線程的候選人。
 
 ![concurrent](./tutorial-pthreads/concurrent.gif)
 
 - Programs having the following characteristics may be well suited for pthreads:
-- 拥有以下特征的程序可能很适合Pthread：
+- 擁有以下特徵的程序可能很適合Pthread：
     - Work that can be executed, or data that can be operated on, by multiple tasks simultaneously:
-    - 能够被多个任务同时地执行工作，或者操作数据：
+    - 能夠被多個任務同時地執行工作，或者操作數據：
     - Block for potentially long I/O waits
-    - 因为潜在的常时间I/O等待而阻塞
+    - 因為潛在的常時間I/O等待而阻塞
     - Use many CPU cycles in some places but not others
-    - 在某些地方使用了许多CPU周期但是其他地方则不是
+    - 在某些地方使用了許多CPU週期但是其他地方則不是
     - Must respond to asynchronous events
-    - 必须响应异步的事件
+    - 必須響應異步的事件
     - Some work is more important than other work(priority interrupts)
-    - 某些工作比其他工作更重要（优先中断）
+    - 某些工作比其他工作更重要（優先中斷）
 - Several common models for threaded programs exist:
-- 存在一些常见的多线程程序模型：
+- 存在一些常見的多線程程序模型：
     - Manager/worker: a single thread, the manager assigns work to other threads, the workers. Typically, the manager handles all input and parcels out work to the other tasks. At least two forms of the manager/worker model are common: static worker pool and dynamic worker pool.
-    - 管理者/工人：一个单独的线程——管理者——分配工作任务给其他线程——工人们。通常，管理者处理所有输入并且把工作分配给其他任务。至少存在两种常用的管理者/工人模型：静态工人池和动态工人池。
+    - 管理者/工人：一個單獨的線程——管理者——分配工作任務給其他線程——工人們。通常，管理者處理所有輸入並且把工作分配給其他任務。至少存在兩種常用的管理者/工人模型：靜態工人池和動態工人池。
     - Pipeline: a task is broken into a series of suboperations, each of which is handled in series, but concurrently, by a different thread. An automobile assembly line best describes this model.
-    - 流水线：一个任务被分解成一系列子操作，每个子操作被不同的线程同时地按顺序地接管。汽车装配线能最好地描述这个模型。
+    - 流水線：一個任務被分解成一系列子操作，每個子操作被不同的線程同時地按順序地接管。汽車裝配線能最好地描述這個模型。
     - Peer: similar to the manager/worker model, but after the main thread creates other threads, it participates in the work.
-    - 对等：与管理者/工人模型相似，但是在主线程创建其他线程后，它自己参与进工作当中。
+    - 對等：與管理者/工人模型相似，但是在主線程創建其他線程後，它自己參與進工作當中。
 
 #### Shared Memory Model:
-#### 共享内存模型：
+#### 共享內存模型：
 
 - All threads have access to the same global, shared memory
-- 所有线程有权访问同一个全局的共享的内存
+- 所有線程有權訪問同一個全局的共享的內存
 - Threads also have their own private data
-- 线程也有他们自己的私有数据
+- 線程也有他們自己的私有數據
 - Programmers are responsible for synchronizing access(protecting) globally shared data.
-- 编程人员对同步访问（保护）全局的共享的数据负有责任。
+- 編程人員對同步訪問（保護）全局的共享的數據負有責任。
 
 ![Shared Memory Model](./tutorial-pthreads/shared_memory_model.gif)
 
 #### Thread-safeness:
-#### 线程安全性：
+#### 線程安全性：
 
 - Thread-safeness: in a nutshell, refers an application's ability to execute multiple threads simulaneously without "clobbering" shared data or creating "race" conditions.
-- 线程安全性：简而言之，指的就是应用程序的同时执行多个线程而不“痛打”共享数据或者产生“竞态”条件。
+- 線程安全性：簡而言之，指的就是應用程序的同時執行多個線程而不“痛打”共享數據或者產生“競態”條件。
 - For example, suppose that your application creates several threads, each of which makes a call to the same library routine:
-- 举个例子，假设你的应用程序创建了许多线程，每个线程都调用了同一个库函数：
+- 舉個例子，假設你的應用程序創建了許多線程，每個線程都調用了同一個庫函數：
     - This library routine accesses/modifies a global structure or location in memory.
-    - 该库函数访问/修改一个内存中的全局的结构或者位置。
+    - 該庫函數訪問/修改一個內存中的全局的結構或者位置。
     - As each thread calls this routine it is possible that they may try to modify this global structure/memory location at the same time.
-    - 因为每个线程都调用该函数，所以有可能造成它们尝试同时修改这个全局的结构或者内存位置。
+    - 因為每個線程都調用該函數，所以有可能造成它們嘗試同時修改這個全局的結構或者內存位置。
     - If the routine does not employ some sort of synchronization constructs to prevent data corruption, then it is not thread-safe.
-    - 如果函数没有使用某种同步设计来避免数据损坏，那么它就不是线程安全的。
+    - 如果函數沒有使用某種同步設計來避免數據損壞，那麼它就不是線程安全的。
 
 ![Thread-Unsafe](./tutorial-pthreads/thread_unsafe.gif)
 
 - The implication to users of external library routines is that if you aren't 100% certain the routine is thread-safe, then you take your chances with problems that could arise.
-- 这暗示着那些使用外部库函数的用户，如果你不能100%确定函数是线程安全的，那么你得自行承担可能出现的问题的风险。
+- 這暗示著那些使用外部庫函數的用戶，如果你不能100%確定函數是線程安全的，那麼你得自行承擔可能出現的問題的風險。
 - Recommendation: Be careful if your application uses libraries or other objects that don't explicitly guarantee thread-safeness. When in doubt, assume that they are not thread-safe until proven otherwise. This can be done by "serializing" the calls to the uncertain routine, etc.
-- 建议：如果你的应用程序使用的库或者其他对象没有明确地保证线程安全，那么你要小心了。当你不确定时，假定它们非线程安全直到证明它线程安全。通过对不确定的函数的调用进行“序列化”可以解决这个问题。
+- 建議：如果你的應用程序使用的庫或者其他對象沒有明確地保證線程安全，那麼你要小心了。當你不確定時，假定它們非線程安全直到證明它線程安全。通過對不確定的函數的調用進行“序列化”可以解決這個問題。
 
 #### Thread Limits:
-#### 线程限制：
+#### 線程限制：
 
 - Although the Pthreads API is an ANSI/IEEE standard, implementations can, and usually do, vary in ways not sepcified by the standard.
-- 尽管Pthread API是一种ANSI/IEEE标准，但是通常它的实现却是多种多样，因为标准中并没有指定实现。
+- 儘管Pthread API是一種ANSI/IEEE標準，但是通常它的實現卻是多種多樣，因為標準中並沒有指定實現。
 - Because of this, a program that runs fine on one platform, may fail or produce wrong results on another platform.
-- 正因为如此，所以一个程序在某一个平台上运行良好却有可能在另一个平台上失败或者产生错误的结果。
+- 正因為如此，所以一個程序在某一個平臺上運行良好卻有可能在另一個平臺上失敗或者產生錯誤的結果。
 - For example, the maximum number of threads permitted, and the default thread stack size are two important limits to consider when designing your program.
-- 例如，允许的最大线程数量以及默认的线程栈大小是你设计你的程序时需要考虑的两个重要限制因素。
+- 例如，允許的最大線程數量以及默認的線程棧大小是你設計你的程序時需要考慮的兩個重要限制因素。
 - Several thread limits are discussed in more detail later in this tutorial.
-- 本教程稍后会深入讨论许多线程限制。
+- 本教程稍後會深入討論許多線程限制。
 
 ## The Pthreads API
 ## Pthread API
 
 - The original Pthreads API was defined in the ANSI/IEEE POSIX 1003.1 - 1995 standard. The POSIX standard has continued to evolve and undergo revisions, including the Pthreads specification.
-- Pthread API最早在ANSI/IEEE POSIX 1003.1 - 1995标准里被定义。POSIX标准在持续发展并经历修订，包括其中的Pthread规范。
+- Pthread API最早在ANSI/IEEE POSIX 1003.1 - 1995標準裡被定義。POSIX標準在持續發展並經歷修訂，包括其中的Pthread規範。
 - Copies of the standard can be purchased from IEEE or downloaded for free from other sites online.
-- 标准的副本可以从IEEE购买或者从其他在线网站免费下载得到。
+- 標準的副本可以從IEEE購買或者從其他在線網站免費下載得到。
 - The subroutines which comprise the Pthreads API can be informally grouped into four major groups:
-- 构成Pthread API的子函数可以被非正式地分成主要的四组：
+- 構成Pthread API的子函數可以被非正式地分成主要的四組：
     1. Thread management: Routines that work directly on threads - creating, detaching, joining, etc. They also include functions to set/query thread attributes(joinable, scheduling etc.)
-    1. 线程管理：那些直接作用于线程的函数——创建、分离、连接等。它们还包含用于设置/查询属性（可连接性、调度等）的函数。
+    1. 線程管理：那些直接作用於線程的函數——創建、分離、連接等。它們還包含用於設置/查詢屬性（可連接性、調度等）的函數。
     2. Mutexes: Routines that deal with synchronization, called a "mutex", which is an abbreviation for "mutual exclusion". Mutex functions provide for creating, destroying, locking and unlocking mutexes. These are supplemented by mutex attribute functions that set or modify attributes associated with mutexes.
-    2. 互斥体：处理同步的函数，被叫作“mutex”，这个单词是“mutual exclusion”的缩写。互斥体函数提供了创建、销毁、加锁、解锁互斥体的功能。辅以互斥体属性函数，我们可以设置或者修改互斥体所关联的属性。
+    2. 互斥體：處理同步的函數，被叫作“mutex”，這個單詞是“mutual exclusion”的縮寫。互斥體函數提供了創建、銷燬、加鎖、解鎖互斥體的功能。輔以互斥體屬性函數，我們可以設置或者修改互斥體所關聯的屬性。
     3. Condition variables: Routines that address communications between threads that share a mutex. Based upon programmer specified conditions. This group includes functions to create, destroy, wait and signal based upon specified variable values. Functions to set/query condition variable attributes are also included.
-    3. 条件变量：涉及共享同一个互斥体的线程之间沟通的函数。根据程序员指定的变量。这组API包括依据指定变量值创建、销毁、等待以及发信号的函数。设置/查询条件变量的属性的函数同样包括在内。
+    3. 條件變量：涉及共享同一個互斥體的線程之間溝通的函數。根據程序員指定的變量。這組API包括依據指定變量值創建、銷燬、等待以及發信號的函數。設置/查詢條件變量的屬性的函數同樣包括在內。
     4. Synchronization: Routines that manage read/write locks and barriers.
-    4. 同步：管理读/写锁和屏障的函数。
+    4. 同步：管理讀/寫鎖和屏障的函數。
 - Naming conventions: All identifiers in the threads library begin with ** pthread_ **. Some example are shown below.
-- 命名规范：线程库里的所有标识符都以 ** pthread_ ** 开头。下面展示了一些例子。
+- 命名規範：線程庫裡的所有標識符都以 ** pthread_ ** 開頭。下面展示了一些例子。
 
 <table>
     <thead>
         <tr>
-            <th>函数名前缀</th>
-            <th>功能组</th>
+            <th>函數名前綴</th>
+            <th>功能組</th>
         </tr>
     </thead>
     <tbody>
         <tr>
             <td>pthread_</td>
-            <td>关于线程自身和其他杂项的子函数</td>
+            <td>關於線程自身和其他雜項的子函數</td>
         </tr>
         <tr>
             <td>pthread_attr_</td>
-            <td>线程属性对象</td>
+            <td>線程屬性對象</td>
         </tr>
         <tr>
             <td>pthread_mutex_</td>
-            <td>互斥体</td>
+            <td>互斥體</td>
         </tr>
         <tr>
             <td>pthread_mutexattr_</td>
-            <td>互斥体属性对象</td>
+            <td>互斥體屬性對象</td>
         </tr>
         <tr>
             <td>pthread_cond_</td>
-            <td>条件变量</td>
+            <td>條件變量</td>
         </tr>
         <tr>
             <td>pthread_condattr_</td>
-            <td>条件变量属性对象</td>
+            <td>條件變量屬性對象</td>
         </tr>
         <tr>
             <td>pthread_key_</td>
-            <td>线程专有数据键</td>
+            <td>線程專有數據鍵</td>
         </tr>
         <tr>
             <td>pthread_rwlock_</td>
-            <td>读/写锁</td>
+            <td>讀/寫鎖</td>
         </tr>
         <tr>
             <td>pthread_barrier_</td>
@@ -520,27 +520,27 @@ Source: [fork vs thread](https://computing.llnl.gov/tutorials/pthreads/fork_vs_t
 </table>
 
 - The concept of opaque objects pervades the design of the API. The basic calls work to create or modify opaque objects - the opaque objects can be modified by calls to attribute functions, which deal with opaque attributes.
-- API的设计中弥漫着不透明对象的概念。基本调用作用于创建或者修改不透明对象——该不透明对象能通过调用属性函数进行修改，这些函数处理不透明的属性。
+- API的設計中瀰漫著不透明對象的概念。基本調用作用於創建或者修改不透明對象——該不透明對象能通過調用屬性函數進行修改，這些函數處理不透明的屬性。
 - The Pthreads API contains around 100 subroutines. This tutorial will focus on a subset of these - specifically, those which are most likely to be immediately useful to the beginning Pthreads programmer.
-- Pthread API包含大约100个子函数。本教程将专注于其中一个子集——特别是那些很可能立马就能被Pthread编程初学者用到的。
+- Pthread API包含大約100個子函數。本教程將專注於其中一個子集——特別是那些很可能立馬就能被Pthread編程初學者用到的。
 - For portability, the pthread.h header file should be included in each source file using the Pthreads library.
-- 为了可移植性，pthread.h头文件需要被每个使用Pthread库的源码文件包含。
+- 為了可移植性，pthread.h頭文件需要被每個使用Pthread庫的源碼文件包含。
 - The current POSIX standard is defined only for the C language. Fortran programmers can use wrappers around C function calls. Some Fortran compilers may provide a Fortran pthreads API.
-- 当前POSIX标准仅对C语言作了定义。Fortran程序员可以使用C函数调用的包装。某些Fortran编译器提供了Fortran Pthread API。
+- 當前POSIX標準僅對C語言作了定義。Fortran程序員可以使用C函數調用的包裝。某些Fortran編譯器提供了Fortran Pthread API。
 - A number of excellent books about Pthreads are available. Several of these are listed in the [References](https://computing.llnl.gov/tutorials/pthreads/#References) section of this tutorial.
-- 大量的优秀关于Pthread的书籍可用。其中的许多列于本教程的[参考文献](https://computing.llnl.gov/tutorials/pthreads/#References)一节。
+- 大量的優秀關於Pthread的書籍可用。其中的許多列於本教程的[參考文獻](https://computing.llnl.gov/tutorials/pthreads/#References)一節。
 
 ## Compiling Threaded Programs
-## 编译多线程程序
+## 編譯多線程程序
 
 - Several examples of compile commands used for pthreads codes are listed in the table below.
-- 下表列举了一些用于编译Pthread代码的命令例子。
+- 下表列舉了一些用於編譯Pthread代碼的命令例子。
 
 <table>
     <thead>
         <tr>
-            <th>编译器/平台</th>
-            <th>编译器命令</th>
+            <th>編譯器/平臺</th>
+            <th>編譯器命令</th>
             <th>描述</th>
         </tr>
     </thead>
@@ -585,13 +585,13 @@ Source: [fork vs thread](https://computing.llnl.gov/tutorials/pthreads/fork_vs_t
 </table>
 
 ## Thread Management
-## 线程管理
+## 線程管理
 
 ### Creating and Terminating Threads
-### 创建和终止线程
+### 創建和終止線程
 
 #### Routines:
-#### 函数：
+#### 函數：
 
 [pthread_create](https://computing.llnl.gov/tutorials/pthreads/man/pthread_create.txt) (thread,attr,start_routine,arg)
 
@@ -604,26 +604,26 @@ Source: [fork vs thread](https://computing.llnl.gov/tutorials/pthreads/fork_vs_t
 [pthread_attr_destroy](https://computing.llnl.gov/tutorials/pthreads/man/pthread_attr_destroy.txt) (attr)
 
 #### Creating Threads:
-#### 创建线程：
+#### 創建線程：
 
 - Initially, your main() program comprises a single, default thread. All other threads must be explicitly created by the programmer.
-- 一开始，你的main()程序包含一个单独的默认的线程。所有其他线程都必须由程序员明确地创建。
+- 一開始，你的main()程序包含一個單獨的默認的線程。所有其他線程都必須由程序員明確地創建。
 - pthread_create creates a new thread and makes it executable. This routine can be called any number of times from anywhere within your code.
-- pthread_create创建一个线程并使它可执行。该函数可以在你代码中的任何地方被市用任意多次。
+- pthread_create創建一個線程並使它可執行。該函數可以在你代碼中的任何地方被市用任意多次。
 - pthread_create arguments:
-- pthread_create 参数：
+- pthread_create 參數：
     - thread: An opaque, unique identifier for the new thread returned by the subroutine.
-    - thread：一个不透明的独一无二的标识符，用于标识该子函数返回的新线程。
+    - thread：一個不透明的獨一無二的標識符，用於標識該子函數返回的新線程。
     - attr: An opaque attribute object that may be used to set thread attributes. You can specify a thread attributes object, or NULL for the default values.
-    - attr：一个不透明的属性对象，可以用于设置线程属性。你可以指定一个线程属性对象，或者用NULL保持默认值。
+    - attr：一個不透明的屬性對象，可以用於設置線程屬性。你可以指定一個線程屬性對象，或者用NULL保持默認值。
     - start_routine: the C routine that the thread will execute once it is created.
-    - start_routine：一个c函数，一旦当线程被创建会立即执行这个函数。
+    - start_routine：一個c函數，一旦當線程被創建會立即執行這個函數。
     - arg: A single argument that may be passed to start_routine. It must be passed by reference as a pointer cast of type void. NULL may be used if no argument is to be passed.
-    - arg：一个单独的参数，可以被传递给start_routine函数。它必须以引用方式，以一个void*类型的指针进行传递。如果没有需要传递的参数，那么可以用NULL。
+    - arg：一個單獨的參數，可以被傳遞給start_routine函數。它必須以引用方式，以一個void*類型的指針進行傳遞。如果沒有需要傳遞的參數，那麼可以用NULL。
 - The maximum number of threads that may be created by a process is implementation dependent. Programs that attempt to exceed the limit can fail or produce wrong results.
-- 一个进程能够创建的线程的最大数量是依赖于实现的。程序如果尝试超出这个限制那么有可能失败或者产生错误的结果。
+- 一個進程能夠創建的線程的最大數量是依賴於實現的。程序如果嘗試超出這個限制那麼有可能失敗或者產生錯誤的結果。
 - Querying and setting your implementation's thread limit - Linux example shown. Demonstrates querying the default (soft) limits and then setting the maximum number of processes (including threads) to the hard limit. Then verifying that the limit has been overridden.
-- 查询和设置你的实现的线程限制——展示了Linux下的例子。演示里查询默认（软）限制然后设置进程（包括线程）的最大数为硬极限。再然后验证该限制被成功覆写。
+- 查詢和設置你的實現的線程限制——展示了Linux下的例子。演示裡查詢默認（軟）限制然後設置進程（包括線程）的最大數為硬極限。再然後驗證該限制被成功覆寫。
 
 <table>
     <thead>
@@ -704,91 +704,91 @@ maxproc      7168</pre></td>
 </table>
 
 - Once created, threads are peers, and may create other threads. There is no implied hierarchy or dependency between threads.
-- 一旦创建，线程间就是平辈关系，它们可以创建其他线程。线程之间不存在隐含的层级或者依赖。
+- 一旦創建，線程間就是平輩關係，它們可以創建其他線程。線程之間不存在隱含的層級或者依賴。
 
 ![Peer Threads](./tutorial-pthreads/peer_threads.gif)
 
 #### Thread Attributes:
-#### 线程属性：
+#### 線程屬性：
 
 - By default, a thread is created with certain attributes. Some of these attributes can be changed by the programmer via the thread attribute object.
-- 默认情况下，一个线程以确定的属性创建。程序员可以通过线程属性对象修改其中的某些属性。
+- 默認情況下，一個線程以確定的屬性創建。程序員可以通過線程屬性對象修改其中的某些屬性。
 - pthread_attr_init and pthread_attr_destroy are used to initialize/destroy the thread attribute object.
-- pthread_attr_init 和 pthread_attr_destroy用于初始化/销毁线程属性对象。
+- pthread_attr_init 和 pthread_attr_destroy用於初始化/銷燬線程屬性對象。
 - Other routines are then used to query/set specific attributes in the thread attribute object. Attributes include:
-- 其他一些函数用于查询/设置线程属性对象的特定属性。属性包括：
+- 其他一些函數用於查詢/設置線程屬性對象的特定屬性。屬性包括：
     - Detached or joinable state
-    - 分离和可连接状态
+    - 分離和可連接狀態
     - Scheduling inheritance
-    - 调度继承
+    - 調度繼承
     - Scheduling policy
-    - 调度策略
+    - 調度策略
     - Scheduling parameters
-    - 调度参数
+    - 調度參數
     - Scheduling contention scope
-    - 调度竞争范围
+    - 調度競爭範圍
     - Stack size
-    - 栈大小
+    - 棧大小
     - Stack address
-    - 栈地址
+    - 棧地址
     - Stack guard (overflow) size
-    - 栈保护（溢出）大小
+    - 棧保護（溢出）大小
 - Some of these attributes will be discussed later.
-- 其中的一些属性将会在之后被讨论。
+- 其中的一些屬性將會在之後被討論。
 
 #### Thread Binding and Scheduling:
-#### 线程绑定和调度：
+#### 線程綁定和調度：
 
 Question: After a thread has been created, how do you know a)when it will be scheduled to run by the operating system, and b)which processor/core it will run on?
 
-问题：线程创建之后，你如何知道：1.它什么时候被操作系统调度执行；2.它会在哪个处理器/核心上运行？
+問題：線程創建之後，你如何知道：1.它什麼時候被操作系統調度執行；2.它會在哪個處理器/核心上運行？
 
 Answer: Unless you are using the Pthreads scheduling mechanism, it is up to the implementation and/or operating system to decide where and when threads will execute.  Robust programs should not depend upon threads executing in a specific order or on a specific processor/core.
 
-答案：除非你使用Pthread调度机制，否则它由Pthread实现或者操作系统来决定何处以及何时执行线程。强健的程序应该不依赖于线程以特定顺序执行或者在特定处理器/核心上执行。
+答案：除非你使用Pthread調度機制，否則它由Pthread實現或者操作系統來決定何處以及何時執行線程。強健的程序應該不依賴於線程以特定順序執行或者在特定處理器/核心上執行。
 
 - The Pthreads API provides several routines that may be used to specify how threads are scheduled for execution. For example, threads can be scheduled to run FIFO (first-in first-out), RR (round-robin) or OTHER (operating system determines). It also provides the ability to set a thread's scheduling priority value.
-- Pthread API提供了许多函数用于指定线程如何调度执行。例如，线程可以以FIFO（先进先出）、RR（循环赛）以及其他（操作系统决定）方式运行。API还提供了设置线程调度优先级值的能力。
+- Pthread API提供了許多函數用於指定線程如何調度執行。例如，線程可以以FIFO（先進先出）、RR（循環賽）以及其他（操作系統決定）方式運行。API還提供了設置線程調度優先級值的能力。
 - These topics are not covered here, however a good overview of "how things work" under Linux can be found in the sched_setscheduler man page.
-- 这些主题在本教程不会涉及，但是可以从sched_setscheduler man手册里获得它们在Linux下的“工作原理”。
+- 這些主題在本教程不會涉及，但是可以從sched_setscheduler man手冊裡獲得它們在Linux下的“工作原理”。
 - The Pthreads API does not provide routines for binding threads to specific cpus/cores. However, local implementations may include this functionality - such as providing the non-standard pthread_setaffinity_np routine. Note that "_np" in the name stands for "non-portable".
-- Pthread API未提供函用于绑定线程到指定CPU/核心的函数。但是本地实现有可能包含这个功能——例如提供非标准的pthread_setaffinity_np函数。注意函数名中的“_np”代表的是“不可移植的”(non-portable)。
+- Pthread API未提供函用於綁定線程到指定CPU/核心的函數。但是本地實現有可能包含這個功能——例如提供非標準的pthread_setaffinity_np函數。注意函數名中的“_np”代表的是“不可移植的”(non-portable)。
 - Also, the local operating system may provide a way to do this. For example, Linux provides the sched_setaffinity routine.
-- 另外，本地操作系统可能提供了这样做的方法。例如Linux提供了sched_setaffinity函数。
+- 另外，本地操作系統可能提供了這樣做的方法。例如Linux提供了sched_setaffinity函數。
 
 #### Terminating Threads & pthread_exit():
-#### 终止线程与pthread_exit()：
+#### 終止線程與pthread_exit()：
 
 - There are several ways in which a thread may be terminated:
-- 存在多种方法来终止一个线程：
+- 存在多種方法來終止一個線程：
     - The thread returns normally from its starting routine. It's work is done.
-    - 线程从它的开始函数正常返回。它的工作完成了。
+    - 線程從它的開始函數正常返回。它的工作完成了。
     - The thread makes a call to the pthread_exit subroutine - whether its work is done or not.
-    - 线程调用pthread_exit子函数——无论它的工作是否完成。
+    - 線程調用pthread_exit子函數——無論它的工作是否完成。
     - The thread is canceled by another thread via the pthread_cancel routine.
-    - 线程被其他线程通过pthread_cancel函数取消。
+    - 線程被其他線程通過pthread_cancel函數取消。
     - The entire process is terminated due to making a call to either the exec() or exit()
-    - 整个进程因为调用exec()或者exit()而终止。
+    - 整個進程因為調用exec()或者exit()而終止。
     - If main() finishes first, without calling pthread_exit explicitly itself
-    - 如果main()先结束，且没有在结束前明确地调用pthread_exit。
+    - 如果main()先結束，且沒有在結束前明確地調用pthread_exit。
 - The pthread_exit() routine allows the programmer to specify an optional termination status parameter. This optional parameter is typically returned to threads "joining" the terminated thread (covered later).
-- pthread_exit()函数允许程序员指定一个可选的终止状态参数。该可选的参数一般上返回给“连接”终止线程的线程（稍后涉及）。
+- pthread_exit()函數允許程序員指定一個可選的終止狀態參數。該可選的參數一般上返回給“連接”終止線程的線程（稍後涉及）。
 - In subroutines that execute to completion normally, you can often dispense with calling pthread_exit() - unless, of course, you want to pass the optional status code back.
-- 在正常执行结束的子函数里，你通常可能免去调用pthread_exit()——当然，除非你想要传回可选的状态码。
+- 在正常執行結束的子函數裡，你通常可能免去調用pthread_exit()——當然，除非你想要傳回可選的狀態碼。
 - Cleanup: the pthread_exit() routine does not close files; any files opened inside the thread will remain open after the thread is terminated.
-- 清扫工作：pthread_exit()函数不会关闭文件；任何在线程里打开的文件会在线程结束后保持打开状态。
+- 清掃工作：pthread_exit()函數不會關閉文件；任何在線程裡打開的文件會在線程結束後保持打開狀態。
 - Discussion on calling pthread_exit() from main():
-- 讨论在main函数中调用pthread_exit：
+- 討論在main函數中調用pthread_exit：
     - There is a definite problem if main() finishes before the threads it spawned if you don't call pthread_exit() explicitly. All of the threads it created will terminate because main() is done and no longer exists to support the threads.
-    - 如果main函数在它创建的线程结束前先结束，并且没有明确调用pthread_exit函数，那么这里肯定存在问题。它创建的所有线程都将会终止，因为main函数完成然后不再存于以维持这些线程。
+    - 如果main函數在它創建的線程結束前先結束，並且沒有明確調用pthread_exit函數，那麼這裡肯定存在問題。它創建的所有線程都將會終止，因為main函數完成然後不再存於以維持這些線程。
     - By having main() explicitly call pthread_exit() as the last thing it does, main() will block and be kept alive to support the threads it created until they are done.
-    - 通过使main函数明确地调用pthread_exit函数作为它最后做的一件事，main函数将会阻塞并保持存活，以维持它创建的那些线程直至它们完成。
+    - 通過使main函數明確地調用pthread_exit函數作為它最後做的一件事，main函數將會阻塞並保持存活，以維持它創建的那些線程直至它們完成。
 
 ### Example: Pthread Creation and Termination
-### 例子：Pthread创建和终止
+### 例子：Pthread創建和終止
 
 - This simple example code creates 5 threads with the pthread_create() routine. Each thread prints a "Hello World!" message, and then terminates with a call to pthread_exit().
-- 这个简单的示例代码用pthread_create函数创建了5个线程。每个线程打印一条“Hello World!”消息，然后以调用pthread_exit函数结束。
+- 這個簡單的示例代碼用pthread_create函數創建了5個線程。每個線程打印一條“Hello World!”消息，然後以調用pthread_exit函數結束。
 
 ---
 
@@ -823,30 +823,30 @@ Answer: Unless you are using the Pthreads scheduling mechanism, it is up to the 
     }
 
 ## Thread Management
-## 线程管理
+## 線程管理
 
 ### Passing Arguments to Threads
-### 传递参数给线程
+### 傳遞參數給線程
 
 - The pthread_create() routine permits the programmer to pass one argument to the thread start routine. For cases where multiple arguments must be passed, this limitation is easily overcome by creating a structure which contains all of the arguments, and then passing a pointer to that structure in the pthread_create() routine.
-- pthread_create函数允许程序员传递1个参数给线程的开始函数。对于需要传递多个参数的情况，这个限制是很容易克服的，只需创建一个包括所有参数的结构然后传递该结构的指针给pthread_create函数即可。
+- pthread_create函數允許程序員傳遞1個參數給線程的開始函數。對於需要傳遞多個參數的情況，這個限制是很容易克服的，只需創建一個包括所有參數的結構然後傳遞該結構的指針給pthread_create函數即可。
 - All arguments must be passed by reference and cast to (void *).
-- 所有的参数必须以引用方式传递，并且转换类型至(void*)。
+- 所有的參數必須以引用方式傳遞，並且轉換類型至(void*)。
 
 Question: How can you safely pass data to newly created threads, given their non-deterministic start-up and scheduling?
 
-问题：你如何安全地传递数据到新创建的线程，考虑到它们不确定的启动与调度？
+問題：你如何安全地傳遞數據到新創建的線程，考慮到它們不確定的啟動與調度？
 
 Answer: Make sure that all passed data is thread safe - that it can not be changed by other threads.  The three examples that follow demonstrate what not and what to do.
 
-答案：确保所有创建的数据是线程安全的——即传递的数据无法被其他线程更改。下面的三个例子演示了什么不该做什么该做。
+答案：確保所有創建的數據是線程安全的——即傳遞的數據無法被其他線程更改。下面的三個例子演示了什麼不該做什麼該做。
 
 #### Example 1 - Thread Argument Passing
-#### 例子1——线程参数传递
+#### 例子1——線程參數傳遞
 
 This code fragment demonstrates how to pass a simple integer to each thread. The calling thread uses a unique data structure for each thread, insuring that each thread's argument remains intact throughout the program.
 
-这个代码片段演示了如何传递一个简单的整数给每一个线程。调用线程针对每个线程使用了一个独一无二的数据结构，以确保每个线程的参数在整个程序里保持原封不动。
+這個代碼片段演示瞭如何傳遞一個簡單的整數給每一個線程。調用線程針對每個線程使用了一個獨一無二的數據結構，以確保每個線程的參數在整個程序裡保持原封不動。
 
     #include <pthread.h>
     #include <stdio.h>
@@ -896,11 +896,11 @@ This code fragment demonstrates how to pass a simple integer to each thread. The
     }
 
 #### Example 2 - Thread Argument Passing
-#### 例子2——线程参数传递
+#### 例子2——線程參數傳遞
 
 This example shows how to setup/pass multiple arguments via a structure. Each thread receives a unique instance of the structure.
 
-这个例子展示了如何通过结构设置/传递多个参数。每个线程接收一个独一无二的结构实例。
+這個例子展示瞭如何通過結構設置/傳遞多個參數。每個線程接收一個獨一無二的結構實例。
 
     #include <pthread.h>
     #include <stdio.h>
@@ -966,11 +966,11 @@ This example shows how to setup/pass multiple arguments via a structure. Each th
     }
 
 #### Example 3 - Thread Argument Passing (Incorrect)
-#### 例子3——线程参数传递（不正确）
+#### 例子3——線程參數傳遞（不正確）
 
 This example performs argument passing incorrectly. It passes the address of variable t, which is shared memory space and visible to all threads. As the loop iterates, the value of this memory location changes, possibly before the created threads can access it.
 
-这个例子不正确地执行了参数传递。它传递了变量t的地址，该地址是共享内存空间并且对所有线程可见。随着循环的迭代，该内存地址的值不断变更，很有可能在创建的线程访问它之前发生变更。
+這個例子不正確地執行了參數傳遞。它傳遞了變量t的地址，該地址是共享內存空間並且對所有線程可見。隨著循環的迭代，該內存地址的值不斷變更，很有可能在創建的線程訪問它之前發生變更。
 
     #include <pthread.h>
     #include <stdio.h>
@@ -1005,13 +1005,13 @@ This example performs argument passing incorrectly. It passes the address of var
     }
 
 ## Thread Management
-## 线程管理
+## 線程管理
 
 ### Joining and Detaching Threads
-### 连接和分离线程
+### 連接和分離線程
 
 #### Routines:
-#### 函数：
+#### 函數：
 
 [pthread_join](https://computing.llnl.gov/tutorials/pthreads/man/pthread_join.txt) (threadid,status)
 
@@ -1022,65 +1022,65 @@ This example performs argument passing incorrectly. It passes the address of var
 [pthread_attr_getdetachstate](https://computing.llnl.gov/tutorials/pthreads/man/pthread_attr_getdetachstate.txt) (attr,detachstate) 
 
 #### Joining:
-#### 连接：
+#### 連接：
 
 - "Joining" is one way to accomplish synchronization between threads. For example:
-- “连接”是一种完成线程之间同步的方式。例如：
+- “連接”是一種完成線程之間同步的方式。例如：
 
 ![Joining](./tutorial-pthreads/joining.gif)
 
 - The pthread_join() subroutine blocks the calling thread until the specified threadid thread terminates.
-- pthread_join子函数会阻塞调用线程直至指定id的线程终止。
+- pthread_join子函數會阻塞調用線程直至指定id的線程終止。
 - The programmer is able to obtain the target thread's termination return status if it was specified in the target thread's call to pthread_exit().
-- 程序员能够获取目标线程的终止返回状态，如果目标线程在调用pthread_exit时指定了返回状态。
+- 程序員能夠獲取目標線程的終止返回狀態，如果目標線程在調用pthread_exit時指定了返回狀態。
 - A joining thread can match one pthread_join() call. It is a logical error to attempt multiple joins on the same thread.
-- 一个连接线程能够匹配一个pthread_join调用。尝试在同一个线程上进行多次连接是一个逻辑错误。
+- 一個連接線程能夠匹配一個pthread_join調用。嘗試在同一個線程上進行多次連接是一個邏輯錯誤。
 - Two other synchronization methods, mutexes and condition variables, will be discussed later.
-- 另外两种同步方法——互斥体与条件变量——将会在稍后讨论。
+- 另外兩種同步方法——互斥體與條件變量——將會在稍後討論。
 
 #### Joinable or Not?
-#### 可连接还是不可连接？
+#### 可連接還是不可連接？
 
 - When a thread is created, one of its attributes defines whether it is joinable or detached. Only threads that are created as joinable can be joined. If a thread is created as detached, it can never be joined.
-- 当一个线程被创建时，它的属性中的某一项定义了它是可连接还是已分离。只有那些创建时设定为可连接的线程才能被连接。如果一个线程创建时设定为已分离，那么它永远不可能被连接。
+- 當一個線程被創建時，它的屬性中的某一項定義了它是可連接還是已分離。只有那些創建時設定為可連接的線程才能被連接。如果一個線程創建時設定為已分離，那麼它永遠不可能被連接。
 - The final draft of the POSIX standard specifies that threads should be created as joinable.
-- POSIX标准的最终草稿规定，线程被创建时应该设定为可连接。
+- POSIX標準的最終草稿規定，線程被創建時應該設定為可連接。
 - To explicitly create a thread as joinable or detached, the attr argument in the pthread_create() routine is used. The typical 4 step process is:
-- 为了明确地创建一个可连接或者已分离的线程，需要用到pthread_create函数的attr参数。典型的4步为：
+- 為了明確地創建一個可連接或者已分離的線程，需要用到pthread_create函數的attr參數。典型的4步為：
     1. Declare a pthread attribute variable of the pthread_attr_t data type
-    1. 声明一个数据类型为pthread_attr_t的线程属性变量
+    1. 聲明一個數據類型為pthread_attr_t的線程屬性變量
     2. Initialize the attribute variable with pthread_attr_init()
-    2. 用pthread_attr_init函数来初始化这个属性变量
+    2. 用pthread_attr_init函數來初始化這個屬性變量
     3. Set the attribute detached status with pthread_attr_setdetachstate()
-    3. 用pthread_attr_setdetachstate函数设置属性的分离状态
+    3. 用pthread_attr_setdetachstate函數設置屬性的分離狀態
     4. When done, free library resources used by the attribute with pthread_attr_destroy()
-    4. 使用完毕时，用pthread_attr_destroy函数释放属性使用的库资源
+    4. 使用完畢時，用pthread_attr_destroy函數釋放屬性使用的庫資源
 
 #### Detaching:
-#### 分离：
+#### 分離：
 
 - The pthread_detach() routine can be used to explicitly detach a thread even though it was created as joinable.
-- pthread_detach函数可以被用来明确地分离一个即使创建时设定为可连接的线程。
+- pthread_detach函數可以被用來明確地分離一個即使創建時設定為可連接的線程。
 - There is no converse routine.
-- 不存在反向的函数。
+- 不存在反向的函數。
 
 #### Recommendations:
-#### 建议：
+#### 建議：
 
 - If a thread requires joining, consider explicitly creating it as joinable. This provides portability as not all implementations may create threads as joinable by default.
-- 如果一个线程需要连接，考虑明确地创建成可连接的。这样子提供了可移植性，因为不是所有实现都默认创建可连接的线程。
+- 如果一個線程需要連接，考慮明確地創建成可連接的。這樣子提供了可移植性，因為不是所有實現都默認創建可連接的線程。
 - If you know in advance that a thread will never need to join with another thread, consider creating it in a detached state. Some system resources may be able to be freed.
-- 如果你预先知道一个线程将永远不会需要与其他线程连接，考虑以分离状态创建它。某些系统资源就可能被释放。
+- 如果你預先知道一個線程將永遠不會需要與其他線程連接，考慮以分離狀態創建它。某些系統資源就可能被釋放。
 
 ### Example: Pthread Joining
-### 例子：Pthread连接
+### 例子：Pthread連接
 
 #### Example Code - Pthread Joining
-#### 示例代码——Pthread连接
+#### 示例代碼——Pthread連接
 
 This example demonstrates how to "wait" for thread completions by using the Pthread join routine. Since some implementations of Pthreads may not create threads in a joinable state, the threads in this example are explicitly created in a joinable state so that they can be joined later.
 
-这个例子展示了如何使用Pthread的join函数来“等待”线程完成。由于某些Pthread实现可能不是以可连接状态创建线程，故本例子里的线程明确地以可连接状态创建，这样一来之后它们就能被连接。
+這個例子展示瞭如何使用Pthread的join函數來“等待”線程完成。由於某些Pthread實現可能不是以可連接狀態創建線程，故本例子裡的線程明確地以可連接狀態創建，這樣一來之後它們就能被連接。
 
     #include <pthread.h>
     #include <stdio.h>
@@ -1140,13 +1140,13 @@ This example demonstrates how to "wait" for thread completions by using the Pthr
     }
 
 ## Thread Management
-## 线程管理
+## 線程管理
 
 ### Stack Management
-### 栈管理
+### 棧管理
 
 #### Routines:
-#### 函数：
+#### 函數：
 
 [pthread_attr_getstacksize](https://computing.llnl.gov/tutorials/pthreads/man/pthread_attr_getstacksize.txt) (attr, stacksize)
 
@@ -1157,32 +1157,32 @@ This example demonstrates how to "wait" for thread completions by using the Pthr
 [pthread_attr_setstackaddr](https://computing.llnl.gov/tutorials/pthreads/man/pthread_attr_setstackaddr.txt) (attr, stackaddr) 
 
 #### Preventing Stack Problems:
-#### 避免栈问题：
+#### 避免棧問題：
 
 - The POSIX standard does not dictate the size of a thread's stack. This is implementation dependent and varies.
-- POSIX标准没有指示一个线程的栈的大小。这依赖于实现，因而可变。
+- POSIX標準沒有指示一個線程的棧的大小。這依賴於實現，因而可變。
 - Exceeding the default stack limit is often very easy to do, with the usual results: program termination and/or corrupted data.
-- 超出默认的栈界限通常很容易就办到了，它的通常结果是程序终止或者损坏的数据。
+- 超出默認的棧界限通常很容易就辦到了，它的通常結果是程序終止或者損壞的數據。
 - Safe and portable programs do not depend upon the default stack limit, but instead, explicitly allocate enough stack for each thread by using the pthread_attr_setstacksize routine.
-- 安全并且可移植的程序不依赖于默认的栈界限，取而代之的是使用pthread_attr_setstacksize函数明确地为每个线程分配足够的栈空间。
+- 安全並且可移植的程序不依賴於默認的棧界限，取而代之的是使用pthread_attr_setstacksize函數明確地為每個線程分配足夠的棧空間。
 - The pthread_attr_getstackaddr and pthread_attr_setstackaddr routines can be used by applications in an environment where the stack for a thread must be placed in some particular region of memory.
-- 当应用的环境要求一个线程的栈必须位于某个特定内存范围时，应用可以使用pthread_attr_getstackaddr和pthread_attr_setstackaddr函数。
+- 當應用的環境要求一個線程的棧必須位於某個特定內存範圍時，應用可以使用pthread_attr_getstackaddr和pthread_attr_setstackaddr函數。
 
 #### Some Practical Examples at LC:
-#### 在LC上的一些实用例子：
+#### 在LC上的一些實用例子：
 
 - Default thread stack size varies greatly. The maximum size that can be obtained also varies greatly, and may depend upon the number of threads per node.
-- 默认的线程栈大小差异巨大。可以获取的最大大小同样差异巨大，而且有可以依赖于每个节点上的线程数。
+- 默認的線程棧大小差異巨大。可以獲取的最大大小同樣差異巨大，而且有可以依賴於每個節點上的線程數。
 - Both past and present architectures are shown to demonstrate the wide variation in default thread stack size.
-- 下表中包含过去和现在的架构被用来展示默认线程栈大小的巨大差异。
+- 下表中包含過去和現在的架構被用來展示默認線程棧大小的巨大差異。
 
 <table>
     <thead>
         <tr>
-            <th>节点架构</th>
-            <th>CPU数量</th>
-            <th>内存（GB）</th>
-            <th>默认大小（bytes）</th>
+            <th>節點架構</th>
+            <th>CPU數量</th>
+            <th>內存（GB）</th>
+            <th>默認大小（bytes）</th>
         </tr>
     </thead>
         <tr>
@@ -1238,14 +1238,14 @@ This example demonstrates how to "wait" for thread completions by using the Pthr
 </table>
 
 ### Example: Stack Management
-### 例子：栈管理
+### 例子：棧管理
 
 #### Example Code - Stack Management
-#### 示例代码——栈管理
+#### 示例代碼——棧管理
 
 This example demonstrates how to query and set a thread's stack size.
 
-这个例子展示了如何查询和设置一个线程的栈大小。
+這個例子展示瞭如何查詢和設置一個線程的棧大小。
 
     #include <pthread.h>
     #include <stdio.h>
@@ -1297,91 +1297,91 @@ This example demonstrates how to query and set a thread's stack size.
     }
 
 ## Thread Management
-## 线程管理
+## 線程管理
 
 ### Miscellaneous Routines
-### 杂项函数
+### 雜項函數
 
 [pthread_self](https://computing.llnl.gov/tutorials/pthreads/man/pthread_self.txt) ()
 
 [pthread_equal](https://computing.llnl.gov/tutorials/pthreads/man/pthread_equal.txt) (thread1,thread2) 
 
 - pthread_self returns the unique, system assigned thread ID of the calling thread.
-- pthread_self返回调用函数自身的一个独一无二的、系统赋予的线程ID。
+- pthread_self返回調用函數自身的一個獨一無二的、系統賦予的線程ID。
 - pthread_equal compares two thread IDs. If the two IDs are different 0 is returned, otherwise a non-zero value is returned.
-- pthread_equal 比较两个线程ID。如果这两个ID不相同那么返回0，否则返回一个非0值。
+- pthread_equal 比較兩個線程ID。如果這兩個ID不相同那麼返回0，否則返回一個非0值。
 - Note that for both of these routines, the thread identifier objects are opaque and can not be easily inspected. Because thread IDs are opaque objects, the C language equivalence operator == should not be used to compare two thread IDs against each other, or to compare a single thread ID against another value.
-- 注意：对于这两个函数，线程标识符对象是不透明的，无法轻易地检查。因为线程ID是不透明对象，不应该使用C语言中的相等操作符==来比较两个线程ID。
+- 注意：對於這兩個函數，線程標識符對象是不透明的，無法輕易地檢查。因為線程ID是不透明對象，不應該使用C語言中的相等操作符==來比較兩個線程ID。
 
 [pthread_once](https://computing.llnl.gov/tutorials/pthreads/man/pthread_once.txt) (once_control, init_routine) 
 
 - pthread_once executes the init_routine exactly once in a process. The first call to this routine by any thread in the process executes the given init_routine, without parameters. Any subsequent call will have no effect.
-- 在一个进程中，pthread_once 恰好执行init_routine一次。由进程中的任何线程引起的对这个函数的第一次调用会无参地执行给定的init_routine。任何随后的调用都将不会起作用。
+- 在一個進程中，pthread_once 恰好執行init_routine一次。由進程中的任何線程引起的對這個函數的第一次調用會無參地執行給定的init_routine。任何隨後的調用都將不會起作用。
 - The init_routine routine is typically an initialization routine.
-- init_routine函数一般是一个初始化函数。
+- init_routine函數一般是一個初始化函數。
 - The once_control parameter is a synchronization control structure that requires initialization prior to calling pthread_once. For example:
-- once_control参数是一个同步控制结构，在调用pthread_once之前需要初始化。例如：
+- once_control參數是一個同步控制結構，在調用pthread_once之前需要初始化。例如：
 
     pthread_once_t once_control = PTHREAD_ONCE_INIT;
 
 ## Pthread Exercise 1
-## pthread练习1
+## pthread練習1
 
 ### Getting Started and Thread Management Routines
-### 准备开始以及线程管理函数
+### 準備開始以及線程管理函數
 
 #### Overview:
-#### 概览：
+#### 概覽：
 
 - Login to an LC cluster using your workshop username and OTP token
-- 使用你的讲习班用户名和OTP令牌登录一台LC集群
+- 使用你的講習班用戶名和OTP令牌登錄一臺LC集群
 - Copy the exercise files to your home directory
-- 复制练习文件到你的家目录
+- 複製練習文件到你的家目錄
 - Familiarize yourself with LC's Pthreads environment
-- 让你自己熟悉LC的pthread环境
+- 讓你自己熟悉LC的pthread環境
 - Write a simple "Hello World" Pthreads program 
-- 编写一个简单的“Hello World”pthread程序
+- 編寫一個簡單的“Hello World”pthread程序
 - Successfully compile your program
-- 成功地编译你的程序
+- 成功地編譯你的程序
 - Successfully run your program - several different ways 
-- 成功地运行你的程序——以多种不同的方式
+- 成功地運行你的程序——以多種不同的方式
 - Review, compile, run and/or debug some related Pthreads programs (provided) 
-- 检查、编译、运行以及调试一些相关的Pthread程序（已提供）
+- 檢查、編譯、運行以及調試一些相關的Pthread程序（已提供）
 
 [GO TO THE EXERCISE HERE](https://computing.llnl.gov/tutorials/pthreads/exercise.html#Exercise1)
 
-[点击此处跳转到练习](https://computing.llnl.gov/tutorials/pthreads/exercise.html#Exercise1)
+[點擊此處跳轉到練習](https://computing.llnl.gov/tutorials/pthreads/exercise.html#Exercise1)
 
 ## Mutex Variables
-## 互斥体变量
+## 互斥體變量
 
 ### Overview
 ### 概述
 
 - Mutex is an abbreviation for "mutual exclusion". Mutex variables are one of the primary means of implementing thread synchronization and for protecting shared data when multiple writes occur.
-- Mutex是“mutual exclusion”的缩写。互斥体变量是实现线程同步以及当多次写入时保护共享数据的基本方法中的一种。
+- Mutex是“mutual exclusion”的縮寫。互斥體變量是實現線程同步以及當多次寫入時保護共享數據的基本方法中的一種。
 - A mutex variable acts like a "lock" protecting access to a shared data resource. The basic concept of a mutex as used in Pthreads is that only one thread can lock (or own) a mutex variable at any given time. Thus, even if several threads try to lock a mutex only one thread will be successful. No other thread can own that mutex until the owning thread unlocks that mutex. Threads must "take turns" accessing protected data. 
-- 一个互斥体变量就像一个“锁”保护对共享数据资源的访问。Pthread中使用的基本的互斥体概念就是在任意时刻只有一个线程能锁住（或者拥有）一个互斥体变量。因此，尽管有许多线程尝试锁住一个互斥体，只有一个线程会成功。没有其他任何线程能拥有那个互斥体，直到持有线程解锁那个互斥体。线程必须“轮流”地访问被保护的数据。
+- 一個互斥體變量就像一個“鎖”保護對共享數據資源的訪問。Pthread中使用的基本的互斥體概念就是在任意時刻只有一個線程能鎖住（或者擁有）一個互斥體變量。因此，儘管有許多線程嘗試鎖住一個互斥體，只有一個線程會成功。沒有其他任何線程能擁有那個互斥體，直到持有線程解鎖那個互斥體。線程必須“輪流”地訪問被保護的數據。
 - Mutexes can be used to prevent "race" conditions. An example of a race condition involving a bank transaction is shown below: 
-- 互斥体可被用于阻止“竞态”条件。下面展示了一个涉及银行事务往来的竞态条件的例子：
+- 互斥體可被用於阻止“競態”條件。下面展示了一個涉及銀行事務往來的競態條件的例子：
 
 <table>
     <thead>
         <tr>
-            <th>线程1</th>
-            <th>线程2</th>
-            <th>余额</th>
+            <th>線程1</th>
+            <th>線程2</th>
+            <th>餘額</th>
         </tr>
     </thead>
     <tbody>
         <tr>
-            <td>读取余额：1000美元</td>
+            <td>讀取餘額：1000美元</td>
             <td></td>
             <td>1000美元</td>
         </tr>
         <tr>
             <td></td>
-            <td>读取余额：1000美元</td>
+            <td>讀取餘額：1000美元</td>
             <td>1000美元</td>
         </tr>
         <tr>
@@ -1395,51 +1395,51 @@ This example demonstrates how to query and set a thread's stack size.
             <td>1000美元</td>
         </tr>
         <tr>
-            <td>更新余额1000美元+200美元</td>
+            <td>更新餘額1000美元+200美元</td>
             <td></td>
             <td>1200美元</td>
         </tr>
         <tr>
             <td></td>
-            <td>更新余额1000美元+200美元</td>
+            <td>更新餘額1000美元+200美元</td>
             <td>1200美元</td>
         </tr>
     </tbody>
 </table>
 
 - In the above example, a mutex should be used to lock the "Balance" while a thread is using this shared data resource.
-- 在上面的例子中，当一个线程正在使用这个共享数据资源时，必须得使用一个互斥体来锁住“余额”。
+- 在上面的例子中，當一個線程正在使用這個共享數據資源時，必須得使用一個互斥體來鎖住“餘額”。
 - Very often the action performed by a thread owning a mutex is the updating of global variables. This is a safe way to ensure that when several threads update the same variable, the final value is the same as what it would be if only one thread performed the update. The variables being updated belong to a "critical section".
-- 一个拥有互斥体的线程经常干的事情就是更新全局变量。这是一种安全的方式来确保当有多个线程更新同一个变量时，最终值就像只有一个线程干了全部的更新操作。这个变量更新操作属于一个“临界区”。
+- 一個擁有互斥體的線程經常乾的事情就是更新全局變量。這是一種安全的方式來確保當有多個線程更新同一個變量時，最終值就像只有一個線程幹了全部的更新操作。這個變量更新操作屬於一個“臨界區”。
 - A typical sequence in the use of a mutex is as follows:
-- 使用互斥体的一个典型操作序列就像下面这样：
+- 使用互斥體的一個典型操作序列就像下面這樣：
     - Create and initialize a mutex variable
-    - 创建并且初始化一个互斥体变量
+    - 創建並且初始化一個互斥體變量
     - Several threads attempt to lock the mutex
-    - 多个线程试图锁定这个互斥体
+    - 多個線程試圖鎖定這個互斥體
     - Only one succeeds and that thread owns the mutex 
-    - 只有一个线程成功并且拥有这个互斥体
+    - 只有一個線程成功並且擁有這個互斥體
     - The owner thread performs some set of actions 
-    - 这个拥有者线程执行一系列动作
+    - 這個擁有者線程執行一系列動作
     - The owner unlocks the mutex
-    - 这个拥有者线程解锁这个互斥体
+    - 這個擁有者線程解鎖這個互斥體
     - Another thread acquires the mutex and repeats the process 
-    - 其他线程获得这个互斥体然后重复这个过程
+    - 其他線程獲得這個互斥體然後重複這個過程
     - Finally the mutex is destroyed 
-    - 最终这个互斥体被销毁
+    - 最終這個互斥體被銷燬
 - When several threads compete for a mutex, the losers block at that call - an unblocking call is available with "trylock" instead of the "lock" call. 
-- 当有多个线程为一个互斥体竞争时，竞争失败者被阻塞在那个调用上——存在非阻塞调用“trylock”,可用来代替“lock”。
+- 當有多個線程為一個互斥體競爭時，競爭失敗者被阻塞在那個調用上——存在非阻塞調用“trylock”,可用來代替“lock”。
 - When protecting shared data, it is the programmer's responsibility to make sure every thread that needs to use a mutex does so. For example, if 4 threads are updating the same data, but only one uses a mutex, the data can still be corrupted.
-- 当保护共享数据时，编程人员有责任去确保每个需要使用互斥体的线程这样做。例如，如果有4个线程正在更新同一个数据，但是只有一个使用了互斥体，那么数据依然可能被损坏。
+- 當保護共享數據時，編程人員有責任去確保每個需要使用互斥體的線程這樣做。例如，如果有4個線程正在更新同一個數據，但是隻有一個使用了互斥體，那麼數據依然可能被損壞。
 
 ## Mutex Variables
-## 互斥体变量
+## 互斥體變量
 
 ### Creating and Destroying Mutexes
-### 创建和销毁互斥体
+### 創建和銷燬互斥體
 
 #### Routines:
-#### 函数：
+#### 函數：
 
 [pthread_mutex_init](https://computing.llnl.gov/tutorials/pthreads/man/pthread_mutex_init.txt) (mutex,attr)
 
@@ -1453,42 +1453,42 @@ This example demonstrates how to query and set a thread's stack size.
 #### 用法：
 
 - Mutex variables must be declared with type pthread_mutex_t, and must be initialized before they can be used. There are two ways to initialize a mutex variable:
-- 互斥体变量必须以pthread_mutex_t类型来声明，而且在使用之前必须被初始化。有两种方式初始化一个互斥体变量：
+- 互斥體變量必須以pthread_mutex_t類型來聲明，而且在使用之前必須被初始化。有兩種方式初始化一個互斥體變量：
     1. Statically, when it is declared. For example: `pthread_mutex_t mymutex = PTHREAD_MUTEX_INITIALIZER;`
-    1. 静态地，当它声明时。示例：`pthread_mutex_t mymutex = PTHREAD_MUTEX_INITIALIZER;`
+    1. 靜態地，當它聲明時。示例：`pthread_mutex_t mymutex = PTHREAD_MUTEX_INITIALIZER;`
     2. Dynamically, with the pthread_mutex_init() routine. This method permits setting mutex object attributes, attr. 
-    2. 动态地，通过pthread_mutex_init函数。这种方法允许设置互斥体对象属性——attr。
+    2. 動態地，通過pthread_mutex_init函數。這種方法允許設置互斥體對象屬性——attr。
 
 The mutex is initially unlocked. 
 
-互斥体被初始化为未锁定。
+互斥體被初始化為未鎖定。
 
 - The attr object is used to establish properties for the mutex object, and must be of type pthread_mutexattr_t if used (may be specified as NULL to accept defaults). The Pthreads standard defines three optional mutex attributes:
-- attr对象用于设置mutex对象的属性，并且如果有用到则必须是pthread_mutexattr_t类型（亦可置为NULL以接受默认值）。Pthread标准定义了3个可选的互斥体属性：
+- attr對象用於設置mutex對象的屬性，並且如果有用到則必須是pthread_mutexattr_t類型（亦可置為NULL以接受默認值）。Pthread標準定義了3個可選的互斥體屬性：
     - Protocol: Specifies the protocol used to prevent priority inversions for a mutex. 
-    - 协议：指定互斥体的用于避免优先级反转的协议。
+    - 協議：指定互斥體的用於避免優先級反轉的協議。
     - Prioceiling: Specifies the priority ceiling of a mutex. 
-    - 优先级封顶：指定互斥体的优先级封顶。
+    - 優先級封頂：指定互斥體的優先級封頂。
     - Process-shared: Specifies the process sharing of a mutex. 
-    - 进程共享：指定互斥体的进程共享。
+    - 進程共享：指定互斥體的進程共享。
 
 Note that not all implementations may provide the three optional mutex attributes. 
 
-注意：不是所有实现都会提供这三个可选的互斥体属性。
+注意：不是所有實現都會提供這三個可選的互斥體屬性。
 
 - The pthread_mutexattr_init() and pthread_mutexattr_destroy() routines are used to create and destroy mutex attribute objects respectively. 
-- pthread_mutexattr_init和pthread_mutexattr_destroy函数分别用于创建和销毁互斥体属性对象。
+- pthread_mutexattr_init和pthread_mutexattr_destroy函數分別用於創建和銷燬互斥體屬性對象。
 - pthread_mutex_destroy() should be used to free a mutex object which is no longer needed. 
-- 应该用pthread_mutex_destroy函数来释放一个不再需要的互斥体对象。
+- 應該用pthread_mutex_destroy函數來釋放一個不再需要的互斥體對象。
 
 ## Mutex Variables
-## 互斥体变量
+## 互斥體變量
 
 ### Locking and Unlocking Mutexes
-### 锁定与解锁互斥体
+### 鎖定與解鎖互斥體
 
 #### Routines:
-#### 函数：
+#### 函數：
 
 [pthread_mutex_lock](https://computing.llnl.gov/tutorials/pthreads/man/pthread_mutex_lock.txt) (mutex)
 
@@ -1500,17 +1500,17 @@ Note that not all implementations may provide the three optional mutex attribute
 #### 用法：
 
 - The pthread_mutex_lock() routine is used by a thread to acquire a lock on the specified mutex variable. If the mutex is already locked by another thread, this call will block the calling thread until the mutex is unlocked. 
-- pthread_mutex_lock函数用于让一个线程在指定的互斥体变量上获得锁。如果这个互斥体已经被其他线程锁定，该调用将会阻塞调用线程直至这个互斥体被解锁。
+- pthread_mutex_lock函數用於讓一個線程在指定的互斥體變量上獲得鎖。如果這個互斥體已經被其他線程鎖定，該調用將會阻塞調用線程直至這個互斥體被解鎖。
 - pthread_mutex_trylock() will attempt to lock a mutex. However, if the mutex is already locked, the routine will return immediately with a "busy" error code. This routine may be useful in preventing deadlock conditions, as in a priority-inversion situation. 
-- pthread_mutex_trylock函数将会试图去锁定一个互斥体。然而，如果该互斥体已经被锁定，这个函数将会立即返回一个指示“忙”的错误码。在一个优先级反转的情况下，这个函数可能有助于预防死锁条件。
+- pthread_mutex_trylock函數將會試圖去鎖定一個互斥體。然而，如果該互斥體已經被鎖定，這個函數將會立即返回一個指示“忙”的錯誤碼。在一個優先級反轉的情況下，這個函數可能有助於預防死鎖條件。
 - pthread_mutex_unlock() will unlock a mutex if called by the owning thread. Calling this routine is required after a thread has completed its use of protected data if other threads are to acquire the mutex for their work with the protected data. An error will be returned if:
-- pthread_mutex_unlock函数将会解锁一个互斥体，如果被锁拥有者线程调用。在一个线程完成保护数据的使用之后，如果其他线程将要获取这个互斥体以完成涉级保护数据的工作，那么需要调用这个函数。如下情况将会返回一个错误：
+- pthread_mutex_unlock函數將會解鎖一個互斥體，如果被鎖擁有者線程調用。在一個線程完成保護數據的使用之後，如果其他線程將要獲取這個互斥體以完成涉級保護數據的工作，那麼需要調用這個函數。如下情況將會返回一個錯誤：
     - If the mutex was already unlocked
-    - 如果互斥体已经被解锁
+    - 如果互斥體已經被解鎖
     - If the mutex is owned by another thread
-    - 如果互斥体被其他线程拥有
+    - 如果互斥體被其他線程擁有
 - There is nothing "magical" about mutexes...in fact they are akin to a "gentlemen's agreement" between participating threads. It is up to the code writer to insure that the necessary threads all make the the mutex lock and unlock calls correctly. The following scenario demonstrates a logical error: 
-- 关于互斥体不存在“魔法”。事实上它们类型于参与线程之间的“君子协定”。这取决于代码编写者保证必要的线程都正确地调用互斥体加锁、解锁函数。下面的场景展示了一个逻辑错误：
+- 關於互斥體不存在“魔法”。事實上它們類型於參與線程之間的“君子協定”。這取決於代碼編寫者保證必要的線程都正確地調用互斥體加鎖、解鎖函數。下面的場景展示了一個邏輯錯誤：
 
 <br />
 
@@ -1521,21 +1521,21 @@ Note that not all implementations may provide the three optional mutex attribute
 
 Question: When more than one thread is waiting for a locked mutex, which thread will be granted the lock first after it is released? 
 
-问题：当超过1个以上的线程等待一个锁定的互斥体时，哪个线程将会在互斥体解锁后被授予这个锁？
+問題：當超過1個以上的線程等待一個鎖定的互斥體時，哪個線程將會在互斥體解鎖後被授予這個鎖？
 
 Answer: Unless thread priority scheduling (not covered) is used, the assignment will be left to the native system scheduler and may appear to be more or less random.
 
-答案：除非使用了线程优先级调度（未涉及），赋予操作将会留给本地系统调度者，看似或多或少是随机的。
+答案：除非使用了線程優先級調度（未涉及），賦予操作將會留給本地系統調度者，看似或多或少是隨機的。
 
 ### Example: Using Mutexes
-### 例子：使用互斥体
+### 例子：使用互斥體
 
 #### Example Code - Using Mutexes
-#### 示例代码——使用互斥体
+#### 示例代碼——使用互斥體
 
 This example program illustrates the use of mutex variables in a threads program that performs a dot product. The main data is made available to all threads through a globally accessible structure. Each thread works on a different part of the data. The main thread waits for all the threads to complete their computations, and then it prints the resulting sum. 
 
-这个示例程序说明了在一个求点积的多线程程序中互斥体变量的用法。主要数据通过一个全局可访问结构使得所有线程都可使用。每个线程工作于数据的不同部分。主线程等待所有线程完成它们的计算，然后打印作为结果的总和。
+這個示例程序說明了在一個求點積的多線程程序中互斥體變量的用法。主要數據通過一個全局可訪問結構使得所有線程都可使用。每個線程工作於數據的不同部分。主線程等待所有線程完成它們的計算，然後打印作為結果的總和。
 
     #include <pthread.h>
     #include <stdio.h>
@@ -1678,19 +1678,19 @@ This example program illustrates the use of mutex variables in a threads program
     }
 
 ## Condition Variables
-## 条件变量
+## 條件變量
 
 ### Overview
 ### 概述
 
 - Condition variables provide yet another way for threads to synchronize. While mutexes implement synchronization by controlling thread access to data, condition variables allow threads to synchronize based upon the actual value of data. 
-- 条件变量给线程同步提供了另一种方法。虽然互斥体通过控制线程访问数据来实现同步，但是条件变量允许线程依据数据的实际值来同步。
+- 條件變量給線程同步提供了另一種方法。雖然互斥體通過控制線程訪問數據來實現同步，但是條件變量允許線程依據數據的實際值來同步。
 - Without condition variables, the programmer would need to have threads continually polling (possibly in a critical section), to check if the condition is met. This can be very resource consuming since the thread would be continuously busy in this activity. A condition variable is a way to achieve the same goal without polling. 
-- 如果没有条件变量，那么程序员需要让线程持续地轮询（很可能位于一个临界区里），来检查条件是否满足。这将会是非常消耗资源的，因为线程将会忙于这个轮询活动。条件变量是一种达到相同目的却无需轮询的方法。
+- 如果沒有條件變量，那麼程序員需要讓線程持續地輪詢（很可能位於一個臨界區裡），來檢查條件是否滿足。這將會是非常消耗資源的，因為線程將會忙於這個輪詢活動。條件變量是一種達到相同目的卻無需輪詢的方法。
 - A condition variable is always used in conjunction with a mutex lock. 
-- 条件变量总是结合互斥锁一起使用。
+- 條件變量總是結合互斥鎖一起使用。
 - A representative sequence for using condition variables is shown below. 
-- 一个典型的使用条件变量操作序列显示如下。
+- 一個典型的使用條件變量操作序列顯示如下。
 
 <table width="100%">
     <tbody>
@@ -1699,13 +1699,13 @@ This example program illustrates the use of mutex variables in a threads program
                 <h3>Main Thread</h3>
                 <ul>
                     <li>Declare and initialize global data/variables which require synchronization (such as "count") </li>
-                    <li>声明和初始化需要同步的全局数据/变量（例如“count”）</li>
+                    <li>聲明和初始化需要同步的全局數據/變量（例如“count”）</li>
                     <li>Declare and initialize a condition variable object </li>
-                    <li>声明和初始化一个条件变量对象</li>
+                    <li>聲明和初始化一個條件變量對象</li>
                     <li>Declare and initialize an associated mutex</li>
-                    <li>声明和初始化一个关联的互斥体</li>
+                    <li>聲明和初始化一個關聯的互斥體</li>
                     <li>Create threads A and B to do work</li>
-                    <li>创建线程A和线程B去做苦工</li>
+                    <li>創建線程A和線程B去做苦工</li>
                 </ul>
             </td>
         </tr>
@@ -1714,17 +1714,17 @@ This example program illustrates the use of mutex variables in a threads program
                 <h3>Thread A</h3>
                 <ul>
                     <li>Do work up to the point where a certain condition must occur (such as "count" must reach a specified value) </li>
-                    <li>做苦工直到一个特定的条件出现（例如“count”必须达到一个指定值）</li>
+                    <li>做苦工直到一個特定的條件出現（例如“count”必須達到一個指定值）</li>
                     <li>Lock associated mutex and check value of a global variable</li>
-                    <li>锁定相关联的互斥体并且检查全局的变量的值</li>
+                    <li>鎖定相關聯的互斥體並且檢查全局的變量的值</li>
                     <li>Call pthread_cond_wait() to perform a blocking wait for signal from Thread-B. Note that a call to pthread_cond_wait() automatically and atomically unlocks the associated mutex variable so that it can be used by Thread-B. </li>
-                    <li>调用pthread_cond_wait函数以执行一个阻塞的等待，等待来自Thread-B的信号。注意：对pthread_cond_wait的调用会自动地、原子地解锁相关联的互斥体变量，这样一来Thread-B就能使用它。</li>
+                    <li>調用pthread_cond_wait函數以執行一個阻塞的等待，等待來自Thread-B的信號。注意：對pthread_cond_wait的調用會自動地、原子地解鎖相關聯的互斥體變量，這樣一來Thread-B就能使用它。</li>
                     <li>When signalled, wake up. Mutex is automatically and atomically locked. </li>
-                    <li>当收到信号时，醒过来。互斥体被自动地、原子地锁定。</li>
+                    <li>當收到信號時，醒過來。互斥體被自動地、原子地鎖定。</li>
                     <li>Explicitly unlock mutex</li>
-                    <li>明确地解锁互斥体</li>
+                    <li>明確地解鎖互斥體</li>
                     <li>Continue</li>
-                    <li>继续</li>
+                    <li>繼續</li>
                 </ul>
             </td>
             <td>
@@ -1733,15 +1733,15 @@ This example program illustrates the use of mutex variables in a threads program
                     <li>Do work </li>
                     <li>做工作</li>
                     <li>Lock associated mutex </li>
-                    <li>锁定相关联的互斥体</li>
+                    <li>鎖定相關聯的互斥體</li>
                     <li>Change the value of the global variable that Thread-A is waiting upon.</li>
-                    <li>改变线程A正在等待的全局变量</li>
+                    <li>改變線程A正在等待的全局變量</li>
                     <li>Check value of the global Thread-A wait variable. If it fulfills the desired condition, signal Thread-A. </li>
-                    <li>检查线程A等待的全局变量的值。如果它满足所需条件，发信号给线程A。</li>
+                    <li>檢查線程A等待的全局變量的值。如果它滿足所需條件，發信號給線程A。</li>
                     <li>Unlock mutex.</li>
-                    <li>解锁互斥体</li>
+                    <li>解鎖互斥體</li>
                     <li>Continue</li>
-                    <li>继续</li>
+                    <li>繼續</li>
                 </ul>
             </td>
         </tr>
@@ -1750,7 +1750,7 @@ This example program illustrates the use of mutex variables in a threads program
                 <h3>Main Thread</h3>
                 <ul>
                     <li>Join / Continue </li>
-                    <li>连接/继续</li>
+                    <li>連接/繼續</li>
                 </ul>
             </td>
         </tr>
@@ -1758,13 +1758,13 @@ This example program illustrates the use of mutex variables in a threads program
 </table>
 
 ## Condition Variables
-## 条件变量
+## 條件變量
 
 ### Creating and Destroying Condition Variables
-### 创建和销毁条件变量
+### 創建和銷燬條件變量
 
 #### Routines:
-#### 函数：
+#### 函數：
 
 [pthread_cond_init](https://computing.llnl.gov/tutorials/pthreads/man/pthread_cond_init.txt) (condition,attr)
 
@@ -1778,31 +1778,31 @@ This example program illustrates the use of mutex variables in a threads program
 #### 用法：
 
 - Condition variables must be declared with type pthread_cond_t, and must be initialized before they can be used. There are two ways to initialize a condition variable: 
-- 条件变量必须以pthread_cond_t类型声明，而且必须在使用之前初始化。有两种方法初始化一个条件变量：
+- 條件變量必須以pthread_cond_t類型聲明，而且必須在使用之前初始化。有兩種方法初始化一個條件變量：
     1. Statically, when it is declared. For example: `pthread_cond_t myconvar = PTHREAD_COND_INITIALIZER;`
-    1. 静态地，当它被声明时。例如：`pthread_cond_t myconvar = PTHREAD_COND_INITIALIZER;`
+    1. 靜態地，當它被聲明時。例如：`pthread_cond_t myconvar = PTHREAD_COND_INITIALIZER;`
     2. Dynamically, with the pthread_cond_init() routine. The ID of the created condition variable is returned to the calling thread through the condition parameter. This method permits setting condition variable object attributes, attr. 
-    2. 动态地，利用pthread_cond_init函数。被创建的条件变量的ID通过condition参数被返回调用线程。这个方法允许设置条件变量的属性，attr。
+    2. 動態地，利用pthread_cond_init函數。被創建的條件變量的ID通過condition參數被返回調用線程。這個方法允許設置條件變量的屬性，attr。
 - The optional attr object is used to set condition variable attributes. There is only one attribute defined for condition variables: process-shared, which allows the condition variable to be seen by threads in other processes. The attribute object, if used, must be of type pthread_condattr_t (may be specified as NULL to accept defaults). 
-- 可选的attr对象用于设置条件变量属性。只存在一个条件变量属性：process-shared，该属性允许条件变量能被其他进程中的线程看到。如果用到属性对象，那么它必须是pthread_condattr_t类型（也可以置为NULL来接受默认值）。
+- 可選的attr對象用於設置條件變量屬性。只存在一個條件變量屬性：process-shared，該屬性允許條件變量能被其他進程中的線程看到。如果用到屬性對象，那麼它必須是pthread_condattr_t類型（也可以置為NULL來接受默認值）。
 
 Note that not all implementations may provide the process-shared attribute.
 
-注意：不是所有实现都提供了process-shared属性。
+注意：不是所有實現都提供了process-shared屬性。
 
 - The pthread_condattr_init() and pthread_condattr_destroy() routines are used to create and destroy condition variable attribute objects. 
-- pthread_condattr_init和pthread_condattr_destroy函数用于创建和销毁条件变量属性对象。
+- pthread_condattr_init和pthread_condattr_destroy函數用於創建和銷燬條件變量屬性對象。
 - pthread_cond_destroy() should be used to free a condition variable that is no longer needed.
-- 当一个条件变量不再需要时，应该使用pthread_cond_destroy函数销毁它。
+- 當一個條件變量不再需要時，應該使用pthread_cond_destroy函數銷燬它。
 
 ## Condition Variables
-## 条件变量
+## 條件變量
 
 ### Waiting and Signaling on Condition Variables
-### 在条件变量上等待和发信号
+### 在條件變量上等待和發信號
 
 #### Routines:
-#### 函数：
+#### 函數：
 
 [pthread_cond_wait](https://computing.llnl.gov/tutorials/pthreads/man/pthread_cond_wait.txt) (condition,mutex)
 
@@ -1814,44 +1814,44 @@ Note that not all implementations may provide the process-shared attribute.
 #### 用法：
 
 - pthread_cond_wait() blocks the calling thread until the specified condition is signalled. This routine should be called while mutex is locked, and it will automatically release the mutex while it waits. After signal is received and thread is awakened, mutex will be automatically locked for use by the thread. The programmer is then responsible for unlocking mutex when the thread is finished with it. 
-- pthread_cond_wait函数会阻塞调用线程直到指定的condition收到信号。这个函数应该在mutex是已锁定的情况下调用，当函数等待时它将会自动地解锁这个mutex。收到信号之后线程被唤醒，mutex将会被自动地上锁以供线程使用。程序员负责在线程使用完之后解锁mutex。
+- pthread_cond_wait函數會阻塞調用線程直到指定的condition收到信號。這個函數應該在mutex是已鎖定的情況下調用，當函數等待時它將會自動地解鎖這個mutex。收到信號之後線程被喚醒，mutex將會被自動地上鎖以供線程使用。程序員負責在線程使用完之後解鎖mutex。
 
 Recommendation: Using a WHILE loop instead of an IF statement (see watch_count routine in example below) to check the waited for condition can help deal with several potential problems, such as: 
 
-建议：使用WHILE环境代替IF语句（见下面例子中的watch_count函数）来检查等待条件，这能帮助处理许多潜在的问题，例如：
+建議：使用WHILE環境代替IF語句（見下面例子中的watch_count函數）來檢查等待條件，這能幫助處理許多潛在的問題，例如：
 
 - 
     - If several threads are waiting for the same wake up signal, they will take turns acquiring the mutex, and any one of them can then modify the condition they all waited for. 
-    - 如果多个线程正在等待同一个唤醒信号，那么它们将会依次取得互斥体，然后它们中的任意一个能修改它们都在等待的条件。
+    - 如果多個線程正在等待同一個喚醒信號，那麼它們將會依次取得互斥體，然後它們中的任意一個能修改它們都在等待的條件。
     - If the thread received the signal in error due to a program bug 
-    - 如果由于程序bug，线程错误地收到信号
+    - 如果由於程序bug，線程錯誤地收到信號
     - The Pthreads library is permitted to issue spurious wake ups to a waiting thread without violating the standard. 
-    - 在不违背标准的条件下，Pthread库是允许发出虚假的唤醒信号给一个正在等待的线程。
+    - 在不違背標準的條件下，Pthread庫是允許發出虛假的喚醒信號給一個正在等待的線程。
 - The pthread_cond_signal() routine is used to signal (or wake up) another thread which is waiting on the condition variable. It should be called after mutex is locked, and must unlock mutex in order for pthread_cond_wait() routine to complete. 
-- pthread_cond_signal函数用于发信号（或者说唤醒）其他正在等待这个条件变量的线程。该函数应该在mutex锁定后才能调用，并且必须解锁mutex以使pthread_cond_wait函数完成。
+- pthread_cond_signal函數用於發信號（或者說喚醒）其他正在等待這個條件變量的線程。該函數應該在mutex鎖定後才能調用，並且必須解鎖mutex以使pthread_cond_wait函數完成。
 - The pthread_cond_broadcast() routine should be used instead of pthread_cond_signal() if more than one thread is in a blocking wait state. 
-- 如果超过1个以上的线程正处于阻塞状态，那么应该使用pthread_cond_broadcast函数代替pthread_cond_signal函数。
+- 如果超過1個以上的線程正處於阻塞狀態，那麼應該使用pthread_cond_broadcast函數代替pthread_cond_signal函數。
 - It is a logical error to call pthread_cond_signal() before calling pthread_cond_wait().
-- 在调用pthread_cond_wait之前调用pthread_cond_signal是一个逻辑错误。
+- 在調用pthread_cond_wait之前調用pthread_cond_signal是一個邏輯錯誤。
 
 Proper locking and unlocking of the associated mutex variable is essential when using these routines. For example: 
 
-使用这些函数时，正确地上锁和解锁相关联的互斥体变量是必要的。例如：
+使用這些函數時，正確地上鎖和解鎖相關聯的互斥體變量是必要的。例如：
 
 - Failing to lock the mutex before calling pthread_cond_wait() may cause it NOT to block. 
-- 在调用pthread_cond_wait之前没能锁定互斥体可能会导致它不能阻塞。
+- 在調用pthread_cond_wait之前沒能鎖定互斥體可能會導致它不能阻塞。
 - Failing to unlock the mutex after calling pthread_cond_signal() may not allow a matching pthread_cond_wait() routine to complete (it will remain blocked).
-- 在调用pthread_cond_signal函数之后没能解锁互斥体有可能导致配对的pthread_cond_wait函数不能完成（它将会保持阻塞）。
+- 在調用pthread_cond_signal函數之後沒能解鎖互斥體有可能導致配對的pthread_cond_wait函數不能完成（它將會保持阻塞）。
 
 ### Example: Using Condition Variables
-### 示例：使用条件变量
+### 示例：使用條件變量
 
 #### Example Code - Using Condition Variables
-#### 示例代码——使用条件变量
+#### 示例代碼——使用條件變量
 
 This simple example code demonstrates the use of several Pthread condition variable routines. The main routine creates three threads. Two of the threads perform work and update a "count" variable. The third thread waits until the count variable reaches a specified value. 
 
-这个简单的例子展示了多个Pthread条件变量函数的使用。主函数创建了3个线程。其中的2个执行苦工并且更新一个名叫“count”的变量。第三个线程等待count变量达到一个指定的值。
+這個簡單的例子展示了多個Pthread條件變量函數的使用。主函數創建了3個線程。其中的2個執行苦工並且更新一個名叫“count”的變量。第三個線程等待count變量達到一個指定的值。
 
     #include <pthread.h>
     #include <stdio.h>
@@ -1948,36 +1948,36 @@ This simple example code demonstrates the use of several Pthread condition varia
     }
 
 ## Monitoring, Debugging and Performance Analysis Tools for Pthreads
-## Pthread的监视、调试以及性能分析工具
+## Pthread的監視、調試以及性能分析工具
 
 ### Monitoring and Debugging Pthreads:
-### 监视和调试Pthread：
+### 監視和調試Pthread：
 
 - Debuggers vary in their ability to handle Pthreads. The TotalView debugger is LC's recommended debugger for parallel programs. It is well suited for both monitoring and debugging threaded programs. 
-- 不同的调试器处理Pthread的能力有差异。LC推荐TotalView调试器调试并行程序。它非常合适于监视多线程程序也非常合适于调试多线程程序。
+- 不同的調試器處理Pthread的能力有差異。LC推薦TotalView調試器調試並行程序。它非常合適於監視多線程程序也非常合適於調試多線程程序。
 - An example screenshot from a TotalView session using a threaded code is shown below.
-- 下面展示了TotalView使用一个多线程代码会话的屏幕截图。
+- 下面展示了TotalView使用一個多線程代碼會話的屏幕截圖。
     1. Stack Trace Pane: Displays the call stack of routines that the selected thread is executing. 
-    1. 堆栈踪迹窗格：显示了选中的正在执行的线程的函数调用栈。
+    1. 堆棧蹤跡窗格：顯示了選中的正在執行的線程的函數調用棧。
     2. Status Bars: Show status information for the selected thread and its associated process. 
-    2. 状态栏：显示选中的线程以及相关联的进程的状态信息。
+    2. 狀態欄：顯示選中的線程以及相關聯的進程的狀態信息。
     3. Stack Frame Pane: Shows a selected thread's stack variables, registers, etc. 
-    3. 栈帧窗格：显示选中的线程的栈变量、寄存器等。
+    3. 棧幀窗格：顯示選中的線程的棧變量、寄存器等。
     4. Source Pane: Shows the source code for the selected thread.
-    4. 源码窗格：显示选中线程的源代码。
+    4. 源碼窗格：顯示選中線程的源代碼。
     5. Root Window showing all threads 
-    5. 根窗口显示了所有线程
+    5. 根窗口顯示了所有線程
     6. Threads Pane: Shows threads associated with the selected process 
-    6. 线程窗格：显示与选中的进程关联的线程
+    6. 線程窗格：顯示與選中的進程關聯的線程
 
 <br />
 
 ![TotalView Debugger Screenshot](./tutorial-pthreads/totalview_debugger.gif)
 
 - See the [TotalView Debugger tutorial](https://computing.llnl.gov/tutorials/totalview/index.html) for details. 
-- 详细请看[TotalView调试器教程](https://computing.llnl.gov/tutorials/totalview/index.html)。
+- 詳細請看[TotalView調試器教程](https://computing.llnl.gov/tutorials/totalview/index.html)。
 - The Linux ps command provides several flags for viewing thread information. Some examples are shown below. See the man page for details. 
-- Linux的ps命令提供了许多用于查看线程信息的标志。下面显示了一例子。查看[man手册](https://computing.llnl.gov/tutorials/pthreads/man/ps.txt)以获取详细信息。
+- Linux的ps命令提供了許多用於查看線程信息的標誌。下面顯示了一例子。查看[man手冊](https://computing.llnl.gov/tutorials/pthreads/man/ps.txt)以獲取詳細信息。
 
 <br />
 
@@ -2007,7 +2007,7 @@ This simple example code demonstrates the use of several Pthread condition varia
         - 22533 -        00:04:44 -
 
 - LC's Linux clusters also provide the top command to monitor processes on a node. If used with the -H flag, the threads contained within a process will be visible. An example of the top -H command is shown below. The parent process is PID 18010 which spawned three threads, shown as PIDs 18012, 18013 and 18014. 
-- LC的Linux集群也提供了top命令来监视节点上的进程。如果使用-H标识，包括于进程中的线程将会可见。一个top -H命令例子结果如下所示。父进程的PID为18010，它繁衍出了三个线程，显示为PID18012、PID18013、PID18014.
+- LC的Linux集群也提供了top命令來監視節點上的進程。如果使用-H標識，包括於進程中的線程將會可見。一個top -H命令例子結果如下所示。父進程的PID為18010，它繁衍出了三個線程，顯示為PID18012、PID18013、PID18014.
 
 ![top-H](./tutorial-pthreads/top-H.gif)
 
@@ -2015,13 +2015,13 @@ This simple example code demonstrates the use of several Pthread condition varia
 #### 性能分析工具：
 
 - There are a variety of performance analysis tools that can be used with threaded programs. Searching the web will turn up a wealth of information. 
-- 有许多性能分析工具可被用于多线程程序。搜索网络将会出现大量的信息。
+- 有許多性能分析工具可被用於多線程程序。搜索網絡將會出現大量的信息。
 - At LC, the list of supported computing tools can be found at: [computing.llnl.gov/code/content/software_tools.php](https://computing.llnl.gov/code/content/software_tools.php). 
-- 在LC，受支持的计算机工具清单可在这里找到：[computing.llnl.gov/code/content/software_tools.php](https://computing.llnl.gov/code/content/software_tools.php)
+- 在LC，受支持的計算機工具清單可在這裡找到：[computing.llnl.gov/code/content/software_tools.php](https://computing.llnl.gov/code/content/software_tools.php)
 - These tools vary significantly in their complexity, functionality and learning curve. Covering them in detail is beyond the scope of this tutorial. 
-- 这些工具在它们的复杂性、功能性和学习曲线上差异巨大。详细涵盖它们超出了本教程的范围。
+- 這些工具在它們的複雜性、功能性和學習曲線上差異巨大。詳細涵蓋它們超出了本教程的範圍。
 - Some tools worth investigating, specifically for threaded codes, include: 
-- 一些工具值得研究，特别是那些针对多线程代码的，包括：
+- 一些工具值得研究，特別是那些針對多線程代碼的，包括：
     - Open|SpeedShop
     - TAU
     - PAPI 
@@ -2029,49 +2029,49 @@ This simple example code demonstrates the use of several Pthread condition varia
     - ThreadSpotter 
 
 ## LLNL Specific Information and Recommendations
-## LLNL实验室特有的信息和建议
+## LLNL實驗室特有的信息和建議
 
 This section describes details specific to Livermore Computing's systems. 
 
-本节描述Livermore计算机系统的详细特征。
+本節描述Livermore計算機系統的詳細特徵。
 
 #### Implementations:
-#### 实现：
+#### 實現：
 
 - All LC production systems include a Pthreads implementation that follows draft 10 (final) of the POSIX standard. This is the preferred implementation. 
-- 所有的LC产品系统都包含一个遵循POSIX draft 10（最终版）标准的Pthread实现。这是首选的实现。
+- 所有的LC產品系統都包含一個遵循POSIX draft 10（最終版）標準的Pthread實現。這是首選的實現。
 - Implementations differ in the maximum number of threads that a process may create. They also differ in the default amount of thread stack space. 
-- 不同的实现在进程能够创建的线程的最大数量上有差异。同样在默认的线程栈空间大小上有差异。
+- 不同的實現在進程能夠創建的線程的最大數量上有差異。同樣在默認的線程棧空間大小上有差異。
 
 #### Compiling:
-#### 编译：
+#### 編譯：
 
 - LC maintains a number of compilers, and usually several different versions of each - see the LC's [Supported Compilers](https://computing.llnl.gov/code/compilers.html) web page. 
-- LC维护了大量的编译器，而且通常是每种编译器的不同版本——见LC的[受支持的编译器](https://computing.llnl.gov/code/compilers.html)网页。
+- LC維護了大量的編譯器，而且通常是每種編譯器的不同版本——見LC的[受支持的編譯器](https://computing.llnl.gov/code/compilers.html)網頁。
 - The compiler commands described in the [Compiling Threaded Programs](https://computing.llnl.gov/tutorials/pthreads/#Compiling) section apply to LC systems.
-- 在[编译多线程程序](https://computing.llnl.gov/tutorials/pthreads/#Compiling)一节讲到的编译器命令适用于LC系统。
+- 在[編譯多線程程序](https://computing.llnl.gov/tutorials/pthreads/#Compiling)一節講到的編譯器命令適用於LC系統。
 
 #### Mixing MPI with Pthreads:
-#### 混合MPI与Pthread：
+#### 混合MPI與Pthread：
 
 - This is the primary motivation for using Pthreads at LC. 
-- 这是在LC使用Pthread的原始动机。
+- 這是在LC使用Pthread的原始動機。
 - Design: 
-- 设计：
+- 設計：
     - Each MPI process typically creates and then manages N threads, where N makes the best use of the available cores/node. 
-    - 每个MPI进程典型地创建和管理N个线程，这N个线程使得最佳地利用可用的核心/结点。
+    - 每個MPI進程典型地創建和管理N個線程，這N個線程使得最佳地利用可用的核心/結點。
     - Finding the best value for N will vary with the platform and your application's characteristics. 
-    - 找寻这个最佳N值将会因平台和你的应用程序的特点而有所变化。
+    - 找尋這個最佳N值將會因平臺和你的應用程序的特點而有所變化。
     - In general, there may be problems if multiple threads make MPI calls. The program may fail or behave unexpectedly. If MPI calls must be made from within a thread, they should be made only by one thread. 
-    - 一般来说，如果多个线程进行MPI调用将会有问题。程序可能会失败或者出现未预期的行为。如果MPI调有必须在线程里调用，那么只能被一个线程调用。
+    - 一般來說，如果多個線程進行MPI調用將會有問題。程序可能會失敗或者出現未預期的行為。如果MPI調有必須在線程裡調用，那麼只能被一個線程調用。
 - Compiling: 
-- 编译：
+- 編譯：
     - Use the appropriate MPI compile command for the platform and language of choice 
-    - 针对平台和语言选择合适的MPI编译命令
+    - 針對平臺和語言選擇合適的MPI編譯命令
     - Be sure to include the required Pthreads flag as shown in the Compiling Threaded Programs section. 
-    - 确认包含了如编译多线程程序一节中所示的需要的Pthread标识。
+    - 確認包含了如編譯多線程程序一節中所示的需要的Pthread標識。
 - An example code that uses both MPI and Pthreads is available below. The serial, threads-only, MPI-only and MPI-with-threads versions demonstrate one possible progression. 
-- 下面有可用的同时使用了MPI和Pthread的示例代码。串行、仅线程、仅MPI、MPI与线程混合这四个版展示了一个可能的演进。
+- 下面有可用的同時使用了MPI和Pthread的示例代碼。串行、僅線程、僅MPI、MPI與線程混合這四個版展示了一個可能的演進。
     - [Serial](https://computing.llnl.gov/tutorials/pthreads/samples/mpithreads_serial.c)
     - [Pthreads only](https://computing.llnl.gov/tutorials/pthreads/samples/mpithreads_threads.c)
     - [MPI only](https://computing.llnl.gov/tutorials/pthreads/samples/mpithreads_mpi.c)
@@ -2079,102 +2079,102 @@ This section describes details specific to Livermore Computing's systems.
     - [makefile](https://computing.llnl.gov/tutorials/pthreads/samples/mpithreads.makefile)
 
 ## Topics Not Covered
-## 未涉及的主题
+## 未涉及的主題
 
 Several features of the Pthreads API are not covered in this tutorial. These are listed below. See the [Pthread Library Routines Reference](https://computing.llnl.gov/tutorials/pthreads/#AppendixA) section for more information. 
 
-本教程没有涉及Pthread API的许多特性。这些特性罗列如下。详见[Pthread库函数参考](https://computing.llnl.gov/tutorials/pthreads/#AppendixA)一节。
+本教程沒有涉及Pthread API的許多特性。這些特性羅列如下。詳見[Pthread庫函數參考](https://computing.llnl.gov/tutorials/pthreads/#AppendixA)一節。
 
 - Thread Scheduling
-- 线程调度
+- 線程調度
     - Implementations will differ on how threads are scheduled to run. In most cases, the default mechanism is adequate. 
-    - 不同的实现在线程如何调度运行上有差别。绝大部分情况下，默认的机制是足够的。
+    - 不同的實現在線程如何調度運行上有差別。絕大部分情況下，默認的機制是足夠的。
     - The Pthreads API provides routines to explicitly set thread scheduling policies and priorities which may override the default mechanisms. 
-    - Pthread API提供了函数来明确地设定线程调度策略以及优先级以覆盖默认的机制。
+    - Pthread API提供了函數來明確地設定線程調度策略以及優先級以覆蓋默認的機制。
     - The API does not require implementations to support these features. 
-    - API没有要求Pthread实现支持这些特性。
+    - API沒有要求Pthread實現支持這些特性。
 - Keys: Thread-Specific Data 
-- 钥匙：线程专有数据
+- 鑰匙：線程專有數據
     - As threads call and return from different routines, the local data on a thread's stack comes and goes. 
-    - 随着线程调用并从不同的函数返回，位于线程的栈上的本地数据来了又走了。
+    - 隨著線程調用並從不同的函數返回，位於線程的棧上的本地數據來了又走了。
     - To preserve stack data you can usually pass it as an argument from one routine to the next, or else store the data in a global variable associated with a thread. 
-    - 为了保留栈上数据你通常可以以传递参数形式从一个函数到下一个函数，或者存储数据于一个与线程关联的全局变量。
+    - 為了保留棧上數據你通常可以以傳遞參數形式從一個函數到下一個函數，或者存儲數據於一個與線程關聯的全局變量。
     - Pthreads provides another, possibly more convenient and versatile, way of accomplishing this through keys. 
-    - Pthread提供了另外一个种——可能更加方便和通用的——方法来完成它，借助钥匙。
+    - Pthread提供了另外一個種——可能更加方便和通用的——方法來完成它，藉助鑰匙。
 - Mutex Protocol Attributes and Mutex Priority Management for the handling of "priority inversion" problems. 
-- 互斥体协议属性和针对“优先级反转”问题的互斥体优先级管理。
+- 互斥體協議屬性和針對“優先級反轉”問題的互斥體優先級管理。
 - Condition Variable Sharing - across processes
-- 条件变量的共享——跨进程
+- 條件變量的共享——跨進程
 - Thread Cancellation 
-- 线程取消
+- 線程取消
 - Threads and Signals 
-- 线程与信号
+- 線程與信號
 - Synchronization constructs - barriers and locks 
-- 同步概念——篱笆墙和锁
+- 同步概念——籬笆牆和鎖
 
 ## Pthread Exercise 2
-## Pthread练习2
+## Pthread練習2
 
 ### Mutexes, Condition Variables and Hybrid MPI with Pthreads
 
-### 互斥体、条件变量以及MPI与Pthread的结合
+### 互斥體、條件變量以及MPI與Pthread的結合
 
 Overview:
 
-概览：
+概覽：
 
 - Login to the LC workshop cluster, if you are not already logged in 
-- 如果你还没有登录，那么登录到LC的讲习班集群
+- 如果你還沒有登錄，那麼登錄到LC的講習班集群
 - Mutexes: review and run the provided example codes 
-- 互斥体：检查并运行提供的示例代码
+- 互斥體：檢查並運行提供的示例代碼
 - Condition variables: review and run the provided example codes 
-- 条件变量：检查并运行提供的示例代码
+- 條件變量：檢查並運行提供的示例代碼
 - Hybrid MPI with Pthreads: review and run the provided example codes 
-- MPI与Pthread的结合：检查并运行提供的示例代码
+- MPI與Pthread的結合：檢查並運行提供的示例代碼
 
 [GO TO THE EXERCISE HERE](https://computing.llnl.gov/tutorials/pthreads/exercise.html#Exercise2)
 
-[点击此处跳转到练习](https://computing.llnl.gov/tutorials/pthreads/exercise.html#Exercise2)
+[點擊此處跳轉到練習](https://computing.llnl.gov/tutorials/pthreads/exercise.html#Exercise2)
 
 This completes the tutorial.
 
-本教程结束。
+本教程結束。
 
 [Evaluation Form](https://computing.llnl.gov/tutorials/evaluation/index.html)
 
 Please complete the online evaluation form - unless you are doing the exercise, in which case please complete it at the end of the exercise.
 
-请完成这个在线的评价问卷——除非你正在做练习，若是的话请在完成练习后完成这个评价问卷。
+請完成這個在線的評價問卷——除非你正在做練習，若是的話請在完成練習後完成這個評價問卷。
 
 Where would you like to go now?
 
-现在你想去哪里？
+現在你想去哪裡？
 
 - [Exercise](https://computing.llnl.gov/tutorials/pthreads/exercise.html)
-- [练习](https://computing.llnl.gov/tutorials/pthreads/exercise.html)
+- [練習](https://computing.llnl.gov/tutorials/pthreads/exercise.html)
 - [Agenda](https://computing.llnl.gov/tutorials/agenda/index.html)
 - [日程按排](https://computing.llnl.gov/tutorials/agenda/index.html)
 - [Back to the top](https://computing.llnl.gov/tutorials/pthreads/#top)
-- [回到顶部](https://computing.llnl.gov/tutorials/pthreads/#top)
+- [回到頂部](https://computing.llnl.gov/tutorials/pthreads/#top)
 
 ## References and More Information
-## 参考以及更多信息
+## 參考以及更多信息
 
 - Author: Blaise Barney, Livermore Computing. 
 - 作者：Blaise Barney，Livermore Computing。
 - POSIX Standard: [www.unix.org/version3/ieee_std.html](http://www.unix.org/version3/ieee_std.html)
-- POSIX标准：[www.unix.org/version3/ieee_std.html](http://www.unix.org/version3/ieee_std.html)
+- POSIX標準：[www.unix.org/version3/ieee_std.html](http://www.unix.org/version3/ieee_std.html)
 - "Pthreads Programming". B. Nichols et al. O'Reilly and Associates. 
 - "Threads Primer". B. Lewis and D. Berg. Prentice Hall 
 - "Programming With POSIX Threads". D. Butenhof. Addison Wesley 
 - "Programming With Threads". S. Kleiman et al. Prentice Hall 
 
 ## Appendix A: Pthread Library Routines Reference
-## 附录A：Pthread库函数参考
+## 附錄A：Pthread庫函數參考
 
 For convenience, an alphabetical list of Pthread routines, linked to their corresponding man page, is provided below. 
 
-为了方便，下面提供了按照字母表排序的链接到相应man手册的Pthread函数清单。
+為了方便，下面提供了按照字母表排序的鏈接到相應man手冊的Pthread函數清單。
 
 - [pthread_atfork](https://computing.llnl.gov/tutorials/pthreads/man/pthread_atfork.txt)
 - [pthread_attr_destroy](https://computing.llnl.gov/tutorials/pthreads/man/pthread_attr_destroy.txt)

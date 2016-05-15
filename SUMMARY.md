@@ -801,5 +801,5 @@
        * [架構之必要](hacker/c9s/jia_gou_zhi_bi_yao.md)
        * [談設計模式之迷思](hacker/c9s/tan_she_ji_mo_shi_zhi_mi_si.md)
        * [想創業？再想想吧](hacker/c9s/xiang_chuang_ye_ff1f_zai_xiang_xiang_ba.md)
-       * 健康的泡沫
+       * [健康的泡沫](hacker/c9s/jian_kang_de_pao_mo.md)
 

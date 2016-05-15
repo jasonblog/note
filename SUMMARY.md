@@ -799,4 +799,5 @@
        * [快速進入工作狀況的十個要點](hacker/c9s/kuai_su_jin_ru_gong_zuo_zhuang_kuang_de_shi_ge_yao.md)
        * [API 設計 — 建構之道: 類別建構子設計](hacker/c9s/api_she_ji__jian_gou_zhi_90533a_lei_bie_jian_gou_z.md)
        * [架構之必要](hacker/c9s/jia_gou_zhi_bi_yao.md)
+       * 談設計模式之迷思
 

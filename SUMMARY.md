@@ -301,6 +301,7 @@
    * [LINUX下動態庫調用靜態庫的方法](linux_system/linuxxia_dong_tai_ku_diao_yong_jing_tai_ku_de_fang.md)
    * [C語言互斥鎖-雙條件變量實現循環打印](linux_system/cyu_yan_hu_chi_9501-_shuang_tiao_jian_bian_liang_s.md)
    * [tutorial-pthreads](linux_system/tutorial-pthreads.md)
+   * 《Programming with POSIX Threads》笔记
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

@@ -1535,7 +1535,7 @@ Answer: Unless thread priority scheduling (not covered) is used, the assignment 
 
 This example program illustrates the use of mutex variables in a threads program that performs a dot product. The main data is made available to all threads through a globally accessible structure. Each thread works on a different part of the data. The main thread waits for all the threads to complete their computations, and then it prints the resulting sum. 
 
-這個示例程序說明了在一個求點積的多線程程序中互斥體變量的用法。主要數據通過一個全局可訪問結構使得所有線程都可使用。每個線程工作於數據的不同部分。主線程等待所有線程完成它們的計算，然後打印作為結果的總和。
+這個示例程序說明瞭在一個求點積的多線程程序中互斥體變量的用法。主要數據通過一個全局可訪問結構使得所有線程都可使用。每個線程工作於數據的不同部分。主線程等待所有線程完成它們的計算，然後打印作為結果的總和。
 
     #include <pthread.h>
     #include <stdio.h>

@@ -1,2 +1,121 @@
 # 《Programming with POSIX Threads》笔记
 
+
+##Ch 1 Introduction
+异步(Asynchronous)：如果两个操作可以独立进行，称它们是异步的。
+并发(Concurrency)：看起来同时执行，但其实是顺序执行。如多个线程或进程在单个CPU上的行为。
+并行(Parallelism)：真正同时执行。如多个线程或进程在多个CPU上的行为。
+线程安全(Thread-safe)：代码能从多个线程被调用而不破坏结果。
+可重入(Reentrant)：代码被多次调用产生的结果是可预期的。
+值得注意的是，reentrant和thread-safe是两个概念，它们既不充分也不必要。但非线程安全的函数一定是不可重入的。线程安全并不要求效率高，多数已有函数可以通过pthread中的mutex, condition variable或者TLS做到线程安全。可重入本质上要去除对静态数据的访问，更理想地，避免线程间同步的依赖。
+
+pthread引入了新的方法来返回错误，而不是用传统的errno。在传统POSIX函数中，错误时返回-1，errno代表错误码。pthread中成功返回0，否则返回错误码。注意没有perror()函数，而要用stderror()来得到错误描述。比较特殊的是，pthread_getspecific()为了效率不返回错误，如果key非法，它会返回NULL。
+
+##Ch 2 Threads
+初始线程，也就是main函数所在线程比较特殊，它返回会同时销毁其它线程，不会等它们结束。除非调用pthread_exit()退出。在主线程中调用pthread_exit() ，让进程在所有线程都结束后才退出。Detach一个线程就是通知系统这个线程一旦结束，相应资源可以被回收。调用pthread_join()同时也会detach指定线程。如果多个线程要知道某个线程的退出情况，那么应该用condition variable而不是pthread_join()。
+
+当线程结束时，如果这时已经被detach了，那么该线程会被马上回收。如果创建的线程不需要join，那么最好用detachstate属性（PTHREAD_CREATE_DETACHED）。如果等待线程结束，结束线程可能在pthread_join()返回前就被回收了，所以线程的返回值不能是stack里的。如果不满足需求，可以自己设计返回值的传递机制。pthread_join()只是为了方便，不是强制的。
+
+##Ch 3 Synchronization
+不变式(Invariants)是指程序做的假设，尤其指几组变量之间的关系。
+临界区(Critical section)，也称为serial regions，是会影响共享数据的代码。
+判断条件，或称谓词(Predicates)，是描述代码所需invariants状态的逻辑表达式。
+找Critical sections比找data invariants更容易，但critical section始终能和data invariant互转。首选是同步数据而非代码。
+
+永远不要拷贝mutex，因为使用一个mutex的拷贝是未定义的。但mutex的指针是可以传递拷贝的。当调用者线程已经获得锁时不能再次对mutex上锁。这样做的结果可能是返回错误，也可能是self-deadlock。如果用了pthread_mutex_trylock()，那么保证只有在它返回成功时才调用pthread_mutex_unlock()。sched_yield()会把处理器给下一个ready的thread运行，如果没有的话立即返回。在sleep和yield之前一般要把mutex给解锁。
+
+mutex的保护范围要在达到互斥前提下尽可能小。mutex的设计原则：1. 锁有开销，因此锁少的代码往往比锁多的运行地快。2. 但如果用大锁会导致线程经常会因为自己不会访问的数据的锁而等待，这时要考虑拆分成若干小锁。3. 前两者是矛盾的。在一个复杂系统里一般要经过实现才能达到平衡。通常做法是从大锁开始，然后看严重的竞争发生在哪再换成小锁。
+
+哪怕在单个处理器上也会因为抢占(preemption)出现死锁。两种通用做法：Fixed locking hierachy和Try and back off。前者胜在高效，后者比较方便灵活。相对地，解锁可以以任何顺序，不会产生死锁。 有一种情况称为"overlapping hierarchy"，又称为"lock chain" ，这种用法在遍历树或链表时很有用。这种情况下如果用Try and back off方案就需要逆序来解锁。逆序解锁减少了其它线程需要做back off的机率。
+
+条件变量(condition variable)本身的存在形式也是共享的，所以需要一个mutex来保护。pthread_cond_wait()包含unlock和wait操作，当wait返回时会重新lock。因此，condition variable的wait返回时mutex始终是lock的。pthread保证unlock和wait是原子的。因为如果不是的话会导致A线程unlock后，B线程signal，A错过signal（因为还没开始wait），然后线程A再开始wait。
+
+一个condition variable应该只对应一个predicate(不是强制的)。如果你想让一个condition variable在多个predicate间共享，就更有可能发生死锁或竞争。基本原则是：1. 当在多个predicate共享condition variable时，你唤醒时得用broadcast，而不是signal。2. signal比broadcast更高效。predicate和condition variable都是共享数据，它们一般被同一个mutex保护。每一个condition variable都有一个对应的mutex和一个predicate condition。和mutex类似，永远不要拷贝condition variable。如果是静态初始化的condition variable不需要用pthread_cond_destroy()来销毁。
+
+多个线程如果等待在同一个condition variable上，就要用同一个mutex。pthread不允许两个线程同时等在同一个condition variable上，却指定不同的mutex。一个condition variable在给定时刻只能对应一个mutex，而一个mutex可以对应多个condition variable。在lock和wait间检查predicate非常重要。当pthread_cond_signal/broadcast()调用时，如果没有等待者，那么不会触发任何事。当另一线程pthread_cond_wait()调用，也不会收到之前的signal。wait前一般步骤是：lock() ->check predicate -> wait()。 当线程醒来时检查predicate也很重要。condition variable的等待永远应该在loop中，以防program error, multiprocessor race和spurious wakeup。不要假定condition variable的wait返回时predicate就为真，即使有且只有另一线程将predicate置真并signal。主要有几种原因：Intercepted wakeup， Loose predicate.和Spurious wakeup。
+
+当signal/broadcast时，可以不用lock住mutex。这样的好处是在许多系统上效率更高。因为当被唤醒线程醒来时，它会先上锁。如果已经被发signal的线程lock的话，它会block住。但也有坏处。如果signal时mutex没有lock，一个低优先级的线程可以先lock住。如果被唤醒线程是高优先级的话，就会造成高优先级的线程延迟执行。也有可能造成intercepted wakeup。
+
+关于线程间的内存可见性(memory visibility)，pthread会保证几条基本规则：当线程在pthread_create()， unlock mutex，terminate和signal/broadcast时，它所看到的内存数据能被之后创建或醒来的线程看到。时刻要记得现在的存储体系下，每个CPU有自己的cache。当write指令执行完时，只是放在cache中。而何时cache同步到主存是由系统决定的，程序员无法预测。哪怕是在同一个线程中，两次write的内容和它们flush到主存的顺序都是不一定的。确保memory coherence或read/write ordering会极大地牺牲性能。所以很多现在计算机并不保证，除非程序员用memory barrier指定。memory barrier保证在它之前发起的内存访问在它之后发起的内存访问结束之前结束。注意它不是cache flush的命令。
+
+每种计算机都有内存粒度。即使CPU以8 bit为单位读取,内存可能以32或64 bit的内存单元传输。也就是说两个线程同时写一个32 bit的其中两个byte，会导致后写的那个把前面的覆盖掉。另一种情况是当数据不是对齐的话，有可能传输的过程就不是原子的。这种情况下两个线程各写一部分的话，结果就是"word tearing"。也就是结果一部分是线程A的，一部分是线程B的。
+
+##Ch 4: A few ways to use threads
+用多线程解决问题的模式可以有很多变体，其主要的几种有Pipeline(Assembly line), Work crew和Client/Server。
+
+##Ch 5: Advanced threaded programming
+Pthread早期不支持静态初始化mutex，为了让一块初始化代码只执行一次，有了pthread_once()。
+
+线程的取消只是退出的请求，并不是强行停止。Cancellation有几种模式状态，默认为deferred。取消线程是异步的，也就是说返回时目标线程不一定已经被取消了。只是取消请求在pending过程中。如果要确认线程是否真的取消了，必须要用pthread_join()。
+
+避免用asynchrounous cancellation，因为你很难用对。Asynchrounous cancellation可以在任意硬件指令时发生。当asynchrounous cancellation enable时不允许调用任何会申请资源的函数，因为你不知道线程取消的时候资源分配了还是没分配。事实上，这时只能调用async-cancel safe的函数。总之，用前请三思。
+
+当写库代码时，设计需考虑deferred cancellation。当线程不能被取消的时候就得禁掉，并始终在cancellation point处用cleanup handler。每个线程都有个cleanup handler的栈，用pthread_cleanup_push/pop来增加减少其内容。当线程被取消或者它自己调用pthread_exit()时，会从这个栈中拿handler执行，当所有handler执行完，线程结束。pthread_cleanup_push/pop只能在同一函数中使用，因为它们可能是由宏实现的。pthread_cleanup_pop的参数是非0的话就是说在cancellation没发生的时候也会调用handler。当一个contractor线程把任务分配到多个subcontractor线程中(如进行并行算法时)需要在contractor线程的cleanup handler中对所有subcontractor线程进行cancel和detach。这样，当这个contractor被cancel时，这些subcontractor线程的资源可以及时被释放。
+
+有时需要每个线程要有自己的私有变量。当你在设计全新的接口时，较好的方案是让caller分配这个线程私有区域，然后传给线程。但现实是有时你不能影响现有的接口。这时就可以用TSD(Thread-specific Data)。key被创建来指示私有数据，这个key每个线程都一样，但在不同线程指示不同的值。创建时要保证同一个pthread_key_t只能调用一次pthread_key_create()，否则就会创建两个不同的key，而前一个会永远丢失。最好的办法就是pthread_once()保证只创建一次。当key被销毁程序员需要负责在每个线程中释放这个key关联的内存。只有当确定没有线程有某个key对应的值时再删除key，否则就永远不要删除。
+
+Thread-specific data为NULL有特殊含义，不要轻易将之设成NULL。当线程结束时，pthread会把这个值设为NULL，然后调用key的destructor函数。如果key对应的value是一个heap区域的地址，需要要在desturctor释放，就得用destructor的参数来传地址，而不是通过pthread_getspecifc()，因为它在调用destructor前就已经是NULL了。如果这个key的value已经是NULL的话，pthread不会调用key的destructor。事实上，NULL代表该线程中“这个key不再有值”。TSD destructor函数只有线程结束时才被调用，并且它的调用顺序是不确定的，因此destructor函数要相互独立。TSD destructor中不要为value已经被销毁的key设置新value。但有时候会间接出现这种情况（如调用fprintf）。这样在destructor全被调用后系统又得重新检查一遍。理论上这可以构成死循环。_PTHREAD_DESTRUCTOR_ITERATIONS定义了系统重新检查的次数。超过次数后就放弃执行destructor，如果value为heap中的值，可以会引起内存泄露。
+
+Realtime scheduling中的几种调度策略包括SCHED_FIFO, SCHED_RR, SCHED_OTHER。注意SCHED_OTHER的行为不是可移植的。当在属性对象中设置scheduling policy或policy attributes时，也必须设置inheritsched attribute。
+
+Contention scope分两种：system contention scope与进程外抢CPU，process contention scope在进程内抢CPU。system contention scope下线程一般在kernel中有对应项，而process contention scope下没有。前者更加可控和可预测，后者更加有效率。Allocation domain是在系统中线程抢夺的CPU集合。在单处理系统中，一个allocation domain包含一个CPU，但仍可以有多个allocation domain。
+
+Realtime scheduling的问题在于你设的高优先级线程会抢占其它高优先级线程的资源。另一个问题是realtime priority线程未必比其它线程快，因为在preemption checks时会有更多开销（尤其在多CPU系统中）。更严重的问题是priority inversion，即一个低优先级线程阻止高优先级线程运行。比如一个低优先级线程占有资源，被高优先级线程抢占，但被block在同一个资源上。这时有一个优先级介于它们之间的线程把低优先级线程抢占了，于是低优先级无法释放资源，导致高优先级线程无法运行。Pthread提供了priority ceiling和priority inheritance机制来解决priority inversion。最后一个问题是priority scheduling不是完全可移植的。如果非要用priority scheduling，倾向process contention scope，SCHED_RR和低优先级。除非你的代码真的需要priority scheduling，不要用它。
+
+Pthreads会保证“一个线程中调用的系统服务不会阻塞其它线程”。“Pthread thread”和"Processor"之间有层抽象，称为"kernel entity"。在一些系统上，它是process，一些是LWP。Pthread线程不是kernel的调度单位，kernel entity才对应具体系统上的调度单位。在实现上，有几种模型：Many-to-one, One-to-one和Many-to-few。如Linux下的线程模型都是One-to-one的。
+
+##Ch 6 POSIX adjusts to threads
+避免在有线程的程序中用fork，除非你打算fork完了立马用exec。进程调用fork时，pthread规定在子进程中只有那个调用fork的线程存在。但是，其它线程的状态还是保持fork时的状态。对于那些其它线程，pthread不是调用pthread_exit()或是cancel，而是直接停止，意味着它们的TSD destructor和cleanup handler都不会被调用，因此可能发生memory leak，特别是放在TSD中的heap memory。注意如果mutex在fork时lock，那么在child process中仍是lock的，而locked mutex被lock它的线程所有，意味着只有在lock mutex和call fork是同一个线程时这个mutex才能被unlock。因此，如果其它线程在fork时lock了 mutex，那么在子进程中这个mutex和它保护的数据就永远不能访问了。Fork handler的目的就是让有线程的系统在fork时能保护同步状态和数据一致性。如果你的系统中用了mutex且没建立fork handler，那fork后的子进程多半不会工作正常。该函数类似于atexit()，它提供三个handler：prepare fork handler，parent fork handler和child fork handler。
+
+exec()会结束所有线程（除了调用者线程），cleanup handler和TSD destructor不会被调用。所有的synchronization objects都会销毁，除非是pshared mutex/condition variable。如果有pshared mutex最好unlock掉。exit()结束进程，pthread_exit()结束线程。main()返回和exit()的效果是一样的。如果主线程没用了，可以用pthread_exit()让其它线程继续运行。虽然fork是signal-catching functions（"async-signal safe" functions），但fork会调用其它未必安全的函数，所以不要在signal-caching function中用fork。
+
+Pthread规定stdin函数是线程安全的。但在一些情况下，我们希望多个读或写操作之间不能被中断。这时可以用flockfile()和funlockfile()。pthread建议先lock input再lock output，从而避免stdin里的死锁。getchar/putchar/getc/putc这些函数都是用宏实现的，pthread要求它们都加锁来防止破坏stdio缓冲区。但有时lock, unlock的代价甚至超过了拷贝字符的代价，于是pthread定义了新的函数getc_unlocked/putc_unlocked/getchar_unlocked/putchar_unlocked，它们必须用flockfile()和funlockfile()保护起来。当读写单个字符时，建议用有锁版。当读写一串字符时，可以考虑用无锁版+flock。很多函数可以在不变接口的情况下变成thread-safe，如malloc，但有些情况下在callee中做同步还不够。比如返回static buffer的函数，或是在多次调用都会访问静态上下文的情况。在这些情况下，pthread定义了已有函数的线程安全变体，以 “_r”结尾。它们将上下文移出库，让caller控制。
+
+Pthread中对于signal的处理一直是比较另人纠结的。因此，最好不要thread和signal混用。如果要用，可能的话在主线程用pthread_sigmask来mask signal，然后在专用线程中用sigwait以同步方式处理异步signal(man pthread_sigmask有例子)。要等待的signal需要在sigwait前被mask，最好在主程序中mask，因为所有的线程会继承创建者的signal mask。这样就保证信号不会发送到非等待sigwait的其它线程中。注意signal只发送一次，两个线程同时sigwait，只有一个拿到。如果非要用sigaction来处理同步signal(如SIGSEGV)，要格外小心，在signal-handler里尽量少做事情。
+
+所有的signal action都是process-wide的，因此如果两个线程同时用sigaction，会出现线程A的signal被线程B的handler处理，但又是在线程A的上下文中。一般signal会被发送到任一线程中，也就是说SIGCHLD不一定会被发送到创建子进程的线程中。类似地，kill产生的signal可以发给任一线程。而同步的“hardware context”signal，如SIGFPE, SIGSEGV, SIGTRAP只会被发送到引起信号的线程。你不能通过SIGKILL或SIGSTOP杀掉或者停止一个线程。也就是说往任一线程发SIGKILL会杀掉整个进程。如果仅想杀线程可以用pthread_cancel()。类似地，SIGSTOP到某个线程会停止进程中的所有线程。对于程序员来说，最好不要在库里改signal action，signal action统一在主程序中改。
+
+每个线程能设私有的信号掩码(signal mask，用pthread_sigmask)。pthread没有定义sigprocmask在多线程进程中的作用，因此如果想要移植性好的话最好不要用。另外，signal mask具有继承性。
+
+当pthread_kill()时，如果目标线程mask了该signal，它会标记等待执行。如果等待在sigwait上，会收到这个信号。如果两者都没有，当前的signal action被执行。
+
+不能在signal-caching function中使用mutex，因为不知道这个signal前面是否有lock了。注意可能被signal打断或者被suspend的函数中不要用mutex，包括显式的和隐式的，后者如printf中对stdio的lock，malloc中的lock等。
+
+Pthread增加了新的通知机制SIGEV_THREAD。新线程默认的属性是PTHREAD_CREATE_DETACHED(指定PTHREAD_CREATE_JOINABLE是未定义的)。这个handler函数不一定是在新线程中执行，可能是在server thread中。SIGEV_THRAD和signal-caching function相较之下优点是可以用pthread的同步操作。
+
+mutex/condition variable不能满足所有需求，比如signal-catching function和等待异步事件的线程需要通信的需求。当然最好的方法是用sigwait，但很多老代码已经用了signal-catching function。要从signal-catching function中唤醒一个线程，需要一个对于POSIX signal来说reentrant的机制(也就是async-signal safe)。而sem_post()是async-signal safe的，这意味着可以在signal-catching function中唤醒同个或者不同个进程中的其它线程。大多数情况下只有在signal-catching中唤醒其它线程时才用。和mutex/condition variable相比，semaphore有两个特点：1. 没有owner，任意线程可以release等待在semaphore上的线程。2.不依赖外部状态。condition variable依赖于shared predicate和mutex。另外，POSIX semaphore不像其它函数，它是用errno来报告错误的。
+
+##Ch 7 "Real code"
+将已有库变成thread-safe，难点在于两类函数：在一系列的调用中依赖于静态存储的函数，或返回static storage的指针的函数。一种方法是在subsystem加big mutex，但它可以解决synchronization race，但不能解决sequence race。这种方法适合于库有内部的数据，而该数据对外部不可见，如malloc。big mutex的难点在于定义subsystem。接口函数之间可能相互调用，这时防止deadlock的一种方法是定义locked接口，另一方法是recursive lock。有persistent state的函数用big mutex还不够，因为返回的指针指向static storage，一种方法是重新实现，让这个函数从malloc中分配空间，然后caller将之放在TSD中，另一种方法是让caller在真正使用完后再unlock。最好的方法是改变接口，使函数使用caller分配的buffer，caller可以自己决定什么时候lock, unlock。如_r系函数。 
+
+
+如果没有源代码，要在多线程环境中使用一个非线程安全的库的通用办法有以下几种：方法一是仅在一个server thread中使用该库。方法二是在接口外加big mutex。这里是external big lock（在接口函数外，前面是internal big lock）。这适合thread-safe interface而不是thread-safe implementation的情况。thread-safe interface指函数依赖于static state，但是返回的东西不受后面调用的影响，如malloc。然而它不适用于会block很长时间的库，它会让系统低效。方法三是用external state来扩展实现。像asctime()会返回static storage，可以用lock -> call the function -> copy the return value into a thread-safe buffer -> unlock -> return的流程处理。这个thread-safe buffer可以动态分配，也可以用TSD。或者改接口让caller提供buffer。对于一些在sequence of calls保持persistent state的函数就比较难包装，很多时候需要创新。
+
+##Ch 8 Hints to avoid debugging
+不要依赖于"thread inertia"（它是thread race的一种特例）。新创建或unblock一个线程不一定会马上执行。如果线程A创建线程B，并且优先级一样，那A会继续执行。也就是说，处理器的运行线程有更高的优先权。好的做法是在线程创建前把要线程要看到的东西准备好。新创建的线程依赖于创建者线程的临时数据也不是好的做法。另外格外注意的是线程开始的顺序也是不确定的。
+
+Race是当多个线程同时试图到达某处或拿到某样资源。当写多线程代码时，需要假设在任一时刻，在任一条语句内，每个线程都会睡眠无限长时间。memory visibility保证在单个CPU上一个线程总能看到前面线程所作的改动。但不同的CPU上，没有顺序而言，要考虑最坏的可能。把scheduling policy高为SCHED_FIFO，然后设成最大的优先级也无济于事，因为在多CPU中，其它线程不需要preemption就可以同时执行。Sequence races通常发生在当你假设了某些事件的顺序，但代码又没有处理这些顺序的时候。如readdir，它有内部静态数据来记录状态，以保证一系列的相同调用可以工作。如果两个线程同时用，会导致状态错乱。即使用mutex保护了共享数据也没用。
+
+Priority inversion是realtime priority scheduling中的独有问题，至少需要三个运行在不同优先级的线程，并且共享资源。它是同步与优先级的矛盾所致，可以让低优先级线无限让高优先级线程等待。解决策略包括：1 避免realtime scheduling。2. 不同优先级的线程不允许用同个mutex。3. priority ceiling mutex或者priority inheritance。4. 避免调用可能会lock高优先级线程中不是你创建的mutex的函数。
+
+理想的并行代码是compute-bound的任务。理想的并发代码是I/O-bound的任务。不是引入多线程就一定会有并行效果，有时可能更差。因为我们可能会把单线程的序列任务变成多线程的序列任务，如malloc,free中会有mutex。如果频繁调用，线程可能会花很多时间等待。另外，I/O线程如果读写同一个文件，那自然就是序列化的。哪怕不是同一个文件，有些文件系统会给整个文件系统上锁来保证cache。哪怕是不同disk，这也取决于I/O总线和硬盘控制器。
+
+如果没有sequence race，那big lock基本够了，就像Xlib。但这不利于并发度，一个通用策略是为每个数据结构加个mutex。但mutex并非越多越好，多了之后不仅lock, unlock的开销大了，还会因为lock mutex使所有CPU的相应cache被invalidate。还会停止一段物理地址中的总线行为。当你发现两个数据结构通常放在一起用时，就可以合并它们的mutex。
+
+现在计算机都不直接访存而是使用cache，cache通常是以block为单位（如64, 128 bytes）。这意味着，当同样一个block被多个CPU所cache，当一个CPU写了其中一部分，其它的cache也得丢弃。cache的行为每个平台都不一样，需要根据其特性进程优化。保证没有两个线程会在performance-critical paralell loop中访问同一个cache block。平台无关的做法是以页对齐，因为很少有cache会和页一样大。
+
+##Ch 9 POSIX threads mini-reference
+POSIX定义了一些宏来让代码在编译时判断系统是否具有特定能力。POSIX以三种形式给出limit：1. POSIX Conformance Document 。2. limits.h中的编译时符号常量。3. sysconf。
+
+##Ch 10 Future standardization
+mutex分几种：normal的mutex不会检测deadlock错误。其它还有recursive和errorcheck的mutex。default可能会被映射到前面三种中的一种。不要在一个线程中lock，另一个线程中unlock(有这种需求的话请用semaphore)。normal mutex一般是最快的，但提供最少的错误检查。recursive mutex主要用于转换难以划清同步界限的旧代码。从可维护性和性能考虑应避免recursive mutex。errocheck mutex作为调试工具，要用的话需要重新编译，它比一般的mutex要慢，因为要维护额外的状态和做额外的检查。
+
+多数线程实现都会在线程栈加guard区域（如一个page）。它有两个作用：1. 允许更大的值，防止overflow 2. 允许更小的值，减少线程数量很多时的开销。
+
+通过paralell I/O来提升性能的一个问题是file position是fd的属性，是共享的。pread()和pwrite()让seek和pread/pwrite操作绑定成为原子操作。这样I/O请求可以同时执行，而且不用对fd加锁。
+
+POSIX.1j加了barrier, read/write lock, conditon variable wait lock, spinlock。spinlock是系统中最原始且最快的同步机制，它是平台相关的。它和mutex的区别在于它在lock已经被其它线程抢占的锁时不会block，而是retry。一般用于多CPU时的fine-grained parallelism。它一般用于几条指令级的快速的操作。spinlock等待的时候通常不应该大于context switch的时间。spin_前缀的是进程间spinlock同步接口。pthread_前缀的是线程间spinlock同步接口。它们的实现可以相同也可以不同。
+
+pthread condition variable只支持绝对时间的timeout。这是因为condition variable的等待会受到spurious wake等影响。当时间没到就被唤醒，如果是相对时间就很难检查剩余时间。但绝对时间有个缺点，就是如果遇到时钟调整，那这个timeout不会相应调整。POSIX.1j中通过CLOCK_MONOTONIC解决了这个问题。它是一个单调的timer，不会受时钟调整的影响。
+
+pthread_abort()是fail-safe cancellation，它用来确保一个线程被立即结束。它不会运行cleanup handler，也不会有机会做其它清理工作。比如一个不能关掉的实时控制系统，某个线程不正常，而cancel又无法将之结束，就只能用abort。

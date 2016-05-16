@@ -764,7 +764,7 @@
    * [自己動手寫編譯器、鏈接器](compiler/zi_ji_dong_shou_xie_bian_yi_qi_3001_lian_jie_qi.md)
    * [深入淺出教你寫編譯器](compiler/shen_ru_qian_chu_jiao_ni_xie_bian_yi_qi.md)
    * [C-compiler-optimizations](compiler/c-compiler-optimizations.md)
-   * tcc 原始碼分析技巧
+   * [tcc 原始碼分析技巧](compiler/tcc_yuan_shi_ma_fen_xi_ji_qiao.md)
 * [linked_and_loader](linked_and_loader/linked_and_loader.md)
    * [把共享庫(SO)加載到指定的內存地址](linked_and_loader/bagong_xiang_5eab28_so_jia_zai_dao_zhi_ding_de_ne_.md)
    * [Linux GOT與PLT](linked_and_loader/linux_gotyu_plt.md)

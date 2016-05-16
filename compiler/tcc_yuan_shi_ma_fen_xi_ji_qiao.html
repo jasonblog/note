@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Linux 的授權 | Jason note</title>
+        <title>tcc 原始碼分析技巧 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../linux_device_driver_programming/03.html" />
+    <link rel="next" href="../linked_and_loader/linked_and_loader.html" />
     
     
-    <link rel="prev" href="../linux_device_driver_programming/01.html" />
+    <link rel="prev" href="../compiler/c-compiler-optimizations.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="11.1.2" data-basepath=".." data-revision="Mon May 16 2016 23:47:09 GMT+0800 (CST)">
+    <div class="book" data-level="46.5" data-basepath=".." data-revision="Mon May 16 2016 23:47:09 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -3078,7 +3078,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="11.1.2" data-path="linux_device_driver_programming/02.html">
+        <li class="chapter " data-level="11.1.2" data-path="linux_device_driver_programming/02.html">
             
                 
                     <a href="../linux_device_driver_programming/02.html">
@@ -12057,7 +12057,7 @@
             
         </li>
     
-        <li class="chapter " data-level="46.5" data-path="compiler/tcc_yuan_shi_ma_fen_xi_ji_qiao.html">
+        <li class="chapter active" data-level="46.5" data-path="compiler/tcc_yuan_shi_ma_fen_xi_ji_qiao.html">
             
                 
                     <a href="../compiler/tcc_yuan_shi_ma_fen_xi_ji_qiao.html">
@@ -12858,23 +12858,31 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="linux-%E7%9A%84%E6%8E%88%E6%AC%8A">Linux &#x7684;&#x6388;&#x6B0A;</h1>
-<h3 id="2-5%E3%80%81device-driver-%E7%9A%84%E6%8E%88%E6%AC%8A">2-5&#x3001;device driver &#x7684;&#x6388;&#x6B0A;</h3>
+                        <h1 id="tcc-%E5%8E%9F%E5%A7%8B%E7%A2%BC%E5%88%86%E6%9E%90%E6%8A%80%E5%B7%A7">tcc &#x539F;&#x59CB;&#x78BC;&#x5206;&#x6790;&#x6280;&#x5DE7;</h1>
 <ul>
-<li>device driver &#x7684;&#x6388;&#x6B0A;&#x6703;&#x53D7;&#x5230;&#x9023;&#x7D50;&#x65B9;&#x5F0F;&#x5F71;&#x97FF;&#xFF1A;</li>
-<li>static link -&gt; GPL</li>
-<li>dynamic link -&gt; driver &#x958B;&#x767C;&#x8005;&#x81EA;&#x8A02;</li>
+<li>source code </li>
 </ul>
-<p>&#x4EE5; kernel module &#x5F62;&#x5F0F;&#x63D0;&#x4F9B;&#x7684; device driver&#xFF0C;&#x958B;&#x767C;&#x8005;&#x53EF;&#x900F;&#x904E; MODULE_LICENSE &#x9019;&#x500B; macro
-&#x5C07;&#x6388;&#x6B0A;&#x65B9;&#x5F0F;&#x8A2D;&#x5B9A;&#x70BA;&#x4EE5;&#x4E0B;&#x4E03;&#x7A2E;&#x4E4B;&#x4E00;&#xFF1A;</p>
-<pre><code>GPL
-GPL v2
-GPL and additional rights
-Dual BSD/GPL
-Dual MIT/GPL
-Dual MPL/GPL
-Proprietary
-</code></pre><p>&#x6C92;&#x6709;&#x5B9A;&#x7FA9;&#x6B64; macro &#x6642;&#xFF0C;&#x5C07;&#x81EA;&#x52D5;&#x8996;&#x70BA; Proprietary&#xFF0C;&#x9019;&#x500B; macro &#x53EF;&#x8B93; kernel &#x77E5;&#x9053; device driver &#x7684;&#x6388;&#x6B0A;&#x65B9;&#x5F0F;&#x3002;</p>
+<pre><code class="lang-sh">http://download.savannah.gnu.org/releases/tinycc/
+</code></pre>
+<pre><code class="lang-sh">wget http://download.savannah.gnu.org/releases/tinycc/tcc-<span class="hljs-number">0.9</span>.<span class="hljs-number">26</span>.tar.bz2
+tar xvf tcc-<span class="hljs-number">0.9</span>.<span class="hljs-number">26</span>.tar.bz2
+<span class="hljs-built_in">cd</span> tcc-<span class="hljs-number">0.9</span>.<span class="hljs-number">26</span>
+./configure
+make CFLAGS=<span class="hljs-string">&apos;-g -O0&apos;</span>
+</code></pre>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>* argv[])</span>
+</span>{
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Hello world\n&quot;</span>);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<ul>
+<li>gdb &#x5206;&#x6790;&#x7DE8;&#x8B6F;&#x904E;&#x7A0B;</li>
+</ul>
+<pre><code class="lang-sh">cgdb --args ./tcc -B. hello.c -o hello
+</code></pre>
 
                     
                     </section>
@@ -12885,10 +12893,10 @@ Proprietary
         </div>
 
         
-        <a href="../linux_device_driver_programming/01.html" class="navigation navigation-prev " aria-label="Previous page: Linux 裝置驅動程式的概要"><i class="fa fa-angle-left"></i></a>
+        <a href="../compiler/c-compiler-optimizations.html" class="navigation navigation-prev " aria-label="Previous page: C-compiler-optimizations"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../linux_device_driver_programming/03.html" class="navigation navigation-next " aria-label="Next page: 準備開發裝置驅動程式"><i class="fa fa-angle-right"></i></a>
+        <a href="../linked_and_loader/linked_and_loader.html" class="navigation navigation-next " aria-label="Next page: linked_and_loader"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

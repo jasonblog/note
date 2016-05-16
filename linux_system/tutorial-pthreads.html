@@ -37,7 +37,7 @@
         
     
     
-    <link rel="next" href="../assembly/index.html" />
+    <link rel="next" href="../linux_system/programming_with_posix_threads300b_bi_ji.html" />
     
     
     <link rel="prev" href="../linux_system/cyu_yan_hu_chi_9501-_shuang_tiao_jian_bian_liang_s.html" />
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="13.36" data-basepath=".." data-revision="Mon May 16 2016 23:47:09 GMT+0800 (CST)">
+    <div class="book" data-level="13.36" data-basepath=".." data-revision="Tue May 17 2016 00:34:29 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -4725,6 +4725,21 @@
                             <b>13.36.</b>
                         
                         tutorial-pthreads
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="13.37" data-path="linux_system/programming_with_posix_threads300b_bi_ji.html">
+            
+                
+                    <a href="../linux_system/programming_with_posix_threads300b_bi_ji.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>13.37.</b>
+                        
+                        《Programming with POSIX Threads》筆記
                     </a>
             
             
@@ -14350,7 +14365,7 @@ Unlock       Unlock
 <h4 id="example-code-using-mutexes">Example Code - Using Mutexes</h4>
 <h4 id="%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A2%BC%E2%80%94%E2%80%94%E4%BD%BF%E7%94%A8%E4%BA%92%E6%96%A5%E9%AB%94">&#x793A;&#x4F8B;&#x4EE3;&#x78BC;&#x2014;&#x2014;&#x4F7F;&#x7528;&#x4E92;&#x65A5;&#x9AD4;</h4>
 <p>This example program illustrates the use of mutex variables in a threads program that performs a dot product. The main data is made available to all threads through a globally accessible structure. Each thread works on a different part of the data. The main thread waits for all the threads to complete their computations, and then it prints the resulting sum. </p>
-<p>&#x9019;&#x500B;&#x793A;&#x4F8B;&#x7A0B;&#x5E8F;&#x8AAA;&#x660E;&#x4E86;&#x5728;&#x4E00;&#x500B;&#x6C42;&#x9EDE;&#x7A4D;&#x7684;&#x591A;&#x7DDA;&#x7A0B;&#x7A0B;&#x5E8F;&#x4E2D;&#x4E92;&#x65A5;&#x9AD4;&#x8B8A;&#x91CF;&#x7684;&#x7528;&#x6CD5;&#x3002;&#x4E3B;&#x8981;&#x6578;&#x64DA;&#x901A;&#x904E;&#x4E00;&#x500B;&#x5168;&#x5C40;&#x53EF;&#x8A2A;&#x554F;&#x7D50;&#x69CB;&#x4F7F;&#x5F97;&#x6240;&#x6709;&#x7DDA;&#x7A0B;&#x90FD;&#x53EF;&#x4F7F;&#x7528;&#x3002;&#x6BCF;&#x500B;&#x7DDA;&#x7A0B;&#x5DE5;&#x4F5C;&#x65BC;&#x6578;&#x64DA;&#x7684;&#x4E0D;&#x540C;&#x90E8;&#x5206;&#x3002;&#x4E3B;&#x7DDA;&#x7A0B;&#x7B49;&#x5F85;&#x6240;&#x6709;&#x7DDA;&#x7A0B;&#x5B8C;&#x6210;&#x5B83;&#x5011;&#x7684;&#x8A08;&#x7B97;&#xFF0C;&#x7136;&#x5F8C;&#x6253;&#x5370;&#x4F5C;&#x70BA;&#x7D50;&#x679C;&#x7684;&#x7E3D;&#x548C;&#x3002;</p>
+<p>&#x9019;&#x500B;&#x793A;&#x4F8B;&#x7A0B;&#x5E8F;&#x8AAA;&#x660E;&#x77AD;&#x5728;&#x4E00;&#x500B;&#x6C42;&#x9EDE;&#x7A4D;&#x7684;&#x591A;&#x7DDA;&#x7A0B;&#x7A0B;&#x5E8F;&#x4E2D;&#x4E92;&#x65A5;&#x9AD4;&#x8B8A;&#x91CF;&#x7684;&#x7528;&#x6CD5;&#x3002;&#x4E3B;&#x8981;&#x6578;&#x64DA;&#x901A;&#x904E;&#x4E00;&#x500B;&#x5168;&#x5C40;&#x53EF;&#x8A2A;&#x554F;&#x7D50;&#x69CB;&#x4F7F;&#x5F97;&#x6240;&#x6709;&#x7DDA;&#x7A0B;&#x90FD;&#x53EF;&#x4F7F;&#x7528;&#x3002;&#x6BCF;&#x500B;&#x7DDA;&#x7A0B;&#x5DE5;&#x4F5C;&#x65BC;&#x6578;&#x64DA;&#x7684;&#x4E0D;&#x540C;&#x90E8;&#x5206;&#x3002;&#x4E3B;&#x7DDA;&#x7A0B;&#x7B49;&#x5F85;&#x6240;&#x6709;&#x7DDA;&#x7A0B;&#x5B8C;&#x6210;&#x5B83;&#x5011;&#x7684;&#x8A08;&#x7B97;&#xFF0C;&#x7136;&#x5F8C;&#x6253;&#x5370;&#x4F5C;&#x70BA;&#x7D50;&#x679C;&#x7684;&#x7E3D;&#x548C;&#x3002;</p>
 <pre><code>#include &lt;pthread.h&gt;
 #include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
@@ -15081,7 +15096,7 @@ blaise   22529 28240 22533 99    5 11:31 pts/53   00:01:24 a.out
         <a href="../linux_system/cyu_yan_hu_chi_9501-_shuang_tiao_jian_bian_liang_s.html" class="navigation navigation-prev " aria-label="Previous page: C語言互斥鎖-雙條件變量實現循環打印"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../assembly/index.html" class="navigation navigation-next " aria-label="Next page: Assembly"><i class="fa fa-angle-right"></i></a>
+        <a href="../linux_system/programming_with_posix_threads300b_bi_ji.html" class="navigation navigation-next " aria-label="Next page: 《Programming with POSIX Threads》筆記"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

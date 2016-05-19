@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>一個gdb會話中同時調試多個程序 | Jason note</title>
+        <title>Makefile的基本結構 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../100_gdb_tips/maint-info-program-space.html" />
+    <link rel="next" href="../22/index.html" />
     
     
-    <link rel="prev" href="../100_gdb_tips/use-$_thread-variable.html" />
+    <link rel="prev" href="../gunmake/linux_cbian_yi_ji_jing_6001_dong_tai_lian_jie_ku_b.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="45.7.9" data-basepath=".." data-revision="Thu May 19 2016 22:01:09 GMT+0800 (CST)">
+    <div class="book" data-level="19.15" data-basepath=".." data-revision="Thu May 19 2016 22:01:09 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -6428,7 +6428,7 @@
             
         </li>
     
-        <li class="chapter " data-level="19.15" data-path="gunmake/makefilede_ji_ben_jie_gou.html">
+        <li class="chapter active" data-level="19.15" data-path="gunmake/makefilede_ji_ben_jie_gou.html">
             
                 
                     <a href="../gunmake/makefilede_ji_ben_jie_gou.html">
@@ -11026,7 +11026,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="45.7.9" data-path="100_gdb_tips/add-copy-inferiors.html">
+        <li class="chapter " data-level="45.7.9" data-path="100_gdb_tips/add-copy-inferiors.html">
             
                 
                     <a href="../100_gdb_tips/add-copy-inferiors.html">
@@ -12918,114 +12918,225 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E4%B8%80%E5%80%8Bgdb%E6%9C%83%E8%A9%B1%E4%B8%AD%E5%90%8C%E6%99%82%E8%AA%BF%E8%A9%A6%E5%A4%9A%E5%80%8B%E7%A8%8B%E5%BA%8F">&#x4E00;&#x500B;gdb&#x6703;&#x8A71;&#x4E2D;&#x540C;&#x6642;&#x8ABF;&#x8A66;&#x591A;&#x500B;&#x7A0B;&#x5E8F;</h1>
-<h2 id="%E4%BE%8B%E5%AD%90">&#x4F8B;&#x5B50;</h2>
-<pre><code>a.c:
-#include &lt;stdio.h&gt;
-int func(int a, int b)
-{
-        int c = a * b;
-        printf(&quot;c is %d\n&quot;, c);
-}
+                        <h1 id="makefile%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%B5%90%E6%A7%8B">Makefile&#x7684;&#x57FA;&#x672C;&#x7D50;&#x69CB;</h1>
+<h2 id="makefile%E7%9A%84%E4%B8%80%E8%88%AC%E7%B5%90%E6%A7%8B%EF%BC%9A">Makefile&#x7684;&#x4E00;&#x822C;&#x7D50;&#x69CB;&#xFF1A;</h2>
+<pre><code class="lang-sh">target&#x2026;&#x2026;&#xFF1A;dependency&#x2026;&#x2026;
+    <span class="hljs-built_in">command</span>&#x2026;&#x2026;
+</code></pre>
+<ul>
+<li><p>&#x2013;target&#xFF08;&#x76EE;&#x6A19;&#xFF09;&#xFF1A;&#x4E00;&#x500B;&#x76EE;&#x6A19;&#x6A94;&#xFF0C;&#x53EF;&#x4EE5;&#x662F;Object&#x6A94;&#xFF0C;&#x4E5F;&#x53EF;
+&#x4EE5;&#x662F;&#x57F7;&#x884C;&#x6A94;&#x3002;&#x9084;&#x53EF;&#x4EE5;&#x662F;&#x4E00;&#x500B;&#x6A19;&#x7C64;&#xFF08;Label&#xFF09;&#x3002;</p>
+</li>
+<li><p>&#x2013;dependency&#xFF08;&#x4F9D;&#x8CF4;&#xFF09;&#xFF1A;&#x8981;&#x7522;&#x751F;&#x76EE;&#x6A19;&#x6A94;&#xFF08;target&#xFF09;&#x6240;&#x4F9D;
+&#x8CF4;&#x54EA;&#x4E9B;&#x6A94;</p>
+</li>
+<li><p>&#x2013;command&#xFF08;&#x547D;&#x4EE4;&#xFF09;&#xFF1A;&#x5EFA;&#x7ACB;&#x5C08;&#x6848;&#x6642;&#x9700;&#x8981;&#x57F7;&#x884C;&#x7684;shell&#x547D;&#x4EE4;
+&#xFF08;&#x6CE8;&#xFF1A;&#x547D;&#x4EE4;&#xFF08;command&#xFF09;&#x90E8;&#x5206;&#x7684;&#x6BCF;&#x884C;&#x7684;&#x7E2E;&#x9032;&#x5FC5;&#x9808;&#x8981;&#x4F7F;
+&#x7528;Tab&#x9375;&#x800C;&#x4E0D;&#x80FD;&#x4F7F;&#x7528;&#x591A;&#x500B;&#x7A7A;&#x683C;&#xFF09;&#x3002;</p>
+</li>
+</ul>
+<hr>
+<ul>
+<li>Example</li>
+</ul>
+<pre><code class="lang-sh">test.o: test.c test.h
+    gcc &#x2013;c test.c
+</code></pre>
+<p>&#x7576;test.c&#x6216;test.h&#x6A94;&#x5728;&#x7DE8;&#x8B6F;&#x4E4B;&#x5F8C;&#x53C8;&#x88AB;&#x4FEE;&#x6539;&#xFF0C;&#x5247;make&#x5DE5;&#x5177;&#x53EF;&#x81EA;&#x52D5;&#x91CD;&#x65B0;&#x7DE8;&#x8B6F;test.o&#xFF0C;
+&#x5982;&#x679C;&#x5728;&#x524D;&#x5F8C;&#x5169;&#x6B21;&#x7DE8;&#x8B6F;&#x4E4B;&#x9593;&#xFF0C;test.c&#x548C;test.h&#x5747;&#x6C92;&#x6709;&#x88AB;&#x4FEE;&#x6539;&#xFF0C;&#x800C;&#x4E14;test.o&#x9084;&#x5B58;&#x5728;&#x7684;&#x8A71;&#xFF0C;
+&#x5C31;&#x6C92;&#x6709;&#x5FC5;&#x8981;&#x91CD;&#x65B0;&#x7DE8;&#x8B6F;&#x3002;</p>
+<hr>
+<h2 id="makefile%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%85%A7%E5%AE%B9">Makefile&#x7684;&#x57FA;&#x672C;&#x5167;&#x5BB9;</h2>
+<ul>
+<li><p>&#x986F;&#x5F0F;&#x898F;&#x5247;&#xFF1A;&#x986F;&#x5F0F;&#x898F;&#x5247;&#x8AAA;&#x660E;&#x5982;&#x4F55;&#x7522;&#x751F;&#x4E00;&#x500B;&#x6216;&#x591A;&#x500B;&#x7684;&#x76EE;&#x6A19;&#x6A94;&#x3002;&#x9019;&#x662F;&#x7531;
+Makefile&#x7684;&#x66F8;&#x5BEB;&#x8005;&#x660E;&#x986F;&#x6307;&#x51FA;&#xFF0C;&#x8981;&#x7522;&#x751F;&#x7684;&#x6A94;&#xFF0C;&#x6A94;&#x7684;&#x4F9D;&#x8CF4;&#x6A94;&#xFF0C;&#x7522;&#x751F;&#x7684;&#x547D;
+&#x4EE4;&#x3002;</p>
+</li>
+<li><p>&#x8B8A;&#x6578;&#x5B9A;&#x7FA9;&#x3002;&#x5728;Makefile&#x4E2D;&#x53EF;&#x4EE5;&#x5B9A;&#x7FA9;&#x4E00;&#x7CFB;&#x5217;&#x7684;&#x8B8A;&#x6578;&#xFF0C;&#x8B8A;&#x6578;&#x4E00;&#x822C;&#x90FD;&#x662F;&#x5B57;
+&#x4E32;&#xFF0C;&#x7576;Makefile&#x88AB;&#x57F7;&#x884C;&#x6642;&#xFF0C;&#x8B8A;&#x6578;&#x7684;&#x503C;&#x6703;&#x88AB;&#x64F4;&#x5145;&#x5230;&#x76F8;&#x5C0D;&#x61C9;&#x7684;&#x5F15;&#x7528;&#x4F4D;&#x7F6E;
+&#x4E0A;&#x3002;</p>
+</li>
+<li><p>&#x96B1;&#x542B;&#x898F;&#x5247;&#xFF1A;&#x7531;&#x65BC;GNU make&#x5177;&#x6709;&#x81EA;&#x52D5;&#x63A8;&#x5C0E;&#x529F;&#x80FD;&#xFF0C;&#x6240;&#x4EE5;&#x96B1;&#x542B;&#x898F;&#x5247;&#x53EF;&#x4EE5;&#x6BD4;
+&#x8F03;&#x7C97;&#x7CD9;&#x5730;&#x7C21;&#x7565;&#x5730;&#x66F8;&#x5BEB;Makefile&#xFF0C;&#x7136;&#x5F8C;&#x7531;GNU make&#x7684;&#x81EA;&#x52D5;&#x63A8;&#x5C0E;&#x529F;&#x80FD;&#x5B8C;
+&#x6210;&#x96B1;&#x542B;&#x898F;&#x5247;&#x7684;&#x5167;&#x5BB9;&#x3002;</p>
+</li>
+<li><p>&#x6A94;&#x6307;&#x793A;&#x3002;&#x5176;&#x5305;&#x62EC;&#x4E86;&#x4E09;&#x500B;&#x90E8;&#x5206;&#xFF0C;&#x4E00;&#x500B;&#x662F;&#x5728;&#x4E00;&#x500B;Makefile&#x4E2D;&#x5F15;&#x7528;&#x53E6;&#x4E00;&#x500B;
+Makefile&#xFF0C;&#x5C31;&#x50CF;C&#x8A9E;&#x8A00;&#x4E2D;&#x7684;include&#x4E00;&#x6A23;&#xFF1B;&#x53E6;&#x4E00;&#x500B;&#x662F;&#x6307;&#x6839;&#x64DA;&#x67D0;&#x4E9B;&#x60C5;&#x6CC1;&#x6307;
+&#x5B9A;Makefile&#x4E2D;&#x7684;&#x6709;&#x6548;&#x90E8;&#x5206;&#xFF0C;&#x5C31;&#x50CF;C&#x8A9E;&#x8A00;&#x4E2D;&#x7684;&#x9810;&#x7DE8;&#x8B6F;#if&#x4E00;&#x6A23;&#xFF1B;&#x9084;&#x6709;&#x5C31;&#x662F;
+&#x5B9A;&#x7FA9;&#x4E00;&#x500B;&#x591A;&#x884C;&#x7684;&#x547D;&#x4EE4;&#x3002;</p>
+</li>
+<li><p>&#x6CE8;&#x91CB;&#x3002;Makefile&#x4E2D;&#x53EA;&#x6709;&#x884C;&#x6CE8;&#x91CB;&#xFF0C;&#x548C;UNIX&#x7684;Shell&#x8173;&#x672C;&#x4E00;&#x6A23;&#xFF0C;&#x5176;&#x6CE8;&#x91CB;&#x662F;
+&#x7528;&#x201C;#&#x201D;&#x5B57;&#x5143;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x8981;&#x5728;&#x4F60;&#x7684;Makefile&#x4E2D;&#x4F7F;&#x7528;&#x201C;#&#x201D;&#x5B57;&#x5143;&#xFF0C;&#x53EF;&#x4EE5;&#x7528;&#x53CD;&#x659C;&#x6846;&#x9032;
+&#x884C;&#x8F49;&#x7FA9;&#xFF0C;&#x5982;&#xFF1A;&#x201C;#&#x201D;
+&#x3002;</p>
+</li>
+</ul>
+<h2 id="makefile%E4%B8%AD%E7%9A%84%E8%AE%8A%E6%95%B8">Makefile&#x4E2D;&#x7684;&#x8B8A;&#x6578;</h2>
+<ul>
+<li><p>Makefile&#x4E2D;&#x5B9A;&#x7FA9;&#x7684;&#x8B8A;&#x6578;&#xFF0C;&#x8207;C/C++&#x8A9E;&#x8A00;&#x4E2D;&#x7684;&#x5DE8;&#x96C6;&#x4E00;&#x6A23;&#xFF0C;&#x4EE3;
+&#x8868;&#x4E00;&#x500B;&#x6587;&#x672C;&#x5B57;&#x4E32;&#xFF0C;&#x5728;Makefile&#x88AB;&#x57F7;&#x884C;&#x6642;&#x5019;&#x8B8A;&#x6578;&#x6703;&#x81EA;&#x52D5;&#x5730;&#x5C55;
+&#x958B;&#x5728;&#x6240;&#x4F7F;&#x7528;&#x7684;&#x5730;&#x65B9;&#x3002;Makefile&#x4E2D;&#x7684;&#x8B8A;&#x6578;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x5728;&#x201C;&#x76EE;
+&#x6A19;&#x201D;
+&#xFF0C;
+&#x201C;&#x4F9D;&#x8CF4;&#x76EE;&#x6A19;&#x201D;
+&#xFF0C;
+&#x201C;&#x547D;&#x4EE4;&#x201D;&#x6216;Makefile&#x7684;&#x5176;&#x4ED6;&#x90E8;&#x5206;&#x4E2D;&#x3002;</p>
+</li>
+<li><p>Makefile&#x4E2D;&#x8B8A;&#x6578;&#x7684;&#x547D;&#x540D;&#x5B57;&#x53EF;&#x4EE5;&#x5305;&#x542B;&#x5B57;&#x5143;&#x3001;&#x6578;&#x4F4D;&#xFF0C;&#x4E0B;&#x5283;&#x7DDA;
+&#xFF08;&#x53EF;&#x4EE5;&#x662F;&#x6578;&#x4F4D;&#x958B;&#x982D;&#xFF09;&#xFF0C;&#x4F46;&#x4E0D;&#x61C9;&#x8A72;&#x542B;&#x6709;&#x201C;:&#x201D;
+&#x3001;
+&#x201C;#&#x201D;
+&#x3001;
+&#x201C;=&#x201D;&#x6216;&#x662F;&#x7A7A;
+&#x5B57;&#x5143;&#xFF08;&#x7A7A;&#x683C;&#x3001;Enter&#x7B49;&#xFF09;&#x3002;</p>
+</li>
+<li><p>Makefile&#x4E2D;&#x8B8A;&#x6578;&#x662F;&#x5927;&#x5C0F;&#x5BEB;&#x654F;&#x611F;&#x7684;&#xFF0C;
+&#x201C;foo&#x201D;
+&#x3001;
+&#x201C;Foo&#x201D;&#x548C;&#x201C;FOO&#x201D;&#x662F;
+&#x4E09;&#x500B;&#x4E0D;&#x540C;&#x7684;&#x8B8A;&#x6578;&#x540D;&#x3002;&#x50B3;&#x7D71;&#x7684;Makefile&#x7684;&#x8B8A;&#x6578;&#x540D;&#x662F;&#x5168;&#x5927;&#x5BEB;&#x7684;
+&#x547D;&#x540D;&#x65B9;&#x5F0F;</p>
+</li>
+<li><p>&#x8B8A;&#x6578;&#x5728;&#x8072;&#x660E;&#x6642;&#x9700;&#x8981;&#x7D66;&#x4E88;&#x521D;&#x503C;&#xFF0C;&#x800C;&#x5728;&#x4F7F;&#x7528;&#x6642;&#xFF0C;&#x9700;&#x8981;&#x5728;&#x8B8A;&#x6578;&#x540D;
+&#x524D;&#x52A0;&#x4E0A;&#x201C;$&#x201D;&#x7B26;&#x865F;</p>
+</li>
+</ul>
+<hr>
+<ul>
+<li>Example</li>
+</ul>
+<pre><code class="lang-sh"><span class="hljs-comment"># makefile test for hello program</span>
+<span class="hljs-comment">#written by Emdoor</span>
+CC=gcc
+CFLAGS=
+OBJS=hello.o
+all: hello
+hello: $(OBJS)
+    $(CC) $(CFLAGS) $(OBJS) &#x2013;o hello
+hello.o: hello.c
+    $(CC) $(CFLAGS) &#x2013;c hello.c &#x2013;o $(OBJS)
+clean:
+    rm &#x2013;rf hello *.o
+</code></pre>
+<pre><code class="lang-sh"><span class="hljs-comment"># makefile test for hello program</span>
+<span class="hljs-comment">#written by Emdoor</span>
+CC=gcc
+CFLAGS=
+OBJS=hello.o
 
-int main(void)
-{
-        func(1, 2);
-        return 0;
-}
+all: hello
 
+hello: hello.o
+    gcc hello.o &#x2013;o hello
 
-b.c:
-#include &lt;stdio.h&gt;
+hello.o: hello.c
+    gcc &#x2013;c hello.c &#x2013;o hello.o
+clean:
+    rm &#x2013;rf hello *.o
+</code></pre>
+<h2 id="%E5%91%BD%E4%BB%A4%E7%9A%84%E8%AE%8A%E6%95%B8">&#x547D;&#x4EE4;&#x7684;&#x8B8A;&#x6578;</h2>
+<pre><code class="lang-sh">AR &#x51FD;&#x5F0F;&#x5EAB;&#x6253;&#x5305;&#x7A0B;&#x5F0F;&#x3002;&#x9810;&#x8A2D;&#x547D;&#x4EE4;&#x662F;&#x201C;ar&#x201D;&#x3002;
+&#x2022; AS &#x7D44;&#x5408;&#x8A9E;&#x8A00;&#x7DE8;&#x8B6F;&#x7A0B;&#x5E8F;&#x3002;&#x9810;&#x8A2D;&#x547D;&#x4EE4;&#x662F;&#x201C;as&#x201D;&#x3002;
+&#x2022; CC C&#x8A9E;&#x8A00;&#x7DE8;&#x8B6F;&#x7A0B;&#x5E8F;&#x3002;&#x9810;&#x8A2D;&#x547D;&#x4EE4;&#x662F;&#x201C;cc&#x201D;&#x3002;
+&#x2022; CXX C++&#x8A9E;&#x8A00;&#x7DE8;&#x8B6F;&#x7A0B;&#x5E8F;&#x3002;&#x9810;&#x8A2D;&#x547D;&#x4EE4;&#x662F;&#x201C;g++&#x201D;&#x3002;
+&#x2022; CO &#x5F9E; RCS&#x6A94;&#x4E2D;&#x64F4;&#x5145;&#x6A94;&#x7A0B;&#x5F0F;&#x3002;&#x9810;&#x8A2D;&#x547D;&#x4EE4;&#x662F;&#x201C;co&#x201D;&#x3002;
+&#x2022; CPP C&#x7A0B;&#x5F0F;&#x7684;&#x9810;&#x8655;&#x7406;&#x5668;&#xFF08;&#x8F38;&#x51FA;&#x662F;&#x6A19;&#x6E96;&#x8F38;&#x51FA;&#x8A2D;&#x5099;&#xFF09;&#x3002;&#x9810;&#x8A2D;&#x547D;&#x4EE4;&#x662F;&#x201C;$(CC) &#x2013;E&#x201D;&#x3002;
+&#x2022; FC Fortran &#x548C; Ratfor &#x7684;&#x7DE8;&#x8B6F;&#x5668;&#x548C;&#x9810;&#x8655;&#x7406;&#x7A0B;&#x5F0F;&#x3002;&#x9810;&#x8A2D;&#x547D;&#x4EE4;&#x662F;&#x201C;f77&#x201D;&#x3002;
+&#x2022; GET &#x5F9E;SCCS&#x6A94;&#x4E2D;&#x64F4;&#x5145;&#x6A94;&#x7684;&#x7A0B;&#x5F0F;&#x3002;&#x9810;&#x8A2D;&#x547D;&#x4EE4;&#x662F;&#x201C;get&#x201D;&#x3002;
+&#x2022; LEX Lex&#x65B9;&#x6CD5;&#x5206;&#x6790;&#x5668;&#x7A0B;&#x5F0F;&#xFF08;&#x91DD;&#x5C0D;&#x65BC;C&#x6216;Ratfor&#xFF09;&#x3002;&#x9810;&#x8A2D;&#x547D;&#x4EE4;&#x662F;&#x201C;lex&#x201D;&#x3002;
+&#x2022; PC Pascal&#x8A9E;&#x8A00;&#x7DE8;&#x8B6F;&#x7A0B;&#x5E8F;&#x3002;&#x9810;&#x8A2D;&#x547D;&#x4EE4;&#x662F;&#x201C;pc&#x201D;&#x3002;
+&#x2022; YACC Yacc&#x6587;&#x6CD5;&#x5206;&#x6790;&#x5668;&#xFF08;&#x91DD;&#x5C0D;&#x65BC;C&#x7A0B;&#x5F0F;&#xFF09;&#x3002;&#x9810;&#x8A2D;&#x547D;&#x4EE4;&#x662F;&#x201C;yacc&#x201D;&#x3002;
+&#x2022; YACCR Yacc&#x6587;&#x6CD5;&#x5206;&#x6790;&#x5668;&#xFF08;&#x91DD;&#x5C0D;&#x65BC;Ratfor&#x7A0B;&#x5F0F;&#xFF09;&#x3002;&#x9810;&#x8A2D;&#x547D;&#x4EE4;&#x662F;&#x201C;yacc &#x2013;r&#x201D;&#x3002;
+&#x2022; MAKEINFO &#x8F49;&#x63DB;Texinfo&#x539F;&#x59CB;&#x6A94;&#x6848;&#xFF08;.texi&#xFF09;&#x5230;Info&#x6A94;&#x7A0B;&#x5F0F;&#x3002;&#x9810;&#x8A2D;&#x547D;&#x4EE4;&#x662F;&#x201C;makeinfo&#x201D;&#x3002;
+&#x2022; TEX &#x5F9E;TeX&#x539F;&#x59CB;&#x6A94;&#x6848;&#x5EFA;&#x7ACB;TeX DVI&#x6A94;&#x7684;&#x7A0B;&#x5F0F;&#x3002;&#x9810;&#x8A2D;&#x547D;&#x4EE4;&#x662F;&#x201C;tex&#x201D;&#x3002;
+&#x2022; TEXI2DVI &#x5F9E;Texinfo&#x539F;&#x59CB;&#x6A94;&#x6848;&#x5EFA;&#x7ACB;&#x8ECD;TeX DVI &#x6A94;&#x7684;&#x7A0B;&#x5F0F;&#x3002;&#x9810;&#x8A2D;&#x547D;&#x4EE4;&#x662F;&#x201C;texi2dvi&#x201D;&#x3002;
+&#x2022; WEAVE &#x8F49;&#x63DB;Web&#x5230;TeX&#x7684;&#x7A0B;&#x5F0F;&#x3002;&#x9810;&#x8A2D;&#x547D;&#x4EE4;&#x662F;&#x201C;weave&#x201D;&#x3002;
+&#x2022; CWEAVE &#x8F49;&#x63DB;C Web &#x5230; TeX&#x7684;&#x7A0B;&#x5F0F;&#x3002;&#x9810;&#x8A2D;&#x547D;&#x4EE4;&#x662F;&#x201C;cweave&#x201D;&#x3002;
+&#x2022; TANGLE &#x8F49;&#x63DB;Web&#x5230;Pascal&#x8A9E;&#x8A00;&#x7684;&#x7A0B;&#x5F0F;&#x3002;&#x9810;&#x8A2D;&#x547D;&#x4EE4;&#x662F;&#x201C;tangle&#x201D;&#x3002;
+&#x2022; CTANGLE &#x8F49;&#x63DB;C Web &#x5230; C&#x3002;&#x9810;&#x8A2D;&#x547D;&#x4EE4;&#x662F;&#x201C;ctangle&#x201D;&#x3002;
+&#x2022; RM &#x522A;&#x9664;&#x6A94;&#x547D;&#x4EE4;&#x3002;&#x9810;&#x8A2D;&#x547D;&#x4EE4;&#x662F;&#x201C;rm &#x2013;f&#x201D;&#x3002;
+</code></pre>
+<h2 id="%E5%91%BD%E4%BB%A4%E5%8F%83%E6%95%B8%E8%AE%8A%E6%95%B8">&#x547D;&#x4EE4;&#x53C3;&#x6578;&#x8B8A;&#x6578;</h2>
+<pre><code class="lang-sh">&#x2022; ARFLAGS &#x51FD;&#x5F0F;&#x5EAB;&#x6253;&#x5305;&#x7A0B;&#x5F0F;AR&#x547D;&#x4EE4;&#x7684;&#x53C3;&#x6578;&#x3002;&#x9810;&#x8A2D;&#x503C;&#x662F;&#x201C;rv&#x201D;
+&#x2022; ASFLAGS &#x7D44;&#x5408;&#x8A9E;&#x8A00;&#x7DE8;&#x8B6F;&#x5668;&#x53C3;&#x6578;&#x3002;&#xFF08;&#x7576;&#x660E;&#x986F;&#x5730;&#x8ABF;&#x7528;&#x201C;.s&#x201D;&#x6216;&#x201C;.S&#x201D;&#x6A94;&#x6848;
+&#x6642;&#xFF09;&#x3002;
+&#x2022; CFLAGS C&#x8A9E;&#x8A00;&#x7DE8;&#x8B6F;&#x5668;&#x53C3;&#x6578;&#x3002;
+&#x2022; CXXFLAGS C++&#x8A9E;&#x8A00;&#x7DE8;&#x8B6F;&#x5668;&#x53C3;&#x6578;&#x3002;
+&#x2022; COFLAGS RCS&#x547D;&#x4EE4;&#x53C3;&#x6578;&#x3002;
+&#x2022; CPPFLAGS C&#x9810;&#x8655;&#x7406;&#x5668;&#x53C3;&#x6578;&#x3002;&#xFF08; C &#x548C; Fortran &#x7DE8;&#x8B6F;&#x5668;&#x4E5F;&#x6703;&#x7528;
+&#x5230;&#xFF09;&#x3002;
+&#x2022; FFLAGS Fortran&#x8A9E;&#x8A00;&#x7DE8;&#x8B6F;&#x5668;&#x53C3;&#x6578;&#x3002;
+&#x2022; GFLAGS SCCS &#x201C;get&#x201D;&#x7A0B;&#x5F0F;&#x53C3;&#x6578;&#x3002;
+&#x2022; LDFLAGS &#x93C8;&#x7D50;&#x5668;&#x53C3;&#x6578;&#x3002;&#xFF08;&#x5982;&#xFF1A;&#x201C;ld&#x201D;&#xFF09;
+&#x2022; LFLAGS Lex&#x6587;&#x6CD5;&#x5206;&#x6790;&#x5668;&#x53C3;&#x6578;&#x3002;
+&#x2022; PFLAGS Pascal&#x8A9E;&#x8A00;&#x7DE8;&#x8B6F;&#x5668;&#x53C3;&#x6578;&#x3002;
+&#x2022; RFLAGS Ratfor &#x7A0B;&#x5F0F;&#x7684;Fortran &#x7DE8;&#x8B6F;&#x5668;&#x53C3;&#x6578;&#x3002;
+&#x2022; YFLAGS Yacc&#x6587;&#x6CD5;&#x5206;&#x6790;&#x5668;&#x53C3;&#x6578;&#x3002;
+</code></pre>
+<ul>
+<li>Example</li>
+</ul>
+<pre><code class="lang-sh"><span class="hljs-comment"># makefile test for hello program</span>
+<span class="hljs-comment">#written by Chhnet</span>
+CC=gcc
+CFLAGS=
 
-int func1(int a)
-{
-        return 2 * a;
-}
+all: hello
+hello: hello.o
+    $(CC) $(CFLAGS) hello.o &#x2013;o hello
+hello.o: hello.c
+    $(CC) $(CFLAGS) &#x2013;c hello.c &#x2013;o hello.o
+clean:
+    rm &#x2013;rf hello *.o
+</code></pre>
+<pre><code class="lang-sh"><span class="hljs-comment"># makefile test for hello program</span>
+<span class="hljs-comment">#written by Chhnet</span>
+CC=gcc
+CFLAGS=
+OBJS=hello.o
 
-int func2(int a)
-{
-        int c = 0;
-        c = 2 * func1(a);
-        return c;
-}
+all: hello
+hello: $(OBJS)
+    $(CC) $(CFLAGS) $^ -o <span class="hljs-variable">$@</span>
+hello.o: hello.c
+    $(CC) $(CFLAGS) &#x2013;c $&lt; -o <span class="hljs-variable">$@</span>
+clean:
+    rm &#x2013;rf hello *.o
+</code></pre>
+<ul>
+<li>Example</li>
+</ul>
+<pre><code class="lang-sh"><span class="hljs-comment"># makefile test for multi files program</span>
+<span class="hljs-comment">#written by Emdoor</span>
+CC=gcc
+CFLAGS=
+OBJS=hello1.o hello2.o
 
-int func3(int a)
-{
-        int c = 0;
-        c = 2 * func2(a);
-        return c;
-}
+all: hello
+hello: $(OBJS)
+    $(CC) $(CFLAGS) $^ -o <span class="hljs-variable">$@</span>
+hello1.o: hello1.c
+    $(CC) $(CFLAGS) &#x2013;c $&lt; -o <span class="hljs-variable">$@</span>
+hello2.o: hello2.c
+    $(CC) $(CFLAGS) &#x2013;c $&lt; -o <span class="hljs-variable">$@</span>
+clean:
+    rm &#x2013;rf hello *.o
+</code></pre>
+<pre><code class="lang-sh"><span class="hljs-comment"># makefile test for multi files program</span>
+<span class="hljs-comment">#written by Chhnet</span>
+CC=gcc
+CFLAGS=
+CFILES=$(wildcard *.c)
+OBJS=$(CFILES:%c=%.o)
 
-int main(void)
-{
-        printf(&quot;%d\n&quot;, func3(10));
-        return 0;
-}
-</code></pre><h2 id="%E6%8A%80%E5%B7%A7">&#x6280;&#x5DE7;</h2>
-<p>gdb&#x652F;&#x6301;&#x5728;&#x4E00;&#x500B;&#x6703;&#x8A71;&#x4E2D;&#x540C;&#x6642;&#x8ABF;&#x8A66;&#x591A;&#x500B;&#x7A0B;&#x5E8F;&#x3002;&#x4EE5;&#x4E0A;&#x9762;&#x7A0B;&#x5E8F;&#x70BA;&#x4F8B;&#xFF0C;&#x9996;&#x5148;&#x8ABF;&#x8A66;<code>a</code>&#x7A0B;&#x5E8F;&#xFF1A;  </p>
-<pre><code>root@bash:~$ gdb a
-GNU gdb (Ubuntu 7.7-0ubuntu3) 7.7
-Copyright (C) 2014 Free Software Foundation, Inc.
-License GPLv3+: GNU GPL version 3 or later &lt;http://gnu.org/licenses/gpl.html&gt;
-This is free software: you are free to change and redistribute it.
-There is NO WARRANTY, to the extent permitted by law.  Type &quot;show copying&quot;
-and &quot;show warranty&quot; for details.
-This GDB was configured as &quot;x86_64-linux-gnu&quot;.
-Type &quot;show configuration&quot; for configuration details.
-For bug reporting instructions, please see:
-&lt;http://www.gnu.org/software/gdb/bugs/&gt;.
-Find the GDB manual and other documentation resources online at:
-&lt;http://www.gnu.org/software/gdb/documentation/&gt;.
-For help, type &quot;help&quot;.
-Type &quot;apropos word&quot; to search for commands related to &quot;word&quot;...
-Reading symbols from a...done.
-(gdb) start
-Temporary breakpoint 1 at 0x400568: file a.c, line 10.
-Starting program: /home/nanxiao/a
-</code></pre><p>&#x63A5;&#x8457;&#x4F7F;&#x7528;&#x201C;<code>add-inferior [ -copies n ] [ -exec executable ]</code>&#x201D;&#x547D;&#x4EE4;&#x52A0;&#x8F09;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;<code>b</code>&#x3002;&#x5176;&#x4E2D;<code>n</code>&#x9ED8;&#x8A8D;&#x70BA;1&#xFF1A;  </p>
-<pre><code>(gdb) add-inferior -copies 2 -exec b
-Added inferior 2
-Reading symbols from b...done.
-Added inferior 3
-Reading symbols from b...done.
-(gdb) i inferiors
-  Num  Description       Executable
-  3    &lt;null&gt;            /home/nanxiao/b
-  2    &lt;null&gt;            /home/nanxiao/b
-* 1    process 1586      /home/nanxiao/a
-(gdb) inferior 2
-[Switching to inferior 2 [&lt;null&gt;] (/home/nanxiao/b)]
-(gdb) start
-Temporary breakpoint 2 at 0x400568: main. (3 locations)
-Starting program: /home/nanxiao/b
-
-Temporary breakpoint 2, main () at b.c:24
-24              printf(&quot;%d\n&quot;, func3(10));
-(gdb) i inferiors
-  Num  Description       Executable
-  3    &lt;null&gt;            /home/nanxiao/b
-* 2    process 1590      /home/nanxiao/b
-  1    process 1586      /home/nanxiao/a
-</code></pre><p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x53EF;&#x4EE5;&#x8ABF;&#x8A66;<code>b</code>&#x7A0B;&#x5E8F;&#x4E86;&#x3002;</p>
-<p>&#x53E6;&#x5916;&#x4E5F;&#x53EF;&#x7528;&#x201C;<code>clone-inferior [ -copies n ] [ infno ]</code>&#x201D;&#x514B;&#x9686;&#x73FE;&#x6709;&#x7684;<code>inferior</code>&#xFF0C;&#x5176;&#x4E2D;<code>n</code>&#x9ED8;&#x8A8D;&#x70BA;1&#xFF0C;<code>infno</code>&#x9ED8;&#x8A8D;&#x70BA;&#x7576;&#x524D;&#x7684;<code>inferior</code>&#xFF1A;  </p>
-<pre><code>(gdb) i inferiors
-  Num  Description       Executable
-  3    &lt;null&gt;            /home/nanxiao/b
-* 2    process 1590      /home/nanxiao/b
-  1    process 1586      /home/nanxiao/a
-(gdb) clone-inferior -copies 1
-Added inferior 4.
-(gdb) i inferiors
-  Num  Description       Executable
-  4    &lt;null&gt;            /home/nanxiao/b
-  3    &lt;null&gt;            /home/nanxiao/b
-* 2    process 1590      /home/nanxiao/b
-  1    process 1586      /home/nanxiao/a
-</code></pre><p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x53C8;&#x591A;&#x4E86;&#x4E00;&#x500B;<code>b</code>&#x7A0B;&#x5E8F;&#x3002;</p>
-<p>&#x53C3;&#x898B;<a href="https://sourceware.org/gdb/onlinedocs/gdb/Inferiors-and-Programs.html" target="_blank">gdb&#x624B;&#x518A;</a>.</p>
-<h2 id="%E8%B2%A2%E7%8D%BB%E8%80%85">&#x8CA2;&#x737B;&#x8005;</h2>
-<p>nanxiao</p>
+all: hello
+hello: $(OBJS)
+    $(CC) $(CFLAGS) &#x2013;o hello $(OBJS)
+.c.o:
+    $(CC) &#x2013;c $&lt;
+clean:
+    rm &#x2013;rf hello *.o
+</code></pre>
 
                     
                     </section>
@@ -13036,10 +13147,10 @@ Added inferior 4.
         </div>
 
         
-        <a href="../100_gdb_tips/use-$_thread-variable.html" class="navigation navigation-prev " aria-label="Previous page: 使用“$_thread”變量"><i class="fa fa-angle-left"></i></a>
+        <a href="../gunmake/linux_cbian_yi_ji_jing_6001_dong_tai_lian_jie_ku_b.html" class="navigation navigation-prev " aria-label="Previous page: Linux C++編譯及 靜態/動態 鏈接庫 筆記"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../100_gdb_tips/maint-info-program-space.html" class="navigation navigation-next " aria-label="Next page: 打印程序進程空間信息"><i class="fa fa-angle-right"></i></a>
+        <a href="../22/index.html" class="navigation navigation-next " aria-label="Next page: [轉]國王的耳朵是驢耳朵"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

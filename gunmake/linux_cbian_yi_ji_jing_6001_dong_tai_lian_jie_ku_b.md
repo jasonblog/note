@@ -1,62 +1,62 @@
-# Linux C++编译及 静态/动态 链接库 笔记
+# Linux C++編譯及 靜態/動態 鏈接庫 筆記
 
 
-##1、C++文件的编译 
--E  预处理， 将#include的文件展开等  <br>
--S 生成汇编文件  <br>
+##1、C++文件的編譯 
+-E  預處理， 將#include的文件展開等  <br>
+-S 生成彙編文件  <br>
 -c  生成object文件  <br>
-gcc XX.o  -o XX   链接，，输出文件名为XX  <br>
+gcc XX.o  -o XX   鏈接，，輸出文件名為XX  <br>
 
--O1,  -O2,  -O3  优化代码 ，-O3级别最高，   -O1为默认  <br>
--g 及   -ggdb  等，，生成调试信息  <br>
+-O1,  -O2,  -O3  優化代碼 ，-O3級別最高，   -O1為默認  <br>
+-g 及   -ggdb  等，，生成調試信息  <br>
 
--fPIC 及 -fpic ，  生成动态链接库时使用，， 前者在多平台通用，但程序运行速度慢  <br>
+-fPIC 及 -fpic ，  生成動態鏈接庫時使用，， 前者在多平臺通用，但程序運行速度慢  <br>
 
--M ,  -MM,   输出 文件的依赖关系(比如各种.h)文件（写makefile时可以使用）  <br>
+-M ,  -MM,   輸出 文件的依賴關係(比如各種.h)文件（寫makefile時可以使用）  <br>
 
--std=c++14（或-std=gnu++14）  -std=c++11（或-std=gnu++11）启用 <br>
+-std=c++14（或-std=gnu++14）  -std=c++11（或-std=gnu++11）啟用 <br>
 
-c++14/11的信息，其中使用gnu++14会启用gcc的扩展  ： <br>
+c++14/11的信息，其中使用gnu++14會啟用gcc的擴展  ： <br>
 https://gcc.gnu.org/projects/cxx0x.html <br>
 https://gcc.gnu.org/projects/cxx1y.html <br>
 
 
-一般直接用-c 生成object文件，再多个object文件链接一下即可  <br>
-或者不指定参数，直接从 多个.cpp 文件生成可执行文件 
+一般直接用-c 生成object文件，再多個object文件鏈接一下即可  <br>
+或者不指定參數，直接從 多個.cpp 文件生成可執行文件 
 
--Wall  输出尽可能多的警告  <br>
+-Wall  輸出儘可能多的警告  <br>
 
--I 头文件路径  <br>
--L 库文件路径（静态、动态）  <br>
--l 库文件（无需包含扩展名.so 或.a ）（但是我自己在Ubuntu14.04.1中直接使用XX.so即可，而不是-lXX.so） 
+-I 頭文件路徑  <br>
+-L 庫文件路徑（靜態、動態）  <br>
+-l 庫文件（無需包含擴展名.so 或.a ）（但是我自己在Ubuntu14.04.1中直接使用XX.so即可，而不是-lXX.so） 
 
-##2、静态链接库、动态链接库的编译 
+##2、靜態鏈接庫、動態鏈接庫的編譯 
 Program Library HOWTO：http://www.dwheeler.com/program-library/ <br>
 
 C++ dlopen mini HOWTOhttp://www.tldp.org/HOWTO/C++-dlopen/ <br>
-这篇文章中讲了由于C++的Name Mangling，，需要 extern "C"等封装才能正常使用`fopen函数调用C++函数的问题` <br>
+這篇文章中講了由於C++的Name Mangling，，需要 extern "C"等封裝才能正常使用`fopen函數調用C++函數的問題` <br>
 
-很多网上的教程会用到 -l 选项指定库文件！！！但是我试的时候直接指定库文件全名就行！！！（具体见makefile内容） 
+很多網上的教程會用到 -l 選項指定庫文件！！！但是我試的時候直接指定庫文件全名就行！！！（具體見makefile內容） 
 
 
-nm  查看exe、.o、.so、 .a文件中的符号信息，比如C++函数名被编译器mangle之后的名称 
+nm  查看exe、.o、.so、 .a文件中的符號信息，比如C++函數名被編譯器mangle之後的名稱 
 
-nm XX.so | c++filt  可以查看函数的原始名称 <br>
-关于mangling更多请参见http://blog.csdn.net/chenxintao/article/details/7585483 
+nm XX.so | c++filt  可以查看函數的原始名稱 <br>
+關於mangling更多請參見http://blog.csdn.net/chenxintao/article/details/7585483 
 
-关于库文件搜索路径的问题，没详细实验，在Ubuntu下貌似当前路径也可以~ 这个，用到再试了 
-只是简单记一下`LD_LIBRARY_PATH` 的修改方式：http://baike.baidu.com/view/1270749.htm 
+關於庫文件搜索路徑的問題，沒詳細實驗，在Ubuntu下貌似當前路徑也可以~ 這個，用到再試了 
+只是簡單記一下`LD_LIBRARY_PATH` 的修改方式：http://baike.baidu.com/view/1270749.htm 
 
-不多说了，上代码（完整代码见附件）： 
+不多說了，上代碼（完整代碼見附件）： 
 
-###库文件： 
-Sharedlib.h代码
+###庫文件： 
+Sharedlib.h代碼
 ```c
 #pragma once  
 int plus(int a,int b);  
 ```
 
-Sharedlib.cpp代码 
+Sharedlib.cpp代碼 
 
 ```c
 #include "sharedLib.h"  
@@ -65,8 +65,8 @@ int plus(int a,int b){
 }  
 ```
 
-###采用静态链接库： 
-Main_link_a.cpp代码
+###採用靜態鏈接庫： 
+Main_link_a.cpp代碼
 
 ```cpp
 #include "sharedLib.h"  
@@ -80,9 +80,9 @@ int main(void)
 }  
 ```
 
-###采用动态链接库（源文件和采用静态链接库完全相同）： 
+###採用動態鏈接庫（源文件和採用靜態鏈接庫完全相同）： 
 
-Main_link_so.cpp代码
+Main_link_so.cpp代碼
 ```cpp
 #include "sharedLib.h"  
 #include <iostream>  
@@ -94,9 +94,9 @@ int main(void)
     std::cout<<"The sum is "<<p<<std::endl<<std::endl;  
 }  
 ```
-### 采用动态加载.so文件(fopen)： 
+### 採用動態加載.so文件(fopen)： 
 
-Main_dynamicload.cpp代码
+Main_dynamicload.cpp代碼
 
 ```cpp
 #include <iostream>
@@ -146,9 +146,9 @@ int main(void)
 ```
 
 ###makefile:  
-看不懂的搜下 “跟我一起写makefile”，，我也是简单学了一下而已 
-终端内输入  make runall就可以执行程序了 
-Makefile代码 
+看不懂的搜下 “跟我一起寫makefile”，，我也是簡單學了一下而已 
+終端內輸入  make runall就可以執行程序了 
+Makefile代碼 
 
 ```sh
 all: main_link_a main_link_so main_dynamicLoad  

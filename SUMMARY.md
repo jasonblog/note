@@ -410,6 +410,7 @@
    * [高級Makefile技巧](gunmake/gao_ji_makefile_ji_qiao.md)
    * [Makefile條件編譯debug版和release版](gunmake/makefiletiao_jian_bian_yi_debug_ban_he_release_ban.md)
    * [Makefile範例教學](gunmake/makefilefan_li_jiao_xue.md)
+   * Linux C++编译及 静态/动态 链接库 笔记
 * [[轉]國王的耳朵是驢耳朵](22/README.md)
    * [Linker script初探 - GNU linker ld手冊略讀](22/221.md)
    * [GNU ld初探](22/222.md)

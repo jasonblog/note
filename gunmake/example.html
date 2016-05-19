@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="19.1" data-basepath=".." data-revision="Thu May 19 2016 22:01:09 GMT+0800 (CST)">
+    <div class="book" data-level="19.1" data-basepath=".." data-revision="Thu May 19 2016 23:16:11 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -6439,6 +6439,13 @@
                         
                         Makefile的基本結構
                     </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="19.16" >
+            
+            <span><b>19.16.</b> 深入學習Make命令和Makefile</span>
             
             
         </li>
@@ -12976,6 +12983,67 @@ IFBP: <span class="hljs-variable">${IFBP2D_OBJS}</span>
 
 clean:
     rm <span class="hljs-operator">-f</span> *.o <span class="hljs-number">0505</span> <span class="hljs-number">2</span>DMI IFBP2D IFBP
+</code></pre>
+<h2 id="%E7%B7%A8%E8%AD%AF%E5%85%A9%E5%80%8Bso%E6%AA%94%E6%A1%88%E6%9C%80%E5%BE%8C%E7%B7%A8%E8%AD%AF%E6%88%90%E5%9F%B7%E8%A1%8C%E6%AA%94">&#x7DE8;&#x8B6F;&#x5169;&#x500B;so&#x6A94;&#x6848;&#x6700;&#x5F8C;&#x7DE8;&#x8B6F;&#x6210;&#x57F7;&#x884C;&#x6A94;</h2>
+<ul>
+<li>add</li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b)</span>
+</span>{
+    <span class="hljs-keyword">return</span> a + b;
+}
+</code></pre>
+<ul>
+<li>sub.c</li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">sub</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b)</span> 
+</span>{
+    <span class="hljs-keyword">return</span> a - b;
+}
+</code></pre>
+<ul>
+<li>main.c</li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+
+<span class="hljs-keyword">int</span> a = <span class="hljs-number">100</span>;
+<span class="hljs-keyword">int</span> b = <span class="hljs-number">200</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-keyword">int</span>,<span class="hljs-keyword">int</span>)</span></span>;
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">sub</span><span class="hljs-params">(<span class="hljs-keyword">int</span>,<span class="hljs-keyword">int</span>)</span></span>;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>* argv[])</span>
+</span>{
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;add=%d\n&quot;</span>, add(a, b));
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;sub=%d\n&quot;</span>, sub(a, b));
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<ul>
+<li><p>Makefile</p>
+</li>
+<li><p>all: add.so sub.so main  &#x6709;&#x9806;&#x5E8F;&#x554F;&#x984C;&#x8981;&#x5148;&#x7DE8;&#x8B6F;&#x51FA;so&#x6A94;&#x6848;&#x5728;main , &#x6240;&#x4EE5;main&#x64FA;&#x6700;&#x5F8C;</p>
+</li>
+</ul>
+<pre><code class="lang-c">CC = gcc
+SOFLAGS = -shared -fPIC
+LDFLAGS = -lm
+CFLAGS = -Wall -pedantic -ggdb3 -O0 -<span class="hljs-built_in">std</span>=c99 -lpthread
+
+all: add.so sub.so main
+
+main:
+    ${CC}  -o main  main.c -L./ -ladd -L./ -lsub ${CFLAGS} ${LDFLAGS} 
+
+add.so: add.c
+    $(CC) ${SOFLAGS} -o libadd.so $? 
+
+sub.so: sub.c
+    $(CC) ${SOFLAGS} -o libsub.so $? 
+
+.PHONY: clean
+clean:
+    rm -f main *.so *.o
 </code></pre>
 
                     

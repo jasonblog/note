@@ -583,7 +583,7 @@
        * [gcc中-pthread和-lpthread的區別](gcc/gcc4e2d-_pthread_548c-_lpthread_de_qu_bie.md)
        * [memory layout C++ objects for g++](gcc/g++_fdump-class-hierarchy_output.md)
        * [gcc -E -P](gcc/gcc_-e_-p.md)
-       * g++參數介紹
+       * [g++參數介紹](gcc/gcan_shu_jie_shao.md)
    * [Clang](gcc/clang.md)
        * [memory layout C++ objects for clang](gcc/memory_layout_c++_objects_for_clang.md)
 * [FreeRTOS](freertos/freertos.md)

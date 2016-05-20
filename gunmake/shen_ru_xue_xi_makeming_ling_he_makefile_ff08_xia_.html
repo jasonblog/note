@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>buildroot install | Jason note</title>
+        <title>深入學習Make命令和Makefile（下） | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../toolchain/173.html" />
+    <link rel="next" href="../22/index.html" />
     
     
-    <link rel="prev" href="../toolchain/171.html" />
+    <link rel="prev" href="../gunmake/shen_ru_xue_xi_makeming_ling_he_makefile.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="15.2" data-basepath=".." data-revision="Fri May 20 2016 21:51:51 GMT+0800 (CST)">
+    <div class="book" data-level="19.17" data-basepath=".." data-revision="Fri May 20 2016 21:51:51 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -5213,7 +5213,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="15.2" data-path="toolchain/172.html">
+        <li class="chapter " data-level="15.2" data-path="toolchain/172.html">
             
                 
                     <a href="../toolchain/172.html">
@@ -6458,7 +6458,7 @@
             
         </li>
     
-        <li class="chapter " data-level="19.17" data-path="gunmake/shen_ru_xue_xi_makeming_ling_he_makefile_ff08_xia_.html">
+        <li class="chapter active" data-level="19.17" data-path="gunmake/shen_ru_xue_xi_makeming_ling_he_makefile_ff08_xia_.html">
             
                 
                     <a href="../gunmake/shen_ru_xue_xi_makeming_ling_he_makefile_ff08_xia_.html">
@@ -12948,26 +12948,220 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="buildroot-install">buildroot install</h1>
-<p>buildroot is a tool set. It contains : bootloader,busybox,kernel etc.</p>
-<p><a href="http://en.wikipedia.org/wiki/Buildroot" target="_blank">wiki</a></p>
-<h3 id="pre-installation">Pre-installation</h3>
-<pre><code>sudo apt-get install libncurses-dev
-</code></pre><h3 id="install">install</h3>
-<pre><code>git clone git://git.buildroot.net/buildroot
-cd buildroot
-make menuconfig
-</code></pre><ul>
-<li>Target Options -&gt; Target Architecture(AArch64)</li>
-<li>Toolchain -&gt; Toolchain type (External toolchain)</li>
-<li>Toolchain -&gt; Toolchain (Linaro AArch64 14.02)</li>
-<li>System configuration -&gt; Run a getty (login prompt) after boot (BR2_TARGET_GENERIC_GETTY)</li>
-<li>System configuration -&gt; getty options -&gt; TTY Port (ttyAMA0) (BR2_TARGET_GENERIC_GETTY_PORT)</li>
-<li>Target Packages -&gt; Show packages that are also provided by busybox (BR2_PACKAGE_BUSYBOX_SHOW_OTHERS)</li>
-<li>Filesystem images -&gt; cpio the root filesystem (for use as an initial RAM filesystem) (BR2_TARGET_ROOTFS_CPIO)</li>
-</ul>
-<pre><code>make
-</code></pre><p><em>note: getty is a Unix program, it provides login function. <a href="http://en.wikipedia.org/wiki/Getty_(Unix" target="_blank">wiki</a>)</em></p>
+                        <h1 id="%E6%B7%B1%E5%85%A5%E5%AD%B8%E7%BF%92make%E5%91%BD%E4%BB%A4%E5%92%8Cmakefile%EF%BC%88%E4%B8%8B%EF%BC%89">&#x6DF1;&#x5165;&#x5B78;&#x7FD2;Make&#x547D;&#x4EE4;&#x548C;Makefile&#xFF08;&#x4E0B;&#xFF09;</h1>
+<p>make&#x662F;Linux&#x4E0B;&#x7684;&#x4E00;&#x6B3E;&#x7A0B;&#x5E8F;&#x81EA;&#x52D5;&#x7DAD;&#x8B77;&#x5DE5;&#x5177;&#xFF0C;&#x914D;&#x5408;makefile&#x7684;&#x4F7F;&#x7528;&#xFF0C;&#x5C31;&#x80FD;&#x5920;&#x6839;&#x64DA;&#x7A0B;&#x5E8F;&#x4E2D;&#x6A21;&#x584A;&#x7684;&#x4FEE;&#x6539;&#x60C5;&#x6CC1;&#xFF0C;&#x81EA;&#x52D5;&#x5224;&#x65B7;&#x61C9;&#x8A72;&#x5C0D;&#x90A3;&#x4E9B;&#x6A21;&#x584A;&#x91CD;&#x65B0;&#x7DE8;&#x8B6F;&#xFF0C;&#x5F9E;&#x800C;&#x4FDD;&#x8B49;&#x8EDF;&#x4EF6;&#x662F;&#x7531;&#x6700;&#x65B0;&#x7684;&#x6A21;&#x584A;&#x69CB;&#x6210;&#x3002; 
+&#x672C;&#x6587;&#x5206;&#x70BA;&#x4E0A;&#x4E0B;&#x5169;&#x90E8;&#x5206;&#xFF0C;&#x6211;&#x5011;&#x5728;&#x4E0A;&#x4E00;&#x7BC7;&#x6587;&#x7AE0;&#x4E2D;&#x5206;&#x5225;&#x4ECB;&#x7D39;&#x4E86;make&#x548C;makefile&#x7684;&#x4E00;&#x4E9B;&#x57FA;&#x672C;&#x7528;&#x6CD5;&#xFF0C;&#x5728;&#x672C;&#x6587;&#x4E2D;&#xFF0C;&#x6211;&#x5011;&#x6703;&#x5C0D;make&#x548C;makefile&#x7684;&#x529F;&#x80FD;&#x505A;&#x9032;&#x4E00;&#x6B65;&#x7684;&#x4ECB;&#x7D39;&#x3002;</p>
+<h2 id="%E4%B8%80%E3%80%81%E6%A7%8B%E5%BB%BA%E5%A4%9A%E5%80%8B%E7%9B%AE%E6%A8%99">&#x4E00;&#x3001;&#x69CB;&#x5EFA;&#x591A;&#x500B;&#x76EE;&#x6A19;</h2>
+<p>&#x6709;&#x6642;&#x5019;&#xFF0C;&#x6211;&#x5011;&#x60F3;&#x8981;&#x5728;&#x4E00;&#x500B;makefile&#x4E2D;&#x751F;&#x6210;&#x591A;&#x500B;&#x55AE;&#x7368;&#x7684;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#xFF0C;&#x6216;&#x8005;&#x5C07;&#x591A;&#x500B;&#x547D;&#x4EE4;&#x653E;&#x5728;&#x4E00;&#x8D77;&#xFF0C;&#x6BD4;&#x5982;&#xFF0C;&#x5728;&#x4E0B;&#x9762;&#x7684;&#x793A;&#x4F8B;mymakefile3&#x4E2D;&#x6211;&#x5011;&#x5C07;&#x6DFB;&#x52A0;&#x4E00;&#x500B;clean &#x9078;&#x9805;&#x4F86;&#x6E05;&#x9664;&#x4E0D;&#x9700;&#x8981;&#x7684;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#xFF0C;&#x7136;&#x5F8C;&#x7528;install&#x9078;&#x9805;&#x5C07;&#x751F;&#x6210;&#x7684;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x79FB;&#x52D5;&#x5230;&#x53E6;&#x4E00;&#x500B;&#x76EE;&#x9304;&#x4E2D;&#x53BB;&#x3002;&#x9019;&#x500B;makefile&#x8DDF;&#x524D;&#x9762;&#x7684;mymakefile&#x8F03;&#x70BA;&#x76F8;&#x4F3C;&#xFF0C;&#x4E0D;&#x540C;&#x4E4B;&#x8655;&#x7B46;&#x8005;&#x7528;&#x9ED1;&#x9AD4;&#x52A0;&#x4EE5;&#x6A19;&#x8B58;&#xFF1A;</p>
+<pre><code class="lang-sh">all: main
+<span class="hljs-comment"># &#x4F7F;&#x7528;&#x7684;&#x7DE8;&#x8B6F;&#x5668;</span>
+CC = gcc
+<span class="hljs-comment"># &#x5B89;&#x88DD;&#x4F4D;&#x7F6E;</span>
+INSTDIR = /usr/<span class="hljs-built_in">local</span>/bin
+<span class="hljs-comment"># include&#x6587;&#x4EF6;&#x6240;&#x5728;&#x4F4D;&#x7F6E;</span>
+INCLUDE = .
+<span class="hljs-comment"># &#x958B;&#x767C;&#x904E;&#x7A0B;&#x4E2D;&#x6240;&#x7528;&#x7684;&#x9078;&#x9805;</span>
+CFLAGS = -g -Wall &#x2013;ansi
+<span class="hljs-comment"># &#x767C;&#x884C;&#x6642;&#x7528;&#x7684;&#x9078;&#x9805;</span>
+<span class="hljs-comment"># CFLAGS = -O -Wall &#x2013;ansi</span>
+
+main: main.o f1.o f2.o
+    $(CC) -o main main.o f1.o f2.o
+main.o: main.c def1.h
+    $(CC) -I$(INCLUDE) $(CFLAGS) -c main.c
+f1.o: f1.c def1.h def2.h
+    $(CC) -I$(INCLUDE) $(CFLAGS) -c f1.c
+f2.o: f2.c def2.h def3.h
+    $(CC) -I$(INCLUDE) $(CFLAGS) -c f2.c
+
+clean:
+    -rm main.o f1.o f2.o
+install: main
+@<span class="hljs-keyword">if</span> [ <span class="hljs-operator">-d</span> $(INSTDIR) ]; \
+<span class="hljs-keyword">then</span> \
+cp main $(INSTDIR);\
+chmod a+x $(INSTDIR)/main;\
+chmod og-w $(INSTDIR)/main;\
+<span class="hljs-built_in">echo</span> &#x201C;Installed <span class="hljs-keyword">in</span> $(INSTDIR)&#x201C;;\
+<span class="hljs-keyword">else</span> \
+<span class="hljs-built_in">echo</span> &#x201C;Sorry, $(INSTDIR) does not exist&#x201D;;\
+<span class="hljs-keyword">fi</span>
+</code></pre>
+<p>&#x5728;&#x9019;&#x500B;makefile&#x4E2D;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C;&#x96D6;&#x7136;&#x9019;&#x88E1;&#x6709;&#x4E00;&#x500B;&#x7279;&#x6B8A;&#x7684;&#x76EE;&#x6A19;all&#xFF0C;&#x4F46;&#x662F;&#x6700;&#x7D42;&#x9084;&#x662F;&#x5C07;main&#x4F5C;&#x70BA;&#x76EE;&#x6A19;&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x5982;&#x679C;&#x57F7;&#x884C;make&#x547D;&#x4EE4;&#x6642;&#x6C92;&#x6709;&#x5728;&#x547D;&#x4EE4;&#x884C;&#x4E2D;&#x7D66;&#x51FA;&#x4E00;&#x500B;&#x7279;&#x5B9A;&#x76EE;&#x6A19;&#x7684;&#x8A71;&#xFF0C;&#x4ECD;&#x7136;&#x6703;&#x7DE8;&#x8B6F;&#x9023;&#x63A5;main&#x7A0B;&#x5E8F;&#x3002; </p>
+<p>&#x5176;&#x6B21;&#x8981;&#x6CE8;&#x610F;&#x5F8C;&#x9762;&#x7684;&#x5169;&#x500B;&#x76EE;&#x6A19;&#xFF1A;clean&#x548C;install&#x3002;&#x76EE;&#x6A19;clean&#x6C92;&#x6709;&#x4F9D;&#x8CF4;&#x6A21;&#x584A;&#xFF0C;&#x56E0;&#x70BA;&#x6C92;&#x6709;&#x6642;&#x9593;&#x6A19;&#x8A18;&#x53EF;&#x4F9B;&#x6BD4;&#x8F03;&#xFF0C;&#x6240;&#x4EE5;&#x5B83;&#x7E3D;&#x88AB;&#x57F7;&#x884C;&#xFF1B;&#x5B83;&#x7684;&#x5BE6;&#x969B;&#x610F;&#x5716;&#x662F;&#x5F15;&#x51FA;&#x5F8C;&#x9762;&#x7684;rm&#x547D;&#x4EE4;&#x4F86;&#x522A;&#x9664;&#x67D0;&#x4E9B;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#x3002;&#x6211;&#x5011;&#x770B;&#x5230;rm&#x547D;&#x4EE4;&#x4EE5;-&#x958B;&#x982D;&#xFF0C;&#x9019;&#x6642;&#x5373;&#x4F7F;&#x8868;&#x793A;make&#x5C07;&#x5FFD;&#x7565;&#x547D;&#x4EE4;&#x7D50;&#x679C;&#xFF0C;&#x6240;&#x4EE5;&#x5373;&#x4F7F;&#x6C92;&#x6709;&#x76EE;&#x6A19;&#x4F9B;rm&#x547D;&#x4EE4;&#x522A;&#x9664;&#x800C;&#x8FD4;&#x56DE;&#x932F;&#x8AA4;&#x6642;&#xFF0C;make clean&#x4F9D;&#x7136;&#x7E7C;&#x7E8C;&#x5411;&#x4E0B;&#x57F7;&#x884C;&#x3002; </p>
+<p>&#x63A5;&#x4E0B;&#x4F86;&#x7684;&#x76EE;&#x6A19;install&#x4F9D;&#x8CF4;&#x65BC;main&#xFF0C;&#x6240;&#x4EE5;make&#x77E5;&#x9053;&#x5FC5;&#x9808;&#x5728;&#x57F7;&#x884C;&#x5B89;&#x88DD;&#x547D;&#x4EE4;&#x524D;&#x5148;&#x5EFA;&#x7ACB;main&#x3002;&#x7528;&#x65BC;&#x5B89;&#x88DD;&#x7684;&#x6307;&#x4EE4;&#x7531;&#x4E00;&#x4E9B;shell&#x547D;&#x4EE4;&#x7D44;&#x6210;&#x3002; </p>
+<p>&#x56E0;&#x70BA;make&#x8ABF;&#x7528;shell&#x4F86;&#x57F7;&#x884C;&#x898F;&#x5247;&#xFF0C;&#x4E26;&#x4E14;&#x70BA;&#x6BCF;&#x689D;&#x898F;&#x5247;&#x751F;&#x6210;&#x4E00;&#x500B;&#x65B0;&#x7684;shell&#xFF0C;&#x6240;&#x4EE5;&#x8981;&#x7528;&#x4E00;&#x500B;shell&#x4F86;&#x57F7;&#x884C;&#x9019;&#x4E9B;&#x547D;&#x4EE4;&#x7684;&#x8A71;&#xFF0C;&#x5FC5;&#x9808;&#x6DFB;&#x52A0;&#x53CD;&#x659C;&#x69D3;&#xFF0C;&#x4EE5;&#x4F7F;&#x6240;&#x6709;&#x547D;&#x4EE4;&#x4F4D;&#x65BC;&#x540C;&#x4E00;&#x500B;&#x908F;&#x8F2F;&#x884C;&#x4E0A;&#x3002;&#x9019;&#x689D;&#x547D;&#x4EE4;&#x7528;@&#x958B;&#x982D;&#xFF0C;&#x8868;&#x793A;&#x5728;&#x57F7;&#x884C;&#x898F;&#x5247;&#x524D;&#x4E0D;&#x6703;&#x5411;&#x6A19;&#x6E96;&#x8F38;&#x51FA;&#x6253;&#x5370;&#x547D;&#x4EE4;&#x3002; 
+&#x70BA;&#x4E86;&#x5B89;&#x88DD;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#xFF0C;&#x76EE;&#x6A19;install&#x6703;&#x4E00;&#x689D;&#x63A5;&#x4E00;&#x689D;&#x5730;&#x57F7;&#x884C;&#x82E5;&#x5E72;&#x547D;&#x4EE4;&#xFF0C;&#x4E26;&#x4E14;&#x57F7;&#x884C;&#x4E0B;&#x4E00;&#x500B;&#x4E4B;&#x524D;&#xFF0C;&#x4E0D;&#x6703;&#x6AA2;&#x67E5;&#x4E0A;&#x4E00;&#x689D;&#x547D;&#x4EE4;&#x662F;&#x5426;&#x6210;&#x529F;&#x3002;&#x82E5;&#x60F3;&#x53EA;&#x6709;&#x7576;&#x524D;&#x9762;&#x7684;&#x547D;&#x4EE4;&#x53D6;&#x5F97;&#x6210;&#x529F;&#x6642;&#xFF0C;&#x96A8;&#x5F8C;&#x7684;&#x547D;&#x4EE4;&#x624D;&#x5F97;&#x4EE5;&#x57F7;&#x884C;&#x7684;&#x8A71;&#xFF0C;&#x53EF;&#x4EE5;&#x5728;&#x547D;&#x4EE4;&#x4E2D;&#x52A0;&#x5165;&amp;&amp;&#xFF0C;&#x5982;&#x4E0B;&#x6240;&#x793A;&#xFF1A;</p>
+<pre><code class="lang-sh">@<span class="hljs-keyword">if</span> [ <span class="hljs-operator">-d</span> $(INSTDIR) ]; \
+<span class="hljs-keyword">then</span> \
+cp main $(INSTDIR) &amp;&amp;\
+chmod a+x $(INSTDIR)/main &amp;&amp; \
+chmod og-w $(INSTDIR/main &amp;&amp; \
+<span class="hljs-built_in">echo</span> &#x201C;Installed <span class="hljs-keyword">in</span> $(INSTDIR)&#x201C; ;\
+<span class="hljs-keyword">else</span> \
+<span class="hljs-built_in">echo</span> &#x201C;Sorry, $(INSTDIR) does not exist&#x201D; ; <span class="hljs-literal">false</span> ; \
+<span class="hljs-keyword">fi</span>
+</code></pre>
+<p>&#x9019;&#x662F;shell&#x7684;&#x201C;&#x8207;&#x201D;&#x6307;&#x4EE4;&#xFF0C;&#x53EA;&#x6709;&#x7576;&#x5728;&#x524D;&#x7684;&#x547D;&#x4EE4;&#x6210;&#x529F;&#x6642;&#x96A8;&#x5F8C;&#x7684;&#x547D;&#x4EE4;&#x624D;&#x88AB;&#x57F7;&#x884C;&#x3002;&#x9019;&#x88E1;&#x4E0D;&#x5FC5;&#x95DC;&#x5FC3;&#x524D;&#x9762;&#x547D;&#x4EE4;&#x662F;&#x5426;&#x53D6;&#x5F97;&#x6210;&#x529F;&#xFF0C;&#x53EA;&#x9700;&#x6CE8;&#x610F;&#x9019;&#x7A2E;&#x7528;&#x6CD5;&#x5C31;&#x53EF;&#x4EE5;&#x4E86;&#x3002; </p>
+<p>&#x8981;&#x60F3;&#x5728;/usr/local/bin&#x76EE;&#x9304;&#x5B89;&#x88DD;&#x65B0;&#x547D;&#x4EE4;&#x5FC5;&#x9808;&#x5177;&#x6709;&#x7279;&#x6B0A;&#xFF0C;&#x6240;&#x4EE5;&#x8ABF;&#x7528;make install&#x547D;&#x4EE4;&#x4E4B;&#x524D;&#xFF0C;&#x53EF;&#x4EE5;&#x8B93;Makefile&#x4F7F;&#x7528;&#x4E00;&#x500B;&#x4E0D;&#x540C;&#x7684;&#x5B89;&#x88DD;&#x76EE;&#x9304;&#xFF0C;&#x6216;&#x8005;&#x4FEE;&#x6539;&#x8A72;&#x76EE;&#x9304;&#x7684;&#x6B0A;&#x9650;&#xFF0C;&#x6216;&#x5207;&#x63DB;&#x5230;root&#x7528;&#x6236;&#x3002;&#x5982;&#x4E0B;&#x6240;&#x793A;&#xFF1A;</p>
+<pre><code class="lang-sh">$ rm *.o main
+$ make <span class="hljs-operator">-f</span> Mymakefile3
+gcc -I. -g -Wall -ansi -c main.c
+gcc -I. -g -Wall -ansi -c f1.c
+gcc -I. -g -Wall -ansi -c f2.c
+gcc -o main main.o f1.o f2.o
+$ make <span class="hljs-operator">-f</span> Mymakefile3
+make: Nothing to be <span class="hljs-keyword">done</span> <span class="hljs-keyword">for</span> &#x2018;all&#x2019;.
+$ rm main
+$ make <span class="hljs-operator">-f</span> Mymakefile3 install
+gcc -o main main.o f1.o f2.o
+Installed <span class="hljs-keyword">in</span> /usr/<span class="hljs-built_in">local</span>/bin
+$ make <span class="hljs-operator">-f</span> Mymakefile3 clean
+rm main.o f1.o f2.o
+$
+</code></pre>
+<p>&#x8B93;&#x6211;&#x5011;&#x5C0D;&#x6B64;&#x4F5C;&#x4E00;&#x7C21;&#x55AE;&#x4ECB;&#x7D39;&#xFF0C;&#x9996;&#x5148;&#x522A;&#x9664;main&#x548C;&#x6240;&#x6709;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#x7A0B;&#x5E8F;&#xFF0C;&#x7531;&#x65BC;&#x5C07;all&#x4F5C;&#x70BA;&#x76EE;&#x6A19;&#xFF0C;&#x6240;&#x4EE5;make&#x547D;&#x4EE4;&#x6703;&#x91CD;&#x65B0;&#x7DE8;&#x8B6F;main&#x3002;&#x7576;&#x6211;&#x5011;&#x518D;&#x6B21;&#x57F7;&#x884C;make&#x547D;&#x4EE4;&#x6642;&#xFF0C;&#x7531;&#x65BC;main&#x662F;&#x6700;&#x65B0;&#x7684;&#xFF0C;&#x6240;&#x4EE5;make&#x4EC0;&#x9EBC;&#x4E5F;&#x4E0D;&#x505A;&#x3002;&#x4E4B;&#x5F8C;&#xFF0C;&#x6211;&#x5011;&#x522A;&#x9664;main&#x7A0B;&#x5E8F;&#x6587;&#x4EF6;&#xFF0C;&#x4E26;&#x57F7;&#x884C;make install&#xFF0C;&#x9019;&#x6703;&#x91CD;&#x65B0;&#x5EFA;&#x7ACB;&#x4E8C;&#x9032;&#x5236;&#x6587;&#x4EF6;main&#x4E26;&#x5C07;&#x5176;&#x8907;&#x88FD;&#x5230;&#x5B89;&#x88DD;&#x76EE;&#x9304;&#x3002;&#x6700;&#x5F8C;&#xFF0C;&#x904B;&#x884C;make clean&#x547D;&#x4EE4;&#xFF0C;&#x4F86;&#x522A;&#x53BB;&#x6240;&#x6709;&#x76EE;&#x6A19;&#x7A0B;&#x5E8F;&#x3002;</p>
+<h2 id="%E4%BA%8C%E3%80%81%E5%85%A7%E9%83%A8%E8%A6%8F%E5%89%87">&#x4E8C;&#x3001;&#x5167;&#x90E8;&#x898F;&#x5247;</h2>
+<p>&#x8FC4;&#x4ECA;&#x70BA;&#x6B62;&#xFF0C;&#x6211;&#x5011;&#x5DF2;&#x7D93;&#x80FD;&#x5920;&#x5728;makefile&#x4E2D;&#x7D66;&#x51FA;&#x76F8;&#x61C9;&#x7684;&#x898F;&#x5247;&#x4F86;&#x6307;&#x51FA;&#x5177;&#x9AD4;&#x7684;&#x8655;&#x7406;&#x904E;&#x7A0B;&#x3002;&#x5BE6;&#x969B;&#x4E0A;&#xFF0C;&#x9664;&#x4E86;&#x6211;&#x5011;&#x986F;&#x5F0F;&#x7D66;&#x51FA;&#x7684;&#x898F;&#x5247;&#x5916;&#xFF0C;make&#x9084;&#x5177;&#x6709;&#x8A31;&#x591A;&#x5167;&#x90E8;&#x898F;&#x5247;&#xFF0C;&#x9019;&#x4E9B;&#x898F;&#x5247;&#x662F;&#x7531;&#x9810;&#x5148;&#x898F;&#x5B9A;&#x7684;&#x76EE;&#x6A19;&#x3001;&#x4F9D;&#x8CF4;&#x6587;&#x4EF6;&#x53CA;&#x5176;&#x547D;&#x4EE4;&#x7D44;&#x6210;&#x7684;&#x76F8;&#x95DC;&#x884C;&#x3002;&#x5728;&#x5167;&#x90E8;&#x898F;&#x5247;&#x7684;&#x5E6B;&#x52A9;&#x4E0B;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;makefile&#x8B8A;&#x5F97;&#x66F4;&#x52A0;&#x7C21;&#x6F54;&#xFF0C;&#x5C24;&#x5176;&#x662F;&#x5728;&#x5177;&#x6709;&#x8A31;&#x591A;&#x6E90;&#x6587;&#x4EF6;&#x7684;&#x6642;&#x5019;&#x3002;&#x73FE;&#x5728;&#x4EE5;&#x5BE6;&#x4F8B;&#x52A0;&#x4EE5;&#x8AAA;&#x660E;&#xFF0C;&#x9996;&#x5148;&#x5EFA;&#x7ACB;&#x4E00;&#x500B;&#x540D;&#x70BA;foo.c&#x7684;C&#x7A0B;&#x5E8F;&#x6E90;&#x6587;&#x4EF6;&#xFF0C;&#x6587;&#x4EF6;&#x5167;&#x5BB9;&#x5982;&#x4E0B;&#x6240;&#x793A;&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-built_in">printf</span>(&#x201C;Hello World\n&#x201D;);
+    <span class="hljs-built_in">exit</span>(EXIT_SUCCESS);
+}
+</code></pre>
+<p>&#x73FE;&#x5728;&#x8B93;&#x6211;&#x5011;&#x7528;make&#x547D;&#x4EE4;&#x4F86;&#x7DE8;&#x8B6F;&#x5B83;&#xFF1A;</p>
+<pre><code class="lang-c">$ make foo
+cc foo.c -o foo
+$
+</code></pre>
+<p>&#x60A8;&#x6703;&#x9A5A;&#x5947;&#x5730;&#x767C;&#x73FE;&#xFF0C;&#x5118;&#x7BA1;&#x6211;&#x5011;&#x6C92;&#x6709;&#x6307;&#x5B9A;makefile&#xFF0C;&#x4F46;&#x662F;make&#x4ECD;&#x7136;&#x80FD;&#x77E5;&#x9053;&#x5982;&#x4F55;&#x8ABF;&#x7528;&#x7DE8;&#x8B6F;&#x5668;&#xFF0C;&#x4E26;&#x4E14;&#x8ABF;&#x7528;&#x7684;&#x662F;cc&#x800C;&#x4E0D;&#x662F;gcc&#x7DE8;&#x8B6F;&#x5668;&#x3002;&#x9019;&#x5728;Linux&#x4E0A;&#x6C92;&#x6709;&#x554F;&#x984C;&#xFF0C;&#x56E0;&#x70BA;cc&#x5E38;&#x5E38;&#x6703;&#x93C8;&#x63A5;&#x5230;gcc&#x7A0B;&#x5E8F;&#x3002;&#x9019;&#x5B8C;&#x5168;&#x5F97;&#x76CA;&#x65BC;make&#x5167;&#x5EFA;&#x7684;&#x5167;&#x90E8;&#x898F;&#x5247;&#xFF0C;&#x53E6;&#x5916;&#x9019;&#x4E9B;&#x5167;&#x90E8;&#x898F;&#x5247;&#x901A;&#x5E38;&#x4F7F;&#x7528;&#x5B8F;&#xFF0C;&#x6240;&#x4EE5;&#x53EA;&#x8981;&#x70BA;&#x9019;&#x4E9B;&#x5B8F;&#x6307;&#x5B9A;&#x65B0;&#x7684;&#x503C;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x6539;&#x8B8A;&#x5167;&#x90E8;&#x898F;&#x5247;&#x7684;&#x9ED8;&#x8A8D;&#x52D5;&#x4F5C;&#xFF0C;&#x5982;&#x4E0B;&#x6240;&#x793A;&#xFF1A;</p>
+<pre><code class="lang-c">$ rm foo
+$ make CC=gcc CFLAGS=&#x201D;-Wall -g&#x201D; foo
+gcc -Wall -g foo.c -o foo
+$
+</code></pre>
+<p>&#x7528;make&#x547D;&#x4EE4;&#x52A0;-p&#x9078;&#x9805;&#x5F8C;&#xFF0C;&#x53EF;&#x4EE5;&#x6253;&#x5370;&#x51FA;&#x7CFB;&#x7D71;&#x7F3A;&#x7701;&#x5B9A;&#x7FA9;&#x7684;&#x5167;&#x90E8;&#x898F;&#x5247;&#x3002;&#x5B83;&#x5011;&#x5305;&#x62EC;&#x7CFB;&#x7D71;&#x9810;&#x5B9A;&#x7FA9;&#x7684;&#x5B8F;&#x3001;&#x4EE5;&#x53CA;&#x7522;&#x751F;&#x67D0;&#x4E9B;&#x7A2E;&#x985E;&#x5F8C;&#x7DB4;&#x7684;&#x6587;&#x4EF6;&#x7684;&#x5167;&#x90E8;&#x76F8;&#x95DC;&#x884C;&#x3002;&#x5167;&#x90E8;&#x898F;&#x5247;&#x6D89;&#x53CA;&#x7684;&#x6587;&#x4EF6;&#x7A2E;&#x985E;&#x5F88;&#x591A;&#xFF0C;&#x5B83;&#x4E0D;&#x50C5;&#x5305;&#x62EC;C&#x6E90;&#x7A0B;&#x5E8F;&#x6587;&#x4EF6;&#x53CA;&#x5176;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#xFF0C;&#x9084;&#x5305;&#x62EC;SCCS&#x6587;&#x4EF6;&#x3001;yacc&#x6587;&#x4EF6;&#x548C;lex&#x6587;&#x4EF6;&#xFF0C;&#x751A;&#x81F3;&#x9084;&#x5305;&#x62EC;Shell&#x6587;&#x4EF6;&#x3002; 
+&#x7576;&#x7136;&#xFF0C;&#x6211;&#x5011;&#x66F4;&#x95DC;&#x5FC3;&#x7684;&#x662F;&#x5982;&#x4F55;&#x5229;&#x7528;&#x5167;&#x90E8;&#x898F;&#x5247;&#x4F86;&#x7C21;&#x5316;makefile&#xFF0C;&#x6BD4;&#x5982;&#x8B93;&#x5167;&#x90E8;&#x898F;&#x5247;&#x4F86;&#x8CA0;&#x8CAC;&#x751F;&#x6210;&#x76EE;&#x6A19;&#xFF0C;&#x800C;&#x53EA;&#x6307;&#x5B9A;&#x4F9D;&#x8CF4;&#x95DC;&#x4FC2;&#xFF0C;&#x9019;&#x6A23;makefile&#x5C31;&#x7C21;&#x6F54;&#x591A;&#x4E86;&#xFF0C;&#x5982;&#x4E0B;&#x6240;&#x793A;&#xFF1A;</p>
+<pre><code class="lang-c">main.o: main.c def1.h
+f1.o: f1.c def1.h def2.h
+f2.o: f2.c def2.h def3.h
+</code></pre>
+<h3 id="%E4%B8%89%E3%80%81%E5%BE%8C%E7%B6%B4%E8%A6%8F%E5%89%87">&#x4E09;&#x3001;&#x5F8C;&#x7DB4;&#x898F;&#x5247;</h3>
+<p>&#x524D;&#x9762;&#x6211;&#x5011;&#x5DF2;&#x7D93;&#x770B;&#x5230;&#xFF0C;&#x6709;&#x4E9B;&#x5167;&#x90E8;&#x898F;&#x5247;&#x6703;&#x6839;&#x64DA;&#x6587;&#x4EF6;&#x7684;&#x5F8C;&#x7DB4;&#xFF08;&#x76F8;&#x7576;&#x65BC;Windows&#x7CFB;&#x7D71;&#x4E2D;&#x7684;&#x6587;&#x4EF6;&#x64F4;&#x5C55;&#x540D;&#xFF09;&#x4F86;&#x63A1;&#x53D6;&#x76F8;&#x61C9;&#x7684;&#x8655;&#x7406;&#x3002;&#x63DB;&#x53E5;&#x8A71;&#x8AAA;&#xFF0C;&#x9019;&#x6A23;&#x7576;make&#x898B;&#x5230;&#x5E36;&#x6709;&#x4E00;&#x7A2E;&#x5F8C;&#x7DB4;&#x7684;&#x6587;&#x4EF6;&#x6642;&#xFF0C;&#x5C31;&#x77E5;&#x9053;&#x4F7F;&#x7528;&#x54EA;&#x4E9B;&#x898F;&#x5247;&#x4F86;&#x5EFA;&#x7ACB;&#x4E00;&#x500B;&#x5E36;&#x6709;&#x53E6;&#x5916;&#x4E00;&#x7A2E;&#x5F8C;&#x7DB4;&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x6700;&#x5E38;&#x898B;&#x7684;&#x662F;&#x7528;&#x4EE5;.c&#x7D50;&#x5C3E;&#x7684;&#x6587;&#x4EF6;&#x4F86;&#x5EFA;&#x7ACB;&#x4EE5;.o&#x7D50;&#x5C3E;&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x5373;&#x628A;&#x6E90;&#x6587;&#x4EF6;&#x7DE8;&#x8B6F;&#x6210;&#x76EE;&#x6A19;&#x7A0B;&#x5E8F;&#xFF0C;&#x4F46;&#x662F;&#x4E0D;&#x9023;&#x63A5;&#x3002;</p>
+<p>&#x73FE;&#x5728;&#x8209;&#x4F8B;&#x8AAA;&#x660E;&#x5F8C;&#x7DB4;&#x898F;&#x5247;&#x7684;&#x61C9;&#x7528;&#x3002;&#x6709;&#x6642;&#x5019;&#xFF0C;&#x6211;&#x5011;&#x9700;&#x8981;&#x5728;&#x4E0D;&#x540C;&#x7684;&#x5E73;&#x81FA;&#x4E0B;&#x7DE8;&#x8B6F;&#x6E90;&#x6587;&#x4EF6;&#xFF0C;&#x4F8B;&#x5982;Windows&#x548C;Linux&#x3002;&#x5047;&#x8A2D;&#x6211;&#x5011;&#x7684;&#x6E90;&#x4EE3;&#x78BC;&#x662F;C++&#x7DE8;&#x5BEB;&#x7684;&#xFF0C;&#x90A3;&#x9EBC;Windows&#x4E0B;&#x5176;&#x5F8C;&#x7DB4;&#x5247;&#x70BA;.cpp&#x3002;&#x4E0D;&#x904E;Linux&#x4F7F;&#x7528;&#x7684;make&#x7248;&#x672C;&#x6C92;&#x6709;&#x7DE8;&#x8B6F;.cpp&#x6587;&#x4EF6;&#x7684;&#x5167;&#x90E8;&#x898F;&#x5247;&#xFF0C;&#x5012;&#x662F;&#x6709;&#x4E00;&#x500B;&#x7528;&#x65BC;.cc&#x7684;&#x898F;&#x5247;&#xFF0C;&#x56E0;&#x70BA;&#x5728;UNIX&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x4E2D;c++&#x6587;&#x4EF6;&#x64F4;&#x5C55;&#x540D;&#x901A;&#x5E38;&#x70BA;.cc&#x3002;</p>
+<p>&#x9019;&#x6642;&#x5019;&#xFF0C;&#x8981;&#x9EBC;&#x70BA;&#x6BCF;&#x500B;&#x6E90;&#x6587;&#x4EF6;&#x55AE;&#x7368;&#x6307;&#x5B9A;&#x4E00;&#x689D;&#x898F;&#x5247;&#xFF0C;&#x8981;&#x9EBC;&#x70BA;make&#x5EFA;&#x7ACB;&#x4E00;&#x689D;&#x65B0;&#x898F;&#x5247;&#xFF0C;&#x544A;&#x8A34;&#x5B83;&#x5982;&#x4F55;&#x7528;.cpp&#x70BA;&#x64F4;&#x5C55;&#x540D;&#x7684;&#x6E90;&#x6587;&#x4EF6;&#x4F86;&#x751F;&#x6210;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#x3002;&#x5982;&#x679C;&#x9805;&#x76EE;&#x4E2D;&#x7684;&#x6E90;&#x6587;&#x4EF6;&#x8F03;&#x591A;&#x7684;&#x8A71;&#xFF0C;&#x5F8C;&#x7DB4;&#x898F;&#x5247;&#x5C31;&#x53EF;&#x4EE5;&#x6D3E;&#x4E0A;&#x7528;&#x5834;&#x4E86;&#x3002;&#x8981;&#x6DFB;&#x52A0;&#x4E00;&#x689D;&#x65B0;&#x5F8C;&#x7DB4;&#x898F;&#x5247;&#xFF0C;&#x9996;&#x5148;&#x5728;makefile&#x6587;&#x4EF6;&#x4E2D;&#x52A0;&#x5165;&#x4E00;&#x884C;&#x4F86;&#x544A;&#x8A34;make&#x65B0;&#x5F8C;&#x7DB4;&#x662F;&#x4EC0;&#x9EBC;&#xFF1B;&#x7136;&#x5F8C;&#x5C31;&#x53EF;&#x4EE5;&#x6DFB;&#x52A0;&#x4F7F;&#x7528;&#x9019;&#x500B;&#x65B0;&#x5F8C;&#x7DB4;&#x7684;&#x898F;&#x5247;&#x4E86;&#x3002;&#x9019;&#x6642;&#xFF0C;make&#x8981;&#x7528;&#x5230;&#x4E00;&#x689D;&#x5C08;&#x7528;&#x7684;&#x8A9E;&#x6CD5;&#xFF1A;</p>
+<pre><code class="lang-sh">.&lt;&#x820A;&#x5F8C;&#x7DB4;&#x540D;&gt;.&lt;&#x65B0;&#x5F8C;&#x7DB4;&#x540D;&gt;:
+</code></pre>
+<p>&#x5B83;&#x7684;&#x4F5C;&#x7528;&#x662F;&#x5B9A;&#x7FA9;&#x4E00;&#x689D;&#x901A;&#x7528;&#x898F;&#x5247;&#xFF0C;&#x7528;&#x4F86;&#x5C07;&#x5E36;&#x6709;&#x820A;&#x5F8C;&#x7DB4;&#x540D;&#x7684;&#x6587;&#x4EF6;&#x8B8A;&#x6210;&#x5E36;&#x6709;&#x65B0;&#x5F8C;&#x7DB4;&#x540D;&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x6587;&#x4EF6;&#x540D;&#x4FDD;&#x6301;&#x4E0D;&#x8B8A;&#xFF0C;&#x5982;&#x8981;&#x5C07;.cpp&#x6587;&#x4EF6;&#x7DE8;&#x8B6F;&#x6210;.o&#x6587;&#x4EF6;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x4E00;&#x500B;&#x65B0;&#x7684;&#x901A;&#x7528;&#x898F;&#x5247;&#xFF1A;</p>
+<pre><code class="lang-sh">.SUFFIXES: .cpp
+.cpp.o:
+$(CC) -xc++ $(CFLAGS) -I$(INCLUDE) -c $&lt;
+</code></pre>
+<p>&#x4E0A;&#x9762;&#x7684;.cpp .o:&#x544A;&#x8A34;make &#x9019;&#x4E9B;&#x898F;&#x5247;&#x7528;&#x65BC;&#x628A;&#x5F8C;&#x7DB4;&#x70BA;.cpp&#x7684;&#x6587;&#x4EF6;&#x8F49;&#x63DB;&#x6210;&#x5F8C;&#x7DB4;&#x70BA;.o&#x7684;&#x6587;&#x4EF6;&#x3002;&#x5176;&#x4E2D;&#x7684;&#x6A19;&#x8A8C;-xc++&#x7684;&#x4F5C;&#x7528;&#x662F;&#x544A;&#x8A34;gcc&#x9019;&#x6B21;&#x8981;&#x7DE8;&#x8B6F;&#x7684;&#x6E90;&#x6587;&#x4EF6;&#x662F;c++&#x6E90;&#x6587;&#x4EF6;&#x3002;&#x9019;&#x88E1;&#xFF0C;&#x6211;&#x5011;&#x4F7F;&#x7528;&#x4E00;&#x500B;&#x5B8F;$&lt;&#x4F86;&#x901A;&#x6307;&#x9700;&#x8981;&#x7DE8;&#x8B6F;&#x7684;&#x6587;&#x4EF6;&#x7684;&#x540D;&#x7A31;&#xFF0C;&#x4E0D;&#x7BA1;&#x9019;&#x4E9B;&#x6587;&#x4EF6;&#x540D;&#x5177;&#x9AD4;&#x662F;&#x4EC0;&#x9EBC;&#x3002;&#x6211;&#x5011;&#x53EA;&#x9700;&#x77E5;&#x9053;&#xFF0C;&#x6240;&#x6709;&#x4EE5;.cpp&#x70BA;&#x5F8C;&#x7DB4;&#x7684;&#x6587;&#x4EF6;&#x5C07;&#x88AB;&#x7DE8;&#x8B6F;&#x6210;&#x4EE5;.o&#x70BA;&#x5F8C;&#x7DB4;&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x4F8B;&#x5982;&#x4EE5;&#x662F;app.cpp&#x7684;&#x6587;&#x4EF6;&#x5C07;&#x8B8A;&#x6210;app.o&#x3002;</p>
+<p>&#x6CE8;&#x610F;&#xFF0C;&#x6211;&#x5011;&#x53EA;&#x8DDF;make&#x8AAA;&#x660E;&#x5982;&#x4F55;&#x628A;.cpp&#x6587;&#x4EF6;&#x8B8A;&#x6210;.o&#x6587;&#x4EF6;&#x5C31;&#x884C;&#x4E86;&#xFF0C;&#x81F3;&#x65BC;&#x5982;&#x4F55;&#x5F9E;&#x76EE;&#x6A19;&#x7A0B;&#x5E8F;&#x6587;&#x4EF6;&#x8B8A;&#x6210;&#x4E8C;&#x9032;&#x5236;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#xFF0C;&#x56E0;&#x70BA;make&#x65E9;&#x5DF2;&#x77E5;&#x66C9;&#xFF0C;&#x6240;&#x4EE5;&#x5C31;&#x4E0D;&#x7528;&#x6211;&#x5011;&#x8CBB;&#x5FC3;&#x4E86;&#x3002;&#x6240;&#x4EE5;&#xFF0C;&#x7576;&#x6211;&#x5011;&#x8ABF;&#x7528;make&#x7A0B;&#x5E8F;&#x6642;&#xFF0C;&#x5B83;&#x6703;&#x4F7F;&#x7528;&#x65B0;&#x898F;&#x5247;&#x628A;&#x985E;&#x4F3C;app .cpp&#x9019;&#x6A23;&#x7684;&#x7A0B;&#x5E8F;&#x8B8A;&#x6210;app.o&#xFF0C;&#x7136;&#x5F8C;&#x4F7F;&#x7528;&#x5167;&#x90E8;&#x898F;&#x5247;&#x5C07;app.o&#x6587;&#x4EF6;&#x9023;&#x63A5;&#x6210;&#x4E00;&#x500B;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;app&#x3002;</p>
+<p>&#x73FE;&#x5728;&#xFF0C;make&#x5DF2;&#x7D93;&#x77E5;&#x9053;&#x5982;&#x4F55;&#x8655;&#x7406;&#x64F4;&#x5C55;&#x540D;&#x70BA;.cpp&#x7684;c++&#x6E90;&#x6587;&#x4EF6;&#xFF0C;&#x9664;&#x6B64;&#x4E4B;&#x5916;&#xFF0C;&#x6211;&#x5011;&#x9084;&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x5F8C;&#x7DB4;&#x898F;&#x5247;&#x5C07;&#x6587;&#x4EF6;&#x5F9E;&#x4E00;&#x7A2E;&#x985E;&#x578B;&#x8F49;&#x63DB;&#x70BA;&#x53E6;&#x4E00;&#x7A2E;&#x985E;&#x578B;&#x3002;&#x4E0D;&#x904E;&#xFF0C;&#x8F03;&#x65B0;&#x7248;&#x672C;&#x7684;make&#x5305;&#x542B;&#x4E00;&#x500B;&#x8A9E;&#x6CD5;&#x53EF;&#x4EE5;&#x9054;&#x5230;&#x540C;&#x6A23;&#x7684;&#x6548;&#x679C;&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x6A21;&#x5F0F;&#x898F;&#x5247;&#x4F7F;&#x7528;%&#x4F5C;&#x70BA;&#x5339;&#x914D;&#x6587;&#x4EF6;&#x540D;&#x7684;&#x901A;&#x914D;&#x7B26;&#xFF0C;&#x800C;&#x4E0D;&#x55AE;&#x7368;&#x4F9D;&#x8CF4;&#x65BC;&#x6587;&#x4EF6;&#x64F4;&#x5C55;&#x540D;&#x3002;&#x4EE5;&#x4E0B;&#x6A21;&#x5F0F;&#x898F;&#x5247;&#x76F8;&#x7576;&#x65BC;&#x4E0A;&#x9762;&#x8655;&#x7406;.cpp&#x7684;&#x898F;&#x5247;&#xFF0C;&#x5177;&#x9AD4;&#x5982;&#x4E0B;&#x6240;&#x793A;&#xFF1A;</p>
+<pre><code class="lang-sh">%.cpp: %o
+$(CC) -xc++ $(CFLAGS) -I$(INCLUDE) -c $&lt;
+</code></pre>
+<h2 id="%E5%9B%9B%E3%80%81%E7%94%A8make%E7%AE%A1%E7%90%86%E7%A8%8B%E5%BA%8F%E5%BA%AB">&#x56DB;&#x3001;&#x7528;make&#x7BA1;&#x7406;&#x7A0B;&#x5E8F;&#x5EAB;</h2>
+<p>&#x4E00;&#x822C;&#x4F86;&#x8AAA;&#xFF0C;&#x7A0B;&#x5E8F;&#x5EAB;&#x4E5F;&#x662F;&#x4E00;&#x7A2E;&#x7531;&#x4E00;&#x7D44;&#x76EE;&#x6A19;&#x7A0B;&#x5E8F;&#x69CB;&#x6210;&#x7684;&#x4EE5;.a&#x70BA;&#x64F4;&#x5C55;&#x540D;&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x6240;&#x4EE5;&#xFF0C;Make&#x547D;&#x4EE4;&#x4E5F;&#x53EF;&#x4EE5;&#x7528;&#x4F86;&#x7BA1;&#x7406;&#x9019;&#x4E9B;&#x7A0B;&#x5E8F;&#x5EAB;&#x3002;&#x5BE6;&#x969B;&#x4E0A;&#xFF0C;&#x70BA;&#x4E86;&#x7C21;&#x5316;&#x7A0B;&#x5E8F;&#x5EAB;&#x7684;&#x7BA1;&#x7406;&#xFF0C;make&#x7A0B;&#x5E8F;&#x9084;&#x5C08;&#x9580;&#x8A2D;&#x6709;&#x4E00;&#x500B;&#x8A9E;&#x6CD5;&#xFF1A;</p>
+<pre><code class="lang-sh">lib (file.o)
+</code></pre>
+<p>&#x9019;&#x610F;&#x5473;&#x8457;&#x76EE;&#x6A19;&#x6587;&#x4EF6;file.o&#x4EE5;&#x5EAB;&#x6587;&#x4EF6;lib.a&#x7684;&#x5F62;&#x5F0F;&#x5B58;&#x653E;&#xFF0C;&#x9019;&#x610F;&#x5473;&#x8457;lib.a&#x5EAB;&#x4F9D;&#x8CF4;&#x65BC;&#x76EE;&#x6A19;&#x7A0B;&#x5E8F;file.o&#x3002;&#x6B64;&#x5916;&#xFF0C;make&#x547D;&#x4EE4;&#x9084;&#x5177;&#x6709;&#x4E00;&#x500B;&#x5167;&#x90E8;&#x898F;&#x5247;&#x7528;&#x4F86;&#x7BA1;&#x7406;&#x7A0B;&#x5E8F;&#x5EAB;&#xFF0C;&#x8A72;&#x898F;&#x5247;&#x76F8;&#x7576;&#x65BC;&#x5982;&#x4E0B;&#x5167;&#x5BB9;&#xFF1A;</p>
+<pre><code class="lang-sh">.c.a:
+$(CC) -c $(CFLAGS) $&lt;
+$(AR) $(ARFLAGS) <span class="hljs-variable">$@</span> $*.o
+</code></pre>
+<p>&#x5176;&#x4E2D;&#xFF0C;&#x5B8F;$(AR)&#x548C;$(ARFLAGS)&#x5206;&#x5225;&#x8868;&#x793A;&#x6307;&#x4EE4;AR&#x548C;&#x9078;&#x9805;rv&#x3002;&#x5982;&#x4E0A;&#x6240;&#x898B;&#xFF0C;&#x8981;&#x544A;&#x8A34;make&#x7528;.c&#x6587;&#x4EF6;&#x751F;&#x6210;.a&#x5EAB;&#xFF0C;&#x5FC5;&#x9808;&#x7528;&#x5230;&#x5169;&#x500B;&#x898F;&#x5247;&#xFF1A;&#x7B2C;&#x4E00;&#x500B;&#x898F;&#x5247;&#x662F;&#x8AAA;&#x628A;&#x6E90;&#x6587;&#x4EF6;&#x7DE8;&#x8B6F;&#x6210;&#x4E00;&#x500B;&#x76EE;&#x6A19;&#x7A0B;&#x5E8F;&#x6587;&#x4EF6;&#x3002;&#x7B2C;&#x4E8C;&#x500B;&#x898F;&#x5247;&#x8868;&#x793A;&#x4F7F;&#x7528;ar &#x6307;&#x4EE4;&#x5411;&#x5EAB;&#x4E2D;&#x6DFB;&#x52A0;&#x65B0;&#x7684;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#x3002;</p>
+<p>&#x6240;&#x4EE5;&#xFF0C;&#x5982;&#x679C;&#x6211;&#x5011;&#x6709;&#x4E00;&#x500B;&#x540D;&#x70BA;filed&#x7684;&#x5EAB;&#xFF0C;&#x5176;&#x4E2D;&#x542B;&#x6709;bar.o&#x6587;&#x4EF6;&#xFF0C;&#x90A3;&#x9EBC;&#x7B2C;&#x4E00;&#x898F;&#x5247;&#x4E2D;&#x7684;$&lt;&#x6703;&#x88AB;&#x66FF;&#x63DB;&#x70BA;bar.c&#xFF1B;&#x5728;&#x7B2C;&#x4E8C;&#x500B;&#x898F;&#x5247;&#x4E2D;&#x7684;$@&#x88AB;&#x5EAB;&#x540D;filed.a&#x6240;&#x66FF;&#x4EE3;&#xFF0C;&#x800C;$*&#x5C07;&#x88AB;bar&#x6240;&#x66FF;&#x4EE3;&#x3002;</p>
+<p>&#x4E0B;&#x9762;&#x8209;&#x4F8B;&#x8AAA;&#x660E;&#x5982;&#x4F55;&#x7528;make&#x4F86;&#x7BA1;&#x7406;&#x5EAB;&#x3002;&#x5BE6;&#x969B;&#x4E0A;&#xFF0C;&#x7528;make&#x4F86;&#x7BA1;&#x7406;&#x7A0B;&#x5E8F;&#x5EAB;&#x7684;&#x898F;&#x5247;&#x662F;&#x5F88;&#x7C21;&#x55AE;&#x7684;&#x3002;&#x6BD4;&#x5982;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x5C07;&#x524D;&#x9762;&#x793A;&#x4F8B;&#x52A0;&#x4EE5;&#x4FEE;&#x6539;&#xFF0C;&#x8B93;f1.o&#x548C;f2.o&#x653E;&#x5728;&#x4E00;&#x500B;&#x7A31;&#x70BA;mylib.a&#x7684;&#x7A0B;&#x5E8F;&#x5EAB;&#x4E2D;&#xFF0C;&#x9019;&#x6642;&#x7684;Makefile&#x5E7E;&#x4E4E;&#x7121;&#x9700;&#x6539;&#x8B8A;&#xFF0C;&#x800C;&#x65B0;&#x7684;mymakefile4&#x770B;&#x4E0A;&#x53BB;&#x662F;&#x9019;&#x6A23;&#x7684;&#xFF1A;</p>
+<pre><code class="lang-sh">all: main
+<span class="hljs-comment"># &#x4F7F;&#x7528;&#x7684;&#x7DE8;&#x8B6F;&#x5668;</span>
+CC = gcc
+<span class="hljs-comment"># &#x5B89;&#x88DD;&#x4F4D;&#x7F6E;</span>
+INSTDIR = /usr/<span class="hljs-built_in">local</span>/bin
+<span class="hljs-comment"># include&#x6587;&#x4EF6;&#x6240;&#x5728;&#x4F4D;&#x7F6E;</span>
+INCLUDE = .
+<span class="hljs-comment"># &#x958B;&#x767C;&#x904E;&#x7A0B;&#x4E2D;&#x4F7F;&#x7528;&#x7684;&#x9078;&#x9805;</span>
+CFLAGS = -g -Wall &#x2013;ansi
+<span class="hljs-comment"># &#x7528;&#x65BC;&#x767C;&#x884C;&#x6642;&#x7684;&#x9078;&#x9805;</span>
+<span class="hljs-comment"># CFLAGS = -O -Wall &#x2013;ansi</span>
+<span class="hljs-comment"># &#x672C;&#x5730;&#x5EAB;</span>
+MYLIB = mylib.a
+
+main: main.o $(MYLIB)
+    $(CC) -o main main.o $(MYLIB)
+    $(MYLIB): $(MYLIB)(f1.o) $(MYLIB)(f2.o)
+    main.o: main.c def1.h
+    f1.o: f1.c def1.h def2.h
+    f2.o: f2.c def2.h def3.h
+
+clean:
+    -rm main.o f1.o f2.o $(MYLIB)
+install: main
+@<span class="hljs-keyword">if</span> [ <span class="hljs-operator">-d</span> $(INSTDIR) ]; \
+<span class="hljs-keyword">then</span> \
+cp main $(INSTDIR);\
+chmod a+x $(INSTDIR)/main;\
+chmod og-w $(INSTDIR)/main;\
+<span class="hljs-built_in">echo</span> &#x201C;Installed <span class="hljs-keyword">in</span> $(INSTDIR)&#x201C;;\
+<span class="hljs-keyword">else</span> \
+<span class="hljs-built_in">echo</span> &#x201C;Sorry, $(INSTDIR) does not exist&#x201D;;\
+<span class="hljs-keyword">fi</span>
+</code></pre>
+<p>&#x6CE8;&#x610F;&#xFF1A;&#x6211;&#x5011;&#x662F;&#x5982;&#x4F55;&#x8B93;&#x7701;&#x7F3A;&#x898F;&#x5247;&#x4F86;&#x66FF;&#x6211;&#x5011;&#x5B8C;&#x6210;&#x5927;&#x90E8;&#x5206;&#x5DE5;&#x4F5C;&#x7684;&#x3002;&#x5982;&#x4ECA;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x8A66;&#x4E00;&#x4E0B;&#x65B0;&#x7248;&#x7684;makefile&#x7684;&#x5DE5;&#x4F5C;&#x60C5;&#x6CC1;&#xFF1A;</p>
+<pre><code class="lang-sh">$ rm <span class="hljs-operator">-f</span> main *.o mylib.a
+
+$ make <span class="hljs-operator">-f</span> Mymakefile4
+gcc -g -Wall -ansi -c -o main.o main.c
+gcc -g -Wall -ansi -c -o f1.o f1.c
+ar rv mylib.a f1.o
+a - f1.o
+gcc -g -Wall -ansi -c -o f2.o f2.c
+ar rv mylib.a f2.o
+a - f2.o
+gcc -o main main.o mylib.a
+
+$ touch def3.h
+
+$ make <span class="hljs-operator">-f</span> Mymakefile4
+gcc -g -Wall -ansi -c -o f2.o f2.c
+ar rv mylib.a f2.o
+r - f2.o
+gcc -o main main.o mylib.a
+$
+</code></pre>
+<p>&#x73FE;&#x5728;&#x5C0D;&#x4E0A;&#x9762;&#x7684;&#x4F8B;&#x5B50;&#x505A;&#x5FC5;&#x8981;&#x7684;&#x8AAA;&#x660E;&#x3002;&#x9996;&#x5148;&#x522A;&#x9664;&#x5168;&#x90E8;&#x76EE;&#x6A19;&#x7A0B;&#x5E8F;&#x6587;&#x4EF6;&#x548C;&#x7A0B;&#x5E8F;&#x5EAB;&#xFF0C;&#x7136;&#x5F8C;&#x8B93;make&#x91CD;&#x65B0;&#x69CB;&#x5EFA;main&#xFF0C;&#x56E0;&#x70BA;&#x7576;&#x9023;&#x63A5;main.o&#x6642;&#x9700;&#x8981;&#x7528;&#x5230;&#x5EAB;&#xFF0C;&#x6240;&#x4EE5;&#x8981;&#x5148;&#x7DE8;&#x8B6F;&#x548C;&#x5275;&#x5EFA;&#x5EAB;&#x3002;&#x6B64;&#x5F8C;&#xFF0C;&#x6211;&#x5011;&#x9084;&#x6E2C;&#x8A66;f2.o&#x7684;&#x4F9D;&#x8CF4;&#x95DC;&#x4FC2;&#xFF0C;&#x6211;&#x5011;&#x77E5;&#x9053;&#x5982;&#x679C;def3.h&#x767C;&#x751F;&#x4E86;&#x6539;&#x8B8A;&#xFF0C;&#x90A3;&#x9EBC;&#x5FC5;&#x9808;&#x91CD;&#x65B0;&#x7DE8;&#x8B6F;f2.c&#xFF0C;&#x4E8B;&#x5BE6;&#x8868;&#x660E;make&#x5728;&#x91CD;&#x65B0;&#x69CB;&#x5EFA;main&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x4E4B;&#x524D;&#xFF0C;&#x6B63;&#x78BA;&#x5730;&#x7DE8;&#x8B6F;&#x4E86;f2.c&#x4E26;&#x66F4;&#x65B0;&#x4E86;&#x5EAB;&#x3002;</p>
+<h2 id="%E4%BA%94%E3%80%81makefile%E5%92%8C%E5%AD%90%E7%9B%AE%E9%8C%84">&#x4E94;&#x3001;Makefile&#x548C;&#x5B50;&#x76EE;&#x9304;</h2>
+<p>&#x5982;&#x679C;&#x4F60;&#x7684;&#x9805;&#x76EE;&#x6BD4;&#x8F03;&#x5927;&#x7684;&#x8A71;&#xFF0C;&#x53EF;&#x4EE5;&#x8003;&#x616E;&#x5C07;&#x67D0;&#x4E9B;&#x6587;&#x4EF6;&#x7D44;&#x6210;&#x4E00;&#x500B;&#x5EAB;&#xFF0C;&#x7136;&#x5F8C;&#x55AE;&#x7368;&#x5B58;&#x653E;&#x5230;&#x4E00;&#x500B;&#x5B50;&#x76EE;&#x9304;&#x5167;&#x3002;&#x9019;&#x6642;&#xFF0C;&#x5C0D;&#x65BC;makefile&#x6709;&#x5169;&#x7A2E;&#x8655;&#x7406;&#x65B9;&#x6CD5;&#xFF0C;&#x4E0B;&#x9762;&#x5206;&#x5225;&#x4ECB;&#x7D39;&#x3002;</p>
+<p>&#x7B2C;&#x4E00;&#x7A2E;&#x65B9;&#x6CD5;&#xFF1A;&#x5728;&#x5B50;&#x76EE;&#x9304;&#x4E2D;&#x653E;&#x7F6E;&#x4E00;&#x500B;&#x8F14;&#x52A9;makefile&#xFF0C;&#x7136;&#x5F8C;&#x628A;&#x9019;&#x500B;&#x5B50;&#x76EE;&#x9304;&#x4E2D;&#x7684;&#x6E90;&#x6587;&#x4EF6;&#x7DE8;&#x8B6F;&#x6210;&#x4E00;&#x500B;&#x7A0B;&#x5E8F;&#x5EAB;&#xFF0C;&#x6700;&#x5F8C;&#x5C07;&#x9019;&#x500B;&#x5EAB;&#x8907;&#x88FD;&#x5230;&#x4E3B;&#x76EE;&#x9304;&#x4E2D;&#x3002;&#x4E0A;&#x7D1A;&#x76EE;&#x9304;&#x4E2D;&#x7684;&#x4E3B;&#x8981;makefile&#x53EF;&#x4EE5;&#x653E;&#x4E0A;&#x4E00;&#x500B;&#x898F;&#x5247;&#xFF0C;&#x901A;&#x904E;&#x8ABF;&#x7528;&#x8F14;&#x52A9;makefile&#x4F86;&#x5EFA;&#x7ACB;&#x8A72;&#x5EAB;&#xFF1A;</p>
+<pre><code class="lang-sh">mylib.a:
+(<span class="hljs-built_in">cd</span> mylibdirectory;$(MAKE))
+</code></pre>
+<p>&#x9019;&#x6A23;&#x7684;&#x8A71;&#xFF0C;&#x6211;&#x5011;&#x5C31;&#x6703;&#x7E3D;&#x662F;&#x69CB;&#x5EFA;mylib.a&#xFF0C;&#x56E0;&#x70BA;&#x5192;&#x865F;&#x53F3;&#x908A;&#x70BA;&#x7A7A;&#x3002;&#x7576;make&#x8ABF;&#x7528;&#x8A72;&#x898F;&#x5247;&#x69CB;&#x5EFA;&#x8A72;&#x5EAB;&#x6642;&#xFF0C;&#x5B83;&#x6703;&#x5207;&#x63DB;&#x5230;&#x5B50;&#x76EE;&#x9304;mylibdirectory&#x4E2D;&#xFF0C;&#x7136;&#x5F8C;&#x8ABF;&#x7528;&#x4E00;&#x500B;&#x65B0;&#x7684;make&#x547D;&#x4EE4;&#x4F86;&#x7BA1;&#x7406;&#x8A72;&#x5EAB;&#x3002;&#x56E0;&#x70BA;&#x8ABF;&#x7528;&#x4E86;&#x4E00;&#x500B;&#x65B0;&#x7684;shell&#x4F86;&#x5B8C;&#x6210;&#x6B64;&#x4EFB;&#x52D9;&#xFF0C;&#x6240;&#x4EE5;&#x4F7F;&#x7528;makefile&#x7684;&#x7A0B;&#x5E8F;&#x4E0D;&#x5FC5;&#x9032;&#x884C;&#x76EE;&#x9304;&#x5207;&#x63DB;&#x3002;&#x4E0D;&#x904E;&#xFF0C;&#x88AB;&#x8ABF;&#x7528;&#x7684;shell&#x662F;&#x5728;&#x4E00;&#x500B;&#x4E0D;&#x540C;&#x7684;&#x76EE;&#x9304;&#x4E2D;&#x5229;&#x7528;&#x8A72;&#x898F;&#x5247;&#x69CB;&#x5EFA;&#x8A72;&#x5EAB;&#x7684;&#xFF0C;&#x6240;&#x4EE5;&#x62EC;&#x5F27;&#x80FD;&#x78BA;&#x4FDD;&#x6240;&#x6709;&#x8655;&#x7406;&#x90FD;&#x662F;&#x7531;&#x4E00;&#x500B;shell&#x5B8C;&#x6210;&#x7684;&#x3002;</p>
+<p>&#x7B2C;&#x4E8C;&#x7A2E;&#x65B9;&#x6CD5;&#xFF1A;&#x5728;&#x55AE;&#x500B;makefile&#x4E2D;&#x4F7F;&#x7528;&#x66F4;&#x591A;&#x7684;&#x5B8F;&#xFF0C;&#x4E0D;&#x904E;&#x9019;&#x4E9B;&#x9644;&#x52A0;&#x7684;&#x5B8F;&#x9700;&#x8981;&#x5728;&#x76EE;&#x9304;&#x540D;&#x4E0A;&#x52A0;D&#x4E26;&#x4E14;&#x70BA;&#x6587;&#x4EF6;&#x540D;&#x52A0;&#x4E0A;F&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x53EF;&#x4EE5;&#x7528;&#x4E0B;&#x9762;&#x7684;&#x547D;&#x4EE4;&#x4F86;&#x8986;&#x84CB;&#x5167;&#x5EFA;&#x7684;.c.o&#x5F8C;&#x7DB4;&#x898F;&#x5247;&#xFF1A;</p>
+<pre><code class="lang-sh">.c.o:
+$(CC) $(CFLAGS) -c $(@D)/$(
+</code></pre>
+<p>&#x70BA;&#x5728;&#x5B50;&#x76EE;&#x9304;&#x7DE8;&#x8B6F;&#x6587;&#x4EF6;&#xFF0C;&#x4E26;&#x5C07;&#x76EE;&#x6A19;&#x653E;&#x5728;&#x5B50;&#x76EE;&#x9304;&#x4E2D;&#xFF0C;&#x53EF;&#x4EE5;&#x7528;&#x50CF;&#x4E0B;&#x9762;&#x9019;&#x6A23;&#x7684;&#x4F9D;&#x8CF4;&#x95DC;&#x4FC2;&#x548C;&#x898F;&#x5247;&#x4F86;&#x66F4;&#x65B0;&#x7576;&#x524D;&#x76EE;&#x9304;&#x4E2D;&#x7684;&#x5EAB;&#xFF1A;</p>
+<pre><code class="lang-sh">mylib.a: mydir/f1.o mydir/f2.o
+ar -rv mylib.a $?
+</code></pre>
+<p>&#x4E0A;&#x8FF0;&#x5169;&#x7A2E;&#x65B9;&#x6CD5;&#x90FD;&#x662F;&#x53EF;&#x884C;&#x7684;&#xFF0C;&#x81F3;&#x65BC;&#x4F7F;&#x7528;&#x54EA;&#x4E00;&#x7A2E;&#xFF0C;&#x9700;&#x8981;&#x6839;&#x64DA;&#x60A8;&#x7684;&#x9805;&#x76EE;&#x7684;&#x5177;&#x9AD4;&#x60C5;&#x6CC1;&#x4F86;&#x6C7A;&#x5B9A;&#x3002;</p>
+<h2 id="%E5%85%AD%E3%80%81gnu-make%E5%92%8Cgcc%E7%9A%84%E6%9C%89%E9%97%9C%E9%81%B8%E9%A0%85">&#x516D;&#x3001;GNU make&#x548C;gcc&#x7684;&#x6709;&#x95DC;&#x9078;&#x9805;</h2>
+<p>&#x5982;&#x679C;&#x60A8;&#x7576;&#x524D;&#x6B63;&#x5728;&#x4F7F;&#x7528;GNU make&#x548C;GNU gcc&#x7DE8;&#x8B6F;&#x5668;&#x7684;&#x8A71;&#xFF0C;&#x90A3;&#x9EBC;&#x5B83;&#x5011;&#x9084;&#x5206;&#x5225;&#x6709;&#x4E00;&#x500B;&#x984D;&#x5916;&#x7684;&#x9078;&#x9805;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#xFF0C;&#x4E0B;&#x9762;&#x5206;&#x5225;&#x52A0;&#x4EE5;&#x8AAA;&#x660E;&#x3002;</p>
+<p>&#x6211;&#x5011;&#x9996;&#x5148;&#x4ECB;&#x7D39;&#x7528;&#x65BC;make&#x7A0B;&#x5E8F;&#x7684;-jN &#x9078;&#x9805;&#x3002;&#x9019;&#x500B;&#x9078;&#x9805;&#x5141;&#x8A31;make&#x540C;&#x6642;&#x57F7;&#x884C;N&#x689D;&#x547D;&#x4EE4;&#x3002;&#x9019;&#x6A23;&#x7684;&#x8A71;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x5C07;&#x8A72;&#x9805;&#x76EE;&#x7684;&#x591A;&#x500B;&#x90E8;&#x5206;&#x55AE;&#x7368;&#x9032;&#x884C;&#x7DE8;&#x8B6F;&#xFF0C;make&#x5C07;&#x540C;&#x6642;&#x8ABF;&#x7528;&#x591A;&#x500B;&#x898F;&#x5247;&#x3002;&#x5982;&#x679C;&#x5177;&#x6709;&#x8A31;&#x591A;&#x6E90;&#x6587;&#x4EF6;&#x7684;&#x8A71;&#xFF0C;&#x9019;&#x6A23;&#x505A;&#x80FD;&#x5920;&#x7BC0;&#x7D04;&#x5927;&#x91CF;&#x7DE8;&#x8B6F;&#x6642;&#x9593;&#x3002;</p>
+<p>&#x5176;&#x6B21;&#xFF0C;gcc&#x9084;&#x6709;&#x4E00;&#x500B;-MM&#x9078;&#x9805;&#x53EF;&#x7528;&#xFF0C;&#x8A72;&#x9078;&#x9805;&#x6703;&#x70BA;make&#x751F;&#x6210;&#x4E00;&#x500B;&#x4F9D;&#x8CF4;&#x95DC;&#x4FC2;&#x8868;&#x3002;&#x5728;&#x4E00;&#x500B;&#x542B;&#x6709;&#x5927;&#x91CF;&#x6E90;&#x6587;&#x4EF6;&#x7684;&#x9805;&#x76EE;&#x4E2D;&#xFF0C;&#x5F88;&#x53EF;&#x80FD;&#x6BCF;&#x500B;&#x6E90;&#x6587;&#x4EF6;&#x90FD;&#x5305;&#x542B;&#x4E00;&#x7D44;&#x982D;&#x6587;&#x4EF6;&#xFF0C;&#x800C;&#x982D;&#x6587;&#x4EF6;&#x6709;&#x6642;&#x53C8;&#x6703;&#x5305;&#x542B;&#x5176;&#x5B83;&#x982D;&#x6587;&#x4EF6;&#xFF0C;&#x9019;&#x6642;&#x6B63;&#x78BA;&#x5340;&#x5206;&#x4F9D;&#x8CF4;&#x95DC;&#x4FC2;&#x5C31;&#x6BD4;&#x8F03;&#x96E3;&#x4E86;&#x3002;&#x9019;&#x6642;&#x70BA;&#x4E86;&#x9632;&#x6B62;&#x907A;&#x6F0F;&#xFF0C;&#x6700;&#x7B28;&#x7684;&#x65B9;&#x6CD5;&#x5C31;&#x662F;&#x8B93;&#x6BCF;&#x500B;&#x6E90;&#x6587;&#x4EF6;&#x4F9D;&#x8CF4;&#x65BC;&#x6240;&#x6709;&#x982D;&#x6587;&#x4EF6;&#xFF0C;&#x4F46;&#x9019;&#x986F;&#x7136;&#x6C92;&#x6709;&#x5FC5;&#x8981;&#xFF1B;&#x53E6;&#x4E00;&#x65B9;&#x9762;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x907A;&#x6F0F;&#x4E00;&#x4E9B;&#x4F9D;&#x8CF4;&#x95DC;&#x4FC2;&#x7684;&#x8A71;&#xFF0C;&#x5C31;&#x6839;&#x672C;&#x5C31;&#x7121;&#x6CD5;&#x7DE8;&#x8B6F;&#x901A;&#x904E;&#x3002;&#x9019;&#x6642;&#xFF0C;&#x6211;&#x5011;&#x5C31;&#x53EF;&#x4EE5;&#x7528;gcc&#x7684;-MM&#x9078;&#x9805;&#x4F86;&#x751F;&#x6210;&#x4E00;&#x5F35;&#x4F9D;&#x8CF4;&#x95DC;&#x4FC2;&#x8868;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;</p>
+<pre><code class="lang-sh">$ gcc -MM main.c f1.c f2.c
+main.o: main.c def1.h
+f1.o: f1.c def1.h def2.h
+f2.o: f2.c def2.h def3.h
+$
+</code></pre>
+<p>&#x9019;&#x6642;&#xFF0C;gcc&#x7DE8;&#x8B6F;&#x5668;&#x6703;&#x6383;&#x63CF;&#x6240;&#x6709;&#x6E90;&#x6587;&#x4EF6;&#xFF0C;&#x4E26;&#x751F;&#x7522;&#x4E00;&#x5F35;&#x6EFF;&#x8DB3;makefile&#x683C;&#x5F0F;&#x8981;&#x6C42;&#x7684;&#x4F9D;&#x8CF4;&#x95DC;&#x4FC2;&#x8868;&#xFF0C;&#x6211;&#x5011;&#x53EA;&#x9808;&#x5C07;&#x5B83;&#x4FDD;&#x5B58;&#x5230;&#x4E00;&#x500B;&#x81E8;&#x6642;&#x6587;&#x4EF6;&#x5167;&#xFF0C;&#x7136;&#x5F8C;&#x5C07;&#x5176;&#x63D2;&#x5165;makefile&#x5373;&#x53EF;&#x3002;</p>
+<h2 id="%E4%B8%83%E3%80%81%E5%B0%8F%E7%B5%90">&#x4E03;&#x3001;&#x5C0F;&#x7D50;</h2>
+<p>&#x7E7C;&#x4E0A;&#x4E00;&#x7BC7;&#x6587;&#x7AE0;&#x4E4B;&#x5F8C;&#xFF0C;&#x672C;&#x6587;&#x53C8;&#x5C0D;make&#x548C;makefile&#x7684;&#x4E00;&#x4E9B;&#x9AD8;&#x7D1A;&#x61C9;&#x7528;&#x4F5C;&#x4E86;&#x76F8;&#x61C9;&#x7684;&#x4ECB;&#x7D39;&#xFF0C;&#x81F3;&#x6B64;&#xFF0C;&#x6211;&#x5011;&#x5DF2;&#x7D93;&#x5C0D;make&#x548C;makefile&#x5728;&#x7A0B;&#x5E8F;&#x958B;&#x767C;&#x4E2D;&#x7684;&#x61C9;&#x7528;&#x6709;&#x4E86;&#x4E00;&#x500B;&#x8F03;&#x70BA;&#x5168;&#x9762;&#x7684;&#x8A8D;&#x8B58;&#xFF0C;&#x5E0C;&#x671B;&#x672C;&#x6587;&#x80FD;&#x5C0D;&#x8B80;&#x8005;&#x7684;&#x5B78;&#x7FD2;&#x548C;&#x5DE5;&#x4F5C;&#x6709;&#x6240;&#x5E6B;&#x52A9;&#x3002;</p>
 
                     
                     </section>
@@ -12978,10 +13172,10 @@ make menuconfig
         </div>
 
         
-        <a href="../toolchain/171.html" class="navigation navigation-prev " aria-label="Previous page: cross compiler install"><i class="fa fa-angle-left"></i></a>
+        <a href="../gunmake/shen_ru_xue_xi_makeming_ling_he_makefile.html" class="navigation navigation-prev " aria-label="Previous page: 深入學習Make命令和Makefile（上）"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../toolchain/173.html" class="navigation navigation-next " aria-label="Next page: arm交叉編譯器gnueabi、none-eabi、arm-eabi、gnueabihf、gnueabi區別"><i class="fa fa-angle-right"></i></a>
+        <a href="../22/index.html" class="navigation navigation-next " aria-label="Next page: [轉]國王的耳朵是驢耳朵"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

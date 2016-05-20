@@ -413,7 +413,7 @@
    * [Linux C++編譯及 靜態/動態 鏈接庫 筆記](gunmake/linux_cbian_yi_ji_jing_6001_dong_tai_lian_jie_ku_b.md)
    * [Makefile的基本結構](gunmake/makefilede_ji_ben_jie_gou.md)
    * [深入学习Make命令和Makefile（上）](gunmake/shen_ru_xue_xi_makeming_ling_he_makefile.md)
-   * 深入学习Make命令和Makefile（下）
+   * [深入学习Make命令和Makefile（下）](gunmake/shen_ru_xue_xi_makeming_ling_he_makefile_ff08_xia_.md)
 * [[轉]國王的耳朵是驢耳朵](22/README.md)
    * [Linker script初探 - GNU linker ld手冊略讀](22/221.md)
    * [GNU ld初探](22/222.md)

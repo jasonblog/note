@@ -1,10 +1,10 @@
-# 用GDB反汇编调试linux内核
+# 用GDB反彙編調試linux內核
 
 
-在搭建好linux内核调试环境之后还会遇到各种问题，比如linux内核是不允许已最低优化等级编译的，因此有时候打印一个变量值就会显示   <optimized out>
-  这个时候就需要采用其它的方式来显示变量值了，反汇编就是其中一种方式：
+在搭建好linux內核調試環境之後還會遇到各種問題，比如linux內核是不允許已最低優化等級編譯的，因此有時候打印一個變量值就會顯示   <optimized out>
+  這個時候就需要採用其它的方式來顯示變量值了，反彙編就是其中一種方式：
 
-当调试linux模块初始化函数的时候（http://blog.csdn.net/xsckernel/article/details/8159576）运行到 文件kernel/module.c ，函数add_sect_attrs 第1237行 时
+當調試linux模塊初始化函數的時候（http://blog.csdn.net/xsckernel/article/details/8159576）運行到 文件kernel/module.c ，函數add_sect_attrs 第1237行 時
 
 
 ```c
@@ -35,7 +35,7 @@ for (i = 0; i < info->hdr->e_shnum; i++)
 }
 ```
 
-打印sattr->address  则会显示变量已被优化：
+打印sattr->address  則會顯示變量已被優化：
 
 ```sh
 (gdb) p sattr ->address   
@@ -69,15 +69,15 @@ Dump of assembler code from 0xc107e00e to 0xc107e04e:
 End of assembler dump.
 ```
 
-从反汇编中不难看出此时寄存器esi指向结构体sattr。
-下断：
+從反彙編中不難看出此時寄存器esi指向結構體sattr。
+下斷：
 
 ```sh
 (gdb) b *0xc107e01d  
 Breakpoint 3 at 0xc107e01d: file kernel/module.c, line 1237.  
 ```
 
-这个点相当于调用完kstrdup 之后执行的第一条指令，此时eax存放elf 格式的节的名字：
+這個點相當於調用完kstrdup 之後執行的第一條指令，此時eax存放elf 格式的節的名字：
 
 ```sh
 (gdb) b *0xc107e01d  

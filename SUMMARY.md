@@ -367,7 +367,7 @@
    * [兩種將gdb的輸出信息存到文件的方法](gdb/liang_zhong_jiang_gdb_de_shu_chu_xin_xi_cun_dao_we.md)
    * [使用call命令在GDB中重複調用某函數](gdb/shi_yong_call_ming_ling_zai_gdb_zhong_zhong_fu_dia.md)
    * [通過 GDB 學習 C 語言](gdb/tongguo_gdb_xue_xi_c_yu_yan.md)
-   * [用GDB反汇编调试linux内核](gdb/yong_gdb_fanhui_bian_diao_shi_linux_nei_he.md)
+   * [用GDB反彙編調試linux內核](gdb/yong_gdb_fanhui_bian_diao_shi_linux_nei_he.md)
 * [Linux內核分析雲課堂學習筆記](mooc_linux_kernel/README.md)
    * [圖解分析彙編代碼以理解計算機是如何工作的](mooc_linux_kernel/191.md)
    * [基於mykernel的一個簡單的時間片輪轉多道程序內核代碼分析](mooc_linux_kernel/192.md)

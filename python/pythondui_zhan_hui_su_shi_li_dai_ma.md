@@ -1,4 +1,4 @@
-# python堆栈回溯示例代码
+# python堆棧回溯示例代碼
 
 ```py
 import sys, traceback

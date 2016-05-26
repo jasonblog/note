@@ -606,7 +606,7 @@
    * [kalman filter](osvr/kalman_filter.md)
    * [MPU6050](osvr/mpu6050.md)
    * [卡爾曼濾波 配合程式 講解](osvr/qia_er_man_lv_bo_pei_he_cheng_shi_jiang_jie.md)
-   * MPU6050数据轻松分析
+   * [MPU6050数据轻松分析](osvr/mpu6050shu_ju_qing_song_fen_xi.md)
 * [Treace code](treacecode/treace_code.md)
    * [[轉]閱讀程式碼的心理層面](treacecode/8f495d_yue_du_cheng_shi_ma_de_xin_li_ceng_mian.md)
    * [我的原始碼閱讀之道](treacecode/wo_de_yuan_shi_ma_yue_du_zhi_dao.md)

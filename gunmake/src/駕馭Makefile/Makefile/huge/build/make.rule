@@ -1,0 +1,73 @@
+.PHONY: all clean
+
+MKDIR = mkdir
+RM = rm
+RMFLAGS = -fr
+
+CC = gcc
+AR = ar
+ARFLAGS = crs
+
+DIR_OBJS = objs
+DIR_EXES = $(ROOT)/build/exes
+DIR_DEPS = deps
+DIR_LIBS = $(ROOT)/build/libs
+DIRS = $(DIR_DEPS) $(DIR_OBJS) $(DIR_EXES) $(DIR_LIBS)
+RMS = $(DIR_OBJS) $(DIR_DEPS)
+
+ifneq ($(EXE), "")
+EXE := $(addprefix $(DIR_EXES)/, $(EXE))
+RMS += $(EXE)
+endif
+
+ifneq ($(LIB), "")
+LIB := $(addprefix $(DIR_LIBS)/, $(LIB))
+RMS += $(LIB)
+endif
+
+SRCS = $(wildcard *.c)
+OBJS = $(SRCS:.c=.o)
+OBJS := $(addprefix $(DIR_OBJS)/, $(OBJS))
+DEPS = $(SRCS:.c=.dep)
+DEPS := $(addprefix $(DIR_DEPS)/, $(DEPS))
+
+ifneq ($(EXE), "")
+all: $(EXE)
+endif
+
+ifneq ($(LIB), "")
+all: $(LIB)
+endif
+
+ifneq ($(MAKECMDGOALS), clean)
+include $(DEPS)
+endif
+
+ifneq ($(INC_DIRS), "")
+INC_DIRS := $(strip $(INC_DIRS))
+INC_DIRS := $(addprefix -I, $(INC_DIRS))
+endif
+
+ifneq ($(LINK_LIBS), "")
+LINK_LIBS := $(strip $(LINK_LIBS))
+LINK_LIBS := $(addprefix -l, $(LINK_LIBS))
+endif
+
+$(DIRS):
+	$(MKDIR) $@
+$(EXE): $(DIR_EXES) $(OBJS)
+	$(CC) -L$(DIR_LIBS) -o $@ $(filter %.o, $^) $(LINK_LIBS)
+$(LIB): $(DIR_LIBS) $(OBJS)
+	$(AR) $(ARFLAGS) $@ $(filter %.o, $^)
+$(DIR_OBJS)/%.o: $(DIR_OBJS) %.c
+	$(CC) $(INC_DIRS) -o $@ -c $(filter %.c, $^)
+$(DIR_DEPS)/%.dep: $(DIR_DEPS) %.c
+	@echo "Making $@ ..."
+	@set -e ; \
+	$(RM) $(RMFLAGS) $@.tmp ; \
+	$(CC) $(INC_DIRS) -E -MM $(filter %.c, $^) > $@.tmp ; \
+	sed 's,\(.*\)\.o[ :]*,objs/\1.o $@: ,g' < $@.tmp > $@ ; \
+	$(RM) $(RMFLAGS) $@.tmp
+clean:
+	$(RM) $(RMFLAGS) $(RMS)
+

@@ -804,6 +804,7 @@
 * [OpenSoruce](opensoruce/opensoruce.md)
    * [開源網絡庫的分析libevent muduo nginx](opensoruce/kai_yuan_wang_luo_ku_de_fenxi_libevent_muduo_nginx.md)
    * [libevent 專案分析](opensoruce/libevent_zhuan_an_fen_xi.md)
+   * 使用 gdb 研究 libevent
 * [STM32](stm32/stm32.md)
    * [STM32的FPU體驗](stm32/stm32de_fpu_ti_yan.md)
 * [hacker](hacker/hacker/hacker.md)

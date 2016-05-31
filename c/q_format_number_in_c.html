@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>在gdb中執行cd和pwd命令 | Jason note</title>
+        <title>Q Format Number in C | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../100_gdb_tips/set-prompt.html" />
+    <link rel="next" href="../opensoruce/opensoruce.html" />
     
     
-    <link rel="prev" href="../100_gdb_tips/run-shell-command.html" />
+    <link rel="prev" href="../c/read_csv_in_c.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="45.16.5" data-basepath=".." data-revision="Wed Jun 01 2016 00:14:51 GMT+0800 (CST)">
+    <div class="book" data-level="52.3" data-basepath=".." data-revision="Wed Jun 01 2016 00:14:51 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -11860,7 +11860,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="45.16.5" data-path="100_gdb_tips/run-cd-pwd.html">
+        <li class="chapter " data-level="45.16.5" data-path="100_gdb_tips/run-cd-pwd.html">
             
                 
                     <a href="../100_gdb_tips/run-cd-pwd.html">
@@ -12648,7 +12648,7 @@
             
         </li>
     
-        <li class="chapter " data-level="52.3" data-path="c/q_format_number_in_c.html">
+        <li class="chapter active" data-level="52.3" data-path="c/q_format_number_in_c.html">
             
                 
                     <a href="../c/q_format_number_in_c.html">
@@ -13023,17 +13023,88 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E5%9C%A8gdb%E4%B8%AD%E5%9F%B7%E8%A1%8Ccd%E5%92%8Cpwd%E5%91%BD%E4%BB%A4">&#x5728;gdb&#x4E2D;&#x57F7;&#x884C;cd&#x548C;pwd&#x547D;&#x4EE4;</h1>
-<h2 id="%E6%8A%80%E5%B7%A7">&#x6280;&#x5DE7;</h2>
-<p>&#x662F;&#x7684;&#xFF0C;gdb&#x78BA;&#x5BE6;&#x652F;&#x6301;&#x9019;&#x5169;&#x500B;&#x547D;&#x4EE4;&#xFF0C;&#x96D6;&#x7136;&#x6211;&#x6C92;&#x6709;&#x60F3;&#x5230;&#x5B83;&#x5011;&#x6709;&#x4EC0;&#x9EBC;&#x7279;&#x5225;&#x7684;&#x7528;&#x8655;&#x3002;</p>
-<p>&#x4E5F;&#x8A31;&#xFF0C;&#x7576;&#x4F60;&#x555F;&#x52D5;gdb&#x4E4B;&#x5F8C;&#xFF0C;&#x767C;&#x73FE;&#x9700;&#x8981;&#x5207;&#x63DB;&#x5DE5;&#x4F5C;&#x76EE;&#x9304;&#xFF0C;&#x4F46;&#x53C8;&#x4E0D;&#x60F3;&#x9000;&#x51FA;gdb&#x7684;&#x6642;&#x5019;&#xFF1A;</p>
-<pre><code>(gdb) pwd
-Working directory /home/xmj.
-(gdb) cd tmp
-Working directory /home/xmj/tmp.
-</code></pre><p>&#x8A73;&#x60C5;&#x53C3;&#x898B;<a href="https://sourceware.org/gdb/onlinedocs/gdb/Working-Directory.html#Working-Directory" target="_blank">gdb&#x624B;&#x518A;</a></p>
-<h2 id="%E8%B2%A2%E7%8D%BB%E8%80%85">&#x8CA2;&#x737B;&#x8005;</h2>
-<p>xmj</p>
+                        <h1 id="q-format-number-in-c">Q Format Number in C</h1>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">QFormatIntegerToFloat</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> x,
+                             <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> n)</span>
+
+</span>{
+    <span class="hljs-keyword">return</span> (((<span class="hljs-keyword">double</span>)x) / ((<span class="hljs-keyword">double</span>)(<span class="hljs-number">1</span> &lt;&lt; n)));
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">FloatToQFormatInteger</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> x,
+                          <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> m,
+                          <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> n)</span>
+
+</span>{
+    <span class="hljs-keyword">int</span>   i;
+    <span class="hljs-keyword">int</span>   y;
+    <span class="hljs-keyword">int</span>   mask = <span class="hljs-number">0</span>;
+
+    y = (<span class="hljs-keyword">int</span>)(x * ((<span class="hljs-keyword">double</span>)(<span class="hljs-number">1</span> &lt;&lt; n)));  <span class="hljs-comment">// Generate the integer number in m.n format</span>
+
+    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; (m + n);
+         i++) {     <span class="hljs-comment">// Calculate the mask to ensure we return the correct number of valid bits</span>
+        mask = (mask &lt;&lt; <span class="hljs-number">1</span>) + <span class="hljs-number">1</span>;
+    }
+
+    <span class="hljs-keyword">return</span> (y &amp; mask);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">MpyQFormatInteger</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> x,
+                      <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> y,
+                      <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> n)</span>
+
+</span>{
+    <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> tmp;
+    tmp = ((<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>)x * (<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>)y) &gt;&gt; n;
+    <span class="hljs-keyword">return</span> ((<span class="hljs-keyword">int</span>)tmp);
+}
+
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">int</span>         a, b, c, d, e;
+
+
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%f = 0x%x\n&quot;</span>,  <span class="hljs-number">2.0</span> , FloatToQFormatInteger(<span class="hljs-number">2.0</span> , <span class="hljs-number">8</span>, <span class="hljs-number">24</span>));
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%f = 0x%x\n&quot;</span>,  <span class="hljs-number">1.5</span> , FloatToQFormatInteger(<span class="hljs-number">1.5</span> , <span class="hljs-number">8</span>, <span class="hljs-number">24</span>));
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%f = 0x%x\n&quot;</span>,  <span class="hljs-number">0.5</span> , FloatToQFormatInteger(<span class="hljs-number">0.5</span> , <span class="hljs-number">8</span>, <span class="hljs-number">24</span>));
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%f = 0x%x\n&quot;</span>,  <span class="hljs-number">0.25</span>, FloatToQFormatInteger(<span class="hljs-number">0.25</span>, <span class="hljs-number">8</span>, <span class="hljs-number">24</span>));
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%f = 0x%x\n&quot;</span>,  <span class="hljs-number">0.75</span>, FloatToQFormatInteger(<span class="hljs-number">0.75</span>, <span class="hljs-number">8</span>, <span class="hljs-number">24</span>));
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n&quot;</span>);
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">if</span> <span class="hljs-number">1</span></span>
+    a = FloatToQFormatInteger(<span class="hljs-number">2.0</span>, <span class="hljs-number">8</span>, <span class="hljs-number">24</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Result = 0x%x : %f\n&quot;</span>, a, QFormatIntegerToFloat(a , <span class="hljs-number">24</span>));
+    b = FloatToQFormatInteger(<span class="hljs-number">1.5</span>, <span class="hljs-number">8</span>, <span class="hljs-number">24</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Result = 0x%x : %f\n&quot;</span>, b, QFormatIntegerToFloat(b , <span class="hljs-number">24</span>));
+    c = FloatToQFormatInteger(<span class="hljs-number">0.5</span>, <span class="hljs-number">8</span>, <span class="hljs-number">24</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Result = 0x%x : %f\n&quot;</span>, c, QFormatIntegerToFloat(c , <span class="hljs-number">24</span>));
+    d = FloatToQFormatInteger(<span class="hljs-number">0.25</span>, <span class="hljs-number">8</span>, <span class="hljs-number">24</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Result = 0x%x : %f\n&quot;</span>, d, QFormatIntegerToFloat(d , <span class="hljs-number">24</span>));
+    e = FloatToQFormatInteger(<span class="hljs-number">0.75</span>, <span class="hljs-number">8</span>, <span class="hljs-number">24</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Result = 0x%x : %f\n&quot;</span>, e, QFormatIntegerToFloat(e , <span class="hljs-number">24</span>));
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">else</span></span>
+    a = FloatToQFormatInteger(<span class="hljs-number">0.75</span>, <span class="hljs-number">8</span>, <span class="hljs-number">24</span>);
+    b = FloatToQFormatInteger(<span class="hljs-number">2.0</span> , <span class="hljs-number">8</span>, <span class="hljs-number">24</span>);
+    c = MpyQFormatInteger(a, b, <span class="hljs-number">24</span>);
+
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Result = 0x%x : %f\n&quot;</span>, c, QFormatIntegerToFloat(c , <span class="hljs-number">24</span>));
+
+    d = FloatToQFormatInteger(<span class="hljs-number">0.5</span> , <span class="hljs-number">8</span>, <span class="hljs-number">24</span>);
+    e = MpyQFormatInteger(c, d, <span class="hljs-number">24</span>);
+
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Result = 0x%x : %f\n&quot;</span>, e, QFormatIntegerToFloat(e , <span class="hljs-number">24</span>));
+<span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span></span>
+
+    <span class="hljs-keyword">return</span> (<span class="hljs-number">0</span>);
+}
+</code></pre>
+<h2 id="ref">Ref</h2>
+<p><a href="http://blog.numerix-dsp.com/2015/01/c-code-to-implement-q-format-number.html" target="_blank">http://blog.numerix-dsp.com/2015/01/c-code-to-implement-q-format-number.html</a></p>
 
                     
                     </section>
@@ -13044,10 +13115,10 @@ Working directory /home/xmj/tmp.
         </div>
 
         
-        <a href="../100_gdb_tips/run-shell-command.html" class="navigation navigation-prev " aria-label="Previous page: 在gdb中執行shell命令和make"><i class="fa fa-angle-left"></i></a>
+        <a href="../c/read_csv_in_c.html" class="navigation navigation-prev " aria-label="Previous page: read csv in c"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../100_gdb_tips/set-prompt.html" class="navigation navigation-next " aria-label="Next page: 設置命令提示符"><i class="fa fa-angle-right"></i></a>
+        <a href="../opensoruce/opensoruce.html" class="navigation navigation-next " aria-label="Next page: OpenSoruce"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

@@ -81,3 +81,6 @@ int main()
     return (0);
 }
 ```
+
+## Ref
+http://blog.numerix-dsp.com/2015/01/c-code-to-implement-q-format-number.html

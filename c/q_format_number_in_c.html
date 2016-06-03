@@ -37,7 +37,7 @@
         
     
     
-    <link rel="next" href="../opensoruce/opensoruce.html" />
+    <link rel="next" href="../c/ieee764_using_c.html" />
     
     
     <link rel="prev" href="../c/read_csv_in_c.html" />
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="52.3" data-basepath=".." data-revision="Wed Jun 01 2016 00:14:51 GMT+0800 (CST)">
+    <div class="book" data-level="52.3" data-basepath=".." data-revision="Fri Jun 03 2016 23:07:43 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -5754,6 +5754,21 @@
                             <b>16.33.</b>
                         
                         用GDB反彙編調試linux內核
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="16.34" data-path="gdb/gdbxia_cha_kan_ji_yi_ti_zhi_4ee428_x_zhi_4ee429.html">
+            
+                
+                    <a href="../gdb/gdbxia_cha_kan_ji_yi_ti_zhi_4ee428_x_zhi_4ee429.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>16.34.</b>
+                        
+                        GDB下查看記憶體指令(x指令)
                     </a>
             
             
@@ -12663,6 +12678,21 @@
             
         </li>
     
+        <li class="chapter " data-level="52.4" data-path="c/ieee764_using_c.html">
+            
+                
+                    <a href="../c/ieee764_using_c.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>52.4.</b>
+                        
+                        IEEE764 using C
+                    </a>
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -13024,6 +13054,99 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="q-format-number-in-c">Q Format Number in C</h1>
+<h2 id="q15">Q15</h2>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;math.h&gt;</span></span>
+<span class="hljs-comment">/*
+Q&#x8868;&#x793A;    S&#x8868;&#x793A;    &#x5341;&#x9032;&#x5236;&#x6578;&#x8868;&#x793A;&#x7BC4;&#x570D;
+Q15    S0.15    -1&#x2264;x&#x2264;0.9999695
+Q14    S1.14    -2&#x2264;x&#x2264;1.9999390
+Q13    S2.13    -4&#x2264;x&#x2264;3.9998779
+Q12    S3.12    -8&#x2264;x&#x2264;7.9997559
+Q11    S4.11    -16&#x2264;x&#x2264;15.9995117
+Q10    S5.10    -32&#x2264;x&#x2264;31.9990234
+Q9    S6.9    -64&#x2264;x&#x2264;63.9980469
+Q8    S7.8    -128&#x2264;x&#x2264;127.9960938
+Q7    S8.7    -256&#x2264;x&#x2264;255.9921875
+Q6    S9.6    -512&#x2264;x&#x2264;511.9804375
+Q5    S10.5    -1024&#x2264;x&#x2264;1023.96875
+Q4    S11.4    -2048&#x2264;x&#x2264;2047.9375
+Q3    S12.3    -4096&#x2264;x&#x2264;4095.875
+Q2    S13.2    -8192&#x2264;x&#x2264;8191.75
+Q1    S14.1    -16384&#x2264;x&#x2264;16383.5
+Q0    S15.0    -32768&#x2264;x&#x2264;32767
+*/</span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> Q14(X) ((X &lt; <span class="hljs-number">0.0</span>) ? (int)(<span class="hljs-number">16384</span>*(X) - <span class="hljs-number">0.5</span>) : (int)(<span class="hljs-number">16384</span>*(X) + <span class="hljs-number">0.5</span>))</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> Q0(x) ( (x)&lt;<span class="hljs-number">0</span> ? ((int) (<span class="hljs-number">1.0</span>*(x) - <span class="hljs-number">0.5</span>)) : (min(<span class="hljs-number">32767</span>,(int) ((<span class="hljs-number">32767.0</span>/<span class="hljs-number">32768.0</span>)*(x) + <span class="hljs-number">0.5</span>))))</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> Q1(x) ( (x)&lt;<span class="hljs-number">0</span> ? ((int) (<span class="hljs-number">2.0</span>*(x) - <span class="hljs-number">0.5</span>)) : (min(<span class="hljs-number">32767</span>,(int) ((<span class="hljs-number">32767.0</span>/<span class="hljs-number">16384.0</span>)*(x) + <span class="hljs-number">0.5</span>))))</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> Q2(x) ( (x)&lt;<span class="hljs-number">0</span> ? ((int) (<span class="hljs-number">4.0</span>*(x) - <span class="hljs-number">0.5</span>)) : (min(<span class="hljs-number">32767</span>,(int) ((<span class="hljs-number">32767.0</span>/<span class="hljs-number">8192.0</span>)*(x) + <span class="hljs-number">0.5</span>))))</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> Q13(x) ( (x)&lt;<span class="hljs-number">0</span> ? ((int) (<span class="hljs-number">8192.0</span>*(x) - <span class="hljs-number">0.5</span>)) : (min(<span class="hljs-number">32767</span>,(int) ((<span class="hljs-number">32767.0</span>/<span class="hljs-number">4.0</span>)*(x) + <span class="hljs-number">0.5</span>))))</span>
+<span class="hljs-comment">// #define Q14(x) ( (x)&lt;0 ? ((int) (16384.0*(x) - 0.5)) : (min(32767,(int) ((32767.0/2.0)*(x) + 0.5))))</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> Q15(x) ( ((x)&lt;(<span class="hljs-number">0.0</span>)) ? ((int) (<span class="hljs-number">32768.0</span>*(x) - <span class="hljs-number">0.5</span>)) : (min(<span class="hljs-number">32767</span>,(int) (<span class="hljs-number">32767.0</span>*(x) + <span class="hljs-number">0.5</span>))))</span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> min(a,b)  (((a) &lt; (b)) ? (a) : (b))</span>
+
+<span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">power</span><span class="hljs-params">(<span class="hljs-keyword">double</span> base, <span class="hljs-keyword">int</span> n)</span>
+</span>{
+    <span class="hljs-keyword">int</span> i;
+    <span class="hljs-keyword">double</span> <span class="hljs-built_in">pow</span> = <span class="hljs-number">1.0</span>;
+
+    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">1</span>; i &lt;= n; i++) {
+        <span class="hljs-built_in">pow</span> = <span class="hljs-built_in">pow</span> * base;
+    }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">pow</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">QFormatIntegerToFloat</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> x,
+                             <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> n)</span>
+</span>{
+    <span class="hljs-keyword">return</span> (((<span class="hljs-keyword">double</span>)x) / ((<span class="hljs-keyword">double</span>)(<span class="hljs-number">1</span> &lt;&lt; n)));
+}
+
+<span class="hljs-function"><span class="hljs-keyword">short</span> <span class="hljs-title">FloatToQFormatInteger</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> x,
+                            <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> m,
+                            <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> n)</span>
+</span>{
+    <span class="hljs-keyword">return</span> (((x) &lt; (<span class="hljs-number">0.0</span>)) ? ((<span class="hljs-keyword">int</span>)(power(<span class="hljs-number">2</span>, n) * (x) - <span class="hljs-number">0.5</span>)) : (min(<span class="hljs-number">32767</span>, (<span class="hljs-keyword">int</span>)((<span class="hljs-number">32767.0</span> / (power(<span class="hljs-number">2</span>, m))) * (x) + <span class="hljs-number">0.5</span>))));
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>* argv[])</span>
+</span>{
+    <span class="hljs-comment">// Q14    S1.14    -2&#x2264;x&#x2264;1.9999390</span>
+    <span class="hljs-keyword">short</span> s = FloatToQFormatInteger(-<span class="hljs-number">2.0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">14</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%x, %f\n&quot;</span>, s, QFormatIntegerToFloat(s, <span class="hljs-number">14</span>));
+
+    s = FloatToQFormatInteger(<span class="hljs-number">2.0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">14</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%x, %f\n&quot;</span>, s, QFormatIntegerToFloat(s, <span class="hljs-number">14</span>));
+
+    <span class="hljs-comment">// Q9</span>
+    s = FloatToQFormatInteger(-<span class="hljs-number">64</span>, <span class="hljs-number">6</span>, <span class="hljs-number">9</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%x, %f\n&quot;</span>, s, QFormatIntegerToFloat(s, <span class="hljs-number">9</span>));
+
+    s = FloatToQFormatInteger(<span class="hljs-number">64</span>, <span class="hljs-number">6</span>, <span class="hljs-number">9</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%x, %f\n&quot;</span>, s, QFormatIntegerToFloat(s, <span class="hljs-number">9</span>));
+
+    <span class="hljs-comment">// Q15    S0.15    -1&#x2264;x&#x2264;0.9999695</span>
+    s = FloatToQFormatInteger(-<span class="hljs-number">1.0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">15</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%x, %f\n&quot;</span>, s, QFormatIntegerToFloat(s, <span class="hljs-number">15</span>));
+
+    s = FloatToQFormatInteger(<span class="hljs-number">1.0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">15</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%x, %f\n&quot;</span>, s, QFormatIntegerToFloat(s, <span class="hljs-number">15</span>));
+
+
+    <span class="hljs-comment">// Q0    S15.0    -32768&#x2264;x&#x2264;32767</span>
+    s = FloatToQFormatInteger(-<span class="hljs-number">32768</span>, <span class="hljs-number">15</span>, <span class="hljs-number">0</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%x, %f\n&quot;</span>, s, QFormatIntegerToFloat(s, <span class="hljs-number">0</span>));
+
+    s = FloatToQFormatInteger(<span class="hljs-number">32767</span>, <span class="hljs-number">15</span>, <span class="hljs-number">0</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%x, %f\n&quot;</span>, s, QFormatIntegerToFloat(s, <span class="hljs-number">0</span>));
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<h2 id="q31">Q31</h2>
 <pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
 
 <span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">QFormatIntegerToFloat</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> x,
@@ -13118,7 +13241,7 @@
         <a href="../c/read_csv_in_c.html" class="navigation navigation-prev " aria-label="Previous page: read csv in c"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../opensoruce/opensoruce.html" class="navigation navigation-next " aria-label="Next page: OpenSoruce"><i class="fa fa-angle-right"></i></a>
+        <a href="../c/ieee764_using_c.html" class="navigation navigation-next " aria-label="Next page: IEEE764 using C"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

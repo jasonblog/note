@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>linux下C與C++混合編程 | Jason note</title>
+        <title>mmap driver implementation | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../linux_system/1510.html" />
+    <link rel="next" href="../os/index.html" />
     
     
-    <link rel="prev" href="../linux_system/158.html" />
+    <link rel="prev" href="../linux_driver/linuxshe_bei_mo578b28_2__kobject.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="13.11" data-basepath=".." data-revision="Wed Jun 08 2016 23:09:39 GMT+0800 (CST)">
+    <div class="book" data-level="11.6" data-basepath=".." data-revision="Wed Jun 08 2016 23:09:39 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -3308,7 +3308,7 @@
             
         </li>
     
-        <li class="chapter " data-level="11.6" data-path="linux_driver/mmap_driver_implementation.html">
+        <li class="chapter active" data-level="11.6" data-path="linux_driver/mmap_driver_implementation.html">
             
                 
                     <a href="../linux_driver/mmap_driver_implementation.html">
@@ -4334,7 +4334,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="13.11" data-path="linux_system/159.html">
+        <li class="chapter " data-level="13.11" data-path="linux_system/159.html">
             
                 
                     <a href="../linux_system/159.html">
@@ -13068,150 +13068,284 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="linux%E4%B8%8Bc%E8%88%87c-%E6%B7%B7%E5%90%88%E7%B7%A8%E7%A8%8B">linux&#x4E0B;C&#x8207;C++&#x6DF7;&#x5408;&#x7DE8;&#x7A0B;</h1>
-<p>&#x539F;&#x6587;&#x51FA;&#x8655;&#xFF1A;<a href="http://www.cnblogs.com/dobest9014/archive/2011/04/26/2030845.html" target="_blank">http://www.cnblogs.com/dobest9014/archive/2011/04/26/2030845.html</a></p>
-<p>&#x9996;&#x5148;&#xFF0C;&#x6DF7;&#x5408;&#x7DE8;&#x7A0B;&#x4E0D;&#x662F;&#x6307;&#x5728;&#x540C;&#x4E00;&#x500B;&#x6587;&#x4EF6;&#x88E1;&#x5BEB;C&#x8207;C++&#x3002; &#x6BD4;&#x5982;&#x8AAA;&#x60F3;&#x5728;&#x540C;&#x4E00;&#x6587;&#x4EF6;&#x88E1;&#x540C;&#x6642; &#x5F31;&#x985E;&#x578B;&#x6AA2;&#x67E5;&#xFF0C;&#x53C8;&#x5F37;&#x985E;&#x578B;&#x6AA2;&#x67E5;&#xFF0C;&#x90A3;&#x771F;&#x5920;&#x55C6;&#x3002;&#x6DF7;&#x5408;&#x7DE8;&#x7A0B;&#x5305;&#x62EC;&#xFF1A;1&#xFF0C;C++&#x5F15;&#x7528;C&#x7684;&#x982D;&#x6587;&#x4EF6;&#xFF1B;2&#xFF0C;g++&#x751F;&#x6210;&#x7684;.o&#x8207;gcc&#x751F;&#x6210;&#x7684;.o&#x76F8;&#x93C8;&#x63A5;&#x3002;</p>
-<h3 id="1%EF%BC%8C%E5%9C%A8%E7%94%A8c%E8%AA%9E%E8%A8%80%E5%AF%AB%E7%9A%84%E9%A0%AD%E6%96%87%E4%BB%B6%E4%B8%AD%EF%BC%8C%E7%B6%93%E5%B8%B8%E5%8A%A0%E4%B8%8A%E5%A6%82%E4%B8%8B-%E4%BF%9D%E8%AD%B7%E5%AE%8F%E5%AE%9A%E7%BE%A9%EF%BC%9A">1&#xFF0C;&#x5728;&#x7528;C&#x8A9E;&#x8A00;&#x5BEB;&#x7684;&#x982D;&#x6587;&#x4EF6;&#x4E2D;&#xFF0C;&#x7D93;&#x5E38;&#x52A0;&#x4E0A;&#x5982;&#x4E0B; &#x4FDD;&#x8B77;&#x5B8F;&#x5B9A;&#x7FA9;&#xFF1A;</h3>
-<pre><code class="lang-c"><span class="hljs-comment">/*
- *   example.h
+                        <h1 id="mmap-driver-implementation">mmap driver implementation</h1>
+<ul>
+<li>mmap_kernel.c</li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/module.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/kernel.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/init.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/fs.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/debugfs.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/slab.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/version.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/mm.h&gt;</span>  /* mmap related stuff */</span>
+
+
+<span class="hljs-comment">/* Memory mapping: provides user programs with direct access to device memory
+ * Mapped area must be multiple of PAGE_SIZE, and starting address aligned to
+ * PAGE_SIZE
+ *
+ * syscall: mmap(caddr_t addr, size_t len, int ptro, int flags, int fd, off_t off)
+ * file operation: int (*mmap)(struct file *f, struct vm_area_struct *vma)
+ *
+ * Driver needs to: build page tables for address range, and replace vma-&gt;vm_ops
+ * Building page tables:
+ *    - all at once: remap_page_range
+ *    - one page at a time: nopage method. Finds correct page for address, and
+ *      increments its reference cout. Must be implemented if driver supports
+ *      mremap syscall
+ *
+ * fields in struct vm_area_struct:
+ *     unsigned long vm_start, vm_end: virtual address range covered
+ *                   by VMA
+ *     struct file *vm_file: file associated with VMA
+ *     struct vm_operations_struct *vm_ops: functions that kernel
+ *                   will invoke to operate in VMA
+ *     void *vm_private_data: used by driver to store its own information
+ *
+ * VMA operations:
+ *     void (*open)(struct vm_area_struct *vma): invoked when a new reference
+ *                   to the VMA is made, except when the VMA is first created,
+ *                   when mmap is called
+ *     struct page *(*nopage)(struct vm_area_struct *area,
+ *                            unsigned long address, int write_access):
+ *                   invoked by page fault handler when process tries to access
+ *                   valid page in VMA, but not currently in memory
  */</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">ifndef</span> EXAMPLE_H_</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EXAMPLE_H_</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">ifdef</span> __cplusplus</span>
-<span class="hljs-keyword">extern</span> <span class="hljs-string">&quot;C&quot;</span>{
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> DEV_NAME <span class="hljs-string">&quot;mmap_example&quot;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> PRINTFUNC() printk(KERN_ALERT DEV_NAME <span class="hljs-string">&quot;: %s called\n&quot;</span>, __func__)</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> PRINT(a) printk(KERN_ALERT DEV_NAME <span class="hljs-string">&quot;: %s: %s\n&quot;</span>, __func__, a)</span>
+
+<span class="hljs-keyword">struct</span> dentry*  file1;
+
+<span class="hljs-keyword">struct</span> mmap_info {
+    <span class="hljs-keyword">char</span>* data; <span class="hljs-comment">/* the data */</span>
+    <span class="hljs-keyword">int</span> reference;       <span class="hljs-comment">/* how many times it is mmapped */</span>
+};
+
+
+
+<span class="hljs-comment">/* keep track of how many times it is mmapped */</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">mmap_open</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> vm_area_struct* vma)</span>
+</span>{
+    <span class="hljs-keyword">struct</span> mmap_info* info = (<span class="hljs-keyword">struct</span> mmap_info*)vma-&gt;vm_private_data;
+    info-&gt;reference++;
+}
+
+<span class="hljs-comment">/* decrement reference cout */</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">mmap_close</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> vm_area_struct* vma)</span>
+</span>{
+    <span class="hljs-keyword">struct</span> mmap_info* info = (<span class="hljs-keyword">struct</span> mmap_info*)vma-&gt;vm_private_data;
+    info-&gt;reference--;
+}
+
+<span class="hljs-comment">/* nopage is called the first time a memory area is accessed which is not in memory,
+ * it does the actual mapping between kernel and user space memory
+ */</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">if</span> LINUX_VERSION_CODE &lt; KERNEL_VERSION(<span class="hljs-number">2</span>,<span class="hljs-number">6</span>,<span class="hljs-number">0</span>)</span>
+<span class="hljs-function"><span class="hljs-keyword">struct</span> page* <span class="hljs-title">mmap_nopage</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> vm_area_struct* vma, <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> address,
+                         <span class="hljs-keyword">int</span>* type)</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">else</span></span>
+<span class="hljs-keyword">int</span> <span class="hljs-title">mmap_fault</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> vm_area_struct* vma, <span class="hljs-keyword">struct</span> vm_fault* vmf)</span>
 <span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span></span>
-<span class="hljs-comment">/*&#x9019;&#x88E1;&#x662F;&#x982D;&#x6587;&#x4EF6;&#x5167;&#x5BB9;*/</span>
-<span class="hljs-comment">/*&#x982D;&#x6587;&#x4EF6;&#x5167;&#x5BB9;&#x7D50;&#x675F;*/</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">ifdef</span> __cplusplus</span>
-}
+</span>{
+    <span class="hljs-keyword">struct</span> page* page;
+    <span class="hljs-keyword">struct</span> mmap_info* info;
+<span class="hljs-preprocessor">#<span class="hljs-keyword">if</span> LINUX_VERSION_CODE &gt; KERNEL_VERSION(<span class="hljs-number">2</span>,<span class="hljs-number">6</span>,<span class="hljs-number">0</span>)</span>
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> address = (<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span>)vmf-&gt;virtual_address;
 <span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span></span>
+    PRINTFUNC();
+
+    <span class="hljs-comment">/* is the address valid? */</span>
+    <span class="hljs-keyword">if</span> (address &gt; vma-&gt;vm_end) {
+        PRINT(<span class="hljs-string">&quot;invalid address&quot;</span>);
+<span class="hljs-preprocessor">#<span class="hljs-keyword">if</span> LINUX_VERSION_CODE &lt; KERNEL_VERSION(<span class="hljs-number">2</span>,<span class="hljs-number">6</span>,<span class="hljs-number">0</span>)</span>
+        <span class="hljs-keyword">return</span> NOPAGE_SIGBUS;
+<span class="hljs-preprocessor">#<span class="hljs-keyword">else</span></span>
+        <span class="hljs-keyword">return</span> VM_FAULT_SIGBUS;
 <span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span></span>
-</code></pre>
-<h3 id="2%EF%BC%8C%E9%97%9C%E6%96%BCextern-c">2&#xFF0C;&#x95DC;&#x65BC;extern &quot;C&quot;</h3>
-<p>&#x7576;c++&#x5F15;&#x7528;c&#x7684;&#x51FD;&#x6578;&#xFF0C;&#x7D50;&#x69CB;&#x9AD4;&#x5B9A;&#x7FA9;&#x7B49;&#x6642;&#xFF0C;&#x8981;&#x8072;&#x660E;extern &quot;C&quot; &#x5F9E;&#x67D0;&#x7A2E;&#x610F;&#x7FA9;&#x4E0A;&#xFF0C;&#x9019;&#x5012;&#x662F;&#x50CF;&#x662F;&#x5728;C++&#x6587;&#x4EF6;&#x88E1;&#x5BEB;C&#x7684;&#x4E00;&#x7A2E;&#x65B9;&#x6CD5;&#x3002;&#x4E8B;&#x5BE6;&#x4E0A;&#xFF0C;&#x7531;&#x65BC;c++&#x6703;&#x5C07;&#x51FD;&#x6578;&#x6A19;&#x793A;&#x7B26;&#x9032;&#x884C;&#x4FEE;&#x98FE;&#x5F8C;&#x4F7F;&#x7528;&#xFF0C;&#x800C;C&#x4E0D;&#x6703;&#xFF0C;&#x6240;&#x4EE5;&#x7528;C++&#x7DE8;&#x8B6F;&#x7684;fun&#x6709;&#x53EF;&#x80FD;&#x662F;fun_int&#xFF0C;&#x9019;&#x6A23;&#x5728;&#x93C8;&#x63A5;&#x6642;&#x6703;&#x51FA;&#x73FE;&#x554F;&#x984C;&#x3002;&#x4F7F;&#x7528;extern &#x201C;C&#x201D;&#x4F86;&#x89E3;&#x6C7A;&#x9019;&#x4E00;&#x554F;&#x984C;&#xFF0C;&#x4F46;&#x5E36;&#x4F86;&#x7684;&#x5F71;&#x97FF;&#x662F;&#x4E0D;&#x80FD;&#x91CD;&#x8F09;&#x4E86;&#x3002;&#x7E3D;&#x4E4B;&#xFF0C;extern &quot;C&quot;&#x5373;&#x53EB;&#x7DE8;&#x8B6F;&#x5668;&#x6309;&#x7167;C&#x7684;&#x65B9;&#x5F0F;&#x53BB;&#x8655;&#x7406;&#x3002;</p>
-<h3 id="3%EF%BC%8C%E5%85%B7%E9%AB%94%E7%B7%A8%E8%AD%AF%E5%91%BD%E4%BB%A4-g-%E8%88%87-gcc">3&#xFF0C;&#x5177;&#x9AD4;&#x7DE8;&#x8B6F;&#x547D;&#x4EE4; g++ &#x8207; gcc</h3>
-<p>&#x5BE6;&#x4F8B;1&#xFF1A;</p>
-<pre><code class="lang-c"><span class="hljs-comment">//test.c</span>
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">fun</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b)</span>
-</span>{
-  <span class="hljs-keyword">return</span> a+b;
-}
-<span class="hljs-comment">//main.cpp</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;test.c&quot;</span></span>
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
-</span>{
-  <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%dn&quot;</span>, fun(<span class="hljs-number">10</span>, <span class="hljs-number">11</span>));
-  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-}
-</code></pre>
-<p>&#x9996;&#x5148;&#x7406;&#x89E3;include&#xFF0C;include&#x6703;&#x628A;&#x5305;&#x542B;&#x7684;&#x6587;&#x4EF6;&#x76F4;&#x63A5;&#x52A0;&#x5728;&#x672C;&#x6587;&#x4EF6;&#x4E2D;&#xFF0C;&#x548C;copy&#x904E;&#x4F86;&#x4E00;&#x6A23;&#x3002;&#x800C;&#x6211;&#x5011;&#x76F4;&#x63A5;&#x5305;&#x542B;&#x4E86;test.c&#x6587;&#x4EF6;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x982D;&#x6587;&#x4EF6;&#xFF0C;&#x6240;&#x4EE5;&#xFF0C;&#x76F4;&#x63A5;&#xFF1A;g++ -o main main.cpp &#x5373;&#x53EF;&#x5F97;&#x5230;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x3002;
-&#x5BE6;&#x4F8B;2&#xFF1A;</p>
-<pre><code class="lang-c"><span class="hljs-comment">//test.c</span>
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">fun</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b)</span>
-</span>{
-  <span class="hljs-keyword">return</span> a+b;
-}
-<span class="hljs-comment">//test.h</span>
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">fun</span><span class="hljs-params">(<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>)</span></span>;
-<span class="hljs-comment">//main.cpp</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;test.h&quot;</span></span>
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
-</span>{
-  <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%dn&quot;</span>, fun(<span class="hljs-number">10</span>, <span class="hljs-number">11</span>));
-  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-}
-</code></pre>
-<p>&#x6B63;&#x78BA;&#x7684;&#x7DE8;&#x8B6F;&#x65B9;&#x6CD5;&#xFF1A;</p>
-<pre><code class="lang-c">g++ -c test.c                <span class="hljs-comment">//&#x751F;&#x6210;test.o</span>
-g++ -c main.cpp              <span class="hljs-comment">//&#x751F;&#x6210;main.cpp</span>
-g++ -o main test.o main.o    <span class="hljs-comment">//&#x93C8;&#x63A5;&#xFF0C;&#x751F;&#x6210;main&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;</span>
-</code></pre>
-<p>&#x932F;&#x8AA4;&#x7684;&#x7DE8;&#x8B6F;&#x65B9;&#x6CD5;&#xFF1A;</p>
-<pre><code class="lang-c">gcc -c test.c                <span class="hljs-comment">//&#x751F;&#x6210;test.o</span>
-g++ -c main.cpp              <span class="hljs-comment">//&#x751F;&#x6210;main.cpp</span>
-g++ -o main test.o main.o    <span class="hljs-comment">//&#x93C8;&#x63A5;&#xFF0C;&#x751F;&#x6210;main&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;</span>
-</code></pre>
-<p>&#x5982;&#x679C;&#xFF0C;&#x60F3;&#x4F7F;&#x7B2C;&#x4E8C;&#x7A2E;&#x65B9;&#x6CD5;&#x6B63;&#x78BA;&#xFF0C;&#x5247;&#x5728;test.h&#x4E2D;&#x4F7F;&#x7528;extern &#x201C;C&#x201D;&#x8072;&#x660E;&#xFF0C;&#x6216;&#x8005;&#x5728;main.cpp&#x4E2D;&#xFF0C;&#x4F7F;&#x7528;extern &quot;C&quot;&#x8072;&#x660E;
-&#x5BE6;&#x4F8B;3
-&#x6B63;&#x78BA;&#x5BEB;&#x6CD5;1</p>
-<pre><code class="lang-c"><span class="hljs-comment">//test.c</span>
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">fun</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b)</span>
-</span>{
-    <span class="hljs-keyword">return</span> a+b;
-}
-<span class="hljs-comment">//test.h</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">ifdef</span> __cplusplus</span>
-<span class="hljs-keyword">extern</span> <span class="hljs-string">&quot;C&quot;</span>{
+    }
+
+    <span class="hljs-comment">/* the data is in vma-&gt;vm_private_data */</span>
+    info = (<span class="hljs-keyword">struct</span> mmap_info*)vma-&gt;vm_private_data;
+
+    <span class="hljs-keyword">if</span> (!info-&gt;data) {
+        PRINT(<span class="hljs-string">&quot;no data&quot;</span>);
+<span class="hljs-preprocessor">#<span class="hljs-keyword">if</span> LINUX_VERSION_CODE &lt; KERNEL_VERSION(<span class="hljs-number">2</span>,<span class="hljs-number">6</span>,<span class="hljs-number">0</span>)</span>
+        <span class="hljs-keyword">return</span> NOPAGE_OOM;
+<span class="hljs-preprocessor">#<span class="hljs-keyword">else</span></span>
+        <span class="hljs-keyword">return</span> VM_FAULT_SIGBUS;
 <span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span></span>
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">fun</span><span class="hljs-params">(<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>)</span></span>;
-<span class="hljs-preprocessor">#<span class="hljs-keyword">ifdef</span> __cplusplus</span>
-}
+    }
+
+    <span class="hljs-comment">/* get the page */</span>
+    page = virt_to_page(info-&gt;data);
+
+    <span class="hljs-comment">/* increment the reference count of this page */</span>
+    get_page(page);
+    <span class="hljs-comment">/* type is the page fault type */</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">if</span> LINUX_VERSION_CODE &lt; KERNEL_VERSION(<span class="hljs-number">2</span>,<span class="hljs-number">6</span>,<span class="hljs-number">0</span>)</span>
+
+    <span class="hljs-keyword">if</span> (type) {
+        *type = VM_FAULT_MINOR;
+    }
+
+    <span class="hljs-keyword">return</span> page;
+<span class="hljs-preprocessor">#<span class="hljs-keyword">else</span></span>
+    vmf-&gt;page = page;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 <span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span></span>
-</code></pre>
-<pre><code class="lang-c"><span class="hljs-comment">//main.cpp</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;test.h&quot;</span></span>
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+}
+
+<span class="hljs-keyword">struct</span> vm_operations_struct mmap_vm_ops = {
+    .open =     mmap_open,
+    .close =    mmap_close,
+<span class="hljs-preprocessor">#<span class="hljs-keyword">if</span> LINUX_VERSION_CODE &lt; KERNEL_VERSION(<span class="hljs-number">2</span>,<span class="hljs-number">6</span>,<span class="hljs-number">0</span>)</span>
+    .nopage =   mmap_nopage,
+<span class="hljs-preprocessor">#<span class="hljs-keyword">else</span></span>
+    .fault =    mmap_fault,
+<span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span></span>
+};
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">my_mmap</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> file* filp, <span class="hljs-keyword">struct</span> vm_area_struct* vma)</span>
 </span>{
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%dn&quot;</span>, fun(<span class="hljs-number">10</span>, <span class="hljs-number">11</span>));
+    PRINTFUNC();
+    vma-&gt;vm_ops = &amp;mmap_vm_ops;
+    vma-&gt;vm_flags |= VM_RESERVED;
+    <span class="hljs-comment">/* assign the file private data to the vm private data */</span>
+    vma-&gt;vm_private_data = filp-&gt;private_data;
+    mmap_open(vma);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">my_close</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> inode* inode, <span class="hljs-keyword">struct</span> file* filp)</span>
+</span>{
+    <span class="hljs-keyword">struct</span> mmap_info* info = filp-&gt;private_data;
+    PRINTFUNC();
+    free_page((<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span>)info-&gt;data);
+    kfree(info);
+    filp-&gt;private_data = <span class="hljs-literal">NULL</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">my_open</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> inode* inode, <span class="hljs-keyword">struct</span> file* filp)</span>
+</span>{
+    <span class="hljs-keyword">struct</span> mmap_info* info;
+    PRINTFUNC();
+
+    info = kmalloc(<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">struct</span> mmap_info), GFP_KERNEL);
+    <span class="hljs-comment">/* obtain new memory */</span>
+    info-&gt;data = (<span class="hljs-keyword">char</span>*)get_zeroed_page(GFP_KERNEL);
+    <span class="hljs-comment">/* writing something to it */</span>
+    <span class="hljs-built_in">memcpy</span>(info-&gt;data, <span class="hljs-string">&quot;hello from kernel this is file: &quot;</span>, <span class="hljs-number">32</span>);
+    <span class="hljs-built_in">memcpy</span>(info-&gt;data + <span class="hljs-number">32</span>, filp-&gt;f_dentry-&gt;d_name.name,
+           <span class="hljs-built_in">strlen</span>(filp-&gt;f_dentry-&gt;d_name.name));
+    <span class="hljs-comment">/* assign this info struct to the file */</span>
+    filp-&gt;private_data = info;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">struct</span> file_operations my_fops = {
+    .open = my_open,
+    .release = my_close,
+    .mmap = my_mmap,
+};
+
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> __<span class="hljs-function">init <span class="hljs-title">mmapexample_module_init</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    PRINTFUNC();
+    file1 = debugfs_create_file(DEV_NAME, <span class="hljs-number">0644</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>, &amp;my_fops);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> __<span class="hljs-function"><span class="hljs-built_in">exit</span> <span class="hljs-title">mmapexample_module_exit</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    PRINTFUNC();
+    debugfs_remove(file1);
+
+}
+
+module_init(mmapexample_module_init);
+module_exit(mmapexample_module_exit);
+MODULE_AUTHOR(<span class="hljs-string">&quot;Jose Medina&quot;</span>);
+MODULE_LICENSE(<span class="hljs-string">&quot;GPL&quot;</span>);
+</code></pre>
+<ul>
+<li>Makefile</li>
+</ul>
+<pre><code class="lang-sh">obj-m   := mmap_kernel.o
+KDIR    := /lib/modules/$(shell uname -r)/build
+PWD := $(shell <span class="hljs-built_in">pwd</span>) 
+
+all: 
+    $(MAKE) -C $(KDIR) SUBDIRS=$(PWD) modules
+</code></pre>
+<ul>
+<li>mmap_user.c</li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;fcntl.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/mman.h&gt;</span></span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> PAGE_SIZE <span class="hljs-number">4096</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>** argv)</span>
+</span>{
+    <span class="hljs-keyword">int</span> configfd;
+    configfd = open(<span class="hljs-string">&quot;/sys/kernel/debug/mmap_example&quot;</span>, O_RDWR);
+
+    <span class="hljs-keyword">if</span> (configfd &lt; <span class="hljs-number">0</span>) {
+        perror(<span class="hljs-string">&quot;open&quot;</span>);
+        <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;
+    }
+
+    <span class="hljs-keyword">char</span>* address = <span class="hljs-literal">NULL</span>;
+    address = mmap(<span class="hljs-literal">NULL</span>, PAGE_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, configfd,
+                   <span class="hljs-number">0</span>);
+
+    <span class="hljs-keyword">if</span> (address == MAP_FAILED) {
+        perror(<span class="hljs-string">&quot;mmap&quot;</span>);
+        <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;
+    }
+
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;initial message: %s\n&quot;</span>, address);
+    <span class="hljs-built_in">memcpy</span>(address + <span class="hljs-number">11</span> , <span class="hljs-string">&quot;*user*&quot;</span>, <span class="hljs-number">6</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;changed message: %s\n&quot;</span>, address);
+    close(configfd);
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
 </code></pre>
-<p>&#x6B63;&#x78BA;&#x5BEB;&#x6CD5;2</p>
-<pre><code class="lang-c"><span class="hljs-comment">//test.c</span>
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">fun</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b)</span>
-</span>{
-    <span class="hljs-keyword">return</span> a+b;
-}
-<span class="hljs-comment">//test.h</span>
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">fun</span><span class="hljs-params">(<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>)</span></span>;
-<span class="hljs-comment">//main.cpp</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
-<span class="hljs-keyword">extern</span> <span class="hljs-string">&quot;C&quot;</span>
-{
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;test.h&quot;</span></span>
-}
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
-</span>{
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%dn&quot;</span>, fun(<span class="hljs-number">10</span>, <span class="hljs-number">11</span>));
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-}
+<ul>
+<li>Testing</li>
+</ul>
+<pre><code class="lang-sh">root@debian:/home/user/Documents/mmap<span class="hljs-comment"># make</span>
+make -C /lib/modules/<span class="hljs-number">3.2</span>.<span class="hljs-number">0</span>-<span class="hljs-number">4</span>-<span class="hljs-number">686</span>-pae/build SUBDIRS=/home/user/Documents/mmap  modules
+make[<span class="hljs-number">1</span>]: Entering directory `/usr/src/linux-headers-<span class="hljs-number">3.2</span>.<span class="hljs-number">0</span>-<span class="hljs-number">4</span>-<span class="hljs-number">686</span>-pae<span class="hljs-string">&apos;
+  Building modules, stage 2.
+  MODPOST 1 modules
+make[1]: Leaving directory `/usr/src/linux-headers-3.2.0-4-686-pae&apos;</span>
+
+root@debian:/home/user/Documents/mmap<span class="hljs-comment"># insmod mmap_kernel.ko</span>
+
+root@debian:/home/user/Documents/mmap<span class="hljs-comment"># gcc mmap_user.c</span>
+
+root@debian:/home/user/Documents/mmap<span class="hljs-comment"># mount -t debugfs nodev /sys/kernel/debug/</span>
+
+root@debian:/home/user/Documents/mmap<span class="hljs-comment"># ./a.out </span>
+initial message: hello from kernel this is file: mmap_example
+changed message: hello from *user* this is file: mmap_example
 </code></pre>
-<p>&#x6B63;&#x78BA;&#x5BEB;&#x6CD5;3</p>
-<pre><code class="lang-c"><span class="hljs-comment">//test.c</span>
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">fun</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b)</span>
-</span>{
-    <span class="hljs-keyword">return</span> a+b;
-}
-</code></pre>
-<pre><code class="lang-c"><span class="hljs-comment">//test.h</span>
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">fun</span><span class="hljs-params">(<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>)</span></span>;
-<span class="hljs-comment">//main.cpp</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
-<span class="hljs-keyword">extern</span> <span class="hljs-string">&quot;C&quot;</span> <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">fun</span><span class="hljs-params">(<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>)</span></span>;
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
-</span>{
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%dn&quot;</span>, fun(<span class="hljs-number">10</span>, <span class="hljs-number">11</span>));
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-}
-</code></pre>
-<p>&#x5176;&#x4E2D;&#x6B63;&#x78BA;&#x5BEB;&#x6CD5; 3 &#x5F88;&#x6709;&#x610F;&#x601D;&#xFF0C;&#x5728;main.cpp&#x4E2D;&#xFF0C;&#x4E26;&#x6C92;&#x6709;&#x5305;&#x542B;test.h&#xFF0C; &#x9019;&#x88E1;&#x5BEB;&#x7684;extern &quot;C&quot; int fun(int, int)&#xFF0C;&#x5176;&#x5BE6;&#x5C31;&#x662F;&#x982D;&#x6587;&#x4EF6;&#x5167;&#x5BB9;&#x3002;&#x628A;&#x982D;&#x6587;&#x4EF6;&#x5167;&#x5BB9;&#x4EBA;&#x5DE5;&#x624B;&#x5BEB;&#x5728;main.cpp&#x4E2D;&#x548C;&#x7528;include&#x5305;&#x542B;&#x9032;&#x4F86;&#xFF0C;&#x662F;&#x4E00;&#x6A23;&#x6548;&#x679C;&#xFF0C;&#x9019;&#x6A23;&#x5C31;&#x597D;&#x7406;&#x89E3;&#x4E86;&#x3002; include&#x201C;test.h&#x201D; &#xFF0C;&#x5176;&#x5BE6;&#x4E5F;&#x5C31;&#x662F;&#x5BEB;&#x4E86;&#x4E00;&#x53E5; extern &quot;C&quot; int fun(int, int)&#x3002;&#x6240;&#x4EE5;&#x56B4;&#x683C;&#x4F86;&#x8AAA;&#xFF0C;.h&#x6587;&#x4EF6;&#x7121;&#x6240;&#x8B02;&#x662F;&#x5C6C;&#x65BC;C&#x9084;&#x662F;C++&#xFF0C;&#x88AB;&#x8AB0;&#x5305;&#x542B;&#xFF0C;&#x5C31;&#x5C6C;&#x65BC;&#x90A3;&#x7A2E;&#x8A9E;&#x8A00;&#x3002;</p>
-<h3 id="4-%E9%97%9C%E6%96%BCg-%EF%BC%8Cgcc">4, &#x95DC;&#x65BC;g++&#xFF0C;gcc</h3>
-<p>&#x76F4;&#x63A5;&#x5F15;&#x7528;<a href="http://blog.ednchina.com/olivernie/161559/message.aspx&#x4E0A;&#x7684;&#x539F;&#x6587;&#xFF0C;&#x9019;&#x6BB5;&#x8A71;&#x662F;&#x8F49;&#x8F09;&#xFF0C;&#x4E0D;&#x662F;&#x6211;&#x5BEB;&#x7684;&#x3002;" target="_blank">http://blog.ednchina.com/olivernie/161559/message.aspx&#x4E0A;&#x7684;&#x539F;&#x6587;&#xFF0C;&#x9019;&#x6BB5;&#x8A71;&#x662F;&#x8F49;&#x8F09;&#xFF0C;&#x4E0D;&#x662F;&#x6211;&#x5BEB;&#x7684;&#x3002;</a>
-<code>&#x5728;&#x570B;&#x5167;&#x641C;&#x7D22;&#x5F15;&#x64CE;&#x641C;&#x7D22;gcc&#x8207;g++&#xFF0C;&#x5927;&#x591A;&#x90FD;&#x662F;&#x5728;&#x8AAA;g++&#x6703;&#x8ABF;&#x7528;gcc&#x4F86;&#x7DE8;&#x8B6F;c++&#x6587;&#x4EF6;&#xFF0C;&#x570B;&#x5916;stackoverflow&#x5927;&#x591A;&#x518D;&#x8AAA;gcc&#x8ABF;&#x7528;g++&#x3002;&#x6709;&#x722D;&#x8B70;&#xFF0C;&#x5148;mark</code>&#x3002;</p>
-<p>gcc&#x548C;g++&#x90FD;&#x662F;GNU(&#x7D44;&#x7E54;)&#x7684;&#x4E00;&#x500B;&#x7DE8;&#x8B6F;&#x5668;&#x3002;</p>
-<p>&#x8AA4;&#x5340;&#x4E00;: gcc&#x53EA;&#x80FD;&#x7DE8;&#x8B6F;c&#x4EE3;&#x78BC;,g++&#x53EA;&#x80FD;&#x7DE8;&#x8B6F;c++&#x4EE3;&#x78BC;
-&#x5169;&#x8005;&#x90FD;&#x53EF;&#x4EE5;&#xFF0C;&#x4F46;&#x662F;&#x8ACB;&#x6CE8;&#x610F;&#xFF1A;
-1.&#x5F8C;&#x7DB4;&#x70BA;.c&#x7684;&#xFF0C;gcc&#x628A;&#x5B83;&#x7576;&#x4F5C;&#x662F;C&#x7A0B;&#x5E8F;&#xFF0C;&#x800C;g++&#x7576;&#x4F5C;&#x662F;c++&#x7A0B;&#x5E8F;&#xFF1B;&#x5F8C;&#x7DB4;&#x70BA;.cpp&#x7684;&#xFF0C;&#x5169;&#x8005;&#x90FD;&#x6703;&#x8A8D;&#x70BA;&#x662F;c++&#x7A0B;&#x5E8F;&#xFF0C;&#x6CE8;&#x610F;&#xFF0C;&#x96D6;&#x7136;c++&#x662F;c&#x7684;&#x8D85;&#x96C6;&#xFF0C;&#x4F46;&#x662F;&#x5169;&#x8005;&#x5C0D;&#x8A9E;&#x6CD5;&#x7684;&#x8981;&#x6C42;&#x662F;&#x6709;&#x5340;&#x5225;&#x7684;&#x3002;C++&#x7684;&#x8A9E;&#x6CD5;&#x898F;&#x5247;&#x66F4;&#x52A0;&#x56B4;&#x8B39;&#x4E00;&#x4E9B;&#x3002;
-2.&#x7DE8;&#x8B6F;&#x968E;&#x6BB5;&#xFF0C;g++&#x6703;&#x8ABF;&#x7528;gcc&#xFF0C;&#x5C0D;&#x65BC;c++&#x4EE3;&#x78BC;&#xFF0C;&#x5169;&#x8005;&#x662F;&#x7B49;&#x50F9;&#x7684;&#xFF0C;&#x4F46;&#x662F;&#x56E0;&#x70BA;gcc&#x547D;&#x4EE4;&#x4E0D;&#x80FD;&#x81EA;&#x52D5;&#x548C;C&#xFF0B;&#xFF0B;&#x7A0B;&#x5E8F;&#x4F7F;&#x7528;&#x7684;&#x5EAB;&#x806F;&#x63A5;&#xFF0C;&#x6240;&#x4EE5;&#x901A;&#x5E38;&#x7528;g++&#x4F86;&#x5B8C;&#x6210;&#x93C8;&#x63A5;&#xFF0C;&#x70BA;&#x4E86;&#x7D71;&#x4E00;&#x8D77;&#x898B;&#xFF0C;&#x4E7E;&#x8106;&#x7DE8;&#x8B6F;/&#x93C8;&#x63A5;&#x7D71;&#x7D71;&#x7528;g++&#x4E86;&#xFF0C;&#x9019;&#x5C31;&#x7D66;&#x4EBA;&#x4E00;&#x7A2E;&#x932F;&#x89BA;&#xFF0C;&#x597D;&#x50CF;cpp&#x7A0B;&#x5E8F;&#x53EA;&#x80FD;&#x7528;g++&#x4F3C;&#x7684;&#x3002;</p>
-<p>&#x8AA4;&#x5340;&#x4E8C;: gcc&#x4E0D;&#x6703;&#x5B9A;&#x7FA9;__cplusplus&#x5B8F;&#xFF0C;&#x800C;g++&#x6703;
-&#x5BE6;&#x969B;&#x4E0A;&#xFF0C;&#x9019;&#x500B;&#x5B8F;&#x53EA;&#x662F;&#x6A19;&#x8A8C;&#x8457;&#x7DE8;&#x8B6F;&#x5668;&#x5C07;&#x6703;&#x628A;&#x4EE3;&#x78BC;&#x6309;C&#x9084;&#x662F;C++&#x8A9E;&#x6CD5;&#x4F86;&#x89E3;&#x91CB;&#xFF0C;&#x5982;&#x4E0A;&#x6240;&#x8FF0;&#xFF0C;&#x5982;&#x679C;&#x5F8C;&#x7DB4;&#x70BA;.c&#xFF0C;&#x4E26;&#x4E14;&#x63A1;&#x7528;gcc&#x7DE8;&#x8B6F;&#x5668;&#xFF0C;&#x5247;&#x8A72;&#x5B8F;&#x5C31;&#x662F;&#x672A;&#x5B9A;&#x7FA9;&#x7684;&#xFF0C;&#x5426;&#x5247;&#xFF0C;&#x5C31;&#x662F;&#x5DF2;&#x5B9A;&#x7FA9;&#x3002;</p>
-<p>&#x8AA4;&#x5340;&#x4E09;: &#x7DE8;&#x8B6F;&#x53EA;&#x80FD;&#x7528;gcc&#xFF0C;&#x93C8;&#x63A5;&#x53EA;&#x80FD;&#x7528;g++
-&#x56B4;&#x683C;&#x4F86;&#x8AAA;&#xFF0C;&#x9019;&#x53E5;&#x8A71;&#x4E0D;&#x7B97;&#x932F;&#x8AA4;&#xFF0C;&#x4F46;&#x662F;&#x5B83;&#x6DF7;&#x6DC6;&#x4E86;&#x6982;&#x5FF5;&#xFF0C;&#x61C9;&#x8A72;&#x9019;&#x6A23;&#x8AAA;&#xFF1A;&#x7DE8;&#x8B6F;&#x53EF;&#x4EE5;&#x7528;gcc/g++&#xFF0C;&#x800C;&#x93C8;&#x63A5;&#x53EF;&#x4EE5;&#x7528;g++&#x6216;&#x8005;gcc -lstdc++&#x3002;&#x56E0;&#x70BA;gcc&#x547D;&#x4EE4;&#x4E0D;&#x80FD;&#x81EA;&#x52D5;&#x548C;C&#xFF0B;&#xFF0B;&#x7A0B;&#x5E8F;&#x4F7F;&#x7528;&#x7684;&#x5EAB;&#x806F;&#x63A5;&#xFF0C;&#x6240;&#x4EE5;&#x901A;&#x5E38;&#x4F7F;&#x7528;g++&#x4F86;&#x5B8C;&#x6210;&#x806F;&#x63A5;&#x3002;&#x4F46;&#x5728;&#x7DE8;&#x8B6F;&#x968E;&#x6BB5;&#xFF0C;g++&#x6703;&#x81EA;&#x52D5;&#x8ABF;&#x7528;gcc&#xFF0C;&#x4E8C;&#x8005;&#x7B49;&#x50F9;&#x3002;</p>
-<p><code>&#x7528;gcc&#x7DE8;&#x8B6F;c++&#x6587;&#x4EF6;&#xFF1A;</code></p>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#gcc -o test.exe test.cpp -lstdc++</span>
+<ul>
+<li>kernel log</li>
+</ul>
+<pre><code class="lang-sh">Apr <span class="hljs-number">14</span> <span class="hljs-number">13</span>:<span class="hljs-number">29</span>:<span class="hljs-number">03</span> debian kernel: [<span class="hljs-number">14012.052550</span>] mmap_example: mmapexample_module_init called
+Apr <span class="hljs-number">14</span> <span class="hljs-number">13</span>:<span class="hljs-number">35</span>:<span class="hljs-number">29</span> debian kernel: [<span class="hljs-number">14396.556063</span>] mmap_example: my_open called
+Apr <span class="hljs-number">14</span> <span class="hljs-number">13</span>:<span class="hljs-number">35</span>:<span class="hljs-number">29</span> debian kernel: [<span class="hljs-number">14396.556414</span>] mmap_example: my_mmap called
+Apr <span class="hljs-number">14</span> <span class="hljs-number">13</span>:<span class="hljs-number">35</span>:<span class="hljs-number">29</span> debian kernel: [<span class="hljs-number">14396.556997</span>] mmap_example: mmap_fault called
+Apr <span class="hljs-number">14</span> <span class="hljs-number">13</span>:<span class="hljs-number">35</span>:<span class="hljs-number">29</span> debian kernel: [<span class="hljs-number">14396.575186</span>] mmap_example: my_close called
 </code></pre>
 
                     
@@ -13223,10 +13357,10 @@ g++ -o main test.o main.o    <span class="hljs-comment">//&#x93C8;&#x63A5;&#xFF0
         </div>
 
         
-        <a href="../linux_system/158.html" class="navigation navigation-prev " aria-label="Previous page: C/C++混合編程"><i class="fa fa-angle-left"></i></a>
+        <a href="../linux_driver/linuxshe_bei_mo578b28_2__kobject.html" class="navigation navigation-prev " aria-label="Previous page: Linux設備模型(2)_Kobject"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../linux_system/1510.html" class="navigation navigation-next " aria-label="Next page: Static 與 Shared 的函式庫撰寫"><i class="fa fa-angle-right"></i></a>
+        <a href="../os/index.html" class="navigation navigation-next " aria-label="Next page: OS"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

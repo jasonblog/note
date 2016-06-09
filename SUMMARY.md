@@ -625,6 +625,7 @@
    * [如何在 Android 各 level ( 包含 user space 與 kernel space ) 使用dump call stack的方法](log/ru_he_zai_android_ge_level__bao_han_userspace_yu_k.md)
 * [embedded](embedded/embedded.md)
    * [JTAG是把屠龍刀，說說其作用和原理](embedded/jtagshi_ba_tu_long_dao_ff0c_shuo_shuo_qi_zuo_yong_.md)
+   * TQ210
 * [Linux Network](linux_network/linux_network.md)
    * [Linux Socket 入門](linux_network/linux_socket_ru_men.md)
    * [Socket programming 筆記](linux_network/socket_programming_bi_ji.md)

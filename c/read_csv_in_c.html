@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="52.2" data-basepath=".." data-revision="Sat Jun 11 2016 02:11:11 GMT+0800 (CST)">
+    <div class="book" data-level="52.2" data-basepath=".." data-revision="Sat Jun 11 2016 12:42:11 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -8267,6 +8267,21 @@
             
         </li>
     
+        <li class="chapter " data-level="27.17" data-path="python/generate_cc++_header_file_from_a_csv_file_for_arra.html">
+            
+                
+                    <a href="../python/generate_cc++_header_file_from_a_csv_file_for_arra.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>27.17.</b>
+                        
+                        Generate c/c++ header file from a CSV file (for array declaration)
+                    </a>
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -13141,21 +13156,29 @@
         <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;Cannot oepn the file&quot;</span>);
     }
 
-    <span class="hljs-keyword">while</span> (!feof(fp)) {
-        <span class="hljs-built_in">fscanf</span>(fp, <span class="hljs-string">&quot;%f,%f,%f,%lld,%f,%f,%f,%lld,%f,%f,%f,%lld&quot;</span>,
-               &amp;accx, &amp;accy, &amp;accz, &amp;acc_timestamp,
-               &amp;gyrox, &amp;gyroy, &amp;gyroz, &amp;gyro_timestamp,
-               &amp;magx, &amp;magy, &amp;magz, &amp;mag_timestamp);
+    <span class="hljs-built_in">fscanf</span>(fp, <span class="hljs-string">&quot;%f,%f,%f,%lld,%f,%f,%f,%lld,%f,%f,%f,%lld&quot;</span>,
+           &amp;accx, &amp;accy, &amp;accz, &amp;acc_timestamp,
+           &amp;gyrox, &amp;gyroy, &amp;gyroz, &amp;gyro_timestamp,
+           &amp;magx, &amp;magy, &amp;magz, &amp;mag_timestamp);
 
+    <span class="hljs-keyword">while</span> (!feof(fp)) {
         <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%f,%f,%f,%lld,%f,%f,%f,%lld,%f,%f,%f,%lld\n&quot;</span>,
                accx, accy, accz, acc_timestamp,
                gyrox, gyroy, gyroz, gyro_timestamp,
                magx, magy, magz, mag_timestamp);
+
+        <span class="hljs-built_in">fscanf</span>(fp, <span class="hljs-string">&quot;%f,%f,%f,%lld,%f,%f,%f,%lld,%f,%f,%f,%lld&quot;</span>,
+               &amp;accx, &amp;accy, &amp;accz, &amp;acc_timestamp,
+               &amp;gyrox, &amp;gyroy, &amp;gyroz, &amp;gyro_timestamp,
+               &amp;magx, &amp;magy, &amp;magz, &amp;mag_timestamp);
     }
 
     fclose(fp);
 }
 </code></pre>
+<ul>
+<li>5.csv</li>
+</ul>
 <pre><code class="lang-sh"><span class="hljs-number">0.90000</span>,-<span class="hljs-number">0.04000</span>,<span class="hljs-number">9.59000</span>,<span class="hljs-number">887669967101548</span>,-<span class="hljs-number">0.01000</span>,<span class="hljs-number">0.00000</span>,<span class="hljs-number">0.00000</span>,<span class="hljs-number">887669967101548</span>,<span class="hljs-number">26.59375</span>,-<span class="hljs-number">12.19531</span>,-<span class="hljs-number">112.56250</span>,<span class="hljs-number">887669967101548</span>
 <span class="hljs-number">0.89000</span>,-<span class="hljs-number">0.20000</span>,<span class="hljs-number">9.69000</span>,<span class="hljs-number">887669977147193</span>,<span class="hljs-number">0.00000</span>,<span class="hljs-number">0.00000</span>,<span class="hljs-number">0.00000</span>,<span class="hljs-number">887669977147193</span>,<span class="hljs-number">26.59375</span>,-<span class="hljs-number">12.19531</span>,-<span class="hljs-number">112.56250</span>,<span class="hljs-number">887669977147193</span>
 <span class="hljs-number">0.92000</span>,-<span class="hljs-number">0.16000</span>,<span class="hljs-number">9.71000</span>,<span class="hljs-number">887669987192838</span>,<span class="hljs-number">0.00000</span>,<span class="hljs-number">0.00000</span>,<span class="hljs-number">0.00000</span>,<span class="hljs-number">887669987192838</span>,<span class="hljs-number">26.59375</span>,-<span class="hljs-number">12.19531</span>,-<span class="hljs-number">112.56250</span>,<span class="hljs-number">887669987192838</span>

@@ -23,21 +23,28 @@ void Load_CSV(void)
         puts("Cannot oepn the file");
     }
 
-    while (!feof(fp)) {
-        fscanf(fp, "%f,%f,%f,%lld,%f,%f,%f,%lld,%f,%f,%f,%lld",
-               &accx, &accy, &accz, &acc_timestamp,
-               &gyrox, &gyroy, &gyroz, &gyro_timestamp,
-               &magx, &magy, &magz, &mag_timestamp);
+    fscanf(fp, "%f,%f,%f,%lld,%f,%f,%f,%lld,%f,%f,%f,%lld",
+           &accx, &accy, &accz, &acc_timestamp,
+           &gyrox, &gyroy, &gyroz, &gyro_timestamp,
+           &magx, &magy, &magz, &mag_timestamp);
 
+    while (!feof(fp)) {
         printf("%f,%f,%f,%lld,%f,%f,%f,%lld,%f,%f,%f,%lld\n",
                accx, accy, accz, acc_timestamp,
                gyrox, gyroy, gyroz, gyro_timestamp,
                magx, magy, magz, mag_timestamp);
+
+        fscanf(fp, "%f,%f,%f,%lld,%f,%f,%f,%lld,%f,%f,%f,%lld",
+               &accx, &accy, &accz, &acc_timestamp,
+               &gyrox, &gyroy, &gyroz, &gyro_timestamp,
+               &magx, &magy, &magz, &mag_timestamp);
     }
 
     fclose(fp);
 }
 ```
+
+- 5.csv
 
 ```sh
 0.90000,-0.04000,9.59000,887669967101548,-0.01000,0.00000,0.00000,887669967101548,26.59375,-12.19531,-112.56250,887669967101548

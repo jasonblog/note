@@ -1,0 +1,1 @@
+cmd_/home/shihyu/mmap_driver/mmap_kernel.ko := ld -r -m elf_x86_64 -T ./scripts/module-common.lds --build-id  -o /home/shihyu/mmap_driver/mmap_kernel.ko /home/shihyu/mmap_driver/mmap_kernel.o /home/shihyu/mmap_driver/mmap_kernel.mod.o

@@ -192,7 +192,7 @@
    * [Ubuntu更換內核方法](linux_kernel/ubuntugeng_huan_nei_he_fang_fa.md)
    * [調試工具ltrace strace ftrace的使用](linux_kernel/diao_shi_gong_ju_ltrace_strace_ftrace_de_shi_yong.md)
    * [根據內核Oops 定位代碼](linux_kernel/gen_ju_nei_he_oops_ding_wei_dai_ma.md)
-   * 内核和用户空间共享内存的实现例程-proc和mmap 
+   * [内核和用户空间共享内存的实现例程-proc和mmap](linux_kernel/nei_he_he_yong_hu_kong_jian_gong_xiang_nei_cun_de_.md)
 * [Linux Driver](linux_driver/README.md)
    * [Linux Device Driver Programming](linux_device_driver_programming/README.md)
        * [Linux 裝置驅動程式的概要](linux_device_driver_programming/01.md)

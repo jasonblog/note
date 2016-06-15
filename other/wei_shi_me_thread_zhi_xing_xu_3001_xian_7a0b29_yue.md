@@ -17,7 +17,7 @@
 
 講到 thread-safe，你又必須注意，你所呼叫的每個 API、library、system call...，有沒有 thread-safe？Compiler option 有沒有記得 enable thread-safe？
 
-很多常用的 library 為了效率、平台考量，並沒有支援 thread-safe，而是把這項工作留給了 user(例如 C++ STL)，你必須替這些 library 加一層醜陋的 mutex、semaphore 來保證內部的操作滿足 atomic。
+很多常用的 library 為了效率、平臺考量，並沒有支援 thread-safe，而是把這項工作留給了 user(例如 C++ STL)，你必須替這些 library 加一層醜陋的 mutex、semaphore 來保證內部的操作滿足 atomic。
 
 為了增加效率，你可能得再用上 reader/write lock、condition variable......哇
 
@@ -44,7 +44,7 @@
 
 然後微軟建議你用更難用難懂的 IOCP(I/O Completion Port)來寫程式，因為微軟自家的 WaitForMultipleObjects() 只能等待 64 組 events，select() 又是半殘只能用於 winsock(雖然說在 Linux 上這東西也不怎樣)。
 
-直到最近，微軟終於聽從民意推出了 WSAPoll() 這個 API，不過很可惜的是，知名網路工具 curl(號稱被下載百萬次，幾乎所有的平台都有移植版本)的作者表示這個 API 有 bug，而且微軟還不怎麼願意修...= =
+直到最近，微軟終於聽從民意推出了 WSAPoll() 這個 API，不過很可惜的是，知名網路工具 curl(號稱被下載百萬次，幾乎所有的平臺都有移植版本)的作者表示這個 API 有 bug，而且微軟還不怎麼願意修...= =
 
 (我個人的感想是，微軟壓根就不想讓您用 winsock 搞他的 OS)
 
@@ -57,7 +57,7 @@ Linux 粉不用特別開心，乍看 Linux thread 比 win32 thread 出色，但�
 
 在 Linux 界有 Linux 版 「Advanced Programming in the UNIX® Environment」美譽；The Linux Programming Interface 一書的作者 Michael Kerrisk 表示：thread 會使得 signal 的處理變得更加複雜。
 
-實際上也是如此，因為 signal 本來就已經是非同步的，往往就要加上一些程式碼避免 race condition，例如 mask signal，或是處理 EINTR 錯誤，這時候再加上一堆 threads，差不多就是等於先把自己放血再游過有一群鯊魚的海洋。
+實際上也是如此，因為 signal 本來就已經是非同步的，往往就要加上一些程式碼避免 race condition，例如 mask signal，或是處理 EINTR 錯誤，這時候再加上一堆 threads，差不多就是等於先把自己放血再遊過有一群鯊魚的海洋。
 
 signal 部份 UNIX 人士覺得是歷史遺跡，最好不要用。但是 Linux System Programming(作者Robert Love是知名 kernel hacker)，本書可以說是前面那本的精簡版，仍然為 signal 保留了不少章節，證明 signal 是很難避免的，但 thread 卻不一定非用不可...
 

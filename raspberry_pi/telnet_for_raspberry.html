@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>其它 | Jason note</title>
+        <title>telnet for raspberry | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../100_gdb_tips/option-format.html" />
+    <link rel="next" href="../opengl/opengl.html" />
     
     
-    <link rel="prev" href="../100_gdb_tips/winheight.html" />
+    <link rel="prev" href="../raspberry_pi/kgdb_for_rpi.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="45.16" data-basepath=".." data-revision="Sun Jun 19 2016 00:55:20 GMT+0800 (CST)">
+    <div class="book" data-level="30.22" data-basepath=".." data-revision="Sun Jun 19 2016 00:55:20 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -8720,7 +8720,7 @@
             
         </li>
     
-        <li class="chapter " data-level="30.22" data-path="raspberry_pi/telnet_for_raspberry.html">
+        <li class="chapter active" data-level="30.22" data-path="raspberry_pi/telnet_for_raspberry.html">
             
                 
                     <a href="../raspberry_pi/telnet_for_raspberry.html">
@@ -11925,7 +11925,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="45.16" data-path="100_gdb_tips/qi_ta.html">
+        <li class="chapter " data-level="45.16" data-path="100_gdb_tips/qi_ta.html">
             
                 
                     <a href="../100_gdb_tips/qi_ta.html">
@@ -13194,7 +13194,21 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E5%85%B6%E5%AE%83">&#x5176;&#x5B83;</h1>
+                        <h1 id="telnet-for-raspberry">telnet for raspberry</h1>
+<p>setNetwork.sh // &#x555F;&#x52D5;&#x7DB2;&#x8DEF;</p>
+<ul>
+<li>setTelnet.sh // &#x555F;&#x52D5; telnetd</li>
+</ul>
+<pre><code class="lang-sh">/bin/mkdir /dev/pts
+/bin/mount -t devpts devpts /dev/pts
+/usr/sbin/telnetd <span class="hljs-operator">-l</span> /bin/login
+</code></pre>
+<ul>
+<li>/etc/passwd</li>
+</ul>
+<pre><code class="lang-sh">root::<span class="hljs-number">0</span>:<span class="hljs-number">0</span>:root:/:/bin/sh
+</code></pre>
+<p>telnet 192.168.1.142  // &#x767B;&#x5165;&#x8F38;&#x5165; root &#x4E0D;&#x7528;&#x5BC6;&#x78BC;&#x5373;&#x53EF;&#x767B;&#x5165;</p>
 
                     
                     </section>
@@ -13205,10 +13219,10 @@
         </div>
 
         
-        <a href="../100_gdb_tips/winheight.html" class="navigation navigation-prev " aria-label="Previous page: 調整窗口大小"><i class="fa fa-angle-left"></i></a>
+        <a href="../raspberry_pi/kgdb_for_rpi.html" class="navigation navigation-prev " aria-label="Previous page: kgdb for RPI"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../100_gdb_tips/option-format.html" class="navigation navigation-next " aria-label="Next page: 命令行選項的格式"><i class="fa fa-angle-right"></i></a>
+        <a href="../opengl/opengl.html" class="navigation navigation-next " aria-label="Next page: OpenGL"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

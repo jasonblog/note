@@ -557,6 +557,7 @@
    * [使用 C++ 讀取 MPU-6050 加速度計與陀螺儀感測資料](raspberry_pi/shi_yong_c_++_du_qu_mpu_-_6050_jia_su_du_ji_yu_tuo.md)
    * [使用 MPU-6050 的 DMP 來取得更精準的運動感測資料](raspberry_pi/shi_yong_mpu_-_6050_de_dmp_lai_qu_de_geng_jing_zhu.md)
    * [kgdb for RPI](raspberry_pi/kgdb_for_rpi.md)
+   * telnet for raspberry 
 * [OpenGL](opengl/opengl.md)
    * [opengl(mesa) for ubuntu14.04](opengl/mesa.md)
    * [ubuntu 14.04 安裝OpenGL（基於freeglut）](opengl/1.md)

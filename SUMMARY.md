@@ -456,6 +456,7 @@
        * [Rtenv的linker Script解釋](22/2217.md)
        * [尋找"Hello World\n"](22/xun_627e22_hello_world__n.md)
        * [談談C語言的全域變數和 Linux Object 檔案的關係](22/tan_tan_c_yu_yan_de_quan_yu_bian_shu_he_linux_obje.md)
+       * 抓漏 - gdb 和 valgrind 合體技
 * [Shell](shell/README.md)
    * [shell十三問](shell/230.md)
        * [何為shell](shell/2311.md)

@@ -454,7 +454,7 @@
        * [Gcc的幾個參數筆記](22/gccde_ji_ge_can_shu_bi_ji.md)
        * [Linux中誰來呼叫C語言中的main?](22/2213.md)
        * [談談autotools 的 Build, Target, 和host](22/tan_tan_autotools_de_build_,_target_,_he_host.md)
-       * 尋找"Hello World\n"
+       * [尋找"Hello World\n"](22/xun_627e22_hello_world__n.md)
 * [Shell](shell/README.md)
    * [shell十三問](shell/230.md)
        * [何為shell](shell/2311.md)

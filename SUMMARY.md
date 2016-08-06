@@ -448,7 +448,7 @@
    * [使用strace找出程式缺少的檔案路徑](22/shi_yong_strace_zhao_chu_cheng_shi_que_shao_de_dan.md)
    * [談談strip](linux_system/tan_tan_strip.md)
    * [C語言](22/cyu_yan.md)
-       * C 語言的潛規則型態轉換
+       * [C 語言的潛規則型態轉換](22/c_yu_yan_de_qian_gui_ze_xing_tai_zhuan_huan.md)
 * [Shell](shell/README.md)
    * [shell十三問](shell/230.md)
        * [何為shell](shell/2311.md)

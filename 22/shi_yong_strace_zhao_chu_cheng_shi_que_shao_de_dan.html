@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>為fork調用設置catchpoint | Jason note</title>
+        <title>使用strace找出程式缺少的檔案路徑 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../100_gdb_tips/catch-vfork.html" />
+    <link rel="next" href="../shell/index.html" />
     
     
-    <link rel="prev" href="../100_gdb_tips/tcatch.html" />
+    <link rel="prev" href="../22/from-source-to-binary-how-gnu-toolchain-works.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="45.5.2" data-basepath=".." data-revision="Sat Aug 06 2016 16:12:46 GMT+0800 (CST)">
+    <div class="book" data-level="20.21" data-basepath=".." data-revision="Sat Aug 06 2016 16:12:46 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -6950,7 +6950,7 @@
             
         </li>
     
-        <li class="chapter " data-level="20.21" data-path="22/shi_yong_strace_zhao_chu_cheng_shi_que_shao_de_dan.html">
+        <li class="chapter active" data-level="20.21" data-path="22/shi_yong_strace_zhao_chu_cheng_shi_que_shao_de_dan.html">
             
                 
                     <a href="../22/shi_yong_strace_zhao_chu_cheng_shi_que_shao_de_dan.html">
@@ -10795,7 +10795,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="45.5.2" data-path="100_gdb_tips/catch-fork.html">
+        <li class="chapter " data-level="45.5.2" data-path="100_gdb_tips/catch-fork.html">
             
                 
                     <a href="../100_gdb_tips/catch-fork.html">
@@ -13254,42 +13254,38 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E7%82%BAfork%E8%AA%BF%E7%94%A8%E8%A8%AD%E7%BD%AEcatchpoint">&#x70BA;fork&#x8ABF;&#x7528;&#x8A2D;&#x7F6E;catchpoint</h1>
-<h2 id="%E4%BE%8B%E5%AD%90">&#x4F8B;&#x5B50;</h2>
-<pre><code>#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-#include &lt;sys/types.h&gt;
-#include &lt;unistd.h&gt;
-
-int main(void) {
-    pid_t pid;
-
-    pid = fork();
-    if (pid &lt; 0)
-    {
-        exit(1);
-    }
-    else if (pid &gt; 0)
-    {
-        exit(0);
-    }
-    printf(&quot;hello world\n&quot;);
-    return 0;
-}
-</code></pre><h2 id="%E6%8A%80%E5%B7%A7">&#x6280;&#x5DE7;</h2>
-<p>&#x4F7F;&#x7528;gdb&#x8ABF;&#x8A66;&#x7A0B;&#x5E8F;&#x6642;&#xFF0C;&#x53EF;&#x4EE5;&#x7528;&#x201C;<code>catch fork</code>&#x201D;&#x547D;&#x4EE4;&#x70BA;<code>fork</code>&#x8ABF;&#x7528;&#x8A2D;&#x7F6E;<code>catchpoint</code>&#xFF0C;&#x4EE5;&#x4E0A;&#x9762;&#x7A0B;&#x5E8F;&#x70BA;&#x4F8B;&#xFF1A;  </p>
-<pre><code>(gdb) catch fork
-Catchpoint 1 (fork)
-(gdb) r
-Starting program: /home/nan/a 
-
-Catchpoint 1 (forked process 33499), 0x00000034e42acdbd in fork () from /lib64/libc.so.6
-(gdb) bt
-#0  0x00000034e42acdbd in fork () from /lib64/libc.so.6
-#1  0x0000000000400561 in main () at a.c:9
-</code></pre><p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x7576;<code>fork</code>&#x8ABF;&#x7528;&#x767C;&#x751F;&#x5F8C;&#xFF0C;gdb&#x6703;&#x66AB;&#x505C;&#x7A0B;&#x5E8F;&#x7684;&#x904B;&#x884C;&#x3002;<br>&#x6CE8;&#x610F;&#xFF1A;&#x76EE;&#x524D;&#x53EA;&#x6709;HP-UX&#x548C;GNU/Linux&#x652F;&#x6301;&#x9019;&#x500B;&#x529F;&#x80FD;&#x3002;<br>&#x53C3;&#x898B;<a href="https://sourceware.org/gdb/onlinedocs/gdb/Set-Catchpoints.html" target="_blank">gdb&#x624B;&#x518A;</a>.</p>
-<h2 id="%E8%B2%A2%E7%8D%BB%E8%80%85">&#x8CA2;&#x737B;&#x8005;</h2>
-<p>nanxiao</p>
+                        <h1 id="%E4%BD%BF%E7%94%A8strace%E6%89%BE%E5%87%BA%E7%A8%8B%E5%BC%8F%E7%BC%BA%E5%B0%91%E7%9A%84%E6%AA%94%E6%A1%88%E8%B7%AF%E5%BE%91">&#x4F7F;&#x7528;strace&#x627E;&#x51FA;&#x7A0B;&#x5F0F;&#x7F3A;&#x5C11;&#x7684;&#x6A94;&#x6848;&#x8DEF;&#x5F91;</h1>
+<p>&#x9019;&#x7B97;&#x6975;&#x77ED;&#x7BC7;&#x3002;&#x5728;&#x7D44;&#x88DD;&#x5225;&#x4EBA;&#x8EDF;&#x9AD4;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x5E38;&#x5E38;&#x51FA;&#x73FE;&#x7F3A;&#x5C11;&#x6A94;&#x6848;&#x7684;&#x932F;&#x8AA4;&#xFF0C;&#x904B;&#x6C23;&#x4E0D;&#x597D;&#x7684;&#x4E0D;&#x6703;&#x8DDF;&#x4F60;&#x8AAA;&#x7F3A;&#x5C11;&#x7684;&#x6A94;&#x6848;&#x7684;&#x671F;&#x5F85;&#x8DEF;&#x5F91;&#xFF1B;&#x904B;&#x6C23;&#x66F4;&#x5DEE;&#x7684;&#x5C31;&#x6703;&#x9023;&#x932F;&#x8AA4;&#x90FD;&#x4E0D;&#x5370;&#xFF0C;&#x76F4;&#x63A5;&#x7A0B;&#x5F0F;crash&#x3002;&#x6211;&#x5F8C;&#x4F86;&#x77E5;&#x9053;strace&#x4E4B;&#x5F8C;&#xFF0C;&#x624D;&#x767C;&#x89BA;&#x5B83;&#x53EF;&#x4EE5;&#x7D50;&#x7701;&#x5F88;&#x591A;&#x5370;log&#x548C;trace&#x7A0B;&#x5F0F;&#x78BC;&#x7684;&#x6642;&#x9593;&#x3002;</p>
+<p>&#x9019;&#x6B21;&#x5C31;&#x4EE5;&#x524D;&#x4E00;&#x7BC7;&#x57F7;&#x884C;openocd&#x9047;&#x5230;&#x7684;&#x554F;&#x984C;&#x70BA;&#x4F8B;&#xFF1A;&#x7B2C;&#x4E00;&#x6B21;&#x7DE8;&#x8B6F;openocd&#x5F8C;&#xFF0C;&#x76F4;&#x63A5;&#x57F7;&#x884C;&#x6703;&#x51FA;&#x73FE;&#x627E;&#x4E0D;&#x5230;openocd.cfg&#x6A94;&#x6848;&#x3002;&#x7D93;&#x904E;&#x4E00;&#x4E9B;&#x8A66;&#x8AA4;&#x5F8C;&#x624D;&#x6709;&#x4E0A;&#x4E00;&#x7BC7;&#x6574;&#x7406;&#x51FA;&#x4F86;&#x7684;&#x6307;&#x4EE4;&#x3002;</p>
+<p>&#x932F;&#x8AA4;&#x8A0A;&#x606F;&#x5982;&#x4E0B;</p>
+<pre><code>$ openocd 
+Open On-Chip Debugger 0.10.0-dev-00250-g9c37747 (2016-04-07-22:20)
+Licensed under GNU GPL v2
+For bug reports, read
+  http://openocd.org/doc/doxygen/bugs.html
+embedded:startup.tcl:60: Error: Can&apos;t find openocd.cfg
+in procedure &apos;script&apos; 
+at file &quot;embedded:startup.tcl&quot;, line 60
+Error: Debug Adapter has to be specified, see &quot;interface&quot; command
+embedded:startup.tcl:60: Error: 
+in procedure &apos;script&apos; 
+at file &quot;embedded:startup.tcl&quot;, line 60
+</code></pre><p>&#x7528;strace &#x89C0;&#x5BDF;&#x8F38;&#x51FA;&#x8A0A;&#x606F;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c">$ strace -f openocd 2&gt;&amp;1  | grep cfg
+open(&quot;openocd.cfg&quot;, O_RDONLY)           = -1 ENOENT (No such file or directory)
+open(&quot;/home/asdf/.openocd/openocd.cfg&quot;, O_RDONLY) = -1 ENOENT (No such file or directory)
+open(&quot;/usr/local/share/openocd/site/openocd.cfg&quot;, O_RDONLY) = -1 ENOENT (No such file or directory)
+open(&quot;/usr/local/share/openocd/scripts/openocd.cfg&quot;, O_RDONLY) = -1 ENOENT (No such file or directory)
+write(2, &quot;embedded:startup.tcl:60: Error: &quot;..., 118embedded:startup.tcl:60: Error: Can&apos;t find openocd.cfg
+</code></pre>
+<p>&#x5F9E;&#x8F38;&#x51FA;&#x8A0A;&#x606F;&#x53EF;&#x4EE5;&#x77E5;&#x9053;&#xFF0C;openocd&#x6703;&#x4F9D;&#x4E0B;&#x9762;&#x7684;&#x9806;&#x5E8F;&#x8B80;&#x53D6;openocd.cfg</p>
+<ul>
+<li>&#x76EE;&#x524D;&#x76EE;&#x9304;&#x7684;openocd.cfg</li>
+<li>~/.openocd/openocd.cfg</li>
+<li>/usr/local/share/openocd/site/openocd.cfg</li>
+<li>/usr/local/share/openocd/scripts/openocd.cfg</li>
+</ul>
+<p>&#x6240;&#x4EE5;&#x63A5;&#x4E0B;&#x4F86;&#x5C31;&#x662F;&#x5728;openocd&#x7684;&#x539F;&#x59CB;&#x78BC;&#x4E2D;&#x6311;&#x548C;&#x4F60;&#x958B;&#x767C;target&#x53EF;&#x4EE5;&#x4F7F;&#x7528;config &#x6A94;&#x6848;&#xFF0C;&#x653E;&#x5165;~/.openocd&#x3001;&#x6539;&#x6210;openocd.cfg&#x3002;&#x7576;&#x7136;&#x4E8B;&#x60C5;&#x6C92;&#x90A3;&#x9EBC;&#x7C21;&#x55AE;&#xFF0C;&#x89E3;&#x6389;&#x9019;&#x500B;&#x554F;&#x984C;&#x63A5;&#x4E0B;&#x4F86;&#x9084;&#x6703;&#x6709;&#x4E00;&#x4E9B;&#x7F3A;&#x5C11;&#x6A94;&#x6848;&#x7684;&#x554F;&#x984C;&#xFF0C;&#x4E00;&#x6A23;&#x9760;strace&#x5C31;&#x53EF;&#x4EE5;&#x641E;&#x5B9A;&#x3002;</p>
 
                     
                     </section>
@@ -13300,10 +13296,10 @@ Catchpoint 1 (forked process 33499), 0x00000034e42acdbd in fork () from /lib64/l
         </div>
 
         
-        <a href="../100_gdb_tips/tcatch.html" class="navigation navigation-prev " aria-label="Previous page: 讓catchpoint只觸發一次"><i class="fa fa-angle-left"></i></a>
+        <a href="../22/from-source-to-binary-how-gnu-toolchain-works.html" class="navigation navigation-prev " aria-label="Previous page: from-source-to-binary-how-gnu-toolchain-works"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../100_gdb_tips/catch-vfork.html" class="navigation navigation-next " aria-label="Next page: 為vfork調用設置catchpoint"><i class="fa fa-angle-right"></i></a>
+        <a href="../shell/index.html" class="navigation navigation-next " aria-label="Next page: Shell"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

@@ -451,7 +451,7 @@
        * [C 語言的潛規則型態轉換](22/c_yu_yan_de_qian_gui_ze_xing_tai_zhuan_huan.md)
        * [C 語言的format string](22/c_yu_yan_de_format_string.md)
        * [C 語言的逗號](22/c_yu_yan_de_dou_hao.md)
-       * [系統函式庫的debug 資訊放在那邊？](22/hello_world.md)
+       * [Hello World](22/hello_world.md)
 * [Shell](shell/README.md)
    * [shell十三問](shell/230.md)
        * [何為shell](shell/2311.md)

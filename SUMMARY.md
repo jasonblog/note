@@ -447,7 +447,7 @@
    * [GNU: The C Preprocessor 導讀](22/2219.md)
    * [from-source-to-binary-how-gnu-toolchain-works](22/from-source-to-binary-how-gnu-toolchain-works.md)
    * [使用strace找出程式缺少的檔案路徑](22/shi_yong_strace_zhao_chu_cheng_shi_que_shao_de_dan.md)
-   * C語言
+   * [C語言](22/cyu_yan.md)
 * [Shell](shell/README.md)
    * [shell十三問](shell/230.md)
        * [何為shell](shell/2311.md)

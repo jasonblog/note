@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>使用gdb實時調式arduino | Jason note</title>
+        <title>談談strip | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../arduino/arduino_unokong_zhi_ban_jian_jie.html" />
+    <link rel="next" href="../assembly/index.html" />
     
     
-    <link rel="prev" href="../arduino/processing.html" />
+    <link rel="prev" href="../linux_system/mmapying_she_kong_jian_yu_nei_cun_he_ci_pan_de_io_.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="32.2" data-basepath=".." data-revision="Sat Aug 06 2016 22:04:29 GMT+0800 (CST)">
+    <div class="book" data-level="13.39" data-basepath=".." data-revision="Sat Aug 06 2016 22:04:29 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -4805,7 +4805,7 @@
             
         </li>
     
-        <li class="chapter " data-level="13.39" data-path="linux_system/tan_tan_strip.html">
+        <li class="chapter active" data-level="13.39" data-path="linux_system/tan_tan_strip.html">
             
                 
                     <a href="../linux_system/tan_tan_strip.html">
@@ -8882,7 +8882,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="32.2" data-path="arduino/arduinogdb.html">
+        <li class="chapter " data-level="32.2" data-path="arduino/arduinogdb.html">
             
                 
                     <a href="../arduino/arduinogdb.html">
@@ -13305,50 +13305,378 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E4%BD%BF%E7%94%A8gdb%E5%AF%A6%E6%99%82%E8%AA%BF%E5%BC%8Farduino">&#x4F7F;&#x7528;gdb&#x5BE6;&#x6642;&#x8ABF;&#x5F0F;arduino</h1>
-<h2 id="%E5%89%8D%E8%A8%80">&#x524D;&#x8A00;</h2>
-<p>arduino ide &#x529F;&#x80FD;&#x904E;&#x65BC;&#x7C21;&#x55AE;&#xFF0C;&#x9023;&#x6700;&#x57FA;&#x672C;&#x7684;&#x65B7;&#x9EDE;&#x8ABF;&#x5F0F;&#x529F;&#x80FD;&#x90FD;&#x4E0D;&#x63D0;&#x4F9B;&#x3002;&#x901A;&#x904E;&#x4E32;&#x53E3;&#x67E5;&#x770B;&#x8ABF;&#x5F0F;&#x6578;&#x64DA;&#x5BE6;&#x5728;&#x662F;&#x5F88;&#x4E0D;&#x4FBF;&#x6377;&#xFF0C;&#x901A;&#x904E;&#x67D0;&#x7A2E;&#x65B9;&#x5F0F;&#x9060;&#x7A0B;&#x8ABF;&#x5F0F;arduino&#x662F;&#x5F88;&#x6709;&#x5FC5;&#x8981;&#x7684;&#x3002;</p>
-<h2 id="%E7%92%B0%E5%A2%83">&#x74B0;&#x5883;</h2>
-<p>&#x9019;&#x6B21;&#x5617;&#x8A66;&#x662F;&#x5728;64&#x4F4D;ubuntu 14.04 &#x4E0B;&#x9032;&#x884C;&#xFF0C;&#x4F7F;&#x7528;&#x7684;arduino&#x677F;&#x5B50;&#x985E;&#x578B;&#x70BA; UNO.&#x9700;&#x8981;python 2 &#x652F;&#x6301;.</p>
-<h2 id="%E9%96%8B%E5%A7%8B">&#x958B;&#x59CB;</h2>
-<h3 id="%E9%85%8D%E7%BD%AEplatformio">&#x914D;&#x7F6E;PlatformIO</h3>
-<pre><code>PlatformIO is a cross-platform code builder and the missing library manager.
-</code></pre><p>&#x4EE5;&#x524D;&#x6211;&#x5728;linux&#x958B;&#x653E;arduino&#x6642;&#x5019;&#x4F7F;&#x7528;&#x7684;&#x662F;ino&#x5DE5;&#x5177;&#xFF0C;PlatformIO &#x548C;&#x5B83;&#x985E;&#x4F3C;&#xFF0C;&#x53EA;&#x4E0D;&#x904E;&#x5B83;&#x529F;&#x80FD;&#x66F4;&#x52A0;&#x5F37;&#x5927;&#xFF0C;&#x652F;&#x6301;&#x7684;&#x82AF;&#x7247;&#x7A2E;&#x985E;&#x7E41;&#x591A;&#xFF0C;&#x5305;&#x62EC;stm32,avr&#x90FD;&#x6709;&#x652F;&#x6301;link.&#x5C0D;&#x65BC;IDE &#x4E5F;&#x6709;&#x5F88;&#x597D;&#x7684;&#x914D;&#x7F6E;&#x6559;&#x7A0B;link,&#x751A;&#x81F3;&#x9084;&#x63D0;&#x4F9B;&#x5EAB;&#x7BA1;&#x7406;(&#x6C92;&#x7528;&#x904E;).</p>
-<pre><code class="lang-sh">sudo pip install platformio &amp;&amp; pip install --egg scons
+                        <h1 id="%E8%AB%87%E8%AB%87strip">&#x8AC7;&#x8AC7;strip</h1>
+<p>&#x7528;&#x4E2D;&#x6587;&#x8AAA;&#xFF0C;&#x5C31;&#x662F;&#x5F9E;object &#x6A94;&#x4E2D;&#x628A;symbol&#x4E1F;&#x6389;&#x3002;&#x8B93;&#x6211;&#x5011;&#x505A;&#x5E7E;&#x500B;&#x5C0F;&#x5BE6;&#x9A57;&#x5427;&#x3002;</p>
+<ul>
+<li><a href="#strip_test1">&#x6E2C;&#x8A66;&#x4E00;&#xFF1A;Strip &#x57F7;&#x884C;&#x6A94;</a></li>
+<li><a href="#strip_test2">&#x6E2C;&#x8A66;&#x4E8C;&#xFF1A;Strip Object&#x6A94;</a></li>
+<li><a href="#strip_test3">&#x6E2C;&#x8A66;&#x4E09;&#xFF1A;Strip debug &#x8CC7;&#x8A0A;</a></li>
+<li><a href="#strip_test4">&#x6E2C;&#x8A66;&#x56DB;&#xFF1A;Strip shared library</a></li>
+</ul>
+<h2 id="%E6%B8%AC%E8%A9%A6%E7%92%B0%E5%A2%83">&#x6E2C;&#x8A66;&#x74B0;&#x5883;</h2>
+<pre><code class="lang-sh">$ lsb_release <span class="hljs-operator">-a</span>
+No LSB modules are available.
+Distributor ID:    Ubuntu
+Description:    Ubuntu <span class="hljs-number">14.04</span>.<span class="hljs-number">3</span> LTS
+Release:    <span class="hljs-number">14.04</span>
+Codename:    trusty
 </code></pre>
-<p>&#x5B89;&#x88DD;&#x5F88;&#x7C21;&#x55AE;&#x3002;</p>
-<pre><code class="lang-sh"> platformio platforms install atmelavr
- platformio platforms show atmelavr
-</code></pre>
-<h2 id="%E5%AE%89%E8%A3%9Dsimulavr-%EF%BC%86-arv-gdb">&#x5B89;&#x88DD;simulavr &#xFF06; arv-gdb</h2>
-<pre><code class="lang-sh">sudo apt-get install gdb-avr simulavr
-</code></pre>
-<h2 id="%E9%85%8D%E7%BD%AE%E5%B7%A5%E7%A8%8B">&#x914D;&#x7F6E;&#x5DE5;&#x7A0B;</h2>
-<p>&#x521D;&#x59CB;&#x5316;&#x5DE5;&#x7A0B;</p>
-<pre><code class="lang-sh">mkdir uno ; <span class="hljs-built_in">cd</span> uno
-platformio init --board=uno
-</code></pre>
-<p>&#x4E4B;&#x5F8C;&#x53EF;&#x4EE5;&#x5728;src &#x88E1;&#x7DE8;&#x8F2F;&#x4EE3;&#x78BC;&#xFF0C;&#x5C07;&#x5EAB;&#x4F9D;&#x8CF4;&#x653E;&#x5230;lib &#x88E1;&#x3002;</p>
-<p>&#x7528;platformio run &#x4E0A;&#x50B3;&#x5230;&#x677F;&#x5B50;&#x3002;</p>
-<pre><code class="lang-sh"><span class="hljs-built_in">cd</span> src
-cp /home/shihyu/.mybin/arduino-<span class="hljs-number">1.7</span>.<span class="hljs-number">7</span>-linux64/examples/<span class="hljs-number">01</span>.Basics/Blink/Blink.ino .
-</code></pre>
-<h2 id="%E9%80%B2%E8%A1%8C%E8%AA%BF%E5%BC%8F">&#x9032;&#x884C;&#x8ABF;&#x5F0F;</h2>
-<h3 id="%E5%95%9F%E5%8B%95gdb-server">&#x555F;&#x52D5;gdb server</h3>
-<pre><code class="lang-sh">simulavr --gdbserver -p <span class="hljs-number">4242</span> --device atmega16
+<h2 id="%E6%B8%AC%E8%A9%A6%E7%A8%8B%E5%BC%8F">&#x6E2C;&#x8A66;&#x7A0B;&#x5F0F;</h2>
+<ul>
+<li>main_test.c</li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-function"><span class="hljs-keyword">extern</span> <span class="hljs-title">test</span><span class="hljs-params">()</span></span>;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    test();
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
 </code></pre>
 <ul>
-<li>gdbinit</li>
+<li>test.c</li>
 </ul>
-<pre><code>target remote localhost:4242
-add-symbol-file .pioenvs/uno/firmware.elf 0
-directory src
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
 
-b setup
-b loop
-</code></pre><pre><code class="lang-sh">cgdb <span class="hljs-operator">-d</span> avr-gdb
-<span class="hljs-built_in">source</span> gdbinit
+<span class="hljs-keyword">char</span> *g_myStr = <span class="hljs-string">&quot;Wen&quot;</span>;
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">char</span> *gp_myStr = <span class="hljs-string">&quot;Liao&quot;</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">s_test</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s %s\n&quot;</span>, g_myStr, gp_myStr);
+}
+
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">test</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Hello &quot;</span>);
+    s_test();
+}
 </code></pre>
+<ul>
+<li>Makefile</li>
+</ul>
+<pre><code class="lang-sh">TARGET=<span class="hljs-built_in">test</span>
+SRCS=test.c main_test.c
+OBJS=$(patsubst  %.c, %.o, $(SRCS))
+CFLAGS=-g
+
+$(TARGET): $(OBJS)
+    $(CC) $(CFLAGS) $^ -o <span class="hljs-variable">$@</span>
+
+clean:
+    rm -rf $(TARGET) $(OBJS)
+</code></pre>
+<h2 id="%E6%B8%AC%E8%A9%A6%E4%B8%80%EF%BC%9Astrip-%E5%9F%B7%E8%A1%8C%E6%AA%94">&#x6E2C;&#x8A66;&#x4E00;&#xFF1A;Strip &#x57F7;&#x884C;&#x6A94;</h2>
+<pre><code class="lang-sh">$ make clean
+rm -rf <span class="hljs-built_in">test</span>  test.o  main_test.o
+
+$ make
+cc -g   -c -o test.o test.c
+cc -g   -c -o main_test.o main_test.c
+cc -g test.o main_test.o -o <span class="hljs-built_in">test</span>
+
+$ ./<span class="hljs-built_in">test</span> 
+Hello Wen Liao
+
+$ ls <span class="hljs-built_in">test</span> -gG
+-rwxrwxr-x <span class="hljs-number">1</span> <span class="hljs-number">10217</span> Nov <span class="hljs-number">16</span> <span class="hljs-number">22</span>:<span class="hljs-number">33</span> <span class="hljs-built_in">test</span>
+</code></pre>
+<p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x7522;&#x751F;&#x51FA;&#x4F86;&#x7684;&#x57F7;&#x884C;&#x6A94;&#x6709;<code>10217</code> bytes&#x3002;&#x6211;&#x5011;&#x9032;&#x4E00;&#x6B65;&#x4F86;&#x770B;&#x57F7;&#x884C;&#x6A94;&#x7684;symbol&#x3002;</p>
+<pre><code class="lang-text">$ nm test
+0000000000601050 B __bss_start
+...
+0000000000601040 D g_myStr
+00000000004003e0 T _init
+...
+0000000000601048 d gp_myStr
+...
+000000000040056d T main
+                 U printf@@GLIBC_2.2.5
+...
+000000000040052d t s_test
+0000000000400553 T test
+0000000000601050 D __TMC_END__
+</code></pre>
+<p>&#x90A3;&#x9EBC;&#x4F86;&#x770B;&#x770B;strip&#x5F8C;&#x7684;&#x6A94;&#x6848;size&#x548C;symbol&#x5427;&#x3002;&#x4F60;&#x53EF;&#x4EE5;&#x770B;&#x5230;size&#x8B8A;&#x5C0F;&#x800C;&#x4E14;symbol&#x4E0D;&#x898B;&#x4E86;&#x3002;&#x53E6;&#x5916;&#x4E0A;&#x9762;&#x53EF;&#x4EE5;&#x6BD4;&#x5C0D;&#x4E00;&#x4E0B;<code>t</code>&#x3001;<code>T</code>&#x3001;<code>d</code>&#x3001;<code>D</code>&#x548C;<code>s_test</code>&#x3001;<code>test</code>&#x3001;<code>gp_myStr</code>&#x3001;<code>g_myStr</code>&#x7684;&#x95DC;&#x4FC2;&#x3002;</p>
+<pre><code class="lang-sh">$ strip <span class="hljs-built_in">test</span>
+
+$ ./<span class="hljs-built_in">test</span> 
+Hello Wen Liao
+
+$ nm <span class="hljs-built_in">test</span>
+nm: <span class="hljs-built_in">test</span>: no symbols
+
+$ ls -gG <span class="hljs-built_in">test</span>
+-rwxrwxr-x <span class="hljs-number">1</span> <span class="hljs-number">6296</span> Nov <span class="hljs-number">16</span> <span class="hljs-number">22</span>:<span class="hljs-number">36</span> <span class="hljs-built_in">test</span>
+</code></pre>
+<h2 id="%E6%B8%AC%E8%A9%A6%E4%BA%8C%EF%BC%9Astrip-object%E6%AA%94">&#x6E2C;&#x8A66;&#x4E8C;&#xFF1A;Strip Object&#x6A94;</h2>
+<p>&#x56E0;&#x70BA;strip&#x5C31;&#x662F;&#x628A;object file (&#x57F7;&#x884C;&#x6A94;&#x4E5F;&#x662F;&#x4E00;&#x7A2E;object file)&#x7684;symbol&#x62FF;&#x6389;&#xFF0C;&#x6240;&#x4EE5;&#x5728;link time&#x9700;&#x8981;symbol&#x6642;&#x5982;&#x679C;&#x8A72;object&#x6A94;&#x6848;&#x88AB;strip&#x904E;&#xFF0C;&#x5C31;&#x6703;&#x767C;&#x751F;&#x932F;&#x8AA4;&#x3002;&#x7BC4;&#x4F8B;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-sh">$ make clean
+rm -rf <span class="hljs-built_in">test</span>  test.o  main_test.o
+
+$ make
+cc -g   -c -o test.o test.c
+cc -g   -c -o main_test.o main_test.c
+cc -g test.o main_test.o -o <span class="hljs-built_in">test</span>
+
+$ nm <span class="hljs-operator">-a</span> test.o 
+<span class="hljs-number">0000000000000000</span> b .bss
+<span class="hljs-number">0000000000000000</span> n .comment
+<span class="hljs-number">0000000000000000</span> d .data
+<span class="hljs-number">0000000000000000</span> N .debug_abbrev
+<span class="hljs-number">0000000000000000</span> N .debug_aranges
+<span class="hljs-number">0000000000000000</span> N .debug_info
+<span class="hljs-number">0000000000000000</span> N .debug_line
+<span class="hljs-number">0000000000000000</span> N .debug_str
+<span class="hljs-number">0000000000000000</span> r .eh_frame
+<span class="hljs-number">0000000000000000</span> D g_myStr
+<span class="hljs-number">0000000000000008</span> d gp_myStr
+<span class="hljs-number">0000000000000000</span> n .note.GNU-stack
+                 U <span class="hljs-built_in">printf</span>
+<span class="hljs-number">0000000000000000</span> r .rodata
+<span class="hljs-number">0000000000000000</span> t s_<span class="hljs-built_in">test</span>
+<span class="hljs-number">0000000000000026</span> T <span class="hljs-built_in">test</span>
+<span class="hljs-number">0000000000000000</span> a test.c
+<span class="hljs-number">0000000000000000</span> t .text
+
+$ ls -gG test.o
+-rw-rw-r-- <span class="hljs-number">1</span> <span class="hljs-number">3944</span> Nov <span class="hljs-number">16</span> <span class="hljs-number">23</span>:<span class="hljs-number">02</span> test.o
+
+$ strip test.o 
+
+$ ls -gG test.o
+-rw-rw-r-- <span class="hljs-number">1</span> <span class="hljs-number">952</span> Nov <span class="hljs-number">16</span> <span class="hljs-number">23</span>:<span class="hljs-number">03</span> test.o
+
+$ nm test.o
+nm: test.o: no symbols
+
+$ make
+cc -g test.o main_test.o -o <span class="hljs-built_in">test</span>
+/usr/bin/ld: error <span class="hljs-keyword">in</span> test.o(.eh_frame); no .eh_frame_hdr table will be created.
+main_test.o: In <span class="hljs-keyword">function</span> `main<span class="hljs-string">&apos;:
+/home/wen/tmp/sandbox/main_test.c:6: undefined reference to `test&apos;</span>
+collect2: error: ld returned <span class="hljs-number">1</span> <span class="hljs-built_in">exit</span> status
+make: *** [<span class="hljs-built_in">test</span>] Error <span class="hljs-number">1</span>
+</code></pre>
+<p>&#x9019;&#x908A;&#x6211;<code>nm</code>&#x4E0B;&#x4E86;<code>-a</code>&#x53C3;&#x6578;&#xFF0C;&#x9019;&#x6703;&#x986F;&#x793A;&#x51FA;<strong>&#x6240;&#x6709;&#x7684;symbol</strong>&#xFF0C;&#x9810;&#x8A2D;&#x7684;<code>nm</code>&#x8F38;&#x51FA;&#x5982;&#x4E0B;&#x63D0;&#x4F9B;&#x6BD4;&#x8F03;&#x3002;</p>
+<pre><code class="lang-text">$ nm test.o 
+0000000000000000 D g_myStr
+0000000000000008 d gp_myStr
+                 U printf
+0000000000000000 t s_test
+0000000000000026 T test
+</code></pre>
+<p><a name="strip_test3"></a></p>
+<h2 id="%E6%B8%AC%E8%A9%A6%E4%B8%89%EF%BC%9Astrip-debug-%E8%B3%87%E8%A8%8A">&#x6E2C;&#x8A66;&#x4E09;&#xFF1A;Strip debug &#x8CC7;&#x8A0A;</h2>
+<p>&#x5176;&#x5BE6;&#x53EA;&#x662F;&#x55AE;&#x7D14;&#x8981;&#x4ECB;&#x7D39;<code>-d</code>&#x53C3;&#x6578;&#x800C;&#x5DF2;</p>
+<pre><code class="lang-sh">$ make clean
+rm -rf <span class="hljs-built_in">test</span>  test.o  main_test.o
+
+$ ls -gG test.o
+-rw-rw-r-- <span class="hljs-number">1</span> <span class="hljs-number">3944</span> Nov <span class="hljs-number">16</span> <span class="hljs-number">23</span>:<span class="hljs-number">02</span> test.o
+
+$ make
+cc -g   -c -o test.o test.c
+cc -g   -c -o main_test.o main_test.c
+cc -g test.o main_test.o -o <span class="hljs-built_in">test</span>
+
+$ ls -gG test.o
+-rw-rw-r-- <span class="hljs-number">1</span> <span class="hljs-number">3944</span> Nov <span class="hljs-number">16</span> <span class="hljs-number">23</span>:<span class="hljs-number">02</span> test.o
+
+$ strip <span class="hljs-operator">-d</span> test.o
+
+$ nm <span class="hljs-operator">-a</span> test.o
+<span class="hljs-number">0000000000000000</span> b .bss
+<span class="hljs-number">0000000000000000</span> n .comment
+<span class="hljs-number">0000000000000000</span> d .data
+<span class="hljs-number">0000000000000000</span> r .eh_frame
+<span class="hljs-number">0000000000000000</span> D g_myStr
+<span class="hljs-number">0000000000000008</span> d gp_myStr
+<span class="hljs-number">0000000000000000</span> n .note.GNU-stack
+                 U <span class="hljs-built_in">printf</span>
+<span class="hljs-number">0000000000000000</span> r .rodata
+<span class="hljs-number">0000000000000000</span> t s_<span class="hljs-built_in">test</span>
+<span class="hljs-number">0000000000000026</span> T <span class="hljs-built_in">test</span>
+<span class="hljs-number">0000000000000000</span> t .text
+
+$ make
+cc -g test.o main_test.o -o <span class="hljs-built_in">test</span>
+
+$ ./<span class="hljs-built_in">test</span>
+Hello Wen Liao
+
+$ ls -gG <span class="hljs-built_in">test</span> test.o
+-rwxrwxr-x <span class="hljs-number">1</span> <span class="hljs-number">9737</span> Nov <span class="hljs-number">16</span> <span class="hljs-number">23</span>:<span class="hljs-number">01</span> <span class="hljs-built_in">test</span>
+-rw-rw-r-- <span class="hljs-number">1</span> <span class="hljs-number">1896</span> Nov <span class="hljs-number">16</span> <span class="hljs-number">23</span>:<span class="hljs-number">01</span> test.o
+</code></pre>
+<h2 id="%E6%B8%AC%E8%A9%A6%E5%9B%9B%EF%BC%9Astrip-shared-library">&#x6E2C;&#x8A66;&#x56DB;&#xFF1A;Strip shared library</h2>
+<p>&#x9019;&#x908A;&#x8981;&#x5E79;&#x7684;&#x7B2C;&#x4E00;&#x4EF6;&#x4E8B;&#x662F;&#x4FEE;&#x6539;Makefile&#x5982;&#x4E0B;&#x3002;&#x4E3B;&#x8981;&#x662F;&#x628A;test.o&#x5305;&#x88DD;&#x6210;shared library&#xFF0C;&#x9019;&#x500B;Makefile&#x5F88;&#x919C;&#xFF0C;&#x6211;&#x77E5;&#x9053;&#x3002;</p>
+<ul>
+<li>Makefile</li>
+</ul>
+<pre><code class="lang-sh">TARGET=<span class="hljs-built_in">test</span>
+SRC=main_test.c
+OBJ=$(patsubst  %.c, %.o, $(SRC))
+
+LIB_SRC=test.c
+LIB_OBJ=$(patsubst  %.c, %.o, $(LIB_SRC))
+LIB_NAME=<span class="hljs-built_in">test</span>
+LIB=lib$(LIB_NAME).so
+CFLAGS=-g
+
+$(TARGET): $(OBJ) $(LIB)
+    $(CC) $(CFLAGS) $&lt; -o <span class="hljs-variable">$@</span> -L./ <span class="hljs-operator">-l</span>$(LIB_NAME)
+
+$(LIB): $(LIB_OBJ)
+    $(CC) -shared -Wl,-soname,$(LIB).<span class="hljs-number">0</span> $^ -o <span class="hljs-variable">$@</span>
+    rm $(LIB).<span class="hljs-number">0</span> &amp;&amp; ln -sf $(LIB) $(LIB).<span class="hljs-number">0</span>
+
+$(LIB_OBJ): $(LIB_SRC)
+    $(CC) $(CFLAGS) -c <span class="hljs-operator">-f</span>PIC $^
+
+clean:
+    rm -rf $(TARGET) $(OBJ) $(LIB_OBJ)
+</code></pre>
+<p>&#x81EA;&#x5E79;shared library&#x57F7;&#x884C;&#x7A0B;&#x5F0F;&#x7684;&#x6642;&#x5019;&#x4E0D;&#x8981;&#x5FD8;&#x8A18;&#x52A0;&#x4E0A;<code>LD_LIBRARY_PATH</code>&#x74B0;&#x5883;&#x8B8A;&#x6578;&#xFF1A;</p>
+<pre><code class="lang-sh">$ make clean
+rm -rf <span class="hljs-built_in">test</span>  main_test.o  test.o
+
+$ make
+cc -g   -c -o main_test.o main_test.c
+cc -g -c <span class="hljs-operator">-f</span>PIC test.c
+cc -shared -Wl,-soname,libtest.so.<span class="hljs-number">0</span> test.o -o libtest.so
+rm libtest.so.<span class="hljs-number">0</span> &amp;&amp; ln -sf libtest.so libtest.so.<span class="hljs-number">0</span>
+cc -g main_test.o -o <span class="hljs-built_in">test</span> -L./ -ltest
+
+$ LD_LIBRARY_PATH=`<span class="hljs-built_in">pwd</span>` ./<span class="hljs-built_in">test</span>
+Hello Wen Liao
+</code></pre>
+<p>&#x73FE;&#x5728;&#x4F86;&#x6BD4;&#x8F03;strip&#x524D;&#x5F8C;&#x7684;shared library &#x5DEE;&#x7570;&#x5427;&#x3002;</p>
+<pre><code class="lang-sh">$ nm <span class="hljs-operator">-a</span> libtest.so
+<span class="hljs-number">0000000000000000</span> a 
+<span class="hljs-number">0000000000201048</span> b .bss
+<span class="hljs-number">0000000000201048</span> B __bss_start
+<span class="hljs-number">0000000000000000</span> n .comment
+<span class="hljs-number">0000000000201048</span> b completed.<span class="hljs-number">6973</span>
+<span class="hljs-number">0000000000000000</span> a crtstuff.c
+<span class="hljs-number">0000000000000000</span> a crtstuff.c
+                 w __cxa_finalize@@GLIBC_2.<span class="hljs-number">2.5</span>
+<span class="hljs-number">0000000000201030</span> d .data
+<span class="hljs-number">0000000000000000</span> N .debug_abbrev
+<span class="hljs-number">0000000000000000</span> N .debug_aranges
+<span class="hljs-number">0000000000000000</span> N .debug_info
+<span class="hljs-number">0000000000000000</span> N .debug_line
+<span class="hljs-number">0000000000000000</span> N .debug_str
+<span class="hljs-number">0000000000000650</span> t deregister_tm_clones
+<span class="hljs-number">00000000000006</span>c0 t __<span class="hljs-keyword">do</span>_global_dtors_aux
+<span class="hljs-number">0000000000200</span>df0 t __<span class="hljs-keyword">do</span>_global_dtors_aux_fini_array_entry
+<span class="hljs-number">0000000000201030</span> d __dso_handle
+<span class="hljs-number">0000000000200</span>e00 d .dynamic
+<span class="hljs-number">0000000000200</span>e00 d _DYNAMIC
+<span class="hljs-number">0000000000000398</span> r .dynstr
+<span class="hljs-number">0000000000000230</span> r .dynsym
+<span class="hljs-number">0000000000201048</span> D _edata
+<span class="hljs-number">00000000000007</span>c0 r .eh_frame
+<span class="hljs-number">000000000000079</span>c r .eh_frame_hdr
+<span class="hljs-number">0000000000201050</span> B _end
+<span class="hljs-number">000000000000077</span>c T _fini
+<span class="hljs-number">000000000000077</span>c t .fini
+<span class="hljs-number">0000000000200</span>df0 t .fini_array
+<span class="hljs-number">0000000000000700</span> t frame_dummy
+<span class="hljs-number">0000000000200</span>de8 t __frame_dummy_init_array_entry
+<span class="hljs-number">0000000000000840</span> r __FRAME_END__
+<span class="hljs-number">0000000000201000</span> d _GLOBAL_OFFSET_TABLE_
+                 w __gmon_start__
+<span class="hljs-number">0000000000201038</span> D g_myStr
+<span class="hljs-number">00000000000001</span>f0 r .gnu.hash
+<span class="hljs-number">000000000000045</span>c r .gnu.version
+<span class="hljs-number">0000000000000480</span> r .gnu.version_r
+<span class="hljs-number">0000000000200</span>fd0 d .got
+<span class="hljs-number">0000000000201000</span> d .got.plt
+<span class="hljs-number">0000000000201040</span> d gp_myStr
+<span class="hljs-number">00000000000005</span>f0 T _init
+<span class="hljs-number">00000000000005</span>f0 t .init
+<span class="hljs-number">0000000000200</span>de8 t .init_array
+                 w _ITM_deregisterTMCloneTable
+                 w _ITM_registerTMCloneTable
+<span class="hljs-number">0000000000200</span>df8 d .jcr
+<span class="hljs-number">0000000000200</span>df8 d __JCR_END__
+<span class="hljs-number">0000000000200</span>df8 d __JCR_LIST__
+                 w _Jv_RegisterClasses
+<span class="hljs-number">00000000000001</span>c8 r .note.gnu.build-id
+<span class="hljs-number">0000000000000610</span> t .plt
+                 U <span class="hljs-built_in">printf</span>@@GLIBC_2.<span class="hljs-number">2.5</span>
+<span class="hljs-number">0000000000000680</span> t register_tm_clones
+<span class="hljs-number">00000000000004</span>a0 r .rela.dyn
+<span class="hljs-number">00000000000005</span>a8 r .rela.plt
+<span class="hljs-number">0000000000000785</span> r .rodata
+<span class="hljs-number">0000000000000735</span> t s_<span class="hljs-built_in">test</span>
+<span class="hljs-number">0000000000000760</span> T <span class="hljs-built_in">test</span>
+<span class="hljs-number">0000000000000000</span> a test.c
+<span class="hljs-number">0000000000000650</span> t .text
+<span class="hljs-number">0000000000201048</span> d __TMC_END__
+
+$ ls -gG libtest.so
+-rwxrwxr-x <span class="hljs-number">1</span> <span class="hljs-number">9275</span> Nov <span class="hljs-number">16</span> <span class="hljs-number">23</span>:<span class="hljs-number">47</span> libtest.so
+
+$ strip libtest.so
+
+$ ls -gG libtest.so
+-rwxrwxr-x <span class="hljs-number">1</span> <span class="hljs-number">6104</span> Nov <span class="hljs-number">16</span> <span class="hljs-number">23</span>:<span class="hljs-number">47</span> libtest.so
+
+$ nm <span class="hljs-operator">-a</span> libtest.so
+nm: libtest.so: no symbols
+
+$ LD_LIBRARY_PATH=`<span class="hljs-built_in">pwd</span>` ./<span class="hljs-built_in">test</span>
+Hello Wen Liao
+</code></pre>
+<p>&#x9019;&#x908A;&#x8B8A;&#x6210;&#x6709;&#x65B0;&#x7684;&#x4F5C;&#x696D;&#xFF0C;dynamic link&#x7684;&#x6642;&#x5019;&#x6C92;&#x6709;shared library&#x6C92;&#x6709;symbol&#x600E;&#x9EBC;&#x62FF;&#x5230;function address&#x548C;&#x5168;&#x57DF;&#x8B8A;&#x6578;&#xFF1F;&#x4E0B;&#x6B21;&#x6709;&#x770B;&#x5230;&#x518D;&#x4F86;&#x89E3;&#x91CB;&#x5427;&#x3002;</p>
+<h2 id="%E8%A3%9C%E5%85%85">&#x88DC;&#x5145;</h2>
+<p>&#x5982;&#x679C;&#x7DE8;&#x8B6F;&#x7684;&#x7A0B;&#x5F0F;&#x78BC;&#x6709;&#x52A0;&#x5165;debug&#x8CC7;&#x8A0A;&#xFF0C;objdump&#x5728;&#x53CD;&#x7D44;&#x8B6F;&#x7684;&#x6642;&#x5019;&#x53EF;&#x4EE5;&#x52A0;&#x5165;<code>-S</code>&#x53C3;&#x6578;&#x6BD4;&#x5C0D;&#x539F;&#x59CB;&#x78BC;&#x5C0D;&#x61C9;&#x7684;&#x6A5F;&#x68B0;&#x78BC;&#xFF0C;&#x5C0D;&#x65BC;&#x60F3;&#x8981;&#x7814;&#x7A76;&#x7CFB;&#x7D71;&#x7D30;&#x7BC0;&#x7684;&#x4EBA;&#x61C9;&#x8A72;&#x6709;&#x6240;&#x5E6B;&#x52A9;&#x3002;&#x7C21;&#x55AE;&#x7BC4;&#x4F8B;&#x5982;&#x4E0B;</p>
+<pre><code class="lang-sh"> x$ make clean
+rm -rf <span class="hljs-built_in">test</span>  test.o  main_test.o
+$ make
+cc -g   -c -o test.o test.c
+cc -g   -c -o main_test.o main_test.c
+cc -g test.o main_test.o -o <span class="hljs-built_in">test</span>
+
+$ objdump -S <span class="hljs-operator">-d</span> <span class="hljs-built_in">test</span>
+
+<span class="hljs-built_in">test</span>:     file format elf64-x86-<span class="hljs-number">64</span>
+
+
+Disassembly of section .init:
+
+<span class="hljs-number">00000000004003</span>e0 &lt;_init&gt;:
+  <span class="hljs-number">4003</span>e0:    <span class="hljs-number">48</span> <span class="hljs-number">83</span> ec <span class="hljs-number">08</span>              sub    <span class="hljs-variable">$0x8</span>,%rsp
+...
+
+<span class="hljs-number">0000000000400553</span> &lt;<span class="hljs-built_in">test</span>&gt;:
+
+
+void <span class="hljs-built_in">test</span>(void)
+{
+  <span class="hljs-number">400553</span>:    <span class="hljs-number">55</span>                       push   %rbp
+  <span class="hljs-number">400554</span>:    <span class="hljs-number">48</span> <span class="hljs-number">89</span> e5                 mov    %rsp,%rbp
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Hello &quot;</span>);
+  <span class="hljs-number">400557</span>:    bf <span class="hljs-number">24</span> <span class="hljs-number">06</span> <span class="hljs-number">40</span> <span class="hljs-number">00</span>           mov    <span class="hljs-variable">$0x400624</span>,%edi
+  <span class="hljs-number">40055</span>c:    b8 <span class="hljs-number">00</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span>           mov    <span class="hljs-variable">$0x0</span>,%eax
+  <span class="hljs-number">400561</span>:    e8 aa fe ff ff           callq  <span class="hljs-number">400410</span> &lt;<span class="hljs-built_in">printf</span>@plt&gt;
+    s_<span class="hljs-built_in">test</span>();
+  <span class="hljs-number">400566</span>:    e8 c2 ff ff ff           callq  <span class="hljs-number">40052</span>d &lt;s_<span class="hljs-built_in">test</span>&gt;
+}
+  <span class="hljs-number">40056</span>b:    <span class="hljs-number">5</span>d                       pop    %rbp
+  <span class="hljs-number">40056</span>c:    c3                       retq   
+
+...
+</code></pre>
+<h2 id="%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99">&#x53C3;&#x8003;&#x8CC7;&#x6599;</h2>
+<ul>
+<li>Binary Hacks&#xFF1A;&#x99ED;&#x5BA2;&#x79D8;&#x50B3;&#x6280;&#x5DE7;&#x4E00;&#x767E;&#x62DB;</li>
+</ul>
 
                     
                     </section>
@@ -13359,10 +13687,10 @@ b loop
         </div>
 
         
-        <a href="../arduino/processing.html" class="navigation navigation-prev " aria-label="Previous page: Processing communication with Arduino via serial"><i class="fa fa-angle-left"></i></a>
+        <a href="../linux_system/mmapying_she_kong_jian_yu_nei_cun_he_ci_pan_de_io_.html" class="navigation navigation-prev " aria-label="Previous page: mmap映射空間與內存和磁盤的IO性能對比"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../arduino/arduino_unokong_zhi_ban_jian_jie.html" class="navigation navigation-next " aria-label="Next page: Arduino UNO控制板簡介"><i class="fa fa-angle-right"></i></a>
+        <a href="../assembly/index.html" class="navigation navigation-next " aria-label="Next page: Assembly"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

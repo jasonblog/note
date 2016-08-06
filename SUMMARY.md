@@ -453,6 +453,7 @@
        * [系統函式庫的debug 資訊放在那邊？](22/xi_tong_han_shi_ku_de_debug_zi_xun_fang_zai_na_bia.md)
        * [Gcc的幾個參數筆記](22/gccde_ji_ge_can_shu_bi_ji.md)
        * [Linux中誰來呼叫C語言中的main?](22/2213.md)
+       * 談談autotools 的 Build, Target, 和host
 * [Shell](shell/README.md)
    * [shell十三問](shell/230.md)
        * [何為shell](shell/2311.md)

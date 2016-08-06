@@ -452,6 +452,7 @@
        * [C 語言的format string](22/c_yu_yan_de_format_string.md)
        * [C 語言的逗號](22/c_yu_yan_de_dou_hao.md)
        * [系統函式庫的debug 資訊放在那邊？](22/xi_tong_han_shi_ku_de_debug_zi_xun_fang_zai_na_bia.md)
+       * Gcc的幾個參數筆記
 * [Shell](shell/README.md)
    * [shell十三問](shell/230.md)
        * [何為shell](shell/2311.md)

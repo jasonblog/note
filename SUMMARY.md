@@ -832,4 +832,5 @@
        * [想創業？再想想吧](hacker/c9s/xiang_chuang_ye_ff1f_zai_xiang_xiang_ba.md)
        * [健康的泡沫](hacker/c9s/jian_kang_de_pao_mo.md)
        * [API 設計— 命名之術](hacker/c9s/api_she_ji_2014_ming_ming_zhi_shu.md)
+* Saleae
 

@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Python 基本爬蟲程式 以 Google 新聞為例 | Jason note</title>
+        <title>一個並發10k的簡易群聊天室（使用epoll） | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../python/python_xin_wen_guan_jian_zi_cha_xun.html" />
+    <link rel="next" href="../assembly/index.html" />
     
     
-    <link rel="prev" href="../python/ge_gu_nian_cheng_jiao_zi_xun.html" />
+    <link rel="prev" href="../linux_system/mmapying_she_kong_jian_yu_nei_cun_he_ci_pan_de_io_.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="27.1.2" data-basepath=".." data-revision="Mon Aug 08 2016 00:49:49 GMT+0800 (CST)">
+    <div class="book" data-level="13.39" data-basepath=".." data-revision="Mon Aug 08 2016 00:49:49 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -4805,7 +4805,7 @@
             
         </li>
     
-        <li class="chapter " data-level="13.39" data-path="linux_system/yi_ge_bing_fa_10k_de_jian_yi_qun_liao_tian_shi_ff0.html">
+        <li class="chapter active" data-level="13.39" data-path="linux_system/yi_ge_bing_fa_10k_de_jian_yi_qun_liao_tian_shi_ff0.html">
             
                 
                     <a href="../linux_system/yi_ge_bing_fa_10k_de_jian_yi_qun_liao_tian_shi_ff0.html">
@@ -8223,7 +8223,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="27.1.2" data-path="python/python_ji_ben_pa_chong_cheng_shi_yi_google_xin_wen.html">
+        <li class="chapter " data-level="27.1.2" data-path="python/python_ji_ben_pa_chong_cheng_shi_yi_google_xin_wen.html">
             
                 
                     <a href="../python/python_ji_ben_pa_chong_cheng_shi_yi_google_xin_wen.html">
@@ -13506,153 +13506,227 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="python-%E5%9F%BA%E6%9C%AC%E7%88%AC%E8%9F%B2%E7%A8%8B%E5%BC%8F-%E4%BB%A5-google-%E6%96%B0%E8%81%9E%E7%82%BA%E4%BE%8B">Python &#x57FA;&#x672C;&#x722C;&#x87F2;&#x7A0B;&#x5F0F; &#x4EE5; Google &#x65B0;&#x805E;&#x70BA;&#x4F8B;</h1>
-<pre><code class="lang-py"><span class="hljs-comment"># coding=utf-8</span>
+                        <h1 id="%E4%B8%80%E5%80%8B%E4%B8%A6%E7%99%BC10k%E7%9A%84%E7%B0%A1%E6%98%93%E7%BE%A4%E8%81%8A%E5%A4%A9%E5%AE%A4%EF%BC%88%E4%BD%BF%E7%94%A8epoll%EF%BC%89">&#x4E00;&#x500B;&#x4E26;&#x767C;10k&#x7684;&#x7C21;&#x6613;&#x7FA4;&#x804A;&#x5929;&#x5BA4;&#xFF08;&#x4F7F;&#x7528;epoll&#xFF09;</h1>
+<ul>
+<li>local.h</li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/socket.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/epoll.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;netinet/in.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;arpa/inet.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;fcntl.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;errno.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;time.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;list&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span>
 
-<span class="hljs-keyword">import</span> requests
-<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> BUF_SIZE <span class="hljs-number">1024</span> <span class="hljs-comment">//&#x9ED8;&#x8A8D;&#x7DE9;&#x885D;&#x5340;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> SERVER_PORT <span class="hljs-number">8888</span> <span class="hljs-comment">//&#x76E3;&#x807D;&#x7AEF;&#x53E3;</span></span>
+<span class="hljs-comment">//#define SERVER_HOST &quot;192.168.34.15&quot; //&#x670D;&#x52D9;&#x5668;IP&#x5730;&#x5740;</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> SERVER_HOST <span class="hljs-string">&quot;127.0.0.1&quot;</span> <span class="hljs-comment">//&#x670D;&#x52D9;&#x5668;IP&#x5730;&#x5740;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EPOLL_RUN_TIMEOUT -<span class="hljs-number">1</span> <span class="hljs-comment">//epoll&#x7684;&#x8D85;&#x6642;&#x6642;&#x9593;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EPOLL_SIZE <span class="hljs-number">10000</span> <span class="hljs-comment">//epoll&#x76E3;&#x807D;&#x7684;&#x5BA2;&#x6236;&#x7AEF;&#x7684;&#x6700;&#x5927;&#x6578;&#x76EE;</span></span>
 
-res = requests.get(<span class="hljs-string">&quot;https://news.google.com&quot;</span>)
-soup = BeautifulSoup(res.text)
-<span class="hljs-keyword">print</span> soup.select(<span class="hljs-string">&quot;.esc-body&quot;</span>)
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> STR_WELCOME <span class="hljs-string">&quot;Welcome to seChat! You ID is: Client #%d&quot;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> STR_MESSAGE <span class="hljs-string">&quot;Client #%d&gt;&gt; %s&quot;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> STR_NOONE_CONNECTED <span class="hljs-string">&quot;Noone connected to server except you!&quot;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> CMD_EXIT <span class="hljs-string">&quot;EXIT&quot;</span></span>
 
-count = <span class="hljs-number">1</span>
+<span class="hljs-comment">//&#x5169;&#x500B;&#x6709;&#x7528;&#x7684;&#x5B8F;&#x5B9A;&#x7FA9;&#xFF1A;&#x6AA2;&#x67E5;&#x548C;&#x8CE6;&#x503C;&#x4E26;&#x4E14;&#x6AA2;&#x6E2C;</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> CHK(eval) <span class="hljs-keyword">if</span>(eval &lt; <span class="hljs-number">0</span>){perror(<span class="hljs-string">&quot;eval&quot;</span>); exit(-<span class="hljs-number">1</span>);}</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> CHK2(res, eval) <span class="hljs-keyword">if</span>((res = eval) &lt; <span class="hljs-number">0</span>){perror(<span class="hljs-string">&quot;eval&quot;</span>); exit(-<span class="hljs-number">1</span>);}</span>
 
-<span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> soup.select(<span class="hljs-string">&quot;.esc-body&quot;</span>):
-    <span class="hljs-keyword">print</span> <span class="hljs-string">&apos;======[&apos;</span>,count,<span class="hljs-string">&apos;]=========&apos;</span>
-    news_title = item.select(<span class="hljs-string">&quot;.esc-lead-article-title&quot;</span>)[<span class="hljs-number">0</span>].text
-    news_url = item.select(<span class="hljs-string">&quot;.esc-lead-article-title&quot;</span>)[<span class="hljs-number">0</span>].find(<span class="hljs-string">&apos;a&apos;</span>)[<span class="hljs-string">&apos;href&apos;</span>]
-    <span class="hljs-keyword">print</span> news_title
-    <span class="hljs-keyword">print</span> news_url
-    count += <span class="hljs-number">1</span>
+<span class="hljs-comment">//================================================================================================</span>
+<span class="hljs-comment">//&#x51FD;&#x6578;&#x540D;&#xFF1A; setnonblocking</span>
+<span class="hljs-comment">//&#x51FD;&#x6578;&#x63CF;&#x8FF0;&#xFF1A; &#x8A2D;&#x7F6E;socket&#x70BA;&#x4E0D;&#x963B;&#x585E;</span>
+<span class="hljs-comment">//&#x8F38;&#x5165;&#xFF1A; [in] sockfd socket&#x6A19;&#x793A;&#x7B26;</span>
+<span class="hljs-comment">//&#x8F38;&#x51FA;&#xFF1A; &#x7121;</span>
+<span class="hljs-comment">//&#x8FD4;&#x56DE;&#xFF1A; 0</span>
+<span class="hljs-comment">//================================================================================================</span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">setnonblocking</span><span class="hljs-params">(<span class="hljs-keyword">int</span> sockfd)</span></span>;
+
+<span class="hljs-comment">//================================================================================================</span>
+<span class="hljs-comment">//&#x51FD;&#x6578;&#x540D;&#xFF1A; handle_message</span>
+<span class="hljs-comment">//&#x51FD;&#x6578;&#x63CF;&#x8FF0;&#xFF1A; &#x8655;&#x7406;&#x6BCF;&#x500B;&#x5BA2;&#x6236;&#x7AEF;socket</span>
+<span class="hljs-comment">//&#x8F38;&#x5165;&#xFF1A; [in] new_fd socket&#x6A19;&#x793A;&#x7B26;</span>
+<span class="hljs-comment">//&#x8F38;&#x51FA;&#xFF1A; &#x7121;</span>
+<span class="hljs-comment">//&#x8FD4;&#x56DE;&#xFF1A; &#x8FD4;&#x56DE;&#x5F9E;&#x5BA2;&#x6236;&#x7AEF;&#x63A5;&#x53D7;&#x7684;&#x6578;&#x64DA;&#x7684;&#x9577;&#x5EA6;</span>
+<span class="hljs-comment">//================================================================================================</span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">handle_message</span><span class="hljs-params">(<span class="hljs-keyword">int</span> new_fd)</span></span>;
 </code></pre>
-<pre><code class="lang-sh">======[ <span class="hljs-number">1</span> ]=========
-&#x52A9;&#x81FA;&#x8239;&#x7E73;&#x9322;&#x7372;&#x91CB;&#x5916;&#x4EA4;&#x90E8;&#xFF1A;&#x975E;&#x9ED8;&#x8A8D;&#x65E5;&#x4E3B;&#x5F35;
-http://www.cna.com.tw/news/aipl/<span class="hljs-number">201604260398</span>-<span class="hljs-number">1</span>.aspx
-======[ <span class="hljs-number">2</span> ]=========
-&#x7FC1;&#x555F;&#x60E0;&#x8A72;&#x8D70;&#x55CE;&#xFF1F;
-http://www.appledaily.com.tw/realtimenews/article/new/<span class="hljs-number">20160426</span>/<span class="hljs-number">847453</span>/
-======[ <span class="hljs-number">3</span> ]=========
-&#x50B3;&#x5317;&#x97D3;&#x6838;&#x8A66;&#x5C31;&#x7DD2;&#x5357;&#x97D3;&#xFF1A;&#x53EA;&#x7B49;&#x9818;&#x5C0E;&#x9AD8;&#x5C64;&#x4E0B;&#x4EE4;
-http://news.ltn.com.tw/news/world/breakingnews/<span class="hljs-number">1676669</span>
-======[ <span class="hljs-number">4</span> ]=========
-&#x570B;&#x969B;&#x539F;&#x80FD;&#x7E3D;&#x7F72;&#xFF1A;&#x5C0D;&#x6838;&#x80FD;&#x5B89;&#x5168;&#x52FF;&#x904E;&#x65BC;&#x81EA;&#x6EFF;
-http://www.cna.com.tw/news/ahel/<span class="hljs-number">201604260481</span>-<span class="hljs-number">1</span>.aspx
-======[ <span class="hljs-number">5</span> ]=========
-&#x5E38;&#x5DDE;&#x5B78;&#x6821;&#x571F;&#x58E4;&#x6C59;&#x67D3;&#x6848;&#x5B98;&#x65B9;&#x8A8D;&#x932F;&#x4E26;&#x67E5;&#x8655;
-http://www.cna.com.tw/news/acn/<span class="hljs-number">201604260390</span>-<span class="hljs-number">1</span>.aspx
-======[ <span class="hljs-number">6</span> ]=========
-&#x8499;&#x5A1C;&#x9E97;&#x838E;&#x6A21;&#x7279;&#x5152;&#x7FA9;&#x5B78;&#x8005;&#xFF1A;&#x6709;&#x7537;&#x6709;&#x5973;
-http://www.cna.com.tw/news/ahel/<span class="hljs-number">201604260477</span>-<span class="hljs-number">1</span>.aspx
-======[ <span class="hljs-number">7</span> ]=========
-&#x4EBA;&#x8CEA;&#x88AB;&#x6BBA;&#x52A0;&#x570B;&#x7E3D;&#x7406;&#x521D;&#x6B21;&#x8655;&#x7406;&#x6050;&#x6016;&#x4E3B;&#x7FA9;&#x5371;&#x6A5F;
-http://www.appledaily.com.tw/realtimenews/article/new/<span class="hljs-number">20160426</span>/<span class="hljs-number">847355</span>/
-======[ <span class="hljs-number">8</span> ]=========
-&#x8ECD;&#x6B66;&#x300B;&#x6CD5;&#x570B;&#x64CA;&#x6557;&#x65E5;&#x5FB7;&#x8D0F;&#x5F97;&#x6FB3;&#x6D32;&#x65B0;&#x6F5B;&#x8266;&#x8A02;&#x55AE;
-http://www.nownews.com/n/<span class="hljs-number">2016</span>/<span class="hljs-number">04</span>/<span class="hljs-number">26</span>/<span class="hljs-number">2077409</span>
-======[ <span class="hljs-number">9</span> ]=========
-&#x6B50;&#x76DF;&#x8ABF;&#x67E5;&#xFF1A;&#x4E2D;&#x570B;&#x70BA;&#x5176;&#x6700;&#x5927;&#x5371;&#x96AA;&#x5546;&#x54C1;&#x9032;&#x53E3;&#x4F86;&#x6E90;
-http://www.thenewslens.com/post/<span class="hljs-number">317235</span>/
-======[ <span class="hljs-number">10</span> ]=========
-&#x4E2D;&#x570B;&#x52A0;&#x5F37;&#x7BA1;&#x63A7;&#x6D77;&#x5916;NGO &#x7BA1;&#x7406;&#x6CD5;&#x8349;&#x6848;&#x4E09;&#x5BE9;&#x4E2D;
-http://news.ltn.com.tw/news/world/breakingnews/<span class="hljs-number">1676364</span>
-======[ <span class="hljs-number">11</span> ]=========
-&#x8ECD;&#x4EBA;&#x64AB;&#x5379;&#x689D;&#x4F8B;&#x4E09;&#x8B80;&#x901A;&#x904E;&#x300C;&#x904E;&#x52DE;&#x6B7B;&#x300D;&#x5217;&#x5165;&#x56E0;&#x516C;&#x6B7B;&#x4EA1;&#x64AB;&#x5379;&#x7BC4;&#x7587;
-http://www.nownews.com/n/<span class="hljs-number">2016</span>/<span class="hljs-number">04</span>/<span class="hljs-number">26</span>/<span class="hljs-number">2063608</span>
-======[ <span class="hljs-number">12</span> ]=========
-&#x91AB;&#x5E2B;&#x904E;&#x52DE;&#x6797;&#x594F;&#x5EF6;&#x76FC;<span class="hljs-number">4</span>&#x5E74;&#x5167;&#x843D;&#x5BE6;&#x4F4F;&#x9662;&#x91AB;&#x5E2B;&#x7D0D;&#x300A;&#x52DE;&#x57FA;&#x6CD5;&#x300B;
-http://www.appledaily.com.tw/realtimenews/article/new/<span class="hljs-number">20160426</span>/<span class="hljs-number">847399</span>/
-======[ <span class="hljs-number">13</span> ]=========
-&#x4E0D;&#x6EFF;&#x7FC1;&#x555F;&#x60E0;&#x8ACB;&#x5047;&#x7ACB;&#x9662;&#x6559;&#x59D4;&#x6703;&#x53EF;&#x80FD;&#x4E0D;&#x958B;&#x6703;
-http://www.cna.com.tw/news/aipl/<span class="hljs-number">201604260482</span>-<span class="hljs-number">1</span>.aspx
-======[ <span class="hljs-number">14</span> ]=========
-&#x5E02;&#x65D7;&#x88AB;&#x5ACC;&#x300C;&#x5168;&#x81FA;&#x6700;&#x919C;&#x300D; &#x5353;&#x51A0;&#x5EF7;&#xFF1A;&#x5E02;&#x5E9C;&#x8A72;&#x8B93;&#x5E02;&#x65D7;&#x76F8;&#x95DC;&#x6CD5;&#x4EE4;&#x660E;&#x78BA;&#x5316;
-http://news.ltn.com.tw/news/politics/breakingnews/<span class="hljs-number">1676972</span>
-======[ <span class="hljs-number">15</span> ]=========
-&#x8CA1;&#x5831;&#xFF0D;&#x4E2D;&#x570B;&#x6C7D;&#x8ECA;&#x92B7;&#x552E;&#x51B7;&#x73FE;&#x4EE3;&#x6C7D;&#x8ECA;Q1&#x5229;&#x6F64;&#x6E1B;<span class="hljs-number">11</span>%
-http://www.nownews.com/n/<span class="hljs-number">2016</span>/<span class="hljs-number">04</span>/<span class="hljs-number">26</span>/<span class="hljs-number">2077783</span>
-======[ <span class="hljs-number">16</span> ]=========
-&#x623F;&#x5E02;&#x56DE;&#x6EAB;&#xFF1F;&#x5EFA;&#x7BC9;&#x8CB8;&#x6B3E;&#x9918;&#x984D;&#x5275;<span class="hljs-number">4</span>&#x500B;&#x6708;&#x9AD8;&#x9EDE;
-http://www.nownews.com/n/<span class="hljs-number">2016</span>/<span class="hljs-number">04</span>/<span class="hljs-number">26</span>/<span class="hljs-number">2077778</span>
-======[ <span class="hljs-number">17</span> ]=========
-Apple Pay&#x767B;&#x81FA;&#xFF1F;&#x64EC;<span class="hljs-number">520</span>&#x524D;&#x4EA4;&#x884C;&#x653F;&#x9662;&#x5B9A;&#x596A;
-http://www.chinatimes.com/realtimenews/<span class="hljs-number">20160426005723</span>-<span class="hljs-number">260410</span>
-======[ <span class="hljs-number">18</span> ]=========
-&#x92FC;&#x9435;&#xFF1A;&#x92FC;&#x5EE0;&#x7E7C;&#x7E8C;&#x5927;&#x5E45;&#x4E0A;&#x8ABF;&#x9577;&#x6750;&#x50F9;&#x683C;
-http://news.cnyes.com/Content/<span class="hljs-number">20160426</span>/<span class="hljs-number">20160426093028000240974</span>.shtml
-======[ <span class="hljs-number">19</span> ]=========
-&#x9AA8;&#x5E79;&#x7DB2;&#x901F;&#x589E;&#x70BA;<span class="hljs-number">100</span>G &#x5F35;&#x5584;&#x653F;&#x7C72;&#x300C;&#x52FF;&#x53EA;&#x770B;&#x96DC;&#x4E03;&#x96DC;&#x516B;&#x6771;&#x897F;&#x300D;
-http://www.appledaily.com.tw/realtimenews/article/new/<span class="hljs-number">20160426</span>/<span class="hljs-number">847243</span>/
-======[ <span class="hljs-number">20</span> ]=========
-&#x7DB2;&#x8DEF;&#x53D6;&#x4EE3;&#x4E0D;&#x4E86;&#x66F8;&#x672C;&#x504F;&#x9109;&#x95B1;&#x8B80;&#x63A8;&#x52D5;&#x4E0D;&#x80FD;&#x505C;
-http://eradio.ner.gov.tw/news/?recordId=<span class="hljs-number">27697</span>&amp;_sp=detail
-======[ <span class="hljs-number">21</span> ]=========
-&#x4E0A;&#x73ED;&#x6253;&#x5361;&#x5236;&#xFF0C;&#x4E0B;&#x73ED;&#x8CAC;&#x4EFB;&#x5236;&#xFF01; <span class="hljs-number">4</span>&#x6210;<span class="hljs-number">3</span>&#x4E0A;&#x73ED;&#x65CF;&#x64D4;&#x5FC3;&#x81EA;&#x5DF1;&#x6703;&#x904E;&#x52DE;
-http://www.nownews.com/n/<span class="hljs-number">2016</span>/<span class="hljs-number">04</span>/<span class="hljs-number">26</span>/<span class="hljs-number">2077269</span>
-======[ <span class="hljs-number">22</span> ]=========
-&#x96FB;&#x52D5;&#x8ECA;&#x8A71;&#x984C;&#x592F;&#x7D71;&#x632F;&#x65D7;&#x4E0B;&#x7D71;&#x9054;&#x80FD;&#x6E90;&#x5C07;&#x5408;&#x4F5C;&#x5207;&#x5165;&#x5927;&#x9678;&#x9F90;&#x5927;&#x5E02;&#x5834;
-http://www.nownews.com/n/<span class="hljs-number">2016</span>/<span class="hljs-number">04</span>/<span class="hljs-number">26</span>/<span class="hljs-number">2077777</span>
-======[ <span class="hljs-number">23</span> ]=========
-&#x8209;&#x91CD;&#x300B;&#x4E2D;&#x570B;&#x9760;&#x908A;&#x7AD9;&#xFF01;&#x90ED;&#x5A5E;&#x6DF3;&#x4E9E;&#x9326;&#x8CFD;&#x8209;&#x51FA;<span class="hljs-number">2</span>&#x91D1;<span class="hljs-number">1</span>&#x9280;
-http://sports.ltn.com.tw/news/breakingnews/<span class="hljs-number">1677193</span>
-======[ <span class="hljs-number">24</span> ]=========
-&#x5FB7;&#x7532;&#xFF0F;&#x8868;&#x73FE;&#x4E0D;&#x5982;&#x9810;&#x671F;&#x72FC;&#x5821;&#x91CB;&#x51FA;&#x672C;&#x7279;&#x7D0D;&#x5927;&#x5E1D;
-http://www.nownews.com/n/<span class="hljs-number">2016</span>/<span class="hljs-number">04</span>/<span class="hljs-number">26</span>/<span class="hljs-number">2077152</span>
-======[ <span class="hljs-number">25</span> ]=========
-&#x65C5;&#x7F8E;&#x7403;&#x661F;&#xFF0F;&#x66F9;&#x9326;&#x8F1D;&#x5F8C;&#x63F4;<span class="hljs-number">1</span>&#x5C40;&#x5931;<span class="hljs-number">3</span>&#x5206;
-http://www.nownews.com/n/<span class="hljs-number">2016</span>/<span class="hljs-number">04</span>/<span class="hljs-number">26</span>/<span class="hljs-number">2077052</span>
-======[ <span class="hljs-number">26</span> ]=========
-&#x5FB7;&#x7532;&#xFF0F;&#x591A;&#x7279;&#x8499;&#x5FB7;&#x9858;&#x8B93;&#x968A;&#x9577;&#x96E2;&#x968A;&#x4E5F;&#x6B61;&#x8FCE;&#x845B;&#x65AF;&#x56DE;&#x5BB6;
-http://www.nownews.com/n/<span class="hljs-number">2016</span>/<span class="hljs-number">04</span>/<span class="hljs-number">26</span>/<span class="hljs-number">2077622</span>
-======[ <span class="hljs-number">27</span> ]=========
-&#x6027;&#x611B;&#x7247;&#x7DB2;&#x4E0A;&#x760B;&#x50B3;&#x86C7;&#x7CBE;&#x7537;&#x54ED;&#x8A8D;&#x8207;&#x5973;&#x53CB;&#x9304;&#x8457;&#x73A9;
-http://tw.on.cc/cn/bkn/cnt/news/<span class="hljs-number">20160424</span>/bkncn-<span class="hljs-number">20160424121626036</span>-<span class="hljs-number">0424</span>_05011_001.html
-======[ <span class="hljs-number">28</span> ]=========
-&#x4FAF;&#x4F69;&#x5C91;&#x51FA;&#x5E2D;&#x6D3B;&#x52D5;&#x5927;&#x8AC7;&#x5ABD;&#x5ABD;&#x7D93;
-https://video.udn.com/topic/<span class="hljs-number">557</span>/<span class="hljs-number">479381</span>
-======[ <span class="hljs-number">29</span> ]=========
-&#x6797;&#x5F65;&#x541B;&#x65E5;&#x672C;&#x51FA;&#x5916;&#x666F;&#x8B8A;&#x81C9;&#x72E0;&#x72E0;&#x6253;&#x69CD;&#x5F35;&#x7ACB;&#x6771;
-http://www.nownews.com/n/<span class="hljs-number">2016</span>/<span class="hljs-number">04</span>/<span class="hljs-number">26</span>/<span class="hljs-number">2076319</span>
-======[ <span class="hljs-number">30</span> ]=========
-&#x5317;&#x6377;&#x96FB;&#x529B;&#x7570;&#x5E38;&#x8C61;&#x5C71;&#x81F3;&#x81FA;&#x5317;&#x8ECA;&#x7AD9;&#x66AB;&#x6642;&#x505C;&#x99DB;
-http://www.appledaily.com.tw/realtimenews/article/new/<span class="hljs-number">20160426</span>/<span class="hljs-number">847468</span>/
-======[ <span class="hljs-number">31</span> ]=========
-&#x60E1;&#x5BA2;&#x4E0D;&#x6EFF;&#x98DB;&#x6A5F;&#x5EF6;&#x8AA4;&#x6451;&#x5973;&#x5730;&#x52E4;&#x9084;&#x56C2;&#x5F35;&#x7A31;&#x300C;&#x53C8;&#x5982;&#x4F55;&#x300D;&#xFF08;&#x6709;&#x7247;&#xFF09;
-http://china.hket.com/article/<span class="hljs-number">1415150</span>/?r=mcsdrs
-======[ <span class="hljs-number">32</span> ]=========
-&#x505C;&#x68FA;&#x903E;&#x534A;&#x5E74;&#x672A;&#x4E0B;&#x846C;&#x65B0;&#x5317;&#x6700;&#x9AD8;&#x7F70;<span class="hljs-number">5</span>&#x842C;
-http://www.appledaily.com.tw/realtimenews/article/new/<span class="hljs-number">20160426</span>/<span class="hljs-number">847253</span>/
-======[ <span class="hljs-number">33</span> ]=========
-&#x5F35;&#x5FD7;&#x8ECD;&#x6703;&#x5317;&#x5E02;&#x88E1;&#x9577;&#x53C3;&#x8A2A;&#x5718;&#x5F37;&#x8ABF;&#x57FA;&#x5C64;&#x4EA4;&#x6D41;
-http://www.cna.com.tw/news/acn/<span class="hljs-number">201604260480</span>-<span class="hljs-number">1</span>.aspx
-======[ <span class="hljs-number">34</span> ]=========
-&#x6C5F;&#x8607;&#x6F22;&#x5831;&#x5FA9;&#x9130;&#x5C45;&#x65AC;&#x516D;&#x7AE5;&#x518D;&#x5230;&#x9130;&#x5E02;&#x8840;&#x6D17;&#x5CB3;&#x7236;&#x5BB6;
-http://tw.on.cc/cn/bkn/cnt/news/<span class="hljs-number">20160426</span>/bkncn-<span class="hljs-number">20160426111759388</span>-<span class="hljs-number">0426</span>_05011_001.html
-======[ <span class="hljs-number">35</span> ]=========
-&#x5165;&#x4F0D;&#x524D;&#x5915;&#x73A9;&#x904E;&#x982D;&#x505C;&#x8ECA;&#x7761;&#x8DEF;&#x908A;&#x98C4;K&#x7159;&#x5473;&#x906D;&#x902E;
-http://www.nownews.com/n/<span class="hljs-number">2016</span>/<span class="hljs-number">04</span>/<span class="hljs-number">26</span>/<span class="hljs-number">2077380</span>
-======[ <span class="hljs-number">36</span> ]=========
-&#x3010;&#x5F71;&#x7247;&#x3011;&#x7537;&#x5B50;&#x8DF3;&#x6A13;&#x5C0B;&#x77ED;&#x7ADF;&#x58D3;&#x6B7B;&#x7121;&#x8F9C;&#x8CE3;&#x83DC;&#x963F;&#x5A46;
-http://www.appledaily.com.tw/realtimenews/article/new/<span class="hljs-number">20160426</span>/<span class="hljs-number">846955</span>/
-======[ <span class="hljs-number">37</span> ]=========
-&#x6821;&#x8ECA;&#x7FFB;&#x8986;&#x5B78;&#x751F;&#x7E6B;&#x59A5;&#x5B89;&#x5168;&#x5E36;&#x4FDD;&#x547D;
-http://www.chinatimes.com/realtimenews/<span class="hljs-number">20160426002862</span>-<span class="hljs-number">260402</span>
-======[ <span class="hljs-number">38</span> ]=========
-&#x516B;&#x4ED9;&#x6848;&#x5BA3;&#x5224;&#x6CD5;&#x6276;&#x5F8B;&#x5E2B;&#x5718;&#x767C;&#x8868;<span class="hljs-number">4</span>&#x9EDE;&#x8072;&#x660E;
-http://udn.com/news/story/<span class="hljs-number">2</span>/<span class="hljs-number">1654364</span>
-======[ <span class="hljs-number">39</span> ]=========
-&#x4EC0;&#x9EBC;&#x9B3C;&#x5B78;&#x6821;&#xFF01; &#x7ADF;&#x5F37;&#x8FEB;&#x611B;&#x6ECB;&#x75C5;&#x4EBA;&#x9000;&#x5B78;
-http://www.appledaily.com.tw/realtimenews/article/new/<span class="hljs-number">20160426</span>/<span class="hljs-number">847279</span>/
-======[ <span class="hljs-number">40</span> ]=========
-&#x666E;&#x751F;&#x65D7;&#x4E0B;&#x666E;&#x61F7;&#x91AB;&#x5B78;&#x958B;&#x5E55;&#x63A8;&#x5EE3;&#x9810;&#x9632;&#x91AB;&#x5B78;&#x5B88;&#x8B77;&#x6C11;&#x773E;&#x5065;&#x5EB7;
-http://www.nownews.com/n/<span class="hljs-number">2016</span>/<span class="hljs-number">04</span>/<span class="hljs-number">26</span>/<span class="hljs-number">2077787</span>
-======[ <span class="hljs-number">41</span> ]=========
-&#x7DB2;&#x62CD;&#x74B0;&#x5883;&#x7528;&#x85E5;&#x6700;&#x9AD8;&#x7F70;<span class="hljs-number">30</span>&#x842C;&#x5143;
-http://www.idn.com.tw/news/news_content.php?catid=<span class="hljs-number">4</span>&amp;catsid=<span class="hljs-number">2</span>&amp;catdid=<span class="hljs-number">0</span>&amp;artid=<span class="hljs-number">20160426</span>abcd020
-======[ <span class="hljs-number">42</span> ]=========
-&#x5973;&#x4E2D;&#x5C09;&#x7D50;&#x5A5A;&#x524D;&#x4E0A;&#x540A;&#x8F15;&#x751F;&#x5BB6;&#x5C6C;&#x7591;&#x6848;&#x60C5;&#x4E0D;&#x55AE;&#x7D14;
-http://news.cts.com.tw/cts/society/<span class="hljs-number">201604</span>/<span class="hljs-number">201604261744818</span>.html
+<ul>
+<li>utils.h</li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;local.h&quot;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">setnonblocking</span><span class="hljs-params">(<span class="hljs-keyword">int</span> sockfd)</span>
+</span>{
+    CHK(fcntl(sockfd, F_SETFL, fcntl(sockfd, F_GETFD, <span class="hljs-number">0</span>) | O_NONBLOCK));
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
 </code></pre>
+<ul>
+<li>server.cpp</li>
+</ul>
+<pre><code class="lang-cpp"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;local.h&quot;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;utils.h&quot;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-comment">// &#x5B58;&#x653E;&#x5BA2;&#x6236;&#x7AEF;socket&#x63CF;&#x8FF0;&#x7B26;&#x7684;list</span>
+<span class="hljs-built_in">list</span>&lt;<span class="hljs-keyword">int</span>&gt; clients_list;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>* argv[])</span>
+</span>{
+    <span class="hljs-keyword">int</span> listener; <span class="hljs-comment">//&#x76E3;&#x807D;socket</span>
+    <span class="hljs-keyword">struct</span> sockaddr_in addr, their_addr;
+    addr.sin_family = PF_INET;
+    addr.sin_port = htons(SERVER_PORT);
+    addr.sin_addr.s_addr = inet_addr(SERVER_HOST);
+    <span class="hljs-keyword">socklen_t</span> socklen;
+    socklen = <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">struct</span> sockaddr_in);
+
+    <span class="hljs-keyword">static</span> <span class="hljs-keyword">struct</span> epoll_event ev, events[EPOLL_SIZE];
+    ev.events = EPOLLIN | EPOLLET; <span class="hljs-comment">//&#x5C0D;&#x8B80;&#x611F;&#x8208;&#x8DA3;&#xFF0C;&#x908A;&#x6CBF;&#x89F8;&#x767C;</span>
+
+    <span class="hljs-keyword">char</span> message[BUF_SIZE];
+
+    <span class="hljs-keyword">int</span> epfd; <span class="hljs-comment">//epoll&#x63CF;&#x8FF0;&#x7B26;</span>
+    <span class="hljs-keyword">clock_t</span> tStart; <span class="hljs-comment">//&#x8A08;&#x7B97;&#x7A0B;&#x5E8F;&#x904B;&#x884C;&#x6642;&#x9593;</span>
+
+    <span class="hljs-keyword">int</span> client, res, epoll_events_count;
+
+    CHK2(listener, socket(PF_INET, SOCK_STREAM, <span class="hljs-number">0</span>)); <span class="hljs-comment">//&#x521D;&#x59CB;&#x5316;&#x76E3;&#x807D;socket</span>
+    setnonblocking(listener); <span class="hljs-comment">//&#x8A2D;&#x7F6E;&#x76E3;&#x807D;socket&#x70BA;&#x4E0D;&#x963B;&#x585E;</span>
+    CHK(bind(listener, (<span class="hljs-keyword">struct</span> sockaddr*)&amp;addr,
+             <span class="hljs-keyword">sizeof</span>(addr)));  <span class="hljs-comment">//&#x7D81;&#x5B9A;&#x76E3;&#x807D;socket</span>
+    CHK(listen(listener, <span class="hljs-number">1</span>)); <span class="hljs-comment">//&#x8A2D;&#x7F6E;&#x76E3;&#x807D;</span>
+
+    CHK2(epfd, epoll_create(
+             EPOLL_SIZE)); <span class="hljs-comment">//&#x5275;&#x5EFA;&#x4E00;&#x500B;epoll&#x63CF;&#x8FF0;&#x7B26;&#xFF0C;&#x4E26;&#x5C07;&#x76E3;&#x807D;socket&#x52A0;&#x5165;epoll</span>
+    ev.data.fd = listener;
+    CHK(epoll_ctl(epfd, EPOLL_CTL_ADD, listener, &amp;ev));
+
+    <span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>) {
+        CHK2(epoll_events_count, epoll_wait(epfd, events, EPOLL_SIZE,
+                                            EPOLL_RUN_TIMEOUT));
+        tStart = clock();
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; epoll_events_count ; i++) {
+            <span class="hljs-keyword">if</span> (events[i].data.fd ==
+                listener) { <span class="hljs-comment">//&#x65B0;&#x7684;&#x9023;&#x63A5;&#x5230;&#x4F86;&#xFF0C;&#x5C07;&#x9023;&#x63A5;&#x6DFB;&#x52A0;&#x5230;epoll&#x4E2D;&#xFF0C;&#x4E26;&#x767C;&#x9001;&#x6B61;&#x8FCE;&#x6D88;&#x606F;</span>
+                CHK2(client, accept(listener, (<span class="hljs-keyword">struct</span> sockaddr*) &amp;their_addr, &amp;socklen));
+                setnonblocking(client);
+                ev.data.fd = client;
+                CHK(epoll_ctl(epfd, EPOLL_CTL_ADD, client, &amp;ev));
+
+                clients_list.push_back(client); <span class="hljs-comment">// &#x6DFB;&#x52A0;&#x65B0;&#x7684;&#x5BA2;&#x6236;&#x7AEF;&#x5230;list</span>
+                bzero(message, BUF_SIZE);
+                res = <span class="hljs-built_in">sprintf</span>(message, STR_WELCOME, client);
+                CHK2(res, send(client, message, BUF_SIZE, <span class="hljs-number">0</span>));
+
+            } <span class="hljs-keyword">else</span> {
+                CHK2(res, handle_message(
+                         events[i].data.fd)); <span class="hljs-comment">//&#x6CE8;&#x610F;&#xFF1A;&#x9019;&#x88E1;&#x4E26;&#x6C92;&#x6709;&#x8ABF;&#x7528;epoll_ctl&#x91CD;&#x65B0;&#x8A2D;&#x7F6E;socket&#x7684;&#x4E8B;&#x4EF6;&#x985E;&#x578B;&#xFF0C;&#x4F46;&#x9084;&#x662F;&#x53EF;&#x4EE5;&#x7E7C;&#x7E8C;&#x6536;&#x5230;&#x5BA2;&#x6236;&#x7AEF;&#x767C;&#x9001;&#x904E;&#x4F86;&#x7684;&#x4FE1;&#x606F;</span>
+            }
+        }
+
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Statistics: %d events handled at: %.2f second(s)\n&quot;</span>, epoll_events_count,
+               (<span class="hljs-keyword">double</span>)(clock() - tStart) / CLOCKS_PER_SEC);
+    }
+
+    close(listener);
+    close(epfd);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">handle_message</span><span class="hljs-params">(<span class="hljs-keyword">int</span> client)</span>
+</span>{
+    <span class="hljs-keyword">char</span> buf[BUF_SIZE], message[BUF_SIZE];
+    bzero(buf, BUF_SIZE);
+    bzero(message, BUF_SIZE);
+
+    <span class="hljs-keyword">int</span> len;
+
+    CHK2(len, recv(client, buf, BUF_SIZE, <span class="hljs-number">0</span>)); <span class="hljs-comment">//&#x63A5;&#x53D7;&#x5BA2;&#x6236;&#x7AEF;&#x4FE1;&#x606F;</span>
+
+    <span class="hljs-keyword">if</span> (len ==
+        <span class="hljs-number">0</span>) { <span class="hljs-comment">//&#x5BA2;&#x6236;&#x7AEF;&#x95DC;&#x9589;&#x6216;&#x51FA;&#x932F;&#xFF0C;&#x95DC;&#x9589;socket&#xFF0C;&#x4E26;&#x5F9E;list&#x79FB;&#x9664;socket</span>
+        CHK(close(client));
+        clients_list.remove(client);
+    } <span class="hljs-keyword">else</span> { <span class="hljs-comment">//&#x5411;&#x5BA2;&#x6236;&#x7AEF;&#x767C;&#x9001;&#x4FE1;&#x606F;</span>
+        <span class="hljs-keyword">if</span> (clients_list.size() == <span class="hljs-number">1</span>) {
+            CHK(send(client, STR_NOONE_CONNECTED, <span class="hljs-built_in">strlen</span>(STR_NOONE_CONNECTED), <span class="hljs-number">0</span>));
+            <span class="hljs-keyword">return</span> len;
+        }
+
+        <span class="hljs-built_in">sprintf</span>(message, STR_MESSAGE, client, buf);
+        <span class="hljs-built_in">list</span>&lt;<span class="hljs-keyword">int</span>&gt;::iterator it;
+
+        <span class="hljs-keyword">for</span> (it = clients_list.begin(); it != clients_list.end(); it++) {
+            <span class="hljs-keyword">if</span> (*it != client) {
+                CHK(send(*it, message, BUF_SIZE, <span class="hljs-number">0</span>));
+            }
+        }
+    }
+
+    <span class="hljs-keyword">return</span> len;
+}
+</code></pre>
+<ul>
+<li>10kclient.cpp</li>
+</ul>
+<pre><code class="lang-cpp"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;local.h&quot;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;utils.h&quot;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-keyword">char</span> message[BUF_SIZE]; <span class="hljs-comment">//&#x63A5;&#x53D7;&#x670D;&#x52D9;&#x5668;&#x4FE1;&#x606F;</span>
+<span class="hljs-built_in">list</span>&lt;<span class="hljs-keyword">int</span>&gt; list_of_clients; <span class="hljs-comment">//&#x5B58;&#x653E;&#x6240;&#x6709;&#x5BA2;&#x6236;&#x7AEF;</span>
+<span class="hljs-keyword">int</span> res;
+<span class="hljs-keyword">clock_t</span> tStart;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>* argv[])</span>
+</span>{
+    <span class="hljs-keyword">int</span> sock;
+    <span class="hljs-keyword">struct</span> sockaddr_in addr;
+    addr.sin_family = PF_INET;
+    addr.sin_port = htons(SERVER_PORT);
+    addr.sin_addr.s_addr = inet_addr(SERVER_HOST);
+
+    tStart = clock();
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span> ; i &lt; EPOLL_SIZE;
+         i++) { <span class="hljs-comment">//&#x751F;&#x6210;EPOLL_SIZE&#x500B;&#x5BA2;&#x6236;&#x7AEF;&#xFF0C;&#x9019;&#x88E1;&#x662F;10000&#x500B;&#xFF0C;&#x6A21;&#x64EC;&#x9AD8;&#x4E26;&#x767C;</span>
+        CHK2(sock, socket(PF_INET, SOCK_STREAM, <span class="hljs-number">0</span>));
+        CHK(connect(sock, (<span class="hljs-keyword">struct</span> sockaddr*)&amp;addr, <span class="hljs-keyword">sizeof</span>(addr)) &lt; <span class="hljs-number">0</span>);
+        list_of_clients.push_back(sock);
+
+        bzero(&amp;message, BUF_SIZE);
+        CHK2(res, recv(sock, message, BUF_SIZE, <span class="hljs-number">0</span>));
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s\n&quot;</span>, message);
+    }
+
+    <span class="hljs-built_in">list</span>&lt;<span class="hljs-keyword">int</span>&gt;::iterator it; <span class="hljs-comment">//&#x79FB;&#x9664;&#x6240;&#x6709;&#x5BA2;&#x6236;&#x7AEF;</span>
+
+    <span class="hljs-keyword">for</span> (it = list_of_clients.begin(); it != list_of_clients.end() ; it++) {
+        close(*it);
+    }
+
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Test passed at: %.2f second(s)\n&quot;</span>,
+           (<span class="hljs-keyword">double</span>)(clock() - tStart) / CLOCKS_PER_SEC);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Total server connections was: %d\n&quot;</span>, EPOLL_SIZE);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<h2 id="%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99%EF%BC%9A">&#x53C3;&#x8003;&#x8CC7;&#x6599;&#xFF1A;</h2>
+<p>google code svn&#x8DEF;&#x5F91;&#xFF1A;<a href="http://sechat.googlecode.com/svn/trunk/" target="_blank">http://sechat.googlecode.com/svn/trunk/</a><br>
+<a href="http://www.cnblogs.com/venow/archive/2012/11/30/2790031.html" target="_blank">http://www.cnblogs.com/venow/archive/2012/11/30/2790031.html</a></p>
 
                     
                     </section>
@@ -13663,10 +13737,10 @@ http://news.cts.com.tw/cts/society/<span class="hljs-number">201604</span>/<span
         </div>
 
         
-        <a href="../python/ge_gu_nian_cheng_jiao_zi_xun.html" class="navigation navigation-prev " aria-label="Previous page: 個股年成交資訊"><i class="fa fa-angle-left"></i></a>
+        <a href="../linux_system/mmapying_she_kong_jian_yu_nei_cun_he_ci_pan_de_io_.html" class="navigation navigation-prev " aria-label="Previous page: mmap映射空間與內存和磁盤的IO性能對比"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../python/python_xin_wen_guan_jian_zi_cha_xun.html" class="navigation navigation-next " aria-label="Next page: Python 新聞關鍵字查詢"><i class="fa fa-angle-right"></i></a>
+        <a href="../assembly/index.html" class="navigation navigation-next " aria-label="Next page: Assembly"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

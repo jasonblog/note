@@ -838,7 +838,7 @@
    * [libevent 專案分析](opensoruce/libevent_zhuan_an_fen_xi.md)
    * [使用 gdb 研究 libevent](opensoruce/shi_yong_gdb_yan_jiu_libevent.md)
    * [15款值得學習的小型開源項目，帶你快速步入開源世界](opensoruce/15kuan_zhi_de_xue_xi_de_xiao_xing_kai_yuan_xiang_m.md)
-   * 最值得閱讀學習的 10 個 C 語言開源項目代碼
+   * [最值得閱讀學習的 10 個 C 語言開源項目代碼](opensoruce/zui_zhi_de_yue_du_xue_xi_de_10_ge_c_yu_yan_kai_yua.md)
 * [STM32](stm32/stm32.md)
    * [STM32的FPU體驗](stm32/stm32de_fpu_ti_yan.md)
 * [hacker](hacker/hacker/hacker.md)

@@ -29,7 +29,7 @@
 
 ##事前準備
 
-- Saleae 邏輯分析儀 (一千新台幣有找）
+- Saleae 邏輯分析儀 (一千新臺幣有找）
     - 需要自行到Saleae官方網站下載安裝Linux版軟體
 
 
@@ -432,7 +432,7 @@ test
 ##參考資料
 
 - Geoffrey Brown: Teaching 
-    - 請找 Lab Manual 裏面的link, 書名是Discovering the STM32 Microcontroller
+    - 請找 Lab Manual 裡面的link, 書名是Discovering the STM32 Microcontroller
 
 - STM32F4 Discovry Disco 開發版手冊
 - STM32F4 DSP and standard peripherals library

@@ -8,6 +8,6 @@
 * gcc -dumpspecs
 	* 印spec，<font color="red">不過我完全看不懂</font>
 * gcc -dumpmachine
-  * 印出平台
+  * 印出平臺
   
 其他關於巨集部份請參考[這邊](http://wen00072.github.io/blog/2013/10/13/talk-about-c-macros)和[這邊](http://wen00072.github.io/blog/2014/03/06/makefile-header-file-dependency-issues)，很臭很長，抱歉。

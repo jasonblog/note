@@ -408,4 +408,4 @@ void test(void)
 ```
 
 ## 參考資料
-* Binary Hacks：駭客秘傳技巧一百招
+* Binary Hacks：駭客祕傳技巧一百招

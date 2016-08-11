@@ -399,7 +399,7 @@ make: *** [glvar] Error 1
 ## 結論
 
 * common symbol表示object檔案已經紀錄下這個symbol，先放在common section。最後link的時候才會決定要怎麼處理。 [出處](http://stackoverflow.com/questions/18335256/what-does-com-stand-for-in-objdump-symbol-table)
-* `gcc -c`產生的object檔案中未初始化的全域變數會放在common section而不是`.bss` section，原因是link時期其他的object可能有相同名稱的symbol，而這些相同的symbol可能有初始化也可能沒有。而linker需要全盤了解後再做出決定要放在`.bss`還是`.data` section。
+* `gcc -c`產生的object檔案中未初始化的全域變數會放在common section而不是`.bss` section，原因是link時期其他的object可能有相同名稱的symbol，而這些相同的symbol可能有初始化也可能沒有。而linker需要全盤瞭解後再做出決定要放在`.bss`還是`.data` section。
 * 最後link出來的executable object檔案不會有common symbol
 * 多個檔案宣告同樣名稱的全域變數時，編譯時會依下面的情況處理
   * 超過兩個檔案有設初始值，噴錯誤

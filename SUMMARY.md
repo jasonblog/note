@@ -837,7 +837,7 @@
    * [開源網絡庫的分析libevent muduo nginx](opensoruce/kai_yuan_wang_luo_ku_de_fenxi_libevent_muduo_nginx.md)
    * [libevent 專案分析](opensoruce/libevent_zhuan_an_fen_xi.md)
    * [使用 gdb 研究 libevent](opensoruce/shi_yong_gdb_yan_jiu_libevent.md)
-   * 15款值得學習的小型開源項目，帶你快速步入開源世界
+   * [15款值得學習的小型開源項目，帶你快速步入開源世界](opensoruce/15kuan_zhi_de_xue_xi_de_xiao_xing_kai_yuan_xiang_m.md)
 * [STM32](stm32/stm32.md)
    * [STM32的FPU體驗](stm32/stm32de_fpu_ti_yan.md)
 * [hacker](hacker/hacker/hacker.md)

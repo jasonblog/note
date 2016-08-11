@@ -49,7 +49,7 @@ int main()
 }
 ```
 
-要知道&quot;Hello world.\n&quot;放在那邊，可以反組譯一下，組合語言下沒有秘密。
+要知道&quot;Hello world.\n&quot;放在那邊，可以反組譯一下，組合語言下沒有祕密。
 
 ```sh
 000000000040052d <main>:
@@ -79,7 +79,7 @@ $ objdump -t hello
 ...
 ```
 
-接下來我們去看`.rodata`裏面的內容，果然找到&quot;Hello world.\n&quot;
+接下來我們去看`.rodata`裡面的內容，果然找到&quot;Hello world.\n&quot;
 
 ```sh
 $ objdump -s -j .rodata hello
@@ -118,7 +118,7 @@ int main()
 }
 ```
 
-一樣需要先來反組譯一下，組合語言下沒有秘密。直接挑重點。
+一樣需要先來反組譯一下，組合語言下沒有祕密。直接挑重點。
 
 ```sh
 $ objdump -d hello
@@ -142,7 +142,7 @@ $ objdump -t hello
 ...
 ```
 
-看起來又是`.rodata`，所以我們再看`rodata`裏面放什麼東西。
+看起來又是`.rodata`，所以我們再看`rodata`裡面放什麼東西。
 
 ```sh
 $ objdump -s -j .rodata hello
@@ -305,7 +305,7 @@ Contents of section .rodata:
   4005d6:       bf 84 06 40 00          mov    $0x400684,%edi
 ```
 
-最後做個總結，這個版本的&quot;Hello world.\n&quot;程式本身&quot;hardcode&quot;到stack內。更簡單的說，&quot;Hello world.\n&quot;放在`.text`裏面。
+最後做個總結，這個版本的&quot;Hello world.\n&quot;程式本身&quot;hardcode&quot;到stack內。更簡單的說，&quot;Hello world.\n&quot;放在`.text`裡面。
 
 
 ## 版本四
@@ -368,7 +368,7 @@ Contents of section .data:
 ## 補充 2015-01-29
 感謝Scott大大的補充。從上面的反組譯中可以看到在呼叫printf之前都會去把%eax設成零。Scott大大提醒以後才知道這樣設定是有原因的。說明如下
 
-首先printf是一個有趣的函數，有沒有人想過為什麼他的參數的數量可以變動？我先承認我這兩年才去了解，基本上這東西叫作`va_arg`，細節就不談了，有興趣`man va_arg`就好了，那天想起來或是有人敲碗再解釋。
+首先printf是一個有趣的函數，有沒有人想過為什麼他的參數的數量可以變動？我先承認我這兩年才去瞭解，基本上這東西叫作`va_arg`，細節就不談了，有興趣`man va_arg`就好了，那天想起來或是有人敲碗再解釋。
 
 回到前面，因為printf是非固定參數數量，而ABI中有又有規範`va_arg`時候該如何傳遞。在[X86的ABI](http://www.x86-64.org/documentation/abi.pdf)規範3.5.7中提到，在傳遞這樣參數的時候，需要把要傳遞的浮點型態變數數量放在eax暫存器中。而這次範例中的printf恰巧都沒有浮點型態變數，所以將eax設成0。Scott大大沒說我還以為單純是歸零的動作orz。
 

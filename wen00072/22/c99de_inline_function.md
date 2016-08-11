@@ -52,7 +52,7 @@ $ nm inline_test.o
 0000000000000000 T main
 ```
 
-從[這邊](http://stackoverflow.com/questions/216510/extern-inline/216546#21654)可以看到C99的`inline`定義是和GNU C的`extern inline`相反。所以最簡單的懶人法就是在C99裏面加上`extern`收工。
+從[這邊](http://stackoverflow.com/questions/216510/extern-inline/216546#21654)可以看到C99的`inline`定義是和GNU C的`extern inline`相反。所以最簡單的懶人法就是在C99裡面加上`extern`收工。
 
 - inline_test_c99.c
 
@@ -104,7 +104,7 @@ int main(void)
 在GNU C下編譯執行會印`Hello World 2`，使用`objdump -S`反組譯可以看到
 
 * main 呼叫`4004f4`位址
-* `4004f4`真正的程式碼是印出`Hello World2`，也就是說`extern inline void hello()`裏面的程式碼是寫心酸的。
+* `4004f4`真正的程式碼是印出`Hello World2`，也就是說`extern inline void hello()`裡面的程式碼是寫心酸的。
 * 看起來這種情況GCC沒有把inline function展開。
 
 另外一點有趣的是C99下面把`extern inline`和`inline`對調會編譯失敗。

@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>不顯示線程啟動和退出信息 | Jason note</title>
+        <title>gyro raw data filter | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../100_gdb_tips/set-scheduler-locking-on.html" />
+    <link rel="next" href="../opensoruce/opensoruce.html" />
     
     
-    <link rel="prev" href="../100_gdb_tips/maint-info-sol-threads.html" />
+    <link rel="prev" href="../c/struct_pointer_to_array.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="45.7.6" data-basepath=".." data-revision="Thu Aug 11 2016 20:39:52 GMT+0800 (CST)">
+    <div class="book" data-level="52.6" data-basepath=".." data-revision="Thu Aug 11 2016 20:39:52 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -11473,7 +11473,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="45.7.6" data-path="100_gdb_tips/show-print-thread-events.html">
+        <li class="chapter " data-level="45.7.6" data-path="100_gdb_tips/show-print-thread-events.html">
             
                 
                     <a href="../100_gdb_tips/show-print-thread-events.html">
@@ -13125,7 +13125,7 @@
             
         </li>
     
-        <li class="chapter " data-level="52.6" data-path="c/gyro_raw_data_filter.html">
+        <li class="chapter active" data-level="52.6" data-path="c/gyro_raw_data_filter.html">
             
                 
                     <a href="../c/gyro_raw_data_filter.html">
@@ -13536,47 +13536,100 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E4%B8%8D%E9%A1%AF%E7%A4%BA%E7%B7%9A%E7%A8%8B%E5%95%9F%E5%8B%95%E5%92%8C%E9%80%80%E5%87%BA%E4%BF%A1%E6%81%AF">&#x4E0D;&#x986F;&#x793A;&#x7DDA;&#x7A0B;&#x555F;&#x52D5;&#x548C;&#x9000;&#x51FA;&#x4FE1;&#x606F;</h1>
-<h2 id="%E4%BE%8B%E5%AD%90">&#x4F8B;&#x5B50;</h2>
-<pre><code>#include &lt;stdio.h&gt;
-#include &lt;pthread.h&gt;
+                        <h1 id="gyro-raw-data-filter">gyro raw data filter</h1>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span>
 
-void *thread_func(void *p_arg)
-{
-       sleep(10);
+<span class="hljs-keyword">struct</span> rawdata_buf {
+    <span class="hljs-keyword">double</span> x[<span class="hljs-number">5</span>], y[<span class="hljs-number">5</span>], z[<span class="hljs-number">5</span>];
+    <span class="hljs-keyword">double</span> sum[<span class="hljs-number">3</span>];
+    <span class="hljs-keyword">size_t</span> index;
+};
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">rawdata_buf_append</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> rawdata_buf* raw, <span class="hljs-keyword">double</span> x, <span class="hljs-keyword">double</span> y, <span class="hljs-keyword">double</span> z)</span>
+</span>{
+    raw-&gt;sum[<span class="hljs-number">0</span>] += -raw-&gt;x[raw-&gt;index] + x;
+    raw-&gt;sum[<span class="hljs-number">1</span>] += -raw-&gt;y[raw-&gt;index] + y;
+    raw-&gt;sum[<span class="hljs-number">2</span>] += -raw-&gt;z[raw-&gt;index] + z;
+    raw-&gt;x[raw-&gt;index] = x;
+    raw-&gt;y[raw-&gt;index] = y;
+    raw-&gt;z[raw-&gt;index] = z;
+    raw-&gt;index = (raw-&gt;index + <span class="hljs-number">1</span>) % <span class="hljs-number">5</span>;
+}
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">rawdata_buf_average</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> rawdata_buf* raw, <span class="hljs-keyword">double</span>* x, <span class="hljs-keyword">double</span>* y,
+                         <span class="hljs-keyword">double</span>* z)</span>
+</span>{
+<span class="hljs-preprocessor">#<span class="hljs-keyword">ifdef</span> _DEBUG</span>
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = raw-&gt;index; i != raw-&gt;index + <span class="hljs-number">5</span>; ++i) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;(%g,%g,%g)&quot;</span>, raw-&gt;x[i % <span class="hljs-number">5</span>], raw-&gt;y[i % <span class="hljs-number">5</span>], raw-&gt;z[i % <span class="hljs-number">5</span>]);
+    }
+
+    <span class="hljs-built_in">putchar</span>(<span class="hljs-string">&apos;\n&apos;</span>);
+<span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span></span>
+
+    *x = raw-&gt;sum[<span class="hljs-number">0</span>] / <span class="hljs-number">5</span>;
+    *y = raw-&gt;sum[<span class="hljs-number">1</span>] / <span class="hljs-number">5</span>;
+    *z = raw-&gt;sum[<span class="hljs-number">2</span>] / <span class="hljs-number">5</span>;
 }
 
-int main(void)
-{
-        pthread_t t1, t2;
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">double</span> avgx, avgy, avgz;
 
-        pthread_create(&amp;t1, NULL, thread_func, &quot;Thread 1&quot;);
-        pthread_create(&amp;t2, NULL, thread_func, &quot;Thread 2&quot;);
+    <span class="hljs-keyword">struct</span> rawdata_buf buf = { <span class="hljs-number">0</span> };
+    rawdata_buf_append(&amp;buf, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);
+    rawdata_buf_append(&amp;buf, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>);
+    rawdata_buf_append(&amp;buf, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>);
+    rawdata_buf_append(&amp;buf, <span class="hljs-number">3</span>, <span class="hljs-number">3</span>, <span class="hljs-number">3</span>);
+    rawdata_buf_append(&amp;buf, <span class="hljs-number">4</span>, <span class="hljs-number">4</span>, <span class="hljs-number">4</span>);
+    rawdata_buf_average(&amp;buf, &amp;avgx, &amp;avgy, &amp;avgz);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;avg = (%g,%g,%g)\n&quot;</span>, avgx, avgy, avgz);
 
-        sleep(1000);
-        return;
+    rawdata_buf_append(&amp;buf, <span class="hljs-number">5</span>, <span class="hljs-number">5</span>, <span class="hljs-number">5</span>);
+    rawdata_buf_average(&amp;buf, &amp;avgx, &amp;avgy, &amp;avgz);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;avg = (%g,%g,%g)\n&quot;</span>, avgx, avgy, avgz);
+
+    rawdata_buf_append(&amp;buf, <span class="hljs-number">6</span>, <span class="hljs-number">6</span>, <span class="hljs-number">6</span>);
+    rawdata_buf_average(&amp;buf, &amp;avgx, &amp;avgy, &amp;avgz);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;avg = (%g,%g,%g)\n&quot;</span>, avgx, avgy, avgz);
+
+    rawdata_buf_append(&amp;buf, <span class="hljs-number">7</span>, <span class="hljs-number">7</span>, <span class="hljs-number">7</span>);
+    rawdata_buf_average(&amp;buf, &amp;avgx, &amp;avgy, &amp;avgz);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;avg = (%g,%g,%g)\n&quot;</span>, avgx, avgy, avgz);
+
+    rawdata_buf_append(&amp;buf, <span class="hljs-number">8</span>, <span class="hljs-number">8</span>, <span class="hljs-number">8</span>);
+    rawdata_buf_average(&amp;buf, &amp;avgx, &amp;avgy, &amp;avgz);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;avg = (%g,%g,%g)\n&quot;</span>, avgx, avgy, avgz);
+
+    rawdata_buf_append(&amp;buf, <span class="hljs-number">9</span>, <span class="hljs-number">9</span>, <span class="hljs-number">9</span>);
+    rawdata_buf_average(&amp;buf, &amp;avgx, &amp;avgy, &amp;avgz);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;avg = (%g,%g,%g)\n&quot;</span>, avgx, avgy, avgz);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
-</code></pre><h2 id="%E6%8A%80%E5%B7%A7">&#x6280;&#x5DE7;</h2>
-<p>&#x9ED8;&#x8A8D;&#x60C5;&#x6CC1;&#x4E0B;&#xFF0C;gdb&#x6AA2;&#x6E2C;&#x5230;&#x6709;&#x7DDA;&#x7A0B;&#x7522;&#x751F;&#x548C;&#x9000;&#x51FA;&#x6642;&#xFF0C;&#x6703;&#x6253;&#x5370;&#x63D0;&#x793A;&#x4FE1;&#x606F;&#xFF0C;&#x4EE5;&#x4E0A;&#x9762;&#x7A0B;&#x5E8F;&#x70BA;&#x4F8B;:  </p>
-<pre><code>(gdb) r
-Starting program: /data/nan/a
-[Thread debugging using libthread_db enabled]
-[New Thread 1 (LWP 1)]
-[New LWP    2        ]
-[New LWP    3        ]
-[LWP    2         exited]
-[New Thread 2        ]
-[LWP    3         exited]
-[New Thread 3        ]
-</code></pre><p>&#x5982;&#x679C;&#x4E0D;&#x60F3;&#x986F;&#x793A;&#x9019;&#x4E9B;&#x4FE1;&#x606F;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x201C;<code>set print thread-events off</code>&#x201D;&#x547D;&#x4EE4;&#xFF0C;&#x9019;&#x6A23;&#x7576;&#x6709;&#x7DDA;&#x7A0B;&#x7522;&#x751F;&#x548C;&#x9000;&#x51FA;&#x6642;&#xFF0C;&#x5C31;&#x4E0D;&#x6703;&#x6253;&#x5370;&#x63D0;&#x793A;&#x4FE1;&#x606F;&#xFF1A;</p>
-<pre><code>(gdb) set print thread-events off
-(gdb) r
-Starting program: /data/nan/a
-[Thread debugging using libthread_db enabled]
-</code></pre><p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x4E0D;&#x518D;&#x6253;&#x5370;&#x76F8;&#x95DC;&#x4FE1;&#x606F;&#x3002;</p>
-<p>&#x9019;&#x500B;&#x547D;&#x4EE4;&#x6709;&#x4E9B;&#x5E73;&#x81FA;&#x4E0D;&#x652F;&#x6301;&#xFF0C;&#x4F7F;&#x7528;&#x6642;&#x9700;&#x6CE8;&#x610F;&#x3002;&#x53C3;&#x898B;<a href="https://sourceware.org/gdb/onlinedocs/gdb/Threads.html" target="_blank">gdb&#x624B;&#x518A;</a>.</p>
-<h2 id="%E8%B2%A2%E7%8D%BB%E8%80%85">&#x8CA2;&#x737B;&#x8005;</h2>
-<p>nanxiao</p>
+</code></pre>
+<hr>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">float</span> <span class="hljs-title">calc</span><span class="hljs-params">(<span class="hljs-keyword">float</span> a[], <span class="hljs-keyword">int</span> size, <span class="hljs-keyword">int</span> newNum)</span>
+</span>{
+    <span class="hljs-keyword">static</span> <span class="hljs-keyword">bool</span> inited = <span class="hljs-literal">false</span>;
+    <span class="hljs-keyword">static</span> <span class="hljs-keyword">float</span> sum = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> idx = <span class="hljs-number">0</span>;
+
+    <span class="hljs-keyword">if</span> (!inited) {
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; size; i++) {
+            sum += a[i];
+        }
+
+        inited = <span class="hljs-literal">true</span>;
+    } <span class="hljs-keyword">else</span> {
+        sum -= (a[idx] - newNum);
+        a[idx++] = newNum;
+        idx %= size;
+    }
+
+    <span class="hljs-keyword">return</span> sum / size;
+}
+</code></pre>
 
                     
                     </section>
@@ -13587,10 +13640,10 @@ Starting program: /data/nan/a
         </div>
 
         
-        <a href="../100_gdb_tips/maint-info-sol-threads.html" class="navigation navigation-prev " aria-label="Previous page: 在Solaris上使用maintenance命令查看線程信息"><i class="fa fa-angle-left"></i></a>
+        <a href="../c/struct_pointer_to_array.html" class="navigation navigation-prev " aria-label="Previous page: struct pointer to array"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../100_gdb_tips/set-scheduler-locking-on.html" class="navigation navigation-next " aria-label="Next page: 只允許一個線程運行"><i class="fa fa-angle-right"></i></a>
+        <a href="../opensoruce/opensoruce.html" class="navigation navigation-next " aria-label="Next page: OpenSoruce"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

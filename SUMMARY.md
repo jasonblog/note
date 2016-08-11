@@ -832,7 +832,7 @@
    * [Q Format Number in C](c/q_format_number_in_c.md)
    * [IEEE764 using C](c/ieee764_using_c.md)
    * [struct pointer to array](c/struct_pointer_to_array.md)
-   * gyro raw data filter
+   * [gyro raw data filter](c/gyro_raw_data_filter.md)
 * [OpenSoruce](opensoruce/opensoruce.md)
    * [開源網絡庫的分析libevent muduo nginx](opensoruce/kai_yuan_wang_luo_ku_de_fenxi_libevent_muduo_nginx.md)
    * [libevent 專案分析](opensoruce/libevent_zhuan_an_fen_xi.md)

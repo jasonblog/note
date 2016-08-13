@@ -1,7 +1,7 @@
-# Linux下怎样判断一个binary是否可以debug
+# Linux下怎樣判斷一個binary是否可以debug
 
 
-用下面的命令即可，如果可以debug，则会显示debug相关的一些信息，否则没有相关信息。
+用下面的命令即可，如果可以debug，則會顯示debug相關的一些信息，否則沒有相關信息。
 
 ```
 objdump --syms your-binary | grep debug
@@ -17,7 +17,7 @@ objdump -t your-binary | grep debug
 
 
 
-检查一个可以debug的binary：
+檢查一個可以debug的binary：
 
 ```sh
 [root@ampcommons02 test]# objdump -t t-debug | grep debug
@@ -32,7 +32,7 @@ t-debug:     file format elf64-x86-64
 0000000000000000 l    d  .debug_ranges  0000000000000000              .debug_ranges
 ```
 
-检查一个不能debug的binary：
+檢查一個不能debug的binary：
 
 
 ```sh

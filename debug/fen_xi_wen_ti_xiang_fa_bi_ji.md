@@ -31,7 +31,7 @@ ex: PC & 板子 cardboard algo 差異在 sensor raw data 是兩各不同 chip
 利用git在不同參數編譯後產生差異東西
 
 
-## 一樣程式在不同平台出現差異問題
+## 一樣程式在不同平臺出現差異問題
 - 不同 input (raw data)
 - 仔細比對之間程式碼是否真的相同
 

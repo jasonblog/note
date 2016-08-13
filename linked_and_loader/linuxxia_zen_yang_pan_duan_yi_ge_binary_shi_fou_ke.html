@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>thread_create &amp;  signal  使用技巧 | Jason note</title>
+        <title>Linux下怎樣判斷一個binary是否可以debug | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../linux_system/pthreadsigmask_kong_zhi_xian_cheng_de_xin_hao_yan_.html" />
+    <link rel="next" href="../Bochs/bochs.html" />
     
     
-    <link rel="prev" href="../linux_system/mynote.html" />
+    <link rel="prev" href="../linked_and_loader/gccbian_yi_can_6570-_fpic_de_yi_xie_wen_ti.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="13.26.1" data-basepath=".." data-revision="Sat Aug 13 2016 16:31:46 GMT+0800 (CST)">
+    <div class="book" data-level="47.15" data-basepath=".." data-revision="Sat Aug 13 2016 16:31:46 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -4605,7 +4605,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="13.26.1" data-path="linux_system/threadcreate_&amp;_signal_shi_yong_ji_qiao.html">
+        <li class="chapter " data-level="13.26.1" data-path="linux_system/threadcreate_&amp;_signal_shi_yong_ji_qiao.html">
             
                 
                     <a href="../linux_system/threadcreate_&amp;_signal_shi_yong_ji_qiao.html">
@@ -12885,7 +12885,7 @@
             
         </li>
     
-        <li class="chapter " data-level="47.15" data-path="linked_and_loader/linuxxia_zen_yang_pan_duan_yi_ge_binary_shi_fou_ke.html">
+        <li class="chapter active" data-level="47.15" data-path="linked_and_loader/linuxxia_zen_yang_pan_duan_yi_ge_binary_shi_fou_ke.html">
             
                 
                     <a href="../linked_and_loader/linuxxia_zen_yang_pan_duan_yi_ge_binary_shi_fou_ke.html">
@@ -13611,140 +13611,26 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="thread-create-signal-%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7">thread_create &amp;  signal  &#x4F7F;&#x7528;&#x6280;&#x5DE7;</h1>
-<ul>
-<li>example.c </li>
-</ul>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;pthread.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/syscall.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;signal.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;time.h&gt;</span></span>
-
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> TIMES <span class="hljs-number">5</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> ITERA <span class="hljs-number">10000000000</span></span>
-
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> gettid() syscall(__NR_gettid)</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> TAG <span class="hljs-string">&quot;JASON&quot;</span></span>
-
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> dlog() do \
-    { \
-        fprintf(stderr, <span class="hljs-string">&quot;%s:PID=[%d] TID=[%ld] func=[%s] [%s:%d]\n&quot;</span>, \
-                TAG, \
-                getpid(), \
-                gettid(), \
-                __FUNCTION__, \
-                __FILE__, \
-                __LINE__); \
-    } while(<span class="hljs-number">0</span>)</span>
-
-
-<span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> g_count1 = <span class="hljs-number">0</span>;
-<span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> g_count2 = <span class="hljs-number">0</span>;
-<span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> g_count3 = <span class="hljs-number">0</span>;
-<span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> g_flag = <span class="hljs-number">1</span>;
-
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">sigroutine</span><span class="hljs-params">(<span class="hljs-keyword">int</span> dunno)</span>
-</span>{
-    <span class="hljs-keyword">switch</span> (dunno) {
-    <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:
-        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Get a signal -- SIGHUP &quot;</span>);
-        <span class="hljs-keyword">break</span>;
-
-    <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:
-        dlog();
-        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Get a signal -- SIGINT &quot;</span>);
-        g_flag = <span class="hljs-number">0</span>;
-
-        <span class="hljs-comment">/* &#x6062;&#x5FA9; SIGINT &#x9810;&#x8A2D;&#x4E0D;&#x63A5;&#x6536; */</span>
-        signal(SIGINT, SIG_DFL);
-        kill(getpid(), SIGINT);
-        <span class="hljs-keyword">break</span>;
-
-    <span class="hljs-keyword">case</span> <span class="hljs-number">3</span>:
-        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Get a signal -- SIGQUIT &quot;</span>);
-        <span class="hljs-keyword">break</span>;
-    }
-
-    <span class="hljs-keyword">return</span>;
-}
-
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">test_func</span><span class="hljs-params">()</span>
-</span>{
-    <span class="hljs-comment">/*do something*/</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">if</span> <span class="hljs-number">0</span></span>
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Hello\n&quot;</span>);
-<span class="hljs-preprocessor">#<span class="hljs-keyword">else</span></span>
-    g_count1++;
-    g_count2++;
-    g_count3++;
-<span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span></span>
-}
-
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">thread2_f</span><span class="hljs-params">(<span class="hljs-keyword">void</span>* args)</span>
-</span>{
-    <span class="hljs-keyword">unsigned</span> itera, times;
-    <span class="hljs-keyword">clock_t</span> t1, td, ts;
-
-    t1 = td = ts = <span class="hljs-number">0</span>;
-
-    <span class="hljs-keyword">for</span> (times = <span class="hljs-number">0</span>, ts = <span class="hljs-number">0</span>; times != TIMES; ++times) {
-        t1 = clock();
-
-        <span class="hljs-keyword">for</span> (itera = <span class="hljs-number">0</span>; itera != ITERA; ++itera) {
-            test_func();
-        }
-
-        td = clock() - t1;
-        ts += td;  <span class="hljs-comment">/* &#x8A08;&#x7B97;&#x7E3D;&#x6E2C;&#x6642; */</span>
-
-        <span class="hljs-comment">/* &#x8F38;&#x51FA;&#x8A73;&#x7D30;&#x8CC7;&#x6599; */</span>
-        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%u: %ld\n&quot;</span>, times, td);
-    }
-
-    g_flag = <span class="hljs-number">0</span>;
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;tid=%ld, ave : %f\n&quot;</span>, gettid(), (<span class="hljs-keyword">double</span>)td / TIMES);
-}
-
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">thread1_f</span><span class="hljs-params">(<span class="hljs-keyword">void</span>* args)</span>
-</span>{
-    <span class="hljs-keyword">while</span> (g_flag) {
-        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;tid=%ld, g_count1=%d, g_count2=%d, g_count3=%d\n&quot;</span>, gettid(), g_count1,
-               g_count2, g_count3);
-    }
-}
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
-</span>{
-    <span class="hljs-keyword">int</span>  ret;
-    <span class="hljs-keyword">pthread_t</span> thread1, thread2;
-
-    signal(SIGINT, sigroutine);
-
-    ret = pthread_create(&amp;thread1, <span class="hljs-literal">NULL</span>, (<span class="hljs-keyword">void</span>* (*)(<span class="hljs-keyword">void</span>*))thread1_f, <span class="hljs-literal">NULL</span>);
-
-    <span class="hljs-keyword">if</span> (ret != <span class="hljs-number">0</span>) {
-        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Create pthread error!\n&quot;</span>);
-        <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);
-    }
-
-    ret = pthread_create(&amp;thread2, <span class="hljs-literal">NULL</span>, (<span class="hljs-keyword">void</span>* (*)(<span class="hljs-keyword">void</span>*))thread2_f, <span class="hljs-literal">NULL</span>);
-
-    <span class="hljs-keyword">if</span> (ret != <span class="hljs-number">0</span>) {
-        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Create pthread error!\n&quot;</span>);
-        <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);
-    }
-
-    pthread_join(thread1, <span class="hljs-literal">NULL</span>);
-    pthread_join(thread2, <span class="hljs-literal">NULL</span>);
-
-    <span class="hljs-keyword">return</span> (<span class="hljs-number">0</span>);
-}
+                        <h1 id="linux%E4%B8%8B%E6%80%8E%E6%A8%A3%E5%88%A4%E6%96%B7%E4%B8%80%E5%80%8Bbinary%E6%98%AF%E5%90%A6%E5%8F%AF%E4%BB%A5debug">Linux&#x4E0B;&#x600E;&#x6A23;&#x5224;&#x65B7;&#x4E00;&#x500B;binary&#x662F;&#x5426;&#x53EF;&#x4EE5;debug</h1>
+<p>&#x7528;&#x4E0B;&#x9762;&#x7684;&#x547D;&#x4EE4;&#x5373;&#x53EF;&#xFF0C;&#x5982;&#x679C;&#x53EF;&#x4EE5;debug&#xFF0C;&#x5247;&#x6703;&#x986F;&#x793A;debug&#x76F8;&#x95DC;&#x7684;&#x4E00;&#x4E9B;&#x4FE1;&#x606F;&#xFF0C;&#x5426;&#x5247;&#x6C92;&#x6709;&#x76F8;&#x95DC;&#x4FE1;&#x606F;&#x3002;</p>
+<pre><code>objdump --syms your-binary | grep debug
+</code></pre><p>&#x6216;</p>
+<pre><code>objdump -t your-binary | grep debug
+</code></pre><p>&#x793A;&#x4F8B;&#xFF1A;</p>
+<p>&#x6AA2;&#x67E5;&#x4E00;&#x500B;&#x53EF;&#x4EE5;debug&#x7684;binary&#xFF1A;</p>
+<pre><code class="lang-sh">[root@ampcommons02 <span class="hljs-built_in">test</span>]<span class="hljs-comment"># objdump -t t-debug | grep debug</span>
+t-debug:     file format elf64-x86-<span class="hljs-number">64</span>
+<span class="hljs-number">0000000000000000</span> l    d  .debug_aranges <span class="hljs-number">0000000000000000</span>              .debug_aranges
+<span class="hljs-number">0000000000000000</span> l    d  .debug_pubnames        <span class="hljs-number">0000000000000000</span>              .debug_pubnames
+<span class="hljs-number">0000000000000000</span> l    d  .debug_info    <span class="hljs-number">0000000000000000</span>              .debug_info
+<span class="hljs-number">0000000000000000</span> l    d  .debug_abbrev  <span class="hljs-number">0000000000000000</span>              .debug_abbrev
+<span class="hljs-number">0000000000000000</span> l    d  .debug_line    <span class="hljs-number">0000000000000000</span>              .debug_line
+<span class="hljs-number">0000000000000000</span> l    d  .debug_str     <span class="hljs-number">0000000000000000</span>              .debug_str
+<span class="hljs-number">0000000000000000</span> l    d  .debug_pubtypes        <span class="hljs-number">0000000000000000</span>              .debug_pubtypes
+<span class="hljs-number">0000000000000000</span> l    d  .debug_ranges  <span class="hljs-number">0000000000000000</span>              .debug_ranges
 </code></pre>
-<pre><code class="lang-sh">gcc example.c -lpthread -o example
+<p>&#x6AA2;&#x67E5;&#x4E00;&#x500B;&#x4E0D;&#x80FD;debug&#x7684;binary&#xFF1A;</p>
+<pre><code class="lang-sh">[root@ampcommons02 <span class="hljs-built_in">test</span>]<span class="hljs-comment"># objdump -t t-release | grep debug</span>
 </code></pre>
 
                     
@@ -13756,10 +13642,10 @@
         </div>
 
         
-        <a href="../linux_system/mynote.html" class="navigation navigation-prev " aria-label="Previous page: my_note"><i class="fa fa-angle-left"></i></a>
+        <a href="../linked_and_loader/gccbian_yi_can_6570-_fpic_de_yi_xie_wen_ti.html" class="navigation navigation-prev " aria-label="Previous page: gcc編譯參數-fPIC的一些問題"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../linux_system/pthreadsigmask_kong_zhi_xian_cheng_de_xin_hao_yan_.html" class="navigation navigation-next " aria-label="Next page: pthread_sigmask 控制線程的信號掩碼"><i class="fa fa-angle-right"></i></a>
+        <a href="../Bochs/bochs.html" class="navigation navigation-next " aria-label="Next page: Bochs"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

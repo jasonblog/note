@@ -24,3 +24,10 @@ ex: PC & 板子 cardboard algo 差異在 sensor raw data 是兩各不同 chip
 ##板端 跟 手機端哪邊數據異常？
 
 板端數據不 smooth 就把 quat wxyz 都填上 0 , 代表板子
+
+
+## 利用git比較差異
+
+利用git在不同參數編譯後產生差異東西
+
+

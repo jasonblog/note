@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>數據的傳送 | Jason note</title>
+        <title>How to debug glib source code via gdb | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../assembly/1617.html" />
+    <link rel="next" href="../mooc_linux_kernel/index.html" />
     
     
-    <link rel="prev" href="../assembly/1615.html" />
+    <link rel="prev" href="../gdb/gdbxia_cha_kan_ji_yi_ti_zhi_4ee428_x_zhi_4ee429.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="14.2.6" data-basepath=".." data-revision="Sat Aug 13 2016 15:05:11 GMT+0800 (CST)">
+    <div class="book" data-level="16.35" data-basepath=".." data-revision="Sat Aug 13 2016 15:05:11 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -4947,7 +4947,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="14.2.6" data-path="assembly/1616.html">
+        <li class="chapter " data-level="14.2.6" data-path="assembly/1616.html">
             
                 
                     <a href="../assembly/1616.html">
@@ -5849,7 +5849,7 @@
             
         </li>
     
-        <li class="chapter " data-level="16.35" data-path="gdb/how_to_debug_glib_source_code_via_gdb.html">
+        <li class="chapter active" data-level="16.35" data-path="gdb/how_to_debug_glib_source_code_via_gdb.html">
             
                 
                     <a href="../gdb/how_to_debug_glib_source_code_via_gdb.html">
@@ -13596,155 +13596,38 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E6%95%B8%E6%93%9A%E7%9A%84%E5%82%B3%E9%80%81">&#x6578;&#x64DA;&#x7684;&#x50B3;&#x9001;</h1>
-<p>&#x524D;&#x9762;&#x8B1B;&#x4E86;&#x5B9A;&#x7FA9;&#x6578;&#x64DA;&#x5143;&#x7D20;&#xFF0C;&#x65E2;&#x7136;&#x5B9A;&#x7FA9;&#x4E86;&#x6578;&#x64DA;&#x5143;&#x7D20;&#xFF0C;&#x90A3;&#x9EBC;&#x5C31;&#x9700;&#x8981;&#x77E5;&#x9053;&#x5982;&#x4F55;&#x8655;&#x7406;&#x9019;&#x4E9B;&#x6578;&#x64DA;&#x5143;&#x7D20;&#x3002;&#x6578;&#x64DA;&#x5143;&#x7D20;&#x4F4D;&#x65BC;&#x5167;&#x5B58;&#x4E2D;&#xFF0C;&#x4E26;&#x4E14;&#x8655;&#x7406;&#x5668;&#x5F88;&#x591A;&#x6307;&#x4EE4;&#x8981;&#x4F7F;&#x7528;&#x5BC4;&#x5B58;&#x5668;&#xFF0C;&#x6240;&#x4EE5;&#x8655;&#x7406;&#x6578;&#x64DA;&#x5143;&#x7D20;&#x7684;&#x7B2C;&#x4E00;&#x500B;&#x6B65;&#x9A5F;&#x5C31;&#x662F;&#x5728;&#x5167;&#x5B58;&#x548C;&#x5BC4;&#x5B58;&#x5668;&#x4E4B;&#x9593;&#x50B3;&#x9001;&#x5B83;&#x5011;&#x3002;&#x6578;&#x64DA;&#x50B3;&#x9001;&#x6307;&#x4EE4;&#x70BA;mov&#xFF0C;&#x5176;&#x70BA;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x4E2D;&#x6700;&#x5E38;&#x7528;&#x7684;&#x6307;&#x4EE4;&#x4E4B;&#x4E00;&#x3002;
-mov&#x6307;&#x4EE4;&#x7684;&#x57FA;&#x672C;&#x683C;&#x5F0F;&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre><code>movx source, dest
-</code></pre><p>&#x5176;&#x4E2D;source&#x548C;dest&#x7684;&#x503C;&#x53EF;&#x4EE5;&#x662F;&#x5167;&#x5B58;&#x5730;&#x5740;&#x3001;&#x5B58;&#x5132;&#x5728;&#x5167;&#x5B58;&#x4E2D;&#x7684;&#x6578;&#x503C;&#x3001;&#x6307;&#x4EE4;&#x8A9E;&#x53E5;&#x5B9A;&#x7FA9;&#x7684;&#x6578;&#x64DA;&#x503C;&#x3001;&#x6216;&#x5BC4;&#x5B58;&#x5668;&#x3002;GNU&#x5F59;&#x7DE8;&#x5668;&#x7684;mov&#x6307;&#x4EE4;&#x5FC5;&#x9808;&#x8981;&#x8072;&#x660E;&#x50B3;&#x9001;&#x7684;&#x6578;&#x64DA;&#x5143;&#x7D20;&#x7684;&#x9577;&#x5EA6;&#xFF0C;&#x901A;&#x904E;&#x628A;&#x4E00;&#x500B;&#x9644;&#x52A0;&#x5B57;&#x7B26;&#x6DFB;&#x52A0;&#x5230;mov&#x4E4B;&#x5F8C;&#x4F86;&#x6307;&#x660E;&#x8A72;&#x9577;&#x5EA6;&#xFF0C;&#x6240;&#x4EE5;mov&#x6307;&#x4EE4;&#x5C31;&#x8B8A;&#x6210;&#x4E86;movx&#xFF0C;&#x5176;&#x4E2D;x&#x53EF;&#x4EE5;&#x662F;&#x9019;&#x4E9B;&#x5B57;&#x7B26;&#xFF1A;l&#xFF08;32&#x4F4D;&#xFF09;&#x3001;w&#xFF08;16&#x4F4D;&#xFF09;&#x3001;b&#xFF08;8&#x4F4D;&#xFF09;&#x3002;</p>
-<p>&#x4F46;&#x662F;&#x7528;mov&#x6307;&#x4EE4;&#x6642;&#xFF0C;&#x4E0D;&#x662F;&#x6240;&#x6709;&#x4F4D;&#x7F6E;&#x90FD;&#x53EF;&#x4EE5;&#x50B3;&#x9001;&#x7D66;&#x6240;&#x6709;&#x4F4D;&#x7F6E;&#xFF0C;&#x662F;&#x7531;&#x4E00;&#x4E9B;&#x9650;&#x5236;&#x7684;&#xFF0C;&#x4E0B;&#x9762;&#x770B;&#x770B;mov&#x6307;&#x4EE4;&#x53EF;&#x4EE5;&#x505A;&#x4F4D;&#x7F6E;&#x7684;&#x503C;&#x50B3;&#x9001;&#x3002;</p>
-<ul>
-<li>&#x628A;&#x7ACB;&#x5373;&#x6578;&#x50B3;&#x9001;&#x5230;&#x5BC4;&#x5B58;&#x5668;&#x548C;&#x5167;&#x5B58;</li>
-</ul>
-<pre><code>movl $0, %eax    #&#x628A;0&#x503C;&#x50B3;&#x9001;&#x7D66;&#x5BC4;&#x5B58;&#x5668;eax
-movl $100, var    #&#x628A;&#x503C;100&#x50B3;&#x9001;&#x5230;&#x5167;&#x5B58;var&#x7684;&#x4F4D;&#x7F6E;
-</code></pre><p>&#x5728;&#x6BCF;&#x500B;&#x503C;&#x524D;&#x9762;&#x52A0;&#x4E0A;$&#x7B26;&#x865F;&#xFF0C;&#x8868;&#x793A;&#x8A72;&#x503C;&#x662F;&#x7ACB;&#x5373;&#x6578;&#xFF0C;&#x7ACB;&#x5373;&#x6578;&#x4E5F;&#x53EF;&#x4EE5;&#x662F;16&#x9032;&#x5236;&#xFF0C;&#x5982;0x40,0xff&#x3002;</p>
-<ul>
-<li>&#x5BC4;&#x5B58;&#x5668;&#x4E4B;&#x9593;&#x50B3;&#x9001;&#x6578;&#x64DA;</li>
-</ul>
-<p>&#x5728;&#x5BC4;&#x5B58;&#x5668;&#x4E4B;&#x9593;&#x50B3;&#x9001;&#x6578;&#x64DA;&#x662F;&#x6700;&#x5FEB;&#x7684;&#x50B3;&#x9001;&#x65B9;&#x5F0F;&#xFF0C;&#x6240;&#x4EE5;&#x6578;&#x64DA;&#x5118;&#x53EF;&#x80FD;&#x4FDD;&#x5B58;&#x5728;&#x8655;&#x7406;&#x5668;&#x5BC4;&#x5B58;&#x5668;&#x4E2D;&#xFF0C;&#x9019;&#x6A23;&#x53EF;&#x4EE5;&#x6E1B;&#x5C11;&#x8A2A;&#x554F;&#x5167;&#x5B58;&#x4F4D;&#x7F6E;&#x6240;&#x82B1;&#x6642;&#x9593;&#x3002;&#x901A;&#x7528;&#x5BC4;&#x5B58;&#x5668;&#x7684;&#x5167;&#x5BB9;&#x53EF;&#x4EE5;&#x50B3;&#x9001;&#x7D66;&#x5176;&#x5B83;&#x4EFB;&#x4F55;&#x985E;&#x578B;&#x7684;&#x5BC4;&#x5B58;&#x5668;&#xFF0C;&#x800C;&#x5C08;&#x7528;&#x5BC4;&#x5B58;&#x5668;&#xFF08;&#x63A7;&#x5236;&#x3001;&#x8ABF;&#x8A66;&#x3001;&#x6BB5;&#x5BC4;&#x5B58;&#x5668;&#xFF09;&#x7684;&#x5167;&#x5BB9;&#x53EA;&#x80FD;&#x548C;&#x901A;&#x7528;&#x5BC4;&#x5B58;&#x5668;&#x7684;&#x5167;&#x5BB9;&#x76F8;&#x4E92;&#x50B3;&#x9001;&#x3002;</p>
-<pre><code>movl %eax, %ecx        #&#x628A;eax&#x5BC4;&#x5B58;&#x5668;&#x4E2D;&#x6578;&#x64DA;&#x50B3;&#x9001;&#x5230;ecx&#x5BC4;&#x5B58;&#x5668;&#x3002;
-</code></pre><ul>
-<li>&#x5728;&#x5167;&#x5B58;&#x548C;&#x5BC4;&#x5B58;&#x5668;&#x4E4B;&#x9593;&#x50B3;&#x9001;&#x6578;&#x64DA;</li>
-</ul>
-<pre><code>movl value&#xFF0C; %eax        # value&#x6307;&#x5B9A;&#x5167;&#x5B58;&#x4F4D;&#x7F6E;
-movl %eax, value           # &#x628A;eax&#x5BC4;&#x5B58;&#x5668;&#x4E2D;4&#x5B57;&#x7BC0;&#x6578;&#x64DA;&#x50B3;&#x9001;&#x5230;value&#x6307;&#x5B9A;&#x7684;&#x5167;&#x5B58;&#x4F4D;&#x7F6E;&#x3002;
-</code></pre><p>&#x4F7F;&#x7528;&#x8B8A;&#x5740;&#x7684;&#x5167;&#x5B58;&#x4F4D;&#x7F6E;&#x3002;&#x5982;&#x4E0B;&#xFF0C;&#x5728;&#x4E00;&#x500B;&#x547D;&#x4EE4;&#x4E2D;&#x591A;&#x5167;&#x5B58;&#x6307;&#x5B9A;&#x591A;&#x500B;&#x503C;&#xFF1A;</p>
-<pre><code>values&#xFF1A;
-    .int 10,20,30,40,50,60,70
-</code></pre><p>&#x9019;&#x6A23;&#x5C31;&#x5275;&#x5EFA;&#x4E86;&#x5B58;&#x653E;&#x5728;&#x5167;&#x5B58;&#x4E2D;&#x9023;&#x7E8C;&#x7684;&#x4E00;&#x7CFB;&#x5217;&#x6578;&#x64DA;&#x503C;&#xFF08;&#x985E;&#x4F3C;&#x65BC;&#x9AD8;&#x7D1A;&#x8A9E;&#x8A00;&#x7684;&#x6578;&#x7D44;&#xFF09;&#x3002;&#x5728;&#x5F15;&#x7528;&#x6578;&#x7D44;&#x4E2D;&#x7684;&#x6578;&#x64DA;&#x6642;&#xFF0C;&#x5FC5;&#x9808;&#x4F7F;&#x7528;&#x8B8A;&#x5740;&#x7CFB;&#x7D71;&#x4F86;&#x78BA;&#x5B9A;&#x4F60;&#x8981;&#x8A2A;&#x554F;&#x7684;&#x90A3;&#x4E00;&#x500B;&#x5167;&#x5B58;&#x4F4D;&#x7F6E;&#x3002;&#x5167;&#x5B58;&#x4F4D;&#x7F6E;&#x7531;&#x4E0B;&#x9762;&#x8868;&#x9054;&#x5F0F;&#x4F86;&#x78BA;&#x5B9A;&#xFF1A;</p>
-<p>base_addr(offset_addr, index, size)
-&#x5176;&#x4E2D;&#x70BA;0&#x7684;&#x503C;&#x53EF;&#x4EE5;&#x5FFD;&#x7565;&#xFF0C;&#x4F46;&#x4ECD;&#x7136;&#x9700;&#x8981;&#x9017;&#x865F;&#x4F5C;&#x4F54;&#x4F4D;&#x7B26;&#x3002;offset_addr&#x548C;index&#x7684;&#x5FC5;&#x9808;&#x662F;&#x5BC4;&#x5B58;&#x5668;&#xFF0C;size&#x7684;&#x503C;&#x53EF;&#x4EE5;&#x662F;&#x6578;&#x5B57;&#x3002;&#x5982;&#x9700;&#x8981;&#x5F15;&#x7528;&#x524D;&#x9762;&#x7D66;&#x51FA;&#x7684;values&#x6578;&#x7D44;&#x4E2D;&#x7684;&#x503C;40&#xFF0C;&#x662F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x5982;&#x4E0B;&#x6307;&#x4EE4;&#x5C07;values&#x5167;&#x5B58;&#x958B;&#x59CB;&#x7684;&#x7B2C;4&#x500B;&#x503C;&#x50B3;&#x9001;&#x5230;eax&#x5BC4;&#x5B58;&#x5668;&#x4E2D;&#xFF1A;</p>
-<pre><code>movl $3, %edi                    # &#x985E;&#x4F3C;&#x65BC;C&#x8A9E;&#x8A00;&#xFF0C;&#x4E0B;&#x6A19;&#x5F9E;0&#x958B;&#x59CB;&#x3002;
-movl values(, %edi, 4), %eax
-</code></pre><p>&#x4F7F;&#x7528;&#x5BC4;&#x5B58;&#x5668;&#x9593;&#x63A5;&#x5C0B;&#x5740;&#x3002;&#x5BC4;&#x5B58;&#x5668;&#x4E0D;&#x4F46;&#x53EF;&#x4EE5;&#x4FDD;&#x5B58;&#x6578;&#x64DA;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x4FDD;&#x5B58;&#x5167;&#x5B58;&#x5730;&#x5740;&#xFF0C;&#x4F7F;&#x7528;&#x5BC4;&#x5B58;&#x5668;&#x4E2D;&#x5167;&#x5B58;&#x5730;&#x5740;&#x8A2A;&#x554F;&#x5167;&#x5B58;&#x4F4D;&#x7F6E;&#x7684;&#x6578;&#x64DA;&#x7A31;&#x70BA;&#x9593;&#x63A5;&#x5C0B;&#x5740;&#x3002;&#x7576;&#x4F7F;&#x7528;&#x8B8A;&#x91CF;&#x5F15;&#x7528;&#x7684;&#x5167;&#x5B58;&#x4F4D;&#x7F6E;&#x7684;&#x6578;&#x64DA;&#x6642;&#xFF0C;&#x901A;&#x904E;&#x5728;&#x6307;&#x4EE4;&#x4E2D;&#x8B8A;&#x91CF;&#x524D;&#x9762;&#x52A0;$&#x7B26;&#x865F;&#x5C31;&#x53EF;&#x4EE5;&#x7372;&#x5F97;&#x5176;&#x5167;&#x5B58;&#x4F4D;&#x7F6E;&#x7684;&#x5730;&#x5740;&#xFF08;&#x985E;&#x4F3C;&#x65BC;C&#x8A9E;&#x8A00;&#x53D6;&#x5730;&#x5740;&#x7B26;&#x865F;&amp;&#xFF09;&#x3002;&#x4E0B;&#x9762;&#x547D;&#x4EE4;&#x628A;&#x8B8A;&#x91CF;&#x5F15;&#x7528;&#x7684;&#x5167;&#x5B58;&#x5730;&#x5740;&#x50B3;&#x9001;&#x7D66;edi&#x5BC4;&#x5B58;&#x5668;&#xFF1A;</p>
-<pre><code>movl$value, %edi
-</code></pre><p>&#x547D;&#x4EE4;</p>
-<pre><code>movl %ebx, (%edi)
-</code></pre><p>&#x628A;ebx&#x5BC4;&#x5B58;&#x5668;&#x4E2D;&#x7684;&#x503C;&#x50B3;&#x9001;&#x7D66;edi&#x5BC4;&#x5B58;&#x5668;&#x4E2D;&#x5305;&#x542B;&#x7684;&#x5167;&#x5B58;&#x4F4D;&#x7F6E;&#xFF0C;&#x5982;&#x679C;&#x6C92;&#x6709;&#x62EC;&#x865F;&#xFF0C;&#x6307;&#x4EE4;&#x5C31;&#x628A;ebx&#x5BC4;&#x5B58;&#x5668;&#x4E2D;&#x7684;&#x503C;&#x52A0;&#x8F09;&#x5230;edi&#x5BC4;&#x5B58;&#x5668;&#x3002;
-&#x547D;&#x4EE4;</p>
-<pre><code>movl %edx, 4(%edi)
-</code></pre><p>&#x628A;edx&#x5BC4;&#x5B58;&#x5668;&#x4E2D;&#x7684;&#x503C;&#x5B58;&#x653E;&#x5230;edi&#x5BC4;&#x5B58;&#x5668;&#x6307;&#x5411;&#x4F4D;&#x7F6E;&#x4E4B;&#x5F8C;4&#x500B;&#x5B57;&#x7BC0;&#x7684;&#x5167;&#x5B58;&#x5730;&#x5740;&#x4E2D;&#x3002;&#x6578;&#x5B57;&#x53EF;&#x4EE5;&#x662F;&#x8CA0;&#x503C;&#xFF0C;&#x5982;&#x679C;&#x70BA;-4&#x5247;&#x5B58;&#x653E;&#x5230;&#x4E4B;&#x524D;4&#x500B;&#x5B57;&#x7BC0;&#x7684;&#x5167;&#x5B58;&#x4F4D;&#x7F6E;&#x4E2D;&#x3002;</p>
-<p>&#x4E0B;&#x9762;&#x7D66;&#x4E00;&#x500B;&#x5BC4;&#x5B58;&#x5668;&#x9593;&#x63A5;&#x5C0B;&#x5740;&#x7684;&#x793A;&#x4F8B;&#xFF1A;</p>
-<pre><code>.section .data
-values:
-    .int 10, 20, 30, 40, 50, 60, 70, 80, 90
-
-.section .text
-.globl _start
-_start:
-    nop
-    movl values, %eax
-    movl $values, %edi
-    movl $100, 4(%edi)
-    movl $1, %edi
-    movl values(, %edi, 4), %ebx
-    movl $1, %eax
-    int $0x80
-</code></pre><p>&#x70BA;&#x4E86;&#x7BC0;&#x7701;&#x7DE8;&#x8B6F;&#x6642;&#x9593;&#xFF0C;&#x6211;&#x5011;&#x7DE8;&#x5BEB;&#x4E00;&#x500B;Makefile&#x6587;&#x4EF6;&#xFF1A;</p>
-<pre><code># Makefile for linux as
-
-SRC_BIN=mov
-
-SRC=$(wildcard *.s)
-SRC_OBJ=$(SRC:.s=.o)
-
-all: $(SRC_BIN)
-
-$(SRC_BIN): $(SRC_OBJ)
- ld -o $@ $&lt;
-
-$(SRC_OBJ): $(SRC)
- $(AS) -o $@ $&lt; --gstabs
-
-clean:
- $(RM) $(SRC_OBJ) $(SRC_BIN) *~
-.PHONY:
- all clean
-</code></pre><p>&#x7DE8;&#x8B6F;&#x93C8;&#x63A5;&#x751F;&#x6210;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x3002;</p>
-<pre><code>$ make
-as -o mov.o mov.s --gstabs
-ld -o mov mov.o
-</code></pre><p>&#x73FE;&#x5728;&#x8ABF;&#x8A66;&#x904B;&#x884C;&#x8A72;&#x7A0B;&#x5E8F;&#x5F8C;&#xFF1A;</p>
-<pre><code>$ gdb mov
-GNU gdb (GDB) Red Hat Enterprise Linux (7.2-60.el6)
-...
-Reading symbols from /home/allen/as/2_mov/mov...done.
-
-(gdb) b _start
-Breakpoint 1 at 0x8048074: file mov.s, line 8.
-(gdb) r
-Starting program: /home/allen/as/2_mov/mov
-
-Breakpoint 1, _start () at mov.s:8
-8     nop
-(gdb)
-</code></pre><p>&#x9996;&#x5148;&#x67E5;&#x770B;&#x5167;&#x5B58;&#x4F4D;&#x7F6E;values&#x5167;&#x5B58;&#x4E2D;&#x7684;&#x503C;&#xFF1A;</p>
-<pre><code>(gdb) x/9d &amp;values
-0x804909c &lt;values&gt;: 10 20 30 40
-0x80490ac &lt;values+16&gt;: 50 60 70 80
-0x80490bc &lt;values+32&gt;: 90
-(gdb)
-</code></pre><p>&#x5728;&#x67E5;&#x770B;&#x5BC4;&#x5B58;&#x5668;&#x7684;&#x503C;&#xFF1A;</p>
-<pre><code>(gdb) info register
-eax            0x0 0
-ecx            0x0 0
-edx            0x0 0
-ebx            0x0 0
-esp            0xbffff3e0 0xbffff3e0
-ebp            0x0 0x0
-esi            0x0 0
-edi            0x0 0
-eip            0x8048074 0x8048074 &lt;_start&gt;
-eflags         0x212 [ AF IF ]
-cs             0x73 115
-ss             0x7b 123
-ds             0x7b 123
-es             0x7b 123
-fs             0x0 0
-gs             0x0 0
-(gdb)
-</code></pre><p>&#x7136;&#x5F8C;&#x55AE;&#x6B65;&#x904B;&#x884C;&#x8A72;&#x7A0B;&#x5E8F;&#xFF0C;&#x628A;&#x7B2C;&#x4E00;&#x500B;&#x6578;&#x64DA;&#x5143;&#x7D20;&#x5F9E;values&#x6578;&#x7D44;&#x52A0;&#x8F09;&#x5230;&#x5BC4;&#x5B58;&#x5668;eax&#xFF1A;</p>
-<pre><code>(gdb) s
-9    movl values, %eax
-(gdb) print $eax
-$1 = 0
-(gdb) s
-10    movl $values, %edi
-(gdb) print $eax
-$2 = 10
-(gdb)
-</code></pre><p>&#x53EF;&#x4EE5;&#x770B;&#x5230;eax&#x5BC4;&#x5B58;&#x5668;&#x7684;&#x503C;&#x70BA;&#x6578;&#x7D44;&#x7684;&#x7B2C;&#x4E00;&#x500B;&#x5143;&#x7D20;&#xFF0C;&#x7E7C;&#x7E8C;&#x55AE;&#x6B65;&#x57F7;&#x884C;&#xFF0C;&#x76E3;&#x8996;&#x88AB;&#x52A0;&#x8F09;&#x5F85;edi&#x5BC4;&#x5B58;&#x5668;&#x4E2D;&#x7684;values&#x5167;&#x5B58;&#x5730;&#x5740;&#xFF1A;</p>
-<pre><code>(gdb) n
-11    movl $100, 4(%edi)
-(gdb) n
-12    movl $1, %edi
-(gdb) print/x $edi
-$3 = 0x804909c
-(gdb)
-</code></pre><p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x8A72;&#x5730;&#x5740;&#x548C;values&#x7684;&#x5730;&#x5740;&#x4E00;&#x6A23;&#x3002;&#x4E0B;&#x4E00;&#x689D;&#x5F59;&#x7DE8;&#x4EE3;&#x78BC;</p>
-<pre><code>movl $100, 4(%edi)
-</code></pre><p>&#x5C07;100&#x50B3;&#x9001;&#x5230;edi&#x5BC4;&#x5B58;&#x5668;&#x6307;&#x5411;&#x7684;&#x5730;&#x5740;&#x7684;&#x56DB;&#x5B57;&#x7BC0;&#x4E4B;&#x5F8C;&#x7684;&#x5167;&#x5B58;&#x5730;&#x5740;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;values&#x6578;&#x7D44;&#x7684;&#x7B2C;&#x4E8C;&#x500B;&#x6578;&#x64DA;&#x5143;&#x7D20;&#x3002;</p>
-<pre><code>(gdb) x/9d &amp;values
-0x804909c &lt;values&gt;: 10 100 30 40
-0x80490ac &lt;values+16&gt;: 50 60 70 80
-0x80490bc &lt;values+32&gt;: 90
-(gdb)
-</code></pre><p>&#x901A;&#x904E;x&#x547D;&#x4EE4;&#x770B;&#x5230;&#x6578;&#x7D44;&#x7B2C;&#x4E8C;&#x500B;&#x5143;&#x7D20;&#x5DF2;&#x7D93;&#x66F4;&#x6539;&#x4E86;&#x3002;
-&#x5F8C;&#x9762;&#x5F59;&#x7DE8;&#x4EE3;&#x78BC;&#x662F;&#x5C07;&#x6578;&#x7D44;&#x7B2C;&#x4E8C;&#x500B;&#x5143;&#x7D20;100&#x653E;&#x5230;ebx&#x5BC4;&#x5B58;&#x5668;&#x4E2D;&#xFF0C;&#x5C07;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x865F;1&#xFF08;SYS_exit&#xFF09;&#x653E;&#x5230;eax&#x4E2D;&#xFF0C;&#x6700;&#x5F8C;&#x57F7;&#x884C;&#x4E2D;&#x65B7;&#x3002;&#x9019;&#x6A23;&#x6301;&#x7E8C;&#x7684;&#x9000;&#x51FA;&#x78BC;&#x5C31;&#x61C9;&#x8A72;&#x662F;100&#x3002;&#x5728;&#x57F7;&#x884C;mov&#x7A0B;&#x5E8F;&#x4E4B;&#x5F8C;&#x5728;shell&#x4E2D;&#x67E5;&#x770B;&#x6AA2;&#x67E5;&#x8A72;&#x503C;&#xFF1A;</p>
-<pre><code>$ ./mov
-$ echo $?
-100
-$
+                        <h1 id="how-to-debug-glib-source-code-via-gdb">How to debug glib source code via gdb</h1>
+<h2 id="source-code">source code</h2>
+<pre><code class="lang-sh">wget http://ftp.acc.umu.se/pub/GNOME/sources/glib/<span class="hljs-number">2.49</span>/glib-<span class="hljs-number">2.49</span>.<span class="hljs-number">4</span>.tar.xz
+tar xvf glib-<span class="hljs-number">2.49</span>.<span class="hljs-number">4</span>.tar.xz
+</code></pre>
+<h2 id="build">Build</h2>
+<pre><code class="lang-sh">CFLAGS=<span class="hljs-string">&quot;-g -O0&quot;</span> ./configure  --prefix=/home/shihyu/gdb_<span class="hljs-built_in">test</span>/glib/glib
+make -j8 &amp;&amp; make install
+</code></pre>
+<h2 id="glib-example">glib example</h2>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;glib.h&gt;</span></span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Glib version: %u.%u.%u\n\n&quot;</span>, glib_major_version, glib_minor_version,
+           glib_micro_version);
+    GHashTable* hash = g_hash_table_new(g_str_hash, g_str_equal);
+    g_hash_table_insert(hash, <span class="hljs-string">&quot;Virginia&quot;</span>, <span class="hljs-string">&quot;Richmond&quot;</span>);
+    g_hash_table_insert(hash, <span class="hljs-string">&quot;Texas&quot;</span>, <span class="hljs-string">&quot;Austin&quot;</span>);
+    g_hash_table_insert(hash, <span class="hljs-string">&quot;Ohio&quot;</span>, <span class="hljs-string">&quot;Columbus&quot;</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;There are %d keys in the hash\n&quot;</span>, g_hash_table_size(hash));
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;The capital of Texas is %s\n&quot;</span>, g_hash_table_lookup(hash, <span class="hljs-string">&quot;Texas&quot;</span>));
+    gboolean found = g_hash_table_remove(hash, <span class="hljs-string">&quot;Virginia&quot;</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;The value &apos;Virginia&apos; was %sfound and removed\n&quot;</span>, found ? <span class="hljs-string">&quot;&quot;</span> : <span class="hljs-string">&quot;not &quot;</span>);
+    g_hash_table_destroy(hash);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<pre><code class="lang-sh">gcc  -L./glib/lib/ -I./glib/include/glib-<span class="hljs-number">2.0</span>/ -I ./glib/lib/glib-<span class="hljs-number">2.0</span>/include/ hello.c -o hello  -lglib-<span class="hljs-number">2.0</span>
+</code></pre>
+<h2 id="debug-glib-via-gdb">debug glib via gdb</h2>
+<pre><code>LD_LIBRARY_PATH=/home/shihyu/gdb_test/glib/glib/lib/ cgdb ./hello
 </code></pre>
                     
                     </section>
@@ -13755,10 +13638,10 @@ $
         </div>
 
         
-        <a href="../assembly/1615.html" class="navigation navigation-prev " aria-label="Previous page: 使用gdb調試彙編程序"><i class="fa fa-angle-left"></i></a>
+        <a href="../gdb/gdbxia_cha_kan_ji_yi_ti_zhi_4ee428_x_zhi_4ee429.html" class="navigation navigation-prev " aria-label="Previous page: GDB下查看記憶體指令(x指令)"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../assembly/1617.html" class="navigation navigation-next " aria-label="Next page: 堆棧的使用"><i class="fa fa-angle-right"></i></a>
+        <a href="../mooc_linux_kernel/index.html" class="navigation navigation-next " aria-label="Next page: Linux內核分析雲課堂學習筆記"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

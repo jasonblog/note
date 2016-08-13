@@ -818,6 +818,7 @@
    * [Linux 共用程式庫的組織](linked_and_loader/linux_gong_yong_cheng_shi_ku_de_zu_zhi.md)
    * [動態載入函式庫 (Dynamically Lodaded Libraries)](linked_and_loader/dong_tai_zai_ru_han_shi_ku__dynamically_lodaded_li.md)
    * [gcc編譯參數-fPIC的一些問題](linked_and_loader/gccbian_yi_can_6570-_fpic_de_yi_xie_wen_ti.md)
+   * Linux下怎样判断一个binary是否可以debug
 * [Bochs](Bochs/bochs.md)
    * [OS dev的Bochs調試](Bochs/os_devde_bochs_diao_shi.md)
 * [Nginx](nginx/nginx.md)

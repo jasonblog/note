@@ -5,7 +5,7 @@
 - crash 的 那支程式 pid 看 log 最後出現的 pid 在程式碼哪邊分析crash 點
 - 平常針對負責的程式部份把從log 流程知道有哪些 thread 有合作關鍵
 
-##兩端數據一致數 , 也可看出兩端數據 sample rate 是否一致 ?
+##流水號 - 可比對兩端數據 ＆ sample rate 是否一致 ?
 
 加上流水號比對兩端數據差異 (發送版端跟接手手機的數據是否一樣)
 
@@ -30,4 +30,8 @@ ex: PC & 板子 cardboard algo 差異在 sensor raw data 是兩各不同 chip
 
 利用git在不同參數編譯後產生差異東西
 
+
+## 一樣程式在不同平台出現差異問題
+- 不同 input (raw data)
+- 仔細比對之間程式碼是否真的相同
 

@@ -375,6 +375,7 @@
    * [用GDB反彙編調試linux內核](gdb/yong_gdb_fanhui_bian_diao_shi_linux_nei_he.md)
    * [GDB下查看記憶體指令(x指令)](gdb/gdbxia_cha_kan_ji_yi_ti_zhi_4ee428_x_zhi_4ee429.md)
    * [How to debug glib source code via gdb](gdb/how_to_debug_glib_source_code_via_gdb.md)
+   * How to use GDB debug OpenCV programmes?
 * [Linux內核分析雲課堂學習筆記](mooc_linux_kernel/README.md)
    * [圖解分析彙編代碼以理解計算機是如何工作的](mooc_linux_kernel/191.md)
    * [基於mykernel的一個簡單的時間片輪轉多道程序內核代碼分析](mooc_linux_kernel/192.md)

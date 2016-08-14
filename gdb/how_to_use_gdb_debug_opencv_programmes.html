@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>gdb 調試利器 | Jason note</title>
+        <title>How to use GDB debug OpenCV programmes? | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../linux_tools/ldd.html" />
+    <link rel="next" href="../mooc_linux_kernel/index.html" />
     
     
-    <link rel="prev" href="../linux_tools/ref_tool.html" />
+    <link rel="prev" href="../gdb/how_to_debug_glib_source_code_via_gdb.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="3.3.1" data-basepath=".." data-revision="Mon Aug 15 2016 01:46:52 GMT+0800 (CST)">
+    <div class="book" data-level="16.36" data-basepath=".." data-revision="Mon Aug 15 2016 01:46:52 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -450,7 +450,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="3.3.1" data-path="linux_tools/gdb.html">
+        <li class="chapter " data-level="3.3.1" data-path="linux_tools/gdb.html">
             
                 
                     <a href="../linux_tools/gdb.html">
@@ -5864,7 +5864,7 @@
             
         </li>
     
-        <li class="chapter " data-level="16.36" data-path="gdb/how_to_use_gdb_debug_opencv_programmes.html">
+        <li class="chapter active" data-level="16.36" data-path="gdb/how_to_use_gdb_debug_opencv_programmes.html">
             
                 
                     <a href="../gdb/how_to_use_gdb_debug_opencv_programmes.html">
@@ -13626,81 +13626,143 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="gdb-%E8%AA%BF%E8%A9%A6%E5%88%A9%E5%99%A8">gdb &#x8ABF;&#x8A66;&#x5229;&#x5668;</h1>
-<p>GDB&#x662F;&#x4E00;&#x500B;&#x7531;GNU&#x958B;&#x6E90;&#x7D44;&#x7E54;&#x767C;&#x4F48;&#x7684;&#x3001;UNIX/LINUX&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x4E0B;&#x7684;&#x3001;&#x57FA;&#x65BC;&#x547D;&#x4EE4;&#x884C;&#x7684;&#x3001;&#x529F;&#x80FD;&#x5F37;&#x5927;&#x7684;&#x7A0B;&#x5E8F;&#x8ABF;&#x8A66;&#x5DE5;&#x5177;&#x3002; &#x5C0D;&#x65BC;&#x4E00;&#x540D;Linux&#x4E0B;&#x5DE5;&#x4F5C;&#x7684;c++&#x7A0B;&#x5E8F;&#x54E1;&#xFF0C;gdb&#x662F;&#x5FC5;&#x4E0D;&#x53EF;&#x5C11;&#x7684;&#x5DE5;&#x5177;&#xFF1B;</p>
-<h3 id="1-1-%E5%95%9F%E5%8B%95gdb">1.1. &#x555F;&#x52D5;gdb</h3>
-<p>&#x5C0D;C/C++&#x7A0B;&#x5E8F;&#x7684;&#x8ABF;&#x8A66;&#xFF0C;&#x9700;&#x8981;&#x5728;&#x7DE8;&#x8B6F;&#x524D;&#x5C31;&#x52A0;&#x4E0A;-g&#x9078;&#x9805;:</p>
-<pre><code>$g++ -g hello.cpp -o hello
-</code></pre><p>&#x8ABF;&#x8A66;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;:</p>
-<pre><code>$gdb &lt;program&gt;
-</code></pre><p>program&#x4E5F;&#x5C31;&#x662F;&#x4F60;&#x7684;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#xFF0C;&#x4E00;&#x822C;&#x5728;&#x7576;&#x524D;&#x76EE;&#x9304;&#x4E0B;&#x3002;</p>
-<p>&#x8ABF;&#x8A66;core&#x6587;&#x4EF6;(core&#x662F;&#x7A0B;&#x5E8F;&#x975E;&#x6CD5;&#x57F7;&#x884C;&#x5F8C;core dump&#x5F8C;&#x7522;&#x751F;&#x7684;&#x6587;&#x4EF6;):</p>
-<pre><code>$gdb &lt;program&gt; &lt;core dump file&gt;
-$gdb program core.11127
-</code></pre><p>&#x8ABF;&#x8A66;&#x670D;&#x52D9;&#x7A0B;&#x5E8F;:</p>
-<pre><code>$gdb &lt;program&gt; &lt;PID&gt;
-$gdb hello 11127
-</code></pre><p>&#x5982;&#x679C;&#x4F60;&#x7684;&#x7A0B;&#x5E8F;&#x662F;&#x4E00;&#x500B;&#x670D;&#x52D9;&#x7A0B;&#x5E8F;&#xFF0C;&#x90A3;&#x9EBC;&#x4F60;&#x53EF;&#x4EE5;&#x6307;&#x5B9A;&#x9019;&#x500B;&#x670D;&#x52D9;&#x7A0B;&#x5E8F;&#x904B;&#x884C;&#x6642;&#x7684;&#x9032;&#x7A0B;ID&#x3002;gdb&#x6703;&#x81EA;&#x52D5;attach&#x4E0A;&#x53BB;&#xFF0C;&#x4E26;&#x8ABF;&#x8A66;&#x4ED6;&#x3002;program&#x61C9;&#x8A72;&#x5728;PATH&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x4E2D;&#x641C;&#x7D22;&#x5F97;&#x5230;&#x3002;</p>
-<h3 id="1-2-gdb%E4%BA%A4%E4%BA%92%E5%91%BD%E4%BB%A4">1.2. gdb&#x4EA4;&#x4E92;&#x547D;&#x4EE4;</h3>
-<p>&#x555F;&#x52D5;gdb&#x5F8C;&#xFF0C;&#x9032;&#x5165;&#x5230;&#x4EA4;&#x4E92;&#x6A21;&#x5F0F;&#xFF0C;&#x901A;&#x904E;&#x4EE5;&#x4E0B;&#x547D;&#x4EE4;&#x5B8C;&#x6210;&#x5C0D;&#x7A0B;&#x5E8F;&#x7684;&#x8ABF;&#x8A66;&#xFF1B;&#x6CE8;&#x610F;&#x9AD8;&#x983B;&#x4F7F;&#x7528;&#x7684;&#x547D;&#x4EE4;&#x4E00;&#x822C;&#x90FD;&#x6703;&#x6709;&#x7E2E;&#x5BEB;&#xFF0C;&#x719F;&#x7DF4;&#x4F7F;&#x7528;&#x9019;&#x4E9B;&#x7E2E;&#x5BEB;&#x547D;&#x4EE4;&#x80FD;&#x63D0;&#x9AD8;&#x8ABF;&#x8A66;&#x7684;&#x6548;&#x7387;&#xFF1B;</p>
-<p>&#x904B;&#x884C;
-run&#xFF1A;&#x7C21;&#x8A18;&#x70BA; r &#xFF0C;&#x5176;&#x4F5C;&#x7528;&#x662F;&#x904B;&#x884C;&#x7A0B;&#x5E8F;&#xFF0C;&#x7576;&#x9047;&#x5230;&#x65B7;&#x9EDE;&#x5F8C;&#xFF0C;&#x7A0B;&#x5E8F;&#x6703;&#x5728;&#x65B7;&#x9EDE;&#x8655;&#x505C;&#x6B62;&#x904B;&#x884C;&#xFF0C;&#x7B49;&#x5F85;&#x7528;&#x6236;&#x8F38;&#x5165;&#x4E0B;&#x4E00;&#x6B65;&#x7684;&#x547D;&#x4EE4;&#x3002;
-continue &#xFF08;&#x7C21;&#x5BEB;c &#xFF09;&#xFF1A;&#x7E7C;&#x7E8C;&#x57F7;&#x884C;&#xFF0C;&#x5230;&#x4E0B;&#x4E00;&#x500B;&#x65B7;&#x9EDE;&#x8655;&#xFF08;&#x6216;&#x904B;&#x884C;&#x7D50;&#x675F;&#xFF09;
-next&#xFF1A;&#xFF08;&#x7C21;&#x5BEB; n&#xFF09;&#xFF0C;&#x55AE;&#x6B65;&#x8DDF;&#x8E64;&#x7A0B;&#x5E8F;&#xFF0C;&#x7576;&#x9047;&#x5230;&#x51FD;&#x6578;&#x8ABF;&#x7528;&#x6642;&#xFF0C;&#x4E5F;&#x4E0D;&#x9032;&#x5165;&#x6B64;&#x51FD;&#x6578;&#x9AD4;&#xFF1B;&#x6B64;&#x547D;&#x4EE4;&#x540C; step &#x7684;&#x4E3B;&#x8981;&#x5340;&#x5225;&#x662F;&#xFF0C;step &#x9047;&#x5230;&#x7528;&#x6236;&#x81EA;&#x5B9A;&#x7FA9;&#x7684;&#x51FD;&#x6578;&#xFF0C;&#x5C07;&#x6B65;&#x9032;&#x5230;&#x51FD;&#x6578;&#x4E2D;&#x53BB;&#x904B;&#x884C;&#xFF0C;&#x800C; next &#x5247;&#x76F4;&#x63A5;&#x8ABF;&#x7528;&#x51FD;&#x6578;&#xFF0C;&#x4E0D;&#x6703;&#x9032;&#x5165;&#x5230;&#x51FD;&#x6578;&#x9AD4;&#x5167;&#x3002;
-step &#xFF08;&#x7C21;&#x5BEB;s&#xFF09;&#xFF1A;&#x55AE;&#x6B65;&#x8ABF;&#x8A66;&#x5982;&#x679C;&#x6709;&#x51FD;&#x6578;&#x8ABF;&#x7528;&#xFF0C;&#x5247;&#x9032;&#x5165;&#x51FD;&#x6578;&#xFF1B;&#x8207;&#x547D;&#x4EE4;n&#x4E0D;&#x540C;&#xFF0C;n&#x662F;&#x4E0D;&#x9032;&#x5165;&#x8ABF;&#x7528;&#x7684;&#x51FD;&#x6578;&#x7684;
-until&#xFF1A;&#x7576;&#x4F60;&#x53AD;&#x5026;&#x4E86;&#x5728;&#x4E00;&#x500B;&#x5FAA;&#x74B0;&#x9AD4;&#x5167;&#x55AE;&#x6B65;&#x8DDF;&#x8E64;&#x6642;&#xFF0C;&#x9019;&#x500B;&#x547D;&#x4EE4;&#x53EF;&#x4EE5;&#x904B;&#x884C;&#x7A0B;&#x5E8F;&#x76F4;&#x5230;&#x9000;&#x51FA;&#x5FAA;&#x74B0;&#x9AD4;&#x3002;
-until+&#x884C;&#x865F;&#xFF1A; &#x904B;&#x884C;&#x81F3;&#x67D0;&#x884C;&#xFF0C;&#x4E0D;&#x50C5;&#x50C5;&#x7528;&#x4F86;&#x8DF3;&#x51FA;&#x5FAA;&#x74B0;
-finish&#xFF1A; &#x904B;&#x884C;&#x7A0B;&#x5E8F;&#xFF0C;&#x76F4;&#x5230;&#x7576;&#x524D;&#x51FD;&#x6578;&#x5B8C;&#x6210;&#x8FD4;&#x56DE;&#xFF0C;&#x4E26;&#x6253;&#x5370;&#x51FD;&#x6578;&#x8FD4;&#x56DE;&#x6642;&#x7684;&#x5806;&#x68E7;&#x5730;&#x5740;&#x548C;&#x8FD4;&#x56DE;&#x503C;&#x53CA;&#x53C3;&#x6578;&#x503C;&#x7B49;&#x4FE1;&#x606F;&#x3002;
-call &#x51FD;&#x6578;(&#x53C3;&#x6578;)&#xFF1A;&#x8ABF;&#x7528;&#x7A0B;&#x5E8F;&#x4E2D;&#x53EF;&#x898B;&#x7684;&#x51FD;&#x6578;&#xFF0C;&#x4E26;&#x50B3;&#x905E;&#x201C;&#x53C3;&#x6578;&#x201D;&#xFF0C;&#x5982;&#xFF1A;call gdb_test(55)
-quit&#xFF1A;&#x7C21;&#x8A18;&#x70BA; q &#xFF0C;&#x9000;&#x51FA;gdb
-&#x8A2D;&#x7F6E;&#x65B7;&#x9EDE;
-break n &#xFF08;&#x7C21;&#x5BEB;b n&#xFF09;:&#x5728;&#x7B2C;n&#x884C;&#x8655;&#x8A2D;&#x7F6E;&#x65B7;&#x9EDE;
-&#xFF08;&#x53EF;&#x4EE5;&#x5E36;&#x4E0A;&#x4EE3;&#x78BC;&#x8DEF;&#x5F91;&#x548C;&#x4EE3;&#x78BC;&#x540D;&#x7A31;&#xFF1A; b OAGUPDATE.cpp:578&#xFF09;</p>
-<p>b fn1 if a&#xFF1E;b&#xFF1A;&#x689D;&#x4EF6;&#x65B7;&#x9EDE;&#x8A2D;&#x7F6E;
-break func&#xFF08;break&#x7E2E;&#x5BEB;&#x70BA;b&#xFF09;&#xFF1A;&#x5728;&#x51FD;&#x6578;func()&#x7684;&#x5165;&#x53E3;&#x8655;&#x8A2D;&#x7F6E;&#x65B7;&#x9EDE;&#xFF0C;&#x5982;&#xFF1A;break cb_button
-delete &#x65B7;&#x9EDE;&#x865F;n&#xFF1A;&#x522A;&#x9664;&#x7B2C;n&#x500B;&#x65B7;&#x9EDE;
-disable &#x65B7;&#x9EDE;&#x865F;n&#xFF1A;&#x66AB;&#x505C;&#x7B2C;n&#x500B;&#x65B7;&#x9EDE;
-enable &#x65B7;&#x9EDE;&#x865F;n&#xFF1A;&#x958B;&#x555F;&#x7B2C;n&#x500B;&#x65B7;&#x9EDE;
-clear &#x884C;&#x865F;n&#xFF1A;&#x6E05;&#x9664;&#x7B2C;n&#x884C;&#x7684;&#x65B7;&#x9EDE;
-info b &#xFF08;info breakpoints&#xFF09; &#xFF1A;&#x986F;&#x793A;&#x7576;&#x524D;&#x7A0B;&#x5E8F;&#x7684;&#x65B7;&#x9EDE;&#x8A2D;&#x7F6E;&#x60C5;&#x6CC1;
-delete breakpoints&#xFF1A;&#x6E05;&#x9664;&#x6240;&#x6709;&#x65B7;&#x9EDE;&#xFF1A;
-&#x67E5;&#x770B;&#x6E90;&#x4EE3;&#x78BC;
-list &#xFF1A;&#x7C21;&#x8A18;&#x70BA; l &#xFF0C;&#x5176;&#x4F5C;&#x7528;&#x5C31;&#x662F;&#x5217;&#x51FA;&#x7A0B;&#x5E8F;&#x7684;&#x6E90;&#x4EE3;&#x78BC;&#xFF0C;&#x9ED8;&#x8A8D;&#x6BCF;&#x6B21;&#x986F;&#x793A;10&#x884C;&#x3002;
-list &#x884C;&#x865F;&#xFF1A;&#x5C07;&#x986F;&#x793A;&#x7576;&#x524D;&#x6587;&#x4EF6;&#x4EE5;&#x201C;&#x884C;&#x865F;&#x201D;&#x70BA;&#x4E2D;&#x5FC3;&#x7684;&#x524D;&#x5F8C;10&#x884C;&#x4EE3;&#x78BC;&#xFF0C;&#x5982;&#xFF1A;list 12
-list &#x51FD;&#x6578;&#x540D;&#xFF1A;&#x5C07;&#x986F;&#x793A;&#x201C;&#x51FD;&#x6578;&#x540D;&#x201D;&#x6240;&#x5728;&#x51FD;&#x6578;&#x7684;&#x6E90;&#x4EE3;&#x78BC;&#xFF0C;&#x5982;&#xFF1A;list main
-list &#xFF1A;&#x4E0D;&#x5E36;&#x53C3;&#x6578;&#xFF0C;&#x5C07;&#x63A5;&#x8457;&#x4E0A;&#x4E00;&#x6B21; list &#x547D;&#x4EE4;&#x7684;&#xFF0C;&#x8F38;&#x51FA;&#x4E0B;&#x908A;&#x7684;&#x5167;&#x5BB9;&#x3002;
-&#x6253;&#x5370;&#x8868;&#x9054;&#x5F0F;
-print &#x8868;&#x9054;&#x5F0F;&#xFF1A;&#x7C21;&#x8A18;&#x70BA; p &#xFF0C;&#x5176;&#x4E2D;&#x201C;&#x8868;&#x9054;&#x5F0F;&#x201D;&#x53EF;&#x4EE5;&#x662F;&#x4EFB;&#x4F55;&#x7576;&#x524D;&#x6B63;&#x5728;&#x88AB;&#x6E2C;&#x8A66;&#x7A0B;&#x5E8F;&#x7684;&#x6709;&#x6548;&#x8868;&#x9054;&#x5F0F;&#xFF0C;&#x6BD4;&#x5982;&#x7576;&#x524D;&#x6B63;&#x5728;&#x8ABF;&#x8A66;C&#x8A9E;&#x8A00;&#x7684;&#x7A0B;&#x5E8F;&#xFF0C;&#x90A3;&#x9EBC;&#x201C;&#x8868;&#x9054;&#x5F0F;&#x201D;&#x53EF;&#x4EE5;&#x662F;&#x4EFB;&#x4F55;C&#x8A9E;&#x8A00;&#x7684;&#x6709;&#x6548;&#x8868;&#x9054;&#x5F0F;&#xFF0C;&#x5305;&#x62EC;&#x6578;&#x5B57;&#xFF0C;&#x8B8A;&#x91CF;&#x751A;&#x81F3;&#x662F;&#x51FD;&#x6578;&#x8ABF;&#x7528;&#x3002;
-print a&#xFF1A;&#x5C07;&#x986F;&#x793A;&#x6574;&#x6578; a &#x7684;&#x503C;
-print ++a&#xFF1A;&#x5C07;&#x628A; a &#x4E2D;&#x7684;&#x503C;&#x52A0;1,&#x4E26;&#x986F;&#x793A;&#x51FA;&#x4F86;
-print name&#xFF1A;&#x5C07;&#x986F;&#x793A;&#x5B57;&#x7B26;&#x4E32; name &#x7684;&#x503C;
-print gdb_test(22)&#xFF1A;&#x5C07;&#x4EE5;&#x6574;&#x6578;22&#x4F5C;&#x70BA;&#x53C3;&#x6578;&#x8ABF;&#x7528; gdb_test() &#x51FD;&#x6578;
-print gdb_test(a)&#xFF1A;&#x5C07;&#x4EE5;&#x8B8A;&#x91CF; a &#x4F5C;&#x70BA;&#x53C3;&#x6578;&#x8ABF;&#x7528; gdb_test() &#x51FD;&#x6578;
-display &#x8868;&#x9054;&#x5F0F;&#xFF1A;&#x5728;&#x55AE;&#x6B65;&#x904B;&#x884C;&#x6642;&#x5C07;&#x975E;&#x5E38;&#x6709;&#x7528;&#xFF0C;&#x4F7F;&#x7528;display&#x547D;&#x4EE4;&#x8A2D;&#x7F6E;&#x4E00;&#x500B;&#x8868;&#x9054;&#x5F0F;&#x5F8C;&#xFF0C;&#x5B83;&#x5C07;&#x5728;&#x6BCF;&#x6B21;&#x55AE;&#x6B65;&#x9032;&#x884C;&#x6307;&#x4EE4;&#x5F8C;&#xFF0C;&#x7DCA;&#x63A5;&#x8457;&#x8F38;&#x51FA;&#x88AB;&#x8A2D;&#x7F6E;&#x7684;&#x8868;&#x9054;&#x5F0F;&#x53CA;&#x503C;&#x3002;&#x5982;&#xFF1A; display a
-watch &#x8868;&#x9054;&#x5F0F;&#xFF1A;&#x8A2D;&#x7F6E;&#x4E00;&#x500B;&#x76E3;&#x8996;&#x9EDE;&#xFF0C;&#x4E00;&#x65E6;&#x88AB;&#x76E3;&#x8996;&#x7684;&#x201C;&#x8868;&#x9054;&#x5F0F;&#x201D;&#x7684;&#x503C;&#x6539;&#x8B8A;&#xFF0C;gdb&#x5C07;&#x5F37;&#x884C;&#x7D42;&#x6B62;&#x6B63;&#x5728;&#x88AB;&#x8ABF;&#x8A66;&#x7684;&#x7A0B;&#x5E8F;&#x3002;&#x5982;&#xFF1A; watch a
-whatis &#xFF1A;&#x67E5;&#x8A62;&#x8B8A;&#x91CF;&#x6216;&#x51FD;&#x6578;
-info function&#xFF1A; &#x67E5;&#x8A62;&#x51FD;&#x6578;
-&#x64F4;&#x5C55;info locals&#xFF1A; &#x986F;&#x793A;&#x7576;&#x524D;&#x5806;&#x68E7;&#x9801;&#x7684;&#x6240;&#x6709;&#x8B8A;&#x91CF;
-&#x67E5;&#x8A62;&#x904B;&#x884C;&#x4FE1;&#x606F;
-where/bt &#xFF1A;&#x7576;&#x524D;&#x904B;&#x884C;&#x7684;&#x5806;&#x68E7;&#x5217;&#x8868;&#xFF1B;
-bt backtrace &#x986F;&#x793A;&#x7576;&#x524D;&#x8ABF;&#x7528;&#x5806;&#x68E7;
-up/down &#x6539;&#x8B8A;&#x5806;&#x68E7;&#x986F;&#x793A;&#x7684;&#x6DF1;&#x5EA6;
-set args &#x53C3;&#x6578;:&#x6307;&#x5B9A;&#x904B;&#x884C;&#x6642;&#x7684;&#x53C3;&#x6578;
-show args&#xFF1A;&#x67E5;&#x770B;&#x8A2D;&#x7F6E;&#x597D;&#x7684;&#x53C3;&#x6578;
-info program&#xFF1A; &#x4F86;&#x67E5;&#x770B;&#x7A0B;&#x5E8F;&#x7684;&#x662F;&#x5426;&#x5728;&#x904B;&#x884C;&#xFF0C;&#x9032;&#x7A0B;&#x865F;&#xFF0C;&#x88AB;&#x66AB;&#x505C;&#x7684;&#x539F;&#x56E0;&#x3002;
-&#x5206;&#x5272;&#x7A97;&#x53E3;
-layout&#xFF1A;&#x7528;&#x65BC;&#x5206;&#x5272;&#x7A97;&#x53E3;&#xFF0C;&#x53EF;&#x4EE5;&#x4E00;&#x908A;&#x67E5;&#x770B;&#x4EE3;&#x78BC;&#xFF0C;&#x4E00;&#x908A;&#x6E2C;&#x8A66;&#xFF1A;
-layout src&#xFF1A;&#x986F;&#x793A;&#x6E90;&#x4EE3;&#x78BC;&#x7A97;&#x53E3;
-layout asm&#xFF1A;&#x986F;&#x793A;&#x53CD;&#x5F59;&#x7DE8;&#x7A97;&#x53E3;
-layout regs&#xFF1A;&#x986F;&#x793A;&#x6E90;&#x4EE3;&#x78BC;/&#x53CD;&#x5F59;&#x7DE8;&#x548C;CPU&#x5BC4;&#x5B58;&#x5668;&#x7A97;&#x53E3;
-layout split&#xFF1A;&#x986F;&#x793A;&#x6E90;&#x4EE3;&#x78BC;&#x548C;&#x53CD;&#x5F59;&#x7DE8;&#x7A97;&#x53E3;
-Ctrl + L&#xFF1A;&#x5237;&#x65B0;&#x7A97;&#x53E3;
-&#x8A3B;&#x89E3;</p>
-<p>&#x4EA4;&#x4E92;&#x6A21;&#x5F0F;&#x4E0B;&#x76F4;&#x63A5;&#x56DE;&#x8ECA;&#x7684;&#x4F5C;&#x7528;&#x662F;&#x91CD;&#x8986;&#x4E0A;&#x4E00;&#x6307;&#x4EE4;&#xFF0C;&#x5C0D;&#x65BC;&#x55AE;&#x6B65;&#x8ABF;&#x8A66;&#x975E;&#x5E38;&#x65B9;&#x4FBF;&#xFF1B;</p>
-<h3 id="1-3-%E6%9B%B4%E5%BC%B7%E5%A4%A7%E7%9A%84%E5%B7%A5%E5%85%B7">1.3. &#x66F4;&#x5F37;&#x5927;&#x7684;&#x5DE5;&#x5177;</h3>
-<p>cgdb
-cgdb&#x53EF;&#x4EE5;&#x770B;&#x4F5C;gdb&#x7684;&#x754C;&#x9762;&#x589E;&#x5F37;&#x7248;,&#x7528;&#x4F86;&#x66FF;&#x4EE3;gdb&#x7684; gdb -tui&#x3002;cgdb&#x4E3B;&#x8981;&#x529F;&#x80FD;&#x662F;&#x5728;&#x8ABF;&#x8A66;&#x6642;&#x9032;&#x884C;&#x4EE3;&#x78BC;&#x7684;&#x540C;&#x6B65;&#x986F;&#x793A;&#xFF0C;&#x9019;&#x7121;&#x7591;&#x589E;&#x52A0;&#x4E86;&#x8ABF;&#x8A66;&#x7684;&#x65B9;&#x4FBF;&#x6027;&#xFF0C;&#x63D0;&#x9AD8;&#x4E86;&#x8ABF;&#x8A66;&#x6548;&#x7387;&#x3002;&#x754C;&#x9762;&#x985E;&#x4F3C;vi&#xFF0C;&#x7B26;&#x5408;unix/linux&#x4E0B;&#x958B;&#x767C;&#x4EBA;&#x54E1;&#x7FD2;&#x6163;;&#x5982;&#x679C;&#x719F;&#x6089;gdb&#x548C;vi&#xFF0C;&#x5E7E;&#x4E4E;&#x53EF;&#x4EE5;&#x7ACB;&#x5373;&#x4F7F;&#x7528;cgdb&#x3002;</p>
+                        <h1 id="how-to-use-gdb-debug-opencv-programmes">How to use GDB debug OpenCV programmes?</h1>
+<h2 id="install-package">install package</h2>
+<pre><code class="lang-sh">sudo apt-get install build-essential libgtk2.<span class="hljs-number">0</span>-dev libjpeg-dev libtiff4-dev libjasper-dev libopenexr-dev cmake python-dev python-numpy python-tk libtbb-dev libeigen2-dev yasm libfaac-dev libopencore-amrnb-dev libopencore-amrwb-dev libtheora-dev libvorbis-dev libxvidcore-dev libx264-dev libqt4-dev libqt4-opengl-dev sphinx-common texlive-latex-extra libv4l-dev libdc1394-<span class="hljs-number">22</span>-dev libavcodec-dev libavformat-dev libswscale-dev
+</code></pre>
+<h2 id="download-opencv-2-4-13">download opencv-2.4.13</h2>
+<pre><code class="lang-sh">wget https://github.com/Itseez/opencv/archive/<span class="hljs-number">2.4</span>.<span class="hljs-number">13</span>.zip
+unzip OpenCV-<span class="hljs-number">2.4</span>.<span class="hljs-number">13</span>.zip
+</code></pre>
+<h2 id="build">build</h2>
+<pre><code class="lang-sh"><span class="hljs-built_in">cd</span> opencv-<span class="hljs-number">2.4</span>.<span class="hljs-number">13</span>
+mkdir debug ; <span class="hljs-built_in">cd</span> debug
+cmake -D CMAKE_INSTALL_PREFIX=/home/shihyu/gdb_<span class="hljs-built_in">test</span>/opencv/opencv -D CMAKE_BUILD_TYPE:STRING=RelWithDebInfo -D CMAKE_BUILD_TYPE=DEBUG ..
+make -j16 ; make install
+</code></pre>
+<h2 id="set-env">set env</h2>
+<pre><code class="lang-sh"><span class="hljs-built_in">export</span> PKG_CONFIG_PATH=<span class="hljs-variable">$PKG_CONFIG_PATH</span>:/home/shihyu/gdb_<span class="hljs-built_in">test</span>/opencv/opencv/lib/pkgconfig/
 
+<span class="hljs-built_in">export</span> LD_LIBRARY_PATH=/home/shihyu/gdb_<span class="hljs-built_in">test</span>/opencv/opencv/lib/
+</code></pre>
+<h2 id="build-example">build example</h2>
+<pre><code class="lang-sh"><span class="hljs-built_in">cd</span> opencv-<span class="hljs-number">2.4</span>.<span class="hljs-number">13</span>/samples/c
+./build_all.sh
+ldd ./facedetect
+
+linux-vdso.so.<span class="hljs-number">1</span> =&gt;  (<span class="hljs-number">0</span>x00007ffed1<span class="hljs-built_in">fc</span>9000)
+
+// &#x6307;&#x5411;&#x7DE8;&#x8B6F;&#x51FA;&#x4F86;&#x7684;&#x51FD;&#x6578;&#x5EAB;&#x8DEF;&#x5F91;
+libopencv_core.so.<span class="hljs-number">2.4</span> =&gt; /home/shihyu/gdb_<span class="hljs-built_in">test</span>/opencv/opencv/lib/libopencv_core.so.<span class="hljs-number">2.4</span> (<span class="hljs-number">0</span>x00007f2dde90a000)
+libopencv_highgui.so.<span class="hljs-number">2.4</span> =&gt; /home/shihyu/gdb_<span class="hljs-built_in">test</span>/opencv/opencv/lib/libopencv_highgui.so.<span class="hljs-number">2.4</span> (<span class="hljs-number">0</span>x00007f2dde69f000)
+libopencv_imgproc.so.<span class="hljs-number">2.4</span> =&gt; /home/shihyu/gdb_<span class="hljs-built_in">test</span>/opencv/opencv/lib/libopencv_imgproc.so.<span class="hljs-number">2.4</span> (<span class="hljs-number">0</span>x00007f2dde0f7000)
+libopencv_objdetect.so.<span class="hljs-number">2.4</span> =&gt; /home/shihyu/gdb_<span class="hljs-built_in">test</span>/opencv/opencv/lib/libopencv_objdetect.so.<span class="hljs-number">2.4</span> (<span class="hljs-number">0</span>x00007f2ddddbe000)
+
+
+libstdc++.so.<span class="hljs-number">6</span> =&gt; /usr/lib/x86_64-linux-gnu/libstdc++.so.<span class="hljs-number">6</span> (<span class="hljs-number">0</span>x00007f2ddda93000)
+libgcc_s.so.<span class="hljs-number">1</span> =&gt; /lib/x86_64-linux-gnu/libgcc_s.so.<span class="hljs-number">1</span> (<span class="hljs-number">0</span>x00007f2ddd87c000)
+libc.so.<span class="hljs-number">6</span> =&gt; /lib/x86_64-linux-gnu/libc.so.<span class="hljs-number">6</span> (<span class="hljs-number">0</span>x00007f2ddd4b7000)
+libz.so.<span class="hljs-number">1</span> =&gt; /lib/x86_64-linux-gnu/libz.so.<span class="hljs-number">1</span> (<span class="hljs-number">0</span>x00007f2ddd29e000)
+libpthread.so.<span class="hljs-number">0</span> =&gt; /lib/x86_64-linux-gnu/libpthread.so.<span class="hljs-number">0</span> (<span class="hljs-number">0</span>x00007f2ddd07f000)
+librt.so.<span class="hljs-number">1</span> =&gt; /lib/x86_64-linux-gnu/librt.so.<span class="hljs-number">1</span> (<span class="hljs-number">0</span>x00007f2ddce77000)
+libm.so.<span class="hljs-number">6</span> =&gt; /lib/x86_64-linux-gnu/libm.so.<span class="hljs-number">6</span> (<span class="hljs-number">0</span>x00007f2ddcb71000)
+libjpeg.so.<span class="hljs-number">8</span> =&gt; /usr/lib/x86_64-linux-gnu/libjpeg.so.<span class="hljs-number">8</span> (<span class="hljs-number">0</span>x00007f2ddc91b000)
+libpng12.so.<span class="hljs-number">0</span> =&gt; /lib/x86_64-linux-gnu/libpng12.so.<span class="hljs-number">0</span> (<span class="hljs-number">0</span>x00007f2ddc6f5000)
+libtiff.so.<span class="hljs-number">5</span> =&gt; /usr/lib/x86_64-linux-gnu/libtiff.so.<span class="hljs-number">5</span> (<span class="hljs-number">0</span>x00007f2ddc483000)
+libjasper.so.<span class="hljs-number">1</span> =&gt; /usr/lib/x86_64-linux-gnu/libjasper.so.<span class="hljs-number">1</span> (<span class="hljs-number">0</span>x00007f2ddc22b000)
+libIlmImf.so.<span class="hljs-number">6</span> =&gt; /usr/lib/x86_64-linux-gnu/libIlmImf.so.<span class="hljs-number">6</span> (<span class="hljs-number">0</span>x00007f2ddbf7c000)
+libHalf.so.<span class="hljs-number">6</span> =&gt; /usr/lib/x86_64-linux-gnu/libHalf.so.<span class="hljs-number">6</span> (<span class="hljs-number">0</span>x00007f2ddbd39000)
+libgtk-x11-<span class="hljs-number">2.0</span>.so.<span class="hljs-number">0</span> =&gt; /usr/lib/x86_64-linux-gnu/libgtk-x11-<span class="hljs-number">2.0</span>.so.<span class="hljs-number">0</span> (<span class="hljs-number">0</span>x00007f2ddb6fb000)
+libgdk-x11-<span class="hljs-number">2.0</span>.so.<span class="hljs-number">0</span> =&gt; /usr/lib/x86_64-linux-gnu/libgdk-x11-<span class="hljs-number">2.0</span>.so.<span class="hljs-number">0</span> (<span class="hljs-number">0</span>x00007f2ddb448000)
+libgobject-<span class="hljs-number">2.0</span>.so.<span class="hljs-number">0</span> =&gt; /usr/lib/x86_64-linux-gnu/libgobject-<span class="hljs-number">2.0</span>.so.<span class="hljs-number">0</span> (<span class="hljs-number">0</span>x00007f2ddb1f7000)
+libglib-<span class="hljs-number">2.0</span>.so.<span class="hljs-number">0</span> =&gt; /lib/x86_64-linux-gnu/libglib-<span class="hljs-number">2.0</span>.so.<span class="hljs-number">0</span> (<span class="hljs-number">0</span>x00007f2ddaeee000)
+libdc1394.so.<span class="hljs-number">22</span> =&gt; /usr/lib/x86_64-linux-gnu/libdc1394.so.<span class="hljs-number">22</span> (<span class="hljs-number">0</span>x00007f2ddac7a000)
+libv4l1.so.<span class="hljs-number">0</span> =&gt; /usr/lib/x86_64-linux-gnu/libv4l1.so.<span class="hljs-number">0</span> (<span class="hljs-number">0</span>x00007f2ddaa74000)
+libv4l2.so.<span class="hljs-number">0</span> =&gt; /usr/lib/x86_64-linux-gnu/libv4l2.so.<span class="hljs-number">0</span> (<span class="hljs-number">0</span>x00007f2dda865000)
+libavcodec.so.<span class="hljs-number">54</span> =&gt; /usr/lib/x86_64-linux-gnu/libavcodec.so.<span class="hljs-number">54</span> (<span class="hljs-number">0</span>x00007f2dd9b0f000)
+libavformat.so.<span class="hljs-number">54</span> =&gt; /usr/lib/x86_64-linux-gnu/libavformat.so.<span class="hljs-number">54</span> (<span class="hljs-number">0</span>x00007f2dd97ed000)
+libavutil.so.<span class="hljs-number">52</span> =&gt; /usr/lib/x86_64-linux-gnu/libavutil.so.<span class="hljs-number">52</span> (<span class="hljs-number">0</span>x00007f2dd95c7000)
+libswscale.so.<span class="hljs-number">2</span> =&gt; /usr/lib/x86_64-linux-gnu/libswscale.so.<span class="hljs-number">2</span> (<span class="hljs-number">0</span>x00007f2dd9380000)
+/lib64/ld-linux-x86-<span class="hljs-number">64</span>.so.<span class="hljs-number">2</span> (<span class="hljs-number">0</span>x000055f1899d4000)
+liblzma.so.<span class="hljs-number">5</span> =&gt; /lib/x86_64-linux-gnu/liblzma.so.<span class="hljs-number">5</span> (<span class="hljs-number">0</span>x00007f2dd915d000)
+libjbig.so.<span class="hljs-number">0</span> =&gt; /usr/lib/x86_64-linux-gnu/libjbig.so.<span class="hljs-number">0</span> (<span class="hljs-number">0</span>x00007f2dd8f4f000)
+libIex.so.<span class="hljs-number">6</span> =&gt; /usr/lib/x86_64-linux-gnu/libIex.so.<span class="hljs-number">6</span> (<span class="hljs-number">0</span>x00007f2dd8d31000)
+libIlmThread.so.<span class="hljs-number">6</span> =&gt; /usr/lib/x86_64-linux-gnu/libIlmThread.so.<span class="hljs-number">6</span> (<span class="hljs-number">0</span>x00007f2dd8b2a000)
+libgmodule-<span class="hljs-number">2.0</span>.so.<span class="hljs-number">0</span> =&gt; /usr/lib/x86_64-linux-gnu/libgmodule-<span class="hljs-number">2.0</span>.so.<span class="hljs-number">0</span> (<span class="hljs-number">0</span>x00007f2dd8926000)
+libpangocairo-<span class="hljs-number">1.0</span>.so.<span class="hljs-number">0</span> =&gt; /usr/lib/x86_64-linux-gnu/libpangocairo-<span class="hljs-number">1.0</span>.so.<span class="hljs-number">0</span> (<span class="hljs-number">0</span>x00007f2dd8719000)
+libX11.so.<span class="hljs-number">6</span> =&gt; /usr/lib/x86_64-linux-gnu/libX11.so.<span class="hljs-number">6</span> (<span class="hljs-number">0</span>x00007f2dd83e3000)
+libXfixes.so.<span class="hljs-number">3</span> =&gt; /usr/lib/x86_64-linux-gnu/libXfixes.so.<span class="hljs-number">3</span> (<span class="hljs-number">0</span>x00007f2dd81dd000)
+libatk-<span class="hljs-number">1.0</span>.so.<span class="hljs-number">0</span> =&gt; /usr/lib/x86_64-linux-gnu/libatk-<span class="hljs-number">1.0</span>.so.<span class="hljs-number">0</span> (<span class="hljs-number">0</span>x00007f2dd7fbb000)
+libcairo.so.<span class="hljs-number">2</span> =&gt; /usr/lib/x86_64-linux-gnu/libcairo.so.<span class="hljs-number">2</span> (<span class="hljs-number">0</span>x00007f2dd7caf000)
+libgdk_pixbuf-<span class="hljs-number">2.0</span>.so.<span class="hljs-number">0</span> =&gt; /usr/lib/x86_64-linux-gnu/libgdk_pixbuf-<span class="hljs-number">2.0</span>.so.<span class="hljs-number">0</span> (<span class="hljs-number">0</span>x00007f2dd7a8e000)
+libgio-<span class="hljs-number">2.0</span>.so.<span class="hljs-number">0</span> =&gt; /usr/lib/x86_64-linux-gnu/libgio-<span class="hljs-number">2.0</span>.so.<span class="hljs-number">0</span> (<span class="hljs-number">0</span>x00007f2dd771b000)
+libpangoft2-<span class="hljs-number">1.0</span>.so.<span class="hljs-number">0</span> =&gt; /usr/lib/x86_64-linux-gnu/libpangoft2-<span class="hljs-number">1.0</span>.so.<span class="hljs-number">0</span> (<span class="hljs-number">0</span>x00007f2dd7505000)
+libpango-<span class="hljs-number">1.0</span>.so.<span class="hljs-number">0</span> =&gt; /usr/lib/x86_64-linux-gnu/libpango-<span class="hljs-number">1.0</span>.so.<span class="hljs-number">0</span> (<span class="hljs-number">0</span>x00007f2dd72b8000)
+libfontconfig.so.<span class="hljs-number">1</span> =&gt; /usr/lib/x86_64-linux-gnu/libfontconfig.so.<span class="hljs-number">1</span> (<span class="hljs-number">0</span>x00007f2dd707c000)
+libXrender.so.<span class="hljs-number">1</span> =&gt; /usr/lib/x86_64-linux-gnu/libXrender.so.<span class="hljs-number">1</span> (<span class="hljs-number">0</span>x00007f2dd6e71000)
+libXinerama.so.<span class="hljs-number">1</span> =&gt; /usr/lib/x86_64-linux-gnu/libXinerama.so.<span class="hljs-number">1</span> (<span class="hljs-number">0</span>x00007f2dd6c6e000)
+libXi.so.<span class="hljs-number">6</span> =&gt; /usr/lib/x86_64-linux-gnu/libXi.so.<span class="hljs-number">6</span> (<span class="hljs-number">0</span>x00007f2dd6a5d000)
+libXrandr.so.<span class="hljs-number">2</span> =&gt; /usr/lib/x86_64-linux-gnu/libXrandr.so.<span class="hljs-number">2</span> (<span class="hljs-number">0</span>x00007f2dd6853000)
+libXcursor.so.<span class="hljs-number">1</span> =&gt; /usr/lib/x86_64-linux-gnu/libXcursor.so.<span class="hljs-number">1</span> (<span class="hljs-number">0</span>x00007f2dd6649000)
+libXcomposite.so.<span class="hljs-number">1</span> =&gt; /usr/lib/x86_64-linux-gnu/libXcomposite.so.<span class="hljs-number">1</span> (<span class="hljs-number">0</span>x00007f2dd6446000)
+libXdamage.so.<span class="hljs-number">1</span> =&gt; /usr/lib/x86_64-linux-gnu/libXdamage.so.<span class="hljs-number">1</span> (<span class="hljs-number">0</span>x00007f2dd6242000)
+libXext.so.<span class="hljs-number">6</span> =&gt; /usr/lib/x86_64-linux-gnu/libXext.so.<span class="hljs-number">6</span> (<span class="hljs-number">0</span>x00007f2dd6030000)
+libffi.so.<span class="hljs-number">6</span> =&gt; /usr/lib/x86_64-linux-gnu/libffi.so.<span class="hljs-number">6</span> (<span class="hljs-number">0</span>x00007f2dd5e27000)
+libpcre.so.<span class="hljs-number">3</span> =&gt; /lib/x86_64-linux-gnu/libpcre.so.<span class="hljs-number">3</span> (<span class="hljs-number">0</span>x00007f2dd5be9000)
+libraw1394.so.<span class="hljs-number">11</span> =&gt; /usr/lib/x86_64-linux-gnu/libraw1394.so.<span class="hljs-number">11</span> (<span class="hljs-number">0</span>x00007f2dd59db000)
+libusb-<span class="hljs-number">1.0</span>.so.<span class="hljs-number">0</span> =&gt; /lib/x86_64-linux-gnu/libusb-<span class="hljs-number">1.0</span>.so.<span class="hljs-number">0</span> (<span class="hljs-number">0</span>x00007f2dd57c4000)
+libdl.so.<span class="hljs-number">2</span> =&gt; /lib/x86_64-linux-gnu/libdl.so.<span class="hljs-number">2</span> (<span class="hljs-number">0</span>x00007f2dd55bf000)
+libv4lconvert.so.<span class="hljs-number">0</span> =&gt; /usr/lib/x86_64-linux-gnu/libv4lconvert.so.<span class="hljs-number">0</span> (<span class="hljs-number">0</span>x00007f2dd5346000)
+libxvidcore.so.<span class="hljs-number">4</span> =&gt; /usr/lib/x86_64-linux-gnu/libxvidcore.so.<span class="hljs-number">4</span> (<span class="hljs-number">0</span>x00007f2dd5007000)
+libx264.so.<span class="hljs-number">142</span> =&gt; /usr/lib/x86_64-linux-gnu/libx264.so.<span class="hljs-number">142</span> (<span class="hljs-number">0</span>x00007f2dd4c71000)
+libvpx.so.<span class="hljs-number">1</span> =&gt; /usr/lib/x86_64-linux-gnu/libvpx.so.<span class="hljs-number">1</span> (<span class="hljs-number">0</span>x00007f2dd4892000)
+libvorbisenc.so.<span class="hljs-number">2</span> =&gt; /usr/lib/x86_64-linux-gnu/libvorbisenc.so.<span class="hljs-number">2</span> (<span class="hljs-number">0</span>x00007f2dd43c3000)
+libvorbis.so.<span class="hljs-number">0</span> =&gt; /usr/lib/x86_64-linux-gnu/libvorbis.so.<span class="hljs-number">0</span> (<span class="hljs-number">0</span>x00007f2dd4195000)
+libvo-amrwbenc.so.<span class="hljs-number">0</span> =&gt; /usr/lib/x86_64-linux-gnu/libvo-amrwbenc.so.<span class="hljs-number">0</span> (<span class="hljs-number">0</span>x00007f2dd3f7b000)
+libvo-aacenc.so.<span class="hljs-number">0</span> =&gt; /usr/lib/x86_64-linux-gnu/libvo-aacenc.so.<span class="hljs-number">0</span> (<span class="hljs-number">0</span>x00007f2dd3d5e000)
+libtheoraenc.so.<span class="hljs-number">1</span> =&gt; /usr/lib/x86_64-linux-gnu/libtheoraenc.so.<span class="hljs-number">1</span> (<span class="hljs-number">0</span>x00007f2dd3b1d000)
+libtheoradec.so.<span class="hljs-number">1</span> =&gt; /usr/lib/x86_64-linux-gnu/libtheoradec.so.<span class="hljs-number">1</span> (<span class="hljs-number">0</span>x00007f2dd3904000)
+libspeex.so.<span class="hljs-number">1</span> =&gt; /usr/lib/x86_64-linux-gnu/libspeex.so.<span class="hljs-number">1</span> (<span class="hljs-number">0</span>x00007f2dd36eb000)
+libschroedinger-<span class="hljs-number">1.0</span>.so.<span class="hljs-number">0</span> =&gt; /usr/lib/x86_64-linux-gnu/libschroedinger-<span class="hljs-number">1.0</span>.so.<span class="hljs-number">0</span> (<span class="hljs-number">0</span>x00007f2dd3426000)
+libopus.so.<span class="hljs-number">0</span> =&gt; /usr/lib/x86_64-linux-gnu/libopus.so.<span class="hljs-number">0</span> (<span class="hljs-number">0</span>x00007f2dd31de000)
+libopenjpeg.so.<span class="hljs-number">2</span> =&gt; /usr/lib/x86_64-linux-gnu/libopenjpeg.so.<span class="hljs-number">2</span> (<span class="hljs-number">0</span>x00007f2dd2fbc000)
+libopencore-amrwb.so.<span class="hljs-number">0</span> =&gt; /usr/lib/x86_64-linux-gnu/libopencore-amrwb.so.<span class="hljs-number">0</span> (<span class="hljs-number">0</span>x00007f2dd2da7000)
+libopencore-amrnb.so.<span class="hljs-number">0</span> =&gt; /usr/lib/x86_64-linux-gnu/libopencore-amrnb.so.<span class="hljs-number">0</span> (<span class="hljs-number">0</span>x00007f2dd2b7d000)
+libmp3lame.so.<span class="hljs-number">0</span> =&gt; /usr/lib/x86_64-linux-gnu/libmp3lame.so.<span class="hljs-number">0</span> (<span class="hljs-number">0</span>x00007f2dd28f0000)
+libgsm.so.<span class="hljs-number">1</span> =&gt; /usr/lib/x86_64-linux-gnu/libgsm.so.<span class="hljs-number">1</span> (<span class="hljs-number">0</span>x00007f2dd26e1000)
+libva.so.<span class="hljs-number">1</span> =&gt; /usr/lib/x86_64-linux-gnu/libva.so.<span class="hljs-number">1</span> (<span class="hljs-number">0</span>x00007f2dd24cb000)
+librtmp.so.<span class="hljs-number">0</span> =&gt; /usr/lib/x86_64-linux-gnu/librtmp.so.<span class="hljs-number">0</span> (<span class="hljs-number">0</span>x00007f2dd22b0000)
+libgnutls.so.<span class="hljs-number">26</span> =&gt; /usr/lib/x86_64-linux-gnu/libgnutls.so.<span class="hljs-number">26</span> (<span class="hljs-number">0</span>x00007f2dd1ff2000)
+libbz2.so.<span class="hljs-number">1.0</span> =&gt; /lib/x86_64-linux-gnu/libbz2.so.<span class="hljs-number">1.0</span> (<span class="hljs-number">0</span>x00007f2dd1de2000)
+libfreetype.so.<span class="hljs-number">6</span> =&gt; /usr/lib/x86_64-linux-gnu/libfreetype.so.<span class="hljs-number">6</span> (<span class="hljs-number">0</span>x00007f2dd1b3e000)
+libxcb.so.<span class="hljs-number">1</span> =&gt; /usr/lib/x86_64-linux-gnu/libxcb.so.<span class="hljs-number">1</span> (<span class="hljs-number">0</span>x00007f2dd191f000)
+libpixman-<span class="hljs-number">1</span>.so.<span class="hljs-number">0</span> =&gt; /usr/lib/x86_64-linux-gnu/libpixman-<span class="hljs-number">1</span>.so.<span class="hljs-number">0</span> (<span class="hljs-number">0</span>x00007f2dd1676000)
+libxcb-shm.so.<span class="hljs-number">0</span> =&gt; /usr/lib/x86_64-linux-gnu/libxcb-shm.so.<span class="hljs-number">0</span> (<span class="hljs-number">0</span>x00007f2dd1473000)
+libxcb-render.so.<span class="hljs-number">0</span> =&gt; /usr/lib/x86_64-linux-gnu/libxcb-render.so.<span class="hljs-number">0</span> (<span class="hljs-number">0</span>x00007f2dd126a000)
+libselinux.so.<span class="hljs-number">1</span> =&gt; /lib/x86_64-linux-gnu/libselinux.so.<span class="hljs-number">1</span> (<span class="hljs-number">0</span>x00007f2dd1046000)
+libresolv.so.<span class="hljs-number">2</span> =&gt; /lib/x86_64-linux-gnu/libresolv.so.<span class="hljs-number">2</span> (<span class="hljs-number">0</span>x00007f2dd0e2b000)
+libharfbuzz.so.<span class="hljs-number">0</span> =&gt; /usr/lib/x86_64-linux-gnu/libharfbuzz.so.<span class="hljs-number">0</span> (<span class="hljs-number">0</span>x00007f2dd0bd6000)
+libthai.so.<span class="hljs-number">0</span> =&gt; /usr/lib/x86_64-linux-gnu/libthai.so.<span class="hljs-number">0</span> (<span class="hljs-number">0</span>x00007f2dd09cc000)
+libexpat.so.<span class="hljs-number">1</span> =&gt; /lib/x86_64-linux-gnu/libexpat.so.<span class="hljs-number">1</span> (<span class="hljs-number">0</span>x00007f2dd07a2000)
+libudev.so.<span class="hljs-number">1</span> =&gt; /lib/x86_64-linux-gnu/libudev.so.<span class="hljs-number">1</span> (<span class="hljs-number">0</span>x00007f2dd0590000)
+libogg.so.<span class="hljs-number">0</span> =&gt; /usr/lib/x86_64-linux-gnu/libogg.so.<span class="hljs-number">0</span> (<span class="hljs-number">0</span>x00007f2dd0387000)
+liborc-<span class="hljs-number">0.4</span>.so.<span class="hljs-number">0</span> =&gt; /usr/lib/x86_64-linux-gnu/liborc-<span class="hljs-number">0.4</span>.so.<span class="hljs-number">0</span> (<span class="hljs-number">0</span>x00007f2dd0104000)
+libgcrypt.so.<span class="hljs-number">11</span> =&gt; /lib/x86_64-linux-gnu/libgcrypt.so.<span class="hljs-number">11</span> (<span class="hljs-number">0</span>x00007f2dcfe84000)
+libtasn1.so.<span class="hljs-number">6</span> =&gt; /usr/lib/x86_64-linux-gnu/libtasn1.so.<span class="hljs-number">6</span> (<span class="hljs-number">0</span>x00007f2dcfc6f000)
+libp11-kit.so.<span class="hljs-number">0</span> =&gt; /usr/lib/x86_64-linux-gnu/libp11-kit.so.<span class="hljs-number">0</span> (<span class="hljs-number">0</span>x00007f2dcfa2d000)
+libXau.so.<span class="hljs-number">6</span> =&gt; /usr/lib/x86_64-linux-gnu/libXau.so.<span class="hljs-number">6</span> (<span class="hljs-number">0</span>x00007f2dcf829000)
+libXdmcp.so.<span class="hljs-number">6</span> =&gt; /usr/lib/x86_64-linux-gnu/libXdmcp.so.<span class="hljs-number">6</span> (<span class="hljs-number">0</span>x00007f2dcf622000)
+libgraphite2.so.<span class="hljs-number">3</span> =&gt; /usr/lib/x86_64-linux-gnu/libgraphite2.so.<span class="hljs-number">3</span> (<span class="hljs-number">0</span>x00007f2dcf3<span class="hljs-built_in">fc</span>000)
+libdatrie.so.<span class="hljs-number">1</span> =&gt; /usr/lib/x86_64-linux-gnu/libdatrie.so.<span class="hljs-number">1</span> (<span class="hljs-number">0</span>x00007f2dcf1f4000)
+libcgmanager.so.<span class="hljs-number">0</span> =&gt; /lib/x86_64-linux-gnu/libcgmanager.so.<span class="hljs-number">0</span> (<span class="hljs-number">0</span>x00007f2dcefd9000)
+libnih.so.<span class="hljs-number">1</span> =&gt; /lib/x86_64-linux-gnu/libnih.so.<span class="hljs-number">1</span> (<span class="hljs-number">0</span>x00007f2dcedc1000)
+libnih-dbus.so.<span class="hljs-number">1</span> =&gt; /lib/x86_64-linux-gnu/libnih-dbus.so.<span class="hljs-number">1</span> (<span class="hljs-number">0</span>x00007f2dcebb6000)
+libdbus-<span class="hljs-number">1</span>.so.<span class="hljs-number">3</span> =&gt; /lib/x86_64-linux-gnu/libdbus-<span class="hljs-number">1</span>.so.<span class="hljs-number">3</span> (<span class="hljs-number">0</span>x00007f2dce971000)
+libgpg-error.so.<span class="hljs-number">0</span> =&gt; /lib/x86_64-linux-gnu/libgpg-error.so.<span class="hljs-number">0</span> (<span class="hljs-number">0</span>x00007f2dce76c000)
+</code></pre>
+<h2 id="run">run</h2>
+<pre><code>./facedetect lena.jpg
+</code></pre>
                     
                     </section>
                 
@@ -13710,10 +13772,10 @@ cgdb&#x53EF;&#x4EE5;&#x770B;&#x4F5C;gdb&#x7684;&#x754C;&#x9762;&#x589E;&#x5F37;&
         </div>
 
         
-        <a href="../linux_tools/ref_tool.html" class="navigation navigation-prev " aria-label="Previous page: 工具參考篇"><i class="fa fa-angle-left"></i></a>
+        <a href="../gdb/how_to_debug_glib_source_code_via_gdb.html" class="navigation navigation-prev " aria-label="Previous page: How to debug glib source code via gdb"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../linux_tools/ldd.html" class="navigation navigation-next " aria-label="Next page: ldd 查看程序依賴庫"><i class="fa fa-angle-right"></i></a>
+        <a href="../mooc_linux_kernel/index.html" class="navigation navigation-next " aria-label="Next page: Linux內核分析雲課堂學習筆記"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

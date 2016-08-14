@@ -47,3 +47,10 @@ gcc  -L./glib/lib/ -I./glib/include/glib-2.0/ -I ./glib/lib/glib-2.0/include/ he
 ```
 LD_LIBRARY_PATH=/home/shihyu/gdb_test/glib/glib/lib/ cgdb ./hello
 ```
+
+
+## gdb 
+
+```sh
+LD_LIBRARY_PATH=/home/shihyu/gdb_test/opencv/opencv/lib/ cgdb ./facedetect
+```

@@ -42,13 +42,6 @@ int main()
 gcc  -L./glib/lib/ -I./glib/include/glib-2.0/ -I ./glib/lib/glib-2.0/include/ hello.c -o hello  -lglib-2.0
 ```
 
-## debug glib via gdb
-
-```
-LD_LIBRARY_PATH=/home/shihyu/gdb_test/glib/glib/lib/ cgdb ./hello
-```
-
-
 ## gdb 
 
 ```sh

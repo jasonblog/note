@@ -52,5 +52,5 @@ LD_LIBRARY_PATH=/home/shihyu/gdb_test/glib/glib/lib/ cgdb ./hello
 ## gdb 
 
 ```sh
-LD_LIBRARY_PATH=/home/shihyu/gdb_test/opencv/opencv/lib/ cgdb ./facedetect
+LD_LIBRARY_PATH=/home/shihyu/gdb_test/opencv/opencv/lib/ cgdb --args ./facedetect  lena.jpg
 ```

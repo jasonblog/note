@@ -388,7 +388,7 @@
    * [Linux內核學習總結](mooc_linux_kernel/199.md)
    * [小博魚筆記](mooc_linux_kernel/xiao_bo_yu_bi_ji.md)
        * [Linux內和分析（一）計算機是如何工作的](mooc_linux_kernel/linuxnei_he_fen_xi_ff08_yi_ff09_ji_suan_ji_shi_ru_.md)
-       * [Linux内和分析（二）操作系统是如何工作的](mooc_linux_kernel/linuxnei_he_fen_xi_ff08_er_ff09_cao_zuo_xi_tong_sh.md)
+       * [Linux內和分析（二）操作系統是如何工作的](mooc_linux_kernel/linuxnei_he_fen_xi_ff08_er_ff09_cao_zuo_xi_tong_sh.md)
 * [C++](c++/README.md)
    * [[轉]C++ 對象的內存佈局](c++/211.md)
    * [[轉] C++對象模型之簡述C++對象的內存佈局](c++/212.md)

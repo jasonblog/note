@@ -387,7 +387,7 @@
    * [初學Linux中進程調度與進程切換過程](mooc_linux_kernel/197.md)
    * [Linux內核學習總結](mooc_linux_kernel/199.md)
    * [小博魚筆記](mooc_linux_kernel/xiao_bo_yu_bi_ji.md)
-       *  Linux內和分析（一）計算機是如何工作的
+       * [Linux內和分析（一）計算機是如何工作的](mooc_linux_kernel/linuxnei_he_fen_xi_ff08_yi_ff09_ji_suan_ji_shi_ru_.md)
 * [C++](c++/README.md)
    * [[轉]C++ 對象的內存佈局](c++/211.md)
    * [[轉] C++對象模型之簡述C++對象的內存佈局](c++/212.md)

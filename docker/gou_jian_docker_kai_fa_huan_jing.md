@@ -10,6 +10,14 @@ sudo apt-get update
 sudo apt-get install docker-engine
 ```
 
+
+
+- 更新 docker
+
+```sh
+sudo apt-get upgrade docker-engine
+```
+
 - 啟動 docker 程序
 
 ```sh

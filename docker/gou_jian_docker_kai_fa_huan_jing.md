@@ -19,13 +19,13 @@ sudo service docker start
 
 - Cannot connect to the Docker daemon. Is the docker daemon running on this host?
 
-为了确认docker是否在运行
+為了確認docker是否在運行
 
 ```sh
 sudo service docker status
 docker start/running, process 2277
 ```
-这个问题很有可能是权限问题，把执行docker命令的用户添加到docker，如用户名为ubuntu，执行
+這個問題很有可能是權限問題，把執行docker命令的用戶添加到docker，如用戶名為ubuntu，執行
 
 ```sh
 sudo usermod -aG docker ubuntu

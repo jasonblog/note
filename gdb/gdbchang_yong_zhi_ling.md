@@ -1,5 +1,17 @@
 # gdb常用指令
 
+- 以便快速找出所有线程都在做。
+
+```sh
+thread apply all bt或 thread apply all print $pc
+```
+- 不斷測試，之後會出現segmentation fault(core dump)
+
+```sh
+while ./bug_program ; do echo OK; done
+```
+---
+
 
 ###1. 啟動
 ```sh

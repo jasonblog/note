@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>退出正在調試的函數 | Jason note</title>
+        <title>GDB實用教學：自動化你的debug | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../100_gdb_tips/call-func.html" />
+    <link rel="next" href="../mooc_linux_kernel/index.html" />
     
     
-    <link rel="prev" href="../100_gdb_tips/set-step-mode-on.html" />
+    <link rel="prev" href="../gdb/how_to_use_gdb_debug_opencv_programmes.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="45.2.4" data-basepath=".." data-revision="Wed Aug 31 2016 01:29:29 GMT+0800 (CST)">
+    <div class="book" data-level="16.37" data-basepath=".." data-revision="Wed Aug 31 2016 01:29:29 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -5894,7 +5894,7 @@
             
         </li>
     
-        <li class="chapter " data-level="16.37" data-path="gdb/gdbshi_yong_jiao_xue_ff1a_zi_dong_hua_ni_de_debug.html">
+        <li class="chapter active" data-level="16.37" data-path="gdb/gdbshi_yong_jiao_xue_ff1a_zi_dong_hua_ni_de_debug.html">
             
                 
                     <a href="../gdb/gdbshi_yong_jiao_xue_ff1a_zi_dong_hua_ni_de_debug.html">
@@ -10819,7 +10819,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="45.2.4" data-path="100_gdb_tips/finish-and-return.html">
+        <li class="chapter " data-level="45.2.4" data-path="100_gdb_tips/finish-and-return.html">
             
                 
                     <a href="../100_gdb_tips/finish-and-return.html">
@@ -13773,74 +13773,54 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E9%80%80%E5%87%BA%E6%AD%A3%E5%9C%A8%E8%AA%BF%E8%A9%A6%E7%9A%84%E5%87%BD%E6%95%B8">&#x9000;&#x51FA;&#x6B63;&#x5728;&#x8ABF;&#x8A66;&#x7684;&#x51FD;&#x6578;</h1>
-<h2 id="%E4%BE%8B%E5%AD%90">&#x4F8B;&#x5B50;</h2>
-<pre><code>#include &lt;stdio.h&gt;
+                        <h1 id="gdb%E5%AF%A6%E7%94%A8%E6%95%99%E5%AD%B8%EF%BC%9A%E8%87%AA%E5%8B%95%E5%8C%96%E4%BD%A0%E7%9A%84debug">GDB&#x5BE6;&#x7528;&#x6559;&#x5B78;&#xFF1A;&#x81EA;&#x52D5;&#x5316;&#x4F60;&#x7684;debug</h1>
+<p>&#x5982;&#x679C;&#x4E0D;&#x66C9;&#x5F97;&#x4EC0;&#x9EBC;&#x662F;GDB&#xFF0C;&#x5EFA;&#x8B70;&#x5F9E;&#x300C;<code>Linux &#x9664;&#x932F;&#x5229;&#x5668; - GDB &#x7C21;&#x4ECB;&#x300D;</code>&#x958B;&#x59CB;&#x5B78;&#x7FD2;&#xFF0C;&#x6B64;&#x7BC7;&#x662F;&#x7D66;&#x77E5;&#x9053;&#x4EC0;&#x9EBC;&#x662F;GDB&#xFF0C;&#x4F46;&#x7E3D;&#x89BA;&#x5F97;GDB&#x4E0D;&#x662F;&#x90A3;&#x9EBC;&#x597D;&#x7528;&#x7684;&#x958B;&#x767C;&#x8005;&#xFF0C;&#x91CD;&#x65B0;&#x8A8D;&#x8B58;GDB&#xFF0C;&#x8DDF;&#x96A8;&#x8457;&#x5F71;&#x7247;&#x7684;&#x8173;&#x6B65;&#xFF0C;&#x91CD;&#x73FE;&#x4E00;&#x6B21;&#x3002;</p>
+<p>GDB&#x4E5F;&#x6709;GUI
+&#x96D6;&#x7136;GDB&#x662F;&#x5728;&#x7D42;&#x7AEF;&#x6A5F;&#x4E2D;&#x4F7F;&#x7528;&#xFF0C;&#x8F38;&#x5165;l&#x53EF;&#x4EE5;&#x5217;&#x51FA;&#x76EE;&#x524D;&#x7684;&#x7A0B;&#x5F0F;&#x78BC;&#xFF0C;&#x4F46;&#x5927;&#x5BB6;&#x4E00;&#x5B9A;&#x9084;&#x662F;&#x89BA;&#x5F97;&#x5F88;&#x96E3;&#x7528;&#xFF0C;&#x6240;&#x4EE5;&#x5C31;&#x6709;&#x4E86;tui&#x7684;&#x51FA;&#x73FE;&#xFF1A;</p>
+<p>GDB&#x4E5F;&#x6709;GUI
+&#x96D6;&#x7136;GDB&#x662F;&#x5728;&#x7D42;&#x7AEF;&#x6A5F;&#x4E2D;&#x4F7F;&#x7528;&#xFF0C;&#x8F38;&#x5165;l&#x53EF;&#x4EE5;&#x5217;&#x51FA;&#x76EE;&#x524D;&#x7684;&#x7A0B;&#x5F0F;&#x78BC;&#xFF0C;&#x4F46;&#x5927;&#x5BB6;&#x4E00;&#x5B9A;&#x9084;&#x662F;&#x89BA;&#x5F97;&#x5F88;&#x96E3;&#x7528;&#xFF0C;&#x6240;&#x4EE5;&#x5C31;&#x6709;&#x4E86;tui&#x7684;&#x51FA;&#x73FE;&#xFF1A;</p>
+<pre><code class="lang-sh">$ gdb -tui
+or
+$ gdbtui
+</code></pre>
+<p>&#x90FD;&#x53EF;&#x4EE5;&#x7528;&#x6307;&#x4EE4;&#x7684;&#x65B9;&#x5F0F;&#x9032;&#x5165;GDB&#x7684;&#x5716;&#x5F62;&#x4ECB;&#x9762;&#x3002;
+&#x4F46;&#x5982;&#x679C;&#x53EA;&#x4EE5;&#x55AE;&#x7D14;&#x7684;</p>
+<pre><code>$ gdb
+</code></pre><p>&#x9032;&#x5165;&#x7684;&#x8A71;&#xFF0C;&#x53EA;&#x8981;&#x6309;&#x4E0B;ctrl + x +a &#x5C31;&#x53EF;&#x4EE5;&#x4E86;&#x3002;</p>
+<p>&#x9019;&#x908A;&#x4EE5;&#x4E00;&#x500B;&#x7C21;&#x55AE;&#x7684;helloworld&#x7A0B;&#x5F0F;(hello.c)&#x4F86;&#x8AAA;&#x660E;&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
 
-int func(void)
-{
-    int i = 0;
-
-    i += 2;
-    i *= 10;
-
-    return i;
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>;
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Hello, world\n&quot;</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;i is %d\n&quot;</span>, i);
+    i++;
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;i is now %d\n&quot;</span>, i);
 }
-
-int main(void)
-{
-    int a = 0;
-
-    a = func();
-    printf(&quot;%d\n&quot;, a);
-    return 0;
-}
-</code></pre><h2 id="%E6%8A%80%E5%B7%A7">&#x6280;&#x5DE7;</h2>
-<p>&#x7576;&#x55AE;&#x6B65;&#x8ABF;&#x8A66;&#x4E00;&#x500B;&#x51FD;&#x6578;&#x6642;&#xFF0C;&#x5982;&#x679C;&#x4E0D;&#x60F3;&#x7E7C;&#x7E8C;&#x8DDF;&#x8E64;&#x4E0B;&#x53BB;&#x4E86;&#xFF0C;&#x53EF;&#x4EE5;&#x6709;&#x5169;&#x7A2E;&#x65B9;&#x5F0F;&#x9000;&#x51FA;&#x3002;</p>
-<p>&#x7B2C;&#x4E00;&#x7A2E;&#x7528;&#x201C;<code>finish</code>&#x201D;&#x547D;&#x4EE4;&#xFF0C;&#x9019;&#x6A23;&#x51FD;&#x6578;&#x6703;&#x7E7C;&#x7E8C;&#x57F7;&#x884C;&#x5B8C;&#xFF0C;&#x4E26;&#x4E14;&#x6253;&#x5370;&#x8FD4;&#x56DE;&#x503C;&#xFF0C;&#x7136;&#x5F8C;&#x7B49;&#x5F85;&#x8F38;&#x5165;&#x63A5;&#x4E0B;&#x4F86;&#x7684;&#x547D;&#x4EE4;&#x3002;&#x4EE5;&#x4E0A;&#x9762;&#x4EE3;&#x78BC;&#x70BA;&#x4F8B;&#xFF1A;</p>
-<pre><code>(gdb) n
-17          a = func();
-(gdb) s
-func () at a.c:5
-5               int i = 0;
-(gdb) n
-7               i += 2;
-(gdb) fin
-find    finish
-(gdb) finish
-Run till exit from #0  func () at a.c:7
-0x08050978 in main () at a.c:17
-17          a = func();
-Value returned is $1 = 20
-</code></pre><p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x7576;&#x4E0D;&#x60F3;&#x518D;&#x7E7C;&#x7E8C;&#x8DDF;&#x8E64;<code>func</code>&#x51FD;&#x6578;&#x6642;&#xFF0C;&#x57F7;&#x884C;&#x5B8C;&#x201C;<code>finish</code>&#x201D;&#x547D;&#x4EE4;&#xFF0C;gdb&#x6703;&#x6253;&#x5370;&#x7D50;&#x679C;&#xFF1A;&#x201C;<code>20</code>&#x201D;&#xFF0C;&#x7136;&#x5F8C;&#x505C;&#x5728;&#x90A3;&#x88E1;&#x3002;</p>
-<p>&#x8A73;&#x60C5;&#x53C3;&#x898B;<a href="https://sourceware.org/gdb/onlinedocs/gdb/Continuing-and-Stepping.html" target="_blank">gdb&#x624B;&#x518A;</a></p>
-<p>&#x7B2C;&#x4E8C;&#x7A2E;&#x7528;&#x201C;<code>return</code>&#x201D;&#x547D;&#x4EE4;&#xFF0C;&#x9019;&#x6A23;&#x51FD;&#x6578;&#x4E0D;&#x6703;&#x7E7C;&#x7E8C;&#x57F7;&#x884C;&#x4E0B;&#x9762;&#x7684;&#x8A9E;&#x53E5;&#xFF0C;&#x800C;&#x662F;&#x76F4;&#x63A5;&#x8FD4;&#x56DE;&#x3002;&#x4E5F;&#x53EF;&#x4EE5;&#x7528;&#x201C;<code>return expression</code>&#x201D;&#x547D;&#x4EE4;&#x6307;&#x5B9A;&#x51FD;&#x6578;&#x7684;&#x8FD4;&#x56DE;&#x503C;&#x3002;&#x4ECD;&#x4EE5;&#x4E0A;&#x9762;&#x4EE3;&#x78BC;&#x70BA;&#x4F8B;&#xFF1A;</p>
-<pre><code>(gdb) n
-17          a = func();
-(gdb) s
-func () at a.c:5
-5               int i = 0;
-(gdb) n
-7               i += 2;
-(gdb) n
-8               i *= 10;
-(gdb) re
-record              remove-inferiors    return              reverse-next        reverse-step
-refresh             remove-symbol-file  reverse-continue    reverse-nexti       reverse-stepi
-remote              restore             reverse-finish      reverse-search
-(gdb) return 40
-Make func return now? (y or n) y
-#0  0x08050978 in main () at a.c:17
-17          a = func();
-(gdb) n
-18          printf(&quot;%d\n&quot;, a);
-(gdb)
-40
-19          return 0;
-</code></pre><p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x201C;<code>return</code>&#x201D;&#x547D;&#x4EE4;&#x9000;&#x51FA;&#x4E86;&#x51FD;&#x6578;&#x4E26;&#x4E14;&#x4FEE;&#x6539;&#x4E86;&#x51FD;&#x6578;&#x7684;&#x8FD4;&#x56DE;&#x503C;&#x3002;</p>
-<p>&#x8A73;&#x60C5;&#x53C3;&#x898B;<a href="https://sourceware.org/gdb/onlinedocs/gdb/Returning.html#Returning" target="_blank">gdb&#x624B;&#x518A;</a></p>
-<h2 id="%E8%B2%A2%E7%8D%BB%E8%80%85">&#x8CA2;&#x737B;&#x8005;</h2>
-<p>nanxiao</p>
+</code></pre>
+<p>&#x63A5;&#x4E0B;&#x4F86;&#x5728;&#x7D42;&#x7AEF;&#x6A5F;&#x8F38;&#x5165;&#xFF1A; </p>
+<pre><code>$ gcc -g -O0 -o hello hello.c
+$ gdb ./hello
+</code></pre><pre><code>(gdb) start
+</code></pre><p>&#x7136;&#x5F8C;&#x6309;&#x4E0B;ctrl + x +a &#x5F8C;&#xFF0C;&#x5C31;&#x8B8A;&#x6210;&#x9019;&#x6A23;&#x4E86;&#xFF01;</p>
+<p>&#x9019;&#x6642;&#x5019;&#xFF0C;&#x5982;&#x679C;&#x6709;&#x9047;&#x5230;&#x7834;&#x5716;&#xFF0C;&#x6309;&#x4E0B;ctrl + L &#x5C31;&#x53EF;&#x4EE5;&#x5237;&#x65B0;&#x756B;&#x9762;&#x3002;
+&#x5982;&#x8981;&#x95DC;&#x9589;tui&#xFF0C;&#x5728;&#x6309;&#x4E00;&#x6B21;ctrl + x +a &#x5373;&#x53EF;
+&#x5230;&#x9019;&#x88E1;&#xFF0C;&#x5927;&#x90E8;&#x4EFD;&#x5DF2;&#x77E5;&#x6709;tui&#x53EF;&#x4EE5;&#x7528;&#x7684;&#x4EBA;&#xFF0C;&#x90FD;&#x89BA;&#x5F97;&#x6C92;&#x4EC0;&#x9EBC;&#xFF01;
+&#x4E0D;&#x904E;&#x9A5A;&#x559C;&#x7684;&#x5C31;&#x662F;&#xFF1A;&#x5982;&#x679C;&#x6309;ctrl + x + 2&#x6703;&#x51FA;&#x73FE;&#x7D44;&#x5408;&#x8A9E;&#x8A00;(&#x985E;&#x4F3C;objdump&#x51FA;&#x4F86;&#x7684;&#x7D50;&#x679C;)&#x7684;&#x8996;&#x7A97;&#xFF01;
+&#x518D;&#x6309;&#x4E00;&#x6B21;&#x76F8;&#x540C;&#x7684;&#x7D44;&#x5408;&#x9375;&#xFF0C;&#x6703;&#x8DF3;&#x51FA;register&#x7684;&#x5167;&#x5BB9;&#xFF01;
+&#x800C;&#x4E14;&#x662F;&#x4EE5;&#x5FAA;&#x74B0;&#x7684;&#x65B9;&#x5F0F;&#x5448;&#x73FE;&#x3002;</p>
+<p>&#x65BC;gdbtui&#x4E2D;&#xFF0C;&#x6C92;&#x8FA6;&#x6CD5;&#x4F7F;&#x7528; &#x65B9;&#x5411;&#x9375;&#x4E0A;&#x3001;&#x65B9;&#x5411;&#x9375;&#x4E0B; &#x4F86;&#x4F7F;&#x7528;&#x4E4B;&#x524D;&#x4F7F;&#x7528;&#x904E;&#x7684;&#x6307;&#x4EE4;&#xFF0C;&#x8A18;&#x5F97;&#x6539;&#x7528;ctrl + p &#x548C; ctrl +n&#x4F86;&#x4F7F;&#x7528;&#x6B77;&#x53F2;&#x6307;&#x4EE4;&#x3002;
+&#x6216;&#x662F;&#x900F;&#x904E;ctrl + x + o &#x4F86;&#x5207;&#x63DB;active window&#xFF0C;&#x65B9;&#x5411;&#x9375;&#x4E0A;&#x4E0B;&#xFF0C;&#x53EF;&#x80FD;&#x5C31;&#x6703;&#x6709;&#x4F60;&#x60F3;&#x8981;&#x7684;&#x529F;&#x80FD;&#x4E86;&#xFF01;</p>
+<p>GDB&#x4E5F;&#x6709;python&#x53EF;&#x4EE5;&#x7528;
+&#x5148;&#x4F86;&#x770B;&#x500B;&#x5C0F;&#x793A;&#x7BC4;&#xFF0C;&#x4E00;&#x6A23;&#x662F;&#x4E0A;&#x9762;&#x7684;hello.c</p>
+<pre><code class="lang-sh">(gdb) r
+(gdb) b hello.c:<span class="hljs-number">8</span>
+(gdb) c
+(gdb) python
+&gt; <span class="hljs-built_in">print</span>(<span class="hljs-string">&apos;hello python&apos;</span>)
+</code></pre>
+<p>&#x6B64;&#x6642;&#x6309;&#x4E0B;ctrl+D(&#x6216;&#x8F38;&#x5165;end) &#x9000;&#x51FA;python&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x8F38;&#x51FA;&#xFF01;</p>
 
                     
                     </section>
@@ -13851,10 +13831,10 @@ Make func return now? (y or n) y
         </div>
 
         
-        <a href="../100_gdb_tips/set-step-mode-on.html" class="navigation navigation-prev " aria-label="Previous page: 進入不帶調試信息的函數"><i class="fa fa-angle-left"></i></a>
+        <a href="../gdb/how_to_use_gdb_debug_opencv_programmes.html" class="navigation navigation-prev " aria-label="Previous page: How to use GDB debug OpenCV programmes?"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../100_gdb_tips/call-func.html" class="navigation navigation-next " aria-label="Next page: 直接執行函數"><i class="fa fa-angle-right"></i></a>
+        <a href="../mooc_linux_kernel/index.html" class="navigation navigation-next " aria-label="Next page: Linux內核分析雲課堂學習筆記"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

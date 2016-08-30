@@ -28,7 +28,7 @@ jump <address>
 
 
 
-- 以便快速找出所有线程都在做。
+- 以便快速找出所有線程都在做。
 
 ```sh
 thread apply all bt或 thread apply all print $pc

@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>字符串的存儲與加載 | Jason note</title>
+        <title>讓程序崩潰時產生coredump | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../assembly/16113.html" />
+    <link rel="next" href="../mooc_linux_kernel/index.html" />
     
     
-    <link rel="prev" href="../assembly/16111.html" />
+    <link rel="prev" href="../gdb/gdb_fan_xiang_diao_shi_ff08_reverse_debugging.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="14.2.12" data-basepath=".." data-revision="Wed Aug 31 2016 02:19:49 GMT+0800 (CST)">
+    <div class="book" data-level="16.39" data-basepath=".." data-revision="Wed Aug 31 2016 02:19:49 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -5052,7 +5052,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="14.2.12" data-path="assembly/16112.html">
+        <li class="chapter " data-level="14.2.12" data-path="assembly/16112.html">
             
                 
                     <a href="../assembly/16112.html">
@@ -5924,7 +5924,7 @@
             
         </li>
     
-        <li class="chapter " data-level="16.39" data-path="gdb/rang_cheng_xu_beng_kui_shi_chan_sheng_coredump.html">
+        <li class="chapter active" data-level="16.39" data-path="gdb/rang_cheng_xu_beng_kui_shi_chan_sheng_coredump.html">
             
                 
                     <a href="../gdb/rang_cheng_xu_beng_kui_shi_chan_sheng_coredump.html">
@@ -13803,70 +13803,111 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E5%AD%98%E5%84%B2%E8%88%87%E5%8A%A0%E8%BC%89">&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x5B58;&#x5132;&#x8207;&#x52A0;&#x8F09;</h1>
-<p>&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x5B58;&#x5132;&#x8207;&#x52A0;&#x8F09;&#x662F;&#x6307;&#xFF0C;&#x5C07;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x503C;&#x52A0;&#x8F09;&#x5230;&#x5BC4;&#x5B58;&#x5668;&#x548C;&#x5C07;&#x5176;&#x50B3;&#x56DE;&#x5167;&#x5B58;&#x4F4D;&#x7F6E;&#x4E2D;&#x3002;&#x5176;&#x4F7F;&#x7528;&#x6307;&#x4EE4;<strong>lods&#x6307;&#x4EE4;&#x548C;stos&#x6307;&#x4EE4;</strong>&#x3002;</p>
-<ul>
-<li><p>lods&#x6307;&#x4EE4;&#x7528;&#x65BC;&#x628A;&#x5167;&#x5B58;&#x4E2D;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x503C;&#x50B3;&#x9001;&#x5230;eax&#x5BC4;&#x5B58;&#x5668;&#x4E2D;&#xFF0C;&#x8A72;&#x6307;&#x4EE4;&#x6709;&#x4E09;&#x7A2E;&#x4E0D;&#x540C;&#x683C;&#x5F0F;&#xFF1A;lodsb&#xFF08;1&#x5B57;&#x7BC0;&#xFF09;&#x3001;lodsw&#xFF08;2&#x5B57;&#x7BC0;&#xFF09;&#x3001;lodsl&#xFF08;4&#x5B57;&#x7BC0;&#xFF09;&#x3002;lods&#x6307;&#x4EE4;&#x4F7F;&#x7528;esi&#x5BC4;&#x5B58;&#x5668;&#x4F5C;&#x70BA;&#x96B1;&#x542B;&#x7684;&#x6E90;&#x64CD;&#x4F5C;&#x6578;&#x3002;esi&#x5BC4;&#x5B58;&#x5668;&#x5FC5;&#x9808;&#x5305;&#x542B;&#x8981;&#x52A0;&#x8F09;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x6240;&#x5728;&#x7684;&#x5167;&#x5B58;&#x5730;&#x5740;&#x3002;</p>
-</li>
-<li><p>&#x5728;&#x4F7F;&#x7528;lods&#x6307;&#x4EE4;&#x628A;&#x5B57;&#x7B26;&#x4E32;&#x503C;&#x5B58;&#x653E;&#x5230;eax&#x5BC4;&#x5B58;&#x5668;&#x4E4B;&#x5F8C;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;stos&#x6307;&#x4EE4;&#x628A;&#x5B83;&#x5B58;&#x653E;&#x5230;&#x53E6;&#x4E00;&#x500B;&#x5167;&#x5B58;&#x4F4D;&#x7F6E;&#x3002;</p>
-</li>
-<li><p>stos&#x4E5F;&#x6709;3&#x7A2E;&#x683C;&#x5F0F;&#xFF1A;stosb&#x3001;stosw&#x3001;stosl&#x3002;stos&#x6307;&#x4EE4;&#x4F7F;&#x7528;edi&#x5BC4;&#x5B58;&#x5668;&#x4F5C;&#x70BA;&#x96B1;&#x542B;&#x7684;&#x76EE;&#x6A19;&#x64CD;&#x4F5C;&#x6578;&#xFF0C;&#x57F7;&#x884C;stos&#x6307;&#x4EE4;&#x6642;&#xFF0C;&#x6839;&#x64DA;&#x9577;&#x5EA6;&#x905E;&#x589E;&#x6216;&#x905E;&#x6E1B;edi&#x5BC4;&#x5B58;&#x5668;&#x7684;&#x503C;&#x3002;</p>
-</li>
-<li>stos&#x6307;&#x4EE4;&#x6700;&#x5927;&#x7684;&#x7528;&#x8655;&#x5728;&#x65BC;&#x548C;rep&#x6307;&#x4EE4;&#x4E00;&#x8D77;&#x4F7F;&#x7528;&#xFF0C;&#x591A;&#x6B21;&#x628A;&#x4E00;&#x500B;&#x5B57;&#x7B26;&#x4E32;&#x503C;&#x8907;&#x88FD;&#x5230;&#x5927;&#x578B;&#x5B57;&#x7B26;&#x4E32;&#x503C;&#x4E2D;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x6BD4;&#x5982;&#x628A;&#x7A7A;&#x683C;&#x5B57;&#x7B26;&#x8907;&#x88FD;&#x5230;256&#x5B57;&#x7BC0;&#x7684;&#x7DE9;&#x885D;&#x5340;&#x5340;&#x57DF;&#x3002;&#x5982;&#x4E0B;&#x793A;&#x4F8B;&#xFF1A;</li>
-</ul>
-<pre><code># stos.s
+                        <h1 id="%E8%AE%93%E7%A8%8B%E5%BA%8F%E5%B4%A9%E6%BD%B0%E6%99%82%E7%94%A2%E7%94%9Fcoredump">&#x8B93;&#x7A0B;&#x5E8F;&#x5D29;&#x6F70;&#x6642;&#x7522;&#x751F;coredump</h1>
+<p>&#x5728; Windows &#x4E0B;&#x6211;&#x5011;&#x5DF2;&#x7D93;&#x7FD2;&#x6163;&#x4E86;&#x7528; Windbg &#x4E4B;&#x985E;&#x7684;&#x5DE5;&#x5177;&#x8ABF;&#x8A66; dump &#x6587;&#x4EF6;&#xFF0C;&#x5F9E;&#x800C;&#x5206;&#x6790;&#x4E26;&#x6392;&#x9664;&#x7A0B;&#x5E8F;&#x904B;&#x884C;&#x6642;&#x932F;&#x8AA4;&#x3002;&#x5728; Linux &#x4E0B;&#x6211;&#x5011;&#x540C;&#x6A23;&#x53EF;&#x4EE5;&#x5B8C;&#x6210;&#x985E;&#x4F3C;&#x7684;&#x5DE5;&#x4F5C; &#x2014;&#x2014; Core Dump&#x3002;</p>
+<p>&#x6211;&#x5011;&#x5148;&#x770B;&#x770B;&#x76F8;&#x95DC;&#x7684;&#x8A2D;&#x7F6E;&#x3002;</p>
+<pre><code class="lang-sh">$ <span class="hljs-built_in">ulimit</span> <span class="hljs-operator">-a</span>
 
-.section .data
-space:
-    .ascii &quot; &quot;
-.section .bss
-    .lcomm buffer, 256
-.section .text
-.globl _start
-_start:
-    nop
-    leal space, %esi
-    leal buffer, %edi
-    movl $256, %ecx
+core file size       (blocks, -c) <span class="hljs-number">0</span>
+data seg size        (kbytes, <span class="hljs-operator">-d</span>) unlimited
+scheduling priority          (<span class="hljs-operator">-e</span>) <span class="hljs-number">20</span>
+file size            (blocks, <span class="hljs-operator">-f</span>) unlimited
+pending signals              (-i) <span class="hljs-number">16382</span>
+max locked memory    (kbytes, <span class="hljs-operator">-l</span>) <span class="hljs-number">64</span>
+max memory size      (kbytes, -m) unlimited
+open files                   (-n) <span class="hljs-number">1024</span>
+pipe size         (<span class="hljs-number">512</span> bytes, -p) <span class="hljs-number">8</span>
+POSIX message queues  (bytes, -q) <span class="hljs-number">819200</span>
+real-time priority           (-r) <span class="hljs-number">0</span>
+stack size           (kbytes, <span class="hljs-operator">-s</span>) <span class="hljs-number">8192</span>
+cpu time            (seconds, -t) unlimited
+max user processes           (-u) unlimited
+virtual memory       (kbytes, -v) unlimited
+file locks                   (-x) unlimited
+</code></pre>
+<p>&quot;core file size  (blocks, -c) 0&quot; &#x610F;&#x5473;&#x8457;&#x5728;&#x7A0B;&#x5E8F;&#x5D29;&#x6F70;&#x6642;&#x4E0D;&#x6703;&#x751F;&#x6210; core dump &#x6587;&#x4EF6;&#xFF0C;&#x6211;&#x5011;&#x9700;&#x8981;&#x4FEE;&#x6539;&#x4E00;&#x4E0B;&#x8A2D;&#x7F6E;&#x3002;&#x5982;&#x679C;&#x4F60;&#x548C;&#x6211;&#x4E00;&#x6A23;&#x61F6;&#x5F97;&#x4FEE;&#x6539;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#xFF0C;&#x90A3;&#x9EBC;&#x5C31;&#x8F38;&#x5165;&#x4E0B;&#x9762;&#x9019;&#x6A23;&#x547D;&#x4EE4;&#x5427;&#x3002;</p>
+<pre><code class="lang-sh">$ sudo  sh -c <span class="hljs-string">&quot;ulimit -c unlimited; ./test&quot;</span> <span class="hljs-comment"># test &#x662F;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x540D;&#x3002;</span>
+</code></pre>
+<p>&#x7B49;&#x7B49;&#x2026;&#x2026; &#x6211;&#x5011;&#x9084;&#x662F;&#x5148;&#x6E96;&#x5099;&#x500B;&#x6E2C;&#x8A66;&#x76EE;&#x6A19;&#x3002;</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
 
-    cld
-    lodsb
-    rep stosb
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">test</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">char</span>* s = <span class="hljs-string">&quot;abc&quot;</span>;
+    *s = <span class="hljs-string">&apos;x&apos;</span>;
+}
 
-    movl $1, %eax
-    movl $0, %ebx
-    int $0x80
-</code></pre><p>make&#x4E4B;&#x5F8C;&#x8ABF;&#x8A66;&#x904B;&#x884C;&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre><code>Breakpoint 1, _start () at stos.s:11
-11    nop
-(gdb) print/x $eax
-$1 = 0x0
-(gdb) x/16b &amp;buffer
-0x80490a0 &lt;buffer&gt;: 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
-0x80490a8 &lt;buffer+8&gt;: 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
-(gdb) s
-12    leal space, %esi
-(gdb) s
-13    leal buffer, %edi
-(gdb) s
-14    movl $256, %ecx
-(gdb) s
-16    cld
-(gdb) s
-17    lodsb
-(gdb) s
-18    rep stosb
-(gdb) print/x $eax
-$4 = 0x20
-(gdb) s
-20    movl $1, %eax
-(gdb) s
-21    movl $0, %ebx
-(gdb) x/16b &amp;buffer
-0x80490a0 &lt;buffer&gt;: 0x20 0x20 0x20 0x20 0x20 0x20 0x20 0x20
-0x80490a8 &lt;buffer+8&gt;: 0x20 0x20 0x20 0x20 0x20 0x20 0x20 0x20
-(gdb)
-</code></pre><p>&#x8F38;&#x51FA;&#x7D50;&#x679C;&#x986F;&#x793A;&#x7A0B;&#x5E8F;&#x9054;&#x5230;&#x4E86;&#x6211;&#x5011;&#x9810;&#x671F;&#xFF0C;stosb&#x6307;&#x4EE4;&#x57F7;&#x884C;&#x4E4B;&#x5F8C;&#xFF0C;&#x5167;&#x5B58;&#x4F4D;&#x7F6E;buffer&#x5305;&#x542B;&#x7684;&#x90FD;&#x662F;&#x7A7A;&#x683C;&#x3002;</p>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>** argv)</span>
+</span>{
+    test();
+    <span class="hljs-keyword">return</span> (EXIT_SUCCESS);
+}
+</code></pre>
+<p>&#x5F88;&#x986F;&#x7136;&#xFF0C;&#x6211;&#x5011;&#x5728; test() &#x88E1;&#x9762;&#x5BEB;&#x4E86;&#x4E00;&#x500B;&#x4E0D;&#x8A72;&#x5BEB;&#x7684;&#x6771;&#x6771;&#xFF0C;&#x9019;&#x7121;&#x7591;&#x6703;&#x5F88;&#x56B4;&#x91CD;&#x3002;&#x751F;&#x6210;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x5F8C;&#xFF0C;&#x57F7;&#x884C;&#x4E0A;&#x9762;&#x7684;&#x547D;&#x4EE4;&#x3002;</p>
+<pre><code class="lang-sh">$ sudo sh -c <span class="hljs-string">&quot;ulimit -c unlimited; ./test&quot;</span>
+
+Segmentation fault (core dumped)
+</code></pre>
+<pre><code class="lang-sh">$ ls <span class="hljs-operator">-l</span>
+
+total <span class="hljs-number">96</span>
+-rw------- <span class="hljs-number">1</span> root  root  <span class="hljs-number">167936</span> <span class="hljs-number">2010</span>-<span class="hljs-number">01</span>-<span class="hljs-number">06</span> <span class="hljs-number">13</span>:<span class="hljs-number">30</span> core
+-rwxr-xr-x <span class="hljs-number">1</span> yuhen yuhen   <span class="hljs-number">9166</span> <span class="hljs-number">2010</span>-<span class="hljs-number">01</span>-<span class="hljs-number">06</span> <span class="hljs-number">13</span>:<span class="hljs-number">16</span> <span class="hljs-built_in">test</span>
+</code></pre>
+<p>&#x9019;&#x500B; core &#x6587;&#x4EF6;&#x5C31;&#x662F;&#x88AB;&#x7CFB;&#x7D71; dump &#x51FA;&#x4F86;&#x7684;&#xFF0C;&#x6211;&#x5011;&#x5206;&#x6790;&#x76EE;&#x6A19;&#x5C31;&#x662F;&#x5B83;&#x4E86;&#x3002;</p>
+<pre><code class="lang-sh">$ sudo gdb <span class="hljs-built_in">test</span> core
+
+GNU gdb (GDB) <span class="hljs-number">7.0</span>-ubuntu
+Copyright (C) <span class="hljs-number">2009</span> Free Software Foundation, Inc.
+
+Reading symbols from .../dist/Debug/test...done.
+
+warning: Can<span class="hljs-string">&apos;t read pathname for load map: Input/output error.
+Reading symbols from /lib/tls/i686/cmov/libpthread.so.0... ...done.
+(no debugging symbols found)...done.
+Loaded symbols for /lib/tls/i686/cmov/libpthread.so.0
+Reading symbols from /lib/tls/i686/cmov/libc.so.6... ...done.
+(no debugging symbols found)...done.
+Loaded symbols for /lib/tls/i686/cmov/libc.so.6
+Reading symbols from /lib/ld-linux.so.2... ...done.
+(no debugging symbols found)...done.
+Loaded symbols for /lib/ld-linux.so.2
+
+Core was generated by `./test&apos;</span>.
+Program terminated with signal <span class="hljs-number">11</span>, Segmentation fault.
+<span class="hljs-comment">#0  0x080483f4 in test () at main.c:16</span>
+
+warning: Source file is more recent than executable.
+<span class="hljs-number">16</span>        *s = <span class="hljs-string">&apos;x&apos;</span>;
+</code></pre>
+<p>&#x6700;&#x5F8C;&#x9019;&#x5E7E;&#x884C;&#x63D0;&#x793A;&#x5DF2;&#x7D93;&#x544A;&#x8A34;&#x6211;&#x5011;&#x932F;&#x8AA4;&#x7684;&#x539F;&#x56E0;&#x548C;&#x4EE3;&#x78BC;&#x4F4D;&#x7F6E;&#xFF0C;&#x63A5;&#x4E0B;&#x4F86;&#x5982;&#x4F55;&#x8ABF;&#x8A66;&#x5C31;&#x662F; gdb &#x7684;&#x6280;&#x5DE7;&#x4E86;&#xFF0C;&#x53EF;&#x4EE5;&#x5148;&#x8F38;&#x5165; &quot;where&quot; &#x770B;&#x770B;&#x8ABF;&#x7528;&#x5806;&#x68E7;&#x3002;</p>
+<pre><code class="lang-sh">(gdb) <span class="hljs-built_in">where</span>
+
+<span class="hljs-comment">#0  0x080483f4 in test () at main.c:16</span>
+<span class="hljs-comment">#1  0x08048401 in main (argc=1, argv=0xbfd53e44) at main.c:22</span>
+</code></pre>
+<pre><code class="lang-sh">(gdb) p s
+
+<span class="hljs-variable">$1</span> = <span class="hljs-number">0</span>x80484d0 <span class="hljs-string">&quot;abc&quot;</span>
+</code></pre>
+<pre><code class="lang-sh">(gdb) info files
+
+Symbols from <span class="hljs-string">&quot;.../dist/Debug/test&quot;</span>.
+Local core dump file:
+
+Local <span class="hljs-built_in">exec</span> file:
+    `.../dist/Debug/<span class="hljs-built_in">test</span><span class="hljs-string">&apos;, file type elf32-i386.
+    Entry point: 0x8048330
+    0x08048134 - 0x08048147 is .interp
+    ... ...
+    0x08048330 - 0x080484ac is .text
+    0x080484ac - 0x080484c8 is .fini
+    0x080484c8 - 0x080484d4 is .rodata
+</span></code></pre>
+<p>&#x5F88;&#x986F;&#x7136; &quot;abc&quot; &#x5C6C;&#x65BC; .rodata&#xFF0C;&#x56B4;&#x7981;&#x8ABF;&#x6232;&#x3002;</p>
+<hr>
+<p>&#x9644;&#xFF1A;&#x5982;&#x679C;&#x4F60;&#x8ABF;&#x8A66;&#x7684;&#x662F; Release (-O2) &#x7248;&#x672C;&#xFF0C;&#x800C;&#x4E14;&#x522A;&#x9664;(strip)&#x4E86;&#x7B26;&#x865F;&#x8868;&#xFF0C;&#x90A3;&#x9084;&#x662F;&#x8001;&#x8001;&#x5BE6;&#x5BE6;&#x6578;&#x5F59;&#x7DE8;&#x4EE3;&#x78BC;&#x5427;&#x3002;&#x53EF;&#x898B;&#x7528; Debug &#x7248;&#x672C;&#x8A66;&#x904B;&#x884C;&#x662F;&#x5F88;&#x91CD;&#x8981;&#x6EF4;&#xFF01;&#xFF01;&#xFF01;</p>
 
                     
                     </section>
@@ -13877,10 +13918,10 @@ $4 = 0x20
         </div>
 
         
-        <a href="../assembly/16111.html" class="navigation navigation-prev " aria-label="Previous page: 字符串的傳送"><i class="fa fa-angle-left"></i></a>
+        <a href="../gdb/gdb_fan_xiang_diao_shi_ff08_reverse_debugging.html" class="navigation navigation-prev " aria-label="Previous page: GDB 反向調試（Reverse Debugging）"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../assembly/16113.html" class="navigation navigation-next " aria-label="Next page: 字符串的比較與搜索"><i class="fa fa-angle-right"></i></a>
+        <a href="../mooc_linux_kernel/index.html" class="navigation navigation-next " aria-label="Next page: Linux內核分析雲課堂學習筆記"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

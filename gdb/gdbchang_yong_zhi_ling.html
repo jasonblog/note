@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="16.1" data-basepath=".." data-revision="Wed Aug 31 2016 01:56:40 GMT+0800 (CST)">
+    <div class="book" data-level="16.1" data-basepath=".." data-revision="Wed Aug 31 2016 02:05:34 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -13789,6 +13789,21 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="gdb%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4">gdb&#x5E38;&#x7528;&#x6307;&#x4EE4;</h1>
+<h2 id="%E8%B7%B3%E8%BD%89%E5%9F%B7%E8%A1%8C">&#x8DF3;&#x8F49;&#x57F7;&#x884C;</h2>
+<p>&#x4E00;&#x822C;&#x4F86;&#x8AAA;&#xFF0C;&#x88AB;&#x8ABF;&#x8A66;&#x7A0B;&#x5E8F;&#x6703;&#x6309;&#x7167;&#x7A0B;&#x5E8F;&#x4EE3;&#x78BC;&#x7684;&#x904B;&#x884C;&#x9806;&#x5E8F;&#x4F9D;&#x6B21;&#x57F7;&#x884C;&#x3002;
+GDB&#x63D0;&#x4F9B;&#x4E86;&#x4E82;&#x5E8F;&#x57F7;&#x884C;&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#xFF0C;GDB&#x53EF;&#x4EE5;&#x4FEE;&#x6539;&#x7A0B;&#x5E8F;&#x7684;&#x57F7;&#x884C;&#x9806;&#x5E8F;&#xFF0C;&#x53EF;&#x4EE5;&#x8B93;&#x7A0B;&#x5E8F;&#x57F7;&#x884C;&#x96A8;&#x610F;&#x8DF3;&#x8E8D;&#x3002;
+&#x9019;&#x500B;&#x529F;&#x80FD;&#x53EF;&#x4EE5;&#x7531;GDB&#x7684;jump&#x547D;&#x4EE4;&#x4F86;&#x5B8C;&#xFF1A;</p>
+<pre><code class="lang-sh">jump &lt;linespec&gt;
+</code></pre>
+<p>&#x6307;&#x5B9A;&#x4E0B;&#x4E00;&#x689D;&#x8A9E;&#x53E5;&#x7684;&#x904B;&#x884C;&#x9EDE;&#x3002;&#x53EF;&#x4EE5;&#x662F;&#x6587;&#x4EF6;&#x7684;&#x884C;&#x865F;&#xFF0C;&#x53EF;&#x4EE5;&#x662F;file:line&#x683C;&#x5F0F;&#xFF0C;&#x53EF;&#x4EE5;&#x662F;+num&#x9019;&#x7A2E;&#x504F;&#x79FB;&#x91CF;&#x683C;&#x5F0F;&#x3002; &#x8868;&#x5F0F;&#x8457;&#x4E0B;&#x4E00;&#x689D;&#x904B;&#x884C;&#x8A9E;&#x53E5;&#x5F9E;&#x54EA;&#x88E1;&#x958B;&#x59CB;&#x3002;</p>
+<pre><code class="lang-sh">jump &lt;address&gt;
+</code></pre>
+<p><code>&#x9019;&#x88E1;&#x7684; &lt;address&gt; &#x662F;&#x4EE3;&#x78BC;&#x884C;&#x7684;&#x5167;&#x5B58;&#x5730;&#x5740;&#x3002;</code></p>
+<p>&#x6CE8;&#x610F;&#xFF0C;jump&#x547D;&#x4EE4;&#x4E0D;&#x6703;&#x6539;&#x8B8A;&#x7576;&#x524D;&#x7684;&#x7A0B;&#x5E8F;&#x68E7;&#x4E2D;&#x7684;&#x5167;&#x5BB9;&#xFF0C;&#x6240;&#x4EE5;&#xFF0C;&#x7576;&#x4F60;&#x5F9E;&#x4E00;&#x500B;&#x51FD;&#x6578;&#x8DF3;&#x5230;&#x53E6;&#x4E00;&#x500B;&#x51FD;&#x6578;&#x6642;&#xFF0C;&#x7576;&#x51FD;&#x6578;&#x904B;&#x884C;&#x5B8C;&#x8FD4;&#x56DE;&#x6642;&#x9032;&#x884C;&#x5F48;&#x68E7;&#x64CD;&#x4F5C;&#x6642;&#x5FC5;&#x7136;&#x6703;&#x767C;&#x751F;&#x932F;&#x8AA4;&#xFF0C;&#x53EF;&#x80FD;&#x7D50;&#x679C;&#x9084;&#x662F;&#x975E;&#x5E38;&#x5947;&#x602A;&#x7684;&#xFF0C;&#x751A;&#x81F3;&#x65BC;&#x7522;&#x751F;&#x7A0B;&#x5E8F;Core Dump&#x3002;
+&#x6240;&#x4EE5;&#x6700;&#x597D;&#x662F;&#x540C;&#x4E00;&#x500B;&#x51FD;&#x6578;&#x4E2D;&#x9032;&#x884C;&#x8DF3;&#x8F49;&#x3002;</p>
+<p>&#x719F;&#x6089;&#x5F59;&#x7DE8;&#x7684;&#x4EBA;&#x90FD;&#x77E5;&#x9053;&#xFF0C;&#x7A0B;&#x5E8F;&#x904B;&#x884C;&#x6642;&#xFF0C;&#x6709;&#x4E00;&#x500B;&#x5BC4;&#x5B58;&#x5668;&#x7528;&#x65BC;&#x4FDD;&#x5B58;&#x7576;&#x524D;<code>&#x3002;
+&#x6240;&#x4EE5;&#xFF0C;jump&#x547D;&#x4EE4;&#x4E5F;&#x5C31;&#x662F;&#x6539;&#x8B8A;&#x4E86;&#x9019;&#x500B;&#x5BC4;&#x5B58;&#x5668;&#x4E2D;&#x7684;&#x503C;&#x3002;
+&#x65BC;&#x662F;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x300C;set $pc&#x300D;&#x4F86;&#x66F4;&#x6539;&#x8DF3;&#x8F49;&#x57F7;&#x884C;&#x7684;&#x5730;&#x5740;&#x3002;&#x5982;&#xFF1A;</code>set $pc = 0x485`</p>
 <ul>
 <li>&#x4EE5;&#x4FBF;&#x5FEB;&#x901F;&#x627E;&#x51FA;&#x6240;&#x6709;&#x7EBF;&#x7A0B;&#x90FD;&#x5728;&#x505A;&#x3002;</li>
 </ul>

@@ -23,7 +23,7 @@
 
 所以說，比較好的方式，我們應該開放擴充，把 Server 的介面延伸，做出一個抽象介面，讓雙方都依賴這個抽象介面。David Wheeler 說得好：「All problems in computer science can be solved by another level of indirection.」這樣一來，不論雙方做多大的更動，都只要遵循著抽象介面，我可以達到模組化可方便抽換的好處！
 
-
+![](./images/dggn8fwf_28ggdhzpg4_b.png)
 
 ##L: Liskov’s Substitution Principle
 
@@ -31,6 +31,9 @@
 
 Let q(x) be a property provable about objects x of type T. Then q(y) should be provable for objects y of type S where S is a subtype of T.
 換句話說，就是子類別必須可以被父類別的所替換，還是有點抽象，看個例子：
+
+![](./images/dggn8fwf_39c8wt2mg9_b.png)
+
 
 可以看到在父類別 Bird 中，沒錯，子類別的鴕鳥跟翠鳥都是屬於鳥綱，但是在我們的設計中，卻認為 Bird 都必須要會飛，所以子類別都繼承了 Fly() 這個函式。導致：
 
@@ -42,16 +45,23 @@ Unit test 時，父類別通過的測試子類別卻未必可以通過，維護�
 介面分隔原則：繼續上個例子，如果我們設計 Bird 的介面如下：
 問題又來了，鴕鳥並不會飛，但是因為 IBird 是個介面，所以所有的函式都必須被實作：
 
+![](./images/dggn8fwf_40frctckgc_b.png)
+
+
+
 很多冗餘的程式碼，又提高了耦合度
 難以維護、測試
 Fat interfaces，可使用的介面太多，反而因為容易混淆而降低可用性
 比較好的作法會是如下圖一般，把介面分割出來：
+
+![](./images/dggn8fwf_41f4cs85dz_b.png)
 
 ##D: The Dependency Inversion Principle
 
 相依性倒轉原則：試想，如果輪胎破了，你可以想像因為你原廠的輪胎不再產，因此你得整台車換掉的慘況嗎？當然，這不可能發生，同樣的，在軟體設計中，我們不應該讓 High-level module 依賴 Low-level components，而是把這相依關係反向，依賴一個抽象的規格。就如同輪胎一樣，每家車廠設計出來的不可能完全一樣，但是各車廠只要依照輪徑、輪寬等規格設計，輪胎爆了，想換哪家輪胎就完全隨你高興！（Pluggable Nature）
 
 
+![](./images/dggn8fwf_42dcnvfqf2_b.png)
 
 ##結論
 

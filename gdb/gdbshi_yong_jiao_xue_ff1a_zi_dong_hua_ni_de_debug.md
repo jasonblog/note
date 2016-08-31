@@ -242,7 +242,7 @@ Cannot access memory at address 0x5e4c5d00
 watch-point就會噴出到底是哪一行code搞的鬼！ 
 
 ##延伸指令
-投影片的最後有列出一些好用的指令，這裏特別列出，我覺得很有用的部分：
+投影片的最後有列出一些好用的指令，這裡特別列出，我覺得很有用的部分：
 ```sh
 (gdb) info line hello.c:6
 (gdb) info line *$pc

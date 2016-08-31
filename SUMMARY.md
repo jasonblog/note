@@ -336,7 +336,7 @@
    * [linux反彙編旁門左道小技巧一則](assembly/164.md)
    * [gas學習  by Jian Lee](assembly/165.md)
    * [閱讀assembly code](assembly/166.md)
-   * 閱讀assembly code
+   * [閱讀assembly code](assembly/yue_du_assembly_code.md)
 * [Toolchain](toolchain/README.md)
    * [cross compiler install](toolchain/171.md)
    * [buildroot install](toolchain/172.md)

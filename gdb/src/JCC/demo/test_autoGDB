@@ -1,0 +1,102 @@
+#b main
+b external_declaration
+#b syntax/src/statement.c:79                                
+r
+
+define print_global_stack
+	p/s "==========global_sym_stack element=========="
+	print $arg0
+	p/x (Symbol*)global_sym_stack.base[$arg0]
+
+	print "-----tk_code-----"
+	p/x ((Symbol*)global_sym_stack.base[$arg0])->tk_code
+
+	print "-----storage_type-----"
+	p/x ((Symbol*)global_sym_stack.base[$arg0])->storage_type
+
+	print "-----relation-----"
+	p/x ((Symbol*)global_sym_stack.base[$arg0])->relation
+
+	print "-----type->data_type-----"
+	p/x ((Symbol*)global_sym_stack.base[$arg0])->type->data_type
+
+	print "-----type->ref-----"
+	p/x ((Symbol*)global_sym_stack.base[$arg0])->type->ref
+
+	print "-----next-----"
+	p/x ((Symbol*)global_sym_stack.base[$arg0])->next
+
+	print "-----prev-----"
+	p/x ((Symbol*)global_sym_stack.base[$arg0])->prev
+
+	p/s "==========end of this global stack element=========="
+end
+
+
+define traverse_global_stack
+    set $index = 0
+    set $end_of_loop = $arg0
+    while(1)
+        if $index > $end_of_loop
+            loop_break
+        else
+			print_global_stack $index
+            set $index = $index +1
+        end
+    end
+end
+
+
+define print_local_stack
+	p/s "==========local_sym_stack element=========="
+	print $arg0
+	p/x (Symbol*)local_sym_stack.base[$arg0]
+
+	print "-----tk_code-----"
+	p/x ((Symbol*)local_sym_stack.base[$arg0])->tk_code
+
+	print "-----storage_type-----"
+	p/x ((Symbol*)local_sym_stack.base[$arg0])->storage_type
+
+	print "-----relation-----"
+	p/x ((Symbol*)local_sym_stack.base[$arg0])->relation
+
+    print "-----fp_offset-----"
+    p/x ((Symbol*)local_sym_stack.base[$arg0])->fp_offset
+
+	print "-----type->data_type-----"
+	p/x ((Symbol*)local_sym_stack.base[$arg0])->type->data_type
+
+	print "-----type->ref-----"
+	p/x ((Symbol*)local_sym_stack.base[$arg0])->type->ref
+
+	print "-----next-----"
+	p/x ((Symbol*)local_sym_stack.base[$arg0])->next
+
+	print "-----prev-----"
+	p/x ((Symbol*)local_sym_stack.base[$arg0])->prev
+
+	p/s "==========end of this local stack element=========="
+end
+
+
+define traverse_local_stack
+    set $index = 0
+    set $end_of_loop = $arg0
+    while(1)
+        if $index > $end_of_loop
+            loop_break
+        else
+			print_local_stack $index
+            set $index = $index +1
+        end
+    end
+end
+
+
+#traverse_global_stack 7
+#traverse_local_stack 3
+
+#c
+#q
+

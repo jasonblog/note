@@ -40,6 +40,69 @@ while ./bug_program ; do echo OK; done
 ```
 ---
 
+## 高级技巧
+
+一些不太广为人知的技巧...
+
+加载独立的调试信息
+
+gdb调试的时候可以从单独的符号文件中加载调试信息。
+```sh
+(gdb) exec-file test
+(gdb) symbol-file test.debug
+```
+
+test是移除了调试信息的可执行文件, test.debug是被移除后单独存储的调试信息。参考stackoverflow上的一个问题，可以如下分离调试信息:
+
+### 编译程序，带调试信息(-g)
+```sh
+gcc -g -o test main.c
+```sh
+### 拷贝调试信息到test.debug
+```
+objcopy --only-keep-debug test test.debug
+```
+### 移除test中的调试信息
+```sh
+strip --strip-debug --strip-unneeded test
+```
+### 然后启动gdb
+```sh
+gdb -s test.debug -e test
+```
+
+### 或这样启动gdb
+```sh
+gdb
+(gdb) exec-file test
+(gdb) symbol-file test.debug
+```
+
+分离出的调试信息test.debug还可以链接回可执行文件test中
+
+```sh
+objcopy --add-gnu-debuglink test.debug test
+```
+
+然后就可以正常用addr2line等需要读取调试信息的程序了
+
+```sh
+addr2line -e test 0x401c23
+```
+
+更多内容可阅读GDB: Debugging Information in Separate Files。
+
+在内存和文件系统之间拷贝数据
+
+- 将内存数据拷贝到文件里
+```sh
+dump binary value file_name variable_name
+dump binary memory file_name begin_addr end_addr 
+```
+- 改变内存数据
+```
+使用set命令
+```
 
 ###1. 啟動
 ```sh

@@ -25,6 +25,8 @@ $ gdb
 
 進入的話，只要按下ctrl + x +a 就可以了。
 
+![images](images/hellotui.png)
+
 
 這邊以一個簡單的helloworld程式(hello.c)來說明：
 

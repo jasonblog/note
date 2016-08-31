@@ -1,0 +1,2 @@
+# 閱讀assembly code
+

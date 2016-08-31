@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="16.37" data-basepath=".." data-revision="Wed Aug 31 2016 22:12:46 GMT+0800 (CST)">
+    <div class="book" data-level="16.37" data-basepath=".." data-revision="Wed Aug 31 2016 23:41:26 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -13832,6 +13832,7 @@ $ gdbtui
 &#x4F46;&#x5982;&#x679C;&#x53EA;&#x4EE5;&#x55AE;&#x7D14;&#x7684;</p>
 <pre><code>$ gdb
 </code></pre><p>&#x9032;&#x5165;&#x7684;&#x8A71;&#xFF0C;&#x53EA;&#x8981;&#x6309;&#x4E0B;ctrl + x +a &#x5C31;&#x53EF;&#x4EE5;&#x4E86;&#x3002;</p>
+<p><img src="images/Image 007.png" alt="images"></p>
 <p>&#x9019;&#x908A;&#x4EE5;&#x4E00;&#x500B;&#x7C21;&#x55AE;&#x7684;helloworld&#x7A0B;&#x5F0F;(hello.c)&#x4F86;&#x8AAA;&#x660E;&#xFF1A;</p>
 <pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
 
@@ -13855,6 +13856,7 @@ $ gdb ./hello
 &#x4E0D;&#x904E;&#x9A5A;&#x559C;&#x7684;&#x5C31;&#x662F;&#xFF1A;&#x5982;&#x679C;&#x6309;ctrl + x + 2&#x6703;&#x51FA;&#x73FE;&#x7D44;&#x5408;&#x8A9E;&#x8A00;(&#x985E;&#x4F3C;objdump&#x51FA;&#x4F86;&#x7684;&#x7D50;&#x679C;)&#x7684;&#x8996;&#x7A97;&#xFF01;
 &#x518D;&#x6309;&#x4E00;&#x6B21;&#x76F8;&#x540C;&#x7684;&#x7D44;&#x5408;&#x9375;&#xFF0C;&#x6703;&#x8DF3;&#x51FA;register&#x7684;&#x5167;&#x5BB9;&#xFF01;
 &#x800C;&#x4E14;&#x662F;&#x4EE5;&#x5FAA;&#x74B0;&#x7684;&#x65B9;&#x5F0F;&#x5448;&#x73FE;&#x3002;</p>
+<p><img src="images/Image 008.png" alt="images"></p>
 <p>&#x65BC;gdbtui&#x4E2D;&#xFF0C;&#x6C92;&#x8FA6;&#x6CD5;&#x4F7F;&#x7528; &#x65B9;&#x5411;&#x9375;&#x4E0A;&#x3001;&#x65B9;&#x5411;&#x9375;&#x4E0B; &#x4F86;&#x4F7F;&#x7528;&#x4E4B;&#x524D;&#x4F7F;&#x7528;&#x904E;&#x7684;&#x6307;&#x4EE4;&#xFF0C;&#x8A18;&#x5F97;&#x6539;&#x7528;ctrl + p &#x548C; ctrl +n&#x4F86;&#x4F7F;&#x7528;&#x6B77;&#x53F2;&#x6307;&#x4EE4;&#x3002;
 &#x6216;&#x662F;&#x900F;&#x904E;ctrl + x + o &#x4F86;&#x5207;&#x63DB;active window&#xFF0C;&#x65B9;&#x5411;&#x9375;&#x4E0A;&#x4E0B;&#xFF0C;&#x53EF;&#x80FD;&#x5C31;&#x6703;&#x6709;&#x4F60;&#x60F3;&#x8981;&#x7684;&#x529F;&#x80FD;&#x4E86;&#xFF01;</p>
 <p>GDB&#x4E5F;&#x6709;python&#x53EF;&#x4EE5;&#x7528;
@@ -13866,6 +13868,127 @@ $ gdb ./hello
 &gt; <span class="hljs-built_in">print</span>(<span class="hljs-string">&apos;hello python&apos;</span>)
 </code></pre>
 <p>&#x6B64;&#x6642;&#x6309;&#x4E0B;ctrl+D(&#x6216;&#x8F38;&#x5165;end) &#x9000;&#x51FA;python&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x8F38;&#x51FA;&#xFF01;</p>
+<p><img src="images/Image 009.png" alt="images"></p>
+<p>&#x90A3;&#x66F4;&#x9032;&#x4E00;&#x6B65;&#x5462;&#xFF1A;</p>
+<p><img src="images/Image 010.png" alt="images"></p>
+<p>GDB&#x7684;&#x7269;&#x4EF6;&#x53EF;&#x4EE5;&#x8207;python&#x4E92;&#x901A;&#xFF1A;</p>
+<p>&#x8A66;&#x8457;&#x8F38;&#x5165;&#x4EE5;&#x4E0B;&#x7684;&#x6307;&#x4EE4;&#xFF0C;&#x6703;&#x6709;&#x795E;&#x5947;&#x7684;&#x4E8B;&#x60C5;&#x767C;&#x751F;&#xFF01; </p>
+<pre><code class="lang-sh">(gdb) python <span class="hljs-built_in">print</span> (gdb.breakpoints())
+(gdb) python <span class="hljs-built_in">print</span> (gdb.breakpoints()[<span class="hljs-number">0</span>].location)
+(gdb) python gdb.Breakpoint(<span class="hljs-string">&apos;7&apos;</span>)
+</code></pre>
+<p>&#x9019;&#x500B;&#x529F;&#x80FD;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;GDB&#x4F86;&#x8F38;&#x51FA;&#x67D0;&#x4E9B;structure&#xFF0C;&#x4F7F;&#x5176;&#x683C;&#x5F0F;&#x6F02;&#x6F02;&#x4EAE;&#x4EAE;&#x3002;</p>
+<h2 id="%E9%80%8F%E9%81%8Egdb%E8%87%AA%E5%8B%95%E5%8C%96%E9%99%A4%E9%8C%AF">&#x900F;&#x904E;GDB&#x81EA;&#x52D5;&#x5316;&#x9664;&#x932F;</h2>
+<p>&#x5982;&#x679C;&#x958B;&#x767C;&#x904E;&#x7A0B;&#x5F0F;&#x7684;&#x670B;&#x53CB;&#x90FD;&#x77E5;&#x9053;&#xFF0C;&#x6709;&#x4E9B;memory/stack&#x7684;&#x554F;&#x984C;&#xFF0C;&#x4E26;&#x975E;&#x6BCF;&#x6B21;&#x90FD;&#x6703;&#x767C;&#x751F;&#xFF0C;&#x4F46;&#x767C;&#x751F;&#x4E86;&#x53C8;&#x4E0D;&#x77E5;&#x9053;&#x554F;&#x984C;&#x5728;&#x54EA;&#xFF0C;&#x9019;&#x6642;&#x5019;&#x5C31;&#x662F;GDB&#x51FA;&#x5834;&#x6551;&#x63F4;&#x7684;&#x6642;&#x523B;&#x4E86;&#xFF01;</p>
+<p>&#x7D30;&#x7BC0;&#x7684;&#x90E8;&#x4EFD;&#xFF0C;&#x8ACB;&#x53C3;&#x8003;&#x5F71;&#x7247;&#xFF0C;&#x9019;&#x88E1;&#x50C5;&#x4EE5;&#x6587;&#x5B57;&#x6558;&#x8FF0;&#xFF1A;</p>
+<pre><code class="lang-sh">$ <span class="hljs-keyword">while</span> ./bug_program ; <span class="hljs-keyword">do</span> <span class="hljs-built_in">echo</span> OK; <span class="hljs-keyword">done</span>
+</code></pre>
+<p>&#x4E0D;&#x65B7;&#x6E2C;&#x8A66;&#xFF0C;&#x4E4B;&#x5F8C;&#x6703;&#x51FA;&#x73FE;segmentation fault(core dump)</p>
+<p>&#x8F38;&#x5165;</p>
+<pre><code class="lang-c">$ ls -lth core*
+</code></pre>
+<p>&#x6703;&#x51FA;&#x73FE;&#x67D0;&#x500B;&#x7D00;&#x9304;&#x6700;&#x5F8C;stack&#x7684;&#x6A94;&#x6848;
+&#x900F;&#x904E;gdb -c &#x53EF;&#x4EE5;&#x9032;&#x884C;post mortem debugging&#xFF0C;
+&#x539F;&#x5247;&#x4E0A;&#x5C31;&#x662F;&#x9019;&#x500B;&#x6A94;&#x6848;&#x6703;&#x5B58;&#x6709;&#xFF0C;&#x7576;&#x6642;&#x8A72;process&#x7684;address space&#x4EE5;&#x53CA;registers&#x7684;&#x503C;(&#x5305;&#x542B;general registers &#x548C;fault status registers)
+&#x9019;&#x8207;&#x6211;&#x5927;&#x56DB;&#x6642;&#xFF0C;&#x66FE;&#x9032;&#x884C;&#x904E;&#x7684;&#x67D0;&#x500B;&#x5C08;&#x6848;&#x6709;&#x9EDE;&#x95DC;&#x4FC2;&#xFF0C;&#x6709;&#x8208;&#x8DA3;&#x53EF;&#x4EE5;&#x770B;&#x770B;&#x3002;</p>
+<p>ARM uVisor Debug Refinement Project(debugging facility improvements) from Jia-Rung(Jared) Chang</p>
+<p>&#x90A3;&#x9EBC;&#x8A72;&#x5982;&#x4F55;&#x900F;&#x904E;gdb&#x5229;&#x7528;&#x9019;&#x500B;core dump file&#x5462;?</p>
+<pre><code class="lang-sh">$ gdb -c [core-dump-file]
+</code></pre>
+<p>&#x6703;&#x767C;&#x73FE;&#xFF0C;&#x5373;&#x4F7F;&#x8F38;&#x5165;bt&#xFF0C;&#x56E0;&#x70BA;stack&#x5DF2;&#x7D93;&#x88AB;&#x7834;&#x58DE;&#x4E86;&#xFF0C;GDB&#x76EE;&#x524D;&#x7121;&#x6CD5;&#x8FA8;&#x8B58;&#x3002;
+&#x6240;&#x4EE5;&#x53EA;&#x597D;&#x5229;&#x7528;&#x81EA;&#x52D5;&#x5316;&#x7684;GDB&#x6E2C;&#x8A66;&#xFF0C;&#x91CD;&#x73FE;&#x554F;&#x984C;&#x9EDE;&#xFF0C;&#x4E26;&#x4E14;&#x900F;&#x904E;reverse-gdb&#x91CD;&#x73FE;&#x3002;</p>
+<pre><code class="lang-sh">$ gdb ./bug_program
+</code></pre>
+<pre><code class="lang-sh">(gdb) b main
+(gdb) b [program last line]
+</code></pre>
+<p>GDB&#x6703;&#x5206;&#x5225;&#x986F;&#x793A;&#x5C0D;&#x61C9;&#x7684;&#x4E2D;&#x65B7;&#x9EDE;&#x7DE8;&#x865F;&#xFF0C;&#x6216;&#x662F;&#x900F;&#x904E;</p>
+<pre><code class="lang-sh">(gdb) info b
+</code></pre>
+<p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x5C0D;&#x61C9;&#x7DE8;&#x865F;&#xFF0C;&#x7136;&#x5F8C;&#x900F;&#x904E;command + &#x7DE8;&#x865F;&#xFF0C;&#x53EF;&#x4EE5;&#x6307;&#x5B9A;&#x7576;&#x4E2D;&#x65B7;&#x767C;&#x751F;&#x6642;&#xFF0C;&#x8981;&#x505A;&#x7684;&#x5C0D;&#x61C9;&#x884C;&#x70BA;&#xFF1A;(&#x5047;&#x8A2D;main&#x662F;&#x4E2D;&#x65B7;&#x9EDE;2)&#xFF0C;&#x6BCF;&#x4E00;&#x884C;&#x5C31;&#x662F;&#x4E00;&#x500B;&#x6307;&#x4EE4;&#xFF0C;&#x7136;&#x5F8C;&#x7D50;&#x675F;&#x8F38;&#x5165;end&#x5373;&#x53EF;&#x3002;</p>
+<pre><code class="lang-sh">(gdb) <span class="hljs-built_in">command</span> <span class="hljs-number">2</span>
+(gdb) record
+(gdb) <span class="hljs-built_in">continue</span>
+(gdb) end
+</code></pre>
+<p>&#x5982;&#x679C;&#x4E4B;&#x5F8C;&#x904E;&#x7A0B;&#x4E2D;&#xFF0C;&#x6709;&#x8981;&#x4E00;&#x76F4;&#x6309;enter&#x986F;&#x793A;&#x4E0B;&#x4E00;&#x9801;&#xFF0C;&#x53EF;&#x4EE5;&#x900F;&#x904E;</p>
+<pre><code class="lang-sh">(gdb) <span class="hljs-built_in">set</span> pagination off
+</code></pre>
+<p>&#x4F86;&#x907F;&#x514D;&#x9019;&#x500B;&#x9EBB;&#x7169;&#x3002;</p>
+<p>&#x7136;&#x5F8C;&#x5982;&#x679C;&#x7A0B;&#x5F0F;&#x7684;&#x6700;&#x5F8C;&#x4E00;&#x884C;&#x5047;&#x8A2D;&#x662F;&#x4E2D;&#x65B7;&#x9EDE;3&#xFF1A;</p>
+<pre><code class="lang-sh">(gdb) <span class="hljs-built_in">command</span> <span class="hljs-number">3</span>
+(gdb) run
+(gdb) end
+</code></pre>
+<p>&#x53EF;&#x4EE5;&#x900F;&#x904E;&#x9019;&#x4E9B;&#x6307;&#x4EE4;&#xFF0C;&#x8B93;&#x7A0B;&#x5F0F;&#x4E0D;&#x65B7;&#x7684;&#x5728;GDB&#x4E2D;&#x91CD;&#x8907;&#x904B;&#x884C;&#xFF0C;&#x63A5;&#x4E0B;&#x4F86;&#x5C31;&#x53EF;&#x4EE5;&#x6E96;&#x5099;&#x958B;&#x59CB;&#x4E86;&#xFF01;</p>
+<pre><code class="lang-sh">(gdb) run
+</code></pre>
+<p>&#x5C31;&#x6703;&#x4E0D;&#x65B7;&#x91CD;&#x8907;&#x57F7;&#x884C;&#xFF0C;&#x76F4;&#x5230;&#x554F;&#x984C;&#x767C;&#x751F;&#xFF01;</p>
+<p>&#x554F;&#x984C;&#x767C;&#x751F;&#x5F8C;</p>
+<pre><code class="lang-sh">(gdb) p <span class="hljs-variable">$pc</span>
+</code></pre>
+<p>&#x53EF;&#x4EE5;&#x770B;&#x5230;pc&#x7684;&#x4F4D;&#x7F6E;&#xFF0C;&#x8F38;&#x51FA;&#x53EF;&#x80FD;&#x662F;&#xFF1A;1 = (void (*))0x5e4c5d00
+&#x5982;&#x679C;&#x900F;&#x904E;&#xFF1A; </p>
+<pre><code class="lang-sh">(gdb) p/x *<span class="hljs-number">0</span>x5e4c5d00
+</code></pre>
+<p>&#x53EF;&#x80FD;&#x6703;&#x51FA;&#x73FE;</p>
+<pre><code class="lang-sh">Cannot access memory at address <span class="hljs-number">0</span>x5e4c5d00
+</code></pre>
+<p>&#x56E0;&#x70BA;&#x4E00;&#x822C;core dump&#x5C31;&#x662F;&#x56E0;&#x70BA;&#x5B58;&#x53D6;&#x5230;&#x4E0D;&#x5408;&#x6CD5;&#x7684;address(&#x4E0D;&#x5C6C;&#x65BC;&#x6B64;address space&#x7684;&#x7A7A;&#x9593;)&#x6240;&#x5C0E;&#x81F4;&#x7684;&#x3002; 
+&#x5982;&#x679C;&#x8F38;&#x5165;</p>
+<pre><code class="lang-sh">(gdb) bt
+</code></pre>
+<p>&#x61C9;&#x8A72;&#x4E5F;&#x53EA;&#x6703;&#x5F97;&#x5230;&#x4E00;&#x5806;&quot;?&quot;&#x7684;frame&#xFF0C;&#x7121;&#x7528;&#x7684;&#x8CC7;&#x8A0A;&#x3002;</p>
+<p>&#x9019;&#x6642;&#x5019;reverse GDB&#x5C31;&#x8981;&#x51FA;&#x5834;&#x4E86;
+&#x8F38;&#x5165;</p>
+<pre><code class="lang-sh">(gdb) reverse-stepi
+</code></pre>
+<p>&#x5C31;&#x80FD;&#x770B;&#x5230;&#x7A0B;&#x5F0F;&#x6700;&#x5F8C;&#x57F7;&#x884C;&#x5230;&#x54EA;&#x4E00;&#x884C;&#x4E86;&#xFF01;
+&#x90A3;&#x5012;&#x5E95;&#x600E;&#x9EBC;&#x56DE;&#x4E8B;&#x4E86;&#x5462;&#xFF1F;
+&#x900F;&#x904E;</p>
+<pre><code class="lang-sh">(gdb) disassemble
+</code></pre>
+<p>&#x53EF;&#x4EE5;&#x767C;&#x73FE;&#xFF0C;&#x662F;&#x6700;&#x5F8C;&#x7684;return&#x767C;&#x751F;&#x554F;&#x984C;&#xFF0C;&#x6B64;&#x6642;&#x8F38;&#x5165;&#xFF1A;</p>
+<pre><code class="lang-sh">(gdb) <span class="hljs-built_in">print</span> <span class="hljs-variable">$sp</span>
+</code></pre>
+<p>&#x53EF;&#x80FD;&#x6703;&#x8F38;&#x51FA;&#xFF1A;2 = (void *) 0x7fffffffdc98</p>
+<pre><code class="lang-sh">(gdb) <span class="hljs-built_in">print</span> *(long**)<span class="hljs-number">0</span>x7fffffffdc98
+</code></pre>
+<p>&#x9019;&#x5C31;&#x662F;&#x6709;bug&#x7684;address !!(sp&#x4F01;&#x5716;&#x5B58;&#x53D6;&#x7684;&#x4F4D;&#x7F6E;)</p>
+<p>&#x90A3;&#x9019;&#x500B;&#x4F4D;&#x7F6E;&#x662F;&#x8AB0;&#x5C0E;&#x81F4;&#x7684;&#x554F;&#x984C;&#x5462;&#xFF1F;
+&#x900F;&#x904E;watch point&#x4F86;&#x89C0;&#x5BDF;&#xFF1A; </p>
+<pre><code class="lang-sh">(gdb) watch *(long**)<span class="hljs-number">0</span>x7fffffffdc98
+(gdb) reverse-continue
+</code></pre>
+<p>watch-point&#x5C31;&#x6703;&#x5674;&#x51FA;&#x5230;&#x5E95;&#x662F;&#x54EA;&#x4E00;&#x884C;code&#x641E;&#x7684;&#x9B3C;&#xFF01; </p>
+<h2 id="%E5%BB%B6%E4%BC%B8%E6%8C%87%E4%BB%A4">&#x5EF6;&#x4F38;&#x6307;&#x4EE4;</h2>
+<p>&#x6295;&#x5F71;&#x7247;&#x7684;&#x6700;&#x5F8C;&#x6709;&#x5217;&#x51FA;&#x4E00;&#x4E9B;&#x597D;&#x7528;&#x7684;&#x6307;&#x4EE4;&#xFF0C;&#x9019;&#x88CF;&#x7279;&#x5225;&#x5217;&#x51FA;&#xFF0C;&#x6211;&#x89BA;&#x5F97;&#x5F88;&#x6709;&#x7528;&#x7684;&#x90E8;&#x5206;&#xFF1A;</p>
+<pre><code class="lang-sh">(gdb) info line hello.c:<span class="hljs-number">6</span>
+(gdb) info line *<span class="hljs-variable">$pc</span>
+</code></pre>
+<p>&#x5217;&#x51FA;&#x8A72;&#x884C;&#x7A0B;&#x5F0F;&#x78BC;&#xFF0C;&#x5C0D;&#x61C9;&#x7684;&#x7D44;&#x5408;&#x8A9E;&#x8A00;</p>
+<pre><code class="lang-sh">(gdb) save breakpoints breakpoints.record
+</code></pre>
+<p>&#x5C07;&#x4F7F;&#x7528;&#x904E;&#x7684;breakpoints&#x5132;&#x5B58;&#x6210;breakpoints.record(&#x6A94;&#x6848;)</p>
+<pre><code class="lang-sh">(gdb) dprintf location,template,expression [,expression ...]
+</code></pre>
+<p>&#x53C3;&#x8003;&#x9019;&#x88E1; </p>
+<pre><code class="lang-sh">(gdb) <span class="hljs-built_in">break</span> xxx <span class="hljs-keyword">if</span> yyy
+</code></pre>
+<p>&#x9019;&#x500B;&#x503C;&#x5F97;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C;GDB&#x88E1;&#x9762;&#x53EF;&#x4EE5;&#x547C;&#x53EB;&#x7A0B;&#x5F0F;&#x5167;&#x5DF2;&#x6709;&#x7684;function&#x6216;&#x4E00;&#x4E9B;&#x6A19;&#x6E96;&#x7684;library function&#xFF0C;<a href="http://stackoverflow.com/questions/4183871/how-do-i-set-a-conditional-breakpoint-in-gdb-when-char-x-points-to-a-string-wh" target="_blank">&#x5982;&#x9019;&#x500B;stackoverflow&#x7684;&#x4F8B;&#x5B50;</a></p>
+<pre><code>(gdb) call [function]
+</code></pre><p>&#x985E;&#x4F3C;(gdb) print [function]&#xFF0C;&#x53EF;&#x662F;&#x4E0D;&#x6703;&#x986F;&#x793A;&#x56DE;&#x50B3;&#x503C;&#xFF0C;&#x4F46;&#x7D93;&#x904E;&#x6E2C;&#x8A66;&#xFF0C;&#x5169;&#x8005;&#x884C;&#x70BA;&#x5E7E;&#x4E4E;&#x4E00;&#x6A23; </p>
+<pre><code class="lang-sh">(gdb) commands
+</code></pre>
+<p>&#x6240;&#x6709;&#x4E2D;&#x65B7;&#x9EDE;&#xFF0C;&#x767C;&#x751F;&#x6642;&#xFF0C;&#x8981;&#x505A;&#x7684;&#x6307;&#x4EE4;&#x6E05;&#x55AE;&#xFF0C;&#x8F38;&#x5165;end&#x7D50;&#x675F;&#x3002;</p>
+<pre><code class="lang-sh">(gdb) commands
+(gdb) [some commands]
+(gdb) silent
+(gdb) [some commands]
+(gdb) end
+</code></pre>
+<p>silent&#x662F;&#x7279;&#x6B8A;&#x7684;&#x4E2D;&#x65B7;&#x9EDE;&#x6307;&#x4EE4;&#xFF0C;&#x6703;&#x4F7F;silent&#x4E4B;&#x5F8C;&#x7684;GDB&#x63D0;&#x793A;&#x90FD;&#x4E0D;&#x986F;&#x793A;&#xFF0C;&#x5982;&#x679C;commands&#x5F8C;&#x99AC;&#x4E0A;&#x63A5;silent&#xFF0C;&#x9023;&#x4E2D;&#x65B7;&#x767C;&#x751F;&#x7684;&#x63D0;&#x793A;&#x90FD;&#x4E0D;&#x6703;&#x986F;&#x793A;&#xFF01; </p>
+<p>&#x53E6;&#x5916;&#xFF0C;GDB&#x4E00;&#x6A23;&#x6709;&#x985E;&#x4F3C;macro&#x7684;&#x6A5F;&#x5236;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#xFF0C;&#x7528;&#x4F86;&#x770B;&#x5927;&#x91CF;structure&#x9084;&#x4E0D;&#x932F;&#x7528;&#xFF0C;&#x53EF;&#x4EE5;&#x53C3;&#x8003;&#x6211;&#x4EE5;&#x524D;&#x7528;&#x904E;&#x7C21;&#x55AE;&#x7684;macro</p>
 
                     
                     </section>

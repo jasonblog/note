@@ -1,5 +1,72 @@
 # gdb常用指令
 
+## 打印記憶體內容
+
+用gdb查看内存
+格式: `x /nfu`
+说明
+```
+x 是 examine 的缩写
+n表示要显示的内存单元的个数
+f表示显示方式, 可取如下值
+x 按十六进制格式显示变量。
+d 按十进制格式显示变量。
+u 按十进制格式显示无符号整型。
+o 按八进制格式显示变量。
+t 按二进制格式显示变量。
+a 按十六进制格式显示变量。
+i 指令地址格式
+c 按字符格式显示变量。
+f 按浮点数格式显示变量。
+u表示一个地址单元的长度
+b表示单字节，
+h表示双字节，
+w表示四字节，
+g表示八字节
+
+Format letters are 
+o(octal), 
+x(hex), 
+d(decimal), 
+u(unsigned decimal),
+t(binary), 
+f(float), 
+a(address), 
+i(instruction), 
+c(char) and 
+s(string).
+Size letters are 
+b(byte), 
+h(halfword), 
+w(word), 
+g(giant, 8 bytes)
+
+```
+
+##举例
+```sh
+x/3uh buf 
+表示从内存地址buf读取内容，
+h表示以双字节为一个单位，
+3表示三个单位，
+u表示按十六进制显示
+例子：
+n是个局部变量
+Breakpoint 1, main (argc=1, argv=0xbffff3a4) at calc.c:7
+7        int n = atoi(argv[1]);
+(gdb) print &n
+$1 = (int *) 0xbffff2ec
+(gdb) x 0xbffff2ec
+0xbffff2ec:    0x00282ff4
+(gdb) print * (int *) 0xbffff2ec
+$2 = 2633716
+(gdb) x /4xw 0xbffff2ec
+0xbffff2ec:    0x00282ff4    0x080484e0    0x00000000    0xbffff378
+(gdb) x /4dw 0xbffff2ec
+0xbffff2ec:    2633716    134513888    0    -1073745032
+(gdb)
+```
+
 ## 跳轉執行
 一般來說，被調試程序會按照程序代碼的運行順序依次執行。
 GDB提供了亂序執行的功能，也就是說，GDB可以修改程序的執行順序，可以讓程序執行隨意跳躍。

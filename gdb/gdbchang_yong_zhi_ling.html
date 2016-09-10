@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="16.1" data-basepath=".." data-revision="Fri Sep 02 2016 02:52:17 GMT+0800 (CST)">
+    <div class="book" data-level="16.1" data-basepath=".." data-revision="Sat Sep 10 2016 23:05:18 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -13847,6 +13847,66 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="gdb%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4">gdb&#x5E38;&#x7528;&#x6307;&#x4EE4;</h1>
+<h2 id="%E6%89%93%E5%8D%B0%E8%A8%98%E6%86%B6%E9%AB%94%E5%85%A7%E5%AE%B9">&#x6253;&#x5370;&#x8A18;&#x61B6;&#x9AD4;&#x5167;&#x5BB9;</h2>
+<p>&#x7528;gdb&#x67E5;&#x770B;&#x5167;&#x5B58;
+&#x683C;&#x5F0F;: <code>x /nfu</code>
+&#x8AAA;&#x660E;</p>
+<pre><code>x &#x662F; examine &#x7684;&#x7E2E;&#x5BEB;
+n&#x8868;&#x793A;&#x8981;&#x986F;&#x793A;&#x7684;&#x5167;&#x5B58;&#x55AE;&#x5143;&#x7684;&#x500B;&#x6578;
+f&#x8868;&#x793A;&#x986F;&#x793A;&#x65B9;&#x5F0F;, &#x53EF;&#x53D6;&#x5982;&#x4E0B;&#x503C;
+x &#x6309;&#x5341;&#x516D;&#x9032;&#x5236;&#x683C;&#x5F0F;&#x986F;&#x793A;&#x8B8A;&#x91CF;&#x3002;
+d &#x6309;&#x5341;&#x9032;&#x5236;&#x683C;&#x5F0F;&#x986F;&#x793A;&#x8B8A;&#x91CF;&#x3002;
+u &#x6309;&#x5341;&#x9032;&#x5236;&#x683C;&#x5F0F;&#x986F;&#x793A;&#x7121;&#x7B26;&#x865F;&#x6574;&#x578B;&#x3002;
+o &#x6309;&#x516B;&#x9032;&#x5236;&#x683C;&#x5F0F;&#x986F;&#x793A;&#x8B8A;&#x91CF;&#x3002;
+t &#x6309;&#x4E8C;&#x9032;&#x5236;&#x683C;&#x5F0F;&#x986F;&#x793A;&#x8B8A;&#x91CF;&#x3002;
+a &#x6309;&#x5341;&#x516D;&#x9032;&#x5236;&#x683C;&#x5F0F;&#x986F;&#x793A;&#x8B8A;&#x91CF;&#x3002;
+i &#x6307;&#x4EE4;&#x5730;&#x5740;&#x683C;&#x5F0F;
+c &#x6309;&#x5B57;&#x7B26;&#x683C;&#x5F0F;&#x986F;&#x793A;&#x8B8A;&#x91CF;&#x3002;
+f &#x6309;&#x6D6E;&#x9EDE;&#x6578;&#x683C;&#x5F0F;&#x986F;&#x793A;&#x8B8A;&#x91CF;&#x3002;
+u&#x8868;&#x793A;&#x4E00;&#x500B;&#x5730;&#x5740;&#x55AE;&#x5143;&#x7684;&#x9577;&#x5EA6;
+b&#x8868;&#x793A;&#x55AE;&#x5B57;&#x7BC0;&#xFF0C;
+h&#x8868;&#x793A;&#x96D9;&#x5B57;&#x7BC0;&#xFF0C;
+w&#x8868;&#x793A;&#x56DB;&#x5B57;&#x7BC0;&#xFF0C;
+g&#x8868;&#x793A;&#x516B;&#x5B57;&#x7BC0;
+
+Format letters are 
+o(octal), 
+x(hex), 
+d(decimal), 
+u(unsigned decimal),
+t(binary), 
+f(float), 
+a(address), 
+i(instruction), 
+c(char) and 
+s(string).
+Size letters are 
+b(byte), 
+h(halfword), 
+w(word), 
+g(giant, 8 bytes)
+</code></pre><h2 id="%E8%88%89%E4%BE%8B">&#x8209;&#x4F8B;</h2>
+<pre><code class="lang-sh">x/<span class="hljs-number">3</span>uh buf 
+&#x8868;&#x793A;&#x5F9E;&#x5167;&#x5B58;&#x5730;&#x5740;buf&#x8B80;&#x53D6;&#x5167;&#x5BB9;&#xFF0C;
+h&#x8868;&#x793A;&#x4EE5;&#x96D9;&#x5B57;&#x7BC0;&#x70BA;&#x4E00;&#x500B;&#x55AE;&#x4F4D;&#xFF0C;
+<span class="hljs-number">3</span>&#x8868;&#x793A;&#x4E09;&#x500B;&#x55AE;&#x4F4D;&#xFF0C;
+u&#x8868;&#x793A;&#x6309;&#x5341;&#x516D;&#x9032;&#x5236;&#x986F;&#x793A;
+&#x4F8B;&#x5B50;&#xFF1A;
+n&#x662F;&#x500B;&#x5C40;&#x90E8;&#x8B8A;&#x91CF;
+Breakpoint <span class="hljs-number">1</span>, main (argc=<span class="hljs-number">1</span>, argv=<span class="hljs-number">0</span>xbffff3a4) at calc.c:<span class="hljs-number">7</span>
+<span class="hljs-number">7</span>        int n = atoi(argv[<span class="hljs-number">1</span>]);
+(gdb) <span class="hljs-built_in">print</span> &amp;n
+<span class="hljs-variable">$1</span> = (int *) <span class="hljs-number">0</span>xbffff2ec
+(gdb) x <span class="hljs-number">0</span>xbffff2ec
+<span class="hljs-number">0</span>xbffff2ec:    <span class="hljs-number">0</span>x00282ff4
+(gdb) <span class="hljs-built_in">print</span> * (int *) <span class="hljs-number">0</span>xbffff2ec
+<span class="hljs-variable">$2</span> = <span class="hljs-number">2633716</span>
+(gdb) x /<span class="hljs-number">4</span>xw <span class="hljs-number">0</span>xbffff2ec
+<span class="hljs-number">0</span>xbffff2ec:    <span class="hljs-number">0</span>x00282ff4    <span class="hljs-number">0</span>x080484e0    <span class="hljs-number">0</span>x00000000    <span class="hljs-number">0</span>xbffff378
+(gdb) x /<span class="hljs-number">4</span>dw <span class="hljs-number">0</span>xbffff2ec
+<span class="hljs-number">0</span>xbffff2ec:    <span class="hljs-number">2633716</span>    <span class="hljs-number">134513888</span>    <span class="hljs-number">0</span>    -<span class="hljs-number">1073745032</span>
+(gdb)
+</code></pre>
 <h2 id="%E8%B7%B3%E8%BD%89%E5%9F%B7%E8%A1%8C">&#x8DF3;&#x8F49;&#x57F7;&#x884C;</h2>
 <p>&#x4E00;&#x822C;&#x4F86;&#x8AAA;&#xFF0C;&#x88AB;&#x8ABF;&#x8A66;&#x7A0B;&#x5E8F;&#x6703;&#x6309;&#x7167;&#x7A0B;&#x5E8F;&#x4EE3;&#x78BC;&#x7684;&#x904B;&#x884C;&#x9806;&#x5E8F;&#x4F9D;&#x6B21;&#x57F7;&#x884C;&#x3002;
 GDB&#x63D0;&#x4F9B;&#x4E86;&#x4E82;&#x5E8F;&#x57F7;&#x884C;&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#xFF0C;GDB&#x53EF;&#x4EE5;&#x4FEE;&#x6539;&#x7A0B;&#x5E8F;&#x7684;&#x57F7;&#x884C;&#x9806;&#x5E8F;&#xFF0C;&#x53EF;&#x4EE5;&#x8B93;&#x7A0B;&#x5E8F;&#x57F7;&#x884C;&#x96A8;&#x610F;&#x8DF3;&#x8E8D;&#x3002;

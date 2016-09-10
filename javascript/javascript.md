@@ -6,7 +6,7 @@
 ##AnyChart
 鏈接：http://www.anychart.com/
 
-AnyChart 是基於 Flash/JavaScript(HTML5) 的圖表解決方案，它可以輕鬆地跨瀏覽器、跨平台工作。除了基礎的圖表功能外，它還有收費的交互式圖表和儀表功能。它可以通過 XML 格式獲取數據，該方式讓開發人員非常靈活地控制圖表上的每一個數據點，而當圖表數據點數量偏大時，則可以採用 CSV 數據輸入，減小數據文件大小和圖表加載時間。
+AnyChart 是基於 Flash/JavaScript(HTML5) 的圖表解決方案，它可以輕鬆地跨瀏覽器、跨平臺工作。除了基礎的圖表功能外，它還有收費的交互式圖表和儀表功能。它可以通過 XML 格式獲取數據，該方式讓開發人員非常靈活地控制圖表上的每一個數據點，而當圖表數據點數量偏大時，則可以採用 CSV 數據輸入，減小數據文件大小和圖表加載時間。
 
 ##amCharts
 鏈接：http://www.amcharts.com/
@@ -16,7 +16,7 @@ amCharts 是一款高級圖表庫，致力於對 Web 上的數據可視化提供
 ##Cesium
 鏈接：http://cesiumjs.org/
 
-Cesium 同樣專注於地理數據可視化，它是一個 Javascript 庫，可以在 Web 瀏覽器中繪製 3D/2D 地球。無需任何插件即可基於 WebGL 來進行硬件加速。除此之外，它還有跨平台、跨瀏覽器的特性。Cesium 本身基於 Apache 開源協議，支持商業及非商業項目。
+Cesium 同樣專注於地理數據可視化，它是一個 Javascript 庫，可以在 Web 瀏覽器中繪製 3D/2D 地球。無需任何插件即可基於 WebGL 來進行硬件加速。除此之外，它還有跨平臺、跨瀏覽器的特性。Cesium 本身基於 Apache 開源協議，支持商業及非商業項目。
 
 ##Chart.js
 鏈接：http://www.chartjs.org/
@@ -46,7 +46,7 @@ Flot 是一個純 Javascript 繪圖庫，作為 jQuery 的插件使用。它可�
 ##FusionCharts Free
 鏈接：http://www.fusioncharts.com/
 
-FusionCharts Free 是可跨平台、跨瀏覽器的 Flash 圖表解決方案，它能夠被 ASP、.NET、PHP、JSP、ColdFusion、Ruby on Rails、簡單 HTML 頁面甚至 PPT 調用。在使用過程中，用戶原則上並不需要知道任何 Flash 的知識，只需要瞭解你所用的編程語言，並進行簡單的調用即可以實現應用
+FusionCharts Free 是可跨平臺、跨瀏覽器的 Flash 圖表解決方案，它能夠被 ASP、.NET、PHP、JSP、ColdFusion、Ruby on Rails、簡單 HTML 頁面甚至 PPT 調用。在使用過程中，用戶原則上並不需要知道任何 Flash 的知識，只需要瞭解你所用的編程語言，並進行簡單的調用即可以實現應用
 
 ##Google Chart
 鏈接：http://developers.google.com/chart/

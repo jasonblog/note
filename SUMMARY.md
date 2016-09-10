@@ -381,7 +381,7 @@
    * [GDB實用教學：自動化你的debug](gdb/gdbshi_yong_jiao_xue_ff1a_zi_dong_hua_ni_de_debug.md)
    * [GDB 反向調試（Reverse Debugging）](gdb/gdb_fan_xiang_diao_shi_ff08_reverse_debugging.md)
    * [讓程序崩潰時產生coredump](gdb/rang_cheng_xu_beng_kui_shi_chan_sheng_coredump.md)
-   * 很经典的GDB调试命令，包括查看变量，查看内存
+   * [很经典的GDB调试命令，包括查看变量，查看内存](gdb/hen_jing_dian_de_gdb_diao_shi_ming_ling_ff0c_bao_k.md)
 * [Linux內核分析雲課堂學習筆記](mooc_linux_kernel/README.md)
    * [圖解分析彙編代碼以理解計算機是如何工作的](mooc_linux_kernel/191.md)
    * [基於mykernel的一個簡單的時間片輪轉多道程序內核代碼分析](mooc_linux_kernel/192.md)

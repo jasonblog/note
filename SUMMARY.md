@@ -842,7 +842,7 @@
    * [認知學習法 by xdite](other/ren_zhi_xue_xi_fa_by_xdite.md)
    * [認知學習法 - 自學篇 by xdite](other/ren_zhi_xue_xi_fa_-_zi_xue_pian_by_xdite.md)
    * [笨方法學語言](other/ben_fang_fa_xue_yu_yan.md)
-   * 我是如何學一門新技術的
+   * [我是如何學一門新技術的](other/wo_shi_ru_he_xue_yi_men_xin_ji_shu_de.md)
 * [DS_ALGO](ds_algo/dsalgomd.md)
    * [內核雙向鏈表的使用](nei_he_shuang_xiang_lian_biao_de_shi_yong.md)
 * [C](c/c.md)

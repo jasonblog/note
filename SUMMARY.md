@@ -839,6 +839,7 @@
    * [編程的智慧](other/bian_cheng_de_zhi_hui.md)
    * [為什麼 thread (執行緒、線程)越少越好?](other/wei_shi_me_thread_zhi_xing_xu_3001_xian_7a0b29_yue.md)
    * [頂尖程序員不同於常人的5個區別](other/ding_jian_cheng_xu_yuan_bu_tong_yu_chang_ren_de_5_.md)
+   * 認知學習法 by xdite
 * [DS_ALGO](ds_algo/dsalgomd.md)
    * [內核雙向鏈表的使用](nei_he_shuang_xiang_lian_biao_de_shi_yong.md)
 * [C](c/c.md)

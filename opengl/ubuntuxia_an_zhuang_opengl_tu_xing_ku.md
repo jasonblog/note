@@ -51,6 +51,12 @@ Xmu即X11 miscellaneous utility library（X11實用工具庫）
 sudo apt-get install libxmu-dev
 ```
 
+## OpenGL Mathematics (libglm)
+
+```
+sudo apt-get install libglm-dev
+```
+
 ##說明：
 OpenGL不同頭文件及庫的說明
 

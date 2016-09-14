@@ -1,105 +1,105 @@
-# Ubuntu下安装OpenGL图形库
+# Ubuntu下安裝OpenGL圖形庫
 
 
-## 安装基本编译环境
+## 安裝基本編譯環境
 
 ```sh
 sudo apt-get install build-essential
 ```
 
-## 安装OpenGL Library
+## 安裝OpenGL Library
 
 ```sh
 sudo apt-get install libgl1-mesa-dev
 ```
 
-## 安装OpenGL Utilities[1]
+## 安裝OpenGL Utilities[1]
 
-OpenGL Utilities 是一组建构于OpenGL Library 之上的工具组，提供许多很方便的函式，使OpenGL 更强大且更容易使用。
+OpenGL Utilities 是一組建構於OpenGL Library 之上的工具組，提供許多很方便的函式，使OpenGL 更強大且更容易使用。
 
 ```sh
 sudo apt-get install libglu1-mesa-dev
 ```
 
-## 安装OpenGL Utility Toolkit[2]
+## 安裝OpenGL Utility Toolkit[2]
 
 
-OpenGL Utility Toolkit 是建立在 OpenGL Utilities 上面的工具箱，除了强化了 OpenGL Utilities 的不足之外，也增加了 OpenGL 对于视窗界面支援
+OpenGL Utility Toolkit 是建立在 OpenGL Utilities 上面的工具箱，除了強化了 OpenGL Utilities 的不足之外，也增加了 OpenGL 對於視窗界面支援
 
 ```sh
 sudo apt-get install freeglut3-dev
 ```
 
-## 安装glew[3]
-glew是一个跨平台的C++库，是一个OpenGL图形接口扩展库
+## 安裝glew[3]
+glew是一個跨平臺的C++庫，是一個OpenGL圖形接口擴展庫
 
 ```sh
 sudo apt-get install libglew1.8 libglew-dev
 ```
 
-##安装glx[4]
-glx是linux下OpenGL的X Window System接口扩展库，它允许通过x调用OpenGL库
+##安裝glx[4]
+glx是linux下OpenGL的X Window System接口擴展庫，它允許通過x調用OpenGL庫
 
 ```sh
 sudo apt-get install libgl1-mesa-glx
 ```
 
-##补充有的也可能需要安装Xmu
-Xmu即X11 miscellaneous utility library（X11实用工具库）
+##補充有的也可能需要安裝Xmu
+Xmu即X11 miscellaneous utility library（X11實用工具庫）
 
 ```sh
 sudo apt-get install libxmu-dev
 ```
 
-##说明：
-OpenGL不同头文件及库的说明
+##說明：
+OpenGL不同頭文件及庫的說明
 
 ###[1] OpenGL Utilities
 
-glu是实用库，包含有43个函数，函数名的前缀为glu。Glu 为了减轻繁重的编程工作，封装了OpenGL函数，Glu函数通过调用核心库的函数，为开发者提供相对简单的用法，实现一些较为复杂的操作。
+glu是實用庫，包含有43個函數，函數名的前綴為glu。Glu 為了減輕繁重的編程工作，封裝了OpenGL函數，Glu函數通過調用核心庫的函數，為開發者提供相對簡單的用法，實現一些較為複雜的操作。
 
 ###[2] OpenGL Utility Toolkit
 
-glut是实用工具库，基本上是用于做窗口界面的，并且是跨平台（所以有时你喜欢做简单的demo的话，可以光用glut就ok了）
+glut是實用工具庫，基本上是用於做窗口界面的，並且是跨平臺（所以有時你喜歡做簡單的demo的話，可以光用glut就ok了）
 
 ###[3] glew
 
-glew是一个跨平台的C++扩展库，基于OpenGL图形接口。使用OpenGL的朋友都知道，window目前只支持OpenGL1.1的涵数，但 OpenGL现在都发展到2.0以上了，要使用这些OpenGL的高级特性，就必须下载最新的扩展，另外，不同的显卡公司，也会发布一些只有自家显卡才支 持的扩展函数，你要想用这数涵数，不得不去寻找最新的glext.h,有了GLEW扩展库，你就再也不用为找不到函数的接口而烦恼，因为GLEW能自动识 别你的平台所支持的全部OpenGL高级扩展涵数。也就是说，只要包含一个glew.h头文件，你就能使用gl,glu,glext,wgl,glx的全 部函数。GLEW支持目前流行的各种操作系统（including Windows, Linux, Mac OS X, FreeBSD, Irix, and Solaris）。
+glew是一個跨平臺的C++擴展庫，基於OpenGL圖形接口。使用OpenGL的朋友都知道，window目前只支持OpenGL1.1的涵數，但 OpenGL現在都發展到2.0以上了，要使用這些OpenGL的高級特性，就必須下載最新的擴展，另外，不同的顯卡公司，也會發布一些只有自家顯卡才支 持的擴展函數，你要想用這數涵數，不得不去尋找最新的glext.h,有了GLEW擴展庫，你就再也不用為找不到函數的接口而煩惱，因為GLEW能自動識 別你的平臺所支持的全部OpenGL高級擴展涵數。也就是說，只要包含一個glew.h頭文件，你就能使用gl,glu,glext,wgl,glx的全 部函數。GLEW支持目前流行的各種操作系統（including Windows, Linux, Mac OS X, FreeBSD, Irix, and Solaris）。
 
 ###[4] glx
 
 glx:OpenGL extension for X.
 
-对于X窗口系统，它所使用的的OpenGL扩展（GLX）是作为OpenGL的一个附件提供的，所有的GLX函数都使用前缀glX。
+對於X窗口系統，它所使用的的OpenGL擴展（GLX）是作為OpenGL的一個附件提供的，所有的GLX函數都使用前綴glX。
 
-glx是OpenGL Extension to the X Window System的缩写。它作为x的扩展，是x协议和X server的一部分，已经包含在X server的代码中了。GLX提供了x window system使用的OpenGL接口，允许通过x调用OpenGL库。OpenGL 在使用时，需要与一个实际的窗口系统关联起来。在不同平台上有不同的机制以关联窗口系统，在Windows上是WGL，在Linux上是GLX，在Apple OS上是AGL等。
+glx是OpenGL Extension to the X Window System的縮寫。它作為x的擴展，是x協議和X server的一部分，已經包含在X server的代碼中了。GLX提供了x window system使用的OpenGL接口，允許通過x調用OpenGL庫。OpenGL 在使用時，需要與一個實際的窗口系統關聯起來。在不同平臺上有不同的機制以關聯窗口系統，在Windows上是WGL，在Linux上是GLX，在Apple OS上是AGL等。
 
-###[5] 头文件
+###[5] 頭文件
 
-`<GL/gl.h>`：OpenGL所使用的函数和常量声明。
+`<GL/gl.h>`：OpenGL所使用的函數和常量聲明。
 
-`<GL/glu.h>`：OpenGL Utility Toolkit所使用的函数和常量声明。GLU库属于OpenGL标准的一部分。（以下各种库则不属于）
+`<GL/glu.h>`：OpenGL Utility Toolkit所使用的函數和常量聲明。GLU庫屬於OpenGL標準的一部分。（以下各種庫則不屬於）
 
-`<GL/glut.h>`：OpenGL Utility Toolkit所使用的函数和常量声明。目前许多OpenGL教程使用这个库来编写演示程序。一些编译系统可能不直接提供这个库（例如VC系列），需要单独下载安装。这个头文件自动包含了`<GL/gl.h>`和`<GL/glu.h>`，编程时不必再次包含它们。
+`<GL/glut.h>`：OpenGL Utility Toolkit所使用的函數和常量聲明。目前許多OpenGL教程使用這個庫來編寫演示程序。一些編譯系統可能不直接提供這個庫（例如VC系列），需要單獨下載安裝。這個頭文件自動包含了`<GL/gl.h>`和`<GL/glu.h>`，編程時不必再次包含它們。
 
-`<GL/glaux.h>`：GLAUX（OpenGL辅助库）所使用的函数和常量声明。这个库的功能大致与`<GL/glut.h>`类似，这个库提供了创建窗口，处理键盘和鼠标事件，设置调色板等OpenGL本身不提供，但在编写OpenGL程序时又经常用到的功能。目前这个库已经过时，只有比较少的编译环境中有提供，例如VC系列。在VC系列编译器中，使用这个头文件之前必须使用#include `<windows.h>`或者具有类似功能的头文件。
+`<GL/glaux.h>`：GLAUX（OpenGL輔助庫）所使用的函數和常量聲明。這個庫的功能大致與`<GL/glut.h>`類似，這個庫提供了創建窗口，處理鍵盤和鼠標事件，設置調色板等OpenGL本身不提供，但在編寫OpenGL程序時又經常用到的功能。目前這個庫已經過時，只有比較少的編譯環境中有提供，例如VC系列。在VC系列編譯器中，使用這個頭文件之前必須使用#include `<windows.h>`或者具有類似功能的頭文件。
 
-`<GL/glext.h>`：扩展头文件。因为微软公司对OpenGL的支持不太积极，VC系列编译器虽然有`<GL/gl.h>`这个头文件，但是里面只有OpenGL 1.1版本中所规定的内容，而没有OpenGL 1.2及其以后版本。对当前的计算机配置而言，几乎都支持OpenGL 1.4版本，更高的则到1.5, 2.0, 2.1，而VC无法直接使用这些功能。为了解决这一问题，就有了`<GL/glext.h>`头文件。这个头文件提供了高版本OpenGL所需要的各种常数声明以及函数指针声明。
+`<GL/glext.h>`：擴展頭文件。因為微軟公司對OpenGL的支持不太積極，VC系列編譯器雖然有`<GL/gl.h>`這個頭文件，但是裡面只有OpenGL 1.1版本中所規定的內容，而沒有OpenGL 1.2及其以後版本。對當前的計算機配置而言，幾乎都支持OpenGL 1.4版本，更高的則到1.5, 2.0, 2.1，而VC無法直接使用這些功能。為了解決這一問題，就有了`<GL/glext.h>`頭文件。這個頭文件提供了高版本OpenGL所需要的各種常數聲明以及函數指針聲明。
 
-`<GL/wglext.h>`：扩展头文件。与`<GL/glext.h>`类似，但这个头文件中只提供适用于Windows系统的各种OpenGL扩展所使用的函数和常量，不适用于其它操作系统。
+`<GL/wglext.h>`：擴展頭文件。與`<GL/glext.h>`類似，但這個頭文件中只提供適用於Windows系統的各種OpenGL擴展所使用的函數和常量，不適用於其它操作系統。
 
-"glee.h"：GLEE开源库的头文件。它的出现是因为`<GL/glext.h>`虽然可以使用高版本的OpenGL函数，但是使用的形式不太方便。GLEE库则让高版本的OpenGL函数与其它OpenGL函数在使用上同样方便。需要注意的是，这个头文件与`<GL/gl.h>`是冲突的，在包含"glee.h"之前，不应该包含`<GL/gl.h>`。
+"glee.h"：GLEE開源庫的頭文件。它的出現是因為`<GL/glext.h>`雖然可以使用高版本的OpenGL函數，但是使用的形式不太方便。GLEE庫則讓高版本的OpenGL函數與其它OpenGL函數在使用上同樣方便。需要注意的是，這個頭文件與`<GL/gl.h>`是衝突的，在包含"glee.h"之前，不應該包含`<GL/gl.h>`。
 
 ```c
 #include <GL/glut.h>
-#include "glee.h" // 错误，因为glut.h中含有gl.h，它与glee.h冲突
-                          // 但是如果把两个include顺序交换，则正确
+#include "glee.h" // 錯誤，因為glut.h中含有gl.h，它與glee.h衝突
+                          // 但是如果把兩個include順序交換，則正確
 ```
 
-`"glos.h"`：不明，虽然这个也时常见到，可能是与系统相关的各种功能，也可能只是自己编写的一个文件。
+`"glos.h"`：不明，雖然這個也時常見到，可能是與系統相關的各種功能，也可能只是自己編寫的一個文件。
 
 
-## 测试文件
+## 測試文件
 
 ```c
 #include <GL/gl.h>
@@ -140,7 +140,7 @@ void display()
 }
 ```
 
-## 编译命令
+## 編譯命令
 
 - C
 
@@ -180,7 +180,7 @@ LDFLAGS=-lglut -lGL -lGLU -lGLEW -lm
 all: your_app
 ```
 
-## 参考：
+## 參考：
 (http://wiki.ubuntu-tw.org/index.php?title=Howto_Install_OpenGL_Development_Environment)<br>
 (http://hi.baidu.com/niujingqian/item/58afbbcc6305c215b77a24db)<br>
 (http://baike.baidu.com/view/1994675.htm?fr=aladdin)<br>

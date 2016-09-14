@@ -591,6 +591,7 @@
 * [OpenGL](opengl/opengl.md)
    * [opengl(mesa) for ubuntu14.04](opengl/mesa.md)
    * [ubuntu 14.04 安裝OpenGL（基於freeglut）](opengl/1.md)
+   * Ubuntu下安装OpenGL图形库
 * [arduino](arduino/README.md)
    * [Processing communication with Arduino via serial](arduino/processing.md)
    * [使用gdb實時調式arduino](arduino/arduinogdb.md)

@@ -3,38 +3,38 @@
 
 ##一、OpenGL
 
-OpenGL函数库相关的API有核心库(gl)，实用库(glu)，辅助库(aux)、实用工具库(glut)，窗口库(glx、agl、wgl)和扩展函数库等。
+OpenGL函數庫相關的API有核心庫(gl)，實用庫(glu)，輔助庫(aux)、實用工具庫(glut)，窗口庫(glx、agl、wgl)和擴展函數庫等。
 
-gl是核心，glu是对gl的部分封装。glx、agl、wgl 是针对不同窗口系统的函数。glut是为跨平台的OpenGL程序的工具包，比aux功能强大（aux很大程度上已经被glut库取代。）。扩展函数库是硬件厂商为实现硬件更新利用OpenGL的扩展机制开发的函数。
+gl是核心，glu是對gl的部分封裝。glx、agl、wgl 是針對不同窗口系統的函數。glut是為跨平臺的OpenGL程序的工具包，比aux功能強大（aux很大程度上已經被glut庫取代。）。擴展函數庫是硬件廠商為實現硬件更新利用OpenGL的擴展機制開發的函數。
 
-OpenGL的竞争对手是Direct3D；OpenGL对应的开源实现是mesa 3D。
+OpenGL的競爭對手是Direct3D；OpenGL對應的開源實現是mesa 3D。
 
 
-##二、gult：OpenGL工具库 OpenGL Utility Toolkit
+##二、gult：OpenGL工具庫 OpenGL Utility Toolkit
 
-这部分函数以glut开头，主要包括窗口操作函数，窗口初始化、窗口大小、窗口位置等函数；回调函数：响应刷新消息、键盘消息、鼠标消息、定时器函数等；创建复杂的三维物体；菜单函数；程序运行函数。
+這部分函數以glut開頭，主要包括窗口操作函數，窗口初始化、窗口大小、窗口位置等函數；回調函數：響應刷新消息、鍵盤消息、鼠標消息、定時器函數等；創建複雜的三維物體；菜單函數；程序運行函數。
 
-gult对应的开源实现是freegult。
+gult對應的開源實現是freegult。
 
-##三、窗口库GLX
+##三、窗口庫GLX
 
-对于X窗口系统，它所使用的的OpenGL扩展（GLX：OpenGL extension for X.）是作为OpenGL的一个附件提供的，所有的GLX函数都使用前缀glX。
+對於X窗口系統，它所使用的的OpenGL擴展（GLX：OpenGL extension for X.）是作為OpenGL的一個附件提供的，所有的GLX函數都使用前綴glX。
 
-apl、wgl分别用于apple、windows。
+apl、wgl分別用於apple、windows。
 
 ##四、glew
 
-GLUT或者FREEGLUT主要是1.0的基本函数功能；GLEW是使用OPENGL2.0之后的一个工具函数。
+GLUT或者FREEGLUT主要是1.0的基本函數功能；GLEW是使用OPENGL2.0之後的一個工具函數。
 
-不同的显卡公司，也会发布一些只有自家显卡才支 持的扩展函数，你要想用这数涵数，不得不去寻找最新的glext.h,有了GLEW扩展库，你就再也不用为找不到函数的接口而烦恼，因为GLEW能自动识别你的平台所支持的全部OpenGL高级扩展函数。也就是说，只要包含一个glew.h头文件，你就能使用gl,glu,glext,wgl,glx的全部函数。
+不同的顯卡公司，也會發布一些只有自家顯卡才支 持的擴展函數，你要想用這數涵數，不得不去尋找最新的glext.h,有了GLEW擴展庫，你就再也不用為找不到函數的接口而煩惱，因為GLEW能自動識別你的平臺所支持的全部OpenGL高級擴展函數。也就是說，只要包含一個glew.h頭文件，你就能使用gl,glu,glext,wgl,glx的全部函數。
 
 ##五、glfw
 
-GLFW无愧于其号称的lightweight的OpenGL框架，的确是除了跨平台必要做的事情都没有做，所以一个头文件，很少量的API，就完成了任务。GLFW的开发目的是用于替代glut的，从代码和功能上来看，我想它已经完全的完成了任务。
+GLFW無愧於其號稱的lightweight的OpenGL框架，的確是除了跨平臺必要做的事情都沒有做，所以一個頭文件，很少量的API，就完成了任務。GLFW的開發目的是用於替代glut的，從代碼和功能上來看，我想它已經完全的完成了任務。
 
-一个轻量级的，开源的，跨平台的library。支持OpenGL及OpenGL ES，用来管理窗口，读取输入，处理事件等。因为OpenGL没有窗口管理的功能，所以很多热心的人写了工具来支持这些功能，比如早期的glut，现在的freeglut等。那么GLFW有何优势呢？glut太老了，最后一个版本还是90年代的。freeglut完全兼容glut，算是glut的代替品，功能齐全，但是bug太多。稳定性也不好（不是我说的啊），GLFW应运而生。
+一個輕量級的，開源的，跨平臺的library。支持OpenGL及OpenGL ES，用來管理窗口，讀取輸入，處理事件等。因為OpenGL沒有窗口管理的功能，所以很多熱心的人寫了工具來支持這些功能，比如早期的glut，現在的freeglut等。那麼GLFW有何優勢呢？glut太老了，最後一個版本還是90年代的。freeglut完全兼容glut，算是glut的代替品，功能齊全，但是bug太多。穩定性也不好（不是我說的啊），GLFW應運而生。
 
-##六、层次关系
+##六、層次關係
 
 aux->glut->freeglut->glfw
 

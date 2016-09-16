@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>linux系統編程之管道（三）：命令管道（FIFO) | Jason note</title>
+        <title>gcc編譯，ld連接 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../linux_system/linuxxi_tong_bian_cheng_zhi_cuo_wu_chu_li_ff1a_per.html" />
+    <link rel="next" href="../gcc/clang.html" />
     
     
-    <link rel="prev" href="../linux_system/linuxxi_tong_bian_cheng_zhi_guan_dao_ff08_er_ff09_.html" />
+    <link rel="prev" href="../gcc/gcan_shu_jie_shao.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="13.1.27" data-basepath=".." data-revision="Fri Sep 16 2016 13:25:58 GMT+0800 (CST)">
+    <div class="book" data-level="36.1.6" data-basepath=".." data-revision="Fri Sep 16 2016 13:25:58 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -3957,7 +3957,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="13.1.27" data-path="linux_system/linuxxi_tong_bian_cheng_zhi_guan_dao_ff08_san_ff09.html">
+        <li class="chapter " data-level="13.1.27" data-path="linux_system/linuxxi_tong_bian_cheng_zhi_guan_dao_ff08_san_ff09.html">
             
                 
                     <a href="../linux_system/linuxxi_tong_bian_cheng_zhi_guan_dao_ff08_san_ff09.html">
@@ -9868,7 +9868,7 @@
             
         </li>
     
-        <li class="chapter " data-level="36.1.6" data-path="gcc/gccbian_yi_ff0c_ld_lian_jie.html">
+        <li class="chapter active" data-level="36.1.6" data-path="gcc/gccbian_yi_ff0c_ld_lian_jie.html">
             
                 
                     <a href="../gcc/gccbian_yi_ff0c_ld_lian_jie.html">
@@ -13989,250 +13989,74 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="linux%E7%B3%BB%E7%B5%B1%E7%B7%A8%E7%A8%8B%E4%B9%8B%E7%AE%A1%E9%81%93%EF%BC%88%E4%B8%89%EF%BC%89%EF%BC%9A%E5%91%BD%E4%BB%A4%E7%AE%A1%E9%81%93%EF%BC%88fifo">linux&#x7CFB;&#x7D71;&#x7DE8;&#x7A0B;&#x4E4B;&#x7BA1;&#x9053;&#xFF08;&#x4E09;&#xFF09;&#xFF1A;&#x547D;&#x4EE4;&#x7BA1;&#x9053;&#xFF08;FIFO)</h1>
-<h2 id="%E4%B8%80%EF%BC%8C%E5%8C%BF%E5%90%8D%E7%AE%A1%E9%81%93pipe%E4%BE%B7%E9%99%90%E6%80%A7">&#x4E00;&#xFF0C;&#x533F;&#x540D;&#x7BA1;&#x9053;PIPE&#x4FB7;&#x9650;&#x6027;</h2>
-<p>&#x7BA1;&#x9053;&#x7684;&#x4E3B;&#x8981;&#x4FB7;&#x9650;&#x6027;&#x6B63;&#x9AD4;&#x73FE;&#x5728;&#x5B83;&#x7684;&#x7279;&#x9EDE;&#x4E0A;&#xFF1A;</p>
-<ul>
-<li>&#x53EA;&#x652F;&#x6301;&#x55AE;&#x5411;&#x6578;&#x64DA;&#x6D41;&#xFF1B;</li>
-<li>&#x53EA;&#x80FD;&#x7528;&#x65BC;&#x5177;&#x6709;&#x89AA;&#x7DE3;&#x95DC;&#x4FC2;&#x7684;&#x9032;&#x7A0B;&#x4E4B;&#x9593;&#xFF1B;</li>
-<li>&#x6C92;&#x6709;&#x540D;&#x5B57;&#xFF1B;</li>
-<li>&#x7BA1;&#x9053;&#x7684;&#x7DE9;&#x885D;&#x5340;&#x662F;&#x6709;&#x9650;&#x7684;&#xFF08;&#x7BA1;&#x9053;&#x5236;&#x5B58;&#x5728;&#x65BC;&#x5167;&#x5B58;&#x4E2D;&#xFF0C;&#x5728;&#x7BA1;&#x9053;&#x5275;&#x5EFA;&#x6642;&#xFF0C;&#x70BA;&#x7DE9;&#x885D;&#x5340;&#x5206;&#x914D;&#x4E00;&#x500B;&#x9801;&#x9762;&#x5927;&#x5C0F;&#xFF09;&#xFF1B;</li>
-<li>&#x7BA1;&#x9053;&#x6240;&#x50B3;&#x9001;&#x7684;&#x662F;&#x7121;&#x683C;&#x5F0F;&#x5B57;&#x7BC0;&#x6D41;&#xFF0C;&#x9019;&#x5C31;&#x8981;&#x6C42;&#x7BA1;&#x9053;&#x7684;&#x8B80;&#x51FA;&#x65B9;&#x548C;&#x5BEB;&#x5165;&#x65B9;&#x5FC5;&#x9808;&#x4E8B;&#x5148;&#x7D04;&#x5B9A;&#x597D;&#x6578;&#x64DA;&#x7684;&#x683C;&#x5F0F;&#xFF0C;&#x6BD4;&#x5982;&#x591A;&#x5C11;&#x5B57;&#x7BC0;&#x7B97;&#x4F5C;&#x4E00;&#x500B;&#x6D88;&#x606F;&#xFF08;&#x6216;&#x547D;&#x4EE4;&#x3001;&#x6216;&#x8A18;&#x9304;&#xFF09;&#x7B49;&#x7B49;&#xFF1B;</li>
-</ul>
-<p>&#x5982;&#x679C;&#x6211;&#x5011;&#x60F3;&#x5728;&#x4E0D;&#x76F8;&#x95DC;&#x7684;&#x9032;&#x7A0B;&#x4E4B;&#x9593;&#x4EA4;&#x63DB;&#x6578;&#x64DA;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;FIFO&#x6587;&#x4EF6;&#x4F86;&#x505A;&#x9019;&#x9805;&#x5DE5;&#x4F5C;&#xFF0C;&#x5B83;&#x7D93;&#x5E38;&#x88AB;&#x7A31;&#x70BA;&#x547D;&#x540D;&#x7BA1;&#x9053;&#xFF0C;&#x662F;&#x4E00;&#x7A2E;&#x7279;&#x6B8A;&#x985E;&#x578B;&#x7684;&#x6587;&#x4EF6;&#x3002;</p>
-<h2 id="%E4%BA%8C%EF%BC%8C%E5%91%BD%E5%90%8D%E7%AE%A1%E9%81%93fifo%E3%80%82">&#x4E8C;&#xFF0C;&#x547D;&#x540D;&#x7BA1;&#x9053;FIFO&#x3002;</h2>
-<h3 id="2-1-%E6%9C%89%E5%90%8D%E7%AE%A1%E9%81%93%E7%9B%B8%E9%97%9C%E7%9A%84%E9%97%9C%E9%8D%B5%E6%A6%82%E5%BF%B5">2.1 &#x6709;&#x540D;&#x7BA1;&#x9053;&#x76F8;&#x95DC;&#x7684;&#x95DC;&#x9375;&#x6982;&#x5FF5;</h3>
-<p>&#x7BA1; &#x9053;&#x61C9;&#x7528;&#x7684;&#x4E00;&#x500B;&#x91CD;&#x5927;&#x9650;&#x5236;&#x662F;&#x5B83;&#x6C92;&#x6709;&#x540D;&#x5B57;&#xFF0C;&#x56E0;&#x6B64;&#xFF0C;&#x53EA;&#x80FD;&#x7528;&#x65BC;&#x5177;&#x6709;&#x89AA;&#x7DE3;&#x95DC;&#x4FC2;&#x7684;&#x9032;&#x7A0B;&#x9593;&#x901A;&#x4FE1;&#xFF0C;&#x5728;&#x6709;&#x540D;&#x7BA1;&#x9053;&#xFF08;named pipe&#x6216;FIFO&#xFF09;&#x63D0;&#x51FA;&#x5F8C;&#xFF0C;&#x8A72;&#x9650;&#x5236;&#x5F97;&#x5230;&#x4E86;&#x514B;&#x670D;&#x3002;FIFO&#x4E0D;&#x540C;&#x65BC;&#x7BA1;&#x9053;&#x4E4B;&#x8655;&#x5728;&#x65BC;&#x5B83;&#x63D0;&#x4F9B;&#x4E00;&#x500B;&#x8DEF;&#x5F91;&#x540D;&#x8207;&#x4E4B;&#x95DC;&#x806F;&#xFF0C;&#x4EE5;FIFO&#x7684;&#x6587;&#x4EF6;&#x5F62;&#x5F0F;&#x5B58;&#x5728;&#x65BC;&#x6587;&#x4EF6;&#x7CFB;&#x7D71;&#x4E2D;&#x3002;&#x9019;&#x6A23;&#xFF0C;&#x5373; &#x4F7F;&#x8207;FIFO&#x7684;&#x5275;&#x5EFA;&#x9032;&#x7A0B;&#x4E0D;&#x5B58;&#x5728;&#x89AA;&#x7DE3;&#x95DC;&#x4FC2;&#x7684;&#x9032;&#x7A0B;&#xFF0C;&#x53EA;&#x8981;&#x53EF;&#x4EE5;&#x8A2A;&#x554F;&#x8A72;&#x8DEF;&#x5F91;&#xFF0C;&#x5C31;&#x80FD;&#x5920;&#x5F7C;&#x6B64;&#x901A;&#x904E;FIFO&#x76F8;&#x4E92;&#x901A;&#x4FE1;&#xFF08;&#x80FD;&#x5920;&#x8A2A;&#x554F;&#x8A72;&#x8DEF;&#x5F91;&#x7684;&#x9032;&#x7A0B;&#x4EE5;&#x53CA;FIFO&#x7684;&#x5275;&#x5EFA;&#x9032;&#x7A0B;&#x4E4B; &#x9593;&#xFF09;&#xFF0C;&#x56E0;&#x6B64;&#xFF0C;&#x901A;&#x904E;FIFO&#x4E0D;&#x76F8;&#x95DC;&#x7684;&#x9032;&#x7A0B;&#x4E5F;&#x80FD;&#x4EA4;&#x63DB;&#x6578;&#x64DA;&#x3002;&#x503C;&#x5F97;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C;FIFO&#x56B4;&#x683C;&#x9075;&#x5FAA;&#x5148;&#x9032;&#x5148;&#x51FA;&#xFF08;first in first out&#xFF09;&#xFF0C;&#x5C0D;&#x7BA1;&#x9053;&#x53CA;FIFO&#x7684;&#x8B80;&#x7E3D;&#x662F;&#x5F9E;&#x958B;&#x59CB;&#x8655;&#x8FD4;&#x56DE;&#x6578;&#x64DA;&#xFF0C;&#x5C0D;&#x5B83;&#x5011;&#x7684;&#x5BEB;&#x5247;&#x628A;&#x6578;&#x64DA;&#x6DFB;&#x52A0;&#x5230;&#x672B;&#x5C3E;&#x3002;&#x5B83;&#x5011;&#x4E0D;&#x652F;&#x6301;&#x8AF8;&#x5982;lseek()&#x7B49;&#x6587;&#x4EF6;&#x5B9A;&#x4F4D;&#x64CD;&#x4F5C;&#x3002;</p>
-<h3 id="2-2%E6%9C%89%E5%90%8D%E7%AE%A1%E9%81%93%E7%9A%84%E5%89%B5%E5%BB%BA">2.2&#x6709;&#x540D;&#x7BA1;&#x9053;&#x7684;&#x5275;&#x5EFA;</h3>
-<p>&#x547D;&#x540D;&#x7BA1;&#x9053;&#x53EF;&#x4EE5;&#x5F9E;&#x547D;&#x4EE4;&#x884C;&#x4E0A;&#x5275;&#x5EFA;&#xFF0C;&#x547D;&#x4EE4;&#x884C;&#x65B9;&#x6CD5;&#x662F;&#x4F7F;&#x7528;&#x4E0B;&#x9762;&#x9019;&#x500B;&#x547D;&#x4EE4;&#xFF1A;</p>
-<p>$ mkfifo filename</p>
-<p>&#x547D;&#x540D;&#x7BA1;&#x9053;&#x4E5F;&#x53EF;&#x4EE5;&#x5F9E;&#x7A0B;&#x5E8F;&#x88E1;&#x5275;&#x5EFA;&#xFF0C;&#x76F8;&#x95DC;&#x51FD;&#x6578;&#x6709;&#xFF1A;</p>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/stat.h&gt;</span></span>
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">mkfifo</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> * pathname, mode_t mode)</span>
-</span></code></pre>
-<p>&#x8A72;&#x51FD;&#x6578;&#x7684;&#x7B2C;&#x4E00;&#x500B;&#x53C3;&#x6578;&#x662F;&#x4E00;&#x500B;&#x666E;&#x901A;&#x7684;&#x8DEF;&#x5F91;&#x540D;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x5275;&#x5EFA; &#x5F8C;FIFO&#x7684;&#x540D;&#x5B57;&#x3002;&#x7B2C;&#x4E8C;&#x500B;&#x53C3;&#x6578;&#x8207;&#x6253;&#x958B;&#x666E;&#x901A;&#x6587;&#x4EF6;&#x7684;open()&#x51FD;&#x6578;&#x4E2D;&#x7684;mode &#x53C3;&#x6578;&#x76F8;&#x540C;&#x3002; &#x5982;&#x679C;mkfifo&#x7684;&#x7B2C;&#x4E00;&#x500B;&#x53C3;&#x6578;&#x662F;&#x4E00;&#x500B;&#x5DF2;&#x7D93;&#x5B58;&#x5728;&#x7684;&#x8DEF;&#x5F91;&#x540D;&#x6642;&#xFF0C;&#x6703;&#x8FD4;&#x56DE;EEXIST&#x932F;&#x8AA4;&#xFF0C;&#x6240;&#x4EE5;&#x4E00;&#x822C;&#x5178;&#x578B;&#x7684;&#x8ABF;&#x7528;&#x4EE3;&#x78BC;&#x9996;&#x5148;&#x6703;&#x6AA2;&#x67E5;&#x662F;&#x5426;&#x8FD4;&#x56DE;&#x8A72;&#x932F;&#x8AA4;&#xFF0C;&#x5982;&#x679C;&#x78BA;&#x5BE6;&#x8FD4;&#x56DE;&#x8A72;&#x932F; &#x8AA4;&#xFF0C;&#x90A3;&#x9EBC;&#x53EA;&#x8981;&#x8ABF;&#x7528;&#x6253;&#x958B;FIFO&#x7684;&#x51FD;&#x6578;&#x5C31;&#x53EF;&#x4EE5;&#x4E86;&#x3002;&#x4E00;&#x822C;&#x6587;&#x4EF6;&#x7684;I/O&#x51FD;&#x6578;&#x90FD;&#x53EF;&#x4EE5;&#x7528;&#x65BC;FIFO&#xFF0C;&#x5982;close&#x3001;read&#x3001;write&#x7B49;&#x7B49;&#x3002;</p>
-<p>man&#x5E6B;&#x52A9;&#x8AAA;&#x660E;&#xFF1A;</p>
-<pre><code class="lang-c">DESCRIPTION        
-       mkfifo() makes a FIFO special file with name pathname.  mode
-       specifies the FIFO&apos;s permissions.  It is modified by the process&apos;s
-       umask in the usual way: the permissions of the created file are (mode
-       &amp; ~umask).
-
-       A FIFO special file is similar to a pipe, except that it is created
-       in a different way.  Instead of being an anonymous communications
-       channel, a FIFO special file is entered into the file system by
-       calling mkfifo().
-
-       Once you have created a FIFO special file in this way, any process
-       can open it for reading or writing, in the same way as an ordinary
-       file.  However, it has to be open at both ends simultaneously before
-       you can proceed to do any input or output operations on it.  Opening
-       a FIFO for reading normally blocks until some other process opens the
-       same FIFO for writing, and vice versa.  See fifo(7) for nonblocking
-       handling of FIFO special files.
-RETURN VALUE        
-       On success mkfifo() returns 0.  In the case of an error, -1 is
-       returned (in which case, errno is set appropriately).
-</code></pre>
-<h3 id="2-3%E6%9C%89%E5%90%8D%E7%AE%A1%E9%81%93%E7%9A%84%E6%89%93%E9%96%8B%E8%A6%8F%E5%89%87%EF%BC%88%E8%88%87%E5%8C%BF%E5%90%8D%E7%AE%A1%E9%81%93%E4%B8%80%E6%A8%A3%EF%BC%89">2.3&#x6709;&#x540D;&#x7BA1;&#x9053;&#x7684;&#x6253;&#x958B;&#x898F;&#x5247;&#xFF08;&#x8207;&#x533F;&#x540D;&#x7BA1;&#x9053;&#x4E00;&#x6A23;&#xFF09;</h3>
-<p>FIFO&#xFF08;&#x547D;&#x540D;&#x7BA1;&#x9053;&#xFF09;&#x8207;pipe&#xFF08;&#x533F;&#x540D;&#x7BA1;&#x9053;&#xFF09;&#x4E4B;&#x9593;&#x552F;&#x4E00;&#x7684;&#x5340;&#x5225;&#x5728;&#x5B83;&#x5011;&#x5275;&#x5EFA;&#x8207;&#x6253;&#x958B;&#x7684;&#x65B9;&#x5F0F;&#x4E0D;&#x540C;&#xFF0C;&#x4E00;&#x91CF;&#x9019;&#x4E9B;&#x5DE5;&#x4F5C;&#x5B8C;&#x6210;&#x4E4B;&#x5F8C;&#xFF0C;&#x5B83;&#x5011;&#x5177;&#x6709;&#x76F8;&#x540C;&#x7684;&#x8A9E;&#x7FA9;&#x3002;</p>
-<p>man&#x5E6B;&#x52A9;&#x8AAA;&#x660E;&#xFF1A;The only difference between pipes and FIFOs is the manner in which they are created and opened. Once these tasks have been accomplished, I/O on pipes and FIFOs has exactly the same semantics&#x3002;</p>
-<p>&#x6709;&#x540D;&#x7BA1;&#x9053;&#x6BD4;&#x7BA1;&#x9053;&#x591A;&#x4E86;&#x4E00;&#x500B;&#x6253;&#x958B;&#x64CD;&#x4F5C;&#xFF1A;open&#x3002;</p>
-<p>FIFO&#x7684;&#x6253;&#x958B;&#x898F;&#x5247;&#xFF1A;</p>
-<p><code>&#x5982;&#x679C;&#x7576;&#x524D;&#x6253;&#x958B;&#x64CD;&#x4F5C;&#x662F;&#x70BA;&#x8B80;&#x800C;&#x6253;&#x958B;FIFO&#x6642;&#xFF0C;&#x82E5;&#x5DF2;&#x7D93;&#x6709;&#x76F8;&#x61C9;&#x9032;&#x7A0B;&#x70BA;&#x5BEB;&#x800C;&#x6253;&#x958B;&#x8A72;FIFO&#xFF0C;&#x5247;&#x7576;&#x524D;&#x6253;&#x958B;&#x64CD;&#x4F5C;&#x5C07;&#x6210;&#x529F;&#x8FD4;&#x56DE;&#xFF1B;&#x5426;&#x5247;&#xFF0C;&#x53EF;&#x80FD;&#x963B;&#x585E;&#x76F4;&#x5230;&#x6709;&#x76F8;&#x61C9;&#x9032;&#x7A0B;&#x70BA;&#x5BEB;&#x800C;&#x6253;&#x958B;&#x8A72;FIFO&#xFF08;&#x7576;&#x524D;&#x6253;&#x958B;&#x64CD;&#x4F5C;&#x8A2D;&#x7F6E;&#x4E86;&#x963B;&#x585E;&#x6A19;&#x8A8C;&#xFF09;&#xFF1B;&#x6216;&#x8005;&#xFF0C;&#x6210;&#x529F;&#x8FD4;&#x56DE;&#xFF08;&#x7576;&#x524D;&#x6253;&#x958B;&#x64CD;&#x4F5C;&#x6C92;&#x6709;&#x8A2D;&#x7F6E;&#x963B;&#x585E;&#x6A19;&#x8A8C;&#xFF09;&#x3002;</code></p>
-<p><code>&#x5982;&#x679C;&#x7576;&#x524D;&#x6253;&#x958B;&#x64CD;&#x4F5C;&#x662F;&#x70BA;&#x5BEB;&#x800C;&#x6253;&#x958B;FIFO&#x6642;&#xFF0C;&#x5982;&#x679C;&#x5DF2;&#x7D93;&#x6709;&#x76F8;&#x61C9;&#x9032;&#x7A0B;&#x70BA;&#x8B80;&#x800C;&#x6253;&#x958B;&#x8A72;FIFO&#xFF0C;&#x5247;&#x7576;&#x524D;&#x6253;&#x958B;&#x64CD;&#x4F5C;&#x5C07;&#x6210;&#x529F;&#x8FD4;&#x56DE;&#xFF1B;&#x5426;&#x5247;&#xFF0C;&#x53EF;&#x80FD;&#x963B;&#x585E;&#x76F4;&#x5230;&#x6709;&#x76F8;&#x61C9;&#x9032;&#x7A0B;&#x70BA;&#x8B80;&#x800C;&#x6253;&#x958B;&#x8A72;FIFO&#xFF08;&#x7576;&#x524D;&#x6253;&#x958B;&#x64CD;&#x4F5C;&#x8A2D;&#x7F6E;&#x4E86;&#x963B;&#x585E;&#x6A19;&#x8A8C;&#xFF09;&#xFF1B;&#x6216;&#x8005;&#xFF0C;&#x8FD4;&#x56DE;ENXIO&#x932F;&#x8AA4;&#xFF08;&#x7576;&#x524D;&#x6253;&#x958B;&#x64CD;&#x4F5C;&#x6C92;&#x6709;&#x8A2D;&#x7F6E;&#x963B;&#x585E;&#x6A19;&#x8A8C;&#xFF09;&#x3002;</code></p>
-<h3 id="2-4%E6%9C%89%E5%90%8D%E7%AE%A1%E9%81%93%E7%9A%84%E8%AE%80%E5%AF%AB%E8%A6%8F%E5%89%87">2.4&#x6709;&#x540D;&#x7BA1;&#x9053;&#x7684;&#x8B80;&#x5BEB;&#x898F;&#x5247;</h3>
-<h4 id="%E5%BE%9Efifo%E4%B8%AD%E8%AE%80%E5%8F%96%E6%95%B8%E6%93%9A%EF%BC%9A">&#x5F9E;FIFO&#x4E2D;&#x8B80;&#x53D6;&#x6578;&#x64DA;&#xFF1A;</h4>
-<p>&#x7D04;&#x5B9A;&#xFF1A;&#x5982;&#x679C;&#x4E00;&#x500B;&#x9032;&#x7A0B;&#x70BA;&#x4E86;&#x5F9E;FIFO&#x4E2D;&#x8B80;&#x53D6;&#x6578;&#x64DA;&#x800C;&#x963B;&#x585E;&#x6253;&#x958B;FIFO&#xFF0C;&#x90A3;&#x9EBC;&#x7A31;&#x8A72;&#x9032;&#x7A0B;&#x5167;&#x7684;&#x8B80;&#x64CD;&#x4F5C;&#x70BA;&#x8A2D;&#x7F6E;&#x4E86;&#x963B;&#x585E;&#x6A19;&#x8A8C;&#x7684;&#x8B80;&#x64CD;&#x4F5C;&#x3002;</p>
-<ul>
-<li><p>&#x5982;&#x679C;&#x6709;&#x9032;&#x7A0B;&#x5BEB;&#x6253;&#x958B;FIFO&#xFF0C;&#x4E14;&#x7576;&#x524D;FIFO&#x5167;&#x6C92;&#x6709;&#x6578;&#x64DA;&#xFF0C;&#x5247;&#x5C0D;&#x65BC;&#x8A2D;&#x7F6E;&#x4E86;&#x963B;&#x585E;&#x6A19;&#x8A8C;&#x7684;&#x8B80;&#x64CD;&#x4F5C;&#x4F86;&#x8AAA;&#xFF0C;&#x5C07;&#x4E00;&#x76F4;&#x963B;&#x585E;&#x3002;&#x5C0D;&#x65BC;&#x6C92;&#x6709;&#x8A2D;&#x7F6E;&#x963B;&#x585E;&#x6A19;&#x8A8C;&#x8B80;&#x64CD;&#x4F5C;&#x4F86;&#x8AAA;&#x5247;&#x8FD4;&#x56DE;-1&#xFF0C;&#x7576;&#x524D;errno&#x503C;&#x70BA;EAGAIN&#xFF0C;&#x63D0;&#x9192;&#x4EE5;&#x5F8C;&#x518D;&#x8A66;&#x3002;</p>
-</li>
-<li><p>&#x5C0D;&#x65BC;&#x8A2D;&#x7F6E;&#x4E86;&#x963B;&#x585E;&#x6A19;&#x8A8C;&#x7684;&#x8B80;&#x64CD;&#x4F5C;&#x8AAA;&#xFF0C;&#x9020;&#x6210;&#x963B;&#x585E;&#x7684;&#x539F;&#x56E0;&#x6709;&#x5169;&#x7A2E;&#xFF1A;&#x7576;&#x524D;FIFO&#x5167;&#x6709;&#x6578;&#x64DA;&#xFF0C;&#x4F46;&#x6709;&#x5176;&#x5B83;&#x9032;&#x7A0B;&#x5728;&#x8B80;&#x9019;&#x4E9B;&#x6578;&#x64DA;&#xFF1B;&#x53E6;&#x5916;&#x5C31;&#x662F;FIFO&#x5167;&#x6C92;&#x6709;&#x6578;&#x64DA;&#x3002;&#x89E3;&#x963B;&#x585E;&#x7684;&#x539F;&#x56E0;&#x5247;&#x662F;FIFO&#x4E2D;&#x6709;&#x65B0;&#x7684;&#x6578;&#x64DA;&#x5BEB;&#x5165;&#xFF0C;&#x4E0D;&#x8AD6;&#x4FE1;&#x5BEB;&#x5165;&#x6578;&#x64DA;&#x91CF;&#x7684;&#x5927;&#x5C0F;&#xFF0C;&#x4E5F;&#x4E0D;&#x8AD6;&#x8B80;&#x64CD;&#x4F5C;&#x8ACB;&#x6C42;&#x591A;&#x5C11;&#x6578;&#x64DA;&#x91CF;&#x3002;</p>
-</li>
-<li><p>&#x8B80;&#x6253;&#x958B;&#x7684;&#x963B;&#x585E;&#x6A19;&#x8A8C;&#x53EA;&#x5C0D;&#x672C;&#x9032;&#x7A0B;&#x7B2C;&#x4E00;&#x500B;&#x8B80;&#x64CD;&#x4F5C;&#x65BD;&#x52A0;&#x4F5C;&#x7528;&#xFF0C;&#x5982;&#x679C;&#x672C;&#x9032;&#x7A0B;&#x5167;&#x6709;&#x591A;&#x500B;&#x8B80;&#x64CD;&#x4F5C;&#x5E8F;&#x5217;&#xFF0C;&#x5247;&#x5728;&#x7B2C;&#x4E00;&#x500B;&#x8B80;&#x64CD;&#x4F5C;&#x88AB;&#x559A;&#x9192;&#x4E26;&#x5B8C;&#x6210;&#x8B80;&#x64CD;&#x4F5C;&#x5F8C;&#xFF0C;&#x5176;&#x5B83;&#x5C07;&#x8981;&#x57F7;&#x884C;&#x7684;&#x8B80;&#x64CD;&#x4F5C;&#x5C07;&#x4E0D;&#x518D;&#x963B;&#x585E;&#xFF0C;&#x5373;&#x4F7F;&#x5728;&#x57F7;&#x884C;&#x8B80;&#x64CD;&#x4F5C;&#x6642;&#xFF0C;FIFO&#x4E2D;&#x6C92;&#x6709;&#x6578;&#x64DA;&#x4E5F;&#x4E00;&#x6A23;&#xFF08;&#x6B64;&#x6642;&#xFF0C;&#x8B80;&#x64CD;&#x4F5C;&#x8FD4;&#x56DE;0&#xFF09;&#x3002;</p>
-</li>
-<li><p>&#x5982;&#x679C;&#x6C92;&#x6709;&#x9032;&#x7A0B;&#x5BEB;&#x6253;&#x958B;FIFO&#xFF0C;&#x5247;&#x8A2D;&#x7F6E;&#x4E86;&#x963B;&#x585E;&#x6A19;&#x8A8C;&#x7684;&#x8B80;&#x64CD;&#x4F5C;&#x6703;&#x963B;&#x585E;&#x3002;
-&#x6CE8;&#xFF1A;&#x5982;&#x679C;FIFO&#x4E2D;&#x6709;&#x6578;&#x64DA;&#xFF0C;&#x5247;&#x8A2D;&#x7F6E;&#x4E86;&#x963B;&#x585E;&#x6A19;&#x8A8C;&#x7684;&#x8B80;&#x64CD;&#x4F5C;&#x4E0D;&#x6703;&#x56E0;&#x70BA;FIFO&#x4E2D;&#x7684;&#x5B57;&#x7BC0;&#x6578;&#x5C0F;&#x65BC;&#x8ACB;&#x6C42;&#x8B80;&#x7684;&#x5B57;&#x7BC0;&#x6578;&#x800C;&#x963B;&#x585E;&#xFF0C;&#x6B64;&#x6642;&#xFF0C;&#x8B80;&#x64CD;&#x4F5C;&#x6703;&#x8FD4;&#x56DE;FIFO&#x4E2D;&#x73FE;&#x6709;&#x7684;&#x6578;&#x64DA;&#x91CF;&#x3002;</p>
-</li>
-</ul>
-<h4 id="%E5%90%91fifo%E4%B8%AD%E5%AF%AB%E5%85%A5%E6%95%B8%E6%93%9A%EF%BC%9A">&#x5411;FIFO&#x4E2D;&#x5BEB;&#x5165;&#x6578;&#x64DA;&#xFF1A;</h4>
-<p>&#x7D04;&#x5B9A;&#xFF1A;&#x5982;&#x679C;&#x4E00;&#x500B;&#x9032;&#x7A0B;&#x70BA;&#x4E86;&#x5411;FIFO&#x4E2D;&#x5BEB;&#x5165;&#x6578;&#x64DA;&#x800C;&#x963B;&#x585E;&#x6253;&#x958B;FIFO&#xFF0C;&#x90A3;&#x9EBC;&#x7A31;&#x8A72;&#x9032;&#x7A0B;&#x5167;&#x7684;&#x5BEB;&#x64CD;&#x4F5C;&#x70BA;&#x8A2D;&#x7F6E;&#x4E86;&#x963B;&#x585E;&#x6A19;&#x8A8C;&#x7684;&#x5BEB;&#x64CD;&#x4F5C;&#x3002;</p>
-<p>&#x5C0D;&#x65BC;&#x8A2D;&#x7F6E;&#x4E86;&#x963B;&#x585E;&#x6A19;&#x8A8C;&#x7684;&#x5BEB;&#x64CD;&#x4F5C;&#xFF1A;</p>
-<ul>
-<li><p>&#x7576;&#x8981;&#x5BEB;&#x5165;&#x7684;&#x6578;&#x64DA;&#x91CF;&#x4E0D;&#x5927;&#x65BC;PIPE_BUF&#x6642;&#xFF0C;linux&#x5C07;&#x4FDD;&#x8B49;&#x5BEB;&#x5165;&#x7684;&#x539F;&#x5B50;&#x6027;&#x3002;&#x5982;&#x679C;&#x6B64;&#x6642;&#x7BA1;&#x9053;&#x7A7A;&#x9592;&#x7DE9;&#x885D;&#x5340;&#x4E0D;&#x8DB3;&#x4EE5;&#x5BB9;&#x7D0D;&#x8981;&#x5BEB;&#x5165;&#x7684;&#x5B57;&#x7BC0;&#x6578;&#xFF0C;&#x5247;&#x9032;&#x5165;&#x7761;&#x7720;&#xFF0C;&#x76F4;&#x5230;&#x7576;&#x7DE9;&#x885D;&#x5340;&#x4E2D;&#x80FD;&#x5920;&#x5BB9;&#x7D0D;&#x8981;&#x5BEB;&#x5165;&#x7684;&#x5B57;&#x7BC0;&#x6578;&#x6642;&#xFF0C;&#x624D;&#x958B;&#x59CB;&#x9032;&#x884C;&#x4E00;&#x6B21;&#x6027;&#x5BEB;&#x64CD;&#x4F5C;&#x3002;</p>
-</li>
-<li><p>&#x7576;&#x8981;&#x5BEB;&#x5165;&#x7684;&#x6578;&#x64DA;&#x91CF;&#x5927;&#x65BC;PIPE_BUF&#x6642;&#xFF0C;linux&#x5C07;&#x4E0D;&#x518D;&#x4FDD;&#x8B49;&#x5BEB;&#x5165;&#x7684;&#x539F;&#x5B50;&#x6027;&#x3002;FIFO&#x7DE9;&#x885D;&#x5340;&#x4E00;&#x6709;&#x7A7A;&#x9592;&#x5340;&#x57DF;&#xFF0C;&#x5BEB;&#x9032;&#x7A0B;&#x5C31;&#x6703;&#x8A66;&#x5716;&#x5411;&#x7BA1;&#x9053;&#x5BEB;&#x5165;&#x6578;&#x64DA;&#xFF0C;&#x5BEB;&#x64CD;&#x4F5C;&#x5728;&#x5BEB;&#x5B8C;&#x6240;&#x6709;&#x8ACB;&#x6C42;&#x5BEB;&#x7684;&#x6578;&#x64DA;&#x5F8C;&#x8FD4;&#x56DE;&#x3002;
-&#x5C0D;&#x65BC;&#x6C92;&#x6709;&#x8A2D;&#x7F6E;&#x963B;&#x585E;&#x6A19;&#x8A8C;&#x7684;&#x5BEB;&#x64CD;&#x4F5C;&#xFF1A;</p>
-</li>
-<li><p>&#x7576;&#x8981;&#x5BEB;&#x5165;&#x7684;&#x6578;&#x64DA;&#x91CF;&#x5927;&#x65BC;PIPE_BUF&#x6642;&#xFF0C;linux&#x5C07;&#x4E0D;&#x518D;&#x4FDD;&#x8B49;&#x5BEB;&#x5165;&#x7684;&#x539F;&#x5B50;&#x6027;&#x3002;&#x5728;&#x5BEB;&#x6EFF;&#x6240;&#x6709;FIFO&#x7A7A;&#x9592;&#x7DE9;&#x885D;&#x5340;&#x5F8C;&#xFF0C;&#x5BEB;&#x64CD;&#x4F5C;&#x8FD4;&#x56DE;&#x3002;</p>
-</li>
-<li><p>&#x7576;&#x8981;&#x5BEB;&#x5165;&#x7684;&#x6578;&#x64DA;&#x91CF;&#x4E0D;&#x5927;&#x65BC;PIPE_BUF&#x6642;&#xFF0C;linux&#x5C07;&#x4FDD;&#x8B49;&#x5BEB;&#x5165;&#x7684;&#x539F;&#x5B50;&#x6027;&#x3002;&#x5982;&#x679C;&#x7576;&#x524D;FIFO&#x7A7A;&#x9592;&#x7DE9;&#x885D;&#x5340;&#x80FD;&#x5920;&#x5BB9;&#x7D0D;&#x8ACB;&#x6C42;&#x5BEB;&#x5165;&#x7684;&#x5B57;&#x7BC0;&#x6578;&#xFF0C;&#x5BEB;&#x5B8C;&#x5F8C;&#x6210;&#x529F;&#x8FD4;&#x56DE;&#xFF1B;&#x5982;&#x679C;&#x7576;&#x524D;FIFO&#x7A7A;&#x9592;&#x7DE9;&#x885D;&#x5340;&#x4E0D;&#x80FD;&#x5920;&#x5BB9;&#x7D0D;&#x8ACB;&#x6C42;&#x5BEB;&#x5165;&#x7684;&#x5B57;&#x7BC0;&#x6578;&#xFF0C;&#x5247;&#x8FD4;&#x56DE;EAGAIN&#x932F;&#x8AA4;&#xFF0C;&#x63D0;&#x9192;&#x4EE5;&#x5F8C;&#x518D;&#x5BEB;&#xFF1B;</p>
-</li>
-</ul>
-<h2 id="%E4%B8%89%EF%BC%8Cfifo%E4%BD%BF%E7%94%A8">&#x4E09;&#xFF0C;FIFO&#x4F7F;&#x7528;</h2>
-<p>&#x793A;&#x4F8B;&#x4E00;&#xFF1A;&#x5275;&#x5EFA;FIFO&#x6587;&#x4EF6;</p>
+                        <h1 id="gcc%E7%B7%A8%E8%AD%AF%EF%BC%8Cld%E9%80%A3%E6%8E%A5">gcc&#x7DE8;&#x8B6F;&#xFF0C;ld&#x9023;&#x63A5;</h1>
 <pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/stat.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span>
 
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span> **argv)</span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
 </span>{
-    <span class="hljs-keyword">if</span>(argc != <span class="hljs-number">2</span>){
-        <span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>,<span class="hljs-string">&quot;usage:%s fifoname\n&quot;</span>,argv[<span class="hljs-number">0</span>]);
-        <span class="hljs-built_in">exit</span>(EXIT_FAILURE);
-    }
-    <span class="hljs-keyword">if</span>(mkfifo(argv[<span class="hljs-number">1</span>],<span class="hljs-number">0644</span>) == -<span class="hljs-number">1</span>){
-        perror(<span class="hljs-string">&quot;mkfifo error&quot;</span>);
-        <span class="hljs-built_in">exit</span>(EXIT_FAILURE);
-    }
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;creat FIFO success\n&quot;</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Hello world\n&quot;</span>);
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
 </code></pre>
-<p><img src="images/mickole/16110333-a7fa36b526834f2cb296d40733acb4e0.png" alt=""></p>
-<p>&#x793A;&#x4F8B;&#x4E8C;&#xFF1A;<code>&#x5982;&#x679C;&#x7576;&#x524D;&#x6253;&#x958B;&#x64CD;&#x4F5C;&#x662F;&#x70BA;&#x8B80;&#x800C;&#x6253;&#x958B;FIFO&#x6642;&#xFF0C;&#x82E5;&#x5DF2;&#x7D93;&#x6709;&#x76F8;&#x61C9;&#x9032;&#x7A0B;&#x70BA;&#x5BEB;&#x800C;&#x6253;&#x958B;&#x8A72;FIFO&#xFF0C;&#x5247;&#x7576;&#x524D;&#x6253;&#x958B;&#x64CD;&#x4F5C;&#x5C07;&#x6210;&#x529F;&#x8FD4;&#x56DE;&#xFF1B;&#x5426;&#x5247;&#xFF0C;&#x53EF;&#x80FD;&#x963B;&#x585E;&#x76F4;&#x5230;&#x6709;&#x76F8;&#x61C9;&#x9032;&#x7A0B;&#x70BA;&#x5BEB;&#x800C;&#x6253;&#x958B;&#x8A72;FIFO&#xFF08;&#x7576;&#x524D;&#x6253;&#x958B;&#x64CD;&#x4F5C;&#x8A2D;&#x7F6E;&#x4E86;&#x963B;&#x585E;&#x6A19;&#x8A8C;&#xFF09;&#xFF1B;&#x6216;&#x8005;&#xFF0C;&#x6210;&#x529F;&#x8FD4;&#x56DE;&#xFF08;&#x7576;&#x524D;&#x6253;&#x958B;&#x64CD;&#x4F5C;&#x6C92;&#x6709;&#x8A2D;&#x7F6E;&#x963B;&#x585E;&#x6A19;&#x8A8C;&#xFF09;&#x3002;</code></p>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/stat.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;fcntl.h&gt;</span></span>
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span> **argv)</span>
-</span>{
-
-    <span class="hljs-keyword">int</span> fd;
-
-    <span class="hljs-comment">//fd = open(&quot;mypipe&quot;,O_RDONLY| O_NONBLOCK);//&#x975E;&#x963B;&#x585E;&#x6A21;&#x5F0F;&#x6253;&#x958B;</span>
-    fd = open(<span class="hljs-string">&quot;mypipe&quot;</span>,O_RDONLY);<span class="hljs-comment">//&#x9ED8;&#x8A8D;&#x662F;&#x963B;&#x585E;&#x6A21;&#x5F0F;&#x6253;&#x958B;</span>
-    <span class="hljs-keyword">if</span>(fd == -<span class="hljs-number">1</span>){
-        perror(<span class="hljs-string">&quot;open error&quot;</span>);
-        <span class="hljs-built_in">exit</span>(EXIT_FAILURE);
-    }
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;read open  FIFO success\n&quot;</span>);
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-}
+<pre><code class="lang-sh">gcc -v hello.c -o hello
 </code></pre>
-<p>&#x7D50;&#x679C;&#xFF1A;</p>
-<p><img src="images/mickole/16110334-74dbca8ee448490984498b7c49fe114d.png" alt=""></p>
-<p>&#x7B2C;&#x4E00;&#x6B21;&#x4EE5;&#x975E;&#x963B;&#x585E;&#x6253;&#x958B;</p>
-<p>&#x7B2C;&#x4E8C;&#x6B21;&#x4EE5;&#x963B;&#x585E;&#x6A21;&#x5F0F;&#x6253;&#x958B;</p>
-<p>&#x793A;&#x4F8B;&#x4E09;&#xFF1A;<code>&#x5982;&#x679C;&#x7576;&#x524D;&#x6253;&#x958B;&#x64CD;&#x4F5C;&#x662F;&#x70BA;&#x5BEB;&#x800C;&#x6253;&#x958B;FIFO&#x6642;&#xFF0C;&#x5982;&#x679C;&#x5DF2;&#x7D93;&#x6709;&#x76F8;&#x61C9;&#x9032;&#x7A0B;&#x70BA;&#x8B80;&#x800C;&#x6253;&#x958B;&#x8A72;FIFO&#xFF0C;&#x5247;&#x7576;&#x524D;&#x6253;&#x958B;&#x64CD;&#x4F5C;&#x5C07;&#x6210;&#x529F;&#x8FD4;&#x56DE;&#xFF1B;&#x5426;&#x5247;&#xFF0C;&#x53EF;&#x80FD;&#x963B;&#x585E;&#x76F4;&#x5230;&#x6709;&#x76F8;&#x61C9;&#x9032;&#x7A0B;&#x70BA;&#x8B80;&#x800C;&#x6253;&#x958B;&#x8A72;FIFO&#xFF08;&#x7576;&#x524D;&#x6253;&#x958B;&#x64CD;&#x4F5C;&#x8A2D;&#x7F6E;&#x4E86;&#x963B;&#x585E;&#x6A19;&#x8A8C;&#xFF09;&#xFF1B;&#x6216;&#x8005;&#xFF0C;&#x8FD4;&#x56DE;ENXIO&#x932F;&#x8AA4;&#xFF08;&#x7576;&#x524D;&#x6253;&#x958B;&#x64CD;&#x4F5C;&#x6C92;&#x6709;&#x8A2D;&#x7F6E;&#x963B;&#x585E;&#x6A19;&#x8A8C;&#xFF09;&#x3002;</code></p>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/stat.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;fcntl.h&gt;</span></span>
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span> **argv)</span>
-</span>{
-
-    <span class="hljs-keyword">int</span> fd;
-
-    <span class="hljs-comment">//fd = open(&quot;mypipe&quot;,O_WRONLY| O_NONBLOCK);//&#x975E;&#x963B;&#x585E;&#x6A21;&#x5F0F;&#x6253;&#x958B;</span>
-    fd = open(<span class="hljs-string">&quot;mypipe&quot;</span>,O_WRONLY);<span class="hljs-comment">//&#x9ED8;&#x8A8D;&#x662F;&#x963B;&#x585E;&#x6A21;&#x5F0F;&#x6253;&#x958B;</span>
-    <span class="hljs-keyword">if</span>(fd == -<span class="hljs-number">1</span>){
-        perror(<span class="hljs-string">&quot;open error&quot;</span>);
-        <span class="hljs-built_in">exit</span>(EXIT_FAILURE);
-    }
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;read open  FIFO success\n&quot;</span>);
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-}
+<pre><code class="lang-sh">Using built-in specs.
+COLLECT_GCC=gcc
+COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/lto-wrapper
+Target: x86_64-linux-gnu
+Configured with: ../src/configure -v --with-pkgversion=<span class="hljs-string">&apos;Ubuntu 5.4.0-6ubuntu1~16.04.2&apos;</span> --with-bugurl=file:///usr/share/doc/gcc-<span class="hljs-number">5</span>/README.Bugs --enable-languages=c,ada,c++,java,go,d,fortran,objc,obj-c++ --prefix=/usr --program-suffix=-<span class="hljs-number">5</span> --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --with-sysroot=/ --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-libmpx --enable-plugin --with-system-zlib --disable-browser-plugin --enable-java-awt=gtk --enable-gtk-cairo --with-java-home=/usr/lib/jvm/java-<span class="hljs-number">1.5</span>.<span class="hljs-number">0</span>-gcj-<span class="hljs-number">5</span>-amd64/jre --enable-java-home --with-jvm-root-dir=/usr/lib/jvm/java-<span class="hljs-number">1.5</span>.<span class="hljs-number">0</span>-gcj-<span class="hljs-number">5</span>-amd64 --with-jvm-jar-dir=/usr/lib/jvm-exports/java-<span class="hljs-number">1.5</span>.<span class="hljs-number">0</span>-gcj-<span class="hljs-number">5</span>-amd64 --with-arch-directory=amd64 --with-ecj-jar=/usr/share/java/eclipse-ecj.jar --enable-objc-gc --enable-multiarch --disable-werror --with-arch-<span class="hljs-number">32</span>=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu
+Thread model: posix
+gcc version <span class="hljs-number">5.4</span>.<span class="hljs-number">0</span> <span class="hljs-number">20160609</span> (Ubuntu <span class="hljs-number">5.4</span>.<span class="hljs-number">0</span>-<span class="hljs-number">6</span>ubuntu1~<span class="hljs-number">16.04</span>.<span class="hljs-number">2</span>) 
+COLLECT_GCC_OPTIONS=<span class="hljs-string">&apos;-Wall&apos;</span> <span class="hljs-string">&apos;-g&apos;</span> <span class="hljs-string">&apos;-Wpedantic&apos;</span> <span class="hljs-string">&apos;-o&apos;</span> <span class="hljs-string">&apos;hello&apos;</span> <span class="hljs-string">&apos;-v&apos;</span> <span class="hljs-string">&apos;-mtune=generic&apos;</span> <span class="hljs-string">&apos;-march=x86-64&apos;</span>
+ /usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/cc1 -quiet -v -imultiarch x86_64-linux-gnu hello.c -quiet -dumpbase hello.c -mtune=generic -march=x86-<span class="hljs-number">64</span> -auxbase hello -g -Wall -Wpedantic -version -fstack-protector-strong -Wformat-security -o /tmp/ccWBz7Fj.s
+GNU C11 (Ubuntu <span class="hljs-number">5.4</span>.<span class="hljs-number">0</span>-<span class="hljs-number">6</span>ubuntu1~<span class="hljs-number">16.04</span>.<span class="hljs-number">2</span>) version <span class="hljs-number">5.4</span>.<span class="hljs-number">0</span> <span class="hljs-number">20160609</span> (x86_64-linux-gnu)
+    compiled by GNU C version <span class="hljs-number">5.4</span>.<span class="hljs-number">0</span> <span class="hljs-number">20160609</span>, GMP version <span class="hljs-number">6.1</span>.<span class="hljs-number">0</span>, MPFR version <span class="hljs-number">3.1</span>.<span class="hljs-number">4</span>, MPC version <span class="hljs-number">1.0</span>.<span class="hljs-number">3</span>
+GGC heuristics: --param ggc-min-expand=<span class="hljs-number">100</span> --param ggc-min-heapsize=<span class="hljs-number">131072</span>
+ignoring nonexistent directory <span class="hljs-string">&quot;/usr/local/include/x86_64-linux-gnu&quot;</span>
+ignoring nonexistent directory <span class="hljs-string">&quot;/usr/lib/gcc/x86_64-linux-gnu/5/../../../../x86_64-linux-gnu/include&quot;</span>
+<span class="hljs-comment">#include &quot;...&quot; search starts here:</span>
+<span class="hljs-comment">#include &lt;...&gt; search starts here:</span>
+ /usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/include
+ /usr/<span class="hljs-built_in">local</span>/include
+ /usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/include-fixed
+ /usr/include/x86_64-linux-gnu
+ /usr/include
+End of search list.
+GNU C11 (Ubuntu <span class="hljs-number">5.4</span>.<span class="hljs-number">0</span>-<span class="hljs-number">6</span>ubuntu1~<span class="hljs-number">16.04</span>.<span class="hljs-number">2</span>) version <span class="hljs-number">5.4</span>.<span class="hljs-number">0</span> <span class="hljs-number">20160609</span> (x86_64-linux-gnu)
+    compiled by GNU C version <span class="hljs-number">5.4</span>.<span class="hljs-number">0</span> <span class="hljs-number">20160609</span>, GMP version <span class="hljs-number">6.1</span>.<span class="hljs-number">0</span>, MPFR version <span class="hljs-number">3.1</span>.<span class="hljs-number">4</span>, MPC version <span class="hljs-number">1.0</span>.<span class="hljs-number">3</span>
+GGC heuristics: --param ggc-min-expand=<span class="hljs-number">100</span> --param ggc-min-heapsize=<span class="hljs-number">131072</span>
+Compiler executable checksum: eb080614e8c0415bfb1aad7fb88ffefc
+COLLECT_GCC_OPTIONS=<span class="hljs-string">&apos;-Wall&apos;</span> <span class="hljs-string">&apos;-g&apos;</span> <span class="hljs-string">&apos;-Wpedantic&apos;</span> <span class="hljs-string">&apos;-o&apos;</span> <span class="hljs-string">&apos;hello&apos;</span> <span class="hljs-string">&apos;-v&apos;</span> <span class="hljs-string">&apos;-mtune=generic&apos;</span> <span class="hljs-string">&apos;-march=x86-64&apos;</span>
+ as -v --<span class="hljs-number">64</span> -o /tmp/ccaY85ef.o /tmp/ccWBz7Fj.s
+GNU assembler version <span class="hljs-number">2.26</span>.<span class="hljs-number">1</span> (x86_64-linux-gnu) using BFD version (GNU Binutils <span class="hljs-keyword">for</span> Ubuntu) <span class="hljs-number">2.26</span>.<span class="hljs-number">1</span>
+COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/:/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/:/usr/lib/gcc/x86_64-linux-gnu/
+LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/:/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:./:/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/../../../:/lib/:/usr/lib/
+COLLECT_GCC_OPTIONS=<span class="hljs-string">&apos;-Wall&apos;</span> <span class="hljs-string">&apos;-g&apos;</span> <span class="hljs-string">&apos;-Wpedantic&apos;</span> <span class="hljs-string">&apos;-o&apos;</span> <span class="hljs-string">&apos;hello&apos;</span> <span class="hljs-string">&apos;-v&apos;</span> <span class="hljs-string">&apos;-mtune=generic&apos;</span> <span class="hljs-string">&apos;-march=x86-64&apos;</span>
+ /usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/lto-wrapper -plugin-opt=-fresolution=/tmp/cceiXwPa.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-<span class="hljs-number">64</span>.so.<span class="hljs-number">2</span> -z relro -o hello /usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span> -L/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L. -L/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/../../.. /tmp/ccaY85ef.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/crtend.o /usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/../../../x86_64-linux-gnu/crtn.o
 </code></pre>
-<p>&#x7D50;&#x679C;&#xFF1A;</p>
-<p><img src="images/mickole/16110335-ab9bd250b5874dbc89d6980ebe476267.png" alt=""></p>
-<p>&#x7B2C;&#x4E00;&#x6B21;&#x4EE5;&#x975E;&#x963B;&#x585E;&#x6A21;&#x5F0F;&#x6253;&#x958B;</p>
-<p>&#x7B2C;&#x4E8C;&#x6B21;&#x4EE5;&#x963B;&#x585E;&#x6A21;&#x5F0F;&#x6253;&#x958B;</p>
-<p>&#x793A;&#x4F8B;&#x56DB;&#xFF1A;&#x4E0D;&#x540C;&#x9032;&#x7A0B;&#x9593;&#x5229;&#x7528;&#x547D;&#x540D;&#x7BA1;&#x9053;&#x5BE6;&#x73FE;&#x6587;&#x4EF6;&#x8907;&#x88FD;</p>
-<h4 id="%E5%AF%AB%E7%AE%A1%E9%81%93%E9%80%B2%E7%A8%8B%EF%BC%9A">&#x5BEB;&#x7BA1;&#x9053;&#x9032;&#x7A0B;&#xFF1A;</h4>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/stat.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;fcntl.h&gt;</span></span>
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span> **argv)</span>
-</span>{
-    <span class="hljs-keyword">if</span>(argc != <span class="hljs-number">2</span>){
-        <span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>,<span class="hljs-string">&quot;usage:%s srcfile\n&quot;</span>,argv[<span class="hljs-number">0</span>]);
-        <span class="hljs-built_in">exit</span>(EXIT_FAILURE);
-    }
-    <span class="hljs-keyword">int</span> infd;
-    infd = open(argv[<span class="hljs-number">1</span>],O_RDONLY);
-    <span class="hljs-keyword">if</span>(infd == -<span class="hljs-number">1</span>){
-        perror(<span class="hljs-string">&quot;open error&quot;</span>);
-        <span class="hljs-built_in">exit</span>(EXIT_FAILURE);
-    }
-
-    <span class="hljs-keyword">if</span>(mkfifo(<span class="hljs-string">&quot;tmpfifo&quot;</span>,<span class="hljs-number">0644</span>) == -<span class="hljs-number">1</span>){
-        perror(<span class="hljs-string">&quot;mkfifo error&quot;</span>);
-        <span class="hljs-built_in">exit</span>(EXIT_FAILURE);
-    }
-    <span class="hljs-keyword">int</span> fd ;
-    fd = open(<span class="hljs-string">&quot;tmpfifo&quot;</span>,O_WRONLY);
-    <span class="hljs-keyword">if</span>(fd == -<span class="hljs-number">1</span>){
-        perror(<span class="hljs-string">&quot;open error&quot;</span>);
-        <span class="hljs-built_in">exit</span>(EXIT_FAILURE);
-    }
-    <span class="hljs-keyword">char</span> buf[<span class="hljs-number">1024</span>*<span class="hljs-number">4</span>];
-    <span class="hljs-keyword">int</span> n = <span class="hljs-number">0</span>;
-    <span class="hljs-keyword">while</span>((n = read(infd,buf,<span class="hljs-number">1024</span>*<span class="hljs-number">4</span>))){
-        write(fd,buf,n);
-    }
-    close(infd);
-    close(fd);
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;write success\n&quot;</span>);
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-}
+<h3 id="gcc-c">gcc -c</h3>
+<pre><code class="lang-sh">gcc -c -o hello.o hello.c
 </code></pre>
-<h4 id="%E8%AE%80%E9%80%B2%E7%A8%8B%EF%BC%9A">&#x8B80;&#x9032;&#x7A0B;&#xFF1A;</h4>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/stat.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;fcntl.h&gt;</span></span>
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span> **argv)</span>
-</span>{
-    <span class="hljs-keyword">if</span>(argc != <span class="hljs-number">2</span>){
-        <span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>,<span class="hljs-string">&quot;usage:%s desfile\n&quot;</span>,argv[<span class="hljs-number">0</span>]);
-        <span class="hljs-built_in">exit</span>(EXIT_FAILURE);
-    }
-    <span class="hljs-keyword">int</span> outfd;
-    outfd = open(argv[<span class="hljs-number">1</span>],O_WRONLY|O_CREAT|O_TRUNC);
-    <span class="hljs-keyword">if</span>(outfd == -<span class="hljs-number">1</span>){
-        perror(<span class="hljs-string">&quot;open error&quot;</span>);
-        <span class="hljs-built_in">exit</span>(EXIT_FAILURE);
-    }
-
-    <span class="hljs-keyword">int</span> fd ;
-    fd = open(<span class="hljs-string">&quot;tmpfifo&quot;</span>,O_RDONLY);
-    <span class="hljs-keyword">if</span>(fd == -<span class="hljs-number">1</span>){
-        perror(<span class="hljs-string">&quot;open error&quot;</span>);
-        <span class="hljs-built_in">exit</span>(EXIT_FAILURE);
-    }
-    <span class="hljs-keyword">char</span> buf[<span class="hljs-number">1024</span>*<span class="hljs-number">4</span>];
-    <span class="hljs-keyword">int</span> n = <span class="hljs-number">0</span>;
-    <span class="hljs-keyword">while</span>((n = read(fd,buf,<span class="hljs-number">1024</span>*<span class="hljs-number">4</span>))){
-        write(outfd,buf,n);
-    }
-    close(fd);
-    close(outfd);
-    unlink(<span class="hljs-string">&quot;tmpfifo&quot;</span>);
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;read success\n&quot;</span>);
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-}
+<h3 id="ld">ld</h3>
+<pre><code class="lang-sh">ld -o hello -dynamic-linker /lib64/ld-linux-x86-<span class="hljs-number">64</span>.so.<span class="hljs-number">2</span> \
+-z relro -o hello /usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/../../../x86_64-linux-gnu/crt1.o \
+/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/../../../x86_64-linux-gnu/crti.o \
+/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/crtbegin.o \
+-L/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span> \
+-L/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/../../../x86_64-linux-gnu \
+-L/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/../../../../lib \
+-L/lib/x86_64-linux-gnu -L/lib/../lib \-L/usr/lib/x86_64-linux-gnu \
+-L/usr/lib/../lib \
+-L. \
+-L/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/../../.. \
+-lgcc --as-needed -lgcc_s \
+--no-as-needed -lc -lgcc --as-needed -lgcc_s \
+--no-as-needed /usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/crtend.o \
+/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/../../../x86_64-linux-gnu/crtn.o hello.o
 </code></pre>
-<p>&#x7D50;&#x679C;&#xFF1A;</p>
-<p><img src="images/mickole/16110335-6193cf8ba21a486dbc182723e3a1ec25.png" alt=""></p>
-<p>&#x8907;&#x88FD;&#x6210;&#x529F;&#xFF01;</p>
-
+<h3 id="run">run</h3>
+<pre><code>./hello
+</code></pre>
                     
                     </section>
                 
@@ -14242,10 +14066,10 @@ RETURN VALUE
         </div>
 
         
-        <a href="../linux_system/linuxxi_tong_bian_cheng_zhi_guan_dao_ff08_er_ff09_.html" class="navigation navigation-prev " aria-label="Previous page: linux系統編程之管道（二）：管道讀寫規則"><i class="fa fa-angle-left"></i></a>
+        <a href="../gcc/gcan_shu_jie_shao.html" class="navigation navigation-prev " aria-label="Previous page: g++參數介紹"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../linux_system/linuxxi_tong_bian_cheng_zhi_cuo_wu_chu_li_ff1a_per.html" class="navigation navigation-next " aria-label="Next page: linux系統編程之錯誤處理：perror,strerror和errno"><i class="fa fa-angle-right"></i></a>
+        <a href="../gcc/clang.html" class="navigation navigation-next " aria-label="Next page: Clang"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

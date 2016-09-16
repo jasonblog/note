@@ -630,7 +630,7 @@
        * [memory layout C++ objects for g++](gcc/g++_fdump-class-hierarchy_output.md)
        * [gcc -E -P](gcc/gcc_-e_-p.md)
        * [g++參數介紹](gcc/gcan_shu_jie_shao.md)
-       * gcc编译，ld连接
+       * [gcc编译，ld连接](gcc/gccbian_yi_ff0c_ld_lian_jie.md)
    * [Clang](gcc/clang.md)
        * [memory layout C++ objects for clang](gcc/memory_layout_c++_objects_for_clang.md)
 * [FreeRTOS](freertos/freertos.md)

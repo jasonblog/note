@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="57" data-basepath=".." data-revision="Fri Sep 16 2016 16:36:58 GMT+0800 (CST)">
+    <div class="book" data-level="57" data-basepath=".." data-revision="Fri Sep 16 2016 17:16:05 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -13990,6 +13990,38 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="docker">Docker</h1>
+<h2 id="%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4">&#x5E38;&#x7528;&#x6307;&#x4EE4;</h2>
+<pre><code class="lang-sh">docker version &#x67E5;&#x770B;docker&#x7684;&#x7248;&#x672C;&#x865F;&#xFF0C;&#x5305;&#x62EC;&#x200B;&#x200B;&#x5BA2;&#x6236;&#x7AEF;&#x3001;&#x670D;&#x52D9;&#x7AEF;&#x3001;&#x4F9D;&#x8CF4;&#x7684;Go&#x7B49;
+docker info &#x67E5;&#x770B;&#x7CFB;&#x7D71;(docker)&#x5C64;&#x9762;&#x4FE1;&#x606F;&#xFF0C;&#x5305;&#x62EC;&#x7BA1;&#x7406;&#x7684;images, containers&#x6578;&#x7B49;
+docker search &lt;image&gt; &#x5728;docker index&#x4E2D;&#x641C;&#x7D22;image
+docker pull &lt;image&gt; &#x5F9E;docker registry server &#x4E2D;&#x4E0B;&#x62C9;image
+docker push &lt;image|repository&gt; &#x63A8;&#x9001;&#x4E00;&#x500B;image&#x6216;repository&#x5230;registry
+docker push &lt;image|repository&gt;:TAG &#x540C;&#x4E0A;&#xFF0C;&#x6307;&#x5B9A;tag
+docker inspect &lt;image|container&gt; &#x67E5;&#x770B;image&#x6216;container&#x7684;&#x5E95;&#x5C64;&#x4FE1;&#x606F;
+docker images TODO filter out the intermediate image layers (intermediate image layers &#x662F;&#x4EC0;&#x9EBC;)
+docker images <span class="hljs-operator">-a</span> &#x5217;&#x51FA;&#x6240;&#x6709;&#x7684;images
+docker ps &#x9ED8;&#x8A8D;&#x986F;&#x793A;&#x6B63;&#x5728;&#x904B;&#x884C;&#x4E2D;&#x7684;container
+docker ps <span class="hljs-operator">-l</span> &#x986F;&#x793A;&#x6700;&#x5F8C;&#x4E00;&#x6B21;&#x5275;&#x5EFA;&#x7684;container&#xFF0C;&#x5305;&#x62EC;&#x672A;&#x904B;&#x884C;&#x7684;
+docker ps <span class="hljs-operator">-a</span> &#x986F;&#x793A;&#x6240;&#x6709;&#x7684;container&#xFF0C;&#x5305;&#x62EC;&#x672A;&#x904B;&#x884C;&#x7684;
+docker logs &lt;container&gt; &#x67E5;&#x770B;container&#x7684;&#x65E5;&#x8A8C;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x57F7;&#x884C;&#x547D;&#x4EE4;&#x7684;&#x4E00;&#x4E9B;&#x8F38;&#x51FA;
+docker rm &lt;container&#x2026;&gt; &#x522A;&#x9664;&#x4E00;&#x500B;&#x6216;&#x591A;&#x500B;container
+docker rm `docker ps <span class="hljs-operator">-a</span> -q` &#x522A;&#x9664;&#x6240;&#x6709;&#x7684;container
+docker ps <span class="hljs-operator">-a</span> -q | xargs docker rm &#x540C;&#x4E0A;, &#x522A;&#x9664;&#x6240;&#x6709;&#x7684;container
+docker rmi &lt;image&#x2026;&gt; &#x522A;&#x9664;&#x4E00;&#x500B;&#x6216;&#x591A;&#x500B;image
+docker start/stop/restart &lt;container&gt; &#x958B;&#x555F;/&#x505C;&#x6B62;/&#x91CD;&#x555F;container
+docker start -i &lt;container&gt; &#x555F;&#x52D5;&#x4E00;&#x500B;container&#x4E26;&#x9032;&#x5165;&#x4EA4;&#x4E92;&#x6A21;&#x5F0F;
+docker attach &lt;container&gt; attach&#x4E00;&#x500B;&#x904B;&#x884C;&#x4E2D;&#x7684;container
+docker run &lt;image&gt; &lt;<span class="hljs-built_in">command</span>&gt; &#x4F7F;&#x7528;image&#x5275;&#x5EFA;container&#x4E26;&#x57F7;&#x884C;&#x76F8;&#x61C9;&#x547D;&#x4EE4;&#xFF0C;&#x7136;&#x5F8C;&#x505C;&#x6B62;
+docker run -i -t &lt;image&gt; /bin/bash &#x4F7F;&#x7528;image&#x5275;&#x5EFA;container&#x4E26;&#x9032;&#x5165;&#x4EA4;&#x4E92;&#x6A21;&#x5F0F;, login shell&#x662F;/bin/bash
+docker run -i -t -p &lt;host_port:contain_port&gt; &#x5C07;container&#x7684;&#x7AEF;&#x53E3;&#x6620;&#x5C04;&#x5230;&#x5BBF;&#x4E3B;&#x6A5F;&#x7684;&#x7AEF;&#x53E3;
+docker commit &lt;container&gt; [repo:tag] &#x5C07;&#x4E00;&#x500B;container&#x56FA;&#x5316;&#x70BA;&#x4E00;&#x500B;&#x65B0;&#x7684;image&#xFF0C;&#x5F8C;&#x9762;&#x7684;repo:tag&#x53EF;&#x9078;
+docker build &lt;path&gt; &#x5C0B;&#x627E;path&#x8DEF;&#x5F91;&#x4E0B;&#x540D;&#x70BA;&#x7684;Dockerfile&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#xFF0C;&#x4F7F;&#x7528;&#x6B64;&#x914D;&#x7F6E;&#x751F;&#x6210;&#x65B0;&#x7684;image
+docker build -t repo[:tag] &#x540C;&#x4E0A;&#xFF0C;&#x53EF;&#x4EE5;&#x6307;&#x5B9A;repo&#x548C;&#x53EF;&#x9078;&#x7684;tag
+docker build &#x2013; &lt; &lt;dockerfile&gt; &#x4F7F;&#x7528;&#x6307;&#x5B9A;&#x7684;dockerfile&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#xFF0C;docker&#x4EE5;stdin&#x65B9;&#x5F0F;&#x7372;&#x53D6;&#x5167;&#x5BB9;&#xFF0C;&#x4F7F;&#x7528;&#x6B64;&#x914D;&#x7F6E;&#x751F;&#x6210;&#x65B0;&#x7684;image
+docker port &lt;container&gt; &lt;container port&gt; &#x67E5;&#x770B;&#x672C;&#x5730;&#x54EA;&#x500B;&#x7AEF;&#x53E3;&#x6620;&#x5C04;&#x5230;container&#x7684;&#x6307;&#x5B9A;&#x7AEF;&#x53E3;&#xFF0C;&#x5176;&#x5BE6;&#x7528;docker ps &#x4E5F;&#x53EF;&#x4EE5;&#x770B;&#x5230;
+</code></pre>
+<pre><code class="lang-sh">sudo docker cp astyle_2.<span class="hljs-number">05.1</span>_linux.tar.gz <span class="hljs-number">04</span>ed79da5285:/root/
+</code></pre>
 
                     
                     </section>

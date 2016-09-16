@@ -215,4 +215,4 @@ sudo docker run -t -i -p 8080:8080 caterpillar/java-tutorial bash
 
 完成 Java Tutorial 第三堂（3）使用 Servlet、JSP 開發 Web 應用程式 中的練習，使用 Host 的瀏覽器連接 http://localhost:8080/BasicWeb/hello?user=caterpillar，你就可以看到成果了：
 
-
+![](./images/docker-layman-1-1.jpg)

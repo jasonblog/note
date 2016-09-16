@@ -1,4 +1,4 @@
-# gcc编译，ld连接
+# gcc編譯，ld連接
 
 ```c
 #include <stdio.h>

@@ -1,14 +1,20 @@
 # gdb常用指令
 
-- gdb-dashboard
+- GDB dashboard
 
 ```sh
 https://github.com/cyrus-and/gdb-dashboard
 ```
-- Gdbinit
+- Gdbinit for OS X, iOS and others - x86, x86_64 and ARM
 
 ```sh
 https://github.com/gdbinit/Gdbinit
+```
+
+- dotgdb：关于底层调试和反向工程的gdb脚本集
+
+```sh
+https://github.com/dholm/dotgdb
 ```
 
 ## 打印記憶體內容

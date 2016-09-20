@@ -1,5 +1,16 @@
 # gdb常用指令
 
+- gdb-dashboard
+
+```sh
+https://github.com/cyrus-and/gdb-dashboard
+```
+- Gdbinit
+
+```sh
+https://github.com/gdbinit/Gdbinit
+```
+
 ## 打印記憶體內容
 
 用gdb查看內存

@@ -11,7 +11,7 @@ https://github.com/cyrus-and/gdb-dashboard
 https://github.com/gdbinit/Gdbinit
 ```
 
-- dotgdb：关于底层调试和反向工程的gdb脚本集
+- dotgdb：關於底層調試和反向工程的gdb腳本集
 
 ```sh
 https://github.com/dholm/dotgdb

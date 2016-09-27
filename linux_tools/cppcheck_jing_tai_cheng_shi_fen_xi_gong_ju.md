@@ -1,7 +1,7 @@
 # cppcheck 靜態程式分析工具
 
 
-cppcheck是一套跨平台的靜態程式分析工具(static code analysis tool)，主要用來分析C語言在coding上的問題，包括memory leak、null pointer、buffer overflow這些算是bug的問題，也可檢查出多餘的程式碼達到增進程式效能的目的，例如沒使用到的變數、給定初始值的參數但從未使用過此初始值、不可能進入的condition等等
+cppcheck是一套跨平臺的靜態程式分析工具(static code analysis tool)，主要用來分析C語言在coding上的問題，包括memory leak、null pointer、buffer overflow這些算是bug的問題，也可檢查出多餘的程式碼達到增進程式效能的目的，例如沒使用到的變數、給定初始值的參數但從未使用過此初始值、不可能進入的condition等等
 
 ##使用cppcheck
 首先必須安裝cppcheck

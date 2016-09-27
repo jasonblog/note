@@ -136,7 +136,7 @@
    * [ARM彙編語言](arm/101.md)
    * [ARM尋址方式](arm/102.md)
    * [Introduction to ARMv8 64-bit Architecture](arm/introduction_to_armv8_64-bit_architecture.md)
-   * [ARM汇编指令调试方法](arm/armhui_bian_zhi_ling_diao_shi_fang_fa.md)
+   * [ARM彙編指令調試方法](arm/armhui_bian_zhi_ling_diao_shi_fang_fa.md)
 * [ARM emulation](arm_emulation/README.md)
    * [Compiling Linux kernel for QEMU ARM emulator](arm_emulation/compiling_linux_kernel_for_qemu_arm_emulator.md)
    * [Compiling Linux kernel 3.0 with Emdebian ARM toolchain](arm_emulation/compiling_linux_kernel_30_with_emdebian_arm_toolchain.md)

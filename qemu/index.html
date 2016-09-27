@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="6" data-basepath=".." data-revision="Sat Sep 24 2016 21:44:59 GMT+0800 (CST)">
+    <div class="book" data-level="6" data-basepath=".." data-revision="Tue Sep 27 2016 10:58:52 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -14034,52 +14034,20 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h2 id="debug-assembly-with-gdb-for-armv8-on-qemu">Debug Assembly with GDB for ARMv8 on QEMU</h2>
-<h3 id="build-from-source-code">build from source code</h3>
-<p>assume you have installed QEMU, cross-compiler include cross-platform GDB</p>
-<p>ARMv8 source code:</p>
-<p><code>test.S</code></p>
-<pre><code>.globl _start
+                        <h2 id="linaro-qemu">linaro qemu</h2>
+<pre><code class="lang-sh">git <span class="hljs-built_in">clone</span> git://git.linaro.org/qemu/qemu-linaro.git
 
-_start:
-  mov x0, #0
-  mov x1, #1
-  mov x2, #2
-loop:
-  b loop
-</code></pre><ul>
-<li><p>compile:</p>
-<p>  <code>aarch64-linux-gnu-as -o test.o test.S</code></p>
-</li>
-<li><p>link:</p>
-<p>  <code>aarch64-linux-gnu-ld -o test test.o -o test test.o</code></p>
-</li>
-<li><p>objdump (optional):</p>
-<p>  <code>aarch64-linux-gnu-objdump -d test</code></p>
-</li>
-<li><p>start gdb server: (use port 11111 and run in deamon)</p>
-<p>  <code>qemu-aarch64 -g 11111 test &amp;</code></p>
-</li>
-<li><p>start gdb:    (specified the execute file)</p>
-<p>  <code>aarch64-linux-gnu-gdb test</code></p>
-</li>
-</ul>
-<h3 id="gdb-commands">GDB commands</h3>
-<pre><code>(gdb) target remote localhost:11111     #connect from localhost:11111
-(gdb) disassemble           #show the disassemble
-(gdb) display /10i $pc-16       #show 10 instruction near the PC register
-
-(gdb) x /16 0x400000           #show 16 word on memory 0x400000
-(gdb) b *0x400080     #add a breakpoint with address
-
-
-(gdb) ni    #next instruction
-(gdb) si    #step instruction
-(gdb) c    #continue exec until breakpoint
-
-(gdb) info register         #show register
-(gdb) display  /x $x0   #display x0 register
+$ <span class="hljs-built_in">cd</span> qemu-linaro
+$ mkdir build
+$ <span class="hljs-built_in">cd</span> build
+$ ../configure --prefix=/usr/<span class="hljs-built_in">local</span>/qemu-linaro
+$ make -j8
+$ sudo make install
 </code></pre>
+<h2 id="-bashrc">~/.bashrc</h2>
+<pre><code class="lang-sh"><span class="hljs-built_in">export</span> PATH=/usr/<span class="hljs-built_in">local</span>/qemu-linaro/bin:<span class="hljs-variable">$PATH</span>
+</code></pre>
+
                     
                     </section>
                 

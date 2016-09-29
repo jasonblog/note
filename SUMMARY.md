@@ -886,4 +886,5 @@
 * [ncku 嵌入式課程 (Jserv)](ncku_embededd/ncku_qian_ru_shi_ke_cheng__jserv.md)
    * [2016](ncku_embededd/2016.md)
        * [利用 gprof2dot 工具，將最耗時的函式與呼叫的路徑視覺化](ncku_embededd/tong_xue_li_yong_gprof2dot_gong_ju_ff0c_jiang_zui_.md)
+       * GDB command開發說明(use Python)
 

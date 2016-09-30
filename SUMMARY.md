@@ -409,7 +409,7 @@
    * [C++ 智能指針](c++/c++_zhi_neng_zhi_zhen.md)
    * [Mutex::Autolock  for c++](c++/mutexautolock_for_c_++.md)
    * [C++ STL 學習總結(全面)](c++/c++_stl_xue_xi_zong_7d5028_quan_976229.md)
-   * [学习C++：实践者的方法（Beta1）](c++/xue_xi_c_ff1a_shi_jian_zhe_de_fang_fa_ff08_beta1.md)
+   * [學習C++：實踐者的方法（Beta1）](c++/xue_xi_c_ff1a_shi_jian_zhe_de_fang_fa_ff08_beta1.md)
 * [GNU make](gunmake/README.md)
    * [example](gunmake/example.md)
    * [CMake](cmake/cmake.md)

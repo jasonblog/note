@@ -352,4 +352,4 @@ GDB只是更快讓我們找到出問題的地方在那
 
 ## 一些文章
 
-[测试的道理](http://www.yinwang.org/blog-cn/2016/09/14/tests)
+[測試的道理](http://www.yinwang.org/blog-cn/2016/09/14/tests)

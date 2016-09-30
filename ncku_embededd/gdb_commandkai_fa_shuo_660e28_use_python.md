@@ -329,6 +329,28 @@ test_gdb_python_command()
 
 先從最基礎開始.....
 
+
+```py
+import gdb
+import string
+
+  class test_gdb_python_command(gdb.Command):
+
+	"test help"
+
+	def __init__(self):
+
+		super(test_gdb_python_command,self).__init__("test_gdb_python_command",gdb.COMMAND_USER)
+
+	def invoke(self,arg,from_tty):
+
+
+
+		print("gdb test")
+
+test_gdb_python_command()
+```
+
 這是把test_tool.py刪減   只剩剛好可以使用的
 
 **import gdb**
@@ -457,9 +479,34 @@ test_gdb_python_command()後面
 
 補上這段
 
+
 *
 
 [](https://gist.github.com/KevinKu/131333914f3fa9e282deec2217e544f9)https://gist.github.com/KevinKu/131333914f3fa9e282deec2217e544f9
+
+
+```py
+c = "b main"
+
+gdb.execute(c,True,True)
+
+c = "r"
+
+gdb.execute(c,True,True)
+
+a = open("./test_result","w")
+
+c =  "info breakpoints"
+
+
+r = gdb.execute(c,True,True)
+
+a.write(r)
+
+c = "q"
+
+gdb.execute(c,True,True)
+```
 
 以上的code會在test_result內紀錄斷點的資訊
 

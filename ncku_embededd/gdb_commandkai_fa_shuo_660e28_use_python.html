@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="59.1.2" data-basepath=".." data-revision="Sat Oct 01 2016 02:34:29 GMT+0800 (CST)">
+    <div class="book" data-level="59.1.2" data-basepath=".." data-revision="Sat Oct 01 2016 02:50:41 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -14178,9 +14178,324 @@
 <p>&#x6211;&#x6703;&#x4EE5;<a href="https://github.com/KevinKu/sort_by_Disruptor/blob/Disruptor/test_tool.py" target="_blank">test_</a></p>
 <p><a href="https://github.com/KevinKu/sort_by_Disruptor/blob/Disruptor/test_tool.py" target="_blank">tool.py</a>&#x70BA;&#x4F8B;&#x5B50;  &#x8AAA;&#x660E;&#x5982;&#x4F55;&#x64B0;&#x5BEB;</p>
 <p>&#xFF08;&#x4E5F;&#x5BE6;&#x969B;&#x52D5;&#x624B;&#x64CD;&#x4F5C;&#x4E00;&#x6B21;&#x5427;&#xFF09;</p>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> gdb
+<span class="hljs-keyword">import</span> string
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">test_gdb_python_command</span><span class="hljs-params">(gdb.Command)</span>:</span>
+
+    <span class="hljs-string">&quot;test help&quot;</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self)</span>:</span>
+
+        super(test_gdb_python_command,self).__init__(<span class="hljs-string">&quot;test_gdb_python_command&quot;</span>,gdb.COMMAND_USER)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">invoke</span><span class="hljs-params">(self,arg,from_tty)</span>:</span>
+
+
+
+        print(<span class="hljs-string">&quot;gdb test&quot;</span>)
+
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">init_test_job_list_and_reader_dependency</span><span class="hljs-params">(gdb.Command)</span>:</span>
+
+    <span class="hljs-string">&quot;&quot;&quot;
+    Use :
+
+    init_test_job_list_and_reader_dependency job_list_info_file_name reader_dependency_info_file_name
+
+    Test_main.c parameter :
+
+    test_reader_num
+
+    &quot;&quot;&quot;</span>
+
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self)</span>:</span>
+        super(init_test_job_list_and_reader_dependency,self).__init__(<span class="hljs-string">&quot;init_test_job_list_and_reader_dependency&quot;</span>,gdb.COMMAND_USER)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">invoke</span><span class="hljs-params">(self,file_name,from_tty)</span>:</span>
+
+
+        (job_list_file,reader_dependency_file) = file_name.split(<span class="hljs-string">&quot; &quot;</span>)
+
+        job_list_info = open(job_list_file)
+
+        tmp = job_list_info.readline()
+
+        _tmp = tmp.split(<span class="hljs-string">&quot; &quot;</span>)
+
+        job_list_length = _tmp[<span class="hljs-number">0</span>]
+
+        reader_num = _tmp[<span class="hljs-number">1</span>]
+
+        c = <span class="hljs-string">&quot;init_job_list &quot;</span>+job_list_length+<span class="hljs-string">&quot; &quot;</span>+reader_num
+
+        gdb.execute(c,<span class="hljs-keyword">True</span>,<span class="hljs-keyword">True</span>)
+
+        c = <span class="hljs-string">&quot;init_reader_dependency &quot;</span>+reader_dependency_file
+
+        gdb.execute(c,<span class="hljs-keyword">True</span>,<span class="hljs-keyword">True</span>)
+
+
+
+        print(<span class="hljs-string">&quot;success&quot;</span>)
+
+
+
+
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">init_job_list</span><span class="hljs-params">(gdb.Command)</span>:</span>
+
+    <span class="hljs-string">&quot;&quot;&quot;
+    Use : 
+
+    init_job_list job_list_length reader_number
+
+    Test_main.c parameter :
+
+    none
+
+    &quot;&quot;&quot;</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self)</span>:</span>
+        super(init_job_list,self).__init__(<span class="hljs-string">&quot;init_job_list&quot;</span>,gdb.COMMAND_USER)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">invoke</span><span class="hljs-params">(self,arg,from_tty)</span>:</span>
+
+        (job_list_length,reader_num)=arg.split(<span class="hljs-string">&quot; &quot;</span>)
+
+        c = <span class="hljs-string">&quot;p Job_Disruptor.Create_Job_list(&quot;</span>+ job_list_length +<span class="hljs-string">&quot;,&quot;</span>+ reader_num +<span class="hljs-string">&quot;)&quot;</span>
+
+        gdb.execute(c,<span class="hljs-keyword">True</span>,<span class="hljs-keyword">True</span>)
+
+        print(<span class="hljs-string">&quot;success&quot;</span>)
+
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">init_writer_test_job_data_from_file</span><span class="hljs-params">(gdb.Command)</span>:</span>
+
+    <span class="hljs-string">&quot;&quot;&quot;
+    Use :
+
+    init_writer_test_job_data_from_file file_name
+
+    Test_main.c parameter : 
+
+    test_writer_num , test_job_length , test_job_list 
+
+    &quot;&quot;&quot;</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self)</span>:</span>
+        super(init_writer_test_job_data_from_file,self).__init__(<span class="hljs-string">&quot;init_writer_test_job_data_from_file&quot;</span>,gdb.COMMAND_USER)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">invoke</span><span class="hljs-params">(self,file_name,from_tty)</span>:</span> 
+
+        writer_info = open(file_name)
+
+        writer_num = writer_info.readline()
+
+        writer_num = writer_num.split(<span class="hljs-string">&quot; &quot;</span>)
+
+        writer_num = writer_num[<span class="hljs-number">0</span>]
+
+        i = <span class="hljs-number">0</span>
+
+        c = <span class="hljs-string">&quot;p test_writer_num=&quot;</span>+writer_num
+
+        gdb.execute(c,<span class="hljs-keyword">True</span>,<span class="hljs-keyword">True</span>)
+
+        c = <span class="hljs-string">&quot;p test_job_length=(int *)malloc(sizeof(int)*&quot;</span>+writer_num+<span class="hljs-string">&quot;)&quot;</span>
+
+        gdb.execute(c,<span class="hljs-keyword">True</span>,<span class="hljs-keyword">True</span>)
+
+        c = <span class="hljs-string">&quot;p test_job_list=(Job **)malloc(sizeof(Job*)*&quot;</span>+writer_num+<span class="hljs-string">&quot;)&quot;</span>
+
+        gdb.execute(c,<span class="hljs-keyword">True</span>,<span class="hljs-keyword">True</span>)
+
+        writer_info.readline()
+
+        <span class="hljs-keyword">while</span>(i &lt; int(str(writer_num))):
+
+            writer_job_list_info = writer_info.readline()
+
+
+            tmp = writer_job_list_info.split(<span class="hljs-string">&quot; &quot;</span>)
+
+            tmp_data = writer_job_list_info.split(<span class="hljs-string">&quot; &quot;</span>)
+
+            list_length = tmp_data[<span class="hljs-number">0</span>]
+
+            job_list_file_name = tmp_data[<span class="hljs-number">1</span>]
+
+
+            c = <span class="hljs-string">&quot;p test_job_list[&quot;</span>+str(i)+<span class="hljs-string">&quot;]=(Job *)malloc(sizeof(Job)*&quot;</span>+list_length+<span class="hljs-string">&quot;)&quot;</span>
+
+            gdb.execute(c,<span class="hljs-keyword">True</span>,<span class="hljs-keyword">True</span>)
+
+            c = <span class="hljs-string">&quot;p test_job_length[&quot;</span>+str(i)+<span class="hljs-string">&quot;]= &quot;</span>+list_length
+
+            gdb.execute(c,<span class="hljs-keyword">True</span>,<span class="hljs-keyword">True</span>)
+
+            c = <span class="hljs-string">&quot;insert_job_list_from_file test_job_list[&quot;</span>+str(i)+<span class="hljs-string">&quot;] &quot;</span>+list_length +<span class="hljs-string">&quot; &quot;</span>+job_list_file_name
+
+            gdb.execute(c,<span class="hljs-keyword">True</span>,<span class="hljs-keyword">True</span>)
+
+            i = i + <span class="hljs-number">1</span>
+
+        print(<span class="hljs-string">&quot;init success&quot;</span>)
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">init_reader_dependency</span><span class="hljs-params">(gdb.Command)</span>:</span>
+
+    <span class="hljs-string">&quot;&quot;&quot;
+    Use : 
+
+    init_reader_dependency file_name
+
+    Test_main.c parameter : 
+
+    &quot;&quot;&quot;</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self)</span>:</span>
+        super(init_reader_dependency,self).__init__(<span class="hljs-string">&quot;init_reader_dependency&quot;</span>,gdb.COMMAND_USER)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">invoke</span><span class="hljs-params">(self,file_name,from_tty)</span>:</span>
+
+        reader_data=open(file_name)
+
+        test_data=reader_data.readline()
+
+        num=test_data.split(<span class="hljs-string">&quot; &quot;</span>)
+
+        reader_num = num[<span class="hljs-number">0</span>]
+
+        c = <span class="hljs-string">&quot;p test_reader_num=&quot;</span>+reader_num
+
+        <span class="hljs-keyword">try</span>:
+
+            gdb.execute(c,<span class="hljs-keyword">True</span>,<span class="hljs-keyword">True</span>)
+
+        <span class="hljs-keyword">except</span> e:
+
+            <span class="hljs-keyword">pass</span>
+
+        c = <span class="hljs-string">&quot;set $_h=(int*)malloc(sizeof(int)*&quot;</span>+reader_num+<span class="hljs-string">&quot;)&quot;</span>
+
+        gdb.execute(c,<span class="hljs-keyword">True</span>,<span class="hljs-keyword">True</span>)
+
+        i=<span class="hljs-number">1</span>
+
+        <span class="hljs-keyword">while</span>(i &lt;= int(reader_num)):
+
+            reader_data.readline()
+
+            reader_code = reader_data.readline()
+
+            dependency_list_num = reader_data.readline()
+
+            dependency_code = (reader_data.readline()).split(<span class="hljs-string">&quot; &quot;</span>)
+
+            _i=<span class="hljs-number">0</span>
+
+
+            <span class="hljs-keyword">while</span>(_i &lt; int(dependency_list_num)):
+
+                c = <span class="hljs-string">&quot;p $_h[&quot;</span>+str(_i)+<span class="hljs-string">&quot;]=&quot;</span>+dependency_code[_i]
+                gdb.execute(c,<span class="hljs-keyword">True</span>,<span class="hljs-keyword">True</span>)
+
+                _i = _i + <span class="hljs-number">1</span>
+
+            c = <span class="hljs-string">&quot;p Job_Disruptor.Register_Reader(&quot;</span>+reader_code+<span class="hljs-string">&quot;,$_h,&quot;</span>+dependency_list_num+<span class="hljs-string">&quot;)&quot;</span>
+
+            gdb.execute(c,<span class="hljs-keyword">True</span>,<span class="hljs-keyword">True</span>)
+
+            i = i + <span class="hljs-number">1</span>
+
+        c = <span class="hljs-string">&quot;p free($_h)&quot;</span>
+
+        gdb.execute(c,<span class="hljs-keyword">True</span>,<span class="hljs-keyword">True</span>)
+
+        print(<span class="hljs-string">&quot;init success&quot;</span>)
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">test_get_empty_job_env_init</span><span class="hljs-params">(gdb.Command)</span>:</span>
+
+    <span class="hljs-string">&quot;&quot;&quot;
+    Use : 
+
+    test_get_empty_job_env_init job_list_length
+
+    &quot;&quot;&quot;</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self)</span>:</span>
+        super(test_get_empty_job_env_init,self).__init__(<span class="hljs-string">&quot;test_get_empty_job_env_init&quot;</span>,gdb.COMMAND_USER)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">invoke</span><span class="hljs-params">(self,arg,from_tty)</span>:</span>        
+
+        c = <span class="hljs-string">&quot;p Job_Disruptor.Create_Job_list(&quot;</span>+ arg +<span class="hljs-string">&quot;,1)&quot;</span>
+        gdb.execute(c,<span class="hljs-keyword">True</span>,<span class="hljs-keyword">True</span>)
+
+        c = <span class="hljs-string">&quot;p Job_Disruptor.Register_Reader(1,0,0)&quot;</span>
+        gdb.execute(c,<span class="hljs-keyword">True</span>,<span class="hljs-keyword">True</span>)
+
+        print(<span class="hljs-string">&quot;init success&quot;</span>)
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">insert_job_list_from_file</span><span class="hljs-params">(gdb.Command)</span>:</span>
+
+    <span class="hljs-string">&quot;&quot;&quot;
+    Use : 
+
+    insert_job_list_from_file job_list_name job_list_length file_name
+
+
+    &quot;&quot;&quot;</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self)</span>:</span>
+        super(insert_job_list_from_file,self).__init__(<span class="hljs-string">&quot;insert_job_list_from_file&quot;</span>,gdb.COMMAND_USER)
+
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">invoke</span><span class="hljs-params">(self,arg,from_tty)</span>:</span>
+        (job_list_head,list_length,file_name)=arg.split(<span class="hljs-string">&quot; &quot;</span>)
+        test_data=open(file_name)
+        i = <span class="hljs-number">0</span>
+        <span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> test_data:
+            <span class="hljs-keyword">if</span> i &lt; int(list_length):
+                data=line.split(<span class="hljs-string">&quot; &quot;</span>)
+                c=<span class="hljs-string">&quot;p &quot;</span>+job_list_head+<span class="hljs-string">&quot;[&quot;</span>+str(i)+<span class="hljs-string">&quot;]&quot;</span>+<span class="hljs-string">&quot;.job=&quot;</span>+<span class="hljs-string">&quot;&apos;&quot;</span>+data[<span class="hljs-number">0</span>]+<span class="hljs-string">&quot;&apos;&quot;</span>
+                gdb.execute(c,<span class="hljs-keyword">True</span>,<span class="hljs-keyword">True</span>)
+                c=<span class="hljs-string">&quot;p &quot;</span>+job_list_head+<span class="hljs-string">&quot;[&quot;</span>+str(i)+<span class="hljs-string">&quot;]&quot;</span>+<span class="hljs-string">&quot;.array_head=&quot;</span>+data[<span class="hljs-number">1</span>]
+                gdb.execute(c,<span class="hljs-keyword">True</span>,<span class="hljs-keyword">True</span>)
+                c=<span class="hljs-string">&quot;p &quot;</span>+job_list_head+<span class="hljs-string">&quot;[&quot;</span>+str(i)+<span class="hljs-string">&quot;]&quot;</span>+<span class="hljs-string">&quot;.array_length=&quot;</span>+data[<span class="hljs-number">2</span>]
+                gdb.execute(c,<span class="hljs-keyword">True</span>,<span class="hljs-keyword">True</span>)
+                c=<span class="hljs-string">&quot;p &quot;</span>+job_list_head+<span class="hljs-string">&quot;[&quot;</span>+str(i)+<span class="hljs-string">&quot;]&quot;</span>+<span class="hljs-string">&quot;.worker=&quot;</span>+<span class="hljs-string">&quot;&apos;&quot;</span>+data[<span class="hljs-number">3</span>]+<span class="hljs-string">&quot;&apos;&quot;</span>
+                gdb.execute(c,<span class="hljs-keyword">True</span>,<span class="hljs-keyword">True</span>)
+                i = i + <span class="hljs-number">1</span>
+
+        print(<span class="hljs-string">&quot;insert success&quot;</span>)
+
+
+insert_job_list_from_file()
+test_get_empty_job_env_init()
+init_reader_dependency()
+init_writer_test_job_data_from_file()
+init_job_list()
+init_test_job_list_and_reader_dependency()
+test_gdb_python_command()
+</code></pre>
 <p>*</p>
 <p><a href="https://gist.github.com/KevinKu/f9d859eade4d848dd084e2d0bc828c8e" target="_blank"></a><a href="https://gist.github.com/KevinKu/f9d859eade4d848dd084e2d0bc828c8e" target="_blank">https://gist.github.com/KevinKu/f9d859eade4d848dd084e2d0bc828c8e</a></p>
 <p>&#x5148;&#x5F9E;&#x6700;&#x57FA;&#x790E;&#x958B;&#x59CB;.....</p>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> gdb
+<span class="hljs-keyword">import</span> string
+
+  <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">test_gdb_python_command</span><span class="hljs-params">(gdb.Command)</span>:</span>
+
+    <span class="hljs-string">&quot;test help&quot;</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self)</span>:</span>
+
+        super(test_gdb_python_command,self).__init__(<span class="hljs-string">&quot;test_gdb_python_command&quot;</span>,gdb.COMMAND_USER)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">invoke</span><span class="hljs-params">(self,arg,from_tty)</span>:</span>
+
+
+
+        print(<span class="hljs-string">&quot;gdb test&quot;</span>)
+
+test_gdb_python_command()
+</code></pre>
 <p>&#x9019;&#x662F;&#x628A;test_tool.py&#x522A;&#x6E1B;   &#x53EA;&#x5269;&#x525B;&#x597D;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x7684;</p>
 <p><strong>import gdb</strong></p>
 <p>&#x9019;&#x662F;&#x6700;&#x91CD;&#x8981;&#x7684;   &#x60F3;&#x8981;&#x4F7F;&#x7528;gdb&#x7684;API&#x4E00;&#x5B9A;&#x8981;import</p>
@@ -14260,6 +14575,27 @@
 <p>&#x88DC;&#x4E0A;&#x9019;&#x6BB5;</p>
 <p>*</p>
 <p><a href="https://gist.github.com/KevinKu/131333914f3fa9e282deec2217e544f9" target="_blank"></a><a href="https://gist.github.com/KevinKu/131333914f3fa9e282deec2217e544f9" target="_blank">https://gist.github.com/KevinKu/131333914f3fa9e282deec2217e544f9</a></p>
+<pre><code class="lang-py">c = <span class="hljs-string">&quot;b main&quot;</span>
+
+gdb.execute(c,<span class="hljs-keyword">True</span>,<span class="hljs-keyword">True</span>)
+
+c = <span class="hljs-string">&quot;r&quot;</span>
+
+gdb.execute(c,<span class="hljs-keyword">True</span>,<span class="hljs-keyword">True</span>)
+
+a = open(<span class="hljs-string">&quot;./test_result&quot;</span>,<span class="hljs-string">&quot;w&quot;</span>)
+
+c =  <span class="hljs-string">&quot;info breakpoints&quot;</span>
+
+
+r = gdb.execute(c,<span class="hljs-keyword">True</span>,<span class="hljs-keyword">True</span>)
+
+a.write(r)
+
+c = <span class="hljs-string">&quot;q&quot;</span>
+
+gdb.execute(c,<span class="hljs-keyword">True</span>,<span class="hljs-keyword">True</span>)
+</code></pre>
 <p>&#x4EE5;&#x4E0A;&#x7684;code&#x6703;&#x5728;test_result&#x5167;&#x7D00;&#x9304;&#x65B7;&#x9EDE;&#x7684;&#x8CC7;&#x8A0A;</p>
 <p>&#x63A5;&#x8457;&#x5C31;&#x662F;&#x6E2C;&#x8A66;&#x7684;&#x7D50;&#x679C;&#x62C9;</p>
 <p><strong>mtath@Inspiron-5559:~/sort_by_Disruptor$ cat test_result </strong></p>

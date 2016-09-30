@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Q Format Number in C | Jason note</title>
+        <title>重新理解數值 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,8 @@
         
     
     
-    <link rel="next" href="../c/ieee764_using_c.html" />
     
-    
-    <link rel="prev" href="../c/read_csv_in_c.html" />
+    <link rel="prev" href="../ncku_embededd/gpio.html" />
     
 
         <!-- head:end -->
@@ -48,7 +46,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="52.3" data-basepath=".." data-revision="Sat Oct 01 2016 02:34:29 GMT+0800 (CST)">
+    <div class="book" data-level="59.1.4" data-basepath=".." data-revision="Sat Oct 01 2016 02:34:29 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -13491,7 +13489,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="52.3" data-path="c/q_format_number_in_c.html">
+        <li class="chapter " data-level="52.3" data-path="c/q_format_number_in_c.html">
             
                 
                     <a href="../c/q_format_number_in_c.html">
@@ -14035,7 +14033,7 @@
             
         </li>
     
-        <li class="chapter " data-level="59.1.4" data-path="ncku_embededd/zhong_xin_li_jie_shu_zhi.html">
+        <li class="chapter active" data-level="59.1.4" data-path="ncku_embededd/zhong_xin_li_jie_shu_zhi.html">
             
                 
                     <a href="../ncku_embededd/zhong_xin_li_jie_shu_zhi.html">
@@ -14166,181 +14164,365 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="q-format-number-in-c">Q Format Number in C</h1>
-<h2 id="q15">Q15</h2>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;math.h&gt;</span></span>
-<span class="hljs-comment">/*
-Q&#x8868;&#x793A;    S&#x8868;&#x793A;    &#x5341;&#x9032;&#x5236;&#x6578;&#x8868;&#x793A;&#x7BC4;&#x570D;
-Q15    S0.15    -1&#x2264;x&#x2264;0.9999695
-Q14    S1.14    -2&#x2264;x&#x2264;1.9999390
-Q13    S2.13    -4&#x2264;x&#x2264;3.9998779
-Q12    S3.12    -8&#x2264;x&#x2264;7.9997559
-Q11    S4.11    -16&#x2264;x&#x2264;15.9995117
-Q10    S5.10    -32&#x2264;x&#x2264;31.9990234
-Q9    S6.9    -64&#x2264;x&#x2264;63.9980469
-Q8    S7.8    -128&#x2264;x&#x2264;127.9960938
-Q7    S8.7    -256&#x2264;x&#x2264;255.9921875
-Q6    S9.6    -512&#x2264;x&#x2264;511.9804375
-Q5    S10.5    -1024&#x2264;x&#x2264;1023.96875
-Q4    S11.4    -2048&#x2264;x&#x2264;2047.9375
-Q3    S12.3    -4096&#x2264;x&#x2264;4095.875
-Q2    S13.2    -8192&#x2264;x&#x2264;8191.75
-Q1    S14.1    -16384&#x2264;x&#x2264;16383.5
-Q0    S15.0    -32768&#x2264;x&#x2264;32767
-*/</span>
-
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> Q14(X) ((X &lt; <span class="hljs-number">0.0</span>) ? (int)(<span class="hljs-number">16384</span>*(X) - <span class="hljs-number">0.5</span>) : (int)(<span class="hljs-number">16384</span>*(X) + <span class="hljs-number">0.5</span>))</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> Q0(x) ( (x)&lt;<span class="hljs-number">0</span> ? ((int) (<span class="hljs-number">1.0</span>*(x) - <span class="hljs-number">0.5</span>)) : (min(<span class="hljs-number">32767</span>,(int) ((<span class="hljs-number">32767.0</span>/<span class="hljs-number">32768.0</span>)*(x) + <span class="hljs-number">0.5</span>))))</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> Q1(x) ( (x)&lt;<span class="hljs-number">0</span> ? ((int) (<span class="hljs-number">2.0</span>*(x) - <span class="hljs-number">0.5</span>)) : (min(<span class="hljs-number">32767</span>,(int) ((<span class="hljs-number">32767.0</span>/<span class="hljs-number">16384.0</span>)*(x) + <span class="hljs-number">0.5</span>))))</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> Q2(x) ( (x)&lt;<span class="hljs-number">0</span> ? ((int) (<span class="hljs-number">4.0</span>*(x) - <span class="hljs-number">0.5</span>)) : (min(<span class="hljs-number">32767</span>,(int) ((<span class="hljs-number">32767.0</span>/<span class="hljs-number">8192.0</span>)*(x) + <span class="hljs-number">0.5</span>))))</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> Q13(x) ( (x)&lt;<span class="hljs-number">0</span> ? ((int) (<span class="hljs-number">8192.0</span>*(x) - <span class="hljs-number">0.5</span>)) : (min(<span class="hljs-number">32767</span>,(int) ((<span class="hljs-number">32767.0</span>/<span class="hljs-number">4.0</span>)*(x) + <span class="hljs-number">0.5</span>))))</span>
-<span class="hljs-comment">// #define Q14(x) ( (x)&lt;0 ? ((int) (16384.0*(x) - 0.5)) : (min(32767,(int) ((32767.0/2.0)*(x) + 0.5))))</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> Q15(x) ( ((x)&lt;(<span class="hljs-number">0.0</span>)) ? ((int) (<span class="hljs-number">32768.0</span>*(x) - <span class="hljs-number">0.5</span>)) : (min(<span class="hljs-number">32767</span>,(int) (<span class="hljs-number">32767.0</span>*(x) + <span class="hljs-number">0.5</span>))))</span>
-
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> min(a,b)  (((a) &lt; (b)) ? (a) : (b))</span>
-
-<span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">power</span><span class="hljs-params">(<span class="hljs-keyword">double</span> base, <span class="hljs-keyword">int</span> n)</span>
-</span>{
-    <span class="hljs-keyword">int</span> i;
-    <span class="hljs-keyword">double</span> <span class="hljs-built_in">pow</span> = <span class="hljs-number">1.0</span>;
-
-    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">1</span>; i &lt;= n; i++) {
-        <span class="hljs-built_in">pow</span> = <span class="hljs-built_in">pow</span> * base;
-    }
-
-    <span class="hljs-keyword">return</span> <span class="hljs-built_in">pow</span>;
-}
-
-<span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">QFormatIntegerToFloat</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> x,
-                             <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> n)</span>
-</span>{
-    <span class="hljs-keyword">return</span> (((<span class="hljs-keyword">double</span>)x) / ((<span class="hljs-keyword">double</span>)(<span class="hljs-number">1</span> &lt;&lt; n)));
-}
-
-<span class="hljs-function"><span class="hljs-keyword">short</span> <span class="hljs-title">FloatToQFormatInteger</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> x,
-                            <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> m,
-                            <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> n)</span>
-</span>{
-    <span class="hljs-keyword">return</span> (((x) &lt; (<span class="hljs-number">0.0</span>)) ? ((<span class="hljs-keyword">int</span>)(power(<span class="hljs-number">2</span>, n) * (x) - <span class="hljs-number">0.5</span>)) : (min(<span class="hljs-number">32767</span>, (<span class="hljs-keyword">int</span>)((<span class="hljs-number">32767.0</span> / (power(<span class="hljs-number">2</span>, m))) * (x) + <span class="hljs-number">0.5</span>))));
-}
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>* argv[])</span>
-</span>{
-    <span class="hljs-comment">// Q14    S1.14    -2&#x2264;x&#x2264;1.9999390</span>
-    <span class="hljs-keyword">short</span> s = FloatToQFormatInteger(-<span class="hljs-number">2.0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">14</span>);
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%x, %f\n&quot;</span>, s, QFormatIntegerToFloat(s, <span class="hljs-number">14</span>));
-
-    s = FloatToQFormatInteger(<span class="hljs-number">2.0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">14</span>);
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%x, %f\n&quot;</span>, s, QFormatIntegerToFloat(s, <span class="hljs-number">14</span>));
-
-    <span class="hljs-comment">// Q9</span>
-    s = FloatToQFormatInteger(-<span class="hljs-number">64</span>, <span class="hljs-number">6</span>, <span class="hljs-number">9</span>);
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%x, %f\n&quot;</span>, s, QFormatIntegerToFloat(s, <span class="hljs-number">9</span>));
-
-    s = FloatToQFormatInteger(<span class="hljs-number">64</span>, <span class="hljs-number">6</span>, <span class="hljs-number">9</span>);
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%x, %f\n&quot;</span>, s, QFormatIntegerToFloat(s, <span class="hljs-number">9</span>));
-
-    <span class="hljs-comment">// Q15    S0.15    -1&#x2264;x&#x2264;0.9999695</span>
-    s = FloatToQFormatInteger(-<span class="hljs-number">1.0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">15</span>);
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%x, %f\n&quot;</span>, s, QFormatIntegerToFloat(s, <span class="hljs-number">15</span>));
-
-    s = FloatToQFormatInteger(<span class="hljs-number">1.0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">15</span>);
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%x, %f\n&quot;</span>, s, QFormatIntegerToFloat(s, <span class="hljs-number">15</span>));
-
-
-    <span class="hljs-comment">// Q0    S15.0    -32768&#x2264;x&#x2264;32767</span>
-    s = FloatToQFormatInteger(-<span class="hljs-number">32768</span>, <span class="hljs-number">15</span>, <span class="hljs-number">0</span>);
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%x, %f\n&quot;</span>, s, QFormatIntegerToFloat(s, <span class="hljs-number">0</span>));
-
-    s = FloatToQFormatInteger(<span class="hljs-number">32767</span>, <span class="hljs-number">15</span>, <span class="hljs-number">0</span>);
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%x, %f\n&quot;</span>, s, QFormatIntegerToFloat(s, <span class="hljs-number">0</span>));
-
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+                        <h1 id="%E9%87%8D%E6%96%B0%E7%90%86%E8%A7%A3%E6%95%B8%E5%80%BC">&#x91CD;&#x65B0;&#x7406;&#x89E3;&#x6578;&#x503C;</h1>
+<p>&#x4E3B;&#x8B1B;&#x4EBA;: <a href="http://wiki.csie.ncku.edu.tw/User/jserv" target="_blank">jserv</a> / &#x8AB2;&#x7A0B;&#x8A0E;&#x8AD6;&#x5340;: <a href="https://www.facebook.com/groups/system.software2016/" target="_blank">2016 &#x5E74;&#x7CFB;&#x7D71;&#x8EDF;&#x9AD4;&#x8AB2;&#x7A0B;</a></p>
+<h2 id="%E6%95%B8%E5%AD%97%E8%83%8C%E5%BE%8C%E7%9A%84%E9%81%93%E7%90%86">&#x6578;&#x5B57;&#x80CC;&#x5F8C;&#x7684;&#x9053;&#x7406;</h2>
+<ul>
+<li><code>0.1 - 0.3 + 0.2</code> &#x7684;&#x7D50;&#x679C;&#x7ADF;&#x7136;&#x4E0D;&#x7B49;&#x65BC; 0 ?! <ul>
+<li>1985 &#x5E74;&#xFF0C;IEEE &#x767C;&#x4F48; <a href="https://en.wikipedia.org/wiki/IEEE_floating_point" target="_blank">IEEE 754</a></li>
+</ul>
+</li>
+<li>&#x5728; KTV &#x5531;&#x6B4C;&#x6642;&#xFF0C;&#x82E5;&#x5531;&#x4E0D;&#x4E0A;&#x53BB;&#xFF0C;&#x6211;&#x5011;&#x5E38;&#x6703;&#x300C;&#x4F4E;&#x516B;&#x5EA6;&#x300D;&#xFF0C;&#x9019;&#x6642;&#x96D6;&#x7136;&#x8072;&#x97F3;&#x4F4E;&#x591A;&#x4E86;&#xFF0C;&#x4F46;&#x8207;&#x539F;&#x5531;&#x4E26;&#x4E0D;&#x885D;&#x7A81;&#xFF0C;&#x8207;&#x4F34;&#x594F;&#x4E5F;&#x4F9D;&#x7136;&#x548C;&#x8AE7;&#x3002;&#x70BA;&#x4EC0;&#x9EBC;&#x300C;&#x516B;&#x5EA6;&#x300D;&#x5982;&#x6B64;&#x7279;&#x5225;&#x5462;&#xFF1F;&#x66F4;&#x660E;&#x78BA;&#x4F86;&#x8AAA;&#xFF0C;&#x5DEE;&#x4E86;&#x516B;&#x5EA6;&#x7684;&#x8072;&#x97F3;&#x807D;&#x8D77;&#x4F86;&#x5982;&#x6B64;&#x76F8;&#x4F3C;&#x5462;&#xFF1F;<ul>
+<li>&#x5DEE;&#x8DDD;&#x516B;&#x5EA6;&#x7684;&#x5169;&#x500B;&#x97F3;&#x7684;&#x983B;&#x7387;&#x6B63;&#x597D;&#x5DEE; 2 &#x500D;&#xFF01;</li>
+<li>&#x4E2D;&#x97F3; do (&#x8A18;&#x4F5C; c&#x2019;) &#x662F; 261.6Hz; &#x9AD8;&#x97F3; do (&#x8A18;&#x4F5C; c&#x2019;&#x2019;) &#x662F; 523.3Hz</li>
+<li>&#x8A0A;&#x865F;&#x8655;&#x7406; (signal proccessing)</li>
+</ul>
+</li>
+</ul>
+<h2 id="%E4%BA%8C%E9%80%B2%E4%BD%8D">&#x4E8C;&#x9032;&#x4F4D;</h2>
+<ul>
+<li>George Boolean &#x5728;1800&#x5E74;&#x4ECB;&#x7D39;&#x300C;&#x908F;&#x8F2F;&#x4EE3;&#x6578;&#x300D;&#xFF0C;&#x5F8C;&#x4F86;&#x6210;&#x70BA;&#x300C;&#x5E03;&#x6797;&#x4EE3; &#x6578;&#x300D;(Boolean Algebra)</li>
+<li>Claude E. Shannon &#x65BC; 1938 &#x5E74;&#x767C;&#x8868;&#x5E03;&#x6797;&#x4EE3;&#x6578;&#x5C0D;&#x65BC;&#x4E8C;&#x9032;&#x5236;&#x51FD;&#x6578;&#x7684;&#x61C9;&#x7528;</li>
+</ul>
+<h2 id="integer-overflow">Integer Overflow</h2>
+<ul>
+<li><a href="https://www.facebook.com/JservFans/photos/a.743333619126308.1073741828.638604962932508/908325589293776/" target="_blank">&#x795E;&#x4E00;&#x6A23;&#x7684;&#x9032;&#x5EA6;&#x689D;</a></li>
+<li><a href="https://www.facebook.com/JservFans/posts/907938812665787" target="_blank">&#x6CE2;&#x97F3; 787 &#x4E0D;&#x518D;&#x300C;&#x5922;&#x5E7B;&#x300D;</a><ul>
+<li>&#x6CE2;&#x97F3; 787 &#x7684;&#x96FB;&#x529B;&#x63A7;&#x5236;&#x7CFB;&#x7D71;&#x5728; 248 &#x5929;&#x96FB;&#x529B;&#x6C92;&#x4E2D;&#x65B7;&#x7684;&#x72C0;&#x6CC1;&#x4E0B;&#xFF0C;&#x6703;&#x81EA;&#x52D5;&#x95DC;&#x6A5F;&#xFF0C;&#x70BA;&#x6B64; FAA (&#x7F8E;&#x570B;&#x806F;&#x90A6;&#x822A;&#x7A7A;&#x7BA1;&#x7406;&#x5C40;) &#x544A;&#x77E5;&#x61C9;&#x6BCF; 120 &#x5929;&#x91CD;&#x958B;&#x6A5F;&#xFF0C;&#x770B;&#x4F86;&#x300C;&#x91CD;&#x958B;&#x6A5F;&#x6CBB;&#x767E;&#x75C5;&#x300D;&#x653E;&#x8AF8;&#x56DB;&#x6D77;&#x90FD;&#x901A;&#x7528;&#xFF1F;&#x9019;&#x7576;&#x7136;&#x662F;&#x98DB;&#x5B89;&#x7684;&#x6CBB;&#x6A19;&#x8FA6;&#x6CD5;&#xFF0C;&#x6211;&#x5011;&#x5DE5;&#x7A0B;&#x4EBA;&#x54E1;&#x7576;&#x7136;&#x8981;&#x63A2;&#x7A76;&#x6CBB;&#x672C;&#x8B70;&#x984C;&#x3002;</li>
+<li>&#x4EFB;&#x6559;&#x65BC;&#x7F8E;&#x570B; <a href="https://www.facebook.com/carnegiemellonu/" target="_blank">Carnegie Mellon University</a> (CMU) &#x7684; Phil Koopman &#x6559;&#x6388;&#x6307;&#x51FA;&#xFF0C;&#x9019;&#x5176;&#x5BE6;&#x5C31;&#x662F; integer overflow&#xFF0C;&#x518D;&#x6B21;&#x9A57;&#x8B49;&#x300C;&#x5931;&#x4E4B;&#x6BEB;&#x91D0;&#xFF0C;&#x5DEE;&#x4E4B;&#x5343;&#x91CC;&#x300D;&#x7684;&#x9053;&#x7406;&#x3002;</li>
+<li>&#x6211;&#x5011;&#x5148;&#x5C07; 248 &#x5929;&#x63DB;&#x6210;&#x79D2;&#x6578;:</li>
+<li>248 days <em> 24 hours/day </em> 60 minute/hour * 60 seconds/minute = 21,427,200</li>
+<li>&#x9019;&#x500B;&#x6578;&#x5B57;&#x82E5;&#x4E58;&#x4E0A; 100&#xFF0C;&#x7E7C;&#x7E8C;&#x89C0;&#x5BDF;&#xFF1A;<ul>
+<li>0x7FFFFFFF (32-bit &#x6709;&#x865F;&#x6578;&#x6700;&#x5927;&#x503C;) = 2147483647 / (24 <em> 60 </em> 60) = 24855 / 100 = 248.55 days.</li>
+</ul>
+</li>
+<li>&#x770B;&#x51FA;&#x4F86;&#x4E86;&#x55CE;&#xFF1F;&#x6BCF; 1/100 &#x79D2;&#x7D00;&#x9304;&#x5728; 32-bit signed integer&#xFF0C;&#x7136;&#x5F8C;&#x9047;&#x5230; overflow</li>
+<li><a href="http://betterembsw.blogspot.tw/2015/05/counter-rollover-bites-boeing-787.html" target="_blank">Counter Rollover Bites Boeing</a><a href="http://betterembsw.blogspot.tw/2015/05/counter-rollover-bites-boeing-787.html" target="_blank"> </a><a href="http://betterembsw.blogspot.tw/2015/05/counter-rollover-bites-boeing-787.html" target="_blank"> 787</a></li>
+<li>&#x98DB;&#x884C;&#x63A7;&#x5236;&#x7CFB;&#x7D71;&#x548C;&#x8EDF;&#x9AD4;&#x5DE5;&#x7A0B;/&#x7DE8;&#x8B6F;&#x5668;&#x7684;<a href="https://www.facebook.com/photo.php?fbid=10153481990772389" target="_blank">&#x95DC;&#x806F;</a></li>
+<li><a href="https://www.facebook.com/JservFans/posts/907381016054900" target="_blank">&#x822A;&#x7A7A;&#x592A;&#x7A7A;&#x79D1;&#x6280;&#x662F;&#x79D1;&#x6280;&#x767C;&#x5C55;&#x7684;&#x706B;&#x8ECA;&#x982D;</a></li>
+</ul>
+</li>
+<li><a href="https://www.facebook.com/JservFans/posts/904562523003416" target="_blank">Deep Impact </a>(2005)</li>
+<li><a href="https://www.facebook.com/JservFans/posts/904552413004427" target="_blank">Ariane 5</a> (1996)<ul>
+<li><a href="https://www.ima.umn.edu/~arnold/disasters/ariane5rep.html" target="_blank">detail report</a> : a data conversion from 64-bit floating point to 16-bit signed integer value</li>
+</ul>
+</li>
+</ul>
+<p>&#x5176;&#x4ED6; integer overflow &#x6848;&#x4F8B;:</p>
+<ul>
+<li><a href="http://www.openssh.com/txt/preauth.adv" target="_blank">Openssh 2002 security hole</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Year_2038_problem" target="_blank">Year 2038 problem</a></li>
+<li><a href="http://arstechnica.com/business/2014/12/gangnam-style-overflows-int_max-forces-youtube-to-go-64-bit/" target="_blank">Youtube Gangnam Style overflows</a></li>
+<li><a href="http://gamasutra.com/blogs/MaxWoolf/20130508/191959/Diablo_III_Economy_Broken_by_an_Integer_Overflow_Bug.php" target="_blank">Diablo III Real Money Action House integer overflow</a></li>
+<li><a href="http://thehackernews.com/2014/06/20-years-old-vulnerability-in-lzo.html" target="_blank">Lempel-Ziv-Oberhumer (LZO) algorithm</a></li>
+<li><a href="https://bugzilla.redhat.com/show_bug.cgi?id=1202395" target="_blank">OpenSSL integer underflow leading to buffer overflow in base64 decoding</a></li>
+<li><a href="http://blog.trendmicro.com/trendlabs-security-intelligence/trend-micro-discovers-vulnerability-that-renders-android-devices-silent/" target="_blank">Trend Micro Discovers Vulnerability That Renders Android Devices Silent</a></li>
+<li><a href="https://en.wikipedia.org/wiki/IPv4_address_exhaustion" target="_blank">IPv4 address </a><a href="https://en.wikipedia.org/wiki/IPv4_address_exhaustion" target="_blank">L</a><a href="https://en.wikipedia.org/wiki/IPv4_address_exhaustion" target="_blank">exhaustion</a> , <a href="http://www.around.com/ariane.html" target="_blank">A bug and a crash --- The explosion of Ariane 5 rocket</a></li>
+<li><a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2010-2753" target="_blank">Integer overflow in Mozilla Firefox 3.5.x before 3.5.11 and 3.6.x before 3.6.7</a></li>
+<li><a href="http://hmarco.org/bugs/linux-ASLR-integer-overflow.html" target="_blank">CVE-2015-1593 - Linux ASLR integer overflow: Reducing stack entropy by four</a></li>
+<li><a href="http://cve.circl.lu/cve/CVE-2010-5139" target="_blank">Integer overflow in Bitcoin software</a>, <a href="https://en.bitcoin.it/wiki/Value_overflow_incident" target="_blank">Bitcoinwiki - Value overflow incident</a></li>
+<li><a href="http://www.kb.cert.org/vuls/id/945216" target="_blank">SSH CRC32 attack detection code contains remote integer overflow</a></li>
+<li><a href="http://www.akitasecurity.nl/advisory/AK20110801/_net_framework_encoderparameter_integer_overflow_vulnerability.html" target="_blank">.NET Framework EncoderParameter integer overflow vulnerability</a></li>
+<li><a href="http://mentalfloss.com/uk/games/31376/why-does-donkey-kong-break-on-level-22" target="_blank">The classic videogame Donkey Kong has an infamous &#x2019;kill screen&#x2019;, where the game stops working. But why? =&gt;integer overflow</a></li>
+<li><a href="http://www.rapid7.com/db/modules/exploit/windows/browser/adobe_flash_casi32_int_overflow" target="_blank">Adobe Flash Player casi32 Integer Overflow</a></li>
+<li><a href="http://www.oschina.net/news/39973/ngx_http_close_connection-integer-overflow" target="_blank">ngx_http_close_connection integer overflow</a></li>
+<li><a href="http://sydney.edu.au/engineering/it/~alum/patriot_bug.html" target="_blank">&#x611B;&#x570B;&#x8005;&#x98DB;&#x5F48;&#x7CFB;&#x7D71;&#x8EDF;&#x9AD4;&#x554F;&#x984C;</a></li>
+<li><a href="https://www.tenable.com/security/tns-2014-10" target="_blank">PHP Integer Overflow Affects Tenable&#x2019;s Security Center</a></li>
+<li><a href="https://en.wikibooks.org/wiki/Professionalism/Therac-25#cite_note-medical-devices-1" target="_blank">Therac-25 radiation overdose</a></li>
+<li><a href="https://www.htbridge.com/blog/cve_2014_3669_integer_overflow_in_unserialize_php_function.html" target="_blank">CVE-2014-3669: Integer overflow in unserialize() PHP function</a></li>
+<li><a href="https://sathisharthars.wordpress.com/tag/range-header-integer-overflow/" target="_blank">MS15-034 &#x2013; Range Header Integer Overflow</a></li>
+<li><a href="http://www.ledin.com/integer-algorithms-implementation-and-issues/" target="_blank">PID&#x63A7;&#x5236;&#x5668;&#x8A2D;&#x8A08;&#x4E0A;&#x7684;&#x4E00;&#x4E9B;&#x8003;&#x91CF; &#x907F;&#x514D;&#x767C;&#x751F;overflow</a></li>
+<li><a href="http://www.securitytracker.com/id/1033118" target="_blank">Oracle Issues Fix for Oracle Linux) Python Integer Overflow in &#x2019;bufferobject.c&#x2019; Lets Users Obtain Potentially Sensitive Information</a></li>
+<li><a href="https://www.reddit.com/r/programming/comments/1aigv9/integer_overflow_in_an_rpg_defeat_a_boss_by/" target="_blank">Super Mario Bros life</a></li>
+</ul>
+<p><a href="http://louieluhbt.blogspot.tw/2016/09/gdb-flags-register.html" target="_blank">gdb &#x986F;&#x793A; FLAGS register</a></p>
+<p><img src="https://hackpad-attachments.s3.amazonaws.com/embedded2016.hackpad.com_Y4Z4yg1PenQ_p.537916_1472999978404_undefined" alt=""></p>
+<h2 id="%E9%82%8F%E8%BC%AF%E5%92%8C%E7%AE%97%E8%A1%93%E7%9A%84%E5%B7%AE%E7%95%B0">&#x908F;&#x8F2F;&#x548C;&#x7B97;&#x8853;&#x7684;&#x5DEE;&#x7570;</h2>
+<p><strong>When exactly do side-effects take place in C and C++?</strong></p>
+<pre><code class="lang-C=">int a = 41; a++; printf(&quot;%d\n&quot;, a);              42
+int a = 41; a++ &amp; printf(&quot;%d\n&quot;, a);             undefined
+int a = 41; a++ &amp;&amp; printf(&quot;%d\n&quot;, a);            42
+int a = 41; if (a++ &lt; 42) printf(&quot;%d\n&quot;, a);     42
+int a = 41; a = a++; printf(&quot;%d\n&quot;, a);          undefined
+</code></pre>
+<ul>
+<li><p>&#x4EE5;&#x4E0B;&#x7684;&#x5DEE;&#x7570;&#x5462;&#xFF1F;</p>
+<ul>
+<li>int a=41; a++ &amp; printf(&quot;%d\n&quot;, a);</li>
+<li>int a=41; a++ &amp;&amp; printf(&quot;%d\n&quot;, a);  </li>
+<li>int a=41; a=a++; printf(&quot;%d\n&quot;, a);</li>
+</ul>
+</li>
+<li><p>&#x8A9E;&#x6CD5;/&#x8A9E;&#x610F;&#x5206;&#x6790;</p>
+<ul>
+<li><code>Left &amp; Right</code> &#x4E2D; (&#x4F4D;&#x5143;&#x904B;&#x7B97;)&#xFF0C;&#x95DC;&#x65BC;&#x662F;&#x5148;&#x5C0D; <code>Left</code> &#x9084;&#x662F; <code>Right</code> &#x53D6;&#x503C;&#xFF0C;&#x6C92;&#x6709;&#x660E;&#x78BA;&#x9806;&#x5E8F;</li>
+<li>&#x4F46;&#x5C0D;&#x65BC; <code>Left &amp;&amp; Right</code> &#x4F86;&#x8AAA; (&#x908F;&#x8F2F;&#x904B;&#x7B97;)&#xFF0C;&#x4E00;&#x5B9A;&#x662F;&#x5148;&#x78BA;&#x4FDD; <code>Left</code> &#x6210;&#x7ACB;&#xFF0C;&#x624D;&#x6703;&#x4F5C; <code>Right</code></li>
+</ul>
+</li>
+</ul>
+<p>&#x4EE5;&#x4E0B;&#x7A0B;&#x5F0F;&#x78BC;&#x4E2D;&#xFF1A;</p>
+<pre><code class="lang-C=">a++ &amp;&amp; printf();
+</code></pre>
+<p>&#x5DE6;&#x908A;&#x5148;&#x904B;&#x7B97; <code>a++</code>&#xFF0C;&#x5018;&#x82E5;&#x70BA;&#x771F;&#xFF0C;&#x63A5;&#x8457;&#x624D;&#x6703;&#x4F5C;&#x53F3;&#x908A;&#x7684; <code>printf()</code></p>
+<h1 id="%E9%81%8B%E7%94%A8-bit-wise-operator">&#x904B;&#x7528; bit-wise operator</h1>
+<ul>
+<li><p>C &#x8A9E;&#x8A00;&#x4E2D;&#xFF0C;<code>x &amp; (x - 1) == 0</code> &#x7684;&#x6578;&#x5B78;&#x610F;&#x7FA9;</p>
+<ul>
+<li>power of two</li>
+<li>signed v.s. unsigned</li>
+</ul>
+</li>
+<li><p>C &#x8A9E;&#x8A00;&#x4E2D;&#xFF0C;<code>x | (x + 1)</code> &#x53C8;&#x8868;&#x793A;&#x4EC0;&#x9EBC;&#xFF1F;</p>
+<ul>
+<li>x with lowest cleared bit set</li>
+</ul>
+</li>
+<li><p>&#x4EE5;&#x4E0B; C &#x8A9E;&#x8A00;&#x7A0B;&#x5F0F;&#x7684; DETECT &#x5DE8;&#x96C6;&#x80FD;&#x505A;&#x4EC0;&#x9EBC;&#xFF1F;</p>
+<pre><code class="lang-C=">#if LONG_MAX == 2147483647L
+#define DETECT(X) \
+  (((X) - 0x01010101) &amp; ~(X) &amp; 0x80808080)
+#else
+#if LONG_MAX == 9223372036854775807L
+#define DETECT(X) \
+  (((X) - 0x0101010101010101) &amp; ~(X) &amp; 0x8080808080808080)
+#else
+#error long int is not a 32bit or 64bit type.
+#endif
+#endif
+</code></pre>
+</li>
+<li>&#x5DE8;&#x96C6; <code>DETECT</code> &#x5728;&#x5075;&#x6E2C;&#x4EC0;&#x9EBC;&#xFF1F;<ul>
+<li>Detect NULL</li>
+</ul>
+</li>
+</ul>
+<p>&#x6E2C;&#x8A66;&#x9019;&#x7A0B;&#x5F0F;&#x6642;&#xFF0C;&#x8981;&#x6CE8;&#x610F;&#x5230;&#x7531;&#x65BC; <strong>LONG_MAX</strong> &#x5B9A;&#x7FA9;&#x5728; <code>&lt;limits.h&gt;</code> &#x88E1;&#x9762;&#xFF0C;&#x56E0;&#x6B64;&#x8981;&#x8A18;&#x5F97;&#x4F5C; <code>&#xFF03;include</code></p>
+<p>&#x9019;&#x500B;&#x5DE8;&#x96C6;&#x7684;&#x7528;&#x9014;&#x662F;&#x5728;&#x5075;&#x6E2C;&#x662F;&#x5426;&#x70BA; 0 &#x6216;&#x8005;&#x8AAA;&#x662F;&#x5426;&#x70BA; NULL char &#x2019;\0&#x2019;&#xFF0C;&#x4E5F;&#x56E0;&#x6B64;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x5728; iOS &#x7684;&#x539F;&#x59CB;&#x7A0B;&#x5F0F;&#x78BC; <a href="http://opensource.apple.com/source/Libc/Libc-583/arm/string/strlen.s" target="_blank">strlen</a> &#x7684;&#x5BE6;&#x4F5C;&#x4E2D;&#x770B;&#x5230;&#x9019;&#x4E00;&#x6BB5;&#x3002;&#x90A3;&#xFF0C;&#x70BA;&#x4EC0;&#x9EBC;&#x9019;&#x4E00;&#x6BB5;&#x7A0B;&#x5F0F;&#x78BC;&#x53EF;&#x4EE5;&#x7528;&#x4F86;&#x5075;&#x6E2C; NULL char ?</p>
+<p>&#x6211;&#x5011;&#x5148;&#x601D;&#x8003; strlen() &#x8A72;&#x600E;&#x9EBC;&#x5BE6;&#x505A;&#xFF0C;&#x4EE5;&#x4E0B;&#x5BE6;&#x4F5C;&#x4E00;&#x500B;&#x7C21;&#x55AE;&#x7684;&#x7248;&#x672C;</p>
+<pre><code class="lang-C=">unsigned int strlen(const char *s)
+{
+    char *p = s;
+    while (*p != &#x2019;\0&#x2019;) p++;
+    return (p - s);
 }
 </code></pre>
-<h2 id="q31">Q31</h2>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
-
-<span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">QFormatIntegerToFloat</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> x,
-                             <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> n)</span>
-
+<p>&#x9019;&#x6A23;&#x7684;&#x7248;&#x672C;&#x6709;&#x4EC0;&#x9EBC;&#x554F;&#x984C;&#xFF1F;&#x96D6;&#x7136;&#x770B;&#x8D77;&#x4F86;&#x7CBE;&#x7C21;&#xFF0C;&#x4F46;&#x662F;&#x56E0;&#x70BA;&#x4ED6;&#x4E00;&#x6B21;&#x53EA;&#x6AA2;&#x67E5; 1byte&#xFF0C;&#x6240;&#x4EE5;&#x4E00;&#x65E6;&#x5B57;&#x4E32;&#x5F88;&#x9577;&#xFF0C;&#x4ED6;&#x5C31;&#x6703;&#x8655;&#x7406;&#x5F88;&#x4E45;&#x3002;&#x53E6;&#x5916;&#x4E00;&#x500B;&#x554F;&#x984C;&#x662F;&#xFF0C;&#x5047;&#x8A2D;&#x662F;&#x5728; 32-bit &#x7684; CPU &#x4E0A;&#xFF0C;&#x4E00;&#x6B21;&#x662F;&#x8655;&#x7406; 4-byte (32-bit) &#x5927;&#x5C0F;&#x7684;&#x8CC7;&#x8A0A;&#xFF0C;&#x4E0D;&#x89BA;&#x5F97;&#x9019;&#x6A23;&#x5F88;&#x6D6A;&#x8CBB;&#x55CE;?</p>
+<p>&#x70BA;&#x4E86;&#x53EF;&#x4EE5;&#x601D;&#x8003;&#x9019;&#x6A23;&#x7684;&#x7A0B;&#x5F0F;&#xFF0C;&#x6211;&#x5011;&#x7531;&#x5DF2;&#x77E5;&#x7684;&#x8A08;&#x7B97;&#x65B9;&#x5F0F;&#x4F86;&#x9006;&#x63A8;&#x539F;&#x4F5C;&#x8005;&#x53EF;&#x80FD;&#x7684;&#x601D;&#x8003;&#x6D41;&#x7A0B;&#xFF0C;&#x9996;&#x5148;&#x5148;&#x5C07;&#x8A08;&#x7B97;&#x518D;&#x7C21;&#x5316;&#x4E00;&#x9EDE;&#x9EDE;&#xFF0C;&#x5C07;&#x4ED6;&#x5F9E; <strong>(((X) - 0x01010101) &amp; ~(X) &amp; 0x80808080)</strong> &#x8B8A;&#x6210;</p>
+<pre><code>((X) - 0x01) &amp; ~(X) &amp; 0x80
+</code></pre><p>&#x9084;&#x662F;&#x770B;&#x4E0D;&#x61C2;&#xFF0C;&#x5C07;&#x4EE5;&#x524D;&#x5B78;&#x904E;&#x7684;&#x7B1B;&#x6469;&#x6839;&#x5B9A;&#x7406;&#x5957;&#x7528;&#x4E0A;&#x53BB;&#xFF0C;&#x65BC;&#x662F;&#x9019;&#x500B;&#x5F0F;&#x5B50;&#x5C31;&#x8B8A;&#x6210;&#x4E86;</p>
+<pre><code>~( ~(X - 0x01) | X ) &amp; 0x80
+</code></pre><p>&#x518D;&#x7A0D;&#x5FAE;&#x8ABF;&#x6574;&#x4E00;&#x4E0B;&#x9806;&#x5E8F;</p>
+<pre><code>~( X | ~(X - 0x01) ) &amp; 0x80
+</code></pre><p>&#x6240;&#x4EE5;&#x6211;&#x5011;&#x5C31;&#x53EF;&#x9032;&#x884C;&#x5206;&#x6790;</p>
+<ul>
+<li><code>X | ~(X - 0x01)</code> =&gt; &#x53D6;&#x5F97;&#x6700;&#x4F4E;&#x4F4D;&#x5143;&#x662F;&#x5426;&#x70BA; 0 &#xFF0C;&#x4E26;&#x5C07;&#x5176;&#x4ED6;&#x4F4D;&#x5143;&#x8A2D;&#x70BA; 1<ul>
+<li>X = 0000 0011 =&gt; 1111 1111</li>
+<li>X = 0000 0010 =&gt; 1111 1110</li>
+</ul>
+</li>
+<li>&#x60F3;&#x60F3; 0x80 &#x662F;&#x4EC0;&#x9EBC;? 0x80 &#x662F; 1000 0000 &#xFF0C;&#x4E5F;&#x5C31;&#x662F; 1-byte &#x7684;&#x6700;&#x9AD8;&#x4F4D;&#x5143;</li>
+</ul>
+<p>&#x4E0A;&#x9762;&#x9019;&#x5169;&#x7D44;&#x7D44;&#x5408;&#x8D77;&#x4F86;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x5F97;&#x5230;&#x4EE5;&#x4E0B;&#x7D50;&#x679C;</p>
+<ul>
+<li>X = 0    =&gt; 1000 0000  =&gt; 0x80</li>
+<li>X = 1     =&gt; 0000 0000 =&gt; 0</li>
+<li>X = 2    =&gt; 0000 0000 =&gt; 0</li>
+<li>.......</li>
+<li>X = 255 =&gt; 0000 0000 =&gt; 0</li>
+</ul>
+<p>&#x65BC;&#x662F;&#x6211;&#x5011;&#x77E5;&#x9053;&#xFF0C;&#x539F;&#x4F86;&#x9019;&#x6A23;&#x7684;&#x904B;&#x7B97;&#xFF0C;&#x5982;&#x679C;&#x4E00;&#x500B; byte &#x662F; 0&#xFF0C;&#x90A3;&#x7D93;&#x7531;&#x9019;&#x500B;&#x904B;&#x7B97;&#x5F97;&#x5230;&#x7684;&#x7D50;&#x679C;&#x6703;&#x662F; 0x80&#xFF0C;&#x53CD;&#x4E4B;&#x70BA; 0&#x3002;</p>
+<p>&#x518D;&#x5C07;&#x9019;&#x500B;&#x60F3;&#x6CD5;&#x64F4;&#x5C55;&#x5230; 32-bit&#xFF0C;&#x662F;&#x4E0D;&#x662F;&#x53EF;&#x4EE5;&#x60F3;&#x5230;&#x8AAA;&#x5728; 32bit &#x7684;&#x60C5;&#x6CC1;&#x4E0B;&#xFF0C;0 &#x6703;&#x5F97;&#x5230; 0x80808080 &#x9019;&#x6A23;&#x7684;&#x7B54;&#x6848;?&#x6211;&#x5011;&#x53EA;&#x8981;&#x5224;&#x65B7;&#x9019;&#x500B;&#x6578;&#x503C;&#x662F;&#x4E0D;&#x662F;&#x5B58;&#x5728;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x627E;&#x5230; &#x2019;\0&#x2019; &#x5728;&#x54EA;&#x4E86;&#xFF01;</p>
+<p>&#x53C3;&#x8003;&#x8CC7;&#x6599;:</p>
+<ul>
+<li><a href="http://www.amazon.com/Hackers-Delight-Edition-Henry-Warren/dp/0321842685" target="_blank">Hacker&#x2019;s Delight</a>  </li>
+<li><a href="http://www.hackersdelight.org/corres.txt" target="_blank"></a><a href="http://www.hackersdelight.org/corres.txt" target="_blank">http://www.hackersdelight.org/corres.txt</a></li>
+<li><a href="https://blog.delphij.net/2012/04/freebsd-strlen3.html" target="_blank">FreeBSD &#x7684; strlen(3)</a> </li>
+<li><a href="https://gcc.gnu.org/bugzilla/show_bug.cgi?id=60538" target="_blank">Bug 60538  - [SH] improve support for cmp/str insn </a></li>
+</ul>
+<p>&#x61C9;&#x7528;:</p>
+<ul>
+<li><a href="https://github.com/eblot/newlib/blob/master/newlib/libc/string/strlen.c" target="_blank">newlib &#x7684; strlen</a></li>
+<li><a href="https://github.com/eblot/newlib/blob/master/newlib/libc/string/strcpy.c" target="_blank">newlib &#x7684; strcpy</a></li>
+<li>SSE 4.2 &#x6700;&#x4F73;&#x5316;&#x7248;&#x672C;: <a href="https://www.strchr.com/strcmp_and_strlen_using_sse_4.2" target="_blank">Implementing strcmp, strlen, and strstr using SSE 4.2 instructions</a></li>
+</ul>
+<h2 id="%E7%AE%97%E8%A1%93%E5%AE%8C%E5%85%A8%E5%8F%AF%E7%94%A8%E6%95%B8%E4%BD%8D%E9%82%8F%E8%BC%AF%E5%AF%A6%E5%81%9A">&#x7B97;&#x8853;&#x5B8C;&#x5168;&#x53EF;&#x7528;&#x6578;&#x4F4D;&#x908F;&#x8F2F;&#x5BE6;&#x505A;</h2>
+<p>&#x53EA;&#x80FD;&#x4F7F;&#x7528;&#x4F4D;&#x5143;&#x904B;&#x7B97;&#x5B50;&#x548C;&#x905E;&#x8FF4;&#xFF0C;&#x5728;C&#x7A0B;&#x5F0F;&#x4E2D;&#x5BE6;&#x505A;&#x5169;&#x500B;&#x6574;&#x6578;&#x7684;&#x52A0;&#x6CD5;&#xFF0C;&#x53EF;&#x884C;&#x55CE;&#xFF1F;</p>
+<p>&#x5148;&#x56DE;&#x9867;<a href="http://www.gauss.com.tw/logic/ch6/index6.htm" target="_blank">&#x52A0;&#x6CD5;&#x5668;</a> &#x7684;&#x5BE6;&#x505A;&#xFF0C;&#x601D;&#x8003;&#x4EE5;&#x4E0B;&#x7A0B;&#x5F0F;&#x78BC;:</p>
+<pre><code class="lang-C"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b)</span>
 </span>{
-    <span class="hljs-keyword">return</span> (((<span class="hljs-keyword">double</span>)x) / ((<span class="hljs-keyword">double</span>)(<span class="hljs-number">1</span> &lt;&lt; n)));
-}
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">FloatToQFormatInteger</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> x,
-                          <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> m,
-                          <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> n)</span>
-
-</span>{
-    <span class="hljs-keyword">int</span>   i;
-    <span class="hljs-keyword">int</span>   y;
-    <span class="hljs-keyword">int</span>   mask = <span class="hljs-number">0</span>;
-
-    y = (<span class="hljs-keyword">int</span>)(x * ((<span class="hljs-keyword">double</span>)(<span class="hljs-number">1</span> &lt;&lt; n)));  <span class="hljs-comment">// Generate the integer number in m.n format</span>
-
-    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; (m + n);
-         i++) {     <span class="hljs-comment">// Calculate the mask to ensure we return the correct number of valid bits</span>
-        mask = (mask &lt;&lt; <span class="hljs-number">1</span>) + <span class="hljs-number">1</span>;
-    }
-
-    <span class="hljs-keyword">return</span> (y &amp; mask);
-}
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">MpyQFormatInteger</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> x,
-                      <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> y,
-                      <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> n)</span>
-
-</span>{
-    <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> tmp;
-    tmp = ((<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>)x * (<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>)y) &gt;&gt; n;
-    <span class="hljs-keyword">return</span> ((<span class="hljs-keyword">int</span>)tmp);
-}
-
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
-</span>{
-    <span class="hljs-keyword">int</span>         a, b, c, d, e;
-
-
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%f = 0x%x\n&quot;</span>,  <span class="hljs-number">2.0</span> , FloatToQFormatInteger(<span class="hljs-number">2.0</span> , <span class="hljs-number">8</span>, <span class="hljs-number">24</span>));
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%f = 0x%x\n&quot;</span>,  <span class="hljs-number">1.5</span> , FloatToQFormatInteger(<span class="hljs-number">1.5</span> , <span class="hljs-number">8</span>, <span class="hljs-number">24</span>));
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%f = 0x%x\n&quot;</span>,  <span class="hljs-number">0.5</span> , FloatToQFormatInteger(<span class="hljs-number">0.5</span> , <span class="hljs-number">8</span>, <span class="hljs-number">24</span>));
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%f = 0x%x\n&quot;</span>,  <span class="hljs-number">0.25</span>, FloatToQFormatInteger(<span class="hljs-number">0.25</span>, <span class="hljs-number">8</span>, <span class="hljs-number">24</span>));
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%f = 0x%x\n&quot;</span>,  <span class="hljs-number">0.75</span>, FloatToQFormatInteger(<span class="hljs-number">0.75</span>, <span class="hljs-number">8</span>, <span class="hljs-number">24</span>));
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n&quot;</span>);
-
-<span class="hljs-preprocessor">#<span class="hljs-keyword">if</span> <span class="hljs-number">1</span></span>
-    a = FloatToQFormatInteger(<span class="hljs-number">2.0</span>, <span class="hljs-number">8</span>, <span class="hljs-number">24</span>);
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Result = 0x%x : %f\n&quot;</span>, a, QFormatIntegerToFloat(a , <span class="hljs-number">24</span>));
-    b = FloatToQFormatInteger(<span class="hljs-number">1.5</span>, <span class="hljs-number">8</span>, <span class="hljs-number">24</span>);
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Result = 0x%x : %f\n&quot;</span>, b, QFormatIntegerToFloat(b , <span class="hljs-number">24</span>));
-    c = FloatToQFormatInteger(<span class="hljs-number">0.5</span>, <span class="hljs-number">8</span>, <span class="hljs-number">24</span>);
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Result = 0x%x : %f\n&quot;</span>, c, QFormatIntegerToFloat(c , <span class="hljs-number">24</span>));
-    d = FloatToQFormatInteger(<span class="hljs-number">0.25</span>, <span class="hljs-number">8</span>, <span class="hljs-number">24</span>);
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Result = 0x%x : %f\n&quot;</span>, d, QFormatIntegerToFloat(d , <span class="hljs-number">24</span>));
-    e = FloatToQFormatInteger(<span class="hljs-number">0.75</span>, <span class="hljs-number">8</span>, <span class="hljs-number">24</span>);
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Result = 0x%x : %f\n&quot;</span>, e, QFormatIntegerToFloat(e , <span class="hljs-number">24</span>));
-
-<span class="hljs-preprocessor">#<span class="hljs-keyword">else</span></span>
-    a = FloatToQFormatInteger(<span class="hljs-number">0.75</span>, <span class="hljs-number">8</span>, <span class="hljs-number">24</span>);
-    b = FloatToQFormatInteger(<span class="hljs-number">2.0</span> , <span class="hljs-number">8</span>, <span class="hljs-number">24</span>);
-    c = MpyQFormatInteger(a, b, <span class="hljs-number">24</span>);
-
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Result = 0x%x : %f\n&quot;</span>, c, QFormatIntegerToFloat(c , <span class="hljs-number">24</span>));
-
-    d = FloatToQFormatInteger(<span class="hljs-number">0.5</span> , <span class="hljs-number">8</span>, <span class="hljs-number">24</span>);
-    e = MpyQFormatInteger(c, d, <span class="hljs-number">24</span>);
-
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Result = 0x%x : %f\n&quot;</span>, e, QFormatIntegerToFloat(e , <span class="hljs-number">24</span>));
-<span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span></span>
-
-    <span class="hljs-keyword">return</span> (<span class="hljs-number">0</span>);
+    <span class="hljs-keyword">if</span> (b == <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> a;
+    <span class="hljs-keyword">int</span> sum = a ^ b; <span class="hljs-comment">/* &#x76F8;&#x52A0;&#x4F46;&#x4E0D;&#x9032;&#x4F4D; */</span>
+    <span class="hljs-keyword">int</span> carry = (a &amp; b) &lt;&lt; <span class="hljs-number">1</span>; <span class="hljs-comment">/* &#x9032;&#x4F4D;&#x4F46;&#x4E0D;&#x76F8;&#x52A0; */</span>
+    <span class="hljs-keyword">return</span> add(sum, carry);
 }
 </code></pre>
-<h2 id="ref">Ref</h2>
-<p><a href="http://blog.numerix-dsp.com/2015/01/c-code-to-implement-q-format-number.html" target="_blank">http://blog.numerix-dsp.com/2015/01/c-code-to-implement-q-format-number.html</a></p>
+<p>&#x5EF6;&#x4F38;&#x95B1;&#x8B80;: <a href="http://stackoverflow.com/questions/14695051/how-to-simulate-a-4-bit-binary-adder-in-c" target="_blank">How to simulate a 4-bit binary adder in C</a></p>
+<h2 id="count-leading-zero">Count Leading Zero</h2>
+<p><a href="http://stackoverflow.com/questions/11376288/fast-computing-of-log2-for-64-bit-integers" target="_blank">Fast computing of log2 for 64-bit integers</a></p>
+<ul>
+<li><p>&#x985E;&#x4F3C; De Bruijn &#x6F14;&#x7B97;&#x6CD5;</p>
+</li>
+<li><p>64-bit version</p>
+<pre><code class="lang-C"><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> tab64[<span class="hljs-number">64</span>] = {
+<span class="hljs-number">63</span>,  <span class="hljs-number">0</span>, <span class="hljs-number">58</span>,  <span class="hljs-number">1</span>, <span class="hljs-number">59</span>, <span class="hljs-number">47</span>, <span class="hljs-number">53</span>,  <span class="hljs-number">2</span>,
+<span class="hljs-number">60</span>, <span class="hljs-number">39</span>, <span class="hljs-number">48</span>, <span class="hljs-number">27</span>, <span class="hljs-number">54</span>, <span class="hljs-number">33</span>, <span class="hljs-number">42</span>,  <span class="hljs-number">3</span>,
+<span class="hljs-number">61</span>, <span class="hljs-number">51</span>, <span class="hljs-number">37</span>, <span class="hljs-number">40</span>, <span class="hljs-number">49</span>, <span class="hljs-number">18</span>, <span class="hljs-number">28</span>, <span class="hljs-number">20</span>,
+<span class="hljs-number">55</span>, <span class="hljs-number">30</span>, <span class="hljs-number">34</span>, <span class="hljs-number">11</span>, <span class="hljs-number">43</span>, <span class="hljs-number">14</span>, <span class="hljs-number">22</span>,  <span class="hljs-number">4</span>,
+<span class="hljs-number">62</span>, <span class="hljs-number">57</span>, <span class="hljs-number">46</span>, <span class="hljs-number">52</span>, <span class="hljs-number">38</span>, <span class="hljs-number">26</span>, <span class="hljs-number">32</span>, <span class="hljs-number">41</span>,
+<span class="hljs-number">50</span>, <span class="hljs-number">36</span>, <span class="hljs-number">17</span>, <span class="hljs-number">19</span>, <span class="hljs-number">29</span>, <span class="hljs-number">10</span>, <span class="hljs-number">13</span>, <span class="hljs-number">21</span>,
+<span class="hljs-number">56</span>, <span class="hljs-number">45</span>, <span class="hljs-number">25</span>, <span class="hljs-number">31</span>, <span class="hljs-number">35</span>, <span class="hljs-number">16</span>,  <span class="hljs-number">9</span>, <span class="hljs-number">12</span>,
+<span class="hljs-number">44</span>, <span class="hljs-number">24</span>, <span class="hljs-number">15</span>,  <span class="hljs-number">8</span>, <span class="hljs-number">23</span>,  <span class="hljs-number">7</span>,  <span class="hljs-number">6</span>,  <span class="hljs-number">5</span>
+};
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">log2_64</span> <span class="hljs-params">(uint64_t value)</span>
+</span>{
+value |= value &gt;&gt; <span class="hljs-number">1</span>;
+value |= value &gt;&gt; <span class="hljs-number">2</span>;
+value |= value &gt;&gt; <span class="hljs-number">4</span>;
+value |= value &gt;&gt; <span class="hljs-number">8</span>;
+value |= value &gt;&gt; <span class="hljs-number">16</span>;
+value |= value &gt;&gt; <span class="hljs-number">32</span>;
+<span class="hljs-keyword">return</span> tab64[((<span class="hljs-keyword">uint64_t</span>)((value - (value &gt;&gt; <span class="hljs-number">1</span> ))*<span class="hljs-number">0x07EDD5E59A4E28C2</span>)) &gt;&gt; <span class="hljs-number">58</span>];
+}
+</code></pre>
+</li>
+<li><p>32-bit version</p>
+<pre><code class="lang-C"><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> tab32[<span class="hljs-number">32</span>] = {
+<span class="hljs-number">0</span>,  <span class="hljs-number">9</span>,  <span class="hljs-number">1</span>, <span class="hljs-number">10</span>, <span class="hljs-number">13</span>, <span class="hljs-number">21</span>,  <span class="hljs-number">2</span>, <span class="hljs-number">29</span>,
+<span class="hljs-number">11</span>, <span class="hljs-number">14</span>, <span class="hljs-number">16</span>, <span class="hljs-number">18</span>, <span class="hljs-number">22</span>, <span class="hljs-number">25</span>,  <span class="hljs-number">3</span>, <span class="hljs-number">30</span>,
+<span class="hljs-number">8</span>, <span class="hljs-number">12</span>, <span class="hljs-number">20</span>, <span class="hljs-number">28</span>, <span class="hljs-number">15</span>, <span class="hljs-number">17</span>, <span class="hljs-number">24</span>,  <span class="hljs-number">7</span>,
+<span class="hljs-number">19</span>, <span class="hljs-number">27</span>, <span class="hljs-number">23</span>,  <span class="hljs-number">6</span>, <span class="hljs-number">26</span>,  <span class="hljs-number">5</span>,  <span class="hljs-number">4</span>, <span class="hljs-number">31</span>
+};
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">log2_32</span> <span class="hljs-params">(uint32_t value)</span>
+</span>{
+value |= value &gt;&gt; <span class="hljs-number">1</span>;
+value |= value &gt;&gt; <span class="hljs-number">2</span>;
+value |= value &gt;&gt; <span class="hljs-number">4</span>;
+value |= value &gt;&gt; <span class="hljs-number">8</span>;
+value |= value &gt;&gt; <span class="hljs-number">16</span>;
+<span class="hljs-keyword">return</span> tab32[(<span class="hljs-keyword">uint32_t</span>)(value*<span class="hljs-number">0x07C4ACDD</span>) &gt;&gt; <span class="hljs-number">27</span>];
+}
+</code></pre>
+</li>
+</ul>
+<p>gcc &#x63D0;&#x4F9B; built-in Function:</p>
+<ul>
+<li><a href="http://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html" target="_blank">int __builtin_clz (unsigned int x)</a><ul>
+<li>Returns the number of leading 0-bits in x, starting at the most significant bit position.</li>
+<li>If x is 0, the result is undefined.</li>
+</ul>
+</li>
+</ul>
+<p>&#x53EF;&#x7528;&#x4F86;&#x5BE6;&#x505A; log2:</p>
+<pre><code class="lang-C"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> LOG2(X) ((unsigned) \
+   (<span class="hljs-number">8</span> * sizeof (unsigned long long) -</span>
+    __builtin_clzll((X)) - <span class="hljs-number">1</span>))
+</code></pre>
+<p>&#x90A3;&#x8A72;&#x5982;&#x4F55;&#x5BE6;&#x505A; clz &#x5462;&#xFF1F;</p>
+<ul>
+<li><p>[ ] iteration version</p>
+<pre><code class="lang-C"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">clz</span><span class="hljs-params">(uint32_t x)</span> </span>{
+  <span class="hljs-keyword">int</span> n = <span class="hljs-number">32</span>, c = <span class="hljs-number">16</span>;
+  <span class="hljs-keyword">do</span> {
+      <span class="hljs-keyword">uint32_t</span> y = x &gt;&gt; c;
+      <span class="hljs-keyword">if</span> (y) { n -= c; x = y; }
+      c &gt;&gt;= <span class="hljs-number">1</span>;
+  } <span class="hljs-keyword">while</span> (c);
+  <span class="hljs-keyword">return</span> (n - x);
+}
+</code></pre>
+</li>
+<li><p>[ ] binary search technique</p>
+<pre><code class="lang-C"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">clz</span><span class="hljs-params">(uint32_t x)</span> </span>{
+  <span class="hljs-keyword">if</span> (x == <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">32</span>;
+  <span class="hljs-keyword">int</span> n = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">if</span> (x &lt;= <span class="hljs-number">0x0000FFFF</span>) { n += <span class="hljs-number">16</span>; x &lt;&lt;= <span class="hljs-number">16</span>; }
+  <span class="hljs-keyword">if</span> (x &lt;= <span class="hljs-number">0x00FFFFFF</span>) { n += <span class="hljs-number">8</span>; x &lt;&lt;= <span class="hljs-number">8</span>; }
+  <span class="hljs-keyword">if</span> (x &lt;= <span class="hljs-number">0x0FFFFFFF</span>) { n += <span class="hljs-number">4</span>; x &lt;&lt;= <span class="hljs-number">4</span>; }
+  <span class="hljs-keyword">if</span> (x &lt;= <span class="hljs-number">0x3FFFFFFF</span>) { n += <span class="hljs-number">2</span>; x &lt;&lt;= <span class="hljs-number">2</span>; }
+  <span class="hljs-keyword">if</span> (x &lt;= <span class="hljs-number">0x7FFFFFFF</span>) { n += <span class="hljs-number">1</span>; x &lt;&lt;= <span class="hljs-number">1</span>; }
+  <span class="hljs-keyword">return</span> n;
+}
+</code></pre>
+</li>
+<li><p>[ ] byte-shift version</p>
+<pre><code class="lang-C"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">clz</span><span class="hljs-params">(uint32_t x)</span> </span>{
+  <span class="hljs-keyword">if</span> (x == <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">32</span>;
+  <span class="hljs-keyword">int</span> n = <span class="hljs-number">1</span>;
+  <span class="hljs-keyword">if</span> ((x &gt;&gt; <span class="hljs-number">16</span>) == <span class="hljs-number">0</span>) { n += <span class="hljs-number">16</span>; x &lt;&lt;= <span class="hljs-number">16</span>; }
+  <span class="hljs-keyword">if</span> ((x &gt;&gt; <span class="hljs-number">24</span>) == <span class="hljs-number">0</span>) { n += <span class="hljs-number">8</span>; x &lt;&lt;= <span class="hljs-number">8</span>; }
+  <span class="hljs-keyword">if</span> ((x &gt;&gt; <span class="hljs-number">28</span>) == <span class="hljs-number">0</span>) { n += <span class="hljs-number">4</span>; x &lt;&lt;= <span class="hljs-number">4</span>; }
+  <span class="hljs-keyword">if</span> ((x &gt;&gt; <span class="hljs-number">30</span>) == <span class="hljs-number">0</span>) { n += <span class="hljs-number">2</span>; x &lt;&lt;= <span class="hljs-number">2</span>; }
+  n = n - (x &gt;&gt; <span class="hljs-number">31</span>);
+  <span class="hljs-keyword">return</span> n;
+}
+</code></pre>
+</li>
+<li><p><a href="http://man7.org/linux/man-pages/man3/ffs.3.html" target="_blank">ffs</a>() &#x6703;&#x56DE;&#x50B3;&#x7D66;&#x5B9A;&#x6578;&#x503C;&#x7684; first bit set &#x7684;&#x4F4D;&#x7F6E;</p>
+<ul>
+<li>&#x4F8B;&#x5982; 128 &#x5728; 32-bit &#x8868;&#x793A;&#x70BA; <code>0x10000000</code>&#xFF0C;ffs(128)&#x6703;&#x56DE;&#x50B3; 8</li>
+<li>129 &#x5728; 32bit &#x8868;&#x793A;&#x70BA; <code>0x10000001&#xFF0C;</code>ffs(129) &#x6703;&#x56DE;&#x50B3; 1</li>
+</ul>
+</li>
+</ul>
+<p>&#x5EF6;&#x4F38;&#x95B1;&#x8B80;: <a href="https://fgiesen.wordpress.com/2013/10/18/bit-scanning-equivalencies/" target="_blank">Bit scanning equivalencies</a></p>
+<h2 id="%E7%9C%81%E5%8E%BB%E8%BF%B4%E5%9C%88">&#x7701;&#x53BB;&#x8FF4;&#x5708;</h2>
+<p>&#x8003;&#x616E;&#x4EE5;&#x4E0B; C &#x7A0B;&#x5F0F;,&#x89E3;&#x8AAA;&#x5728; 32-bit &#x67B6;&#x69CB;&#x4E0B;&#x5177;&#x9AD4;&#x4F5C;&#x7528;(&#x4E0D;&#x662F;&#x9010;&#x884C;&#x8A3B;&#x89E3;)&#xFF0C;&#x4EE5;&#x53CA;&#x80FD;&#x5426;&#x907F;&#x958B;&#x7528;&#x8FF4;&#x5708;&#xFF1F;</p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">func</span><span class="hljs-params">(<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> x)</span> </span>{
+    <span class="hljs-keyword">int</span> val = <span class="hljs-number">0</span>; <span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">32</span>; i++) {
+        val = (val &lt;&lt; <span class="hljs-number">1</span>) | (x &amp; <span class="hljs-number">0x1</span>);
+        x &gt;&gt;= <span class="hljs-number">1</span>;
+    }
+    <span class="hljs-keyword">return</span> val;
+}
+</code></pre>
+<p>&#x7C21;&#x55AE;&#x4F86;&#x8AAA;&#x9019;&#x6BB5;&#x7A0B;&#x5F0F;&#x78BC;&#x5C31;&#x662F;&#x62FF;&#x4F86;&#x985B;&#x5012;&#x8F38;&#x5165;&#x6578;&#x5B57;&#x7684;&#x4F4D;&#x5143;&#x9806;&#x5E8F;&#xFF0C;&#x5982;&#x4E0B;&#x9762;&#x6E2C;&#x8A66;&#x6240;&#x793A;&#xFF0C;&#x985B;&#x5012;&#x5F8C;&#x4F4D;&#x5143;&#x4E0D;&#x8DB3; 32bit &#x8005;&#xFF0C;&#x5168;&#x90E8;&#x88DC; 0</p>
+<pre><code class="lang-txt">------input number 99--------
+2bit= 1100011
+val = 11000110000000000000000000000000
+------output number -973078528--------
+
+------input number 198--------
+2bit= 11000110
+val = 1100011000000000000000000000000
+------output number 1660944384--------
+
+------input number 297--------
+2bit= 100101001
+val = 10010100100000000000000000000000
+------output number -1803550720--------
+
+------input number 396--------
+2bit= 110001100
+val = 110001100000000000000000000000
+------output number 830472192--------
+
+------input number 4294967281--------
+2-bit= 11111111111111111111111111110001
+val   = 10001111111111111111111111111111
+------output number -1879048193--------
+</code></pre>
+<p>&#x53C3;&#x8003; <a href="http://stackoverflow.com/questions/21511533/reverse-integer-bitwise-without-using-loop" target="_blank">Reverse integer bitwise without using loop</a>&#xFF0C;&#x5C07;&#x539F;&#x672C;&#x7684; for &#x8FF4;&#x5708;&#x8B8A;&#x66F4;&#x70BA; bit-wise &#x64CD;&#x4F5C;:</p>
+<pre><code>new = num;
+new = ((new &amp; 0xffff0000) &gt;&gt; 16) | ((new &amp; 0x0000ffff) &lt;&lt; 16);
+new = ((new &amp; 0xff00ff00) &gt;&gt; 8) | ((new &amp; 0x00ff00ff) &lt;&lt; 8);
+new = ((new &amp; 0xf0f0f0f0) &gt;&gt; 4) | ((new &amp; 0x0f0f0f0f) &lt;&lt; 4);
+new = ((new &amp; 0xcccccccc) &gt;&gt; 2) | ((new &amp; 0x33333333) &lt;&lt; 2);
+new = ((new &amp; 0xaaaaaaaa) &gt;&gt; 1) | ((new &amp; 0x55555555) &lt;&lt; 1);
+</code></pre><p>&#x5728;&#x4E0D;&#x4F7F;&#x7528;&#x8FF4;&#x5708;&#x7684;&#x60C5;&#x6CC1;&#x4E0B;&#xFF0C;&#x53EF;&#x4EE5;&#x505A;&#x5230;&#x4E00;&#x6A23;&#x7684;&#x529F;&#x80FD;&#x3002;</p>
+<h2 id="%E5%8A%A0%E8%A7%A3%E5%AF%86%E7%9A%84%E6%87%89%E7%94%A8">&#x52A0;&#x89E3;&#x5BC6;&#x7684;&#x61C9;&#x7528;</h2>
+<ul>
+<li>[ ] Caesar shift cipher</li>
+<li><p>&#x628A; A-Z &#x9019; 26 &#x500B;&#x5B57;&#x6BCD;&#x8868;&#x793A;&#x6210; A=0, B=1, ..., Z=25&#xFF0C;&#x7136;&#x5F8C;&#x7D66;&#x4EFB;&#x610F;&#x4E00;&#x500B; KEY&#xFF0C;&#x628A;&#x8A0A;&#x606F;&#x7684;&#x5B57;&#x6BCD;&#x52A0;&#x4E0A; KEY &#x4E4B;&#x5F8C; mod 26 &#x5C31;&#x6703;&#x5F97;&#x5230;&#x52A0;&#x5BC6;&#x4E4B;&#x5F8C;&#x7684;&#x8A0A;&#x606F;&#x3002;&#x5047;&#x8A2D; KEY=19&#xFF0C;&#x90A3;&#x9EBC;&#x539F;&#x672C;&#x7684;&#x8A0A;&#x606F;&#x4F8B;&#x5982; HELLO (7 4 11 11 14) &#x7D93;&#x904E; cipher &#x5F8C; (26 23 30 30 33) mod 26 =&gt; (0 23 4 4 7) &#x6703;&#x8B8A;&#x6210; AXEEH &#x7684;&#x52A0;&#x5BC6;&#x8A0A;&#x606F;&#x3002;</p>
+</li>
+<li><p>[ ] XOR</p>
+</li>
+<li>&#x5047;&#x8A2D;&#x6709;&#x4E00;&#x5F35;&#x9ED1;&#x767D;&#x7684;&#x76F8;&#x7247;&#x662F;&#x7531;&#x5F88;&#x591A;&#x500B;0~255&#x7684;pixel&#x7D44;&#x6210;(0&#x662F;&#x9ED1;&#x8272;&#xFF0C;255&#x662F;&#x767D;&#x8272;)&#xFF0C;&#x9019;&#x6642;&#x5019;&#x53EF;&#x4EE5;&#x7528;&#x4EFB;&#x610F;&#x7684; KEY (00000000~2~ - 11111111~2~) &#x8DDF;&#x539F;&#x672C;&#x7684;&#x6BCF;&#x500B; pixel &#x505A;&#x904B;&#x7B97;&#xFF0C;&#x5982;&#x679C;&#x4F7F;&#x7528; AND (&#x6BCF;&#x500B;bit &#x6709;75% &#x6A5F;&#x7387;&#x6703;&#x8B8A;&#x6210; 0)&#xFF0C;&#x6240;&#x4EE5;&#x5716;&#x6703;&#x8B8A;&#x6697;&#x3002;&#x5982;&#x679C;&#x4F7F;&#x7528; OR (&#x6BCF;&#x500B; bit&#x6709; 75% &#x6A5F;&#x7387;&#x6703;&#x8B8A; 1)&#xFF0C;&#x5716;&#x5C31;&#x6703;&#x8B8A;&#x4EAE;&#x3002;&#x9019;&#x5169;&#x7A2E;&#x5E7E;&#x4E4E;&#x90FD;&#x9084;&#x662F;&#x770B;&#x7684;&#x51FA;&#x539F;&#x672C;&#x7684;&#x5716;&#x7247;&#xFF0C;&#x4F46;&#x82E5;&#x662F;&#x7528; XOR &#x7684;&#x8A71;&#xFF0C;&#x6BCF;&#x500B; bit &#x8B8A;&#x6210; 0 &#x6216; 1 &#x7684;&#x6A5F;&#x7387;&#x90FD;&#x662F; 50%&#xFF0C;&#x6240;&#x4EE5;&#x5716;&#x7247;&#x5C31;&#x6703;&#x8B8A;&#x6210;&#x770B;&#x4E0D;&#x51FA;&#x6771;&#x897F;&#x7684;&#x96DC;&#x8A0A;&#x3002;</li>
+</ul>
+<p><img src="https://hackpad-attachments.s3.amazonaws.com/embedded2016.hackpad.com_Sc7AmIvN7EN_p.578574_1463033229650_13199369_1147773728576962_1986608170_o.jpg" alt=""></p>
+<p>&#x4E0A;&#x5716;&#x5DE6; 1 &#x662F;&#x539F;&#x5716;&#xFF0C;&#x5DE6; 2 &#x662F;&#x7528; AND &#x505A;&#x904B;&#x7B97;&#x4E4B;&#x5F8C;&#xFF0C;&#x53F3; 2 &#x662F;&#x7528; OR &#x505A;&#x904B;&#x7B97;&#x4E4B;&#x5F8C;&#xFF0C;&#x53F3; 1 &#x662F;&#x7528; XOR&#xFF0C;&#x53EF;&#x898B;&#x4F7F;&#x7528; XOR &#x7684;&#x52A0;&#x5BC6;&#x6548;&#x679C;&#x6700;&#x597D;&#x3002;</p>
+<p>&#x53C3;&#x8003;&#x8CC7;&#x6599;&#xFF1A;<a href="https://www.khanacademy.org/computing/computer-science/cryptography/ciphers/a/ciphers-vs-codes" target="_blank">Ciphers vs. codes
+</a></p>
 
                     
                     </section>
@@ -14351,10 +14533,8 @@ Q0    S15.0    -32768&#x2264;x&#x2264;32767
         </div>
 
         
-        <a href="../c/read_csv_in_c.html" class="navigation navigation-prev " aria-label="Previous page: read csv in c"><i class="fa fa-angle-left"></i></a>
+        <a href="../ncku_embededd/gpio.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: GPIO"><i class="fa fa-angle-left"></i></a>
         
-        
-        <a href="../c/ieee764_using_c.html" class="navigation navigation-next " aria-label="Next page: IEEE764 using C"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

@@ -638,6 +638,7 @@
        * [memory layout C++ objects for clang](gcc/memory_layout_c++_objects_for_clang.md)
 * [FreeRTOS](freertos/freertos.md)
    * [FreeRTOS-GCC-ARM926ejs_QEMU](freertos/qemufreertos.md)
+   * [STM32] 4. 移植 FreeRTOS
 * [tinyclub](tinyclub/tinyclub.md)
    * [源碼分析](tinyclub/yuan_ma_f.md)
        * [靜態分析 C 程序函數調用關係圖](tinyclub/jing_tai_fen_xi_c_cheng_xu_han_shu_diao_yong_guan_.md)

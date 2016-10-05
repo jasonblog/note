@@ -1,1 +1,0 @@
-void static_print();

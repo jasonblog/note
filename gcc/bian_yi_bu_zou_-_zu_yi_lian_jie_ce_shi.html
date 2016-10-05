@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>腳本 | Jason note</title>
+        <title>編譯步驟 - 組譯  連結 測試 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../100_gdb_tips/config-gdbinit.html" />
+    <link rel="next" href="../gcc/clang.html" />
     
     
-    <link rel="prev" href="../100_gdb_tips/info_sharedlibrary.html" />
+    <link rel="prev" href="../gcc/gccbian_yi_ff0c_ld_lian_jie.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="45.13" data-basepath=".." data-revision="Thu Oct 06 2016 02:52:03 GMT+0800 (CST)">
+    <div class="book" data-level="36.1.7" data-basepath=".." data-revision="Thu Oct 06 2016 02:52:03 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -9943,7 +9943,7 @@
             
         </li>
     
-        <li class="chapter " data-level="36.1.7" data-path="gcc/bian_yi_bu_zou_-_zu_yi_lian_jie_ce_shi.html">
+        <li class="chapter active" data-level="36.1.7" data-path="gcc/bian_yi_bu_zou_-_zu_yi_lian_jie_ce_shi.html">
             
                 
                     <a href="../gcc/bian_yi_bu_zou_-_zu_yi_lian_jie_ce_shi.html">
@@ -12354,7 +12354,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="45.13" data-path="100_gdb_tips/jiao_ben.html">
+        <li class="chapter " data-level="45.13" data-path="100_gdb_tips/jiao_ben.html">
             
                 
                     <a href="../100_gdb_tips/jiao_ben.html">
@@ -14241,7 +14241,96 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E8%85%B3%E6%9C%AC">&#x8173;&#x672C;</h1>
+                        <h1 id="%E7%B7%A8%E8%AD%AF%E6%AD%A5%E9%A9%9F-%E7%B5%84%E8%AD%AF-%E9%80%A3%E7%B5%90-%E6%B8%AC%E8%A9%A6">&#x7DE8;&#x8B6F;&#x6B65;&#x9A5F; - &#x7D44;&#x8B6F;  &#x9023;&#x7D50; &#x6E2C;&#x8A66;</h1>
+<ul>
+<li>test.c</li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> printf_dec_format(x) _Generic((x), \
+                                      char: <span class="hljs-string">&quot;%c&quot;</span>, \
+                                      signed char: <span class="hljs-string">&quot;%hhd&quot;</span>, \
+                                      unsigned char: <span class="hljs-string">&quot;%hhu&quot;</span>, \
+                                      signed short: <span class="hljs-string">&quot;%hd&quot;</span>, \
+                                      unsigned short: <span class="hljs-string">&quot;%hd&quot;</span>, \
+                                      signed int: <span class="hljs-string">&quot;%d&quot;</span>, \
+                                      unsigned int: <span class="hljs-string">&quot;%u&quot;</span>, \
+                                      unsigned long int: <span class="hljs-string">&quot;%ld&quot;</span>, \
+                                      long long int: <span class="hljs-string">&quot;%lld&quot;</span>, \
+                                      unsigned long long int: <span class="hljs-string">&quot;%llu&quot;</span>, \
+                                      float: <span class="hljs-string">&quot;%f&quot;</span>, \
+                                      double: <span class="hljs-string">&quot;%lf&quot;</span>, \
+                                      long double: <span class="hljs-string">&quot;%Lf&quot;</span>, \
+                                      char *: <span class="hljs-string">&quot;%s&quot;</span>, \
+                                      void *: <span class="hljs-string">&quot;%p&quot;</span>)</span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> print(x)    printf( printf_dec_format(x), x)</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> printnl(x)  printf( printf_dec_format(x), x); printf(<span class="hljs-string">&quot;\n&quot;</span>)</span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>* argv)</span>
+</span>{
+    printnl(<span class="hljs-string">&apos;a&apos;</span>);
+    printnl((<span class="hljs-keyword">char</span>) <span class="hljs-string">&apos;a&apos;</span>);
+    printnl(<span class="hljs-number">123</span>);
+    printnl(<span class="hljs-number">1.234</span>);
+    printnl(<span class="hljs-string">&quot;Hello world&quot;</span>);
+}
+</code></pre>
+<ul>
+<li>&#x7522;&#x751F; test.s
+gcc -S test.c</li>
+</ul>
+<ul>
+<li>as --gdwarf2 -v --64 -o test.o test.s<ul>
+<li>gcc -v -c test.s -o test.o //  &#x627E;&#x51FA; as &#x6307;&#x4EE4;&#x6280;&#x5DE7;</li>
+</ul>
+</li>
+</ul>
+<pre><code class="lang-sh">Using built-in specs.
+COLLECT_GCC=gcc
+Target: x86_64-linux-gnu
+Configured with: ../src/configure -v --with-pkgversion=<span class="hljs-string">&apos;Ubuntu 5.4.0-6ubuntu1~16.04.2&apos;</span> --with-bugurl=file:///usr/share/doc/gcc-<span class="hljs-number">5</span>/README.Bugs --enable-languages=c,ada,c++,java,go,d,fortran,objc,obj-c++ --prefix=/usr --program-suffix=-<span class="hljs-number">5</span> --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --with-sysroot=/ --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-libmpx --enable-plugin --with-system-zlib --disable-browser-plugin --enable-java-awt=gtk --enable-gtk-cairo --with-java-home=/usr/lib/jvm/java-<span class="hljs-number">1.5</span>.<span class="hljs-number">0</span>-gcj-<span class="hljs-number">5</span>-amd64/jre --enable-java-home --with-jvm-root-dir=/usr/lib/jvm/java-<span class="hljs-number">1.5</span>.<span class="hljs-number">0</span>-gcj-<span class="hljs-number">5</span>-amd64 --with-jvm-jar-dir=/usr/lib/jvm-exports/java-<span class="hljs-number">1.5</span>.<span class="hljs-number">0</span>-gcj-<span class="hljs-number">5</span>-amd64 --with-arch-directory=amd64 --with-ecj-jar=/usr/share/java/eclipse-ecj.jar --enable-objc-gc --enable-multiarch --disable-werror --with-arch-<span class="hljs-number">32</span>=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu
+Thread model: posix
+gcc version <span class="hljs-number">5.4</span>.<span class="hljs-number">0</span> <span class="hljs-number">20160609</span> (Ubuntu <span class="hljs-number">5.4</span>.<span class="hljs-number">0</span>-<span class="hljs-number">6</span>ubuntu1~<span class="hljs-number">16.04</span>.<span class="hljs-number">2</span>) 
+COLLECT_GCC_OPTIONS=<span class="hljs-string">&apos;-Wall&apos;</span> <span class="hljs-string">&apos;-g&apos;</span> <span class="hljs-string">&apos;-Wpedantic&apos;</span> <span class="hljs-string">&apos;-v&apos;</span> <span class="hljs-string">&apos;-c&apos;</span> <span class="hljs-string">&apos;-o&apos;</span> <span class="hljs-string">&apos;test.o&apos;</span> <span class="hljs-string">&apos;-mtune=generic&apos;</span> <span class="hljs-string">&apos;-march=x86-64&apos;</span>
+
+
+
+ as --gdwarf2 -v --<span class="hljs-number">64</span> -o test.o test.s
+
+
+
+
+GNU assembler version <span class="hljs-number">2.26</span>.<span class="hljs-number">1</span> (x86_64-linux-gnu) using BFD version (GNU Binutils <span class="hljs-keyword">for</span> Ubuntu) <span class="hljs-number">2.26</span>.<span class="hljs-number">1</span>
+COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/:/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/:/usr/lib/gcc/x86_64-linux-gnu/
+LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/:/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:./:/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/../../../:/lib/:/usr/lib/
+COLLECT_GCC_OPTIONS=<span class="hljs-string">&apos;-Wall&apos;</span> <span class="hljs-string">&apos;-g&apos;</span> <span class="hljs-string">&apos;-Wpedantic&apos;</span> <span class="hljs-string">&apos;-v&apos;</span> <span class="hljs-string">&apos;-c&apos;</span> <span class="hljs-string">&apos;-o&apos;</span> <span class="hljs-string">&apos;test.o&apos;</span> <span class="hljs-string">&apos;-mtune=generic&apos;</span> <span class="hljs-string">&apos;-march=x86-6
+</span></code></pre>
+<ul>
+<li>&#x627E;&#x51FA; ld &#x6307;&#x4EE4;&#x53C3;&#x6578;<ul>
+<li>gcc -v test.o   </li>
+</ul>
+</li>
+</ul>
+<pre><code class="lang-sh">Using built-in specs.
+COLLECT_GCC=gcc
+COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/lto-wrapper
+Target: x86_64-linux-gnu
+Configured with: ../src/configure -v --with-pkgversion=<span class="hljs-string">&apos;Ubuntu 5.4.0-6ubuntu1~16.04.2&apos;</span> --with-bugurl=file:///usr/share/doc/gcc-<span class="hljs-number">5</span>/README.Bugs --enable-languages=c,ada,c++,java,go,d,fortran,objc,obj-c++ --prefix=/usr --program-suffix=-<span class="hljs-number">5</span> --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --with-sysroot=/ --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-libmpx --enable-plugin --with-system-zlib --disable-browser-plugin --enable-java-awt=gtk --enable-gtk-cairo --with-java-home=/usr/lib/jvm/java-<span class="hljs-number">1.5</span>.<span class="hljs-number">0</span>-gcj-<span class="hljs-number">5</span>-amd64/jre --enable-java-home --with-jvm-root-dir=/usr/lib/jvm/java-<span class="hljs-number">1.5</span>.<span class="hljs-number">0</span>-gcj-<span class="hljs-number">5</span>-amd64 --with-jvm-jar-dir=/usr/lib/jvm-exports/java-<span class="hljs-number">1.5</span>.<span class="hljs-number">0</span>-gcj-<span class="hljs-number">5</span>-amd64 --with-arch-directory=amd64 --with-ecj-jar=/usr/share/java/eclipse-ecj.jar --enable-objc-gc --enable-multiarch --disable-werror --with-arch-<span class="hljs-number">32</span>=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu
+Thread model: posix
+gcc version <span class="hljs-number">5.4</span>.<span class="hljs-number">0</span> <span class="hljs-number">20160609</span> (Ubuntu <span class="hljs-number">5.4</span>.<span class="hljs-number">0</span>-<span class="hljs-number">6</span>ubuntu1~<span class="hljs-number">16.04</span>.<span class="hljs-number">2</span>) 
+COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/:/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/:/usr/lib/gcc/x86_64-linux-gnu/
+LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/:/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:./:/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/../../../:/lib/:/usr/lib/
+COLLECT_GCC_OPTIONS=<span class="hljs-string">&apos;-Wall&apos;</span> <span class="hljs-string">&apos;-g&apos;</span> <span class="hljs-string">&apos;-Wpedantic&apos;</span> <span class="hljs-string">&apos;-v&apos;</span> <span class="hljs-string">&apos;-o&apos;</span> <span class="hljs-string">&apos;test&apos;</span> <span class="hljs-string">&apos;-mtune=generic&apos;</span> <span class="hljs-string">&apos;-march=x86-64&apos;</span>
+
+
+
+
+
+ /usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/lto-wrapper -plugin-opt=-fresolution=/tmp/cc66Lnhn.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-<span class="hljs-number">64</span>.so.<span class="hljs-number">2</span> -z relro -o <span class="hljs-built_in">test</span> /usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span> -L/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L. -L/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/../../.. test.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/crtend.o /usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/../../../x86_64-linux-gnu/crtn.o
+</code></pre>
+<pre><code class="lang-sh">/usr/lib/gcc/x86_64-linux-gnu/<span class="hljs-number">5</span>/collect2 -v
+</code></pre>
 
                     
                     </section>
@@ -14252,10 +14341,10 @@
         </div>
 
         
-        <a href="../100_gdb_tips/info_sharedlibrary.html" class="navigation navigation-prev " aria-label="Previous page: 顯示共享鏈接庫信息"><i class="fa fa-angle-left"></i></a>
+        <a href="../gcc/gccbian_yi_ff0c_ld_lian_jie.html" class="navigation navigation-prev " aria-label="Previous page: gcc編譯，ld連接"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../100_gdb_tips/config-gdbinit.html" class="navigation navigation-next " aria-label="Next page: 配置gdb init文件"><i class="fa fa-angle-right"></i></a>
+        <a href="../gcc/clang.html" class="navigation navigation-next " aria-label="Next page: Clang"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

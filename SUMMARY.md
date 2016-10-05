@@ -892,5 +892,5 @@
        * [GDB command開發說明(use Python)](ncku_embededd/gdb_commandkai_fa_shuo_660e28_use_python.md)
        * [GPIO](ncku_embededd/gpio.md)
        * [重新理解數值](ncku_embededd/zhong_xin_li_jie_shu_zhi.md)
-       * 類似 C++ template 來實做呢？C11 有 _Generic 關鍵字
+       * [類似 C++ template 來實做呢？C11 有 _Generic 關鍵字](ncku_embededd/lei_si_c_++_template_lai_shi_zuo_ni_ff1f_c11_you_g.md)
 

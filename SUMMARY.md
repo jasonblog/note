@@ -563,6 +563,7 @@
    * [python堆棧回溯示例代碼](python/pythondui_zhan_hui_su_shi_li_dai_ma.md)
    * [Generate c/c++ header file from a CSV file (for array declaration)](python/generate_cc++_header_file_from_a_csv_file_for_arra.md)
    * [觀察技巧 with Chrome開發人員工具](python/guan_cha_ji_qiao_with_chrome_kai_fa_ren_yuan_gong_.md)
+   * steepandcheap alerts
 * [Vim](vim/vim.md)
    * [HOWTO - vi, vim](vim/howto_-_vi,_vim.md)
 * [TDD](tdd/README.md)

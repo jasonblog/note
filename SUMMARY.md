@@ -474,6 +474,7 @@
        * [抓漏 - gdb 和 valgrind 合體技](wen00072/zhua_lou_-_gdb_he_valgrind_he_ti_ji.md)
        * [抓漏 - 使用valgrind檢查C語言memory Leak](wen00072/zhua_lou_-_shi_yong_valgrind_jian_cha_c_yu_yan_mem.md)
        * [C99的inline Function](wen00072/c99de_inline_function.md)
+   * Linux Kernel Pratice 0: Buildroot (1/2)
 * [Shell](shell/README.md)
    * [shell十三問](shell/230.md)
        * [何為shell](shell/2311.md)

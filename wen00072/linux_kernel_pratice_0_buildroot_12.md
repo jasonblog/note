@@ -28,14 +28,14 @@
 ## 測試環境
 因為我已經裝過開發相關的套件，因此如果您是新手可能要自行摸索也許有需要另外安裝的套件如`git`。嘛，練習解讀錯誤訊息也是一種學習。
 
-<pre>
+```sh
 $ lsb_release -a
 No LSB modules are available.
 Distributor ID:	Ubuntu
 Description:	Ubuntu 14.04.5 LTS
 Release:	14.04
 Codename:	trusty
-</pre>
+```
 
 <a name="lk0_ins"></a>
 ## 安裝Buildroot

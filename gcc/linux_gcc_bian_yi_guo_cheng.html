@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Linux Build Instructions | Jason note</title>
+        <title>Linux GCC 編譯4個過程 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../osvr/kalman_filter.html" />
+    <link rel="next" href="../gcc/clang.html" />
     
     
-    <link rel="prev" href="../osvr/osvr.html" />
+    <link rel="prev" href="../gcc/bian_yi_bu_zou_-_zu_yi_lian_jie_ce_shi.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="39.1" data-basepath=".." data-revision="Fri Oct 07 2016 22:28:02 GMT+0800 (CST)">
+    <div class="book" data-level="36.1.8" data-basepath=".." data-revision="Fri Oct 07 2016 22:28:02 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -10003,7 +10003,7 @@
             
         </li>
     
-        <li class="chapter " data-level="36.1.8" data-path="gcc/linux_gcc_bian_yi_guo_cheng.html">
+        <li class="chapter active" data-level="36.1.8" data-path="gcc/linux_gcc_bian_yi_guo_cheng.html">
             
                 
                     <a href="../gcc/linux_gcc_bian_yi_guo_cheng.html">
@@ -10248,7 +10248,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="39.1" data-path="osvr/osvrbuild.html">
+        <li class="chapter " data-level="39.1" data-path="osvr/osvrbuild.html">
             
                 
                     <a href="../osvr/osvrbuild.html">
@@ -14301,74 +14301,43 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="building-osvr">Building OSVR</h1>
-<h2 id="compiler-clang-or-gcc-or-g">Compiler: Clang or GCC or G++</h2>
-<ul>
-<li><p>need g++ 4.8 or newer</p>
-</li>
-<li><p>You will need to build jsoncpp and libfunctionality separately from OSVR-Core : see <a href="http://wiki.osvr.com/doku.php?id=startingcore" target="_blank">http://wiki.osvr.com/doku.php?id=startingcore</a></p>
-</li>
-</ul>
-<h2 id="required-tools-libraries">Required tools/libraries:</h2>
-<ul>
-<li>Boost libraries (1.44 or newer) <ul>
-<li>There is a bug in Boost 1.58.0 which makes it incompatible.</li>
-</ul>
-</li>
-<li>OpenCV </li>
-<li>Git</li>
-<li>CMake (3.0 or newer)</li>
-</ul>
-<pre><code class="lang-sh">sudo apt-get install libboost1.<span class="hljs-number">55</span>-dev markdown libsdl2-dev libboost-thread1.<span class="hljs-number">55</span>-dev libboost-filesystem1.<span class="hljs-number">55</span>-dev libboost-program-options1.<span class="hljs-number">55</span>-dev libusb-<span class="hljs-number">1.0</span>-<span class="hljs-number">0</span>-dev libopencv-dev
-</code></pre>
-<h2 id="build-these-libraries-first">Build these libraries first</h2>
-<pre><code>mkdir ~/osvr 
-cd osvr
-</code></pre><ul>
-<li>libfunctionality library</li>
-</ul>
-<pre><code class="lang-sh">git <span class="hljs-built_in">clone</span> https://github.com/osvr/libfunctionality.git
-<span class="hljs-built_in">cd</span> libfunctionality
-mkdir build ; <span class="hljs-built_in">cd</span> build
-cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_INSTALL_PREFIX=/usr/<span class="hljs-built_in">local</span>/libfunctionality
-make -j8
-sudo make install
-</code></pre>
-<ul>
-<li>jsoncpp library</li>
-</ul>
-<pre><code class="lang-sh"><span class="hljs-built_in">cd</span> ~/osvr
-git <span class="hljs-built_in">clone</span> --recursive https://github.com/VRPN/jsoncpp
-<span class="hljs-built_in">cd</span> jsoncpp
-mkdir build ; <span class="hljs-built_in">cd</span> build
-cmake .. -DJSONCPP_WITH_CMAKE_PACKAGE=ON -DJSONCPP_LIB_BUILD_SHARED=OFF -DCMAKE_CXX_FLAGS=<span class="hljs-operator">-f</span>PIC -DCMAKE_INSTALL_PREFIX=/usr/<span class="hljs-built_in">local</span>/jsoncpp
-make -j8
-sudo make install
-</code></pre>
-<ul>
-<li>Adding below to .bashrc file</li>
-</ul>
-<pre><code class="lang-sh">PKG_CONFIG_PATH=<span class="hljs-variable">$PKG_CONFIG_PATH</span>:/usr/<span class="hljs-built_in">local</span>/jsoncpp/lib/pkgconfig
-<span class="hljs-built_in">export</span> PKG_CONFIG_PATH
-</code></pre>
-<h2 id="ready-to-build-osvr-core">Ready to build OSVR-Core</h2>
-<pre><code class="lang-sh">git <span class="hljs-built_in">clone</span> --recursive https://github.com/OSVR/OSVR-Core.git
-<span class="hljs-built_in">cd</span> OSVR-Core
-mkdir build ; <span class="hljs-built_in">cd</span> build
-cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_INSTALL_PREFIX=/usr/<span class="hljs-built_in">local</span>/osvr
-make -j8
-sudo make install
-</code></pre>
-<ul>
-<li>this will run the server, with the default config file, right from within the build tree.</li>
-</ul>
-<pre><code class="lang-sh">bin/osvr_server share/osvrcore/osvr_server_config.json
-</code></pre>
-<h2 id="reference">Reference</h2>
-<ul>
-<li><a href="https://github.com/OSVR/OSVR-Core/wiki/Linux-Build-Instructions" target="_blank">https://github.com/OSVR/OSVR-Core/wiki/Linux-Build-Instructions</a></li>
-<li><a href="https://gist.github.com/rpavlik/13867c53ca097a7b3ebe" target="_blank">https://gist.github.com/rpavlik/13867c53ca097a7b3ebe</a></li>
-</ul>
+                        <h1 id="linux-gcc-%E7%B7%A8%E8%AD%AF4%E5%80%8B%E9%81%8E%E7%A8%8B">Linux GCC &#x7DE8;&#x8B6F;4&#x500B;&#x904E;&#x7A0B;</h1>
+<p>&#x9996;&#x5148;,GCC&#x4F7F;&#x7528;&#x9810;&#x8655;&#x7406;&#x7A0B;&#x5F0F;<code>cpp</code>&#xFF0C;&#x7531;&#x5B83;&#x8CA0;&#x8CAC;&#x5C55;&#x958B;&#x5728;&#x539F;&#x59CB;&#x6A94;&#x6848;&#x4E2D;&#x5B9A;&#x7FA9;&#x7684;&#x5DE8;&#x96C6;&#xFF0C;&#x9810;&#x7DE8;&#x8B6F;&#x8A9E;&#x53E5;(&#x5982;&#x5DE8;&#x96C6;&#x5B9A;&#x7FA9;define&#x7B49;&#x3001;&#x5176;&#x4E2D;&#x63D2;&#x5165;&#x201C;#include&#x201D;&#x8A9E;&#x53E5;&#x6240;&#x5305;&#x542B;&#x7684;&#x5167;&#x5BB9;)&#x9032;&#x884C;&#x5206;&#x6790;&#x5411;&#xFF1B;&#x63A5;&#x8457;&#xFF0C;GCC&#x6703;&#x4F7F;&#x7528;ccl&#x548C;as&#x5C07;&#x8655;&#x7406;&#x5F8C;&#x7684;&#x539F;&#x59CB;&#x78BC;&#x7DE8;&#x8B6F;&#x6210;&#x76EE;&#x6A19;&#x78BC;&#xFF08;&#x7D44;&#x8A9E;&#xFF09;&#xFF1B;&#x6700;&#x5F8C;&#xFF0C;GCC&#x6703;&#x8ABF;&#x7528;&#x93C8;&#x7D50;&#x7A0B;&#x5F0F;ld&#xFF0C;&#x628A;&#x751F;&#x6210;&#x7684;&#x76EE;&#x6A19;&#x4EE3;&#x78BC;&#x93C8;&#x7D50;&#x6210;&#x4E00;&#x53EF;&#x57F7;&#x884C;&#x7A0B;&#x5F0F;.</p>
+<pre><code>&#x25C6; &#x9810;&#x8655;&#x7406;(Pre-Processing)
+    -E &#x9810;&#x8655;&#x7406;&#x5B8C;&#x6210;&#x5F8C;&#x505C;&#x6B62;&#x7DE8;&#x8B6F; # gcc -E hello.c -o hello.cpp
+
+&#x25C6; &#x7DE8;&#x8B6F;(Compiling)
+&#x25C6; &#x5F59;&#x7DE8;(Assembling)
+&#x25C6; &#x93C8;&#x7D50;(Linking)
+</code></pre><p>&#x7576;&#x6240;&#x6709;&#x7684;&#x76EE;&#x6A19;&#x6A94;&#x90FD;&#x751F;&#x6210;&#x4E4B;&#x5F8C;&#xFF0C;gcc&#x5C31;&#x4F7F;&#x7528; ld&#x4F86;&#x5B8C;&#x6210;&#x6700;&#x5F8C;&#x7684;&#x95DC;&#x9375;&#x6027;&#x5DE5;&#x4F5C;&#xFF0C;&#x9019;&#x500B;&#x968E;&#x6BB5;&#x5C31;&#x662F;&#x9023;&#x63A5;&#x3002;&#x5728;&#x9023;&#x63A5;&#x968E;&#x6BB5;&#xFF0C;&#x6240;&#x6709;&#x7684;&#x76EE;&#x6A19;&#x6A94;&#x88AB;&#x5B89;&#x6392;&#x5728;&#x53EF;&#x57F7;&#x884C;&#x7A0B;&#x5F0F;&#x4E2D;&#x7684;&#x6070;&#x7576;&#x7684;&#x4F4D;&#x7F6E;&#xFF0C;&#x540C;&#x6642;&#xFF0C;&#x8A72;&#x7A0B;&#x5F0F;&#x6240;&#x4F7F;&#x7528;&#x5230;&#x7684;&#x51FD;&#x6578;&#x4E5F;&#x5F9E;&#x5404;&#x81EA;&#x6240;&#x5728;&#x7684;&#x51FD;&#x5F0F;&#x5EAB;&#x4E2D;&#x9023;&#x5230;&#x5408;&#x9069;&#x7684;&#x5730;&#x65B9;&#x3002;</p>
+<p>gcc&#x4E3B;&#x8981;&#x53C3;&#x6578;&#xFF1A; </p>
+<blockquote>
+<p>-c &#x53EA;&#x7DE8;&#x8B6F;&#x751F;&#x6210;.o&#xFF0C;&#x4E0D;&#x9023;&#x63A5;     -o &#x5B9A;&#x7FA9;&#x8F38;&#x51FA;&#x6A94;</p>
+<p>-g gdb&#x8ABF;&#x8A66;&#x7528;&#xFF0C;&#x5728;&#x53EF;&#x57F7;&#x884C;&#x7A0B;&#x5F0F;&#x4E2D;&#x5305;&#x542B;&#x6A19;&#x6E96;&#x6E2C;&#x8A66;&#x8CC7;&#x8A0A;</p>
+<p>-IDIRNAME  &#x5C07;DIRNAME&#x52A0;&#x5165;&#x5230;&#x5305;&#x542B;&#x6A94;&#x7684;&#x641C;&#x7D22;&#x76EE;&#x9304;&#x4E2D;&#x53BB;</p>
+<p>-LDIRNAME &#x5C07;DIRNAME&#x52A0;&#x5165;&#x5230;&#x5EAB;&#x6A94;&#x6A94;&#x7684;&#x641C;&#x7D22;&#x76EE;&#x9304;&#x4E2D;&#x53BB;
+-x &#x6307;&#x5B9A;&#x7DE8;&#x8B6F;&#x6B65;&#x9A5F;</p>
+<p>-O,O1,O2,O3,O4,O5 &#x512A;&#x5316;&#x7D1A;&#x5225;</p>
+<p>-w &#x95DC;&#x9589;&#x6240;&#x6709;&#x8B66;&#x544A;</p>
+<p>-Wall &#x5141;&#x8A31;&#x6240;&#x6709;&#x6709;&#x7528;&#x7684;&#x8B66;&#x544A;</p>
+<p>-DFOO=BAR &#x5B9A;&#x7FA9;&#x9810;&#x8655;&#x7406;&#x5B8F;FOO&#x7684;&#x503C;&#x70BA;BAR</p>
+<p>-static  &#x975C;&#x614B;&#x7A0B;&#x5F0F;&#x5EAB;</p>
+<p>-lFOO &#x52D5;&#x614B;&#x51FD;&#x5F0F;&#x5EAB;&#xFF0C;&#x540D;&#x70BA;libFOO.o/libFOO.so(2.4/2.6)</p>
+<p>-mcpu=CPU TYPE &#x91DD;&#x5C0D;&#x4E0D;&#x540C;CPU&#x4F5C;&#x4E0D;&#x540C;&#x7684;&#x512A;&#x5316;&#xFF0C;&#x6BD4;&#x5982;-m386,-mpentiumpro</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>.c&#x70BA;&#x5C3E;&#x78BC;&#x7684;&#x6A94;&#xFF0C;C&#x8A9E;&#x8A00;&#x539F;&#x59CB;&#x78BC;&#x6A94;&#xFF1B;</p>
+<p>.a&#x70BA;&#x5C3E;&#x78BC;&#x7684;&#x6A94;&#xFF0C;&#x662F;&#x7531;&#x76EE;&#x6A19;&#x6A94;&#x69CB;&#x6210;&#x7684;&#x6A94;&#x6848;&#x5EAB;&#x6A94;&#xFF1B;</p>
+<p>.C&#xFF0C;.cc&#x6216;.cxx &#x70BA;&#x5C3E;&#x78BC;&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x662F;C++&#x539F;&#x59CB;&#x78BC;&#x6587;&#x4EF6;&#xFF1B;</p>
+<p>.h&#x70BA;&#x5C3E;&#x78BC;&#x7684;&#x6A94;&#xFF0C;&#x662F;&#x7A0B;&#x5F0F;&#x6240;&#x5305;&#x542B;&#x7684;&#x982D;&#x6A94;&#xFF1B;</p>
+<p>.i &#x70BA;&#x5C3E;&#x78BC;&#x7684;&#x6A94;&#xFF0C;&#x662F;&#x5DF2;&#x7D93;&#x9810;&#x8655;&#x7406;&#x904E;&#x7684;C&#x539F;&#x59CB;&#x78BC;&#x6A94;&#xFF1B;</p>
+<p>.ii&#x70BA;&#x5C3E;&#x78BC;&#x7684;&#x6A94;&#xFF0C;&#x662F;&#x5DF2;&#x7D93;&#x9810;&#x8655;&#x7406;&#x904E;&#x7684;C++&#x539F;&#x59CB;&#x78BC;&#x6A94;&#xFF1B;</p>
+<p>.m&#x70BA;&#x5C3E;&#x78BC;&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x662F;Objective-C &#x539F;&#x59CB;&#x78BC;&#x6587;&#x4EF6;&#xFF1B;</p>
+<p>.o&#x70BA;&#x5C3E;&#x78BC;&#x7684;&#x6A94;&#xFF0C;&#x662F;&#x7DE8;&#x8B6F;&#x5F8C;&#x7684;&#x76EE;&#x6A19;&#x6A94;&#xFF1B;</p>
+<p>.s&#x70BA;&#x5C3E;&#x78BC;&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x662F;&#x7D44;&#x5408;&#x8A9E;&#x8A00;&#x539F;&#x59CB;&#x78BC;&#x6587;&#x4EF6;&#xFF1B;&#x7D93;&#x904E;&#x9810;&#x7DE8;&#x8B6F;&#x8DDF;&#x7DE8;&#x5F59;&#x5F8C;&#x7522;&#x751F;.o&#x7684;&#x76EE;&#x6A19;&#x6A94;</p>
+<p>.S&#x70BA;&#x5C3E;&#x78BC;&#x7684;&#x6A94;&#xFF0C;&#x662F;&#x7D93;&#x904E;&#x9810;&#x7DE8;&#x8B6F;&#x7684;&#x7D44;&#x5408;&#x8A9E;&#x8A00;&#x6E90;&#x4EE3;&#x78BC;&#x6A94;&#x3002;</p>
+</blockquote>
 
                     
                     </section>
@@ -14379,10 +14348,10 @@ sudo make install
         </div>
 
         
-        <a href="../osvr/osvr.html" class="navigation navigation-prev " aria-label="Previous page: VR"><i class="fa fa-angle-left"></i></a>
+        <a href="../gcc/bian_yi_bu_zou_-_zu_yi_lian_jie_ce_shi.html" class="navigation navigation-prev " aria-label="Previous page: 編譯步驟 - 組譯  連結 測試"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../osvr/kalman_filter.html" class="navigation navigation-next " aria-label="Next page: kalman filter"><i class="fa fa-angle-right"></i></a>
+        <a href="../gcc/clang.html" class="navigation navigation-next " aria-label="Next page: Clang"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

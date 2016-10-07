@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>閱讀 C/C++ 原始碼的好幫手 | Jason note</title>
+        <title>raspberrypi2_kernel_debug | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../fcamel/91003.html" />
+    <link rel="next" href="../opengl/opengl.html" />
     
     
-    <link rel="prev" href="../fcamel/91001.html" />
+    <link rel="prev" href="../raspberry_pi/debugging_raspberry_pi_linux_kernel_with_jtag_and_.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="7.10.2" data-basepath=".." data-revision="Sat Oct 08 2016 03:07:45 GMT+0800 (CST)">
+    <div class="book" data-level="30.24" data-basepath=".." data-revision="Sat Oct 08 2016 03:07:45 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1926,7 +1926,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="7.10.2" data-path="fcamel/91002.html">
+        <li class="chapter " data-level="7.10.2" data-path="fcamel/91002.html">
             
                 
                     <a href="../fcamel/91002.html">
@@ -9302,7 +9302,7 @@
             
         </li>
     
-        <li class="chapter " data-level="30.24" data-path="raspberry_pi/raspberrypi2kernel_debug.html">
+        <li class="chapter active" data-level="30.24" data-path="raspberry_pi/raspberrypi2kernel_debug.html">
             
                 
                     <a href="../raspberry_pi/raspberrypi2kernel_debug.html">
@@ -14316,53 +14316,173 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E9%96%B1%E8%AE%80-c-c-%E5%8E%9F%E5%A7%8B%E7%A2%BC%E7%9A%84%E5%A5%BD%E5%B9%AB%E6%89%8B">&#x95B1;&#x8B80; C/C++ &#x539F;&#x59CB;&#x78BC;&#x7684;&#x597D;&#x5E6B;&#x624B;</h1>
-<p>&#x6700;&#x8FD1;&#x6709;&#x9700;&#x6C42;&#x8B80; C/C++ &#x7684;&#x6771;&#x897F;, &#x8A66;&#x4E86; ctags, cscope &#x89BA;&#x5F97;&#x4E0D;&#x7406;&#x60F3;&#x3002;&#x554F;&#x4E86;&#x4E00;&#x4E0B;&#x6536;&#x5230;&#x8A31;&#x591A;&#x56DE;&#x61C9; (G+ &#x3001;plurk ), &#x771F;&#x662F;&#x592A;&#x611F;&#x8B1D;&#x5927;&#x5BB6;&#x4E86;, &#x6E1B;&#x5C11;&#x5165;&#x9580;&#x6478;&#x7D22;&#x7684;&#x6642;&#x9593;&#x3002;</p>
-<p>&#x8A66;&#x7528;&#x7684;&#x611F;&#x60F3;&#x5982;&#x4E0B;:</p>
-<p><strong>grep</strong></p>
+                        <h1 id="raspberrypi2-kernel-debug">raspberrypi2_kernel_debug</h1>
+<h1 id="qemu%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EB%9D%BC%EC%A6%88%EB%B2%A0%EB%A6%AC%ED%8C%8C%EC%9D%B42-%EC%BB%A4%EB%84%90-%EB%94%94%EB%B2%84%EA%B9%85">QEMU&#xB97C; &#xC774;&#xC6A9;&#xD55C; &#xB77C;&#xC988;&#xBCA0;&#xB9AC;&#xD30C;&#xC774;2 &#xCEE4;&#xB110; &#xB514;&#xBC84;&#xAE45;</h1>
+<h2 id="qemu-%EC%BB%B4%ED%8C%8C%EC%9D%BC">QEMU &#xCEF4;&#xD30C;&#xC77C;</h2>
 <ul>
-<li>&#x512A;&#x9EDE;: &#x597D;&#x4E0A;&#x624B;</li>
-<li>&#x7F3A;&#x9EDE;: &#x967D;&#x6625;</li>
-<li>&#x5B89;&#x88DD;: &#x5167;&#x5EFA;&#x65BC; Linux</li>
-</ul>
-<p><strong>gtags</strong></p>
-<ul>
-<li>&#x512A;&#x9EDE;: &#x53EF;&#x627E; caller &#x548C; callee</li>
-<li>&#x7F3A;&#x9EDE;: &#x56E0;&#x70BA;&#x7D22;&#x5F15;&#x6A94;&#x662F;&#x7531; ctags &#x4F86;&#x7684;, &#x6703;&#x6F0F;&#x6771;&#x897F;; &#x57F7;&#x884C;&#x65B9;&#x5F0F;&#x4E5F;&#x6709;&#x4E9B;&#x4E0D;&#x4FBF;</li>
-<li>&#x5B89;&#x88DD;: &#x7A0B;&#x5F0F;&#x5F88;&#x4E45;&#x6C92;&#x4EBA;&#x66F4;&#x65B0;&#x4E86;, &#x8981;&#x505A;&#x4E00;&#x4E9B;&#x4FEE;&#x6B63;&#x624D;&#x88DD;&#x5F97;&#x8D77;&#x4F86;<ul>
-<li>&#x53C3;&#x7167;&#x5B98;&#x7DB2;&#x6307;&#x793A;</li>
-<li>make &#x6642;&#x770B;&#x5C11;&#x4E86;&#x4EC0;&#x9EBC; header, &#x624B;&#x52D5;&#x88DC;&#x4E00;&#x4E0B; header</li>
-<li>&#x7136;&#x5F8C; make &#x9084;&#x662F;&#x6703;&#x5931;&#x6557;, &#x5C07; gas.py &#x7684; &quot;import as&quot; &#x6539;&#x70BA; &quot;import asm&quot;, &#x4E0B;&#x9762;&#x7528;&#x5230;&#x7684;&#x6A21;&#x7D44;&#x540D;&#x4E5F;&#x8981;&#x8DDF;&#x8457;&#x6539;, as.py &#x4E5F;&#x8981;&#x6539;&#x70BA; asm.py&#x3002;python 2.6 &#x5F8C; as &#x662F; keyword</li>
-<li>&#x7DE8;&#x597D;&#x5F8C;&#x5C07;&#x5E7E;&#x500B;&#x7528;&#x5230;&#x7684; python scripts &#x7B2C;&#x4E00;&#x884C;&#x7531; python2.4 &#x6539;&#x70BA; python</li>
-</ul>
+<li><p>&#xCC38;&#xACE0; URL <a href="http://blog.3mdeb.com/2015/12/30/emulate-rapberry-pi-2-in-qemu/" target="_blank">Emulate Rapberry Pi 2 in QEMU</a></p>
+</li>
+<li><p>QEMU &#xB2E4;&#xC6B4;&#xB85C;&#xB4DC;
+```sh
+$ mkdir -p ~/git/pi2
+$ cd ~/git/pi2</p>
 </li>
 </ul>
-<p><strong>ack</strong></p>
+<p>$ git clone <a href="https://github.com/0xabu/qemu.git" target="_blank">https://github.com/0xabu/qemu.git</a> -b raspi
+$ cd qemu
+$ git submodule update --init dtc</p>
+<pre><code>
+* QEMU &#xCEE4;&#xB110; BASE &#xC8FC;&#xC18C; &#xC218;&#xC815;
+ * Qemu &#xC18C;&#xC2A4; hw/arm/boot.c &#xD30C;&#xC77C; &#xC218;&#xC815;.
+```c
+#define KERNEL_LOAD_ADDR 0x00010000
+</code></pre><p>&#xC774;&#xAC83;&#xC744; &#xC544;&#xB798;&#xCC98;&#xB7FC; &#xC218;&#xC815;.</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> KERNEL_LOAD_ADDR <span class="hljs-number">0x00008000</span></span>
+</code></pre>
 <ul>
-<li>&#x512A;&#x9EDE;: &#x6BD4; grep &#x5BB9;&#x6613;&#x4F7F;&#x7528;, &#x7701;&#x5F97;&#x914D;&#x5408;&#x4E00;&#x4E9B; command &#x904E;&#x6FFE;&#x6A94;&#x6848;, &#x898B;&#x5B98;&#x7DB2;&#x7684;&#x300A;Top 10 reasons to use ack instead of grep.&#x300B;&#x3002;&#x800C;&#x4E14;&#x9084;&#x6709;&#x5F69;&#x8272;&#x7684;&#x8F38;&#x51FA;!!</li>
-<li>&#x7F3A;&#x9EDE;: &#x56E0;&#x70BA;&#x6C92;&#x5EFA; index &#x7684;&#x95DC;&#x4FC2;, &#x901F;&#x5EA6;&#x8F03; id-utils &#x6162;, &#x6211;&#x7684;&#x6E2C;&#x8A66;&#x60C5;&#x5883;&#x8981; 3s, &#x800C; id-utils &#x53EA;&#x8981; 0.006s</li>
-<li>&#x5B89;&#x88DD;: curl <a href="http://betterthangrep.com/ack-standalone" target="_blank">http://betterthangrep.com/ack-standalone</a> &gt; ~/bin/ack &amp;&amp; chmod 0755 !#:3</li>
+<li>compile &#xBC0F; &#xC124;&#xCE58;
+```sh
+$ cd ~/git/pi2/qemu</li>
 </ul>
-<p><strong>id-utils</strong></p>
+<p>$ ./configure --target-list=arm-softmmu
+$ make -j$(nproc)
+$ sudo make install</p>
+<pre><code>
+## &#xB77C;&#xC988;&#xBCA0;&#xB9AC;&#xD30C;&#xC774;2&#xC6A9; &#xCEE4;&#xB110; &#xCEF4;&#xD30C;&#xC77C;
+* &#xCC38;&#xACE0; URL [Raspberry Pi Kernel Building](https://www.raspberrypi.org/documentation/linux/kernel/building.md)
+* &#xB77C;&#xC988;&#xBCA0;&#xB9AC;&#xD30C;&#xC774;2 &#xC774;&#xBBF8;&#xC9C0; &#xB2E4;&#xC6B4;&#xB85C;&#xB4DC; [Raspberry PI 2 Image download](https://downloads.raspberrypi.org/raspbian_latest)
+* &#xC555;&#xCD95;&#xC744; &#xD47C;&#xB4A4; raspbian-jessie.img &#xD30C;&#xC77C;&#xBA85;&#xC73C;&#xB85C; &#xBCC0;&#xACBD;&#xD55C;&#xB2E4;
+
+* &#xB77C;&#xC988;&#xBCA0;&#xB9AC;&#xD30C;&#xC774;2 &#xCEF4;&#xD30C;&#xC77C;&#xB7EC; &#xBC0F; &#xD234;&#xCCB4;&#xC778; &#xC124;&#xCE58;
+```sh
+$ mkdir ~/git/pi2
+$ cd ~/git/pi2
+$ git clone https://github.com/raspberrypi/tools
+</code></pre><ul>
+<li>&#xCEF4;&#xD30C;&#xC77C; &#xD658;&#xACBD; &#xC124;&#xC815; &#xD30C;&#xC77C; &#xB9CC;&#xB4E4;&#xAE30;<pre><code class="lang-sh">$ vi env.sh
+</code></pre>
+</li>
+</ul>
+<pre><code class="lang-sh"><span class="hljs-shebang">#!/bin/sh</span>
+<span class="hljs-built_in">export</span> PATH=~/git/pi2/tools/arm-bcm2708/arm-rpi-<span class="hljs-number">4.9</span>.<span class="hljs-number">3</span>-linux-gnueabihf/bin:<span class="hljs-variable">$PATH</span>
+<span class="hljs-built_in">export</span> KERNEL=kernel7
+
+<span class="hljs-built_in">export</span> ARCH=arm
+<span class="hljs-built_in">export</span> CROSS_COMPILE=arm-linux-gnueabihf-
+</code></pre>
 <ul>
-<li>&#x512A;&#x9EDE;: &#x901F;&#x5EA6;&#x5FEB;, &#x548C;&#x6E2C; ack &#x540C;&#x6A23;&#x7684;&#x60C5;&#x6CC1;, &#x5EFA;&#x7D22;&#x5F15; 5.3s, &#x4E4B;&#x5F8C;&#x641C;&#x5C0B;&#x77AC;&#x6BBA;</li>
-<li>&#x7F3A;&#x9EDE;: &#x4ECB;&#x9762;&#x6C92;&#x6709; ack &#x76F4;&#x89BA;&#x6613;&#x7528;, &#x6211;&#x5BEB;&#x4E86;&#x500B;&#x5C0F;&#x7A0B;&#x5F0F; gj &#x4EE5; id-utils &#x70BA;&#x5E95;, - &#x63D0;&#x4F9B;&#x5F69;&#x8272;&#x8F38;&#x51FA;&#x548C;&#x9032;&#x4E00;&#x6B65;&#x904E;&#x6FFE;&#x6A94;&#x540D;&#x7684;&#x529F;&#x80FD;&#x3002;</li>
-<li>&#x5B89;&#x88DD;: Ubuntu &#x8D85;&#x5BB9;&#x6613;, aptitude install id-utils</li>
+<li><p>&#xD658;&#xACBD; &#xC124;&#xC815; &#xC801;&#xC6A9;.</p>
+<pre><code class="lang-sh">$ <span class="hljs-built_in">source</span> env.sh
+</code></pre>
+</li>
+<li><p>&#xCEE4;&#xB110; &#xCEF4;&#xD30C;&#xC77C;&#xC2DC; &#xCD94;&#xAC00; &#xC14B;&#xD305;
+```sh
+$ cd ~/git/pi2/
+$ git clone --depth=1 <a href="https://github.com/raspberrypi/linux" target="_blank">https://github.com/raspberrypi/linux</a></p>
+</li>
 </ul>
-<p><strong>Eclipse CDT</strong></p>
+<p>$ cd linux
+$ make bcm2709_defconfig
+$ make menuconfig</p>
+<p>Kernel hacking --&gt; Compile-time checks and compiler option --&gt; Compile the kernel with debug info --&gt; Enable</p>
+<pre><code>* &#xCD5C;&#xC801;&#xD654; &#xC635;&#xC158; &#xBCC0;&#xACBD;
+```sh
+$ vim Makefile
+</code></pre><pre><code class="lang-make">ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
+KBUILD_CFLAGS    += -Os $(call cc-disable-warning,maybe-uninitialized,)
+else
+KBUILD_CFLAGS    += -O2 # --&gt; &#xC774;&#xAC83;&#xC744; -O1 &#xC73C;&#xB85C; &#xBCC0;&#xACBD;.. 
+endif
+</code></pre>
 <ul>
-<li>&#x512A;&#x9EDE;: &#x65B9;&#x4FBF;&#x958B;&#x65B0;&#x8996;&#x7A97;&#x770B; caller&#x3001;callee</li>
-<li>&#x7F3A;&#x9EDE;: &#x4E0D;&#x65B9;&#x4FBF;&#x642D; vim &#x4F7F;&#x7528; (&#x5C0D; vim &#x91CD;&#x5EA6;&#x4F7F;&#x7528;&#x8005;&#x624D;&#x6709;&#x5DEE;); &#x5EFA; index &#x6709;&#x9EDE;&#x4E45;, &#x6211;&#x7684;&#x6E2C;&#x8A66;&#x60C5;&#x5883;&#x8981;&#x6578;&#x5206;&#x9418;&#x5230;&#x5341;&#x5206;&#x9418;&#x5427;</li>
-<li>&#x5B89;&#x88DD;: &#x7D50;&#x679C;&#x9019;&#x500B;&#x662F;&#x6211;&#x8A66;&#x6700;&#x4E45;&#x7684;, &#x56E0;&#x70BA;&#x4E0D;&#x77E5;&#x600E;&#x9EBC;&#x5EFA; index&#x3002;&#x53C3;&#x8003;&#x5B98;&#x7DB2; FAQ, &#x5EFA;&#x7D22;&#x5F15;&#x524D;&#x8981;&#x5148;&#x8A2D; include dir path&#x3002;&#x6211;&#x4E00;&#x76F4;&#x627E;&#x4E0D;&#x5230; context menu, &#x7D50;&#x679C;&#x5B83;&#x5C31;&#x662F;&#x5DE6;&#x5074;&#x7684;&#x90A3;&#x500B;&#x5C08;&#x6848;&#x6E05;&#x55AE;&#x3002;&#x53E6;&#x5916; Eclipse CDT &#x4E5F;&#x6703;&#x6F0F;&#x4E00;&#x4E9B;&#x6771;&#x897F;, C++ &#x7279;&#x5225;&#x56B4;&#x91CD;&#x3002;</li>
+<li>&#xCD5C;&#xC801;&#xD654; &#xC635;&#xC158;&#xC744; &#xC124;&#xC815; &#xD558;&#xC9C0; &#xC54A;&#xC744;&#xB824;&#xBA74; -O0&#xC73C;&#xB85C; &#xD574;&#xC57C; &#xD558;&#xB098; -O0&#xC73C;&#xB85C; &#xCEF4;&#xD30C;&#xC77C; &#xD558;&#xBA74; &#xC5D0;&#xB7EC;&#xAC00; &#xBC1C;&#xC0DD;&#xD55C;&#xB2E4;..(&#xD639;&#xC2DC; &#xC218;&#xC815; &#xBC29;&#xBC95;&#xC744; &#xC544;&#xC2DC;&#xB294; &#xBD84;&#xC740; &#xBA54;&#xC77C;&#xB85C; &#xC880; &#xC54C;&#xB824;&#xC8FC;&#xC2DC;&#xAE38;..)</li>
 </ul>
-<p><strong>&#x7D50;&#x8AD6;</strong></p>
-<p>&#x7528; Eclipes CDT &#x65B9;&#x4FBF;&#x5E73;&#x6642;&#x5FEB;&#x901F;&#x8DF3;&#x5230;&#x5B9A;&#x7FA9;
-&#x8F14;&#x4EE5; id-utils + gj &#x78BA;&#x4FDD;&#x4E0D;&#x6703;&#x6F0F;&#x6771;&#x897F;&#x3002;&#x4E4B;&#x5F8C;&#x7528;&#x4E00;&#x7528;&#x518D;&#x8996;&#x9700;&#x6C42;&#x4F86;&#x66F4;&#x65B0; gj &#x529F;&#x80FD;&#x3002;
-2011-12-16 Update</p>
-<p>Eclipse CDT &#x7684;&#x554F;&#x984C;&#x6709;&#x4E00;&#x90E8;&#x4EFD;&#x662F;&#x6211;&#x8A2D;&#x932F;, &#x8A73;&#x7D30;&#x8A2D;&#x6CD5;&#x898B;&#x7528; Eclipse CDT &#x8B80; C/C++ &#x539F;&#x59CB;&#x78BC;&#x3002;</p>
-<p>2012-02-02 Update</p>
-<p>&#x7559;&#x8A00;&#x88E1;&#x6709;&#x63D0;&#x5230;&#x5176;&#x5B83;&#x5DE5;&#x5177;, &#x6211;&#x9084;&#x6C92;&#x6A5F;&#x6703;&#x8A66;, &#x6709;&#x9700;&#x8981;&#x7684;&#x4EBA;&#x53EF;&#x4EE5;&#x53C3;&#x8003;&#x770B;&#x770B;&#x3002;
-&#x958B;&#x767C;&#x8EDF;&#x9AD4;&#x7684;&#x6642;&#x5019;, &#x9664;&#x63D0;&#x6607;&#x95B1;&#x8B80;&#x7A0B;&#x5F0F;&#x78BC;&#x7684;&#x80FD;&#x529B;&#x5916;, &#x9084;&#x9700;&#x8981;&#x77AD;&#x89E3;&#x8A31;&#x591A;&#x6771;&#x897F;, &#x898B;&#x300A;&#x5728; Linux &#x4E0B;&#x958B;&#x767C; C/C++ &#x7684;&#x65B0;&#x624B;&#x6307;&#x5357;&#x300B;&#x3002;</p>
+<ul>
+<li>&#xCEE4;&#xB110; &#xBE4C;&#xB4DC;<pre><code class="lang-sh">$ make -j$(nproc) zImage modules dtbs
+</code></pre>
+</li>
+</ul>
+<h2 id="%EC%BB%A4%EB%84%90-%EB%94%94%EB%B2%84%EA%B9%85">&#xCEE4;&#xB110; &#xB514;&#xBC84;&#xAE45;</h2>
+<ul>
+<li><p>&#xCEF4;&#xD30C;&#xC77C; &#xB41C; &#xCEE4;&#xB110;&#xACFC; DTB&#xD30C;&#xC77C; &#xCD94;&#xCD9C;</p>
+<pre><code class="lang-sh">$ scripts/mkknlimg arch/arm/boot/zImage ~/git/pi2/kernel7.img
+$ cp arch/arm/boot/dts/bcm2709-rpi-<span class="hljs-number">2</span>-b.dtb ~/git/pi2
+</code></pre>
+</li>
+<li><p>QEMNU &#xC2E4;&#xD589; &#xC2A4;&#xD06C;&#xB9BD;&#xD2B8; &#xC791;&#xC131;.</p>
+</li>
+</ul>
+<pre><code class="lang-sh">$ vi ~/git/pi2/kernel_debug.sh
+</code></pre>
+<pre><code class="lang-sh"><span class="hljs-shebang">#!/bin/sh</span>
+<span class="hljs-keyword">if</span> [ -z <span class="hljs-string">&quot;<span class="hljs-variable">${KERNEL}</span>&quot;</span> ] ; <span class="hljs-keyword">then</span>
+    <span class="hljs-built_in">export</span> PATH=~/git/pi2/tools/arm-bcm2708/arm-rpi-<span class="hljs-number">4.9</span>.<span class="hljs-number">3</span>-linux-gnueabihf/bin:<span class="hljs-variable">$PATH</span>
+    <span class="hljs-built_in">export</span> KERNEL=kernel7
+
+    <span class="hljs-built_in">export</span> ARCH=arm
+    <span class="hljs-built_in">export</span> CROSS_COMPILE=arm-linux-gnueabihf-
+<span class="hljs-keyword">fi</span>
+
+BOOT_CMDLINE=<span class="hljs-string">&quot;rw earlyprintk loglevel=8 console=ttyAMA0,115200 console=tty1 dwc_otg.lpm_enable=0 root=/dev/mmcblk0p2&quot;</span>
+DTB_FILE=<span class="hljs-string">&quot;bcm2709-rpi-2-b.dtb&quot;</span>
+KERNEL_IMG=<span class="hljs-string">&quot;kernel7.img&quot;</span>
+SD_IMG=<span class="hljs-string">&quot;raspbian-jessie.img&quot;</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;target remote localhost:1234&quot;</span>
+qemu-system-arm <span class="hljs-operator">-s</span> -S -M raspi2 -kernel <span class="hljs-variable">${KERNEL_IMG}</span> \
+    -sd <span class="hljs-variable">${SD_IMG}</span> \
+    -append <span class="hljs-string">&quot;<span class="hljs-variable">${BOOT_CMDLINE}</span>&quot;</span> \
+    -dtb <span class="hljs-variable">${DTB_FILE}</span> -serial stdio &amp;
+
+QEMU_PID=$!
+sleep <span class="hljs-number">1</span>
+arm-linux-gnueabihf-gdb -ex <span class="hljs-string">&quot;target remote localhost:1234&quot;</span> ~/git/pi2/linux/vmlinux
+
+<span class="hljs-built_in">kill</span> -<span class="hljs-number">9</span> <span class="hljs-variable">${QEMU_PID}</span>
+</code></pre>
+<ul>
+<li>QEMU &#xC2E4;&#xD589; &#xBC0F; &#xB514;&#xBC84;&#xAE45;</li>
+</ul>
+<pre><code class="lang-sh">$ chmod a+x kernel_debug.sh
+
+$ ./kernel_debug.sh 
+target remote localhost:<span class="hljs-number">1234</span>
+VNC server running on <span class="hljs-string">&apos;::1;5900&apos;</span>
+Reading symbols from ./vmlinux...done.
+Remote debugging using localhost:<span class="hljs-number">1234</span>
+__vectors_start () at arch/arm/kernel/entry-armv.S:<span class="hljs-number">1219</span>
+<span class="hljs-number">1219</span>        W(b)    vector_rst
+
+<span class="hljs-comment"># start_kernel&#xC5D0; &#xBE0C;&#xB808;&#xC774;&#xD06C; &#xD3EC;&#xC778;&#xD2B8; &#xC124;&#xC815;</span>
+(gdb) b start_kernel
+Breakpoint <span class="hljs-number">1</span> at <span class="hljs-number">0</span>x8079d9c0: file init/main.c, line <span class="hljs-number">546</span>.
+
+<span class="hljs-comment"># &#xB514;&#xBC84;&#xAE45; &#xC2DC;&#xC791; continue</span>
+(gdb) c
+Continuing.
+Uncompressing Linux... <span class="hljs-keyword">done</span>, booting the kernel.
+
+Breakpoint <span class="hljs-number">1</span>, start_kernel () at init/main.c:<span class="hljs-number">546</span>
+<span class="hljs-number">546</span>    {
+
+<span class="hljs-comment"># &#xC18C;&#xC2A4;&#xBCF4;&#xAE30;.</span>
+(gdb) list
+<span class="hljs-number">541</span>        vmalloc_init();
+<span class="hljs-number">542</span>        ioremap_huge_init();
+<span class="hljs-number">543</span>    }
+<span class="hljs-number">544</span>    
+<span class="hljs-number">545</span>    asmlinkage __visible void __init start_kernel(void)
+<span class="hljs-number">546</span>    {
+<span class="hljs-number">547</span>        char *<span class="hljs-built_in">command</span>_line;
+<span class="hljs-number">548</span>        char *after_dashes;
+<span class="hljs-number">549</span>    
+<span class="hljs-number">550</span>        /*
+(gdb)
+</code></pre>
+<h2 id="writer">Writer</h2>
+<ul>
+<li><a href="http://github.com/fehead" target="_blank">fehead</a></li>
+</ul>
 
                     
                     </section>
@@ -14373,10 +14493,10 @@
         </div>
 
         
-        <a href="../fcamel/91001.html" class="navigation navigation-prev " aria-label="Previous page: 查 C/C++ symbol 定義的方法"><i class="fa fa-angle-left"></i></a>
+        <a href="../raspberry_pi/debugging_raspberry_pi_linux_kernel_with_jtag_and_.html" class="navigation navigation-prev " aria-label="Previous page: Debugging Raspberry Pi Linux kernel with JTAG and GDB"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../fcamel/91003.html" class="navigation navigation-next " aria-label="Next page: 配合 c++filt 讀程式"><i class="fa fa-angle-right"></i></a>
+        <a href="../opengl/opengl.html" class="navigation navigation-next " aria-label="Next page: OpenGL"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

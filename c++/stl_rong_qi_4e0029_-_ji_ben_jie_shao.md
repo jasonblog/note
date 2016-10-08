@@ -28,7 +28,7 @@ STL 是 C++ 提供的一套標準模板函式庫<br>
 
 ## Vector
 Vector 可以看成是一個動態陣列<br>
-![](http://imgur.com/YpSpyuh.png)<br>
+![](./images/YpSpyuh.png)<br>
 
 ### 用法跟陣列很像，基本功能有 :
 - push_back: 把一個值加到尾巴
@@ -105,7 +105,7 @@ int main(){
 ## Queue
 Queue 就像是排隊買東西<br>
 只能往尾巴排，然後從頭出來<br>
-![](http://blog.hqc.sk.ca/wp-content/uploads/2012/12/Queue-2012-12-11.jpg)
+![](./images/Queue-2012-12-11.jpg)
 
 ### 基本功能有:
 - push: 把一個值加到尾巴
@@ -163,7 +163,7 @@ int main(){
 Stack 就是一疊盤子<br>
 只能拿走最上面的<br>
 或是繼續往上疊<br>
-![](http://imgur.com/rhIdBYm.png)
+![](./images/rhIdBYm.png)
 
 ### 基本功能有:
 - top: 得到最上面的值
@@ -202,7 +202,7 @@ int main(){
 
 ## Set
 Set 就是集合<br>
-![](http://imgur.com/HIeaLY4.png)
+![](./images/HIeaLY4.png)
 
 ### 基本功能有:
 - insert: 把一個數字放進集合
@@ -242,7 +242,7 @@ int main(){
 
 ## Map
 Map 就像是一個對應表<br>
-![](http://www.boost.org/doc/libs/1_44_0/libs/bimap/doc/html/images/bimap/standard.mapping.framework.png)
+![](./images/standard.mapping.framework.png)
 
 ### 基本功能有:
 - []: 得到對應的值

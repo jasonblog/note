@@ -905,5 +905,5 @@
        * [mergesort-concurrent](ncku_embededd/mergesort-concurrent.md)
        * [A01: phonebook](ncku_embededd/phonebook.md)
        * [A02: raytracing](ncku_embededd/a02_raytracing.md)
-       * A03: compute-pi
+       * [A03: compute-pi](ncku_embededd/a03_compute-pi.md)
 

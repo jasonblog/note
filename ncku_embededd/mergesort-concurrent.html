@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Linux Device Model 三角關係 | Jason note</title>
+        <title>mergesort-concurrent | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,8 @@
         
     
     
-    <link rel="next" href="../linux_driver/linuxshe_bei_mo_578b28_1__ji_ben_gai_nian.html" />
     
-    
-    <link rel="prev" href="../linux_driver/napiyu_pure_interrupt_driver_de_xiao_neng_bi_jiao.html" />
+    <link rel="prev" href="../ncku_embededd/lei_si_c_++_template_lai_shi_zuo_ni_ff1f_c11_you_g.html" />
     
 
         <!-- head:end -->
@@ -48,7 +46,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="11.3" data-basepath=".." data-revision="Sun Oct 09 2016 21:43:07 GMT+0800 (CST)">
+    <div class="book" data-level="59.1.6" data-basepath=".." data-revision="Sun Oct 09 2016 21:43:07 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -3338,7 +3336,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="11.3" data-path="linux_driver/linux_device_model.html">
+        <li class="chapter " data-level="11.3" data-path="linux_driver/linux_device_model.html">
             
                 
                     <a href="../linux_driver/linux_device_model.html">
@@ -14230,7 +14228,7 @@
             
         </li>
     
-        <li class="chapter " data-level="59.1.6" data-path="ncku_embededd/mergesort-concurrent.html">
+        <li class="chapter active" data-level="59.1.6" data-path="ncku_embededd/mergesort-concurrent.html">
             
                 
                     <a href="../ncku_embededd/mergesort-concurrent.html">
@@ -14361,257 +14359,257 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="linux-device-model-%E4%B8%89%E8%A7%92%E9%97%9C%E4%BF%82">Linux Device Model &#x4E09;&#x89D2;&#x95DC;&#x4FC2;</h1>
-<p><img src="images/1343287430_3988.PNG" alt=""></p>
-<p>Linux Device Model&#x7531;bus, device, driver&#x6240;&#x7D44;&#x6210;&#x3002;&#x5176;&#x95DC;&#x4FC2;&#x70BA;: bus&#x662F;cpu&#x8207;device&#x6E9D;&#x901A;&#x7684;&#x6A4B;&#x6A11;&#xFF0C;&#x800C;driver&#x8CE6;&#x8207;device&#x884C;&#x70BA;&#x7684;&#x80FD;&#x529B;&#x3002;&#x56E0;&#x6B64;&#x6709;&#x4EBA;&#x8AAA;&#xFF0C;device&#x662F;&#x7537;&#x4EBA;&#xFF0C;driver&#x662F;&#x5973;&#x4EBA;&#xFF0C;&#x800C;bus&#x5247;&#x662F;&#x5A92;&#x4EBA;&#x3002;&#x5A92;&#x4EBA;&#x6709;match&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x8B93;&#x7537;&#x4EBA;&#x8207;&#x5973;&#x4EBA;&#x5F7C;&#x6B64; &#x8A8D;&#x8B58;&#x3002;&#x5728;coldplug&#x7684;&#x6642;&#x4EE3;&#xFF0C;&#x7537;&#x4EBA;&#x5148;&#x767B;&#x8A18;&#x5F8C;&#xFF0C;&#x7531;&#x5A92;&#x4EBA;&#x53BB;match&#x5973;&#x4EBA;&#x3002;&#x800C;&#x5F8C;&#x4F86;&#x7684;hotplug&#xFF0C;&#x5247;&#x8B93;&#x5973;&#x4EBA;&#x5148;&#x63D0;&#x4F9B;&#x8CC7;&#x8A0A;&#xFF0C;&#x8B93;&#x5F8C;&#x4F86;&#x6709;&#x610F;&#x9858;&#x7684;&#x7537;&#x4EBA;match&#x3002; device&#x8207;driver&#x5C0D;bus&#x800C;&#x8A00;&#xFF0C;&#x5C31;&#x6C92;&#x6709;&#x4E00;&#x5B9A;&#x8AB0;&#x5148;&#x8AB0;&#x5F8C;&#x4E86;&#x3002;</p>
-<h3 id="%E5%9F%BA%E7%A4%8E">&#x57FA;&#x790E;</h3>
-<p>kobject&#x505A;&#x70BA;LDM&#x7684;&#x6700;&#x57FA;&#x672C;&#x7D50;&#x69CB;&#xFF0C;&#x63D0;&#x4F9B;&#x4E86;reference count (kref)&#x3001;sysfs&#x7684;dirent&#x548C;hotplug&#x76F8;&#x7684;&#x7684;event&#x7B49;&#x5176;&#x4ED6;&#x5C6C;&#x6027;&#x3002;bus, device, driver&#x90FD;&#x6703;&#x662F;&#x4E00;&#x500B;kobject&#xFF0C;&#x610F;&#x5373;&#x5176;struct&#x90FD;&#x5167;&#x542B;&#x4E00;&#x500B;kobject&#x3002;</p>
-<pre><code class="lang-c">include/linux/kobject.h
-
-<span class="hljs-keyword">struct</span> kobject {
-    <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>        *name;
-    <span class="hljs-keyword">struct</span> list_head    entry;
-    <span class="hljs-keyword">struct</span> kobject        *parent;
-    <span class="hljs-keyword">struct</span> kset        *kset;
-    <span class="hljs-keyword">struct</span> kobj_type    *ktype;
-    <span class="hljs-keyword">struct</span> sysfs_dirent    *sd;
-    <span class="hljs-keyword">struct</span> kref        kref;
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> state_initialized:<span class="hljs-number">1</span>;
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> state_in_sysfs:<span class="hljs-number">1</span>;
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> state_add_uevent_sent:<span class="hljs-number">1</span>;
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> state_remove_uevent_sent:<span class="hljs-number">1</span>;
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> uevent_suppress:<span class="hljs-number">1</span>;
-};
+                        <h1 id="mergesort-concurrent">mergesort-concurrent</h1>
+<p>&#xFEFF;# A07: mergesort-concurrent</p>
+<h2 id="%E9%A0%90%E6%9C%9F%E7%9B%AE%E6%A8%99">&#x9810;&#x671F;&#x76EE;&#x6A19;</h2>
+<ul>
+<li>&#x4F5C;&#x70BA; <a href="s/H10MXXoT">concurrency</a> &#x7684;&#x5C55;&#x793A;&#x6848;&#x4F8B;</li>
+<li>&#x5B78;&#x7FD2; POSIX Thread Programming&#xFF0C;&#x7279;&#x5225;&#x662F; <a href="https://docs.oracle.com/cd/E19683-01/806-6867/6jfpgdcnd/index.html" target="_blank">synchronization object</a></li>
+<li>&#x70BA;&#x65E5;&#x5F8C;&#x6548;&#x80FD;&#x5206;&#x6790;&#x548C; scalability &#x7814;&#x7A76;&#x5EFA;&#x69CB;&#x57FA;&#x790E;&#x5EFA;&#x8A2D;</li>
+<li>&#x5B78;&#x7FD2;&#x7A0B;&#x5F0F;&#x54C1;&#x8CEA;&#x5206;&#x6790;&#x548C;&#x76F8;&#x95DC;&#x7684;&#x958B;&#x767C;&#x5DE5;&#x5177;</li>
+</ul>
+<h2 id="%E6%A1%88%E4%BE%8B%E5%88%86%E6%9E%90-mergesort-concurrent-https-github-com-sysprog21-mergesort-concurrent-%E5%B0%8D%E5%96%AE%E5%90%91-linked-list">&#x6848;&#x4F8B;&#x5206;&#x6790;: <a href="https://github.com/sysprog21/mergesort-concurrent" target="_blank">mergesort-concurrent</a> (&#x5C0D;&#x55AE;&#x5411; Linked List)</h2>
+<p>&#x5169;&#x5927;&#x91CD;&#x9EDE;:</p>
+<ul>
+<li>&#x6392;&#x5E8F;&#x7684;&#x5C0D;&#x8C61;&#x662F; singly-linked list</li>
+<li>&#x5229;&#x7528; POSIX Thread &#x8655;&#x7406;&#xFF0C;&#x9700;&#x8981;&#x4E00;&#x4F75;&#x64CD;&#x4F5C; synchronization object</li>
+</ul>
+<p>&#x53D6;&#x5F97;&#x7A0B;&#x5F0F;&#x78BC;&#x4E26;&#x6E2C;&#x8A66;:</p>
+<pre><code class="lang-shell">$ git clone https://github.com/sysprog21/mergesort-concurrent
+$ cd mergesort-concurrent
+$ make
+$ ./sort
 </code></pre>
-<p>kset&#x7406;&#x89E3;&#x70BA;kobject&#x7684;&#x96C6;&#x5408;&#x3002;&#x53EF;&#x4EE5;&#x60F3;&#x50CF;&#x70BA;pci bus&#x662F;&#x4E00;&#x500B;kset&#xFF0C;&#x800C;&#x639B;&#x5728;pci bus&#x4E0A;&#x7684;&#x4E00;&#x500B;&#x500B;device / driver&#x7684;kobject&#x70BA;&#x5176;&#x6210;&#x54E1;&#x3002;</p>
-<h3 id="%E7%B5%90%E6%A7%8B">&#x7D50;&#x69CB;</h3>
-<p>include/linux/device.h</p>
-<h3 id="%E5%85%88%E7%9C%8Bbus">&#x5148;&#x770B;bus</h3>
-<pre><code class="lang-c"><span class="hljs-keyword">struct</span> bus_type {
-    <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>        *name;
-    <span class="hljs-keyword">struct</span> bus_attribute    *bus_attrs;
-    <span class="hljs-keyword">struct</span> device_attribute    *dev_attrs;
-    <span class="hljs-keyword">struct</span> driver_attribute    *drv_attrs;
-
-    <span class="hljs-keyword">int</span> (*match)(<span class="hljs-keyword">struct</span> device *dev, <span class="hljs-keyword">struct</span> device_driver *drv);
-    <span class="hljs-keyword">int</span> (*uevent)(<span class="hljs-keyword">struct</span> device *dev, <span class="hljs-keyword">struct</span> kobj_uevent_env *env);
-    <span class="hljs-keyword">int</span> (*probe)(<span class="hljs-keyword">struct</span> device *dev);
-    <span class="hljs-keyword">int</span> (*remove)(<span class="hljs-keyword">struct</span> device *dev);
-    <span class="hljs-keyword">void</span> (*shutdown)(<span class="hljs-keyword">struct</span> device *dev);
-    <span class="hljs-keyword">int</span> (*suspend)(<span class="hljs-keyword">struct</span> device *dev, <span class="hljs-keyword">pm_message_t</span> state);
-    <span class="hljs-keyword">int</span> (*resume)(<span class="hljs-keyword">struct</span> device *dev);
-
-    <span class="hljs-keyword">const</span> <span class="hljs-keyword">struct</span> dev_pm_ops *pm;
-    <span class="hljs-keyword">struct</span> bus_type_private *p; <span class="hljs-comment">//2.6.19&#x5F8C;&#x628A;device&#x548C;driver&#x5305;&#x5728;&#x65B0;&#x7684;struct</span>
-};
-
-<span class="hljs-keyword">struct</span> bus_type_private {
-    <span class="hljs-keyword">struct</span> kset subsys;  <span class="hljs-comment">//&#x4EE3;&#x8868;&#x81EA;&#x5DF1;&#xFF0C;&#x800C;kset&#x672C;&#x8EAB;&#x4E5F;&#x662F;&#x4E00;&#x7A2E;kobject</span>
-    <span class="hljs-keyword">struct</span> kset *drivers_kset; <span class="hljs-comment">//&#x8A72;bus&#x7684;driver&#x96C6;&#x5408;</span>
-    <span class="hljs-keyword">struct</span> kset *devices_kset; <span class="hljs-comment">//&#x8A72;bus&#x7684; device&#x96C6;&#x5408;</span>
-    <span class="hljs-keyword">struct</span> klist klist_devices;
-    <span class="hljs-keyword">struct</span> klist klist_drivers;
-    <span class="hljs-keyword">struct</span> blocking_notifier_head bus_notifier;
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> drivers_autoprobe:<span class="hljs-number">1</span>;
-    <span class="hljs-keyword">struct</span> bus_type *bus;
-};
+<p>&#x7A0B;&#x5F0F;&#x8F38;&#x51FA;&#xFF0C;&#x63D0;&#x793A;&#x4EE5;&#x4E0B;&#x7528;&#x6CD5;:</p>
+<pre><code>usage: ./sort [thread_count] [input_count]
+</code></pre><p>&#x6BD4;&#x65B9;&#x8AAA; <code>./sort 4 8</code>&#xFF0C;&#x57F7;&#x884C;&#x5F8C;&#x6703;&#x770B;&#x5230; &quot;input unsorted data line-by-line&quot; &#x63D0;&#x793A;&#x8A0A;&#x606F;&#xFF0C;&#x8ACB;&#x8F38;&#x5165; 8 &#x7D44;&#x6578;&#x5B57;&#xFF0C;&#x6BCF;&#x500B;&#x90FD;&#x7528; Enter (&#x63DB;&#x884C;) &#x5206;&#x9694;&#x3002;&#x4E4B;&#x5F8C;&#x5373;&#x53EF;&#x770B;&#x5230;&#x8F38;&#x51FA;&#x3002;</p>
+<p>&#x5728; GNU bash &#x4E2D;&#xFF0C;&#x53EF;&#x5584;&#x7528; <code>$RANDOM</code> &#x74B0;&#x5883;&#x8B8A;&#x6578;&#xFF0C;&#x53D6;&#x5F97;&#x4ECB;&#x65BC; 0~32767 &#x4E4B;&#x9593;&#x7684;&#x4E82;&#x6578;&#xFF0C;&#x65BC;&#x662F;&#x6211;&#x5011;&#x53EF;&#x900F;&#x904E;&#x4EE5;&#x4E0B;&#x6307;&#x4EE4;&#x4F86;&#x4F5C;&#x81EA;&#x52D5;&#x6E2C;&#x8A66;:</p>
+<pre><code class="lang-shell">$ (for i in {1..8}; do echo $RANDOM; done) | ./sort 4 8
 </code></pre>
-<h3 id="%E5%86%8D%E4%BE%86%E6%98%AFdevice">&#x518D;&#x4F86;&#x662F;device</h3>
-<pre><code class="lang-c"><span class="hljs-keyword">struct</span> device {
-    <span class="hljs-keyword">struct</span> device        *parent;
-    <span class="hljs-keyword">struct</span> device_private    *p;
-    <span class="hljs-keyword">struct</span> kobject kobj;
-    <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>        *init_name; <span class="hljs-comment">/* initial name of the device */</span>
-    <span class="hljs-keyword">struct</span> device_type    *type;
-    <span class="hljs-keyword">struct</span> mutex        mutex;    <span class="hljs-comment">/* mutex to synchronize calls to its driver.*/</span>
-    <span class="hljs-keyword">struct</span> bus_type    *bus;        <span class="hljs-comment">/* type of bus device is on */</span> <span class="hljs-comment">//&#x6307;&#x5B9A;&#x8981;&#x639B;&#x5728;&#x54EA;&#x689D;bus</span>
-    <span class="hljs-keyword">struct</span> device_driver *driver;    <span class="hljs-comment">/* which driver has allocated this  //&#x8A72;device&#x6240; bind&#x7684;driver device */</span>
-    <span class="hljs-keyword">void</span>        *platform_data;    <span class="hljs-comment">/* Platform specific data, device core doesn&apos;t touch it */</span>
-    <span class="hljs-keyword">struct</span> dev_pm_info    power;
-<span class="hljs-comment">/*...............*/</span>
-};
-`
-</code></pre>
-<h3 id="%E6%9C%80%E5%BE%8C%E6%98%AFdriver">&#x6700;&#x5F8C;&#x662F;driver</h3>
-<pre><code class="lang-c"><span class="hljs-keyword">struct</span> device_driver {
-    <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>        *name;
-    <span class="hljs-keyword">struct</span> bus_type        *bus;  <span class="hljs-comment">//&#x4E00;&#x6A23;&#x662F;&#x7528;&#x4F86;&#x6307;&#x5B9A;&#x8981;&#x53BB;&#x54EA;&#x689D;bus&#x505A; match</span>
-    <span class="hljs-keyword">struct</span> module        *owner;
-    <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>        *mod_name;    <span class="hljs-comment">/* used for built-in modules */</span>
-    <span class="hljs-keyword">bool</span> suppress_bind_attrs;    <span class="hljs-comment">/* disables bind/unbind via sysfs */</span>
-
-<span class="hljs-preprocessor">#<span class="hljs-keyword">if</span> defined(CONFIG_OF)</span>
-    <span class="hljs-keyword">const</span> <span class="hljs-keyword">struct</span> of_device_id    *of_match_table;
-<span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span></span>
-
-    <span class="hljs-keyword">int</span> (*probe) (<span class="hljs-keyword">struct</span> device *dev);
-    <span class="hljs-keyword">int</span> (*remove) (<span class="hljs-keyword">struct</span> device *dev);
-    <span class="hljs-keyword">void</span> (*shutdown) (<span class="hljs-keyword">struct</span> device *dev);
-    <span class="hljs-keyword">int</span> (*suspend) (<span class="hljs-keyword">struct</span> device *dev, <span class="hljs-keyword">pm_message_t</span> state);
-    <span class="hljs-keyword">int</span> (*resume) (<span class="hljs-keyword">struct</span> device *dev);
-    <span class="hljs-keyword">const</span> <span class="hljs-keyword">struct</span> attribute_group **groups;
-
-    <span class="hljs-keyword">const</span> <span class="hljs-keyword">struct</span> dev_pm_ops *pm;
-    <span class="hljs-keyword">struct</span> driver_private *p; <span class="hljs-comment">//kobject&#x5728;&#x9019;</span>
-};
-
-<span class="hljs-keyword">struct</span> driver_private {
-    <span class="hljs-keyword">struct</span> kobject kobj;
-    <span class="hljs-keyword">struct</span> klist klist_devices;  <span class="hljs-comment">//&#x8A72;driver&#x80FD;&#x652F;&#x63F4;&#x7684;device&#x5217;&#x8868;</span>
-    <span class="hljs-keyword">struct</span> klist_node knode_bus;
-    <span class="hljs-keyword">struct</span> module_kobject *mkobj;
-    <span class="hljs-keyword">struct</span> device_driver *driver;
-};
-</code></pre>
-<p>&#x57FA;&#x672C;&#x4E0A;&#x9019;&#x5C31;&#x662F;LDM&#x4E09;&#x500B;&#x4E3B;&#x89D2;&#x7684;&#x7D50;&#x69CB;&#x3002;&#x62FF;pci driver&#x7576;&#x4F8B;&#x5B50;</p>
-<p>drivers/pci/pci-driver.c</p>
-<h3 id="bus%E7%9A%84%E9%83%A8%E5%88%86">bus&#x7684;&#x90E8;&#x5206;</h3>
-<pre><code class="lang-c"><span class="hljs-keyword">struct</span> bus_type pci_bus_type = {
-    .name        = <span class="hljs-string">&quot;pci&quot;</span>,
-    .match        = pci_bus_match,
-    .uevent        = pci_uevent,
-    .probe        = pci_device_probe,
-    .remove        = pci_device_remove,
-    .shutdown    = pci_device_shutdown,
-    .dev_attrs    = pci_dev_attrs,
-    .bus_attrs    = pci_bus_attrs,
-    .pm        = PCI_PM_OPS_PTR,
-};
-</code></pre>
-<p>&#x5BA3;&#x544A;&#x4E86;pci bus&#x53CA;&#x5176;&#x5C6C;&#x6027;&#x3002;</p>
-<pre><code class="lang-c"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> __<span class="hljs-function">init <span class="hljs-title">pci_driver_init</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
-</span>{
-    <span class="hljs-keyword">return</span> bus_register(&amp;pci_bus_type);
+<p>&#x8F38;&#x51FA;&#x7684; &quot;sorted results&quot; &#x8A0A;&#x606F;&#x5F8C;&#x65B9;&#x61C9;&#x8A72;&#x6709; 8 &#x7D44;&#x6578;&#x503C;&#xFF0C;&#x7531;&#x5C0F;&#x5230;&#x5927;&#x6392;&#x5217;&#x3002;</p>
+<ul>
+<li>&#x5EF6;&#x4F38;&#x95B1;&#x8B80;: <a href="http://linux.vbird.org/linux_basic/0320bash.php" target="_blank">&#x7B2C;&#x5341;&#x7AE0;&#x3001;&#x8A8D;&#x8B58;&#x8207;&#x5B78;&#x7FD2;BASH</a>&#xFF0C;&#x300A;&#x9CE5;&#x54E5;&#x7684; Linux &#x79C1;&#x623F;&#x83DC;&#x300B;</li>
+</ul>
+<h2 id="-manager-worker-%E6%9E%B6%E6%A7%8B-http-maxim-int-ru-bookshelf-pthreadsprogram-htm-r-19-html"><a href="http://maxim.int.ru/bookshelf/PthreadsProgram/htm/r_19.html" target="_blank">manager-worker &#x67B6;&#x69CB;</a></h2>
+<p>&#x793A;&#x610F;&#x5716;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-graphviz">digraph hierarchy {
+    nodesep=0.5 // increases the separation between nodes
+    node [color=black,fontname=Courier,shape=box] //All nodes will this shape and colour
+    edge [color=black, style=dashed] // All the lines look like this
+    Manager-&gt;{Worker1 Worker2 Worker3}
 }
+</code></pre>
+<p>&#x70BA;&#x4E86;&#x5206;&#x914D;&#x5DE5;&#x4F5C;&#xFF0C;&#x5728; worker thread &#x5BE6;&#x4F5C; Task &#x7684;&#x6A5F;&#x5236;&#x3002;&#x6BCF;&#x500B;&#x4E3B;&#x8981;&#x7684;&#x64CD;&#x4F5C;&#x6703;&#x5148;&#x88AB;&#x653E;&#x9032; task queue &#x88E1;&#x982D;&#xFF0C;&#x7A7A;&#x9592;&#x7684; thread &#x518D;&#x5F9E; task queue &#x88E1;&#x982D;&#x63D0;&#x53D6; task &#x57F7;&#x884C;&#xFF0C;&#x5982;&#x4E0B;&#x9762;&#x7684;&#x6B65;&#x9A5F;:</p>
+<pre><code class="lang-graphviz">digraph {
+&#x958B;&#x59CB;Process[shape=&quot;box&quot;, style=rounded];
+&#x662F;&#x5426;&#x70BA;&#x7D50;&#x675F;Task[shape=&quot;diamond&quot;];
+&#x7D50;&#x675F;Process[shape=&quot;box&quot;, style=rounded];
+&#x958B;&#x59CB;Process-&gt;&#x63D0;&#x53D6;Task-&gt;&#x662F;&#x5426;&#x70BA;&#x7D50;&#x675F;Task
+&#x662F;&#x5426;&#x70BA;&#x7D50;&#x675F;Task-&gt;&#x91CD;&#x767C;&#x7D50;&#x675F;Task[label=&quot;&#x662F;&quot;]
+&#x91CD;&#x767C;&#x7D50;&#x675F;Task-&gt;&#x7D50;&#x675F;Process
+&#x662F;&#x5426;&#x70BA;&#x7D50;&#x675F;Task-&gt;&#x57F7;&#x884C;Task[label=&quot;&#x5426;&quot;]
+&#x57F7;&#x884C;Task-&gt;&#x63D0;&#x53D6;Task;
+}
+</code></pre>
+<p>&#x53EA;&#x8981;&#x628A;&#x6211;&#x5011;&#x7684;&#x64CD;&#x4F5C;&#x5BEB;&#x6210; task&#xFF0C;&#x5C31;&#x80FD;&#x9806;&#x5229;&#x57F7;&#x884C;&#x3002;</p>
+<h3 id="linked-list">Linked List</h3>
+<p>Linked list &#x662F;&#x7531;&#x5404;&#x500B; node&#xFF0C;&#x900F;&#x904E;&#x6307;&#x6A19;&#x4E32;&#x806F;&#x800C;&#x6210;&#x3002;&#x5148;&#x5B9A;&#x7FA9; node_t &#x578B;&#x5225;</p>
+<pre><code class="lang-c"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">intptr_t</span> <span class="hljs-keyword">val_t</span>; <span class="hljs-comment">/* &#x4E0D;&#x50C5;&#x53EF;&#x653E;&#x6578;&#x503C;&#xFF0C;&#x4E5F;&#x80FD;&#x653E;&#x6307;&#x6A19; */</span>
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> node {
+    <span class="hljs-keyword">val_t</span> data; <span class="hljs-comment">/* &#x6B32;&#x5132;&#x5B58;&#x7684;&#x8CC7;&#x6599; */</span>
+    <span class="hljs-keyword">struct</span> node *next; <span class="hljs-comment">/* next &#x6307;&#x6A19; */</span>
+} <span class="hljs-keyword">node_t</span>;
+</code></pre>
+<p>node &#x5EFA;&#x7ACB;&#x5F8C;&#xFF0C;&#x5C31;&#x53EF;&#x7E7C;&#x7E8C;&#x5B9A;&#x7FA9; llist_t:</p>
+<pre><code class="lang-c"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> llist {
+    <span class="hljs-keyword">node_t</span> *head;
+    <span class="hljs-keyword">uint32_t</span> size;
+} <span class="hljs-keyword">llist_t</span>;
+</code></pre>
+<p>&#x5B9A;&#x7FA9;&#x5B8C;&#x578B;&#x5225;&#xFF0C;&#x63A5;&#x8457;&#x662F;&#x5404;&#x7A2E;&#x64CD;&#x4F5C;:</p>
+<pre><code class="lang-c=">// &#x5EFA;&#x7ACB;&#x65B0;&#x7684; list &#x7269;&#x4EF6;
+llist_t *list_new();
 
-postcore_initcall(pci_driver_init);
+// &#x5F9E; list &#x63D2;&#x5165;&#x7D66;&#x5B9A;&#x8CC7;&#x6599;
+int list_add(llist_t *the_list, val_t val);
+
+// &#x9010;&#x4E00;&#x5370;&#x5217; list &#x5167;&#x5BB9;
+void list_print(llist_t *the_list);
+
+// &#x7522;&#x751F;&#x65B0;&#x7684;&#x7BC0;&#x9EDE;
+node_t *new_node(val_t val, node_t *next);
+
+// &#x53D6;&#x5F97;&#x67D0;&#x500B; index &#x7684;&#x7BC0;&#x9EDE;&#x8CC7;&#x8A0A;
+node_t *list_get(llist_t *the_list, uint32_t index);
 </code></pre>
-<p>__init macro&#x8868;&#x793A;&#x5728;&#x958B;&#x6A5F;&#x6642;&#x6703;&#x4F5C;&#x521D;&#x59CB;&#x5316;&#xFF0C;&#x5373;do_basic_setup&#x6642;&#xFF0C;&#x5176;level&#x662F;&#x5728;postcore&#xFF0C;&#x7D30;&#x7BC0;&#x53EF;&#x53C3;&#x8003;include/linux /init.h</p>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> pure_initcall(fn)        __define_initcall(<span class="hljs-string">&quot;0&quot;</span>,fn,<span class="hljs-number">0</span>)</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> core_initcall(fn)        __define_initcall(<span class="hljs-string">&quot;1&quot;</span>,fn,<span class="hljs-number">1</span>)</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> core_initcall_sync(fn)        __define_initcall(<span class="hljs-string">&quot;1s&quot;</span>,fn,<span class="hljs-number">1</span>s)</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> postcore_initcall(fn)        __define_initcall(<span class="hljs-string">&quot;2&quot;</span>,fn,<span class="hljs-number">2</span>)</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> postcore_initcall_sync(fn)    __define_initcall(<span class="hljs-string">&quot;2s&quot;</span>,fn,<span class="hljs-number">2</span>s)</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> arch_initcall(fn)        __define_initcall(<span class="hljs-string">&quot;3&quot;</span>,fn,<span class="hljs-number">3</span>)</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> arch_initcall_sync(fn)        __define_initcall(<span class="hljs-string">&quot;3s&quot;</span>,fn,<span class="hljs-number">3</span>s)</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> subsys_initcall(fn)        __define_initcall(<span class="hljs-string">&quot;4&quot;</span>,fn,<span class="hljs-number">4</span>)</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> subsys_initcall_sync(fn)    __define_initcall(<span class="hljs-string">&quot;4s&quot;</span>,fn,<span class="hljs-number">4</span>s)</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> fs_initcall(fn)            __define_initcall(<span class="hljs-string">&quot;5&quot;</span>,fn,<span class="hljs-number">5</span>)</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> fs_initcall_sync(fn)        __define_initcall(<span class="hljs-string">&quot;5s&quot;</span>,fn,<span class="hljs-number">5</span>s)</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> rootfs_initcall(fn)        __define_initcall(<span class="hljs-string">&quot;rootfs&quot;</span>,fn,rootfs)</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> device_initcall(fn)        __define_initcall(<span class="hljs-string">&quot;6&quot;</span>,fn,<span class="hljs-number">6</span>)</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> device_initcall_sync(fn)    __define_initcall(<span class="hljs-string">&quot;6s&quot;</span>,fn,<span class="hljs-number">6</span>s)</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> late_initcall(fn)        __define_initcall(<span class="hljs-string">&quot;7&quot;</span>,fn,<span class="hljs-number">7</span>)</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> late_initcall_sync(fn)        __define_initcall(<span class="hljs-string">&quot;7s&quot;</span>,fn,<span class="hljs-number">7</span>s)</span>
+<h3 id="thread-pool">Thread pool</h3>
+<p>&#x5B9A;&#x7FA9; task_t &#x4F86;&#x5C01;&#x88DD; task:</p>
+<pre><code class="lang-c"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> _task {
+    <span class="hljs-keyword">void</span> (*func)(<span class="hljs-keyword">void</span> *); <span class="hljs-comment">/* &#x5C0D;&#x61C9;&#x5230;&#x6700;&#x7D42;&#x57F7;&#x884C;&#x7684;&#x51FD;&#x5F0F; */</span>
+    <span class="hljs-keyword">void</span> *arg; <span class="hljs-comment">/* &#x50B3;&#x5165;&#x7684;&#x53C3;&#x6578; */</span>
+    <span class="hljs-keyword">struct</span> _task *next, *last;
+    <span class="hljs-comment">/* &#x56E0;&#x70BA; queue &#x8981;&#x7528; doubly-linked list&#xFF0C;
+       &#x9700;&#x8981;&#x5132;&#x5B58; next &#x548C; last */</span>
+} <span class="hljs-keyword">task_t</span>;
 </code></pre>
-<p>&#x518D;&#x4F86;&#x5C31;&#x662F;&#x5176;module_init&#xFF0C;&#x53EF;&#x770B;&#x5230;&#x6700;&#x5F8C;&#x662F;&#x57F7;&#x884C;&#x4E86;bus_register(&amp;pci_bus_type)&#xFF0C;&#x7BC0;&#x9304;&#x5982;&#x4E0B;:</p>
-<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">bus_register</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> bus_type *bus)</span>
+<p>&#x5B9A;&#x7FA9;Task&#x7684;free&#x64CD;&#x4F5C;</p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">task_free</span><span class="hljs-params">(task_t *the_task)</span></span>;
+</code></pre>
+<p>&#x518D;&#x4F86;&#x662F; thread pool &#x6240;&#x9700;&#x7684; queue &#x7D50;&#x69CB;:</p>
+<pre><code class="lang-c"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> {
+    <span class="hljs-keyword">task_t</span> *head, *tail;
+    <span class="hljs-keyword">pthread_mutex_t</span> mutex;
+    <span class="hljs-keyword">pthread_cond_t</span> cond;
+    <span class="hljs-keyword">uint32_t</span> size;
+} <span class="hljs-keyword">tqueue_t</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">tqueue_init</span><span class="hljs-params">(tqueue_t *the_queue)</span></span>;
+<span class="hljs-keyword">task_t</span> *tqueue_pop(<span class="hljs-keyword">tqueue_t</span> *the_queue);
+<span class="hljs-keyword">uint32_t</span> tqueue_size(<span class="hljs-keyword">tqueue_t</span> *the_queue);
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">tqueue_push</span><span class="hljs-params">(tqueue_t *the_queue, task_t *task)</span></span>;
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">tqueue_free</span><span class="hljs-params">(tqueue_t *the_queue)</span></span>;
+</code></pre>
+<p>&#x63A5;&#x8457;&#x628A; queue &#x548C; thread &#x5305;&#x88DD;&#x6210; thread pool:</p>
+<pre><code class="lang-c">typedef struct {
+    pthread_t *threads;
+    uint32_t count;
+    tqueue_t *queue;
+} tpool_t;
+
+int tpool_init(tpool_t *the_pool, uint32_t count,
+               void *(*func)(void *));
+int tpool_free(tpool_t *the_pool);
+</code></pre>
+<p>&#x4E4B;&#x5F8C;&#x5BE6;&#x505A;<code>task_run</code> &#x4F5C;&#x70BA;&#x7A0D;&#x65E9;&#x63D0;&#x5230;&#x6D41;&#x7A0B;&#x5716;&#x7684;&#x4E3B;&#x8FF4;&#x5708; (main-loop)</p>
+<pre><code class="lang-C"><span class="hljs-function"><span class="hljs-keyword">void</span> *<span class="hljs-title">task_run</span><span class="hljs-params">(<span class="hljs-keyword">void</span> *data)</span>
 </span>{
-
-<span class="hljs-comment">/*...............*/</span>
-retval = kobject_set_name(&amp;priv-&gt;subsys.kobj, <span class="hljs-string">&quot;%s&quot;</span>, bus-&gt;name);
-
-<span class="hljs-comment">/*...............*/</span>
-
-    retval = kset_register(&amp;priv-&gt;subsys);
-    <span class="hljs-keyword">if</span> (retval)
-        <span class="hljs-keyword">goto</span> out;
-
-    retval = bus_create_file(bus, &amp;bus_attr_uevent);
-    <span class="hljs-keyword">if</span> (retval)
-        <span class="hljs-keyword">goto</span> bus_uevent_fail;
-
-    priv-&gt;devices_kset = kset_create_and_add(<span class="hljs-string">&quot;devices&quot;</span>, <span class="hljs-literal">NULL</span>,
-                         &amp;priv-&gt;subsys.kobj);
-    <span class="hljs-keyword">if</span> (!priv-&gt;devices_kset) {retval = add_probe_files(bus);
-
-        retval = -ENOMEM;
-        <span class="hljs-keyword">goto</span> bus_devices_fail;
+    <span class="hljs-keyword">task_t</span> *cur_task = <span class="hljs-literal">NULL</span>;
+    <span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>) {
+        cur_task = tqueue_pop(pool-&gt;<span class="hljs-built_in">queue</span>);
+        <span class="hljs-keyword">if</span> (cur_task){
+            <span class="hljs-keyword">if</span> (!cur_task-&gt;func) {
+                tqueue_push(pool-&gt;<span class="hljs-built_in">queue</span>, cur_task);
+                <span class="hljs-keyword">break</span>;
+            } <span class="hljs-keyword">else</span>{
+                curTask-&gt;func(cur_task-&gt;arg);
+                task_free(cur_task);
+            }
+        }
     }
-
-    priv-&gt;drivers_kset = kset_create_and_add(<span class="hljs-string">&quot;drivers&quot;</span>, <span class="hljs-literal">NULL</span>,
-                         &amp;priv-&gt;subsys.kobj);
-<span class="hljs-comment">/*...............*/</span>
-
-    retval = add_probe_files(bus);
-<span class="hljs-comment">/*...............*/</span>
-
+    pthread_exit(<span class="hljs-literal">NULL</span>);
 }
 </code></pre>
-<p>&#x9019;&#x5176;&#x4E2D;&#x5305;&#x62EC;&#x5EFA;&#x7ACB;sysfs&#x4E0B;&#x7684;file&#xFF0C;&#x53EF;&#x770B;&#x51FA;devices&#x53CA;drivers&#x5169;&#x500B;&#x8CC7;&#x6599;&#x593E;&#x3002;&#x800C;&#x5F8C;&#x7684;add_probe_files&#x5247;&#x662F;sysfs&#x4E0B;&#x66F4;detail&#x7684;&#x90E8;&#x4EFD;&#x3002;</p>
-<p>&#x9019;&#x6A23;&#x7684;&#x7D50;&#x679C;&#x5C31;&#x662F;&#x5728;/sys/bus/&#x4E0B;&#x6703;&#x591A;&#x51FA;&#x4E00;&#x500B;pci&#x7684;folder&#x3002;&#x4E4B;&#x5F8C;&#x5C31;&#x662F;kernel scan&#x5230;devices/ drivers&#x6642;&#xFF0C;&#x518D;&#x52A0;&#x5165;/sys/bus/pci/devices/&#x53CA;/sys/bus/pci/drivers/&#x3002;</p>
-<h3 id="%E5%86%8D%E4%BE%86%E6%98%AFdevice">&#x518D;&#x4F86;&#x662F;device</h3>
-<p>drivers/pci/pci.h</p>
-<p>&#x9019;&#x5176;&#x5BE6;&#x662F;&#x518D;&#x5C01;&#x88DD;&#x4E86;include/linux/device.h&#x88E1;&#x7684;struct device&#xFF0C;&#x52A0;&#x4E0A;&#x4E86;&#x81EA;&#x5B9A;&#x7684;&#x5176;&#x4ED6;&#x5C6C;&#x6027;</p>
-<pre><code class="lang-c"><span class="hljs-keyword">struct</span> pci_dev {
-    <span class="hljs-keyword">struct</span> list_head bus_list;    <span class="hljs-comment">/* node in per-bus list */</span>
-    <span class="hljs-keyword">struct</span> pci_bus    *bus;        <span class="hljs-comment">/* bus this device is on */</span>
-    <span class="hljs-keyword">struct</span> pci_bus    *subordinate;    <span class="hljs-comment">/* bus this device bridges to */</span>
-
-    <span class="hljs-keyword">void</span>        *sysdata;    <span class="hljs-comment">/* hook for sys-specific extension */</span>
-    <span class="hljs-keyword">struct</span> proc_dir_entry *procent;    <span class="hljs-comment">/* device entry in /proc/bus/pci */</span>
-    <span class="hljs-keyword">struct</span> pci_slot    *slot;        <span class="hljs-comment">/* Physical slot this device is in */</span>
-
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>    devfn;        <span class="hljs-comment">/* encoded device &amp; function index */</span> <span class="hljs-comment">//&#x8A72;device&#x7684;id&#x8CC7;&#x8A0A;&#xFF0C;&#x5C07;&#x4F86;&#x8DDF;driver&#x7528;&#x4F86; match</span>
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">short</span>    vendor;
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">short</span>    device;
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">short</span>    subsystem_vendor;
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">short</span>    subsystem_device;
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>    <span class="hljs-keyword">class</span>;        <span class="hljs-comment">/* 3 bytes: (base,sub,prog-if) */</span>
-    u8        revision;    <span class="hljs-comment">/* PCI revision, low byte of class word */</span>
-    u8        hdr_type;    <span class="hljs-comment">/* PCI header type (`multi&apos; flag masked out) */</span>
-    u8        pcie_cap;    <span class="hljs-comment">/* PCI-E capability offset */</span>
-    u8        pcie_type;    <span class="hljs-comment">/* PCI-E device/port type */</span>
-    u8        rom_base_reg;    <span class="hljs-comment">/* which config register controls the ROM */</span>
-    u8        pin;          <span class="hljs-comment">/* which interrupt pin this device uses */</span>
-
-    <span class="hljs-keyword">struct</span> pci_driver *driver;    <span class="hljs-comment">/* which driver has allocated this device */</span>  <span class="hljs-comment">//match&#x5230;&#x5247;&#x7528;device_bind_driver(dev)&#xFF0C;&#x5373;&#x4E0D;&#x70BA;NULL</span>
-<span class="hljs-comment">/*...............*/</span>
-    <span class="hljs-keyword">struct</span>    device    dev;        <span class="hljs-comment">/* Generic device interface */</span>
-    <span class="hljs-keyword">int</span>        cfg_size;    <span class="hljs-comment">/* Size of configuration space */</span>
-
-    <span class="hljs-comment">/*
-     * Instead of touching interrupt line and base address registers
-     * directly, use the values stored here. They might be different!
-     */</span>
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>    irq;
-    <span class="hljs-keyword">struct</span> resource resource[DEVICE_COUNT_RESOURCE]; <span class="hljs-comment">/* I/O and memory regions + expansion ROMs */</span>
-    <span class="hljs-keyword">resource_size_t</span>    fw_addr[DEVICE_COUNT_RESOURCE]; <span class="hljs-comment">/* FW-assigned addr */</span>
-    <span class="hljs-comment">//&#x5176;&#x4ED6;&#x81EA;&#x5B9A;&#x5C6C;&#x6027;</span>
-    <span class="hljs-comment">/* These fields are used by common fixups */</span>
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>    transparent:<span class="hljs-number">1</span>;    <span class="hljs-comment">/* Transparent PCI bridge */</span>
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>    multifunction:<span class="hljs-number">1</span>;<span class="hljs-comment">/* Part of multi-function device */</span>
-    <span class="hljs-comment">/* keep track of device state */</span><span class="hljs-keyword">const</span> <span class="hljs-keyword">struct</span> pci_device_id *id_table;    <span class="hljs-comment">/* must be non-NULL for probe to be called */</span>
-
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>    is_added:<span class="hljs-number">1</span>;
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>    is_busmaster:<span class="hljs-number">1</span>; <span class="hljs-comment">/* device is busmaster */</span>
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>    no_msi:<span class="hljs-number">1</span>;    <span class="hljs-comment">/* device may not use msi */</span>
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>    block_ucfg_access:<span class="hljs-number">1</span>;    <span class="hljs-comment">/* userspace config space access is blocked */</span>
-    <span class="hljs-comment">/*...............*/</span>
-
-};
+<p>&#x6709;&#x4E86;&#x9019;&#x6A23;&#x7684;&#x57FA;&#x790E;&#x5EFA;&#x8A2D;&#xFF0C;&#x6211;&#x5011;&#x7684; mergesort &#x5C31;&#x5F88;&#x5BB9;&#x6613;&#x900F;&#x904E; task &#x9019;&#x6A23;&#x7684;&#x5305;&#x88DD;&#xFF0C;&#x52A0;&#x5165; thread pool &#x4E2D;&#x3002;&#x524D;&#x8FF0;&#x7A0B;&#x5F0F;&#x78BC;&#x5DF2;&#x7D93;&#x7528;&#x5230;&#x7269;&#x4EF6;&#x5C0E;&#x5411;&#x7684;&#x8A2D;&#x8A08;&#x6A21;&#x5F0F;&#xFF0C;&#x53EF;&#x898B; <a href="https://embedded2015.hackpad.com/C-yeZarD8wNb0" target="_blank">&#x4F60;&#x6240;&#x4E0D;&#x77E5;&#x9053;&#x7684;C&#x8A9E;&#x8A00;&#xFF1A;&#x7269;&#x4EF6;&#x5C0E;&#x5411;&#x7A0B;&#x5F0F;&#x8A2D;&#x8A08;&#x7BC7;</a>&#x3002;</p>
+<h2 id="%E5%88%86%E6%9E%90-mutex-contention">&#x5206;&#x6790; mutex contention</h2>
+<p>mutrace &#x53EF;&#x7528;&#x4F86;&#x5075;&#x6E2C; <a href="https://en.wikipedia.org/wiki/Lock_(computer_science" target="_blank">lock contention</a>#Granularity)&#xFF0C;&#x4F7F;&#x7528;&#x5F88;&#x65B9;&#x4FBF;&#xFF0C;&#x4E0D;&#x9700;&#x8981;&#x91CD;&#x65B0;&#x7DE8;&#x8B6F;&#x7A0B;&#x5F0F;&#x78BC;&#x3002;</p>
+<pre><code class="lang-shell">$ sudo apt-get install mutrace
 </code></pre>
-<h3 id="%E6%9C%80%E5%BE%8C%E6%98%AFpci-driver">&#x6700;&#x5F8C;&#x662F;pci_driver</h3>
-<p>&#x8DDF;pci_dev&#x4E00;&#x6A23;&#xFF0C;&#x518D;&#x6B21;&#x5C01;&#x88DD;struct device_driver</p>
-<pre><code class="lang-c"><span class="hljs-keyword">struct</span> pci_driver {
-    <span class="hljs-keyword">struct</span> list_head node;
-    <span class="hljs-keyword">char</span> *name;
-    <span class="hljs-keyword">const</span> <span class="hljs-keyword">struct</span> pci_device_id *id_table;    <span class="hljs-comment">/* must be non-NULL for probe to be called */</span> <span class="hljs-comment">//&#x5167;&#x542B;&#x5176;&#x652F;&#x63F4;&#x7684;device id&#x8CC7;&#x8A0A;&#xFF0C;&#x5C07;&#x4F86;match&#x6642;&#x7528;&#x7684;</span>
-    <span class="hljs-keyword">int</span>  (*probe)  (<span class="hljs-keyword">struct</span> pci_dev *dev, <span class="hljs-keyword">const</span> <span class="hljs-keyword">struct</span> pci_device_id *id);    <span class="hljs-comment">/* New device inserted */</span>
-    <span class="hljs-keyword">void</span> (*remove) (<span class="hljs-keyword">struct</span> pci_dev *dev);    <span class="hljs-comment">/* Device removed (NULL if not a hot-plug capable driver) */</span>
-    <span class="hljs-keyword">int</span>  (*suspend) (<span class="hljs-keyword">struct</span> pci_dev *dev, <span class="hljs-keyword">pm_message_t</span> state);    <span class="hljs-comment">/* Device suspended */</span>
-    <span class="hljs-keyword">int</span>  (*suspend_late) (<span class="hljs-keyword">struct</span> pci_dev *dev, <span class="hljs-keyword">pm_message_t</span> state);
-    <span class="hljs-keyword">int</span>  (*resume_early) (<span class="hljs-keyword">struct</span> pci_dev *dev);
-    <span class="hljs-keyword">int</span>  (*resume) (<span class="hljs-keyword">struct</span> pci_dev *dev);                    <span class="hljs-comment">/* Device woken up */</span>
-    <span class="hljs-keyword">void</span> (*shutdown) (<span class="hljs-keyword">struct</span> pci_dev *dev);
-    <span class="hljs-keyword">struct</span> pci_error_handlers *err_handler;
-    <span class="hljs-keyword">struct</span> device_driver    driver;
-    <span class="hljs-keyword">struct</span> pci_dynids dynids;
-};
+<p>&#x642D;&#x914D;&#x524D;&#x8FF0;&#x4E82;&#x6578;&#x8F38;&#x5165;&#x81EA;&#x52D5;&#x6E2C;&#x8A66;&#xFF0C;&#x57F7;&#x884C;&#x4EE5;&#x4E0B;&#x547D;&#x4EE4;:</p>
+<pre><code class="lang-shell">$ (for i in {1..8}; do echo $RANDOM; done) | mutrace ./sort 4 8
 </code></pre>
-<p>&#x4EE5;&#x4E0A;&#x662F;LDM&#x7684;&#x7D50;&#x69CB;&#xFF0C;&#x518D;&#x4F86;&#x8981;&#x770B;&#x770B;&#x7BC4;&#x4F8B;&#x4EE5;&#x53CA;device/driver&#x7684;&#x8A3B;&#x518A;&#x904E;&#x7A0B;&#x3002;</p>
-<p>Reference</p>
-<p>&#x9AD8;&#x8302;&#x6797;</p>
+<p>mutrace &#x7684;&#x8F38;&#x51FA;:</p>
+<pre><code>mutrace: Showing statistics for process sort (pid 8978).
+mutrace: 3 mutexes used.
+
+Mutex #0 (0x0x559cfdae59b0) first referenced by:
+    /usr/lib/mutrace/libmutrace.so(pthread_mutex_init+0xec) [0x7f8d7fc3862c]
+    ./sort(tqueue_init+0x38) [0x559cfc426315]
+    ./sort(tpool_init+0x6a) [0x559cfc42656a]
+    ./sort(main+0x16b) [0x559cfc426d32]
+    /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf1) [0x7f8d7f6703f1]
+
+Mutex #1 (0x0x7f8d7d23f380) first referenced by:
+
+Mutex #2 (0x0x559cfc6280a0) first referenced by:
+    /usr/lib/mutrace/libmutrace.so(pthread_mutex_init+0xec) [0x7f8d7fc3862c]
+    ./sort(main+0x125) [0x559cfc426cec]
+    /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf1) [0x7f8d7f6703f1]
+
+mutrace: Showing 3 most contended mutexes:
+</code></pre><p>&#x5176;&#x4E2D; <code>tqueue_init+0x38</code> &#x5C31;&#x662F;&#x5BE6;&#x969B;&#x57F7;&#x884C;&#x7684;&#x5730;&#x5740;&#xFF0C;&#x53EF;&#x7528; <code>addr2line</code> &#x4F86;&#x627E;&#x51FA;&#x5C0D;&#x539F;&#x59CB;&#x7A0B;&#x5F0F;&#x78BC;&#x7684;&#x5C0D;&#x61C9;&#xFF0C;&#x6CE8;&#x610F;&#xFF0C;&#x8981;&#x78BA;&#x4FDD;&#x7DE8;&#x8B6F;&#x6642;&#x52A0;&#x5165; <code>-g</code> &#x53C3;&#x6578;&#xFF0C;&#x78BA;&#x4FDD;&#x5305;&#x542B; debug info &#x7684;&#x57F7;&#x884C;&#x6A94;&#x6B63;&#x78BA;&#x7522;&#x751F;&#x3002;&#x4EE5;&#x9019;&#x500B;&#x5730;&#x5740;&#x4F86;&#x8AAA;&#xFF0C;&#x5C0D;&#x61C9;&#x7684;&#x539F;&#x59CB;&#x7A0B;&#x5F0F;&#x78BC;&#x70BA;:</p>
+<pre><code class="lang-shell">$ addr2line -e sort 0x38
+mergesort-concurrent/main.c:167
+</code></pre>
+<p>&#x5EF6;&#x4F38;&#x95B1;&#x8B80;:</p>
+<ul>
+<li><a href="http://0pointer.de/blog/projects/mutrace.html" target="_blank">Measuring Lock Contention</a></li>
+<li><a href="http://0pointer.net/blog/projects/mutrace2.html" target="_blank">More Mutrace</a></li>
+</ul>
+<h2 id="graphviz">GraphViz</h2>
+<p>[ <a href="http://www.openfoundry.org/tw/foss-programs/8820-graphviz-" target="_blank">source</a> ] <a href="http://www.graphviz.org/" target="_blank">Graphviz</a> &#x662F;&#x500B;&#x4F9D;&#x64DA;&#x7D66;&#x5B9A;&#x6307;&#x4EE4;&#x7684;&#x88FD;&#x5716;&#x8EDF;&#x9AD4;&#xFF0C;&#x4E0D;&#x904E;&#x8AAA;&#x662F;&#x7E6A;&#x5716;&#x8EDF;&#x9AD4;&#xFF0C;&#x5B83;&#x80FD;&#x7E6A;&#x7684;&#x5716;&#x4E26;&#x4E0D;&#x662F;&#x4E00;&#x822C;&#x4EBA;&#x60F3;&#x50CF;&#x4E2D;&#x7684;&#x6F2B;&#x756B;&#x6216; logo&#xFF0C;&#x800C;&#x662F;&#x6578;&#x5B78;&#x610F;&#x7FA9;&#x4E0A;&#x7684; &quot;graph&quot;&#xFF0C;&#x6BD4;&#x8F03;&#x901A;&#x4FD7;&#x7684;&#x8AAA;&#x6CD5;&#x5C31;&#x662F;&#x300C;&#x95DC;&#x4FC2;&#x5716;&#x300D;&#x3002;</p>
+<p>&#x8209;&#x4F8B;&#x4F86;&#x8AAA;&#xFF0C;&#x50CF;&#x662F;&#x4E0B;&#x9762;&#x9019;&#x7A2E;&#x5716;&#xFF0C;&#x5C55;&#x793A; <a href="https://www.levenez.com/unix/" target="_blank">Unix &#x5BB6;&#x65CF;</a>&#xFF1A;
+<img src="https://i.imgur.com/fMQZUGl.jpg" alt=""></p>
+<p>&#x7528;&#x624B;&#x756B;&#x6703;&#x5F88;&#x75DB;&#x82E6;&#xFF0C;&#x800C; Graphviz &#x53EF;&#x4EE5;&#x66FF;&#x4F7F;&#x7528;&#x8005;&#x641E;&#x5B9A;&#x5B83;&#x3002;<a href="http://www.graphviz.org/" target="_blank">Graphviz</a> &#x63D0;&#x4F9B;&#x4E00;&#x5957;&#x8A9E;&#x8A00;&#xFF0C;&#x8B93;&#x60A8;&#x80FD;&#x76F4;&#x63A5;&#x9673;&#x8FF0;&#x5716;&#x7247;&#x4E0A;&#x7684;&#x7BC0;&#x9EDE;&#x3001;&#x908A;&#x3001;&#x65B9;&#x5411;&#x7B49;&#x6027;&#x8CEA;&#x3002;&#x4E4B;&#x5F8C;&#xFF0C;&#x7531;&#x5B83;&#x4F86;&#x70BA;&#x60A8;&#x7522;&#x751F;&#x6574;&#x5F35;&#x5716;&#x7247;&#x3002;</p>
+<p>Graphviz &#x80FD;&#x756B;&#x7684;&#x5716;&#x7247;&#x6709;&#x8A31;&#x591A;&#x7A2E;&#xFF0C;&#x53EF;&#x5728;<a href="http://www.graphviz.org/Gallery.php" target="_blank">&#x5B98;&#x65B9;&#x7DB2;&#x7AD9;</a>&#x627E;&#x5230;&#x66F4;&#x591A;&#x7BC4;&#x4F8B;&#x3002;</p>
+<p>HackMD &#x5DF2;&#x7D93;&#x652F;&#x63F4; GraphViz&#xFF0C;&#x672C;&#x9801; mergesort &#x7684;&#x5716;&#x4F8B;&#x5C31;&#x662F;&#x7528;&#x8A72;&#x5DE5;&#x5177;&#x7E6A;&#x88FD;&#x3002;&#x6309;&#x53F3;&#x4E0A;&#x65B9; <i class="fa fa-pencil"></i> &#x4E4B;&#x5F8C;&#x518D;&#x6309;&#x5DE6;&#x4E0A;&#x65B9; <i class="fa fa-columns"></i>&#xFF0C;&#x67E5;&#x770B; GraphViz &#x7684;&#x4F7F;&#x7528;&#x3002;</p>
+<h2 id="git-hooks">Git Hooks</h2>
+<p>[ <a href="http://tech.mozilla.com.tw/posts/5306" target="_blank">source</a> ] Git &#x548C;&#x5176;&#x4ED6;&#x7248;&#x672C;&#x63A7;&#x5236;&#x7CFB;&#x7D71;&#x4E00;&#x6A23;&#xFF0C;&#x53EF;&#x5728;&#x67D0;&#x4E9B;&#x91CD;&#x8981;&#x4E8B;&#x4EF6;&#x767C;&#x751F;&#x6642;&#xFF0C;&#x81EA;&#x52D5;&#x89F8;&#x767C;&#x81EA;&#x8A02;&#x8173;&#x672C;&#x3002;Git hook &#x53EF;&#x5206;&#x5BA2;&#x6236;&#x7AEF;&#x548C;&#x4F3A;&#x670D;&#x5668;&#x7AEF;&#xFF0C;&#x9019;&#x908A;&#x6211;&#x5011;&#x53EA;&#x89E3;&#x8AAA;&#x5BA2;&#x6236;&#x7AEF;  hooks &#x5982;&#x4F55;&#x81EA;&#x52D5;&#x5316;&#x5DE5;&#x4F5C;&#x6D41;&#x7A0B;&#x3002;</p>
+<p>&#x6BCF;&#x500B; Git repository &#x4E2D;&#x90FD;&#x6709;&#x4E00;&#x500B; <code>.git/hooks</code> &#x76EE;&#x9304;&#xFF0C;&#x88E1;&#x9762;&#x7684;&#x5167;&#x5BB9;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code>applypatch-msg.sample  pre-applypatch.sample      pre-push.sample
+commit-msg.sample      pre-commit.sample          pre-rebase.sample
+post-update.sample     prepare-commit-msg.sample  update.sample
+</code></pre><p>&#x9019;&#x662F; Git &#x63D0;&#x4F9B;&#x7D66;&#x6211;&#x5011;&#x7684; sample script&#xFF0C;&#x8B93;&#x6211;&#x5011;&#x53C3;&#x8003;&#x7528;&#x7684;&#xFF0C;script &#x7684;&#x6A94;&#x540D;&#x5C31;&#x662F;&#x5C0D;&#x61C9;&#x7684;&#x4E8B;&#x4EF6;&#xFF0C;&#x9019;&#x908A;&#x6709;&#x4E00;&#x4EFD;&#x5B8C;&#x6574;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x7684;&#x4E8B;&#x4EF6; list&#x3002;</p>
+<p>&#x5982;&#x679C;&#x6211;&#x5011;&#x60F3;&#x8981;&#x5B89;&#x88DD;&#x4E00;&#x500B; hook&#xFF0C;&#x5728;&#x6BCF;&#x6B21; commit &#x524D;&#x8B93;&#x4ED6;&#x81EA;&#x52D5;&#x57F7;&#x884C;&#x67D0;&#x500B;&#x8173;&#x672C;&#xFF0C;&#x5C31;&#x5728;&#x9019;&#x500B;&#x76EE;&#x9304;&#x4E2D;&#xFF0C;&#x65B0;&#x589E;&#x4E00;&#x500B;&#x540D;&#x70BA; <code>pre-commit</code> &#x7684; script file&#xFF08;&#x6CE8;&#x610F;&#x6C92;&#x6709;&#x526F;&#x6A94;&#x540D;&#xFF0C;&#x6A94;&#x6848;&#x8981;&#x8A2D;&#x70BA;&#x53EF;&#x57F7;&#x884C;&#xFF09;&#xFF0C;&#x9019;&#x6A23;&#x5728; commit &#x524D;&#x5C31;&#x6703;&#x81EA;&#x52D5;&#x57F7;&#x884C;&#x9019;&#x500B;&#x8173;&#x672C;&#x3002;</p>
+<p><code>pre-commit</code> &#x5927;&#x6982;&#x662F;&#x6700;&#x591A;&#x4EBA;&#x4F7F;&#x7528;&#x7684; hook&#xFF0C;&#x4ED6;&#x53EF;&#x4EE5;&#x8B93;&#x6211;&#x5011;&#x5728; commit &#x524D;&#x5C0D;&#x6211;&#x5011;&#x7684;&#x4FEE;&#x6B63;&#x505A;&#x4E9B;&#x6AA2;&#x67E5;&#xFF0C;&#x4F8B;&#x5982;&#x7528;&#x975C;&#x614B;&#x5206;&#x6790;&#x5DE5;&#x5177; (&#x5982;<a href="http://jshint.com/" target="_blank">jshint</a>&#xFF09;&#x5148;&#x884C;&#x6383;&#x63CF;&#xFF0C;&#x4EE5;&#x4FBF;&#x78BA;&#x4FDD;&#x7A0B;&#x5F0F;&#x7684;&#x54C1;&#x8CEA;&#x3002;</p>
+<ul>
+<li>&#x5EF6;&#x4F38;&#x95B1;&#x8B80;: <a href="https://git-scm.com/book/zh-tw/v2/Customizing-Git-Git-Hooks" target="_blank">Customizing Git - Git Hooks</a></li>
+</ul>
+<p><a href="https://github.com/sysprog21/mergesort-concurrent" target="_blank">mergesort-concurrent</a> &#x63D0;&#x4F9B;&#x4E00;&#x4EFD;&#x7279;&#x88FD;&#x7684; Git <code>pre-commit</code> hook&#xFF0C;&#x53EF;&#x5728;&#x6BCF;&#x6B21;&#x63D0;&#x4EA4;&#x4FEE;&#x6539;&#x6642;&#xFF0C;&#x81EA;&#x52D5;&#x6AA2;&#x67E5;&#x7A0B;&#x5F0F;&#x6392;&#x7248;&#x98A8;&#x683C;&#x662F;&#x5426;&#x4E00;&#x81F4;&#xFF0C;&#x4E26;&#x4E14;&#x6AA2;&#x9A57; C &#x8A9E;&#x8A00;&#x7A0B;&#x5F0F;&#x662F;&#x5426;&#x5B58;&#x5728;&#x6F5B;&#x5728;&#x7684;&#x932F;&#x8AA4;&#x3002;&#x4F7F;&#x7528;&#x524D;&#xFF0C;&#x8A18;&#x5F97;&#x5148;&#x5B89;&#x88DD; <a href="http://astyle.sourceforge.net/" target="_blank">astyle</a> &#x548C; <a href="http://cppcheck.sourceforge.net/" target="_blank">cppcheck</a> &#x5957;&#x4EF6;:</p>
+<pre><code class="lang-shell">$ sudo apt-get install astyle cppcheck
+</code></pre>
+<p>&#x4E4B;&#x5F8C;&#x53EA;&#x8981;&#x5728; <a href="https://github.com/sysprog21/mergesort-concurrent" target="_blank">mergesort-concurrent</a> &#x6240;&#x5728;&#x7684;&#x76EE;&#x9304;&#x57F7;&#x884C;&#x4EE5;&#x4E0B;&#x6307;&#x4EE4;&#x5373;&#x53EF;&#x5B89;&#x88DD;&#x7279;&#x88FD;&#x7684; Git hooks:</p>
+<pre><code class="lang-shell">$ scripts/install-git-hooks
+</code></pre>
+<p>&#x63A5;&#x8457;&#x6211;&#x5011;&#x4F86;&#x6E2C;&#x8A66;&#x3002;&#x5728; <code>thread.c</code> &#x4E2D;&#x6709;&#x4E00;&#x6BB5;&#x7A0B;&#x5F0F;&#x78BC;:</p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">task_free</span><span class="hljs-params">(task_t *the_task)</span>
+</span>{
+    <span class="hljs-built_in">free</span>(the_task-&gt;arg);
+    <span class="hljs-built_in">free</span>(the_task);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>&#x5982;&#x679C;&#x6211;&#x5011;&#x5728; <code>free(the_task);</code> &#x5F8C;&#x9762;&#x8FFD;&#x52A0;&#x4E00;&#x884C;&#x4E00;&#x6A23;&#x7684;&#x6558;&#x8FF0;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x91CD;&#x8907;&#x547C;&#x53EB; <code>free()</code>&#xFF0C;&#x9019;&#x5C31;&#x6703;&#x5C0E;&#x81F4; <a href="https://cwe.mitre.org/data/definitions/415.html" target="_blank">double free</a>&#x3002;&#x7576;&#x6211;&#x5011;&#x8CBF;&#x7136;&#x5C07;&#x9019;&#x6A23;&#x7684;&#x7A0B;&#x5F0F;&#x78BC;&#x63D0;&#x4EA4;&#x7D66; Git &#x6642;&#xFF0C;&#x7279;&#x88FD;&#x7684; Git pre-commit hook &#x5C31;&#x6703;&#x5075;&#x6E2C;&#x4E26;&#x56DE;&#x5831;&#x7D66;&#x6211;&#x5011;&#xFF1A;</p>
+<pre><code class="lang-shell">$ git commit -a
+[thread.c:7]: (error) Memory pointed to by &apos;the_task&apos; is freed twice.
+
+Fail to pass static analysis.
+</code></pre>
+<p>&#x95DC;&#x65BC;&#x6307;&#x6A19;&#x7684;&#x6CE8;&#x610F;&#x9808;&#x77E5;&#xFF0C;&#x53EF;&#x53C3;&#x8003; <a href="https://embedded2015.hackpad.com/C-s0rlzR8wVtm" target="_blank">&#x4F60;&#x6240;&#x4E0D;&#x77E5;&#x9053;&#x7684;C&#x8A9E;&#x8A00;&#xFF1A;&#x6307;&#x6A19;&#x7BC7;</a>&#x3002;&#x985E;&#x4F3C; cppcheck &#x7684;&#x975C;&#x614B;&#x5206;&#x6790;&#x5DE5;&#x5177;&#x5F88;&#x591A;&#xFF0C;&#x50CF;&#x662F; <a href="http://clang-analyzer.llvm.org/" target="_blank">Clang Static Analyzer</a>&#x3002;</p>
+<h2 id="unix-%E6%8C%87%E4%BB%A4%E7%B5%84%E5%90%88%E7%9A%84%E9%AD%94%E6%B3%95">UNIX &#x6307;&#x4EE4;&#x7D44;&#x5408;&#x7684;&#x9B54;&#x6CD5;</h2>
+<ul>
+<li><a href="https://github.com/sysprog21/phonebook-concurrent" target="_blank">phonebook-concurrent</a> &#x88E1;&#x982D;&#x7684; <code>dictionary/words.txt</code> &#x8907;&#x88FD;&#x51FA;&#x4F86;&#xFF0C;&#x7136;&#x5F8C;&#x900F;&#x904E; UNIX &#x6307;&#x4EE4;&#x6253;&#x4E82;&#x9806;&#x5E8F;&#xFF0C;&#x4E4B;&#x5F8C;&#x91CD;&#x65B0;&#x5C0E;&#x5411;&#x5230;&#x53E6;&#x4E00;&#x500B;&#x6A94;&#x6848;<pre><code class="lang-shell">$ uniq words.txt | sort -R &gt; input.txt
+</code></pre>
+&#x9019;&#x6A23;&#x6211;&#x5011;&#x5C31;&#x6709;&#x65B0;&#x7684;&#x8CC7;&#x6599;&#x8F38;&#x5165;&#x3002;</li>
+</ul>
+<h2 id="%E4%BD%9C%E6%A5%AD%E8%A6%81%E6%B1%82">&#x4F5C;&#x696D;&#x8981;&#x6C42;</h2>
+<ul>
+<li>&#x5C07; merge sort &#x7684;&#x5BE6;&#x505A;&#x6539;&#x70BA;&#x53EF;&#x63A5;&#x53D7; <a href="https://github.com/sysprog21/phonebook-concurrent" target="_blank">phonebook-concurrent</a> &#x7684; 35 &#x842C;&#x7B46;&#x8CC7;&#x6599;&#x8F38;&#x5165;&#x7684;&#x8CC7;&#x6599;&#x6A94;<ul>
+<li>&#x5B57;&#x5178;&#x6A94;&#x8CC7;&#x6599;&#x9700;&#x8981;&#x4E8B;&#x5148;&#x7528; <code>sort -R</code> &#x8655;&#x7406;&#x904E;</li>
+<li>&#x601D;&#x8003;&#x5982;&#x4F55;&#x5F97;&#x5230;&#x5747;&#x52FB;&#x5206;&#x4F48;&#x7684;&#x4E82;&#x6578;&#x6392;&#x5217;&#xFF0C;&#x4E26;&#x4E14;&#x8A2D;&#x8A08;&#x81EA;&#x52D5;&#x6E2C;&#x8A66;&#x7684;&#x6A5F;&#x5236;</li>
+</ul>
+</li>
+<li>&#x7814;&#x7A76; thread pool &#x7BA1;&#x7406; worker thread &#x7684;&#x5BE6;&#x505A;&#xFF0C;&#x63D0;&#x51FA;&#x5BE6;&#x505A;&#x5C64;&#x9762;&#x7684;&#x4E0D;&#x8DB3;&#xFF0C;&#x4E26;&#x4E14;&#x53C3;&#x7167; <a href="https://github.com/jserv/concurrent-ll" target="_blank">concurrent-ll</a>&#xFF0C;&#x63D0;&#x51FA; lock-free &#x7684;&#x5BE6;&#x505A;</li>
+<li>&#x5B78;&#x7FD2; <a href="https://github.com/jserv/concurrent-ll" target="_blank">concurrent-ll</a> (concurrent linked-list &#x5BE6;&#x4F5C;) &#x7684; scalability &#x5206;&#x6790;&#x65B9;&#x5F0F;&#xFF0C;&#x900F;&#x904E; gnuplot &#x88FD;&#x5716;&#x6BD4;&#x8F03; merge sort &#x5728;&#x4E0D;&#x540C;&#x57F7;&#x884C;&#x7DD2;&#x6578;&#x91CF;&#x64CD;&#x4F5C;&#x7684;&#x6548;&#x80FD;<ul>
+<li>&#x6CE8;&#x610F;&#x5230; linked list &#x6BCF;&#x500B;&#x7BC0;&#x9EDE;&#x914D;&#x7F6E;&#x7684;&#x8A18;&#x61B6;&#x9AD4;&#x5F80;&#x5F80;&#x662F;&#x4E0D;&#x9023;&#x7E8C;&#xFF0C;&#x601D;&#x8003;&#x9019;&#x5C0D;&#x6548;&#x80FD;&#x5206;&#x6790;&#x7684;&#x5F71;&#x97FF;</li>
+</ul>
+</li>
+<li>&#x4E00;&#x4F75;&#x5617;&#x8A66;&#x91CD;&#x69CB; (refactor) &#x7D66;&#x5B9A;&#x7684;&#x7A0B;&#x5F0F;&#x78BC;&#xFF0C;&#x4F7F;&#x5F97;&#x7A0B;&#x5F0F;&#x66F4;&#x5BB9;&#x6613;&#x95B1;&#x8B80;&#x548C;&#x7DAD;&#x8B77;&#x3002;&#x5EF6;&#x7E8C; <a href="s/BkhIF92p">A05: introspect</a>&#xFF0C;&#x4E0D;&#x53EA;&#x662F;&#x5728;&#x5171;&#x7B46;&#x4E0A;&#x7528;&#x6587;&#x5B57;&#x63D0;&#x51FA;&#x826F;&#x6027;&#x8A73;&#x76E1;&#x7684;&#x6279;&#x8A55;&#xFF0C;&#x4E5F;&#x8A72;&#x53CD;&#x6620;&#x5728;&#x7A0B;&#x5F0F;&#x78BC;&#x7684;&#x8B8A;&#x9769;</li>
+<li>&#x5171;&#x7B46;&#x7684;&#x5167;&#x5BB9;&#x5118;&#x91CF;&#x7528; GraphViz &#x88FD;&#x4F5C;</li>
+<li>&#x622A;&#x6B62;&#x65E5;&#x671F;&#xFF1A;<ul>
+<li>08:00AM Oct 7, 2016 (&#x542B;) &#x4E4B;&#x524D;</li>
+<li>&#x8D8A;&#x65E9;&#x5728; GitHub &#x4E0A;&#x6709;&#x52D5;&#x614B;&#x3001;&#x8D8A;&#x65E9;&#x63A5;&#x53D7; code review&#xFF0C;&#x8A55;&#x5206;&#x8D8A;&#x9AD8;</li>
+</ul>
+</li>
+</ul>
+<h2 id="%E6%8C%91%E6%88%B0%E9%A1%8C">&#x6311;&#x6230;&#x984C;</h2>
+<ul>
+<li>&#x5F15;&#x5165; C11 &#x672C;&#x8EAB;&#x7684; thread.h &#x5BE6;&#x4F5C;&#x591A;&#x57F7;&#x884C;&#x4E26;&#x7528; <code>_Atomic</code> &#x6539;&#x5BEB;&#x3002;&#x53C3;&#x8003;&#x8CC7;&#x6599;: <ul>
+<li><a href="https://www2.informatik.hu-berlin.de/~keil/docs/keil_-_c11_atomics_20140202.pdf" target="_blank">Atomics in C programming</a></li>
+<li><a href="http://preshing.com/20150402/you-can-do-any-kind-of-atomic-read-modify-write-operation/" target="_blank">You Can Do Any Kind of Atomic Read-Modify-Write Operation</a></li>
+<li><a href="http://www.boost.org/doc/libs/1_61_0/doc/html/atomic/usage_examples.html" target="_blank">Boost atomic examples</a></li>
+</ul>
+</li>
+</ul>
 
                     
                     </section>
@@ -14622,10 +14620,8 @@ retval = kobject_set_name(&amp;priv-&gt;subsys.kobj, <span class="hljs-string">&
         </div>
 
         
-        <a href="../linux_driver/napiyu_pure_interrupt_driver_de_xiao_neng_bi_jiao.html" class="navigation navigation-prev " aria-label="Previous page: 《深入Linux設備驅動程序內核機制》之MMAP內存頁面示例"><i class="fa fa-angle-left"></i></a>
+        <a href="../ncku_embededd/lei_si_c_++_template_lai_shi_zuo_ni_ff1f_c11_you_g.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 類似 C++ template 來實做呢？C11 有 _Generic 關鍵字"><i class="fa fa-angle-left"></i></a>
         
-        
-        <a href="../linux_driver/linuxshe_bei_mo_578b28_1__ji_ben_gai_nian.html" class="navigation navigation-next " aria-label="Next page: Linux設備模型(1)_基本概念"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

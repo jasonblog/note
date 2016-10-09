@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>找到程式入口，再由上而下抽絲剝繭 | Jason note</title>
+        <title>A03: compute-pi | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,8 @@
         
     
     
-    <link rel="next" href="../treacecode/yue_du_de_le_qu_ff1a_tou_guo_cheng_shi_ma_ren_shi_.html" />
     
-    
-    <link rel="prev" href="../treacecode/wang_wen_sheng_yi_ff0c_jin_er_tui_qiao_zu_jian_de_.html" />
+    <link rel="prev" href="../ncku_embededd/a02_raytracing.html" />
     
 
         <!-- head:end -->
@@ -48,7 +46,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="40.4.5" data-basepath=".." data-revision="Sun Oct 09 2016 22:09:40 GMT+0800 (CST)">
+    <div class="book" data-level="59.1.9" data-basepath=".." data-revision="Sun Oct 09 2016 22:09:40 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -10525,7 +10523,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="40.4.5" data-path="treacecode/zhao_dao_cheng_shi_ru_kou_ff0c_zai_you_shang_er_xi.html">
+        <li class="chapter " data-level="40.4.5" data-path="treacecode/zhao_dao_cheng_shi_ru_kou_ff0c_zai_you_shang_er_xi.html">
             
                 
                     <a href="../treacecode/zhao_dao_cheng_shi_ru_kou_ff0c_zai_you_shang_er_xi.html">
@@ -14275,7 +14273,7 @@
             
         </li>
     
-        <li class="chapter " data-level="59.1.9" data-path="ncku_embededd/a03_compute-pi.html">
+        <li class="chapter active" data-level="59.1.9" data-path="ncku_embededd/a03_compute-pi.html">
             
                 
                     <a href="../ncku_embededd/a03_compute-pi.html">
@@ -14406,62 +14404,223 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E6%89%BE%E5%88%B0%E7%A8%8B%E5%BC%8F%E5%85%A5%E5%8F%A3%EF%BC%8C%E5%86%8D%E7%94%B1%E4%B8%8A%E8%80%8C%E4%B8%8B%E6%8A%BD%E7%B5%B2%E5%89%9D%E7%B9%AD">&#x627E;&#x5230;&#x7A0B;&#x5F0F;&#x5165;&#x53E3;&#xFF0C;&#x518D;&#x7531;&#x4E0A;&#x800C;&#x4E0B;&#x62BD;&#x7D72;&#x525D;&#x7E6D;</h1>
-<p>&#x6839;&#x64DA;&#x9700;&#x8981;&#x6C7A;&#x5B9A;&#x5C55;&#x958B;&#x7684;&#x5C64;&#x6578;&#xFF0C;&#x6216;&#x5C55;&#x958B;&#x7279;&#x5B9A;&#x7BC0;&#x9EDE;&#xFF0C;&#x4E26;&#x8A18;&#x9304;&#x6A39;&#x72C0;&#x7D50;&#x69CB;&#xFF0C;&#x7136;&#x5F8C;&#x9069;&#x5EA6;&#x5FFD;&#x7565;&#x4E0D;&#x9700;&#x8981;&#x4E86;&#x89E3;&#x7684;&#x7D30;&#x7BC0;&#x2500;&#x9019;&#x662F;&#x4E00;&#x500B;&#x5F88;&#x91CD;&#x8981;&#x7684;&#x614B;&#x5EA6;&#x3002;&#x56E0;&#x70BA;&#x4F60;&#x4E0D;&#x6703;&#x4E00;&#x6B21;&#x5C31;&#x9700;&#x8981;&#x6240;&#x6709;&#x7684;&#x7D30;&#x7BC0;&#xFF0C;&#x95B1;&#x8B80;&#x90FD;&#x662F;&#x6709;&#x76EE;&#x7684;&#x7684;&#xFF0C;&#x6BCF;&#x6B21;&#x7684;&#x95B1;&#x8B80;&#x4E5F;&#x8A31;&#x90FD;&#x5728;&#x63A2;&#x7D22;&#x7A0B;&#x5F0F;&#x4E2D;&#x4E0D;&#x540C;&#x7684;&#x5340;&#x57DF;&#x3002;</p>
-<p>&#x63A2;&#x7D22;&#x7CFB;&#x7D71;&#x67B6;&#x69CB;&#x7684;&#x7B2C;&#x4E00;&#x6B65;&#xFF0C;&#x5C31;&#x662F;&#x627E;&#x5230;&#x7A0B;&#x5F0F;&#x7684;&#x5165;&#x53E3;&#x9EDE;&#x3002;&#x627E;&#x5230;&#x5165;&#x53E3;&#x9EDE;&#x5F8C;&#xFF0C;&#x591A;&#x534A;&#x63A1;&#x53D6;&#x7531;&#x4E0A;&#x800C;&#x4E0B;&#xFF08;Top-Down&#xFF09;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x7531;&#x6700;&#x5916;&#x5C64;&#x7684;&#x7D50;&#x69CB;&#xFF0C;&#x4E00;&#x5C64;&#x4E00;&#x5C64;&#x9010;&#x6F38;&#x63A2;&#x7D22;&#x8D8A;&#x4F86;&#x8D8A;&#x591A;&#x7684;&#x7D30;&#x7BC0;&#x3002;</p>
-<p>&#x6211;&#x5011;&#x7684;&#x958B;&#x767C;&#x5718;&#x968A;&#x66FE;&#x91DD;&#x5C0D;Winamp&#x7684;iPod plug-in&#x9032;&#x884C;&#x95B1;&#x8B80;&#x53CA;&#x63A2;&#x7D22;&#xFF0C;&#x4E0D;&#x50C5;&#x627E;&#x5230;&#x5165;&#x53E3;&#x9EDE;&#xFF0C;&#x4E5F;&#x627E;&#x51FA;&#x3001;&#x4E26;&#x7406;&#x89E3;&#x5B83;&#x6700;&#x6839;&#x672C;&#x7684;&#x57FA;&#x790E;&#x67B6;&#x69CB;&#x3002;&#x5F9E;&#x9019;&#x500B;&#x5165;&#x53E3;&#x9EDE;&#xFF0C;&#x53EF;&#x4EE5;&#x5F80;&#x4E0B;&#x518D;&#x5C55;&#x958B;&#x4E00;&#x5C64;&#xFF0C;&#x5206;&#x5225;&#x627E;&#x5230;&#x4E09;&#x500B;&#x91CD;&#x8981;&#x7684;&#x7D44;&#x6210;&#x53CA;&#x5176;&#x610F;&#x7FA9;&#xFF1A;</p>
-<pre><code class="lang-c">&#x25CF; init()&#xFF1A;&#x521D;&#x59CB;&#x5316;&#x52D5;&#x4F5C;
-&#x25CF; quit()&#xFF1A;&#x7D42;&#x6B62;&#x5316;&#x52D5;&#x4F5C;
-&#x25CF; PluginMessageProc()&#xFF1A;&#x4EE5;&#x8A0A;&#x606F;&#x7684;&#x65B9;&#x5F0F;&#x8655;&#x7406;&#x7A0B;&#x5F0F;&#x6240;&#x5FC5;&#x9808;&#x8655;&#x7406;&#x7684;&#x5404;&#x7A2E;&#x4E8B;&#x4EF6;
-</code></pre>
-<p>&#x5C55;&#x958B;&#x7684;&#x540C;&#x6642;&#xFF0C;&#x96A8;&#x624B;&#x8A18;&#x9304;&#x6A39;&#x72C0;&#x7D50;&#x69CB;
-&#x7576;&#x6211;&#x5011;&#x5F9E;&#x4E00;&#x500B;&#x5165;&#x53E3;&#x9EDE;&#x627E;&#x5230;&#x4E09;&#x500B;&#x5206;&#x652F;&#x5F8C;&#xFF0C;&#x53EF;&#x4EE5;&#x9806;&#x8457;&#x6BCF;&#x500B;&#x5206;&#x652F;&#x518D;&#x5C55;&#x958B;&#x4E00;&#x5C64;&#xFF0C;&#x6240;&#x4EE5;&#x5206;&#x5225;&#x7E7C;&#x7E8C;&#x95B1;&#x8B80;init&#x3001;quit&#x3001;&#x4EE5;&#x53CA;PluginMessageProc&#x7684;&#x5167;&#x5BB9;&#xFF0C;&#x4E26;&#x8A66;&#x8457;&#x518D;&#x5C55;&#x958B;&#x4E00;&#x5C64;&#x3002;&#x95B1;&#x8B80;&#x7684;&#x540C;&#x6642;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x5728;&#x6587;&#x4EF6;&#x4E2D;&#x8A66;&#x8457;&#x8A18;&#x9304;&#x5C55;&#x958B;&#x7684;&#x6A39;&#x72C0;&#x7D50;&#x69CB;&#x3002;</p>
-<pre><code class="lang-c">&#x25CF; init()&#xFF1A;&#x521D;&#x59CB;&#x5316;&#x52D5;&#x4F5C;
-&#x25CF; itunesdb_init_cc()&#xFF1A;&#x5EFA;&#x7ACB;&#x5B58;&#x53D6;iTunes database&#x7684;&#x540C;&#x6B65;&#x7269;&#x4EF6;
-&#x25CF; &#x521D;&#x59CB;&#x5316;&#x8CC7;&#x6599;&#x7D50;&#x69CB;
-&#x25CF; &#x521D;&#x59CB;&#x5316;GUI&#x5143;&#x7D20;
-&#x25CF; &#x8F09;&#x5165;&#x8A2D;&#x5B9A;
-&#x25CF; &#x5EFA;&#x7ACB;<span class="hljs-built_in">log</span>&#x6A94;
-&#x25CF; autoDetectIpod()&#xFF1A;&#x5075;&#x6E2C;iPod&#x63D2;&#x5165;&#x7684;&#x57F7;&#x884C;&#x7DD2;
-&#x25CF; quit()&#xFF1A;&#x7D42;&#x6B62;&#x5316;&#x52D5;&#x4F5C;
-&#x25CF; itunesdb_del_cc()&#xFF1A;&#x7D42;&#x6B62;&#x5B58;&#x53D6;iTunes database&#x7684;&#x540C;&#x6B65;&#x7269;&#x4EF6;
-&#x25CF; &#x95DC;&#x9589;<span class="hljs-built_in">log</span>&#x6A94;
-&#x25CF; &#x7D42;&#x6B62;&#x5316;GUI&#x5143;&#x7D20;
-&#x25CF; PluginMessageProc()&#xFF1A;&#x4EE5;&#x8A0A;&#x606F;&#x7684;&#x65B9;&#x5F0F;&#x8655;&#x7406;&#x7A0B;&#x5F0F;&#x6240;&#x5FC5;&#x9808;&#x9762;&#x81E8;&#x7684;&#x5404;&#x7A2E;&#x4E8B;&#x4EF6;
-&#x25CF; &#x57F7;&#x884C;&#x6240;&#x9023;&#x63A5;&#x4E4B;iPod&#x7684;MessageProc()
-</code></pre>
-<p>&#x9019;&#x90E8;&#x5206;&#x5FC5;&#x9808;&#x8981;&#x7559;&#x610F;&#x5E7E;&#x500B;&#x91CD;&#x9EDE;&#x3002;&#x9996;&#x5148;&#xFF0C;&#x61C9;&#x8A72;&#x4E00;&#x908A;&#x95B1;&#x8B80;&#xFF0C;&#x4E00;&#x908A;&#x8A18;&#x9304;&#x6587;&#x4EF6;&#x3002;&#x56E0;&#x70BA;&#x4EBA;&#x7684;&#x8A18;&#x61B6;&#x529B;&#x901A;&#x5E38;&#x6709;&#x9650;&#xFF0C;&#x5C0D;&#x65BC;&#x964C;&#x751F;&#x7684;&#x4E8B;&#x7269;&#x66F4;&#x662F;&#x5BB9;&#x6613;&#x907A;&#x5FD8;&#xFF0C;&#x56E0;&#x6B64;&#x908A;&#x95B1;&#x8B80;&#x908A;&#x8A18;&#x9304;&#xFF0C;&#x662F;&#x5F88;&#x597D;&#x7684;&#x8F14;&#x52A9;&#x3002;</p>
-<p>&#x518D;&#x8005;&#xFF0C;&#x56E0;&#x70BA;&#x6211;&#x5011;&#x63A1;&#x53D6;&#x7531;&#x4E0A;&#x800C;&#x4E0B;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x5F9E;&#x4E00;&#x500B;&#x9EDE;&#x518D;&#x5206;&#x652F;&#x51FA;&#x53BB;&#x6210;&#x70BA;&#x591A;&#x500B;&#x9EDE;&#xFF0C;&#x56E0;&#x6B64;&#xFF0C;&#x901A;&#x5E38;&#x4E5F;&#x6703;&#x4EE5;&#x6A39;&#x72C0;&#x7684;&#x65B9;&#x5F0F;&#x8A18;&#x9304;&#x3002;&#x9664;&#x6B64;&#x4E4B;&#x5916;&#xFF0C;&#x6BCF;&#x6B21;&#x53EA;&#x8A66;&#x8457;&#x5F80;&#x4E0B;&#x63A2;&#x7D22;&#x4E00;&#x5C64;&#x3002;&#x5F9E;init()&#x4F86;&#x770B;&#x4F60;&#x4FBF;&#x6703;&#x660E;&#x767D;&#x3002;&#x4EE5;&#x4E0B;&#x8A66;&#x8457;&#x6458;&#x8981;init()&#x7684;&#x5167;&#x5BB9;&#xFF1A;</p>
-<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">init</span><span class="hljs-params">()</span> </span>{
-    itunesdb_init_cc();
-    currentiPod=<span class="hljs-literal">NULL</span>;
-    iPods = <span class="hljs-keyword">new</span> C_ItemList;
-    conf_file=(<span class="hljs-keyword">char</span>*)SendMessage(plugin.hwndWinampParent,WM_WA_IPC,<span class="hljs-number">0</span>,IPC_GETINIFILE);
-    m_treeview = GetDlgItem(plugin.hwnd LibraryParent,<span class="hljs-number">0x3fd</span>);
-    <span class="hljs-comment">//this number is actually magic :)</span>
-    g_detectAll = GetPrivateProfileInt(<span class="hljs-string">&quot;ml_ipod&quot;</span>, <span class="hljs-string">&quot;detectAll&quot;</span>,<span class="hljs-number">0</span>,conf_file)!=<span class="hljs-number">0</span>;
-    g_log=GetPrivateProfileInt(<span class="hljs-string">&quot;ml_ipod&quot;</span>,<span class="hljs-string">&quot;log&quot;</span>,<span class="hljs-number">0</span>,conf_file)!=<span class="hljs-number">0</span>;
-    g_logfile=fopen(g_logfilepath,<span class="hljs-string">&quot;a&quot;</span>);
-    autoDetectIpod();
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+                        <h1 id="a03-compute-pi">A03: compute-pi</h1>
+<p>&#xFEFF;# A03: compute-pi</p>
+<h2 id="%E7%9B%AE%E6%A8%99">&#x76EE;&#x6A19;</h2>
+<ul>
+<li>&#x5B78;&#x7FD2;&#x900F;&#x904E;&#x96E2;&#x6563;&#x5FAE;&#x7A4D;&#x5206;&#x6C42;&#x5713;&#x5468;&#x7387;<ul>
+<li><a href="https://en.wikipedia.org/wiki/Leibniz_formula_for_%CF%80" target="_blank">Leibniz formula for &#x3C0;</a></li>
+<li><a href="http://book.51cto.com/art/201506/480985.htm" target="_blank">&#x7A4D;&#x5206;&#x8A08;&#x7B97;&#x5713;&#x5468;&#x7387;&#x3C0;</a></li>
+<li><a href="http://www.csie.ntnu.edu.tw/~u91029/Function2.html" target="_blank">Function</a></li>
+</ul>
+</li>
+<li>&#x8457;&#x624B;&#x900F;&#x904E; SIMD &#x6307;&#x4EE4;&#x4F5C;&#x6548;&#x80FD;&#x6700;&#x4F73;&#x5316;</li>
+</ul>
+<h2 id="%E8%A4%87%E7%BF%92-%E9%BB%8E%E6%9B%BC%E7%A9%8D%E5%88%86-https-zh-wikipedia-org-wiki-e9-bb-8e-e6-9b-bc-e7-a7-af-e5-88-86">&#x8907;&#x7FD2;<a href="https://zh.wikipedia.org/wiki/%E9%BB%8E%E6%9B%BC%E7%A7%AF%E5%88%86" target="_blank">&#x9ECE;&#x66FC;&#x7A4D;&#x5206;</a></h2>
+<p>&#x5982;&#x679C;&#x4F60;&#x771F;&#x7684;&#x5FD8;&#x8A18;&#x5FAE;&#x7A4D;&#x5206;&#xFF0C;&#x8D95;&#x5FEB;&#x900F;&#x904E;&#x5747;&#x4E00;&#x6559;&#x80B2;&#x5E73;&#x53F0;&#x5B78;&#x7FD2;&#x300C;<a href="https://www.junyiacademy.org/junyi-pre-univ/root/junyi-math/mu-cal-ch1" target="_blank">&#x5FAE;&#x7A4D;&#x5206;&#x6982;&#x8AD6;</a>&#x300D;&#x3002;</p>
+<p>N &#x8D8A;&#x5927;&#xFF08;&#x5207;&#x7684;&#x8D8A;&#x7D30;&#xFF09;&#xFF0C;&#x6578;&#x503C;&#x8D8A;&#x7CBE;&#x78BA;&#x3002;</p>
+<p><img src="https://hackpad-attachments.s3.amazonaws.com/charles620016.hackpad.com_M6oHPzPNlO2_p.431773_1442555734600_integral.png" alt=""></p>
+<h2 id="baseline-%E7%89%88%E6%9C%AC">baseline &#x7248;&#x672C;</h2>
+<ul>
+<li>&#x6839;&#x64DA;&#x4E0A;&#x8FF0;&#x6578;&#x5B78;&#x5F0F;&#x8F49;&#x63DB;&#x6210; baseline.c<ul>
+<li>&#x4FEE;&#x6539;&#x8B8A;&#x6578;&#xFF0C;&#x5C07;&#x50B3;&#x5165;&#x7684;&#x53C3;&#x6578;&#x6539;&#x70BA; N&#xFF0C;&#x6BD4;&#x8F03;&#x76F4;&#x89BA;</li>
+<li>N &#x8D8A;&#x5927;&#xFF0C;dt &#x8D8A;&#x5C0F;&#xFF0C;&#x5207;&#x5272;&#x8D8A;&#x7D30;</li>
+</ul>
+</li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">computePi_v1</span><span class="hljs-params">(size_t N)</span>
+</span>{
+    <span class="hljs-keyword">double</span> pi = <span class="hljs-number">0.0</span>;
+    <span class="hljs-keyword">double</span> dt = <span class="hljs-number">1.0</span> / N; <span class="hljs-comment">// dt = (b-a)/N, b = 1, a = 0</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; N; i++) {
+        <span class="hljs-keyword">double</span> x = (<span class="hljs-keyword">double</span>) i / N; <span class="hljs-comment">// x = ti = a+(b-a)*i/N = i/N</span>
+        pi += dt / (<span class="hljs-number">1.0</span> + x * x); <span class="hljs-comment">// integrate 1/(1+x^2), i = 0....N</span>
+    }
+    <span class="hljs-keyword">return</span> pi * <span class="hljs-number">4.0</span>;
 }
 </code></pre>
-<p>&#x56E0;&#x70BA;&#x6211;&#x5011;&#x53EA;&#x8A66;&#x8457;&#x591A;&#x63A2;&#x7D22;&#x4E00;&#x5C64;&#xFF0C;&#x800C;&#x76EE;&#x7684;&#x662F;&#x5E0C;&#x671B;&#x767C;&#x6398;&#x51FA;&#x4E0B;&#x4E00;&#x5C64;&#x7684;&#x5B50;&#x52D5;&#x4F5C;&#x3002;&#x6240;&#x4EE5;&#x5728;init()&#x4E2D;&#x770B;&#x5230;&#x50CF;&#x300C;itunesdb_init_cc();&#x300D;&#x9019;&#x6A23;&#x7684;&#x51FD;&#x5F0F;&#x547C;&#x53EB;&#x52D5;&#x4F5C;&#x6642;&#xFF0C;&#x6211;&#x5011;&#x77E5;&#x9053;&#x5B83;&#x662F;&#x5728;init()&#x4E4B;&#x4E0B;&#x7684;&#x4E00;&#x500B;&#x7368;&#x7ACB;&#x5B50;&#x52D5;&#x4F5C;&#xFF0C;&#x6240;&#x4EE5;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x5C07;&#x5B83;&#x5217;&#x5165;&#x3002;&#x4F46;&#x662F;&#x7576;&#x770B;&#x5230;&#x5982;&#x4E0B;&#x7684;&#x7A0B;&#x5F0F;&#x884C;&#xFF1A;</p>
-<pre><code class="lang-c">currentiPod=<span class="hljs-literal">NULL</span>;
-iPods = <span class="hljs-keyword">new</span> C_ItemList;
+<h2 id="avx-simd-%E7%89%88%E6%9C%AC">AVX SIMD &#x7248;&#x672C;</h2>
+<p>AVX (Advanced Vector Extensions) &#x662F; Intel &#x4E00;&#x5957;&#x7528;&#x4F86;&#x4F5C;  Single Instruction Multiple Data &#x7684;&#x6307;&#x4EE4;&#x96C6;</p>
+<ul>
+<li>128 &#x4F4D; SIMD &#x66AB;&#x5B58;&#x5668; xmm0 - xmm15 &#x64F4;&#x5C55;&#x70BA; 256 &#x4F4D;&#x7684; ymm0 - ymm15 &#x66AB;&#x5B58;&#x5668;</li>
+<li>&#x652F;&#x6301; 256 &#x4F4D;&#x7684;&#x5411;&#x91CF;&#x904B;&#x7B97;&#xFF0C;&#x7531;&#x539F;&#x4F86; 128 &#x4F4D;&#x64F4;&#x5C55;&#x70BA; 256 &#x4F4D;</li>
+<li>&#x6307;&#x4EE4;&#x53EF;&#x652F;&#x6301;&#x6700;&#x591A; 4 &#x500B; operand&#xFF0C;&#x5BE6;&#x73FE;&#x76EE;&#x6A19;&#x64CD;&#x4F5C;&#x6578;&#x7121;&#x9700;&#x640D;&#x6BC0;&#x539F;&#x4F86;&#x7684;&#x5167;&#x5BB9;</li>
+<li>&#x5F15;&#x9032;&#x65B0;&#x7684; AVX &#x6307;&#x4EE4;&#xFF0C;&#x975E; Legacy SSE &#x6307;&#x4EE4;&#x79FB;&#x690D;</li>
+<li>&#x65B0;&#x589E; FMA &#x6307;&#x4EE4;&#x5B50;&#x96C6; (fused multiply-add/subtract &#x985E;&#x904B;&#x7B97;)<ul>
+<li>&#x53EF;&#x7528;<code>$ cat /proc/cpuinfo | grep flags</code> &#x5C0B;&#x627E;&#x662F;&#x5426;&#x5B58;&#x5728; <code>fma</code>&#x95DC;&#x9375;&#x5B57;</li>
+<li>&#x50CF;&#x662F;<code>Intel(R) Core(TM) i5-3317U CPU</code> &#x7B49;&#x7D1A;&#x7684;&#x96FB;&#x8166;&#x5C31;&#x6C92;&#x652F;&#x63F4;&#xFF0C;&#x9019;&#x6A23;&#x7684;&#x8A71;&#x53EF;&#x7528;<a href="https://software.intel.com/en-us/articles/intel-software-development-emulator" target="_blank">&#x6A21;&#x64EC;&#x5668;</a></li>
+</ul>
+</li>
+<li>&#x5F15;&#x9032;&#x65B0;&#x7684;&#x6307;&#x4EE4;&#x7DE8;&#x78BC;&#x6A21;&#x5F0F;&#xFF0C;&#x4F7F;&#x7528; VEX prefix &#x4F86;&#x8A2D;&#x8A08;&#x6307;&#x4EE4;&#x7DE8;&#x78BC;</li>
+</ul>
+<p><code>__m256d</code> &#x4E26;&#x4E0D;&#x662F;&#x4E00;&#x7A2E;&#x66AB;&#x5B58;&#x5668;&#xFF0C;&#x662F;&#x6307;&#x53EF;&#x4EE5;&#x7528;&#x4F86;&#x8F09;&#x5165;&#x5230; AVX &#x66AB;&#x5B58;&#x5668;&#x7684; &quot;Data type&quot;</p>
+<p>&#x5F8C;&#x9762;&#x7A0B;&#x5F0F;&#x4E2D;&#x7528;&#x5230;&#x4E86;<code>__attribute__</code>&#x6A5F;&#x5236;&#xFF0C;&#x53EF;&#x4EE5;&#x7528;&#x4F86;&#x8A2D;&#x7F6E;&#x51FD;&#x6578;&#x5C6C;&#x6027;&#xFF08;Function Attribute&#xFF09;&#x3001;&#x8B8A;&#x6578;&#x5C6C;&#x6027;&#xFF08;Variable Attribute&#xFF09;&#x548C;&#x985E;&#x578B;&#x5C6C;&#x6027;&#xFF08;Type Attribute&#xFF09;&#x3002;<code>aligned</code> &#x5247;&#x898F;&#x5B9A;&#x8B8A;&#x6578;&#x6216;&#x7D50;&#x69CB;&#x7684;&#x6700;&#x5C0F;&#x5C0D;&#x9F4A;&#x683C;&#x5F0F;&#xFF0C;&#x4EE5; Byte &#x70BA;&#x55AE;&#x4F4D;&#x3002;</p>
+<h2 id="avx-simd-unroll-looping">AVX SIMD + Unroll looping</h2>
+<p><a href="https://www.facebook.com/groups/ncku.embedded2015/permalink/771193856360435/" target="_blank">source</a>
+&#x70BA;&#x4F55; AVX SIMD &#x7684;&#x7248;&#x672C;&#x6C92;&#x8FA6;&#x6CD5;&#x9054;&#x5230;&#x9810;&#x671F; 4x &#x6548;&#x80FD;&#x63D0;&#x6607;&#x5462;&#xFF1F;</p>
+<p>&#x56E0;&#x70BA;&#x6D6E;&#x9EDE; scalar &#x9664;&#x6CD5;&#x548C; vector &#x9664;&#x6CD5;&#x7684;&#x5EF6;&#x9072;&#xFF0C;&#x5C0E;&#x81F4;&#x6C92;&#x8FA6;&#x6CD5;&#x6709;&#x6548;&#x7387;&#x7684;&#x57F7;&#x884C;&#x3002;&#x8003;&#x616E;&#x5230;&#x586B;&#x5145; vector instruction &#x7684; pipeline &#x672A;&#x80FD;&#x5145;&#x5206;&#x4F7F;&#x7528;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x9810;&#x5148;&#x5C55;&#x958B;&#x8FF4;&#x5708;&#xFF0C;&#x4EE5;&#x4FBF;&#x4F7F;&#x7528;&#x66F4;&#x591A;&#x7684; scalar &#x66AB;&#x5B58;&#x5668;&#xFF0C;&#x5F9E;&#x800C;&#x6E1B;&#x5C11;&#x8CC7;&#x6599;&#x76F8;&#x4F9D;&#x6027;&#x3002;</p>
+<pre><code class="lang-c"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt;= dt - <span class="hljs-number">4</span>; i += <span class="hljs-number">4</span>) {
+    ymm3 = _mm256_set1_pd(i * delta);
+    ymm3 = _mm256_add_pd(ymm3, ymm2);
+    ymm3 = _mm256_mul_pd(ymm3, ymm3);
+    ymm3 = _mm256_add_pd(ymm0, ymm3);
+    ymm3 = _mm256_div_pd(ymm1, ymm3);
+    ymm4 = _mm256_add_pd(ymm4, ymm3);
+}
 </code></pre>
-<p>&#x6211;&#x5011;&#x4E26;&#x4E0D;&#x6703;&#x5C07;&#x5B83;&#x8996;&#x70BA;init()&#x4E0B;&#x7684;&#x4E00;&#x500B;&#x7368;&#x7ACB;&#x7684;&#x5B50;&#x52D5;&#x4F5C;&#x3002;&#x56E0;&#x70BA;&#x597D;&#x5E7E;&#x884C;&#x7A0B;&#x5F0F;&#xFF0C;&#x624D;&#x69CB;&#x6210;&#x4E00;&#x500B;&#x5177;&#x6709;&#x7368;&#x7ACB;&#x62BD;&#x8C61;&#x610F;&#x7FA9;&#x7684;&#x5B50;&#x52D5;&#x4F5C;&#x3002;&#x4F8B;&#x5982;&#x4EE5;&#x4E0A;&#x9019;&#x5169;&#x884C;&#x69CB;&#x6210;&#x4E86;&#x4E00;&#x500B;&#x7368;&#x7ACB;&#x7684;&#x62BD;&#x8C61;&#x610F;&#x7FA9;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x521D;&#x59CB;&#x5316;&#x6240;&#x9700;&#x7684;&#x8CC7;&#x6599;&#x7D50;&#x69CB;&#x3002;</p>
-<p>&#x7406;&#x8AD6;&#x4E0A;&#xFF0C;&#x539F;&#x4F86;&#x7684;&#x7A0B;&#x5F0F;&#x64B0;&#x5BEB;&#x8005;&#xFF0C;&#x6709;&#x53EF;&#x80FD;&#x64B0;&#x5BEB;&#x4E00;&#x500B;&#x53EB;&#x505A;init_data_structure()&#x7684;&#x51FD;&#x5F0F;&#xFF0C;&#x5305;&#x542B;&#x9019;&#x5169;&#x884C;&#x7A0B;&#x5F0F;&#x78BC;&#x3002;&#x9019;&#x6A23;&#x505A;&#x53EF;&#x8B80;&#x6027;&#x66F4;&#x9AD8;&#xFF0C;&#x7136;&#x800C;&#x57FA;&#x65BC;&#x7A2E;&#x7A2E;&#x7406;&#x7531;&#xFF0C;&#x539F;&#x4F5C;&#x8005;&#x4E26;&#x6C92;&#x6709;&#x9019;&#x9EBC;&#x505A;&#x3002;&#x8EAB;&#x70BA;&#x95B1;&#x8B80;&#x8005;&#xFF0C;&#x5FC5;&#x9808;&#x81EA;&#x884C;&#x89E3;&#x8B80;&#xFF0C;&#x5C07;&#x9019;&#x5E7E;&#x884C;&#x5408;&#x4F75;&#x6210;&#x55AE;&#x4E00;&#x500B;&#x5B50;&#x52D5;&#x4F5C;&#xFF0C;&#x4E26;&#x8CE6;&#x4E88;&#x5B83;&#x4E00;&#x500B;&#x7368;&#x7ACB;&#x7684;&#x610F;&#x7FA9;&#x2500;&#x2500;&#x521D;&#x59CB;&#x5316;&#x8CC7;&#x6599;&#x7D50;&#x69CB;&#x3002;</p>
-<h3 id="%E7%84%A1%E6%B3%95%E6%9C%9B%E6%96%87%E7%94%9F%E7%BE%A9%E7%9A%84%E5%87%BD%E5%BC%8F%EF%BC%8C%E5%85%88%E8%A9%A6%E8%91%97%E9%A0%90%E7%9C%8B%E4%B8%80%E5%B1%A4">&#x7121;&#x6CD5;&#x671B;&#x6587;&#x751F;&#x7FA9;&#x7684;&#x51FD;&#x5F0F;&#xFF0C;&#x5148;&#x8A66;&#x8457;&#x9810;&#x770B;&#x4E00;&#x5C64;</h3>
-<p>&#x5C0D;&#x65BC;&#x67D0;&#x4E9B;&#x4E0D;&#x660E;&#x4F5C;&#x7528;&#x7684;&#x51FD;&#x5F0F;&#x53EB;&#x7528;&#xFF0C;&#x4E0D;&#x662F;&#x671B;&#x5176;&#x6587;&#x4FBF;&#x80FD;&#x751F;&#x5176;&#x7FA9;&#x7684;&#x3002;&#x7576;&#x6211;&#x5011;&#x770B;&#x5230;&#x300C;itunesdb_init_cc()&#x300D;&#x9019;&#x500B;&#x540D;&#x7A31;&#x6642;&#xFF0C;&#x6211;&#x5011;&#x6216;&#x8A31;&#x80FD;&#x5F9E;&#x300C;itunesdb_init&#x300D;&#x7684;&#x5B57;&#x773C;&#x610F;&#x8B58;&#x5230;&#x9019;&#x500B;&#x51FD;&#x5F0F;&#x548C;iPod&#x6240;&#x63A1;&#x7528;&#x7684;iTunes database&#x7684;&#x521D;&#x59CB;&#x5316;&#x6709;&#x95DC;&#xFF0C;&#x4F46;&#x300C;cc&#x300D;&#x537B;&#x5BE6;&#x5728;&#x4EE4;&#x4EBA;&#x8CBB;&#x89E3;&#x3002;&#x70BA;&#x4E86;&#x7406;&#x89E3;&#x9019;&#x4E00;&#x5C64;&#x67D0;&#x500B;&#x5B50;&#x52D5;&#x4F5C;&#x7684;&#x771F;&#x5BE6;&#x610F;&#x7FA9;&#xFF0C;&#x6709;&#x6642;&#x514D;&#x4E0D;&#x4E86;&#x8981;&#x5F80;&#x524D;&#x591A;&#x770B;&#x4E00;&#x5C64;&#x3002;</p>
-<p>&#x539F;&#x4F86;&#x5B83;&#x662F;&#x7528;&#x4F86;&#x521D;&#x59CB;&#x5316;&#x540C;&#x6B65;&#x5316;&#x6A5F;&#x5236;&#x7528;&#x7684;&#x7269;&#x4EF6;&#x3002;&#x4F5C;&#x7528;&#x5728;&#x65BC;&#x9019;&#x7A0B;&#x5F0F;&#x4E00;&#x5B9A;&#x662F;&#x7528;&#x4E86;&#x67D0;&#x500B;&#x5167;&#x90E8;&#x7684;&#x8CC7;&#x6599;&#x7D50;&#x69CB;&#x4F86;&#x5132;&#x5B58;iTunes database&#xFF0C;&#x800C;&#x9019;&#x8CC7;&#x6599;&#x7D50;&#x69CB;&#x6709;&#x53EF;&#x80FD;&#x88AB;&#x591A;&#x57F7;&#x884C;&#x7DD2;&#x5B58;&#x53D6;&#xFF0C;&#x6240;&#x4EE5;&#x5FC5;&#x9808;&#x4EE5;&#x540C;&#x6B65;&#x7269;&#x4EF6;&#xFF08;&#x6B64;&#x8655;&#x662F;Windows&#x7684;Critical Section&#xFF09;&#x52A0;&#x4EE5;&#x4FDD;&#x8B77;&#x3002;</p>
-<p>&#x6240;&#x4EE5;&#x8AAA;&#xFF0C;&#x7576;&#x6211;&#x5011;&#x8A66;&#x8457;&#x4EE5;&#x6A39;&#x72C0;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x9010;&#x4E00;&#x5C55;&#x958B;&#x6BCF;&#x500B;&#x52D5;&#x4F5C;&#x7684;&#x5B50;&#x52D5;&#x4F5C;&#x6642;&#xFF0C;&#x6709;&#x6642;&#x5FC5;&#x9808;&#x591A;&#x770B;&#x4E00;&#x5C64;&#xFF0C;&#x624D;&#x80FD;&#x771F;&#x6B63;&#x77AD;&#x89E3;&#x5B50;&#x52D5;&#x4F5C;&#x7684;&#x610F;&#x7FA9;&#x3002;&#x56E0;&#x70BA;&#x6709;&#x4E86;&#x9019;&#x6A23;&#x7684;&#x52D5;&#x4F5C;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x5728;&#x5C55;&#x958B;&#x6A39;&#x72C0;&#x7D50;&#x69CB;&#x4E2D;&#xFF0C;&#x70BA;itunesdb_init_cc()&#x9644;&#x4E0A;&#x88DC;&#x5145;&#x8AAA;&#x660E;&#xFF1A;&#x5EFA;&#x7ACB;&#x5B58;&#x53D6;itunes database&#x7684;&#x540C;&#x6B65;&#x7269;&#x4EF6;&#x3002;&#x9019;&#x9EBC;&#x4E00;&#x4F86;&#xFF0C;&#x7576;&#x6211;&#x5011;&#x5728;&#x6AA2;&#x8996;&#x81EA;&#x5DF1;&#x6240;&#x5BEB;&#x4E0B;&#x7684;&#x6A39;&#x72C0;&#x7D50;&#x69CB;&#x6642;&#xFF0C;&#x5C31;&#x80FD;&#x8F15;&#x6613;&#x4E00;&#x76EE;&#x77AD;&#x7136;&#x7684;&#x7406;&#x89E3;&#x6BCF;&#x500B;&#x5B50;&#x52D5;&#x4F5C;&#x7684;&#x771F;&#x6B63;&#x4F5C;&#x7528;&#x3002;</p>
-<h3 id="%E6%A0%B9%E6%93%9A%E9%9C%80%E8%A6%81%E4%BA%86%E8%A7%A3%E7%9A%84%E7%B2%92%E5%BA%A6%EF%BC%8C%E6%B1%BA%E5%AE%9A%E5%B1%95%E9%96%8B%E7%9A%84%E5%B1%A4%E6%95%B8">&#x6839;&#x64DA;&#x9700;&#x8981;&#x4E86;&#x89E3;&#x7684;&#x7C92;&#x5EA6;&#xFF0C;&#x6C7A;&#x5B9A;&#x5C55;&#x958B;&#x7684;&#x5C64;&#x6578;</h3>
-<p>&#x6211;&#x5011;&#x7A76;&#x7ADF;&#x9700;&#x8981;&#x5C55;&#x958B;&#x591A;&#x5C11;&#x5C64;&#x5462;&#xFF1F;&#x9019;&#x500B;&#x554F;&#x984C;&#x548C;&#x95B1;&#x8B80;&#x7A0B;&#x5F0F;&#x78BC;&#x6642;&#x6240;&#x9700;&#x7684;&#x300C;&#x7C92;&#x5EA6;&#xFF08;Granularity&#xFF09;&#x300D;&#x6709;&#x95DC;&#x3002;&#x5982;&#x679C;&#x6211;&#x5011;&#x53EA;&#x662F;&#x9700;&#x8981;&#x6982;&#x62EC;&#x6027;&#x7684;&#x77AD;&#x89E3;&#xFF0C;&#x90A3;&#x9EBC;&#x4E5F;&#x8A31;&#x5C55;&#x958B;&#x5169;&#x5C64;&#x6216;&#x4E09;&#x5C64;&#xFF0C;&#x5C31;&#x80FD;&#x5920;&#x5C0D;&#x7A0B;&#x5F0F;&#x6709;&#x57FA;&#x790E;&#x7684;&#x8A8D;&#x8B58;&#x3002;&#x5018;&#x82E5;&#x9700;&#x8981;&#x66F4;&#x6DF1;&#x5165;&#x7684;&#x77AD;&#x89E3;&#xFF0C;&#x5C31;&#x6703;&#x9700;&#x8981;&#x5C55;&#x958B;&#x66F4;&#x591A;&#x7684;&#x5C64;&#x6B21;&#x624D;&#x884C;&#x3002;</p>
-<p>&#x6709;&#x6642;&#x5019;&#xFF0C;&#x4F60;&#x4E26;&#x4E0D;&#x662F;&#x4E00;&#x8996;&#x540C;&#x4EC1;&#x5730;&#x91DD;&#x5C0D;&#x6BCF;&#x500B;&#x52D5;&#x4F5C;&#xFF0C;&#x90FD;&#x5C55;&#x958B;&#x5230;&#x76F8;&#x540C;&#x6DF1;&#x5EA6;&#x7684;&#x5C64;&#x6B21;&#x3002;&#x4E5F;&#x8A31;&#xFF0C;&#x4F60;&#x6703;&#x57FA;&#x65BC;&#x7279;&#x6B8A;&#x7684;&#x9700;&#x6C42;&#xFF0C;&#x5C08;&#x9580;&#x91DD;&#x5C0D;&#x7279;&#x5B9A;&#x7684;&#x52D5;&#x4F5C;&#x5C55;&#x958B;&#x81F3;&#x6DF1;&#x5C64;&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x6211;&#x5011;&#x95B1;&#x8B80;Winamp iPod plug-in&#x7684;&#x7A0B;&#x5F0F;&#x76EE;&#x9304;&#xFF0C;&#x5176;&#x5BE6;&#x662F;&#x60F3;&#x5F9E;&#x4E2D;&#x77AD;&#x89E3;&#x7A76;&#x7ADF;&#x61C9;&#x8A72;&#x5982;&#x4F55;&#x5B58;&#x53D6;iPod&#x4E0A;&#x7684;iTunes DB&#xFF0C;&#x4F7F;&#x6211;&#x5011;&#x80FD;&#x5920;&#x5C07;MP3&#x6B4C;&#x66F2;&#x6216;&#x64AD;&#x653E;&#x6E05;&#x55AE;&#x52A0;&#x81F3;&#x6B64;DB&#x4E2D;&#xFF0C;&#x4E26;&#x65BC;iPod&#x4E2D;&#x64AD;&#x653E;&#x3002;</p>
-<p>&#x7576;&#x6211;&#x5011;&#x5C64;&#x5C64;&#x63A2;&#x7D22;&#x8207;&#x5206;&#x89E3;&#x4E4B;&#x5F8C;&#xFF0C;&#x627E;&#x5230;&#x4E86;parseIpodDb()&#xFF0C;&#x5F9E;&#x51FD;&#x5F0F;&#x540D;&#x7A31;&#x5224;&#x65B7;&#x5B83;&#x662F;&#x6211;&#x5011;&#x60F3;&#x8981;&#x7684;&#x3002;&#x56E0;&#x70BA;&#x5B83;&#x4EE3;&#x8868;&#x7684;&#x6B63;&#x662F;parse iPod DB&#xFF0C;&#x6B63;&#x662F;&#x6211;&#x5011;&#x6B64;&#x6B21;&#x95B1;&#x8B80;&#x7684;&#x91CD;&#x9EDE;&#xFF0C;&#x4E5F;&#x5C31;&#x9054;&#x6210;&#x95B1;&#x8B80;&#x9019;&#x7A0B;&#x5F0F;&#x78BC;&#x7684;&#x76EE;&#x7684;&#x3002;</p>
-<p>&#x6211;&#x5011;&#x5F37;&#x8ABF;&#x4E00;&#x7A2E;&#x4E0D;&#x540C;&#x7684;&#x505A;&#x6CD5;&#xFF1A;&#x5728;&#x95B1;&#x8B80;&#x7A0B;&#x5F0F;&#x78BC;&#x6642;&#xFF0C;&#x591A;&#x534A;&#x63A1;&#x53D6;&#x7531;&#x4E0A;&#x800C;&#x4E0B;&#x7684;&#x65B9;&#x5F0F;&#xFF1B;&#x800C;&#x672C;&#x6587;&#x5EFA;&#x8B70;&#x4E86;&#x4E00;&#x7A2E;&#x8A18;&#x9304;&#x95B1;&#x8B80;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x5C31;&#x662F;&#x8A66;&#x8457;&#x8A18;&#x9304;&#x63A2;&#x7D22;&#x8FFD;&#x8E64;&#x6642;&#x5C64;&#x5C64;&#x5C55;&#x958B;&#x7684;&#x6A39;&#x72C0;&#x7D50;&#x69CB;&#x3002;&#x4F60;&#x53EF;&#x4EE5;&#x8996;&#x81EA;&#x5DF1;&#x9700;&#x8981;&#xFF0C;&#x77AD;&#x89E3;&#x7684;&#x6DF1;&#x5165;&#x7A0B;&#x5EA6;&#xFF0C;&#x518D;&#x6C7A;&#x5B9A;&#x8981;&#x5C55;&#x958B;&#x7684;&#x5C64;&#x6578;&#x3002;&#x4F60;&#x66F4;&#x53EF;&#x4EE5;&#x4F9D;&#x64DA;&#x7279;&#x6B8A;&#x7684;&#x9700;&#x8981;&#xFF0C;&#x53EA;&#x5C55;&#x958B;&#x67D0;&#x500B;&#x7279;&#x5B9A;&#x7684;&#x7BC0;&#x9EDE;&#xFF0C;&#x4EE5;&#x63A2;&#x7D22;&#x7279;&#x5B9A;&#x7684;&#x7D30;&#x76EE;&#x3002;</p>
-<p>&#x9069;&#x5EA6;&#x5730;&#x5FFD;&#x7565;&#x4E0D;&#x9700;&#x8981;&#x4E86;&#x89E3;&#x7684;&#x7D30;&#x7BC0;&#xFF0C;&#x662F;&#x4E00;&#x500B;&#x5F88;&#x91CD;&#x8981;&#x7684;&#x614B;&#x5EA6;&#xFF0C;&#x56E0;&#x70BA;&#x4F60;&#x4E0D;&#x6703;&#x4E00;&#x6B21;&#x5C31;&#x9700;&#x8981;&#x6240;&#x6709;&#x7684;&#x7D30;&#x7BC0;&#xFF0C;&#x95B1;&#x8B80;&#x90FD;&#x662F;&#x6709;&#x76EE;&#x7684;&#x7684;&#x3002;&#x6BCF;&#x6B21;&#x7684;&#x95B1;&#x8B80;&#x4E5F;&#x8A31;&#x90FD;&#x5728;&#x63A2;&#x7D22;&#x7A0B;&#x5F0F;&#x4E2D;&#x4E0D;&#x540C;&#x7684;&#x5340;&#x57DF;&#xFF1B;&#x800C;&#x6BCF;&#x6B21;&#x63A2;&#x7D22;&#x6642;&#xFF0C;&#x4F60;&#x90FD;&#x53EF;&#x4EE5;&#x589E;&#x88DC;&#x6A39;&#x72C0;&#x7D50;&#x69CB;&#x4E2D;&#x7684;&#x67D0;&#x500B;&#x5B50;&#x7D50;&#x69CB;&#x3002;&#x6F38;&#x6F38;&#x5730;&#xFF0C;&#x4F60;&#x5C31;&#x6703;&#x5C0D;&#x9019;&#x500B;&#x7A0B;&#x5F0F;&#x66F4;&#x52A0;&#x7684;&#x77AD;&#x89E3;&#x3002;</p>
+<p>&#x53EF;&#x4EE5;&#x770B;&#x5230; ymm3 &#x6709;&#x5F88;&#x5F37;&#x7684;&#x76F8;&#x4F9D;&#x6027;&#xFF0C;&#x800C;&#x4E14;&#x770B;&#x8D77;&#x4F86;&#x7121;&#x6CD5;&#x5728;&#x7E2E;&#x5F97;&#x66F4;&#x5C0F;&#x4E86;&#x3002;</p>
+<p>&#x5617;&#x8A66;&#x4F7F;&#x7528;&#x66F4;&#x591A;&#x7684; AVX &#x66AB;&#x5B58;&#x5668;&#x4F86;&#x4F5C; unroll looping &#x7684;&#x512A;&#x5316;&#xFF0C;&#x5F9E;&#x539F;&#x672C;&#x7684; ymm0&#xFF5E;ymm4&#xFF0C;&#x589E;&#x52A0;&#x5230; ymm0&#xFF5E;ymm14&#x3002;&#x4F46;&#x9019;&#x7A2E;&#x5BEB;&#x6CD5;&#x7684;&#x7F3A;&#x9EDE;&#x5C31;&#x662F;&#x7A0B;&#x5F0F;&#x78BC;&#x904D;&#x5F97;&#x5F88;&#x9F90;&#x5927;&#xFF0C;&#x800C;&#x4E14;&#x4E0D;&#x6613;&#x95B1;&#x8B80;&#x3002;&#x5BE6;&#x9A57;&#x7D50;&#x679C;&#x5728;&#x6700;&#x4E0B;&#x9762;&#x3002;</p>
+<h1 id="openmp-%E7%89%88%E6%9C%AC">OpenMP &#x7248;&#x672C;</h1>
+<p>&#x9664;&#x4E86;AVX SIMD &#x7248;&#x672C;&#x5916;&#xFF0C;&#x4E5F;&#x4F7F;&#x7528; OpenMP &#x5C0D;&#x7684; for &#x8FF4;&#x5708;&#x4F5C;&#x5E73;&#x884C;&#x8655;&#x7406;&#xFF0C;&#x800C;&#x70BA;&#x4E86;&#x4F7F;&#x7DE8;&#x8B6F;&#x5668;&#x80FD;&#x5F8C;&#x6210;&#x529F;&#x7684;&#x5C07;&#x9806;&#x5E8F;&#x57F7;&#x884C;&#x8F49;&#x70BA;&#x5E73;&#x884C;&#x57F7;&#x884C;&#xFF0C;&#x904B;&#x884C;&#x7CFB;&#x7D71;&#x5FC5;&#x9808;&#x78BA;&#x5B9A;&#x5FAA;&#x74B0;&#x7684;&#x6B21;&#x6578;&#xFF0C;&#x56E0;&#x6B64; for &#x8FF4;&#x5708;&#x5167;&#x4E0D;&#x53EF;&#x4EE5;&#x5305;&#x542B;&#x8B93;&#x8FF4;&#x5708;&#x63D0;&#x524D;&#x9000;&#x51FA;&#x7684;&#x95DC;&#x9375;&#x5B57;&#xFF0C;&#x4F8B;&#x5982; break&#x3001;return&#x3001;exit&#x3001;goto&#xFF0C;&#x4E0D;&#x904E;&#x5141;&#x8A31; continue &#x7684;&#x5B58;&#x5728;&#x3002;</p>
+<p>&#x4EE5;&#x4E0B;&#x662F; openmp &#x8A9E;&#x6CD5;&#xFF0C;&#x5927;&#x6982;&#x9577;&#x9019;&#x6A23;&#x3002;&#x8A73;&#x60C5;&#x53EF;&#x53C3;&#x95B1;&#x6700;&#x5F8C;&#x9762;&#x7684;&#x53C3;&#x8003;&#x8CC7;&#x6599;</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">pragma</span> omp &lt;directive&gt; [clause]</span>
+</code></pre>
+<p>&#x5C0D;&#x65BC;&#x7C21;&#x55AE;&#x7684; for &#x8FF4;&#x5708;&#x7684;&#x5E73;&#x884C;&#x8655;&#x7406;&#x4F8B;&#x5B50;&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">pragma</span> omp parallel for</span>
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; ++i)
+    test(i);
+</code></pre>
+<p>&#x4E0D;&#x904E;&#x56E0;&#x70BA;&#x9019;&#x500B;&#x5F0F;&#x5B50;<code>pi += dt / (1.0 + x * x);</code>&#x7684;&#x5B58;&#x5728;&#xFF0C;&#x6BCF;&#x6B21;&#x8FED;&#x4EE3;&#x90FD;&#x6703;&#x8B80;&#x53D6; pi &#x503C;&#x4E26;&#x66F4;&#x65B0; pi &#x503C;&#xFF0C;&#x4E0D;&#x540C;&#x6B21;&#x7684;&#x8FF4;&#x5708;&#x4E2D;&#x4E26;&#x4E0D;&#x76F8;&#x4E92;&#x7368;&#x7ACB;&#x3002;&#x56E0;&#x6B64;&#x4E0D;&#x80FD;&#x7C21;&#x55AE;&#x52A0;&#x4E0A;<code>#pragma omp parallel for</code> &#x5C31;&#x597D;&#xFF0C;&#x9084;&#x8981;&#x4F5C;&#x4E9B;&#x8655;&#x7406;&#x3002;</p>
+<ol>
+<li>&#x53EF;&#x4EE5;&#x4F7F;&#x7528; atmoic&#x3001;critical&#xFF0C;&#x9632;&#x6B62;&#x8B8A;&#x6578;&#x540C;&#x6642;&#x88AB;&#x591A;&#x500B;&#x57F7;&#x884C;&#x7DD2;&#x4FEE;&#x6539;&#xFF0C;&#x4F46;&#x901F;&#x5EA6;&#x5C31;&#x6703;&#x6162;&#x4E0A;&#x8A31;&#x591A;&#xFF0C;&#x56E0;&#x70BA;&#x4E00;&#x6B21;&#x53EA;&#x5141;&#x8A31;&#x4E00;&#x500B;&#x57F7;&#x884C;&#x7E8C;&#x9032;&#x884C;&#x5B58;&#x53D6;&#x3002;</li>
+<li><p>&#x91DD;&#x5C0D;&#x9019;&#x7A2E;&#x60C5;&#x5883;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; reduction&#x3002;&#x8A9E;&#x6CD5;&#x5982;&#x4E0B;</p>
+<pre><code>reduction(&lt;op&gt;:&lt;variable&gt;)
+</code></pre><p>&#x652F;&#x63F4;&#x7684;&#x904B;&#x7B97;&#x5143;&#x6709; +, <em>, &#x2013;, &amp;, ^, |, &amp;&amp;, ||&#xFF0C;&#x5B83;&#x8B93;&#x5404;&#x500B;&#x57F7;&#x884C;&#x7DD2;&#x91DD;&#x5C0D;&#x6307;&#x5B9A;&#x7684;&#x8B8A;&#x6578;&#x64C1;&#x6709;&#x4E00;&#x4EFD;&#x6709;&#x8D77;&#x59CB;&#x503C;&#x7684;&#x8907;&#x672C;&#xFF08;&#x8D77;&#x59CB;&#x503C;&#x662F;&#x904B;&#x7B97;&#x5143;&#x800C;&#x5B9A;&#xFF0C;&#x50CF; +, &#x2013; &#x7684;&#x8A71;&#x5C31;&#x662F; 0&#xFF0C;</em>  &#x5C31;&#x662F; 1&#xFF09;&#xFF0C;&#x5E73;&#x884C;&#x5316;&#x8A08;&#x7B97;&#x6642;&#xFF0C;&#x4EE5;&#x5404;&#x81EA;&#x8907;&#x672C;&#x505A;&#x904B;&#x7B97;&#xFF0C;&#x7B49;&#x5230;&#x6700;&#x5F8C;&#x518D;&#x4EE5;&#x6307;&#x5B9A;&#x7684;&#x904B;&#x7B97;&#x5143;&#xFF0C;&#x5C07;&#x5404;&#x57F7;&#x884C;&#x7DD2;&#x7684;&#x8907;&#x672C;&#x5408;&#x5728;&#x4E00;&#x8D77;&#x3002;</p>
+</li>
+<li><p><img src="https://hackpad-attachments.s3.amazonaws.com/charles620016.hackpad.com_kBMD0GhbC7d_p.431773_1442655296900_Selection_003.png" alt=""></p>
+</li>
+</ol>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">pragma</span> omp parallel num_threads(omp_get_max_threads()) </span>
+{
+    <span class="hljs-preprocessor">#<span class="hljs-keyword">pragma</span> omp for private(x) reduction(+:pi)</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; N; i++) {
+        x = (<span class="hljs-keyword">double</span>) i / N;
+        pi += dt / (<span class="hljs-number">1.0</span> + x * x);
+    }
+    <span class="hljs-keyword">return</span> pi * <span class="hljs-number">4.0</span>;    
+}
+</code></pre>
+<h2 id="%E7%B5%90%E6%9E%9C%E8%88%87%E5%88%86%E6%9E%90">&#x7D50;&#x679C;&#x8207;&#x5206;&#x6790;</h2>
+<ul>
+<li><p>&#x6CE8;&#x610F; <code>Makefile</code> &#x88E1;&#x982D;&#x6709; <code>-fopenmp -mavx</code>&#xFF0C;&#x6307;&#x5B9A;&#x958B;&#x555F; OpenMP &#x548C; AVX</p>
+<ul>
+<li><code>CFLAGS = -O0 -std=gnu99 -Wall -fopenmp -mavx</code></li>
+</ul>
+</li>
+<li><p>&#x53D6;&#x5F97;&#x539F;&#x59CB;&#x7A0B;&#x5F0F;&#x78BC;&#x4E26;&#x7DE8;&#x8B6F;:</p>
+<pre><code>$ git clone https://github.com/sysprog21/compute-pi
+$ cd compute-pi
+$ make check
+</code></pre></li>
+<li><p>&#x4F7F;&#x7528; clock_gettime() &#x4F86;&#x6E2C;&#x91CF;&#x4E0D;&#x540C;&#x5BE6;&#x505A;&#x7684;&#x57F7;&#x884C;&#x6642;&#x9593;</p>
+<ul>
+<li>&#x9700;&#x8981;&#x7B49;&#x5F85;&#xFF0C;&#x4FDD;&#x6301;&#x8010;&#x5FC3;&#xFF01;<pre><code>$ make gencsv
+</code></pre>&#x4E4B;&#x5F8C;&#x53EF;&#x7528; <a href="https://zh-tw.libreoffice.org/" target="_blank">LibreOffice</a> &#x5EFA;&#x7ACB;&#x5716;&#x8868;&#xFF0C;&#x5982;&#x4E0B;&#x6240;&#x793A;&#xFF1A;</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://hackpad-attachments.s3.amazonaws.com/charles620016.hackpad.com_kBMD0GhbC7d_p.431773_1443080080883_Wall-clock_time.png" alt=""></p>
+<h2 id="%E6%99%82%E9%96%93%E8%99%95%E7%90%86%E8%88%87-time-%E5%87%BD%E5%BC%8F%E4%BD%BF%E7%94%A8">&#x6642;&#x9593;&#x8655;&#x7406;&#x8207; time &#x51FD;&#x5F0F;&#x4F7F;&#x7528;</h2>
+<p>&#x5169;&#x7A2E;&#x4E0D;&#x540C;&#x7684;&#x6E2C;&#x91CF;&#x6642;&#x9593;&#x7684;&#x51FD;&#x5F0F;&#xFF0C;&#x4E00;&#x500B;&#x662F; <code>clock()</code>&#xFF0C;&#x53E6;&#x4E00;&#x500B;&#x5247;&#x662F; <code>clock_gettime()</code>&#xFF0C;&#x800C;&#x5728;&#x5716;&#x8868;&#x4E0A;&#x4E5F;&#x5448;&#x73FE;&#x4E86;&#x5169;&#x7A2E;&#x622A;&#x7136;&#x4E0D;&#x540C;&#x7684;&#x7D50;&#x679C;&#x3002;</p>
+<p>&#x9032;&#x5165;&#x5BE6;&#x9A57;&#x8A0E;&#x8AD6;&#x524D;&#xFF0C;&#x5148;&#x4E86;&#x89E3;&#x4E00;&#x4E0B;&#x6642;&#x9593;&#x89C0;&#x5FF5;&#x548C;&#x5982;&#x4F55;&#x4F7F;&#x7528; C &#x8A9E;&#x8A00;&#x9032;&#x884C;&#x6642;&#x9593;&#x8655;&#x7406;&#x3002;&#x7562;&#x7ADF;&#x8981;&#x4F5C; Performance Benchmarking&#xFF0C;&#x6C92;&#x6709;&#x6B63;&#x78BA;&#x4F7F;&#x7528; time &#x51FD;&#x5F0F;&#xFF0C;&#x53EF;&#x80FD;&#x5C31;&#x6703;&#x5C0E;&#x81F4;&#x932F;&#x8AA4;&#x7684;&#x7D50;&#x679C;&#x548C;&#x7D50;&#x8AD6;&#x3002;</p>
+<p>&#x64B0;&#x5BEB;&#x6642;&#x9593;&#x91CF;&#x6E2C;&#x7A0B;&#x5F0F;&#x524D;&#xFF0C;&#x5148;&#x8A55;&#x4F30;&#x60C5;&#x6CC1;&#xFF0C;&#x554F;&#x554F;&#x81EA;&#x5DF1;&#x5E7E;&#x500B;&#x554F;&#x984C;&#xFF1A;</p>
+<ol>
+<li>&#x4F7F;&#x7528;&#x4EC0;&#x9EBC; clock &#x6E2C;&#x91CF;&#xFF1F;(Real, User, System, Wall-clock....?)</li>
+<li>clock &#x7684;&#x7CBE;&#x78BA;&#x5EA6;&#xFF1F;(s, ms, &#xB5;s, or faster ?)</li>
+<li>&#x9700;&#x8981;&#x591A;&#x4E45;&#x6642;&#x9593;&#x4F60;&#x7684; clock &#x6703; wrap around&#xFF1F;&#x6709;&#x4EC0;&#x9EBC;&#x65B9;&#x6CD5;&#x53EF;&#x4EE5;&#x907F;&#x514D;&#x6216;&#x8655;&#x7406;&#xFF1F;</li>
+<li>clock &#x662F;&#x4E0D;&#x662F; monotonic (&#x55AE;&#x8ABF;&#x905E;&#x589E;)&#xFF1F;&#x9084;&#x662F;&#x6703;&#x96A8;&#x8457;&#x7CFB;&#x7D71;&#x6642;&#x9593;&#x6539;&#x8B8A; (NTP, time zone, daylight savings time, by the user...?)</li>
+<li>&#x4F7F;&#x7528;&#x7684;&#x51FD;&#x5F0F;&#x4F7F;&#x5426;&#x5DF2;&#x7D93;&#x904E;&#x6642;&#x3001;&#x6216;&#x4E0D;&#x662F;&#x6A19;&#x6E96;&#x51FD;&#x5F0F;&#x5EAB;&#xFF1F;</li>
+</ol>
+<h2 id="wall-clock-time-vs-cpu-time">Wall-clock time vs. CPU time</h2>
+<p>&#x901A;&#x5E38;&#x6211;&#x5011;&#x5728;&#x8A08;&#x7B97;&#x4E00;&#x500B;&#x7A0B;&#x5E8F;&#x7684; &quot;Duration time&quot;&#xFF0C;&#x5E38;&#x5E38;&#x6709;&#x53EF;&#x80FD;&#x662F;&#x4EE5;&#x4E0B;&#x5169;&#x500B;&#x610F;&#x601D;&#xFF0C;&#x4E00;&#x500B;&#x662F;&#x300C;Wall-clock time&#x300D;&#xFF0C;&#x53E6;&#x4E00;&#x500B;&#x5247;&#x662F; &#x300C;CPU time&#x300D;&#xFF0C;&#x6839;&#x64DA;&#x4E0D;&#x540C;&#x7684;&#x60C5;&#x6CC1;&#x548C;&#x9700;&#x6C42;&#x4F86;&#x9078;&#x64C7;&#x4F7F;&#x7528;&#x54EA;&#x4E00;&#x500B;&#x7576;&#x4F5C;&#x8861;&#x91CF;&#x6A19;&#x6E96;&#x3002;</p>
+<p><strong>1. Wall-clock time</strong> &#x9867;&#x540D;&#x601D;&#x7FA9;&#x5C31;&#x662F;&#x639B;&#x9418;&#x6642;&#x9593;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x73FE;&#x5BE6;&#x4E16;&#x754C;&#x4E2D;&#x5BE6;&#x969B;&#x7D93;&#x904E;&#x7684;&#x6642;&#x9593;&#xFF0C;&#x662F;&#x7531; kernel &#x88E1;&#x7684; xtime &#x4F86;&#x7D00;&#x9304;&#xFF0C;&#x7CFB;&#x7D71;&#x6BCF;&#x6B21;&#x555F;&#x52D5;&#x6642;&#x6703;&#x5148;&#x5F9E;&#x8A2D;&#x5099;&#x4E0A;&#x7684; <a href="https://zh.wikipedia.org/wiki/%E5%AF%A6%E6%99%82%E6%99%82%E9%90%98" target="_blank">RTC</a> &#x4E0A;&#x8B80;&#x5165; xtime&#x3002;</p>
+<pre><code class="lang-c"><span class="hljs-keyword">struct</span> timespec xtime __attribute__ ((aligned (<span class="hljs-number">16</span>)));
+<span class="hljs-keyword">struct</span> timespec {
+    <span class="hljs-keyword">__kernel_time_t</span> tv_sec; <span class="hljs-comment">/* seconds */</span>
+    <span class="hljs-keyword">long</span> tv_nsec;           <span class="hljs-comment">/* nanoseconds */</span>
+};
+</code></pre>
+<p>&#x9019;&#x500B;&#x503C;&#x662F;&#x81EA; 1970-01-01 &#x8D77;&#x7D93;&#x6B77;&#x7684;&#x79D2;&#x6578;&#xFF0C;&#x53E6;&#x5916; Linux &#x6838;&#x5FC3;&#x4E5F;&#x6703;&#x6C7A;&#x5B9A;&#x6BCF;&#x79D2;&#x8981;&#x767C;&#x751F;&#x5E7E;&#x6B21;&#x4E2D;&#x65B7; (&#x900F;&#x904E;&#x5E38;&#x6578; HZ) &#xFF0C;&#x6BCF;&#x6B21; timer interrupt&#xFF0C;&#x5C31;&#x6703;&#x53BB;&#x66F4;&#x65B0; <code>xtime</code>&#x3002;</p>
+<p>&#x8A31;&#x591A;&#x8AAA;&#x660E;&#x6587;&#x4EF6;&#x6216;&#x554F;&#x7B54;&#x7DB2;&#x7AD9;&#x5E38;&#x5C07; System time &#x548C;&#x771F;&#x5BE6;&#x4E16;&#x754C;&#x7684; Wall-clock time &#x6DF7;&#x7528;&#xFF0C;System time &#x662F;&#x6307;&#x7CFB;&#x7D71;&#x4E0A;&#x7684;&#x6642;&#x9593;&#xFF0C;&#x958B;&#x6A5F;&#x6642;&#x5B83;&#x6703;&#x8B80;&#x53D6; RTC &#x4F86;&#x8A2D;&#x5B9A;&#xFF0C;&#x53EF;&#x80FD;&#x904E;&#x7A0B;&#x4E2D;&#x9084;&#x6703;&#x6709;&#x6642;&#x5340;&#x63DB;&#x7B97;&#x7B49;&#x4E4B;&#x985E;&#x7684;&#x8A2D;&#x7F6E;&#x3002;&#x4E00;&#x822C;&#x8AAA;&#x4F86; System time &#x5C31;&#x662F;&#x6211;&#x5011;&#x57F7;&#x884C; <code>date</code> &#x547D;&#x4EE4;&#x770B;&#x5230;&#x7684;&#x6642;&#x9593;&#xFF0C;Linux &#x7CFB;&#x7D71;&#x4E0B;&#x6240;&#x6709;&#x7684;&#x6642;&#x9593;&#x8ABF;&#x7528;&#x90FD;&#x662F;&#x4F7F;&#x7528;&#x9019;&#x500B; (&#x9664;&#x975E;&#x76F4;&#x63A5;&#x5B58;&#x53D6; RTC)&#x3002;&#x7136;&#x5F8C; Kernel &#x6703;&#x6709;&#x500B;&#x5168;&#x57DF;&#x8B8A;&#x6578; Jiffies &#x4F86;&#x7D00;&#x9304;&#x7CFB;&#x7D71;&#x958B;&#x5E7E;&#x4EE5;&#x4F86;&#xFF0C;&#x7D93;&#x904E;&#x591A;&#x5C11;&#x500B; tick&#x3002;&#x6BCF;&#x767C;&#x751F;&#x4E00;&#x6B21; timer interrupt&#xFF0C;jiffies &#x6703;&#x52A0; 1 ( xtime &#x548C; jiffies &#x5F88;&#x76F8;&#x4F3C;&#xFF0C;&#x4F46;&#x5176;&#x5BE6;&#x5B8C;&#x5168;&#x4E0D;&#x4E00;&#x6A23;&#xFF0C;&#x53EF;&#x53C3;&#x95B1; <a href="http://www.coctec.com/docs/linux/show-post-186188.html" target="_blank">&#x5BB9;&#x6613;&#x6DF7;&#x6DC6; LINUX &#x6642;&#x9418;&#x7684; xtime &#x548C; jiffies</a> )&#x3002;</p>
+<p>&#x53E6;&#x5916;&#x6CE8;&#x610F;&#xFF0C;&#x6709;&#x6642;&#x7CFB;&#x7D71;&#x8981;&#x8207;&#x7DB2;&#x7D61;&#x4E2D;&#x67D0;&#x500B;&#x7BC0;&#x9EDE;&#x6642;&#x9593;&#x540C;&#x6B65;&#xFF0C;&#x90A3;&#x9019;&#x500B; Wall-clock time &#x53EF;&#x80FD;&#x6703;&#x548C; <a href="http://linux.vbird.org/linux_server/0440ntp.php" target="_blank">NTP &#x4F3A;&#x670D;&#x5668;</a>&#x3001;<a href="https://zh.wikipedia.org/wiki/%E6%97%B6%E5%8C%BA" target="_blank">&#x6642;&#x5340;</a>&#x3001;<a href="https://zh.wikipedia.org/wiki/%E5%A4%8F%E6%97%B6%E5%88%B6" target="_blank">&#x65E5;&#x5149;&#x7BC0;&#x7D04;&#x6642;&#x9593;</a>&#x540C;&#x6B65;&#x6216;&#x4F7F;&#x7528;&#x8005;&#x81EA;&#x5DF1;&#x8ABF;&#x6574;&#x3002;&#x6240;&#x4EE5;&#x300C;&#x901A;&#x5E38;&#x300D;&#x4E0D;&#x5EFA;&#x8B70;&#x62FF;&#x4F86;&#x91CF;&#x6E2C;&#x7A0B;&#x5F0F;&#x6642;&#x9593;&#xFF0C;&#x56E0;&#x70BA;&#x5B83;&#x4E0D;&#x662F;&#x4E00;&#x500B;&#x7A69;&#x5B9A;&#x7684;&#x6642;&#x9593;&#xFF0C;&#x7528;&#x5C08;&#x696D;&#x4E00;&#x9EDE;&#x7684;&#x7528;&#x8A9E;&#x8B1B;&#xFF0C;Wall-clock time &#x4E0D;&#x4E00;&#x5B9A;&#x662F;&#x55AE;&#x8ABF;&#x905E;&#x589E; (monotonic)&#x3002;</p>
+<p>&#x4E0D;&#x904E;&#x5728;&#x9019;&#x88E1;&#x56E0;&#x70BA;&#x91CF;&#x6E2C;&#x904E;&#x7A0B;&#x4E2D;&#x6C92;&#x6709;&#x6D89;&#x53CA;&#x5230; NTP&#x3001;&#x6642;&#x5340;&#x6539;&#x8B8A;&#x4E4B;&#x985E;&#x7684;&#x554F;&#x984C;&#xFF0C;Wall-clock time &#x662F;&#x55AE;&#x8ABF;&#x905E;&#x589E;&#xFF0C;&#x6240;&#x4EE5;&#x5728;&#x96FB;&#x8166;&#x4E0A;&#x6240;&#x7D93;&#x904E;&#x7684; system time (elapsed time) &#x57FA;&#x672C;&#x4E0A;&#x6703;&#x7B49;&#x65BC;&#x771F;&#x5BE6;&#x8D70;&#x904E;&#x7684;&#x6642;&#x9593;&#x3002;</p>
+<p><strong>2. CPU time</strong> &#x6307;&#x7684;&#x662F;&#x7A0B;&#x5E8F;&#x5728; CPU &#x4E0A;&#x9762;&#x904B;&#x884C;&#x6D88;&#x8017; (&#x4F54;&#x7528;) &#x7684;&#x6642;&#x9593;&#xFF0C;clock() &#x5C31;&#x662F;&#x5F88;&#x5178;&#x578B;&#x7528;&#x4F86;&#x8A08;&#x7B97; CPU time &#x7684;&#x6642;&#x9593;&#x51FD;&#x5F0F;&#xFF0C;&#x4F46;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C;&#x5982;&#x679C;&#x6709;&#x591A;&#x689D; threads&#xFF0C;&#x90A3; CPU time &#x7B97;&#x7684;&#x662F;&#x300C;&#x6BCF;&#x689D; thread &#x7684;&#x4F7F;&#x7528;&#x6642;&#x9593;&#x52A0;&#x7E3D;&#x300D;&#xFF0C;&#x6240;&#x4EE5;&#x5982;&#x679C;&#x6211;&#x5011;&#x767C;&#x73FE; CPU time &#x7ADF;&#x7136;&#x6BD4; Wall-clock time &#x9084;&#x5927;&#xFF01;&#x9019;&#x53EF;&#x80FD;&#x662F;&#x500B;&#x5F88;&#x91CD;&#x8981;&#x7684;&#x539F;&#x56E0;&#x3002;</p>
+<p>&#x53E6;&#x5916;&#x5F88;&#x591A;&#x6642;&#x5019;&#x53EA;&#x8A08;&#x7B97; CPU time &#x662F;&#x4E0D;&#x5920;&#x7684;&#xFF0C;&#x56E0;&#x70BA;&#x57F7;&#x884C;&#x6642;&#x9593;&#x53EF;&#x80FD;&#x9084;&#x5305;&#x62EC; I/O time&#x3001; communication channel delay&#x3001;synchronization overhead....&#x7B49;&#x7B49;&#x3002;</p>
+<ul>
+<li><strong>Real time , User CPU time , System CPU time ( Linux &#x7684; time &#x6307;&#x4EE4; )</strong></li>
+</ul>
+<p>&#x5728;&#x4ECA;&#x65E5;&#x7684; UNIX &#x7CFB;&#x7D71;&#x5167;&#x4E8B;&#x5BE6;&#x4E0A;&#x5B58;&#x5728;&#x5169;&#x500B; time &#x6307;&#x4EE4;&#xFF0C;&#x4E00;&#x500B;&#x662F;&#x7CFB;&#x7D71;&#x6240;&#x63D0;&#x4F9B;&#x7684; /usr/bin/time&#xFF0C;&#x9019;&#x500B; time &#x6307;&#x4EE4;&#x662F; System V &#x7248;&#x672C;&#x6240;&#x63D0;&#x4F9B;&#x7684;&#x5DE5;&#x5177;&#xFF0C;&#x9019;&#x662F;&#x70BA;&#x4E86; Bourne shell &#x4F7F;&#x7528;&#x8005;&#x6240;&#x5BEB;&#x7684;&#x5DE5;&#x5177;&#xFF1B;&#x800C;&#x53E6;&#x4E00;&#x500B;&#x5247;&#x662F; C shell &#x5167;&#x5EFA;&#x6307;&#x4EE4; time&#x3002;</p>
+<p><code>$ time</code> &#x6703;&#x5831;&#x544A;&#x5BE6;&#x969B;&#x6642;&#x9593;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x7A0B;&#x5F0F;&#x5F9E;&#x958B;&#x59CB;&#x5230;&#x7D50;&#x675F;&#x7684;&#x7D93;&#x6B77;&#x6642;&#x9593;&#xFF0C;&#x53E6;&#x5916;&#x9084;&#x6703;&#x8A08;&#x7B97;&#x7A0B;&#x5F0F;&#x4F7F;&#x7528;&#x8655;&#x7406;&#x5668;&#x6642;&#x9593;&#x91CF;&#x3002;</p>
+<ol>
+<li><strong>real</strong> time : &#x4E5F;&#x5C31;&#x662F; Wall-clock time&#xFF0C;&#x7576;&#x7136;&#x82E5;&#x6709;&#x5176;&#x4ED6;&#x7A0B;&#x5F0F;&#x540C;&#x6642;&#x5728;&#x57F7;&#x884C;&#xFF0C;&#x5FC5;&#x5B9A;&#x6703;&#x5F71;&#x97FF;&#x5230;&#x3002;</li>
+<li><strong>user</strong> time : &#x8868;&#x793A;&#x7A0B;&#x5F0F;&#x5728; user mode &#x4F54;&#x7528;&#x6240;&#x6709;&#x7684; CPU time &#x7E3D;&#x548C;&#x3002;</li>
+<li><strong>sys</strong> time : &#x8868;&#x793A;&#x7A0B;&#x5F0F;&#x5728; kernel mode &#x4F54;&#x7528;&#x6240;&#x6709;&#x7684; CPU time &#x7E3D;&#x548C; ( &#x76F4;&#x63A5;&#x6216;&#x9593;&#x63A5;&#x7684;&#x7CFB;&#x7D71;&#x547C;&#x53EB; )&#x3002;</li>
+</ol>
+<p>&#x5728;&#x55AE;&#x4E00;&#x8655;&#x7406;&#x5668;&#x7684;&#x60C5;&#x6CC1;&#x4E0B;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; <code>real - (user + sys)</code> &#x4F86;&#x8A08;&#x7B97; Wall-clock time &#x8207; CPU time &#x7684;&#x5DEE;&#x7570;&#x3002;&#x53EF;&#x4EE5;&#x7406;&#x89E3;&#x300C;&#x6240;&#x6709;&#x300D;&#x53EF;&#x4EE5;&#x5EF6;&#x9072;&#x7A0B;&#x5F0F;&#x7684;&#x56E0;&#x5B50;&#x7684;&#x7E3D;&#x548C;&#x3002;&#x5728; <a href="https://en.wikipedia.org/wiki/Symmetric_multiprocessing" target="_blank">SMP</a> &#x5E95;&#x4E0B;&#x53EF;&#x4EE5;&#x8FD1;&#x4F3C;&#x6210; <code>(real * &#x8655;&#x7406;&#x5668;&#x6578;&#x76EE;) - (user + sys)</code>&#x3002;&#x800C;&#x9019;&#x4E9B;&#x56E0;&#x5B50;&#x53EF;&#x80FD;&#x662F;:</p>
+<ol>
+<li>&#x5C07;&#x6587;&#x5B57;&#x6216;&#x8CC7;&#x6599;&#x8F38;&#x7A0B;&#x5F0F;&#x6240;&#x9700;&#x7684; I/O ( &#x5982; Network I/O, Disk I/O....)</li>
+<li>&#x53D6;&#x5F97;&#x5BE6;&#x969B;&#x8A18;&#x61B6;&#x9AD4;&#x4F9B;&#x7A0B;&#x5F0F;&#x4F7F;&#x7528;&#x6240;&#x9700;&#x7684; I/O</li>
+<li>&#x5176;&#x4ED6;&#x7A0B;&#x5F0F;&#x6240;&#x4F7F;&#x7528;&#x7684; CPU &#x7684;&#x6642;&#x9593;</li>
+<li>&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x6240;&#x4F7F;&#x7528;&#x7684; CPU &#x7684;&#x6642;&#x9593;</li>
+</ol>
+<p><a href="https://en.wikipedia.org/wiki/CPU-bound" target="_blank">CPU bound</a> &#x8207; <a href="https://en.wikipedia.org/wiki/I/O_bound" target="_blank">I/O bound</a></p>
+<p>&#x6240;&#x8B02; CPU bound&#xFF0C;&#x6307;&#x7684;&#x662F;&#x7A0B;&#x5E8F;&#x9700;&#x8981;&#x5927;&#x91CF;&#x7684; CPU computation (&#x5C0D; CPU time &#x9700;&#x6C42;&#x91CF;&#x5927;)&#xFF0C;&#x76F8;&#x6BD4;&#x4E4B;&#x4E0B;&#x50C5;&#x9700;&#x5C11;&#x91CF;&#x7684; I/O operation&#xFF0C;&#x6548;&#x80FD;&#x53D6;&#x6C7A;&#x65BC; CPU &#x901F;&#x5EA6;&#x3002;</p>
+<p>&#x6240;&#x8B02; I/O bound&#xFF0C;&#x9700;&#x8981;&#x5927;&#x91CF; I/O operation (I/O request &#x7684;&#x983B;&#x7387;&#x5F88;&#x9AD8;&#x6216;&#x4E00;&#x6B21; I/O request &#x6210;&#x672C;&#x5F88;&#x9AD8;)&#xFF0C;&#x4F46;&#x50C5;&#x9700;&#x5C11;&#x91CF;&#x7684; CPU computation&#xFF0C;&#x6548;&#x80FD;&#x53D6;&#x6C7A;&#x65BC; I/O device &#x901F;&#x5EA6;&#x3002;</p>
+<p>&#x5F88;&#x591A;&#x6642;&#x5019;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; time &#x5224;&#x65B7;&#x7A0B;&#x5F0F;&#x662F; CPU bound &#x9084;&#x662F; I/O bound&#x3002;</p>
+<ol>
+<li><code>real &lt; user</code>: &#x8868;&#x793A;&#x7A0B;&#x5F0F;&#x662F; CPU bound&#xFF0C;&#x4F7F;&#x7528;&#x5E73;&#x884C;&#x8655;&#x7406;&#x6709;&#x5F97;&#x5230;&#x597D;&#x8655;&#xFF0C;&#x6548;&#x80FD;&#x6709;&#x63D0;&#x6607;&#x3002;</li>
+<li><code>real &#x2252; user</code>: &#x8868;&#x793A;&#x7A0B;&#x5F0F;&#x662F; CPU bound&#xFF0C;&#x5373;&#x4F7F;&#x4F7F;&#x7528;&#x5E73;&#x884C;&#x8655;&#x7406;&#xFF0C;&#x6548;&#x80FD;&#x4E5F;&#x6C92;&#x6709;&#x660E;&#x986F;&#x63D0;&#x6607;&#xFF0C;&#x5E38;&#x898B;&#x7684;&#x539F;&#x56E0;&#x6709;&#x53EF;&#x80FD;&#x662F;&#x5176;&#x5BE6;&#x8A08;&#x7B97;&#x91CF;&#x6C92;&#x6709;&#x5F88;&#x5927;&#xFF0C;&#x751F;&#x6210;&#x3001;&#x8655;&#x7406;&#x3001;&#x7D50;&#x675F;&#x591A;&#x57F7;&#x884C;&#x7DD2;&#x7684; overhead &#x5403;&#x6389;&#x6240;&#x6709;&#x5E73;&#x884C;&#x8655;&#x7406;&#x7684;&#x597D;&#x8655;&#xFF0C;&#x6216;&#x662F;&#x7A0B;&#x5F0F;&#x76F8;&#x4F9D;&#x6027;&#x592A;&#x9AD8;&#xFF0C;&#x4E0D;&#x9069;&#x5408;&#x62FF;&#x4F86;&#x4F5C;&#x5E73;&#x884C;&#x8655;&#x7406;&#x3002;</li>
+<li><code>real &gt; user</code>: &#x8868;&#x793A;&#x7A0B;&#x5F0F;&#x662F; I/O bound&#xFF0C;&#x6210;&#x672C;&#x5927;&#x90E8;&#x5206;&#x70BA; I/O&#x64CD;&#x4F5C;&#xFF0C;&#x4F7F;&#x5F97;&#x5E73;&#x884C;&#x8655;&#x7406;&#x7121;&#x6CD5;&#x5E36;&#x4F86;&#x986F;&#x8457;&#x7684;&#x6548;&#x80FD;&#x63D0;&#x6607; ( &#x6216;&#x6C92;&#x6709;&#x63D0;&#x6607;)&#x3002;</li>
+</ol>
+<p>&#x5EF6;&#x4F38;&#x601D;&#x8003;:</p>
+<ul>
+<li>clock(), clock_gettime() &#x7684;&#x4F7F;&#x7528;</li>
+<li>time(), gettimeofday() &#x7684;&#x4F7F;&#x7528;</li>
+<li>&#x70BA;&#x4EC0;&#x9EBC; clock_gettime() &#x7D50;&#x679C;&#x98C4;&#x5FFD;&#x4E0D;&#x5B9A;&#xFF1F;</li>
+<li>&#x70BA;&#x4EC0;&#x9EBC; time() &#x548C; gettimeofday() &#x4E0D;&#x9069;&#x5408;&#x62FF;&#x4F86;&#x4F5C; benchmark ?</li>
+</ul>
+<h2 id="%E4%BD%9C%E6%A5%AD%E8%A6%81%E6%B1%82">&#x4F5C;&#x696D;&#x8981;&#x6C42;</h2>
+<ul>
+<li>&#x5728; GitHub &#x4E0A; fork <a href="https://github.com/sysprog21/compute-pi" target="_blank">compute-pi</a>&#xFF0C;&#x5617;&#x8A66;&#x91CD;&#x73FE;&#x5BE6;&#x9A57;&#xFF0C;&#x5305;&#x542B;&#x5206;&#x6790;&#x8F38;&#x51FA;<ul>
+<li>&#x6CE8;&#x610F;: &#x8981;&#x589E;&#x52A0;&#x5713;&#x5468;&#x7387;&#x8A08;&#x7B97;&#x904E;&#x7A0B;&#x4E2D;&#x8FED;&#x4EE3;&#x7684;&#x6578;&#x91CF;&#xFF0C;&#x5426;&#x5247;&#x6642;&#x9593;&#x592A;&#x77ED;&#x5C31;&#x770B;&#x4E0D;&#x51FA;&#x5DEE;&#x7570;</li>
+</ul>
+</li>
+<li>&#x8A73;&#x95B1;&#x5ED6;&#x5065;&#x5BCC;&#x63D0;&#x4F9B;&#x7684;<a href="https://hackpad.com/Hw1-Extcompute_pi-geXUeYjdv1I" target="_blank">&#x8A73;&#x76E1;&#x5206;&#x6790;</a>&#xFF0C;&#x7814;&#x7A76; error rate &#x7684;&#x8A08;&#x7B97;&#xFF0C;&#x4EE5;&#x53CA;&#x70BA;&#x4F55;&#x601D;&#x8003;&#x6211;&#x5011;&#x8A72;&#x7559;&#x610F;&#x5F8C;&#x8005;</li>
+<li>&#x7528; <a href="s/S1RVdgza">phonebok</a> &#x63D0;&#x5230;&#x7684; gnuplot &#x4F5C;&#x70BA; <code>$ make gencsv</code> &#x4EE5;&#x5916;&#x7684;&#x8F38;&#x51FA;&#x6A5F;&#x5236;&#xFF0C;&#x9810;&#x671F;&#x57F7;&#x884C; <code>$ make plot</code> &#x5F8C;&#xFF0C;&#x53EF;&#x900F;&#x904E; gnuplot &#x7522;&#x751F;&#x524D;&#x8FF0;&#x591A;&#x7A2E;&#x5BE6;&#x505A;&#x7684;&#x6548;&#x80FD;&#x5206;&#x6790;&#x6BD4;&#x8F03;&#x5716;&#x8868;</li>
+<li>&#x53EF;&#x5584;&#x7528; <a href="s/B1W5AWza">rayatracing</a> &#x63D0;&#x5230;&#x7684; OpenMP, software pipelining, &#x4EE5;&#x53CA; loop unrolling &#x4E00;&#x985E;&#x7684;&#x6280;&#x5DE7;&#x4F86;&#x52A0;&#x901F;&#x7A0B;&#x5F0F;&#x904B;&#x4F5C;</li>
+<li>&#x8A73;&#x95B1;&#x524D;&#x65B9; &quot;Wall-clock time vs. CPU time&quot;&#xFF0C;&#x601D;&#x8003;&#x5982;&#x4F55;&#x7CBE;&#x6E96;&#x8A08;&#x7B97;&#x6642;&#x9593;</li>
+<li>&#x9664;&#x4E86;&#x7814;&#x7A76;&#x7A0B;&#x5F0F;&#x4EE5;&#x5916;&#xFF0C;&#x8ACB;&#x8B49;&#x660E; <a href="https://en.wikipedia.org/wiki/Leibniz_formula_for_%CF%80" target="_blank">Leibniz formula for &#x3C0;</a>&#xFF0C;&#x4E26;&#x4E14;&#x627E;&#x51FA;&#x5176;&#x4ED6;&#x8A08;&#x7B97;&#x5713;&#x5468;&#x7387;&#x7684;&#x65B9;&#x6CD5;<ul>
+<li>&#x8ACB;&#x8A73;&#x95B1;<a href="https://embedded2015.hackpad.com/-Ext1-Week-1-5rm31U3BOmh" target="_blank">&#x8A31;&#x5143;&#x6770;&#x7684;&#x5171;&#x7B46;</a></li>
+</ul>
+</li>
+<li>&#x5C07;&#x4F60;&#x7684;&#x89C0;&#x5BDF;&#x3001;&#x5206;&#x6790;&#xFF0C;&#x4EE5;&#x53CA;&#x5404;&#x5F0F;&#x6548;&#x80FD;&#x6539;&#x5584;&#x904E;&#x7A0B;&#xFF0C;&#x4E26;&#x5584;&#x7528; gnuplot &#x88FD;&#x5716;&#xFF0C;&#x7D00;&#x9304;&#x65BC;&#x300C;<a href="https://hackmd.io/s/H1B7-hGp" target="_blank">&#x4F5C;&#x696D;&#x5340;</a>&#x300D;</li>
+</ul>
+<h2 id="%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99">&#x53C3;&#x8003;&#x8CC7;&#x6599;</h2>
+<ul>
+<li>Intel AVX Official Document<ul>
+<li><a href="https://software.intel.com/en-us/articles/introduction-to-intel-advanced-vector-extensions" target="_blank">Introduction to Intel&#xAE; Advanced Vector Extensions</a></li>
+<li><a href="https://software.intel.com/en-us/node/524041" target="_blank">Intrinsics for Arithmetic Operations</a> , <a href="https://software.intel.com/en-us/node/524118" target="_blank">Intrinsics for Miscellaneous Operations</a> </li>
+<li><a href="http://www.intel.com/content/dam/www/public/us/en/documents/manuals/64-ia-32-architectures-optimization-manual.pdf" target="_blank">Optimizations For Intel&#xAE; AVX, FMA AND AVX2 (chapter 11)</a> [PDF]</li>
+<li><a href="https://software.intel.com/sites/landingpage/IntrinsicsGuide/#expand=579,2050&amp;techs=AVX" target="_blank">Intrinsics Guide</a></li>
+</ul>
+</li>
+<li><a href="http://stackoverflow.com/questions/8389648/how-do-i-achieve-the-theoretical-maximum-of-4-flops-per-cycle" target="_blank">How do I achieve the theoretical maximum of 4 FLOPs per cycle?</a> [Stackoverflow]</li>
+<li><a href="https://github.com/nanoant/flops" target="_blank">nanoant / flops</a> , <a href="https://github.com/Mysticial/Flops" target="_blank">Mysticial / Flops</a> [GitHub]</li>
+<li><a href="http://pan.baidu.com/s/1tIXm8" target="_blank">MPI&#x4E0E;OpenMP&#x5E76;&#x884C;&#x7A0B;&#x5E8F;&#x8BBE;&#x8BA1;&#xFF1A;C&#x8BED;&#x8A00;&#x7248;</a> [PDF]</li>
+<li><a href="https://gcc.gnu.org/onlinedocs/gcc/Common-Variable-Attributes.html#Common-Variable-Attributes" target="_blank">Common Variable Attributes</a> [gcc.gnu.org]</li>
+<li>&#x6642;&#x9593;&#x8655;&#x7406;&#x8207; time &#x51FD;&#x5F0F;&#x4F7F;&#x7528;<ul>
+<li><a href="http://stackoverflow.com/questions/12392278/measure-time-in-linux-getrusage-vs-clock-gettime-vs-clock-vs-gettimeofday" target="_blank">Measure time in Linux - getrusage vs clock_gettime vs clock vs gettimeofday?</a> [Stackoverflow]</li>
+<li><a href="http://opencsl.openfoundry.org/Lab07_timer_interrupt.rst.html" target="_blank">Timer Interrupt</a> [Openfoundry]</li>
+<li><a href="https://wall-clock%20time/" target="_blank">Wall clock time</a> [Whatis.com]</li>
+<li><a href="http://unix.stackexchange.com/questions/40694/why-real-time-can-be-lower-than-user-time" target="_blank">Why real time can be lower than user time</a> [stackexchange]</li>
+<li><a href="http://stackoverflow.com/questions/6814792/why-is-clock-gettime-so-erratic" target="_blank">Why is clock_gettime so erratic?</a> [Stackoverflow]</li>
+<li><a href="https://blog.habets.se/2010/09/gettimeofday-should-never-be-used-to-measure-time" target="_blank">gettimeofday() should never be used to measure time</a></li>
+<li><a href="http://www-01.ibm.com/support/knowledgecenter/ssw_aix_53/com.ibm.aix.prftungd/doc/prftungd/performance_management-kickoff.htm?lang=zh-tw" target="_blank">&#x6548;&#x80FD;&#x7BA1;&#x7406;</a> [IBM Knowledge Center]</li>
+<li><a href="http://blog.gesha.net/archives/221/" target="_blank">linux &#x7CFB;&#x7D71;&#x6642;&#x9593;&#x548C;&#x786C;&#x4EF6;&#x6642;&#x9418;&#x554F;&#x984C; ( date &#x548C; hwclock )</a></li>
+<li><a href="http://blog.chinaunix.net/uid-20727076-id-3086954.html" target="_blank">linux &#x5899;&#x4E0A;&#x65F6;&#x95F4; xtime &#x4E0E;&#x9AD8;&#x7CBE;&#x5EA6;&#x65F6;&#x949F; gettimeofday</a></li>
+</ul>
+</li>
+</ul>
 
                     
                     </section>
@@ -14472,10 +14631,8 @@ iPods = <span class="hljs-keyword">new</span> C_ItemList;
         </div>
 
         
-        <a href="../treacecode/wang_wen_sheng_yi_ff0c_jin_er_tui_qiao_zu_jian_de_.html" class="navigation navigation-prev " aria-label="Previous page: 望文生義，進而推敲組件的作用"><i class="fa fa-angle-left"></i></a>
+        <a href="../ncku_embededd/a02_raytracing.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: A02: raytracing"><i class="fa fa-angle-left"></i></a>
         
-        
-        <a href="../treacecode/yue_du_de_le_qu_ff1a_tou_guo_cheng_shi_ma_ren_shi_.html" class="navigation navigation-next " aria-label="Next page: 閱讀的樂趣：透過程式碼認識作者"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

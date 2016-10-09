@@ -907,5 +907,5 @@
        * [A02: raytracing](ncku_embededd/a02_raytracing.md)
        * [A03: compute-pi](ncku_embededd/a03_compute-pi.md)
        * [A04: clz](ncku_embededd/a04_clz.md)
-       * A05: introspect
+       * [A05: introspect](ncku_embededd/a05_introspect.md)
 

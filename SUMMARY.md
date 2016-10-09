@@ -908,4 +908,5 @@
        * [A03: compute-pi](ncku_embededd/a03_compute-pi.md)
        * [A04: clz](ncku_embededd/a04_clz.md)
        * [A05: introspect](ncku_embededd/a05_introspect.md)
+       * A06: phonebook-concurrent
 

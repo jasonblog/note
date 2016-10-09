@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>linux系統編程之文件與IO（六）：實現ls -l功能 | Jason note</title>
+        <title>phonebook | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,8 @@
         
     
     
-    <link rel="next" href="../linux_system/linuxxi_tong_bian_cheng_zhi_wen_jian_yu_io_ff08_qi.html" />
     
-    
-    <link rel="prev" href="../linux_system/linuxxi_tong_bian_cheng_zhi_wen_jian_yu_io_ff08_wu.html" />
+    <link rel="prev" href="../ncku_embededd/mergesort-concurrent.html" />
     
 
         <!-- head:end -->
@@ -48,7 +46,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="13.1.6" data-basepath=".." data-revision="Sun Oct 09 2016 22:02:58 GMT+0800 (CST)">
+    <div class="book" data-level="59.1.7" data-basepath=".." data-revision="Sun Oct 09 2016 22:02:58 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -3672,7 +3670,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="13.1.6" data-path="linux_system/linuxxi_tong_bian_cheng_zhi_wen_jian_yu_io_ff08_li.html">
+        <li class="chapter " data-level="13.1.6" data-path="linux_system/linuxxi_tong_bian_cheng_zhi_wen_jian_yu_io_ff08_li.html">
             
                 
                     <a href="../linux_system/linuxxi_tong_bian_cheng_zhi_wen_jian_yu_io_ff08_li.html">
@@ -14245,7 +14243,7 @@
             
         </li>
     
-        <li class="chapter " data-level="59.1.7" data-path="ncku_embededd/phonebook.html">
+        <li class="chapter active" data-level="59.1.7" data-path="ncku_embededd/phonebook.html">
             
                 
                     <a href="../ncku_embededd/phonebook.html">
@@ -14376,292 +14374,141 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="linux%E7%B3%BB%E7%B5%B1%E7%B7%A8%E7%A8%8B%E4%B9%8B%E6%96%87%E4%BB%B6%E8%88%87io%EF%BC%88%E5%85%AD%EF%BC%89%EF%BC%9A%E5%AF%A6%E7%8F%BEls-l%E5%8A%9F%E8%83%BD">linux&#x7CFB;&#x7D71;&#x7DE8;&#x7A0B;&#x4E4B;&#x6587;&#x4EF6;&#x8207;IO&#xFF08;&#x516D;&#xFF09;&#xFF1A;&#x5BE6;&#x73FE;ls -l&#x529F;&#x80FD;</h1>
-<p>&#x672C;&#x6587;&#x5229;&#x7528;&#x4EE5;&#x4E0B;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x5BE6;&#x73FE;ls -l&#x547D;&#x4EE4;&#x7684;&#x529F;&#x80FD;&#xFF1A;</p>
-<h3 id="1%EF%BC%8Clstat%EF%BC%9A%E7%8D%B2%E5%BE%97%E6%96%87%E4%BB%B6%E7%8B%80%E6%85%8B">1&#xFF0C;lstat&#xFF1A;&#x7372;&#x5F97;&#x6587;&#x4EF6;&#x72C0;&#x614B;,</h3>
-<h3 id="2%EF%BC%8Cgetpwuid%EF%BC%9A">2&#xFF0C;getpwuid&#xFF1A;</h3>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;pwd.h&gt;</span></span>
-
-<span class="hljs-function"><span class="hljs-keyword">struct</span> passwd *<span class="hljs-title">getpwuid</span><span class="hljs-params">(uid_t uid)</span></span>;
-</code></pre>
-<p>&#x63CF;&#x8FF0;&#xFF1A;</p>
-<p>The getpwuid() function returns a pointer to a structure containing the broken-out fields of the record in the password database  that  matches the user ID uid.</p>
-<p>&#x8FD4;&#x56DE;&#x503C;&#xFF1A; </p>
-<pre><code class="lang-c">The passwd structure is defined in &lt;pwd.h&gt; as follows:
-
-    <span class="hljs-keyword">struct</span> passwd { 
-        <span class="hljs-keyword">char</span>   *pw_name;       <span class="hljs-comment">/* username */</span> 
-        <span class="hljs-keyword">char</span>   *pw_passwd;     <span class="hljs-comment">/* user password */</span> 
-        <span class="hljs-keyword">uid_t</span>   pw_uid;        <span class="hljs-comment">/* user ID */</span> 
-        <span class="hljs-keyword">gid_t</span>   pw_gid;        <span class="hljs-comment">/* group ID */</span> 
-        <span class="hljs-keyword">char</span>   *pw_gecos;      <span class="hljs-comment">/* real name */</span> 
-        <span class="hljs-keyword">char</span>   *pw_dir;        <span class="hljs-comment">/* home directory */</span> 
-        <span class="hljs-keyword">char</span>   *pw_shell;      <span class="hljs-comment">/* shell program */</span> 
-    };
-</code></pre>
-<p>&#x793A;&#x4F8B;&#xFF1A;</p>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;pwd.h&gt;</span></span>
-
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> ERR_EXIT(m) \
-    do \
-    { \
-        perror(m); \
-        exit(EXIT_FAILURE); \
-    } while(<span class="hljs-number">0</span>)</span>
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
-</span>{
-    <span class="hljs-keyword">uid_t</span> uid;
-    <span class="hljs-keyword">struct</span> passwd *pw;
-    uid = getuid();
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;current user id :%d\n&quot;</span>,uid);
-    <span class="hljs-keyword">if</span>((pw = getpwuid(uid)) == <span class="hljs-literal">NULL</span>)
-        ERR_EXIT(<span class="hljs-string">&quot;getpwuid error&quot;</span>);
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;username:%s\n&quot;</span>,pw-&gt;pw_name);
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;user passwd:%s\n&quot;</span>,pw-&gt;pw_passwd);
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;user ID:%d\n&quot;</span>,pw-&gt;pw_uid);
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;group ID:%d\n&quot;</span>,pw-&gt;pw_gid);
-    <span class="hljs-comment">//printf(&quot;real name:%s\n&quot;,pw-&gt;pw_gecos);</span>
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;home directory:%s\n&quot;</span>,pw-&gt;pw_dir);
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;shell program:%s\n&quot;</span>,pw-&gt;pw_shell);
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-}
-</code></pre>
-<p>&#x904B;&#x884C;&#x7D50;&#x679C;&#xFF1A;</p>
-<p><img src="images/mickole/10222053-ef72efcd773c4ae1ba5bd227f787535a.png" alt=""></p>
-<h3 id="3%EF%BC%8Cgetgrgid">3&#xFF0C;getgrgid:</h3>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;grp.h&gt;</span></span>
-
-<span class="hljs-function"><span class="hljs-keyword">struct</span> group *<span class="hljs-title">getgrnam</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *name)</span></span>;<span class="hljs-comment">//&#x6839;&#x64DA;&#x7D44;&#x540D;&#x7372;&#x5F97;&#x7D44;&#x4FE1;&#x606F;</span>
-
-<span class="hljs-function"><span class="hljs-keyword">struct</span> group *<span class="hljs-title">getgrgid</span><span class="hljs-params">(gid_t gid)</span></span>;<span class="hljs-comment">//&#x6839;&#x64DA;&#x7D44;ID&#x7372;&#x5F97;&#x7D44;&#x4FE1;&#x606F;</span>
-</code></pre>
-<p>&#x63CF;&#x8FF0;&#xFF1A;</p>
-<p>The getgrnam() function returns a pointer to a structure containing the broken-out  fields of the record in the group database (e.g., the local group file /etc/group, NIS, and LDAP) that matches the group name name.</p>
-<p>The getgrgid() function returns a pointer to a structure containing the broken-out fields of the record in the group database that matches  thegroup ID gid.</p>
-<p>&#x8FD4;&#x56DE;&#x503C;&#xFF1A;</p>
-<pre><code class="lang-c">The group structure is defined in &lt;grp.h&gt; as follows:
-
-    <span class="hljs-keyword">struct</span> group { 
-        <span class="hljs-keyword">char</span>   *gr_name;       <span class="hljs-comment">/* group name */</span> 
-        <span class="hljs-keyword">char</span>   *gr_passwd;     <span class="hljs-comment">/* group password */</span> 
-        <span class="hljs-keyword">gid_t</span>   gr_gid;        <span class="hljs-comment">/* group ID */</span> 
-        <span class="hljs-keyword">char</span>  **gr_mem;        <span class="hljs-comment">/* group members */</span> 
-    };
-</code></pre>
-<h3 id="4%EF%BC%8Creadlink-%E8%AE%80%E5%8F%96%E8%BB%9F%E9%8F%88%E6%8E%A5%E6%96%87%E4%BB%B6%E7%9A%84%E5%85%A7%E5%AE%B9">4&#xFF0C;readlink:&#x8B80;&#x53D6;&#x8EDF;&#x93C8;&#x63A5;&#x6587;&#x4EF6;&#x7684;&#x5167;&#x5BB9;</h3>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
-
-<span class="hljs-keyword">ssize_t</span> readlink(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *path, <span class="hljs-keyword">char</span> *buf, <span class="hljs-keyword">size_t</span> bufsiz);
-</code></pre>
-<p>&#x63CF;&#x8FF0;&#xFF1A;</p>
-<pre><code class="lang-c">DESCRIPTION 
-       readlink() places the contents of the symbolic link path in the  buffer 
-       buf,  which has size bufsiz.  readlink() does not append a null byte to 
-       buf.  It will truncate the contents (to a length of bufsiz characters), 
-       in case the buffer is too small to hold all of the contents.
-
-RETURN VALUE 
-       On  success,  readlink() returns the number of bytes placed in buf.  On 
-       error, -1 is returned and errno is set to indicate the error.
-</code></pre>
-<p>&#x793A;&#x4F8B;&#xFF1A;</p>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
-
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> ERR_EXIT(m) \
-    do \
-    { \
-        perror(m); \
-        exit(EXIT_FAILURE); \
-    } while(<span class="hljs-number">0</span>)</span>
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc,<span class="hljs-keyword">char</span> **argv)</span>
-</span>{
-    <span class="hljs-keyword">if</span>(argc != <span class="hljs-number">2</span>){
-        <span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>,<span class="hljs-string">&quot;usage:%s linkfile&quot;</span>, argv[<span class="hljs-number">0</span>]);
-        <span class="hljs-built_in">exit</span>(EXIT_FAILURE);
-    }
-
-    <span class="hljs-keyword">char</span> buf[<span class="hljs-number">1024</span>];
-
-    <span class="hljs-keyword">if</span>(readlink(argv[<span class="hljs-number">1</span>],buf,<span class="hljs-number">1024</span>) ==-<span class="hljs-number">1</span>)
-        ERR_EXIT(<span class="hljs-string">&quot;readlink error&quot;</span>);
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;the content of %s are: %s\n&quot;</span>,argv[<span class="hljs-number">1</span>],buf);
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-}
-</code></pre>
-<p>&#x904B;&#x884C;&#x7D50;&#x679C;&#xFF1A;</p>
-<p><img src="images/mickole/10222054-f9127c33a2294cf7b814a00a7ce6042f.png" alt=""></p>
-<p>&#x73FE;&#x5728;&#x5229;&#x7528;&#x76F8;&#x95DC;&#x7684;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x5BE6;&#x73FE;ls &#x2013;l&#x529F;&#x80FD;&#xFF1A;</p>
-<p>&#x7A0B;&#x5E8F;&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;dirent.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/stat.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;time.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;pwd.h&gt;</span> </span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;grp.h&gt;</span> </span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;libgen.h&gt;</span></span>
-
-
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> ERR_EXIT(m) \
-    do\
-    {\
-        perror(m);\
-        exit(EXIT_FAILURE);\
-    }while(<span class="hljs-number">0</span>)\
-</span>
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">lsdir</span><span class="hljs-params">(<span class="hljs-keyword">char</span> *dirname)</span></span>;
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">lsfile</span><span class="hljs-params">(<span class="hljs-keyword">char</span> *filename)</span></span>;
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">lsfile</span><span class="hljs-params">(<span class="hljs-keyword">char</span> *filename)</span></span>;
-<span class="hljs-function"><span class="hljs-keyword">char</span> <span class="hljs-title">getFileType</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> stat *fstat)</span></span>;
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">getFilePerm</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> stat *st, <span class="hljs-keyword">char</span> *perm)</span></span>;
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc,<span class="hljs-keyword">char</span> **argv)</span>
-</span>{
-
-    <span class="hljs-keyword">if</span>(argc != <span class="hljs-number">2</span>){
-        <span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>,<span class="hljs-string">&quot;usage:%s [filepath]\n&quot;</span>,argv[<span class="hljs-number">0</span>]);
-        <span class="hljs-built_in">exit</span>(EXIT_FAILURE);
-    }
-    <span class="hljs-keyword">struct</span> stat fstat;
-    <span class="hljs-keyword">if</span>(lstat(argv[<span class="hljs-number">1</span>],&amp;fstat) == -<span class="hljs-number">1</span>)
-        ERR_EXIT(<span class="hljs-string">&quot;STAT ERROR&quot;</span>);
-
-    <span class="hljs-keyword">if</span>(S_ISDIR(fstat.st_mode))
-    {
-        lsdir(argv[<span class="hljs-number">1</span>]);
-    }
-    <span class="hljs-keyword">else</span>{
-        lsfile(argv[<span class="hljs-number">1</span>]);
-    }
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-}
-
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">lsdir</span><span class="hljs-params">(<span class="hljs-keyword">char</span> *dirname)</span>
-</span>{
-    DIR *dir;
-    <span class="hljs-keyword">char</span> filename[<span class="hljs-number">100</span>] = {<span class="hljs-number">0</span>};
-    dir =opendir(dirname); 
-    <span class="hljs-keyword">if</span>(dir == <span class="hljs-literal">NULL</span>)
-        ERR_EXIT(<span class="hljs-string">&quot;opendir error&quot;</span>);
-    <span class="hljs-keyword">struct</span> dirent *dentry;
-    <span class="hljs-keyword">while</span>((dentry = readdir(dir)) != <span class="hljs-literal">NULL</span>)
-    {
-
-        <span class="hljs-keyword">char</span> *fname;
-        fname = dentry-&gt;d_name;
-        <span class="hljs-keyword">if</span>(<span class="hljs-built_in">strncmp</span>(fname,<span class="hljs-string">&quot;.&quot;</span>,<span class="hljs-number">1</span>) == <span class="hljs-number">0</span>)
-            <span class="hljs-keyword">continue</span>;
-        <span class="hljs-built_in">sprintf</span>(filename,<span class="hljs-string">&quot;%s/%s&quot;</span>,dirname,fname);
-        lsfile(filename);
-    }
-
-    closedir(dir);
-
-}
-
-<span class="hljs-comment">//-rw-r--r--.   1            zxy        zxy        2586        Jul 10 17:00    ls.c</span>
-<span class="hljs-comment">//&#x985E;&#x578B;&#x53CA;&#x6B0A;&#x9650;  &#x786C;&#x93C8;&#x63A5;&#x6578;        &#x64C1;&#x6709;&#x8005;    &#x6240;&#x5C6C;&#x7D44;    &#x6587;&#x4EF6;&#x5927;&#x5C0F;    &#x5275;&#x5EFA;&#x6642;&#x9593;        &#x6587;&#x4EF6;&#x540D;</span>
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">lsfile</span><span class="hljs-params">(<span class="hljs-keyword">char</span> *filename)</span>
-</span>{
-    <span class="hljs-keyword">struct</span> stat tmpstat;
-    <span class="hljs-keyword">if</span>(lstat(filename,&amp;tmpstat) == -<span class="hljs-number">1</span>)
-        ERR_EXIT(<span class="hljs-string">&quot;STAT ERROR&quot;</span>);
-    <span class="hljs-keyword">char</span> buf[<span class="hljs-number">11</span>]= {<span class="hljs-number">0</span>};
-    <span class="hljs-built_in">strcpy</span>(buf,<span class="hljs-string">&quot;----------&quot;</span>);
-    <span class="hljs-keyword">char</span> type;
-    type = getFileType(&amp;tmpstat);
-    <span class="hljs-keyword">char</span> *bname = basename(filename);
-    buf[<span class="hljs-number">0</span>] = type;
-    <span class="hljs-keyword">if</span>(type == <span class="hljs-string">&apos;l&apos;</span>){
-        <span class="hljs-keyword">char</span> content[<span class="hljs-number">1024</span>];
-        <span class="hljs-keyword">if</span>(readlink(filename,content,<span class="hljs-number">1024</span>) == -<span class="hljs-number">1</span>)
-            ERR_EXIT(<span class="hljs-string">&quot;readlink error&quot;</span>);
-        <span class="hljs-built_in">sprintf</span>(bname,<span class="hljs-string">&quot;%s -&gt; %s&quot;</span>,bname,content);
-
-    }
-    getFilePerm(&amp;tmpstat,buf);
-    <span class="hljs-keyword">struct</span> tm *ftime;
-    ftime = localtime(&amp;tmpstat.st_mtime);
-
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s %d %s %s %10ld %02d %02d %02d:%02d %s\n&quot;</span>,
-        buf,tmpstat.st_nlink,
-        getpwuid(tmpstat.st_uid)-&gt;pw_name,
-        getgrgid(tmpstat.st_gid)-&gt;gr_name,
-        tmpstat.st_size,
-        ftime-&gt;tm_mon+<span class="hljs-number">1</span>,
-        ftime-&gt;tm_mday,
-        ftime-&gt;tm_hour,
-        ftime-&gt;tm_min,
-        bname);
-
-}
-
-<span class="hljs-comment">//&#x7372;&#x5F97;&#x6587;&#x4EF6;&#x985E;&#x578B;</span>
-<span class="hljs-function"><span class="hljs-keyword">char</span> <span class="hljs-title">getFileType</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> stat *st)</span>
-</span>{
-    <span class="hljs-keyword">char</span> type = <span class="hljs-string">&apos;-&apos;</span>;
-    <span class="hljs-keyword">switch</span> (st-&gt;st_mode  &amp; S_IFMT)
-    {
-        <span class="hljs-keyword">case</span> S_IFSOCK:
-        type = <span class="hljs-string">&apos;s&apos;</span>;
-                <span class="hljs-keyword">break</span>;
-        <span class="hljs-keyword">case</span> S_IFLNK:
-        type = <span class="hljs-string">&apos;l&apos;</span>;
-                <span class="hljs-keyword">break</span>;
-        <span class="hljs-keyword">case</span> S_IFREG:
-        type = <span class="hljs-string">&apos;-&apos;</span>;
-                <span class="hljs-keyword">break</span>;
-        <span class="hljs-keyword">case</span> S_IFBLK:
-        type = <span class="hljs-string">&apos;b&apos;</span>;
-                <span class="hljs-keyword">break</span>;
-        <span class="hljs-keyword">case</span> S_IFDIR:
-        type = <span class="hljs-string">&apos;d&apos;</span>;
-                <span class="hljs-keyword">break</span>;
-        <span class="hljs-keyword">case</span> S_IFCHR:
-        type = <span class="hljs-string">&apos;c&apos;</span>;
-                <span class="hljs-keyword">break</span>;
-        <span class="hljs-keyword">case</span> S_IFIFO:
-        type = <span class="hljs-string">&apos;p&apos;</span>;
-                <span class="hljs-keyword">break</span>;
-    }
-    <span class="hljs-keyword">return</span> type;
-}
-
-<span class="hljs-comment">//&#x7372;&#x5F97;&#x6587;&#x4EF6;&#x8A2A;&#x554F;&#x6B0A;&#x9650;</span>
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">getFilePerm</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> stat *st, <span class="hljs-keyword">char</span> *perm)</span>
-</span>{
-    <span class="hljs-keyword">mode_t</span> mode = st-&gt;st_mode;
-    <span class="hljs-keyword">if</span> (mode &amp; S_IRUSR)
-        perm[<span class="hljs-number">1</span>] = <span class="hljs-string">&apos;r&apos;</span>;
-    <span class="hljs-keyword">if</span> (mode &amp; S_IWUSR)
-        perm[<span class="hljs-number">2</span>] = <span class="hljs-string">&apos;w&apos;</span>;
-    <span class="hljs-keyword">if</span> (mode &amp; S_IXUSR)
-        perm[<span class="hljs-number">3</span>] = <span class="hljs-string">&apos;x&apos;</span>;
-    <span class="hljs-keyword">if</span> (mode &amp; S_IRGRP)
-        perm[<span class="hljs-number">4</span>] = <span class="hljs-string">&apos;r&apos;</span>;
-    <span class="hljs-keyword">if</span> (mode &amp; S_IWGRP)
-        perm[<span class="hljs-number">5</span>] = <span class="hljs-string">&apos;w&apos;</span>;
-    <span class="hljs-keyword">if</span> (mode &amp; S_IXGRP)
-        perm[<span class="hljs-number">6</span>] = <span class="hljs-string">&apos;x&apos;</span>;
-    <span class="hljs-keyword">if</span> (mode &amp; S_IROTH)
-        perm[<span class="hljs-number">7</span>] = <span class="hljs-string">&apos;r&apos;</span>;
-    <span class="hljs-keyword">if</span> (mode &amp; S_IWOTH)
-        perm[<span class="hljs-number">8</span>] = <span class="hljs-string">&apos;w&apos;</span>;
-    <span class="hljs-keyword">if</span> (mode &amp; S_IXOTH)
-        perm[<span class="hljs-number">9</span>] = <span class="hljs-string">&apos;x&apos;</span>;
-}
-</code></pre>
-<p>&#x904B;&#x884C;&#x7D50;&#x679C;&#xFF1A;</p>
-<p><img src="images/mickole/10222055-68d4119fdad4427ea338089a6e0b7707.png" alt=""></p>
+                        <h1 id="phonebook">phonebook</h1>
+<p>&#xFEFF;# A01: phonebook</p>
+<p>&#x4F5C;&#x696D;&#x89E3;&#x8AAA; <a href="https://www.youtube.com/watch?v=ZICRLKf_bVw" target="_blank">video</a>&#xFF0C;&#x8ACB;&#x5C0D;&#x7167;&#x89C0;&#x770B;</p>
+<h2 id="%E9%A0%90%E6%9C%9F%E7%9B%AE%E6%A8%99">&#x9810;&#x671F;&#x76EE;&#x6A19;</h2>
+<ul>
+<li>&#x6E96;&#x5099; GNU/Linux &#x958B;&#x767C;&#x5DE5;&#x5177;</li>
+<li>&#x5B78;&#x7FD2;&#x4F7F;&#x7528; Git &#x8207; GitHub</li>
+<li>&#x5B78;&#x7FD2;&#x6548;&#x80FD;&#x5206;&#x6790;&#x5DE5;&#x5177;</li>
+<li>&#x7814;&#x7A76;&#x8EDF;&#x9AD4;&#x6700;&#x4F73;&#x5316;</li>
+</ul>
+<h2 id="linux-%E6%95%88%E8%83%BD%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7-perf">Linux &#x6548;&#x80FD;&#x5206;&#x6790;&#x5DE5;&#x5177;: Perf</h2>
+<ul>
+<li>Perf &#x5168;&#x540D;&#x662F; Performance Event&#xFF0C;&#x662F;&#x5728; Linux 2.6.31 &#x4EE5;&#x5F8C;&#x5167;&#x5EFA;&#x7684;&#x7CFB;&#x7D71;&#x6548;&#x80FD;&#x5206;&#x6790;&#x5DE5;&#x5177;&#xFF0C;&#x5B83;&#x96A8;&#x8457;&#x6838;&#x5FC3;&#x4E00;&#x4F75;&#x91CB;&#x51FA;&#x3002;&#x85C9;&#x7531; perf&#xFF0C;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x53EF;&#x4EE5;&#x5229;&#x7528; PMU (Performance Monitoring Unit), tracepoint &#x548C;&#x6838;&#x5FC3;&#x5167;&#x90E8;&#x7684;&#x7279;&#x6B8A;&#x8A08;&#x6578;&#x5668; (counter) &#x4F86;&#x9032;&#x884C;&#x7D71;&#x8A08;&#xFF0C;&#x53E6;&#x5916;&#x9084;&#x80FD;&#x540C;&#x6642;&#x5206;&#x6790;&#x904B;&#x884C;&#x4E2D;&#x7684;&#x6838;&#x5FC3;&#x7A0B;&#x5F0F;&#x78BC;&#xFF0C;&#x5F9E;&#x800C;&#x66F4;&#x5168;&#x9762;&#x4E86;&#x89E3;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x4E2D;&#x7684;&#x6548;&#x80FD;&#x74F6;&#x9838;</li>
+<li>&#x8A73;&#x7D30;&#x95B1;&#x8B80; <a href="http://wiki.csie.ncku.edu.tw/embedded/perf-tutorial" target="_blank">Linux &#x6548;&#x80FD;&#x5206;&#x6790;&#x5DE5;&#x5177;: Perf</a> &#x4E26;&#x5728;&#x81EA;&#x5DF1;&#x7684; Linux &#x958B;&#x767C;&#x74B0;&#x5883;&#x5BE6;&#x9A57;</li>
+</ul>
+<h2 id="%E6%A1%88%E4%BE%8B%E6%8E%A2%E8%A8%8E%EF%BC%9A%E9%9B%BB%E8%A9%B1%E7%B0%BF%E6%90%9C%E5%B0%8B">&#x6848;&#x4F8B;&#x63A2;&#x8A0E;&#xFF1A;&#x96FB;&#x8A71;&#x7C3F;&#x641C;&#x5C0B;</h2>
+<ul>
+<li>&#x8A73;&#x7D30;&#x95B1;&#x8B80; <a href="https://hackmd.io/s/S1rbwmZ6" target="_blank">Programming Small</a> &#x88E1;&#x982D;&#x7684;&#x96FB;&#x8A71;&#x7C3F;&#x7A0B;&#x5F0F;&#xFF0C;&#x7814;&#x7A76;&#x964D;&#x4F4E; cache miss &#x7684;&#x65B9;&#x6CD5;</li>
+<li>&#x96D6;&#x7136;&#x9019;&#x662F;&#x63A2;&#x8A0E; cache miss &#x548C;&#x6548;&#x80FD;&#x8B70;&#x984C;&#xFF0C;&#x5176;&#x5BE6;&#x662F;&#x5E36;&#x8457;&#x540C;&#x5B78;&#x91CD;&#x65B0;&#x8907;&#x7FD2; C &#x8A9E;&#x8A00;&#x548C;&#x8CC7;&#x6599;&#x7D50;&#x69CB;&#x3002;&#x4EE5;&#x524D;&#x5927;&#x5BB6;&#x53EA;&#x662F;&#x300C;&#x80CC;&#x8AA6;&#x5FC3;&#x6CD5;&#x300D;&#xFF0C;&#x5F9E;&#x4F86;&#x5C31;&#x4E0D;&#x6703;&#x53BB;&#x7406;&#x89E3;&#x500B;&#x5225;&#x8CC7;&#x6599;&#x7D50;&#x69CB;&#x5C0D;&#x6574;&#x9AD4;&#x7684;&#x885D;&#x64CA;&#x3002;</li>
+<li>&#x81EA; GitHub &#x53D6;&#x5F97;&#x4F5C;&#x696D;&#x7A0B;&#x5F0F;&#x78BC; (&#x57FA;&#x790E;)<pre><code>$ git clone https://github.com/sysprog21/phonebook/
+$ cd phonebook
+</code></pre></li>
+<li>&#x7DE8;&#x8B6F;<pre><code>$ make
+</code></pre></li>
+<li>&#x6E2C;&#x8A66;&#x3002;&#x7576;&#x770B;&#x5230; <code>[sudo] password for</code> &#x5B57;&#x6A23;&#x6642;&#xFF0C;&#x8F38;&#x5165;&#x81EA;&#x5DF1;&#x7684; Linux &#x4F7F;&#x7528;&#x5E33;&#x865F;&#x5BC6;&#x78BC;<pre><code>$ make run
+</code></pre></li>
+<li>&#x53C3;&#x8003;&#x8F38;&#x51FA;&#xFF1A; (&#x6309;&#x4E0B; <code>Ctrl</code>-<code>C</code> &#x53EF;&#x4EE5;&#x96E2;&#x958B;&#x756B;&#x9762;)<pre><code>size of entry : 136 bytes
+execution time of append() : 0.043859 sec
+execution time of findName() : 0.004776 sec
+</code></pre></li>
+<li>&#x900F;&#x904E; gnuplot &#x5EFA;&#x7ACB;&#x57F7;&#x884C;&#x6642;&#x9593;&#x7684;&#x5716;&#x8868; (&#x4FDD;&#x6301;&#x8010;&#x5FC3;&#x7B49;&#x5F85;&#xFF0C;&#x4E2D;&#x9593;&#x904E;&#x7A0B;&#x4E0D;&#x8981;&#x5207;&#x63DB;&#x8996;&#x7A97;)<pre><code>$ make plot
+</code></pre></li>
+<li>&#x6B63;&#x78BA;&#x57F7;&#x884C;&#x5F8C;&#xFF0C;&#x76EE;&#x9304;&#x88E1;&#x982D;&#x6703;&#x6709;&#x500B;&#x540D;&#x70BA; <code>runtime.png</code>&#xFF0C;&#x53EF;&#x7528; <code>eog runtime.png</code> &#x547D;&#x4EE4;&#x4F86;&#x89C0;&#x770B;</li>
+</ul>
+<h1 id="%E5%96%84%E7%94%A8-gnuplot-%E4%BE%86%E8%A3%BD%E5%9C%96">&#x5584;&#x7528; gnuplot &#x4F86;&#x88FD;&#x5716;</h1>
+<ul>
+<li>&#x5F9E;&#x4ECA;&#x5929;&#x8D77;&#x5FD8;&#x8A18; Microsoft Excel&#xFF0C;&#x56E0;&#x70BA; gnuplot &#x53EF;&#x4EE5;&#x7D66;&#x4F60;&#x66F4;&#x5C08;&#x696D;&#x7684;&#x5716;&#x8868;&#xFF0C;&#x800C;&#x4E14;&#x80FD;&#x5920;&#x6279;&#x6B21;&#x7522;&#x751F;</li>
+<li>&#x5148;&#x555F;&#x52D5; gnuplot:<pre><code>$ gnuplot
+</code></pre></li>
+<li><p>gnuplot &#x555F;&#x52D5;&#x5F8C;&#xFF0C;&#x9700;&#x8981;&#x505A;&#x4E00;&#x4E9B;&#x5FC5;&#x8981;&#x8A2D;&#x5B9A;&#xFF0C;&#x4F8B;&#x5982;&#x8A2D;&#x5B9A;&#x5716;&#x7247;&#x540D;&#x7A31;&#xFF0C;XY&#x8EF8;&#x7684;&#x8CC7;&#x8A0A;&#x7B49;&#x7B49;:</p>
+<pre><code>&gt; set title &apos;my plot&apos;           &#xFF20;&#x8A2D;&#x5B9A;&#x5716;&#x7247;&#x540D;&#x7A31;
+&gt; set xlabel &apos;x axis&apos;           &#xFF20;&#x8A2D;&#x5B9A;XY&#x8EF8;&#x5EA7;&#x6A19;&#x540D;&#x7A31;
+&gt; set ylabel &apos;y axis&apos;
+&gt; set terminal png              &#xFF20;&#x8A2D;&#x5B9A;&#x8F38;&#x51FA;&#x683C;&#x5F0F;&#x70BA; .png
+&gt; set output &apos;output_plot.png&apos;  &#xFF20;&#x8A2D;&#x5B9A;&#x8F38;&#x51FA;&#x6A94;&#x540D;
+&gt; plot [1:10][0:1] sin(x)       &#xFF20;&#x756B;&#x51FA; sin(x) &#x51FD;&#x5F0F;
+                            @x&#x8EF8;&#x5EA7;&#x6A19;&#x7BC4;&#x570D; 1-10
+                            @y&#x8EF8;&#x5EA7;&#x6A19;&#x7BC4;&#x570D; 0-1
+</code></pre></li>
+<li><p>&#x53EF;&#x4EE5;&#x5C07;&#x9019;&#x4E9B;&#x8A2D;&#x5B9A;&#x53E6;&#x5916;&#x5B58;&#x6210;&#x4E00;&#x500B;&#x6A94;&#x6848;&#xFF0C;&#x4F5C;&#x70BA; gnuplot &#x7684;&#x8173;&#x672C;&#x3002;&#x5047;&#x8A2D;&#x4E0A;&#x8FF0;&#x6307;&#x4EE4;&#x5B58;&#x5728;&#x4E00;&#x500B;&#x540D;&#x70BA; plot &#x7684;&#x6A94;&#x6848;&#x88E1;&#x9762;&#xFF0C;&#x4EE5;&#x5F8C;&#x53EA;&#x8981;&#x8F38;&#x5165; <code>gnuplot plot</code> &#x5373;&#x53EF;&#x756B;&#x51FA;&#x6211;&#x5011;&#x60F3;&#x8981;&#x7684;&#x5716;&#x8868;&#x3002;</p>
+</li>
+<li>&#x53C3;&#x8003;&#x5716;&#x8868;: <img src="http://wiki.csie.ncku.edu.tw/embedded/2016q1h1/gnuplot.png" alt=""></li>
+</ul>
+<h2 id="%E4%BD%BF%E7%94%A8-astyle-git-%E5%AF%A6%E5%81%9A%E8%87%AA%E5%8B%95%E7%A8%8B%E5%BC%8F%E7%A2%BC%E6%8E%92%E7%89%88%E6%AA%A2%E6%9F%A5">&#x4F7F;&#x7528; astyle + Git &#x5BE6;&#x505A;&#x81EA;&#x52D5;&#x7A0B;&#x5F0F;&#x78BC;&#x6392;&#x7248;&#x6AA2;&#x67E5;</h2>
+<ul>
+<li>&#x4F7F;&#x7528;&#x4E00;&#x81F4;&#x7684; coding style &#x5F88;&#x91CD;&#x8981;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x900F;&#x904E; astyle &#x9019;&#x500B;&#x5DE5;&#x5177;&#x4F86;&#x5354;&#x52A9;&#x3002;&#x8ABF;&#x6574;&#x4F5C;&#x696D;&#x7A0B;&#x5F0F;&#x8981;&#x6C42;&#x7684;&#x98A8;&#x683C;&#x70BA;&#x4EE5;&#x4E0B;:<pre><code>$ astyle --style=kr --indent=spaces=4 --indent-switches --suffix=none *.[ch]
+</code></pre></li>
+<li>&#x4F60;&#x53EF;&#x4EE5;&#x60F3;&#x50CF; Apple &#x548C; Google &#x7684;&#x5DE5;&#x7A0B;&#x5E2B;&#x96A8;&#x4FBF;&#x5B89;&#x7F6E;&#x7A0B;&#x5F0F;&#x78BC;&#xFF0C;&#x7136;&#x5F8C;&#x4E0D;&#x7528;&#x7BA1;&#x5408;&#x4F5C;&#x7684;&#x8B70;&#x984C;&#x55CE;&#xFF1F;<ul>
+<li>&#x5373;&#x4FBF;&#x4E00;&#x500B;&#x4EBA;&#x5BEB;&#x4F5C;&#x696D;&#xFF0C;&#x5176;&#x5BE6;&#x662F;&#x4E09;&#x4EBA;&#x7684;&#x53C3;&#x8207;&#xFF1A;&#x904E;&#x53BB;&#x7684;&#x4F60;&#x3001;&#x73FE;&#x5728;&#x7684;&#x4F60;&#xFF0C;&#x4EE5;&#x53CA;&#x672A;&#x4F86;&#x7684;&#x4F60;</li>
+</ul>
+</li>
+<li>&#x5B89;&#x88DD; Git pre-commit hook &#x53EF;&#x5728;&#x6BCF;&#x6B21; <code>git commit</code> &#x6642;&#xFF0C;&#x6AA2;&#x67E5; C/C++ &#x539F;&#x59CB;&#x7A0B;&#x5F0F;&#x78BC;&#x7684;&#x98A8;&#x683C;&#x662F;&#x5426;&#x4E00;&#x81F4;:<pre><code>$ ln -sf ../../scripts/pre-commit.hook .git/hooks/pre-commit
+</code></pre></li>
+<li>&#x6211;&#x5011;&#x4ECB;&#x7D39; <a href="https://goo.gl/CNMHZJ" target="_blank">Git hooks</a> &#x662F;&#x70BA;&#x4E86;&#x65E5;&#x5F8C;&#x929C;&#x63A5; Continuous integration (CI)&#xFF0C;&#x5C08;&#x696D;&#x7A0B;&#x5F0F;&#x8A2D;&#x8A08;&#x5FC5;&#x5099;&#x7684;&#x6E96;&#x5099;&#x5DE5;&#x4F5C;<ul>
+<li>&#x4EFB;&#x4F55;&#x4EBA;&#x90FD;&#x53EF;&#x4EE5;&#x5BEB;&#x51FA;&#x6A5F;&#x5668;&#x770B;&#x5F97;&#x61C2;&#x7684;&#x7A0B;&#x5F0F;&#x78BC; (&#x5728;&#x6A94;&#x6848;&#x7E3D;&#x7BA1;&#x88E1;&#x9762;&#x5C0D; EXE &#x6A94;&#x8907;&#x88FD;&#x8CBC;&#x4E0A;&#x5373;&#x53EF;)&#xFF0C;&#x4F46;&#x6211;&#x5011;&#x4E4B;&#x6240;&#x4EE5;&#x5230;&#x8CC7;&#x8A0A;&#x5DE5;&#x7A0B;&#x7CFB;&#x63A5;&#x53D7;&#x8A13;&#x7DF4;&#xFF0C;&#x70BA;&#x4E86;&#x5BEB;&#x51FA;&#x4EBA;&#x770B;&#x5F97;&#x61C2;&#x3001;&#x53EF;&#x6301;&#x7E8C;&#x7DAD;&#x8B77;&#x548C;&#x6539;&#x9032;&#x7684;&#x7A0B;&#x5F0F;</li>
+</ul>
+</li>
+<li>&#x4E0B;&#x5716;&#x5C55;&#x793A; Git pre-commit hook &#x5075;&#x6E2C;&#x5230;&#x958B;&#x767C;&#x8005;&#x7684;&#x4FEE;&#x6539;&#x4E26;&#x672A;&#x9075;&#x5B88;&#x4E00;&#x81F4;&#x7684; coding style&#xFF0C;&#x4E3B;&#x52D5;&#x56DE;&#x5831;&#x4E26;&#x63D0;&#x9192;&#x958B;&#x767C;&#x8005;: 
+<img src="http://wiki.csie.ncku.edu.tw/embedded/2016q1h1/git-hook.jpg" alt=""></li>
+</ul>
+<h2 id="%E4%BD%9C%E6%A5%AD%E8%A6%81%E6%B1%82">&#x4F5C;&#x696D;&#x8981;&#x6C42;</h2>
+<ul>
+<li><p>&#x5728; GitHub &#x4E0A; fork <a href="https://github.com/sysprog21/phonebook/" target="_blank">phonebook</a>&#xFF0C;&#x7136;&#x5F8C;&#x9069;&#x5EA6;&#x4FEE;&#x6539; <code>phonebook_opt.c</code> &#x548C; <code>phonebook_opt.h</code> &#x5169;&#x500B;&#x6A94;&#x6848;&#xFF0C;&#x4F7F;&#x5F97;&#x9019;&#x5169;&#x8005;&#x57F7;&#x884C;&#x6642;&#x671F;&#x7684; cache miss &#x964D;&#x4F4E;&#x3002;&#x8ACB;&#x7528; perf &#x9A57;&#x8B49;&#xFF0C;&#x800C;&#x4E14;&#x6539;&#x9032;&#x7684;&#x904E;&#x7A0B;&#x4E2D;&#xFF0C;&#x4E0D;&#x80FD;&#x6709;&#x529F;&#x80FD;&#x65B9;&#x9762;&#x7684;&#x6E1B;&#x640D;&#x3002;</p>
+<ul>
+<li><code>phonebook_orig.[ch]</code> &#x4E0D;&#x9700;&#x8981;&#x4FEE;&#x6539;&#xFF0C;&#x6211;&#x5011;&#x95DC;&#x6CE8;&#x7684;&#x662F; <code>phonebook_opt.[ch]</code>&#xFF0C;&#x7576;&#x7136;&#x8981;&#x4FEE;&#x6539; <code>main.c</code> &#x4E5F;&#x662F;&#x5141;&#x8A31;&#x7684;</li>
+<li><code>findName()</code> &#x7684;&#x6642;&#x9593;&#x5FC5;&#x9808;&#x539F;&#x672C;&#x7684;&#x6642;&#x9593;&#x66F4;&#x77ED;</li>
+<li><code>append()</code> &#x7684;&#x6642;&#x9593;&#x53EF;&#x4EE5;&#x6BD4;&#x539F;&#x59CB;&#x7248;&#x672C;&#x7A0D;&#x4E45;&#xFF0C;&#x4F46;&#x4E0D;&#x61C9;&#x8A72;&#x589E;&#x52A0;&#x592A;&#x591A;</li>
+<li><code>main.c</code> &#x61C9;&#x8A72;&#x53EA;&#x6709;&#x4E00;&#x4EFD;&#xFF0C;&#x4E0D;&#x8981;&#x5EFA;&#x7ACB;&#x65B0;&#x7684; <code>main()</code>&#xFF0C;&#x5584;&#x7528; Makefile &#x5B9A;&#x7FA9;&#x5C0D;&#x61C9;&#x7684; <code>CFLAGS</code></li>
+<li><p>&#x5728;&#x57F7;&#x884C;&#x7A0B;&#x5F0F;(<code>phonebook_orig</code> &#x548C; <code>phonebook_opt</code>) &#x524D;&#xFF0C;&#x5148;&#x6E05;&#x7A7A; cache:</p>
+<pre><code>$ echo 1 | sudo tee /proc/sys/vm/drop_caches
+</code></pre></li>
+</ul>
+</li>
+<li><p>&#x9664;&#x4E86;&#x4FEE;&#x6539;&#x7A0B;&#x5F0F;&#xFF0C;&#x4E5F;&#x8981;&#x7DE8;&#x8F2F;&#x300C;<a href="https://hackmd.io/s/H1B7-hGp" target="_blank">&#x4F5C;&#x696D;&#x5340;</a>&#x300D;&#xFF0C;&#x589E;&#x6DFB;&#x958B;&#x767C;&#x7D00;&#x9304;&#x548C; GitHub &#x9023;&#x7D50;</p>
+<ul>
+<li>&#x81F3;&#x5C11;&#x8981;&#x5217;&#x51FA;&#x6548;&#x80FD;&#x5206;&#x6790;&#xFF0C;&#x4EE5;&#x53CA;&#x5145;&#x4EFD;&#x8AAA;&#x660E;&#x4F60;&#x5982;&#x4F55;&#x6539;&#x5584;&#x6548;&#x80FD;</li>
+</ul>
+</li>
+<li>&#x52D9;&#x5FC5;&#x4F7F;&#x7528; astyle &#x4F86;&#x5C0D;&#x7A0B;&#x5F0F;&#x78BC;&#x9032;&#x884C;&#x6392;&#x7248;&#xFF0C;&#x8A73;&#x7D30;&#x4F7F;&#x7528;&#x65B9;&#x5F0F;&#x898B; <a href="https://github.com/embedded2016/phonebook/blob/master/README.md" target="_blank">README.md</a></li>
+<li>&#x672C;&#x4F8B;&#x9078;&#x7528;&#x7684; dataset (&#x4E5F;&#x5C31;&#x662F;&#x8F38;&#x5165;&#x96FB;&#x8A71;&#x7C3F;&#x7684;&#x59D3;&#x540D;) &#x662F;&#x5426;&#x5B58;&#x5728;&#x554F;&#x984C;&#xFF1F;<ul>
+<li>&#x6709;&#x4EE3;&#x8868;&#x6027;&#x55CE;&#xFF1F;&#x8DDF;&#x771F;&#x5BE6;&#x82F1;&#x6587;&#x59D3;&#x6C0F;&#x5DEE;&#x7570;&#x5927;&#x55CE;&#xFF1F;</li>
+<li>&#x8CC7;&#x6599;&#x96E3;&#x9053;&#x300C;&#x6578;&#x5927;&#x5C31;&#x662F;&#x7F8E;&#x300D;&#x55CE;&#xFF1F;</li>
+<li>&#x5982;&#x679C;&#x6211;&#x5011;&#x8981;&#x5EFA;&#x7ACB;&#x7B26;&#x5408;&#x771F;&#x5BE6;&#x96FB;&#x8A71;&#x7C3F;&#x60C5;&#x5883;&#x7684;&#x8F38;&#x5165;&#xFF0C;&#x8A72;&#x600E;&#x9EBC;&#x4F5C;&#xFF1F;</li>
+</ul>
+</li>
+<li>&#x53EF;&#x80FD;&#x7684;&#x6548;&#x80FD;&#x6539;&#x9032;&#x65B9;&#x5411;&#xFF1A;<ul>
+<li>&#x6539;&#x5BEB; <code>struct __PHONE_BOOK_ENTRY</code> &#x7684;&#x6210;&#x54E1;&#xFF0C;&#x642C;&#x52D5;&#x5230;&#x65B0;&#x7684;&#x7D50;&#x69CB;&#x4E2D;</li>
+<li>&#x4F7F;&#x7528; hash function &#x4F86;&#x52A0;&#x901F;&#x67E5;&#x8A62;</li>
+<li>&#x65E2;&#x7136; first name, last name, address &#x90FD;&#x662F;&#x5408;&#x6CD5;&#x7684;&#x82F1;&#x6587; (&#x53EF;&#x5047;&#x8A2D;&#x6210;&#x7ACB;)&#xFF0C;&#x4F7F;&#x7528;<a href="http://stackoverflow.com/questions/1138345/best-compression-algorithm-for-short-text-strings" target="_blank">&#x5B57;&#x4E32;&#x58D3;&#x7E2E;&#x7684;&#x6F14;&#x7B97;&#x6CD5;</a>&#xFF0C;&#x964D;&#x4F4E;&#x8CC7;&#x6599;&#x8868;&#x793A;&#x7684;&#x6210;&#x672C;</li>
+<li>&#x4F7F;&#x7528; binary search tree &#x6539;&#x5BEB;&#x6F14;&#x7B97;&#x6CD5;</li>
+</ul>
+</li>
+<li>&#x622A;&#x6B62;&#x65E5;&#x671F;&#xFF1A;<ul>
+<li>Sep 29, 2016 (&#x542B;) &#x4E4B;&#x524D;</li>
+<li>&#x8D8A;&#x65E9;&#x5728; GitHub &#x4E0A;&#x6709;&#x52D5;&#x614B;&#x3001;&#x8D8A;&#x65E9;&#x63A5;&#x53D7; code review&#xFF0C;&#x8A55;&#x5206;&#x8D8A;&#x9AD8;</li>
+</ul>
+</li>
+</ul>
+<h2 id="%E6%8C%91%E6%88%B0%E9%A1%8C">&#x6311;&#x6230;&#x984C;</h2>
+<ul>
+<li>&#x9664;&#x4E86;&#x964D;&#x4F4E; <code>findName()</code> &#x7684; cache miss &#x8207;&#x57F7;&#x884C;&#x6210;&#x672C;&#xFF0C;<code>append()</code> &#x4E5F;&#x8A72;&#x60F3;&#x8FA6;&#x6CD5;&#x7E2E;&#x6E1B;&#x6642;&#x9593;<ul>
+<li>&#x5EFA;&#x7ACB; phone book &#x6642;&#xFF0C;&#x65E2;&#x7136; lastName &#x662F;&#x7D22;&#x5F15;&#x503C;&#xFF0C;&#x53EF;&#x4EE5;&#x512A;&#x5148;&#x5EFA;&#x7ACB;&#x641C;&#x5C0B;&#x8868;&#x683C;&#xFF0C;&#x5176;&#x4ED6;&#x8CC7;&#x6599;&#x53EF;&#x7A0D;&#x5F8C;&#x518D;&#x88DC;&#x4E0A;</li>
+<li>&#x7528; PThread &#x5EFA;&#x7ACB; <a href="http://stackoverflow.com/questions/12282393/how-to-synchronize-manager-worker-pthreads-without-a-join" target="_blank">manager/worker thread model</a></li>
+</ul>
+</li>
+<li>&#x652F;&#x63F4; <a href="http://www.informit.com/articles/article.aspx?p=1848528" target="_blank">fuzzy search</a>&#xFF0C;&#x5141;&#x8A31;&#x641C;&#x5C0B; lastName &#x6642;&#xFF0C;&#x4E0D;&#x7528;&#x7CBE;&#x6E96;&#x6253;&#x51FA;&#x6B63;&#x78BA;&#x7684;&#x5BEB;&#x6CD5;<ul>
+<li>&#x6BD4;&#x65B9;&#x8AAA;&#x96FB;&#x8A71;&#x7C3F;&#x6709;&#x4E00;&#x7B46;&#x8CC7;&#x6599;&#x662F; <code>McDonald</code>&#xFF0C;&#x4F46;&#x82E5;&#x4F7F;&#x7528;&#x8005;&#x8F38;&#x5165; <code>MacDonald</code> &#x6216; <code>McDonalds</code>&#xFF0C;&#x4E5F;&#x4E00;&#x4F75;&#x6AA2;&#x7D22;&#x51FA;&#x4F86;</li>
+<li>&#x5EF6;&#x4F38;&#x95B1;&#x8B80;: <a href="https://charles620016.hackpad.com/ep/pad/static/Japi4qFyAzt" target="_blank">Levenshtein Distance (&#x7DE8;&#x8F2F;&#x8DDD;&#x96E2;)</a></li>
+</ul>
+</li>
+<li>&#x6539;&#x5584;&#x96FB;&#x8A71;&#x7C3F;&#x7684;&#x6548;&#x80FD;&#x5206;&#x6790;&#xFF0C;&#x900F;&#x904E;&#x5927;&#x91CF;&#x7684;&#x91CD;&#x8907;&#x57F7;&#x884C;&#xFF0C;&#x627E;&#x51FA; 95% &#x4FE1;&#x8CF4;&#x5340;&#x9593;&#xFF0C;&#x800C;&#x4E14;&#x5141;&#x8A31;&#x52D5;&#x614B;&#x65B0;&#x589E;&#x8CC7;&#x6599; (&#x8F03;&#x7B26;&#x5408;&#x73FE;&#x5BE6;) &#x548C;&#x67E5;&#x8A62;</li>
+<li>&#x4EE5; <a href="http://www.gnuplot.info/" target="_blank">gnuplot</a> &#x7E6A;&#x88FD;&#x6548;&#x80FD;&#x5206;&#x6790;&#x5716;&#x8868;</li>
+</ul>
+<h2 id="%E8%A6%8B%E8%B3%A2%E6%80%9D%E9%BD%8A%EF%BC%9A%E5%85%B1%E7%AD%86%E9%81%B8%E8%AE%80">&#x898B;&#x8CE2;&#x601D;&#x9F4A;&#xFF1A;&#x5171;&#x7B46;&#x9078;&#x8B80;</h2>
+<ul>
+<li><a href="https://embedded2016.hackpad.com/ep/pad/static/YkqjhwgnQcA" target="_blank">dada</a></li>
+<li><a href="https://embedded2016.hackpad.com/ep/pad/static/9eSkToGwJvZ" target="_blank">rnic</a></li>
+<li><a href="https://embedded2016.hackpad.com/ep/pad/static/NcHhQCQ4ijr" target="_blank">Yuron</a></li>
+</ul>
+<h2 id="%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99">&#x53C3;&#x8003;&#x8CC7;&#x6599;</h2>
+<ul>
+<li><a href="http://tetralet.luna.com.tw/?op=ViewArticle&amp;articleId=185" target="_blank">Makefile &#x8A9E;&#x6CD5;&#x7C21;&#x4ECB;</a></li>
+<li><a href="http://user.frdm.info/ckhung/b/ma/gnuplot.php" target="_blank">Gnuplot &#x7D14;&#x756B;&#x5716;</a></li>
+<li><a href="https://embedded2016.hackpad.com/2016q1-Homework-1-tiduo3FfIQD" target="_blank">&#x6625;&#x5B63;&#x73ED;&#x8AB2;&#x7A0B;&#x4F5C;&#x696D;&#x5340;</a></li>
+</ul>
 
                     
                     </section>
@@ -14672,10 +14519,8 @@ RETURN VALUE
         </div>
 
         
-        <a href="../linux_system/linuxxi_tong_bian_cheng_zhi_wen_jian_yu_io_ff08_wu.html" class="navigation navigation-prev " aria-label="Previous page: linux系統編程之文件與IO（五）：stat（）系統調用獲取文件信息"><i class="fa fa-angle-left"></i></a>
+        <a href="../ncku_embededd/mergesort-concurrent.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: mergesort-concurrent"><i class="fa fa-angle-left"></i></a>
         
-        
-        <a href="../linux_system/linuxxi_tong_bian_cheng_zhi_wen_jian_yu_io_ff08_qi.html" class="navigation navigation-next " aria-label="Next page: linux系統編程之文件與IO（七）：時間函數小結"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

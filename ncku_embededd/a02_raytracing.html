@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>如果有人要求你改善系統 | Jason note</title>
+        <title>A02: raytracing | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,8 @@
         
     
     
-    <link rel="next" href="../thinker/yue_du_cheng_shi_ma_de_xin_li_ceng_mian.html" />
     
-    
-    <link rel="prev" href="../thinker/thinkernote.html" />
+    <link rel="prev" href="../ncku_embededd/phonebook.html" />
     
 
         <!-- head:end -->
@@ -48,7 +46,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="35.1" data-basepath=".." data-revision="Sun Oct 09 2016 22:06:24 GMT+0800 (CST)">
+    <div class="book" data-level="59.1.8" data-basepath=".." data-revision="Sun Oct 09 2016 22:06:24 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -9741,7 +9739,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="35.1" data-path="thinker/ru_guo_you_ren_yao_qiu_ni_gai_shan_xi_tong.html">
+        <li class="chapter " data-level="35.1" data-path="thinker/ru_guo_you_ren_yao_qiu_ni_gai_shan_xi_tong.html">
             
                 
                     <a href="../thinker/ru_guo_you_ren_yao_qiu_ni_gai_shan_xi_tong.html">
@@ -14260,7 +14258,7 @@
             
         </li>
     
-        <li class="chapter " data-level="59.1.8" data-path="ncku_embededd/a02_raytracing.html">
+        <li class="chapter active" data-level="59.1.8" data-path="ncku_embededd/a02_raytracing.html">
             
                 
                     <a href="../ncku_embededd/a02_raytracing.html">
@@ -14391,21 +14389,78 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E5%A6%82%E6%9E%9C%E6%9C%89%E4%BA%BA%E8%A6%81%E6%B1%82%E4%BD%A0%E6%94%B9%E5%96%84%E7%B3%BB%E7%B5%B1">&#x5982;&#x679C;&#x6709;&#x4EBA;&#x8981;&#x6C42;&#x4F60;&#x6539;&#x5584;&#x7CFB;&#x7D71;</h1>
-<p>&#x8EAB;&#x70BA;&#x5DE5;&#x7A0B;&#x5E2B;&#xFF0C;&#x4E0D;&#x6642;&#x6703;&#x63A5;&#x5230;&#x8981;&#x6C42;&#x6539;&#x5584;&#x7CFB;&#x7D71;&#x3002; &#x9019;&#x500B;&#x53CD;&#x61C9;&#x592A;&#x6162;&#xFF0C;&#x90A3;&#x500B;&#x5403;&#x592A;&#x591A; memory&#xFF0C;&#x90A3;&#x90A3;&#x500B;&#x53C8;&#x7528;&#x592A;&#x591A;&#x96FB;.....&#x7B49;&#x7B49;&#x3002; &#x5F88;&#x591A;&#x4EBA;&#xFF0C;&#x5927;&#x90E8;&#x5206;&#x4EBA;&#x7684;&#x7B2C;&#x4E00;&#x500B;&#x53CD;&#x61C9;&#x662F;&#x300C;A &#x65B9;&#x6848;&#x53EF;&#x80FD;&#x6709;&#x6548;&#xFF0C;&#x8A66;&#x8A66;&#x770B;&#x300D;&#x3002; &#x4E00;&#x4E9B;&#x7C21;&#x55AE;&#x7684;&#x554F;&#x984C;&#x6216;&#x8A31;&#x76F4;&#x63A5;&#x9019;&#x9EBC;&#x505A;&#x5C31;&#x53EF;&#x4EE5;&#xFF0C;&#x4F46;&#x5982;&#x679C;&#x554F;&#x984C;&#x662F;&#x624B;&#x6A5F;&#x8017;&#x592A;&#x591A;&#x96FB;&#x9019;&#x7A2E;&#x5EE3;&#x6CDB;&#x7684;&#x554F;&#x984C;&#xFF0C; &#x90A3;&#x53C8;&#x8A72;&#x600E;&#x9EBC;&#x8FA8;?</p>
-<p>&#x6211;&#x500B;&#x4EBA;&#x5EFA;&#x8B70;&#x4F9D;&#x64DA;&#x4E0B;&#x5217;&#x5E7E;&#x500B;&#x6B65;&#x9A5F;&#xFF0C;&#x624D;&#x80FD;&#x771F;&#x6B63;&#x7684;&#x89E3;&#x6C7A;&#x554F;&#x984C;&#x3002;</p>
+                        <h1 id="a02-raytracing">A02: raytracing</h1>
+<p>&#xFEFF;# A02: raytracing</p>
 <ul>
-<li>&#x5EFA;&#x7ACB;&#x6E2C;&#x8A66;&#x5831;&#x544A;&#xFF0C;&#x77AD;&#x89E3;&#x73FE;&#x5728;&#x7684;&#x5BE6;&#x6CC1;&#x70BA;&#x4F55;?</li>
-<li>&#x4F9D;&#x7B2C;&#x4E00;&#x6B65;&#x7684;&#x6210;&#x679C;&#xFF0C;&#x6AA2;&#x67E5;&#x4E26;&#x6BD4;&#x8F03;(&#x5982;&#x679C;&#x6709;&#x6BD4;&#x8F03;&#x5C0D;&#x8C61;)&#x554F;&#x984C;&#x662F;&#x5426;&#x5B58;&#x5728;&#xFF0C;&#x4E26;&#x8A2D;&#x7ACB;&#x6539;&#x5584;&#x76EE;&#x6A19;&#x3002;</li>
-<li>&#x5C0B;&#x627E;&#x4E26;&#x6E2C;&#x8A66;&#x89E3;&#x6C7A;&#x65B9;&#x6848;&#xFF0C;&#x4E26;&#x548C;&#x6B65;&#x9A5F;&#x4E00;&#x7684;&#x7D50;&#x679C;&#x6BD4;&#x8F03;&#x3002;</li>
-<li>&#x5BE6;&#x4F5C;&#x3001;&#x6539;&#x5584;&#x524D;&#x4E00;&#x6B65;&#x9A5F;&#x7684;&#x6210;&#x679C;&#x3002;</li>
+<li>&#x4F5C;&#x696D;&#x89E3;&#x8AAA; <a href="https://www.youtube.com/watch?v=m1RmfOfSwno" target="_blank">video</a>&#xFF0C;&#x8ACB;&#x5C0D;&#x7167;&#x89C0;&#x770B;&#xFF0C;&#x53EA;&#x8981;&#x770B; &quot;Homework 2&quot; &#x7684;&#x90E8;&#x4EFD;</li>
+<li>&#x53C3;&#x8003;&#x5BE6;&#x505A;&#x7A0B;&#x5F0F;&#x7684;&#x89E3;&#x8AAA; <a href="https://www.youtube.com/watch?v=V_rLyzecuaE" target="_blank">video</a>&#xFF0C;<a href="https://embedded2016.hackpad.com/ep/pad/static/f5CCUGMQ4Kp" target="_blank">&#x5C0D;&#x61C9;&#x7684;&#x5171;&#x7B46;</a></li>
 </ul>
-<p>&#x5927;&#x591A;&#x6578; developer &#x548C; PM&#xFF0C;&#x90FD;&#x559C;&#x6B61;&#x76F4;&#x63A5;&#x8DF3;&#x5230;&#x6B65;&#x9A5F;&#x56DB;&#x3002; &#x4F46;&#x5F80;&#x5F80;&#x8D70;&#x932F;&#x65B9;&#x5411;&#xFF0C;&#x6216;&#x5728;&#x89E3;&#x6C7A;&#x4E00;&#x500B;&#x4E0D;&#x5B58;&#x5728;&#x7684;&#x554F;&#x984C;&#x3002; &#x9019;&#x6BCF;&#x4E00;&#x6B65;&#x90FD;&#x5F88;&#x91CD;&#x8981;&#xFF0C;&#x5C11;&#x4E86;&#x4EFB;&#x4F55;&#x4E00;&#x6B65;&#xFF0C;&#x90FD;&#x6703;&#x8B93;&#x4F60;&#x6D6A;&#x8CBB;&#x5F88;&#x591A;&#x6642;&#x9593;&#x3002;</p>
-<p>&#x6B65;&#x9A5F;&#x4E00;&#x7684;&#x76EE;&#x7684;&#x662F;&#x8981;&#x5EFA;&#x7ACB;&#x6BD4;&#x8F03;&#x6A19;&#x6E96;&#xFF0C;&#x4F8B;&#x5982;&#xFF0C;&#x5728;&#x9032;&#x884C;&#x67D0;&#x4E00;&#x52D5;&#x4F5C;&#x6642;&#x7684;&#x8A18;&#x61B6;&#x9AD4;&#x4F7F;&#x7528;&#x91CF;&#x3002; &#x6709;&#x4E86;&#x9019;&#x500B;&#x660E;&#x78BA;&#x3001;&#x5B8C;&#x6574;&#x7684;&#x5831;&#x544A;&#xFF0C;&#x624D;&#x80FD;&#x6709;&#x660E;&#x78BA;&#x7684;&#x8D77;&#x8DD1;&#x9EDE;&#xFF0C;&#x77E5;&#x9053;&#x96E2;&#x7D42;&#x9EDE;(&#x6216;&#x8D77;&#x9EDE;)&#x6709;&#x591A;&#x9060;&#x3002; &#x4E0D;&#x6C92;&#x6709;&#x6BD4;&#x8F03;&#x6A19;&#x6E96;&#x6642;&#xFF0C;&#x5C31;&#x50CF;&#x778E;&#x5B50;&#x6478;&#x8C61;&#xFF0C;&#x4E0D;&#x77E5;&#x9053;&#x81EA;&#x5DF1;&#x5230;&#x54EA;&#x4E86;&#x3002;</p>
-<p>&#x6B65;&#x9A5F;&#x4E8C;&#xFF0C;&#x78BA;&#x8A8D;&#x554F;&#x984C;&#x662F;&#x5426;&#x5B58;&#x5728;&#x3002; &#x6709;&#x6642; PM&#x3001;partner &#x6216;&#x5BA2;&#x6236;&#x4E1F;&#x904E;&#x4F86;&#x7684;&#x554F;&#x984C;&#xFF0C;&#x53EF;&#x80FD;&#x53EA;&#x662F;&#x611F;&#x89BA;&#x6216;&#x932F;&#x89BA;&#xFF0C;&#x4E0D;&#x4E00;&#x5B9A;&#x662F;&#x4E8B;&#x5BE6;&#x3002; &#x4EE5;&#x6B65;&#x9A5F;&#x4E00;&#x7684;&#x7D50;&#x679C;&#x7576;&#x6210;&#x53C3;&#x8003;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x5206;&#x6790;&#x554F;&#x984C;&#xFF0C;&#x78BA;&#x8A8D;&#x5426;&#x771F;&#x7684;&#x5B58;&#x5728;&#x3002; &#x4E26;&#x4E14;&#x77AD;&#x89E3;&#x76EE;&#x524D;&#x7684;&#x7F3A;&#x5931;&#xFF0C;&#x4EE5;&#x8A2D;&#x5B9A;&#x5BE6;&#x969B;&#x800C;&#x6709;&#x6548;&#x7684;&#x6539;&#x5584;&#x76EE;&#x6A19;&#x548C;&#x65B9;&#x5411;&#x3002;</p>
-<p>&#x6B65;&#x9A5F;&#x4E09;&#xFF0C;&#x5247;&#x662F;&#x5FEB;&#x901F;&#x6E2C;&#x8A66;&#x5404;&#x7A2E;&#x53EF;&#x80FD;&#x7684;&#x6539;&#x5584;&#x65B9;&#x6848;&#x3002; &#x7D93;&#x904E;&#x524D;&#x4E00;&#x6B65;&#x9A5F;&#xFF0C;&#x6211;&#x5011;&#x6703;&#x5F97;&#x5230;&#x8A31;&#x591A;&#x60F3;&#x6CD5;&#x3002; &#x9019;&#x4E9B;&#x60F3;&#x6CD5;&#x9700;&#x8981;&#x5BE6;&#x9A57;&#x6E2C;&#x8A66;&#x904E;&#x624D;&#x77E5;&#x9053;&#x662F;&#x5426;&#x6709;&#x6548;&#x3002; &#x6B64;&#x4E00;&#x6B65;&#x9A5F;&#x7684;&#x5BE6;&#x9A57;&#x3001;&#x6E2C;&#x8A66;&#x4E26;&#x4E0D;&#x9700;&#x8981;&#x5B8C;&#x6574;&#x7684;&#x5BE6;&#x4F5C;&#xFF0C;&#x4EE5;&#x6700;&#x5FEB;&#x901F;&#xFF0C;&#x751A;&#x81F3;&#x662F;&#x6700;&#x9AD2;&#x7684;&#x65B9;&#x6CD5;&#xFF0C; &#x9A57;&#x8B49;&#x6240;&#x6709;&#x53EF;&#x80FD;&#x7684;&#x65B9;&#x6848;&#x3002; &#x900F;&#x904E;&#x548C;&#x6B65;&#x9A5F;&#x4E00;&#x7684;&#x6210;&#x679C;&#x4F5C;&#x6BD4;&#x8F03;&#xFF0C;&#x6211;&#x5011;&#x80FD;&#x660E;&#x78BA;&#x7684;&#x77E5;&#x9053;&#x6539;&#x5584;&#x662F;&#x5426;&#x6709;&#x6548;&#xFF0C;&#x96E2;&#x76EE;&#x6A19;&#x6709;&#x591A;&#x9060;&#xFF0C; &#x662F;&#x5426;&#x9084;&#x9700;&#x8981;&#x66F4;&#x591A;&#x65B9;&#x6848;&#x6216;&#x66F4;&#x6709;&#x6548;&#x7684;&#x65B9;&#x6848;&#x3002; &#x6B64;&#x6B65;&#x9A5F;&#x4E4B;&#x5F8C;&#xFF0C;&#x57FA;&#x672C;&#x4E0A;&#x5DF2;&#x7D93;&#x77E5;&#x9053;&#x5DE5;&#x671F;&#x6709;&#x591A;&#x5C11;&#xFF0C;&#x6216;&#x662F;&#x5728;&#x5DE5;&#x671F;&#x7D50;&#x675F;&#x6642;&#xFF0C;&#x80FD;&#x9054;&#x5230;&#x4EC0;&#x9EBC;&#x6548;&#x679C;&#x3002;</p>
-<p>&#x6B65;&#x9A5F;&#x56DB;&#xFF0C;&#x5247;&#x662F;&#x5BE6;&#x4F5C;&#x5728;&#x524D;&#x4E00;&#x6B65;&#x9A5F;&#x8B49;&#x660E;&#x6709;&#x6548;&#x7684;&#x65B9;&#x6848;&#x3002; &#x6B65;&#x9A5F;&#x4E09;&#x7684; code &#x53EF;&#x80FD;&#x6709;&#x4E00;&#x5806; hard code &#x6216;&#x4E00;&#x4E9B; assumption&#xFF0C;&#x9019;&#x4E9B;&#x90FD;&#x5FC5;&#x9700;&#x91CD;&#x65B0; &#x5BE6;&#x4F5C;&#x904E;&#xFF0C;&#x624D;&#x80FD;&#x771F;&#x6B63;&#x7684;&#x6210;&#x70BA; production &#x7684; code&#x3002; &#x6B65;&#x9A5F;&#x4E09;&#x7684; code &#x52D9;&#x5FC5;&#x7528;&#x6700;&#x5FEB;&#x7684;&#x65B9;&#x5F0F;&#x9032;&#x884C;&#xFF0C;&#x5982;&#x679C; gdb &#x88E1;&#x9762;&#x53EF;&#x80FD;&#x53EF;&#x4EE5;&#x7528; script workaround&#x3002; &#x6216;&#x662F;&#xFF0C;&#x5BEB;&#x4E00;&#x6BB5;&#x7368;&#x7ACB;&#x7684; code &#x6BD4;&#x8F03;&#x548C;&#x4E4B;&#x524D;&#x7684;&#x6F14;&#x7B97;&#x6CD5;&#x5DEE;&#x7570;&#x6709;&#x591A;&#x5C11;&#x3002; &#x9A57;&#x8B49;&#x6709;&#x6548;&#x4E4B;&#x5F8C;&#xFF0C;&#x624D;&#x5728;&#x7B2C;&#x56DB;&#x6B65;&#x9A5F;&#x5BE6;&#x4F5C;&#x548C;&#x6700;&#x4F73;&#x5316;&#x3002;</p>
-<p>&#x4EE5;&#x4E0A;&#x662F;&#x500B;&#x4EBA;&#x9032;&#x884C;&#x6539;&#x5584;&#x8A08;&#x5283;&#x7684;&#x6D41;&#x7A0B;&#x3002; &#x9451;&#x65BC;&#x8A31;&#x591A;&#x4EBA;&#x6839;&#x672C;&#x662F;&#x6C92;&#x7AE0;&#x6CD5;&#x7684;&#x6A6B;&#x885D;&#x76F4;&#x649E;&#xFF0C;&#x56E0;&#x6B64;&#x5BEB;&#x4E0B;&#x6B64;&#x7BC7;&#x3002;</p>
+<h2 id="%E9%A0%90%E5%85%88%E6%BA%96%E5%82%99%E5%8B%95%E4%BD%9C">&#x9810;&#x5148;&#x6E96;&#x5099;&#x52D5;&#x4F5C;</h2>
+<ul>
+<li>&#x53C3;&#x7167; <a href="https://hackmd.io/s/S1RVdgza" target="_blank">phonebook</a> &#x7684;&#x6307;&#x793A;&#xFF0C;&#x5728;&#x5BE6;&#x9AD4;&#x6A5F;&#x5668;&#x5B89;&#x88DD; GNU/Linux &#x548C;&#x76F8;&#x95DC;&#x7684;&#x958B;&#x767C;&#x5957;&#x4EF6;<ul>
+<li>&#x6CE8;&#x610F;: &#x4E0D;&#x5F97;&#x900F;&#x904E;&#x865B;&#x64EC;&#x6A5F;&#x5668;&#xFF0C;&#x56E0;&#x70BA;&#x6211;&#x5011;&#x5728;&#x610F;&#x5BE6;&#x969B;&#x6A5F;&#x5668;&#x4E0A;&#x7684;&#x6548;&#x80FD;</li>
+</ul>
+</li>
+<li>&#x5B89;&#x88DD;&#x4EE5;&#x4E0B;&#x958B;&#x767C;&#x5DE5;&#x5177;<pre><code>$ sudo apt-get update
+$ sudo apt-get install graphviz
+$ sudo apt-get install imagemagick
+</code></pre></li>
+</ul>
+<h2 id="%E5%85%89%E5%BD%B1%E8%BF%BD%E8%B9%A4%E7%A8%8B%E5%BC%8F">&#x5149;&#x5F71;&#x8FFD;&#x8E64;&#x7A0B;&#x5F0F;</h2>
+<ul>
+<li>&#x5149;&#x7DDA;&#x8FFD;&#x8E64; (Ray tracing) &#x662F;&#x4E09;&#x7DAD;&#x96FB;&#x8166;&#x5716;&#x5F62;&#x5B78;&#x4E2D;&#x7684;&#x63CF;&#x7E6A;&#x6F14;&#x7B97;&#x6CD5; (rendering algorithm)&#xFF0C;&#x8DDF;&#x8E64;&#x5F9E;&#x773C;&#x775B;&#x767C;&#x51FA;&#x7684;&#x5149;&#x7DDA;&#xFF0C;&#x800C;&#x975E;&#x662F;&#x5149;&#x6E90;&#x767C;&#x51FA;&#x7684;&#x5149;&#x7DDA;&#xFF0C;&#x85C9;&#x7531;&#x9810;&#x5148;&#x7DE8;&#x6392;&#x597D;&#x7684;&#x5834;&#x666F;&#xFF0C;&#x4EE5;&#x6578;&#x5B78;&#x6A21;&#x578B;&#x986F;&#x73FE;&#x51FA;&#x4F86;&#xFF0C;&#x53EF;&#x5F97;&#x5230;&#x985E;&#x4F3C;&#x65BC;&#x5149;&#x7DDA;&#x6295;&#x5C04;&#x8207;&#x6383;&#x63CF;&#x7DDA;&#x63CF;&#x7E6A;&#x65B9;&#x6CD5;&#x7684;&#x7D50;&#x679C;&#xFF0C;&#x5C0D;&#x65BC;&#x53CD;&#x5C04;&#x8207;&#x6298;&#x5C04;&#xFF0C;&#x53EF;&#x6709;&#x66F4;&#x6E96;&#x78BA;&#x7684;&#x6A21;&#x64EC;&#x6548;&#x679C;&#xFF0C;&#x6548;&#x7387;&#x975E;&#x5E38;&#x9AD8;&#xFF0C;&#x6240;&#x4EE5;&#x7576;&#x8FFD;&#x6C42;&#x9AD8;&#x54C1;&#x8CEA;&#x7684;&#x6548;&#x679C;&#x6642;&#xFF0C;&#x7D93;&#x5E38;&#x4F7F;&#x7528;&#x9019;&#x7A2E;&#x65B9;&#x6CD5;</li>
+<li>&#x5728;&#x7269;&#x7406;&#x5B78;&#x4E2D;&#xFF0C;&#x5149;&#x7DDA;&#x8FFD;&#x8DE1;&#x53EF;&#x4EE5;&#x7528;&#x4F86;&#x8A08;&#x7B97;&#x5149;&#x675F;&#x5728;&#x4ECB;&#x8CEA;&#x4E2D;&#x50B3;&#x64AD;&#x7684;&#x60C5;&#x6CC1;&#x3002;&#x5728;&#x4ECB;&#x8CEA;&#x4E2D;&#x50B3;&#x64AD;&#x6642;&#xFF0C;&#x5149;&#x675F;&#x53EF;&#x80FD;&#x6703;&#x88AB;&#x4ECB;&#x8CEA;&#x5438;&#x6536;&#xFF0C;&#x6539;&#x8B8A;&#x50B3;&#x64AD;&#x65B9;&#x5411;&#x6216;&#x8005;&#x5C04;&#x51FA;&#x4ECB;&#x8CEA;&#x8868;&#x9762;&#x7B49;&#x3002;&#x6211;&#x5011;&#x901A;&#x904E;&#x8A08;&#x7B97;&#x7406;&#x60F3;&#x5316;&#x7684;&#x7A84;&#x5149;&#x675F;&#xFF08;&#x5149;&#x7DDA;&#xFF09;&#x901A;&#x904E;&#x4ECB;&#x8CEA;&#x4E2D;&#x7684;&#x60C5;&#x5F62;&#x4F86;&#x89E3;&#x6C7A;&#x9019;&#x7A2E;&#x8907;&#x96DC;&#x7684;&#x60C5;&#x6CC1;</li>
+<li>&#x5728;&#x5BE6;&#x969B;&#x61C9;&#x7528;&#x4E2D;&#xFF0C;&#x53EF;&#x5C07;&#x5404;&#x7A2E;&#x96FB;&#x78C1;&#x6CE2;&#x6216;&#x8005;&#x5FAE;&#x5C0F;&#x7C92;&#x5B50;&#x770B;&#x6210;&#x7406;&#x60F3;&#x5316;&#x7684;&#x7A84;&#x6CE2;&#x675F;&#xFF08;&#x5373;&#x5149;&#x7DDA;&#xFF09;&#xFF0C;&#x57FA;&#x65BC;&#x9019;&#x7A2E;&#x5047;&#x8A2D;&#xFF0C;&#x4EBA;&#x5011;&#x5229;&#x7528;&#x5149;&#x7DDA;&#x8FFD;&#x8DE1;&#x4F86;&#x8A08;&#x7B97;&#x5149;&#x7DDA;&#x5728;&#x4ECB;&#x8CEA;&#x4E2D;&#x50B3;&#x64AD;&#x7684;&#x60C5;&#x6CC1;&#x3002;&#x5149;&#x7DDA;&#x8FFD;&#x8DE1;&#x65B9;&#x6CD5;&#x9996;&#x5148;&#x8A08;&#x7B97;&#x4E00;&#x689D;&#x5149;&#x7DDA;&#x5728;&#x88AB;&#x4ECB;&#x8CEA;&#x5438;&#x6536;&#xFF0C;&#x6216;&#x8005;&#x6539;&#x8B8A;&#x65B9;&#x5411;&#x524D;&#xFF0C;&#x5149;&#x7DDA;&#x5728;&#x4ECB;&#x8CEA;&#x4E2D;&#x50B3;&#x64AD;&#x7684;&#x8DDD;&#x96E2;&#xFF0C;&#x65B9;&#x5411;&#x4EE5;&#x53CA;&#x5230;&#x9054;&#x7684;&#x65B0;&#x4F4D;&#x7F6E;&#xFF0C;&#x7136;&#x5F8C;&#x5F9E;&#x9019;&#x500B;&#x65B0;&#x7684;&#x4F4D;&#x7F6E;&#x7522;&#x751F;&#x51FA;&#x4E00;&#x689D;&#x65B0;&#x7684;&#x5149;&#x7DDA;&#xFF0C;&#x4F7F;&#x7528;&#x540C;&#x6A23;&#x7684;&#x8655;&#x7406;&#x65B9;&#x6CD5;&#xFF0C;&#x6700;&#x7D42;&#x8A08;&#x7B97;&#x51FA;&#x4E00;&#x500B;&#x5B8C;&#x6574;&#x7684;&#x5149;&#x7DDA;&#x5728;&#x4ECB;&#x8CEA;&#x4E2D;&#x50B3;&#x64AD;&#x7684;&#x8DEF;&#x5F91;</li>
+<li></li>
+<li>&#x6210;&#x5927;&#x8CC7;&#x8A0A;&#x7CFB;&#x5E2B;&#x751F;&#x5408;&#x4F5C;&#x958B;&#x767C;&#x539F;&#x59CB;&#x7A0B;&#x5F0F;&#x78BC;&#x50C5; 650 &#x884C;&#x7684;&#x5149;&#x7DDA;&#x8FFD;&#x8E64; C &#x8A9E;&#x8A00;&#x7A0B;&#x5F0F;: <a href="https://github.com/sysprog21/raytracing" target="_blank">raytracing</a></li>
+<li><p>&#x53D6;&#x5F97;&#x539F;&#x59CB;&#x7A0B;&#x5F0F;&#x78BC;&#x3001;&#x7DE8;&#x8B6F;&#x548C;&#x6E2C;&#x8A66;:</p>
+<pre><code>$ git clone https://github.com/sysprog21/raytracing 
+$ cd raytracing
+$ make
+$ ./raytracing
+</code></pre></li>
+<li><p>&#x51FA;&#x73FE; <code># Rendering scene</code> &#x5B57;&#x6A23;&#x5F8C;&#xFF0C;&#x8ACB;&#x4FDD;&#x6301;&#x8010;&#x5FC3;&#xFF0C;&#x7B49;&#x5F85;&#x7A0B;&#x5F0F;&#x8F38;&#x51FA; <code>Done!</code> &#x5B57;&#x6A23;&#xFF0C;&#x53C3;&#x8003;&#x8F38;&#x51FA;:</p>
+<pre><code>Execution time of raytracing() : 2.994175 sec
+</code></pre></li>
+<li><p><a href="https://github.com/sysprog21/raytracing" target="_blank">raytracing</a> &#x7A0B;&#x5F0F;&#x57F7;&#x884C;&#x5B8C;&#x7562;&#xFF0C;&#x5C07;&#x8F38;&#x51FA;&#x540D;&#x70BA; <code>out.ppm</code> &#x7684;&#x6A94;&#x6848;&#xFF0C;&#x53EF;&#x900F;&#x904E; <code>eog</code> &#x6216;&#x5728;&#x5716;&#x5F62;&#x754C;&#x9762;&#x9EDE;&#x64CA;&#x958B;&#x555F;&#x3002;&#x53C3;&#x8003;&#x8F38;&#x51FA;:
+<img src="http://wiki.csie.ncku.edu.tw/embedded/2016q1h2/raytracing.png" alt="ray_tracing"></p>
+</li>
+<li><p>&#x64CD;&#x4F5C;&#x63D0;&#x793A;&#xFF1A;</p>
+<ul>
+<li>&#x900F;&#x904E; <code>convert</code> &#x9019;&#x500B;&#x5DE5;&#x5177;&#x53EF;&#x5C07; PPM &#x8F49;&#x70BA; PNG &#x6216;&#x5176;&#x4ED6;&#x683C;&#x5F0F;&#xFF0C;&#x5982;:<pre><code>$ convert out.ppm out.png
+</code></pre></li>
+</ul>
+</li>
+<li><p><code>make check</code> &#x6703;&#x6AA2;&#x9A57;&#x7A0B;&#x5F0F;&#x78BC;&#x8F38;&#x51FA;&#x7684;&#x5716;&#x7247;&#x662F;&#x5426;&#x7B26;&#x5408;&#x9810;&#x671F;&#xFF0C;&#x7B26;&#x5408;&#x7684;&#x8A71;&#x6703;&#x5F97;&#x5230; &#x201C;Verified OK!&#x201D; &#x5B57;&#x6A23;</p>
+</li>
+</ul>
+<h2 id="%E4%BD%9C%E6%A5%AD%E8%A6%81%E6%B1%82">&#x4F5C;&#x696D;&#x8981;&#x6C42;</h2>
+<ul>
+<li>&#x5728; GitHub &#x4E0A; fork <a href="https://github.com/sysprog21/raytracing" target="_blank">raytracing</a>&#xFF0C;&#x4E26;&#x601D;&#x8003;&#x5982;&#x4F55;&#x6539;&#x5584;&#x7A0B;&#x5F0F;&#x6548;&#x80FD;</li>
+<li>&#x4EE5; <code>make PROFILE=1</code> &#x91CD;&#x65B0;&#x7DE8;&#x8B6F;&#x7A0B;&#x5F0F;&#x78BC;&#xFF0C;&#x4E26;&#x4E14;&#x5B78;&#x7FD2; <a href="https://sourceware.org/binutils/docs/gprof/" target="_blank">gprof</a><ul>
+<li>&#x53C3;&#x8003; <a href="http://os.51cto.com/art/200703/41426.htm" target="_blank">&#x4F7F;&#x7528; GNU gprof &#x9032;&#x884C; Linux &#x5E73;&#x53F0;&#x7684;&#x7A0B;&#x5F0F;&#x5206;&#x6790;</a></li>
+</ul>
+</li>
+<li>&#x4EE5; <a href="https://sourceware.org/binutils/docs/gprof/" target="_blank">gprof</a> &#x6307;&#x51FA;&#x6548;&#x80FD;&#x74F6;&#x9838;&#xFF0C;&#x4E26;&#x4E14;&#x8457;&#x624B;&#x6539;&#x5BEB;&#x6A94;&#x6848; <code>math-toolkit.h</code> &#x5728;&#x5167;&#x7684;&#x51FD;&#x5F0F;&#x5BE6;&#x505A;&#xFF0C;&#x5145;&#x5206;&#x7D00;&#x9304;&#x6548;&#x80FD;&#x5DEE;&#x7570;&#x5728;&#x5171;&#x7B46;<ul>
+<li>&#x6CE8;&#x610F;: &#x8ACB;&#x52FF;&#x66F4;&#x52D5;&#x7DE8;&#x8B6F;&#x5668;&#x6700;&#x4F73;&#x5316;&#x9078;&#x9805; <code>-O0</code> (&#x95DC;&#x9589;&#x6700;&#x4F73;&#x5316;)</li>
+<li>&#x6A94;&#x6848; <code>math-toolkit.h</code> &#x5B9A;&#x7FA9;&#x7684;&#x82E5;&#x5E72;&#x6578;&#x5B78;&#x64CD;&#x4F5C;&#x51FD;&#x5F0F;&#x5F88;&#x91CD;&#x8981;&#xFF0C;&#x53EF;&#x53C3;&#x8003; <a href="http://threadlocalmutex.com/?p=8" target="_blank">Investigating SSE cross product performance</a>&#x3001;<a href="https://google.github.io/mathfu/" target="_blank">MathFu</a> &#x539F;&#x59CB;&#x7A0B;&#x5F0F;&#x78BC;&#xFF0C;&#x4EE5;&#x53CA; <a href="http://wiki.csie.ncku.edu.tw/embedded/2015q3h1ext" target="_blank">2015q3 Homework #1 Ext</a></li>
+</ul>
+</li>
+<li>&#x53EF;&#x5584;&#x7528; POSIX Thread, OpenMP, software pipelining, &#x4EE5;&#x53CA; loop unrolling &#x4E00;&#x985E;&#x7684;&#x6280;&#x5DE7;&#x4F86;&#x52A0;&#x901F;&#x7A0B;&#x5F0F;&#x904B;&#x4F5C;</li>
+<li>&#x5C07;&#x4F60;&#x7684;&#x89C0;&#x5BDF;&#x3001;&#x5206;&#x6790;&#xFF0C;&#x4EE5;&#x53CA;&#x5404;&#x5F0F;&#x6548;&#x80FD;&#x6539;&#x5584;&#x904E;&#x7A0B;&#xFF0C;&#x4E26;&#x5584;&#x7528; gnuplot &#x88FD;&#x5716;&#xFF0C;&#x7D00;&#x9304;&#x65BC;&#x300C;<a href="https://hackmd.io/s/H1B7-hGp" target="_blank">&#x4F5C;&#x696D;&#x5340;</a>&#x300D;</li>
+</ul>
+<h2 id="%E6%88%AA%E6%AD%A2%E6%97%A5%E6%9C%9F">&#x622A;&#x6B62;&#x65E5;&#x671F;</h2>
+<ul>
+<li>Sep 29, 2016 (&#x542B;) &#x4E4B;&#x524D;</li>
+<li>&#x8D8A;&#x65E9;&#x5728; GitHub &#x4E0A;&#x6709;&#x52D5;&#x614B;&#x3001;&#x8D8A;&#x65E9;&#x63A5;&#x53D7; code review&#xFF0C;&#x8A55;&#x5206;&#x8D8A;&#x9AD8;</li>
+</ul>
+<h2 id="%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99">&#x53C3;&#x8003;&#x8CC7;&#x6599;</h2>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Ray_tracing_(graphics" target="_blank">Ray tracing</a>)</li>
+<li><a href="http://linux.vbird.org/linux_basic/0320bash.php" target="_blank">&#x8A8D;&#x8B58;&#x8207;&#x5B78;&#x7FD2; Bash</a></li>
+<li><a href="http://linux.vbird.org/linux_basic/0340bashshell-scripts.php" target="_blank">&#x5B78;&#x7FD2; Shell Scripts</a></li>
+<li><a href="https://embedded2016.hackpad.com/2016q1-Homework-2-v37rXPJjRlW" target="_blank">&#x6625;&#x5B63;&#x73ED;&#x8AB2;&#x7A0B;&#x4F5C;&#x696D;&#x5340;</a></li>
+</ul>
 
                     
                     </section>
@@ -14416,10 +14471,8 @@
         </div>
 
         
-        <a href="../thinker/thinkernote.html" class="navigation navigation-prev " aria-label="Previous page: thinker_note"><i class="fa fa-angle-left"></i></a>
+        <a href="../ncku_embededd/phonebook.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: A01: phonebook"><i class="fa fa-angle-left"></i></a>
         
-        
-        <a href="../thinker/yue_du_cheng_shi_ma_de_xin_li_ceng_mian.html" class="navigation navigation-next " aria-label="Next page: 閱讀程式碼的心理層面"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

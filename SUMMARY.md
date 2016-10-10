@@ -910,4 +910,5 @@
        * [A05: introspect](ncku_embededd/a05_introspect.md)
        * [A06: phonebook-concurrent](ncku_embededd/a06_phonebook-concurrent.md)
 * [逆向工程](Reversing/ni_xiang_gong_cheng.md)
+   * Linux 逆向工程的工具介绍
 

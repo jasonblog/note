@@ -912,5 +912,5 @@
 * [逆向工程](Reversing/ni_xiang_gong_cheng.md)
    * [Linux 逆向工程的工具介绍](Reversing/linux_ni_xiang_gong_cheng_de_gong_ju_jie_shao.md)
 * [Git](git/git.md)
-   * Keeping a fork up to date
+   * [Keeping a fork up to date](git/keeping_a_fork_up_to_date.md)
 

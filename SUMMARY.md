@@ -917,5 +917,5 @@
    * [DS_Algo](interview/dsalgo.md)
        * [Linked List的複習總結](interview/linked_listde_fu_xi_zong_jie.md)
        * [面試精選：鏈表問題集錦](interview/mian_shi_jing_xuan_ff1a_lian_biao_wen_ti_ji_jin.md)
-       * 链表面试常见合集
+       * [链表面试常见合集](interview/lian_biao_mian_shi_chang_jian_he_ji.md)
 

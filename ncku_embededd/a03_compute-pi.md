@@ -13,7 +13,7 @@
 
 
 ## 複習[黎曼積分](https://zh.wikipedia.org/wiki/%E9%BB%8E%E6%9B%BC%E7%A7%AF%E5%88%86)
-如果你真的忘記微積分，趕快透過均一教育平台學習「[微積分概論](https://www.junyiacademy.org/junyi-pre-univ/root/junyi-math/mu-cal-ch1)」。
+如果你真的忘記微積分，趕快透過均一教育平臺學習「[微積分概論](https://www.junyiacademy.org/junyi-pre-univ/root/junyi-math/mu-cal-ch1)」。
 
 N 越大（切的越細），數值越精確。
 
@@ -222,7 +222,7 @@ struct timespec {
 * 可善用 [rayatracing](/s/B1W5AWza) 提到的 OpenMP, software pipelining, 以及 loop unrolling 一類的技巧來加速程式運作
 * 詳閱前方 "Wall-clock time vs. CPU time"，思考如何精準計算時間
 * 除了研究程式以外，請證明 [Leibniz formula for π](https://en.wikipedia.org/wiki/Leibniz_formula_for_%CF%80)，並且找出其他計算圓周率的方法
-	* 請詳閱[許元杰的共筆](https://embedded2015.hackpad.com/-Ext1-Week-1-5rm31U3BOmh)
+	* 請詳閱[許元傑的共筆](https://embedded2015.hackpad.com/-Ext1-Week-1-5rm31U3BOmh)
 * 將你的觀察、分析，以及各式效能改善過程，並善用 gnuplot 製圖，紀錄於「[作業區](https://hackmd.io/s/H1B7-hGp)」
 
 ## 參考資料
@@ -234,7 +234,7 @@ struct timespec {
     * [Intrinsics Guide](https://software.intel.com/sites/landingpage/IntrinsicsGuide/#expand=579,2050&techs=AVX)
 * [How do I achieve the theoretical maximum of 4 FLOPs per cycle?](http://stackoverflow.com/questions/8389648/how-do-i-achieve-the-theoretical-maximum-of-4-flops-per-cycle) [Stackoverflow]
 * [nanoant / flops](https://github.com/nanoant/flops) , [Mysticial / Flops](https://github.com/Mysticial/Flops) [GitHub]
-* [MPI与OpenMP并行程序设计：C语言版](http://pan.baidu.com/s/1tIXm8) [PDF]
+* [MPI與OpenMP並行程序設計：C語言版](http://pan.baidu.com/s/1tIXm8) [PDF]
 * [Common Variable Attributes](https://gcc.gnu.org/onlinedocs/gcc/Common-Variable-Attributes.html#Common-Variable-Attributes) [gcc.gnu.org]
 * 時間處理與 time 函式使用
     *   [Measure time in Linux - getrusage vs clock_gettime vs clock vs gettimeofday?](http://stackoverflow.com/questions/12392278/measure-time-in-linux-getrusage-vs-clock-gettime-vs-clock-vs-gettimeofday) [Stackoverflow]
@@ -245,4 +245,4 @@ struct timespec {
     *   [gettimeofday() should never be used to measure time](https://blog.habets.se/2010/09/gettimeofday-should-never-be-used-to-measure-time)
     *   [效能管理](http://www-01.ibm.com/support/knowledgecenter/ssw_aix_53/com.ibm.aix.prftungd/doc/prftungd/performance_management-kickoff.htm?lang=zh-tw) [IBM Knowledge Center]
     *   [linux 系統時間和硬件時鐘問題 ( date 和 hwclock )](http://blog.gesha.net/archives/221/)
-    *   [linux 墙上时间 xtime 与高精度时钟 gettimeofday](http://blog.chinaunix.net/uid-20727076-id-3086954.html)
+    *   [linux 牆上時間 xtime 與高精度時鐘 gettimeofday](http://blog.chinaunix.net/uid-20727076-id-3086954.html)

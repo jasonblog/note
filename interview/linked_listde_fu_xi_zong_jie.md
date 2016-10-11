@@ -183,7 +183,7 @@ ListNode* deleteDuplicate(ListNode* head)
 
 這裡不需要用dummy node, 用一個循環來遍歷整個linked list,這裡注意head其實並沒有改變因此可以直接返回。
 
-下面增加一定難度，仍然是刪除重複節點， 但是只保留沒有重複的節點
+下面增加一定難度，仍然是刪除重複節點， 但是隻保留沒有重複的節點
 
 ```c
 ListNode* deleteDuplicate(ListNode* head)

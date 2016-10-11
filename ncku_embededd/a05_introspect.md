@@ -11,7 +11,7 @@
 ## 作業要求
 * 在 [2016q3 Homework1 作業區](/s/H1B7-hGp) 挑出自己以外的 3 項學生開發成果，在開發紀錄後方標注 "::: Reviewed by 你的GitHub帳號名稱"，像是
 > 開發紀錄(phonebook) / github / youtube_link ::: Reviewed by <`jserv`>
-* 每份開發成果至多只能被 2 個人批評，"Reviewed by" 後面的 GitHub 帳號用逗號 `,` 分隔
+* 每份開發成果至多隻能被 2 個人批評，"Reviewed by" 後面的 GitHub 帳號用逗號 `,` 分隔
 * 選定開發紀錄後，編輯內文，加上 `Reviewed by 你的GitHub帳號名稱` 的段落，[示範的 Review](/s/BJjL6cQ6)，你的意見要寫在共筆的最上方，僅次於 "contributed by"。要從以下方面探討:
 	* 程式碼的 coding style, git commit messages
 	* 實驗設計的不足處、涵蓋程度是否全面，以及後續的改進空間

@@ -4,8 +4,8 @@
 ## 前情提要
 [上一篇](blog/2016/09/27/linux-kernel-pratice-0-buildroot-setup-with-qemu/)提到，設定實習環境的目標有：
 
-1. 可以使用ARM 平台。一方面追求流行，一方面我不想再開x86這個副本
-2. 可以方便地建立ARM平台的Linux Rootfs和kernel版本
+1. 可以使用ARM 平臺。一方面追求流行，一方面我不想再開x86這個副本
+2. 可以方便地建立ARM平臺的Linux Rootfs和kernel版本
 3. 可以方便地更改指定要編譯的Kernel版本
 4. 透過Qemu ，使用2的Rootfs和kernel開機
 5. 透過Qemu和搭配的工具可以分析Linux kernel的run time 行為
@@ -63,7 +63,7 @@ git clone git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
 東西下載完不是就閉著眼睛開幹，因為我們在開始編譯前需要
 
 1. 切換到你想要研究的版本
-2. 如果不是x86，你需要指定平台
+2. 如果不是x86，你需要指定平臺
 3. 細項Kernel config設定
 
 那麼就來見招拆招吧
@@ -87,12 +87,12 @@ make ARCH=arm versatile_defconfig
 
 開始~~沒人要看~~的解釋吧。基本上也亂看找出來的，簡單講一下當初的「脈絡」
 
-1. 我知道我們平台是versatile，所以就`find | grep versatile`。從一堆檔案中我看到有趣的檔案`./arch/arm/configs/versatile_defconfig`。
+1. 我知道我們平臺是versatile，所以就`find | grep versatile`。從一堆檔案中我看到有趣的檔案`./arch/arm/configs/versatile_defconfig`。
 2. 接下來就是要找make 的時候怎麼和這個檔案勾起來。網路上找一下會發現一個變數`ARCH`，剩下就試看看`make ARCH=arm versatile_defconfig`，能不能動，可以動所以打完收工。
 
 然後你就知道
 
-1. Linux kernel source中有些平台會提供default config
+1. Linux kernel source中有些平臺會提供default config
 2. 透過`ARCH`可以讓make時自動參考這些檔案產生config
 
 <a name="lk0_1_conf_qemu"></a>
@@ -154,7 +154,7 @@ make CROSS_COMPILE=/tmp/buildroot/output/host/usr/bin/arm-buildroot-linux-gnueab
 這其實就是`make bzImage`的囉唆版，多了
 
 * `ARCH=arm`
-    * 指定ARM平台
+    * 指定ARM平臺
 * `CROSS_COMPILE=..`
     * Cross compile prefix，既然我們使用buildroot內建toolchain，就用他們來編譯kernel
 * `V=1`

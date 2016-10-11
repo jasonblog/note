@@ -22,7 +22,7 @@ contribute by <`c14006078`>
 2. 沒有註解，程是碼流程非常的混雜，讓人不清楚這一大串到底再幹嘛。
 >> 解決方式：在每一個流程前給一個註解，應該說在寫 code 時就應該要建立這樣子的流程圖，而不是寫完之後再去加上。
 3. 可以省略的變數有點多，有些根本是不必要的。
->> 解決方式：就以 append()這裏麵的很多變數可以不用的，像是 entryStart，搞不好連 nthread也可以省略，因為有 Macro 在。
+>> 解決方式：就以 append()這裡麵的很多變數可以不用的，像是 entryStart，搞不好連 nthread也可以省略，因為有 Macro 在。
 4. main 裡面的 code太多了，會有 duplicated code, long method的問題。
 >> 解決方式：說到 code reuse，其時我應該把大部分的 code 丟到phonebook opt裡，這樣會讓 main看起來簡單易懂，而且也能增進 reuse。
 5. 在 make 時定義 THREAD NUM，這非常的麻煩...
@@ -40,7 +40,7 @@ contribute by <`c14006078`>
 https://github.com/c14006078/PracticeMakePerfect/commit/6e3ae2b25a75c6ad11d556838c4a75e7ab738b87
 
 ## phonebook物件化
-說到 refactor的改善，我嘗試想把我的 code做物件化，我覺得他給我們最大的好處就是，讓別人一眼就看出來我們的 phonebook的 attribute 和 可以使用的 method，而不會是像 append這樣簡易的命名，讓我們不清楚他到底再 append哪些東西，而且要加額外的功能只要再多開一個 function pointer，大家一目了然phonebook 多了什麼功能。
+說到 refactor的改善，我嘗試想把我的 code做物件化，我覺得他給我們最大的好處就是，讓別人一眼就看出來我們的 phonebook的 attribute 和 可以使用的 method，而不會是像 append這樣簡易的命名，讓我們不清楚他到底再 append哪些東西，而且要加額外的功能只要再多開一個 function pointer，大家一目瞭然phonebook 多了什麼功能。
 
 * phonebook
 ```clike=
@@ -150,7 +150,7 @@ int main(int argc, char *argv)
 
 他這份實作有完整程式碼，行數不是很多，但他開出來的 api跟 struct member都非常清楚，不像我的 `append_a`完全不知道是什麼。
 
-這邊我看到他的 `thread` 用的 `struct` 很漂亮，也是我要改善再我實作裏面的。
+這邊我看到他的 `thread` 用的 `struct` 很漂亮，也是我要改善再我實作裡面的。
 ```clike=
 typedef struct {
     void (*function)(void *);

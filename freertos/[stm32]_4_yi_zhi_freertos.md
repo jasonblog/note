@@ -131,7 +131,7 @@ FreeRTOS CLI 是一個處理命令列的框架，可以透過它提供的 API �
 3. 將 FreeRTOS_CLI.c 加入專案中編譯
 4. 參考 FreeRTOS-Plus/Demo/Common/FreeRTOS_Plus_CLI_Demos/UARTCommandConsole.c 建立一個任務來處理
 
-以下是一個簡單的範例程式。USART2 收到字元後，利用 queue 傳給 CONSOLE_Task。等到搜集到一行命令時，再傳給 FreeRTOS_CLIProcessCommand 處理。
+以下是一個簡單的範例程式。USART2 收到字元後，利用 queue 傳給 CONSOLE_Task。等到蒐集到一行命令時，再傳給 FreeRTOS_CLIProcessCommand 處理。
 
 ```c
 /* Private define ------------------------------------------------------------*/

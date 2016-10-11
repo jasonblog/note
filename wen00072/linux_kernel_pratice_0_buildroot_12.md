@@ -5,8 +5,8 @@
 
 最近因為特別因素開始學習Linux kernel，看能不能Linux kernel和STM32兩邊都不要漏掉。不管怎樣，學習和實習絕對分不開，所以還是從環境架設開始吧。這次的實習環境架設的目標是：
 
-1. 可以使用ARM 平台。一方面追求流行，一方面我不想再開x86這個副本
-2. 可以方便地建立ARM平台的Linux Rootfs和kernel版本
+1. 可以使用ARM 平臺。一方面追求流行，一方面我不想再開x86這個副本
+2. 可以方便地建立ARM平臺的Linux Rootfs和kernel版本
 3. 可以方便地更改指定要編譯的Kernel版本
 4. 透過Qemu ，使用2的Rootfs和kernel開機
 5. 透過Qemu和搭配的工具可以分析Linux kernel的run time 行為
@@ -84,7 +84,7 @@ make qemu_arm_versatile_defconfig
     * 預設5.x，因為我想要編Linux kernel 4.4.2。以前PC經驗使用gcc 5.x極端痛苦，後來還是換回gcc 4.8
 3. 一些除錯設定
 
-另外本來想要嘗試設定更動Kernel版本，但是發現需要更進一步的了解buildroot才能夠達成。當作下次目標吧。
+另外本來想要嘗試設定更動Kernel版本，但是發現需要更進一步的瞭解buildroot才能夠達成。當作下次目標吧。
 
 <a name="lk0_ins_build"></a>
 ### 編譯及輸出

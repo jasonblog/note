@@ -1,9 +1,9 @@
-# Linux 逆向工程的工具介绍
+# Linux 逆向工程的工具介紹
 
 
-Linux 逆向工程主要是用要一些二进制解析工具(string/file/nm/readelf)、反汇编工具(objdump)、代码运行测试工具（ltrace/strace/gdb)、代码注入手法(LD_PRELOAD)等等，下面这篇文章简单的介绍了一些常用的工具。
+Linux 逆向工程主要是用要一些二進制解析工具(string/file/nm/readelf)、反彙編工具(objdump)、代碼運行測試工具（ltrace/strace/gdb)、代碼注入手法(LD_PRELOAD)等等，下面這篇文章簡單的介紹了一些常用的工具。
 
-另外可以参考：http://www.ouah.org/RevEng/
+另外可以參考：http://www.ouah.org/RevEng/
 
 This article explains about the tools and commands that can be used to reverse engineer an executable in a Linux environment.
 

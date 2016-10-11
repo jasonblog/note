@@ -910,13 +910,13 @@
        * [A05: introspect](ncku_embededd/a05_introspect.md)
        * [A06: phonebook-concurrent](ncku_embededd/a06_phonebook-concurrent.md)
 * [逆向工程](Reversing/ni_xiang_gong_cheng.md)
-   * [Linux 逆向工程的工具介绍](Reversing/linux_ni_xiang_gong_cheng_de_gong_ju_jie_shao.md)
+   * [Linux 逆向工程的工具介紹](Reversing/linux_ni_xiang_gong_cheng_de_gong_ju_jie_shao.md)
 * [Git](git/git.md)
    * [Keeping a fork up to date](git/keeping_a_fork_up_to_date.md)
 * [Interview](interview/interview.md)
    * [DS_Algo](interview/dsalgo.md)
        * [Linked List的複習總結](interview/linked_listde_fu_xi_zong_jie.md)
        * [面試精選：鏈表問題集錦](interview/mian_shi_jing_xuan_ff1a_lian_biao_wen_ti_ji_jin.md)
-       * [链表面试常见合集](interview/lian_biao_mian_shi_chang_jian_he_ji.md)
-       * 编程判断两个链表是否相交
+       * [鏈表面試常見合集](interview/lian_biao_mian_shi_chang_jian_he_ji.md)
+       * 編程判斷兩個鏈表是否相交
 

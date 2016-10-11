@@ -53,7 +53,7 @@ $ convert out.ppm out.png
 
 * 在 GitHub 上 fork [raytracing](https://github.com/sysprog21/raytracing)，並思考如何改善程式效能
 * 以 `make PROFILE=1` 重新編譯程式碼，並且學習 [gprof](https://sourceware.org/binutils/docs/gprof/)
-    * 參考 [使用 GNU gprof 進行 Linux 平台的程式分析](http://os.51cto.com/art/200703/41426.htm)
+    * 參考 [使用 GNU gprof 進行 Linux 平臺的程式分析](http://os.51cto.com/art/200703/41426.htm)
 * 以 [gprof](https://sourceware.org/binutils/docs/gprof/) 指出效能瓶頸，並且著手改寫檔案 `math-toolkit.h` 在內的函式實做，充分紀錄效能差異在共筆
     * 注意: 請勿更動編譯器最佳化選項 `-O0` (關閉最佳化)
     * 檔案 `math-toolkit.h` 定義的若干數學操作函式很重要，可參考 [Investigating SSE cross product performance](http://threadlocalmutex.com/?p=8)、[MathFu](https://google.github.io/mathfu/) 原始程式碼，以及 [2015q3 Homework #1 Ext](http://wiki.csie.ncku.edu.tw/embedded/2015q3h1ext)

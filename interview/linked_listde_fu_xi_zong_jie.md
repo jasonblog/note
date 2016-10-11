@@ -7,12 +7,6 @@
 ##基本操作
 作為data strucutre裡面基本的數據結構Linked list有很多特殊的性質值得我們去注意,由於它是線性結構大多數linked list問題還是相對其他數據結構（如tree, graph)較容易的。由於Linked List是由一個個節點(node)相聯組成的,因此首先看一下一個node一般怎麼寫吧（這裡主要先討論的單向的鏈表，雙向鏈表或者其他變種會在之後章節討論）：
 
-
-
-文／dol_re_mi（簡書作者）
-原文鏈接：http://www.jianshu.com/p/3d4be8cbf94b
-著作權歸作者所有，轉載請聯繫作者獲得授權，並標註“簡書作者”。
-
 ```c
 struct Node {
     int val;
@@ -24,9 +18,6 @@ struct Node {
 從以上可以看出在c++中Node一般是用struct來生成，並且可以使用constructor來初始化Node，因此初始化node就跟普通的class一樣。瞭解了Node的結構之後，下面就看看怎樣insert, delete one node on the linked list.
 首先來看insertion, 我們需要考慮兩種情況：1：如果原來的linked list是空的，insert需要更新第一個node(header),一般linked list由the first node (header)來表示，一旦有了第一個node的地址其他操作都可以從這裡進行; 2：如果原來的linked list是非空，insert需要更新previous node和next node的聯結關係。在這裡我們來介紹一個小技巧，對於第一個node需要update的情形（即linked list可能空的），一般可以使用dummy node來避免使用if來分情況討論，具體方法就是建立一個dummy node使得它next指向linked list的第一個node,但是需要注意的是此時函數返回值必須為Node *即pointer to Node.因此在函數的signature給定的情況下，可以寫一個wrapper函數在wrapper function中call這個函數來完成。以下是具體的insertion函數，注意這裡返回Node pointer指向header,這裡插入的位置是插入節點的值大於前一個節點並且小於後一個節點。
 
-文／dol_re_mi（簡書作者）
-原文鏈接：http://www.jianshu.com/p/3d4be8cbf94b
-著作權歸作者所有，轉載請聯繫作者獲得授權，並標註“簡書作者”。
 
 ```c
 Node* insert(Node* node, Node* top)
@@ -83,9 +74,6 @@ Node* insert(Node* node, Node* top)
 對應insertion的就是delete了，這裡同樣還是用dummy node的方法來解決，這裡刪除的是節點值等於key的所有節點，需要注意的是得一直跟蹤記錄需要刪除的前一個node:
 Remove Linked List Elements
 
-文／dol_re_mi（簡書作者）
-原文鏈接：http://www.jianshu.com/p/3d4be8cbf94b
-著作權歸作者所有，轉載請聯繫作者獲得授權，並標註“簡書作者”。
 
 ```c
 void delete(Node* head, int key)
@@ -1019,5 +1007,236 @@ ListNode* mergeList(ListNode* a, ListNode* b)
 
 
 ```c
+ListNode* getIntersectionNode(ListNode* headA, ListNode* headB)
+{
+    if (headA == nullptr || headB == nullptr) {
+        return nullptr;
+    }
 
+    ListNode* curA = headA, *curB = headB;
+    ListNode* tailA = nullptr, *tailB = nullptr;
+
+    while (true) {
+        if (curA == nullptr) {
+            curA = headB;
+        }
+
+        if (curB == nullptr) {
+            curB = headA;
+        }
+
+        if (curA->next == nullptr) {
+            tailA = curA;
+        }
+
+        if (curB->next == nullptr) {
+            tailB = curB;
+        }
+
+        if (tailA && tailB && tailA->val != tailB->val) {
+            return nullptr;
+        }
+
+        if (curA == curB) {
+            return curA;
+        }
+
+        curA = curA->next;
+        curB = curB->next;
+    }
+}
 ```
+
+
+這道題的關鍵linked list A的尾部鏈接到linked list B的頭部，同樣linked list B的尾部鏈接到linked list A的頭部。提前可以判斷的是如果兩個linked list的尾部不等那麼肯定沒有intersection,只有當一個時刻兩個pointer指向同一個節點那麼它就是intersection.
+
+如果linked list本身是有序的，尋找intersection假設這樣的intersection是存在的：
+
+```c
+Node* intersect(Node* a, Node* b)
+{
+    Node dummy(-1);
+    Node* cur = &dummy;
+
+    while (a && b) {
+        if (a->val == b->val) {
+            cur->next = a;
+            cur = cur->next;
+            a = a->next;
+            b = b->next;
+        } else if (a->val < b->val) {
+            a = a->next;
+        } else {
+            b = b->next;
+        }
+
+        cur->next = nullptr;
+        return dummy.next;
+    }
+}
+```
+
+這裡採用了dummy node的方法，類似於之前的merge方法，只是選擇數值相同的節點。另外需要注意的是兩個linked list的節點更新。下面是遞歸的方法：
+
+```c
+Node* intersect(Node* a, Node* b)
+{
+    if (a == nullptr || b == nullptr) {
+        return nullptr;
+    }
+
+    if (a->data < b->data) {
+        return intersect(a->next, b);
+    }
+
+    if (a->data > b->data) {
+        return intersect(a, b->next);
+    }
+
+    Node* tmp = new Node(a->data);
+    tmp->next = Intersect(a->next, b->next);
+    return tmp;
+}
+```
+同樣是two sorted linked list, construct a maximum sum linked list out of them:
+
+```c
+void findMaxSumlist(Node* a, Node* b)
+{
+    Node* result =  nullptr;
+    Node* pre1 = a, *cur1 = a;
+    Node* pre2 = b, *cur2 = b;
+
+    while (cur1 || cur2) {
+        int sum1 = 0, sum2 = 0;
+
+        while (cur1 && cur2 && cur1->data != cur2->data) {
+            if (cur1->data < cur2->data) {
+                sum1 += cur1->data;
+                cur1 = cur1->next;
+            } else {
+                sum2 += cur2->data;
+                cur2 = cur->next;
+            }
+        }
+
+        if (cur1 == nullptr) {
+            while (cur2) {
+                sum2 += cur->data;
+                cur2 = cur2->next;
+            }
+        }
+
+        if (cur2 == nullptr) {
+            while (cur1) {
+                sum1 += cur->data;
+                cur1 = cur1->next;
+            }
+        }
+
+        if (pre1 == a && pre2 == b) {
+            result = (sum1 > sum2) ? pre1 : pre2;
+        } else {
+            if (sum1 > sum2) {
+                pre2->next = pre1->next;
+            } else {
+                pre1->next = pre2->next;
+            }
+        }
+
+        pre1 = cur1, pre2 = cur2;
+
+        if (cur1) {
+            cur1 = cur1->next;
+        }
+
+        if (cur2) {
+            cur2 = cur2->next;
+        }
+    }
+
+    while (result) {
+        cout << result->data << " ";
+        result = result->next;
+    }
+}
+```
+
+這道題的思路是在使用merge的同時，一直記錄到達到共同的節點之前各自鏈表所有節點之和，比較兩者之後選擇是否更新prev節點使得最後的結果得到最大的和。
+當linked list代表一個數字時候，兩個數的加法可以用linked list操作來進行。
+
+
+```c
+Node* addTwoList(Node* first, Node* second)
+{
+    Node* result, *temp, *prev;
+    int carry = 0, sum;
+
+    while (first || second) {
+        sum = carry + (first ? first->data : 0) + (second ? second->data : 0);
+
+        carry = sum / 10;
+        sum = sum % 10;
+
+        temp = new Node(sum);
+
+        if (result == nullptr) {
+            result = temp;
+        } else {
+            prev->next = temp;
+        }
+
+        prev = temp;
+
+        if (first) {
+            first = first->next;
+        }
+
+        if (second) {
+            second = second->next;
+        }
+    }
+
+    if (curry) {
+        temp->next = new Node(carry);
+    }
+
+    return result;
+}
+```
+
+如果linked list結構發生一些變化，比如說node本身不僅指向下一個Node，還有一個額外的random Node,如何clone
+
+```c
+RandomListNode* copyRandomList(RandomListNode* head)
+{
+    for (RandomListNode* cur = head; cur;) {
+        RandomListNode* newNode = new RandomListNode(cur->label);
+        newNode->next = cur->next;
+        cur->next = newNode;
+        cur = cur->next->next;
+    }
+
+    for (RandomListNode* cur = head; cur;) {
+        if (cur->random) {
+            cur->next->random = cur->random->next;
+
+            cur = cur->next->next;
+        }
+
+        RandomListNode dummy(-1);
+        dummy.next = head;
+
+        for (RandomListNode* prev = &dummy, *cur = head; cur;) {
+            prev->next = cur->next;
+            prev = prev->next;
+            cur->next = cur->next->next;
+            cur = cur->next;
+        }
+
+        return dummy.next;
+    }
+}
+```
+
+這道題的傳統做法需要複製原來鏈表所有的節點和random節點，對於空間的要求是O(n)，或者用hashtable記錄所有的label來記錄random節點和next節點位置。這裡巧妙第一次遍歷在原linked list中每一個節點後複製其自身，然後第二次遍歷將cur節點random pointer信息複製出去通過cur->next。最後就是將一個linked list分開成兩個linked list.

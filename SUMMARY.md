@@ -918,5 +918,5 @@
        * [Linked List的複習總結](interview/linked_listde_fu_xi_zong_jie.md)
        * [面試精選：鏈表問題集錦](interview/mian_shi_jing_xuan_ff1a_lian_biao_wen_ti_ji_jin.md)
        * [鏈表面試常見合集](interview/lian_biao_mian_shi_chang_jian_he_ji.md)
-       * 編程判斷兩個鏈表是否相交
+       * [編程判斷兩個鏈表是否相交](interview/bian_cheng_pan_duan_liang_ge_lian_biao_shi_fou_xia.md)
 

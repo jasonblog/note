@@ -249,3 +249,73 @@ bool isIntersect(Node *h1,Node *h2)
 }
 
 ```
+
+##8. 擴展：鏈表有環，如何判斷相交
+###題目描述：上面的問題都是針對鏈表無環的，那麼如果現在，鏈表是有環的呢?上面的方法還同樣有效麼?
+
+###分析：如果有環且兩個鏈表相交，則兩個鏈表都有共同一個環，即環上的任意一個節點都存在於兩個鏈表上。因此，就可以判斷一鏈表上倆指針相遇的那個節點，在不在另一條鏈表上。
+
+代碼如下：
+
+```c
+//判斷兩個帶環鏈表是否相交
+bool isIntersectWithLoop(Node *h1,Node *h2)
+{
+    Node *circleNode1,*circleNode2;
+    if(!hasCircle(h1,circleNode1))    //判斷鏈錶帶不帶環，並保存環內節點
+        return false;                //不帶環，異常退出
+    if(!hasCircle(h2,circleNode2))
+        return false;
+
+    Node *temp = circleNode2->next;
+    while(temp != circleNode2)
+    {
+        if(temp == circleNode1)
+            return true;
+        temp = temp->next;
+    }
+    return false;
+}
+```
+##9. 擴展：兩鏈表相交的第一個公共節點
+###題目描述：如果兩個無環單鏈表相交，怎麼求出他們相交的第一個節點呢？
+
+###分析：採用對齊的思想。計算兩個鏈表的長度 L1 , L2，分別用兩個指針 p1 , p2 指向兩個鏈表的頭，然後將較長鏈表的 p1（假設為 p1）向後移動L2 - L1個節點，然後再同時向後移動p1 , p2，直到 p1 = p2。相遇的點就是相交的第一個節點。
+
+代碼如下：
+
+```c
+//求兩鏈表相交的第一個公共節點
+Node* findIntersectNode(Node *h1,Node *h2)
+{
+    int len1 = listLength(h1);          //求鏈表長度
+    int len2 = listLength(h2);
+    //對齊兩個鏈表
+    if(len1 > len2)
+    {
+        for(int i=0;i<len1-len2;i++)
+            h1=h1->next;
+    }
+    else 
+    {
+        for(int i=0;i<len2-len1;i++)
+            h2=h2->next;
+    }
+
+    while(h1 != NULL)
+    {
+        if(h1 == h2)
+            return h1;
+        h1 = h1->next;
+        h2 = h2->next;    
+    }
+    return NULL;
+}
+```
+##10. 總結
+可以發現，在鏈表的問題中，通過兩個的指針來提高效率是很值得考慮的一個解決方案，所以一定要記住這種解題思路。記住幾種典型的鏈表問題解決方案，很多類似的題目都可以轉換到熟悉的問題再解決。
+
+##參考文獻
+- 程序員編程藝術：第九章、閒話鏈表追趕問題
+- 判斷單鏈表是否存在環，判斷兩個鏈表是否相交問題詳解
+- 面試算法之鏈表操作集錦

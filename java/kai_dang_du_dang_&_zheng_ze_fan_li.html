@@ -46,7 +46,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="63.1" data-basepath=".." data-revision="Wed Oct 12 2016 22:56:42 GMT+0800 (CST)">
+    <div class="book" data-level="63.1" data-basepath=".." data-revision="Wed Oct 12 2016 23:22:36 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -14678,6 +14678,59 @@
             FileReader FileStream = <span class="hljs-keyword">new</span> FileReader(<span class="hljs-string">&quot;./one_way1&quot;</span>);
             BufferedReader BufferedStream = <span class="hljs-keyword">new</span> BufferedReader(FileStream);
             String tLine = <span class="hljs-keyword">null</span>;
+
+            <span class="hljs-keyword">while</span> ((tLine = BufferedStream.readLine()) != <span class="hljs-keyword">null</span>) {
+                Matcher QuatMatcher = QuatPattern.matcher(tLine);
+
+                <span class="hljs-keyword">if</span> (!QuatMatcher.find()) {
+                    <span class="hljs-comment">// can&apos;t find pid or cpu usage, probably line we&apos;re not</span>
+                    <span class="hljs-comment">// interested in</span>
+                    <span class="hljs-keyword">continue</span>;
+                }
+
+                String Yaw = QuatMatcher.group(<span class="hljs-number">1</span>);
+                String Pitch = QuatMatcher.group(<span class="hljs-number">2</span>);
+                String Roll = QuatMatcher.group(<span class="hljs-number">3</span>);
+
+                System.out.println(<span class="hljs-string">&quot;Yaw=&quot;</span> + Yaw + <span class="hljs-string">&quot;, Pitch=&quot;</span> + Pitch + <span class="hljs-string">&quot;, Roll=&quot;</span> + Roll);
+            }
+
+            BufferedStream.close();
+            FileStream.close();
+        } <span class="hljs-keyword">catch</span> (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<h3 id="%E7%B5%B1%E8%A8%88%E8%A1%8C%E6%95%B8%E5%8F%8A%E6%AD%A3%E5%89%87-and-reset-to-beginning-of-file">&#x7D71;&#x8A08;&#x884C;&#x6578;&#x53CA;&#x6B63;&#x5247; and reset&quot; to beginning of file</h3>
+<pre><code class="lang-java"><span class="hljs-keyword">import</span> java.io.*;
+<span class="hljs-keyword">import</span> java.util.regex.Matcher;
+<span class="hljs-keyword">import</span> java.util.regex.Pattern;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">in</span>
+</span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span>
+    </span>{
+        <span class="hljs-keyword">int</span> count = <span class="hljs-number">0</span>;
+        Pattern QuatPattern =
+            Pattern.compile(<span class="hljs-string">&quot;Yaw\\:\\s+(-?\\d+\\.?\\d{6})\\;\\sPitch\\:\\s(-?\\d+\\.?\\d{6})\\;Roll\\:\\s(-?\\d+\\.?\\d{6})&quot;</span>);
+
+        <span class="hljs-keyword">try</span>  {
+            FileInputStream FileStream = <span class="hljs-keyword">new</span> FileInputStream(<span class="hljs-string">&quot;./one_way1&quot;</span>);
+            BufferedReader BufferedStream = <span class="hljs-keyword">new</span> BufferedReader(<span class="hljs-keyword">new</span> InputStreamReader(
+                        FileStream));
+            String tLine = <span class="hljs-keyword">null</span>;
+
+            <span class="hljs-keyword">while</span> ((tLine = BufferedStream.readLine()) != <span class="hljs-keyword">null</span>) {
+                count++;
+            }
+
+            <span class="hljs-comment">//System.out.println(&quot;count=&quot; + count);</span>
+            <span class="hljs-comment">//System.in.read();</span>
+
+            <span class="hljs-comment">// &quot;reset&quot; to beginning of file (discard old buffered reader)</span>
+            FileStream.getChannel().position(<span class="hljs-number">0</span>);
 
             <span class="hljs-keyword">while</span> ((tLine = BufferedStream.readLine()) != <span class="hljs-keyword">null</span>) {
                 Matcher QuatMatcher = QuatPattern.matcher(tLine);

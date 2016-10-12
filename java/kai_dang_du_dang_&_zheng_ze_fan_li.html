@@ -46,7 +46,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="63.1" data-basepath=".." data-revision="Wed Oct 12 2016 23:22:36 GMT+0800 (CST)">
+    <div class="book" data-level="63.1" data-basepath=".." data-revision="Wed Oct 12 2016 23:38:42 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -14746,6 +14746,81 @@
                 String Roll = QuatMatcher.group(<span class="hljs-number">3</span>);
 
                 System.out.println(<span class="hljs-string">&quot;Yaw=&quot;</span> + Yaw + <span class="hljs-string">&quot;, Pitch=&quot;</span> + Pitch + <span class="hljs-string">&quot;, Roll=&quot;</span> + Roll);
+            }
+
+            BufferedStream.close();
+            FileStream.close();
+        } <span class="hljs-keyword">catch</span> (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<pre><code class="lang-java"><span class="hljs-keyword">import</span> java.io.*;
+<span class="hljs-keyword">import</span> java.util.regex.Matcher;
+<span class="hljs-keyword">import</span> java.util.regex.Pattern;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">in</span>
+</span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span>
+    </span>{
+        <span class="hljs-keyword">int</span> count = <span class="hljs-number">0</span>;
+        Pattern QuatPattern =
+            Pattern.compile(<span class="hljs-string">&quot;Yaw\\:\\s+(-?\\d+\\.?\\d{6})\\;\\sPitch\\:\\s(-?\\d+\\.?\\d{6})\\;Roll\\:\\s(-?\\d+\\.?\\d{6})&quot;</span>);
+
+        <span class="hljs-keyword">try</span>  {
+            FileInputStream FileStream = <span class="hljs-keyword">new</span> FileInputStream(<span class="hljs-string">&quot;./one_way1&quot;</span>);
+            BufferedReader BufferedStream = <span class="hljs-keyword">new</span> BufferedReader(<span class="hljs-keyword">new</span> InputStreamReader(
+                        FileStream));
+
+            String tLine = <span class="hljs-keyword">null</span>;
+
+            <span class="hljs-keyword">while</span> ((tLine = BufferedStream.readLine()) != <span class="hljs-keyword">null</span>) {
+                count++;
+            }
+
+            <span class="hljs-comment">//System.out.println(&quot;count=&quot; + count);</span>
+            <span class="hljs-comment">//System.in.read();</span>
+            BufferedStream.close();
+            FileStream.close();
+        } <span class="hljs-keyword">catch</span> (Exception e) {
+            e.printStackTrace();
+        }
+
+        <span class="hljs-keyword">double</span>[][] table = <span class="hljs-keyword">new</span> <span class="hljs-keyword">double</span>[count][<span class="hljs-number">3</span>];
+
+        <span class="hljs-keyword">try</span>  {
+            FileInputStream FileStream = <span class="hljs-keyword">new</span> FileInputStream(<span class="hljs-string">&quot;./one_way1&quot;</span>);
+            BufferedReader BufferedStream = <span class="hljs-keyword">new</span> BufferedReader(<span class="hljs-keyword">new</span> InputStreamReader(
+                        FileStream));
+            String tLine = <span class="hljs-keyword">null</span>;
+            <span class="hljs-keyword">int</span> line = <span class="hljs-number">0</span>;
+
+            <span class="hljs-comment">// &quot;reset&quot; to beginning of file (discard old buffered reader)</span>
+            <span class="hljs-comment">// FileStream.getChannel().position(0);</span>
+
+            <span class="hljs-keyword">while</span> ((tLine = BufferedStream.readLine()) != <span class="hljs-keyword">null</span>) {
+                Matcher QuatMatcher = QuatPattern.matcher(tLine);
+
+                <span class="hljs-keyword">if</span> (!QuatMatcher.find()) {
+                    <span class="hljs-comment">// can&apos;t find pid or cpu usage, probably line we&apos;re not</span>
+                    <span class="hljs-comment">// interested in</span>
+                    <span class="hljs-keyword">continue</span>;
+                }
+
+                String Yaw = QuatMatcher.group(<span class="hljs-number">1</span>);
+                String Pitch = QuatMatcher.group(<span class="hljs-number">2</span>);
+                String Roll = QuatMatcher.group(<span class="hljs-number">3</span>);
+                table[line][<span class="hljs-number">0</span>] = Double.parseDouble(Yaw);
+                table[line][<span class="hljs-number">1</span>] = Double.parseDouble(Pitch);
+                table[line][<span class="hljs-number">2</span>] = Double.parseDouble(Roll);
+                line++;
+                <span class="hljs-comment">// System.out.println(&quot;Yaw=&quot; + Yaw + &quot;, Pitch=&quot; + Pitch + &quot;, Roll=&quot; + Roll);</span>
+            }
+
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; count; i++) {
+                System.out.println(<span class="hljs-string">&quot;Yaw=&quot;</span> + table[i][<span class="hljs-number">0</span>] + <span class="hljs-string">&quot;, Pitch=&quot;</span> + table[i][<span class="hljs-number">1</span>] + <span class="hljs-string">&quot;, Roll=&quot;</span> +
+                                   table[i][<span class="hljs-number">2</span>]);
             }
 
             BufferedStream.close();

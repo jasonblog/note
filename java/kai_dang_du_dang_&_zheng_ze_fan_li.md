@@ -46,6 +46,62 @@ public class in
 }
 ```
 
+### 統計行數及正則 and reset" to beginning of file
+
+```java
+import java.io.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class in
+{
+    public static void main(String[] args)
+    {
+        int count = 0;
+        Pattern QuatPattern =
+            Pattern.compile("Yaw\\:\\s+(-?\\d+\\.?\\d{6})\\;\\sPitch\\:\\s(-?\\d+\\.?\\d{6})\\;Roll\\:\\s(-?\\d+\\.?\\d{6})");
+
+        try  {
+            FileInputStream FileStream = new FileInputStream("./one_way1");
+            BufferedReader BufferedStream = new BufferedReader(new InputStreamReader(
+                        FileStream));
+            String tLine = null;
+
+            while ((tLine = BufferedStream.readLine()) != null) {
+                count++;
+            }
+
+            //System.out.println("count=" + count);
+            //System.in.read();
+
+            // "reset" to beginning of file (discard old buffered reader)
+            FileStream.getChannel().position(0);
+
+            while ((tLine = BufferedStream.readLine()) != null) {
+                Matcher QuatMatcher = QuatPattern.matcher(tLine);
+
+                if (!QuatMatcher.find()) {
+                    // can't find pid or cpu usage, probably line we're not
+                    // interested in
+                    continue;
+                }
+
+                String Yaw = QuatMatcher.group(1);
+                String Pitch = QuatMatcher.group(2);
+                String Roll = QuatMatcher.group(3);
+
+                System.out.println("Yaw=" + Yaw + ", Pitch=" + Pitch + ", Roll=" + Roll);
+            }
+
+            BufferedStream.close();
+            FileStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
 - one_way1
 
 ```sh

@@ -102,6 +102,84 @@ public class in
 }
 ```
 
+```java
+import java.io.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class in
+{
+    public static void main(String[] args)
+    {
+        int count = 0;
+        Pattern QuatPattern =
+            Pattern.compile("Yaw\\:\\s+(-?\\d+\\.?\\d{6})\\;\\sPitch\\:\\s(-?\\d+\\.?\\d{6})\\;Roll\\:\\s(-?\\d+\\.?\\d{6})");
+
+        try  {
+            FileInputStream FileStream = new FileInputStream("./one_way1");
+            BufferedReader BufferedStream = new BufferedReader(new InputStreamReader(
+                        FileStream));
+
+            String tLine = null;
+
+            while ((tLine = BufferedStream.readLine()) != null) {
+                count++;
+            }
+
+            //System.out.println("count=" + count);
+            //System.in.read();
+            BufferedStream.close();
+            FileStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        double[][] table = new double[count][3];
+
+        try  {
+            FileInputStream FileStream = new FileInputStream("./one_way1");
+            BufferedReader BufferedStream = new BufferedReader(new InputStreamReader(
+                        FileStream));
+            String tLine = null;
+            int line = 0;
+
+            // "reset" to beginning of file (discard old buffered reader)
+            // FileStream.getChannel().position(0);
+
+            while ((tLine = BufferedStream.readLine()) != null) {
+                Matcher QuatMatcher = QuatPattern.matcher(tLine);
+
+                if (!QuatMatcher.find()) {
+                    // can't find pid or cpu usage, probably line we're not
+                    // interested in
+                    continue;
+                }
+
+                String Yaw = QuatMatcher.group(1);
+                String Pitch = QuatMatcher.group(2);
+                String Roll = QuatMatcher.group(3);
+                table[line][0] = Double.parseDouble(Yaw);
+                table[line][1] = Double.parseDouble(Pitch);
+                table[line][2] = Double.parseDouble(Roll);
+                line++;
+                // System.out.println("Yaw=" + Yaw + ", Pitch=" + Pitch + ", Roll=" + Roll);
+            }
+
+            for (int i = 0; i < count; i++) {
+                System.out.println("Yaw=" + table[i][0] + ", Pitch=" + table[i][1] + ", Roll=" +
+                                   table[i][2]);
+            }
+
+            BufferedStream.close();
+            FileStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+
 - one_way1
 
 ```sh

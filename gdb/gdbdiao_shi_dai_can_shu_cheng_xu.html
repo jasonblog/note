@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>android resource | Jason note</title>
+        <title>gdb調試帶參數程序 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../android_note/startservice_bindservice.html" />
+    <link rel="next" href="../mooc_linux_kernel/index.html" />
     
     
-    <link rel="prev" href="../android_note/index.html" />
+    <link rel="prev" href="../gdb/hen_jing_dian_de_gdb_diao_shi_ming_ling_ff0c_bao_k.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="4.1" data-basepath=".." data-revision="Mon Oct 17 2016 01:41:09 GMT+0800 (CST)">
+    <div class="book" data-level="16.41" data-basepath=".." data-revision="Mon Oct 17 2016 01:41:09 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1022,7 +1022,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="4.1" data-path="android_note/514.html">
+        <li class="chapter " data-level="4.1" data-path="android_note/514.html">
             
                 
                     <a href="../android_note/514.html">
@@ -5999,7 +5999,7 @@
             
         </li>
     
-        <li class="chapter " data-level="16.41" data-path="gdb/gdbdiao_shi_dai_can_shu_cheng_xu.html">
+        <li class="chapter active" data-level="16.41" data-path="gdb/gdbdiao_shi_dai_can_shu_cheng_xu.html">
             
                 
                     <a href="../gdb/gdbdiao_shi_dai_can_shu_cheng_xu.html">
@@ -14676,16 +14676,74 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="android-resource">android resource</h1>
-<ul>
-<li>android Git repositories</li>
-</ul>
-<pre><code>https://android.googlesource.com/
-</code></pre><ul>
-<li>android source code</li>
-</ul>
-<pre><code>https://android.googlesource.com/platform/manifest/
+                        <h1 id="gdb%E8%AA%BF%E8%A9%A6%E5%B8%B6%E5%8F%83%E6%95%B8%E7%A8%8B%E5%BA%8F">gdb&#x8ABF;&#x8A66;&#x5E36;&#x53C3;&#x6578;&#x7A0B;&#x5E8F;</h1>
+<p>&#x4E00;&#x822C;&#x4F86;&#x8AAA;GDB&#x4E3B;&#x8981;&#x8ABF;&#x8A66;&#x7684;&#x662F;C/C++&#x7684;&#x7A0B;&#x5E8F;&#x3002;&#x8981;&#x8ABF;&#x8A66;C/C++&#x7684;&#x7A0B;&#x5E8F;&#xFF0C;&#x9996;&#x5148;&#x5728;&#x7DE8;&#x8B6F;&#x6642;&#xFF0C;&#x6211;&#x5011;&#x5FC5;&#x9808;&#x8981; 
+&#x628A;&#x8ABF;&#x8A66;&#x4FE1;&#x606F;&#x52A0;&#x5230;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x4E2D;&#x3002;&#x4F7F;&#x7528;&#x7DE8;&#x8B6F; &#x5668;&#xFF08;cc/gcc/g++&#xFF09;&#x7684; -g &#x53C3;&#x6578;&#x53EF;&#x4EE5;&#x505A;&#x5230;&#x9019;&#x4E00;&#x9EDE;&#x3002;&#x5982;&#xFF1A; </p>
+<pre><code class="lang-sh">&gt; cc -g hello.c -o hello 
+&gt; g++ -g hello.cpp -o hello
 </code></pre>
+<p>&#x5982;&#x679C;&#x6C92;&#x6709;-g&#xFF0C;&#x4F60;&#x5C07;&#x770B;&#x4E0D;&#x898B;&#x7A0B;&#x5E8F;&#x7684;&#x51FD;&#x6578;&#x540D;&#x3001;&#x8B8A;&#x91CF;&#x540D;&#xFF0C;&#x6240;&#x4EE3;&#x66FF;&#x7684;&#x5168;&#x662F; &#x904B;&#x884C;&#x6642;&#x7684;&#x5167;&#x5B58;&#x5730;&#x5740;&#x3002;&#x7576;&#x4F60;&#x7528; 
+-g&#x628A;&#x8ABF;&#x8A66;&#x4FE1;&#x606F;&#x52A0;&#x5165;&#x4E4B;&#x5F8C;&#xFF0C;&#x4F75;&#x6210;&#x529F;&#x7DE8;&#x8B6F;&#x76EE;&#x6A19;&#x4EE3;&#x78BC;&#x4EE5;&#x5F8C;&#xFF0C;&#x8B93;&#x6211;&#x5011;&#x4F86;&#x770B;&#x770B;&#x5982;&#x4F55;&#x7528;gdb&#x4F86;&#x8ABF;&#x8A66;&#x4ED6;&#x3002; </p>
+<p>&#x555F;&#x52D5; GDB&#x7684;&#x65B9;&#x6CD5;&#x6709;&#x4EE5;&#x4E0B;&#x5E7E;&#x7A2E;&#xFF1A; </p>
+<pre><code class="lang-sh"><span class="hljs-number">1</span>&#x3001;gdb &lt;program&gt; 
+program&#x4E5F;&#x5C31;&#x662F;&#x4F60;&#x7684;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#xFF0C;&#x4E00;&#x822C;&#x5728;&#x7576;&#x7136;&#x76EE;&#x9304;&#x4E0B;&#x3002; 
+
+<span class="hljs-number">2</span>&#x3001;gdb &lt;program&gt; core 
+&#x7528;gdb&#x540C;&#x6642;&#x8ABF;&#x8A66;&#x4E00;&#x500B;&#x904B;&#x884C;&#x7A0B;&#x5E8F;&#x548C;core&#x6587;&#x4EF6;&#xFF0C;core&#x662F;&#x7A0B;&#x5E8F;&#x975E;&#x6CD5;&#x57F7;&#x884C;&#x5F8C;core dump&#x5F8C;&#x7522;&#x751F; 
+&#x7684;&#x6587;&#x4EF6;&#x3002; 
+
+<span class="hljs-number">3</span>&#x3001;gdb &lt;program&gt; &lt;PID&gt; 
+&#x5982;&#x679C;&#x4F60;&#x7684;&#x7A0B;&#x5E8F;&#x662F;&#x4E00;&#x500B;&#x670D;&#x52D9;&#x7A0B;&#x5E8F;&#xFF0C;&#x90A3;&#x9EBC;&#x4F60;&#x53EF;&#x4EE5;&#x6307;&#x5B9A;&#x9019;&#x500B;&#x670D;&#x52D9;&#x7A0B;&#x5E8F;&#x904B;&#x884C;&#x6642;&#x7684;&#x9032;&#x7A0B;ID&#x3002;gd 
+b&#x6703;&#x81EA;&#x52D5;attach&#x4E0A;&#x53BB;&#xFF0C;&#x4E26;&#x8ABF;&#x8A66;&#x4ED6;&#x3002;program&#x61C9;&#x8A72;&#x5728; PATH&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x4E2D;&#x641C;&#x7D22;&#x5F97;&#x5230;&#x3002;
+</code></pre>
+<p>GDB&#x555F;&#x52D5;&#x6642;&#xFF0C;&#x53EF;&#x4EE5;&#x52A0;&#x4E0A;&#x4E00;&#x4E9B;GDB&#x7684;&#x555F;&#x52D5;&#x958B;&#x95DC;&#xFF0C;&#x8A73;&#x7D30;&#x7684;&#x958B;&#x95DC;&#x53EF;&#x4EE5;&#x7528;gdb -help&#x67E5;&#x770B;&#x3002;&#x6211;&#x5728;&#x4E0B;&#x9762;&#x53EA; 
+&#x4F8B;&#x8209;&#x4E00;&#x4E9B;&#x6BD4;&#x8F03;&#x5E38;&#x7528;&#x7684;&#x53C3;&#x6578;&#xFF1A; </p>
+<pre><code>-symbols &lt;file&gt; 
+-s &lt;file&gt; 
+&#x5F9E;&#x6307;&#x5B9A;&#x6587;&#x4EF6;&#x4E2D;&#x8B80;&#x53D6;&#x7B26;&#x865F;&#x8868;&#x3002;
+</code></pre><pre><code>-se file 
+&#x5F9E;&#x6307;&#x5B9A;&#x6587;&#x4EF6;&#x4E2D;&#x8B80;&#x53D6;&#x7B26;&#x865F;&#x8868;&#x4FE1;&#x606F;&#xFF0C;&#x4E26;&#x628A;&#x4ED6;&#x7528;&#x5728;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x4E2D;&#x3002;
+</code></pre><pre><code>-core &lt;file&gt; 
+-c &lt;file&gt; 
+&#x8ABF;&#x8A66;&#x6642;core dump&#x7684;core&#x6587;&#x4EF6;&#x3002;
+</code></pre><pre><code>-directory &lt;directory&gt; 
+-d &lt;directory&gt; 
+&#x52A0;&#x5165;&#x4E00;&#x500B;&#x6E90;&#x6587;&#x4EF6;&#x7684;&#x641C;&#x7D22;&#x8DEF;&#x5F91;&#x3002;&#x9ED8;&#x8A8D;&#x641C;&#x7D22;&#x8DEF;&#x5F91;&#x662F;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x4E2D;PATH&#x6240;&#x5B9A;&#x7FA9;&#x7684;&#x8DEF;&#x5F91;&#x3002;
+</code></pre><p>&#x7576;&#x4EE5;gdb <program>&#x65B9;&#x5F0F;&#x555F;&#x52D5;gdb&#x5F8C;&#xFF0C;gdb&#x6703;&#x5728;PATH&#x8DEF;&#x5F91;&#x548C;&#x7576;&#x524D;&#x76EE;&#x9304;&#x4E2D;&#x641C;&#x7D22;<program>&#x7684;&#x6E90;&#x6587;&#x4EF6; 
+&#x3002; &#x5982;&#x8981;&#x78BA;&#x8A8D;gdb&#x662F;&#x5426;&#x8B80;&#x5230;&#x6E90;&#x6587;&#x4EF6;&#xFF0C;&#x53EF;&#x4F7F;&#x7528;l&#x6216;list&#x547D;&#x4EE4;&#xFF0C;&#x770B;&#x770B;gdb&#x662F;&#x5426;&#x80FD;&#x5217;&#x51FA;&#x6E90;&#x4EE3;&#x78BC;&#x3002; </program></program></p>
+<p>&#x5728;gdb&#x4E2D;&#xFF0C;&#x904B;&#x884C;&#x7A0B;&#x5E8F;&#x4F7F;&#x7528;r&#x6216;&#x662F;run&#x547D;&#x4EE4;&#x3002; &#x7A0B;&#x5E8F;&#x7684;&#x904B;&#x884C;&#xFF0C;&#x4F60;&#x6709;&#x53EF;&#x80FD;&#x9700;&#x8981;&#x8A2D;&#x7F6E;&#x4E0B;&#x9762;&#x56DB;&#x65B9;&#x9762;&#x7684;&#x4E8B;&#x3002; </p>
+<pre><code class="lang-sh"><span class="hljs-number">1</span>&#x3001;&#x7A0B;&#x5E8F;&#x904B;&#x884C;&#x53C3;&#x6578;&#x3002; 
+<span class="hljs-built_in">set</span> args &#x53EF;&#x6307;&#x5B9A;&#x904B;&#x884C;&#x6642;&#x53C3;&#x6578;&#x3002;&#xFF08;&#x5982;&#xFF1A;<span class="hljs-built_in">set</span> args <span class="hljs-number">10</span> <span class="hljs-number">20</span> <span class="hljs-number">30</span> <span class="hljs-number">40</span> <span class="hljs-number">50</span>&#xFF09; 
+show args &#x547D;&#x4EE4;&#x53EF;&#x4EE5;&#x67E5;&#x770B;&#x8A2D;&#x7F6E;&#x597D;&#x7684;&#x904B;&#x884C;&#x53C3;&#x6578;&#x3002; 
+
+<span class="hljs-number">2</span>&#x3001; &#x904B;&#x884C;&#x74B0;&#x5883;&#x3002; 
+path &lt;dir&gt; &#x53EF;&#x8A2D;&#x5B9A;&#x7A0B;&#x5E8F;&#x7684;&#x904B;&#x884C;&#x8DEF;&#x5F91;&#x3002; 
+show paths &#x67E5;&#x770B;&#x7A0B;&#x5E8F;&#x7684;&#x904B;&#x884C;&#x8DEF;&#x5F91;&#x3002; 
+<span class="hljs-built_in">set</span> environment varname [=value] &#x8A2D;&#x7F6E;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x3002;&#x5982;&#xFF1A;<span class="hljs-built_in">set</span> env USER=hchen 
+show environment [varname] &#x67E5;&#x770B;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x3002; 
+
+<span class="hljs-number">3</span>&#x3001;&#x5DE5;&#x4F5C;&#x76EE;&#x9304;&#x3002; 
+<span class="hljs-built_in">cd</span> &lt;dir&gt; &#x76F8;&#x7576;&#x65BC;shell&#x7684;<span class="hljs-built_in">cd</span>&#x547D;&#x4EE4;&#x3002; 
+<span class="hljs-built_in">pwd</span> &#x986F;&#x793A;&#x7576;&#x524D;&#x7684;&#x6240;&#x5728;&#x76EE;&#x9304;&#x3002; 
+
+<span class="hljs-number">4</span>&#x3001;&#x7A0B;&#x5E8F;&#x7684;&#x8F38;&#x5165;&#x8F38;&#x51FA;&#x3002; 
+info terminal &#x986F;&#x793A;&#x4F60;&#x7A0B;&#x5E8F;&#x7528;&#x5230;&#x7684;&#x7D42;&#x7AEF;&#x7684;&#x6A21;&#x5F0F;&#x3002; 
+&#x4F7F;&#x7528;&#x91CD;&#x5B9A;&#x5411;&#x63A7;&#x5236;&#x7A0B;&#x5E8F;&#x8F38;&#x51FA;&#x3002;&#x5982;&#xFF1A;run &gt; outfile 
+tty&#x547D;&#x4EE4;&#x53EF;&#x4EE5;&#x6307;&#x5BEB;&#x8F38;&#x5165;&#x8F38;&#x51FA;&#x7684;&#x7D42;&#x7AEF;&#x8A2D;&#x5099;&#x3002;&#x5982;&#xFF1A;tty /dev/ttyb
+</code></pre>
+<p>&#x5177;&#x9AD4;&#x4F86;&#x8AAA;&#x5C31;&#x662F;</p>
+<p>&#x4F8B;&#x5982;&#x4E00;&#x500B;&#x7A0B;&#x5E8F;&#x540D;&#x70BA;prog &#x53C3;&#x6578;&#x70BA; <code>-l a -C abc</code>
+&#x5247;&#xFF0C;&#x904B;&#x884C;</p>
+<pre><code>gcc/g++ -g  prog.c/cpp -o prog
+</code></pre><p>&#x5C31;&#x53EF;&#x4EE5;&#x7528;gdb&#x8ABF;&#x8A66;&#x7A0B;&#x5E8F;prog</p>
+<h1 id="gdb-prog">gdb prog</h1>
+<p>&#x9032;&#x5165;gdb&#x8ABF;&#x8A66;&#x754C;&#x9762;
+&#x8F38;&#x5165;&#x53C3;&#x6578;&#x547D;&#x4EE4;set args &#x5F8C;&#x9762;&#x52A0;&#x4E0A;&#x7A0B;&#x5E8F;&#x6240;&#x8981;&#x7528;&#x7684;&#x53C3;&#x6578;&#xFF0C;&#x6CE8;&#x610F;&#xFF0C;&#x4E0D;&#x518D;&#x5E36;&#x6709;&#x7A0B;&#x5E8F;&#x540D;&#xFF0C;&#x76F4;&#x63A5;&#x52A0;&#x53C3;&#x6578;&#xFF0C;&#x5982;&#xFF1A;</p>
+<pre><code>set args -l a -C abc
+</code></pre><p>&#x56DE;&#x8ECA;&#x5F8C;&#x8F38;&#x5165;
+r
+&#x5373;&#x53EF;&#x958B;&#x59CB;&#x904B;&#x884C;</p>
+
                     
                     </section>
                 
@@ -14695,10 +14753,10 @@
         </div>
 
         
-        <a href="../android_note/index.html" class="navigation navigation-prev " aria-label="Previous page: Android note"><i class="fa fa-angle-left"></i></a>
+        <a href="../gdb/hen_jing_dian_de_gdb_diao_shi_ming_ling_ff0c_bao_k.html" class="navigation navigation-prev " aria-label="Previous page: 很經典的GDB調試命令，包括查看變量，查看內存"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../android_note/startservice_bindservice.html" class="navigation navigation-next " aria-label="Next page: 什麼時候用startService，什麼時候用bindService"><i class="fa fa-angle-right"></i></a>
+        <a href="../mooc_linux_kernel/index.html" class="navigation navigation-next " aria-label="Next page: Linux內核分析雲課堂學習筆記"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

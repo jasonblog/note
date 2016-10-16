@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="27.1.7" data-basepath=".." data-revision="Fri Oct 14 2016 02:14:49 GMT+0800 (CST)">
+    <div class="book" data-level="27.1.7" data-basepath=".." data-revision="Sun Oct 16 2016 15:24:12 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -14688,7 +14688,7 @@ res2 = rs.get(<span class="hljs-string">&quot;http://makeabooking.flyscoot.com/F
 
 <span class="hljs-comment">#print res2.text</span>
 
-soup = bs(res2.text)
+soup = bs(res2.text, <span class="hljs-string">&quot;lxml&quot;</span>)
 <span class="hljs-keyword">for</span> li <span class="hljs-keyword">in</span> soup.select(<span class="hljs-string">&apos;.departure li&apos;</span>):
     <span class="hljs-keyword">if</span> len(li.select(<span class="hljs-string">&apos;.flightdate&apos;</span>)) &gt; <span class="hljs-number">0</span>:
         <span class="hljs-keyword">print</span> li.select(<span class="hljs-string">&apos;.flightdate&apos;</span>)[<span class="hljs-number">0</span>].text, li.select(<span class="hljs-string">&apos;.flight_price&apos;</span>)[<span class="hljs-number">0</span>].text

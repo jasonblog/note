@@ -28,7 +28,7 @@ res2 = rs.get("http://makeabooking.flyscoot.com/Flight/Select", verify=False)
 
 #print res2.text
 
-soup = bs(res2.text)
+soup = bs(res2.text, "lxml")
 for li in soup.select('.departure li'):
     if len(li.select('.flightdate')) > 0:
         print li.select('.flightdate')[0].text, li.select('.flight_price')[0].text

@@ -314,7 +314,7 @@ gdb遇到未處理的exception時，並不會捕獲處理。但是參考Set Catc
 
 ##閱讀資料
 
--Copy between memory and a file
+- Copy between memory and a file
 - HowTo: Writing into process memory with GDB
 - Specifying Source Directories
 - Examining the Symbol Table

@@ -5,27 +5,27 @@
 
 常用的gdb命令...
 
-##启动gdb
+##啟動gdb
 
-###直接运行
+###直接運行
 ```sh 
 gdb --args prog arg1 arg2
 ```
 
-###运行gdb后使用run命令
+###運行gdb後使用run命令
 ```
 gdb prog
 run arg1 arg2
 ```
 
-###attach到已运行的程序
+###attach到已運行的程序
 ```
 gdb --pid ${PID_OF_PROG}
 ```
 
 ##ptype
 
-ptype用于显示Symbol的类型，示例源码为:
+ptype用於顯示Symbol的類型，示例源碼為:
 
 ```c
 struct ABC {
@@ -38,7 +38,7 @@ int main() {
 }
 ```
 
-运行gdb：
+運行gdb：
 
 ```sh
 (gdb) b 7
@@ -50,11 +50,11 @@ type = struct XXX {
 }
 ```
 
-ptype可以输出表达式的返回类型，具体介绍可参考Examining the Symbol Table。
+ptype可以輸出表達式的返回類型，具體介紹可參考Examining the Symbol Table。
 
 ##print {type} variable
 
-print(p)可以按照某种类型输出变量的值，示例源码如下:
+print(p)可以按照某種類型輸出變量的值，示例源碼如下:
 
 ```c
 struct ABC {
@@ -73,7 +73,7 @@ int main() {
 }
 ```
 
-运行gdb:
+運行gdb:
 
 ```sh
 (gdb) b 13
@@ -104,40 +104,40 @@ $7 = 10
 $8 = 10
 ```
 
-有时候，如果字符串太长，gdb可能只打印一部分，这时候如下设置来打印全部内容：
+有時候，如果字符串太長，gdb可能只打印一部分，這時候如下設置來打印全部內容：
 ```sh
 (gdb) set print elements 0
 ```
 
 ##examine
 
-examine(x)可以按照一定的格式打印内存地址处的数据，详细文档可参考这里。
+examine(x)可以按照一定的格式打印內存地址處的數據，詳細文檔可參考這裡。
 
 ```sh
 (gdb) x/{COUNT}{FMT}{SIZE} {ADDRESS}
 ```
 
-- {COUNT}: 打印的数目，默认为1。
-- {FMT}: 打印的格式[1]，默认为上次使用的{FMT}:
-    - o(octal): 8进制整数
-    - x(hex): 16进制整数
-    - d(decimal): 10进制整数
-    - u(unsigned decimal): 10进制非负整数
-    - t(binary): 2进制整数
-    - f(float): 浮点数
-    - a(address): 输出相对于前面最近的符号的偏移
-    - i(instruction): 输出地址处的汇编指令
+- {COUNT}: 打印的數目，默認為1。
+- {FMT}: 打印的格式[1]，默認為上次使用的{FMT}:
+    - o(octal): 8進制整數
+    - x(hex): 16進制整數
+    - d(decimal): 10進制整數
+    - u(unsigned decimal): 10進制非負整數
+    - t(binary): 2進制整數
+    - f(float): 浮點數
+    - a(address): 輸出相對於前面最近的符號的偏移
+    - i(instruction): 輸出地址處的彙編指令
     - c(char): 字符
     - s(string): c字符串(null-terminated string)
-    - z(hex, zero padded on the left): 见说明
-- {SIZE}: 打印的字节数目，默认为上次使用的{SIZE}:
-    - b(byte): 1个字节
-    - h(halfword): 2个字节
-    - w(word): 4个字节
-    - g(giant, 8 bytes): 8个字节
-- {ADDRESS}: 目标地址
+    - z(hex, zero padded on the left): 見說明
+- {SIZE}: 打印的字節數目，默認為上次使用的{SIZE}:
+    - b(byte): 1個字節
+    - h(halfword): 2個字節
+    - w(word): 4個字節
+    - g(giant, 8 bytes): 8個字節
+- {ADDRESS}: 目標地址
 
-几个例子:
+幾個例子:
 
 ```sh
 (gdb) x/a 0x401419
@@ -151,130 +151,130 @@ examine(x)可以按照一定的格式打印内存地址处的数据，详细文�
 ```
 
 
-##设置源码目录
+##設置源碼目錄
 
-参考Specifying Source Directories，使用`dir /path/to/your/sources`可在调试时添加一个源码目录。
+參考Specifying Source Directories，使用`dir /path/to/your/sources`可在調試時添加一個源碼目錄。
 
-##设置字符编码
+##設置字符編碼
 
-gdb默认使用utf-8编码，可以使用如下命令修改编码。
+gdb默認使用utf-8編碼，可以使用如下命令修改編碼。
 
 ```
 set charset GBK
 ```
 
-也可直接在~/.gdbinit里设置。
+也可直接在~/.gdbinit裡設置。
 
-##线程相关的命令
+##線程相關的命令
 
-下面是一些调试多线程程序时常用的命令:
+下面是一些調試多線程程序時常用的命令:
 
-- info threads: 查看线程列表
-- thread 2: 切换到2号线程，线程编号可由info threads得知
-- thread apply all bt: 打印所有线程的堆栈
+- info threads: 查看線程列表
+- thread 2: 切換到2號線程，線程編號可由info threads得知
+- thread apply all bt: 打印所有線程的堆棧
 
 
-##高级技巧
+##高級技巧
 
-一些不太广为人知的技巧...
+一些不太廣為人知的技巧...
 
-加载独立的调试信息
+加載獨立的調試信息
 
-gdb调试的时候可以从单独的符号文件中加载调试信息。
+gdb調試的時候可以從單獨的符號文件中加載調試信息。
 
 ```sh
 (gdb) exec-file test
 (gdb) symbol-file test.debug
 ```
 
-test是移除了调试信息的可执行文件, test.debug是被移除后单独存储的调试信息。参考stackoverflow上的一个问题，可以如下分离调试信息:
+test是移除了調試信息的可執行文件, test.debug是被移除後單獨存儲的調試信息。參考stackoverflow上的一個問題，可以如下分離調試信息:
 
 ```sh
-# 编译程序，带调试信息(-g)
+# 編譯程序，帶調試信息(-g)
 gcc -g -o test main.c
 
-# 拷贝调试信息到test.debug
+# 拷貝調試信息到test.debug
 objcopy --only-keep-debug test test.debug
 
-# 移除test中的调试信息
+# 移除test中的調試信息
 strip --strip-debug --strip-unneeded test
 
-# 然后启动gdb
+# 然後啟動gdb
 gdb -s test.debug -e test
 
-# 或这样启动gdb
+# 或這樣啟動gdb
 gdb
 (gdb) exec-file test
 (gdb) symbol-file test.debug
 ```
 
-分离出的调试信息test.debug还可以链接回可执行文件test中
+分離出的調試信息test.debug還可以鏈接回可執行文件test中
 
 ```sh
 objcopy --add-gnu-debuglink test.debug test
 ```
 
-然后就可以正常用addr2line等需要读取调试信息的程序了
+然後就可以正常用addr2line等需要讀取調試信息的程序了
 
 ```sh
 addr2line -e test 0x401c23
 ```
 
-更多内容可阅读GDB: Debugging Information in Separate Files。
+更多內容可閱讀GDB: Debugging Information in Separate Files。
 
-##在内存和文件系统之间拷贝数据
+##在內存和文件系統之間拷貝數據
 
-- 将内存数据拷贝到文件里
+- 將內存數據拷貝到文件裡
 
 ```sh
 dump binary value file_name variable_name
 dump binary memory file_name begin_addr end_addr 
 ```
 
-- 改变内存数据
+- 改變內存數據
 
 使用set命令
 
-##执行gdb脚本
+##執行gdb腳本
 
-常用的gdb操作，比如打断点等可以放在一个gdb脚本里，然后使用时导入即可。例如:
+常用的gdb操作，比如打斷點等可以放在一個gdb腳本里，然後使用時導入即可。例如:
 
 ```sh
 b main.cpp:15
 b test.cpp:18
 ```
 
-gdb运行时，使用source命令即可导入
+gdb運行時，使用source命令即可導入
 
 ```sh
 (gdb) source /path/to/breakpoints.txt
 ```
 
-或gdb运行时导入
+或gdb運行時導入
 
 ```sh
 gdb -x /path/to/breakpoints.txt prog
 ```
 
-对于每次gdb运行都要调用的脚本，比如设置字符集等，可以放在~/.gdbinit初始文件里，这样每次gdb启动时都会自动调用。
+對於每次gdb運行都要調用的腳本，比如設置字符集等，可以放在~/.gdbinit初始文件裡，這樣每次gdb啟動時都會自動調用。
 
-##输出到文件
+##輸出到文件
 
-可以通过set logging on将命令的输出保存到默认的gdb.txt文件中。当然也可以通过set logging file my_log.txt来设置输出文件的路径。
+可以通過set logging on將命令的輸出保存到默認的gdb.txt文件中。當然也可以通過set logging file my_log.txt來設置輸出文件的路徑。
 
-##执行命令并退出
+##執行命令並退出
 
-有时候需要gdb执行若干条命令后就立即退出，而不是进入交互界面，这时可以使用`-batch`选项。
+有時候需要gdb執行若干條命令後就立即退出，而不是進入交互界面，這時可以使用`-batch`選項。
 
 ```sh
 gdb -ex "set pagination 0" -ex "thread apply all bt" `-batch` -p $pid
 ```
 
-上面的命令打印$pid进程所有线程的堆栈并退出。
+上面的命令打印$pid進程所有線程的堆棧並退出。
 
-##自定义命令
+##自定義命令
 
-参考gdb/Define，可以在gdb中自定义命令，比如：
+參考gdb/Define，可以在gdb中自定義命令，比如：
 
 ```sh
 (gdb) define hello
@@ -283,36 +283,36 @@ gdb -ex "set pagination 0" -ex "thread apply all bt" `-batch` -p $pid
 (gdb) end
 ```
 
-然后如此调用
+然後如此調用
 
 ```sh
 (gdb) hello world
 ```
 
-即可输出
+即可輸出
 
 ```sh
 (gdb) $1 = "welcome"
 (gdb) $2 = "hello world"
 ```
 
-##条件断点
+##條件斷點
 
-在条件断点里可以调用标准库的函数，比如下面这个:
+在條件斷點裡可以調用標準庫的函數，比如下面這個:
 
 ```sh
-# 如果strA == strB，则在断点处暂停
+# 如果strA == strB，則在斷點處暫停
 (gdb) b main.cpp:255 if strcmp(strA.c_str(), strB.c_str()) == 0
 
-# 还是上面的场景，直接用string类的compare函数
+# 還是上面的場景，直接用string類的compare函數
 (gdb) b main.cpp:255 if strA.compare(strB) != 0
 ```
 
-##捕获exception
+##捕獲exception
 
-gdb遇到未处理的exception时，并不会捕获处理。但是参考Set Catchpoints，可以使用catch catch命令来捕获exception。
+gdb遇到未處理的exception時，並不會捕獲處理。但是參考Set Catchpoints，可以使用catch catch命令來捕獲exception。
 
-##阅读资料
+##閱讀資料
 
 -Copy between memory and a file
 - HowTo: Writing into process memory with GDB

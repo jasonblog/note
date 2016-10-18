@@ -924,5 +924,5 @@
 * [Java](java/java.md)
    * [開檔讀檔 & 正則範例](java/kai_dang_du_dang_&_zheng_ze_fan_li.md)
 * [Linear Algebra](linear_algebra /linear_algebra.md)
-   * [理解矩阵](linear_algebra /li_jie_ju_zhen.md)
+   * [理解矩陣](linear_algebra /li_jie_ju_zhen.md)
 

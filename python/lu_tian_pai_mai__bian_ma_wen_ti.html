@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="27.1.8" data-basepath=".." data-revision="Sat Oct 22 2016 23:27:34 GMT+0800 (CST)">
+    <div class="book" data-level="27.1.8" data-basepath=".." data-revision="Sun Oct 23 2016 00:03:13 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -14773,6 +14773,12 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="%E9%9C%B2%E5%A4%A9%E6%8B%8D%E8%B3%A3-%EF%BC%86-%E7%B7%A8%E7%A2%BC%E5%95%8F%E9%A1%8C">&#x9732;&#x5929;&#x62CD;&#x8CE3; &#xFF06; &#x7DE8;&#x78BC;&#x554F;&#x984C;</h1>
+<pre><code class="lang-py"><span class="hljs-prompt">&gt;&gt;&gt; </span>wb = <span class="hljs-string">u&apos;\xe5\x8d\x97\xe4\xba\xac\xe5\xbe\xa9\xe8\x88\x88&apos;</span>
+<span class="hljs-prompt">&gt;&gt;&gt; </span>b = wb.encode(<span class="hljs-string">&apos;latin-1&apos;</span>)
+<span class="hljs-prompt">&gt;&gt;&gt; </span>u = b.decode(<span class="hljs-string">&apos;utf-8&apos;</span>)
+<span class="hljs-prompt">&gt;&gt;&gt; </span>print(u)
+&#x5357;&#x4EAC;&#x5FA9;&#x8208;
+</code></pre>
 <pre><code class="lang-py"> <span class="hljs-comment">#!/usr/bin/python</span>
 <span class="hljs-comment"># -*- coding: utf-8 -*-</span>
 
@@ -14801,7 +14807,7 @@ u = b.decode(<span class="hljs-string">&apos;utf-8&apos;</span>)
 <span class="hljs-comment">#raw_input()</span>
 print(u)
 </code></pre>
-<pre><code class="lang-py"> <span class="hljs-comment">#!/usr/bin/python</span>
+<pre><code class="lang-py"><span class="hljs-comment">#!/usr/bin/python</span>
 <span class="hljs-comment"># -*- coding: utf-8 -*-</span>
 <span class="hljs-keyword">import</span> sys  
 <span class="hljs-keyword">import</span> requests 
@@ -14827,11 +14833,36 @@ r.encoding = r.apparent_encoding
 
 <span class="hljs-keyword">print</span> r.text
 </code></pre>
-<pre><code class="lang-py"><span class="hljs-prompt">&gt;&gt;&gt; </span>wb = <span class="hljs-string">u&apos;\xe5\x8d\x97\xe4\xba\xac\xe5\xbe\xa9\xe8\x88\x88&apos;</span>
-<span class="hljs-prompt">&gt;&gt;&gt; </span>b = wb.encode(<span class="hljs-string">&apos;latin-1&apos;</span>)
-<span class="hljs-prompt">&gt;&gt;&gt; </span>u = b.decode(<span class="hljs-string">&apos;utf-8&apos;</span>)
-<span class="hljs-prompt">&gt;&gt;&gt; </span>print(u)
-&#x5357;&#x4EAC;&#x5FA9;&#x8208;
+<ul>
+<li>python ruten.py &gt; ruten.html </li>
+</ul>
+<pre><code class="lang-py"><span class="hljs-comment">#!/usr/bin/python</span>
+<span class="hljs-comment"># -*- coding: utf-8 -*-</span>
+<span class="hljs-keyword">import</span> sys  
+<span class="hljs-keyword">import</span> requests 
+
+headers = {
+    <span class="hljs-string">&apos;User-Agent&apos;</span>: <span class="hljs-string">&apos;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36&apos;</span>,
+}
+
+cookies = {
+    <span class="hljs-string">&apos;_ts_id&apos;</span>:  <span class="hljs-string">&apos;999999999999999999&apos;</span>, 
+}
+
+<span class="hljs-keyword">print</span> sys.getdefaultencoding()  
+
+r = requests.get(<span class="hljs-string">&apos;http://class.ruten.com.tw/user/index00.php?s=nevereverfor&apos;</span>, headers=headers, cookies=cookies)
+r.close()
+
+<span class="hljs-keyword">print</span> r.headers 
+<span class="hljs-keyword">print</span> r.encoding
+<span class="hljs-keyword">print</span> r.apparent_encoding
+r.encoding = r.apparent_encoding
+
+reload(sys) 
+sys.setdefaultencoding(<span class="hljs-string">&quot;utf-8&quot;</span>)
+
+<span class="hljs-keyword">print</span> r.text
 </code></pre>
 
                     

@@ -553,6 +553,7 @@
        * [Python_by_David_Chiu](python/pythonby_david_chiu.md)
        * [google news 爬文](python/google_news_pa_wen.md)
        * [如何抓取廉價航空的機票價格 – 以酷航](python/ru_he_zhua_qu_lian_jia_hang_kong_de_ji_piao_jia_ge.md)
+       * 露天拍賣 ＆ 編碼問題
    * [安裝 Jupyter](python/jupyter.md)
    * [編譯python & 安裝pip](python/292.md)
    * [pip 使用詳解](python/293.md)

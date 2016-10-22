@@ -1,9 +1,9 @@
-# Python + Requests 编码问题
+# Python + Requests 編碼問題
 
 
-requests 是一款非常人性化的 python http 库，但起对网页的编码识别却一直很蛋疼，时常出现乱码。
+requests 是一款非常人性化的 python http 庫，但起對網頁的編碼識別卻一直很蛋疼，時常出現亂碼。
 
-可以从官方的 API 文档中找出乱码的根本原因，http://docs.python-requests.org/en/latest/api/#requests.Response.text：
+可以從官方的 API 文檔中找出亂碼的根本原因，http://docs.python-requests.org/en/latest/api/#requests.Response.text：
 
 class requests.Response
 The Response object, which contains a server’s response to an HTTP request.
@@ -17,7 +17,7 @@ knowledge to make a better guess at the encoding, you should set r.encoding
 appropriately before accessing this property.
 ···SNIP···
 
-可见，requests 是通过 http header 猜测页面编码，`如果 header 中不存在 charset 就认为编码为 ISO-8859-1`。这样的话，对于返回头中没有指定页面编码的情况，自然就出现乱码了，如：
+可見，requests 是通過 http header 猜測頁面編碼，`如果 header 中不存在 charset 就認為編碼為 ISO-8859-1`。這樣的話，對於返回頭中沒有指定頁面編碼的情況，自然就出現亂碼了，如：
 
 ```py
 >>> import requests
@@ -36,7 +36,7 @@ no-cache, must-revalidate, post-check=0, pre-check=0', 'date': 'Wed, 18 Jun 2014
 >>> print r.text
 ···SNIP···
         <span class="other fright">
-            <a href="/impression">è¡~Lä¸~Zè§~Bç~B¹</a>                  //乱码了
+            <a href="/impression">è¡~Lä¸~Zè§~Bç~B¹</a>                  //亂碼了
             Â· <a href="/lawer">æ³~Uå¾~Ké¡¾é~W®</a>
             Â· <a href="/contactus">è~A~Tç³»æ~H~Qä»¬</a>
             Â· <a href="/help">å¸®å~J©</a>
@@ -46,10 +46,10 @@ no-cache, must-revalidate, post-check=0, pre-check=0', 'date': 'Wed, 18 Jun 2014
 ···SNIP···
 ```
 
-文档中提供的解决办法：
+文檔中提供的解決辦法：
 
 If you can take advantage of non-HTTP knowledge to make a better guess at the encoding, you should set r.encoding appropriately before accessing this property.
-即在访问 `r.text` 属性`前`先设置下正确的编码，如下：
+即在訪問 `r.text` 屬性`前`先設置下正確的編碼，如下：
 
 
 ```py
@@ -68,17 +68,17 @@ he, must-revalidate, post-check=0, pre-check=0', 'date': 'Wed, 18 Jun 2014 08:00
 >>> print r.text
 ···SNIP···
         <span class="other fright">
-            <a href="/impression">行业观点</a>              //正常了
-            · <a href="/lawer">法律顾问</a>
-            · <a href="/contactus">联系我们</a>
-            · <a href="/help">帮助</a>
-            · <a href="/about">关于</a>
+            <a href="/impression">行業觀點</a>              //正常了
+            · <a href="/lawer">法律顧問</a>
+            · <a href="/contactus">聯繫我們</a>
+            · <a href="/help">幫助</a>
+            · <a href="/about">關於</a>
         </span>
     </div>
 ···SNIP···
 ```
 
-requests 也可以从内容获取编码，通过 chardet 库，只是默认没有启用:
+requests 也可以從內容獲取編碼，通過 chardet 庫，只是默認沒有啟用:
 
 
 ```py
@@ -90,7 +90,7 @@ requests 也可以从内容获取编码，通过 chardet 库，只是默认没�
 'utf-8'
 ```
 
-这样一来，我们可以直接通过设置 `r.encoding` 为 `r.apparent_encoding`，来解决这个「bug」:
+這樣一來，我們可以直接通過設置 `r.encoding` 為 `r.apparent_encoding`，來解決這個「bug」:
 
 - r.encoding =  r.apparent_encoding
 
@@ -105,17 +105,17 @@ requests 也可以从内容获取编码，通过 chardet 库，只是默认没�
 >>> print r.text
 ···SNIP···
         <span class="other fright">
-            <a href="/impression">行业观点</a>              //正常了
-            · <a href="/lawer">法律顾问</a>
-            · <a href="/contactus">联系我们</a>
-            · <a href="/help">帮助</a>
-            · <a href="/about">关于</a>
+            <a href="/impression">行業觀點</a>              //正常了
+            · <a href="/lawer">法律顧問</a>
+            · <a href="/contactus">聯繫我們</a>
+            · <a href="/help">幫助</a>
+            · <a href="/about">關於</a>
         </span>
     </div>
 ···SNIP···
 ```
 
-问题解决。
+問題解決。
 
 ##References：
 http://liguangming.com/python-requests-ge-encoding-from-headers

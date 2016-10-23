@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>[轉]用 LD_PRELOAD 替換動態連結的函式庫 | Jason note</title>
+        <title>Mutex 與 Semaphore 最大的差異是 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../fcamel/05.html" />
+    <link rel="next" href="../assembly/index.html" />
     
     
-    <link rel="prev" href="../fcamel/03.html" />
+    <link rel="prev" href="../linux_system/yi_ge_bing_fa_10k_de_jian_yi_qun_liao_tian_shi_ff0.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="7.4" data-basepath=".." data-revision="Sun Oct 23 2016 10:28:01 GMT+0800 (CST)">
+    <div class="book" data-level="13.40" data-basepath=".." data-revision="Sun Oct 23 2016 10:28:01 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1805,7 +1805,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="7.4" data-path="fcamel/04.html">
+        <li class="chapter " data-level="7.4" data-path="fcamel/04.html">
             
                 
                     <a href="../fcamel/04.html">
@@ -4865,7 +4865,7 @@
             
         </li>
     
-        <li class="chapter " data-level="13.40" data-path="linux_system/mutex_yu_semaphore_zui_da_de_cha_yi_shi.html">
+        <li class="chapter active" data-level="13.40" data-path="linux_system/mutex_yu_semaphore_zui_da_de_cha_yi_shi.html">
             
                 
                     <a href="../linux_system/mutex_yu_semaphore_zui_da_de_cha_yi_shi.html">
@@ -14802,63 +14802,68 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E7%94%A8-ld-preload-%E6%9B%BF%E6%8F%9B%E5%8B%95%E6%85%8B%E9%80%A3%E7%B5%90%E7%9A%84%E5%87%BD%E5%BC%8F%E5%BA%AB">&#x7528; LD_PRELOAD &#x66FF;&#x63DB;&#x52D5;&#x614B;&#x9023;&#x7D50;&#x7684;&#x51FD;&#x5F0F;&#x5EAB;</h1>
-<p>&#x63DB;&#x6389;&#x52D5;&#x614B;&#x9023;&#x7D50;&#x7684;&#x51FD;&#x5F0F;&#x5EAB;&#x6709;&#x4E0D;&#x5C11;&#x7528;&#x9014;, &#x6BD4;&#x65B9;&#x8AAA;&#x50CF; Scott &#x63D0;&#x7684;&#x300C;&#x7528;&#x4F86;&#x9A57;&#x8B49;&#x662F;&#x5426;&#x57F7;&#x884C;&#x5230;&#x7279;&#x5B9A;&#x51FD;&#x5F0F;&#x300D;, &#x6216;&#x5982; jserv &#x63D0;&#x7684;&#x300C;&#x5728;&#x6C92;&#x6709;&#x539F;&#x59CB;&#x78BC;&#x7684;&#x60C5;&#x6CC1;&#x4E0B;&#x4FEE;&#x88DC;&#x57F7;&#x884C;&#x6A94;&#x7684;&#x884C;&#x70BA;&#x300D;&#x3002;&#x6700;&#x8FD1;&#x53C8;&#x770B;&#x5230;&#x9019;&#x500B;&#x6771;&#x897F;, &#x8A18;&#x4E00;&#x4E0B;&#x7B46;&#x8A18;&#x4EE5;&#x514D;&#x5FD8;&#x4E86;&#x3002;</p>
-<p>&#x4F86;&#x770B;&#x7A0B;&#x5F0F;&#x78BC;&#x548C;&#x57F7;&#x884C;&#x6548;&#x679C;&#x3002;</p>
+                        <h1 id="mutex-%E8%88%87-semaphore-%E6%9C%80%E5%A4%A7%E7%9A%84%E5%B7%AE%E7%95%B0%E6%98%AF">Mutex &#x8207; Semaphore &#x6700;&#x5927;&#x7684;&#x5DEE;&#x7570;&#x662F;</h1>
+<h2 id="%E5%90%8D%E8%A9%9E%E5%AE%9A%E7%BE%A9">&#x540D;&#x8A5E;&#x5B9A;&#x7FA9;</h2>
 <ul>
-<li>mylib.c</li>
+<li>Mutex: Linux kenrel &#x4E2D;&#x7684; mutex lock, <include mutex.h=""></include></li>
+<li>Semaphore: Linux kernel &#x4E2D;&#x7684; semaphore, <include semaphore.h=""></include></li>
+<li>mutual exclusion: &#x4E2D;&#x7FFB;&#x4E92;&#x65A5;&#x9396;&#xFF0C;&#x4E00;&#x500B;&#x6982;&#x5FF5;&#xFF0C;&#x70BA;&#x4E86;&#x9632;&#x6B62; concurrency &#x72C0;&#x6CC1;&#x4E0B;&#x51FA;&#x73FE; race condition.</li>
 </ul>
-<pre><code>#include &lt;stddef.h&gt;
-#include &lt;stdio.h&gt;
-
-int putchar(int c) {
-    printf(&quot;call putchar()\n&quot;);
-    return c;
-}
-
-void *memset(void *s, int c, size_t n) {
-    printf(&quot;call memset()\n&quot;);
-    return s;
-}
-</code></pre><ul>
-<li>main.c</li>
-</ul>
-<pre><code>#include &lt;string.h&gt;
-#include &lt;stdio.h&gt;
-
-int main(void) {
-    char s[10];
-    memset(s, 0, 0);
-    putchar(&apos;X&apos;);
-    putchar(&apos;\n&apos;);
-    return 0;
-}
-</code></pre><ul>
-<li>&#x57F7;&#x884C;&#x7D50;&#x679C;</li>
-</ul>
-<pre><code>$ gcc -Wall -fpic -shared -o libmylib.so mylib.c
-$ gcc -o main main.c
-# &#x6C92;&#x7528; LD_PRELOAD &#x7684;&#x7D50;&#x679C;
-$ ./main
-X
-# &#x7528; LD_PRELOAD &#x5F8C;&#x7684;&#x7D50;&#x679C;, &#x8A18;&#x5F97;&#x52A0; &quot;./&quot;, &#x4E0D;&#x7136;&#x6703;&#x627E;&#x4E0D;&#x5230; libmylib.so
-$ LD_PRELOAD=./libmylib.so ./main
-call putchar()
-call putchar()
-$ strings main | grep memset
-</code></pre><p>&#x53EF;&#x4EE5;&#x770B;&#x51FA; putchar &#x6709;&#x88AB;&#x63DB;&#x6210;&#x81EA;&#x5DF1;&#x7DE8;&#x7684;&#x7248;&#x672C;, &#x4F46; memset &#x6C92;&#x6709;&#x3002;&#x7528; strings &#x67E5;&#x770B; binary &#x6A94; main &#x6703;&#x767C;&#x89BA;&#x4E26;&#x6C92;&#x6709;&#x547C;&#x53EB; memset &#x7684;&#x8DE1;&#x8C61;&#x3002;&#x731C;&#x6E2C;&#x662F; compiler &#x767C;&#x89BA; memset &#x5BE6;&#x969B;&#x4E0A;&#x6C92;&#x4EFB;&#x4F55;&#x4F5C;&#x7528;, &#x6240;&#x4EE5;&#x6C92;&#x547C;&#x53EB;&#x3002;</p>
-<p>&#x4FEE;&#x6539; main.c, &#x5C07; memset(s, 0, 0) &#x63DB;&#x6210; memset(s, 0, 1) &#x518D;&#x4F86;&#x770B;&#x770B;:</p>
-<pre><code>$ gcc -o main main.c
-$ strings main | grep memset
-memset
-$ LD_PRELOAD=./libmylib.so ./main
-call memset()
-call putchar()
-call putchar()
-</code></pre><p>&#x7D50;&#x679C;&#x986F;&#x793A;&#x6709;&#x63DB;&#x5230; memset, &#x8868;&#x793A;&#x4E4B;&#x524D;&#x662F;&#x5B8C;&#x5168;&#x6C92;&#x547C;&#x53EB; memset, &#x624D;&#x6703;&#x4EE5;&#x70BA;&#x6C92;&#x63DB;&#x5230;&#x3002;printf &#x4E5F;&#x662F;&#x5982;&#x6B64;, &#x53EA;&#x8F38;&#x51FA;&#x5B57;&#x4E32;&#x6642;, &#x4E0D;&#x6703;&#x547C;&#x53EB; printf, &#x800C;&#x662F;&#x7528; puts&#x3002;</p>
+<p>Mutex &#x8207; Semaphore &#x6700;&#x5927;&#x7684;&#x5DEE;&#x7570;&#x662F;&#xFF1A;</p>
+<blockquote>
+<p>&#x7406;&#x8AD6;&#x4E0A;&#xFF0C;&#x4F60;&#x61C9;&#x8A72;&#x8981;&#x5148;&#x8DDF;&#x9762;&#x8A66;&#x5B98;&#x6216;&#x662F;&#x554F;&#x4F60;&#x9019;&#x500B;&#x554F;&#x984C;&#x7684;&#x4EBA;&#x4E92;&#x52D5;&#xFF0C;&#x8A62;&#x554F;&#x4E00;&#x4E0B;&#x5176;&#x6240;&#x8B02;&#x7684;&#x5DEE;&#x7570;&#x662F;&#x6307;&#x54EA;&#x500B;&#x90E8;&#x4EFD; (&#x5BE6;&#x4F5C;&#x3001;&#x7528;&#x9014;&#x3001;&#x9084;&#x662F;&#x7D50;&#x69CB;&#xFF1F;)&#xFF0C;&#x4EE5;&#x53CA;&#x8A62;&#x554F;&#x9019;&#x500B;&#x554F;&#x984C;&#x6642;&#xFF0C;&#x60F3;&#x8981;&#x5C07;&#x5169;&#x8005;&#x61C9;&#x7528;&#x5728;&#x90A3;&#x908A;&#xFF0C;&#x5C0D;&#x65BC;&#x5F8C;&#x7E8C;&#x7684;&#x56DE;&#x7B54;&#x6703;&#x6709;&#x6240;&#x5E6B;&#x52A9;&#x3002;</p>
+</blockquote>
 <ul>
-<li>&#x53C3;&#x8003;&#x8CC7;&#x6599;: &#x300A;Modifying a Dynamic Library Without Changing the Source Code | Linux Journal&#x300B;</li>
+<li>30&#x79D2;&#xFF1A;&#x6700;&#x5927;&#x7684;&#x5DEE;&#x7570;&#x5728;&#x65BC; Mutex &#x53EA;&#x80FD;&#x7531;&#x4E0A;&#x9396;&#x7684; thread &#x89E3;&#x9396;&#xFF0C;&#x800C; Semaphore &#x6C92;&#x6709;&#x9019;&#x500B;&#x9650;&#x5236;&#xFF0C;&#x53EF;&#x4EE5;&#x7531;&#x539F;&#x672C;&#x7684; thread &#x6216;&#x662F;&#x53E6;&#x5916;&#x4E00;&#x500B; thread &#x89E3;&#x958B;&#x3002;&#x53E6;&#x5916;&#xFF0C;Mutex &#x53EA;&#x80FD;&#x8B93;&#x4E00;&#x500B; thread &#x9032;&#x5165; critical section&#xFF0C;Semaphore &#x7684;&#x8A71;&#x5247;&#x53EF;&#x4EE5;&#x8A2D;&#x5B9A;&#x8981;&#x8B93;&#x5E7E;&#x500B; thread &#x9032;&#x5165;&#x3002;&#x9019;&#x8B93;&#x5BE6;&#x969B;&#x4E0A;&#x4F7F;&#x7528; Mutex &#x8DDF; Semaphore &#x5834;&#x666F;&#x6709;&#x5F88;&#x5927;&#x7684;&#x5DEE;&#x5225;&#x3002;</li>
 </ul>
+<ul>
+<li><p>60&#x79D2; (cont.)&#xFF1A;&#x8209;&#x4F8B;&#x800C;&#x8A00;&#xFF0C;Mutex &#x7684;&#x5169;&#x500B;&#x7279;&#x6027;&#xFF1A;&#x4E00;&#x500B;&#x662F;&#x53EA;&#x80FD;&#x6709;&#x6301;&#x9396;&#x4EBA;&#x89E3;&#x9396;&#x3001;&#x4E00;&#x500B;&#x662F;&#x5728;&#x91CB;&#x653E;&#x9396;&#x4E4B;&#x524D;&#x4E0D;&#x80FD;&#x9000;&#x51FA;&#x7684;&#x7279;&#x6027;&#xFF0C;&#x8B93; Mutex &#x53EB;&#x5E38;&#x4F7F;&#x7528;&#x5728; critical section &#x53EA;&#x80FD;&#x6709;&#x4E00;&#x500B; thread &#x9032;&#x5165;&#xFF0C;&#x800C;&#x4E14;&#x8981;&#x907F;&#x514D; priority inversion &#x7684;&#x6642;&#x5019;&#xFF1B;Semaphore &#x4E5F;&#x80FD;&#x900F;&#x904E; binary semaphore &#x505A;&#x5230;&#x985E;&#x4F3C;&#x7684;&#x4E8B;&#x60C5;&#xFF0C;&#x537B;&#x6C92;&#x6709;&#x8FA6;&#x6CD5;&#x907F;&#x514D; priority inversion &#x51FA;&#x73FE;&#x3002;</p>
+</li>
+<li><p>120&#x79D2; (cont.)&#xFF1A;&#x800C; Semaphore &#x66F4;&#x5E38;&#x662F;&#x7528;&#x5728;&#x540C;&#x6B65;&#x5169;&#x500B; thread &#x6216;&#x529F;&#x80FD;&#x4E0A;&#x9762;&#xFF0C;&#x56E0;&#x70BA; Semaphore &#x5BE6;&#x969B;&#x4E0A;&#x4F7F;&#x7528;&#x7684;&#x662F; signal &#x7684; up &#x8207; down&#xFF0C;&#x8B93; Semaphore &#x53EF;&#x4EE5;&#x8B8A;&#x6210;&#x662F;&#x4E00;&#x7A2E; notification &#x7684;&#x4F5C;&#x7528;&#xFF0C;&#x4F8B;&#x5982; A thread &#x57F7;&#x884C;&#x5230;&#x67D0;&#x500B;&#x5730;&#x65B9;&#x6642; B thread &#x624D;&#x80FD;&#x7E7C;&#x7E8C;&#x4E0B;&#x53BB;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;  Semaphore &#x4F86;&#x9054;&#x6210;&#x9019;&#x6A23;&#x7684;&#x4F5C;&#x7528;&#x3002;</p>
+</li>
+</ul>
+<p>&#x63A5;&#x4E0B;&#x4F86;&#x53EF;&#x4EE5;&#x5728;&#x5EF6;&#x4F38;&#x8AC7;&#x5230;&#x4E00;&#x4E9B; Fact checks&#x3001;priority inversion &#x8DDF; Linux kernel &#x5BE6;&#x4F5C;&#x7684;&#x90E8;&#x4EFD;&#xFF1A;</p>
+<p>&#x5728; Linux kernel &#x4E2D;&#xFF0C;&#x4E00;&#x958B;&#x59CB;&#x662F;&#x53EA;&#x6709; semaphore &#x9019;&#x500B; structure&#xFF0C;&#x76F4;&#x5230; 2.6.16 &#x7248;&#x7576;&#x4E2D;&#x624D;&#x628A; mutex &#x5F9E; semaphore &#x4E2D;&#x5206;&#x96E2;&#x51FA;&#x4F86; (&#x9019;&#x9EDE;&#x53EF;&#x4EE5;&#x5F9E; LDD3e* &#x770B;&#x51FA;&#x4F86;)&#x3002;&#x96D6;&#x7136; Mutex &#x8207; Semaphore &#x5169;&#x8005;&#x90FD;&#x662F;&#x4F11;&#x7720;&#x9396;&#xFF0C;&#x4F46;&#x662F; Linux kernel &#x5728;&#x5BE6;&#x4F5C; Mutex &#x7684;&#x6642;&#x5019;&#xFF0C;&#x6709;&#x7528;&#x5230;&#x4E00;&#x4E9B;&#x52A0;&#x901F;&#x7684;&#x6280;&#x5DE7;&#xFF0C;&#x5C07;&#x4E0A;&#x9396;&#x5206;&#x70BA;3&#x500B;&#x6B65;&#x9A5F;&#xFF1A;</p>
+<ul>
+<li><p>Fast path: &#x5617;&#x8A66;&#x4F7F;&#x7528; atomic operation &#x76F4;&#x63A5;&#x6E1B;&#x5C11; counter &#x6578;&#x503C;&#x4F86;&#x7372;&#x5F97;&#x9396;&#x3002;</p>
+</li>
+<li><p>Mid path: &#x7B2C;&#x4E00;&#x6B65;&#x5931;&#x6557;&#x7684;&#x8A71;&#xFF0C;&#x5617;&#x8A66;&#x4F7F;&#x7528;&#x7279;&#x5316;&#x7684; MCS spinlock &#x7B49;&#x5F85;&#x7136;&#x5F8C;&#x53D6;&#x9396;&#x3002;
+&#x7576;&#x6301;&#x9396;&#x7684; thread &#x9084;&#x5728;&#x904B;&#x884C;&#xFF0C;&#x800C;&#x4E14;&#x6C92;&#x6709;&#x5B58;&#x5728;&#x66F4;&#x9AD8; priority &#x7684; task &#x6642;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x5927;&#x81BD;&#x5047;&#x8A2D;&#xFF0C;&#x6301;&#x9396; thread &#x5F88;&#x5FEB;&#x5C31;&#x6703;&#x628A; thread &#x91CB;&#x653E;&#x51FA;&#x4F86; (&#x770B;&#x770B; code &#x5C31;&#x77E5;&#x9053;&#x4E86;)&#xFF0C;&#x56E0;&#x6B64;&#x6703;&#x4F7F;&#x7528;&#x4E00;&#x500B;&#x7279;&#x5316;&#x7684; MCS spinlock &#x7B49;&#x5F85;&#x9396;&#x88AB;&#x91CB;&#x653E;&#x3002;&#x7279;&#x5316;&#x7684; MCS spinlock &#x53EF;&#x4EE5;&#x5728;&#x88AB; reschedule &#x7684;&#x6642;&#x5019;&#x9000;&#x51FA; MCS spinlock queue&#x3002;&#x7576;&#x8D70;&#x5230;&#x9019;&#x6B65;&#x6642;&#xFF0C;&#x5C31;&#x6703;&#x5230; Slow path&#x3002;</p>
+</li>
+<li><p>Slow path: &#x9396;&#x6C92;&#x6709;&#x8FA6;&#x6CD5;&#x53D6;&#x5F97;&#xFF0C;&#x53EA;&#x597D;&#x628A;&#x81EA;&#x5DF1;&#x4F11;&#x7720;&#x4E86;&#x3002;
+&#x8D70;&#x5230;&#x9019;&#x4E00;&#x6B65;&#xFF0C;mutex &#x624D;&#x6703;&#x5C07;&#x81EA;&#x5DF1;&#x52A0;&#x5165; wait-queue &#x7136;&#x5F8C;&#x4F11;&#x7720;&#xFF0C;&#x7B49;&#x5F85;&#x6709;&#x4EBA; unlock &#x5F8C;&#x624D;&#x6703;&#x88AB;&#x559A;&#x9192;&#x3002;</p>
+</li>
+</ul>
+<p>&#x7576;&#x7136;&#x9019;&#x6A23;&#x662F;&#x6703;&#x6709;&#x4EE3;&#x50F9;&#x7684;&#xFF0C;Mutex &#x6210;&#x70BA;&#x4E86; Linux kernel &#x4E2D;&#x6700;&#x5927;&#x7684;&#x4E00;&#x500B;&#x9396;&#xFF0C;&#x5728; x86-64 &#x7684;&#x74B0;&#x5883;&#x4E0B;&#x9700;&#x8981;&#x4F7F;&#x7528; 40 bytes&#xFF0C;&#x76F8;&#x6BD4;&#x65BC; semaphore &#x53EA;&#x9700;&#x8981;&#x4F7F;&#x7528; 24 bytes&#xFF0C;&#x5BE6;&#x5728;&#x662F;&#x5927;&#x4E0A;&#x8A31;&#x591A;&#x3002;&#x5927;&#x7684;&#x610F;&#x601D;&#x4EE3;&#x8868;&#x6703;&#x4F54;&#x7528;&#x6389;&#x66F4;&#x591A;&#x7684; CPU cache (&#x56DE;&#x982D;&#x770B; phonebook) &#x8DDF; memory footprint&#x3002;</p>
+<p>&#x800C;&#x5728; Linux kernel v4.6.0-rc2 &#x4E2D;&#xFF0C;&#x4F7F;&#x7528; semaphore &#x7684;&#x90E8;&#x4EFD;&#x53EA;&#x6709; 75 &#x8655; (&#x52A0;&#x4E0A; drivers)&#xFF0C;mutex &#x5247;&#x4F7F;&#x7528;&#x5728; 1463  &#x500B;&#x5730;&#x65B9;</p>
+<ul>
+<li>semaphore in Linux kernel: 75 parts (#include <linux semaphore.h="">)</linux></li>
+<li>mutex in Linux kernel: 1463 parts (#include <linux mutex.h="">)</linux></li>
+</ul>
+<p>&#x901A;&#x5E38;&#x4E5F;&#x4E0D;&#x6703;&#x628A; Semaphore &#x7576;&#x4F5C;&#x662F; Mutex &#x4F86;&#x4F7F;&#x7528;&#xFF0C;&#x800C;&#x662F;&#x5229;&#x7528; signal &#x7684;&#x7279;&#x6027;&#xFF0C;&#x540C;&#x6B65;&#x4E0D;&#x540C; thread &#x4E4B;&#x9593;&#x7684;&#x5DE5;&#x4F5C;&#x3002;</p>
+<h2 id="reference">Reference</h2>
+<ul>
+<li><p>[LDD3e] pp.118, &#x7576;&#x6642;&#x5019;&#x9084;&#x662F;&#x4F7F;&#x7528; struct semaphore &#x4F86;&#x4F5C;&#x70BA; mutual exclusion &#x7684;&#x5DE5;&#x5177;&#xFF0C;&#x5982;&#x679C;&#x8981;&#x8A2D;&#x5B9A;&#x70BA; mutex &#x7684;&#x8A71;&#xFF0C;&#x975C;&#x614B;&#x6642;&#x671F;&#x6703;&#x4F7F;&#x7528; DECLARE_MUTEX(name)&#xFF0C;&#x52D5;&#x614B;&#x6642;&#x671F;&#x5247;&#x662F;&#x4F7F;&#x7528; init_MUTEX(struct semaphore <em>sem)&#xFF0C;&#x8A2D;&#x5B9A;&#x70BA; counting semaphore &#x5247;&#x662F;&#x4F7F;&#x7528; sema_init(struct semaphore </em>sem, int val)&#x3002;&#x7576;&#x7136;&#xFF0C;&#x6642;&#x81F3; 2016 &#x7684;&#x4ECA;&#x65E5;&#xFF0C;&#x9019;&#x4E9B;&#x4ECB;&#x9762;&#x65E9;&#x5C31;&#x5DF2;&#x7D93;&#x8B8A;&#x52D5;&#x8A31;&#x591A;&#x4E86;&#x3002;</p>
+</li>
+<li><p>Corbet Jonathan. 2006. The Mutex API. (January 2006). <a href="https://lwn.net/articles/167034/" target="_blank">https://lwn.net/articles/167034/</a></p>
+</li>
+<li><p>descent. semaphore, mutex, spin lock. (November 2015). <a href="http://descent-incoming.blogspot.tw/2015/11/semaphore-mutex-spin-lock.html" target="_blank">http://descent-incoming.blogspot.tw/2015/11/semaphore-mutex-spin-lock.html</a></p>
+</li>
+<li><p>Benoit. Difference between binary semaphore and mutex. (September 2008).  <a href="http://stackoverflow.com/a/86021" target="_blank">http://stackoverflow.com/a/86021</a></p>
+</li>
+<li><p>Torvalds, Linus et.al. &#x201C;Generic Mutex Subsystem Access from /Documentation/locking/mutex-design.txt&quot; Linux Kernel. 4:8:0-rc8.</p>
+</li>
+<li><p>Barr Michael. 2002. Mutexes and Semaphores Demystified | Embedded Systems. Retrieved October 22, 2016 from <a href="http://www.barrgroup.com/embedded-systems/how-to/rtos-mutex-semaphore" target="_blank">http://www.barrgroup.com/embedded-systems/how-to/rtos-mutex-semaphore</a></p>
+</li>
+<li><p>Barr Michael. 2002. Introduction to Priority Inversion | Embedded Systems Experts. (April 2002). Retrieved October 22, 2016 from <a href="http://www.barrgroup.com/embedded-systems/how-to/rtos-priority-inversion" target="_blank">http://www.barrgroup.com/embedded-systems/how-to/rtos-priority-inversion</a></p>
+</li>
+<li><p>Huang Jim. 2005. Priority inversion &#x7C21;&#x4ECB;. (September 2005). <a href="http://blog.linux.org.tw/~jserv/archives/001299.html" target="_blank">http://blog.linux.org.tw/~jserv/archives/001299.html</a></p>
+</li>
+<li><p>Hsiao Chen-Han. 2014. Mutexes VS Semaphores &#x5927;&#x63ED;&#x79D8;. (January 2014). <a href="http://swem.logdown.com/posts/177651-mutexes-and-semaphores-demystified" target="_blank">http://swem.logdown.com/posts/177651-mutexes-and-semaphores-demystified</a></p>
+</li>
+</ul>
+<h2 id="%E5%87%BA%E8%99%95">&#x51FA;&#x8655;</h2>
+<p><a href="https://blog.louie.lu/2016/10/22/mutex-semaphore-the-difference-and-linux-kernel/" target="_blank">https://blog.louie.lu/2016/10/22/mutex-semaphore-the-difference-and-linux-kernel/</a></p>
 
                     
                     </section>
@@ -14869,10 +14874,10 @@ call putchar()
         </div>
 
         
-        <a href="../fcamel/03.html" class="navigation navigation-prev " aria-label="Previous page: [轉] 列出用到的 shared library"><i class="fa fa-angle-left"></i></a>
+        <a href="../linux_system/yi_ge_bing_fa_10k_de_jian_yi_qun_liao_tian_shi_ff0.html" class="navigation navigation-prev " aria-label="Previous page: 一個並發10k的簡易群聊天室（使用epoll）"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../fcamel/05.html" class="navigation navigation-next " aria-label="Next page: [轉] 用 strace 和 ltrace 找出用到的 system call 和 library call"><i class="fa fa-angle-right"></i></a>
+        <a href="../assembly/index.html" class="navigation navigation-next " aria-label="Next page: Assembly"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

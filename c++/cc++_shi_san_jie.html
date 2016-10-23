@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>處理器指令碼及IA-32平臺瞭解 | Jason note</title>
+        <title>C/C++ 十三誡 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../assembly/1613.html" />
+    <link rel="next" href="../gunmake/index.html" />
     
     
-    <link rel="prev" href="../assembly/1611.html" />
+    <link rel="prev" href="../c++/stl_rong_qi_4e8c29_-_iterator.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="14.2.2" data-basepath=".." data-revision="Mon Oct 24 2016 02:23:04 GMT+0800 (CST)">
+    <div class="book" data-level="18.15" data-basepath=".." data-revision="Mon Oct 24 2016 02:23:04 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -4992,7 +4992,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="14.2.2" data-path="assembly/1612.html">
+        <li class="chapter " data-level="14.2.2" data-path="assembly/1612.html">
             
                 
                     <a href="../assembly/1612.html">
@@ -6527,7 +6527,7 @@
             
         </li>
     
-        <li class="chapter " data-level="18.15" data-path="c++/cc++_shi_san_jie.html">
+        <li class="chapter active" data-level="18.15" data-path="c++/cc++_shi_san_jie.html">
             
                 
                     <a href="../c++/cc++_shi_san_jie.html">
@@ -14892,196 +14892,547 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E8%99%95%E7%90%86%E5%99%A8%E6%8C%87%E4%BB%A4%E7%A2%BC%E5%8F%8Aia-32%E5%B9%B3%E8%87%BA%E7%9E%AD%E8%A7%A3">&#x8655;&#x7406;&#x5668;&#x6307;&#x4EE4;&#x78BC;&#x53CA;IA-32&#x5E73;&#x81FA;&#x77AD;&#x89E3;</h1>
-<p>&#x7248;&#x6B0A;&#x8072;&#x660E;&#xFF1A;&#x5C0A;&#x91CD;&#x539F;&#x5275;&#xFF0C;&#x8F49;&#x8F09;&#x8ACB;&#x4FDD;&#x7559;&#x51FA;&#x8655;&#xFF1A;blog.csdn.net/shallnet&#xFF0C;&#x6587;&#x7AE0;&#x50C5;&#x4F9B;&#x5B78;&#x7FD2;&#x4EA4;&#x6D41;&#xFF0C;&#x8ACB;&#x52FF;&#x7528;&#x65BC;&#x5546;&#x696D;&#x7528;&#x9014;&#x3011;
-        &#x5728;&#x8A08;&#x7B97;&#x6A5F;&#x64CD;&#x4F5C;&#x7684;&#x6700;&#x5E95;&#x5C64;&#xFF0C;&#x6240;&#x6709;&#x8A08;&#x7B97;&#x6A5F;&#x8655;&#x7406;&#x5668;&#x90FD;&#x6309;&#x7167;&#x88FD;&#x9020;&#x5EE0;&#x5546;&#x5728;&#x8655;&#x7406;&#x5668;&#x5167;&#x90E8;&#x5B9A;&#x7FA9;&#x7684;&#x4E8C;&#x9032;&#x5236;&#x4EE3;&#x78BC;&#x4F86;&#x64CD;&#x4F5C;&#x6578;&#x64DA;&#xFF0C;&#x9019;&#x4E9B;&#x4EE3;&#x78BC;&#x5B9A;&#x7FA9;&#x4E86;&#x8655;&#x7406;&#x5668;&#x61C9;&#x8A72;&#x5229;&#x7528;&#x7A0B;&#x5E8F;&#x54E1;&#x63D0;&#x4F9B;&#x7684;&#x6578;&#x64DA;&#x5B8C;&#x6210;&#x76F8;&#x61C9;&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x9019;&#x4E9B;&#x9810;&#x7F6E;&#x7684;&#x4EE3;&#x78BC;&#x88AB;&#x7A31;&#x70BA;&#x6307;&#x4EE4;&#x78BC;&#x3002;&#x4E0D;&#x540C;&#x985E;&#x578B;&#x7684;&#x8655;&#x7406;&#x5668;&#x7684;&#x6307;&#x4EE4;&#x78BC;&#x662F;&#x4E0D;&#x4E00;&#x6A23;&#x7684;&#xFF0C;&#x4F46;&#x8655;&#x7406;&#x6307;&#x4EE4;&#x78BC;&#x7684;&#x65B9;&#x5F0F;&#x662F;&#x985E;&#x4F3C;&#x7684;&#x3002;</p>
-<p>&#x7576;&#x8A08;&#x7B97;&#x6A5F;&#x8655;&#x7406;&#x5668;&#x82AF;&#x7247;&#x904B;&#x884C;&#x6642;&#xFF0C;&#x4ED6;&#x6703;&#x8B80;&#x53D6;&#x5B58;&#x5132;&#x5728;&#x5167;&#x5B58;&#x4E2D;&#x7684;&#x6307;&#x4EE4;&#x78BC;&#xFF0C;&#x6BCF;&#x500B;&#x6307;&#x4EE4;&#x78BC;&#x5305;&#x542B;&#x4E0D;&#x540C;&#x9577;&#x5EA6;&#x5B57;&#x7BC0;&#x7684;&#x4FE1;&#x606F;&#xFF0C;&#x9019;&#x4E9B;&#x4FE1;&#x606F;&#x6307;&#x793A;&#x8655;&#x7406;&#x5668;&#x5B8C;&#x6210;&#x7279;&#x5B9A;&#x4EFB;&#x52D9;&#x3002;&#x6BCF;&#x689D;&#x6307;&#x4EE4;&#x78BC;&#x90FD;&#x662F;&#x5F9E;&#x5167;&#x5B58;&#x8B80;&#x53D6;&#xFF0C;&#x6307;&#x4EE4;&#x6240;&#x9700;&#x7684;&#x64CD;&#x4F5C;&#x6578;&#x64DA;&#x4E5F;&#x662F;&#x5F9E;&#x5167;&#x5B58;&#x8B80;&#x53D6;&#x3002;</p>
-<p>&#x6BCF;&#x689D;&#x6307;&#x4EE4;&#x90FD;&#x5FC5;&#x9808;&#x5305;&#x542B;&#x81F3;&#x5C11;&#x4E00;&#x500B;&#x5B57;&#x7BC0;&#x7684;&#x64CD;&#x4F5C;&#x78BC;&#xFF0C;&#x64CD;&#x4F5C;&#x78BC;&#x5B9A;&#x7FA9;&#x8655;&#x7406;&#x5668;&#x61C9;&#x8A72;&#x5B8C;&#x6210;&#x4EC0;&#x9EBC;&#x6A23;&#x7684;&#x64CD;&#x4F5C;&#x3002;&#x6BCF;&#x500B;&#x8655;&#x7406;&#x5668;&#x90FD;&#x6709;&#x81EA;&#x5DF1;&#x5B9A;&#x7FA9;&#x597D;&#x7684;&#x64CD;&#x4F5C;&#x78BC;&#x3002;</p>
-<p>Intel IA-32&#x7CFB;&#x5217;&#x5FAE;&#x8655;&#x7406;&#x5668;&#x4F7F;&#x7528;&#x5C08;&#x9580;&#x683C;&#x5F0F;&#x7684;&#x6307;&#x4EE4;&#x78BC;&#xFF0C;&#x77AD;&#x89E3;&#x4E00;&#x4E0B;&#x9019;&#x4E9B;&#x6307;&#x4EE4;&#x683C;&#x5F0F;&#x5C0D;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x7A0B;&#x5E8F;&#x8A2D;&#x8A08;&#x6703;&#x6709;&#x6240;&#x5E6B;&#x52A9;&#x3002;IA-32&#x6307;&#x4EE4;&#x78BC;&#x683C;&#x5F0F;&#x6709;&#x56DB;&#x500B;&#x4E3B;&#x8981;&#x90E8;&#x5206;&#x69CB;&#x6210;&#xFF1A;</p>
-<ul>
-<li>&#x53EF;&#x9078;&#x6307;&#x4EE4;&#x524D;&#x7DB4;</li>
-<li>&#x64CD;&#x4F5C;&#x78BC;</li>
-<li>&#x53EF;&#x9078;&#x4FEE;&#x98FE;&#x7B26;</li>
-<li>&#x53EF;&#x9078;&#x6578;&#x64DA;&#x5143;&#x7D20;
-&#x4E0B;&#x5716;&#x70BA;IA-32&#x6307;&#x4EE4;&#x78BC;&#x683C;&#x5F0F;&#x7684;&#x4F48;&#x5C40;&#x3002;</li>
-</ul>
-<p><img src="images/20150506233823365.png" alt=""></p>
-<p>&#x5982;&#x4E0A;&#x5716;&#x6240;&#x793A;&#xFF0C;IA-32&#x6307;&#x4EE4;&#x683C;&#x5F0F;&#x4E2D;&#x552F;&#x4E00;&#x5FC5;&#x9808;&#x7684;&#x90E8;&#x5206;&#x662F;&#x64CD;&#x4F5C;&#x78BC;&#x3002;&#x6BCF;&#x500B;&#x6307;&#x4EE4;&#x78BC;&#x90FD;&#x5FC5;&#x9808;&#x5305;&#x542B;&#x64CD;&#x4F5C;&#x78BC;&#xFF0C;&#x5176;&#x5B9A;&#x7FA9;&#x4E86;&#x6307;&#x4EE4;&#x57F7;&#x884C;&#x7684;&#x57FA;&#x672C;&#x4EFB;&#x52D9;&#x3002;</p>
-<p>&#x6307;&#x4EE4;&#x524D;&#x7DB4;&#x53EF;&#x4EE5;&#x5305;&#x542B;0-4&#x500B;&#x4FEE;&#x6539;&#x64CD;&#x4F5C;&#x78BC;&#x884C;&#x70BA;&#x7684;1&#x5B57;&#x7BC0;&#x524D;&#x7DB4;&#x3002;&#x6309;&#x7167;&#x524D;&#x7DB4;&#x529F;&#x80FD;&#xFF0C;&#x9019;&#x4E9B;&#x524D;&#x7DB4;&#x88AB;&#x5206;&#x6210;&#x56DB;&#x500B;&#x7D44;&#xFF0C;&#x4FEE;&#x6539;&#x64CD;&#x4F5C;&#x78BC;&#x6642;&#xFF0C;&#x6BCF;&#x500B;&#x7D44;&#x7684;&#x524D;&#x7DB4;&#x4E00;&#x6B21;&#x53EA;&#x80FD;&#x4F7F;&#x7528;&#x4E00;&#x500B;&#xFF08;&#x6700;&#x591A;4&#x500B;&#xFF09;&#x3002;&#x56DB;&#x500B;&#x524D;&#x7DB4;&#x5982;&#x4E0B;&#xFF1A;
-&#x9396;&#x5B9A;&#x524D;&#x7DB4;&#x548C;&#x91CD;&#x8907;&#x524D;&#x7DB4;
-&#x6BB5;&#x8986;&#x84CB;&#x524D;&#x7DB4;&#x548C;&#x5206;&#x652F;&#x63D0;&#x793A;&#x524D;&#x7DB4;
-&#x64CD;&#x4F5C;&#x6578;&#x9577;&#x5EA6;&#x8986;&#x84CB;&#x524D;&#x7DB4;
-&#x5730;&#x5740;&#x9577;&#x5EA6;&#x8986;&#x84CB;&#x524D;&#x7DB4;</p>
-<p>&#x4E00;&#x4E9B;&#x64CD;&#x4F5C;&#x78BC;&#x9700;&#x8981;&#x53E6;&#x5916;&#x7684;&#x4FEE;&#x98FE;&#x7B26;&#x4F86;&#x5B9A;&#x7FA9;&#x57F7;&#x884C;&#x529F;&#x80FD;&#x4E2D;&#x6D89;&#x53CA;&#x5230;&#x7684;&#x5BC4;&#x5B58;&#x5668;&#x548C;&#x5167;&#x5B58;&#x5730;&#x5740;&#x3002;&#x4FEE;&#x98FE;&#x7B26;&#x5305;&#x542B;&#x4E09;&#x90E8;&#x5206;&#xFF1A;
-&#xFF08;ModR/M&#xFF09;&#x5C0B;&#x5740;&#x65B9;&#x5F0F;&#x5B57;&#x7BC0;
-SIB&#xFF08;&#x6BD4;&#x4F8B;&#x7D22;&#x5F15;&#x57FA;&#x5740;&#xFF09;&#x5B57;&#x7BC0;
-1&#x3001;2&#x6216;4&#x500B;&#x5730;&#x5740;&#x79FB;&#x4F4D;&#x5B57;&#x7BC0;
-ModR/M&#x5B57;&#x7BC0;&#x7531;&#x4E09;&#x500B;&#x5B57;&#x6BB5;&#x7684;&#x4FE1;&#x606F;&#x69CB;&#x6210;&#x3002;&#x5982;&#x4E0B;&#x5716;&#xFF1A;</p>
-<p><img src="images/20150506233740509.png" alt=""></p>
-<p>mod&#x5B57;&#x6BB5;&#x548C;r/m&#x5B57;&#x6BB5;&#x4E00;&#x8D77;&#x4F7F;&#x7528;&#xFF0C;&#x7528;&#x65BC;&#x5B9A;&#x7FA9;&#x6307;&#x4EE4;&#x4F7F;&#x7528;&#x7684;&#x5BC4;&#x5B58;&#x5668;&#x6216;&#x5C0B;&#x5740;&#x6A21;&#x5F0F;&#x3002;
-reg/opcode&#x7528;&#x65BC;&#x5141;&#x8A31;&#x4F7F;&#x7528;&#x66F4;&#x591A;&#x7684;&#x4E09;&#x4F4D;&#x9032;&#x4E00;&#x6B65;&#x5B9A;&#x7FA9;&#x64CD;&#x4F5C;&#x78BC;&#x529F;&#x80FD;&#xFF0C;&#x6216;&#x7528;&#x65BC;&#x5B9A;&#x7FA9;&#x5BC4;&#x5B58;&#x5668;&#x7684;&#x503C;&#x3002;
-SIB&#x5B57;&#x6BB5;&#x4E5F;&#x7531;3&#x500B;&#x5B57;&#x6BB5;&#x7684;&#x4FE1;&#x606F;&#x69CB;&#x6210;&#x3002;&#x5982;&#x4E0B;&#x5716;</p>
-<p><img src="images/20150506234008915.png" alt=""></p>
-<p>&#x6BD4;&#x4F8B;&#x5B57;&#x6BB5;&#x6307;&#x5B9A;&#x64CD;&#x4F5C;&#x7684;&#x6BD4;&#x4F8B;&#x56E0;&#x7D20;&#xFF0C;&#x7D22;&#x5F15;&#x5B57;&#x6BB5;&#x6307;&#x5B9A;&#x5167;&#x5B58;&#x8A2A;&#x554F;&#x4E2D;&#x7528;&#x4F5C;&#x7D22;&#x5F15;&#x5BC4;&#x5B58;&#x5668;&#x7684;&#x5BC4;&#x5B58;&#x5668;&#xFF0C;&#x57FA;&#x5740;&#x5B57;&#x6BB5;&#x6307;&#x5B9A;&#x7528;&#x4F5C;&#x5167;&#x5B58;&#x8A2A;&#x554F;&#x7684;&#x57FA;&#x5740;&#x5BC4;&#x5B58;&#x5668;&#x7684;&#x5BC4;&#x5B58;&#x5668;&#x3002;</p>
-<p>&#x5730;&#x5740;&#x79FB;&#x4F4D;&#x5B57;&#x7BC0;&#x7528;&#x4F86;&#x6307;&#x5B9A;&#x5C0D;&#x65BC;ModR/M&#x548C;SIB&#x5B57;&#x7BC0;&#x4E2D;&#x5B9A;&#x7FA9;&#x7684;&#x5167;&#x5B58;&#x4F4D;&#x7F6E;&#x4F4D;&#x7F6E;&#x7684;&#x504F;&#x79FB;&#x91CF;&#x3002;
-&#x6578;&#x64DA;&#x5143;&#x7D20;&#x5728;&#x6307;&#x4EE4;&#x78BC;&#x7684;&#x6700;&#x5F8C;&#x90E8;&#x5206;&#xFF0C;&#x4E00;&#x4E9B;&#x6307;&#x4EE4;&#x78BC;&#x5F9E;&#x5167;&#x5B58;&#x4F4D;&#x7F6E;&#x6216;&#x8655;&#x7406;&#x5668;&#x5BC4;&#x5B58;&#x5668;&#x8B80;&#x53D6;&#x6578;&#x64DA;&#xFF0C;&#x800C;&#x4E00;&#x4E9B;&#x6307;&#x4EE4;&#x78BC;&#x5728;&#x5176;&#x6307;&#x4EE4;&#x672C;&#x8EAB;&#x4E4B;&#x5167;&#x5C31;&#x6709;&#x5305;&#x542B;&#x6578;&#x64DA;&#x3002;</p>
-<p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;&#x4F7F;&#x7528;&#x8655;&#x7406;&#x5668;&#x7684;&#x6307;&#x4EE4;&#x78BC;&#x9032;&#x884C;&#x7A0B;&#x5E8F;&#x8A2D;&#x8A08;&#x662F;&#x5341;&#x5206;&#x56F0;&#x96E3;&#x7684;&#xFF0C;&#x6240;&#x4EE5;&#x624D;&#x6709;&#x4E86;&#x5F8C;&#x9762;&#x7684;&#x9AD8;&#x7D1A;&#x8A9E;&#x8A00;&#x3002;&#x4F46;&#x8655;&#x7406;&#x5668;&#x6839;&#x672C;&#x4E0D;&#x77E5;&#x9053;&#x5982;&#x4F55;&#x8655;&#x7406;&#x9AD8;&#x7D1A;&#x8A9E;&#x8A00;&#xFF0C;&#x5FC5;&#x9808;&#x901A;&#x904E;&#x67D0;&#x7A2E;&#x6A5F;&#x5236;&#x628A;&#x9AD8;&#x7D1A;&#x8A9E;&#x8A00;&#x4EE3;&#x78BC;&#x8F49;&#x63DB;&#x70BA;&#x8655;&#x7406;&#x5668;&#x80FD;&#x5920;&#x8655;&#x7406;&#x7684;&#x6307;&#x4EE4;&#x78BC;&#x624D;&#x80FD;&#x8655;&#x7406;&#x3002;</p>
-<p>&#x4F7F;&#x7528;&#x532F;&#x7DE8;&#x8A9E;&#x8A00;&#x7A0B;&#x5E8F;&#x8A2D;&#x8A08;&#x5FC5;&#x9808;&#x8981;&#x5148;&#x4E86;&#x89E3;&#x8655;&#x7406;&#x5668;&#x74B0;&#x5883;&#xFF0C;&#x4E0D;&#x540C;&#x985E;&#x578B;&#x7684;&#x8655;&#x7406;&#x5668;&#x7684;&#x6307;&#x4EE4;&#x78BC;&#x662F;&#x4E0D;&#x4E00;&#x6A23;&#x7684;&#x3002;&#x6211;&#x5011;&#x5C07;&#x4EE5;AI-32&#x5E73;&#x81FA;&#x70BA;&#x4F8B;&#x4F86;&#x8B1B;&#x8FF0;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x3002;</p>
-<p>&#x96D6;&#x7136;&#x4E0D;&#x540C;&#x8655;&#x7406;&#x5668;&#x7CFB;&#x5217;&#x7D50;&#x5408;&#x4E86;&#x4E0D;&#x540C;&#x7684;&#x6307;&#x4EE4;&#x96C6;&#x5408;&#x548C;&#x529F;&#x80FD;&#xFF0C;&#x4F46;&#x5927;&#x591A;&#x6578;&#x8655;&#x7406;&#x5668;&#x90FD;&#x4F7F;&#x7528;&#x4E86;&#x76F8;&#x540C;&#x7684;&#x6838;&#x5FC3;&#x7D44;&#x4EF6;&#x96C6;&#x5408;&#x3002;&#x8A08;&#x7B97;&#x6A5F;&#x4E00;&#x822C;&#x5305;&#x542B;&#x5982;&#x4E0B;&#x56DB;&#x500B;&#x7D44;&#x4EF6;&#xFF1A;</p>
-<p><img src="images/20150506233914031.png" alt=""></p>
-<p>&#x8655;&#x7406;&#x5668;&#x5305;&#x542B;&#x63A7;&#x5236;&#x8A08;&#x7B97;&#x6A5F;&#x64CD;&#x4F5C;&#x7684;&#x786C;&#x4EF6;&#x548C;&#x6307;&#x4EE4;&#x78BC;&#xFF0C;&#x5176;&#x901A;&#x904E;3&#x500B;&#x55AE;&#x7368;&#x7684;&#x7E3D;&#x7DDA;&#xFF1A;&#x63A7;&#x5236;&#x7E3D;&#x7DDA;&#x3001;&#x5730;&#x5740;&#x7E3D;&#x7DDA;&#x3001;&#x6578;&#x64DA;&#x7E3D;&#x7DDA;&#xFF0C;&#x8655;&#x7406;&#x5668;&#x88AB;&#x9023;&#x63A5;&#x5230;&#x8A08;&#x7B97;&#x6A5F;&#x7684;&#x5176;&#x4ED6;&#x5143;&#x7D20;&#xFF08;&#x5167;&#x5B58;&#x5B58;&#x5132;&#x55AE;&#x5143;&#x3001;&#x8F38;&#x5165;&#x8A2D;&#x5099;&#x548C;&#x8F38;&#x51FA;&#x8A2D;&#x5099;&#xFF09;&#x3002;&#x8655;&#x7406;&#x5668;&#x7531;&#x5F88;&#x591A;&#x7D44;&#x4EF6;&#x69CB;&#x6210;&#xFF0C;&#x5728;&#x8655;&#x7406;&#x5668;&#x8655;&#x7406;&#x6578;&#x64DA;&#x7684;&#x904E;&#x7A0B;&#x4E2D;&#xFF0C;&#x6BCF;&#x500B;&#x7D44;&#x4EF6;&#x90FD;&#x6709;&#x5176;&#x4F5C;&#x7528;&#xFF0C;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x7A0B;&#x5E8F;&#x6709;&#x8A2A;&#x554F;&#x548C;&#x63A7;&#x5236;&#x6240;&#x6709;&#x9019;&#x4E9B;&#x7D44;&#x4EF6;&#x7684;&#x80FD;&#x529B;&#xFF0C;&#x6240;&#x4EE5;&#x77AD;&#x89E3;&#x9019;&#x4E9B;&#x7D44;&#x4EF6;&#x5F88;&#x91CD;&#x8981;&#x3002;&#x8655;&#x7406;&#x5668;&#x4E3B;&#x8981;&#x7D44;&#x4EF6;&#x5982;&#x4E0B;&#xFF1A;</p>
-<ul>
-<li>&#x63A7;&#x5236;&#x55AE;&#x5143;</li>
-<li>&#x57F7;&#x884C;&#x55AE;&#x5143;</li>
-<li>&#x5BC4;&#x5B58;&#x5668;</li>
-<li>&#x6A19;&#x8A8C;</li>
-</ul>
-<p>&#x63A7;&#x5236;&#x55AE;&#x5143;&#x662F;&#x8655;&#x7406;&#x5668;&#x7684;&#x4E2D;&#x5FC3;&#xFF0C;&#x63A7;&#x5236;&#x55AE;&#x5143;&#x7684;&#x4E3B;&#x8981;&#x4F5C;&#x7528;&#x6642;&#x63A7;&#x5236;&#x8655;&#x7406;&#x5668;&#x5728;&#x4F55;&#x6642;&#x505A;&#x4F55;&#x7A2E;&#x64CD;&#x4F5C;&#x3002;&#x63A7;&#x5236;&#x55AE;&#x5143;&#x5BE6;&#x73FE;4&#x500B;&#x57FA;&#x672C;&#x529F;&#x80FD;&#xFF1A;</p>
-<ul>
-<li>&#x5F9E;&#x5167;&#x5B58;&#x7372;&#x5F97;&#x6307;&#x4EE4;&#x3002;</li>
-<li>&#x5C0D;&#x6307;&#x4EE4;&#x9032;&#x884C;&#x5206;&#x6790;&#x4EE5;&#x4FBF;&#x9032;&#x884C;&#x64CD;&#x4F5C;&#x3002;</li>
-<li>&#x5F9E;&#x5167;&#x5B58;&#x7372;&#x5F97;&#x6240;&#x9700;&#x7D50;&#x679C;&#x3002;</li>
-<li>&#x6709;&#x5FC5;&#x8981;&#x5247;&#x5B58;&#x5132;&#x7D50;&#x679C;&#x3002;</li>
-</ul>
-<p>&#x57F7;&#x884C;&#x55AE;&#x5143;&#x8CA0;&#x8CAC;&#x57F7;&#x884C;&#x8655;&#x7406;&#x5668;&#x6307;&#x4EE4;&#x3002;&#x57F7;&#x884C;&#x55AE;&#x5143;&#x7531;&#x4E00;&#x500B;&#x6216;&#x591A;&#x500B;&#x7B97;&#x8853;&#x908F;&#x8F2F;&#x55AE;&#x5143;&#x69CB;&#x6210;&#xFF08;ALU&#xFF09;&#x3002;
-&#x5BC4;&#x5B58;&#x5668;&#x7528;&#x65BC;&#x89E3;&#x6C7A;&#x8655;&#x7406;&#x5668;&#x5F9E;&#x5167;&#x5B58;&#x8B80;&#x53D6;&#x6578;&#x64DA;&#x6642;&#x9700;&#x8981;&#x7B49;&#x5F85;&#x7684;&#x554F;&#x984C;&#x3002;&#x5728;&#x8655;&#x7406;&#x5668;&#x8A2A;&#x554F;&#x6578;&#x64DA;&#x5143;&#x7D20;&#x6642;&#xFF0C;&#x8ACB;&#x6C42;&#x88AB;&#x9AEE;&#x9001;&#x5230;&#x8655;&#x7406;&#x5668;&#x5916;&#x90E8;&#xFF0C;&#x901A;&#x904E;&#x63A7;&#x5236;&#x7E3D;&#x7DDA;&#x9032;&#x5165;&#x5B58;&#x5132;&#x55AE;&#x5143;&#xFF0C;&#x57F7;&#x884C;&#x8A72;&#x904E;&#x7A0B;&#x6642;&#x8655;&#x7406;&#x5668;&#x8655;&#x65BC;&#x7B49;&#x5F85;&#x72C0;&#x614B;&#x3002;&#x800C;&#x5BC4;&#x5B58;&#x5668;&#x80FD;&#x5920;&#x5B58;&#x5132;&#x8981;&#x8655;&#x7406;&#x7684;&#x6578;&#x64DA;&#x5143;&#x7D20;&#xFF0C;&#x800C;&#x7121;&#x9700;&#x8A2A;&#x554F;&#x5167;&#x5B58;&#x55AE;&#x5143;&#x3002;&#x4F46;&#x662F;&#x8655;&#x7406;&#x5668;&#x82AF;&#x7247;&#x4E2D;&#x5167;&#x7F6E;&#x7684;&#x5BC4;&#x5B58;&#x5668;&#x6578;&#x91CF;&#x662F;&#x6709;&#x9650;&#x7684;&#x3002;IA-32&#x5E73;&#x81FA;&#x5177;&#x6709;&#x4E0D;&#x540C;&#x9577;&#x5EA6;&#x7684;&#x591A;&#x7D44;&#x5BC4;&#x5B58;&#x5668;&#x3002;&#x901A;&#x7528;&#x5BC4;&#x5B58;&#x5668;&#x7528;&#x65BC;&#x81E8;&#x6642;&#x5B58;&#x5132;&#x6578;&#x64DA;&#xFF1B;&#x6BB5;&#x5BC4;&#x5B58;&#x5668;&#x7528;&#x65BC;&#x5F15;&#x7528;&#x5167;&#x5B58;&#x4F4D;&#x7F6E;&#xFF1B;&#x6307;&#x4EE4;&#x6307;&#x91DD;&#x5BC4;&#x5B58;&#x5668;&#xFF0C;&#x53C8;&#x7A31;&#x70BA;&#x7A0B;&#x5E8F;&#x8A08;&#x6578;&#x5668;&#xFF08;PC&#xFF09;&#xFF0C;&#x8DDF;&#x8E64;&#x8981;&#x57F7;&#x884C;&#x7684;&#x4E0B;&#x4E00;&#x689D;&#x6307;&#x4EE4;&#x78BC;&#xFF1B;&#x63A7;&#x5236;&#x5BC4;&#x5B58;&#x5668;&#x7528;&#x65BC;&#x78BA;&#x5B9A;&#x8655;&#x7406;&#x5668;&#x7684;&#x64CD;&#x4F5C;&#x6A21;&#x5F0F;&#x3002;</p>
-<p>&#x901A;&#x7528;&#x5BC4;&#x5B58;&#x5668;&#x53CA;&#x5176;&#x7528;&#x8655;&#x63CF;&#x8FF0;&#x5982;&#x4E0B;&#x8868;&#xFF1A;</p>
-<div style="background-color:rgb(255,255,255)">
-<ul style="margin-top:0px; margin-bottom:0px; background-color:inherit">
-<li style="background-color:inherit"><span style="font-family:Microsoft YaHei">&#x63A7;&#x5236;&#x55AE;&#x5143;</span></li><li style="background-color:inherit"><span style="font-family:Microsoft YaHei">&#x57F7;&#x884C;&#x55AE;&#x5143;</span></li><li style="background-color:inherit"><span style="font-family:Microsoft YaHei">&#x5BC4;&#x5B58;&#x5668;</span></li><li style="background-color:inherit"><span style="font-family:Microsoft YaHei">&#x6A19;&#x8A8C;</span></li></ul>
-<div style="background-color:inherit"><span style="font-family:Microsoft YaHei">&#xA0; &#xA0; &#xA0; &#xA0; &#x63A7;&#x5236;&#x55AE;&#x5143;&#x662F;&#x8655;&#x7406;&#x5668;&#x7684;&#x4E2D;&#x5FC3;&#xFF0C;&#x63A7;&#x5236;&#x55AE;&#x5143;&#x7684;&#x4E3B;&#x8981;&#x4F5C;&#x7528;&#x6642;&#x63A7;&#x5236;&#x8655;&#x7406;&#x5668;&#x5728;&#x4F55;&#x6642;&#x505A;&#x4F55;&#x7A2E;&#x64CD;&#x4F5C;&#x3002;&#x63A7;&#x5236;&#x55AE;&#x5143;&#x5BE6;&#x73FE;4&#x500B;&#x57FA;&#x672C;&#x529F;&#x80FD;&#xFF1A;</span></div>
-<div style="background-color:inherit">
-<ol style="margin-top:0px; margin-bottom:0px; background-color:inherit">
-<li style="background-color:inherit"><span style="font-family:Microsoft YaHei">&#x5F9E;&#x5167;&#x5B58;&#x7372;&#x5F97;&#x6307;&#x4EE4;&#x3002;</span></li><li style="background-color:inherit"><span style="font-family:Microsoft YaHei">&#x5C0D;&#x6307;&#x4EE4;&#x9032;&#x884C;&#x5206;&#x6790;&#x4EE5;&#x4FBF;&#x9032;&#x884C;&#x64CD;&#x4F5C;&#x3002;</span></li><li style="background-color:inherit"><span style="font-family:Microsoft YaHei">&#x5F9E;&#x5167;&#x5B58;&#x7372;&#x5F97;&#x6240;&#x9700;&#x7D50;&#x679C;&#x3002;</span></li><li style="background-color:inherit"><span style="font-family:Microsoft YaHei">&#x6709;&#x5FC5;&#x8981;&#x5247;&#x5B58;&#x5132;&#x7D50;&#x679C;&#x3002;</span></li></ol>
-<div style="background-color:inherit"><span style="font-family:Microsoft YaHei">&#xA0; &#xA0; &#xA0; &#xA0; &#x57F7;&#x884C;&#x55AE;&#x5143;&#x8CA0;&#x8CAC;&#x57F7;&#x884C;&#x8655;&#x7406;&#x5668;&#x6307;&#x4EE4;&#x3002;&#x57F7;&#x884C;&#x55AE;&#x5143;&#x7531;&#x4E00;&#x500B;&#x6216;&#x591A;&#x500B;&#x7B97;&#x8853;&#x908F;&#x8F2F;&#x55AE;&#x5143;&#x69CB;&#x6210;&#xFF08;ALU&#xFF09;&#x3002;</span></div>
-</div>
-<div style="background-color:inherit"><span style="font-family:Microsoft YaHei">&#xA0; &#xA0; &#xA0; &#xA0; &#x5BC4;&#x5B58;&#x5668;&#x7528;&#x65BC;&#x89E3;&#x6C7A;&#x8655;&#x7406;&#x5668;&#x5F9E;&#x5167;&#x5B58;&#x8B80;&#x53D6;&#x6578;&#x64DA;&#x6642;&#x9700;&#x8981;&#x7B49;&#x5F85;&#x7684;&#x554F;&#x984C;&#x3002;&#x5728;&#x8655;&#x7406;&#x5668;&#x8A2A;&#x554F;&#x6578;&#x64DA;&#x5143;&#x7D20;&#x6642;&#xFF0C;&#x8ACB;&#x6C42;&#x88AB;&#x9AEE;&#x9001;&#x5230;&#x8655;&#x7406;&#x5668;&#x5916;&#x90E8;&#xFF0C;&#x901A;&#x904E;&#x63A7;&#x5236;&#x7E3D;&#x7DDA;&#x9032;&#x5165;&#x5B58;&#x5132;&#x55AE;&#x5143;&#xFF0C;&#x57F7;&#x884C;&#x8A72;&#x904E;&#x7A0B;&#x6642;&#x8655;&#x7406;&#x5668;&#x8655;&#x65BC;&#x7B49;&#x5F85;&#x72C0;&#x614B;&#x3002;&#x800C;&#x5BC4;&#x5B58;&#x5668;&#x80FD;&#x5920;&#x5B58;&#x5132;&#x8981;&#x8655;&#x7406;&#x7684;&#x6578;&#x64DA;&#x5143;&#x7D20;&#xFF0C;&#x800C;&#x7121;&#x9700;&#x8A2A;&#x554F;&#x5167;&#x5B58;&#x55AE;&#x5143;&#x3002;&#x4F46;&#x662F;&#x8655;&#x7406;&#x5668;&#x82AF;&#x7247;&#x4E2D;&#x5167;&#x7F6E;&#x7684;&#x5BC4;&#x5B58;&#x5668;&#x6578;&#x91CF;&#x662F;&#x6709;&#x9650;&#x7684;&#x3002;IA-32&#x5E73;&#x81FA;&#x5177;&#x6709;&#x4E0D;&#x540C;&#x9577;&#x5EA6;&#x7684;&#x591A;&#x7D44;&#x5BC4;&#x5B58;&#x5668;&#x3002;&#x901A;&#x7528;&#x5BC4;&#x5B58;&#x5668;&#x7528;&#x65BC;&#x81E8;&#x6642;&#x5B58;&#x5132;&#x6578;&#x64DA;&#xFF1B;&#x6BB5;&#x5BC4;&#x5B58;&#x5668;&#x7528;&#x65BC;&#x5F15;&#x7528;&#x5167;&#x5B58;&#x4F4D;&#x7F6E;&#xFF1B;&#x6307;&#x4EE4;&#x6307;&#x91DD;&#x5BC4;&#x5B58;&#x5668;&#xFF0C;&#x53C8;&#x7A31;&#x70BA;&#x7A0B;&#x5E8F;&#x8A08;&#x6578;&#x5668;&#xFF08;PC&#xFF09;&#xFF0C;&#x8DDF;&#x8E64;&#x8981;&#x57F7;&#x884C;&#x7684;&#x4E0B;&#x4E00;&#x689D;&#x6307;&#x4EE4;&#x78BC;&#xFF1B;&#x63A7;&#x5236;&#x5BC4;&#x5B58;&#x5668;&#x7528;&#x65BC;&#x78BA;&#x5B9A;&#x8655;&#x7406;&#x5668;&#x7684;&#x64CD;&#x4F5C;&#x6A21;&#x5F0F;&#x3002;</span></div>
-<div style="background-color:inherit"><span style="font-family:Microsoft YaHei">&#xA0; &#xA0; &#xA0; &#xA0; &#x901A;&#x7528;&#x5BC4;&#x5B58;&#x5668;&#x53CA;&#x5176;&#x7528;&#x8655;&#x63CF;&#x8FF0;&#x5982;&#x4E0B;&#x8868;&#xFF1A;</span></div>
-<table border="1" cellpadding="2" cellspacing="0" style="border-collapse:collapse; margin-top:10px; margin-bottom:10px; display:table; background-color:inherit">
-<tbody style="background-color:inherit">
-<tr style="background-color:inherit">
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">EAX</span></div>
-</td>
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">&#x7528;&#x65BC;&#x64CD;&#x4F5C;&#x6578;&#x548C;&#x7D50;&#x679C;&#x6578;&#x64DA;&#x7684;&#x7D2F;&#x52A0;&#x5668;</span></div>
-</td>
-</tr>
-<tr style="background-color:inherit">
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">EBX</span></div>
-</td>
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">&#x6307;&#x5411;&#x6578;&#x64DA;&#x5167;&#x5B58;&#x6BB5;&#x4E2D;&#x7684;&#x6578;&#x64DA;&#x6307;&#x91DD;</span></div>
-</td>
-</tr>
-<tr style="background-color:inherit">
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">ECX</span></div>
-</td>
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">&#x5B57;&#x7B26;&#x4E32;&#x548C;&#x5FAA;&#x74B0;&#x64CD;&#x4F5C;&#x7684;&#x8A08;&#x6578;&#x5668;</span></div>
-</td>
-</tr>
-<tr style="background-color:inherit">
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:28px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">EDX</span></div>
-</td>
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:28px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">I/O&#x6307;&#x91DD;</span></div>
-</td>
-</tr>
-<tr style="background-color:inherit">
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">EDI</span></div>
-</td>
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">&#x7528;&#x65BC;&#x5B57;&#x7B26;&#x4E32;&#x64CD;&#x4F5C;&#x7684;&#x76EE;&#x6A19;&#x7684;&#x6578;&#x64DA;&#x6307;&#x91DD;</span></div>
-</td>
-</tr>
-<tr style="background-color:inherit">
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">ESI</span></div>
-</td>
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">&#x7528;&#x65BC;&#x5B57;&#x7B26;&#x4E32;&#x64CD;&#x4F5C;&#x7684;&#x6E90;&#x7684;&#x6578;&#x64DA;&#x6307;&#x91DD;</span></div>
-</td>
-</tr>
-<tr style="background-color:inherit">
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<span style="font-family:Microsoft YaHei">ESP</span></td>
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">&#x5806;&#x68E7;&#x6307;&#x91DD;</span></div>
-</td>
-</tr>
-<tr style="background-color:inherit">
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">EBP</span></div>
-</td>
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">&#x5806;&#x68E7;&#x6578;&#x64DA;&#x6307;&#x91DD;</span></div>
-</td>
-</tr>
-</tbody>
-</table>
-<span style="font-family:Microsoft YaHei">&#x6BB5;&#x5BC4;&#x5B58;&#x5668;&#x53CA;&#x5176;&#x63CF;&#x8FF0;&#xFF1A;</span></div>
+                        <h1 id="c-c-%E5%8D%81%E4%B8%89%E8%AA%A1">C/C++ &#x5341;&#x4E09;&#x8AA1;</h1>
+<hr>
+<h3 id="01-%E4%BD%A0%E4%B8%8D%E5%8F%AF%E4%BB%A5%E4%BD%BF%E7%94%A8%E5%B0%9A%E6%9C%AA%E7%B5%A6%E4%BA%88%E9%81%A9%E7%95%B6%E5%88%9D%E5%80%BC%E7%9A%84%E8%AE%8A%E6%95%B8-1">01. &#x4F60;&#x4E0D;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x5C1A;&#x672A;&#x7D66;&#x4E88;&#x9069;&#x7576;&#x521D;&#x503C;&#x7684;&#x8B8A;&#x6578;<sup><a href="#fn_1" id="reffn_1">1</a></sup></h3>
+<h4 id="%E9%8C%AF%E8%AA%A4%E4%BE%8B%E5%AD%90">&#x932F;&#x8AA4;&#x4F8B;&#x5B50;</h4>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">accumulate</span><span class="hljs-params">(<span class="hljs-keyword">int</span> max)</span>    <span class="hljs-comment">/* &#x5F9E; 1 &#x7D2F;&#x52A0;&#x5230; max&#xFF0C;&#x50B3;&#x56DE;&#x7D50;&#x679C; */</span>
+</span>{
+    <span class="hljs-keyword">int</span> sum;    <span class="hljs-comment">/* &#x672A;&#x7D66;&#x4E88;&#x521D;&#x503C;&#x7684;&#x5340;&#x57DF;&#x8B8A;&#x6578;&#xFF0C;&#x5176;&#x5167;&#x5BB9;&#x503C;&#x662F;&#x5783;&#x573E; */</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> num = <span class="hljs-number">1</span>; num &lt;= max; num++) {  sum += num;  }
+    <span class="hljs-keyword">return</span> sum;
+}
+</code></pre>
+<h4 id="%E6%AD%A3%E7%A2%BA%E4%BE%8B%E5%AD%90">&#x6B63;&#x78BA;&#x4F8B;&#x5B50;</h4>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">accumulate</span><span class="hljs-params">(<span class="hljs-keyword">int</span> max)</span>
+</span>{
+    <span class="hljs-keyword">int</span> sum = <span class="hljs-number">0</span>;    <span class="hljs-comment">/* &#x6B63;&#x78BA;&#x7684;&#x8CE6;&#x4E88;&#x9069;&#x7576;&#x7684;&#x521D;&#x503C; */</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> num = <span class="hljs-number">1</span>; num &lt;= max; num++) {  sum += num;  }
+    <span class="hljs-keyword">return</span> sum;
+}
+</code></pre>
+<h3 id="02-%E4%BD%A0%E4%B8%8D%E5%8F%AF%E4%BB%A5%E5%AD%98%E5%8F%96%E8%B6%85%E9%81%8E%E9%99%A3%E5%88%97%E6%97%A2%E5%AE%9A%E7%AF%84%E5%9C%8D%E7%9A%84%E7%A9%BA%E9%96%93">02. &#x4F60;&#x4E0D;&#x53EF;&#x4EE5;&#x5B58;&#x53D6;&#x8D85;&#x904E;&#x9663;&#x5217;&#x65E2;&#x5B9A;&#x7BC4;&#x570D;&#x7684;&#x7A7A;&#x9593;</h3>
+<h4 id="%E9%8C%AF%E8%AA%A4%E4%BE%8B%E5%AD%90">&#x932F;&#x8AA4;&#x4F8B;&#x5B50;</h4>
+<pre><code class="lang-c"><span class="hljs-keyword">int</span> str[<span class="hljs-number">5</span>];
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span> ; i &lt;= <span class="hljs-number">5</span> ; i++) str[i] = i;
+</code></pre>
+<h4 id="%E6%AD%A3%E7%A2%BA%E4%BE%8B%E5%AD%90">&#x6B63;&#x78BA;&#x4F8B;&#x5B50;</h4>
+<pre><code class="lang-c"><span class="hljs-keyword">int</span> str[<span class="hljs-number">5</span>];
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5</span>; i++) str[i] = i;
+</code></pre>
+<p>&#x5BA3;&#x544A;&#x9663;&#x5217;&#x6642;&#xFF0C;&#x6240;&#x7D66;&#x7684;&#x9663;&#x5217;&#x5143;&#x7D20;&#x500B;&#x6578;&#x503C;&#x5982;&#x679C;&#x662F; N, &#x90A3;&#x9EBC;&#x6211;&#x5011;&#x5728;&#x5F8C;&#x9762;&#x900F;&#x904E; [&#x7D22;&#x5F15;&#x503C;] &#x5B58;&#x53D6;&#x5176;&#x5143;&#x7D20;&#x6642;&#xFF0C;&#x6240;&#x80FD;&#x4F7F;&#x7528;&#x7684;&#x7D22;&#x5F15;&#x503C;&#x7BC4;&#x570D;&#x662F;&#x5F9E; 0 &#x5230; N-1&#x3002;
+C/C++ &#x70BA;&#x4E86;&#x57F7;&#x884C;&#x6548;&#x7387;&#xFF0C;&#x4E26;&#x4E0D;&#x6703;&#x81EA;&#x52D5;&#x6AA2;&#x67E5;&#x9663;&#x5217;&#x7D22;&#x5F15;&#x503C;&#x662F;&#x5426;&#x8D85;&#x904E;&#x9663;&#x5217;&#x908A;&#x754C;&#xFF0C;&#x6211;&#x5011;&#x8981;&#x81EA;&#x5DF1;&#x4F86;&#x78BA;&#x4FDD;&#x4E0D;&#x6703;&#x8D8A;&#x754C;&#x3002;
+&#x4E00;&#x65E6;&#x8D8A;&#x754C;&#xFF0C;&#x64CD;&#x4F5C;&#x7684;&#x4E0D;&#x518D;&#x662F;&#x5408;&#x6CD5;&#x7684;&#x7A7A;&#x9593;&#xFF0C;&#x5C07;&#x5C0E;&#x81F4;&#x7121;&#x6CD5;&#x9810;&#x671F;&#x7684;&#x5F8C;&#x679C;&#x3002;</p>
+<h4 id="range-based-for-loop-c-11">Range-based for loop (C++11)</h4>
+<p>C++11&#x4E4B;&#x5F8C;&#x53EF;&#x4EE5;&#x7528;Range-based for loop&#x63D0;&#x53D6;array&#x3001;vector(&#x6216;&#x662F;&#x5176;&#x4ED6;&#x6709;&#x63D0;&#x4F9B;&#x6B63;&#x78BA;.begin()&#x548C;.end()&#x7684;class)&#x5167;&#x7684;&#x5143;&#x7D20;&#xFF0C;
+&#x53EF;&#x4EE5;&#x78BA;&#x4FDD;&#x63D0;&#x53D6;&#x7684;&#x5143;&#x7D20;&#x4E00;&#x5B9A;&#x843D;&#x5728;&#x6B63;&#x78BA;&#x7BC4;&#x570D;&#x5167;&#x3002;&#x4F8B;&#xFF1A;</p>
+<pre><code class="lang-cpp"><span class="hljs-comment">// vector</span>
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; v = {<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>};
 
-<div style="background-color:rgb(255,255,255)">
-<table border="1" cellpadding="2" cellspacing="0" style="font-size:undefined; border-collapse:collapse; margin-top:10px; margin-bottom:10px; display:table; background-color:inherit">
-<tbody style="background-color:inherit">
-<tr style="background-color:inherit">
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">CS</span></div>
-</td>
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">&#x4EE3;&#x78BC;&#x6BB5;</span></div>
-</td>
-</tr>
-<tr style="background-color:inherit">
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">DS</span></div>
-</td>
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">&#x6578;&#x64DA;&#x6BB5;</span></div>
-</td>
-</tr>
-<tr style="background-color:inherit">
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">SS</span></div>
-</td>
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">&#x5806;&#x68E7;&#x6BB5;</span></div>
-</td>
-</tr>
-<tr style="background-color:inherit">
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">ES</span></div>
-</td>
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">&#x9644;&#x52A0;&#x6BB5;&#x6307;&#x91DD;</span></div>
-</td>
-</tr>
-<tr style="background-color:inherit">
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">FS</span></div>
-</td>
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">&#x9644;&#x52A0;&#x6BB5;&#x6307;&#x91DD;</span></div>
-</td>
-</tr>
-<tr style="background-color:inherit">
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">GS</span></div>
-</td>
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">&#x9644;&#x52A0;&#x6BB5;&#x6307;&#x91DD;</span></div>
-</td>
-</tr>
-</tbody>
-</table>
-<div style="background-color:inherit"><span style="font-family:Microsoft YaHei">&#xA0; &#xA0; &#xA0; &#xA0; &#x8655;&#x7406;&#x5668;&#x6A19;&#x8A8C;&#x78BA;&#x5B9A;&#x8655;&#x7406;&#x5668;&#x5BE6;&#x73FE;&#x7684;&#x6BCF;&#x500B;&#x64CD;&#x4F5C;&#x662F;&#x5426;&#x6210;&#x529F;&#x3002;</span></div>
-</div>
+<span class="hljs-keyword">for</span>(<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> &amp;i : v) <span class="hljs-comment">// access by const reference</span>
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; i &lt;&lt; <span class="hljs-string">&apos; &apos;</span>;
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&apos;\n&apos;</span>;
 
+<span class="hljs-comment">// array</span>
+<span class="hljs-keyword">int</span> a[] = {<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>};
+<span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> n: a)  <span class="hljs-comment">// the initializer may be an array</span>
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; n &lt;&lt; <span class="hljs-string">&apos; &apos;</span>;
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&apos;\n&apos;</span>;
+</code></pre>
+<h3 id="03-%E4%BD%A0%E4%B8%8D%E5%8F%AF%E4%BB%A5%E6%8F%90%E5%8F%96-dereference-%E4%B8%8D%E7%9F%A5%E6%8C%87%E5%90%91%E4%BD%95%E6%96%B9%E7%9A%84%E6%8C%87%E6%A8%99%EF%BC%88%E5%8C%85%E5%90%AB-null-%E6%8C%87%E6%A8%99%EF%BC%89">03. &#x4F60;&#x4E0D;&#x53EF;&#x4EE5;&#x63D0;&#x53D6;(dereference)&#x4E0D;&#x77E5;&#x6307;&#x5411;&#x4F55;&#x65B9;&#x7684;&#x6307;&#x6A19;&#xFF08;&#x5305;&#x542B; null &#x6307;&#x6A19;&#xFF09;</h3>
+<h4 id="%E9%8C%AF%E8%AA%A4%E4%BE%8B%E5%AD%90">&#x932F;&#x8AA4;&#x4F8B;&#x5B50;</h4>
+<pre><code class="lang-c"><span class="hljs-keyword">char</span> *pc1;      <span class="hljs-comment">/* &#x672A;&#x7D66;&#x4E88;&#x521D;&#x503C;&#xFF0C;&#x4E0D;&#x77E5;&#x6307;&#x5411;&#x4F55;&#x65B9; */</span>
+<span class="hljs-keyword">char</span> *pc2 = <span class="hljs-literal">NULL</span>;  <span class="hljs-comment">/* pc2 &#x8D77;&#x59CB;&#x5316;&#x70BA; null pointer */</span>
+*pc1 = <span class="hljs-string">&apos;a&apos;</span>;     <span class="hljs-comment">/* &#x5C07; &apos;a&apos; &#x5BEB;&#x5230;&#x4E0D;&#x77E5;&#x4F55;&#x65B9;&#xFF0C;&#x932F;&#x8AA4; */</span>
+*pc2 = <span class="hljs-string">&apos;b&apos;</span>;     <span class="hljs-comment">/* &#x5C07; &apos;b&apos; &#x5BEB;&#x5230;&#x300C;&#x4F4D;&#x5740;0&#x300D;&#xFF0C;&#x932F;&#x8AA4; */</span>
+</code></pre>
+<h4 id="%E6%AD%A3%E7%A2%BA%E4%BE%8B%E5%AD%90">&#x6B63;&#x78BA;&#x4F8B;&#x5B50;</h4>
+<pre><code class="lang-c"><span class="hljs-keyword">char</span> c;          <span class="hljs-comment">/* c &#x7684;&#x5167;&#x5BB9;&#x5C1A;&#x672A;&#x8D77;&#x59CB;&#x5316; */</span>
+<span class="hljs-keyword">char</span> *pc1 = &amp;c;  <span class="hljs-comment">/* pc1 &#x6307;&#x5411;&#x5B57;&#x5143;&#x8B8A;&#x6578; c */</span>
+*pc1 = <span class="hljs-string">&apos;a&apos;</span>;      <span class="hljs-comment">/* c &#x7684;&#x5167;&#x5BB9;&#x8B8A;&#x70BA; &apos;a&apos; */</span>
+
+<span class="hljs-comment">/* &#x52D5;&#x614B;&#x5206;&#x914D; 10 &#x500B; char(&#x5176;&#x503C;&#x672A;&#x5B9A;),&#x4E26;&#x5C07;&#x7B2C;&#x4E00;&#x500B;char&#x7684;&#x4F4D;&#x5740;&#x8CE6;&#x503C;&#x7D66; pc2 */</span>
+<span class="hljs-keyword">char</span> *pc2 = (<span class="hljs-keyword">char</span> *) <span class="hljs-built_in">malloc</span>(<span class="hljs-number">10</span>);
+pc2[<span class="hljs-number">0</span>] = <span class="hljs-string">&apos;b&apos;</span>;    <span class="hljs-comment">/* &#x52D5;&#x614B;&#x914D;&#x7F6E;&#x4F86;&#x7684;&#x7B2C; 0 &#x500B;&#x5B57;&#x5143;&#xFF0C;&#x5167;&#x5BB9;&#x8B8A;&#x70BA; &apos;b&apos; */</span>
+<span class="hljs-built_in">free</span>(pc2);
+</code></pre>
+<p>&#x6307;&#x6A19;&#x8B8A;&#x6578;&#x5FC5;&#x9700;&#x5148;&#x6307;&#x5411;&#x67D0;&#x500B;&#x53EF;&#x4EE5;&#x5408;&#x6CD5;&#x64CD;&#x4F5C;&#x7684;&#x7A7A;&#x9593;&#xFF0C;&#x624D;&#x80FD;&#x9032;&#x884C;&#x64CD;&#x4F5C;&#x3002;
+&#xFF08;&#x4F7F;&#x7528;&#x8005;&#x8A18;&#x5F97;&#x8981;&#x6AA2;&#x67E5; malloc &#x56DE;&#x50B3;&#x662F;&#x5426;&#x70BA; NULL&#xFF0C;&#x7919;&#x65BC;&#x7BC7;&#x5E45;&#x672C;&#x6587;&#x5047;&#x5B9A;&#x4F7F;&#x7528;&#x4E0A;&#x7686;&#x5408;&#x6CD5;&#xFF0C;&#x4E5F;&#x6709;&#x6B63;&#x78BA;&#x6B78;&#x9084;&#x8A18;&#x61B6;&#x9AD4;&#xFF09;</p>
+<h4 id="%E9%8C%AF%E8%AA%A4%E4%BE%8B%E5%AD%90">&#x932F;&#x8AA4;&#x4F8B;&#x5B50;</h4>
+<pre><code class="lang-c"><span class="hljs-keyword">char</span> *name;   <span class="hljs-comment">/* name &#x5C1A;&#x672A;&#x6307;&#x5411;&#x6709;&#x6548;&#x7684;&#x7A7A;&#x9593; */</span>
+<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Your name, please: &quot;</span>);
+fgets(name,<span class="hljs-number">20</span>,<span class="hljs-built_in">stdin</span>);   <span class="hljs-comment">/* &#x60A8;&#x78BA;&#x5B9A;&#x8981;&#x5BEB;&#x5165;&#x7684;&#x90A3;&#x584A;&#x7A7A;&#x9593;&#x5408;&#x6CD5;&#x55CE;??? */</span>
+<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Hello, %s\n&quot;</span>, name);
+</code></pre>
+<h4 id="%E6%AD%A3%E7%A2%BA%E4%BE%8B%E5%AD%90">&#x6B63;&#x78BA;&#x4F8B;&#x5B50;</h4>
+<pre><code class="lang-c"><span class="hljs-comment">/* &#x5982;&#x679C;&#x7DE8;&#x8B6F;&#x671F;&#x5C31;&#x80FD;&#x6C7A;&#x5B9A;&#x5B57;&#x4E32;&#x7684;&#x6700;&#x5927;&#x7A7A;&#x9593;&#xFF0C;&#x90A3;&#x5C31;&#x4E0D;&#x8981;&#x5BA3;&#x544A;&#x6210; char* &#x6539;&#x7528; char[] */</span>
+<span class="hljs-keyword">char</span> name[<span class="hljs-number">21</span>];   <span class="hljs-comment">/* &#x53EF;&#x8B80;&#x5165;&#x5B57;&#x4E32;&#x6700;&#x9577; 20 &#x500B;&#x5B57;&#x5143;&#xFF0C;&#x4FDD;&#x7559;&#x4E00;&#x683C;&#x7A7A;&#x9593;&#x653E; &apos;\0&apos; */</span>
+<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Your name, please: &quot;</span>);
+fgets(name,<span class="hljs-number">20</span>,<span class="hljs-built_in">stdin</span>);
+<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Hello, %s\n&quot;</span>, name);
+</code></pre>
+<h4 id="%E8%8B%A5%E6%98%AF%E5%9C%A8%E5%9F%B7%E8%A1%8C%E6%99%82%E6%9C%9F%E6%89%8D%E8%83%BD%E6%B1%BA%E5%AE%9A%E5%AD%97%E4%B8%B2%E7%9A%84%E6%9C%80%E5%A4%A7%E7%A9%BA%E9%96%93%EF%BC%8Cc%E6%8F%90%E4%BE%9B%E5%85%A9%E7%A8%AE%E4%BD%9C%E6%B3%95%EF%BC%9A">&#x82E5;&#x662F;&#x5728;&#x57F7;&#x884C;&#x6642;&#x671F;&#x624D;&#x80FD;&#x6C7A;&#x5B9A;&#x5B57;&#x4E32;&#x7684;&#x6700;&#x5927;&#x7A7A;&#x9593;&#xFF0C;C&#x63D0;&#x4F9B;&#x5169;&#x7A2E;&#x4F5C;&#x6CD5;&#xFF1A;</h4>
+<p>a. &#x5229;&#x7528; malloc() &#x51FD;&#x5F0F;&#x4F86;&#x52D5;&#x614B;&#x5206;&#x914D;&#x7A7A;&#x9593;&#xFF0C;&#x7528;malloc&#x5BA3;&#x544A;&#x7684;&#x9663;&#x5217;&#x6703;&#x88AB;&#x5B58;&#x5728;heap&#x3002;
+<strong>&#x9808;&#x6CE8;&#x610F;&#xFF1A;&#x82E5;&#x662F;&#x5BA3;&#x544A;&#x8F03;&#x5927;&#x9663;&#x5217;&#xFF0C;&#x8981;&#x78BA;&#x8A8D;malloc&#x7684;&#x56DE;&#x50B3;&#x503C;&#x662F;&#x5426;&#x70BA;NULL<sup><a href="#fn_2" id="reffn_2">2</a></sup> &#x3002;</strong></p>
+<pre><code class="lang-c"><span class="hljs-keyword">size_t</span> length;
+<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;&#x8ACB;&#x8F38;&#x5165;&#x5B57;&#x4E32;&#x7684;&#x6700;&#x5927;&#x9577;&#x5EA6;(&#x542B;null&#x5B57;&#x5143;): &quot;</span>);
+<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%u&quot;</span>, &amp;length);
+
+name = (<span class="hljs-keyword">char</span> *)<span class="hljs-built_in">malloc</span>(length);
+<span class="hljs-keyword">if</span> (name) {         <span class="hljs-comment">// name != NULL</span>
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;&#x60A8;&#x8F38;&#x5165;&#x7684;&#x662F; %u\n&quot;</span>, length);
+} <span class="hljs-keyword">else</span> {            <span class="hljs-comment">// name == NULL</span>
+    <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;&#x8F38;&#x5165;&#x503C;&#x592A;&#x5927;&#x6216;&#x7CFB;&#x7D71;&#x5DF2;&#x7121;&#x8DB3;&#x5920;&#x7A7A;&#x9593;&quot;</span>);
+}
+<span class="hljs-comment">/* &#x6700;&#x5F8C;&#x8A18;&#x5F97; free() &#x6389; malloc() &#x6240;&#x5206;&#x914D;&#x7684;&#x7A7A;&#x9593; */</span>
+<span class="hljs-built_in">free</span>(name);
+name = <span class="hljs-literal">NULL</span>;
+</code></pre>
+<p>b. C99&#x958B;&#x59CB;&#x53EF;&#x4F7F;&#x7528;variable-length array (VLA)&#xFF0C;&#x9808;&#x6CE8;&#x610F;&#xFF1A;  </p>
+<ul>
+<li>&#x56E0;&#x70BA;VLA&#x662F;&#x88AB;&#x5B58;&#x653E;&#x5728;stack&#x88E1;&#xFF0C;&#x4F7F;&#x7528;&#x524D;&#x8981;&#x78BA;&#x8A8D;array size&#x4E0D;&#x80FD;&#x592A;&#x5927;  </li>
+<li>&#x4E0D;&#x662F;&#x6BCF;&#x500B;compiler&#x90FD;&#x652F;&#x63F4;VLA <sup><a href="#fn_3" id="reffn_3">3</a></sup>  </li>
+<li>C++ Standard&#x4E0D;&#x652F;&#x63F4;(&#x96D6;&#x7136;&#x6709;&#x4E9B;compiler&#x652F;&#x63F4;)</li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">float</span> <span class="hljs-title">read_and_process</span><span class="hljs-params">(<span class="hljs-keyword">int</span> n)</span>
+</span>{
+    <span class="hljs-keyword">float</span> vals[n];
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++)
+        vals[i] = read_val();
+    <span class="hljs-keyword">return</span> process(vals, n);
+}
+</code></pre>
+<h4 id="c-%E7%9A%84%E4%BD%BF%E7%94%A8%E8%80%85%E4%B9%9F%E6%9C%89%E5%85%A9%E7%A8%AE%E4%BD%9C%E6%B3%95%EF%BC%9A">C++&#x7684;&#x4F7F;&#x7528;&#x8005;&#x4E5F;&#x6709;&#x5169;&#x7A2E;&#x4F5C;&#x6CD5;&#xFF1A;</h4>
+<p>a. std::vector (&#x4E0D;&#x7BA1;&#x4F60;&#x7684;&#x9663;&#x5217;&#x5927;&#x5C0F;&#x6703;&#x4E0D;&#x6703;&#x8B8A;&#x90FD;&#x53EF;&#x7528;)</p>
+<pre><code class="lang-cp">std::vector<int> v1;
+v1.resize(10);               /* &#x91CD;&#x65B0;&#x8A2D;&#x5B9A;vector size */
+</int></code></pre>
+<p>b. C++11&#x4EE5;&#x5F8C;&#xFF0C;&#x82E5;&#x662F;&#x78BA;&#x5B9A;&#x9663;&#x5217;&#x5927;&#x5C0F;&#x4E0D;&#x6703;&#x8B8A;&#xFF0C;&#x53EF;&#x4EE5;&#x7528;std::array
+&#xFF08;&#x9808;&#x6CE8;&#x610F;&#xFF1A;&#x4E00;&#x822C;&#x4F7F;&#x7528;&#x4E0B;(&#x5B58;&#x5728;stack)&#x4E00;&#x6A23;&#x8981;&#x78BA;&#x8A8D;array size&#x4E0D;&#x80FD;&#x592A;&#x5927;&#xFF09;</p>
+<pre><code class="lang-cpp"><span class="hljs-built_in">std</span>::<span class="hljs-built_in">array</span>&lt;<span class="hljs-keyword">int</span>, 5&gt; a = { <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span> }; <span class="hljs-comment">// a[0]~a[2] = 1,2,3; a[3]&#x4E4B;&#x5F8C;&#x70BA;0;</span>
+a[a.size() - <span class="hljs-number">1</span>] = <span class="hljs-number">5</span>;                <span class="hljs-comment">// a[4] = 0;</span>
+</code></pre>
+<h3 id="04-%E4%BD%A0%E4%B8%8D%E5%8F%AF%E4%BB%A5%E8%A9%A6%E5%9C%96%E7%94%A8-char-%E5%8E%BB%E6%9B%B4%E6%94%B9%E4%B8%80%E5%80%8B-%E5%AD%97%E4%B8%B2%E5%B8%B8%E6%95%B8">04. &#x4F60;&#x4E0D;&#x53EF;&#x4EE5;&#x8A66;&#x5716;&#x7528; char* &#x53BB;&#x66F4;&#x6539;&#x4E00;&#x500B;&quot;&#x5B57;&#x4E32;&#x5E38;&#x6578;&quot;</h3>
+<p>&#x8A66;&#x5716;&#x53BB;&#x66F4;&#x6539;&#x5B57;&#x4E32;&#x5E38;&#x6578;(string literal)&#x7684;&#x7D50;&#x679C;&#x6703;&#x662F;undefined behavior&#x3002;</p>
+<h4 id="%E9%8C%AF%E8%AA%A4%E4%BE%8B%E5%AD%90">&#x932F;&#x8AA4;&#x4F8B;&#x5B50;</h4>
+<pre><code class="lang-cpp"><span class="hljs-keyword">char</span>* pc = <span class="hljs-string">&quot;john&quot;</span>;   <span class="hljs-comment">/* pc &#x73FE;&#x5728;&#x6307;&#x8457;&#x4E00;&#x500B;&#x5B57;&#x4E32;&#x5E38;&#x6578; */</span>
+*pc = <span class="hljs-string">&apos;J&apos;</span>;   <span class="hljs-comment">/* undefined behaviour&#xFF0C;&#x7D50;&#x679C;&#x7121;&#x6CD5;&#x9810;&#x6E2C;*/</span>
+pc = <span class="hljs-string">&quot;jane&quot;</span>;         <span class="hljs-comment">/* &#x5408;&#x6CD5;&#xFF0C;pc&#x6307;&#x5230;&#x5728;&#x5225;&#x7684;&#x4F4D;&#x5740;&#x7684;&#x53E6;&#x4E00;&#x500B;&#x5B57;&#x4E32;&#x5E38;&#x6578;*/</span>
+                     <span class="hljs-comment">/* &#x4F46;&#x662F;&quot;john&quot;&#x9019;&#x500B;&#x5B57;&#x4E32;&#x9084;&#x662F;&#x5B58;&#x5728;&#x539F;&#x4F86;&#x7684;&#x5730;&#x65B9;&#x4E0D;&#x6703;&#x6D88;&#x5931;*/</span>
+</code></pre>
+<p>&#x56E0;&#x70BA;char* pc = &quot;john&quot;&#x9019;&#x500B;&#x52D5;&#x4F5C;&#x6703;&#x65B0;&#x589E;&#x4E00;&#x500B;&#x5167;&#x542B;&#x5143;&#x7D20;&#x70BA;&quot;john\0&quot;&#x7684;static char[5]&#xFF0C;
+&#x7136;&#x5F8C;pc&#x6703;&#x6307;&#x5411;&#x9019;&#x500B;static char&#x7684;&#x4F4D;&#x5740;(&#x901A;&#x5E38;&#x662F;&#x552F;&#x8B80;)&#x3002;</p>
+<p>&#x82E5;&#x662F;&#x8A66;&#x5716;&#x5B58;&#x53D6;&#x9019;&#x500B;static char[]&#xFF0C;Standard&#x4E26;&#x6C92;&#x6709;&#x5B9A;&#x7FA9;&#x7D50;&#x679C;&#x70BA;&#x4F55;&#x3002;</p>
+<p>pc = &quot;jane&quot; &#x9019;&#x500B;&#x52D5;&#x4F5C;&#x6703;&#x628A; pc &#x6307;&#x5230;&#x53E6;&#x4E00;&#x500B;&#x6C92;&#x5728;&#x7528;&#x7684;&#x4F4D;&#x5740;&#x7136;&#x5F8C;&#x65B0;&#x589E;&#x4E00;&#x500B;
+&#x5167;&#x542B;&#x5143;&#x7D20;&#x70BA;&quot;jane\0&quot;&#x7684;static char[5]&#x3002;
+&#x53EF;&#x662F;&#x4E4B;&#x524D;&#x90A3;&#x500B;&#x5B57;&#x4E32; &quot;john\n&quot; &#x9084;&#x662F;&#x7559;&#x5728;&#x539F;&#x5730;&#x6C92;&#x6709;&#x6D88;&#x5931;&#x3002;</p>
+<p>&#x901A;&#x5E38;&#x7DE8;&#x8B6F;&#x5668;&#x7684;&#x4F5C;&#x6CD5;&#x662F;&#x628A;&#x5B57;&#x4E32;&#x5E38;&#x6578;&#x653E;&#x5728;&#x4E00;&#x584A;read only(.rdata)&#x7684;&#x5340;&#x57DF;&#x5167;&#xFF0C;
+&#x6B64;&#x5340;&#x57DF;&#x5927;&#x5C0F;&#x662F;&#x6709;&#x9650;&#x7684;&#xFF0C;&#x6240;&#x4EE5;&#x5982;&#x679C;&#x4F60;&#x91CD;&#x8907;&#x628A;pc&#x6307;&#x7D66;&#x4E0D;&#x540C;&#x7684;&#x5B57;&#x4E32;&#x5E38;&#x6578;&#xFF0C;
+&#x662F;&#x6709;&#x53EF;&#x80FD;&#x6703;&#x51FA;&#x554F;&#x984C;&#x7684;&#x3002;</p>
+<h4 id="%E6%AD%A3%E7%A2%BA%E4%BE%8B%E5%AD%90">&#x6B63;&#x78BA;&#x4F8B;&#x5B50;</h4>
+<pre><code class="lang-c"><span class="hljs-keyword">char</span> pc[] = <span class="hljs-string">&quot;john&quot;</span>;  <span class="hljs-comment">/* pc &#x73FE;&#x5728;&#x662F;&#x500B;&#x5408;&#x6CD5;&#x7684;&#x9663;&#x5217;&#xFF0C;&#x88E1;&#x9762;&#x4F4F;&#x8457;&#x5B57;&#x4E32; john */</span>
+                     <span class="hljs-comment">/* &#x4E5F;&#x5C31;&#x662F; pc[0]=&apos;j&apos;, pc[1]=&apos;o&apos;, pc[2]=&apos;h&apos;,
+                                          pc[3]=&apos;n&apos;, pc[4]=&apos;\0&apos;  */</span>
+*pc = <span class="hljs-string">&apos;J&apos;</span>;
+pc[<span class="hljs-number">2</span>] = <span class="hljs-string">&apos;H&apos;</span>;
+</code></pre>
+<p>&#x5B57;&#x4E32;&#x5E38;&#x6578;&#x7684;&#x5167;&#x5BB9;&#x61C9;&#x8A72;&#x8981;&#x662F;&quot;&#x552F;&#x8B80;&quot;&#x7684;&#x3002;&#x60A8;&#x6709;&#x4F7F;&#x7528;&#x6B0A;&#xFF0C;&#x4F46;&#x662F;&#x6C92;&#x6709;&#x66F4;&#x6539;&#x7684;&#x6B0A;&#x5229;&#x3002;
+&#x82E5;&#x60A8;&#x5E0C;&#x671B;&#x4F7F;&#x7528;&#x53EF;&#x4EE5;&#x66F4;&#x6539;&#x7684;&#x5B57;&#x4E32;&#xFF0C;&#x90A3;&#x60A8;&#x61C9;&#x8A72;&#x5C07;&#x5176;&#x653E;&#x5728;&#x5408;&#x6CD5;&#x7A7A;&#x9593;</p>
+<h4 id="%E9%8C%AF%E8%AA%A4%E4%BE%8B%E5%AD%90">&#x932F;&#x8AA4;&#x4F8B;&#x5B50;</h4>
+<pre><code class="lang-c"><span class="hljs-keyword">char</span> *s1 = <span class="hljs-string">&quot;Hello, &quot;</span>;
+<span class="hljs-keyword">char</span> *s2 = <span class="hljs-string">&quot;world!&quot;</span>;
+<span class="hljs-comment">/* strcat() &#x4E0D;&#x6703;&#x53E6;&#x884C;&#x914D;&#x7F6E;&#x7A7A;&#x9593;&#xFF0C;&#x53EA;&#x6703;&#x5C07;&#x8CC7;&#x6599;&#x9644;&#x52A0;&#x5230; s1 &#x6240;&#x6307;&#x552F;&#x8B80;&#x5B57;&#x4E32;&#x7684;&#x5F8C;&#x9762;&#xFF0C;
+   &#x9020;&#x6210;&#x5BEB;&#x5165;&#x5230;&#x7A0B;&#x5F0F;&#x7121;&#x6B0A;&#x78B0;&#x89F8;&#x7684;&#x8A18;&#x61B6;&#x9AD4;&#x7A7A;&#x9593; */</span>
+<span class="hljs-built_in">strcat</span>(s1, s2);
+</code></pre>
+<h4 id="%E6%AD%A3%E7%A2%BA%E4%BE%8B%E5%AD%90">&#x6B63;&#x78BA;&#x4F8B;&#x5B50;</h4>
+<pre><code class="lang-c"><span class="hljs-comment">/* s1 &#x5BA3;&#x544A;&#x6210;&#x9663;&#x5217;&#xFF0C;&#x4E26;&#x4FDD;&#x7559;&#x8DB3;&#x5920;&#x7A7A;&#x9593;&#x5B58;&#x653E;&#x5F8C;&#x7E8C;&#x8981;&#x9644;&#x52A0;&#x7684;&#x5167;&#x5BB9; */</span>
+<span class="hljs-keyword">char</span> s1[<span class="hljs-number">20</span>] = <span class="hljs-string">&quot;Hello, &quot;</span>;
+<span class="hljs-keyword">char</span> *s2 = <span class="hljs-string">&quot;world!&quot;</span>;
+<span class="hljs-comment">/* &#x56E0;&#x70BA; strcat() &#x7684;&#x8FD4;&#x56DE;&#x503C;&#x7B49;&#x65BC;&#x7B2C;&#x4E00;&#x500B;&#x53C3;&#x6578;&#x503C;&#xFF0C;&#x6240;&#x4EE5; s3 &#x5C31;&#x4E0D;&#x9700;&#x8981;&#x4E86; */</span>
+<span class="hljs-built_in">strcat</span>(s1, s2);
+</code></pre>
+<p>C++&#x5C0D;&#x65BC;&#x5B57;&#x4E32;&#x5E38;&#x6578;&#x7684;&#x56B4;&#x683C;&#x5B9A;&#x7FA9;&#x70BA;const char<em> &#x6216; const char[] <sup><a href="#fn_4" id="reffn_4">4</a></sup> &#x3002;
+&#x4F46;&#x662F;&#x7531;&#x65BC;&#x8981;&#x76F8;&#x5BB9;C&#xFF0C;char</em> &#x4E5F;&#x662F;&#x5141;&#x8A31;&#x7684;&#x5BEB;&#x6CD5;(&#x4E0D;&#x5EFA;&#x8B70;&#x5C31;&#x662F;)&#x3002;</p>
+<p>&#x4E0D;&#x904E;&#xFF0C;&#x5728;C++&#x8A66;&#x5716;&#x66F4;&#x6539;&#x5B57;&#x4E32;&#x5E38;&#x6578;(&#x8981;&#x5148;const_cast)&#x4E00;&#x6A23;&#x662F;undefined behavior&#x3002;</p>
+<pre><code class="lang-c"><span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* pc = <span class="hljs-string">&quot;Hello&quot;</span>;
+<span class="hljs-keyword">char</span>* p = <span class="hljs-keyword">const_cast</span>&lt;<span class="hljs-keyword">char</span>*&gt;(pc);
+p[<span class="hljs-number">0</span>] = <span class="hljs-string">&apos;M&apos;</span>; <span class="hljs-comment">// undefined behaviour</span>
+</code></pre>
+<h3 id="05-%E4%BD%A0%E4%B8%8D%E5%8F%AF%E4%BB%A5%E5%9C%A8%E5%87%BD%E5%BC%8F%E4%B8%AD%E5%9B%9E%E5%82%B3%E4%B8%80%E5%80%8B%E6%8C%87%E5%90%91%E5%8D%80%E5%9F%9F%E6%80%A7%E8%87%AA%E5%8B%95%E8%AE%8A%E6%95%B8%E7%9A%84%E6%8C%87%E6%A8%99%E3%80%82%E5%90%A6%E5%89%87%EF%BC%8C%E6%9C%83%E5%BE%97%E5%88%B0%E5%9E%83%E5%9C%BE%E5%80%BC">05. &#x4F60;&#x4E0D;&#x53EF;&#x4EE5;&#x5728;&#x51FD;&#x5F0F;&#x4E2D;&#x56DE;&#x50B3;&#x4E00;&#x500B;&#x6307;&#x5411;&#x5340;&#x57DF;&#x6027;&#x81EA;&#x52D5;&#x8B8A;&#x6578;&#x7684;&#x6307;&#x6A19;&#x3002;&#x5426;&#x5247;&#xFF0C;&#x6703;&#x5F97;&#x5230;&#x5783;&#x573E;&#x503C;</h3>
+<h4 id="%E9%8C%AF%E8%AA%A4%E4%BE%8B%E5%AD%90">&#x932F;&#x8AA4;&#x4F8B;&#x5B50;</h4>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">char</span> *<span class="hljs-title">getstr</span><span class="hljs-params">(<span class="hljs-keyword">char</span> *name)</span>
+</span>{
+    <span class="hljs-keyword">char</span> buf[<span class="hljs-number">30</span>] = <span class="hljs-string">&quot;hello, &quot;</span>; <span class="hljs-comment">/*&#x5C07;&#x5B57;&#x4E32;&#x5E38;&#x6578;&quot;hello, &quot;&#x7684;&#x5167;&#x5BB9;&#x8907;&#x88FD;&#x5230;buf&#x9663;&#x5217;*/</span>
+    <span class="hljs-built_in">strcat</span>(buf, name);
+    <span class="hljs-keyword">return</span> buf;
+}
+</code></pre>
+<p>&#x5340;&#x57DF;&#x6027;&#x81EA;&#x52D5;&#x8B8A;&#x6578;&#xFF0C;&#x5C07;&#x6703;&#x5728;&#x96E2;&#x958B;&#x8A72;&#x5340;&#x57DF;&#x6642;(&#x672C;&#x4F8B;&#x4E2D;&#x5C31;&#x662F;&#x5F9E;getstr&#x51FD;&#x5F0F;&#x8FD4;&#x56DE;&#x6642;)&#x88AB;&#x6D88;&#x6EC5;&#xFF0C;&#x56E0;&#x6B64;&#x547C;&#x53EB;&#x7AEF;&#x5F97;&#x5230;&#x7684;&#x6307;&#x6A19;&#x6240;&#x6307;&#x7684;&#x5B57;&#x4E32;&#x5167;&#x5BB9;&#x5C31;&#x5931;&#x6548;&#x4E86;&#x3002;</p>
+<h4 id="%E6%AD%A3%E7%A2%BA%E4%BE%8B%E5%AD%90">&#x6B63;&#x78BA;&#x4F8B;&#x5B50;</h4>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">getstr</span><span class="hljs-params">(<span class="hljs-keyword">char</span> buf[], <span class="hljs-keyword">int</span> buflen, <span class="hljs-keyword">char</span> <span class="hljs-keyword">const</span> *name)</span>
+</span>{
+    <span class="hljs-keyword">char</span> <span class="hljs-keyword">const</span> s[] = <span class="hljs-string">&quot;hello, &quot;</span>;
+    <span class="hljs-built_in">strcpy</span>(buf, s);
+    <span class="hljs-built_in">strcat</span>(buf, name);
+}
+</code></pre>
+<h4 id="%E6%AD%A3%E7%A2%BA%E4%BE%8B%E5%AD%90">&#x6B63;&#x78BA;&#x4F8B;&#x5B50;</h4>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span>* <span class="hljs-title">foo</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">int</span>* pInteger = (<span class="hljs-keyword">int</span>*) <span class="hljs-built_in">malloc</span>( <span class="hljs-number">10</span>*<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>) );
+    <span class="hljs-keyword">return</span> pInteger;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">int</span>* pFromfoo = foo();
+}
+</code></pre>
+<p>&#x4E0A;&#x4F8B;&#x96D6;&#x7136;&#x56DE;&#x50B3;&#x4E86;&#x51FD;&#x5F0F;&#x4E2D;&#x7684;&#x6307;&#x6A19;&#xFF0C;&#x4F46;&#x7531;&#x65BC;&#x6307;&#x6A19;&#x5167;&#x5BB9;&#x6240;&#x6307;&#x7684;&#x4F4D;&#x5740;&#x4E26;&#x975E;&#x5340;&#x57DF;&#x8B8A;&#x6578;&#xFF0C;
+&#x800C;&#x662F;&#x7528;&#x52D5;&#x614B;&#x7684;&#x65B9;&#x5F0F;&#x6293;&#x53D6;&#x800C;&#x5F97;&#xFF0C;&#x63DB;&#x53E5;&#x8A71;&#x8AAA;&#x9019;&#x584A;&#x7A7A;&#x9593;&#x662F;&#x9577;&#x5728; heap &#x800C;&#x975E; stack&#xFF0C;
+&#x53C8;&#x56E0; heap &#x7A7A;&#x9593;&#x4E26;&#x4E0D;&#x6703;&#x81EA;&#x52D5;&#x56DE;&#x6536;&#xFF0C;&#x56E0;&#x6B64;&#x9019;&#x584A;&#x7A7A;&#x9593;&#x5728;&#x96E2;&#x958B;&#x51FD;&#x5F0F;&#x5F8C;&#xFF0C;&#x4F9D;&#x7136;&#x6709;&#x6548;
+&#xFF08;&#x4F46;&#x662F;&#x9019;&#x500B;&#x4F8B;&#x5B50;&#x53EF;&#x80FD;&#x6703;&#x56E0;&#x70BA; programmer &#x7684;&#x758F;&#x5FFD;&#xFF0C;&#x5FD8;&#x8A18; free &#x800C;&#x9020;&#x6210;memory leak&#xFF09;</p>
+<h4 id="%E9%87%9D%E5%B0%8D%E5%AD%97%E4%B8%B2%E6%93%8D%E4%BD%9C%EF%BC%8Cc-%E6%8F%90%E4%BE%9B%E4%BA%86%E6%9B%B4%E6%96%B9%E4%BE%BF%E5%AE%89%E5%85%A8%E6%9B%B4%E7%9B%B4%E8%A7%80%E7%9A%84-string-class-%E8%83%BD%E7%94%A8%E5%B0%B1%E7%9B%A1%E9%87%8F%E7%94%A8">&#x91DD;&#x5C0D;&#x5B57;&#x4E32;&#x64CD;&#x4F5C;&#xFF0C;C++&#x63D0;&#x4F9B;&#x4E86;&#x66F4;&#x65B9;&#x4FBF;&#x5B89;&#x5168;&#x66F4;&#x76F4;&#x89C0;&#x7684; string class, &#x80FD;&#x7528;&#x5C31;&#x76E1;&#x91CF;&#x7528;</h4>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string&gt;</span>    /* &#x4E26;&#x975E; #<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span> */</span>
+<span class="hljs-keyword">using</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>;
+
+<span class="hljs-function"><span class="hljs-built_in">string</span> <span class="hljs-title">getstr</span><span class="hljs-params">(<span class="hljs-built_in">string</span> <span class="hljs-keyword">const</span> &amp;name)</span>
+</span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">string</span>(<span class="hljs-string">&quot;hello, &quot;</span>) += name;
+}
+</code></pre>
+<h3 id="06-c-%E4%BD%A0%E4%B8%8D%E5%8F%AF%E4%BB%A5%E5%8F%AA%E5%81%9A-malloc-%E8%80%8C%E4%B8%8D%E5%81%9A%E7%9B%B8%E6%87%89%E7%9A%84-free-%E5%90%A6%E5%89%87%E6%9C%83%E9%80%A0%E6%88%90%E8%A8%98%E6%86%B6%E9%AB%94%E6%BC%8F%E5%A4%B1-br-c-%E4%BD%A0%E4%B8%8D%E5%8F%AF%E4%BB%A5%E5%8F%AA%E5%81%9A-new-%E8%80%8C%E4%B8%8D%E5%81%9A%E7%9B%B8%E6%87%89%E7%9A%84-delete-%E9%99%A4%E4%BA%86unique-ptr%E4%BB%A5%E5%A4%96">06. [C]&#x4F60;&#x4E0D;&#x53EF;&#x4EE5;&#x53EA;&#x505A; malloc(), &#x800C;&#x4E0D;&#x505A;&#x76F8;&#x61C9;&#x7684; free(). &#x5426;&#x5247;&#x6703;&#x9020;&#x6210;&#x8A18;&#x61B6;&#x9AD4;&#x6F0F;&#x5931; <br> [C++] &#x4F60;&#x4E0D;&#x53EF;&#x4EE5;&#x53EA;&#x505A; new, &#x800C;&#x4E0D;&#x505A;&#x76F8;&#x61C9;&#x7684; delete (&#x9664;&#x4E86;unique_ptr&#x4EE5;&#x5916;)</h3>
+<p>new &#x8207; delete &#x5C0D;&#x61C9;&#xFF0C;new[] &#x8207; delete[] &#x5C0D;&#x61C9;&#xFF0C;&#x4E0D;&#x53EF;&#x8207;malloc/free&#x6DF7;&#x7528;(&#x7D50;&#x679C;&#x4E0D;&#x53EF;&#x9810;&#x6E2C;)&#x3002;&#x5207;&#x8A18;&#xFF0C;&#x505A;&#x4E86;&#x5E7E;&#x6B21; new&#xFF0C;&#x5C31;&#x5FC5;&#x9808;&#x505A;&#x5E7E;&#x6B21; delete&#x3002;</p>
+<p>&#x4F46;&#x82E5;&#x4E0D;&#x662F;&#x7528; malloc() &#x6240;&#x5F97;&#x5230;&#x7684;&#x8A18;&#x61B6;&#x9AD4;&#xFF0C;&#x5247;&#x4E0D;&#x53EF;&#x4EE5; free()&#x3002;
+&#x5DF2;&#x7D93; free()&#x4E86;&#x6240;&#x6307;&#x8A18;&#x61B6;&#x9AD4;&#x7684;&#x6307;&#x6A19;&#xFF0C;&#x5728;&#x5B83;&#x6307;&#x5411;&#x53E6;&#x4E00;&#x584A;&#x6709;&#x6548;&#x7684;&#x52D5;&#x614B;&#x5206;&#x914D;&#x5F97;&#x4F86;&#x7684;&#x7A7A;&#x9593;&#x4E4B;&#x524D;&#xFF0C;&#x4E0D;&#x53EF;
+&#x4EE5;&#x518D;&#x88AB; free()&#xFF0C;&#x4E5F;&#x4E0D;&#x53EF;&#x4EE5;&#x63D0;&#x53D6;(dereference)&#x9019;&#x500B;&#x6307;&#x6A19;&#x3002;</p>
+<p><strong>&#x5C0F;&#x6280;&#x5DE7;: &#x53EF;&#x5728; free &#x4E4B;&#x5F8C;&#x5C07;&#x6307;&#x6A19;&#x6307;&#x5230; NULL&#xFF0C;0&#x6216;nullptr(C++11&#x958B;&#x59CB;)&#xFF0C;free&#x4E0D;&#x6703;&#x5C0D;&#x7A7A;&#x6307;&#x6A19;&#x4F5C;&#x7528;&#x3002;</strong></p>
+<pre><code class="lang-c"><span class="hljs-keyword">int</span> *p = <span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>));
+<span class="hljs-built_in">free</span>(p);
+p = <span class="hljs-literal">NULL</span>;
+<span class="hljs-built_in">free</span>(p);            <span class="hljs-comment">/* free&#x4E0D;&#x6703;&#x5C0D;&#x7A7A;&#x6307;&#x6A19;&#x6709;&#x4F5C;&#x7528; */</span>
+</code></pre>
+<h4 id="%E6%99%BA%E8%83%BD%E6%8C%87%E6%A8%99-smart-pointer">&#x667A;&#x80FD;&#x6307;&#x6A19;(smart pointer)</h4>
+<p>C++11&#x5F8C;&#x65B0;&#x589E;&#x667A;&#x80FD;&#x6307;&#x6A19;(smart pointer): unique_ptr
+&#x7576;unique_ptr&#x6240;&#x6307;&#x7269;&#x4EF6;&#x6D88;&#x5931;&#x6642;&#xFF0C;&#x6703;&#x81EA;&#x52D5;&#x91CB;&#x653E;&#x5176;&#x8A18;&#x61B6;&#x9AD4;&#xFF0C;&#x4E0D;&#x9700;&#x8981;delete&#x3002;</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;memory&gt;</span>    // &#x542B;unique_ptr&#x7684;&#x6A19;&#x982D;&#x6A94;</span>
+<span class="hljs-built_in">std</span>::unique_ptr&lt;<span class="hljs-keyword">int</span>&gt; p1(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>(<span class="hljs-number">5</span>));
+</code></pre>
+<h3 id="07-%E4%BD%A0%E4%B8%8D%E5%8F%AF%E4%BB%A5%E5%9C%A8%E6%95%B8%E5%80%BC%E9%81%8B%E7%AE%97%E3%80%81%E8%B3%A6%E5%80%BC%E6%88%96%E6%AF%94%E8%BC%83%E4%B8%AD%E9%9A%A8%E6%84%8F%E6%B7%B7%E7%94%A8%E4%B8%8D%E5%90%8C%E5%9E%8B%E5%88%A5%E7%9A%84%E6%95%B8%E5%80%BC%EF%BC%8C%E8%80%8C%E4%B8%8D%E8%AC%B9%E6%85%8E%E8%80%83%E6%85%AE%E6%95%B8%E5%80%BC%E5%9E%8B%E5%88%A5%E8%BD%89%E6%8F%9B%E5%8F%AF%E8%83%BD%E5%B8%B6%E4%BE%86%E7%9A%84%E3%80%8C%E6%84%8F%E5%A4%96%E9%A9%9A%E5%96%9C%E3%80%8D">07. &#x4F60;&#x4E0D;&#x53EF;&#x4EE5;&#x5728;&#x6578;&#x503C;&#x904B;&#x7B97;&#x3001;&#x8CE6;&#x503C;&#x6216;&#x6BD4;&#x8F03;&#x4E2D;&#x96A8;&#x610F;&#x6DF7;&#x7528;&#x4E0D;&#x540C;&#x578B;&#x5225;&#x7684;&#x6578;&#x503C;&#xFF0C;&#x800C;&#x4E0D;&#x8B39;&#x614E;&#x8003;&#x616E;&#x6578;&#x503C;&#x578B;&#x5225;&#x8F49;&#x63DB;&#x53EF;&#x80FD;&#x5E36;&#x4F86;&#x7684;&#x300C;&#x610F;&#x5916;&#x9A5A;&#x559C;&#x300D;</h3>
+<h4 id="%E9%8C%AF%E8%AA%A4%E4%BE%8B%E5%AD%90">&#x932F;&#x8AA4;&#x4F8B;&#x5B50;</h4>
+<pre><code class="lang-c"><span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> sum = <span class="hljs-number">2000000000</span> + <span class="hljs-number">2000000000</span>;  <span class="hljs-comment">/* &#x8D85;&#x51FA; int &#x5B58;&#x653E;&#x7BC4;&#x570D; */</span>
+<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> sum = (<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>) (<span class="hljs-number">2000000000</span> + <span class="hljs-number">2000000000</span>);
+<span class="hljs-keyword">double</span> f = <span class="hljs-number">10</span> / <span class="hljs-number">3</span>;
+</code></pre>
+<h4 id="%E6%AD%A3%E7%A2%BA%E4%BE%8B%E5%AD%90">&#x6B63;&#x78BA;&#x4F8B;&#x5B50;</h4>
+<pre><code class="lang-c"><span class="hljs-comment">/* &#x5168;&#x90E8;&#x90FD;&#x7528; unsigned int, &#x6CE8;&#x610F;&#x6578;&#x5B57;&#x5F8C;&#x9762;&#x7684; u, &#x5927;&#x5BEB; U &#x4E5F;&#x6210; */</span>
+<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> sum = <span class="hljs-number">2000000000u</span> + <span class="hljs-number">2000000000u</span>;
+<span class="hljs-comment">/* &#x6216;&#x662F;&#x7528;&#x986F;&#x5F0F;&#x7684;&#x8F49;&#x578B; */</span>
+<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> sum = (<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>) <span class="hljs-number">2000000000</span> + <span class="hljs-number">2000000000</span>;
+<span class="hljs-keyword">double</span> f = <span class="hljs-number">10.0</span> / <span class="hljs-number">3.0</span>;
+</code></pre>
+<h4 id="%E9%8C%AF%E8%AA%A4%E4%BE%8B%E5%AD%90">&#x932F;&#x8AA4;&#x4F8B;&#x5B50;</h4>
+<pre><code class="lang-c"><span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> a = <span class="hljs-number">0</span>;
+<span class="hljs-keyword">int</span> b[<span class="hljs-number">10</span>];
+<span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">9</span> ; i &gt;= a ; i--) {  b[i] = <span class="hljs-number">0</span>;  }
+</code></pre>
+<p>&#x7531;&#x65BC; int &#x8207; unsigned &#x5171;&#x540C;&#x904B;&#x7B97;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x6703;&#x8F49;&#x63DB; int &#x70BA; unsigned&#xFF0C;
+&#x56E0;&#x6B64;&#x8FF4;&#x5708;&#x689D;&#x4EF6;&#x6C38;&#x9060;&#x6EFF;&#x8DB3;&#xFF0C;&#x8207;&#x9810;&#x671F;&#x884C;&#x70BA;&#x4E0D;&#x7B26;&#x3002;</p>
+<h4 id="%E9%8C%AF%E8%AA%A4%E4%BE%8B%E5%AD%90">&#x932F;&#x8AA4;&#x4F8B;&#x5B50;</h4>
+<pre><code class="lang-c"><span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> a = <span class="hljs-number">0x80</span>;   <span class="hljs-comment">/* no problem */</span>
+<span class="hljs-keyword">char</span> b = <span class="hljs-number">0x80</span>;    <span class="hljs-comment">/* implementation-defined result */</span>
+<span class="hljs-keyword">if</span>( b == <span class="hljs-number">0x80</span> ) {        <span class="hljs-comment">/* &#x4E0D;&#x4E00;&#x5B9A;&#x6052;&#x771F; */</span>
+    <span class="hljs-built_in">printf</span>( <span class="hljs-string">&quot;b ok\n&quot;</span> );
+}
+</code></pre>
+<p>&#x8A9E;&#x8A00;&#x4E26;&#x672A;&#x898F;&#x5B9A; char &#x5929;&#x751F;&#x70BA; unsigned &#x6216; signed&#xFF0C;&#x56E0;&#x6B64;&#x5C07; 0x80 &#x653E;&#x5165;
+char &#x578B;&#x614B;&#x7684;&#x8B8A;&#x6578;&#xFF0C;&#x5C07;&#x6703;&#x8996;&#x5404;&#x5BB6;&#x7DE8;&#x8B6F;&#x5668;&#x4E0D;&#x540C;&#x4F5C;&#x6CD5;&#x800C;&#x6709;&#x4E0D;&#x540C;&#x7D50;&#x679C;&#x3002;</p>
+<h4 id="%E9%8C%AF%E8%AA%A4%E4%BE%8B%E5%AD%90-%E4%BB%A5%E4%B8%8B%E5%81%87%E8%A8%AD%E7%82%BA%E5%9C%A832bit%E6%A9%9F%E5%99%A8%E4%B8%8A%E5%9F%B7%E8%A1%8C">&#x932F;&#x8AA4;&#x4F8B;&#x5B50;(&#x4EE5;&#x4E0B;&#x5047;&#x8A2D;&#x70BA;&#x5728;32bit&#x6A5F;&#x5668;&#x4E0A;&#x57F7;&#x884C;)</h4>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;math.h&gt;</span></span>
+<span class="hljs-keyword">long</span> a = -<span class="hljs-number">2147483648</span> ;  <span class="hljs-comment">// 2147483648 = 2 &#x7684; 31 &#x6B21;&#x65B9;</span>
+<span class="hljs-keyword">while</span> (<span class="hljs-built_in">labs</span>(a)&gt;<span class="hljs-number">0</span>){    <span class="hljs-comment">// labs(-2147483648)&lt;0 &#x6709;&#x53EF;&#x80FD;&#x767C;&#x751F;</span>
+    ++a;
+}
+</code></pre>
+<p>&#x5982;&#x679C;&#x4F60;&#x53BB;&#x770B;C99/C11 Standard&#xFF0C;&#x4F60;&#x6703;&#x767C;&#x73FE;long&#x8B8A;&#x6578;&#x7684;&#x6700;&#x5927;/&#x6700;&#x5C0F;&#x503C;&#x70BA;(&#x88AB;define&#x5728;limits.h)</p>
+<pre><code class="lang-c">LONG_MIN      -<span class="hljs-number">2147483647</span>  <span class="hljs-comment">/* compiler&#x5BE6;&#x4F5C;&#x6642;&#x6700;&#x5C0F;&#x503C;&#x4E0D;&#x53EF;&#x5927;&#x65BC; -(2147483648-1) */</span>
+LONG_MAX       <span class="hljs-number">2147483647</span>  <span class="hljs-comment">/* compiler&#x5BE6;&#x4F5C;&#x6642;&#x6700;&#x5C0F;&#x503C;&#x4E0D;&#x53EF;&#x5C0F;&#x65BC;  (2147483648-1) */</span>
+</code></pre>
+<p>&#x4E0D;&#x904E;&#x7531;&#x65BC;32bit&#x80FD;&#x986F;&#x793A;&#x7684;&#x7BC4;&#x570D;&#x5C31;&#x662F;2**32&#x7A2E;&#xFF0C;&#x6240;&#x4EE5;&#x4E00;&#x822C;16/32bit&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x6703;&#x628A;
+LONG_MIN&#x591A;&#x6E1B;&#x53BB;1&#xFF0C;&#x4E5F;&#x5C31;&#x662F;int &#x7684;&#x986F;&#x793A;&#x7BC4;&#x570D;&#x70BA;(-LONG_MAX - 1) ~ LONG_MAX&#x3002;
+(64bit&#x7684;&#x4F5C;&#x696D;&#x7CFB;&#x7D71;long&#x591A;&#x70BA;8 bytes&#xFF0C;&#x4F46;&#x662F;&#x4F9D;&#x820A;&#x7B26;&#x5408;Standard&#x8981;&#x6C42;&#x7684;&#x6700;&#x5C0F;&#x7BC4;&#x570D;)</p>
+<p>&#x7576;&#x7A0B;&#x5F0F;&#x8DD1;&#x5230;labs(-2147483648)&gt;0&#x6642;&#xFF0C;&#x7531;&#x65BC;2147483648&#x5927;&#x65BC;LONG_MAX&#xFF0C;
+Standard&#x544A;&#x8A34;&#x6211;&#x5011;&#xFF0C;&#x7576;labs&#x7684;&#x7D50;&#x679C;&#x7121;&#x6CD5;&#x88AB;long&#x6709;&#x9650;&#x7684;&#x7BC4;&#x570D;&#x8868;&#x793A;&#xFF0C;
+&#x7DE8;&#x8B6F;&#x5668;&#x6703;&#x600E;&#x9EBC;&#x5E79;&#x5C31;&#x770B;&#x4ED6;&#x9AD8;&#x8208;(undefined behavior)&#x3002;
+(&#x4E0D;&#x53EA;long&#xFF0C;&#x5176;&#x4ED6;&#x5982;int&#x3001;long long&#x7B49;&#x4EE5;&#x6B64;&#x985E;&#x63A8;)</p>
+<h3 id="08-i-i-%E5%92%8C-i-i-%E7%9A%84%E7%B5%90%E6%9E%9C%E8%B7%9F%E4%BD%A0%E6%80%8E%E9%BA%BC%E7%94%A8%E6%9C%89%E9%97%9C">08. ++i/i++ &#x548C; --i/i-- &#x7684;&#x7D50;&#x679C;&#x8DDF;&#x4F60;&#x600E;&#x9EBC;&#x7528;&#x6709;&#x95DC;</h3>
+<p>&#x7576;&#x4E00;&#x6BB5;&#x4EE5;&#x5206;&#x865F;&#x505A;&#x7D50;&#x7684;&#x7A0B;&#x5F0F;&#x78BC;&#x4E2D;&#xFF0C;&#x67D0;&#x500B;&#x8B8A;&#x6578;&#x7684;&#x503C;&#x88AB;&#x6539;&#x8B8A;&#x4E00;&#x6B21;&#x4EE5;&#x4E0A;&#xFF0C;</p>
+<ul>
+<li>&#x5982;&#x679C;Standard&#x6C92;&#x6709;&#x7279;&#x5225;&#x53BB;&#x5B9A;&#x7FA9;&#x67D0;&#x6BB5;&#x6558;&#x8FF0;&#x4E2D;&#x54EA;&#x500B;&#x90E8;&#x4EFD;&#x5FC5;&#x9808;&#x88AB;&#x5148;&#x57F7;&#x884C;&#xFF0C;&#x90A3;&#x7D50;&#x679C;&#x6703;&#x662F;undefined behavior(&#x7D50;&#x679C;&#x672A;&#x77E5;)&#x3002;  </li>
+<li>&#x5982;&#x679C;Standard&#x6709;&#x7279;&#x5225;&#x53BB;&#x5B9A;&#x7FA9;&#x57F7;&#x884C;&#x9806;&#x5E8F;&#xFF0C;&#x90A3;&#x7D50;&#x679C;&#x5C31;&#x6839;&#x64DA;&#x57F7;&#x884C;&#x9806;&#x5E8F;&#x6C7A;&#x5B9A;&#x3002;</li>
+</ul>
+<h4 id="c-c-%E5%9D%87%E6%AD%A3%E7%A2%BA%E7%9A%84%E4%BE%8B%E5%AD%90">C/C++&#x5747;&#x6B63;&#x78BA;&#x7684;&#x4F8B;&#x5B50;</h4>
+<pre><code class="lang-c"><span class="hljs-keyword">if</span> (--a || ++a) {}    <span class="hljs-comment">/* 6.5.13: ||&#x5DE6;&#x908A;&#x5148;&#x8A08;&#x7B97;*/</span>
+<span class="hljs-keyword">if</span> (++i &amp;&amp; ++i) {}    <span class="hljs-comment">/* 6.5.14: &amp;&amp;&#x5DE6;&#x908A;&#x5148;&#x8A08;&#x7B97;*/</span>
+a = (*p++) ? (*p++) : <span class="hljs-number">0</span> ; <span class="hljs-comment">/* 6.5.15: &#x554F;&#x865F;&#x5DE6;&#x908A;&#x5148;&#x8A08;&#x7B97;*/</span>
+<span class="hljs-keyword">int</span> j = (++i, i++);   <span class="hljs-comment">/* 6.5.17: &#x9017;&#x865F;&#x70BA;&#x904B;&#x7B97;&#x5B50;&#x6642;&#xFF0C;&#x5DE6;&#x908A;&#x5148;&#x8A08;&#x7B97;*/</span>
+</code></pre>
+<h4 id="c-c-%E5%9D%87%E9%8C%AF%E8%AA%A4%E7%9A%84%E4%BE%8B%E5%AD%90">C/C++&#x5747;&#x932F;&#x8AA4;&#x7684;&#x4F8B;&#x5B50;</h4>
+<pre><code class="lang-c"><span class="hljs-keyword">int</span> j = ++i + i++;    <span class="hljs-comment">/* undefined behavior&#xFF0C;&#x56E0;&#x70BA;Standard&#x6C92;&#x5B9A;&#x7FA9;+&#x865F;&#x54EA;&#x908A;&#x5148;&#x57F7;&#x884C;*/</span>
+x = x++;  <span class="hljs-comment">/* undefined behavior, &#x56E0;&#x70BA;Standard&#x6C92;&#x5B9A;&#x7FA9;=&#x865F;&#x54EA;&#x908A;&#x5148;&#x57F7;&#x884C;*/</span>
+( i % <span class="hljs-number">2</span>? i : j ) = ++ i; <span class="hljs-comment">/* undefined behavior, &#x539F;&#x56E0;&#x540C;&#x4E0A;*/</span>
+arr[i] = i++;  <span class="hljs-comment">/* undefined behavior, &#x539F;&#x56E0;&#x540C;&#x4E0A;*/</span>
+<span class="hljs-built_in">cout</span> &lt;&lt; i &lt;&lt; <span class="hljs-string">&quot;==&quot;</span> &lt;&lt; i++;  <span class="hljs-comment">/* undefined behavior&#xFF0C; Standard&#x6C92;&#x5B9A;&#x7FA9;&#x54EA;&#x908A;&#x5148;&#x57F7;&#x884C;*/</span>
+<span class="hljs-built_in">printf</span>( <span class="hljs-string">&quot;%d %d %d&quot;</span>, Integer++, Integer++, Integer++ ); <span class="hljs-comment">/* undefined behavior, &#x539F;&#x56E0;&#x540C;&#x4E0A;*/</span>
+foo(i++, i++); <span class="hljs-comment">/* undefined behavior&#xFF0C;&#x9019;&#x88E1;&#x7684;&#x9017;&#x865F;&#x662F;&#x5206;&#x9694;&#x7B26;(separator)&#x800C;&#x975E;&#x904B;&#x7B97;&#x5B50;&#xFF0C;Standard&#x6C92;&#x5B9A;&#x7FA9;&#x54EA;&#x908A;&#x5148;&#x57F7;&#x884C;*/</span>
+</code></pre>
+<h4 id="%E5%9C%A8c%E9%8C%AF%E8%AA%A4%E4%BD%86%E6%98%AF%E5%9C%A8c-%E5%8F%AF%E8%83%BD%E6%AD%A3%E7%A2%BA%E7%9A%84%E4%BE%8B%E5%AD%90">&#x5728;C&#x932F;&#x8AA4;&#x4F46;&#x662F;&#x5728;C++&#x53EF;&#x80FD;&#x6B63;&#x78BA;&#x7684;&#x4F8B;&#x5B50;</h4>
+<p>C++&#x4E2D;&#xFF0C;++i/--i&#x70BA;&#x5DE6;&#x503C;(lvalue)&#xFF0C;i++/i--&#x70BA;&#x53F3;&#x503C;(rvalue)&#x3002;
+&#x5DE6;&#x503C;&#x53EF;&#x4EE5;&#x88AB;assign value&#x7D66;&#x5B83;&#xFF0C;&#x53F3;&#x503C;&#x5247;&#x4E0D;&#x884C;&#x3002;
+&#x800C;&#x5728;C&#x4E2D;&#xFF0C;++i/--i/i++/i--&#x90FD;&#x662F;&#x53F3;&#x503C;&#x3002;
+&#x6240;&#x4EE5;&#x4EE5;&#x4E0B;&#x7684;code&#x5728;C++&#x6703;&#x6B63;&#x78BA;&#xFF0C;C&#x5247;&#x5426;&#x3002;</p>
+<pre><code class="lang-c">++++++++++phew ;    <span class="hljs-comment">/* C++&#x6703;&#x628A;&#x5B83;&#x89E3;&#x91CB;&#x70BA;++(++(++(++(++phew)))); */</span>
+i = v[++i];         <span class="hljs-comment">/* ++i&#x6703;&#x5148;&#x5B8C;&#x6210; */</span>
+i = ++i + <span class="hljs-number">1</span>;        <span class="hljs-comment">/* ++i&#x6703;&#x5148;&#x5B8C;&#x6210; */</span>
+</code></pre>
+<h3 id="09-%E6%85%8E%E7%94%A8macro-define">09. &#x614E;&#x7528;macro(#define)</h3>
+<p>Macro&#x662F;&#x500B;&#x50CF;&#x9435;&#x939A;&#x4E00;&#x6A23;&#x597D;&#x7528;&#x53C8;&#x5371;&#x96AA;&#x7684;&#x5DE5;&#x5177;&#xFF1A;&#x7528;&#x5F97;&#x597D;&#x53EF;&#x4EE5;&#x91D8;&#x91D8;&#x5B50;&#xFF0C;&#x7528;&#x4E0D;&#x597D;&#x53EF;&#x4EE5;&#x628A;&#x91D8;&#x5B50;&#x6253;&#x5F4E;&#x3001;&#x6572;&#x5230;&#x4F60;&#x624B;&#x6307;&#x6216;&#x88AB;&#x6293;&#x53BB;&#x5403;&#x5B50;&#x5F48;&#x3002;
+&#x56E0;&#x70BA;macro &#x5B9A;&#x7FA9;&#x51FA;&#x7684;&#x300C;&#x507D;&#x51FD;&#x5F0F;&#x300D;&#x6709;&#x4EE5;&#x4E0B;&#x7F3A;&#x9EDE;&#xFF1A;</p>
+<blockquote>
+<ol>
+<li>debug&#x6703;&#x8B8A;&#x5F97;&#x8907;&#x96DC;&#x3002;  </li>
+<li>&#x7121;&#x6CD5;&#x905E;&#x8FF4;&#x547C;&#x53EB;&#x3002;  </li>
+<li>&#x7121;&#x6CD5;&#x7528; &amp; &#x52A0;&#x5728; macro name &#x4E4B;&#x524D;&#xFF0C;&#x53D6;&#x5F97;&#x51FD;&#x5F0F;&#x4F4D;&#x5740;&#x3002;  </li>
+<li>&#x6C92;&#x6709;namespace&#x3002;  </li>
+<li>&#x53EF;&#x80FD;&#x6703;&#x5C0E;&#x81F4;&#x5947;&#x602A;&#x7684;side effect&#x6216;&#x5176;&#x4ED6;&#x7121;&#x6CD5;&#x9810;&#x6E2C;&#x7684;&#x554F;&#x984C;&#x3002;  </li>
+</ol>
+</blockquote>
+<p>&#x6240;&#x4EE5;&#xFF0C;&#x4F7F;&#x7528;macro&#x524D;&#xFF0C;&#x8ACB;&#x5148;&#x78BA;&#x8A8D;&#x4EE5;&#x4E0A;&#x7684;&#x7F3A;&#x9EDE;&#x662F;&#x5426;&#x6703;&#x5F71;&#x97FF;&#x4F60;&#x7684;&#x7A0B;&#x5F0F;&#x904B;&#x884C;&#x3002;</p>
+<p>&#x66FF;&#x4EE3;&#x65B9;&#x6848;&#xFF1A;enum(&#x5B9A;&#x7FA9;&#x6574;&#x6578;)&#xFF0C;const T(&#x5B9A;&#x7FA9;&#x5E38;&#x6578;)&#xFF0C;inline function(&#x5B9A;&#x7FA9;&#x51FD;&#x5F0F;)&#xFF0C;
+C++&#x7684;template(&#x5B9A;&#x7FA9;&#x53EF;&#x7528;&#x4E0D;&#x540C;type&#x53C3;&#x6578;&#x7684;&#x51FD;&#x5F0F;)&#xFF0C;&#x6216;C++11&#x958B;&#x59CB;&#x7684;&#x533F;&#x540D;&#x51FD;&#x5F0F;(Lambda function)&#x8207;constexpr T(&#x7DE8;&#x8B6F;&#x671F;&#x5E38;&#x6578;)&#x3002;</p>
+<p>&#x4EE5;&#x4E0B;&#x5C31;&#x91DD;&#x5C0D;macro&#x7684;&#x7F3A;&#x9EDE;&#x505A;&#x8AAA;&#x660E;&#xFF1A;</p>
+<h4 id="1-debug%E6%9C%83%E8%AE%8A%E5%BE%97%E8%A4%87%E9%9B%9C%E3%80%82">1. debug&#x6703;&#x8B8A;&#x5F97;&#x8907;&#x96DC;&#x3002;</h4>
+<p>&#x7DE8;&#x8B6F;&#x5668;&#x4E0D;&#x80FD;&#x5C0D;macro&#x672C;&#x8EAB;&#x505A;&#x8A9E;&#x6CD5;&#x6AA2;&#x67E5;&#xFF0C;&#x53EA;&#x80FD;&#x6AA2;&#x67E5;&#x9810;&#x8655;&#x7406;(preprocess)&#x5F8C;&#x7684;&#x7D50;&#x679C;&#x3002;</p>
+<h4 id="2-%E7%84%A1%E6%B3%95%E9%81%9E%E8%BF%B4%E5%91%BC%E5%8F%AB%E3%80%82">2. &#x7121;&#x6CD5;&#x905E;&#x8FF4;&#x547C;&#x53EB;&#x3002;</h4>
+<p>&#x6839;&#x64DA;C standard 6.10.3.4&#xFF0C;&#x5982;&#x679C;&#x67D0;macro&#x7684;&#x5B9A;&#x7FA9;&#x88E1;&#x88CF;&#x9762;&#x542B;&#x6709;&#x8DDF;&#x6B64;macro&#x540D;&#x7A31;&#x540C;&#x6A23;&#x7684;&#x7684;&#x5B57;&#x4E32;&#xFF0C;
+&#x8A72;&#x5B57;&#x4E32;&#x5C07;&#x4E0D;&#x6703;&#x88AB;&#x9810;&#x8655;&#x7406;&#x3002;&#x6240;&#x4EE5;&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> pr(n) ((n==<span class="hljs-number">1</span>)? <span class="hljs-number">1</span> : pr(n-<span class="hljs-number">1</span>))</span>
+<span class="hljs-built_in">cout</span>&lt;&lt; pr(<span class="hljs-number">5</span>) &lt;&lt;endl;
+{% endhighlight %}
+&#x9810;&#x8655;&#x7406;&#x904E;&#x5F8C;&#x6703;&#x8B8A;&#x6210;&#xFF1A;
+{% highlight c++ %}
+<span class="hljs-built_in">cout</span>&lt;&lt; ((<span class="hljs-number">5</span>==<span class="hljs-number">1</span>)? <span class="hljs-number">1</span> : pr(<span class="hljs-number">5</span> -<span class="hljs-number">1</span>)) &lt;&lt;endl;  <span class="hljs-comment">/* pr&#x6C92;&#x6709;&#x5B9A;&#x7FA9;&#xFF0C;&#x7DE8;&#x8B6F;&#x6703;&#x51FA;&#x932F; */</span>
+</code></pre>
+<h4 id="3-%E7%84%A1%E6%B3%95%E7%94%A8-%E5%8A%A0%E5%9C%A8-macro-name-%E4%B9%8B%E5%89%8D%EF%BC%8C%E5%8F%96%E5%BE%97%E5%87%BD%E5%BC%8F%E4%BD%8D%E5%9D%80%E3%80%82">3. &#x7121;&#x6CD5;&#x7528; &amp; &#x52A0;&#x5728; macro name &#x4E4B;&#x524D;&#xFF0C;&#x53D6;&#x5F97;&#x51FD;&#x5F0F;&#x4F4D;&#x5740;&#x3002;</h4>
+<p>&#x56E0;&#x70BA;&#x4ED6;&#x4E0D;&#x662F;&#x51FD;&#x5F0F;&#xFF0C;&#x6240;&#x4EE5;&#x4F60;&#x4E5F;&#x4E0D;&#x53EF;&#x4EE5;&#x628A;&#x51FD;&#x5F0F;&#x6307;&#x6A19;&#x5957;&#x7528;&#x5728;macro&#x4E0A;&#x3002;</p>
+<h4 id="4-%E6%B2%92%E6%9C%89namespace%E3%80%82">4. &#x6C92;&#x6709;namespace&#x3002;</h4>
+<p>&#x4F8B;&#x5982;&#x4EE5;&#x4E0B;&#x7684;&#x932F;&#x8AA4;&#x4F8B;&#x5B50;&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> begin() x = <span class="hljs-number">0</span></span>
+<span class="hljs-keyword">for</span> (<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;::iterator it = myvector.begin(); it != myvector.end(); ++it) <span class="hljs-comment">// begin&#x662F;std&#x7684;&#x4FDD;&#x7559;&#x5B57;</span>
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&apos; &apos;</span> &lt;&lt; *it;
+</code></pre>
+<p>&#x6539;&#x5584;&#x65B9;&#x6CD5;&#xFF1A;macro&#x540D;&#x7A31;&#x4E00;&#x5F8B;&#x7528;&#x5927;&#x5BEB;&#xFF0C;&#x5982;BEGIN()</p>
+<h4 id="5-%E5%8F%AF%E8%83%BD%E6%9C%83%E5%B0%8E%E8%87%B4%E5%A5%87%E6%80%AA%E7%9A%84side-effect%E6%88%96%E5%85%B6%E4%BB%96%E7%84%A1%E6%B3%95%E9%A0%90%E6%B8%AC%E7%9A%84%E5%95%8F%E9%A1%8C%E3%80%82">5. &#x53EF;&#x80FD;&#x6703;&#x5C0E;&#x81F4;&#x5947;&#x602A;&#x7684;side effect&#x6216;&#x5176;&#x4ED6;&#x7121;&#x6CD5;&#x9810;&#x6E2C;&#x7684;&#x554F;&#x984C;&#x3002;</h4>
+<p>&#x4EE5;&#x4E0B;&#x70BA;&#x932F;&#x8AA4;&#x4F8B;&#x5B50;&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> SQUARE(x)    (x * x)</span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, SQUARE(<span class="hljs-number">10</span>-<span class="hljs-number">5</span>)); <span class="hljs-comment">// &#x9810;&#x8655;&#x7406;&#x5F8C;&#x8B8A;&#x6210;SQUARE(10-5*10-5)</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>&#x6B63;&#x78BA;&#x4F8B;&#x5B50;&#xFF1A;&#x5728; Macro &#x5B9A;&#x7FA9;&#x4E2D;, &#x52D9;&#x5FC5;&#x70BA;&#x5B83;&#x7684;&#x53C3;&#x6578;&#x500B;&#x5225;&#x52A0;&#x4E0A;&#x62EC;&#x865F;</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> SQUARE(x)    ((x) * (x))</span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, SQUARE(<span class="hljs-number">10</span>-<span class="hljs-number">5</span>));
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>&#x4E0D;&#x904E;&#x9047;&#x5230;&#x4EE5;&#x4E0B;&#x6709;side effect&#x7684;&#x4F8B;&#x5B50;&#x5C31;&#x7B97;&#x52A0;&#x4E86;&#x62EC;&#x865F;&#x4E5F;&#x6C92;&#x7528;&#x3002;</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> MACRO(x)     (((x) * (x)) - ((x) * (x)))</span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">int</span> x = <span class="hljs-number">3</span>;
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, MACRO(++x)); <span class="hljs-comment">// &#x6709;side effect</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<h3 id="10-%E4%B8%8D%E8%A6%81%E5%9C%A8-stack-%E8%A8%AD%E7%BD%AE%E9%81%8E%E5%A4%A7%E7%9A%84%E8%AE%8A%E6%95%B8%E4%BB%A5%E9%81%BF%E5%85%8D%E5%A0%86%E7%96%8A%E6%BA%A2%E4%BD%8D-stack-overflow">10. &#x4E0D;&#x8981;&#x5728; stack &#x8A2D;&#x7F6E;&#x904E;&#x5927;&#x7684;&#x8B8A;&#x6578;&#x4EE5;&#x907F;&#x514D;&#x5806;&#x758A;&#x6EA2;&#x4F4D;(stack overflow)</h3>
+<p>&#x7531;&#x65BC;&#x7DE8;&#x8B6F;&#x5668;&#x6703;&#x81EA;&#x884C;&#x6C7A;&#x5B9A; stack &#x7684;&#x4E0A;&#x9650;&#xFF0C;&#x67D0;&#x4E9B;&#x9810;&#x8A2D;&#x662F;&#x6578; KB &#x6216;&#x6578;&#x5341;KB&#xFF0C;&#x7576;&#x8B8A;&#x6578;&#x6240;&#x9700;&#x7684;&#x7A7A;&#x9593;&#x904E;&#x5927;&#x6642;&#xFF0C;
+&#x5F88;&#x5BB9;&#x6613;&#x9020;&#x6210; stack overflow&#xFF0C;&#x7A0B;&#x5F0F;&#x4EA6;&#x96A8;&#x4E4B;&#x7576;&#x6389;(segmentation fault)&#x3002;</p>
+<p>&#x53EF;&#x80FD;&#x9020;&#x6210;&#x5806;&#x758A;&#x6EA2;&#x4F4D;&#x7684;&#x539F;&#x56E0;&#x5305;&#x62EC;&#x905E;&#x8FF4;&#x592A;&#x591A;&#x6B21;(&#x591A;&#x70BA;&#x7A0B;&#x5F0F;&#x8A2D;&#x8A08;&#x7F3A;&#x9677;)&#xFF0C;&#x6216;&#x662F;&#x5728; stack &#x8A2D;&#x7F6E;&#x904E;&#x5927;&#x7684;&#x8B8A;&#x6578;&#x3002;</p>
+<h4 id="%E9%8C%AF%E8%AA%A4%E4%BE%8B%E5%AD%90">&#x932F;&#x8AA4;&#x4F8B;&#x5B50;</h4>
+<pre><code class="lang-c"><span class="hljs-keyword">int</span> <span class="hljs-built_in">array</span>[<span class="hljs-number">10000000</span>];       <span class="hljs-comment">/* &#x5728;stack&#x5BA3;&#x544A;&#x904E;&#x5927;&#x9663;&#x5217;*/</span>
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">array</span>&lt;<span class="hljs-keyword">int</span>, 10000000&gt; myarray; <span class="hljs-comment">/*&#x5728;stack&#x5BA3;&#x544A;&#x904E;&#x5927;std::array*/</span>
+</code></pre>
+<h4 id="%E6%AD%A3%E7%A2%BA%E4%BE%8B%E5%AD%90">&#x6B63;&#x78BA;&#x4F8B;&#x5B50;</h4>
+<pre><code class="lang-cpp"><span class="hljs-comment">// C:</span>
+<span class="hljs-keyword">int</span> *<span class="hljs-built_in">array</span> = (<span class="hljs-keyword">int</span>*) <span class="hljs-built_in">malloc</span>( <span class="hljs-number">10000000</span>*<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>) );
+
+<span class="hljs-comment">//C++:</span>
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; v;
+v.resize(<span class="hljs-number">10000000</span>);
+</code></pre>
+<p>&#x5EFA;&#x8B70;&#x5C07;&#x4F7F;&#x7528;&#x7A7A;&#x9593;&#x8F03;&#x5927;&#x7684;&#x8B8A;&#x6578;&#x7528;malloc/new&#x914D;&#x7F6E;&#x5728; heap<sup><a href="#fn_5" id="reffn_5">5</a></sup> &#x4E0A;&#xFF0C;&#x7531;&#x65BC;&#x6B64;&#x6642; stack
+&#x4E0A;&#x53EA;&#x9700;&#x914D;&#x7F6E;&#x4E00;&#x500B; int* &#x7684;&#x7A7A;&#x9593;&#x6307;&#x5230;&#x5728;heap&#x7684;&#x8A72;&#x8B8A;&#x6578;&#xFF0C;&#x53EF;&#x907F;&#x514D; stack overflow&#x3002;</p>
+<p>&#x4F7F;&#x7528; heap &#x6642;&#xFF0C;&#x96D6;&#x7136;&#x6574;&#x500B; process &#x53EF;&#x7528;&#x7684;&#x7A7A;&#x9593;&#x662F;&#x6709;&#x9650;&#x7684;&#xFF0C;&#x4F46;&#x63A1;&#x7528;&#x52D5;&#x614B;&#x6293;&#x53D6;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;
+new &#x7121;&#x6CD5;&#x914D;&#x7F6E;&#x6642;&#x6703;&#x4E1F;&#x51FA; std::bad_alloc &#x4F8B;&#x5916;&#xFF0C;malloc &#x7121;&#x6CD5;&#x914D;&#x7F6E;&#x6642;&#x6703;&#x56DE;&#x50B3; null<sup><a href="#fn_6" id="reffn_6">6</a></sup>&#xFF0C;&#x4E0D;&#x6703;&#x5F71;&#x97FF;&#x5230;&#x6B63;&#x5E38;&#x4F7F;&#x7528;&#x4E0B;&#x7684;&#x7A0B;&#x5F0F;&#x529F;&#x80FD;</p>
+<h3 id="11-%E4%BD%BF%E7%94%A8%E6%B5%AE%E9%BB%9E%E6%95%B8%E5%8D%83%E8%90%AC%E8%A6%81%E6%B3%A8%E6%84%8F%E7%B2%BE%E7%A2%BA%E5%BA%A6%E6%89%80%E9%80%A0%E6%88%90%E7%9A%84%E8%AA%A4%E5%B7%AE%E5%95%8F%E9%A1%8C">11. &#x4F7F;&#x7528;&#x6D6E;&#x9EDE;&#x6578;&#x5343;&#x842C;&#x8981;&#x6CE8;&#x610F;&#x7CBE;&#x78BA;&#x5EA6;&#x6240;&#x9020;&#x6210;&#x7684;&#x8AA4;&#x5DEE;&#x554F;&#x984C;</h3>
+<p>&#x6839;&#x64DA; IEEE 754 &#x7684;&#x898F;&#x7BC4;&#xFF0C;&#x53C8;&#x96FB;&#x8166;&#x4E2D;&#x662F;&#x7528;&#x6709;&#x9650;&#x7684;&#x4E8C;&#x9032;&#x4F4D;&#x5132;&#x5B58;&#x6578;&#x5B57;&#xFF0C;&#x56E0;&#x6B64;&#x5E38;&#x6709;&#x53EF;&#x80FD;&#x56E0;&#x70BA;&#x7CBE;&#x78BA;&#x5EA6;&#x800C;&#x9020;&#x6210;&#x8AA4;&#x5DEE;&#xFF0C;&#x4F8B;&#x5982;&#x52A0;&#x6E1B;&#x4E58;&#x9664;&#xFF0C;&#x7B49;&#x865F;&#x5927;&#x5C0F;&#x5224;&#x65B7;&#xFF0C;&#x5206;&#x914D;&#x5F8B;&#x7B49;&#x6578;&#x5B78;&#x4E0A;
+&#x5E38;&#x7528;&#x5230;&#x7684;&#x64CD;&#x4F5C;&#xFF0C;&#x5F88;&#x6709;&#x53EF;&#x80FD;&#x56E0;&#x6B64;&#x800C;&#x51FA;&#x932F;(&#x4E0D;&#x6210;&#x7ACB;)&#x3002;</p>
+<p>&#x66F4;&#x8A73;&#x7D30;&#x7684;&#x8AAA;&#x660E;&#x53EF;&#x4EE5;&#x53C3;&#x8003;C_and_CPP&#x7CBE;&#x83EF;&#x5340; z-8-11 &#x6216;&#x53C3;&#x8003;&#x51BC;&#x93E1;&#x5149;&#x8001;&#x5E2B;&#x6240;&#x767C;&#x8868;&#x7684;&#x4E00;&#x6587;
+<a href="http://blog.dcview.com/article.php?a=VmhQNVY%2BCzo%3D" target="_blank">&#x4F7F;&#x7528;&#x6D6E;&#x9EDE;&#x6578;&#x6700;&#x6700;&#x57FA;&#x672C;&#x7684;&#x89C0;&#x5FF5;</a>&#x3002;</p>
+<h3 id="12-%E4%B8%8D%E8%A6%81%E7%8C%9C%E6%83%B3%E4%BA%8C%E7%B6%AD%E9%99%A3%E5%88%97%E5%8F%AF%E4%BB%A5%E7%94%A8-pointer-to-pointer-%E4%BE%86%E5%82%B3%E9%81%9E">12. &#x4E0D;&#x8981;&#x731C;&#x60F3;&#x4E8C;&#x7DAD;&#x9663;&#x5217;&#x53EF;&#x4EE5;&#x7528; pointer to pointer &#x4F86;&#x50B3;&#x905E;</h3>
+<p>&#x9996;&#x5148;&#x5FC5;&#x9808;&#x6709;&#x500B;&#x89C0;&#x5FF5;&#xFF0C;C &#x8A9E;&#x8A00;&#x4E2D;&#x9663;&#x5217;&#x662F;&#x7121;&#x6CD5;&#x76F4;&#x63A5;&#x62FF;&#x4F86;&#x50B3;&#x905E;&#x7684;!
+&#x4E0D;&#x904E;&#x9019;&#x6642;&#x5019;&#x6703;&#x6709;&#x4EBA;&#x8DF3;&#x51FA;&#x4F86;&#x53CD;&#x99C1;:</p>
+<pre><code class="lang-c">
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">pass1DArray</span><span class="hljs-params">( <span class="hljs-keyword">int</span> <span class="hljs-built_in">array</span>[] )</span></span>;
+
+<span class="hljs-keyword">int</span> a[<span class="hljs-number">10</span>];
+pass1DArray( a );   <span class="hljs-comment">/* &#x53EF;&#x4EE5;&#x5408;&#x6CD5;&#x7DE8;&#x8B6F;&#xFF0C;&#x800C;&#x4E14;&#x57F7;&#x884C;&#x7D50;&#x679C;&#x6B63;&#x78BA;!! */</span>
+</code></pre>
+<p>&#x4E8B;&#x5BE6;&#x4E0A;&#xFF0C;&#x7DE8;&#x8B6F;&#x5668;&#x6703;&#x9019;&#x9EBC;&#x770B;&#x5F85;</p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">pass1DArray</span><span class="hljs-params">( <span class="hljs-keyword">int</span> *<span class="hljs-built_in">array</span> )</span></span>;
+
+<span class="hljs-keyword">int</span> a[<span class="hljs-number">10</span>];
+pass1DArray( &amp;a[<span class="hljs-number">0</span>] );
+</code></pre>
+<p>&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x9806;&#x4FBF;&#x770B;&#x51FA;&#x4F86;&#xFF0C;array &#x8B8A;&#x6578;&#x672C;&#x8EAB;&#x53EF;&#x4EE5; decay &#x6210;&#x8A18;&#x61B6;&#x9AD4;&#x8D77;&#x982D;&#x7684;&#x4F4D;&#x7F6E;
+&#x56E0;&#x6B64;&#x6211;&#x5011;&#x53EF;&#x4EE5; int *p = a; &#x9019;&#x7A2E;&#x65B9;&#x5F0F;&#xFF0C;&#x62FF;&#x6307;&#x6A19;&#x53BB;&#x63A5;&#x9663;&#x5217;&#x3002;</p>
+<p>&#x4E5F;&#x56E0;&#x70BA;&#x4E0A;&#x8FF0;&#x7684;&#x4F8B;&#x5B50;&#xFF0C;&#x8A31;&#x591A;&#x4EBA;&#x4EE5;&#x70BA;&#x90A3;&#x4E8C;&#x7DAD;&#x9663;&#x5217;&#x662F;&#x4E0D;&#x662F;&#x4E5F;&#x53EF;&#x4EE5;&#x6539;&#x6210; int **&#x3002;</p>
+<h4 id="%E9%8C%AF%E8%AA%A4%E4%BE%8B%E5%AD%90">&#x932F;&#x8AA4;&#x4F8B;&#x5B50;</h4>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">pass2DArray</span><span class="hljs-params">( <span class="hljs-keyword">int</span> **<span class="hljs-built_in">array</span> )</span></span>;
+
+<span class="hljs-keyword">int</span> a[<span class="hljs-number">5</span>][<span class="hljs-number">10</span>];
+pass2DArray( a );
+    <span class="hljs-comment">/* &#x9019;&#x6642;&#x5019;&#x7DE8;&#x8B6F;&#x5668;&#x5C31;&#x6703;&#x5831;&#x932F;&#x5566; */</span>
+    <span class="hljs-comment">/* expected &#x2018;int **&#x2019; but argument is of type &#x2018;int (*)[10]&#x2019;*/</span>
+</code></pre>
+<p>&#x5728;&#x4E00;&#x7DAD;&#x9663;&#x5217;&#x4E2D;&#xFF0C;&#x6307;&#x6A19;&#x7684;&#x79FB;&#x52D5;&#x64CD;&#x4F5C;&#xFF0C;&#x6703;&#x525B;&#x597D;&#x8986;&#x84CB;&#x5230;&#x9663;&#x5217;&#x7684;&#x7BC4;&#x570D;
+&#x4F8B;&#x5982;&#xFF0C;&#x5BA3;&#x544A;&#x4E86;&#x4E00;&#x500B; a[10]&#xFF0C;&#x90A3;&#x6211;&#x53EF;&#x4EE5;&#x628A; a &#x7576;&#x6210;&#x6307;&#x6A19;&#x4F86;&#x64CD;&#x4F5C; <em>a &#x81F3; </em>(a+9)
+&#x56E0;&#x6B64;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x5F97;&#x5230;&#x4E00;&#x500B;&#x6982;&#x5FF5;&#xFF0C;&#x5728;&#x64CD;&#x4F5C;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x53EF;&#x4EE5; decay &#x6210;&#x6307;&#x6A19;&#x4F86;&#x4F7F;&#x7528;
+&#x4E5F;&#x5C31;&#x662F;&#x6211;&#x53EF;&#x4EE5;&#x628A;&#x4E00;&#x500B;&#x9663;&#x5217;&#x7576;&#x6210;&#x4E00;&#x500B;&#x6307;&#x6A19;&#x4F86;&#x4F7F;&#x7528; (again, &#x9663;&#x5217;!=&#x6307;&#x6A19;)&#x3002;</p>
+<p>&#x4F46;&#x662F;&#x591A;&#x7DAD;&#x9663;&#x5217;&#x4E2D;&#xFF0C;&#x7121;&#x6CD5;&#x5982;&#x6B64;&#x4F7F;&#x7528;&#xFF0C;&#x4E8B;&#x5BE6;&#x4E0A;&#x9019;&#x4E5F;&#x5F88;&#x76F4;&#x89C0;&#xFF0C;&#x8A66;&#x5716;&#x62FF;&#x4E00;&#x500B;
+pointer to pointer to int &#x4F86;&#x64CD;&#x4F5C;&#x4E00;&#x500B; int &#x4E8C;&#x7DAD;&#x9663;&#x5217;&#xFF0C;&#x9019;&#x662F;&#x4E0D;&#x5408;&#x7406;&#x7684;&#xFF01;</p>
+<p>&#x5118;&#x7BA1;&#x6211;&#x5011;&#x7121;&#x6CD5;&#x5C07;&#x4E8C;&#x7DAD;&#x9663;&#x5217;&#x76F4;&#x63A5; decay &#x6210;&#x5169;&#x500B;&#x6307;&#x6A19;&#xFF0C;&#x4F46;&#x662F;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x63DB;&#x500B;&#x89D2;&#x5EA6;&#x60F3;&#xFF0C;
+&#x4E8C;&#x7DAD;&#x9663;&#x5217;&#x53EF;&#x4EE5;&#x770B;&#x6210; &quot;&#x5916;&#x5C64;&#x5927;&#x7684;&#x4E00;&#x7DAD;&#x9663;&#x5217;&#xFF0C;&#x6BCF;&#x4E00;&#x7DAD;&#x5167;&#x5C64;&#x5404;&#x53C8;&#x5305;&#x542B;&#x8457;&#x4E00;&#x7DAD;&#x9663;&#x5217;&quot;&#x3002;</p>
+<p>&#x5982;&#x679C;&#x60F3;&#x901A;&#x4E86;&#x9019;&#x4E00;&#x9EDE;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x4EFF;&#x9020;&#x4E4B;&#x524D;&#x7684;&#x898F;&#x5247;&#xFF0C;
+&#x628A;&#x5916;&#x5C64;&#x5927;&#x7684;&#x4E00;&#x7DAD;&#x9663;&#x5217; decay &#x6210;&#x6307;&#x6A19;&#xFF0C;&#x8A72;&#x6307;&#x6A19;&#x6307;&#x5411;&#x5167;&#x5C64;&#x7684;&#x4E00;&#x7DAD;&#x9663;&#x5217;&#x3002;</p>
+<pre><code class="lang-c">void pass2DArray( int (*array) [10] );  // array &#x662F;&#x500B;&#x6307;&#x6A19;&#xFF0C;&#x6307;&#x5411; int [10]
+
+int a[5][10];
+pass2DArray( a );
+</code></pre>
+<p>&#x9019;&#x6642;&#x5019;&#x5C31;&#x5F88;&#x597D;&#x7406;&#x89E3;&#x4E86;&#xFF0C;&#x51FD;&#x6578; pass2DArray &#x5167;&#x7684; array[0] &#x6703;&#x4EE3;&#x8868;&#x4EC0;&#x9EBC;&#x5462;&#xFF1F;
+&#x7B54;&#x6848;&#x662F;&#x5B83;&#x4EE3;&#x8868;&#x8457; a[0] &#x5916;&#x5C64;&#x7684;&#x90A3;&#x4E00;&#x7DAD;&#x9663;&#x5217;&#xFF0C;&#x88E1;&#x9762;&#x5305;&#x542B;&#x8457;&#x5167;&#x5C64; [0]~[9]
+&#x4E5F;&#x56E0;&#x6B64; array[0][2] &#x5C31;&#x6703;&#x5C0D;&#x61C9;&#x5230; a[0][2]&#xFF0C;array[4][9] &#x5C0D;&#x61C9;&#x5230; a[4][9]</p>
+<p>&#x7D50;&#x8AD6;&#x5C31;&#x662F;&#xFF0C;&#x53EA;&#x6709;&#x6700;&#x5916;&#x5C64;&#x7684;&#x90A3;&#x4E00;&#x7DAD;&#x9663;&#x5217;&#x53EF;&#x4EE5; decay &#x6210;&#x6307;&#x6A19;&#xFF0C;&#x5176;&#x4ED6;&#x7DAD;&#x9663;&#x5217;&#x90FD;&#x8981;
+&#x660E;&#x78BA;&#x7684;&#x6307;&#x51FA;&#x9663;&#x5217;&#x5927;&#x5C0F;&#xFF0C;&#x9019;&#x6A23;&#x591A;&#x7DAD;&#x9663;&#x5217;&#x7684;&#x50B3;&#x905E;&#x5C31;&#x4E0D;&#x6703;&#x6709;&#x554F;&#x984C;&#x4E86;</p>
+<p>&#x4E5F;&#x56E0;&#x70BA;&#x525B;&#x525B;&#x7684;&#x4F8B;&#x5B50;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x6E05;&#x695A;&#x7684;&#x77E5;&#x9053;&#x5728;&#x50B3;&#x905E;&#x9663;&#x5217;&#x6642;&#xFF0C;&#x5BE6;&#x969B;&#x884C;&#x70BA;&#x662F;&#x5728;&#x50B3;&#x905E;
+&#x6307;&#x6A19;&#xFF0C;&#x4E5F;&#x56E0;&#x6B64;&#x5982;&#x679C;&#x6211;&#x5011;&#x60F3;&#x7528; sizeof &#x4F86;&#x6C42;&#x5F97;&#x9663;&#x5217;&#x5143;&#x7D20;&#x500B;&#x6578;&#xFF0C;&#x90A3;&#x662F;&#x4E0D;&#x53EF;&#x884C;&#x7684;</p>
+<h4 id="%E9%8C%AF%E8%AA%A4%E4%BE%8B%E5%AD%90">&#x932F;&#x8AA4;&#x4F8B;&#x5B50;</h4>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">print1DArraySize</span><span class="hljs-params">( <span class="hljs-keyword">int</span>* arr )</span> </span>{
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%u&quot;</span>, <span class="hljs-keyword">sizeof</span>(arr)/<span class="hljs-keyword">sizeof</span>(arr[<span class="hljs-number">0</span>])); 
+    <span class="hljs-comment">/* sizeof(arr) &#x53EA;&#x662F; &#x4E00;&#x500B;&#x6307;&#x6A19;&#x7684;&#x5927;&#x5C0F;   */</span>
+</code></pre>
+<p>&#x53D7;&#x6B64;&#x9650;&#x5236;&#xFF0C;&#x6211;&#x5011;&#x5FC5;&#x9808;&#x624B;&#x52D5;&#x50B3;&#x5165;&#x5927;&#x5C0F;</p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">print1DArraySize</span><span class="hljs-params">( <span class="hljs-keyword">int</span>* arr, size_t arrSize )</span></span>;
+</code></pre>
+<p>C++ &#x63D0;&#x4F9B; reference &#x7684;&#x6A5F;&#x5236;&#xFF0C;&#x4F7F;&#x5F97;&#x6211;&#x5011;&#x4E0D;&#x9700;&#x518D;&#x9019;&#x9EBC;&#x9EBB;&#x7169;&#xFF0C;
+&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x50B3;&#x905E;&#x9663;&#x5217;&#x7684; reference &#x7D66;&#x51FD;&#x6578;&#xFF0C;&#x5927;&#x5C0F;&#x4E5F;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x6C42;&#x51FA;</p>
+<h4 id="%E6%AD%A3%E7%A2%BA%E4%BE%8B%E5%AD%90">&#x6B63;&#x78BA;&#x4F8B;&#x5B50;</h4>
+<pre><code class="lang-c">void print1DArraySize( int (&amp;array)[10] ) {    // &#x50B3;&#x905E; reference
+    cout &lt;&lt; sizeof(array) / sizeof(int);   // &#x6B63;&#x78BA;&#x53D6;&#x5F97;&#x9663;&#x5217;&#x5143;&#x7D20;&#x500B;&#x6578;
+}
+</code></pre>
+<h3 id="13-%E5%87%BD%E5%BC%8F%E5%85%A7-new-%E5%87%BA%E4%BE%86%E7%9A%84%E7%A9%BA%E9%96%93%E8%A8%98%E5%BE%97%E8%A6%81%E8%AE%93%E4%B8%BB%E7%A8%8B%E5%BC%8F%E7%9A%84%E6%8C%87%E6%A8%99%E6%8E%A5%E4%BD%8F">13. &#x51FD;&#x5F0F;&#x5167; new &#x51FA;&#x4F86;&#x7684;&#x7A7A;&#x9593;&#x8A18;&#x5F97;&#x8981;&#x8B93;&#x4E3B;&#x7A0B;&#x5F0F;&#x7684;&#x6307;&#x6A19;&#x63A5;&#x4F4F;</h3>
+<p>&#x5C0D;&#x6307;&#x6A19;&#x4E0D;&#x719F;&#x6089;&#x7684;&#x4F7F;&#x7528;&#x8005;&#x6703;&#x4EE5;&#x70BA;&#x4EE5;&#x4E0B;&#x7684;&#x7A0B;&#x5F0F;&#x78BC;&#x662F;&#x7B26;&#x5408;&#x9810;&#x671F;&#x7684;&#xFF1A;</p>
+<pre><code class="lang-c">void newArray(int* local, int size) {
+    local = (int*) malloc( size * sizeof(int) );
+}
+
+int main() {
+    int* ptr;
+    newArray(ptr, 10);
+}
+</code></pre>
+<p>&#x63A5;&#x8457;&#x5C31;&#x6703;&#x627E;&#x4E86;&#x5F88;&#x4E45;&#x7684; bug&#xFF0C;&#x6700;&#x5F8C;&#x4ECD;&#x7136;&#x641E;&#x4E0D;&#x61C2;&#x70BA;&#x4EC0;&#x9EBC; ptr &#x6C92;&#x6709;&#x6307;&#x5411;&#x525B;&#x525B;&#x62FF;&#x5230;&#x7684;&#x5408;&#x6CD5;&#x7A7A;&#x9593;&#x3002;</p>
+<p>&#x4E5F;&#x8A31;&#x6709;&#x4EBA;&#x6703;&#x60F3;&#x554F;&#xFF0C;&#x6307;&#x6A19;&#x4E0D;&#x662F;&#x50B3;&#x5740;&#x55CE;&#xFF1F;</p>
+<p>&#x7CBE;&#x78BA;&#x4F86;&#x8B1B;&#xFF0C;&#x6307;&#x6A19;&#x4E5F;&#x662F;&#x50B3;&#x503C;&#xFF0C;&#x53EA;&#x4E0D;&#x904E;&#x8A72;&#x503C;&#x662F;&#x4E00;&#x500B;&#x4F4D;&#x5740; (ex: 0xfefefefe)</p>
+<p>local &#x63A5;&#x5230;&#x4E86; ptr &#x6307;&#x5411;&#x7684;&#x90A3;&#x500B;&#x4F4D;&#x7F6E;&#xFF0C;&#x63A5;&#x8457;&#x51FD;&#x5F0F;&#x5167; local &#x8981;&#x5230;&#x4E86;&#x65B0;&#x7684;&#x4F4D;&#x7F6E;&#x4F46;&#x662F; ptr &#x6307;&#x5411;&#x7684;&#x4F4D;&#x7F6E;&#x9084;&#x662F;&#x6C92;&#x8B8A;&#x7684;&#xFF0C;
+&#x56E0;&#x6B64;&#x96E2;&#x958B;&#x51FD;&#x5F0F;&#x5F8C;&#x5C31;&#x597D;&#x50CF;&#x4E8B;&#x4EC0;&#x9EBC;&#x90FD;&#x6C92;&#x767C;&#x751F;( &#x56B4;&#x683C;&#x8AAA;&#x8D77;&#x4F86;&#x9084;&#x767C;&#x751F;&#x4E86; memory leak )&#x3002;</p>
+<p>&#x4EE5;&#x4E0B;&#x662F;&#x4E00;&#x7A2E;&#x89E3;&#x6C7A;&#x8FA6;&#x6CD5;</p>
+<pre><code class="lang-c">int* createNewArray(int size) {
+    return (int*) malloc( size * sizeof(int) );
+}
+
+int main() {
+    int* ptr;
+    ptr = createNewArray(10);
+}
+</code></pre>
+<p>&#x6539;&#x6210;&#x9019;&#x6A23;&#x4EA6;&#x53EF;( &#x70BA;&#x4F55;&#x7528; int** &#x5C31;&#x53EF;&#x4EE5;&#xFF1F;&#x60F3;&#x60F3;&#x4ED6;&#x6703;&#x50B3;&#x4EC0;&#x9EBC;&#x904E;&#x53BB;&#x7D66;local )</p>
+<pre><code class="lang-c">void createNewArray(int** local, int size) {
+    *local = (int*) malloc( size * sizeof(int) );
+}
+
+int main() {
+    int *ptr;
+    createNewArray(&amp;ptr, 10);
+}
+</code></pre>
+<p>&#x5982;&#x679C;&#x662F; C++&#xFF0C;&#x5225;&#x5FD8;&#x4E86;&#x53EF;&#x4EE5;&#x5584;&#x7528; Reference</p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">newArray</span><span class="hljs-params">(<span class="hljs-keyword">int</span>*&amp; local, <span class="hljs-keyword">int</span> size)</span> </span>{
+    local = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[size];
+}
+</code></pre>
+<h3 id="%E8%A3%9C%E5%85%85%E8%B3%87%E6%96%99">&#x88DC;&#x5145;&#x8CC7;&#x6599;</h3>
+<ul>
+<li>Ptt C_and_CPP &#x7CBE;&#x83EF;&#x5340;z-&gt;5-&gt;1-&gt;1-&gt;1  </li>
+<li>C11 Standard 5.1.2, 6.2.4, 6.7.9  </li>
+<li><a href="http://en.cppreference.com/w/cpp/language/range-for" target="_blank">Range-based for loop (since C++11)</a>  </li>
+<li><a href="http://www.cplusplus.com/reference/vector/vector/resize/" target="_blank">std::vector::resize</a>  </li>
+<li><a href="http://en.cppreference.com/w/c/language/string_literal" target="_blank">string literals -- C</a>  </li>
+<li><a href="http://en.cppreference.com/w/cpp/language/string_literal" target="_blank">string literals -- C++</a>  </li>
+<li>&#x5B57;&#x4E32;&#x51FD;&#x6578;&#x76F8;&#x95DC;&#xFF1A;PTT C_and_CPP #1IOXeMHX  </li>
+<li>undefined behavior : PTT C_and_CPP &#x7CBE;&#x83EF;&#x5340; z -&gt; 3 -&gt; 3 -&gt; 23  </li>
+<li><a href="http://en.cppreference.com/w/cpp/memory/unique_ptr" target="_blank">std::unique_ptr</a>  </li>
+<li>C11 Standard 5.2.4.2.1, 7.22.6.1  </li>
+<li><a href="https://www.fefe.de/intof.html" target="_blank">Catching Integer Overflows in C</a>  </li>
+<li><a href="http://stackoverflow.com/questions/4176328/undefined-behavior-and-sequence-points" target="_blank">Undefined behavior and sequence points</a>  </li>
+<li>C11 Standard 6.5.13-17&#xFF0C;Annex C  </li>
+<li><a href="http://stackoverflow.com/questions/14041453/why-are-preprocessor-macros-evil-and-what-are-the-alternatives" target="_blank">Why are preprocessor macros evil and what are the alternatives?</a>  </li>
+<li><a href="http://stackoverflow.com/questions/12447557/can-we-have-recursive-macros" target="_blank">Can we have recursive macros?</a>  </li>
+<li>C11 Standard 6.10.3.4  </li>
+<li><a href="http://en.cppreference.com/w/cpp/language/lambda" target="_blank">Lambda functions (since C++11)</a>  </li>
+<li><a href="http://stackoverflow.com/questions/3770457/what-is-memory-fragmentation" target="_blank">What is memory fragmentation?</a>  </li>
+<li><a href="http://library.softwareverify.com/memory-fragmentation-your-worst-nightmare/" target="_blank">Memory Fragmentation, your worst nightmare</a>  </li>
+<li><a href="http://man7.org/linux/man-pages/man3/malloc.3.html" target="_blank">MALLOC</a>  </li>
+<li><a href="http://www.etalabs.net/overcommit.html" target="_blank">What is Overcommit? And why is it bad?</a></li>
+</ul>
+<h3 id="%E5%82%99%E8%A8%BB">&#x5099;&#x8A3B;</h3>
+<blockquote id="fn_1">
+<sup>1</sup>. &#x6839;&#x64DA;C11 Standard&#xFF0C;&#x64C1;&#x6709;static storage duration&#x7684;&#x8B8A;&#x6578;&#xFF0C;&#x4F8B;&#x5982;&#x5168;&#x57DF;&#x8B8A;&#x6578;(global variable)&#x6216;&#x5E36;&#x6709;static&#x4FEE;&#x98FE;&#x5B57;&#x8005;&#xFF0C;&#x5176;&#x521D;&#x503C;(&#x5BA3;&#x544A;&#x7684;&#x6642;&#x5019;&#x82E5;&#x662F;&#x6C92;&#x6709;&#x53E6;&#x5916;&#x8A2D;&#x521D;&#x503C;&#x7684;&#x60C5;&#x6CC1;)&#x70BA;&#x5B9A;&#x503C;(&#x6700;&#x81EA;&#x7136;&#x7684;&#x521D;&#x503C;&#x5C31;&#x662F;0)&#x3002;&#x4F46;&#x662F;&#x6709;&#x4E9B;MCU &#x7DE8;&#x8B6F;&#x5668;&#x53EF;&#x80FD;&#x4E0D;&#x7406;&#x6703;&#x9019;&#x500B;&#x898F;&#x5B9A;&#xFF0C;&#x6240;&#x4EE5;&#x9084;&#x662F;&#x8ACB;&#x990A;&#x6210;&#x8A2D;&#x5B9A;&#x521D;&#x503C;&#x7684;&#x597D;&#x7FD2;&#x6163;&#x3002;<a href="#reffn_1" title="Jump back to footnote [1] in the text."> &#x21A9;</a>
+</blockquote>
+<blockquote id="fn_2">
+<sup>2</sup>. C++&#x7684;&#x4F7F;&#x7528;&#x8005;&#xFF0C;C++03&#x6216;&#x4E4B;&#x524D;&#x8ACB;&#x7528;0&#x4EE3;&#x66FF;NULL&#xFF0C;C++11&#x958B;&#x59CB;&#x8ACB;&#x6539;&#x7528;nullptr&#x3002;  <a href="#reffn_2" title="Jump back to footnote [2] in the text."> &#x21A9;</a>
+</blockquote>
+<blockquote id="fn_3">
+<sup>3</sup>. gcc&#x548C;clang&#x652F;&#x63F4;VLA&#xFF0C;Visual C++&#x4E0D;&#x652F;&#x63F4;&#x3002;<a href="#reffn_3" title="Jump back to footnote [3] in the text."> &#x21A9;</a>
+</blockquote>
+<blockquote id="fn_4">
+<sup>4</sup>. &#x7531;&#x65BC;&#x4E0D;&#x52A0;const&#x5BB9;&#x6613;&#x9020;&#x6210;&#x6DF7;&#x6DC6;&#xFF0C;&#x5EFA;&#x8B70;&#x4E0D;&#x7BA1;&#x662F;C&#x9084;&#x662F;C++&#x4E00;&#x5F8B;&#x7528; const char* &#x5B9A;&#x7FA9;&#x5B57;&#x4E32;&#x5E38;&#x6578;&#x3002;<a href="#reffn_4" title="Jump back to footnote [4] in the text."> &#x21A9;</a>
+</blockquote>
+<blockquote id="fn_5">
+<sup>5</sup>. &#x4F7F;&#x7528; heap &#x6642;&#xFF0C;&#x6574;&#x500B; process &#x53EF;&#x7528;&#x7684;&#x7A7A;&#x9593;&#x4E00;&#x6A23;&#x662F;&#x6709;&#x9650;&#x7684;&#xFF0C;&#x82E5;&#x662F;&#x9700;&#x8981;&#x983B;&#x7E41;&#x5730;malloc / free &#x6216; new / delete &#x8F03;&#x5927;&#x7684;&#x7A7A;&#x9593;&#xFF0C;&#x9700;&#x6CE8;&#x610F;&#x907F;&#x514D;&#x9020;&#x6210;&#x8A18;&#x61B6;&#x9AD4;&#x7834;&#x788E;(memory fragmentation)&#x3002;<a href="#reffn_5" title="Jump back to footnote [5] in the text."> &#x21A9;</a>
+</blockquote>
+<blockquote id="fn_6">
+<sup>6</sup>. &#x7531;&#x65BC;Linux&#x4F7F;&#x7528;overcommit&#x6A5F;&#x5236;&#x7BA1;&#x7406;&#x8A18;&#x61B6;&#x9AD4;&#xFF0C;malloc&#x5373;&#x4F7F;&#x5728;&#x8A18;&#x61B6;&#x9AD4;&#x4E0D;&#x8DB3;&#x6642;&#x4ECD;&#x7136;&#x6703;&#x56DE;&#x50B3;&#x975E;NULL&#x7684;address&#xFF0C;&#x540C;&#x6A23;&#x60C5;&#x5F62;&#x5728;Windows/Mac OS&#x5247;&#x6703;&#x56DE;&#x50B3;NULL&#x3002;<a href="#reffn_6" title="Jump back to footnote [6] in the text."> &#x21A9;</a>
+</blockquote>
 
                     
                     </section>
@@ -15092,10 +15443,10 @@ SIB&#x5B57;&#x6BB5;&#x4E5F;&#x7531;3&#x500B;&#x5B57;&#x6BB5;&#x7684;&#x4FE1;&#x6
         </div>
 
         
-        <a href="../assembly/1611.html" class="navigation navigation-prev " aria-label="Previous page: 現代計算機結構組成與工作過程"><i class="fa fa-angle-left"></i></a>
+        <a href="../c++/stl_rong_qi_4e8c29_-_iterator.html" class="navigation navigation-prev " aria-label="Previous page: STL 容器 (二) - Iterator"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../assembly/1613.html" class="navigation navigation-next " aria-label="Next page: 相關開發工具"><i class="fa fa-angle-right"></i></a>
+        <a href="../gunmake/index.html" class="navigation navigation-next " aria-label="Next page: GNU make"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

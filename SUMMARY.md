@@ -918,6 +918,7 @@
        * [A04: clz](ncku_embededd/a04_clz.md)
        * [A05: introspect](ncku_embededd/a05_introspect.md)
        * [A06: phonebook-concurrent](ncku_embededd/a06_phonebook-concurrent.md)
+       * Matrix Multiplication using SIMD
 * [逆向工程](Reversing/ni_xiang_gong_cheng.md)
    * [Linux 逆向工程的工具介紹](Reversing/linux_ni_xiang_gong_cheng_de_gong_ju_jie_shao.md)
 * [Git](git/git.md)

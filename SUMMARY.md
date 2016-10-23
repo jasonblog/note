@@ -418,7 +418,7 @@
    * [學習C++：實踐者的方法（Beta1）](c++/xue_xi_c_ff1a_shi_jian_zhe_de_fang_fa_ff08_beta1.md)
    * [STL 容器 (一) - 基本介紹](c++/stl_rong_qi_4e0029_-_ji_ben_jie_shao.md)
    * [STL 容器 (二) - Iterator](c++/stl_rong_qi_4e8c29_-_iterator.md)
-   * C/C++ 十三誡
+   * [C/C++ 十三誡](c++/cc++_shi_san_jie.md)
 * [GNU make](gunmake/README.md)
    * [example](gunmake/example.md)
    * [CMake](cmake/cmake.md)

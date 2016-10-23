@@ -140,5 +140,34 @@ $ make install
 
 ---
 
+## Wen
+
+```sh
+qemu-system-arm \
+-M versatilepb \
+-kernel /tmp/kernel/linux-stable/arch/arm/boot/zImage \-drive file=output/images/rootfs.ext2,if=scsi,format=raw \
+-append "root=/dev/sda console=ttyAMA0,115200" \
+-serial stdio \
+-net nic,model=rtl8139 \
+-net user
+```
 
 
+---
+
+
+##Virt-2.7
+
+```sh
+qemu-system-arm \
+-M virt-2.7 \
+-S \
+-m 1024 \
+-cpu cortex-a15 \
+-nographic \
+-device virtio-9p-device,fsdev=host_fs,mount_tag=/dev/root \
+-fsdev local,id=host_fs,security_model=none,path=$(pwd)/../sysroot \
+-kernel ./arch/arm/boot/zImage \
+-append 'root=/dev/root rootfstype=9p rootflags=trans=virtio rw \
+-netdev user,id=unet -device virtio-net-device,netdev=unet
+```

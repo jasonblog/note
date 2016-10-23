@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>unittest 與 pdb 改善開發效率 | Jason note</title>
+        <title>example | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../thinker/cheng_shi_zhu_jie_ru_he_xie.html" />
+    <link rel="next" href="../assembly/index.html" />
     
     
-    <link rel="prev" href="../thinker/gdb_zi_dong_hua_debug.html" />
+    <link rel="prev" href="../linux_system/du_shu_67035d_linux_huan_jing_bian_cheng_ff1a_cong.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="35.8" data-basepath=".." data-revision="Mon Oct 24 2016 01:48:05 GMT+0800 (CST)">
+    <div class="book" data-level="13.42" data-basepath=".." data-revision="Mon Oct 24 2016 01:48:05 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -4910,7 +4910,7 @@
             
         </li>
     
-        <li class="chapter " data-level="13.42" data-path="linux_system/example.html">
+        <li class="chapter active" data-level="13.42" data-path="linux_system/example.html">
             
                 
                     <a href="../linux_system/example.html">
@@ -9996,7 +9996,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="35.8" data-path="thinker/unittest_yu_pdb_gai_shan_kai_fa_xiao_lv.html">
+        <li class="chapter " data-level="35.8" data-path="thinker/unittest_yu_pdb_gai_shan_kai_fa_xiao_lv.html">
             
                 
                     <a href="../thinker/unittest_yu_pdb_gai_shan_kai_fa_xiao_lv.html">
@@ -14877,56 +14877,328 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="unittest-%E8%88%87-pdb-%E6%94%B9%E5%96%84%E9%96%8B%E7%99%BC%E6%95%88%E7%8E%87">unittest &#x8207; pdb &#x6539;&#x5584;&#x958B;&#x767C;&#x6548;&#x7387;</h1>
-<p>&#x8FD1;&#x5E74;&#x4F86;&#xFF0C;&#x8EDF;&#x9AD4;&#x5DE5;&#x7A0B;&#x754C;&#x958B;&#x59CB;&#x9AD4;&#x8A8D;&#x5230;&#x73FE;&#x5BE6;&#x7684;&#x4E0D;&#x5B8C;&#x7F8E;&#xFF0C;&#x63A5;&#x53D7;&#x4EBA;&#x8166;&#x7684;&#x6975;&#x9650;&#x548C;&#x4E0D;&#x5B8C;&#x7F8E;&#xFF0C;&#x8F49;&#x800C;&#x5F80;&#x767C;&#x5C55;&#x7C21;&#x55AE;&#x3001;&#x5BE6;&#x969B;&#x7684;&#x65B9;&#x6CD5;&#x3002;&#x5982;: XP &#x3001; unit-test driven&#x3002;&#x5176;&#x4E2D;&#xFF0C;&#x4EE5; unit test &#x7684;&#x6280;&#x8853;&#x6700;&#x5EE3;&#x70BA;&#x63A1;&#x7528;&#xFF0C;&#x5176;&#x539F;&#x56E0;&#x4F86;&#x81EA;&#x5176;&#x6548;&#x679C;&#x7ACB;&#x5373;&#x3001;&#x660E;&#x986F;&#x3001;&#x4F4E;&#x9580;&#x6ABB;&#xFF0C; programmer &#x53EF;&#x4EE5;&#x99AC;&#x4E0A;&#x611F;&#x53D7;&#x5230;&#x597D;&#x8655;&#x3002; Python &#x4E5F;&#x548C;&#x5176;&#x5B83;&#x8A31;&#x8A31;&#x591A;&#x591A;&#x7684;&#x8A9E;&#x8A00;&#x4E00;&#x6A23;&#xFF0C;&#x96A8;&#x8457;&#x6F6E;&#x6D41;&#x63A8;&#x51FA;&#x8A31;&#x591A; unit test &#x7684;&#x5DE5;&#x5177;&#x3002;&#x5176;&#x4E2D;&#x6700;&#x719F;&#x70BA;&#x4EBA;&#x7684;&#xFF0C;&#x5927;&#x6982;&#x5C31;&#x662F; unittest &#x548C; doctest &#x9019;&#x5169;&#x500B;&#x96A8; Python &#x6563;&#x4F48;&#x7684;&#x5DE5;&#x5177;&#x3002;
-&#x4E0D;&#x8AD6;&#x4F7F;&#x7528;&#x54EA;&#x4E00;&#x7A2E;&#x5DE5;&#x5177;&#xFF0C; unit test &#x5DE5;&#x5177;&#x80FD;&#x5728;&#x958B;&#x767C;&#x521D;&#x671F;&#xFF0C;&#x8FC5;&#x901F;&#x767C;&#x6398;&#x6F5B;&#x5728;&#x7684; bug &#xFF0C;&#x4E26;&#x4E0D;&#x65B7;&#x7684;&#x53CD;&#x994B;&#x7D66; programmer &#xFF0C;&#x4F7F; programmer &#x80FD;&#x5FEB;&#x901F;&#x754C;&#x5B9A;&#x51FA; bug &#x7684;&#x5167;&#x5BB9;&#xFF0C;&#x4E26;&#x52A0;&#x4EE5;&#x4FEE;&#x6B63;&#x3002;&#x9019;&#x7A2E;&#x53CD;&#x994B;&#x3001;&#x4FEE;&#x6B63;&#x7684;&#x904E;&#x7A0B;&#xFF0C;&#x7A0B;&#x5F0F;&#x78BC;&#x7684;&#x54C1;&#x8CEA;&#x80FD;&#x7372;&#x5F97;&#x5FEB;&#x901F;&#x7684;&#x6539;&#x5584;&#xFF0C;&#x907F;&#x514D;&#x554F;&#x984C;&#x7684;&#x64F4;&#x6563;&#x3002;&#x5728;&#x958B;&#x767C;&#x7684;&#x4E2D;&#x3001;&#x5F8C;&#x671F;&#xFF0C; unit test &#x53C8;&#x80FD;&#x8B93;&#x6211;&#x5011;&#x6301;&#x7E8C;&#x7684;&#x5C0D;&#x65B0;&#x52A0;&#x5165;&#x6216;&#x4FEE;&#x6539;&#x7684;&#x7A0B;&#x5F0F;&#x9032;&#x884C;&#x54C1;&#x8CEA;&#x7684;&#x78BA;&#x8A8D;&#xFF0C;&#x7DAD;&#x6301;&#x7A0B;&#x5F0F;&#x78BC;&#x7684;&#x54C1;&#x8CEA;&#x3002;</p>
-<p>&#x7136;&#x800C;&#xFF0C; unittest &#x96D6;&#x7136;&#x80FD;&#x6E2C;&#x51FA;&#x932F;&#x8AA4;&#x7684;&#x5B58;&#x5728;&#xFF0C;&#x4F46; programmer &#x4E26;&#x7121;&#x6CD5;&#x53EA;&#x4F9D;&#x9019;&#x4E9B;&#x932F;&#x8AA4;&#x8A0A;&#x606F;&#x5C31;&#x9032;&#x884C;&#x4FEE;&#x6B63;&#xFF0C;programmer &#x9084;&#x9700;&#x8981;&#x5176;&#x5B83;&#x7684;&#x8CC7;&#x8A0A;&#x3002;&#x9019;&#x500B;&#x8CC7;&#x8A0A;&#xFF0C;&#x901A;&#x5E38;&#x5C31;&#x662F;&#x7A0B;&#x5F0F;&#x76EE;&#x524D;&#x73FE;&#x72C0;&#xFF0C;&#x9084;&#x6709;&#x73FE;&#x72C0;&#x8207;&#x6B63;&#x78BA;&#x72C0;&#x6CC1;&#x9593;&#x7684;&#x5DEE;&#x7570;&#x3002;&#x9019;&#x4E9B;&#x73FE;&#x72C0;&#x7684;&#x8CC7;&#x8A0A;&#xFF0C;&#x9700;&#x8981;&#x900F;&#x904E;&#x6AA2;&#x8996;&#x767C;&#x751F;&#x932F;&#x8AA4;&#x6642;&#x7684;&#x8A18;&#x61B6;&#x9AD4;&#x72C0;&#x6CC1;&#x3002;&#x9019;&#x6642;&#x5C31;&#x9700;&#x8981;&#x796D;&#x51FA; pdb &#x4F86;&#x5E6B;&#x5FD9;&#x4E86;&#x3002;</p>
-<p>&#x4F8B;&#x5982;:</p>
-<pre><code class="lang-py"><span class="hljs-number">001</span>    <span class="hljs-keyword">import</span> sys
-<span class="hljs-number">002</span>    sys.stdout.write(<span class="hljs-string">&apos;give me a number (0 or 1): &apos;</span>)
-<span class="hljs-number">003</span>    sys.stdout.flush()
-<span class="hljs-number">004</span>    n=sys.stdin.readline()
-<span class="hljs-number">005</span>    a = [<span class="hljs-string">&apos;hello&apos;</span>, <span class="hljs-string">&apos;world&apos;</span>]
-<span class="hljs-number">006</span>    <span class="hljs-keyword">print</span> a[n]
+                        <h1 id="example">example</h1>
+<ul>
+<li>&#x5F37;&#x5236;&#x591A;&#x57F7;&#x884C;&#x7DD2;&#x5171;&#x7528;&#x4E00;&#x500B;cpu thread_cpu.c</li>
+<li>thread.c</li>
+<li>merge sort.c</li>
+<li>cond.c pthread_cond_wait</li>
+</ul>
+<hr>
+<ul>
+<li>thread_cpu.c</li>
+</ul>
+<p>&#x6B63;&#x5728;&#x69CB;&#x601D;&#x4E00;&#x500B;&#x7A0B;&#x5F0F;&#xFF0C;load&#x5176;&#x5BE6;&#x4E0D;&#x662F;&#x5F88;&#x91CD;&#xFF0C;&#x4F46;&#x662F;&#x6709;3-4&#x500B;thread&#x5FC5;&#x9808;&#x8F2A;&#x6D41;&#x5C0D;&#x55AE;&#x4E00;device&#x5B58;&#x53D6;&#x4F46;&#x662F;&#x60F3;&#x505A;&#x5230;lock-free+&#x7BC0;&#x7701;load+&#x7A7A;&#x51FA;&#x5176;&#x4ED6;core&#x505A;&#x5176;&#x4ED6;&#x7684;&#x4E8B;&#xFF0C;
+&#x6240;&#x4EE5;&#x5E0C;&#x671B;&#x628A;&#x8A72;&#x7A0B;&#x5F0F;&#x751F;&#x51FA;&#x7684;&#x6240;&#x6709;&#x7684;thread&#x90FD;&#x96C6;&#x4E2D;&#x5728;&#x55AE;&#x4E00;&#x500B;core&#x8DD1;&#x3002;
+raspberry pi&#x7684;case&#x7C21;&#x55AE;(&#x672C;&#x4F86;&#x5C31;&#x662F;single core)&#xFF0C;&#x53EF;&#x662F;&#x60F3;&#x5728;rp3&#x4E0A;&#x4E5F;&#x9019;&#x6A23;&#x505A;&#x3002;</p>
+<pre><code class="lang-c"><span class="hljs-comment">// gcc thread.c -Wall -pedantic -lpthread -o thread</span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdatomic.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> __USE_GNU </span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sched.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;pthread.h&gt;</span></span>
+
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> {
+    <span class="hljs-keyword">char</span> name[<span class="hljs-number">16</span>];
+    <span class="hljs-keyword">int</span> sleepTime;
+} Node;
+
+<span class="hljs-keyword">void</span> _usleep(<span class="hljs-keyword">int</span>);
+<span class="hljs-function"><span class="hljs-keyword">void</span>* <span class="hljs-title">generateSingleThread</span><span class="hljs-params">(<span class="hljs-keyword">void</span>*)</span></span>;
+<span class="hljs-function"><span class="hljs-keyword">void</span>  <span class="hljs-title">printAndSleep</span><span class="hljs-params">(Node*)</span></span>;
+
+<span class="hljs-keyword">atomic_int</span> acnt;
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span> </span>{
+    <span class="hljs-keyword">cpu_set_t</span> cmask;
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> len = <span class="hljs-keyword">sizeof</span>(cmask);
+    CPU_ZERO(&amp;cmask);   <span class="hljs-comment">/* &#x521D;&#x59CB;&#x5316; cmask */</span>
+    CPU_SET(<span class="hljs-number">0</span>, &amp;cmask); <span class="hljs-comment">/* &#x6307;&#x5B9A;&#x7B2C;&#x4E00;&#x500B;&#x8655;&#x7406;&#x5668; */</span>
+    <span class="hljs-comment">/* &#x8A2D;&#x5B9A;&#x81EA;&#x5DF1;&#x7531;&#x6307;&#x5B9A;&#x7684;&#x8655;&#x7406;&#x5668;&#x57F7;&#x884C; */</span>
+
+    <span class="hljs-keyword">if</span> (sched_setaffinity(<span class="hljs-number">0</span>, len, &amp;cmask)) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Could not set cpu affinity for current process.\n&quot;</span>);
+        <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);
+    }   
+
+    Node nodes[] = {{<span class="hljs-string">&quot;One&quot;</span>, <span class="hljs-number">100000</span>}, {<span class="hljs-string">&quot;Two&quot;</span>, <span class="hljs-number">200000</span>}, {<span class="hljs-string">&quot;Three&quot;</span>, <span class="hljs-number">300000</span>}};
+    <span class="hljs-keyword">pthread_t</span> thread[<span class="hljs-number">3</span>];
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;<span class="hljs-number">3</span>; ++i) {
+        pthread_create(&amp;thread[i], <span class="hljs-literal">NULL</span>, generateSingleThread, (<span class="hljs-keyword">void</span>*) &amp;nodes[i]);
+    }   
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;<span class="hljs-number">3</span>; ++i) pthread_join(thread[i],<span class="hljs-literal">NULL</span>);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span>* <span class="hljs-title">generateSingleThread</span><span class="hljs-params">(<span class="hljs-keyword">void</span>* nodes)</span> </span>{
+    Node* node = (Node*)nodes;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;<span class="hljs-number">1000</span>; ++i) {
+        <span class="hljs-keyword">while</span> (acnt) sched_yield() ;
+        atomic_fetch_add(&amp;acnt, <span class="hljs-number">1</span>);
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%dth Time: &quot;</span>, i);
+        atomic_fetch_sub(&amp;acnt, <span class="hljs-number">1</span>);
+        printAndSleep(node);
+    }
+    pthread_exit(<span class="hljs-literal">NULL</span>);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span>  <span class="hljs-title">printAndSleep</span><span class="hljs-params">(Node* node)</span> </span>{
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s\n&quot;</span>, node-&gt;name);
+    _usleep(node-&gt;sleepTime);
+}
+<span class="hljs-keyword">void</span> _usleep(<span class="hljs-keyword">int</span> micro)
+{
+    <span class="hljs-keyword">struct</span> timespec req = {<span class="hljs-number">0</span>};
+    req.tv_sec = <span class="hljs-number">0</span>;
+    req.tv_nsec = micro * <span class="hljs-number">1000L</span>;
+    nanosleep(&amp;req, (<span class="hljs-keyword">struct</span> timespec *)<span class="hljs-literal">NULL</span>);
+}
 </code></pre>
-<p>&#x5F88;&#x7C21;&#x55AE;&#x7684;&#x4E00;&#x500B;&#x7A0B;&#x5F0F;&#x3002;&#x4F46;&#x9032;&#x884C;&#x6E2C;&#x8A66;&#x6642;&#xFF0C;&#x4E0D;&#x8AD6;&#x4F60;&#x8F38;&#x5165; 0 &#x6216; 1&#xFF0C;&#x90FD;&#x6703;&#x770B;&#x5230;</p>
-<pre><code class="lang-c">jetjs$ python test.py
-give me a number: <span class="hljs-number">1</span>
-Traceback (most recent call last):
-  File <span class="hljs-string">&quot;test.py&quot;</span>, line <span class="hljs-number">6</span>, in &lt;module&gt;
-    print strings[n]
-TypeError: <span class="hljs-built_in">list</span> indices must be integers
+<ul>
+<li>thread.c</li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-comment">// gcc thread.c -Wall -pedantic -O3 -std=gnu11 -o thread -lpthread</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdatomic.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;pthread.h&gt;</span></span>
+
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> {
+    <span class="hljs-keyword">char</span> name[<span class="hljs-number">16</span>];
+    <span class="hljs-keyword">int</span> sleepTime;
+} Node;
+
+<span class="hljs-keyword">void</span> _usleep(<span class="hljs-keyword">int</span>);
+<span class="hljs-function"><span class="hljs-keyword">void</span>* <span class="hljs-title">generateSingleThread</span><span class="hljs-params">(<span class="hljs-keyword">void</span>*)</span></span>;
+<span class="hljs-function"><span class="hljs-keyword">void</span>  <span class="hljs-title">printAndSleep</span><span class="hljs-params">(Node*)</span></span>;
+
+<span class="hljs-keyword">atomic_int</span> acnt;
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span> </span>{
+    Node nodes[] = {{<span class="hljs-string">&quot;One&quot;</span>, <span class="hljs-number">1000</span>}, {<span class="hljs-string">&quot;Two&quot;</span>, <span class="hljs-number">2000</span>}, {<span class="hljs-string">&quot;Three&quot;</span>, <span class="hljs-number">3000</span>}};
+    <span class="hljs-keyword">pthread_t</span> thread[<span class="hljs-number">3</span>];
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;<span class="hljs-number">3</span>; ++i) {
+        pthread_create(&amp;thread[i], <span class="hljs-literal">NULL</span>, generateSingleThread, (<span class="hljs-keyword">void</span>*) &amp;nodes[i]);
+    }   
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;<span class="hljs-number">3</span>; ++i) pthread_join(thread[i],<span class="hljs-literal">NULL</span>);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span>* <span class="hljs-title">generateSingleThread</span><span class="hljs-params">(<span class="hljs-keyword">void</span>* nodes)</span> </span>{
+    Node* node = (Node*)nodes;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;<span class="hljs-number">10</span>; ++i) {
+        <span class="hljs-keyword">while</span> (acnt) sched_yield() ;
+        ++acnt;
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%dth Time: &quot;</span>, i); 
+        --acnt;
+        printAndSleep(node);
+    }   
+    pthread_exit(<span class="hljs-literal">NULL</span>);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span>  <span class="hljs-title">printAndSleep</span><span class="hljs-params">(Node* node)</span> </span>{
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s\n&quot;</span>, node-&gt;name);
+    _usleep(node-&gt;sleepTime);
+}
+
+<span class="hljs-keyword">void</span> _usleep(<span class="hljs-keyword">int</span> micro)
+{
+    <span class="hljs-keyword">struct</span> timespec req = {<span class="hljs-number">0</span>};
+    req.tv_sec = <span class="hljs-number">0</span>;
+    req.tv_nsec = micro * <span class="hljs-number">1000L</span>;
+    nanosleep(&amp;req, (<span class="hljs-keyword">struct</span> timespec *)<span class="hljs-literal">NULL</span>);
+}
 </code></pre>
-<p>&#x9019;&#x6642;&#xFF0C; interpreter &#x544A;&#x8A34;&#x4F60;&#x5728;&#x7B2C; 6 &#x884C;&#x51FA;&#x932F;&#x3002;&#x9019;&#x500B;&#x7A0B;&#x5F0F;&#x5F88;&#x5C0F;&#xFF0C;&#x5927;&#x6982;&#x9084;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x5F9E;&#x7A0B;&#x5F0F;&#x78BC;&#x770B;&#x51FA;&#x554F;&#x984C;&#x5728;&#x54EA;&#xFF0C;&#x4F46;&#x7A0B;&#x5F0F;&#x8B8A;&#x5927;&#x6642;&#xFF0C;&#x6216;&#x8A31;&#x4F60;&#x6839;&#x672C;&#x5F04;&#x4E0D;&#x6E05; n &#x662F;&#x5F9E;&#x54EA;&#x4F86;&#x7684;&#xFF0C;&#x53C8;&#x70BA;&#x4EC0;&#x9EBC;&#x51FA;&#x932F;&#x3002; Interpreter &#x53EA;&#x544A;&#x8A34;&#x4F60;&#x5FC5;&#x9700;&#x7528;&#x6574;&#x6578;&#x7576; index &#xFF0C;&#x4F46;&#x73FE;&#x5728;&#x7684; n &#x4E0D;&#x662F;&#x6574;&#x6578;&#x53C8;&#x662F;&#x4EC0;&#x9EBC;&#xFF1F;</p>
-<p>&#x9019;&#x6642;&#x6216;&#x8A31;&#x5FC3;&#x88E1;&#x5145;&#x6EFF;&#x4E86;&#x61F7;&#x7591;&#xFF0C;&#x6700;&#x5BE6;&#x969B;&#x7684;&#x505A;&#x6CD5;&#x5C31;&#x662F;&#x6AA2;&#x67E5; n &#x7684;&#x5167;&#x5BB9;&#x3002;&#x4F7F;&#x7528; pdb</p>
-<pre><code class="lang-py">jetjs$ python -m pdb test.py
-&gt; /usr/home/thinker/progm/jetjs/test.py(1)&lt;module&gt;()
--&gt; import sys
-(Pdb) b 6
-Breakpoint 1 at /usr/home/thinker/progm/jetjs/test.py:6
-(Pdb) r
-give me a number: 1
-&gt; /usr/home/thinker/progm/jetjs/test.py(6)&lt;module&gt;()
--&gt; print strings[n]
-(Pdb) print repr(n)
-&apos;1\n&apos;
-(Pdb)
+<ul>
+<li>merge_sort.c</li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdint.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> NDATA   <span class="hljs-number">100000</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">swap</span><span class="hljs-params">(uint32_t* )</span></span>;
+<span class="hljs-keyword">uint32_t</span>** sepaTwo(<span class="hljs-keyword">uint32_t</span>*, <span class="hljs-keyword">uint32_t</span>);
+<span class="hljs-keyword">uint32_t</span>* mergeTwo(<span class="hljs-keyword">uint32_t</span>*, <span class="hljs-keyword">uint32_t</span>, <span class="hljs-keyword">uint32_t</span>*, <span class="hljs-keyword">uint32_t</span>);
+<span class="hljs-keyword">uint32_t</span>* mergeSort(<span class="hljs-keyword">uint32_t</span>*, <span class="hljs-keyword">uint32_t</span>);
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span> </span>{
+    FILE *f = fopen(<span class="hljs-string">&quot;IntegerArray.txt&quot;</span>,<span class="hljs-string">&quot;r&quot;</span>);
+    <span class="hljs-keyword">uint32_t</span> *data = (<span class="hljs-keyword">uint32_t</span>*) <span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">uint32_t</span>)*NDATA);
+    <span class="hljs-keyword">uint32_t</span> iArray = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">while</span> (!feof(f) &amp;&amp; iArray &lt; NDATA) {
+        <span class="hljs-built_in">fscanf</span> (f, <span class="hljs-string">&quot;%d\n&quot;</span>, &amp;data[iArray++]);
+    }
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;iArray; ++i) <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, data[i]);
+    <span class="hljs-keyword">uint32_t</span> *dataSort = mergeSort(data, iArray);
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;iArray; ++i) <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, dataSort[i]);
+    <span class="hljs-built_in">free</span>(data);
+    <span class="hljs-built_in">free</span>(dataSort);
+    fclose(f);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">swap</span><span class="hljs-params">(uint32_t* data)</span> </span>{
+    <span class="hljs-keyword">uint32_t</span> b = data[<span class="hljs-number">0</span>];
+    data[<span class="hljs-number">0</span>] = data[<span class="hljs-number">1</span>];
+    data[<span class="hljs-number">1</span>] = b;
+}
+
+<span class="hljs-keyword">uint32_t</span>** sepaTwo(<span class="hljs-keyword">uint32_t</span>* data, <span class="hljs-keyword">uint32_t</span> size_data){
+    <span class="hljs-keyword">uint32_t</span>** sepData = (<span class="hljs-keyword">uint32_t</span>**) <span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">uint32_t</span>*)*<span class="hljs-number">2</span>);
+    sepData[<span class="hljs-number">0</span>] = &amp;data[<span class="hljs-number">0</span>];
+    sepData[<span class="hljs-number">1</span>] = &amp;data[size_data/<span class="hljs-number">2</span>];
+
+    <span class="hljs-keyword">return</span> sepData;
+}
+
+<span class="hljs-keyword">uint32_t</span>* mergeTwo(<span class="hljs-keyword">uint32_t</span>* A, <span class="hljs-keyword">uint32_t</span> nA, <span class="hljs-keyword">uint32_t</span>* B, <span class="hljs-keyword">uint32_t</span> nB){
+    <span class="hljs-keyword">uint32_t</span> iA = <span class="hljs-number">0</span>, iB = <span class="hljs-number">0</span>, iC = nA+nB;
+    <span class="hljs-keyword">uint32_t</span>* data_merged = (<span class="hljs-keyword">uint32_t</span>*) <span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">uint32_t</span>)*iC);
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;iC; ++i) {
+        <span class="hljs-keyword">if</span> ( (iB==nB) || (iA != nA &amp;&amp; A[iA]&lt;B[iB]) ) {
+            data_merged[i] = A[iA++];
+        } <span class="hljs-keyword">else</span>{
+            data_merged[i] = B[iB++];
+        }
+    }
+    <span class="hljs-keyword">return</span> data_merged;
+}
+
+
+<span class="hljs-keyword">uint32_t</span>* mergeSort(<span class="hljs-keyword">uint32_t</span>* data, <span class="hljs-keyword">uint32_t</span> size_data) {
+    <span class="hljs-keyword">uint32_t</span>* data_sorted;
+
+    <span class="hljs-keyword">if</span> (size_data &lt;=<span class="hljs-number">2</span>) {
+        data_sorted = (<span class="hljs-keyword">uint32_t</span>*) <span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">uint32_t</span>)*size_data);
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;size_data; ++i) {
+            data_sorted[i] = data[i];
+        }
+
+        <span class="hljs-keyword">if</span> (size_data == <span class="hljs-number">1</span>) {
+            <span class="hljs-keyword">return</span> data_sorted;
+        }
+
+        <span class="hljs-keyword">if</span> (size_data == <span class="hljs-number">2</span>) {
+            <span class="hljs-keyword">if</span> (data[<span class="hljs-number">0</span>] &gt; data[<span class="hljs-number">1</span>]) swap(data_sorted);
+        }
+        <span class="hljs-keyword">return</span> data_sorted;
+    }
+
+    <span class="hljs-keyword">uint32_t</span>** sepData = sepaTwo(data, size_data);
+    <span class="hljs-keyword">uint32_t</span>* data1 = mergeSort(sepData[<span class="hljs-number">0</span>], size_data/<span class="hljs-number">2</span>);
+    <span class="hljs-keyword">uint32_t</span>* data2 = mergeSort(sepData[<span class="hljs-number">1</span>], (size_data+<span class="hljs-number">1</span>)/<span class="hljs-number">2</span>);
+    data_sorted = mergeTwo(data1, size_data/<span class="hljs-number">2</span>, data2, (size_data+<span class="hljs-number">1</span>)/<span class="hljs-number">2</span>);
+
+    <span class="hljs-built_in">free</span>(data1);
+    <span class="hljs-built_in">free</span>(data2);
+    <span class="hljs-built_in">free</span>(sepData);
+
+    <span class="hljs-keyword">return</span> data_sorted;
+}
 </code></pre>
-<p>&#x7B2C;&#x4E00;&#x884C;&#x662F;&#x547C;&#x53EB; pdb &#x5C0D; test.py &#x9019;&#x500B;&#x7A0B;&#x5F0F;&#x9032;&#x884C;&#x9664;&#x932F;&#x7684;&#x6307;&#x4EE4;</p>
-<pre><code class="lang-py">python -m pdb test.py
+<ul>
+<li>cond.c</li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;pthread.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;time.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/mman.h&gt;</span></span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> NLOOP   <span class="hljs-number">30</span></span>
+<span class="hljs-keyword">int</span> global_thread = <span class="hljs-number">0</span>;
+<span class="hljs-keyword">pthread_mutex_t</span> mutex;
+<span class="hljs-keyword">pthread_cond_t</span> cond[<span class="hljs-number">5</span>];
+
+<span class="hljs-keyword">void</span> _usleep(<span class="hljs-keyword">int</span> micro)
+{
+    <span class="hljs-keyword">struct</span> timespec req = {<span class="hljs-number">0</span>};
+    req.tv_sec = <span class="hljs-number">0</span>;
+    req.tv_nsec = micro * <span class="hljs-number">1000L</span>;
+    nanosleep(&amp;req, (<span class="hljs-keyword">struct</span> timespec *)<span class="hljs-literal">NULL</span>);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span>* <span class="hljs-title">Thread</span><span class="hljs-params">(<span class="hljs-keyword">void</span>* x)</span> </span>{
+    <span class="hljs-keyword">int</span> i;
+    <span class="hljs-keyword">int</span> *X = (<span class="hljs-keyword">int</span>*) x;
+    <span class="hljs-keyword">for</span> (i=<span class="hljs-number">0</span>; i&lt;<span class="hljs-number">5</span>; ++i) {
+        pthread_mutex_lock(&amp;mutex);
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;This thread should sleep %d000 microsecond\n&quot;</span>, *X);
+        <span class="hljs-keyword">while</span> (global_thread != *X) {
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Thread %d wait\n&quot;</span>, *X);
+            pthread_cond_wait(&amp;cond[*X], &amp;mutex);
+        }
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Thread %d Enter!\n&quot;</span>, *X);
+        global_thread = <span class="hljs-number">0</span>;
+        pthread_mutex_unlock(&amp;mutex);
+        _usleep(*X * <span class="hljs-number">1000</span>);
+    }
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Thread %d Exit! \n&quot;</span>, *X);
+    pthread_exit(<span class="hljs-literal">NULL</span>);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span> </span>{
+
+    <span class="hljs-keyword">struct</span> sched_param sp;
+    <span class="hljs-built_in">memset</span>(&amp;sp, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(sp));
+    sp.sched_priority = sched_get_priority_max(SCHED_FIFO);
+    <span class="hljs-comment">//sp.sched_priority = 49;</span>
+    sched_setscheduler(<span class="hljs-number">0</span>, SCHED_FIFO, &amp;sp);
+
+    mlockall(MCL_CURRENT | MCL_FUTURE);
+
+    <span class="hljs-keyword">int</span> i;
+
+    <span class="hljs-keyword">int</span> a=<span class="hljs-number">1</span>, b=<span class="hljs-number">2</span>, c=<span class="hljs-number">3</span>, d=<span class="hljs-number">4</span>;
+    <span class="hljs-keyword">float</span> dt[NLOOP];
+    <span class="hljs-keyword">struct</span> timespec tp1, tp2;
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> startTime, procesTime;
+    <span class="hljs-keyword">pthread_t</span> pid_1, pid_2, pid_3, pid_4;
+
+    <span class="hljs-keyword">for</span> (i=<span class="hljs-number">0</span>; i&lt;<span class="hljs-number">5</span>; ++i) {
+        pthread_cond_init(&amp;cond[i],<span class="hljs-literal">NULL</span>);
+<span class="hljs-comment">//      pthread_mutex_init(&amp;mutex[i],NULL);</span>
+    }
+    pthread_mutex_init(&amp;mutex,<span class="hljs-literal">NULL</span>);
+
+    pthread_create(&amp;pid_1,<span class="hljs-literal">NULL</span>,Thread, (<span class="hljs-keyword">void</span>*)&amp;a);
+    pthread_create(&amp;pid_2,<span class="hljs-literal">NULL</span>,Thread, (<span class="hljs-keyword">void</span>*)&amp;b);
+    pthread_create(&amp;pid_3,<span class="hljs-literal">NULL</span>,Thread, (<span class="hljs-keyword">void</span>*)&amp;c);
+    pthread_create(&amp;pid_4,<span class="hljs-literal">NULL</span>,Thread, (<span class="hljs-keyword">void</span>*)&amp;d);
+
+    sleep(<span class="hljs-number">5</span>);
+    <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;============================================&quot;</span>);
+    clock_gettime(CLOCK_REALTIME, &amp;tp1);
+    startTime = tp1.tv_sec*<span class="hljs-number">1000000000</span> + tp1.tv_nsec;
+    <span class="hljs-keyword">for</span> (i=<span class="hljs-number">0</span>; i&lt;NLOOP; ++i) {
+        <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;&quot;</span>);
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;LOOP %d\n&quot;</span>, i);
+        global_thread = i%<span class="hljs-number">5</span>;
+        <span class="hljs-keyword">if</span> (global_thread &lt;<span class="hljs-number">5</span>) pthread_cond_signal(&amp;cond[global_thread]);
+        _usleep(<span class="hljs-number">5000</span>);
+        clock_gettime(CLOCK_REALTIME, &amp;tp2);
+        startTime = tp1.tv_sec*<span class="hljs-number">1000000000</span> + tp1.tv_nsec;
+        procesTime = tp2.tv_sec*<span class="hljs-number">1000000000</span> + tp2.tv_nsec - startTime;
+        dt[i] = (<span class="hljs-keyword">float</span>)procesTime /<span class="hljs-number">1000.0</span>;
+        tp1 = tp2;
+    }
+
+    pthread_join(pid_1, <span class="hljs-literal">NULL</span>);
+    pthread_join(pid_2, <span class="hljs-literal">NULL</span>);
+    pthread_join(pid_3, <span class="hljs-literal">NULL</span>);
+    pthread_join(pid_4, <span class="hljs-literal">NULL</span>);
+
+    <span class="hljs-keyword">for</span> (i=<span class="hljs-number">0</span>; i&lt;NLOOP; ++i) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d, %f\n&quot;</span>, i, dt[i]);
+    }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
 </code></pre>
-<p>interpreter &#x544A;&#x554F;&#x6211;&#x5011;&#x7B2C; 6 &#x884C;&#x51FA;&#x932F;&#xFF0C;&#x65BC;&#x662F;&#x9032;&#x5165; pdb &#x4E4B;&#x5F8C;&#xFF0C;&#x6211;&#x5011;&#x5728;&#x7B2C; 6 &#x884C;&#x8A2D;&#x5B9A; break point</p>
-<pre><code class="lang-py">b <span class="hljs-number">6</span>
-</code></pre>
-<p>&#xFF0C;&#x7136;&#x5F8C;&#x8B93;&#x7A0B;&#x5F0F;&#x958B;&#x59CB;&#x57F7;&#x884C;</p>
-<pre><code class="lang-py">r
-</code></pre>
-<p>&#x3002;&#x5728;&#x6211;&#x5011;&#x8F38;&#x5165;&#x6578;&#x5B57;&#xFF0C;&#x7A0B;&#x5F0F;&#x57F7;&#x884C;&#x5230;&#x7B2C; 6 &#x884C;&#x6642;&#xFF0C;&#x7A0B;&#x5F0F;&#x6703;&#x88AB;&#x4E2D;&#x65B7;&#xFF0C;&#x518D;&#x5EA6;&#x9032;&#x5165; pdb &#xFF0C;&#x9019;&#x6642;&#x5C31;&#x53EF;&#x4EE5;&#x6AA2;&#x8996; n &#x7684;&#x5167;&#x5BB9;</p>
-<pre><code class="lang-py"><span class="hljs-keyword">print</span> repr(n)
-</code></pre>
-<p>&#xFF0C;&#x767C;&#x89BA; n &#x662F;&#x4E00;&#x500B;&#x5B57;&#x4E32;&#x3002;&#x65BC;&#x662F;&#x6211;&#x5011;&#x5C31;&#x77AD;&#x89E3;&#x5230;&#xFF0C;&#x672C;&#x4F86;&#x61C9;&#x8A72;&#x662F;&#x6574;&#x6578;&#x7684; n &#x76EE;&#x524D;&#x662F;&#x4E00;&#x500B;&#x5B57;&#x4E32;&#x3002;&#x6703;&#x767C;&#x751F;&#x9019;&#x72C0;&#x6CC1;&#x7684;&#x539F;&#x56E0;&#xFF0C;&#x662F;&#x56E0;&#x70BA; readline() &#x50B3;&#x56DE;&#x4F86;&#x7684;&#x5C31;&#x662F;&#x5B57;&#x4E32;&#xFF0C;&#x800C;&#x6211;&#x5011;&#x5FC5;&#x9700;&#x5148;&#x5C07;&#x5B57;&#x4E32;&#x8F49;&#x6210;&#x6574;&#x6578;&#x624D;&#x80FD;&#x6B63;&#x78BA;&#x7684;&#x57F7;&#x884C;&#x3002;
-&#x958B;&#x767C;&#x7A0B;&#x5F0F;&#x6642;&#xFF0C;&#x9664;&#x4E86;&#x5229;&#x7528; unit test &#x5E6B;&#x52A9;&#x6211;&#x5011;&#x767C;&#x73FE;&#x932F;&#x8AA4;&#x4E4B;&#x5916;&#xFF0C; programmer &#x6700;&#x597D;&#x9084;&#x662F;&#x719F;&#x6089; debugger &#x7684;&#x64CD;&#x4F5C;&#xFF0C;&#x4EE5;&#x5FEB;&#x901F;&#x7684;&#x77AD;&#x89E3;&#x76EE;&#x524D;&#x7684;&#x72C0;&#x6CC1;&#xFF0C;&#x624D;&#x80FD;&#x9032;&#x884C;&#x4FEE;&#x6B63;&#x3002; unit test &#x518D;&#x52A0;&#x4E0A; debugger &#x7684;&#x5E6B;&#x52A9;&#xFF0C;&#x80FD;&#x8B93; programmer &#x7684;&#x5DE5;&#x4F5C;&#x6548;&#x7387;&#x66F4;&#x52A0;&#x63D0;&#x9AD8;&#xFF0C;&#x4E0D;&#x7528;&#x518D;&#x5C0D;&#x7A0B;&#x5F0F;&#x78BC;&#x4FEE;&#x4FEE;&#x6539;&#x6539;&#xFF0C;&#x5C31;&#x80FD;&#x77AD;&#x89E3;&#x7A0B;&#x5F0F;&#x7684;&#x72C0;&#x614B;&#x3002;&#x9019;&#x6A23;&#x7684;&#x597D;&#x5DE5;&#x5177;&#xFF0C;&#x70BA;&#x4EC0;&#x9EBC;&#x5B78;&#x6821;&#x90FD;&#x4E0D;&#x6559;&#x6388;&#x5462;&#xFF1F;&#x6216;&#x8A31;&#x5B78;&#x6821;&#x7684;&#x8001;&#x5E2B;&#x5011;&#x5927;&#x591A;&#x4E0D;&#x5BEB;&#x7A0B;&#x5F0F;&#x5427;!! :p</p>
-<p>(&#x95DC;&#x65BC; pdb &#x8ACB;&#x53C3;&#x8003; <a href="http://docs.python.org/lib/module-pdb.html" target="_blank">http://docs.python.org/lib/module-pdb.html</a> )</p>
 
                     
                     </section>
@@ -14937,10 +15209,10 @@ give me a number: 1
         </div>
 
         
-        <a href="../thinker/gdb_zi_dong_hua_debug.html" class="navigation navigation-prev " aria-label="Previous page: GDB 自動化 debug"><i class="fa fa-angle-left"></i></a>
+        <a href="../linux_system/du_shu_67035d_linux_huan_jing_bian_cheng_ff1a_cong.html" class="navigation navigation-prev " aria-label="Previous page: [讀書會] Linux環境編程：從應用到內核"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../thinker/cheng_shi_zhu_jie_ru_he_xie.html" class="navigation navigation-next " aria-label="Next page: 程式註解如何寫"><i class="fa fa-angle-right"></i></a>
+        <a href="../assembly/index.html" class="navigation navigation-next " aria-label="Next page: Assembly"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

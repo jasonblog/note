@@ -574,6 +574,7 @@
    * [steepandcheap alerts](python/steepandcheap_alerts.md)
    * [常見錯誤訊息](python/chang_jian_cuo_wu_xun_xi.md)
    * [Python + Requests 編碼問題](python/python_+_requests_bian_ma_wen_ti.md)
+   * 立即停止使用 setdefaultencoding('utf-8')， 以及为什么
 * [Vim](vim/vim.md)
    * [HOWTO - vi, vim](vim/howto_-_vi,_vim.md)
 * [TDD](tdd/README.md)

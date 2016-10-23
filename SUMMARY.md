@@ -923,7 +923,7 @@
    * [Linux 逆向工程的工具介紹](Reversing/linux_ni_xiang_gong_cheng_de_gong_ju_jie_shao.md)
 * [Git](git/git.md)
    * [Keeping a fork up to date](git/keeping_a_fork_up_to_date.md)
-   * Clone all repos from a GitHub organization
+   * [Clone all repos from a GitHub organization](git/clone_all_repos_from_a_github_organization.md)
 * [Interview](interview/interview.md)
    * [DS_Algo](interview/dsalgo.md)
        * [Linked List的複習總結](interview/linked_listde_fu_xi_zong_jie.md)

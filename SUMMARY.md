@@ -108,6 +108,7 @@
    * [編譯內核+BusyBox定製一個Linux提供ssh和web服務](qemu/bian_yi_nei_6838+_busybox_ding_zhi_yi_ge_linux_ti_.md)
    * [用Qemu模擬ARM](qemu/yong_qemu_mo_ni_arm.md)
    * [qemu-arm 快速驗證arm應用程式](qemu/qemu-arm_kuai_su_yan_zheng_arm_ying_yong_cheng_shi.md)
+   * How Other People Use QEMU
 * [fcamel](fcamel/README.md)
    * [[轉]ld, ld.so 和 ldconfig 的行為](fcamel/01.md)
    * [[轉]解決 undefined symbol / reference](fcamel/02.md)

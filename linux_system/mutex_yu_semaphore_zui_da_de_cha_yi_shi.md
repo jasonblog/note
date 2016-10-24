@@ -15,13 +15,13 @@ Mutex 與 Semaphore 最大的差異是：
 -  30秒：最大的差異在於 Mutex 只能由上鎖的 thread 解鎖，而 Semaphore 沒有這個限制，可以由原本的 thread 或是另外一個 thread 解開。另外，Mutex 只能讓一個 thread 進入 critical section，Semaphore 的話則可以設定要讓幾個 thread 進入。這讓實際上使用 Mutex 跟 Semaphore 場景有很大的差別。
 
 
-- 60秒 (cont.)：舉例而言，Mutex 的兩個特性：一個是只能有持鎖人解鎖、一個是在釋放鎖之前不能退出的特性，讓 Mutex 叫常使用在 critical section 只能有一個 thread 進入，而且要避免 priority inversion 的時候；Semaphore 也能透過 binary semaphore 做到類似的事情，卻沒有辦法避免 priority inversion 出現。
+- 60秒 (cont.)：舉例而言，Mutex 的兩個特性：一個是隻能有持鎖人解鎖、一個是在釋放鎖之前不能退出的特性，讓 Mutex 叫常使用在 critical section 只能有一個 thread 進入，而且要避免 priority inversion 的時候；Semaphore 也能透過 binary semaphore 做到類似的事情，卻沒有辦法避免 priority inversion 出現。
 
 - 120秒 (cont.)：而 Semaphore 更常是用在同步兩個 thread 或功能上面，因為 Semaphore 實際上使用的是 signal 的 up 與 down，讓 Semaphore 可以變成是一種 notification 的作用，例如 A thread 執行到某個地方時 B thread 才能繼續下去，就可以使用  Semaphore 來達成這樣的作用。
 
 接下來可以在延伸談到一些 Fact checks、priority inversion 跟 Linux kernel 實作的部份：
 
-在 Linux kernel 中，一開始是只有 semaphore 這個 structure，直到 2.6.16 版當中才把 mutex 從 semaphore 中分離出來 (這點可以從 LDD3e* 看出來)。雖然 Mutex 與 Semaphore 兩者都是休眠鎖，但是 Linux kernel 在實作 Mutex 的時候，有用到一些加速的技巧，將上鎖分為3個步驟：
+在 Linux kernel 中，一開始是隻有 semaphore 這個 structure，直到 2.6.16 版當中才把 mutex 從 semaphore 中分離出來 (這點可以從 LDD3e* 看出來)。雖然 Mutex 與 Semaphore 兩者都是休眠鎖，但是 Linux kernel 在實作 Mutex 的時候，有用到一些加速的技巧，將上鎖分為3個步驟：
 
 
 - Fast path: 嘗試使用 atomic operation 直接減少 counter 數值來獲得鎖。
@@ -60,7 +60,7 @@ Mutex 與 Semaphore 最大的差異是：
 
 - Huang Jim. 2005. Priority inversion 簡介. (September 2005). http://blog.linux.org.tw/~jserv/archives/001299.html
 
-- Hsiao Chen-Han. 2014. Mutexes VS Semaphores 大揭秘. (January 2014). http://swem.logdown.com/posts/177651-mutexes-and-semaphores-demystified
+- Hsiao Chen-Han. 2014. Mutexes VS Semaphores 大揭祕. (January 2014). http://swem.logdown.com/posts/177651-mutexes-and-semaphores-demystified
  
 ## 出處 
 

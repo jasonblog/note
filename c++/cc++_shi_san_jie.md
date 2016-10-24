@@ -344,7 +344,7 @@ for(int i = 9 ; i >= a ; i--) {  b[i] = 0;  }
 ```c
 unsigned char a = 0x80;   /* no problem */
 char b = 0x80;    /* implementation-defined result */
-if( b == 0x80 ) {        /* 不一定恒真 */
+if( b == 0x80 ) {        /* 不一定恆真 */
     printf( "b ok\n" );
 }
 ```
@@ -443,7 +443,7 @@ C++的template(定義可用不同type參數的函式)，或C++11開始的匿名�
 
 #### 2. 無法遞迴呼叫。####
 
-根據C standard 6.10.3.4，如果某macro的定義裡裏面含有跟此macro名稱同樣的的字串，
+根據C standard 6.10.3.4，如果某macro的定義裡裡面含有跟此macro名稱同樣的的字串，
 該字串將不會被預處理。所以：
 ```c
 #define pr(n) ((n==1)? 1 : pr(n-1))
@@ -602,7 +602,7 @@ pass2DArray( a );
 
 
 這時候就很好理解了，函數 pass2DArray 內的 array[0] 會代表什麼呢？
-答案是它代表著 a[0] 外層的那一維陣列，裡面包含著內層 [0]~[9]
+答案是它代表著 a[0] 外層的那一維陣列，裡麵包含著內層 [0]~[9]
 也因此 array[0][2] 就會對應到 a[0][2]，array[4][9] 對應到 a[4][9]
 
 結論就是，只有最外層的那一維陣列可以 decay 成指標，其他維陣列都要

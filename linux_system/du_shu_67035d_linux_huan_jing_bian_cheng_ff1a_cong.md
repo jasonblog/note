@@ -11,7 +11,7 @@
 	* 書店狀況
 		* 實體書店：大享書局/天瓏門市/若水堂。由於門市有時需要訂貨，建議在去門市前可以先電話詢問看看
 		* 網路書店：淘寶、露天等
-* 作者討論群組：[《linux环境编程》讨论组 ](https://groups.google.com/forum/#!forum/linux_aple)
+* 作者討論群組：[《linux環境編程》討論組 ](https://groups.google.com/forum/#!forum/linux_aple)
 
 # 前言（引述自 Miller Lee）
 
@@ -54,7 +54,7 @@ Read 可能會回傳或是 block。這樣可以對照 Source code 看是那些 s
 # 活動
 ## 第1章 文件I／O (9/8 7:00 pm Wen Liao 主講)
 * [筆記與討論區](https://docs.google.com/document/d/1k1KZmkQtUebfNZ9-oo7flmQ7cc6DsHpRi5nMhMlA2wQ/edit?usp=sharing)  ([Chat log](https://docs.google.com/document/d/1LqxmygFcPv-MtU1yNqMpXG5uwyxW25aq8_riZOZnuvM/edit?usp=sharing), [後半錄音](https://www.youtube.com/watch?v=9VAQ_sxJcq4&feature=youtu.be), [錄音備份](https://drive.google.com/open?id=0B_FULIPcXRNDZnRnZ2ZfSXdoU3M))
-## 第2章 標准I／O庫 (9/22 7:00 pm Quexint 主講) 
+## 第2章 標準I／O庫 (9/22 7:00 pm Quexint 主講) 
 * [Quexint's Notes](https://docs.google.com/document/d/1fWUV9Ngk9aCZLsXf9gW-jTRq-x80y_bwmUrvPhrX38U/edit) ([Chat log](https://docs.google.com/document/d/1Bu3UJQY2BsjZHGUVsoA8t9iCM4mU8tomRLNxdkKLPSU/edit#heading=h.srhpj3tt1c71), [YouTube 錄影缺後半](https://www.youtube.com/watch?v=oYJUNRNmLxk&feature=youtu.be), [Youtube Quexint視角，中間缺一段](https://www.youtube.com/watch?v=V7vILjWjK7w))
 
 ## 第3章 進程環境 (10/27 7:00 pm Waylin 主講)
@@ -78,36 +78,36 @@ Read 可能會回傳或是 block。這樣可以對照 Source code 看是那些 s
 
 # 如何參與?
 * 如有興趣一起加入閱讀與報告者請更新勇者名單與主講章節。
-* 如果有興趣了解並觀看我們報告的 video ，請登入 [twlinuxkernelhackers mailing list](https://groups.google.com/forum/#!forum/tw-linux-kernel-hacker)，我們會寄送相關活動邀請。 
+* 如果有興趣瞭解並觀看我們報告的 video ，請登入 [twlinuxkernelhackers mailing list](https://groups.google.com/forum/#!forum/tw-linux-kernel-hacker)，我們會寄送相關活動邀請。 
 
 # 作者回饋
 	
 	> From 李彬：   
-	> 很荣幸收到你们的邀请，看到有台湾读者对我们的书感兴趣非常高兴。
-	> 我看到了你们读书会的时间是周四，时间上确实无法参加。
-	> 我在一家小的公司工作，负责的工作挺多的，深表抱歉。
-	> 我会关注你们的讨论，也欢迎你们来google group讨论组来讨论。
-	> 大家互相切磋，共同进步。
-	> 代我向讨论组其他同学问好。
+	> 很榮幸收到你們的邀請，看到有臺灣讀者對我們的書感興趣非常高興。
+	> 我看到了你們讀書會的時間是週四，時間上確實無法參加。
+	> 我在一家小的公司工作，負責的工作挺多的，深表抱歉。
+	> 我會關注你們的討論，也歡迎你們來google group討論組來討論。
+	> 大家互相切磋，共同進步。
+	> 代我向討論組其他同學問好。
 
 	> From 高峰：
 	> 很抱歉，這次不能參加你們的討論會。
 	> 因為那個時間，一般我還是在工作中。
-	> 很感謝台灣的朋友們對本書的喜歡，從你們討論會的說明上看，台灣似乎不好買到。
+	> 很感謝臺灣的朋友們對本書的喜歡，從你們討論會的說明上看，臺灣似乎不好買到。
 	> 不知道你們是否可以從京東訂購：http://item.jd.com/11962820.html。
 	> 
 	> 坦率講，由於時間和精力所限，這本書還沒有達到我和李彬的心中理想的質量。
 	> 如果有機會再版的話，我們會修訂和補充一些內容。
-	> 在group里面，有一个置顶帖子，大家可以补充第一版没有涉及到的内容。
+	> 在group裡面，有一個置頂帖子，大家可以補充第一版沒有涉及到的內容。
 
-	> 最近发现台湾的朋友确实对本书有关注，所以跟出版社做了沟通。
-	> 1. 出版社会联系台湾的出版社，看看有在台湾直接出版的可能；
+	> 最近發現臺灣的朋友確實對本書有關注，所以跟出版社做了溝通。
+	> 1. 出版社會聯繫臺灣的出版社，看看有在臺灣直接出版的可能；
 		> Update from 高峰 2016/10/14
-		> 现在台湾的基峰出版社已经和大陆的出版社签订了出版合同。
-		> 另外，我和李彬已经开始二版的计划。
-		除了修订和改善第一版本的内容外，估计还会新增5~6个章节。
-		估计一年内应该差不多可以在台湾面世了
-	> 2. 第二版计划已经立项，我和李彬会开始着手第二版的工作：包括对第一版的内容修订，和增加新的内容。
+		> 現在臺灣的基峰出版社已經和大陸的出版社簽訂了出版合同。
+		> 另外，我和李彬已經開始二版的計劃。
+		除了修訂和改善第一版本的內容外，估計還會新增5~6個章節。
+		估計一年內應該差不多可以在臺灣面世了
+	> 2. 第二版計劃已經立項，我和李彬會開始著手第二版的工作：包括對第一版的內容修訂，和增加新的內容。
 
 # Source 下載及編譯
 * 環境: Ubuntu 14.04.5

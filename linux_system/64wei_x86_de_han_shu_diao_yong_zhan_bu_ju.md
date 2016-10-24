@@ -1,12 +1,12 @@
-# 64位x86的函数调用栈布局
+# 64位x86的函數調用棧佈局
 
 
-在看本文之前，如果不了解x86的32位机的函数布局的话，建议先阅读一下前一篇文章《如何手工展开函数栈定位问题》—— http://blog.chinaunix.net/space.php?uid=23629988&do=blog&id=3029639
+在看本文之前，如果不瞭解x86的32位機的函數佈局的話，建議先閱讀一下前一篇文章《如何手工展開函數棧定位問題》—— http://blog.chinaunix.net/space.php?uid=23629988&do=blog&id=3029639
 
-为啥还要就64位的情况单开一篇文章呢，难道64位与32位不一样吗？
+為啥還要就64位的情況單開一篇文章呢，難道64位與32位不一樣嗎？
 
 
-还是先看测试代码：
+還是先看測試代碼：
 
 ```c
 #include <stdlib.h>
@@ -33,7 +33,7 @@ int main()
 ```
 
 
-编译gcc -g -Wall test.c，调试进入test
+編譯gcc -g -Wall test.c，調試進入test
 
 ```sh
 (gdb) bt
@@ -41,7 +41,7 @@ int main()
 #1 0x0000000000400488 in main () at test.c:18
 ```
 
-那么检查栈的内容
+那麼檢查棧的內容
 
 ```sh
 (gdb) x /16xg 0x7fffab620d00
@@ -55,36 +55,36 @@ int main()
 0x7fffab620d70: 0x0000000000000000 0x00007fffab620e10
 ```
 
-开始分析栈的内容：
+開始分析棧的內容：
 
 ```sh
-1. 0x00007fffab620d30：为test调用者main的BP内容，没有问题；
-2. 0x0000000000400488：为test的返回地址，与前面的bt输出相符，没有问题；
-3. 0x00000000004004a0：——这个是什么东东？？！！
-4. 0x0000000000000002， 0x0000000000000001， 0x0000000300000000：这里也有不少疑问啊？！
-1. 这个0x00000003是第3个参数？因为是整数所以在64位的机器上，只使用栈的一个单元的一半空间？
-2. 参数的顺序为什么是3,1,2呢？难道是因为前两个参数为指针，第三个参数为int有关？
+1. 0x00007fffab620d30：為test調用者main的BP內容，沒有問題；
+2. 0x0000000000400488：為test的返回地址，與前面的bt輸出相符，沒有問題；
+3. 0x00000000004004a0：——這個是什麼東東？？！！
+4. 0x0000000000000002， 0x0000000000000001， 0x0000000300000000：這裡也有不少疑問啊？！
+1. 這個0x00000003是第3個參數？因為是整數所以在64位的機器上，只使用棧的一個單元的一半空間？
+2. 參數的順序為什麼是3,1,2呢？難道是因為前兩個參數為指針，第三個參數為int有關？
 ```
 
-我在工作中遇到了类似的问题，所以才特意写了上面的测试代码，就为了测试相同参数原型的函数调用栈的问题。看到这里，感觉很奇怪，对于上面两个问题很困惑啊。上网也没有找到64位的x86函数调用栈的特别的资料。
+我在工作中遇到了類似的問題，所以才特意寫了上面的測試代碼，就為了測試相同參數原型的函數調用棧的問題。看到這裡，感覺很奇怪，對於上面兩個問題很困惑啊。上網也沒有找到64位的x86函數調用棧的特別的資料。
 
 
-难道64位机与32位机有这么大的不同？！大家先想一下，答案马上揭晓。
+難道64位機與32位機有這麼大的不同？！大家先想一下，答案馬上揭曉。
 
-当遇到疑难杂症时，汇编则是王道：
+當遇到疑難雜症時，彙編則是王道：
 
 
 <div id="codeText" class="codeText" style="width: 645px; "><ol start="1" class="dp-css"><li>(gdb) disassemble main</li><li>Dump of assembler code for function main:</li><li>0x0000000000400459 <main+0>: push %rbp</main+0></li><li>0x000000000040045a <main+1>: mov %rsp,%rbp</main+1></li><li><font class="Apple-style-span" color="#0000f0">0x000000000040045d <main+4>: sub $0x20,%rsp</main+4></font></li><li><font class="Apple-style-span" color="#0000f0">0x0000000000400461 <main+8>: movq $0x1,-0x10(%rbp)</main+8></font></li><li><font class="Apple-style-span" color="#0000f0">0x0000000000400469 <main+16>: movq $0x2,-0x18(%rbp)</main+16></font></li><li><font class="Apple-style-span" color="#0000f0">0x0000000000400471 <main+24>: movl $0x3,-0x4(%rbp)</main+24></font></li><li><font class="Apple-style-span" color="#f00000">0x0000000000400478 <main+31>: mov -0x4(%rbp),%edx</main+31></font></li><li><font class="Apple-style-span" color="#f00000">0x000000000040047b <main+34>: mov -0x18(%rbp),%rsi</main+34></font></li><li><font class="Apple-style-span" color="#f00000">0x000000000040047f <main+38>: mov -0x10(%rbp),%rdi</main+38></font></li><li><font class="Apple-style-span" color="#f00000">0x0000000000400483 <main+42>: callq 0x400448 <test></test></main+42></font></li><li>0x0000000000400488 <main+47>: mov $0x0,%eax</main+47></li><li>0x000000000040048d <main+52>: leaveq</main+52></li><li>0x000000000040048e <main+53>: retq</main+53></li><li>End of assembler dump.</li></ol></div>
 
-看红色部分的汇编代码，为调用test时的处理，原来64位机器上，调用test时，根本没有对参数进行压栈，所以上面对于栈内容的分析有误。后面的内存中存放的根本不是test的参数。看到汇编代码，我突然想起，由于64位cpu的寄存器比32位cpu的寄存器要多，所以gcc会尽量使用寄存器来传递参数来提高效率。
+看紅色部分的彙編代碼，為調用test時的處理，原來64位機器上，調用test時，根本沒有對參數進行壓棧，所以上面對於棧內容的分析有誤。後面的內存中存放的根本不是test的參數。看到彙編代碼，我突然想起，由於64位cpu的寄存器比32位cpu的寄存器要多，所以gcc會盡量使用寄存器來傳遞參數來提高效率。
 
-让我们重新运行程序，再次在test下查看寄存器内容：
+讓我們重新運行程序，再次在test下查看寄存器內容：
 
 <ol start="1" class="dp-css"><li>(gdb) info registers</li><li>rax 0x7f141fea1a60 139724411509344</li><li>rbx 0x7f14200c2c00 139724413742080</li><li>rcx 0x4004a0 4195488</li><li><font class="Apple-style-span" color="#f00000">rdx 0x3 3</font></li><li><font class="Apple-style-span" color="#f00000">rsi 0x2 2</font></li><li><font class="Apple-style-span" color="#f00000">rdi 0x1 1</font></li><li>rbp 0x7fff9c08d380 0x7fff9c08d380</li><li>rsp 0x7fff9c08d380 0x7fff9c08d380</li></ol>
 
 
-与大家分享一下64位机器上调试时需要注意的一个问题：函数调用时，编译器会尽量使用寄存器来传递参数，这点与32位机有很大不同。在我们的调试中，要特别注意这点。
+與大家分享一下64位機器上調試時需要注意的一個問題：函數調用時，編譯器會盡量使用寄存器來傳遞參數，這點與32位機有很大不同。在我們的調試中，要特別注意這點。
 
 
-注：关于压栈顺序，参数的传递方式等等，都可以通过编译选项来指定或者禁止的。本文的情况为GCC的默认行为。
+注：關於壓棧順序，參數的傳遞方式等等，都可以通過編譯選項來指定或者禁止的。本文的情況為GCC的默認行為。
 

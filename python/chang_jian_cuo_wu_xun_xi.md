@@ -3,7 +3,7 @@
 
 ## UnicodeEncodeError: 'ascii' codec can 't encode characters in position 0-6: ordinal not in range(128)
 
-通常默认编码为 ASCII，此编码接受 0 到 127 这个范围的编码，否则报错
+通常默認編碼為 ASCII，此編碼接受 0 到 127 這個範圍的編碼，否則報錯
 
 ```py
 # -*- coding: utf-8 -*-

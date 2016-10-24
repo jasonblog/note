@@ -1,8 +1,8 @@
-# 立即停止使用 setdefaultencoding('utf-8')， 以及为什么
+# 立即停止使用 setdefaultencoding('utf-8')， 以及為什麼
 
 
 
-## 最坏实践
+## 最壞實踐
 
 ```py
 import sys
@@ -10,16 +10,16 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 ```
 
-上面这种代码曾经（现在依然）是解决中文编码的万能钥匙。解决编码错误问题一劳永逸，从此和 `UnicodeEncodeError: 'ascii' codec can't encode characters in position 0-5: ordinal not in range(128) 说 byebye 。`
+上面這種代碼曾經（現在依然）是解決中文編碼的萬能鑰匙。解決編碼錯誤問題一勞永逸，從此和 `UnicodeEncodeError: 'ascii' codec can't encode characters in position 0-5: ordinal not in range(128) 說 byebye 。`
 
-那么现在，对于那些想解决 UnicodeEncodeError 问题而搜索到这篇文章的读者，我要说的是，不要用以上的代码片段。下面我来说说为什么，以及我们应该怎么做。
+那麼現在，對於那些想解決 UnicodeEncodeError 問題而搜索到這篇文章的讀者，我要說的是，不要用以上的代碼片段。下面我來說說為什麼，以及我們應該怎麼做。
 
-###sys.setdefaultencoding('utf-8') 会导致的两个大问题
+###sys.setdefaultencoding('utf-8') 會導致的兩個大問題
 
-简单来说这么做将会使得一些代码行为变得怪异，而这怪异还不好修复，以一个不可见的 bug 存在着。下面我们举两个例子。
+簡單來說這麼做將會使得一些代碼行為變得怪異，而這怪異還不好修復，以一個不可見的 bug 存在著。下面我們舉兩個例子。
 
 
-## 1. 编码错误
+## 1. 編碼錯誤
 
 ```py
 import chardet
@@ -38,21 +38,21 @@ sys.setdefaultencoding('utf-8')
 print(key_in_dict('Ã¾'))
 ```
 
-输出：
+輸出：
 
 ```py
 $~ Ã¾
 $~ þ
 ```
 
-在上面的代码中，默认的 ascii 编码无法解码，Ã¾ latin-1 编码 hex 表示是 c3 be ，显然是超出了只有128个字符的 ascii 码集的，引发 UnicodeError 异常，进入异常处理。异常处理则会根据编码探测，用最可能的编码来解码，会比较靠谱地输出 Ã¾ 。
-而一旦我们将 defaultencoding 设置为 utf-8，因为 utf-8 的字符范围是完全覆盖 latin-1，因此，会直接使用 utf-8 进行解码。c3 be 在 utf-8 中，是 þ。于是我们打印出了完全不同的字符。
-可能你们会说我们不会写这样的代码。如果我们写了也会做修正。但如果是第三方库这么写了呢？项目依赖的第三方库就这么 bug 了。如果你不依赖第三方库，那么下面这个 bug，还是逃不过。
+在上面的代碼中，默認的 ascii 編碼無法解碼，Ã¾ latin-1 編碼 hex 表示是 c3 be ，顯然是超出了只有128個字符的 ascii 碼集的，引發 UnicodeError 異常，進入異常處理。異常處理則會根據編碼探測，用最可能的編碼來解碼，會比較靠譜地輸出 Ã¾ 。
+而一旦我們將 defaultencoding 設置為 utf-8，因為 utf-8 的字符範圍是完全覆蓋 latin-1，因此，會直接使用 utf-8 進行解碼。c3 be 在 utf-8 中，是 þ。於是我們打印出了完全不同的字符。
+可能你們會說我們不會寫這樣的代碼。如果我們寫了也會做修正。但如果是第三方庫這麼寫了呢？項目依賴的第三方庫就這麼 bug 了。如果你不依賴第三方庫，那麼下面這個 bug，還是逃不過。
 
 
-## 2. dictionray 行为异常
+## 2. dictionray 行為異常
 
-假设我们要从一个 dictionary 里查找一个 key 是否存在，通常来说，有两种可行方法。
+假設我們要從一個 dictionary 裡查找一個 key 是否存在，通常來說，有兩種可行方法。
 
 
 ```py
@@ -71,7 +71,7 @@ def key_found_in_dict(key):
     return False
 ```
 
-我们对比下改变系统默认编码前后这俩函数的输出有什么不同。
+我們對比下改變系統默認編碼前後這倆函數的輸出有什麼不同。
 
 
 ```py
@@ -94,7 +94,7 @@ print(key_in_dict(u'你好'))
 print(key_found_in_dict(u'你好'))
 ```
 
-输出：
+輸出：
 
 ```py
 $~ True
@@ -108,34 +108,34 @@ $~ False
 $~ True
 ```
 
-可以看到，当默认编码改了之后，两个函数的输出不再一致。
-dict 的 in 操作符将键做哈希，并比较哈希值判断是否相等。对于 ascii 集合内的字符来说，不管是字节字符类型还是还是 unicode 类型，其哈希值是一样的，如 u'1' in {'1':1} 会返回 True，而超出 ascii 码集的字符，如上例中的 '你好'，它的字节字符类型的哈希与 unicode 类型的哈希是不一样的。
-而 == 操作符则是做了一次转换，将字节字符（byte string，上面的 '你好'）转换成 unicode（u'你好'） 类型，然后对转换后的结果做比较。在 ascii 系统默认编码中，'你好'转换成 Unicode 会产生 Warning: UnicodeWarning: Unicode equal comparison failed to convert both arguments to Unicode - interpreting them as being unequal，因为超出码集无法转换，系统会默认其不相等。当系统编码被我们手动改为 utf-8 后，这个禁忌则被解除，'你好' 能够顺利被转换成 unicode，最后的结果就是，in 和 == 行为不再一致。
+可以看到，當默認編碼改了之後，兩個函數的輸出不再一致。
+dict 的 in 操作符將鍵做哈希，並比較哈希值判斷是否相等。對於 ascii 集合內的字符來說，不管是字節字符類型還是還是 unicode 類型，其哈希值是一樣的，如 u'1' in {'1':1} 會返回 True，而超出 ascii 碼集的字符，如上例中的 '你好'，它的字節字符類型的哈希與 unicode 類型的哈希是不一樣的。
+而 == 操作符則是做了一次轉換，將字節字符（byte string，上面的 '你好'）轉換成 unicode（u'你好'） 類型，然後對轉換後的結果做比較。在 ascii 系統默認編碼中，'你好'轉換成 Unicode 會產生 Warning: UnicodeWarning: Unicode equal comparison failed to convert both arguments to Unicode - interpreting them as being unequal，因為超出碼集無法轉換，系統會默認其不相等。當系統編碼被我們手動改為 utf-8 後，這個禁忌則被解除，'你好' 能夠順利被轉換成 unicode，最後的結果就是，in 和 == 行為不再一致。
 
 
-## 问题的根源：Python2 中的 string
+## 問題的根源：Python2 中的 string
 
-Python 为了让其语法看上去简洁好用，做了很多 tricky 的事情，混淆 byte string 和 text string 就是其中一例。
+Python 為了讓其語法看上去簡潔好用，做了很多 tricky 的事情，混淆 byte string 和 text string 就是其中一例。
 
-在 Python 里，有三大类 string 类型，unicode（text string），str（byte string，二进制数据），basestring，是前两者的父类。
+在 Python 裡，有三大類 string 類型，unicode（text string），str（byte string，二進制數據），basestring，是前兩者的父類。
 
-其实，在语言设计领域，一串字节（sequences of bytes）是否应该当做字符串（string）一直是存在争议的。我们熟知的 Java 和 C# 投了反对票，而 Python 则站在了支持者的阵营里。其实我们在很多情况下，给文本做的操作，比如正则匹配、字符替换等，对于字节来说是用不着的。而 Python 认为字节就是字符，所以他们俩的操作集合是一致的。
-然后进一步的，Python 会在必要的情况下，尝试对字节做自动类型转换，例如，在上文中的 ==，或者字节和文本拼接时。如果没有一个编码（encoding），两个不同类型之间的转换是无法进行的，于是，Python 需要一个默认编码。在 Python2 诞生的年代，ASCII 是最流行的（可以这么说吧），于是 Python2 选择了 ASCII。然而，众所周知，在需要需要转换的场景，ASCII 都是没用的（128个字符，够什么吃）。
+其實，在語言設計領域，一串字節（sequences of bytes）是否應該當做字符串（string）一直是存在爭議的。我們熟知的 Java 和 C# 投了反對票，而 Python 則站在了支持者的陣營裡。其實我們在很多情況下，給文本做的操作，比如正則匹配、字符替換等，對於字節來說是用不著的。而 Python 認為字節就是字符，所以他們倆的操作集合是一致的。
+然後進一步的，Python 會在必要的情況下，嘗試對字節做自動類型轉換，例如，在上文中的 ==，或者字節和文本拼接時。如果沒有一個編碼（encoding），兩個不同類型之間的轉換是無法進行的，於是，Python 需要一個默認編碼。在 Python2 誕生的年代，ASCII 是最流行的（可以這麼說吧），於是 Python2 選擇了 ASCII。然而，眾所周知，在需要需要轉換的場景，ASCII 都是沒用的（128個字符，夠什麼吃）。
 
-在历经这么多年吐槽后，Python 3 终于学乖了。默认编码是 Unicode，这也就意味着，做所有需要转换的场合，都能正确并成功的转换。
+在歷經這麼多年吐槽後，Python 3 終於學乖了。默認編碼是 Unicode，這也就意味著，做所有需要轉換的場合，都能正確併成功的轉換。
 
 
 
-## 最佳实践
+## 最佳實踐
 
-说了这么多，如果不迁移到 Python 3，能怎么做呢？
-有这么几个建议：
+說了這麼多，如果不遷移到 Python 3，能怎麼做呢？
+有這麼幾個建議：
 
-- 所有 text string 都应该是 unicode 类型，而不是 str，如果你在操作 text，而类型却是 str，那就是在制造 bug。
+- 所有 text string 都應該是 unicode 類型，而不是 str，如果你在操作 text，而類型卻是 str，那就是在製造 bug。
 
-- 在需要转换的时候，显式转换。从字节解码成文本，用 var.decode(encoding)，从文本编码成字节，用 var.encode(encoding)。
+- 在需要轉換的時候，顯式轉換。從字節解碼成文本，用 var.decode(encoding)，從文本編碼成字節，用 var.encode(encoding)。
 
-- 从外部读取数据时，默认它是字节，然后 decode 成需要的文本；同样的，当需要向外部发送文本时，encode 成字节再发送。
+- 從外部讀取數據時，默認它是字節，然後 decode 成需要的文本；同樣的，當需要向外部發送文本時，encode 成字節再發送。
 
 ##References
 

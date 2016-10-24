@@ -639,7 +639,7 @@
    * [GDB调试技巧：调试复杂的宏定义](debug/gdbdiao_shi_ji_qiao_ff1a_diao_shi_fu_za_de_hong_di.md)
    * [使用valgrind检查内存问题](debug/shi_yong_valgrind_jian_cha_nei_cun_wen_ti.md)
    * [GDB技巧：使用checkpoint解决难以复现的Bug](debug/gdbji_qiao_ff1a_shi_yong_checkpoint_jie_jue_nan_yi.md)
-   * 强制进程产生coredump，检测死锁以及进程快照 
+   * [强制进程产生coredump，检测死锁以及进程快照](debug/qiang_zhi_jin_cheng_chan_sheng_coredump_ff0c_jian_.md)
 * [thinker_note](thinker/thinkernote.md)
    * [如果有人要求你改善系統](thinker/ru_guo_you_ren_yao_qiu_ni_gai_shan_xi_tong.md)
    * [閱讀程式碼的心理層面](thinker/yue_du_cheng_shi_ma_de_xin_li_ceng_mian.md)

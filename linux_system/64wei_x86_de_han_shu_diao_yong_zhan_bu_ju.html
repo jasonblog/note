@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>64位x86的函数调用栈布局 | Jason note</title>
+        <title>64位x86的函數調用棧佈局 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="13.43" data-basepath=".." data-revision="Mon Oct 24 2016 21:29:36 GMT+0800 (CST)">
+    <div class="book" data-level="13.43" data-basepath=".." data-revision="Mon Oct 24 2016 21:51:11 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -4934,7 +4934,7 @@
                         
                             <b>13.43.</b>
                         
-                        64位x86的函数调用栈布局
+                        64位x86的函數調用棧佈局
                     </a>
             
             
@@ -4949,7 +4949,7 @@
                         
                             <b>13.44.</b>
                         
-                        如何手工展开函数栈来定位问题
+                        如何手工展開函數棧來定位問題
                     </a>
             
             
@@ -9083,7 +9083,7 @@
                         
                             <b>27.22.</b>
                         
-                        立即停止使用 setdefaultencoding(&#39;utf-8&#39;)， 以及为什么
+                        立即停止使用 setdefaultencoding(&#39;utf-8&#39;)， 以及為什麼
                     </a>
             
             
@@ -14922,10 +14922,10 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="64%E4%BD%8Dx86%E7%9A%84%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E6%A0%88%E5%B8%83%E5%B1%80">64&#x4F4D;x86&#x7684;&#x51FD;&#x6570;&#x8C03;&#x7528;&#x6808;&#x5E03;&#x5C40;</h1>
-<p>&#x5728;&#x770B;&#x672C;&#x6587;&#x4E4B;&#x524D;&#xFF0C;&#x5982;&#x679C;&#x4E0D;&#x4E86;&#x89E3;x86&#x7684;32&#x4F4D;&#x673A;&#x7684;&#x51FD;&#x6570;&#x5E03;&#x5C40;&#x7684;&#x8BDD;&#xFF0C;&#x5EFA;&#x8BAE;&#x5148;&#x9605;&#x8BFB;&#x4E00;&#x4E0B;&#x524D;&#x4E00;&#x7BC7;&#x6587;&#x7AE0;&#x300A;&#x5982;&#x4F55;&#x624B;&#x5DE5;&#x5C55;&#x5F00;&#x51FD;&#x6570;&#x6808;&#x5B9A;&#x4F4D;&#x95EE;&#x9898;&#x300B;&#x2014;&#x2014; <a href="http://blog.chinaunix.net/space.php?uid=23629988&amp;do=blog&amp;id=3029639" target="_blank">http://blog.chinaunix.net/space.php?uid=23629988&amp;do=blog&amp;id=3029639</a></p>
-<p>&#x4E3A;&#x5565;&#x8FD8;&#x8981;&#x5C31;64&#x4F4D;&#x7684;&#x60C5;&#x51B5;&#x5355;&#x5F00;&#x4E00;&#x7BC7;&#x6587;&#x7AE0;&#x5462;&#xFF0C;&#x96BE;&#x9053;64&#x4F4D;&#x4E0E;32&#x4F4D;&#x4E0D;&#x4E00;&#x6837;&#x5417;&#xFF1F;</p>
-<p>&#x8FD8;&#x662F;&#x5148;&#x770B;&#x6D4B;&#x8BD5;&#x4EE3;&#x7801;&#xFF1A;</p>
+                        <h1 id="64%E4%BD%8Dx86%E7%9A%84%E5%87%BD%E6%95%B8%E8%AA%BF%E7%94%A8%E6%A3%A7%E4%BD%88%E5%B1%80">64&#x4F4D;x86&#x7684;&#x51FD;&#x6578;&#x8ABF;&#x7528;&#x68E7;&#x4F48;&#x5C40;</h1>
+<p>&#x5728;&#x770B;&#x672C;&#x6587;&#x4E4B;&#x524D;&#xFF0C;&#x5982;&#x679C;&#x4E0D;&#x77AD;&#x89E3;x86&#x7684;32&#x4F4D;&#x6A5F;&#x7684;&#x51FD;&#x6578;&#x4F48;&#x5C40;&#x7684;&#x8A71;&#xFF0C;&#x5EFA;&#x8B70;&#x5148;&#x95B1;&#x8B80;&#x4E00;&#x4E0B;&#x524D;&#x4E00;&#x7BC7;&#x6587;&#x7AE0;&#x300A;&#x5982;&#x4F55;&#x624B;&#x5DE5;&#x5C55;&#x958B;&#x51FD;&#x6578;&#x68E7;&#x5B9A;&#x4F4D;&#x554F;&#x984C;&#x300B;&#x2014;&#x2014; <a href="http://blog.chinaunix.net/space.php?uid=23629988&amp;do=blog&amp;id=3029639" target="_blank">http://blog.chinaunix.net/space.php?uid=23629988&amp;do=blog&amp;id=3029639</a></p>
+<p>&#x70BA;&#x5565;&#x9084;&#x8981;&#x5C31;64&#x4F4D;&#x7684;&#x60C5;&#x6CC1;&#x55AE;&#x958B;&#x4E00;&#x7BC7;&#x6587;&#x7AE0;&#x5462;&#xFF0C;&#x96E3;&#x9053;64&#x4F4D;&#x8207;32&#x4F4D;&#x4E0D;&#x4E00;&#x6A23;&#x55CE;&#xFF1F;</p>
+<p>&#x9084;&#x662F;&#x5148;&#x770B;&#x6E2C;&#x8A66;&#x4EE3;&#x78BC;&#xFF1A;</p>
 <pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
 <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
 
@@ -14948,12 +14948,12 @@
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
 </code></pre>
-<p>&#x7F16;&#x8BD1;gcc -g -Wall test.c&#xFF0C;&#x8C03;&#x8BD5;&#x8FDB;&#x5165;test</p>
+<p>&#x7DE8;&#x8B6F;gcc -g -Wall test.c&#xFF0C;&#x8ABF;&#x8A66;&#x9032;&#x5165;test</p>
 <pre><code class="lang-sh">(gdb) bt
 <span class="hljs-comment">#0 test (p1=0x1, p2=0x2, p3=3) at test.c:10</span>
 <span class="hljs-comment">#1 0x0000000000400488 in main () at test.c:18</span>
 </code></pre>
-<p>&#x90A3;&#x4E48;&#x68C0;&#x67E5;&#x6808;&#x7684;&#x5185;&#x5BB9;</p>
+<p>&#x90A3;&#x9EBC;&#x6AA2;&#x67E5;&#x68E7;&#x7684;&#x5167;&#x5BB9;</p>
 <pre><code class="lang-sh">(gdb) x /<span class="hljs-number">16</span>xg <span class="hljs-number">0</span>x7fffab620d00
 <span class="hljs-number">0</span>x7fffab620d00: <span class="hljs-number">0</span>x00007fffab620d30 <span class="hljs-number">0</span>x0000000000400488
 <span class="hljs-number">0</span>x7fffab620d10: <span class="hljs-number">0</span>x00000000004004a0 <span class="hljs-number">0</span>x0000000000000002
@@ -14964,26 +14964,26 @@
 <span class="hljs-number">0</span>x7fffab620d60: <span class="hljs-number">0</span>x00007f93bc002c00 <span class="hljs-number">0</span>x85b4aff07d2e87c7
 <span class="hljs-number">0</span>x7fffab620d70: <span class="hljs-number">0</span>x0000000000000000 <span class="hljs-number">0</span>x00007fffab620e10
 </code></pre>
-<p>&#x5F00;&#x59CB;&#x5206;&#x6790;&#x6808;&#x7684;&#x5185;&#x5BB9;&#xFF1A;</p>
-<pre><code class="lang-sh"><span class="hljs-number">1</span>. <span class="hljs-number">0</span>x00007fffab620d30&#xFF1A;&#x4E3A;<span class="hljs-built_in">test</span>&#x8C03;&#x7528;&#x8005;main&#x7684;BP&#x5185;&#x5BB9;&#xFF0C;&#x6CA1;&#x6709;&#x95EE;&#x9898;&#xFF1B;
-<span class="hljs-number">2</span>. <span class="hljs-number">0</span>x0000000000400488&#xFF1A;&#x4E3A;<span class="hljs-built_in">test</span>&#x7684;&#x8FD4;&#x56DE;&#x5730;&#x5740;&#xFF0C;&#x4E0E;&#x524D;&#x9762;&#x7684;bt&#x8F93;&#x51FA;&#x76F8;&#x7B26;&#xFF0C;&#x6CA1;&#x6709;&#x95EE;&#x9898;&#xFF1B;
-<span class="hljs-number">3</span>. <span class="hljs-number">0</span>x00000000004004a0&#xFF1A;&#x2014;&#x2014;&#x8FD9;&#x4E2A;&#x662F;&#x4EC0;&#x4E48;&#x4E1C;&#x4E1C;&#xFF1F;&#xFF1F;&#xFF01;&#xFF01;
-<span class="hljs-number">4</span>. <span class="hljs-number">0</span>x0000000000000002&#xFF0C; <span class="hljs-number">0</span>x0000000000000001&#xFF0C; <span class="hljs-number">0</span>x0000000300000000&#xFF1A;&#x8FD9;&#x91CC;&#x4E5F;&#x6709;&#x4E0D;&#x5C11;&#x7591;&#x95EE;&#x554A;&#xFF1F;&#xFF01;
-<span class="hljs-number">1</span>. &#x8FD9;&#x4E2A;<span class="hljs-number">0</span>x00000003&#x662F;&#x7B2C;<span class="hljs-number">3</span>&#x4E2A;&#x53C2;&#x6570;&#xFF1F;&#x56E0;&#x4E3A;&#x662F;&#x6574;&#x6570;&#x6240;&#x4EE5;&#x5728;<span class="hljs-number">64</span>&#x4F4D;&#x7684;&#x673A;&#x5668;&#x4E0A;&#xFF0C;&#x53EA;&#x4F7F;&#x7528;&#x6808;&#x7684;&#x4E00;&#x4E2A;&#x5355;&#x5143;&#x7684;&#x4E00;&#x534A;&#x7A7A;&#x95F4;&#xFF1F;
-<span class="hljs-number">2</span>. &#x53C2;&#x6570;&#x7684;&#x987A;&#x5E8F;&#x4E3A;&#x4EC0;&#x4E48;&#x662F;<span class="hljs-number">3</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>&#x5462;&#xFF1F;&#x96BE;&#x9053;&#x662F;&#x56E0;&#x4E3A;&#x524D;&#x4E24;&#x4E2A;&#x53C2;&#x6570;&#x4E3A;&#x6307;&#x9488;&#xFF0C;&#x7B2C;&#x4E09;&#x4E2A;&#x53C2;&#x6570;&#x4E3A;int&#x6709;&#x5173;&#xFF1F;
+<p>&#x958B;&#x59CB;&#x5206;&#x6790;&#x68E7;&#x7684;&#x5167;&#x5BB9;&#xFF1A;</p>
+<pre><code class="lang-sh"><span class="hljs-number">1</span>. <span class="hljs-number">0</span>x00007fffab620d30&#xFF1A;&#x70BA;<span class="hljs-built_in">test</span>&#x8ABF;&#x7528;&#x8005;main&#x7684;BP&#x5167;&#x5BB9;&#xFF0C;&#x6C92;&#x6709;&#x554F;&#x984C;&#xFF1B;
+<span class="hljs-number">2</span>. <span class="hljs-number">0</span>x0000000000400488&#xFF1A;&#x70BA;<span class="hljs-built_in">test</span>&#x7684;&#x8FD4;&#x56DE;&#x5730;&#x5740;&#xFF0C;&#x8207;&#x524D;&#x9762;&#x7684;bt&#x8F38;&#x51FA;&#x76F8;&#x7B26;&#xFF0C;&#x6C92;&#x6709;&#x554F;&#x984C;&#xFF1B;
+<span class="hljs-number">3</span>. <span class="hljs-number">0</span>x00000000004004a0&#xFF1A;&#x2014;&#x2014;&#x9019;&#x500B;&#x662F;&#x4EC0;&#x9EBC;&#x6771;&#x6771;&#xFF1F;&#xFF1F;&#xFF01;&#xFF01;
+<span class="hljs-number">4</span>. <span class="hljs-number">0</span>x0000000000000002&#xFF0C; <span class="hljs-number">0</span>x0000000000000001&#xFF0C; <span class="hljs-number">0</span>x0000000300000000&#xFF1A;&#x9019;&#x88E1;&#x4E5F;&#x6709;&#x4E0D;&#x5C11;&#x7591;&#x554F;&#x554A;&#xFF1F;&#xFF01;
+<span class="hljs-number">1</span>. &#x9019;&#x500B;<span class="hljs-number">0</span>x00000003&#x662F;&#x7B2C;<span class="hljs-number">3</span>&#x500B;&#x53C3;&#x6578;&#xFF1F;&#x56E0;&#x70BA;&#x662F;&#x6574;&#x6578;&#x6240;&#x4EE5;&#x5728;<span class="hljs-number">64</span>&#x4F4D;&#x7684;&#x6A5F;&#x5668;&#x4E0A;&#xFF0C;&#x53EA;&#x4F7F;&#x7528;&#x68E7;&#x7684;&#x4E00;&#x500B;&#x55AE;&#x5143;&#x7684;&#x4E00;&#x534A;&#x7A7A;&#x9593;&#xFF1F;
+<span class="hljs-number">2</span>. &#x53C3;&#x6578;&#x7684;&#x9806;&#x5E8F;&#x70BA;&#x4EC0;&#x9EBC;&#x662F;<span class="hljs-number">3</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>&#x5462;&#xFF1F;&#x96E3;&#x9053;&#x662F;&#x56E0;&#x70BA;&#x524D;&#x5169;&#x500B;&#x53C3;&#x6578;&#x70BA;&#x6307;&#x91DD;&#xFF0C;&#x7B2C;&#x4E09;&#x500B;&#x53C3;&#x6578;&#x70BA;int&#x6709;&#x95DC;&#xFF1F;
 </code></pre>
-<p>&#x6211;&#x5728;&#x5DE5;&#x4F5C;&#x4E2D;&#x9047;&#x5230;&#x4E86;&#x7C7B;&#x4F3C;&#x7684;&#x95EE;&#x9898;&#xFF0C;&#x6240;&#x4EE5;&#x624D;&#x7279;&#x610F;&#x5199;&#x4E86;&#x4E0A;&#x9762;&#x7684;&#x6D4B;&#x8BD5;&#x4EE3;&#x7801;&#xFF0C;&#x5C31;&#x4E3A;&#x4E86;&#x6D4B;&#x8BD5;&#x76F8;&#x540C;&#x53C2;&#x6570;&#x539F;&#x578B;&#x7684;&#x51FD;&#x6570;&#x8C03;&#x7528;&#x6808;&#x7684;&#x95EE;&#x9898;&#x3002;&#x770B;&#x5230;&#x8FD9;&#x91CC;&#xFF0C;&#x611F;&#x89C9;&#x5F88;&#x5947;&#x602A;&#xFF0C;&#x5BF9;&#x4E8E;&#x4E0A;&#x9762;&#x4E24;&#x4E2A;&#x95EE;&#x9898;&#x5F88;&#x56F0;&#x60D1;&#x554A;&#x3002;&#x4E0A;&#x7F51;&#x4E5F;&#x6CA1;&#x6709;&#x627E;&#x5230;64&#x4F4D;&#x7684;x86&#x51FD;&#x6570;&#x8C03;&#x7528;&#x6808;&#x7684;&#x7279;&#x522B;&#x7684;&#x8D44;&#x6599;&#x3002;</p>
-<p>&#x96BE;&#x9053;64&#x4F4D;&#x673A;&#x4E0E;32&#x4F4D;&#x673A;&#x6709;&#x8FD9;&#x4E48;&#x5927;&#x7684;&#x4E0D;&#x540C;&#xFF1F;&#xFF01;&#x5927;&#x5BB6;&#x5148;&#x60F3;&#x4E00;&#x4E0B;&#xFF0C;&#x7B54;&#x6848;&#x9A6C;&#x4E0A;&#x63ED;&#x6653;&#x3002;</p>
-<p>&#x5F53;&#x9047;&#x5230;&#x7591;&#x96BE;&#x6742;&#x75C7;&#x65F6;&#xFF0C;&#x6C47;&#x7F16;&#x5219;&#x662F;&#x738B;&#x9053;&#xFF1A;</p>
+<p>&#x6211;&#x5728;&#x5DE5;&#x4F5C;&#x4E2D;&#x9047;&#x5230;&#x4E86;&#x985E;&#x4F3C;&#x7684;&#x554F;&#x984C;&#xFF0C;&#x6240;&#x4EE5;&#x624D;&#x7279;&#x610F;&#x5BEB;&#x4E86;&#x4E0A;&#x9762;&#x7684;&#x6E2C;&#x8A66;&#x4EE3;&#x78BC;&#xFF0C;&#x5C31;&#x70BA;&#x4E86;&#x6E2C;&#x8A66;&#x76F8;&#x540C;&#x53C3;&#x6578;&#x539F;&#x578B;&#x7684;&#x51FD;&#x6578;&#x8ABF;&#x7528;&#x68E7;&#x7684;&#x554F;&#x984C;&#x3002;&#x770B;&#x5230;&#x9019;&#x88E1;&#xFF0C;&#x611F;&#x89BA;&#x5F88;&#x5947;&#x602A;&#xFF0C;&#x5C0D;&#x65BC;&#x4E0A;&#x9762;&#x5169;&#x500B;&#x554F;&#x984C;&#x5F88;&#x56F0;&#x60D1;&#x554A;&#x3002;&#x4E0A;&#x7DB2;&#x4E5F;&#x6C92;&#x6709;&#x627E;&#x5230;64&#x4F4D;&#x7684;x86&#x51FD;&#x6578;&#x8ABF;&#x7528;&#x68E7;&#x7684;&#x7279;&#x5225;&#x7684;&#x8CC7;&#x6599;&#x3002;</p>
+<p>&#x96E3;&#x9053;64&#x4F4D;&#x6A5F;&#x8207;32&#x4F4D;&#x6A5F;&#x6709;&#x9019;&#x9EBC;&#x5927;&#x7684;&#x4E0D;&#x540C;&#xFF1F;&#xFF01;&#x5927;&#x5BB6;&#x5148;&#x60F3;&#x4E00;&#x4E0B;&#xFF0C;&#x7B54;&#x6848;&#x99AC;&#x4E0A;&#x63ED;&#x66C9;&#x3002;</p>
+<p>&#x7576;&#x9047;&#x5230;&#x7591;&#x96E3;&#x96DC;&#x75C7;&#x6642;&#xFF0C;&#x5F59;&#x7DE8;&#x5247;&#x662F;&#x738B;&#x9053;&#xFF1A;</p>
 <div id="codeText" class="codeText" style="width: 645px; "><ol start="1" class="dp-css"><li>(gdb) disassemble main</li><li>Dump of assembler code for function main:</li><li>0x0000000000400459 <main+0>: push %rbp</main+0></li><li>0x000000000040045a <main+1>: mov %rsp,%rbp</main+1></li><li><font class="Apple-style-span" color="#0000f0">0x000000000040045d <main+4>: sub $0x20,%rsp</main+4></font></li><li><font class="Apple-style-span" color="#0000f0">0x0000000000400461 <main+8>: movq $0x1,-0x10(%rbp)</main+8></font></li><li><font class="Apple-style-span" color="#0000f0">0x0000000000400469 <main+16>: movq $0x2,-0x18(%rbp)</main+16></font></li><li><font class="Apple-style-span" color="#0000f0">0x0000000000400471 <main+24>: movl $0x3,-0x4(%rbp)</main+24></font></li><li><font class="Apple-style-span" color="#f00000">0x0000000000400478 <main+31>: mov -0x4(%rbp),%edx</main+31></font></li><li><font class="Apple-style-span" color="#f00000">0x000000000040047b <main+34>: mov -0x18(%rbp),%rsi</main+34></font></li><li><font class="Apple-style-span" color="#f00000">0x000000000040047f <main+38>: mov -0x10(%rbp),%rdi</main+38></font></li><li><font class="Apple-style-span" color="#f00000">0x0000000000400483 <main+42>: callq 0x400448 <test></test></main+42></font></li><li>0x0000000000400488 <main+47>: mov $0x0,%eax</main+47></li><li>0x000000000040048d <main+52>: leaveq</main+52></li><li>0x000000000040048e <main+53>: retq</main+53></li><li>End of assembler dump.</li></ol></div>
 
-<p>&#x770B;&#x7EA2;&#x8272;&#x90E8;&#x5206;&#x7684;&#x6C47;&#x7F16;&#x4EE3;&#x7801;&#xFF0C;&#x4E3A;&#x8C03;&#x7528;test&#x65F6;&#x7684;&#x5904;&#x7406;&#xFF0C;&#x539F;&#x6765;64&#x4F4D;&#x673A;&#x5668;&#x4E0A;&#xFF0C;&#x8C03;&#x7528;test&#x65F6;&#xFF0C;&#x6839;&#x672C;&#x6CA1;&#x6709;&#x5BF9;&#x53C2;&#x6570;&#x8FDB;&#x884C;&#x538B;&#x6808;&#xFF0C;&#x6240;&#x4EE5;&#x4E0A;&#x9762;&#x5BF9;&#x4E8E;&#x6808;&#x5185;&#x5BB9;&#x7684;&#x5206;&#x6790;&#x6709;&#x8BEF;&#x3002;&#x540E;&#x9762;&#x7684;&#x5185;&#x5B58;&#x4E2D;&#x5B58;&#x653E;&#x7684;&#x6839;&#x672C;&#x4E0D;&#x662F;test&#x7684;&#x53C2;&#x6570;&#x3002;&#x770B;&#x5230;&#x6C47;&#x7F16;&#x4EE3;&#x7801;&#xFF0C;&#x6211;&#x7A81;&#x7136;&#x60F3;&#x8D77;&#xFF0C;&#x7531;&#x4E8E;64&#x4F4D;cpu&#x7684;&#x5BC4;&#x5B58;&#x5668;&#x6BD4;32&#x4F4D;cpu&#x7684;&#x5BC4;&#x5B58;&#x5668;&#x8981;&#x591A;&#xFF0C;&#x6240;&#x4EE5;gcc&#x4F1A;&#x5C3D;&#x91CF;&#x4F7F;&#x7528;&#x5BC4;&#x5B58;&#x5668;&#x6765;&#x4F20;&#x9012;&#x53C2;&#x6570;&#x6765;&#x63D0;&#x9AD8;&#x6548;&#x7387;&#x3002;</p>
-<p>&#x8BA9;&#x6211;&#x4EEC;&#x91CD;&#x65B0;&#x8FD0;&#x884C;&#x7A0B;&#x5E8F;&#xFF0C;&#x518D;&#x6B21;&#x5728;test&#x4E0B;&#x67E5;&#x770B;&#x5BC4;&#x5B58;&#x5668;&#x5185;&#x5BB9;&#xFF1A;</p>
+<p>&#x770B;&#x7D05;&#x8272;&#x90E8;&#x5206;&#x7684;&#x5F59;&#x7DE8;&#x4EE3;&#x78BC;&#xFF0C;&#x70BA;&#x8ABF;&#x7528;test&#x6642;&#x7684;&#x8655;&#x7406;&#xFF0C;&#x539F;&#x4F86;64&#x4F4D;&#x6A5F;&#x5668;&#x4E0A;&#xFF0C;&#x8ABF;&#x7528;test&#x6642;&#xFF0C;&#x6839;&#x672C;&#x6C92;&#x6709;&#x5C0D;&#x53C3;&#x6578;&#x9032;&#x884C;&#x58D3;&#x68E7;&#xFF0C;&#x6240;&#x4EE5;&#x4E0A;&#x9762;&#x5C0D;&#x65BC;&#x68E7;&#x5167;&#x5BB9;&#x7684;&#x5206;&#x6790;&#x6709;&#x8AA4;&#x3002;&#x5F8C;&#x9762;&#x7684;&#x5167;&#x5B58;&#x4E2D;&#x5B58;&#x653E;&#x7684;&#x6839;&#x672C;&#x4E0D;&#x662F;test&#x7684;&#x53C3;&#x6578;&#x3002;&#x770B;&#x5230;&#x5F59;&#x7DE8;&#x4EE3;&#x78BC;&#xFF0C;&#x6211;&#x7A81;&#x7136;&#x60F3;&#x8D77;&#xFF0C;&#x7531;&#x65BC;64&#x4F4D;cpu&#x7684;&#x5BC4;&#x5B58;&#x5668;&#x6BD4;32&#x4F4D;cpu&#x7684;&#x5BC4;&#x5B58;&#x5668;&#x8981;&#x591A;&#xFF0C;&#x6240;&#x4EE5;gcc&#x6703;&#x76E1;&#x91CF;&#x4F7F;&#x7528;&#x5BC4;&#x5B58;&#x5668;&#x4F86;&#x50B3;&#x905E;&#x53C3;&#x6578;&#x4F86;&#x63D0;&#x9AD8;&#x6548;&#x7387;&#x3002;</p>
+<p>&#x8B93;&#x6211;&#x5011;&#x91CD;&#x65B0;&#x904B;&#x884C;&#x7A0B;&#x5E8F;&#xFF0C;&#x518D;&#x6B21;&#x5728;test&#x4E0B;&#x67E5;&#x770B;&#x5BC4;&#x5B58;&#x5668;&#x5167;&#x5BB9;&#xFF1A;</p>
 <ol start="1" class="dp-css"><li>(gdb) info registers</li><li>rax 0x7f141fea1a60 139724411509344</li><li>rbx 0x7f14200c2c00 139724413742080</li><li>rcx 0x4004a0 4195488</li><li><font class="Apple-style-span" color="#f00000">rdx 0x3 3</font></li><li><font class="Apple-style-span" color="#f00000">rsi 0x2 2</font></li><li><font class="Apple-style-span" color="#f00000">rdi 0x1 1</font></li><li>rbp 0x7fff9c08d380 0x7fff9c08d380</li><li>rsp 0x7fff9c08d380 0x7fff9c08d380</li></ol>
 
 
-<p>&#x4E0E;&#x5927;&#x5BB6;&#x5206;&#x4EAB;&#x4E00;&#x4E0B;64&#x4F4D;&#x673A;&#x5668;&#x4E0A;&#x8C03;&#x8BD5;&#x65F6;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x4E00;&#x4E2A;&#x95EE;&#x9898;&#xFF1A;&#x51FD;&#x6570;&#x8C03;&#x7528;&#x65F6;&#xFF0C;&#x7F16;&#x8BD1;&#x5668;&#x4F1A;&#x5C3D;&#x91CF;&#x4F7F;&#x7528;&#x5BC4;&#x5B58;&#x5668;&#x6765;&#x4F20;&#x9012;&#x53C2;&#x6570;&#xFF0C;&#x8FD9;&#x70B9;&#x4E0E;32&#x4F4D;&#x673A;&#x6709;&#x5F88;&#x5927;&#x4E0D;&#x540C;&#x3002;&#x5728;&#x6211;&#x4EEC;&#x7684;&#x8C03;&#x8BD5;&#x4E2D;&#xFF0C;&#x8981;&#x7279;&#x522B;&#x6CE8;&#x610F;&#x8FD9;&#x70B9;&#x3002;</p>
-<p>&#x6CE8;&#xFF1A;&#x5173;&#x4E8E;&#x538B;&#x6808;&#x987A;&#x5E8F;&#xFF0C;&#x53C2;&#x6570;&#x7684;&#x4F20;&#x9012;&#x65B9;&#x5F0F;&#x7B49;&#x7B49;&#xFF0C;&#x90FD;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x7F16;&#x8BD1;&#x9009;&#x9879;&#x6765;&#x6307;&#x5B9A;&#x6216;&#x8005;&#x7981;&#x6B62;&#x7684;&#x3002;&#x672C;&#x6587;&#x7684;&#x60C5;&#x51B5;&#x4E3A;GCC&#x7684;&#x9ED8;&#x8BA4;&#x884C;&#x4E3A;&#x3002;</p>
+<p>&#x8207;&#x5927;&#x5BB6;&#x5206;&#x4EAB;&#x4E00;&#x4E0B;64&#x4F4D;&#x6A5F;&#x5668;&#x4E0A;&#x8ABF;&#x8A66;&#x6642;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x4E00;&#x500B;&#x554F;&#x984C;&#xFF1A;&#x51FD;&#x6578;&#x8ABF;&#x7528;&#x6642;&#xFF0C;&#x7DE8;&#x8B6F;&#x5668;&#x6703;&#x76E1;&#x91CF;&#x4F7F;&#x7528;&#x5BC4;&#x5B58;&#x5668;&#x4F86;&#x50B3;&#x905E;&#x53C3;&#x6578;&#xFF0C;&#x9019;&#x9EDE;&#x8207;32&#x4F4D;&#x6A5F;&#x6709;&#x5F88;&#x5927;&#x4E0D;&#x540C;&#x3002;&#x5728;&#x6211;&#x5011;&#x7684;&#x8ABF;&#x8A66;&#x4E2D;&#xFF0C;&#x8981;&#x7279;&#x5225;&#x6CE8;&#x610F;&#x9019;&#x9EDE;&#x3002;</p>
+<p>&#x6CE8;&#xFF1A;&#x95DC;&#x65BC;&#x58D3;&#x68E7;&#x9806;&#x5E8F;&#xFF0C;&#x53C3;&#x6578;&#x7684;&#x50B3;&#x905E;&#x65B9;&#x5F0F;&#x7B49;&#x7B49;&#xFF0C;&#x90FD;&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x7DE8;&#x8B6F;&#x9078;&#x9805;&#x4F86;&#x6307;&#x5B9A;&#x6216;&#x8005;&#x7981;&#x6B62;&#x7684;&#x3002;&#x672C;&#x6587;&#x7684;&#x60C5;&#x6CC1;&#x70BA;GCC&#x7684;&#x9ED8;&#x8A8D;&#x884C;&#x70BA;&#x3002;</p>
 
                     
                     </section>
@@ -14997,7 +14997,7 @@
         <a href="../linux_system/example.html" class="navigation navigation-prev " aria-label="Previous page: example"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../linux_system/ru_he_shou_gong_zhan_kai_han_shu_zhan_lai_ding_wei.html" class="navigation navigation-next " aria-label="Next page: 如何手工展开函数栈来定位问题"><i class="fa fa-angle-right"></i></a>
+        <a href="../linux_system/ru_he_shou_gong_zhan_kai_han_shu_zhan_lai_ding_wei.html" class="navigation navigation-next " aria-label="Next page: 如何手工展開函數棧來定位問題"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

@@ -315,6 +315,7 @@
    * [[讀書會] Linux環境編程：從應用到內核](linux_system/du_shu_67035d_linux_huan_jing_bian_cheng_ff1a_cong.md)
    * [example](linux_system/example.md)
    * [64位x86的函数调用栈布局](linux_system/64wei_x86_de_han_shu_diao_yong_zhan_bu_ju.md)
+   * 如何手工展开函数栈来定位问题 
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

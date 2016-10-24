@@ -1,16 +1,16 @@
-# GDB技巧：使用checkpoint解决难以复现的Bug
+# GDB技巧：使用checkpoint解決難以復現的Bug
 
 
-作为程序员，调试是一项很重要的基本功。调试的技巧和水平，直接决定了解决问题的时间。一般情况下，GDB的基本命令已经足以应付大多数问题了。但是，对于有些问题，还是需要更高级一些的命令。今天介绍一下checkpoint。
+作為程序員，調試是一項很重要的基本功。調試的技巧和水平，直接決定了解決問題的時間。一般情況下，GDB的基本命令已經足以應付大多數問題了。但是，對於有些問題，還是需要更高級一些的命令。今天介紹一下checkpoint。
 
-有一些bug，可能很难复现，当好不容易复现一次，且刚刚进入程序的入口时，我们需要珍惜这个来之不易的机会。如果只使用基本命令的话，对于大部分代码，我们都需要使用step来步进。这样无疑会耗费大量的时间，因为大部分的代码可能都没有问题。可是一旦不小心使用next，结果恰好该语句的函数调用返回出错。那么对于这次来之不易的机会，我们只得到了部分信息，即确定问题出在该函数，但是哪里出错还是不清楚。于是还需要再一次的复现bug，时间就这样浪费了。
+有一些bug，可能很難復現，當好不容易復現一次，且剛剛進入程序的入口時，我們需要珍惜這個來之不易的機會。如果只使用基本命令的話，對於大部分代碼，我們都需要使用step來步進。這樣無疑會耗費大量的時間，因為大部分的代碼可能都沒有問題。可是一旦不小心使用next，結果恰好該語句的函數調用返回出錯。那麼對於這次來之不易的機會，我們只得到了部分信息，即確定問題出在該函數，但是哪裡出錯還是不清楚。於是還需要再一次的復現bug，時間就這樣浪費了。
 
-所以，对于这种问题，就是checkpoint大显身手的时候。先看一下GDB关于checkpoint的说明：
+所以，對於這種問題，就是checkpoint大顯身手的時候。先看一下GDB關於checkpoint的說明：
 On certain operating system(Currently, only GNU/Linux), GDB is able to save a snapshot of a program's state, called a checkpoint and come back to it later.
 Returning to a checkpoint effectively undoes everything that has happened in the program since the checkpoint was saved. This includes changes in memory, register, and even(within some limits) system state. Effectively, it is like going back in time to the moment when the checkpoint was saved.
-也就是说checkpoint是程序在那一刻的快照，当我们发现错过了某个调试机会时，可以再次回到checkpoint保存的那个程序状态。
+也就是說checkpoint是程序在那一刻的快照，當我們發現錯過了某個調試機會時，可以再次回到checkpoint保存的那個程序狀態。
 
-举例说明一下：
+舉例說明一下：
 
 ```c
 #include <stdlib.h>
@@ -52,7 +52,7 @@ int main()
     return ret;
 }
 ```
-当我们执行这个程序时，发现程序返回1，不是期望的成功0。于是开始调试程序，由于函数调用的嵌套过多，我们没法一眼看出是main中的哪个函数调用出错了。于是在ret += func1()前，我们保存一个checkpoint。
+當我們執行這個程序時，發現程序返回1，不是期望的成功0。於是開始調試程序，由於函數調用的嵌套過多，我們沒法一眼看出是main中的哪個函數調用出錯了。於是在ret += func1()前，我們保存一個checkpoint。
 
 ```sh
 (gdb) b main
@@ -70,7 +70,7 @@ checkpoint: fork returned pid 2060.
 (gdb)
 ```
 
-然后使用next步进，并每次调用完毕，打印ret的值
+然後使用next步進，並每次調用完畢，打印ret的值
 
 ```sh
 Breakpoint 1, main () at test.c:31
@@ -89,9 +89,9 @@ $4 = 0
 $5 = 1
 ```
 
-结果发现，在调用func2()调用后，ret的值变为了1。可是此时，我们已经错过了调试func2的机会。如果没有checkpoint，就需要再次从头调试了——对于这个问题从头调试很容易，但是对于很难复现的bug可就不说那么容易的事情了。
+結果發現，在調用func2()調用後，ret的值變為了1。可是此時，我們已經錯過了調試func2的機會。如果沒有checkpoint，就需要再次從頭調試了——對於這個問題從頭調試很容易，但是對於很難復現的bug可就不說那麼容易的事情了。
 
-ok，使用checkpoint恢复
+ok，使用checkpoint恢復
 
 ```sh
 (gdb) restart 1
@@ -101,12 +101,12 @@ Switching to process 2060
 (gdb)
 ```
 
-很简单，现在GDB恢复到了保存checkpoint时的状态了。上面“restart 1“中的1为checkpoint的id号，可以使用info查看。
+很簡單，現在GDB恢復到了保存checkpoint時的狀態了。上面“restart 1“中的1為checkpoint的id號，可以使用info查看。
 ```sh
 (gdb) info checkpoints
 * 1 process 2060 at 0x80483e7, file test.c, line 33
   0 process 2059 (main process) at 0x80483f7, file test.c, line 35
 ```
 
-从上面可以看出checkpoint的用法很简单，但是很有用。就是在平时的简单的bug修正中，也可以加快我们的调试速度——毕竟减少了不必要的重现bug的时间。
+從上面可以看出checkpoint的用法很簡單，但是很有用。就是在平時的簡單的bug修正中，也可以加快我們的調試速度——畢竟減少了不必要的重現bug的時間。
 

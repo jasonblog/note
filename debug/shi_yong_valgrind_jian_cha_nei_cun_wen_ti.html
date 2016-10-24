@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>使用valgrind检查内存问题 | Jason note</title>
+        <title>使用valgrind檢查內存問題 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="34.7" data-basepath=".." data-revision="Mon Oct 24 2016 23:17:12 GMT+0800 (CST)">
+    <div class="book" data-level="34.7" data-basepath=".." data-revision="Mon Oct 24 2016 23:25:11 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -9924,7 +9924,7 @@
                         
                             <b>34.4.</b>
                         
-                        使用valgrind检查cache命中率，提高程序性能
+                        使用valgrind檢查cache命中率，提高程序性能
                     </a>
             
             
@@ -9939,7 +9939,7 @@
                         
                             <b>34.5.</b>
                         
-                        GDB调试技巧：gdb at pid无法调试的问题
+                        GDB調試技巧：gdb at pid無法調試的問題
                     </a>
             
             
@@ -9954,7 +9954,7 @@
                         
                             <b>34.6.</b>
                         
-                        GDB调试技巧：调试复杂的宏定义
+                        GDB調試技巧：調試複雜的宏定義
                     </a>
             
             
@@ -9969,7 +9969,7 @@
                         
                             <b>34.7.</b>
                         
-                        使用valgrind检查内存问题
+                        使用valgrind檢查內存問題
                     </a>
             
             
@@ -9984,7 +9984,7 @@
                         
                             <b>34.8.</b>
                         
-                        GDB技巧：使用checkpoint解决难以复现的Bug
+                        GDB技巧：使用checkpoint解決難以復現的Bug
                     </a>
             
             
@@ -9999,7 +9999,7 @@
                         
                             <b>34.9.</b>
                         
-                        强制进程产生coredump，检测死锁以及进程快照
+                        強制進程產生coredump，檢測死鎖以及進程快照
                     </a>
             
             
@@ -15012,9 +15012,9 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E4%BD%BF%E7%94%A8valgrind%E6%A3%80%E6%9F%A5%E5%86%85%E5%AD%98%E9%97%AE%E9%A2%98">&#x4F7F;&#x7528;valgrind&#x68C0;&#x67E5;&#x5185;&#x5B58;&#x95EE;&#x9898;</h1>
-<p>&#x5DE5;&#x6B32;&#x5584;&#x5176;&#x4E8B;&#xFF0C;&#x5FC5;&#x5148;&#x5229;&#x5176;&#x5668;&#x3002;Valgrind&#x4F5C;&#x4E3A;&#x4E00;&#x4E2A;&#x514D;&#x8D39;&#x4E14;&#x4F18;&#x79C0;&#x7684;&#x5DE5;&#x5177;&#x5305;&#xFF0C;&#x5E73;&#x65F6;&#x5927;&#x90E8;&#x5206;&#x4EBA;&#x53EF;&#x80FD;&#x90FD;&#x662F;&#x4F7F;&#x7528;valgrind&#x68C0;&#x6D4B;&#x5185;&#x5B58;&#x95EE;&#x9898;&#xFF0C;&#x5982;&#x5185;&#x5B58;&#x6CC4;&#x9732;&#xFF0C;&#x8D8A;&#x754C;&#x7B49;&#x3002;&#x5176;&#x5B9E;Valgrind&#x7684;&#x7528;&#x9014;&#x8FDC;&#x4E0D;&#x6B62;&#x4E8E;&#x6B64;&#xFF0C;&#x5176;&#x5B9E;&#x9645;&#x4E0A;&#x4E3A;&#x4E00;&#x4E2A;&#x5DE5;&#x5177;&#x5305;&#xFF0C;&#x9664;&#x4E86;&#x68C0;&#x67E5;&#x5185;&#x5B58;&#x95EE;&#x9898;&#x4EE5;&#x5916;&#xFF0C;&#x8FD8;&#x6709;&#x5176;&#x5B83;&#x591A;&#x9879;&#x7528;&#x9014;&#x3002;&#x6211;&#x51C6;&#x5907;&#x5C06;&#x5176;&#x5927;&#x81F4;&#x4ECB;&#x7ECD;&#x4E00;&#x4E0B;&#x3002;&#x672C;&#x4E0D;&#x60F3;&#x518D;&#x4ECB;&#x7ECD;Valgrind&#x68C0;&#x6D4B;&#x5185;&#x5B58;&#x95EE;&#x9898;&#x7684;&#x7528;&#x6CD5;&#x7684;&#xFF0C;&#x4F46;&#x662F;&#x53C8;&#x4E00;&#x60F3;&#xFF0C;&#x6BD5;&#x7ADF;&#x8FD9;&#x662F;Valgrind&#x7684;&#x4E00;&#x4E2A;&#x6700;&#x6709;&#x540D;&#x7684;&#x7528;&#x9014;&#xFF0C;&#x5982;&#x679C;&#x5C11;&#x4E86;&#x5B83;&#xFF0C;&#x4E0D;&#x514D;&#x6709;&#x4E9B;&#x9057;&#x61BE;&#xFF0C;&#x6240;&#x4EE5;&#x8FD8;&#x662F;&#x628A;&#x68C0;&#x67E5;&#x5185;&#x5B58;&#x95EE;&#x9898;&#x4F5C;&#x4E3A;&#x7B2C;&#x4E00;&#x7BC7;&#x5427;&#x3002;</p>
-<p>&#x8BF7;&#x770B;&#x4E00;&#x4E0B;&#x4EE3;&#x7801;&#xFF1A;</p>
+                        <h1 id="%E4%BD%BF%E7%94%A8valgrind%E6%AA%A2%E6%9F%A5%E5%85%A7%E5%AD%98%E5%95%8F%E9%A1%8C">&#x4F7F;&#x7528;valgrind&#x6AA2;&#x67E5;&#x5167;&#x5B58;&#x554F;&#x984C;</h1>
+<p>&#x5DE5;&#x6B32;&#x5584;&#x5176;&#x4E8B;&#xFF0C;&#x5FC5;&#x5148;&#x5229;&#x5176;&#x5668;&#x3002;Valgrind&#x4F5C;&#x70BA;&#x4E00;&#x500B;&#x514D;&#x8CBB;&#x4E14;&#x512A;&#x79C0;&#x7684;&#x5DE5;&#x5177;&#x5305;&#xFF0C;&#x5E73;&#x6642;&#x5927;&#x90E8;&#x5206;&#x4EBA;&#x53EF;&#x80FD;&#x90FD;&#x662F;&#x4F7F;&#x7528;valgrind&#x6AA2;&#x6E2C;&#x5167;&#x5B58;&#x554F;&#x984C;&#xFF0C;&#x5982;&#x5167;&#x5B58;&#x6D29;&#x9732;&#xFF0C;&#x8D8A;&#x754C;&#x7B49;&#x3002;&#x5176;&#x5BE6;Valgrind&#x7684;&#x7528;&#x9014;&#x9060;&#x4E0D;&#x6B62;&#x65BC;&#x6B64;&#xFF0C;&#x5176;&#x5BE6;&#x969B;&#x4E0A;&#x70BA;&#x4E00;&#x500B;&#x5DE5;&#x5177;&#x5305;&#xFF0C;&#x9664;&#x4E86;&#x6AA2;&#x67E5;&#x5167;&#x5B58;&#x554F;&#x984C;&#x4EE5;&#x5916;&#xFF0C;&#x9084;&#x6709;&#x5176;&#x5B83;&#x591A;&#x9805;&#x7528;&#x9014;&#x3002;&#x6211;&#x6E96;&#x5099;&#x5C07;&#x5176;&#x5927;&#x81F4;&#x4ECB;&#x7D39;&#x4E00;&#x4E0B;&#x3002;&#x672C;&#x4E0D;&#x60F3;&#x518D;&#x4ECB;&#x7D39;Valgrind&#x6AA2;&#x6E2C;&#x5167;&#x5B58;&#x554F;&#x984C;&#x7684;&#x7528;&#x6CD5;&#x7684;&#xFF0C;&#x4F46;&#x662F;&#x53C8;&#x4E00;&#x60F3;&#xFF0C;&#x7562;&#x7ADF;&#x9019;&#x662F;Valgrind&#x7684;&#x4E00;&#x500B;&#x6700;&#x6709;&#x540D;&#x7684;&#x7528;&#x9014;&#xFF0C;&#x5982;&#x679C;&#x5C11;&#x4E86;&#x5B83;&#xFF0C;&#x4E0D;&#x514D;&#x6709;&#x4E9B;&#x907A;&#x61BE;&#xFF0C;&#x6240;&#x4EE5;&#x9084;&#x662F;&#x628A;&#x6AA2;&#x67E5;&#x5167;&#x5B58;&#x554F;&#x984C;&#x4F5C;&#x70BA;&#x7B2C;&#x4E00;&#x7BC7;&#x5427;&#x3002;</p>
+<p>&#x8ACB;&#x770B;&#x4E00;&#x4E0B;&#x4EE3;&#x78BC;&#xFF1A;</p>
 <pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
 <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
 <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span>
@@ -15076,17 +15076,17 @@
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
 </code></pre>
-<p>&#x8FD9;&#x91CC;&#x4E00;&#x5171;&#x5217;&#x51FA;&#x4E86;&#x4E03;&#x79CD;&#x5E38;&#x89C1;&#x7684;&#x5185;&#x5B58;&#x95EE;&#x9898;&#xFF1A;1. &#x52A8;&#x6001;&#x5185;&#x5B58;&#x6CC4;&#x9732;&#xFF1B;2. &#x8D44;&#x6E90;&#x6CC4;&#x9732;&#xFF0C;&#x8FD9;&#x91CC;&#x4EE5;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;&#x4E3A;&#x4F8B;&#xFF1B;3. &#x52A8;&#x6001;&#x5185;&#x5B58;&#x8D8A;&#x754C;&#xFF1B;4.&#x6570;&#x7EC4;&#x5185;&#x5B58;&#x8D8A;&#x754C;&#xFF1B;5.&#x52A8;&#x6001;&#x5185;&#x5B58;double free&#xFF1B;6.&#x4F7F;&#x7528;&#x91CE;&#x6307;&#x9488;&#xFF0C;&#x5373;&#x672A;&#x521D;&#x59CB;&#x5316;&#x7684;&#x6307;&#x9488;&#xFF1B;7.&#x91CA;&#x653E;&#x91CE;&#x6307;&#x9488;&#xFF0C;&#x5373;&#x672A;&#x521D;&#x59CB;&#x5316;&#x7684;&#x6307;&#x9488;&#xFF1B;&#x5176;&#x4E2D;&#x7531;&#x4E8E;&#x672C;&#x793A;&#x4F8B;&#x4EE3;&#x7801;&#x8FC7;&#x4E8E;&#x7B80;&#x5355;&#xFF0C;&#x7B2C;6&#x4E2D;&#x60C5;&#x51B5;&#xFF0C;&#x4F7F;&#x7528;&#x91CE;&#x6307;&#x9488;&#x4F1A;&#x76F4;&#x63A5;&#x5BFC;&#x81F4;crash&#xFF0C;&#x6240;&#x4EE5;&#x5728;main&#x4E2D;&#xFF0C;&#x5E76;&#x6CA1;&#x6709;&#x771F;&#x6B63;&#x7684;&#x8C03;&#x7528;&#x90A3;&#x4E2A;&#x793A;&#x4F8B;&#x4EE3;&#x7801;&#x3002;&#x7531;&#x4E8E;valgrind&#x53EA;&#x80FD;&#x68C0;&#x6D4B;&#x6267;&#x884C;&#x5230;&#x7684;&#x4EE3;&#x7801;&#xFF0C;&#x6240;&#x4EE5;&#x5728;&#x540E;&#x9762;&#x7684;&#x62A5;&#x544A;&#x4E2D;&#xFF0C;&#x4E0D;&#x4F1A;&#x62A5;&#x544A;&#x7B2C;6&#x79CD;&#x9519;&#x8BEF;&#x60C5;&#x51B5;&#x3002;&#x4F46;&#x662F;&#xFF0C;&#x5728;&#x5927;&#x578B;&#x7684;&#x9879;&#x76EE;&#x4E2D;&#xFF0C;&#x6709;&#x53EF;&#x80FD;&#x4F7F;&#x7528;&#x91CE;&#x6307;&#x9488;&#x5E76;&#x4E0D;&#x4F1A;&#x5BFC;&#x81F4;&#x7A0B;&#x5E8F;crash&#x3002;&#x53E6;&#x5916;&#x4E0A;&#x9762;&#x7684;7&#x4E2D;&#x60C5;&#x51B5;&#xFF0C;&#x6709;&#x4E9B;&#x60C5;&#x51B5;&#x4E25;&#x683C;&#x7684;&#x8BF4;&#xFF0C;&#x5B9E;&#x9645;&#x4E0A;&#x53EF;&#x4EE5;&#x5F52;&#x4E3A;&#x4E00;&#x7C7B;&#x3002;</p>
-<p>&#x4E0B;&#x9762;&#x770B;&#x600E;&#x6837;&#x6267;&#x884C;valgrind&#x6765;&#x68C0;&#x6D4B;&#x5185;&#x5B58;&#x9519;&#x8BEF;&#xFF1A;</p>
+<p>&#x9019;&#x88E1;&#x4E00;&#x5171;&#x5217;&#x51FA;&#x4E86;&#x4E03;&#x7A2E;&#x5E38;&#x898B;&#x7684;&#x5167;&#x5B58;&#x554F;&#x984C;&#xFF1A;1. &#x52D5;&#x614B;&#x5167;&#x5B58;&#x6D29;&#x9732;&#xFF1B;2. &#x8CC7;&#x6E90;&#x6D29;&#x9732;&#xFF0C;&#x9019;&#x88E1;&#x4EE5;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;&#x70BA;&#x4F8B;&#xFF1B;3. &#x52D5;&#x614B;&#x5167;&#x5B58;&#x8D8A;&#x754C;&#xFF1B;4.&#x6578;&#x7D44;&#x5167;&#x5B58;&#x8D8A;&#x754C;&#xFF1B;5.&#x52D5;&#x614B;&#x5167;&#x5B58;double free&#xFF1B;6.&#x4F7F;&#x7528;&#x91CE;&#x6307;&#x91DD;&#xFF0C;&#x5373;&#x672A;&#x521D;&#x59CB;&#x5316;&#x7684;&#x6307;&#x91DD;&#xFF1B;7.&#x91CB;&#x653E;&#x91CE;&#x6307;&#x91DD;&#xFF0C;&#x5373;&#x672A;&#x521D;&#x59CB;&#x5316;&#x7684;&#x6307;&#x91DD;&#xFF1B;&#x5176;&#x4E2D;&#x7531;&#x65BC;&#x672C;&#x793A;&#x4F8B;&#x4EE3;&#x78BC;&#x904E;&#x65BC;&#x7C21;&#x55AE;&#xFF0C;&#x7B2C;6&#x4E2D;&#x60C5;&#x6CC1;&#xFF0C;&#x4F7F;&#x7528;&#x91CE;&#x6307;&#x91DD;&#x6703;&#x76F4;&#x63A5;&#x5C0E;&#x81F4;crash&#xFF0C;&#x6240;&#x4EE5;&#x5728;main&#x4E2D;&#xFF0C;&#x4E26;&#x6C92;&#x6709;&#x771F;&#x6B63;&#x7684;&#x8ABF;&#x7528;&#x90A3;&#x500B;&#x793A;&#x4F8B;&#x4EE3;&#x78BC;&#x3002;&#x7531;&#x65BC;valgrind&#x53EA;&#x80FD;&#x6AA2;&#x6E2C;&#x57F7;&#x884C;&#x5230;&#x7684;&#x4EE3;&#x78BC;&#xFF0C;&#x6240;&#x4EE5;&#x5728;&#x5F8C;&#x9762;&#x7684;&#x5831;&#x544A;&#x4E2D;&#xFF0C;&#x4E0D;&#x6703;&#x5831;&#x544A;&#x7B2C;6&#x7A2E;&#x932F;&#x8AA4;&#x60C5;&#x6CC1;&#x3002;&#x4F46;&#x662F;&#xFF0C;&#x5728;&#x5927;&#x578B;&#x7684;&#x9805;&#x76EE;&#x4E2D;&#xFF0C;&#x6709;&#x53EF;&#x80FD;&#x4F7F;&#x7528;&#x91CE;&#x6307;&#x91DD;&#x4E26;&#x4E0D;&#x6703;&#x5C0E;&#x81F4;&#x7A0B;&#x5E8F;crash&#x3002;&#x53E6;&#x5916;&#x4E0A;&#x9762;&#x7684;7&#x4E2D;&#x60C5;&#x6CC1;&#xFF0C;&#x6709;&#x4E9B;&#x60C5;&#x6CC1;&#x56B4;&#x683C;&#x7684;&#x8AAA;&#xFF0C;&#x5BE6;&#x969B;&#x4E0A;&#x53EF;&#x4EE5;&#x6B78;&#x70BA;&#x4E00;&#x985E;&#x3002;</p>
+<p>&#x4E0B;&#x9762;&#x770B;&#x600E;&#x6A23;&#x57F7;&#x884C;valgrind&#x4F86;&#x6AA2;&#x6E2C;&#x5167;&#x5B58;&#x932F;&#x8AA4;&#xFF1A;</p>
 <pre><code class="lang-sh">valgrind --track-fds=yes --leak-check=full --undef-value-errors=yes ./a.out
 </code></pre>
-<p>&#x4E0A;&#x9762;&#x90A3;&#x4E9B;option&#x7684;&#x5177;&#x4F53;&#x542B;&#x4E49;&#xFF0C;&#x53EF;&#x4EE5;&#x53C2;&#x52A0;valgrind --help&#xFF0C;&#x5176;&#x4E2D;&#x6709;&#x4E9B;option&#x9ED8;&#x8BA4;&#x5C31;&#x662F;&#x6253;&#x5F00;&#x7684;&#xFF0C;&#x4E0D;&#x8FC7;&#x6211;&#x4E60;&#x60EF;&#x4E8E;&#x660E;&#x786E;&#x7684;&#x4F7F;&#x7528;option&#xFF0C;&#x4EE5;&#x793A;&#x6E05;&#x6670;&#x3002;</p>
-<p>&#x770B;&#x6267;&#x884C;&#x540E;&#x7684;&#x62A5;&#x544A;&#xFF1A;</p>
+<p>&#x4E0A;&#x9762;&#x90A3;&#x4E9B;option&#x7684;&#x5177;&#x9AD4;&#x542B;&#x7FA9;&#xFF0C;&#x53EF;&#x4EE5;&#x53C3;&#x52A0;valgrind --help&#xFF0C;&#x5176;&#x4E2D;&#x6709;&#x4E9B;option&#x9ED8;&#x8A8D;&#x5C31;&#x662F;&#x6253;&#x958B;&#x7684;&#xFF0C;&#x4E0D;&#x904E;&#x6211;&#x7FD2;&#x6163;&#x65BC;&#x660E;&#x78BA;&#x7684;&#x4F7F;&#x7528;option&#xFF0C;&#x4EE5;&#x793A;&#x6E05;&#x6670;&#x3002;</p>
+<p>&#x770B;&#x57F7;&#x884C;&#x5F8C;&#x7684;&#x5831;&#x544A;&#xFF1A;</p>
 <div id="codeText" class="codeText"><ol start="1" class="dp-css"><li>==2326== Memcheck, a memory error detector</li><li>
 ==2326== Copyright (C) 2002-2009, and GNU GPL&apos;d, by Julian Seward et al.</li><li>
 ==2326== Using Valgrind-3.5.0 and LibVEX; rerun with -h for copyright info</li><li>
 ==2326== Command: ./a.out</li><li>
-==2326==</li><li><font class="Apple-style-span" color="#008000">/*&#xA0;&#x8FD9;&#x91CC;&#x68C0;&#x6D4B;&#x5230;&#x4E86;&#x52A8;&#x6001;&#x5185;&#x5B58;&#x7684;&#x8D8A;&#x754C;&#xFF0C;&#x63D0;&#x793A;Invalid write&#x3002;*/</font></li><li>
+==2326==</li><li><font class="Apple-style-span" color="#008000">/*&#xA0;&#x9019;&#x88E1;&#x6AA2;&#x6E2C;&#x5230;&#x4E86;&#x52D5;&#x614B;&#x5167;&#x5B58;&#x7684;&#x8D8A;&#x754C;&#xFF0C;&#x63D0;&#x793A;Invalid write&#x3002;*/</font></li><li>
 ==2326== Invalid write of size 2</li><li>
 ==2326==    at 0x80484B4: mem_overrun1 (in /home/fgao/works/test/a.out)</li><li>
 ==2326==    by 0x8048553: main (in /home/fgao/works/test/a.out)</li><li>
@@ -15094,7 +15094,7 @@
 ==2326==    at 0x4005BDC: malloc (vg_replace_malloc.c:195)</li><li>
 ==2326==    by 0x80484AD: mem_overrun1 (in /home/fgao/works/test/a.out)</li><li>
 ==2326==    by 0x8048553: main (in /home/fgao/works/test/a.out)</li><li>
-==2326==</li></ol><div><span class="Apple-style-span" style="line-height: 15px; "><font class="Apple-style-span" color="#5c5c5c">&#xA0;</font><font class="Apple-style-span" color="#008000">/* &#x8FD9;&#x91CC;&#x68C0;&#x6D4B;&#x5230;&#x4E86;double free&#x95EE;&#x9898;&#xFF0C;&#x63D0;&#x793A;Invalid Free&#xA0;</font></span><span class="Apple-style-span" style="line-height: 15px; "><font class="Apple-style-span" color="#008000">*/</font></span></div><ol start="1" class="dp-css"><li>
+==2326==</li></ol><div><span class="Apple-style-span" style="line-height: 15px; "><font class="Apple-style-span" color="#5c5c5c">&#xA0;</font><font class="Apple-style-span" color="#008000">/* &#x9019;&#x88E1;&#x6AA2;&#x6E2C;&#x5230;&#x4E86;double free&#x554F;&#x984C;&#xFF0C;&#x63D0;&#x793A;Invalid Free&#xA0;</font></span><span class="Apple-style-span" style="line-height: 15px; "><font class="Apple-style-span" color="#008000">*/</font></span></div><ol start="1" class="dp-css"><li>
 ==2326== Invalid free() / delete / delete[]</li><li>
 ==2326==    at 0x40057F6: free (vg_replace_malloc.c:325)</li><li>
 ==2326==    by 0x8048514: mem_double_free (in /home/fgao/works/test/a.out)</li><li>
@@ -15104,12 +15104,12 @@
 ==2326==    by 0x8048509: mem_double_free (in /home/fgao/works/test/a.out)</li><li>
 ==2326==    by 0x804855D: main (in /home/fgao/works/test/a.out)</li><li>
 ==2326==</li><li>
-</li><li><font class="Apple-style-span" color="#008000">/* &#x8FD9;&#x91CC;&#x68C0;&#x6D4B;&#x5230;&#x4E86;&#x672A;&#x521D;&#x59CB;&#x5316;&#x53D8;&#x91CF; */</font></li><li>
+</li><li><font class="Apple-style-span" color="#008000">/* &#x9019;&#x88E1;&#x6AA2;&#x6E2C;&#x5230;&#x4E86;&#x672A;&#x521D;&#x59CB;&#x5316;&#x8B8A;&#x91CF; */</font></li><li>
 ==2326== Conditional jump or move depends on uninitialised value(s)</li><li>
 ==2326==    at 0x40057B6: free (vg_replace_malloc.c:325)</li><li>
 ==2326==    by 0x804853C: mem_free_wild_pointer (in /home/fgao/works/test/a.out)</li><li>
 ==2326==    by 0x8048562: main (in /home/fgao/works/test/a.out)</li><li>
-==2326==</li></ol><div><span class="Apple-style-span" style="line-height: 15px; "><font class="Apple-style-span" color="#5c5c5c">&#xA0;</font><font class="Apple-style-span" color="#008000">/* &#x8FD9;&#x91CC;&#x68C0;&#x6D4B;&#x5230;&#x4E86;&#x975E;&#x6CD5;&#x662F;&#x5426;&#x91CE;&#x6307;&#x9488; */</font></span></div><ol start="1" class="dp-css"><li>
+==2326==</li></ol><div><span class="Apple-style-span" style="line-height: 15px; "><font class="Apple-style-span" color="#5c5c5c">&#xA0;</font><font class="Apple-style-span" color="#008000">/* &#x9019;&#x88E1;&#x6AA2;&#x6E2C;&#x5230;&#x4E86;&#x975E;&#x6CD5;&#x662F;&#x5426;&#x91CE;&#x6307;&#x91DD; */</font></span></div><ol start="1" class="dp-css"><li>
 ==2326== Invalid free() / delete / delete[]</li><li>
 ==2326==    at 0x40057F6: free (vg_replace_malloc.c:325)</li><li>
 ==2326==    by 0x804853C: mem_free_wild_pointer (in /home/fgao/works/test/a.out)</li><li>
@@ -15119,7 +15119,7 @@
 ==2326==    by 0x8048509: mem_double_free (in /home/fgao/works/test/a.out)</li><li>
 ==2326==    by 0x804855D: main (in /home/fgao/works/test/a.out)</li><li>
 ==2326==</li><li>
-==2326==</li><li><font class="Apple-style-span" color="#008000">/*&#xA0;</font></li><li><font class="Apple-style-span" color="#008000">&#x8FD9;&#x91CC;&#x68C0;&#x6D4B;&#x5230;&#x4E86;&#x6587;&#x4EF6;&#x6307;&#x9488;&#x8D44;&#x6E90;&#x7684;&#x6CC4;&#x9732;&#xFF0C;&#x4E0B;&#x9762;&#x63D0;&#x793A;&#x8BF4;&#x6709;4&#x4E2A;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;&#x5728;&#x9000;&#x51FA;&#x65F6;&#x4ECD;&#x662F;&#x6253;&#x5F00;&#x7684;&#x3002;</font></li><li><font class="Apple-style-span" color="#008000">&#x63CF;&#x8FF0;&#x7B26;0,1,2&#x65E0;&#x9700;&#x5173;&#x5FC3;&#xFF0C;&#x901A;&#x8FC7;&#x62A5;&#x544A;&#xFF0C;&#x53EF;&#x4EE5;&#x53D1;&#x73B0;&#x7A0B;&#x5E8F;&#x4E2D;&#x81EA;&#x5DF1;&#x660E;&#x786E;&#x6253;&#x5F00;&#x7684;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;&#x6CA1;&#x6709;&#x5173;&#x95ED;&#x3002;</font></li><li><font class="Apple-style-span" color="#008000">*/</font></li><li>
+==2326==</li><li><font class="Apple-style-span" color="#008000">/*&#xA0;</font></li><li><font class="Apple-style-span" color="#008000">&#x9019;&#x88E1;&#x6AA2;&#x6E2C;&#x5230;&#x4E86;&#x6587;&#x4EF6;&#x6307;&#x91DD;&#x8CC7;&#x6E90;&#x7684;&#x6D29;&#x9732;&#xFF0C;&#x4E0B;&#x9762;&#x63D0;&#x793A;&#x8AAA;&#x6709;4&#x500B;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;&#x5728;&#x9000;&#x51FA;&#x6642;&#x4ECD;&#x662F;&#x6253;&#x958B;&#x7684;&#x3002;</font></li><li><font class="Apple-style-span" color="#008000">&#x63CF;&#x8FF0;&#x7B26;0,1,2&#x7121;&#x9700;&#x95DC;&#x5FC3;&#xFF0C;&#x901A;&#x904E;&#x5831;&#x544A;&#xFF0C;&#x53EF;&#x4EE5;&#x767C;&#x73FE;&#x7A0B;&#x5E8F;&#x4E2D;&#x81EA;&#x5DF1;&#x660E;&#x78BA;&#x6253;&#x958B;&#x7684;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;&#x6C92;&#x6709;&#x95DC;&#x9589;&#x3002;</font></li><li><font class="Apple-style-span" color="#008000">*/</font></li><li>
 ==2326== FILE DESCRIPTORS: 4 open at exit.</li><li>
 ==2326== Open file descriptor 3: test.txt</li><li>
 ==2326==    at 0x68D613: __open_nocancel (in /lib/libc-2.12.so)</li><li>
@@ -15137,16 +15137,16 @@
 ==2326== Open file descriptor 0: /dev/pts/4</li><li>
 ==2326==    <inherited from="" parent=""></inherited></li><li>
 ==2326==</li><li>
-==2326==</li><li><font class="Apple-style-span" color="#008000">/* &#x5806;&#x4FE1;&#x606F;&#x7684;&#x603B;&#x7ED3;&#xFF1A;&#x4E00;&#x5171;&#x8C03;&#x7528;4&#x6B21;alloc&#xFF0C;4&#x6B21;free&#x3002;&#x4E4B;&#x6240;&#x4EE5;&#x6B63;&#x597D;&#x76F8;&#x7B49;&#xFF0C;&#x56E0;&#x4E3A;&#x4E0A;&#x9762;&#x6709;&#x4E00;&#x51FD;&#x6570;&#x5C11;&#x4E86;free&#xFF0C;&#x6709;&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#x591A;&#x4E86;&#x4E00;&#x4E2A;free */</font></li><li>
+==2326==</li><li><font class="Apple-style-span" color="#008000">/* &#x5806;&#x4FE1;&#x606F;&#x7684;&#x7E3D;&#x7D50;&#xFF1A;&#x4E00;&#x5171;&#x8ABF;&#x7528;4&#x6B21;alloc&#xFF0C;4&#x6B21;free&#x3002;&#x4E4B;&#x6240;&#x4EE5;&#x6B63;&#x597D;&#x76F8;&#x7B49;&#xFF0C;&#x56E0;&#x70BA;&#x4E0A;&#x9762;&#x6709;&#x4E00;&#x51FD;&#x6578;&#x5C11;&#x4E86;free&#xFF0C;&#x6709;&#x4E00;&#x500B;&#x51FD;&#x6578;&#x591A;&#x4E86;&#x4E00;&#x500B;free */</font></li><li>
 ==2326== HEAP SUMMARY:</li><li>
 ==2326==     in use at exit: 353 bytes in 2 blocks</li><li>
 ==2326==   total heap usage: 4 allocs, 4 frees, 355 bytes allocated</li><li>
-==2326==</li><li><font class="Apple-style-span" color="#008000">/* &#x68C0;&#x6D4B;&#x5230;&#x4E00;&#x4E2A;&#x5B57;&#x8282;&#x7684;&#x5185;&#x5B58;&#x6CC4;&#x9732; */</font></li><li>
+==2326==</li><li><font class="Apple-style-span" color="#008000">/* &#x6AA2;&#x6E2C;&#x5230;&#x4E00;&#x500B;&#x5B57;&#x7BC0;&#x7684;&#x5167;&#x5B58;&#x6D29;&#x9732; */</font></li><li>
 ==2326== 1 bytes in 1 blocks are definitely lost in loss record 1 of 2</li><li>
 ==2326==    at 0x4005BDC: malloc (vg_replace_malloc.c:195)</li><li>
 ==2326==    by 0x8048475: mem_leak1 (in /home/fgao/works/test/a.out)</li><li>
 ==2326==    by 0x8048549: main (in /home/fgao/works/test/a.out)</li><li>
-==2326==</li><li><font class="Apple-style-span" color="#008000">/* &#x5185;&#x5B58;&#x6CC4;&#x9732;&#x7684;&#x603B;&#x7ED3; */</font></li><li>
+==2326==</li><li><font class="Apple-style-span" color="#008000">/* &#x5167;&#x5B58;&#x6D29;&#x9732;&#x7684;&#x7E3D;&#x7D50; */</font></li><li>
 ==2326== LEAK SUMMARY:</li><li>
 ==2326==    definitely lost: 1 bytes in 1 blocks</li><li>
 ==2326==    indirectly lost: 0 bytes in 0 blocks</li><li>
@@ -15162,10 +15162,10 @@
 
 
 
-<p>&#x8FD9;&#x4E2A;&#x53EA;&#x662F;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x793A;&#x4F8B;&#x7A0B;&#x5E8F;&#xFF0C;&#x5373;&#x4F7F;&#x6CA1;&#x6709;Valgrind&#xFF0C;&#x6211;&#x4EEC;&#x4E5F;&#x53EF;&#x4EE5;&#x5F88;&#x8F7B;&#x6613;&#x7684;&#x53D1;&#x73B0;&#x95EE;&#x9898;&#x3002;&#x4F46;&#x662F;&#x5728;&#x771F;&#x5B9E;&#x7684;&#x9879;&#x76EE;&#x4E2D;&#xFF0C;&#x5F53;&#x4EE3;&#x7801;&#x91CF;&#x8FBE;&#x5230;&#x4E07;&#x884C;&#xFF0C;&#x5341;&#x4E07;&#x884C;&#xFF0C;&#x751A;&#x81F3;&#x767E;&#x4E07;&#x884C;&#x65F6;&#x3002;&#x7531;&#x4E8E;&#x7533;&#x8BF7;&#x7684;&#x5185;&#x5B58;&#x53EF;&#x80FD;&#x4E0D;&#x662F;&#x5728;&#x4E00;&#x4E2A;&#x5730;&#x65B9;&#x4F7F;&#x7528;&#xFF0C;&#x4E0D;&#x53EF;&#x907F;&#x514D;&#x7684;&#x88AB;&#x4F20;&#x6765;&#x4F20;&#x53BB;&#x3002;&#x8FD9;&#x65F6;&#xFF0C;&#x5982;&#x679C;&#x5149;&#x662F;&#x770B;review&#x4EE3;&#x7801;&#x6765;&#x68C0;&#x67E5;&#x95EE;&#x9898;&#xFF0C;&#x53EF;&#x80FD;&#x5F88;&#x96BE;&#x627E;&#x5230;&#x6839;&#x672C;&#x539F;&#x56E0;&#x3002;&#x8FD9;&#x65F6;&#xFF0C;&#x4F7F;&#x7528;Valgrind&#x5219;&#x53EF;&#x4EE5;&#x5F88;&#x5BB9;&#x6613;&#x7684;&#x53D1;&#x73B0;&#x95EE;&#x9898;&#x6240;&#x5728;&#x3002;</p>
-<p>&#x5F53;&#x7136;&#xFF0C;Valgrind&#x4E5F;&#x4E0D;&#x662F;&#x4E07;&#x80FD;&#x7684;&#x3002;&#x6211;&#x4E5F;&#x9047;&#x5230;&#x8FC7;Valgrind&#x65E0;&#x6CD5;&#x627E;&#x5230;&#x95EE;&#x9898;&#xFF0C;&#x53CD;&#x800C;&#x6211;&#x901A;&#x8FC7;&#x4E0D;&#x65AD;&#x7684;review&#x4EE3;&#x7801;&#x627E;&#x5230;&#x4E86;&#x75C7;&#x7ED3;&#x3002;&#x53D1;&#x73B0;&#x95EE;&#x9898;&#xFF0C;&#x89E3;&#x51B3;&#x95EE;&#x9898;&#xFF0C;&#x6BD5;&#x7ADF;&#x662F;&#x672B;&#x6D41;&#x3002;&#x6700;&#x597D;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x5C31;&#x662F;&#x4E0D;&#x5F15;&#x5165;&#x5185;&#x5B58;&#x95EE;&#x9898;&#x3002;&#x8FD9;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x826F;&#x597D;&#x7684;&#x4EE3;&#x7801;&#x98CE;&#x683C;&#x548C;&#x8BBE;&#x8BA1;&#x6765;&#x5B9E;&#x73B0;&#x7684;&#x3002;</p>
-<p>&#x5199;&#x4EE3;&#x7801;&#x4E0D;&#x662F;&#x90A3;&#x4E48;&#x5BB9;&#x6613;&#x7684;&#x3002;&#x8981;&#x7528;&#x5FC3;&#xFF0C;&#x628A;&#x4EE3;&#x7801;&#x5F53;&#x4F5C;&#x81EA;&#x5DF1;&#x7684;&#x4F5C;&#x54C1;&#xFF0C;&#x771F;&#x5FC3;&#x7684;&#x53BB;&#x5199;&#x597D;&#x5B83;&#x3002;&#x8FD9;&#x6837;&#xFF0C;&#x81EA;&#x7136;&#x800C;&#x7136;&#x7684;&#x5C31;&#x4F1A;&#x628A;&#x4EE3;&#x7801;&#x5199;&#x597D;&#x3002;</p>
-<p>Note&#xFF1A;&#x8FD9;&#x91CC;&#x6211;&#x8FD8;&#x8981;&#x518D;&#x6B21;&#x9119;&#x89C6;GFW&#xFF0C;&#x6574;&#x4E2A;&#x513F;&#x4E00;&#x4E2A;&#x778E;&#x641E;&#xFF01;&#x6211;&#x8FDE;Valgrind&#x7684;&#x4E3B;&#x7AD9;&#x90FD;&#x6253;&#x4E0D;&#x5F00;&#x4E86;&#x3002;&#x8BF7;&#x95EE;&#xFF0C;Valgrind&#x6709;&#x4EC0;&#x4E48;&#x654F;&#x611F;&#x8BCD;&#xFF01;&#x95ED;&#x5173;&#x9501;&#x56FD;&#xFF01;&#x96BE;&#x9053;&#x8BA9;&#x6211;&#x6210;&#x5929;&#x7684;&#x7FFB;&#x5899;&#xFF01;&#xFF01;&#xFF01;</p>
+<p>&#x9019;&#x500B;&#x53EA;&#x662F;&#x4E00;&#x500B;&#x7C21;&#x55AE;&#x7684;&#x793A;&#x4F8B;&#x7A0B;&#x5E8F;&#xFF0C;&#x5373;&#x4F7F;&#x6C92;&#x6709;Valgrind&#xFF0C;&#x6211;&#x5011;&#x4E5F;&#x53EF;&#x4EE5;&#x5F88;&#x8F15;&#x6613;&#x7684;&#x767C;&#x73FE;&#x554F;&#x984C;&#x3002;&#x4F46;&#x662F;&#x5728;&#x771F;&#x5BE6;&#x7684;&#x9805;&#x76EE;&#x4E2D;&#xFF0C;&#x7576;&#x4EE3;&#x78BC;&#x91CF;&#x9054;&#x5230;&#x842C;&#x884C;&#xFF0C;&#x5341;&#x842C;&#x884C;&#xFF0C;&#x751A;&#x81F3;&#x767E;&#x842C;&#x884C;&#x6642;&#x3002;&#x7531;&#x65BC;&#x7533;&#x8ACB;&#x7684;&#x5167;&#x5B58;&#x53EF;&#x80FD;&#x4E0D;&#x662F;&#x5728;&#x4E00;&#x500B;&#x5730;&#x65B9;&#x4F7F;&#x7528;&#xFF0C;&#x4E0D;&#x53EF;&#x907F;&#x514D;&#x7684;&#x88AB;&#x50B3;&#x4F86;&#x50B3;&#x53BB;&#x3002;&#x9019;&#x6642;&#xFF0C;&#x5982;&#x679C;&#x5149;&#x662F;&#x770B;review&#x4EE3;&#x78BC;&#x4F86;&#x6AA2;&#x67E5;&#x554F;&#x984C;&#xFF0C;&#x53EF;&#x80FD;&#x5F88;&#x96E3;&#x627E;&#x5230;&#x6839;&#x672C;&#x539F;&#x56E0;&#x3002;&#x9019;&#x6642;&#xFF0C;&#x4F7F;&#x7528;Valgrind&#x5247;&#x53EF;&#x4EE5;&#x5F88;&#x5BB9;&#x6613;&#x7684;&#x767C;&#x73FE;&#x554F;&#x984C;&#x6240;&#x5728;&#x3002;</p>
+<p>&#x7576;&#x7136;&#xFF0C;Valgrind&#x4E5F;&#x4E0D;&#x662F;&#x842C;&#x80FD;&#x7684;&#x3002;&#x6211;&#x4E5F;&#x9047;&#x5230;&#x904E;Valgrind&#x7121;&#x6CD5;&#x627E;&#x5230;&#x554F;&#x984C;&#xFF0C;&#x53CD;&#x800C;&#x6211;&#x901A;&#x904E;&#x4E0D;&#x65B7;&#x7684;review&#x4EE3;&#x78BC;&#x627E;&#x5230;&#x4E86;&#x7665;&#x7D50;&#x3002;&#x767C;&#x73FE;&#x554F;&#x984C;&#xFF0C;&#x89E3;&#x6C7A;&#x554F;&#x984C;&#xFF0C;&#x7562;&#x7ADF;&#x662F;&#x672B;&#x6D41;&#x3002;&#x6700;&#x597D;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x5C31;&#x662F;&#x4E0D;&#x5F15;&#x5165;&#x5167;&#x5B58;&#x554F;&#x984C;&#x3002;&#x9019;&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x826F;&#x597D;&#x7684;&#x4EE3;&#x78BC;&#x98A8;&#x683C;&#x548C;&#x8A2D;&#x8A08;&#x4F86;&#x5BE6;&#x73FE;&#x7684;&#x3002;</p>
+<p>&#x5BEB;&#x4EE3;&#x78BC;&#x4E0D;&#x662F;&#x90A3;&#x9EBC;&#x5BB9;&#x6613;&#x7684;&#x3002;&#x8981;&#x7528;&#x5FC3;&#xFF0C;&#x628A;&#x4EE3;&#x78BC;&#x7576;&#x4F5C;&#x81EA;&#x5DF1;&#x7684;&#x4F5C;&#x54C1;&#xFF0C;&#x771F;&#x5FC3;&#x7684;&#x53BB;&#x5BEB;&#x597D;&#x5B83;&#x3002;&#x9019;&#x6A23;&#xFF0C;&#x81EA;&#x7136;&#x800C;&#x7136;&#x7684;&#x5C31;&#x6703;&#x628A;&#x4EE3;&#x78BC;&#x5BEB;&#x597D;&#x3002;</p>
+<p>Note&#xFF1A;&#x9019;&#x88E1;&#x6211;&#x9084;&#x8981;&#x518D;&#x6B21;&#x9119;&#x8996;GFW&#xFF0C;&#x6574;&#x500B;&#x5152;&#x4E00;&#x500B;&#x778E;&#x641E;&#xFF01;&#x6211;&#x9023;Valgrind&#x7684;&#x4E3B;&#x7AD9;&#x90FD;&#x6253;&#x4E0D;&#x958B;&#x4E86;&#x3002;&#x8ACB;&#x554F;&#xFF0C;Valgrind&#x6709;&#x4EC0;&#x9EBC;&#x654F;&#x611F;&#x8A5E;&#xFF01;&#x9589;&#x95DC;&#x9396;&#x570B;&#xFF01;&#x96E3;&#x9053;&#x8B93;&#x6211;&#x6210;&#x5929;&#x7684;&#x7FFB;&#x7246;&#xFF01;&#xFF01;&#xFF01;</p>
 
                     
                     </section>
@@ -15176,10 +15176,10 @@
         </div>
 
         
-        <a href="../debug/gdbdiao_shi_ji_qiao_ff1a_diao_shi_fu_za_de_hong_di.html" class="navigation navigation-prev " aria-label="Previous page: GDB调试技巧：调试复杂的宏定义"><i class="fa fa-angle-left"></i></a>
+        <a href="../debug/gdbdiao_shi_ji_qiao_ff1a_diao_shi_fu_za_de_hong_di.html" class="navigation navigation-prev " aria-label="Previous page: GDB調試技巧：調試複雜的宏定義"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../debug/gdbji_qiao_ff1a_shi_yong_checkpoint_jie_jue_nan_yi.html" class="navigation navigation-next " aria-label="Next page: GDB技巧：使用checkpoint解决难以复现的Bug"><i class="fa fa-angle-right"></i></a>
+        <a href="../debug/gdbji_qiao_ff1a_shi_yong_checkpoint_jie_jue_nan_yi.html" class="navigation navigation-next " aria-label="Next page: GDB技巧：使用checkpoint解決難以復現的Bug"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

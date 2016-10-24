@@ -635,7 +635,7 @@
    * [gcc/g++ -instrument-functions 參數](debug/gccg++_-instrument-functions_can_shu.md)
    * [core dump 之前的 frame](debug/coredumpframe.md)
    * [使用valgrind检查cache命中率，提高程序性能](debug/shi_yong_valgrind_jian_cha_cache_ming_zhong_lv_ff0.md)
-   * GDB调试技巧：gdb at pid无法调试的问题 
+   * [GDB调试技巧：gdb at pid无法调试的问题](debug/gdbdiao_shi_ji_qiao_ff1a_gdb_at_pid_wu_fa_diao_shi.md)
 * [thinker_note](thinker/thinkernote.md)
    * [如果有人要求你改善系統](thinker/ru_guo_you_ren_yao_qiu_ni_gai_shan_xi_tong.md)
    * [閱讀程式碼的心理層面](thinker/yue_du_cheng_shi_ma_de_xin_li_ceng_mian.md)

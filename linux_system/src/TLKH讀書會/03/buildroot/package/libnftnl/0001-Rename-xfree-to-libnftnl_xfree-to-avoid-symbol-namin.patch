@@ -1,0 +1,801 @@
+From 610d015143e88629eab07067a4ae0c1d7548cfaf Mon Sep 17 00:00:00 2001
+From: Thomas Petazzoni <thomas.petazzoni@free-electrons.com>
+Date: Thu, 2 Jun 2016 23:03:27 -0300
+Subject: [PATCH] Rename xfree() to libnftnl_xfree() to avoid symbol naming
+ conflict
+
+When ELF binaries and shared libraries are used, the internal
+functions of libnftnl such as xfree() are not visible to the outside
+world (their visibility is 'hidden'). Therefore, the fact that other
+programs (especially nftables) may have symbols with the same name
+does not cause any problem.
+
+However, when doing static linking on a non-ELF platform (such as
+Blackfin, which uses the FLAT binary format), there is no way of
+encoding this visibility. Therefore, the xfree() symbols of libnftnl
+becomes visible to the outside world, causing a conflict with the
+xfree() symbol defined by nftables.
+
+To solve this, this patch renames the libnftnl xfree() function to
+libnftnl_xfree().
+
+Signed-off-by: Thomas Petazzoni <thomas.petazzoni@free-electrons.com>
+[Gustavo: update for version 1.0.5]
+
+Signed-off-by: Gustavo Zacarias <gustavo@zacarias.com.ar>
+---
+ include/utils.h      |  2 +-
+ src/chain.c          | 28 ++++++++++++++--------------
+ src/common.c         |  2 +-
+ src/expr.c           |  4 ++--
+ src/expr/data_reg.c  |  4 ++--
+ src/expr/dynset.c    |  2 +-
+ src/expr/immediate.c |  2 +-
+ src/expr/log.c       |  6 +++---
+ src/expr/lookup.c    |  2 +-
+ src/expr/match.c     |  6 +++---
+ src/expr/target.c    |  6 +++---
+ src/gen.c            |  2 +-
+ src/mxml.c           |  2 +-
+ src/rule.c           | 30 +++++++++++++++---------------
+ src/ruleset.c        |  2 +-
+ src/set.c            | 22 +++++++++++-----------
+ src/set_elem.c       | 20 ++++++++++----------
+ src/table.c          | 14 +++++++-------
+ src/trace.c          | 14 +++++++-------
+ src/udata.c          |  2 +-
+ src/utils.c          |  2 +-
+ 21 files changed, 87 insertions(+), 87 deletions(-)
+
+diff --git a/include/utils.h b/include/utils.h
+index 46ff18a..0320c96 100644
+--- a/include/utils.h
++++ b/include/utils.h
+@@ -19,7 +19,7 @@
+ 
+ #define __noreturn	__attribute__((__noreturn__))
+ 
+-#define xfree(ptr)	free((void *)ptr);
++#define nftnl_xfree(ptr)	free((void *)ptr);
+ 
+ #define div_round_up(n, d)	(((n) + (d) - 1) / (d))
+ 
+diff --git a/src/chain.c b/src/chain.c
+index 990c576..b8f1e1f 100644
+--- a/src/chain.c
++++ b/src/chain.c
+@@ -96,13 +96,13 @@ EXPORT_SYMBOL_ALIAS(nftnl_chain_alloc, nft_chain_alloc);
+ void nftnl_chain_free(const struct nftnl_chain *c)
+ {
+ 	if (c->table != NULL)
+-		xfree(c->table);
++		nftnl_xfree(c->table);
+ 	if (c->type != NULL)
+-		xfree(c->type);
++		nftnl_xfree(c->type);
+ 	if (c->dev != NULL)
+-		xfree(c->dev);
++		nftnl_xfree(c->dev);
+ 
+-	xfree(c);
++	nftnl_xfree(c);
+ }
+ EXPORT_SYMBOL_ALIAS(nftnl_chain_free, nft_chain_free);
+ 
+@@ -120,7 +120,7 @@ void nftnl_chain_unset(struct nftnl_chain *c, uint16_t attr)
+ 	switch (attr) {
+ 	case NFTNL_CHAIN_TABLE:
+ 		if (c->table) {
+-			xfree(c->table);
++			nftnl_xfree(c->table);
+ 			c->table = NULL;
+ 		}
+ 		break;
+@@ -128,7 +128,7 @@ void nftnl_chain_unset(struct nftnl_chain *c, uint16_t attr)
+ 		break;
+ 	case NFTNL_CHAIN_TYPE:
+ 		if (c->type) {
+-			xfree(c->type);
++			nftnl_xfree(c->type);
+ 			c->type = NULL;
+ 		}
+ 		break;
+@@ -143,7 +143,7 @@ void nftnl_chain_unset(struct nftnl_chain *c, uint16_t attr)
+ 		break;
+ 	case NFTNL_CHAIN_DEV:
+ 		if (c->dev) {
+-			xfree(c->dev);
++			nftnl_xfree(c->dev);
+ 			c->dev = NULL;
+ 		}
+ 		break;
+@@ -179,7 +179,7 @@ void nftnl_chain_set_data(struct nftnl_chain *c, uint16_t attr,
+ 		break;
+ 	case NFTNL_CHAIN_TABLE:
+ 		if (c->table)
+-			xfree(c->table);
++			nftnl_xfree(c->table);
+ 
+ 		c->table = strdup(data);
+ 		break;
+@@ -209,13 +209,13 @@ void nftnl_chain_set_data(struct nftnl_chain *c, uint16_t attr,
+ 		break;
+ 	case NFTNL_CHAIN_TYPE:
+ 		if (c->type)
+-			xfree(c->type);
++			nftnl_xfree(c->type);
+ 
+ 		c->type = strdup(data);
+ 		break;
+ 	case NFTNL_CHAIN_DEV:
+ 		if (c->dev)
+-			xfree(c->dev);
++			nftnl_xfree(c->dev);
+ 
+ 		c->dev = strdup(data);
+ 		break;
+@@ -535,7 +535,7 @@ int nftnl_chain_nlmsg_parse(const struct nlmsghdr *nlh, struct nftnl_chain *c)
+ 		c->flags |= (1 << NFTNL_CHAIN_NAME);
+ 	}
+ 	if (tb[NFTA_CHAIN_TABLE]) {
+-		xfree(c->table);
++		nftnl_xfree(c->table);
+ 		c->table = strdup(mnl_attr_get_str(tb[NFTA_CHAIN_TABLE]));
+ 		c->flags |= (1 << NFTNL_CHAIN_TABLE);
+ 	}
+@@ -562,7 +562,7 @@ int nftnl_chain_nlmsg_parse(const struct nlmsghdr *nlh, struct nftnl_chain *c)
+ 		c->flags |= (1 << NFTNL_CHAIN_HANDLE);
+ 	}
+ 	if (tb[NFTA_CHAIN_TYPE]) {
+-		xfree(c->type);
++		nftnl_xfree(c->type);
+ 		c->type = strdup(mnl_attr_get_str(tb[NFTA_CHAIN_TYPE]));
+ 		c->flags |= (1 << NFTNL_CHAIN_TYPE);
+ 	}
+@@ -976,7 +976,7 @@ void nftnl_chain_list_free(struct nftnl_chain_list *list)
+ 		list_del(&r->head);
+ 		nftnl_chain_free(r);
+ 	}
+-	xfree(list);
++	nftnl_xfree(list);
+ }
+ EXPORT_SYMBOL_ALIAS(nftnl_chain_list_free, nft_chain_list_free);
+ 
+@@ -1061,6 +1061,6 @@ EXPORT_SYMBOL_ALIAS(nftnl_chain_list_iter_next, nft_chain_list_iter_next);
+ 
+ void nftnl_chain_list_iter_destroy(struct nftnl_chain_list_iter *iter)
+ {
+-	xfree(iter);
++	nftnl_xfree(iter);
+ }
+ EXPORT_SYMBOL_ALIAS(nftnl_chain_list_iter_destroy, nft_chain_list_iter_destroy);
+diff --git a/src/common.c b/src/common.c
+index bf4176c..98f8012 100644
+--- a/src/common.c
++++ b/src/common.c
+@@ -58,7 +58,7 @@ EXPORT_SYMBOL_ALIAS(nftnl_parse_err_alloc, nft_parse_err_alloc);
+ 
+ void nftnl_parse_err_free(struct nftnl_parse_err *err)
+ {
+-	xfree(err);
++	nftnl_xfree(err);
+ }
+ EXPORT_SYMBOL_ALIAS(nftnl_parse_err_free, nft_parse_err_free);
+ 
+diff --git a/src/expr.c b/src/expr.c
+index ed07dc4..6c08bd0 100644
+--- a/src/expr.c
++++ b/src/expr.c
+@@ -50,7 +50,7 @@ void nftnl_expr_free(const struct nftnl_expr *expr)
+ 	if (expr->ops->free)
+ 		expr->ops->free(expr);
+ 
+-	xfree(expr);
++	nftnl_xfree(expr);
+ }
+ EXPORT_SYMBOL_ALIAS(nftnl_expr_free, nft_rule_expr_free);
+ 
+@@ -257,7 +257,7 @@ struct nftnl_expr *nftnl_expr_parse(struct nlattr *attr)
+ 	return expr;
+ 
+ err2:
+-	xfree(expr);
++	nftnl_xfree(expr);
+ err1:
+ 	return NULL;
+ }
+diff --git a/src/expr/data_reg.c b/src/expr/data_reg.c
+index 2a23285..2b1a87e 100644
+--- a/src/expr/data_reg.c
++++ b/src/expr/data_reg.c
+@@ -123,7 +123,7 @@ static int nftnl_data_reg_verdict_xml_parse(union nftnl_data_reg *reg,
+ 				   NFTNL_XML_OPT, err);
+ 	if (chain != NULL) {
+ 		if (reg->chain)
+-			xfree(reg->chain);
++			nftnl_xfree(reg->chain);
+ 
+ 		reg->chain = strdup(chain);
+ 	}
+@@ -511,7 +511,7 @@ void nftnl_free_verdict(const union nftnl_data_reg *data)
+ 	switch(data->verdict) {
+ 	case NFT_JUMP:
+ 	case NFT_GOTO:
+-		xfree(data->chain);
++		nftnl_xfree(data->chain);
+ 		break;
+ 	default:
+ 		break;
+diff --git a/src/expr/dynset.c b/src/expr/dynset.c
+index c8d97a5..604600a 100644
+--- a/src/expr/dynset.c
++++ b/src/expr/dynset.c
+@@ -361,7 +361,7 @@ static void nftnl_expr_dynset_free(const struct nftnl_expr *e)
+ {
+ 	struct nftnl_expr_dynset *dynset = nftnl_expr_data(e);
+ 
+-	xfree(dynset->set_name);
++	nftnl_xfree(dynset->set_name);
+ }
+ 
+ struct expr_ops expr_ops_dynset = {
+diff --git a/src/expr/immediate.c b/src/expr/immediate.c
+index eb2ca0f..237f944 100644
+--- a/src/expr/immediate.c
++++ b/src/expr/immediate.c
+@@ -44,7 +44,7 @@ nftnl_expr_immediate_set(struct nftnl_expr *e, uint16_t type,
+ 		break;
+ 	case NFTNL_EXPR_IMM_CHAIN:
+ 		if (imm->data.chain)
+-			xfree(imm->data.chain);
++			nftnl_xfree(imm->data.chain);
+ 
+ 		imm->data.chain = strdup(data);
+ 		break;
+diff --git a/src/expr/log.c b/src/expr/log.c
+index c3dc0a6..ab24686 100644
+--- a/src/expr/log.c
++++ b/src/expr/log.c
+@@ -38,7 +38,7 @@ static int nftnl_expr_log_set(struct nftnl_expr *e, uint16_t type,
+ 	switch(type) {
+ 	case NFTNL_EXPR_LOG_PREFIX:
+ 		if (log->prefix)
+-			xfree(log->prefix);
++			nftnl_xfree(log->prefix);
+ 
+ 		log->prefix = strdup(data);
+ 		break;
+@@ -152,7 +152,7 @@ nftnl_expr_log_parse(struct nftnl_expr *e, struct nlattr *attr)
+ 
+ 	if (tb[NFTA_LOG_PREFIX]) {
+ 		if (log->prefix)
+-			xfree(log->prefix);
++			nftnl_xfree(log->prefix);
+ 
+ 		log->prefix = strdup(mnl_attr_get_str(tb[NFTA_LOG_PREFIX]));
+ 		e->flags |= (1 << NFTNL_EXPR_LOG_PREFIX);
+@@ -329,7 +329,7 @@ static void nftnl_expr_log_free(const struct nftnl_expr *e)
+ {
+ 	struct nftnl_expr_log *log = nftnl_expr_data(e);
+ 
+-	xfree(log->prefix);
++	nftnl_xfree(log->prefix);
+ }
+ 
+ struct expr_ops expr_ops_log = {
+diff --git a/src/expr/lookup.c b/src/expr/lookup.c
+index ed32ba6..6e9b0e6 100644
+--- a/src/expr/lookup.c
++++ b/src/expr/lookup.c
+@@ -258,7 +258,7 @@ static void nftnl_expr_lookup_free(const struct nftnl_expr *e)
+ {
+ 	struct nftnl_expr_lookup *lookup = nftnl_expr_data(e);
+ 
+-	xfree(lookup->set_name);
++	nftnl_xfree(lookup->set_name);
+ }
+ 
+ struct expr_ops expr_ops_lookup = {
+diff --git a/src/expr/match.c b/src/expr/match.c
+index 2929b43..ec46394 100644
+--- a/src/expr/match.c
++++ b/src/expr/match.c
+@@ -50,7 +50,7 @@ nftnl_expr_match_set(struct nftnl_expr *e, uint16_t type,
+ 		break;
+ 	case NFTNL_EXPR_MT_INFO:
+ 		if (mt->data)
+-			xfree(mt->data);
++			nftnl_xfree(mt->data);
+ 
+ 		mt->data = data;
+ 		mt->data_len = data_len;
+@@ -147,7 +147,7 @@ static int nftnl_expr_match_parse(struct nftnl_expr *e, struct nlattr *attr)
+ 		void *match_data;
+ 
+ 		if (match->data)
+-			xfree(match->data);
++			nftnl_xfree(match->data);
+ 
+ 		match_data = calloc(1, len);
+ 		if (match_data == NULL)
+@@ -237,7 +237,7 @@ static void nftnl_expr_match_free(const struct nftnl_expr *e)
+ {
+ 	struct nftnl_expr_match *match = nftnl_expr_data(e);
+ 
+-	xfree(match->data);
++	nftnl_xfree(match->data);
+ }
+ 
+ struct expr_ops expr_ops_match = {
+diff --git a/src/expr/target.c b/src/expr/target.c
+index 68a7d8a..05f9e5a 100644
+--- a/src/expr/target.c
++++ b/src/expr/target.c
+@@ -50,7 +50,7 @@ nftnl_expr_target_set(struct nftnl_expr *e, uint16_t type,
+ 		break;
+ 	case NFTNL_EXPR_TG_INFO:
+ 		if (tg->data)
+-			xfree(tg->data);
++			nftnl_xfree(tg->data);
+ 
+ 		tg->data = data;
+ 		tg->data_len = data_len;
+@@ -147,7 +147,7 @@ static int nftnl_expr_target_parse(struct nftnl_expr *e, struct nlattr *attr)
+ 		void *target_data;
+ 
+ 		if (target->data)
+-			xfree(target->data);
++			nftnl_xfree(target->data);
+ 
+ 		target_data = calloc(1, len);
+ 		if (target_data == NULL)
+@@ -238,7 +238,7 @@ static void nftnl_expr_target_free(const struct nftnl_expr *e)
+ {
+ 	struct nftnl_expr_target *target = nftnl_expr_data(e);
+ 
+-	xfree(target->data);
++	nftnl_xfree(target->data);
+ }
+ 
+ struct expr_ops expr_ops_target = {
+diff --git a/src/gen.c b/src/gen.c
+index 115a105..576771a 100644
+--- a/src/gen.c
++++ b/src/gen.c
+@@ -37,7 +37,7 @@ EXPORT_SYMBOL_ALIAS(nftnl_gen_alloc, nft_gen_alloc);
+ 
+ void nftnl_gen_free(const struct nftnl_gen *gen)
+ {
+-	xfree(gen);
++	nftnl_xfree(gen);
+ }
+ EXPORT_SYMBOL_ALIAS(nftnl_gen_free, nft_gen_free);
+ 
+diff --git a/src/mxml.c b/src/mxml.c
+index 51dbf1b..5b2aa57 100644
+--- a/src/mxml.c
++++ b/src/mxml.c
+@@ -85,7 +85,7 @@ struct nftnl_expr *nftnl_mxml_expr_parse(mxml_node_t *node,
+ 		goto err_expr;
+ 
+ 	tree = mxmlLoadString(NULL, xml_text, MXML_OPAQUE_CALLBACK);
+-	xfree(xml_text);
++	nftnl_xfree(xml_text);
+ 
+ 	if (tree == NULL)
+ 		goto err_expr;
+diff --git a/src/rule.c b/src/rule.c
+index 8ee8648..8158c26 100644
+--- a/src/rule.c
++++ b/src/rule.c
+@@ -72,13 +72,13 @@ void nftnl_rule_free(const struct nftnl_rule *r)
+ 		nftnl_expr_free(e);
+ 
+ 	if (r->table != NULL)
+-		xfree(r->table);
++		nftnl_xfree(r->table);
+ 	if (r->chain != NULL)
+-		xfree(r->chain);
++		nftnl_xfree(r->chain);
+ 	if (r->user.data != NULL)
+-		xfree(r->user.data);
++		nftnl_xfree(r->user.data);
+ 
+-	xfree(r);
++	nftnl_xfree(r);
+ }
+ EXPORT_SYMBOL_ALIAS(nftnl_rule_free, nft_rule_free);
+ 
+@@ -96,13 +96,13 @@ void nftnl_rule_unset(struct nftnl_rule *r, uint16_t attr)
+ 	switch (attr) {
+ 	case NFTNL_RULE_TABLE:
+ 		if (r->table) {
+-			xfree(r->table);
++			nftnl_xfree(r->table);
+ 			r->table = NULL;
+ 		}
+ 		break;
+ 	case NFTNL_RULE_CHAIN:
+ 		if (r->chain) {
+-			xfree(r->chain);
++			nftnl_xfree(r->chain);
+ 			r->chain = NULL;
+ 		}
+ 		break;
+@@ -138,13 +138,13 @@ void nftnl_rule_set_data(struct nftnl_rule *r, uint16_t attr,
+ 	switch(attr) {
+ 	case NFTNL_RULE_TABLE:
+ 		if (r->table)
+-			xfree(r->table);
++			nftnl_xfree(r->table);
+ 
+ 		r->table = strdup(data);
+ 		break;
+ 	case NFTNL_RULE_CHAIN:
+ 		if (r->chain)
+-			xfree(r->chain);
++			nftnl_xfree(r->chain);
+ 
+ 		r->chain = strdup(data);
+ 		break;
+@@ -165,7 +165,7 @@ void nftnl_rule_set_data(struct nftnl_rule *r, uint16_t attr,
+ 		break;
+ 	case NFTNL_RULE_USERDATA:
+ 		if (r->user.data != NULL)
+-			xfree(r->user.data);
++			nftnl_xfree(r->user.data);
+ 
+ 		r->user.data = malloc(data_len);
+ 		if (!r->user.data)
+@@ -434,12 +434,12 @@ int nftnl_rule_nlmsg_parse(const struct nlmsghdr *nlh, struct nftnl_rule *r)
+ 		return -1;
+ 
+ 	if (tb[NFTA_RULE_TABLE]) {
+-		xfree(r->table);
++		nftnl_xfree(r->table);
+ 		r->table = strdup(mnl_attr_get_str(tb[NFTA_RULE_TABLE]));
+ 		r->flags |= (1 << NFTNL_RULE_TABLE);
+ 	}
+ 	if (tb[NFTA_RULE_CHAIN]) {
+-		xfree(r->chain);
++		nftnl_xfree(r->chain);
+ 		r->chain = strdup(mnl_attr_get_str(tb[NFTA_RULE_CHAIN]));
+ 		r->flags |= (1 << NFTNL_RULE_CHAIN);
+ 	}
+@@ -460,7 +460,7 @@ int nftnl_rule_nlmsg_parse(const struct nlmsghdr *nlh, struct nftnl_rule *r)
+ 			mnl_attr_get_payload(tb[NFTA_RULE_USERDATA]);
+ 
+ 		if (r->user.data)
+-			xfree(r->user.data);
++			nftnl_xfree(r->user.data);
+ 
+ 		r->user.len = mnl_attr_get_payload_len(tb[NFTA_RULE_USERDATA]);
+ 
+@@ -1054,7 +1054,7 @@ EXPORT_SYMBOL_ALIAS(nftnl_expr_iter_next, nft_rule_expr_iter_next);
+ 
+ void nftnl_expr_iter_destroy(struct nftnl_expr_iter *iter)
+ {
+-	xfree(iter);
++	nftnl_xfree(iter);
+ }
+ EXPORT_SYMBOL_ALIAS(nftnl_expr_iter_destroy, nft_rule_expr_iter_destroy);
+ 
+@@ -1084,7 +1084,7 @@ void nftnl_rule_list_free(struct nftnl_rule_list *list)
+ 		list_del(&r->head);
+ 		nftnl_rule_free(r);
+ 	}
+-	xfree(list);
++	nftnl_xfree(list);
+ }
+ EXPORT_SYMBOL_ALIAS(nftnl_rule_list_free, nft_rule_list_free);
+ 
+@@ -1175,6 +1175,6 @@ EXPORT_SYMBOL_ALIAS(nftnl_rule_list_iter_next, nft_rule_list_iter_next);
+ 
+ void nftnl_rule_list_iter_destroy(const struct nftnl_rule_list_iter *iter)
+ {
+-	xfree(iter);
++	nftnl_xfree(iter);
+ }
+ EXPORT_SYMBOL_ALIAS(nftnl_rule_list_iter_destroy, nft_rule_list_iter_destroy);
+diff --git a/src/ruleset.c b/src/ruleset.c
+index 414b7c4..6ec38c6 100644
+--- a/src/ruleset.c
++++ b/src/ruleset.c
+@@ -74,7 +74,7 @@ void nftnl_ruleset_free(const struct nftnl_ruleset *r)
+ 		nftnl_set_list_free(r->set_list);
+ 	if (r->flags & (1 << NFTNL_RULESET_RULELIST))
+ 		nftnl_rule_list_free(r->rule_list);
+-	xfree(r);
++	nftnl_xfree(r);
+ }
+ EXPORT_SYMBOL_ALIAS(nftnl_ruleset_free, nft_ruleset_free);
+ 
+diff --git a/src/set.c b/src/set.c
+index dbea93b..025d50c 100644
+--- a/src/set.c
++++ b/src/set.c
+@@ -45,15 +45,15 @@ void nftnl_set_free(const struct nftnl_set *s)
+ 	struct nftnl_set_elem *elem, *tmp;
+ 
+ 	if (s->table != NULL)
+-		xfree(s->table);
++		nftnl_xfree(s->table);
+ 	if (s->name != NULL)
+-		xfree(s->name);
++		nftnl_xfree(s->name);
+ 
+ 	list_for_each_entry_safe(elem, tmp, &s->element_list, head) {
+ 		list_del(&elem->head);
+ 		nftnl_set_elem_free(elem);
+ 	}
+-	xfree(s);
++	nftnl_xfree(s);
+ }
+ EXPORT_SYMBOL_ALIAS(nftnl_set_free, nft_set_free);
+ 
+@@ -69,14 +69,14 @@ void nftnl_set_unset(struct nftnl_set *s, uint16_t attr)
+ 	case NFTNL_SET_TABLE:
+ 		if (s->flags & (1 << NFTNL_SET_TABLE))
+ 			if (s->table) {
+-				xfree(s->table);
++				nftnl_xfree(s->table);
+ 				s->table = NULL;
+ 			}
+ 		break;
+ 	case NFTNL_SET_NAME:
+ 		if (s->flags & (1 << NFTNL_SET_NAME))
+ 			if (s->name) {
+-				xfree(s->name);
++				nftnl_xfree(s->name);
+ 				s->name = NULL;
+ 			}
+ 		break;
+@@ -124,13 +124,13 @@ void nftnl_set_set_data(struct nftnl_set *s, uint16_t attr, const void *data,
+ 	switch(attr) {
+ 	case NFTNL_SET_TABLE:
+ 		if (s->table)
+-			xfree(s->table);
++			nftnl_xfree(s->table);
+ 
+ 		s->table = strdup(data);
+ 		break;
+ 	case NFTNL_SET_NAME:
+ 		if (s->name)
+-			xfree(s->name);
++			nftnl_xfree(s->name);
+ 
+ 		s->name = strdup(data);
+ 		break;
+@@ -435,12 +435,12 @@ int nftnl_set_nlmsg_parse(const struct nlmsghdr *nlh, struct nftnl_set *s)
+ 		return -1;
+ 
+ 	if (tb[NFTA_SET_TABLE]) {
+-		xfree(s->table);
++		nftnl_xfree(s->table);
+ 		s->table = strdup(mnl_attr_get_str(tb[NFTA_SET_TABLE]));
+ 		s->flags |= (1 << NFTNL_SET_TABLE);
+ 	}
+ 	if (tb[NFTA_SET_NAME]) {
+-		xfree(s->name);
++		nftnl_xfree(s->name);
+ 		s->name = strdup(mnl_attr_get_str(tb[NFTA_SET_NAME]));
+ 		s->flags |= (1 << NFTNL_SET_NAME);
+ 	}
+@@ -1087,7 +1087,7 @@ void nftnl_set_list_free(struct nftnl_set_list *list)
+ 		list_del(&s->head);
+ 		nftnl_set_free(s);
+ 	}
+-	xfree(list);
++	nftnl_xfree(list);
+ }
+ EXPORT_SYMBOL_ALIAS(nftnl_set_list_free, nft_set_list_free);
+ 
+@@ -1177,7 +1177,7 @@ EXPORT_SYMBOL_ALIAS(nftnl_set_list_iter_next, nft_set_list_iter_next);
+ 
+ void nftnl_set_list_iter_destroy(const struct nftnl_set_list_iter *iter)
+ {
+-	xfree(iter);
++	nftnl_xfree(iter);
+ }
+ EXPORT_SYMBOL_ALIAS(nftnl_set_list_iter_destroy, nft_set_list_iter_destroy);
+ 
+diff --git a/src/set_elem.c b/src/set_elem.c
+index b9c7e1e..c8ffeae 100644
+--- a/src/set_elem.c
++++ b/src/set_elem.c
+@@ -43,7 +43,7 @@ void nftnl_set_elem_free(struct nftnl_set_elem *s)
+ {
+ 	if (s->flags & (1 << NFTNL_SET_ELEM_CHAIN)) {
+ 		if (s->data.chain) {
+-			xfree(s->data.chain);
++			nftnl_xfree(s->data.chain);
+ 			s->data.chain = NULL;
+ 		}
+ 	}
+@@ -52,9 +52,9 @@ void nftnl_set_elem_free(struct nftnl_set_elem *s)
+ 		nftnl_expr_free(s->expr);
+ 
+ 	if (s->flags & (1 << NFTNL_SET_ELEM_USERDATA))
+-		xfree(s->user.data);
++		nftnl_xfree(s->user.data);
+ 
+-	xfree(s);
++	nftnl_xfree(s);
+ }
+ EXPORT_SYMBOL_ALIAS(nftnl_set_elem_free, nft_set_elem_free);
+ 
+@@ -70,7 +70,7 @@ void nftnl_set_elem_unset(struct nftnl_set_elem *s, uint16_t attr)
+ 	case NFTNL_SET_ELEM_CHAIN:
+ 		if (s->flags & (1 << NFTNL_SET_ELEM_CHAIN)) {
+ 			if (s->data.chain) {
+-				xfree(s->data.chain);
++				nftnl_xfree(s->data.chain);
+ 				s->data.chain = NULL;
+ 			}
+ 		}
+@@ -113,7 +113,7 @@ void nftnl_set_elem_set(struct nftnl_set_elem *s, uint16_t attr,
+ 		break;
+ 	case NFTNL_SET_ELEM_CHAIN:	/* NFTA_SET_ELEM_DATA */
+ 		if (s->data.chain)
+-			xfree(s->data.chain);
++			nftnl_xfree(s->data.chain);
+ 
+ 		s->data.chain = strdup(data);
+ 		break;
+@@ -126,7 +126,7 @@ void nftnl_set_elem_set(struct nftnl_set_elem *s, uint16_t attr,
+ 		break;
+ 	case NFTNL_SET_ELEM_USERDATA: /* NFTA_SET_ELEM_USERDATA */
+ 		if (s->user.data != NULL)
+-			xfree(s->user.data);
++			nftnl_xfree(s->user.data);
+ 
+ 		s->user.data = malloc(data_len);
+ 		if (!s->user.data)
+@@ -399,7 +399,7 @@ static int nftnl_set_elems_parse2(struct nftnl_set *s, const struct nlattr *nest
+ 			mnl_attr_get_payload(tb[NFTA_SET_ELEM_USERDATA]);
+ 
+ 		if (e->user.data)
+-			xfree(e->user.data);
++			nftnl_xfree(e->user.data);
+ 
+ 		e->user.len  = mnl_attr_get_payload_len(tb[NFTA_SET_ELEM_USERDATA]);
+ 		e->user.data = malloc(e->user.len);
+@@ -471,13 +471,13 @@ int nftnl_set_elems_nlmsg_parse(const struct nlmsghdr *nlh, struct nftnl_set *s)
+ 		return -1;
+ 
+ 	if (tb[NFTA_SET_ELEM_LIST_TABLE]) {
+-		xfree(s->table);
++		nftnl_xfree(s->table);
+ 		s->table =
+ 			strdup(mnl_attr_get_str(tb[NFTA_SET_ELEM_LIST_TABLE]));
+ 		s->flags |= (1 << NFTNL_SET_TABLE);
+ 	}
+ 	if (tb[NFTA_SET_ELEM_LIST_SET]) {
+-		xfree(s->name);
++		nftnl_xfree(s->name);
+ 		s->name =
+ 			strdup(mnl_attr_get_str(tb[NFTA_SET_ELEM_LIST_SET]));
+ 		s->flags |= (1 << NFTNL_SET_NAME);
+@@ -866,7 +866,7 @@ EXPORT_SYMBOL_ALIAS(nftnl_set_elems_iter_next, nft_set_elems_iter_next);
+ 
+ void nftnl_set_elems_iter_destroy(struct nftnl_set_elems_iter *iter)
+ {
+-	xfree(iter);
++	nftnl_xfree(iter);
+ }
+ EXPORT_SYMBOL_ALIAS(nftnl_set_elems_iter_destroy, nft_set_elems_iter_destroy);
+ 
+diff --git a/src/table.c b/src/table.c
+index 42fe49f..7363853 100644
+--- a/src/table.c
++++ b/src/table.c
+@@ -45,9 +45,9 @@ EXPORT_SYMBOL_ALIAS(nftnl_table_alloc, nft_table_alloc);
+ void nftnl_table_free(const struct nftnl_table *t)
+ {
+ 	if (t->flags & (1 << NFTNL_TABLE_NAME))
+-		xfree(t->name);
++		nftnl_xfree(t->name);
+ 
+-	xfree(t);
++	nftnl_xfree(t);
+ }
+ EXPORT_SYMBOL_ALIAS(nftnl_table_free, nft_table_free);
+ 
+@@ -65,7 +65,7 @@ void nftnl_table_unset(struct nftnl_table *t, uint16_t attr)
+ 	switch (attr) {
+ 	case NFTNL_TABLE_NAME:
+ 		if (t->name) {
+-			xfree(t->name);
++			nftnl_xfree(t->name);
+ 			t->name = NULL;
+ 		}
+ 		break;
+@@ -95,7 +95,7 @@ void nftnl_table_set_data(struct nftnl_table *t, uint16_t attr,
+ 	switch (attr) {
+ 	case NFTNL_TABLE_NAME:
+ 		if (t->name)
+-			xfree(t->name);
++			nftnl_xfree(t->name);
+ 
+ 		t->name = strdup(data);
+ 		break;
+@@ -229,7 +229,7 @@ int nftnl_table_nlmsg_parse(const struct nlmsghdr *nlh, struct nftnl_table *t)
+ 		return -1;
+ 
+ 	if (tb[NFTA_TABLE_NAME]) {
+-		xfree(t->name);
++		nftnl_xfree(t->name);
+ 		t->name = strdup(mnl_attr_get_str(tb[NFTA_TABLE_NAME]));
+ 		t->flags |= (1 << NFTNL_TABLE_NAME);
+ 	}
+@@ -497,7 +497,7 @@ void nftnl_table_list_free(struct nftnl_table_list *list)
+ 		list_del(&r->head);
+ 		nftnl_table_free(r);
+ 	}
+-	xfree(list);
++	nftnl_xfree(list);
+ }
+ EXPORT_SYMBOL_ALIAS(nftnl_table_list_free, nft_table_list_free);
+ 
+@@ -582,6 +582,6 @@ EXPORT_SYMBOL_ALIAS(nftnl_table_list_iter_next, nft_table_list_iter_next);
+ 
+ void nftnl_table_list_iter_destroy(const struct nftnl_table_list_iter *iter)
+ {
+-	xfree(iter);
++	nftnl_xfree(iter);
+ }
+ EXPORT_SYMBOL_ALIAS(nftnl_table_list_iter_destroy, nft_table_list_iter_destroy);
+diff --git a/src/trace.c b/src/trace.c
+index 921fa21..1933bb8 100644
+--- a/src/trace.c
++++ b/src/trace.c
+@@ -61,13 +61,13 @@ struct nftnl_trace *nftnl_trace_alloc(void)
+ EXPORT_SYMBOL(nftnl_trace_free);
+ void nftnl_trace_free(const struct nftnl_trace *t)
+ {
+-	xfree(t->chain);
+-	xfree(t->table);
+-	xfree(t->jump_target);
+-	xfree(t->ll.data);
+-	xfree(t->nh.data);
+-	xfree(t->th.data);
+-	xfree(t);
++	nftnl_xfree(t->chain);
++	nftnl_xfree(t->table);
++	nftnl_xfree(t->jump_target);
++	nftnl_xfree(t->ll.data);
++	nftnl_xfree(t->nh.data);
++	nftnl_xfree(t->th.data);
++	nftnl_xfree(t);
+ }
+ 
+ EXPORT_SYMBOL(nftnl_trace_is_set);
+diff --git a/src/udata.c b/src/udata.c
+index 60c2f34..ec1f7dc 100644
+--- a/src/udata.c
++++ b/src/udata.c
+@@ -32,7 +32,7 @@ EXPORT_SYMBOL(nftnl_udata_buf_alloc);
+ 
+ void nftnl_udata_buf_free(const struct nftnl_udata_buf *buf)
+ {
+-	xfree(buf);
++	nftnl_xfree(buf);
+ }
+ EXPORT_SYMBOL(nftnl_udata_buf_free);
+ 
+diff --git a/src/utils.c b/src/utils.c
+index 22710b9..f29416e 100644
+--- a/src/utils.c
++++ b/src/utils.c
+@@ -264,7 +264,7 @@ int nftnl_fprintf(FILE *fp, const void *obj, uint32_t cmd, uint32_t type,
+ 
+ out:
+ 	if (buf != _buf)
+-		xfree(buf);
++		nftnl_xfree(buf);
+ 
+ 	return ret;
+ }
+-- 
+2.7.3
+

@@ -1,0 +1,144 @@
+From ded9f83ef3bcb4c688da80354c179543e4862e52 Mon Sep 17 00:00:00 2001
+From: Romain Naour <romain.naour@gmail.com>
+Date: Wed, 25 May 2016 15:57:10 +0200
+Subject: [PATCH] install the stack libraries to "lib" subdirectory
+
+Using '.' to install the stack libraries is not correct since
+it will install them to /usr/.
+
+ls /usr/liboplkmnapp-kernelintf.so
+
+Fix this by using 'lib' instead of '.'
+
+The problem with the openpowerlink build system is that it expect
+the stack directory to be a "local staging" directory which
+contains headers and libraries. So the libraries build by the
+stack project are installed in stack/lib by default.
+
+This is wrong to do that because it becomes difficult to package
+openpowerlink for normal Linux systems.
+
+Buildroot like others build system expect from a packaged software
+to install libraries and headers build/provided in a staging
+directory.
+
+It seems that CMAKE_INSTALL_PREFIX is misused by the default value
+"${CMAKE_CURRENT_SOURCE_DIR}/lib/${SYSTEM_NAME_DIR}/${SYSTEM_PROCESSOR_DIR}"
+since it already contains the lib directory and therefore the
+entire build system is messed up.
+
+It seems that the openpowerlink's build system doesn't allow/support
+CMAKE_INSTALL_PREFIX to be set externally
+(which is the standard approach).
+
+The issue has been reported [1] upstream and a build system
+refactoring is needed to fix this properly.
+
+[1] http://sourceforge.net/p/openpowerlink/discussion/newbie/thread/3f13af65/#8f80/a50a/4649/f07c
+
+Signed-off-by: Romain Naour <romain.naour@gmail.com>
+---
+ stack/proj/linux/liboplkcn/CMakeLists.txt               | 2 +-
+ stack/proj/linux/liboplkcnapp-kernelintf/CMakeLists.txt | 2 +-
+ stack/proj/linux/liboplkcnapp-userintf/CMakeLists.txt   | 2 +-
+ stack/proj/linux/liboplkcndrv-pcap/CMakeLists.txt       | 2 +-
+ stack/proj/linux/liboplkmn/CMakeLists.txt               | 2 +-
+ stack/proj/linux/liboplkmnapp-kernelintf/CMakeLists.txt | 2 +-
+ stack/proj/linux/liboplkmnapp-kernelpcie/CMakeLists.txt | 2 +-
+ stack/proj/linux/liboplkmnapp-userintf/CMakeLists.txt   | 2 +-
+ stack/proj/linux/liboplkmndrv-pcap/CMakeLists.txt       | 2 +-
+ 9 files changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/stack/proj/linux/liboplkcn/CMakeLists.txt b/stack/proj/linux/liboplkcn/CMakeLists.txt
+index c700d9d..b891553 100644
+--- a/stack/proj/linux/liboplkcn/CMakeLists.txt
++++ b/stack/proj/linux/liboplkcn/CMakeLists.txt
+@@ -94,4 +94,4 @@ ADD_LIBRARY(${LIB_NAME} ${LIB_TYPE} ${LIB_SOURCES})
+ TARGET_LINK_LIBRARIES(${LIB_NAME} ${ARCH_LIBRARIES})
+ SET_PROPERTY(TARGET ${LIB_NAME} PROPERTY COMPILE_DEFINITIONS_DEBUG DEBUG;DEF_DEBUG_LVL=${CFG_DEBUG_LVL})
+ SET_PROPERTY(TARGET ${LIB_NAME} PROPERTY DEBUG_POSTFIX "_d")
+-INSTALL(TARGETS ${LIB_NAME} ARCHIVE DESTINATION . LIBRARY DESTINATION .)
++INSTALL(TARGETS ${LIB_NAME} ARCHIVE DESTINATION lib LIBRARY DESTINATION lib)
+diff --git a/stack/proj/linux/liboplkcnapp-kernelintf/CMakeLists.txt b/stack/proj/linux/liboplkcnapp-kernelintf/CMakeLists.txt
+index 03752df..7b1050c 100644
+--- a/stack/proj/linux/liboplkcnapp-kernelintf/CMakeLists.txt
++++ b/stack/proj/linux/liboplkcnapp-kernelintf/CMakeLists.txt
+@@ -87,4 +87,4 @@ ADD_LIBRARY(${LIB_NAME} ${LIB_TYPE} ${LIB_SOURCES})
+ TARGET_LINK_LIBRARIES(${LIB_NAME} ${ARCH_LIBRARIES})
+ SET_PROPERTY(TARGET ${LIB_NAME} PROPERTY COMPILE_DEFINITIONS_DEBUG DEBUG;DEF_DEBUG_LVL=${CFG_DEBUG_LVL})
+ SET_PROPERTY(TARGET ${LIB_NAME} PROPERTY DEBUG_POSTFIX "_d")
+-INSTALL(TARGETS ${LIB_NAME} ARCHIVE DESTINATION . LIBRARY DESTINATION .)
++INSTALL(TARGETS ${LIB_NAME} ARCHIVE DESTINATION lib LIBRARY DESTINATION lib)
+diff --git a/stack/proj/linux/liboplkcnapp-userintf/CMakeLists.txt b/stack/proj/linux/liboplkcnapp-userintf/CMakeLists.txt
+index bcc4273..8ca5b7e 100644
+--- a/stack/proj/linux/liboplkcnapp-userintf/CMakeLists.txt
++++ b/stack/proj/linux/liboplkcnapp-userintf/CMakeLists.txt
+@@ -87,4 +87,4 @@ ADD_LIBRARY(${LIB_NAME} ${LIB_TYPE} ${LIB_SOURCES})
+ TARGET_LINK_LIBRARIES(${LIB_NAME} ${ARCH_LIBRARIES})
+ SET_PROPERTY(TARGET ${LIB_NAME} PROPERTY COMPILE_DEFINITIONS_DEBUG DEBUG;DEF_DEBUG_LVL=${CFG_DEBUG_LVL})
+ SET_PROPERTY(TARGET ${LIB_NAME} PROPERTY DEBUG_POSTFIX "_d")
+-INSTALL(TARGETS ${LIB_NAME} ARCHIVE DESTINATION . LIBRARY DESTINATION .)
++INSTALL(TARGETS ${LIB_NAME} ARCHIVE DESTINATION lib LIBRARY DESTINATION lib)
+diff --git a/stack/proj/linux/liboplkcndrv-pcap/CMakeLists.txt b/stack/proj/linux/liboplkcndrv-pcap/CMakeLists.txt
+index 440f02c..6ffcbe9 100644
+--- a/stack/proj/linux/liboplkcndrv-pcap/CMakeLists.txt
++++ b/stack/proj/linux/liboplkcndrv-pcap/CMakeLists.txt
+@@ -77,4 +77,4 @@ ADD_LIBRARY(${LIB_NAME} ${LIB_TYPE} ${LIB_SOURCES})
+ TARGET_LINK_LIBRARIES(${LIB_NAME} ${ARCH_LIBRARIES})
+ SET_PROPERTY(TARGET ${LIB_NAME} PROPERTY COMPILE_DEFINITIONS_DEBUG DEBUG;DEF_DEBUG_LVL=${CFG_DEBUG_LVL})
+ SET_PROPERTY(TARGET ${LIB_NAME} PROPERTY DEBUG_POSTFIX "_d")
+-INSTALL(TARGETS ${LIB_NAME} ARCHIVE DESTINATION . LIBRARY DESTINATION .)
++INSTALL(TARGETS ${LIB_NAME} ARCHIVE DESTINATION lib LIBRARY DESTINATION lib)
+diff --git a/stack/proj/linux/liboplkmn/CMakeLists.txt b/stack/proj/linux/liboplkmn/CMakeLists.txt
+index a8850b8..d762d4c 100644
+--- a/stack/proj/linux/liboplkmn/CMakeLists.txt
++++ b/stack/proj/linux/liboplkmn/CMakeLists.txt
+@@ -93,4 +93,4 @@ ADD_LIBRARY(${LIB_NAME} ${LIB_TYPE} ${LIB_SOURCES})
+ TARGET_LINK_LIBRARIES(${LIB_NAME} ${ARCH_LIBRARIES})
+ SET_PROPERTY(TARGET ${LIB_NAME} PROPERTY COMPILE_DEFINITIONS_DEBUG DEBUG;DEF_DEBUG_LVL=${CFG_DEBUG_LVL})
+ SET_PROPERTY(TARGET ${LIB_NAME} PROPERTY DEBUG_POSTFIX "_d")
+-INSTALL(TARGETS ${LIB_NAME} ARCHIVE DESTINATION . LIBRARY DESTINATION .)
++INSTALL(TARGETS ${LIB_NAME} ARCHIVE DESTINATION lib LIBRARY DESTINATION lib)
+diff --git a/stack/proj/linux/liboplkmnapp-kernelintf/CMakeLists.txt b/stack/proj/linux/liboplkmnapp-kernelintf/CMakeLists.txt
+index f2606a3..f71b182 100644
+--- a/stack/proj/linux/liboplkmnapp-kernelintf/CMakeLists.txt
++++ b/stack/proj/linux/liboplkmnapp-kernelintf/CMakeLists.txt
+@@ -86,4 +86,4 @@ ADD_LIBRARY(${LIB_NAME} ${LIB_TYPE} ${LIB_SOURCES})
+ TARGET_LINK_LIBRARIES(${LIB_NAME} ${ARCH_LIBRARIES})
+ SET_PROPERTY(TARGET ${LIB_NAME} PROPERTY COMPILE_DEFINITIONS_DEBUG DEBUG;DEF_DEBUG_LVL=${CFG_DEBUG_LVL})
+ SET_PROPERTY(TARGET ${LIB_NAME} PROPERTY DEBUG_POSTFIX "_d")
+-INSTALL(TARGETS ${LIB_NAME} ARCHIVE DESTINATION . LIBRARY DESTINATION .)
++INSTALL(TARGETS ${LIB_NAME} ARCHIVE DESTINATION lib LIBRARY DESTINATION lib)
+diff --git a/stack/proj/linux/liboplkmnapp-kernelpcie/CMakeLists.txt b/stack/proj/linux/liboplkmnapp-kernelpcie/CMakeLists.txt
+index 9362ad8..1d5fb6d 100644
+--- a/stack/proj/linux/liboplkmnapp-kernelpcie/CMakeLists.txt
++++ b/stack/proj/linux/liboplkmnapp-kernelpcie/CMakeLists.txt
+@@ -88,4 +88,4 @@ ADD_LIBRARY(${LIB_NAME} ${LIB_TYPE} ${LIB_SOURCES})
+ TARGET_LINK_LIBRARIES(${LIB_NAME} ${ARCH_LIBRARIES})
+ SET_PROPERTY(TARGET ${LIB_NAME} PROPERTY COMPILE_DEFINITIONS_DEBUG DEBUG;DEF_DEBUG_LVL=${CFG_DEBUG_LVL})
+ SET_PROPERTY(TARGET ${LIB_NAME} PROPERTY DEBUG_POSTFIX "_d")
+-INSTALL(TARGETS ${LIB_NAME} ARCHIVE DESTINATION . LIBRARY DESTINATION .)
++INSTALL(TARGETS ${LIB_NAME} ARCHIVE DESTINATION lib LIBRARY DESTINATION lib)
+diff --git a/stack/proj/linux/liboplkmnapp-userintf/CMakeLists.txt b/stack/proj/linux/liboplkmnapp-userintf/CMakeLists.txt
+index 6741eef..042cbcf 100644
+--- a/stack/proj/linux/liboplkmnapp-userintf/CMakeLists.txt
++++ b/stack/proj/linux/liboplkmnapp-userintf/CMakeLists.txt
+@@ -86,4 +86,4 @@ ADD_LIBRARY(${LIB_NAME} ${LIB_TYPE} ${LIB_SOURCES})
+ TARGET_LINK_LIBRARIES(${LIB_NAME} ${ARCH_LIBRARIES})
+ SET_PROPERTY(TARGET ${LIB_NAME} PROPERTY COMPILE_DEFINITIONS_DEBUG DEBUG;DEF_DEBUG_LVL=${CFG_DEBUG_LVL})
+ SET_PROPERTY(TARGET ${LIB_NAME} PROPERTY DEBUG_POSTFIX "_d")
+-INSTALL(TARGETS ${LIB_NAME} ARCHIVE DESTINATION . LIBRARY DESTINATION .)
++INSTALL(TARGETS ${LIB_NAME} ARCHIVE DESTINATION lib LIBRARY DESTINATION lib)
+diff --git a/stack/proj/linux/liboplkmndrv-pcap/CMakeLists.txt b/stack/proj/linux/liboplkmndrv-pcap/CMakeLists.txt
+index b4dd41b..cf875ca 100644
+--- a/stack/proj/linux/liboplkmndrv-pcap/CMakeLists.txt
++++ b/stack/proj/linux/liboplkmndrv-pcap/CMakeLists.txt
+@@ -80,4 +80,4 @@ ADD_LIBRARY(${LIB_NAME} ${LIB_TYPE} ${LIB_SOURCES})
+ TARGET_LINK_LIBRARIES(${LIB_NAME} ${ARCH_LIBRARIES})
+ SET_PROPERTY(TARGET ${LIB_NAME} PROPERTY COMPILE_DEFINITIONS_DEBUG DEBUG;DEF_DEBUG_LVL=${CFG_DEBUG_LVL})
+ SET_PROPERTY(TARGET ${LIB_NAME} PROPERTY DEBUG_POSTFIX "_d")
+-INSTALL(TARGETS ${LIB_NAME} ARCHIVE DESTINATION . LIBRARY DESTINATION .)
++INSTALL(TARGETS ${LIB_NAME} ARCHIVE DESTINATION lib LIBRARY DESTINATION lib)
+-- 
+2.5.5
+

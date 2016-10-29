@@ -701,16 +701,12 @@ http://valgrind.org/
 glibc/sysdeps/i386
 
 setjmp -> (setjmp.S)
-{%gist wayling/8c28dfa15b4c5a9ba08685a18bdec688%}
 longjmp -> (__longjmp.S)
-{%gist wayling/e3222f707baa46dd7eab345c59b2b994%}
 3.7.3 "長轉跳"的限制
 ===
 
 Bug 1:
-{%gist wayling/6015d38a4883625c4bdbcdb056b4242d%}
 Bug 2:
-{%gist wayling/7fad6f7d24de1740ea04258d780b2059%}
 
 **setjmp/longjmp 應用**
 1.coroutine

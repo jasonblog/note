@@ -229,7 +229,7 @@ Contents of section .ctors:
 ```
 .ctors section 示意圖:
 
-![](http://i.imgur.com/qlABJPO.png)
+![](images/qlABJPO.png)
 
 
 
@@ -242,7 +242,7 @@ _init ../sysdeps/i386/crti.S
 __do_global_ctors_aux  at /root/before.exe (from gcc)
 _init () at ../sysdeps/i386/crtn.S
 
-![](http://i.imgur.com/YzMKccX.png)
+![](images/YzMKccX.png)
 
 額外補充:
 1.compile option有加 "-gp" 就會跑進__gmon_start__
@@ -262,7 +262,7 @@ http://www.ropshell.com/peda/Linux_Interactive_Exploit_Development_with_GDB_and_
 3.2 "猴賽雷" exit
 ===
 
-![](http://i.imgur.com/wVXt5gx.png)
+![](images/wVXt5gx.png)
 
 寫demo程式去追code
 1.test_fork.exe
@@ -359,7 +359,7 @@ __run_exit_handlers (int status, struct exit_function_list **listp,
 3.3.3 atexit的實現機制 
 ===
 
-![](http://i.imgur.com/j027Vjo.png)
+![](images/j027Vjo.png)
 ```clike=
 int
 #ifndef atexit

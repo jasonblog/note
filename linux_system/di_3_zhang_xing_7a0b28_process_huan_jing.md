@@ -188,7 +188,6 @@ https://hackmd.io/s/rJARrHa2
 
 第1個範例
 
-{%gist wayling/b786c9b19f8cabe67962e75b85c1c1b6%}
 
 手動編譯一下
 

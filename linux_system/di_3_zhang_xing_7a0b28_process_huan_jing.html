@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>linux新定時器：timefd及相關操作函數 | Jason note</title>
+        <title>第3章 行程(process)環境 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../linux_system/linux_debugging.html" />
+    <link rel="next" href="../assembly/index.html" />
     
     
-    <link rel="prev" href="../linux_system/linuxxi_tong_bian_cheng_ff1a_setjmp_he_longjmp_han.html" />
+    <link rel="prev" href="../linux_system/ru_he_shou_gong_zhan_kai_han_shu_zhan_lai_ding_wei.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="13.1.31" data-basepath=".." data-revision="Sat Oct 29 2016 13:02:01 GMT+0800 (CST)">
+    <div class="book" data-level="13.45" data-basepath=".." data-revision="Sat Oct 29 2016 13:02:01 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -4077,7 +4077,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="13.1.31" data-path="linux_system/linuxxin_ding_shi_qi_ff1a_timefd_ji_xiang_guan_cao.html">
+        <li class="chapter " data-level="13.1.31" data-path="linux_system/linuxxin_ding_shi_qi_ff1a_timefd_ji_xiang_guan_cao.html">
             
                 
                     <a href="../linux_system/linuxxin_ding_shi_qi_ff1a_timefd_ji_xiang_guan_cao.html">
@@ -4970,7 +4970,7 @@
             
         </li>
     
-        <li class="chapter " data-level="13.45" data-path="linux_system/di_3_zhang_xing_7a0b28_process_huan_jing.html">
+        <li class="chapter active" data-level="13.45" data-path="linux_system/di_3_zhang_xing_7a0b28_process_huan_jing.html">
             
                 
                     <a href="../linux_system/di_3_zhang_xing_7a0b28_process_huan_jing.html">
@@ -15042,166 +15042,646 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="linux%E6%96%B0%E5%AE%9A%E6%99%82%E5%99%A8%EF%BC%9Atimefd%E5%8F%8A%E7%9B%B8%E9%97%9C%E6%93%8D%E4%BD%9C%E5%87%BD%E6%95%B8">linux&#x65B0;&#x5B9A;&#x6642;&#x5668;&#xFF1A;timefd&#x53CA;&#x76F8;&#x95DC;&#x64CD;&#x4F5C;&#x51FD;&#x6578;</h1>
-<p>timerfd&#x662F;Linux&#x70BA;&#x7528;&#x6236;&#x7A0B;&#x5E8F;&#x63D0;&#x4F9B;&#x7684;&#x4E00;&#x500B;&#x5B9A;&#x6642;&#x5668;&#x63A5;&#x53E3;&#x3002;&#x9019;&#x500B;&#x63A5;&#x53E3;&#x57FA;&#x65BC;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;&#xFF0C;&#x901A;&#x904E;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;&#x7684;&#x53EF;&#x8B80;&#x4E8B;&#x4EF6;&#x9032;&#x884C;&#x8D85;&#x6642;&#x901A;&#x77E5;&#xFF0C;&#x6240;&#x4EE5;&#x80FD;&#x5920;&#x88AB;&#x7528;&#x65BC;select/poll&#x7684;&#x61C9;&#x7528;&#x5834;&#x666F;&#x3002;</p>
-<h2 id="%E4%B8%80%EF%BC%8C%E7%9B%B8%E9%97%9C%E6%93%8D%E4%BD%9C%E5%87%BD%E6%95%B8">&#x4E00;&#xFF0C;&#x76F8;&#x95DC;&#x64CD;&#x4F5C;&#x51FD;&#x6578;</h2>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/timerfd.h&gt;</span></span>
+                        <h1 id="%E7%AC%AC3%E7%AB%A0-%E8%A1%8C%E7%A8%8B-process-%E7%92%B0%E5%A2%83">&#x7B2C;3&#x7AE0; &#x884C;&#x7A0B;(process)&#x74B0;&#x5883;</h1>
+<p>===
+:::info
+&#x74B0;&#x5883;&#x8A2D;&#x5B9A;</p>
+<p>Host :
+Distributor ID:    Ubuntu
+Description:    Ubuntu 15.10
+Release:    15.10
+Codename:    wily</p>
+<p>Target : i386
+kernel : 4.8.1
+glibc : 2.23
+:::
+<strong>1.&#x5F9E;&#x5B98;&#x7DB2;&#x6293;buildroot &#x4E0B;&#x4F86;</strong></p>
+<h6 id="git-clone-git-git-buildroot-net-buildroot">git clone git://git.buildroot.net/buildroot</h6>
+<p><strong>2.&#x63A8;&#x5230;&#x81EA;&#x5DF1;&#x7684;github</strong>
+<strong>2.1 &#x5148;&#x5728;&#x81EA;&#x5DF1;&#x7684;github&#x5E33;&#x865F;&#x5EFA;&#x7ACB;&#x4E00;&#x500B;repository (wayling/buildroot)</strong>
+<strong>2.2 &#x6539;&#x8B8A;remote url</strong></p>
+<h6 id="git-remote-set-url-origin-https-github-com-wayling-buildroot-git">git remote set-url origin <a href="https://github.com/wayling/buildroot.git" target="_blank">https://github.com/wayling/buildroot.git</a></h6>
+<h6 id="git-remote-v-%E6%AA%A2%E6%9F%A5%E4%B8%80%E4%B8%8B">git remote -v (&#x6AA2;&#x67E5;&#x4E00;&#x4E0B;)</h6>
+<h6 id="git-push-u-origin-master-%E4%B8%8A%E5%82%B3">git push -u origin master (&#x4E0A;&#x50B3;)</h6>
+<p><strong>2.3&#x53BB;github &#x6AA2;&#x67E5;&#x4E00;&#x4E0B;</strong>
+<a href="https://github.com/wayling/buildroot" target="_blank">https://github.com/wayling/buildroot</a></p>
+<p><strong>3.&#x4F7F;&#x7528;buildroot</strong></p>
+<h6 id="make-qemu-x86-defconfig-%E6%88%96%E6%98%AF%E4%BD%BF%E7%94%A8%E6%88%91%E4%BF%AE%E6%94%B9%E9%81%8E%E7%9A%84qemu-study-x86-defconfig">make qemu_x86_defconfig (&#x6216;&#x662F;&#x4F7F;&#x7528;&#x6211;&#x4FEE;&#x6539;&#x904E;&#x7684;qemu_study_x86_defconfig)</h6>
+<p><strong>3.1 &#x9078;&#x64C7;&#x81EA;&#x5DF1;&#x559C;&#x6B61;&#x7684;&#x9078;&#x9805;</strong></p>
+<h6 id="make-menuconfig">make menuconfig</h6>
+<p>gdb/gdbserver/strace &#x61C9;&#x8A72;&#x662F;&#x57FA;&#x672C;&#x6B3E;,&#x883B;&#x597D;&#x7528;&#x7684;,&#x53EF;&#x4EE5;&#x8FFD;glibc&#x5BE6;&#x969B;&#x547C;&#x53EB;&#x7684;syscall
+debug&#x9078;&#x9805;&#x8A18;&#x5F97;&#x8981;&#x958B;</p>
+<pre><code>[Build options]-&gt;[build packages with debugging symbols]
+[Toolchain]-&gt;[glibc (2.23)]
+[Toolchain] -&gt; [GCC compiler Version (gcc 4.8.x)]
+[Build options]-&gt; [strip command for binaries on target (none)]
+[Build options]-&gt;[build packages with debugging symbols]
+[Target packages] -&gt; [Debugging, profiling and benchmark]-&gt;[gdb]
+[Target packages] -&gt; [Debugging, profiling and benchmark]-&gt;[gdbserver]
+[Target packages] -&gt; [Debugging, profiling and benchmark]-&gt;[full debugger]
+[Target packages] -&gt; [Debugging, profiling and benchmark]-&gt;[strace]
+[Target packages] -&gt; [System tools] -&gt; [htop]
+</code></pre><p><strong>3.2 &#x9078;&#x64C7;</strong></p>
+<h6 id="make-linux-menuconfig">make linux-menuconfig</h6>
+<pre><code>[Kernel hacking]-&gt;[Kernel debugging]
+[Compile-time checks and compiler options]-&gt;[Compile the kernel with debug info]
+</code></pre><p><strong>3.3</strong></p>
+<h6 id="make-all">make all</h6>
+<p><strong>3.3.1 &#x81EA;&#x5DF1;&#x5BEB;buildroot package &#x65B9;&#x4FBF;&#x81EA;&#x5DF1;&#x5BEB;&#x6E2C;&#x8A66;code</strong>
+&#x53EF;&#x4EE5;&#x5728;buildroot/package/helloworld/HELLOWORLD.mk &#x770B;&#x5230;&#x7BC4;&#x4F8B;(&#x81EA;&#x5DF1;&#x5BEB;&#x7684;)
+&#x53EA;&#x8981;&#x5728;&#x81EA;&#x5DF1;&#x7684;PC&#x653E;&#x7F6E;&#x81EA;&#x5DF1;&#x7684;&#x6E2C;&#x8A66;code(&#x8DEF;&#x5F91;&#x53C3;&#x8003;HELLOWORLD_SITE,&#x6211;&#x5BEB;&#x7684;&#x7BC4;&#x4F8B; <a href="https://github.com/wayling/ch3.1-start" target="_blank">https://github.com/wayling/ch3.1-start</a> )
+&#x57F7;&#x884C;build package&#x5C31;&#x6703;&#x53BB;&#x7DE8;&#x8B6F;&#x7136;&#x5F8C;&#x7522;&#x751F;&#x5230;buildroot target</p>
+<h6 id="make-helloworld">make helloworld</h6>
+<p><strong>3.4 debug userspace &#x7A0B;&#x5F0F;&#x9700;&#x8981;&#x4F7F;&#x7528;gdbserver</strong></p>
+<h6 id="qemu-system-i386-kernel-output-images-bzimage-hda-output-images-rootfs-ext2-append-root-dev-sda-net-nic-model-virtio-net-user-redir-tcp-5556-10-0-2-15-5566">qemu-system-i386 --kernel output/images/bzImage --hda output/images/rootfs.ext2 --append &quot;root=/dev/sda&quot; -net nic,model=virtio -net user  -redir tcp:5556:10.0.2.15:5566</h6>
+<p><strong>3.4.1</strong>
+&#x767B;&#x5165;qemu &#x88E1;&#x7684;&#x5E33;&#x865F; (root)</p>
+<h6 id="gdbserver-10-0-2-15-5556-helloworld">gdbserver 10:0.2.15:5556 ./helloworld</h6>
+<p>&#x958B;&#x555F;&#x53E6;&#x4E00;&#x500B;terminal
+&#x9032;&#x5165; buildroot/target/root</p>
+<h6 id="gdb-helloworld">gdb ./helloworld</h6>
+<pre><code>target remote 127.0.0.1:5566
+b _start
+b main
+info sharelibrary (&#x78BA;&#x8A8D;share library &#x7684;symbol&#x662F;&#x5426;&#x8F09;&#x5165;)
+From        To          Syms Read   Shared Object Library
+0xb7fdd820  0xb7ff6089  Yes (*)     target:/lib/ld-linux.so.2
+c
+&#x53EF;&#x4EE5;&#x958B;&#x59CB;debug helloworld
+Reading symbols from ./helloworld...done.
+(gdb) list
+1    #include &lt;stdio.h&gt;
+2    
+3    int main()
+4    {
+5            printf(&quot;\nMain entry.\n&quot;);
+6            return 0;
+7    }
+(gdb) info sharedlibrary
+From        To          Syms Read   Shared Object Library
+0xb7fdd820  0xb7ff6089  Yes         target:/lib/ld-linux.so.2
+(gdb) b _start
+Breakpoint 1 at 0x80482e0: file ../sysdeps/i386/start.S, line 61.
+(gdb) b main
+Breakpoint 2 at 0x80483ec: file main.c, line 5.
+(gdb) c
+Continuing.
+Reading /lib/libc.so.6 from remote target...
 
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">timerfd_create</span><span class="hljs-params">(<span class="hljs-keyword">int</span> clockid, <span class="hljs-keyword">int</span> flags)</span></span>;
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">timerfd_settime</span><span class="hljs-params">(<span class="hljs-keyword">int</span> fd, <span class="hljs-keyword">int</span> flags, <span class="hljs-keyword">const</span> <span class="hljs-keyword">struct</span> itimerspec *new_value, <span class="hljs-keyword">struct</span> itimerspec *old_value)</span></span>;
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">timerfd_gettime</span><span class="hljs-params">(<span class="hljs-keyword">int</span> fd, <span class="hljs-keyword">struct</span> itimerspec *curr_value)</span></span>;
-</code></pre>
-<h2 id="%E4%BA%8C%EF%BC%8Ctimerfd-create">&#x4E8C;&#xFF0C;timerfd_create</h2>
-<p>int timerfd_create(int clockid, int flags);</p>
-<p>&#x5B83;&#x662F;&#x7528;&#x4F86;&#x5275;&#x5EFA;&#x4E00;&#x500B;&#x5B9A;&#x6642;&#x5668;&#x63CF;&#x8FF0;&#x7B26;timerfd</p>
-<p>&#x7B2C;&#x4E00;&#x500B;&#x53C3;&#x6578;&#xFF1A;clockid&#x6307;&#x5B9A;&#x6642;&#x9593;&#x985E;&#x578B;&#xFF0C;&#x6709;&#x5169;&#x500B;&#x503C;&#xFF1A;</p>
-<p>CLOCK_REALTIME :Systemwide realtime clock. &#x7CFB;&#x7D71;&#x7BC4;&#x570D;&#x5167;&#x7684;&#x5BE6;&#x6642;&#x6642;&#x9418;</p>
-<p>CLOCK_MONOTONIC:&#x4EE5;&#x56FA;&#x5B9A;&#x7684;&#x901F;&#x7387;&#x904B;&#x884C;&#xFF0C;&#x5F9E;&#x4E0D;&#x9032;&#x884C;&#x8ABF;&#x6574;&#x548C;&#x5FA9;&#x4F4D; ,&#x5B83;&#x4E0D;&#x53D7;&#x4EFB;&#x4F55;&#x7CFB;&#x7D71;time-of-day&#x6642;&#x9418;&#x4FEE;&#x6539;&#x7684;&#x5F71;&#x97FF;</p>
-<p>&#x7B2C;&#x4E8C;&#x500B;&#x53C3;&#x6578;&#xFF1A;flags&#x53EF;&#x4EE5;&#x662F;0&#x6216;&#x8005;O_CLOEXEC/O_NONBLOCK&#x3002;</p>
-<p>&#x8FD4;&#x56DE;&#x503C;&#xFF1A;timerfd&#xFF08;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;&#xFF09;</p>
-<h2 id="%E4%B8%89%EF%BC%8Ctimerfd-settime">&#x4E09;&#xFF0C;timerfd_settime</h2>
-<p>&#x5728;&#x8B1B;&#x89E3;&#x8A72;&#x51FD;&#x6578;&#x524D;&#xFF0C;&#x5148;&#x7406;&#x89E3;&#x5169;&#x500B;&#x76F8;&#x95DC;&#x7D50;&#x69CB;&#x9AD4;&#xFF1A;</p>
-<pre><code class="lang-c"><span class="hljs-keyword">struct</span> timespec {
-    <span class="hljs-keyword">time_t</span> tv_sec;                <span class="hljs-comment">/* Seconds */</span>
-    <span class="hljs-keyword">long</span>   tv_nsec;               <span class="hljs-comment">/* Nanoseconds */</span>
-};
+Breakpoint 1, _start () at ../sysdeps/i386/start.S:61
+61        xorl %ebp, %ebp
+(gdb) list
+56        .globl _start
+57        .type _start,@function
+58    _start:
+59        /* Clear the frame pointer.  The ABI suggests this be done, to mark
+60           the outermost frame obviously.  */
+61        xorl %ebp, %ebp
+62    
+63        /* Extract the arguments as encoded on the stack and set up
+64           the arguments for `main&apos;: argc, argv.  envp will be determined
+65           later in __libc_start_main.  */
+(gdb)
+</code></pre><p><strong>3.5 debug kernel ,&#x7D50;&#x5408;&#x81EA;&#x5DF1;&#x5BEB;&#x7684;&#x7BC4;&#x4F8B;</strong></p>
+<h6 id="qemu-system-i386-kernel-output-images-bzimage-hda-output-images-rootfs-ext2-append-root-dev-sda-s-s">qemu-system-i386 --kernel output/images/bzImage --hda output/images/rootfs.ext2 --append &quot;root=/dev/sda&quot; -S -s</h6>
+<p>&#x958B;&#x555F;&#x53E6;&#x4E00;&#x500B;terminal
+&#x9032;&#x5165;buildroot/output/linux-4.8.1</p>
+<h6 id="gdb-vmlinux">gdb ./vmlinux</h6>
+<pre><code>target remote 127.0.0.1:1234
+&#x958B;&#x5B8C;&#x6A5F;,&#x767B;&#x5165;buildroot qemu 
+b do_group_exit
+c
+&#x56DE;&#x5230;qemu&#x57F7;&#x884C;helloworld
+###### ./helloworld
+&#x53EF;&#x4EE5;&#x518D;&#x56DE;&#x5230; gdb&#x756B;&#x9762;,&#x61C9;&#x8A72;&#x6703;&#x505C;do_group_exit,&#x53EF;&#x4EE5;&#x958B;&#x59CB;&#x52D5;&#x614B;&#x8FFD;&#x8E64;&#x4E86;
+(gdb) target remote 127.0.0.1:1234
+Remote debugging using 127.0.0.1:1234
+0x0000fff0 in ?? ()
+(gdb) c
+Continuing.
+^C
+Program received signal SIGINT, Interrupt.
+native_safe_halt () at ./arch/x86/include/asm/irqflags.h:50
+50    }
+(gdb) b do_group_exit
+Breakpoint 1 at 0xc10486a0: file kernel/exit.c, line 931.
+(gdb) c
+Continuing.
 
-<span class="hljs-keyword">struct</span> itimerspec {
-    <span class="hljs-keyword">struct</span> timespec it_interval;  <span class="hljs-comment">/* Interval for periodic timer */</span>
-    <span class="hljs-keyword">struct</span> timespec it_value;     <span class="hljs-comment">/* Initial expiration */</span>
-};
-</code></pre>
-<p>&#x7B2C;&#x4E8C;&#x500B;&#x7D50;&#x69CB;&#x9AD4;itimerspec&#x5C31;&#x662F;timerfd&#x8981;&#x8A2D;&#x7F6E;&#x7684;&#x8D85;&#x6642;&#x7D50;&#x69CB;&#x9AD4;&#xFF0C;&#x5B83;&#x7684;&#x6210;&#x54E1;it_value&#x8868;&#x793A;&#x5B9A;&#x6642;&#x5668;&#x7B2C;&#x4E00;&#x6B21;&#x8D85;&#x6642;&#x6642;&#x9593;&#xFF0C;it_interval&#x8868;&#x793A;&#x4E4B;&#x5F8C;&#x7684;&#x8D85;&#x6642;&#x6642;&#x9593;&#x5373;&#x6BCF;&#x9694;&#x591A;&#x9577;&#x6642;&#x9593;&#x8D85;&#x6642;</p>
-<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">timerfd_settime</span><span class="hljs-params">(<span class="hljs-keyword">int</span> fd, <span class="hljs-keyword">int</span> flags, <span class="hljs-keyword">const</span> <span class="hljs-keyword">struct</span> itimerspec *new_value, <span class="hljs-keyword">struct</span> itimerspec *old_value)</span></span>;
-</code></pre>
-<p>&#x4F5C;&#x7528;&#xFF1A;&#x7528;&#x4F86;&#x555F;&#x52D5;&#x6216;&#x95DC;&#x9589;&#x6709;fd&#x6307;&#x5B9A;&#x7684;&#x5B9A;&#x6642;&#x5668;</p>
-<p>&#x53C3;&#x6578;&#xFF1A;</p>
-<p>fd&#xFF1A;timerfd&#xFF0C;&#x6709;timerfd_create&#x51FD;&#x6578;&#x8FD4;&#x56DE;</p>
-<p>fnew_value:&#x6307;&#x5B9A;&#x65B0;&#x7684;&#x8D85;&#x6642;&#x6642;&#x9593;&#xFF0C;&#x8A2D;&#x5B9A;new_value.it_value&#x975E;&#x96F6;&#x5247;&#x555F;&#x52D5;&#x5B9A;&#x6642;&#x5668;&#xFF0C;&#x5426;&#x5247;&#x95DC;&#x9589;&#x5B9A;&#x6642;&#x5668;&#xFF0C;&#x5982;&#x679C;new_value.it_interval&#x70BA;0&#xFF0C;&#x5247;&#x5B9A;&#x6642;&#x5668;&#x53EA;&#x5B9A;&#x6642;&#x4E00;&#x6B21;&#xFF0C;&#x5373;&#x521D;&#x59CB;&#x90A3;&#x6B21;&#xFF0C;&#x5426;&#x5247;&#x4E4B;&#x5F8C;&#x6BCF;&#x9694;&#x8A2D;&#x5B9A;&#x6642;&#x9593;&#x8D85;&#x6642;&#x4E00;&#x6B21;</p>
-<p>old_value&#xFF1A;&#x4E0D;&#x70BA;null&#xFF0C;&#x5247;&#x8FD4;&#x56DE;&#x5B9A;&#x6642;&#x5668;&#x9019;&#x6B21;&#x8A2D;&#x7F6E;&#x4E4B;&#x524D;&#x7684;&#x8D85;&#x6642;&#x6642;&#x9593;</p>
-<p>flags&#xFF1A;1&#x4EE3;&#x8868;&#x8A2D;&#x7F6E;&#x7684;&#x662F;&#x7D55;&#x5C0D;&#x6642;&#x9593;&#xFF1B;&#x70BA;0&#x4EE3;&#x8868;&#x76F8;&#x5C0D;&#x6642;&#x9593;&#x3002;</p>
-<h2 id="%E5%9B%9B%EF%BC%8Ctimerfd-gettime">&#x56DB;&#xFF0C;timerfd_gettime</h2>
-<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">timerfd_gettime</span><span class="hljs-params">(<span class="hljs-keyword">int</span> fd, <span class="hljs-keyword">struct</span> itimerspec *curr_value)</span></span>;
-</code></pre>
-<p>&#x6B64;&#x51FD;&#x6578;&#x7528;&#x65BC;&#x7372;&#x5F97;&#x5B9A;&#x6642;&#x5668;&#x8DDD;&#x96E2;&#x4E0B;&#x6B21;&#x8D85;&#x6642;&#x9084;&#x5269;&#x4E0B;&#x7684;&#x6642;&#x9593;&#x3002;&#x5982;&#x679C;&#x8ABF;&#x7528;&#x6642;&#x5B9A;&#x6642;&#x5668;&#x5DF2;&#x7D93;&#x5230;&#x671F;&#xFF0C;&#x4E26;&#x4E14;&#x8A72;&#x5B9A;&#x6642;&#x5668;&#x8655;&#x65BC;&#x5FAA;&#x74B0;&#x6A21;&#x5F0F;&#xFF08;&#x8A2D;&#x7F6E;&#x8D85;&#x6642;&#x6642;&#x9593;&#x6642;struct itimerspec::it_interval&#x4E0D;&#x70BA;0&#xFF09;&#xFF0C;&#x90A3;&#x9EBC;&#x8ABF;&#x7528;&#x6B64;&#x51FD;&#x6578;&#x4E4B;&#x5F8C;&#x5B9A;&#x6642;&#x5668;&#x91CD;&#x65B0;&#x958B;&#x59CB;&#x8A08;&#x6642;&#x3002;</p>
-<p>The it_value field returns the amount of time until the timer will next expire. If both fields of this structure are zero, then the timer is currently disarmed. This field always contains a relative value, regardless of whether the TFD_TIMER_ABSTIME flag was specified when setting the timer.</p>
-<p>The it_interval field returns the interval of the timer. If both fields of this structure are zero, then the timer is set to expire just once, at the time specified by curr_value.it_value.</p>
-<h2 id="%E4%BA%94%EF%BC%8Cread%E8%AE%80%E5%8F%96timefd%E8%B6%85%E6%99%82%E4%BA%8B%E4%BB%B6%E9%80%9A%E7%9F%A5">&#x4E94;&#xFF0C;read&#x8B80;&#x53D6;timefd&#x8D85;&#x6642;&#x4E8B;&#x4EF6;&#x901A;&#x77E5;</h2>
-<p>read(2) If the timer has already expired one or more times since its settings were last modified using <code>timerfd_settime()</code>, or since the last successful read(2), then the buffer given to read(2) returns an unsigned 8-byte integer (uint64_t) containing the number of expirations that have occurred. (The returned value is in host byte order, i.e., the native byte order for integers on the host machine.)</p>
-<p>If no timer expirations have occurred at the time of the read(2), then the call either blocks until the next timer expiration, or fails with the error <code>EAGAIN</code> if the file descriptor has been made nonblocking (via the use of the fcntl(2) F_SETFL operation to set the <code>O_NONBLOCK</code> flag).</p>
-<p>A read(2) will fail with the error <code>EINVAL</code> if the size of the supplied buffer is less than 8 bytes.</p>
-<p>&#x7576;&#x5B9A;&#x6642;&#x5668;&#x8D85;&#x6642;&#xFF0C;read&#x8B80;&#x4E8B;&#x4EF6;&#x767C;&#x751F;&#x5373;&#x53EF;&#x8B80;&#xFF0C;&#x8FD4;&#x56DE;&#x8D85;&#x6642;&#x6B21;&#x6578;&#xFF08;&#x5F9E;&#x4E0A;&#x6B21;&#x8ABF;&#x7528;timerfd_settime()&#x555F;&#x52D5;&#x958B;&#x59CB;&#x6216;&#x4E0A;&#x6B21;read&#x6210;&#x529F;&#x8B80;&#x53D6;&#x958B;&#x59CB;&#xFF09;&#xFF0C;&#x5B83;&#x662F;&#x4E00;&#x500B;8&#x5B57;&#x7BC0;&#x7684;unit64_t&#x985E;&#x578B;&#x6574;&#x6578;&#xFF0C;&#x5982;&#x679C;&#x5B9A;&#x6642;&#x5668;&#x6C92;&#x6709;&#x767C;&#x751F;&#x8D85;&#x6642;&#x4E8B;&#x4EF6;&#xFF0C;&#x5247;read&#x5C07;&#x963B;&#x585E;&#x82E5;timerfd&#x70BA;&#x963B;&#x585E;&#x6A21;&#x5F0F;&#xFF0C;&#x5426;&#x5247;&#x8FD4;&#x56DE;EAGAIN &#x932F;&#x8AA4;&#xFF08;O_NONBLOCK&#x6A21;&#x5F0F;&#xFF09;&#xFF0C;&#x5982;&#x679C;read&#x6642;&#x63D0;&#x4F9B;&#x7684;&#x7DE9;&#x885D;&#x5340;&#x5C0F;&#x65BC;8&#x5B57;&#x7BC0;&#x5C07;&#x4EE5;EINVAL&#x932F;&#x8AA4;&#x8FD4;&#x56DE;&#x3002;</p>
-<h2 id="%E5%85%AD%EF%BC%8C%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A2%BC">&#x516D;&#xFF0C;&#x793A;&#x4F8B;&#x4EE3;&#x78BC;</h2>
-<p>man&#x624B;&#x518A;&#x4E2D;&#x793A;&#x4F8B;&#xFF1A;</p>
-<p>The following program creates a timer and then monitors its progress. The program accepts up to three command-line arguments. The first argument specifies the number of seconds for the initial expiration of the timer. The second argument specifies the interval for the timer, in seconds. The third argument specifies the number of times the program should allow the timer to expire before terminating. The second and third command-line arguments are optional.</p>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/timerfd.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;time.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdint.h&gt;</span>        /* Definition of uint64_t */</span>
+Breakpoint 1, do_group_exit (exit_code=0) at kernel/exit.c:931
+931    {
+(gdb) list
+926     * Take down every thread in the group.  This is called by fatal signals
+927     * as well as by sys_exit_group (below).
+928     */
+929    void
+930    do_group_exit(int exit_code)
+931    {
+932        struct signal_struct *sig = current-&gt;signal;
+933    
+934        BUG_ON(exit_code &amp; 0x80); /* core dumps don&apos;t get here */
+935    
+(gdb)
+</code></pre><h1 id="3-1-main%E6%98%AFc%E7%A8%8B%E5%BC%8F%E7%9A%84%E9%96%8B%E5%A7%8B%E5%97%8E">3.1 main&#x662F;C&#x7A0B;&#x5F0F;&#x7684;&#x958B;&#x59CB;&#x55CE;?</h1>
+<p>Linux&#x4E0A;&#x7A0B;&#x5F0F;&#x57F7;&#x884C;&#x6709;&#x5F88;&#x591A;&#x884C;&#x70BA;&#x53EF;&#x4EE5;&#x63A2;&#x8A0E;,&#x8981;&#x5B8C;&#x6574;&#x4E32;&#x8D77;&#x4F86;&#x4E0D;&#x662F;&#x4E00;&#x4EF6;&#x7C21;&#x55AE;&#x7684;&#x4E8B;</p>
+<ul>
+<li><h4 id="%E5%9F%B7%E8%A1%8C%E6%AA%94%E7%A8%8B%E7%94%9F">&#x57F7;&#x884C;&#x6A94;&#x7A0B;&#x751F;</h4>
+</li>
+</ul>
+<p>&#x7DE8;&#x8B6F; -&gt; &#x7D44;&#x8B6F; -&gt; &#x9023;&#x7D50; -&gt; &#x57F7;&#x884C;&#x6A94;(ELF)|
+|-</p>
+<p>&#x7DE8;&#x8B6F;&#x5668;&#x8AB2;&#x672C;</p>
+<ul>
+<li><h4 id="%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1">&#x4F5C;&#x696D;&#x7CFB;&#x7D71;</h4>
+</li>
+</ul>
+<p>user space -&gt; kernel space|
+|-
+&#x53EF;&#x4EE5;&#x671F;&#x5F85;&#x4E4B;&#x5F8C;&#x7684;&#x8B80;&#x66F8;&#x6703;&#x5206;&#x4EAB;</p>
+<ol>
+<li>Understanding the Linux Kernel, Third Edition</li>
+<li><p>Professional Linux Kernel Architecture</p>
+</li>
+<li><h4 id="%E5%9F%B7%E8%A1%8C%E6%AA%94%E5%9F%B7%E8%A1%8C">&#x57F7;&#x884C;&#x6A94;&#x57F7;&#x884C;</h4>
+<p>loader  -&gt; &#x57F7;&#x884C;&#x6A94;(ELF)|
+|-</p>
+</li>
+</ol>
+<p>1.&#x7A0B;&#x5F0F;&#x8A2D;&#x8A08;&#x5E2B;&#x7684;&#x81EA;&#x6211;&#x4FEE;&#x7149;
+2.&#x53EF;&#x4EE5;&#x53C3;&#x8003;jserv&#x7684;&#x5F88;&#x591A;&#x8AB2;&#x7A0B;
+<a href="https://hackmd.io/s/rJARrHa2" target="_blank">https://hackmd.io/s/rJARrHa2</a></p>
+<p>&#x21D2; main function &#x5728;user space&#x7684;&#x57F7;&#x884C;&#x6D41;&#x7A0B; </p>
+<p>&#x4F55;&#x8B02;&#x7A0B;&#x5F0F; ? </p>
+<ul>
+<li>1.binary -&gt; raw,ELF,PE format...</li>
+<li>2.code/data segment</li>
+</ul>
+<p>&#x7B2C;1&#x500B;&#x7BC4;&#x4F8B;</p>
+<p>&#x624B;&#x52D5;&#x7DE8;&#x8B6F;&#x4E00;&#x4E0B;</p>
+<h6 id="-home-wayling-kernel-study-study-buildroot-output-host-usr-bin-i686-buildroot-linux-gnu-gcc-g-v-o-before-exe-before-c">/home/wayling/kernel_study/study/buildroot/output/host/usr/bin/i686-buildroot-linux-gnu-gcc -g -v -o before.exe before.c</h6>
+<p>:::warning
+collect2(gcc tool)
+dynamic-linker /lib/ld-linux.so.2(glibc)
+crt1.o(glibc) -&gt; (/sysdeps/i386/start.S) 
+crti.o(glibc) -&gt; /sysdeps/i386/crti.S
+crtbegin.o(gcc[<strong>do_global_dtors_aux])
+crtend.o(gcc[</strong>do_global_ctors_aux])
+crtn.o(glibc) -&gt; (/sysdeps/i386/crtn.S
+ldscript -&gt; (gcc ,output/host/usr/lib/ldscripts/elf_i386.xdw)
+:::</p>
+<p>&#x6211;&#x5011;&#x4F86;&#x6AA2;&#x67E5;&#x4E00;&#x4E0B;segment</p>
+<h6 id="objdump-l-before-exe">objdump -l ./before.exe</h6>
+<pre><code>Section to Segment mapping:
+  Segment Sections...
+   00     
+   01     .interp 
+   02     .interp .note.ABI-tag .hash .dynsym .dynstr .gnu.version .gnu.version_
+r .rel.dyn .rel.plt .init .plt .plt.got .text .fini .rodata .eh_frame_hdr .eh_fr
+ame 
+   03     .ctors .dtors .jcr .dynamic .got .got.plt .data .bss 
+   04     .dynamic 
+   05     .note.ABI-tag 
+   06     .eh_frame_hdr 
+   07
+</code></pre><h6 id="objdump-s-j-ctors-before-exe">objdump -s -j .ctors ./before.exe</h6>
+<pre><code>Contents of section .ctors:
+ 804967c ffffffff e3830408 f7830408 0b840408  ................
+ 804968c 00000000                             ....
+</code></pre><p>.ctors section &#x793A;&#x610F;&#x5716;:</p>
+<p><img src="http://i.imgur.com/qlABJPO.png" alt=""></p>
+<h4 id="%E5%9F%B7%E8%A1%8C%E6%B5%81%E7%A8%8B">&#x57F7;&#x884C;&#x6D41;&#x7A0B;</h4>
+<p>_start () at ../sysdeps/i386/start.S
+<strong>libc_start_main at ../csu/libc-start.c
+</strong>libc_csu_init ../csu/libc-start.c
+_init ../sysdeps/i386/crti.S
+__do_global_ctors_aux  at /root/before.exe (from gcc)
+_init () at ../sysdeps/i386/crtn.S</p>
+<p><img src="http://i.imgur.com/YzMKccX.png" alt=""></p>
+<p>&#x984D;&#x5916;&#x88DC;&#x5145;:
+1.compile option&#x6709;&#x52A0; &quot;-gp&quot; &#x5C31;&#x6703;&#x8DD1;&#x9032;<strong>gmon_start</strong></p>
+<p>2.frame_dummy&#x662F;&#x7528;&#x4F86;&#x50B3;&#x5165;ELF&#x7684;eh_frame</p>
+<p>&#x5728;&#x6C92;&#x6709; Frame Pointer &#x7684;&#x60C5;&#x6CC1;&#x4E0B;&#x9032;&#x884C; Stack Unwind (scott&#x6587;&#x7AE0;)</p>
+<h4 id="linux-x86-program-start-up">Linux x86 Program Start Up</h4>
+<p><a href="http://dbp-consulting.com/tutorials/debugging/linuxProgramStartup.html" target="_blank">http://dbp-consulting.com/tutorials/debugging/linuxProgramStartup.html</a></p>
+<p>PEFA -- debug tool
+<a href="http://www.ropshell.com/peda/Linux_Interactive_Exploit_Development_with_GDB_and_PEDA_Slides.pdf" target="_blank">http://www.ropshell.com/peda/Linux_Interactive_Exploit_Development_with_GDB_and_PEDA_Slides.pdf</a></p>
+<h1 id="3-2-%E7%8C%B4%E8%B3%BD%E9%9B%B7-exit">3.2 &quot;&#x7334;&#x8CFD;&#x96F7;&quot; exit</h1>
+<p><img src="http://i.imgur.com/wVXt5gx.png" alt=""></p>
+<p>&#x5BEB;demo&#x7A0B;&#x5F0F;&#x53BB;&#x8FFD;code
+1.test_fork.exe
+2.test_pthread.exe
+3.test_single.exe</p>
+<pre><code class="lang-clike=">void
+exit (int status)
+{
+  __run_exit_handlers (status, &amp;__exit_funcs, true);
+}
 
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> handle_error(msg) \
-    do { perror(msg); exit(EXIT_FAILURE); } while (<span class="hljs-number">0</span>)</span>
+/* Call all functions registered with `atexit&apos; and `on_exit&apos;,
+   in the reverse of the order in which they were registered
+   perform stdio cleanup, and terminate program execution with STATUS.  */
+void
+attribute_hidden
+__run_exit_handlers (int status, struct exit_function_list **listp,
+             bool run_list_atexit)
+{
+  /* First, call the TLS destructors.  */
+#ifndef SHARED
+  if (&amp;__call_tls_dtors != NULL)
+#endif
+    __call_tls_dtors ();
 
-<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span>
-<span class="hljs-title">print_elapsed_time</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
-</span>{
-    <span class="hljs-keyword">static</span> <span class="hljs-keyword">struct</span> timespec start;
-    <span class="hljs-keyword">struct</span> timespec curr;
-    <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> first_call = <span class="hljs-number">1</span>;
-    <span class="hljs-keyword">int</span> secs, nsecs;
+  /* We do it this way to handle recursive calls to exit () made by
+     the functions registered with `atexit&apos; and `on_exit&apos;. We call
+     everyone on the list and use the status value in the last
+     exit (). */
+  while (*listp != NULL)
+    {
+      struct exit_function_list *cur = *listp;
 
-    <span class="hljs-keyword">if</span> (first_call) {
-        first_call = <span class="hljs-number">0</span>;
+      while (cur-&gt;idx &gt; 0)
+    {
+      const struct exit_function *const f =
+        &amp;cur-&gt;fns[--cur-&gt;idx];
+      switch (f-&gt;flavor)
+        {
+          void (*atfct) (void);
+          void (*onfct) (int status, void *arg);
+          void (*cxafct) (void *arg, int status);
 
-        <span class="hljs-keyword">if</span> (clock_gettime(CLOCK_MONOTONIC, &amp;start) == -<span class="hljs-number">1</span>) {
-            handle_error(<span class="hljs-string">&quot;clock_gettime&quot;</span>);
+        case ef_free:
+        case ef_us:
+          break;
+        case ef_on:
+          onfct = f-&gt;func.on.fn;
+#ifdef PTR_DEMANGLE
+          PTR_DEMANGLE (onfct);
+#endif
+          onfct (status, f-&gt;func.on.arg);
+          break;
+        case ef_at:
+          atfct = f-&gt;func.at;
+#ifdef PTR_DEMANGLE
+          PTR_DEMANGLE (atfct);
+#endif
+          atfct ();
+          break;
+        case ef_cxa:
+          cxafct = f-&gt;func.cxa.fn;
+#ifdef PTR_DEMANGLE
+          PTR_DEMANGLE (cxafct);
+#endif
+          cxafct (f-&gt;func.cxa.arg, status);
+          break;
         }
     }
 
-    <span class="hljs-keyword">if</span> (clock_gettime(CLOCK_MONOTONIC, &amp;curr) == -<span class="hljs-number">1</span>) {
-        handle_error(<span class="hljs-string">&quot;clock_gettime&quot;</span>);
+      *listp = cur-&gt;next;
+      if (*listp != NULL)
+    /* Don&apos;t free the last element in the chain, this is the statically
+       allocate element.  */
+    free (cur);
     }
 
-    secs = curr.tv_sec - start.tv_sec;
-    nsecs = curr.tv_nsec - start.tv_nsec;
+  if (run_list_atexit)
+    RUN_HOOK (__libc_atexit, ());
 
-    <span class="hljs-keyword">if</span> (nsecs &lt; <span class="hljs-number">0</span>) {
-        secs--;
-        nsecs += <span class="hljs-number">1000000000</span>;
-    }
-
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d.%03d: &quot;</span>, secs, (nsecs + <span class="hljs-number">500000</span>) / <span class="hljs-number">1000000</span>);
-}
-
-<span class="hljs-function"><span class="hljs-keyword">int</span>
-<span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>* argv[])</span>
-</span>{
-    <span class="hljs-keyword">struct</span> itimerspec new_value;
-    <span class="hljs-keyword">int</span> max_exp, fd;
-    <span class="hljs-keyword">struct</span> timespec now;
-    <span class="hljs-keyword">uint64_t</span> <span class="hljs-built_in">exp</span>, tot_exp;
-    <span class="hljs-keyword">ssize_t</span> s;
-
-    <span class="hljs-keyword">if</span> ((argc != <span class="hljs-number">2</span>) &amp;&amp; (argc != <span class="hljs-number">4</span>)) {
-        <span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;%s init-secs [interval-secs max-exp]\n&quot;</span>,
-                argv[<span class="hljs-number">0</span>]);
-        <span class="hljs-built_in">exit</span>(EXIT_FAILURE);
-    }
-
-    <span class="hljs-keyword">if</span> (clock_gettime(CLOCK_REALTIME, &amp;now) == -<span class="hljs-number">1</span>) {
-        handle_error(<span class="hljs-string">&quot;clock_gettime&quot;</span>);
-    }
-
-    <span class="hljs-comment">/* Create a CLOCK_REALTIME absolute timer with initial
-       expiration and interval as specified in command line */</span>
-
-    new_value.it_value.tv_sec = now.tv_sec + atoi(argv[<span class="hljs-number">1</span>]);
-    new_value.it_value.tv_nsec = now.tv_nsec;
-
-    <span class="hljs-keyword">if</span> (argc == <span class="hljs-number">2</span>) {
-        new_value.it_interval.tv_sec = <span class="hljs-number">0</span>;
-        max_exp = <span class="hljs-number">1</span>;
-    } <span class="hljs-keyword">else</span> {
-        new_value.it_interval.tv_sec = atoi(argv[<span class="hljs-number">2</span>]);
-        max_exp = atoi(argv[<span class="hljs-number">3</span>]);
-    }
-
-    new_value.it_interval.tv_nsec = <span class="hljs-number">0</span>;
-
-    fd = timerfd_create(CLOCK_REALTIME, <span class="hljs-number">0</span>);
-
-    <span class="hljs-keyword">if</span> (fd == -<span class="hljs-number">1</span>) {
-        handle_error(<span class="hljs-string">&quot;timerfd_create&quot;</span>);
-    }
-
-    <span class="hljs-keyword">if</span> (timerfd_settime(fd, TFD_TIMER_ABSTIME, &amp;new_value, <span class="hljs-literal">NULL</span>) == -<span class="hljs-number">1</span>) {
-        handle_error(<span class="hljs-string">&quot;timerfd_settime&quot;</span>);
-    }
-
-    print_elapsed_time();
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;timer started\n&quot;</span>);
-
-    <span class="hljs-keyword">for</span> (tot_exp = <span class="hljs-number">0</span>; tot_exp &lt; max_exp;) {
-        s = read(fd, &amp;<span class="hljs-built_in">exp</span>, <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">uint64_t</span>));
-
-        <span class="hljs-keyword">if</span> (s != <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">uint64_t</span>)) {
-            handle_error(<span class="hljs-string">&quot;read&quot;</span>);
-        }
-
-        tot_exp += <span class="hljs-built_in">exp</span>;
-        print_elapsed_time();
-        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;read: %llu; total=%llu\n&quot;</span>,
-               (<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>) <span class="hljs-built_in">exp</span>,
-               (<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>) tot_exp);
-    }
-
-    <span class="hljs-built_in">exit</span>(EXIT_SUCCESS);
+  _exit (status);
 }
 </code></pre>
-<p>&#x904B;&#x884C;&#x7D50;&#x679C;&#xFF1A;</p>
-<p><img src="images/mickole/16125249-a73c8a960c62494ab7b3c1a2c4bb408e.png" alt=""></p>
+<h1 id="3-3-atexit%E4%BB%8B%E7%B4%B9">3.3 atexit&#x4ECB;&#x7D39;</h1>
+<h1 id="3-3-1-%E4%BD%BF%E7%94%A8atexit">3.3.1 &#x4F7F;&#x7528;atexit </h1>
+<h1 id="3-3-2-atexit%E7%9A%84%E4%BE%B7%E9%99%90%E6%80%A7">3.3.2 atexit&#x7684;&#x4FB7;&#x9650;&#x6027;</h1>
+<h1 id="3-3-3-atexit%E7%9A%84%E5%AF%A6%E7%8F%BE%E6%A9%9F%E5%88%B6">3.3.3 atexit&#x7684;&#x5BE6;&#x73FE;&#x6A5F;&#x5236; </h1>
+<p><img src="http://i.imgur.com/j027Vjo.png" alt=""></p>
+<pre><code class="lang-clike=">int
+#ifndef atexit
+attribute_hidden
+#endif
+atexit (void (*func) (void))
+{
+  return __cxa_atexit ((void (*) (void *)) func, NULL,
+               &amp;__dso_handle == NULL ? NULL : __dso_handle);
+}
+
+int
+__cxa_atexit (void (*func) (void *), void *arg, void *d)
+{
+  return __internal_atexit (func, arg, d, &amp;__exit_funcs);
+}
+int
+attribute_hidden
+__internal_atexit (void (*func) (void *), void *arg, void *d,
+           struct exit_function_list **listp)
+{
+  struct exit_function *new = __new_exitfn (listp);
+
+  if (new == NULL)
+    return -1;
+
+#ifdef PTR_MANGLE
+  PTR_MANGLE (func);
+#endif
+  new-&gt;func.cxa.fn = (void (*) (void *, int)) func;
+  new-&gt;func.cxa.arg = arg;
+  new-&gt;func.cxa.dso_handle = d;
+  atomic_write_barrier ();
+  new-&gt;flavor = ef_cxa;
+  return 0;
+}
+
+struct exit_function *
+__new_exitfn (struct exit_function_list **listp)
+{
+  struct exit_function_list *p = NULL;
+  struct exit_function_list *l;
+  struct exit_function *r = NULL;
+  size_t i = 0;
+
+  __libc_lock_lock (lock);
+
+  for (l = *listp; l != NULL; p = l, l = l-&gt;next)
+    {
+      for (i = l-&gt;idx; i &gt; 0; --i)
+    if (l-&gt;fns[i - 1].flavor != ef_free)
+      break;
+
+      if (i &gt; 0)
+    break;
+
+      /* This block is completely unused.  */
+      l-&gt;idx = 0;
+    }
+
+  if (l == NULL || i == sizeof (l-&gt;fns) / sizeof (l-&gt;fns[0]))
+    {
+      /* The last entry in a block is used.  Use the first entry in
+     the previous block if it exists.  Otherwise create a new one.  */
+      if (p == NULL)
+    {
+      assert (l != NULL);
+      p = (struct exit_function_list *)
+        calloc (1, sizeof (struct exit_function_list));
+      if (p != NULL)
+        {
+          p-&gt;next = *listp;
+          *listp = p;
+        }
+    }
+
+      if (p != NULL)
+    {
+      r = &amp;p-&gt;fns[0];
+      p-&gt;idx = 1;
+    }
+    }
+  else
+    {
+      /* There is more room in the block.  */
+      r = &amp;l-&gt;fns[i];
+      l-&gt;idx = i + 1;
+    }
+
+  /* Mark entry as used, but we don&apos;t know the flavor now.  */
+  if (r != NULL)
+    {
+      r-&gt;flavor = ef_us;
+      ++__new_exitfn_called;
+    }
+
+  __libc_lock_unlock (lock);
+
+  return r;
+}
+</code></pre>
+<h1 id="3-4-%E5%B0%8F%E5%BF%83%E4%BD%BF%E7%94%A8%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8">3.4 &#x5C0F;&#x5FC3;&#x4F7F;&#x7528;&#x74B0;&#x5883;&#x8B8A;&#x6578;</h1>
+<pre><code class="lang-c=">int setenv(const char *name, const char *value, int overwrite);
+int putenv (char *string);
+
+int
+putenv (char *string)
+{
+  const char *const name_end = strchr (string, &apos;=&apos;);
+
+  if (name_end != NULL)
+    {
+      char *name;
+#ifdef _LIBC
+      int use_malloc = !__libc_use_alloca (name_end - string + 1);
+      if (__builtin_expect (use_malloc, 0))
+    {
+      name = strndup (string, name_end - string);
+      if (name == NULL)
+        return -1;
+    }
+      else
+    name = strndupa (string, name_end - string);
+#else
+# define use_malloc 1
+      name = malloc (name_end - string + 1);
+      if (name == NULL)
+    return -1;
+      memcpy (name, string, name_end - string);
+      name[name_end - string] = &apos;\0&apos;;
+#endif
+      int result = __add_to_environ (name, NULL, string, 1);
+
+      if (__glibc_unlikely (use_malloc))
+    free (name);
+
+      return result;
+    }
+
+  __unsetenv (string);
+  return 0;
+}
+
+int
+setenv (const char *name, const char *value, int replace)
+{
+  if (name == NULL || *name == &apos;\0&apos; || strchr (name, &apos;=&apos;) != NULL)
+    {
+      __set_errno (EINVAL);
+      return -1;
+    }
+
+  return __add_to_environ (name, value, NULL, replace);
+}
+
+/* This function is used by `setenv&apos; and `putenv&apos;.  The difference between
+   the two functions is that for the former must create a new string which
+   is then placed in the environment, while the argument of `putenv&apos;
+   must be used directly.  This is all complicated by the fact that we try
+   to reuse values once generated for a `setenv&apos; call since we can never
+   free the strings.  */
+int
+__add_to_environ (const char *name, const char *value, const char *combined,
+          int replace)
+{
+  char **ep;
+  size_t size;
+
+  /* Compute lengths before locking, so that the critical section is
+     less of a performance bottleneck.  VALLEN is needed only if
+     COMBINED is null (unfortunately GCC is not smart enough to deduce
+     this; see the #pragma at the start of this file).  Testing
+     COMBINED instead of VALUE causes setenv (..., NULL, ...)  to dump
+     core now instead of corrupting memory later.  */
+  const size_t namelen = strlen (name);
+  size_t vallen;
+  if (combined == NULL)
+    vallen = strlen (value) + 1;
+
+  LOCK;
+
+  /* We have to get the pointer now that we have the lock and not earlier
+     since another thread might have created a new environment.  */
+  ep = __environ;
+
+  size = 0;
+  if (ep != NULL)
+    {
+      for (; *ep != NULL; ++ep)
+    if (!strncmp (*ep, name, namelen) &amp;&amp; (*ep)[namelen] == &apos;=&apos;)
+      break;
+    else
+      ++size;
+    }
+
+  if (ep == NULL || __builtin_expect (*ep == NULL, 1))
+    {
+      char **new_environ;
+
+      /* We allocated this space; we can extend it.  */
+      new_environ = (char **) realloc (last_environ,
+                       (size + 2) * sizeof (char *));
+      if (new_environ == NULL)
+    {
+      UNLOCK;
+      return -1;
+    }
+
+      if (__environ != last_environ)
+    memcpy ((char *) new_environ, (char *) __environ,
+        size * sizeof (char *));
+
+      new_environ[size] = NULL;
+      new_environ[size + 1] = NULL;
+      ep = new_environ + size;
+
+      last_environ = __environ = new_environ;
+    }
+  if (*ep == NULL || replace)
+    { //putenv
+      char *np;
+
+      /* Use the user string if given.  */
+      if (combined != NULL)
+    np = (char *) combined;
+      else
+    {
+      const size_t varlen = namelen + 1 + vallen;
+#ifdef USE_TSEARCH
+      char *new_value;
+      int use_alloca = __libc_use_alloca (varlen);
+      if (__builtin_expect (use_alloca, 1))
+        new_value = (char *) alloca (varlen);
+      else
+        {
+          new_value = malloc (varlen);
+          if (new_value == NULL)
+        {
+          UNLOCK;
+          return -1;
+        }
+        }
+# ifdef _LIBC
+      __mempcpy (__mempcpy (__mempcpy (new_value, name, namelen), &quot;=&quot;, 1),
+             value, vallen);
+# else
+      memcpy (new_value, name, namelen);
+      new_value[namelen] = &apos;=&apos;;
+      memcpy (&amp;new_value[namelen + 1], value, vallen);
+# endif
+
+      np = KNOWN_VALUE (new_value);
+      if (__glibc_likely (np == NULL))
+#endif
+        {
+#ifdef USE_TSEARCH
+          if (__glibc_unlikely (! use_alloca))
+        np = new_value;
+          else
+#endif
+        {
+          np = malloc (varlen);
+          if (__glibc_unlikely (np == NULL))
+            {
+              UNLOCK;
+              return -1;
+            }
+
+#ifdef USE_TSEARCH
+          memcpy (np, new_value, varlen);
+#else
+          memcpy (np, name, namelen);
+          np[namelen] = &apos;=&apos;;
+          memcpy (&amp;np[namelen + 1], value, vallen);
+#endif
+        }
+          /* And remember the value.  */
+          STORE_VALUE (np);
+        }
+#ifdef USE_TSEARCH
+      else
+        {
+          if (__glibc_unlikely (! use_alloca))
+        free (new_value);
+        }
+#endif
+    }
+
+      *ep = np;
+    }
+
+  UNLOCK;
+
+  return 0;
+}
+</code></pre>
+<h1 id="3-5-%E4%BD%BF%E7%94%A8%E5%8B%95%E6%85%8B%E5%87%BD%E5%BC%8F%E5%BA%AB">3.5 &#x4F7F;&#x7528;&#x52D5;&#x614B;&#x51FD;&#x5F0F;&#x5EAB;</h1>
+<pre><code>$(CC) -Wall -g -shared -fPIC dlib.c -o libdlib.so
+$(CC) -Wall -g main.c -o example -L./ -ldlib
+$(CC) -Wall -g main_1.c -o example_dl -L./ -ldlib -ldl
+</code></pre><h1 id="3-5-1-%E5%8B%95%E6%85%8B%E8%88%87%E9%9D%9C%E6%85%8B%E5%87%BD%E5%BC%8F%E5%BA%AB">3.5.1 &#x52D5;&#x614B;&#x8207;&#x975C;&#x614B;&#x51FD;&#x5F0F;&#x5EAB;</h1>
+<p>&#x7DE8;&#x8B6F;&#x9078;&#x9805; : -shared -fPIC</p>
+<h1 id="3-5-2-%E7%B7%A8%E8%AD%AF%E8%88%87%E4%BD%BF%E7%94%A8%E5%8B%95%E6%85%8B%E5%87%BD%E5%BC%8F%E5%BA%AB">3.5.2 &#x7DE8;&#x8B6F;&#x8207;&#x4F7F;&#x7528;&#x52D5;&#x614B;&#x51FD;&#x5F0F;&#x5EAB; </h1>
+<h1 id="3-5-3-%E7%A8%8B%E5%BC%8F%E7%9A%84%E5%B9%B3%E6%BB%91%E7%84%A1%E7%B8%AB%E5%8D%87%E7%B4%9A">3.5.3 &#x7A0B;&#x5F0F;&#x7684;&#x5E73;&#x6ED1;&#x7121;&#x7E2B;&#x5347;&#x7D1A; </h1>
+<p>&#x624B;&#x52D5;&#x8F09;&#x5165;share object</p>
+<h1 id="3-6-%E9%81%BF%E5%85%8D%E8%A8%98%E6%86%B6%E9%AB%94%E5%95%8F%E9%A1%8C">3.6 &#x907F;&#x514D;&#x8A18;&#x61B6;&#x9AD4;&#x554F;&#x984C;</h1>
+<h1 id="3-6-1-%E5%B0%B7%E5%B0%AC%E7%9A%84realloc">3.6.1 &#x5C37;&#x5C2C;&#x7684;realloc</h1>
+<h1 id="3-6-2-%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2%E8%A8%98%E6%86%B6%E9%AB%94%E8%B6%8A%E7%95%8C">3.6.2 &#x5982;&#x4F55;&#x9632;&#x6B62;&#x8A18;&#x61B6;&#x9AD4;&#x8D8A;&#x754C;</h1>
+<ol>
+<li>char <em>strncat(char </em>dest,const char *src, size_t n);</li>
+<li>char <em>strncpy(char </em>dest, const char *src, size_t n);</li>
+<li>int snprintf(char <em>str, size_t size, const char </em>format, ...);</li>
+<li>char <em>fgets(char </em>s, int size, FILE *stream);</li>
+</ol>
+<h1 id="3-6-3-%E5%A6%82%E4%BD%95%E5%AE%9A%E4%BD%8D%E8%A8%98%E6%86%B6%E9%AB%94%E5%95%8F%E9%A1%8C">3.6.3 &#x5982;&#x4F55;&#x5B9A;&#x4F4D;&#x8A18;&#x61B6;&#x9AD4;&#x554F;&#x984C;</h1>
+<p>&#x8A18;&#x61B6;&#x9AD4;&#x554F;&#x984C;&#x6AA2;&#x6E2C;&#x5DE5;&#x5177; - valgrind
+<a href="http://valgrind.org/" target="_blank">http://valgrind.org/</a></p>
+<h1 id="3-7-%E9%95%B7%E8%BD%89%E8%B7%B3-longjmp">3.7 &quot;&#x9577;&#x8F49;&#x8DF3;&quot; longjmp</h1>
+<h1 id="3-7-1-setjmp%E8%88%87longjmp%E7%9A%84%E4%BD%BF%E7%94%A8">3.7.1 setjmp&#x8207;longjmp&#x7684;&#x4F7F;&#x7528;</h1>
+<h1 id="3-7-2-%E9%95%B7%E8%BD%89%E8%B7%B3-%E7%9A%84%E5%AF%A6%E7%8F%BE%E6%A9%9F%E5%88%B6">3.7.2 &quot;&#x9577;&#x8F49;&#x8DF3;&quot;&#x7684;&#x5BE6;&#x73FE;&#x6A5F;&#x5236;</h1>
+<p>glibc/sysdeps/i386</p>
+<p>setjmp -&gt; (setjmp.S)
+longjmp -&gt; (__longjmp.S)</p>
+<h1 id="3-7-3-%E9%95%B7%E8%BD%89%E8%B7%B3-%E7%9A%84%E9%99%90%E5%88%B6">3.7.3 &quot;&#x9577;&#x8F49;&#x8DF3;&quot;&#x7684;&#x9650;&#x5236;</h1>
+<p>Bug 1:
+Bug 2:</p>
+<p><strong>setjmp/longjmp &#x61C9;&#x7528;</strong>
+1.coroutine
+2.c&#x8A9E;&#x8A00;&#x7684;exception handler</p>
 
                     
                     </section>
@@ -15212,10 +15692,10 @@
         </div>
 
         
-        <a href="../linux_system/linuxxi_tong_bian_cheng_ff1a_setjmp_he_longjmp_han.html" class="navigation navigation-prev " aria-label="Previous page: linux系統編程：setjmp和longjmp函數用法"><i class="fa fa-angle-left"></i></a>
+        <a href="../linux_system/ru_he_shou_gong_zhan_kai_han_shu_zhan_lai_ding_wei.html" class="navigation navigation-prev " aria-label="Previous page: 如何手工展開函數棧來定位問題"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../linux_system/linux_debugging.html" class="navigation navigation-next " aria-label="Next page: Linux Debugging"><i class="fa fa-angle-right"></i></a>
+        <a href="../assembly/index.html" class="navigation navigation-next " aria-label="Next page: Assembly"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

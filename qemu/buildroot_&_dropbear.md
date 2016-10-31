@@ -43,11 +43,16 @@ qemu-system-x86_64 --kernel output/images/bzImage \
                    -redir tcp:5556:10.0.2.15:22
 ```
 
-```
+```sh
 qemu 裡面建立  
 mkdir -p /home/yshihyu
 adduser yshihyu , password xxxx
 reboot // save
+```
+- ssh login
+
+```sh
+ssh -p 5556 yshihyu@localhost
 ```
 
 - scp

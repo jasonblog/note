@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="6.21" data-basepath=".." data-revision="Tue Nov 01 2016 01:49:06 GMT+0800 (CST)">
+    <div class="book" data-level="6.21" data-basepath=".." data-revision="Tue Nov 01 2016 20:29:38 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -15075,22 +15075,26 @@
                         <h1 id="buildroot-dropbear">buildroot &amp; dropbear</h1>
 <pre><code class="lang-sh">https://github.com/wayling/buildroot.git
 </code></pre>
-<ul>
-<li>Dropbear</li>
-</ul>
-<pre><code class="lang-sh">make menuconfig
-
+<h2 id="make-menuconfig">make menuconfig</h2>
+<p>gdb/gdbserver/strace &#x61C9;&#x8A72;&#x662F;&#x57FA;&#x672C;&#x6B3E;,&#x883B;&#x597D;&#x7528;&#x7684;,&#x53EF;&#x4EE5;&#x8FFD;glibc&#x5BE6;&#x969B;&#x547C;&#x53EB;&#x7684;syscall
+debug&#x9078;&#x9805;&#x8A18;&#x5F97;&#x8981;&#x958B;</p>
+<pre><code>[Toolchain]-&gt;[glibc (2.23)]
+[Toolchain] -&gt; [GCC compiler Version (gcc 4.8.x)]
+[Build options]-&gt; [strip command for binaries on target (none)]
+[Build options]-&gt;[build packages with debugging symbols]
+[Target packages] -&gt; [Debugging, profiling and benchmark]-&gt;[gdb]
+[Target packages] -&gt; [Debugging, profiling and benchmark]-&gt;[gdbserver]
+[Target packages] -&gt; [Debugging, profiling and benchmark]-&gt;[full debugger]
+[Target packages] -&gt; [Debugging, profiling and benchmark]-&gt;[strace]
+[Target packages] -&gt; [System tools] -&gt; [htop]
 
 Symbol: BR2_PACKAGE_DROPBEAR [=y]                                          &#x2502;  
   &#x2502; Type  : boolean                                                            &#x2502;  
   &#x2502; Prompt: dropbear                                                           &#x2502;  
   &#x2502;   Location:                                                                &#x2502;  
   &#x2502;     -&gt; Target packages                                                     &#x2502;  
-  &#x2502; (<span class="hljs-number">1</span>)   -&gt; Networking applications
-</code></pre>
-<ul>
-<li>make linux-menuconfig</li>
-</ul>
+  &#x2502; (1)   -&gt; Networking applications
+</code></pre><h2 id="make-linux-menuconfig">make linux-menuconfig</h2>
 <pre><code class="lang-sh">[Kernel hacking]-&gt;[Kernel debugging]
 [Compile-time checks and compiler options]-&gt;[Compile the kernel with debug info]
 </code></pre>

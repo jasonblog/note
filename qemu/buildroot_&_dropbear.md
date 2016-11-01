@@ -5,11 +5,20 @@
 https://github.com/wayling/buildroot.git
 ```
 
--  Dropbear
 
-```sh
-make menuconfig
-
+## make menuconfig
+gdb/gdbserver/strace 應該是基本款,蠻好用的,可以追glibc實際呼叫的syscall
+debug選項記得要開
+```
+[Toolchain]->[glibc (2.23)]
+[Toolchain] -> [GCC compiler Version (gcc 4.8.x)]
+[Build options]-> [strip command for binaries on target (none)]
+[Build options]->[build packages with debugging symbols]
+[Target packages] -> [Debugging, profiling and benchmark]->[gdb]
+[Target packages] -> [Debugging, profiling and benchmark]->[gdbserver]
+[Target packages] -> [Debugging, profiling and benchmark]->[full debugger]
+[Target packages] -> [Debugging, profiling and benchmark]->[strace]
+[Target packages] -> [System tools] -> [htop]
 
 Symbol: BR2_PACKAGE_DROPBEAR [=y]                                          │  
   │ Type  : boolean                                                            │  
@@ -21,8 +30,8 @@ Symbol: BR2_PACKAGE_DROPBEAR [=y]                                          │
   
 ```
 
-- make linux-menuconfig
 
+## make linux-menuconfig
 
 ```sh
 [Kernel hacking]->[Kernel debugging]

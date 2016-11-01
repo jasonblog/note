@@ -32,7 +32,6 @@ https://github.com/wayling/buildroot
 gdb/gdbserver/strace 應該是基本款,蠻好用的,可以追glibc實際呼叫的syscall
 debug選項記得要開
 ```
-[Build options]->[build packages with debugging symbols]
 [Toolchain]->[glibc (2.23)]
 [Toolchain] -> [GCC compiler Version (gcc 4.8.x)]
 [Build options]-> [strip command for binaries on target (none)]

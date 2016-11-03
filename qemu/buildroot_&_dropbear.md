@@ -62,11 +62,17 @@ reboot // save
 
 ```sh
 ssh -p 5556 yshihyu@localhost
+
+
+passwd 更改 root 密碼就可以讓 root 登入
+ssh -p 5556 root@localhost
 ```
 
 - scp
 
 ```sh
 scp atexit.exe shihyu@10.0.2.2:/home/shihyu  // guest qemu to host pc
-scp -P 5556 ttt.c shihyu@localhost:/home/shihyu  // host pc to guest qemu 
+scp -P 5556 ttt.c shihyu@localhost:/home/shihyu  // host pc to guest qemu
+
+scp -P 5556 test root@localhost:/root
 ```

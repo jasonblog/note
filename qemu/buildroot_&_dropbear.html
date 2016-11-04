@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="6.21" data-basepath=".." data-revision="Fri Nov 04 2016 00:18:02 GMT+0800 (CST)">
+    <div class="book" data-level="6.21" data-basepath=".." data-revision="Fri Nov 04 2016 21:12:35 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -15074,6 +15074,8 @@
                     
                         <h1 id="buildroot-dropbear">buildroot &amp; dropbear</h1>
 <pre><code class="lang-sh">https://github.com/wayling/buildroot.git
+
+git <span class="hljs-built_in">clone</span> git://git.buildroot.net/buildroot
 </code></pre>
 <h2 id="make-menuconfig">make menuconfig</h2>
 <p>gdb/gdbserver/strace &#x61C9;&#x8A72;&#x662F;&#x57FA;&#x672C;&#x6B3E;,&#x883B;&#x597D;&#x7528;&#x7684;,&#x53EF;&#x4EE5;&#x8FFD;glibc&#x5BE6;&#x969B;&#x547C;&#x53EB;&#x7684;syscall
@@ -15101,9 +15103,7 @@ Symbol: BR2_PACKAGE_DROPBEAR [=y]                                          &#x25
 <ul>
 <li>make all</li>
 </ul>
-<ul>
-<li>Run </li>
-</ul>
+<h2 id="run">Run</h2>
 <pre><code class="lang-sh">qemu-system-x86_64 --kernel output/images/bzImage \
                    --hda output/images/rootfs.ext2 \
                    --append <span class="hljs-string">&quot;root=/dev/sda&quot;</span> \
@@ -15111,14 +15111,46 @@ Symbol: BR2_PACKAGE_DROPBEAR [=y]                                          &#x25
                    -net user \
                    -redir tcp:<span class="hljs-number">5556</span>:<span class="hljs-number">10.0</span>.<span class="hljs-number">2.15</span>:<span class="hljs-number">22</span>
 </code></pre>
+<ul>
+<li>qemu.sh</li>
+</ul>
+<pre><code class="lang-sh"><span class="hljs-shebang">#! /bin/bash
+</span>
+<span class="hljs-function"><span class="hljs-title">qemu</span></span>() {
+    qemu-system-x86_64 --kernel output/images/bzImage \
+                       --hda output/images/rootfs.ext2 \
+                       --append <span class="hljs-string">&quot;root=/dev/sda&quot;</span> \
+                       -net nic,model=virtio \
+                       -net user \
+                       -redir tcp:<span class="hljs-number">5556</span>:<span class="hljs-number">10.0</span>.<span class="hljs-number">2.15</span>:<span class="hljs-number">22</span>
+}
+
+<span class="hljs-function"><span class="hljs-title">gdb</span></span>() {
+    qemu-system-x86_64 <span class="hljs-operator">-s</span> -S \
+                       --kernel output/images/bzImage \
+                       --hda output/images/rootfs.ext2 \
+                       --append <span class="hljs-string">&quot;root=/dev/sda&quot;</span> \
+                       -net nic,model=virtio \
+                       -net user \
+                       -redir tcp:<span class="hljs-number">5556</span>:<span class="hljs-number">10.0</span>.<span class="hljs-number">2.15</span>:<span class="hljs-number">22</span>
+}
+
+<span class="hljs-keyword">while</span> <span class="hljs-literal">true</span>; <span class="hljs-keyword">do</span>
+    <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;<span class="hljs-variable">$1</span>&quot;</span> <span class="hljs-keyword">in</span>
+        -r|--run) qemu; <span class="hljs-built_in">exit</span> <span class="hljs-number">0</span>;;
+        <span class="hljs-operator">-d</span>|--debug) gdb; <span class="hljs-built_in">exit</span> <span class="hljs-number">0</span>;;
+        --) <span class="hljs-built_in">shift</span>; <span class="hljs-built_in">break</span>;;
+    <span class="hljs-keyword">esac</span>
+    <span class="hljs-built_in">shift</span>
+<span class="hljs-keyword">done</span>
+</code></pre>
+<pre><code>./qemu.sh -r
+</code></pre><h2 id="ssh-login">ssh login</h2>
 <pre><code class="lang-sh">qemu &#x88E1;&#x9762;&#x5EFA;&#x7ACB;  
 mkdir -p /home/yshihyu
 adduser yshihyu , password xxxx
 reboot // save
 </code></pre>
-<ul>
-<li>ssh login</li>
-</ul>
 <pre><code class="lang-sh">ssh -p <span class="hljs-number">5556</span> yshihyu@localhost
 
 

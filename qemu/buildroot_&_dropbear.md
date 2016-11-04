@@ -3,6 +3,9 @@
 
 ```sh
 https://github.com/wayling/buildroot.git
+
+git clone git://git.buildroot.net/buildroot
+
 ```
 
 
@@ -41,7 +44,7 @@ Symbol: BR2_PACKAGE_DROPBEAR [=y]                                          │
 - make all
 
 
-- Run 
+## Run 
 
 ```sh
 qemu-system-x86_64 --kernel output/images/bzImage \
@@ -52,13 +55,54 @@ qemu-system-x86_64 --kernel output/images/bzImage \
                    -redir tcp:5556:10.0.2.15:22
 ```
 
+
+
+- qemu.sh
+
+```sh
+#! /bin/bash
+
+qemu() {
+	qemu-system-x86_64 --kernel output/images/bzImage \
+					   --hda output/images/rootfs.ext2 \
+					   --append "root=/dev/sda" \
+					   -net nic,model=virtio \
+					   -net user \
+					   -redir tcp:5556:10.0.2.15:22
+}
+
+gdb() {
+	qemu-system-x86_64 -s -S \
+                       --kernel output/images/bzImage \
+					   --hda output/images/rootfs.ext2 \
+					   --append "root=/dev/sda" \
+					   -net nic,model=virtio \
+					   -net user \
+					   -redir tcp:5556:10.0.2.15:22
+}
+
+while true; do
+    case "$1" in
+        -r|--run) qemu; exit 0;;
+        -d|--debug) gdb; exit 0;;
+        --) shift; break;;
+    esac
+    shift
+done
+```
+
+```
+./qemu.sh -r
+```
+
+## ssh login
+
 ```sh
 qemu 裡面建立  
 mkdir -p /home/yshihyu
 adduser yshihyu , password xxxx
 reboot // save
 ```
-- ssh login
 
 ```sh
 ssh -p 5556 yshihyu@localhost

@@ -10,6 +10,19 @@ wget -c http://ftp.gnu.org/gnu/gdb/gdb-7.12.tar.gz
 make -j8 && make install
 ```
 
+## cgdb
+
+```sh
+$ git clone git://github.com/cgdb/cgdb.git
+$ cd cgdb
+$ ./autogen.sh
+
+
+$ ./configure
+$ make
+```
+
+
 ##1. 非嵌入式應用程序開發：
 
 編譯時加上調試信息, 在Makefile裡加上 CFLAGS += -g, 使用gdb（文本界面）調試， 或者境加型cgdb， 圖形界面有DDD等等。

@@ -1,5 +1,15 @@
 # GDB
 
+## 編譯 gdb 
+
+```sh
+wget -c http://ftp.gnu.org/gnu/gdb/gdb-7.12.tar.gz
+
+./configure --enable-targets=all --enable-64-bit-bfd --prefix=/home/xxxx/.mybin/gdb-7.12
+
+make -j8 && make install
+```
+
 ##1. 非嵌入式應用程序開發：
 
 編譯時加上調試信息, 在Makefile裡加上 CFLAGS += -g, 使用gdb（文本界面）調試， 或者境加型cgdb， 圖形界面有DDD等等。

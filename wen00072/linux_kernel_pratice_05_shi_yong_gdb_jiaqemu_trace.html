@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>performance 分析 | Jason note</title>
+        <title>Linux Kernel Pratice 0.5: 使用gdb 加 Qemu Trace Linux Kernel Runtime 行為 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.4.1">
@@ -37,10 +37,10 @@
         
     
     
-    <link rel="next" href="../linux_tools/application_xiao_neng_fen_xi_you_miao_zhao__shi_yo.html" />
+    <link rel="next" href="../shell/index.html" />
     
     
-    <link rel="prev" href="../linux_tools/unix_xia_hui_tu_mian_mian_guan.html" />
+    <link rel="prev" href="../wen00072/shi_yong_gdb_jing_tai_fen_xi_c_yu_yan_ming_cheng_h.html" />
     
 
         <!-- head:end -->
@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="3.8" data-basepath=".." data-revision="Mon Nov 07 2016 22:05:30 GMT+0800 (CST)">
+    <div class="book" data-level="20.19" data-basepath=".." data-revision="Mon Nov 07 2016 22:05:30 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -815,7 +815,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="3.8" data-path="linux_tools/performance_fen_xi.html">
+        <li class="chapter " data-level="3.8" data-path="linux_tools/performance_fen_xi.html">
             
                 
                     <a href="../linux_tools/performance_fen_xi.html">
@@ -7652,7 +7652,7 @@
             
         </li>
     
-        <li class="chapter " data-level="20.19" data-path="wen00072/linux_kernel_pratice_05_shi_yong_gdb_jiaqemu_trace.html">
+        <li class="chapter active" data-level="20.19" data-path="wen00072/linux_kernel_pratice_05_shi_yong_gdb_jiaqemu_trace.html">
             
                 
                     <a href="../wen00072/linux_kernel_pratice_05_shi_yong_gdb_jiaqemu_trace.html">
@@ -15087,7 +15087,145 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="performance-%E5%88%86%E6%9E%90">performance &#x5206;&#x6790;</h1>
+                        <h1 id="linux-kernel-pratice-0-5-%E4%BD%BF%E7%94%A8gdb-%E5%8A%A0-qemu-trace-linux-kernel-runtime-%E8%A1%8C%E7%82%BA">Linux Kernel Pratice 0.5: &#x4F7F;&#x7528;gdb &#x52A0; Qemu Trace Linux Kernel Runtime &#x884C;&#x70BA;</h1>
+<h2 id="%E6%B8%AC%E8%A9%A6%E7%92%B0%E5%A2%83">&#x6E2C;&#x8A66;&#x74B0;&#x5883;</h2>
+<h3 id="host-os">Host OS</h3>
+<pre><code class="lang-sh">$ lsb_release <span class="hljs-operator">-a</span>
+No LSB modules are available.
+Distributor ID:   Ubuntu
+Description:  Ubuntu <span class="hljs-number">14.04</span>.<span class="hljs-number">5</span> LTS
+Release:  <span class="hljs-number">14.04</span>
+Codename: trusty
+</code></pre>
+<h3 id="qemu">Qemu</h3>
+<pre><code class="lang-sh">$ qemu-system-arm --version
+QEMU emulator version <span class="hljs-number">2.0</span>.<span class="hljs-number">0</span> (Debian <span class="hljs-number">2.0</span>.<span class="hljs-number">0</span>+dfsg-<span class="hljs-number">2</span>ubuntu1.<span class="hljs-number">27</span>), Copyright (c) <span class="hljs-number">2003</span>-<span class="hljs-number">2008</span> Fabrice Bellard
+</code></pre>
+<h3 id="gdb">gdb</h3>
+<pre><code class="lang-sh">$ arm-none-eabi-gdb --version
+GNU gdb (GNU Tools <span class="hljs-keyword">for</span> ARM Embedded Processors) <span class="hljs-number">7.10</span>.<span class="hljs-number">1.20160923</span>-cvs
+Copyright (C) <span class="hljs-number">2015</span> Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version <span class="hljs-number">3</span> or later &lt;http://gnu.org/licenses/gpl
+...
+</code></pre>
+<h3 id="buildroot-%E7%89%88%E6%9C%AC">buildroot &#x7248;&#x672C;</h3>
+<pre><code>commit hash: 14b24726a81b719b35fee70c8ba8be2d682a7313
+</code></pre><h3 id="target">Target</h3>
+<ul>
+<li>Linux kernerl &#x7248;&#x672C;<ul>
+<li>4.4.2</li>
+</ul>
+</li>
+<li>&#x6A21;&#x64EC;&#x5E73;&#x53F0;<ul>
+<li>Vexpress</li>
+</ul>
+</li>
+</ul>
+<h2 id="linux-kernel%E7%92%B0%E5%A2%83%E8%A8%AD%E5%AE%9A">Linux kernel&#x74B0;&#x5883;&#x8A2D;&#x5B9A;</h2>
+<p>&#x6211;&#x76EE;&#x524D;&#x53EA;&#x6253;&#x958B;&#x52A0;&#x5165;debug&#x8CC7;&#x8A0A;&#x7684;&#x9078;&#x9805;&#x3002;&#x63A5;&#x4E0B;&#x4F86;&#x91CD;&#x7DE8;&#xFF0C;&#x7DE8;&#x8B6F;&#x7684;&#x65B9;&#x5F0F;&#x8ACB;&#x53C3;&#x8003;&#x9019;&#x908A;</p>
+<ul>
+<li>Kernel hacking -&gt; Compile-time checks and compiler options -&gt;<ul>
+<li>Compile the kernel with debug info</li>
+</ul>
+</li>
+</ul>
+<h2 id="%E6%B8%AC%E8%A9%A6">&#x6E2C;&#x8A66;</h2>
+<p>&#x4F9D;&#x7167;&#x4E0B;&#x9762;&#x5169;&#x500B;&#x6B65;&#x9A5F;&#x57F7;&#x884C;</p>
+<ul>
+<li>&#x57F7;&#x884C;qemu&#xFF0C;&#x4E26;&#x4E14;&#x52A0;&#x5165;&#x652F;&#x63F4;gdb&#x4EE5;&#x53CA;&#x958B;&#x59CB;&#x99AC;&#x4E0A;freeze CPU&#x7684;&#x53C3;&#x6578;</li>
+<li>&#x57F7;&#x884C;gdb&#xFF0C;&#x8F09;&#x5165;symbol&#x4E26;&#x806F;&#x5230;qemu&#x9664;&#x932F;</li>
+</ul>
+<h2 id="qemu">Qemu</h2>
+<p>&#x57FA;&#x672C;&#x4E0A;&#x5C31;&#x662F;&#x539F;&#x672C;&#x7684;&#x6307;&#x4EE4;&#x52A0;&#x5165;&#x5169;&#x500B;&#x9078;&#x9805;</p>
+<ul>
+<li>-S<ul>
+<li>qemu&#x4E00;&#x958B;&#x59CB;&#x7ACB;&#x5373;Freeze CPU</li>
+</ul>
+</li>
+<li>-s<ul>
+<li>-gdb tcp::1234&#x7684;&#x7E2E;&#x5BEB;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;gdb&#x53EF;&#x4EE5;&#x900F;&#x904E;port 1234&#x548C;&#x9023;&#x5230;Qemu&#x9664;&#x932F;</li>
+</ul>
+</li>
+</ul>
+<p>&#x5047;&#x8A2D;&#x4F60;&#x5728;buildroot&#x6700;&#x4E0A;&#x5C64;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x4E0B;&#x9762;&#x6307;&#x4EE4;&#x57F7;&#x884C;qemu &#x4E26;&#x4F7F;&#x7528;gdb &#x9664;&#x932F;</p>
+<pre><code class="lang-sh">qemu-system-arm -M vexpress<span class="hljs-operator">-a</span>9 -smp <span class="hljs-number">1</span> -m <span class="hljs-number">256</span> \
+                -kernel /tmp/kernel/linux-stable/arch/arm/boot/zImage  \
+                -dtb /tmp/kernel/linux-stable/vexpress-v2p-ca9.dtb     \
+                -drive file=output/images/rootfs.ext2,<span class="hljs-keyword">if</span>=sd,format=raw \
+                -append <span class="hljs-string">&quot;console=ttyAMA0,115200 root=/dev/mmcblk0&quot;</span>     \
+                -serial stdio -net nic,model=lan9118 -net user <span class="hljs-operator">-s</span> -S
+</code></pre>
+<h2 id="gdb">gdb</h2>
+<p>&#x9019;&#x908A;&#x6709;&#x9EDE;&#x7463;&#x788E;&#xFF0C;&#x5148;&#x8B1B;&#x4E00;&#x4E0B;&#x6B65;&#x9A5F;</p>
+<ul>
+<li>&#x8F09;&#x5165;Linux kernel symbol<ul>
+<li>&#x5047;&#x8A2D;&#x4F60;&#x5728;kernel&#x6700;&#x4E0A;&#x5C64;&#x76EE;&#x9304;&#x6709;&#x4E09;&#x7A2E;&#x65B9;&#x5F0F;&#x8F09;&#x5165;<ul>
+<li>&#x76F4;&#x63A5;arm-none-eabi-gdb ./vmlinux</li>
+<li>arm-none-eabi-gdb -ex &quot;file ./vmlinux&quot;</li>
+<li>&#x9032;&#x5165;gdb&#x5F8C;&#x6253;file ./vmlinux&#x6307;&#x4EE4;</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#x9023;&#x4E0A;qemu<ul>
+<li>&#x4E00;&#x6A23;&#x5169;&#x7A2E;&#x65B9;&#x5F0F;<ul>
+<li>arm-none-eabi-gdb -ex &quot;target remote :1234&quot;</li>
+<li>&#x9032;&#x5165;gdb&#x5F8C;&#x6253;target remote :1234&#x6307;&#x4EE4;</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#x8A2D;&#x5B9A;breakpoint&#x7B49;&#x4F60;&#x8981;&#x89C0;&#x5BDF;&#x7684;&#x8CC7;&#x8A0A;<ul>
+<li>&#x5982;b printk</li>
+</ul>
+</li>
+<li>&#x544A;&#x8A34;qemu&#x958B;&#x59CB;&#x57F7;&#x884C;<ul>
+<li>continue</li>
+</ul>
+</li>
+</ul>
+<p>1&#x548C;2&#x53EF;&#x4EE5;&#x4E00;&#x8D77;&#x4F7F;&#x7528;&#x5982;&#x4E0B;</p>
+<pre><code class="lang-sh">arm-none-eabi-gdb -ex <span class="hljs-string">&quot;file ./vmlinux&quot;</span>  -ex <span class="hljs-string">&quot;target remote :1234&quot;</span>
+</code></pre>
+<p>&#x73FE;&#x5728;&#x770B;&#x4E00;&#x4E0B;&#x64CD;&#x4F5C;&#x7BC4;&#x4F8B;</p>
+<pre><code class="lang-sh">$ arm-none-eabi-gdb -ex <span class="hljs-string">&quot;file ./vmlinux&quot;</span>  -ex <span class="hljs-string">&quot;target remote :1234&quot;</span>
+GNU gdb (GNU Tools <span class="hljs-keyword">for</span> ARM Embedded Processors) <span class="hljs-number">7.10</span>.<span class="hljs-number">1.20160923</span>-cvs
+...
+Reading symbols from ./vmlinux...done.
+Remote debugging using :<span class="hljs-number">1234</span>
+<span class="hljs-number">0</span>x60000000 <span class="hljs-keyword">in</span> ?? ()
+(gdb) b printk
+Breakpoint <span class="hljs-number">1</span> at <span class="hljs-number">0</span>x800a2260: file kernel/printk/printk.c, line <span class="hljs-number">1900</span>.
+(gdb) c
+Continuing.
+
+Breakpoint <span class="hljs-number">1</span>, printk (fmt=<span class="hljs-number">0</span>x0 &lt;__vectors_start&gt;) at kernel/printk/printk.c:<span class="hljs-number">1900</span>
+<span class="hljs-number">1900</span>  {
+(gdb) bt
+<span class="hljs-comment">#0  printk (fmt=0x0 &lt;__vectors_start&gt;) at kernel/printk/printk.c:1900</span>
+<span class="hljs-comment">#1  0x806178e0 in start_kernel () at init/main.c:508</span>
+<span class="hljs-comment">#2  0x6000807c in ?? ()</span>
+Backtrace stopped: previous frame identical to this frame (corrupt stack?)
+</code></pre>
+<p>&#x53E6;&#x5916;&#x5982;&#x679C;&#x6709;&#x8208;&#x8DA3;&#x4F7F;&#x7528;Linux kernel&#x63D0;&#x4F9B;&#x7684;&#x6307;&#x4EE4;&#xFF0C;&#x5728;kernel config&#x8A2D;&#x5B9A;&#x6253;&#x958B;gdb script&#x5F8C;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x4E0B;&#x9762;&#x7684;&#x65B9;&#x5F0F;&#x5728;&#x555F;&#x52D5;gdb&#x6642;&#x8F09;&#x5165;&#xFF0C;&#x53EA;&#x8981;&#x628A;&#x4E0B;&#x9762;&#x7684;&#x63CF;&#x8FF0;&#x52A0;&#x5230;&#x4F60;&#x7684;~/.gdbinit&#x5373;&#x53EF;</p>
+<pre><code class="lang-sh">add-auto-load-safe-path /tmp/kernel/scripts/gdb/vmlinux-gdb.py
+</code></pre>
+<p>&#x90A3;&#x9EBC;&#x4F60;&#x5C31;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;Linux kernel&#x63D0;&#x4F9B;&#x7684;gdb script&#xFF0C;&#x8A73;&#x7D30;&#x7684;&#x8A2D;&#x5B9A;&#x548C;<a href="http://lxr.free-electrons.com/source/Documentation/gdb-kernel-debugging.txt?v=4.4" target="_blank">&#x6307;&#x4EE4;</a>&#x8AAA;&#x660E;&#x5728;&#x9019;&#x908A;&#x3002;</p>
+<h2 id="%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99">&#x53C3;&#x8003;&#x8CC7;&#x6599;</h2>
+<ul>
+<li>Linux Magazine: Qemu and the Kernel</li>
+<li>Linux kernel document (4.4): Debugging kernel and modules via gdb<ul>
+<li>&#x611F;&#x8B1D;&#x5B78;&#x5F1F;ajmachine &#x56DE;&#x5831;&#xFF0C;&#x539F;&#x672C;&#x5B98;&#x65B9;&#x7DB2;&#x7AD9;&#x9023;&#x7D50;&#x5931;&#x6548;&#xFF0C;&#x627E;&#x4E00;&#x500B;&#x4EE3;&#x66FF;&#x3002;</li>
+</ul>
+</li>
+<li>stackoverflow: How to debug the Linux kernel with GDB and QEMU?</li>
+</ul>
+<h2 id="%E8%A3%9C%E5%85%85">&#x88DC;&#x5145;</h2>
+<p>&#x7576;&#x521D;&#x72AF;&#x4E86;&#x8822;&#x4E8B;&#x8F09;&#x5165;&#x4E0D;&#x6B63;&#x78BA;&#x7684;kernel image&#x5C0E;&#x81F4;&#x4E00;&#x5806;&#x4E0D;&#x5FC5;&#x8981;&#x7684;&#x9664;&#x932F;&#x3002;&#x4E0D;&#x904E;&#x591A;&#x5B78;&#x5230;&#x4E00;&#x500B;gdb Python script&#x9664;&#x932F;&#x6307;&#x4EE4;&#xFF0C;&#x7576;Python script&#x767C;&#x751F;exception&#x6642;&#x53EF;&#x4EE5;&#x7528;&#x4E0B;&#x9762;&#x7684;&#x6307;&#x4EE4;&#x5370;&#x51FA;Python&#x932F;&#x8AA4;call stack</p>
+<ul>
+<li>gdb&#x5167;&#xFF1A;set python print-stack full</li>
+<li>&#x555F;&#x52D5;gdb&#x6642;&#x52A0;&#x5165;&#x53C3;&#x6578;&#xFF1A; -ex &quot;set python print-stack full&quot;</li>
+</ul>
 
                     
                     </section>
@@ -15098,10 +15236,10 @@
         </div>
 
         
-        <a href="../linux_tools/unix_xia_hui_tu_mian_mian_guan.html" class="navigation navigation-prev " aria-label="Previous page: UNIX 下繪圖面面觀"><i class="fa fa-angle-left"></i></a>
+        <a href="../wen00072/shi_yong_gdb_jing_tai_fen_xi_c_yu_yan_ming_cheng_h.html" class="navigation navigation-prev " aria-label="Previous page: 使用gdb 靜態分析C 語言名稱和參數相同函數的原始檔位置"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../linux_tools/application_xiao_neng_fen_xi_you_miao_zhao__shi_yo.html" class="navigation navigation-next " aria-label="Next page: Application 效能分析有妙招 — 使用 perf 走天下"><i class="fa fa-angle-right"></i></a>
+        <a href="../shell/index.html" class="navigation navigation-next " aria-label="Next page: Shell"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

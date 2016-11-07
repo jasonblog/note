@@ -43,7 +43,7 @@ commit hash: 14b24726a81b719b35fee70c8ba8be2d682a7313
 
 - Linux kernerl 版本
     - 4.4.2
-- 模擬平台
+- 模擬平臺
     - Vexpress
 
 

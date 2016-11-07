@@ -24,7 +24,7 @@ Anaconda的下載頁參見官網下載，Linux、Mac、Windows均支持。
 
 安裝時，會發現有兩個不同版本的Anaconda，分別對應Python 2.7和Python 3.5，兩個版本其實除了這點區別外其他都一樣。後面我們會看到，安裝哪個版本並不本質，因為通過環境管理，我們可以很方便地切換運行時的Python版本。（由於我常用的Python是2.7和3.4，因此傾向於直接安裝Python 2.7對應的Anaconda）
 
-下載後直接按照說明安裝即可。這裡想提醒一點：儘量按照Anaconda默認的行為安裝——不使用root權限，僅為個人安裝，安裝目錄設置在個人主目錄下（Windows就無所謂了）。這樣的好處是，同一台機器上的不同用戶完全可以安裝、配置自己的Anaconda，不會互相影響。
+下載後直接按照說明安裝即可。這裡想提醒一點：儘量按照Anaconda默認的行為安裝——不使用root權限，僅為個人安裝，安裝目錄設置在個人主目錄下（Windows就無所謂了）。這樣的好處是，同一臺機器上的不同用戶完全可以安裝、配置自己的Anaconda，不會互相影響。
 
 對於Mac、Linux系統，Anaconda安裝好後，實際上就是在主目錄下多了個文件夾（~/anaconda）而已，Windows會寫入註冊表。安裝時，安裝程序會把bin目錄加入PATH（Linux/Mac寫入~/.bashrc，Windows添加到系統變量PATH），這些操作也完全可以自己完成。以Linux/Mac為例，安裝完成後設置PATH的操作是
 
@@ -149,7 +149,7 @@ conda config --set show_channel_urls yes
 執行完上述命令後，會生成~/.condarc(Linux/Mac)或C:\Users\USER_NAME\.condarc文件，記錄著我們對conda的配置，直接手動創建、編輯該文件是相同的效果。
 
 
-Anaconda具有跨平台、包管理、環境管理的特點，因此很適合快速在新的機器上部署Python環境。總結而言，整套安裝、配置流程如下：
+Anaconda具有跨平臺、包管理、環境管理的特點，因此很適合快速在新的機器上部署Python環境。總結而言，整套安裝、配置流程如下：
 
 下載Anaconda、安裝
 配置PATH（bashrc或環境變量），更改TUNA鏡像源

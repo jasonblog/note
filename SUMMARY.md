@@ -349,6 +349,7 @@
    * [閱讀assembly code](assembly/166.md)
    * [閱讀assembly code](assembly/yue_du_assembly_code.md)
    * Linux asm系统调用：32位和64位的区别
+   * 如何在linux下编译汇编程序，内功心法是汇编程序的结构
 * [Toolchain](toolchain/README.md)
    * [cross compiler install](toolchain/171.md)
    * [buildroot install](toolchain/172.md)

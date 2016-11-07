@@ -348,6 +348,7 @@
    * [gas學習  by Jian Lee](assembly/165.md)
    * [閱讀assembly code](assembly/166.md)
    * [閱讀assembly code](assembly/yue_du_assembly_code.md)
+   * Linux asm系统调用：32位和64位的区别
 * [Toolchain](toolchain/README.md)
    * [cross compiler install](toolchain/171.md)
    * [buildroot install](toolchain/172.md)

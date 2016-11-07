@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="14" data-basepath=".." data-revision="Mon Nov 07 2016 22:05:30 GMT+0800 (CST)">
+    <div class="book" data-level="14" data-basepath=".." data-revision="Mon Nov 07 2016 23:49:17 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -5443,6 +5443,13 @@
                         
                         閱讀assembly code
                     </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="14.9" >
+            
+            <span><b>14.9.</b> Linux asm系统调用：32位和64位的区别</span>
             
             
         </li>
@@ -15088,6 +15095,88 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="assembly">Assembly</h1>
+<p>&#x6700;&#x8FD1;&#x5728;&#x5B66;&#x4E60;&#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#xFF0C;&#x4E00;&#x6BB5;&#x7528;asm&#x5185;&#x8054;&#x6C47;&#x7F16;&#x5199;&#x7684;&#x7B80;&#x5355;&#x7A0B;&#x5E8F;&#x59CB;&#x7EC8;&#x5F97;&#x4E0D;&#x51FA;&#x6B63;&#x786E;&#x7684;&#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#x7ED3;&#x679C;&#x3002;&#x7ECF;&#x8FC7;&#x63D0;&#x9192;&#xFF0C;&#x6211;&#x624D;&#x4E86;&#x89E3;&#x5230;&#x8FD9;&#x662F;32&#x4F4D;&#x5E73;&#x53F0;&#x548C;64&#x4F4D;&#x5E73;&#x53F0;&#x7684;&#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#x65B9;&#x6CD5;&#x4E0D;&#x540C;&#x7684;&#x539F;&#x56E0;&#x3002;&#x5728;&#x6B64;&#x5217;&#x51FA;&#x76F8;&#x5173;&#x7684;&#x7A0B;&#x5E8F;&#x548C;&#x6211;&#x7684;&#x7406;&#x89E3;&#x3002;</p>
+<p>&#x7A0B;&#x5E8F;&#x4EE3;&#x7801;&#x548C;&#x95EE;&#x9898;</p>
+<p>&#x9996;&#x5148;&#x770B;&#x5982;&#x4E0B;&#x4E00;&#x6BB5;&#x7B80;&#x5355;&#x7684;C&#x7A0B;&#x5E8F;&#xFF08;test.cpp&#xFF09;&#xFF1A;</p>
+<pre><code class="lang-cpp"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>{
+    <span class="hljs-keyword">char</span> str[] = <span class="hljs-string">&quot;Hello\n&quot;</span>;
+    write(<span class="hljs-number">0</span>, str, <span class="hljs-number">6</span>);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>&#x8FD9;&#x6BB5;&#x7A0B;&#x5E8F;&#x8C03;&#x7528;&#x4E86;write&#x51FD;&#x6570;&#xFF0C;&#x5176;&#x63A5;&#x53E3;&#x4E3A;&#xFF1A;</p>
+<pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">write</span><span class="hljs-params">(<span class="hljs-keyword">int</span> fd <span class="hljs-comment">/*&#x8F93;&#x51FA;&#x4F4D;&#x7F6E;&#x53E5;&#x67C4;*/</span>, <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* src <span class="hljs-comment">/*&#x8F93;&#x51FA;&#x9996;&#x5730;&#x5740;*/</span>&#xFF0C; <span class="hljs-keyword">int</span> len <span class="hljs-comment">/*&#x957F;&#x5EA6;*/</span>)</span>
+</span></code></pre>
+<p>fd&#x4E3A;0&#x5219;&#x8868;&#x793A;&#x8F93;&#x51FA;&#x5230;&#x63A7;&#x5236;&#x53F0;&#x3002;&#x56E0;&#x6B64;&#x4E0A;&#x8FF0;&#x7A0B;&#x5E8F;&#x7684;&#x6267;&#x884C;&#x7ED3;&#x679C;&#x4E3A;&#xFF1A;&#x5411;&#x63A7;&#x5236;&#x53F0;&#x8F93;&#x51FA;&#x4E00;&#x4E2A;&#x957F;&#x5EA6;&#x4E3A;6&#x7684;&#x5B57;&#x7B26;&#x4E32;&quot;Hello\n&quot;&#x3002; </p>
+<p>&#x5728;&#x63A7;&#x5236;&#x53F0;&#x8C03;&#x7528;gcc test.cpp&#xFF0C;&#x53EF;&#x4EE5;&#x6B63;&#x786E;&#x8F93;&#x51FA;&#x3002; 
+&#x4E3A;&#x4E86;&#x66F4;&#x597D;&#x5730;&#x7406;&#x89E3;&#x5728;&#x6C47;&#x7F16;&#x4EE3;&#x7801;&#x4E0B;&#x7684;&#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#x8FC7;&#x7A0B;&#xFF0C;&#x53EF;&#x628A;&#x4E0A;&#x8FF0;&#x4EE3;&#x7801;&#x6539;&#x5199;&#x6210;&#x5185;&#x8054;&#x6C47;&#x7F16;&#x7684;&#x683C;&#x5F0F;&#xFF08;&#x5177;&#x4F53;&#x8BED;&#x6CD5;&#x53EF;&#x53C2;&#x8003;&#x4E0A;&#x4E00;&#x7BC7;&#x535A;&#x5BA2;&#xFF1A;&#x7528;asm&#x5185;&#x8054;&#x6C47;&#x7F16;&#x5B9E;&#x73B0;&#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#xFF09;&#xFF1A;</p>
+<pre><code class="lang-cpp">//test_asm_A.cpp
+int main(){
+    char str[] = &quot;Hello\n&quot;;
+    asm volatile(
+        &quot;int $0x80\n\t&quot;
+        :
+        :&quot;a&quot;(4), &quot;b&quot;(0), &quot;c&quot;(str), &quot;d&quot;(6)
+        );
+    return 0;
+}
+</code></pre>
+<p>&#x5176;&#x4E2D;&#xFF0C;4&#x662F;write&#x51FD;&#x6570;&#x7684;&#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#x53F7;&#xFF0C;ebx/ecx/edx&#x662F;&#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#x7684;&#x524D;&#x4E09;&#x4E2A;&#x53C2;&#x6570;&#x3002; 
+<code>&#x7136;&#x800C;&#xFF0C;&#x6267;&#x884C;gcc test_asm_A.cpp&#x7F16;&#x8BD1;&#x540E;&#xFF0C;&#x518D;&#x8FD0;&#x884C;&#x7A0B;&#x5E8F;&#xFF0C;&#x53D1;&#x73B0;&#x7A0B;&#x5E8F;&#x6CA1;&#x6709;&#x4EFB;&#x4F55;&#x8F93;&#x51FA;&#x3002;</code>&#x4E00;&#x4E2A;&#x5F88;&#x5947;&#x602A;&#x7684;&#x95EE;&#x9898;&#x662F;&#xFF0C;&#x5982;&#x679C;&#x91C7;&#x7528;&#x5982;&#x4E0B;test_asm_B.cpp&#x7684;&#x5199;&#x6CD5;&#xFF0C;&#x5219;&#x7A0B;&#x5E8F;&#x53EF;&#x4EE5;&#x6B63;&#x5E38;&#x5730;&#x8F93;&#x51FA;&#xFF1A;</p>
+<pre><code class="lang-cpp">//test_asm_B.cpp
+#include &lt;stdlib.h&gt;
+#include &lt;
+int main(){
+    char *str = (char*)malloc(7 * sizeof(char));
+    strcpy(str, &quot;Hello\n&quot;);
+    asm volatile(
+        &quot;int $0x80\n\t&quot;
+        :
+        :&quot;a&quot;(4), &quot;b&quot;(0), &quot;c&quot;(str), &quot;d&quot;(6)
+        );
+    free(str);
+    return 0;
+}
+</code></pre>
+<p><code>&#x4E24;&#x6BB5;&#x4EE3;&#x7801;&#x552F;&#x4E00;&#x7684;&#x533A;&#x522B;&#xFF0C;&#x662F;test_asm_A.cpp&#x4E2D;&#x7684;str&#x5B58;&#x50A8;&#x5728;&#x6808;&#x7A7A;&#x95F4;&#xFF0C;&#x800C;test_asm_B.cpp&#x4E2D;&#x7684;str&#x5B58;&#x50A8;&#x5728;&#x5806;&#x7A7A;&#x95F4;&#x3002;</code></p>
+<p>&#x90A3;&#x4E48;&#xFF0C;&#x4E3A;&#x4EC0;&#x4E48;&#x5B58;&#x50A8;&#x4F4D;&#x7F6E;&#x7684;&#x4E0D;&#x540C;&#x4F1A;&#x9020;&#x6210;&#x5B8C;&#x5168;&#x4E0D;&#x540C;&#x7684;&#x7ED3;&#x679C;&#x5462;&#xFF1F;</p>
+<h2 id="%E5%8E%9F%E5%9B%A0%E5%88%86%E6%9E%90">&#x539F;&#x56E0;&#x5206;&#x6790;</h2>
+<p>&#x4F4D;&#x7684;&#x65B9;&#x5F0F;&#x7F16;&#x8BD1;&#xFF0C;&#x5373;gcc test_asm_A.cpp -m32&#x548C;gcc test_asm_B.cpp -m32&#xFF0C;&#x53EF;&#x4EE5;&#x53D1;&#x73B0;&#x4E24;&#x6BB5;&#x4EE3;&#x7801;&#x90FD;&#x80FD;&#x6B63;&#x786E;&#x8F93;&#x51FA;&#x3002;&#x8FD9;&#x8BF4;&#x660E;&#xFF0C;&#x4E0A;&#x8FF0;&#x4EE3;&#x7801;&#x6309;32&#x4F4D;&#x7F16;&#x8BD1;&#xFF0C;&#x53EF;&#x4EE5;&#x5F97;&#x5230;&#x6B63;&#x786E;&#x7684;&#x7ED3;&#x679C;&#x3002; 
+&#x5982;&#x679C;&#x6CA1;&#x6709;<code>-m32</code>&#x6807;&#x5FD7;&#xFF0C;&#x5219;gcc&#x9ED8;&#x8BA4;&#x6309;&#x7167;64&#x4F4D;&#x65B9;&#x5F0F;&#x7F16;&#x8BD1;&#x3002;32&#x4F4D;&#x548C;64&#x4F4D;&#x7A0B;&#x5E8F;&#x5728;&#x7F16;&#x8BD1;&#x65F6;&#x6709;&#x5982;&#x4E0B;&#x533A;&#x522B;&#xFF1A;</p>
+<ul>
+<li>32&#x4F4D;&#x548C;64&#x4F4D;&#x7A0B;&#x5E8F;&#x7684;&#x5730;&#x5740;&#x7A7A;&#x95F4;&#x8303;&#x56F4;&#x4E0D;&#x540C;&#x3002;</li>
+<li>32&#x4F4D;&#x548C;64&#x4F4D;&#x7A0B;&#x5E8F;&#x7684;&#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#x53F7;&#x4E0D;&#x540C;&#xFF0C;&#x5982;&#x672C;&#x4F8B;&#x4E2D;&#x7684;write&#xFF0C;&#x5728;32&#x4F4D;&#x7CFB;&#x7EDF;&#x4E2D;&#x8C03;&#x7528;&#x53F7;&#x4E3A;4&#xFF0C;&#x5728;64&#x4F4D;&#x7CFB;&#x7EDF;&#x4E2D;&#x5219;&#x4E3A;1&#x3002;</li>
+<li>&#x5BF9;&#x4E8E;32&#x4F4D;&#x7A0B;&#x5E8F;&#xFF0C;&#x5E94;&#x8C03;&#x7528;int $0x80&#x8FDB;&#x5165;&#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#xFF0C;&#x5C06;&#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#x53F7;&#x4F20;&#x5165;eax&#xFF0C;&#x5404;&#x4E2A;&#x53C2;&#x6570;&#x6309;&#x7167;ebx&#x3001;ecx&#x3001;edx&#x7684;&#x987A;&#x5E8F;&#x4F20;&#x9012;&#x5230;&#x5BC4;&#x5B58;&#x5668;&#x4E2D;&#xFF0C;&#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#x8FD4;&#x56DE;&#x503C;&#x50A8;&#x5B58;&#x5230;eax&#x5BC4;&#x5B58;&#x5668;&#x3002;</li>
+<li>&#x5BF9;&#x4E8E;64&#x4F4D;&#x7A0B;&#x5E8F;&#xFF0C;&#x5E94;&#x8C03;&#x7528;syscall&#x8FDB;&#x5165;&#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#xFF0C;&#x5C06;&#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#x53F7;&#x4F20;&#x5165;rax&#xFF0C;&#x5404;&#x4E2A;&#x53C2;&#x6570;&#x6309;&#x7167;rdi&#x3001;rsi&#x3001;rdx&#x7684;&#x987A;&#x5E8F;&#x4F20;&#x9012;&#x5230;&#x5BC4;&#x5B58;&#x5668;&#x4E2D;&#xFF0C;&#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#x8FD4;&#x56DE;&#x503C;&#x50A8;&#x5B58;&#x5230;rax&#x5BC4;&#x5B58;&#x5668;&#x3002;</li>
+</ul>
+<p>&#x518D;&#x770B;&#x4E0A;&#x9762;&#x4E24;&#x6BB5;&#x4EE3;&#x7801;&#xFF0C;&#x5B83;&#x4EEC;&#x90FD;&#x662F;&#x8C03;&#x7528;int $0x80&#x8FDB;&#x5165;&#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#xFF0C;&#x5374;&#x6309;&#x7167;64&#x4F4D;&#x65B9;&#x5F0F;&#x7F16;&#x8BD1;&#xFF0C;&#x5219;&#x4F1A;&#x51FA;&#x73B0;&#x5982;&#x4E0B;&#x4E0D;&#x6B63;&#x5E38;&#x60C5;&#x5F62;&#xFF1A;</p>
+<ul>
+<li>&#x7A0B;&#x5E8F;&#x7684;&#x5730;&#x5740;&#x7A7A;&#x95F4;&#x662F;64&#x4F4D;&#x5730;&#x5740;&#x7A7A;&#x95F4;&#x3002;</li>
+<li>0x80&#x53F7;&#x4E2D;&#x65AD;&#x8FDB;&#x5165;&#x7684;&#x662F;32&#x4F4D;&#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#x51FD;&#x6570;&#xFF0C;&#x56E0;&#x6B64;&#x4ECD;&#x6309;&#x7167;32&#x4F4D;&#x7684;&#x65B9;&#x5F0F;&#x6765;&#x89E3;&#x91CA;&#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#xFF0C;&#x5373;&#x6240;&#x6709;&#x5BC4;&#x5B58;&#x5668;&#x53EA;&#x8003;&#x8651;&#x4F4E;32&#x4F4D;&#x7684;&#x503C;&#x3002;</li>
+</ul>
+<p>&#x518D;&#x770B;&#x7A0B;&#x5E8F;&#x4E2D;&#x4F20;&#x5165;&#x7684;&#x5404;&#x4E2A;&#x53C2;&#x6570;&#xFF0C;&#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#x53F7;&#xFF08;4&#xFF09;&#xFF0C;&#x7B2C;1&#x4E2A;&#x548C;&#x7B2C;3&#x4E2A;&#x53C2;&#x6570;&#xFF08;0&#x548C;6&#xFF09;&#x90FD;&#x662F;32&#x4F4D;&#x4EE5;&#x5185;&#x7684;&#xFF0C;&#x4F46;&#x662F;str&#x7684;&#x5730;&#x5740;&#x662F;64&#x4F4D;&#x5730;&#x5740;&#xFF0C;&#x5728;0x80&#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#x4E2D;&#x53EA;&#x6709;&#x4F4E;32&#x4F4D;&#x4F1A;&#x88AB;&#x8003;&#x8651;&#x3002; </p>
+<p>&#x8FD9;&#x6837;&#xFF0C;test_asm_A.cpp&#x4E0D;&#x80FD;&#x6B63;&#x786E;&#x6267;&#x884C;&#xFF0C;&#x800C;test_asm_B.cpp&#x53EF;&#x4EE5;&#x6B63;&#x786E;&#x6267;&#x884C;&#x7684;&#x539F;&#x56E0;&#x5C31;&#x5F88;&#x660E;&#x786E;&#x4E86;&#xFF1A;</p>
+<ul>
+<li>&#x5728;test_asm_A.cpp&#x4E2D;&#xFF0C;str&#x5B58;&#x50A8;&#x5728;&#x6808;&#x7A7A;&#x95F4;&#x4E2D;&#xFF0C;&#x800C;&#x6808;&#x7A7A;&#x95F4;&#x5728;&#x7CFB;&#x7EDF;&#x7684;&#x9AD8;&#x4F4D;&#xFF0C;&#x53EA;&#x53D6;&#x4F4E;32&#x4F4D;&#x5730;&#x5740;&#xFF0C;&#x5F97;&#x5230;&#x7684;&#x662F;&#x9519;&#x8BEF;&#x5730;&#x5740;&#x3002;</li>
+<li>&#x5728;test_asm_B.cpp&#x4E2D;&#xFF0C;str&#x5B58;&#x50A8;&#x5728;&#x5806;&#x7A7A;&#x95F4;&#x4E2D;&#xFF0C;&#x800C;&#x5806;&#x7A7A;&#x95F4;&#x5728;&#x7CFB;&#x7EDF;&#x7684;&#x4F4E;&#x4F4D;&#x5F00;&#x59CB;&#xFF0C;&#x5728;&#x8FD9;&#x6837;&#x4E00;&#x4E2A;&#x5C0F;&#x7A0B;&#x5E8F;&#x4E2D;&#xFF0C;str&#x5730;&#x5740;&#x7684;&#x9AD8;32&#x4F4D;&#x4E3A;0&#xFF0C;&#x53EA;&#x6709;&#x4F4E;32&#x4F4D;&#x5B58;&#x5728;&#x975E;&#x96F6;&#x503C;&#xFF0C;&#x56E0;&#x6B64;&#x4E0D;&#x4F1A;&#x51FA;&#x73B0;&#x622A;&#x65AD;&#x9519;&#x8BEF;&#x3002;
+&#x53EF;&#x89C1;&#xFF0C;test_asm_B.cpp&#x6B63;&#x786E;&#x6267;&#x884C;&#x53EA;&#x662F;&#x4E00;&#x4E2A;&#x5047;&#x8C61;&#x3002;&#x7531;&#x4E8E;&#x5806;&#x7A7A;&#x95F4;&#x4ECE;&#x4F4E;&#x4F4D;&#x5F00;&#x59CB;&#xFF0C;&#x5982;&#x679C;&#x5F00;&#x8F9F;&#x7A7A;&#x95F4;&#x8FC7;&#x591A;&#xFF0C;&#x5806;&#x7A7A;&#x95F4;&#x4E5F;&#x8FDB;&#x5165;&#x9AD8;&#x4F4D;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x8FD9;&#x6BB5;&#x4EE3;&#x7801;&#x540C;&#x6837;&#x53EF;&#x80FD;&#x51FA;&#x9519;&#x3002;</li>
+</ul>
+<h2 id="64%E4%BD%8D%E7%B3%BB%E7%BB%9F%E7%9A%84%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E4%BB%A3%E7%A0%81">64&#x4F4D;&#x7CFB;&#x7EDF;&#x7684;&#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#x4EE3;&#x7801;</h2>
+<p>&#x6700;&#x540E;&#xFF0C;&#x7ED9;&#x51FA;64&#x4F4D;&#x7CFB;&#x7EDF;&#x4E0B;&#x53EF;&#x6B63;&#x786E;&#x8F93;&#x51FA;&#x7684;asm&#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#x4EE3;&#x7801;&#xFF1A;</p>
+<pre><code class="lang-cpp">//test_asm_C.cpp
+int main(){
+    char str[] = &quot;Hello\n&quot;;
+    //&#x6CE8;&#x610F;&#xFF1A;64&#x4F4D;&#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#x4E2D;&#xFF0C;write&#x51FD;&#x6570;&#x8C03;&#x7528;&#x53F7;&#x4E3A;1
+    asm volatile(
+        &quot;mov %2, %%rsi\n\t&quot;
+        &quot;syscall&quot;
+        :
+        :&quot;a&quot;(1), &quot;D&quot;(0), &quot;b&quot;(str), &quot;d&quot;(6)
+        );
+    return 0;
+}
+</code></pre>
 
                     
                     </section>

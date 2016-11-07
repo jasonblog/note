@@ -346,7 +346,6 @@
    * [在 Linux 下使用 GNU AS 編寫組合語言 - 使用 gdb 進行除錯](assembly/163.md)
    * [linux反彙編旁門左道小技巧一則](assembly/164.md)
    * [gas學習  by Jian Lee](assembly/165.md)
-   * [閱讀assembly code](assembly/166.md)
    * [閱讀assembly code](assembly/yue_du_assembly_code.md)
    * [Linux asm系統調用：32位和64位的區別](assembly/linux_asmxi_tong_diao_yong_ff1a_32_wei_he_64_wei_d.md)
    * [如何在linux下編譯彙編程序，內功心法是彙編程序的結構](assembly/ru_he_zai_linux_xia_bian_yi_hui_bian_cheng_xu_ff0c.md)

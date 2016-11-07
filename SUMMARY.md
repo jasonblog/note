@@ -491,6 +491,7 @@
    * [Linux Kernel Pratice 0: Buildroot (1/2)](wen00072/linux_kernel_pratice_0_buildroot_12.md)
    * [Linux Kernel Pratice 0: Buildroot (2/2) - 自行編譯kernel](wen00072/linux_kernel_pratice_0_buildroot_22_-_zi_xing_bian.md)
    * [使用gdb 靜態分析C 語言名稱和參數相同函數的原始檔位置](wen00072/shi_yong_gdb_jing_tai_fen_xi_c_yu_yan_ming_cheng_h.md)
+   * Linux Kernel Pratice 0.5: 使用gdb 加 Qemu Trace Linux Kernel Runtime 行為
 * [Shell](shell/README.md)
    * [shell十三問](shell/230.md)
        * [何為shell](shell/2311.md)

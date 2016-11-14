@@ -203,3 +203,23 @@ if __name__ == "__main__":
     main()
 
 ```
+
+
+## HTML
+
+```py
+from html import HTML
+inline_css={
+           'class1':'color:#00FF00;',
+           'class2':'color:#FF0000;',
+           'class3':'color:#FFFF00;',
+}
+
+b = HTML()
+t = b.table(border='1')
+r = t.tr()
+r.td('column 1', style=inline_css['class1'])
+r.td('column 2', style=inline_css['class2'])
+r.td('column 3', style=inline_css['class3'])
+print str(b)
+```

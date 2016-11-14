@@ -163,8 +163,7 @@ def extend_access_token(access_token):
     token = s.get(link).content
     token = token.split("&")[0]                 # this strips out the expire info (now set set about 5184000 seconds, or 60 days)
     token = token.strip("access_token=")        # Strips out access token
-    print token
-
+    #print token
 
 def main():
     token = ''
@@ -186,6 +185,7 @@ def main():
 			 (post['comments']['data'][i]['created_time'], \
 			  post['comments']['data'][i]['from']['name'], \
 			  post['comments']['data'][i]['message']))
+		print '--------------------------------------------------------------'
 	    else:
 		pass
 		#print "沒+++"
@@ -201,4 +201,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 ```

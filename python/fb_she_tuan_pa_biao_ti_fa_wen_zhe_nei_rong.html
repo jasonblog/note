@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="27.1.9" data-basepath=".." data-revision="Tue Nov 15 2016 00:23:54 GMT+0800 (CST)">
+    <div class="book" data-level="27.1.9" data-basepath=".." data-revision="Tue Nov 15 2016 00:47:31 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -15306,6 +15306,22 @@ feed = graph.request(<span class="hljs-string">&apos;/%s/feed&apos;</span> % gro
 
 <span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:
     main()
+</code></pre>
+<h2 id="html">HTML</h2>
+<pre><code class="lang-py"><span class="hljs-keyword">from</span> html <span class="hljs-keyword">import</span> HTML
+inline_css={
+           <span class="hljs-string">&apos;class1&apos;</span>:<span class="hljs-string">&apos;color:#00FF00;&apos;</span>,
+           <span class="hljs-string">&apos;class2&apos;</span>:<span class="hljs-string">&apos;color:#FF0000;&apos;</span>,
+           <span class="hljs-string">&apos;class3&apos;</span>:<span class="hljs-string">&apos;color:#FFFF00;&apos;</span>,
+}
+
+b = HTML()
+t = b.table(border=<span class="hljs-string">&apos;1&apos;</span>)
+r = t.tr()
+r.td(<span class="hljs-string">&apos;column 1&apos;</span>, style=inline_css[<span class="hljs-string">&apos;class1&apos;</span>])
+r.td(<span class="hljs-string">&apos;column 2&apos;</span>, style=inline_css[<span class="hljs-string">&apos;class2&apos;</span>])
+r.td(<span class="hljs-string">&apos;column 3&apos;</span>, style=inline_css[<span class="hljs-string">&apos;class3&apos;</span>])
+<span class="hljs-keyword">print</span> str(b)
 </code></pre>
 
                     

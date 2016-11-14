@@ -48,7 +48,7 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="27.1.9" data-basepath=".." data-revision="Mon Nov 14 2016 20:24:51 GMT+0800 (CST)">
+    <div class="book" data-level="27.1.9" data-basepath=".." data-revision="Mon Nov 14 2016 22:16:31 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -15118,6 +15118,7 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="fb-%E7%A4%BE%E5%9C%98%E7%88%AC%E6%A8%99%E9%A1%8C%E7%99%BC%E6%96%87%E8%80%85%E5%85%A7%E5%AE%B9">fb &#x793E;&#x5718;&#x722C;&#x6A19;&#x984C;&#x767C;&#x6587;&#x8005;&#x5167;&#x5BB9;</h1>
+<h2 id="graph-api-explorer">Graph API Explorer</h2>
 <pre><code class="lang-py"><span class="hljs-comment">#! /usr/bin/python</span>
 <span class="hljs-comment"># -*- coding: utf-8 -*-</span>
 <span class="hljs-keyword">import</span> facebook
@@ -15130,6 +15131,44 @@ groups = graph.get_connections(id=<span class="hljs-string">&apos;me&apos;</span
 group_id = [group[<span class="hljs-string">&apos;id&apos;</span>] <span class="hljs-keyword">for</span> group <span class="hljs-keyword">in</span> groups <span class="hljs-keyword">if</span> group[<span class="hljs-string">&apos;name&apos;</span>] == <span class="hljs-string">&apos;Jason_Test&apos;</span>][<span class="hljs-number">0</span>]
 <span class="hljs-comment">#print group_id</span>
 feed = graph.request(<span class="hljs-string">&apos;/%s/feed&apos;</span> % group_id, args = {<span class="hljs-string">&apos;limit&apos;</span>: <span class="hljs-number">1000</span>})
+<span class="hljs-comment">#pprint.pprint(feed)</span>
+
+<span class="hljs-keyword">for</span> post <span class="hljs-keyword">in</span> feed[<span class="hljs-string">&apos;data&apos;</span>]:
+    <span class="hljs-comment">#pprint.pprint(post)</span>
+    <span class="hljs-keyword">if</span> <span class="hljs-string">&apos;message&apos;</span> <span class="hljs-keyword">in</span> post.keys():
+        <span class="hljs-keyword">if</span> <span class="hljs-string">&apos;comments&apos;</span> <span class="hljs-keyword">in</span> post.keys():
+            <span class="hljs-keyword">print</span> post[<span class="hljs-string">&apos;message&apos;</span>]
+            <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(post[<span class="hljs-string">&apos;comments&apos;</span>][<span class="hljs-string">&apos;data&apos;</span>])):
+                <span class="hljs-keyword">print</span> post[<span class="hljs-string">&apos;comments&apos;</span>][<span class="hljs-string">&apos;data&apos;</span>][i][<span class="hljs-string">&apos;from&apos;</span>][<span class="hljs-string">&apos;name&apos;</span>]
+                <span class="hljs-keyword">print</span> post[<span class="hljs-string">&apos;comments&apos;</span>][<span class="hljs-string">&apos;data&apos;</span>][i][<span class="hljs-string">&apos;created_time&apos;</span>]
+                <span class="hljs-keyword">print</span> post[<span class="hljs-string">&apos;comments&apos;</span>][<span class="hljs-string">&apos;data&apos;</span>][i][<span class="hljs-string">&apos;message&apos;</span>]
+        <span class="hljs-keyword">else</span>:
+            <span class="hljs-keyword">pass</span>
+            <span class="hljs-comment">#print &quot;&#x6C92;+++&quot;</span>
+            <span class="hljs-comment">#print post[&apos;from&apos;][&apos;name&apos;]</span>
+            <span class="hljs-comment">#pprint.pprint(post)</span>
+            <span class="hljs-comment">#print post[&apos;comments&apos;]</span>
+            <span class="hljs-comment">#post_id = post[&apos;id&apos;]</span>
+            <span class="hljs-comment">#print post_id</span>
+    <span class="hljs-keyword">else</span>:
+        <span class="hljs-keyword">pass</span>
+        <span class="hljs-comment">#print &quot;=======================&quot;</span>
+        <span class="hljs-comment">#pprint.pprint(post)</span>
+</code></pre>
+<h2 id="jason-app-%E5%B8%B3%E8%99%9F">Jason app &#x5E33;&#x865F;</h2>
+<pre><code class="lang-py"><span class="hljs-comment">#! /usr/bin/python</span>
+<span class="hljs-comment"># -*- coding: utf-8 -*-</span>
+<span class="hljs-keyword">import</span> facebook
+<span class="hljs-keyword">import</span> pprint
+
+token = <span class="hljs-string">&apos;EAARoNhgjfMYBAK4yUvZCPZBiR2dzsg73PiYoYQyDrs0TrBbWB4GkU3ZCaoo4M3BtOLTkF6XpcVV3PKWcrtDARBG6QlSlZBcxXuI1ke77mw5WZBUub9GRQtGbPjSJsEmqIoDy3BvhdFghA34ccGmSEMEeaUKT9n7kZD&apos;</span>
+
+graph=facebook.GraphAPI(token)
+groups = graph.get_connections(id=<span class="hljs-string">&apos;me&apos;</span>, connection_name=<span class="hljs-string">&apos;groups&apos;</span>)[<span class="hljs-string">&apos;data&apos;</span>]
+group_id = [group[<span class="hljs-string">&apos;id&apos;</span>] <span class="hljs-keyword">for</span> group <span class="hljs-keyword">in</span> groups <span class="hljs-keyword">if</span> group[<span class="hljs-string">&apos;name&apos;</span>] == <span class="hljs-string">&apos;Jason_Test&apos;</span>][<span class="hljs-number">0</span>]
+<span class="hljs-comment">#print group_id</span>
+feed = graph.request(<span class="hljs-string">&apos;/%s/feed&apos;</span> % group_id, args = {<span class="hljs-string">&apos;limit&apos;</span>: <span class="hljs-number">1000</span>, <span class="hljs-string">&apos;fields&apos;</span> : <span class="hljs-string">&quot;message,comments&quot;</span>})
+<span class="hljs-comment">#feed = graph.request(&apos;/%s/feed&apos; % group_id, args = {&apos;comments&apos;:&apos;&apos;, &apos;message&apos;:&apos;&apos;})</span>
 <span class="hljs-comment">#pprint.pprint(feed)</span>
 
 <span class="hljs-keyword">for</span> post <span class="hljs-keyword">in</span> feed[<span class="hljs-string">&apos;data&apos;</span>]:

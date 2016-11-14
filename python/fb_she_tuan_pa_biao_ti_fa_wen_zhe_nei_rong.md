@@ -150,8 +150,8 @@ import pprint
 import requests
 
 def extend_access_token(access_token):
-    app_id = "1240481449344198"                        # Obtained from https://developers.facebook.com/        
-    client_secret = "2faea3e8333af28fb24d123a44383550" # Obtained from https://developers.facebook.com/
+    app_id = ""                        # Obtained from https://developers.facebook.com/        
+    client_secret = "" # Obtained from https://developers.facebook.com/
 
     link = "https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id=" \
            + app_id +"&client_secret=" \
@@ -167,7 +167,7 @@ def extend_access_token(access_token):
 
 
 def main():
-    token = 'EAARoNhgjfMYBABe6tBEsJCW7ccXblCbrlaS3Pr0MVFtjuT5LqbDJOmzjZCk3ZABjZCm55f0S5ATydbr8YmKS7AnRag9DzFZCtKK4CR0Xudsl32Jke3iozBTggsNnm2paxId1hLCDFkvxzVcS1P2tUDDPZA0ZBJc3SPUziXxXp6tgZDZD'
+    token = ''
 
     extend_access_token(token)
     graph=facebook.GraphAPI(token)

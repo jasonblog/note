@@ -8,7 +8,7 @@
 import facebook
 import pprint
 
-token = 'EAACEdEose0cBALmqhAIsJnRF5aV5CUktHYoD0P3kYYqYArT50CZC85cKExotViEoZCy1ZCkyGFoh7ZBOchetDIcZAA2uq3WqhuXKqjo5K3UW2FcZAv5HELEsU8ZBxpRO4L4yRrJQaH84XrTAhzSoxAAsf4F367jb18Q7vDe0xqvkAZDZD'
+token = ''
 
 graph=facebook.GraphAPI(token)
 groups = graph.get_connections(id='me', connection_name='groups')['data']
@@ -49,7 +49,7 @@ for post in feed['data']:
 import facebook
 import pprint
 
-token = 'EAARoNhgjfMYBAK4yUvZCPZBiR2dzsg73PiYoYQyDrs0TrBbWB4GkU3ZCaoo4M3BtOLTkF6XpcVV3PKWcrtDARBG6QlSlZBcxXuI1ke77mw5WZBUub9GRQtGbPjSJsEmqIoDy3BvhdFghA34ccGmSEMEeaUKT9n7kZD'
+token = ''
 
 graph=facebook.GraphAPI(token)
 groups = graph.get_connections(id='me', connection_name='groups')['data']
@@ -81,4 +81,61 @@ for post in feed['data']:
         #print "======================="
         #pprint.pprint(post)
 
+```
+
+## Jason App 延長 token
+
+```py
+#! /usr/bin/python
+# -*- coding: utf-8 -*-
+import facebook
+import pprint
+import requests
+
+def extend_access_token(access_token):
+    app_id = ""                       # Obtained from https://developers.facebook.com/        
+    client_secret = ""         # Obtained from https://developers.facebook.com/
+
+    link = "https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id=" + app_id +"&client_secret=" + client_secret + "&fb_exchange_token=" + access_token
+    s = requests.Session()
+    token = s.get(link).content
+    token = token.split("&")[0]                 # this strips out the expire info (now set set about 5184000 seconds, or 60 days)
+    token = token.strip("access_token=")        # Strips out access token
+    print token
+
+
+def main():
+    token = ''
+
+    extend_access_token(token)
+    graph=facebook.GraphAPI(token)
+    groups = graph.get_connections(id='me', connection_name='groups')['data']
+    group_id = [group['id'] for group in groups if group['name'] == 'Jason_Test'][0]
+    feed = graph.request('/%s/feed' % group_id, args = {'limit': 1000, 'fields' : "message,comments"})
+    #pprint.pprint(feed)
+
+    for post in feed['data']:
+	#pprint.pprint(post)
+	if 'message' in post.keys():
+	    if 'comments' in post.keys():
+		print post['message']
+		for i in range(len(post['comments']['data'])):
+		    print post['comments']['data'][i]['from']['name']
+		    print post['comments']['data'][i]['created_time']
+		    print post['comments']['data'][i]['message']
+	    else:
+		pass
+		#print "沒+++"
+		#print post['from']['name']
+		#pprint.pprint(post)
+		#print post['comments']
+		#post_id = post['id']
+		#print post_id
+	else:
+	    pass
+	    #print "======================="
+	    #pprint.pprint(post)
+
+if __name__ == "__main__":
+    main()
 ```

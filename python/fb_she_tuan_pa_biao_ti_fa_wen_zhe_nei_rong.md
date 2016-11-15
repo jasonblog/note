@@ -150,20 +150,16 @@ import pprint
 import requests
 
 def extend_access_token(access_token):
-    app_id = ""                        # Obtained from https://developers.facebook.com/        
-    client_secret = "" # Obtained from https://developers.facebook.com/
+    app_id = ""                       # Obtained from https://developers.facebook.com/        
+    client_secret = ""         # Obtained from https://developers.facebook.com/
 
-    link = "https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id=" \
-           + app_id +"&client_secret=" \
-	   + client_secret \
-	   + "&fb_exchange_token=" \
-	   + access_token
-
+    link = "https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id=" + app_id +"&client_secret=" + client_secret + "&fb_exchange_token=" + access_token
     s = requests.Session()
     token = s.get(link).content
     token = token.split("&")[0]                 # this strips out the expire info (now set set about 5184000 seconds, or 60 days)
     token = token.strip("access_token=")        # Strips out access token
     #print token
+
 
 def main():
     token = ''
@@ -172,28 +168,34 @@ def main():
     graph=facebook.GraphAPI(token)
     groups = graph.get_connections(id='me', connection_name='groups')['data']
     group_id = [group['id'] for group in groups if group['name'] == 'Jason_Test'][0]
-    feed = graph.request('/%s/feed' % group_id, args = {'limit': 1000, 'fields' : "message,comments"})
+    feed = graph.request('/%s/feed' % group_id, args = {'limit': 1000,'fields': "message,comments.fields(comments,likes,from,id,message,user_likes,created_time,like_count)"})
+
     #pprint.pprint(feed)
+
 
     for post in feed['data']:
 	#pprint.pprint(post)
+        #print '--------------------------------------------------------------'
 	if 'message' in post.keys():
 	    if 'comments' in post.keys():
 		print (u'標題:%s' % post['message'])
 		for i in range(len(post['comments']['data'])):
-                    print(u'日期:%s 名字:%s 內容:%s' % \
-			 (post['comments']['data'][i]['created_time'], \
-			  post['comments']['data'][i]['from']['name'], \
-			  post['comments']['data'][i]['message']))
+		    print(u'日期:%s 名字:%s 內容:%s' % \
+		         (post['comments']['data'][i]['created_time'], \
+		         post['comments']['data'][i]['from']['name'], \
+		         post['comments']['data'][i]['message']))
+                    if 'comments' in post['comments']['data'][i].keys():
+                        #pprint.pprint(post['comments']['data'][i]['comments'])
+                        for j in range(len(post['comments']['data'][i]['comments']['data'])):
+                            #print post['comments']['data'][i]['comments']['data'][j]['message']
+                            print(u'日期:%s 名字:%s 內容:%s' % \
+                                 (post['comments']['data'][i]['comments']['data'][j]['created_time'], \
+                                  post['comments']['data'][i]['comments']['data'][j]['from']['name'], \
+                                  post['comments']['data'][i]['comments']['data'][j]['message']))
+                        
 		print '--------------------------------------------------------------'
 	    else:
 		pass
-		#print "沒+++"
-		#print post['from']['name']
-		#pprint.pprint(post)
-		#print post['comments']
-		#post_id = post['id']
-		#print post_id
 	else:
 	    pass
 	    #print "======================="
@@ -201,6 +203,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 ```
 

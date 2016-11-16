@@ -179,19 +179,22 @@ def main():
 	if 'message' in post.keys():
 	    if 'comments' in post.keys():
 		print (u'標題:%s' % post['message'])
-		for i in range(len(post['comments']['data'])):
-		    print(u'日期:%s 名字:%s 內容:%s' % \
-		         (post['comments']['data'][i]['created_time'], \
-		         post['comments']['data'][i]['from']['name'], \
-		         post['comments']['data'][i]['message']))
-                    if 'comments' in post['comments']['data'][i].keys():
+		#for i in range(len(post['comments']['data'])):
+		for p in post['comments']['data']:
+                    print(u'日期:%s ID:%s 名字:%s 內容:%s' % \
+		         (p['created_time'], \
+		         p['from']['id'], \
+		         p['from']['name'], \
+		         p['message']))
+                    if 'comments' in p.keys():
                         #pprint.pprint(post['comments']['data'][i]['comments'])
-                        for j in range(len(post['comments']['data'][i]['comments']['data'])):
+                        for pp in p['comments']['data']:
                             #print post['comments']['data'][i]['comments']['data'][j]['message']
-                            print(u'日期:%s 名字:%s 內容:%s' % \
-                                 (post['comments']['data'][i]['comments']['data'][j]['created_time'], \
-                                  post['comments']['data'][i]['comments']['data'][j]['from']['name'], \
-                                  post['comments']['data'][i]['comments']['data'][j]['message']))
+                            print(u'日期:%s ID:%s 名字:%s 內容:%s' % \
+                                 (pp['created_time'], \
+                                  pp['from']['id'], \
+                                  pp['from']['name'], \
+                                  pp['message']))
                         
 		print '--------------------------------------------------------------'
 	    else:
@@ -200,11 +203,10 @@ def main():
 	    pass
 	    #print "======================="
 	    #pprint.pprint(post)
+    raw_input()
 
 if __name__ == "__main__":
     main()
-
-
 ```
 
 

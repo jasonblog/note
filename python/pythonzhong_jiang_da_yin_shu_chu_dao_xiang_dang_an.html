@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>初學Linux進程的描述和進程的創建 | Jason note</title>
+        <title>Python中將打印輸出導向檔案 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -41,10 +41,10 @@
         
     
     
-    <link rel="next" href="../mooc_linux_kernel/198.html" />
+    <link rel="next" href="../python/chang_jian_cuo_wu_xun_xi.html" />
     
     
-    <link rel="prev" href="../mooc_linux_kernel/195.html" />
+    <link rel="prev" href="../python/fb_she_tuan_pa_biao_ti_fa_wen_zhe_nei_rong.html" />
     
 
         <!-- head:end -->
@@ -53,9 +53,9 @@
         <!-- body:start -->
         
     <div class="book"
-        data-level="17.6"
-        data-chapter-title="初學Linux進程的描述和進程的創建"
-        data-filepath="mooc_linux_kernel/196.md"
+        data-level="27.1.10"
+        data-chapter-title="Python中將打印輸出導向檔案"
+        data-filepath="python/pythonzhong_jiang_da_yin_shu_chu_dao_xiang_dang_an.md"
         data-basepath=".."
         data-revision="Thu Nov 17 2016 22:35:57 GMT+0800 (CST)"
         data-innerlanguage="">
@@ -6282,7 +6282,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="17.6" data-path="mooc_linux_kernel/196.html">
+        <li class="chapter " data-level="17.6" data-path="mooc_linux_kernel/196.html">
             
                 
                     <a href="../mooc_linux_kernel/196.html">
@@ -8866,7 +8866,7 @@
             
         </li>
     
-        <li class="chapter " data-level="27.1.10" data-path="python/pythonzhong_jiang_da_yin_shu_chu_dao_xiang_dang_an.html">
+        <li class="chapter active" data-level="27.1.10" data-path="python/pythonzhong_jiang_da_yin_shu_chu_dao_xiang_dang_an.html">
             
                 
                     <a href="../python/pythonzhong_jiang_da_yin_shu_chu_dao_xiang_dang_an.html">
@@ -15066,60 +15066,28 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="&#x521D;&#x5B78;linux&#x9032;&#x7A0B;&#x7684;&#x63CF;&#x8FF0;&#x548C;&#x9032;&#x7A0B;&#x7684;&#x5275;&#x5EFA;">&#x521D;&#x5B78;Linux&#x9032;&#x7A0B;&#x7684;&#x63CF;&#x8FF0;&#x548C;&#x9032;&#x7A0B;&#x7684;&#x5275;&#x5EFA;</h1>
-<p>&#x7B2C;&#x516D;&#x8B1B; &#x9032;&#x7A0B;&#x7684;&#x63CF;&#x8FF0;&#x548C;&#x9032;&#x7A0B;&#x7684;&#x5275;&#x5EFA;</p>
-<p>@2015.04</p>
-<h2 id="&#x4E00;&#x3001;&#x7406;&#x8AD6;&#x77E5;&#x8B58;">&#x4E00;&#x3001;&#x7406;&#x8AD6;&#x77E5;&#x8B58;</h2>
-<h3 id="1-&#x9032;&#x7A0B;&#x63CF;&#x8FF0;&#x7B26;-taskstruct">1. &#x9032;&#x7A0B;&#x63CF;&#x8FF0;&#x7B26; task_struct</h3>
-<p>&#x70BA;&#x4E86;&#x7BA1;&#x7406;&#x9032;&#x7A0B;&#xFF0C;&#x5167;&#x6838;&#x5FC5;&#x9808;&#x5C0D;&#x6BCF;&#x500B;&#x9032;&#x7A0B;&#x9032;&#x884C;&#x6E05;&#x6670;&#x7684;&#x63CF;&#x8FF0;&#xFF0C;&#x9032;&#x7A0B;&#x63CF;&#x8FF0;&#x7B26;&#x63D0;&#x4F9B;&#x4E86;&#x5167;&#x6838;&#x6240;&#x9700;&#x77AD;&#x89E3;&#x7684;&#x9032;&#x7A0B;&#x4FE1;&#x606F;&#x3002;&#x9032;&#x7A0B;&#x63CF;&#x8FF0;&#x7B26;task_struct&#x7684;&#x6E90;&#x78BC;&#x93C8;&#x63A5;&#xFF1A;<a href="http://codelab.shiyanlou.com/xref/linux-3.18.6/include/linux/sched.h#1235&#x3002;&#x5176;&#x7D50;&#x69CB;&#x5F88;&#x9F90;&#x5927;&#xFF0C;&#x521D;&#x6B21;&#x63A5;&#x89F8;&#x6211;&#x5011;&#x53EA;&#x95DC;&#x6CE8;&#x8207;&#x9032;&#x7A0B;&#x5275;&#x5EFA;&#x8207;&#x7BA1;&#x7406;&#x5BC6;&#x5207;&#x76F8;&#x95DC;&#x7684;&#x4E00;&#x4E9B;&#x5B57;&#x6BB5;&#x3002;&#x5982;&#xFF1A;" target="_blank">http://codelab.shiyanlou.com/xref/linux-3.18.6/include/linux/sched.h#1235&#x3002;&#x5176;&#x7D50;&#x69CB;&#x5F88;&#x9F90;&#x5927;&#xFF0C;&#x521D;&#x6B21;&#x63A5;&#x89F8;&#x6211;&#x5011;&#x53EA;&#x95DC;&#x6CE8;&#x8207;&#x9032;&#x7A0B;&#x5275;&#x5EFA;&#x8207;&#x7BA1;&#x7406;&#x5BC6;&#x5207;&#x76F8;&#x95DC;&#x7684;&#x4E00;&#x4E9B;&#x5B57;&#x6BB5;&#x3002;&#x5982;&#xFF1A;</a></p>
-<ul>
-<li>&#x9032;&#x7A0B;&#x7684;&#x6A19;&#x8B58; pid</li>
-<li>&#x6240;&#x6709;&#x9032;&#x7A0B;&#x93C8;&#x8868; struct list_head tasks;</li>
-<li>&#x7A0B;&#x5E8F;&#x5275;&#x5EFA;&#x7684;&#x9032;&#x7A0B;&#x5177;&#x6709;&#x7236;&#x5B50;&#x95DC;&#x4FC2;&#xFF0C;&#x5728;&#x7DE8;&#x7A0B;&#x6642;&#x5F80;&#x5F80;&#x9700;&#x8981;&#x5F15;&#x7528;&#x9019;&#x6A23;&#x7684;&#x7236;&#x5B50;&#x95DC;&#x4FC2;&#x3002;&#x9032;&#x7A0B;&#x63CF;&#x8FF0;&#x7B26;&#x4E2D;&#x6709;&#x5E7E;&#x500B;&#x57DF;&#x7528;&#x4F86;&#x8868;&#x793A;&#x9019;&#x6A23;&#x7684;&#x95DC;&#x4FC2;</li>
-<li>Linux&#x70BA;&#x6BCF;&#x500B;&#x9032;&#x7A0B;&#x5206;&#x914D;&#x4E00;&#x500B;8KB&#x5927;&#x5C0F;&#x7684;&#x5167;&#x5B58;&#x5340;&#x57DF;&#xFF0C;&#x7528;&#x65BC;&#x5B58;&#x653E;&#x8A72;&#x9032;&#x7A0B;&#x5169;&#x500B;&#x4E0D;&#x540C;&#x7684;&#x6578;&#x64DA;&#x7D50;&#x69CB;&#xFF1A;Thread_info&#x548C;&#x9032;&#x7A0B;&#x7684;&#x5167;&#x6838;&#x5806;&#x68E7;</li>
-<li>struct thread_struct thread; //CPU-specific state of this task</li>
-</ul>
-<p>&#x95DC;&#x65BC;task_struct&#x7684;&#x8A73;&#x7D30;&#x63CF;&#x8FF0;&#xFF0C;&#x53EF;&#x53C3;&#x898B;task_struct&#x7D50;&#x69CB;&#x63CF;&#x8FF0;
-&#x7576;&#x7136;&#x9664;&#x4E86;&#x61C9;&#x8A72;&#x77AD;&#x89E3;task_struct&#x4E2D;&#x5B58;&#x5132;&#x4E86;&#x54EA;&#x4E9B;&#x4FE1;&#x606F;&#x4EE5;&#x5916;&#xFF0C;&#x9084;&#x61C9;&#x8A72;&#x5B78;&#x7FD2;&#x9019;&#x4E9B;&#x4FE1;&#x606F;&#x662F;&#x5982;&#x4F55;&#x7D44;&#x7E54;&#x7684;&#x3002;&#x6BD4;&#x5982;&#x6240;&#x6709;&#x7684;&#x9032;&#x7A0B;&#x63CF;&#x8FF0;&#x7B26;&#x662F;&#x5982;&#x4F55;&#x901A;&#x904E;&#x5176;&#x5167;&#x7684;&#x4E00;&#x500B;&#x6578;&#x64DA;&#x6210;&#x54E1; struct list_head tasks&#x96D9;&#x5411;&#x93C8;&#x63A5;&#x8D77;&#x4F86;&#x7684;&#xFF0C;&#x8A73;&#x898B;&#x7DB2;&#x4E0A;&#x7684;&#x4E00;&#x7BC7;&#x6587;&#x7AE0;&#xFF1A;linux &#x5167;&#x6838; task_struct &#x7D50;&#x69CB;&#x9AD4;&#x5B57;&#x6BB5;&#x5206;&#x6790;</p>
-<h3 id="2-&#x9032;&#x7A0B;&#x7684;&#x5275;&#x5EFA;">2. &#x9032;&#x7A0B;&#x7684;&#x5275;&#x5EFA;</h3>
-<p>&#x5728;Linux&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x7684;&#x958B;&#x767C;&#x4E2D;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x904E;fork&#x3001;vfork&#x548C;clone&#x7B49;API&#x4F86;&#x5275;&#x5EFA;&#x4E00;&#x500B;&#x5B50;&#x9032;&#x7A0B;&#xFF0C;&#x5B83;&#x5011;&#x5728;Linux&#x5167;&#x6838;&#x4E2D;&#x5C0D;&#x61C9;&#x7684;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x5206;&#x5225;&#x70BA;sys_fork&#x3001;sys_vfork&#x548C;sys_clone&#x51FD;&#x6578;&#xFF0C;&#x800C;&#x9019;&#x4E9B;&#x51FD;&#x6578;&#x6700;&#x7D42;&#x90FD;&#x6703;&#x8ABF;&#x7528;do_fork&#x5B8C;&#x6210;&#x5B50;&#x9032;&#x7A0B;&#x7684;&#x5275;&#x5EFA;&#x3002;do_fork&#x4E3B;&#x8981;&#x662F;&#x8907;&#x88FD;&#x4E86;&#x7236;&#x9032;&#x7A0B;&#x7684;task_struct&#xFF0C;&#x7136;&#x5F8C;&#x4FEE;&#x6539;&#x5FC5;&#x8981;&#x7684;&#x4FE1;&#x606F;&#xFF0C;&#x5F9E;&#x800C;&#x5F97;&#x5230;&#x5B50;&#x9032;&#x7A0B;&#x7684;task_struct&#x3002;&#x4E3B;&#x8981;&#x4FEE;&#x6539;&#x4E86;&#x4EE5;&#x4E0B;&#x4FE1;&#x606F;&#xFF1A;</p>
-<p>pid
-&#x9032;&#x7A0B;&#x93C8;&#x8868;
-&#x7D66;&#x65B0;&#x9032;&#x7A0B;&#x5206;&#x914D;&#x4E00;&#x500B;&#x65B0;&#x7684;&#x5167;&#x6838;&#x5806;&#x68E7;
-&#x4FEE;&#x6539;&#x5B50;&#x9032;&#x7A0B;&#x7684;IP&#x70BA;ret_from_fork&#xFF0C;&#x7576;&#x5B50;&#x9032;&#x7A0B;&#x7372;&#x5F97;&#x8ABF;&#x5EA6;&#x6642;&#x5C31;&#x662F;&#x5F9E;&#x9019;&#x88E1;&#x958B;&#x59CB;&#x57F7;&#x884C;&#x7684;
-&#x5176;&#x5B83;&#x773E;&#x591A;&#x96F6;&#x788E;&#x5B57;&#x6BB5;&#x7684;&#x521D;&#x59CB;&#x5316;&#xFF0C;&#x5982;&#x904B;&#x884C;&#x6642;&#x9593;&#x8A2D;&#x70BA;0&#x7B49;
-&#x7B49;&#x7B49;&#x5427;&#xFF1B;</p>
-<h3 id="3-&#x5B50;&#x9032;&#x7A0B;&#x7684;&#x57F7;&#x884C;">3. &#x5B50;&#x9032;&#x7A0B;&#x7684;&#x57F7;&#x884C;</h3>
-<p>&#x525B;fork&#x51FA;&#x4F86;&#x7684;&#x5B50;&#x9032;&#x7A0B;&#x662F;&#x5F9E;ret_from_fork&#x958B;&#x59CB;&#x57F7;&#x884C;&#x7684;&#xFF0C;&#x7136;&#x5F8C;&#x8DF3;&#x8F49;&#x5230;syscall_exit&#xFF08;<a href="http://codelab.shiyanlou.com/xref/linux-3.18.6/arch/x86/kernel/entry_32.S#290&#xFF09;&#xFF0C;&#x5F9E;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x4E2D;&#x8FD4;&#x56DE;&#x3002;&#x770B;&#x4E0B;&#x9762;&#x7684;&#x6E90;&#x4EE3;&#x78BC;&#x622A;&#x5716;&#xFF1A;" target="_blank">http://codelab.shiyanlou.com/xref/linux-3.18.6/arch/x86/kernel/entry_32.S#290&#xFF09;&#xFF0C;&#x5F9E;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x4E2D;&#x8FD4;&#x56DE;&#x3002;&#x770B;&#x4E0B;&#x9762;&#x7684;&#x6E90;&#x4EE3;&#x78BC;&#x622A;&#x5716;&#xFF1A;</a></p>
-<p><img src="images/20150412023811905.png" alt=""></p>
-<p>&#x5F9E;&#x7528;&#x6236;&#x614B;&#x4EE3;&#x78BC;&#x4F86;&#x770B;&#xFF0C;fork()&#x51FD;&#x6578;&#x8FD4;&#x56DE;&#x4E86;&#x5169;&#x6B21;&#xFF0C;&#x5373;&#x5728;&#x7236;&#x5B50;&#x9032;&#x7A0B;&#x4E2D;&#x5404;&#x8FD4;&#x56DE;&#x4E00;&#x6B21;&#xFF01;&#x4F46;&#x662F;&#x5B50;&#x9032;&#x7A0B;&#x7684;&#x8FD4;&#x56DE;&#x503C;&#x662F;0&#xFF0C;&#x5F9E;&#x8FD4;&#x56DE;&#x503C;&#x6211;&#x5011;&#x5C31;&#x53EF;&#x4EE5;&#x5224;&#x65B7;&#x51FA;&#x8FD4;&#x56DE;&#x5F8C;&#x63A5;&#x4E0B;&#x4F86;&#x8981;&#x57F7;&#x884C;&#x7684;&#x4EE3;&#x78BC;&#x662F;&#x4E2D;&#x7236;&#x9032;&#x7A0B;&#x9084;&#x662F;&#x5B50;&#x9032;&#x7A0B;&#x4E2D;&#x3002;</p>
-<h2 id="&#x4E8C;&#x3001;&#x5BE6;&#x9A57;&#x904E;&#x7A0B;">&#x4E8C;&#x3001;&#x5BE6;&#x9A57;&#x904E;&#x7A0B;</h2>
-<p>&#x5BE6;&#x9A57;&#x4ECD;&#x7136;&#x4E2D;&#x5BE6;&#x9A57;&#x6A13;&#x7684;&#x865B;&#x64EC;&#x6A5F;&#x88E1;&#x505A;&#xFF0C;&#x9019;&#x771F;&#x7684;&#x662F;&#x5B78;&#x7FD2;&#x7684;&#x4E00;&#x500B;&#x597D;&#x5730;&#x65B9;&#xFF0C;&#x4E0D;&#x4FE1;&#xFF0C;&#x4F60;&#x4F86;<a href="http://www.shiyanlou.com/courses/195&#x3002;" target="_blank">http://www.shiyanlou.com/courses/195&#x3002;</a></p>
-<h3 id="1-&#x9032;&#x5165;&#x865B;&#x64EC;&#x6A5F;&#xFF0C;&#x6253;&#x958B;&#x7D42;&#x7AEF;&#xFF0C;&#x9019;&#x547D;&#x4EE4;&#x884C;&#x4F9D;&#x6B21;&#x6572;&#x5165;&#x4EE5;&#x4E0B;&#x547D;&#x4EE4;">1. &#x9032;&#x5165;&#x865B;&#x64EC;&#x6A5F;&#xFF0C;&#x6253;&#x958B;&#x7D42;&#x7AEF;&#xFF0C;&#x9019;&#x547D;&#x4EE4;&#x884C;&#x4F9D;&#x6B21;&#x6572;&#x5165;&#x4EE5;&#x4E0B;&#x547D;&#x4EE4;</h3>
-<pre><code>cd LinuxKernel
-rm menu -rf
-git clone https://github.com/mengning/menu.git
-cd menu
-mv test_fork.c test.c
-make rootfs
-</code></pre><p>&#x4E00;&#x5207;&#x6B63;&#x5E38;&#x7684;&#x8A71;&#xFF0C;&#x9019;&#x6642;&#x5019;&#x6211;&#x5011;&#x7C21;&#x6613;&#x7684;&#x5167;&#x6838;&#x7CFB;&#x7D71;&#x5C31;&#x555F;&#x52D5;&#x8D77;&#x4F86;&#x4E86;&#xFF0C;&#x9019;menuos&#x7A2E;&#xFF0C;&#x8F38;&#x5165;help&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x65B0;&#x6DFB;&#x52A0;&#x7684;&#x547D;&#x4EE4;fork&#xFF0C;&#x8F38;&#x5165;fork&#xFF0C;&#x770B;&#x770B;&#x6548;&#x679C;&#x5427;&#xFF0C;&#x6709;&#x5716;&#x70BA;&#x8B49;&#xFF1A;</p>
-<p><img src="images/20150412030748635.png" alt=""></p>
-<h3 id="2-gdb&#x4E0A;&#x8FF0;&#x7684;fork&#x547D;&#x4EE4;">2. gdb&#x4E0A;&#x8FF0;&#x7684;fork&#x547D;&#x4EE4;</h3>
-<p>&#x95DC;&#x9589;QEMU&#x7A97;&#x53E3;&#xFF0C;&#x4E2D;&#x547D;&#x4EE4;&#x884C;&#x4E2D;&#x8F38;&#x5165;&#xFF1A;</p>
-<pre><code>qemu -kernel ../linux-3.18.6/arch/x86/boot/bzImage -initrd ../rootfs.img -s -S
-</code></pre><p>&#x518D;&#x6B21;&#x555F;&#x52D5;MenuOS&#xFF0C;&#x4E26;&#x66AB;&#x505C;&#x7B49;&#x5F85;gdb&#x8ABF;&#x8A66;&#x3002;</p>
-<p>&#x7136;&#x5F8C;&#x6C34;&#x5E73;&#x5206;&#x5272;&#x547D;&#x4EE4;&#x884C;&#x7A97;&#x53E3;&#xFF0C;&#x9019;&#x65B0;&#x7A97;&#x53E3;&#x4E2D;&#x4F9D;&#x6B21;&#x8F38;&#x5165;&#x4EE5;&#x4E0B;&#x547D;&#x4EE4;&#xFF0C;&#x555F;&#x52D5;&#x8ABF;&#x8A66;&#xFF1A;</p>
-<pre><code>gdb
-file linux-3.18.6/vmlinux
-target remote:1234
-&#x7136;&#x5F8C;&#x518D;&#x8A2D;&#x7F6E;&#x4EE5;&#x4E0B;&#x65B7;&#x9EDE;&#xFF1A;
-b sys_clone
-b do_fork
-b dup_task_struct
-b copy_process
-b copy_thread
-b ret_from_fork
-</code></pre><p>&#x597D;&#x4E86;&#xFF0C;&#x7E7C;&#x7E8C;&#x904B;&#x884C;&#x7A0B;&#x5E8F;&#x5427;&#xFF0C;&#x4F60;&#x6703;&#x767C;&#x73FE;&#x7A0B;&#x5E8F;&#x8ABF;&#x8A66;&#x904E;&#x7A0B;&#x4E2D;&#xFF0C;&#x6703;&#x505C;&#x5728;&#x9019;&#x4E9B;&#x65B7;&#x9EDE;&#x8655;&#xFF0C;&#x7136;&#x5F8C;&#x4F60;&#x53EF;&#x4EE5;&#x55AE;&#x6B65;&#x8DDF;&#x8E64;&#x4E00;&#x4E9B;&#x611F;&#x8208;&#x8DA3;&#x7684;&#x4EE3;&#x78BC;&#xFF0C;&#x5F9E;&#x800C;&#x9A57;&#x8B49;&#x6211;&#x5011;&#x525B;&#x525B;&#x5B78;&#x7FD2;&#x5230;&#x7684;Linux&#x9032;&#x7A0B;&#x7684;&#x5275;&#x5EFA;&#x904E;&#x7A0B;&#xFF01;Enjoy it&#xFF01;</p>
+                        <h1 id="python&#x4E2D;&#x5C07;&#x6253;&#x5370;&#x8F38;&#x51FA;&#x5C0E;&#x5411;&#x6A94;&#x6848;">Python&#x4E2D;&#x5C07;&#x6253;&#x5370;&#x8F38;&#x51FA;&#x5C0E;&#x5411;&#x6A94;&#x6848;</h1>
+<pre><code class="lang-py"><span class="hljs-comment">#! /usr/bin/python</span>
+<span class="hljs-comment"># -*- coding: utf-8 -*-</span>
+<span class="hljs-keyword">import</span> sys
+<span class="hljs-keyword">import</span> codecs
+
+<span class="hljs-comment"># make a copy of original stdout route</span>
+stdout_backup = sys.stdout
+<span class="hljs-comment"># define the log file that receives your log info</span>
+log_file = codecs.open(<span class="hljs-string">&quot;message.log&quot;</span>, <span class="hljs-string">&quot;w&quot;</span>, <span class="hljs-string">&quot;utf-8&quot;</span>)
+<span class="hljs-comment"># redirect print output to log file</span>
+sys.stdout = log_file
+
+<span class="hljs-keyword">print</span> <span class="hljs-string">u&quot;&#x4F60;Now all print info will be written to message.log&quot;</span>
+<span class="hljs-comment"># any command line that you will execute</span>
+
+log_file.close()
+<span class="hljs-comment"># restore the output to initial pattern</span>
+sys.stdout = stdout_backup
+
+<span class="hljs-keyword">print</span> <span class="hljs-string">&quot;Now this will be presented on screen&quot;</span>
+</code></pre>
 
                     
                     </section>
@@ -15130,10 +15098,10 @@ b ret_from_fork
         </div>
 
         
-        <a href="../mooc_linux_kernel/195.html" class="navigation navigation-prev " aria-label="Previous page: 分析system_call中斷處裡過程"><i class="fa fa-angle-left"></i></a>
+        <a href="../python/fb_she_tuan_pa_biao_ti_fa_wen_zhe_nei_rong.html" class="navigation navigation-prev " aria-label="Previous page: fb 社團爬標題發文者內容"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../mooc_linux_kernel/198.html" class="navigation navigation-next " aria-label="Next page: 初學《Linux內核如何裝載和啟動一個可執行程序》"><i class="fa fa-angle-right"></i></a>
+        <a href="../python/chang_jian_cuo_wu_xun_xi.html" class="navigation navigation-next " aria-label="Next page: 常見錯誤訊息"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

@@ -279,6 +279,11 @@ if __name__ == "__main__":
 
 ```
 
+## 參數
+```
+1811390089074804/feed?fields=message,comments.fields(comments,likes,from,id,message,user_likes,created_time,like_count),from,link,id,to,likes.fields(id),created_time,actions,feed_targeting&limit=40
+```
+
 
 ## HTML
 

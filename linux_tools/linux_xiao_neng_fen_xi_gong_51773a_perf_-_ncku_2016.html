@@ -8,7 +8,7 @@
         <title>Linux 效能分析工具: Perf - NCKU 2016 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="3.8.9" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="3.8.9"
+        data-chapter-title="Linux 效能分析工具: Perf - NCKU 2016"
+        data-filepath="linux_tools/linux_xiao_neng_fen_xi_gong_51773a_perf_-_ncku_2016.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,7 +15051,7 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="linux-%E6%95%88%E8%83%BD%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7-perf-ncku-2016">Linux &#x6548;&#x80FD;&#x5206;&#x6790;&#x5DE5;&#x5177;: Perf - NCKU 2016</h1>
+                        <h1 id="linux-&#x6548;&#x80FD;&#x5206;&#x6790;&#x5DE5;&#x5177;-perf--ncku-2016">Linux &#x6548;&#x80FD;&#x5206;&#x6790;&#x5DE5;&#x5177;: Perf - NCKU 2016</h1>
 <ul>
 <li>&#x6E96;&#x5099; GNU/Linux &#x958B;&#x767C;&#x5DE5;&#x5177;</li>
 <li>&#x5B78;&#x7FD2;&#x4F7F;&#x7528; Git &#x8207; GitHub</li>
@@ -15144,10 +15078,10 @@ $ sudo apt-get install astyle colordiff gnuplot
 </ul>
 </li>
 </ul>
-<h2 id="linux-%E6%95%88%E8%83%BD%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7-perf">Linux &#x6548;&#x80FD;&#x5206;&#x6790;&#x5DE5;&#x5177;: Perf</h2>
+<h2 id="linux-&#x6548;&#x80FD;&#x5206;&#x6790;&#x5DE5;&#x5177;-perf">Linux &#x6548;&#x80FD;&#x5206;&#x6790;&#x5DE5;&#x5177;: Perf</h2>
 <p>Perf &#x5168;&#x540D;&#x662F; Performance Event&#xFF0C;&#x662F;&#x5728; Linux 2.6.31 &#x4EE5;&#x5F8C;&#x5167;&#x5EFA;&#x7684;&#x7CFB;&#x7D71;&#x6548;&#x80FD;&#x5206;&#x6790;&#x5DE5;&#x5177;&#xFF0C;&#x5B83;&#x96A8;&#x8457;&#x6838;&#x5FC3;&#x4E00;&#x4F75;&#x91CB;&#x51FA;&#x3002;&#x85C9;&#x7531; perf&#xFF0C;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x53EF;&#x4EE5;&#x5229;&#x7528; PMU (Performance Monitoring Unit), tracepoint &#x548C;&#x6838;&#x5FC3;&#x5167;&#x90E8;&#x7684;&#x7279;&#x6B8A;&#x8A08;&#x6578;&#x5668; (counter) &#x4F86;&#x9032;&#x884C;&#x7D71;&#x8A08;&#xFF0C;&#x53E6;&#x5916;&#x9084;&#x80FD;&#x540C;&#x6642;&#x5206;&#x6790;&#x904B;&#x884C;&#x4E2D;&#x7684;&#x6838;&#x5FC3;&#x7A0B;&#x5F0F;&#x78BC;&#xFF0C;&#x5F9E;&#x800C;&#x66F4;&#x5168;&#x9762;&#x77AD;&#x89E3;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x4E2D;&#x7684;&#x6548;&#x80FD;&#x74F6;&#x9838;
 &#x8A73;&#x7D30;&#x95B1;&#x8B80; <a href="http://wiki.csie.ncku.edu.tw/embedded/perf-tutorial" target="_blank">Linux &#x6548;&#x80FD;&#x5206;&#x6790;&#x5DE5;&#x5177;</a>: Perf &#x4E26;&#x5728;&#x81EA;&#x5DF1;&#x7684; Linux &#x958B;&#x767C;&#x74B0;&#x5883;&#x5BE6;&#x9A57;</p>
-<h2 id="%E6%A1%88%E4%BE%8B%E6%8E%A2%E8%A8%8E%EF%BC%9A%E9%9B%BB%E8%A9%B1%E7%B0%BF%E6%90%9C%E5%B0%8B">&#x6848;&#x4F8B;&#x63A2;&#x8A0E;&#xFF1A;&#x96FB;&#x8A71;&#x7C3F;&#x641C;&#x5C0B;</h2>
+<h2 id="&#x6848;&#x4F8B;&#x63A2;&#x8A0E;&#xFF1A;&#x96FB;&#x8A71;&#x7C3F;&#x641C;&#x5C0B;">&#x6848;&#x4F8B;&#x63A2;&#x8A0E;&#xFF1A;&#x96FB;&#x8A71;&#x7C3F;&#x641C;&#x5C0B;</h2>
 <ul>
 <li>&#x8A73;&#x7D30;&#x95B1;&#x8B80; &#x6848;&#x4F8B;&#x5206;&#x6790;: <a href="https://embedded2016.hackpad.com/ep/pad/static/1vvUk25C0fI" target="_blank">Phone Book</a>&#xFF0C;&#x7814;&#x7A76;&#x964D;&#x4F4E; cache miss &#x7684;&#x65B9;&#x6CD5;</li>
 <li>&#x96D6;&#x7136;&#x9019;&#x662F;&#x63A2;&#x8A0E; cache miss &#x548C;&#x6548;&#x80FD;&#x8B70;&#x984C;&#xFF0C;&#x5176;&#x5BE6;&#x662F;&#x5E36;&#x8457;&#x540C;&#x5B78;&#x91CD;&#x65B0;&#x8907;&#x7FD2; C &#x8A9E;&#x8A00;&#x548C;&#x8CC7;&#x6599;&#x7D50;&#x69CB;&#x3002;&#x4EE5;&#x524D;&#x5927;&#x5BB6;&#x53EA;&#x662F;&#x300C;&#x80CC;&#x8AA6;&#x5FC3;&#x6CD5;&#x300D;&#xFF0C;&#x5F9E;&#x4F86;&#x5C31;&#x4E0D;&#x6703;&#x53BB;&#x7406;&#x89E3;&#x500B;&#x5225;&#x8CC7;&#x6599;&#x7D50;&#x69CB;&#x5C0D;&#x6574;&#x9AD4;&#x7684;&#x885D;&#x64CA;&#x3002;</li>
@@ -15176,7 +15110,7 @@ execution time of findName() : <span class="hljs-number">0.004776</span> sec
 </ul>
 </li>
 </ul>
-<h2 id="%E5%96%84%E7%94%A8-gnuplot-%E4%BE%86%E8%A3%BD%E5%9C%96">&#x5584;&#x7528; gnuplot &#x4F86;&#x88FD;&#x5716;</h2>
+<h2 id="&#x5584;&#x7528;-gnuplot-&#x4F86;&#x88FD;&#x5716;">&#x5584;&#x7528; gnuplot &#x4F86;&#x88FD;&#x5716;</h2>
 <ul>
 <li>&#x5F9E;&#x4ECA;&#x5929;&#x8D77;&#x5FD8;&#x8A18; Microsoft Excel&#xFF0C;&#x56E0;&#x70BA; gnuplot &#x53EF;&#x4EE5;&#x7D66;&#x4F60;&#x66F4;&#x5C08;&#x696D;&#x7684;&#x5716;&#x8868;&#xFF0C;&#x800C;&#x4E14;&#x80FD;&#x5920;&#x6279;&#x6B21;&#x7522;&#x751F;</li>
 <li>&#x5148;&#x555F;&#x52D5; gnuplot:</li>
@@ -15197,7 +15131,7 @@ execution time of findName() : <span class="hljs-number">0.004776</span> sec
 <li>&#x53EF;&#x4EE5;&#x5C07;&#x9019;&#x4E9B;&#x8A2D;&#x5B9A;&#x53E6;&#x5916;&#x5B58;&#x6210;&#x4E00;&#x500B;&#x6A94;&#x6848;&#xFF0C;&#x4F5C;&#x70BA; gnuplot &#x7684;&#x8173;&#x672C;&#x3002;&#x5047;&#x8A2D;&#x4E0A;&#x8FF0;&#x6307;&#x4EE4;&#x5B58;&#x5728;&#x4E00;&#x500B;&#x540D;&#x70BA; plot &#x7684;&#x6A94;&#x6848;&#x88E1;&#x9762;&#xFF0C;&#x4EE5;&#x5F8C;&#x53EA;&#x8981;&#x8F38;&#x5165; <code>gnuplot plot</code> &#x5373;&#x53EF;&#x756B;&#x51FA;&#x6211;&#x5011;&#x60F3;&#x8981;&#x7684;&#x5716;&#x8868;&#x3002;</li>
 </ul>
 <p><img src="images/gnuplot.png" alt=""></p>
-<h2 id="%E4%BD%BF%E7%94%A8-astyle-git-%E5%AF%A6%E5%81%9A%E8%87%AA%E5%8B%95%E7%A8%8B%E5%BC%8F%E7%A2%BC%E6%8E%92%E7%89%88%E6%AA%A2%E6%9F%A5">&#x4F7F;&#x7528; astyle + Git &#x5BE6;&#x505A;&#x81EA;&#x52D5;&#x7A0B;&#x5F0F;&#x78BC;&#x6392;&#x7248;&#x6AA2;&#x67E5;</h2>
+<h2 id="&#x4F7F;&#x7528;-astyle--git-&#x5BE6;&#x505A;&#x81EA;&#x52D5;&#x7A0B;&#x5F0F;&#x78BC;&#x6392;&#x7248;&#x6AA2;&#x67E5;">&#x4F7F;&#x7528; astyle + Git &#x5BE6;&#x505A;&#x81EA;&#x52D5;&#x7A0B;&#x5F0F;&#x78BC;&#x6392;&#x7248;&#x6AA2;&#x67E5;</h2>
 <ul>
 <li>&#x4F7F;&#x7528;&#x4E00;&#x81F4;&#x7684; coding style &#x5F88;&#x91CD;&#x8981;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x900F;&#x904E; astyle &#x9019;&#x500B;&#x5DE5;&#x5177;&#x4F86;&#x5354;&#x52A9;&#x3002;&#x8ABF;&#x6574;&#x4F5C;&#x696D;&#x7A0B;&#x5F0F;&#x8981;&#x6C42;&#x7684;&#x98A8;&#x683C;&#x70BA;&#x4EE5;&#x4E0B;:<pre><code class="lang-sh">$ astyle --style=kr --indent=spaces=<span class="hljs-number">4</span> --indent-switches --suffix=none *.[ch]
 </code></pre>
@@ -15218,7 +15152,7 @@ execution time of findName() : <span class="hljs-number">0.004776</span> sec
 </li>
 </ul>
 <p><img src="images/git-hook.jpg" alt=""></p>
-<h2 id="%E4%BD%9C%E6%A5%AD%E8%A6%81%E6%B1%82">&#x4F5C;&#x696D;&#x8981;&#x6C42;</h2>
+<h2 id="&#x4F5C;&#x696D;&#x8981;&#x6C42;">&#x4F5C;&#x696D;&#x8981;&#x6C42;</h2>
 <ul>
 <li><p>&#x5728; GitHub &#x4E0A; fork phonebook&#xFF0C;&#x7136;&#x5F8C;&#x9069;&#x5EA6;&#x4FEE;&#x6539; phonebook_opt.c &#x548C; phonebook_opt.h &#x5169;&#x500B;&#x6A94;&#x6848;&#xFF0C;&#x4F7F;&#x5F97;&#x9019;&#x5169;&#x8005;&#x57F7;&#x884C;&#x6642;&#x671F;&#x7684; cache miss &#x964D;&#x4F4E;&#x3002;&#x8ACB;&#x7528; perf &#x9A57;&#x8B49;&#xFF0C;&#x800C;&#x4E14;&#x6539;&#x9032;&#x7684;&#x904E;&#x7A0B;&#x4E2D;&#xFF0C;&#x4E0D;&#x80FD;&#x6709;&#x529F;&#x80FD;&#x65B9;&#x9762;&#x7684;&#x6E1B;&#x640D;&#x3002;</p>
 <ul>
@@ -15262,7 +15196,7 @@ execution time of findName() : <span class="hljs-number">0.004776</span> sec
 </ul>
 </li>
 </ul>
-<h2 id="%E6%8C%91%E6%88%B0%E9%A1%8C">&#x6311;&#x6230;&#x984C;</h2>
+<h2 id="&#x6311;&#x6230;&#x984C;">&#x6311;&#x6230;&#x984C;</h2>
 <ul>
 <li>&#x9664;&#x4E86;&#x964D;&#x4F4E; findName() &#x7684; cache miss &#x8207;&#x57F7;&#x884C;&#x6210;&#x672C;&#xFF0C;append() &#x4E5F;&#x8A72;&#x60F3;&#x8FA6;&#x6CD5;&#x7E2E;&#x6E1B;&#x6642;&#x9593;<ul>
 <li>&#x5EFA;&#x7ACB; phone book &#x6642;&#xFF0C;&#x65E2;&#x7136; lastName &#x662F;&#x7D22;&#x5F15;&#x503C;&#xFF0C;&#x53EF;&#x4EE5;&#x512A;&#x5148;&#x5EFA;&#x7ACB;&#x641C;&#x5C0B;&#x8868;&#x683C;&#xFF0C;&#x5176;&#x4ED6;&#x8CC7;&#x6599;&#x53EF;&#x7A0D;&#x5F8C;&#x518D;&#x88DC;&#x4E0A;</li>
@@ -15277,7 +15211,7 @@ execution time of findName() : <span class="hljs-number">0.004776</span> sec
 <li>&#x6539;&#x5584;&#x96FB;&#x8A71;&#x7C3F;&#x7684;&#x6548;&#x80FD;&#x5206;&#x6790;&#xFF0C;&#x900F;&#x904E;&#x5927;&#x91CF;&#x7684;&#x91CD;&#x8907;&#x57F7;&#x884C;&#xFF0C;&#x627E;&#x51FA; 95% - &#x4FE1;&#x8CF4;&#x5340;&#x9593;&#xFF0C;&#x800C;&#x4E14;&#x5141;&#x8A31;&#x52D5;&#x614B;&#x65B0;&#x589E;&#x8CC7;&#x6599; (&#x8F03;&#x7B26;&#x5408;&#x73FE;&#x5BE6;) &#x548C;&#x67E5;&#x8A62;
 &#x4EE5; gnuplot &#x7E6A;&#x88FD;&#x6548;&#x80FD;&#x5206;&#x6790;&#x5716;&#x8868;</li>
 </ul>
-<h2 id="%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99">&#x53C3;&#x8003;&#x8CC7;&#x6599;</h2>
+<h2 id="&#x53C3;&#x8003;&#x8CC7;&#x6599;">&#x53C3;&#x8003;&#x8CC7;&#x6599;</h2>
 <p><a href="http://tetralet.luna.com.tw/?op=ViewArticle&amp;articleId=185" target="_blank">Makefile &#x8A9E;&#x6CD5;&#x7C21;&#x4ECB;</a><br>
 <a href="http://user.frdm.info/ckhung/b/ma/gnuplot.php" target="_blank">Gnuplot &#x7D14;&#x756B;&#x5716;</a></p>
 
@@ -15321,9 +15255,17 @@ execution time of findName() : <span class="hljs-number">0.004776</span> sec
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

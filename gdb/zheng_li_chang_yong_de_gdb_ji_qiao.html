@@ -8,7 +8,7 @@
         <title>整理常用的gdb技巧 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="16.42" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="16.42"
+        data-chapter-title="整理常用的gdb技巧"
+        data-filepath="gdb/zheng_li_chang_yong_de_gdb_ji_qiao.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,17 +15051,17 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E6%95%B4%E7%90%86%E5%B8%B8%E7%94%A8%E7%9A%84gdb%E6%8A%80%E5%B7%A7">&#x6574;&#x7406;&#x5E38;&#x7528;&#x7684;gdb&#x6280;&#x5DE7;</h1>
-<h2 id="%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4">&#x5E38;&#x7528;&#x547D;&#x4EE4;</h2>
+                        <h1 id="&#x6574;&#x7406;&#x5E38;&#x7528;&#x7684;gdb&#x6280;&#x5DE7;">&#x6574;&#x7406;&#x5E38;&#x7528;&#x7684;gdb&#x6280;&#x5DE7;</h1>
+<h2 id="&#x5E38;&#x7528;&#x547D;&#x4EE4;">&#x5E38;&#x7528;&#x547D;&#x4EE4;</h2>
 <p>&#x5E38;&#x7528;&#x7684;gdb&#x547D;&#x4EE4;...</p>
-<h2 id="%E5%95%9F%E5%8B%95gdb">&#x555F;&#x52D5;gdb</h2>
-<h3 id="%E7%9B%B4%E6%8E%A5%E9%81%8B%E8%A1%8C">&#x76F4;&#x63A5;&#x904B;&#x884C;</h3>
+<h2 id="&#x555F;&#x52D5;gdb">&#x555F;&#x52D5;gdb</h2>
+<h3 id="&#x76F4;&#x63A5;&#x904B;&#x884C;">&#x76F4;&#x63A5;&#x904B;&#x884C;</h3>
 <pre><code class="lang-sh">gdb --args prog arg1 arg2
 </code></pre>
-<h3 id="%E9%81%8B%E8%A1%8Cgdb%E5%BE%8C%E4%BD%BF%E7%94%A8run%E5%91%BD%E4%BB%A4">&#x904B;&#x884C;gdb&#x5F8C;&#x4F7F;&#x7528;run&#x547D;&#x4EE4;</h3>
+<h3 id="&#x904B;&#x884C;gdb&#x5F8C;&#x4F7F;&#x7528;run&#x547D;&#x4EE4;">&#x904B;&#x884C;gdb&#x5F8C;&#x4F7F;&#x7528;run&#x547D;&#x4EE4;</h3>
 <pre><code>gdb prog
 run arg1 arg2
-</code></pre><h3 id="attach%E5%88%B0%E5%B7%B2%E9%81%8B%E8%A1%8C%E7%9A%84%E7%A8%8B%E5%BA%8F">attach&#x5230;&#x5DF2;&#x904B;&#x884C;&#x7684;&#x7A0B;&#x5E8F;</h3>
+</code></pre><h3 id="attach&#x5230;&#x5DF2;&#x904B;&#x884C;&#x7684;&#x7A0B;&#x5E8F;">attach&#x5230;&#x5DF2;&#x904B;&#x884C;&#x7684;&#x7A0B;&#x5E8F;</h3>
 <pre><code>gdb --pid ${PID_OF_PROG}
 </code></pre><h2 id="ptype">ptype</h2>
 <p>ptype&#x7528;&#x65BC;&#x986F;&#x793A;Symbol&#x7684;&#x985E;&#x578B;&#xFF0C;&#x793A;&#x4F8B;&#x6E90;&#x78BC;&#x70BA;:</p>
@@ -15237,20 +15171,20 @@ run arg1 arg2
 (gdb) x/<span class="hljs-number">1</span><span class="hljs-built_in">fg</span> <span class="hljs-number">140737488346064</span>
 <span class="hljs-number">0</span>x7fffffffdbd0: <span class="hljs-number">10.125</span>
 </code></pre>
-<h2 id="%E8%A8%AD%E7%BD%AE%E6%BA%90%E7%A2%BC%E7%9B%AE%E9%8C%84">&#x8A2D;&#x7F6E;&#x6E90;&#x78BC;&#x76EE;&#x9304;</h2>
+<h2 id="&#x8A2D;&#x7F6E;&#x6E90;&#x78BC;&#x76EE;&#x9304;">&#x8A2D;&#x7F6E;&#x6E90;&#x78BC;&#x76EE;&#x9304;</h2>
 <p>&#x53C3;&#x8003;Specifying Source Directories&#xFF0C;&#x4F7F;&#x7528;<code>dir /path/to/your/sources</code>&#x53EF;&#x5728;&#x8ABF;&#x8A66;&#x6642;&#x6DFB;&#x52A0;&#x4E00;&#x500B;&#x6E90;&#x78BC;&#x76EE;&#x9304;&#x3002;</p>
-<h2 id="%E8%A8%AD%E7%BD%AE%E5%AD%97%E7%AC%A6%E7%B7%A8%E7%A2%BC">&#x8A2D;&#x7F6E;&#x5B57;&#x7B26;&#x7DE8;&#x78BC;</h2>
+<h2 id="&#x8A2D;&#x7F6E;&#x5B57;&#x7B26;&#x7DE8;&#x78BC;">&#x8A2D;&#x7F6E;&#x5B57;&#x7B26;&#x7DE8;&#x78BC;</h2>
 <p>gdb&#x9ED8;&#x8A8D;&#x4F7F;&#x7528;utf-8&#x7DE8;&#x78BC;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x5982;&#x4E0B;&#x547D;&#x4EE4;&#x4FEE;&#x6539;&#x7DE8;&#x78BC;&#x3002;</p>
 <pre><code>set charset GBK
 </code></pre><p>&#x4E5F;&#x53EF;&#x76F4;&#x63A5;&#x5728;~/.gdbinit&#x88E1;&#x8A2D;&#x7F6E;&#x3002;</p>
-<h2 id="%E7%B7%9A%E7%A8%8B%E7%9B%B8%E9%97%9C%E7%9A%84%E5%91%BD%E4%BB%A4">&#x7DDA;&#x7A0B;&#x76F8;&#x95DC;&#x7684;&#x547D;&#x4EE4;</h2>
+<h2 id="&#x7DDA;&#x7A0B;&#x76F8;&#x95DC;&#x7684;&#x547D;&#x4EE4;">&#x7DDA;&#x7A0B;&#x76F8;&#x95DC;&#x7684;&#x547D;&#x4EE4;</h2>
 <p>&#x4E0B;&#x9762;&#x662F;&#x4E00;&#x4E9B;&#x8ABF;&#x8A66;&#x591A;&#x7DDA;&#x7A0B;&#x7A0B;&#x5E8F;&#x6642;&#x5E38;&#x7528;&#x7684;&#x547D;&#x4EE4;:</p>
 <ul>
 <li>info threads: &#x67E5;&#x770B;&#x7DDA;&#x7A0B;&#x5217;&#x8868;</li>
 <li>thread 2: &#x5207;&#x63DB;&#x5230;2&#x865F;&#x7DDA;&#x7A0B;&#xFF0C;&#x7DDA;&#x7A0B;&#x7DE8;&#x865F;&#x53EF;&#x7531;info threads&#x5F97;&#x77E5;</li>
 <li>thread apply all bt: &#x6253;&#x5370;&#x6240;&#x6709;&#x7DDA;&#x7A0B;&#x7684;&#x5806;&#x68E7;</li>
 </ul>
-<h2 id="%E9%AB%98%E7%B4%9A%E6%8A%80%E5%B7%A7">&#x9AD8;&#x7D1A;&#x6280;&#x5DE7;</h2>
+<h2 id="&#x9AD8;&#x7D1A;&#x6280;&#x5DE7;">&#x9AD8;&#x7D1A;&#x6280;&#x5DE7;</h2>
 <p>&#x4E00;&#x4E9B;&#x4E0D;&#x592A;&#x5EE3;&#x70BA;&#x4EBA;&#x77E5;&#x7684;&#x6280;&#x5DE7;...</p>
 <p>&#x52A0;&#x8F09;&#x7368;&#x7ACB;&#x7684;&#x8ABF;&#x8A66;&#x4FE1;&#x606F;</p>
 <p>gdb&#x8ABF;&#x8A66;&#x7684;&#x6642;&#x5019;&#x53EF;&#x4EE5;&#x5F9E;&#x55AE;&#x7368;&#x7684;&#x7B26;&#x865F;&#x6587;&#x4EF6;&#x4E2D;&#x52A0;&#x8F09;&#x8ABF;&#x8A66;&#x4FE1;&#x606F;&#x3002;</p>
@@ -15282,7 +15216,7 @@ gdb
 <pre><code class="lang-sh">addr2line <span class="hljs-operator">-e</span> <span class="hljs-built_in">test</span> <span class="hljs-number">0</span>x401c23
 </code></pre>
 <p>&#x66F4;&#x591A;&#x5167;&#x5BB9;&#x53EF;&#x95B1;&#x8B80;GDB: Debugging Information in Separate Files&#x3002;</p>
-<h2 id="%E5%9C%A8%E5%85%A7%E5%AD%98%E5%92%8C%E6%96%87%E4%BB%B6%E7%B3%BB%E7%B5%B1%E4%B9%8B%E9%96%93%E6%8B%B7%E8%B2%9D%E6%95%B8%E6%93%9A">&#x5728;&#x5167;&#x5B58;&#x548C;&#x6587;&#x4EF6;&#x7CFB;&#x7D71;&#x4E4B;&#x9593;&#x62F7;&#x8C9D;&#x6578;&#x64DA;</h2>
+<h2 id="&#x5728;&#x5167;&#x5B58;&#x548C;&#x6587;&#x4EF6;&#x7CFB;&#x7D71;&#x4E4B;&#x9593;&#x62F7;&#x8C9D;&#x6578;&#x64DA;">&#x5728;&#x5167;&#x5B58;&#x548C;&#x6587;&#x4EF6;&#x7CFB;&#x7D71;&#x4E4B;&#x9593;&#x62F7;&#x8C9D;&#x6578;&#x64DA;</h2>
 <ul>
 <li>&#x5C07;&#x5167;&#x5B58;&#x6578;&#x64DA;&#x62F7;&#x8C9D;&#x5230;&#x6587;&#x4EF6;&#x88E1;</li>
 </ul>
@@ -15293,7 +15227,7 @@ dump binary memory file_name begin_addr end_addr
 <li>&#x6539;&#x8B8A;&#x5167;&#x5B58;&#x6578;&#x64DA;</li>
 </ul>
 <p>&#x4F7F;&#x7528;set&#x547D;&#x4EE4;</p>
-<h2 id="%E5%9F%B7%E8%A1%8Cgdb%E8%85%B3%E6%9C%AC">&#x57F7;&#x884C;gdb&#x8173;&#x672C;</h2>
+<h2 id="&#x57F7;&#x884C;gdb&#x8173;&#x672C;">&#x57F7;&#x884C;gdb&#x8173;&#x672C;</h2>
 <p>&#x5E38;&#x7528;&#x7684;gdb&#x64CD;&#x4F5C;&#xFF0C;&#x6BD4;&#x5982;&#x6253;&#x65B7;&#x9EDE;&#x7B49;&#x53EF;&#x4EE5;&#x653E;&#x5728;&#x4E00;&#x500B;gdb&#x8173;&#x672C;&#x91CC;&#xFF0C;&#x7136;&#x5F8C;&#x4F7F;&#x7528;&#x6642;&#x5C0E;&#x5165;&#x5373;&#x53EF;&#x3002;&#x4F8B;&#x5982;:</p>
 <pre><code class="lang-sh">b main.cpp:<span class="hljs-number">15</span>
 b test.cpp:<span class="hljs-number">18</span>
@@ -15305,14 +15239,14 @@ b test.cpp:<span class="hljs-number">18</span>
 <pre><code class="lang-sh">gdb -x /path/to/breakpoints.txt prog
 </code></pre>
 <p>&#x5C0D;&#x65BC;&#x6BCF;&#x6B21;gdb&#x904B;&#x884C;&#x90FD;&#x8981;&#x8ABF;&#x7528;&#x7684;&#x8173;&#x672C;&#xFF0C;&#x6BD4;&#x5982;&#x8A2D;&#x7F6E;&#x5B57;&#x7B26;&#x96C6;&#x7B49;&#xFF0C;&#x53EF;&#x4EE5;&#x653E;&#x5728;~/.gdbinit&#x521D;&#x59CB;&#x6587;&#x4EF6;&#x88E1;&#xFF0C;&#x9019;&#x6A23;&#x6BCF;&#x6B21;gdb&#x555F;&#x52D5;&#x6642;&#x90FD;&#x6703;&#x81EA;&#x52D5;&#x8ABF;&#x7528;&#x3002;</p>
-<h2 id="%E8%BC%B8%E5%87%BA%E5%88%B0%E6%96%87%E4%BB%B6">&#x8F38;&#x51FA;&#x5230;&#x6587;&#x4EF6;</h2>
+<h2 id="&#x8F38;&#x51FA;&#x5230;&#x6587;&#x4EF6;">&#x8F38;&#x51FA;&#x5230;&#x6587;&#x4EF6;</h2>
 <p>&#x53EF;&#x4EE5;&#x901A;&#x904E;set logging on&#x5C07;&#x547D;&#x4EE4;&#x7684;&#x8F38;&#x51FA;&#x4FDD;&#x5B58;&#x5230;&#x9ED8;&#x8A8D;&#x7684;gdb.txt&#x6587;&#x4EF6;&#x4E2D;&#x3002;&#x7576;&#x7136;&#x4E5F;&#x53EF;&#x4EE5;&#x901A;&#x904E;set logging file my_log.txt&#x4F86;&#x8A2D;&#x7F6E;&#x8F38;&#x51FA;&#x6587;&#x4EF6;&#x7684;&#x8DEF;&#x5F91;&#x3002;</p>
-<h2 id="%E5%9F%B7%E8%A1%8C%E5%91%BD%E4%BB%A4%E4%B8%A6%E9%80%80%E5%87%BA">&#x57F7;&#x884C;&#x547D;&#x4EE4;&#x4E26;&#x9000;&#x51FA;</h2>
+<h2 id="&#x57F7;&#x884C;&#x547D;&#x4EE4;&#x4E26;&#x9000;&#x51FA;">&#x57F7;&#x884C;&#x547D;&#x4EE4;&#x4E26;&#x9000;&#x51FA;</h2>
 <p>&#x6709;&#x6642;&#x5019;&#x9700;&#x8981;gdb&#x57F7;&#x884C;&#x82E5;&#x5E72;&#x689D;&#x547D;&#x4EE4;&#x5F8C;&#x5C31;&#x7ACB;&#x5373;&#x9000;&#x51FA;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x9032;&#x5165;&#x4EA4;&#x4E92;&#x754C;&#x9762;&#xFF0C;&#x9019;&#x6642;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;<code>-batch</code>&#x9078;&#x9805;&#x3002;</p>
 <pre><code class="lang-sh">gdb -ex <span class="hljs-string">&quot;set pagination 0&quot;</span> -ex <span class="hljs-string">&quot;thread apply all bt&quot;</span> `-batch` -p <span class="hljs-variable">$pid</span>
 </code></pre>
 <p>&#x4E0A;&#x9762;&#x7684;&#x547D;&#x4EE4;&#x6253;&#x5370;$pid&#x9032;&#x7A0B;&#x6240;&#x6709;&#x7DDA;&#x7A0B;&#x7684;&#x5806;&#x68E7;&#x4E26;&#x9000;&#x51FA;&#x3002;</p>
-<h2 id="%E8%87%AA%E5%AE%9A%E7%BE%A9%E5%91%BD%E4%BB%A4">&#x81EA;&#x5B9A;&#x7FA9;&#x547D;&#x4EE4;</h2>
+<h2 id="&#x81EA;&#x5B9A;&#x7FA9;&#x547D;&#x4EE4;">&#x81EA;&#x5B9A;&#x7FA9;&#x547D;&#x4EE4;</h2>
 <p>&#x53C3;&#x8003;gdb/Define&#xFF0C;&#x53EF;&#x4EE5;&#x5728;gdb&#x4E2D;&#x81EA;&#x5B9A;&#x7FA9;&#x547D;&#x4EE4;&#xFF0C;&#x6BD4;&#x5982;&#xFF1A;</p>
 <pre><code class="lang-sh">(gdb) define hello
 (gdb) <span class="hljs-built_in">print</span> <span class="hljs-string">&quot;welcome&quot;</span>
@@ -15326,7 +15260,7 @@ b test.cpp:<span class="hljs-number">18</span>
 <pre><code class="lang-sh">(gdb) <span class="hljs-variable">$1</span> = <span class="hljs-string">&quot;welcome&quot;</span>
 (gdb) <span class="hljs-variable">$2</span> = <span class="hljs-string">&quot;hello world&quot;</span>
 </code></pre>
-<h2 id="%E6%A2%9D%E4%BB%B6%E6%96%B7%E9%BB%9E">&#x689D;&#x4EF6;&#x65B7;&#x9EDE;</h2>
+<h2 id="&#x689D;&#x4EF6;&#x65B7;&#x9EDE;">&#x689D;&#x4EF6;&#x65B7;&#x9EDE;</h2>
 <p>&#x5728;&#x689D;&#x4EF6;&#x65B7;&#x9EDE;&#x88E1;&#x53EF;&#x4EE5;&#x8ABF;&#x7528;&#x6A19;&#x6E96;&#x5EAB;&#x7684;&#x51FD;&#x6578;&#xFF0C;&#x6BD4;&#x5982;&#x4E0B;&#x9762;&#x9019;&#x500B;:</p>
 <pre><code class="lang-sh"><span class="hljs-comment"># &#x5982;&#x679C;strA == strB&#xFF0C;&#x5247;&#x5728;&#x65B7;&#x9EDE;&#x8655;&#x66AB;&#x505C;</span>
 (gdb) b main.cpp:<span class="hljs-number">255</span> <span class="hljs-keyword">if</span> strcmp(strA.c_str(), strB.c_str()) == <span class="hljs-number">0</span>
@@ -15334,9 +15268,9 @@ b test.cpp:<span class="hljs-number">18</span>
 <span class="hljs-comment"># &#x9084;&#x662F;&#x4E0A;&#x9762;&#x7684;&#x5834;&#x666F;&#xFF0C;&#x76F4;&#x63A5;&#x7528;string&#x985E;&#x7684;compare&#x51FD;&#x6578;</span>
 (gdb) b main.cpp:<span class="hljs-number">255</span> <span class="hljs-keyword">if</span> strA.compare(strB) != <span class="hljs-number">0</span>
 </code></pre>
-<h2 id="%E6%8D%95%E7%8D%B2exception">&#x6355;&#x7372;exception</h2>
+<h2 id="&#x6355;&#x7372;exception">&#x6355;&#x7372;exception</h2>
 <p>gdb&#x9047;&#x5230;&#x672A;&#x8655;&#x7406;&#x7684;exception&#x6642;&#xFF0C;&#x4E26;&#x4E0D;&#x6703;&#x6355;&#x7372;&#x8655;&#x7406;&#x3002;&#x4F46;&#x662F;&#x53C3;&#x8003;Set Catchpoints&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;catch catch&#x547D;&#x4EE4;&#x4F86;&#x6355;&#x7372;exception&#x3002;</p>
-<h2 id="%E9%96%B1%E8%AE%80%E8%B3%87%E6%96%99">&#x95B1;&#x8B80;&#x8CC7;&#x6599;</h2>
+<h2 id="&#x95B1;&#x8B80;&#x8CC7;&#x6599;">&#x95B1;&#x8B80;&#x8CC7;&#x6599;</h2>
 <ul>
 <li>Copy between memory and a file</li>
 <li>HowTo: Writing into process memory with GDB</li>
@@ -15384,9 +15318,17 @@ b test.cpp:<span class="hljs-number">18</span>
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

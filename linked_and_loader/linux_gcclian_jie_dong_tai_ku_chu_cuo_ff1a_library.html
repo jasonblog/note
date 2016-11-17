@@ -8,7 +8,7 @@
         <title>Linux gcc鏈接動態庫出錯：LIBRARY_PATH和LD_LIBRARY_PATH的區別 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="47.8" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="47.8"
+        data-chapter-title="Linux gcc鏈接動態庫出錯：LIBRARY_PATH和LD_LIBRARY_PATH的區別"
+        data-filepath="linked_and_loader/linux_gcclian_jie_dong_tai_ku_chu_cuo_ff1a_library.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,29 +15051,29 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="linux-gcc%E9%8F%88%E6%8E%A5%E5%8B%95%E6%85%8B%E5%BA%AB%E5%87%BA%E9%8C%AF%EF%BC%9Alibrary-path%E5%92%8Cld-library-path%E7%9A%84%E5%8D%80%E5%88%A5">Linux gcc&#x93C8;&#x63A5;&#x52D5;&#x614B;&#x5EAB;&#x51FA;&#x932F;&#xFF1A;LIBRARY_PATH&#x548C;LD_LIBRARY_PATH&#x7684;&#x5340;&#x5225;</h1>
+                        <h1 id="linux-gcc&#x93C8;&#x63A5;&#x52D5;&#x614B;&#x5EAB;&#x51FA;&#x932F;&#xFF1A;librarypath&#x548C;ldlibrarypath&#x7684;&#x5340;&#x5225;">Linux gcc&#x93C8;&#x63A5;&#x52D5;&#x614B;&#x5EAB;&#x51FA;&#x932F;&#xFF1A;LIBRARY_PATH&#x548C;LD_LIBRARY_PATH&#x7684;&#x5340;&#x5225;</h1>
 <p>&#x6628;&#x5929;&#x5728;&#x81EA;&#x5DF1;&#x7684;CentOs7.1&#x4E0A;&#x5BEB;makefile&#x7684;&#x6642;&#x5019;&#xFF0C;&#x767C;&#x73FE;&#x5728;&#x4E00;&#x500B;C&#x7A0B;&#x5E8F;&#x5728;&#x7DE8;&#x8B6F;&#x4E26;&#x93C8;&#x63A5;&#x4E00;&#x500B;&#x5DF2;&#x751F;&#x6210;&#x597D;&#x7684;lib&#x52D5;&#x614B;&#x5EAB;&#x7684;&#x6642;&#x5019;&#x51FA;&#x932F;&#x3002;&#x93C8;&#x63A5;&#x547D;&#x4EE4;&#x5927;&#x6982;&#x662F;&#x9019;&#x6A23;&#x7684;&#xFF1A;</p>
 <pre><code class="lang-sh">[root@typecodes tcpmsg]<span class="hljs-comment"># gcc -o hello main.c -lmyhello</span>
 /usr/bin/ld: cannot find -lmyhello
 collect2: error: ld returned <span class="hljs-number">1</span> <span class="hljs-built_in">exit</span> status
 </code></pre>
 <p><img src="images/gcc_linux.png" alt=""></p>
-<h2 id="1-gcc%E9%8F%88%E6%8E%A5%E5%8B%95%E6%85%8B%E5%BA%AB%E6%99%82%E7%9A%84%E6%90%9C%E7%B4%A2%E8%B7%AF%E5%BE%91">1 gcc&#x93C8;&#x63A5;&#x52D5;&#x614B;&#x5EAB;&#x6642;&#x7684;&#x641C;&#x7D22;&#x8DEF;&#x5F91;</h2>
+<h2 id="1-gcc&#x93C8;&#x63A5;&#x52D5;&#x614B;&#x5EAB;&#x6642;&#x7684;&#x641C;&#x7D22;&#x8DEF;&#x5F91;">1 gcc&#x93C8;&#x63A5;&#x52D5;&#x614B;&#x5EAB;&#x6642;&#x7684;&#x641C;&#x7D22;&#x8DEF;&#x5F91;</h2>
 <p>&#x81EA;&#x4EE5;&#x70BA;&#x5728;&#x7576;&#x524D;&#x5DE5;&#x7A0B;&#x4E2D;&#x8A2D;&#x7F6E;&#x597D;&#x4E86;&#x74B0;&#x5883;&#x8B8A;&#x91CF;<code>LD_LIBRARY_PATH</code>&#x5305;&#x542B;&#x4E86;&#x5DE5;&#x7A0B;&#x4E2D;&#x7684;lib&#x5EAB;&#x8DEF;&#x5F91;&#xFF0C;&#x4E26;&#x4E14;&#x9084;&#x5728;<code>/etc/ld.so.conf/apphome.conf</code>&#x4E2D;&#x914D;&#x7F6E;&#x4E86;lib&#x5EAB;&#x7684;&#x8DEF;&#x5F91;&#x3002;&#x90A3;&#x9EBC;&#x5728;&#x8ABF;&#x7528;&#x52D5;&#x614B;&#x5EAB;&#x7684;&#x6642;&#x5019;&#xFF0C;gcc&#x5C31;&#x61C9;&#x8A72;&#x80FD;&#x81EA;&#x52D5;&#x53BB;&#x641C;&#x7D22;&#x8A72;&#x76EE;&#x9304;&#x3002;</p>
 <p><img src="images/centos7_gcc_cannot_find_library.png" alt=""></p>
 <p>&#x5F88;&#x907A;&#x61BE;ld&#x93C8;&#x63A5;&#x5668;&#x5831;&#x77AD;&#x5982;&#x4E0A;&#x7684;&#x932F;&#x8AA4;&#xFF0C;&#x4F46;&#x662F;&#x5982;&#x679C;&#x5728;&#x4E0A;&#x9762;&#x7684;gcc&#x547D;&#x4EE4;&#x4E2D;&#x6DFB;&#x52A0;&#x4E0A;-L /root/gcc_test/tcp_msg/lib/&#x53C3;&#x6578;&#xFF0C;&#x5373;&#x660E;&#x78BA;&#x52D5;&#x614B;&#x5EAB;&#x7684;&#x7D55;&#x5C0D;&#x8DEF;&#x5F91;&#xFF0C;&#x662F;&#x80FD;&#x5920;&#x93C8;&#x63A5;&#x6210;&#x529F;&#x7684;&#x3002;</p>
-<h2 id="2-google%E4%B8%8A%E6%9F%A5%E6%89%BE-usr-bin-ld-cannot-find-l-%E7%9A%84%E5%87%BA%E9%8C%AF%E5%8E%9F%E5%9B%A0">2 Google&#x4E0A;&#x67E5;&#x627E; /usr/bin/ld: cannot find -l* &#x7684;&#x51FA;&#x932F;&#x539F;&#x56E0;</h2>
+<h2 id="2-google&#x4E0A;&#x67E5;&#x627E;-usrbinld-cannot-find-l-&#x7684;&#x51FA;&#x932F;&#x539F;&#x56E0;">2 Google&#x4E0A;&#x67E5;&#x627E; /usr/bin/ld: cannot find -l* &#x7684;&#x51FA;&#x932F;&#x539F;&#x56E0;</h2>
 <p>gg&#x4E86;&#x5F88;&#x4E45;gcc ld&#x93C8;&#x63A5;&#x52D5;&#x614B;&#x5EAB;&#x51FA;&#x932F;&#x7684;&#x539F;&#x56E0;&#xFF0C;&#x7D50;&#x679C;&#x9084;&#x662F;&#x6C92;&#x627E;&#x5230;&#x7406;&#x60F3;&#x7684;&#x7B54;&#x6848;&#x3002;&#x5F8C;&#x4F86;&#x731C;&#x60F3;&#x662F;&#x4E0D;&#x662F;&#x5728;CentOs7&#x4E2D;LD_LIBRARY_PATH&#x4E0D;&#x8D77;&#x4F5C;&#x7528;&#x7684;&#x7DE3;&#x6545;&#xFF0C;&#x4F46;&#x662F;&#x4E5F;&#x4E0D;&#x61C9;&#x8A72;&#xFF0C;&#x56E0;&#x70BA;&#x81EA;&#x5DF1;&#x7528;&#x7684;GCC&#xFF08;version 4.8.3&#xFF09;&#x8DDF;&#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x6C92;&#x95DC;&#x4FC2;&#x3002;&#x65BC;&#x662F;&#x91CD;&#x65B0;&#x641C;&#x7D22;&#x4E86;gcc LD_LIBRARY_PATH&#x7684;&#x4F5C;&#x7528;&#xFF0C;&#x7ADF;&#x7136;&#x767C;&#x73FE;
 <code>gcc&#x5728;&#x7DE8;&#x8B6F;&#x93C8;&#x63A5;&#x6642;&#x93C8;&#x63A5;&#x7684;&#x52D5;&#x614B;&#x5EAB;&#x8DDF;LIBRARY_PATH&#x6709;&#x95DC;</code>&#x800C;&#x8DDF;<code>`LD_LIBRARY_PATH&#x6C92;&#x95DC;&#x4FC2;</code>&#xFF01;</p>
-<h2 id="3-%E9%97%9C%E6%96%BClinux-gcc%E4%B8%AD%E7%9A%84library-path%E5%92%8Cld-library-path%E5%8F%83%E6%95%B8%E8%AA%AA%E6%98%8E">3 &#x95DC;&#x65BC;Linux gcc&#x4E2D;&#x7684;LIBRARY_PATH&#x548C;LD_LIBRARY_PATH&#x53C3;&#x6578;&#x8AAA;&#x660E;</h2>
+<h2 id="3-&#x95DC;&#x65BC;linux-gcc&#x4E2D;&#x7684;librarypath&#x548C;ldlibrarypath&#x53C3;&#x6578;&#x8AAA;&#x660E;">3 &#x95DC;&#x65BC;Linux gcc&#x4E2D;&#x7684;LIBRARY_PATH&#x548C;LD_LIBRARY_PATH&#x53C3;&#x6578;&#x8AAA;&#x660E;</h2>
 <p>&#x4E0B;&#x9762;&#x6458;&#x53D6;&#x4E86;&#x5169;&#x7BC7;&#x8F03;&#x6B0A;&#x5A01;&#x7684;&#x8AAA;&#x660E;&#x8CC7;&#x6599;&#xFF1A;</p>
-<h3 id="1%E3%80%81gnu%E4%B8%8A%E9%97%9C%E6%96%BClibrary-path%E7%9A%84%E8%AA%AA%E6%98%8E%EF%BC%9A">1&#x3001;GNU&#x4E0A;&#x95DC;&#x65BC;LIBRARY_PATH&#x7684;&#x8AAA;&#x660E;&#xFF1A;</h3>
+<h3 id="1&#x3001;gnu&#x4E0A;&#x95DC;&#x65BC;librarypath&#x7684;&#x8AAA;&#x660E;&#xFF1A;">1&#x3001;GNU&#x4E0A;&#x95DC;&#x65BC;LIBRARY_PATH&#x7684;&#x8AAA;&#x660E;&#xFF1A;</h3>
 <pre><code class="lang-sh">LIBRARY_PATH
 The value of LIBRARY_PATH is a colon-separated list of directories, much like PATH.
 When configured as a native compiler, GCC tries the directories thus specified when searching <span class="hljs-keyword">for</span> special linker files, <span class="hljs-keyword">if</span> it can<span class="hljs-string">&apos;t find them using GCC_EXEC_PREFIX.
 Linking using GCC also uses these directories when searching for ordinary libraries for the -l option (but directories specified with -L come first).
 </span></code></pre>
-<h3 id="2%E3%80%81man7%E4%B8%8A%E9%97%9C%E6%96%BCld-library-path%E7%9A%84%E8%AA%AA%E6%98%8E%EF%BC%9A">2&#x3001;man7&#x4E0A;&#x95DC;&#x65BC;LD_LIBRARY_PATH&#x7684;&#x8AAA;&#x660E;&#xFF1A;</h3>
+<h3 id="2&#x3001;man7&#x4E0A;&#x95DC;&#x65BC;ldlibrarypath&#x7684;&#x8AAA;&#x660E;&#xFF1A;">2&#x3001;man7&#x4E0A;&#x95DC;&#x65BC;LD_LIBRARY_PATH&#x7684;&#x8AAA;&#x660E;&#xFF1A;</h3>
 <pre><code class="lang-sh">LD_LIBRARY_PATH
 A colon-separated list of directories <span class="hljs-keyword">in</span> <span class="hljs-built_in">which</span> to search <span class="hljs-keyword">for</span>
 ELF libraries at execution-time.  Similar to the PATH
@@ -15156,15 +15090,15 @@ If it is static <span class="hljs-keyword">then</span> the code is copied over i
 If your library is shared then it needs to be dynamically linked to your program and that&apos;</span>s when LD_LIBRARY_PATH comes into play.
 </code></pre>
 <p>&#x901A;&#x904E;&#x9019;&#x4E09;&#x7BC7;&#x8CC7;&#x6599;&#x7684;&#x8AAA;&#x660E;&#xFF0C;&#x5F88;&#x5FEB;&#x660E;&#x767D;&#x4E86;<code>LIBRARY_PATH</code>&#x548C;<code>LD_LIBRARY_PATH</code>&#x7684;&#x4F5C;&#x7528;&#x3002;&#x65BC;&#x662F;&#xFF0C;&#x81EA;&#x5DF1;&#x5728;&#x9805;&#x76EE;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x4E2D;&#x6DFB;&#x52A0;<code>export LIBRARY_PATH=${LIBRARY_PATH}:${APPHOME}/lib</code>&#x3002;&#x63A5;&#x8457;&#x5C07;&#x9019;&#x500B;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x52A0;&#x8F09;&#x5230;CentOs&#x7684;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x4E2D;&#xFF0C;&#x9019;&#x6A23;&#x5C31;&#x5728;gcc&#x7DE8;&#x8B6F;&#x4E0D;&#x7528;&#x52A0;-L&#x53C3;&#x6578;&#x751F;&#x6210;&#x76EE;&#x6A19;&#x6587;&#x4EF6;CommuTcp&#x4E86;&#x3002;</p>
-<h2 id="4-%E7%B8%BD%E7%B5%90">4 &#x7E3D;&#x7D50;</h2>
+<h2 id="4-&#x7E3D;&#x7D50;">4 &#x7E3D;&#x7D50;</h2>
 <p>&#x95DC;&#x65BC;<code>LIBRARY_PATH</code>&#x548C;<code>LD_LIBRARY_PATH</code>&#x7684;&#x95DC;&#x4FC2;&#xFF0C;&#x9019;&#x88E1;&#x81EA;&#x5DF1;&#x518D;&#x7E3D;&#x7D50;&#x4E00;&#x4E0B;&#x3002;</p>
-<h3 id="4-1-linux-gcc%E7%B7%A8%E8%AD%AF%E9%8F%88%E6%8E%A5%E6%99%82%E7%9A%84%E5%8B%95%E6%85%8B%E5%BA%AB%E6%90%9C%E7%B4%A2%E8%B7%AF%E5%BE%91">4.1 Linux gcc&#x7DE8;&#x8B6F;&#x93C8;&#x63A5;&#x6642;&#x7684;&#x52D5;&#x614B;&#x5EAB;&#x641C;&#x7D22;&#x8DEF;&#x5F91;</h3>
+<h3 id="41-linux-gcc&#x7DE8;&#x8B6F;&#x93C8;&#x63A5;&#x6642;&#x7684;&#x52D5;&#x614B;&#x5EAB;&#x641C;&#x7D22;&#x8DEF;&#x5F91;">4.1 Linux gcc&#x7DE8;&#x8B6F;&#x93C8;&#x63A5;&#x6642;&#x7684;&#x52D5;&#x614B;&#x5EAB;&#x641C;&#x7D22;&#x8DEF;&#x5F91;</h3>
 <p>GCC&#x7DE8;&#x8B6F;&#x3001;&#x93C8;&#x63A5;&#x751F;&#x6210;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x6642;&#xFF0C;&#x52D5;&#x614B;&#x5EAB;&#x7684;&#x641C;&#x7D22;&#x8DEF;&#x5F91;&#x9806;&#x5E8F;&#x5982;&#x4E0B;&#xFF08;&#x6CE8;&#x610F;&#x4E0D;&#x6703;&#x905E;&#x6B78;&#x6027;&#x5730;&#x5728;&#x5176;&#x5B50;&#x76EE;&#x9304;&#x4E0B;&#x641C;&#x7D22;&#xFF09;&#xFF1A;</p>
 <pre><code class="lang-sh"><span class="hljs-number">1</span>&#x3001;gcc&#x7DE8;&#x8B6F;&#x3001;&#x93C8;&#x63A5;&#x547D;&#x4EE4;&#x4E2D;&#x7684;-L&#x9078;&#x9805;&#xFF1B;
 <span class="hljs-number">2</span>&#x3001;gcc&#x7684;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x7684;LIBRARY_PATH&#xFF08;&#x591A;&#x500B;&#x8DEF;&#x5F91;&#x7528;&#x5192;&#x865F;&#x5206;&#x5272;&#xFF09;&#xFF1B;
 <span class="hljs-number">3</span>&#x3001;gcc&#x9ED8;&#x8A8D;&#x52D5;&#x614B;&#x5EAB;&#x76EE;&#x9304;&#xFF1A;/lib:/usr/lib:usr/lib64:/usr/<span class="hljs-built_in">local</span>/lib&#x3002;
 </code></pre>
-<h3 id="4-2-%E5%9F%B7%E8%A1%8C%E4%BA%8C%E9%80%B2%E5%88%B6%E6%96%87%E4%BB%B6%E6%99%82%E7%9A%84%E5%8B%95%E6%85%8B%E5%BA%AB%E6%90%9C%E7%B4%A2%E8%B7%AF%E5%BE%91">4.2 &#x57F7;&#x884C;&#x4E8C;&#x9032;&#x5236;&#x6587;&#x4EF6;&#x6642;&#x7684;&#x52D5;&#x614B;&#x5EAB;&#x641C;&#x7D22;&#x8DEF;&#x5F91;</h3>
+<h3 id="42-&#x57F7;&#x884C;&#x4E8C;&#x9032;&#x5236;&#x6587;&#x4EF6;&#x6642;&#x7684;&#x52D5;&#x614B;&#x5EAB;&#x641C;&#x7D22;&#x8DEF;&#x5F91;">4.2 &#x57F7;&#x884C;&#x4E8C;&#x9032;&#x5236;&#x6587;&#x4EF6;&#x6642;&#x7684;&#x52D5;&#x614B;&#x5EAB;&#x641C;&#x7D22;&#x8DEF;&#x5F91;</h3>
 <p>&#x93C8;&#x63A5;&#x751F;&#x6210;&#x4E8C;&#x9032;&#x5236;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x5F8C;&#xFF0C;&#x5728;&#x904B;&#x884C;&#x7A0B;&#x5E8F;&#x52A0;&#x8F09;&#x52D5;&#x614B;&#x5EAB;&#x6587;&#x4EF6;&#x6642;&#xFF0C;&#x641C;&#x7D22;&#x7684;&#x8DEF;&#x5F91;&#x9806;&#x5E8F;&#x5982;&#x4E0B;&#xFF1A;</p>
 <pre><code class="lang-sh"><span class="hljs-number">1</span>&#x3001;&#x7DE8;&#x8B6F;&#x76EE;&#x6A19;&#x4EE3;&#x78BC;&#x6642;&#x6307;&#x5B9A;&#x7684;&#x52D5;&#x614B;&#x5EAB;&#x641C;&#x7D22;&#x8DEF;&#x5F91;&#xFF1A;&#x7528;&#x9078;&#x9805;-Wl,rpath&#x548C;include&#x6307;&#x5B9A;&#x7684;&#x52D5;&#x614B;&#x5EAB;&#x7684;&#x641C;&#x7D22;&#x8DEF;&#x5F91;&#xFF0C;&#x6BD4;&#x5982;gcc -Wl,-rpath,include -L. -ldltest hello.c&#xFF0C;&#x5728;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x6642;&#x6703;&#x641C;&#x7D22;&#x8DEF;&#x5F91;`./include`&#xFF1B;
 <span class="hljs-number">2</span>&#x3001;&#x74B0;&#x5883;&#x8B8A;&#x91CF;LD_LIBRARY_PATH&#xFF08;&#x591A;&#x500B;&#x8DEF;&#x5F91;&#x7528;&#x5192;&#x865F;&#x5206;&#x5272;&#xFF09;&#xFF1B;
@@ -15225,9 +15159,17 @@ If your library is shared then it needs to be dynamically linked to your program
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

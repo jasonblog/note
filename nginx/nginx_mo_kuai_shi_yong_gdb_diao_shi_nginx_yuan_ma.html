@@ -8,7 +8,7 @@
         <title>nginx 模塊 使用gdb調試nginx源碼 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="49.1" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="49.1"
+        data-chapter-title="nginx 模塊 使用gdb調試nginx源碼"
+        data-filepath="nginx/nginx_mo_kuai_shi_yong_gdb_diao_shi_nginx_yuan_ma.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,17 +15051,17 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="nginx-%E6%A8%A1%E5%A1%8A-%E4%BD%BF%E7%94%A8gdb%E8%AA%BF%E8%A9%A6nginx%E6%BA%90%E7%A2%BC">nginx &#x6A21;&#x584A; &#x4F7F;&#x7528;gdb&#x8ABF;&#x8A66;nginx&#x6E90;&#x78BC;</h1>
+                        <h1 id="nginx-&#x6A21;&#x584A;-&#x4F7F;&#x7528;gdb&#x8ABF;&#x8A66;nginx&#x6E90;&#x78BC;">nginx &#x6A21;&#x584A; &#x4F7F;&#x7528;gdb&#x8ABF;&#x8A66;nginx&#x6E90;&#x78BC;</h1>
 <p>&#x5DE5;&#x6B32;&#x5584;&#x5176;&#x4E8B;&#x5FC5;&#x5148;&#x5229;&#x5176;&#x5668;&#xFF0C;&#x5982;&#x4F55;&#x4F7F;&#x7528;&#x8ABF;&#x8A66;&#x5DE5;&#x5177;gdb&#x4E00;&#x6B65;&#x6B65;&#x8ABF;&#x8A66;nginx&#x662F;&#x77AD;&#x89E3;nginx&#x7684;&#x91CD;&#x8981;&#x624B;&#x6BB5;&#x3002;</p>
 <p>ps&#xFF1A;&#x672C;&#x6587;&#x7684;&#x76EE;&#x6A19;&#x4EBA;&#x7FA4;&#x662F;&#x50CF;&#x6211;&#x9019;&#x6A23;&#x521D;&#x63A5;&#x89F8;Unix&#x7DE8;&#x7A0B;&#x7684;&#x540C;&#x5B78;&#xFF0C;&#x5982;&#x679C;&#x6709;&#x4EC0;&#x9EBC;&#x5730;&#x65B9;&#x932F;&#x8AA4;&#x8ACB;&#x6307;&#x6B63;&#x3002;</p>
-<h2 id="%E7%86%9F%E6%82%89gdb%E7%9A%84%E4%BD%BF%E7%94%A8">&#x719F;&#x6089;gdb&#x7684;&#x4F7F;&#x7528;</h2>
+<h2 id="&#x719F;&#x6089;gdb&#x7684;&#x4F7F;&#x7528;">&#x719F;&#x6089;gdb&#x7684;&#x4F7F;&#x7528;</h2>
 <p>&#x9019;&#x88E1;&#x5C31;&#x4E0D;&#x8AAA;&#x4E86;&#xFF0C;&#x8C37;&#x6B4C;&#x4E00;&#x641C;&#x4E00;&#x5806;&#xFF0C;&#x9019;&#x88E1;&#x63A8;&#x85A6;&#x4E00;&#x7BC7;&#x6587;&#x7AE0;&#xFF1A;GDB &#x547D;&#x4EE4;&#x8A73;&#x7D30;&#x89E3;&#x91CB;</p>
 <p>&#x8ACB;&#x91CD;&#x9EDE;&#x770B;&#x4E00;&#x4E0B;step&#xFF0C;run&#xFF0C;break&#xFF0C;list&#xFF0C;info&#xFF0C;continue&#x547D;&#x4EE4;</p>
-<h2 id="%E4%B8%8B%E8%BC%89nginx%E6%BA%90%E7%A2%BC">&#x4E0B;&#x8F09;nginx&#x6E90;&#x78BC;</h2>
+<h2 id="&#x4E0B;&#x8F09;nginx&#x6E90;&#x78BC;">&#x4E0B;&#x8F09;nginx&#x6E90;&#x78BC;</h2>
 <p>&#x9019;&#x88E1;&#x4F7F;&#x7528;nginx-1.0.14</p>
 <p><img src="images/201205101644521909.png" alt="">
 src&#x662F;&#x6E90;&#x4EE3;&#x78BC;&#xFF0C;auto&#x6587;&#x4EF6;&#x593E;&#x662F;configure&#x904B;&#x884C;&#x6642;&#x5019;&#x7684;&#x5404;&#x7A2E;&#x547D;&#x4EE4;&#x96C6;&#x5408;</p>
-<h2 id="%E4%BF%AE%E6%94%B9config%E4%B8%A6%E7%B7%A8%E8%AD%AF">&#x4FEE;&#x6539;config&#x4E26;&#x7DE8;&#x8B6F;</h2>
+<h2 id="&#x4FEE;&#x6539;config&#x4E26;&#x7DE8;&#x8B6F;">&#x4FEE;&#x6539;config&#x4E26;&#x7DE8;&#x8B6F;</h2>
 <p>&#x7531;&#x65BC;gdb&#x9700;&#x8981;gcc&#x7684;&#x6642;&#x5019;&#x52A0;&#x4E0A;<code>-g</code>&#x53C3;&#x6578;&#xFF0C;&#x9019;&#x6A23;&#x751F;&#x6210;&#x7684;&#x6587;&#x4EF6;&#x624D;&#x80FD;&#x4F7F;&#x7528;gdb&#x8ABF;&#x8A66;&#xFF0C;&#x56E0;&#x6B64;&#x6211;&#x5011;&#x8981;&#x5C0D;&#x6E90;&#x78BC;&#x505A;&#x4E00;&#x4E0B;&#x5C0F;&#x6539;&#x52D5;</p>
 <p>&#x4FEE;&#x6539;auto/cc/conf&#x6587;&#x4EF6;</p>
 <pre><code class="lang-sh">ngx_compile_opt=<span class="hljs-string">&quot;-c&quot;</span>
@@ -15148,27 +15082,27 @@ src&#x662F;&#x6E90;&#x4EE3;&#x78BC;&#xFF0C;auto&#x6587;&#x4EF6;&#x593E;&#x662F;c
 <p>&#x751F;&#x6210;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;</p>
 <p><img src="images/201205101644538463.png" alt=""></p>
 <p>&#x81F3;&#x6B64;&#xFF0C;nginx&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x5DF2;&#x7D93;&#x6210;&#x529F;&#x7DE8;&#x8B6F;&#x4E86;&#x3002;</p>
-<h2 id="%E7%94%9F%E6%88%90gdb%E6%89%80%E9%9C%80%E8%A6%81%E7%9A%84core%E6%96%87%E4%BB%B6">&#x751F;&#x6210;gdb&#x6240;&#x9700;&#x8981;&#x7684;core&#x6587;&#x4EF6;</h2>
+<h2 id="&#x751F;&#x6210;gdb&#x6240;&#x9700;&#x8981;&#x7684;core&#x6587;&#x4EF6;">&#x751F;&#x6210;gdb&#x6240;&#x9700;&#x8981;&#x7684;core&#x6587;&#x4EF6;</h2>
 <p>gdb&#x7684;core&#x6587;&#x4EF6;&#x662F;&#x70BA;&#x4E86;&#x4FDD;&#x8B49;&#x5728;&#x8ABF;&#x8A66;&#x904E;&#x7A0B;&#x4E2D;&#x9047;&#x5230;&#x554F;&#x984C;&#x53EF;&#x4EE5;&#x96A8;&#x6642;&#x91CD;&#x65B0;&#x555F;&#x52D5;&#x8ABF;&#x8A66;&#x9032;&#x7A0B;&#xFF0C;&#x66F4;&#x4FBF;&#x65BC;&#x8ABF;&#x8A66;&#x3002;</p>
-<h3 id="%E5%95%9F%E5%8B%95nginx">&#x555F;&#x52D5;nginx</h3>
+<h3 id="&#x555F;&#x52D5;nginx">&#x555F;&#x52D5;nginx</h3>
 <p>&#x5728;objs&#x76EE;&#x9304;&#x4E0B; ./nginx</p>
 <pre><code class="lang-sh">ps aux|grep nginx
 </code></pre>
 <p><img src="images/201205101644535365.png" alt=""></p>
 <p>&#x770B;&#x5230;nginx&#x555F;&#x52D5;&#x4E86;&#x4E00;&#x500B;master&#x9032;&#x7A0B;&#xFF08;18237&#xFF09;&#x548C;&#x4E00;&#x500B;worker&#x9032;&#x7A0B;&#xFF08;18238&#xFF09;</p>
-<h3 id="%E5%9C%A8objs%E7%9B%AE%E9%8C%84%E4%B8%8B%E9%81%8B%E8%A1%8C%E5%91%BD%E4%BB%A4">&#x5728;objs&#x76EE;&#x9304;&#x4E0B;&#x904B;&#x884C;&#x547D;&#x4EE4;</h3>
+<h3 id="&#x5728;objs&#x76EE;&#x9304;&#x4E0B;&#x904B;&#x884C;&#x547D;&#x4EE4;">&#x5728;objs&#x76EE;&#x9304;&#x4E0B;&#x904B;&#x884C;&#x547D;&#x4EE4;</h3>
 <p>gcore 18237</p>
 <p><img src="images/20120510164454839.png" alt=""></p>
 <p>&#x770B;&#x5230;core.188237&#x751F;&#x6210;&#x4E86;&#x3002;</p>
-<h3 id="%E6%AE%BA%E6%AD%BBnginx%E9%80%B2%E7%A8%8B%EF%BC%8C%E5%8C%85%E6%8B%ACmaster%E5%92%8Cworker">&#x6BBA;&#x6B7B;nginx&#x9032;&#x7A0B;&#xFF0C;&#x5305;&#x62EC;master&#x548C;worker</h3>
+<h3 id="&#x6BBA;&#x6B7B;nginx&#x9032;&#x7A0B;&#xFF0C;&#x5305;&#x62EC;master&#x548C;worker">&#x6BBA;&#x6B7B;nginx&#x9032;&#x7A0B;&#xFF0C;&#x5305;&#x62EC;master&#x548C;worker</h3>
 <pre><code class="lang-sh">./nginx <span class="hljs-operator">-s</span> stop&#xFF08;&#x6216;&#x8005;&#x76F4;&#x63A5;&#x4F7F;&#x7528;<span class="hljs-built_in">kill</span>&#xFF09;
 </code></pre>
-<h2 id="%E5%95%9F%E5%8B%95%E8%AA%BF%E8%A9%A6">&#x555F;&#x52D5;&#x8ABF;&#x8A66;</h2>
+<h2 id="&#x555F;&#x52D5;&#x8ABF;&#x8A66;">&#x555F;&#x52D5;&#x8ABF;&#x8A66;</h2>
 <pre><code class="lang-sh">[root@localhost objs]<span class="hljs-comment"># gdb ./nginx core.18237</span>
 </code></pre>
 <p>&#x6B64;&#x6642;&#x9032;&#x5165;gdb&#x6A21;&#x5F0F;</p>
 <p><img src="images/201205101644558232.png" alt=""></p>
-<h2 id="gdb%E6%89%93%E6%96%B7%E9%BB%9E%E4%B8%A6%E8%AA%BF%E8%A9%A6">gdb&#x6253;&#x65B7;&#x9EDE;&#x4E26;&#x8ABF;&#x8A66;</h2>
+<h2 id="gdb&#x6253;&#x65B7;&#x9EDE;&#x4E26;&#x8ABF;&#x8A66;">gdb&#x6253;&#x65B7;&#x9EDE;&#x4E26;&#x8ABF;&#x8A66;</h2>
 <p>&#x4F7F;&#x7528;l&#xFF08;list&#xFF09;&#x547D;&#x4EE4;&#x67E5;&#x770B;main &#x51FD;&#x6578;&#xFF0C;&#x9019;&#x500B;main&#x51FD;&#x6578;&#x662F;&#x5728;src/core/nginx.c&#x88E1;&#x9762;&#xFF0C;&#x662F;nginx&#x7684;&#x5165;&#x53E3;&#x51FD;&#x6578;</p>
 <pre><code class="lang-sh">(gdb) l <span class="hljs-comment">#&#x5217;&#x51FA;&#x6E90;&#x6587;&#x4EF6;&#xFF0C;&#x53EA;&#x5217;&#x51FA;10&#x884C;&#xFF0C;&#x8ACB;&#x4F7F;&#x7528;l- &#x548C; l &#x6216;&#x8005;l +&#x884C;&#x865F; &#x6216;&#x8005; l +&#x51FD;&#x6578;&#x540D; &#x9032;&#x884C;&#x5B9A;&#x4F4D;</span>
 
@@ -15183,8 +15117,8 @@ src&#x662F;&#x6E90;&#x4EE3;&#x78BC;&#xFF0C;auto&#x6587;&#x4EF6;&#x593E;&#x662F;c
 <p>&#x6B64;&#x6642;&#x5728;gdb&#x4E2D;&#x5C31;&#x53EF;&#x4EE5;&#x9032;&#x884C;&#x8ABF;&#x8A66;&#x4E86;</p>
 <p><img src="images/20120510164457509.png" alt=""></p>
 <p>&#x4E0B;&#x9762;&#x5C31;&#x4F7F;&#x7528;next&#x548C;step&#x4E00;&#x6B65;&#x4E00;&#x6B65;&#x9032;&#x884C;&#x8ABF;&#x8A66;&#x5427;</p>
-<h2 id="%E8%AA%BF%E8%A9%A6%E4%B8%AD%E5%8F%AF%E8%83%BD%E9%81%87%E5%88%B0%E7%9A%84%E5%95%8F%E9%A1%8C">&#x8ABF;&#x8A66;&#x4E2D;&#x53EF;&#x80FD;&#x9047;&#x5230;&#x7684;&#x554F;&#x984C;</h2>
-<h3 id="nginx%E6%98%AFmaster-worker%E6%A8%A1%E5%BC%8F%EF%BC%8C%E7%95%B6fork%E5%87%BA%E7%8F%BE%E5%AD%90%E9%80%B2%E7%A8%8B%E7%9A%84%E6%99%82%E5%80%99%E5%A6%82%E4%BD%95%E9%80%B2%E5%85%A5%E5%AD%90%E9%80%B2%E7%A8%8B%E5%91%A2%EF%BC%9F">nginx&#x662F;master-worker&#x6A21;&#x5F0F;&#xFF0C;&#x7576;fork&#x51FA;&#x73FE;&#x5B50;&#x9032;&#x7A0B;&#x7684;&#x6642;&#x5019;&#x5982;&#x4F55;&#x9032;&#x5165;&#x5B50;&#x9032;&#x7A0B;&#x5462;&#xFF1F;</h3>
+<h2 id="&#x8ABF;&#x8A66;&#x4E2D;&#x53EF;&#x80FD;&#x9047;&#x5230;&#x7684;&#x554F;&#x984C;">&#x8ABF;&#x8A66;&#x4E2D;&#x53EF;&#x80FD;&#x9047;&#x5230;&#x7684;&#x554F;&#x984C;</h2>
+<h3 id="nginx&#x662F;masterworker&#x6A21;&#x5F0F;&#xFF0C;&#x7576;fork&#x51FA;&#x73FE;&#x5B50;&#x9032;&#x7A0B;&#x7684;&#x6642;&#x5019;&#x5982;&#x4F55;&#x9032;&#x5165;&#x5B50;&#x9032;&#x7A0B;&#x5462;&#xFF1F;">nginx&#x662F;master-worker&#x6A21;&#x5F0F;&#xFF0C;&#x7576;fork&#x51FA;&#x73FE;&#x5B50;&#x9032;&#x7A0B;&#x7684;&#x6642;&#x5019;&#x5982;&#x4F55;&#x9032;&#x5165;&#x5B50;&#x9032;&#x7A0B;&#x5462;&#xFF1F;</h3>
 <p>&#xFF08;gdb&#xFF09;set follow-fork-mode child</p>
 <p>&#x9019;&#x500B;&#x547D;&#x4EE4;&#x53EF;&#x4EE5;&#x662F;</p>
 <pre><code class="lang-sh"><span class="hljs-built_in">set</span> follow-fork-mode parent
@@ -15197,14 +15131,14 @@ src&#x662F;&#x6E90;&#x4EE3;&#x78BC;&#xFF0C;auto&#x6587;&#x4EF6;&#x593E;&#x662F;c
 &#xFF08;gdb&#xFF09;p *ptr
 </code></pre>
 <p><img src="images/201205101644578524.png" alt=""></p>
-<h3 id="%E7%95%B6%E4%BD%BF%E7%94%A8attach-pid%E9%80%B2%E5%85%A5%E6%9F%90%E5%80%8B%E9%80%B2%E7%A8%8B%E7%9A%84%E6%99%82%E5%80%99%E5%87%BA%E7%8F%BE%E9%8C%AF%E8%AA%A4">&#x7576;&#x4F7F;&#x7528;attach pid&#x9032;&#x5165;&#x67D0;&#x500B;&#x9032;&#x7A0B;&#x7684;&#x6642;&#x5019;&#x51FA;&#x73FE;&#x932F;&#x8AA4;</h3>
+<h3 id="&#x7576;&#x4F7F;&#x7528;attach-pid&#x9032;&#x5165;&#x67D0;&#x500B;&#x9032;&#x7A0B;&#x7684;&#x6642;&#x5019;&#x51FA;&#x73FE;&#x932F;&#x8AA4;">&#x7576;&#x4F7F;&#x7528;attach pid&#x9032;&#x5165;&#x67D0;&#x500B;&#x9032;&#x7A0B;&#x7684;&#x6642;&#x5019;&#x51FA;&#x73FE;&#x932F;&#x8AA4;</h3>
 <pre><code class="lang-sh">(gdb) attach <span class="hljs-number">30721</span>
 </code></pre>
 <p>Attaching to program: /data0/s/bin/s, process 30721</p>
 <p>ptrace: Operation not permitted.</p>
 <p>&#x9019;&#x500B;&#x932F;&#x8AA4;&#x662F;&#x7531;&#x65BC;&#x6709;&#x5176;&#x4ED6;gdb&#x4E5F;&#x5728;&#x8ABF;&#x8A66;&#x9019;&#x500B;&#x9032;&#x7A0B;</p>
 <p>&#x8ACB;&#x78BA;&#x5B9A;&#x662F;&#x5426;&#x6709;&#x53E6;&#x5916;&#x7684;&#x7D42;&#x7AEF;&#x6216;&#x8005;&#x53E6;&#x5916;&#x7684;&#x540C;&#x4E8B;&#x5728;gdb&#x9019;&#x500B;&#x9032;&#x7A0B;</p>
-<h2 id="%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99%EF%BC%9A">&#x53C3;&#x8003;&#x8CC7;&#x6599;&#xFF1A;</h2>
+<h2 id="&#x53C3;&#x8003;&#x8CC7;&#x6599;&#xFF1A;">&#x53C3;&#x8003;&#x8CC7;&#x6599;&#xFF1A;</h2>
 <p>gdb&#x8ABF;&#x8A66;nginx&#x7684;helloworld</p>
 <p>Debugging Forks</p>
 <p>Nginx&#x6E90;&#x78BC;&#x95B1;&#x8B80;&#x7B46;&#x8A18;</p>
@@ -15249,9 +15183,17 @@ src&#x662F;&#x6E90;&#x4EE3;&#x78BC;&#xFF0C;auto&#x6587;&#x4EF6;&#x593E;&#x662F;c
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

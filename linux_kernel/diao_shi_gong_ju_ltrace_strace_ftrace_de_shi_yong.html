@@ -8,7 +8,7 @@
         <title>調試工具ltrace strace ftrace的使用 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="10.31" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="10.31"
+        data-chapter-title="調試工具ltrace strace ftrace的使用"
+        data-filepath="linux_kernel/diao_shi_gong_ju_ltrace_strace_ftrace_de_shi_yong.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,7 +15051,7 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E8%AA%BF%E8%A9%A6%E5%B7%A5%E5%85%B7ltrace-strace-ftrace%E7%9A%84%E4%BD%BF%E7%94%A8">&#x8ABF;&#x8A66;&#x5DE5;&#x5177;ltrace strace ftrace&#x7684;&#x4F7F;&#x7528;</h1>
+                        <h1 id="&#x8ABF;&#x8A66;&#x5DE5;&#x5177;ltrace-strace-ftrace&#x7684;&#x4F7F;&#x7528;">&#x8ABF;&#x8A66;&#x5DE5;&#x5177;ltrace strace ftrace&#x7684;&#x4F7F;&#x7528;</h1>
 <p>&#x6700;&#x8FD1;&#x5B78;&#x7FD2;&#x4E86;&#x4E00;&#x4E9B;&#x8ABF;&#x8A66;&#x5DE5;&#x5177;&#xFF0C;&#x5305;&#x62EC;ltrace strace ftrace&#x3002;&#x9019;&#x4E9B;&#x90FD;&#x5C6C;&#x65BC;&#x4E0D;&#x540C;&#x5C64;&#x7D1A;&#x7684;&#x8ABF;&#x8A66;&#x5DE5;&#x5177;&#x3002; &#x4E0B;&#x9762;&#x662F;&#x6211;&#x756B;&#x7684;&#x7C21;&#x6613;&#x7684;&#x5C64;&#x6B21;&#x95DC;&#x4FC2;&#x5716;&#x3002;</p>
 <pre><code class="lang-sh">  App
   |
@@ -15214,7 +15148,7 @@ available_events            enabled_<span class="hljs-built_in">functions</span>
 </code></pre>
 <p>============= Ftrace &#x7684;&#x666E;&#x901A;&#x4F7F;&#x7528;&#x6B65;&#x9A5F;&#x5982;&#x4E0B;&#xFF1A;===============================</p>
 <p>&#x639B;&#x8F09;Debugfs: Ftrace &#x901A;&#x904E; debugfs &#x5411;&#x7528;&#x6236;&#x614B;&#x63D0;&#x4F9B;&#x8A2A;&#x554F;&#x63A5;&#x53E3;&#x3002;&#x914D;&#x7F6E;&#x5167;&#x6838;&#x6642;&#x6FC0;&#x6D3B; debugfs &#x5F8C;&#x6703;&#x5275;&#x5EFA;&#x76EE;&#x9304; /sys/kernel/debug &#xFF0C;debugfs &#x6587;&#x4EF6;&#x7CFB;&#x7D71;&#x5C31;&#x662F;&#x639B;&#x8F09; &#x5230;&#x8A72;&#x76EE;&#x9304;&#x3002; </p>
-<h3 id="1-1-%E9%81%8B%E8%A1%8C%E6%99%82%E6%8E%9B%E8%BC%89%EF%BC%9A-officially-mount-method">1.1 &#x904B;&#x884C;&#x6642;&#x639B;&#x8F09;&#xFF1A; Officially mount method :</h3>
+<h3 id="11-&#x904B;&#x884C;&#x6642;&#x639B;&#x8F09;&#xFF1A;-officially-mount-method-">1.1 &#x904B;&#x884C;&#x6642;&#x639B;&#x8F09;&#xFF1A; Officially mount method :</h3>
 <pre><code class="lang-sh"><span class="hljs-comment"># mount -t debugfs nodev /sys/kernel/debug</span>
 OR:
 <span class="hljs-comment"># mkdir /debug</span>
@@ -15224,7 +15158,7 @@ OR:
 OR: <span class="hljs-comment"># mount -t debugfs nodev /sys/kernel/debug</span>
 <span class="hljs-comment"># ln -s /sys/kernel/debug /debug</span>
 </code></pre>
-<h3 id="1-2-%E7%B3%BB%E7%B5%B1%E5%95%9F%E5%8B%95%E8%87%AA%E5%8B%95%E6%8E%9B%E8%BC%89%EF%BC%9A-%E8%A6%81%E5%9C%A8%E7%B3%BB%E7%B5%B1%E5%95%9F%E5%8B%95%E8%87%AA%E5%8B%95%E6%8E%9B%E8%BC%89debugfs%EF%BC%8C%E9%9C%80%E8%A6%81%E5%B0%87%E5%A6%82%E4%B8%8B%E5%85%A7%E5%AE%B9%E6%B7%BB%E5%8A%A0%E5%88%B0">1.2 &#x7CFB;&#x7D71;&#x555F;&#x52D5;&#x81EA;&#x52D5;&#x639B;&#x8F09;&#xFF1A; &#x8981;&#x5728;&#x7CFB;&#x7D71;&#x555F;&#x52D5;&#x81EA;&#x52D5;&#x639B;&#x8F09;debugfs&#xFF0C;&#x9700;&#x8981;&#x5C07;&#x5982;&#x4E0B;&#x5167;&#x5BB9;&#x6DFB;&#x52A0;&#x5230;</h3>
+<h3 id="12-&#x7CFB;&#x7D71;&#x555F;&#x52D5;&#x81EA;&#x52D5;&#x639B;&#x8F09;&#xFF1A;-&#x8981;&#x5728;&#x7CFB;&#x7D71;&#x555F;&#x52D5;&#x81EA;&#x52D5;&#x639B;&#x8F09;debugfs&#xFF0C;&#x9700;&#x8981;&#x5C07;&#x5982;&#x4E0B;&#x5167;&#x5BB9;&#x6DFB;&#x52A0;&#x5230;">1.2 &#x7CFB;&#x7D71;&#x555F;&#x52D5;&#x81EA;&#x52D5;&#x639B;&#x8F09;&#xFF1A; &#x8981;&#x5728;&#x7CFB;&#x7D71;&#x555F;&#x52D5;&#x81EA;&#x52D5;&#x639B;&#x8F09;debugfs&#xFF0C;&#x9700;&#x8981;&#x5C07;&#x5982;&#x4E0B;&#x5167;&#x5BB9;&#x6DFB;&#x52A0;&#x5230;</h3>
 <pre><code class="lang-sh">/etc/fstab &#x6587;&#x4EF6;&#xFF1A; debugfs /sys/kernel/debug debugfs defaults <span class="hljs-number">0</span> <span class="hljs-number">0</span>
 </code></pre>
 <ul>
@@ -15234,7 +15168,7 @@ OR: <span class="hljs-comment"># mount -t debugfs nodev /sys/kernel/debug</span>
 </li>
 </ul>
 <p>&#x6CE8;&#xFF1A;&#x5176;&#x5BE6;ftrace_enabled&#x4E26;&#x4E0D;&#x662F;&#x53BB;&#x6389;&#x4E86;&#xFF0C;&#x800C;&#x662F;&#x5F9E; tracing&#x76EE;&#x9304;&#x4E2D;&#x53BB;&#x6389;&#xFF0C;&#x6211;&#x5011;&#x9084;&#x662F;&#x53EF;&#x4EE5;&#x5728; /proc/sys/kernel/ftrace_enabled &#x76EE;&#x9304;&#x4E0B;&#x770B;&#x5230;&#x4ED6;&#x7684;&#x8EAB;&#x5F71;&#xFF0C;&#x800C;&#x4E14;&#x9ED8;&#x8A8D;&#x5DF2;&#x7D93;&#x88AB;&#x8A2D;&#x7F6E;&#x70BA;1&#xFF0C;&#x6240;&#x4EE5;&#x73FE;&#x5728;&#x6211;&#x5011;&#x53EA;&#x9700;&#x8981;echo 1&#x5230;tracing_on &#x4E2D;&#x5373;&#x53EF;&#x6253;&#x958B;&#x8FFD;&#x8E64;&#x3002; $ cat /proc/sys/kernel/ftrace_enabled 1</p>
-<h2 id="%E6%9F%A5%E7%9C%8B%E8%BF%BD%E8%B9%A4%E7%B5%90%E6%9E%9C%EF%BC%9A">&#x67E5;&#x770B;&#x8FFD;&#x8E64;&#x7D50;&#x679C;&#xFF1A;</h2>
+<h2 id="&#x67E5;&#x770B;&#x8FFD;&#x8E64;&#x7D50;&#x679C;&#xFF1A;">&#x67E5;&#x770B;&#x8FFD;&#x8E64;&#x7D50;&#x679C;&#xFF1A;</h2>
 <p>ftrace &#x7684;&#x8F38;&#x51FA;&#x4FE1;&#x606F;&#x4E3B;&#x8981;&#x4FDD;&#x5B58;&#x5728; 3 &#x500B;&#x6587;&#x4EF6;&#x4E2D;&#x3002;</p>
 <ul>
 <li>Trace&#xFF0C;&#x8A72;&#x6587;&#x4EF6;&#x4FDD;&#x5B58; ftrace &#x7684;&#x8F38;&#x51FA;&#x4FE1;&#x606F;&#xFF0C;&#x5176;&#x5167;&#x5BB9;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x95B1;&#x8B80;&#x3002;</li>
@@ -15244,7 +15178,7 @@ OR: <span class="hljs-comment"># mount -t debugfs nodev /sys/kernel/debug</span>
 <p>&#x6240;&#x4EE5;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x67E5;&#x770B; trace &#x8FFD;&#x8E64;&#x6587;&#x4EF6;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x5728;&#x8FFD;&#x8E64;&#x4E4B;&#x524D;&#x4F7F;&#x7528;trace_pipe &#x5C07;&#x8FFD;&#x8E64;&#x7D50;&#x679C;&#x76F4;&#x63A5;&#x5C0E;&#x5411;&#x5176;&#x4ED6;&#x7684;&#x6587;&#x4EF6;&#x3002; &#x6BD4;&#x5982;&#xFF1A; # cat trace_pipe &gt; /tmp/log &amp; # cat /tmp/log OR # cat trace</p>
 <p>============= Ftrace &#x7684;&#x9032;&#x968E;&#x4F7F;&#x7528;&#xFF1A;================</p>
 <p>&#x4F7F;&#x7528; echo pid &gt; set_ftrace_pid &#x4F86;&#x8FFD;&#x8E64;&#x7279;&#x5B9A;&#x7684;&#x9032;&#x7A0B;&#xFF01;</p>
-<h2 id="2-%E8%BF%BD%E8%B9%A4%E4%BA%8B%E4%BB%B6%EF%BC%9A">2. &#x8FFD;&#x8E64;&#x4E8B;&#x4EF6;&#xFF1A;</h2>
+<h2 id="2-&#x8FFD;&#x8E64;&#x4E8B;&#x4EF6;&#xFF1A;">2. &#x8FFD;&#x8E64;&#x4E8B;&#x4EF6;&#xFF1A;</h2>
 <pre><code class="lang-sh">    <span class="hljs-number">2.1</span> &#x9996;&#x5148;&#x67E5;&#x770B;&#x4E8B;&#x4EF6;&#x6587;&#x4EF6;&#x593E;&#x4E0B;&#x9762;&#x6709;&#x54EA;&#x4E9B;&#x9078;&#x9805;&#xFF1A;
         <span class="hljs-comment"># ls events/</span>
     block       ext4    header_event  jbd2    napi    raw_syscalls  &#x2026;&#x2026; <span class="hljs-built_in">enable</span>
@@ -15282,12 +15216,12 @@ OR: <span class="hljs-comment"># mount -t debugfs nodev /sys/kernel/debug</span>
         acpid-<span class="hljs-number">1470</span>  [<span class="hljs-number">001</span>]   <span class="hljs-number">794.947183</span>: sys_<span class="hljs-built_in">exit</span>: NR <span class="hljs-number">0</span> = <span class="hljs-number">1</span>
         ...
 </code></pre>
-<h2 id="3-stack-trace">3. stack_trace</h2>
+<h2 id="3-stacktrace">3. stack_trace</h2>
 <pre><code class="lang-sh">    <span class="hljs-comment"># echo 1 &gt; /proc/sys/kernel/stack_tracer_enabled</span>
 OR  <span class="hljs-comment"># kernel command line &#x201C;stacktrace&#x201D;</span>
 &#x67E5;&#x770B;&#xFF1A; <span class="hljs-comment"># cat stack_trace</span>
 </code></pre>
-<h2 id="4-%E5%B0%87%E8%A6%81%E8%B7%9F%E8%B9%A4%E7%9A%84%E5%87%BD%E6%95%B8%E5%AF%AB%E5%85%A5%E6%96%87%E4%BB%B6">4. &#x5C07;&#x8981;&#x8DDF;&#x8E64;&#x7684;&#x51FD;&#x6578;&#x5BEB;&#x5165;&#x6587;&#x4EF6;</h2>
+<h2 id="4-&#x5C07;&#x8981;&#x8DDF;&#x8E64;&#x7684;&#x51FD;&#x6578;&#x5BEB;&#x5165;&#x6587;&#x4EF6;">4. &#x5C07;&#x8981;&#x8DDF;&#x8E64;&#x7684;&#x51FD;&#x6578;&#x5BEB;&#x5165;&#x6587;&#x4EF6;</h2>
 <p>set_ftrace_filter &#xFF0C;&#x5C07;&#x4E0D;&#x5E0C;&#x671B;&#x8DDF;&#x8E64;&#x7684;&#x51FD;&#x6578;&#x5BEB;&#x5165;&#x6587;&#x4EF6; set_ftrace_notrace&#x3002;&#x901A;&#x5E38;&#x76F4;&#x63A5;&#x64CD;&#x4F5C;&#x6587;&#x4EF6; set_ftrace_filter &#x5C31;&#x53EF;&#x4EE5;&#x4E86;.</p>
 <p>============= Ftrace &#x63D0;&#x4F9B;&#x7684;&#x51FD;&#x6578;&#x4F7F;&#x7528;=============</p>
 <p>&#x5167;&#x6838;&#x982D;&#x6587;&#x4EF6; include/linux/kernel.h &#x4E2D;&#x63CF;&#x8FF0;&#x4E86; ftrace &#x63D0;&#x4F9B;&#x7684;&#x5DE5;&#x5177;&#x51FD;&#x6578;&#x7684;&#x539F;&#x578B;&#xFF0C;&#x9019;&#x4E9B;&#x51FD;&#x6578;&#x5305;&#x62EC; trace_printk&#x3001;tracing_on/tracing_off &#x7B49;&#x3002;</p>
@@ -15444,9 +15378,17 @@ tracing_on() <span class="hljs-function">or <span class="hljs-title">tracing_off
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

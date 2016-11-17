@@ -8,7 +8,7 @@
         <title>linux系統編程之管道（三）：命令管道（FIFO) | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="13.1.27" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="13.1.27"
+        data-chapter-title="linux系統編程之管道（三）：命令管道（FIFO)"
+        data-filepath="linux_system/linuxxi_tong_bian_cheng_zhi_guan_dao_ff08_san_ff09.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,8 +15051,8 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="linux%E7%B3%BB%E7%B5%B1%E7%B7%A8%E7%A8%8B%E4%B9%8B%E7%AE%A1%E9%81%93%EF%BC%88%E4%B8%89%EF%BC%89%EF%BC%9A%E5%91%BD%E4%BB%A4%E7%AE%A1%E9%81%93%EF%BC%88fifo">linux&#x7CFB;&#x7D71;&#x7DE8;&#x7A0B;&#x4E4B;&#x7BA1;&#x9053;&#xFF08;&#x4E09;&#xFF09;&#xFF1A;&#x547D;&#x4EE4;&#x7BA1;&#x9053;&#xFF08;FIFO)</h1>
-<h2 id="%E4%B8%80%EF%BC%8C%E5%8C%BF%E5%90%8D%E7%AE%A1%E9%81%93pipe%E4%BE%B7%E9%99%90%E6%80%A7">&#x4E00;&#xFF0C;&#x533F;&#x540D;&#x7BA1;&#x9053;PIPE&#x4FB7;&#x9650;&#x6027;</h2>
+                        <h1 id="linux&#x7CFB;&#x7D71;&#x7DE8;&#x7A0B;&#x4E4B;&#x7BA1;&#x9053;&#xFF08;&#x4E09;&#xFF09;&#xFF1A;&#x547D;&#x4EE4;&#x7BA1;&#x9053;&#xFF08;fifo">linux&#x7CFB;&#x7D71;&#x7DE8;&#x7A0B;&#x4E4B;&#x7BA1;&#x9053;&#xFF08;&#x4E09;&#xFF09;&#xFF1A;&#x547D;&#x4EE4;&#x7BA1;&#x9053;&#xFF08;FIFO)</h1>
+<h2 id="&#x4E00;&#xFF0C;&#x533F;&#x540D;&#x7BA1;&#x9053;pipe&#x4FB7;&#x9650;&#x6027;">&#x4E00;&#xFF0C;&#x533F;&#x540D;&#x7BA1;&#x9053;PIPE&#x4FB7;&#x9650;&#x6027;</h2>
 <p>&#x7BA1;&#x9053;&#x7684;&#x4E3B;&#x8981;&#x4FB7;&#x9650;&#x6027;&#x6B63;&#x9AD4;&#x73FE;&#x5728;&#x5B83;&#x7684;&#x7279;&#x9EDE;&#x4E0A;&#xFF1A;</p>
 <ul>
 <li>&#x53EA;&#x652F;&#x6301;&#x55AE;&#x5411;&#x6578;&#x64DA;&#x6D41;&#xFF1B;</li>
@@ -15128,10 +15062,10 @@
 <li>&#x7BA1;&#x9053;&#x6240;&#x50B3;&#x9001;&#x7684;&#x662F;&#x7121;&#x683C;&#x5F0F;&#x5B57;&#x7BC0;&#x6D41;&#xFF0C;&#x9019;&#x5C31;&#x8981;&#x6C42;&#x7BA1;&#x9053;&#x7684;&#x8B80;&#x51FA;&#x65B9;&#x548C;&#x5BEB;&#x5165;&#x65B9;&#x5FC5;&#x9808;&#x4E8B;&#x5148;&#x7D04;&#x5B9A;&#x597D;&#x6578;&#x64DA;&#x7684;&#x683C;&#x5F0F;&#xFF0C;&#x6BD4;&#x5982;&#x591A;&#x5C11;&#x5B57;&#x7BC0;&#x7B97;&#x4F5C;&#x4E00;&#x500B;&#x6D88;&#x606F;&#xFF08;&#x6216;&#x547D;&#x4EE4;&#x3001;&#x6216;&#x8A18;&#x9304;&#xFF09;&#x7B49;&#x7B49;&#xFF1B;</li>
 </ul>
 <p>&#x5982;&#x679C;&#x6211;&#x5011;&#x60F3;&#x5728;&#x4E0D;&#x76F8;&#x95DC;&#x7684;&#x9032;&#x7A0B;&#x4E4B;&#x9593;&#x4EA4;&#x63DB;&#x6578;&#x64DA;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;FIFO&#x6587;&#x4EF6;&#x4F86;&#x505A;&#x9019;&#x9805;&#x5DE5;&#x4F5C;&#xFF0C;&#x5B83;&#x7D93;&#x5E38;&#x88AB;&#x7A31;&#x70BA;&#x547D;&#x540D;&#x7BA1;&#x9053;&#xFF0C;&#x662F;&#x4E00;&#x7A2E;&#x7279;&#x6B8A;&#x985E;&#x578B;&#x7684;&#x6587;&#x4EF6;&#x3002;</p>
-<h2 id="%E4%BA%8C%EF%BC%8C%E5%91%BD%E5%90%8D%E7%AE%A1%E9%81%93fifo%E3%80%82">&#x4E8C;&#xFF0C;&#x547D;&#x540D;&#x7BA1;&#x9053;FIFO&#x3002;</h2>
-<h3 id="2-1-%E6%9C%89%E5%90%8D%E7%AE%A1%E9%81%93%E7%9B%B8%E9%97%9C%E7%9A%84%E9%97%9C%E9%8D%B5%E6%A6%82%E5%BF%B5">2.1 &#x6709;&#x540D;&#x7BA1;&#x9053;&#x76F8;&#x95DC;&#x7684;&#x95DC;&#x9375;&#x6982;&#x5FF5;</h3>
+<h2 id="&#x4E8C;&#xFF0C;&#x547D;&#x540D;&#x7BA1;&#x9053;fifo&#x3002;">&#x4E8C;&#xFF0C;&#x547D;&#x540D;&#x7BA1;&#x9053;FIFO&#x3002;</h2>
+<h3 id="21-&#x6709;&#x540D;&#x7BA1;&#x9053;&#x76F8;&#x95DC;&#x7684;&#x95DC;&#x9375;&#x6982;&#x5FF5;">2.1 &#x6709;&#x540D;&#x7BA1;&#x9053;&#x76F8;&#x95DC;&#x7684;&#x95DC;&#x9375;&#x6982;&#x5FF5;</h3>
 <p>&#x7BA1; &#x9053;&#x61C9;&#x7528;&#x7684;&#x4E00;&#x500B;&#x91CD;&#x5927;&#x9650;&#x5236;&#x662F;&#x5B83;&#x6C92;&#x6709;&#x540D;&#x5B57;&#xFF0C;&#x56E0;&#x6B64;&#xFF0C;&#x53EA;&#x80FD;&#x7528;&#x65BC;&#x5177;&#x6709;&#x89AA;&#x7DE3;&#x95DC;&#x4FC2;&#x7684;&#x9032;&#x7A0B;&#x9593;&#x901A;&#x4FE1;&#xFF0C;&#x5728;&#x6709;&#x540D;&#x7BA1;&#x9053;&#xFF08;named pipe&#x6216;FIFO&#xFF09;&#x63D0;&#x51FA;&#x5F8C;&#xFF0C;&#x8A72;&#x9650;&#x5236;&#x5F97;&#x5230;&#x4E86;&#x514B;&#x670D;&#x3002;FIFO&#x4E0D;&#x540C;&#x65BC;&#x7BA1;&#x9053;&#x4E4B;&#x8655;&#x5728;&#x65BC;&#x5B83;&#x63D0;&#x4F9B;&#x4E00;&#x500B;&#x8DEF;&#x5F91;&#x540D;&#x8207;&#x4E4B;&#x95DC;&#x806F;&#xFF0C;&#x4EE5;FIFO&#x7684;&#x6587;&#x4EF6;&#x5F62;&#x5F0F;&#x5B58;&#x5728;&#x65BC;&#x6587;&#x4EF6;&#x7CFB;&#x7D71;&#x4E2D;&#x3002;&#x9019;&#x6A23;&#xFF0C;&#x5373; &#x4F7F;&#x8207;FIFO&#x7684;&#x5275;&#x5EFA;&#x9032;&#x7A0B;&#x4E0D;&#x5B58;&#x5728;&#x89AA;&#x7DE3;&#x95DC;&#x4FC2;&#x7684;&#x9032;&#x7A0B;&#xFF0C;&#x53EA;&#x8981;&#x53EF;&#x4EE5;&#x8A2A;&#x554F;&#x8A72;&#x8DEF;&#x5F91;&#xFF0C;&#x5C31;&#x80FD;&#x5920;&#x5F7C;&#x6B64;&#x901A;&#x904E;FIFO&#x76F8;&#x4E92;&#x901A;&#x4FE1;&#xFF08;&#x80FD;&#x5920;&#x8A2A;&#x554F;&#x8A72;&#x8DEF;&#x5F91;&#x7684;&#x9032;&#x7A0B;&#x4EE5;&#x53CA;FIFO&#x7684;&#x5275;&#x5EFA;&#x9032;&#x7A0B;&#x4E4B; &#x9593;&#xFF09;&#xFF0C;&#x56E0;&#x6B64;&#xFF0C;&#x901A;&#x904E;FIFO&#x4E0D;&#x76F8;&#x95DC;&#x7684;&#x9032;&#x7A0B;&#x4E5F;&#x80FD;&#x4EA4;&#x63DB;&#x6578;&#x64DA;&#x3002;&#x503C;&#x5F97;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C;FIFO&#x56B4;&#x683C;&#x9075;&#x5FAA;&#x5148;&#x9032;&#x5148;&#x51FA;&#xFF08;first in first out&#xFF09;&#xFF0C;&#x5C0D;&#x7BA1;&#x9053;&#x53CA;FIFO&#x7684;&#x8B80;&#x7E3D;&#x662F;&#x5F9E;&#x958B;&#x59CB;&#x8655;&#x8FD4;&#x56DE;&#x6578;&#x64DA;&#xFF0C;&#x5C0D;&#x5B83;&#x5011;&#x7684;&#x5BEB;&#x5247;&#x628A;&#x6578;&#x64DA;&#x6DFB;&#x52A0;&#x5230;&#x672B;&#x5C3E;&#x3002;&#x5B83;&#x5011;&#x4E0D;&#x652F;&#x6301;&#x8AF8;&#x5982;lseek()&#x7B49;&#x6587;&#x4EF6;&#x5B9A;&#x4F4D;&#x64CD;&#x4F5C;&#x3002;</p>
-<h3 id="2-2%E6%9C%89%E5%90%8D%E7%AE%A1%E9%81%93%E7%9A%84%E5%89%B5%E5%BB%BA">2.2&#x6709;&#x540D;&#x7BA1;&#x9053;&#x7684;&#x5275;&#x5EFA;</h3>
+<h3 id="22&#x6709;&#x540D;&#x7BA1;&#x9053;&#x7684;&#x5275;&#x5EFA;">2.2&#x6709;&#x540D;&#x7BA1;&#x9053;&#x7684;&#x5275;&#x5EFA;</h3>
 <p>&#x547D;&#x540D;&#x7BA1;&#x9053;&#x53EF;&#x4EE5;&#x5F9E;&#x547D;&#x4EE4;&#x884C;&#x4E0A;&#x5275;&#x5EFA;&#xFF0C;&#x547D;&#x4EE4;&#x884C;&#x65B9;&#x6CD5;&#x662F;&#x4F7F;&#x7528;&#x4E0B;&#x9762;&#x9019;&#x500B;&#x547D;&#x4EE4;&#xFF1A;</p>
 <p>$ mkfifo filename</p>
 <p>&#x547D;&#x540D;&#x7BA1;&#x9053;&#x4E5F;&#x53EF;&#x4EE5;&#x5F9E;&#x7A0B;&#x5E8F;&#x88E1;&#x5275;&#x5EFA;&#xFF0C;&#x76F8;&#x95DC;&#x51FD;&#x6578;&#x6709;&#xFF1A;</p>
@@ -15163,15 +15097,15 @@ RETURN VALUE
        On success mkfifo() returns 0.  In the case of an error, -1 is
        returned (in which case, errno is set appropriately).
 </code></pre>
-<h3 id="2-3%E6%9C%89%E5%90%8D%E7%AE%A1%E9%81%93%E7%9A%84%E6%89%93%E9%96%8B%E8%A6%8F%E5%89%87%EF%BC%88%E8%88%87%E5%8C%BF%E5%90%8D%E7%AE%A1%E9%81%93%E4%B8%80%E6%A8%A3%EF%BC%89">2.3&#x6709;&#x540D;&#x7BA1;&#x9053;&#x7684;&#x6253;&#x958B;&#x898F;&#x5247;&#xFF08;&#x8207;&#x533F;&#x540D;&#x7BA1;&#x9053;&#x4E00;&#x6A23;&#xFF09;</h3>
+<h3 id="23&#x6709;&#x540D;&#x7BA1;&#x9053;&#x7684;&#x6253;&#x958B;&#x898F;&#x5247;&#xFF08;&#x8207;&#x533F;&#x540D;&#x7BA1;&#x9053;&#x4E00;&#x6A23;&#xFF09;">2.3&#x6709;&#x540D;&#x7BA1;&#x9053;&#x7684;&#x6253;&#x958B;&#x898F;&#x5247;&#xFF08;&#x8207;&#x533F;&#x540D;&#x7BA1;&#x9053;&#x4E00;&#x6A23;&#xFF09;</h3>
 <p>FIFO&#xFF08;&#x547D;&#x540D;&#x7BA1;&#x9053;&#xFF09;&#x8207;pipe&#xFF08;&#x533F;&#x540D;&#x7BA1;&#x9053;&#xFF09;&#x4E4B;&#x9593;&#x552F;&#x4E00;&#x7684;&#x5340;&#x5225;&#x5728;&#x5B83;&#x5011;&#x5275;&#x5EFA;&#x8207;&#x6253;&#x958B;&#x7684;&#x65B9;&#x5F0F;&#x4E0D;&#x540C;&#xFF0C;&#x4E00;&#x91CF;&#x9019;&#x4E9B;&#x5DE5;&#x4F5C;&#x5B8C;&#x6210;&#x4E4B;&#x5F8C;&#xFF0C;&#x5B83;&#x5011;&#x5177;&#x6709;&#x76F8;&#x540C;&#x7684;&#x8A9E;&#x7FA9;&#x3002;</p>
 <p>man&#x5E6B;&#x52A9;&#x8AAA;&#x660E;&#xFF1A;The only difference between pipes and FIFOs is the manner in which they are created and opened. Once these tasks have been accomplished, I/O on pipes and FIFOs has exactly the same semantics&#x3002;</p>
 <p>&#x6709;&#x540D;&#x7BA1;&#x9053;&#x6BD4;&#x7BA1;&#x9053;&#x591A;&#x4E86;&#x4E00;&#x500B;&#x6253;&#x958B;&#x64CD;&#x4F5C;&#xFF1A;open&#x3002;</p>
 <p>FIFO&#x7684;&#x6253;&#x958B;&#x898F;&#x5247;&#xFF1A;</p>
 <p><code>&#x5982;&#x679C;&#x7576;&#x524D;&#x6253;&#x958B;&#x64CD;&#x4F5C;&#x662F;&#x70BA;&#x8B80;&#x800C;&#x6253;&#x958B;FIFO&#x6642;&#xFF0C;&#x82E5;&#x5DF2;&#x7D93;&#x6709;&#x76F8;&#x61C9;&#x9032;&#x7A0B;&#x70BA;&#x5BEB;&#x800C;&#x6253;&#x958B;&#x8A72;FIFO&#xFF0C;&#x5247;&#x7576;&#x524D;&#x6253;&#x958B;&#x64CD;&#x4F5C;&#x5C07;&#x6210;&#x529F;&#x8FD4;&#x56DE;&#xFF1B;&#x5426;&#x5247;&#xFF0C;&#x53EF;&#x80FD;&#x963B;&#x585E;&#x76F4;&#x5230;&#x6709;&#x76F8;&#x61C9;&#x9032;&#x7A0B;&#x70BA;&#x5BEB;&#x800C;&#x6253;&#x958B;&#x8A72;FIFO&#xFF08;&#x7576;&#x524D;&#x6253;&#x958B;&#x64CD;&#x4F5C;&#x8A2D;&#x7F6E;&#x4E86;&#x963B;&#x585E;&#x6A19;&#x8A8C;&#xFF09;&#xFF1B;&#x6216;&#x8005;&#xFF0C;&#x6210;&#x529F;&#x8FD4;&#x56DE;&#xFF08;&#x7576;&#x524D;&#x6253;&#x958B;&#x64CD;&#x4F5C;&#x6C92;&#x6709;&#x8A2D;&#x7F6E;&#x963B;&#x585E;&#x6A19;&#x8A8C;&#xFF09;&#x3002;</code></p>
 <p><code>&#x5982;&#x679C;&#x7576;&#x524D;&#x6253;&#x958B;&#x64CD;&#x4F5C;&#x662F;&#x70BA;&#x5BEB;&#x800C;&#x6253;&#x958B;FIFO&#x6642;&#xFF0C;&#x5982;&#x679C;&#x5DF2;&#x7D93;&#x6709;&#x76F8;&#x61C9;&#x9032;&#x7A0B;&#x70BA;&#x8B80;&#x800C;&#x6253;&#x958B;&#x8A72;FIFO&#xFF0C;&#x5247;&#x7576;&#x524D;&#x6253;&#x958B;&#x64CD;&#x4F5C;&#x5C07;&#x6210;&#x529F;&#x8FD4;&#x56DE;&#xFF1B;&#x5426;&#x5247;&#xFF0C;&#x53EF;&#x80FD;&#x963B;&#x585E;&#x76F4;&#x5230;&#x6709;&#x76F8;&#x61C9;&#x9032;&#x7A0B;&#x70BA;&#x8B80;&#x800C;&#x6253;&#x958B;&#x8A72;FIFO&#xFF08;&#x7576;&#x524D;&#x6253;&#x958B;&#x64CD;&#x4F5C;&#x8A2D;&#x7F6E;&#x4E86;&#x963B;&#x585E;&#x6A19;&#x8A8C;&#xFF09;&#xFF1B;&#x6216;&#x8005;&#xFF0C;&#x8FD4;&#x56DE;ENXIO&#x932F;&#x8AA4;&#xFF08;&#x7576;&#x524D;&#x6253;&#x958B;&#x64CD;&#x4F5C;&#x6C92;&#x6709;&#x8A2D;&#x7F6E;&#x963B;&#x585E;&#x6A19;&#x8A8C;&#xFF09;&#x3002;</code></p>
-<h3 id="2-4%E6%9C%89%E5%90%8D%E7%AE%A1%E9%81%93%E7%9A%84%E8%AE%80%E5%AF%AB%E8%A6%8F%E5%89%87">2.4&#x6709;&#x540D;&#x7BA1;&#x9053;&#x7684;&#x8B80;&#x5BEB;&#x898F;&#x5247;</h3>
-<h4 id="%E5%BE%9Efifo%E4%B8%AD%E8%AE%80%E5%8F%96%E6%95%B8%E6%93%9A%EF%BC%9A">&#x5F9E;FIFO&#x4E2D;&#x8B80;&#x53D6;&#x6578;&#x64DA;&#xFF1A;</h4>
+<h3 id="24&#x6709;&#x540D;&#x7BA1;&#x9053;&#x7684;&#x8B80;&#x5BEB;&#x898F;&#x5247;">2.4&#x6709;&#x540D;&#x7BA1;&#x9053;&#x7684;&#x8B80;&#x5BEB;&#x898F;&#x5247;</h3>
+<h4 id="&#x5F9E;fifo&#x4E2D;&#x8B80;&#x53D6;&#x6578;&#x64DA;&#xFF1A;">&#x5F9E;FIFO&#x4E2D;&#x8B80;&#x53D6;&#x6578;&#x64DA;&#xFF1A;</h4>
 <p>&#x7D04;&#x5B9A;&#xFF1A;&#x5982;&#x679C;&#x4E00;&#x500B;&#x9032;&#x7A0B;&#x70BA;&#x4E86;&#x5F9E;FIFO&#x4E2D;&#x8B80;&#x53D6;&#x6578;&#x64DA;&#x800C;&#x963B;&#x585E;&#x6253;&#x958B;FIFO&#xFF0C;&#x90A3;&#x9EBC;&#x7A31;&#x8A72;&#x9032;&#x7A0B;&#x5167;&#x7684;&#x8B80;&#x64CD;&#x4F5C;&#x70BA;&#x8A2D;&#x7F6E;&#x4E86;&#x963B;&#x585E;&#x6A19;&#x8A8C;&#x7684;&#x8B80;&#x64CD;&#x4F5C;&#x3002;</p>
 <ul>
 <li><p>&#x5982;&#x679C;&#x6709;&#x9032;&#x7A0B;&#x5BEB;&#x6253;&#x958B;FIFO&#xFF0C;&#x4E14;&#x7576;&#x524D;FIFO&#x5167;&#x6C92;&#x6709;&#x6578;&#x64DA;&#xFF0C;&#x5247;&#x5C0D;&#x65BC;&#x8A2D;&#x7F6E;&#x4E86;&#x963B;&#x585E;&#x6A19;&#x8A8C;&#x7684;&#x8B80;&#x64CD;&#x4F5C;&#x4F86;&#x8AAA;&#xFF0C;&#x5C07;&#x4E00;&#x76F4;&#x963B;&#x585E;&#x3002;&#x5C0D;&#x65BC;&#x6C92;&#x6709;&#x8A2D;&#x7F6E;&#x963B;&#x585E;&#x6A19;&#x8A8C;&#x8B80;&#x64CD;&#x4F5C;&#x4F86;&#x8AAA;&#x5247;&#x8FD4;&#x56DE;-1&#xFF0C;&#x7576;&#x524D;errno&#x503C;&#x70BA;EAGAIN&#xFF0C;&#x63D0;&#x9192;&#x4EE5;&#x5F8C;&#x518D;&#x8A66;&#x3002;</p>
@@ -15184,7 +15118,7 @@ RETURN VALUE
 &#x6CE8;&#xFF1A;&#x5982;&#x679C;FIFO&#x4E2D;&#x6709;&#x6578;&#x64DA;&#xFF0C;&#x5247;&#x8A2D;&#x7F6E;&#x4E86;&#x963B;&#x585E;&#x6A19;&#x8A8C;&#x7684;&#x8B80;&#x64CD;&#x4F5C;&#x4E0D;&#x6703;&#x56E0;&#x70BA;FIFO&#x4E2D;&#x7684;&#x5B57;&#x7BC0;&#x6578;&#x5C0F;&#x65BC;&#x8ACB;&#x6C42;&#x8B80;&#x7684;&#x5B57;&#x7BC0;&#x6578;&#x800C;&#x963B;&#x585E;&#xFF0C;&#x6B64;&#x6642;&#xFF0C;&#x8B80;&#x64CD;&#x4F5C;&#x6703;&#x8FD4;&#x56DE;FIFO&#x4E2D;&#x73FE;&#x6709;&#x7684;&#x6578;&#x64DA;&#x91CF;&#x3002;</p>
 </li>
 </ul>
-<h4 id="%E5%90%91fifo%E4%B8%AD%E5%AF%AB%E5%85%A5%E6%95%B8%E6%93%9A%EF%BC%9A">&#x5411;FIFO&#x4E2D;&#x5BEB;&#x5165;&#x6578;&#x64DA;&#xFF1A;</h4>
+<h4 id="&#x5411;fifo&#x4E2D;&#x5BEB;&#x5165;&#x6578;&#x64DA;&#xFF1A;">&#x5411;FIFO&#x4E2D;&#x5BEB;&#x5165;&#x6578;&#x64DA;&#xFF1A;</h4>
 <p>&#x7D04;&#x5B9A;&#xFF1A;&#x5982;&#x679C;&#x4E00;&#x500B;&#x9032;&#x7A0B;&#x70BA;&#x4E86;&#x5411;FIFO&#x4E2D;&#x5BEB;&#x5165;&#x6578;&#x64DA;&#x800C;&#x963B;&#x585E;&#x6253;&#x958B;FIFO&#xFF0C;&#x90A3;&#x9EBC;&#x7A31;&#x8A72;&#x9032;&#x7A0B;&#x5167;&#x7684;&#x5BEB;&#x64CD;&#x4F5C;&#x70BA;&#x8A2D;&#x7F6E;&#x4E86;&#x963B;&#x585E;&#x6A19;&#x8A8C;&#x7684;&#x5BEB;&#x64CD;&#x4F5C;&#x3002;</p>
 <p>&#x5C0D;&#x65BC;&#x8A2D;&#x7F6E;&#x4E86;&#x963B;&#x585E;&#x6A19;&#x8A8C;&#x7684;&#x5BEB;&#x64CD;&#x4F5C;&#xFF1A;</p>
 <ul>
@@ -15198,7 +15132,7 @@ RETURN VALUE
 <li><p>&#x7576;&#x8981;&#x5BEB;&#x5165;&#x7684;&#x6578;&#x64DA;&#x91CF;&#x4E0D;&#x5927;&#x65BC;PIPE_BUF&#x6642;&#xFF0C;linux&#x5C07;&#x4FDD;&#x8B49;&#x5BEB;&#x5165;&#x7684;&#x539F;&#x5B50;&#x6027;&#x3002;&#x5982;&#x679C;&#x7576;&#x524D;FIFO&#x7A7A;&#x9592;&#x7DE9;&#x885D;&#x5340;&#x80FD;&#x5920;&#x5BB9;&#x7D0D;&#x8ACB;&#x6C42;&#x5BEB;&#x5165;&#x7684;&#x5B57;&#x7BC0;&#x6578;&#xFF0C;&#x5BEB;&#x5B8C;&#x5F8C;&#x6210;&#x529F;&#x8FD4;&#x56DE;&#xFF1B;&#x5982;&#x679C;&#x7576;&#x524D;FIFO&#x7A7A;&#x9592;&#x7DE9;&#x885D;&#x5340;&#x4E0D;&#x80FD;&#x5920;&#x5BB9;&#x7D0D;&#x8ACB;&#x6C42;&#x5BEB;&#x5165;&#x7684;&#x5B57;&#x7BC0;&#x6578;&#xFF0C;&#x5247;&#x8FD4;&#x56DE;EAGAIN&#x932F;&#x8AA4;&#xFF0C;&#x63D0;&#x9192;&#x4EE5;&#x5F8C;&#x518D;&#x5BEB;&#xFF1B;</p>
 </li>
 </ul>
-<h2 id="%E4%B8%89%EF%BC%8Cfifo%E4%BD%BF%E7%94%A8">&#x4E09;&#xFF0C;FIFO&#x4F7F;&#x7528;</h2>
+<h2 id="&#x4E09;&#xFF0C;fifo&#x4F7F;&#x7528;">&#x4E09;&#xFF0C;FIFO&#x4F7F;&#x7528;</h2>
 <p>&#x793A;&#x4F8B;&#x4E00;&#xFF1A;&#x5275;&#x5EFA;FIFO&#x6587;&#x4EF6;</p>
 <pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
 <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
@@ -15276,7 +15210,7 @@ RETURN VALUE
 <p>&#x7B2C;&#x4E00;&#x6B21;&#x4EE5;&#x975E;&#x963B;&#x585E;&#x6A21;&#x5F0F;&#x6253;&#x958B;</p>
 <p>&#x7B2C;&#x4E8C;&#x6B21;&#x4EE5;&#x963B;&#x585E;&#x6A21;&#x5F0F;&#x6253;&#x958B;</p>
 <p>&#x793A;&#x4F8B;&#x56DB;&#xFF1A;&#x4E0D;&#x540C;&#x9032;&#x7A0B;&#x9593;&#x5229;&#x7528;&#x547D;&#x540D;&#x7BA1;&#x9053;&#x5BE6;&#x73FE;&#x6587;&#x4EF6;&#x8907;&#x88FD;</p>
-<h4 id="%E5%AF%AB%E7%AE%A1%E9%81%93%E9%80%B2%E7%A8%8B%EF%BC%9A">&#x5BEB;&#x7BA1;&#x9053;&#x9032;&#x7A0B;&#xFF1A;</h4>
+<h4 id="&#x5BEB;&#x7BA1;&#x9053;&#x9032;&#x7A0B;&#xFF1A;">&#x5BEB;&#x7BA1;&#x9053;&#x9032;&#x7A0B;&#xFF1A;</h4>
 <pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
 <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
 <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
@@ -15318,7 +15252,7 @@ RETURN VALUE
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
 </code></pre>
-<h4 id="%E8%AE%80%E9%80%B2%E7%A8%8B%EF%BC%9A">&#x8B80;&#x9032;&#x7A0B;&#xFF1A;</h4>
+<h4 id="&#x8B80;&#x9032;&#x7A0B;&#xFF1A;">&#x8B80;&#x9032;&#x7A0B;&#xFF1A;</h4>
 <pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
 <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
 <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
@@ -15401,9 +15335,17 @@ RETURN VALUE
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

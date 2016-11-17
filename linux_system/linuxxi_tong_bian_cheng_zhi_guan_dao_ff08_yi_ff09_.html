@@ -8,7 +8,7 @@
         <title>linux系統編程之管道（一）：匿名管道（pipe) | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="13.1.25" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="13.1.25"
+        data-chapter-title="linux系統編程之管道（一）：匿名管道（pipe)"
+        data-filepath="linux_system/linuxxi_tong_bian_cheng_zhi_guan_dao_ff08_yi_ff09_.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,8 +15051,8 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="linux%E7%B3%BB%E7%B5%B1%E7%B7%A8%E7%A8%8B%E4%B9%8B%E7%AE%A1%E9%81%93%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E5%8C%BF%E5%90%8D%E7%AE%A1%E9%81%93%EF%BC%88pipe">linux&#x7CFB;&#x7D71;&#x7DE8;&#x7A0B;&#x4E4B;&#x7BA1;&#x9053;&#xFF08;&#x4E00;&#xFF09;&#xFF1A;&#x533F;&#x540D;&#x7BA1;&#x9053;&#xFF08;pipe)</h1>
-<h2 id="%E4%B8%80%EF%BC%8C%E4%BB%80%E9%BA%BC%E6%98%AF%E7%AE%A1%E9%81%93">&#x4E00;&#xFF0C;&#x4EC0;&#x9EBC;&#x662F;&#x7BA1;&#x9053;</h2>
+                        <h1 id="linux&#x7CFB;&#x7D71;&#x7DE8;&#x7A0B;&#x4E4B;&#x7BA1;&#x9053;&#xFF08;&#x4E00;&#xFF09;&#xFF1A;&#x533F;&#x540D;&#x7BA1;&#x9053;&#xFF08;pipe">linux&#x7CFB;&#x7D71;&#x7DE8;&#x7A0B;&#x4E4B;&#x7BA1;&#x9053;&#xFF08;&#x4E00;&#xFF09;&#xFF1A;&#x533F;&#x540D;&#x7BA1;&#x9053;&#xFF08;pipe)</h1>
+<h2 id="&#x4E00;&#xFF0C;&#x4EC0;&#x9EBC;&#x662F;&#x7BA1;&#x9053;">&#x4E00;&#xFF0C;&#x4EC0;&#x9EBC;&#x662F;&#x7BA1;&#x9053;</h2>
 <p>&#x7BA1;&#x9053;&#x662F;Linux&#x652F;&#x6301;&#x7684;&#x6700;&#x521D;Unix IPC&#x5F62;&#x5F0F;&#x4E4B;&#x4E00;&#xFF0C;&#x5177;&#x6709;&#x4EE5;&#x4E0B;&#x7279;&#x9EDE;&#xFF1A;</p>
 <p><code>&#x7BA1;&#x9053;&#x662F;&#x534A;&#x96D9;&#x5DE5;&#x7684;&#xFF0C;&#x6578;&#x64DA;&#x53EA;&#x80FD;&#x5411;&#x4E00;&#x500B;&#x65B9;&#x5411;&#x6D41;&#x52D5;&#xFF1B;&#x9700;&#x8981;&#x96D9;&#x65B9;&#x901A;&#x4FE1;&#x6642;&#xFF0C;&#x9700;&#x8981;&#x5EFA;&#x7ACB;&#x8D77;&#x5169;&#x500B;&#x7BA1;&#x9053;</code>&#xFF1B;
 &#x53EA;&#x80FD;&#x7528;&#x65BC;&#x7236;&#x5B50;&#x9032;&#x7A0B;&#x6216;&#x8005;&#x5144;&#x5F1F;&#x9032;&#x7A0B;&#x4E4B;&#x9593;&#xFF08;&#x5177;&#x6709;&#x89AA;&#x7DE3;&#x95DC;&#x4FC2;&#x7684;&#x9032;&#x7A0B;&#xFF09;&#xFF1B;
@@ -15126,7 +15060,7 @@
 &#x6578;&#x64DA;&#x7684;&#x8B80;&#x51FA;&#x548C;&#x5BEB;&#x5165;&#xFF1A;&#x4E00;&#x500B;&#x9032;&#x7A0B;&#x5411;&#x7BA1;&#x9053;&#x4E2D;&#x5BEB;&#x7684;&#x5167;&#x5BB9;&#x88AB;&#x7BA1;&#x9053;&#x53E6;&#x4E00;&#x7AEF;&#x7684;&#x9032;&#x7A0B;&#x8B80;&#x51FA;&#x3002;&#x5BEB;&#x5165;&#x7684;&#x5167;&#x5BB9;&#x6BCF;&#x6B21;&#x90FD;&#x6DFB;&#x52A0;&#x5728;&#x7BA1;&#x9053;&#x7DE9;&#x885D;&#x5340;&#x7684;&#x672B;&#x5C3E;&#xFF0C;&#x4E26;&#x4E14;&#x6BCF;&#x6B21;&#x90FD;&#x662F;&#x5F9E;&#x7DE9;&#x885D;&#x5340;&#x7684;&#x982D;&#x90E8;&#x8B80;&#x51FA;&#x6578;&#x64DA;&#x3002;
 &#x7BA1;&#x9053;&#x7684;&#x5BE6;&#x73FE;&#x6A5F;&#x5236;&#xFF1A;</p>
 <p><code>&#x7BA1;&#x9053;&#x662F;&#x7531;&#x5167;&#x6838;&#x7BA1;&#x7406;&#x7684;&#x4E00;&#x500B;&#x7DE9;&#x885D;&#x5340;</code>&#xFF0C;&#x76F8;&#x7576;&#x65BC;&#x6211;&#x5011;&#x653E;&#x5165;&#x5167;&#x5B58;&#x4E2D;&#x7684;&#x4E00;&#x500B;&#x7D19;&#x689D;&#x3002;&#x7BA1;&#x9053;&#x7684;&#x4E00;&#x7AEF;&#x9023;&#x63A5;&#x4E00;&#x500B;&#x9032;&#x7A0B;&#x7684;&#x8F38;&#x51FA;&#x3002;&#x9019;&#x500B;&#x9032;&#x7A0B;&#x6703;&#x5411;&#x7BA1;&#x9053;&#x4E2D;&#x653E;&#x5165;&#x4FE1;&#x606F;&#x3002;&#x7BA1;&#x9053;&#x7684;&#x53E6;&#x4E00;&#x7AEF;&#x9023;&#x63A5;&#x4E00;&#x500B;&#x9032;&#x7A0B;&#x7684;&#x8F38;&#x5165;&#xFF0C;&#x9019;&#x500B;&#x9032;&#x7A0B;&#x53D6;&#x51FA;&#x88AB;&#x653E;&#x5165;&#x7BA1;&#x9053;&#x7684;&#x4FE1;&#x606F;&#x3002;&#x4E00;&#x500B;&#x7DE9;&#x885D;&#x5340;&#x4E0D;&#x9700;&#x8981;&#x5F88;&#x5927;&#xFF0C;&#x5B83;&#x88AB;&#x8A2D;&#x8A08;&#x6210;&#x70BA;&#x74B0;&#x5F62;&#x7684;&#x6578;&#x64DA;&#x7D50;&#x69CB;&#xFF0C;&#x4EE5;&#x4FBF;&#x7BA1;&#x9053;&#x53EF;&#x4EE5;&#x88AB;&#x5FAA;&#x74B0;&#x5229;&#x7528;&#x3002;&#x7576;&#x7BA1;&#x9053;&#x4E2D;&#x6C92;&#x6709;&#x4FE1;&#x606F;&#x7684;&#x8A71;&#xFF0C;&#x5F9E;&#x7BA1;&#x9053;&#x4E2D;&#x8B80;&#x53D6;&#x7684;&#x9032;&#x7A0B;&#x6703;&#x7B49;&#x5F85;&#xFF0C;&#x76F4;&#x5230;&#x53E6;&#x4E00;&#x7AEF;&#x7684;&#x9032;&#x7A0B;&#x653E;&#x5165;&#x4FE1;&#x606F;&#x3002;&#x7576;&#x7BA1;&#x9053;&#x88AB;&#x653E;&#x6EFF;&#x4FE1;&#x606F;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x5617;&#x8A66;&#x653E;&#x5165;&#x4FE1;&#x606F;&#x7684;&#x9032;&#x7A0B;&#x6703;&#x7B49;&#x5F85;&#xFF0C;&#x76F4;&#x5230;&#x53E6;&#x4E00;&#x7AEF;&#x7684;&#x9032;&#x7A0B;&#x53D6;&#x51FA;&#x4FE1;&#x606F;&#x3002;&#x7576;&#x5169;&#x500B;&#x9032;&#x7A0B;&#x90FD;&#x7D42;&#x7D50;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x7BA1;&#x9053;&#x4E5F;&#x81EA;&#x52D5;&#x6D88;&#x5931;&#x3002;</p>
-<h2 id="%E4%BA%8C%EF%BC%8C%E7%AE%A1%E9%81%93%E7%9A%84%E5%89%B5%E5%BB%BA%EF%BC%88pipe%EF%BC%89">&#x4E8C;&#xFF0C;&#x7BA1;&#x9053;&#x7684;&#x5275;&#x5EFA;&#xFF08;pipe&#xFF09;</h2>
+<h2 id="&#x4E8C;&#xFF0C;&#x7BA1;&#x9053;&#x7684;&#x5275;&#x5EFA;&#xFF08;pipe&#xFF09;">&#x4E8C;&#xFF0C;&#x7BA1;&#x9053;&#x7684;&#x5275;&#x5EFA;&#xFF08;pipe&#xFF09;</h2>
 <p>&#x5305;&#x542B;&#x982D;&#x6587;&#x4EF6;<unistd.h></unistd.h></p>
 <p>&#x529F;&#x80FD;:&#x5275;&#x5EFA;&#x4E00;&#x7121;&#x540D;&#x7BA1;&#x9053;</p>
 <p>&#x539F;&#x578B;&#xFF1A;</p>
@@ -15148,7 +15082,7 @@
 <p>&#x8A72;&#x51FD;&#x6578;&#x5275;&#x5EFA;&#x7684;&#x7BA1;&#x9053;&#x7684;&#x5169;&#x7AEF;&#x8655;&#x65BC;&#x4E00;&#x500B;&#x9032;&#x7A0B;&#x4E2D;&#x9593;&#xFF0C;&#x5728;&#x5BE6;&#x969B;&#x61C9; &#x7528;&#x4E2D;&#x6C92;&#x6709;&#x592A;&#x5927;&#x610F;&#x7FA9;&#xFF0C;&#x56E0;&#x6B64;&#xFF0C;&#x4E00;&#x500B;&#x9032;&#x7A0B;&#x5728;&#x7531;pipe()&#x5275;&#x5EFA;&#x7BA1;&#x9053;&#x5F8C;&#xFF0C;&#x4E00;&#x822C;&#x518D;fork&#x4E00;&#x500B;&#x5B50;&#x9032;&#x7A0B;&#xFF0C;&#x7136;&#x5F8C;&#x901A;&#x904E;&#x7BA1;&#x9053;&#x5BE6;&#x73FE;&#x7236;&#x5B50;&#x9032;&#x7A0B;&#x9593;&#x7684;&#x901A;&#x4FE1;&#xFF08;&#x56E0;&#x6B64;&#x4E5F;&#x4E0D;&#x96E3;&#x63A8;&#x51FA;&#xFF0C;&#x53EA;&#x8981;&#x5169;&#x500B; &#x9032;&#x7A0B;&#x4E2D;&#x5B58;&#x5728;&#x89AA;&#x7DE3;&#x95DC;&#x4FC2;&#xFF0C;&#x9019;&#x88E1;&#x7684;&#x89AA;&#x7DE3;&#x95DC;&#x4FC2;&#x6307;&#x7684;&#x662F;&#x5177;&#x6709;&#x5171;&#x540C;&#x7684;&#x7956;&#x5148;&#xFF0C;&#x90FD;&#x53EF;&#x4EE5;&#x63A1;&#x7528;&#x7BA1;&#x9053;&#x65B9;&#x5F0F;&#x4F86;&#x9032;&#x884C;&#x901A;&#x4FE1;&#xFF09;&#x3002;&#x7236;&#x5B50;&#x9032;&#x7A0B;&#x9593;&#x5177;&#x6709;&#x76F8;&#x540C;&#x7684;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;&#xFF0C;&#x4E14;&#x6307;&#x5411;&#x540C;&#x4E00;&#x500B;&#x7BA1;&#x9053;pipe&#xFF0C;&#x5176;&#x4ED6;&#x6C92;&#x6709;&#x95DC;&#x4FC2;&#x7684;&#x9032;&#x7A0B;&#x4E0D;&#x80FD;&#x7372;&#x5F97;pipe&#xFF08;&#xFF09;&#x7522;&#x751F;&#x7684;&#x5169;&#x500B;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;&#xFF0C;&#x4E5F;&#x5C31;&#x4E0D;&#x80FD;&#x5229;&#x7528;&#x540C;&#x4E00;&#x500B;&#x7BA1;&#x9053;&#x9032;&#x884C;&#x901A;&#x4FE1;&#x3002;
 &#x5275;&#x5EFA;&#x7BA1;&#x9053;&#x5F8C;&#x793A;&#x610F;&#x5716;&#xFF1A;</p>
 <p><img src="images/mickole/15215909-979f3be84c96439888a1c2c6bac9efb3.png" alt=""></p>
-<h2 id="%E4%B8%89%EF%BC%8C%E5%88%A9%E7%94%A8%E7%AE%A1%E9%81%93%E9%80%B2%E8%A1%8C%E7%88%B6%E5%AD%90%E9%80%B2%E7%A8%8B%E9%96%93%E6%95%B8%E6%93%9A%E5%82%B3%E8%BC%B8">&#x4E09;&#xFF0C;&#x5229;&#x7528;&#x7BA1;&#x9053;&#x9032;&#x884C;&#x7236;&#x5B50;&#x9032;&#x7A0B;&#x9593;&#x6578;&#x64DA;&#x50B3;&#x8F38;</h2>
+<h2 id="&#x4E09;&#xFF0C;&#x5229;&#x7528;&#x7BA1;&#x9053;&#x9032;&#x884C;&#x7236;&#x5B50;&#x9032;&#x7A0B;&#x9593;&#x6578;&#x64DA;&#x50B3;&#x8F38;">&#x4E09;&#xFF0C;&#x5229;&#x7528;&#x7BA1;&#x9053;&#x9032;&#x884C;&#x7236;&#x5B50;&#x9032;&#x7A0B;&#x9593;&#x6578;&#x64DA;&#x50B3;&#x8F38;</h2>
 <p>&#x793A;&#x4F8B;&#x4E00;&#xFF1A;&#x5B50;&#x9032;&#x7A0B;&#x5411;&#x7BA1;&#x9053;&#x4E2D;&#x5BEB;&#x6578;&#x64DA;&#xFF0C;&#x7236;&#x9032;&#x7A0B;&#x5F9E;&#x7BA1;&#x9053;&#x4E2D;&#x8B80;&#x51FA;&#x6578;&#x64DA;</p>
 <pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
 <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
@@ -15263,9 +15197,17 @@
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

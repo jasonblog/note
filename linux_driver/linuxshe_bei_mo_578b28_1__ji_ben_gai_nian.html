@@ -8,7 +8,7 @@
         <title>Linux設備模型(1)_基本概念 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="11.4" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="11.4"
+        data-chapter-title="Linux設備模型(1)_基本概念"
+        data-filepath="linux_driver/linuxshe_bei_mo_578b28_1__ji_ben_gai_nian.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,13 +15051,13 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="linux%E8%A8%AD%E5%82%99%E6%A8%A1%E5%9E%8B-1-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5">Linux&#x8A2D;&#x5099;&#x6A21;&#x578B;(1)_&#x57FA;&#x672C;&#x6982;&#x5FF5;</h1>
-<h2 id="1-%E5%89%8D%E8%A8%80">1. &#x524D;&#x8A00;</h2>
+                        <h1 id="linux&#x8A2D;&#x5099;&#x6A21;&#x578B;1&#x57FA;&#x672C;&#x6982;&#x5FF5;">Linux&#x8A2D;&#x5099;&#x6A21;&#x578B;(1)_&#x57FA;&#x672C;&#x6982;&#x5FF5;</h1>
+<h2 id="1-&#x524D;&#x8A00;">1. &#x524D;&#x8A00;</h2>
 <p>&#x5728;&#x201C;Linux&#x5167;&#x6838;&#x7684;&#x6574;&#x9AD4;&#x67B6;&#x69CB;&#x201D;&#x4E2D;&#xFF0C;&#x8778;&#x8778;&#x6709;&#x63D0;&#x5230;&#xFF0C;&#x7531;&#x65BC;Linux&#x652F;&#x6301;&#x4E16;&#x754C;&#x4E0A;&#x5E7E;&#x4E4E;&#x6240;&#x6709;&#x7684;&#x3001;&#x4E0D;&#x540C;&#x529F;&#x80FD;&#x7684;&#x786C;&#x4EF6;&#x8A2D;&#x5099;&#xFF08;&#x9019;&#x662F;Linux&#x7684;&#x512A;&#x9EDE;&#xFF09;&#xFF0C;&#x5C0E;&#x81F4;Linux&#x5167;&#x6838;&#x4E2D;&#x6709;&#x4E00;&#x534A;&#x7684;&#x4EE3;&#x78BC;&#x662F;&#x8A2D;&#x5099;&#x9A45;&#x52D5;&#xFF0C;&#x800C;&#x4E14;&#x96A8;&#x8457;&#x786C;&#x4EF6;&#x7684;&#x5FEB;&#x901F;&#x5347;&#x7D1A;&#x63DB;&#x4EE3;&#xFF0C;&#x8A2D;&#x5099;&#x9A45;&#x52D5;&#x7684;&#x4EE3;&#x78BC;&#x91CF;&#x4E5F;&#x5728;&#x5FEB;&#x901F;&#x589E;&#x9577;&#x3002;&#x500B;&#x4EBA;&#x610F;&#x898B;&#xFF0C;&#x9019;&#x7A2E;&#x73FE;&#x8C61;&#x6253;&#x7834;&#x4E86;&#x201C;&#x7C21;&#x6F54;&#x5C31;&#x662F;&#x7F8E;&#x201D;&#x7684;&#x7406;&#x5FF5;&#xFF0C;&#x662F;&#x919C;&#x964B;&#x7684;&#x3002;&#x5B83;&#x5C0E;&#x81F4;Linux&#x5167;&#x6838;&#x770B;&#x4E0A;&#x53BB;&#x975E;&#x5E38;&#x81C3;&#x816B;&#x3001;&#x96DC;&#x4E82;&#x3001;&#x4E0D;&#x6613;&#x7DAD;&#x8B77;&#x3002;&#x4F46;&#x8778;&#x8778;&#x4E5F;&#x77E5;&#x9053;&#xFF0C;&#x9019;&#x4E0D;&#x662F;Linux&#x7684;&#x932F;&#xFF0C;Linux&#x662F;&#x4E00;&#x500B;&#x5B8F;&#x5167;&#x6838;&#xFF0C;&#x5B83;&#x5FC5;&#x9808;&#x9762;&#x5C0D;&#x8A2D;&#x5099;&#x7684;&#x591A;&#x6A23;&#x6027;&#xFF0C;&#x4E26;&#x5BE6;&#x73FE;&#x5C0D;&#x61C9;&#x7684;&#x9A45;&#x52D5;&#x3002;</p>
 <p>&#x70BA;&#x4E86;&#x964D;&#x4F4E;&#x8A2D;&#x5099;&#x591A;&#x6A23;&#x6027;&#x5E36;&#x4F86;&#x7684;Linux&#x9A45;&#x52D5;&#x958B;&#x767C;&#x7684;&#x8907;&#x96DC;&#x5EA6;&#xFF0C;&#x4EE5;&#x53CA;&#x8A2D;&#x5099;&#x71B1;&#x62D4;&#x63D2;&#x8655;&#x7406;&#x3001;&#x96FB;&#x6E90;&#x7BA1;&#x7406;&#x7B49;&#xFF0C;Linux&#x5167;&#x6838;&#x63D0;&#x51FA;&#x4E86;&#x8A2D;&#x5099;&#x6A21;&#x578B;&#xFF08;&#x4E5F;&#x7A31;&#x4F5C;Driver Model&#xFF09;&#x7684;&#x6982;&#x5FF5;&#x3002;&#x8A2D;&#x5099;&#x6A21;&#x578B;&#x5C07;&#x786C;&#x4EF6;&#x8A2D;&#x5099;&#x6B78;&#x7D0D;&#x3001;&#x5206;&#x985E;&#xFF0C;&#x7136;&#x5F8C;&#x62BD;&#x8C61;&#x51FA;&#x4E00;&#x5957;&#x6A19;&#x6E96;&#x7684;&#x6578;&#x64DA;&#x7D50;&#x69CB;&#x548C;&#x63A5;&#x53E3;&#x3002;&#x9A45;&#x52D5;&#x7684;&#x958B;&#x767C;&#xFF0C;&#x5C31;&#x7C21;&#x5316;&#x70BA;&#x5C0D;&#x5167;&#x6838;&#x6240;&#x898F;&#x5B9A;&#x7684;&#x6578;&#x64DA;&#x7D50;&#x69CB;&#x7684;&#x586B;&#x5145;&#x548C;&#x5BE6;&#x73FE;&#x3002;</p>
 <p>&#x672C;&#x6587;&#x5C07;&#x6703;&#x5F9E;&#x8A2D;&#x5099;&#x6A21;&#x578B;&#x7684;&#x57FA;&#x672C;&#x6982;&#x5FF5;&#x958B;&#x59CB;&#xFF0C;&#x901A;&#x904E;&#x5206;&#x6790;&#x5167;&#x6838;&#x76F8;&#x61C9;&#x7684;&#x4EE3;&#x78BC;&#xFF0C;&#x4E00;&#x6B65;&#x4E00;&#x6B65;&#x89E3;&#x6790;Linux&#x8A2D;&#x5099;&#x6A21;&#x578B;&#x7684;&#x5BE6;&#x73FE;&#x53CA;&#x4F7F;&#x7528;&#x65B9;&#x6CD5;&#x3002;</p>
-<h2 id="2-linux%E8%A8%AD%E5%82%99%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5">2. Linux&#x8A2D;&#x5099;&#x6A21;&#x578B;&#x7684;&#x57FA;&#x672C;&#x6982;&#x5FF5;</h2>
-<h3 id="2-1-bus-class-device%E5%92%8Cdevice-driver%E7%9A%84%E6%A6%82%E5%BF%B5">2.1 Bus, Class, Device&#x548C;Device Driver&#x7684;&#x6982;&#x5FF5;</h3>
+<h2 id="2-linux&#x8A2D;&#x5099;&#x6A21;&#x578B;&#x7684;&#x57FA;&#x672C;&#x6982;&#x5FF5;">2. Linux&#x8A2D;&#x5099;&#x6A21;&#x578B;&#x7684;&#x57FA;&#x672C;&#x6982;&#x5FF5;</h2>
+<h3 id="21-bus-class-device&#x548C;device-driver&#x7684;&#x6982;&#x5FF5;">2.1 Bus, Class, Device&#x548C;Device Driver&#x7684;&#x6982;&#x5FF5;</h3>
 <p>&#x4E0B;&#x5716;&#x662F;&#x5D4C;&#x5165;&#x5F0F;&#x7CFB;&#x7D71;&#x5E38;&#x898B;&#x7684;&#x786C;&#x4EF6;&#x62D3;&#x64B2;&#x7684;&#x4E00;&#x500B;&#x793A;&#x4F8B;&#xFF1A;</p>
 <p><img src="images/e960493a2c0e405ae9b2fefaf869334220140227080147.gif" alt=""></p>
 <p>&#x786C;&#x4EF6;&#x62D3;&#x64B2;&#x63CF;&#x8FF0;Linux&#x8A2D;&#x5099;&#x6A21;&#x578B;&#x4E2D;&#x56DB;&#x500B;&#x91CD;&#x8981;&#x6982;&#x5FF5;&#x4E2D;&#x4E09;&#x500B;&#xFF1A;Bus&#xFF0C;Class&#x548C;Device&#xFF08;&#x7B2C;&#x56DB;&#x500B;&#x70BA;Device Driver&#xFF0C;&#x5F8C;&#x9762;&#x6703;&#x8AAA;&#xFF09;&#x3002;</p>
@@ -15133,7 +15067,7 @@
 <p><code>Device Driver&#xFF08;&#x9A45;&#x52D5;&#xFF09;</code>&#xFF1A;Linux&#x8A2D;&#x5099;&#x6A21;&#x578B;&#x7528;Driver&#x62BD;&#x8C61;&#x786C;&#x4EF6;&#x8A2D;&#x5099;&#x7684;&#x9A45;&#x52D5;&#x7A0B;&#x5E8F;&#xFF0C;&#x5B83;&#x5305;&#x542B;&#x8A2D;&#x5099;&#x521D;&#x59CB;&#x5316;&#x3001;&#x96FB;&#x6E90;&#x7BA1;&#x7406;&#x76F8;&#x95DC;&#x7684;&#x63A5;&#x53E3;&#x5BE6;&#x73FE;&#x3002;&#x800C;Linux&#x5167;&#x6838;&#x4E2D;&#x7684;&#x9A45;&#x52D5;&#x958B;&#x767C;&#xFF0C;&#x57FA;&#x672C;&#x90FD;&#x570D;&#x7E5E;&#x8A72;&#x62BD;&#x8C61;&#x9032;&#x884C;&#xFF08;&#x5BE6;&#x73FE;&#x6240;&#x898F;&#x5B9A;&#x7684;&#x63A5;&#x53E3;&#x51FD;&#x6578;&#xFF09;&#x3002;</p>
 <p><code>&#x6CE8;&#xFF1A;&#x4EC0;&#x9EBC;&#x662F;Platform Bus&#xFF1F;</code></p>
 <p>&#x5728;&#x8A08;&#x7B97;&#x6A5F;&#x4E2D;&#x6709;&#x9019;&#x6A23;&#x4E00;&#x985E;&#x8A2D;&#x5099;&#xFF0C;&#x5B83;&#x5011;&#x901A;&#x904E;&#x5404;&#x81EA;&#x7684;&#x8A2D;&#x5099;&#x63A7;&#x5236;&#x5668;&#xFF0C;&#x76F4;&#x63A5;&#x548C;CPU&#x9023;&#x63A5;&#xFF0C;CPU&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x5E38;&#x898F;&#x7684;&#x5C0B;&#x5740;&#x64CD;&#x4F5C;&#x8A2A;&#x554F;&#x5B83;&#x5011;&#xFF08;&#x6216;&#x8005;&#x8AAA;&#x8A2A;&#x554F;&#x5B83;&#x5011;&#x7684;&#x63A7;&#x5236;&#x5668;&#xFF09;&#x3002;&#x9019;&#x7A2E;&#x9023;&#x63A5;&#x65B9;&#x5F0F;&#xFF0C;&#x4E26;&#x4E0D;&#x5C6C;&#x65BC;&#x50B3;&#x7D71;&#x610F;&#x7FA9;&#x4E0A;&#x7684;&#x7E3D;&#x7DDA;&#x9023;&#x63A5;&#x3002;&#x4F46;&#x8A2D;&#x5099;&#x6A21;&#x578B;&#x61C9;&#x8A72;&#x5177;&#x5099;&#x666E;&#x9069;&#x6027;&#xFF0C;&#x56E0;&#x6B64;Linux&#x5C31;&#x865B;&#x69CB;&#x4E86;&#x4E00;&#x689D;Platform Bus&#xFF0C;&#x4F9B;&#x9019;&#x4E9B;&#x8A2D;&#x5099;&#x639B;&#x9760;&#x3002;</p>
-<h3 id="2-2-%E8%A8%AD%E5%82%99%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3">2.2 &#x8A2D;&#x5099;&#x6A21;&#x578B;&#x7684;&#x6838;&#x5FC3;&#x601D;&#x60F3;</h3>
+<h3 id="22-&#x8A2D;&#x5099;&#x6A21;&#x578B;&#x7684;&#x6838;&#x5FC3;&#x601D;&#x60F3;">2.2 &#x8A2D;&#x5099;&#x6A21;&#x578B;&#x7684;&#x6838;&#x5FC3;&#x601D;&#x60F3;</h3>
 <p>Linux&#x8A2D;&#x5099;&#x6A21;&#x578B;&#x7684;&#x6838;&#x5FC3;&#x601D;&#x60F3;&#x662F;&#xFF08;&#x901A;&#x904E;xxx&#x624B;&#x6BB5;&#xFF0C;&#x5BE6;&#x73FE;xxx&#x76EE;&#x7684;&#xFF09;&#xFF1A;</p>
 <ol>
 <li><p>&#x7528;Device&#xFF08;struct device&#xFF09;&#x548C;Device Driver&#xFF08;struct device_driver&#xFF09;&#x5169;&#x500B;&#x6578;&#x64DA;&#x7D50;&#x69CB;&#xFF0C;&#x5206;&#x5225;&#x5F9E;&#x201C;&#x6709;&#x4EC0;&#x9EBC;&#x7528;&#x201D;&#x548C;&#x201C;&#x600E;&#x9EBC;&#x7528;&#x201D;&#x5169;&#x500B;&#x89D2;&#x5EA6;&#x63CF;&#x8FF0;&#x786C;&#x4EF6;&#x8A2D;&#x5099;&#x3002;&#x9019;&#x6A23;&#x5C31;&#x7D71;&#x4E00;&#x4E86;&#x7DE8;&#x5BEB;&#x8A2D;&#x5099;&#x9A45;&#x52D5;&#x7684;&#x683C;&#x5F0F;&#xFF0C;&#x4F7F;&#x9A45;&#x52D5;&#x958B;&#x767C;&#x5F9E;&#x8AD6;&#x8FF0;&#x984C;&#x8B8A;&#x70BA;&#x586B;&#x7A7A;&#x9AD4;&#xFF0C;&#x5F9E;&#x800C;&#x7C21;&#x5316;&#x4E86;&#x8A2D;&#x5099;&#x9A45;&#x52D5;&#x7684;&#x958B;&#x767C;&#x3002;</p>
@@ -15190,9 +15124,17 @@
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

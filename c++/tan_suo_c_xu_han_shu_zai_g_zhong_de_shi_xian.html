@@ -8,7 +8,7 @@
         <title>探索C++虛函數在g++中的實現 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="18.7" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="18.7"
+        data-chapter-title="探索C++虛函數在g++中的實現"
+        data-filepath="c++/tan_suo_c_xu_han_shu_zai_g_zhong_de_shi_xian.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,12 +15051,12 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E6%8E%A2%E7%B4%A2c-%E8%99%9B%E5%87%BD%E6%95%B8%E5%9C%A8g-%E4%B8%AD%E7%9A%84%E5%AF%A6%E7%8F%BE">&#x63A2;&#x7D22;C++&#x865B;&#x51FD;&#x6578;&#x5728;g++&#x4E2D;&#x7684;&#x5BE6;&#x73FE;</h1>
+                        <h1 id="&#x63A2;&#x7D22;c&#x865B;&#x51FD;&#x6578;&#x5728;g&#x4E2D;&#x7684;&#x5BE6;&#x73FE;">&#x63A2;&#x7D22;C++&#x865B;&#x51FD;&#x6578;&#x5728;g++&#x4E2D;&#x7684;&#x5BE6;&#x73FE;</h1>
 <p>&#x672C;&#x6587;&#x662F;&#x6211;&#x5728;&#x8FFD;&#x67E5;&#x4E00;&#x500B;&#x8A6D;&#x7570;core&#x554F;&#x984C;&#x7684;&#x904E;&#x7A0B;&#x4E2D;&#x6536;&#x7A6B;&#x7684;&#x4E00;&#x9EDE;&#x5FC3;&#x5F97;&#xFF0C;&#x628A;&#x516C;&#x53F8;&#x9805;&#x76EE;&#x76F8;&#x95DC;&#x7684;&#x80CC;&#x666F;&#x548C;&#x7279;&#x5B9A;&#x689D;&#x4EF6;&#x53BB;&#x6389;&#x5F8C;&#xFF0C;&#x50C5;&#x53D6;&#x5176;&#x4E2D;&#x901A;&#x7528;&#x7684;C++&#x865B;&#x51FD;&#x6578;&#x5BE6;&#x73FE;&#x90E8;&#x5206;&#x77E5;&#x8B58;&#x8A18;&#x9304;&#x65BC;&#x6B64;&#x3002;</p>
 <p>&#x5728;&#x958B;&#x59CB;&#x4E4B;&#x524D;&#xFF0C;&#x539F;&#x8AD2;&#x6211;&#x5148;&#x501F;&#x7528;&#x4E00;&#x5F35;&#x5716;&#x9ED1;&#x4E00;&#x4E0B;C++&#xFF1A;</p>
 <p><img src="images/CPPvsC.png" alt=""></p>
 <p>&#x5982;&#x679C;&#x4F60;&#x4E5F;&#x5728;&#x5BEB;C++&#xFF0C;&#x8ACB;&#x4E00;&#x5B9A;&#x5C0F;&#x5FC3;&#x2026;&#x81F3;&#x5C11;&#xFF0C;&#x4F60;&#x8981;&#x5148;&#x6709;&#x6240;&#x77AD;&#x89E3;&#xFF1A;&#x7576;&#x4F60;&#x5728;&#x5BEB;&#x865B;&#x51FD;&#x6578;&#x7684;&#x6642;&#x5019;&#xFF0C;g++&#x5728;&#x5BEB;&#x4EC0;&#x9EBC;&#xFF1F;</p>
-<h2 id="%E5%85%88%E5%AF%AB%E5%80%8B%E4%BE%8B%E5%AD%90">&#x5148;&#x5BEB;&#x500B;&#x4F8B;&#x5B50;</h2>
+<h2 id="&#x5148;&#x5BEB;&#x500B;&#x4F8B;&#x5B50;">&#x5148;&#x5BEB;&#x500B;&#x4F8B;&#x5B50;</h2>
 <p>&#x70BA;&#x4E86;&#x63A2;&#x7D22;C++&#x865B;&#x51FD;&#x6578;&#x7684;&#x5BE6;&#x73FE;&#xFF0C;&#x6211;&#x5011;&#x9996;&#x5148;&#x7DE8;&#x5BEB;&#x5E7E;&#x500B;&#x7528;&#x4F86;&#x6E2C;&#x8A66;&#x7684;&#x985E;&#xFF0C;&#x4EE3;&#x78BC;&#x5982;&#x4E0B;&#xFF1A;</p>
 <pre><code class="lang-cpp"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
 <span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
@@ -15188,7 +15122,7 @@ Derived::f()
 Derived::g()
 Derived::h()
 </code></pre>
-<h2 id="%E9%96%8B%E5%A7%8B%E5%88%86%E6%9E%90%EF%BC%81">&#x958B;&#x59CB;&#x5206;&#x6790;&#xFF01;</h2>
+<h2 id="&#x958B;&#x59CB;&#x5206;&#x6790;&#xFF01;">&#x958B;&#x59CB;&#x5206;&#x6790;&#xFF01;</h2>
 <p>&#x6211;&#x5BEB;&#x9019;&#x7BC7;&#x6587;&#x7AE0;&#x7684;&#x91CD;&#x9EDE;&#x662F;&#x5617;&#x8A66;&#x89E3;&#x91CB;g++&#x7DE8;&#x8B6F;&#x5728;&#x5E95;&#x5C64;&#x662F;&#x5982;&#x4F55;&#x5BE6;&#x73FE;&#x865B;&#x51FD;&#x6578;&#x8986;&#x84CB;&#x548C;&#x52D5;&#x614B;&#x7D81;&#x5B9A;&#x7684;&#xFF0C;&#x56E0;&#x6B64;&#x6211;&#x5047;&#x5B9A;&#x4F60;&#x5DF2;&#x7D93;&#x660E;&#x767D;&#x57FA;&#x672C;&#x7684;&#x865B;&#x51FD;&#x6578;&#x6982;&#x5FF5;&#x4EE5;&#x53CA;&#x865B;&#x51FD;&#x6578;&#x8868;&#xFF08;vtbl&#xFF09;&#x548C;&#x865B;&#x51FD;&#x6578;&#x8868;&#x6307;&#x91DD;&#xFF08;vptr&#xFF09;&#x7684;&#x6982;&#x5FF5;&#x548C;&#x5728;&#x7E7C;&#x627F;&#x5BE6;&#x73FE;&#x4E2D;&#x6240;&#x627F;&#x64D4;&#x7684;&#x4F5C;&#x7528;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x9084;&#x4E0D;&#x6E05;&#x695A;&#x9019;&#x4E9B;&#x6982;&#x5FF5;&#xFF0C;&#x5EFA;&#x8B70;&#x4F60;&#x5728;&#x7E7C;&#x7E8C;&#x95B1;&#x8B80;&#x4E0B;&#x9762;&#x7684;&#x5206;&#x6790;&#x524D;&#x5148;&#x88DC;&#x7FD2;&#x4E00;&#x4E0B;&#x76F8;&#x95DC;&#x77E5;&#x8B58;&#xFF0C;<code>&#x9673;&#x7693;&#x7684;&#x300A;C++&#x865B;&#x51FD;&#x6578;&#x8868;&#x89E3;&#x6790;&#x300B;&#x7CFB;&#x5217;</code>&#x662F;&#x4E00;&#x500B;&#x4E0D;&#x932F;&#x7684;&#x9078;&#x64C7;&#x3002;</p>
 <p>&#x901A;&#x904E;&#x672C;&#x6587;&#xFF0C;&#x6211;&#x5C07;&#x5617;&#x8A66;&#x89E3;&#x7B54;&#x4E0B;&#x9762;&#x9019;&#x4E09;&#x500B;&#x554F;&#x984C;&#xFF1A;</p>
 <ul>
@@ -15196,7 +15130,7 @@ Derived::h()
 <li>vtbl&#x5728;&#x4F55;&#x6642;&#x88AB;&#x5275;&#x5EFA;&#xFF1F;vptr&#x53C8;&#x662F;&#x5728;&#x4F55;&#x6642;&#x88AB;&#x521D;&#x59CB;&#x5316;&#xFF1F;</li>
 <li>&#x5728;Linux&#x4E2D;&#x904B;&#x884C;&#x7684;C++&#x7A0B;&#x5E8F;&#x865B;&#x64EC;&#x5B58;&#x5132;&#x5668;&#x4E2D;&#xFF0C;vptr&#x3001;vtbl&#x5B58;&#x653E;&#x5728;&#x865B;&#x64EC;&#x5B58;&#x5132;&#x7684;&#x4EC0;&#x9EBC;&#x4F4D;&#x7F6E;&#xFF1F;</li>
 </ul>
-<h3 id="g-%E5%A6%82%E4%BD%95%E5%AF%A6%E7%8F%BE%E8%99%9B%E5%87%BD%E6%95%B8%E7%9A%84%E5%8B%95%E6%85%8B%E7%B6%81%E5%AE%9A%EF%BC%9F">g++&#x5982;&#x4F55;&#x5BE6;&#x73FE;&#x865B;&#x51FD;&#x6578;&#x7684;&#x52D5;&#x614B;&#x7D81;&#x5B9A;&#xFF1F;</h3>
+<h3 id="g&#x5982;&#x4F55;&#x5BE6;&#x73FE;&#x865B;&#x51FD;&#x6578;&#x7684;&#x52D5;&#x614B;&#x7D81;&#x5B9A;&#xFF1F;">g++&#x5982;&#x4F55;&#x5BE6;&#x73FE;&#x865B;&#x51FD;&#x6578;&#x7684;&#x52D5;&#x614B;&#x7D81;&#x5B9A;&#xFF1F;</h3>
 <p>&#x9019;&#x500B;&#x554F;&#x984C;&#x4E4D;&#x770B;&#x7C21;&#x55AE;&#xFF0C;&#x5927;&#x5BB6;&#x90FD;&#x77E5;&#x9053;&#x662F;&#x901A;&#x904E;vptr&#x548C;vtbl&#x5BE6;&#x73FE;&#x7684;&#xFF0C;&#x90A3;&#x5C31;&#x8B93;&#x6211;&#x5011;&#x5228;&#x6839;&#x554F;&#x5E95;&#x7684;&#x770B;&#x4E00;&#x770B;&#xFF0C;g++&#x662F;&#x5982;&#x4F55;&#x5229;&#x7528;vptr&#x548C;vtbl&#x5BE6;&#x73FE;&#x7684;&#x3002;</p>
 <p>&#x7B2C;&#x4E00;&#x6B65;&#xFF0C;&#x4F7F;&#x7528; <code>-fdump-class-hierarchy</code> &#x53C3;&#x6578;&#x5C0E;&#x51FA;g++&#x751F;&#x6210;&#x7684;&#x985E;&#x5167;&#x5B58;&#x7D50;&#x69CB;&#xFF1A;</p>
 <pre><code class="lang-sh">Vtable <span class="hljs-keyword">for</span> Base1
@@ -15286,7 +15220,7 @@ Derived (<span class="hljs-number">0</span>xb6b12780) <span class="hljs-number">
 <p><code>&#x96D6;&#x7136;&#x662F;&#x6307;&#x5411;&#x540C;&#x4E00;&#x500B;&#x5BE6;&#x4F8B;&#x7684;&#x5F15;&#x7528;&#xFF0C;&#x6839;&#x64DA;&#x5F15;&#x7528;&#x985E;&#x578B;&#x7684;&#x4E0D;&#x540C;&#xFF0C;g++&#x7DE8;&#x8B6F;&#x5668;&#x6703;&#x70BA;&#x4E0D;&#x540C;&#x7684;&#x5F15;&#x7528;&#x8CE6;&#x4E88;&#x4E0D;&#x540C;&#x7684;&#x5730;&#x5740;&#x3002;</code>&#x4F8B;&#x5982;b2&#x5C31;&#x7372;&#x5F97;&#x4E00;&#x500B;&#x6307;&#x91DD;&#x7684;&#x504F;&#x79FB;&#x91CF;&#xFF0C;&#x56E0;&#x6B64;&#x624D;&#x4FDD;&#x8B49;&#x4E86;vptr&#x7684;&#x6B63;&#x78BA;&#x6027;&#x3002;</p>
 <p>PS&#xFF1A;&#x6211;&#x5011;&#x9806;&#x4FBF;&#x4E5F;&#x8B49;&#x660E;&#x77AD;C++&#x4E2D;&#x7684;&#x5F15;&#x7528;&#x7684;&#x771F;&#x5BE6;&#x8EAB;&#x4EFD;&#x5C31;&#x662F;&#x6307;&#x91DD;&#x2026;</p>
 <p>&#x63A5;&#x4E0B;&#x4F86;&#x9032;&#x5165;&#x7B2C;&#x4E8C;&#x500B;&#x554F;&#x984C;&#xFF1A;</p>
-<h3 id="vtbl%E5%9C%A8%E4%BD%95%E6%99%82%E8%A2%AB%E5%89%B5%E5%BB%BA%EF%BC%9Fvptr%E5%8F%88%E6%98%AF%E5%9C%A8%E4%BD%95%E6%99%82%E8%A2%AB%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%9F">vtbl&#x5728;&#x4F55;&#x6642;&#x88AB;&#x5275;&#x5EFA;&#xFF1F;vptr&#x53C8;&#x662F;&#x5728;&#x4F55;&#x6642;&#x88AB;&#x521D;&#x59CB;&#x5316;&#xFF1F;</h3>
+<h3 id="vtbl&#x5728;&#x4F55;&#x6642;&#x88AB;&#x5275;&#x5EFA;&#xFF1F;vptr&#x53C8;&#x662F;&#x5728;&#x4F55;&#x6642;&#x88AB;&#x521D;&#x59CB;&#x5316;&#xFF1F;">vtbl&#x5728;&#x4F55;&#x6642;&#x88AB;&#x5275;&#x5EFA;&#xFF1F;vptr&#x53C8;&#x662F;&#x5728;&#x4F55;&#x6642;&#x88AB;&#x521D;&#x59CB;&#x5316;&#xFF1F;</h3>
 <p>&#x65E2;&#x7136;&#x6211;&#x5011;&#x5DF2;&#x7D93;&#x77E5;&#x9053;&#x4E86;g++&#x662F;&#x5982;&#x4F55;&#x901A;&#x904E;vptr&#x548C;vtbl&#x4F86;&#x5BE6;&#x73FE;&#x865B;&#x51FD;&#x6578;&#x9B54;&#x6CD5;&#x7684;&#xFF0C;&#x90A3;&#x9EBC;vptr&#x548C;vtbl&#x53C8;&#x662F;&#x5728;&#x4EC0;&#x9EBC;&#x6642;&#x5019;&#x88AB;&#x5275;&#x5EFA;&#x7684;&#x5462;&#xFF1F;</p>
 <p>vptr&#x662F;&#x4E00;&#x500B;&#x76F8;&#x5C0D;&#x5BB9;&#x6613;&#x601D;&#x8003;&#x7684;&#x554F;&#x984C;&#xFF0C;&#x56E0;&#x70BA;vptr&#x660E;&#x78BA;&#x7684;&#x5C6C;&#x65BC;&#x4E00;&#x500B;&#x5BE6;&#x4F8B;&#xFF0C;&#x6240;&#x4EE5;vptr&#x7684;&#x8CE6;&#x503C;&#x7406;&#x61C9;&#x653E;&#x5728;&#x985E;&#x7684;&#x69CB;&#x9020;&#x51FD;&#x6578;&#x4E2D;&#x3002;<code>g++&#x70BA;&#x6BCF;&#x500B;&#x6709;&#x865B;&#x51FD;&#x6578;&#x7684;&#x985E;&#x5728;&#x69CB;&#x9020;&#x51FD;&#x6578;&#x672B;&#x5C3E;&#x4E2D;&#x96B1;&#x5F0F;&#x7684;&#x6DFB;&#x52A0;&#x4E86;&#x70BA;vptr&#x8CE6;&#x503C;&#x7684;&#x64CD;&#x4F5C;</code>&#x3002;</p>
 <p>&#x540C;&#x6A23;&#x901A;&#x904E;&#x751F;&#x6210;&#x7684;&#x5F59;&#x7DE8;&#x4EE3;&#x78BC;&#x9A57;&#x8B49;&#xFF1A;</p>
@@ -15343,11 +15277,11 @@ public:
 </code></pre>
 <p> Bingo&#xFF01;<code>g++&#x5728;&#x7DE8;&#x8B6F;&#x671F;&#x5C31;&#x70BA;&#x6BCF;&#x500B;&#x985E;&#x78BA;&#x5B9A;&#x4E86;vtbl&#x7684;&#x5167;&#x5BB9;&#xFF0C;&#x4E26;&#x4E14;&#x5728;&#x69CB;&#x9020;&#x51FD;&#x6578;&#x4E2D;&#x6DFB;&#x52A0;&#x76F8;&#x61C9;&#x4EE3;&#x78BC;&#x4F7F;vptr&#x80FD;&#x5920;&#x6307;&#x5411;&#x5DF2;&#x7D93;&#x586B;&#x597D;&#x7684;vtbl&#x7684;&#x5730;&#x5740;</code>&#x3002;</p>
 <p>&#x9019;&#x4E5F;&#x540C;&#x6642;&#x70BA;&#x6211;&#x5011;&#x89E3;&#x7B54;&#x4E86;&#x7B2C;&#x4E09;&#x500B;&#x554F;&#x984C;&#xFF1A;</p>
-<h3 id="%E5%9C%A8linux%E4%B8%AD%E9%81%8B%E8%A1%8C%E7%9A%84c-%E7%A8%8B%E5%BA%8F%E8%99%9B%E6%93%AC%E5%AD%98%E5%84%B2%E5%99%A8%E4%B8%AD%EF%BC%8Cvptr%E3%80%81vtbl%E5%AD%98%E6%94%BE%E5%9C%A8%E8%99%9B%E6%93%AC%E5%AD%98%E5%84%B2%E7%9A%84%E4%BB%80%E9%BA%BC%E4%BD%8D%E7%BD%AE%EF%BC%9F">&#x5728;Linux&#x4E2D;&#x904B;&#x884C;&#x7684;C++&#x7A0B;&#x5E8F;&#x865B;&#x64EC;&#x5B58;&#x5132;&#x5668;&#x4E2D;&#xFF0C;vptr&#x3001;vtbl&#x5B58;&#x653E;&#x5728;&#x865B;&#x64EC;&#x5B58;&#x5132;&#x7684;&#x4EC0;&#x9EBC;&#x4F4D;&#x7F6E;&#xFF1F;</h3>
+<h3 id="&#x5728;linux&#x4E2D;&#x904B;&#x884C;&#x7684;c&#x7A0B;&#x5E8F;&#x865B;&#x64EC;&#x5B58;&#x5132;&#x5668;&#x4E2D;&#xFF0C;vptr&#x3001;vtbl&#x5B58;&#x653E;&#x5728;&#x865B;&#x64EC;&#x5B58;&#x5132;&#x7684;&#x4EC0;&#x9EBC;&#x4F4D;&#x7F6E;&#xFF1F;">&#x5728;Linux&#x4E2D;&#x904B;&#x884C;&#x7684;C++&#x7A0B;&#x5E8F;&#x865B;&#x64EC;&#x5B58;&#x5132;&#x5668;&#x4E2D;&#xFF0C;vptr&#x3001;vtbl&#x5B58;&#x653E;&#x5728;&#x865B;&#x64EC;&#x5B58;&#x5132;&#x7684;&#x4EC0;&#x9EBC;&#x4F4D;&#x7F6E;&#xFF1F;</h3>
 <p>&#x76F4;&#x63A5;&#x770B;&#x5716;&#xFF1A;</p>
 <p><img src="images/processmem.png" alt=""></p>
 <p>&#x5716;&#x4E2D;&#x7070;&#x8272;&#x90E8;&#x5206;&#x61C9;&#x8A72;&#x662F;&#x4F60;&#x5DF2;&#x7D93;&#x719F;&#x6089;&#x7684;&#xFF0C;&#x5F69;&#x8272;&#x90E8;&#x5206;&#x5167;&#x5BB9;&#x548C;&#x76F8;&#x95DC;&#x806F;&#x7684;&#x7BAD;&#x982D;&#x63CF;&#x8FF0;&#x4E86;&#x865B;&#x51FD;&#x6578;&#x8ABF;&#x7528;&#x7684;&#x904E;&#x7A0B;&#xFF08;&#x5716;&#x4E2D;&#x5C55;&#x793A;&#x7684;&#x662F;&#x901A;&#x904E;new&#x5728;&#x5806;&#x5340;&#x5275;&#x5EFA;&#x5BE6;&#x4F8B;&#x7684;&#x60C5;&#x6CC1;&#xFF0C;&#x8207;&#x793A;&#x4F8B;&#x4EE3;&#x78BC;&#x6709;&#x6240;&#x5340;&#x5225;&#xFF0C;&#x5C0F;&#x5931;&#x8AA4;&#xFF0C;&#x4E0D;&#x8981;&#x5728;&#x610F;&#xFF09;&#xFF1A;<code>&#x7576;&#x8ABF;&#x7528;&#x865B;&#x51FD;&#x6578;&#x6642;&#xFF0C;&#x9996;&#x5148;&#x901A;&#x904E;&#x4F4D;&#x65BC;&#x68E7;&#x5340;&#x7684;&#x5BE6;&#x4F8B;&#x7684;&#x6307;&#x91DD;&#x627E;&#x5230;&#x4F4D;&#x65BC;&#x5806;&#x5340;&#x4E2D;&#x7684;&#x5BE6;&#x4F8B;&#x5730;&#x5740;&#xFF0C;&#x7136;&#x5F8C;&#x901A;&#x904E;&#x5BE6;&#x4F8B;&#x5167;&#x5B58;&#x958B;&#x982D;&#x8655;&#x7684;vptr&#x627E;&#x5230;&#x4F4D;&#x65BC;.rodata&#x6BB5;&#x7684;vtbl&#xFF0C;&#x518D;&#x6839;&#x64DA;&#x504F;&#x79FB;&#x91CF;&#x627E;&#x5230;&#x60F3;&#x8981;&#x8ABF;&#x7528;&#x7684;&#x51FD;&#x6578;&#x5730;&#x5740;&#xFF0C;&#x6700;&#x5F8C;&#x8DF3;&#x8F49;&#x5230;&#x4EE3;&#x78BC;&#x6BB5;&#x4E2D;&#x7684;&#x51FD;&#x6578;&#x5730;&#x5740;&#x57F7;&#x884C;&#x76EE;&#x6A19;&#x51FD;&#x6578;&#x3002;</code></p>
-<h2 id="%E7%B8%BD%E7%B5%90">&#x7E3D;&#x7D50;</h2>
+<h2 id="&#x7E3D;&#x7D50;">&#x7E3D;&#x7D50;</h2>
 <p>&#x7814;&#x7A76;&#x9019;&#x4E9B;&#x554F;&#x984C;&#x7684;&#x8D77;&#x56E0;&#x662F;&#x56E0;&#x70BA;&#x516C;&#x53F8;&#x4EE3;&#x78BC;&#x51FA;&#x73FE;&#x4E86;&#x975E;&#x5E38;&#x5947;&#x8469;&#x7684;&#x884C;&#x70BA;&#xFF0C;&#x7D93;&#x904E;&#x8FFD;&#x67E5;&#x5B9A;&#x4F4D;&#x5230;&#x865B;&#x51FD;&#x6578;&#x8868;&#x51FA;&#x4E86;&#x554F;&#x984C;&#xFF0C;&#x56E0;&#x6B64;&#x624D;&#x6709;&#x6A5F;&#x6703;&#x8173;&#x8E0F;&#x5BE6;&#x5730;&#x7684;&#x5C0D;&#x865B;&#x51FD;&#x6578;&#x5BE6;&#x73FE;&#x9032;&#x884C;&#x4E00;&#x756A;&#x63A2;&#x7D22;&#x3002;</p>
 <p>&#x4E5F;&#x8A31;&#x4F60;&#x6703;&#x60F3;&#xFF0C;&#x5373;&#x4F7F;&#x6211;&#x4E0D;&#x660E;&#x767D;&#x9019;&#x4E9B;&#x5E95;&#x5C64;&#x539F;&#x7406;&#xFF0C;&#x4E5F;&#x4E00;&#x6A23;&#x53EF;&#x4EE5;&#x6B63;&#x5E38;&#x7684;&#x4F7F;&#x7528;&#x865B;&#x51FD;&#x6578;&#xFF0C;&#x4E5F;&#x4E00;&#x6A23;&#x53EF;&#x4EE5;&#x5BEB;&#x51FA;&#x5F88;&#x597D;&#x7684;&#x9762;&#x76F8;&#x5C0D;&#x8C61;&#x7684;&#x4EE3;&#x78BC;&#x554A;&#xFF1F;</p>
 <p>&#x9019;&#x4E00;&#x9EDE;&#x5152;&#x4E5F;&#x6C92;&#x6709;&#x932F;&#xFF0C;&#x4F46;&#x662F;&#xFF0C;C++&#x4F5C;&#x70BA;&#x5168;&#x5B87;&#x5B99;&#x6700;&#x8907;&#x96DC;&#x7684;&#x7A0B;&#x5E8F;&#x8A2D;&#x8A08;&#x8A9E;&#x8A00;&#xFF0C;&#x5B83;&#x63D0;&#x4F9B;&#x7684;&#x529F;&#x80FD;&#x7570;&#x5E38;&#x5F37;&#x5927;&#xFF0C;&#x7121;&#x7570;&#x65BC;&#x6B66;&#x4FE0;&#x5C0F;&#x8AAA;&#x4E2D;&#x92D2;&#x5229;&#x7121;&#x6BD4;&#x7684;&#x5C60;&#x9F8D;&#x5BF6;&#x5200;&#x3002;&#x4F46;&#x6B66;&#x529F;&#x4E0D;&#x597D;&#x7684;&#x83DC;&#x9CE5;&#x5982;&#x679C;&#x80E1;&#x4E82;&#x821E;&#x5F04;&#x5BF6;&#x5200;&#xFF0C;&#x537B;&#x5F88;&#x5BB9;&#x6613;&#x53CD;&#x88AB;&#x5176;&#x6240;&#x50B7;&#x3002;&#x53EA;&#x6709;&#x77AD;&#x89E3;&#x4E86;C++&#x5E95;&#x5C64;&#x7684;&#x539F;&#x7406;&#x548C;&#x6A5F;&#x5236;&#xFF0C;&#x624D;&#x80FD;&#x8B93;&#x6211;&#x5011;&#x628A;C++&#x9019;&#x628A;&#x5C60;&#x9F8D;&#x5BF6;&#x5200;&#x4F7F;&#x7528;&#x7684;&#x66F4;&#x52A0;&#x5F97;&#x5FC3;&#x61C9;&#x624B;&#xFF0C;&#x8B8A;&#x5316;&#x51FA;&#x66F4;&#x52A0;&#x83EF;&#x9E97;&#x7684;&#x62DB;&#x5F0F;&#xFF0C;&#x6210;&#x70BA;&#x771F;&#x6B63;&#x7684;&#x6B66;&#x6797;&#x9AD8;&#x624B;&#x3002;</p>
@@ -15392,9 +15326,17 @@ public:
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

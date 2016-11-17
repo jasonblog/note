@@ -8,7 +8,7 @@
         <title>Mutex 與 Semaphore 最大的差異是 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="13.40" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="13.40"
+        data-chapter-title="Mutex 與 Semaphore 最大的差異是"
+        data-filepath="linux_system/mutex_yu_semaphore_zui_da_de_cha_yi_shi.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,8 +15051,8 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="mutex-%E8%88%87-semaphore-%E6%9C%80%E5%A4%A7%E7%9A%84%E5%B7%AE%E7%95%B0%E6%98%AF">Mutex &#x8207; Semaphore &#x6700;&#x5927;&#x7684;&#x5DEE;&#x7570;&#x662F;</h1>
-<h2 id="%E5%90%8D%E8%A9%9E%E5%AE%9A%E7%BE%A9">&#x540D;&#x8A5E;&#x5B9A;&#x7FA9;</h2>
+                        <h1 id="mutex-&#x8207;-semaphore-&#x6700;&#x5927;&#x7684;&#x5DEE;&#x7570;&#x662F;">Mutex &#x8207; Semaphore &#x6700;&#x5927;&#x7684;&#x5DEE;&#x7570;&#x662F;</h1>
+<h2 id="&#x540D;&#x8A5E;&#x5B9A;&#x7FA9;">&#x540D;&#x8A5E;&#x5B9A;&#x7FA9;</h2>
 <ul>
 <li>Mutex: Linux kenrel &#x4E2D;&#x7684; mutex lock, <include mutex.h=""></include></li>
 <li>Semaphore: Linux kernel &#x4E2D;&#x7684; semaphore, <include semaphore.h=""></include></li>
@@ -15177,7 +15111,7 @@
 <li><p>Hsiao Chen-Han. 2014. Mutexes VS Semaphores &#x5927;&#x63ED;&#x7955;. (January 2014). <a href="http://swem.logdown.com/posts/177651-mutexes-and-semaphores-demystified" target="_blank">http://swem.logdown.com/posts/177651-mutexes-and-semaphores-demystified</a></p>
 </li>
 </ul>
-<h2 id="%E5%87%BA%E8%99%95">&#x51FA;&#x8655;</h2>
+<h2 id="&#x51FA;&#x8655;">&#x51FA;&#x8655;</h2>
 <p><a href="https://blog.louie.lu/2016/10/22/mutex-semaphore-the-difference-and-linux-kernel/" target="_blank">https://blog.louie.lu/2016/10/22/mutex-semaphore-the-difference-and-linux-kernel/</a></p>
 
                     
@@ -15220,9 +15154,17 @@
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

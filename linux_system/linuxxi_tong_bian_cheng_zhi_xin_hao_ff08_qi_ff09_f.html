@@ -8,7 +8,7 @@
         <title>linux系統編程之信號（七）：被信號中斷的系統調用和庫函數處理方式 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="13.1.23" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="13.1.23"
+        data-chapter-title="linux系統編程之信號（七）：被信號中斷的系統調用和庫函數處理方式"
+        data-filepath="linux_system/linuxxi_tong_bian_cheng_zhi_xin_hao_ff08_qi_ff09_f.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,7 +15051,7 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="linux%E7%B3%BB%E7%B5%B1%E7%B7%A8%E7%A8%8B%E4%B9%8B%E4%BF%A1%E8%99%9F%EF%BC%88%E4%B8%83%EF%BC%89%EF%BC%9A%E8%A2%AB%E4%BF%A1%E8%99%9F%E4%B8%AD%E6%96%B7%E7%9A%84%E7%B3%BB%E7%B5%B1%E8%AA%BF%E7%94%A8%E5%92%8C%E5%BA%AB%E5%87%BD%E6%95%B8%E8%99%95%E7%90%86%E6%96%B9%E5%BC%8F">linux&#x7CFB;&#x7D71;&#x7DE8;&#x7A0B;&#x4E4B;&#x4FE1;&#x865F;&#xFF08;&#x4E03;&#xFF09;&#xFF1A;&#x88AB;&#x4FE1;&#x865F;&#x4E2D;&#x65B7;&#x7684;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x548C;&#x5EAB;&#x51FD;&#x6578;&#x8655;&#x7406;&#x65B9;&#x5F0F;</h1>
+                        <h1 id="linux&#x7CFB;&#x7D71;&#x7DE8;&#x7A0B;&#x4E4B;&#x4FE1;&#x865F;&#xFF08;&#x4E03;&#xFF09;&#xFF1A;&#x88AB;&#x4FE1;&#x865F;&#x4E2D;&#x65B7;&#x7684;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x548C;&#x5EAB;&#x51FD;&#x6578;&#x8655;&#x7406;&#x65B9;&#x5F0F;">linux&#x7CFB;&#x7D71;&#x7DE8;&#x7A0B;&#x4E4B;&#x4FE1;&#x865F;&#xFF08;&#x4E03;&#xFF09;&#xFF1A;&#x88AB;&#x4FE1;&#x865F;&#x4E2D;&#x65B7;&#x7684;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x548C;&#x5EAB;&#x51FD;&#x6578;&#x8655;&#x7406;&#x65B9;&#x5F0F;</h1>
 <p> &#x4E00;&#x4E9B;IO&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x57F7;&#x884C;&#x6642;, &#x5982; read &#x7B49;&#x5F85;&#x8F38;&#x5165;&#x671F;&#x9593;, &#x5982;&#x679C;&#x6536;&#x5230;&#x4E00;&#x500B;&#x4FE1;&#x865F;,&#x7CFB;&#x7D71;&#x5C07;&#x4E2D;&#x65B7;read, &#x8F49;&#x800C;&#x57F7;&#x884C;&#x4FE1;&#x865F;&#x8655;&#x7406;&#x51FD;&#x6578;. &#x7576;&#x4FE1;&#x865F;&#x8655;&#x7406;&#x8FD4;&#x56DE;&#x5F8C;, &#x7CFB;&#x7D71;&#x9047;&#x5230;&#x4E86;&#x4E00;&#x500B;&#x554F;&#x984C;: &#x662F;&#x91CD;&#x65B0;&#x958B;&#x59CB;&#x9019;&#x500B;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;, &#x9084;&#x662F;&#x8B93;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x5931;&#x6557;?&#x65E9;&#x671F;UNIX&#x7CFB;&#x7D71;&#x7684;&#x505A;&#x6CD5;&#x662F;, &#x4E2D;&#x65B7;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;, &#x4E26;&#x8B93;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x5931;&#x6557;, &#x6BD4;&#x5982;read&#x8FD4;&#x56DE; -1, &#x540C;&#x6642;&#x8A2D;&#x7F6E; errno &#x70BA; EINTR&#x4E2D;&#x65B7;&#x4E86;&#x7684;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x662F;&#x6C92;&#x6709;&#x5B8C;&#x6210;&#x7684;&#x8ABF;&#x7528;, &#x5B83;&#x7684;&#x5931;&#x6557;&#x662F;&#x81E8;&#x6642;&#x6027;&#x7684;, &#x5982;&#x679C;&#x518D;&#x6B21;&#x8ABF;&#x7528;&#x5247;&#x53EF;&#x80FD;&#x6210;&#x529F;, &#x9019;&#x4E26;&#x4E0D;&#x662F;&#x771F;&#x6B63;&#x7684;&#x5931;&#x6557;, &#x6240;&#x4EE5;&#x8981;&#x5C0D;&#x9019;&#x7A2E;&#x60C5;&#x6CC1;&#x9032;&#x884C;&#x8655;&#x7406;, &#x5178;&#x578B;&#x7684;&#x65B9;&#x5F0F;&#x70BA;:</p>
 <pre><code class="lang-c"> <span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>)
 {
@@ -15308,9 +15242,17 @@ Interruption of system calls and library functions by signal handlers
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

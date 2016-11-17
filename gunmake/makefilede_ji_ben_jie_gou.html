@@ -8,7 +8,7 @@
         <title>Makefile的基本結構 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="19.15" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="19.15"
+        data-chapter-title="Makefile的基本結構"
+        data-filepath="gunmake/makefilede_ji_ben_jie_gou.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,8 +15051,8 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="makefile%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%B5%90%E6%A7%8B">Makefile&#x7684;&#x57FA;&#x672C;&#x7D50;&#x69CB;</h1>
-<h2 id="makefile%E7%9A%84%E4%B8%80%E8%88%AC%E7%B5%90%E6%A7%8B%EF%BC%9A">Makefile&#x7684;&#x4E00;&#x822C;&#x7D50;&#x69CB;&#xFF1A;</h2>
+                        <h1 id="makefile&#x7684;&#x57FA;&#x672C;&#x7D50;&#x69CB;">Makefile&#x7684;&#x57FA;&#x672C;&#x7D50;&#x69CB;</h1>
+<h2 id="makefile&#x7684;&#x4E00;&#x822C;&#x7D50;&#x69CB;&#xFF1A;">Makefile&#x7684;&#x4E00;&#x822C;&#x7D50;&#x69CB;&#xFF1A;</h2>
 <pre><code class="lang-sh">target&#x2026;&#x2026;&#xFF1A;dependency&#x2026;&#x2026;
     <span class="hljs-built_in">command</span>&#x2026;&#x2026;
 </code></pre>
@@ -15145,7 +15079,7 @@
 &#x5982;&#x679C;&#x5728;&#x524D;&#x5F8C;&#x5169;&#x6B21;&#x7DE8;&#x8B6F;&#x4E4B;&#x9593;&#xFF0C;test.c&#x548C;test.h&#x5747;&#x6C92;&#x6709;&#x88AB;&#x4FEE;&#x6539;&#xFF0C;&#x800C;&#x4E14;test.o&#x9084;&#x5B58;&#x5728;&#x7684;&#x8A71;&#xFF0C;
 &#x5C31;&#x6C92;&#x6709;&#x5FC5;&#x8981;&#x91CD;&#x65B0;&#x7DE8;&#x8B6F;&#x3002;</p>
 <hr>
-<h2 id="makefile%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%85%A7%E5%AE%B9">Makefile&#x7684;&#x57FA;&#x672C;&#x5167;&#x5BB9;</h2>
+<h2 id="makefile&#x7684;&#x57FA;&#x672C;&#x5167;&#x5BB9;">Makefile&#x7684;&#x57FA;&#x672C;&#x5167;&#x5BB9;</h2>
 <ul>
 <li><p>&#x986F;&#x5F0F;&#x898F;&#x5247;&#xFF1A;&#x986F;&#x5F0F;&#x898F;&#x5247;&#x8AAA;&#x660E;&#x5982;&#x4F55;&#x7522;&#x751F;&#x4E00;&#x500B;&#x6216;&#x591A;&#x500B;&#x7684;&#x76EE;&#x6A19;&#x6A94;&#x3002;&#x9019;&#x662F;&#x7531;
 Makefile&#x7684;&#x66F8;&#x5BEB;&#x8005;&#x660E;&#x986F;&#x6307;&#x51FA;&#xFF0C;&#x8981;&#x7522;&#x751F;&#x7684;&#x6A94;&#xFF0C;&#x6A94;&#x7684;&#x4F9D;&#x8CF4;&#x6A94;&#xFF0C;&#x7522;&#x751F;&#x7684;&#x547D;
@@ -15170,7 +15104,7 @@ Makefile&#xFF0C;&#x5C31;&#x50CF;C&#x8A9E;&#x8A00;&#x4E2D;&#x7684;include&#x4E00;
 &#x3002;</p>
 </li>
 </ul>
-<h2 id="makefile%E4%B8%AD%E7%9A%84%E8%AE%8A%E6%95%B8">Makefile&#x4E2D;&#x7684;&#x8B8A;&#x6578;</h2>
+<h2 id="makefile&#x4E2D;&#x7684;&#x8B8A;&#x6578;">Makefile&#x4E2D;&#x7684;&#x8B8A;&#x6578;</h2>
 <ul>
 <li><p>Makefile&#x4E2D;&#x5B9A;&#x7FA9;&#x7684;&#x8B8A;&#x6578;&#xFF0C;&#x8207;C/C++&#x8A9E;&#x8A00;&#x4E2D;&#x7684;&#x5DE8;&#x96C6;&#x4E00;&#x6A23;&#xFF0C;&#x4EE3;
 &#x8868;&#x4E00;&#x500B;&#x6587;&#x672C;&#x5B57;&#x4E32;&#xFF0C;&#x5728;Makefile&#x88AB;&#x57F7;&#x884C;&#x6642;&#x5019;&#x8B8A;&#x6578;&#x6703;&#x81EA;&#x52D5;&#x5730;&#x5C55;
@@ -15233,7 +15167,7 @@ hello.o: hello.c
 clean:
     rm &#x2013;rf hello *.o
 </code></pre>
-<h2 id="%E5%91%BD%E4%BB%A4%E7%9A%84%E8%AE%8A%E6%95%B8">&#x547D;&#x4EE4;&#x7684;&#x8B8A;&#x6578;</h2>
+<h2 id="&#x547D;&#x4EE4;&#x7684;&#x8B8A;&#x6578;">&#x547D;&#x4EE4;&#x7684;&#x8B8A;&#x6578;</h2>
 <pre><code class="lang-sh">AR &#x51FD;&#x5F0F;&#x5EAB;&#x6253;&#x5305;&#x7A0B;&#x5F0F;&#x3002;&#x9810;&#x8A2D;&#x547D;&#x4EE4;&#x662F;&#x201C;ar&#x201D;&#x3002;
 &#x2022; AS &#x7D44;&#x5408;&#x8A9E;&#x8A00;&#x7DE8;&#x8B6F;&#x7A0B;&#x5E8F;&#x3002;&#x9810;&#x8A2D;&#x547D;&#x4EE4;&#x662F;&#x201C;as&#x201D;&#x3002;
 &#x2022; CC C&#x8A9E;&#x8A00;&#x7DE8;&#x8B6F;&#x7A0B;&#x5E8F;&#x3002;&#x9810;&#x8A2D;&#x547D;&#x4EE4;&#x662F;&#x201C;cc&#x201D;&#x3002;
@@ -15255,7 +15189,7 @@ clean:
 &#x2022; CTANGLE &#x8F49;&#x63DB;C Web &#x5230; C&#x3002;&#x9810;&#x8A2D;&#x547D;&#x4EE4;&#x662F;&#x201C;ctangle&#x201D;&#x3002;
 &#x2022; RM &#x522A;&#x9664;&#x6A94;&#x547D;&#x4EE4;&#x3002;&#x9810;&#x8A2D;&#x547D;&#x4EE4;&#x662F;&#x201C;rm &#x2013;f&#x201D;&#x3002;
 </code></pre>
-<h2 id="%E5%91%BD%E4%BB%A4%E5%8F%83%E6%95%B8%E8%AE%8A%E6%95%B8">&#x547D;&#x4EE4;&#x53C3;&#x6578;&#x8B8A;&#x6578;</h2>
+<h2 id="&#x547D;&#x4EE4;&#x53C3;&#x6578;&#x8B8A;&#x6578;">&#x547D;&#x4EE4;&#x53C3;&#x6578;&#x8B8A;&#x6578;</h2>
 <pre><code class="lang-sh">&#x2022; ARFLAGS &#x51FD;&#x5F0F;&#x5EAB;&#x6253;&#x5305;&#x7A0B;&#x5F0F;AR&#x547D;&#x4EE4;&#x7684;&#x53C3;&#x6578;&#x3002;&#x9810;&#x8A2D;&#x503C;&#x662F;&#x201C;rv&#x201D;
 &#x2022; ASFLAGS &#x7D44;&#x5408;&#x8A9E;&#x8A00;&#x7DE8;&#x8B6F;&#x5668;&#x53C3;&#x6578;&#x3002;&#xFF08;&#x7576;&#x660E;&#x986F;&#x5730;&#x8ABF;&#x7528;&#x201C;.s&#x201D;&#x6216;&#x201C;.S&#x201D;&#x6A94;&#x6848;
 &#x6642;&#xFF09;&#x3002;
@@ -15377,9 +15311,17 @@ clean:
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

@@ -8,7 +8,7 @@
         <title>類似 C++ template 來實做呢？C11 有 _Generic 關鍵字 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="59.1.5" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="59.1.5"
+        data-chapter-title="類似 C++ template 來實做呢？C11 有 _Generic 關鍵字"
+        data-filepath="ncku_embededd/lei_si_c_++_template_lai_shi_zuo_ni_ff1f_c11_you_g.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,14 +15051,14 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E9%A1%9E%E4%BC%BC-c-template-%E4%BE%86%E5%AF%A6%E5%81%9A%E5%91%A2%EF%BC%9Fc11-%E6%9C%89-generic-%E9%97%9C%E9%8D%B5%E5%AD%97">&#x985E;&#x4F3C; C++ template &#x4F86;&#x5BE6;&#x505A;&#x5462;&#xFF1F;C11 &#x6709; _Generic &#x95DC;&#x9375;&#x5B57;</h1>
+                        <h1 id="&#x985E;&#x4F3C;-c-template-&#x4F86;&#x5BE6;&#x505A;&#x5462;&#xFF1F;c11-&#x6709;-generic-&#x95DC;&#x9375;&#x5B57;">&#x985E;&#x4F3C; C++ template &#x4F86;&#x5BE6;&#x505A;&#x5462;&#xFF1F;C11 &#x6709; _Generic &#x95DC;&#x9375;&#x5B57;</h1>
 <p>&#xFEFF;# 2016q3 Homework2 (phonebook-concurrent)
 contribute by &lt;<code>c14006078</code>&gt;</p>
 <h2 id="refactor">refactor</h2>
 <p>&#x770B;&#x5B8C;&#x5169;&#x500B;&#x4E2D;&#x6587;&#x9023;&#x7D50;&#xFF0C;&#x5C31;&#x6211;&#x7406;&#x89E3;&#x4E0A;&#xFF0C;&#x6240;&#x8B02;&#x7684; refactor&#x7684;&#x76EE;&#x7684;&#x5C31;&#x662F;&#x8B93;&#x7A0B;&#x5F0F;&#x66F4;&#x6613;&#x65BC;&#x7DAD;&#x8B77;&#x3001;&#x65B0;&#x589E;&#x529F;&#x80FD;&#x3001;&#x5BB9;&#x6613;&#x627E;&#x51FA;bug&#x51FA;&#x5728;&#x90A3;&#x908A;&#xFF0C;&#x5C07;&#x7A0B;&#x5F0F;&#x7684;&#x5206;&#x5DE5;&#x4E26;&#x5C07;&#x529F;&#x80FD;&#x6700;&#x5C0F;&#x5316;&#x589E;&#x52A0; reuse&#xFF0C;&#x800C;&#x4ED6;&#x662F;&#x4E00;&#x500B;&#x5728;&#x5BEB;&#x7A0B;&#x5F0F;&#x6642;&#x5C31;&#x8A72;&#x601D;&#x8003;&#x8A72;&#x6539;&#x5584;&#x7684;&#x6B65;&#x9A5F;&#xFF0C;&#x5982;&#x548C;&#x5C07;&#x7A0B;&#x662F;&#x7684;&#x5206;&#x5DE5;&#x8B8A;&#x5F97;&#x975E;&#x5E38;&#x660E;&#x78BA;&#xFF0C;&#x4E0D;&#x8B93;&#x91CD;&#x8907;&#x7684;code&#x4E00;&#x76F4;&#x91CD;&#x5BEB;&#x3002;</p>
 <p>&#x300A;<a href="http://jjhou.boolan.com/jjtbooks-refactoring.htm" target="_blank">Refactoring</a>&#x300B;&#x66F8;&#x4E2D;&#x63D0;&#x5230;22&#x500B;&#x58DE;&#x5473;&#x9053;&#xFF0C;&#x5305;&#x542B;&#xFF1A;duplicated code&#x3001;long method&#x3001;large class&#x3001;long parameter list&#x3001;divergent change&#x3001;shotgun surgery&#x3001;feature envy&#x3001;data clumps&#x3001;primitive obsession&#x3001;switch statements&#x3001;parallel inheritance hierarchies&#x3001;lazy class&#x3001;speculative generality&#x3001;temporary field&#x3001;message chains&#x3001;middle man&#x3001;inappropriate intimacy&#x3001;alternative classes with different interfaces&#x3001;incomplete library class&#x3001;data class&#x3001;refused bequest&#x3001;comments&#x3002;</p>
 <p>&#x53C3;&#x8003;&#xFF1A;<a href="http://www.ithome.com.tw/node/79813" target="_blank">&#x5C0D;&#x65BC;&#x91CD;&#x69CB;&#x7684;&#x5169;&#x5247;&#x5E38;&#x898B;&#x8AA4;&#x89E3;</a></p>
-<h2 id="%E6%AA%A2%E8%A8%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E7%BC%BA%E5%A4%B1">&#x6AA2;&#x8A0E;&#x81EA;&#x5DF1;&#x7684;&#x7F3A;&#x5931;</h2>
+<h2 id="&#x6AA2;&#x8A0E;&#x81EA;&#x5DF1;&#x7684;&#x7F3A;&#x5931;">&#x6AA2;&#x8A0E;&#x81EA;&#x5DF1;&#x7684;&#x7F3A;&#x5931;</h2>
 <ol>
 <li>&#x8B8A;&#x6578;&#x547D;&#x540D;&#x5F88;&#x721B;</li>
 </ol>
@@ -15160,13 +15094,13 @@ contribute by &lt;<code>c14006078</code>&gt;</p>
 </blockquote>
 </li>
 </ol>
-<h2 id="%E5%9B%9E%E5%82%B3%E7%B3%BB%E7%B5%B1%E8%B3%87%E8%A8%8A-in-c">&#x56DE;&#x50B3;&#x7CFB;&#x7D71;&#x8CC7;&#x8A0A; in C</h2>
+<h2 id="&#x56DE;&#x50B3;&#x7CFB;&#x7D71;&#x8CC7;&#x8A0A;-in-c">&#x56DE;&#x50B3;&#x7CFB;&#x7D71;&#x8CC7;&#x8A0A; in C</h2>
 <p><code>sysconf(3)</code> &#x4E3B;&#x8981;&#x56DE;&#x50B3;&#x6578;&#x5B57;&#xFF0C;&#x900F;&#x904E;&#x4E0D;&#x540C;&#x7684; flag &#x80FD;&#x5F97;&#x5230;&#x4E0D;&#x540C;&#x7684;&#x56DE;&#x50B3;&#x503C;&#xFF0C;&#x7B97;&#x662F;&#x633A;&#x5168;&#x9762;&#x7684;&#x3002;</p>
 <p>&#x6211;&#x7528;&#x5B83;&#x4F86;&#x6539;&#x6211;&#x7684; hardcode <code>THREAD_NUM</code>
 <code>#define THREAD_NUM (int)(sysconf(_SC_NPROCESS_ONLN))</code></p>
 <p>&#x6211;&#x4E5F;&#x6709;&#x7DF4;&#x7FD2;&#x5176;&#x4ED6;&#x7684;&#x90E8;&#x5206;&#xFF0C;&#x9019;&#x908A;&#x5C31;&#x4E0D;&#x5217;&#x8209;&#x4E86;&#x3002;
 <a href="https://github.com/c14006078/PracticeMakePerfect/commit/6e3ae2b25a75c6ad11d556838c4a75e7ab738b87" target="_blank">https://github.com/c14006078/PracticeMakePerfect/commit/6e3ae2b25a75c6ad11d556838c4a75e7ab738b87</a></p>
-<h2 id="phonebook%E7%89%A9%E4%BB%B6%E5%8C%96">phonebook&#x7269;&#x4EF6;&#x5316;</h2>
+<h2 id="phonebook&#x7269;&#x4EF6;&#x5316;">phonebook&#x7269;&#x4EF6;&#x5316;</h2>
 <p>&#x8AAA;&#x5230; refactor&#x7684;&#x6539;&#x5584;&#xFF0C;&#x6211;&#x5617;&#x8A66;&#x60F3;&#x628A;&#x6211;&#x7684; code&#x505A;&#x7269;&#x4EF6;&#x5316;&#xFF0C;&#x6211;&#x89BA;&#x5F97;&#x4ED6;&#x7D66;&#x6211;&#x5011;&#x6700;&#x5927;&#x7684;&#x597D;&#x8655;&#x5C31;&#x662F;&#xFF0C;&#x8B93;&#x5225;&#x4EBA;&#x4E00;&#x773C;&#x5C31;&#x770B;&#x51FA;&#x4F86;&#x6211;&#x5011;&#x7684; phonebook&#x7684; attribute &#x548C; &#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x7684; method&#xFF0C;&#x800C;&#x4E0D;&#x6703;&#x662F;&#x50CF; append&#x9019;&#x6A23;&#x7C21;&#x6613;&#x7684;&#x547D;&#x540D;&#xFF0C;&#x8B93;&#x6211;&#x5011;&#x4E0D;&#x6E05;&#x695A;&#x4ED6;&#x5230;&#x5E95;&#x518D; append&#x54EA;&#x4E9B;&#x6771;&#x897F;&#xFF0C;&#x800C;&#x4E14;&#x8981;&#x52A0;&#x984D;&#x5916;&#x7684;&#x529F;&#x80FD;&#x53EA;&#x8981;&#x518D;&#x591A;&#x958B;&#x4E00;&#x500B; function pointer&#xFF0C;&#x5927;&#x5BB6;&#x4E00;&#x76EE;&#x77AD;&#x7136;phonebook &#x591A;&#x4E86;&#x4EC0;&#x9EBC;&#x529F;&#x80FD;&#x3002;</p>
 <ul>
 <li><p>phonebook</p>
@@ -15286,16 +15220,16 @@ set shiftwidth=4 &quot; &#x91DD;&#x5C0D;&#x7E2E;&#x6392;&#x6240;&#x9700;&#x8981;
 <li>&#x52A0;&#x5165;&#x4E00;&#x500B; task&#x6642;&#x5C31;&#x53BB; cond_signal&#xFF0C;&#x800C;&#x4E14;&#x8981; assign &#x7D66;&#x4ED6;&#x76EE;&#x524D;&#x7684; function &#x548C; argument</li>
 <li></li>
 </ul>
-<h2 id="condition-variable-%E7%94%A8%E6%B3%95%E5%8F%8A%E5%AF%A6%E4%BE%8B">condition variable &#x7528;&#x6CD5;&#x53CA;&#x5BE6;&#x4F8B;</h2>
+<h2 id="condition-variable-&#x7528;&#x6CD5;&#x53CA;&#x5BE6;&#x4F8B;">condition variable &#x7528;&#x6CD5;&#x53CA;&#x5BE6;&#x4F8B;</h2>
 <p>&#x6211;&#x53C3;&#x8003;&#x6211; IPC&#x7684;&#x66F8;&#x7C4D;&#xFF0C;&#x5617;&#x8A66;&#x9078;&#x5BEB;&#x4E00;&#x4EFD; condition variable &#x7684;&#x7528;&#x6CD5;&#x3002;</p>
-<h2 id="%E6%B7%BA%E8%AB%87-do-while-0">&#x6DFA;&#x8AC7; <code>do{ } while (0)</code></h2>
+<h2 id="&#x6DFA;&#x8AC7;-do--while-0">&#x6DFA;&#x8AC7; <code>do{ } while (0)</code></h2>
 <p>&#x5E38;&#x6703;&#x770B;&#x5230;&#x9019;&#x5BEB;&#x6CD5;&#xFF0C;&#x7279;&#x5225;&#x5728; Linux &#x6838;&#x5FC3;&#x539F;&#x59CB;&#x7A0B;&#x5F0F;&#x78BC;&#xFF0C;&#x5728;&#x8001;&#x5E2B;&#x4FEE;&#x6539;&#x6211;&#x7684;debug.h&#x4E5F;&#x51FA;&#x73FE;&#xFF0C;&#x76EE;&#x524D;&#x6211;&#x770B;&#x5230;&#x7684;&#x5169;&#x500B;&#x7528;&#x6CD5;&#x662F;&#x7B2C;&#x4E00;&#x500B;</p>
 <ol>
 <li>macro &#x6642;&#x6703;&#x6709;&#x554F;&#x984C;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x4E00;&#x6B21; define &#x4E00;&#x4E32;&#x8907;&#x5408;&#x7684;&#x6307;&#x4EE4;</li>
 <li>&#x518D;&#x4F86;&#x662F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; break&#xFF0C;&#x4E0D;&#x4E4B;&#x4F60;&#x6709;&#x6C92;&#x6709;&#x4EC0;&#x9EBC;&#x6642;&#x5019;&#x60F3;&#x8981;&#x8DF3;&#x904E;&#x67D0;&#x4E9B; code&#xFF0C;&#x9019;&#x662F;&#x4F60;&#x5C31;&#x5FC5;&#x9808;&#x591A;&#x8A2D;&#x4E00;&#x500B; flag&#xFF0C;&#x4F46;&#x5982;&#x679C;&#x7528;&#x9019;&#x500B;&#x65B9;&#x5F0F;&#x76F4;&#x63A5; break&#x5C31;&#x53EF;&#x4EE5;&#x8DF3;&#x904E;&#x4E86;</li>
 </ol>
 <p>&#x4E3B;&#x8981;&#x53C3;&#x8003;&#x5DE5;&#x7A0B;&#x5E2B;&#x7684;&#x597D;&#x670B;&#x53CB;&#xFF1A;<a href="http://stackoverflow.com/questions/257418/do-while-0-what-is-it-good-for" target="_blank">http://stackoverflow.com/questions/257418/do-while-0-what-is-it-good-for</a></p>
-<h2 id="mbrossard-threadpool%EF%BC%9Apull-request-%E5%B0%8F%E6%8F%92%E6%9B%B2">mbrossard/threadpool&#xFF1A;pull request &#x5C0F;&#x63D2;&#x66F2;</h2>
+<h2 id="mbrossardthreadpool&#xFF1A;pull-request-&#x5C0F;&#x63D2;&#x66F2;">mbrossard/threadpool&#xFF1A;pull request &#x5C0F;&#x63D2;&#x66F2;</h2>
 <p><a href="https://github.com/mbrossard/threadpool/pull/11" target="_blank">FIX: warning: ISO C90 forbids mixed declarations and code [-Wpedantic]</a></p>
 <p>&#x518D;&#x525B;&#x8F09;&#x4E0B;&#x4F86;&#x6642;&#xFF0C;compile&#x6642;&#x767C;&#x73FE;&#x4E00;&#x4E9B; warning&#xFF0C;&#x5F88;&#x50CF;&#x662F; C90&#x6709;&#x7279;&#x5225;&#x898F;&#x5B9A; declaration&#x6709;&#x9700;&#x8981;&#x653E;&#x5728;&#x524D;&#x9762;&#xFF0C;&#x6211;&#x5C31;&#x9806;&#x624B;&#x6539;&#x4E00;&#x4E0B;</p>
 <p>&#x4F46;&#x662F; push &#x4E0A;&#x53BB;&#x6709;&#x500B;&#x6771;&#x897F;&#x5F88;&#x795E;&#x5947;&#x7DB2;&#x7AD9;&#x53EB; <a href="travis-ci.org">travis-ci</a>&#xFF0C;&#x4ED6;&#x5F88;&#x50CF;&#x662F;&#x500B;&#x53EF;&#x4EE5;&#x628A;&#x4F60;&#x7684; code &#x62FF;&#x53BB; linux &#x548C; mac &#x4E0A;&#xFF0C;&#x800C;&#x4E14;&#x4F7F;&#x7528;&#x4E0D;&#x540C;&#x7684; gcc &#x7248;&#x672C;&#x7DE8;&#x8B6F;&#xFF0C;&#x800C;&#x6211; pull &#x4E0A;&#x53BB;&#x7684;&#x7248;&#x672C;&#x6709;&#x4E00;&#x6C92;&#x904E;&#xFF0C;<code>Mac gcc-5</code>&#xFF0C;&#x5176;&#x5BE6;&#x6211;&#x6709;&#x53BB;&#x770B;&#x88E1;&#x9762;&#x7684;&#x7DE8;&#x8B6F;&#x904E;&#x7A0B;</p>
@@ -15313,7 +15247,7 @@ make: *** [tests/thrdtest.o] Error 1
 </blockquote>
 <p>&#x770B;&#x5230;&#x8001;&#x5E2B;&#x7684;&#x63D0;&#x9EDE;<code>git rebase -i</code>&#xFF0C;&#x6211;&#x9084;&#x5728;&#x60F3;&#x8AAA;&#x8981;&#x600E;&#x9EBC;&#x6A23;&#x8B93;&#x4ED6;&#x5011;&#x91CD;&#x65B0;&#x6E2C;&#x8A66;&#x54E9;&#x3002;</p>
 <h2 id="git-rebase-i">Git rebase -i</h2>
-<h6 id="tags-c14006078-phonebook-concurrency-sysprog21">tags: <code>c14006078</code> <code>phonebook-concurrency</code> <code>sysprog21</code></h6>
+<h6 id="tags-c14006078-phonebookconcurrency-sysprog21">tags: <code>c14006078</code> <code>phonebook-concurrency</code> <code>sysprog21</code></h6>
 
                     
                     </section>
@@ -15355,9 +15289,17 @@ make: *** [tests/thrdtest.o] Error 1
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

@@ -8,7 +8,7 @@
         <title>gdb常用指令 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="16.1" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="16.1"
+        data-chapter-title="gdb常用指令"
+        data-filepath="gdb/gdbchang_yong_zhi_ling.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,7 +15051,7 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="gdb%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4">gdb&#x5E38;&#x7528;&#x6307;&#x4EE4;</h1>
+                        <h1 id="gdb&#x5E38;&#x7528;&#x6307;&#x4EE4;">gdb&#x5E38;&#x7528;&#x6307;&#x4EE4;</h1>
 <ul>
 <li>GDB dashboard</li>
 </ul>
@@ -15133,7 +15067,7 @@
 </ul>
 <pre><code class="lang-sh">https://github.com/dholm/dotgdb
 </code></pre>
-<h2 id="%E6%89%93%E5%8D%B0%E8%A8%98%E6%86%B6%E9%AB%94%E5%85%A7%E5%AE%B9">&#x6253;&#x5370;&#x8A18;&#x61B6;&#x9AD4;&#x5167;&#x5BB9;</h2>
+<h2 id="&#x6253;&#x5370;&#x8A18;&#x61B6;&#x9AD4;&#x5167;&#x5BB9;">&#x6253;&#x5370;&#x8A18;&#x61B6;&#x9AD4;&#x5167;&#x5BB9;</h2>
 <p>&#x7528;gdb&#x67E5;&#x770B;&#x5167;&#x5B58;
 &#x683C;&#x5F0F;: <code>x /nfu</code>
 &#x8AAA;&#x660E;</p>
@@ -15171,7 +15105,7 @@ b(byte),
 h(halfword), 
 w(word), 
 g(giant, 8 bytes)
-</code></pre><h2 id="%E8%88%89%E4%BE%8B">&#x8209;&#x4F8B;</h2>
+</code></pre><h2 id="&#x8209;&#x4F8B;">&#x8209;&#x4F8B;</h2>
 <pre><code class="lang-sh">x/<span class="hljs-number">3</span>uh buf 
 &#x8868;&#x793A;&#x5F9E;&#x5167;&#x5B58;&#x5730;&#x5740;buf&#x8B80;&#x53D6;&#x5167;&#x5BB9;&#xFF0C;
 h&#x8868;&#x793A;&#x4EE5;&#x96D9;&#x5B57;&#x7BC0;&#x70BA;&#x4E00;&#x500B;&#x55AE;&#x4F4D;&#xFF0C;
@@ -15193,7 +15127,7 @@ Breakpoint <span class="hljs-number">1</span>, main (argc=<span class="hljs-numb
 <span class="hljs-number">0</span>xbffff2ec:    <span class="hljs-number">2633716</span>    <span class="hljs-number">134513888</span>    <span class="hljs-number">0</span>    -<span class="hljs-number">1073745032</span>
 (gdb)
 </code></pre>
-<h2 id="%E8%B7%B3%E8%BD%89%E5%9F%B7%E8%A1%8C">&#x8DF3;&#x8F49;&#x57F7;&#x884C;</h2>
+<h2 id="&#x8DF3;&#x8F49;&#x57F7;&#x884C;">&#x8DF3;&#x8F49;&#x57F7;&#x884C;</h2>
 <p>&#x4E00;&#x822C;&#x4F86;&#x8AAA;&#xFF0C;&#x88AB;&#x8ABF;&#x8A66;&#x7A0B;&#x5E8F;&#x6703;&#x6309;&#x7167;&#x7A0B;&#x5E8F;&#x4EE3;&#x78BC;&#x7684;&#x904B;&#x884C;&#x9806;&#x5E8F;&#x4F9D;&#x6B21;&#x57F7;&#x884C;&#x3002;
 GDB&#x63D0;&#x4F9B;&#x4E86;&#x4E82;&#x5E8F;&#x57F7;&#x884C;&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#xFF0C;GDB&#x53EF;&#x4EE5;&#x4FEE;&#x6539;&#x7A0B;&#x5E8F;&#x7684;&#x57F7;&#x884C;&#x9806;&#x5E8F;&#xFF0C;&#x53EF;&#x4EE5;&#x8B93;&#x7A0B;&#x5E8F;&#x57F7;&#x884C;&#x96A8;&#x610F;&#x8DF3;&#x8E8D;&#x3002;
 &#x9019;&#x500B;&#x529F;&#x80FD;&#x53EF;&#x4EE5;&#x7531;GDB&#x7684;jump&#x547D;&#x4EE4;&#x4F86;&#x5B8C;&#xFF1A;</p>
@@ -15219,7 +15153,7 @@ GDB&#x63D0;&#x4F9B;&#x4E86;&#x4E82;&#x5E8F;&#x57F7;&#x884C;&#x7684;&#x529F;&#x80
 <pre><code class="lang-sh"><span class="hljs-keyword">while</span> ./bug_program ; <span class="hljs-keyword">do</span> <span class="hljs-built_in">echo</span> OK; <span class="hljs-keyword">done</span>
 </code></pre>
 <hr>
-<h2 id="%E9%AB%98%E7%B4%9A%E6%8A%80%E5%B7%A7">&#x9AD8;&#x7D1A;&#x6280;&#x5DE7;</h2>
+<h2 id="&#x9AD8;&#x7D1A;&#x6280;&#x5DE7;">&#x9AD8;&#x7D1A;&#x6280;&#x5DE7;</h2>
 <p>&#x4E00;&#x4E9B;&#x4E0D;&#x592A;&#x5EE3;&#x70BA;&#x4EBA;&#x77E5;&#x7684;&#x6280;&#x5DE7;...</p>
 <p>&#x52A0;&#x8F09;&#x7368;&#x7ACB;&#x7684;&#x8ABF;&#x8A66;&#x4FE1;&#x606F;</p>
 <p>gdb&#x8ABF;&#x8A66;&#x7684;&#x6642;&#x5019;&#x53EF;&#x4EE5;&#x5F9E;&#x55AE;&#x7368;&#x7684;&#x7B26;&#x865F;&#x6587;&#x4EF6;&#x4E2D;&#x52A0;&#x8F09;&#x8ABF;&#x8A66;&#x4FE1;&#x606F;&#x3002;</p>
@@ -15227,7 +15161,7 @@ GDB&#x63D0;&#x4F9B;&#x4E86;&#x4E82;&#x5E8F;&#x57F7;&#x884C;&#x7684;&#x529F;&#x80
 (gdb) symbol-file test.debug
 </code></pre>
 <p>test&#x662F;&#x79FB;&#x9664;&#x4E86;&#x8ABF;&#x8A66;&#x4FE1;&#x606F;&#x7684;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;, test.debug&#x662F;&#x88AB;&#x79FB;&#x9664;&#x5F8C;&#x55AE;&#x7368;&#x5B58;&#x5132;&#x7684;&#x8ABF;&#x8A66;&#x4FE1;&#x606F;&#x3002;&#x53C3;&#x8003;stackoverflow&#x4E0A;&#x7684;&#x4E00;&#x500B;&#x554F;&#x984C;&#xFF0C;&#x53EF;&#x4EE5;&#x5982;&#x4E0B;&#x5206;&#x96E2;&#x8ABF;&#x8A66;&#x4FE1;&#x606F;:</p>
-<h3 id="%E7%B7%A8%E8%AD%AF%E7%A8%8B%E5%BA%8F%EF%BC%8C%E5%B8%B6%E8%AA%BF%E8%A9%A6%E4%BF%A1%E6%81%AF-g">&#x7DE8;&#x8B6F;&#x7A0B;&#x5E8F;&#xFF0C;&#x5E36;&#x8ABF;&#x8A66;&#x4FE1;&#x606F;(-g)</h3>
+<h3 id="&#x7DE8;&#x8B6F;&#x7A0B;&#x5E8F;&#xFF0C;&#x5E36;&#x8ABF;&#x8A66;&#x4FE1;&#x606F;g">&#x7DE8;&#x8B6F;&#x7A0B;&#x5E8F;&#xFF0C;&#x5E36;&#x8ABF;&#x8A66;&#x4FE1;&#x606F;(-g)</h3>
 <pre><code class="lang-sh">gcc -g -o <span class="hljs-built_in">test</span> main.c
 ```sh
 <span class="hljs-comment">### &#x62F7;&#x8C9D;&#x8ABF;&#x8A66;&#x4FE1;&#x606F;&#x5230;test.debug</span>
@@ -15236,10 +15170,10 @@ GDB&#x63D0;&#x4F9B;&#x4E86;&#x4E82;&#x5E8F;&#x57F7;&#x884C;&#x7684;&#x529F;&#x80
 <pre><code>### &#x79FB;&#x9664;test&#x4E2D;&#x7684;&#x8ABF;&#x8A66;&#x4FE1;&#x606F;
 ```sh
 strip --strip-debug --strip-unneeded test
-</code></pre><h3 id="%E7%84%B6%E5%BE%8C%E5%95%9F%E5%8B%95gdb">&#x7136;&#x5F8C;&#x555F;&#x52D5;gdb</h3>
+</code></pre><h3 id="&#x7136;&#x5F8C;&#x555F;&#x52D5;gdb">&#x7136;&#x5F8C;&#x555F;&#x52D5;gdb</h3>
 <pre><code class="lang-sh">gdb <span class="hljs-operator">-s</span> test.debug <span class="hljs-operator">-e</span> <span class="hljs-built_in">test</span>
 </code></pre>
-<h3 id="%E6%88%96%E9%80%99%E6%A8%A3%E5%95%9F%E5%8B%95gdb">&#x6216;&#x9019;&#x6A23;&#x555F;&#x52D5;gdb</h3>
+<h3 id="&#x6216;&#x9019;&#x6A23;&#x555F;&#x52D5;gdb">&#x6216;&#x9019;&#x6A23;&#x555F;&#x52D5;gdb</h3>
 <pre><code class="lang-sh">gdb
 (gdb) <span class="hljs-built_in">exec</span>-file <span class="hljs-built_in">test</span>
 (gdb) symbol-file test.debug
@@ -15260,19 +15194,19 @@ dump binary memory file_name begin_addr end_addr
 <li>&#x6539;&#x8B8A;&#x5167;&#x5B58;&#x6578;&#x64DA;<pre><code>&#x4F7F;&#x7528;set&#x547D;&#x4EE4;
 </code></pre></li>
 </ul>
-<h3 id="1-%E5%95%9F%E5%8B%95">1. &#x555F;&#x52D5;</h3>
+<h3 id="1-&#x555F;&#x52D5;">1. &#x555F;&#x52D5;</h3>
 <pre><code class="lang-sh">gdb &#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x540D;
 gdb &#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x540D; core&#x6587;&#x4EF6;&#x540D;
 gdb &#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x540D; pid
 gdb --args &#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x540D; &#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x7684;&#x904B;&#x884C;&#x53C3;&#x6578;
 </code></pre>
-<h3 id="%E5%B9%AB%E5%8A%A9">&#x5E6B;&#x52A9;:</h3>
+<h3 id="&#x5E6B;&#x52A9;">&#x5E6B;&#x52A9;:</h3>
 <pre><code class="lang-sh"><span class="hljs-built_in">help</span> &#x986F;&#x793A;&#x5E6B;&#x52A9;
 info &#x986F;&#x793A;&#x7A0B;&#x5E8F;&#x72C0;&#x614B;
 <span class="hljs-built_in">set</span> &#x4FEE;&#x6539;
 show &#x986F;&#x793A;gdb&#x72C0;&#x614B;
 </code></pre>
-<h3 id="%E9%81%8B%E8%A1%8C%E5%8F%8A%E9%81%8B%E8%A1%8C%E7%92%B0%E5%A2%83%E8%A8%AD%E7%BD%AE">&#x904B;&#x884C;&#x53CA;&#x904B;&#x884C;&#x74B0;&#x5883;&#x8A2D;&#x7F6E;:</h3>
+<h3 id="&#x904B;&#x884C;&#x53CA;&#x904B;&#x884C;&#x74B0;&#x5883;&#x8A2D;&#x7F6E;">&#x904B;&#x884C;&#x53CA;&#x904B;&#x884C;&#x74B0;&#x5883;&#x8A2D;&#x7F6E;:</h3>
 <pre><code class="lang-sh"><span class="hljs-built_in">set</span> args <span class="hljs-comment"># &#x8A2D;&#x7F6E;&#x904B;&#x884C;&#x53C3;&#x6578;</span>
 show args <span class="hljs-comment"># &#x986F;&#x793A;&#x904B;&#x884C;&#x53C3;&#x6578;</span>
 
@@ -15300,12 +15234,12 @@ detach
 Ctrl-C <span class="hljs-comment"># &#x4E2D;&#x65B7;(SIGINT)</span>
 Ctrl-]
 </code></pre>
-<h3 id="%E7%B7%9A%E7%A8%8B%E6%93%8D%E4%BD%9C">&#x7DDA;&#x7A0B;&#x64CD;&#x4F5C;:</h3>
+<h3 id="&#x7DDA;&#x7A0B;&#x64CD;&#x4F5C;">&#x7DDA;&#x7A0B;&#x64CD;&#x4F5C;:</h3>
 <pre><code class="lang-sh">info threads <span class="hljs-comment"># &#x67E5;&#x770B;&#x6240;&#x6709;&#x7DDA;&#x7A0B;&#x4FE1;&#x606F;</span>
 thread &#x7DDA;&#x7A0B;id <span class="hljs-comment"># &#x5207;&#x63DB;&#x5230;&#x6307;&#x5B9A;&#x7DDA;&#x7A0B;</span>
 thread apply [threadno | all ] &#x53C3;&#x6578; <span class="hljs-comment"># &#x5C0D;&#x6240;&#x6709;&#x7DDA;&#x7A0B;&#x90FD;&#x61C9;&#x7528;&#x67D0;&#x500B;&#x547D;&#x4EE4;</span>
 </code></pre>
-<h3 id="%E5%AD%90%E9%80%B2%E7%A8%8B%E8%AA%BF%E8%A9%A6">&#x5B50;&#x9032;&#x7A0B;&#x8ABF;&#x8A66;:</h3>
+<h3 id="&#x5B50;&#x9032;&#x7A0B;&#x8ABF;&#x8A66;">&#x5B50;&#x9032;&#x7A0B;&#x8ABF;&#x8A66;:</h3>
 <pre><code class="lang-sh"><span class="hljs-built_in">set</span> follow-fork-mode child|parent <span class="hljs-comment"># fork&#x5F8C;&#xFF0C;&#x9700;&#x8981;&#x8DDF;&#x8E64;&#x8AB0;</span>
 show follow-fork-mode
 <span class="hljs-built_in">set</span> detach-on-flow on|off <span class="hljs-comment"># fork&#x5F8C;&#xFF0C;&#x9700;&#x8981;&#x5169;&#x500B;&#x90FD;&#x8DDF;&#x8E64;&#x55CE;</span>
@@ -15315,13 +15249,13 @@ fork &#x9032;&#x7A0B;id <span class="hljs-comment"># &#x5207;&#x63DB;&#x5230;&#x
 detach-fork &#x9032;&#x7A0B;id <span class="hljs-comment"># &#x4E0D;&#x518D;&#x8DDF;&#x8E64;&#x67D0;&#x500B;&#x9032;&#x7A0B;</span>
 delete fork &#x9032;&#x7A0B;id <span class="hljs-comment"># kill&#x67D0;&#x500B;&#x9032;&#x7A0B;&#x4E26;&#x505C;&#x6B62;&#x5C0D;&#x5B83;&#x7684;&#x8DDF;&#x8E64;</span>
 </code></pre>
-<h3 id="%E6%AA%A2%E6%9F%A5%E9%BB%9E">&#x6AA2;&#x67E5;&#x9EDE;:</h3>
+<h3 id="&#x6AA2;&#x67E5;&#x9EDE;">&#x6AA2;&#x67E5;&#x9EDE;:</h3>
 <pre><code class="lang-sh">checkpoint/restart
 </code></pre>
-<h3 id="%E6%9F%A5%E7%9C%8B%E5%81%9C%E6%AD%A2%E5%8E%9F%E5%9B%A0">&#x67E5;&#x770B;&#x505C;&#x6B62;&#x539F;&#x56E0;:</h3>
+<h3 id="&#x67E5;&#x770B;&#x505C;&#x6B62;&#x539F;&#x56E0;">&#x67E5;&#x770B;&#x505C;&#x6B62;&#x539F;&#x56E0;:</h3>
 <pre><code class="lang-c">info program
 </code></pre>
-<h3 id="%E6%96%B7%E9%BB%9E-breakpoint-%E7%A8%8B%E5%BA%8F%E9%81%8B%E8%A1%8C%E5%88%B0%E6%9F%90%E8%99%95%E5%B0%B1%E6%9C%83%E4%B8%AD%E6%96%B7">&#x65B7;&#x9EDE;(breakpoint): &#x7A0B;&#x5E8F;&#x904B;&#x884C;&#x5230;&#x67D0;&#x8655;&#x5C31;&#x6703;&#x4E2D;&#x65B7;</h3>
+<h3 id="&#x65B7;&#x9EDE;breakpoint-&#x7A0B;&#x5E8F;&#x904B;&#x884C;&#x5230;&#x67D0;&#x8655;&#x5C31;&#x6703;&#x4E2D;&#x65B7;">&#x65B7;&#x9EDE;(breakpoint): &#x7A0B;&#x5E8F;&#x904B;&#x884C;&#x5230;&#x67D0;&#x8655;&#x5C31;&#x6703;&#x4E2D;&#x65B7;</h3>
 <pre><code class="lang-sh"><span class="hljs-built_in">break</span>(b) &#x884C;&#x865F;|&#x51FD;&#x6578;&#x540D;|&#x7A0B;&#x5E8F;&#x5730;&#x5740; | +/-offset | filenam:func [<span class="hljs-keyword">if</span> &#x689D;&#x4EF6;] <span class="hljs-comment"># &#x5728;&#x6307;&#x5B9A;&#x4F4D;&#x7F6E;&#x8A2D;&#x7F6E;&#x65B7;&#x9EDE;</span>
 tbreak ... <span class="hljs-comment"># &#x8207;break&#x76F8;&#x4F3C;&#xFF0C;&#x53EA;&#x662F;&#x8A2D;&#x7F6E;&#x4E00;&#x6B21;&#x65B7;&#x9EDE;</span>
 hbreak ... <span class="hljs-comment"># &#x8207;break&#x76F8;&#x4F3C;&#xFF0C;&#x53EA;&#x662F;&#x8A2D;&#x7F6E;&#x786C;&#x4EF6;&#x65B7;&#x9EDE;&#xFF0C;&#x9700;&#x8981;&#x786C;&#x4EF6;&#x652F;&#x6301;</span>
@@ -15332,7 +15266,7 @@ info <span class="hljs-built_in">break</span> [&#x65B7;&#x9EDE;&#x865F;] <span c
 <span class="hljs-built_in">set</span> breadpoint pending auto|on|off <span class="hljs-comment"># &#x67E5;&#x770B;&#x5982;&#x679C;&#x65B7;&#x9EDE;&#x4F4D;&#x7F6E;&#x6C92;&#x6709;&#x627E;&#x5230;&#x6642;&#x884C;&#x70BA;</span>
 show breakpoint pending
 </code></pre>
-<h3 id="%E8%A7%80%E5%AF%9F%E9%BB%9E-watchpoint-%E8%A1%A8%E9%81%94%E5%BC%8F%E7%9A%84%E5%80%BC%E4%BF%AE%E6%94%B9%E6%99%82%E6%9C%83%E8%A2%AB%E4%B8%AD%E6%96%B7">&#x89C0;&#x5BDF;&#x9EDE;(watchpoint): &#x8868;&#x9054;&#x5F0F;&#x7684;&#x503C;&#x4FEE;&#x6539;&#x6642;&#x6703;&#x88AB;&#x4E2D;&#x65B7;</h3>
+<h3 id="&#x89C0;&#x5BDF;&#x9EDE;watchpoint-&#x8868;&#x9054;&#x5F0F;&#x7684;&#x503C;&#x4FEE;&#x6539;&#x6642;&#x6703;&#x88AB;&#x4E2D;&#x65B7;">&#x89C0;&#x5BDF;&#x9EDE;(watchpoint): &#x8868;&#x9054;&#x5F0F;&#x7684;&#x503C;&#x4FEE;&#x6539;&#x6642;&#x6703;&#x88AB;&#x4E2D;&#x65B7;</h3>
 <pre><code class="lang-sh">watch &#x8868;&#x9054;&#x5F0F; <span class="hljs-comment"># &#x7576;&#x8868;&#x9054;&#x5F0F;&#x88AB;&#x5BEB;&#x5165;&#xFF0C;&#x4E26;&#x4E14;&#x503C;&#x88AB;&#x6539;&#x8B8A;&#x6642;&#x4E2D;&#x65B7;</span>
 rwatch &#x8868;&#x9054;&#x5F0F; <span class="hljs-comment"># &#x7576;&#x8868;&#x9054;&#x5F0F;&#x88AB;&#x8B80;&#x6642;&#x4E2D;&#x65B7;</span>
 awatch &#x8868;&#x9054;&#x5F0F; <span class="hljs-comment"># &#x7576;&#x8868;&#x9054;&#x5F0F;&#x88AB;&#x8B80;&#x6216;&#x5BEB;&#x6642;&#x4E2D;&#x65B7;</span>
@@ -15344,7 +15278,7 @@ show can-use-hw-watchpoints
 rwatch&#x8207;awatch&#x9700;&#x8981;&#x6709;&#x786C;&#x4EF6;&#x652F;&#x6301;&#xFF0C;&#x53E6;&#x5916;&#x5982;&#x679C;&#x662F;&#x5C0D;&#x5C40;&#x90E8;&#x8B8A;&#x91CF;&#x4F7F;&#x7528;watchpoint&#xFF0C;&#x90A3;&#x9000;&#x51FA;&#x4F5C;&#x7528;&#x57DF;&#x6642;&#x89C0;&#x5BDF;&#x9EDE;&#x6703;&#x81EA;&#x52D5;&#x88AB;&#x522A;&#x9664;
 &#x53E6;&#x5916;&#x5728;&#x591A;&#x7DDA;&#x7A0B;&#x60C5;&#x6CC1;&#x4E0B;&#xFF0C;gdb&#x7684;watchpoint&#x53EA;&#x5C0D;&#x4E00;&#x500B;&#x7DDA;&#x7A0B;&#x6709;&#x6548;
 </code></pre>
-<h3 id="%E6%8D%95%E7%8D%B2%E9%BB%9E-catchpoint-%E7%A8%8B%E5%BA%8F%E7%99%BC%E7%94%9F%E6%9F%90%E5%80%8B%E4%BA%8B%E4%BB%B6%E6%99%82%E5%81%9C%E6%AD%A2%EF%BC%8C%E5%A6%82%E7%94%A2%E7%94%9F%E7%95%B0%E5%B8%B8%E6%99%82">&#x6355;&#x7372;&#x9EDE;(catchpoint): &#x7A0B;&#x5E8F;&#x767C;&#x751F;&#x67D0;&#x500B;&#x4E8B;&#x4EF6;&#x6642;&#x505C;&#x6B62;&#xFF0C;&#x5982;&#x7522;&#x751F;&#x7570;&#x5E38;&#x6642;</h3>
+<h3 id="&#x6355;&#x7372;&#x9EDE;catchpoint-&#x7A0B;&#x5E8F;&#x767C;&#x751F;&#x67D0;&#x500B;&#x4E8B;&#x4EF6;&#x6642;&#x505C;&#x6B62;&#xFF0C;&#x5982;&#x7522;&#x751F;&#x7570;&#x5E38;&#x6642;">&#x6355;&#x7372;&#x9EDE;(catchpoint): &#x7A0B;&#x5E8F;&#x767C;&#x751F;&#x67D0;&#x500B;&#x4E8B;&#x4EF6;&#x6642;&#x505C;&#x6B62;&#xFF0C;&#x5982;&#x7522;&#x751F;&#x7570;&#x5E38;&#x6642;</h3>
 <pre><code class="lang-sh">catch &#x4E8B;&#x4EF6;&#x540D;
 &#x4E8B;&#x4EF6;&#x5305;&#x62EC;:
 throw <span class="hljs-comment"># &#x7522;&#x751F;c++&#x7570;&#x5E38;</span>
@@ -15354,7 +15288,7 @@ load/unload [&#x5EAB;&#x540D;] <span class="hljs-comment"># &#x52A0;&#x8F09;/&#x
 tcatch &#x4E8B;&#x4EF6;&#x540D; <span class="hljs-comment"># &#x4E00;&#x6B21;&#x6027;catch</span>
 info <span class="hljs-built_in">break</span>
 </code></pre>
-<h3 id="%E6%96%B7%E9%BB%9E%E6%93%8D%E4%BD%9C">&#x65B7;&#x9EDE;&#x64CD;&#x4F5C;:</h3>
+<h3 id="&#x65B7;&#x9EDE;&#x64CD;&#x4F5C;">&#x65B7;&#x9EDE;&#x64CD;&#x4F5C;:</h3>
 <pre><code class="lang-sh">clear [&#x51FD;&#x6578;&#x540D;|&#x884C;&#x865F;] <span class="hljs-comment"># &#x522A;&#x9664;&#x65B7;&#x9EDE;&#xFF0C;&#x7121;&#x53C3;&#x6578;&#x8868;&#x793A;&#x522A;&#x885B;&#x7576;&#x524D;&#x4F4D;&#x7F6E;</span>
 delete [&#x65B7;&#x9EDE;&#x865F;] <span class="hljs-comment"># &#x522A;&#x9664;&#x65B7;&#x9EDE;&#xFF0C;&#x7121;&#x53C3;&#x6578;&#x8868;&#x793A;&#x522A;&#x6240;&#x6709;&#x65B7;&#x9EDE;</span>
 <span class="hljs-built_in">disable</span> [&#x65B7;&#x9EDE;&#x865F;]
@@ -15378,7 +15312,7 @@ end
 cont
 end
 </code></pre>
-<h3 id="%E6%96%B7%E9%BB%9E%E5%BE%8C%E6%93%8D%E4%BD%9C">&#x65B7;&#x9EDE;&#x5F8C;&#x64CD;&#x4F5C;:</h3>
+<h3 id="&#x65B7;&#x9EDE;&#x5F8C;&#x64CD;&#x4F5C;">&#x65B7;&#x9EDE;&#x5F8C;&#x64CD;&#x4F5C;:</h3>
 <pre><code class="lang-sh"><span class="hljs-built_in">continue</span>(c) [&#x5FFD;&#x7565;&#x6B21;&#x6578;] <span class="hljs-comment"># &#x7E7C;&#x7E8C;&#x57F7;&#x884C;&#xFF0C;[&#x5FFD;&#x7565;&#x524D;&#x9762;n&#x6B21;&#x4E2D;&#x65B7;]</span>
 <span class="hljs-built_in">fg</span> [&#x5FFD;&#x7565;&#x6B21;&#x6578;] <span class="hljs-comment"># &#x7E7C;&#x7E8C;&#x57F7;&#x884C;&#xFF0C;[&#x5FFD;&#x7565;&#x524D;&#x9762;n&#x6B21;&#x4E2D;&#x65B7;]</span>
 
@@ -15396,7 +15330,7 @@ nexti(ni) [n&#x6B65;] <span class="hljs-comment"># &#x7CBE;&#x78BA;&#x7684;&#x53
 <span class="hljs-built_in">set</span> step-mode on|off <span class="hljs-comment"># on&#x6642;,&#x5982;&#x679C;&#x51FD;&#x6578;&#x6C92;&#x6709;&#x8ABF;&#x8A66;&#x4FE1;&#x606F;&#x4E5F;&#x8DDF;&#x9032;</span>
 show step-mode
 </code></pre>
-<h3 id="%E4%BF%A1%E8%99%9F">&#x4FE1;&#x865F;:</h3>
+<h3 id="&#x4FE1;&#x865F;">&#x4FE1;&#x865F;:</h3>
 <pre><code class="lang-sh">info signals <span class="hljs-comment"># &#x5217;&#x51FA;&#x6240;&#x6709;&#x4FE1;&#x865F;&#x7684;&#x8655;&#x7406;&#x65B9;&#x5F0F;</span>
 info handle <span class="hljs-comment"># &#x540C;&#x4E0A;</span>
 
@@ -15409,14 +15343,14 @@ noprint <span class="hljs-comment"># &#x4FE1;&#x865F;&#x767C;&#x751F;&#x6642;&#x
 pass/noignore <span class="hljs-comment"># gdb&#x5145;&#x8A31;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x770B;&#x5230;&#x9019;&#x500B;&#x4FE1;&#x865F;</span>
 nopass/ignore <span class="hljs-comment"># gdb&#x4E0D;&#x5145;&#x8A31;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x770B;&#x5230;&#x9019;&#x500B;&#x4FE1;&#x865F;</span>
 </code></pre>
-<h3 id="%E7%B7%9A%E7%A8%8B%E6%96%B7%E9%BB%9E">&#x7DDA;&#x7A0B;&#x65B7;&#x9EDE;:</h3>
+<h3 id="&#x7DDA;&#x7A0B;&#x65B7;&#x9EDE;">&#x7DDA;&#x7A0B;&#x65B7;&#x9EDE;:</h3>
 <pre><code class="lang-sh"><span class="hljs-built_in">break</span> &#x884C;&#x865F;&#x4FE1;&#x606F; thread &#x7DDA;&#x7A0B;&#x865F; [<span class="hljs-keyword">if</span> &#x689D;&#x4EF6;] <span class="hljs-comment"># &#x53EA;&#x5728;&#x67D0;&#x500B;&#x7DDA;&#x7A0B;&#x5167;&#x52A0;&#x65B7;&#x9EDE;</span>
 </code></pre>
-<h3 id="%E7%B7%9A%E7%A8%8B%E8%AA%BF%E5%BA%A6%E9%8E%96">&#x7DDA;&#x7A0B;&#x8ABF;&#x5EA6;&#x9396;:</h3>
+<h3 id="&#x7DDA;&#x7A0B;&#x8ABF;&#x5EA6;&#x9396;">&#x7DDA;&#x7A0B;&#x8ABF;&#x5EA6;&#x9396;:</h3>
 <pre><code class="lang-sh"><span class="hljs-built_in">set</span> scheduler-locking on|off <span class="hljs-comment"># off&#x6642;&#x6240;&#x6709;&#x7DDA;&#x7A0B;&#x90FD;&#x53EF;&#x4EE5;&#x5F97;&#x5230;&#x8ABF;&#x5EA6;,on&#x6642;&#x53EA;&#x6709;&#x7576;&#x524D;</span>
 show scheduler-locking
 </code></pre>
-<h3 id="%E5%B9%80">&#x5E40;:</h3>
+<h3 id="&#x5E40;">&#x5E40;:</h3>
 <pre><code class="lang-sh">frame(f) [&#x5E40;&#x865F;] <span class="hljs-comment"># &#x4E0D;&#x5E36;&#x53C3;&#x6578;&#x6642;&#x986F;&#x793A;&#x6240;&#x6709;&#x5E40;&#x4FE1;&#x606F;&#xFF0C;&#x5E36;&#x53C3;&#x6578;&#x6642;&#x5207;&#x63DB;&#x5230;&#x6307;&#x5B9A;&#x5E40;</span>
 frame &#x5730;&#x5740; <span class="hljs-comment"># &#x5207;&#x63DB;&#x5230;&#x6307;&#x5B9A;&#x5730;&#x5740;&#x7684;&#x5E40;</span>
 up [n] <span class="hljs-comment"># &#x5411;&#x4E0A;n&#x5E40;</span>
@@ -15426,7 +15360,7 @@ select-frame &#x5E40;&#x865F; <span class="hljs-comment"># &#x5207;&#x63DB;&#x52
 up-silently [n] <span class="hljs-comment"># &#x5411;&#x4E0A;n&#x5E40;,&#x4E0D;&#x986F;&#x793A;&#x5E40;&#x4FE1;&#x606F;</span>
 down-silently [n] <span class="hljs-comment"># &#x5411;&#x4E0B;n&#x5E40;,&#x4E0D;&#x986F;&#x793A;&#x5E40;&#x4FE1;&#x606F;</span>
 </code></pre>
-<h3 id="%E8%AA%BF%E7%94%A8%E9%8F%88">&#x8ABF;&#x7528;&#x93C8;:</h3>
+<h3 id="&#x8ABF;&#x7528;&#x93C8;">&#x8ABF;&#x7528;&#x93C8;:</h3>
 <pre><code class="lang-sh">backtrace(bt) [n|-n|full] <span class="hljs-comment"># &#x986F;&#x793A;&#x7576;&#x524D;&#x8ABF;&#x7528;&#x93C8;,n&#x9650;&#x5236;&#x986F;&#x793A;&#x7684;&#x6578;&#x76EE;,-n&#x8868;&#x793A;&#x986F;&#x793A;&#x5F8C;n&#x500B;,n&#x8868;&#x793A;&#x986F;&#x793A;&#x524D;n&#x500B;&#xFF0C;full&#x7684;&#x8A71;&#x9084;&#x6703;&#x986F;&#x793A;&#x8B8A;&#x91CF;&#x4FE1;&#x606F;</span>
 &#x4F7F;&#x7528; thread apply all bt &#x5C31;&#x53EF;&#x4EE5;&#x986F;&#x793A;&#x6240;&#x6709;&#x7DDA;&#x7A0B;&#x7684;&#x8ABF;&#x7528;&#x4FE1;&#x606F;
 
@@ -15439,14 +15373,14 @@ show backtrace past-entry
 <span class="hljs-built_in">set</span> backtrace <span class="hljs-built_in">limit</span> n <span class="hljs-comment"># &#x9650;&#x5236;&#x8ABF;&#x7528;&#x4FE1;&#x606F;&#x7684;&#x986F;&#x793A;&#x5C64;&#x6578;</span>
 show backtrace <span class="hljs-built_in">limit</span>
 </code></pre>
-<h3 id="%E9%A1%AF%E7%A4%BA%E5%B9%80%E4%BF%A1%E6%81%AF">&#x986F;&#x793A;&#x5E40;&#x4FE1;&#x606F;:</h3>
+<h3 id="&#x986F;&#x793A;&#x5E40;&#x4FE1;&#x606F;">&#x986F;&#x793A;&#x5E40;&#x4FE1;&#x606F;:</h3>
 <pre><code class="lang-sh">info frame <span class="hljs-comment"># &#x986F;&#x793A;&#x7576;&#x524D;&#x5E40;&#x4FE1;&#x606F;</span>
 info frame addr <span class="hljs-comment"># &#x986F;&#x793A;&#x6307;&#x5B9A;&#x5730;&#x5740;&#x7684;&#x5E40;&#x4FE1;&#x606F;</span>
 info args <span class="hljs-comment"># &#x986F;&#x793A;&#x5E40;&#x7684;&#x53C3;&#x6578;</span>
 info locals <span class="hljs-comment"># &#x986F;&#x793A;&#x5C40;&#x90E8;&#x8B8A;&#x91CF;&#x4FE1;&#x606F;</span>
 info catch <span class="hljs-comment"># &#x986F;&#x793A;&#x672C;&#x5E40;&#x7570;&#x5E38;&#x4FE1;&#x606F;</span>
 </code></pre>
-<h3 id="%E9%A1%AF%E7%A4%BA%E8%A1%8C%E8%99%9F">&#x986F;&#x793A;&#x884C;&#x865F;:</h3>
+<h3 id="&#x986F;&#x793A;&#x884C;&#x865F;">&#x986F;&#x793A;&#x884C;&#x865F;:</h3>
 <pre><code class="lang-sh">list(l) [&#x884C;&#x865F;|&#x51FD;&#x6578;|&#x6587;&#x4EF6;:&#x884C;&#x865F;] <span class="hljs-comment"># &#x986F;&#x793A;&#x6307;&#x5B9A;&#x4F4D;&#x7F6E;&#x7684;&#x4FE1;&#x606F;,&#x7121;&#x53C3;&#x6578;&#x70BA;&#x7576;&#x524D;&#x4F4D;&#x7F6E;</span>
 list - <span class="hljs-comment"># &#x986F;&#x793A;&#x7576;&#x524D;&#x884C;&#x4E4B;&#x524D;&#x7684;&#x4FE1;&#x606F;</span>
 
@@ -15467,24 +15401,24 @@ list - <span class="hljs-comment"># &#x986F;&#x793A;&#x4E0A;&#x6B21;list&#x524D;
 <span class="hljs-built_in">set</span> listsize n <span class="hljs-comment"># &#x4FEE;&#x6539;&#x6BCF;&#x6B21;&#x986F;&#x793A;&#x7684;&#x884C;&#x6578;</span>
 show listsize
 </code></pre>
-<h3 id="%E7%B7%A8%E8%BC%AF">&#x7DE8;&#x8F2F;:</h3>
+<h3 id="&#x7DE8;&#x8F2F;">&#x7DE8;&#x8F2F;:</h3>
 <pre><code class="lang-sh">edit [&#x884C;&#x865F;|&#x51FD;&#x6578;|&#x51FD;&#x6578;&#x540D;:&#x884C;&#x865F;|&#x6587;&#x4EF6;&#x540D;:&#x51FD;&#x6578;&#x540D;] <span class="hljs-comment"># &#x7DE8;&#x8F2F;&#x6307;&#x5B9A;&#x4F4D;&#x7F6E;</span>
 </code></pre>
-<h3 id="%E6%9F%A5%E6%89%BE">&#x67E5;&#x627E;:</h3>
+<h3 id="&#x67E5;&#x627E;">&#x67E5;&#x627E;:</h3>
 <pre><code class="lang-sh">search &#x8868;&#x793A;&#x5F0F; <span class="hljs-comment"># &#x5411;&#x524D;&#x67E5;&#x627E;&#x8868;&#x9054;&#x5F0F;</span>
 reverse-search &#x8868;&#x793A;&#x5F0F; <span class="hljs-comment"># &#x5411;&#x5F8C;&#x67E5;&#x627E;&#x8868;&#x9054;&#x5F0F;</span>
 </code></pre>
-<h3 id="%E6%8C%87%E5%AE%9A%E6%BA%90%E7%A2%BC%E7%9B%AE%E9%8C%84">&#x6307;&#x5B9A;&#x6E90;&#x78BC;&#x76EE;&#x9304;:</h3>
+<h3 id="&#x6307;&#x5B9A;&#x6E90;&#x78BC;&#x76EE;&#x9304;">&#x6307;&#x5B9A;&#x6E90;&#x78BC;&#x76EE;&#x9304;:</h3>
 <pre><code class="lang-sh">directory(dir) [&#x76EE;&#x9304;&#x540D;] <span class="hljs-comment"># &#x6307;&#x5B9A;&#x6E90;&#x6587;&#x4EF6;&#x67E5;&#x627E;&#x76EE;&#x9304;</span>
 show directories
 </code></pre>
-<h3 id="%E6%BA%90%E7%A2%BC%E8%88%87%E6%A9%9F%E5%99%A8%E7%A2%BC%EF%BC%9A">&#x6E90;&#x78BC;&#x8207;&#x6A5F;&#x5668;&#x78BC;&#xFF1A;</h3>
+<h3 id="&#x6E90;&#x78BC;&#x8207;&#x6A5F;&#x5668;&#x78BC;&#xFF1A;">&#x6E90;&#x78BC;&#x8207;&#x6A5F;&#x5668;&#x78BC;&#xFF1A;</h3>
 <pre><code class="lang-sh">info line [&#x51FD;&#x6578;&#x540D;|&#x884C;&#x865F;] <span class="hljs-comment"># &#x986F;&#x793A;&#x6307;&#x5B9A;&#x4F4D;&#x7F6E;&#x5C0D;&#x61C9;&#x7684;&#x6A5F;&#x5668;&#x78BC;&#x5730;&#x5740;&#x7BC4;&#x570D;</span>
 disassemble [&#x51FD;&#x6578;&#x540D; | &#x8D77;&#x59CB;&#x5730;&#x5740; &#x7D50;&#x675F;&#x5730;&#x5740;] <span class="hljs-comment"># &#x5C0D;&#x6307;&#x5B9A;&#x7BC4;&#x570D;&#x9032;&#x884C;&#x53CD;&#x5F59;&#x7DE8;</span>
 <span class="hljs-built_in">set</span> disassembly-flavor att|intel <span class="hljs-comment"># &#x6307;&#x5B9A;&#x5F59;&#x7DE8;&#x4EE3;&#x78BC;&#x5F62;&#x5F0F;</span>
 show disassembly-flavor
 </code></pre>
-<h3 id="%E6%9F%A5%E7%9C%8B%E6%95%B8%E6%93%9A">&#x67E5;&#x770B;&#x6578;&#x64DA;:</h3>
+<h3 id="&#x67E5;&#x770B;&#x6578;&#x64DA;">&#x67E5;&#x770B;&#x6578;&#x64DA;:</h3>
 <pre><code class="lang-sh">ptype &#x8868;&#x9054;&#x5F0F; <span class="hljs-comment"># &#x67E5;&#x770B;&#x67D0;&#x500B;&#x8868;&#x9054;&#x5F0F;&#x7684;&#x985E;&#x578B;</span>
 
 <span class="hljs-built_in">print</span> [/f] [&#x8868;&#x9054;&#x5F0F;] <span class="hljs-comment"># &#x6309;&#x683C;&#x5F0F;&#x67E5;&#x770B;&#x9336;&#x9054;&#x5F0F;&#x5167;&#x5BB9;,/f&#x662F;&#x683C;&#x5F0F;&#x5316;</span>
@@ -15508,7 +15442,7 @@ var@n <span class="hljs-comment"># &#x8868;&#x793A;&#x628A;var&#x7576;&#x6210;&#
 filename::var <span class="hljs-comment"># &#x8868;&#x793A;&#x6253;&#x5370;&#x67D0;&#x500B;&#x51FD;&#x6578;&#x5167;&#x7684;&#x8B8A;&#x91CF;,filename&#x53EF;&#x4EE5;&#x63DB;&#x6210;&#x5176;&#x5B83;&#x7BC4;&#x570D;&#x7B26;&#x5982;&#x6587;&#x4EF6;&#x540D;</span>
 {<span class="hljs-built_in">type</span>} var <span class="hljs-comment"># &#x8868;&#x793A;&#x628A;var&#x7576;&#x6210;type&#x985E;&#x578B;</span>
 </code></pre>
-<h3 id="%E8%BC%B8%E5%87%BA%E6%A0%BC%E5%BC%8F">&#x8F38;&#x51FA;&#x683C;&#x5F0F;:</h3>
+<h3 id="&#x8F38;&#x51FA;&#x683C;&#x5F0F;">&#x8F38;&#x51FA;&#x683C;&#x5F0F;:</h3>
 <pre><code class="lang-sh">x <span class="hljs-comment"># 16&#x9032;&#x5236;</span>
 d <span class="hljs-comment"># 10&#x9032;&#x5236;</span>
 u <span class="hljs-comment"># &#x7121;&#x7B26;&#x865F;</span>
@@ -15518,7 +15452,7 @@ a <span class="hljs-comment"># &#x5730;&#x5740;</span>
 c <span class="hljs-comment"># &#x5B57;&#x7B26;</span>
 f <span class="hljs-comment"># &#x6D6E;&#x9EDE;</span>
 </code></pre>
-<h3 id="%E6%9F%A5%E7%9C%8B%E5%85%A7%E5%AD%98">&#x67E5;&#x770B;&#x5167;&#x5B58;:</h3>
+<h3 id="&#x67E5;&#x770B;&#x5167;&#x5B58;">&#x67E5;&#x770B;&#x5167;&#x5B58;:</h3>
 <pre><code class="lang-sh">x /nfu &#x5730;&#x5740; <span class="hljs-comment"># &#x67E5;&#x770B;&#x5167;&#x5B58;</span>
 n &#x91CD;&#x8907;n&#x6B21;
 f &#x986F;&#x793A;&#x683C;&#x5F0F;,&#x70BA;<span class="hljs-built_in">print</span>&#x4F7F;&#x7528;&#x7684;&#x683C;&#x5F0F;
@@ -15528,7 +15462,7 @@ h <span class="hljs-number">2</span> byte
 w <span class="hljs-number">4</span> byte
 g <span class="hljs-number">8</span> byte
 </code></pre>
-<h3 id="%E8%87%AA%E5%8B%95%E9%A1%AF%E7%A4%BA">&#x81EA;&#x52D5;&#x986F;&#x793A;:</h3>
+<h3 id="&#x81EA;&#x52D5;&#x986F;&#x793A;">&#x81EA;&#x52D5;&#x986F;&#x793A;:</h3>
 <pre><code class="lang-sh">display [/fmt] &#x8868;&#x9054;&#x5F0F; <span class="hljs-comment"># &#x6BCF;&#x6B21;&#x505C;&#x6B62;&#x6642;&#x90FD;&#x6703;&#x986F;&#x793A;&#x9336;&#x9054;&#x5F0F;,fmt&#x8207;print&#x7684;&#x683C;&#x5F0F;&#x4E00;&#x6A23;,&#x5982;&#x679C;&#x662F;&#x5167;&#x5B58;&#x5730;&#x5740;&#xFF0C;&#x90A3;fmt&#x53EF;&#x50CF; x&#x7684;&#x53C3;&#x6578;&#x4E00;&#x6A23;</span>
 undisplay &#x986F;&#x793A;&#x7DE8;&#x865F;
 delete display &#x986F;&#x793A;&#x7DE8;&#x865F; <span class="hljs-comment"># &#x9019;&#x5169;&#x500B;&#x90FD;&#x662F;&#x522A;&#x9644;&#x67D0;&#x500B;&#x986F;&#x793A;</span>
@@ -15538,21 +15472,21 @@ delete display &#x986F;&#x793A;&#x7DE8;&#x865F; <span class="hljs-comment"># &#x
 display <span class="hljs-comment"># &#x986F;&#x793A;&#x7576;&#x524D;&#x986F;&#x793A;&#x5167;&#x5BB9;</span>
 info display <span class="hljs-comment"># &#x67E5;&#x770B;&#x6240;&#x6709;display&#x9805;</span>
 </code></pre>
-<h3 id="%E6%9F%A5%E7%9C%8B%E8%AE%8A%E9%87%8F%E6%AD%B7%E5%8F%B2%EF%BC%9A">&#x67E5;&#x770B;&#x8B8A;&#x91CF;&#x6B77;&#x53F2;&#xFF1A;</h3>
+<h3 id="&#x67E5;&#x770B;&#x8B8A;&#x91CF;&#x6B77;&#x53F2;&#xFF1A;">&#x67E5;&#x770B;&#x8B8A;&#x91CF;&#x6B77;&#x53F2;&#xFF1A;</h3>
 <pre><code class="lang-sh">show values &#x8B8A;&#x91CF;&#x540D; [n] <span class="hljs-comment"># &#x986F;&#x793A;&#x8B8A;&#x91CF;&#x7684;&#x4E0A;&#x6B21;&#x986F;&#x793A;&#x6B77;&#x53F2;,&#x986F;&#x793A;n&#x689D;</span>
 show values &#x8B8A;&#x91CF;&#x540D; + <span class="hljs-comment"># &#x7E7C;&#x7E8C;&#x4E0A;&#x6B21;&#x986F;&#x793A;&#x5167;&#x5BB9;</span>
 </code></pre>
-<h3 id="%E4%BE%BF%E5%88%A9%E8%AE%8A%E9%87%8F-%E8%81%B2%E6%98%8E%E8%AE%8A%E9%87%8F%E7%9A%84%E5%88%A5%E5%90%8D%E4%BB%A5%E6%96%B9%E4%BE%BF%E4%BD%BF%E7%94%A8">&#x4FBF;&#x5229;&#x8B8A;&#x91CF;: (&#x8072;&#x660E;&#x8B8A;&#x91CF;&#x7684;&#x5225;&#x540D;&#x4EE5;&#x65B9;&#x4FBF;&#x4F7F;&#x7528;)</h3>
+<h3 id="&#x4FBF;&#x5229;&#x8B8A;&#x91CF;-&#x8072;&#x660E;&#x8B8A;&#x91CF;&#x7684;&#x5225;&#x540D;&#x4EE5;&#x65B9;&#x4FBF;&#x4F7F;&#x7528;">&#x4FBF;&#x5229;&#x8B8A;&#x91CF;: (&#x8072;&#x660E;&#x8B8A;&#x91CF;&#x7684;&#x5225;&#x540D;&#x4EE5;&#x65B9;&#x4FBF;&#x4F7F;&#x7528;)</h3>
 <pre><code class="lang-sh"><span class="hljs-built_in">set</span> <span class="hljs-variable">$foo</span> = *object_ptr <span class="hljs-comment"># &#x8072;&#x660E;foo&#x70BA;object_ptr&#x7684;&#x4FBF;&#x5229;&#x8B8A;&#x91CF;</span>
 init-if-undefined <span class="hljs-variable">$var</span> = expression <span class="hljs-comment"># &#x5982;&#x679C;var&#x9084;&#x672A;&#x5B9A;&#x7FA9;&#x5247;&#x8CE6;&#x503C;</span>
 show convenience
 </code></pre>
-<h3 id="%E5%85%A7%E9%83%A8%E4%BE%BF%E5%88%A9%E8%AE%8A%E9%87%8F%EF%BC%9A">&#x5167;&#x90E8;&#x4FBF;&#x5229;&#x8B8A;&#x91CF;&#xFF1A;</h3>
+<h3 id="&#x5167;&#x90E8;&#x4FBF;&#x5229;&#x8B8A;&#x91CF;&#xFF1A;">&#x5167;&#x90E8;&#x4FBF;&#x5229;&#x8B8A;&#x91CF;&#xFF1A;</h3>
 <pre><code class="lang-sh"><span class="hljs-variable">$_</span> &#x4E0A;&#x6B21;x&#x67E5;&#x770B;&#x7684;&#x5730;&#x5740;
 <span class="hljs-variable">$__</span>
 <span class="hljs-variable">$_exitcode</span> &#x7A0B;&#x5E8F;&#x57A2;&#x9000;&#x51FA;&#x78BC;
 </code></pre>
-<h3 id="%E5%AF%84%E5%AD%98%E5%99%A8">&#x5BC4;&#x5B58;&#x5668;:</h3>
+<h3 id="&#x5BC4;&#x5B58;&#x5668;">&#x5BC4;&#x5B58;&#x5668;:</h3>
 <pre><code class="lang-sh">into registers <span class="hljs-comment"># &#x9664;&#x4E86;&#x6D6E;&#x9EDE;&#x5BC4;&#x5B58;&#x5668;&#x5916;&#x6240;&#x6709;&#x5BC4;&#x5B58;&#x5668;</span>
 info all-registers <span class="hljs-comment"># &#x6240;&#x6709;&#x5BC4;&#x5B58;&#x5668;</span>
 into registers &#x5BC4;&#x5B58;&#x5668;&#x540D; <span class="hljs-comment"># &#x6307;&#x5B9A;&#x5BC4;&#x5B58;&#x5668;&#x5167;&#x5BB9;</span>
@@ -15564,23 +15498,23 @@ p /x <span class="hljs-variable">$pc</span> <span class="hljs-comment"># &#x67E5
 x /i <span class="hljs-variable">$pc</span> <span class="hljs-comment"># &#x67E5;&#x770B;&#x8981;&#x57F7;&#x884C;&#x7684;&#x4E0B;&#x4E00;&#x689D;&#x6307;&#x4EE4;</span>
 <span class="hljs-built_in">set</span> <span class="hljs-variable">$sp</span> += <span class="hljs-number">4</span> <span class="hljs-comment"># &#x79FB;&#x52D5;&#x68E7;&#x6307;&#x91DD;</span>
 </code></pre>
-<h3 id="%E5%85%A7%E6%A0%B8%E4%B8%AD%E4%BF%A1%E6%81%AF">&#x5167;&#x6838;&#x4E2D;&#x4FE1;&#x606F;:</h3>
+<h3 id="&#x5167;&#x6838;&#x4E2D;&#x4FE1;&#x606F;">&#x5167;&#x6838;&#x4E2D;&#x4FE1;&#x606F;:</h3>
 <pre><code class="lang-sh">info udot <span class="hljs-comment"># &#x67E5;&#x770B;&#x5167;&#x6838;&#x4E2D;user struct&#x4FE1;&#x606F;</span>
 info auxv <span class="hljs-comment"># &#x986F;&#x793A;auxv&#x5167;&#x5BB9;(auxv&#x662F;&#x5354;&#x52A9;&#x7A0B;&#x5E8F;&#x555F;&#x52D5;&#x7684;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x7684;)</span>
 </code></pre>
-<h3 id="%E5%85%A7%E5%AD%98%E5%8D%80%E5%9F%9F%E9%99%90%E5%88%B6">&#x5167;&#x5B58;&#x5340;&#x57DF;&#x9650;&#x5236;:</h3>
+<h3 id="&#x5167;&#x5B58;&#x5340;&#x57DF;&#x9650;&#x5236;">&#x5167;&#x5B58;&#x5340;&#x57DF;&#x9650;&#x5236;:</h3>
 <pre><code class="lang-sh">mem &#x8D77;&#x59CB;&#x5730;&#x5740; &#x7D50;&#x69CB;&#x5730;&#x5740; &#x5C6C;&#x6027; <span class="hljs-comment"># &#x5C0D;[&#x5730;&#x59CB;&#x5730;&#x5740;,&#x7D50;&#x69CB;&#x5730;&#x5740;)&#x5340;&#x57DF;&#x5167;&#x5B58;&#x9032;&#x884C;&#x4FDD;&#x8B77;&#xFF0C;&#x5982;&#x679C;&#x7D50;&#x69CB;&#x5730;&#x5740;&#x70BA;0&#x8868;&#x793A;&#x5730;&#x5740;&#x6700;&#x5927;&#x503C;0xffffffff</span>
 delete mem &#x7DE8;&#x865F; <span class="hljs-comment"># &#x522A;&#x9664;&#x4E00;&#x500B;&#x5167;&#x5B58;&#x4FDD;&#x8B77;</span>
 <span class="hljs-built_in">disable</span> mem &#x7DE8;&#x865F; <span class="hljs-comment"># &#x7981;&#x6B62;&#x4E00;&#x500B;&#x5167;&#x5B58;&#x4FDD;&#x8B77;</span>
 <span class="hljs-built_in">enable</span> mem &#x7DE8;&#x865F; <span class="hljs-comment"># &#x6253;&#x958B;&#x4E00;&#x500B;&#x5167;&#x5B58;&#x4FDD;&#x8B77;</span>
 info mem <span class="hljs-comment"># &#x986F;&#x793A;&#x6240;&#x6709;&#x5167;&#x5B58;&#x4FDD;&#x8B77;&#x4FE1;&#x606F;</span>
 </code></pre>
-<h3 id="%E4%BF%9D%E8%AD%B7%E7%9A%84%E5%B1%AC%E6%80%A7%E5%8C%85%E6%8B%AC%EF%BC%9A">&#x4FDD;&#x8B77;&#x7684;&#x5C6C;&#x6027;&#x5305;&#x62EC;&#xFF1A;</h3>
+<h3 id="&#x4FDD;&#x8B77;&#x7684;&#x5C6C;&#x6027;&#x5305;&#x62EC;&#xFF1A;">&#x4FDD;&#x8B77;&#x7684;&#x5C6C;&#x6027;&#x5305;&#x62EC;&#xFF1A;</h3>
 <pre><code class="lang-sh"><span class="hljs-number">1</span>. &#x5167;&#x5B58;&#x8A2A;&#x554F;&#x6A21;&#x5F0F;: ro | wo |rw
 <span class="hljs-number">2</span>. &#x5167;&#x5B58;&#x8A2A;&#x554F;&#x5927;&#x5C0F;: <span class="hljs-number">8</span> | <span class="hljs-number">16</span> | <span class="hljs-number">32</span> | <span class="hljs-number">64</span> &#x5982;&#x679C;&#x4E0D;&#x9650;&#x5236;&#xFF0C;&#x8868;&#x793A;&#x53EF;&#x6309;&#x4EFB;&#x610F;&#x5927;&#x5C0F;&#x8A2A;&#x554F;
 <span class="hljs-number">3</span>. &#x6578;&#x64DA;&#x7DE9;&#x5B58;: cache | nocache cache&#x8868;&#x793A;&#x5145;&#x8A31;gdb&#x7DE9;&#x5B58;&#x76EE;&#x6A19;&#x5167;&#x5B58;
 </code></pre>
-<h3 id="%E5%85%A7%E5%AD%98%E8%A4%87%E8%A3%BD%E5%88%B0-%E5%BE%9E%E6%96%87%E4%BB%B6">&#x5167;&#x5B58;&#x8907;&#x88FD;&#x5230;/&#x5F9E;&#x6587;&#x4EF6;:</h3>
+<h3 id="&#x5167;&#x5B58;&#x8907;&#x88FD;&#x5230;&#x5F9E;&#x6587;&#x4EF6;">&#x5167;&#x5B58;&#x8907;&#x88FD;&#x5230;/&#x5F9E;&#x6587;&#x4EF6;:</h3>
 <pre><code class="lang-sh">dump [&#x683C;&#x5F0F;] memory &#x6587;&#x4EF6;&#x540D; &#x8D77;&#x59CB;&#x5730;&#x5740; &#x7D50;&#x69CB;&#x5730;&#x5740; <span class="hljs-comment"># &#x628A;&#x6307;&#x5B9A;&#x5167;&#x5B58;&#x6BB5;&#x5BEB;&#x5230;&#x6587;&#x4EF6;</span>
 dump [&#x683C;&#x5F0F;] value &#x6587;&#x4EF6;&#x540D; &#x8868;&#x9054;&#x5F0F; <span class="hljs-comment"># &#x628A;&#x6307;&#x5B9A;&#x503C;&#x5BEB;&#x5230;&#x6587;&#x4EF6;</span>
 &#x683C;&#x5F0F;&#x5305;&#x62EC;:
@@ -15594,10 +15528,10 @@ append [binary] value &#x6587;&#x4EF6;&#x540D; &#x8868;&#x9054;&#x5F0F; <span cl
 
 restore &#x6587;&#x4EF6;&#x540D; [binary] bias &#x8D77;&#x59CB;&#x5730;&#x5740; &#x7D50;&#x69CB;&#x5730;&#x5740; <span class="hljs-comment"># &#x6062;&#x5FA9;&#x6587;&#x4EF6;&#x4E2D;&#x5167;&#x5BB9;&#x5230;&#x5167;&#x5B58;.&#x5982;&#x679C;&#x6587;&#x4EF6;&#x5167;&#x5BB9;&#x662F;&#x539F;&#x59CB;&#x4E8C;&#x9032;&#x5236;&#xFF0C;&#x9700;&#x8981;&#x6307;&#x5B9A;binary&#x53C3;&#x6578;&#xFF0C;&#x4E0D;&#x7136;&#x6703;gdb&#x81EA;&#x52D5;&#x8B58;&#x5225;&#x6587;&#x4EF6;&#x683C;&#x5F0F;</span>
 </code></pre>
-<h3 id="%E7%94%A2%E7%94%9Fcore-dump%E6%96%87%E4%BB%B6">&#x7522;&#x751F;core dump&#x6587;&#x4EF6;</h3>
+<h3 id="&#x7522;&#x751F;core-dump&#x6587;&#x4EF6;">&#x7522;&#x751F;core dump&#x6587;&#x4EF6;</h3>
 <pre><code class="lang-sh">gcore [&#x6587;&#x4EF6;&#x540D;] <span class="hljs-comment"># &#x7522;&#x751F;core dump&#x6587;&#x4EF6;</span>
 </code></pre>
-<h3 id="%E5%AD%97%E7%AC%A6%E9%9B%86">&#x5B57;&#x7B26;&#x96C6;:</h3>
+<h3 id="&#x5B57;&#x7B26;&#x96C6;">&#x5B57;&#x7B26;&#x96C6;:</h3>
 <pre><code class="lang-sh"><span class="hljs-built_in">set</span> target-charset &#x5B57;&#x7B26;&#x96C6; <span class="hljs-comment"># &#x8072;&#x660E;&#x76EE;&#x6A19;&#x6A5F;&#x5668;&#x7684;locale,&#x5982;gdbserver&#x6240;&#x5728;&#x6A5F;&#x5668;</span>
 <span class="hljs-built_in">set</span> host-charset &#x5B57;&#x7B26;&#x96C6; <span class="hljs-comment"># &#x8072;&#x660E;&#x672C;&#x6A5F;&#x7684;locale</span>
 <span class="hljs-built_in">set</span> charset &#x5B57;&#x7B26;&#x96C6; <span class="hljs-comment"># &#x8072;&#x660E;&#x76EE;&#x6A19;&#x6A5F;&#x548C;&#x672C;&#x6A5F;&#x7684;locale</span>
@@ -15605,18 +15539,18 @@ show charset
 show host-charset
 show target-charset
 </code></pre>
-<h3 id="%E7%B7%A9%E5%AD%98%E9%81%A0%E7%A8%8B%E7%9B%AE%E6%A8%99%E7%9A%84%E6%95%B8%E6%93%9A-%E7%82%BA%E6%8F%90%E9%AB%98%E6%80%A7%E8%83%BD%E5%8F%AF%E4%BB%A5%E4%BD%BF%E7%94%A8%E6%95%B8%E6%93%9A%E7%B7%A9%E5%AD%98%EF%BC%8C%E4%B8%8D%E9%81%8Egdb%E4%B8%8D%E7%9F%A5%E9%81%93volatile%E8%AE%8A%E9%87%8F%EF%BC%8C%E7%B7%A9%E5%AD%98%E5%8F%AF%E8%83%BD%E6%9C%83%E9%A1%AF%E7%A4%BA%E4%B8%8D%E6%AD%A3%E7%A2%BA%E7%9A%84%E7%B5%90%E6%A7%8B">&#x7DE9;&#x5B58;&#x9060;&#x7A0B;&#x76EE;&#x6A19;&#x7684;&#x6578;&#x64DA;:&#x70BA;&#x63D0;&#x9AD8;&#x6027;&#x80FD;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x6578;&#x64DA;&#x7DE9;&#x5B58;&#xFF0C;&#x4E0D;&#x904E;gdb&#x4E0D;&#x77E5;&#x9053;volatile&#x8B8A;&#x91CF;&#xFF0C;&#x7DE9;&#x5B58;&#x53EF;&#x80FD;&#x6703;&#x986F;&#x793A;&#x4E0D;&#x6B63;&#x78BA;&#x7684;&#x7D50;&#x69CB;</h3>
+<h3 id="&#x7DE9;&#x5B58;&#x9060;&#x7A0B;&#x76EE;&#x6A19;&#x7684;&#x6578;&#x64DA;&#x70BA;&#x63D0;&#x9AD8;&#x6027;&#x80FD;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x6578;&#x64DA;&#x7DE9;&#x5B58;&#xFF0C;&#x4E0D;&#x904E;gdb&#x4E0D;&#x77E5;&#x9053;volatile&#x8B8A;&#x91CF;&#xFF0C;&#x7DE9;&#x5B58;&#x53EF;&#x80FD;&#x6703;&#x986F;&#x793A;&#x4E0D;&#x6B63;&#x78BA;&#x7684;&#x7D50;&#x69CB;">&#x7DE9;&#x5B58;&#x9060;&#x7A0B;&#x76EE;&#x6A19;&#x7684;&#x6578;&#x64DA;:&#x70BA;&#x63D0;&#x9AD8;&#x6027;&#x80FD;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x6578;&#x64DA;&#x7DE9;&#x5B58;&#xFF0C;&#x4E0D;&#x904E;gdb&#x4E0D;&#x77E5;&#x9053;volatile&#x8B8A;&#x91CF;&#xFF0C;&#x7DE9;&#x5B58;&#x53EF;&#x80FD;&#x6703;&#x986F;&#x793A;&#x4E0D;&#x6B63;&#x78BA;&#x7684;&#x7D50;&#x69CB;</h3>
 <pre><code class="lang-sh"><span class="hljs-built_in">set</span> remotecache on | off
 show remotecache
 info dcache <span class="hljs-comment"># &#x986F;&#x793A;&#x6578;&#x64DA;&#x7DE9;&#x5B58;&#x7684;&#x6027;&#x80FD;</span>
 </code></pre>
-<h3 id="c%E9%A0%90%E8%99%95%E7%90%86%E5%AE%8F">C&#x9810;&#x8655;&#x7406;&#x5B8F;:</h3>
+<h3 id="c&#x9810;&#x8655;&#x7406;&#x5B8F;">C&#x9810;&#x8655;&#x7406;&#x5B8F;:</h3>
 <pre><code class="lang-sh">macro expand(exp) &#x8868;&#x9054;&#x5F0F; <span class="hljs-comment"># &#x986F;&#x793A;&#x5B8F;&#x5C55;&#x958B;&#x7D50;&#x679C;</span>
 macro expand-once(expl) &#x8868;&#x9054;&#x5F0F; <span class="hljs-comment"># &#x986F;&#x793A;&#x5B8F;&#x4E00;&#x6B21;&#x5C55;&#x958B;&#x7D50;&#x679C;</span>
 macro info &#x5B8F;&#x540D; <span class="hljs-comment"># &#x67E5;&#x770B;&#x5B8F;&#x5B9A;&#x7FA9;</span>
 </code></pre>
-<h3 id="%E8%BF%BD%E8%B9%A4-tracepoint-%E5%B0%B1%E6%98%AF%E5%9C%A8%E6%9F%90%E5%80%8B%E9%BB%9E%E8%A8%AD%E7%BD%AE%E6%8E%A1%E6%A8%A3%E4%BF%A1%E6%81%AF%EF%BC%8C%E6%AF%8F%E6%AC%A1%E7%B6%93%E9%81%8E%E9%80%99%E5%80%8B%E9%BB%9E%E6%99%82%E5%8F%AA%E5%9F%B7%E8%A1%8C%E5%B7%B2%E7%B6%93%E5%AE%9A%E7%BE%A9%E7%9A%84%E6%8E%A1%E6%A8%A3%E5%8B%95%E4%BD%9C%E4%BD%86%E4%B8%A6%E4%B8%8D%E5%81%9C%E6%AD%A2%EF%BC%8C%E6%9C%80%E5%BE%8C%E5%86%8D%E6%A0%B9%E6%93%9A%E6%8E%A1%E6%A8%A3%E7%B5%90%E6%9E%9C%E9%80%B2%E8%A1%8C%E5%88%86%E6%9E%90%E3%80%82">&#x8FFD;&#x8E64;(tracepoint): &#x5C31;&#x662F;&#x5728;&#x67D0;&#x500B;&#x9EDE;&#x8A2D;&#x7F6E;&#x63A1;&#x6A23;&#x4FE1;&#x606F;&#xFF0C;&#x6BCF;&#x6B21;&#x7D93;&#x904E;&#x9019;&#x500B;&#x9EDE;&#x6642;&#x53EA;&#x57F7;&#x884C;&#x5DF2;&#x7D93;&#x5B9A;&#x7FA9;&#x7684;&#x63A1;&#x6A23;&#x52D5;&#x4F5C;&#x4F46;&#x4E26;&#x4E0D;&#x505C;&#x6B62;&#xFF0C;&#x6700;&#x5F8C;&#x518D;&#x6839;&#x64DA;&#x63A1;&#x6A23;&#x7D50;&#x679C;&#x9032;&#x884C;&#x5206;&#x6790;&#x3002;</h3>
-<h3 id="%E6%8E%A1%E6%A8%A3%E9%BB%9E%E5%AE%9A%E7%BE%A9">&#x63A1;&#x6A23;&#x9EDE;&#x5B9A;&#x7FA9;:</h3>
+<h3 id="&#x8FFD;&#x8E64;tracepoint-&#x5C31;&#x662F;&#x5728;&#x67D0;&#x500B;&#x9EDE;&#x8A2D;&#x7F6E;&#x63A1;&#x6A23;&#x4FE1;&#x606F;&#xFF0C;&#x6BCF;&#x6B21;&#x7D93;&#x904E;&#x9019;&#x500B;&#x9EDE;&#x6642;&#x53EA;&#x57F7;&#x884C;&#x5DF2;&#x7D93;&#x5B9A;&#x7FA9;&#x7684;&#x63A1;&#x6A23;&#x52D5;&#x4F5C;&#x4F46;&#x4E26;&#x4E0D;&#x505C;&#x6B62;&#xFF0C;&#x6700;&#x5F8C;&#x518D;&#x6839;&#x64DA;&#x63A1;&#x6A23;&#x7D50;&#x679C;&#x9032;&#x884C;&#x5206;&#x6790;&#x3002;">&#x8FFD;&#x8E64;(tracepoint): &#x5C31;&#x662F;&#x5728;&#x67D0;&#x500B;&#x9EDE;&#x8A2D;&#x7F6E;&#x63A1;&#x6A23;&#x4FE1;&#x606F;&#xFF0C;&#x6BCF;&#x6B21;&#x7D93;&#x904E;&#x9019;&#x500B;&#x9EDE;&#x6642;&#x53EA;&#x57F7;&#x884C;&#x5DF2;&#x7D93;&#x5B9A;&#x7FA9;&#x7684;&#x63A1;&#x6A23;&#x52D5;&#x4F5C;&#x4F46;&#x4E26;&#x4E0D;&#x505C;&#x6B62;&#xFF0C;&#x6700;&#x5F8C;&#x518D;&#x6839;&#x64DA;&#x63A1;&#x6A23;&#x7D50;&#x679C;&#x9032;&#x884C;&#x5206;&#x6790;&#x3002;</h3>
+<h3 id="&#x63A1;&#x6A23;&#x9EDE;&#x5B9A;&#x7FA9;">&#x63A1;&#x6A23;&#x9EDE;&#x5B9A;&#x7FA9;:</h3>
 <pre><code class="lang-sh">trace &#x4F4D;&#x7F6E; <span class="hljs-comment"># &#x5B9A;&#x7FA9;&#x63A1;&#x6A23;&#x9EDE;</span>
 info tracepoints <span class="hljs-comment"># &#x67E5;&#x770B;&#x63A1;&#x6A23;&#x9EDE;&#x5217;&#x8868;</span>
 delete trace &#x63A1;&#x6A23;&#x9EDE;&#x7DE8;&#x865F; <span class="hljs-comment"># &#x522A;&#x9664;&#x63A1;&#x5091;&#x9EDE;</span>
@@ -15624,7 +15558,7 @@ delete trace &#x63A1;&#x6A23;&#x9EDE;&#x7DE8;&#x865F; <span class="hljs-comment"
 <span class="hljs-built_in">enable</span> trace &#x63A1;&#x6A23;&#x9EDE;&#x7DE8;&#x865F; <span class="hljs-comment"># &#x4F7F;&#x7528;&#x63A1;&#x5091;&#x9EDE;</span>
 passcount &#x63A1;&#x6A23;&#x9EDE;&#x7DE8;&#x865F; [n] <span class="hljs-comment"># &#x7576;&#x901A;&#x904E;&#x63A1;&#x6A23;&#x9EDE; n&#x6B21;&#x5F8C;&#x505C;&#x6B62;,&#x4E0D;&#x6307;&#x5B9A;n&#x5247;&#x5728;&#x4E0B;&#x4E00;&#x500B;&#x65B7;&#x9EDE;&#x505C;&#x6B62;</span>
 </code></pre>
-<h3 id="%E9%A0%90%E5%AE%9A%E7%BE%A9%E5%8B%95%E4%BD%9C%EF%BC%9A%E9%A0%90%E5%AE%9A%E7%BE%A9%E5%8B%95%E4%BD%9C%E4%BB%A5actions%E9%96%8B%E5%A7%8B-%E5%BE%8C%E9%9D%A2%E6%98%AF%E4%B8%80%E7%B3%BB%E5%88%97%E7%9A%84%E5%8B%95%E4%BD%9C">&#x9810;&#x5B9A;&#x7FA9;&#x52D5;&#x4F5C;&#xFF1A;&#x9810;&#x5B9A;&#x7FA9;&#x52D5;&#x4F5C;&#x4EE5;actions&#x958B;&#x59CB;,&#x5F8C;&#x9762;&#x662F;&#x4E00;&#x7CFB;&#x5217;&#x7684;&#x52D5;&#x4F5C;</h3>
+<h3 id="&#x9810;&#x5B9A;&#x7FA9;&#x52D5;&#x4F5C;&#xFF1A;&#x9810;&#x5B9A;&#x7FA9;&#x52D5;&#x4F5C;&#x4EE5;actions&#x958B;&#x59CB;&#x5F8C;&#x9762;&#x662F;&#x4E00;&#x7CFB;&#x5217;&#x7684;&#x52D5;&#x4F5C;">&#x9810;&#x5B9A;&#x7FA9;&#x52D5;&#x4F5C;&#xFF1A;&#x9810;&#x5B9A;&#x7FA9;&#x52D5;&#x4F5C;&#x4EE5;actions&#x958B;&#x59CB;,&#x5F8C;&#x9762;&#x662F;&#x4E00;&#x7CFB;&#x5217;&#x7684;&#x52D5;&#x4F5C;</h3>
 <pre><code class="lang-sh">
 actions [num] <span class="hljs-comment"># &#x5C0D;&#x63A1;&#x6A23;&#x9EDE;num&#x5B9A;&#x7FA9;&#x52D5;&#x4F5C;</span>
 &#x884C;&#x70BA;:
@@ -15632,12 +15566,12 @@ collect &#x8868;&#x9054;&#x5F0F; <span class="hljs-comment"># &#x63A1;&#x6A23;&#
 &#x4E00;&#x4E9B;&#x8868;&#x9054;&#x5F0F;&#x6709;&#x7279;&#x6B8A;&#x610F;&#x7FA9;&#xFF0C;&#x5982;<span class="hljs-variable">$regs</span>(&#x6240;&#x6709;&#x5BC4;&#x5B58;&#x5668;),<span class="hljs-variable">$args</span>(&#x6240;&#x6709;&#x51FD;&#x6578;&#x53C3;&#x6578;),<span class="hljs-variable">$locals</span>(&#x6240;&#x6709;&#x5C40;&#x90E8;&#x8B8A;&#x91CF;)
 <span class="hljs-keyword">while</span>-steping n <span class="hljs-comment"># &#x7576;&#x57F7;&#x884C;&#x7B2C;n&#x6B21;&#x6642;&#x7684;&#x52D5;&#x4F5C;,&#x4E0B;&#x9762;&#x8DDF;&#x81EA;&#x5DF1;&#x7684;collect&#x64CD;&#x4F5C;</span>
 </code></pre>
-<h3 id="%E6%8E%A1%E6%A8%A3%E6%8E%A7%E5%88%B6">&#x63A1;&#x6A23;&#x63A7;&#x5236;:</h3>
+<h3 id="&#x63A1;&#x6A23;&#x63A7;&#x5236;">&#x63A1;&#x6A23;&#x63A7;&#x5236;:</h3>
 <pre><code class="lang-sh">tstart <span class="hljs-comment"># &#x958B;&#x59CB;&#x63A1;&#x6A23;</span>
 tstop <span class="hljs-comment"># &#x505C;&#x6B62;&#x63A1;&#x6A23;</span>
 tstatus <span class="hljs-comment"># &#x986F;&#x793A;&#x7576;&#x524D;&#x63A1;&#x6A23;&#x7684;&#x6578;&#x64DA;</span>
 </code></pre>
-<h3 id="%E4%BD%BF%E7%94%A8%E6%94%B6%E9%9B%86%E5%88%B0%E7%9A%84%E6%95%B8%E6%93%9A">&#x4F7F;&#x7528;&#x6536;&#x96C6;&#x5230;&#x7684;&#x6578;&#x64DA;:</h3>
+<h3 id="&#x4F7F;&#x7528;&#x6536;&#x96C6;&#x5230;&#x7684;&#x6578;&#x64DA;">&#x4F7F;&#x7528;&#x6536;&#x96C6;&#x5230;&#x7684;&#x6578;&#x64DA;:</h3>
 <pre><code class="lang-sh">tfind start <span class="hljs-comment"># &#x67E5;&#x627E;&#x7B2C;&#x4E00;&#x500B;&#x8A18;&#x9304;</span>
 tfind end | none <span class="hljs-comment"># &#x505C;&#x6B62;&#x67E5;&#x627E;</span>
 tfind <span class="hljs-comment"># &#x67E5;&#x627E;&#x4E0B;&#x4E00;&#x500B;&#x8A18;&#x9304;</span>
@@ -15651,15 +15585,15 @@ tfind line [&#x6587;&#x4EF6;&#x540D;:]&#x884C;&#x865F;
 tdump <span class="hljs-comment"># &#x986F;&#x793A;&#x7576;&#x524D;&#x8A18;&#x9304;&#x4E2D;&#x8FFD;&#x8E64;&#x4FE1;&#x606F;</span>
 save-tracepoints &#x6587;&#x4EF6;&#x540D; <span class="hljs-comment"># &#x4FDD;&#x5B58;&#x8FFD;&#x8E64;&#x4FE1;&#x606F;&#x5230;&#x6307;&#x5B9A;&#x6587;&#x4EF6;,&#x5F8C;&#x9762;&#x4F7F;&#x7528;source&#x547D;&#x4EE4;&#x8B80;</span>
 </code></pre>
-<h3 id="%E8%BF%BD%E8%B9%A4%E4%B8%AD%E7%9A%84%E4%BE%BF%E5%88%A9%E8%AE%8A%E9%87%8F">&#x8FFD;&#x8E64;&#x4E2D;&#x7684;&#x4FBF;&#x5229;&#x8B8A;&#x91CF;:</h3>
+<h3 id="&#x8FFD;&#x8E64;&#x4E2D;&#x7684;&#x4FBF;&#x5229;&#x8B8A;&#x91CF;">&#x8FFD;&#x8E64;&#x4E2D;&#x7684;&#x4FBF;&#x5229;&#x8B8A;&#x91CF;:</h3>
 <pre><code class="lang-sh"><span class="hljs-variable">$trace_frame</span> <span class="hljs-comment"># &#x7576;&#x524D;&#x5E40;&#x7DE8;&#x865F;, -1&#x8868;&#x793A;&#x6C92;&#x6709;, INT</span>
 <span class="hljs-variable">$tracepoint</span> <span class="hljs-comment"># &#x7576;&#x524D;&#x8FFD;&#x8E64;,INT</span>
 <span class="hljs-variable">$trace_line</span> <span class="hljs-comment"># &#x4F4D;&#x7F6E; INT</span>
 <span class="hljs-variable">$trace_file</span> <span class="hljs-comment"># &#x8FFD;&#x8E64;&#x6587;&#x4EF6; string, &#x9700;&#x8981;&#x4F7F;&#x7528;output&#x8F38;&#x51FA;&#xFF0C;&#x4E0D;&#x61C9;&#x7528;printf</span>
 <span class="hljs-variable">$trace_func</span> <span class="hljs-comment"># &#x51FD;&#x6578;&#x540D; string</span>
 </code></pre>
-<h3 id="%E8%A6%86%E8%93%8B%E6%8A%80%E8%A1%93-overray-%E7%94%A8%E6%96%BC%E8%AA%BF%E8%A9%A6%E9%81%8E%E5%A4%A7%E7%9A%84%E6%96%87%E4%BB%B6">&#x8986;&#x84CB;&#x6280;&#x8853;(overray): &#x7528;&#x65BC;&#x8ABF;&#x8A66;&#x904E;&#x5927;&#x7684;&#x6587;&#x4EF6;</h3>
-<h3 id="gdb%E6%96%87%E4%BB%B6">gdb&#x6587;&#x4EF6;:</h3>
+<h3 id="&#x8986;&#x84CB;&#x6280;&#x8853;overray-&#x7528;&#x65BC;&#x8ABF;&#x8A66;&#x904E;&#x5927;&#x7684;&#x6587;&#x4EF6;">&#x8986;&#x84CB;&#x6280;&#x8853;(overray): &#x7528;&#x65BC;&#x8ABF;&#x8A66;&#x904E;&#x5927;&#x7684;&#x6587;&#x4EF6;</h3>
+<h3 id="gdb&#x6587;&#x4EF6;">gdb&#x6587;&#x4EF6;:</h3>
 <pre><code class="lang-sh">file &#x6587;&#x4EF6;&#x540D; <span class="hljs-comment"># &#x52A0;&#x8F09;&#x6587;&#x4EF6;,&#x6B64;&#x6587;&#x4EF6;&#x70BA;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#xFF0C;&#x4E26;&#x4E14;&#x5F9E;&#x9019;&#x88E1;&#x8B80;&#x53D6;&#x7B26;&#x865F;</span>
 core &#x6587;&#x4EF6;&#x540D; <span class="hljs-comment"># &#x52A0;&#x8F09;core dump&#x6587;&#x4EF6;</span>
 <span class="hljs-built_in">exec</span>-file &#x6587;&#x4EF6;&#x540D; <span class="hljs-comment"># &#x52A0;&#x8F09;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;</span>
@@ -15729,9 +15663,17 @@ show solib-search-path
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

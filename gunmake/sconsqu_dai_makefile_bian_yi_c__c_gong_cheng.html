@@ -8,7 +8,7 @@
         <title>SCons筆記(詳細版) | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="19.10" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="19.10"
+        data-chapter-title="SCons筆記(詳細版)"
+        data-filepath="gunmake/sconsqu_dai_makefile_bian_yi_c__c_gong_cheng.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,8 +15051,8 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="scons%E5%8F%96%E4%BB%A3makefile%E7%B7%A8%E8%AD%AFc-c-%E5%B7%A5%E7%A8%8B">scons&#x53D6;&#x4EE3;makefile&#x7DE8;&#x8B6F;C/C++&#x5DE5;&#x7A0B;</h1>
-<h2 id="1-%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8">1. &#x57FA;&#x672C;&#x4F7F;&#x7528;</h2>
+                        <h1 id="scons&#x53D6;&#x4EE3;makefile&#x7DE8;&#x8B6F;cc&#x5DE5;&#x7A0B;">scons&#x53D6;&#x4EE3;makefile&#x7DE8;&#x8B6F;C/C++&#x5DE5;&#x7A0B;</h1>
+<h2 id="1-&#x57FA;&#x672C;&#x4F7F;&#x7528;">1. &#x57FA;&#x672C;&#x4F7F;&#x7528;</h2>
 <p>SConstruct&#x6587;&#x4EF6;&#x5C31;&#x529F;&#x80FD;&#x800C;&#x8A00;&#x76F8;&#x7576;&#x65BC;Makefile&#x6587;&#x4EF6;&#xFF0C;&#x5C31;&#x5167;&#x5BB9;&#x800C;&#x8A00;&#x5247;&#x662F;Python&#x8173;&#x672C;&#xFF0C;scons&#x8B80;&#x5165;&#x5B83;&#x6642;&#xFF0C;&#x6703;&#x628A;&#x8173;&#x672C;&#x7684;&#x547D;&#x4EE4;&#x90FD;&#x57F7;&#x884C;&#x4E00;&#x904D;&#xFF0C;&#x4F46;&#x5177;&#x9AD4;&#x7DE8;&#x8B6F;&#x904E;&#x7A0B;&#x5247;&#x6709;scons&#x81EA;&#x5DF1;&#x76F8;&#x6A5F;&#x800C;&#x5B9A;&#x3002;</p>
 <pre><code class="lang-sh">Program(<span class="hljs-string">&apos;hello.c&apos;</span>)
 Program(<span class="hljs-string">&apos;new_hello&apos;</span>,<span class="hljs-string">&apos;hello_c&apos;</span>)   &#x524D;&#x70BA;&#x76EE;&#x6A19;&#xFF0C;&#x5F8C;&#x70BA;&#x6E90;&#x6587;&#x4EF6;
@@ -15131,7 +15065,7 @@ src_files=Split(<span class="hljs-string">&quot;&quot;</span><span class="hljs-s
                            file2.c&quot;</span><span class="hljs-string">&quot;&quot;</span>)
 Program(target=<span class="hljs-string">&apos;program&apos;</span>,<span class="hljs-built_in">source</span>=src_files)
 </code></pre>
-<h2 id="2-%E7%B7%A8%E8%AD%AF%E5%A4%9A%E5%80%8B%E7%9B%AE%E6%A8%99%E6%96%87%E4%BB%B6%E5%B0%B1%E5%A4%9A%E6%AC%A1%E8%AA%BF%E7%94%A8program">2. &#x7DE8;&#x8B6F;&#x591A;&#x500B;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#x5C31;&#x591A;&#x6B21;&#x8ABF;&#x7528;Program()</h2>
+<h2 id="2-&#x7DE8;&#x8B6F;&#x591A;&#x500B;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#x5C31;&#x591A;&#x6B21;&#x8ABF;&#x7528;program">2. &#x7DE8;&#x8B6F;&#x591A;&#x500B;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#x5C31;&#x591A;&#x6B21;&#x8ABF;&#x7528;Program()</h2>
 <p>3.8  &#x591A;&#x500B;&#x7A0B;&#x5E8F;&#x5171;&#x4EAB;&#x6E90;&#x6587;&#x4EF6;</p>
 <pre><code class="lang-sh">eg.<span class="hljs-number">1</span>  
        Program(Split(<span class="hljs-string">&apos;foo.c common1.c common2.c&apos;</span>))
@@ -15143,31 +15077,31 @@ eg.<span class="hljs-number">2</span>
        Program(<span class="hljs-string">&apos;foo&apos;</span>, foo_files)
        Program(<span class="hljs-string">&apos;bar&apos;</span>, bar_files)
 </code></pre>
-<h2 id="4-%E5%BA%AB%E7%B7%A8%E8%AD%AF%E5%92%8C%E9%8F%88%E6%8E%A5">4. &#x5EAB;&#x7DE8;&#x8B6F;&#x548C;&#x93C8;&#x63A5;</h2>
-<h3 id="4-1-%E5%BA%AB%E7%B7%A8%E8%AD%AF">4.1 &#x5EAB;&#x7DE8;&#x8B6F;</h3>
+<h2 id="4-&#x5EAB;&#x7DE8;&#x8B6F;&#x548C;&#x93C8;&#x63A5;">4. &#x5EAB;&#x7DE8;&#x8B6F;&#x548C;&#x93C8;&#x63A5;</h2>
+<h3 id="41-&#x5EAB;&#x7DE8;&#x8B6F;">4.1 &#x5EAB;&#x7DE8;&#x8B6F;</h3>
 <pre><code class="lang-sh">Library(<span class="hljs-string">&apos;foo&apos;</span>, [<span class="hljs-string">&apos;f1.c&apos;</span>, <span class="hljs-string">&apos;f2.c&apos;</span>, <span class="hljs-string">&apos;f3.c&apos;</span>])
 </code></pre>
-<h3 id="4-1-1-%E4%BD%A0%E7%94%9A%E8%87%B3%E5%8F%AF%E4%BB%A5%E5%9C%A8%E6%96%87%E4%BB%B6list%E8%A3%A1%E6%B7%B7%E7%94%A8%E6%BA%90%E6%96%87%E4%BB%B6%E5%92%8C-o%E6%96%87%E4%BB%B6">4.1.1  &#x4F60;&#x751A;&#x81F3;&#x53EF;&#x4EE5;&#x5728;&#x6587;&#x4EF6;List&#x88E1;&#x6DF7;&#x7528;&#x6E90;&#x6587;&#x4EF6;&#x548C;.o&#x6587;&#x4EF6;</h3>
+<h3 id="411--&#x4F60;&#x751A;&#x81F3;&#x53EF;&#x4EE5;&#x5728;&#x6587;&#x4EF6;list&#x88E1;&#x6DF7;&#x7528;&#x6E90;&#x6587;&#x4EF6;&#x548C;o&#x6587;&#x4EF6;">4.1.1  &#x4F60;&#x751A;&#x81F3;&#x53EF;&#x4EE5;&#x5728;&#x6587;&#x4EF6;List&#x88E1;&#x6DF7;&#x7528;&#x6E90;&#x6587;&#x4EF6;&#x548C;.o&#x6587;&#x4EF6;</h3>
 <pre><code class="lang-sh">Library(<span class="hljs-string">&apos;foo&apos;</span>, [<span class="hljs-string">&apos;f1.c&apos;</span>, <span class="hljs-string">&apos;f2.o&apos;</span>, <span class="hljs-string">&apos;f3.c&apos;</span>, <span class="hljs-string">&apos;f4.o&apos;</span>])
 </code></pre>
-<h3 id="4-1-2-%E9%A1%AF%E5%BC%8F%E7%B7%A8%E8%AD%AF%E9%9D%9C%E6%85%8B%E5%BA%AB">4.1.2  &#x986F;&#x5F0F;&#x7DE8;&#x8B6F;&#x975C;&#x614B;&#x5EAB;</h3>
+<h3 id="412--&#x986F;&#x5F0F;&#x7DE8;&#x8B6F;&#x975C;&#x614B;&#x5EAB;">4.1.2  &#x986F;&#x5F0F;&#x7DE8;&#x8B6F;&#x975C;&#x614B;&#x5EAB;</h3>
 <pre><code class="lang-sh">StaticLibrary(<span class="hljs-string">&apos;foo&apos;</span>, [<span class="hljs-string">&apos;f1.c&apos;</span>, <span class="hljs-string">&apos;f2.c&apos;</span>, <span class="hljs-string">&apos;f3.c&apos;</span>])
 </code></pre>
-<h3 id="4-1-3-%E7%B7%A8%E8%AD%AF%E5%8B%95%E6%85%8B%E5%BA%AB">4.1.3 &#x7DE8;&#x8B6F;&#x52D5;&#x614B;&#x5EAB;</h3>
+<h3 id="413-&#x7DE8;&#x8B6F;&#x52D5;&#x614B;&#x5EAB;">4.1.3 &#x7DE8;&#x8B6F;&#x52D5;&#x614B;&#x5EAB;</h3>
 <pre><code class="lang-sh">SharedLibrary(<span class="hljs-string">&apos;foo&apos;</span>, [<span class="hljs-string">&apos;f1.c&apos;</span>, <span class="hljs-string">&apos;f2.c&apos;</span>, <span class="hljs-string">&apos;f3.c&apos;</span>])
 </code></pre>
-<h2 id="4-2-%E5%BA%AB%E9%8F%88%E6%8E%A5">4.2 &#x5EAB;&#x93C8;&#x63A5;</h2>
+<h2 id="42-&#x5EAB;&#x93C8;&#x63A5;">4.2 &#x5EAB;&#x93C8;&#x63A5;</h2>
 <pre><code class="lang-sh">Library(<span class="hljs-string">&apos;foo&apos;</span>, [<span class="hljs-string">&apos;f1.c&apos;</span>, <span class="hljs-string">&apos;f2.c&apos;</span>, <span class="hljs-string">&apos;f3.c&apos;</span>])
     Program(<span class="hljs-string">&apos;prog.c&apos;</span>, LIBS=[<span class="hljs-string">&apos;foo&apos;</span>, <span class="hljs-string">&apos;bar&apos;</span>], LIBPATH=<span class="hljs-string">&apos;.&apos;</span>)
 </code></pre>
 <p>&#x4E0D;&#x7528;&#x6307;&#x660E;&#x5EAB;&#x7684;&#x524D;&#x7DB4;&#x548C;&#x5F8C;&#x7DB4;&#xFF0C;&#x5982;lib,.a&#x7B49;&#x3002;</p>
-<h2 id="4-3-%E6%89%BE%E5%88%B0%E5%BA%AB%EF%BC%9A-libpath%E8%AE%8A%E9%87%8F">4.3 &#x627E;&#x5230;&#x5EAB;&#xFF1A;$LIBPATH&#x8B8A;&#x91CF;</h2>
+<h2 id="43-&#x627E;&#x5230;&#x5EAB;&#xFF1A;libpath&#x8B8A;&#x91CF;">4.3 &#x627E;&#x5230;&#x5EAB;&#xFF1A;$LIBPATH&#x8B8A;&#x91CF;</h2>
 <pre><code class="lang-sh">Program(<span class="hljs-string">&apos;prog.c&apos;</span>, LIBS = <span class="hljs-string">&apos;m&apos;</span>,
                 LIBPATH = [<span class="hljs-string">&apos;/usr/lib&apos;</span>, <span class="hljs-string">&apos;/usr/local/lib&apos;</span>])
 Unix&#x4E0A;     LIBPATH = <span class="hljs-string">&apos;/usr/lib:/usr/local/lib&apos;</span>
 Windows&#x4E0A;  LIBPATH = <span class="hljs-string">&apos;C:\\lib;D:\\lib&apos;</span>
 </code></pre>
-<h2 id="5-%E7%AF%80%E9%BB%9E%E5%B0%8D%E8%B1%A1%EF%BC%88nodes%EF%BC%89">5. &#x7BC0;&#x9EDE;&#x5C0D;&#x8C61;&#xFF08;nodes&#xFF09;</h2>
+<h2 id="5-&#x7BC0;&#x9EDE;&#x5C0D;&#x8C61;&#xFF08;nodes&#xFF09;">5. &#x7BC0;&#x9EDE;&#x5C0D;&#x8C61;&#xFF08;nodes&#xFF09;</h2>
 <p>SCons&#x628A;&#x6240;&#x6709;&#x77E5;&#x9053;&#x7684;&#x6587;&#x4EF6;&#x548C;&#x76EE;&#x9304;&#x8868;&#x793A;&#x70BA;&#x7BC0;&#x9EDE;&#x3002;
 5.1 builder&#x65B9;&#x6CD5;&#x7684;&#x8FD4;&#x56DE;&#x503C;&#x90FD;&#x662F;&#x7BC0;&#x9EDE;&#x5C0D;&#x8C61;List,&#x9019;&#x4E00;&#x9EDE;&#x5F88;&#x91CD;&#x8981;&#xFF0C;&#x5728;python&#x4E2D;List+List&#x9084;&#x662F;List&#xFF0C;&#x4E0B;&#x9762;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x61C9;&#x7528;&#x3002;</p>
 <pre><code class="lang-sh">hello_list = Object(<span class="hljs-string">&apos;hello.c&apos;</span>, CCFLAGS=<span class="hljs-string">&apos;-DHELLO&apos;</span>)
@@ -15175,7 +15109,7 @@ goodbye_list = Object(<span class="hljs-string">&apos;goodbye.c&apos;</span>, CC
 Program(hello_list + goodbye_list)
 </code></pre>
 <p>&#x9019;&#x88E1;&#x5982;&#x679C;&#x4E0D;&#x4F7F;&#x7528;&#x8B8A;&#x91CF;&#x7684;&#x8A71;&#xFF0C;&#x5C31;&#x4E0D;&#x80FD;&#x8DE8;&#x5E73;&#x81FA;&#x4F7F;&#x7528;&#x4E86;&#xFF0C;&#x56E0;&#x70BA;&#x4E0D;&#x540C;&#x7CFB;&#x7D71;object&#x64F4;&#x5C55;&#x540D;&#x662F;&#x4E0D;&#x540C;&#x7684;</p>
-<h3 id="5-2-%E9%A1%AF%E7%A4%BA%E5%89%B5%E5%BB%BA%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E9%8C%84%E7%AF%80%E9%BB%9E">5.2 &#x986F;&#x793A;&#x5275;&#x5EFA;&#x6587;&#x4EF6;&#x548C;&#x76EE;&#x9304;&#x7BC0;&#x9EDE;</h3>
+<h3 id="52-&#x986F;&#x793A;&#x5275;&#x5EFA;&#x6587;&#x4EF6;&#x548C;&#x76EE;&#x9304;&#x7BC0;&#x9EDE;">5.2 &#x986F;&#x793A;&#x5275;&#x5EFA;&#x6587;&#x4EF6;&#x548C;&#x76EE;&#x9304;&#x7BC0;&#x9EDE;</h3>
 <pre><code class="lang-sh">hello_c = File(<span class="hljs-string">&apos;hello.c&apos;</span>)
 Program(hello_c)
 classes = Dir(<span class="hljs-string">&apos;classes&apos;</span>)
@@ -15185,7 +15119,7 @@ Java(classes, <span class="hljs-string">&apos;src&apos;</span>)
 &#x7576;&#x4F60;&#x4E0D;&#x77E5;&#x9053;&#x76EE;&#x6A19;&#x662F;&#x6587;&#x4EF6;&#x9084;&#x662F;&#x76EE;&#x9304;&#x6642;&#xFF1A;</p>
 <pre><code class="lang-sh">xyzzy = Entry(<span class="hljs-string">&apos;xyzzy&apos;</span>)
 </code></pre>
-<h3 id="5-3-%E6%89%93%E5%8D%B0%E7%AF%80%E9%BB%9E%E6%96%87%E4%BB%B6%E5%90%8D">5.3 &#x6253;&#x5370;&#x7BC0;&#x9EDE;&#x6587;&#x4EF6;&#x540D;</h3>
+<h3 id="53-&#x6253;&#x5370;&#x7BC0;&#x9EDE;&#x6587;&#x4EF6;&#x540D;">5.3 &#x6253;&#x5370;&#x7BC0;&#x9EDE;&#x6587;&#x4EF6;&#x540D;</h3>
 <pre><code class="lang-sh">hello_c = File(<span class="hljs-string">&apos;hello.c&apos;</span>)
 Program(hello_c)
 
@@ -15197,7 +15131,7 @@ program_list = Program(object_list)
 <span class="hljs-built_in">print</span> <span class="hljs-string">&quot;The object file is:&quot;</span>, object_list[<span class="hljs-number">0</span>]
 <span class="hljs-built_in">print</span> <span class="hljs-string">&quot;The program file is:&quot;</span>, program_list[<span class="hljs-number">0</span>]
 </code></pre>
-<h3 id="5-4-%E6%8A%8A%E7%AF%80%E9%BB%9E%E6%96%87%E4%BB%B6%E5%90%8D%E7%95%B6%E4%BD%9C%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%BE%86%E4%BD%BF%E7%94%A8">5.4 &#x628A;&#x7BC0;&#x9EDE;&#x6587;&#x4EF6;&#x540D;&#x7576;&#x4F5C;&#x5B57;&#x7B26;&#x4E32;&#x4F86;&#x4F7F;&#x7528;</h3>
+<h3 id="54-&#x628A;&#x7BC0;&#x9EDE;&#x6587;&#x4EF6;&#x540D;&#x7576;&#x4F5C;&#x5B57;&#x7B26;&#x4E32;&#x4F86;&#x4F7F;&#x7528;">5.4 &#x628A;&#x7BC0;&#x9EDE;&#x6587;&#x4EF6;&#x540D;&#x7576;&#x4F5C;&#x5B57;&#x7B26;&#x4E32;&#x4F86;&#x4F7F;&#x7528;</h3>
 <pre><code class="lang-py"><span class="hljs-keyword">import</span> os.path
 program_list = Program(<span class="hljs-string">&apos;hello.c&apos;</span>)
 program_name = str(program_list[<span class="hljs-number">0</span>])
@@ -15205,15 +15139,15 @@ program_name = str(program_list[<span class="hljs-number">0</span>])
     <span class="hljs-keyword">print</span> program_name, <span class="hljs-string">&quot;does not exist!&quot;</span>
 </code></pre>
 <p>&#x6B64;&#x4F8B;&#x5224;&#x65B7;&#x4E86;&#x6587;&#x4EF6;&#x662F;&#x5426;&#x5B58;&#x5728;</p>
-<h2 id="6-%E4%BE%9D%E8%B3%B4%E9%97%9C%E4%BF%82">6. &#x4F9D;&#x8CF4;&#x95DC;&#x4FC2;</h2>
-<h3 id="6-1">6.1</h3>
+<h2 id="6-&#x4F9D;&#x8CF4;&#x95DC;&#x4FC2;">6. &#x4F9D;&#x8CF4;&#x95DC;&#x4FC2;</h2>
+<h3 id="61">6.1</h3>
 <p>Decider&#x51FD;&#x6578;&#xFF0C;&#x78BA;&#x5B9A;&#x6587;&#x4EF6;&#x662F;&#x5426;&#x88AB;&#x4FEE;&#x6539;</p>
-<h4 id="6-1-1-%E9%BB%98%E8%AA%8D%E4%BD%BF%E7%94%A8md5%E6%AA%A2%E6%9F%A5%E6%BA%90%E6%96%87%E4%BB%B6%E5%85%A7%E5%AE%B9%E8%80%8C%E4%B8%8D%E6%98%AF%E6%99%82%E9%96%93%E6%88%B3%EF%BC%8C%E7%94%A8touch%E4%B8%8D%E7%AE%97%E4%BF%AE%E6%94%B9%E9%81%8E">6.1.1 &#x9ED8;&#x8A8D;&#x4F7F;&#x7528;MD5&#x6AA2;&#x67E5;&#x6E90;&#x6587;&#x4EF6;&#x5167;&#x5BB9;&#x800C;&#x4E0D;&#x662F;&#x6642;&#x9593;&#x6233;&#xFF0C;&#x7528;touch&#x4E0D;&#x7B97;&#x4FEE;&#x6539;&#x904E;</h4>
+<h4 id="611-&#x9ED8;&#x8A8D;&#x4F7F;&#x7528;md5&#x6AA2;&#x67E5;&#x6E90;&#x6587;&#x4EF6;&#x5167;&#x5BB9;&#x800C;&#x4E0D;&#x662F;&#x6642;&#x9593;&#x6233;&#xFF0C;&#x7528;touch&#x4E0D;&#x7B97;&#x4FEE;&#x6539;&#x904E;">6.1.1 &#x9ED8;&#x8A8D;&#x4F7F;&#x7528;MD5&#x6AA2;&#x67E5;&#x6E90;&#x6587;&#x4EF6;&#x5167;&#x5BB9;&#x800C;&#x4E0D;&#x662F;&#x6642;&#x9593;&#x6233;&#xFF0C;&#x7528;touch&#x4E0D;&#x7B97;&#x4FEE;&#x6539;&#x904E;</h4>
 <p>&#x986F;&#x793A;&#x8ABF;&#x7528;</p>
 <pre><code class="lang-sh">Program(<span class="hljs-string">&apos;hello.c&apos;</span>)
 Decider(<span class="hljs-string">&apos;MD5&apos;</span>)
 </code></pre>
-<h4 id="6-1-2-%E4%BD%BF%E7%94%A8%E6%99%82%E9%96%93%E6%88%B3">6.1.2 &#x4F7F;&#x7528;&#x6642;&#x9593;&#x6233;</h4>
+<h4 id="612-&#x4F7F;&#x7528;&#x6642;&#x9593;&#x6233;">6.1.2 &#x4F7F;&#x7528;&#x6642;&#x9593;&#x6233;</h4>
 <pre><code class="lang-sh">Program(<span class="hljs-string">&apos;hello.c&apos;</span>)
 Decider(<span class="hljs-string">&apos;timestamp-newer&apos;</span>)
 </code></pre>
@@ -15225,15 +15159,15 @@ Decider(<span class="hljs-string">&apos;make&apos;</span>)
 <pre><code class="lang-sh">Program(<span class="hljs-string">&apos;hello.c&apos;</span>)
 Decider(<span class="hljs-string">&apos;timestamp-match&apos;</span>)
 </code></pre>
-<h4 id="6-1-3-%E5%85%A9%E8%80%85%E5%90%8C%E6%99%82%E4%BD%BF%E7%94%A8">6.1.3 &#x5169;&#x8005;&#x540C;&#x6642;&#x4F7F;&#x7528;</h4>
+<h4 id="613-&#x5169;&#x8005;&#x540C;&#x6642;&#x4F7F;&#x7528;">6.1.3 &#x5169;&#x8005;&#x540C;&#x6642;&#x4F7F;&#x7528;</h4>
 <pre><code class="lang-sh">Program(<span class="hljs-string">&apos;hello.c&apos;</span>)
 Decider(<span class="hljs-string">&apos;MD5-timestamp&apos;</span>)
 </code></pre>
-<h3 id="6-3-cpppath-%E9%9A%B1%E5%90%AB%E4%BE%9D%E8%B3%B4%E9%97%9C%E4%BF%82">6.3 $CPPPATH &#x96B1;&#x542B;&#x4F9D;&#x8CF4;&#x95DC;&#x4FC2;</h3>
+<h3 id="63-cpppath-&#x96B1;&#x542B;&#x4F9D;&#x8CF4;&#x95DC;&#x4FC2;">6.3 $CPPPATH &#x96B1;&#x542B;&#x4F9D;&#x8CF4;&#x95DC;&#x4FC2;</h3>
 <pre><code class="lang-sh">Program(<span class="hljs-string">&apos;hello.c&apos;</span>, CPPPATH = [<span class="hljs-string">&apos;include&apos;</span>, <span class="hljs-string">&apos;/home/project/inc&apos;</span>])
 </code></pre>
 <p>&#x6703;&#x5728;&#x7DE8;&#x8B6F;&#x6642;&#x52A0; -I</p>
-<h3 id="6-4-%E7%B7%A9%E8%A1%9D%E9%9A%B1%E5%BC%8F%E4%BE%9D%E8%B3%B4%E9%97%9C%E4%BF%82">6.4 &#x7DE9;&#x885D;&#x96B1;&#x5F0F;&#x4F9D;&#x8CF4;&#x95DC;&#x4FC2;</h3>
+<h3 id="64-&#x7DE9;&#x885D;&#x96B1;&#x5F0F;&#x4F9D;&#x8CF4;&#x95DC;&#x4FC2;">6.4 &#x7DE9;&#x885D;&#x96B1;&#x5F0F;&#x4F9D;&#x8CF4;&#x95DC;&#x4FC2;</h3>
 <pre><code class="lang-sh">% scons -Q --implicit-cache hello  &#x904B;&#x884C;&#x9078;&#x9805;
 SetOption(<span class="hljs-string">&apos;implicit_cache&apos;</span>, <span class="hljs-number">1</span>)      &#x5BEB;&#x5728;&#x8173;&#x672C;&#x88E1;
 </code></pre>
@@ -15241,24 +15175,24 @@ SetOption(<span class="hljs-string">&apos;implicit_cache&apos;</span>, <span cla
 <pre><code class="lang-sh">% scons -Q --implicit-deps-changed hello
 </code></pre>
 <p>&#x518D;&#x6253;&#x958B;</p>
-<h3 id="6-5-%E9%A1%AF%E5%BC%8F%E4%BE%9D%E8%B3%B4%E9%97%9C%E4%BF%82%EF%BC%9A-depends%E5%87%BD%E6%95%B8">6.5 &#x986F;&#x5F0F;&#x4F9D;&#x8CF4;&#x95DC;&#x4FC2;&#xFF1A; Depends&#x51FD;&#x6578;</h3>
+<h3 id="65-&#x986F;&#x5F0F;&#x4F9D;&#x8CF4;&#x95DC;&#x4FC2;&#xFF1A;-depends&#x51FD;&#x6578;">6.5 &#x986F;&#x5F0F;&#x4F9D;&#x8CF4;&#x95DC;&#x4FC2;&#xFF1A; Depends&#x51FD;&#x6578;</h3>
 <p>&#x7576;Scons&#x6C92;&#x6709;&#x627E;&#x5230;&#x95DC;&#x4FC2;&#x6642;</p>
 <pre><code class="lang-sh">hello = Program(<span class="hljs-string">&apos;hello.c&apos;</span>)
 Depends(hello, <span class="hljs-string">&apos;other_file&apos;</span>)
 </code></pre>
-<h3 id="6-6-%E7%B8%BD%E6%98%AF%E7%B7%A8%E8%AD%AF">6.6    &#x7E3D;&#x662F;&#x7DE8;&#x8B6F;</h3>
+<h3 id="66----&#x7E3D;&#x662F;&#x7DE8;&#x8B6F;">6.6    &#x7E3D;&#x662F;&#x7DE8;&#x8B6F;</h3>
 <pre><code class="lang-sh">hello = Program(<span class="hljs-string">&apos;hello.c&apos;</span>)
 AlwaysBuild(hello)
 </code></pre>
-<h2 id="7-%E7%92%B0%E5%A2%83">7. &#x74B0;&#x5883;</h2>
-<h3 id="7-2-%E5%89%B5%E5%BB%BA%E7%92%B0%E5%A2%83">7.2 &#x5275;&#x5EFA;&#x74B0;&#x5883;</h3>
-<h4 id="7-2-1">7.2.1</h4>
+<h2 id="7-&#x74B0;&#x5883;">7. &#x74B0;&#x5883;</h2>
+<h3 id="72-&#x5275;&#x5EFA;&#x74B0;&#x5883;">7.2 &#x5275;&#x5EFA;&#x74B0;&#x5883;</h3>
+<h4 id="721">7.2.1</h4>
 <pre><code class="lang-py">imp ort os
 env = Environment(CC = <span class="hljs-string">&apos;gcc&apos;</span>, CCFLAGS = <span class="hljs-string">&apos;-O2&apos;</span>)
 env.Program(<span class="hljs-string">&apos;foo.c&apos;</span>)
 </code></pre>
 <p>% scons -Q</p>
-<h4 id="7-2-2-%E7%8D%B2%E5%8F%96%E7%92%B0%E5%A2%83%E8%AE%8A%E9%87%8F">7.2.2 &#x7372;&#x53D6;&#x74B0;&#x5883;&#x8B8A;&#x91CF;</h4>
+<h4 id="722-&#x7372;&#x53D6;&#x74B0;&#x5883;&#x8B8A;&#x91CF;">7.2.2 &#x7372;&#x53D6;&#x74B0;&#x5883;&#x8B8A;&#x91CF;</h4>
 <pre><code class="lang-sh">env = Environment()
 <span class="hljs-built_in">print</span> <span class="hljs-string">&quot;CC is:&quot;</span>, env[<span class="hljs-string">&apos;CC&apos;</span>]
 </code></pre>
@@ -15277,19 +15211,19 @@ key = LIBSUFFIX, value = .a
 key = PROGSUFFIX, value = 
 scons: `.<span class="hljs-string">&apos; is up to date.
 </span></code></pre>
-<h2 id="13-install%E5%AE%89%E8%A3%9D%E6%96%87%E4%BB%B6%E8%87%B3%E5%85%B6%E4%BB%96%E6%96%87%E4%BB%B6%E5%A4%BE">13. Install&#x5B89;&#x88DD;&#x6587;&#x4EF6;&#x81F3;&#x5176;&#x4ED6;&#x6587;&#x4EF6;&#x593E;</h2>
+<h2 id="13-install&#x5B89;&#x88DD;&#x6587;&#x4EF6;&#x81F3;&#x5176;&#x4ED6;&#x6587;&#x4EF6;&#x593E;">13. Install&#x5B89;&#x88DD;&#x6587;&#x4EF6;&#x81F3;&#x5176;&#x4ED6;&#x6587;&#x4EF6;&#x593E;</h2>
 <pre><code class="lang-sh">env = Environment()
 hello = env.Program(<span class="hljs-string">&apos;hello.c&apos;</span>)
 env.Install(<span class="hljs-string">&apos;/usr/bin&apos;</span>, hello)
 </code></pre>
-<h3 id="13-1-%E5%9C%A8%E7%9B%AE%E9%8C%84%E8%A3%A1%E5%AE%89%E8%A3%9D%E5%A4%9A%E5%80%8B%E6%96%87%E4%BB%B6">13.1 &#x5728;&#x76EE;&#x9304;&#x88E1;&#x5B89;&#x88DD;&#x591A;&#x500B;&#x6587;&#x4EF6;</h3>
+<h3 id="131-&#x5728;&#x76EE;&#x9304;&#x88E1;&#x5B89;&#x88DD;&#x591A;&#x500B;&#x6587;&#x4EF6;">13.1 &#x5728;&#x76EE;&#x9304;&#x88E1;&#x5B89;&#x88DD;&#x591A;&#x500B;&#x6587;&#x4EF6;</h3>
 <pre><code class="lang-sh">env = Environment()
 hello = env.Program(<span class="hljs-string">&apos;hello.c&apos;</span>)
 goodbye = env.Program(<span class="hljs-string">&apos;goodbye.c&apos;</span>)
 env.Install(<span class="hljs-string">&apos;/usr/bin&apos;</span>, [hello, goodbye])
 env.Alias(<span class="hljs-string">&apos;install&apos;</span>, <span class="hljs-string">&apos;/usr/bin&apos;</span>)
 </code></pre>
-<h3 id="13-2-%E4%B8%80%E5%80%8B%E6%96%87%E4%BB%B6%E4%B8%8D%E5%90%8C%E5%AD%98%E6%94%BE">13.2 &#x4E00;&#x500B;&#x6587;&#x4EF6;&#x4E0D;&#x540C;&#x5B58;&#x653E;</h3>
+<h3 id="132-&#x4E00;&#x500B;&#x6587;&#x4EF6;&#x4E0D;&#x540C;&#x5B58;&#x653E;">13.2 &#x4E00;&#x500B;&#x6587;&#x4EF6;&#x4E0D;&#x540C;&#x5B58;&#x653E;</h3>
 <pre><code class="lang-sh">env = Environment()
 hello = env.Program(<span class="hljs-string">&apos;hello.c&apos;</span>)
 env.InstallAs(<span class="hljs-string">&apos;/usr/bin/hello-new&apos;</span>, hello)
@@ -15300,22 +15234,22 @@ cc -o hello.o -c hello.c
 cc -o hello hello.o
 Install file: <span class="hljs-string">&quot;hello&quot;</span> as <span class="hljs-string">&quot;/usr/bin/hello-new&quot;</span>
 </code></pre>
-<h2 id="14-%E5%B9%B3%E8%87%BA%E7%8D%A8%E7%AB%8B%E7%9A%84%E6%96%87%E4%BB%B6%E7%B3%BB%E7%B5%B1%E6%93%8D%E4%BD%9C">14 &#x5E73;&#x81FA;&#x7368;&#x7ACB;&#x7684;&#x6587;&#x4EF6;&#x7CFB;&#x7D71;&#x64CD;&#x4F5C;</h2>
-<h3 id="14-1-%E8%A4%87%E8%A3%BD">14.1 &#x8907;&#x88FD;</h3>
+<h2 id="14-&#x5E73;&#x81FA;&#x7368;&#x7ACB;&#x7684;&#x6587;&#x4EF6;&#x7CFB;&#x7D71;&#x64CD;&#x4F5C;">14 &#x5E73;&#x81FA;&#x7368;&#x7ACB;&#x7684;&#x6587;&#x4EF6;&#x7CFB;&#x7D71;&#x64CD;&#x4F5C;</h2>
+<h3 id="141-&#x8907;&#x88FD;">14.1 &#x8907;&#x88FD;</h3>
 <pre><code class="lang-sh">Command(<span class="hljs-string">&quot;file.out&quot;</span>, <span class="hljs-string">&quot;file.in&quot;</span>, Copy(<span class="hljs-string">&quot;<span class="hljs-variable">$TARGET</span>&quot;</span>, <span class="hljs-string">&quot;<span class="hljs-variable">$SOURCE</span>&quot;</span>))
 </code></pre>
 <p>&#x6216;&#x8005;</p>
 <pre><code class="lang-sh">Command(<span class="hljs-string">&quot;file.out&quot;</span>, [], Copy(<span class="hljs-string">&quot;<span class="hljs-variable">$TARGET</span>&quot;</span>, <span class="hljs-string">&quot;file.in&quot;</span>))
 </code></pre>
-<h2 id="16-%E5%A4%9A%E5%B1%A4%E7%9B%AE%E9%8C%84%E6%A7%8B%E5%BB%BA">16. &#x591A;&#x5C64;&#x76EE;&#x9304;&#x69CB;&#x5EFA;</h2>
+<h2 id="16-&#x591A;&#x5C64;&#x76EE;&#x9304;&#x69CB;&#x5EFA;">16. &#x591A;&#x5C64;&#x76EE;&#x9304;&#x69CB;&#x5EFA;</h2>
 <p><code>Sconconstruct&#x5728;&#x6700;&#x9802;&#x5C64;</code></p>
-<h3 id="16-1-sconscript%E6%96%87%E4%BB%B6%E5%8F%AF%E4%BB%A5%E5%B1%A4%E5%B1%A4%E5%8C%85%E5%90%AB">16.1 SConscript&#x6587;&#x4EF6;&#x53EF;&#x4EE5;&#x5C64;&#x5C64;&#x5305;&#x542B;</h3>
+<h3 id="161-sconscript&#x6587;&#x4EF6;&#x53EF;&#x4EE5;&#x5C64;&#x5C64;&#x5305;&#x542B;">16.1 SConscript&#x6587;&#x4EF6;&#x53EF;&#x4EE5;&#x5C64;&#x5C64;&#x5305;&#x542B;</h3>
 <pre><code class="lang-sh">SConscript([<span class="hljs-string">&apos;drivers/SConscript&apos;</span>, <span class="hljs-string">&apos;parser/SConscript&apos;</span>, <span class="hljs-string">&apos;utilities/SConscript&apos;</span>])
 </code></pre>
 <p>&#x5728;drivers&#x4E0B;&#xFF1A;</p>
 <pre><code class="lang-sh">SConscript([<span class="hljs-string">&apos;display/SConscript&apos;</span>, <span class="hljs-string">&apos;mouse/SConscript&apos;</span>])
 </code></pre>
-<h3 id="16-2-%E5%B0%8D%E6%96%87%E4%BB%B6sconscript%E7%9A%84%E7%9B%B8%E5%B0%8D%E7%9B%AE%E9%8C%84">16.2 &#x5C0D;&#x6587;&#x4EF6;SConscript&#x7684;&#x76F8;&#x5C0D;&#x76EE;&#x9304;</h3>
+<h3 id="162-&#x5C0D;&#x6587;&#x4EF6;sconscript&#x7684;&#x76F8;&#x5C0D;&#x76EE;&#x9304;">16.2 &#x5C0D;&#x6587;&#x4EF6;SConscript&#x7684;&#x76F8;&#x5C0D;&#x76EE;&#x9304;</h3>
 <pre><code class="lang-sh">SConscript([<span class="hljs-string">&apos;prog1/SConscript&apos;</span>, <span class="hljs-string">&apos;prog2/SConscript&apos;</span>])
 </code></pre>
 
@@ -15359,9 +15293,17 @@ Install file: <span class="hljs-string">&quot;hello&quot;</span> as <span class=
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

@@ -8,7 +8,7 @@
         <title>在gdb中執行cd和pwd命令 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="45.16.5" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="45.16.5"
+        data-chapter-title="在gdb中執行cd和pwd命令"
+        data-filepath="100_gdb_tips/run-cd-pwd.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,8 +15051,8 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E5%9C%A8gdb%E4%B8%AD%E5%9F%B7%E8%A1%8Ccd%E5%92%8Cpwd%E5%91%BD%E4%BB%A4">&#x5728;gdb&#x4E2D;&#x57F7;&#x884C;cd&#x548C;pwd&#x547D;&#x4EE4;</h1>
-<h2 id="%E6%8A%80%E5%B7%A7">&#x6280;&#x5DE7;</h2>
+                        <h1 id="&#x5728;gdb&#x4E2D;&#x57F7;&#x884C;cd&#x548C;pwd&#x547D;&#x4EE4;">&#x5728;gdb&#x4E2D;&#x57F7;&#x884C;cd&#x548C;pwd&#x547D;&#x4EE4;</h1>
+<h2 id="&#x6280;&#x5DE7;">&#x6280;&#x5DE7;</h2>
 <p>&#x662F;&#x7684;&#xFF0C;gdb&#x78BA;&#x5BE6;&#x652F;&#x6301;&#x9019;&#x5169;&#x500B;&#x547D;&#x4EE4;&#xFF0C;&#x96D6;&#x7136;&#x6211;&#x6C92;&#x6709;&#x60F3;&#x5230;&#x5B83;&#x5011;&#x6709;&#x4EC0;&#x9EBC;&#x7279;&#x5225;&#x7684;&#x7528;&#x8655;&#x3002;</p>
 <p>&#x4E5F;&#x8A31;&#xFF0C;&#x7576;&#x4F60;&#x555F;&#x52D5;gdb&#x4E4B;&#x5F8C;&#xFF0C;&#x767C;&#x73FE;&#x9700;&#x8981;&#x5207;&#x63DB;&#x5DE5;&#x4F5C;&#x76EE;&#x9304;&#xFF0C;&#x4F46;&#x53C8;&#x4E0D;&#x60F3;&#x9000;&#x51FA;gdb&#x7684;&#x6642;&#x5019;&#xFF1A;</p>
 <pre><code>(gdb) pwd
@@ -15126,7 +15060,7 @@ Working directory /home/xmj.
 (gdb) cd tmp
 Working directory /home/xmj/tmp.
 </code></pre><p>&#x8A73;&#x60C5;&#x53C3;&#x898B;<a href="https://sourceware.org/gdb/onlinedocs/gdb/Working-Directory.html#Working-Directory" target="_blank">gdb&#x624B;&#x518A;</a></p>
-<h2 id="%E8%B2%A2%E7%8D%BB%E8%80%85">&#x8CA2;&#x737B;&#x8005;</h2>
+<h2 id="&#x8CA2;&#x737B;&#x8005;">&#x8CA2;&#x737B;&#x8005;</h2>
 <p>xmj</p>
 
                     
@@ -15169,9 +15103,17 @@ Working directory /home/xmj/tmp.
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

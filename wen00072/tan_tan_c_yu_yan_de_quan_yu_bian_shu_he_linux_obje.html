@@ -8,7 +8,7 @@
         <title>談談C語言的全域變數和 Linux Object 檔案的關係 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="20.15.16" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="20.15.16"
+        data-chapter-title="談談C語言的全域變數和 Linux Object 檔案的關係"
+        data-filepath="wen00072/tan_tan_c_yu_yan_de_quan_yu_bian_shu_he_linux_obje.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,14 +15051,14 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E8%AB%87%E8%AB%87c%E8%AA%9E%E8%A8%80%E7%9A%84%E5%85%A8%E5%9F%9F%E8%AE%8A%E6%95%B8%E5%92%8C-linux-object-%E6%AA%94%E6%A1%88%E7%9A%84%E9%97%9C%E4%BF%82">&#x8AC7;&#x8AC7;C&#x8A9E;&#x8A00;&#x7684;&#x5168;&#x57DF;&#x8B8A;&#x6578;&#x548C; Linux Object &#x6A94;&#x6848;&#x7684;&#x95DC;&#x4FC2;</h1>
+                        <h1 id="&#x8AC7;&#x8AC7;c&#x8A9E;&#x8A00;&#x7684;&#x5168;&#x57DF;&#x8B8A;&#x6578;&#x548C;-linux-object-&#x6A94;&#x6848;&#x7684;&#x95DC;&#x4FC2;">&#x8AC7;&#x8AC7;C&#x8A9E;&#x8A00;&#x7684;&#x5168;&#x57DF;&#x8B8A;&#x6578;&#x548C; Linux Object &#x6A94;&#x6848;&#x7684;&#x95DC;&#x4FC2;</h1>
 <p>&#x5370;&#x8C61;&#x4E2D;&#x4EE5;&#x524D;&#x5B78;&#x904E;C&#x8A9E;&#x8A00;&#x4E2D;&#x8DE8;&#x6A94;&#x6848;&#x7684;&#x5168;&#x57DF;&#x8B8A;&#x6578;&#x662F;&#x9019;&#x6A23;&#x5BA3;&#x544A;&#x7684;&#x3002;
 &#x6A94;&#x6848;&#x4E00;&#xFF1A;<code>int g_var1;</code>
 &#x6A94;&#x6848;&#x4E8C;&#xFF1A;<code>extern int g_val1;</code></p>
 <p>&#x7136;&#x800C;&#xFF0C;&#x6211;&#x5F9E;&#x4F86;&#x6C92;&#x6709;&#x60F3;&#x904E;&#x5982;&#x679C;&#x6C92;&#x6709;extern&#x7684;&#x60C5;&#x6CC1;&#x6703;&#x767C;&#x751F;&#x4EC0;&#x9EBC;&#x72C0;&#x6CC1;&#x3002;&#x52A0;&#x4E0A;&#x4E4B;&#x524D;&#x770B;&#x904E;&#x7684;objdump&#x548C;nm&#x5F8C;&#x624B;&#x7662;&#xFF0C;&#x6240;&#x4EE5;&#x628A;&#x53EF;&#x80FD;&#x7684;&#x6392;&#x5217;&#x7D44;&#x5408;&#x770B;&#x770B;&#x53EF;&#x80FD;&#x767C;&#x751F;&#x4EC0;&#x9EBC;&#x4E8B;&#x3002;</p>
 <p>&#x9019;&#x908A;&#x8981;&#x5148;&#x77E5;&#x9053;common object&#x8868;&#x793A;object&#x6A94;&#x6848;&#x5DF2;&#x7D93;&#x7D00;&#x9304;&#x4E0B;&#x9019;&#x500B;symbol&#xFF0C;&#x6700;&#x5F8C;link&#x7684;&#x6642;&#x5019;&#x624D;&#x6703;&#x6C7A;&#x5B9A;&#x8981;&#x600E;&#x9EBC;&#x8655;&#x7406;&#x3002;&#x6703;&#x653E;&#x5728;common section <a href="http://stackoverflow.com/questions/18335256/what-does-com-stand-for-in-objdump-symbol-table" target="_blank">&#x51FA;&#x8655;</a>&#x3002;</p>
 <p>&#x7531;&#x65BC;&#x7D50;&#x679C;&#x548C;&#x5206;&#x6790;&#x53C8;&#x81ED;&#x53C8;&#x9577;&#xFF0C;&#x9023;&#x6211;&#x81EA;&#x5DF1;&#x90FD;&#x4E0D;&#x592A;&#x60F3;&#x56DE;&#x53BB;&#x770B;&#x3002;&#x5EFA;&#x8B70;&#x5148;&#x770B;<a href="#elf-concl">&#x7D50;&#x8AD6;</a>&#xFF0C;&#x6709;&#x7591;&#x60D1;&#x518D;&#x56DE;&#x4F86;&#x770B;&#x7D50;&#x679C;&#x548C;&#x5206;&#x6790;&#x5427;&#x3002;</p>
-<h2 id="%E7%9B%AE%E9%8C%84">&#x76EE;&#x9304;</h2>
+<h2 id="&#x76EE;&#x9304;">&#x76EE;&#x9304;</h2>
 <ul>
 <li><a href="#elf-env">&#x6E2C;&#x8A66;&#x74B0;&#x5883;</a></li>
 <li><a href="#elf-ex">&#x6E2C;&#x8A66;&#x7A0B;&#x5F0F;</a></li>
@@ -15133,7 +15067,7 @@
 <li><a href="#elf-ref">&#x53C3;&#x8003;&#x8CC7;&#x6599;</a></li>
 </ul>
 <p><a name="elf-env"></a></p>
-<h2 id="%E6%B8%AC%E8%A9%A6%E7%92%B0%E5%A2%83">&#x6E2C;&#x8A66;&#x74B0;&#x5883;</h2>
+<h2 id="&#x6E2C;&#x8A66;&#x74B0;&#x5883;">&#x6E2C;&#x8A66;&#x74B0;&#x5883;</h2>
 <pre><code>$ lsb_release -a
 No LSB modules are available.
 Distributor ID:    Ubuntu
@@ -15145,7 +15079,7 @@ Codename:    trusty
 <li>GNU nm (GNU Binutils for Ubuntu) 2.24</li>
 </ul>
 <p><a name="elf-ex"></a></p>
-<h2 id="%E6%B8%AC%E8%A9%A6%E7%A8%8B%E5%BC%8F">&#x6E2C;&#x8A66;&#x7A0B;&#x5F0F;</h2>
+<h2 id="&#x6E2C;&#x8A66;&#x7A0B;&#x5F0F;">&#x6E2C;&#x8A66;&#x7A0B;&#x5F0F;</h2>
 <p>&#x975E;&#x5E38;&#x7C21;&#x55AE;&#xFF0C;&#x5C31;&#x662F;&#x6709;&#x5169;&#x500B;&#x6A94;&#x6848;&#x5B58;&#x653E;&#x5168;&#x57DF;&#x8B8A;&#x6578;&#xFF0C;&#x6BCF;&#x6B21;&#x6E2C;&#x8A66;&#x6642;&#x5148;&#x66F4;&#x6539;&#x5168;&#x57DF;&#x8B8A;&#x6578;</p>
 <ul>
 <li>&#x662F;&#x5426;&#x6709;&#x521D;&#x59CB;&#x503C;</li>
@@ -15192,7 +15126,7 @@ $(TARGET): $(OBJS)
 clean:
     rm <span class="hljs-operator">-f</span> $(TARGET) $(OBJS)
 </code></pre>
-<h2 id="%E6%B8%AC%E8%A9%A6%E7%B5%90%E6%9E%9C">&#x6E2C;&#x8A66;&#x7D50;&#x679C;</h2>
+<h2 id="&#x6E2C;&#x8A66;&#x7D50;&#x679C;">&#x6E2C;&#x8A66;&#x7D50;&#x679C;</h2>
 <table>
 <thead>
 <tr>
@@ -15301,7 +15235,7 @@ clean:
 </tr>
 </tbody>
 </table>
-<h2 id="%E5%88%86%E6%9E%90-var1-c-int-g-var-var2-c-int-g-var-%E7%9A%84%E7%B5%90%E6%9E%9C">&#x5206;&#x6790; var1.c: int g_var; var2.c: int g_var; &#x7684;&#x7D50;&#x679C;</h2>
+<h2 id="&#x5206;&#x6790;-var1c-int-gvar-var2c-int-gvar-&#x7684;&#x7D50;&#x679C;">&#x5206;&#x6790; var1.c: int g_var; var2.c: int g_var; &#x7684;&#x7D50;&#x679C;</h2>
 <ul>
 <li><code>objdump -t</code> &#x986F;&#x793A;object&#x6A94;&#x6848;&#x7684;symbol table&#x6B04;&#x4F4D;&#x8CC7;&#x6599;&#xFF1A;<ul>
 <li>var1.o: 0000000000000004       O <em>COM</em>  0000000000000004 g_var1<ul>
@@ -15344,7 +15278,7 @@ clean:
 </ul>
 </li>
 </ul>
-<h2 id="%E5%88%86%E6%9E%90-var1-c-int-g-var-2-var2-c-int-g-var-%E7%9A%84%E7%B5%90%E6%9E%9C">&#x5206;&#x6790; var1.c: int g_var = 2; var2.c: int g_var; &#x7684;&#x7D50;&#x679C;</h2>
+<h2 id="&#x5206;&#x6790;-var1c-int-gvar--2-var2c-int-gvar-&#x7684;&#x7D50;&#x679C;">&#x5206;&#x6790; var1.c: int g_var = 2; var2.c: int g_var; &#x7684;&#x7D50;&#x679C;</h2>
 <ul>
 <li><code>objdump -t</code> &#x986F;&#x793A;object&#x6A94;&#x6848;&#x7684;symbol table&#x6B04;&#x4F4D;&#x8CC7;&#x6599;&#xFF1A;<ul>
 <li>var1.o: 0000000000000000 g     O .data    0000000000000004 g_var1<ul>
@@ -15387,9 +15321,9 @@ clean:
 </ul>
 </li>
 </ul>
-<h2 id="%E5%88%86%E6%9E%90-var1-c-int-g-var2-2-var2-c-int-g-var-%E7%9A%84%E7%B5%90%E6%9E%9C">&#x5206;&#x6790; var1.c: int g_var2 = 2; var2.c:  int g_var; &#x7684;&#x7D50;&#x679C;</h2>
+<h2 id="&#x5206;&#x6790;-var1c-int-gvar2--2-var2c--int-gvar-&#x7684;&#x7D50;&#x679C;">&#x5206;&#x6790; var1.c: int g_var2 = 2; var2.c:  int g_var; &#x7684;&#x7D50;&#x679C;</h2>
 <p>&#x548C;&#x4E0A;&#x9762;&#x7684;&#x5DEE;&#x5225;&#x53EA;&#x6709;var1.o&#x548C;var2.o&#x7684;&#x7D50;&#x679C;&#x5C0D;&#x8ABF;&#x800C;&#x5DF2;&#x3002;</p>
-<h2 id="%E5%88%86%E6%9E%90-var1-c-int-g-var2-2-var2-c-int-g-var-3-%E7%9A%84%E7%B5%90%E6%9E%9C">&#x5206;&#x6790; var1.c: int g_var2 = 2; var2.c:  int g_var = 3; &#x7684;&#x7D50;&#x679C;</h2>
+<h2 id="&#x5206;&#x6790;-var1c-int-gvar2--2-var2c--int-gvar--3-&#x7684;&#x7D50;&#x679C;">&#x5206;&#x6790; var1.c: int g_var2 = 2; var2.c:  int g_var = 3; &#x7684;&#x7D50;&#x679C;</h2>
 <ul>
 <li>&#x932F;&#x8AA4;&#x8A0A;&#x606F;&#xFF1A; g_var1&#x91CD;&#x8907;&#x5B9A;&#x7FA9;</li>
 </ul>
@@ -15435,7 +15369,7 @@ make: *** [glvar] Error 1
 </ul>
 </li>
 </ul>
-<h2 id="%E5%88%86%E6%9E%90-var1-c-int-g-var-var2-c-extern-int-g-var-%E7%9A%84%E7%B5%90%E6%9E%9C">&#x5206;&#x6790; var1.c: int g_var; var2.c: extern int g_var; &#x7684;&#x7D50;&#x679C;</h2>
+<h2 id="&#x5206;&#x6790;-var1c-int-gvar-var2c-extern-int-gvar-&#x7684;&#x7D50;&#x679C;">&#x5206;&#x6790; var1.c: int g_var; var2.c: extern int g_var; &#x7684;&#x7D50;&#x679C;</h2>
 <ul>
 <li><code>objdump -t</code> &#x986F;&#x793A;object&#x6A94;&#x6848;&#x7684;symbol table&#x6B04;&#x4F4D;&#x8CC7;&#x6599;&#xFF1A;<ul>
 <li>var1.o: 0000000000000004       O <em>COM</em>    0000000000000004 g_var1<ul>
@@ -15472,7 +15406,7 @@ make: *** [glvar] Error 1
 </ul>
 </li>
 </ul>
-<h2 id="%E5%88%86%E6%9E%90-var1-c-int-g-var-2-var2-c-extern-int-g-var-%E7%9A%84%E7%B5%90%E6%9E%9C">&#x5206;&#x6790; var1.c: int g_var = 2; var2.c: extern int g_var; &#x7684;&#x7D50;&#x679C;</h2>
+<h2 id="&#x5206;&#x6790;-var1c-int-gvar--2-var2c-extern-int-gvar-&#x7684;&#x7D50;&#x679C;">&#x5206;&#x6790; var1.c: int g_var = 2; var2.c: extern int g_var; &#x7684;&#x7D50;&#x679C;</h2>
 <ul>
 <li><code>objdump -t</code> &#x986F;&#x793A;object&#x6A94;&#x6848;&#x7684;symbol table&#x6B04;&#x4F4D;&#x8CC7;&#x6599;&#xFF1A;<ul>
 <li>var1.o: 0000000000000000 g     O .data    0000000000000004 g_var1<ul>
@@ -15509,7 +15443,7 @@ make: *** [glvar] Error 1
 </ul>
 </li>
 </ul>
-<h2 id="%E5%88%86%E6%9E%90-var1-c-int-g-var-var2-c-extern-int-g-var-3-%E7%9A%84%E7%B5%90%E6%9E%9C">&#x5206;&#x6790; var1.c: int g_var; var2.c: extern int g_var = 3; &#x7684;&#x7D50;&#x679C;</h2>
+<h2 id="&#x5206;&#x6790;-var1c-int-gvar-var2c-extern-int-gvar--3-&#x7684;&#x7D50;&#x679C;">&#x5206;&#x6790; var1.c: int g_var; var2.c: extern int g_var = 3; &#x7684;&#x7D50;&#x679C;</h2>
 <ul>
 <li>&#x5F97;&#x5230;&#x8B66;&#x544A;&#x548C;&#x932F;&#x8AA4;&#xFF1A;</li>
 </ul>
@@ -15568,7 +15502,7 @@ make: *** [glvar] Error 1
 </ul>
 </li>
 </ul>
-<h2 id="%E5%88%86%E6%9E%90-var1-c-int-g-var-2-var2-c-extern-int-g-var-3-%E7%9A%84%E7%B5%90%E6%9E%9C">&#x5206;&#x6790; var1.c: int g_var = 2; var2.c: extern int g_var = 3; &#x7684;&#x7D50;&#x679C;</h2>
+<h2 id="&#x5206;&#x6790;-var1c-int-gvar--2-var2c-extern-int-gvar--3-&#x7684;&#x7D50;&#x679C;">&#x5206;&#x6790; var1.c: int g_var = 2; var2.c: extern int g_var = 3; &#x7684;&#x7D50;&#x679C;</h2>
 <ul>
 <li>&#x5F97;&#x5230;&#x8B66;&#x544A;&#x548C;link&#x932F;&#x8AA4;&#xFF1A;</li>
 </ul>
@@ -15617,7 +15551,7 @@ make: *** [glvar] Error 1
 </ul>
 </li>
 </ul>
-<h2 id="%E5%88%86%E6%9E%90-var1-c-extern-int-g-var-var2-c-extern-int-g-var-%E7%9A%84%E7%B5%90%E6%9E%9C">&#x5206;&#x6790; var1.c: extern int g_var; var2.c: extern int g_var; &#x7684;&#x7D50;&#x679C;</h2>
+<h2 id="&#x5206;&#x6790;-var1c-extern-int-gvar-var2c-extern-int-gvar-&#x7684;&#x7D50;&#x679C;">&#x5206;&#x6790; var1.c: extern int g_var; var2.c: extern int g_var; &#x7684;&#x7D50;&#x679C;</h2>
 <ul>
 <li>link&#x6642;&#x767C;&#x751F;&#x932F;&#x8AA4;</li>
 </ul>
@@ -15651,7 +15585,7 @@ make: *** [glvar] Error <span class="hljs-number">1</span>
 </ul>
 </li>
 </ul>
-<h2 id="%E5%88%86%E6%9E%90-var1-c-extern-int-g-var-2-var2-c-extern-int-g-var-%E7%9A%84%E7%B5%90%E6%9E%9C">&#x5206;&#x6790; var1.c: extern int g_var = 2; var2.c: extern int g_var; &#x7684;&#x7D50;&#x679C;</h2>
+<h2 id="&#x5206;&#x6790;-var1c-extern-int-gvar--2-var2c-extern-int-gvar-&#x7684;&#x7D50;&#x679C;">&#x5206;&#x6790; var1.c: extern int g_var = 2; var2.c: extern int g_var; &#x7684;&#x7D50;&#x679C;</h2>
 <ul>
 <li>&#x5F97;&#x5230;&#x8B66;&#x544A;&#xFF1A;</li>
 </ul>
@@ -15683,9 +15617,9 @@ make: *** [glvar] Error <span class="hljs-number">1</span>
 </ul>
 </li>
 </ul>
-<h2 id="%E5%88%86%E6%9E%90-var1-c-extern-int-g-var2-var2-c-extern-int-g-var-3-%E7%9A%84%E7%B5%90%E6%9E%9C">&#x5206;&#x6790; var1.c: extern int g_var2; var2.c: extern int g_var = 3; &#x7684;&#x7D50;&#x679C;</h2>
+<h2 id="&#x5206;&#x6790;-var1c-extern-int-gvar2-var2c-extern-int-gvar--3-&#x7684;&#x7D50;&#x679C;">&#x5206;&#x6790; var1.c: extern int g_var2; var2.c: extern int g_var = 3; &#x7684;&#x7D50;&#x679C;</h2>
 <p>&#x548C;&#x4E0A;&#x9762;&#x7684;&#x5DEE;&#x5225;&#x53EA;&#x6709;var1.o&#x548C;var2.o&#x7684;&#x7D50;&#x679C;&#x5C0D;&#x8ABF;&#x800C;&#x5DF2;&#x3002;</p>
-<h2 id="%E5%88%86%E6%9E%90-var1-c-extern-int-g-var2-2-var2-c-extern-int-g-var-3-%E7%9A%84%E7%B5%90%E6%9E%9C">&#x5206;&#x6790; var1.c: extern int g_var2 = 2; var2.c: extern int g_var = 3; &#x7684;&#x7D50;&#x679C;</h2>
+<h2 id="&#x5206;&#x6790;-var1c-extern-int-gvar2--2-var2c-extern-int-gvar--3-&#x7684;&#x7D50;&#x679C;">&#x5206;&#x6790; var1.c: extern int g_var2 = 2; var2.c: extern int g_var = 3; &#x7684;&#x7D50;&#x679C;</h2>
 <ul>
 <li>&#x5F97;&#x5230;&#x8B66;&#x544A;&#x548C;&#x932F;&#x8AA4;&#xFF1A;</li>
 </ul>
@@ -15738,7 +15672,7 @@ make: *** [glvar] Error 1
 </ul>
 </li>
 </ul>
-<h2 id="%E7%B5%90%E8%AB%96">&#x7D50;&#x8AD6;</h2>
+<h2 id="&#x7D50;&#x8AD6;">&#x7D50;&#x8AD6;</h2>
 <ul>
 <li>common symbol&#x8868;&#x793A;object&#x6A94;&#x6848;&#x5DF2;&#x7D93;&#x7D00;&#x9304;&#x4E0B;&#x9019;&#x500B;symbol&#xFF0C;&#x5148;&#x653E;&#x5728;common section&#x3002;&#x6700;&#x5F8C;link&#x7684;&#x6642;&#x5019;&#x624D;&#x6703;&#x6C7A;&#x5B9A;&#x8981;&#x600E;&#x9EBC;&#x8655;&#x7406;&#x3002; <a href="http://stackoverflow.com/questions/18335256/what-does-com-stand-for-in-objdump-symbol-table" target="_blank">&#x51FA;&#x8655;</a></li>
 <li><code>gcc -c</code>&#x7522;&#x751F;&#x7684;object&#x6A94;&#x6848;&#x4E2D;&#x672A;&#x521D;&#x59CB;&#x5316;&#x7684;&#x5168;&#x57DF;&#x8B8A;&#x6578;&#x6703;&#x653E;&#x5728;common section&#x800C;&#x4E0D;&#x662F;<code>.bss</code> section&#xFF0C;&#x539F;&#x56E0;&#x662F;link&#x6642;&#x671F;&#x5176;&#x4ED6;&#x7684;object&#x53EF;&#x80FD;&#x6709;&#x76F8;&#x540C;&#x540D;&#x7A31;&#x7684;symbol&#xFF0C;&#x800C;&#x9019;&#x4E9B;&#x76F8;&#x540C;&#x7684;symbol&#x53EF;&#x80FD;&#x6709;&#x521D;&#x59CB;&#x5316;&#x4E5F;&#x53EF;&#x80FD;&#x6C92;&#x6709;&#x3002;&#x800C;linker&#x9700;&#x8981;&#x5168;&#x76E4;&#x77AD;&#x89E3;&#x5F8C;&#x518D;&#x505A;&#x51FA;&#x6C7A;&#x5B9A;&#x8981;&#x653E;&#x5728;<code>.bss</code>&#x9084;&#x662F;<code>.data</code> section&#x3002;</li>
@@ -15761,7 +15695,7 @@ make: *** [glvar] Error 1
 </ul>
 </li>
 </ul>
-<h2 id="%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99">&#x53C3;&#x8003;&#x8CC7;&#x6599;</h2>
+<h2 id="&#x53C3;&#x8003;&#x8CC7;&#x6599;">&#x53C3;&#x8003;&#x8CC7;&#x6599;</h2>
 <ul>
 <li><a href="http://stackoverflow.com/questions/18335256/what-does-com-stand-for-in-objdump-symbol-table" target="_blank">stackoverflow: What does <em>COM</em> stand for in objdump symbol table?</a></li>
 <li><a href="http://www.slideshare.net/lubatang/singleton-constructor" target="_blank">&#x5F9E; Singleton &#x8AC7; constructor</a></li>
@@ -15811,9 +15745,17 @@ make: *** [glvar] Error 1
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

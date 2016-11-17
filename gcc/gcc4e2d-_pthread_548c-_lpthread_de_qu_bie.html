@@ -8,7 +8,7 @@
         <title>gcc中-pthread和-lpthread的區別 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="36.1.2" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="36.1.2"
+        data-chapter-title="gcc中-pthread和-lpthread的區別"
+        data-filepath="gcc/gcc4e2d-_pthread_548c-_lpthread_de_qu_bie.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,7 +15051,7 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="gcc%E4%B8%AD-pthread%E5%92%8C-lpthread%E7%9A%84%E5%8D%80%E5%88%A5">gcc&#x4E2D;-pthread&#x548C;-lpthread&#x7684;&#x5340;&#x5225;</h1>
+                        <h1 id="gcc&#x4E2D;pthread&#x548C;lpthread&#x7684;&#x5340;&#x5225;">gcc&#x4E2D;-pthread&#x548C;-lpthread&#x7684;&#x5340;&#x5225;</h1>
 <p>&#x6700;&#x8FD1;&#x5728;&#x4F7F;&#x7528;linux mint15&#xFF0C;&#x88E1;&#x9762;&#x81EA;&#x5E36;&#x7684;gcc&#x6642;4.7&#x7684;&#xFF0C;&#x7576;&#x6211;&#x7DE8;&#x8B6F;&#x591A;&#x7DDA;&#x7A0B;&#x7A0B;&#x5E8F;&#x6642;&#xFF0C;&#x4F7F;&#x7528;-lpthread&#x5C45;&#x7136;&#x8AAA;&#x6C92;&#x6709;&#x627E;&#x5230;&#x7DDA;&#x7A0B;&#x5EAB;&#x51FD;&#x6578;&#xFF01;&#xFF01;&#xFF01;&#x7136;&#x5F8C;man&#x4E86;&#x4E00;&#x4E0B;&#xFF0C;&#x624D;&#x767C;&#x73FE;&#x5728;gcc 4.7&#x4E2D;&#x93C8;&#x63A5;&#x7DDA;&#x7A0B;&#x5EAB;&#x4F7F;&#x7528;-pthread&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x7528;-lpthread&#xFF0C;&#x70BA;&#x4E86;&#x641E;&#x6E05;&#x695A;&#x4ED6;&#x5011;&#x4E4B;&#x9593;&#x7684;&#x5340;&#x5225;&#xFF0C;&#x6211;&#x9032;&#x884C;&#x4E86;&#x4EE5;&#x4E0B;&#x6E2C;&#x8A66;&#xFF08;&#x6E2C;&#x8A66;&#x65B9;&#x6CD5;&#x6211;&#x67E5;&#x627E;&#x4E86;&#x597D;&#x591A;&#x7DB2;&#x4E0A;&#x7684;&#x8CC7;&#x6599;&#xFF09;&#xFF1A;
 &#x7528;gcc&#x7DE8;&#x8B6F;&#x4F7F;&#x7528;&#x4E86;POSIX thread&#x7684;&#x7A0B;&#x5E8F;&#x6642;&#x901A;&#x5E38;&#x9700;&#x8981;&#x52A0;&#x984D;&#x5916;&#x7684;&#x9078;&#x9805;&#xFF0C;&#x4EE5;&#x4FBF;&#x4F7F;&#x7528;thread-safe&#x7684;&#x5EAB;&#x53CA;&#x982D;&#x6587;&#x4EF6;&#xFF0C;&#x4E00;&#x4E9B;&#x8001;&#x7684;&#x66F8;&#x88E1;&#x8AAA;&#x76F4;&#x63A5;&#x589E;&#x52A0;&#x93C8;&#x63A5;&#x9078;&#x9805; -lpthread &#x5C31;&#x53EF;&#x4EE5;&#x4E86;&#xFF0C;&#x50CF;&#x9019;&#x6A23;&#xFF1A;</p>
 <pre><code class="lang-sh">gcc -c x.c  
@@ -15226,9 +15160,17 @@ x.o -lgcc --as-needed -lgcc_s --no-as-needed &lt;strong&gt;-lpthread&lt;/strong&
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

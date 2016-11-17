@@ -8,7 +8,7 @@
         <title>在Raspberry pi 上建立自己的system call | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="30.14" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="30.14"
+        data-chapter-title="在Raspberry pi 上建立自己的system call"
+        data-filepath="raspberry_pi/zai_raspberry_pi_shang_jian_li_zi_ji_de_system_cal.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,12 +15051,12 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E5%9C%A8raspberry-pi-%E4%B8%8A%E5%BB%BA%E7%AB%8B%E8%87%AA%E5%B7%B1%E7%9A%84system-call">&#x5728;Raspberry pi &#x4E0A;&#x5EFA;&#x7ACB;&#x81EA;&#x5DF1;&#x7684;system call</h1>
+                        <h1 id="&#x5728;raspberry-pi-&#x4E0A;&#x5EFA;&#x7ACB;&#x81EA;&#x5DF1;&#x7684;system-call">&#x5728;Raspberry pi &#x4E0A;&#x5EFA;&#x7ACB;&#x81EA;&#x5DF1;&#x7684;system call</h1>
 <p>&#x6B63;&#x5728;&#x8B80;&#x6050;&#x9F8D;&#x672C;(OS&#x8056;&#x7D93;)&#xFF0C;&#x7B2C;2&#x7AE0;&#x7684;&#x7A0B;&#x5F0F;&#x8A2D;&#x8A08;&#x4F5C;&#x696D;&#x5C31;&#x662F;&#x81EA;&#x5DF1;&#x5F04;&#x500B;system call&#x3002;</p>
 <p>&#x4E0D;&#x904E;&#x6050;&#x9F8D;&#x672C;&#x7528;&#x7684;kernel&#x7248;&#x672C;&#x5F88;&#x820A;(2.x)&#xFF0C;&#x5BE6;&#x5728;&#x6C92;&#x6CD5;&#x7167;&#x505A;&#x3002;</p>
 <p>&#x6240;&#x4EE5;&#x4E0A;&#x7DB2;&#x627E;&#x4E86;&#x4E00;&#x500B;&#x7BC4;&#x4F8B;&#xFF0C;&#x7528;Raspberry pi&#x4F86;&#x505A;&#x3002;</p>
 <p>&#x4F7F;&#x7528;kernel&#x7248;&#x672C;&#xFF1A;linux-rpi-3.19.y </p>
-<h3 id="1-%E5%9C%A8-kernel-%E7%9B%AE%E9%8C%84%E4%B8%8B%E5%BB%BA%E7%AB%8B-helloworld-c-helloworld-h">1. &#x5728; kernel &#x76EE;&#x9304;&#x4E0B;&#x5EFA;&#x7ACB; helloworld.c, helloworld.h</h3>
+<h3 id="1-&#x5728;-kernel-&#x76EE;&#x9304;&#x4E0B;&#x5EFA;&#x7ACB;-helloworldc-helloworldh">1. &#x5728; kernel &#x76EE;&#x9304;&#x4E0B;&#x5EFA;&#x7ACB; helloworld.c, helloworld.h</h3>
 <ul>
 <li>helloworld.c</li>
 </ul>
@@ -15145,16 +15079,16 @@
 <span class="hljs-function">asmlinkage <span class="hljs-keyword">long</span> <span class="hljs-title">sys_helloworld</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span>; 
 <span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span></span>
 </code></pre>
-<h3 id="2-%E4%BF%AE%E6%94%B9-arch-arm-kernel-calls-s">2. &#x4FEE;&#x6539; arch/arm/kernel/calls.S</h3>
+<h3 id="2-&#x4FEE;&#x6539;-archarmkernelcallss">2. &#x4FEE;&#x6539; arch/arm/kernel/calls.S</h3>
 <pre><code class="lang-c">CALL(sys_helloworld)
 </code></pre>
-<h3 id="3-%E4%BF%AE%E6%94%B9-arch-arm-include-uapi-asm-unistd-h">3. &#x4FEE;&#x6539; arch/arm/include/uapi/asm/unistd.h</h3>
+<h3 id="3-&#x4FEE;&#x6539;-archarmincludeuapiasmunistdh">3. &#x4FEE;&#x6539; arch/arm/include/uapi/asm/unistd.h</h3>
 <pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> __NR_helloworld                 (__NR_SYSCALL_BASE+<span class="hljs-number">388</span>)</span>
 </code></pre>
-<h3 id="4-%E4%BF%AE%E6%94%B9-arch-arm-include-asm-unistd-h">4. &#x4FEE;&#x6539; arch/arm/include/asm/unistd.h</h3>
+<h3 id="4-&#x4FEE;&#x6539;-archarmincludeasmunistdh">4. &#x4FEE;&#x6539; arch/arm/include/asm/unistd.h</h3>
 <pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> __NR_syscalls  (<span class="hljs-number">392</span>)</span>
 </code></pre>
-<h3 id="5-test-file-test-c">5. Test file : test.c</h3>
+<h3 id="5-test-file--testc">5. Test file : test.c</h3>
 <pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/unistd.h&gt;</span></span>
 <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
 <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/syscall.h&gt;</span></span>
@@ -15170,11 +15104,11 @@
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
 </code></pre>
-<h3 id="6-compile%E5%BE%8C%E5%9F%B7%E8%A1%8C%EF%BC%9A">6. compile&#x5F8C;&#x57F7;&#x884C;&#xFF1A;</h3>
+<h3 id="6-compile&#x5F8C;&#x57F7;&#x884C;&#xFF1A;">6. compile&#x5F8C;&#x57F7;&#x884C;&#xFF1A;</h3>
 <pre><code class="lang-sh">gcc test.c -o <span class="hljs-built_in">test</span>
 ./<span class="hljs-built_in">test</span> <span class="hljs-number">388</span>
 </code></pre>
-<h2 id="%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99%EF%BC%9A">&#x53C3;&#x8003;&#x8CC7;&#x6599;&#xFF1A;</h2>
+<h2 id="&#x53C3;&#x8003;&#x8CC7;&#x6599;&#xFF1A;">&#x53C3;&#x8003;&#x8CC7;&#x6599;&#xFF1A;</h2>
 <p><a href="http://stackoverflow.com/questions/21554267/extending-the-rasbian-kernel-linux-kernel-3-10-28-for-arm-raspberry-pi-how" target="_blank">http://stackoverflow.com/questions/21554267/extending-the-rasbian-kernel-linux-kernel-3-10-28-for-arm-raspberry-pi-how</a></p>
 
                     
@@ -15217,9 +15151,17 @@
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

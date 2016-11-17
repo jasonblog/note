@@ -8,7 +8,7 @@
         <title>ldconfig及 LD_LIBRARY_PATH,LD_DEBUG ,LD_PRELOAD | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="13.24" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="13.24"
+        data-chapter-title="ldconfig及 LD_LIBRARY_PATH,LD_DEBUG ,LD_PRELOAD"
+        data-filepath="linux_system/ldconfigji_ld_library_path_,_ld_debug_,_ld_preload.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,7 +15051,7 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="ldconfig%E5%8F%8A-ld-library-path-ld-debug-ld-preload">ldconfig&#x53CA; LD_LIBRARY_PATH,LD_DEBUG ,LD_PRELOAD</h1>
+                        <h1 id="ldconfig&#x53CA;-ldlibrarypathlddebug-ldpreload">ldconfig&#x53CA; LD_LIBRARY_PATH,LD_DEBUG ,LD_PRELOAD</h1>
 <ol>
 <li><p>&#x5F80;/lib&#x548C;/usr/lib&#x88E1;&#x9762;&#x52A0;&#x6771;&#x897F;&#xFF0C;&#x662F;&#x4E0D;&#x7528;&#x4FEE;&#x6539;/etc/ld.so.conf&#x7684;&#xFF0C;&#x4F46;&#x662F;&#x5B8C;&#x4E86;&#x4E4B;&#x5F8C;&#x8981;&#x8ABF;&#x4E00;&#x4E0B;ldconfig&#xFF0C;&#x4E0D;&#x7136;&#x9019;&#x500B;library&#x6703;&#x627E;&#x4E0D;&#x5230;</p>
 </li>
@@ -15131,8 +15065,8 @@
 <li><p>&#x7E3D;&#x4E4B;&#xFF0C;&#x5C31;&#x662F;&#x4E0D;&#x7BA1;&#x505A;&#x4E86;&#x4EC0;&#x9EBC;&#x95DC;&#x65BC;library&#x7684;&#x8B8A;&#x52D5;&#x5F8C;&#xFF0C;&#x6700;&#x597D;&#x90FD;ldconfig&#x4E00;&#x4E0B;&#xFF0C;&#x4E0D;&#x7136;&#x6703;&#x51FA;&#x73FE;&#x4E00;&#x4E9B;&#x610F;&#x60F3;&#x4E0D;&#x5230;&#x7684;&#x7D50;&#x679C;&#x3002;&#x4E0D;&#x6703;&#x82B1;&#x592A;&#x591A;&#x7684;&#x6642;&#x9593;&#xFF0C;&#x4F46;&#x662F;&#x6703;&#x7701;&#x5F88;&#x591A;&#x7684;&#x4E8B;&#x3002;</p>
 </li>
 </ol>
-<h2 id="%E5%B9%BE%E5%80%8B%E7%89%B9%E6%AE%8A%E7%9A%84%E7%92%B0%E5%A2%83%E8%AE%8A%E9%87%8F%EF%BC%9A">&#x5E7E;&#x500B;&#x7279;&#x6B8A;&#x7684;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#xFF1A;</h2>
-<h3 id="ld-debug%E7%9A%84%E7%94%A8%E6%B3%95%EF%BC%9A">LD_DEBUG&#x7684;&#x7528;&#x6CD5;&#xFF1A;</h3>
+<h2 id="&#x5E7E;&#x500B;&#x7279;&#x6B8A;&#x7684;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#xFF1A;">&#x5E7E;&#x500B;&#x7279;&#x6B8A;&#x7684;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#xFF1A;</h2>
+<h3 id="lddebug&#x7684;&#x7528;&#x6CD5;&#xFF1A;">LD_DEBUG&#x7684;&#x7528;&#x6CD5;&#xFF1A;</h3>
 <pre><code class="lang-sh">[root@ljj c_c++]<span class="hljs-comment"># LD_DEBUG=help ls</span>
 Valid options <span class="hljs-keyword">for</span> the LD_DEBUG environment variable are:
   libs        display library search paths
@@ -15227,7 +15161,7 @@ cannot open shared object file: No such file or directory
 <span class="hljs-comment">#find / -name libevent-1.4.so.2</span>
 /usr/lib/libevent-<span class="hljs-number">1.4</span>.so.<span class="hljs-number">2</span>
 </code></pre>
-<h2 id="%E8%A8%AD%E7%BD%AE-ld-debug-%E8%AE%8A%E9%87%8F%E7%8D%B2%E5%BE%97%E6%9B%B4%E5%A4%9A%E4%BF%A1%E6%81%AF">&#x8A2D;&#x7F6E; LD_DEBUG &#x8B8A;&#x91CF;&#x7372;&#x5F97;&#x66F4;&#x591A;&#x4FE1;&#x606F;:</h2>
+<h2 id="&#x8A2D;&#x7F6E;-lddebug-&#x8B8A;&#x91CF;&#x7372;&#x5F97;&#x66F4;&#x591A;&#x4FE1;&#x606F;">&#x8A2D;&#x7F6E; LD_DEBUG &#x8B8A;&#x91CF;&#x7372;&#x5F97;&#x66F4;&#x591A;&#x4FE1;&#x606F;:</h2>
 <pre><code class="lang-sh"><span class="hljs-comment">#LD_DEBUG=help ls</span>
 Valid options <span class="hljs-keyword">for</span> the LD_DEBUG environment variable are:
 
@@ -15245,7 +15179,7 @@ Valid options <span class="hljs-keyword">for</span> the LD_DEBUG environment var
 To direct the debugging output into a file instead of standard output
 a filename can be specified using the LD_DEBUG_OUTPUT environment variable.
 </code></pre>
-<h2 id="%E5%BA%AB%E4%BE%9D%E8%B3%B4%E7%9A%84%E5%95%8F%E9%A1%8C%EF%BC%8C%E4%BD%BF%E7%94%A8-libs-%E5%8F%83%E6%95%B8">&#x5EAB;&#x4F9D;&#x8CF4;&#x7684;&#x554F;&#x984C;&#xFF0C;&#x4F7F;&#x7528; libs &#x53C3;&#x6578;:</h2>
+<h2 id="&#x5EAB;&#x4F9D;&#x8CF4;&#x7684;&#x554F;&#x984C;&#xFF0C;&#x4F7F;&#x7528;-libs-&#x53C3;&#x6578;">&#x5EAB;&#x4F9D;&#x8CF4;&#x7684;&#x554F;&#x984C;&#xFF0C;&#x4F7F;&#x7528; libs &#x53C3;&#x6578;:</h2>
 <pre><code class="lang-sh"><span class="hljs-comment">#LD_DEBUG=libs /usr/local/memcached/bin/memcached &#x2013;h</span>
 <span class="hljs-number">9808</span>:      find library=libevent-<span class="hljs-number">1.4</span>.so.<span class="hljs-number">2</span> [<span class="hljs-number">0</span>]; searching
 <span class="hljs-number">9808</span>:      search cache=/etc/ld.so.cache
@@ -15303,9 +15237,17 @@ a filename can be specified using the LD_DEBUG_OUTPUT environment variable.
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

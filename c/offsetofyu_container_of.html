@@ -8,7 +8,7 @@
         <title>offsetof與container_of | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="52.1" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="52.1"
+        data-chapter-title="offsetof與container_of"
+        data-filepath="c/offsetofyu_container_of.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,16 +15051,16 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="offsetof%E8%88%87container-of">offsetof&#x8207;container_of</h1>
-<h3 id="1%E3%80%81%E5%89%8D%E8%A8%80">1&#x3001;&#x524D;&#x8A00;</h3>
+                        <h1 id="offsetof&#x8207;containerof">offsetof&#x8207;container_of</h1>
+<h3 id="1&#x3001;&#x524D;&#x8A00;">1&#x3001;&#x524D;&#x8A00;</h3>
 <p>&#x3000;&#x3000;&#x4ECA;&#x5929;&#x5728;&#x770B;&#x4EE3;&#x78BC;&#x6642;&#xFF0C;&#x9047;&#x5230;offsetof&#x548C;container_of&#x5169;&#x500B;&#x5B8F;&#xFF0C;&#x89BA;&#x5F97;&#x5F88;&#x6709;&#x610F;&#x601D;&#xFF0C;&#x529F;&#x80FD;&#x5F88;&#x5F37;&#x5927;&#x3002;offsetof&#x662F;&#x7528;&#x4F86;&#x5224;&#x65B7;&#x7D50;&#x69CB;&#x9AD4;&#x4E2D;&#x6210;&#x54E1;&#x7684;&#x504F;&#x79FB;&#x4F4D;&#x7F6E;&#xFF0C;container_of&#x5B8F;&#x7528;&#x4F86;&#x6839;&#x64DA;&#x6210;&#x54E1;&#x7684;&#x5730;&#x5740;&#x4F86;&#x7372;&#x53D6;&#x7D50;&#x69CB;&#x9AD4;&#x7684;&#x5730;&#x5740;&#x3002;&#x5169;&#x500B;&#x5B8F;&#x8A2D;&#x8A08;&#x7684;&#x5F88;&#x5DE7;&#x5999;&#xFF0C;&#x503C;&#x5F97;&#x5B78;&#x7FD2;&#x3002;linux&#x5167;&#x6838;&#x4E2D;&#x6709;&#x8457;&#x5169;&#x500B;&#x5B8F;&#x7684;&#x5B9A;&#x7FA9;&#xFF0C;&#x4E26;&#x5728;&#x93C8;&#x8868;&#x7D50;&#x69CB;&#x4E2D;&#x5F97;&#x5230;&#x61C9;&#x7528;&#x3002;&#x4E0D;&#x5F97;&#x4E0D;&#x63D0;&#x4E00;&#x4E0B;linux&#x5167;&#x6838;&#x4E2D;&#x7684;&#x93C8;&#x8868;&#xFF0C;&#x8A2D;&#x8A08;&#x7684;&#x5982;&#x6B64;&#x4E4B;&#x5999;&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x5169;&#x500B;&#x6307;&#x91DD;&#x5C31;&#x641E;&#x5B9A;&#x4E86;&#x3002;&#x5F8C;&#x7E8C;&#x8A8D;&#x771F;&#x7814;&#x7A76;&#x4E00;&#x4E0B;&#x9019;&#x500B;&#x93C8;&#x8868;&#x7D50;&#x69CB;&#x3002;</p>
-<h3 id="2%E3%80%81offsetof%E5%AE%8F">2&#x3001;offsetof&#x5B8F;</h3>
+<h3 id="2&#x3001;offsetof&#x5B8F;">2&#x3001;offsetof&#x5B8F;</h3>
 <p>&#x3000;&#x3000;&#x4F7F;&#x7528;offsetof&#x5B8F;&#x9700;&#x8981;&#x5305;&#x542B;stddef.h&#x982D;&#x6587;&#x4EF6;&#xFF0C;&#x5BE6;&#x4F8B;&#x53EF;&#x4EE5;&#x53C3;&#x8003;&#xFF1A;<a href="http://www.cplusplus.com/reference/cstddef/offsetof/&#x3002;" target="_blank">http://www.cplusplus.com/reference/cstddef/offsetof/&#x3002;</a></p>
 <p>offsetof&#x5B8F;&#x7684;&#x5B9A;&#x7FA9;&#x5982;&#x4E0B;&#xFF1A;</p>
 <pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> offsetof(type, member) (size_t)&amp;(((type*)<span class="hljs-number">0</span>)-&gt;member)</span>
 </code></pre>
 <p>&#x5DE7;&#x5999;&#x4E4B;&#x8655;&#x5728;&#x65BC;&#x5C07;&#x5730;&#x5740;0&#x5F37;&#x5236;&#x8F49;&#x63DB;&#x70BA;type&#x985E;&#x578B;&#x7684;&#x6307;&#x91DD;&#xFF0C;&#x5F9E;&#x800C;&#x5B9A;&#x4F4D;&#x5230;member&#x5728;&#x7D50;&#x69CB;&#x9AD4;&#x4E2D;&#x504F;&#x79FB;&#x4F4D;&#x7F6E;&#x3002;&#x7DE8;&#x8B6F;&#x5668;&#x8A8D;&#x70BA;0&#x662F;&#x4E00;&#x500B;&#x6709;&#x6548;&#x7684;&#x5730;&#x5740;&#xFF0C;&#x5F9E;&#x800C;&#x8A8D;&#x70BA;0&#x662F;type&#x6307;&#x91DD;&#x7684;&#x8D77;&#x59CB;&#x5730;&#x5740;&#x3002;</p>
-<h3 id="3%E3%80%81container-of%E5%AE%8F">3&#x3001;container_of&#x5B8F;</h3>
+<h3 id="3&#x3001;containerof&#x5B8F;">3&#x3001;container_of&#x5B8F;</h3>
 <p>&#x4F7F;&#x7528;container_of&#x5B8F;&#x9700;&#x8981;&#x5305;&#x542B;linux/kernel.h&#x982D;&#x6587;&#x4EF6;&#xFF0C;container_of&#x5B8F;&#x7684;&#x5B9A;&#x7FA9;&#x5982;&#x4E0B;&#x6240;&#x793A;&#xFF1A;</p>
 <pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> container_of(ptr, type, member) ({ \
      const typeof( ((type *)<span class="hljs-number">0</span>)-&gt;member ) *__mptr = (ptr); \
@@ -15142,7 +15076,7 @@
 </code></pre>
 <p>&#xFF0C;&#x901A;&#x904E;offsetof&#x5B8F;&#x8A08;&#x7B97;&#x51FA;member&#x5728;type&#x4E2D;&#x7684;&#x504F;&#x79FB;&#xFF0C;&#x7136;&#x5F8C;&#x7528;member&#x7684;&#x5BE6;&#x969B;&#x5730;&#x5740;__mptr&#x6E1B;&#x53BB;&#x504F;&#x79FB;&#xFF0C;&#x5F97;&#x5230;type&#x7684;&#x8D77;&#x59CB;&#x5730;&#x5740;&#xFF0C;&#x5373;&#x6307;&#x5411;type&#x985E;&#x578B;&#x7684;&#x6307;&#x91DD;&#x3002;</p>
 <p>&#x7B2C;&#x4E00;&#x90E8;&#x5206;&#x7684;&#x76EE;&#x7684;&#x662F;&#x70BA;&#x4E86;&#x5C07;&#x7D71;&#x4E00;&#x8F49;&#x63DB;&#x70BA;member&#x985E;&#x578B;&#x6307;&#x91DD;&#x3002;</p>
-<h3 id="4%E3%80%81%E6%B8%AC%E8%A9%A6%E7%A8%8B%E5%BA%8F">4&#x3001;&#x6E2C;&#x8A66;&#x7A0B;&#x5E8F;</h3>
+<h3 id="4&#x3001;&#x6E2C;&#x8A66;&#x7A0B;&#x5E8F;">4&#x3001;&#x6E2C;&#x8A66;&#x7A0B;&#x5E8F;</h3>
 <pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
 <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
 
@@ -15187,7 +15121,7 @@ age:<span class="hljs-number">10</span>
 stu address:<span class="hljs-number">0</span>xb41010
 ptr address:<span class="hljs-number">0</span>xb41010
 </code></pre>
-<h3 id="5%E3%80%81%E5%8F%83%E8%80%83%E7%B6%B2%E5%9D%80">5&#x3001;&#x53C3;&#x8003;&#x7DB2;&#x5740;</h3>
+<h3 id="5&#x3001;&#x53C3;&#x8003;&#x7DB2;&#x5740;">5&#x3001;&#x53C3;&#x8003;&#x7DB2;&#x5740;</h3>
 <p><a href="http://blog.csdn.net/thomas_nuaa/article/details/3542572" target="_blank">http://blog.csdn.net/thomas_nuaa/article/details/3542572</a>
 <a href="http://blog.chinaunix.net/uid-28489159-id-3549971.html" target="_blank">http://blog.chinaunix.net/uid-28489159-id-3549971.html</a>
 <a href="http://blog.csdn.net/yinkaizhong/article/details/4093795" target="_blank">http://blog.csdn.net/yinkaizhong/article/details/4093795</a></p>
@@ -15232,9 +15166,17 @@ ptr address:<span class="hljs-number">0</span>xb41010
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

@@ -8,7 +8,7 @@
         <title>用GDB跟蹤觀察共享庫函數的地址翻譯過程 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="16.20" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="16.20"
+        data-chapter-title="用GDB跟蹤觀察共享庫函數的地址翻譯過程"
+        data-filepath="gdb/yong_gdb_gen_zong_guan_cha_gong_xiang_ku_han_shu_d.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,16 +15051,16 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E7%94%A8gdb%E8%B7%9F%E8%B9%A4%E8%A7%80%E5%AF%9F%E5%85%B1%E4%BA%AB%E5%BA%AB%E5%87%BD%E6%95%B8%E7%9A%84%E5%9C%B0%E5%9D%80%E7%BF%BB%E8%AD%AF%E9%81%8E%E7%A8%8B">&#x7528;GDB&#x8DDF;&#x8E64;&#x89C0;&#x5BDF;&#x5171;&#x4EAB;&#x5EAB;&#x51FD;&#x6578;&#x7684;&#x5730;&#x5740;&#x7FFB;&#x8B6F;&#x904E;&#x7A0B;</h1>
+                        <h1 id="&#x7528;gdb&#x8DDF;&#x8E64;&#x89C0;&#x5BDF;&#x5171;&#x4EAB;&#x5EAB;&#x51FD;&#x6578;&#x7684;&#x5730;&#x5740;&#x7FFB;&#x8B6F;&#x904E;&#x7A0B;">&#x7528;GDB&#x8DDF;&#x8E64;&#x89C0;&#x5BDF;&#x5171;&#x4EAB;&#x5EAB;&#x51FD;&#x6578;&#x7684;&#x5730;&#x5740;&#x7FFB;&#x8B6F;&#x904E;&#x7A0B;</h1>
 <p>&#x7528;GDB&#x89C0;&#x5BDF;&#x5171;&#x4EAB;&#x5EAB;&#x51FD;&#x6578;&#x7684;&#x7FFB;&#x8B6F;&#x904E;&#x7A0B;</p>
 <p>&#x7814;&#x7A76;&#x4E86;&#x4E00;&#x4E0B;&#x5171;&#x4EAB;&#x5EAB;&#x51FD;&#x6578;&#x662F;&#x600E;&#x6A23;&#x52A0;&#x8F09;&#x5230;&#x7576;&#x524D;&#x9032;&#x7A0B;&#x4E2D;&#x7684;.&#x958B;&#x59CB;&#x5171;&#x4EAB;&#x5EAB;&#x51FD;&#x6578;&#x5730;&#x5740;&#x653E;&#x5728;GOT&#x4E2D;,
 &#x7B2C;&#x4E00;&#x6B21;&#x8ABF;&#x7528;&#x6642;,ld&#x5C07;&#x5176;&#x7FFB;&#x8B6F;&#x6210;&#x51FD;&#x6578;&#x5728;&#x7A0B;&#x5E8F;&#x7A7A;&#x9593;&#x7684;&#x771F;&#x5BE6;&#x5730;&#x5740;.&#x7528;GDB&#x8DDF;&#x8E64;&#x4E86;&#x4E00;&#x4E0B;&#x6574;&#x500B;&#x904E;&#x7A0B;,
 &#x8A18;&#x9304;&#x5728;&#x4E0B;&#x9762;.  </p>
 <p><code>PLT (Procedure Linkage Table)</code> &#x548C; <code>GOT (Global Offset Table)</code>&#x80CC;&#x666F;</p>
-<h2 id="%E6%BA%96%E5%82%99%E7%92%B0%E5%A2%83ubuntu-11-04-amd64-%E5%AE%89%E8%A3%9Dlibc-debug-symbol">&#x6E96;&#x5099;&#x74B0;&#x5883;Ubuntu 11.04 amd64,&#x5B89;&#x88DD;libc debug symbol.</h2>
+<h2 id="&#x6E96;&#x5099;&#x74B0;&#x5883;ubuntu-1104-amd64&#x5B89;&#x88DD;libc-debug-symbol">&#x6E96;&#x5099;&#x74B0;&#x5883;Ubuntu 11.04 amd64,&#x5B89;&#x88DD;libc debug symbol.</h2>
 <pre><code class="lang-sh">sudo apt-get install libc-dbg
 </code></pre>
-<h2 id="%E5%AE%89%E8%A3%9Dlibc6-source">&#x5B89;&#x88DD;libc6 source</h2>
+<h2 id="&#x5B89;&#x88DD;libc6-source">&#x5B89;&#x88DD;libc6 source</h2>
 <pre><code class="lang-sh">sudo apt-get install build-essential
 sudo apt-get <span class="hljs-built_in">source</span> libc6
 </code></pre>
@@ -15200,7 +15134,7 @@ foo &amp; foo2&#x662F;&#x5169;&#x500B;&#x5171;&#x4EAB;&#x5EAB;&#x4E2D;&#x7684;&#
   [<span class="hljs-number">22</span>] .got              PROGBITS        <span class="hljs-number">0000000000600</span>fe0 <span class="hljs-number">000</span>fe0 <span class="hljs-number">000008</span> <span class="hljs-number">08</span>  WA  <span class="hljs-number">0</span>   <span class="hljs-number">0</span>  <span class="hljs-number">8</span>
   [<span class="hljs-number">23</span>] .got.plt          PROGBITS        <span class="hljs-number">0000000000600</span>fe8 <span class="hljs-number">000</span>fe8 <span class="hljs-number">000030</span> <span class="hljs-number">08</span>  WA  <span class="hljs-number">0</span>   <span class="hljs-number">0</span>  <span class="hljs-number">8</span>
 </code></pre>
-<h2 id="%E5%AF%A6%E9%A9%97">&#x5BE6;&#x9A57;</h2>
+<h2 id="&#x5BE6;&#x9A57;">&#x5BE6;&#x9A57;</h2>
 <pre><code class="lang-sh"><span class="hljs-built_in">export</span> LD_LIBRARY_PATH=<span class="hljs-variable">$PWD</span>
 gdb main.exe
 (gdb) <span class="hljs-built_in">break</span> main
@@ -15311,7 +15245,7 @@ Breakpoint <span class="hljs-number">3</span> at <span class="hljs-number">0</sp
 &lt;/foo&gt;&lt;/foo@plt+<span class="hljs-number">6</span>&gt;
 <span class="hljs-comment">### &#x4EE5;&#x5F8C;&#x518D;&#x6B21;&#x8ABF;&#x7528;foo&#x5C31;&#x76F4;&#x63A5;&#x5230;&#x9019;&#x88E1;&#x4E86;&#x3002;</span>
 </code></pre>
-<h2 id="%E5%BB%B6%E4%BC%B8%E9%96%B1%E8%AE%80">&#x5EF6;&#x4F38;&#x95B1;&#x8B80;</h2>
+<h2 id="&#x5EF6;&#x4F38;&#x95B1;&#x8B80;">&#x5EF6;&#x4F38;&#x95B1;&#x8B80;</h2>
 <p>[1] Reversing the ELF Stepping with GDB during PLT uses and .GOT fixup
     <a href="http://packetstormsecurity.org/files/view/25642/elf-runtime-fixup.txt" target="_blank">http://packetstormsecurity.org/files/view/25642/elf-runtime-fixup.txt</a>
 [2] AMD64 Application Binary Interface (v 0.99)
@@ -15369,9 +15303,17 @@ Breakpoint <span class="hljs-number">3</span> at <span class="hljs-number">0</sp
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

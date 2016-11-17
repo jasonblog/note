@@ -8,7 +8,7 @@
         <title>很經典的GDB調試命令，包括查看變量，查看內存 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="16.40" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="16.40"
+        data-chapter-title="很經典的GDB調試命令，包括查看變量，查看內存"
+        data-filepath="gdb/hen_jing_dian_de_gdb_diao_shi_ming_ling_ff0c_bao_k.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,7 +15051,7 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E5%BE%88%E7%B6%93%E5%85%B8%E7%9A%84gdb%E8%AA%BF%E8%A9%A6%E5%91%BD%E4%BB%A4%EF%BC%8C%E5%8C%85%E6%8B%AC%E6%9F%A5%E7%9C%8B%E8%AE%8A%E9%87%8F%EF%BC%8C%E6%9F%A5%E7%9C%8B%E5%85%A7%E5%AD%98">&#x5F88;&#x7D93;&#x5178;&#x7684;GDB&#x8ABF;&#x8A66;&#x547D;&#x4EE4;&#xFF0C;&#x5305;&#x62EC;&#x67E5;&#x770B;&#x8B8A;&#x91CF;&#xFF0C;&#x67E5;&#x770B;&#x5167;&#x5B58;</h1>
+                        <h1 id="&#x5F88;&#x7D93;&#x5178;&#x7684;gdb&#x8ABF;&#x8A66;&#x547D;&#x4EE4;&#xFF0C;&#x5305;&#x62EC;&#x67E5;&#x770B;&#x8B8A;&#x91CF;&#xFF0C;&#x67E5;&#x770B;&#x5167;&#x5B58;">&#x5F88;&#x7D93;&#x5178;&#x7684;GDB&#x8ABF;&#x8A66;&#x547D;&#x4EE4;&#xFF0C;&#x5305;&#x62EC;&#x67E5;&#x770B;&#x8B8A;&#x91CF;&#xFF0C;&#x67E5;&#x770B;&#x5167;&#x5B58;</h1>
 <p>&#x7B11;&#x7B11;&#x5C0F;&#x767D;
 &#x6B78;&#x985E;&#x81EA;&#x5DF1;&#x9700;&#x8981;&#x7684;&#x8CC7;&#x6599;&#xFF0C;&#x6162;&#x6162;&#x722C;&#x884C;
 &#x5F88;&#x7D93;&#x5178;&#x7684;GDB&#x8ABF;&#x8A66;&#x547D;&#x4EE4;&#xFF0C;&#x5305;&#x62EC;&#x67E5;&#x770B;&#x8B8A;&#x91CF;&#xFF0C;&#x67E5;&#x770B;&#x5167;&#x5B58;</p>
@@ -15125,7 +15059,7 @@
 print
 print /
 &#x662F;&#x8868;&#x9054;&#x5F0F;&#xFF0C;&#x662F;&#x4F60;&#x6240;&#x8ABF;&#x8A66;&#x7684;&#x7A0B;&#x5E8F;&#x7684;&#x8A9E;&#x8A00;&#x7684;&#x8868;&#x9054;&#x5F0F;&#xFF08;GDB&#x53EF;&#x4EE5;&#x8ABF;&#x8A66;&#x591A;&#x7A2E;&#x7DE8;&#x7A0B;&#x8A9E;&#x8A00;&#xFF09;&#xFF0C;&#x662F;&#x8F38;&#x51FA;&#x7684;&#x683C;&#x5F0F;&#xFF0C;&#x6BD4;&#x5982;&#xFF0C;&#x5982;&#x679C;&#x8981;&#x628A;&#x8868;&#x9054;&#x5F0F;&#x6309;16&#x9032;&#x5236;&#x7684;&#x683C;&#x5F0F;&#x8F38;&#x51FA;&#xFF0C;&#x90A3;&#x9EBC;&#x5C31;&#x662F;/x&#x3002;</p>
-<h2 id="%E4%B8%80%E3%80%81%E8%A1%A8%E9%81%94%E5%BC%8F">&#x4E00;&#x3001;&#x8868;&#x9054;&#x5F0F;</h2>
+<h2 id="&#x4E00;&#x3001;&#x8868;&#x9054;&#x5F0F;">&#x4E00;&#x3001;&#x8868;&#x9054;&#x5F0F;</h2>
 <p>print&#x548C;&#x8A31;&#x591A;GDB&#x7684;&#x547D;&#x4EE4;&#x4E00;&#x6A23;&#xFF0C;&#x53EF;&#x4EE5;&#x63A5;&#x53D7;&#x4E00;&#x500B;&#x8868;&#x9054;&#x5F0F;&#xFF0C;GDB&#x6703;&#x6839;&#x64DA;&#x7576;&#x524D;&#x7684;&#x7A0B;&#x5E8F;&#x904B;&#x884C;&#x7684;&#x6578;&#x64DA;&#x4F86;&#x8A08;&#x7B97;&#x9019;&#x500B;&#x8868;&#x9054;&#x5F0F;&#xFF0C;&#x65E2;&#x7136;&#x662F;&#x8868;&#x9054;&#x5F0F;&#xFF0C;&#x90A3;&#x9EBC;&#x5C31;&#x53EF;&#x4EE5;&#x662F;&#x7576;&#x524D;&#x7A0B;&#x5E8F;&#x904B;&#x884C;&#x4E2D;&#x7684;const&#x5E38;&#x91CF;&#x3001;&#x8B8A;&#x91CF;&#x3001;&#x51FD;&#x6578;&#x7B49;&#x5167;&#x5BB9;&#x3002;&#x53EF;&#x60DC;&#x7684;&#x662F;GDB&#x4E0D;&#x80FD;&#x4F7F;&#x7528;&#x4F60;&#x5728;&#x7A0B;&#x5E8F;&#x4E2D;&#x6240;&#x5B9A;&#x7FA9;&#x7684;&#x5B8F;&#x3002;
 &#x8868;&#x9054;&#x5F0F;&#x7684;&#x8A9E;&#x6CD5;&#x61C9;&#x8A72;&#x662F;&#x7576;&#x524D;&#x6240;&#x8ABF;&#x8A66;&#x7684;&#x8A9E;&#x8A00;&#x7684;&#x8A9E;&#x6CD5;&#xFF0C;&#x7531;&#x65BC;C/C++&#x662F;&#x4E00;&#x7A2E;&#x5927;&#x773E;&#x578B;&#x7684;&#x8A9E;&#x8A00;&#xFF0C;&#x6240;&#x4EE5;&#xFF0C;&#x672C;&#x6587;&#x4E2D;&#x7684;&#x4F8B;&#x5B50;&#x90FD;&#x662F;&#x95DC;&#x65BC;C/C++&#x7684;&#x3002;&#xFF08;&#x800C;&#x95DC;&#x65BC;&#x7528;GDB&#x8ABF;&#x8A66;&#x5176;&#x5B83;&#x8A9E;&#x8A00;&#x7684;&#x7AE0;&#x7BC0;&#xFF0C;&#x6211;&#x5C07;&#x5728;&#x5F8C;&#x9762;&#x4ECB;&#x7D39;&#xFF09;
 &#x5728;&#x8868;&#x9054;&#x5F0F;&#x4E2D;&#xFF0C;&#x6709;&#x5E7E;&#x7A2E;GDB&#x6240;&#x652F;&#x6301;&#x7684;&#x64CD;&#x4F5C;&#x7B26;&#xFF0C;&#x5B83;&#x5011;&#x53EF;&#x4EE5;&#x7528;&#x5728;&#x4EFB;&#x4F55;&#x4E00;&#x7A2E;&#x8A9E;&#x8A00;&#x4E2D;&#x3002;</p>
@@ -15135,7 +15069,7 @@ print /
 </code></pre><p>&#x6307;&#x5B9A;&#x4E00;&#x500B;&#x5728;&#x6587;&#x4EF6;&#x6216;&#x662F;&#x4E00;&#x500B;&#x51FD;&#x6578;&#x4E2D;&#x7684;&#x8B8A;&#x91CF;&#x3002;</p>
 <pre><code>{}
 </code></pre><p>&#x8868;&#x793A;&#x4E00;&#x500B;&#x6307;&#x5411;&#x5167;&#x5B58;&#x5730;&#x5740;&#x7684;&#x985E;&#x578B;&#x70BA;type&#x7684;&#x4E00;&#x500B;&#x5C0D;&#x8C61;&#x3002;</p>
-<h2 id="%E4%BA%8C%E3%80%81%E7%A8%8B%E5%BA%8F%E8%AE%8A%E9%87%8F">&#x4E8C;&#x3001;&#x7A0B;&#x5E8F;&#x8B8A;&#x91CF;</h2>
+<h2 id="&#x4E8C;&#x3001;&#x7A0B;&#x5E8F;&#x8B8A;&#x91CF;">&#x4E8C;&#x3001;&#x7A0B;&#x5E8F;&#x8B8A;&#x91CF;</h2>
 <p>&#x5728;GDB&#x4E2D;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x96A8;&#x6642;&#x67E5;&#x770B;&#x4EE5;&#x4E0B;&#x4E09;&#x7A2E;&#x8B8A;&#x91CF;&#x7684;&#x503C;&#xFF1A;</p>
 <pre><code>1&#x3001;&#x5168;&#x5C40;&#x8B8A;&#x91CF;&#xFF08;&#x6240;&#x6709;&#x6587;&#x4EF6;&#x53EF;&#x898B;&#x7684;&#xFF09;
 2&#x3001;&#x975C;&#x614B;&#x5168;&#x5C40;&#x8B8A;&#x91CF;&#xFF08;&#x7576;&#x524D;&#x6587;&#x4EF6;&#x53EF;&#x898B;&#x7684;&#xFF09;
@@ -15147,7 +15081,7 @@ function::variable
 <pre><code>gdb) p &apos;f2.c&apos;::x
 </code></pre><p>&#x7576;&#x7136;&#xFF0C;<code>::</code>&#x64CD;&#x4F5C;&#x7B26;&#x6703;&#x548C;C++&#x4E2D;&#x7684;&#x767C;&#x751F;&#x885D;&#x7A81;&#xFF0C;GDB&#x80FD;&#x81EA;&#x52D5;&#x8B58;&#x5225;<code>::</code> &#x662F;&#x5426;C++&#x7684;&#x64CD;&#x4F5C;&#x7B26;&#xFF0C;&#x6240;&#x4EE5;&#x4F60;&#x4E0D;&#x5FC5;&#x64D4;&#x5FC3;&#x5728;&#x8ABF;&#x8A66;C++&#x7A0B;&#x5E8F;&#x6642;&#x6703;&#x51FA;&#x73FE;&#x7570;&#x5E38;&#x3002;</p>
 <p>&#x53E6;&#x5916;&#xFF0C;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x7684;&#x7A0B;&#x5E8F;&#x7DE8;&#x8B6F;&#x6642;&#x958B;&#x555F;&#x4E86;&#x512A;&#x5316;&#x9078;&#x9805;&#xFF0C;&#x90A3;&#x9EBC;&#x5728;&#x7528;GDB&#x8ABF;&#x8A66;&#x88AB;&#x512A;&#x5316;&#x904E;&#x7684;&#x7A0B;&#x5E8F;&#x6642;&#xFF0C;&#x53EF;&#x80FD;&#x6703;&#x767C;&#x751F;&#x67D0;&#x4E9B;&#x8B8A;&#x91CF;&#x4E0D;&#x80FD;&#x8A2A;&#x554F;&#xFF0C;&#x6216;&#x662F;&#x53D6;&#x503C;&#x932F;&#x8AA4;&#x78BC;&#x7684;&#x60C5;&#x6CC1;&#x3002;&#x9019;&#x500B;&#x662F;&#x5F88;&#x6B63;&#x5E38;&#x7684;&#xFF0C;&#x56E0;&#x70BA;&#x512A;&#x5316;&#x7A0B;&#x5E8F;&#x6703;&#x522A;&#x6539;&#x4F60;&#x7684;&#x7A0B;&#x5E8F;&#xFF0C;&#x6574;&#x7406;&#x4F60;&#x7A0B;&#x5E8F;&#x7684;&#x8A9E;&#x53E5;&#x9806;&#x5E8F;&#xFF0C;&#x5254;&#x9664;&#x4E00;&#x4E9B;&#x7121;&#x610F;&#x7FA9;&#x7684;&#x8B8A;&#x91CF;&#x7B49;&#xFF0C;&#x6240;&#x4EE5;&#x5728;GDB&#x8ABF;&#x8A66;&#x9019;&#x7A2E;&#x7A0B;&#x5E8F;&#x6642;&#xFF0C;&#x904B;&#x884C;&#x6642;&#x7684;&#x6307;&#x4EE4;&#x548C;&#x4F60;&#x6240;&#x7DE8;&#x5BEB;&#x6307;&#x4EE4;&#x5C31;&#x6709;&#x4E0D;&#x4E00;&#x6A23;&#xFF0C;&#x4E5F;&#x5C31;&#x6703;&#x51FA;&#x73FE;&#x4F60;&#x6240;&#x60F3;&#x8C61;&#x4E0D;&#x5230;&#x7684;&#x7D50;&#x679C;&#x3002;&#x5C0D;&#x4ED8;&#x9019;&#x7A2E;&#x60C5;&#x6CC1;&#x6642;&#xFF0C;&#x9700;&#x8981;&#x5728;&#x7DE8;&#x8B6F;&#x7A0B;&#x5E8F;&#x6642;&#x95DC;&#x9589;&#x7DE8;&#x8B6F;&#x512A;&#x5316;&#x3002;&#x4E00;&#x822C;&#x4F86;&#x8AAA;&#xFF0C;&#x5E7E;&#x4E4E;&#x6240;&#x6709;&#x7684;&#x7DE8;&#x8B6F;&#x5668;&#x90FD;&#x652F;&#x6301;&#x7DE8;&#x8B6F;&#x512A;&#x5316;&#x7684;&#x958B;&#x95DC;&#xFF0C;&#x4F8B;&#x5982;&#xFF0C;GNU &#x7684;C/C++&#x7DE8;&#x8B6F;&#x5668;GCC&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x201C;-gstabs&#x201D;&#x9078;&#x9805;&#x4F86;&#x89E3;&#x6C7A;&#x9019;&#x500B;&#x554F;&#x984C;&#x3002;&#x95DC;&#x65BC;&#x7DE8;&#x8B6F;&#x5668;&#x7684;&#x53C3;&#x6578;&#xFF0C;&#x9084;&#x8ACB;&#x67E5;&#x770B;&#x7DE8;&#x8B6F;&#x5668;&#x7684;&#x4F7F;&#x7528;&#x8AAA;&#x660E;&#x6587;&#x6A94;&#x3002;</p>
-<h2 id="%E4%B8%89%E3%80%81%E6%95%B8%E7%B5%84">&#x4E09;&#x3001;&#x6578;&#x7D44;</h2>
+<h2 id="&#x4E09;&#x3001;&#x6578;&#x7D44;">&#x4E09;&#x3001;&#x6578;&#x7D44;</h2>
 <p>&#x6709;&#x6642;&#x5019;&#xFF0C;&#x4F60;&#x9700;&#x8981;&#x67E5;&#x770B;&#x4E00;&#x6BB5;&#x9023;&#x7E8C;&#x7684;&#x5167;&#x5B58;&#x7A7A;&#x9593;&#x7684;&#x503C;&#x3002;&#x6BD4;&#x5982;&#x6578;&#x7D44;&#x7684;&#x4E00;&#x6BB5;&#xFF0C;&#x6216;&#x662F;&#x52D5;&#x614B;&#x5206;&#x914D;&#x7684;&#x6578;&#x64DA;&#x7684;&#x5927;&#x5C0F;&#x3002;&#x4F60;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;GDB&#x7684;<code>@</code>&#x64CD;&#x4F5C;&#x7B26;&#xFF0C;<code>@</code>&#x7684;&#x5DE6;&#x908A;&#x662F;&#x7B2C;&#x4E00;&#x500B;&#x5167;&#x5B58;&#x7684;&#x5730;&#x5740;&#x7684;&#x503C;&#xFF0C;<code>@</code>&#x7684;&#x53F3;&#x908A;&#x5247;&#x4F60;&#x4F60;&#x60F3;&#x67E5;&#x770B;&#x5167;&#x5B58;&#x7684;&#x9577;&#x5EA6;&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x4F60;&#x7684;&#x7A0B;&#x5E8F;&#x4E2D;&#x6709;&#x9019;&#x6A23;&#x7684;&#x8A9E;&#x53E5;&#xFF1A;</p>
 <pre><code class="lang-c">int *array = (int *) malloc (len * sizeof (int));
 </code></pre>
@@ -15159,7 +15093,7 @@ function::variable
 <span class="hljs-variable">$1</span> = {<span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">6</span>, <span class="hljs-number">8</span>, <span class="hljs-number">10</span>, <span class="hljs-number">12</span>, <span class="hljs-number">14</span>, <span class="hljs-number">16</span>, <span class="hljs-number">18</span>, <span class="hljs-number">20</span>, <span class="hljs-number">22</span>, <span class="hljs-number">24</span>, <span class="hljs-number">26</span>, <span class="hljs-number">28</span>, <span class="hljs-number">30</span>, <span class="hljs-number">32</span>, <span class="hljs-number">34</span>, <span class="hljs-number">36</span>, <span class="hljs-number">38</span>, <span class="hljs-number">40</span>}
 </code></pre>
 <p>&#x5982;&#x679C;&#x662F;&#x975C;&#x614B;&#x6578;&#x7D44;&#x7684;&#x8A71;&#xFF0C;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x7528;print&#x6578;&#x7D44;&#x540D;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x986F;&#x793A;&#x6578;&#x7D44;&#x4E2D;&#x6240;&#x6709;&#x6578;&#x64DA;&#x7684;&#x5167;&#x5BB9;&#x4E86;&#x3002;</p>
-<h2 id="%E5%9B%9B%E3%80%81%E8%BC%B8%E5%87%BA%E6%A0%BC%E5%BC%8F">&#x56DB;&#x3001;&#x8F38;&#x51FA;&#x683C;&#x5F0F;</h2>
+<h2 id="&#x56DB;&#x3001;&#x8F38;&#x51FA;&#x683C;&#x5F0F;">&#x56DB;&#x3001;&#x8F38;&#x51FA;&#x683C;&#x5F0F;</h2>
 <p>&#x4E00;&#x822C;&#x4F86;&#x8AAA;&#xFF0C;GDB&#x6703;&#x6839;&#x64DA;&#x8B8A;&#x91CF;&#x7684;&#x985E;&#x578B;&#x8F38;&#x51FA;&#x8B8A;&#x91CF;&#x7684;&#x503C;&#x3002;&#x4F46;&#x4F60;&#x4E5F;&#x53EF;&#x4EE5;&#x81EA;&#x5B9A;&#x7FA9;GDB&#x7684;&#x8F38;&#x51FA;&#x7684;&#x683C;&#x5F0F;&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x4F60;&#x60F3;&#x8F38;&#x51FA;&#x4E00;&#x500B;&#x6574;&#x6578;&#x7684;&#x5341;&#x516D;&#x9032;&#x5236;&#xFF0C;&#x6216;&#x662F;&#x4E8C;&#x9032;&#x5236;&#x4F86;&#x67E5;&#x770B;&#x9019;&#x500B;&#x6574;&#x578B;&#x8B8A;&#x91CF;&#x7684;&#x4E2D;&#x7684;&#x4F4D;&#x7684;&#x60C5;&#x6CC1;&#x3002;&#x8981;&#x505A;&#x5230;&#x9019;&#x6A23;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;GDB&#x7684;&#x6578;&#x64DA;&#x986F;&#x793A;&#x683C;&#x5F0F;&#xFF1A;</p>
 <pre><code class="lang-sh">x &#x6309;&#x5341;&#x516D;&#x9032;&#x5236;&#x683C;&#x5F0F;&#x986F;&#x793A;&#x8B8A;&#x91CF;&#x3002;
 d &#x6309;&#x5341;&#x9032;&#x5236;&#x683C;&#x5F0F;&#x986F;&#x793A;&#x8B8A;&#x91CF;&#x3002;
@@ -15182,7 +15116,7 @@ f &#x6309;&#x6D6E;&#x9EDE;&#x6578;&#x683C;&#x5F0F;&#x986F;&#x793A;&#x8B8A;&#x91C
 (gdb) p/t i
 <span class="hljs-variable">$26</span> = <span class="hljs-number">1100101</span>
 </code></pre>
-<h2 id="%E4%BA%94%E3%80%81%E6%9F%A5%E7%9C%8B%E5%85%A7%E5%AD%98">&#x4E94;&#x3001;&#x67E5;&#x770B;&#x5167;&#x5B58;</h2>
+<h2 id="&#x4E94;&#x3001;&#x67E5;&#x770B;&#x5167;&#x5B58;">&#x4E94;&#x3001;&#x67E5;&#x770B;&#x5167;&#x5B58;</h2>
 <p>&#x4F60;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;examine&#x547D;&#x4EE4;&#xFF08;&#x7C21;&#x5BEB;&#x662F;x&#xFF09;&#x4F86;&#x67E5;&#x770B;&#x5167;&#x5B58;&#x5730;&#x5740;&#x4E2D;&#x7684;&#x503C;&#x3002;x&#x547D;&#x4EE4;&#x7684;&#x8A9E;&#x6CD5;&#x5982;&#x4E0B;&#x6240;&#x793A;&#xFF1A;</p>
 <pre><code>x/n&#x3001;f&#x3001;u&#x662F;&#x53EF;&#x9078;&#x7684;&#x53C3;&#x6578;&#x3002;
 </code></pre><ul>
@@ -15195,7 +15129,7 @@ f &#x6309;&#x6D6E;&#x9EDE;&#x6578;&#x683C;&#x5F0F;&#x986F;&#x793A;&#x8B8A;&#x91C
 <pre><code class="lang-sh">&#x547D;&#x4EE4;&#xFF1A;x/<span class="hljs-number">3</span>uh <span class="hljs-number">0</span>x54320
 </code></pre>
 <p>&#x8868;&#x793A;&#xFF0C;&#x5F9E;&#x5167;&#x5B58;&#x5730;&#x5740;0x54320&#x8B80;&#x53D6;&#x5167;&#x5BB9;&#xFF0C;h&#x8868;&#x793A;&#x4EE5;&#x96D9;&#x5B57;&#x7BC0;&#x70BA;&#x4E00;&#x500B;&#x55AE;&#x4F4D;&#xFF0C;3&#x8868;&#x793A;&#x4E09;&#x500B;&#x55AE;&#x4F4D;&#xFF0C;u&#x8868;&#x793A;&#x6309;&#x5341;&#x516D;&#x9032;&#x5236;&#x986F;&#x793A;&#x3002;</p>
-<h2 id="%E5%85%AD%E3%80%81%E8%87%AA%E5%8B%95%E9%A1%AF%E7%A4%BA">&#x516D;&#x3001;&#x81EA;&#x52D5;&#x986F;&#x793A;</h2>
+<h2 id="&#x516D;&#x3001;&#x81EA;&#x52D5;&#x986F;&#x793A;">&#x516D;&#x3001;&#x81EA;&#x52D5;&#x986F;&#x793A;</h2>
 <p>&#x4F60;&#x53EF;&#x4EE5;&#x8A2D;&#x7F6E;&#x4E00;&#x4E9B;&#x81EA;&#x52D5;&#x986F;&#x793A;&#x7684;&#x8B8A;&#x91CF;&#xFF0C;&#x7576;&#x7A0B;&#x5E8F;&#x505C;&#x4F4F;&#x6642;&#xFF0C;&#x6216;&#x662F;&#x5728;&#x4F60;&#x55AE;&#x6B65;&#x8DDF;&#x8E64;&#x6642;&#xFF0C;&#x9019;&#x4E9B;&#x8B8A;&#x91CF;&#x6703;&#x81EA;&#x52D5;&#x986F;&#x793A;&#x3002;&#x76F8;&#x95DC;&#x7684;GDB&#x547D;&#x4EE4;&#x662F;display&#x3002;</p>
 <p>display/expr&#x662F;&#x4E00;&#x500B;&#x8868;&#x9054;&#x5F0F;&#xFF0C;fmt&#x8868;&#x793A;&#x986F;&#x793A;&#x7684;&#x683C;&#x5F0F;&#xFF0C;addr&#x8868;&#x793A;&#x5167;&#x5B58;&#x5730;&#x5740;&#xFF0C;&#x7576;&#x4F60;&#x7528;display&#x8A2D;&#x5B9A;&#x597D;&#x4E86;&#x4E00;&#x500B;&#x6216;&#x591A;&#x500B;&#x8868;&#x9054;&#x5F0F;&#x5F8C;&#xFF0C;&#x53EA;&#x8981;&#x4F60;&#x7684;&#x7A0B;&#x5E8F;&#x88AB;&#x505C;&#x4E0B;&#x4F86;&#xFF0C;GDB&#x6703;&#x81EA;&#x52D5;&#x986F;&#x793A;&#x4F60;&#x6240;&#x8A2D;&#x7F6E;&#x7684;&#x9019;&#x4E9B;&#x8868;&#x9054;&#x5F0F;&#x7684;&#x503C;&#x3002;
 &#x683C;&#x5F0F;i&#x548C;s&#x540C;&#x6A23;&#x88AB;display&#x652F;&#x6301;&#xFF0C;&#x4E00;&#x500B;&#x975E;&#x5E38;&#x6709;&#x7528;&#x7684;&#x547D;&#x4EE4;&#x662F;&#xFF1A;</p>
@@ -15215,7 +15149,7 @@ delete display
 <pre><code class="lang-sh">info display
 </code></pre>
 <p>&#x67E5;&#x770B;display&#x8A2D;&#x7F6E;&#x7684;&#x81EA;&#x52D5;&#x986F;&#x793A;&#x7684;&#x4FE1;&#x606F;&#x3002;GDB&#x6703;&#x6253;&#x51FA;&#x4E00;&#x5F35;&#x8868;&#x683C;&#xFF0C;&#x5411;&#x4F60;&#x5831;&#x544A;&#x7576;&#x7136;&#x8ABF;&#x8A66;&#x4E2D;&#x8A2D;&#x7F6E;&#x4E86;&#x591A;&#x5C11;&#x500B;&#x81EA;&#x52D5;&#x986F;&#x793A;&#x8A2D;&#x7F6E;&#xFF0C;&#x5176;&#x4E2D;&#x5305;&#x62EC;&#xFF0C;&#x8A2D;&#x7F6E;&#x7684;&#x7DE8;&#x865F;&#xFF0C;&#x8868;&#x9054;&#x5F0F;&#xFF0C;&#x662F;&#x5426;enable&#x3002;</p>
-<h2 id="%E4%B8%83%E3%80%81%E8%A8%AD%E7%BD%AE%E9%A1%AF%E7%A4%BA%E9%81%B8%E9%A0%85">&#x4E03;&#x3001;&#x8A2D;&#x7F6E;&#x986F;&#x793A;&#x9078;&#x9805;</h2>
+<h2 id="&#x4E03;&#x3001;&#x8A2D;&#x7F6E;&#x986F;&#x793A;&#x9078;&#x9805;">&#x4E03;&#x3001;&#x8A2D;&#x7F6E;&#x986F;&#x793A;&#x9078;&#x9805;</h2>
 <p>GDB&#x4E2D;&#x95DC;&#x65BC;&#x986F;&#x793A;&#x7684;&#x9078;&#x9805;&#x6BD4;&#x8F03;&#x591A;&#xFF0C;&#x9019;&#x88E1;&#x6211;&#x53EA;&#x4F8B;&#x8209;&#x5927;&#x591A;&#x6578;&#x5E38;&#x7528;&#x7684;&#x9078;&#x9805;&#x3002;</p>
 <pre><code class="lang-sh"><span class="hljs-built_in">set</span> <span class="hljs-built_in">print</span> address
 <span class="hljs-built_in">set</span> <span class="hljs-built_in">print</span> address on
@@ -15318,9 +15252,9 @@ set print object
 <pre><code class="lang-sh">show <span class="hljs-built_in">print</span> vtbl
 </code></pre>
 <p>&#x67E5;&#x770B;&#x865B;&#x51FD;&#x6578;&#x986F;&#x793A;&#x683C;&#x5F0F;&#x7684;&#x9078;&#x9805;&#x3002;</p>
-<h2 id="%E5%85%AB%E3%80%81%E6%AD%B7%E5%8F%B2%E8%A8%98%E9%8C%84">&#x516B;&#x3001;&#x6B77;&#x53F2;&#x8A18;&#x9304;</h2>
+<h2 id="&#x516B;&#x3001;&#x6B77;&#x53F2;&#x8A18;&#x9304;">&#x516B;&#x3001;&#x6B77;&#x53F2;&#x8A18;&#x9304;</h2>
 <p>&#x7576;&#x4F60;&#x7528;GDB&#x7684;print&#x67E5;&#x770B;&#x7A0B;&#x5E8F;&#x904B;&#x884C;&#x6642;&#x7684;&#x6578;&#x64DA;&#x6642;&#xFF0C;&#x4F60;&#x6BCF;&#x4E00;&#x500B;print&#x90FD;&#x6703;&#x88AB;GDB&#x8A18;&#x9304;&#x4E0B;&#x4F86;&#x3002;GDB&#x6703;&#x4EE5;$1, $2, $3 .....&#x9019;&#x6A23;&#x7684;&#x65B9;&#x5F0F;&#x70BA;&#x4F60;&#x6BCF;&#x4E00;&#x500B;print&#x547D;&#x4EE4;&#x7DE8;&#x4E0A;&#x865F;&#x3002;&#x65BC;&#x662F;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x9019;&#x500B;&#x7DE8;&#x865F;&#x8A2A;&#x554F;&#x4EE5;&#x524D;&#x7684;&#x8868;&#x9054;&#x5F0F;&#xFF0C;&#x5982;$1&#x3002;&#x9019;&#x500B;&#x529F;&#x80FD;&#x6240;&#x5E36;&#x4F86;&#x7684;&#x597D;&#x8655;&#x662F;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x5148;&#x524D;&#x8F38;&#x5165;&#x4E86;&#x4E00;&#x500B;&#x6BD4;&#x8F03;&#x9577;&#x7684;&#x8868;&#x9054;&#x5F0F;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x9084;&#x60F3;&#x67E5;&#x770B;&#x9019;&#x500B;&#x8868;&#x9054;&#x5F0F;&#x7684;&#x503C;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x6B77;&#x53F2;&#x8A18;&#x9304;&#x4F86;&#x8A2A;&#x554F;&#xFF0C;&#x7701;&#x53BB;&#x4E86;&#x91CD;&#x8907;&#x8F38;&#x5165;&#x3002;</p>
-<h2 id="%E4%B9%9D%E3%80%81gdb%E7%92%B0%E5%A2%83%E8%AE%8A%E9%87%8F">&#x4E5D;&#x3001;GDB&#x74B0;&#x5883;&#x8B8A;&#x91CF;</h2>
+<h2 id="&#x4E5D;&#x3001;gdb&#x74B0;&#x5883;&#x8B8A;&#x91CF;">&#x4E5D;&#x3001;GDB&#x74B0;&#x5883;&#x8B8A;&#x91CF;</h2>
 <p>&#x4F60;&#x53EF;&#x4EE5;&#x5728;GDB&#x7684;&#x8ABF;&#x8A66;&#x74B0;&#x5883;&#x4E2D;&#x5B9A;&#x7FA9;&#x81EA;&#x5DF1;&#x7684;&#x8B8A;&#x91CF;&#xFF0C;&#x7528;&#x4F86;&#x4FDD;&#x5B58;&#x4E00;&#x4E9B;&#x8ABF;&#x8A66;&#x7A0B;&#x5E8F;&#x4E2D;&#x7684;&#x904B;&#x884C;&#x6578;&#x64DA;&#x3002;&#x8981;&#x5B9A;&#x7FA9;&#x4E00;&#x500B;GDB&#x7684;&#x8B8A;&#x91CF;&#x5F88;&#x7C21;&#x55AE;&#x96BB;&#x9700;&#x3002;&#x4F7F;&#x7528;GDB&#x7684;<code>set&#x547D;&#x4EE4;</code>&#x3002;GDB&#x7684;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x548C;UNIX&#x4E00;&#x6A23;&#xFF0C;&#x4E5F;&#x662F;&#x4EE5;$&#x8D77;&#x982D;&#x3002;&#x5982;&#xFF1A;</p>
 <pre><code class="lang-sh"><span class="hljs-built_in">set</span> <span class="hljs-variable">$foo</span> = *object_ptr
 </code></pre>
@@ -15337,7 +15271,7 @@ set print object
 <span class="hljs-built_in">print</span> bar[<span class="hljs-number">1</span>]-&gt;contents
 </code></pre>
 <p>&#x5730;&#x8F38;&#x5165;&#x547D;&#x4EE4;&#x4E86;&#x3002;&#x8F38;&#x5165;&#x9019;&#x6A23;&#x7684;&#x547D;&#x4EE4;&#x5F8C;&#xFF0C;&#x53EA;&#x7528;&#x6572;&#x56DE;&#x8ECA;&#xFF0C;&#x91CD;&#x8907;&#x57F7;&#x884C;&#x4E0A;&#x4E00;&#x689D;&#x8A9E;&#x53E5;&#xFF0C;&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x6703;&#x81EA;&#x52D5;&#x7D2F;&#x52A0;&#xFF0C;&#x5F9E;&#x800C;&#x5B8C;&#x6210;&#x9010;&#x500B;&#x8F38;&#x51FA;&#x7684;&#x529F;&#x80FD;&#x3002;</p>
-<h2 id="%E5%8D%81%E3%80%81%E6%9F%A5%E7%9C%8B%E5%AF%84%E5%AD%98%E5%99%A8">&#x5341;&#x3001;&#x67E5;&#x770B;&#x5BC4;&#x5B58;&#x5668;</h2>
+<h2 id="&#x5341;&#x3001;&#x67E5;&#x770B;&#x5BC4;&#x5B58;&#x5668;">&#x5341;&#x3001;&#x67E5;&#x770B;&#x5BC4;&#x5B58;&#x5668;</h2>
 <p>&#x8981;&#x67E5;&#x770B;&#x5BC4;&#x5B58;&#x5668;&#x7684;&#x503C;&#xFF0C;&#x5F88;&#x7C21;&#x55AE;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x5982;&#x4E0B;&#x547D;&#x4EE4;&#xFF1A;</p>
 <pre><code class="lang-sh">info registers
 </code></pre>
@@ -15392,9 +15326,17 @@ set print object
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

@@ -8,7 +8,7 @@
         <title>系統級性能分析工具 — Perf | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="3.8.6" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="3.8.6"
+        data-chapter-title="系統級性能分析工具 — Perf"
+        data-filepath="linux_tools/xi_tong_ji_xing_neng_fen_xi_gong_ju__perf.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,7 +15051,7 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E7%B3%BB%E7%B5%B1%E7%B4%9A%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7-%E2%80%94-perf">&#x7CFB;&#x7D71;&#x7D1A;&#x6027;&#x80FD;&#x5206;&#x6790;&#x5DE5;&#x5177; &#x2014; Perf</h1>
+                        <h1 id="&#x7CFB;&#x7D71;&#x7D1A;&#x6027;&#x80FD;&#x5206;&#x6790;&#x5DE5;&#x5177;-&#x2014;-perf">&#x7CFB;&#x7D71;&#x7D1A;&#x6027;&#x80FD;&#x5206;&#x6790;&#x5DE5;&#x5177; &#x2014; Perf</h1>
 <p>&#x5F9E;2.6.31&#x5167;&#x6838;&#x958B;&#x59CB;&#xFF0C;linux&#x5167;&#x6838;&#x81EA;&#x5E36;&#x4E86;&#x4E00;&#x500B;&#x6027;&#x80FD;&#x5206;&#x6790;&#x5DE5;&#x5177;perf&#xFF0C;&#x80FD;&#x5920;&#x9032;&#x884C;&#x51FD;&#x6578;&#x7D1A;&#x8207;&#x6307;&#x4EE4;&#x7D1A;&#x7684;&#x71B1;&#x9EDE;&#x67E5;&#x627E;&#x3002;</p>
 <h2 id="perf">perf</h2>
 <p>Performance analysis tools for Linux.
@@ -15137,11 +15071,11 @@ software features (software counters, tracepoints) as well.</p>
 <li>perf-record</li>
 <li>perf-report</li>
 </ul>
-<h2 id="perf-list">perf-list</h2>
+<h2 id="perflist">perf-list</h2>
 <p>Perf-list&#x7528;&#x4F86;&#x67E5;&#x770B;perf&#x6240;&#x652F;&#x6301;&#x7684;&#x6027;&#x80FD;&#x4E8B;&#x4EF6;&#xFF0C;&#x6709;&#x8EDF;&#x4EF6;&#x7684;&#x4E5F;&#x6709;&#x786C;&#x4EF6;&#x7684;&#x3002;</p>
 <p>List all symbolic event types.<br>
 perf list [hw | sw | cache | tracepoint | event_glob]<br></p>
-<h3 id="-1-%E6%80%A7%E8%83%BD%E4%BA%8B%E4%BB%B6%E7%9A%84%E5%88%86%E4%BD%88">(1) &#x6027;&#x80FD;&#x4E8B;&#x4EF6;&#x7684;&#x5206;&#x4F48;</h3>
+<h3 id="1-&#x6027;&#x80FD;&#x4E8B;&#x4EF6;&#x7684;&#x5206;&#x4F48;">(1) &#x6027;&#x80FD;&#x4E8B;&#x4EF6;&#x7684;&#x5206;&#x4F48;</h3>
 <ul>
 <li>hw&#xFF1A;Hardware event&#xFF0C;9&#x500B;</li>
 <li>sw&#xFF1A;Software event&#xFF0C;9&#x500B;</li>
@@ -15151,7 +15085,7 @@ perf list [hw | sw | cache | tracepoint | event_glob]<br></p>
 <p>sw&#x5BE6;&#x969B;&#x4E0A;&#x662F;&#x5167;&#x6838;&#x7684;&#x8A08;&#x6578;&#x5668;&#xFF0C;&#x8207;&#x786C;&#x4EF6;&#x7121;&#x95DC;&#x3002;<br><br>
 hw&#x548C;cache&#x662F;CPU&#x67B6;&#x69CB;&#x76F8;&#x95DC;&#x7684;&#xFF0C;&#x4F9D;&#x8CF4;&#x65BC;&#x5177;&#x9AD4;&#x786C;&#x4EF6;&#x3002;<br>
 tracepoint&#x662F;&#x57FA;&#x65BC;&#x5167;&#x6838;&#x7684;ftrace&#xFF0C;&#x4E3B;&#x7DDA;2.6.3x&#x4EE5;&#x4E0A;&#x7684;&#x5167;&#x6838;&#x7248;&#x672C;&#x624D;&#x652F;&#x6301;&#x3002;<br></p>
-<h3 id="-2-%E6%8C%87%E5%AE%9A%E6%80%A7%E8%83%BD%E4%BA%8B%E4%BB%B6-%E4%BB%A5%E5%AE%83%E7%9A%84%E5%B1%AC%E6%80%A7">(2) &#x6307;&#x5B9A;&#x6027;&#x80FD;&#x4E8B;&#x4EF6;(&#x4EE5;&#x5B83;&#x7684;&#x5C6C;&#x6027;)</h3>
+<h3 id="2-&#x6307;&#x5B9A;&#x6027;&#x80FD;&#x4E8B;&#x4EF6;&#x4EE5;&#x5B83;&#x7684;&#x5C6C;&#x6027;">(2) &#x6307;&#x5B9A;&#x6027;&#x80FD;&#x4E8B;&#x4EF6;(&#x4EE5;&#x5B83;&#x7684;&#x5C6C;&#x6027;)</h3>
 <ul>
 <li>-e <event> : u // userspace</event></li>
 <li>-e <event> : k // kernel</event></li>
@@ -15159,21 +15093,21 @@ tracepoint&#x662F;&#x57FA;&#x65BC;&#x5167;&#x6838;&#x7684;ftrace&#xFF0C;&#x4E3B;
 <li>-e <event> : G // guest counting (in KVM guests)</event></li>
 <li>-e <event> : H // host counting (not in KVM guests)</event></li>
 </ul>
-<h3 id="-3-%E4%BD%BF%E7%94%A8%E4%BE%8B%E5%AD%90">(3) &#x4F7F;&#x7528;&#x4F8B;&#x5B50;</h3>
+<h3 id="3-&#x4F7F;&#x7528;&#x4F8B;&#x5B50;">(3) &#x4F7F;&#x7528;&#x4F8B;&#x5B50;</h3>
 <p>&#x986F;&#x793A;&#x5167;&#x6838;&#x548C;&#x6A21;&#x584A;&#x4E2D;&#xFF0C;&#x6D88;&#x8017;&#x6700;&#x591A;CPU&#x9031;&#x671F;&#x7684;&#x51FD;&#x6578;&#xFF1A;</p>
 <pre><code class="lang-sh"><span class="hljs-comment"># perf top -e cycles:k</span>
 </code></pre>
 <p>&#x986F;&#x793A;&#x5206;&#x914D;&#x9AD8;&#x901F;&#x7DE9;&#x5B58;&#x6700;&#x591A;&#x7684;&#x51FD;&#x6578;&#xFF1A;</p>
 <pre><code class="lang-sh"><span class="hljs-comment"># perf top -e kmem:kmem_cache_alloc</span>
 </code></pre>
-<h2 id="perf-top">perf-top</h2>
+<h2 id="perftop">perf-top</h2>
 <p>&#x5C0D;&#x65BC;&#x4E00;&#x500B;&#x6307;&#x5B9A;&#x7684;&#x6027;&#x80FD;&#x4E8B;&#x4EF6;(&#x9ED8;&#x8A8D;&#x662F;CPU&#x9031;&#x671F;)&#xFF0C;&#x986F;&#x793A;&#x6D88;&#x8017;&#x6700;&#x591A;&#x7684;&#x51FD;&#x6578;&#x6216;&#x6307;&#x4EE4;&#x3002;<br></p>
 <p>System profiling tool.<br>
 Generates and displays a performance counter profile in real time.<br>
 perf top [-e <EVENT> | --event=EVENT] [<options>]<br></options></EVENT></p>
 <p>perf top&#x4E3B;&#x8981;&#x7528;&#x65BC;&#x5BE6;&#x6642;&#x5206;&#x6790;&#x5404;&#x500B;&#x51FD;&#x6578;&#x5728;&#x67D0;&#x500B;&#x6027;&#x80FD;&#x4E8B;&#x4EF6;&#x4E0A;&#x7684;&#x71B1;&#x5EA6;&#xFF0C;&#x80FD;&#x5920;&#x5FEB;&#x901F;&#x7684;&#x5B9A;&#x4F4D;&#x71B1;&#x9EDE;&#x51FD;&#x6578;&#xFF0C;&#x5305;&#x62EC;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x51FD;&#x6578;&#x3001;
 &#x6A21;&#x584A;&#x51FD;&#x6578;&#x8207;&#x5167;&#x6838;&#x51FD;&#x6578;&#xFF0C;&#x751A;&#x81F3;&#x80FD;&#x5920;&#x5B9A;&#x4F4D;&#x5230;&#x71B1;&#x9EDE;&#x6307;&#x4EE4;&#x3002;&#x9ED8;&#x8A8D;&#x7684;&#x6027;&#x80FD;&#x4E8B;&#x4EF6;&#x70BA;cpu cycles&#x3002;<br></p>
-<h3 id="-1-%E8%BC%B8%E5%87%BA%E6%A0%BC%E5%BC%8F">(1) &#x8F38;&#x51FA;&#x683C;&#x5F0F;</h3>
+<h3 id="1-&#x8F38;&#x51FA;&#x683C;&#x5F0F;">(1) &#x8F38;&#x51FA;&#x683C;&#x5F0F;</h3>
 <p>perf top</p>
 <pre><code class="lang-sh">Samples: <span class="hljs-number">1</span>M of event <span class="hljs-string">&apos;cycles&apos;</span>, Event count (approx.): <span class="hljs-number">73891391490</span>  
      <span class="hljs-number">5.44</span>%  perf              [.] <span class="hljs-number">0</span>x0000000000023256        
@@ -15189,7 +15123,7 @@ perf top [-e <EVENT> | --event=EVENT] [<options>]<br></options></EVENT></p>
 &#x7B2C;&#x4E8C;&#x5217;&#xFF1A;&#x7B26;&#x865F;&#x6240;&#x5728;&#x7684;DSO(Dynamic Shared Object)&#xFF0C;&#x53EF;&#x4EE5;&#x662F;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x3001;&#x5167;&#x6838;&#x3001;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#x3001;&#x6A21;&#x584A;&#x3002;<br>
 &#x7B2C;&#x4E09;&#x5217;&#xFF1A;DSO&#x7684;&#x985E;&#x578B;&#x3002;[.]&#x8868;&#x793A;&#x6B64;&#x7B26;&#x865F;&#x5C6C;&#x65BC;&#x7528;&#x6236;&#x614B;&#x7684;ELF&#x6587;&#x4EF6;&#xFF0C;&#x5305;&#x62EC;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x8207;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5EAB;)&#x3002;[k]&#x8868;&#x8FF0;&#x6B64;&#x7B26;&#x865F;&#x5C6C;&#x65BC;&#x5167;&#x6838;&#x6216;&#x6A21;&#x584A;&#x3002;<br>
 &#x7B2C;&#x56DB;&#x5217;&#xFF1A;&#x7B26;&#x865F;&#x540D;&#x3002;&#x6709;&#x4E9B;&#x7B26;&#x865F;&#x4E0D;&#x80FD;&#x89E3;&#x6790;&#x70BA;&#x51FD;&#x6578;&#x540D;&#xFF0C;&#x53EA;&#x80FD;&#x7528;&#x5730;&#x5740;&#x8868;&#x793A;&#x3002;<br></p>
-<h3 id="-2-%E5%B8%B8%E7%94%A8%E4%BA%A4%E4%BA%92%E5%91%BD%E4%BB%A4">(2) &#x5E38;&#x7528;&#x4EA4;&#x4E92;&#x547D;&#x4EE4;</h3>
+<h3 id="2-&#x5E38;&#x7528;&#x4EA4;&#x4E92;&#x547D;&#x4EE4;">(2) &#x5E38;&#x7528;&#x4EA4;&#x4E92;&#x547D;&#x4EE4;</h3>
 <ul>
 <li>h&#xFF1A;&#x986F;&#x793A;&#x5E6B;&#x52A9;
 UP/DOWN/PGUP/PGDN/SPACE&#xFF1A;&#x4E0A;&#x4E0B;&#x548C;&#x7FFB;&#x9801;&#x3002;</li>
@@ -15197,7 +15131,7 @@ UP/DOWN/PGUP/PGDN/SPACE&#xFF1A;&#x4E0A;&#x4E0B;&#x548C;&#x7FFB;&#x9801;&#x3002;<
 <li>d&#xFF1A;&#x904E;&#x6FFE;&#x6389;&#x6240;&#x6709;&#x4E0D;&#x5C6C;&#x65BC;&#x6B64;DSO&#x7684;&#x7B26;&#x865F;&#x3002;&#x975E;&#x5E38;&#x65B9;&#x4FBF;&#x67E5;&#x770B;&#x540C;&#x4E00;&#x985E;&#x5225;&#x7684;&#x7B26;&#x865F;&#x3002;</li>
 <li>P&#xFF1A;&#x5C07;&#x7576;&#x524D;&#x4FE1;&#x606F;&#x4FDD;&#x5B58;&#x5230;perf.hist.N&#x4E2D;&#x3002;</li>
 </ul>
-<h3 id="-3-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%83%E6%95%B8">(3) &#x5E38;&#x7528;&#x547D;&#x4EE4;&#x884C;&#x53C3;&#x6578;</h3>
+<h3 id="3-&#x5E38;&#x7528;&#x547D;&#x4EE4;&#x884C;&#x53C3;&#x6578;">(3) &#x5E38;&#x7528;&#x547D;&#x4EE4;&#x884C;&#x53C3;&#x6578;</h3>
 <ul>
 <li>-e <event>&#xFF1A;&#x6307;&#x660E;&#x8981;&#x5206;&#x6790;&#x7684;&#x6027;&#x80FD;&#x4E8B;&#x4EF6;&#x3002;</event></li>
 <li>-p <pid>&#xFF1A;Profile events on existing Process ID (comma sperated list). &#x50C5;&#x5206;&#x6790;&#x76EE;&#x6A19;&#x9032;&#x7A0B;&#x53CA;&#x5176;&#x5275;&#x5EFA;&#x7684;&#x7DDA;&#x7A0B;&#x3002;</pid></li>
@@ -15210,7 +15144,7 @@ UP/DOWN/PGUP/PGDN/SPACE&#xFF1A;&#x4E0A;&#x4E0B;&#x548C;&#x7FFB;&#x9801;&#x3002;<
 <pre><code class="lang-sh">perf top -G [fractal]&#xFF0C;&#x8DEF;&#x5F91;&#x6982;&#x7387;&#x70BA;&#x76F8;&#x5C0D;&#x503C;&#xFF0C;&#x52A0;&#x8D77;&#x4F86;&#x70BA;<span class="hljs-number">100</span>%&#xFF0C;&#x8ABF;&#x7528;&#x9806;&#x5E8F;&#x70BA;&#x5F9E;&#x4E0B;&#x5F80;&#x4E0A;&#x3002;
 perf top -G graph&#xFF0C;&#x8DEF;&#x5F91;&#x6982;&#x7387;&#x70BA;&#x7D55;&#x5C0D;&#x503C;&#xFF0C;&#x52A0;&#x8D77;&#x4F86;&#x70BA;&#x8A72;&#x51FD;&#x6578;&#x7684;&#x71B1;&#x5EA6;&#x3002;
 </code></pre>
-<h3 id="-4-%E4%BD%BF%E7%94%A8%E4%BE%8B%E5%AD%90">(4) &#x4F7F;&#x7528;&#x4F8B;&#x5B50;</h3>
+<h3 id="4-&#x4F7F;&#x7528;&#x4F8B;&#x5B50;">(4) &#x4F7F;&#x7528;&#x4F8B;&#x5B50;</h3>
 <pre><code class="lang-sh"><span class="hljs-comment"># perf top // &#x9ED8;&#x8A8D;&#x914D;&#x7F6E;</span>
 <span class="hljs-comment"># perf top -G // &#x5F97;&#x5230;&#x8ABF;&#x7528;&#x95DC;&#x4FC2;&#x5716;</span>
 <span class="hljs-comment"># perf top -e cycles // &#x6307;&#x5B9A;&#x6027;&#x80FD;&#x4E8B;&#x4EF6;</span>
@@ -15219,13 +15153,13 @@ perf top -G graph&#xFF0C;&#x8DEF;&#x5F91;&#x6982;&#x7387;&#x70BA;&#x7D55;&#x5C0D
 <span class="hljs-comment"># perf top --comms nginx,top // &#x50C5;&#x986F;&#x793A;&#x5C6C;&#x65BC;&#x6307;&#x5B9A;&#x9032;&#x7A0B;&#x7684;&#x7B26;&#x865F;</span>
 <span class="hljs-comment"># perf top --symbols kfree // &#x50C5;&#x986F;&#x793A;&#x6307;&#x5B9A;&#x7684;&#x7B26;&#x865F;</span>
 </code></pre>
-<h2 id="perf-stat">perf-stat</h2>
+<h2 id="perfstat">perf-stat</h2>
 <p>&#x7528;&#x65BC;&#x5206;&#x6790;&#x6307;&#x5B9A;&#x7A0B;&#x5E8F;&#x7684;&#x6027;&#x80FD;&#x6982;&#x6CC1;&#x3002;</p>
 <p>Run a command and gather performance counter statistics.</p>
 <pre><code class="lang-sh">perf <span class="hljs-built_in">stat</span> [<span class="hljs-operator">-e</span> &lt;EVENT&gt; | --event=EVENT] [<span class="hljs-operator">-a</span>] &lt;<span class="hljs-built_in">command</span>&gt;
 perf <span class="hljs-built_in">stat</span> [<span class="hljs-operator">-e</span> &lt;EVENT&gt; | --event=EVENT] [<span class="hljs-operator">-a</span>] - &lt;<span class="hljs-built_in">command</span>&gt; [&lt;options&gt;]
 </code></pre>
-<h3 id="-1-%E8%BC%B8%E5%87%BA%E6%A0%BC%E5%BC%8F">(1) &#x8F38;&#x51FA;&#x683C;&#x5F0F;</h3>
+<h3 id="1-&#x8F38;&#x51FA;&#x683C;&#x5F0F;">(1) &#x8F38;&#x51FA;&#x683C;&#x5F0F;</h3>
 <pre><code class="lang-sh"><span class="hljs-comment"># perf stat ls</span>
 </code></pre>
 <pre><code class="lang-sh">Performance counter stats <span class="hljs-keyword">for</span> <span class="hljs-string">&apos;ls&apos;</span>:  
@@ -15260,7 +15194,7 @@ perf <span class="hljs-built_in">stat</span> [<span class="hljs-operator">-e</sp
 <li>instructions&#xFF1A;&#x57F7;&#x884C;&#x4E86;&#x591A;&#x5C11;&#x689D;&#x6307;&#x4EE4;&#x3002;IPC&#x70BA;&#x5E73;&#x5747;&#x6BCF;&#x500B;cpu cycle&#x57F7;&#x884C;&#x4E86;&#x591A;&#x5C11;&#x689D;&#x6307;&#x4EE4;&#x3002;</li>
 <li>branches&#xFF1A;&#x9047;&#x5230;&#x7684;&#x5206;&#x652F;&#x6307;&#x4EE4;&#x6578;&#x3002;branch-misses&#x662F;&#x9810;&#x6E2C;&#x932F;&#x8AA4;&#x7684;&#x5206;&#x652F;&#x6307;&#x4EE4;&#x6578;&#x3002;</li>
 </ul>
-<h3 id="-2-%E5%B8%B8%E7%94%A8%E5%8F%83%E6%95%B8">(2) &#x5E38;&#x7528;&#x53C3;&#x6578;</h3>
+<h3 id="2-&#x5E38;&#x7528;&#x53C3;&#x6578;">(2) &#x5E38;&#x7528;&#x53C3;&#x6578;</h3>
 <ul>
 <li>-p&#xFF1A;stat events on existing process id (comma separated list). &#x50C5;&#x5206;&#x6790;&#x76EE;&#x6A19;&#x9032;&#x7A0B;&#x53CA;&#x5176;&#x5275;&#x5EFA;&#x7684;&#x7DDA;&#x7A0B;&#x3002;</li>
 <li>-a&#xFF1A;system-wide collection from all CPUs. &#x5F9E;&#x6240;&#x6709;CPU&#x4E0A;&#x6536;&#x96C6;&#x6027;&#x80FD;&#x6578;&#x64DA;&#x3002;</li>
@@ -15273,7 +15207,7 @@ perf <span class="hljs-built_in">stat</span> [<span class="hljs-operator">-e</sp
 <li>--pre <cmd>&#xFF1A;&#x57F7;&#x884C;&#x76EE;&#x6A19;&#x7A0B;&#x5E8F;&#x524D;&#x5148;&#x57F7;&#x884C;&#x7684;&#x7A0B;&#x5E8F;&#x3002;</cmd></li>
 <li>--post <cmd>&#xFF1A;&#x57F7;&#x884C;&#x76EE;&#x6A19;&#x7A0B;&#x5E8F;&#x5F8C;&#x518D;&#x57F7;&#x884C;&#x7684;&#x7A0B;&#x5E8F;&#x3002;</cmd></li>
 </ul>
-<h4 id="-3-%E4%BD%BF%E7%94%A8%E4%BE%8B%E5%AD%90">(3) &#x4F7F;&#x7528;&#x4F8B;&#x5B50;</h4>
+<h4 id="3-&#x4F7F;&#x7528;&#x4F8B;&#x5B50;">(3) &#x4F7F;&#x7528;&#x4F8B;&#x5B50;</h4>
 <p>&#x57F7;&#x884C;10&#x6B21;&#x7A0B;&#x5E8F;&#xFF0C;&#x7D66;&#x51FA;&#x6A19;&#x6E96;&#x504F;&#x5DEE;&#x8207;&#x671F;&#x671B;&#x7684;&#x6BD4;&#x503C;&#xFF1A;</p>
 <pre><code class="lang-sh"><span class="hljs-comment"># perf stat -r 10 ls &gt; /dev/null</span>
 </code></pre>
@@ -15289,13 +15223,13 @@ perf <span class="hljs-built_in">stat</span> [<span class="hljs-operator">-e</sp
 <p>ls&#x547D;&#x4EE4;&#x57F7;&#x884C;&#x4E86;&#x591A;&#x5C11;&#x6B21;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#xFF1A;</p>
 <pre><code class="lang-sh"><span class="hljs-comment"># perf stat -e syscalls:sys_enter ls</span>
 </code></pre>
-<h2 id="perf-record">perf-record</h2>
+<h2 id="perfrecord">perf-record</h2>
 <p>&#x6536;&#x96C6;&#x63A1;&#x6A23;&#x4FE1;&#x606F;&#xFF0C;&#x4E26;&#x5C07;&#x5176;&#x8A18;&#x9304;&#x5728;&#x6578;&#x64DA;&#x6587;&#x4EF6;&#x4E2D;&#x3002;
 &#x96A8;&#x5F8C;&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x5176;&#x5B83;&#x5DE5;&#x5177;(perf-report)&#x5C0D;&#x6578;&#x64DA;&#x6587;&#x4EF6;&#x9032;&#x884C;&#x5206;&#x6790;&#xFF0C;&#x7D50;&#x679C;&#x985E;&#x4F3C;&#x65BC;perf-top&#x7684;&#x3002;</p>
 <p>Run a command and record its profile into perf.data.
 This command runs a command and gathers a performance counter profile from it, into perf.data,
 without displaying anything. This file can then be inspected later on, using perf report.</p>
-<h3 id="-1-%E5%B8%B8%E7%94%A8%E5%8F%83%E6%95%B8">(1) &#x5E38;&#x7528;&#x53C3;&#x6578;</h3>
+<h3 id="1-&#x5E38;&#x7528;&#x53C3;&#x6578;">(1) &#x5E38;&#x7528;&#x53C3;&#x6578;</h3>
 <ul>
 <li>-e&#xFF1A;Select the PMU event.</li>
 <li>-a&#xFF1A;System-wide collection from all CPUs.</li>
@@ -15306,7 +15240,7 @@ without displaying anything. This file can then be inspected later on, using per
 <li>-g&#xFF1A;Do call-graph (stack chain/backtrace) recording.</li>
 <li>-C&#xFF1A;Collect samples only on the list of CPUs provided.</li>
 </ul>
-<h3 id="-2-%E4%BD%BF%E7%94%A8%E4%BE%8B%E5%AD%90">(2) &#x4F7F;&#x7528;&#x4F8B;&#x5B50;</h3>
+<h3 id="2-&#x4F7F;&#x7528;&#x4F8B;&#x5B50;">(2) &#x4F7F;&#x7528;&#x4F8B;&#x5B50;</h3>
 <p>&#x8A18;&#x9304;nginx&#x9032;&#x7A0B;&#x7684;&#x6027;&#x80FD;&#x6578;&#x64DA;&#xFF1A;</p>
 <pre><code class="lang-sh"><span class="hljs-comment"># perf record -p `pgrep -d &apos;,&apos; nginx`</span>
 </code></pre>
@@ -15316,36 +15250,36 @@ without displaying anything. This file can then be inspected later on, using per
 <p>&#x8A18;&#x9304;&#x57F7;&#x884C;ls&#x6642;&#x7684;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#xFF0C;&#x53EF;&#x4EE5;&#x77E5;&#x9053;&#x54EA;&#x4E9B;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x6700;&#x983B;&#x7E41;&#xFF1A;</p>
 <pre><code class="lang-sh"><span class="hljs-comment"># perf record -e syscalls:sys_enter ls</span>
 </code></pre>
-<h2 id="perf-report">perf-report</h2>
+<h2 id="perfreport">perf-report</h2>
 <p>&#x8B80;&#x53D6;perf record&#x5275;&#x5EFA;&#x7684;&#x6578;&#x64DA;&#x6587;&#x4EF6;&#xFF0C;&#x4E26;&#x7D66;&#x51FA;&#x71B1;&#x9EDE;&#x5206;&#x6790;&#x7D50;&#x679C;&#x3002;</p>
 <p>Read perf.data (created by perf record) and display the profile.
 This command displays the performance counter profile information recorded via perf record.</p>
-<h3 id="-1-%E5%B8%B8%E7%94%A8%E5%8F%83%E6%95%B8">(1) &#x5E38;&#x7528;&#x53C3;&#x6578;</h3>
+<h3 id="1-&#x5E38;&#x7528;&#x53C3;&#x6578;">(1) &#x5E38;&#x7528;&#x53C3;&#x6578;</h3>
 <ul>
 <li>-i&#xFF1A;Input file name. (default: perf.data)</li>
 </ul>
-<h3 id="-2-%E4%BD%BF%E7%94%A8%E4%BE%8B%E5%AD%90">(2) &#x4F7F;&#x7528;&#x4F8B;&#x5B50;</h3>
+<h3 id="2-&#x4F7F;&#x7528;&#x4F8B;&#x5B50;">(2) &#x4F7F;&#x7528;&#x4F8B;&#x5B50;</h3>
 <pre><code class="lang-sh"><span class="hljs-comment"># perf report -i perf.data.2</span>
 </code></pre>
 <p>More</p>
 <p>&#x9664;&#x4E86;&#x4EE5;&#x4E0A;5&#x500B;&#x5E38;&#x7528;&#x5DE5;&#x5177;&#x5916;&#xFF0C;&#x9084;&#x6709;&#x4E00;&#x4E9B;&#x9069;&#x7528;&#x65BC;&#x8F03;&#x7279;&#x6B8A;&#x5834;&#x666F;&#x7684;&#x5DE5;&#x5177;&#xFF0C; &#x6BD4;&#x5982;&#x5167;&#x6838;&#x9396;&#x3001;slab&#x5206;&#x914D;&#x5668;&#x3001;&#x8ABF;&#x5EA6;&#x5668;&#xFF0C;
 &#x4E5F;&#x652F;&#x6301;&#x81EA;&#x5B9A;&#x7FA9;&#x63A2;&#x6E2C;&#x9EDE;&#x3002;</p>
-<h2 id="perf-lock">perf-lock</h2>
+<h2 id="perflock">perf-lock</h2>
 <p>&#x5167;&#x6838;&#x9396;&#x7684;&#x6027;&#x80FD;&#x5206;&#x6790;&#x3002;
 Analyze lock events.
 perf lock {record | report | script | info}</p>
 <p>&#x9700;&#x8981;&#x7DE8;&#x8B6F;&#x9078;&#x9805;&#x7684;&#x652F;&#x6301;&#xFF1A;CONFIG_LOCKDEP&#x3001;CONFIG_LOCK_STAT&#x3002;
 CONFIG_LOCKDEP defines acquired and release events.
 CONFIG_LOCK_STAT defines contended and acquired lock events.</p>
-<h3 id="-1-%E5%B8%B8%E7%94%A8%E9%81%B8%E9%A0%85">(1) &#x5E38;&#x7528;&#x9078;&#x9805;</h3>
+<h3 id="1-&#x5E38;&#x7528;&#x9078;&#x9805;">(1) &#x5E38;&#x7528;&#x9078;&#x9805;</h3>
 <pre><code class="lang-sh">-i &lt;file&gt;&#xFF1A;&#x8F38;&#x5165;&#x6587;&#x4EF6;
 -k &lt;value&gt;&#xFF1A;sorting key&#xFF0C;&#x9ED8;&#x8A8D;&#x70BA;acquired&#xFF0C;&#x9084;&#x53EF;&#x4EE5;&#x6309;contended&#x3001;<span class="hljs-built_in">wait</span>_total&#x3001;<span class="hljs-built_in">wait</span>_max&#x548C;<span class="hljs-built_in">wait</span>_min&#x4F86;&#x6392;&#x5E8F;&#x3002;
 </code></pre>
-<h3 id="-2-%E4%BD%BF%E7%94%A8%E4%BE%8B%E5%AD%90">(2) &#x4F7F;&#x7528;&#x4F8B;&#x5B50;</h3>
+<h3 id="2-&#x4F7F;&#x7528;&#x4F8B;&#x5B50;">(2) &#x4F7F;&#x7528;&#x4F8B;&#x5B50;</h3>
 <pre><code class="lang-sh"><span class="hljs-comment"># perf lock record ls // &#x8A18;&#x9304;</span>
 <span class="hljs-comment"># perf lock report // &#x5831;&#x544A;</span>
 </code></pre>
-<h3 id="-3-%E8%BC%B8%E5%87%BA%E6%A0%BC%E5%BC%8F">(3) &#x8F38;&#x51FA;&#x683C;&#x5F0F;</h3>
+<h3 id="3-&#x8F38;&#x51FA;&#x683C;&#x5F0F;">(3) &#x8F38;&#x51FA;&#x683C;&#x5F0F;</h3>
 <pre><code class="lang-sh">Name   acquired  contended total <span class="hljs-built_in">wait</span> (ns)   max <span class="hljs-built_in">wait</span> (ns)   min <span class="hljs-built_in">wait</span> (ns)   
 
 &amp;mm-&gt;page_table_...        <span class="hljs-number">382</span>          <span class="hljs-number">0</span>               <span class="hljs-number">0</span>               <span class="hljs-number">0</span>               <span class="hljs-number">0</span>   
@@ -15374,11 +15308,11 @@ histogram of events caused bad sequence
   contended: <span class="hljs-number">0</span>  
     release: <span class="hljs-number">10</span>
 </code></pre>
-<h2 id="perf-kmem">perf-kmem</h2>
+<h2 id="perfkmem">perf-kmem</h2>
 <p>slab&#x5206;&#x914D;&#x5668;&#x7684;&#x6027;&#x80FD;&#x5206;&#x6790;&#x3002;
 Tool to trace/measure kernel memory(slab) properties.<br>
 perf kmem {record | stat} [<options>]<br></options></p>
-<h3 id="-1-%E5%B8%B8%E7%94%A8%E9%81%B8%E9%A0%85">(1) &#x5E38;&#x7528;&#x9078;&#x9805;</h3>
+<h3 id="1-&#x5E38;&#x7528;&#x9078;&#x9805;">(1) &#x5E38;&#x7528;&#x9078;&#x9805;</h3>
 <ul>
 <li>--i <file>&#xFF1A;&#x8F38;&#x5165;&#x6587;&#x4EF6;</file></li>
 <li>--caller&#xFF1A;show per-callsite statistics&#xFF0C;&#x986F;&#x793A;&#x5167;&#x6838;&#x4E2D;&#x8ABF;&#x7528;kmalloc&#x548C;kfree&#x7684;&#x5730;&#x65B9;&#x3002;</li>
@@ -15386,11 +15320,11 @@ perf kmem {record | stat} [<options>]<br></options></p>
 <li>-l <num>&#xFF1A;print n lines only&#xFF0C;&#x53EA;&#x986F;&#x793A;num&#x884C;&#x3002;</num></li>
 <li>-s <key[,key2...]>&#xFF1A;sort the output (default: frag,hit,bytes)</key[,key2...]></li>
 </ul>
-<h3 id="-2-%E4%BD%BF%E7%94%A8%E4%BE%8B%E5%AD%90">(2) &#x4F7F;&#x7528;&#x4F8B;&#x5B50;</h3>
+<h3 id="2-&#x4F7F;&#x7528;&#x4F8B;&#x5B50;">(2) &#x4F7F;&#x7528;&#x4F8B;&#x5B50;</h3>
 <pre><code class="lang-sh"><span class="hljs-comment"># perf kmem record ls // &#x8A18;&#x9304;</span>
 <span class="hljs-comment"># perf kmem stat --caller --alloc -l 20 // &#x5831;&#x544A;</span>
 </code></pre>
-<h3 id="-3-%E8%BC%B8%E5%87%BA%E6%A0%BC%E5%BC%8F">(3) &#x8F38;&#x51FA;&#x683C;&#x5F0F;</h3>
+<h3 id="3-&#x8F38;&#x51FA;&#x683C;&#x5F0F;">(3) &#x8F38;&#x51FA;&#x683C;&#x5F0F;</h3>
 <pre><code class="lang-sh">------------------------------------------------------------------------------------------------------  
  Callsite                           | Total_alloc/Per | Total_req/Per   | Hit      | Ping-pong | Frag  
 ------------------------------------------------------------------------------------------------------  
@@ -15418,15 +15352,15 @@ Total bytes wasted on internal fragmentation: <span class="hljs-number">156472</
 Internal fragmentation: <span class="hljs-number">35.003669</span>%  
 Cross CPU allocations: <span class="hljs-number">2</span>/<span class="hljs-number">509</span>
 </code></pre>
-<h2 id="probe-sched">probe-sched</h2>
+<h2 id="probesched">probe-sched</h2>
 <p>&#x8ABF;&#x5EA6;&#x6A21;&#x584A;&#x5206;&#x6790;&#x3002;
 trace/measure scheduler properties (latencies)<br>
 perf sched {record | latency | map | replay | script}<br></p>
-<h3 id="-1-%E4%BD%BF%E7%94%A8%E4%BE%8B%E5%AD%90">(1) &#x4F7F;&#x7528;&#x4F8B;&#x5B50;</h3>
+<h3 id="1-&#x4F7F;&#x7528;&#x4F8B;&#x5B50;">(1) &#x4F7F;&#x7528;&#x4F8B;&#x5B50;</h3>
 <pre><code class="lang-sh"><span class="hljs-comment"># perf sched record sleep 10 // perf sched record &lt;command&gt;</span>
 <span class="hljs-comment"># perf report latency --sort max</span>
 </code></pre>
-<h3 id="-2-%E8%BC%B8%E5%87%BA%E6%A0%BC%E5%BC%8F">(2) &#x8F38;&#x51FA;&#x683C;&#x5F0F;</h3>
+<h3 id="2-&#x8F38;&#x51FA;&#x683C;&#x5F0F;">(2) &#x8F38;&#x51FA;&#x683C;&#x5F0F;</h3>
 <pre><code class="lang-sh">---------------------------------------------------------------------------------------------------------------  
  Task                  |   Runtime ms  | Switches | Average delay ms | Maximum delay ms | Maximum delay at     |  
 ---------------------------------------------------------------------------------------------------------------  
@@ -15444,15 +15378,15 @@ perf sched {record | latency | map | replay | script}<br></p>
 <li>Maximum delay&#xFF1A;&#x6700;&#x5927;&#x7684;&#x8ABF;&#x5EA6;&#x5EF6;&#x9072;&#x3002;</li>
 <li>Maximum delay at&#xFF1A;&#x6700;&#x5927;&#x8ABF;&#x5EA6;&#x5EF6;&#x9072;&#x767C;&#x751F;&#x7684;&#x6642;&#x523B;&#x3002;</li>
 </ul>
-<h2 id="perf-probe">perf-probe</h2>
+<h2 id="perfprobe">perf-probe</h2>
 <p>&#x53EF;&#x4EE5;&#x81EA;&#x5B9A;&#x7FA9;&#x63A2;&#x6E2C;&#x9EDE;&#x3002;
 Define new dynamic tracepoints.</p>
 <p>&#x4F7F;&#x7528;&#x4F8B;&#x5B50;</p>
-<h3 id="-1-display-which-lines-in-schedule-can-be-probed">(1) Display which lines in schedule() can be probed</h3>
+<h3 id="1-display-which-lines-in-schedule-can-be-probed">(1) Display which lines in schedule() can be probed</h3>
 <pre><code class="lang-sh"><span class="hljs-comment"># perf probe --line schedule</span>
 </code></pre>
 <p>&#x524D;&#x9762;&#x6709;&#x884C;&#x865F;&#x7684;&#x53EF;&#x4EE5;&#x63A2;&#x6E2C;&#xFF0C;&#x6C92;&#x6709;&#x884C;&#x865F;&#x7684;&#x5C31;&#x4E0D;&#x884C;&#x4E86;&#x3002;</p>
-<h3 id="-2-add-a-probe-on-schedule-function-12th-line">(2) Add a probe on schedule() function 12th line.</h3>
+<h3 id="2-add-a-probe-on-schedule-function-12th-line">(2) Add a probe on schedule() function 12th line.</h3>
 <pre><code class="lang-sh"><span class="hljs-comment"># perf probe -a schedule:12</span>
 </code></pre>
 <p>&#x5728;schedule&#x51FD;&#x6578;&#x7684;12&#x8655;&#x589E;&#x52A0;&#x4E00;&#x500B;&#x63A2;&#x6E2C;&#x9EDE;&#x3002;</p>
@@ -15502,9 +15436,17 @@ Define new dynamic tracepoints.</p>
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

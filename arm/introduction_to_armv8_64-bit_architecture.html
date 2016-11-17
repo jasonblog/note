@@ -8,7 +8,7 @@
         <title>Introduction to ARMv8 64-bit Architecture | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="8.3" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="8.3"
+        data-chapter-title="Introduction to ARMv8 64-bit Architecture"
+        data-filepath="arm/introduction_to_armv8_64-bit_architecture.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,7 +15051,7 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="introduction-to-armv8-64-bit-architecture">Introduction to ARMv8 64-bit Architecture</h1>
+                        <h1 id="introduction-to-armv8-64bit-architecture">Introduction to ARMv8 64-bit Architecture</h1>
 <h2 id="introduction">Introduction</h2>
 <p>The ARM architecture is a Reduced Instruction Set Computer (RISC) architecture, indeed its originally stood for &#x201C;Acorn RISC Machine&#x201D; but now stood for &#x201C;Advanced RISC Machines&#x201D;.
 In the last years, ARM processors, with the diffusion of smartphones and tablets, are beginning very popular: mostly this is due to reduced costs, and a more power efficiency compared to other architectures as CISC:</p>
@@ -15254,7 +15188,7 @@ In this short guide, I don&#x2019;t talk about floating point assembly instructi
 </ul>
 <p>When executing in AArch64 state, execution can move between Exception levels only on taking an exception or on returning from an exception.
 Each of the 4 privilege levels has 3 private banked registers: the Exception Link Register, Stack Pointer and Saved PSR.</p>
-<h2 id="interprocessing-aarch64-aarch32">Interprocessing: AArch64 &lt;=&gt; AArch32</h2>
+<h2 id="interprocessing-aarch64--aarch32">Interprocessing: AArch64 &lt;=&gt; AArch32</h2>
 <p>Interprocessing is the term used to describe moving between the AArch64 and AArch32 Execution states.
 The Execution state can change only on a change of Exception level. This means that the Execution state can change only on taking an exception to a higher Exception level, or returning from an exception to a lower Exception level.
 On taking an exception to a higher Exception level, the Execution state either:</p>
@@ -15508,7 +15442,7 @@ groups:</p>
 </li>
 <li>Coprocessor instructions</li>
 </ul>
-<h2 id="branches-exception">Branches &amp; Exception</h2>
+<h2 id="branches--exception">Branches &amp; Exception</h2>
 <p>Conditional branch
 Conditional branches change the flow of execution depending on the current state of the condition flags or the value in a general-purpose register.</p>
 <table border="1">
@@ -15584,9 +15518,9 @@ Conditional branches change the flow of execution depending on the current state
 <li>SEV Send event</li>
 <li>SEVL Send event local</li>
 </ul>
-<h2 id="load-store-register">Load/Store register</h2>
+<h2 id="loadstore-register">Load/Store register</h2>
 <p>There&#x2019;re many instructions in this class to move many data size: byte, halfword and word, but I show only four, just to make you understand them : two for move single register and two for move a pair of registers; but first I have to describe how we can access to memory.</p>
-<h2 id="load-store-addressing-modes">Load/Store addressing modes</h2>
+<h2 id="loadstore-addressing-modes">Load/Store addressing modes</h2>
 <p>This part is very important to understand different ARM addressing modes; the most used are three:</p>
 <ul>
 <li>[base{, #imm}]: Base plus offset  addressing means that the address is the value in the 64-bit base register plus an offset.<ul>
@@ -15839,7 +15773,7 @@ Save a register into a memory</p>
 <li>stp store pair: STP <Xt1>, <Xt2>, [<Xn|SP>], #<imm>
 <imm> is signed immediate byte offset, a  multiple of 8 in the range -512 to 504</imm></imm></Xn|SP></Xt2></Xt1></li>
 </ul>
-<h2 id="data-processing-%E2%80%93-immediate">Data processing &#x2013; immediate</h2>
+<h2 id="data-processing-&#x2013;-immediate">Data processing &#x2013; immediate</h2>
 <p>Arithmetic (immediate)</p>
 <table border="1">
 <tbody>
@@ -15936,7 +15870,7 @@ The shift operators LSL (logical shift left), ASR (arithm sift right) and LSR (l
 <pre><code class="lang-c">MOV &lt;Xd&gt;, <span class="hljs-preprocessor">#&lt;imm&gt;  ;Rd = imm</span>
 </code></pre>
 <p>but his three versions are aliases of movz, movn and movk</p>
-<h2 id="pc-relative-address-calculation">PC-relative address calculation</h2>
+<h2 id="pcrelative-address-calculation">PC-relative address calculation</h2>
 <ul>
 <li><p>The ADR instruction adds a signed, 21-bit immediate to the value of the program counter that fetched this instruction, and then writes the result to a general-purpose register:
 ADR <Xd>, <label></label></Xd></p>
@@ -15971,7 +15905,7 @@ ADRP <Xd>, <label></label></Xd></p>
 </tbody>
 </table>
 
-<h2 id="data-processing-%E2%80%93-register">Data processing &#x2013; register</h2>
+<h2 id="data-processing-&#x2013;-register">Data processing &#x2013; register</h2>
 <h3 id="arithmetic-shifted-register">Arithmetic (shifted register)</h3>
 <ul>
 <li>ADD: Add</li>
@@ -16598,7 +16532,7 @@ ccmp x2, x3, #0, ge
 beq good
 Assembly Example:</p>
 <p>It&#x2019;s time to code!! Like others tutorial on assembly  I show first the C-like code and then ARM asm.</p>
-<h1 id="include-stdio-h">include &quot;stdio.h&quot;</h1>
+<h1 id="include-stdioh">include &quot;stdio.h&quot;</h1>
 <p>static int v[] = {1,2,3,4,5,6,7,8,9,10};
 void print(int i);
 int add(int v, int t);</p>
@@ -16759,9 +16693,17 @@ add:
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

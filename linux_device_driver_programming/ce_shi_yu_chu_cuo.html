@@ -8,7 +8,7 @@
         <title>測試與除錯 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="11.1.12" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="11.1.12"
+        data-chapter-title="測試與除錯"
+        data-filepath="linux_device_driver_programming/ce_shi_yu_chu_cuo.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,15 +15051,15 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E6%B8%AC%E8%A9%A6%E8%88%87%E9%99%A4%E9%8C%AF">&#x6E2C;&#x8A66;&#x8207;&#x9664;&#x932F;</h1>
+                        <h1 id="&#x6E2C;&#x8A66;&#x8207;&#x9664;&#x932F;">&#x6E2C;&#x8A66;&#x8207;&#x9664;&#x932F;</h1>
 <p>&#x958B;&#x767C;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684;&#x6E2C;&#x8A66;&#x8207;&#x9664;&#x932F;&#x65B9;&#x6CD5;&#xFF0C;&#x8207;&#x958B;&#x767C;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x6642;&#x6709;&#x8457;&#x5F88;&#x5927;&#x7684;&#x5DEE;&#x7570;&#x3002; </p>
-<h2 id="16-1%E3%80%81%E8%A3%9D%E7%BD%AE%E9%A9%85%E5%8B%95%E7%A8%8B%E5%BC%8F%E7%9A%84%E6%B8%AC%E8%A9%A6%E8%88%87%E9%99%A4%E9%8C%AF">16-1&#x3001;&#x88DD;&#x7F6E;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684;&#x6E2C;&#x8A66;&#x8207;&#x9664;&#x932F;</h2>
+<h2 id="161&#x3001;&#x88DD;&#x7F6E;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684;&#x6E2C;&#x8A66;&#x8207;&#x9664;&#x932F;">16-1&#x3001;&#x88DD;&#x7F6E;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684;&#x6E2C;&#x8A66;&#x8207;&#x9664;&#x932F;</h2>
 <p>&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x9047;&#x5230; segmentation fault &#x6642;&#xFF0C;&#x53EF;&#x4EE5;&#x7528; gdb &#x89E3;&#x6790; core dump&#xFF0C;&#x5C31;&#x80FD;&#x9084;&#x539F;&#x7576;&#x6A5F;&#x7576;&#x6642;&#x7684;&#x5806;&#x758A;&#xFF0C;&#x800C;&#x4E14;&#xFF0C;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x4E5F;&#x5F88;&#x5BB9;&#x6613;&#x5728;&#x78C1;&#x789F;&#x4E0A;&#x7559;&#x4E0B;&#x904B;&#x4F5C;&#x8A18;&#x9304;&#xFF0C;&#x5206;&#x6790;&#x8D77;&#x4F86;&#x8F03;&#x70BA;&#x65B9;&#x4FBF;&#x3002;</p>
 <p>&#x4F46;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x662F;&#x8DDF; kernel &#x4E00;&#x8D77;&#x904B;&#x4F5C;&#x7684;&#xFF0C;&#x5982;&#x679C;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x78B0;&#x4E86;&#x4E0D;&#x5C0D;&#x7684;&#x8A18;&#x61B6;&#x9AD4;&#x4F4D;&#x5740;&#xFF0C;&#x5247;&#x53EF;&#x80FD;&#x8DDF; kernel &#x4E00;&#x8D77;&#x7576;&#x6389;&#xFF0C;&#x7576;&#x7136;&#x6700;&#x8FD1;&#x7684; linux kernel &#x8B8A;&#x5F97;&#x66F4;&#x5F37;&#x56FA;&#xFF0C;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7528;&#x4E86; NULL &#x6307;&#x6A19;&#x4E26;&#x4E0D;&#x6703;&#x8B93;&#x6574;&#x500B; kernel &#x7576;&#x6389;&#xFF0C;&#x4F46;&#x9019;&#x500B;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x9084;&#x662F;&#x7121;&#x6CD5;&#x7E7C;&#x7E8C;&#x904B;&#x4F5C;&#x3002; </p>
 <p>&#x5982;&#x679C;&#x8981;&#x7559;&#x4E0B;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684;&#x904B;&#x4F5C;&#x8A18;&#x9304;&#xFF0C;&#x5728; kernel &#x4E4B;&#x5167;&#x4E5F;&#x6C92;&#x6709;&#x80FD;&#x76F4;&#x63A5;&#x53D6;&#x7528;&#x7684;&#x6A94;&#x6848;&#x7CFB;&#x7D71;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x53EA;&#x80FD;&#x5728;&#x8A18;&#x61B6;&#x9AD4;&#x4E0A;&#x904B;&#x4F5C;&#xFF0C;&#x4E0D;&#x4FDD;&#x8B49;&#x80FD;&#x78BA;&#x5BE6;&#x628A;&#x8A18;&#x9304;&#x5167;&#x5BB9;&#x5B58;&#x6210;&#x6A94;&#x6848;&#x3002; </p>
 <p>linux kernel &#x672C;&#x8EAB;&#x56E0;&#x70BA; kernel panic &#x7576;&#x6389;&#x6642;&#xFF0C;&#x53EA;&#x6703;&#x5728;&#x87A2;&#x5E55;&#x4E0A;&#x986F;&#x793A; oops &#x8A0A;&#x606F;&#xFF0C;&#x7121;&#x6CD5;&#x50CF;&#x5546;&#x7528;&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x53EF;&#x4EE5;&#x628A;&#x6574;&#x584A;&#x8A18;&#x61B6;&#x9AD4;&#x5167;&#x5BB9;&#x5B58;&#x5230;&#x78C1;&#x789F;&#x3002;</p>
 <p>&#x56E0;&#x6B64;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684;&#x958B;&#x767C;&#x8005;&#x9808;&#x770B;&#x8457;&#x7A00;&#x5C11;&#x7684;&#x8CC7;&#x6599;&#xFF0C;&#x4E00;&#x908A;&#x95B1;&#x8B80;&#x539F;&#x59CB;&#x78BC;&#xFF0C;&#x5C0B;&#x627E;&#x5C0E;&#x81F4;&#x7576;&#x6A5F;&#x7684;&#x539F;&#x56E0;&#x3002; </p>
-<h2 id="16-2%E3%80%81%E5%BB%BA%E6%A7%8B%E5%B7%A5%E7%A8%8B">16-2&#x3001;&#x5EFA;&#x69CB;&#x5DE5;&#x7A0B;</h2>
+<h2 id="162&#x3001;&#x5EFA;&#x69CB;&#x5DE5;&#x7A0B;">16-2&#x3001;&#x5EFA;&#x69CB;&#x5DE5;&#x7A0B;</h2>
 <p>linux 2.6 &#x662F;&#x4EE5; make &#x5EFA;&#x69CB;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#xFF0C;&#x4EE5;&#x4E0B;&#x5217;&#x7684;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x70BA;&#x4F8B;&#xFF1A; </p>
 <pre><code class="lang-c"><span class="hljs-comment">/*
  * main.c
@@ -15165,7 +15099,7 @@ module_exit(sample_exit);
 <ul>
 <li>gcc &#x7684;&#x6700;&#x4F73;&#x5316;&#x81ED;&#x87F2;</li>
 </ul>
-<h2 id="16-3%E3%80%81%E7%B7%A8%E8%AD%AF%E9%81%B8%E9%A0%85">16-3&#x3001;&#x7DE8;&#x8B6F;&#x9078;&#x9805;</h2>
+<h2 id="163&#x3001;&#x7DE8;&#x8B6F;&#x9078;&#x9805;">16-3&#x3001;&#x7DE8;&#x8B6F;&#x9078;&#x9805;</h2>
 <p>&#x60F3;&#x770B;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x539F;&#x59CB;&#x78BC;&#x6642;&#xFF0C;&#x53EF;&#x5728; Makefile &#x7684; CFAGS &#x6307;&#x5B9A;&#x300C;-S&#x300D;&#xFF0C;&#x5982;&#x6B64;&#x5C31;&#x6703;&#x628A;&#x300C;-S&#x300D;&#x50B3;&#x7D66; gcc&#xFF0C;&#x4F7F;&#x5F97;&#x7DE8;&#x8B6F;&#x5DE5;&#x4F5C;&#x5728;&#x4E2D;&#x9014;&#x505C;&#x6B62;&#xFF0C;&#x4E26;&#x628A;&#x7522;&#x751F;&#x7684;&#x7D44;&#x5408;&#x8A9E;&#x8A00;&#x78BC;&#x5B58;&#x5230; -o &#x6307;&#x5B9A;&#x7684;&#x6A94;&#x6848;&#xFF1A;</p>
 <pre><code class="lang-sh">CFLAGS += -E -P
 CFILES = main.c 
@@ -15194,7 +15128,7 @@ clean:
         make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
 </code></pre>
 <p>&#x5982;&#x6B64;&#xFF0C;&#x5C31;&#x6703;&#x53EA;&#x6709;&#x5728;&#x7DE8;&#x8B6F;&#x300C;sub.c&#x300D;&#x6642;&#xFF0C;&#x6703;&#x50B3;&#x300C;-DDEBUG&#x300D;&#x7D66; gcc&#x3002; </p>
-<h2 id="16-4%E3%80%81%E5%89%8D%E7%BD%AE%E8%99%95%E7%90%86%E5%99%A8">16-4&#x3001;&#x524D;&#x7F6E;&#x8655;&#x7406;&#x5668;</h2>
+<h2 id="164&#x3001;&#x524D;&#x7F6E;&#x8655;&#x7406;&#x5668;">16-4&#x3001;&#x524D;&#x7F6E;&#x8655;&#x7406;&#x5668;</h2>
 <p>gcc &#x5728;&#x7DE8;&#x8B6F;&#x6642;&#xFF0C;&#x6703;&#x5F9E;&#x6307;&#x5B9A;&#x7684;&#x76EE;&#x9304;&#x5167;&#x5C0B;&#x627E; include &#x6A19;&#x982D;&#x6A94;&#x8F09;&#x5165;&#xFF0C;&#x9810;&#x8A2D;&#x7684;&#x8DEF;&#x5F91;&#x53EF;&#x4EE5;&#x9019;&#x500B;&#x6307;&#x4EE4;&#x5217;&#x51FA;&#xFF1A; </p>
 <pre><code class="lang-sh">cpp -v /dev/null
 </code></pre>
@@ -15221,7 +15155,7 @@ all:
 clean:
         make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
 </code></pre>
-<h2 id="16-5%E3%80%81printk-%E9%99%A4%E9%8C%AF">16-5&#x3001;printk &#x9664;&#x932F;</h2>
+<h2 id="165&#x3001;printk-&#x9664;&#x932F;">16-5&#x3001;printk &#x9664;&#x932F;</h2>
 <p>printk() &#x53EF;&#x4EE5;&#x5728;&#x4EFB;&#x4F55; context &#x4E2D;&#x4F7F;&#x7528;&#xFF0C;&#x56E0;&#x6B64;&#x4E5F;&#x80FD;&#x7528;&#x4F86;&#x8FFD;&#x7E31;&#x4E2D;&#x65B7;&#x8655;&#x7406;&#x7A0B;&#x5E8F;&#x3002; 
 &#x53EA;&#x662F; printk() &#x7684;&#x8F38;&#x51FA;&#x5167;&#x5BB9;&#x53EA;&#x6703;&#x5B58;&#x5230; kernel buffer(128KB)&#xFF0C;&#x5982;&#x679C;&#x6EFF;&#x4E86;&#xFF0C;&#x6703;&#x4E0D;&#x65B7;&#x84CB;&#x6389;&#x820A;&#x8CC7;&#x6599;&#x3002; </p>
 <p>user spacce &#x7684; klogd daemon &#x6703;&#x5B9A;&#x671F;&#x8B80;&#x53D6; /proc/kmsg &#xFF0C;&#x4E26;&#x5C07;&#x5167;&#x5BB9;&#x50B3;&#x7D66; syslogd&#xFF0C;&#x800C; syslogd &#x518D;&#x628A;&#x9019;&#x4E9B;&#x8A0A;&#x606F;&#x7576;&#x6210;&#x7CFB;&#x7D71;&#x8A18;&#x9304;&#x5B58;&#x5230; /var/log/messages&#x3002;</p>
@@ -15268,7 +15202,7 @@ module_exit(sample_exit);
 <p>&#x57F7;&#x884C;&#x9019;&#x500B;&#x7BC4;&#x4F8B;&#x7684;&#x8A71;&#xFF0C;&#x5C31;&#x53EA;&#x6703;&#x5728; kernel buffer &#x770B;&#x5230; 10 &#x500B;&#x8A0A;&#x606F;&#x3002; </p>
 <p>&#x958B;&#x59CB;&#x6291;&#x5236;&#x4E4B;&#x524D;&#x7684;&#x986F;&#x793A;&#x6B21;&#x6578;&#x53EF;&#x900F;&#x904E; /proc/sys/kernel/printk_ratelimit_burst &#x8A2D;&#x5B9A;&#xFF0C;&#x800C;&#x89E3;&#x9664;&#x6291;&#x5236;&#x7684;&#x6642;&#x9593;&#x53EF;&#x900F;&#x904E; /proc/sys/kernel/printk_ratelimit &#x8A2D;&#x5B9A;&#x3002; 
 &#x9019;&#x4E9B;&#x4F4D;&#x65BC; /proc/sys/kernel/* &#x7684;&#x8A2D;&#x5B9A;&#x9078;&#x9805;&#xFF0C;&#x53EF;&#x5728; Documentation/sysctl/kernel.txt &#x627E;&#x5230;&#x8A73;&#x7D30;&#x8AAA;&#x660E;&#x3002; </p>
-<h2 id="16-6%E3%80%81magic-sysrq-%E9%8D%B5">16-6&#x3001;Magic SysRq &#x9375;</h2>
+<h2 id="166&#x3001;magic-sysrq-&#x9375;">16-6&#x3001;Magic SysRq &#x9375;</h2>
 <p>&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x767C;&#x751F;&#x554F;&#x984C;&#xFF0C;&#x800C;&#x8B93;&#x6574;&#x500B; kernel &#x884C;&#x70BA;&#x602A;&#x7570;&#x7684;&#x8A71;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x300C;Magic SysRq &#x9375;&#x300D;&#xFF0C;Magic SysRq &#x662F;&#x900F;&#x904E;&#x7279;&#x5B9A;&#x6309;&#x9375;&#x65B9;&#x5F0F;&#x984C;&#x793A;&#x66AB;&#x5B58;&#x5668;&#x5167;&#x5BB9;&#x3001; process &#x72C0;&#x614B;&#x7684;&#x6A5F;&#x5236;&#x3002; 
 &#x555F;&#x52D5; Magic SysRq &#x7684;&#x65B9;&#x6CD5;&#x70BA;&#xFF1A; </p>
 <pre><code class="lang-sh"><span class="hljs-comment"># echo 1 &gt; /proc/sys/kernel/sysrq</span>
@@ -15282,7 +15216,7 @@ VGA    Alt+SysRq(Print Screen) + &#x6307;&#x4EE4;
 Serial console    Break&#x8A0A;&#x865F; + &#x6307;&#x4EE4;</p>
 <p>Serial console &#x50B3;&#x9001; break &#x8A0A;&#x865F;&#x7684;&#x65B9;&#x5F0F;&#x96A8;&#x7D42;&#x7AEF;&#x6A5F;&#x8EDF;&#x9AD4;&#x800C;&#x6709;&#x6240;&#x4E0D;&#x540C;&#xFF0C; TeraTerm &#x662F;&#x900F;&#x904E; Control &#x9078;&#x55AE;&#x9078;&#x64C7; send break&#xFF0C;minicom &#x5247;&#x662F;&#x6309;&#x300C;Ctrl+A&#x300D;&#x9375;&#x518D;&#x6309;&#x300C;F&#x300D;&#x3002; </p>
 <p>Magic SysRq &#x53EF;&#x7528;&#x7684;&#x8F14;&#x52A9;&#x6307;&#x4EE4;&#x96A8;&#x67B6;&#x69CB;&#x800C;&#x7570;&#xFF0C;&#x8AAA;&#x660E;&#x6587;&#x4EF6;&#x4F4D;&#x65BC; Documentation/sysrq.txt&#x3002; </p>
-<h2 id="16-7%E3%80%81oops-%E8%A8%8A%E6%81%AF">16-7&#x3001;oops &#x8A0A;&#x606F;</h2>
+<h2 id="167&#x3001;oops-&#x8A0A;&#x606F;">16-7&#x3001;oops &#x8A0A;&#x606F;</h2>
 <p>linux kernel &#x5167;&#x90E8;&#x767C;&#x751F;&#x67D0;&#x4E9B;&#x77DB;&#x76FE;&#x6642;&#xFF0C;&#x6703;&#x5728;&#x4E3B;&#x63A7;&#x81FA;&#x986F;&#x793A; oops &#x8A0A;&#x606F;(panic &#x8A0A;&#x606F;)&#x3002; 
 linux kernel &#x5728;&#x767C;&#x73FE;&#x81EA;&#x8EAB;&#x77DB;&#x76FE;&#x6642;&#xFF0C;&#x6703;&#x6642;&#x6703;&#x5224;&#x65B7;&#x7121;&#x6CD5;&#x4FDD;&#x8B49;&#x5F8C;&#x7E8C;&#x6B63;&#x5E38;&#x904B;&#x4F5C;&#xFF0C;&#x9019;&#x6642;&#x5C31;&#x6703;&#x660E;&#x78BA;&#x547C;&#x53EB; panic()&#xFF1A; </p>
 <pre><code class="lang-sh">NORET_TYPE void panic(const char * fmt, ...);
@@ -15292,12 +15226,12 @@ linux kernel &#x5728;&#x767C;&#x73FE;&#x81EA;&#x8EAB;&#x77DB;&#x76FE;&#x6642;&#x
 ro root=/dev/VolGroup00/LogVol00 rhgb quiet panic=10
 </code></pre>
 <p>&#x4E0A;&#x8FF0;&#x7684;&#x4F8B;&#x5B50;&#xFF0C;&#x6703;&#x5728; panic() &#x4E4B;&#x5F8C;10 &#x79D2;&#xFF0C;&#x91CD;&#x65B0;&#x555F;&#x52D5;&#x3002; </p>
-<h2 id="16-8%E3%80%81%E5%88%86%E6%9E%90-kernel-panic-%E6%83%85%E5%BD%A2">16-8&#x3001;&#x5206;&#x6790; kernel panic &#x60C5;&#x5F62;</h2>
+<h2 id="168&#x3001;&#x5206;&#x6790;-kernel-panic-&#x60C5;&#x5F62;">16-8&#x3001;&#x5206;&#x6790; kernel panic &#x60C5;&#x5F62;</h2>
 <p>linux kernel &#x5728; panic &#x5F8C;&#xFF0C;&#x8981;&#x5F9E;&#x7576;&#x6642;&#x7684;&#x6307;&#x4EE4;&#x6307;&#x6A19;(EIP) &#x8B58;&#x5225;&#x5C0D;&#x61C9;&#x7684;&#x6307;&#x4EE4;&#x6642;&#xFF0C;objdump &#x53EF;&#x4EE5;&#x6D3E;&#x4E0A;&#x7528;&#x5834;&#x3002; 
 &#x57F7;&#x884C; objdump &#x5373;&#x53EF;&#x5C07;&#x6307;&#x4EE4;&#x6307;&#x6A19;&#x9644;&#x8FD1;&#x7684;&#x6307;&#x4EE4;&#x53CD;&#x7D44;&#x8B6F;&#xFF0C;&#x9019;&#x6642;&#x9700;&#x8981;&#x5EFA;&#x69CB; kernel &#x6642;&#x7522;&#x751F;&#x7684;&#x300C;vmlinux&#x300D;&#x6A94;&#xFF0C;&#x4E0D;&#x80FD;&#x7528;&#x300C;vmlinuz&#x300D;&#xFF1A; </p>
 <pre><code class="lang-sh"><span class="hljs-comment"># objdump -d --start-address=0xc00f9e9c --stop-address=0xc00f9eec ./vmlinux</span>
 </code></pre>
-<h2 id="16-9%E3%80%81%E7%B5%90%E8%AA%9E">16-9&#x3001;&#x7D50;&#x8A9E;</h2>
+<h2 id="169&#x3001;&#x7D50;&#x8A9E;">16-9&#x3001;&#x7D50;&#x8A9E;</h2>
 <p>linux &#x89E3;&#x6790;&#x554F;&#x984C;&#x7684;&#x6A5F;&#x5236;&#x9084;&#x4E0D;&#x5920;&#x5145;&#x5BE6;&#xFF0C;&#x56E0;&#x6B64;&#x5728;&#x958B;&#x767C;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x6642;&#xFF0C;&#x9808;&#x4E0D;&#x65B7;&#x6478;&#x7D22;&#x89E3;&#x6C7A;&#x554F;&#x984C;&#x7684;&#x65B9;&#x5F0F;&#x3002; </p>
 
                     
@@ -15340,9 +15274,17 @@ ro root=/dev/VolGroup00/LogVol00 rhgb quiet panic=10
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

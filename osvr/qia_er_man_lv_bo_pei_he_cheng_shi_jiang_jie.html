@@ -8,7 +8,7 @@
         <title>卡爾曼濾波 配合程式 講解 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="39.4" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="39.4"
+        data-chapter-title="卡爾曼濾波 配合程式 講解"
+        data-filepath="osvr/qia_er_man_lv_bo_pei_he_cheng_shi_jiang_jie.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,7 +15051,7 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E5%8D%A1%E7%88%BE%E6%9B%BC%E6%BF%BE%E6%B3%A2-%E9%85%8D%E5%90%88%E7%A8%8B%E5%BC%8F-%E8%AC%9B%E8%A7%A3">&#x5361;&#x723E;&#x66FC;&#x6FFE;&#x6CE2; &#x914D;&#x5408;&#x7A0B;&#x5F0F; &#x8B1B;&#x89E3;</h1>
+                        <h1 id="&#x5361;&#x723E;&#x66FC;&#x6FFE;&#x6CE2;-&#x914D;&#x5408;&#x7A0B;&#x5F0F;-&#x8B1B;&#x89E3;">&#x5361;&#x723E;&#x66FC;&#x6FFE;&#x6CE2; &#x914D;&#x5408;&#x7A0B;&#x5F0F; &#x8B1B;&#x89E3;</h1>
 <pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> PI <span class="hljs-number">3.14159</span></span>
 <span class="hljs-comment">//&#x89D2;&#x5EA6;&#x53C3;&#x6578;</span>
 <span class="hljs-keyword">float</span> Angle, Angle_dot;   <span class="hljs-comment">//&#x5C0F;&#x8ECA;&#x6700;&#x7D42;&#x50BE;&#x659C;&#x89D2;&#x5EA6;&#x3001;&#x89D2;&#x901F;&#x5EA6;</span>
@@ -15194,14 +15128,14 @@
                   Angle_gX - <span class="hljs-number">0</span>);       <span class="hljs-comment">//&#x5361;&#x723E;&#x66FC;&#x6FFE;&#x6CE2;&#x8A08;&#x7B97;&#x50BE;&#x89D2;,&#x6E1B;&#x53BB;&#x96F6;&#x9EDE;&#x504F;&#x79FB;&#xFF0C;</span>
 }
 </code></pre>
-<h3 id="%E9%A6%96%E5%85%88%E6%98%AF%E5%8D%A1%E7%88%BE%E6%9B%BC%E6%BF%BE%E6%B3%A2%E7%9A%845%E5%80%8B%E6%96%B9%E7%A8%8B">&#x9996;&#x5148;&#x662F;&#x5361;&#x723E;&#x66FC;&#x6FFE;&#x6CE2;&#x7684;5&#x500B;&#x65B9;&#x7A0B;</h3>
+<h3 id="&#x9996;&#x5148;&#x662F;&#x5361;&#x723E;&#x66FC;&#x6FFE;&#x6CE2;&#x7684;5&#x500B;&#x65B9;&#x7A0B;">&#x9996;&#x5148;&#x662F;&#x5361;&#x723E;&#x66FC;&#x6FFE;&#x6CE2;&#x7684;5&#x500B;&#x65B9;&#x7A0B;</h3>
 <pre><code class="lang-sh">X(k|k-<span class="hljs-number">1</span>)=A X(k-<span class="hljs-number">1</span>|k-<span class="hljs-number">1</span>)+B U(k) &#x2026;&#x2026;&#x2026;.. (<span class="hljs-number">1</span>)//&#x5148;&#x9A57;&#x4F30;&#x8A08; 
 P(k|k-<span class="hljs-number">1</span>)=A P(k-<span class="hljs-number">1</span>|k-<span class="hljs-number">1</span>) A&#x2019;+Q &#x2026;&#x2026;&#x2026; (<span class="hljs-number">2</span>)//&#x5354;&#x65B9;&#x5DEE;&#x77E9;&#x9663;&#x7684;&#x9810;&#x6E2C; 
 Kg(k)= P(k|k-<span class="hljs-number">1</span>) H&#x2019; / (H P(k|k-<span class="hljs-number">1</span>) H&#x2019; + R) &#x2026;&#x2026;&#x2026; (<span class="hljs-number">3</span>)//&#x8A08;&#x7B97;&#x5361;&#x723E;&#x66FC;&#x589E;&#x76CA; 
 X(k|k)= X(k|k-<span class="hljs-number">1</span>)+Kg(k) (Z(k) - H X(k|k-<span class="hljs-number">1</span>)) &#x2026;&#x2026;&#x2026; (<span class="hljs-number">4</span>)&#x901A;&#x904E;&#x5361;&#x723E;&#x66FC;&#x589E;&#x76CA;&#x9032;&#x884C;&#x4FEE;&#x6B63; 
 P(k|k)=&#xFF08;I-Kg(k) H&#xFF09;P(k|k-<span class="hljs-number">1</span>) &#x2026;&#x2026;&#x2026; (<span class="hljs-number">5</span>)//&#x8DDF;&#x65B0;&#x5354;&#x65B9;&#x5DEE;&#x9663;
 </code></pre>
-<h3 id="%E5%8D%A1%E7%88%BE%E6%9B%BC%E6%BF%BE%E6%B3%A2%E7%9A%845%E5%80%8B%E6%96%B9%E7%A8%8B">&#x5361;&#x723E;&#x66FC;&#x6FFE;&#x6CE2;&#x7684;5&#x500B;&#x65B9;&#x7A0B;</h3>
+<h3 id="&#x5361;&#x723E;&#x66FC;&#x6FFE;&#x6CE2;&#x7684;5&#x500B;&#x65B9;&#x7A0B;">&#x5361;&#x723E;&#x66FC;&#x6FFE;&#x6CE2;&#x7684;5&#x500B;&#x65B9;&#x7A0B;</h3>
 <ol>
 <li>&#x9A57;&#x4F30;&#x8A08; </li>
 <li>&#x5354;&#x65B9;&#x5DEE;&#x77E9;&#x9663;&#x9810;&#x6E2C; </li>
@@ -15210,7 +15144,7 @@ P(k|k)=&#xFF08;I-Kg(k) H&#xFF09;P(k|k-<span class="hljs-number">1</span>) &#x202
 <li>&#x6839;&#x65B0;&#x5354;&#x65B9;&#x5DEE;&#x9663; </li>
 </ol>
 <p>5&#x500B;&#x5F0F;&#x5B50;&#x6BD4;&#x8F03;&#x62BD;&#x8C61;&#xFF0C;&#x73FE;&#x5728;&#x76F4;&#x63A5;&#x7528;&#x5BE6;&#x4F8B;&#x4F86;&#x8AAA; </p>
-<h3 id="%E2%80%94%EF%BC%8C%E5%B0%8D%E6%96%BC%E8%A7%92%E5%BA%A6%E4%BE%86%E8%AA%AA%EF%BC%8C%E6%88%91%E5%80%91%E8%AA%8D%E7%82%BA%E6%AD%A4%E6%99%82%E7%9A%84%E8%A7%92%E5%BA%A6%E5%8F%AF%E4%BB%A5%E8%BF%91%E4%BC%BC%E8%AA%8D%E7%82%BA%E6%98%AF%E4%B8%8A%E4%B8%80%E6%99%82%E5%88%BB%E7%9A%84%E8%A7%92%E5%BA%A6%E5%80%BC%E5%8A%A0%E4%B8%8A%E4%B8%8A%E4%B8%80%E6%99%82%E5%88%BB%E9%99%80%E8%9E%BA%E5%84%80%E6%B8%AC%E5%BE%97%E7%9A%84%E8%A7%92%E5%8A%A0%E9%80%9F%E5%BA%A6%E5%80%BC%E4%B9%98%E4%BB%A5%E6%99%82%E9%96%93%EF%BC%8C%E5%9B%A0%E7%82%BA-%EF%BC%8C%E8%A7%92%E5%BA%A6%E5%BE%AE%E5%88%86%E7%AD%89%E6%96%BC%E6%99%82%E9%96%93%E7%9A%84%E5%BE%AE%E5%88%86%E4%B9%98%E4%BB%A5%E8%A7%92%E9%80%9F%E5%BA%A6%E3%80%82">&#x2014;&#xFF0C;&#x5C0D;&#x65BC;&#x89D2;&#x5EA6;&#x4F86;&#x8AAA;&#xFF0C;&#x6211;&#x5011;&#x8A8D;&#x70BA;&#x6B64;&#x6642;&#x7684;&#x89D2;&#x5EA6;&#x53EF;&#x4EE5;&#x8FD1;&#x4F3C;&#x8A8D;&#x70BA;&#x662F;&#x4E0A;&#x4E00;&#x6642;&#x523B;&#x7684;&#x89D2;&#x5EA6;&#x503C;&#x52A0;&#x4E0A;&#x4E0A;&#x4E00;&#x6642;&#x523B;&#x9640;&#x87BA;&#x5100;&#x6E2C;&#x5F97;&#x7684;&#x89D2;&#x52A0;&#x901F;&#x5EA6;&#x503C;&#x4E58;&#x4EE5;&#x6642;&#x9593;&#xFF0C;&#x56E0;&#x70BA; &#xFF0C;&#x89D2;&#x5EA6;&#x5FAE;&#x5206;&#x7B49;&#x65BC;&#x6642;&#x9593;&#x7684;&#x5FAE;&#x5206;&#x4E58;&#x4EE5;&#x89D2;&#x901F;&#x5EA6;&#x3002;</h3>
+<h3 id="&#x2014;&#xFF0C;&#x5C0D;&#x65BC;&#x89D2;&#x5EA6;&#x4F86;&#x8AAA;&#xFF0C;&#x6211;&#x5011;&#x8A8D;&#x70BA;&#x6B64;&#x6642;&#x7684;&#x89D2;&#x5EA6;&#x53EF;&#x4EE5;&#x8FD1;&#x4F3C;&#x8A8D;&#x70BA;&#x662F;&#x4E0A;&#x4E00;&#x6642;&#x523B;&#x7684;&#x89D2;&#x5EA6;&#x503C;&#x52A0;&#x4E0A;&#x4E0A;&#x4E00;&#x6642;&#x523B;&#x9640;&#x87BA;&#x5100;&#x6E2C;&#x5F97;&#x7684;&#x89D2;&#x52A0;&#x901F;&#x5EA6;&#x503C;&#x4E58;&#x4EE5;&#x6642;&#x9593;&#xFF0C;&#x56E0;&#x70BA;-&#xFF0C;&#x89D2;&#x5EA6;&#x5FAE;&#x5206;&#x7B49;&#x65BC;&#x6642;&#x9593;&#x7684;&#x5FAE;&#x5206;&#x4E58;&#x4EE5;&#x89D2;&#x901F;&#x5EA6;&#x3002;">&#x2014;&#xFF0C;&#x5C0D;&#x65BC;&#x89D2;&#x5EA6;&#x4F86;&#x8AAA;&#xFF0C;&#x6211;&#x5011;&#x8A8D;&#x70BA;&#x6B64;&#x6642;&#x7684;&#x89D2;&#x5EA6;&#x53EF;&#x4EE5;&#x8FD1;&#x4F3C;&#x8A8D;&#x70BA;&#x662F;&#x4E0A;&#x4E00;&#x6642;&#x523B;&#x7684;&#x89D2;&#x5EA6;&#x503C;&#x52A0;&#x4E0A;&#x4E0A;&#x4E00;&#x6642;&#x523B;&#x9640;&#x87BA;&#x5100;&#x6E2C;&#x5F97;&#x7684;&#x89D2;&#x52A0;&#x901F;&#x5EA6;&#x503C;&#x4E58;&#x4EE5;&#x6642;&#x9593;&#xFF0C;&#x56E0;&#x70BA; &#xFF0C;&#x89D2;&#x5EA6;&#x5FAE;&#x5206;&#x7B49;&#x65BC;&#x6642;&#x9593;&#x7684;&#x5FAE;&#x5206;&#x4E58;&#x4EE5;&#x89D2;&#x901F;&#x5EA6;&#x3002;</h3>
 <p>&#x4F46;&#x662F;&#x9640;&#x87BA;&#x5100;&#x6709;&#x500B;&#x975C;&#x614B;&#x6F02;&#x79FB;&#xFF08;&#x800C;&#x4E14;&#x9084;&#x662F;&#x8B8A;&#x5316;&#x7684;&#xFF09;&#xFF0C;&#x975C;&#x614B;&#x6F02;&#x79FB;&#x5C31;&#x662F;&#x975C;&#x6B62;&#x4E86;&#x6C92;&#x6709;&#x89D2;&#x901F;&#x5EA6;&#x7136;&#x5F8C;&#x9640;&#x87BA;&#x5100;&#x4E5F;&#x6703;&#x8F38;&#x51FA;&#x4E00;&#x500B;&#x503C;&#xFF0C;&#x9019;&#x500B;&#x503C;&#x80AF;&#x5B9A;&#x662F;&#x6C92;&#x6709;&#x610F;&#x7FA9;&#x7684;&#xFF0C;&#x8A08;&#x7B97;&#x6642;&#x8981;&#x628A;&#x5B83;&#x6E1B;&#x53BB;&#x3002; 
 &#x7531;&#x6B64;&#x6211;&#x5011;&#x5F97;&#x5230;&#x4E86;&#x7576;&#x524D;&#x89D2;&#x5EA6;&#x7684;&#x9810;&#x6E2C;&#x503C; Angle </p>
 <pre><code>Angle=Angle+(Gyro - Q_bias) * dt;
@@ -15225,7 +15159,7 @@ P(k|k)=&#xFF08;I-Kg(k) H&#xFF09;P(k|k-<span class="hljs-number">1</span>) &#x202
 <pre><code class="lang-sh">X(k|k-<span class="hljs-number">1</span>)=A X(k-<span class="hljs-number">1</span>|k-<span class="hljs-number">1</span>)+B U(k) &#x2026;&#x2026;&#x2026;.. (<span class="hljs-number">1</span>)//&#x5148;&#x9A57;&#x4F30;&#x8A08;
 </code></pre>
 <p>X(k|k-1)&#x70BA;2&#x7DAD;&#x5217;&#x5411;&#x91CF; &#xFF0C;A&#x70BA;2&#x7DAD;&#x65B9;&#x9663; &#xFF0C;X(k-1|k-1)&#x70BA;2&#x7DAD;&#x5217;&#x5411;&#x91CF; &#xFF0C;B &#x70BA;2&#x7DAD;&#x5217;&#x5411;&#x91CF; &#xFF0C;U(k) &#x70BA;Gyro </p>
-<h3 id="%E4%BA%8C%EF%BC%8C%E9%80%99%E8%A3%A1%E6%98%AF%E5%8D%A1%E7%88%BE%E6%9B%BC%E6%BF%BE%E6%B3%A2%E7%9A%84%E7%AC%AC%E4%BA%8C%E5%80%8B%E5%BC%8F%E5%AD%90">&#x4E8C;&#xFF0C;&#x9019;&#x88E1;&#x662F;&#x5361;&#x723E;&#x66FC;&#x6FFE;&#x6CE2;&#x7684;&#x7B2C;&#x4E8C;&#x500B;&#x5F0F;&#x5B50;</h3>
+<h3 id="&#x4E8C;&#xFF0C;&#x9019;&#x88E1;&#x662F;&#x5361;&#x723E;&#x66FC;&#x6FFE;&#x6CE2;&#x7684;&#x7B2C;&#x4E8C;&#x500B;&#x5F0F;&#x5B50;">&#x4E8C;&#xFF0C;&#x9019;&#x88E1;&#x662F;&#x5361;&#x723E;&#x66FC;&#x6FFE;&#x6CE2;&#x7684;&#x7B2C;&#x4E8C;&#x500B;&#x5F0F;&#x5B50;</h3>
 <p>&#x63A5;&#x8457;&#x662F;&#x9810;&#x6E2C;&#x65B9;&#x5DEE;&#x9663;&#x7684;&#x9810;&#x6E2C;&#x503C;&#xFF0C;&#x9019;&#x88E1;&#x9996;&#x5148;&#x8981;&#x7D66;&#x51FA;&#x5169;&#x500B;&#x503C;&#xFF0C;&#x4E00;&#x500B;&#x662F;&#x6F02;&#x79FB;&#x7684;&#x566A;&#x8072;&#xFF0C;&#x4E00;&#x500B;&#x662F;&#x89D2;&#x5EA6;&#x503C;&#x7684;&#x566A;&#x8072;&#xFF0C;&#xFF08;&#x6240;&#x8B02;&#x566A;&#x8072;&#x5C31;&#x662F;&#x6578;&#x64DA;&#x7684;&#x65B9;&#x5DEE;&#x503C;&#xFF09; </p>
 <pre><code class="lang-sh">P(k|k-<span class="hljs-number">1</span>)=A P(k-<span class="hljs-number">1</span>|k-<span class="hljs-number">1</span>) A&#x2019;+Q
 </code></pre>
@@ -15253,7 +15187,7 @@ PP[<span class="hljs-number">0</span>][<span class="hljs-number">1</span>] += Pd
 PP[<span class="hljs-number">1</span>][<span class="hljs-number">0</span>] += Pdot[<span class="hljs-number">2</span>] * dt; 
 PP[<span class="hljs-number">1</span>][<span class="hljs-number">1</span>] += Pdot[<span class="hljs-number">3</span>] * dt;
 </code></pre>
-<h3 id="%E4%B8%89%EF%BC%8C%E9%80%99%E8%A3%A1%E6%98%AF%E5%8D%A1%E7%88%BE%E6%9B%BC%E6%BF%BE%E6%B3%A2%E7%9A%84%E7%AC%AC%E4%B8%89%E5%80%8B%E5%BC%8F%E5%AD%90">&#x4E09;&#xFF0C;&#x9019;&#x88E1;&#x662F;&#x5361;&#x723E;&#x66FC;&#x6FFE;&#x6CE2;&#x7684;&#x7B2C;&#x4E09;&#x500B;&#x5F0F;&#x5B50;</h3>
+<h3 id="&#x4E09;&#xFF0C;&#x9019;&#x88E1;&#x662F;&#x5361;&#x723E;&#x66FC;&#x6FFE;&#x6CE2;&#x7684;&#x7B2C;&#x4E09;&#x500B;&#x5F0F;&#x5B50;">&#x4E09;&#xFF0C;&#x9019;&#x88E1;&#x662F;&#x5361;&#x723E;&#x66FC;&#x6FFE;&#x6CE2;&#x7684;&#x7B2C;&#x4E09;&#x500B;&#x5F0F;&#x5B50;</h3>
 <pre><code class="lang-sh">Kg(k)= P(k|k-<span class="hljs-number">1</span>) H&#x2019; / (H P(k|k-<span class="hljs-number">1</span>) H&#x2019; + R) &#x2026;&#x2026;&#x2026; (<span class="hljs-number">3</span>)//&#x8A08;&#x7B97;&#x5361;&#x723E;&#x66FC;&#x589E;&#x76CA;
 </code></pre>
 <p>&#x5373;&#x8A08;&#x7B97;&#x5361;&#x723E;&#x66FC;&#x589E;&#x76CA;&#xFF0C;&#x9019;&#x662F;&#x500B;&#x4E8C;&#x7DAD;&#x5411;&#x91CF;&#x8A2D;&#x70BA; &#xFF0C;&#x9019;&#x88E1;&#x7684;      =  &#x70BA;&#x7531;&#x6B64;kg= 
@@ -15268,7 +15202,7 @@ E = R_angle + C_0 * PCt_0;
 <p>&#x5206;&#x5B50;<br>&#x65BC;&#x662F;&#x6C42;&#x51FA;  </p>
 <pre><code>K_0 = PCt_0 / E; 
 K_1 = PCt_1 / E;
-</code></pre><h3 id="%E5%9B%9B%EF%BC%8C%E7%94%A8%E8%AA%A4%E5%B7%AE%E9%82%84%E6%9C%89%E5%8D%A1%E7%88%BE%E6%9B%BC%E5%A2%9E%E7%9B%8A%E4%BE%86%E4%BF%AE%E6%AD%A3">&#x56DB;&#xFF0C;&#x7528;&#x8AA4;&#x5DEE;&#x9084;&#x6709;&#x5361;&#x723E;&#x66FC;&#x589E;&#x76CA;&#x4F86;&#x4FEE;&#x6B63;</h3>
+</code></pre><h3 id="&#x56DB;&#xFF0C;&#x7528;&#x8AA4;&#x5DEE;&#x9084;&#x6709;&#x5361;&#x723E;&#x66FC;&#x589E;&#x76CA;&#x4F86;&#x4FEE;&#x6B63;">&#x56DB;&#xFF0C;&#x7528;&#x8AA4;&#x5DEE;&#x9084;&#x6709;&#x5361;&#x723E;&#x66FC;&#x589E;&#x76CA;&#x4F86;&#x4FEE;&#x6B63;</h3>
 <pre><code>X(k|k)= X(k|k-1)+Kg(k) (Z(k) - H X(k|k-1)) &#x2026;&#x2026;&#x2026; (4)&#x901A;&#x904E;&#x5361;&#x723E;&#x66FC;&#x589E;&#x76CA;&#x9032;&#x884C;&#x4FEE;&#x6B63;
 </code></pre><p>&#x9019;&#x500B;&#x77E9;&#x9663;&#x5E36;&#x9032;&#x53BB;&#x5C31;&#x884C;&#x4E86;Z&#xFF08;k)=Accel.....&#x6CE8;&#x610F;&#x9019;&#x500B;&#x662F;&#x52A0;&#x901F;&#x5EA6;&#x8A08;&#x7B97;&#x51FA;&#x4F86;&#x7684;&#x89D2;&#x5EA6; </p>
 <pre><code class="lang-c">Angle_err = Accel - Angle;
@@ -15280,7 +15214,7 @@ Q_bias    += K_1 * Angle_err;
 <p>&#x540C;&#x6642;&#x70BA;&#x4E86;PID&#x63A7;&#x5236;&#x9084;&#x6709;&#x4E0B;&#x6B21;&#x7684;&#x4F7F;&#x7528;&#x628A;&#x89D2;&#x901F;&#x5EA6;&#x7B97;&#x51FA;&#x4F86;&#x4E86; </p>
 <pre><code class="lang-c">Gyro_x   = Gyro - Q_bias;
 </code></pre>
-<h3 id="%E4%BA%94%EF%BC%8C%E6%9C%80%E5%BE%8C%E4%B8%80%E6%AD%A5%E5%B0%8D%E7%9F%A9%E9%99%A3p%E9%80%B2%E8%A1%8C%E6%9B%B4%E6%96%B0%EF%BC%8C%E5%9B%A0%E7%82%BA%E4%B8%8B%E4%B8%80%E6%AC%A1%E6%BF%BE%E6%B3%A2%E6%99%82%E8%A6%81%E7%94%A8%E5%88%B0">&#x4E94;&#xFF0C;&#x6700;&#x5F8C;&#x4E00;&#x6B65;&#x5C0D;&#x77E9;&#x9663;P&#x9032;&#x884C;&#x66F4;&#x65B0;&#xFF0C;&#x56E0;&#x70BA;&#x4E0B;&#x4E00;&#x6B21;&#x6FFE;&#x6CE2;&#x6642;&#x8981;&#x7528;&#x5230;</h3>
+<h3 id="&#x4E94;&#xFF0C;&#x6700;&#x5F8C;&#x4E00;&#x6B65;&#x5C0D;&#x77E9;&#x9663;p&#x9032;&#x884C;&#x66F4;&#x65B0;&#xFF0C;&#x56E0;&#x70BA;&#x4E0B;&#x4E00;&#x6B21;&#x6FFE;&#x6CE2;&#x6642;&#x8981;&#x7528;&#x5230;">&#x4E94;&#xFF0C;&#x6700;&#x5F8C;&#x4E00;&#x6B65;&#x5C0D;&#x77E9;&#x9663;P&#x9032;&#x884C;&#x66F4;&#x65B0;&#xFF0C;&#x56E0;&#x70BA;&#x4E0B;&#x4E00;&#x6B21;&#x6FFE;&#x6CE2;&#x6642;&#x8981;&#x7528;&#x5230;</h3>
 <pre><code class="lang-c">PP[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] -= K_0 * t_0; 
 PP[<span class="hljs-number">0</span>][<span class="hljs-number">1</span>] -= K_0 * t_1; 
 PP[<span class="hljs-number">1</span>][<span class="hljs-number">0</span>] -= K_1 * t_0; 
@@ -15288,7 +15222,7 @@ PP[<span class="hljs-number">1</span>][<span class="hljs-number">1</span>] -= K_
 </code></pre>
 <pre><code>P(k|k)=&#xFF08;I-Kg(k) H&#xFF09;P(k|k-1) &#x2026;&#x2026;&#x2026; (5)//&#x8DDF;&#x9810;&#x6E2C;&#x65B9;&#x5DEE;&#x9663;
 </code></pre><p>&#x9019;&#x500B;&#x5F88;&#x7C21;&#x55AE;&#xFF0C;&#x77E9;&#x9663;&#x5E36;&#x9032;&#x53BB;&#x7B97;&#x5C31;&#x884C;&#x4E86; </p>
-<h3 id="%E5%85%AD%EF%BC%8C%E7%B8%BD%E7%B5%90">&#x516D;&#xFF0C;&#x7E3D;&#x7D50;</h3>
+<h3 id="&#x516D;&#xFF0C;&#x7E3D;&#x7D50;">&#x516D;&#xFF0C;&#x7E3D;&#x7D50;</h3>
 <p>&#x5361;&#x723E;&#x66FC;&#x6FFE;&#x6CE2;&#x4E00;&#x5171;&#x53EA;&#x9700;&#x8981;&#x7D66;&#x5F88;&#x5C11;&#x7684;&#x521D;&#x59CB;&#x503C;&#x91CF;&#xFF0C;</p>
 <pre><code class="lang-c"><span class="hljs-keyword">float</span>  Q_angle=<span class="hljs-number">0.001</span>;   
 <span class="hljs-keyword">float</span>  Q_gyro=<span class="hljs-number">0.003</span>; 
@@ -15341,9 +15275,17 @@ PP[<span class="hljs-number">1</span>][<span class="hljs-number">1</span>] -= K_
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

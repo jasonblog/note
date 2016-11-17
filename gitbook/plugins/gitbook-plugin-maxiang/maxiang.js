@@ -20,17 +20,16 @@ require(["gitbook"], function(gitbook) {
 
         html += '</div>';
 
-        //var nav = document.createElement("div");
-        //nav.className = "right-nav";
-        // nav.id = "js_right_nav";
-        //nav.innerHTML = html;
+        var nav = document.createElement("div");
+        nav.className = "right-nav";
+        nav.id = "js_right_nav";
+        nav.innerHTML = html;
 
-        //document.body.querySelector(".page-wrapper").appendChild(nav);
+        document.body.querySelector(".page-wrapper").appendChild(nav);
 
 
-        // var navLinks = document.body.querySelectorAll("#js_right_nav a");
+        var navLinks = document.body.querySelectorAll("#js_right_nav a");
 
-        /*
         //绑定事件
         nav.onclick = function(event){
 
@@ -45,7 +44,6 @@ require(["gitbook"], function(gitbook) {
         		event.target.className = "select";
         	}
         }
-        */
 
         document.querySelector("#js_right_nav .title .arrow").onclick = function(){
 

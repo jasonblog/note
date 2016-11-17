@@ -8,7 +8,7 @@
         <title>Application 效能分析有妙招 — 使用 perf 走天下 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="3.8.1" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="3.8.1"
+        data-chapter-title="Application 效能分析有妙招 — 使用 perf 走天下"
+        data-filepath="linux_tools/application_xiao_neng_fen_xi_you_miao_zhao__shi_yo.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,7 +15051,7 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="application-%E6%95%88%E8%83%BD%E5%88%86%E6%9E%90%E6%9C%89%E5%A6%99%E6%8B%9B-%E2%80%94-%E4%BD%BF%E7%94%A8-perf-%E8%B5%B0%E5%A4%A9%E4%B8%8B">Application &#x6548;&#x80FD;&#x5206;&#x6790;&#x6709;&#x5999;&#x62DB; &#x2014; &#x4F7F;&#x7528; perf &#x8D70;&#x5929;&#x4E0B;</h1>
+                        <h1 id="application-&#x6548;&#x80FD;&#x5206;&#x6790;&#x6709;&#x5999;&#x62DB;-&#x2014;-&#x4F7F;&#x7528;-perf-&#x8D70;&#x5929;&#x4E0B;">Application &#x6548;&#x80FD;&#x5206;&#x6790;&#x6709;&#x5999;&#x62DB; &#x2014; &#x4F7F;&#x7528; perf &#x8D70;&#x5929;&#x4E0B;</h1>
 <p>&#x5728;&#x624B;&#x6A5F;&#x4E0A;&#x9762;&#xFF0C;Application &#x7684;&#x5BE6;&#x4F5C;&#x5F80;&#x5F80;&#x6703;&#x5F71;&#x97FF;&#x5230;&#x6548;&#x80FD;&#x597D;&#x58DE;&#x4EE5;&#x53CA;&#x662F;&#x5426;&#x5920;&#x7701;&#x96FB;&#xFF0C;&#x5176;&#x4E2D; Application &#x7684; CPU &#x4F7F;&#x7528;&#x91CF;&#x6703;&#x662F;&#x4E00;&#x500B;&#x975E;&#x5E38;&#x95DC;&#x9375;&#x7684;&#x56E0;&#x7D20;&#x3002;</p>
 <p>&#x4EE5;&#x4E0B;&#x5C31;&#x62FF;&#x4F7F;&#x7528; Firefox OS &#x7684;&#x624B;&#x6A5F;&#x4F86;&#x505A;&#x8209;&#x4F8B;&#x8AAA;&#x660E;&#xFF0C;&#x9996;&#x5148;&#x900F;&#x904E;&#x4E0B;&#x9762;&#x7684; top &#x6307;&#x4EE4;&#xFF0C;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x6574;&#x9AD4; System &#x4EE5;&#x53CA; Application &#x7684; CPU &#x4F7F;&#x7528;&#x91CF;&#xFF0C;&#x6709;&#x52A9;&#x65BC;&#x77AD;&#x89E3; System &#x6216;&#x8005;&#x662F; Application &#x7684;&#x8CA0;&#x8F09;&#x3002;</p>
 <pre><code class="lang-sh">peter@pchang:~$ adb shell top <span class="hljs-operator">-s</span> cpu -m <span class="hljs-number">10</span> <span class="hljs-operator">-d</span> <span class="hljs-number">1</span>
@@ -15234,9 +15168,17 @@ peter@pchang:~$ perf report --symfs=/tmp/b2g_perf/system/ --sort dso,symbol
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

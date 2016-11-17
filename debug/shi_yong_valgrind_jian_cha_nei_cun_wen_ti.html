@@ -8,7 +8,7 @@
         <title>使用valgrind檢查內存問題 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="34.7" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="34.7"
+        data-chapter-title="使用valgrind檢查內存問題"
+        data-filepath="debug/shi_yong_valgrind_jian_cha_nei_cun_wen_ti.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,7 +15051,7 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E4%BD%BF%E7%94%A8valgrind%E6%AA%A2%E6%9F%A5%E5%85%A7%E5%AD%98%E5%95%8F%E9%A1%8C">&#x4F7F;&#x7528;valgrind&#x6AA2;&#x67E5;&#x5167;&#x5B58;&#x554F;&#x984C;</h1>
+                        <h1 id="&#x4F7F;&#x7528;valgrind&#x6AA2;&#x67E5;&#x5167;&#x5B58;&#x554F;&#x984C;">&#x4F7F;&#x7528;valgrind&#x6AA2;&#x67E5;&#x5167;&#x5B58;&#x554F;&#x984C;</h1>
 <p>&#x5DE5;&#x6B32;&#x5584;&#x5176;&#x4E8B;&#xFF0C;&#x5FC5;&#x5148;&#x5229;&#x5176;&#x5668;&#x3002;Valgrind&#x4F5C;&#x70BA;&#x4E00;&#x500B;&#x514D;&#x8CBB;&#x4E14;&#x512A;&#x79C0;&#x7684;&#x5DE5;&#x5177;&#x5305;&#xFF0C;&#x5E73;&#x6642;&#x5927;&#x90E8;&#x5206;&#x4EBA;&#x53EF;&#x80FD;&#x90FD;&#x662F;&#x4F7F;&#x7528;valgrind&#x6AA2;&#x6E2C;&#x5167;&#x5B58;&#x554F;&#x984C;&#xFF0C;&#x5982;&#x5167;&#x5B58;&#x6D29;&#x9732;&#xFF0C;&#x8D8A;&#x754C;&#x7B49;&#x3002;&#x5176;&#x5BE6;Valgrind&#x7684;&#x7528;&#x9014;&#x9060;&#x4E0D;&#x6B62;&#x65BC;&#x6B64;&#xFF0C;&#x5176;&#x5BE6;&#x969B;&#x4E0A;&#x70BA;&#x4E00;&#x500B;&#x5DE5;&#x5177;&#x5305;&#xFF0C;&#x9664;&#x4E86;&#x6AA2;&#x67E5;&#x5167;&#x5B58;&#x554F;&#x984C;&#x4EE5;&#x5916;&#xFF0C;&#x9084;&#x6709;&#x5176;&#x5B83;&#x591A;&#x9805;&#x7528;&#x9014;&#x3002;&#x6211;&#x6E96;&#x5099;&#x5C07;&#x5176;&#x5927;&#x81F4;&#x4ECB;&#x7D39;&#x4E00;&#x4E0B;&#x3002;&#x672C;&#x4E0D;&#x60F3;&#x518D;&#x4ECB;&#x7D39;Valgrind&#x6AA2;&#x6E2C;&#x5167;&#x5B58;&#x554F;&#x984C;&#x7684;&#x7528;&#x6CD5;&#x7684;&#xFF0C;&#x4F46;&#x662F;&#x53C8;&#x4E00;&#x60F3;&#xFF0C;&#x7562;&#x7ADF;&#x9019;&#x662F;Valgrind&#x7684;&#x4E00;&#x500B;&#x6700;&#x6709;&#x540D;&#x7684;&#x7528;&#x9014;&#xFF0C;&#x5982;&#x679C;&#x5C11;&#x4E86;&#x5B83;&#xFF0C;&#x4E0D;&#x514D;&#x6709;&#x4E9B;&#x907A;&#x61BE;&#xFF0C;&#x6240;&#x4EE5;&#x9084;&#x662F;&#x628A;&#x6AA2;&#x67E5;&#x5167;&#x5B58;&#x554F;&#x984C;&#x4F5C;&#x70BA;&#x7B2C;&#x4E00;&#x7BC7;&#x5427;&#x3002;</p>
 <p>&#x8ACB;&#x770B;&#x4E00;&#x4E0B;&#x4EE3;&#x78BC;&#xFF1A;</p>
 <pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
@@ -15312,9 +15246,17 @@
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

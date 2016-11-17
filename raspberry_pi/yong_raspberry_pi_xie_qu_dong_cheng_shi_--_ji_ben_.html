@@ -8,7 +8,7 @@
         <title>用 Raspberry pi 寫驅動程式 -- 基本觀念 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="30.12" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="30.12"
+        data-chapter-title="用 Raspberry pi 寫驅動程式 -- 基本觀念"
+        data-filepath="raspberry_pi/yong_raspberry_pi_xie_qu_dong_cheng_shi_--_ji_ben_.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,7 +15051,7 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E7%94%A8-raspberry-pi-%E5%AF%AB%E9%A9%85%E5%8B%95%E7%A8%8B%E5%BC%8F-%E5%9F%BA%E6%9C%AC%E8%A7%80%E5%BF%B5">&#x7528; Raspberry pi &#x5BEB;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F; -- &#x57FA;&#x672C;&#x89C0;&#x5FF5;</h1>
+                        <h1 id="&#x7528;-raspberry-pi-&#x5BEB;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;--&#x57FA;&#x672C;&#x89C0;&#x5FF5;">&#x7528; Raspberry pi &#x5BEB;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F; -- &#x57FA;&#x672C;&#x89C0;&#x5FF5;</h1>
 <p>&#x7576;&#x4F60;&#x8981;&#x9A45;&#x52D5;&#x4E00;&#x500B;&#x786C;&#x9AD4;&#xFF0C;&#x7121;&#x8AD6;&#x662F;&#x7C21;&#x55AE;&#x7684;&#x9084;&#x662F;&#x8907;&#x96DC;&#x7684;&#xFF0C;&#x5FC5;&#x9808;&#x8981;&#x8003;&#x616E;&#xFF1A;</p>
 <ul>
 <li>&#x4F7F;&#x7528;&#x8005;&#x8981;&#x5982;&#x4F55;&#x53BB;&#x547C;&#x53EB;&#x9019;&#x500B;&#x786C;&#x9AD4;&#xFF0C;&#x4EE5;&#x4FBF;&#x8B93;&#x7CFB;&#x7D71;&#x8A31;&#x53EF;&#x4F7F;&#x7528;(system call, ioctl)</li>
@@ -15142,7 +15076,7 @@
 <p>&#x4E0B;&#x5716;&#x662F;&#x88DC;&#x5145;&#x64EC;&#x4EBA;&#x5316;&#x6558;&#x8FF0;&#x6C92;&#x6CD5;&#x8AAA;&#x660E;&#x7684;&#x90E8;&#x4EFD;(&#x5716;&#x7247;&#x4F86;&#x6E90;&#xFF1A;&#x53C3;&#x8003;&#x8CC7;&#x6599;2.)</p>
 <p><img src="images/system_call.jpg" alt=""></p>
 <p>&#x7576;&#x4F7F;&#x7528;&#x8005;&#x8981;&#x4F7F;&#x7528;&#x7CFB;&#x7D71;&#x7684;&#x4E00;&#x500B;&#x88DD;&#x7F6E;(device)&#xFF0C;&#x7CFB;&#x7D71;&#x5FC5;&#x9808;&#x6709;&#x4E00;&#x500B;&#x76F8;&#x61C9;&#x7684;&#x5B57;&#x7B26;&#x88DD;&#x7F6E;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;(character device driver&#xFF0C;&#x9019;&#x4E5F;&#x5C31;&#x662F;&#x6211;&#x5011;&#x73FE;&#x5728;&#x8981;&#x5B78;&#x7684;)&#xFF0C;&#x800C;&#x9019;&#x500B;character device driver &#x6703;&#x5728;&#x865B;&#x64EC;&#x6A94;&#x6848;&#x7CFB;&#x7D71;(virtual file system)&#x5275;&#x9020;&#x4E00;&#x500B;&#x5B57;&#x7B26;&#x88DD;&#x7F6E;&#x6A94;&#x6848;(character device file)&#xFF0C;&#x4F8B;&#x5982;&#x672C;&#x6587;&#x7684;/dev/video0&#x6216;&#x6211;&#x5011;&#x4E0B;&#x4E00;&#x7BC7;&#x6703;&#x5EFA;&#x7ACB;&#x7684;/dev/LED_0&#xFF0C;&#x4F7F;&#x7528;&#x8005;&#x5C31;&#x80FD;&#x900F;&#x904E;&#x958B;&#x555F;&#x6B64;&#x865B;&#x64EC;&#x6A94;&#x6848;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x544A;&#x8A34;&#x7CFB;&#x7D71;&#x4ED6;&#x60F3;&#x8981;&#x9019;&#x88DD;&#x88FD;&#x4F5C;&#x4EC0;&#x9EBC;&#xFF0C;&#x7CFB;&#x7D71;&#x518D;&#x4F9D;&#x7167;&#x5B57;&#x7B26;&#x88DD;&#x7F6E;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684;&#x8A2D;&#x5B9A;&#x6C7A;&#x5B9A;&#x8981;&#x600E;&#x9EBC;&#x56DE;&#x61C9;&#x3002;</p>
-<h2 id="%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99%EF%BC%9A">&#x53C3;&#x8003;&#x8CC7;&#x6599;&#xFF1A;</h2>
+<h2 id="&#x53C3;&#x8003;&#x8CC7;&#x6599;&#xFF1A;">&#x53C3;&#x8003;&#x8CC7;&#x6599;&#xFF1A;</h2>
 <p>Linux &#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x89C0;&#x5FF5;&#x89E3;&#x6790;, #1: &#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684;&#x5927;&#x67B6;&#x69CB;</p>
 <p><a href="http://www.jollen.org/blog/2006/05/linux_1.html" target="_blank">http://www.jollen.org/blog/2006/05/linux_1.html</a>
 Character device drivers</p>
@@ -15188,9 +15122,17 @@ Character device drivers</p>
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

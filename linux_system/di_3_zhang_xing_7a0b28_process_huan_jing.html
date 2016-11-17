@@ -8,7 +8,7 @@
         <title>第3章 行程(process)環境 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="13.45" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="13.45"
+        data-chapter-title="第3章 行程(process)環境"
+        data-filepath="linux_system/di_3_zhang_xing_7a0b28_process_huan_jing.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,7 +15051,7 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E7%AC%AC3%E7%AB%A0-%E8%A1%8C%E7%A8%8B-process-%E7%92%B0%E5%A2%83">&#x7B2C;3&#x7AE0; &#x884C;&#x7A0B;(process)&#x74B0;&#x5883;</h1>
+                        <h1 id="&#x7B2C;3&#x7AE0;-&#x884C;&#x7A0B;process&#x74B0;&#x5883;">&#x7B2C;3&#x7AE0; &#x884C;&#x7A0B;(process)&#x74B0;&#x5883;</h1>
 <p>===
 :::info
 &#x74B0;&#x5883;&#x8A2D;&#x5B9A;</p>
@@ -15131,17 +15065,17 @@ kernel : 4.8.1
 glibc : 2.23
 :::
 <strong>1.&#x5F9E;&#x5B98;&#x7DB2;&#x6293;buildroot &#x4E0B;&#x4F86;</strong></p>
-<h6 id="git-clone-git-git-buildroot-net-buildroot">git clone git://git.buildroot.net/buildroot</h6>
+<h6 id="git-clone-gitgitbuildrootnetbuildroot">git clone git://git.buildroot.net/buildroot</h6>
 <p><strong>2.&#x63A8;&#x5230;&#x81EA;&#x5DF1;&#x7684;github</strong>
 <strong>2.1 &#x5148;&#x5728;&#x81EA;&#x5DF1;&#x7684;github&#x5E33;&#x865F;&#x5EFA;&#x7ACB;&#x4E00;&#x500B;repository (wayling/buildroot)</strong>
 <strong>2.2 &#x6539;&#x8B8A;remote url</strong></p>
-<h6 id="git-remote-set-url-origin-https-github-com-wayling-buildroot-git">git remote set-url origin <a href="https://github.com/wayling/buildroot.git" target="_blank">https://github.com/wayling/buildroot.git</a></h6>
-<h6 id="git-remote-v-%E6%AA%A2%E6%9F%A5%E4%B8%80%E4%B8%8B">git remote -v (&#x6AA2;&#x67E5;&#x4E00;&#x4E0B;)</h6>
-<h6 id="git-push-u-origin-master-%E4%B8%8A%E5%82%B3">git push -u origin master (&#x4E0A;&#x50B3;)</h6>
+<h6 id="git-remote-seturl-origin-httpsgithubcomwaylingbuildrootgit">git remote set-url origin <a href="https://github.com/wayling/buildroot.git" target="_blank">https://github.com/wayling/buildroot.git</a></h6>
+<h6 id="git-remote-v-&#x6AA2;&#x67E5;&#x4E00;&#x4E0B;">git remote -v (&#x6AA2;&#x67E5;&#x4E00;&#x4E0B;)</h6>
+<h6 id="git-push-u-origin-master-&#x4E0A;&#x50B3;">git push -u origin master (&#x4E0A;&#x50B3;)</h6>
 <p><strong>2.3&#x53BB;github &#x6AA2;&#x67E5;&#x4E00;&#x4E0B;</strong>
 <a href="https://github.com/wayling/buildroot" target="_blank">https://github.com/wayling/buildroot</a></p>
 <p><strong>3.&#x4F7F;&#x7528;buildroot</strong></p>
-<h6 id="make-qemu-x86-defconfig-%E6%88%96%E6%98%AF%E4%BD%BF%E7%94%A8%E6%88%91%E4%BF%AE%E6%94%B9%E9%81%8E%E7%9A%84qemu-study-x86-defconfig">make qemu_x86_defconfig (&#x6216;&#x662F;&#x4F7F;&#x7528;&#x6211;&#x4FEE;&#x6539;&#x904E;&#x7684;qemu_study_x86_defconfig)</h6>
+<h6 id="make-qemux86defconfig-&#x6216;&#x662F;&#x4F7F;&#x7528;&#x6211;&#x4FEE;&#x6539;&#x904E;&#x7684;qemustudyx86defconfig">make qemu_x86_defconfig (&#x6216;&#x662F;&#x4F7F;&#x7528;&#x6211;&#x4FEE;&#x6539;&#x904E;&#x7684;qemu_study_x86_defconfig)</h6>
 <p><strong>3.1 &#x9078;&#x64C7;&#x81EA;&#x5DF1;&#x559C;&#x6B61;&#x7684;&#x9078;&#x9805;</strong></p>
 <h6 id="make-menuconfig">make menuconfig</h6>
 <p>gdb/gdbserver/strace &#x61C9;&#x8A72;&#x662F;&#x57FA;&#x672C;&#x6B3E;,&#x883B;&#x597D;&#x7528;&#x7684;,&#x53EF;&#x4EE5;&#x8FFD;glibc&#x5BE6;&#x969B;&#x547C;&#x53EB;&#x7684;syscall
@@ -15156,7 +15090,7 @@ debug&#x9078;&#x9805;&#x8A18;&#x5F97;&#x8981;&#x958B;</p>
 [Target packages] -&gt; [Debugging, profiling and benchmark]-&gt;[strace]
 [Target packages] -&gt; [System tools] -&gt; [htop]
 </code></pre><p><strong>3.2 &#x9078;&#x64C7;</strong></p>
-<h6 id="make-linux-menuconfig">make linux-menuconfig</h6>
+<h6 id="make-linuxmenuconfig">make linux-menuconfig</h6>
 <pre><code>[Kernel hacking]-&gt;[Kernel debugging]
 [Compile-time checks and compiler options]-&gt;[Compile the kernel with debug info]
 </code></pre><p><strong>3.3</strong></p>
@@ -15167,10 +15101,10 @@ debug&#x9078;&#x9805;&#x8A18;&#x5F97;&#x8981;&#x958B;</p>
 &#x57F7;&#x884C;build package&#x5C31;&#x6703;&#x53BB;&#x7DE8;&#x8B6F;&#x7136;&#x5F8C;&#x7522;&#x751F;&#x5230;buildroot target</p>
 <h6 id="make-helloworld">make helloworld</h6>
 <p><strong>3.4 debug userspace &#x7A0B;&#x5F0F;&#x9700;&#x8981;&#x4F7F;&#x7528;gdbserver</strong></p>
-<h6 id="qemu-system-i386-kernel-output-images-bzimage-hda-output-images-rootfs-ext2-append-root-dev-sda-net-nic-model-virtio-net-user-redir-tcp-5556-10-0-2-15-5566">qemu-system-i386 --kernel output/images/bzImage --hda output/images/rootfs.ext2 --append &quot;root=/dev/sda&quot; -net nic,model=virtio -net user  -redir tcp:5556:10.0.2.15:5566</h6>
+<h6 id="qemusystemi386-kernel-outputimagesbzimage-hda-outputimagesrootfsext2-append-rootdevsda-net-nicmodelvirtio-net-user--redir-tcp55561002155566">qemu-system-i386 --kernel output/images/bzImage --hda output/images/rootfs.ext2 --append &quot;root=/dev/sda&quot; -net nic,model=virtio -net user  -redir tcp:5556:10.0.2.15:5566</h6>
 <p><strong>3.4.1</strong>
 &#x767B;&#x5165;qemu &#x88E1;&#x7684;&#x5E33;&#x865F; (root)</p>
-<h6 id="gdbserver-10-0-2-15-5556-helloworld">gdbserver 10:0.2.15:5556 ./helloworld</h6>
+<h6 id="gdbserver-1002155556-helloworld">gdbserver 10:0.2.15:5556 ./helloworld</h6>
 <p>&#x958B;&#x555F;&#x53E6;&#x4E00;&#x500B;terminal
 &#x9032;&#x5165; buildroot/target/root</p>
 <h6 id="gdb-helloworld">gdb ./helloworld</h6>
@@ -15217,7 +15151,7 @@ Breakpoint 1, _start () at ../sysdeps/i386/start.S:61
 65           later in __libc_start_main.  */
 (gdb)
 </code></pre><p><strong>3.5 debug kernel ,&#x7D50;&#x5408;&#x81EA;&#x5DF1;&#x5BEB;&#x7684;&#x7BC4;&#x4F8B;</strong></p>
-<h6 id="qemu-system-i386-kernel-output-images-bzimage-hda-output-images-rootfs-ext2-append-root-dev-sda-s-s">qemu-system-i386 --kernel output/images/bzImage --hda output/images/rootfs.ext2 --append &quot;root=/dev/sda&quot; -S -s</h6>
+<h6 id="qemusystemi386-kernel-outputimagesbzimage-hda-outputimagesrootfsext2-append-rootdevsda-s-s">qemu-system-i386 --kernel output/images/bzImage --hda output/images/rootfs.ext2 --append &quot;root=/dev/sda&quot; -S -s</h6>
 <p>&#x958B;&#x555F;&#x53E6;&#x4E00;&#x500B;terminal
 &#x9032;&#x5165;buildroot/output/linux-4.8.1</p>
 <h6 id="gdb-vmlinux">gdb ./vmlinux</h6>
@@ -15256,17 +15190,17 @@ Breakpoint 1, do_group_exit (exit_code=0) at kernel/exit.c:931
 934        BUG_ON(exit_code &amp; 0x80); /* core dumps don&apos;t get here */
 935    
 (gdb)
-</code></pre><h1 id="3-1-main%E6%98%AFc%E7%A8%8B%E5%BC%8F%E7%9A%84%E9%96%8B%E5%A7%8B%E5%97%8E">3.1 main&#x662F;C&#x7A0B;&#x5F0F;&#x7684;&#x958B;&#x59CB;&#x55CE;?</h1>
+</code></pre><h1 id="31-main&#x662F;c&#x7A0B;&#x5F0F;&#x7684;&#x958B;&#x59CB;&#x55CE;">3.1 main&#x662F;C&#x7A0B;&#x5F0F;&#x7684;&#x958B;&#x59CB;&#x55CE;?</h1>
 <p>Linux&#x4E0A;&#x7A0B;&#x5F0F;&#x57F7;&#x884C;&#x6709;&#x5F88;&#x591A;&#x884C;&#x70BA;&#x53EF;&#x4EE5;&#x63A2;&#x8A0E;,&#x8981;&#x5B8C;&#x6574;&#x4E32;&#x8D77;&#x4F86;&#x4E0D;&#x662F;&#x4E00;&#x4EF6;&#x7C21;&#x55AE;&#x7684;&#x4E8B;</p>
 <ul>
-<li><h4 id="%E5%9F%B7%E8%A1%8C%E6%AA%94%E7%A8%8B%E7%94%9F">&#x57F7;&#x884C;&#x6A94;&#x7A0B;&#x751F;</h4>
+<li><h4 id="&#x57F7;&#x884C;&#x6A94;&#x7A0B;&#x751F;">&#x57F7;&#x884C;&#x6A94;&#x7A0B;&#x751F;</h4>
 </li>
 </ul>
 <p>&#x7DE8;&#x8B6F; -&gt; &#x7D44;&#x8B6F; -&gt; &#x9023;&#x7D50; -&gt; &#x57F7;&#x884C;&#x6A94;(ELF)|
 |-</p>
 <p>&#x7DE8;&#x8B6F;&#x5668;&#x8AB2;&#x672C;</p>
 <ul>
-<li><h4 id="%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1">&#x4F5C;&#x696D;&#x7CFB;&#x7D71;</h4>
+<li><h4 id="&#x4F5C;&#x696D;&#x7CFB;&#x7D71;">&#x4F5C;&#x696D;&#x7CFB;&#x7D71;</h4>
 </li>
 </ul>
 <p>user space -&gt; kernel space|
@@ -15276,7 +15210,7 @@ Breakpoint 1, do_group_exit (exit_code=0) at kernel/exit.c:931
 <li>Understanding the Linux Kernel, Third Edition</li>
 <li><p>Professional Linux Kernel Architecture</p>
 </li>
-<li><h4 id="%E5%9F%B7%E8%A1%8C%E6%AA%94%E5%9F%B7%E8%A1%8C">&#x57F7;&#x884C;&#x6A94;&#x57F7;&#x884C;</h4>
+<li><h4 id="&#x57F7;&#x884C;&#x6A94;&#x57F7;&#x884C;">&#x57F7;&#x884C;&#x6A94;&#x57F7;&#x884C;</h4>
 <p>loader  -&gt; &#x57F7;&#x884C;&#x6A94;(ELF)|
 |-</p>
 </li>
@@ -15292,7 +15226,7 @@ Breakpoint 1, do_group_exit (exit_code=0) at kernel/exit.c:931
 </ul>
 <p>&#x7B2C;1&#x500B;&#x7BC4;&#x4F8B;</p>
 <p>&#x624B;&#x52D5;&#x7DE8;&#x8B6F;&#x4E00;&#x4E0B;</p>
-<h6 id="-home-wayling-kernel-study-study-buildroot-output-host-usr-bin-i686-buildroot-linux-gnu-gcc-g-v-o-before-exe-before-c">/home/wayling/kernel_study/study/buildroot/output/host/usr/bin/i686-buildroot-linux-gnu-gcc -g -v -o before.exe before.c</h6>
+<h6 id="homewaylingkernelstudystudybuildrootoutputhostusrbini686buildrootlinuxgnugcc-g-v-o-beforeexe-beforec">/home/wayling/kernel_study/study/buildroot/output/host/usr/bin/i686-buildroot-linux-gnu-gcc -g -v -o before.exe before.c</h6>
 <p>:::warning
 collect2(gcc tool)
 dynamic-linker /lib/ld-linux.so.2(glibc)
@@ -15304,7 +15238,7 @@ crtn.o(glibc) -&gt; (/sysdeps/i386/crtn.S
 ldscript -&gt; (gcc ,output/host/usr/lib/ldscripts/elf_i386.xdw)
 :::</p>
 <p>&#x6211;&#x5011;&#x4F86;&#x6AA2;&#x67E5;&#x4E00;&#x4E0B;segment</p>
-<h6 id="objdump-l-before-exe">objdump -l ./before.exe</h6>
+<h6 id="objdump-l-beforeexe">objdump -l ./before.exe</h6>
 <pre><code>Section to Segment mapping:
   Segment Sections...
    00     
@@ -15317,13 +15251,13 @@ ame
    05     .note.ABI-tag 
    06     .eh_frame_hdr 
    07
-</code></pre><h6 id="objdump-s-j-ctors-before-exe">objdump -s -j .ctors ./before.exe</h6>
+</code></pre><h6 id="objdump-s-j-ctors-beforeexe">objdump -s -j .ctors ./before.exe</h6>
 <pre><code>Contents of section .ctors:
  804967c ffffffff e3830408 f7830408 0b840408  ................
  804968c 00000000                             ....
 </code></pre><p>.ctors section &#x793A;&#x610F;&#x5716;:</p>
 <p><img src="images/qlABJPO.png" alt=""></p>
-<h4 id="%E5%9F%B7%E8%A1%8C%E6%B5%81%E7%A8%8B">&#x57F7;&#x884C;&#x6D41;&#x7A0B;</h4>
+<h4 id="&#x57F7;&#x884C;&#x6D41;&#x7A0B;">&#x57F7;&#x884C;&#x6D41;&#x7A0B;</h4>
 <p>_start () at ../sysdeps/i386/start.S
 <strong>libc_start_main at ../csu/libc-start.c
 </strong>libc_csu_init ../csu/libc-start.c
@@ -15339,7 +15273,7 @@ _init () at ../sysdeps/i386/crtn.S</p>
 <p><a href="http://dbp-consulting.com/tutorials/debugging/linuxProgramStartup.html" target="_blank">http://dbp-consulting.com/tutorials/debugging/linuxProgramStartup.html</a></p>
 <p>PEFA -- debug tool
 <a href="http://www.ropshell.com/peda/Linux_Interactive_Exploit_Development_with_GDB_and_PEDA_Slides.pdf" target="_blank">http://www.ropshell.com/peda/Linux_Interactive_Exploit_Development_with_GDB_and_PEDA_Slides.pdf</a></p>
-<h1 id="3-2-%E7%8C%B4%E8%B3%BD%E9%9B%B7-exit">3.2 &quot;&#x7334;&#x8CFD;&#x96F7;&quot; exit</h1>
+<h1 id="32-&#x7334;&#x8CFD;&#x96F7;-exit">3.2 &quot;&#x7334;&#x8CFD;&#x96F7;&quot; exit</h1>
 <p><img src="images/wVXt5gx.png" alt=""></p>
 <p>&#x5BEB;demo&#x7A0B;&#x5F0F;&#x53BB;&#x8FFD;code
 1.test_fork.exe
@@ -15423,10 +15357,10 @@ __run_exit_handlers (int status, struct exit_function_list **listp,
   _exit (status);
 }
 </code></pre>
-<h1 id="3-3-atexit%E4%BB%8B%E7%B4%B9">3.3 atexit&#x4ECB;&#x7D39;</h1>
-<h1 id="3-3-1-%E4%BD%BF%E7%94%A8atexit">3.3.1 &#x4F7F;&#x7528;atexit </h1>
-<h1 id="3-3-2-atexit%E7%9A%84%E4%BE%B7%E9%99%90%E6%80%A7">3.3.2 atexit&#x7684;&#x4FB7;&#x9650;&#x6027;</h1>
-<h1 id="3-3-3-atexit%E7%9A%84%E5%AF%A6%E7%8F%BE%E6%A9%9F%E5%88%B6">3.3.3 atexit&#x7684;&#x5BE6;&#x73FE;&#x6A5F;&#x5236; </h1>
+<h1 id="33-atexit&#x4ECB;&#x7D39;">3.3 atexit&#x4ECB;&#x7D39;</h1>
+<h1 id="331-&#x4F7F;&#x7528;atexit-">3.3.1 &#x4F7F;&#x7528;atexit </h1>
+<h1 id="332-atexit&#x7684;&#x4FB7;&#x9650;&#x6027;">3.3.2 atexit&#x7684;&#x4FB7;&#x9650;&#x6027;</h1>
+<h1 id="333-atexit&#x7684;&#x5BE6;&#x73FE;&#x6A5F;&#x5236;-">3.3.3 atexit&#x7684;&#x5BE6;&#x73FE;&#x6A5F;&#x5236; </h1>
 <p><img src="images/j027Vjo.png" alt=""></p>
 <pre><code class="lang-clike=">int
 #ifndef atexit
@@ -15528,7 +15462,7 @@ __new_exitfn (struct exit_function_list **listp)
   return r;
 }
 </code></pre>
-<h1 id="3-4-%E5%B0%8F%E5%BF%83%E4%BD%BF%E7%94%A8%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8">3.4 &#x5C0F;&#x5FC3;&#x4F7F;&#x7528;&#x74B0;&#x5883;&#x8B8A;&#x6578;</h1>
+<h1 id="34-&#x5C0F;&#x5FC3;&#x4F7F;&#x7528;&#x74B0;&#x5883;&#x8B8A;&#x6578;">3.4 &#x5C0F;&#x5FC3;&#x4F7F;&#x7528;&#x74B0;&#x5883;&#x8B8A;&#x6578;</h1>
 <pre><code class="lang-c=">int setenv(const char *name, const char *value, int overwrite);
 int putenv (char *string);
 
@@ -15723,34 +15657,34 @@ __add_to_environ (const char *name, const char *value, const char *combined,
   return 0;
 }
 </code></pre>
-<h1 id="3-5-%E4%BD%BF%E7%94%A8%E5%8B%95%E6%85%8B%E5%87%BD%E5%BC%8F%E5%BA%AB">3.5 &#x4F7F;&#x7528;&#x52D5;&#x614B;&#x51FD;&#x5F0F;&#x5EAB;</h1>
+<h1 id="35-&#x4F7F;&#x7528;&#x52D5;&#x614B;&#x51FD;&#x5F0F;&#x5EAB;">3.5 &#x4F7F;&#x7528;&#x52D5;&#x614B;&#x51FD;&#x5F0F;&#x5EAB;</h1>
 <pre><code>$(CC) -Wall -g -shared -fPIC dlib.c -o libdlib.so
 $(CC) -Wall -g main.c -o example -L./ -ldlib
 $(CC) -Wall -g main_1.c -o example_dl -L./ -ldlib -ldl
-</code></pre><h1 id="3-5-1-%E5%8B%95%E6%85%8B%E8%88%87%E9%9D%9C%E6%85%8B%E5%87%BD%E5%BC%8F%E5%BA%AB">3.5.1 &#x52D5;&#x614B;&#x8207;&#x975C;&#x614B;&#x51FD;&#x5F0F;&#x5EAB;</h1>
+</code></pre><h1 id="351-&#x52D5;&#x614B;&#x8207;&#x975C;&#x614B;&#x51FD;&#x5F0F;&#x5EAB;">3.5.1 &#x52D5;&#x614B;&#x8207;&#x975C;&#x614B;&#x51FD;&#x5F0F;&#x5EAB;</h1>
 <p>&#x7DE8;&#x8B6F;&#x9078;&#x9805; : -shared -fPIC</p>
-<h1 id="3-5-2-%E7%B7%A8%E8%AD%AF%E8%88%87%E4%BD%BF%E7%94%A8%E5%8B%95%E6%85%8B%E5%87%BD%E5%BC%8F%E5%BA%AB">3.5.2 &#x7DE8;&#x8B6F;&#x8207;&#x4F7F;&#x7528;&#x52D5;&#x614B;&#x51FD;&#x5F0F;&#x5EAB; </h1>
-<h1 id="3-5-3-%E7%A8%8B%E5%BC%8F%E7%9A%84%E5%B9%B3%E6%BB%91%E7%84%A1%E7%B8%AB%E5%8D%87%E7%B4%9A">3.5.3 &#x7A0B;&#x5F0F;&#x7684;&#x5E73;&#x6ED1;&#x7121;&#x7E2B;&#x5347;&#x7D1A; </h1>
+<h1 id="352-&#x7DE8;&#x8B6F;&#x8207;&#x4F7F;&#x7528;&#x52D5;&#x614B;&#x51FD;&#x5F0F;&#x5EAB;-">3.5.2 &#x7DE8;&#x8B6F;&#x8207;&#x4F7F;&#x7528;&#x52D5;&#x614B;&#x51FD;&#x5F0F;&#x5EAB; </h1>
+<h1 id="353-&#x7A0B;&#x5F0F;&#x7684;&#x5E73;&#x6ED1;&#x7121;&#x7E2B;&#x5347;&#x7D1A;-">3.5.3 &#x7A0B;&#x5F0F;&#x7684;&#x5E73;&#x6ED1;&#x7121;&#x7E2B;&#x5347;&#x7D1A; </h1>
 <p>&#x624B;&#x52D5;&#x8F09;&#x5165;share object</p>
-<h1 id="3-6-%E9%81%BF%E5%85%8D%E8%A8%98%E6%86%B6%E9%AB%94%E5%95%8F%E9%A1%8C">3.6 &#x907F;&#x514D;&#x8A18;&#x61B6;&#x9AD4;&#x554F;&#x984C;</h1>
-<h1 id="3-6-1-%E5%B0%B7%E5%B0%AC%E7%9A%84realloc">3.6.1 &#x5C37;&#x5C2C;&#x7684;realloc</h1>
-<h1 id="3-6-2-%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2%E8%A8%98%E6%86%B6%E9%AB%94%E8%B6%8A%E7%95%8C">3.6.2 &#x5982;&#x4F55;&#x9632;&#x6B62;&#x8A18;&#x61B6;&#x9AD4;&#x8D8A;&#x754C;</h1>
+<h1 id="36-&#x907F;&#x514D;&#x8A18;&#x61B6;&#x9AD4;&#x554F;&#x984C;">3.6 &#x907F;&#x514D;&#x8A18;&#x61B6;&#x9AD4;&#x554F;&#x984C;</h1>
+<h1 id="361-&#x5C37;&#x5C2C;&#x7684;realloc">3.6.1 &#x5C37;&#x5C2C;&#x7684;realloc</h1>
+<h1 id="362-&#x5982;&#x4F55;&#x9632;&#x6B62;&#x8A18;&#x61B6;&#x9AD4;&#x8D8A;&#x754C;">3.6.2 &#x5982;&#x4F55;&#x9632;&#x6B62;&#x8A18;&#x61B6;&#x9AD4;&#x8D8A;&#x754C;</h1>
 <ol>
 <li>char <em>strncat(char </em>dest,const char *src, size_t n);</li>
 <li>char <em>strncpy(char </em>dest, const char *src, size_t n);</li>
 <li>int snprintf(char <em>str, size_t size, const char </em>format, ...);</li>
 <li>char <em>fgets(char </em>s, int size, FILE *stream);</li>
 </ol>
-<h1 id="3-6-3-%E5%A6%82%E4%BD%95%E5%AE%9A%E4%BD%8D%E8%A8%98%E6%86%B6%E9%AB%94%E5%95%8F%E9%A1%8C">3.6.3 &#x5982;&#x4F55;&#x5B9A;&#x4F4D;&#x8A18;&#x61B6;&#x9AD4;&#x554F;&#x984C;</h1>
+<h1 id="363-&#x5982;&#x4F55;&#x5B9A;&#x4F4D;&#x8A18;&#x61B6;&#x9AD4;&#x554F;&#x984C;">3.6.3 &#x5982;&#x4F55;&#x5B9A;&#x4F4D;&#x8A18;&#x61B6;&#x9AD4;&#x554F;&#x984C;</h1>
 <p>&#x8A18;&#x61B6;&#x9AD4;&#x554F;&#x984C;&#x6AA2;&#x6E2C;&#x5DE5;&#x5177; - valgrind
 <a href="http://valgrind.org/" target="_blank">http://valgrind.org/</a></p>
-<h1 id="3-7-%E9%95%B7%E8%BD%89%E8%B7%B3-longjmp">3.7 &quot;&#x9577;&#x8F49;&#x8DF3;&quot; longjmp</h1>
-<h1 id="3-7-1-setjmp%E8%88%87longjmp%E7%9A%84%E4%BD%BF%E7%94%A8">3.7.1 setjmp&#x8207;longjmp&#x7684;&#x4F7F;&#x7528;</h1>
-<h1 id="3-7-2-%E9%95%B7%E8%BD%89%E8%B7%B3-%E7%9A%84%E5%AF%A6%E7%8F%BE%E6%A9%9F%E5%88%B6">3.7.2 &quot;&#x9577;&#x8F49;&#x8DF3;&quot;&#x7684;&#x5BE6;&#x73FE;&#x6A5F;&#x5236;</h1>
+<h1 id="37-&#x9577;&#x8F49;&#x8DF3;-longjmp">3.7 &quot;&#x9577;&#x8F49;&#x8DF3;&quot; longjmp</h1>
+<h1 id="371-setjmp&#x8207;longjmp&#x7684;&#x4F7F;&#x7528;">3.7.1 setjmp&#x8207;longjmp&#x7684;&#x4F7F;&#x7528;</h1>
+<h1 id="372-&#x9577;&#x8F49;&#x8DF3;&#x7684;&#x5BE6;&#x73FE;&#x6A5F;&#x5236;">3.7.2 &quot;&#x9577;&#x8F49;&#x8DF3;&quot;&#x7684;&#x5BE6;&#x73FE;&#x6A5F;&#x5236;</h1>
 <p>glibc/sysdeps/i386</p>
 <p>setjmp -&gt; (setjmp.S)
 longjmp -&gt; (__longjmp.S)</p>
-<h1 id="3-7-3-%E9%95%B7%E8%BD%89%E8%B7%B3-%E7%9A%84%E9%99%90%E5%88%B6">3.7.3 &quot;&#x9577;&#x8F49;&#x8DF3;&quot;&#x7684;&#x9650;&#x5236;</h1>
+<h1 id="373-&#x9577;&#x8F49;&#x8DF3;&#x7684;&#x9650;&#x5236;">3.7.3 &quot;&#x9577;&#x8F49;&#x8DF3;&quot;&#x7684;&#x9650;&#x5236;</h1>
 <p>Bug 1:
 Bug 2:</p>
 <p><strong>setjmp/longjmp &#x61C9;&#x7528;</strong>
@@ -15797,9 +15731,17 @@ Bug 2:</p>
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

@@ -8,7 +8,7 @@
         <title>linux新定時器：timefd及相關操作函數 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="13.1.31" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="13.1.31"
+        data-chapter-title="linux新定時器：timefd及相關操作函數"
+        data-filepath="linux_system/linuxxin_ding_shi_qi_ff1a_timefd_ji_xiang_guan_cao.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,16 +15051,16 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="linux%E6%96%B0%E5%AE%9A%E6%99%82%E5%99%A8%EF%BC%9Atimefd%E5%8F%8A%E7%9B%B8%E9%97%9C%E6%93%8D%E4%BD%9C%E5%87%BD%E6%95%B8">linux&#x65B0;&#x5B9A;&#x6642;&#x5668;&#xFF1A;timefd&#x53CA;&#x76F8;&#x95DC;&#x64CD;&#x4F5C;&#x51FD;&#x6578;</h1>
+                        <h1 id="linux&#x65B0;&#x5B9A;&#x6642;&#x5668;&#xFF1A;timefd&#x53CA;&#x76F8;&#x95DC;&#x64CD;&#x4F5C;&#x51FD;&#x6578;">linux&#x65B0;&#x5B9A;&#x6642;&#x5668;&#xFF1A;timefd&#x53CA;&#x76F8;&#x95DC;&#x64CD;&#x4F5C;&#x51FD;&#x6578;</h1>
 <p>timerfd&#x662F;Linux&#x70BA;&#x7528;&#x6236;&#x7A0B;&#x5E8F;&#x63D0;&#x4F9B;&#x7684;&#x4E00;&#x500B;&#x5B9A;&#x6642;&#x5668;&#x63A5;&#x53E3;&#x3002;&#x9019;&#x500B;&#x63A5;&#x53E3;&#x57FA;&#x65BC;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;&#xFF0C;&#x901A;&#x904E;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;&#x7684;&#x53EF;&#x8B80;&#x4E8B;&#x4EF6;&#x9032;&#x884C;&#x8D85;&#x6642;&#x901A;&#x77E5;&#xFF0C;&#x6240;&#x4EE5;&#x80FD;&#x5920;&#x88AB;&#x7528;&#x65BC;select/poll&#x7684;&#x61C9;&#x7528;&#x5834;&#x666F;&#x3002;</p>
-<h2 id="%E4%B8%80%EF%BC%8C%E7%9B%B8%E9%97%9C%E6%93%8D%E4%BD%9C%E5%87%BD%E6%95%B8">&#x4E00;&#xFF0C;&#x76F8;&#x95DC;&#x64CD;&#x4F5C;&#x51FD;&#x6578;</h2>
+<h2 id="&#x4E00;&#xFF0C;&#x76F8;&#x95DC;&#x64CD;&#x4F5C;&#x51FD;&#x6578;">&#x4E00;&#xFF0C;&#x76F8;&#x95DC;&#x64CD;&#x4F5C;&#x51FD;&#x6578;</h2>
 <pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/timerfd.h&gt;</span></span>
 
 <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">timerfd_create</span><span class="hljs-params">(<span class="hljs-keyword">int</span> clockid, <span class="hljs-keyword">int</span> flags)</span></span>;
 <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">timerfd_settime</span><span class="hljs-params">(<span class="hljs-keyword">int</span> fd, <span class="hljs-keyword">int</span> flags, <span class="hljs-keyword">const</span> <span class="hljs-keyword">struct</span> itimerspec *new_value, <span class="hljs-keyword">struct</span> itimerspec *old_value)</span></span>;
 <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">timerfd_gettime</span><span class="hljs-params">(<span class="hljs-keyword">int</span> fd, <span class="hljs-keyword">struct</span> itimerspec *curr_value)</span></span>;
 </code></pre>
-<h2 id="%E4%BA%8C%EF%BC%8Ctimerfd-create">&#x4E8C;&#xFF0C;timerfd_create</h2>
+<h2 id="&#x4E8C;&#xFF0C;timerfdcreate">&#x4E8C;&#xFF0C;timerfd_create</h2>
 <p>int timerfd_create(int clockid, int flags);</p>
 <p>&#x5B83;&#x662F;&#x7528;&#x4F86;&#x5275;&#x5EFA;&#x4E00;&#x500B;&#x5B9A;&#x6642;&#x5668;&#x63CF;&#x8FF0;&#x7B26;timerfd</p>
 <p>&#x7B2C;&#x4E00;&#x500B;&#x53C3;&#x6578;&#xFF1A;clockid&#x6307;&#x5B9A;&#x6642;&#x9593;&#x985E;&#x578B;&#xFF0C;&#x6709;&#x5169;&#x500B;&#x503C;&#xFF1A;</p>
@@ -15134,7 +15068,7 @@
 <p>CLOCK_MONOTONIC:&#x4EE5;&#x56FA;&#x5B9A;&#x7684;&#x901F;&#x7387;&#x904B;&#x884C;&#xFF0C;&#x5F9E;&#x4E0D;&#x9032;&#x884C;&#x8ABF;&#x6574;&#x548C;&#x5FA9;&#x4F4D; ,&#x5B83;&#x4E0D;&#x53D7;&#x4EFB;&#x4F55;&#x7CFB;&#x7D71;time-of-day&#x6642;&#x9418;&#x4FEE;&#x6539;&#x7684;&#x5F71;&#x97FF;</p>
 <p>&#x7B2C;&#x4E8C;&#x500B;&#x53C3;&#x6578;&#xFF1A;flags&#x53EF;&#x4EE5;&#x662F;0&#x6216;&#x8005;O_CLOEXEC/O_NONBLOCK&#x3002;</p>
 <p>&#x8FD4;&#x56DE;&#x503C;&#xFF1A;timerfd&#xFF08;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;&#xFF09;</p>
-<h2 id="%E4%B8%89%EF%BC%8Ctimerfd-settime">&#x4E09;&#xFF0C;timerfd_settime</h2>
+<h2 id="&#x4E09;&#xFF0C;timerfdsettime">&#x4E09;&#xFF0C;timerfd_settime</h2>
 <p>&#x5728;&#x8B1B;&#x89E3;&#x8A72;&#x51FD;&#x6578;&#x524D;&#xFF0C;&#x5148;&#x7406;&#x89E3;&#x5169;&#x500B;&#x76F8;&#x95DC;&#x7D50;&#x69CB;&#x9AD4;&#xFF1A;</p>
 <pre><code class="lang-c"><span class="hljs-keyword">struct</span> timespec {
     <span class="hljs-keyword">time_t</span> tv_sec;                <span class="hljs-comment">/* Seconds */</span>
@@ -15155,18 +15089,18 @@
 <p>fnew_value:&#x6307;&#x5B9A;&#x65B0;&#x7684;&#x8D85;&#x6642;&#x6642;&#x9593;&#xFF0C;&#x8A2D;&#x5B9A;new_value.it_value&#x975E;&#x96F6;&#x5247;&#x555F;&#x52D5;&#x5B9A;&#x6642;&#x5668;&#xFF0C;&#x5426;&#x5247;&#x95DC;&#x9589;&#x5B9A;&#x6642;&#x5668;&#xFF0C;&#x5982;&#x679C;new_value.it_interval&#x70BA;0&#xFF0C;&#x5247;&#x5B9A;&#x6642;&#x5668;&#x53EA;&#x5B9A;&#x6642;&#x4E00;&#x6B21;&#xFF0C;&#x5373;&#x521D;&#x59CB;&#x90A3;&#x6B21;&#xFF0C;&#x5426;&#x5247;&#x4E4B;&#x5F8C;&#x6BCF;&#x9694;&#x8A2D;&#x5B9A;&#x6642;&#x9593;&#x8D85;&#x6642;&#x4E00;&#x6B21;</p>
 <p>old_value&#xFF1A;&#x4E0D;&#x70BA;null&#xFF0C;&#x5247;&#x8FD4;&#x56DE;&#x5B9A;&#x6642;&#x5668;&#x9019;&#x6B21;&#x8A2D;&#x7F6E;&#x4E4B;&#x524D;&#x7684;&#x8D85;&#x6642;&#x6642;&#x9593;</p>
 <p>flags&#xFF1A;1&#x4EE3;&#x8868;&#x8A2D;&#x7F6E;&#x7684;&#x662F;&#x7D55;&#x5C0D;&#x6642;&#x9593;&#xFF1B;&#x70BA;0&#x4EE3;&#x8868;&#x76F8;&#x5C0D;&#x6642;&#x9593;&#x3002;</p>
-<h2 id="%E5%9B%9B%EF%BC%8Ctimerfd-gettime">&#x56DB;&#xFF0C;timerfd_gettime</h2>
+<h2 id="&#x56DB;&#xFF0C;timerfdgettime">&#x56DB;&#xFF0C;timerfd_gettime</h2>
 <pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">timerfd_gettime</span><span class="hljs-params">(<span class="hljs-keyword">int</span> fd, <span class="hljs-keyword">struct</span> itimerspec *curr_value)</span></span>;
 </code></pre>
 <p>&#x6B64;&#x51FD;&#x6578;&#x7528;&#x65BC;&#x7372;&#x5F97;&#x5B9A;&#x6642;&#x5668;&#x8DDD;&#x96E2;&#x4E0B;&#x6B21;&#x8D85;&#x6642;&#x9084;&#x5269;&#x4E0B;&#x7684;&#x6642;&#x9593;&#x3002;&#x5982;&#x679C;&#x8ABF;&#x7528;&#x6642;&#x5B9A;&#x6642;&#x5668;&#x5DF2;&#x7D93;&#x5230;&#x671F;&#xFF0C;&#x4E26;&#x4E14;&#x8A72;&#x5B9A;&#x6642;&#x5668;&#x8655;&#x65BC;&#x5FAA;&#x74B0;&#x6A21;&#x5F0F;&#xFF08;&#x8A2D;&#x7F6E;&#x8D85;&#x6642;&#x6642;&#x9593;&#x6642;struct itimerspec::it_interval&#x4E0D;&#x70BA;0&#xFF09;&#xFF0C;&#x90A3;&#x9EBC;&#x8ABF;&#x7528;&#x6B64;&#x51FD;&#x6578;&#x4E4B;&#x5F8C;&#x5B9A;&#x6642;&#x5668;&#x91CD;&#x65B0;&#x958B;&#x59CB;&#x8A08;&#x6642;&#x3002;</p>
 <p>The it_value field returns the amount of time until the timer will next expire. If both fields of this structure are zero, then the timer is currently disarmed. This field always contains a relative value, regardless of whether the TFD_TIMER_ABSTIME flag was specified when setting the timer.</p>
 <p>The it_interval field returns the interval of the timer. If both fields of this structure are zero, then the timer is set to expire just once, at the time specified by curr_value.it_value.</p>
-<h2 id="%E4%BA%94%EF%BC%8Cread%E8%AE%80%E5%8F%96timefd%E8%B6%85%E6%99%82%E4%BA%8B%E4%BB%B6%E9%80%9A%E7%9F%A5">&#x4E94;&#xFF0C;read&#x8B80;&#x53D6;timefd&#x8D85;&#x6642;&#x4E8B;&#x4EF6;&#x901A;&#x77E5;</h2>
+<h2 id="&#x4E94;&#xFF0C;read&#x8B80;&#x53D6;timefd&#x8D85;&#x6642;&#x4E8B;&#x4EF6;&#x901A;&#x77E5;">&#x4E94;&#xFF0C;read&#x8B80;&#x53D6;timefd&#x8D85;&#x6642;&#x4E8B;&#x4EF6;&#x901A;&#x77E5;</h2>
 <p>read(2) If the timer has already expired one or more times since its settings were last modified using <code>timerfd_settime()</code>, or since the last successful read(2), then the buffer given to read(2) returns an unsigned 8-byte integer (uint64_t) containing the number of expirations that have occurred. (The returned value is in host byte order, i.e., the native byte order for integers on the host machine.)</p>
 <p>If no timer expirations have occurred at the time of the read(2), then the call either blocks until the next timer expiration, or fails with the error <code>EAGAIN</code> if the file descriptor has been made nonblocking (via the use of the fcntl(2) F_SETFL operation to set the <code>O_NONBLOCK</code> flag).</p>
 <p>A read(2) will fail with the error <code>EINVAL</code> if the size of the supplied buffer is less than 8 bytes.</p>
 <p>&#x7576;&#x5B9A;&#x6642;&#x5668;&#x8D85;&#x6642;&#xFF0C;read&#x8B80;&#x4E8B;&#x4EF6;&#x767C;&#x751F;&#x5373;&#x53EF;&#x8B80;&#xFF0C;&#x8FD4;&#x56DE;&#x8D85;&#x6642;&#x6B21;&#x6578;&#xFF08;&#x5F9E;&#x4E0A;&#x6B21;&#x8ABF;&#x7528;timerfd_settime()&#x555F;&#x52D5;&#x958B;&#x59CB;&#x6216;&#x4E0A;&#x6B21;read&#x6210;&#x529F;&#x8B80;&#x53D6;&#x958B;&#x59CB;&#xFF09;&#xFF0C;&#x5B83;&#x662F;&#x4E00;&#x500B;8&#x5B57;&#x7BC0;&#x7684;unit64_t&#x985E;&#x578B;&#x6574;&#x6578;&#xFF0C;&#x5982;&#x679C;&#x5B9A;&#x6642;&#x5668;&#x6C92;&#x6709;&#x767C;&#x751F;&#x8D85;&#x6642;&#x4E8B;&#x4EF6;&#xFF0C;&#x5247;read&#x5C07;&#x963B;&#x585E;&#x82E5;timerfd&#x70BA;&#x963B;&#x585E;&#x6A21;&#x5F0F;&#xFF0C;&#x5426;&#x5247;&#x8FD4;&#x56DE;EAGAIN &#x932F;&#x8AA4;&#xFF08;O_NONBLOCK&#x6A21;&#x5F0F;&#xFF09;&#xFF0C;&#x5982;&#x679C;read&#x6642;&#x63D0;&#x4F9B;&#x7684;&#x7DE9;&#x885D;&#x5340;&#x5C0F;&#x65BC;8&#x5B57;&#x7BC0;&#x5C07;&#x4EE5;EINVAL&#x932F;&#x8AA4;&#x8FD4;&#x56DE;&#x3002;</p>
-<h2 id="%E5%85%AD%EF%BC%8C%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A2%BC">&#x516D;&#xFF0C;&#x793A;&#x4F8B;&#x4EE3;&#x78BC;</h2>
+<h2 id="&#x516D;&#xFF0C;&#x793A;&#x4F8B;&#x4EE3;&#x78BC;">&#x516D;&#xFF0C;&#x793A;&#x4F8B;&#x4EE3;&#x78BC;</h2>
 <p>man&#x624B;&#x518A;&#x4E2D;&#x793A;&#x4F8B;&#xFF1A;</p>
 <p>The following program creates a timer and then monitors its progress. The program accepts up to three command-line arguments. The first argument specifies the number of seconds for the initial expiration of the timer. The second argument specifies the interval for the timer, in seconds. The third argument specifies the number of times the program should allow the timer to expire before terminating. The second and third command-line arguments are optional.</p>
 <pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/timerfd.h&gt;</span></span>
@@ -15318,9 +15252,17 @@
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

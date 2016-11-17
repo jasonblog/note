@@ -8,7 +8,7 @@
         <title>中斷 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="11.1.11" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="11.1.11"
+        data-chapter-title="中斷"
+        data-filepath="linux_device_driver_programming/zhong_duan.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,9 +15051,9 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E4%B8%AD%E6%96%B7">&#x4E2D;&#x65B7;</h1>
+                        <h1 id="&#x4E2D;&#x65B7;">&#x4E2D;&#x65B7;</h1>
 <p>&#x63A7;&#x5236;&#x9031;&#x908A;&#x88DD;&#x7F6E;&#x6642;&#xFF0C;&#x8207;&#x540C;&#x6B65;&#x3001;&#x9396;&#x5B9A;&#x7B49;&#x529F;&#x80FD;&#x540C;&#x6A23;&#x4E0D;&#x53EF;&#x6216;&#x7F3A;&#x7684;&#x662F;&#x300C;&#x4E2D;&#x65B7;&#x300D;&#x6A5F;&#x5236;&#x3002; </p>
-<h2 id="11-1%E3%80%81%E4%B8%AD%E6%96%B7%E7%9A%84%E6%A6%82%E5%BF%B5">11-1&#x3001;&#x4E2D;&#x65B7;&#x7684;&#x6982;&#x5FF5;</h2>
+<h2 id="111&#x3001;&#x4E2D;&#x65B7;&#x7684;&#x6982;&#x5FF5;">11-1&#x3001;&#x4E2D;&#x65B7;&#x7684;&#x6982;&#x5FF5;</h2>
 <p>&#x5728; kernel &#x4E2D;&#xFF0C;&#x6240;&#x8B02;&#x7684;&#x300C;&#x4E2D;&#x65B7;&#x300D;&#x662F;&#x8B93;&#x8EDF;&#x9AD4;(kernel) &#x53EF;&#x4EE5;&#x63A5;&#x6536;&#x5230;&#x4F86;&#x81EA;&#x786C;&#x9AD4;&#x7684;&#x7DCA;&#x6025;&#x5831;&#x544A;&#xFF0C;&#x4E26;&#x505A;&#x51FA;&#x53CD;&#x61C9;&#x7684;&#x6A5F;&#x5236;&#x3002; </p>
 <p>&#x4F8B;&#x5982;&#xFF0C;&#x7DB2;&#x8DEF;&#x5361;&#x5728;&#x6536;&#x5230;&#x5916;&#x9762;&#x50B3;&#x4F86;&#x7684;&#x5C01;&#x5305;&#x6642;&#xFF0C;&#x5C31;&#x6703;&#x4EE5;&#x4E2D;&#x65B7;&#x5411; CPU &#x5831;&#x544A;&#xFF0C;CPU &#x5075;&#x5074;&#x5230;&#x88DD;&#x7F6E;&#x50B3;&#x4F86;&#x7684;&#x4E2D;&#x65B7;&#x5F8C;&#xFF0C;&#x5C31;&#x6703;&#x7ACB;&#x523B;&#x57F7;&#x884C; OS &#x7684;&#x300C;&#x4E2D;&#x65B7;&#x8655;&#x7406;&#x7A0B;&#x5E8F;(interrupt handler)&#x300D;&#x3002; </p>
 <p>&#x300C;&#x4E2D;&#x65B7;&#x8655;&#x7406;&#x7A0B;&#x5E8F;(interrupt handler)&#x300D;&#x6DB5;&#x84CB;&#x4E86;&#x300C;&#x4E2D;&#x65B7;&#x7A0B;&#x5E8F;(interrupt routine)&#x300D;&#x4EE5;&#x53CA;&#x300C;&#x4E2D;&#x65B7;&#x670D;&#x52D9;&#x7A0B;&#x5E8F;(ISR: Interrupt Service Routine)&#x300D;&#xFF0C;&#x5404;&#x7A2E; OS &#x7528;&#x7684;&#x7A31;&#x547C;&#x90FD;&#x4E0D;&#x592A;&#x4E00;&#x6A23;&#xFF0C;&#x4F46;&#x6982;&#x5FF5;&#x90FD;&#x662F;&#x76F8;&#x540C;&#x7684;&#x3002; </p>
@@ -15132,7 +15066,7 @@
 <pre><code class="lang-sh">cat /proc/interrupts
 </code></pre>
 <p>&#x5982;&#x679C;&#x88DD;&#x7F6E;&#x4E0D;&#x652F;&#x63F4;&#x4E2D;&#x65B7;&#xFF0C;&#x5247; kernel &#x5C31;&#x8981;&#x7528; &#x300C;&#x8F2A;&#x8A62;(polling)&#x300D;&#x7684;&#x6A5F;&#x5236;&#x4F86;&#x76E3;&#x8996;&#x88DD;&#x7F6E;&#x7684;&#x72C0;&#x614B;&#xFF0C;&#x9019;&#x6703;&#x79CF;&#x8CBB; CPU &#x7684;&#x8655;&#x7406;&#x8CC7;&#x6E90;&#xFF0C;&#x53EF;&#x4E14;&#x8655;&#x7406;&#x53EF;&#x80FD;&#x4E0D;&#x5920;&#x53CA;&#x6642;&#x3002; </p>
-<h2 id="11-2%E3%80%81%E9%A9%85%E5%8B%95%E7%A8%8B%E5%BC%8F%E7%9A%84%E4%B8%AD%E6%96%B7%E5%95%8F%E9%A1%8C">11-2&#x3001;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684;&#x4E2D;&#x65B7;&#x554F;&#x984C;</h2>
+<h2 id="112&#x3001;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684;&#x4E2D;&#x65B7;&#x554F;&#x984C;">11-2&#x3001;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684;&#x4E2D;&#x65B7;&#x554F;&#x984C;</h2>
 <p>&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x5982;&#x679C;&#x8981;&#x6536;&#x5230;&#x88DD;&#x7F6E;&#x9001;&#x51FA;&#x7684;&#x4E2D;&#x65B7;&#x8A0A;&#x865F;&#xFF0C;&#x5FC5;&#x9808;&#x5148;&#x767B;&#x8A18;&#x4E2D;&#x65B7;&#x8655;&#x7406;&#x7A0B;&#x5E8F;&#xFF0C;&#x4E2D;&#x65B7;&#x8655;&#x7406;&#x7A0B;&#x5E8F;&#x7684;&#x767B;&#x8A18;&#x6709;&#x6642;&#x96A8;&#x88DD;&#x7F6E;&#x800C;&#x7570;&#xFF0C;&#x5927;&#x591A;&#x70BA;&#x4E0B;&#x5217;&#x5169;&#x8005;&#x4E4B;&#x4E00;&#xFF1A;
 &#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x8F09;&#x5165;&#x5F8C;
 &#x88DD;&#x7F6E;&#x521D;&#x59CB;&#x5316;&#x5B8C;&#x6210;&#x5F8C;</p>
@@ -15222,7 +15156,7 @@ module_exit(sample_exit);
 <li>&#x8655;&#x7406;&#x4E2D;&#x65B7;&#x5DE5;&#x4F5C;</li>
 <li>&#x50B3;&#x56DE; IRQ_HANDLED</li>
 </ul>
-<h2 id="11-3%E3%80%81tasklet">11-3&#x3001;Tasklet</h2>
+<h2 id="113&#x3001;tasklet">11-3&#x3001;Tasklet</h2>
 <p>&#x4E2D;&#x65B7;&#x8655;&#x7406;&#x5DE5;&#x4F5C;&#x9808;&#x6975;&#x529B;&#x7E2E;&#x77ED;&#x6642;&#x9593;&#xFF0C;&#x540C;&#x6642;&#x5728;&#x4E2D;&#x65B7;&#x63A7;&#x5236;&#x5668;&#x7684; IRQ line &#x9001;&#x51FA;&#x8A0A;&#x865F;&#x671F;&#x9593;&#xFF0C;&#x7121;&#x6CD5;&#x9032;&#x4E00;&#x6B65;&#x8655;&#x9AD8;&#x5176;&#x5B83;&#x4E2D;&#x65B7;&#xFF0C;&#x800C; CPU &#x66F4;&#x6703;&#x512A;&#x5148;&#x8655;&#x7406;&#x4E2D;&#x65B7;&#xFF0C;&#x800C;&#x6C92;&#x8FA6;&#x6CD5;&#x4F5C;&#x5176;&#x5B83;&#x4E8B;&#x3002;</p>
 <p>&#x56E0;&#x6B64; linux kernel &#x63D0;&#x4F9B;&#x4E86;&#x300C;tasklet&#x300D;&#x6A5F;&#x5236;&#xFF0C;&#x8B93;&#x4E2D;&#x65B7;&#x8655;&#x7406;&#x7A0B;&#x5E8F;&#x53EA;&#x9700;&#x8981;&#x5B8C;&#x6210;&#x6700;&#x91CD;&#x8981;&#x7684;&#x90E8;&#x5206;&#x5373;&#x53EF;&#xFF0C;&#x7A0D;&#x5F8C;&#x518D;&#x57F7;&#x884C;&#x5269;&#x4E0B;&#x7684;&#x5DE5;&#x4F5C;&#x3002; 
 &#x4E00;&#x822C;&#x7528;&#x8A9E;&#x5E38;&#x70BA;&#x300C;&#x5EF6;&#x9072;&#x4E2D;&#x65B7;&#x300D;&#x6216;&#x300C;&#x8EDF;&#x9AD4;&#x4E2D;&#x65B7;&#x300D;&#xFF0C;Windows &#x7A31;&#x70BA;&#x300C;DPC(Deferred Procedue Call)&#x300D;&#xFF0C;HP-UX &#x5247;&#x7A31;&#x70BA;&#x300C;software trigger&#x300D;&#xFF0C;&#x5404;&#x5E73;&#x81FA;&#x7684;&#x7A31;&#x547C;&#x90FD;&#x4E0D;&#x76E1;&#x76F8;&#x540C;&#x3002; 
@@ -15305,7 +15239,7 @@ out:
 module_init(sample_init);
 module_exit(sample_exit);
 </code></pre>
-<h2 id="11-4%E3%80%81work-queue">11-4&#x3001;Work queue</h2>
+<h2 id="114&#x3001;work-queue">11-4&#x3001;Work queue</h2>
 <p>tasklet &#x96D6;&#x7136;&#x53EF;&#x4EE5;&#x7528;&#x4F86;&#x5EF6;&#x5F8C;&#x8655;&#x7406;&#x4E00;&#x4E9B;&#x4E2D;&#x65B7;&#x60C5;&#x5F62;&#x7559;&#x4E0B;&#x7684;&#x5DE5;&#x4F5C;&#xFF0C;&#x4F46; tasklet &#x9084;&#x662F;&#x96BB;&#x80FD;&#x5728; interrupt context &#x4E2D;&#x57F7;&#x884C;&#x3002; 
 &#x56E0;&#x6B64; linux &#x9084;&#x63D0;&#x4F9B;&#x4E86;&#x300C;work queue&#x300D;&#x6A5F;&#x5236;&#xFF0C;&#x5141;&#x8A31;&#x4E2D;&#x65B7;&#x60C5;&#x5F62;&#x7684;&#x5F8C;&#x7E8C;&#x8655;&#x7406;&#x5DE5;&#x4F5C;&#x5728; user space &#x57F7;&#x884C;&#x3002; </p>
 <p>work queu &#x7684;&#x539F;&#x7406;&#x662F;&#x5EF6;&#x5F8C;&#x8655;&#x7406;&#x5DE5;&#x4F5C;&#x6642;&#xFF0C;&#x6392;&#x9032; wait queue &#x7684;&#x7B49;&#x5F85;&#x968A;&#x4F0D;&#x4E4B;&#x4E2D;&#xFF0C;&#x4E00;&#x500B; work queue &#x6709;&#x4E00;&#x500B;&#x5C0D;&#x61C9;&#x7684; kernel daemon&#xFF0C;&#x6703;&#x5728;&#x9069;&#x7576;&#x6642;&#x6A5F;&#x4EE5; kernel daemon &#x8655;&#x7406;&#x9019;&#x4E9B;&#x5EF6;&#x5F8C;&#x7684;&#x5DE5;&#x4F5C;&#xFF0C;&#x800C; kernel daemon &#x662F;&#x4E00;&#x96BB;&#x5728; user context &#x57F7;&#x884C;&#x7684;&#x7A0B;&#x5F0F;&#x3002; </p>
@@ -15399,7 +15333,7 @@ module_exit(sample_exit);
 <li>&#x5728;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684; struct &#x4E4B;&#x5167;&#x5132;&#x5B58; work_struct &#x8B8A;&#x6578;</li>
 <li>&#x4F7F;&#x7528; container_of &#x5DE8;&#x96C6;</li>
 </ul>
-<h2 id="11-5%E3%80%81%E7%B5%90%E8%AA%9E">11-5&#x3001;&#x7D50;&#x8A9E;</h2>
+<h2 id="115&#x3001;&#x7D50;&#x8A9E;">11-5&#x3001;&#x7D50;&#x8A9E;</h2>
 <p>&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x63A7;&#x5236;&#x88DD;&#x7F6E;&#x6642;&#xFF0C;&#x5E7E;&#x4E4E;&#x90FD;&#x5FC5;&#x9808;&#x7528;&#x5230;&#x300C;&#x4E2D;&#x65B7;&#x300D;&#x7684;&#x6982;&#x5FF5;&#xFF0C;&#x4F46;&#x8655;&#x7406;&#x4E2D;&#x65B7;&#x6642;&#xFF0C;&#x6709;&#x4E0D;&#x5C11;&#x9650;&#x5236;&#xFF0C;&#x5728;&#x958B;&#x767C;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x6642;&#x9808;&#x7279;&#x5225;&#x7559;&#x610F;&#x3002; </p>
 
                     
@@ -15442,9 +15376,17 @@ module_exit(sample_exit);
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

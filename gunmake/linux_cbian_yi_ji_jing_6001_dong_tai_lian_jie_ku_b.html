@@ -8,7 +8,7 @@
         <title>Linux C++編譯及 靜態/動態 鏈接庫 筆記 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="19.14" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="19.14"
+        data-chapter-title="Linux C++編譯及 靜態/動態 鏈接庫 筆記"
+        data-filepath="gunmake/linux_cbian_yi_ji_jing_6001_dong_tai_lian_jie_ku_b.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,8 +15051,8 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="linux-c-%E7%B7%A8%E8%AD%AF%E5%8F%8A-%E9%9D%9C%E6%85%8B-%E5%8B%95%E6%85%8B-%E9%8F%88%E6%8E%A5%E5%BA%AB-%E7%AD%86%E8%A8%98">Linux C++&#x7DE8;&#x8B6F;&#x53CA; &#x975C;&#x614B;/&#x52D5;&#x614B; &#x93C8;&#x63A5;&#x5EAB; &#x7B46;&#x8A18;</h1>
-<h2 id="1%E3%80%81c-%E6%96%87%E4%BB%B6%E7%9A%84%E7%B7%A8%E8%AD%AF">1&#x3001;C++&#x6587;&#x4EF6;&#x7684;&#x7DE8;&#x8B6F;</h2>
+                        <h1 id="linux-c&#x7DE8;&#x8B6F;&#x53CA;-&#x975C;&#x614B;&#x52D5;&#x614B;-&#x93C8;&#x63A5;&#x5EAB;-&#x7B46;&#x8A18;">Linux C++&#x7DE8;&#x8B6F;&#x53CA; &#x975C;&#x614B;/&#x52D5;&#x614B; &#x93C8;&#x63A5;&#x5EAB; &#x7B46;&#x8A18;</h1>
+<h2 id="1&#x3001;c&#x6587;&#x4EF6;&#x7684;&#x7DE8;&#x8B6F;">1&#x3001;C++&#x6587;&#x4EF6;&#x7684;&#x7DE8;&#x8B6F;</h2>
 <p>-E  &#x9810;&#x8655;&#x7406;&#xFF0C; &#x5C07;#include&#x7684;&#x6587;&#x4EF6;&#x5C55;&#x958B;&#x7B49;  <br>
 -S &#x751F;&#x6210;&#x5F59;&#x7DE8;&#x6587;&#x4EF6;  <br>
 -c  &#x751F;&#x6210;object&#x6587;&#x4EF6;  <br>
@@ -15137,7 +15071,7 @@ gcc XX.o  -o XX   &#x93C8;&#x63A5;&#xFF0C;&#xFF0C;&#x8F38;&#x51FA;&#x6587;&#x4EF
 <p>-I &#x982D;&#x6587;&#x4EF6;&#x8DEF;&#x5F91;  <br>
 -L &#x5EAB;&#x6587;&#x4EF6;&#x8DEF;&#x5F91;&#xFF08;&#x975C;&#x614B;&#x3001;&#x52D5;&#x614B;&#xFF09;  <br>
 -l &#x5EAB;&#x6587;&#x4EF6;&#xFF08;&#x7121;&#x9700;&#x5305;&#x542B;&#x64F4;&#x5C55;&#x540D;.so &#x6216;.a &#xFF09;&#xFF08;&#x4F46;&#x662F;&#x6211;&#x81EA;&#x5DF1;&#x5728;Ubuntu14.04.1&#x4E2D;&#x76F4;&#x63A5;&#x4F7F;&#x7528;XX.so&#x5373;&#x53EF;&#xFF0C;&#x800C;&#x4E0D;&#x662F;-lXX.so&#xFF09; </p>
-<h2 id="2%E3%80%81%E9%9D%9C%E6%85%8B%E9%8F%88%E6%8E%A5%E5%BA%AB%E3%80%81%E5%8B%95%E6%85%8B%E9%8F%88%E6%8E%A5%E5%BA%AB%E7%9A%84%E7%B7%A8%E8%AD%AF">2&#x3001;&#x975C;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#x3001;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#x7684;&#x7DE8;&#x8B6F;</h2>
+<h2 id="2&#x3001;&#x975C;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#x3001;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#x7684;&#x7DE8;&#x8B6F;">2&#x3001;&#x975C;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#x3001;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#x7684;&#x7DE8;&#x8B6F;</h2>
 <p>Program Library HOWTO&#xFF1A;<a href="http://www.dwheeler.com/program-library/" target="_blank">http://www.dwheeler.com/program-library/</a> <br></p>
 <p>C++ dlopen mini HOWTO<a href="http://www.tldp.org/HOWTO/C++-dlopen/" target="_blank">http://www.tldp.org/HOWTO/C++-dlopen/</a> <br>
 &#x9019;&#x7BC7;&#x6587;&#x7AE0;&#x4E2D;&#x8B1B;&#x4E86;&#x7531;&#x65BC;C++&#x7684;Name Mangling&#xFF0C;&#xFF0C;&#x9700;&#x8981; extern &quot;C&quot;&#x7B49;&#x5C01;&#x88DD;&#x624D;&#x80FD;&#x6B63;&#x5E38;&#x4F7F;&#x7528;<code>fopen&#x51FD;&#x6578;&#x8ABF;&#x7528;C++&#x51FD;&#x6578;&#x7684;&#x554F;&#x984C;</code> <br></p>
@@ -15148,7 +15082,7 @@ gcc XX.o  -o XX   &#x93C8;&#x63A5;&#xFF0C;&#xFF0C;&#x8F38;&#x51FA;&#x6587;&#x4EF
 <p>&#x95DC;&#x65BC;&#x5EAB;&#x6587;&#x4EF6;&#x641C;&#x7D22;&#x8DEF;&#x5F91;&#x7684;&#x554F;&#x984C;&#xFF0C;&#x6C92;&#x8A73;&#x7D30;&#x5BE6;&#x9A57;&#xFF0C;&#x5728;Ubuntu&#x4E0B;&#x8C8C;&#x4F3C;&#x7576;&#x524D;&#x8DEF;&#x5F91;&#x4E5F;&#x53EF;&#x4EE5;~ &#x9019;&#x500B;&#xFF0C;&#x7528;&#x5230;&#x518D;&#x8A66;&#x4E86; 
 &#x53EA;&#x662F;&#x7C21;&#x55AE;&#x8A18;&#x4E00;&#x4E0B;<code>LD_LIBRARY_PATH</code> &#x7684;&#x4FEE;&#x6539;&#x65B9;&#x5F0F;&#xFF1A;<a href="http://baike.baidu.com/view/1270749.htm" target="_blank">http://baike.baidu.com/view/1270749.htm</a> </p>
 <p>&#x4E0D;&#x591A;&#x8AAA;&#x4E86;&#xFF0C;&#x4E0A;&#x4EE3;&#x78BC;&#xFF08;&#x5B8C;&#x6574;&#x4EE3;&#x78BC;&#x898B;&#x9644;&#x4EF6;&#xFF09;&#xFF1A; </p>
-<h3 id="%E5%BA%AB%E6%96%87%E4%BB%B6%EF%BC%9A">&#x5EAB;&#x6587;&#x4EF6;&#xFF1A;</h3>
+<h3 id="&#x5EAB;&#x6587;&#x4EF6;&#xFF1A;">&#x5EAB;&#x6587;&#x4EF6;&#xFF1A;</h3>
 <p>Sharedlib.h&#x4EE3;&#x78BC;</p>
 <pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">pragma</span> once  </span>
 <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">plus</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a,<span class="hljs-keyword">int</span> b)</span></span>;
@@ -15159,7 +15093,7 @@ gcc XX.o  -o XX   &#x93C8;&#x63A5;&#xFF0C;&#xFF0C;&#x8F38;&#x51FA;&#x6587;&#x4EF
     <span class="hljs-keyword">return</span> a+b;  
 }
 </code></pre>
-<h3 id="%E6%8E%A1%E7%94%A8%E9%9D%9C%E6%85%8B%E9%8F%88%E6%8E%A5%E5%BA%AB%EF%BC%9A">&#x63A1;&#x7528;&#x975C;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#xFF1A;</h3>
+<h3 id="&#x63A1;&#x7528;&#x975C;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#xFF1A;">&#x63A1;&#x7528;&#x975C;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#xFF1A;</h3>
 <p>Main_link_a.cpp&#x4EE3;&#x78BC;</p>
 <pre><code class="lang-cpp"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;sharedLib.h&quot;</span>  </span>
 <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span>  </span>
@@ -15171,7 +15105,7 @@ gcc XX.o  -o XX   &#x93C8;&#x63A5;&#xFF0C;&#xFF0C;&#x8F38;&#x51FA;&#x6587;&#x4EF
     <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span>&lt;&lt;<span class="hljs-string">&quot;The sum is &quot;</span>&lt;&lt;p&lt;&lt;<span class="hljs-built_in">std</span>::endl&lt;&lt;<span class="hljs-built_in">std</span>::endl;  
 }
 </code></pre>
-<h3 id="%E6%8E%A1%E7%94%A8%E5%8B%95%E6%85%8B%E9%8F%88%E6%8E%A5%E5%BA%AB%EF%BC%88%E6%BA%90%E6%96%87%E4%BB%B6%E5%92%8C%E6%8E%A1%E7%94%A8%E9%9D%9C%E6%85%8B%E9%8F%88%E6%8E%A5%E5%BA%AB%E5%AE%8C%E5%85%A8%E7%9B%B8%E5%90%8C%EF%BC%89%EF%BC%9A">&#x63A1;&#x7528;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#xFF08;&#x6E90;&#x6587;&#x4EF6;&#x548C;&#x63A1;&#x7528;&#x975C;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#x5B8C;&#x5168;&#x76F8;&#x540C;&#xFF09;&#xFF1A;</h3>
+<h3 id="&#x63A1;&#x7528;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#xFF08;&#x6E90;&#x6587;&#x4EF6;&#x548C;&#x63A1;&#x7528;&#x975C;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#x5B8C;&#x5168;&#x76F8;&#x540C;&#xFF09;&#xFF1A;">&#x63A1;&#x7528;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#xFF08;&#x6E90;&#x6587;&#x4EF6;&#x548C;&#x63A1;&#x7528;&#x975C;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#x5B8C;&#x5168;&#x76F8;&#x540C;&#xFF09;&#xFF1A;</h3>
 <p>Main_link_so.cpp&#x4EE3;&#x78BC;</p>
 <pre><code class="lang-cpp"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;sharedLib.h&quot;</span>  </span>
 <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span>  </span>
@@ -15183,7 +15117,7 @@ gcc XX.o  -o XX   &#x93C8;&#x63A5;&#xFF0C;&#xFF0C;&#x8F38;&#x51FA;&#x6587;&#x4EF
     <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span>&lt;&lt;<span class="hljs-string">&quot;The sum is &quot;</span>&lt;&lt;p&lt;&lt;<span class="hljs-built_in">std</span>::endl&lt;&lt;<span class="hljs-built_in">std</span>::endl;  
 }
 </code></pre>
-<h3 id="%E6%8E%A1%E7%94%A8%E5%8B%95%E6%85%8B%E5%8A%A0%E8%BC%89-so%E6%96%87%E4%BB%B6-fopen-%EF%BC%9A">&#x63A1;&#x7528;&#x52D5;&#x614B;&#x52A0;&#x8F09;.so&#x6587;&#x4EF6;(fopen)&#xFF1A;</h3>
+<h3 id="&#x63A1;&#x7528;&#x52D5;&#x614B;&#x52A0;&#x8F09;so&#x6587;&#x4EF6;fopen&#xFF1A;">&#x63A1;&#x7528;&#x52D5;&#x614B;&#x52A0;&#x8F09;.so&#x6587;&#x4EF6;(fopen)&#xFF1A;</h3>
 <p>Main_dynamicload.cpp&#x4EE3;&#x78BC;</p>
 <pre><code class="lang-cpp"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
 <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;dlfcn.h&gt;</span></span>
@@ -15315,9 +15249,17 @@ clean:
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

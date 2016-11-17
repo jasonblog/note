@@ -8,7 +8,7 @@
         <title>Makefile範例教學 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="19.13" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="19.13"
+        data-chapter-title="Makefile範例教學"
+        data-filepath="gunmake/makefilefan_li_jiao_xue.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,10 +15051,10 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="makefile%E7%AF%84%E4%BE%8B%E6%95%99%E5%AD%B8">Makefile&#x7BC4;&#x4F8B;&#x6559;&#x5B78;</h1>
+                        <h1 id="makefile&#x7BC4;&#x4F8B;&#x6559;&#x5B78;">Makefile&#x7BC4;&#x4F8B;&#x6559;&#x5B78;</h1>
 <p>Makefile&#x548C;GNU make&#x53EF;&#x80FD;&#x662F;linux&#x4E16;&#x754C;&#x88E1;&#x6700;&#x91CD;&#x8981;&#x7684;&#x6A94;&#x6848;&#x8DDF;&#x6307;&#x4EE4;&#x4E86;&#x3002;&#x7DE8;&#x8B6F;&#x4E00;&#x500B;&#x5C0F;&#x7A0B;&#x5F0F;&#xFF0C;&#x53EF;&#x4EE5;&#x7528;&#x7C21;&#x55AE;&#x7684;command&#x4F86;&#x9032;&#x884C;&#x7DE8;&#x8B6F;&#xFF1B;&#x7A0D;&#x5FAE;&#x8907;&#x96DC;&#x4E00;&#x9EDE;&#x7684;&#x7A0B;&#x5F0F;&#xFF0C;&#x53EF;&#x4EE5;&#x7528;shell script&#x4F86;&#x5E6B;&#x5FD9;&#x9032;&#x884C;&#x7DE8;&#x8B6F;&#x3002;&#x5982;&#x4ECA;&#x7684;&#x7A0B;&#x5F0F;(&#x5982;Apache, Linux Kernel)&#x53EF;&#x80FD;&#x52D5;&#x8F12;&#x6578;&#x767E;&#x842C;&#x884C;&#x7A0B;&#x5F0F;&#x78BC;&#xFF0C;&#x6578;&#x842C;&#x500B;&#x6A19;&#x982D;&#x6A94;(headers)&#x3001;&#x51FD;&#x5F0F;&#x5EAB;(libraries)&#x4EE5;&#x53CA;&#x7A0B;&#x5F0F;&#x78BC;(source code)&#xFF0C;&#x5982;&#x679C;&#x53EA;&#x662F;&#x91DD;&#x5C0D;&#x5E7E;&#x500B;&#x6A94;&#x6848;&#x9032;&#x884C;&#x4FEE;&#x6539;&#xFF0C;&#x537B;&#x8981;&#x7528;shell script&#x6574;&#x500B;&#x7A0B;&#x5F0F;&#x91CD;&#x65B0;&#x7DE8;&#x8B6F;&#xFF0C;&#x4E0D;&#x4F46;&#x6D6A;&#x8CBB;&#x6642;&#x9593;&#x4E5F;&#x76F8;&#x7576;&#x6C92;&#x6709;&#x6548;&#x7387;&#x3002;GNU make&#x6216;&#x662F;&#x5176;&#x4ED6;make&#x7A0B;&#x5F0F;&#x7684;&#x7528;&#x9014;&#x5C31;&#x5728;&#x9019;&#x88E1;&#xFF1A; &#x7576;&#x7A0B;&#x5F0F;&#x6709;&#x4E9B;&#x8A31;&#x8B8A;&#x52D5;&#x6642;&#xFF0C;&#x6211;&#x5011;&#x9700;&#x8981;&#x4E00;&#x500B;&#x7A0B;&#x5F0F;&#x5E6B;&#x52A9;&#x6211;&#x5011;&#x5224;&#x65B7;&#x54EA;&#x4E9B;&#x9700;&#x8981;&#x91CD;&#x65B0;&#x7DE8;&#x8B6F;&#xFF0C;&#x54EA;&#x4E9B;&#x4E0D;&#x7528;&#xFF1B;&#x56E0;&#x6B64;&#xFF0C;&#x64B0;&#x5BEB;&#x4E00;&#x500B;&#x597D;&#x7684;Makefile&#x4FBF;&#x662F;&#x76F8;&#x7576;&#x91CD;&#x8981;&#x7684;&#x80FD;&#x529B;&#x3002;</p>
 <p>&#x4E0D;&#x904E;&#x8A71;&#x8AAA;&#x56DE;&#x4F86;&#xFF0C;&#x662F;&#x4E0D;&#x662F;&#x6BCF;&#x4E00;&#x96BB;&#x7A0B;&#x5F0F;&#x90FD;&#x9700;&#x8981;&#x4E00;&#x500B;Makefile&#x5462;&#xFF1F;&#x5176;&#x5BE6;&#x64B0;&#x5BEB;Makefile&#x662F;&#x6709;&#x76CA;&#x7121;&#x5BB3;&#x7684;&#xFF0C;&#x53EA;&#x662F;&#x5982;&#x679C;&#x4F60;&#x7684;&#x7A0B;&#x5F0F;&#x5C31;&#x53EA;&#x6709;&#x5169;&#x4E09;&#x500B;source codes&#x9700;&#x8981;&#x7DE8;&#x8B6F;&#xFF0C;&#x5176;&#x5BE6;&#x5FD8;&#x6389;Makefile&#x4E5F;&#x6C92;&#x95DC;&#x4FC2;&#x3002;&#x672C;&#x6587;&#x7684;&#x76EE;&#x7684;&#x662F;&#x5E0C;&#x671B;&#x4EE5;&#x7BC4;&#x4F8B;&#x7684;&#x65B9;&#x5F0F;&#x80FD;&#x5920;&#x8B93;&#x8B80;&#x8005;&#x80FD;&#x770B;&#x5F97;&#x61C2;&#xFF0C;&#x4E26;&#x4E14;&#x6709;&#x80FD;&#x529B;&#x64B0;&#x5BEB;&#x4E26;&#x4FEE;&#x6539;Makefile&#xFF0C;&#x4E5F;&#x9806;&#x4FBF;&#x7576;&#x4F5C;&#x81EA;&#x5DF1;&#x7684;&#x7B46;&#x8A18;&#x3002;</p>
-<h2 id="%E5%82%B3%E7%B5%B1%E7%9A%84%E7%B7%A8%E8%AD%AF%EF%BC%9A">&#x50B3;&#x7D71;&#x7684;&#x7DE8;&#x8B6F;&#xFF1A;</h2>
+<h2 id="&#x50B3;&#x7D71;&#x7684;&#x7DE8;&#x8B6F;&#xFF1A;">&#x50B3;&#x7D71;&#x7684;&#x7DE8;&#x8B6F;&#xFF1A;</h2>
 <pre><code class="lang-sh">gcc foo1.c -o foo1
 </code></pre>
 <p>&#x4E8B;&#x5BE6;&#x4E0A;&#xFF0C;&#x4E0A;&#x9762;&#x7684;&#x9019;&#x500B;&#x7DE8;&#x8B6F;&#x65B9;&#x5F0F;&#x53EF;&#x4EE5;&#x62C6;&#x89E3;&#x6210;&#xFF1A;</p>
@@ -15187,9 +15121,9 @@ ANSI&#x662F;American National Standards Institute&#xFF0C;&#x5373;&#x7F8E;&#x570B
 <p>&#x7576;&#x524D;&#x76EE;&#x9304;</p>
 <p>&#x56E0;&#x6B64;&#x7DE8;&#x8B6F;&#x6642;&#xFF0C;&#x5229;&#x7528;-L&#x6307;&#x5B9A;&#x76EE;&#x9304;&#x544A;&#x8A34;&#x7DE8;&#x8B6F;&#x5668;&#x53EF;&#x4EE5;&#x8A72;&#x8DEF;&#x5F91;&#x4E0B;&#x5C0B;&#x627E;libpthread.so&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x82E5;&#x4F7F;&#x7528;&#x4E86;-l&#xFF0C;&#x5247;&#x5FC5;&#x9808;&#x78BA;&#x5B9A;&#x6240;&#x4F7F;&#x7528;&#x7684;lib&#x6709;&#x5728;&#x9810;&#x8A2D;&#x5C0B;&#x627E;&#x7684;&#x76EE;&#x9304;&#x4E2D;&#xFF0C;&#x5426;&#x5247;&#x5C31;&#x5FC5;&#x9808;&#x5229;&#x7528;-L&#x4F86;&#x6307;&#x5B9A;&#x8DEF;&#x5F91;&#x7D66;&#x7DE8;&#x8B6F;&#x5668;&#x3002;
 &#x7576;&#x7136;&#xFF0C;&#x53EF;&#x4EE5;&#x5229;&#x7528;&#x591A;&#x500B;-L&#x4F86;&#x6307;&#x5B9A;&#x591A;&#x500B;lib&#x8DEF;&#x5F91;&#x3002;</p>
-<h1 id="%E9%9D%9C%E6%85%8B%E3%80%81%E5%85%B1%E4%BA%AB%E8%88%87%E5%8B%95%E6%85%8B%E9%8F%88%E7%B5%90%E5%87%BD%E5%BC%8F%E5%BA%AB">&#x975C;&#x614B;&#x3001;&#x5171;&#x4EAB;&#x8207;&#x52D5;&#x614B;&#x93C8;&#x7D50;&#x51FD;&#x5F0F;&#x5EAB;</h1>
+<h1 id="&#x975C;&#x614B;&#x3001;&#x5171;&#x4EAB;&#x8207;&#x52D5;&#x614B;&#x93C8;&#x7D50;&#x51FD;&#x5F0F;&#x5EAB;">&#x975C;&#x614B;&#x3001;&#x5171;&#x4EAB;&#x8207;&#x52D5;&#x614B;&#x93C8;&#x7D50;&#x51FD;&#x5F0F;&#x5EAB;</h1>
 <p>&#x6211;&#x5011;&#x5DF2;&#x7D93;&#x77E5;&#x9053;&#xFF1A;&#x8F2A;&#x5B50;&#x4E0D;&#x5FC5;&#x91CD;&#x8907;&#x767C;&#x660E; -- &#x4EBA;&#x5BB6;&#x5BEB;&#x597D;&#x7684;&#x65B9;&#x6CD5;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x62FF;&#x4F86;&#x7528;&#x3002;&#x4E0D;&#x904E;&#x5F88;&#x591A;&#x6642;&#x5019;&#xFF0C;&#x9019;&#x4E9B;&#x65B9;&#x6CD5;&#x53EF;&#x80FD;&#x56E0;&#x70BA;&#x67D0;&#x4E9B;&#x56E0;&#x7D20;&#xFF0C;&#x5E0C;&#x671B;&#x63D0;&#x4F9B;&#x7D66;&#x5225;&#x4EBA;&#x4F7F;&#x7528;&#x537B;&#x53C8;&#x4E0D;&#x5E0C;&#x671B;&#x516C;&#x4F48;&#x539F;&#x59CB;&#x78BC;&#xFF0C;&#x9019;&#x6642;&#x5019;&#x7DE8;&#x8B6F;&#x6210;libraries&#x662F;&#x6700;&#x597D;&#x7684;&#x9078;&#x64C7;</p>
-<h2 id="%E9%9D%9C%E6%85%8B%E5%87%BD%E5%BC%8F-static-libraries">&#x975C;&#x614B;&#x51FD;&#x5F0F;(static libraries)</h2>
+<h2 id="&#x975C;&#x614B;&#x51FD;&#x5F0F;static-libraries">&#x975C;&#x614B;&#x51FD;&#x5F0F;(static libraries)</h2>
 <p>&#x975C;&#x614B;&#x51FD;&#x5F0F;&#x5176;&#x5BE6;&#x5C31;&#x662F;&#x5C07;&#x4E00;&#x7CFB;&#x5217;.o&#x6A94;&#x6253;&#x5305;&#x8D77;&#x4F86;&#xFF0C;&#x56E0;&#x6B64;&#x5979;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x8996;&#x70BA;&#x4E00;&#x500B;&#x5DE8;&#x5927;&#x7684;.o&#x6A94;&#x3002;&#x6253;&#x9020;&#x51FA;&#x4E00;&#x500B;&#x975C;&#x614B;&#x51FD;&#x5F0F;&#x7684;&#x65B9;&#x6CD5;&#x5F88;&#x7C21;&#x55AE;&#xFF1A;</p>
 <pre><code class="lang-sh">gcc operator.c -c
 ar crsv liboperator.a operator.o
@@ -15204,7 +15138,7 @@ ar crsv liboperator.a operator.o
 <pre><code class="lang-sh">gcc main.c -L /usr/<span class="hljs-built_in">local</span>/foo/lib -loperator -o main
 </code></pre>
 <p>&#x975C;&#x614B;&#x51FD;&#x5F0F;&#x5C07;&#x6240;&#x6709;&#x7684;&#x529F;&#x80FD;&#x5168;&#x90E8;&#x6253;&#x5305;&#x5728;&#x4E00;&#x8D77;&#xFF0C;&#x56E0;&#x6B64;binary&#x6703;&#x8B8A;&#x5F97;&#x5F88;&#x5DE8;&#x5927;&#xFF0C;&#x4F46;&#x662F;&#x57F7;&#x884C;&#x9019;&#x500B;&#x7A0B;&#x5F0F;&#x7684;&#x6240;&#x6709;&#x529F;&#x80FD;&#x90FD;&#x5DF2;&#x6EFF;&#x8DB3;&#xFF0C;&#x4E0D;&#x6703;&#x518D;&#x6709;libraries&#x76F8;&#x4F9D;&#x6027;&#x7684;&#x554F;&#x984C;&#x3002;&#x4F46;&#x662F;&#x7F3A;&#x9EDE;&#x5728;&#x65BC;&#x7576;&#x67D0;&#x4E9B;libraries&#x7684;&#x529F;&#x80FD;&#x6709;&#x6240;&#x66F4;&#x65B0;&#x6642;&#xFF0C;&#x9019;&#x500B;&#x7A0B;&#x5F0F;&#x5C31;&#x5FC5;&#x9808;&#x91CD;&#x65B0;&#x7DE8;&#x8B6F;&#xFF0C;&#x7121;&#x6CD5;&#x4EAB;&#x53D7;&#x5230;&#x5373;&#x6642;&#x66F4;&#x65B0;&#x7684;&#x512A;&#x9EDE;&#x3002;&#x901A;&#x5E38;&#x5546;&#x696D;&#x8EDF;&#x9AD4;&#x4EE5;&#x53CA;&#x5D4C;&#x5165;&#x5F0F;&#x7CFB;&#x7D71;&#x7B49;&#x529F;&#x80FD;&#x7570;&#x52D5;&#x8F03;&#x5C11;&#x7684;&#x7A0B;&#x5F0F;&#xFF0C;&#x6703;&#x50BE;&#x5411;&#x4F7F;&#x7528;&#x975C;&#x614B;&#x51FD;&#x5F0F;&#x3002;</p>
-<h2 id="%E5%85%B1%E4%BA%AB%E5%87%BD%E5%BC%8F-shared-libraries">&#x5171;&#x4EAB;&#x51FD;&#x5F0F;(shared libraries)</h2>
+<h2 id="&#x5171;&#x4EAB;&#x51FD;&#x5F0F;shared-libraries">&#x5171;&#x4EAB;&#x51FD;&#x5F0F;(shared libraries)</h2>
 <p>&#x5171;&#x4EAB;&#x51FD;&#x5F0F;&#x8DDF;&#x975C;&#x614B;&#x51FD;&#x5F0F;&#x7684;&#x89C0;&#x5FF5;&#x525B;&#x597D;&#x76F8;&#x53CD;&#xFF0C;&#x7A0B;&#x5F0F;&#x5728;&#x57F7;&#x884C;&#x6642;&#x5FC5;&#x9808;&#x80FD;&#x5920;&#x627E;&#x5230;&#x76F8;&#x4F9D;&#x7684;&#x51FD;&#x5F0F;&#xFF0C;&#x5426;&#x5247;&#x57F7;&#x884C;&#x6642;&#x6703;&#x51FA;&#x73FE;&#x932F;&#x8AA4;&#x8A0A;&#x606F;&#x3002;&#x88FD;&#x4F5C;&#x4E00;&#x500B;&#x5171;&#x4EAB;&#x51FD;&#x5F0F;&#x7684;&#x65B9;&#x6CD5;&#x4E5F;&#x5F88;&#x7C21;&#x55AE;&#xFF1A;</p>
 <pre><code class="lang-sh">gcc -shared operator.c -o liboperator.so
 </code></pre>
@@ -15234,14 +15168,14 @@ gcc -shared operator.o -o liboperator.so
 </li>
 </ul>
 <p>&#x5171;&#x4EAB;&#x51FD;&#x5F0F;&#x7D93;&#x5E38;&#x51FA;&#x73FE;&#x5728;&#x958B;&#x653E;&#x539F;&#x59CB;&#x78BC;&#x7684;linux&#x4E16;&#x754C;&#x88E1;&#xFF0C;<code>&#x7531;&#x65BC;&#x4F7F;&#x7528;&#x6240;&#x6709;&#x51FD;&#x5F0F;&#x7686;&#x662F;&#x5171;&#x4EAB;&#x7684;</code>&#xFF0C;&#x56E0;&#x6B64;&#x8A31;&#x591A;&#x7A0B;&#x5F0F;&#x90FD;&#x53EF;&#x4EE5;&#x91CD;&#x8907;&#x5229;&#x7528;&#x65E2;&#x6709;&#x7684;&#x529F;&#x80FD;&#xFF1B;&#x6709;&#x65B0;&#x529F;&#x80FD;&#x6216;&#x662F;bug&#x4E5F;&#x80FD;&#x7C21;&#x55AE;&#x7684;&#x66FF;&#x63DB;&#x6389;&#x8A72;&#x51FD;&#x5F0F;&#xFF0C;&#x6240;&#x6709;&#x7A0B;&#x5F0F;&#x90FD;&#x53EF;&#x4EE5;&#x5373;&#x6642;&#x4EAB;&#x53D7;&#x5230;&#x9019;&#x6A23;&#x7684;&#x6539;&#x8B8A;&#xFF0C;&#x4E5F;&#x662F;&#x6700;&#x70BA;&#x5E38;&#x898B;&#x7684;&#x51FD;&#x5F0F;&#x578B;&#x614B;&#x3002;</p>
-<h2 id="%E5%8B%95%E6%85%8B%E5%87%BD%E5%BC%8F-dynamic-libraries">&#x52D5;&#x614B;&#x51FD;&#x5F0F;(dynamic libraries)</h2>
+<h2 id="&#x52D5;&#x614B;&#x51FD;&#x5F0F;dynamic-libraries">&#x52D5;&#x614B;&#x51FD;&#x5F0F;(dynamic libraries)</h2>
 <p>&#x52D5;&#x614B;&#x51FD;&#x5F0F;&#x8DDF;&#x5171;&#x4EAB;&#x51FD;&#x5F0F;&#x975E;&#x5E38;&#x985E;&#x4F3C;&#xFF0C;<code>&#x552F;&#x4E00;&#x7684;&#x5DEE;&#x5225;&#x5728;&#x65BC;&#x7A0B;&#x5F0F;&#x57F7;&#x884C;&#x6642;&#x671F;&#x4E26;&#x4E0D;&#x6703;&#x53BB;&#x6AA2;&#x67E5;&#x8A72;&#x51FD;&#x5F0F;&#x662F;&#x5426;&#x5B58;&#x5728;&#xFF0C;&#x800C;&#x662F;&#x7A0B;&#x5F0F;&#x57F7;&#x884C;&#x5230;&#x67D0;&#x529F;&#x80FD;&#x6642;&#x624D;&#x9032;&#x884C;&#x6AA2;&#x67E5;</code>&#x3002;&#x9019;&#x7A2E;&#x52D5;&#x614B;&#x8F09;&#x5165;&#x7684;&#x6280;&#x8853;&#x6700;&#x5E38;&#x7528;&#x5728;&#x700F;&#x89BD;&#x5668;&#x6216;&#x662F;&#x5927;&#x578B;&#x7A0B;&#x5F0F;&#x7684;&#x5916;&#x639B;&#x7A0B;&#x5F0F;&#xFF0C;&#x7576;&#x6709;&#x9700;&#x8981;&#x7528;&#x5230;&#x9019;&#x500B;&#x529F;&#x80FD;&#x6642;&#x624D;&#x8F09;&#x5165;&#x9032;&#x4F86;&#x3002;
 &#x88FD;&#x4F5C;&#x4E00;&#x500B;&#x52D5;&#x614B;&#x51FD;&#x5F0F;&#x6BD4;&#x8F03;&#x9EBB;&#x7169;&#x3002;</p>
 <pre><code class="lang-sh">gcc -c <span class="hljs-operator">-f</span>PIC operator.c
 gcc -shared operator.o -o liboperator.so
 </code></pre>
 <p>&#x5176;&#x4E2D;&#x7684;<code>-fPIC&#x662F;&#x7522;&#x751F;position-independent code</code>&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x7528;-fpic&#x3002;&#x8A73;&#x7D30;&#x7684;&#x7528;&#x6CD5;&#x5DF2;&#x7D93;&#x8D85;&#x904E;&#x7B46;&#x8005;&#x7684;&#x7406;&#x89E3;&#x7BC4;&#x570D;&#xFF0C;&#x64B0;&#x5BEB;&#x547C;&#x53EB;&#x52D5;&#x614B;&#x51FD;&#x5F0F;&#x7684;&#x7A0B;&#x5F0F;&#x78BC;&#x4E5F;&#x9700;&#x8981;&#x50B3;&#x5165;&#x76F8;&#x95DC;&#x53C3;&#x6578;&#x3002;&#x95DC;&#x65BC;&#x66F4;&#x591A;dynamic libraries&#x7684;&#x7528;&#x6CD5;&#x8ACB;&#x53C3;&#x8003;&#x9019;&#x88E1;&#x3002; </p>
-<h2 id="%E9%82%81%E5%90%91makefile%E4%B9%8B%E8%B7%AF">&#x9081;&#x5411;Makefile&#x4E4B;&#x8DEF;</h2>
+<h2 id="&#x9081;&#x5411;makefile&#x4E4B;&#x8DEF;">&#x9081;&#x5411;Makefile&#x4E4B;&#x8DEF;</h2>
 <p>&#x8AAA;&#x4E86;&#x9019;&#x9EBC;&#x591A;&#xFF0C;&#x5C1A;&#x672A;&#x89F8;&#x78B0;&#x5230;Makefile&#x672C;&#x8EAB;&#x3002;&#x4EE5;&#x4E0A;&#x7684;&#x7BC4;&#x4F8B;&#x5982;&#x679C;&#x90FD;&#x5920;&#x6E05;&#x695A;&#x4E86;&#xFF0C;&#x63A5;&#x4E0B;&#x4F86;&#x7684;Makefile&#x624D;&#x80FD;&#x5920;&#x7E7C;&#x7E8C;&#x5B78;&#x7FD2;&#x4E0B;&#x53BB;&#x5594;&#xFF01;
 &#x4EE5;&#x4E0B;&#x662F;Makefile&#x7684;&#x57FA;&#x672C;&#x7D44;&#x6210;&#xFF1A;</p>
 <pre><code class="lang-sh"><span class="hljs-comment"># comments</span>
@@ -15450,7 +15384,7 @@ clean:
 <p><a href="http://quickhighlighter.com/" target="_blank">quickhighlighter.com</a></p>
 <p><a href="http://seotools.devshed.com/tools/advanced-syntax-highlighting/" target="_blank">Advanced Syntax Highlighting</a></p>
 <p>&#x672C;&#x6587;&#x5229;&#x7528;&#x4E09;&#x500B;&#x865B;&#x64EC;&#x7BC4;&#x4F8B;&#x4EE5;&#x53CA;&#x5169;&#x500B;&#x771F;&#x5BE6;&#x7BC4;&#x4F8B;&#x4F86;&#x5C0D;Makefile&#x4F5C;&#x6700;&#x7C21;&#x55AE;&#x7684;&#x4ECB;&#x7D39;&#xFF0C;&#x5BE6;&#x969B;&#x4E0A;make&#x7684;&#x5DE5;&#x5177;&#x8DDF;&#x529F;&#x80FD;&#x5BE6;&#x5728;&#x592A;&#x591A;&#xFF0C;&#x7B46;&#x8005;&#x53EA;&#x80FD;&#x5C31;&#x81EA;&#x5DF1;&#x7684;&#x7406;&#x89E3;&#x4EE5;&#x53CA;&#x80FD;&#x529B;&#x7BC4;&#x570D;&#x4F5C;&#x7C21;&#x55AE;&#x7684;&#x7B46;&#x8A18;&#x8DDF;&#x4ECB;&#x7D39;&#x3002;&#x771F;&#x5BE6;&#x7BC4;&#x4F8B;&#x7684;&#x4F5C;&#x8005;&#x7B46;&#x8005;&#x90FD;&#x61F7;&#x8457;&#x5341;&#x5206;&#x5C0A;&#x656C;&#x7684;&#x614B;&#x5EA6;&#xFF0C;&#x5C07;&#x4ED6;&#x5011;&#x7684;Makefile&#x4F5C;&#x70BA;&#x512A;&#x52A3;&#x7684;&#x6559;&#x5B78;&#x7BC4;&#x4F8B;&#x4E5F;&#x50C5;&#x50C5;&#x53EA;&#x662F;&#x5C31;&#x4E8B;&#x8AD6;&#x4E8B;&#xFF0C;&#x7D72;&#x6BEB;&#x4E0D;&#x6E1B;&#x6211;&#x5C0D;&#x9019;&#x4E9B;&#x8CA2;&#x737B;&#x81EA;&#x5DF1;&#x7A0B;&#x5F0F;&#x78BC;&#x7684;&#x8001;&#x5E2B;&#x8207;&#x524D;&#x8F29;&#x7684;&#x5C0A;&#x656C;&#x4E4B;&#x610F;&#x3002;&#x7576;&#x7136;&#xFF0C;&#x9019;&#x7BC7;&#x6587;&#x7AE0;&#x53C3;&#x8003;&#x4E86;&#x975E;&#x5E38;&#x591A;&#x4EBA;&#x7684;&#x667A;&#x6167;&#x7D50;&#x6676;&#xFF1B;&#x5982;&#x679C;&#x60A8;&#x7684;Makefile&#x96E3;&#x5EA6;&#x8D85;&#x904E;&#x672C;&#x7BC7;&#x7B46;&#x8A18;&#x66F4;&#x662F;&#x7406;&#x6240;&#x7576;&#x7136;&#xFF0C;&#x4E5F;&#x8A31;&#x53C3;&#x8003;&#x7B46;&#x8005;&#x6240;&#x53C3;&#x8003;&#x904E;&#x5F97;&#x6587;&#x7AE0;&#xFF0C;&#x5C0D;&#x60A8;&#x800C;&#x8A00;&#x6703;&#x662F;&#x500B;&#x6BD4;&#x8F03;&#x7701;&#x6642;&#x7684;&#x9078;&#x64C7;&#xFF1A;</p>
-<h2 id="%E5%8F%83%E8%80%83">&#x53C3;&#x8003;</h2>
+<h2 id="&#x53C3;&#x8003;">&#x53C3;&#x8003;</h2>
 <p>GNU make&#x4F7F;&#x7528;&#x624B;&#x518A; &#x4E2D;&#x8B6F;&#x7248;</p>
 <p>&#x5982;&#x4F55;&#x5BEB;&#x4E00;&#x500B;&#x7C21;&#x55AE;&#x7684;Makefile
 &#x88E1;&#x9EB5;&#x5305;&#x542B;&#x8A31;&#x591A;&#x7AE0;&#x7BC0;&#xFF0C;&#x7531;&#x738B;&#x68EE;&#x6240;&#x7FFB;&#x8B6F;&#xFF0C;&#x5176;&#x7FFB;&#x8B6F;&#x7684;&#x54C1;&#x8CEA;&#x975E;&#x5E38;&#x7684;&#x9AD8;&#x3002;</p>
@@ -15505,9 +15439,17 @@ ytha&#x7528;&#x975E;&#x5E38;&#x8F15;&#x9B06;&#x7C21;&#x55AE;&#x7684;&#x53E3;&#x5
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

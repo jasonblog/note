@@ -8,7 +8,7 @@
         <title>linux系統編程之文件與IO（八）：文件描述符相關操作-dup,dup2,fcntl | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="13.1.8" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="13.1.8"
+        data-chapter-title="linux系統編程之文件與IO（八）：文件描述符相關操作-dup,dup2,fcntl"
+        data-filepath="linux_system/linuxxi_tong_bian_cheng_zhi_wen_jian_yu_io_ff08_ba.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,16 +15051,16 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="linux%E7%B3%BB%E7%B5%B1%E7%B7%A8%E7%A8%8B%E4%B9%8B%E6%96%87%E4%BB%B6%E8%88%87io%EF%BC%88%E5%85%AB%EF%BC%89%EF%BC%9A%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E7%AC%A6%E7%9B%B8%E9%97%9C%E6%93%8D%E4%BD%9C-dup-dup2-fcntl">linux&#x7CFB;&#x7D71;&#x7DE8;&#x7A0B;&#x4E4B;&#x6587;&#x4EF6;&#x8207;IO&#xFF08;&#x516B;&#xFF09;&#xFF1A;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;&#x76F8;&#x95DC;&#x64CD;&#x4F5C;-dup,dup2,fcntl</h1>
+                        <h1 id="linux&#x7CFB;&#x7D71;&#x7DE8;&#x7A0B;&#x4E4B;&#x6587;&#x4EF6;&#x8207;io&#xFF08;&#x516B;&#xFF09;&#xFF1A;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;&#x76F8;&#x95DC;&#x64CD;&#x4F5C;dupdup2fcntl">linux&#x7CFB;&#x7D71;&#x7DE8;&#x7A0B;&#x4E4B;&#x6587;&#x4EF6;&#x8207;IO&#xFF08;&#x516B;&#xFF09;&#xFF1A;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;&#x76F8;&#x95DC;&#x64CD;&#x4F5C;-dup,dup2,fcntl</h1>
 <p>&#x672C;&#x7BC0;&#x76EE;&#x6A19;&#xFF1A;</p>
-<h3 id="1-%E6%96%87%E4%BB%B6%E5%85%B1%E4%BA%AB">1,&#x6587;&#x4EF6;&#x5171;&#x4EAB;</h3>
+<h3 id="1&#x6587;&#x4EF6;&#x5171;&#x4EAB;">1,&#x6587;&#x4EF6;&#x5171;&#x4EAB;</h3>
 <ul>
 <li>&#x6253;&#x958B;&#x6587;&#x4EF6;&#x5167;&#x6838;&#x6578;&#x64DA;&#x7D50;&#x69CB;</li>
 <li>&#x4E00;&#x500B;&#x9032;&#x7A0B;&#x5169;&#x6B21;&#x6253;&#x958B;&#x540C;&#x4E00;&#x500B;&#x6587;&#x4EF6;</li>
 <li>&#x5169;&#x500B;&#x9032;&#x7A0B;&#x6253;&#x958B;&#x540C;&#x4E00;&#x500B;&#x6587;&#x4EF6;</li>
 </ul>
-<h3 id="2-%E8%A4%87%E8%A3%BD%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E7%AC%A6%EF%BC%88dup%E3%80%81dup2%E3%80%81fcntl%EF%BC%89">2,&#x8907;&#x88FD;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;&#xFF08;dup&#x3001;dup2&#x3001;fcntl&#xFF09;</h3>
-<h2 id="%E4%B8%80%EF%BC%8C%E6%96%87%E4%BB%B6%E5%85%B1%E4%BA%AB">&#x4E00;&#xFF0C;&#x6587;&#x4EF6;&#x5171;&#x4EAB;</h2>
+<h3 id="2&#x8907;&#x88FD;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;&#xFF08;dup&#x3001;dup2&#x3001;fcntl&#xFF09;">2,&#x8907;&#x88FD;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;&#xFF08;dup&#x3001;dup2&#x3001;fcntl&#xFF09;</h3>
+<h2 id="&#x4E00;&#xFF0C;&#x6587;&#x4EF6;&#x5171;&#x4EAB;">&#x4E00;&#xFF0C;&#x6587;&#x4EF6;&#x5171;&#x4EAB;</h2>
 <p>1&#xFF0C;&#x4E00;&#x500B;&#x9032;&#x7A0B;&#x6253;&#x958B;&#x5169;&#x500B;&#x6587;&#x4EF6;&#x5167;&#x6838;&#x6578;&#x64DA;&#x7D50;&#x69CB;</p>
 <p><img src="images/mickole/11163923-ebe087572f6b4f17ae31aa12e82f656a.png" alt=""></p>
 <p>&#x8AAA;&#x660E;&#xFF1A;</p>
@@ -15194,7 +15128,7 @@
 <p>3&#xFF0C;&#x5169;&#x500B;&#x4E0D;&#x540C;&#x9032;&#x7A0B;&#x6253;&#x958B;&#x540C;&#x4E00;&#x500B;&#x6587;&#x4EF6;</p>
 <p><img src="images/mickole/11163926-21b18b14712c4df48c5d71d079bb6c15.png" alt=""></p>
 <p>&#x7576;&#x4E0D;&#x540C;&#x9032;&#x7A0B;&#x6253;&#x958B;&#x540C;&#x4E00;&#x500B;&#x6587;&#x4EF6;&#x6642;&#xFF0C;&#x6BCF;&#x500B;&#x9032;&#x7A0B;&#x9996;&#x5148;&#x5728;&#x5B83;&#x5011;&#x5404;&#x81EA;&#x7684;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;&#x8868;&#x4E2D;&#x9806;&#x5E8F;&#x67E5;&#x627E;&#x672A;&#x88AB;&#x4F7F;&#x7528;&#x7684;&#x63CF;&#x8FF0;&#x7B26;&#xFF0C;&#x6700;&#x7D42;&#x7372;&#x5F97;&#x7684;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;&#x53EF;&#x80FD;&#x76F8;&#x540C;&#x4E5F;&#x53EF;&#x80FD;&#x4E0D;&#x540C;&#xFF0C;&#x6BCF;&#x500B;fd&#x6307;&#x5411;&#x5404;&#x81EA;&#x7684;&#x6587;&#x4EF6;&#x8868;&#xFF0C;&#x4F46;&#x540C;&#x6A23;&#xFF0C;&#x6BCF;&#x500B;&#x6587;&#x4EF6;&#x8868;&#x4E2D;&#x7684;v&#x7BC0;&#x9EDE;&#x6307;&#x91DD;&#x90FD;&#x6307;&#x5411;&#x540C;&#x4E00;&#x500B;v&#x7BC0;&#x9EDE;&#x8868;&#x3002;</p>
-<h2 id="%E4%BA%8C%E3%80%81%E8%A4%87%E8%A3%BD%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E7%AC%A6">&#x4E8C;&#x3001;&#x8907;&#x88FD;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;</h2>
+<h2 id="&#x4E8C;&#x3001;&#x8907;&#x88FD;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;">&#x4E8C;&#x3001;&#x8907;&#x88FD;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;</h2>
 <p>&#x8907;&#x88FD;&#x524D;&#xFF1A;</p>
 <p><img src="images/mickole/11163927-606511098dea49e8b9578e9c39ef9230.png" alt=""></p>
 <p>&#x8907;&#x88FD;&#x5F8C;&#xFF1A;</p>
@@ -15395,9 +15329,17 @@ from dup2(2), which uses exactly the descriptor specified.</p>
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

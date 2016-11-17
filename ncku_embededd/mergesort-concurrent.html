@@ -8,7 +8,7 @@
         <title>mergesort-concurrent | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="59.1.6" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="59.1.6"
+        data-chapter-title="mergesort-concurrent"
+        data-filepath="ncku_embededd/mergesort-concurrent.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,16 +15051,16 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="mergesort-concurrent">mergesort-concurrent</h1>
+                        <h1 id="mergesortconcurrent">mergesort-concurrent</h1>
 <p>&#xFEFF;# A07: mergesort-concurrent</p>
-<h2 id="%E9%A0%90%E6%9C%9F%E7%9B%AE%E6%A8%99">&#x9810;&#x671F;&#x76EE;&#x6A19;</h2>
+<h2 id="&#x9810;&#x671F;&#x76EE;&#x6A19;">&#x9810;&#x671F;&#x76EE;&#x6A19;</h2>
 <ul>
 <li>&#x4F5C;&#x70BA; <a href="s/H10MXXoT">concurrency</a> &#x7684;&#x5C55;&#x793A;&#x6848;&#x4F8B;</li>
 <li>&#x5B78;&#x7FD2; POSIX Thread Programming&#xFF0C;&#x7279;&#x5225;&#x662F; <a href="https://docs.oracle.com/cd/E19683-01/806-6867/6jfpgdcnd/index.html" target="_blank">synchronization object</a></li>
 <li>&#x70BA;&#x65E5;&#x5F8C;&#x6548;&#x80FD;&#x5206;&#x6790;&#x548C; scalability &#x7814;&#x7A76;&#x5EFA;&#x69CB;&#x57FA;&#x790E;&#x5EFA;&#x8A2D;</li>
 <li>&#x5B78;&#x7FD2;&#x7A0B;&#x5F0F;&#x54C1;&#x8CEA;&#x5206;&#x6790;&#x548C;&#x76F8;&#x95DC;&#x7684;&#x958B;&#x767C;&#x5DE5;&#x5177;</li>
 </ul>
-<h2 id="%E6%A1%88%E4%BE%8B%E5%88%86%E6%9E%90-mergesort-concurrent-https-github-com-sysprog21-mergesort-concurrent-%E5%B0%8D%E5%96%AE%E5%90%91-linked-list">&#x6848;&#x4F8B;&#x5206;&#x6790;: <a href="https://github.com/sysprog21/mergesort-concurrent" target="_blank">mergesort-concurrent</a> (&#x5C0D;&#x55AE;&#x5411; Linked List)</h2>
+<h2 id="&#x6848;&#x4F8B;&#x5206;&#x6790;-mergesortconcurrent-&#x5C0D;&#x55AE;&#x5411;-linked-list">&#x6848;&#x4F8B;&#x5206;&#x6790;: <a href="https://github.com/sysprog21/mergesort-concurrent" target="_blank">mergesort-concurrent</a> (&#x5C0D;&#x55AE;&#x5411; Linked List)</h2>
 <p>&#x5169;&#x5927;&#x91CD;&#x9EDE;:</p>
 <ul>
 <li>&#x6392;&#x5E8F;&#x7684;&#x5C0D;&#x8C61;&#x662F; singly-linked list</li>
@@ -15148,7 +15082,7 @@ $ ./sort
 <ul>
 <li>&#x5EF6;&#x4F38;&#x95B1;&#x8B80;: <a href="http://linux.vbird.org/linux_basic/0320bash.php" target="_blank">&#x7B2C;&#x5341;&#x7AE0;&#x3001;&#x8A8D;&#x8B58;&#x8207;&#x5B78;&#x7FD2;BASH</a>&#xFF0C;&#x300A;&#x9CE5;&#x54E5;&#x7684; Linux &#x79C1;&#x623F;&#x83DC;&#x300B;</li>
 </ul>
-<h2 id="-manager-worker-%E6%9E%B6%E6%A7%8B-http-maxim-int-ru-bookshelf-pthreadsprogram-htm-r-19-html"><a href="http://maxim.int.ru/bookshelf/PthreadsProgram/htm/r_19.html" target="_blank">manager-worker &#x67B6;&#x69CB;</a></h2>
+<h2 id="managerworker-&#x67B6;&#x69CB;"><a href="http://maxim.int.ru/bookshelf/PthreadsProgram/htm/r_19.html" target="_blank">manager-worker &#x67B6;&#x69CB;</a></h2>
 <p>&#x793A;&#x610F;&#x5716;&#x5982;&#x4E0B;&#xFF1A;</p>
 <pre><code class="lang-graphviz">digraph hierarchy {
     nodesep=0.5 // increases the separation between nodes
@@ -15258,7 +15192,7 @@ int tpool_free(tpool_t *the_pool);
 }
 </code></pre>
 <p>&#x6709;&#x4E86;&#x9019;&#x6A23;&#x7684;&#x57FA;&#x790E;&#x5EFA;&#x8A2D;&#xFF0C;&#x6211;&#x5011;&#x7684; mergesort &#x5C31;&#x5F88;&#x5BB9;&#x6613;&#x900F;&#x904E; task &#x9019;&#x6A23;&#x7684;&#x5305;&#x88DD;&#xFF0C;&#x52A0;&#x5165; thread pool &#x4E2D;&#x3002;&#x524D;&#x8FF0;&#x7A0B;&#x5F0F;&#x78BC;&#x5DF2;&#x7D93;&#x7528;&#x5230;&#x7269;&#x4EF6;&#x5C0E;&#x5411;&#x7684;&#x8A2D;&#x8A08;&#x6A21;&#x5F0F;&#xFF0C;&#x53EF;&#x898B; <a href="https://embedded2015.hackpad.com/C-yeZarD8wNb0" target="_blank">&#x4F60;&#x6240;&#x4E0D;&#x77E5;&#x9053;&#x7684;C&#x8A9E;&#x8A00;&#xFF1A;&#x7269;&#x4EF6;&#x5C0E;&#x5411;&#x7A0B;&#x5F0F;&#x8A2D;&#x8A08;&#x7BC7;</a>&#x3002;</p>
-<h2 id="%E5%88%86%E6%9E%90-mutex-contention">&#x5206;&#x6790; mutex contention</h2>
+<h2 id="&#x5206;&#x6790;-mutex-contention">&#x5206;&#x6790; mutex contention</h2>
 <p>mutrace &#x53EF;&#x7528;&#x4F86;&#x5075;&#x6E2C; <a href="https://en.wikipedia.org/wiki/Lock_(computer_science" target="_blank">lock contention</a>#Granularity)&#xFF0C;&#x4F7F;&#x7528;&#x5F88;&#x65B9;&#x4FBF;&#xFF0C;&#x4E0D;&#x9700;&#x8981;&#x91CD;&#x65B0;&#x7DE8;&#x8B6F;&#x7A0B;&#x5F0F;&#x78BC;&#x3002;</p>
 <pre><code class="lang-shell">$ sudo apt-get install mutrace
 </code></pre>
@@ -15299,7 +15233,7 @@ mergesort-concurrent/main.c:167
 <img src="https://i.imgur.com/fMQZUGl.jpg" alt=""></p>
 <p>&#x7528;&#x624B;&#x756B;&#x6703;&#x5F88;&#x75DB;&#x82E6;&#xFF0C;&#x800C; Graphviz &#x53EF;&#x4EE5;&#x66FF;&#x4F7F;&#x7528;&#x8005;&#x641E;&#x5B9A;&#x5B83;&#x3002;<a href="http://www.graphviz.org/" target="_blank">Graphviz</a> &#x63D0;&#x4F9B;&#x4E00;&#x5957;&#x8A9E;&#x8A00;&#xFF0C;&#x8B93;&#x60A8;&#x80FD;&#x76F4;&#x63A5;&#x9673;&#x8FF0;&#x5716;&#x7247;&#x4E0A;&#x7684;&#x7BC0;&#x9EDE;&#x3001;&#x908A;&#x3001;&#x65B9;&#x5411;&#x7B49;&#x6027;&#x8CEA;&#x3002;&#x4E4B;&#x5F8C;&#xFF0C;&#x7531;&#x5B83;&#x4F86;&#x70BA;&#x60A8;&#x7522;&#x751F;&#x6574;&#x5F35;&#x5716;&#x7247;&#x3002;</p>
 <p>Graphviz &#x80FD;&#x756B;&#x7684;&#x5716;&#x7247;&#x6709;&#x8A31;&#x591A;&#x7A2E;&#xFF0C;&#x53EF;&#x5728;<a href="http://www.graphviz.org/Gallery.php" target="_blank">&#x5B98;&#x65B9;&#x7DB2;&#x7AD9;</a>&#x627E;&#x5230;&#x66F4;&#x591A;&#x7BC4;&#x4F8B;&#x3002;</p>
-<p>HackMD &#x5DF2;&#x7D93;&#x652F;&#x63F4; GraphViz&#xFF0C;&#x672C;&#x9801; mergesort &#x7684;&#x5716;&#x4F8B;&#x5C31;&#x662F;&#x7528;&#x8A72;&#x5DE5;&#x5177;&#x7E6A;&#x88FD;&#x3002;&#x6309;&#x53F3;&#x4E0A;&#x65B9; <i class="fa fa-pencil"></i> &#x4E4B;&#x5F8C;&#x518D;&#x6309;&#x5DE6;&#x4E0A;&#x65B9; <i class="fa fa-columns"></i>&#xFF0C;&#x67E5;&#x770B; GraphViz &#x7684;&#x4F7F;&#x7528;&#x3002;</p>
+<p>HackMD &#x5DF2;&#x7D93;&#x652F;&#x63F4; GraphViz&#xFF0C;&#x672C;&#x9801; mergesort &#x7684;&#x5716;&#x4F8B;&#x5C31;&#x662F;&#x7528;&#x8A72;&#x5DE5;&#x5177;&#x7E6A;&#x88FD;&#x3002;&#x6309;&#x53F3;&#x4E0A;&#x65B9; <i class="fa fa-pencil">&lt;/i&gt; &#x4E4B;&#x5F8C;&#x518D;&#x6309;&#x5DE6;&#x4E0A;&#x65B9; <i class="fa fa-columns"></i>&#xFF0C;&#x67E5;&#x770B; GraphViz &#x7684;&#x4F7F;&#x7528;&#x3002;</i></p>
 <h2 id="git-hooks">Git Hooks</h2>
 <p>[ <a href="http://tech.mozilla.com.tw/posts/5306" target="_blank">source</a> ] Git &#x548C;&#x5176;&#x4ED6;&#x7248;&#x672C;&#x63A7;&#x5236;&#x7CFB;&#x7D71;&#x4E00;&#x6A23;&#xFF0C;&#x53EF;&#x5728;&#x67D0;&#x4E9B;&#x91CD;&#x8981;&#x4E8B;&#x4EF6;&#x767C;&#x751F;&#x6642;&#xFF0C;&#x81EA;&#x52D5;&#x89F8;&#x767C;&#x81EA;&#x8A02;&#x8173;&#x672C;&#x3002;Git hook &#x53EF;&#x5206;&#x5BA2;&#x6236;&#x7AEF;&#x548C;&#x4F3A;&#x670D;&#x5668;&#x7AEF;&#xFF0C;&#x9019;&#x908A;&#x6211;&#x5011;&#x53EA;&#x89E3;&#x8AAA;&#x5BA2;&#x6236;&#x7AEF;  hooks &#x5982;&#x4F55;&#x81EA;&#x52D5;&#x5316;&#x5DE5;&#x4F5C;&#x6D41;&#x7A0B;&#x3002;</p>
 <p>&#x6BCF;&#x500B; Git repository &#x4E2D;&#x90FD;&#x6709;&#x4E00;&#x500B; <code>.git/hooks</code> &#x76EE;&#x9304;&#xFF0C;&#x88E1;&#x9762;&#x7684;&#x5167;&#x5BB9;&#x5982;&#x4E0B;&#xFF1A;</p>
@@ -15333,13 +15267,13 @@ post-update.sample     prepare-commit-msg.sample  update.sample
 Fail to pass static analysis.
 </code></pre>
 <p>&#x95DC;&#x65BC;&#x6307;&#x6A19;&#x7684;&#x6CE8;&#x610F;&#x9808;&#x77E5;&#xFF0C;&#x53EF;&#x53C3;&#x8003; <a href="https://embedded2015.hackpad.com/C-s0rlzR8wVtm" target="_blank">&#x4F60;&#x6240;&#x4E0D;&#x77E5;&#x9053;&#x7684;C&#x8A9E;&#x8A00;&#xFF1A;&#x6307;&#x6A19;&#x7BC7;</a>&#x3002;&#x985E;&#x4F3C; cppcheck &#x7684;&#x975C;&#x614B;&#x5206;&#x6790;&#x5DE5;&#x5177;&#x5F88;&#x591A;&#xFF0C;&#x50CF;&#x662F; <a href="http://clang-analyzer.llvm.org/" target="_blank">Clang Static Analyzer</a>&#x3002;</p>
-<h2 id="unix-%E6%8C%87%E4%BB%A4%E7%B5%84%E5%90%88%E7%9A%84%E9%AD%94%E6%B3%95">UNIX &#x6307;&#x4EE4;&#x7D44;&#x5408;&#x7684;&#x9B54;&#x6CD5;</h2>
+<h2 id="unix-&#x6307;&#x4EE4;&#x7D44;&#x5408;&#x7684;&#x9B54;&#x6CD5;">UNIX &#x6307;&#x4EE4;&#x7D44;&#x5408;&#x7684;&#x9B54;&#x6CD5;</h2>
 <ul>
 <li><a href="https://github.com/sysprog21/phonebook-concurrent" target="_blank">phonebook-concurrent</a> &#x88E1;&#x982D;&#x7684; <code>dictionary/words.txt</code> &#x8907;&#x88FD;&#x51FA;&#x4F86;&#xFF0C;&#x7136;&#x5F8C;&#x900F;&#x904E; UNIX &#x6307;&#x4EE4;&#x6253;&#x4E82;&#x9806;&#x5E8F;&#xFF0C;&#x4E4B;&#x5F8C;&#x91CD;&#x65B0;&#x5C0E;&#x5411;&#x5230;&#x53E6;&#x4E00;&#x500B;&#x6A94;&#x6848;<pre><code class="lang-shell">$ uniq words.txt | sort -R &gt; input.txt
 </code></pre>
 &#x9019;&#x6A23;&#x6211;&#x5011;&#x5C31;&#x6709;&#x65B0;&#x7684;&#x8CC7;&#x6599;&#x8F38;&#x5165;&#x3002;</li>
 </ul>
-<h2 id="%E4%BD%9C%E6%A5%AD%E8%A6%81%E6%B1%82">&#x4F5C;&#x696D;&#x8981;&#x6C42;</h2>
+<h2 id="&#x4F5C;&#x696D;&#x8981;&#x6C42;">&#x4F5C;&#x696D;&#x8981;&#x6C42;</h2>
 <ul>
 <li>&#x5C07; merge sort &#x7684;&#x5BE6;&#x505A;&#x6539;&#x70BA;&#x53EF;&#x63A5;&#x53D7; <a href="https://github.com/sysprog21/phonebook-concurrent" target="_blank">phonebook-concurrent</a> &#x7684; 35 &#x842C;&#x7B46;&#x8CC7;&#x6599;&#x8F38;&#x5165;&#x7684;&#x8CC7;&#x6599;&#x6A94;<ul>
 <li>&#x5B57;&#x5178;&#x6A94;&#x8CC7;&#x6599;&#x9700;&#x8981;&#x4E8B;&#x5148;&#x7528; <code>sort -R</code> &#x8655;&#x7406;&#x904E;</li>
@@ -15359,7 +15293,7 @@ Fail to pass static analysis.
 </ul>
 </li>
 </ul>
-<h2 id="%E6%8C%91%E6%88%B0%E9%A1%8C">&#x6311;&#x6230;&#x984C;</h2>
+<h2 id="&#x6311;&#x6230;&#x984C;">&#x6311;&#x6230;&#x984C;</h2>
 <ul>
 <li>&#x5F15;&#x5165; C11 &#x672C;&#x8EAB;&#x7684; thread.h &#x5BE6;&#x4F5C;&#x591A;&#x57F7;&#x884C;&#x4E26;&#x7528; <code>_Atomic</code> &#x6539;&#x5BEB;&#x3002;&#x53C3;&#x8003;&#x8CC7;&#x6599;: <ul>
 <li><a href="https://www2.informatik.hu-berlin.de/~keil/docs/keil_-_c11_atomics_20140202.pdf" target="_blank">Atomics in C programming</a></li>
@@ -15409,9 +15343,17 @@ Fail to pass static analysis.
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

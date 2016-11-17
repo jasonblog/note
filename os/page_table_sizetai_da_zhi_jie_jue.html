@@ -8,7 +8,7 @@
         <title>Page Table size太大之解決 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="12.2" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="12.2"
+        data-chapter-title="Page Table size太大之解決"
+        data-filepath="os/page_table_sizetai_da_zhi_jie_jue.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,13 +15051,13 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="page-table-size%E5%A4%AA%E5%A4%A7%E4%B9%8B%E8%A7%A3%E6%B1%BA">Page Table size&#x592A;&#x5927;&#x4E4B;&#x89E3;&#x6C7A;</h1>
+                        <h1 id="page-table-size&#x592A;&#x5927;&#x4E4B;&#x89E3;&#x6C7A;">Page Table size&#x592A;&#x5927;&#x4E4B;&#x89E3;&#x6C7A;</h1>
 <p>page&#x7684;&#x5927;&#x5C0F;&#x6C7A;&#x5B9A;&#x4E86;&#x6620;&#x5C04;&#x7684;&#x7C92;&#x5EA6;(granularity):</p>
 <p> &#x5982;&#x679C;&#x6211;&#x5011;&#x628A;page&#x5207;1MB&#xFF0C;&#x90A3;64MB&#x7684;&#x8A18;&#x61B6;&#x9AD4;&#x5C31;&#x9700;&#x8981;64MB/1MB&#x7684;PTE&#xFF0C;&#x6BCF;&#x500B;PTE&#x662F;32bits(4bytes)&#xFF0C;64x4=256bytes&#x9801;&#x8868;&#x9805;&#x7A7A;&#x9593;&#x3002;4G&#x5C31;&#x662F;4096x6=16384=16K</p>
-<h2 id="page-table-size%E5%A4%AA%E5%A4%A7%E4%B9%8B%E8%A7%A3%E6%B1%BA">Page Table size&#x592A;&#x5927;&#x4E4B;&#x89E3;&#x6C7A;</h2>
-<h3 id="-%E6%B3%95%E4%B8%80-multilevel-paging-%E5%A4%9A%E5%B1%A4%E7%9A%84%E5%88%86%E9%A0%81">[&#x6CD5;&#x4E00;]Multilevel paging(&#x591A;&#x5C64;&#x7684;&#x5206;&#x9801;)</h3>
+<h2 id="page-table-size&#x592A;&#x5927;&#x4E4B;&#x89E3;&#x6C7A;">Page Table size&#x592A;&#x5927;&#x4E4B;&#x89E3;&#x6C7A;</h2>
+<h3 id="&#x6CD5;&#x4E00;multilevel-paging&#x591A;&#x5C64;&#x7684;&#x5206;&#x9801;">[&#x6CD5;&#x4E00;]Multilevel paging(&#x591A;&#x5C64;&#x7684;&#x5206;&#x9801;)</h3>
 <p>&#x5C07;page table&#x518D;&#x4E88;&#x4EE5;&#x5206;&#x9801;</p>
-<h3 id="%E4%BE%8B1%EF%BC%9Asingle-level-paging">&#x4F8B;1&#xFF1A;single level paging</h3>
+<h3 id="&#x4F8B;1&#xFF1A;single-level-paging">&#x4F8B;1&#xFF1A;single level paging</h3>
 <p>&#x5047;&#x8A2D;</p>
 <ul>
 <li>page size&#xFF1A;1024 Bytes</li>
@@ -15133,11 +15067,11 @@
 <li>&#x2234;p&#x4F54;32-10=22 bits
 &#x21D2;page table size = 4 byte * 222&#x500B;entries = 16 MB &#x21D2; Too Large!!</li>
 </ul>
-<h4 id="%E4%BE%8B2%EF%BC%9Atwo-level-paging">&#x4F8B;2&#xFF1A;Two-Level paging</h4>
+<h4 id="&#x4F8B;2&#xFF1A;twolevel-paging">&#x4F8B;2&#xFF1A;Two-Level paging</h4>
 <p>Two-Level paging</p>
 <p>4K pages = 12-bit offset; 1 master page = 4K/4 = 1K entries = 10bits Secondary page table size = 32 - 12 - 10 = 10 bits = 1K entries * 4 = 4K</p>
-<h4 id="%E4%BE%8B3%EF%BC%9A3-level-paging">&#x4F8B;3&#xFF1A;3-Level paging</h4>
-<h3 id="-%E6%B3%95%E4%BA%8C-hashing-page-table-%E9%9B%9C%E6%B9%8A">[&#x6CD5;&#x4E8C;]Hashing Page Table(&#x96DC;&#x6E4A;)</h3>
+<h4 id="&#x4F8B;3&#xFF1A;3level-paging">&#x4F8B;3&#xFF1A;3-Level paging</h4>
+<h3 id="&#x6CD5;&#x4E8C;hashing-page-table&#x96DC;&#x6E4A;">[&#x6CD5;&#x4E8C;]Hashing Page Table(&#x96DC;&#x6E4A;)</h3>
 <p>Def&#xFF1A;</p>
 <ul>
 <li><p>&#x5C07;Logical Address&#x4E2D;&#x7684;p(page#)&#x7D93;&#x7531;Hashing function&#x8A08;&#x7B97;&#x53D6;&#x5F97;Hashing Table(page table)&#x7684;Bucket Address</p>
@@ -15149,7 +15083,7 @@
 <ul>
 <li><p>&#x56E0;&#x6B64;&#xFF0C;&#x6211;&#x5011;&#x6703;&#x53BB;linked list&#x4E2D;search&#x7B26;&#x5408;&#x7684;page number&#x4E4B;&#x7BC0;&#x9EDE;&#x3002;&#x53D6;&#x5F97;f&#xFF0C;&#x7136;&#x5F8C;&#x8207;d&#x76F8;&#x52A0;&#x5F97;&#x51FA;physical address
 &#x5716;&#x793A;&#xFF1A;</p>
-<h3 id="-%E6%B3%95%E4%B8%89-invert-page-table-%E5%8F%8D%E8%BD%89%E5%88%86%E9%A0%81%E8%A1%A8">[&#x6CD5;&#x4E09;]Invert Page Table(&#x53CD;&#x8F49;&#x5206;&#x9801;&#x8868;)</h3>
+<h3 id="&#x6CD5;&#x4E09;invert-page-table&#x53CD;&#x8F49;&#x5206;&#x9801;&#x8868;">[&#x6CD5;&#x4E09;]Invert Page Table(&#x53CD;&#x8F49;&#x5206;&#x9801;&#x8868;)</h3>
 </li>
 <li><p>Def&#xFF1A;&#x4EE5;physical memory&#x70BA;&#x5C0D;&#x8C61;&#xFF0C;&#x5EFA;&#x7ACB;&#x4E00;&#x500B;&#x8868;&#x683C;(&#x82E5;&#x6709;m&#x500B;Frames&#xFF0C;Table Entry&#x6709;m&#x683C;)
 &#x6BCF;&#x500B;entry&#x8A18;&#x9304;&#x6B64;&#x9801;&#x6846;&#x88AB;&#x54EA;&#x500B;process&#x7684;&#x54EA;&#x500B;page&#x6240;&#x4F54;&#x7528;
@@ -15176,9 +15110,9 @@ Offset &#x7684;&#x9577;&#x5EA6;&#xFF0C;&#x8981;&#x80FD;&#x5B9A;&#x5740;&#x4E00;&
 &#x9084;&#x5269; 20bits&#xFF0C;&#x9019;&#x8868;&#x793A;&#x4E00;&#x500B; process &#x6700;&#x591A;&#x7528; 2^20 pages &#xFF0C;
 &#x6240;&#x4EE5;&#x7CFB;&#x7D71;&#x4E2D; page table &#x6700;&#x591A;&#x6709; 2^20 &#x500B; entry</p>
 <p>page table size &#x6700;&#x5927;&#x6703;&#x662F;&#xFF1A; 2^20 * 4bytes(&#x6BCF;&#x500B; entry &#x5927;&#x5C0F;) = 4MB</p>
-<h4 id="in-singlelevel-pagetable-you-need-the-whole-table-to-access-even-a-small-amount-of-data-less-memory-references-i-e-2-20-pages-each-pte-occupying-4bytes-as-you-assumed">In <code>singlelevel pagetable</code> you need the whole table to access even a small amount of data(less memory references). i.e 2^20 pages each PTE occupying 4bytes as you assumed.</h4>
+<h4 id="in-singlelevel-pagetable-you-need-the-whole-table-to-access-even-a-small-amount-of-dataless-memory-references-ie-220-pages-each-pte-occupying-4bytes-as-you-assumed">In <code>singlelevel pagetable</code> you need the whole table to access even a small amount of data(less memory references). i.e 2^20 pages each PTE occupying 4bytes as you assumed.</h4>
 <p>Space required to access any data is <code>2^20 * 4bytes = 4MB</code></p>
-<h4 id="paging-pages-is-multi-level-paging-in-multilevel-paging-it-is-more-specific-you-can-with-the-help-of-multi-level-organization-decide-which-specific-page-among-the-2-20-pages-your-data-exists-and-select-it-so-here-you-need-only-that-specific-page-to-be-in-the-memory-while-you-run-the-process">Paging pages is <code>multi-level paging</code>.In multilevel paging it is more specific, you can with the help of multi-level organization decide which specific page among the 2^20 pages your data exists, and select it . So here you need only that specific page to be in the memory while you run the process.</h4>
+<h4 id="paging-pages-is-multilevel-pagingin-multilevel-paging-it-is-more-specific-you-can-with-the-help-of-multilevel-organization-decide-which-specific-page-among-the-220-pages-your-data-exists-and-select-it--so-here-you-need-only-that-specific-page-to-be-in-the-memory-while-you-run-the-process">Paging pages is <code>multi-level paging</code>.In multilevel paging it is more specific, you can with the help of multi-level organization decide which specific page among the 2^20 pages your data exists, and select it . So here you need only that specific page to be in the memory while you run the process.</h4>
 <p>In the <code>2 level case</code> that you discussed you need 1st level pagetable and then 1 of the 2^10 pagetables in second level. </p>
 <p>So, 
 1st level size = 2^10 <em> 4bytes = <code>4KB</code><br> 
@@ -15226,9 +15160,17 @@ Offset &#x7684;&#x9577;&#x5EA6;&#xFF0C;&#x8981;&#x80FD;&#x5B9A;&#x5740;&#x4E00;&
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

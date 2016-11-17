@@ -8,7 +8,7 @@
         <title>一個gdb會話中同時調試多個程序 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="45.7.9" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="45.7.9"
+        data-chapter-title="一個gdb會話中同時調試多個程序"
+        data-filepath="100_gdb_tips/add-copy-inferiors.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,8 +15051,8 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E4%B8%80%E5%80%8Bgdb%E6%9C%83%E8%A9%B1%E4%B8%AD%E5%90%8C%E6%99%82%E8%AA%BF%E8%A9%A6%E5%A4%9A%E5%80%8B%E7%A8%8B%E5%BA%8F">&#x4E00;&#x500B;gdb&#x6703;&#x8A71;&#x4E2D;&#x540C;&#x6642;&#x8ABF;&#x8A66;&#x591A;&#x500B;&#x7A0B;&#x5E8F;</h1>
-<h2 id="%E4%BE%8B%E5%AD%90">&#x4F8B;&#x5B50;</h2>
+                        <h1 id="&#x4E00;&#x500B;gdb&#x6703;&#x8A71;&#x4E2D;&#x540C;&#x6642;&#x8ABF;&#x8A66;&#x591A;&#x500B;&#x7A0B;&#x5E8F;">&#x4E00;&#x500B;gdb&#x6703;&#x8A71;&#x4E2D;&#x540C;&#x6642;&#x8ABF;&#x8A66;&#x591A;&#x500B;&#x7A0B;&#x5E8F;</h1>
+<h2 id="&#x4F8B;&#x5B50;">&#x4F8B;&#x5B50;</h2>
 <pre><code>a.c:
 #include &lt;stdio.h&gt;
 int func(int a, int b)
@@ -15161,7 +15095,7 @@ int main(void)
         printf(&quot;%d\n&quot;, func3(10));
         return 0;
 }
-</code></pre><h2 id="%E6%8A%80%E5%B7%A7">&#x6280;&#x5DE7;</h2>
+</code></pre><h2 id="&#x6280;&#x5DE7;">&#x6280;&#x5DE7;</h2>
 <p>gdb&#x652F;&#x6301;&#x5728;&#x4E00;&#x500B;&#x6703;&#x8A71;&#x4E2D;&#x540C;&#x6642;&#x8ABF;&#x8A66;&#x591A;&#x500B;&#x7A0B;&#x5E8F;&#x3002;&#x4EE5;&#x4E0A;&#x9762;&#x7A0B;&#x5E8F;&#x70BA;&#x4F8B;&#xFF0C;&#x9996;&#x5148;&#x8ABF;&#x8A66;<code>a</code>&#x7A0B;&#x5E8F;&#xFF1A;  </p>
 <pre><code>root@bash:~$ gdb a
 GNU gdb (Ubuntu 7.7-0ubuntu3) 7.7
@@ -15223,7 +15157,7 @@ Added inferior 4.
   1    process 1586      /home/nanxiao/a
 </code></pre><p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x53C8;&#x591A;&#x4E86;&#x4E00;&#x500B;<code>b</code>&#x7A0B;&#x5E8F;&#x3002;</p>
 <p>&#x53C3;&#x898B;<a href="https://sourceware.org/gdb/onlinedocs/gdb/Inferiors-and-Programs.html" target="_blank">gdb&#x624B;&#x518A;</a>.</p>
-<h2 id="%E8%B2%A2%E7%8D%BB%E8%80%85">&#x8CA2;&#x737B;&#x8005;</h2>
+<h2 id="&#x8CA2;&#x737B;&#x8005;">&#x8CA2;&#x737B;&#x8005;</h2>
 <p>nanxiao</p>
 
                     
@@ -15266,9 +15200,17 @@ Added inferior 4.
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

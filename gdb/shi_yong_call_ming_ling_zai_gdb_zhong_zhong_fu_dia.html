@@ -8,7 +8,7 @@
         <title>使用call命令在GDB中重複調用某函數 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="16.31" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="16.31"
+        data-chapter-title="使用call命令在GDB中重複調用某函數"
+        data-filepath="gdb/shi_yong_call_ming_ling_zai_gdb_zhong_zhong_fu_dia.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,17 +15051,17 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E4%BD%BF%E7%94%A8call%E5%91%BD%E4%BB%A4%E5%9C%A8gdb%E4%B8%AD%E9%87%8D%E8%A4%87%E8%AA%BF%E7%94%A8%E6%9F%90%E5%87%BD%E6%95%B8">&#x4F7F;&#x7528;call&#x547D;&#x4EE4;&#x5728;GDB&#x4E2D;&#x91CD;&#x8907;&#x8ABF;&#x7528;&#x67D0;&#x51FD;&#x6578;</h1>
+                        <h1 id="&#x4F7F;&#x7528;call&#x547D;&#x4EE4;&#x5728;gdb&#x4E2D;&#x91CD;&#x8907;&#x8ABF;&#x7528;&#x67D0;&#x51FD;&#x6578;">&#x4F7F;&#x7528;call&#x547D;&#x4EE4;&#x5728;GDB&#x4E2D;&#x91CD;&#x8907;&#x8ABF;&#x7528;&#x67D0;&#x51FD;&#x6578;</h1>
 <p>&#x5728;&#x767D;&#x76D2;&#x6E2C;&#x8A66;&#x4E2D;&#x7D93;&#x5E38;&#x4F7F;&#x7528;GDB&#x9032;&#x884C;&#x51FD;&#x6578;&#x7684;&#x5206;&#x652F;&#x8986;&#x84CB;&#x6E2C;&#x8A66;&#xFF0C;&#x4F46;&#x5728;&#x6E2C;&#x8A66;&#x5C0D;&#x8C61;&#x51FD;&#x6578;&#x89F8;&#x767C;&#x5F88;&#x56F0;&#x96E3;&#xFF0C;&#x6E2C;&#x8A66;&#x6548;&#x7387;&#x5C31;&#x5F88;&#x4F4E;&#x4E0B;&#x3002;
 &#x5047;&#x8A2D;&#x6E2C;&#x8A66;&#x51FD;&#x6578;fun1&#x6709;10&#x689D;&#x5206;&#x652F;&#x3002;&#x6BCF;&#x6B21;&#x9032;&#x5165;fun1&#x9700;&#x8A2D;&#x7F6E;10&#x500B;&#x8B8A;&#x91CF;&#x3002;
 &#x90A3;&#x9EBC;&#x4E00;&#x822C;&#x60C5;&#x6CC1;&#x4E0B;&#x8981;&#x5728;GDB&#x4E2D;&#x64CD;&#x4F5C;10 * 10 = 100&#x6B21;&#x624D;&#x80FD;&#x5C07;&#x8A72;&#x5206;&#x652F;&#x8986;&#x84CB;&#x5B8C;&#x7562;&#x3002;</p>
 <p>&#x7D93;&#x904E;&#x67E5;&#x627E;&#xFF0C;GDB&#x4E2D;&#x5B58;&#x5728;&#x4E00;&#x7A2E;&#x65B9;&#x6CD5;&#xFF0C;&#x91CD;&#x8907;&#x8ABF;&#x7528;&#x8A72;&#x51FD;&#x6578;&#xFF0C;&#x4F7F;&#x7528;10+10 =20&#x6B21;&#x5373;&#x53EF;&#x8986;&#x84CB;&#x5206;&#x652F;&#x3002;</p>
 <p>GDB&#x4F7F;&#x7528;&#x6B65;&#x9A5F;&#xFF1A;</p>
-<h3 id="1%EF%BC%89%E9%A6%96%E5%85%88%E5%B0%8D%E8%A9%B2%E5%87%BD%E6%95%B8%E6%89%93%E6%96%B7%E9%BB%9E">1&#xFF09;&#x9996;&#x5148;&#x5C0D;&#x8A72;&#x51FD;&#x6578;&#x6253;&#x65B7;&#x9EDE;</h3>
+<h3 id="1&#xFF09;&#x9996;&#x5148;&#x5C0D;&#x8A72;&#x51FD;&#x6578;&#x6253;&#x65B7;&#x9EDE;">1&#xFF09;&#x9996;&#x5148;&#x5C0D;&#x8A72;&#x51FD;&#x6578;&#x6253;&#x65B7;&#x9EDE;</h3>
 <p>&#x6709;&#x4EE5;&#x4E0B;&#x51FD;&#x6578;&#xFF1A;</p>
 <pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">webprc_cmmenu_lchk</span><span class="hljs-params">(WEB_CMMENU_LAN_PATH_CHK_STATUS *result, <span class="hljs-keyword">int</span> filetype,CM_COMMON_INFO *cominf, WEB_FLAG_TYPE type, <span class="hljs-keyword">char</span> *errmsg)</span>
 </span></code></pre>
-<h3 id="2-%E7%AC%AC%E4%B8%80%E6%AC%A1%EF%BC%8C%E6%89%8B%E5%8B%95%E9%80%B2%E5%85%A5%E8%A9%B2%E5%87%BD%E6%95%B8">2)&#x7B2C;&#x4E00;&#x6B21;&#xFF0C;&#x624B;&#x52D5;&#x9032;&#x5165;&#x8A72;&#x51FD;&#x6578;</h3>
+<h3 id="2&#x7B2C;&#x4E00;&#x6B21;&#xFF0C;&#x624B;&#x52D5;&#x9032;&#x5165;&#x8A72;&#x51FD;&#x6578;">2)&#x7B2C;&#x4E00;&#x6B21;&#xFF0C;&#x624B;&#x52D5;&#x9032;&#x5165;&#x8A72;&#x51FD;&#x6578;</h3>
 <p>GDB&#x5C07;&#x986F;&#x793A;&#x4EE5;&#x4E0B;msg&#xFF1A;</p>
 <pre><code class="lang-sh">Breakpoint <span class="hljs-number">2</span>, webprc_cmmenu_lchk (result=<span class="hljs-number">0</span>x1006cc8c, filetype=<span class="hljs-number">60</span>, cominf=<span class="hljs-number">0</span>x48197008, <span class="hljs-built_in">type</span>=<span class="hljs-number">0</span> <span class="hljs-string">&apos;\000&apos;</span>,
     errmsg=<span class="hljs-number">0</span>x10087f30 <span class="hljs-string">&quot;\302\302\302\302\302\302&quot;</span>...) at webcmmenu.c:<span class="hljs-number">212</span>
@@ -15144,7 +15078,7 @@ cominf=<span class="hljs-number">0</span>x48197008
 <span class="hljs-built_in">type</span>=<span class="hljs-number">0</span>
 errmsg = <span class="hljs-number">0</span>x10087f30
 </code></pre>
-<h3 id="3%EF%BC%89%E7%B9%BC%E7%BA%8C%E5%9F%B7%E8%A1%8C%EF%BC%8C%E5%9F%B7%E8%A1%8C%E5%AE%8C%E5%87%BD%E6%95%B8%E6%99%82%EF%BC%8C-%E5%8D%B3%E5%88%B0%E9%81%94%E5%87%BD%E6%95%B8%E7%9A%84%E7%B5%90%E5%B0%BE%E3%80%8C-%E3%80%8D%E6%99%82%EF%BC%8C%E4%B8%8D%E8%A6%81%E9%80%80%E5%87%BA%E8%A9%B2%E5%87%BD%E6%95%B8%EF%BC%81">3&#xFF09;&#x7E7C;&#x7E8C;&#x57F7;&#x884C;&#xFF0C;&#x57F7;&#x884C;&#x5B8C;&#x51FD;&#x6578;&#x6642;&#xFF0C;<code>&#x5373;&#x5230;&#x9054;&#x51FD;&#x6578;&#x7684;&#x7D50;&#x5C3E;&#x300C;}&#x300D;&#x6642;&#xFF0C;&#x4E0D;&#x8981;&#x9000;&#x51FA;&#x8A72;&#x51FD;&#x6578;&#xFF01;</code></h3>
+<h3 id="3&#xFF09;&#x7E7C;&#x7E8C;&#x57F7;&#x884C;&#xFF0C;&#x57F7;&#x884C;&#x5B8C;&#x51FD;&#x6578;&#x6642;&#xFF0C;&#x5373;&#x5230;&#x9054;&#x51FD;&#x6578;&#x7684;&#x7D50;&#x5C3E;&#x300C;&#x300D;&#x6642;&#xFF0C;&#x4E0D;&#x8981;&#x9000;&#x51FA;&#x8A72;&#x51FD;&#x6578;&#xFF01;">3&#xFF09;&#x7E7C;&#x7E8C;&#x57F7;&#x884C;&#xFF0C;&#x57F7;&#x884C;&#x5B8C;&#x51FD;&#x6578;&#x6642;&#xFF0C;<code>&#x5373;&#x5230;&#x9054;&#x51FD;&#x6578;&#x7684;&#x7D50;&#x5C3E;&#x300C;}&#x300D;&#x6642;&#xFF0C;&#x4E0D;&#x8981;&#x9000;&#x51FA;&#x8A72;&#x51FD;&#x6578;&#xFF01;</code></h3>
 <pre><code class="lang-c">
 <span class="hljs-function">call <span class="hljs-title">webprc_cmmenu_lchk</span><span class="hljs-params">(result=<span class="hljs-number">0x1006cc8c</span>, filetype=<span class="hljs-number">60</span>, cominf=<span class="hljs-number">0x48197008</span>, type=<span class="hljs-number">0</span>,errmsg=<span class="hljs-number">0x10087f30</span>)</span>
 </span></code></pre>
@@ -15199,9 +15133,17 @@ When the <span class="hljs-keyword">function</span> is <span class="hljs-keyword
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

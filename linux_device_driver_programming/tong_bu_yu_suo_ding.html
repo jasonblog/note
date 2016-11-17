@@ -8,7 +8,7 @@
         <title>同步與鎖定 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="11.1.10" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="11.1.10"
+        data-chapter-title="同步與鎖定"
+        data-filepath="linux_device_driver_programming/tong_bu_yu_suo_ding.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,19 +15051,19 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E5%90%8C%E6%AD%A5%E8%88%87%E9%8E%96%E5%AE%9A">&#x540C;&#x6B65;&#x8207;&#x9396;&#x5B9A;</h1>
-<h2 id="%E5%8D%81%E3%80%81%E5%90%8C%E6%AD%A5%E8%88%87%E9%8E%96%E5%AE%9A">&#x5341;&#x3001;&#x540C;&#x6B65;&#x8207;&#x9396;&#x5B9A;</h2>
+                        <h1 id="&#x540C;&#x6B65;&#x8207;&#x9396;&#x5B9A;">&#x540C;&#x6B65;&#x8207;&#x9396;&#x5B9A;</h1>
+<h2 id="&#x5341;&#x3001;&#x540C;&#x6B65;&#x8207;&#x9396;&#x5B9A;">&#x5341;&#x3001;&#x540C;&#x6B65;&#x8207;&#x9396;&#x5B9A;</h2>
 <p>&#x524D;&#x4E00;&#x7AE0;&#x7684;&#x8A08;&#x6642;&#x5668;&#x6709;&#x300C;&#x932F;&#x904E;&#x300D;&#x7684;&#x554F;&#x984C;&#xFF0C;&#x4F46;&#x88AB;&#x9019;&#x500B;&#x554F;&#x984C;&#x56F0;&#x64FE;&#x7684;&#x4E0D;&#x53EA;&#x8A08;&#x6642;&#x5668;&#xFF0C;&#x672C;&#x7AE0;&#x8981;&#x7E7C;&#x7E8C;&#x4ECB;&#x7D39;&#x300C;&#x540C;&#x6B65;&#x8207;&#x9396;&#x5B9A;&#x300D;&#x3002; </p>
-<h3 id="10-1%E3%80%81%E5%90%8C%E6%AD%A5%E8%88%87%E9%8E%96%E5%AE%9A%E7%9A%84%E5%BF%85%E8%A6%81%E6%80%A7">10-1&#x3001;&#x540C;&#x6B65;&#x8207;&#x9396;&#x5B9A;&#x7684;&#x5FC5;&#x8981;&#x6027;</h3>
+<h3 id="101&#x3001;&#x540C;&#x6B65;&#x8207;&#x9396;&#x5B9A;&#x7684;&#x5FC5;&#x8981;&#x6027;">10-1&#x3001;&#x540C;&#x6B65;&#x8207;&#x9396;&#x5B9A;&#x7684;&#x5FC5;&#x8981;&#x6027;</h3>
 <p>&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x8981;&#x80FD;&#x5920;&#x5F37;&#x56FA;&#x7684;&#x57F7;&#x884C;&#xFF0C;&#x5247;&#x5FC5;&#x9808;&#x8003;&#x616E;&#x5230;&#x300C;&#x540C;&#x6B65;(synchronization)&#x300D;&#x8207;&#x300C;&#x9396;&#x5B9A;(exclusion)&#x300D;&#x7684;&#x76F8;&#x95DC;&#x77E5;&#x8B58;&#xFF0C;&#x53E6;&#x4E00;&#x7A2E;&#x8AAA;&#x6CD5;&#x70BA;&#x300C;&#x7AF6;&#x722D;&#x72C0;&#x614B;(race condition; racing)&#x300D;&#xFF0C;&#x6307;&#x7684;&#x662F;&#x76F8;&#x540C;&#x7684;&#x6771;&#x897F;&#x3002; </p>
 <p>&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x5206;&#x6210; user context &#x8207; interrupt context &#xFF0C;&#x800C;&#x9019;&#x5169;&#x7A2E; context &#x5341;&#x5206;&#x53EF;&#x80FD;&#x540C;&#x6642;&#x4E26;&#x5217;&#x57F7;&#x884C;&#xFF0C;&#x56E0;&#x6B64;&#x5728;&#x958B;&#x767C;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x6642;&#xFF0C;&#x5FC5;&#x9808;&#x96A8;&#x6642;&#x8A18;&#x5F97;&#x300C;&#x73FE;&#x5728;&#x5BEB;&#x7684;&#x7A0B;&#x5F0F;&#x78BC;&#xFF0C;&#x5FC5;&#x9808;&#x80FD;&#x6BEB;&#x7121;&#x554F;&#x984C;&#x5730;&#x540C;&#x6642;&#x4E26;&#x5217;&#x57F7;&#x884C;&#x300D;&#x3002; </p>
-<h3 id="10-2%E3%80%81read-modify-write">10-2&#x3001;read-modify-write</h3>
+<h3 id="102&#x3001;readmodifywrite">10-2&#x3001;read-modify-write</h3>
 <p>&#x8981;&#x7406;&#x89E3;&#x70BA;&#x4F55;&#x9700;&#x8981;&#x9396;&#x5B9A;&#xFF0C;&#x5E38;&#x898B;&#x7684;&#x63CF;&#x8FF0;&#x662F;&#x300C;read-modify-write&#x300D;&#xFF0C;&#x9019;&#x6307;&#x7684;&#x662F;&#x4E09;&#x500B;&#x9023;&#x7E8C;&#x52D5;&#x4F5C;&#xFF1A;</p>
 <pre><code>&#x8B80;&#x53D6;&#x8CC7;&#x6599;
 &#x8B8A;&#x66F4;&#x8CC7;&#x6599;
 &#x5BEB;&#x5165;&#x8CC7;&#x6599;
 </code></pre><p>&#x5982;&#x679C;&#x9019;&#x6BB5;&#x52D5;&#x4F5C;&#x6709;&#x5169;&#x500B; thread &#x540C;&#x6642;&#x57F7;&#x884C;&#x7684;&#x8A71;&#xFF0C;&#x5247;&#x96E3;&#x4FDD;&#x57F7;&#x884C;&#x7D50;&#x679C;&#x6703;&#x662F;&#x6B63;&#x78BA;&#x7684;&#x3002; </p>
-<h3 id="10-3%E3%80%81atomic-%E6%93%8D%E4%BD%9C">10-3&#x3001;Atomic &#x64CD;&#x4F5C;</h3>
+<h3 id="103&#x3001;atomic-&#x64CD;&#x4F5C;">10-3&#x3001;Atomic &#x64CD;&#x4F5C;</h3>
 <p>&#x8981;&#x8B93;&#x905E;&#x589E;&#x3001;&#x905E;&#x6E1B;&#x8B8A;&#x52D5;&#x7684;&#x52D5;&#x4F5C;&#x300C;atomic&#x300D;&#x6642;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; kernel &#x63D0;&#x4F9B;&#x7684;&#x6A5F;&#x5236;&#xFF1A; 
 &#x5C07;&#x8B8A;&#x6578;&#x5B9A;&#x7FA9;&#x70BA; atomic_t &#x578B;&#x5225;&#xFF0C;&#x4E26;&#x4F7F;&#x7528; ATOMIC_INIT &#x5DE8;&#x96C6;&#x70BA; atomic &#x8B8A;&#x6578;&#x8A2D;&#x5B9A;&#x521D;&#x59CB;&#x503C;&#xFF0C;&#x5982;&#xFF1A; </p>
 <pre><code class="lang-c"><span class="hljs-keyword">atomic_t</span> counter = ATOMIC_INIT(<span class="hljs-number">0</span>);
@@ -15173,7 +15107,7 @@ MODULE_LICENSE(<span class="hljs-string">&quot;Dual BSD/GPL&quot;</span>);
 module_init(sample_init);
 module_exit(sample_exit);
 </code></pre>
-<h3 id="10-4%E3%80%81%E6%97%97%E6%A8%99">10-4&#x3001;&#x65D7;&#x6A19;</h3>
+<h3 id="104&#x3001;&#x65D7;&#x6A19;">10-4&#x3001;&#x65D7;&#x6A19;</h3>
 <p>&#x7A0B;&#x5F0F;&#x8655;&#x7406;&#x7684;&#x904E;&#x7A0B;&#x4E2D;&#xFF0C;&#x6709;&#x4E00;&#x4E9B;&#x4E0D;&#x9069;&#x5408;&#x540C;&#x6642;&#x4E26;&#x884C;&#x57F7;&#x884C;&#x7684;&#x5730;&#x65B9;&#x7A31;&#x70BA;&#x300C;critical section&#x300D;&#xFF0C;&#x8981;&#x4FDD;&#x8B77; critical section &#x7684;&#x8A71;&#xFF0C;&#x5FC5;&#x9808;&#xFF1A;</p>
 <ul>
 <li>&#x4E00;&#x6B21;&#x53EA;&#x8B93;&#x4E00;&#x500B; thread &#x57F7;&#x884C; critical section
@@ -15391,7 +15325,7 @@ module_init(devone_init);
 module_exit(devone_exit);
 </code></pre>
 <p>&#x5C0D; linux kernel &#x4F86;&#x8AAA;&#xFF0C;locked &#x7684; semaphore &#x6709;&#x4E9B;&#x554F;&#x984C;&#xFF0C;&#x6240;&#x4EE5;&#x901A;&#x5E38;&#x4F7F;&#x7528;&#x300C;&#x7B49;&#x5F85;&#x5B8C;&#x6210;(completion)&#x300D;&#x6A5F;&#x5236;&#x3002; </p>
-<h3 id="10-5%E3%80%81%E7%AD%89%E5%BE%85%E5%AE%8C%E6%88%90">10-5&#x3001;&#x7B49;&#x5F85;&#x5B8C;&#x6210;</h3>
+<h3 id="105&#x3001;&#x7B49;&#x5F85;&#x5B8C;&#x6210;">10-5&#x3001;&#x7B49;&#x5F85;&#x5B8C;&#x6210;</h3>
 <p>&#x8981;&#x7B49;&#x5F85;&#x67D0;&#x4EF6;&#x8655;&#x7406;&#x4E2D;&#x7684;&#x5DE5;&#x4F5C;&#x5B8C;&#x6210;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x300C;&#x7B49;&#x5F85;&#x5B8C;&#x6210;(completion)&#x300D;&#x6A5F;&#x5236;&#xFF0C;&#x53EA;&#x8981;&#x5148;&#x6E96;&#x5099;&#x597D; completion &#x8B8A;&#x6578;&#xFF0C;&#x518D;&#x547C;&#x53EB;&#x8981;&#x7B49;&#x5F85;&#x7684;&#x51FD;&#x5F0F;&#xFF0C;&#x4E4B;&#x524D;&#x6B64;&#x51FD;&#x5F0F;&#x8655;&#x7406;&#x7D50;&#x675F;&#x5F8C;&#xFF0C;&#x6703;&#x81EA;&#x52D5;&#x547C;&#x53EB;&#x901A;&#x5831;&#x5B8C;&#x6210;&#x7684;&#x51FD;&#x5F0F;&#xFF0C;&#x4E26;&#x8FD4;&#x56DE;&#x7B49;&#x5F85;&#x7684;&#x51FD;&#x5F0F;&#xFF0C;&#x4E5F;&#x7531;&#x65BC;&#x904E;&#x7A0B;&#x4E2D;&#x6703; sleep&#xFF0C;&#x6240;&#x4EE5;&#x7121;&#x6CD5;&#x5728; interrupt context &#x4E2D;&#x4F7F;&#x7528;&#x3002; 
 &#x76F8;&#x95DC;&#x51FD;&#x5F0F;&#x5B9A;&#x7FA9;&#x5728; linux/completion.h &#x6A94;&#x6848;&#x5167;&#x3002; </p>
 <p>init_completion() &#x8CA0;&#x8CAC;&#x521D;&#x59CB;&#x5316;&#x300C;completion&#x8B8A;&#x6578;&#x300D;&#xFF1A; </p>
@@ -15478,7 +15412,7 @@ module_exit(sample_exit);
 <pre><code class="lang-sh">ps aux | grep sample_thread
 </code></pre>
 <p>&#x5728;&#x5378;&#x9664;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x6642;&#xFF0C;&#x6703;&#x5148;&#x5411; kernel thread &#x9001;&#x51FA; SIGTERM&#xFF0C;&#x4E26;&#x4EE5; wait_for_completion() &#x7B49;&#x5F85; thread &#x7D50;&#x675F;&#xFF0C;&#x800C; kernel thread &#x6703;&#x5728;&#x812B;&#x96E2;&#x7121;&#x7AAE;&#x8FF4;&#x5708;&#x5F8C;&#xFF0C;&#x6703;&#x4EE5; complete_and_exit() &#x901A;&#x77E5;&#x5B8C;&#x6210;&#x3002; </p>
-<h3 id="10-6%E3%80%81kernel-thread">10-6&#x3001;Kernel Thread</h3>
+<h3 id="106&#x3001;kernel-thread">10-6&#x3001;Kernel Thread</h3>
 <p>&#x4E0A;&#x8FF0;&#x7BC4;&#x4F8B;&#x4F7F;&#x7528; kernel_thread() &#x51FD;&#x5F0F;&#x4F86;&#x5EFA;&#x7ACB; kernel thread&#xFF0C;&#x4F46;&#x73FE;&#x5728;&#x7684; Linux kernel &#x63A8;&#x85A6;&#x7684;&#x662F;&#x4F7F;&#x7528; kthread_create() &#x51FD;&#x5F0F;&#xFF0C;&#x9700; include linux/kthread.h&#xFF1A; </p>
 <pre><code class="lang-c">struct task_struct *kthread_create(int (*threadfn) (void *data), void *data, const char namefmt[], ...);
 </code></pre>
@@ -15549,7 +15483,7 @@ MODULE_LICENSE(<span class="hljs-string">&quot;Dual BSD/GPL&quot;</span>);
 module_init(sample_init);
 module_exit(sample_exit);
 </code></pre>
-<h3 id="10-7%E3%80%81%E7%A6%81%E6%AD%A2%E4%B8%AD%E6%96%B7">10-7&#x3001;&#x7981;&#x6B62;&#x4E2D;&#x65B7;</h3>
+<h3 id="107&#x3001;&#x7981;&#x6B62;&#x4E2D;&#x65B7;">10-7&#x3001;&#x7981;&#x6B62;&#x4E2D;&#x65B7;</h3>
 <p>&#x5982;&#x679C;&#x5728; user context &#x9032;&#x5165; critical section &#x6642;&#xFF0C;&#x6709; interrupt &#x9032;&#x4F86;&#x7684;&#x8A71;&#xFF0C;&#x5C31;&#x6703;&#x5207;&#x5230;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684;&#x8655;&#x7406;&#x51FD;&#x5F0F;&#xFF0C;&#x800C;&#x5982;&#x679C; interrupt &#x8655;&#x7406;&#x51FD;&#x5F0F;&#x6703;&#x9032;&#x5165;&#x5230;&#x76F8;&#x540C;&#x7684; critical section &#x6642;&#xFF0C;&#x5C31;&#x5FC5;&#x9808;&#x4F5C;&#x597D;&#x9396;&#x5B9A;&#x7684;&#x5DE5;&#x4F5C;&#xFF0C;&#x5426;&#x5247;&#x5C07;&#x6703;&#x9020;&#x6210; deadlock&#xFF0C;&#x56E0;&#x70BA;&#x6B64;&#x6642; critical section &#x5DF2;&#x88AB; user context &#x4F54;&#x4F4F;&#xFF0C;&#x6240;&#x4EE5; interrupt &#x8655;&#x7406;&#x51FD;&#x5F0F;&#x7121;&#x6CD5;&#x9032;&#x53BB;&#xFF0C;&#x53C8;&#x56E0;&#x70BA; interrupt &#x70BA;&#x6700;&#x512A;&#x5148;&#xFF0C;&#x6240;&#x4EE5; user context &#x4E5F;&#x7121;&#x6CD5;&#x9000;&#x51FA; critical section&#x3002; </p>
 <p>&#x89E3;&#x6C7A;&#x7684;&#x65B9;&#x6CD5;&#x4E4B;&#x4E00;&#x662F;&#x5728; user context &#x9032;&#x5165; critical section &#x4E4B;&#x524D;&#x66AB;&#x6642;&#x300C;&#x7981;&#x6B62;&#x4E2D;&#x65B7;&#x300D;&#xFF0C;&#x76F4;&#x5230;&#x812B;&#x96E2; critical section&#x3002; 
 &#x4F46;&#x662F;&#x9019;&#x662F;&#x5047;&#x5B9A;&#x53EA;&#x6709;&#x4E00;&#x9846; CPU &#x7684;&#x60C5;&#x5F62;&#x4E0B;&#xFF0C;&#x7981;&#x6B62;&#x3001;&#x8A31;&#x53EF;&#x4E2D;&#x65B7;&#x7684;&#x51FD;&#x5F0F;&#x5982;&#x4E0B;&#xFF1A; </p>
@@ -15557,11 +15491,11 @@ module_exit(sample_exit);
 <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">local_irq_restore</span><span class="hljs-params">(<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> flags)</span></span>;
 </code></pre>
 <p>&#x5982;&#x679C;&#x7CFB;&#x7D71;&#x662F;&#x591A; CPU &#x7684;&#x8A71;&#xFF0C;&#x5247;&#x55AE;&#x55AE;&#x7981;&#x6B62;&#x4E2D;&#x65B7;&#x662F;&#x4E0D;&#x5920;&#x7684;&#xFF0C;&#x56E0;&#x70BA; critical section &#x9084;&#x662F;&#x6709;&#x53EF;&#x80FD;&#x88AB; interrupt context &#x512A;&#x5148;&#x4F7F;&#x7528;&#x3002; </p>
-<h3 id="10-8%E3%80%81%E8%87%AA%E6%97%8B%E9%8E%96">10-8&#x3001;&#x81EA;&#x65CB;&#x9396;</h3>
+<h3 id="108&#x3001;&#x81EA;&#x65CB;&#x9396;">10-8&#x3001;&#x81EA;&#x65CB;&#x9396;</h3>
 <p>&#x8981;&#x4FDD;&#x8B77; interrupt context &#x4E4B;&#x5167;&#x7684; critical section &#x6642;&#xFF0C;&#x4E0D;&#x80FD;&#x7528; semaphore&#xFF0C;&#x800C;&#x662F;&#x8981;&#x4F7F;&#x7528;&#x300C;spinlock(&#x81EA;&#x65CB;&#x9396;)&#x300D;&#xFF0C;semaphore &#x5728;&#x7B49;&#x5F85;&#x7684;&#x6642;&#x5019;&#x6703; sleep&#xFF0C;&#x800C; spinlock &#x5247;&#x662F;&#x5C0D;&#x5728;&#x539F;&#x5730; busy-loop&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x6703;&#x4F54;&#x4F4F;&#x4E00;&#x9846; CPU&#xFF0C;&#x76F4;&#x5230;&#x7B49;&#x5230;&#x70BA;&#x6B62;&#xFF0C;&#x56E0;&#x6B64; spinlock &#x5728;&#x4F7F;&#x7528;&#x6642;&#x6709;&#x500B;&#x9435;&#x5247;&#xFF1A;
 &#x6975;&#x529B;&#x7E2E;&#x77ED; critical section &#x7684;&#x8655;&#x7406;&#x6642;&#x9593;</p>
 <p>&#x4F7F;&#x7528; spinlock &#x6642;&#xFF0C;&#x5982;&#x679C;&#x6709; critical section &#x540C;&#x6642;&#x51FA;&#x73FE;&#x5728; interrupt context &#x8207; user context &#x7684;&#x8A71;&#xFF0C;&#x5247;&#x5169;&#x908A;&#x90FD;&#x5FC5;&#x9808;&#x4F7F;&#x7528; spinlock&#xFF0C;&#x82E5;&#x662F;&#x96BB;&#x6709;&#x5728; user context &#x51FA;&#x73FE;&#x7684; critical section &#x5247;&#x61C9;&#x8A72;&#x7528; semaphore &#x4F86;&#x9396;&#x5B9A;&#x3002; </p>
-<h3 id="10-8-1%E3%80%81%E9%99%90%E5%88%B6">10-8.1&#x3001;&#x9650;&#x5236;</h3>
+<h3 id="1081&#x3001;&#x9650;&#x5236;">10-8.1&#x3001;&#x9650;&#x5236;</h3>
 <p>&#x5728;&#x4F7F;&#x7528; spinlock &#x6642;&#xFF0C;&#x64C1;&#x6709;&#x9396;&#x5B9A;&#x6642;&#x53EF;&#x4EE5;&#x505A;&#x7684;&#x4E8B;&#x662F;&#x6709;&#x9650;&#x5236;&#x7684;&#xFF1A;</p>
 <ul>
 <li>&#x6975;&#x529B;&#x7E2E;&#x77ED; critical section &#x7684;&#x8655;&#x7406;&#x6642;&#x9593;</li>
@@ -15573,7 +15507,7 @@ module_exit(sample_exit);
 <li>printk() &#x7684;&#x8A3B;&#x89E3;&#xFF1A;This is printk(). It can be called from any context. ...</li>
 <li>copy_to_user() &#x7684;&#x8A3B;&#x89E3;&#xFF1A; User context only. This function may sleep. ...</li>
 </ul>
-<h3 id="10-8-2%E3%80%81spinlock-%E7%9B%B8%E9%97%9C%E5%87%BD%E5%BC%8F">10-8.2&#x3001;spinlock &#x76F8;&#x95DC;&#x51FD;&#x5F0F;</h3>
+<h3 id="1082&#x3001;spinlock-&#x76F8;&#x95DC;&#x51FD;&#x5F0F;">10-8.2&#x3001;spinlock &#x76F8;&#x95DC;&#x51FD;&#x5F0F;</h3>
 <p>&#x4F7F;&#x7528; spinlock &#x6642;&#xFF0C;&#x8981;&#x5728;&#x5168;&#x57DF;&#x7A7A;&#x9593;&#x914D;&#x7F6E; spinlock &#x8B8A;&#x6578;&#xFF0C;&#x8B8A;&#x6578;&#x578B;&#x5225;&#x662F; spinlock_t&#xFF1A; </p>
 <pre><code class="lang-c"><span class="hljs-keyword">spinlock_t</span> lock;
 </code></pre>
@@ -15590,7 +15524,7 @@ spin_lock_irqsave() &#x6703;&#x5C07;&#x547C;&#x53EB;&#x7684;&#x7A0B;&#x5F0F;&#x7
 </code></pre>
 <p>spin_unlock_irqrestore() &#x6703;&#x89E3;&#x9664;&#x9396;&#x5B9A;&#xFF0C;&#x4E26;&#x5FA9;&#x539F;&#x672C;&#x5730;&#x8655;&#x7406;&#x5668;&#x7684;&#x4E2D;&#x65B7;&#x8A2D;&#x5B9A;&#x3002; </p>
 <p>&#x5118;&#x7BA1; spin_lock_irqsave() &#x8207; spin_unlock_irqrestore() &#x53EA;&#x8981;&#x6210;&#x5C0D;&#x51FA;&#x73FE;&#x5373;&#x53EF;&#xFF0C;&#x4F46;&#x5982;&#x679C;&#x9700;&#x8981;&#x653E;&#x5728;&#x4E0D;&#x540C;&#x51FD;&#x5F0F;&#x7684;&#x8A71;&#xFF0C;&#x5247;&#x53EF;&#x80FD;&#x4EE3;&#x8868;&#x8457;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x7684;&#x8A2D;&#x8A08;&#x6709;&#x554F;&#x984C;&#x3002; </p>
-<h3 id="10-8-3%E3%80%81%E6%AD%BB%E7%B5%90%E5%95%8F%E9%A1%8C">10-8.3&#x3001;&#x6B7B;&#x7D50;&#x554F;&#x984C;</h3>
+<h3 id="1083&#x3001;&#x6B7B;&#x7D50;&#x554F;&#x984C;">10-8.3&#x3001;&#x6B7B;&#x7D50;&#x554F;&#x984C;</h3>
 <p>&#x5982;&#x679C;&#x4F7F;&#x7528; spin_lock() &#x53D6;&#x4EE3; spin_lock_irqsave() &#x7684;&#x8A71;&#xFF0C;&#x53EF;&#x80FD;&#x767C;&#x751F;&#x4EC0;&#x9EBC;&#x6A23;&#x7684;&#x554F;&#x984C;&#xFF1F; </p>
 <p>&#x4E0B;&#x4F8B;&#x662F;&#x4F7F;&#x7528; spinlock &#x7684;&#x7BC4;&#x4F8B;&#xFF0C;&#x5728; user context &#x7684; read &#x8655;&#x7406;&#x51FD;&#x5F0F;&#x8207; interrupt context &#x7684; timer &#x8655;&#x7406;&#x51FD;&#x5F0F;&#x8B80;&#x5BEB; sample_data[] &#x6642;&#xFF0C;&#x6703;&#x547C;&#x53EB; spin_lock() &#x4F86;&#x9396;&#x5B9A;&#xFF1A; </p>
 <pre><code class="lang-c"><span class="hljs-comment">/*
@@ -15831,20 +15765,20 @@ module_exit(devone_exit);
 <p>&#x5BE6;&#x969B;&#x57F7;&#x884C;&#x9019;&#x500B;&#x7A0B;&#x5F0F;&#x5F8C;&#xFF0C;&#x6703;&#x767C;&#x73FE; kernel &#x6C92;&#x904E;&#x591A;&#x4E45;&#x5C31;&#x7576;&#x4E86;&#xFF0C;&#x539F;&#x56E0;&#x662F;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x9677;&#x5165;&#x6B7B;&#x7D50;&#xFF0C;&#x6301;&#x7E8C;&#x4F54;&#x7528; 100% CPU &#x7B49;&#x5F85;&#x89E3;&#x9396;&#x7684;&#x5F8C;&#x679C;&#x5C31;&#x662F; OS &#x5931;&#x53BB;&#x53CD;&#x61C9;&#xFF0C;&#x8981;&#x5FA9;&#x539F;&#x53EA;&#x8981;&#x91CD;&#x958B;&#x6A5F;&#x3002; </p>
 <p>&#x7576;&#x6389;&#x7684;&#x539F;&#x56E0;&#x662F; user context &#x53D6;&#x5F97; spinlock &#x6642;&#x6C92;&#x6709;&#x7981;&#x6B62;&#x672C;&#x5730;&#x8655;&#x7406;&#x5668;&#x8655;&#x7406; interrupt&#xFF0C;&#x9396;&#x5B9A;&#x671F;&#x9593;&#x6536;&#x5230; interrupt &#x7684;&#x8A71;&#xFF0C;&#x5728; timer &#x8655;&#x7406;&#x51FD;&#x5F0F;&#x53C8;&#x6703;&#x5617;&#x8A66;&#x53D6;&#x5F97;&#x9396;&#x5B9A;&#xFF0C;&#x4F46;&#x89E3;&#x9664;&#x9396;&#x5B9A;&#x9700;&#x8981;&#x96E2;&#x958B; busy-loop&#xFF0C;&#x5207;&#x63DB;&#x5230; user process &#x7E7C;&#x7E8C;&#x57F7;&#x884C;&#x624D;&#x884C;&#xFF0C;&#x65BC;&#x662F;&#x7522;&#x751F;&#x4E86;&#x6B7B;&#x7D50;&#x3002; </p>
 <p>&#x8981;&#x4FEE;&#x6B63;&#x4E0A;&#x8FF0;&#x7684;&#x7BC4;&#x4F8B;&#xFF0C;&#x53EF;&#x4EE5;&#x628A; spin_lock() &#x63DB;&#x6210; spin_lock_irqsave()&#xFF0C;spin_unlock() &#x63DB;&#x6210; spin_unlock_irqrestore() </p>
-<h2 id="10-9%E3%80%81%E5%85%B6%E5%AE%83">10-9&#x3001;&#x5176;&#x5B83;</h2>
+<h2 id="109&#x3001;&#x5176;&#x5B83;">10-9&#x3001;&#x5176;&#x5B83;</h2>
 <p>linux kernel &#x5167;&#x90E8;&#x63D0;&#x4F9B;&#x5404;&#x5F0F;&#x5404;&#x6A23;&#x7684;&#x540C;&#x6B65;&#x6A5F;&#x5236;&#xFF0C;&#x8209;&#x4F8B;&#x5982;&#x4E0B;&#xFF1A; </p>
-<h3 id="10-9-1%E3%80%81%E6%A0%B8%E5%BF%83%E6%90%B6%E4%BD%94%E5%9F%B7%E8%A1%8C-kernel-preemption">10-9.1&#x3001;&#x6838;&#x5FC3;&#x6436;&#x4F54;&#x57F7;&#x884C;(Kernel preemption)</h3>
+<h3 id="1091&#x3001;&#x6838;&#x5FC3;&#x6436;&#x4F54;&#x57F7;&#x884C;kernel-preemption">10-9.1&#x3001;&#x6838;&#x5FC3;&#x6436;&#x4F54;&#x57F7;&#x884C;(Kernel preemption)</h3>
 <p>&#x8AAA; linux &#x662F; preemptive &#x7CFB;&#x7D71;&#xFF0C;&#x5176;&#x5BE6;&#x53EA;&#x5C0D;&#x4E86;&#x4E00;&#x534A;&#xFF0C;&#x56E0;&#x70BA;&#x53EF;&#x4EE5;&#x88AB; preempt &#x7684;&#x53EA;&#x6709;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x800C;&#x5DF2;&#xFF0C;&#x800C; linux kernel &#x4E26;&#x4E0D;&#x662F; preemptive&#xFF0C;&#x9A45;&#x6A5F;&#x7A0B;&#x5F0F;&#x4E5F;&#x5305;&#x542B;&#x5728;&#x5167;&#x3002; </p>
 <p>&#x4F46;&#x65B0;&#x7248;&#x7684; linux kernel &#x652F;&#x63F4;&#x5148;&#x9032;&#x7684; kernel preemption &#x529F;&#x80FD;(&#x9700;&#x555F;&#x52D5;&#x5C0D;&#x61C9;&#x7684; kernel &#x914D;&#x7F6E;&#x9078;&#x9805;)&#xFF0C;&#x9019;&#x500B;&#x60F3;&#x6CD5;&#x57FA;&#x65BC;&#x53D6;&#x5F97; spinlock &#x6642;&#x53EF;&#x4EE5;&#x91CB;&#x51FA;&#x57F7;&#x884C;&#x8CC7;&#x6E90;&#xFF0C;&#x5982;&#x679C;&#x5728;&#x7B49;&#x5F85;&#x9396;&#x5B9A;&#x7684;&#x904E;&#x7A0B;&#x4E2D;&#x4E0D;&#x57F7;&#x884C; busy-loop&#xFF0C;&#x800C;&#x662F;&#x8B93;&#x5176;&#x5B83;&#x7A0B;&#x5F0F;&#x4F7F;&#x7528; CPU &#x7684;&#x8A71;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x63D0;&#x9AD8;&#x6548;&#x7387;&#x3002; </p>
-<h3 id="10-9-2%E3%80%81%E5%A4%A7%E6%A0%B8%E5%BF%83%E9%8E%96-big-kernel-lock">10-9.2&#x3001;&#x5927;&#x6838;&#x5FC3;&#x9396;(Big Kernel Lock)</h3>
+<h3 id="1092&#x3001;&#x5927;&#x6838;&#x5FC3;&#x9396;big-kernel-lock">10-9.2&#x3001;&#x5927;&#x6838;&#x5FC3;&#x9396;(Big Kernel Lock)</h3>
 <p>&#x300C;Big Kernel Lock&#x300D;&#x662F;&#x9396;&#x5B9A;&#x6574;&#x500B; linux kernel &#x7684;&#x6A5F;&#x5236;&#xFF0C;&#x53EF;&#x900F;&#x904E; lock_kernel() &#x8207; unlock_kernel() &#x51FD;&#x5F0F;&#x4F7F;&#x7528;&#xFF0C;&#x9019;&#x662F;&#x5148;&#x524D;&#x70BA;&#x4E86;&#x8B93; linux kernel &#x652F;&#x63F4;&#x591A;&#x8655;&#x7406;&#x5668;&#x6642;&#xFF0C;&#x66AB;&#x6642;&#x5F15;&#x9032;&#x7684;&#x9396;&#x5B9A;&#x6A5F;&#x5236;&#xFF0C;&#x5C07;&#x4F86;&#x6703;&#x5E0C;&#x671B;&#x628A; BKL &#x5FB9;&#x5E95;&#x6E05;&#x9664;&#x3002; </p>
-<h3 id="10-9-3%E3%80%81%E8%AE%80%E5%AF%AB%E9%8E%96%E5%AE%9A-reader-writer-lock">10-9.3&#x3001;&#x8B80;&#x5BEB;&#x9396;&#x5B9A;(Reader-Writer Lock)</h3>
+<h3 id="1093&#x3001;&#x8B80;&#x5BEB;&#x9396;&#x5B9A;readerwriter-lock">10-9.3&#x3001;&#x8B80;&#x5BEB;&#x9396;&#x5B9A;(Reader-Writer Lock)</h3>
 <p>&#x67D0;&#x4E9B; critical section &#x5E0C;&#x671B;&#x8B80;&#x53D6;&#x6642;&#x4E0D;&#x5FC5;&#x9396;&#x5B9A;&#xFF0C;&#x800C;&#x662F;&#x5728;&#x5BEB;&#x5165;&#x6642;&#x624D;&#x9396;&#x5B9A;&#xFF0C;&#x6240;&#x4EE5;&#x6E96;&#x5099;&#x4E86;&#x300C;Reader-Writer Lock&#x300D;&#x6A5F;&#x5236;&#xFF0C;&#x53EF;&#x4EE5;&#x900F;&#x904E; read_lock() &#x8207; write_lock() &#x51FD;&#x5F0F;&#x53D6;&#x7528;&#x3002; </p>
-<h3 id="10-9-4%E3%80%81%E8%A8%88%E6%95%B8%E8%AE%80%E5%AF%AB%E9%8E%96%E5%AE%9A-seqlock">10-9.4&#x3001;&#x8A08;&#x6578;&#x8B80;&#x5BEB;&#x9396;&#x5B9A;(Seqlock)</h3>
+<h3 id="1094&#x3001;&#x8A08;&#x6578;&#x8B80;&#x5BEB;&#x9396;&#x5B9A;seqlock">10-9.4&#x3001;&#x8A08;&#x6578;&#x8B80;&#x5BEB;&#x9396;&#x5B9A;(Seqlock)</h3>
 <p>&#x9019;&#x662F;&#x4E00;&#x7A2E; spinlock&#xFF0C;&#x900F;&#x904E; write_seqlock() &#x8207; read_seqbegin() &#x7B49;&#x51FD;&#x5F0F;&#x63D0;&#x4F9B;&#x670D;&#x52D9;&#xFF0C;linux kernel &#x4E3B;&#x8981;&#x662F;&#x7528;&#x6B64;&#x6A5F;&#x5236;&#x4F86;&#x7DAD;&#x8B77;&#x7CFB;&#x7D71;&#x8A08;&#x6642;&#x5668;&#x3002; </p>
-<h3 id="10-9-5%E3%80%81rcu">10-9.5&#x3001;RCU</h3>
+<h3 id="1095&#x3001;rcu">10-9.5&#x3001;RCU</h3>
 <p>&#x300C;RCU (Read Copy Update)&#x300D;&#x662F;&#x7A2E;&#x8F03;&#x7279;&#x6B8A;&#x7684;&#x9396;&#x5B9A;&#x65B9;&#x5F0F;&#xFF0C;&#x900F;&#x904E; rcu_read_lock() &#x8207; rcu_dereference() &#x7B49;&#x51FD;&#x5F0F;&#x63D0;&#x4F9B;&#x670D;&#x52D9;&#x3002; </p>
-<h2 id="10-10%E3%80%81%E7%B5%90%E8%AA%9E">10-10&#x3001;&#x7D50;&#x8A9E;</h2>
+<h2 id="1010&#x3001;&#x7D50;&#x8A9E;">10-10&#x3001;&#x7D50;&#x8A9E;</h2>
 <p>&#x5728;&#x55AE; CPU &#x7684;&#x5E74;&#xFF0C;&#x901A;&#x5E38;&#x4E0D;&#x5FC5;&#x7169;&#x60F1;&#x300C;&#x540C;&#x6B65;&#x8207;&#x9396;&#x5B9A;&#x300D;&#x7684;&#x554F;&#x984C;&#xFF0C;&#x4F46;&#x76EE;&#x524D;&#x662F;&#x591A;&#x6838;&#x8655;&#x7406;&#x5668;&#x7576;&#x9053;&#x7684;&#x5E74;&#x4EE3;&#xFF0C;&#x5728;&#x8A2D;&#x8A08;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x6642;&#xFF0C;&#x4E00;&#x5B9A;&#x8981;&#x628A;&#x300C;&#x540C;&#x6B65;&#x8207;&#x9396;&#x5B9A;&#x300D;&#x7D0D;&#x5165;&#x8003;&#x91CF;&#x3002;</p>
 
                     
@@ -15887,9 +15821,17 @@ module_exit(devone_exit);
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

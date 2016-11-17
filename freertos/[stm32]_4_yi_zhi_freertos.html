@@ -8,7 +8,7 @@
         <title>[STM32] 4. 移植 FreeRTOS | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="37.2" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="37.2"
+        data-chapter-title="[STM32] 4. 移植 FreeRTOS"
+        data-filepath="freertos/[stm32]_4_yi_zhi_freertos.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,9 +15051,9 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="-stm32-4-%E7%A7%BB%E6%A4%8D-freertos">[STM32] 4. &#x79FB;&#x690D; FreeRTOS</h1>
+                        <h1 id="stm32-4-&#x79FB;&#x690D;-freertos">[STM32] 4. &#x79FB;&#x690D; FreeRTOS</h1>
 <p>FreeRTOS &#x662F;&#x4E00;&#x500B;&#x975E;&#x5E38;&#x5C0F;&#x578B;&#x7684; RTOS &#xFF0C;&#x63D0;&#x4F9B;&#x4E86;&#x4EFB;&#x52D9;&#x6392;&#x7A0B;&#x5668;&#xFF0C;&#x540C;&#x6B65;&#x6A5F;&#x5236;&#x548C;&#x8A18;&#x61B6;&#x9AD4;&#x7BA1;&#x7406;&#x3002;&#x5982;&#x679C;&#x53EA;&#x662F;&#x9700;&#x8981;&#x4E00;&#x500B;&#x55AE;&#x7D14;&#x7684;&#x591A;&#x5DE5;&#x7684;&#x74B0;&#x5883;&#xFF0C;&#x5B83;&#x662F;&#x4E00;&#x500B;&#x975E;&#x5E38;&#x9069;&#x5408;&#x7684;&#x8F15;&#x91CF;&#x5316; RTOS&#x3002;&#x5176;&#x5BE6;&#x9019;&#x4E00;&#x7BC7;&#x56B4;&#x683C;&#x4F86;&#x8AAA;&#x7A31;&#x4E0D;&#x4E0A;&#x79FB;&#x690D;&#xFF0C;&#x53EA;&#x80FD;&#x8AAA;&#x662F;&#x5B89;&#x88DD;&#x3002;&#x56E0;&#x70BA; FreeRTOS &#x672C;&#x4F86;&#x5C31;&#x652F;&#x63F4; ARM Cortex-m4&#xFF0C;&#x53EA;&#x9700;&#x5C07;&#x539F;&#x59CB;&#x78BC;&#x52A0;&#x5230;&#x5C08;&#x6848;&#x4E2D;&#xFF0C;&#x806F;&#x7D50;&#x6240;&#x9700;&#x7684;&#x51FD;&#x5F0F;&#x5C31;&#x80FD;&#x4F7F;&#x7528;&#x4E86;&#x3002;</p>
-<h2 id="4-1-%E7%A7%BB%E6%A4%8D-freertos-%E4%B8%BB%E7%A8%8B%E5%BC%8F">4.1 &#x79FB;&#x690D; FreeRTOS &#x4E3B;&#x7A0B;&#x5F0F;</h2>
+<h2 id="41-&#x79FB;&#x690D;-freertos-&#x4E3B;&#x7A0B;&#x5F0F;">4.1 &#x79FB;&#x690D; FreeRTOS &#x4E3B;&#x7A0B;&#x5F0F;</h2>
 <blockquote>
 <ol>
 <li>&#x5230;&#x5B98;&#x7DB2;&#x4E0B;&#x8F09;&#x7A0B;&#x539F;&#x59CB;&#x78BC;&#xFF0C;&#x9019;&#x7BC7;&#x4F7F;&#x7528;&#x7684;&#x662F; FreeRTOSv9.0.0.zip &#x3002;&#x4E0D;&#x904E;&#x5404;&#x7248;&#x672C;&#x7684;&#x79FB;&#x690D;&#x65B9;&#x5F0F;&#x5927;&#x540C;&#x5C0F;&#x7570;&#xFF0C;&#x662F;&#x53EF;&#x901A;&#x7528;&#x7684;&#x3002;</li>
@@ -15173,7 +15107,7 @@
     <span class="hljs-keyword">return</span> (<span class="hljs-keyword">caddr_t</span>) prev_heap_end;
 }
 </code></pre>
-<h2 id="4-2-led-%E9%96%83%E7%88%8D%E6%B8%AC%E8%A9%A6%E7%A8%8B%E5%BC%8F">4.2 LED &#x9583;&#x720D;&#x6E2C;&#x8A66;&#x7A0B;&#x5F0F;</h2>
+<h2 id="42-led-&#x9583;&#x720D;&#x6E2C;&#x8A66;&#x7A0B;&#x5F0F;">4.2 LED &#x9583;&#x720D;&#x6E2C;&#x8A66;&#x7A0B;&#x5F0F;</h2>
 <p>&#x4E0B;&#x9762;&#x662F;&#x4E00;&#x500B;&#x7C21;&#x55AE;&#x7684;&#x5C0F;&#x7A0B;&#x5F0F;&#xFF0C;&#x5EFA;&#x7ACB;&#x4E00;&#x500B;&#x7368;&#x7ACB;&#x7684;&#x4EFB;&#x52D9;&#x64CD;&#x4F5C; GPIO &#x958B;&#x95DC; LED &#x3002;</p>
 <pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">LED_Init</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
 </span>{
@@ -15227,7 +15161,7 @@ __<span class="hljs-function">INLINE <span class="hljs-keyword">void</span> <spa
     }
 }
 </code></pre>
-<h2 id="4-3-%E7%A7%BB%E6%A4%8D-freertos-cli">4.3 &#x79FB;&#x690D; FreeRTOS CLI</h2>
+<h2 id="43-&#x79FB;&#x690D;-freertos-cli">4.3 &#x79FB;&#x690D; FreeRTOS CLI</h2>
 <p>FreeRTOS CLI &#x662F;&#x4E00;&#x500B;&#x8655;&#x7406;&#x547D;&#x4EE4;&#x5217;&#x7684;&#x6846;&#x67B6;&#xFF0C;&#x53EF;&#x4EE5;&#x900F;&#x904E;&#x5B83;&#x63D0;&#x4F9B;&#x7684; API &#x8F15;&#x9B06;&#x7684;&#x589E;&#x52A0;&#x547D;&#x4EE4;&#x3002;&#x5C0D;&#x5D4C;&#x5165;&#x5F0F;&#x7CFB;&#x7D71;&#x4F86;&#x8AAA;&#x662F;&#x5F88;&#x65B9;&#x4FBF;&#x7684;&#x4ECB;&#x9762;&#xFF0C;&#x5EFA;&#x7ACB;&#x4E00;&#x958B;&#x59CB;&#x5C31;&#x5148;&#x79FB;&#x690D;&#x5230;&#x7CFB;&#x7D71;&#x4E2D;&#x6703;&#x8B93;&#x958B;&#x767C;&#x65B9;&#x4FBF;&#x5F88;&#x591A;&#x3002;</p>
 <blockquote>
 <ol>
@@ -15444,7 +15378,7 @@ QueueHandle_t xConsoleQueue;
         <span class="hljs-literal">NULL</span>);       <span class="hljs-comment">/* A handle is not required, so just pass NULL. */</span>
 }
 </code></pre>
-<h2 id="4-4-nucleo-f446re-template">4.4 Nucleo-F446RE template</h2>
+<h2 id="44-nucleof446re-template">4.4 Nucleo-F446RE template</h2>
 <p>&#x9019;&#x88E1;&#x63D0;&#x4F9B;&#x4E00;&#x4EFD;&#x5305;&#x542B;&#x4E86; FreeRTOS &#x548C; FreeRTOS-CLI &#x7684;&#x6A23;&#x677F;&#x7A0B;&#x5F0F; <a href="https://github.com/dinowchang/stm32f4-template" target="_blank">Nucleo-F446RE template</a></p>
 
                     
@@ -15487,9 +15421,17 @@ QueueHandle_t xConsoleQueue;
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

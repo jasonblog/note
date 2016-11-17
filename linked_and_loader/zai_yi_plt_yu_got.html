@@ -8,7 +8,7 @@
         <title>再議PLT與GOT | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="47.7" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="47.7"
+        data-chapter-title="再議PLT與GOT"
+        data-filepath="linked_and_loader/zai_yi_plt_yu_got.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,7 +15051,7 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E5%86%8D%E8%AD%B0plt%E8%88%87got">&#x518D;&#x8B70;PLT&#x8207;GOT</h1>
+                        <h1 id="&#x518D;&#x8B70;plt&#x8207;got">&#x518D;&#x8B70;PLT&#x8207;GOT</h1>
 <p>PLT&#xFF08;Procedure Linkage Table&#xFF09;&#x7684;&#x4F5C;&#x7528;&#x662F;&#x5C07;&#x4F4D;&#x7F6E;&#x7121;&#x95DC;&#x7684;&#x7B26;&#x865F;&#x8F49;&#x79FB;&#x5230;&#x7D55;&#x5C0D;&#x5730;&#x5740;&#x3002;&#x7576;&#x4E00;&#x500B;&#x5916;&#x90E8;&#x7B26;&#x865F;&#x88AB;&#x8ABF;&#x7528;&#x6642;&#xFF0C;PLT &#x53BB;&#x5F15;&#x7528; GOT &#x4E2D;&#x7684;&#x5176;&#x7B26;&#x865F;&#x5C0D;&#x61C9;&#x7684;&#x7D55;&#x5C0D;&#x5730;&#x5740;&#xFF0C;&#x7136;&#x5F8C;&#x8F49;&#x5165;&#x4E26;&#x57F7;&#x884C;&#x3002;</p>
 <p>GOT&#xFF08;Global Offset Table&#xFF09;&#xFF1A;&#x7528;&#x65BC;&#x8A18;&#x9304;&#x5728; ELF &#x6587;&#x4EF6;&#x4E2D;&#x6240;&#x7528;&#x5230;&#x7684;&#x5171;&#x4EAB;&#x5EAB;&#x4E2D;&#x7B26;&#x865F;&#x7684;&#x7D55;&#x5C0D;&#x5730;&#x5740;&#x3002;&#x5728;&#x7A0B;&#x5E8F;&#x525B;&#x958B;&#x59CB;&#x904B;&#x884C;&#x6642;&#xFF0C;GOT &#x8868;&#x9805;&#x662F;&#x7A7A;&#x7684;&#xFF0C;&#x7576;&#x7B26;&#x865F;&#x7B2C;&#x4E00;&#x6B21;&#x88AB;&#x8ABF;&#x7528;&#x6642;&#x6703;&#x52D5;&#x614B;&#x89E3;&#x6790;&#x7B26;&#x865F;&#x7684;&#x7D55;&#x5C0D;&#x5730;&#x5740;&#x7136;&#x5F8C;&#x8F49;&#x53BB;&#x57F7;&#x884C;&#xFF0C;&#x4E26;&#x5C07;&#x88AB;&#x89E3;&#x6790;&#x7B26;&#x865F;&#x7684;&#x7D55;&#x5C0D;&#x5730;&#x5740;&#x8A18;&#x9304;&#x5728; GOT &#x4E2D;&#xFF0C;&#x7B2C;&#x4E8C;&#x6B21;&#x8ABF;&#x7528;&#x540C;&#x4E00;&#x7B26;&#x865F;&#x6642;&#xFF0C;&#x7531;&#x65BC; GOT &#x4E2D;&#x5DF2;&#x7D93;&#x8A18;&#x9304;&#x4E86;&#x5176;&#x7D55;&#x5C0D;&#x5730;&#x5740;&#xFF0C;&#x76F4;&#x63A5;&#x8F49;&#x53BB;&#x57F7;&#x884C;&#x5373;&#x53EF;&#xFF08;&#x4E0D;&#x7528;&#x91CD;&#x65B0;&#x89E3;&#x6790;&#xFF09;&#x3002;</p>
 <p>&#x5176;&#x4E2D;PLT &#x5C0D;&#x61C9;.plt section &#xFF0C;&#x800C;GOT&#x5C0D;&#x61C9; .got.plt &#xFF0C;&#x4E3B;&#x8981;&#x5C0D;&#x61C9;&#x51FD;&#x6578;&#x7684;&#x7D55;&#x5C0D;&#x5730;&#x5740;&#x3002;&#x901A;&#x904E;readelf&#x67E5;&#x770B;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#xFF0C;&#x6211;&#x5011;&#x767C;&#x73FE;&#x9084;&#x5B58;&#x5728;.got section&#xFF0C;&#x9019;&#x500B;section&#x4E3B;&#x8981;&#x5C0D;&#x61C9;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#x4E2D;&#x8B8A;&#x91CF;&#x7684;&#x7D55;&#x5C0D;&#x5730;&#x5740;&#x3002;&#x6211;&#x5011;&#x9084;&#x8981;&#x6CE8;&#x610F;PLT section&#x5728;&#x4EE3;&#x78BC;&#x93C8;&#x63A5;&#x7684;&#x6642;&#x5019;&#x5DF2;&#x7D93;&#x5B58;&#x5728;&#xFF0C;&#x5B58;&#x5728;&#x65BC;&#x4EE3;&#x78BC;&#x6BB5;&#x4E2D;&#xFF0C;&#x800C;GOT&#x5B58;&#x5728;&#x65BC;&#x6578;&#x64DA;&#x6BB5;&#x4E2D;&#x3002;</p>
@@ -15246,10 +15180,10 @@ End of assembler dump.
 <span class="hljs-number">0</span>x0000003e25e6fa70 <span class="hljs-keyword">in</span> puts () from /lib64/libc.so.<span class="hljs-number">6</span>
 ...
 </code></pre>
-<h2 id="%E7%B8%BD%E7%B5%90%EF%BC%9A">&#x7E3D;&#x7D50;&#xFF1A;</h2>
+<h2 id="&#x7E3D;&#x7D50;&#xFF1A;">&#x7E3D;&#x7D50;&#xFF1A;</h2>
 <p><code>ld-linux-x86-64.so.2 &#x662F;&#x4E00;&#x500B;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#xFF0C;&#x8CA0;&#x8CAC;&#x67E5;&#x627E;&#x7A0B;&#x5E8F;&#x6240;&#x4F7F;&#x7528;&#x7684;&#x51FD;&#x6578;&#x7D55;&#x5C0D;&#x5730;&#x5740;&#xFF0C;&#x4E26;&#x5C07;&#x5176;&#x5BEB;&#x5165;&#x5230;GOT&#x8868;&#x4E2D;&#xFF0C;&#x4EE5;&#x4F9B;&#x5F8C;&#x7E8C;&#x8ABF;&#x7528;</code>&#x3002;&#x5176;&#x4E2D;GOT[0]&#x70BA;&#x7A7A;&#xFF0C;GOT[1]&#x548C;GOT[2]&#x7528;&#x65BC;&#x4FDD;&#x5B58;&#x67E5;&#x627E;&#x7684;&#x7D55;&#x5C0D;&#x51FD;&#x6578;&#x5730;&#x5740;&#xFF0C;GOT[1]&#x4FDD;&#x5B58;&#x7684;&#x662F;&#x4E00;&#x500B;&#x5730;&#x5740;&#xFF0C;&#x6307;&#x5411;&#x5DF2;&#x7D93;&#x52A0;&#x8F09;&#x7684;&#x5171;&#x4EAB;&#x5EAB;&#x7684;&#x93C8;&#x8868;&#x5730;&#x5740;&#xFF1B;GOT[2]&#x4FDD;&#x5B58;&#x7684;&#x662F;&#x4E00;&#x500B;&#x51FD;&#x6578;&#x7684;&#x5730;&#x5740;&#xFF0C;&#x5B9A;&#x7FA9;&#x5982;&#x4E0B;&#xFF1A;GOT[2] = &amp;_dl_runtime_resolve&#xFF0C;&#x9019;&#x500B;&#x51FD;&#x6578;&#x7684;&#x4E3B;&#x8981;&#x4F5C;&#x7528;&#x5C31;&#x662F;&#x627E;&#x5230;&#x67D0;&#x500B;&#x7B26;&#x865F;&#x7684;&#x5730;&#x5740;&#xFF0C;&#x4E26;&#x628A;&#x5B83;&#x5BEB;&#x5230;&#x8207;&#x6B64;&#x7B26;&#x865F;&#x76F8;&#x95DC;&#x7684;GOT&#x9805;&#x4E2D;&#xFF0C;&#x7136;&#x5F8C;&#x5C07;&#x63A7;&#x5236;&#x8F49;&#x79FB;&#x5230;&#x76EE;&#x6A19;&#x51FD;&#x6578;&#xFF0C;&#x800C;&#x5F8C;&#x9762;&#x7684;GOT[3]&#xFF0C;GOT[4]&#x2026;&#x90FD;&#x662F;&#x901A;&#x904E;_dl_fixup &#x6DFB;&#x52A0;&#x7684;&#x3002;</p>
 <p><img src="images/289baeed-3f91-3651-b81b-159632d1cf45.png" alt=""></p>
-<h2 id="%E5%8F%83%E8%80%83%EF%BC%9A">&#x53C3;&#x8003;&#xFF1A;</h2>
+<h2 id="&#x53C3;&#x8003;&#xFF1A;">&#x53C3;&#x8003;&#xFF1A;</h2>
 <p><a href="http://www.lizhaozhong.info/archives/524" target="_blank">http://www.lizhaozhong.info/archives/524</a>
 <a href="http://flint.cs.yale.edu/cs422/doc/ELF_Format.pdf" target="_blank">http://flint.cs.yale.edu/cs422/doc/ELF_Format.pdf</a>
 <a href="http://rickgray.me/2015/08/07/use-gdb-to-study-got-and-plt.html" target="_blank">http://rickgray.me/2015/08/07/use-gdb-to-study-got-and-plt.html</a>
@@ -15295,9 +15229,17 @@ End of assembler dump.
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

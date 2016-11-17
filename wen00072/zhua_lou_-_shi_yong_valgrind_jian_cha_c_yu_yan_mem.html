@@ -8,7 +8,7 @@
         <title>抓漏 - 使用valgrind檢查C語言memory Leak | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="20.15.18" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="20.15.18"
+        data-chapter-title="抓漏 - 使用valgrind檢查C語言memory Leak"
+        data-filepath="wen00072/zhua_lou_-_shi_yong_valgrind_jian_cha_c_yu_yan_mem.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,9 +15051,9 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E6%8A%93%E6%BC%8F-%E4%BD%BF%E7%94%A8valgrind%E6%AA%A2%E6%9F%A5c%E8%AA%9E%E8%A8%80memory-leak">&#x6293;&#x6F0F; - &#x4F7F;&#x7528;valgrind&#x6AA2;&#x67E5;C&#x8A9E;&#x8A00;memory Leak</h1>
+                        <h1 id="&#x6293;&#x6F0F;--&#x4F7F;&#x7528;valgrind&#x6AA2;&#x67E5;c&#x8A9E;&#x8A00;memory-leak">&#x6293;&#x6F0F; - &#x4F7F;&#x7528;valgrind&#x6AA2;&#x67E5;C&#x8A9E;&#x8A00;memory Leak</h1>
 <p>&#x4F7F;&#x7528;C &#x8A9E;&#x8A00;&#xFF0C;memory leak&#x7684;&#x554F;&#x984C;&#x662F;&#x6700;&#x68D8;&#x624B;&#x7684;&#x72C0;&#x6CC1;&#x4E4B;&#x4E00;&#xFF0C;&#x832B;&#x832B;code&#x6D77;&#x8981;&#x4E00;&#x500B;&#x4E00;&#x500B;&#x6BD4;&#x5C0D;&#x7C21;&#x76F4;&#x662F;&#x5927;&#x6D77;&#x6488;&#x91DD;&#x3002;&#x5E78;&#x597D;Linux&#x4E0B;&#x9762;&#x6709;&#x597D;&#x7684;&#x7684;&#x5DE5;&#x5177;&#x53EF;&#x4EE5;&#x6551;&#x4F60;&#x4E00;&#x547D;&#x3002;&#x7C21;&#x55AE;&#x4ECB;&#x7D39;&#x4E00;&#x4E0B;&#x5E0C;&#x671B;&#x5C0D;&#x5927;&#x5BB6;&#x6709;&#x5E6B;&#x52A9;&#x3002;</p>
-<h2 id="%E7%9B%AE%E9%8C%84">&#x76EE;&#x9304;</h2>
+<h2 id="&#x76EE;&#x9304;">&#x76EE;&#x9304;</h2>
 <ul>
 <li><a href="#env">&#x6E2C;&#x8A66;&#x74B0;&#x5883;</a></li>
 <li><a href="#ex-prg">&#x6E2C;&#x8A66;&#x7A0B;&#x5F0F;</a></li>
@@ -15128,7 +15062,7 @@
 <li><a href="#ref">&#x53C3;&#x8003;&#x8CC7;&#x6599;</a></li>
 </ul>
 <p><a name="env"></a></p>
-<h2 id="%E6%B8%AC%E8%A9%A6%E7%92%B0%E5%A2%83">&#x6E2C;&#x8A66;&#x74B0;&#x5883;</h2>
+<h2 id="&#x6E2C;&#x8A66;&#x74B0;&#x5883;">&#x6E2C;&#x8A66;&#x74B0;&#x5883;</h2>
 <ul>
 <li>valgrind &#x5728;Ubuntu&#x4E0B;&#x9762;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x7528;<code>sudo apt-get install valgrind</code>&#x5B89;&#x88DD;&#x3002;</li>
 </ul>
@@ -15142,7 +15076,7 @@ Codename:    trusty
 $ valgrind --version
 valgrind-<span class="hljs-number">3.10</span>.<span class="hljs-number">0</span>.SVN
 </code></pre>
-<h2 id="%E6%B8%AC%E8%A9%A6%E7%A8%8B%E5%BC%8F">&#x6E2C;&#x8A66;&#x7A0B;&#x5F0F;</h2>
+<h2 id="&#x6E2C;&#x8A66;&#x7A0B;&#x5F0F;">&#x6E2C;&#x8A66;&#x7A0B;&#x5F0F;</h2>
 <p>&#x9019;&#x908A;&#x6E96;&#x5099;&#x4E86;&#x5E7E;&#x500B;&#x5178;&#x578B;&#x7684;memory leak&#x7A0B;&#x5F0F;&#xFF0C;&#x61C9;&#x8A72;&#x662F;&#x5F88;&#x7C21;&#x55AE;&#x770B;&#x51FA;&#x54EA;&#x908A;&#x6709;leak&#xFF0C;&#x6240;&#x4EE5;&#x6211;&#x5C31;&#x4E0D;&#x591A;&#x505A;&#x8AAA;&#x660E;&#x77AD;&#x3002;</p>
 <ul>
 <li>leak.c</li>
@@ -15213,7 +15147,7 @@ valgrind-<span class="hljs-number">3.10</span>.<span class="hljs-number">0</span
 <pre><code class="lang-sh">$ CFLAGS=<span class="hljs-string">&quot;-g&quot;</span> make leak
 </code></pre>
 <p>&#x9019;&#x884C;&#x6307;&#x4EE4;&#x53EF;&#x4EE5;&#x53BB;&#x627E;Makefile&#x4E2D;<code>Implicit Rules</code>&#x5F97;&#x5230;&#x89E3;&#x7B54;&#x3002;</p>
-<h2 id="%E5%9F%B7%E8%A1%8C%E6%96%B9%E5%BC%8F">&#x57F7;&#x884C;&#x65B9;&#x5F0F;</h2>
+<h2 id="&#x57F7;&#x884C;&#x65B9;&#x5F0F;">&#x57F7;&#x884C;&#x65B9;&#x5F0F;</h2>
 <p>&#x6700;&#x7C21;&#x55AE;&#x7684;&#x65B9;&#x5F0F;&#x5C31;&#x662F;&#x7528;&#x4E0B;&#x9762;&#x7684;&#x65B9;&#x5F0F;</p>
 <pre><code class="lang-sh">$ valgrind &#x4F60;&#x7684;&#x57F7;&#x884C;&#x6A94;
 </code></pre>
@@ -15221,7 +15155,7 @@ valgrind-<span class="hljs-number">3.10</span>.<span class="hljs-number">0</span
 <pre><code class="lang-sh">$ valgrind --leak-check=full --show-leak-kinds=all --verbose &#x4F60;&#x7684;&#x7A0B;&#x5F0F;&#x6A94;
 </code></pre>
 <p>&#x9019;&#x4E9B;&#x9078;&#x9805;&#x61C9;&#x8A72;&#x662F;&#x53EF;&#x4EE5;&#x671B;&#x6587;&#x751F;&#x7FA9;&#xFF0C;&#x6240;&#x4EE5;&#x5C31;&#x4E0D;&#x89E3;&#x91CB;&#x4E86;&#x3002;&#x60F3;&#x77E5;&#x9053;&#x7D30;&#x7BC0;&#x53EF;&#x4EE5;&#x554F;&#x7537;&#x4EBA;<code>man valgrind</code></p>
-<h2 id="%E5%9F%B7%E8%A1%8C%E7%B5%90%E6%9E%9C">&#x57F7;&#x884C;&#x7D50;&#x679C;</h2>
+<h2 id="&#x57F7;&#x884C;&#x7D50;&#x679C;">&#x57F7;&#x884C;&#x7D50;&#x679C;</h2>
 <ul>
 <li>&#x7BC0;&#x9304;&#x91CD;&#x9EDE;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x770B;&#x5230;valgrind&#x4E0D;&#x4F46;&#x627E;&#x51FA;&#x6D29;&#x6F0F;&#x591A;&#x5C11;&#x7A7A;&#x9593;&#xFF0C;&#x4E5F;&#x660E;&#x78BA;&#x5730;&#x5217;&#x51FA;&#x672A;&#x91CB;&#x653E;&#x7684;&#x8A18;&#x61B6;&#x9AD4;&#x88AB;&#x5206;&#x914D;&#x6642;&#x7684;callstack&#xFF0C;&#x771F;&#x662F;&#x4F5B;&#x5FC3;&#x4F86;&#x8005;&#x3002;</li>
 </ul>
@@ -15373,7 +15307,7 @@ Hey Hey Hey!
 ==26518== ERROR SUMMARY: 3 errors from 3 contexts (suppressed: 0 from 0)
 ==26518== ERROR SUMMARY: 3 errors from 3 contexts (suppressed: 0 from 0)
 </span></code></pre>
-<h2 id="%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99">&#x53C3;&#x8003;&#x8CC7;&#x6599;</h2>
+<h2 id="&#x53C3;&#x8003;&#x8CC7;&#x6599;">&#x53C3;&#x8003;&#x8CC7;&#x6599;</h2>
 <ul>
 <li><code>$ man valgrind</code></li>
 </ul>
@@ -15418,9 +15352,17 @@ Hey Hey Hey!
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

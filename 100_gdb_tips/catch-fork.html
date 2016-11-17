@@ -8,7 +8,7 @@
         <title>為fork調用設置catchpoint | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="45.5.2" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="45.5.2"
+        data-chapter-title="為fork調用設置catchpoint"
+        data-filepath="100_gdb_tips/catch-fork.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,8 +15051,8 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E7%82%BAfork%E8%AA%BF%E7%94%A8%E8%A8%AD%E7%BD%AEcatchpoint">&#x70BA;fork&#x8ABF;&#x7528;&#x8A2D;&#x7F6E;catchpoint</h1>
-<h2 id="%E4%BE%8B%E5%AD%90">&#x4F8B;&#x5B50;</h2>
+                        <h1 id="&#x70BA;fork&#x8ABF;&#x7528;&#x8A2D;&#x7F6E;catchpoint">&#x70BA;fork&#x8ABF;&#x7528;&#x8A2D;&#x7F6E;catchpoint</h1>
+<h2 id="&#x4F8B;&#x5B50;">&#x4F8B;&#x5B50;</h2>
 <pre><code>#include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
 #include &lt;sys/types.h&gt;
@@ -15139,7 +15073,7 @@ int main(void) {
     printf(&quot;hello world\n&quot;);
     return 0;
 }
-</code></pre><h2 id="%E6%8A%80%E5%B7%A7">&#x6280;&#x5DE7;</h2>
+</code></pre><h2 id="&#x6280;&#x5DE7;">&#x6280;&#x5DE7;</h2>
 <p>&#x4F7F;&#x7528;gdb&#x8ABF;&#x8A66;&#x7A0B;&#x5E8F;&#x6642;&#xFF0C;&#x53EF;&#x4EE5;&#x7528;&#x201C;<code>catch fork</code>&#x201D;&#x547D;&#x4EE4;&#x70BA;<code>fork</code>&#x8ABF;&#x7528;&#x8A2D;&#x7F6E;<code>catchpoint</code>&#xFF0C;&#x4EE5;&#x4E0A;&#x9762;&#x7A0B;&#x5E8F;&#x70BA;&#x4F8B;&#xFF1A;  </p>
 <pre><code>(gdb) catch fork
 Catchpoint 1 (fork)
@@ -15151,7 +15085,7 @@ Catchpoint 1 (forked process 33499), 0x00000034e42acdbd in fork () from /lib64/l
 #0  0x00000034e42acdbd in fork () from /lib64/libc.so.6
 #1  0x0000000000400561 in main () at a.c:9
 </code></pre><p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x7576;<code>fork</code>&#x8ABF;&#x7528;&#x767C;&#x751F;&#x5F8C;&#xFF0C;gdb&#x6703;&#x66AB;&#x505C;&#x7A0B;&#x5E8F;&#x7684;&#x904B;&#x884C;&#x3002;<br>&#x6CE8;&#x610F;&#xFF1A;&#x76EE;&#x524D;&#x53EA;&#x6709;HP-UX&#x548C;GNU/Linux&#x652F;&#x6301;&#x9019;&#x500B;&#x529F;&#x80FD;&#x3002;<br>&#x53C3;&#x898B;<a href="https://sourceware.org/gdb/onlinedocs/gdb/Set-Catchpoints.html" target="_blank">gdb&#x624B;&#x518A;</a>.</p>
-<h2 id="%E8%B2%A2%E7%8D%BB%E8%80%85">&#x8CA2;&#x737B;&#x8005;</h2>
+<h2 id="&#x8CA2;&#x737B;&#x8005;">&#x8CA2;&#x737B;&#x8005;</h2>
 <p>nanxiao</p>
 
                     
@@ -15194,9 +15128,17 @@ Catchpoint 1 (forked process 33499), 0x00000034e42acdbd in fork () from /lib64/l
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

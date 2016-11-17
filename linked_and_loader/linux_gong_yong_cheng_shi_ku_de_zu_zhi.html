@@ -8,7 +8,7 @@
         <title>Linux 共用程式庫的組織 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.4.1">
+        <meta name="generator" content="GitBook 2.6.7">
         
         
         <meta name="HandheldFriendly" content="true"/>
@@ -32,6 +32,10 @@
         <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
         
     
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
     
 
         
@@ -48,13 +52,16 @@
     <body>
         <!-- body:start -->
         
-    <div class="book" data-level="47.12" data-basepath=".." data-revision="Tue Nov 15 2016 22:48:13 GMT+0800 (CST)">
+    <div class="book"
+        data-level="47.12"
+        data-chapter-title="Linux 共用程式庫的組織"
+        data-filepath="linked_and_loader/linux_gong_yong_cheng_shi_ku_de_zu_zhi.md"
+        data-basepath=".."
+        data-revision="Thu Nov 17 2016 19:59:50 GMT+0800 (CST)"
+        data-innerlanguage="">
     
 
 <div class="book-summary">
-    <div class="book-search" role="search">
-        <input type="text" placeholder="Type to search" class="form-control" />
-    </div>
     <nav role="navigation">
         <ul class="summary">
             
@@ -15029,80 +15036,7 @@
         <div class="body-inner">
             <div class="book-header" role="navigation">
     <!-- Actions Left -->
-    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
-    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
     
-    <div id="font-settings-wrapper" class="dropdown pull-left">
-        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
-        </a>
-        <div class="dropdown-menu font-settings">
-    <div class="dropdown-caret">
-        <span class="caret-outer"></span>
-        <span class="caret-inner"></span>
-    </div>
-
-    <div class="buttons">
-        <button type="button" id="reduce-font-size" class="button size-2">A</button>
-        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
-    </div>
-
-    <div class="buttons font-family-list">
-        <button type="button" data-font="0" class="button">Serif</button>
-        <button type="button" data-font="1" class="button">Sans</button>
-    </div>
-
-    <div class="buttons color-theme-list">
-        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
-        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
-        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
-    </div>
-</div>
-
-    </div>
-
-    <!-- Actions Right -->
-    
-    <div class="dropdown pull-right">
-        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
-        </a>
-        <div class="dropdown-menu font-settings dropdown-left">
-            <div class="dropdown-caret">
-                <span class="caret-outer"></span>
-                <span class="caret-inner"></span>
-            </div>
-            <div class="buttons">
-                <button type="button" data-sharing="twitter" class="button">
-                    Share on Twitter
-                </button>
-                <button type="button" data-sharing="google-plus" class="button">
-                    Share on Google
-                </button>
-                <button type="button" data-sharing="facebook" class="button">
-                    Share on Facebook
-                </button>
-                <button type="button" data-sharing="weibo" class="button">
-                    Share on Weibo
-                </button>
-                <button type="button" data-sharing="instapaper" class="button">
-                    Share on Instapaper
-                </button>
-            </div>
-        </div>
-    </div>
-    
-
-    
-    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-    
-    
-    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-    
-    
-    
-
 
     <!-- Title -->
     <h1>
@@ -15117,15 +15051,15 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="linux-%E5%85%B1%E7%94%A8%E7%A8%8B%E5%BC%8F%E5%BA%AB%E7%9A%84%E7%B5%84%E7%B9%94">Linux &#x5171;&#x7528;&#x7A0B;&#x5F0F;&#x5EAB;&#x7684;&#x7D44;&#x7E54;</h1>
-<h2 id="%E5%85%B1%E7%94%A8%E7%A8%8B%E5%BC%8F%E5%BA%AB%E7%9B%B8%E5%AE%B9%E6%80%A7">&#x5171;&#x7528;&#x7A0B;&#x5F0F;&#x5EAB;&#x76F8;&#x5BB9;&#x6027;</h2>
+                        <h1 id="linux-&#x5171;&#x7528;&#x7A0B;&#x5F0F;&#x5EAB;&#x7684;&#x7D44;&#x7E54;">Linux &#x5171;&#x7528;&#x7A0B;&#x5F0F;&#x5EAB;&#x7684;&#x7D44;&#x7E54;</h1>
+<h2 id="&#x5171;&#x7528;&#x7A0B;&#x5F0F;&#x5EAB;&#x76F8;&#x5BB9;&#x6027;">&#x5171;&#x7528;&#x7A0B;&#x5F0F;&#x5EAB;&#x76F8;&#x5BB9;&#x6027;</h2>
 <p>&#x5171;&#x7528;&#x7A0B;&#x5F0F;&#x5EAB;&#x7684;&#x66F4;&#x65B0;&#x5206;&#x5169;&#x985E;</p>
 <ul>
 <li>&#x76F8;&#x5BB9;&#x66F4;&#x65B0; - &#x6240;&#x6709;&#x539F;&#x6709;&#x7684;&#x4ECB;&#x9762;&#x90FD;&#x4FDD;&#x6301;&#x4E0D;&#x8B8A;</li>
 <li>&#x4E0D;&#x76F8;&#x5BB9;&#x66F4;&#x65B0; - &#x66F4;&#x65B0;&#x4FEE;&#x6539;&#x4E86;&#x539F;&#x6709;&#x7684;&#x4ECB;&#x9762;</li>
 </ul>
 <p>&#x9019;&#x88E1;&#x7684;&#x4ECB;&#x9762;&#x662F;&#x4E8C;&#x9032;&#x4F4D;&#x4ECB;&#x9762; ABI (Application Binary Interface)&#xFF0C;&#x8981;&#x7834;&#x58DE;&#x4E00;&#x500B;&#x5171;&#x7528;&#x7A0B;&#x5F0F;&#x5EAB;&#x7684; ABI &#x5341;&#x5206;&#x5BB9;&#x6613;&#xFF0C;&#x4FDD;&#x6301;&#x76F8;&#x5BB9;&#x537B;&#x5341;&#x5206;&#x56F0;&#x96E3;&#xFF0C;&#x5C0D; C++ &#x4F86;&#x8AAA;&#x8981;&#x7DAD;&#x6301;&#x76F8;&#x5BB9;&#x6027;&#x66F4;&#x56F0;&#x96E3;&#x3002;</p>
-<h2 id="%E5%85%B1%E7%94%A8%E7%A8%8B%E5%BC%8F%E5%BA%AB%E7%89%88%E6%9C%AC%E5%91%BD%E5%90%8D">&#x5171;&#x7528;&#x7A0B;&#x5F0F;&#x5EAB;&#x7248;&#x672C;&#x547D;&#x540D;</h2>
+<h2 id="&#x5171;&#x7528;&#x7A0B;&#x5F0F;&#x5EAB;&#x7248;&#x672C;&#x547D;&#x540D;">&#x5171;&#x7528;&#x7A0B;&#x5F0F;&#x5EAB;&#x7248;&#x672C;&#x547D;&#x540D;</h2>
 <p><code>libname.so.x.y.z</code></p>
 <p>&#x524D;&#x9762;&#x56FA;&#x5B9A;&#x5B57;&#x9996; lib&#xFF0C;name &#x662F;&#x7A0B;&#x5F0F;&#x5EAB;&#x7684;&#x540D;&#x7A31;&#xFF0C;&#x5B57;&#x5C3E; .so&#xFF0C;&#x6700;&#x5F8C;&#x9762;&#x662F;&#x7248;&#x672C;&#x5E8F;&#x865F;&#xFF0C;x &#x662F;&#x4E3B;&#x7248;&#x672C;&#x5E8F;&#x865F; (Major Version Number)&#xFF0C;y &#x662F;&#x6B21;&#x7248;&#x672C;&#x5E8F;&#x865F; (Minor Version Number)&#xFF0C;z &#x662F;&#x767C;&#x884C;&#x7248;&#x672C;&#x5E8F;&#x865F; (Release Version Number)&#x3002;</p>
 <ul>
@@ -15137,15 +15071,15 @@
 &#x4EE3;&#x8868;&#x7A0B;&#x5F0F;&#x5EAB;&#x4E00;&#x4E9B;&#x932F;&#x8AA4;&#x4FEE;&#x6B63;&#x6216;&#x8005;&#x6548;&#x80FD;&#x6539;&#x9032;&#xFF0C;&#x800C;&#x4E14;&#x6C92;&#x6709;&#x589E;&#x52A0;&#x65B0;&#x7684;&#x4ECB;&#x9762;&#x6216;&#x4FEE;&#x6539;&#x820A;&#x7684;&#x4ECB;&#x9762;</li>
 </ul>
 <p>Note&#xFF1A;Glibc &#x4E0D;&#x4F7F;&#x7528;&#x9019;&#x7A2E;&#x898F;&#x5247;&#xFF0C;&#x800C;&#x662F; libc-x.y.z.so&#xFF0C;ld-x.y.z.so</p>
-<h2 id="so-name">SO-NAME</h2>
+<h2 id="soname">SO-NAME</h2>
 <p>Solaris &#x548C; Linux &#x63A1;&#x7528; SO-NAME &#x7684;&#x547D;&#x540D;&#x6A5F;&#x5236;&#x4F86;&#x8A18;&#x9304;&#x5171;&#x7528;&#x7A0B;&#x5F0F;&#x5EAB;&#x7684;&#x4F9D;&#x8CF4;&#x95DC;&#x4FC2;&#xFF0C;&#x5728; Linux &#x4E2D;&#xFF0C;&#x7CFB;&#x7D71;&#x6703;&#x70BA;&#x6BCF;&#x500B;&#x5171;&#x7528;&#x7A0B;&#x5F0F;&#x5EAB;&#x5728;&#x5B83;&#x6240;&#x5728;&#x7684;&#x76EE;&#x9304;&#x5EFA;&#x7ACB;&#x4E00;&#x500B;&#x53EB; SO-NAME &#x7684;&#x8EDF;&#x5F0F;&#x9023;&#x7D50; (Symbol Link)&#xFF0C;&#x4F8B;&#x5982;&#x5171;&#x7528;&#x7A0B;&#x5F0F;&#x5EAB;
 <code>/lib/libname.so.x.y.z</code> &#x7684; SO-NAME &#x70BA;<code>libname.so.x</code>&#xFF0C;&#x7CFB;&#x7D71;&#x6703;&#x5728; 
 <code>/lib</code> &#x5E95;&#x4E0B;&#x5EFA;&#x7ACB; <code>/lib/libname.so.x</code> &#x6307;&#x5411; <code>/lib/libname.so.x.y.z</code>&#xFF0C;ldconfig &#x53EF;&#x4EE5;&#x6839;&#x64DA;&#x9810;&#x8A2D;&#x7684;&#x5171;&#x7528;&#x7A0B;&#x5F0F;&#x5EAB;&#x76EE;&#x9304;&#xFF0C;&#x66F4;&#x65B0;&#x7CFB;&#x7D71;&#x6240;&#x6709;&#x7684;&#x8EDF;&#x5F0F;&#x9023;&#x7D50;&#x3002;</p>
-<h2 id="%E9%80%A3%E7%B5%90%E5%90%8D%E7%A8%B1">&#x9023;&#x7D50;&#x540D;&#x7A31;</h2>
+<h2 id="&#x9023;&#x7D50;&#x540D;&#x7A31;">&#x9023;&#x7D50;&#x540D;&#x7A31;</h2>
 <p>&#x4F7F;&#x7528;&#x7DE8;&#x8B6F;&#x5668;&#x9023;&#x7D50;&#x4E00;&#x500B; <code>libname.so.x.y.z</code> &#x7684;&#x6642;&#x5019;&#xFF0C;&#x53EA;&#x8981;&#x5728;&#x547D;&#x4EE4;&#x5217;&#x88E1;&#x6307;&#x5B9A; <code>-lname</code> &#x5373;&#x53EF;&#xFF0C;&#x7DE8;&#x8B6F;&#x5668;&#x6703;&#x5728;&#x7CFB;&#x7D71;&#x4E2D;&#x7684;&#x76F8;&#x95DC;&#x8DEF;&#x5F91; (-L &#x53C3;&#x6578;&#x6307;&#x5B9A;)&#xFF0C;&#x641C;&#x5C0B;&#x6700;&#x65B0;&#x7684; &#x2018;name&#x2019; &#x7A0B;&#x5F0F;&#x5EAB;&#xFF0C;&#x9019;&#x500B; &#x2018;name&#x2019; &#x53C8;&#x7A31;&#x70BA;&#x5171;&#x7528;&#x7A0B;&#x5F0F;&#x5EAB;&#x7684;&#x9023;&#x7D50;&#x540D;&#x7A31; (Link Name)</p>
-<h2 id="%E7%AC%A6%E8%99%9F%E7%89%88%E6%9C%AC">&#x7B26;&#x865F;&#x7248;&#x672C;</h2>
+<h2 id="&#x7B26;&#x865F;&#x7248;&#x672C;">&#x7B26;&#x865F;&#x7248;&#x672C;</h2>
 <p>&#x70BA;&#x77AD;&#x89E3;&#x6C7A;&#x6B21;&#x7248;&#x672C;&#x5E8F;&#x865F;&#x4EA4;&#x6703;&#x554F;&#x984C; (Minor-revision Rendezvous Problem) &#x800C;&#x4F7F;&#x7528;&#x7684;&#x6A5F;&#x5236;&#xFF0C;&#x57FA;&#x672C;&#x6982;&#x5FF5;&#x662F;&#x8B93;&#x6BCF;&#x500B;&#x532F;&#x51FA;&#x532F;&#x5165;&#x7B26;&#x865F;&#x90FD;&#x6709;&#x4E00;&#x500B;&#x76F8;&#x95DC;&#x806F;&#x7684;&#x7248;&#x672C;&#x5E8F;&#x865F;&#xFF0C;Linux &#x4E0B;&#x7684; Glibc &#x5F9E; 2.1 &#x4E4B;&#x5F8C;&#x958B;&#x59CB;&#x652F;&#x63F4;&#x3002;</p>
-<h2 id="solaris-%E4%B8%AD%E7%9A%84%E7%AC%A6%E8%99%9F%E7%89%88%E6%9C%AC%E6%A9%9F%E5%88%B6">Solaris &#x4E2D;&#x7684;&#x7B26;&#x865F;&#x7248;&#x672C;&#x6A5F;&#x5236;</h2>
+<h2 id="solaris-&#x4E2D;&#x7684;&#x7B26;&#x865F;&#x7248;&#x672C;&#x6A5F;&#x5236;">Solaris &#x4E2D;&#x7684;&#x7B26;&#x865F;&#x7248;&#x672C;&#x6A5F;&#x5236;</h2>
 <p>Solaris &#x7684; ld &#x9023;&#x7D50;&#x5668;&#x70BA;&#x5171;&#x7528;&#x7A0B;&#x5F0F;&#x5EAB;&#x589E;&#x52A0;&#x4E86;&#x7248;&#x672C;&#x6A5F;&#x5236; (Versioning) &#x548C;&#x7BC4;&#x570D;&#x6A5F;&#x5236; (Scoping)&#xFF0C;&#x7A0B;&#x5F0F;&#x8A2D;&#x8A08;&#x5E2B;&#x53EF;&#x4EE5;&#x5728;&#x9023;&#x7D50;&#x5171;&#x7528;&#x7A0B;&#x5F0F;&#x5EAB;&#x6642;&#x7DE8;&#x5BEB;&#x7B26;&#x865F;&#x7248;&#x672C;&#x8173;&#x672C; (version script) &#x7684;&#x6A94;&#x6848;</p>
 <pre><code class="lang-sh">SUNW_1.<span class="hljs-number">1</span> {
 global:
@@ -15168,7 +15102,7 @@ global:
 } SUNW_1.<span class="hljs-number">1</span>;
 </code></pre>
 <p>&#x610F;&#x601D;&#x662F; 1.2 &#x7248;&#x7684;&#x5171;&#x7528;&#x7A0B;&#x5F0F;&#x5EAB;&#x589E;&#x52A0;&#x4E86; swap &#x4ECB;&#x9762;&#xFF0C;&#x800C;&#x4E14;&#x7E7C;&#x627F;&#x4E86; 1.1 &#x7684;&#x6240;&#x6709;&#x4ECB;&#x9762;</p>
-<h2 id="gcc-%E5%B0%8D-solaris-%E7%AC%A6%E8%99%9F%E7%89%88%E6%9C%AC%E6%A9%9F%E5%88%B6%E7%9A%84%E6%93%B4%E5%85%85">GCC &#x5C0D; Solaris &#x7B26;&#x865F;&#x7248;&#x672C;&#x6A5F;&#x5236;&#x7684;&#x64F4;&#x5145;</h2>
+<h2 id="gcc-&#x5C0D;-solaris-&#x7B26;&#x865F;&#x7248;&#x672C;&#x6A5F;&#x5236;&#x7684;&#x64F4;&#x5145;">GCC &#x5C0D; Solaris &#x7B26;&#x865F;&#x7248;&#x672C;&#x6A5F;&#x5236;&#x7684;&#x64F4;&#x5145;</h2>
 <p>GCC &#x5728; Solaris &#x7CFB;&#x7D71;&#x4E2D;&#x7684;&#x7B26;&#x865F;&#x7248;&#x672C;&#x6A5F;&#x5236;&#x7684;&#x57FA;&#x790E;&#x4E0A;&#x63D0;&#x4F9B;&#x4E86;&#x5169;&#x500B;&#x64F4;&#x5145;</p>
 <ul>
 <li>&#x63D0;&#x4F9B; .symver &#x7684;&#x7D44;&#x8A9E;&#x5DE8;&#x96C6;&#x6307;&#x4EE4;&#x4F86;&#x6307;&#x5B9A;&#x7B26;&#x865F;&#x7684;&#x7248;&#x672C;</li>
@@ -15183,7 +15117,7 @@ global:
 asm(<span class="hljs-string">&quot;.symver new_printf, printf@VERS_1.2&quot;</span>);
 </code></pre>
 <p>&#x9023;&#x7D50;&#x5668;&#x53EF;&#x4EE5;&#x6839;&#x64DA;&#x7B26;&#x5408;&#x7A0B;&#x5F0F;&#x7248;&#x672C;&#x5E8F;&#x865F;&#x7684;&#x7B26;&#x865F;&#x4F86;&#x9032;&#x884C;&#x9023;&#x7D50;&#xFF0C;&#x4F7F;&#x7528; 1.1 &#x7248; printf &#x7684;&#x7A0B;&#x5F0F;&#x6703;&#x88AB;&#x9023;&#x7D50;&#x5230; old_printf&#xFF0C;1.2 &#x7248;&#x7684;&#x5247;&#x9023;&#x7D50;&#x5230; new_printf</p>
-<h2 id="%E5%85%B1%E7%94%A8%E7%A8%8B%E5%BC%8F%E5%BA%AB%E7%B3%BB%E7%B5%B1%E8%B7%AF%E5%BE%91">&#x5171;&#x7528;&#x7A0B;&#x5F0F;&#x5EAB;&#x7CFB;&#x7D71;&#x8DEF;&#x5F91;</h2>
+<h2 id="&#x5171;&#x7528;&#x7A0B;&#x5F0F;&#x5EAB;&#x7CFB;&#x7D71;&#x8DEF;&#x5F91;">&#x5171;&#x7528;&#x7A0B;&#x5F0F;&#x5EAB;&#x7CFB;&#x7D71;&#x8DEF;&#x5F91;</h2>
 <p>&#x5927;&#x591A;&#x6578;&#x7684;&#x958B;&#x6E90;&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x90FD;&#x9075;&#x5B88; FHS (File Hierarchy Standard) &#x7684;&#x6A19;&#x6E96;&#xFF0C;&#x9019;&#x500B;&#x6A19;&#x6E96;&#x898F;&#x5B9A;&#x4E86;&#x7CFB;&#x7D71;&#x4E2D;&#x7684;&#x7CFB;&#x7D71;&#x6A94;&#x6848;&#x61C9;&#x8A72;&#x5982;&#x4F55;&#x5B58;&#x653E;&#xFF0C;&#x9019;&#x6709;&#x5229;&#x65BC;&#x5404;&#x500B;&#x958B;&#x6E90;&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x4E4B;&#x9593;&#x7684;&#x76F8;&#x5BB9;&#x6027;&#xFF0C;&#x800C; FHS &#x898F;&#x5B9A;&#x7CFB;&#x7D71;&#x4E2D;&#x4E3B;&#x8981; 3 &#x500B;&#x5B58;&#x653E;&#x5171;&#x7528;&#x7A0B;&#x5F0F;&#x5EAB;&#x7684;&#x4F4D;&#x7F6E;</p>
 <ul>
 <li>/lib
@@ -15193,11 +15127,11 @@ asm(<span class="hljs-string">&quot;.symver new_printf, printf@VERS_1.2&quot;</s
 <li>/usr/local/lib
 &#x5B58;&#x653E;&#x8DDF;&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x672C;&#x8EAB;&#x4E26;&#x4E0D;&#x5341;&#x5206;&#x76F8;&#x95DC;&#x7684;&#x7A0B;&#x5F0F;&#x5EAB;&#xFF0C;&#x4F8B;&#x5982;&#x7B2C;&#x4E09;&#x65B9;&#x7A0B;&#x5F0F;&#x7684;&#x5171;&#x7528;&#x7A0B;&#x5F0F;&#x5EAB;</li>
 </ul>
-<h2 id="%E5%85%B1%E7%94%A8%E7%A8%8B%E5%BC%8F%E5%BA%AB%E6%90%9C%E5%B0%8B%E9%81%8E%E7%A8%8B">&#x5171;&#x7528;&#x7A0B;&#x5F0F;&#x5EAB;&#x641C;&#x5C0B;&#x904E;&#x7A0B;</h2>
+<h2 id="&#x5171;&#x7528;&#x7A0B;&#x5F0F;&#x5EAB;&#x641C;&#x5C0B;&#x904E;&#x7A0B;">&#x5171;&#x7528;&#x7A0B;&#x5F0F;&#x5EAB;&#x641C;&#x5C0B;&#x904E;&#x7A0B;</h2>
 <p>&#x5728; Linux &#x7CFB;&#x7D71;&#x4E2D;&#xFF0C;&#x52D5;&#x614B;&#x9023;&#x7D50;&#x5668;&#x662F; <code>/lib/ld-linux.so.X</code>&#xFF0C;&#x7A0B;&#x5F0F;&#x6240;&#x4F9D;&#x8CF4;&#x7684;&#x5171;&#x7528;&#x7269;&#x4EF6;&#x5168;&#x90E8;&#x7531;&#x52D5;&#x614B;&#x9023;&#x7D50;&#x5668;&#x8CA0;&#x8CAC;&#x8F09;&#x5165;&#x548C;&#x521D;&#x59CB;&#x5316;&#xFF0C;&#x4EFB;&#x4F55;&#x4E00;&#x500B;&#x52D5;&#x614B;&#x9023;&#x7D50;&#x7684;&#x6A21;&#x7D44;&#x6240;&#x4F9D;&#x8CF4;&#x7684;&#x6A21;&#x7D44;&#x8DEF;&#x5F91;&#x4FDD;&#x5B58;&#x5728; .dynamic &#x5340;&#x6BB5;&#x88E1;&#x9762;&#xFF0C;&#x7531; DT_NEED &#x985E;&#x578B;&#x7684;&#x9805;&#x76EE;&#x8868;&#x793A;&#xFF0C;&#x5982;&#x679C; DT_NEED &#x662F;&#x7D55;&#x5C0D;&#x8DEF;&#x5F91;&#xFF0C;&#x52D5;&#x614B;&#x9023;&#x7D50;&#x5668;&#x5C31;&#x7167;&#x9019;&#x500B;&#x8DEF;&#x5F91;&#x53BB;&#x641C;&#x5C0B;&#xFF0C;&#x5982;&#x679C;&#x662F;&#x76F8;&#x5C0D;&#x8DEF;&#x5F91;&#xFF0C;&#x5247;&#x6703;&#x5728; /lib&#xFF0C;/usr/lib &#x548C; /etc/ld.so.conf &#x6307;&#x5B9A;&#x7684;&#x76EE;&#x9304;&#x4E2D;&#x641C;&#x5C0B;</p>
 <p>&#x524D;&#x9762;&#x63D0;&#x5230;&#x7684; ldconfig&#xFF0C;&#x5728;&#x66F4;&#x65B0; SO-NAME &#x7684;&#x6642;&#x5019;&#x6703;&#x5C07; SO-NAME &#x6536;&#x96C6;&#x8D77;&#x4F86;&#xFF0C;&#x96C6;&#x4E2D;&#x5B58;&#x653E;&#x5230; /etc/ld.so.cache &#x6A94;&#x6848;&#x88E1;&#x9762;&#xFF0C;&#x52A0;&#x5FEB;&#x5171;&#x7528;&#x7A0B;&#x5F0F;&#x5EAB;&#x7684;&#x641C;&#x5C0B;&#x904E;&#x7A0B;&#xFF0C;&#x5F88;&#x591A;&#x8EDF;&#x9AD4;&#x7684;&#x5B89;&#x88DD;&#x7A0B;&#x5F0F;&#x5728;&#x7CFB;&#x7D71;&#x88E1;&#x9762;&#x5B89;&#x88DD;&#x5171;&#x7528;&#x7A0B;&#x5F0F;&#x5EAB;&#x4EE5;&#x5F8C;&#x90FD;&#x6703;&#x547C;&#x53EB; ldconfig&#x3002;</p>
-<h2 id="%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8">&#x74B0;&#x5883;&#x8B8A;&#x6578;</h2>
-<h3 id="ld-library-path">LD_LIBRARY_PATH</h3>
+<h2 id="&#x74B0;&#x5883;&#x8B8A;&#x6578;">&#x74B0;&#x5883;&#x8B8A;&#x6578;</h2>
+<h3 id="ldlibrarypath">LD_LIBRARY_PATH</h3>
 <p>LD_LIBRARY_PATH &#x53EF;&#x4EE5;&#x6539;&#x8B8A;&#x5171;&#x7528;&#x7A0B;&#x5F0F;&#x5EAB;&#x7684;&#x641C;&#x5C0B;&#x8DEF;&#x5F91;&#xFF0C;&#x52D5;&#x614B;&#x9023;&#x7D50;&#x5668;&#x641C;&#x5C0B;&#x5171;&#x7528;&#x7A0B;&#x5F0F;&#x5EAB;&#x7684;&#x9806;&#x5E8F;&#x70BA;</p>
 <ul>
 <li>LD_LIBRARY_PATH &#x6307;&#x5B9A;&#x7684;&#x8DEF;&#x5F91;&#xFF0C;&#x8DEF;&#x5F91;&#x9593;&#x7531;&#x5192;&#x865F;&#x9694;&#x958B;&#xFF0C;&#x6C92;&#x6307;&#x5B9A;&#x5247;&#x5FFD;&#x7565;</li>
@@ -15209,9 +15143,9 @@ asm(<span class="hljs-string">&quot;.symver new_printf, printf@VERS_1.2&quot;</s
 <p>&#x7B49;&#x540C;&#x65BC;</p>
 <pre><code class="lang-sh">$ /lib/ld-linux.so.X -library-path /home/user /bin/ls
 </code></pre>
-<h2 id="ld-preload">LD_PRELOAD</h2>
+<h2 id="ldpreload">LD_PRELOAD</h2>
 <p>LD_PRELOAD &#x53EF;&#x4EE5;&#x6307;&#x5B9A;&#x9810;&#x5148;&#x8F09;&#x5165;&#x7684;&#x4E00;&#x4E9B;&#x5171;&#x7528;&#x7A0B;&#x5F0F;&#x5EAB;&#x6216;&#x662F;&#x76EE;&#x7684;&#x6A94;&#xFF0C;&#x5B83;&#x7684;&#x9806;&#x5E8F;&#x6BD4; LD_LIBRARY_PATH &#x9084;&#x8981;&#x512A;&#x5148;&#xFF0C;&#x7121;&#x8AD6;&#x7A0B;&#x5F0F;&#x662F;&#x5426;&#x9700;&#x8981;&#xFF0C;LD_PRELOAD &#x6307;&#x5B9A;&#x7684;&#x5171;&#x7528;&#x7A0B;&#x5F0F;&#x5EAB;&#x6216;&#x76EE;&#x7684;&#x6A94;&#x90FD;&#x6703;&#x88AB;&#x8F09;&#x5165;&#xFF0C;&#x800C;&#x4E14;&#x8F09;&#x5165;&#x7684;&#x5168;&#x57DF;&#x7B26;&#x865F;&#x6703;&#x8986;&#x84CB;&#x5F8C;&#x9762;&#x8F09;&#x5165;&#x7684;&#x540C;&#x540D;&#x5168;&#x57DF;&#x7B26;&#x865F;&#xFF0C;&#x5C0D;&#x7A0B;&#x5F0F;&#x7684;&#x9664;&#x932F;&#x6216;&#x6E2C;&#x8A66;&#x975E;&#x5E38;&#x6709;&#x7528;&#x3002;</p>
-<h2 id="ld-debug">LD_DEBUG</h2>
+<h2 id="lddebug">LD_DEBUG</h2>
 <p>LD_DEBUG &#x53EF;&#x4EE5;&#x6253;&#x958B;&#x52D5;&#x614B;&#x9023;&#x7D50;&#x5668;&#x7684;&#x9664;&#x932F;&#x529F;&#x80FD;&#xFF0C;&#x53EF;&#x4EE5;&#x8A2D;&#x5B9A;&#x7684;&#x503C;&#x5982;&#x4E0B;</p>
 <pre><code class="lang-sh">bindings     &#x986F;&#x793A;&#x52D5;&#x614B;&#x9023;&#x7D50;&#x7684;&#x7B26;&#x865F;&#x9023;&#x7D50;&#x904E;&#x7A0B;
 libs         &#x986F;&#x793A;&#x5171;&#x7528;&#x7A0B;&#x5F0F;&#x5EAB;&#x7684;&#x641C;&#x5C0B;&#x904E;&#x7A0B;
@@ -15226,7 +15160,7 @@ all          &#x986F;&#x793A;&#x4EE5;&#x4E0A;&#x6240;&#x6709;&#x8CC7;&#x8A0A;
 <p>&#x7528;&#x6CD5;&#x5982;&#x4E0B;</p>
 <pre><code class="lang-sh">$ LD_DEBUG=files /bin/ls
 </code></pre>
-<h2 id="%E5%85%B1%E7%94%A8%E7%A8%8B%E5%BC%8F%E5%BA%AB%E7%9A%84%E5%BB%BA%E7%AB%8B">&#x5171;&#x7528;&#x7A0B;&#x5F0F;&#x5EAB;&#x7684;&#x5EFA;&#x7ACB;</h2>
+<h2 id="&#x5171;&#x7528;&#x7A0B;&#x5F0F;&#x5EAB;&#x7684;&#x5EFA;&#x7ACB;">&#x5171;&#x7528;&#x7A0B;&#x5F0F;&#x5EAB;&#x7684;&#x5EFA;&#x7ACB;</h2>
 <p>&#x5EFA;&#x7ACB;&#x5171;&#x7528;&#x7A0B;&#x5F0F;&#x5EAB; libfoo.so.1.0.0 &#x7684;&#x6307;&#x4EE4;&#x5982;&#x4E0B;</p>
 <pre><code class="lang-sh">gcc -shared <span class="hljs-operator">-f</span>PIC -Wl,-soname,libfoo.so.<span class="hljs-number">1</span> -o libfoo.so.<span class="hljs-number">1.0</span>.<span class="hljs-number">0</span> libfoo1.c libfoo2.c
 </code></pre>
@@ -15234,7 +15168,7 @@ all          &#x986F;&#x793A;&#x4EE5;&#x4E0A;&#x6240;&#x6709;&#x8CC7;&#x8A0A;
 <span class="hljs-operator">-f</span>PIC   &#x4F7F;&#x7528;&#x8207;&#x4F4D;&#x5740;&#x7121;&#x95DC;&#x7684;&#x7A0B;&#x5F0F;&#x78BC; (Poition Independent Code)
 -Wl     &#x628A;&#x5F8C;&#x9762;&#x7684; -soname,libfoo.so.<span class="hljs-number">1</span> &#x50B3;&#x7D66;&#x9023;&#x7D50;&#x5668;&#xFF0C;&#x6307;&#x5B9A; SO-NAME
 </code></pre>
-<h2 id="%E6%B8%85%E9%99%A4%E7%AC%A6%E8%99%9F%E8%B3%87%E8%A8%8A">&#x6E05;&#x9664;&#x7B26;&#x865F;&#x8CC7;&#x8A0A;</h2>
+<h2 id="&#x6E05;&#x9664;&#x7B26;&#x865F;&#x8CC7;&#x8A0A;">&#x6E05;&#x9664;&#x7B26;&#x865F;&#x8CC7;&#x8A0A;</h2>
 <p>&#x6B63;&#x5E38;&#x60C5;&#x6CC1;&#x4E0B;&#x7DE8;&#x8B6F;&#x51FA;&#x4F86;&#x7684;&#x5171;&#x7528;&#x7A0B;&#x5F0F;&#x5EAB;&#x6216;&#x53EF;&#x57F7;&#x884C;&#x6A94;&#x6703;&#x5E36;&#x6709;&#x7B26;&#x865F;&#x8CC7;&#x8A0A;&#x548C;&#x9664;&#x932F;&#x8CC7;&#x8A0A;&#xFF0C;<code>strip libname.so</code> &#x53EF;&#x4EE5;&#x6E05;&#x9664;&#x9019;&#x4E9B;&#x8CC7;&#x8A0A;
 ld &#x6307;&#x4EE4;&#x7684; -s &#x548C; -S &#x53C3;&#x6578;&#x4E5F;&#x6709;&#x76F8;&#x540C;&#x6548;&#x679C;&#xFF0C;-s &#x6D88;&#x9664;&#x6240;&#x6709;&#x7B26;&#x865F;&#x8CC7;&#x8A0A;&#xFF0C;-S &#x6D88;&#x9664;&#x9664;&#x932F;&#x7B26;&#x865F;&#x8CC7;&#x8A0A;&#xFF0C;&#x53EF;&#x4EE5;&#x5728; GCC &#x4E2D;&#x900F;&#x904E; -Wl,-s &#x548C; -Wl,-S &#x50B3;&#x7D66; ld &#x9019;&#x5169;&#x500B;&#x53C3;&#x6578;</p>
 
@@ -15278,9 +15212,17 @@ ld &#x6307;&#x4EE4;&#x7684; -s &#x548C; -S &#x53C3;&#x6578;&#x4E5F;&#x6709;&#x76
     <script src="../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
     
 
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
 <script>
 require(["gitbook"], function(gitbook) {
-    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    var config = {"google_code_prettify":{},"collapsible-menu":{},"livereload":{},"maxiang":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
     gitbook.start(config);
 });
 </script>

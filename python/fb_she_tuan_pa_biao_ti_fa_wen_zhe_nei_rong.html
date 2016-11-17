@@ -57,7 +57,7 @@
         data-chapter-title="fb 社團爬標題發文者內容"
         data-filepath="python/fb_she_tuan_pa_biao_ti_fa_wen_zhe_nei_rong.md"
         data-basepath=".."
-        data-revision="Thu Nov 17 2016 22:35:57 GMT+0800 (CST)"
+        data-revision="Thu Nov 17 2016 22:45:27 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -15257,6 +15257,72 @@ feed = graph.request(<span class="hljs-string">&apos;/%s/feed&apos;</span> % gro
         <span class="hljs-keyword">pass</span>
         <span class="hljs-comment">#print &quot;=======================&quot;</span>
         <span class="hljs-comment">#pprint.pprint(post)</span>
+    raw_input()
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:
+    main()
+</code></pre>
+<h2 id="&#x5167;&#x5BB9;&#x5C0E;&#x5411;&#x6A94;&#x6848;">&#x5167;&#x5BB9;&#x5C0E;&#x5411;&#x6A94;&#x6848;</h2>
+<pre><code class="lang-py"><span class="hljs-comment">#! /usr/bin/python</span>
+<span class="hljs-comment"># -*- coding: utf-8 -*-</span>
+<span class="hljs-keyword">import</span> facebook
+<span class="hljs-keyword">import</span> pprint
+<span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">import</span> sys
+<span class="hljs-keyword">import</span> codecs
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">extend_access_token</span><span class="hljs-params">(access_token)</span>:</span>
+    app_id = <span class="hljs-string">&quot;&quot;</span>                       <span class="hljs-comment"># Obtained from https://developers.facebook.com/        </span>
+    client_secret = <span class="hljs-string">&quot;&quot;</span>         <span class="hljs-comment"># Obtained from https://developers.facebook.com/</span>
+
+    link = <span class="hljs-string">&quot;https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&amp;client_id=&quot;</span> + app_id +<span class="hljs-string">&quot;&amp;client_secret=&quot;</span> + client_secret + <span class="hljs-string">&quot;&amp;fb_exchange_token=&quot;</span> + access_token
+    s = requests.Session()
+    token = s.get(link).content
+    token = token.split(<span class="hljs-string">&quot;&amp;&quot;</span>)[<span class="hljs-number">0</span>]                 <span class="hljs-comment"># this strips out the expire info (now set set about 5184000 seconds, or 60 days)</span>
+    token = token.strip(<span class="hljs-string">&quot;access_token=&quot;</span>)        <span class="hljs-comment"># Strips out access token</span>
+    <span class="hljs-comment">#print token</span>
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>:</span>
+    token = <span class="hljs-string">&apos;&apos;</span>
+    extend_access_token(token)
+    graph=facebook.GraphAPI(token)
+    groups = graph.get_connections(id=<span class="hljs-string">&apos;me&apos;</span>, connection_name=<span class="hljs-string">&apos;groups&apos;</span>)[<span class="hljs-string">&apos;data&apos;</span>]
+    group_id = [group[<span class="hljs-string">&apos;id&apos;</span>] <span class="hljs-keyword">for</span> group <span class="hljs-keyword">in</span> groups <span class="hljs-keyword">if</span> group[<span class="hljs-string">&apos;name&apos;</span>] == <span class="hljs-string">&apos;Jason_Test&apos;</span>][<span class="hljs-number">0</span>]
+    feed = graph.request(<span class="hljs-string">&apos;/%s/feed&apos;</span> % group_id, args = {<span class="hljs-string">&apos;limit&apos;</span>: <span class="hljs-number">1000</span>,<span class="hljs-string">&apos;fields&apos;</span>: <span class="hljs-string">&quot;message,comments.fields(comments,likes,from,id,message,user_likes,created_time,like_count)&quot;</span>})
+    <span class="hljs-comment">#pprint.pprint(feed)</span>
+
+    stdout_backup = sys.stdout
+    log_file = codecs.open(<span class="hljs-string">&quot;message.log&quot;</span>, <span class="hljs-string">&quot;w&quot;</span>, <span class="hljs-string">&quot;utf-8&quot;</span>)
+    sys.stdout = log_file
+
+    <span class="hljs-keyword">for</span> post <span class="hljs-keyword">in</span> feed[<span class="hljs-string">&apos;data&apos;</span>]:
+    <span class="hljs-comment">#pprint.pprint(post)</span>
+        <span class="hljs-comment">#print &apos;--------------------------------------------------------------&apos;</span>
+    <span class="hljs-keyword">if</span> <span class="hljs-string">&apos;message&apos;</span> <span class="hljs-keyword">in</span> post.keys():
+        <span class="hljs-keyword">if</span> <span class="hljs-string">&apos;comments&apos;</span> <span class="hljs-keyword">in</span> post.keys():
+        <span class="hljs-keyword">print</span> (<span class="hljs-string">u&apos;&#x6A19;&#x984C;:%s&apos;</span> % post[<span class="hljs-string">&apos;message&apos;</span>])
+        <span class="hljs-comment">#for i in range(len(post[&apos;comments&apos;][&apos;data&apos;])):</span>
+        <span class="hljs-keyword">for</span> p <span class="hljs-keyword">in</span> post[<span class="hljs-string">&apos;comments&apos;</span>][<span class="hljs-string">&apos;data&apos;</span>]:
+                    print(<span class="hljs-string">u&apos;&#x65E5;&#x671F;:%s ID:%s &#x540D;&#x5B57;:%s &#x5167;&#x5BB9;:%s&apos;</span> % \
+                 (p[<span class="hljs-string">&apos;created_time&apos;</span>], \
+                 p[<span class="hljs-string">&apos;from&apos;</span>][<span class="hljs-string">&apos;id&apos;</span>], \
+                 p[<span class="hljs-string">&apos;from&apos;</span>][<span class="hljs-string">&apos;name&apos;</span>], \
+                 p[<span class="hljs-string">&apos;message&apos;</span>]))
+                    <span class="hljs-keyword">if</span> <span class="hljs-string">&apos;comments&apos;</span> <span class="hljs-keyword">in</span> p.keys():
+                        <span class="hljs-comment">#pprint.pprint(post[&apos;comments&apos;][&apos;data&apos;][i][&apos;comments&apos;])</span>
+                        <span class="hljs-keyword">for</span> pp <span class="hljs-keyword">in</span> p[<span class="hljs-string">&apos;comments&apos;</span>][<span class="hljs-string">&apos;data&apos;</span>]:
+                            <span class="hljs-comment">#print post[&apos;comments&apos;][&apos;data&apos;][i][&apos;comments&apos;][&apos;data&apos;][j][&apos;message&apos;]</span>
+                            print(<span class="hljs-string">u&apos;&#x65E5;&#x671F;:%s ID:%s &#x540D;&#x5B57;:%s &#x5167;&#x5BB9;:%s&apos;</span> % \
+                                 (pp[<span class="hljs-string">&apos;created_time&apos;</span>], \
+                                  pp[<span class="hljs-string">&apos;from&apos;</span>][<span class="hljs-string">&apos;id&apos;</span>], \
+                                  pp[<span class="hljs-string">&apos;from&apos;</span>][<span class="hljs-string">&apos;name&apos;</span>], \
+                                  pp[<span class="hljs-string">&apos;message&apos;</span>]))
+
+        <span class="hljs-keyword">print</span> <span class="hljs-string">&apos;--------------------------------------------------------------&apos;</span>
+
+    log_file.close()
+    sys.stdout = stdout_backup
+    <span class="hljs-keyword">print</span> <span class="hljs-string">&quot;Done.&quot;</span>
     raw_input()
 
 <span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:

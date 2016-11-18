@@ -57,7 +57,7 @@
         data-chapter-title="fb 社團爬標題發文者內容"
         data-filepath="python/fb_she_tuan_pa_biao_ti_fa_wen_zhe_nei_rong.md"
         data-basepath=".."
-        data-revision="Thu Nov 17 2016 22:50:09 GMT+0800 (CST)"
+        data-revision="Fri Nov 18 2016 20:59:58 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -15272,8 +15272,8 @@ feed = graph.request(<span class="hljs-string">&apos;/%s/feed&apos;</span> % gro
 <span class="hljs-keyword">import</span> codecs
 
 <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">extend_access_token</span><span class="hljs-params">(access_token)</span>:</span>
-    app_id = <span class="hljs-string">&quot;&quot;</span>                       <span class="hljs-comment"># Obtained from https://developers.facebook.com/        </span>
-    client_secret = <span class="hljs-string">&quot;&quot;</span>         <span class="hljs-comment"># Obtained from https://developers.facebook.com/</span>
+    app_id = <span class="hljs-string">&quot;1240481449344198&quot;</span>                       <span class="hljs-comment"># Obtained from https://developers.facebook.com/        </span>
+    client_secret = <span class="hljs-string">&quot;2faea3e8333af28fb24d123a44383550&quot;</span>         <span class="hljs-comment"># Obtained from https://developers.facebook.com/</span>
 
     link = <span class="hljs-string">&quot;https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&amp;client_id=&quot;</span> + app_id +<span class="hljs-string">&quot;&amp;client_secret=&quot;</span> + client_secret + <span class="hljs-string">&quot;&amp;fb_exchange_token=&quot;</span> + access_token
     s = requests.Session()
@@ -15283,12 +15283,16 @@ feed = graph.request(<span class="hljs-string">&apos;/%s/feed&apos;</span> % gro
     <span class="hljs-comment">#print token</span>
 
 <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>:</span>
-    token = <span class="hljs-string">&apos;&apos;</span>
+    token = <span class="hljs-string">&apos;EAARoNhgjfMYBAESz42tJcu7gztpqH49ZCgHOVylSVPrPZCZAG9sKH6ZC2t7sk4HaJ6tzG89I3Kj7HgsCKqma9ZCht0n2NBLHpB2Jytg4RXpZAZAQi4cCrmX0xB6wHEsxrWncaKvmIaCHvsUnacziZAmmnUkekBKNVtcZD&apos;</span>
     extend_access_token(token)
     graph=facebook.GraphAPI(token)
     groups = graph.get_connections(id=<span class="hljs-string">&apos;me&apos;</span>, connection_name=<span class="hljs-string">&apos;groups&apos;</span>)[<span class="hljs-string">&apos;data&apos;</span>]
     group_id = [group[<span class="hljs-string">&apos;id&apos;</span>] <span class="hljs-keyword">for</span> group <span class="hljs-keyword">in</span> groups <span class="hljs-keyword">if</span> group[<span class="hljs-string">&apos;name&apos;</span>] == <span class="hljs-string">&apos;Jason_Test&apos;</span>][<span class="hljs-number">0</span>]
-    feed = graph.request(<span class="hljs-string">&apos;/%s/feed&apos;</span> % group_id, args = {<span class="hljs-string">&apos;limit&apos;</span>: <span class="hljs-number">1000</span>,<span class="hljs-string">&apos;fields&apos;</span>: <span class="hljs-string">&quot;message,comments.fields(comments,likes,from,id,message,user_likes,created_time,like_count)&quot;</span>})
+    feed = graph.request(
+            <span class="hljs-string">&apos;/%s/feed&apos;</span> % group_id, 
+            args = {<span class="hljs-string">&apos;limit&apos;</span>: <span class="hljs-number">1000</span>,
+                    <span class="hljs-string">&apos;fields&apos;</span>: <span class="hljs-string">&quot;message,comments.fields(comments,likes,from,id,message,user_likes,created_time,like_count)&quot;</span>})
+
     <span class="hljs-comment">#pprint.pprint(feed)</span>
 
     stdout_backup = sys.stdout
@@ -15298,27 +15302,25 @@ feed = graph.request(<span class="hljs-string">&apos;/%s/feed&apos;</span> % gro
     <span class="hljs-keyword">for</span> post <span class="hljs-keyword">in</span> feed[<span class="hljs-string">&apos;data&apos;</span>]:
     <span class="hljs-comment">#pprint.pprint(post)</span>
         <span class="hljs-comment">#print &apos;--------------------------------------------------------------&apos;</span>
-    <span class="hljs-keyword">if</span> <span class="hljs-string">&apos;message&apos;</span> <span class="hljs-keyword">in</span> post.keys():
-        <span class="hljs-keyword">if</span> <span class="hljs-string">&apos;comments&apos;</span> <span class="hljs-keyword">in</span> post.keys():
-        <span class="hljs-keyword">print</span> (<span class="hljs-string">u&apos;&#x6A19;&#x984C;:%s&apos;</span> % post[<span class="hljs-string">&apos;message&apos;</span>])
-        <span class="hljs-comment">#for i in range(len(post[&apos;comments&apos;][&apos;data&apos;])):</span>
-        <span class="hljs-keyword">for</span> p <span class="hljs-keyword">in</span> post[<span class="hljs-string">&apos;comments&apos;</span>][<span class="hljs-string">&apos;data&apos;</span>]:
-                    print(<span class="hljs-string">u&apos;&#x65E5;&#x671F;:%s ID:%s &#x540D;&#x5B57;:%s &#x5167;&#x5BB9;:%s&apos;</span> % \
-                 (p[<span class="hljs-string">&apos;created_time&apos;</span>], \
-                 p[<span class="hljs-string">&apos;from&apos;</span>][<span class="hljs-string">&apos;id&apos;</span>], \
-                 p[<span class="hljs-string">&apos;from&apos;</span>][<span class="hljs-string">&apos;name&apos;</span>], \
-                 p[<span class="hljs-string">&apos;message&apos;</span>]))
-                    <span class="hljs-keyword">if</span> <span class="hljs-string">&apos;comments&apos;</span> <span class="hljs-keyword">in</span> p.keys():
-                        <span class="hljs-comment">#pprint.pprint(post[&apos;comments&apos;][&apos;data&apos;][i][&apos;comments&apos;])</span>
-                        <span class="hljs-keyword">for</span> pp <span class="hljs-keyword">in</span> p[<span class="hljs-string">&apos;comments&apos;</span>][<span class="hljs-string">&apos;data&apos;</span>]:
-                            <span class="hljs-comment">#print post[&apos;comments&apos;][&apos;data&apos;][i][&apos;comments&apos;][&apos;data&apos;][j][&apos;message&apos;]</span>
-                            print(<span class="hljs-string">u&apos;&#x65E5;&#x671F;:%s ID:%s &#x540D;&#x5B57;:%s &#x5167;&#x5BB9;:%s&apos;</span> % \
-                                 (pp[<span class="hljs-string">&apos;created_time&apos;</span>], \
-                                  pp[<span class="hljs-string">&apos;from&apos;</span>][<span class="hljs-string">&apos;id&apos;</span>], \
-                                  pp[<span class="hljs-string">&apos;from&apos;</span>][<span class="hljs-string">&apos;name&apos;</span>], \
-                                  pp[<span class="hljs-string">&apos;message&apos;</span>]))
+        <span class="hljs-keyword">if</span> <span class="hljs-string">&apos;message&apos;</span> <span class="hljs-keyword">in</span> post <span class="hljs-keyword">and</span> <span class="hljs-string">&apos;comments&apos;</span> <span class="hljs-keyword">in</span> post:
+            <span class="hljs-keyword">print</span> (<span class="hljs-string">u&apos;&#x6A19;&#x984C;:%s&apos;</span> % post[<span class="hljs-string">&apos;message&apos;</span>])
+            <span class="hljs-keyword">for</span> outer_data <span class="hljs-keyword">in</span> post[<span class="hljs-string">&apos;comments&apos;</span>][<span class="hljs-string">&apos;data&apos;</span>]:
+                outer_created_time = outer_data[<span class="hljs-string">&apos;created_time&apos;</span>]
+                outer_id           = outer_data[<span class="hljs-string">&apos;from&apos;</span>][<span class="hljs-string">&apos;id&apos;</span>]
+                outer_name         = outer_data[<span class="hljs-string">&apos;from&apos;</span>][<span class="hljs-string">&apos;name&apos;</span>]
+                outer_message      = outer_data[<span class="hljs-string">&apos;message&apos;</span>]
+                print(<span class="hljs-string">u&apos;&#x65E5;&#x671F;:{outer_created_time} ID:{outer_id} &#x540D;&#x5B57;:{outer_name} &#x5167;&#x5BB9;:{outer_message}&apos;</span>.format(**locals()))
+            <span class="hljs-keyword">if</span> <span class="hljs-string">&apos;comments&apos;</span> <span class="hljs-keyword">in</span> outer_data:
+                <span class="hljs-comment">#pprint.pprint(outer_data[&apos;comments&apos;])</span>
+                <span class="hljs-keyword">for</span> inner_data <span class="hljs-keyword">in</span> outer_data[<span class="hljs-string">&apos;comments&apos;</span>][<span class="hljs-string">&apos;data&apos;</span>]:
+                    <span class="hljs-comment">#print inner_data[&apos;message&apos;]</span>
+                    inner_created_time = inner_data[<span class="hljs-string">&apos;created_time&apos;</span>]
+                    inner_id           = inner_data[<span class="hljs-string">&apos;from&apos;</span>][<span class="hljs-string">&apos;id&apos;</span>]
+                    inner_name         = inner_data[<span class="hljs-string">&apos;from&apos;</span>][<span class="hljs-string">&apos;name&apos;</span>]
+                    inner_message      = inner_data[<span class="hljs-string">&apos;message&apos;</span>]
+                print(<span class="hljs-string">u&apos;&#x65E5;&#x671F;:{inner_created_time} ID:{inner_id} &#x540D;&#x5B57;:{inner_name} &#x5167;&#x5BB9;:{inner_message}&apos;</span>.format(**locals()))
 
-        <span class="hljs-keyword">print</span> <span class="hljs-string">&apos;--------------------------------------------------------------&apos;</span>
+            <span class="hljs-keyword">print</span> <span class="hljs-string">&apos;--------------------------------------------------------------&apos;</span>
 
     log_file.close()
     sys.stdout = stdout_backup

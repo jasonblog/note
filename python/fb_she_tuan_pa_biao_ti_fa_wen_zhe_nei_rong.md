@@ -221,8 +221,8 @@ import sys
 import codecs
 
 def extend_access_token(access_token):
-    app_id = ""                       # Obtained from https://developers.facebook.com/        
-    client_secret = ""         # Obtained from https://developers.facebook.com/
+    app_id = "1240481449344198"                       # Obtained from https://developers.facebook.com/        
+    client_secret = "2faea3e8333af28fb24d123a44383550"         # Obtained from https://developers.facebook.com/
 
     link = "https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id=" + app_id +"&client_secret=" + client_secret + "&fb_exchange_token=" + access_token
     s = requests.Session()
@@ -232,12 +232,16 @@ def extend_access_token(access_token):
     #print token
 
 def main():
-    token = ''
+    token = 'EAARoNhgjfMYBAESz42tJcu7gztpqH49ZCgHOVylSVPrPZCZAG9sKH6ZC2t7sk4HaJ6tzG89I3Kj7HgsCKqma9ZCht0n2NBLHpB2Jytg4RXpZAZAQi4cCrmX0xB6wHEsxrWncaKvmIaCHvsUnacziZAmmnUkekBKNVtcZD'
     extend_access_token(token)
     graph=facebook.GraphAPI(token)
     groups = graph.get_connections(id='me', connection_name='groups')['data']
     group_id = [group['id'] for group in groups if group['name'] == 'Jason_Test'][0]
-    feed = graph.request('/%s/feed' % group_id, args = {'limit': 1000,'fields': "message,comments.fields(comments,likes,from,id,message,user_likes,created_time,like_count)"})
+    feed = graph.request(
+            '/%s/feed' % group_id, 
+            args = {'limit': 1000,
+                    'fields': "message,comments.fields(comments,likes,from,id,message,user_likes,created_time,like_count)"})
+
     #pprint.pprint(feed)
 
     stdout_backup = sys.stdout
@@ -247,27 +251,25 @@ def main():
     for post in feed['data']:
 	#pprint.pprint(post)
         #print '--------------------------------------------------------------'
-	if 'message' in post.keys():
-	    if 'comments' in post.keys():
-		print (u'標題:%s' % post['message'])
-		#for i in range(len(post['comments']['data'])):
-		for p in post['comments']['data']:
-                    print(u'日期:%s ID:%s 名字:%s 內容:%s' % \
-		         (p['created_time'], \
-		         p['from']['id'], \
-		         p['from']['name'], \
-		         p['message']))
-                    if 'comments' in p.keys():
-                        #pprint.pprint(post['comments']['data'][i]['comments'])
-                        for pp in p['comments']['data']:
-                            #print post['comments']['data'][i]['comments']['data'][j]['message']
-                            print(u'日期:%s ID:%s 名字:%s 內容:%s' % \
-                                 (pp['created_time'], \
-                                  pp['from']['id'], \
-                                  pp['from']['name'], \
-                                  pp['message']))
-                        
-		print '--------------------------------------------------------------'
+        if 'message' in post and 'comments' in post:
+            print (u'標題:%s' % post['message'])
+            for outer_data in post['comments']['data']:
+                outer_created_time = outer_data['created_time']
+                outer_id           = outer_data['from']['id']
+                outer_name         = outer_data['from']['name']
+                outer_message      = outer_data['message']
+                print(u'日期:{outer_created_time} ID:{outer_id} 名字:{outer_name} 內容:{outer_message}'.format(**locals()))
+            if 'comments' in outer_data:
+                #pprint.pprint(outer_data['comments'])
+                for inner_data in outer_data['comments']['data']:
+                    #print inner_data['message']
+                    inner_created_time = inner_data['created_time']
+                    inner_id           = inner_data['from']['id']
+                    inner_name         = inner_data['from']['name']
+                    inner_message      = inner_data['message']
+                print(u'日期:{inner_created_time} ID:{inner_id} 名字:{inner_name} 內容:{inner_message}'.format(**locals()))
+                    
+            print '--------------------------------------------------------------'
 
     log_file.close()
     sys.stdout = stdout_backup
@@ -276,6 +278,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 ```
 

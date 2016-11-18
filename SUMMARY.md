@@ -568,7 +568,7 @@
        * [露天拍賣 ＆ 編碼問題](python/lu_tian_pai_mai__bian_ma_wen_ti.md)
        * [fb 社團爬標題發文者內容](python/fb_she_tuan_pa_biao_ti_fa_wen_zhe_nei_rong.md)
        * [Python中將打印輸出導向檔案](python/pythonzhong_jiang_da_yin_shu_chu_dao_xiang_dang_an.md)
-       * 轉換GDB調用棧到流程圖
+       * [轉換GDB調用棧到流程圖](python/zhuan_huan_gdb_diao_yong_zhan_dao_liu_cheng_tu.md)
    * [常見錯誤訊息](python/chang_jian_cuo_wu_xun_xi.md)
    * [安裝 Jupyter](python/jupyter.md)
    * [編譯python & 安裝pip](python/292.md)

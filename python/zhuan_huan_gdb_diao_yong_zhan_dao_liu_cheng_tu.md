@@ -16,10 +16,14 @@
 ```
 
 
+## 1. 轉為圖片
 
 ```sh
 python convertStackToDot.py stack.txt|dot -Tpng>output.png
 ```
+
+![](./images/unnamed.png)
+
 
 - convertStackToDot.py
 

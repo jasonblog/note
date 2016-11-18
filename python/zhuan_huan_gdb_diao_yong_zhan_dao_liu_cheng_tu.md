@@ -24,6 +24,50 @@ python convertStackToDot.py stack.txt|dot -Tpng>output.png
 
 ![](./images/unnamed.png)
 
+默認由上到下排列，如果你想改變，可以通過在腳本的參數中增加dot設定調整，比如:
+python convertStackToDot.py stack.txt 'rankdir=LR;'|dot -Tpng>output.png
+就會變成橫排:
+
+
+![](./images/unnamed2.png)
+
+## 2. 轉為文本
+有時你希望轉為文本，還好有Graph Easy包，不然你就要使用asciio自己畫了。
+python convertStackToDot.py stack.txt 『rankdir=LR;』|graph-easy -as_ascii>output.txt
+
+效果如下:
+
+```sh
+
++-----------+     +------------------------+     +------------------------+
+| FunctionC | --> | FrameLoader::FunctionB | --> | FrameLoader::FunctionA |
++-----------+     +------------------------+     +------------------------+
+```
+
+##3. 多個調用棧的解析
+如果有多個調用棧一起組成完整的流程，只要在各個調用棧中間加入空格就可以了。比如下面的堆棧:
+
+```sh
+#0  WebCore::FrameLoader::FunctionF (this=0x2a7d90f8,at /FrameLoader.cpp
+#1  WebCore::FrameLoader::FunctionA (this=0x2a7d90f8,at /FrameLoader.cpp
+#2  0x4ffd2514 in WebCore::FrameLoader::FunctionB (this=0x2a7d90f8, at /FrameLoader.cpp:553
+#3  0x4ffd1918 in FunctionC (this=0x2a7d90f8 at /mainFile.cpp:100
+
+
+#0  WebCore::FrameLoader::FunctionE (this=0x2a7d90f8,at /FrameLoader.cpp
+#1  0x4ffd2514 in WebCore::FrameLoader::FunctionB (this=0x2a7d90f8, at /FrameLoader.cpp:553
+#2  0x4ffd1918 in FunctionC (this=0x2a7d90f8 at /mainFile.cpp:100
+```
+
+輸出結果如下, 線段上的數字代碼的堆棧序號:
+
+![](./images/unnamed3.png)
+
+
+再次修改了一下，對於重複的調用，可以使用-d選項選擇是否全部顯示出來，同時可以允許指定一個正則表達式將某部分節點高亮顯示，如允許顯示重複調用路徑的效果:
+  python convertStackToDot.py -d -l "A|PolicyChecker" stack.txt|dot -Tpng>output.png
+
+![](./images/unnamed4.png)
 
 - convertStackToDot.py
 
@@ -289,3 +333,9 @@ if __name__=="__main__":
     if len(resultDotString)>0:  
         print(resultDotString)  
 ```
+
+
+## 參考:
+  1. GDB擴展之Command File - 提高調試效率
+  2. [WebKit]C++類的數據結構及在反彙編上的應用
+  3. 使用LLDB腳本簡化打印複雜數據的操作

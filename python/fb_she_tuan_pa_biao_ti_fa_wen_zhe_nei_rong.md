@@ -222,8 +222,8 @@ import sys
 import codecs
 
 def extend_access_token(access_token):
-    app_id = "1240481449344198"                       # Obtained from https://developers.facebook.com/        
-    client_secret = "2faea3e8333af28fb24d123a44383550"         # Obtained from https://developers.facebook.com/
+    app_id = ""                       # Obtained from https://developers.facebook.com/        
+    client_secret = ""         # Obtained from https://developers.facebook.com/
 
     link = "https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id=" + app_id +"&client_secret=" + client_secret + "&fb_exchange_token=" + access_token
     s = requests.Session()
@@ -233,7 +233,7 @@ def extend_access_token(access_token):
     #print token
 
 def main():
-    token = 'EAARoNhgjfMYBAESz42tJcu7gztpqH49ZCgHOVylSVPrPZCZAG9sKH6ZC2t7sk4HaJ6tzG89I3Kj7HgsCKqma9ZCht0n2NBLHpB2Jytg4RXpZAZAQi4cCrmX0xB6wHEsxrWncaKvmIaCHvsUnacziZAmmnUkekBKNVtcZD'
+    token = ''
     extend_access_token(token)
     graph=facebook.GraphAPI(token)
     groups = graph.get_connections(id='me', connection_name='groups')['data']

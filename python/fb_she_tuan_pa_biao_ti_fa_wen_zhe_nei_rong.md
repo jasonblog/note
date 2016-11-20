@@ -212,6 +212,7 @@ if __name__ == "__main__":
 
 ## 內容導向檔案
 ```py
+
 #! /usr/bin/python
 # -*- coding: utf-8 -*-
 import facebook
@@ -278,7 +279,6 @@ def main():
 
 if __name__ == "__main__":
     main()
-
 
 ```
 

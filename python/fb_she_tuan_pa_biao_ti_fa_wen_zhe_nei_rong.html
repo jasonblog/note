@@ -57,7 +57,7 @@
         data-chapter-title="fb 社團爬標題發文者內容"
         data-filepath="python/fb_she_tuan_pa_biao_ti_fa_wen_zhe_nei_rong.md"
         data-basepath=".."
-        data-revision="Sat Nov 19 2016 03:12:40 GMT+0800 (CST)"
+        data-revision="Sun Nov 20 2016 15:52:52 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -15278,7 +15278,8 @@ feed = graph.request(<span class="hljs-string">&apos;/%s/feed&apos;</span> % gro
     main()
 </code></pre>
 <h2 id="&#x5167;&#x5BB9;&#x5C0E;&#x5411;&#x6A94;&#x6848;">&#x5167;&#x5BB9;&#x5C0E;&#x5411;&#x6A94;&#x6848;</h2>
-<pre><code class="lang-py"><span class="hljs-comment">#! /usr/bin/python</span>
+<pre><code class="lang-py">
+<span class="hljs-comment">#! /usr/bin/python</span>
 <span class="hljs-comment"># -*- coding: utf-8 -*-</span>
 <span class="hljs-keyword">import</span> facebook
 <span class="hljs-keyword">import</span> pprint
@@ -15287,8 +15288,8 @@ feed = graph.request(<span class="hljs-string">&apos;/%s/feed&apos;</span> % gro
 <span class="hljs-keyword">import</span> codecs
 
 <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">extend_access_token</span><span class="hljs-params">(access_token)</span>:</span>
-    app_id = <span class="hljs-string">&quot;1240481449344198&quot;</span>                       <span class="hljs-comment"># Obtained from https://developers.facebook.com/        </span>
-    client_secret = <span class="hljs-string">&quot;2faea3e8333af28fb24d123a44383550&quot;</span>         <span class="hljs-comment"># Obtained from https://developers.facebook.com/</span>
+    app_id = <span class="hljs-string">&quot;&quot;</span>                       <span class="hljs-comment"># Obtained from https://developers.facebook.com/        </span>
+    client_secret = <span class="hljs-string">&quot;&quot;</span>         <span class="hljs-comment"># Obtained from https://developers.facebook.com/</span>
 
     link = <span class="hljs-string">&quot;https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&amp;client_id=&quot;</span> + app_id +<span class="hljs-string">&quot;&amp;client_secret=&quot;</span> + client_secret + <span class="hljs-string">&quot;&amp;fb_exchange_token=&quot;</span> + access_token
     s = requests.Session()
@@ -15298,7 +15299,7 @@ feed = graph.request(<span class="hljs-string">&apos;/%s/feed&apos;</span> % gro
     <span class="hljs-comment">#print token</span>
 
 <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>:</span>
-    token = <span class="hljs-string">&apos;EAARoNhgjfMYBAESz42tJcu7gztpqH49ZCgHOVylSVPrPZCZAG9sKH6ZC2t7sk4HaJ6tzG89I3Kj7HgsCKqma9ZCht0n2NBLHpB2Jytg4RXpZAZAQi4cCrmX0xB6wHEsxrWncaKvmIaCHvsUnacziZAmmnUkekBKNVtcZD&apos;</span>
+    token = <span class="hljs-string">&apos;&apos;</span>
     extend_access_token(token)
     graph=facebook.GraphAPI(token)
     groups = graph.get_connections(id=<span class="hljs-string">&apos;me&apos;</span>, connection_name=<span class="hljs-string">&apos;groups&apos;</span>)[<span class="hljs-string">&apos;data&apos;</span>]

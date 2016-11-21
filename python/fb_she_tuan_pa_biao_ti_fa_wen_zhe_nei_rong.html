@@ -57,7 +57,7 @@
         data-chapter-title="fb 社團爬標題發文者內容"
         data-filepath="python/fb_she_tuan_pa_biao_ti_fa_wen_zhe_nei_rong.md"
         data-basepath=".."
-        data-revision="Sun Nov 20 2016 15:52:52 GMT+0800 (CST)"
+        data-revision="Mon Nov 21 2016 20:04:59 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -15278,8 +15278,7 @@ feed = graph.request(<span class="hljs-string">&apos;/%s/feed&apos;</span> % gro
     main()
 </code></pre>
 <h2 id="&#x5167;&#x5BB9;&#x5C0E;&#x5411;&#x6A94;&#x6848;">&#x5167;&#x5BB9;&#x5C0E;&#x5411;&#x6A94;&#x6848;</h2>
-<pre><code class="lang-py">
-<span class="hljs-comment">#! /usr/bin/python</span>
+<pre><code class="lang-py"><span class="hljs-comment">#! /usr/bin/python</span>
 <span class="hljs-comment"># -*- coding: utf-8 -*-</span>
 <span class="hljs-keyword">import</span> facebook
 <span class="hljs-keyword">import</span> pprint
@@ -15310,7 +15309,6 @@ feed = graph.request(<span class="hljs-string">&apos;/%s/feed&apos;</span> % gro
                     <span class="hljs-string">&apos;fields&apos;</span>: <span class="hljs-string">&quot;message,comments.fields(comments,likes,from,id,message,user_likes,created_time,like_count)&quot;</span>})
 
     <span class="hljs-comment">#pprint.pprint(feed)</span>
-
     stdout_backup = sys.stdout
     log_file = codecs.open(<span class="hljs-string">&quot;message.log&quot;</span>, <span class="hljs-string">&quot;w&quot;</span>, <span class="hljs-string">&quot;utf-8&quot;</span>)
     sys.stdout = log_file
@@ -15326,15 +15324,15 @@ feed = graph.request(<span class="hljs-string">&apos;/%s/feed&apos;</span> % gro
                 outer_name         = outer_data[<span class="hljs-string">&apos;from&apos;</span>][<span class="hljs-string">&apos;name&apos;</span>]
                 outer_message      = outer_data[<span class="hljs-string">&apos;message&apos;</span>]
                 print(<span class="hljs-string">u&apos;&#x65E5;&#x671F;:{outer_created_time} ID:{outer_id} &#x540D;&#x5B57;:{outer_name} &#x5167;&#x5BB9;:{outer_message}&apos;</span>.format(**locals()))
-            <span class="hljs-keyword">if</span> <span class="hljs-string">&apos;comments&apos;</span> <span class="hljs-keyword">in</span> outer_data:
-                <span class="hljs-comment">#pprint.pprint(outer_data[&apos;comments&apos;])</span>
-                <span class="hljs-keyword">for</span> inner_data <span class="hljs-keyword">in</span> outer_data[<span class="hljs-string">&apos;comments&apos;</span>][<span class="hljs-string">&apos;data&apos;</span>]:
-                    <span class="hljs-comment">#print inner_data[&apos;message&apos;]</span>
-                    inner_created_time = inner_data[<span class="hljs-string">&apos;created_time&apos;</span>]
-                    inner_id           = inner_data[<span class="hljs-string">&apos;from&apos;</span>][<span class="hljs-string">&apos;id&apos;</span>]
-                    inner_name         = inner_data[<span class="hljs-string">&apos;from&apos;</span>][<span class="hljs-string">&apos;name&apos;</span>]
-                    inner_message      = inner_data[<span class="hljs-string">&apos;message&apos;</span>]
-                print(<span class="hljs-string">u&apos;&#x65E5;&#x671F;:{inner_created_time} ID:{inner_id} &#x540D;&#x5B57;:{inner_name} &#x5167;&#x5BB9;:{inner_message}&apos;</span>.format(**locals()))
+                <span class="hljs-keyword">if</span> <span class="hljs-string">&apos;comments&apos;</span> <span class="hljs-keyword">in</span> outer_data:
+                    <span class="hljs-comment">#pprint.pprint(outer_data[&apos;comments&apos;])</span>
+                    <span class="hljs-keyword">for</span> inner_data <span class="hljs-keyword">in</span> outer_data[<span class="hljs-string">&apos;comments&apos;</span>][<span class="hljs-string">&apos;data&apos;</span>]:
+                        <span class="hljs-comment">#print inner_data[&apos;message&apos;]</span>
+                        inner_created_time = inner_data[<span class="hljs-string">&apos;created_time&apos;</span>]
+                        inner_id           = inner_data[<span class="hljs-string">&apos;from&apos;</span>][<span class="hljs-string">&apos;id&apos;</span>]
+                        inner_name         = inner_data[<span class="hljs-string">&apos;from&apos;</span>][<span class="hljs-string">&apos;name&apos;</span>]
+                        inner_message      = inner_data[<span class="hljs-string">&apos;message&apos;</span>]
+                        print(<span class="hljs-string">u&apos;&#x65E5;&#x671F;:{inner_created_time} ID:{inner_id} &#x540D;&#x5B57;:{inner_name} &#x5167;&#x5BB9;:{inner_message}&apos;</span>.format(**locals()))
 
             <span class="hljs-keyword">print</span> <span class="hljs-string">&apos;--------------------------------------------------------------&apos;</span>
 

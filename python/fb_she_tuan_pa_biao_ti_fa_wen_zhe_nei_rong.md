@@ -212,7 +212,6 @@ if __name__ == "__main__":
 
 ## 內容導向檔案
 ```py
-
 #! /usr/bin/python
 # -*- coding: utf-8 -*-
 import facebook
@@ -244,7 +243,6 @@ def main():
                     'fields': "message,comments.fields(comments,likes,from,id,message,user_likes,created_time,like_count)"})
 
     #pprint.pprint(feed)
-
     stdout_backup = sys.stdout
     log_file = codecs.open("message.log", "w", "utf-8")
     sys.stdout = log_file
@@ -260,15 +258,15 @@ def main():
                 outer_name         = outer_data['from']['name']
                 outer_message      = outer_data['message']
                 print(u'日期:{outer_created_time} ID:{outer_id} 名字:{outer_name} 內容:{outer_message}'.format(**locals()))
-            if 'comments' in outer_data:
-                #pprint.pprint(outer_data['comments'])
-                for inner_data in outer_data['comments']['data']:
-                    #print inner_data['message']
-                    inner_created_time = inner_data['created_time']
-                    inner_id           = inner_data['from']['id']
-                    inner_name         = inner_data['from']['name']
-                    inner_message      = inner_data['message']
-                print(u'日期:{inner_created_time} ID:{inner_id} 名字:{inner_name} 內容:{inner_message}'.format(**locals()))
+                if 'comments' in outer_data:
+                    #pprint.pprint(outer_data['comments'])
+                    for inner_data in outer_data['comments']['data']:
+                        #print inner_data['message']
+                        inner_created_time = inner_data['created_time']
+                        inner_id           = inner_data['from']['id']
+                        inner_name         = inner_data['from']['name']
+                        inner_message      = inner_data['message']
+                        print(u'日期:{inner_created_time} ID:{inner_id} 名字:{inner_name} 內容:{inner_message}'.format(**locals()))
                     
             print '--------------------------------------------------------------'
 

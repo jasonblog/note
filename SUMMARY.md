@@ -319,6 +319,7 @@
    * [64位x86的函數調用棧佈局](linux_system/64wei_x86_de_han_shu_diao_yong_zhan_bu_ju.md)
    * [如何手工展開函數棧來定位問題](linux_system/ru_he_shou_gong_zhan_kai_han_shu_zhan_lai_ding_wei.md)
    * [第3章 行程(process)環境](linux_system/di_3_zhang_xing_7a0b28_process_huan_jing.md)
+   * 打印出一个完整的程序调用堆栈信息
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

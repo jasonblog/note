@@ -1,7 +1,7 @@
-# 打印出一个完整的程序调用堆栈信息
+# 打印出一個完整的程序調用堆棧信息
 
 
-## 如何通过函数的地址获取到函数的名字
+## 如何通過函數的地址獲取到函數的名字
 
 ```c
 #include <stdio.h>
@@ -20,10 +20,10 @@ int main(int argc, char *argv[]) {
 }
 ```
 
-通过gcc编译的时候增加-rdynamic编译选项，该编译选项的含义是：使得程序中的共享库的全局符号可用
+通過gcc編譯的時候增加-rdynamic編譯選項，該編譯選項的含義是：使得程序中的共享庫的全局符號可用
 
 
-## 如何打印出一个程序的函数调用链路
+## 如何打印出一個程序的函數調用鏈路
 
 `no_instrument_function`
 如果使用了-finstrument-functions ，將在絕大多數用戶編譯的函數的入口和出口點調用profiling函數。使用該屬性，`將不進行instrument操作。`
@@ -77,16 +77,16 @@ int main() {
 }
 ```
 
-打印程序的调用链路，主要是利用到__attribute__可以用来设置 Function-Attributes函数属性 我们使用的是：no_instrument_function这个函数属性，在gcc编译的时候加上：-finstrument-functions编译选项就会在每一个用户自定义函数中添加下面两个函数调用:
+打印程序的調用鏈路，主要是利用到__attribute__可以用來設置 Function-Attributes函數屬性 我們使用的是：no_instrument_function這個函數屬性，在gcc編譯的時候加上：-finstrument-functions編譯選項就會在每一個用戶自定義函數中添加下面兩個函數調用:
 
 ```c
 void __cyg_profile_func_enter(void *this, void *callsite);
 void __cyg_profile_func_exit(void *this, void *callsite);
 ```
 
-这两个函数我们用户可以自己实现，其中this指针指向当前函数的地址，callsite是指向上一级调用函数的地址
+這兩個函數我們用戶可以自己實現，其中this指針指向當前函數的地址，callsite是指向上一級調用函數的地址
 
-##综合前面两个问题就可以打印出一个完整的程序调用堆栈信息
+##綜合前面兩個問題就可以打印出一個完整的程序調用堆棧信息
 
 
 
@@ -150,7 +150,7 @@ gcc trace_func.c -rdynamic -finstrument-functions
 ```
 
 
-## 最终就会输出：
+## 最終就會輸出：
 
 ```sh
 Entering: ./a.out(main+0) [0x400a32]

@@ -100,7 +100,7 @@ They are used only for the programmer to talk to anyone who looks at the code in
 
 大部分你寫的程序會其他人修改，註釋便於理解代碼。註釋最好包含如下：
 
-- The purpose of the code (目的，為了解決什麼問題)
+- The purpose of the code (目的，為瞭解決什麼問題)
 - An overview of the processing involved (框架結構)
 - Anything strange your program does and why it does it 3 (bug和解決)
 

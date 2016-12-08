@@ -25,6 +25,9 @@ int main(int argc, char *argv[]) {
 
 ## 如何打印出一个程序的函数调用链路
 
+`no_instrument_function`
+如果使用了-finstrument-functions ，將在絕大多數用戶編譯的函數的入口和出口點調用profiling函數。使用該屬性，`將不進行instrument操作。`
+
 ```c
 #include <stdio.h>
 

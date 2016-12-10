@@ -57,7 +57,7 @@
         data-chapter-title="打印log"
         data-filepath="log/da_yin_log.md"
         data-basepath=".."
-        data-revision="Fri Dec 09 2016 01:55:13 GMT+0800 (CST)"
+        data-revision="Sat Dec 10 2016 10:28:10 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -15312,6 +15312,72 @@ kernel panic&#x5F8C;&#x6253;&#x5370;&#x7684;&#x5806;&#x68E7;&#x4FE1;&#x606F;&#x6
     GLOGENTRY();
 
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<h2 id="c-log-in-linux">C log in linux</h2>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;pthread.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/syscall.h&gt;</span></span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> gettid() syscall(__NR_gettid)</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> TAG <span class="hljs-string">&quot;JASON&quot;</span></span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> dlog() do \
+    { \
+        fprintf(stderr, <span class="hljs-string">&quot;%s:PID=[%d] TID=[%ld] func=%s %s:%d\n&quot;</span>, \
+                TAG, \
+                getpid(), \
+                gettid(), \
+                __FUNCTION__, \
+                __FILE__, \
+                __LINE__); \
+    } while(<span class="hljs-number">0</span>)</span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">thread2_f</span><span class="hljs-params">(<span class="hljs-keyword">void</span>* args)</span>
+</span>{
+    <span class="hljs-keyword">int</span> i;
+
+    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">13</span>; i++) {
+        dlog();
+        sleep(<span class="hljs-number">1</span>);
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">thread1_f</span><span class="hljs-params">(<span class="hljs-keyword">void</span>* args)</span>
+</span>{
+    <span class="hljs-keyword">int</span> i;
+
+    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">13</span>; i++) {
+        sleep(<span class="hljs-number">1</span>);
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">int</span>  ret;
+    <span class="hljs-keyword">pthread_t</span> thread1, thread2;
+
+    ret = pthread_create(&amp;thread1, <span class="hljs-literal">NULL</span>, (<span class="hljs-keyword">void</span>* (*)(<span class="hljs-keyword">void</span>*))thread1_f, <span class="hljs-literal">NULL</span>);
+
+    <span class="hljs-keyword">if</span> (ret != <span class="hljs-number">0</span>) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Create pthread error!\n&quot;</span>);
+        <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);
+    }
+
+    ret = pthread_create(&amp;thread2, <span class="hljs-literal">NULL</span>, (<span class="hljs-keyword">void</span>* (*)(<span class="hljs-keyword">void</span>*))thread2_f, <span class="hljs-literal">NULL</span>);
+
+    <span class="hljs-keyword">if</span> (ret != <span class="hljs-number">0</span>) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Create pthread error!\n&quot;</span>);
+        <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);
+    }
+
+    pthread_join(thread1, <span class="hljs-literal">NULL</span>);
+    pthread_join(thread2, <span class="hljs-literal">NULL</span>);
+
+    <span class="hljs-keyword">return</span> (<span class="hljs-number">0</span>);
 }
 </code></pre>
 <ul>

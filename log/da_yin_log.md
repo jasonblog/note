@@ -206,6 +206,76 @@ int main(int argc, char* argv[])
 }
 ```
 
+## C log in linux
+
+```c
+#include <stdlib.h>
+#include <stdio.h>
+#include <pthread.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/syscall.h>
+
+#define gettid() syscall(__NR_gettid)
+#define TAG "JASON"
+
+#define dlog() do \
+    { \
+        fprintf(stderr, "%s:PID=[%d] TID=[%ld] func=%s %s:%d\n", \
+                TAG, \
+                getpid(), \
+                gettid(), \
+                __FUNCTION__, \
+                __FILE__, \
+                __LINE__); \
+    } while(0)
+
+void thread2_f(void* args)
+{
+    int i;
+
+    for (i = 0; i < 13; i++) {
+        dlog();
+        sleep(1);
+    }
+}
+
+void thread1_f(void* args)
+{
+    int i;
+
+    for (i = 0; i < 13; i++) {
+        sleep(1);
+    }
+}
+
+int main(void)
+{
+    int  ret;
+    pthread_t thread1, thread2;
+
+    ret = pthread_create(&thread1, NULL, (void* (*)(void*))thread1_f, NULL);
+
+    if (ret != 0) {
+        printf("Create pthread error!\n");
+        exit(1);
+    }
+
+    ret = pthread_create(&thread2, NULL, (void* (*)(void*))thread2_f, NULL);
+
+    if (ret != 0) {
+        printf("Create pthread error!\n");
+        exit(1);
+    }
+
+    pthread_join(thread1, NULL);
+    pthread_join(thread2, NULL);
+
+    return (0);
+}
+
+```
+
 
 - windows 印出 pid tid , 需要裝 pthread lib
 

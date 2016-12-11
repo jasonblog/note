@@ -593,6 +593,7 @@
    * [Python + Requests 編碼問題](python/python_+_requests_bian_ma_wen_ti.md)
    * [立即停止使用 setdefaultencoding('utf-8')， 以及為什麼](python/li_ji_ting_zhi_shi_yong_setdefaultencoding__utf_-_.md)
    * [Anaconda使用總結](python/anacondashi_yong_zong_jie.md)
+   * django
 * [Vim](vim/vim.md)
    * [HOWTO - vi, vim](vim/howto_-_vi,_vim.md)
 * [TDD](tdd/README.md)

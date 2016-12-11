@@ -23,7 +23,7 @@ heroku login
 ```
 
 ### 5 創建 Django app(1.6)
-```
+```sh
 $ mkdir hellodjango && cd hellodjango
 $ workon hellodjango
 $ pip install django-toolbelt
@@ -34,6 +34,11 @@ web: gunicorn hellodjango.wsgi
 $ python manage.py runserver 0.0.0.0:8000
 # 到處依賴
 $ pip freeze > requirements.txt
+```
+
+## Requirements Files
+```sh
+pip install -r requirements.txt
 ```
 
 ### 6 靜態文件放在project目錄下的static中 修改settings.py，在末尾加上：

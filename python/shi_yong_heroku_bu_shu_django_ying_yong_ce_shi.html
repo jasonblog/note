@@ -57,7 +57,7 @@
         data-chapter-title="使用heroku部署django應用測試"
         data-filepath="python/shi_yong_heroku_bu_shu_django_ying_yong_ce_shi.md"
         data-basepath=".."
-        data-revision="Sun Dec 11 2016 17:11:12 GMT+0800 (CST)"
+        data-revision="Sun Dec 11 2016 17:50:21 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -15173,17 +15173,21 @@ source venv/bin/activate
 </code></pre><h3 id="4-&#x767B;&#x9304;">4 &#x767B;&#x9304;</h3>
 <pre><code>heroku login
 </code></pre><h3 id="5-&#x5275;&#x5EFA;-django-app16">5 &#x5275;&#x5EFA; Django app(1.6)</h3>
-<pre><code>$ mkdir hellodjango &amp;&amp; cd hellodjango
+<pre><code class="lang-sh">$ mkdir hellodjango &amp;&amp; <span class="hljs-built_in">cd</span> hellodjango
 $ workon hellodjango
 $ pip install django-toolbelt
 $ django-admin.py startproject hellodjango .
-# &#x5728;&#x5C08;&#x6848;&#x6839;&#x76EE;&#x9304;&#x65B0;&#x5EFA;&#x4E00;&#x500B;&#x540D;&#x70BA;Procfile&#x7684;&#x6A94;&#x6848;&#xFF0C;&#x5167;&#x5BB9;&#x70BA;
+<span class="hljs-comment"># &#x5728;&#x5C08;&#x6848;&#x6839;&#x76EE;&#x9304;&#x65B0;&#x5EFA;&#x4E00;&#x500B;&#x540D;&#x70BA;Procfile&#x7684;&#x6A94;&#x6848;&#xFF0C;&#x5167;&#x5BB9;&#x70BA;</span>
 web: gunicorn hellodjango.wsgi
-# Local&#x904B;&#x884C;&#x4E0B;app
-$ python manage.py runserver 0.0.0.0:8000
-# &#x5230;&#x8655;&#x4F9D;&#x8CF4;
+<span class="hljs-comment"># Local&#x904B;&#x884C;&#x4E0B;app</span>
+$ python manage.py runserver <span class="hljs-number">0.0</span>.<span class="hljs-number">0.0</span>:<span class="hljs-number">8000</span>
+<span class="hljs-comment"># &#x5230;&#x8655;&#x4F9D;&#x8CF4;</span>
 $ pip freeze &gt; requirements.txt
-</code></pre><h3 id="6-&#x975C;&#x614B;&#x6587;&#x4EF6;&#x653E;&#x5728;project&#x76EE;&#x9304;&#x4E0B;&#x7684;static&#x4E2D;-&#x4FEE;&#x6539;settingspy&#xFF0C;&#x5728;&#x672B;&#x5C3E;&#x52A0;&#x4E0A;&#xFF1A;">6 &#x975C;&#x614B;&#x6587;&#x4EF6;&#x653E;&#x5728;project&#x76EE;&#x9304;&#x4E0B;&#x7684;static&#x4E2D; &#x4FEE;&#x6539;settings.py&#xFF0C;&#x5728;&#x672B;&#x5C3E;&#x52A0;&#x4E0A;&#xFF1A;</h3>
+</code></pre>
+<h2 id="requirements-files">Requirements Files</h2>
+<pre><code class="lang-sh">pip install -r requirements.txt
+</code></pre>
+<h3 id="6-&#x975C;&#x614B;&#x6587;&#x4EF6;&#x653E;&#x5728;project&#x76EE;&#x9304;&#x4E0B;&#x7684;static&#x4E2D;-&#x4FEE;&#x6539;settingspy&#xFF0C;&#x5728;&#x672B;&#x5C3E;&#x52A0;&#x4E0A;&#xFF1A;">6 &#x975C;&#x614B;&#x6587;&#x4EF6;&#x653E;&#x5728;project&#x76EE;&#x9304;&#x4E0B;&#x7684;static&#x4E2D; &#x4FEE;&#x6539;settings.py&#xFF0C;&#x5728;&#x672B;&#x5C3E;&#x52A0;&#x4E0A;&#xFF1A;</h3>
 <pre><code># Parse database configuration from $DATABASE_URL
 import dj_database_url
 DATABASES[&apos;default&apos;] =  dj_database_url.config()

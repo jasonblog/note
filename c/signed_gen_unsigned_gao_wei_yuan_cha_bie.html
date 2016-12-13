@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Raspberry pi GPIO 控制 | Jason note</title>
+        <title>signed 跟 unsigned 高位元差別 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -41,10 +41,10 @@
         
     
     
-    <link rel="next" href="../raspberry_pi/raspberry_pide_kai_shi_liu_cheng.html" />
+    <link rel="next" href="../opensoruce/opensoruce.html" />
     
     
-    <link rel="prev" href="../raspberry_pi/zai_raspberry_pi_shang_jian_li_zi_ji_de_system_cal.html" />
+    <link rel="prev" href="../c/template_in_c.html" />
     
 
         <!-- head:end -->
@@ -53,9 +53,9 @@
         <!-- body:start -->
         
     <div class="book"
-        data-level="30.15"
-        data-chapter-title="Raspberry pi GPIO 控制"
-        data-filepath="raspberry_pi/raspberry_pi_gpio_kong_zhi.md"
+        data-level="52.8"
+        data-chapter-title="signed 跟 unsigned 高位元差別"
+        data-filepath="c/signed_gen_unsigned_gao_wei_yuan_cha_bie.md"
         data-basepath=".."
         data-revision="Wed Dec 14 2016 00:21:28 GMT+0800 (CST)"
         data-innerlanguage="">
@@ -9600,7 +9600,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="30.15" data-path="raspberry_pi/raspberry_pi_gpio_kong_zhi.html">
+        <li class="chapter " data-level="30.15" data-path="raspberry_pi/raspberry_pi_gpio_kong_zhi.html">
             
                 
                     <a href="../raspberry_pi/raspberry_pi_gpio_kong_zhi.html">
@@ -14209,7 +14209,7 @@
             
         </li>
     
-        <li class="chapter " data-level="52.8" data-path="c/signed_gen_unsigned_gao_wei_yuan_cha_bie.html">
+        <li class="chapter active" data-level="52.8" data-path="c/signed_gen_unsigned_gao_wei_yuan_cha_bie.html">
             
                 
                     <a href="../c/signed_gen_unsigned_gao_wei_yuan_cha_bie.html">
@@ -15177,33 +15177,40 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="raspberry-pi-gpio-&#x63A7;&#x5236;">Raspberry pi GPIO &#x63A7;&#x5236;</h1>
-<p>&#x5927;&#x6982;&#x7684;&#x6D41;&#x7A0B;&#x5C31;&#x662F;(N &#x70BA;&#x5E0C;&#x671B;&#x8A2D;&#x5B9A;&#x7684;GPIO &#x865F;&#x78BC;(&#x8DDF;&#x7269;&#x7406;&#x4F4D;&#x7F6E;&#x865F;&#x78BC;&#x4E0D;&#x540C;&#x5594;))&#xFF1A;</p>
-<ol>
-<li><p>&#x8A2D;&#x5B9A;&#xFF1A;
-echo &quot;N&quot; &gt; /sys/class/gpio/export</p>
-</li>
-<li><p>&#x8A2D;&#x5B9A;&#x8F38;&#x5165;&#x6216;&#x8F38;&#x51FA;(&#x9700;&#x63A5;&#x5728;&#x4E0A;&#x4E00;&#x6B65;&#x9A5F;&#x4E4B;&#x5F8C;)&#xFF1A;
-echo &quot;in&quot; &gt; /sys/class/gpio/gpioN/direction
-echo &quot;out&quot; &gt; /sys/class/gpio/gpioN/direction</p>
-</li>
-<li><p>&#x8B80;&#x53D6;&#x6216;&#x8F38;&#x51FA;
-&#x8B80;&#x53D6;&#xFF1A;cat /sys/class/gpio/gpioN/value
-&#x8F38;&#x51FA;&#xFF1A;echo &quot;1&quot; &gt; /sys/class/gpio/gpioN/value</p>
-</li>
-<li><p>&#x7D50;&#x675F;&#x4E26;&#x53D6;&#x6D88;&#x8A2D;&#x5B9A; 
-echo &quot;N&quot; &gt; /sys/class/gpio/unexport</p>
-</li>
-</ol>
-<p>&#x5982;&#x679C;&#x60F3;&#x5BEB;&#x7A0B;&#x5F0F;&#xFF0C;&#x53EF;&#x4EE5;&#x8003;&#x616E;&#x7528;pigpio&#x51FD;&#x5F0F;&#x5EAB;&#xFF0C;&#x5B83;&#x652F;&#x63F4;&#x6240;&#x6709;GPIO&#x7684;&#x529F;&#x80FD;&#xFF1A;
-<a href="http://abyz.co.uk/rpi/pigpio/index.html" target="_blank">http://abyz.co.uk/rpi/pigpio/index.html</a>
-&#x5176;&#x4E2D;&#x7684;piscope&#x66F4;&#x53EF;&#x4EE5;&#x76E3;&#x770B;&#x5404;&#x500B;pin&#x7684;&#x72C0;&#x614B;&#xFF0C;&#x76F8;&#x7576;&#x65B9;&#x4FBF;&#x3002;</p>
-<p>&#x6216;&#x662F;&#x7528;BCM2835 C Library
-<a href="http://www.airspayce.com/mikem/bcm2835/" target="_blank">http://www.airspayce.com/mikem/bcm2835/</a></p>
-<p>&#x53EF;&#x662F;&#x6700;&#x5FEB;&#x7684;&#x9084;&#x662F;&#x7528;C&#x5DF2;&#x7D93;&#x6709;&#x7684;&#x51FD;&#x5F0F;&#x5EAB;
-<a href="http://codeandlife.com/2012/07/03/benchmarking-raspberry-pi-gpio-speed/" target="_blank">http://codeandlife.com/2012/07/03/benchmarking-raspberry-pi-gpio-speed/</a></p>
-<h2 id="&#x53C3;&#x8003;&#x8CC7;&#x6599;&#xFF1A;">&#x53C3;&#x8003;&#x8CC7;&#x6599;&#xFF1A;</h2>
-<p>elinux.org/RPi_Low-level_peripherals#sysfs </p>
+                        <h1 id="signed-&#x8DDF;-unsigned-&#x9AD8;&#x4F4D;&#x5143;&#x5DEE;&#x5225;">signed &#x8DDF; unsigned &#x9AD8;&#x4F4D;&#x5143;&#x5DEE;&#x5225;</h1>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">char</span> a[<span class="hljs-number">4</span>] = {<span class="hljs-number">0xFF</span>, <span class="hljs-number">0xEE</span>, <span class="hljs-number">0xDD</span>, <span class="hljs-number">0xCC</span>};
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> b[<span class="hljs-number">4</span>] = {<span class="hljs-number">0xFF</span>, <span class="hljs-number">0xEE</span>, <span class="hljs-number">0xDD</span>, <span class="hljs-number">0xCC</span>};
+
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%x\n&quot;</span>, (a[<span class="hljs-number">3</span>]&amp;<span class="hljs-number">0xFF</span>) &lt;&lt; <span class="hljs-number">24</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%x\n&quot;</span>, (a[<span class="hljs-number">2</span>]&amp;<span class="hljs-number">0xFF</span>) &lt;&lt; <span class="hljs-number">16</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%x\n&quot;</span>, (a[<span class="hljs-number">1</span>]&amp;<span class="hljs-number">0xFF</span>) &lt;&lt; <span class="hljs-number">8</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%x\n&quot;</span>, (a[<span class="hljs-number">0</span>]&amp;<span class="hljs-number">0xFF</span>));
+
+
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%x\n&quot;</span>, (a[<span class="hljs-number">3</span>]) &lt;&lt; <span class="hljs-number">24</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%x\n&quot;</span>, (a[<span class="hljs-number">2</span>]) &lt;&lt; <span class="hljs-number">16</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%x\n&quot;</span>, (a[<span class="hljs-number">1</span>]) &lt;&lt; <span class="hljs-number">8</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%x\n\n&quot;</span>, (a[<span class="hljs-number">0</span>]));
+
+
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%x\n&quot;</span>, (b[<span class="hljs-number">3</span>]&amp;<span class="hljs-number">0xFF</span>) &lt;&lt; <span class="hljs-number">24</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%x\n&quot;</span>, (b[<span class="hljs-number">2</span>]&amp;<span class="hljs-number">0xFF</span>) &lt;&lt; <span class="hljs-number">16</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%x\n&quot;</span>, (b[<span class="hljs-number">1</span>]&amp;<span class="hljs-number">0xFF</span>) &lt;&lt; <span class="hljs-number">8</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%x\n&quot;</span>, (b[<span class="hljs-number">0</span>]&amp;<span class="hljs-number">0xFF</span>));
+
+
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%x\n&quot;</span>, (b[<span class="hljs-number">3</span>]) &lt;&lt; <span class="hljs-number">24</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%x\n&quot;</span>, (b[<span class="hljs-number">2</span>]) &lt;&lt; <span class="hljs-number">16</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%x\n&quot;</span>, (b[<span class="hljs-number">1</span>]) &lt;&lt; <span class="hljs-number">8</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%x\n&quot;</span>, (b[<span class="hljs-number">0</span>]));
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
 
                     
                     </section>
@@ -15214,10 +15221,10 @@ echo &quot;N&quot; &gt; /sys/class/gpio/unexport</p>
         </div>
 
         
-        <a href="../raspberry_pi/zai_raspberry_pi_shang_jian_li_zi_ji_de_system_cal.html" class="navigation navigation-prev " aria-label="Previous page: 在Raspberry pi 上建立自己的system call"><i class="fa fa-angle-left"></i></a>
+        <a href="../c/template_in_c.html" class="navigation navigation-prev " aria-label="Previous page: Template in C"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../raspberry_pi/raspberry_pide_kai_shi_liu_cheng.html" class="navigation navigation-next " aria-label="Next page: Raspberry Pi的開始流程"><i class="fa fa-angle-right"></i></a>
+        <a href="../opensoruce/opensoruce.html" class="navigation navigation-next " aria-label="Next page: OpenSoruce"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

@@ -57,7 +57,7 @@
         data-chapter-title="signed 跟 unsigned 高位元差別"
         data-filepath="c/signed_gen_unsigned_gao_wei_yuan_cha_bie.md"
         data-basepath=".."
-        data-revision="Wed Dec 14 2016 00:21:28 GMT+0800 (CST)"
+        data-revision="Wed Dec 14 2016 00:25:34 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -15183,13 +15183,18 @@
 <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
 </span>{
     <span class="hljs-keyword">char</span> a[<span class="hljs-number">4</span>] = {<span class="hljs-number">0xFF</span>, <span class="hljs-number">0xEE</span>, <span class="hljs-number">0xDD</span>, <span class="hljs-number">0xCC</span>};
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> *uc = a;
     <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> b[<span class="hljs-number">4</span>] = {<span class="hljs-number">0xFF</span>, <span class="hljs-number">0xEE</span>, <span class="hljs-number">0xDD</span>, <span class="hljs-number">0xCC</span>};
 
     <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%x\n&quot;</span>, (a[<span class="hljs-number">3</span>]&amp;<span class="hljs-number">0xFF</span>) &lt;&lt; <span class="hljs-number">24</span>);
     <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%x\n&quot;</span>, (a[<span class="hljs-number">2</span>]&amp;<span class="hljs-number">0xFF</span>) &lt;&lt; <span class="hljs-number">16</span>);
     <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%x\n&quot;</span>, (a[<span class="hljs-number">1</span>]&amp;<span class="hljs-number">0xFF</span>) &lt;&lt; <span class="hljs-number">8</span>);
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%x\n&quot;</span>, (a[<span class="hljs-number">0</span>]&amp;<span class="hljs-number">0xFF</span>));
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%x\n\n&quot;</span>, (a[<span class="hljs-number">0</span>]&amp;<span class="hljs-number">0xFF</span>));
 
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;uc=%x\n&quot;</span>, (uc[<span class="hljs-number">3</span>]) &lt;&lt; <span class="hljs-number">24</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;uc=%x\n&quot;</span>, (uc[<span class="hljs-number">2</span>]) &lt;&lt; <span class="hljs-number">16</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;uc=%x\n&quot;</span>, (uc[<span class="hljs-number">1</span>]) &lt;&lt; <span class="hljs-number">8</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;uc=%x\n\n&quot;</span>, (uc[<span class="hljs-number">0</span>]));
 
     <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%x\n&quot;</span>, (a[<span class="hljs-number">3</span>]) &lt;&lt; <span class="hljs-number">24</span>);
     <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%x\n&quot;</span>, (a[<span class="hljs-number">2</span>]) &lt;&lt; <span class="hljs-number">16</span>);

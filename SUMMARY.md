@@ -960,4 +960,5 @@
    * [理解矩陣](linear_algebra /li_jie_ju_zhen.md)
 * [Redis](redis/redis.md)
 * [OpenCV](opencv/opencv.md)
+   * 安裝 OpenCV 2.4.9
 

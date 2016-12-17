@@ -21,7 +21,11 @@ unzip OpenCV-2.4.9.zip
 ```sh
 cd opencv-2.4.9
 mkdir debug ; cd debug
-cmake -D CMAKE_INSTALL_PREFIX=/usr/local/opencv -D CMAKE_BUILD_TYPE:STRING=RelWithDebInfo -D CMAKE_BUILD_TYPE=DEBUG ..
+
+cmake -D CMAKE_INSTALL_PREFIX=/usr/local/opencv \
+      -D CMAKE_BUILD_TYPE:STRING=RelWithDebInfo \
+      -D CMAKE_BUILD_TYPE=DEBUG ..
+
 make -j8 ; sudo make install
 ```
 

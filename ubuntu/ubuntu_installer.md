@@ -16,7 +16,7 @@ sudo apt-get install autoconf automake linux-headers-`uname -r` vim-gnome \
                      doxygen-gui graphviz git-core cconv alsa-oss wmctrl terminator \
                      curl gnome-tweak-tool qt4-qtconfig cgdb dos2unix libreadline-dev \
                      hexedit ccache ruby subversion htop astyle ubuntu-restricted-extras \
-                     libncurses5-dev quicksynergy xdot python-pycallgraph \ exuberant-ctags cscope \
+                     libncurses5-dev quicksynergy xdot python-pycallgraph exuberant-ctags cscope \
                      libsdl1.2-dev gitk libncurses5-dev binutils-dev python-virtualenv  gtkterm \
                      libtool mpi-default-dev libbz2-dev libicu-dev python-dev scons csh \
                      enca ttf-anonymous-pro libperl4-corelibs-perl cgvg catfish ipython gawk \

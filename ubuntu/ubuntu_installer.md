@@ -7,14 +7,23 @@ sudo /usr/bin/software-properties-gtk
 ```
 
 ```
-sudo apt-get install autoconf automake linux-headers-`uname -r` vim-gnome libclang-dev p7zip guake p7zip-full liblzma-dev \
-indicator-multiload filezilla pidgin pcmanx-gtk2 gparted meld speedcrunch vim ssh python-pip id-utils cflow autogen \
-cutecom hexedit ccache clang pbzip2 smplayer plink putty-tools ghex doxygen doxygen-doc libstdc++6 lib32stdc++6 build-essential \
-doxygen-gui graphviz git-core cconv alsa-oss wmctrl terminator curl gnome-tweak-tool qt4-qtconfig cgdb dos2unix libreadline-dev \
-hexedit ccache ruby subversion htop astyle ubuntu-restricted-extras libncurses5-dev quicksynergy xdot python-pycallgraph \
-exuberant-ctags cscope  libsdl1.2-dev gitk libncurses5-dev binutils-dev python-virtualenv  gtkterm libtool \
-gcc-4.4 gcc-4.4-multilib g++-4.4-multilib g++-4.4 mpi-default-dev libbz2-dev libicu-dev python-dev scons csh \
-enca ttf-anonymous-pro libperl4-corelibs-perl cgvg catfish ipython gawk i2c-tools sshfs wavesurfer audacity fcitx fcitx-chewing libswitch-perl bin86 inotify-tools u-boot-tools subversion crash tree mscgen krename umbrello intel2gas kernelshark trace-cmd pppoe shutter dcfldd flex bison help2man texinfo texi2html 
+sudo apt-get install autoconf automake linux-headers-`uname -r` vim-gnome \
+                     libclang-dev p7zip guake p7zip-full liblzma-dev \
+                     indicator-multiload filezilla pidgin pcmanx-gtk2 gparted meld \
+                     speedcrunch vim ssh python-pip id-utils cflow autogen \
+                     cutecom hexedit ccache clang pbzip2 smplayer plink putty-tools \
+                     ghex doxygen doxygen-doc libstdc++6 lib32stdc++6 build-essential \
+                     doxygen-gui graphviz git-core cconv alsa-oss wmctrl terminator \
+                     curl gnome-tweak-tool qt4-qtconfig cgdb dos2unix libreadline-dev \
+                     hexedit ccache ruby subversion htop astyle ubuntu-restricted-extras \
+                     libncurses5-dev quicksynergy xdot python-pycallgraph \ exuberant-ctags cscope \
+                     libsdl1.2-dev gitk libncurses5-dev binutils-dev python-virtualenv  gtkterm \
+                     libtool mpi-default-dev libbz2-dev libicu-dev python-dev scons csh \
+                     enca ttf-anonymous-pro libperl4-corelibs-perl cgvg catfish ipython gawk \
+                     i2c-tools sshfs wavesurfer audacity fcitx fcitx-chewing libswitch-perl bin86 \
+                     inotify-tools u-boot-tools subversion crash tree mscgen krename umbrello \
+                     intel2gas kernelshark trace-cmd pppoe shutter dcfldd flex bison help2man \
+                     texinfo texi2html 
 ```
 
 -  PCMAN 字體

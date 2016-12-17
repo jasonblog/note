@@ -948,7 +948,7 @@
 * [Git](git/git.md)
    * [Keeping a fork up to date](git/keeping_a_fork_up_to_date.md)
    * [Clone all repos from a GitHub organization](git/clone_all_repos_from_a_github_organization.md)
-   * Git倉庫遷移而不丟失log的方法
+   * [Git倉庫遷移而不丟失log的方法](git/gitcang_ku_qian_yi_er_bu_diu_shi_log_de_fang_fa.md)
 * [Interview](interview/interview.md)
    * [DS_Algo](interview/dsalgo.md)
        * [Linked List的複習總結](interview/linked_listde_fu_xi_zong_jie.md)

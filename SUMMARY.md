@@ -436,7 +436,7 @@
        * [cmake CFLAGS CXXFLAGS](cmake/cmake_cflags_cxxflags.md)
        * [CMake 入門/加入編譯選項](cmake/cmake_ru_9580_jia_ru_bian_yi_xuan_xiang.md)
        * [CMake for windows](cmake/cmake_for_windows.md)
-       * cmake 常用變數
+       * [cmake 常用變數](cmake/cmake_chang_yong_bian_shu.md)
    * [如何調試makefile變量](gunmake/201.md)
    * [跟我一起寫Makefile:make運行](gunmake/202.md)
    * [Makefile的常用技術總結](gunmake/203.md)

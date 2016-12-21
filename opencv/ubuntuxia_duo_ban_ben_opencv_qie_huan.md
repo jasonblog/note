@@ -1,5 +1,19 @@
 # ubuntu下多版本opencv切換
 
+
+```sh
+cmake -D CMAKE_INSTALL_PREFIX=/home/shihyu/.mybin/opencv-2.4.13 \
+      -D CMAKE_PREFIX_PATH=/home/shihyu/.mybin/opencv-2.4.13/share/OpenCV \
+      -D CMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} -D_FORCE_INLINES" ..
+
+
+
+cmake -D CMAKE_INSTALL_PREFIX=/home/shihyu/.mybin/opencv-3.1.0 \
+      -D CMAKE_PREFIX_PATH=/home/shihyu/.mybin/opencv-3.1.0/share/OpenCV \
+      -D CMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} -D_FORCE_INLINES" ..
+
+```
+
 ## 查看opencv版本：
 
 ```sh

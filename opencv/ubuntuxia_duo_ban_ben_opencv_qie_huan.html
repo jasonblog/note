@@ -55,7 +55,7 @@
         data-chapter-title="ubuntu下多版本opencv切換"
         data-filepath="opencv/ubuntuxia_duo_ban_ben_opencv_qie_huan.md"
         data-basepath=".."
-        data-revision="Thu Dec 22 2016 00:22:30 GMT+0800 (CST)"
+        data-revision="Thu Dec 22 2016 00:32:55 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -15242,47 +15242,15 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="ubuntu&#x4E0B;&#x591A;&#x7248;&#x672C;opencv&#x5207;&#x63DB;">ubuntu&#x4E0B;&#x591A;&#x7248;&#x672C;opencv&#x5207;&#x63DB;</h1>
-<pre><code class="lang-sh"><span class="hljs-built_in">cd</span> /home/jiluobo/
-git <span class="hljs-built_in">clone</span> https://github.com/opencv/opencv.git
-//git opencv &#x6E90;&#x78BC;
-cp -rf opencv opencvbackup
-//&#x5099;&#x4EFD;&#x9632;&#x6B62;&#x51FA;&#x932F;
-<span class="hljs-built_in">cd</span> opencv
-mkdir opencv249
-mkdir opencv310
-//&#x6DFB;&#x52A0;&#x751F;&#x6210;&#x4E0D;&#x540C;&#x7248;&#x672C;&#x76EE;&#x9304;
-git checkout <span class="hljs-number">2.4</span>.<span class="hljs-number">9</span>
-//&#x5207;&#x63DB;&#x7248;&#x672C;
-<span class="hljs-built_in">cd</span> opencv249
-cmake -D CMAKE_INSTALL_PREFIX=/usr/<span class="hljs-built_in">local</span>/opencv2.<span class="hljs-number">4.9</span> -D CMAKE_PREFIX_PATH=/usr/<span class="hljs-built_in">local</span>/opencv2.<span class="hljs-number">4.9</span>/share/OpenCV CMAKE_CXX_FLAGS=<span class="hljs-string">&quot;<span class="hljs-variable">${CMAKE_CXX_FLAGS}</span> -D_FORCE_INLINES&quot;</span> ../
-//&#x5169;&#x500B;-D&#x9078;&#x9805;&#x70BA;&#x591A;&#x7248;&#x672C;&#x95DC;&#x9375;&#x8A2D;&#x7F6E;&#xFF0C;&#x6B64;&#x8655;&#x7701;&#x7565;&#x4E86;&#x5176;&#x4ED6;&#x53EF;&#x9078;&#x8A2D;&#x7F6E;&#xFF0C;&#x6839;&#x64DA;&#x81EA;&#x5DF1;&#x60C5;&#x6CC1;&#x6DFB;&#x52A0;&#xFF0C;&#x9ED8;&#x8A8D;&#x4E5F;&#x53EF;&#x4EE5;
-make -j8
-//&#x7DE8;&#x8B6F;
-sudo make install
-//&#x5B89;&#x88DD;
-<span class="hljs-built_in">cd</span> ../
-git checkout <span class="hljs-number">3.1</span>.<span class="hljs-number">0</span>
-<span class="hljs-built_in">cd</span> opencv310
-cmake -D CMAKE_INSTALL_PREFIX=/usr/<span class="hljs-built_in">local</span>/opencv3.<span class="hljs-number">1.0</span> -D CMAKE_PREFIX_PATH=/usr/<span class="hljs-built_in">local</span>/opencv3.<span class="hljs-number">1.0</span>/share/OpenCV CMAKE_CXX_FLAGS=<span class="hljs-string">&quot;<span class="hljs-variable">${CMAKE_CXX_FLAGS}</span> -D_FORCE_INLINES&quot;</span> ../
-//&#x5169;&#x500B;-D&#x9078;&#x9805;&#x70BA;&#x591A;&#x7248;&#x672C;&#x95DC;&#x9375;&#x8A2D;&#x7F6E;&#xFF0C;&#x6B64;&#x8655;&#x7701;&#x7565;&#x4E86;&#x5176;&#x4ED6;&#x53EF;&#x9078;&#x8A2D;&#x7F6E;&#xFF0C;&#x6839;&#x64DA;&#x81EA;&#x5DF1;&#x60C5;&#x6CC1;&#x6DFB;&#x52A0;&#xFF0C;&#x9ED8;&#x8A8D;&#x4E5F;&#x53EF;&#x4EE5;
-make -j8
-//&#x7DE8;&#x8B6F;
-sudo make install
-//&#x5B89;&#x88DD;
+<pre><code class="lang-sh">cmake -D CMAKE_INSTALL_PREFIX=/home/shihyu/.mybin/opencv-<span class="hljs-number">2.4</span>.<span class="hljs-number">13</span> \
+      -D CMAKE_PREFIX_PATH=/home/shihyu/.mybin/opencv-<span class="hljs-number">2.4</span>.<span class="hljs-number">13</span>/share/OpenCV \
+      -D CMAKE_CXX_FLAGS=<span class="hljs-string">&quot;<span class="hljs-variable">${CMAKE_CXX_FLAGS}</span> -D_FORCE_INLINES&quot;</span> ..
 
-sudo cp /usr/<span class="hljs-built_in">local</span>/opencv2.<span class="hljs-number">4.9</span>/lib/pkgconfig/opencv.pc /usr/lib/pkgconfig/opencv249.pc
-//&#x6DFB;&#x52A0;pkg-config&#x5305;&#x8DEF;&#x5F91;&#x4FE1;&#x606F;
-sudo cp /usr/<span class="hljs-built_in">local</span>/opencv3.<span class="hljs-number">1.0</span>/lib/pkgconfig/opencv.pc /usr/lib/pkgconfig/opencv310.pc
-//&#x6DFB;&#x52A0;pkg-config&#x5305;&#x8DEF;&#x5F91;&#x4FE1;&#x606F;
 
-sudo nano /etc/ld.so.conf.d/opencv249.conf
-&gt;&gt;/usr/<span class="hljs-built_in">local</span>/opencv2.<span class="hljs-number">4.9</span>/lib
-//&#x6DFB;&#x52A0;&#x93C8;&#x63A5;&#x5EAB;&#x8DEF;&#x5F91;
-sudo nano /etc/ld.so.conf.d/opencv310.conf
-&gt;&gt;/usr/<span class="hljs-built_in">local</span>/opencv3.<span class="hljs-number">1.0</span>/lib
 
-sudo ldconfig
-//&#x5237;&#x65B0;
+cmake -D CMAKE_INSTALL_PREFIX=/home/shihyu/.mybin/opencv-<span class="hljs-number">3.1</span>.<span class="hljs-number">0</span> \
+      -D CMAKE_PREFIX_PATH=/home/shihyu/.mybin/opencv-<span class="hljs-number">3.1</span>.<span class="hljs-number">0</span>/share/OpenCV \
+      -D CMAKE_CXX_FLAGS=<span class="hljs-string">&quot;<span class="hljs-variable">${CMAKE_CXX_FLAGS}</span> -D_FORCE_INLINES&quot;</span> ..
 </code></pre>
 <h2 id="&#x67E5;&#x770B;opencv&#x7248;&#x672C;&#xFF1A;">&#x67E5;&#x770B;opencv&#x7248;&#x672C;&#xFF1A;</h2>
 <pre><code class="lang-sh">pkg-config --modversion opencv249
@@ -15326,6 +15294,48 @@ PKG_CONFIG_PATH=<span class="hljs-variable">$PKG_CONFIG_PATH</span>:/home/shihyu
         g++ -ggdb `pkg-config --cflags opencv` -o `basename <span class="hljs-variable">$i</span> .cpp` <span class="hljs-variable">$i</span> `pkg-config --libs opencv`;
     <span class="hljs-keyword">done</span>
 <span class="hljs-keyword">fi</span>
+</code></pre>
+<pre><code class="lang-sh"><span class="hljs-built_in">cd</span> /home/jiluobo/
+git <span class="hljs-built_in">clone</span> https://github.com/opencv/opencv.git
+//git opencv &#x6E90;&#x78BC;
+cp -rf opencv opencvbackup
+//&#x5099;&#x4EFD;&#x9632;&#x6B62;&#x51FA;&#x932F;
+<span class="hljs-built_in">cd</span> opencv
+mkdir opencv249
+mkdir opencv310
+//&#x6DFB;&#x52A0;&#x751F;&#x6210;&#x4E0D;&#x540C;&#x7248;&#x672C;&#x76EE;&#x9304;
+git checkout <span class="hljs-number">2.4</span>.<span class="hljs-number">9</span>
+//&#x5207;&#x63DB;&#x7248;&#x672C;
+<span class="hljs-built_in">cd</span> opencv249
+cmake -D CMAKE_INSTALL_PREFIX=/usr/<span class="hljs-built_in">local</span>/opencv2.<span class="hljs-number">4.9</span> -D CMAKE_PREFIX_PATH=/usr/<span class="hljs-built_in">local</span>/opencv2.<span class="hljs-number">4.9</span>/share/OpenCV CMAKE_CXX_FLAGS=<span class="hljs-string">&quot;<span class="hljs-variable">${CMAKE_CXX_FLAGS}</span> -D_FORCE_INLINES&quot;</span> ../
+//&#x5169;&#x500B;-D&#x9078;&#x9805;&#x70BA;&#x591A;&#x7248;&#x672C;&#x95DC;&#x9375;&#x8A2D;&#x7F6E;&#xFF0C;&#x6B64;&#x8655;&#x7701;&#x7565;&#x4E86;&#x5176;&#x4ED6;&#x53EF;&#x9078;&#x8A2D;&#x7F6E;&#xFF0C;&#x6839;&#x64DA;&#x81EA;&#x5DF1;&#x60C5;&#x6CC1;&#x6DFB;&#x52A0;&#xFF0C;&#x9ED8;&#x8A8D;&#x4E5F;&#x53EF;&#x4EE5;
+make -j8
+//&#x7DE8;&#x8B6F;
+sudo make install
+//&#x5B89;&#x88DD;
+<span class="hljs-built_in">cd</span> ../
+git checkout <span class="hljs-number">3.1</span>.<span class="hljs-number">0</span>
+<span class="hljs-built_in">cd</span> opencv310
+cmake -D CMAKE_INSTALL_PREFIX=/usr/<span class="hljs-built_in">local</span>/opencv3.<span class="hljs-number">1.0</span> -D CMAKE_PREFIX_PATH=/usr/<span class="hljs-built_in">local</span>/opencv3.<span class="hljs-number">1.0</span>/share/OpenCV CMAKE_CXX_FLAGS=<span class="hljs-string">&quot;<span class="hljs-variable">${CMAKE_CXX_FLAGS}</span> -D_FORCE_INLINES&quot;</span> ../
+//&#x5169;&#x500B;-D&#x9078;&#x9805;&#x70BA;&#x591A;&#x7248;&#x672C;&#x95DC;&#x9375;&#x8A2D;&#x7F6E;&#xFF0C;&#x6B64;&#x8655;&#x7701;&#x7565;&#x4E86;&#x5176;&#x4ED6;&#x53EF;&#x9078;&#x8A2D;&#x7F6E;&#xFF0C;&#x6839;&#x64DA;&#x81EA;&#x5DF1;&#x60C5;&#x6CC1;&#x6DFB;&#x52A0;&#xFF0C;&#x9ED8;&#x8A8D;&#x4E5F;&#x53EF;&#x4EE5;
+make -j8
+//&#x7DE8;&#x8B6F;
+sudo make install
+//&#x5B89;&#x88DD;
+
+sudo cp /usr/<span class="hljs-built_in">local</span>/opencv2.<span class="hljs-number">4.9</span>/lib/pkgconfig/opencv.pc /usr/lib/pkgconfig/opencv249.pc
+//&#x6DFB;&#x52A0;pkg-config&#x5305;&#x8DEF;&#x5F91;&#x4FE1;&#x606F;
+sudo cp /usr/<span class="hljs-built_in">local</span>/opencv3.<span class="hljs-number">1.0</span>/lib/pkgconfig/opencv.pc /usr/lib/pkgconfig/opencv310.pc
+//&#x6DFB;&#x52A0;pkg-config&#x5305;&#x8DEF;&#x5F91;&#x4FE1;&#x606F;
+
+sudo nano /etc/ld.so.conf.d/opencv249.conf
+&gt;&gt;/usr/<span class="hljs-built_in">local</span>/opencv2.<span class="hljs-number">4.9</span>/lib
+//&#x6DFB;&#x52A0;&#x93C8;&#x63A5;&#x5EAB;&#x8DEF;&#x5F91;
+sudo nano /etc/ld.so.conf.d/opencv310.conf
+&gt;&gt;/usr/<span class="hljs-built_in">local</span>/opencv3.<span class="hljs-number">1.0</span>/lib
+
+sudo ldconfig
+//&#x5237;&#x65B0;
 </code></pre>
 
                     

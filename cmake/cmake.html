@@ -57,7 +57,7 @@
         data-chapter-title="CMake"
         data-filepath="cmake/cmake.md"
         data-basepath=".."
-        data-revision="Thu Dec 22 2016 00:22:30 GMT+0800 (CST)"
+        data-revision="Thu Dec 22 2016 00:32:55 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -15247,7 +15247,20 @@
 <p><a href="https://zh.wikibooks.org/wiki/Category:CMake_%E5%85%A5%E9%96%80" target="_blank">https://zh.wikibooks.org/wiki/Category:CMake_%E5%85%A5%E9%96%80</a></p>
 <h2 id="&#x6253;&#x5370;&#x8A0A;&#x606F;">&#x6253;&#x5370;&#x8A0A;&#x606F;</h2>
 <pre><code>MESSAGE(STATUS &quot;Project DirectoryTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT: ${PROJECT_SOURCE_DIR}&quot;)
-</code></pre>
+</code></pre><h2 id="cmake-&#x5E38;&#x7528;&#x8B8A;&#x6578;">cmake &#x5E38;&#x7528;&#x8B8A;&#x6578;</h2>
+<p><code>CMAKE_SOURCE_DIR</code> ( &#x76F8;&#x7576;&#x65BC;&#x5DE5;&#x7A0B;&#x6839;&#x76EE;&#x9304; ) 
+this is the directory, from which cmake was started, i.e. the top level source directory</p>
+<p><code>CMAKE_CURRENT_SOURCE_DIR</code> 
+this is the directory where the currently processed CMakeLists.txt is located in</p>
+<p><code>PROJECT_SOURCE_DIR</code> ( =CMAKE_SOURCE_DIR &#x76F8;&#x7576;&#x65BC;&#x5DE5;&#x7A0B;&#x6839;&#x76EE;&#x9304; ) 
+contains the full path to the root of your project source directory, i.e. to the nearest directory where CMakeLists.txt contains the PROJECT() command</p>
+<p><code>CMAKE_PREFIX_PATH</code> &#xFF08;&#x7528;&#x65BC;&#x627E; Findxxx.cmake&#x6587;&#x4EF6;&#xFF0C;&#x627E; &#x5EAB; &#x548C; &#x982D;&#x6587;&#x4EF6;&#xFF09; 
+Path used for searching by FIND_XXX(), with appropriate suffixes added.</p>
+<p><code>CMAKE_INSTALL_PREFIX</code> ( &#x5B89;&#x88DD;&#x76EE;&#x9304; ) 
+Install directory used by install. 
+If &#x300C;make install&#x300D; is invoked or INSTALL is built, this directory is prepended onto all install directories. This variable defaults to /usr/local on UNIX and c:/Program Files on Windows. </p>
+<p>&#x4F8B;&#x5982;&#xFF1A; cmake .. -DCMAKE_INSTALL_PREFIX=/my/paht/to/install </p>
+
                     
                     </section>
                 

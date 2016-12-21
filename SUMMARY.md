@@ -962,4 +962,5 @@
 * [Redis](redis/redis.md)
 * [OpenCV](opencv/opencv.md)
    * [安裝 OpenCV 2.4.9](opencv/an_zhuang_opencv_2__4__9.md)
+   * ubuntu下多版本opencv切換
 

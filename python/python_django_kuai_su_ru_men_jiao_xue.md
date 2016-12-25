@@ -30,7 +30,7 @@ deactivate
 $ django-admin.py startproject opencook
 $ cd opencook
 
-// 同步数据库
+// 同步數據庫
 python manage.py syncdb
 注意：Django 1.7.1及以上的版本需要用以下命令
 python manage.py makemigrations
@@ -129,7 +129,7 @@ INSTALLED_APPS = (
 與大部分 MVC 框架差不多，在 Django 中 Model 主要是處理資料層的資料。
 
 ##Admin
-Django 有一個比較方便的功能就是內建的 Admin，可以讓你簡單就建立一個可以管理後台的系統，在一般情況下通常堪用了。
+Django 有一個比較方便的功能就是內建的 Admin，可以讓你簡單就建立一個可以管理後臺的系統，在一般情況下通常堪用了。
 
 ##Django ORM
 ORM 的全名是 Object-Relational Mapping，係指將關聯式資料庫映射至物件導向的資料抽象化技術，可以讓你比較方便的去操作資料庫，當然如果是複雜關聯式資料庫操作還是要使用到 SQL 語法。

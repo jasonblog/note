@@ -555,6 +555,7 @@
    * [設計模式經驗談](design_pattern/she_ji_mo_shi_jing_yan_tan.md)
    * [設計模式整理列表](design_pattern/she_ji_mo_shi_zheng_li_lie_biao.md)
    * [物件導向程式設計五大原則：SOLID](design_pattern/wu_jian_dao_xiang_cheng_shi_she_ji_wu_da_yuan_ze_f.md)
+   * 如何正確地寫出單例模式
 * [OpenWrt](openwrt/README.md)
    * [OpenWRT 編譯環境搭建](openwrt/281.md)
 * [Python](python/README.md)

@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>qemu-arm 快速驗證arm應用程式 | Jason note</title>
+        <title>如何正確地使用設計模式？ | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -41,10 +41,10 @@
         
     
     
-    <link rel="next" href="../qemu/how_other_people_use_qemu.html" />
+    <link rel="next" href="../openwrt/index.html" />
     
     
-    <link rel="prev" href="../qemu/yong_qemu_mo_ni_arm.html" />
+    <link rel="prev" href="../design_pattern/ru_he_zheng_que_di_xie_chu_dan_li_mo_shi.html" />
     
 
         <!-- head:end -->
@@ -53,9 +53,9 @@
         <!-- body:start -->
         
     <div class="book"
-        data-level="6.19"
-        data-chapter-title="qemu-arm 快速驗證arm應用程式"
-        data-filepath="qemu/qemu-arm_kuai_su_yan_zheng_arm_ying_yong_cheng_shi.md"
+        data-level="25.6"
+        data-chapter-title="如何正確地使用設計模式？"
+        data-filepath="design_pattern/ru_he_zheng_que_di_shi_yong_she_ji_mo_shi_ff1f.md"
         data-basepath=".."
         data-revision="Mon Dec 26 2016 22:29:38 GMT+0800 (CST)"
         data-innerlanguage="">
@@ -1731,7 +1731,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="6.19" data-path="qemu/qemu-arm_kuai_su_yan_zheng_arm_ying_yong_cheng_shi.html">
+        <li class="chapter " data-level="6.19" data-path="qemu/qemu-arm_kuai_su_yan_zheng_arm_ying_yong_cheng_shi.html">
             
                 
                     <a href="../qemu/qemu-arm_kuai_su_yan_zheng_arm_ying_yong_cheng_shi.html">
@@ -8688,7 +8688,7 @@
             
         </li>
     
-        <li class="chapter " data-level="25.6" data-path="design_pattern/ru_he_zheng_que_di_shi_yong_she_ji_mo_shi_ff1f.html">
+        <li class="chapter active" data-level="25.6" data-path="design_pattern/ru_he_zheng_que_di_shi_yong_she_ji_mo_shi_ff1f.html">
             
                 
                     <a href="../design_pattern/ru_he_zheng_que_di_shi_yong_she_ji_mo_shi_ff1f.html">
@@ -15303,51 +15303,43 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="qemuarm-&#x5FEB;&#x901F;&#x9A57;&#x8B49;arm&#x61C9;&#x7528;&#x7A0B;&#x5F0F;">qemu-arm &#x5FEB;&#x901F;&#x9A57;&#x8B49;arm&#x61C9;&#x7528;&#x7A0B;&#x5F0F;</h1>
+                        <h1 id="&#x5982;&#x4F55;&#x6B63;&#x78BA;&#x5730;&#x4F7F;&#x7528;&#x8A2D;&#x8A08;&#x6A21;&#x5F0F;&#xFF1F;">&#x5982;&#x4F55;&#x6B63;&#x78BA;&#x5730;&#x4F7F;&#x7528;&#x8A2D;&#x8A08;&#x6A21;&#x5F0F;&#xFF1F;</h1>
+<p>&#x9664;&#x975E;&#x4F60;&#x9084;&#x5728;&#x5BEB; Java&#xFF0C;&#x5426;&#x5247;&#x8A2D;&#x8A08;&#x6A21;&#x5F0F;&#x771F;&#x6C92;&#x591A;&#x5927;&#x7528;&#x8655;&#x3002;</p>
+<p>---- &#x88DC;&#x5145;&#x5E7E;&#x53E5; ----</p>
+<p>&#x9996;&#x5148;&#x660E;&#x78BA;&#x4E00;&#x9EDE;&#xFF0C;&#x9019;&#x88E1;&#x8AAA;&#x7684;&#x300C;&#x8A2D;&#x8A08;&#x6A21;&#x5F0F;&#x300D;&#xFF0C;&#x662F;&#x300C;&#x9762;&#x5411;&#x5C0D;&#x8C61;&#x8A2D;&#x8A08;&#x6A21;&#x5F0F;&#x300D;&#x7684;&#x7C21;&#x7A31;&#xFF0C;&#x4EE5; GoF &#x66F8;&#x4E2D;&#x5217;&#x51FA;&#x7684; 23 &#x500B;&#x6A21;&#x5F0F;&#x70BA;&#x4EE3;&#x8868;&#x3002;
+&#x4E0D;&#x8981;&#x628A;&#x4EC0;&#x9EBC;&#x90FD;&#x6B78;&#x70BA;&#x6A21;&#x5F0F;&#xFF0C;&#x6BD4;&#x5982; &#x300C;if-then-else &#x6A21;&#x5F0F;&#x300D;&#x3001;&#x300C;for each &#x6A21;&#x5F0F;&#x300D;&#x5C31;&#x4E0D;&#x662F;&#xFF08;&#x9762;&#x5411;&#x5C0D;&#x8C61;&#x8A2D;&#x8A08;&#xFF09;&#x6A21;&#x5F0F;&#x3002;Like, the inverse, reverse, double-back-flip pattern&#x2014;whatever. Oh, you mean a loop? OK. --- Jamie Zawinski
+&#x985E;&#x4F3C;&#x7684;&#xFF0C;thread pool&#x3001;thread-per-connection&#x3001;process-per-connection&#x3001;thread local storage&#x3001;scoped locking&#x3001;readers-writer lock &#x7B49;&#x7B49;&#x4E5F;&#x4E0D;&#x662F;&#x9762;&#x5411;&#x5C0D;&#x8C61;&#x8A2D;&#x8A08;&#x6A21;&#x5F0F;&#x3002;</p>
+<p>&#x8D0A;&#x540C; @winter &#x8AAA;&#x7684; &#x300C;&#x5EFA;&#x8B70;&#x4E0D;&#x8981;&#x6CDB;&#x6CDB;&#x5730;&#x8A0E;&#x8AD6;&#x548C;&#x5B78;&#x7FD2;&#x300E;&#x8A2D;&#x8A08;&#x6A21;&#x5F0F;&#x300F;&#xFF0C;&#x800C;&#x662F;&#x5177;&#x9AD4;&#x5230;&#x6BCF;&#x4E00;&#x500B;&#x6A21;&#x5F0F;&#x3002;&#x300D;</p>
 <ul>
-<li>test.cpp</li>
+<li>&#xFF0C;&#x5F88;&#x591A;&#x5275;&#x5EFA;&#x578B;&#x6A21;&#x5F0F;&#x5C31;&#x6C92;&#x7528;&#x4E86;&#x3002;</li>
+<li>&#x5982;&#x679C;&#x4F60;&#x7528;&#x7684;&#x8A9E;&#x8A00;&#x80FD;&#x628A;&#x51FD;&#x6578;&#x50CF;&#x8B8A;&#x6578;&#x4E00;&#x6A23;&#x8CE6;&#x503C;&#x4E26;&#x50B3;&#x4F86;&#x50B3;&#x53BB;&#xFF0C;&#x5F88;&#x591A;&#x884C;&#x70BA;&#x6A21;&#x5F0F;&#x5C31;&#x6C92;&#x7528;&#x4E86;&#x3002;</li>
+<li>&#x5982;&#x679C;&#x4F60;&#x7528;&#x7684;&#x8A9E;&#x8A00; style &#x53CD;&#x5C0D;&#x758A;&#x5E8A;&#x67B6;&#x5C4B;&#x7684; class hierarchy&#xFF0C;&#x5F88;&#x591A;&#x7D50;&#x69CB;&#x6A21;&#x5F0F;&#x5C31;&#x6C92;&#x7528;&#x4E86;&#x3002;</li>
 </ul>
-<pre><code class="lang-cpp"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;memory&gt;</span></span>
-<span class="hljs-keyword">using</span>  <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+<p>&#x5E7E;&#x500B;&#x7C21;&#x55AE;&#x5177;&#x9AD4;&#x7684;&#x4EE3;&#x78BC;&#x793A;&#x4F8B;&#xFF1A;</p>
+<ol>
+<li><p>C# &#x5167;&#x7F6E;&#x4E86; delegate/event&#xFF0C;Observer &#x6A21;&#x5F0F;&#x5C31;&#x6C92;&#x7528;&#x4E86;&#x3002;</p>
+</li>
+<li><p>&#x5982;&#x679C;&#x4F60;&#x7684;&#x8A9E;&#x8A00;&#x7684; typeof &#x64CD;&#x4F5C;&#x7B26;&#x80FD;&#x5F97;&#x5230; runtime type&#xFF0C;&#x90A3;&#x9EBC; Prototype &#x6A21;&#x5F0F;&#x5C31;&#x6C92;&#x7528;&#x4E86;&#x3002;&#x6BD4;&#x5982;</p>
+</li>
+</ol>
+<pre><code class="lang-java">class Base(object):
+  pass
 
-<span class="hljs-keyword">class</span> Example
-{
-<span class="hljs-keyword">public</span>:
-    Example() : e(<span class="hljs-number">1</span>)
-    {
-        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Example Constructor...&quot;</span> &lt;&lt; endl;
-    }
-    ~Example()
-    {
-        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Example Destructor...&quot;</span> &lt;&lt; endl;
-    }
+class Derived(Base):
+  pass
 
-    <span class="hljs-keyword">int</span> e;
-};
+def clone(x):
+  return type(x)()
 
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
-</span>{
-
-    <span class="hljs-built_in">shared_ptr</span>&lt;Example&gt; pInt(<span class="hljs-keyword">new</span> Example());
-    <span class="hljs-built_in">cout</span> &lt;&lt; (*pInt).e &lt;&lt; endl;
-    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;pInt&#x5F15;&#x7528;&#x8A08;&#x6578;: &quot;</span> &lt;&lt; pInt.use_count() &lt;&lt; endl;
-
-    <span class="hljs-built_in">shared_ptr</span>&lt;Example&gt; pInt2 = pInt;
-    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;pInt&#x5F15;&#x7528;&#x8A08;&#x6578;: &quot;</span> &lt;&lt; pInt.use_count() &lt;&lt; endl;
-    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;pInt2&#x5F15;&#x7528;&#x8A08;&#x6578;: &quot;</span> &lt;&lt; pInt2.use_count() &lt;&lt; endl;
-}
-</code></pre>
-<pre><code class="lang-sh">arm-linux-gnueabi-g++ -std=c++<span class="hljs-number">11</span> -o <span class="hljs-built_in">test</span> test.cpp -static
-</code></pre>
-<pre><code class="lang-sh">qemu-arm ./<span class="hljs-built_in">test</span>
-</code></pre>
-<pre><code class="lang-sh">Example Constructor...
-<span class="hljs-number">1</span>
-pInt&#x5F15;&#x7528;&#x8A08;&#x6578;: <span class="hljs-number">1</span>
-pInt&#x5F15;&#x7528;&#x8A08;&#x6578;: <span class="hljs-number">2</span>
-pInt2&#x5F15;&#x7528;&#x8A08;&#x6578;: <span class="hljs-number">2</span>
-Example Destructor...
+if __name__ == &apos;__main__&apos;:
+  d = Derived()
+  print type(d)  # &lt;class &apos;__main__.Derived&apos;&gt;
+  c = clone(d)
+  print type(c)  # &lt;class &apos;__main__.Derived&apos;&gt;
+  b = Base()
+  print type(b)  # &lt;class &apos;__main__.Base&apos;&gt;
+  a = clone(b)
+  print type(a)  # &lt;class &apos;__main__.Base&apos;&gt;
 </code></pre>
 
                     
@@ -15359,10 +15351,10 @@ Example Destructor...
         </div>
 
         
-        <a href="../qemu/yong_qemu_mo_ni_arm.html" class="navigation navigation-prev " aria-label="Previous page: 用Qemu模擬ARM"><i class="fa fa-angle-left"></i></a>
+        <a href="../design_pattern/ru_he_zheng_que_di_xie_chu_dan_li_mo_shi.html" class="navigation navigation-prev " aria-label="Previous page: 如何正確地寫出單例模式"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../qemu/how_other_people_use_qemu.html" class="navigation navigation-next " aria-label="Next page: How Other People Use QEMU"><i class="fa fa-angle-right"></i></a>
+        <a href="../openwrt/index.html" class="navigation navigation-next " aria-label="Next page: OpenWrt"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

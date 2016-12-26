@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>JavaScript 快速入門（6/10）－ 迴圈 | Jason note</title>
+        <title>如何正確地寫出單例模式 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -41,10 +41,10 @@
         
     
     
-    <link rel="next" href="../nodejs/javascript_kuai_su_ru_men_ff08_7__10__han_shi.html" />
+    <link rel="next" href="../openwrt/index.html" />
     
     
-    <link rel="prev" href="../nodejs/javascript_kuai_su_ru_men_ff08_5__10__xu_shu_ju_if.html" />
+    <link rel="prev" href="../design_pattern/wu_jian_dao_xiang_cheng_shi_she_ji_wu_da_yuan_ze_f.html" />
     
 
         <!-- head:end -->
@@ -53,9 +53,9 @@
         <!-- body:start -->
         
     <div class="book"
-        data-level="44.2.7"
-        data-chapter-title="JavaScript 快速入門（6/10）－ 迴圈"
-        data-filepath="nodejs/javascript_kuai_su_ru_men_ff08_6__10__hui_quan.md"
+        data-level="25.5"
+        data-chapter-title="如何正確地寫出單例模式"
+        data-filepath="design_pattern/ru_he_zheng_que_di_xie_chu_dan_li_mo_shi.md"
         data-basepath=".."
         data-revision="Mon Dec 26 2016 22:22:55 GMT+0800 (CST)"
         data-innerlanguage="">
@@ -8673,7 +8673,7 @@
             
         </li>
     
-        <li class="chapter " data-level="25.5" data-path="design_pattern/ru_he_zheng_que_di_xie_chu_dan_li_mo_shi.html">
+        <li class="chapter active" data-level="25.5" data-path="design_pattern/ru_he_zheng_que_di_xie_chu_dan_li_mo_shi.html">
             
                 
                     <a href="../design_pattern/ru_he_zheng_que_di_xie_chu_dan_li_mo_shi.html">
@@ -11414,7 +11414,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="44.2.7" data-path="nodejs/javascript_kuai_su_ru_men_ff08_6__10__hui_quan.html">
+        <li class="chapter " data-level="44.2.7" data-path="nodejs/javascript_kuai_su_ru_men_ff08_6__10__hui_quan.html">
             
                 
                     <a href="../nodejs/javascript_kuai_su_ru_men_ff08_6__10__hui_quan.html">
@@ -15288,111 +15288,116 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="javascript-&#x5FEB;&#x901F;&#x5165;&#x9580;&#xFF08;610&#xFF09;&#xFF0D;-&#x8FF4;&#x5708;">JavaScript &#x5FEB;&#x901F;&#x5165;&#x9580;&#xFF08;6/10&#xFF09;&#xFF0D; &#x8FF4;&#x5708;</h1>
-<p>&#x8FF4;&#x5708;&#x662F;&#x4E00;&#x7A2E;&#x91CD;&#x8907;&#x57F7;&#x884C;&#x7684;&#x904B;&#x7B97;&#xFF0C;&#x4E00;&#x500B;&#x5178;&#x578B;&#x7684;&#x8FF4;&#x5708;&#xFF0C;&#x5305;&#x542B;&#x5169;&#x500B;&#x4E3B;&#x8981;&#x7684;&#x90E8;&#x4EFD;&#xFF0D;&#x5206;&#x5225;&#x662F;&#x662F;&#x5224;&#x65B7;&#x5F0F;&#x4EE5;&#x53CA;&#x91CD;&#x8907;&#x57F7;&#x884C;&#x7684;&#x7A0B;&#x5F0F;&#x5340;&#x584A;&#xFF0C;JavaScript &#x6709;&#x5169;&#x7A2E;&#x4E3B;&#x8981;&#x7684;&#x8FF4;&#x5708;&#xFF0D; for &#x8207; while &#xFF0C;&#x9996;&#x5148;&#x4F86;&#x770B; for &#x8FF4;&#x5708;&#xFF0C;&#x8A9E;&#x6CD5;&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre><code class="lang-js"><span class="hljs-keyword">for</span> (init;cond;increment){
+                        <h1 id="&#x5982;&#x4F55;&#x6B63;&#x78BA;&#x5730;&#x5BEB;&#x51FA;&#x55AE;&#x4F8B;&#x6A21;&#x5F0F;">&#x5982;&#x4F55;&#x6B63;&#x78BA;&#x5730;&#x5BEB;&#x51FA;&#x55AE;&#x4F8B;&#x6A21;&#x5F0F;</h1>
+<p>&#x55AE;&#x4F8B;&#x6A21;&#x5F0F;&#x7B97;&#x662F;&#x8A2D;&#x8A08;&#x6A21;&#x5F0F;&#x4E2D;&#x6700;&#x5BB9;&#x6613;&#x7406;&#x89E3;&#xFF0C;&#x4E5F;&#x662F;&#x6700;&#x5BB9;&#x6613;&#x624B;&#x5BEB;&#x4EE3;&#x78BC;&#x7684;&#x6A21;&#x5F0F;&#x4E86;&#x5427;&#x3002;&#x4F46;&#x662F;&#x5176;&#x4E2D;&#x7684;&#x5751;&#x537B;&#x4E0D;&#x5C11;&#xFF0C;&#x6240;&#x4EE5;&#x4E5F;&#x5E38;&#x4F5C;&#x70BA;&#x9762;&#x8A66;&#x984C;&#x4F86;&#x8003;&#x3002;&#x672C;&#x6587;&#x4E3B;&#x8981;&#x5C0D;&#x5E7E;&#x7A2E;&#x55AE;&#x4F8B;&#x5BEB;&#x6CD5;&#x7684;&#x6574;&#x7406;&#xFF0C;&#x4E26;&#x5206;&#x6790;&#x5176;&#x512A;&#x7F3A;&#x9EDE;&#x3002;&#x5F88;&#x591A;&#x90FD;&#x662F;&#x4E00;&#x4E9B;&#x8001;&#x751F;&#x5E38;&#x8AC7;&#x7684;&#x554F;&#x984C;&#xFF0C;&#x4F46;&#x5982;&#x679C;&#x4F60;&#x4E0D;&#x77E5;&#x9053;&#x5982;&#x4F55;&#x5275;&#x5EFA;&#x4E00;&#x500B;&#x7DDA;&#x7A0B;&#x5B89;&#x5168;&#x7684;&#x55AE;&#x4F8B;&#xFF0C;&#x4E0D;&#x77E5;&#x9053;&#x4EC0;&#x9EBC;&#x662F;&#x96D9;&#x6AA2;&#x9396;&#xFF0C;&#x90A3;&#x9019;&#x7BC7;&#x6587;&#x7AE0;&#x53EF;&#x80FD;&#x6703;&#x5E6B;&#x52A9;&#x5230;&#x4F60;&#x3002;</p>
+<h2 id="&#x61F6;&#x6F22;&#x5F0F;&#xFF0C;&#x7DDA;&#x7A0B;&#x4E0D;&#x5B89;&#x5168;">&#x61F6;&#x6F22;&#x5F0F;&#xFF0C;&#x7DDA;&#x7A0B;&#x4E0D;&#x5B89;&#x5168;</h2>
+<p>&#x7576;&#x88AB;&#x554F;&#x5230;&#x8981;&#x5BE6;&#x73FE;&#x4E00;&#x500B;&#x55AE;&#x4F8B;&#x6A21;&#x5F0F;&#x6642;&#xFF0C;&#x5F88;&#x591A;&#x4EBA;&#x7684;&#x7B2C;&#x4E00;&#x53CD;&#x61C9;&#x662F;&#x5BEB;&#x51FA;&#x5982;&#x4E0B;&#x7684;&#x4EE3;&#x78BC;&#xFF0C;&#x5305;&#x62EC;&#x6559;&#x79D1;&#x66F8;&#x4E0A;&#x4E5F;&#x662F;&#x9019;&#x6A23;&#x6559;&#x6211;&#x5011;&#x7684;&#x3002;</p>
+<pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Singleton</span> </span>{
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> Singleton instance;
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">Singleton</span> <span class="hljs-params">()</span></span>{}
 
-     <span class="hljs-comment">// for &#x8FF4;&#x5708;&#x57F7;&#x884C;&#x7A0B;&#x5F0F;</span>
-
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Singleton <span class="hljs-title">getInstance</span><span class="hljs-params">()</span> </span>{
+     <span class="hljs-keyword">if</span> (instance == <span class="hljs-keyword">null</span>) {
+         instance = <span class="hljs-keyword">new</span> Singleton();
+     }
+     <span class="hljs-keyword">return</span> instance;
+    }
 }
 </code></pre>
-<p>for&#x95DC;&#x9375;&#x5B57;&#x5B9A;&#x7FA9;&#x8FF4;&#x5708;&#x91CD;&#x8907;&#x57F7;&#x884C;&#x7684;&#x6B21;&#x6578;&#x4EE5;&#x53CA;&#x4F55;&#x6642;&#x7D50;&#x675F;&#xFF1A;</p>
+<p>&#x9019;&#x6BB5;&#x4EE3;&#x78BC;&#x7C21;&#x55AE;&#x660E;&#x4E86;&#xFF0C;&#x800C;&#x4E14;&#x4F7F;&#x7528;&#x4E86;&#x61F6;&#x52A0;&#x8F09;&#x6A21;&#x5F0F;&#xFF0C;&#x4F46;&#x662F;&#x537B;&#x5B58;&#x5728;&#x81F4;&#x547D;&#x7684;&#x554F;&#x984C;&#x3002;&#x7576;&#x6709;&#x591A;&#x500B;&#x7DDA;&#x7A0B;&#x4E26;&#x884C;&#x8ABF;&#x7528; getInstance() &#x7684;&#x6642;&#x5019;&#xFF0C;&#x5C31;&#x6703;&#x5275;&#x5EFA;&#x591A;&#x500B;&#x5BE6;&#x4F8B;&#x3002;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#x5728;&#x591A;&#x7DDA;&#x7A0B;&#x4E0B;&#x4E0D;&#x80FD;&#x6B63;&#x5E38;&#x5DE5;&#x4F5C;&#x3002;</p>
+<h2 id="&#x61F6;&#x6F22;&#x5F0F;&#xFF0C;&#x7DDA;&#x7A0B;&#x5B89;&#x5168;">&#x61F6;&#x6F22;&#x5F0F;&#xFF0C;&#x7DDA;&#x7A0B;&#x5B89;&#x5168;</h2>
+<p>&#x70BA;&#x77AD;&#x89E3;&#x6C7A;&#x4E0A;&#x9762;&#x7684;&#x554F;&#x984C;&#xFF0C;&#x6700;&#x7C21;&#x55AE;&#x7684;&#x65B9;&#x6CD5;&#x662F;&#x5C07;&#x6574;&#x500B; getInstance() &#x65B9;&#x6CD5;&#x8A2D;&#x70BA;&#x540C;&#x6B65;&#xFF08;synchronized&#xFF09;&#x3002;</p>
+<pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">synchronized</span> Singleton <span class="hljs-title">getInstance</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">if</span> (instance == <span class="hljs-keyword">null</span>) {
+        instance = <span class="hljs-keyword">new</span> Singleton();
+    }
+    <span class="hljs-keyword">return</span> instance;
+}
+</code></pre>
+<p>&#x96D6;&#x7136;&#x505A;&#x5230;&#x4E86;&#x7DDA;&#x7A0B;&#x5B89;&#x5168;&#xFF0C;&#x4E26;&#x4E14;&#x89E3;&#x6C7A;&#x4E86;&#x591A;&#x5BE6;&#x4F8B;&#x7684;&#x554F;&#x984C;&#xFF0C;&#x4F46;&#x662F;&#x5B83;&#x4E26;&#x4E0D;&#x9AD8;&#x6548;&#x3002;&#x56E0;&#x70BA;&#x5728;&#x4EFB;&#x4F55;&#x6642;&#x5019;&#x53EA;&#x80FD;&#x6709;&#x4E00;&#x500B;&#x7DDA;&#x7A0B;&#x8ABF;&#x7528; getInstance() &#x65B9;&#x6CD5;&#x3002;&#x4F46;&#x662F;&#x540C;&#x6B65;&#x64CD;&#x4F5C;&#x53EA;&#x9700;&#x8981;&#x5728;&#x7B2C;&#x4E00;&#x6B21;&#x8ABF;&#x7528;&#x6642;&#x624D;&#x88AB;&#x9700;&#x8981;&#xFF0C;&#x5373;&#x7B2C;&#x4E00;&#x6B21;&#x5275;&#x5EFA;&#x55AE;&#x4F8B;&#x5BE6;&#x4F8B;&#x5C0D;&#x8C61;&#x6642;&#x3002;&#x9019;&#x5C31;&#x5F15;&#x51FA;&#x4E86;&#x96D9;&#x91CD;&#x6AA2;&#x9A57;&#x9396;&#x3002;</p>
+<h2 id="&#x96D9;&#x91CD;&#x6AA2;&#x9A57;&#x9396;">&#x96D9;&#x91CD;&#x6AA2;&#x9A57;&#x9396;</h2>
+<p>&#x96D9;&#x91CD;&#x6AA2;&#x9A57;&#x9396;&#x6A21;&#x5F0F;&#xFF08;double checked locking pattern&#xFF09;&#xFF0C;&#x662F;&#x4E00;&#x7A2E;&#x4F7F;&#x7528;&#x540C;&#x6B65;&#x584A;&#x52A0;&#x9396;&#x7684;&#x65B9;&#x6CD5;&#x3002;&#x7A0B;&#x5E8F;&#x54E1;&#x7A31;&#x5176;&#x70BA;&#x96D9;&#x91CD;&#x6AA2;&#x67E5;&#x9396;&#xFF0C;&#x56E0;&#x70BA;&#x6703;&#x6709;&#x5169;&#x6B21;&#x6AA2;&#x67E5; instance == null&#xFF0C;&#x4E00;&#x6B21;&#x662F;&#x5728;&#x540C;&#x6B65;&#x584A;&#x5916;&#xFF0C;&#x4E00;&#x6B21;&#x662F;&#x5728;&#x540C;&#x6B65;&#x584A;&#x5167;&#x3002;&#x70BA;&#x4EC0;&#x9EBC;&#x5728;&#x540C;&#x6B65;&#x584A;&#x5167;&#x9084;&#x8981;&#x518D;&#x6AA2;&#x9A57;&#x4E00;&#x6B21;&#xFF1F;&#x56E0;&#x70BA;&#x53EF;&#x80FD;&#x6703;&#x6709;&#x591A;&#x500B;&#x7DDA;&#x7A0B;&#x4E00;&#x8D77;&#x9032;&#x5165;&#x540C;&#x6B65;&#x584A;&#x5916;&#x7684; if&#xFF0C;&#x5982;&#x679C;&#x5728;&#x540C;&#x6B65;&#x584A;&#x5167;&#x4E0D;&#x9032;&#x884C;&#x4E8C;&#x6B21;&#x6AA2;&#x9A57;&#x7684;&#x8A71;&#x5C31;&#x6703;&#x751F;&#x6210;&#x591A;&#x500B;&#x5BE6;&#x4F8B;&#x4E86;&#x3002;</p>
+<pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Singleton <span class="hljs-title">getSingleton</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">if</span> (instance == <span class="hljs-keyword">null</span>) {                         <span class="hljs-comment">//Single Checked</span>
+        <span class="hljs-keyword">synchronized</span> (Singleton.class) {
+            <span class="hljs-keyword">if</span> (instance == <span class="hljs-keyword">null</span>) {                 <span class="hljs-comment">//Double Checked</span>
+                instance = <span class="hljs-keyword">new</span> Singleton();
+            }
+        }
+    }
+    <span class="hljs-keyword">return</span> instance ;
+}
+</code></pre>
+<p>&#x9019;&#x6BB5;&#x4EE3;&#x78BC;&#x770B;&#x8D77;&#x4F86;&#x5F88;&#x5B8C;&#x7F8E;&#xFF0C;&#x5F88;&#x53EF;&#x60DC;&#xFF0C;&#x5B83;&#x662F;&#x6709;&#x554F;&#x984C;&#x3002;&#x4E3B;&#x8981;&#x5728;&#x65BC;instance = new Singleton()&#x9019;&#x53E5;&#xFF0C;&#x9019;&#x4E26;&#x975E;&#x662F;&#x4E00;&#x500B;&#x539F;&#x5B50;&#x64CD;&#x4F5C;&#xFF0C;&#x4E8B;&#x5BE6;&#x4E0A;&#x5728; JVM &#x4E2D;&#x9019;&#x53E5;&#x8A71;&#x5927;&#x6982;&#x505A;&#x4E86;&#x4E0B;&#x9762; 3 &#x4EF6;&#x4E8B;&#x60C5;&#x3002;</p>
 <ul>
-<li>&#x5C0F;&#x62EC;&#x5F27;&#x7684;&#x5167;&#x5BB9;&#x5B9A;&#x7FA9;&#x8FF4;&#x5708;&#x8A08;&#x6578;&#x5668;&#xFF0C;&#x63A7;&#x5236;&#x5340;&#x584A;&#x4E2D;&#x7A0B;&#x5F0F;&#x6558;&#x8FF0;&#x7684;&#x57F7;&#x884C;&#x6B21;&#x6578;&#xFF0C;&#x5176;&#x4E2D;&#x7684;init&#x521D;&#x59CB;&#x5316;&#x8A08;&#x6578;&#x5668;&#x7684;&#x8D77;&#x59CB;&#x503C;&#xFF0C;&#x9019;&#x500B;&#x904B;&#x7B97;&#x5F0F;&#x53EA;&#x6703;&#x57F7;&#x884C;&#x4E00;&#x6B21;&#x3002;</li>
-<li>cond &#x662F;&#x4E00;&#x500B;&#x5224;&#x65B7;&#x5F0F;&#xFF0C;&#x5B9A;&#x7FA9;&#x8A08;&#x6578;&#x5668;&#x4F55;&#x6642;&#x505C;&#x6B62;&#xFF0C;&#x5982;&#x679C;&#x5B83;&#x7684;&#x7D50;&#x679C;&#x662F;true&#xFF0C;&#x8868;&#x793A;&#x8FF4;&#x5708;&#x5C07;&#x7E7C;&#x7E8C;&#x91CD;&#x8907;&#x57F7;&#x884C;&#xFF0C;&#x5426;&#x5247;&#x8DF3;&#x51FA;&#x8FF4;&#x5708;&#x3002;</li>
-<li>increment &#x8CA0;&#x8CAC;&#x6539;&#x8B8A;&#x8A08;&#x6578;&#x5668;&#x7684;&#x503C;&#xFF0C;&#x901A;&#x5E38;&#x662F;&#x5C07;&#x8A08;&#x6578;&#x5668;&#x7684;&#x503C;&#x9032;&#x884C;&#x905E;&#x589E;&#x6216;&#x662F;&#x905E;&#x6E1B;&#x7684;&#x64CD;&#x4F5C;&#x3002;
-&#x6BCF;&#x4E00;&#x6B21;for&#x5340;&#x584A;&#x88E1;&#x9762;&#x7684;&#x7A0B;&#x5F0F;&#x6558;&#x8FF0;&#x57F7;&#x884C;&#x5B8C;&#x7562;&#x6642;&#xFF0C;&#x5B83;&#x6703;&#x8DF3;&#x56DE;for&#x91CD;&#x65B0;&#x57F7;&#x884C;&#x5C0F;&#x62EC;&#x5F27;&#x4E2D;&#x7684;&#x904B;&#x7B97;&#x5F0F;&#xFF0C;&#x4E00;&#x76F4;&#x5230;cond&#x7684;&#x7D50;&#x679C;&#x70BA;false&#xFF0C;&#x5247;&#x8DF3;&#x51FA;&#x8FF4;&#x5708;&#x3002;&#x8003;&#x616E;&#x4EE5;&#x4E0B;&#x7684;&#x7A0B;&#x5F0F;&#x7247;&#x6BB5;&#xFF1A;</li>
+<li>&#x7D66; instance &#x5206;&#x914D;&#x5167;&#x5B58;</li>
+<li>&#x8ABF;&#x7528; Singleton &#x7684;&#x69CB;&#x9020;&#x51FD;&#x6578;&#x4F86;&#x521D;&#x59CB;&#x5316;&#x6210;&#x54E1;&#x8B8A;&#x91CF;</li>
+<li>&#x5C07;instance&#x5C0D;&#x8C61;&#x6307;&#x5411;&#x5206;&#x914D;&#x7684;&#x5167;&#x5B58;&#x7A7A;&#x9593;&#xFF08;&#x57F7;&#x884C;&#x5B8C;&#x9019;&#x6B65; instance &#x5C31;&#x70BA;&#x975E; null &#x4E86;&#xFF09;</li>
 </ul>
-<pre><code class="lang-js">&lt;script&gt;
-    for (var i = 0; i &lt; 10 ; i++) {
-        console.log(i);
-    }
-&lt;/script&gt;
-</code></pre>
-<p>for &#x95DC;&#x9375;&#x5B57;&#x5F8C;&#x65B9;&#x7684;&#x7B2C;&#x4E00;&#x500B;&#x689D;&#x4EF6;&#x5F0F;&#x5B9A;&#x7FA9;&#x4E86; i &#x8A08;&#x6578;&#x5668;&#x8B8A;&#x6578;&#xFF0C;&#x7B2C;&#x4E8C;&#x500B;&#x689D;&#x4EF6;&#x5F0F;&#x8981;&#x6C42;&#x7576; i &#x5C0F;&#x65BC; 10 &#x57F7;&#x884C;&#x5176;&#x4E2D;&#x7684;&#x5167;&#x5BB9;&#xFF0C;&#x5426;&#x5247;&#x8DF3;&#x51FA;&#x8FF4;&#x5708;&#xFF0C;&#x6700;&#x5F8C;&#x4E00;&#x500B;&#x689D;&#x4EF6;&#x5F0F;&#x5247;&#x65BC;&#x6BCF;&#x4E00;&#x6B21;&#x8FF4;&#x5708;&#x958B;&#x59CB;&#x57F7;&#x884C;&#x6642;&#x5C07; i &#x52A0; 1 &#xFF0C;&#x9010;&#x4E00;&#x5728;&#x63A7;&#x5236;&#x6AAF;&#x8F38;&#x51FA; 0~ 9 &#x7684;&#x6578;&#x5B57;&#x3002;</p>
-<h2 id="&#x300B;&#x8FF4;&#x5708;-while-&#x8207;-dowhile">&#x300B;&#x8FF4;&#x5708; while &#x8207; do/while</h2>
-<p>while &#x662F;&#x53E6;&#x5916;&#x4E00;&#x7A2E;&#x985E;&#x578B;&#x7684;&#x8FF4;&#x5708;&#xFF0C;&#x7576;&#x57F7;&#x884C;&#x7684;&#x8FF4;&#x5708;&#x6C92;&#x6709;&#x56FA;&#x5B9A;&#x6B21;&#x6578;&#xFF0C;&#x7121;&#x6CD5;&#x900F;&#x904E;for&#x8FF4;&#x5708;&#x4F86;&#x9054;&#x5230;&#x91CD;&#x8907;&#x57F7;&#x884C;&#x7684;&#x76EE;&#x7684;&#xFF0C;while&#x8FF4;&#x5708;&#x5F88;&#x9069;&#x5408;&#x7528;&#x4F86;&#x8655;&#x7406;&#x9019;&#x6A23;&#x7684;&#x60C5;&#x6CC1;&#x3002;</p>
-<pre><code class="lang-js"><span class="hljs-keyword">while</span>(expression){ 
-     <span class="hljs-comment">// expression &#x662F; true &#x5247;&#x57F7;&#x884C;&#x9019;&#x88E1;&#x7684;&#x8A9E;&#x6CD5;&#x3000;&#x2026;&#x3000;</span>
-}
-</code></pre>
-<p>expression&#x904B;&#x7B97;&#x5F0F;&#x50B3;&#x56DE;&#x5E03;&#x6797;&#x904B;&#x7B97;&#x7D50;&#x679C;&#xFF0C;&#x5982;&#x679C;&#x9019;&#x500B;&#x7D50;&#x679C;&#x503C;&#x662F;true&#xFF0C;&#x5176;&#x4E2D;while&#x5340;&#x584A;&#x5167;&#x7684;&#x7A0B;&#x5F0F;&#x78BC;&#x4FBF;&#x6703;&#x88AB;&#x57F7;&#x884C;&#xFF0C;&#x5B8C;&#x6210;&#x4E4B;&#x5F8C;&#x7A0B;&#x5F0F;&#x6703;&#x518D;&#x56DE;&#x5230; while &#x91CD;&#x65B0;&#x57F7;&#x884C;&#x4E00;&#x6B21;exprssion&#xFF0C;&#x4E00;&#x76F4;&#x5230;&#x5B83;&#x7684;&#x503C;&#x70BA;false&#x70BA;&#x6B62;&#x3002;&#x8003;&#x616E;&#x4EE5;&#x4E0B;&#x7684;&#x7A0B;&#x5F0F;&#x78BC;&#xFF1A;</p>
-<pre><code class="lang-js">&lt;script&gt;
-    <span class="hljs-keyword">var</span> i = <span class="hljs-number">500</span>;
-    <span class="hljs-keyword">var</span> j = <span class="hljs-number">1000</span>;
-    <span class="hljs-keyword">while</span> (i &lt; j) {
-        i += <span class="hljs-number">3</span>;
-        j += <span class="hljs-number">1</span>;
-    }
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;i=&quot;</span> + i + <span class="hljs-string">&quot;;j=&quot;</span> + j);
-<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
-</span></code></pre>
-<p>&#x8B8A;&#x6578;i&#x8207;j&#x7684;&#x521D;&#x59CB;&#x503C;&#x8A2D;&#x5B9A;&#x70BA;500&#x8207;1000&#xFF0C;&#x63A5;&#x4E0B;&#x4F86;&#x7684;while&#x8FF4;&#x5708;&#xFF0C;&#x6BCF;&#x4E00;&#x6B21;&#x70BA;&#x8B8A;&#x6578;i&#x52A0;&#x4E0A;3&#xFF0C;&#x8B8A;&#x6578;j&#x52A0;&#x4E0A;1&#xFF0C;&#x4E00;&#x76F4;&#x5230;i&#x7684;&#x503C;&#x4E0D;&#x518D;&#x5C0F;&#x65BC;j&#x3000;&#x4FBF;&#x505C;&#x6B62;&#x8FF4;&#x5708;&#xFF0C;&#x8F38;&#x51FA;i&#x8207;j&#x7684;&#x5167;&#x5BB9;&#x3002;</p>
-<pre><code class="lang-js">i=<span class="hljs-number">1250</span>;j=<span class="hljs-number">1250</span>
-</code></pre>
-<p>&#x4EE5;&#x4E0A;&#x70BA;&#x6700;&#x5F8C;&#x7684;&#x8F38;&#x51FA;&#x7D50;&#x679C;&#xFF0C;&#x5176;&#x4E2D; i &#x8207; j &#x7684;&#x503C;&#x5DF2;&#x7D93;&#x76F8;&#x7B49;&#xFF0C;&#x518D;&#x4E00;&#x6B21;&#x8FF4;&#x5708;&#x5247; i &#x5C07;&#x5927;&#x65BC; j&#xFF0C;&#x56E0;&#x6B64;&#x6703;&#x8DF3;&#x51FA;&#x8FF4;&#x5708;&#x3002;while&#x8FF4;&#x5708;&#x53E6;&#x5916;&#x9084;&#x6709;&#x4E00;&#x500B;do-while&#x7248;&#x672C;&#xFF0C;&#x8A9E;&#x6CD5;&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre><code class="lang-js"><span class="hljs-keyword">do</span>{
-     <span class="hljs-comment">// expression &#x662F; true &#x5247;&#x57F7;&#x884C;&#x9019;&#x88E1;&#x7684;&#x8A9E;&#x6CD5;&#x3000;&#x2026;&#x3000;</span>
-&#x3000;  
-} <span class="hljs-keyword">while</span>(expression)
-</code></pre>
-<p>&#x5176;&#x4E2D;&#x95DC;&#x9375;&#x5B57;do&#x5BA3;&#x544A;while&#x8FF4;&#x5708;&#x958B;&#x59CB;&#xFF0C;&#x800C;while&#x904B;&#x7B97;&#x5F0F;&#x5247;&#x5728;&#x8FF4;&#x5708;&#x7D50;&#x675F;&#x7684;&#x6642;&#x5019;&#x9032;&#x884C;&#x5224;&#x65B7;&#xFF0C;&#x5982;&#x679C;&#x7D50;&#x679C;&#x503C;&#x662F;true&#xFF0C;&#x9019;&#x500B;&#x8FF4;&#x5708;&#x6703;&#x518D;&#x4E00;&#x6B21;&#x57F7;&#x884C;&#xFF0C;&#x5426;&#x5247;&#x8DF3;&#x51FA;&#x8FF4;&#x5708;&#x3002;&#x8207;&#x4E0A;&#x8FF0;while&#x8FF4;&#x5708;&#x7684;&#x5DEE;&#x7570;&#xFF0C;&#x5728;&#x65BC;&#x9019;&#x500B;&#x8FF4;&#x5708;&#x672C;&#x8EAB;&#x7121;&#x8AD6;&#x5982;&#x4F55;&#xFF0C;&#x6703;&#x5148;&#x57F7;&#x884C;&#x5340;&#x584A;&#x4E2D;&#x7684;&#x7A0B;&#x5F0F;&#x78BC;&#x4E00;&#x6B21;&#xFF0C;&#x65E2;&#x4F7F;while&#x7684;expression&#x57F7;&#x884C;&#x7D50;&#x679C;&#x70BA;false&#x3002;while&#x8207;do/while&#x5728;&#x5927;&#x90E8;&#x4EFD;&#x5834;&#x5408;&#x7684;&#x57F7;&#x884C;&#x7D50;&#x679C;&#x4E26;&#x6C92;&#x6709;&#x5DEE;&#x7570;&#xFF0C;&#x4F46;&#x662F;&#x5B83;&#x6703;&#x5F71;&#x97FF;&#x7B2C;&#x4E00;&#x6B21;&#x7684;&#x57F7;&#x884C;&#xFF0C;&#x8003;&#x616E;&#x4EE5;&#x4E0B;&#x7684;&#x7A0B;&#x5F0F;&#x78BC;&#xFF1A;</p>
-<pre><code class="lang-js">&lt;script&gt;
-    <span class="hljs-keyword">var</span> i = <span class="hljs-number">1</span>;
-    <span class="hljs-keyword">var</span> number1 = <span class="hljs-number">2</span>;
-    <span class="hljs-keyword">while</span> (number1 % <span class="hljs-number">2</span> != <span class="hljs-number">0</span>) {
-        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;number1&#xFF1A;&quot;</span> + number1);
-        number1 = <span class="hljs-number">3</span> * i;
-        i++;
-    }
-    <span class="hljs-keyword">var</span> j = <span class="hljs-number">1</span>;
-    <span class="hljs-keyword">var</span> number2 = <span class="hljs-number">2</span>;
-    <span class="hljs-keyword">do</span> {
-        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;number2&#xFF1A;&quot;</span> + number2);
-        number2 = <span class="hljs-number">3</span> * j;
-        j++;
-    } <span class="hljs-keyword">while</span> (number2 % <span class="hljs-number">2</span> != <span class="hljs-number">0</span>);
+<p>&#x4F46;&#x662F;&#x5728; JVM &#x7684;&#x5373;&#x6642;&#x7DE8;&#x8B6F;&#x5668;&#x4E2D;&#x5B58;&#x5728;&#x6307;&#x4EE4;&#x91CD;&#x6392;&#x5E8F;&#x7684;&#x512A;&#x5316;&#x3002;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#x4E0A;&#x9762;&#x7684;&#x7B2C;&#x4E8C;&#x6B65;&#x548C;&#x7B2C;&#x4E09;&#x6B65;&#x7684;&#x9806;&#x5E8F;&#x662F;&#x4E0D;&#x80FD;&#x4FDD;&#x8B49;&#x7684;&#xFF0C;&#x6700;&#x7D42;&#x7684;&#x57F7;&#x884C;&#x9806;&#x5E8F;&#x53EF;&#x80FD;&#x662F; 1-2-3 &#x4E5F;&#x53EF;&#x80FD;&#x662F; 1-3-2&#x3002;&#x5982;&#x679C;&#x662F;&#x5F8C;&#x8005;&#xFF0C;&#x5247;&#x5728; 3 &#x57F7;&#x884C;&#x5B8C;&#x7562;&#x3001;2 &#x672A;&#x57F7;&#x884C;&#x4E4B;&#x524D;&#xFF0C;&#x88AB;&#x7DDA;&#x7A0B;&#x4E8C;&#x6436;&#x4F54;&#x4E86;&#xFF0C;&#x9019;&#x6642; instance &#x5DF2;&#x7D93;&#x662F;&#x975E; null &#x4E86;&#xFF08;&#x4F46;&#x537B;&#x6C92;&#x6709;&#x521D;&#x59CB;&#x5316;&#xFF09;&#xFF0C;&#x6240;&#x4EE5;&#x7DDA;&#x7A0B;&#x4E8C;&#x6703;&#x76F4;&#x63A5;&#x8FD4;&#x56DE; instance&#xFF0C;&#x7136;&#x5F8C;&#x4F7F;&#x7528;&#xFF0C;&#x7136;&#x5F8C;&#x9806;&#x7406;&#x6210;&#x7AE0;&#x5730;&#x5831;&#x932F;&#x3002;</p>
+<p>&#x6211;&#x5011;&#x53EA;&#x9700;&#x8981;&#x5C07; instance &#x8B8A;&#x91CF;&#x8072;&#x660E;&#x6210; volatile &#x5C31;&#x53EF;&#x4EE5;&#x4E86;&#x3002;</p>
+<pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Singleton</span> </span>{
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">volatile</span> <span class="hljs-keyword">static</span> Singleton instance; <span class="hljs-comment">//&#x8072;&#x660E;&#x6210; volatile</span>
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">Singleton</span> <span class="hljs-params">()</span></span>{}
 
-<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
-</span></code></pre>
-<p>&#x7B2C;&#x4E00;&#x6BB5;&#x8FF4;&#x5708;&#x5148;&#x6AA2;&#x8996;number1&#x662F;&#x5426;&#x9664;&#x4EE5;2&#x4E0D;&#x7B49;&#x65BC;&#x96F6;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x5982;&#x679C;&#x5B83;&#x662F;&#x5947;&#x6578;&#x7684;&#x8A71;&#xFF0C;&#x5C31;&#x9032;&#x5165;&#x8FF4;&#x5708;&#xFF0C;&#x8F38;&#x51FA;&#x5176;&#x8B8A;&#x6578;&#x503C;&#xFF0C;&#x7136;&#x5F8C;&#x5C07;&#x8B8A;&#x6578;i&#x4E58;&#x4EE5;3&#x8A2D;&#x5B9A;&#x7D66;&#x5B83;&#xFF0C;&#x6700;&#x5F8C;&#x5C07;i&#x52A0;&#x4E0A;1&#x3002;&#x53E6;&#x5916;&#x4E00;&#x6BB5;while&#x8FF4;&#x5708;&#x5148;&#x8F38;&#x51FA;number2&#x9019;&#x500B;&#x8B8A;&#x6578;&#xFF0C;&#x7136;&#x5F8C;&#x5C07;&#x8B8A;&#x6578;j&#x4E58;&#x4E0A;3&#xFF0C;&#x6700;&#x5F8C;&#x5247;&#x5C07;j&#x52A0;1&#xFF0C;&#x800C;&#x6700;&#x5F8C;&#x7684;while&#x6AA2;&#x8996;number2&#x662F;&#x5426;&#x70BA;&#x5947;&#x6578;&#xFF0C;&#x662F;&#x7684;&#x8A71;&#x5247;&#x7E7C;&#x7E8C;&#x4E0B;&#x4E00;&#x500B;&#x8FF4;&#x5708;&#x3002;</p>
-<pre><code class="lang-js">number2&#xFF1A;<span class="hljs-number">2</span>
-number2&#xFF1A;<span class="hljs-number">3</span>
-</code></pre>
-<p>&#x7BC4;&#x4F8B;&#x4E2D;&#x7684;&#x5169;&#x6BB5;&#x8FF4;&#x5708;&#xFF0C;&#x6BCF;&#x4E00;&#x6BB5;&#x5747;&#x91DD;&#x5C0D;&#x4E00;&#x500B;&#x6307;&#x5B9A;&#x7684;&#x8B8A;&#x6578;&#x9032;&#x884C;&#x5947;&#x5076;&#x6578;&#x7684;&#x5224;&#x65B7;&#xFF0C;&#x7136;&#x5F8C;&#x9019;&#x500B;&#x8B8A;&#x6578;&#x6703;&#x88AB;&#x8ABF;&#x6574;&#x4E58;&#x4E0A;3&#x7684;&#x500D;&#x6578;&#xFF0C;&#x518D;&#x9032;&#x884C;&#x4E0B;&#x4E00;&#x6B21;&#x7684;&#x5224;&#x65B7;&#xFF0C;&#x7531;&#x65BC;&#x4E00;&#x958B;&#x59CB;&#x5B83;&#x7684;&#x521D;&#x59CB;&#x503C;&#x662F;&#x4E00;&#x500B;&#x5076;&#x6578;&#xFF0C;&#x56E0;&#x6B64;&#x7B2C;&#x4E00;&#x6BB5;&#x8FF4;&#x5708;&#x7121;&#x6CD5;&#x901A;&#x904E;while&#x6AA2;&#x8996;&#xFF0C;&#x6C92;&#x6709;&#x4EFB;&#x4F55;&#x8F38;&#x51FA;&#x3002;&#x76F8;&#x53CD;&#x7684;&#xFF0C;&#x7B2C;&#x4E8C;&#x6BB5;&#x8FF4;&#x5708;&#x7531;&#x65BC;&#x7121;&#x8AD6;&#x5982;&#x4F55;&#x5FC5;&#x9808;&#x5148;&#x57F7;&#x884C;&#x4E00;&#x6B21;&#xFF0C;&#x56E0;&#x6B64;&#x5B83;&#x6703;&#x76F4;&#x63A5;&#x8F38;&#x51FA;&#x5176;&#x4E2D;&#x7684;number2&#xFF0C;&#x4F46;&#x662F;&#x4E00;&#x9032;&#x5165;&#x8FF4;&#x5708;&#x4E4B;&#x5F8C;&#xFF0C;number2&#x88AB;&#x8ABF;&#x6574;&#x6210;&#x70BA;3&#x7684;&#x500D;&#x6578;&#xFF0C;&#x56E0;&#x6B64;&#x8FF4;&#x5708;&#x7D50;&#x675F;&#x7684;while&#x5224;&#x65B7;&#x9084;&#x662F;&#x6703;&#x901A;&#x904E;&#xFF0C;&#x76F4;&#x5230;&#x5B83;&#x8B8A;&#x6210;6&#xFF0C;&#x624D;&#x7D50;&#x675F;&#x8FF4;&#x5708;&#x7684;&#x57F7;&#x884C;&#x3002;</p>
-<h2 id="&#x300B;break&#x8207;continue">&#x300B;break&#x8207;continue</h2>
-<p>&#x5728;&#x9810;&#x8A2D;&#x7684;&#x60C5;&#x5F62;&#x4E0B;&#xFF0C;&#x8FF4;&#x5708;&#x53EA;&#x6709;&#x5230;&#x9054;&#x6307;&#x5B9A;&#x7684;&#x689D;&#x4EF6;&#x6642;&#x624D;&#x6703;&#x7D50;&#x675F;&#x57F7;&#x884C;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x900F;&#x904E;break&#x6558;&#x8FF0;&#x5F37;&#x5236;&#x4E2D;&#x65B7;&#x8FF4;&#x5708;&#xFF0C;&#x5C07;&#x5176;&#x914D;&#x7F6E;&#x65BC;&#x8FF4;&#x5708;&#x5340;&#x584A;&#x5167;&#x6307;&#x5B9A;&#x7684;&#x4F4D;&#x7F6E;&#xFF0C;&#x5C31;&#x80FD;&#x9054;&#x5230;&#x4E2D;&#x65B7;&#x7684;&#x6548;&#x679C;&#x3002;&#x4EE5;&#x7A0D;&#x65E9;&#x8A0E;&#x8AD6;&#x7684; while &#x70BA;&#x4F8B;&#xFF0C;break &#x8A9E;&#x6CD5;&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre><code class="lang-js"><span class="hljs-keyword">while</span>(<span class="hljs-literal">true</span>){
-     &#x2026;&#x3000;
-     <span class="hljs-keyword">break</span> ; &#x3000;<span class="hljs-comment">// &#x7A0B;&#x5F0F;&#x5728;&#x9019;&#x88E1;&#x4E2D;&#x65B7;&#x8DF3;&#x51FA;&#x8FF4;&#x5708;</span>
-     &#x2026;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Singleton <span class="hljs-title">getSingleton</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">if</span> (instance == <span class="hljs-keyword">null</span>) {                         
+            <span class="hljs-keyword">synchronized</span> (Singleton.class) {
+                <span class="hljs-keyword">if</span> (instance == <span class="hljs-keyword">null</span>) {       
+                    instance = <span class="hljs-keyword">new</span> Singleton();
+                }
+            }
+        }
+        <span class="hljs-keyword">return</span> instance;
+    }
+
 }
 </code></pre>
-<p>&#x7576;&#x7A0B;&#x5F0F;&#x57F7;&#x884C;&#x5230;break&#x9019;&#x4E00;&#x884C;&#x6558;&#x8FF0;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x8FF4;&#x5708;&#x4FBF;&#x6703;&#x4E2D;&#x65B7;&#xFF0C;&#x8DF3;&#x51FA;&#x6574;&#x500B;&#x5927;&#x62EC;&#x5F27;&#x7684;&#x57F7;&#x884C;&#x7BC4;&#x570D;&#x5340;&#x584A;&#x3002;break&#x6703;&#x7121;&#x689D;&#x4EF6;&#x4E2D;&#x65B7;&#x8FF4;&#x5708;&#xFF0C;&#x56E0;&#x6B64;&#x901A;&#x5E38;&#x642D;&#x914D;if&#x6558;&#x8FF0;&#x5224;&#x65B7;&#x662F;&#x5426;&#x8981;&#x57F7;&#x884C;&#xFF0C;&#x53EA;&#x6709;&#x5728;&#x67D0;&#x4E9B;&#x689D;&#x4EF6;&#x7B26;&#x5408;&#x7684;&#x60C5;&#x5F62;&#x4E0B;&#xFF0C;&#x624D;&#x6703;&#x57F7;&#x884C; break &#x6558;&#x8FF0;&#x3002;&#x8003;&#x616E;&#x4EE5;&#x4E0B;&#x7684;&#x7A0B;&#x5F0F;&#x78BC;&#xFF1A;</p>
-<pre><code class="lang-js">&lt;script&gt;
-    <span class="hljs-keyword">var</span> count = <span class="hljs-number">0</span>;
-    <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>) {
-        count++;
-        <span class="hljs-keyword">if</span> (count &gt; <span class="hljs-number">100</span>)
-            <span class="hljs-keyword">break</span>;
+<p>&#x6709;&#x4E9B;&#x4EBA;&#x8A8D;&#x70BA;&#x4F7F;&#x7528; volatile &#x7684;&#x539F;&#x56E0;&#x662F;&#x53EF;&#x898B;&#x6027;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x53EF;&#x4EE5;&#x4FDD;&#x8B49;&#x7DDA;&#x7A0B;&#x5728;&#x672C;&#x5730;&#x4E0D;&#x6703;&#x5B58;&#x6709; instance &#x7684;&#x526F;&#x672C;&#xFF0C;&#x6BCF;&#x6B21;&#x90FD;&#x662F;&#x53BB;&#x4E3B;&#x5167;&#x5B58;&#x4E2D;&#x8B80;&#x53D6;&#x3002;&#x4F46;&#x5176;&#x5BE6;&#x662F;&#x4E0D;&#x5C0D;&#x7684;&#x3002;&#x4F7F;&#x7528; volatile &#x7684;&#x4E3B;&#x8981;&#x539F;&#x56E0;&#x662F;&#x5176;&#x53E6;&#x4E00;&#x500B;&#x7279;&#x6027;&#xFF1A;&#x7981;&#x6B62;&#x6307;&#x4EE4;&#x91CD;&#x6392;&#x5E8F;&#x512A;&#x5316;&#x3002;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#xFF0C;&#x5728; volatile &#x8B8A;&#x91CF;&#x7684;&#x8CE6;&#x503C;&#x64CD;&#x4F5C;&#x5F8C;&#x9762;&#x6703;&#x6709;&#x4E00;&#x500B;&#x5167;&#x5B58;&#x5C4F;&#x969C;&#xFF08;&#x751F;&#x6210;&#x7684;&#x5F59;&#x7DE8;&#x4EE3;&#x78BC;&#x4E0A;&#xFF09;&#xFF0C;&#x8B80;&#x64CD;&#x4F5C;&#x4E0D;&#x6703;&#x88AB;&#x91CD;&#x6392;&#x5E8F;&#x5230;&#x5167;&#x5B58;&#x5C4F;&#x969C;&#x4E4B;&#x524D;&#x3002;&#x6BD4;&#x5982;&#x4E0A;&#x9762;&#x7684;&#x4F8B;&#x5B50;&#xFF0C;&#x53D6;&#x64CD;&#x4F5C;&#x5FC5;&#x9808;&#x5728;&#x57F7;&#x884C;&#x5B8C; 1-2-3 &#x4E4B;&#x5F8C;&#x6216;&#x8005; 1-3-2 &#x4E4B;&#x5F8C;&#xFF0C;&#x4E0D;&#x5B58;&#x5728;&#x57F7;&#x884C;&#x5230; 1-3 &#x7136;&#x5F8C;&#x53D6;&#x5230;&#x503C;&#x7684;&#x60C5;&#x6CC1;&#x3002;&#x5F9E;&#x300C;&#x5148;&#x884C;&#x767C;&#x751F;&#x539F;&#x5247;&#x300D;&#x7684;&#x89D2;&#x5EA6;&#x7406;&#x89E3;&#x7684;&#x8A71;&#xFF0C;&#x5C31;&#x662F;&#x5C0D;&#x65BC;&#x4E00;&#x500B; volatile &#x8B8A;&#x91CF;&#x7684;&#x5BEB;&#x64CD;&#x4F5C;&#x90FD;&#x5148;&#x884C;&#x767C;&#x751F;&#x65BC;&#x5F8C;&#x9762;&#x5C0D;&#x9019;&#x500B;&#x8B8A;&#x91CF;&#x7684;&#x8B80;&#x64CD;&#x4F5C;&#xFF08;&#x9019;&#x88E1;&#x7684;&#x300C;&#x5F8C;&#x9762;&#x300D;&#x662F;&#x6642;&#x9593;&#x4E0A;&#x7684;&#x5148;&#x5F8C;&#x9806;&#x5E8F;&#xFF09;&#x3002;</p>
+<p>&#x4F46;&#x662F;&#x7279;&#x5225;&#x6CE8;&#x610F;&#x5728; Java 5 &#x4EE5;&#x524D;&#x7684;&#x7248;&#x672C;&#x4F7F;&#x7528;&#x4E86; volatile &#x7684;&#x96D9;&#x6AA2;&#x9396;&#x9084;&#x662F;&#x6709;&#x554F;&#x984C;&#x7684;&#x3002;&#x5176;&#x539F;&#x56E0;&#x662F; Java 5 &#x4EE5;&#x524D;&#x7684; JMM &#xFF08;Java &#x5167;&#x5B58;&#x6A21;&#x578B;&#xFF09;&#x662F;&#x5B58;&#x5728;&#x7F3A;&#x9677;&#x7684;&#xFF0C;&#x5373;&#x6642;&#x5C07;&#x8B8A;&#x91CF;&#x8072;&#x660E;&#x6210; volatile &#x4E5F;&#x4E0D;&#x80FD;&#x5B8C;&#x5168;&#x907F;&#x514D;&#x91CD;&#x6392;&#x5E8F;&#xFF0C;&#x4E3B;&#x8981;&#x662F; volatile &#x8B8A;&#x91CF;&#x524D;&#x5F8C;&#x7684;&#x4EE3;&#x78BC;&#x4ECD;&#x7136;&#x5B58;&#x5728;&#x91CD;&#x6392;&#x5E8F;&#x554F;&#x984C;&#x3002;&#x9019;&#x500B; volatile &#x5C4F;&#x853D;&#x91CD;&#x6392;&#x5E8F;&#x7684;&#x554F;&#x984C;&#x5728; Java 5 &#x4E2D;&#x624D;&#x5F97;&#x4EE5;&#x4FEE;&#x5FA9;&#xFF0C;&#x6240;&#x4EE5;&#x5728;&#x9019;&#x4E4B;&#x5F8C;&#x624D;&#x53EF;&#x4EE5;&#x653E;&#x5FC3;&#x4F7F;&#x7528; volatile&#x3002;</p>
+<p>&#x76F8;&#x4FE1;&#x4F60;&#x4E0D;&#x6703;&#x559C;&#x6B61;&#x9019;&#x7A2E;&#x8907;&#x96DC;&#x53C8;&#x96B1;&#x542B;&#x554F;&#x984C;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x7576;&#x7136;&#x6211;&#x5011;&#x6709;&#x66F4;&#x597D;&#x7684;&#x5BE6;&#x73FE;&#x7DDA;&#x7A0B;&#x5B89;&#x5168;&#x7684;&#x55AE;&#x4F8B;&#x6A21;&#x5F0F;&#x7684;&#x8FA6;&#x6CD5;&#x3002;</p>
+<h2 id="&#x9913;&#x6F22;&#x5F0F;-static-final-field">&#x9913;&#x6F22;&#x5F0F; static final field</h2>
+<p>&#x9019;&#x7A2E;&#x65B9;&#x6CD5;&#x975E;&#x5E38;&#x7C21;&#x55AE;&#xFF0C;&#x56E0;&#x70BA;&#x55AE;&#x4F8B;&#x7684;&#x5BE6;&#x4F8B;&#x88AB;&#x8072;&#x660E;&#x6210; static &#x548C; final &#x8B8A;&#x91CF;&#x4E86;&#xFF0C;&#x5728;&#x7B2C;&#x4E00;&#x6B21;&#x52A0;&#x8F09;&#x985E;&#x5230;&#x5167;&#x5B58;&#x4E2D;&#x6642;&#x5C31;&#x6703;&#x521D;&#x59CB;&#x5316;&#xFF0C;&#x6240;&#x4EE5;&#x5275;&#x5EFA;&#x5BE6;&#x4F8B;&#x672C;&#x8EAB;&#x662F;&#x7DDA;&#x7A0B;&#x5B89;&#x5168;&#x7684;&#x3002;</p>
+<pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Singleton</span></span>{
+    <span class="hljs-comment">//&#x985E;&#x52A0;&#x8F09;&#x6642;&#x5C31;&#x521D;&#x59CB;&#x5316;</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Singleton instance = <span class="hljs-keyword">new</span> Singleton();
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">Singleton</span><span class="hljs-params">()</span></span>{}
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Singleton <span class="hljs-title">getInstance</span><span class="hljs-params">()</span></span>{
+        <span class="hljs-keyword">return</span> instance;
     }
-    <span class="hljs-built_in">console</span>.log(count);
-<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
-</span></code></pre>
-<p>while&#x6558;&#x8FF0;&#x4EE5;&#x5E38;&#x6578;&#x503C;true&#x8868;&#x793A;&#x5EFA;&#x7ACB;&#x4E00;&#x500B;&#x7121;&#x7AAE;&#x8FF4;&#x5708;&#xFF0C;&#x6BCF;&#x4E00;&#x6B21;&#x8FF4;&#x5708;&#x57F7;&#x884C;&#x6642;&#xFF0C;&#x5C07;&#x8B8A;&#x6578;count&#x52A0;1&#xFF0C;if&#x5224;&#x65B7;&#x5F0F;&#x6AA2;&#x8996;count&#x662F;&#x5426;&#x5DF2;&#x7D93;&#x5927;&#x65BC;100&#xFF0C;&#x662F;&#x7684;&#x8A71;&#x5247;&#x5F15;&#x7528;break&#xFF0C;&#x4E2D;&#x65B7;&#x8FF4;&#x5708;&#x7684;&#x57F7;&#x884C;&#x3002;&#x6700;&#x5F8C;&#x9019;&#x500B;&#x7BC4;&#x4F8B;&#x8F38;&#x51FA;&#x7684;&#x8B8A;&#x6578;&#x503C;&#x70BA;101&#x3002;</p>
-<p>&#x77AD;&#x89E3;break&#x4E4B;&#x5F8C;&#xFF0C;&#x73FE;&#x5728;&#x4F86;&#x770B;continue&#xFF0C;&#x5B83;&#x6703;&#x5728;&#x57F7;&#x884C;&#x6642;&#x8DF3;&#x51FA;&#x8FF4;&#x5708;&#xFF0C;&#x4F46;&#x4E0D;&#x6703;&#x505C;&#x6B62;&#x8FF4;&#x5708;&#x7684;&#x57F7;&#x884C;&#xFF0C;&#x800C;&#x662F;&#x7E7C;&#x7E8C;&#x4E0B;&#x4E00;&#x6B21;&#x7684;&#x8FF4;&#x5708;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x5229;&#x7528;&#x9019;&#x7A2E;&#x7279;&#x6027;&#x8981;&#x6C42;&#x8FF4;&#x5708;&#x57F7;&#x884C;&#x90E8;&#x4EFD;&#x7684;&#x5167;&#x5BB9;&#x3002;&#x4F8B;&#x5982;&#x4EE5;&#x4E0B;&#x7684;&#x7A0B;&#x5F0F;&#x7247;&#x6BB5;&#xFF1A;</p>
-<pre><code class="lang-js">&lt;script&gt;
-    <span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>;
-    <span class="hljs-keyword">var</span> result = <span class="hljs-number">0</span>;
-    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">1</span>; i &lt;= <span class="hljs-number">100</span>; i++) {
-        <span class="hljs-keyword">if</span> (i % <span class="hljs-number">2</span> == <span class="hljs-number">0</span>)
-            <span class="hljs-keyword">continue</span>;
-        result += i;
-    }
-    <span class="hljs-built_in">console</span>.log(result);
-<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
-</span></code></pre>
-<p>coutinue&#x6703;&#x5F9E;&#x76EE;&#x524D;&#x7684;&#x8FF4;&#x5708;&#x4E2D;&#x8DF3;&#x958B;&#x76F4;&#x63A5;&#x9032;&#x5165;&#x4E0B;&#x4E00;&#x6B21;&#x7684;&#x8FF4;&#x5708;&#xFF0C;&#x9019;&#x4E00;&#x9EDE;&#x662F;&#x8207;break&#x6700;&#x5927;&#x7684;&#x5DEE;&#x7570;&#xFF0C;&#x5982;&#x679C;&#x5F15;&#x7528;break&#xFF0C;&#x9019;&#x500B;&#x8FF4;&#x5708;&#x5C07;&#x6C38;&#x9060;&#x7D42;&#x6B62;&#x8DF3;&#x51FA;&#xFF0C;&#x800C;&#x4E0D;&#x6703;&#x6709;&#x4E0B;&#x4E00;&#x6B21;&#x7684;&#x57F7;&#x884C;&#x6A5F;&#x6703;&#x3002;</p>
+}
+</code></pre>
+<p>&#x9019;&#x7A2E;&#x5BEB;&#x6CD5;&#x5982;&#x679C;&#x5B8C;&#x7F8E;&#x7684;&#x8A71;&#xFF0C;&#x5C31;&#x6C92;&#x5FC5;&#x8981;&#x5728;&#x56C9;&#x55E6;&#x90A3;&#x9EBC;&#x591A;&#x96D9;&#x6AA2;&#x9396;&#x7684;&#x554F;&#x984C;&#x4E86;&#x3002;&#x7F3A;&#x9EDE;&#x662F;&#x5B83;&#x4E0D;&#x662F;&#x4E00;&#x7A2E;&#x61F6;&#x52A0;&#x8F09;&#x6A21;&#x5F0F;&#xFF08;lazy initialization&#xFF09;&#xFF0C;&#x55AE;&#x4F8B;&#x6703;&#x5728;&#x52A0;&#x8F09;&#x985E;&#x5F8C;&#x4E00;&#x958B;&#x59CB;&#x5C31;&#x88AB;&#x521D;&#x59CB;&#x5316;&#xFF0C;&#x5373;&#x4F7F;&#x5BA2;&#x6236;&#x7AEF;&#x6C92;&#x6709;&#x8ABF;&#x7528; getInstance()&#x65B9;&#x6CD5;&#x3002;&#x9913;&#x6F22;&#x5F0F;&#x7684;&#x5275;&#x5EFA;&#x65B9;&#x5F0F;&#x5728;&#x4E00;&#x4E9B;&#x5834;&#x666F;&#x4E2D;&#x5C07;&#x7121;&#x6CD5;&#x4F7F;&#x7528;&#xFF1A;&#x8B6C;&#x5982; Singleton &#x5BE6;&#x4F8B;&#x7684;&#x5275;&#x5EFA;&#x662F;&#x4F9D;&#x8CF4;&#x53C3;&#x6578;&#x6216;&#x8005;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x7684;&#xFF0C;&#x5728; getInstance() &#x4E4B;&#x524D;&#x5FC5;&#x9808;&#x8ABF;&#x7528;&#x67D0;&#x500B;&#x65B9;&#x6CD5;&#x8A2D;&#x7F6E;&#x53C3;&#x6578;&#x7D66;&#x5B83;&#xFF0C;&#x90A3;&#x6A23;&#x9019;&#x7A2E;&#x55AE;&#x4F8B;&#x5BEB;&#x6CD5;&#x5C31;&#x7121;&#x6CD5;&#x4F7F;&#x7528;&#x4E86;&#x3002;</p>
+<h2 id="&#x975C;&#x614B;&#x5167;&#x90E8;&#x985E;-static-nested-class">&#x975C;&#x614B;&#x5167;&#x90E8;&#x985E; static nested class</h2>
+<p>&#x6211;&#x6BD4;&#x8F03;&#x50BE;&#x5411;&#x65BC;&#x4F7F;&#x7528;&#x975C;&#x614B;&#x5167;&#x90E8;&#x985E;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x9019;&#x7A2E;&#x65B9;&#x6CD5;&#x4E5F;&#x662F;&#x300A;Effective Java&#x300B;&#x4E0A;&#x6240;&#x63A8;&#x85A6;&#x7684;&#x3002;</p>
+<pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Singleton</span> </span>{  
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SingletonHolder</span> </span>{  
+        <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Singleton INSTANCE = <span class="hljs-keyword">new</span> Singleton();  
+    }  
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">Singleton</span> <span class="hljs-params">()</span></span>{}  
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Singleton <span class="hljs-title">getInstance</span><span class="hljs-params">()</span> </span>{  
+        <span class="hljs-keyword">return</span> SingletonHolder.INSTANCE; 
+    }  
+}
+</code></pre>
+<p>&#x9019;&#x7A2E;&#x5BEB;&#x6CD5;&#x4ECD;&#x7136;&#x4F7F;&#x7528;JVM&#x672C;&#x8EAB;&#x6A5F;&#x5236;&#x4FDD;&#x8B49;&#x4E86;&#x7DDA;&#x7A0B;&#x5B89;&#x5168;&#x554F;&#x984C;&#xFF1B;&#x7531;&#x65BC; SingletonHolder &#x662F;&#x79C1;&#x6709;&#x7684;&#xFF0C;&#x9664;&#x4E86; getInstance() &#x4E4B;&#x5916;&#x6C92;&#x6709;&#x8FA6;&#x6CD5;&#x8A2A;&#x554F;&#x5B83;&#xFF0C;&#x56E0;&#x6B64;&#x5B83;&#x662F;&#x61F6;&#x6F22;&#x5F0F;&#x7684;&#xFF1B;&#x540C;&#x6642;&#x8B80;&#x53D6;&#x5BE6;&#x4F8B;&#x7684;&#x6642;&#x5019;&#x4E0D;&#x6703;&#x9032;&#x884C;&#x540C;&#x6B65;&#xFF0C;&#x6C92;&#x6709;&#x6027;&#x80FD;&#x7F3A;&#x9677;&#xFF1B;&#x4E5F;&#x4E0D;&#x4F9D;&#x8CF4; JDK &#x7248;&#x672C;&#x3002;</p>
+<h2 id="&#x679A;&#x8209;-enum">&#x679A;&#x8209; Enum</h2>
+<p>&#x7528;&#x679A;&#x8209;&#x5BEB;&#x55AE;&#x4F8B;&#x5BE6;&#x5728;&#x592A;&#x7C21;&#x55AE;&#x4E86;&#xFF01;&#x9019;&#x4E5F;&#x662F;&#x5B83;&#x6700;&#x5927;&#x7684;&#x512A;&#x9EDE;&#x3002;&#x4E0B;&#x9762;&#x9019;&#x6BB5;&#x4EE3;&#x78BC;&#x5C31;&#x662F;&#x8072;&#x660E;&#x679A;&#x8209;&#x5BE6;&#x4F8B;&#x7684;&#x901A;&#x5E38;&#x505A;&#x6CD5;&#x3002;</p>
+<pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">enum</span> EasySingleton{
+    INSTANCE;
+}
+</code></pre>
+<p>&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x901A;&#x904E;EasySingleton.INSTANCE&#x4F86;&#x8A2A;&#x554F;&#x5BE6;&#x4F8B;&#xFF0C;&#x9019;&#x6BD4;&#x8ABF;&#x7528;getInstance()&#x65B9;&#x6CD5;&#x7C21;&#x55AE;&#x591A;&#x4E86;&#x3002;&#x5275;&#x5EFA;&#x679A;&#x8209;&#x9ED8;&#x8A8D;&#x5C31;&#x662F;&#x7DDA;&#x7A0B;&#x5B89;&#x5168;&#x7684;&#xFF0C;&#x6240;&#x4EE5;&#x4E0D;&#x9700;&#x8981;&#x64D4;&#x5FC3;double checked locking&#xFF0C;&#x800C;&#x4E14;&#x9084;&#x80FD;&#x9632;&#x6B62;&#x53CD;&#x5E8F;&#x5217;&#x5316;&#x5C0E;&#x81F4;&#x91CD;&#x65B0;&#x5275;&#x5EFA;&#x65B0;&#x7684;&#x5C0D;&#x8C61;&#x3002;&#x4F46;&#x662F;&#x9084;&#x662F;&#x5F88;&#x5C11;&#x770B;&#x5230;&#x6709;&#x4EBA;&#x9019;&#x6A23;&#x5BEB;&#xFF0C;&#x53EF;&#x80FD;&#x662F;&#x56E0;&#x70BA;&#x4E0D;&#x592A;&#x719F;&#x6089;&#x5427;&#x3002;</p>
+<h2 id="&#x7E3D;&#x7D50;">&#x7E3D;&#x7D50;</h2>
+<p>&#x4E00;&#x822C;&#x4F86;&#x8AAA;&#xFF0C;&#x55AE;&#x4F8B;&#x6A21;&#x5F0F;&#x6709;&#x4E94;&#x7A2E;&#x5BEB;&#x6CD5;&#xFF1A;&#x61F6;&#x6F22;&#x3001;&#x9913;&#x6F22;&#x3001;&#x96D9;&#x91CD;&#x6AA2;&#x9A57;&#x9396;&#x3001;&#x975C;&#x614B;&#x5167;&#x90E8;&#x985E;&#x3001;&#x679A;&#x8209;&#x3002;&#x4E0A;&#x8FF0;&#x6240;&#x8AAA;&#x90FD;&#x662F;&#x7DDA;&#x7A0B;&#x5B89;&#x5168;&#x7684;&#x5BE6;&#x73FE;&#xFF0C;&#x6587;&#x7AE0;&#x958B;&#x982D;&#x7D66;&#x51FA;&#x7684;&#x7B2C;&#x4E00;&#x7A2E;&#x65B9;&#x6CD5;&#x4E0D;&#x7B97;&#x6B63;&#x78BA;&#x7684;&#x5BEB;&#x6CD5;&#x3002;</p>
+<p>&#x5C31;&#x6211;&#x500B;&#x4EBA;&#x800C;&#x8A00;&#xFF0C;&#x4E00;&#x822C;&#x60C5;&#x6CC1;&#x4E0B;&#x76F4;&#x63A5;&#x4F7F;&#x7528;&#x9913;&#x6F22;&#x5F0F;&#x5C31;&#x597D;&#x4E86;&#xFF0C;&#x5982;&#x679C;&#x660E;&#x78BA;&#x8981;&#x6C42;&#x8981;&#x61F6;&#x52A0;&#x8F09;&#xFF08;lazy initialization&#xFF09;&#x6703;&#x50BE;&#x5411;&#x65BC;&#x4F7F;&#x7528;&#x975C;&#x614B;&#x5167;&#x90E8;&#x985E;&#xFF0C;&#x5982;&#x679C;&#x6D89;&#x53CA;&#x5230;&#x53CD;&#x5E8F;&#x5217;&#x5316;&#x5275;&#x5EFA;&#x5C0D;&#x8C61;&#x6642;&#x6703;&#x8A66;&#x8457;&#x4F7F;&#x7528;&#x679A;&#x8209;&#x7684;&#x65B9;&#x5F0F;&#x4F86;&#x5BE6;&#x73FE;&#x55AE;&#x4F8B;&#x3002;</p>
+<h2 id="read-more">Read More</h2>
+<p>Double Checked Locking on Singleton Class in Java
+Why Enum Singleton are better in Java
+How to create thread safe Singleton in Java
+10 Singleton Pattern Interview questions in Java</p>
 
                     
                     </section>
@@ -15403,10 +15408,10 @@ number2&#xFF1A;<span class="hljs-number">3</span>
         </div>
 
         
-        <a href="../nodejs/javascript_kuai_su_ru_men_ff08_5__10__xu_shu_ju_if.html" class="navigation navigation-prev " aria-label="Previous page: JavaScript 快速入門（5/10）－ 敘述句 if / switch"><i class="fa fa-angle-left"></i></a>
+        <a href="../design_pattern/wu_jian_dao_xiang_cheng_shi_she_ji_wu_da_yuan_ze_f.html" class="navigation navigation-prev " aria-label="Previous page: 物件導向程式設計五大原則：SOLID"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../nodejs/javascript_kuai_su_ru_men_ff08_7__10__han_shi.html" class="navigation navigation-next " aria-label="Next page: JavaScript 快速入門（7/10）－ 函式"><i class="fa fa-angle-right"></i></a>
+        <a href="../openwrt/index.html" class="navigation navigation-next " aria-label="Next page: OpenWrt"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

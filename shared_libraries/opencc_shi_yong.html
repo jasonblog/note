@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>打印函數局部變量的值 | Jason note</title>
+        <title>Opencc 使用 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -41,10 +41,10 @@
         
     
     
-    <link rel="next" href="../100_gdb_tips/print-process-memory.html" />
+    <link rel="next" href="../shared_libraries/index.html" />
     
     
-    <link rel="prev" href="../100_gdb_tips/print-array-indexes.html" />
+    <link rel="prev" href="../shared_libraries/useful_linux_commands.html" />
     
 
         <!-- head:end -->
@@ -53,9 +53,9 @@
         <!-- body:start -->
         
     <div class="book"
-        data-level="45.6.6"
-        data-chapter-title="打印函數局部變量的值"
-        data-filepath="100_gdb_tips/print-local-variables.md"
+        data-level="1.5"
+        data-chapter-title="Opencc 使用"
+        data-filepath="shared_libraries/opencc_shi_yong.md"
         data-basepath=".."
         data-revision="Tue Dec 27 2016 00:32:22 GMT+0800 (CST)"
         data-innerlanguage="">
@@ -162,7 +162,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.5" data-path="shared_libraries/opencc_shi_yong.html">
+        <li class="chapter active" data-level="1.5" data-path="shared_libraries/opencc_shi_yong.html">
             
                 
                     <a href="../shared_libraries/opencc_shi_yong.html">
@@ -12221,7 +12221,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="45.6.6" data-path="100_gdb_tips/print-local-variables.html">
+        <li class="chapter " data-level="45.6.6" data-path="100_gdb_tips/print-local-variables.html">
             
                 
                     <a href="../100_gdb_tips/print-local-variables.html">
@@ -15318,85 +15318,67 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="&#x6253;&#x5370;&#x51FD;&#x6578;&#x5C40;&#x90E8;&#x8B8A;&#x91CF;&#x7684;&#x503C;">&#x6253;&#x5370;&#x51FD;&#x6578;&#x5C40;&#x90E8;&#x8B8A;&#x91CF;&#x7684;&#x503C;</h1>
-<h2 id="&#x4F8B;&#x5B50;">&#x4F8B;&#x5B50;</h2>
-<pre><code>#include &lt;stdio.h&gt;
+                        <h1 id="opencc-&#x4F7F;&#x7528;">Opencc &#x4F7F;&#x7528;</h1>
+<pre><code class="lang-py"><span class="hljs-comment"># -*- coding: utf-8 -*-</span>
+<span class="hljs-comment"># Author: bl_indie</span>
+<span class="hljs-comment"># This script uses OpenCC as translate engine</span>
+<span class="hljs-comment"># https://github.com/BYVoid/OpenCC</span>
+<span class="hljs-comment"># License: MIT</span>
+<span class="hljs-comment"># -----------------------------------</span>
+<span class="hljs-comment"># s2t.json Simplified Chinese to Traditional Chinese &#x7C21;&#x9AD4;&#x5230;&#x7E41;&#x9AD4;</span>
+<span class="hljs-comment"># t2s.json Traditional Chinese to Simplified Chinese &#x7E41;&#x9AD4;&#x5230;&#x7C21;&#x9AD4;</span>
+<span class="hljs-comment"># s2tw.json Simplified Chinese to Traditional Chinese (Taiwan Standard) &#x7C21;&#x9AD4;&#x5230;&#x81FA;&#x7063;&#x6B63;&#x9AD4;</span>
+<span class="hljs-comment"># tw2s.json Traditional Chinese (Taiwan Standard) to Simplified Chinese &#x81FA;&#x7063;&#x6B63;&#x9AD4;&#x5230;&#x7C21;&#x9AD4;</span>
+<span class="hljs-comment"># s2hk.json Simplified Chinese to Traditional Chinese (Hong Kong Standard) &#x7C21;&#x9AD4;&#x5230;&#x9999;&#x6E2F;&#x7E41;&#x9AD4;&#xFF08;&#x9999;&#x6E2F;&#x5C0F;&#x5B78;&#x5B78;&#x7FD2;&#x5B57;&#x8A5E;&#x8868;&#x6A19;&#x6E96;&#xFF09;</span>
+<span class="hljs-comment"># hk2s.json Traditional Chinese (Hong Kong Standard) to Simplified Chinese &#x9999;&#x6E2F;&#x7E41;&#x9AD4;&#xFF08;&#x9999;&#x6E2F;&#x5C0F;&#x5B78;&#x5B78;&#x7FD2;&#x5B57;&#x8A5E;&#x8868;&#x6A19;&#x6E96;&#xFF09;&#x5230;&#x7C21;&#x9AD4;</span>
+<span class="hljs-comment"># s2twp.json Simplified Chinese to Traditional Chinese (Taiwan Standard) with Taiwanese idiom &#x7C21;&#x9AD4;&#x5230;&#x7E41;&#x9AD4;&#xFF08;&#x81FA;&#x7063;&#x6B63;&#x9AD4;&#x6A19;&#x6E96;&#xFF09;&#x4E26;&#x8F49;&#x63DB;&#x7232;&#x81FA;&#x7063;&#x5E38;&#x7528;&#x8A5E;&#x5F59;</span>
+<span class="hljs-comment"># tw2sp.json Traditional Chinese (Taiwan Standard) to Simplified Chinese with Mainland Chinese idiom &#x7E41;&#x9AD4;&#xFF08;&#x81FA;&#x7063;&#x6B63;&#x9AD4;&#x6A19;&#x6E96;&#xFF09;&#x5230;&#x7C21;&#x9AD4;&#x4E26;&#x8F49;&#x63DB;&#x7232;&#x4E2D;&#x570B;&#x5927;&#x9678;&#x5E38;&#x7528;&#x8A5E;&#x5F59;</span>
+<span class="hljs-comment"># t2tw.json Traditional Chinese (OpenCC Standard) to Taiwan Standard &#x7E41;&#x9AD4;&#xFF08;OpenCC &#x6A19;&#x6E96;&#xFF09;&#x5230;&#x81FA;&#x7063;&#x6B63;&#x9AD4;</span>
+<span class="hljs-comment"># t2hk.json Traditional Chinese (OpenCC Standard) to Hong Kong Standard &#x7E41;&#x9AD4;&#xFF08;OpenCC &#x6A19;&#x6E96;&#xFF09;&#x5230;&#x9999;&#x6E2F;&#x7E41;&#x9AD4;&#xFF08;&#x9999;&#x6E2F;&#x5C0F;&#x5B78;&#x5B78;&#x7FD2;&#x5B57;&#x8A5E;&#x8868;&#x6A19;&#x6E96;&#xFF09;</span>
+<span class="hljs-comment"># -----------------------------------</span>
 
-void fun_a(void)
-{
-    int a = 0;
-    printf(&quot;%d\n&quot;, a);
-}
+<span class="hljs-keyword">import</span> os
+<span class="hljs-keyword">import</span> re
 
-void fun_b(void)
-{
-    int b = 1;
-    fun_a();
-    printf(&quot;%d\n&quot;, b);
-}
+<span class="hljs-comment"># Translation config</span>
+config = <span class="hljs-string">&quot;s2tw.json&quot;</span>
+<span class="hljs-comment"># Regular expression matching, ignore case</span>
+pattern = re.compile(<span class="hljs-string">&apos;.md$|.lua$|.php$|.json$&apos;</span>, re.I)
+<span class="hljs-comment"># Directories where your text you want to translate exist</span>
+dirs = [<span class="hljs-string">&quot;/home/shihyu/design-pattern-java&quot;</span>]
 
-void fun_c(void)
-{
-    int c = 2;
-    fun_b();
-    printf(&quot;%d\n&quot;, c);
-}
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">transFile</span><span class="hljs-params">(fileName, config)</span>:</span>
+    cmdT = <span class="hljs-string">&apos;echo {I} | opencc -c {C}&apos;</span>
+    cmd = cmdT.format(I = fileName, C = config)
+    Out_fileName = os.popen(cmd).read() 
+    <span class="hljs-comment">#print Out_fileName</span>
 
-void fun_d(void)
-{
-    int d = 3;
-    fun_c();
-    printf(&quot;%d\n&quot;, d);
-}
+    cmdT = <span class="hljs-string">&apos;opencc -i {I} -o {O} -c {C}&apos;</span>
+    cmd = cmdT.format(I = fileName, O = Out_fileName, C = config)
+    os.popen(cmd)
 
-int main(void)
-{
-    int var = -1;
-    fun_d();
-    return 0;
-}
-</code></pre><h2 id="&#x6280;&#x5DE7;&#x4E00;">&#x6280;&#x5DE7;&#x4E00;</h2>
-<p>&#x5982;&#x679C;&#x8981;&#x6253;&#x5370;&#x51FD;&#x6578;&#x5C40;&#x90E8;&#x8B8A;&#x91CF;&#x7684;&#x503C;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x201C;bt full&#x201D;&#x547D;&#x4EE4;&#xFF08;bt&#x662F;backtrace&#x7684;&#x7E2E;&#x5BEB;&#xFF09;&#x3002;&#x9996;&#x5148;&#x6211;&#x5011;&#x5728;&#x51FD;&#x6578;fun_a&#x88E1;&#x6253;&#x4E0A;&#x65B7;&#x9EDE;&#xFF0C;&#x7576;&#x7A0B;&#x5E8F;&#x65B7;&#x4F4F;&#x6642;&#xFF0C;&#x986F;&#x793A;&#x8ABF;&#x7528;&#x68E7;&#x4FE1;&#x606F;&#xFF1A;</p>
-<pre><code>(gdb) bt
-#0  fun_a () at a.c:6
-#1  0x000109b0 in fun_b () at a.c:12
-#2  0x000109e4 in fun_c () at a.c:19
-#3  0x00010a18 in fun_d () at a.c:26
-#4  0x00010a4c in main () at a.c:33
-</code></pre><p>&#x63A5;&#x4E0B;&#x4F86;&#xFF0C;&#x7528;&#x201C;bt full&#x201D;&#x547D;&#x4EE4;&#x986F;&#x793A;&#x5404;&#x500B;&#x51FD;&#x6578;&#x7684;&#x5C40;&#x90E8;&#x8B8A;&#x91CF;&#x503C;&#xFF1A;</p>
-<pre><code>(gdb) bt full
-#0  fun_a () at a.c:6
-        a = 0
-#1  0x000109b0 in fun_b () at a.c:12
-        b = 1
-#2  0x000109e4 in fun_c () at a.c:19
-        c = 2
-#3  0x00010a18 in fun_d () at a.c:26
-        d = 3
-#4  0x00010a4c in main () at a.c:33
-        var = -1
-</code></pre><p>&#x4E5F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x5982;&#x4E0B;&#x201C;bt full n&#x201D;&#xFF0C;&#x610F;&#x601D;&#x662F;&#x5F9E;&#x5167;&#x5411;&#x5916;&#x986F;&#x793A;n&#x500B;&#x68E7;&#x6968;&#xFF0C;&#x53CA;&#x5176;&#x5C40;&#x90E8;&#x8B8A;&#x91CF;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;</p>
-<pre><code>(gdb) bt full 2
-#0  fun_a () at a.c:6
-        a = 0
-#1  0x000109b0 in fun_b () at a.c:12
-        b = 1
-(More stack frames follow...)
-</code></pre><p>&#x800C;&#x201C;bt full -n&#x201D;&#xFF0C;&#x610F;&#x601D;&#x662F;&#x5F9E;&#x5916;&#x5411;&#x5167;&#x986F;&#x793A;n&#x500B;&#x68E7;&#x6968;&#xFF0C;&#x53CA;&#x5176;&#x5C40;&#x90E8;&#x8B8A;&#x91CF;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;</p>
-<pre><code>(gdb) bt full -2
-#3  0x00010a18 in fun_d () at a.c:26
-        d = 3
-#4  0x00010a4c in main () at a.c:33
-        var = -1
-</code></pre><p>&#x8A73;&#x60C5;&#x53C3;&#x898B;<a href="https://sourceware.org/gdb/onlinedocs/gdb/Backtrace.html" target="_blank">gdb&#x624B;&#x518A;</a></p>
-<h2 id="&#x6280;&#x5DE7;&#x4E8C;">&#x6280;&#x5DE7;&#x4E8C;</h2>
-<p>&#x5982;&#x679C;&#x53EA;&#x662F;&#x60F3;&#x6253;&#x5370;&#x7576;&#x524D;&#x51FD;&#x6578;&#x5C40;&#x90E8;&#x8B8A;&#x91CF;&#x7684;&#x503C;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x5982;&#x4E0B;&#x547D;&#x4EE4;&#xFF1A;</p>
-<pre><code>(gdb) info locals
-a = 0
-</code></pre><p>&#x8A73;&#x60C5;&#x53C3;&#x898B;<a href="https://sourceware.org/gdb/onlinedocs/gdb/Frame-Info.html#index-info-locals" target="_blank">gdb&#x624B;&#x518A;</a></p>
-<h2 id="&#x8CA2;&#x737B;&#x8005;">&#x8CA2;&#x737B;&#x8005;</h2>
-<p>nanxiao</p>
-<p>xmj</p>
+    <span class="hljs-string">&apos;&apos;&apos;
+    cmdT = &apos;rm {I}&apos;
+    cmd = cmdT.format(I = fileName)
+    os.popen(cmd)
+    &apos;&apos;&apos;</span>
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">judgeFile</span><span class="hljs-params">(fileName)</span>:</span>
+    <span class="hljs-keyword">if</span> pattern.search(fileName):
+        <span class="hljs-keyword">print</span> <span class="hljs-string">&quot;Match! &quot;</span> + fileName
+        transFile(fileName, config)
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">walkDir</span><span class="hljs-params">(rootDir)</span>:</span>
+    list_dirs = os.walk(rootDir)
+    <span class="hljs-keyword">for</span> root, dirs, files <span class="hljs-keyword">in</span> list_dirs:
+        <span class="hljs-keyword">for</span> d <span class="hljs-keyword">in</span> dirs:
+            <span class="hljs-keyword">print</span> os.path.join(root, d)
+        <span class="hljs-keyword">for</span> f <span class="hljs-keyword">in</span> files:
+            judgeFile(os.path.join(root, f))
+
+<span class="hljs-keyword">for</span> dir <span class="hljs-keyword">in</span> dirs:
+    walkDir(dir)
+</code></pre>
 
                     
                     </section>
@@ -15407,10 +15389,10 @@ a = 0
         </div>
 
         
-        <a href="../100_gdb_tips/print-array-indexes.html" class="navigation navigation-prev " aria-label="Previous page: 打印數組的索引下標"><i class="fa fa-angle-left"></i></a>
+        <a href="../shared_libraries/useful_linux_commands.html" class="navigation navigation-prev " aria-label="Previous page: Useful Linux Commands"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../100_gdb_tips/print-process-memory.html" class="navigation navigation-next " aria-label="Next page: 打印進程內存信息"><i class="fa fa-angle-right"></i></a>
+        <a href="../shared_libraries/index.html" class="navigation navigation-next " aria-label="Next page: Shared Libraries"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

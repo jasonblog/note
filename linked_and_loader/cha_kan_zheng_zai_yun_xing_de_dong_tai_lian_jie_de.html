@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Using Ubuntu ARM cross-compiler for bare metal programming | Jason note</title>
+        <title>查看正在運行的動態鏈接的程序中，某個動態庫中函數的虛擬地址 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -41,10 +41,10 @@
         
     
     
-    <link rel="next" href="../arm_emulation/using_newlib_in_arm_bare_metal_programs.html" />
+    <link rel="next" href="../Bochs/bochs.html" />
     
     
-    <link rel="prev" href="../arm_emulation/arm926_interrupts_in_qemu.html" />
+    <link rel="prev" href="../linked_and_loader/linuxxia_zen_yang_pan_duan_yi_ge_binary_shi_fou_ke.html" />
     
 
         <!-- head:end -->
@@ -53,9 +53,9 @@
         <!-- body:start -->
         
     <div class="book"
-        data-level="9.14"
-        data-chapter-title="Using Ubuntu ARM cross-compiler for bare metal programming"
-        data-filepath="arm_emulation/using_ubuntu_arm_cross-compiler_for_bare_metal_programming.md"
+        data-level="47.16"
+        data-chapter-title="查看正在運行的動態鏈接的程序中，某個動態庫中函數的虛擬地址"
+        data-filepath="linked_and_loader/cha_kan_zheng_zai_yun_xing_de_dong_tai_lian_jie_de.md"
         data-basepath=".."
         data-revision="Fri Dec 30 2016 20:55:15 GMT+0800 (CST)"
         data-innerlanguage="">
@@ -2460,7 +2460,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="9.14" data-path="arm_emulation/using_ubuntu_arm_cross-compiler_for_bare_metal_programming.html">
+        <li class="chapter " data-level="9.14" data-path="arm_emulation/using_ubuntu_arm_cross-compiler_for_bare_metal_programming.html">
             
                 
                     <a href="../arm_emulation/using_ubuntu_arm_cross-compiler_for_bare_metal_programming.html">
@@ -13894,7 +13894,7 @@
             
         </li>
     
-        <li class="chapter " data-level="47.16" data-path="linked_and_loader/cha_kan_zheng_zai_yun_xing_de_dong_tai_lian_jie_de.html">
+        <li class="chapter active" data-level="47.16" data-path="linked_and_loader/cha_kan_zheng_zai_yun_xing_de_dong_tai_lian_jie_de.html">
             
                 
                     <a href="../linked_and_loader/cha_kan_zheng_zai_yun_xing_de_dong_tai_lian_jie_de.html">
@@ -15333,64 +15333,68 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="using-ubuntu-arm-crosscompiler-for-bare-metal-programming">Using Ubuntu ARM cross-compiler for bare metal programming</h1>
-<p>The newest Ubuntu release 10.10, codenamed Maverick Meerkat, includes an ARM cross-compiler in the package gcc-arm-linux-gnueabi. This compiler is a welcome addition (thanks to the maintainer Marcin Juszkiewicz and to the Linaro team) to the default repositories, and it is in line both with the Ubuntu roadmap to appear also on ARM-based devices and with the ARM roadmap to appear also on server solutions.</p>
-<p>The main purpose of the package is to allow cross-compiling of Linux programs for Ubuntu ARM distributions, but it can be used also for bare metal programming. One thing to be aware is the fact that the compiler by default tries to link the Linux standard C
-libraries that in bare metal programming have no use.</p>
-<p>I&#x2019;m writing a simple &#x201C;Hello World&#x201D; program just like the one I used for my previous post: Hello world for bare metal ARM using QEMU, only this time for the Versatile Platform Baseboard for Cortex-A8, that can be emulated by QEMU too. The requisites are Ubuntu 10.10, the cross-compiler and the QEMU arm emulator that can be installed with the command:</p>
-<pre><code>$ sudo apt-get install gcc-arm-linux-gnueabi qemu-kvm-extras
-</code></pre><p>The memory map for the board is specified in its manual; in particular, the first UART is at address 0x10009000. I modified the  &#x201C;test.c&#x201D; code that sends the string &#x201C;Hello World!&#x201D; to the UART, using the correct address:</p>
-<pre><code class="lang-c"><span class="hljs-keyword">volatile</span> <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> * <span class="hljs-keyword">const</span> UART0DR = (<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> *)<span class="hljs-number">0x10009000</span>;
+                        <h1 id="&#x67E5;&#x770B;&#x6B63;&#x5728;&#x904B;&#x884C;&#x7684;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x7684;&#x7A0B;&#x5E8F;&#x4E2D;&#xFF0C;&#x67D0;&#x500B;&#x52D5;&#x614B;&#x5EAB;&#x4E2D;&#x51FD;&#x6578;&#x7684;&#x865B;&#x64EC;&#x5730;&#x5740;">&#x67E5;&#x770B;&#x6B63;&#x5728;&#x904B;&#x884C;&#x7684;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x7684;&#x7A0B;&#x5E8F;&#x4E2D;&#xFF0C;&#x67D0;&#x500B;&#x52D5;&#x614B;&#x5EAB;&#x4E2D;&#x51FD;&#x6578;&#x7684;&#x865B;&#x64EC;&#x5730;&#x5740;</h1>
+<p> &#x76EE;&#x524D;&#xFF0C;&#x5927;&#x90E8;&#x5206;&#x53EF;&#x57F7;&#x884C;&#x7A0B;&#x5E8F;&#x70BA;&#x4E86;&#x7BC0;&#x7701;&#x5167;&#x5B58;&#x7A7A;&#x9593;&#x7B49;&#x76EE;&#x7684;&#xFF0C;&#x90FD;&#x662F;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x7684;&#xFF0C; &#x52D5;&#x614B;&#x93C8;&#x63A5;&#x7684;&#x7A0B;&#x5E8F;&#x5728;&#x6BCF;&#x6B21;&#x904B;&#x884C;&#x6642;&#xFF0C;&#x6240;&#x4F9D;&#x8CF4;&#x7684;&#x52D5;&#x614B;&#x5EAB;&#x7684;&#x5730;&#x5740;&#x7E3D;&#x662F;&#x8B8A;&#x5316;&#x7684;&#xFF0C;&#x90A3;&#x9EBC;&#x5EAB;&#x4E2D;&#x7684;&#x51FD;&#x6578;&#x5730;&#x5740;&#x4E5F;&#x8DDF;&#x8457;&#x8B8A;&#x5316;&#x3002;&#x5982;&#x4F55;&#x5728;&#x7A0B;&#x5E8F;&#xFF08;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x7684;&#xFF09;&#x904B;&#x884C;&#x671F;&#x9593;&#xFF0C;&#x67E5;&#x770B;&#x67D0;&#x500B;&#x5EAB;&#x51FD;&#x6578;&#x7684;&#x865B;&#x64EC;&#x5730;&#x5740;&#xFF1F;</p>
+<p>&#x65B9;&#x6CD5;&#x5F88;&#x7C21;&#x55AE;&#xFF0C;&#x9996;&#x5148;&#x78BA;&#x5B9A;&#xFF0C;&#x4F60;&#x9700;&#x8981;&#x67E5;&#x770B;&#x7684;&#x51FD;&#x6578;&#xFF0C;&#x5728;&#x54EA;&#x500B;&#x52D5;&#x614B;&#x5EAB;&#x4E2D;&#xFF0C;&#x4E26;&#x4E14;&#x78BA;&#x5B9A;&#x8A72;&#x51FD;&#x6578;&#x76F8;&#x5C0D;&#x65BC;&#x8A72;&#x52D5;&#x614B;&#x5EAB;&#x7684;&#x76F8;&#x5C0D;&#x5730;&#x5740;&#x3002;&#x5176;&#x6B21;&#xFF0C;&#x5728;&#x7A0B;&#x5E8F;&#x904B;&#x884C;&#x671F;&#x9593;&#xFF0C;&#x67E5;&#x770B;&#x7A0B;&#x5E8F;&#x7684;&#x6620;&#x5C04;&#x8868;&#xFF0C;&#x627E;&#x5230;&#x52D5;&#x614B;&#x5EAB;&#x7684;&#x52A0;&#x8F09;&#x5730;&#x5740;&#x3002;&#x6700;&#x5F8C;&#x5C07;&#x9019;&#x5169;&#x500B;&#x5730;&#x5740;&#x76F8;&#x52A0;&#xFF0C;&#x5C31;&#x662F;&#x4F60;&#x8981;&#x7684;&#x5EAB;&#x51FD;&#x6578;&#x5728;&#x904B;&#x884C;&#x6642;&#x7684;&#x865B;&#x64EC;&#x5730;&#x5740;&#x3002;</p>
+<p>&#x6211;&#x7684;&#x7CFB;&#x7D71;&#x662F;64&#x4F4D;Ubuntu 12.04.1 LTS&#x3002;</p>
+<p>&#x8209;&#x4F8B;&#x5982;&#x4E0B;&#xFF1A;</p>
+<h2 id="1&#x3001;&#x7DE8;&#x5BEB;&#x6E2C;&#x8A66;&#x7A0B;&#x5E8F;helloc&#xFF1A;">1&#x3001;&#x7DE8;&#x5BEB;&#x6E2C;&#x8A66;&#x7A0B;&#x5E8F;hello.c&#xFF1A;</h2>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Hello world\n&quot;</span>);
+        sleep(-<span class="hljs-number">1</span>);
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>&#x52A0;sleep&#x7684;&#x539F;&#x56E0;&#x662F;&#xFF0C;&#x6211;&#x5011;&#x9700;&#x8981;&#x770B;&#x5230;&#x8A72;&#x7A0B;&#x5E8F;&#x904B;&#x884C;&#x6642;&#x7684;&#x72C0;&#x614B;&#xFF0C;&#x57F7;&#x884C;&#x5B8C;&#x4E86;&#x5C31;&#x770B;&#x4E0D;&#x5230;&#x5176;&#x93C8;&#x63A5;&#x72C0;&#x614B;&#x4E86;&#x3002;printf&#x5C31;&#x662F;&#x52D5;&#x614B;&#x5EAB;libc-2.15.so&#x4E2D;&#x7684;&#x4E00;&#x500B;&#x51FD;&#x6578;&#xFF08;&#x5728;&#x4F60;&#x7684;&#x7CFB;&#x7D71;&#x4E0A;&#x4E5F;&#x6709;&#x53EF;&#x80FD;&#x662F;&#x5176;&#x4ED6;&#x5EAB;&#x7684;&#x540D;&#x5B57;&#x6BD4;&#x5982;libc-2.13.so&#xFF09;&#x3002;</p>
+<h2 id="2&#x3001;&#x7DE8;&#x8B6F;&#x904B;&#x884C;">2&#x3001;&#x7DE8;&#x8B6F;&#x904B;&#x884C;</h2>
+<pre><code class="lang-sh"><span class="hljs-comment"># gcc hello.c  (&#x4E0D;&#x52A0;-static&#xFF0C;&#x9ED8;&#x8A8D;&#x5C31;&#x662F;&#x52D5;&#x614B;&#x93C8;&#x63A5;)</span>
 
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">print_uart0</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *s)</span> </span>{
-    <span class="hljs-keyword">while</span>(*s != <span class="hljs-string">&apos;\0&apos;</span>) { <span class="hljs-comment">/* Loop until end of string */</span>
-        *UART0DR = *s; <span class="hljs-comment">/* Transmit char */</span>
-        s++; <span class="hljs-comment">/* Next char */</span>
-    }
-}
+<span class="hljs-comment"># ./a.out &amp; (&#x5F8C;&#x53F0;&#x904B;&#x884C;&#xFF0C;&#x4E26;&#x4E14;&#x6253;&#x5370;&#x51FA;&#x7A0B;&#x5E8F;pid)</span>
+[<span class="hljs-number">3</span>] <span class="hljs-number">1049</span>
+</code></pre>
+<h2 id="3&#x3001;&#x6253;&#x5370;&#x9032;&#x7A0B;&#x6620;&#x5C04;&#x4FE1;&#x606F;&#xFF0C;&#x5F97;&#x5230;&#x9032;&#x7A0B;&#x904B;&#x884C;&#x6642;&#x7684;&#x52D5;&#x614B;&#x5EAB;&#x57FA;&#x5730;&#x5740;&#xFF1A;">3&#x3001;&#x6253;&#x5370;&#x9032;&#x7A0B;&#x6620;&#x5C04;&#x4FE1;&#x606F;&#xFF0C;&#x5F97;&#x5230;&#x9032;&#x7A0B;&#x904B;&#x884C;&#x6642;&#x7684;&#x52D5;&#x614B;&#x5EAB;&#x57FA;&#x5730;&#x5740;&#xFF1A;</h2>
+<p>root@Heron:/home# cat /proc/1049/maps<br>
+00400000-00401000 r-xp 00000000 08:01 2364347                         /home/zhangqianlong/Lib_test/a.out<br>
+00600000-00601000 r--p 00000000 08:01 2364347                            /home/zhangqianlong/Lib_test/a.out<br>
+00601000-00602000 rw-p 00001000 08:01 2364347                            /home/zhangqianlong/Lib_test/a.out<br>
+<code>7fa5b9f44000-7fa5ba0f9000 r-xp 00000000 08:01 5243800                    /lib/x86_64-Linux-gnu/libc-2.15.so</code><br>
+7fa5ba0f9000-7fa5ba2f8000 ---p 001b5000 08:01 5243800                    /lib/x86_64-linux-gnu/libc-2.15.so<br>
+7fa5ba2f8000-7fa5ba2fc000 r--p 001b4000 08:01 5243800                    /lib/x86_64-linux-gnu/libc-2.15.so<br>
+7fa5ba2fc000-7fa5ba2fe000 rw-p 001b8000 08:01 5243800                    /lib/x86_64-linux-gnu/libc-2.15.so<br>
+7fa5ba2fe000-7fa5ba303000 rw-p 00000000 00:00 0 
+7fa5ba303000-7fa5ba325000 r-xp 00000000 08:01 5243815                    /lib/x86_64-linux-gnu/ld-2.15.so<br>
+7fa5ba508000-7fa5ba50b000 rw-p 00000000 00:00 0 
+7fa5ba522000-7fa5ba525000 rw-p 00000000 00:00 0 
+7fa5ba525000-7fa5ba526000 r--p 00022000 08:01 5243815                    /lib/x86_64-linux-gnu/ld-2.15.so<br>
+7fa5ba526000-7fa5ba528000 rw-p 00023000 08:01 5243815                    /lib/x86_64-linux-gnu/ld-2.15.so<br>
+7ffff2260000-7ffff2281000 rw-p 00000000 00:00 0                          [stack]<br>
+7ffff2383000-7ffff2384000 r-xp 00000000 00:00 0                          [vdso]<br>
+ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]<br></p>
+<p>&#x4EE5;&#x4E0A;&#x5167;&#x5BB9;&#xFF0C;&#x7D05;&#x8272;&#x90E8;&#x5206;&#x5C31;&#x662F;&#x52D5;&#x614B;&#x5EAB;libc-2.15.so&#x7684;&#x904B;&#x884C;&#x6642;&#x57FA;&#x5730;&#x5740;</p>
+<p>&#x5C0D;&#x65BC;maps&#x6587;&#x4EF6;&#x7684;&#x89E3;&#x6790;&#xFF1A;</p>
+<pre><code class="lang-sh">&#x4E00;&#x5171;&#x6709;<span class="hljs-number">6</span>&#x5217;
+&#x7B2C;&#x4E00;&#x5217;&#x4EE3;&#x8868;&#x5167;&#x5B58;&#x6BB5;&#x7684;&#x865B;&#x64EC;&#x5730;&#x5740;
+&#x7B2C;&#x4E8C;&#x5217;&#x4EE3;&#x8868;&#x57F7;&#x884C;&#x6B0A;&#x9650;&#xFF0C;r&#xFF0C;w&#xFF0C;x&#x4E0D;&#x5FC5;&#x8AAA;&#xFF0C;p=&#x79C1;&#x6709; s=&#x5171;&#x4EAB;
+&#x4E0D;&#x7528;&#x8AAA;&#xFF0C;heap&#x548C;stack&#x6BB5;&#x4E0D;&#x61C9;&#x8A72;&#x6709;x&#xFF0C;&#x5426;&#x5247;&#x5C31;&#x5BB9;&#x6613;&#x88AB;xx&#xFF0C;&#x4E0D;&#x904E;&#x9019;&#x500B;&#x8DDF;&#x5177;&#x9AD4;&#x7684;&#x7248;&#x672C;&#x6709;&#x95DC;
+&#x7B2C;&#x4E09;&#x5217;&#x4EE3;&#x8868;&#x5728;&#x9032;&#x7A0B;&#x5730;&#x5740;&#x88E1;&#x7684;&#x504F;&#x79FB;&#x91CF;
+&#x7B2C;&#x56DB;&#x5217;&#x6620;&#x5C04;&#x6587;&#x4EF6;&#x7684;&#x4E3B;&#x8A2D;&#x5099;&#x865F;&#x548C;&#x6B21;&#x8A2D;&#x5099;&#x865F;
+&#x901A;&#x904E; cat /proc/devices
+&#x5F97;&#x77E5;fd&#x662F;<span class="hljs-number">253</span> device-mapper
 
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">c_entry</span><span class="hljs-params">()</span> </span>{
-    print_uart0(<span class="hljs-string">&quot;Hello world!\n&quot;</span>);
-}
+&#x7B2C;&#x4E94;&#x5217;&#x6620;&#x50CF;&#x6587;&#x4EF6;&#x7684;&#x7BC0;&#x9EDE;&#x865F;&#xFF0C;&#x5373;inode
+
+&#x7B2C;&#x516D;&#x5217;&#x662F;&#x6620;&#x50CF;&#x6587;&#x4EF6;&#x7684;&#x8DEF;&#x5F91;
 </code></pre>
-<p>The first code to be executed is written in &#x201C;startup.s&#x201D; like in the last example.</p>
-<pre><code class="lang-c">.global _Reset
-_Reset:
-    LDR sp, =stack_top
-    BL c_entry
-    B .
+<h2 id="4&#x3001;&#x67E5;&#x770B;&#x52D5;&#x614B;&#x5EAB;&#x4E2D;&#xFF0C;printf&#x51FD;&#x6578;&#x7684;&#x76F8;&#x5C0D;&#x5730;&#x5740;&#xFF1A;">4&#x3001;&#x67E5;&#x770B;&#x52D5;&#x614B;&#x5EAB;&#x4E2D;&#xFF0C;printf&#x51FD;&#x6578;&#x7684;&#x76F8;&#x5C0D;&#x5730;&#x5740;&#xFF1A;</h2>
+<pre><code class="lang-sh"><span class="hljs-comment"># nm -D libc-2.15.so |grep -w printf</span>
 </code></pre>
-<p>It initializes the stack pointer to a value that is given inside the linker script, and then jumps to the c_entry function. The linker script is the following:</p>
-<pre><code class="lang-c">SECTIONS
-{
-  . = <span class="hljs-number">0x10000</span>;
-  .ro : {
-    startup.o (.text)
-    *(.text)
-    *(.rodata)
-  }
-  .rw : {
-    *(.data)
-    *(.bss)
-    *(COMMON)
-  }
-  . = ALIGN(<span class="hljs-number">8</span>);
-  . = . + <span class="hljs-number">0x1000</span>; <span class="hljs-comment">/* 4kB of stack memory */</span>
-  stack_top = .;
-}
-</code></pre>
-<p>The linker scripts separates two sections of the program: a read-only section containing the code and the constants, and a read-write section containing the data. The 0x10000 address is the place where QEMU puts the code and starts executing. To create the ELF executable, the commands are:</p>
-<pre><code class="lang-sh"> arm-linux-gnueabi-gcc -mcpu=cortex<span class="hljs-operator">-a</span>8   -c -o test.o test.c
-$ arm-linux-gnueabi-as -mcpu=cortex<span class="hljs-operator">-a</span>8  -o startup.o startup.s
-$ arm-linux-gnueabi-gcc -nostdlib -T test.ld -Xlinker <span class="hljs-string">&quot;--build-id=none&quot;</span>  test.o startup.o   -o <span class="hljs-built_in">test</span>
-</code></pre>
-<p>The linker phase options are the most important. The &#x201C;-nostdlib&#x201D; option tells the linker to avoid linking the startup files and standard C libraries. I needed to specify the &#x201C;--build-id=none&#x201D; options  because the compiler placed a section of notes just at the beginning of the code, but since I needed the _Reset code to be exactly at 0x10000, it ruined the program execution. Instead of using GCC as a frontend, the linker can be invoked directly with the following command, with the same results:</p>
-<pre><code>$ arm-linux-gnueabi-ld -T test.ld test.o startup.o -o test
-</code></pre><p>To generate a binary suitable for QEMU and emulate the platform, the commands are the following:</p>
-<pre><code>$ arm-linux-gnueabi-objcopy -O binary test test.bin
-$ qemu-system-arm -M realview-pb-a8 -serial stdio -kernel test.bin
-Hello world!
-</code></pre><p>The cross-compiler can be used in this simple example but, with respect to the CodeSourcery bare metal toolchain, it does not contain the newlib library or the startup code. For more elaborate examples that use the standard C libraries, an implementation of these libraries must be compiled and the correct include directories must be pointed.</p>
+<p><code>0000000000053840</code>T printf</p>
+<p>nm&#x610F;&#x601D;&#x4E0D;&#x61C2;&#x5F97;&#x81EA;&#x5DF1;&#x53BB;man&#x4EE5;&#x4E0B;&#xFF0C;-w&#x662F;&#x6293;&#x53D6;&#x4E00;&#x500B;&#x5B57;&#xFF0C;&#x4EE5;&#x4E0A;&#x7D05;&#x8272;&#x90E8;&#x5206;&#x5C31;&#x662F;printf&#x51FD;&#x6578;&#x5C0D;&#x65BC;&#x52D5;&#x614B;&#x5EAB;libc-2.15.so&#x7684;&#x76F8;&#x5C0D;&#x5730;&#x5740;</p>
+<h2 id="5&#x3001;&#x8A08;&#x7B97;&#x51FD;&#x6578;printf&#x5728;&#x52D5;&#x614B;&#x904B;&#x884C;&#x6642;&#x7684;&#x865B;&#x64EC;&#x5730;&#x5740;&#xFF1A;">5&#x3001;&#x8A08;&#x7B97;&#x51FD;&#x6578;printf&#x5728;&#x52D5;&#x614B;&#x904B;&#x884C;&#x6642;&#x7684;&#x865B;&#x64EC;&#x5730;&#x5740;&#xFF1A;</h2>
+<p><code>0000000000053840 +7fa5b9f44000=7FA5B9F97840</code></p>
+<p><code>&#x4E0D;&#x540C;&#x7684;&#x7CFB;&#x7D71;&#xFF0C;&#x5F97;&#x51FA;&#x7684;&#x7D50;&#x679C;&#x6709;&#x53EF;&#x80FD;&#x662F;&#x4E0D;&#x4E00;&#x6A23;&#x7684;&#xFF0C;&#x540C;&#x4E00;&#x500B;&#x7CFB;&#x7D71;&#xFF0C;&#x6E2C;&#x8A66;&#x5169;&#x6B21;&#x7D50;&#x679C;&#x80AF;&#x5B9A;&#x662F;&#x4E0D;&#x4E00;&#x6A23;&#x7684;&#xFF0C;&#x56E0;&#x70BA;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x7684;&#x5EAB;&#xFF0C;&#x6BCF;&#x6B21;&#x7684;&#x52A0;&#x8F09;&#x5730;&#x5740;&#x90FD;&#x4E0D;&#x4E00;&#x6A23;&#x3002;</code></p>
 
                     
                     </section>
@@ -15401,10 +15405,10 @@ Hello world!
         </div>
 
         
-        <a href="../arm_emulation/arm926_interrupts_in_qemu.html" class="navigation navigation-prev " aria-label="Previous page: ARM926 interrupts in QEMU"><i class="fa fa-angle-left"></i></a>
+        <a href="../linked_and_loader/linuxxia_zen_yang_pan_duan_yi_ge_binary_shi_fou_ke.html" class="navigation navigation-prev " aria-label="Previous page: Linux下怎樣判斷一個binary是否可以debug"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../arm_emulation/using_newlib_in_arm_bare_metal_programs.html" class="navigation navigation-next " aria-label="Next page: Using Newlib in ARM bare metal programs"><i class="fa fa-angle-right"></i></a>
+        <a href="../Bochs/bochs.html" class="navigation navigation-next " aria-label="Next page: Bochs"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

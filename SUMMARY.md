@@ -884,7 +884,7 @@
    * [動態載入函式庫 (Dynamically Lodaded Libraries)](linked_and_loader/dong_tai_zai_ru_han_shi_ku__dynamically_lodaded_li.md)
    * [gcc編譯參數-fPIC的一些問題](linked_and_loader/gccbian_yi_can_6570-_fpic_de_yi_xie_wen_ti.md)
    * [Linux下怎樣判斷一個binary是否可以debug](linked_and_loader/linuxxia_zen_yang_pan_duan_yi_ge_binary_shi_fou_ke.md)
-   * 查看正在運行的動態鏈接的程序中，某個動態庫中函數的虛擬地址
+   * [查看正在運行的動態鏈接的程序中，某個動態庫中函數的虛擬地址](linked_and_loader/cha_kan_zheng_zai_yun_xing_de_dong_tai_lian_jie_de.md)
 * [Bochs](Bochs/bochs.md)
    * [OS dev的Bochs調試](Bochs/os_devde_bochs_diao_shi.md)
 * [Nginx](nginx/nginx.md)

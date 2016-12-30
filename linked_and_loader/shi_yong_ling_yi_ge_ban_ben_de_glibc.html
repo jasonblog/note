@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>memory layout C++ objects for clang | Jason note</title>
+        <title>使用另一个版本的glibc | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -41,10 +41,10 @@
         
     
     
-    <link rel="next" href="../freertos/freertos.html" />
+    <link rel="next" href="../Bochs/bochs.html" />
     
     
-    <link rel="prev" href="../gcc/clang.html" />
+    <link rel="prev" href="../linked_and_loader/cha_kan_zheng_zai_yun_xing_de_dong_tai_lian_jie_de.html" />
     
 
         <!-- head:end -->
@@ -53,9 +53,9 @@
         <!-- body:start -->
         
     <div class="book"
-        data-level="36.2.1"
-        data-chapter-title="memory layout C++ objects for clang"
-        data-filepath="gcc/memory_layout_c++_objects_for_clang.md"
+        data-level="47.17"
+        data-chapter-title="使用另一个版本的glibc"
+        data-filepath="linked_and_loader/shi_yong_ling_yi_ge_ban_ben_de_glibc.md"
         data-basepath=".."
         data-revision="Fri Dec 30 2016 22:06:47 GMT+0800 (CST)"
         data-innerlanguage="">
@@ -10652,7 +10652,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="36.2.1" data-path="gcc/memory_layout_c++_objects_for_clang.html">
+        <li class="chapter " data-level="36.2.1" data-path="gcc/memory_layout_c++_objects_for_clang.html">
             
                 
                     <a href="../gcc/memory_layout_c++_objects_for_clang.html">
@@ -13909,7 +13909,7 @@
             
         </li>
     
-        <li class="chapter " data-level="47.17" data-path="linked_and_loader/shi_yong_ling_yi_ge_ban_ben_de_glibc.html">
+        <li class="chapter active" data-level="47.17" data-path="linked_and_loader/shi_yong_ling_yi_ge_ban_ben_de_glibc.html">
             
                 
                     <a href="../linked_and_loader/shi_yong_ling_yi_ge_ban_ben_de_glibc.html">
@@ -15348,151 +15348,17 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="memory-layout-c-objects-for-clang">memory layout C++ objects for clang</h1>
+                        <h1 id="&#x4F7F;&#x7528;&#x53E6;&#x4E00;&#x4E2A;&#x7248;&#x672C;&#x7684;glibc">&#x4F7F;&#x7528;&#x53E6;&#x4E00;&#x4E2A;&#x7248;&#x672C;&#x7684;glibc</h1>
+<p>glibc&#x662F;Linux&#x7CFB;&#x7EDF;&#x7684;&#x6838;&#x5FC3;&#x5E93;&#xFF0C;&#x7A0D;&#x6709;&#x4E0D;&#x614E;&#x5C31;&#x4F1A;&#x5BFC;&#x81F4;&#x7CFB;&#x7EDF;&#x5D29;&#x6E83;&#x3002;&#x5982;&#x679C;&#x5728;&#x7A0B;&#x5E8F;&#x4E2D;&#x5FC5;&#x987B;&#x4F7F;&#x7528;&#x53E6;&#x4E00;&#x7248;&#x672C;&#x7684;glibc&#xFF0C;&#x5219;&#x9700;&#x8981;&#x5C0F;&#x5FC3;&#x4ECE;&#x4E8B;&#x3002;&#x5177;&#x4F53;&#x6765;&#x8A00;&#xFF0C;&#x662F;&#x5728;&#x7F16;&#x8BD1;&#x65F6;&#x6307;&#x5B9A;<code>--rpath</code>&#x548C;<code>--dynamic-linker</code>&#xFF0C;&#x800C;&#x5728;&#x8FD0;&#x884C;&#x65F6;&#x6307;&#x5B9A;LIB_LIBRARY_PATH&#x3002;</p>
+<pre><code class="lang-sh">gcc main.c -o main -Wl,--rpath=/path/to/new/glibc/lib \
+        -Wl,--dynamic-linker=/path/to/new/glibc/ld-linux.so.<span class="hljs-number">2</span>
+</code></pre>
+<p>&#x5176;&#x4E2D;ld-linux.so.2&#x5728;64&#x4F4D;&#x7CFB;&#x7EDF;&#x4E0B;&#x53EF;&#x80FD;&#x4E3A;ld-linux-x86-64.so.2&#xFF0C;&#x5B83;&#x7684;&#x8DEF;&#x5F84;&#x4F1A;&#x786C;&#x7F16;&#x7801;&#x5230;&#x7A0B;&#x5E8F;&#x4E2D;(&#x56E0;&#x6B64;&#x663E;&#x5F0F;&#x6307;&#x5B9A;&#x65F6;&#x6362;&#x6210;&#x522B;&#x7684;&#x540D;&#x5B57;&#x4E5F;&#x6CA1;&#x4EC0;&#x4E48;&#x95EE;&#x9898;)&#x3002;&#x6B63;&#x662F;&#x8FD9;&#x4E2A;&#x539F;&#x56E0;&#xFF0C;&#x5BFC;&#x81F4;&#x5F88;&#x591A;&#x5DF2;&#x6709;&#x7A0B;&#x5E8F;&#x4E0D;&#x80FD;&#x4F7F;&#x7528;&#x65B0;glibc&#x7684;&#x5E93;&#x3002;</p>
+<p>&#x53E6;&#x5916;&#xFF0C;&#x67E5;&#x770B;&#x94FE;&#x63A5;&#x95EE;&#x9898;&#x7684;&#x4E24;&#x4E2A;&#x5E38;&#x7528;&#x5DE5;&#x5177;&#x662F;:</p>
 <ul>
-<li>layout.cpp</li>
+<li>ldd: &#x67E5;&#x770B;&#x53EF;&#x6267;&#x884C;&#x6587;&#x4EF6;&#x6216;&#x52A8;&#x6001;&#x5E93;&#x4F9D;&#x8D56;&#x7684;&#x5176;&#x5B83;&#x7684;&#x5E93;</li>
+<li>strings: &#x67E5;&#x770B;&#x5E93;&#x4E2D;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#xFF0C;&#x6BD4;&#x5982;<code>strings /lib64/libc.so.2 | grep GLIBC</code> &#x53EF;&#x4EE5;&#x67E5;&#x770B;GLIBC&#x652F;&#x6301;&#x7684;&#x7248;&#x672C;&#x3002;</li>
 </ul>
-<pre><code class="lang-cpp"><span class="hljs-keyword">class</span> VBase
-{
-    <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-keyword">void</span> <span class="hljs-title">corge</span><span class="hljs-params">()</span></span>;
-    <span class="hljs-keyword">int</span> j;
-};
-
-<span class="hljs-keyword">class</span> SBase1
-{
-    <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-keyword">void</span> <span class="hljs-title">grault</span><span class="hljs-params">()</span></span>;
-    <span class="hljs-keyword">int</span> k;
-};
-
-<span class="hljs-keyword">class</span> SBase2
-{
-    <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-keyword">void</span> <span class="hljs-title">grault</span><span class="hljs-params">()</span></span>;
-    <span class="hljs-keyword">int</span> k;
-};
-
-<span class="hljs-keyword">class</span> SBase3
-{
-    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">grault</span><span class="hljs-params">()</span></span>;
-    <span class="hljs-keyword">int</span> k;
-};
-
-<span class="hljs-keyword">class</span> Class : <span class="hljs-keyword">public</span> SBase1, SBase2, SBase3, <span class="hljs-keyword">virtual</span> VBase
-{
-<span class="hljs-keyword">public</span>:
-    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">bar</span><span class="hljs-params">()</span></span>;
-    <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-keyword">void</span> <span class="hljs-title">baz</span><span class="hljs-params">()</span></span>;
-    <span class="hljs-comment">// virtual member function templates not allowed, thinking about memory</span>
-    <span class="hljs-comment">// layout and vtables will tell you why</span>
-    <span class="hljs-comment">// template&lt;typename T&gt;</span>
-    <span class="hljs-comment">// virtual void quux();</span>
-<span class="hljs-keyword">private</span>:
-    <span class="hljs-keyword">int</span> i;
-    <span class="hljs-keyword">char</span> c;
-<span class="hljs-keyword">public</span>:
-    <span class="hljs-keyword">float</span> f;
-<span class="hljs-keyword">private</span>:
-    <span class="hljs-keyword">double</span> d;
-<span class="hljs-keyword">public</span>:
-    <span class="hljs-keyword">short</span> s;
-};
-
-<span class="hljs-keyword">class</span> Derived : <span class="hljs-keyword">public</span> Class
-{
-    <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-keyword">void</span> <span class="hljs-title">qux</span><span class="hljs-params">()</span></span>;
-};
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
-</span>{
-    <span class="hljs-keyword">return</span> <span class="hljs-keyword">sizeof</span>(Derived);
-}
-</code></pre>
-<pre><code class="lang-sh">clang -cc1 -fdump-record-layouts layout.cpp
-</code></pre>
-<pre><code class="lang-sh">
-*** Dumping AST Record Layout
-   <span class="hljs-number">0</span> | class SBase1
-   <span class="hljs-number">0</span> |   (SBase1 vtable pointer)
-   <span class="hljs-number">0</span> |   (SBase1 vftable pointer)
-   <span class="hljs-number">8</span> |   int k
-     | [sizeof=<span class="hljs-number">16</span>, dsize=<span class="hljs-number">12</span>, align=<span class="hljs-number">8</span>
-     |  nvsize=<span class="hljs-number">12</span>, nvalign=<span class="hljs-number">8</span>]
-
-
-*** Dumping AST Record Layout
-   <span class="hljs-number">0</span> | class SBase2
-   <span class="hljs-number">0</span> |   (SBase2 vtable pointer)
-   <span class="hljs-number">0</span> |   (SBase2 vftable pointer)
-   <span class="hljs-number">8</span> |   int k
-     | [sizeof=<span class="hljs-number">16</span>, dsize=<span class="hljs-number">12</span>, align=<span class="hljs-number">8</span>
-     |  nvsize=<span class="hljs-number">12</span>, nvalign=<span class="hljs-number">8</span>]
-
-
-*** Dumping AST Record Layout
-   <span class="hljs-number">0</span> | class SBase3
-   <span class="hljs-number">0</span> |   int k
-     | [sizeof=<span class="hljs-number">4</span>, dsize=<span class="hljs-number">4</span>, align=<span class="hljs-number">4</span>
-     |  nvsize=<span class="hljs-number">4</span>, nvalign=<span class="hljs-number">4</span>]
-
-
-*** Dumping AST Record Layout
-   <span class="hljs-number">0</span> | class VBase
-   <span class="hljs-number">0</span> |   (VBase vtable pointer)
-   <span class="hljs-number">0</span> |   (VBase vftable pointer)
-   <span class="hljs-number">8</span> |   int j
-     | [sizeof=<span class="hljs-number">16</span>, dsize=<span class="hljs-number">12</span>, align=<span class="hljs-number">8</span>
-     |  nvsize=<span class="hljs-number">12</span>, nvalign=<span class="hljs-number">8</span>]
-
-
-*** Dumping AST Record Layout
-   <span class="hljs-number">0</span> | class Class
-   <span class="hljs-number">0</span> |   class SBase1 (primary base)
-   <span class="hljs-number">0</span> |     (SBase1 vtable pointer)
-   <span class="hljs-number">0</span> |     (SBase1 vftable pointer)
-   <span class="hljs-number">8</span> |     int k
-  <span class="hljs-number">16</span> |   class SBase2 (base)
-  <span class="hljs-number">16</span> |     (SBase2 vtable pointer)
-  <span class="hljs-number">16</span> |     (SBase2 vftable pointer)
-  <span class="hljs-number">24</span> |     int k
-  <span class="hljs-number">28</span> |   class SBase3 (base)
-  <span class="hljs-number">28</span> |     int k
-  <span class="hljs-number">32</span> |   int i
-  <span class="hljs-number">36</span> |   char c
-  <span class="hljs-number">40</span> |   <span class="hljs-built_in">float</span> f
-  <span class="hljs-number">48</span> |   double d
-  <span class="hljs-number">56</span> |   short s
-  <span class="hljs-number">64</span> |   class VBase (virtual base)
-  <span class="hljs-number">64</span> |     (VBase vtable pointer)
-  <span class="hljs-number">64</span> |     (VBase vftable pointer)
-  <span class="hljs-number">72</span> |     int j
-     | [sizeof=<span class="hljs-number">80</span>, dsize=<span class="hljs-number">76</span>, align=<span class="hljs-number">8</span>
-     |  nvsize=<span class="hljs-number">58</span>, nvalign=<span class="hljs-number">8</span>]
-
-
-*** Dumping AST Record Layout
-   <span class="hljs-number">0</span> | class Derived
-   <span class="hljs-number">0</span> |   class Class (primary base)
-   <span class="hljs-number">0</span> |     class SBase1 (primary base)
-   <span class="hljs-number">0</span> |       (SBase1 vtable pointer)
-   <span class="hljs-number">0</span> |       (SBase1 vftable pointer)
-   <span class="hljs-number">8</span> |       int k
-  <span class="hljs-number">16</span> |     class SBase2 (base)
-  <span class="hljs-number">16</span> |       (SBase2 vtable pointer)
-  <span class="hljs-number">16</span> |       (SBase2 vftable pointer)
-  <span class="hljs-number">24</span> |       int k
-  <span class="hljs-number">28</span> |     class SBase3 (base)
-  <span class="hljs-number">28</span> |       int k
-  <span class="hljs-number">32</span> |     int i
-  <span class="hljs-number">36</span> |     char c
-  <span class="hljs-number">40</span> |     <span class="hljs-built_in">float</span> f
-  <span class="hljs-number">48</span> |     double d
-  <span class="hljs-number">56</span> |     short s
-  <span class="hljs-number">64</span> |   class VBase (virtual base)
-  <span class="hljs-number">64</span> |     (VBase vtable pointer)
-  <span class="hljs-number">64</span> |     (VBase vftable pointer)
-  <span class="hljs-number">72</span> |     int j
-     | [sizeof=<span class="hljs-number">80</span>, dsize=<span class="hljs-number">76</span>, align=<span class="hljs-number">8</span>
-     |  nvsize=<span class="hljs-number">58</span>, nvalign=<span class="hljs-number">8</span>]
-</code></pre>
 
                     
                     </section>
@@ -15503,10 +15369,10 @@
         </div>
 
         
-        <a href="../gcc/clang.html" class="navigation navigation-prev " aria-label="Previous page: Clang"><i class="fa fa-angle-left"></i></a>
+        <a href="../linked_and_loader/cha_kan_zheng_zai_yun_xing_de_dong_tai_lian_jie_de.html" class="navigation navigation-prev " aria-label="Previous page: 查看正在運行的動態鏈接的程序中，某個動態庫中函數的虛擬地址"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../freertos/freertos.html" class="navigation navigation-next " aria-label="Next page: FreeRTOS"><i class="fa fa-angle-right"></i></a>
+        <a href="../Bochs/bochs.html" class="navigation navigation-next " aria-label="Next page: Bochs"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

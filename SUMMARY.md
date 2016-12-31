@@ -886,7 +886,7 @@
    * [Linux下怎樣判斷一個binary是否可以debug](linked_and_loader/linuxxia_zen_yang_pan_duan_yi_ge_binary_shi_fou_ke.md)
    * [查看正在運行的動態鏈接的程序中，某個動態庫中函數的虛擬地址](linked_and_loader/cha_kan_zheng_zai_yun_xing_de_dong_tai_lian_jie_de.md)
    * [使用另一个版本的glibc](linked_and_loader/shi_yong_ling_yi_ge_ban_ben_de_glibc.md)
-   * linux 動態裝載動態庫 ldd，ldconfig，ld.so.conf, ld.so.cache
+   * [linux 動態裝載動態庫 ldd，ldconfig，ld.so.conf, ld.so.cache](linked_and_loader/linux_dong_tai_zhuang_zaidong_tai_ku_ldd__ldconfig.md)
 * [Bochs](Bochs/bochs.md)
    * [OS dev的Bochs調試](Bochs/os_devde_bochs_diao_shi.md)
 * [Nginx](nginx/nginx.md)

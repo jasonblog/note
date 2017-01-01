@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>設置被調試程序的參數 | Jason note</title>
+        <title>IplImage 和 Mat 互轉 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -41,10 +41,8 @@
         
     
     
-    <link rel="next" href="../100_gdb_tips/set-program-env.html" />
     
-    
-    <link rel="prev" href="../100_gdb_tips/set-prompt.html" />
+    <link rel="prev" href="../opencv/ubuntuxia_duo_ban_ben_opencv_qie_huan.html" />
     
 
         <!-- head:end -->
@@ -53,9 +51,9 @@
         <!-- body:start -->
         
     <div class="book"
-        data-level="45.16.7"
-        data-chapter-title="設置被調試程序的參數"
-        data-filepath="100_gdb_tips/set-program-args.md"
+        data-level="66.3"
+        data-chapter-title="IplImage 和 Mat 互轉"
+        data-filepath="opencv/iplimage_he_mat_hu_zhuan.md"
         data-basepath=".."
         data-revision="Mon Jan 02 2017 00:30:14 GMT+0800 (CST)"
         data-innerlanguage="">
@@ -13331,7 +13329,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="45.16.7" data-path="100_gdb_tips/set-program-args.html">
+        <li class="chapter " data-level="45.16.7" data-path="100_gdb_tips/set-program-args.html">
             
                 
                     <a href="../100_gdb_tips/set-program-args.html">
@@ -15340,7 +15338,7 @@
             
         </li>
     
-        <li class="chapter " data-level="66.3" data-path="opencv/iplimage_he_mat_hu_zhuan.html">
+        <li class="chapter active" data-level="66.3" data-path="opencv/iplimage_he_mat_hu_zhuan.html">
             
                 
                     <a href="../opencv/iplimage_he_mat_hu_zhuan.html">
@@ -15393,27 +15391,23 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="&#x8A2D;&#x7F6E;&#x88AB;&#x8ABF;&#x8A66;&#x7A0B;&#x5E8F;&#x7684;&#x53C3;&#x6578;">&#x8A2D;&#x7F6E;&#x88AB;&#x8ABF;&#x8A66;&#x7A0B;&#x5E8F;&#x7684;&#x53C3;&#x6578;</h1>
-<h2 id="&#x6280;&#x5DE7;">&#x6280;&#x5DE7;</h2>
-<p>&#x53EF;&#x4EE5;&#x5728;gdb&#x555F;&#x52D5;&#x6642;&#xFF0C;&#x901A;&#x904E;&#x9078;&#x9805;&#x6307;&#x5B9A;&#x88AB;&#x8ABF;&#x8A66;&#x7A0B;&#x5E8F;&#x7684;&#x53C3;&#x6578;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;</p>
-<pre><code>$ gdb -args ./a.out a b c
-</code></pre><p>&#x4E5F;&#x53EF;&#x4EE5;&#x5728;gdb&#x4E2D;&#xFF0C;&#x901A;&#x904E;&#x547D;&#x4EE4;&#x4F86;&#x8A2D;&#x7F6E;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;</p>
-<pre><code>(gdb) set args a b c
-(gdb) show args
-Argument list to give program being debugged when it is started is &quot;a b c&quot;.
-</code></pre><p>&#x4E5F;&#x53EF;&#x4EE5;&#x5728;&#x904B;&#x884C;&#x7A0B;&#x5E8F;&#x6642;&#xFF0C;&#x76F4;&#x63A5;&#x6307;&#x5B9A;&#xFF1A;</p>
-<pre><code>(gdb) r a b
-Starting program: /home/xmj/tmp/a.out a b
-(gdb) show args
-Argument list to give program being debugged when it is started is &quot;a b&quot;.
-(gdb) r
-Starting program: /home/xmj/tmp/a.out a b 
-</code></pre><p>&#x53EF;&#x4EE5;&#x770B;&#x51FA;&#xFF0C;&#x53C3;&#x6578;&#x5DF2;&#x7D93;&#x88AB;&#x4FDD;&#x5B58;&#x4E86;&#xFF0C;&#x4E0B;&#x6B21;&#x904B;&#x884C;&#x6642;&#x76F4;&#x63A5;&#x904B;&#x884C;<code>run</code>&#x547D;&#x4EE4;&#xFF0C;&#x5373;&#x53EF;&#x3002;</p>
-<p>&#x6709;&#x610F;&#x7684;&#x662F;&#xFF0C;&#x5982;&#x679C;&#x6211;&#x63A5;&#x4E0B;&#x4F86;&#xFF0C;&#x60F3;&#x8B93;&#x53C3;&#x6578;&#x70BA;&#x7A7A;&#xFF0C;&#x8A72;&#x600E;&#x9EBC;&#x8FA6;&#xFF1F;&#x662F;&#x7684;&#xFF0C;&#x76F4;&#x63A5;&#xFF1A;</p>
-<pre><code>(gdb) set args
-</code></pre><p>&#x8A73;&#x60C5;&#x53C3;&#x898B;<a href="https://sourceware.org/gdb/onlinedocs/gdb/Arguments.html#Arguments" target="_blank">gdb&#x624B;&#x518A;</a></p>
-<h2 id="&#x8CA2;&#x737B;&#x8005;">&#x8CA2;&#x737B;&#x8005;</h2>
-<p>xmj</p>
+                        <h1 id="iplimage-&#x548C;-mat-&#x4E92;&#x8F49;">IplImage &#x548C; Mat &#x4E92;&#x8F49;</h1>
+<p>&#x5BEB;OpenCV&#x76F8;&#x95DC;&#x7A0B;&#x5F0F;&#xFF0C;&#x6211;&#x6703;&#x4F7F;&#x7528;&#x5169;&#x7A2E;IDE&#xFF0C;&#x4E00;&#x662F;&#x70BA;&#x4E86;&#x7C21;&#x55AE;&#x65B9;&#x4FBF;&#x7528;Dev C++&#xFF0C;&#x4E8C;&#x662F;&#x70BA;&#x4E86;&#x6E2C;&#x8A66;&#x9AD8;&#x7AFF;&#x7A0B;&#x5F0F;&#x7528;Visual
+C++&#x3002;&#x524D;&#x8005;&#x6211;&#x901A;&#x5E38;&#x7528;C&#x4F86;&#x5BEB;&#xFF0C;&#x5F8C;&#x8005;&#x5247;&#x4EE5;C++&#x4F86;&#x5BEB;&#xFF0C;&#x66F4;&#x6709;&#x6642;&#x5019;&#x6703;&#x628A;&#x5169;&#x8005;&#x515C;&#x5728;&#x4E00;&#x8D77;&#x3002;</p>
+<p>&#x5C31;&#x5982;&#x540C;string &#x548C; char[]&#x4E92;&#x8F49;&#x9019;&#x7BC7;&#x6587;&#x7AE0;&#x4E00;&#x6A23;&#xFF0C;&#x6642;&#x5E38;&#x9700;&#x8981;&#x5C07;&#x5B57;&#x4E32;&#x4F86;&#x56DE;&#x8F49;&#x63DB;&#xFF0C;&#x5728;OpenCV&#x4E2D;&#x8655;&#x7406;&#x5C0D;&#x8C61;&#x70BA;&#x5F71;&#x50CF;&#xFF0C;&#x6709;&#x6642;&#x4E5F;&#x9700;&#x8981;&#x4F86;&#x56DE;&#x8F49;&#x63DB;&#xFF0C;&#x65BC;&#x662F;&#x6211;&#x60F3;&#x8A18;&#x9304;&#x4E00;&#x4E0B;&#xFF1A;&#xFF30;
+&#x6BD4;&#x8F03;&#x5C08;&#x696D;&#x7684;&#x8B1B;&#x6CD5;&#x662F;&#xFF1A;&#x5C07;IplImage&#x5716;&#x5F62;&#x8CC7;&#x6599;&#x7A7A;&#x9593;(imageData)&#x8F49;&#x6210;CvMat&#x7A7A;&#x9593;(data)&#xFF0C;&#x6216;&#x662F;&#x5C07;CvMat&#x77E9;&#x9663;&#x7A7A;&#x9593;&#x8F49;&#x6210;IplImage&#x7684;&#x5716;&#x5F62;&#x7A7A;&#x9593;&#x3002;
+&#x7A0B;&#x5F0F;&#x78BC;&#x76F8;&#x7576;&#x7C21;&#x55AE;&#xFF0C;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-comment">// IplImage to Mat</span>
+IplImage *img;
+
+cv::<span class="hljs-function">Mat <span class="hljs-title">mat</span><span class="hljs-params">(img, <span class="hljs-number">0</span>)</span></span>;
+
+<span class="hljs-comment">// Mat to IplImage</span>
+cv::Mat mat;
+
+IplImage *img = IplImage(mat);
+</code></pre>
+<p><code>&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C;&#x5169;&#x8005;&#x4E92;&#x8F49;&#x7686;&#x70BA;&#x5171;&#x7528;&#x8A18;&#x61B6;&#x9AD4;&#x4F4D;&#x7F6E;&#xFF01;</code></p>
 
                     
                     </section>
@@ -15424,10 +15418,8 @@ Starting program: /home/xmj/tmp/a.out a b
         </div>
 
         
-        <a href="../100_gdb_tips/set-prompt.html" class="navigation navigation-prev " aria-label="Previous page: 設置命令提示符"><i class="fa fa-angle-left"></i></a>
+        <a href="../opencv/ubuntuxia_duo_ban_ben_opencv_qie_huan.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: ubuntu下多版本opencv切換"><i class="fa fa-angle-left"></i></a>
         
-        
-        <a href="../100_gdb_tips/set-program-env.html" class="navigation navigation-next " aria-label="Next page: 設置被調試程序的環境變量"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

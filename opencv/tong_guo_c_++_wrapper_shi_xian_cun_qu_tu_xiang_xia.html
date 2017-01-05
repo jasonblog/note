@@ -55,7 +55,7 @@
         data-chapter-title="通過C++ wrapper 實現存取圖像像素"
         data-filepath="opencv/tong_guo_c_++_wrapper_shi_xian_cun_qu_tu_xiang_xia.md"
         data-basepath=".."
-        data-revision="Thu Jan 05 2017 21:21:07 GMT+0800 (CST)"
+        data-revision="Thu Jan 05 2017 21:40:22 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -15506,6 +15506,41 @@
 imgA[i][j].b = <span class="hljs-number">111</span>;
 imgA[i][j].g = <span class="hljs-number">111</span>;
 imgA[i][j].r = <span class="hljs-number">111</span>;
+</code></pre>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>** argv)</span>
+</span>{
+    IplImage* image, *grayImage, *binImage;
+    image = cvLoadImage(argv[<span class="hljs-number">1</span>]);
+
+    grayImage = cvCreateImage(cvGetSize(image), IPL_DEPTH_8U,
+                              <span class="hljs-number">1</span>); <span class="hljs-comment">// 1&#x4EE3;&#x8868;&#x7070;&#x968E;&#x5716;</span>
+    CvSize Image2Size = cvSize(grayImage-&gt;width, grayImage-&gt;height);
+    binImage = cvCreateImage(Image2Size, IPL_DEPTH_8U, <span class="hljs-number">1</span>);
+
+    Mat element = getStructuringElement(<span class="hljs-number">1</span>, Size(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>));
+
+    <span class="hljs-keyword">if</span> (!image || !grayImage) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;&#x627E;&#x4E0D;&#x5230;&#x6A94;&#x6848;!!!&quot;</span>);
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-comment">//&#x5176;&#x5BE6;&#x8F49;&#x7070;&#x968E;&#x6709;&#x5957;&#x6578;&#x5B78;&#x516C;&#x5F0F;&#xFF0C;&#x4E0D;&#x904E;&#x65E2;&#x7136;OpenCV&#x5DF2;&#x7D93;&#x6709;&#x63D0;&#x4F9B;&#x8F49;&#x7070;&#x968E;&#x7684;&#x51FD;&#x6578;&#xFF0C;&#x5C31;&#x4E0D;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x5230;&#x8A72;&#x516C;&#x5F0F;&#x4E86;&#x3002;</span>
+        cvCvtColor(image, grayImage, CV_RGB2GRAY);<span class="hljs-comment">//RGB to Gray</span>
+
+        cvShowImage(<span class="hljs-string">&quot;gray image&quot;</span>, grayImage);
+        cvThreshold(grayImage, binImage, <span class="hljs-number">106</span>, <span class="hljs-number">255</span>,
+                    CV_THRESH_BINARY); <span class="hljs-comment">// &#x5C07;&#x7070;&#x968E;&#x503C;&#x5728;128&#x4EE5;&#x4E0A;&#x8A2D;&#x70BA;255,&#x4EE5;&#x4E0B;&#x5247;&#x8A2D;&#x70BA;0</span>
+
+
+        cvShowImage(<span class="hljs-string">&quot;binImage image[+]&quot;</span>, binImage);
+        Closing(binImage);
+
+        cv::<span class="hljs-function">Mat <span class="hljs-title">mat</span><span class="hljs-params">(binImage, <span class="hljs-number">0</span>)</span></span>;
+        erode(mat, mat, element);
+        cvShowImage(<span class="hljs-string">&quot;binImage image[-]&quot;</span>, binImage);
+        cvWaitKey(<span class="hljs-number">0</span>);
+    }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
 </code></pre>
 
                     

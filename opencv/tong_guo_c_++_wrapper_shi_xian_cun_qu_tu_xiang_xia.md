@@ -91,3 +91,41 @@ imgA[i][j].g = 111;
 imgA[i][j].r = 111;
 ```
 
+
+```c
+int main(int argc, char** argv)
+{
+    IplImage* image, *grayImage, *binImage;
+    image = cvLoadImage(argv[1]);
+
+    grayImage = cvCreateImage(cvGetSize(image), IPL_DEPTH_8U,
+                              1); // 1代表灰階圖
+    CvSize Image2Size = cvSize(grayImage->width, grayImage->height);
+    binImage = cvCreateImage(Image2Size, IPL_DEPTH_8U, 1);
+
+    Mat element = getStructuringElement(1, Size(2, 2));
+
+    if (!image || !grayImage) {
+        printf("找不到檔案!!!");
+    } else {
+        //其實轉灰階有套數學公式，不過既然OpenCV已經有提供轉灰階的函數，就不需要使用到該公式了。
+        cvCvtColor(image, grayImage, CV_RGB2GRAY);//RGB to Gray
+
+        cvShowImage("gray image", grayImage);
+        cvThreshold(grayImage, binImage, 106, 255,
+                    CV_THRESH_BINARY); // 將灰階值在128以上設為255,以下則設為0
+
+
+        cvShowImage("binImage image[+]", binImage);
+        Closing(binImage);
+
+        cv::Mat mat(binImage, 0);
+        erode(mat, mat, element);
+        cvShowImage("binImage image[-]", binImage);
+        cvWaitKey(0);
+    }
+
+    return 0;
+}
+```
+

@@ -888,7 +888,7 @@
    * [使用另一个版本的glibc](linked_and_loader/shi_yong_ling_yi_ge_ban_ben_de_glibc.md)
    * [linux 動態裝載動態庫 ldd，ldconfig，ld.so.conf, ld.so.cache](linked_and_loader/linux_dong_tai_zhuang_zaidong_tai_ku_ldd__ldconfig.md)
    * [Linux 的動態連結與載入 (Dynamic Linking)](linked_and_loader/linux_de_dong_tai_lian_jie_yu_zai_ru__dynamic_link.md)
-   * [linux系統——ld-linux.so.X查找和加載共享動態庫的順序](linked_and_loader/linuxxi_tong_2014_2014_ld_-_linux__so__x_cha_zhao_.md)
+   * [ld-linux.so.X查找和加載共享動態庫的順序](linked_and_loader/linuxxi_tong_2014_2014_ld_-_linux__so__x_cha_zhao_.md)
 * [Bochs](Bochs/bochs.md)
    * [OS dev的Bochs調試](Bochs/os_devde_bochs_diao_shi.md)
 * [Nginx](nginx/nginx.md)

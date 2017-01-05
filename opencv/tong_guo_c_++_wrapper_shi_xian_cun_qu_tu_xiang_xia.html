@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>結構體 | Jason note</title>
+        <title>通過C++ wrapper 實現存取圖像像素 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -41,10 +41,8 @@
         
     
     
-    <link rel="next" href="../simplelinux/macro.html" />
     
-    
-    <link rel="prev" href="../simplelinux/string.html" />
+    <link rel="prev" href="../opencv/iplimage_he_mat_hu_zhuan.html" />
     
 
         <!-- head:end -->
@@ -53,9 +51,9 @@
         <!-- body:start -->
         
     <div class="book"
-        data-level="22.7"
-        data-chapter-title="結構體"
-        data-filepath="simplelinux/struct.md"
+        data-level="66.4"
+        data-chapter-title="通過C++ wrapper 實現存取圖像像素"
+        data-filepath="opencv/tong_guo_c_++_wrapper_shi_xian_cun_qu_tu_xiang_xia.md"
         data-basepath=".."
         data-revision="Thu Jan 05 2017 21:21:07 GMT+0800 (CST)"
         data-innerlanguage="">
@@ -8148,7 +8146,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="22.7" data-path="simplelinux/struct.html">
+        <li class="chapter " data-level="22.7" data-path="simplelinux/struct.html">
             
                 
                     <a href="../simplelinux/struct.html">
@@ -15370,7 +15368,7 @@
             
         </li>
     
-        <li class="chapter " data-level="66.4" data-path="opencv/tong_guo_c_++_wrapper_shi_xian_cun_qu_tu_xiang_xia.html">
+        <li class="chapter active" data-level="66.4" data-path="opencv/tong_guo_c_++_wrapper_shi_xian_cun_qu_tu_xiang_xia.html">
             
                 
                     <a href="../opencv/tong_guo_c_++_wrapper_shi_xian_cun_qu_tu_xiang_xia.html">
@@ -15423,107 +15421,92 @@
                 
                     <section class="normal" id="section-">
                     
-                        <p><a name="top"></a></p>
-<h1 align="center" id="&#x7D50;&#x69CB;&#x9AD4;
-">&#x7D50;&#x69CB;&#x9AD4;
-</h1>
+                        <h1 id="&#x901A;&#x904E;c-wrapper-&#x5BE6;&#x73FE;&#x5B58;&#x53D6;&#x5716;&#x50CF;&#x50CF;&#x7D20;">&#x901A;&#x904E;C++ wrapper &#x5BE6;&#x73FE;&#x5B58;&#x53D6;&#x5716;&#x50CF;&#x50CF;&#x7D20;</h1>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">ifndef</span> _OPENCV_H_</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> _OPENCV_H_</span>
 
-<p>&#x3000;&#x3000;&#x7D50;&#x69CB;&#x9AD4;&#x662F; C &#x8A9E;&#x8A00;&#x4E3B;&#x8981;&#x7684;&#x81EA;&#x5B9A;&#x7FA9;&#x985E;&#x578B;&#x65B9;&#x6848;&#xFF0C;
-&#x9019;&#x7BC7;&#x5C31;&#x4F86;&#x8A8D;&#x8B58;&#x4E00;&#x4E0B;&#x7D50;&#x69CB;&#x9AD4;&#x3002;</p>
-<h2 id="&#x4E00;&#x3001;&#x7D50;&#x69CB;&#x9AD4;&#x7684;&#x5F62;&#x614B;">&#x4E00;&#x3001;&#x7D50;&#x69CB;&#x9AD4;&#x7684;&#x5F62;&#x614B;</h2>
-<p>C&#x6E90;&#x7A0B;&#x5E8F;&#xFF08;struct.c&#xFF09;&#xFF1A;</p>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;opencv2/opencv.hpp&gt;</span></span>
+<span class="hljs-comment">//#include &quot;opencv/cv.h&quot;</span>
+<span class="hljs-comment">//#include &quot;opencv/highgui.h&quot;</span>
 
-<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span>{
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">short</span> <span class="hljs-keyword">int</span> a;
-    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">short</span> <span class="hljs-keyword">int</span> b;
-}Data;
+<span class="hljs-preprocessor">#<span class="hljs-keyword">ifdef</span> _WIN32</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">ifdef</span> _DEBUG</span>
+<span class="hljs-comment">//Debug   mode</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">pragma</span> comment(lib,<span class="hljs-string">&quot;opencv_core231d.lib&quot;</span>)</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">pragma</span> comment(lib,<span class="hljs-string">&quot;opencv_highgui231d.lib&quot;</span>)</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">pragma</span> comment(lib,<span class="hljs-string">&quot;opencv_imgproc231d.lib&quot;</span>)</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">pragma</span> comment(lib,<span class="hljs-string">&quot;opencv_video231d.lib&quot;</span>)</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">pragma</span> comment(lib,<span class="hljs-string">&quot;opencv_ml231d.lib&quot;</span>)</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">pragma</span> comment(lib,<span class="hljs-string">&quot;opencv_legacy231d.lib&quot;</span>)</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">else</span></span>
+<span class="hljs-comment">//Release   mode</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">pragma</span> comment(lib,<span class="hljs-string">&quot;opencv_core231.lib&quot;</span>)</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">pragma</span> comment(lib,<span class="hljs-string">&quot;opencv_highgui231.lib&quot;</span>)</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">pragma</span> comment(lib,<span class="hljs-string">&quot;opencv_imgproc231.lib&quot;</span>)</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">pragma</span> comment(lib,<span class="hljs-string">&quot;opencv_video231.lib&quot;</span>)</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">pragma</span> comment(lib,<span class="hljs-string">&quot;opencv_ml231.lib&quot;</span>)</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">pragma</span> comment(lib,<span class="hljs-string">&quot;opencv_legacy231.lib&quot;</span>)</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">else</span></span>
+<span class="hljs-comment">// other</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span></span>
 
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
-</span>{
-    Data c, d;
+<span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">class</span> T&gt; <span class="hljs-keyword">class</span> Image
+{
+<span class="hljs-keyword">private</span>:
+    IplImage* imgp;
+<span class="hljs-keyword">public</span>:
+    Image(IplImage* img = <span class="hljs-number">0</span>)
+    {
+        imgp = img;
+    }
 
-    c.a = <span class="hljs-number">1</span>;
-    c.b = <span class="hljs-number">2</span>;
-    d = c;
+    ~Image()
+    {
+        imgp = <span class="hljs-number">0</span>;
+    }
 
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;d.a:%d\nd.b:%d\n&quot;</span>, d.a, d.b);
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-}
+    <span class="hljs-keyword">void</span> <span class="hljs-keyword">operator</span>=(IplImage* img)
+    {
+        imgp = img;
+    }
+
+    <span class="hljs-keyword">inline</span> T* <span class="hljs-keyword">operator</span>[](<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> rowIndx)
+    {
+        <span class="hljs-keyword">return</span> ((T*)(imgp-&gt;imageData + rowIndx * imgp-&gt;widthStep));
+    }
+};
+
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> {
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> b, g, r;
+} RgbPixel;
+
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> {
+    <span class="hljs-keyword">float</span> b, g, r;
+} RgbPixelFloat;
+
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> {
+    <span class="hljs-keyword">double</span> b, g, r;
+} RgbPixelDouble;
+
+<span class="hljs-keyword">typedef</span> Image&lt;RgbPixel&gt;       RgbImage;
+<span class="hljs-keyword">typedef</span> Image&lt;RgbPixelFloat&gt;  RgbImageFloat;
+<span class="hljs-keyword">typedef</span> Image&lt;RgbPixelDouble&gt; RgbImageDouble;
+<span class="hljs-keyword">typedef</span> Image&lt;<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span>&gt;  BwImage;
+<span class="hljs-keyword">typedef</span> Image&lt;<span class="hljs-keyword">int</span>&gt;            BwImageInt;
+<span class="hljs-keyword">typedef</span> Image&lt;<span class="hljs-keyword">float</span>&gt;          BwImageFloat;
+<span class="hljs-keyword">typedef</span> Image&lt;<span class="hljs-keyword">double</span>&gt;         BwImageDouble;
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span></span>
 </code></pre>
-<p>&#x8CE6;&#x503C;&#x90E8;&#x5206;&#x7FFB;&#x8B6F;&#x5F8C;&#xFF1A;</p>
-<pre><code class="lang-c">movw    $<span class="hljs-number">1</span>, <span class="hljs-number">28</span>(%esp)    <span class="hljs-preprocessor"># c.a = <span class="hljs-number">1</span></span>
-movw    $<span class="hljs-number">2</span>, <span class="hljs-number">30</span>(%esp)    <span class="hljs-preprocessor"># c.b = <span class="hljs-number">2</span></span>
-movl    <span class="hljs-number">28</span>(%esp), %eax    <span class="hljs-preprocessor">#</span>
-movl    %eax, <span class="hljs-number">24</span>(%esp)    <span class="hljs-preprocessor"># d = c</span>
+<p>&#x4F8B;&#xFF1A;&#x5C0D;3&#x901A;&#x9053;&#x7684;&#x5B57;&#x7BC0;&#x578B;&#x5716;&#x50CF;&#x8A2A;&#x554F;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c">IplImage* img = cvCreateImage(cvSize(<span class="hljs-number">640</span>, <span class="hljs-number">480</span>), IPL_DEPTH_8U, <span class="hljs-number">3</span>);
+<span class="hljs-function">RgbImage <span class="hljs-title">imgA</span><span class="hljs-params">(img)</span></span>;
+<span class="hljs-comment">//&#x5047;&#x8A2D;&#x8A2A;&#x554F;&#x7B2C;K&#x901A;&#x9053;&#x3001;&#x7B2C;i&#x884C;&#x3001;&#x7B2C;j&#x5217;&#x7684;&#x50CF;&#x7D20;</span>
+imgA[i][j].b = <span class="hljs-number">111</span>;
+imgA[i][j].g = <span class="hljs-number">111</span>;
+imgA[i][j].r = <span class="hljs-number">111</span>;
 </code></pre>
-<p>&#x53EF;&#x4EE5;&#x770B;&#x51FA;&#xFF1A;</p>
-<ul>
-<li>c.a &#x662F;&#x5728; 28(%esp) &#x4E4B;&#x5F8C;&#x7684;2&#x500B;&#x5B57;&#x7BC0;</li>
-<li>c.b &#x662F;&#x5728; 30(%esp) &#x4E4B;&#x5F8C;&#x7684;2&#x500B;&#x5B57;&#x7BC0;</li>
-<li>c &#x662F; 28(%esp) &#x4E4B;&#x5F8C;&#x7684;4&#x500B;&#x5B57;&#x7BC0;</li>
-<li>d &#x662F; 24(%esp) &#x4E4B;&#x5F8C;&#x7684;4&#x500B;&#x5B57;&#x7BC0;</li>
-</ul>
-<p>&#x4E0D;&#x5F97;&#x4E0D;&#x611F;&#x5606;&#x540D;&#x5B57;&#xFF08;&#x7D50;&#x69CB;&#x9AD4;&#x540D;&#x5B57;&#x3001;&#x5B50;&#x5143;&#x7D20;&#x540D;&#x5B57;&#xFF09;&#x518D;&#x4E00;&#x6B21;&#x88AB;&#x62CB;&#x68C4;&#x4E86;&#xFF0C;
-&#x5B50;&#x5143;&#x7D20;&#x540D;&#x4EE3;&#x8868;&#x7684;&#x662F;&#x76F8;&#x5C0D;&#x65BC;&#x7D50;&#x69CB;&#x9AD4;&#x7684;&#x504F;&#x79FB;&#x3002;</p>
-<h2 id="&#x4E8C;&#x3001;&#x7D50;&#x69CB;&#x9AD4;&#x7684;&#x8907;&#x88FD;">&#x4E8C;&#x3001;&#x7D50;&#x69CB;&#x9AD4;&#x7684;&#x8907;&#x88FD;</h2>
-<p>&#x5927;&#x4E00;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x8001;&#x5E2B;&#x5343;&#x53EE;&#x5680;&#x842C;&#x56D1;&#x5490;&#xFF1A;<b>&#x6578;&#x7D44;&#x4E0D;&#x80FD;&#x8907;&#x88FD;&#xFF01;</b>&#xFF0C;
-&#x4F46;&#x662F;&#x7576;&#x767C;&#x73FE;&#x4E0B;&#x9762;&#x9019;&#x500B;&#x7A0B;&#x5E8F;&#x6B63;&#x5E38;&#x904B;&#x884C;&#x5F8C;&#xFF0C;&#x6211;&#x56F0;&#x60D1;&#x4E86;&#xFF08;block.c&#xFF09;&#xFF1A;</p>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
-
-<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span>{
-    <span class="hljs-keyword">char</span> data[<span class="hljs-number">1000</span>];
-}Block;
-
-Block a={{<span class="hljs-string">&apos;a&apos;</span>,<span class="hljs-string">&apos;b&apos;</span>,<span class="hljs-string">&apos;c&apos;</span>,}};
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
-</span>{
-    Block b;
-
-    b=a;
-
-    <span class="hljs-built_in">puts</span>(b.data);
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-}
-</code></pre>
-<p><code>Block a={{&apos;a&apos;,&apos;b&apos;,&apos;c&apos;,}}</code> &#x662F;&#x5C0D; a &#x7684;&#x90E8;&#x5206;&#x521D;&#x59CB;&#x5316;&#xFF0C;
-&apos;c&apos; &#x5F8C;&#x9762;&#x81EA;&#x52D5;&#x586B; 0&#xFF0C;&#x5BEB;&#x6210; Block a=abc &#x4E5F;&#x4E00;&#x6A23;&#xFF0C;
-C &#x8A9E;&#x8A00;&#x5C0D;&#x521D;&#x59CB;&#x5316;&#x9084;&#x662F;&#x5F88;&#x5BEC;&#x5BB9;&#x7684;&#x3002;</p>
-<p>&#x4E0A;&#x9762;&#x9019;&#x500B;&#x7A0B;&#x5E8F;&#x5C45;&#x7136;&#x6B63;&#x5E38;&#x7684;&#x7DE8;&#x8B6F;&#x3001;&#x904B;&#x884C;&#x4E86;&#xFF0C;&#x9019;&#x7A76;&#x7ADF;&#x662F;&#x600E;&#x6A23;&#x7684;&#x9006;&#x5929;&#xFF1F;
-&#x770B;&#x770B;&#x5F59;&#x7DE8;&#x90E8;&#x5206;&#xFF1A;</p>
-<pre><code class="lang-c">leal    <span class="hljs-number">24</span>(%esp), %edx
-movl    $a, %ebx
-movl    $<span class="hljs-number">250</span>, %eax
-movl    %edx, %edi    <span class="hljs-preprocessor"># edi = &amp;b</span>
-movl    %ebx, %esi    <span class="hljs-preprocessor"># esi = &amp;a</span>
-movl    %eax, %ecx    <span class="hljs-preprocessor"># ecx = <span class="hljs-number">250</span></span>
-rep movsl
-</code></pre>
-<p>&#x6211;&#x5011;&#x767C;&#x73FE;&#x7A0B;&#x5E8F;&#x78BA;&#x5BE6;&#x901A;&#x904E; 250 &#x6B21; movsl &#x8907;&#x88FD;&#x4E86;&#x4E00;&#x500B;&quot;&#x6578;&#x7D44;&quot;&#x3002;
-&#x5176;&#x539F;&#x56E0;&#x662F;&#xFF1A;&#x7D50;&#x69CB;&#x9AD4;&#x662F;&#x53EF;&#x4EE5;&#x8907;&#x88FD;&#x7684;&#xFF0C;
-&#x7D50;&#x69CB;&#x9AD4;&#x53C8;&#x53EF;&#x4EE5;&#x5305;&#x62EC;&#x4EFB;&#x610F;&#x985E;&#x578B;&#x7684;&#x5B50;&#x5143;&#x7D20;&#xFF0C;&#x6578;&#x7D44;&#x4E5F;&#x884C;&#xFF0C;
-&#x6240;&#x4EE5;&quot;&#x6578;&#x7D44;&quot;&#x4E5F;&#x88AB;&#x8907;&#x5236;&#x4E86;&#x3002;</p>
-<p>&#x90A3;&#x70BA;&#x4EC0;&#x9EBC;&#x7D14;&#x7CB9;&#x7684;&#x6578;&#x7D44;&#x5C31;&#x4E0D;&#x80FD;&#x8907;&#x88FD;&#x5462;&#xFF1F;
-&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x9019;&#x6A23;&#x53BB;&#x7406;&#x89E3;&#xFF1A;<b>&#x4E00;&#x500B;&#x8B8A;&#x91CF;&#x80FD;&#x88AB;&#x8907;&#x5236;&#x7684;&#x5FC5;&#x8981;&#x689D;&#x4EF6;&#x662F;
-&#x6211;&#x5011;&#x77E5;&#x9053;&#x5B83;&#x7684;&#x5927;&#x5C0F;</b>&#x3002;&#x7D50;&#x69CB;&#x9AD4;&#x505A;&#x70BA;&#x81EA;&#x5B9A;&#x7FA9;&#x985E;&#x578B;&#xFF0C;
-&#x5728;&#x7DE8;&#x8B6F;&#x7684;&#x6642;&#x5019;&#x7DE8;&#x8B6F;&#x5668;&#x5FC5;&#x7136;&#x5B58;&#x5132;&#x4E86;&#x5B83;&#x7684;&#x5B50;&#x5143;&#x7D20;&#x985E;&#x578B;&#x3001;&#x500B;&#x6578;&#x7B49;&#x76F8;&#x95DC;&#x4FE1;&#x606F;&#xFF0C;
-&#x7D50;&#x69CB;&#x9AD4;&#x7684;&#x5927;&#x5C0F;&#x4E5F;&#x5C31;&#x77E5;&#x9053;&#x4E86;&#xFF1B;&#x800C;&#x6578;&#x7D44;&#x4E00;&#x822C;&#x53EA;&#x5728;&#x4E4E;&#x5B83;&#x7684;&#x985E;&#x578B;&#x548C;
-&#x8D77;&#x59CB;&#x5730;&#x5740;&#xFF0C;&#x5143;&#x7D20;&#x500B;&#x6578;&#x7E3D;&#x662F;&#x88AB;&#x5FFD;&#x8996;&#x7684;&#xFF08;&#x4F8B;&#x5982;&#xFF1A;
-void func(char s[]) &#x53EF;&#x63A5;&#x53D7;&#x4EFB;&#x4F55;&#x9577;&#x5EA6;&#x7684;&#x5B57;&#x7B26;&#x6578;&#x7D44;&#x505A;&#x53C3;&#x6578;&#xFF09;&#xFF0C;
-&#x800C;&#x4E14;&#x5143;&#x7D20;&#x500B;&#x6578;&#x4E5F;&#x6C92;&#x6709;&#x88AB;&#x7576;&#x505A;&#x6578;&#x7D44;&#x7684;&#x4E00;&#x90E8;&#x5206;&#x5B58;&#x5165;&#x5167;&#x5B58;&#xFF0C;
-&#x6240;&#x4EE5;&#x6578;&#x7D44;&#x7684;&#x8907;&#x88FD;&#x662F;&#x4E0D;&#x597D;&#x5BE6;&#x73FE;&#x7684;&#x3002;</p>
-<h2 id="&#x5C0F;&#x7D50;">&#x5C0F;&#x7D50;</h2>
-<p>&#x3000;&#x3000;&#x5982;&#x679C;&#x7D66;&#x7D50;&#x69CB;&#x9AD4;&#x4E0B;&#x4E00;&#x500B;&#x5BE6;&#x5728;&#x9EDE;&#x7684;&#x5B9A;&#x7FA9;&#x8A71;&#xFF0C;&#x90A3;&#x5C31;&#x662F;&#xFF1A;
-<b>&#x6709;&#x683C;&#x5F0F;&#x7684;&#x5B57;&#x7BC0;&#x6578;&#x7D44;</b>&#x3002;&#x6709;&#x4E86;&#x7D50;&#x69CB;&#x9AD4;&#x5F8C; C &#x8A9E;&#x8A00;&#x7684;
-&#x8B8A;&#x91CF;&#x985E;&#x578B;&#x5C31;&#x8C50;&#x5BCC;&#x591A;&#x4E86;&#xFF0C;&#x4F46;&#x662F;&#x540C;&#x6642;&#x4E5F;&#x8981;&#x6CE8;&#x610F;&#xFF1A;</p>
-<ol>
-<li>&#x8D85;&#x904E; 4 &#x5B57;&#x7BC0;&#x7684;&#x7D50;&#x69CB;&#x9AD4;&#x4E0D;&#x5B9C;&#x505A;&#x53C3;&#x6578;&#xFF08;&#x53C3;&#x6578;&#x50B3;&#x905E;&#x6D6A;&#x8CBB;&#x6642;&#x9593;&#x3001;&#x7A7A;&#x9593;&#xFF09;&#xFF0C;
-&#x63DB;&#x505A;&#x6307;&#x91DD;&#x66F4;&#x597D;&#x3002;</li>
-<li>&#x8D85;&#x904E; 4 &#x5B57;&#x7BC0;&#x7684;&#x7D50;&#x69CB;&#x9AD4;&#x4E0D;&#x5B9C;&#x505A;&#x8FD4;&#x56DE;&#x503C;&#x985E;&#x578B;
-&#xFF08;&#x8A71;&#x8AAA;&#x4E00;&#x822C;&#x8FD4;&#x56DE;&#x503C;&#x90FD;&#x7528; eax &#x4F86;&#x5B58;&#xFF0C;
-&#x90A3;&#x9EBC;&#x8D85;&#x904E; 4 &#x5B57;&#x7BC0;&#x7684;&#x6642;&#x5019;&#x600E;&#x9EBC;&#x5B58;&#x5462;&#xFF1F;&#x81EA;&#x5DF1;&#x53BB;&#x63A2;&#x7D22;&#x5427;&#xFF01;&#xFF09;&#x3002;</li>
-</ol>
 
                     
                     </section>
@@ -15534,10 +15517,8 @@ void func(char s[]) &#x53EF;&#x63A5;&#x53D7;&#x4EFB;&#x4F55;&#x9577;&#x5EA6;&#x7
         </div>
 
         
-        <a href="../simplelinux/string.html" class="navigation navigation-prev " aria-label="Previous page: 字符串"><i class="fa fa-angle-left"></i></a>
+        <a href="../opencv/iplimage_he_mat_hu_zhuan.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: IplImage 和 Mat 互轉"><i class="fa fa-angle-left"></i></a>
         
-        
-        <a href="../simplelinux/macro.html" class="navigation navigation-next " aria-label="Next page: 奇怪的宏"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

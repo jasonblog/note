@@ -971,7 +971,7 @@
    * [理解矩陣](linear_algebra /li_jie_ju_zhen.md)
 * [Redis](redis/redis.md)
 * [OpenCV](opencv/opencv.md)
-   * [安裝 OpenCV 2.4.9](opencv/an_zhuang_opencv_2__4__9.md)
+   * [安裝 OpenCV](opencv/an_zhuang_opencv_2__4__9.md)
    * [ubuntu下多版本opencv切換](opencv/ubuntuxia_duo_ban_ben_opencv_qie_huan.md)
    * [IplImage 和 Mat 互轉](opencv/iplimage_he_mat_hu_zhuan.md)
    * [通過C++ wrapper 實現存取圖像像素](opencv/tong_guo_c_++_wrapper_shi_xian_cun_qu_tu_xiang_xia.md)

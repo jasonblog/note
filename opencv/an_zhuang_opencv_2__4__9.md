@@ -35,7 +35,7 @@ cmake -D CMAKE_INSTALL_PREFIX=/usr/local/opencv \
 make -j8 ; sudo make install
 ```
 
-- cuda off
+## cuda off
 
 ```sh
 cmake -D CMAKE_INSTALL_PREFIX=/usr/local/opencv-2.4.13_cuda_off \

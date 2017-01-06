@@ -13,7 +13,7 @@ cmake -D CMAKE_INSTALL_PREFIX=/home/shihyu/.mybin/opencv-3.1.0 \
       -D CMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} -D_FORCE_INLINES" ..
 
 
--D WITH_CUDA=OFF // cude disable
+-D WITH_CUDA=OFF // cuda disable
 ```
 
 ## 查看opencv版本：

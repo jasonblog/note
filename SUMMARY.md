@@ -601,6 +601,7 @@
        * [使用heroku部署django應用測試](python/shi_yong_heroku_bu_shu_django_ying_yong_ce_shi.md)
        * [Python Django 快速入門教學](python/python_django_kuai_su_ru_men_jiao_xue.md)
        * [Django 基本命令](python/django_ji_ben_ming_ling.md)
+   * python setup.py uninstall
 * [Vim](vim/vim.md)
    * [HOWTO - vi, vim](vim/howto_-_vi,_vim.md)
 * [TDD](tdd/README.md)

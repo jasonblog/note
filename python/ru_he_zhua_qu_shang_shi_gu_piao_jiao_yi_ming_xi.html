@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>在函數的第一條彙編指令打斷點 | Jason note</title>
+        <title>如何抓取上市股票交易明細 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -41,10 +41,10 @@
         
     
     
-    <link rel="next" href="../100_gdb_tips/disassemble-next-line.html" />
+    <link rel="next" href="../python/chang_jian_cuo_wu_xun_xi.html" />
     
     
-    <link rel="prev" href="../100_gdb_tips/set-disassembly-flavor.html" />
+    <link rel="prev" href="../python/retrieving_gmail_blocked_attachments.html" />
     
 
         <!-- head:end -->
@@ -53,9 +53,9 @@
         <!-- body:start -->
         
     <div class="book"
-        data-level="45.9.2"
-        data-chapter-title="在函數的第一條彙編指令打斷點"
-        data-filepath="100_gdb_tips/break-on-first-assembly-code.md"
+        data-level="27.1.13"
+        data-chapter-title="如何抓取上市股票交易明細"
+        data-filepath="python/ru_he_zhua_qu_shang_shi_gu_piao_jiao_yi_ming_xi.md"
         data-basepath=".."
         data-revision="Sat Jan 07 2017 15:05:09 GMT+0800 (CST)"
         data-innerlanguage="">
@@ -8971,7 +8971,7 @@
             
         </li>
     
-        <li class="chapter " data-level="27.1.13" data-path="python/ru_he_zhua_qu_shang_shi_gu_piao_jiao_yi_ming_xi.html">
+        <li class="chapter active" data-level="27.1.13" data-path="python/ru_he_zhua_qu_shang_shi_gu_piao_jiao_yi_ming_xi.html">
             
                 
                     <a href="../python/ru_he_zhua_qu_shang_shi_gu_piao_jiao_yi_ming_xi.html">
@@ -12689,7 +12689,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="45.9.2" data-path="100_gdb_tips/break-on-first-assembly-code.html">
+        <li class="chapter " data-level="45.9.2" data-path="100_gdb_tips/break-on-first-assembly-code.html">
             
                 
                     <a href="../100_gdb_tips/break-on-first-assembly-code.html">
@@ -15438,63 +15438,30 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="&#x5728;&#x51FD;&#x6578;&#x7684;&#x7B2C;&#x4E00;&#x689D;&#x5F59;&#x7DE8;&#x6307;&#x4EE4;&#x6253;&#x65B7;&#x9EDE;">&#x5728;&#x51FD;&#x6578;&#x7684;&#x7B2C;&#x4E00;&#x689D;&#x5F59;&#x7DE8;&#x6307;&#x4EE4;&#x6253;&#x65B7;&#x9EDE;</h1>
-<h2 id="&#x4F8B;&#x5B50;">&#x4F8B;&#x5B50;</h2>
-<pre><code>#include &lt;stdio.h&gt;
-int global_var;
+                        <h1 id="&#x5982;&#x4F55;&#x6293;&#x53D6;&#x4E0A;&#x5E02;&#x80A1;&#x7968;&#x4EA4;&#x6613;&#x660E;&#x7D30;">&#x5982;&#x4F55;&#x6293;&#x53D6;&#x4E0A;&#x5E02;&#x80A1;&#x7968;&#x4EA4;&#x6613;&#x660E;&#x7D30;</h1>
+<pre><code class="lang-py"><span class="hljs-comment"># -*- coding: utf-8 -*-</span>
+<span class="hljs-keyword">from</span> urllib <span class="hljs-keyword">import</span> urlencode
+<span class="hljs-keyword">import</span> httplib2
+<span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
 
-void change_var(){
-    global_var=100;
-}
+url = <span class="hljs-string">&apos;http://www.tse.com.tw/ch/trading/exchange/STOCK_DAY/STOCK_DAYMAIN.php&apos;</span>
+data = { <span class="hljs-string">&apos;download&apos;</span>: <span class="hljs-string">&apos;html&apos;</span>,<span class="hljs-string">&apos;query_year&apos;</span>: <span class="hljs-string">&apos;2017&apos;</span>, <span class="hljs-string">&apos;query_month&apos;</span>: <span class="hljs-string">&apos;01&apos;</span>,
+<span class="hljs-string">&apos;CO_ID&apos;</span>: <span class="hljs-string">&apos;2330&apos;</span>}
+agent = <span class="hljs-string">&apos;Mozilla/5.0 (Windows NT 6.3; WOW64; rv:34.0) Gecko/20100101Firefox/34.0&apos;</span> 
 
-int main(void){
-    change_var();
-    return 0;
-}
-</code></pre><h2 id="&#x6280;&#x5DE7;">&#x6280;&#x5DE7;</h2>
-<p>&#x901A;&#x5E38;&#x7D66;&#x51FD;&#x6578;&#x6253;&#x65B7;&#x9EDE;&#x7684;&#x547D;&#x4EE4;&#xFF1A;&#x201C;b func&#x201D;&#xFF08;b&#x662F;break&#x547D;&#x4EE4;&#x7684;&#x7E2E;&#x5BEB;&#xFF09;&#xFF0C;&#x4E0D;&#x6703;&#x628A;&#x65B7;&#x9EDE;&#x8A2D;&#x7F6E;&#x5728;&#x5F59;&#x7DE8;&#x6307;&#x4EE4;&#x5C64;&#x6B21;&#x51FD;&#x6578;&#x7684;&#x958B;&#x982D;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;</p>
-<pre><code>(gdb) b main
-Breakpoint 1 at 0x8050c12: file a.c, line 9.
-(gdb) r
-Starting program: /data1/nan/a
-[Thread debugging using libthread_db enabled]
-[New Thread 1 (LWP 1)]
-[Switching to Thread 1 (LWP 1)]
+httplib2.debuglevel = <span class="hljs-number">1</span>
+conn = httplib2.Http(<span class="hljs-string">&apos;.cache&apos;</span>)
+headers = {<span class="hljs-string">&apos;Content-type&apos;</span>: <span class="hljs-string">&apos;application/x-www-form-urlencoded&apos;</span>,
+           <span class="hljs-string">&apos;Accept&apos;</span>:
+<span class="hljs-string">&apos;text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8&apos;</span>,
+           <span class="hljs-string">&apos;User-Agent&apos;</span>: agent}
+resp, content = conn.request(url, <span class="hljs-string">&apos;POST&apos;</span>, urlencode(data), headers)
 
-Breakpoint 1, main () at a.c:9
-9           change_var();
-(gdb) disassemble
-Dump of assembler code for function main:
-   0x08050c0f &lt;+0&gt;:     push   %ebp
-   0x08050c10 &lt;+1&gt;:     mov    %esp,%ebp
-=&gt; 0x08050c12 &lt;+3&gt;:     call   0x8050c00 &lt;change_var&gt;
-   0x08050c17 &lt;+8&gt;:     mov    $0x0,%eax
-   0x08050c1c &lt;+13&gt;:    pop    %ebp
-   0x08050c1d &lt;+14&gt;:    ret
-End of assembler dump.
-</code></pre><p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x7A0B;&#x5E8F;&#x505C;&#x5728;&#x4E86;&#x7B2C;&#x4E09;&#x689D;&#x5F59;&#x7DE8;&#x6307;&#x4EE4;&#xFF08;&#x7BAD;&#x982D;&#x6240;&#x6307;&#x4F4D;&#x7F6E;&#xFF09;&#x3002;&#x5982;&#x679C;&#x8981;&#x628A;&#x65B7;&#x9EDE;&#x8A2D;&#x7F6E;&#x5728;&#x5F59;&#x7DE8;&#x6307;&#x4EE4;&#x5C64;&#x6B21;&#x51FD;&#x6578;&#x7684;&#x958B;&#x982D;&#xFF0C;&#x8981;&#x4F7F;&#x7528;&#x5982;&#x4E0B;&#x547D;&#x4EE4;&#xFF1A;&#x201C;b *func&#x201D;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;</p>
-<pre><code>(gdb) b *main
-Breakpoint 1 at 0x8050c0f: file a.c, line 8.
-(gdb) r
-Starting program: /data1/nan/a
-[Thread debugging using libthread_db enabled]
-[New Thread 1 (LWP 1)]
-[Switching to Thread 1 (LWP 1)]
+df=pd.read_html(content)
+df1=pd.DataFrame(df[<span class="hljs-number">0</span>])
 
-Breakpoint 1, main () at a.c:8
-8       int main(void){
-(gdb) disassemble
-Dump of assembler code for function main:
-=&gt; 0x08050c0f &lt;+0&gt;:     push   %ebp
-   0x08050c10 &lt;+1&gt;:     mov    %esp,%ebp
-   0x08050c12 &lt;+3&gt;:     call   0x8050c00 &lt;change_var&gt;
-   0x08050c17 &lt;+8&gt;:     mov    $0x0,%eax
-   0x08050c1c &lt;+13&gt;:    pop    %ebp
-   0x08050c1d &lt;+14&gt;:    ret
-End of assembler dump.
-</code></pre><p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x7A0B;&#x5E8F;&#x505C;&#x5728;&#x4E86;&#x7B2C;&#x4E00;&#x689D;&#x5F59;&#x7DE8;&#x6307;&#x4EE4;&#xFF08;&#x7BAD;&#x982D;&#x6240;&#x6307;&#x4F4D;&#x7F6E;&#xFF09;&#x3002;</p>
-<h2 id="&#x8CA2;&#x737B;&#x8005;">&#x8CA2;&#x737B;&#x8005;</h2>
-<p>nanxiao</p>
+<span class="hljs-keyword">print</span> df1
+</code></pre>
 
                     
                     </section>
@@ -15505,10 +15472,10 @@ End of assembler dump.
         </div>
 
         
-        <a href="../100_gdb_tips/set-disassembly-flavor.html" class="navigation navigation-prev " aria-label="Previous page: 設置彙編指令格式"><i class="fa fa-angle-left"></i></a>
+        <a href="../python/retrieving_gmail_blocked_attachments.html" class="navigation navigation-prev " aria-label="Previous page: Retrieving Gmail blocked attachments"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../100_gdb_tips/disassemble-next-line.html" class="navigation navigation-next " aria-label="Next page: 自動反彙編後面要執行的代碼"><i class="fa fa-angle-right"></i></a>
+        <a href="../python/chang_jian_cuo_wu_xun_xi.html" class="navigation navigation-next " aria-label="Next page: 常見錯誤訊息"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

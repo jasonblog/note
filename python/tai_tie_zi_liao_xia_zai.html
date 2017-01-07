@@ -57,7 +57,7 @@
         data-chapter-title="臺鐵資料下載"
         data-filepath="python/tai_tie_zi_liao_xia_zai.md"
         data-basepath=".."
-        data-revision="Sun Jan 08 2017 01:40:05 GMT+0800 (CST)"
+        data-revision="Sun Jan 08 2017 02:39:29 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -15515,9 +15515,12 @@
                     
                         <h1 id="&#x81FA;&#x9435;&#x8CC7;&#x6599;&#x4E0B;&#x8F09;">&#x81FA;&#x9435;&#x8CC7;&#x6599;&#x4E0B;&#x8F09;</h1>
 <pre><code class="lang-py"><span class="hljs-comment">#!/usr/bin/python</span>
-<span class="hljs-keyword">import</span> sys, random, os
+<span class="hljs-comment"># -*- coding: utf-8 -*-</span>
+
+<span class="hljs-keyword">import</span> sys, random, os, shlex
 <span class="hljs-keyword">import</span> urllib, urllib2
 <span class="hljs-keyword">from</span> cookielib <span class="hljs-keyword">import</span> CookieJar
+<span class="hljs-keyword">from</span> subprocess <span class="hljs-keyword">import</span> check_call
 
 INIT_URL = <span class="hljs-string">&apos;http://railway.hinet.net/check_ctno1.jsp&apos;</span>
 IMAGE_URL = <span class="hljs-string">&apos;http://railway.hinet.net/ImageOut.jsp?pageRandom=%.16f&apos;</span>
@@ -15531,6 +15534,23 @@ AUDIO_URL = <span class="hljs-string">&apos;http://railway.hinet.net/PronounceRa
         <span class="hljs-string">&apos;b_order_qty_str&apos;</span>: <span class="hljs-string">&apos;0&apos;</span>, <span class="hljs-string">&apos;z_order_qty_str&apos;</span>: <span class="hljs-string">&apos;0&apos;</span>, <span class="hljs-string">&apos;returnTicket&apos;</span>: <span class="hljs-string">&apos;0&apos;</span>
     }
     opener.open(urllib2.Request(INIT_URL, urllib.urlencode(params))).read()
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">covert_audio_encode</span><span class="hljs-params">(path)</span>:</span>
+    <span class="hljs-comment">#print os.getcwd()</span>
+    prevdir = os.getcwd()
+    os.chdir(path)
+    <span class="hljs-comment">#print os.getcwd()</span>
+    <span class="hljs-comment">#raw_input()</span>
+    <span class="hljs-keyword">for</span> filename <span class="hljs-keyword">in</span> os.listdir(<span class="hljs-string">&quot;./&quot;</span>):
+    <span class="hljs-keyword">if</span> filename.endswith(<span class="hljs-string">&quot;.wav&quot;</span>):
+        <span class="hljs-comment">#body, ext = os.path.splitext(filename)</span>
+        command = <span class="hljs-string">&apos;ffmpeg -i &apos;</span> + filename + <span class="hljs-string">&apos; tmp_file.wav&apos;</span> 
+        check_call(shlex.split(command))
+        command = <span class="hljs-string">&apos;mv&apos;</span> + <span class="hljs-string">&apos; tmp_file.wav &apos;</span> + filename
+        check_call(shlex.split(command))
+
+    os.chdir(prevdir)
+    <span class="hljs-comment">#print os.getcwd()</span>
 
 <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">save_data</span><span class="hljs-params">(url, output)</span>:</span>
     headers = {<span class="hljs-string">&apos;referer&apos;</span>: INIT_URL}
@@ -15561,18 +15581,21 @@ AUDIO_URL = <span class="hljs-string">&apos;http://railway.hinet.net/PronounceRa
     opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
     init_session()
 
-        train_directory = <span class="hljs-string">&quot;./Data/Train/&quot;</span>
-        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> os.path.exists(train_directory):
-            os.makedirs(train_directory)
+    train_directory = <span class="hljs-string">&quot;./Data/Train/&quot;</span>
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> os.path.exists(train_directory):
+    os.makedirs(train_directory)
 
-        test_directory = <span class="hljs-string">&quot;./Data/Test/&quot;</span>
-        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> os.path.exists(test_directory):
-            os.makedirs(test_directory)
+    test_directory = <span class="hljs-string">&quot;./Data/Test/&quot;</span>
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> os.path.exists(test_directory):
+    os.makedirs(test_directory)
 
     <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(count):
         rand = random.random()
         save_data(IMAGE_URL % rand, <span class="hljs-string">&apos;Data/%s/%d.jpg&apos;</span> % (sys.argv[<span class="hljs-number">1</span>] ,i))
         save_data(AUDIO_URL % rand, <span class="hljs-string">&apos;Data/%s/%d.wav&apos;</span> % (sys.argv[<span class="hljs-number">1</span>] ,i))
+
+    path = <span class="hljs-string">&apos;Data/%s&apos;</span> % (sys.argv[<span class="hljs-number">1</span>])
+    covert_audio_encode(path)
 
 <span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&apos;__main__&apos;</span>:
     main()

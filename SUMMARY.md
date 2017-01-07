@@ -574,6 +574,7 @@
        * [Python中將打印輸出導向檔案](python/pythonzhong_jiang_da_yin_shu_chu_dao_xiang_dang_an.md)
        * [轉換GDB調用棧到流程圖](python/zhuan_huan_gdb_diao_yong_zhan_dao_liu_cheng_tu.md)
        * [Retrieving Gmail blocked attachments](python/retrieving_gmail_blocked_attachments.md)
+       * 如何抓取上市股票交易明細
    * [常見錯誤訊息](python/chang_jian_cuo_wu_xun_xi.md)
    * [安裝 Jupyter](python/jupyter.md)
    * [編譯python & 安裝pip](python/292.md)

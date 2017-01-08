@@ -4,13 +4,21 @@
 ```sh
 cmake -D CMAKE_INSTALL_PREFIX=/home/shihyu/.mybin/opencv-2.4.13 \
       -D CMAKE_PREFIX_PATH=/home/shihyu/.mybin/opencv-2.4.13/share/OpenCV \
-      -D CMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} -D_FORCE_INLINES" ..
+      -D BUILD_NEW_PYTHON_SUPPORT=ON \	
+      -D CMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} -D_FORCE_INLINES" \
+      -D CMAKE_BUILD_TYPE:STRING=RelWithDebInfo \
+      -D CMAKE_BUILD_TYPE=DEBUG \
+      -D WITH_CUDA=OFF ..
 
 
 
-cmake -D CMAKE_INSTALL_PREFIX=/home/shihyu/.mybin/opencv-3.1.0 \
-      -D CMAKE_PREFIX_PATH=/home/shihyu/.mybin/opencv-3.1.0/share/OpenCV \
-      -D CMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} -D_FORCE_INLINES" ..
+cmake -D CMAKE_INSTALL_PREFIX=/home/shihyu/.mybin/opencv-3.2.0 \
+      -D CMAKE_PREFIX_PATH=/home/shihyu/.mybin/opencv-3.2.0/share/OpenCV \
+      -D BUILD_NEW_PYTHON_SUPPORT=ON \	
+      -D CMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} -D_FORCE_INLINES" \
+      -D CMAKE_BUILD_TYPE:STRING=RelWithDebInfo \
+      -D CMAKE_BUILD_TYPE=DEBUG \
+      -D WITH_CUDA=OFF ..
 
 
 -D WITH_CUDA=OFF // cuda disable

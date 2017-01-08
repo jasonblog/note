@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>C語言的棧是靜態的 | Jason note</title>
+        <title>OpenKore in Docker  Dockerfile | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -41,10 +41,10 @@
         
     
     
-    <link rel="next" href="../simplelinux/inlineasm.html" />
+    <link rel="next" href="../javascript/javascript.html" />
     
     
-    <link rel="prev" href="../simplelinux/varargs.html" />
+    <link rel="prev" href="../docker/men_wai_han_de_docker_xiao_shi_shen_shou.html" />
     
 
         <!-- head:end -->
@@ -53,9 +53,9 @@
         <!-- body:start -->
         
     <div class="book"
-        data-level="22.20"
-        data-chapter-title="C語言的棧是靜態的"
-        data-filepath="simplelinux/staticstack.md"
+        data-level="57.3"
+        data-chapter-title="OpenKore in Docker  Dockerfile"
+        data-filepath="docker/openkore_in_docker_dockerfile.md"
         data-basepath=".."
         data-revision="Sun Jan 08 2017 14:45:36 GMT+0800 (CST)"
         data-innerlanguage="">
@@ -8358,7 +8358,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="22.20" data-path="simplelinux/staticstack.html">
+        <li class="chapter " data-level="22.20" data-path="simplelinux/staticstack.html">
             
                 
                     <a href="../simplelinux/staticstack.html">
@@ -14830,7 +14830,7 @@
             
         </li>
     
-        <li class="chapter " data-level="57.3" data-path="docker/openkore_in_docker_dockerfile.html">
+        <li class="chapter active" data-level="57.3" data-path="docker/openkore_in_docker_dockerfile.html">
             
                 
                     <a href="../docker/openkore_in_docker_dockerfile.html">
@@ -15543,67 +15543,65 @@
                 
                     <section class="normal" id="section-">
                     
-                        <p><a name="top"></a></p>
-<h1 align="center" id="c&#x8A9E;&#x8A00;&#x7684;&#x68E7;&#x662F;&#x975C;&#x614B;&#x7684;
-">C&#x8A9E;&#x8A00;&#x7684;&#x68E7;&#x662F;&#x975C;&#x614B;&#x7684;
-</h1>
+                        <h1 id="openkore-in-docker--dockerfile">OpenKore in Docker  Dockerfile</h1>
+<p><a href="https://github.com/John-Lin/docker-openkore" target="_blank">https://github.com/John-Lin/docker-openkore</a></p>
+<ul>
+<li>Dockerfile</li>
+</ul>
+<pre><code class="lang-sh"><span class="hljs-comment"># OpenKore in Docker</span>
+FROM ubuntu:<span class="hljs-number">14.04</span>.<span class="hljs-number">4</span>
 
-<p>&#x3000;&#x3000;C&#x8A9E;&#x8A00;&#x6709;&#x4E86;&#x53EF;&#x8B8A;&#x53C3;&#x6578;&#x4E4B;&#x5F8C;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x50B3;&#x4EFB;&#x610F;&#x500B;&#x6578;&#x7684;&#x53C3;&#x6578;&#x4E86;&#xFF0C;
-&#x4F3C;&#x4E4E;&#x633A;&#x52D5;&#x614B;&#x7684;&#x4E86;&#xFF0C;&#x4F46;&#x662F;&#x53EF;&#x8B8A;&#x53C3;&#x6578;&#x51FD;&#x6578;&#x9084;&#x662F;&#x4E0D;&#x5920;&#x52D5;&#x614B;&#x3002;</p>
-<h2 id="&#x4E00;&#x3001;&#x97AD;&#x9577;&#x83AB;&#x53CA;">&#x4E00;&#x3001;&#x97AD;&#x9577;&#x83AB;&#x53CA;</h2>
-<p>&#x3000;&#x3000;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x5728; main &#x4E2D;&#x5BEB;&#x51FA;&#x597D;&#x5E7E;&#x689D;&#x53C3;&#x6578;&#x500B;&#x6578;&#x4E0D;&#x540C;&#x7684;&#x8ABF;&#x7528; sum &#x7684;&#x8A9E;&#x53E5;&#xFF0C;
-&#x4F46;&#x662F;&#x5177;&#x9AD4;&#x5230;&#x67D0;&#x4E00;&#x689D;&#x8A9E;&#x53E5;&#xFF0C;sum &#x7684;&#x53C3;&#x6578;&#x500B;&#x6578;&#x662F;&#x4E00;&#x5B9A;&#x7684;&#xFF0C;
-&#x6BD4;&#x5982;&#x4E0A;&#x4E00;&#x7BC7;&#x4E2D;&#x7684; sum(2, 3, 4) &#x7684;&#x53C3;&#x6578;&#x500B;&#x6578;&#x662F; 3&#x3002;
-<b>&#x5982;&#x679C;&#x7A0B;&#x5E8F;&#x904B;&#x884C;&#x4E2D;&#x8ABF;&#x7528; sum &#x51FD;&#x6578;&#x7684;&#x6642;&#x5019;&#xFF0C;
-&#x53C3;&#x6578;&#x500B;&#x6578;&#x6839;&#x64DA;&#x7528;&#x6236;&#x8F38;&#x5165;&#x800C;&#x5B9A;&#xFF0C;&#x90A3;&#x5C31;&#x4E0D;&#x80FD;&#x7528;&#x53EF;&#x8B8A;&#x53C3;&#x6578;&#x4F86;&#x5BE6;&#x73FE;&#x4E86;&#x3002;</b>
-&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#x4E0D;&#x80FD;&#x7528; sum &#x4F86;&#x5BE6;&#x73FE;&#x4EE5;&#x4E0B;&#x9019;&#x500B;&#x51FD;&#x6578;&#x7684;&#x529F;&#x80FD;&#xFF1A;</p>
-<p>// &#x5C07;&#x6578;&#x7D44; a &#x7684;&#x6240;&#x6709;&#x5143;&#x7D20;&#xFF08;&#x500B;&#x6578;&#x70BA; n&#xFF09;&#x6C42;&#x548C;&#x5F8C;&#x8FD4;&#x56DE;</p>
-<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">d_sum</span><span class="hljs-params">(<span class="hljs-keyword">int</span> n, <span class="hljs-keyword">int</span> a[])</span></span>;
+MAINTAINER John L<span class="hljs-keyword">in</span> &lt;linton.tw@gmail.com&gt;
+
+ENV HOME /root
+<span class="hljs-comment"># Define working directory.</span>
+WORKDIR /root
+
+RUN apt-get update &amp;&amp; \
+    apt-get install -y \
+        python-setuptools \
+        python-pip \
+        curl \
+        build-essential \
+        g++ \
+        perl \
+        libreadline6-dev \
+        libcurl4-gnutls-dev \
+        zlib1g-dev \
+        vim
+        <span class="hljs-comment"># vim &amp;&amp;</span>
+        <span class="hljs-comment"># echo $&apos;set encoding=utf-8\n\</span>
+        <span class="hljs-comment"># set fileencoding=utf-8&apos; &gt;&gt; /root/.vimrc</span>
+
+<span class="hljs-comment"># RUN curl -kL https://github.com/OpenKore/openkore/archive/twRO_New.tar.gz | tar -xvz \</span>
+RUN curl -kL https://github.com/John-L<span class="hljs-keyword">in</span>/openkore/archive/test.tar.gz | tar -xvz \
+    &amp;&amp; mv openkore-test openkore \
+    &amp;&amp; <span class="hljs-built_in">cd</span> openkore \
+    &amp;&amp; make
+
+<span class="hljs-comment"># Clean up APT when done.</span>
+RUN apt-get clean &amp;&amp; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 </code></pre>
-<p>&#x7576;&#x7136;&#xFF0C;&#x9019;&#x500B;&#x51FD;&#x6578;&#x4E0D;&#x7528; sum &#x4F86;&#x505A;&#x662F;&#x5F88;&#x597D;&#x5BE6;&#x73FE;&#x7684;&#x3002;
-&#x6211;&#x518D;&#x63DB;&#x4E00;&#x500B;&#x554F;&#x984C;&#xFF0C;&#x4E0B;&#x9762;&#x9019;&#x500B;&#x51FD;&#x6578;&#x600E;&#x9EBC;&#x7528; printf &#x4F86;&#x5BE6;&#x73FE;&#xFF1A;</p>
-<p>// fmt &#x5B58;&#x7684;&#x662F;&#x683C;&#x5F0F;&#x4E32;&#xFF0C;&#x5B83;&#x63CF;&#x8FF0;&#x4E86; n &#x500B;&#x6574;&#x6578;&#xFF08;&#x6578;&#x7D44; a &#x4E2D;&#xFF09;
-// &#x7684;&#x683C;&#x5F0F;&#xFF0C;&#x67D0;&#x6B21;&#x8ABF;&#x7528;&#x5982;&#x4E0B;&#xFF1A;
-//   int a[] = {1, 2, 3};
-//   d_printf(&quot;%d+%d=%d&quot;, 3, a);</p>
-<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">d_printf</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *fmt, <span class="hljs-keyword">int</span> n, <span class="hljs-keyword">int</span> a[])</span></span>;
+<ul>
+<li>docker build</li>
+</ul>
+<pre><code>sudo docker build .
+</code></pre><ul>
+<li>run</li>
+</ul>
+<pre><code class="lang-sh">sudo docker images
+
+[sudo] password <span class="hljs-keyword">for</span> shihyu: 
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+&lt;none&gt;              &lt;none&gt;              d2ebaeec21d8        <span class="hljs-number">4</span> minutes ago       <span class="hljs-number">530.9</span> MB
+ubuntu              <span class="hljs-number">12.04</span>               f0d07a756afd        <span class="hljs-number">3</span> weeks ago         <span class="hljs-number">103.6</span> MB
+ubuntu              <span class="hljs-number">14.04</span>.<span class="hljs-number">4</span>             <span class="hljs-number">0</span>ccb13bf1954        <span class="hljs-number">5</span> months ago        <span class="hljs-number">188</span> MB
+hello-world         latest              c54a2cc56cbb        <span class="hljs-number">6</span> months ago        <span class="hljs-number">1.848</span> kB
+
+
+// REPOSITORY is ubuntu, TAG is <span class="hljs-number">14.04</span>
+sudo docker run -t -i ubuntu:<span class="hljs-number">14.04</span> bash
 </code></pre>
-<p>&#x9019;&#x5C31;&#x6C92;&#x6CD5;&#x505A;&#x4E86;&#x5427;&#xFF01;</p>
-<h2 id="&#x4E8C;&#x3001;&#x5C0B;&#x6839;&#x7A76;&#x5E95;">&#x4E8C;&#x3001;&#x5C0B;&#x6839;&#x7A76;&#x5E95;</h2>
-<p>d_printf &#x6C92;&#x6CD5;&#x5BE6;&#x73FE;&#x7684;&#x539F;&#x56E0;&#x662F;&#x9019;&#x6A23;&#x7684;&#x4EE3;&#x78BC;&#x771F;&#x6C92;&#x6CD5;&#x5BEB;&#xFF1A;
-&#x50B3;&#x7D66; printf &#x7684;&#x53C3;&#x6578;&#x7684;&#x500B;&#x6578;&#x5230;&#x904B;&#x884C;&#x7684;&#x6642;&#x5019;&#x624D;&#x77E5;&#x9053;&#xFF0C;
-&#x800C;&#x8ABF;&#x7528; printf &#x7684;&#x8A9E;&#x53E5;&#x53C8;&#x5FC5;&#x9808;&#x660E;&#x78BA;&#x7684;&#x5217;&#x51FA;&#x6240;&#x6709;&#x53C3;&#x6578;&#x3002;</p>
-<p>&#x5176;&#x6839;&#x672C;&#x539F;&#x56E0;&#x662F;<b>C&#x8A9E;&#x8A00;&#x7684;&#x68E7;&#x662F;&#x975C;&#x614B;&#x7684;</b>&#xFF0C;
-&#x4E0A;&#x4E00;&#x7BC7;&#x7684; va.c &#x7DE8;&#x8B6F;&#x5F8C;&#x7684;&#x5F59;&#x7DE8;&#x4EE3;&#x78BC;&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre><code class="lang-c">main:
-    pushl    %ebp
-    movl    %esp, %ebp
-    andl    $-<span class="hljs-number">16</span>, %esp
-    subl    $<span class="hljs-number">16</span>, %esp    <span class="hljs-preprocessor"># &#x7D66;main&#x5E40;&#x5206;&#x914D;&#x68E7;&#x7A7A;&#x9593;</span>
-    movl    $<span class="hljs-number">4</span>, <span class="hljs-number">8</span>(%esp)
-    movl    $<span class="hljs-number">3</span>, <span class="hljs-number">4</span>(%esp)
-    movl    $<span class="hljs-number">2</span>, (%esp)
-    call    sum            <span class="hljs-preprocessor"># &#x8ABF;&#x7528;&#x8B8A;&#x53C3;&#x51FD;&#x6578; sum</span>
-    movl    $.LC0, (%esp)
-    movl    %eax, <span class="hljs-number">4</span>(%esp)
-    call    <span class="hljs-built_in">printf</span>        <span class="hljs-preprocessor"># &#x8ABF;&#x7528;&#x8B8A;&#x53C3;&#x51FD;&#x6578; printf</span>
-    xorl    %eax, %eax
-    leave
-    ret
-</code></pre>
-<p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x96D6;&#x7136; main &#x51FD;&#x6578;&#x4E2D;&#x8ABF;&#x7528;&#x4E86;&#x5169;&#x500B;&#x8B8A;&#x53C3;&#x51FD;&#x6578;&#xFF0C;
-&#x4F46;&#x662F;&#x68E7;&#x537B;&#x6C92;&#x6709;&#x4E00;&#x9EDE;&#x52D5;&#x614B;&#x53EF;&#x8B8A;&#x7684;&#x610F;&#x601D;&#xFF0C;&#x5C45;&#x7136;&#x662F;&#x7528;&#x4E00;&#x689D; subl $16, %esp
-&#x5206;&#x914D;&#x4E86;&#x56FA;&#x5B9A;&#x7684; 16 &#x5B57;&#x7BC0;&#x7684;&#x68E7;&#x7A7A;&#x9593;
-&#xFF08;&#x7DE8;&#x8B6F;&#x7684;&#x6642;&#x5019;&#x8A08;&#x7B97;&#x5F97;&#x51FA;&#x9700;&#x8981;12&#x5B57;&#x7BC0;&#xFF0C;&#x53D6;&#x6574;&#x5427;&#xFF0C;16&#x5B57;&#x7BC0;&#xFF01;&#xFF09;&#x3002;</p>
-<p>&#x3000;&#x3000;&#x800C;&#x5728; d_printf &#x7684;&#x5BE6;&#x73FE;&#x4E2D;&#x9700;&#x8981;&#x5206;&#x914D; 4+4*n &#x5B57;&#x7BC0;&#x7684;&#x68E7;&#x7A7A;&#x9593;&#xFF0C;
-&#x7528;&#x65BC;&#x5B58;&#x50B3;&#x7D66; printf &#x7684; &#x683C;&#x5F0F;&#x4E32;&#x6307;&#x91DD; &#x548C; n&#x500B;&#x6574;&#x6578;&#xFF0C;
-&#x7528;C&#x8A9E;&#x8A00;&#x662F;&#x6C92;&#x6CD5;&#x5BE6;&#x73FE;&#x56C9;&#x3002;</p>
-<h2 id="&#x4E09;&#x3001;&#x53E6;&#x95E2;&#x8E4A;&#x5F91;">&#x4E09;&#x3001;&#x53E6;&#x95E2;&#x8E4A;&#x5F91;</h2>
-<p>&#x3000;&#x3000;C&#x8A9E;&#x8A00;&#x4E0D;&#x80FD;&#x76F4;&#x63A5;&#x4F7F;&#x7528;&#x5BC4;&#x5B58;&#x5668;&#xFF0C;&#x4F46;&#x662F;&#x5F59;&#x7DE8;&#x53EF;&#x4EE5;&#xFF0C;
-&#x5982;&#x679C;&#x6211;&#x5011;&#x5728; d_printf &#x4E2D;&#x5D4C;&#x5165;&#x4E00;&#x6BB5;&#x5F59;&#x7DE8;&#x4F86;&#x4FEE;&#x6539; esp &#x5BC4;&#x5B58;&#x5668;&#xFF0C;
-&#x9054;&#x5230;&#x52D5;&#x614B;&#x5206;&#x914D;&#x68E7;&#x7A7A;&#x9593;&#x7684;&#x6548;&#x679C;&#xFF0C;&#x7136;&#x5F8C;&#x5B58;&#x5165;&#x53C3;&#x6578;&#xFF0C;call printf&#xFF0C;
-&#x5C31;&#x53EF;&#x4EE5;&#x5B8C;&#x6210;&#x4EFB;&#x52D9;&#x4E86;&#x3002;</p>
-<p>&#x63A5;&#x4E0B;&#x4F86;&#x7684;&#x5169;&#x7BC7;&#x5C31;&#x4F86;&#x5BE6;&#x73FE; d_printf &#x56C9;&#xFF01;</p>
 
                     
                     </section>
@@ -15614,10 +15612,10 @@
         </div>
 
         
-        <a href="../simplelinux/varargs.html" class="navigation navigation-prev " aria-label="Previous page: 可變參數"><i class="fa fa-angle-left"></i></a>
+        <a href="../docker/men_wai_han_de_docker_xiao_shi_shen_shou.html" class="navigation navigation-prev " aria-label="Previous page: 門外漢的 Docker 小試身手"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../simplelinux/inlineasm.html" class="navigation navigation-next " aria-label="Next page: 內聯彙編"><i class="fa fa-angle-right"></i></a>
+        <a href="../javascript/javascript.html" class="navigation navigation-next " aria-label="Next page: Javascript"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

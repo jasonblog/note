@@ -981,5 +981,5 @@
    * [ubuntu下多版本opencv切換](opencv/ubuntuxia_duo_ban_ben_opencv_qie_huan.md)
    * [IplImage 和 Mat 互轉](opencv/iplimage_he_mat_hu_zhuan.md)
    * [通過C++ wrapper 實現存取圖像像素](opencv/tong_guo_c_++_wrapper_shi_xian_cun_qu_tu_xiang_xia.md)
-   * 如何把OpenCV Python获取的图像传递到C层处理
+   * [如何把OpenCV Python获取的图像传递到C层处理](opencv/ru_he_ba_opencv_python_huo_qu_de_tu_xiang_chuan_di.md)
 

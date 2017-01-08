@@ -3,7 +3,7 @@
 
 ## ld-linux.so查找共享庫的順序：
 
-Glibc安裝的庫中有一個為ld-linux.so.X，其中X為一個數字，在不同的平台上名字也會不同。可以用ldd查看：
+Glibc安裝的庫中有一個為ld-linux.so.X，其中X為一個數字，在不同的平臺上名字也會不同。可以用ldd查看：
 
 ```sh
 #ldd /bin/cat

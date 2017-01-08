@@ -891,7 +891,7 @@
    * [gcc編譯參數-fPIC的一些問題](linked_and_loader/gccbian_yi_can_6570-_fpic_de_yi_xie_wen_ti.md)
    * [Linux下怎樣判斷一個binary是否可以debug](linked_and_loader/linuxxia_zen_yang_pan_duan_yi_ge_binary_shi_fou_ke.md)
    * [查看正在運行的動態鏈接的程序中，某個動態庫中函數的虛擬地址](linked_and_loader/cha_kan_zheng_zai_yun_xing_de_dong_tai_lian_jie_de.md)
-   * [使用另一个版本的glibc](linked_and_loader/shi_yong_ling_yi_ge_ban_ben_de_glibc.md)
+   * [使用另一個版本的glibc](linked_and_loader/shi_yong_ling_yi_ge_ban_ben_de_glibc.md)
    * [linux 動態裝載動態庫 ldd，ldconfig，ld.so.conf, ld.so.cache](linked_and_loader/linux_dong_tai_zhuang_zaidong_tai_ku_ldd__ldconfig.md)
    * [Linux 的動態連結與載入 (Dynamic Linking)](linked_and_loader/linux_de_dong_tai_lian_jie_yu_zai_ru__dynamic_link.md)
    * [ld-linux.so.X查找和加載共享動態庫的順序](linked_and_loader/linuxxi_tong_2014_2014_ld_-_linux__so__x_cha_zhao_.md)
@@ -981,5 +981,5 @@
    * [ubuntu下多版本opencv切換](opencv/ubuntuxia_duo_ban_ben_opencv_qie_huan.md)
    * [IplImage 和 Mat 互轉](opencv/iplimage_he_mat_hu_zhuan.md)
    * [通過C++ wrapper 實現存取圖像像素](opencv/tong_guo_c_++_wrapper_shi_xian_cun_qu_tu_xiang_xia.md)
-   * [如何把OpenCV Python获取的图像传递到C层处理](opencv/ru_he_ba_opencv_python_huo_qu_de_tu_xiang_chuan_di.md)
+   * [如何把OpenCV Python獲取的圖像傳遞到C層處理](opencv/ru_he_ba_opencv_python_huo_qu_de_tu_xiang_chuan_di.md)
 

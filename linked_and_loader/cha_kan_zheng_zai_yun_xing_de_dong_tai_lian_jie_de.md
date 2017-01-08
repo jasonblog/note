@@ -29,7 +29,7 @@ int main()
 ```sh
 # gcc hello.c  (不加-static，默認就是動態鏈接)
 
-# ./a.out & (後台運行，並且打印出程序pid)
+# ./a.out & (後臺運行，並且打印出程序pid)
 [3] 1049   
 
 ```

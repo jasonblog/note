@@ -1,12 +1,12 @@
-# 如何把OpenCV Python获取的图像传递到C层处理
+# 如何把OpenCV Python獲取的圖像傳遞到C層處理
 
 
-用OpenCV Python来开发，如果想要用到一些C/C++的图像处理库，就需要创建Python的C/C++扩展，然后把数据从Python传递到底层处理。这里分享下如何在C/C++层获取数据。
+用OpenCV Python來開發，如果想要用到一些C/C++的圖像處理庫，就需要創建Python的C/C++擴展，然後把數據從Python傳遞到底層處理。這裡分享下如何在C/C++層獲取數據。
 
-参考原文：[How to Convert OpenCV Image Data from Python to C](http://www.codepool.biz/convert-opencv-image-python-c.html)
+參考原文：[How to Convert OpenCV Image Data from Python to C](http://www.codepool.biz/convert-opencv-image-python-c.html)
 
 
-##开发环境
+##開發環境
 
 - Dynamsoft Barcode Reader 4.2
 - Python version: 2.7.0
@@ -14,11 +14,11 @@
 - Windows 10
 - USB webcam
 
-## Python C/C++扩展
+## Python C/C++擴展
 
-把DynamsoftBarcodeReaderx86.dll和cv2.pyd拷贝到目录Python27\Lib\site-packages。
+把DynamsoftBarcodeReaderx86.dll和cv2.pyd拷貝到目錄Python27\Lib\site-packages。
 
-OpenCV Python获取的图像数据类型是numpy.ndarray:
+OpenCV Python獲取的圖像數據類型是numpy.ndarray:
 
 ```py
 > rval, frame = vc.read();
@@ -26,7 +26,7 @@ OpenCV Python获取的图像数据类型是numpy.ndarray:
 > <type 'numpy.ndarray'>
 ```
 
-在C层我们希望能获取到数据的指针。查看OpenCV源码文件opencv\modules\python\src2\cv2.cv.hpp可以找到方法：
+在C層我們希望能獲取到數據的指針。查看OpenCV源碼文件opencv\modules\python\src2\cv2.cv.hpp可以找到方法：
 
 ```cpp
 PyObject *o;
@@ -55,7 +55,7 @@ int height = pai->shape[0];      // image height
 int size = pai->strides[0] * pai->shape[0]; // image size = stride * height
 ```
 
-这样就可以了。现在可以用这个数据做点事情，比如调用barcode接口来做检测。我依然用Dynamsoft Barcode Reader SDK做示例。首先需要构建一下数据：
+這樣就可以了。現在可以用這個數據做點事情，比如調用barcode接口來做檢測。我依然用Dynamsoft Barcode Reader SDK做示例。首先需要構建一下數據：
 
 ```cpp
 char *total = (char *)malloc(size + 40); // buffer size = image size + header size
@@ -72,7 +72,7 @@ for (int i = 1; i <= height; i++) {
 }
 ```
 
-接下来就可以检测barcode了：
+接下來就可以檢測barcode了：
 
 ```cpp
 // Dynamsoft Barcode Reader initialization
@@ -104,14 +104,14 @@ for (int i = 1; i <= height; i++) {
     DBR_FreeBarcodeResults(&pResults);
 ```
 
-在Windows上构建Python扩展需要先设置一下，不然会出错。我使用Visual Studio 2015。命令行如下：
+在Windows上構建Python擴展需要先設置一下，不然會出錯。我使用Visual Studio 2015。命令行如下：
 
 ```py
 SET VS90COMNTOOLS=%VS140COMNTOOLS%
 python setup.py build install
 ```
 
-好了。现在可以用Python脚本来调用了。首先打开摄像头：
+好了。現在可以用Python腳本來調用了。首先打開攝像頭：
 
 ```py
 import cv2
@@ -121,14 +121,14 @@ import time
 vc = cv2.VideoCapture(0)
 ```
 
-接下来读取一帧的数据：
+接下來讀取一幀的數據：
 
 ```py
 cv2.imshow(windowName, frame)
 rval, frame = vc.read();
 ```
 
-现在可以实时检测barcode了：
+現在可以實時檢測barcode了：
 
 ```py
 initLicense("<license>") # Invalid license is fine.
@@ -140,7 +140,7 @@ if (len(results) > 0):
         print "Value: " + result[1] + "\n"
 ```
 
-##源码
+##源碼
 
 https://github.com/yushulx/opencv-python-webcam-barcode-reader
 

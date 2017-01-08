@@ -55,7 +55,7 @@ int main()
 
 然而，範例 1 只是一個簡單的動態載入功能，execve 函數能做到的功能相當的有限，如果我們使用 UNIX/Linux 中的 libdl.so 這的函式庫，那可以做到較為先進的動態載入功能，像是連續呼叫同一個函式庫，或取得函式庫中的變數值等等。
 
-表格 1 顯示了這兩個平台的動態載入函式庫對照表。在 UNIX/Linux 當中，『dl』 函式庫可支援動態載入功能，其引用檔為 dlfcn.h，函式庫的目的檔為 libdl.so，可以用 dlopen() 載入動態函式庫，然後用 dlsym() 取得函數指標，最後用 dlclose() 函數關閉函式庫。
+表格 1 顯示了這兩個平臺的動態載入函式庫對照表。在 UNIX/Linux 當中，『dl』 函式庫可支援動態載入功能，其引用檔為 dlfcn.h，函式庫的目的檔為 libdl.so，可以用 dlopen() 載入動態函式庫，然後用 dlsym() 取得函數指標，最後用 dlclose() 函數關閉函式庫。
 
 而在 MS. Windows 當中，動態函式庫直接內建在核心當中，其引用檔為 windows.h，動態連結的目的檔為 Kernel32.dll，可以使用 LoadLibrary() 與 LoadLibraryEx() 等函數載入動態函式庫，然後用 GetProcAddress 取得函數位址，最後用 FreeLibrary() 關閉動態函式庫。
 

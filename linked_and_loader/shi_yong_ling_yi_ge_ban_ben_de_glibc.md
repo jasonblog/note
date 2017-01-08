@@ -1,16 +1,16 @@
-# 使用另一个版本的glibc
+# 使用另一個版本的glibc
 
 
-glibc是Linux系统的核心库，稍有不慎就会导致系统崩溃。如果在程序中必须使用另一版本的glibc，则需要小心从事。具体来言，是在编译时指定`--rpath`和`--dynamic-linker`，而在运行时指定LIB_LIBRARY_PATH。
+glibc是Linux系統的核心庫，稍有不慎就會導致系統崩潰。如果在程序中必須使用另一版本的glibc，則需要小心從事。具體來言，是在編譯時指定`--rpath`和`--dynamic-linker`，而在運行時指定LIB_LIBRARY_PATH。
 
 ```sh
 gcc main.c -o main -Wl,--rpath=/path/to/new/glibc/lib \
 		-Wl,--dynamic-linker=/path/to/new/glibc/ld-linux.so.2
 ```
 
-其中ld-linux.so.2在64位系统下可能为ld-linux-x86-64.so.2，它的路径会硬编码到程序中(因此显式指定时换成别的名字也没什么问题)。正是这个原因，导致很多已有程序不能使用新glibc的库。
+其中ld-linux.so.2在64位系統下可能為ld-linux-x86-64.so.2，它的路徑會硬編碼到程序中(因此顯式指定時換成別的名字也沒什麼問題)。正是這個原因，導致很多已有程序不能使用新glibc的庫。
 
-另外，查看链接问题的两个常用工具是:
+另外，查看鏈接問題的兩個常用工具是:
 
-- ldd: 查看可执行文件或动态库依赖的其它的库
-- strings: 查看库中的字符串，比如`strings /lib64/libc.so.2 | grep GLIBC` 可以查看GLIBC支持的版本。
+- ldd: 查看可執行文件或動態庫依賴的其它的庫
+- strings: 查看庫中的字符串，比如`strings /lib64/libc.so.2 | grep GLIBC` 可以查看GLIBC支持的版本。

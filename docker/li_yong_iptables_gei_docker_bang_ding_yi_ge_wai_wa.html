@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Qemu_KGDB_Ftrace | Jason note</title>
+        <title>利用iptables給Docker綁定一個外網IP | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -41,10 +41,10 @@
         
     
     
-    <link rel="next" href="../qemu/72.html" />
+    <link rel="next" href="../javascript/javascript.html" />
     
     
-    <link rel="prev" href="../qemu/712.html" />
+    <link rel="prev" href="../docker/openkore_in_docker_dockerfile.html" />
     
 
         <!-- head:end -->
@@ -53,9 +53,9 @@
         <!-- body:start -->
         
     <div class="book"
-        data-level="6.3"
-        data-chapter-title="Qemu_KGDB_Ftrace"
-        data-filepath="qemu/qemu_kgdb_ftrace.md"
+        data-level="57.4"
+        data-chapter-title="利用iptables給Docker綁定一個外網IP"
+        data-filepath="docker/li_yong_iptables_gei_docker_bang_ding_yi_ge_wai_wa.md"
         data-basepath=".."
         data-revision="Sun Jan 08 2017 22:58:15 GMT+0800 (CST)"
         data-innerlanguage="">
@@ -1506,7 +1506,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="6.3" data-path="qemu/qemu_kgdb_ftrace.html">
+        <li class="chapter " data-level="6.3" data-path="qemu/qemu_kgdb_ftrace.html">
             
                 
                     <a href="../qemu/qemu_kgdb_ftrace.html">
@@ -14845,7 +14845,7 @@
             
         </li>
     
-        <li class="chapter " data-level="57.4" data-path="docker/li_yong_iptables_gei_docker_bang_ding_yi_ge_wai_wa.html">
+        <li class="chapter active" data-level="57.4" data-path="docker/li_yong_iptables_gei_docker_bang_ding_yi_ge_wai_wa.html">
             
                 
                     <a href="../docker/li_yong_iptables_gei_docker_bang_ding_yi_ge_wai_wa.html">
@@ -15558,221 +15558,77 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="qemu--kgdb--ftrace">QEMU + KGDB + Ftrace</h1>
-<h3 id="cross-comiler">cross comiler</h3>
-<pre><code>http://releases.linaro.org/14.05/components/toolchain/binaries
-
-arm-linux-gnueabi-linaro_4.9.1-2014.07
-https://github.com/Christopher83/linaro_toolchains_2014
-
-https://launchpad.net/linaro-toolchain-binaries/
-https://launchpad.net/linaro-toolchain-binaries/trunk/2013.10/+download/gcc-linaro-arm-linux-gnueabihf-4.8-2013.10_linux.tar.bz2
-</code></pre><h3 id="gdb79-build--gdbserver-and-gdb">gdb-7.9 build  gdbserver and gdb</h3>
-<pre><code>./configure --target=arm-linux --prefix=/usr/local/arm-gdb
-# --target=arm-linux&#x8868;&#x793A;&#x751F;&#x6210;&#x7684;gdb&#x8ABF;&#x8A66;&#x7684;&#x76EE;&#x6A19;&#x662F;&#x5728;arm&#x6838;&#x5FC3;Linux&#x7CFB;&#x7D71;&#x4E2D;&#x904B;&#x884C;&#x7684;&#x7A0B;&#x5E8F;
-
-make
-sudo make install
-</code></pre><ul>
-<li>Toolchain &#x7121;&#x6CD5;&#x4F7F;&#x7528; android &#x7684; arm &#x7DE8;&#x8B6F;&#x5668;&#x76EE;&#x524D;&#x539F;&#x56E0;&#x4E0D;&#x6E05;&#x695A;</li>
-</ul>
-<pre><code>https://launchpad.net/linaro-toolchain-binaries/trunk/2013.10/+download/gcc-linaro-arm-linux-gnueabihf-4.8-2013.10_linux.tar.bz2
-</code></pre><ul>
-<li>build.env</li>
-</ul>
-<pre><code># -*- shell-script -*-
-TOOLCHAIN=gcc-linaro-arm-linux-gnueabihf-4.8-2013.10_linux
-DIR=$(pushd $(dirname $BASH_SOURCE) &gt; /dev/null; pwd; popd &gt; /dev/null)
-echo $DIR
-export PATH=${PATH}:${DIR}/${TOOLCHAIN}/bin
-export CC=arm-linux-gnueabihf-gcc
-</code></pre><h3 id="gdbserver--&#x8981;&#x6CE8;&#x610F;gdb&#x548C;gdbserver&#x7248;&#x672C;&#x4E00;&#x81F4;">gdbserver , &#x8981;&#x6CE8;&#x610F;gdb&#x548C;gdbserver&#x7248;&#x672C;&#x4E00;&#x81F4;</h3>
-<pre><code>source build.env
-./configure --target=arm-linux --host=arm-linux LDFLAGS=&quot;-static&quot;
-# &#x9019;&#x88E1;&#x7684;--host&#x6307;&#x5B9A;&#x9019;&#x500B;&#x7A0B;&#x5E8F;&#x7684;&#x76EE;&#x6A19;&#x5E73;&#x81FA;&#x3002;&#x9019;&#x4E00;&#x6B65;&#x4E2D;&#x6703;&#x6AA2;&#x67E5;&#x7CFB;&#x7D71;&#x4E2D;&#x662F;&#x5426;&#x6709;&#x4EA4;&#x53C9;&#x7DE8;&#x8B6F;&#x5668;&#x7684;&#x3002;
-# We must add the above LDFLAGS to let gdb statically linked, otherwise it cannot
-run on Android.
-
-time make -j8 2&gt;&amp;1 | tee build.log
-file ./gdbserver
-
-./gdbserver: ELF 32-bit LSB  executable, ARM, EABI5 version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 3.1.1, BuildID[sha1]=4eec8a5a6893ed8ce65eea5d0741a55cc621236a, not stripped
-</code></pre><h1 id="linaro-qemu">linaro qemu</h1>
-<pre><code>git clone git://git.linaro.org/qemu/qemu-linaro.git
-
-$ cd qemu-linaro
-$ mkdir build
-$ cd build
-$ ../configure --prefix=/usr/local/qemu-linaro
-$ make -j8
-$ sudo make install
-</code></pre><h1 id="bashrc">~/.bashrc</h1>
-<pre><code>export PATH=/usr/local/qemu-linaro/bin:$PATH
-</code></pre><h1 id="busybox">busybox</h1>
-<pre><code>make -j8 ARCH=arm CROSS_COMPILE=arm-eabi- defconfig  // generation .config
-</code></pre><h3 id="&#x6253;&#x958B;-busybox-&#x9078;&#x9805;">&#x6253;&#x958B; Busybox &#x9078;&#x9805;</h3>
-<pre><code>CONFIG_STATIC=y
-CONFIG_INSTALL_NO_USR=y
-CONFIG_FEATURE_PREFER_APPLETS=y
-CONFIG_FEATURE_SH_STANDALONE=y
-</code></pre><h3 id="build-busybox">build busybox</h3>
-<pre><code>make -j8 ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-
-make -j8 ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- install  // &#x7522;&#x751F; _install &#x8CC7;&#x6599;&#x593E;
-</code></pre><h1 id="&#x5EFA;&#x7ACB;root-filesystem-image">&#x5EFA;&#x7ACB;root filesystem image</h1>
-<pre><code>// arm-linux-gnueabihf-gcc hello.c -o hello
-#include &lt;stdio.h&gt;
-
-int main(int argc, char *argv[])
-{
-    printf(&quot;Hello world\n&quot;);
-    return 0;
-}
-</code></pre><h3 id="&#x67E5;&#x8A62;--hello-&#x6240;&#x9700;&#x8981;&#x7684;&#x3000;share-library">&#x67E5;&#x8A62;  hello &#x6240;&#x9700;&#x8981;&#x7684;&#x3000;share library</h3>
-<pre><code>arm-linux-gnueabihf-readelf -a  hello | ag &apos;\.so&apos;
-
-[Requesting program interpreter: /lib/ld-linux-armhf.so.3]
- 0x00000001 (NEEDED)                     Shared library: [libc.so.6]
-0001055c  00000216 R_ARM_JUMP_SLOT   00000000   __libc_start_main
-     1: 00000000     0 FUNC    GLOBAL DEFAULT  UND puts@GLIBC_2.4 (2)
-     2: 00000000     0 FUNC    GLOBAL DEFAULT  UND __libc_start_main@GLIBC_2.4 (2)
-     4: 00000000     0 FUNC    GLOBAL DEFAULT  UND abort@GLIBC_2.4 (2)
-    84: 00008431     2 FUNC    GLOBAL DEFAULT   13 __libc_csu_fini
-    93: 00000000     0 FUNC    GLOBAL DEFAULT  UND puts@@GLIBC_2.4
-    94: 00000000     0 FUNC    GLOBAL DEFAULT  UND __libc_start_main@@GLIBC_
-    98: 000083f1    64 FUNC    GLOBAL DEFAULT   13 __libc_csu_init
-   107: 00000000     0 FUNC    GLOBAL DEFAULT  UND abort@@GLIBC_2.4
-  000:   0 (*local*)       2 (GLIBC_2.4)     2 (GLIBC_2.4)     0 (*local*)
-  004:   2 (GLIBC_2.4)
-  000000: Version: 1  File: libc.so.6  Cnt: 1
-  0x0010:   Name: GLIBC_2.4  Flags: none  Version: 2
-</code></pre><ul>
-<li>&#x9700;&#x8981;&#x3000;ld-linux-armhf.so.3&#x3000;&amp; libc.so.6</li>
-<li>&#x5982;&#x679C;&#x7DE8;&#x8B6F;&#x6210; static &#x61C9;&#x8A72;&#x5C31;&#x4E0D;&#x9700;&#x8981; share libray</li>
-</ul>
-<pre><code>[Requesting program interpreter: /lib/ld-linux-armhf.so.3]
-0x00000001 (NEEDED)                     Shared library: [libc.so.6]
-000000: Version: 1  File: libc.so.6  Cnt: 1
-</code></pre><h3 id="&#x958B;&#x59CB;&#x5EFA;&#x7ACB;-filesystem">&#x958B;&#x59CB;&#x5EFA;&#x7ACB; filesystem</h3>
-<pre><code>cd busybox-1.23.2/_install/
-mkdir -p proc sys dev etc etc/init.d lib
-cd gcc-linaro-arm-linux-gnueabihf-4.9-2014.05_linux
-find . -name  &apos;libc.so.6&apos;
-cp -a gcc-linaro-arm-linux-gnueabihf-4.9-2014.05_linux/arm-linux-gnueabihf/libc/* busybox-1.23.2/_install/lib
-
-
-cat &lt;&lt; EOF &gt; etc/fstab
-proc  /proc  proc  defaults  0  0
-sysfs  /sys  sysfs defaults  0  0
-tmpfs  /tmp  tmpfs defaults  0  0
-EOF
-
-
-cat &lt;&lt; EOF &gt; etc/inittab
-::sysinit:/etc/init.d/rcS
-::respawn:-/bin/sh
-tty2::askfirst:-/bin/sh
-::ctrlaltdel:/bin/umount -a -r
-EOF
-
-// etc/init.d/rcS
-#! /bin/sh
-
-MAC=08:90:90:59:62:21
-IP=192.168.100.2
-Mask=255.255.255.0
-Gateway=192.168.100.1
-</code></pre><ul>
-<li>chmod 755 etc/init.d/rcS</li>
-<li>&#x7522;&#x751F; rootfs, &#x53EF;&#x5728;temp &#x4E0B;&#x65B0;&#x589E;&#x4FEE;&#x6539;&#x6A94;&#x6848;</li>
-</ul>
-<pre><code>find ./ | cpio -o -H newc | gzip &gt; ../rootfs.img
-</code></pre><h1 id="build-kernel">build kernel</h1>
-<ul>
-<li>linux-3.18.16  , &#x76EE;&#x524D;4.1&#x7248;&#x672C;&#x597D;&#x50CF;&#x6703;&#x6709;&#x554F;&#x984C;  , qemu &#x7121;&#x6CD5;&#x4F7F;&#x7528;</li>
-</ul>
-<pre><code>make ARCH=arm  vexpress_defconfig
-make ARCH=arm  menuconfig  or  make ARCH=arm  vexpress_defconfig menuconfig
-make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- -j12
-</code></pre><h1 id="&#x5B89;&#x88DD;-tftp">&#x5B89;&#x88DD; tftp</h1>
-<pre><code>sudo apt-get install tftp-hpa tftpd-hpa
-/etc/default/tftpd-hpa
-# /etc/default/tftpd-hpa
-TFTP_USERNAME=&quot;tftp&quot;
-TFTP_DIRECTORY=&quot;/tftpboot&quot;
-TFTP_ADDRESS=&quot;0.0.0.0:69&quot;
-TFTP_OPTIONS=&quot;-l -c -s&quot;
-</code></pre><h1 id="&#x5EFA;&#x7ACB;-tftpboot">&#x5EFA;&#x7ACB; tftpboot</h1>
-<pre><code>sudo mkdir /tftpboot
-sudo chmod 777 /tftpboot
-// restart service
-sudo service tftpd-hpa restart
-// test tftp
-tftp host-ip  // ex tftp localhost
-get or put
-ex: tftp -g -r hello.c  192.168.100.1
-</code></pre><h1 id="&#x555F;&#x52D5;-tap-">&#x555F;&#x52D5; tap :</h1>
-<pre><code>sudo apt-get install uml-utilities   // &#x9700;&#x8981;&#x5B89;&#x88DD;
-sudo ./nettap.sh  // &#x5FC5;&#x9808;&#x52A0;&#x4E0A; sudo
-</code></pre><ul>
-<li>nettap.sh</li>
-</ul>
-<pre><code>#! /bin/bash
-tunctl -u jason-yao -t tap0
-ifconfig tap0 192.168.100.1 up
-echo 1 &gt; /proc/sys/net/ipv4/ip_forward
-iptables -t nat -A POSTROUTING -o eth1 -j MASQUERADE
-iptables -I FORWARD 1 -i tap0 -j ACCEPT
-iptables -I FORWARD 1 -o tap0 -m state --state RELATED,ESTABLISHED -j ACCEPT
-</code></pre><h1 id="&#x555F;&#x52D5;-qemu">&#x555F;&#x52D5; QEMU</h1>
-<pre><code>qemu-system-arm -M vexpress-a9 \
-                -kernel zImage \
-                -initrd rootfs.img \
-                -serial stdio \
-                -append &quot;root=/dev/ram rdinit=/sbin/init console=ttyAMA0&quot; \
-                -k en-us \
-                -net nic \
-                -net tap,ifname=tap0,script=no
-
-
-qemu-system-arm -M vexpress-a9 \
-                -kernel zImage \
-                -initrd rootfs.img \
-                -serial stdio \
-                -append &quot;root=/dev/ram rdinit=/sbin/init console=ttyAMA0&quot; \
-                -k en-us \
-                -net nic \
-                -net tap,ifname=tap0,script=no \
-                -gdb tcp::1234 -S
-</code></pre><h1 id="&#x555F;&#x52D5;-gdb">&#x555F;&#x52D5; GDB</h1>
-<pre><code>arm-linux-gnueabihf-gdb  ./vmlinux
-target remote localhost:1234
-</code></pre><h1 id="&#x4F7F;&#x7528;ftrace">&#x4F7F;&#x7528;Ftrace</h1>
-<pre><code>Kernel hacking -&gt; Tracers -&gt; enable/disable ftrace tracepoints dynamically
-Kernel hacking -&gt; Tracers -&gt; Kernel Function Tracer
-
-mount -t debugfs none /sys/kernel/debug
-cd /sys/kernel/debug/tracing
-</code></pre><pre><code>qemu-system-arm -m 1024M -sd armdisk.img \
-                -M vexpress-a9 -cpu cortex-a9 \
-                -kernel vmlinuz-3.2.0-4-vexpress -initrd initrd.gz \
-                -append &quot;root=/dev/ram&quot;  -no-reboot
-</code></pre><ul>
-<li>ftrace_on.sh</li>
-</ul>
-<pre><code>#!/bin/bash
-
-mount -t debugfs none /sys/kernel/debug
-echo 16384 &gt; /sys/kernel/debug/tracing/buffer_size_kb
-echo nop &gt; /sys/kernel/debug/tracing/current_tracer
-
-echo 1 &gt; /sys/kernel/debug/tracing/events/kmem/kmalloc/enable
-echo 1 &gt; /sys/kernel/debug/tracing/events/kmem/kmalloc_node/enable
-echo 1 &gt; /sys/kernel/debug/tracing/events/kmem/kfree/enable
-
-echo 0 &gt; /sys/kernel/debug/tracing/tracing_on
-echo  &gt; /sys/kernel/debug/tracing/trace
-echo 1 &gt; /sys/kernel/debug/tracing/tracing_on
+                        <h1 id="&#x5229;&#x7528;iptables&#x7D66;docker&#x7D81;&#x5B9A;&#x4E00;&#x500B;&#x5916;&#x7DB2;ip">&#x5229;&#x7528;iptables&#x7D66;Docker&#x7D81;&#x5B9A;&#x4E00;&#x500B;&#x5916;&#x7DB2;IP</h1>
+<h2 id="&#x80CC;&#x666F;">&#x80CC;&#x666F;</h2>
+<p>&#x7531;&#x65BC;Docker&#x9ED8;&#x8A8D;&#x662F;&#x4E0D;&#x80FD;&#x5920;&#x8207;&#x5916;&#x90E8;&#x9032;&#x884C;&#x76F4;&#x63A5;&#x7684;&#x901A;&#x4FE1;&#xFF0C;&#x6BD4;&#x8F03;&#x666E;&#x904D;&#x7684;&#x5F77;&#x5F7F;&#x662F;&#x5229;&#x7528;&#x555F;&#x52D5;&#x6642;-p&#x4F86;&#x8207;&#x4E3B;&#x6A5F;&#x9032;&#x884C;&#x7AEF;&#x53E3;&#x6620;&#x5C04;&#x8207;&#x5916;&#x754C;&#x6E9D;&#x901A;&#x3002;&#x4F46;&#x662F;&#x6709;&#x6642;&#x5019;&#x5728;&#x6709;&#x5176;&#x4ED6;&#x9700;&#x6C42;&#x6642;&#x4E26;&#x4E0D;&#x592A;&#x65B9;&#x4FBF;&#xFF0C;&#x7279;&#x5225;&#x662F;&#x5728;&#x9032;&#x884C;&#x4E00;&#x4E9B;docker&#x6253;&#x5305;&#x4E4B;&#x524D;&#x7684;&#x5167;&#x90E8;&#x958B;&#x767C;&#x6642;&#xFF0C;&#x5E0C;&#x671B;&#x5176;&#x80FD;&#x5920;&#x50CF;&#x865B;&#x6A5F;&#x4E00;&#x6A23;&#x80FD;&#x5920;&#x8207;&#x5916;&#x90E8;&#x6709;&#x5F88;&#x597D;&#x7684;&#x901A;&#x4FE1;&#xFF0C;&#x4FBF;&#x5E0C;&#x671B;&#x5176;&#x80FD;&#x5920;&#x7D81;&#x5B9A;&#x5916;&#x90E8;&#x7684;IP&#x5730;&#x5740;&#x3002; 
+docker&#x9ED8;&#x8A8D;&#x7684;&#x7DB2;&#x7D61;&#x662F;&#x6A4B;&#x63A5;&#x5728;&#x5275;&#x5EFA;&#x597D;&#x5F8C;&#x7684;&#x7DB2;&#x6A4B;docker0&#x4E0A;&#x7684;&#x3002;docker0&#x9ED8;&#x8A8D;&#x7684;&#x5178;&#x578B;&#x5730;&#x5740;&#x70BA;172.17.42.1&#xFF0C;&#x5B50;&#x7DB2;&#x63A9;&#x78BC;&#x70BA;255.255.0.0&#x3002;&#x4E4B;&#x5F8C;&#x555F;&#x52D5;&#x5BB9;&#x5668;&#x6703;&#x7D66;&#x5BB9;&#x5668;&#x5206;&#x914D;&#x4E00;&#x500B;&#x540C;&#x4E00;&#x7DB2;&#x6BB5;&#xFF08;172.17.0.0/16&#xFF09;&#x7684;&#x5730;&#x5740;&#x3002;&#x7136;&#x5F8C;&#x555F;&#x52D5;docker&#x5BB9;&#x5668;&#x6642;&#x6703;&#x5275;&#x5EFA;&#x4E00;&#x5C0D;veth pair&#x3002;&#x5176;&#x4E2D;&#x4E00;&#x7AEF;&#x70BA;&#x5BB9;&#x5668;&#x5167;&#x90E8;&#x7684;eth0&#xFF0C;&#x53E6;&#x5916;&#x4E00;&#x7AEF;&#x70BA;&#x639B;&#x8F09;&#x5230;docker0&#x7DB2;&#x6A4B;&#x4E26;&#x4EE5;veth&#x958B;&#x982D;&#x547D;&#x540D;&#x3002;&#x5982;&#x4E0B;&#x6240;&#x793A;&#xFF1A;</p>
+<pre><code class="lang-sh"><span class="hljs-comment">#brctl show</span>
+bridge name bridge id STPenabled interfaces
+docker0 <span class="hljs-number">8000.56847</span>afe9799 no veth135f096
+veth5f8fe2d
 </code></pre>
+<p>&#x901A;&#x904E;&#x9019;&#x7A2E;&#x65B9;&#x5F0F;&#xFF0C;&#x5BB9;&#x5668;&#x53EF;&#x4EE5;&#x8DDF;&#x4E3B;&#x6A5F;&#x4EE5;&#x53CA;&#x5BB9;&#x5668;&#x4E4B;&#x9593;&#x9032;&#x884C;&#x901A;&#x4FE1;&#xFF0C;&#x4E3B;&#x6A5F;&#x548C;&#x5BB9;&#x5668;&#x5171;&#x4EAB;&#x865B;&#x64EC;&#x7DB2;&#x7D61;&#x3002; 
+&#x5728;&#x505A;&#x958B;&#x767C;&#x7B49;&#x6642;&#x5019;&#xFF0C;&#x53EF;&#x80FD;&#x5E0C;&#x671B;&#x5BB9;&#x5668;&#x80FD;&#x5920;&#x50CF;&#x865B;&#x6A5F;&#x4E00;&#x6A23;&#x9060;&#x7A0B;&#x767B;&#x9304;&#x8207;&#x8A2A;&#x554F;&#xFF0C;&#x9019;&#x6642;&#x5019;&#x5C31;&#x9700;&#x8981;&#x7D66;&#x5BB9;&#x5668;&#x518D;&#x7D81;&#x5B9A;&#x4E00;&#x500B;&#x5916;&#x90E8;IP&#x5730;&#x5740;&#xFF0C;&#x9019;&#x6642;&#x5019;&#x5373;&#x53EF;&#x8003;&#x616E;&#x63A1;&#x7528;iptables&#x9032;&#x884C;&#x7AEF;&#x53E3;&#x8F49;&#x767C;&#x4F86;&#x5BE6;&#x73FE;&#x5C0D;&#x65BC;&#x5BB9;&#x5668;&#x7684;&#x5916;&#x90E8;IP&#x7D81;&#x5B9A;&#x3002;</p>
+<h2 id="&#x74B0;&#x5883;">&#x74B0;&#x5883;</h2>
+<p>&#x4E00;&#x53F0;ubuntu&#x7684;&#x670D;&#x52D9;&#x5668;&#xFF0C;&#x6240;&#x5C6C;&#x7DB2;&#x6BB5;&#x70BA;10.50.10.0/26&#xFF0C;&#x8A72;&#x670D;&#x52D9;&#x5668;&#x7684;IP&#x70BA;10.50.10.26&#xFF0C;&#x7531;&#x65BC;&#x9084;&#x4F7F;&#x7528;&#x4E86;ovs&#xFF0C;&#x56E0;&#x6B64;&#x662F;&#x8A72;IP&#x662F;&#x5728;br-ex&#x4E0A;&#x7684;&#xFF1B; </p>
+<p>&#x4E00;&#x500B;ubuntu&#x7684;&#x5BB9;&#x5668;&#xFF0C;IP&#x70BA;172.17.0.1/26 &#x3002;</p>
+<h2 id="&#x76EE;&#x7684;">&#x76EE;&#x7684;</h2>
+<p>&#x901A;&#x904E;iptables&#x70BA;IP&#x70BA;172.17.0.1&#x7684;&#x5BB9;&#x5668;&#x7D81;&#x5B9A;&#x5916;&#x90E8;IP &#x9019;&#x88E1;&#x70BA;10.50.10.56.</p>
+<h2 id="&#x904E;&#x7A0B;">&#x904E;&#x7A0B;</h2>
+<p>&#x6574;&#x500B;&#x904E;&#x7A0B;&#x5927;&#x81F4;&#x5206;&#x70BA;3&#x90E8;&#x5206;&#xFF1A;</p>
+<h3 id="1-&#x70BA;&#x4E3B;&#x6A5F;&#x7D81;&#x5B9A;&#x591A;&#x500B;ip&#x5730;&#x5740;">1. &#x70BA;&#x4E3B;&#x6A5F;&#x7D81;&#x5B9A;&#x591A;&#x500B;IP&#x5730;&#x5740;</h3>
+<p>&#x9019;&#x4E00;&#x6B65;&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x5982;&#x4E0B;&#x547D;&#x4EE4;&#x4F86;&#x7D66;&#x7DB2;&#x6A4B;&#x7D81;&#x5B9A;&#x53E6;&#x5916;&#x4E00;&#x500B;IP&#xFF1A;</p>
+<pre><code class="lang-sh"><span class="hljs-comment">#ifconfig br-ex:010.50.10.56/24</span>
+</code></pre>
+<p>&#x5982;&#x679C;&#x5E0C;&#x671B;&#x91CD;&#x555F;&#x6A5F;&#x5668;&#x5F8C;&#x4ECD;&#x7136;&#x80FD;&#x5920;&#x751F;&#x6548;&#xFF0C;&#x9700;&#x8981;&#x5C07;&#x5176;&#x5BEB;&#x5165;&#x5230;/etc/network/interfaces&#x4E2D;&#x3002;</p>
+<h3 id="2-iptables&#x8A2D;&#x7F6E;dnat">2. iptables&#x8A2D;&#x7F6E;DNAT</h3>
+<p>&#x901A;&#x904E;DNAT&#x4F86;&#x91CD;&#x5BEB;&#x5305;&#x7684;&#x76EE;&#x7684;&#x5730;&#x5740;&#xFF0C;&#x5C07;&#x6307;&#x5411;10.50.10.56&#x7684;&#x6578;&#x64DA;&#x5305;&#x7684;&#x76EE;&#x7684;&#x5730;&#x5740;&#x90FD;&#x6539;&#x70BA;172.17.0.1&#xFF0C;&#x9019;&#x6A23;&#x5373;&#x53EF;&#x4EE5;</p>
+<pre><code class="lang-sh"><span class="hljs-comment">#iptables -t nat -A PREROUTING -d 10.50.10.56 -p tcp -m tcp --dport 1:65535 -j DNAT--to-destination 172.17.0.1:1-65535</span>
+</code></pre>
+<h3 id="3-iptables&#x8A2D;&#x7F6E;snat">3. iptables&#x8A2D;&#x7F6E;SNAT</h3>
+<p>&#x91CD;&#x5BEB;&#x5305;&#x7684;&#x6E90;IP&#x5730;&#x5740;&#xFF0C;&#x5373;&#x5728;&#x5BB9;&#x5668;&#x4E2D;&#x6536;&#x5230;&#x6578;&#x64DA;&#x5305;&#x4E4B;&#x5F8C;&#xFF0C;&#x5C07;&#x5176;&#x6E90;&#x6539;&#x70BA;docker0&#x7684;&#x5730;&#x5740;&#x3002;</p>
+<pre><code class="lang-sh"><span class="hljs-comment">#iptables -t nat -A POSTROUTING -d 172.17.0.1 -p tcp -m tcp --dport 1:65535 -j SNAT --to-source172.17.42.1</span>
+</code></pre>
+<h2 id="&#x4FDD;&#x5B58;&#x898F;&#x5247;">&#x4FDD;&#x5B58;&#x898F;&#x5247;</h2>
+<p>&#x5982;&#x679C;&#x5E0C;&#x671B;&#x4FDD;&#x5B58;&#x4E0B;&#x4F86;&#xFF0C;&#x9700;&#x8981;&#x901A;&#x904E;&#x547D;&#x4EE4;&#xFF1A;</p>
+<pre><code class="lang-sh"><span class="hljs-comment">#/etc/init.d/iptables save</span>
+</code></pre>
+<p>&#x4F86;&#x9032;&#x884C;&#x4FDD;&#x5B58;&#x3002;</p>
+<h2 id="&#x522A;&#x9664;&#x898F;&#x5247;">&#x522A;&#x9664;&#x898F;&#x5247;</h2>
+<p>&#x7576;&#x7136;&#x5982;&#x679C;&#x60F3;&#x522A;&#x9664;&#x8A72;&#x898F;&#x5247;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x901A;&#x904E;</p>
+<pre><code class="lang-sh"><span class="hljs-comment"># iptables &#x2013;t nat &#x2013;D PREROUTING &lt;number&gt;</span>
+<span class="hljs-comment"># iptables &#x2013;t nat &#x2013;D POSTROUTING &lt;number&gt;</span>
+</code></pre>
+<p>&#x4F86;&#x5C07;&#x5275;&#x5EFA;&#x7684;&#x9019;&#x5169;&#x689D;&#x898F;&#x5247;&#x522A;&#x9664;&#x3002;</p>
+<h2 id="&#x9A57;&#x8B49;">&#x9A57;&#x8B49;</h2>
+<p>&#x9996;&#x5148;&#x901A;&#x904E;iptables&#x4F86;&#x67E5;&#x770B;&#x662F;&#x5426;&#x751F;&#x6548;&#x3002;</p>
+<pre><code class="lang-sh"><span class="hljs-comment"># iptables -n -t nat -L</span>
+Chain PREROUTING (policyACCEPT)
+target prot opt <span class="hljs-built_in">source</span> destination
+DNAT tcp -- <span class="hljs-number">0.0</span>.<span class="hljs-number">0.0</span>/<span class="hljs-number">0</span> <span class="hljs-number">10.50</span>.<span class="hljs-number">10.56</span> tcp dpts:<span class="hljs-number">1</span>:<span class="hljs-number">65535</span>to:<span class="hljs-number">172.17</span>.<span class="hljs-number">0.1</span>:<span class="hljs-number">1</span>-<span class="hljs-number">65535</span>
+Chain INPUT (policyACCEPT)
+target prot opt <span class="hljs-built_in">source</span> destination
+Chain OUTPUT (policyACCEPT)
+target prot opt <span class="hljs-built_in">source</span> destination
+DOCKER all -- <span class="hljs-number">0.0</span>.<span class="hljs-number">0.0</span>/<span class="hljs-number">0</span> !<span class="hljs-number">127.0</span>.<span class="hljs-number">0.0</span>/<span class="hljs-number">8</span> ADDRTYPE match dst-type LOCAL
+Chain POSTROUTING (policyACCEPT)
+target prot opt <span class="hljs-built_in">source</span> destination
+MASQUERADE all -- <span class="hljs-number">10.50</span>.<span class="hljs-number">10.0</span>/<span class="hljs-number">26</span> <span class="hljs-number">0.0</span>.<span class="hljs-number">0.0</span>/<span class="hljs-number">0</span>
+MASQUERADE all -- <span class="hljs-number">172.17</span>.<span class="hljs-number">0.0</span>/<span class="hljs-number">16</span> <span class="hljs-number">0.0</span>.<span class="hljs-number">0.0</span>/<span class="hljs-number">0</span>
+SNAT tcp -- <span class="hljs-number">0.0</span>.<span class="hljs-number">0.0</span>/<span class="hljs-number">0</span> <span class="hljs-number">172.17</span>.<span class="hljs-number">0.1</span> tcp dpts:<span class="hljs-number">1</span>:<span class="hljs-number">65535</span> to:<span class="hljs-number">172.17</span>.<span class="hljs-number">42.1</span>
+</code></pre>
+<p>&#x7136;&#x5F8C;&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x5B89;&#x88DD;ssh&#x6216;&#x8005;apache2&#x7B49;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x7AEF;&#x53E3;&#x7684;&#x670D;&#x52D9;&#x4F86;&#x9032;&#x884C;&#x9A57;&#x8B49;&#x3002;</p>
+<p>&#x7576;&#x7136;&#x5BE6;&#x73FE;&#x9019;&#x500B;&#x529F;&#x80FD;&#x6703;&#x6709;&#x5F88;&#x591A;&#x7A2E;&#x65B9;&#x6CD5;&#xFF0C;&#x6B61;&#x8FCE;&#x5927;&#x5BB6;&#x4F86;&#x62CD;&#x78DA;&#xFF5E;</p>
+<h2 id="&#x53C3;&#x8003;">&#x53C3;&#x8003;</h2>
+<ul>
+<li>1&#xFF0C;&#x300A;Docker&#x2014;&#x2014;&#x5F9E;&#x5165;&#x9580;&#x5230;&#x5BE6;&#x8E10;&#x300B;&#xFF1A;&#x9AD8;&#x7D1A;&#x7DB2;&#x7D61;&#x914D;&#x7F6E; 
+<a href="http://dockerpool.com/static/books/docker_practice/advanced_network/README.html" target="_blank">http://dockerpool.com/static/books/docker_practice/advanced_network/README.html</a> </li>
+<li>2&#xFF0C;The netfilter/iptables HOWTO&apos;s 
+<a href="http://www.netfilter.org/documentation/index.html" target="_blank">http://www.netfilter.org/documentation/index.html</a> </li>
+<li>3&#xFF0C;Iptables &#x6307;&#x5357;
+<a href="http://man.chinaunix.net/network/iptables-tutorial-cn-1.1.19.html" target="_blank">http://man.chinaunix.net/network/iptables-tutorial-cn-1.1.19.html</a></li>
+</ul>
+
                     
                     </section>
                 
@@ -15782,10 +15638,10 @@ echo 1 &gt; /sys/kernel/debug/tracing/tracing_on
         </div>
 
         
-        <a href="../qemu/712.html" class="navigation navigation-prev " aria-label="Previous page: ARM_QEMU"><i class="fa fa-angle-left"></i></a>
+        <a href="../docker/openkore_in_docker_dockerfile.html" class="navigation navigation-prev " aria-label="Previous page: OpenKore in Docker  Dockerfile"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../qemu/72.html" class="navigation navigation-next " aria-label="Next page: 5 分鐘 Linux 0.11 快速構建實驗環境"><i class="fa fa-angle-right"></i></a>
+        <a href="../javascript/javascript.html" class="navigation navigation-next " aria-label="Next page: Javascript"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

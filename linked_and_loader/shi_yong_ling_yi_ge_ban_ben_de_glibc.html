@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>使用另一个版本的glibc | Jason note</title>
+        <title>使用另一個版本的glibc | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -54,10 +54,10 @@
         
     <div class="book"
         data-level="47.17"
-        data-chapter-title="使用另一个版本的glibc"
+        data-chapter-title="使用另一個版本的glibc"
         data-filepath="linked_and_loader/shi_yong_ling_yi_ge_ban_ben_de_glibc.md"
         data-basepath=".."
-        data-revision="Sun Jan 08 2017 02:39:29 GMT+0800 (CST)"
+        data-revision="Sun Jan 08 2017 12:38:13 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -14008,7 +14008,7 @@
                         
                             <b>47.17.</b>
                         
-                        使用另一个版本的glibc
+                        使用另一個版本的glibc
                     </a>
             
             
@@ -15475,6 +15475,21 @@
             
         </li>
     
+        <li class="chapter " data-level="66.5" data-path="opencv/ru_he_ba_opencv_python_huo_qu_de_tu_xiang_chuan_di.html">
+            
+                
+                    <a href="../opencv/ru_he_ba_opencv_python_huo_qu_de_tu_xiang_chuan_di.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>66.5.</b>
+                        
+                        如何把OpenCV Python獲取的圖像傳遞到C層處理
+                    </a>
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -15513,16 +15528,16 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="&#x4F7F;&#x7528;&#x53E6;&#x4E00;&#x4E2A;&#x7248;&#x672C;&#x7684;glibc">&#x4F7F;&#x7528;&#x53E6;&#x4E00;&#x4E2A;&#x7248;&#x672C;&#x7684;glibc</h1>
-<p>glibc&#x662F;Linux&#x7CFB;&#x7EDF;&#x7684;&#x6838;&#x5FC3;&#x5E93;&#xFF0C;&#x7A0D;&#x6709;&#x4E0D;&#x614E;&#x5C31;&#x4F1A;&#x5BFC;&#x81F4;&#x7CFB;&#x7EDF;&#x5D29;&#x6E83;&#x3002;&#x5982;&#x679C;&#x5728;&#x7A0B;&#x5E8F;&#x4E2D;&#x5FC5;&#x987B;&#x4F7F;&#x7528;&#x53E6;&#x4E00;&#x7248;&#x672C;&#x7684;glibc&#xFF0C;&#x5219;&#x9700;&#x8981;&#x5C0F;&#x5FC3;&#x4ECE;&#x4E8B;&#x3002;&#x5177;&#x4F53;&#x6765;&#x8A00;&#xFF0C;&#x662F;&#x5728;&#x7F16;&#x8BD1;&#x65F6;&#x6307;&#x5B9A;<code>--rpath</code>&#x548C;<code>--dynamic-linker</code>&#xFF0C;&#x800C;&#x5728;&#x8FD0;&#x884C;&#x65F6;&#x6307;&#x5B9A;LIB_LIBRARY_PATH&#x3002;</p>
+                        <h1 id="&#x4F7F;&#x7528;&#x53E6;&#x4E00;&#x500B;&#x7248;&#x672C;&#x7684;glibc">&#x4F7F;&#x7528;&#x53E6;&#x4E00;&#x500B;&#x7248;&#x672C;&#x7684;glibc</h1>
+<p>glibc&#x662F;Linux&#x7CFB;&#x7D71;&#x7684;&#x6838;&#x5FC3;&#x5EAB;&#xFF0C;&#x7A0D;&#x6709;&#x4E0D;&#x614E;&#x5C31;&#x6703;&#x5C0E;&#x81F4;&#x7CFB;&#x7D71;&#x5D29;&#x6F70;&#x3002;&#x5982;&#x679C;&#x5728;&#x7A0B;&#x5E8F;&#x4E2D;&#x5FC5;&#x9808;&#x4F7F;&#x7528;&#x53E6;&#x4E00;&#x7248;&#x672C;&#x7684;glibc&#xFF0C;&#x5247;&#x9700;&#x8981;&#x5C0F;&#x5FC3;&#x5F9E;&#x4E8B;&#x3002;&#x5177;&#x9AD4;&#x4F86;&#x8A00;&#xFF0C;&#x662F;&#x5728;&#x7DE8;&#x8B6F;&#x6642;&#x6307;&#x5B9A;<code>--rpath</code>&#x548C;<code>--dynamic-linker</code>&#xFF0C;&#x800C;&#x5728;&#x904B;&#x884C;&#x6642;&#x6307;&#x5B9A;LIB_LIBRARY_PATH&#x3002;</p>
 <pre><code class="lang-sh">gcc main.c -o main -Wl,--rpath=/path/to/new/glibc/lib \
         -Wl,--dynamic-linker=/path/to/new/glibc/ld-linux.so.<span class="hljs-number">2</span>
 </code></pre>
-<p>&#x5176;&#x4E2D;ld-linux.so.2&#x5728;64&#x4F4D;&#x7CFB;&#x7EDF;&#x4E0B;&#x53EF;&#x80FD;&#x4E3A;ld-linux-x86-64.so.2&#xFF0C;&#x5B83;&#x7684;&#x8DEF;&#x5F84;&#x4F1A;&#x786C;&#x7F16;&#x7801;&#x5230;&#x7A0B;&#x5E8F;&#x4E2D;(&#x56E0;&#x6B64;&#x663E;&#x5F0F;&#x6307;&#x5B9A;&#x65F6;&#x6362;&#x6210;&#x522B;&#x7684;&#x540D;&#x5B57;&#x4E5F;&#x6CA1;&#x4EC0;&#x4E48;&#x95EE;&#x9898;)&#x3002;&#x6B63;&#x662F;&#x8FD9;&#x4E2A;&#x539F;&#x56E0;&#xFF0C;&#x5BFC;&#x81F4;&#x5F88;&#x591A;&#x5DF2;&#x6709;&#x7A0B;&#x5E8F;&#x4E0D;&#x80FD;&#x4F7F;&#x7528;&#x65B0;glibc&#x7684;&#x5E93;&#x3002;</p>
-<p>&#x53E6;&#x5916;&#xFF0C;&#x67E5;&#x770B;&#x94FE;&#x63A5;&#x95EE;&#x9898;&#x7684;&#x4E24;&#x4E2A;&#x5E38;&#x7528;&#x5DE5;&#x5177;&#x662F;:</p>
+<p>&#x5176;&#x4E2D;ld-linux.so.2&#x5728;64&#x4F4D;&#x7CFB;&#x7D71;&#x4E0B;&#x53EF;&#x80FD;&#x70BA;ld-linux-x86-64.so.2&#xFF0C;&#x5B83;&#x7684;&#x8DEF;&#x5F91;&#x6703;&#x786C;&#x7DE8;&#x78BC;&#x5230;&#x7A0B;&#x5E8F;&#x4E2D;(&#x56E0;&#x6B64;&#x986F;&#x5F0F;&#x6307;&#x5B9A;&#x6642;&#x63DB;&#x6210;&#x5225;&#x7684;&#x540D;&#x5B57;&#x4E5F;&#x6C92;&#x4EC0;&#x9EBC;&#x554F;&#x984C;)&#x3002;&#x6B63;&#x662F;&#x9019;&#x500B;&#x539F;&#x56E0;&#xFF0C;&#x5C0E;&#x81F4;&#x5F88;&#x591A;&#x5DF2;&#x6709;&#x7A0B;&#x5E8F;&#x4E0D;&#x80FD;&#x4F7F;&#x7528;&#x65B0;glibc&#x7684;&#x5EAB;&#x3002;</p>
+<p>&#x53E6;&#x5916;&#xFF0C;&#x67E5;&#x770B;&#x93C8;&#x63A5;&#x554F;&#x984C;&#x7684;&#x5169;&#x500B;&#x5E38;&#x7528;&#x5DE5;&#x5177;&#x662F;:</p>
 <ul>
-<li>ldd: &#x67E5;&#x770B;&#x53EF;&#x6267;&#x884C;&#x6587;&#x4EF6;&#x6216;&#x52A8;&#x6001;&#x5E93;&#x4F9D;&#x8D56;&#x7684;&#x5176;&#x5B83;&#x7684;&#x5E93;</li>
-<li>strings: &#x67E5;&#x770B;&#x5E93;&#x4E2D;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#xFF0C;&#x6BD4;&#x5982;<code>strings /lib64/libc.so.2 | grep GLIBC</code> &#x53EF;&#x4EE5;&#x67E5;&#x770B;GLIBC&#x652F;&#x6301;&#x7684;&#x7248;&#x672C;&#x3002;</li>
+<li>ldd: &#x67E5;&#x770B;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x6216;&#x52D5;&#x614B;&#x5EAB;&#x4F9D;&#x8CF4;&#x7684;&#x5176;&#x5B83;&#x7684;&#x5EAB;</li>
+<li>strings: &#x67E5;&#x770B;&#x5EAB;&#x4E2D;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#xFF0C;&#x6BD4;&#x5982;<code>strings /lib64/libc.so.2 | grep GLIBC</code> &#x53EF;&#x4EE5;&#x67E5;&#x770B;GLIBC&#x652F;&#x6301;&#x7684;&#x7248;&#x672C;&#x3002;</li>
 </ul>
 
                     

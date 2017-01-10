@@ -31,12 +31,12 @@ def covert_audio_encode(path):
     #print os.getcwd()
     #raw_input()
     for filename in os.listdir("./"):
-	if filename.endswith(".wav"):
-	    #body, ext = os.path.splitext(filename)
-	    command = 'ffmpeg -i ' + filename + ' tmp_file.wav' 
-	    check_call(shlex.split(command))
-	    command = 'mv' + ' tmp_file.wav ' + filename
-	    check_call(shlex.split(command))
+        if filename.endswith(".wav"):
+            #body, ext = os.path.splitext(filename)
+            command = 'ffmpeg -i ' + filename + ' tmp_file.wav' 
+            check_call(shlex.split(command))
+            command = 'mv' + ' tmp_file.wav ' + filename
+            check_call(shlex.split(command))
 
     os.chdir(prevdir)
     #print os.getcwd()
@@ -72,11 +72,11 @@ def main():
 
     train_directory = "./Data/Train/"
     if not os.path.exists(train_directory):
-	os.makedirs(train_directory)
+        os.makedirs(train_directory)
 
     test_directory = "./Data/Test/"
     if not os.path.exists(test_directory):
-	os.makedirs(test_directory)
+        os.makedirs(test_directory)
 
     for i in range(count):
         rand = random.random()
@@ -88,4 +88,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
 ```

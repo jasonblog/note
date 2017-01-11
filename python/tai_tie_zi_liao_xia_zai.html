@@ -57,7 +57,7 @@
         data-chapter-title="臺鐵資料下載"
         data-filepath="python/tai_tie_zi_liao_xia_zai.md"
         data-basepath=".."
-        data-revision="Mon Jan 09 2017 00:17:05 GMT+0800 (CST)"
+        data-revision="Wed Jan 11 2017 09:57:01 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -15587,12 +15587,12 @@ AUDIO_URL = <span class="hljs-string">&apos;http://railway.hinet.net/PronounceRa
     <span class="hljs-comment">#print os.getcwd()</span>
     <span class="hljs-comment">#raw_input()</span>
     <span class="hljs-keyword">for</span> filename <span class="hljs-keyword">in</span> os.listdir(<span class="hljs-string">&quot;./&quot;</span>):
-    <span class="hljs-keyword">if</span> filename.endswith(<span class="hljs-string">&quot;.wav&quot;</span>):
-        <span class="hljs-comment">#body, ext = os.path.splitext(filename)</span>
-        command = <span class="hljs-string">&apos;ffmpeg -i &apos;</span> + filename + <span class="hljs-string">&apos; tmp_file.wav&apos;</span> 
-        check_call(shlex.split(command))
-        command = <span class="hljs-string">&apos;mv&apos;</span> + <span class="hljs-string">&apos; tmp_file.wav &apos;</span> + filename
-        check_call(shlex.split(command))
+        <span class="hljs-keyword">if</span> filename.endswith(<span class="hljs-string">&quot;.wav&quot;</span>):
+            <span class="hljs-comment">#body, ext = os.path.splitext(filename)</span>
+            command = <span class="hljs-string">&apos;ffmpeg -i &apos;</span> + filename + <span class="hljs-string">&apos; tmp_file.wav&apos;</span> 
+            check_call(shlex.split(command))
+            command = <span class="hljs-string">&apos;mv&apos;</span> + <span class="hljs-string">&apos; tmp_file.wav &apos;</span> + filename
+            check_call(shlex.split(command))
 
     os.chdir(prevdir)
     <span class="hljs-comment">#print os.getcwd()</span>
@@ -15628,11 +15628,11 @@ AUDIO_URL = <span class="hljs-string">&apos;http://railway.hinet.net/PronounceRa
 
     train_directory = <span class="hljs-string">&quot;./Data/Train/&quot;</span>
     <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> os.path.exists(train_directory):
-    os.makedirs(train_directory)
+        os.makedirs(train_directory)
 
     test_directory = <span class="hljs-string">&quot;./Data/Test/&quot;</span>
     <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> os.path.exists(test_directory):
-    os.makedirs(test_directory)
+        os.makedirs(test_directory)
 
     <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(count):
         rand = random.random()

@@ -437,7 +437,17 @@ sudo add-apt-repository ppa:graphics-drivers/ppa
 sudo apt-get update.
 sudo apt-get install nvidia-375
 Reboot.
+```
 
+##  update-alternatives gcc
+
+```sh
+update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-3.3 33
+update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-3.4 34
+update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-2.95 295
+update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.1 41
+
+使用 update-alternatives --config gcc 來設定用那一版本的 gcc
 ```
 
 ## grub add for windows 7

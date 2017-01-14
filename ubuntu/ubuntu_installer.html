@@ -57,7 +57,7 @@
         data-chapter-title="Ubuntu installer"
         data-filepath="ubuntu/ubuntu_installer.md"
         data-basepath=".."
-        data-revision="Wed Jan 11 2017 09:57:01 GMT+0800 (CST)"
+        data-revision="Sun Jan 15 2017 03:29:03 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -15905,7 +15905,419 @@ IdentityFile ~/.ssh/id_rsa_ccccjason
 </code></pre><pre><code>git remote set-url origin ssh://git@github.com-ccccjason/ccccjason/book.git _book
 
 git clone  ssh://git@github.com-ccccjason/ccccjason/book.git _book
+</code></pre><h2 id="graphics-issues-afterwhile-installing-ubuntu-16041610-with-nvidia-graphics">Graphics issues after/while installing Ubuntu 16.04/16.10 with NVIDIA graphics</h2>
+<pre><code class="lang-sh">sudo apt-get purge nvidia-*
+sudo add-apt-repository ppa:graphics-drivers/ppa
+sudo apt-get update.
+sudo apt-get install nvidia-<span class="hljs-number">375</span>
+Reboot.
 </code></pre>
+<h2 id="updatealternatives-gcc">update-alternatives gcc</h2>
+<pre><code class="lang-sh">update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-<span class="hljs-number">3.3</span> <span class="hljs-number">33</span>
+update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-<span class="hljs-number">3.4</span> <span class="hljs-number">34</span>
+update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-<span class="hljs-number">2.95</span> <span class="hljs-number">295</span>
+update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-<span class="hljs-number">4.1</span> <span class="hljs-number">41</span>
+
+&#x4F7F;&#x7528; update-alternatives --config gcc &#x4F86;&#x8A2D;&#x5B9A;&#x7528;&#x90A3;&#x4E00;&#x7248;&#x672C;&#x7684; gcc
+</code></pre>
+<h2 id="grub-add-for-windows-7">grub add for windows 7</h2>
+<ul>
+<li>grub/grub.cfg</li>
+</ul>
+<pre><code class="lang-sh"><span class="hljs-comment">### BEGIN /etc/grub.d/30_os-prober ###</span>
+menuentry <span class="hljs-string">&apos;Windows Boot Manager (&#x65BC; /dev/sdc1)&apos;</span> --class windows --class os <span class="hljs-variable">$menuentry_id_option</span> <span class="hljs-string">&apos;osprober-efi-BCED-7265&apos;</span> {
+    insmod part_gpt
+    insmod fat
+    <span class="hljs-built_in">set</span> root=<span class="hljs-string">&apos;hd2,gpt1&apos;</span>
+    <span class="hljs-keyword">if</span> [ x<span class="hljs-variable">$feature_platform_search_hint</span> = xy ]; <span class="hljs-keyword">then</span>
+      search --no-floppy --fs-uuid --set=root --hint-bios=hd2,gpt1 --hint-efi=hd2,gpt1 --hint-baremetal=ahci2,gpt1  BCED-<span class="hljs-number">7265</span>
+    <span class="hljs-keyword">else</span>
+      search --no-floppy --fs-uuid --set=root BCED-<span class="hljs-number">7265</span>
+    <span class="hljs-keyword">fi</span>
+    chainloader /EFI/Microsoft/Boot/bootmgfw.efi
+}
+<span class="hljs-built_in">set</span> timeout_style=menu
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">&quot;<span class="hljs-variable">${timeout}</span>&quot;</span> = <span class="hljs-number">0</span> ]; <span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">set</span> timeout=<span class="hljs-number">10</span>
+<span class="hljs-keyword">fi</span>
+<span class="hljs-comment">### END /etc/grub.d/30_os-prober ###</span>
+</code></pre>
+<ul>
+<li>/etc/grub.d/30_os-prober</li>
+</ul>
+<pre><code class="lang-sh"><span class="hljs-shebang">#! /bin/sh</span>
+<span class="hljs-built_in">set</span> <span class="hljs-operator">-e</span>
+
+<span class="hljs-comment"># grub-mkconfig helper script.</span>
+<span class="hljs-comment"># Copyright (C) 2006,2007,2008,2009  Free Software Foundation, Inc.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># GRUB is free software: you can redistribute it and/or modify</span>
+<span class="hljs-comment"># it under the terms of the GNU General Public License as published by</span>
+<span class="hljs-comment"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="hljs-comment"># (at your option) any later version.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># GRUB is distributed in the hope that it will be useful,</span>
+<span class="hljs-comment"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="hljs-comment"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="hljs-comment"># GNU General Public License for more details.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># You should have received a copy of the GNU General Public License</span>
+<span class="hljs-comment"># along with GRUB.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+prefix=<span class="hljs-string">&quot;/usr&quot;</span>
+<span class="hljs-built_in">exec</span>_prefix=<span class="hljs-string">&quot;/usr&quot;</span>
+datarootdir=<span class="hljs-string">&quot;/usr/share&quot;</span>
+quick_boot=<span class="hljs-string">&quot;1&quot;</span>
+
+<span class="hljs-built_in">export</span> TEXTDOMAIN=grub
+<span class="hljs-built_in">export</span> TEXTDOMAINDIR=<span class="hljs-string">&quot;<span class="hljs-variable">${datarootdir}</span>/locale&quot;</span>
+
+. <span class="hljs-string">&quot;<span class="hljs-variable">${datarootdir}</span>/grub/grub-mkconfig_lib&quot;</span>
+
+found_other_os=
+
+<span class="hljs-function"><span class="hljs-title">adjust_timeout</span></span> () {
+  <span class="hljs-keyword">if</span> [ <span class="hljs-string">&quot;<span class="hljs-variable">$quick_boot</span>&quot;</span> = <span class="hljs-number">1</span> ] &amp;&amp; [ <span class="hljs-string">&quot;x<span class="hljs-variable">${found_other_os}</span>&quot;</span> != <span class="hljs-string">&quot;x&quot;</span> ]; <span class="hljs-keyword">then</span>
+    cat &lt;&lt; EOF
+<span class="hljs-built_in">set</span> timeout_style=menu
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">&quot;\${timeout}&quot;</span> = <span class="hljs-number">0</span> ]; <span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">set</span> timeout=<span class="hljs-number">10</span>
+<span class="hljs-keyword">fi</span>
+EOF
+  <span class="hljs-keyword">fi</span>
+}
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">&quot;x<span class="hljs-variable">${GRUB_DISABLE_OS_PROBER}</span>&quot;</span> = <span class="hljs-string">&quot;xtrue&quot;</span> ]; <span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-number">0</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-keyword">if</span> [ -z <span class="hljs-string">&quot;`which os-prober 2&gt; /dev/null`&quot;</span> -o -z <span class="hljs-string">&quot;`which linux-boot-prober 2&gt; /dev/null`&quot;</span> ] ; <span class="hljs-keyword">then</span>
+  <span class="hljs-comment"># missing os-prober and/or linux-boot-prober</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-number">0</span>
+<span class="hljs-keyword">fi</span>
+
+OSPROBED=<span class="hljs-string">&quot;`os-prober | tr &apos; &apos; &apos;^&apos; | paste -s -d &apos; &apos;`&quot;</span>
+<span class="hljs-keyword">if</span> [ -z <span class="hljs-string">&quot;<span class="hljs-variable">${OSPROBED}</span>&quot;</span> ] ; <span class="hljs-keyword">then</span>
+  <span class="hljs-comment"># empty os-prober output, nothing doing</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-number">0</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-function"><span class="hljs-title">osx_entry</span></span>() {
+    found_other_os=<span class="hljs-number">1</span>
+    <span class="hljs-keyword">if</span> [ x<span class="hljs-variable">$2</span> = x32 ]; <span class="hljs-keyword">then</span>
+        <span class="hljs-comment"># TRANSLATORS: it refers to kernel architecture (32-bit)</span>
+    bitstr=<span class="hljs-string">&quot;<span class="hljs-variable">$(gettext &quot;(32-bit)</span>&quot;</span>)<span class="hljs-string">&quot;
+    else
+        # TRANSLATORS: it refers to kernel architecture (64-bit)
+    bitstr=&quot;</span>$(gettext <span class="hljs-string">&quot;(64-bit)&quot;</span>)<span class="hljs-string">&quot;
+    fi
+    # TRANSLATORS: it refers on the OS residing on device %s
+    onstr=&quot;</span>$(gettext_<span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;(on %s)&quot;</span> <span class="hljs-string">&quot;<span class="hljs-variable">${DEVICE}</span>&quot;</span>)<span class="hljs-string">&quot;
+        cat &lt;&lt; EOF
+menuentry &apos;<span class="hljs-variable">$(echo &quot;${LONGNAME} $bitstr $onstr&quot; | grub_quote)</span>&apos; --class osx --class darwin --class os \$menuentry_id_option &apos;osprober-xnu-<span class="hljs-variable">$2</span>-<span class="hljs-variable">$(grub_get_device_id &quot;${DEVICE}&quot;)</span>&apos;  {
+EOF
+    save_default_entry | grub_add_tab
+    prepare_grub_to_access_device <span class="hljs-variable">${DEVICE}</span> | grub_add_tab
+    cat &lt;&lt; EOF
+        load_video
+        set do_resume=0
+        if [ /var/vm/sleepimage -nt10 / ]; then
+           if xnu_resume /var/vm/sleepimage; then
+             set do_resume=1
+           fi
+        fi
+        if [ \$do_resume = 0 ]; then
+           xnu_uuid <span class="hljs-variable">${OSXUUID}</span> uuid
+           if [ -f /Extra/DSDT.aml ]; then
+              acpi -e /Extra/DSDT.aml
+           fi
+           if [ /kernelcache -nt /System/Library/Extensions ]; then
+              <span class="hljs-variable">$1</span> /kernelcache boot-uuid=\${uuid} rd=*uuid
+           else
+              <span class="hljs-variable">$1</span> /mach_kernel boot-uuid=\${uuid} rd=*uuid
+              if [ /System/Library/Extensions.mkext -nt /System/Library/Extensions ]; then
+                xnu_mkext /System/Library/Extensions.mkext
+              else
+                xnu_kextdir /System/Library/Extensions
+              fi
+           fi
+           if [ -f /Extra/Extensions.mkext ]; then
+              xnu_mkext /Extra/Extensions.mkext
+           fi
+           if [ -d /Extra/Extensions ]; then
+              xnu_kextdir /Extra/Extensions
+           fi
+           if [ -f /Extra/devprop.bin ]; then
+              xnu_devprop_load /Extra/devprop.bin
+           fi
+           if [ -f /Extra/splash.jpg ]; then
+              insmod jpeg
+              xnu_splash /Extra/splash.jpg
+           fi
+           if [ -f /Extra/splash.png ]; then
+              insmod png
+              xnu_splash /Extra/splash.png
+           fi
+           if [ -f /Extra/splash.tga ]; then
+              insmod tga
+              xnu_splash /Extra/splash.tga
+           fi
+        fi
+}
+EOF
+}
+
+used_osprober_linux_ids=
+
+wubi=
+
+for OS in <span class="hljs-variable">${OSPROBED}</span> ; do
+  DEVICE=&quot;</span>`<span class="hljs-built_in">echo</span> <span class="hljs-variable">${OS}</span> | cut <span class="hljs-operator">-d</span> <span class="hljs-string">&apos;:&apos;</span> <span class="hljs-operator">-f</span> <span class="hljs-number">1</span>`<span class="hljs-string">&quot;
+  LONGNAME=&quot;</span>`<span class="hljs-built_in">echo</span> <span class="hljs-variable">${OS}</span> | cut <span class="hljs-operator">-d</span> <span class="hljs-string">&apos;:&apos;</span> <span class="hljs-operator">-f</span> <span class="hljs-number">2</span> | tr <span class="hljs-string">&apos;^&apos;</span> <span class="hljs-string">&apos; &apos;</span>`<span class="hljs-string">&quot;
+  LABEL=&quot;</span>`<span class="hljs-built_in">echo</span> <span class="hljs-variable">${OS}</span> | cut <span class="hljs-operator">-d</span> <span class="hljs-string">&apos;:&apos;</span> <span class="hljs-operator">-f</span> <span class="hljs-number">3</span> | tr <span class="hljs-string">&apos;^&apos;</span> <span class="hljs-string">&apos; &apos;</span>`<span class="hljs-string">&quot;
+  BOOT=&quot;</span>`<span class="hljs-built_in">echo</span> <span class="hljs-variable">${OS}</span> | cut <span class="hljs-operator">-d</span> <span class="hljs-string">&apos;:&apos;</span> <span class="hljs-operator">-f</span> <span class="hljs-number">4</span>`<span class="hljs-string">&quot;
+  if UUID=&quot;</span>`<span class="hljs-variable">${grub_probe}</span> --target=fs_uuid --device <span class="hljs-variable">${DEVICE%@*}</span>`<span class="hljs-string">&quot;; then
+    EXPUUID=&quot;</span><span class="hljs-variable">$UUID</span><span class="hljs-string">&quot;
+
+    if [ x&quot;</span><span class="hljs-variable">${DEVICE#*@}</span><span class="hljs-string">&quot; != x ] ; then
+      EXPUUID=&quot;</span><span class="hljs-variable">${EXPUUID}</span>@<span class="hljs-variable">${DEVICE#*@}</span><span class="hljs-string">&quot;
+    fi
+
+    if [ &quot;</span>x<span class="hljs-variable">${GRUB_OS_PROBER_SKIP_LIST}</span><span class="hljs-string">&quot; != &quot;</span>x<span class="hljs-string">&quot; -a &quot;</span>x`<span class="hljs-built_in">echo</span> <span class="hljs-variable">${GRUB_OS_PROBER_SKIP_LIST}</span> | grep -i <span class="hljs-operator">-e</span> <span class="hljs-string">&apos;\b&apos;</span><span class="hljs-variable">${EXPUUID}</span><span class="hljs-string">&apos;\b&apos;</span>`<span class="hljs-string">&quot; != &quot;</span>x<span class="hljs-string">&quot; ] ; then
+      echo &quot;</span>Skipped <span class="hljs-variable">${LONGNAME}</span> on <span class="hljs-variable">${DEVICE}</span> by user request.<span class="hljs-string">&quot; &gt;&amp;2
+      continue
+    fi
+  fi
+
+  BTRFS=&quot;</span>`<span class="hljs-built_in">echo</span> <span class="hljs-variable">${OS}</span> | cut <span class="hljs-operator">-d</span> <span class="hljs-string">&apos;:&apos;</span> <span class="hljs-operator">-f</span> <span class="hljs-number">5</span>`<span class="hljs-string">&quot;
+  if [ &quot;</span>x<span class="hljs-variable">$BTRFS</span><span class="hljs-string">&quot; = &quot;</span>xbtrfs<span class="hljs-string">&quot; ]; then
+    BTRFSuuid=&quot;</span>`<span class="hljs-built_in">echo</span> <span class="hljs-variable">${OS}</span> | cut <span class="hljs-operator">-d</span> <span class="hljs-string">&apos;:&apos;</span> <span class="hljs-operator">-f</span> <span class="hljs-number">6</span>`<span class="hljs-string">&quot;
+    BTRFSsubvol=&quot;</span>`<span class="hljs-built_in">echo</span> <span class="hljs-variable">${OS}</span> | cut <span class="hljs-operator">-d</span> <span class="hljs-string">&apos;:&apos;</span> <span class="hljs-operator">-f</span> <span class="hljs-number">7</span>`<span class="hljs-string">&quot;
+  fi
+
+  if [ -z &quot;</span><span class="hljs-variable">${LONGNAME}</span><span class="hljs-string">&quot; ] ; then
+    LONGNAME=&quot;</span><span class="hljs-variable">${LABEL}</span><span class="hljs-string">&quot;
+  fi
+
+  gettext_printf &quot;</span>Found %s on %s\n<span class="hljs-string">&quot; &quot;</span><span class="hljs-variable">${LONGNAME}</span><span class="hljs-string">&quot; &quot;</span><span class="hljs-variable">${DEVICE}</span><span class="hljs-string">&quot; &gt;&amp;2
+
+  case <span class="hljs-variable">${BOOT}</span> in
+    chain)
+
+      case <span class="hljs-variable">${LONGNAME}</span> in
+    Windows*)
+      if [ -z &quot;</span><span class="hljs-variable">$wubi</span><span class="hljs-string">&quot; ]; then
+        if [ -x /usr/share/lupin-support/grub-mkimage ] &amp;&amp; \
+           /usr/share/lupin-support/grub-mkimage --test; then
+          wubi=yes
+        else
+          wubi=no
+        fi
+      fi
+      if [ &quot;</span><span class="hljs-variable">$wubi</span><span class="hljs-string">&quot; = yes ]; then
+        echo &quot;</span>Skipping <span class="hljs-variable">${LONGNAME}</span> on Wubi system<span class="hljs-string">&quot; &gt;&amp;2
+        continue
+      fi
+      ;;
+      esac
+
+      found_other_os=1
+      onstr=&quot;</span>$(gettext_<span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;(on %s)&quot;</span> <span class="hljs-string">&quot;<span class="hljs-variable">${DEVICE}</span>&quot;</span>)<span class="hljs-string">&quot;
+      cat &lt;&lt; EOF
+menuentry &apos;<span class="hljs-variable">$(echo &quot;${LONGNAME} $onstr&quot; | grub_quote)</span>&apos; --class windows --class os \$menuentry_id_option &apos;osprober-chain-<span class="hljs-variable">$(grub_get_device_id &quot;${DEVICE}&quot;)</span>&apos; {
+EOF
+      save_default_entry | grub_add_tab
+      prepare_grub_to_access_device <span class="hljs-variable">${DEVICE}</span> | grub_add_tab
+
+      if [ x&quot;</span>`<span class="hljs-variable">${grub_probe}</span> --device <span class="hljs-variable">${DEVICE}</span> --target=partmap`<span class="hljs-string">&quot; = xmsdos ]; then
+      cat &lt;&lt; EOF
+    parttool \${root} hidden-
+EOF
+      fi
+
+      case <span class="hljs-variable">${LONGNAME}</span> in
+    Windows\ Vista*|Windows\ 7*|Windows\ Server\ 2008*)
+    ;;
+    *)
+      cat &lt;&lt; EOF
+    drivemap -s (hd0) \${root}
+EOF
+    ;;
+      esac
+
+      cat &lt;&lt;EOF
+    chainloader +1
+}
+EOF
+    ;;
+    efi)
+
+    found_other_os=1
+    EFIPATH=<span class="hljs-variable">${DEVICE#*@}</span>
+    DEVICE=<span class="hljs-variable">${DEVICE%@*}</span>
+    onstr=&quot;</span>$(gettext_<span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;(on %s)&quot;</span> <span class="hljs-string">&quot;<span class="hljs-variable">${DEVICE}</span>&quot;</span>)<span class="hljs-string">&quot;
+      cat &lt;&lt; EOF
+menuentry &apos;<span class="hljs-variable">$(echo &quot;${LONGNAME} $onstr&quot; | grub_quote)</span>&apos; --class windows --class os \$menuentry_id_option &apos;osprober-efi-<span class="hljs-variable">$(grub_get_device_id &quot;${DEVICE}&quot;)</span>&apos; {
+EOF
+      save_default_entry | sed -e &quot;</span>s/^/\t/<span class="hljs-string">&quot;
+      prepare_grub_to_access_device <span class="hljs-variable">${DEVICE}</span> | sed -e &quot;</span>s/^/\t/<span class="hljs-string">&quot;
+
+      cat &lt;&lt;EOF
+    chainloader <span class="hljs-variable">${EFIPATH}</span>
+}
+EOF
+    ;;
+    linux)
+      if [ &quot;</span>x<span class="hljs-variable">$BTRFS</span><span class="hljs-string">&quot; = &quot;</span>xbtrfs<span class="hljs-string">&quot; ]; then
+         LINUXPROBED=&quot;</span>`linux-boot-prober btrfs <span class="hljs-variable">${BTRFSuuid}</span> <span class="hljs-variable">${BTRFSsubvol}</span>  <span class="hljs-number">2</span>&gt; /dev/null | tr <span class="hljs-string">&apos; &apos;</span> <span class="hljs-string">&apos;^&apos;</span> | paste <span class="hljs-operator">-s</span> <span class="hljs-operator">-d</span> <span class="hljs-string">&apos; &apos;</span>`<span class="hljs-string">&quot;
+      else
+         LINUXPROBED=&quot;</span>`linux-boot-prober <span class="hljs-variable">${DEVICE}</span> <span class="hljs-number">2</span>&gt; /dev/null | tr <span class="hljs-string">&apos; &apos;</span> <span class="hljs-string">&apos;^&apos;</span> | paste <span class="hljs-operator">-s</span> <span class="hljs-operator">-d</span> <span class="hljs-string">&apos; &apos;</span>`<span class="hljs-string">&quot;
+      fi
+      prepare_boot_cache=
+      boot_device_id=
+      is_top_level=true
+      title_correction_code=
+      OS=&quot;</span><span class="hljs-variable">${LONGNAME}</span><span class="hljs-string">&quot;
+
+      for LINUX in <span class="hljs-variable">${LINUXPROBED}</span> ; do
+        LROOT=&quot;</span>`<span class="hljs-built_in">echo</span> <span class="hljs-variable">${LINUX}</span> | cut <span class="hljs-operator">-d</span> <span class="hljs-string">&apos;:&apos;</span> <span class="hljs-operator">-f</span> <span class="hljs-number">1</span>`<span class="hljs-string">&quot;
+        LBOOT=&quot;</span>`<span class="hljs-built_in">echo</span> <span class="hljs-variable">${LINUX}</span> | cut <span class="hljs-operator">-d</span> <span class="hljs-string">&apos;:&apos;</span> <span class="hljs-operator">-f</span> <span class="hljs-number">2</span>`<span class="hljs-string">&quot;
+        LLABEL=&quot;</span>`<span class="hljs-built_in">echo</span> <span class="hljs-variable">${LINUX}</span> | cut <span class="hljs-operator">-d</span> <span class="hljs-string">&apos;:&apos;</span> <span class="hljs-operator">-f</span> <span class="hljs-number">3</span> | tr <span class="hljs-string">&apos;^&apos;</span> <span class="hljs-string">&apos; &apos;</span>`<span class="hljs-string">&quot;
+        LKERNEL=&quot;</span>`<span class="hljs-built_in">echo</span> <span class="hljs-variable">${LINUX}</span> | cut <span class="hljs-operator">-d</span> <span class="hljs-string">&apos;:&apos;</span> <span class="hljs-operator">-f</span> <span class="hljs-number">4</span>`<span class="hljs-string">&quot;
+        LINITRD=&quot;</span>`<span class="hljs-built_in">echo</span> <span class="hljs-variable">${LINUX}</span> | cut <span class="hljs-operator">-d</span> <span class="hljs-string">&apos;:&apos;</span> <span class="hljs-operator">-f</span> <span class="hljs-number">5</span>`<span class="hljs-string">&quot;
+        LPARAMS=&quot;</span>`<span class="hljs-built_in">echo</span> <span class="hljs-variable">${LINUX}</span> | cut <span class="hljs-operator">-d</span> <span class="hljs-string">&apos;:&apos;</span> <span class="hljs-operator">-f</span> <span class="hljs-number">6</span>- | tr <span class="hljs-string">&apos;^&apos;</span> <span class="hljs-string">&apos; &apos;</span>`<span class="hljs-string">&quot;
+
+        if [ -z &quot;</span><span class="hljs-variable">${LLABEL}</span><span class="hljs-string">&quot; ] ; then
+          LLABEL=&quot;</span><span class="hljs-variable">${LONGNAME}</span><span class="hljs-string">&quot;
+        fi
+
+    if [ &quot;</span><span class="hljs-variable">${LROOT}</span><span class="hljs-string">&quot; != &quot;</span><span class="hljs-variable">${LBOOT}</span><span class="hljs-string">&quot; ]; then
+      LKERNEL=&quot;</span><span class="hljs-variable">${LKERNEL#/boot}</span><span class="hljs-string">&quot;
+      LINITRD=&quot;</span><span class="hljs-variable">${LINITRD#/boot}</span><span class="hljs-string">&quot;
+    fi
+
+    if [ -z &quot;</span><span class="hljs-variable">${prepare_boot_cache}</span><span class="hljs-string">&quot; ]; then
+      prepare_boot_cache=&quot;</span>$(prepare_grub_to_access_device <span class="hljs-variable">${LBOOT}</span> | grub_add_tab)<span class="hljs-string">&quot;
+      [ &quot;</span><span class="hljs-variable">${prepare_boot_cache}</span><span class="hljs-string">&quot; ] || continue
+    fi
+
+    found_other_os=1
+    onstr=&quot;</span>$(gettext_<span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;(on %s)&quot;</span> <span class="hljs-string">&quot;<span class="hljs-variable">${DEVICE}</span>&quot;</span>)<span class="hljs-string">&quot;
+    recovery_params=&quot;</span>$(<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;<span class="hljs-variable">${LPARAMS}</span>&quot;</span> | grep <span class="hljs-string">&apos;single\|recovery&apos;</span>)<span class="hljs-string">&quot; || true
+    counter=1
+    while echo &quot;</span><span class="hljs-variable">$used_osprober_linux_ids</span><span class="hljs-string">&quot; | grep &apos;osprober-gnulinux-<span class="hljs-variable">$LKERNEL</span>-<span class="hljs-variable">${recovery_params}</span>-<span class="hljs-variable">$counter</span>-<span class="hljs-variable">$boot_device_id</span>&apos; &gt; /dev/null; do
+        counter=<span class="hljs-variable">$((counter+1)</span>);
+    done
+    if [ -z &quot;</span><span class="hljs-variable">$boot_device_id</span><span class="hljs-string">&quot; ]; then
+        boot_device_id=&quot;</span>$(grub_get_device_id <span class="hljs-string">&quot;<span class="hljs-variable">${DEVICE}</span>&quot;</span>)<span class="hljs-string">&quot;
+    fi
+    used_osprober_linux_ids=&quot;</span><span class="hljs-variable">$used_osprober_linux_ids</span> <span class="hljs-string">&apos;osprober-gnulinux-$LKERNEL-${recovery_params}-$counter-$boot_device_id&apos;</span><span class="hljs-string">&quot;
+
+    if [ &quot;</span>x<span class="hljs-variable">$is_top_level</span><span class="hljs-string">&quot; = xtrue ] &amp;&amp; [ &quot;</span>x<span class="hljs-variable">${GRUB_DISABLE_SUBMENU}</span><span class="hljs-string">&quot; != xy ]; then
+            cat &lt;&lt; EOF
+menuentry &apos;<span class="hljs-variable">$(echo &quot;$OS $onstr&quot; | grub_quote)</span>&apos; --class gnu-linux --class gnu --class os \$menuentry_id_option &apos;osprober-gnulinux-simple-<span class="hljs-variable">$boot_device_id</span>&apos; {
+EOF
+        save_default_entry | grub_add_tab
+        printf &apos;%s\n&apos; &quot;</span><span class="hljs-variable">${prepare_boot_cache}</span><span class="hljs-string">&quot;
+        cat &lt;&lt;  EOF
+    linux <span class="hljs-variable">${LKERNEL}</span> <span class="hljs-variable">${LPARAMS}</span>
+EOF
+            if [ -n &quot;</span><span class="hljs-variable">${LINITRD}</span><span class="hljs-string">&quot; ] ; then
+          cat &lt;&lt; EOF
+    initrd <span class="hljs-variable">${LINITRD}</span>
+EOF
+            fi
+        cat &lt;&lt; EOF
+}
+EOF
+        echo &quot;</span>submenu <span class="hljs-string">&apos;$(gettext_printf &quot;Advanced options for %s&quot; &quot;${OS} $onstr&quot; | grub_quote)&apos;</span> \<span class="hljs-variable">$menuentry_id_option</span> <span class="hljs-string">&apos;osprober-gnulinux-advanced-$boot_device_id&apos;</span> {<span class="hljs-string">&quot;
+        is_top_level=false
+    fi
+    title=&quot;</span><span class="hljs-variable">${LLABEL}</span> <span class="hljs-variable">$onstr</span><span class="hljs-string">&quot;
+        cat &lt;&lt; EOF
+    menuentry &apos;<span class="hljs-variable">$(echo &quot;$title&quot; | grub_quote)</span>&apos; --class gnu-linux --class gnu --class os \$menuentry_id_option &apos;osprober-gnulinux-<span class="hljs-variable">$LKERNEL</span>-<span class="hljs-variable">${recovery_params}</span>-<span class="hljs-variable">$boot_device_id</span>&apos; {
+EOF
+    save_default_entry | sed -e &quot;</span>s/^/<span class="hljs-variable">$grub_tab</span><span class="hljs-variable">$grub_tab</span>/<span class="hljs-string">&quot;
+    printf &apos;%s\n&apos; &quot;</span><span class="hljs-variable">${prepare_boot_cache}</span><span class="hljs-string">&quot; | grub_add_tab
+    cat &lt;&lt;  EOF
+        linux <span class="hljs-variable">${LKERNEL}</span> <span class="hljs-variable">${LPARAMS}</span>
+EOF
+        if [ -n &quot;</span><span class="hljs-variable">${LINITRD}</span><span class="hljs-string">&quot; ] ; then
+            cat &lt;&lt; EOF
+        initrd <span class="hljs-variable">${LINITRD}</span>
+EOF
+        fi
+        cat &lt;&lt; EOF
+    }
+EOF
+    if [ x&quot;</span><span class="hljs-variable">$title</span><span class="hljs-string">&quot; = x&quot;</span><span class="hljs-variable">$GRUB_ACTUAL_DEFAULT</span><span class="hljs-string">&quot; ] || [ x&quot;</span>Previous Linux versions&gt;<span class="hljs-variable">$title</span><span class="hljs-string">&quot; = x&quot;</span><span class="hljs-variable">$GRUB_ACTUAL_DEFAULT</span><span class="hljs-string">&quot; ]; then
+        replacement_title=&quot;</span>$(<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Advanced options for <span class="hljs-variable">${OS}</span> <span class="hljs-variable">$onstr</span>&quot;</span> | sed <span class="hljs-string">&apos;s,&gt;,&gt;&gt;,g&apos;</span>)&gt;$(<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;<span class="hljs-variable">$title</span>&quot;</span> | sed <span class="hljs-string">&apos;s,&gt;,&gt;&gt;,g&apos;</span>)<span class="hljs-string">&quot;
+        quoted=&quot;</span>$(<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;<span class="hljs-variable">$GRUB_ACTUAL_DEFAULT</span>&quot;</span> | grub_quote)<span class="hljs-string">&quot;
+        title_correction_code=&quot;</span><span class="hljs-variable">${title_correction_code}</span><span class="hljs-keyword">if</span> [ \<span class="hljs-string">&quot;x\$default\&quot; = &apos;<span class="hljs-variable">$quoted</span>&apos; ]; then default=&apos;<span class="hljs-variable">$(echo &quot;$replacement_title&quot; | grub_quote)</span>&apos;; fi;&quot;</span>
+        grub_warn <span class="hljs-string">&quot;<span class="hljs-variable">$(gettext_printf &quot;Please don&apos;t use old title \`%s&apos; for GRUB_DEFAULT, use \`%s&apos; (for versions before 2.00)</span> or \`%s&apos; (for 2.00 or later)&quot;</span> <span class="hljs-string">&quot;<span class="hljs-variable">$GRUB_ACTUAL_DEFAULT</span>&quot;</span> <span class="hljs-string">&quot;<span class="hljs-variable">$replacement_title</span>&quot;</span> <span class="hljs-string">&quot;gnulinux-advanced-<span class="hljs-variable">$boot_device_id</span>&gt;gnulinux-<span class="hljs-variable">$version</span>-<span class="hljs-variable">$type</span>-<span class="hljs-variable">$boot_device_id</span>&quot;</span>)<span class="hljs-string">&quot;
+    fi
+      done
+      if [ x&quot;</span><span class="hljs-variable">$is_top_level</span><span class="hljs-string">&quot; != xtrue ]; then
+      echo &apos;}&apos;
+      fi
+      echo &quot;</span><span class="hljs-variable">$title_correction_code</span><span class="hljs-string">&quot;
+    ;;
+    macosx)
+      if [ &quot;</span><span class="hljs-variable">${UUID}</span><span class="hljs-string">&quot; ]; then
+    OSXUUID=&quot;</span><span class="hljs-variable">${UUID}</span><span class="hljs-string">&quot;
+    osx_entry xnu_kernel 32
+    osx_entry xnu_kernel64 64
+      fi
+    ;;
+    hurd)
+      found_other_os=1
+      onstr=&quot;</span>$(gettext_<span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;(on %s)&quot;</span> <span class="hljs-string">&quot;<span class="hljs-variable">${DEVICE}</span>&quot;</span>)<span class="hljs-string">&quot;
+      cat &lt;&lt; EOF
+menuentry &apos;<span class="hljs-variable">$(echo &quot;${LONGNAME} $onstr&quot; | grub_quote)</span>&apos; --class hurd --class gnu --class os \$menuentry_id_option &apos;osprober-gnuhurd-/boot/gnumach.gz-false-<span class="hljs-variable">$(grub_get_device_id &quot;${DEVICE}&quot;)</span>&apos; {
+EOF
+      save_default_entry | grub_add_tab
+      prepare_grub_to_access_device <span class="hljs-variable">${DEVICE}</span> | grub_add_tab
+      grub_device=&quot;</span>`<span class="hljs-variable">${grub_probe}</span> --device <span class="hljs-variable">${DEVICE}</span> --target=drive`<span class="hljs-string">&quot;
+      mach_device=&quot;</span>`<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;<span class="hljs-variable">${grub_device}</span>&quot;</span> | sed <span class="hljs-operator">-e</span> <span class="hljs-string">&apos;s/(\(hd.*\),msdos\(.*\))/\1s\2/&apos;</span>`<span class="hljs-string">&quot;
+      grub_fs=&quot;</span>`<span class="hljs-variable">${grub_probe}</span> --device <span class="hljs-variable">${DEVICE}</span> --target=fs`<span class="hljs-string">&quot;
+      case &quot;</span><span class="hljs-variable">${grub_fs}</span><span class="hljs-string">&quot; in
+    *fs)    hurd_fs=&quot;</span><span class="hljs-variable">${grub_fs}</span><span class="hljs-string">&quot; ;;
+    *)    hurd_fs=&quot;</span><span class="hljs-variable">${grub_fs}</span>fs<span class="hljs-string">&quot; ;;
+      esac
+      cat &lt;&lt; EOF
+    multiboot /boot/gnumach.gz root=device:<span class="hljs-variable">${mach_device}</span>
+    module /hurd/<span class="hljs-variable">${hurd_fs}</span>.static <span class="hljs-variable">${hurd_fs}</span> --readonly \\
+            --multiboot-command-line=&apos;\${kernel-command-line}&apos; \\
+            --host-priv-port=&apos;\${host-port}&apos; \\
+            --device-master-port=&apos;\${device-port}&apos; \\
+            --exec-server-task=&apos;\${exec-task}&apos; -T typed &apos;\${root}&apos; \\
+            &apos;\$(task-create)&apos; &apos;\$(task-resume)&apos;
+    module /lib/ld.so.1 exec /hurd/exec &apos;\$(exec-task=task-create)&apos;
+}
+EOF
+    ;;
+    minix)
+      cat &lt;&lt; EOF
+menuentry &quot;</span><span class="hljs-variable">${LONGNAME}</span> (on <span class="hljs-variable">${DEVICE}</span>, Multiboot)<span class="hljs-string">&quot; {
+EOF
+         save_default_entry | sed -e &quot;</span>s/^/\t/<span class="hljs-string">&quot;
+         prepare_grub_to_access_device <span class="hljs-variable">${DEVICE}</span> | sed -e &quot;</span>s/^/\t/<span class="hljs-string">&quot;
+     cat &lt;&lt; EOF
+    multiboot /boot/image_latest
+}
+EOF
+    ;;
+    *)
+      echo -n &quot;</span>  <span class="hljs-string">&quot;
+      # TRANSLATORS: %s is replaced by OS name.
+      gettext_printf &quot;</span>%s is not yet supported by grub-mkconfig.\n<span class="hljs-string">&quot; &quot;</span><span class="hljs-variable">${LONGNAME}</span><span class="hljs-string">&quot; &gt;&amp;2
+    ;;
+  esac
+done
+
+adjust_timeout
+</span></code></pre>
+
                     
                     </section>
                 

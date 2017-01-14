@@ -57,7 +57,7 @@
         data-chapter-title="Command Tips"
         data-filepath="shared_libraries/13.md"
         data-basepath=".."
-        data-revision="Sun Jan 15 2017 03:32:53 GMT+0800 (CST)"
+        data-revision="Sun Jan 15 2017 05:02:29 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -15561,6 +15561,14 @@
                         <h1 id="command-tips">Command Tips</h1>
 <h2 id="&#x6B63;&#x5247;&#x5DE5;&#x5177;">&#x6B63;&#x5247;&#x5DE5;&#x5177;</h2>
 <p><a href="http://rubular.com/" target="_blank">http://rubular.com/</a></p>
+<h2 id="vim-&#x6279;&#x6B21;&#x7DE8;&#x78BC;&#x8F49;&#x63DB;">vim &#x6279;&#x6B21;&#x7DE8;&#x78BC;&#x8F49;&#x63DB;</h2>
+<pre><code class="lang-sh">vim +<span class="hljs-string">&quot;argdo se nobomb| set nomore | se fenc=utf8 | w&quot;</span> $(find . -type f -iname <span class="hljs-string">&apos;*.java&apos;</span>)
+</code></pre>
+<h2 id="&#x53BB;&#x9664;-delete-newlines-crlf-with-sed-or-use-dos2unix">&#x53BB;&#x9664; Delete Newlines (CRLF) with sed or use dos2unix</h2>
+<pre><code class="lang-sh">find . -iname <span class="hljs-string">&apos;*.cpp&apos;</span> -exec sed -i <span class="hljs-string">&apos;s/\r//g&apos;</span>  {} \;
+
+find . -type f  -iname <span class="hljs-string">&quot;*.c&quot;</span> | xargs dos2unix
+</code></pre>
 <h2 id="&#x5982;&#x4F55;&#x7528;-shell-&#x5F9E;&#x8B8A;&#x6578;&#x4E2D;&#x622A;&#x53D6;&#x51FA;&#x6A94;&#x540D;&#x548C;&#x526F;&#x6A94;&#x540D;&#x5462;&#xFF1F;">&#x5982;&#x4F55;&#x7528; shell &#x5F9E;&#x8B8A;&#x6578;&#x4E2D;&#x622A;&#x53D6;&#x51FA;&#x6A94;&#x540D;&#x548C;&#x526F;&#x6A94;&#x540D;&#x5462;&#xFF1F;</h2>
 <pre><code class="lang-sh">&#x53D6;&#x526F;&#x6A94;&#x540D;&#xFF1A;extension=<span class="hljs-string">&quot;<span class="hljs-variable">${filename##*.}</span>&quot;</span>
 

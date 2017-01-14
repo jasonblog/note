@@ -429,6 +429,17 @@ git remote set-url origin ssh://git@github.com-ccccjason/ccccjason/book.git _boo
 git clone  ssh://git@github.com-ccccjason/ccccjason/book.git _book
 ```
 
+## Graphics issues after/while installing Ubuntu 16.04/16.10 with NVIDIA graphics
+
+```sh
+sudo apt-get purge nvidia-*
+sudo add-apt-repository ppa:graphics-drivers/ppa
+sudo apt-get update.
+sudo apt-get install nvidia-375
+Reboot.
+
+```
+
 ## grub add for windows 7
 
 - grub/grub.cfg

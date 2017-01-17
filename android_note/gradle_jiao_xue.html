@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>字符串的比較與搜索 | Jason note</title>
+        <title>gradle 教學 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -41,10 +41,10 @@
         
     
     
-    <link rel="next" href="../assembly/16114.html" />
+    <link rel="next" href="../ubuntu/index.html" />
     
     
-    <link rel="prev" href="../assembly/16112.html" />
+    <link rel="prev" href="../android_note/androidxi_tong_de_zhi_neng_zhi_zhen_ff08_qing_lian.html" />
     
 
         <!-- head:end -->
@@ -53,9 +53,9 @@
         <!-- body:start -->
         
     <div class="book"
-        data-level="14.2.13"
-        data-chapter-title="字符串的比較與搜索"
-        data-filepath="assembly/16113.md"
+        data-level="4.26"
+        data-chapter-title="gradle 教學"
+        data-filepath="android_note/gradle_jiao_xue.md"
         data-basepath=".."
         data-revision="Tue Jan 17 2017 23:05:46 GMT+0800 (CST)"
         data-innerlanguage="">
@@ -1419,7 +1419,7 @@
             
         </li>
     
-        <li class="chapter " data-level="4.26" data-path="android_note/gradle_jiao_xue.html">
+        <li class="chapter active" data-level="4.26" data-path="android_note/gradle_jiao_xue.html">
             
                 
                     <a href="../android_note/gradle_jiao_xue.html">
@@ -5284,7 +5284,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="14.2.13" data-path="assembly/16113.html">
+        <li class="chapter " data-level="14.2.13" data-path="assembly/16113.html">
             
                 
                     <a href="../assembly/16113.html">
@@ -15573,119 +15573,34 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x6BD4;&#x8F03;&#x8207;&#x641C;&#x7D22;">&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x6BD4;&#x8F03;&#x8207;&#x641C;&#x7D22;</h1>
-<p>cmps&#x6307;&#x4EE4;&#x7528;&#x65BC;&#x6BD4;&#x8F03;&#x5B57;&#x7B26;&#x4E32;&#x503C;&#xFF0C;cmps&#x6307;&#x4EE4;&#x6709;&#x4E09;&#x7A2E;&#x683C;&#x5F0F;:cmpsb&#x3001;cmpsw&#x3001;cmpsl&#x3002;&#x96B1;&#x542B;&#x7684;&#x6E90;&#x64CD;&#x4F5C;&#x6578;&#x548C;&#x76EE;&#x6A19;&#x64CD;&#x4F5C;&#x6578;&#x4F4D;&#x7F6E;&#x5B58;&#x5132;&#x5728;esi&#x548C;edi&#x5BC4;&#x5B58;&#x5668;&#x4E2D;&#xFF0C;&#x6BCF;&#x6B21;&#x57F7;&#x884C;cmps&#x6307;&#x4EE4;&#x6642;&#xFF0C;&#x6839;&#x64DA;DF&#x6A19;&#x8A8C;&#xFF0C;esi&#x548C;edi&#x5BC4;&#x5B58;&#x5668;&#x6309;&#x7167;&#x88AB;&#x6BD4;&#x8F03;&#x7684;&#x6578;&#x64DA;&#x9577;&#x5EA6;&#x905E;&#x589E;&#x6216;&#x905E;&#x6E1B;&#x3002;cmps&#x6307;&#x4EE4;&#x5F9E;&#x6E90;&#x5B57;&#x7B26;&#x4E32;&#x4E2D;&#x6E1B;&#x53BB;&#x76EE;&#x6A19;&#x5B57;&#x7B26;&#x4E32;&#xFF0C;&#x4E26;&#x4E14;&#x9069;&#x7576;&#x5730;&#x8A2D;&#x7F6E;EFLAGS&#x5BC4;&#x5B58;&#x5668;&#x7684;&#x9032;&#x4F4D;&#x3001;&#x7B26;&#x865F;&#x3001;&#x6EA2;&#x51FA;&#x3001;&#x96F6;&#x3001;&#x5947;&#x5076;&#x6821;&#x9A57;&#x548C;&#x5BCC;&#x8DB3;&#x9032;&#x4F4D;&#x6A19;&#x8A8C;&#x3002;cmps&#x6307;&#x4EE4;&#x57F7;&#x884C;&#x4E4B;&#x5F8C;&#xFF0C;&#x53EF;&#x4EE5;&#x6839;&#x64DA;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x503C;&#xFF0C;&#x4F7F;&#x7528;&#x4E00;&#x822C;&#x7684;&#x689D;&#x4EF6; &#x8DF3;&#x8F49;&#x6307;&#x4EE4;&#x8DF3;&#x8F49;&#x5230;&#x5206;&#x652F;&#x3002;</p>
-<p>cmps&#x6307;&#x4EE4;&#x548C;rep&#x6307;&#x4EE4;&#x4E00;&#x8D77;&#x4F7F;&#x7528;&#x53EF;&#x4EE5;&#x5C0D;&#x8DE8;&#x8D8A;&#x591A;&#x500B;&#x5B57;&#x7BC0;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x91CD;&#x8907;&#x9032;&#x884C;&#x6BD4;&#x8F03;&#x3002;&#x4F46;rep&#x6307;&#x4EE4;&#x4E0D;&#x5728;&#x5169;&#x500B;&#x91CD;&#x8907;&#x7684;&#x904E;&#x7A0B;&#x4E4B;&#x9593;&#x6AA2;&#x67E5;&#x6A19;&#x8A8C;&#x72C0;&#x614B;&#xFF0C;&#x5B83;&#x53EA;&#x95DC;&#x5FC3;ecx&#x5BC4;&#x5B58;&#x5668;&#x4E2D;&#x7684;&#x8A08;&#x6578;&#x503C;&#x3002;&#x6240;&#x4EE5;&#x4F7F;&#x7528;rep&#x6307;&#x4EE4;&#x4E2D;&#x7684;&#x5176;&#x4ED6;&#x6307;&#x4EE4;&#xFF1A;repe&#x3001;repne&#x3001;repz&#x3001;repnz&#x3002;&#x9019;&#x4E9B;&#x6307;&#x4EE4;&#x5728;&#x6BCF;&#x6B21;&#x91CD;&#x8907;&#x904E;&#x7A0B;&#x4E2D;&#x6AA2;&#x67E5;0&#x6A19;&#x8A8C;&#xFF0C;&#x5982;&#x679C;0&#x6A19;&#x8A8C;&#x88AB;&#x8A2D;&#x7F6E;&#xFF0C;&#x5C31;&#x505C;&#x6B62;&#x91CD;&#x8907;&#x3002;rep&#x5176;&#x4ED6;&#x6307;&#x4EE4;&#x4F7F;&#x7528;&#x5982;&#x4E0B;&#x8868;&#xFF1A;</p>
-<div style="background-color:rgb(255,255,255); color:rgb(0,0,0); font-size:14px; font-style:normal; font-variant:normal; font-weight:normal; letter-spacing:normal; line-height:21px; text-align:left; text-indent:0px; text-transform:none; white-space:normal; word-spacing:0px">
-<table cellpadding="2" cellspacing="0" border="1" style="font-size:undefined; border-collapse:collapse; margin-top:10px; margin-bottom:10px; display:table; background-color:inherit; width:600px">
-<tbody style="background-color:inherit">
-<tr style="background-color:inherit">
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">&#x6307;&#x4EE4;</span></div>
-</td>
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">&#x63CF;&#x8FF0;</span></div>
-</td>
-</tr>
-<tr style="background-color:inherit">
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">repe</span></div>
-</td>
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">&#x7B49;&#x65BC;&#x6642;&#x91CD;&#x8907;</span></div>
-</td>
-</tr>
-<tr style="background-color:inherit">
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">repne</span></div>
-</td>
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">&#x4E0D;&#x7B49;&#x65BC;&#x6642;&#x91CD;&#x8907;</span></div>
-</td>
-</tr>
-<tr style="background-color:inherit">
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">repnz</span></div>
-</td>
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">&#x4E0D;&#x70BA;&#x96F6;&#x6642;&#x91CD;&#x8907;</span></div>
-</td>
-</tr>
-<tr style="background-color:inherit">
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">repz</span></div>
-</td>
-<td valign="top" style="word-break:break-all; border:1px solid rgb(153,153,153); padding:5px 16px 5px 12px; min-height:25px; min-width:25px; height:25px; background-color:inherit; width:279px">
-<div style="min-width:2px; background-color:inherit"><span style="font-family:Microsoft YaHei">&#x70BA;&#x96F6;&#x6642;&#x91CD;&#x8907;</span></div>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
+                        <h1 id="gradle-&#x6559;&#x5B78;">gradle &#x6559;&#x5B78;</h1>
+<h2 id="buildgradle">build.gradle</h2>
+<pre><code class="lang-sh">buildscript {
+    repositories {
+        mavenCentral()
+    }
 
-<p>&#x793A;&#x4F8B;&#xFF1A;</p>
-<pre><code>#cmps.s
-.section .data
-val1:
-    .ascii &quot;Hello as!&quot;
-val2:
-    .ascii &quot;Hello wd!&quot;
-
-.section .text
-.globl _start
-_start:
-    nop
-    movl $1, %eax   #system call SYS_exit()
-    leal val1, %esi
-    leal val2, %edi
-    movl $9, %ecx
-    cld
-    repe cmpsb
-    je equal
-    movl %ecx, %ebx
-    int $0x80
-equal:
-    movl $0, %ebx
-    int $0x80
-</code></pre><p>&#x8A72;&#x7A0B;&#x5E8F;&#x628A;&#x6E90;&#x548C;&#x76EE;&#x6A19;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x4F4D;&#x7F6E;&#x52A0;&#x8F09;&#x5230;esi&#x548C;edi&#x5BC4;&#x5B58;&#x5668;&#x4E2D;&#xFF0C;&#x5B57;&#x7B26;&#x4E32;&#x9577;&#x5EA6;&#x52A0;&#x8F09;&#x5230;ecx&#x5BC4;&#x5B58;&#x5668;&#x4E2D;&#xFF0C;repe cmpsb&#x6307;&#x4EE4;&#x9010;&#x5B57;&#x7BC0;&#x5730;&#x91CD;&#x8907;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x6BD4;&#x8F03;&#xFF0C;&#x76F4;&#x5230;ecx&#x5BC4;&#x5B58;&#x5668;&#x70BA;0&#xFF0C;&#x6216;&#x8005;0&#x6A19;&#x8A8C;&#x88AB;&#x8A2D;&#x7F6E;&#xFF08;&#x8AAA;&#x660E;&#x4E0D;&#x5339;&#x914D;&#xFF09;&#x3002;
-&#x7A0B;&#x5E8F;&#x57F7;&#x884C;&#x7D50;&#x679C;&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre><code>$ ./cmps
-$ echo $?
-2
-</code></pre><p>ecx&#x5BC4;&#x5B58;&#x5668;&#x5C07;&#x5305;&#x542B;&#x4E0D;&#x5339;&#x914D;&#x5B57;&#x7B26;&#x5728;&#x5B57;&#x7B26;&#x4E32;&#x4E2D;&#x7684;&#x4F4D;&#x7F6E;&#xFF0C;&#x8A72;&#x4F4D;&#x7F6E;&#x662F;&#x5F9E;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x672B;&#x5C3E;&#x5F9E;0&#x958B;&#x59CB;&#x5411;&#x56DE;&#x8A08;&#x6578;&#x3002;
-&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x6383;&#x63CF;&#x4F7F;&#x7528;scas&#x6307;&#x4EE4;&#xFF0C;&#x5176;&#x63D0;&#x4F9B;&#x4E86;&#x641C;&#x7D22;&#x4E00;&#x500B;&#x5B57;&#x7B26;&#x6216;&#x591A;&#x500B;&#x5B57;&#x7B26;&#x7684;&#x65B9;&#x5F0F;&#x3002;</p>
-<p>scas&#x6307;&#x4EE4;&#x985E;&#x4F3C;&#x5176;&#x4ED6;&#x5B57;&#x7B26;&#x4E32;&#x6307;&#x4EE4;&#xFF0C;&#x6709;&#x4E09;&#x7A2E;&#x683C;&#x5F0F;&#xFF1A;scanb&#x3001;scanw&#x3001;scanl&#xFF0C;&#x4E09;&#x7A2E;&#x683C;&#x5F0F;&#x5206;&#x5225;&#x6BD4;&#x8F03;&#x5167;&#x5B58;&#x4E2D;&#x7684;&#x4E00;&#x500B;&#x5B57;&#x7BC0;&#x548C;AL&#x3001;AX&#x3001;EAX&#x5BC4;&#x5B58;&#x5668;&#x7684;&#x503C;&#x3002;scas&#x6307;&#x4EE4;&#x4F7F;&#x7528;edi&#x5BC4;&#x5B58;&#x5668;&#x4F5C;&#x70BA;&#x96B1;&#x542B;&#x7684;&#x76EE;&#x6A19;&#x64CD;&#x4F5C;&#x6578;&#x3002;</p>
-<p>edi&#x5BC4;&#x5B58;&#x5668;&#x5FC5;&#x9808;&#x5305;&#x542B;&#x8981;&#x6383;&#x63CF;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x5167;&#x5B58;&#x5730;&#x5740;&#xFF0C;&#x7576;&#x57F7;&#x884C;scas&#x6307;&#x4EE4;&#x6642;&#xFF0C;edi&#x5BC4;&#x5B58;&#x5668;&#x7684;&#x503C;&#x6309;&#x7167;&#x641C;&#x7D22;&#x5B57;&#x7B26;&#x6578;&#x64DA;&#x9577;&#x5EA6;&#x905E;&#x589E;&#x6216;&#x905E;&#x6E1B;&#x3002;</p>
-<p>scas&#x6307;&#x4EE4;&#x7684;&#x4E00;&#x500B;&#x975E;&#x5E38;&#x6709;&#x7528;&#x7684;&#x529F;&#x80FD;&#x662F;&#x78BA;&#x5B9A;0&#x7D50;&#x5C3E;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x5C0E;&#x9577;&#x5EA6;&#xFF0C;&#x5C0D;&#x65BC;0&#x7D50;&#x5C3E;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#xFF0C;&#x8981;&#x641C;&#x7D22;&#x7684;&#x986F;&#x7136;&#x662F;0&#x7684;&#x4F4D;&#x7F6E;&#xFF0C;&#x4E26;&#x4E14;&#x8A08;&#x7B97;&#x627E;&#x5230;0&#x7D93;&#x904E; &#x591A;&#x5C11;&#x500B;&#x5B57;&#x7B26;&#x3002;&#x5982;&#x4E0B;&#x793A;&#x4F8B;&#xFF1A;</p>
-<pre><code># scas.s
-.section .data
-string:
-    .asciz &quot;this is a test string!\n&quot;
-.section .text
-.globl _start
-_start:
-    nop
-    leal string, %edi         #&#x5C07;&#x8981;&#x7528;&#x65BC;&#x67E5;&#x627E;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x5167;&#x5B58;&#x5730;&#x5740;&#x52A0;&#x8F09;&#x5230;edi&#x5BC4;&#x5B58;&#x5668;&#x4E2D;
-    movl $0xffff, %ecx        #0xffff&#x8868;&#x660E;&#x9019;&#x500B;&#x7A0B;&#x5E8F;&#x53EA;&#x80FD;&#x7528;&#x65BC;&#x9577;&#x5EA6;&#x6700;&#x5927;&#x70BA;65535&#x7684;&#x5B57;&#x7B26;&#x4E32;
-    movb $0, %al            #&#x5C07;&#x8981;&#x641C;&#x7D22;&#x7684;&#x5B57;&#x7B26;&#x52A0;&#x8F09;&#x5230;al&#x5BC4;&#x5B58;&#x5668;&#x4E2D;
-    cld
-    repne scasb                    #&#x4F7F;&#x7528;repne&#x6307;&#x4EE4;&#x6383;&#x63CF;&#x5B57;&#x7B26;&#x4E32;&#xFF0C;&#x7372;&#x5F97;&#x641C;&#x7D22;&#x4F4D;&#x7F6E;
-    jne notfound                    #&#x5982;&#x679C;&#x6C92;&#x627E;&#x5230;&#xFF0C;&#x8DF3;&#x8F49;&#x5230;notfound&#x5206;&#x652F;
-    subw $0xffff, %cx                #&#x5982;&#x679C;&#x627E;&#x5230;&#x4E86;&#xFF0C;&#x90A3;&#x9EBC;&#x5176;&#x8DDD;&#x96E2;&#x5B57;&#x7B26;&#x4E32;&#x672B;&#x5C3E;&#x7684;&#x4F4D;&#x7F6E;&#x5C31;&#x5B58;&#x653E;&#x5728;cx&#x5BC4;&#x5B58;&#x5668;&#x4E2D;&#xFF0C;&#x5F9E;cx&#x5BC4;&#x5B58;&#x5668;&#x7684;&#x503C;&#x4E2D;&#x6E1B;&#x53BB;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x9577;&#x5EA6;
-    neg %cx                            #&#x4F7F;&#x7528;neg&#x6307;&#x4EE4;&#x6539;&#x8B8A;&#x7D50;&#x679C;&#x7684;&#x503C;&#x7684;&#x7B26;&#x865F;
-    dec %cx                            #&#x56E0;&#x70BA;&#x8A72;&#x9577;&#x5EA6;&#x5305;&#x542B;&#x8868;&#x793A;&#x7D50;&#x5C3E;&#x7684;0&#xFF0C;&#x6240;&#x4EE5;&#x6700;&#x7D42;&#x503C;&#x5FC5;&#x9808;&#x6E1B;1&#x624D;&#x80FD;&#x986F;&#x793A;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x771F;&#x6B63;&#x9577;&#x5EA6;&#x3002;
-    movl $1, %eax
-    movl %ecx, %ebx            #&#x5C07;&#x8A08;&#x7B97;&#x7D50;&#x679C;&#x5B58;&#x653E;&#x5728;ebx&#x5BC4;&#x5B58;&#x5668;&#x4E2D;&#x3002;
-    int $0x80
-notfound:
-    movl $1, %eax
-    movl $0, %ebx
-    int $0x80
-</code></pre><p>&#x904B;&#x884C;&#x7A0B;&#x5E8F;&#x7D50;&#x679C;&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre><code>$ ./scas
-$ echo $?
-23
+    dependencies {
+        classpath <span class="hljs-string">&apos;com.android.tools.build:gradle:2.1.3&apos;</span> 
+        //classpath <span class="hljs-string">&apos;com.android.tools.build:gradle:1.5.0&apos;</span>
+    }
+}
 </code></pre>
+<pre><code class="lang-sh">https://repo1.maven.org/maven2/com/android/tools/build/gradle/
+</code></pre>
+<h2 id="could-not-resolve-all-dependencies-for-configuration--classpath">could not resolve all dependencies for configuration &apos; classpath&apos;</h2>
+<p>&#x958B;&#x59CB;&#x4EE5;&#x70BA;&#x662F;&#x4E0B;&#x8F09;&#x4F9D;&#x8CF4;&#x5931;&#x6557;&#x4E86;&#xFF0C;&#x56E0;&#x70BA;&#x6253;&#x5305;&#x6A5F;&#x5668;&#x4E4B;&#x524D;&#x51FA;&#x73FE;&#x904E;&#x4E0B;&#x8F09;https&#x7684;maven&#x5EAB;&#x5931;&#x6557;&#x7684;&#x554F;&#x984C;&#xFF0C;&#x4F46;&#x662F;&#x9019;&#x6B21;&#x770B;&#x4E86;&#x4E0B;&#x8F09;&#x7684;&#x4F9D;&#x8CF4;jar&#x5730;&#x5740;&#x662F;http&#x7684;&#xFF0C;&#x5728;&#x6A5F;&#x5668;&#x4E0A;&#x57F7;&#x884C;wget&#x4E5F;&#x80FD;&#x4E0B;&#x8F09;&#x3002;&#x6240;&#x4EE5;&#x61C9;&#x8A72;&#x4E0D;&#x662F;&#x4E0B;&#x8F09;&#x554F;&#x984C;&#x3002;</p>
+<p>&#x7576;&#x7136;&#x662F;&#x4E0D;&#x662F;&#x4E0B;&#x8F09;&#x7684;&#x554F;&#x984C;&#x53BB;&#x770B;&#x770B;&#x5C31;&#x77E5;&#x9053;&#x4E86;&#xFF0C;gradlew&#x4E0B;&#x8F09;&#x7684;&#x4F9D;&#x8CF4;&#x6587;&#x4EF6;&#x90FD;&#x5728;</p>
+<pre><code class="lang-sh">~/.gradle/caches/modules-<span class="hljs-number">2</span>/files-<span class="hljs-number">2.1</span>
+</code></pre>
+<p>&#x9032;&#x5165;&#x5F8C;&#x767C;&#x73FE;&#x4F9D;&#x8CF4;&#x7684;&#x6587;&#x4EF6;&#x662F;&#x6709;&#x7684;&#x3002;&#x9019;&#x500B;&#x554F;&#x984C;&#x6700;&#x5F8C;&#x6C92;&#x627E;&#x5230;&#x539F;&#x56E0;&#xFF0C;&#x6211;&#x628A;caches&#x76EE;&#x9304;&#x6574;&#x500B;&#x522A;&#x4E86;&#xFF0C;&#x91CD;&#x65B0;&#x4E0B;&#x4E86;&#x4E00;&#x904D;&#x6240;&#x6709;&#x4F9D;&#x8CF4;&#x5C31;ok&#x4E86;&#x3002;
+&#x4E4B;&#x524D;&#x6253;&#x5305;&#x53EA;&#x662F;&#x628A;gradle deamon&#x7D66;&#x95DC;&#x4E86;&#x53CD;&#x4E4B;&#x7DE8;&#x8B6F;&#x7DE9;&#x5B58;&#x9020;&#x6210;&#x554F;&#x984C;&#x3002;&#x6C92;&#x60F3;&#x5230;&#x5DE5;&#x7A0B;&#x7DE9;&#x5B58;&#x4E5F;&#x6703;&#x6709;&#x554F;&#x984C;&#xFF0C;&#x5C0D;&#x65BC;&#x6253;&#x6B63;&#x5F0F;&#x767C;&#x4F48;&#x7684;&#x5305;&#x4F86;&#x8AAA;&#xFF0C;&#x5EFA;&#x8B70;&#x6253;&#x5305;&#x524D;&#x9664;&#x4E86;&#x57F7;&#x884C;git reset&#x4FDD;&#x8B49;&#x4EE3;&#x78BC;&#x540C;&#x6B65;&#xFF0C;&#x57F7;&#x884C;gradle clean&#x6E05;&#x7406;&#x74B0;&#x5883;&#x5916;&#xFF0C;&#x4E5F;&#x8981;</p>
+<ul>
+<li>&#x95DC;&#x9589;deamon&#xFF0C;</li>
+<li>&#x6E05;&#x7406;&#x4F9D;&#x8CF4;&#x7DE9;&#x5B58;
+&#x71DF;&#x9020;&#x4E00;&#x500B;&#x5168;&#x65B0;&#x7684;&#x6253;&#x6B63;&#x5F0F;&#x5305;&#x74B0;&#x5883;&#x3002;</li>
+</ul>
+
                     
                     </section>
                 
@@ -15695,10 +15610,10 @@ $ echo $?
         </div>
 
         
-        <a href="../assembly/16112.html" class="navigation navigation-prev " aria-label="Previous page: 字符串的存儲與加載"><i class="fa fa-angle-left"></i></a>
+        <a href="../android_note/androidxi_tong_de_zhi_neng_zhi_zhen_ff08_qing_lian.html" class="navigation navigation-prev " aria-label="Previous page: Android系統的智能指針（輕量級指針、強指針和弱指針）的實現原理分析"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../assembly/16114.html" class="navigation navigation-next " aria-label="Next page: 函數的使用"><i class="fa fa-angle-right"></i></a>
+        <a href="../ubuntu/index.html" class="navigation navigation-next " aria-label="Next page: Ubuntu"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

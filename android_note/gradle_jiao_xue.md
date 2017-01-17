@@ -21,16 +21,16 @@ https://repo1.maven.org/maven2/com/android/tools/build/gradle/
 
 ## could not resolve all dependencies for configuration ' classpath'
 
-开始以为是下载依赖失败了，因为打包机器之前出现过下载https的maven库失败的问题，但是这次看了下载的依赖jar地址是http的，在机器上执行wget也能下载。所以应该不是下载问题。
+開始以為是下載依賴失敗了，因為打包機器之前出現過下載https的maven庫失敗的問題，但是這次看了下載的依賴jar地址是http的，在機器上執行wget也能下載。所以應該不是下載問題。
 
-当然是不是下载的问题去看看就知道了，gradlew下载的依赖文件都在
+當然是不是下載的問題去看看就知道了，gradlew下載的依賴文件都在
 
 ```sh
 ~/.gradle/caches/modules-2/files-2.1
 ```
-进入后发现依赖的文件是有的。这个问题最后没找到原因，我把caches目录整个删了，重新下了一遍所有依赖就ok了。
-之前打包只是把gradle deamon给关了反之编译缓存造成问题。没想到工程缓存也会有问题，对于打正式发布的包来说，建议打包前除了执行git reset保证代码同步，执行gradle clean清理环境外，也要
+進入後發現依賴的文件是有的。這個問題最後沒找到原因，我把caches目錄整個刪了，重新下了一遍所有依賴就ok了。
+之前打包只是把gradle deamon給關了反之編譯緩存造成問題。沒想到工程緩存也會有問題，對於打正式發佈的包來說，建議打包前除了執行git reset保證代碼同步，執行gradle clean清理環境外，也要
 
-- 关闭deamon，
-- 清理依赖缓存
-营造一个全新的打正式包环境。
+- 關閉deamon，
+- 清理依賴緩存
+營造一個全新的打正式包環境。

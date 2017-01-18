@@ -79,3 +79,13 @@ For more examples and ideas, visit:
 ```
 
 
+
+想要知道現在系統上有哪些 Image，可以執行 docker images：
+
+```sh
+sudo docker images
+
+REPOSITORY          TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
+ubuntu              12.04               ebe4be4dd427        4 days ago          210.6 MB
+```
+

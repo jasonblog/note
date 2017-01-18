@@ -46,8 +46,8 @@ sudo /etc/init.d/docker stop
 ```sh
 cd /var/lib
 sudo cp -rf docker docker.bak
-sudo cp -rf docker /<my_new_location>/
-sudo ln -s /<my_new_location>/docker docker
+sudo mv docker /media/shihyu/ssd/docker
+sudo ln -s  /media/shihyu/ssd/docker docker
 ```
 
 启动 Docker 服务

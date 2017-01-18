@@ -213,3 +213,6 @@ Step 3 : RUN apt-get -qqy install vim # 男子漢就是要用 vim !!
 
 別忘了最後有個 .，這表示 Dockerfile 來自目前的目錄。建構的過程就可以去做別的事了，建構完成之後，會自動 commit。
 
+
+##Docker 修改默認存儲位置
+

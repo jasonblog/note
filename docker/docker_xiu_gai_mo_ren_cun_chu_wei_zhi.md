@@ -90,4 +90,21 @@ Name: rhel62build
 ID: LIO4:I43U:YFQU:SN45:YOE6:7GTF:6AGX:VSKQ:ICIV:AKWD:3OKQ:HUSC
 ```
 
+## 刪除 Docker image
 
+```sh
+docker ps -a
+
+
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                         PORTS               NAMES
+56ee339399dc        ubuntu:14.04        "bash"              22 minutes ago      Exited (0) 9 minutes ago                           tender_archimedes
+7e889ef55800        yshihyu/ubuntu16    "bash"              22 minutes ago      Exited (0) 22 minutes ago                          elated_brattain
+c1e986571728        ubuntu:16.04        "bash"              41 minutes ago      Exited (0) 22 minutes ago                          desperate_kirch
+56541fac1049        ubuntu:14.04        "bash"              59 minutes ago      Exited (0) 56 minutes ago                          determined_stonebraker
+c8fddb25161f        hello-world         "/hello"            About an hour ago   Exited (0) About an hour ago                       drunk_payne
+```
+
+
+```sh
+docker stop c8fddb25161f && docker rm c8fddb25161f
+```

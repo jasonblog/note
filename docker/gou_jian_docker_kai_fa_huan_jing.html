@@ -57,7 +57,7 @@
         data-chapter-title="構建docker開發環境"
         data-filepath="docker/gou_jian_docker_kai_fa_huan_jing.md"
         data-basepath=".."
-        data-revision="Tue Jan 17 2017 23:05:46 GMT+0800 (CST)"
+        data-revision="Wed Jan 18 2017 22:34:07 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -15574,6 +15574,29 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="&#x69CB;&#x5EFA;docker&#x958B;&#x767C;&#x74B0;&#x5883;">&#x69CB;&#x5EFA;docker&#x958B;&#x767C;&#x74B0;&#x5883;</h1>
+<h2 id="ubuntu-1604">Ubuntu 16.04</h2>
+<pre><code class="lang-sh">sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:<span class="hljs-number">80</span> --recv-keys <span class="hljs-number">58118</span>E89F3A912897C070ADBF76221572C52609D
+
+sudo apt-add-repository <span class="hljs-string">&apos;deb https://apt.dockerproject.org/repo ubuntu-xenial main&apos;</span>
+
+sudo apt-get update
+
+apt-cache policy docker-engine
+
+docker-engine:
+  Installed: (none)
+  Candidate: <span class="hljs-number">1.11</span>.<span class="hljs-number">1</span>-<span class="hljs-number">0</span>~xenial
+  Version table:
+     <span class="hljs-number">1.11</span>.<span class="hljs-number">1</span>-<span class="hljs-number">0</span>~xenial <span class="hljs-number">500</span>
+        <span class="hljs-number">500</span> https://apt.dockerproject.org/repo ubuntu-xenial/main amd64 Packages
+     <span class="hljs-number">1.11</span>.<span class="hljs-number">0</span>-<span class="hljs-number">0</span>~xenial <span class="hljs-number">500</span>
+        <span class="hljs-number">500</span> https://apt.dockerproject.org/repo ubuntu-xenial/main amd64 Packages
+
+
+
+sudo apt-get install -y docker-engine
+sudo systemctl status docker
+</code></pre>
 <h2 id="&#x5B89;&#x88DD;&#x4E4B;&#x524D;">&#x5B89;&#x88DD;&#x4E4B;&#x524D;</h2>
 <p>Docker&#x6E90;&#x78BC;&#x9700;&#x5728;docker&#x5BB9;&#x5668;&#x7DE8;&#x8B6F;&#x74B0;&#x5883;&#x4E2D;&#x7DE8;&#x8B6F;&#xFF0C;&#x6240;&#x4EE5;&#x5148;&#x5B89;&#x88DD;docker&#xFF0C;&#x5B89;&#x88DD;&#x74B0;&#x5883;&#x4F9D;&#x820A;&#x662F;ubuntu14.04</p>
 <pre><code class="lang-sh"><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;deb https://apt.dockerproject.org/repo ubuntu-trusty main&quot;</span> | sudo tee /etc/apt/sources.list.d/docker.list

@@ -89,3 +89,49 @@ REPOSITORY          TAG                 IMAGE ID            CREATED             
 ubuntu              12.04               ebe4be4dd427        4 days ago          210.6 MB
 ```
 
+
+##容器環境與 commit
+
+先來指定 ubuntu:12.04 運行一個容器，執行 bash 並在其中裝個 wget 試試：
+
+```sh
+sudo docker run -t -i ubuntu:12.04 bash
+
+
+root@37733a045f92:/# apt-get install wget
+Reading package lists... Done
+... 略
+ldconfig deferred processing now taking place
+root@37733a045f92:/# exit
+```
+
+執行 docker run 時，-t 在容器中建立了一個終端機，-i 建立與容器標準輸入（STDIN）的互動連結，接下來你就可以在 bash 中進行指令操作了，終端機提示 root@37733a045f92 中，37733a045f92 是目前的容器 ID。
+
+接下來離開 bash 後，重新執行 docker run -t -i ubuntu:12.04 bash，又是原來乾淨的環境了…XD
+
+如果你想要保存在容器中的變更，必須進行 commit，你可以如上進入 bash、安裝 wget，在離開容器之前，在另一個終端機執行 docker ps，查看目前正在運行的容器狀態：
+
+
+
+```sh
+sudo docker ps
+
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+30f63c6e8d15        ubuntu:12.04        bash                12 seconds ago      Up 12 seconds                           stoic_nobel
+```
+
+容器 ID 為 30f63c6e8d15，你可以對照一下容器中 bash 的提示，兩個是對應的，想要 commit 變更，在執行 docker ps 的終端機中執行：
+
+```sh
+sudo docker commit -m="Added wget" -a="Justin Lin" 30f63c6e8d15 yshihyu/wget
+
+a721d68a588ab4932a5d9881041bec3fac6c5ae6fc26e0f9c459fa08f8ce4f16
+
+sudo docker images
+
+REPOSITORY                  TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
+yshihyu/wget   latest              a721d68a588a        8 seconds ago       212 MB
+ubuntu                      12.04               ebe4be4dd427        4 days ago          210.6 MB
+```
+
+

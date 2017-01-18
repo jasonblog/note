@@ -1,4 +1,4 @@
-# Docker 修改默认存储位置
+# Docker 修改默認存儲位置
 
 
 首先使用 docker info 查看 docker 的基本信息
@@ -33,15 +33,15 @@ ID: LIO4:I43U:YFQU:SN45:YOE6:7GTF:6AGX:VSKQ:ICIV:AKWD:3OKQ:HUSC
 ```
 
 
-这是一个新装的docker环境，其中看不出当前docker文件存储的路径。但是docker默认会使用 /var/lib/docker 作为默认存储位置。
+這是一個新裝的docker環境，其中看不出當前docker文件存儲的路徑。但是docker默認會使用 /var/lib/docker 作為默認存儲位置。
 
-停止 Docker 服务
+停止 Docker 服務
 
 ```sh
 sudo /etc/init.d/docker stop
 ```
 
-将原来默认的/var/lib/docker备份一下，然后复制到别的位置并建立一个软链接
+將原來默認的/var/lib/docker備份一下，然後複製到別的位置並建立一個軟鏈接
 
 ```sh
 cd /var/lib
@@ -50,13 +50,13 @@ sudo mv docker /media/shihyu/ssd/docker
 sudo ln -s  /media/shihyu/ssd/docker docker
 ```
 
-启动 Docker 服务
+啟動 Docker 服務
 
 ```sh
 sudo /etc/init.d/docker start
 ```
 
-最后使用 docker info 查看更新结果
+最後使用 docker info 查看更新結果
 
 
 ```sh

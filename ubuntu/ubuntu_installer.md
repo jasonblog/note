@@ -434,7 +434,7 @@ git clone  ssh://git@github.com-ccccjason/ccccjason/book.git _book
 ```sh
 sudo apt-get purge nvidia-*
 sudo add-apt-repository ppa:graphics-drivers/ppa
-sudo apt-get update.
+sudo apt-get update
 sudo apt-get install nvidia-375
 Reboot.
 ```

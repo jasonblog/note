@@ -124,11 +124,11 @@ sudo update-grub
 
 (2) 判斷有沒有成功以UEFI驅動光碟機的方法是，如果以UEFI驅動，第一個看到的畫面會像這樣：
 
-![](./images/G.)
+![](./images/G.png)
 
 但如果是以BIOS驅動，則是這樣：
 
-
+![](./images/1347445119.png)
 
 (3) 選擇「Try Ubuntu」。
 

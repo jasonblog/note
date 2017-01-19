@@ -90,6 +90,7 @@
    * [gradle 教學](android_note/gradle_jiao_xue.md)
 * [Ubuntu](ubuntu/README.md)
    * [Ubuntu installer](ubuntu/ubuntu_installer.md)
+   * Windows與Ubuntu雙系統，開機時偵測不到彼此的解決方法
 * [QEMU](qemu/README.md)
    * [X86_QEMU](qemu/my_qrmu.md)
    * [ARM_QEMU](qemu/712.md)

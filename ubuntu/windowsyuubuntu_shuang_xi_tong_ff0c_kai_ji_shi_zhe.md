@@ -33,47 +33,56 @@ http://askubuntu.com/questions/141450/installed-ubuntu-12-04-and-no-menu-on-boot
 
 要注意的是，在Ubuntu 10.04以前是用Grub, 在Ubuntu 10.10之後是用Grub2，所以在找資料的時候別搞混了。舊版的Grub的開機選單在/boot/grub/menu.lst。要在Grub的選單裡加上Windows可以參考這篇；或者可以透過升級成Grub2解決這個問題。
 
-(0) 讓開機選單顯示出來：
+##(0) 讓開機選單顯示出來：
 
 一個可能的情況是你在開機的時候根本沒有顯示選單。這是因為當Grub2判定電腦裡面只有一個Linux系統的時候，就會自動隱藏開機選單。要讓開機選單顯示出來的方法是：
+```sh
   a) 以sudo打開/etc/default/grub
   b) 在"GRUB_HIDDEN_TIMEOUT=0"這一行前面加上"#"將它拿掉。
+```
 
 參考網址：
 http://askubuntu.com/questions/16042/how-to-get-to-the-grub-menu-at-boot-time
 
-(1) 讓Ubuntu自動更新開機選單：
+##(1) 讓Ubuntu自動更新開機選單：
 
 在終端機執行：
-1
+
+```sh
 sudo update-grub
-
-(2) 使用Boot-Repair
+```
+##(2) 使用Boot-Repair
 
 在終端機執行：
-1
-2
-3
-4
+
+```sh
 sudo add-apt-repository ppa:yannubuntu/boot-repair
 sudo apt-get update
 sudo apt-get install -y boot-repair
 boot-repair
+```
+
 在Boot-Repair掃描完之後選擇Recommended repair即可。
 
 參考網址：
 https://help.ubuntu.com/community/Boot-Repair
 
-(3) 手動修改開機選單：
+##(3) 手動修改開機選單：
 
 首先得找出你的Windows是在哪個硬碟跟磁區上。硬碟的編號規則是：
+
+```sh
 /dev/sda -> hd0
 /dev/sdb -> hd1
 ......
-，而磁區的規則則是：
-第一個磁區：msdos0
-第二個磁區：msdos1
-......
+```
+
+，而磁區的規則則是：<br>
+第一個磁區：msdos0 <br>
+第二個磁區：msdos1<br><br>
+......<br>
 所以例如sdb3就是(hd1,msdos2)
 
 假設我們找到Windows 7在/dev/sda的第三個磁區。之後，以sudo編輯/etc/grub.d/40_custom，在檔案後面加上
+
+

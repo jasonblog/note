@@ -86,3 +86,59 @@ https://help.ubuntu.com/community/Boot-Repair
 假設我們找到Windows 7在/dev/sda的第三個磁區。之後，以sudo編輯/etc/grub.d/40_custom，在檔案後面加上
 
 
+```sh
+menuentry ‘Windows 7′ {
+  insmod part_msdos # 註：這行不見得需要
+  insmod ntfs # 註：這行不見得需要；而且記得要使用windows磁碟的真正格式
+  set root='(hd0,msdos2)′
+  search --no-floppy --fs-uuid --set=root XXX # 註：這行不見得需要；而且XXX要代入硬碟的uuid
+  drivemap -s (hd0) ${root} # 註：這行不見得需要
+  chain
+  ```
+  
+  
+查詢硬碟uuid的指令是：
+```sh
+sudo blkid
+```
+
+最後在終端機執行：
+
+```sh
+sudo grub-mkconfig
+sudo update-grub
+```
+
+##參考網址：
+```sh
+[1] Manually adding an entry for Windows 7 to an Ubuntu GRUB2 menu
+[2] 對兩個SATA硬碟套用grub多重開機
+[3] [Notes][Linux]如何復原 GRUB2 開機程序
+```
+
+##3. 特殊情況：用UEFI bios將Windows跟Ubuntu裝在兩顆硬碟上
+
+關於Ubuntu跟UEFI最重要的補充資料就是官方網站上的教學(英文)，可以的話不妨整篇看完。以下節錄重點：
+
+(1) 第一步就是要確定自己是以UEFI驅動光碟機，開啟Ubuntu光碟。關於各家主機板的UEFI bios的設定就請自己上網找資料了。
+
+(2) 判斷有沒有成功以UEFI驅動光碟機的方法是，如果以UEFI驅動，第一個看到的畫面會像這樣：
+
+![](./images/G.)
+
+但如果是以BIOS驅動，則是這樣：
+
+
+
+(3) 選擇「Try Ubuntu」。
+
+(4) 在試用Ubuntu的桌面環境下，用GParted程式先幫Ubuntu建立一個專門放UEFI的磁碟分割。這個磁碟分割必須：
+```sh
+  a) 最小100Mib；建議200MiB
+  b) 檔案格式：FAT32
+  c) 將"flag"欄位改成"boot"
+```
+(5) 點選桌面上的安裝Ubuntu捷徑，開始安裝程序。
+
+(6) 在安裝過程中如果選擇手動指定/分割硬碟，注意下面的下拉選單，要選擇將Ubuntu開機程序安裝在Ubuntu那顆硬碟上。例如如果是sdb，不需要指定到剛剛建立的專門放UEFI的磁碟分割(例如可能是sdb0)，只要指定到sdb就可以了。
+ 

@@ -582,6 +582,7 @@
        * [臺鐵資料下載](python/tai_tie_zi_liao_xia_zai.md)
        * [Find all files in directory with extension .txt in Python](python/find_all_files_in_directory_with_extension_txt_in_.md)
        * [Audio 利用ffmpeg 編碼轉換](python/audio_li_yong_ffmpeg_bian_ma_zhuan_huan.md)
+       * 集台證所融資融券餘額全部資料
    * [django](python/django.md)
        * [使用heroku部署django應用測試](python/shi_yong_heroku_bu_shu_django_ying_yong_ce_shi.md)
        * [Python Django 快速入門教學](python/python_django_kuai_su_ru_men_jiao_xue.md)

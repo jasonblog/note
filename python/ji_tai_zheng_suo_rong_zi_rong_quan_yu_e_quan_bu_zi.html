@@ -57,7 +57,7 @@
         data-chapter-title="集台證所融資融券餘額全部資料"
         data-filepath="python/ji_tai_zheng_suo_rong_zi_rong_quan_yu_e_quan_bu_zi.md"
         data-basepath=".."
-        data-revision="Sat Jan 21 2017 01:01:45 GMT+0800 (CST)"
+        data-revision="Sat Jan 21 2017 01:13:07 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -15829,6 +15829,164 @@ RangeDate = datetime.timedelta(days = <span class="hljs-number">1</span>)
 print(<span class="hljs-string">&apos;&#x57F7;&#x884C;&#x5B8C;&#x7562;&#xFF01;&apos;</span>)
 </code></pre>
 <p>python3 test.py</p>
+<pre><code class="lang-py"><span class="hljs-comment">#-*- coding:utf-8 -*-</span>
+
+<span class="hljs-string">&apos;&apos;&apos;
+&#x672C;&#x7A0B;&#x5E8F;&#x7531; Python 3.52 &#x5BEB;&#x6210;&#xFF0C;&#x70BA;&#x4F5C;&#x8005;&#x53C3;&#x8003;&#x9EBB;&#x8FA3;&#x5BB6;&#x65CF;&#x8A0E;&#x8AD6;&#x5340; &quot;python&#x4E0A;&#x5E02;&#x6AC3;&#x4E09;&#x5927;&#x6CD5;&#x4EBA;&#x8CB7;&#x8CE3;&#x8D85;&#x65E5;&#x5831;&#x8CC7;&#x6599;&#x4E0B;&#x8F09;&quot; &#x8A0E;&#x8AD6;&#x5167;&#x5BB9;&#x7DF4;&#x7FD2;
+&#x5176;&#x5167;&#x5BB9;&#x5927;&#x90E8;&#x4EFD;&#x53C3;&#x8003; zyzzyva&#x5927;&#x5927;&#x3001;c_c_lai &#x5927;&#x5927; &#x3001;koshi0413 &#x4E4B;&#x8A0E;&#x8AD6;&#x5167;&#x5BB9;&#xFF0C;&#x611F;&#x8B1D;&#xFF01;
+&#x672C;&#x7A0B;&#x5E8F;&#x6703;&#x81EA;&#x52D5;&#x751F;&#x6210; Access &#x7684; twsedata.mdb&#x8CC7;&#x6599;&#x5EAB;&#xFF0C;&#x53CA;&#x5EFA;&#x7ACB;&#x5404;&#x6240;&#x9700;&#x4E4B;&#x8CC7;&#x6599;&#x8868;&#xFF0C;&#x4F46;&#x53EA;&#x80FD;&#x4E0B;&#x8F09;&quot;&#x878D;&#x8CC7;&#x878D;&#x5238;&#x5F59;&#x7E3D; (&#x5168;&#x90E8;)&quot;&#x8CC7;&#x6599;
+&#x311F;&#xFF01;&#x6C92;&#x6709;&#x4FE1;&#x7528;&#x4EA4;&#x6613;&#x7D71;&#x8A08;&#x8CC7;&#x6599; &#xFF0C;&#x53EA;&#x5EFA;&#x7ACB;&#x5176;&#x8CC7;&#x6599;&#x8868;
+&#x672C;&#x7A0B;&#x5E8F;&#x9700;&#x8981; pip &#x5B89;&#x88DD; requests &#x3001;BeautifulSoup4&#x3001;pypyodbc
+&#x4EE5;&#x53CA;&#x9700;&#x4E0B;&#x8F09; pywin32 : https://sourceforge.net/projects/pywin32/files/pywin32/Build%20220/
+&#x4F7F;&#x7528;&#x65B9;&#x6CD5;&#xFF1A;&#x53EA;&#x5728; input &#x6642; &#xFF0C;&#x8F38;&#x5165;&#x958B;&#x59CB;&#x64F7;&#x53D6;&#x65E5;&#x671F;&#x53CA;&#x7D50;&#x675F;&#x64F7;&#x53D6;&#x65E5;&#x671F;&#x5373;&#x53EF;&#xFF0C;&#x7B2C;&#x4E00;&#x6B21;&#x57F7;&#x884C;&#x6642;&#xFF0C;&#x6703;&#x5EFA;&#x69CB;&#x8CC7;&#x6599;&#x5EAB;&#xFF0C;&#x800C;&#x5F8C;&#x53EA;&#x589E;&#x52A0;&#x8CC7;&#x6599;&#xFF0C;
+&#x6BCF;&#x65E5;&#x8CC7;&#x6599;&#x64F7;&#x53D6;&#x5230;&#x5132;&#x5B58;&#x81F3;&#x8CC7;&#x6599;&#x5EAB;&#x7684;&#x6642;&#x9593;&#x7D04; 21&#x79D2;(&#x4F9D;&#x4F5C;&#x8005;&#x96FB;&#x8166;&#x57F7;&#x884C;&#x8A08;&#x6642; )
+&#x672C;&#x7A0B;&#x5E8F;&#x50C5;&#x4F9B;&#x53C3;&#x8003;&#xFF0C;&#x4E0D;&#x8CA0;&#x8CAC;&#x66F4;&#x65B0;&#x5167;&#x5BB9;&#xFF0C;&#x4E0D;&#x8CA0;&#x8CAC;&#x9664;&#x932F;(&#x56E0;&#x70BA;&#x6211;&#x4E5F;&#x662F;&#x65B0;&#x624B;&#xFF0C;&#x9664;&#x932F;&#x5C0D;&#x6211;&#x4F86;&#x8AAA;&#x592A;#%%$...)&#xFF0C;&#x641E;&#x58DE;&#x4F7F;&#x7528;&#x8005;&#x96FB;&#x8166;&#xFF0C;&#x4E5F;&#x4E0D;&#x95DC;&#x4F5C;&#x8005;&#x7684;&#x4E8B;&#xFF01;&#xFF01;
+&#x4F5C;&#x8005;&#xFF1A;&#x9EBB;&#x8FA3;&#x5BB6;&#x65CF;&#x8A0E;&#x8AD6;&#x5340; lpk187
+&#x5B8C;&#x6210;&#x65E5;&#x671F;&#xFF1A;2016/9/22
+&apos;&apos;&apos;</span>
+
+<span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+<span class="hljs-keyword">import</span> random
+<span class="hljs-keyword">import</span> os
+<span class="hljs-keyword">import</span> win32com.client
+<span class="hljs-keyword">import</span> pypyodbc
+<span class="hljs-keyword">import</span> datetime
+<span class="hljs-keyword">import</span> time
+
+<span class="hljs-comment"># &#x96A8;&#x6A5F;&#x66F4;&#x6539; headers</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">head_random</span><span class="hljs-params">()</span>:</span>
+      <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">10</span>):
+            hs = [<span class="hljs-string">&apos;Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36&apos;</span>,
+                   <span class="hljs-string">&apos;Mozilla/5.0 (iPhone; U; CPU iPhone OS 3_0 like Mac OS X; en-us) AppleWebKit/528.18 (KHTML, like Gecko) Version/4.0 Mobile/7A341 Safari/528.16&apos;</span>,
+                   <span class="hljs-string">&apos;Mozilla/5.0 (Linux; U; Android 4.1.2; zh-tw; GT-I9300 Build/JZO54K) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30&apos;</span>,
+                   <span class="hljs-string">&apos;Mozilla/5.0 (iPad; U; CPU OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B334b Safari/531.21.10&apos;</span>
+                   <span class="hljs-string">&apos;Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)&apos;</span>]
+            hes = {<span class="hljs-string">&quot;User-Agent&quot;</span>:random.choice(hs)}
+      <span class="hljs-keyword">return</span> hes
+
+<span class="hljs-comment"># &#x96C6;&#x53F0;&#x8B49;&#x6240;&#x878D;&#x8CC7;&#x878D;&#x5238;&#x9918;&#x984D;&#x5168;&#x90E8;&#x8CC7;&#x6599;</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">read_network_data</span><span class="hljs-params">(date,from_number)</span>:</span>
+      url = <span class="hljs-string">&apos;http://www.twse.com.tw/ch/trading/exchange/MI_MARGN/MI_MARGN.php&apos;</span>
+      head =head_random()
+      payload = {<span class="hljs-string">&quot;download&quot;</span>:<span class="hljs-string">&apos;&apos;</span>,
+                 <span class="hljs-string">&quot;qdate&quot;</span>:date,
+                 <span class="hljs-string">&quot;selectType&quot;</span>:<span class="hljs-string">&quot;ALL&quot;</span>}
+      res = requests.post(url, headers=head, data=payload)
+      soup=BeautifulSoup(res.text, <span class="hljs-string">&quot;lxml&quot;</span>)
+      tab = soup.select(<span class="hljs-string">&apos;tbody&apos;</span>)[from_number] <span class="hljs-comment"># 2&#x500B;&#x8868;&#x683C;&#x4E4B;2</span>
+      regs=[] <span class="hljs-comment"># &#x521D;&#x59CB;&#x9663;&#x5217;</span>
+
+      <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(tab.select(<span class="hljs-string">&apos;tr&apos;</span>)[<span class="hljs-number">0</span>].select(<span class="hljs-string">&apos;td&apos;</span>))): <span class="hljs-comment"># &#x5B9A;&#x7FA9;2&#x7DAD;&#x9663;&#x5217;&#x7DAD;&#x5EA6;</span>
+            regs.append([])
+
+      <span class="hljs-keyword">for</span> tr <span class="hljs-keyword">in</span> tab.select(<span class="hljs-string">&apos;tr&apos;</span>): <span class="hljs-comment">#&#x64F7;&#x53D6;&#x8868;&#x683C;&#x8CC7;&#x6599;</span>
+            <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(tab.select(<span class="hljs-string">&apos;tr&apos;</span>)[<span class="hljs-number">0</span>].select(<span class="hljs-string">&apos;td&apos;</span>))):
+                  regs[i].append(tr.select(<span class="hljs-string">&apos;td&apos;</span>)[i].text)
+      <span class="hljs-keyword">return</span> regs
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">conn_db</span><span class="hljs-params">()</span>:</span>
+      Conn = win32com.client.Dispatch(<span class="hljs-string">&quot;ADODB.Connection&quot;</span>)
+      strMDB =<span class="hljs-string">&apos;Provider=Microsoft.ACE.OLEDB.12.0; Data Source=&apos;</span> + os.getcwd() + <span class="hljs-string">&apos;\\twsedata.mdb;&apos;</span>
+      Conn.ConnectionString = strMDB
+      Conn.Open()
+      <span class="hljs-keyword">return</span> Conn
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">check_db_exists</span><span class="hljs-params">(regs)</span>:</span>
+      <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> os.path.exists(<span class="hljs-string">&apos;twsedata.mdb&apos;</span>):
+            pypyodbc.win_create_mdb( os.getcwd() + <span class="hljs-string">&apos;\\twsedata.mdb&apos;</span>)
+            Conn=conn_db()
+            sql = <span class="hljs-string">&quot;CREATE TABLE &#x80A1;&#x7968;(&#x80A1;&#x7968;&#x4EE3;&#x865F;  char(10) PRIMARY KEY,&#x80A1;&#x7968;&#x540D;&#x7A31;  char(20));&quot;</span>
+            Conn.Execute(sql)
+            sql = <span class="hljs-string">&quot;CREATE TABLE  &#x878D;&#x8CC7;&#x878D;&#x5238;&#x4FE1;&#x7528;&#x4EA4;&#x6613;&#x7D71;&#x8A08;(&#x65E5;&#x671F;  datetime,&#x9805;&#x76EE;  char(20),&#x8CB7;&#x9032; INTEGER,&#x8CB7;&#x51FA; INTEGER,&#x73FE;&#x91D1;&#xFF08;&#x5238;&#xFF09;&#x511F;&#x9084; INTEGER,&#x524D;&#x65E5;&#x9918;&#x984D; INTEGER,&#x4ECA;&#x65E5;&#x9918;&#x984D; INTEGER);&quot;</span>
+            Conn.Execute(sql)
+      n = <span class="hljs-number">0</span>
+      Conn=conn_db()
+      <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> regs[<span class="hljs-number">0</span>]:
+            <span class="hljs-keyword">try</span>:
+                  Conn.Execute(<span class="hljs-string">&apos;select * from &apos;</span> + i); <span class="hljs-comment"># table does not exist</span>
+            <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:
+                  sql=<span class="hljs-string">&quot;CREATE TABLE &quot;</span> + i + <span class="hljs-string">&quot;(&#x65E5;&#x671F;  datetime,&quot;</span>
+                  sql= sql + <span class="hljs-string">&quot;&#x8CC7;&#x8CB7;&#x9032;  INTEGER,&quot;</span>
+                  sql= sql + <span class="hljs-string">&quot;&#x8CC7;&#x8CE3;&#x51FA; INTEGER,&quot;</span>
+                  sql= sql + <span class="hljs-string">&quot;&#x8CC7;&#x73FE;&#x91D1;&#x511F;&#x9084; INTEGER,&quot;</span>
+                  sql= sql + <span class="hljs-string">&quot;&#x8CC7;&#x524D;&#x65E5;&#x9918;&#x984D; INTEGER,&quot;</span>
+                  sql= sql + <span class="hljs-string">&quot;&#x8CC7;&#x4ECA;&#x65E5;&#x9918;&#x984D; INTEGER,&quot;</span>
+                  sql= sql + <span class="hljs-string">&quot;&#x8CC7;&#x9650;&#x984D; INTEGER,&quot;</span>
+                  sql= sql + <span class="hljs-string">&quot;&#x5238;&#x8CB7;&#x9032;  INTEGER,&quot;</span>
+                  sql= sql + <span class="hljs-string">&quot;&#x5238;&#x8CE3;&#x51FA; INTEGER,&quot;</span>
+                  sql= sql + <span class="hljs-string">&quot;&#x5238;&#x73FE;&#x91D1;&#x511F;&#x9084; INTEGER,&quot;</span>
+                  sql= sql + <span class="hljs-string">&quot;&#x5238;&#x524D;&#x65E5;&#x9918;&#x984D; INTEGER,&quot;</span>
+                  sql= sql + <span class="hljs-string">&quot;&#x5238;&#x4ECA;&#x65E5;&#x9918;&#x984D; INTEGER,&quot;</span>
+                  sql= sql + <span class="hljs-string">&quot;&#x5238;&#x9650;&#x984D; INTEGER,&quot;</span>
+                  sql= sql + <span class="hljs-string">&quot;&#x8CC7;&#x5238;&#x4E92;&#x62B5; INTEGER,&quot;</span>
+                  sql= sql + <span class="hljs-string">&quot;&#x8A3B;&#x8A18; char(5));&quot;</span>
+                  Conn.Execute(sql)
+                  rs = win32com.client.Dispatch(<span class="hljs-string">&apos;ADODB.RecordSet&apos;</span>)
+                  rs.ActiveConnection = Conn
+                  rs.Open(<span class="hljs-string">&apos;select * from &#x80A1;&#x7968;&apos;</span>, Conn, <span class="hljs-number">3</span>, <span class="hljs-number">3</span>)
+                  rs.AddNew()
+                  rs.Fields.Item(<span class="hljs-number">0</span>).Value = regs[<span class="hljs-number">0</span>][n]
+                  rs.Fields.Item(<span class="hljs-number">1</span>).Value = regs[<span class="hljs-number">1</span>][n]
+                  rs.Update()
+            n += <span class="hljs-number">1</span>
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">add_data</span><span class="hljs-params">(regs,date)</span>:</span>
+      Conn=conn_db()
+      <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(regs[<span class="hljs-number">0</span>])):
+            rs = win32com.client.Dispatch(<span class="hljs-string">&apos;ADODB.RecordSet&apos;</span>)
+            rs.ActiveConnection = Conn
+            sql=<span class="hljs-string">&apos;select * from &apos;</span> + regs[<span class="hljs-number">0</span>][i]
+            rs.Open(sql, Conn, <span class="hljs-number">3</span>, <span class="hljs-number">3</span>)
+            <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(<span class="hljs-number">2</span>,len(regs)):
+                  <span class="hljs-keyword">if</span> j==<span class="hljs-number">2</span>:
+                        rs1 = win32com.client.Dispatch(<span class="hljs-string">&apos;ADODB.RecordSet&apos;</span>)
+                        rs1.ActiveConnection = Conn
+                        sql=<span class="hljs-string">&quot;SELECT * FROM &quot;</span> + regs[<span class="hljs-number">0</span>][i] + <span class="hljs-string">&quot; WHERE &#x65E5;&#x671F; = #&quot;</span> + date + <span class="hljs-string">&quot;#;&quot;</span>
+                        rs1.Open(sql,Conn,<span class="hljs-number">3</span>,<span class="hljs-number">3</span>)
+                        <span class="hljs-keyword">if</span> rs1.EOF:
+                              rs.AddNew()
+                              rs.Fields.Item(<span class="hljs-number">0</span>).Value = date
+                              rs.Fields.Item(j-<span class="hljs-number">1</span>).Value = regs[j][i]
+                              rs1.Close()
+                        <span class="hljs-keyword">else</span>:
+                              rs1.Close()
+                              <span class="hljs-keyword">break</span>
+                  rs.Fields.Item(j-<span class="hljs-number">1</span>).Value = regs[j][i]
+            rs.Update()
+
+<span class="hljs-comment"># &#x4EE5;&#x4E0B;&#x70BA;&#x7A0B;&#x5F0F;&#x7684;&#x555F;&#x59CB;&#x9EDE;&#xFF1A;</span>
+StartDate=input(<span class="hljs-string">&apos;&#x8ACB;&#x8F38;&#x5165;&#x958B;&#x59CB;&#x64F7;&#x53D6;&#x65E5;&#x671F;(&#x897F;&#x5143;&#x65E5;&#x671F;&#x5982;&#xFF1A;2016/1/1)&#xFF1A;&apos;</span>)
+EndDate=input(<span class="hljs-string">&apos;&#x8ACB;&#x8F38;&#x5165;&#x7D50;&#x675F;&#x64F7;&#x53D6;&#x65E5;&#x671F;(&#x897F;&#x5143;&#x65E5;&#x671F;&#x5982;&#xFF1A;2016/1/31)&#xFF1A;&apos;</span>)
+<span class="hljs-comment">#&#x8655;&#x7406;&#x65E5;&#x671F;&#x9084;&#x771F;&#x7684;&#x5F88;&#x9EBB;&#x7169;</span>
+ts=time.time()
+StartDate = time.strptime(StartDate, <span class="hljs-string">&quot;%Y/%m/%d&quot;</span>)
+EndDate =time.strptime(EndDate, <span class="hljs-string">&quot;%Y/%m/%d&quot;</span>)
+StartDate = datetime.date(StartDate[<span class="hljs-number">0</span>], StartDate[<span class="hljs-number">1</span>], StartDate[<span class="hljs-number">2</span>])
+EndDate =  datetime.date(EndDate[<span class="hljs-number">0</span>], EndDate[<span class="hljs-number">1</span>], EndDate[<span class="hljs-number">2</span>])
+RangeDate = datetime.timedelta(days = <span class="hljs-number">1</span>)
+<span class="hljs-keyword">while</span> StartDate &lt;= EndDate:
+      yy,mm,dd=str(StartDate).split(<span class="hljs-string">&apos;-&apos;</span>)
+      dat=datetime.datetime(int(yy), int(mm), int(dd))
+      dd=dat.strftime(<span class="hljs-string">&apos;%Y/%m/%d&apos;</span>)
+      year=str(int(dd[<span class="hljs-number">0</span>:<span class="hljs-number">4</span>])-<span class="hljs-number">1911</span>)
+      date=dd.replace(dd[<span class="hljs-number">0</span>:<span class="hljs-number">4</span>], year)
+      print(<span class="hljs-string">&apos;&#x76EE;&#x524D;&#x57F7;&#x884C;&#x7DB2;&#x8DEF;&#x64F7;&#x53D6;&apos;</span>,date ,<span class="hljs-string">&apos;&#x65E5;&#x7684;&#x8CC7;&#x6599;&#xFF0C;&#x8ACB;&#x7A0D;&#x5F8C;...&apos;</span>)
+      re=read_network_data(date,<span class="hljs-number">1</span>)
+      <span class="hljs-keyword">if</span> re[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>]==<span class="hljs-string">&apos;&#x67E5;&#x7121;&#x8CC7;&#x6599;&apos;</span>:
+            print(date,<span class="hljs-string">&apos;&#x65E5;&#xFF0C;&#x53EF;&#x80FD;&#x70BA;&#x4F11;&#x5E02;&#x65E5;&#xFF0C;&#x67E5;&#x7121;&#x8CC7;&#x6599;&#x3002;&apos;</span>)
+            StartDate = StartDate + RangeDate
+            <span class="hljs-keyword">continue</span>
+      print(<span class="hljs-string">&apos;&#x6AA2;&#x67E5;&#x662F;&#x5426;&#x6709;&#x65B0;&#x80A1;&#x7968;&#x52A0;&#x5165;&#xFF0C;&#x8ACB;&#x7A0D;&#x5F8C;...&apos;</span>)
+      check_db_exists(regs=re)
+      print(<span class="hljs-string">&apos;&#x5C07;&#x8CC7;&#x6599;&#x5BEB;&#x5165;&#x8CC7;&#x6599;&#x5EAB;&#x4E2D;&#xFF0C;&#x8ACB;&#x7A0D;&#x5F8C;...&apos;</span>)
+      add_data(regs=re,date=dd)
+      StartDate = StartDate + RangeDate
+      te = time.time()
+      print(<span class="hljs-string">&apos;&#x622A;&#x81F3;&#x76EE;&#x524D;&#xFF0C;&#x6642;&#x9593;&#x5DF2;&#x8017;&#x8CBB;&#xFF1A;&apos;</span>, int(te - ts),<span class="hljs-string">&apos;&#x79D2;&apos;</span>)
+
+print(<span class="hljs-string">&apos;&#x57F7;&#x884C;&#x5B8C;&#x7562;&#xFF01;&apos;</span>)
+</code></pre>
 
                     
                     </section>

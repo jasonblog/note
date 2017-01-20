@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>GNU make | Jason note</title>
+        <title>集台證所融資融券餘額全部資料 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -41,10 +41,10 @@
         
     
     
-    <link rel="next" href="../gunmake/example.html" />
+    <link rel="next" href="../python/django.html" />
     
     
-    <link rel="prev" href="../c++/cc++_shi_san_jie.html" />
+    <link rel="prev" href="../python/audio_li_yong_ffmpeg_bian_ma_zhuan_huan.html" />
     
 
         <!-- head:end -->
@@ -53,9 +53,9 @@
         <!-- body:start -->
         
     <div class="book"
-        data-level="19"
-        data-chapter-title="GNU make"
-        data-filepath="gunmake/README.md"
+        data-level="27.1.17"
+        data-chapter-title="集台證所融資融券餘額全部資料"
+        data-filepath="python/ji_tai_zheng_suo_rong_zi_rong_quan_yu_e_quan_bu_zi.md"
         data-basepath=".."
         data-revision="Sat Jan 21 2017 01:01:45 GMT+0800 (CST)"
         data-innerlanguage="">
@@ -6704,7 +6704,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="19" data-path="gunmake/index.html">
+        <li class="chapter " data-level="19" data-path="gunmake/index.html">
             
                 
                     <a href="../gunmake/index.html">
@@ -9091,7 +9091,7 @@
             
         </li>
     
-        <li class="chapter " data-level="27.1.17" data-path="python/ji_tai_zheng_suo_rong_zi_rong_quan_yu_e_quan_bu_zi.html">
+        <li class="chapter active" data-level="27.1.17" data-path="python/ji_tai_zheng_suo_rong_zi_rong_quan_yu_e_quan_bu_zi.html">
             
                 
                     <a href="../python/ji_tai_zheng_suo_rong_zi_rong_quan_yu_e_quan_bu_zi.html">
@@ -15663,7 +15663,172 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="gnu-make">GNU make</h1>
+                        <h1 id="&#x96C6;&#x53F0;&#x8B49;&#x6240;&#x878D;&#x8CC7;&#x878D;&#x5238;&#x9918;&#x984D;&#x5168;&#x90E8;&#x8CC7;&#x6599;">&#x96C6;&#x53F0;&#x8B49;&#x6240;&#x878D;&#x8CC7;&#x878D;&#x5238;&#x9918;&#x984D;&#x5168;&#x90E8;&#x8CC7;&#x6599;</h1>
+<h2 id="&#x4F7F;&#x7528;python3">&#x4F7F;&#x7528;python3</h2>
+<ul>
+<li>test.py</li>
+</ul>
+<pre><code class="lang-py"><span class="hljs-comment">#-*- coding:utf-8 -*-</span>
+
+<span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+<span class="hljs-keyword">import</span> random
+<span class="hljs-keyword">import</span> os
+<span class="hljs-keyword">import</span> sqlite3
+<span class="hljs-keyword">import</span> datetime
+<span class="hljs-keyword">import</span> time
+
+<span class="hljs-comment"># &#x96A8;&#x6A5F;&#x66F4;&#x6539; headers</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">head_random</span><span class="hljs-params">()</span>:</span>
+      <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">10</span>):
+            hs = [<span class="hljs-string">&apos;Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36&apos;</span>,
+                   <span class="hljs-string">&apos;Mozilla/5.0 (iPhone; U; CPU iPhone OS 3_0 like Mac OS X; en-us) AppleWebKit/528.18 (KHTML, like Gecko) Version/4.0 Mobile/7A341 Safari/528.16&apos;</span>,
+                   <span class="hljs-string">&apos;Mozilla/5.0 (Linux; U; Android 4.1.2; zh-tw; GT-I9300 Build/JZO54K) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30&apos;</span>,
+                   <span class="hljs-string">&apos;Mozilla/5.0 (iPad; U; CPU OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B334b Safari/531.21.10&apos;</span>
+                   <span class="hljs-string">&apos;Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)&apos;</span>]
+            hes = {<span class="hljs-string">&quot;User-Agent&quot;</span>:random.choice(hs)}
+      <span class="hljs-keyword">return</span> hes
+
+<span class="hljs-comment"># &#x96C6;&#x53F0;&#x8B49;&#x6240;&#x878D;&#x8CC7;&#x878D;&#x5238;&#x9918;&#x984D;&#x5168;&#x90E8;&#x8CC7;&#x6599;</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">read_network_data</span><span class="hljs-params">(date,from_number)</span>:</span>
+      url = <span class="hljs-string">&apos;http://www.twse.com.tw/ch/trading/exchange/MI_MARGN/MI_MARGN.php&apos;</span>
+      head =head_random()
+      payload = {<span class="hljs-string">&quot;download&quot;</span>:<span class="hljs-string">&apos;&apos;</span>,
+                 <span class="hljs-string">&quot;qdate&quot;</span>:date,
+                 <span class="hljs-string">&quot;selectType&quot;</span>:<span class="hljs-string">&quot;ALL&quot;</span>}
+      res = requests.post(url, headers=head, data=payload)
+      soup=BeautifulSoup(res.text, <span class="hljs-string">&quot;lxml&quot;</span>)
+      tab = soup.select(<span class="hljs-string">&apos;tbody&apos;</span>)[from_number] <span class="hljs-comment"># 2&#x500B;&#x8868;&#x683C;&#x4E4B;2</span>
+      regs=[] <span class="hljs-comment"># &#x521D;&#x59CB;&#x9663;&#x5217;</span>
+
+      <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(tab.select(<span class="hljs-string">&apos;tr&apos;</span>)[<span class="hljs-number">0</span>].select(<span class="hljs-string">&apos;td&apos;</span>))): <span class="hljs-comment"># &#x5B9A;&#x7FA9;2&#x7DAD;&#x9663;&#x5217;&#x7DAD;&#x5EA6;</span>
+            regs.append([])
+      n=<span class="hljs-number">0</span>
+      <span class="hljs-keyword">for</span> tr <span class="hljs-keyword">in</span> tab.select(<span class="hljs-string">&apos;tr&apos;</span>): <span class="hljs-comment">#&#x64F7;&#x53D6;&#x8868;&#x683C;&#x8CC7;&#x6599;</span>
+            <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(tab.select(<span class="hljs-string">&apos;tr&apos;</span>)[<span class="hljs-number">0</span>].select(<span class="hljs-string">&apos;td&apos;</span>))):
+                  <span class="hljs-keyword">if</span> n==<span class="hljs-number">0</span> <span class="hljs-keyword">or</span> n==<span class="hljs-number">1</span> <span class="hljs-keyword">or</span> n==<span class="hljs-number">15</span>:      <span class="hljs-comment">#&#x628A;&#x6587;&#x5B57;&#x4E32;&#x4E2D;&#x7684;&#x7A7A;&#x767D;&#x6587;&#x5B57;&#x53BB;&#x9664;&#x6389;</span>
+                        strs=tr.select(<span class="hljs-string">&apos;td&apos;</span>)[i].text
+                        strs=str(strs.replace(<span class="hljs-string">&apos; &apos;</span>,<span class="hljs-string">&apos;&apos;</span>))
+                        regs[i].append(strs)
+                  <span class="hljs-keyword">else</span>:    <span class="hljs-comment"># &#x628A;&#x6578;&#x5B57;&#x4E2D;&#x7684;&#x5343;&#x5206;&#x7B26;&#x865F; &quot;,&quot; &#x53BB;&#x9664;&#x6389;</span>
+                        ints=tr.select(<span class="hljs-string">&apos;td&apos;</span>)[i].text
+                        ints=str(ints.replace(<span class="hljs-string">&apos;,&apos;</span>,<span class="hljs-string">&apos;&apos;</span>))
+                        regs[i].append(ints)
+                  n +=<span class="hljs-number">1</span>
+            n=<span class="hljs-number">0</span>
+      <span class="hljs-keyword">return</span> regs
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">check_db_exists</span><span class="hljs-params">(regs)</span>:</span>
+      <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> os.path.exists(<span class="hljs-string">&apos;twsedata.db&apos;</span>):   <span class="hljs-comment"># &#x6AA2;&#x67E5;twsedata.db&#x662F;&#x5426;&#x5B58;&#x5728;(&#x548C;&#x6B64;&#x7A0B;&#x5F0F;&#x78BC;&#x76F8;&#x540C;&#x7684;&#x8CC7;&#x6599;&#x593E;)</span>
+            conn = sqlite3.connect(<span class="hljs-string">&apos;twsedata.db&apos;</span>)  <span class="hljs-comment"># &#x5982;&#x679C;&#x6C92;&#x6709;&#xFF0C;&#x5C31;&#x5EFA;&#x7ACB;&#x4E00;&#x500B;&#x7A7A;&#x767D;&#x8CC7;&#x6599;&#x5EAB;&#xFF0C;(sqlite3.connect) &#x4E5F;&#x662F;&#x9023;&#x7D50;&#x8A9E;&#x53E5;&#xFF0C;&#x6709;&#x8CC7;&#x6599;&#x5EAB;&#x5C31;&#x9023;&#x7D50;&#xFF0C;&#x6C92;&#x6709;&#x5C31;&#x5EFA;&#x7ACB;</span>
+            sql = <span class="hljs-string">&quot;CREATE TABLE &#x80A1;&#x7968;(&#x80A1;&#x7968;&#x4EE3;&#x865F;  char(10) PRIMARY KEY,&#x80A1;&#x7968;&#x540D;&#x7A31;  char(20));&quot;</span>
+            conn.execute(sql) <span class="hljs-comment">#&#x5728;&#x65B0;&#x8CC7;&#x6599;&#x5EAB;&#x5EFA;&#x7ACB;&#x7A7A;&#x767D;&#x8CC7;&#x6599;&#x8868; (&#x80A1;&#x7968;)</span>
+            sql = <span class="hljs-string">&quot;CREATE TABLE  &#x878D;&#x8CC7;&#x878D;&#x5238;&#x4FE1;&#x7528;&#x4EA4;&#x6613;&#x7D71;&#x8A08;( \
+                                                        &#x65E5;&#x671F;  datetime, \
+                                                        &#x9805;&#x76EE;  char(20), \
+                                                        &#x8CB7;&#x9032; INTEGER, \
+                                                        &#x8CB7;&#x51FA; INTEGER, \
+                                                        &#x73FE;&#x91D1;&#xFF08;&#x5238;&#xFF09;&#x511F;&#x9084; INTEGER, \
+                                                        &#x524D;&#x65E5;&#x9918;&#x984D; INTEGER, \
+                                                        &#x4ECA;&#x65E5;&#x9918;&#x984D; INTEGER);&quot;</span>
+            conn.execute(sql) <span class="hljs-comment">#&#x5728;&#x65B0;&#x8CC7;&#x6599;&#x5EFA;&#x7ACB; &#x7A7A;&#x767D;&#x8CC7;&#x6599;&#x8868;(&#x878D;&#x8CC7;&#x878D;&#x5238;&#x4FE1;&#x7528;&#x4EA4;&#x6613;&#x7D71;&#x8A08;)</span>
+            conn.commit() <span class="hljs-comment"># &#x5132;&#x5B58;</span>
+            conn.close() <span class="hljs-comment">#&#x95DC;&#x9589;</span>
+
+      n=<span class="hljs-number">0</span>
+      conn = sqlite3.connect(<span class="hljs-string">&apos;twsedata.db&apos;</span>) <span class="hljs-comment"># conn&#x548C;&#x4E0A;&#x4E00;&#x500B; if ..&#x4E2D;&#x7684; conn&#x662F;&#x4E0D;&#x4E00;&#x6A23;&#x7684; &#xFF0C;&#x4E0A;&#x4E00;&#x500B;&#x662F;&#x6C92;&#x6709;&#x8CC7;&#x6599;&#x5EAB;&#x6642;&#x624D;&#x4F5C;&#x7528;&#xFF0C;&#x70BA;&#x5C40;&#x90E8;&#x8B8A;&#x6578;&#x800C;&#x6B64;&#x8655;&#xFF0C;&#x5247;&#x70BA;&#x4EE5;&#x4E0B;&#x4F7F;&#x7528;&#x7684;&#x5168;&#x5C40;&#x8B8A;&#x6578;</span>
+      <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> regs[<span class="hljs-number">0</span>]:  <span class="hljs-comment">#&#x4EE5;&#x722C;&#x56DE;&#x4F86;&#x7684;&#x8CC7;&#x6599;&#x9663;&#x5217;&#x7684;&#x7B2C;&#x4E00;&#x5217;&#x70BA;&#x8FF4;&#x5708;</span>
+            <span class="hljs-keyword">try</span>:      <span class="hljs-comment">#&#x5148;&#x5617;&#x8A66;&#x67E5;&#x8A62; i &#x8B8A;&#x6578;&#x7684;&#x8CC7;&#x6599;&#x8868;&#x662F;&#x5426;&#x5B58;&#x5728;&#xFF0C;&#x82E5;&#x662F;&#x4E0D;&#x5B58;&#x5728;&#x6703;&#x767C;&#x51FA; Exception &#x7684;&#x932F;&#x8AA4;&#x8A0A;&#x606F;</span>
+                  c = conn.cursor()
+                  sql = <span class="hljs-string">&quot;select * from [&quot;</span> + i + <span class="hljs-string">&quot;]&quot;</span>
+                  c.execute(sql) <span class="hljs-comment"># table does not exist</span>
+                  c.close()
+            <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:  <span class="hljs-comment">#&#x7576;try &#x767C;&#x51FA;&#x932F;&#x8AA4;&#x8A0A;&#x606F;(&#x4E5F;&#x5C31;&#x662F;&#x8B80;&#x4E0D;&#x5230;  i &#x8CC7;&#x6599;&#x8868;)&#xFF0C;&#x6B64;&#x6642;&#x5EFA;&#x7ACB;&#x4E00;&#x500B; i &#x8CC7;&#x6599;&#x8868;</span>
+                  c = conn.cursor()
+                  sql=<span class="hljs-string">&quot;CREATE TABLE [&quot;</span> + i + <span class="hljs-string">&quot;](&#x65E5;&#x671F;  DATETIME PRIMARY KEY, \
+                                                                              &#x8CC7;&#x8CB7;&#x9032;  INTEGER, \
+                                                                              &#x8CC7;&#x8CE3;&#x51FA; INTEGER, \
+                                                                              &#x8CC7;&#x73FE;&#x91D1;&#x511F;&#x9084; INTEGER, \
+                                                                              &#x8CC7;&#x524D;&#x65E5;&#x9918;&#x984D; INTEGER, \
+                                                                              &#x8CC7;&#x4ECA;&#x65E5;&#x9918;&#x984D; INTEGER, \
+                                                                              &#x8CC7;&#x9650;&#x984D; INTEGER, \
+                                                                              &#x5238;&#x8CB7;&#x9032;  INTEGER, \
+                                                                              &#x5238;&#x8CE3;&#x51FA; INTEGER, \
+                                                                              &#x5238;&#x73FE;&#x91D1;&#x511F;&#x9084; INTEGER, \
+                                                                              &#x5238;&#x524D;&#x65E5;&#x9918;&#x984D; INTEGER, \
+                                                                              &#x5238;&#x4ECA;&#x65E5;&#x9918;&#x984D; INTEGER, \
+                                                                              &#x5238;&#x9650;&#x984D; INTEGER, \
+                                                                              &#x8CC7;&#x5238;&#x4E92;&#x62B5; INTEGER, \
+                                                                              &#x8A3B;&#x8A18; char(5));&quot;</span>
+                  c.execute(sql) <span class="hljs-comment">#&#x5EFA;&#x7ACB; i &#x8CC7;&#x6599;&#x8868;</span>
+                  sql=<span class="hljs-string">&quot;INSERT INTO &#x80A1;&#x7968;(&#x80A1;&#x7968;&#x4EE3;&#x865F;, &#x80A1;&#x7968;&#x540D;&#x7A31;) \
+                  VALUES (&apos;&quot;</span> + regs[<span class="hljs-number">0</span>][n] + <span class="hljs-string">&quot;&apos;,&apos;&quot;</span> + regs[<span class="hljs-number">1</span>][n] + <span class="hljs-string">&quot;&apos;);&quot;</span>
+                  c.execute(sql)  <span class="hljs-comment"># &#x5728;&#x80A1;&#x7968;&#x8CC7;&#x6599;&#x8868;&#x4E2D;&#x5BEB;&#x5165;&#x80A1;&#x7968;&#x4EE3;&#x865F;&#x3001;&#x80A1;&#x7968;&#x540D;&#x7A31;</span>
+                  c.close() <span class="hljs-comment"># &#x95DC;&#x9589; c &#x7269;&#x4EF6; </span>
+            n += <span class="hljs-number">1</span>
+      conn.commit() 
+      conn.close()
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">add_data</span><span class="hljs-params">(regs,date)</span>:</span>
+      conn = sqlite3.connect(<span class="hljs-string">&apos;twsedata.db&apos;</span>)
+      <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(regs[<span class="hljs-number">0</span>])):
+            <span class="hljs-keyword">try</span>: <span class="hljs-comment">#&#x6AA2;&#x67E5;&#x67D0;&#x65E5;&#x671F;&#x662F;&#x5426;&#x5B58;&#x5728;&#x65BC;&#x8CC7;&#x6599;&#x8868;&#x4E2D;&#xFF0C;&#x7576;&#x67D0;&#x65E5;&#x671F;&#x5B58;&#x5728;&#x6642;&#xFF0C;&#x8DF3;&#x96E2;&#x9019;&#x6B21;&#x7684;&#x5FAA;&#x74B0;&#xFF0C;&#x9019;&#x88E1;&#x6307;&#x7684;&#x50C5;&#x662F;&#x9019;&#x6B21;&#xFF0C;&#x4E0D;&#x662F;&#x8DF3;&#x96E2; for </span>
+                  c = conn.cursor()
+                  sql=<span class="hljs-string">&quot;SELECT * FROM [&quot;</span> + regs[<span class="hljs-number">0</span>][i] + <span class="hljs-string">&quot;] WHERE &#x65E5;&#x671F; = &apos;&quot;</span> + date + <span class="hljs-string">&quot;&apos;;&quot;</span>
+                  c.execute(sql)
+                  c.close()
+            <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e: <span class="hljs-comment">#&#x7576;&#x65E5;&#x671F;&#x4E0D;&#x5B58;&#x5728;&#x6642;&#xFF0C;&#x5BEB;&#x5165;&#x8CC7;&#x6599;&#x5230;&#x8CC7;&#x6599;&#x8868;&#x4E2D;</span>
+                  c = conn.cursor()
+                  <span class="hljs-comment"># &#x65E5;&#x671F;&#x683C;&#x5F0F;&#xFF0C;&#x5728;sqlite3&#x4E2D;&#xFF0C;&#x662F;&#x4EE5;&#x6587;&#x5B57;&#x578B;&#x614B;&#x5B58;&#x5165;&#xFF0C;&#x96D6;&#x7136;&#x6709;&#x63D0;&#x4F9B;DATETIME&#xFF0C;&#x4F46;&#x975E;&#x4EE5;&#x65E5;&#x671F;&#x578B;&#x614B;&#x5B58;&#x5165;&#xFF0C;&#x65E5;&#x5F8C;&#x63D0;&#x51FA;&#xFF0C;&#x55EF;&#xFF01;&#x9700;&#x518D;&#x53C3;&#x95B1;sqlite3&#x7684;&#x65E5;&#x671F;&#x8655;&#x7406;</span>
+
+                  sql=<span class="hljs-string">&quot;INSERT INTO [&quot;</span> + regs[<span class="hljs-number">0</span>][i] + <span class="hljs-string">&quot;](&#x65E5;&#x671F;,&#x8CC7;&#x8CB7;&#x9032;,&#x8CC7;&#x8CE3;&#x51FA;,&#x8CC7;&#x73FE;&#x91D1;&#x511F;&#x9084;,&#x8CC7;&#x524D;&#x65E5;&#x9918;&#x984D;, \
+                                                                                         &#x8CC7;&#x4ECA;&#x65E5;&#x9918;&#x984D;,&#x8CC7;&#x9650;&#x984D;,&#x5238;&#x8CB7;&#x9032;,&#x5238;&#x8CE3;&#x51FA;,&#x5238;&#x73FE;&#x91D1;&#x511F;&#x9084;, \
+                                                                                         &#x5238;&#x524D;&#x65E5;&#x9918;&#x984D;,&#x5238;&#x4ECA;&#x65E5;&#x9918;&#x984D;,&#x5238;&#x9650;&#x984D;,&#x8CC7;&#x5238;&#x4E92;&#x62B5;,&#x8A3B;&#x8A18;) \
+                                                                       VALUES(&apos;&quot;</span> + date + <span class="hljs-string">&quot;&apos;,&quot;</span> + regs[<span class="hljs-number">2</span>][i] + <span class="hljs-string">&quot;,&quot;</span> + regs[<span class="hljs-number">3</span>][i] + <span class="hljs-string">&quot;, \
+                                                                                          &quot;</span> + regs[<span class="hljs-number">4</span>][i] + <span class="hljs-string">&quot;,  &quot;</span> + regs[<span class="hljs-number">5</span>][i] + <span class="hljs-string">&quot;,&quot;</span> + regs[<span class="hljs-number">6</span>][i] + <span class="hljs-string">&quot;, \
+                                                                                          &quot;</span> + regs[<span class="hljs-number">7</span>][i] + <span class="hljs-string">&quot;,&quot;</span> + regs[<span class="hljs-number">8</span>][i] + <span class="hljs-string">&quot;,  &quot;</span> + regs[<span class="hljs-number">9</span>][i] + <span class="hljs-string">&quot;, \
+                                                                                          &quot;</span> + regs[<span class="hljs-number">10</span>][i] + <span class="hljs-string">&quot;,&quot;</span> + regs[<span class="hljs-number">11</span>][i] + <span class="hljs-string">&quot;,&quot;</span> + regs[<span class="hljs-number">12</span>][i] + <span class="hljs-string">&quot;, \
+                                                                                          &quot;</span> + regs[<span class="hljs-number">13</span>][i] + <span class="hljs-string">&quot;,&quot;</span> + regs[<span class="hljs-number">14</span>][i]+ <span class="hljs-string">&quot;,&apos;&quot;</span> + regs[<span class="hljs-number">15</span>][i] + <span class="hljs-string">&quot;&apos;) ;&quot;</span>
+                  c.execute(sql)
+                  c.close()
+            <span class="hljs-keyword">else</span>:
+                   <span class="hljs-keyword">break</span>
+      conn.commit()
+      conn.close()
+
+<span class="hljs-comment"># &#x4EE5;&#x4E0B;&#x70BA;&#x7A0B;&#x5F0F;&#x7684;&#x555F;&#x59CB;&#x9EDE;&#xFF1A;</span>
+StartDate=input(<span class="hljs-string">&apos;&#x8ACB;&#x8F38;&#x5165;&#x958B;&#x59CB;&#x64F7;&#x53D6;&#x65E5;&#x671F;(&#x897F;&#x5143;&#x65E5;&#x671F;&#x5982;&#xFF1A;2016/1/1)&#xFF1A;&apos;</span>)
+EndDate=input(<span class="hljs-string">&apos;&#x8ACB;&#x8F38;&#x5165;&#x7D50;&#x675F;&#x64F7;&#x53D6;&#x65E5;&#x671F;(&#x897F;&#x5143;&#x65E5;&#x671F;&#x5982;&#xFF1A;2016/1/31)&#xFF1A;&apos;</span>)
+<span class="hljs-comment">#&#x8655;&#x7406;&#x65E5;&#x671F;&#x9084;&#x771F;&#x7684;&#x5F88;&#x9EBB;&#x7169;</span>
+ts=time.time()
+StartDate = time.strptime(StartDate, <span class="hljs-string">&quot;%Y/%m/%d&quot;</span>)
+EndDate =time.strptime(EndDate, <span class="hljs-string">&quot;%Y/%m/%d&quot;</span>)
+StartDate = datetime.date(StartDate[<span class="hljs-number">0</span>], StartDate[<span class="hljs-number">1</span>], StartDate[<span class="hljs-number">2</span>])
+EndDate =  datetime.date(EndDate[<span class="hljs-number">0</span>], EndDate[<span class="hljs-number">1</span>], EndDate[<span class="hljs-number">2</span>])
+RangeDate = datetime.timedelta(days = <span class="hljs-number">1</span>)
+<span class="hljs-keyword">while</span> StartDate &lt;= EndDate:
+      yy,mm,dd=str(StartDate).split(<span class="hljs-string">&apos;-&apos;</span>)
+      dat=datetime.datetime(int(yy), int(mm), int(dd))
+      dd=dat.strftime(<span class="hljs-string">&apos;%Y/%m/%d&apos;</span>)
+      year=str(int(dd[<span class="hljs-number">0</span>:<span class="hljs-number">4</span>])-<span class="hljs-number">1911</span>)
+      date=dd.replace(dd[<span class="hljs-number">0</span>:<span class="hljs-number">4</span>], year)
+      print(<span class="hljs-string">&apos;&#x76EE;&#x524D;&#x57F7;&#x884C;&#x7DB2;&#x8DEF;&#x64F7;&#x53D6;&apos;</span>,date ,<span class="hljs-string">&apos;&#x65E5;&#x7684;&#x8CC7;&#x6599;&#xFF0C;&#x8ACB;&#x7A0D;&#x5F8C;...&apos;</span>)
+      re=read_network_data(date,<span class="hljs-number">1</span>)
+      <span class="hljs-keyword">if</span> re[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>]==<span class="hljs-string">&apos;&#x67E5;&#x7121;&#x8CC7;&#x6599;&apos;</span>:
+            print(date,<span class="hljs-string">&apos;&#x65E5;&#xFF0C;&#x53EF;&#x80FD;&#x70BA;&#x4F11;&#x5E02;&#x65E5;&#xFF0C;&#x67E5;&#x7121;&#x8CC7;&#x6599;&#x3002;&apos;</span>)
+            StartDate = StartDate + RangeDate
+            <span class="hljs-keyword">continue</span>
+      print(<span class="hljs-string">&apos;&#x6AA2;&#x67E5;&#x662F;&#x5426;&#x6709;&#x65B0;&#x80A1;&#x7968;&#x52A0;&#x5165;&#xFF0C;&#x8ACB;&#x7A0D;&#x5F8C;...&apos;</span>)
+      check_db_exists(regs=re)
+      print(<span class="hljs-string">&apos;&#x5C07;&#x8CC7;&#x6599;&#x5BEB;&#x5165;&#x8CC7;&#x6599;&#x5EAB;&#x4E2D;&#xFF0C;&#x8ACB;&#x7A0D;&#x5F8C;...&apos;</span>)
+      add_data(regs=re,date=dd)
+      StartDate = StartDate + RangeDate
+      te = time.time()
+      print(<span class="hljs-string">&apos;&#x622A;&#x81F3;&#x76EE;&#x524D;&#xFF0C;&#x6642;&#x9593;&#x5DF2;&#x8017;&#x8CBB;&#xFF1A;&apos;</span>, int(te - ts),<span class="hljs-string">&apos;&#x79D2;&apos;</span>)
+
+print(<span class="hljs-string">&apos;&#x57F7;&#x884C;&#x5B8C;&#x7562;&#xFF01;&apos;</span>)
+</code></pre>
+<p>python3 test.py</p>
 
                     
                     </section>
@@ -15674,10 +15839,10 @@
         </div>
 
         
-        <a href="../c++/cc++_shi_san_jie.html" class="navigation navigation-prev " aria-label="Previous page: C/C++ 十三誡"><i class="fa fa-angle-left"></i></a>
+        <a href="../python/audio_li_yong_ffmpeg_bian_ma_zhuan_huan.html" class="navigation navigation-prev " aria-label="Previous page: Audio 利用ffmpeg 編碼轉換"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../gunmake/example.html" class="navigation navigation-next " aria-label="Next page: example"><i class="fa fa-angle-right"></i></a>
+        <a href="../python/django.html" class="navigation navigation-next " aria-label="Next page: django"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

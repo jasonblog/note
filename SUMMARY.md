@@ -642,6 +642,7 @@
    * [fichugh](raspberry_pi/fichugh.md)
        * [buildRoot study - 建立自己的作業系統](raspberry_pi/buildroot_study_-_jian_li_zi_ji_de_zuo_ye_xi_tong.md)
        * [u-boot 組態研究- raspberry pi 2](raspberry_pi/u-boot_zu_tai_yan_7a76-_raspberry_pi_2.md)
+       * How to Build a GCC Cross-Compiler
 * [OpenGL](opengl/opengl.md)
    * [opengl(mesa) for ubuntu14.04](opengl/mesa.md)
    * [ubuntu 14.04 安裝OpenGL（基於freeglut）](opengl/1.md)

@@ -433,3 +433,205 @@ sudo cp output/images/bcm2709-rpi-2-b.dtb ~/mnt/fat32/
 ![](./images/hugh_driver.hackpad.com_nXzdsxWluct_p.493406_1453280783208_Screenshot from 2016-01-20 17-04-52.png)
 
 由上可知道，第一個磁區是從8192開始，所以總共要偏移8192*512 = 4194304 bytes
+
+
+###3. mount 第一個磁區.
+
+```sh
+$ sudo mount -o loop,offset=4194304 2015-05-05-raspbian-wheezy.img ~/mnt
+```
+
+在firmware裡，我們需要的檔案有
+
+```sh
+start.elf （GPU frimware） 
+bootcode.bin  ( bootloaders)
+config.txt (裏面也是有一些組態)
+cmdline.txt (這個檔案裏面的文字都會當作參數傳遞給Kernel)
+fixup.dat  (用來組態GPU和CPU之間的SDRAM partition)
+```
+
+反正就是把rpi-firmware資料夾底下的東西都複製到boot section就對了
+
+![](./images/hughchao.hackpad.com_lxeeNCI57RD_p8.png)
+
+
+###5. U-boot
+將u-boot.bin複製到boot section，
+
+```sh
+sudo cp output/images/u-boot.bin ~/mnt/fat32
+```
+
+`然後修改config.txt`，
+kernel=zImage 
+改成
+kernel=u-boot.bin
+
+這樣在final-stage bootloader時，就會去讀我們的u-boot.bin而不是直接進入kernel。
+
+![](./images/hughchao.hackpad.com_lxeeNCI57RD_p9.png)
+
+
+##開機和驗收
+
+###1. 接上TTL Cable
+###2. 開啟終端機
+
+```sh
+sudo screen /dev/ttyUSB0 115200
+```
+
+
+ttyUSB0是我這邊的Port，每個人的不一定一樣，所以請根據自己的case修改（然後要記得裝driver），
+bound rate我這邊是115200，因為這是rapi2的預設，如有其他case也請自行修改。
+
+###3. 接上電源
+在rapi2上的HDMI接著螢幕的狀況下，接上電源
+如果成功的話，你就會發現終端機上開始有log了，
+記得在Hit any key to stop autoboot時，隨便敲個字，
+然後就會進入U-boot的命令列了，如下：
+
+
+![](./images/hughchao.hackpad.com_lxeeNCI57RD_p.560602_1455715835554_Screenshot from 2016-02-17 21-29-54.png)
+
+
+###4. 手動u-boot開機
+
+我們第一次可以先手動開機，藉由一個指令一個指令去了解做了什麼事。
+
+```sh
+# Tell Linux that it is booting on a Raspberry Pi2
+setenv machid 0x00000c42
+# Set the kernel boot command line
+setenv bootargs "earlyprintk console=tty0 console=ttyAMA0 root=/dev/mmcblk0p2 rootfstype=ext4 rootwait noinitrd"
+# Save these changes to u-boot's environment
+saveenv
+# Load the existing Linux kernel into RAM
+fatload mmc 0:1 ${kernel_addr_r} zImage
+# Boot the kernel we have just loaded
+bootz ${kernel_addr_r}
+```
+- 如果不是在開發kernel或測試，又或者沒有遇到一些早期loader的問題的話，可以把earlyprintk這個選項省略，就不會一堆log了。
+- 我們要使用serial console所以這個選項要留著。
+- /dev/mmcblk0p2這個路徑是Raspbian的，如果路徑不一樣的話，這邊要記得改成存放rootfs的路徑。
+- 如果rootfs的格式不是EXT4的話，這邊要記得˙改。
+
+
+當這一行bootz ${kernel_addr_r}執行下去後，如果沒問題的話，就會看到一堆log了，代表已經順利開機，u-boot已經順利將控制權交給kernel了。
+
+但是跑到「random: nonblocking pool is initialized」這一行時，你會發現，
+怪了，怎麼不會動了？？而且HDMI上也沒有畫面。
+
+
+
+##5. 改回kernel開機
+這時關機以後，我們在嘗試著修改config.txt
+
+把kernel=u-boot.bin
+
+再改回
+
+kernel=zImage
+
+在TTL  cable還接著的狀態下，再次開機，
+我們發現，HDMI下的螢幕，開機正常，
+但是終端機還是卡在相同的一行，
+所以我們對著pi2上的鍵盤輸入登入帳號：root
+然後嘗試著關機輸入：halt
+顯示圖如下：
+
+
+
+![](./images/hughchao.hackpad.com_lxeeNCI57RD_p.560602_1455723204905_P_20160217_223632.jpg)
+
+## 6. 再次手動u-boot開機
+
+再次修改config.txt，
+把kernel=zImage
+再改回
+kernel=u-boot.bin
+
+然後跟剛剛一樣的步驟，發現還是停在「random: nonblocking pool is initialized」，
+這時候我們一樣對著接著rapi2的鍵盤（不是終端機）輸入：root 按Enter
+然後再輸入：halt 按Enter
+發現有log了，也正常關機了。
+如下圖：
+
+![](./images/hughchao.hackpad.com_lxeeNCI57RD_p.560602_1455719620023_Screenshot from 2016-02-17 22-32-30.png)
+
+
+##7. 檢查inittab
+
+正常開機後，檢查一下/etc/inittab，
+發現在開機階段，只有宣告tty1的getty：
+
+```sh
+# Put a getty on the serial port
+tty1::respawn:/sbin/getty -L  tty1 0 vt100 # GENERIC_SERIAL
+```
+
+數莓派的UART driver是AMA，
+所以我們自己在加入ttyAMA0的getty ：
+
+```sh
+# Spawn a getty on Raspberry Pi serial line
+ttyAMA0::respawn:/sbin/getty -L  ttyAMA0 115200 vt100 
+```
+
+然後reboot以後到log停住的地方，按一下Enter就會出現login shell了。
+
+![](./images/hughchao.hackpad.com_lxeeNCI57RD_p.560602_1456125417601_Screenshot from 2016-02-22 15-16-14.png)
+
+## How the Raspberry Pi boots up
+
+![](./images/hugh_driver.hackpad.com_UjjGKpTMDNT_p.493406_1453725808745_Raspi-Model-AB-Mono-1-699x1024.png?fit=max&w=882)
+
+
+如上圖，pi 2 的SOC是採用Broadcom BCM2835，它包含了 ARM11的CPU，VideoCore GPU, ROM chips, SDRAM和其他的東西。
+
+底下是搭配剛剛我們兜出來的元件概念圖，來解釋數莓派上簡單的Linux開機流程：
+
+![](./images/hughchao.hackpad.com_lxeeNCI57RD_p11.png)
+
+
+1. 當pi 2 通電以後，其實第一個啟動的指令，是在SOC的ROM上，好吧，所以代表這邊已經是黑箱了，無法繼續追下去=.=，所以這個黑箱裡所做的是是所謂的first-stage bootloader。在first-stage時，他會mount上我們的SD card裡的FAT32的 boot partition，接下來我們SD Card裏面的bootcode.bin 就是second-stage bootloader。根據文獻，在first-stage時，CPU跟RAM都還沒被初始化（意思是CPU還是在reset的狀態）。所以到目前為止，都是再GPU裏面運行，而不是CPU。
+
+2. 接下來bootloader.bin就會被讀到GPU上的L2 cache上並且被執行。在這步驟就會啟動RAM，並且讀取start.elf檔。
+
+3. 讀取start.elf以後，就是third-stage bootloader了，這個檔案是GPU的軔體，他會去讀取再config.txt裏面得的設定（根據網路文獻，就是把config.txt當成BIOS setting就對了XD）。裏面有些參數是我們可以調整的，都是是些frequency，有需要可以參考[h]。在start.elf階段，GPU和CPU所使用的RAM還是在不同的區段(ex. 如果GPU使用0X0000F000~0X0000FFFF的話，CPU就會使用0X00000000~0X0000EFFF)。
+
+4. 接下來，如果有cmdline.txt的話，在start.elf裏面也會被讀取，這個檔案包含了一些cmd的參數，然後跑fixup.dat，組態GPU和CPU之間的SDRAM partition，在這個階段CPU就會reset，也代表交接結束了。
+
+5. 到這個階段已經是final-stage bootloader了，接下來start.elf會讀取u-boot.bin。
+
+6. 然後我們再自己手動把kernel 也就是zImage給讀進記憶體裏面，並且將控制權交給kernel，然後作業系統就啟動了。
+當作業系統啟動後，其實GPU還在運行，因為start.elf並不只是GPU的軔體，他也是一個"proprietary OS (私權OS)"叫作VideoCore OS，有時候正常的OS需要一些參數時，也會經由˙mailbox messaging system去要求VCOS傳給他。
+
+7. 當Kernel將大部分的硬體裝置和我們的檔案系統初始化後，就會執行第一個程式/sbin/init。
+
+8. 然後會在去啟動剩下來user space的service和application。在來就是login shell
+
+結論
+1. 正常的狀況下，buildroot並沒有提供GPIO的login shell。（因為是使用busybox，所以當kernel將控制權交給busy的init時，就沒有log了，這地方要再研究一下）`（solved --> 要修改inittab）`
+
+2. 如果是用u-boot去開機的話，螢幕的驅動程式都不會作用。但是鍵盤是可以的。（所以照裡來說，u-boot裏面應該要有驅動才對，這地方也要再研究一下）
+`:另一處「如果是用u-boot去開機的話，螢幕的驅動程式都不會作用」，應該明確說 HDMI output 是否運作，要注意到 RPi 的設定，這點在官方網頁就有說明了`
+
+3. 所以整個專案下來，我們已經了解了數莓派上Linux的開機流程，接下來，我要嘗試著不要依賴buildroot套件，而是每個元件都自己建立會更加的了解Linux的構成。
+`Jserv:「接下來，我要嘗試著不要依賴buildroot套件，而是每個元件都自己建立會更加的了解Linux的構成」這個目標也不壞，但為何不先試著修改 buildroot 呢？嘗試新增或移除特定的套件呢？
+如果現在是 2000 年，我會鼓勵學生用「不透過 buildroot 一類的工具，徒手建立 root filesystem」，但我現在不會建議這樣作，原因是：(1) 你得跟得上時代，和技術社群用相似的開發工具、開發流程，知道如何和其他開發者交流; (2) 這幾年系統變異很大，諸如用 systemd 取代 init、Yocto/OpenEmbedded 技術社群的快速成長，幾乎只能透過閱讀 git log，才能窺知技術發展的動向。倘若你今天還是「閉門造車」，恐怕只是遠離這個世界`
+
+4. `Jserv:至於修改 buildroot，你可以參考這個專案:https://github.com/mpolakovic/qemrdux-player # 透過 buildroot，從無到有打造一個 MP3 Player 的韌體`
+
+
+## ref:
+- a. https://docs.google.com/viewerng/viewer?url=http://free-electrons.com/doc/training/buildroot/buildroot-slides.pdf
+- b. http://free-electrons.com/
+- c. https://buildroot.org/downloads/manual/manual.pdf
+- d. http://cellux.github.io/articles/diy-linux-with-buildroot-part-1/
+- e. how-the-raspberry-pi-boots-up
+-  f. Booting a Raspberry Pi2, with u-boot and HYP enabled
+- g. Embedded Linux 嵌入式系統開發實務
+- h. RPi Serial Connection
+- i. Preparing a bootable SD card

@@ -640,6 +640,7 @@
    * [Debugging Raspberry Pi Linux kernel with JTAG and GDB](raspberry_pi/debugging_raspberry_pi_linux_kernel_with_jtag_and_.md)
    * [raspberrypi2_kernel_debug](raspberry_pi/raspberrypi2kernel_debug.md)
    * [buildRoot study - 建立自己的作業系統](raspberry_pi/buildroot_study_-_jian_li_zi_ji_de_zuo_ye_xi_tong.md)
+   * u-boot 組態研究- raspberry pi 2
 * [OpenGL](opengl/opengl.md)
    * [opengl(mesa) for ubuntu14.04](opengl/mesa.md)
    * [ubuntu 14.04 安裝OpenGL（基於freeglut）](opengl/1.md)

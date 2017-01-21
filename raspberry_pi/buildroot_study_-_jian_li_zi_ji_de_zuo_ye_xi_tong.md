@@ -225,3 +225,211 @@ libcoufuse提供了一些組態分析函式庫。
 修改組態
 如果想要自己修改設定，就跟修改kernel 組態一樣，
 這邊我們來修改一下兩個設定，請輸入
+
+```sh
+make menuconfig
+```
+
+然後將選項 Filesystem images ---> tar the root filesystem--->Compression method選擇是bzip2，如下圖：
+
+![](./images/hughchao.hackpad.com_lxeeNCI57RD_p.560602_1455700926631_Screenshot from 2016-02-17 17-21-24.png)
+
+這樣我們待回的root filesytem就會以tar ball 的型式。
+然後我們也想要自己build個u-boot來玩玩。
+所以選項 Bootloaders -->  選擇U-boot選項，Board defconfig 輸入「rpi_2」。
+上面那個指令會產生一個.conifg檔案，這邊來研究一下他開啟了哪些功能-->[請按我](http://fichugh.blogspot.tw/2016/02/u-boot-raspberry-pi-2.html)
+
+
+
+![](./images/hughchao.hackpad.com_lxeeNCI57RD_p.560602_1455720353738_Screenshot from 2016-02-17 22-45-15.png)
+
+##開始建制
+剛剛組態已經產生，sources也已經下載好了，接下來我們就開始建制。
+
+
+```sh
+make 2>&1 | tee build.log
+```
+
+所有的package都會解壓縮在output/build，並且建置。
+所有的結果都會在output/images裏面。
+
+
+
+在output/images裏面，
+sdcard.img算是整個結果的image，
+假設你的sdcard是 /dev/sdd，
+你只要下指令:
+
+```sh
+sudo dd if=sdcard.img of=/dev/sdd
+```
+
+然後在把sdcard卡插進去pi2裏面，就可以開機了，
+但是像我說的，我要故意把他複雜化，這樣才可以理解裏面的運作原理。
+
+在output/images裏面，
+我們待回會用到的是:
+```sh
+1. kernel                        --> zImage
+2. root file system        --> rootfs.tar.bz2
+3. device tree blob      --> bcm2709-rpi-2-b.dtb
+4. raspberry firmware   --> rpi-firmware/*
+5. boot loader               --> u-boot.bin
+```
+
+所以底下會有另外5相對應的標題，
+教怎麼把以上5個部份裝起來，並且開機。
+
+## Partition SD Card
+
+首先我們必須有一塊Micro SD，我們要將它分成兩個partition，其中第一個為boot section,另一個partition是放我們的rootfs的地方。
+
+###1. 假設路徑是/dev/sdd，先進入fdisk系統
+
+```sh
+$ sudo fdisk /dev/sdd
+```
+
+###2. 將預設單位改成cylinders
+
+```sh
+Command (m for help): u
+```
+
+
+
+###3. 建立一個新的DOS格式的partition table:
+
+```sh
+Command (m for help): o
+```
+
+
+
+###4. 建立放boot loader的partition
+  （以下兩步的重點是規劃200MB的boot partition，其他的都規檔案系統用）
+
+```sh
+Command (m for help): n
+Partition type:
+p   primary (0 primary, 0 extended, 4 free)
+e   extended
+Select (default p): p    (The new partition is a primary partition.)
+Partition number (1-4, default 1): (Press Enter for default.)
+Using default value 1
+First cylinder (2-15193, default 2): 2
+Last cylinder, +cylinders or +size{K,M,G} (2-15193, default 15193): +200M
+```
+
+###5. 建立放檔案系統的partition
+
+```sh
+Command (m for help): n
+Partition type:
+p   primary (1 primary, 0 extended, 3 free)
+e   extended
+Select (default p): p    (The new partition is a primary partition.)
+Partition number (2-4, default 2): (Press Enter for default.)
+Using default value 2
+First cylinder (2048-15193, default 2): 2048
+Last cylinder, +cylinders or +size{K,M,G} (2-15193, default 15193): 15193
+```
+
+###6. 將第一個磁區標注為bootable 
+
+```sh
+Command (m for help): a
+Partition number (1-4): 1   (Select Partition 1 to be active.)
+```
+
+###7. 將第一個磁區改為FAT32
+```sh
+Command (m for help): t
+Selected partition 1
+Hex code (type L to list codes): c 
+Changed system type of partition 1 to c (W95 FAT32 (LBA))
+```
+###8.寫入新的partition table
+```sh
+Command (m for help): w
+```
+
+###9. 格式化新的boot load磁區為DOS FAT32 檔案系統
+
+```sh
+$sudo mkfs.vfat -F32 /dev/sdd1
+mkfs.vfat 3.0.13 (30 Jun 2012)
+```
+###10.格式化第二個磁區為ext4檔案系統
+
+```sh
+$sudo mkfs.ext4 /dev/sdd2
+```
+
+###11. 掛載裝置
+
+```sh
+mkdir -p ~/mnt/fat32
+mkdir -p ~/mnt/rtfs
+sudo mount /dev/sdd1 ~/mnt/fat32
+sudo mount /dev/sdd2 ~/mnt/rtfs
+```
+
+所以我們得到了兩個Partitions，概念如下：
+
+
+![](./images/hughchao.hackpad.com_lxeeNCI57RD_p4.png)
+
+###1. Kernel Image
+我們將kernel的Image複製到boot section
+
+```sh
+sudo cp output/images/zImage ~/mnt/fat32
+```
+![](./images/hughchao.hackpad.com_lxeeNCI57RD_p5.png)
+
+### 2. root file system
+
+將root file system的image複製到第二個partition底下然後再解壓縮。
+
+```sh
+sudo cp outpupt/images/rootfs.tar.bz2 ~/mnt/rtfs
+cd ~/mnt/rtfs
+sudo tar -jvxf rootfs.tar.bz2
+sudo rm rootfs.tar.bz2 
+```
+
+所以我們的極小型root filesystem已經到位了。<br>
+這一個file system裏面所有的東西，基本上都是busybox去兜出來的。<br>
+由下圖可以看到，幾乎所有的檔案都是連結到/bin/busybox的。<br>
+而/dev這資料夾的檔案都是kernel devtmpfs所建立出來的。<br>
+
+![](./images/hughchao.hackpad.com_lxeeNCI57RD_p6.png)
+
+
+###3. device tree blob
+將裝置樹檔複製到boot section。
+
+```sh
+sudo cp output/images/bcm2709-rpi-2-b.dtb ~/mnt/fat32/
+```
+![](./images/hughchao.hackpad.com_lxeeNCI57RD_p7.png)
+
+## 4. raspberry pi official firmware
+
+些軔體並不是這個專案build出來的，是從官方那邊下載下來的。
+其實有兩種方式取得：
+
+- https://github.com/raspberrypi/firmware/tree/master/boot
+- https://www.raspberrypi.org/downloads/raspbian/
+
+第二個為Ra pi 2的image file，
+如果想要把相對應的檔案取出來，請看底下3步驟
+阿不想知道的，請忽略底下3步驟：
+- 下載image  File
+- 這個image有兩個partitions，所以無法直接掛載，需要先找到boot partition的開始section
+
+![](./images/hugh_driver.hackpad.com_nXzdsxWluct_p.493406_1453280783208_Screenshot from 2016-01-20 17-04-52.png)
+
+由上可知道，第一個磁區是從8192開始，所以總共要偏移8192*512 = 4194304 bytes

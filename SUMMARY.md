@@ -612,6 +612,7 @@
    * [Anaconda使用總結](python/anacondashi_yong_zong_jie.md)
    * [python setup.py uninstall](python/python_setuppy_uninstall.md)
    * [pandas](python/pandas.md)
+       * pandas 入門
 * [Vim](vim/vim.md)
    * [HOWTO - vi, vim](vim/howto_-_vi,_vim.md)
 * [TDD](tdd/README.md)

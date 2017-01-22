@@ -41,7 +41,7 @@
         
     
     
-    <link rel="next" href="../vim/vim.html" />
+    <link rel="next" href="../python/pandas_ru_men.html" />
     
     
     <link rel="prev" href="../python/python_setuppy_uninstall.html" />
@@ -57,7 +57,7 @@
         data-chapter-title="pandas"
         data-filepath="python/pandas.md"
         data-basepath=".."
-        data-revision="Sun Jan 22 2017 22:00:20 GMT+0800 (CST)"
+        data-revision="Sun Jan 22 2017 22:56:14 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -9551,9 +9551,17 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="27.26.1" >
+        <li class="chapter " data-level="27.26.1" data-path="python/pandas_ru_men.html">
             
-            <span><b>27.26.1.</b> pandas 入門</span>
+                
+                    <a href="../python/pandas_ru_men.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>27.26.1.</b>
+                        
+                        pandas 入門
+                    </a>
             
             
         </li>
@@ -15837,122 +15845,6 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="pandas">pandas</h1>
-<pre><code class="lang-py"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
-<span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
-
-data = np.random.rand(<span class="hljs-number">10</span>, <span class="hljs-number">5</span>)
-df = pd.DataFrame(data, columns=list(<span class="hljs-string">&quot;ABCDE&quot;</span>))
-<span class="hljs-keyword">print</span> df 
-
-df.columns = list(<span class="hljs-string">&quot;12345&quot;</span>) // &#x66F4;&#x63DB;&#x884C;&#x6B04;&#x4F4D;&#x540D;&#x7A31;
-
-df.index = list(<span class="hljs-string">&quot;ABCDEFGHIJ&quot;</span>) // &#x66F4;&#x63DB;&#x5217;&#x6B04;&#x4F4D;&#x540D;&#x7A31;
-
-<span class="hljs-keyword">print</span> df
-
-<span class="hljs-keyword">print</span> df.index.values
-<span class="hljs-keyword">print</span> df[<span class="hljs-string">&apos;1&apos;</span>]
-
-df.index = list(<span class="hljs-string">&quot;0123456789&quot;</span>)
-</code></pre>
-<h2 id="dataframeix">DataFrame.ix</h2>
-<h3 id="&#x884C;&#x306E;&#x307F;&#x6307;&#x5B9A;">&#x884C;&#x306E;&#x307F;&#x6307;&#x5B9A;</h3>
-<pre><code class="lang-py"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
-<span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
-
-data = np.random.rand(<span class="hljs-number">10</span>, <span class="hljs-number">5</span>)
-df = pd.DataFrame(data, columns=list(<span class="hljs-string">&quot;ABCDE&quot;</span>))
-
-<span class="hljs-keyword">print</span> df
-
-df = df.ix[ <span class="hljs-number">4</span>: ,:] // &#x884C;&#x6307;&#x5B9A;
-<span class="hljs-keyword">print</span> df
-</code></pre>
-<pre><code class="lang-sh">          A         B         C         D         E
-<span class="hljs-number">0</span>  <span class="hljs-number">0.837660</span>  <span class="hljs-number">0.874868</span>  <span class="hljs-number">0.801268</span>  <span class="hljs-number">0.973609</span>  <span class="hljs-number">0.431954</span>
-<span class="hljs-number">1</span>  <span class="hljs-number">0.863254</span>  <span class="hljs-number">0.428056</span>  <span class="hljs-number">0.366020</span>  <span class="hljs-number">0.671288</span>  <span class="hljs-number">0.186050</span>
-<span class="hljs-number">2</span>  <span class="hljs-number">0.839916</span>  <span class="hljs-number">0.116835</span>  <span class="hljs-number">0.553323</span>  <span class="hljs-number">0.504780</span>  <span class="hljs-number">0.715694</span>
-<span class="hljs-number">3</span>  <span class="hljs-number">0.229714</span>  <span class="hljs-number">0.548386</span>  <span class="hljs-number">0.699111</span>  <span class="hljs-number">0.184435</span>  <span class="hljs-number">0.231816</span>
-<span class="hljs-number">4</span>  <span class="hljs-number">0.187478</span>  <span class="hljs-number">0.426919</span>  <span class="hljs-number">0.540911</span>  <span class="hljs-number">0.909147</span>  <span class="hljs-number">0.782173</span>
-<span class="hljs-number">5</span>  <span class="hljs-number">0.638277</span>  <span class="hljs-number">0.893678</span>  <span class="hljs-number">0.208585</span>  <span class="hljs-number">0.937772</span>  <span class="hljs-number">0.285642</span>
-<span class="hljs-number">6</span>  <span class="hljs-number">0.840695</span>  <span class="hljs-number">0.956923</span>  <span class="hljs-number">0.303221</span>  <span class="hljs-number">0.335961</span>  <span class="hljs-number">0.020592</span>
-<span class="hljs-number">7</span>  <span class="hljs-number">0.428946</span>  <span class="hljs-number">0.211034</span>  <span class="hljs-number">0.869003</span>  <span class="hljs-number">0.950929</span>  <span class="hljs-number">0.946157</span>
-<span class="hljs-number">8</span>  <span class="hljs-number">0.058667</span>  <span class="hljs-number">0.154454</span>  <span class="hljs-number">0.239021</span>  <span class="hljs-number">0.333486</span>  <span class="hljs-number">0.900080</span>
-<span class="hljs-number">9</span>  <span class="hljs-number">0.666880</span>  <span class="hljs-number">0.733745</span>  <span class="hljs-number">0.707146</span>  <span class="hljs-number">0.931958</span>  <span class="hljs-number">0.102872</span>
-          A         B         C         D         E
-<span class="hljs-number">4</span>  <span class="hljs-number">0.187478</span>  <span class="hljs-number">0.426919</span>  <span class="hljs-number">0.540911</span>  <span class="hljs-number">0.909147</span>  <span class="hljs-number">0.782173</span>
-<span class="hljs-number">5</span>  <span class="hljs-number">0.638277</span>  <span class="hljs-number">0.893678</span>  <span class="hljs-number">0.208585</span>  <span class="hljs-number">0.937772</span>  <span class="hljs-number">0.285642</span>
-<span class="hljs-number">6</span>  <span class="hljs-number">0.840695</span>  <span class="hljs-number">0.956923</span>  <span class="hljs-number">0.303221</span>  <span class="hljs-number">0.335961</span>  <span class="hljs-number">0.020592</span>
-<span class="hljs-number">7</span>  <span class="hljs-number">0.428946</span>  <span class="hljs-number">0.211034</span>  <span class="hljs-number">0.869003</span>  <span class="hljs-number">0.950929</span>  <span class="hljs-number">0.946157</span>
-<span class="hljs-number">8</span>  <span class="hljs-number">0.058667</span>  <span class="hljs-number">0.154454</span>  <span class="hljs-number">0.239021</span>  <span class="hljs-number">0.333486</span>  <span class="hljs-number">0.900080</span>
-<span class="hljs-number">9</span>  <span class="hljs-number">0.666880</span>  <span class="hljs-number">0.733745</span>  <span class="hljs-number">0.707146</span>  <span class="hljs-number">0.931958</span>  <span class="hljs-number">0.102872</span>
-</code></pre>
-<h3 id="&#x5217;&#x306E;&#x307F;&#x6307;&#x5B9A;">&#x5217;&#x306E;&#x307F;&#x6307;&#x5B9A;</h3>
-<pre><code class="lang-py"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
-<span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
-
-data = np.random.rand(<span class="hljs-number">10</span>, <span class="hljs-number">5</span>)
-df = pd.DataFrame(data, columns=list(<span class="hljs-string">&quot;ABCDE&quot;</span>))
-
-<span class="hljs-keyword">print</span> df
-
-df = df.ix[:, <span class="hljs-number">1</span>:<span class="hljs-number">3</span>]
-<span class="hljs-keyword">print</span> df
-</code></pre>
-<pre><code class="lang-sh">          A         B         C         D         E
-<span class="hljs-number">0</span>  <span class="hljs-number">0.076948</span>  <span class="hljs-number">0.449970</span>  <span class="hljs-number">0.520205</span>  <span class="hljs-number">0.436706</span>  <span class="hljs-number">0.739704</span>
-<span class="hljs-number">1</span>  <span class="hljs-number">0.075599</span>  <span class="hljs-number">0.577579</span>  <span class="hljs-number">0.782207</span>  <span class="hljs-number">0.371012</span>  <span class="hljs-number">0.894063</span>
-<span class="hljs-number">2</span>  <span class="hljs-number">0.885444</span>  <span class="hljs-number">0.135454</span>  <span class="hljs-number">0.105279</span>  <span class="hljs-number">0.006876</span>  <span class="hljs-number">0.540366</span>
-<span class="hljs-number">3</span>  <span class="hljs-number">0.951332</span>  <span class="hljs-number">0.677577</span>  <span class="hljs-number">0.783089</span>  <span class="hljs-number">0.380428</span>  <span class="hljs-number">0.795435</span>
-<span class="hljs-number">4</span>  <span class="hljs-number">0.840197</span>  <span class="hljs-number">0.759181</span>  <span class="hljs-number">0.588425</span>  <span class="hljs-number">0.368400</span>  <span class="hljs-number">0.714982</span>
-<span class="hljs-number">5</span>  <span class="hljs-number">0.075328</span>  <span class="hljs-number">0.926142</span>  <span class="hljs-number">0.487373</span>  <span class="hljs-number">0.964743</span>  <span class="hljs-number">0.836157</span>
-<span class="hljs-number">6</span>  <span class="hljs-number">0.428123</span>  <span class="hljs-number">0.090402</span>  <span class="hljs-number">0.144948</span>  <span class="hljs-number">0.461111</span>  <span class="hljs-number">0.325377</span>
-<span class="hljs-number">7</span>  <span class="hljs-number">0.221599</span>  <span class="hljs-number">0.675153</span>  <span class="hljs-number">0.704074</span>  <span class="hljs-number">0.880876</span>  <span class="hljs-number">0.799039</span>
-<span class="hljs-number">8</span>  <span class="hljs-number">0.587184</span>  <span class="hljs-number">0.403180</span>  <span class="hljs-number">0.454961</span>  <span class="hljs-number">0.710530</span>  <span class="hljs-number">0.699074</span>
-<span class="hljs-number">9</span>  <span class="hljs-number">0.817209</span>  <span class="hljs-number">0.615556</span>  <span class="hljs-number">0.899403</span>  <span class="hljs-number">0.263885</span>  <span class="hljs-number">0.115144</span>
-          B         C
-<span class="hljs-number">0</span>  <span class="hljs-number">0.449970</span>  <span class="hljs-number">0.520205</span>
-<span class="hljs-number">1</span>  <span class="hljs-number">0.577579</span>  <span class="hljs-number">0.782207</span>
-<span class="hljs-number">2</span>  <span class="hljs-number">0.135454</span>  <span class="hljs-number">0.105279</span>
-<span class="hljs-number">3</span>  <span class="hljs-number">0.677577</span>  <span class="hljs-number">0.783089</span>
-<span class="hljs-number">4</span>  <span class="hljs-number">0.759181</span>  <span class="hljs-number">0.588425</span>
-<span class="hljs-number">5</span>  <span class="hljs-number">0.926142</span>  <span class="hljs-number">0.487373</span>
-<span class="hljs-number">6</span>  <span class="hljs-number">0.090402</span>  <span class="hljs-number">0.144948</span>
-<span class="hljs-number">7</span>  <span class="hljs-number">0.675153</span>  <span class="hljs-number">0.704074</span>
-<span class="hljs-number">8</span>  <span class="hljs-number">0.403180</span>  <span class="hljs-number">0.454961</span>
-<span class="hljs-number">9</span>  <span class="hljs-number">0.615556</span>  <span class="hljs-number">0.899403</span>
-</code></pre>
-<h3 id="&#x884C;&#xFF65;&#x5217;&#x306E;&#x4E21;&#x65B9;&#x3092;&#x30B9;&#x30E9;&#x30A4;&#x30B9;&#x3067;&#x6307;&#x5B9A;">&#x884C;&#xFF65;&#x5217;&#x306E;&#x4E21;&#x65B9;&#x3092;&#x30B9;&#x30E9;&#x30A4;&#x30B9;&#x3067;&#x6307;&#x5B9A;</h3>
-<pre><code class="lang-py"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
-<span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
-
-data = np.random.rand(<span class="hljs-number">10</span>, <span class="hljs-number">5</span>)
-df = pd.DataFrame(data, columns=list(<span class="hljs-string">&quot;ABCDE&quot;</span>))
-
-<span class="hljs-keyword">print</span> df
-
-df = df.ix[<span class="hljs-number">4</span>: , <span class="hljs-number">1</span>:<span class="hljs-number">3</span>]
-<span class="hljs-keyword">print</span> df
-</code></pre>
-<pre><code class="lang-sh">          A         B         C         D         E
-<span class="hljs-number">0</span>  <span class="hljs-number">0.537395</span>  <span class="hljs-number">0.934079</span>  <span class="hljs-number">0.655925</span>  <span class="hljs-number">0.235779</span>  <span class="hljs-number">0.707944</span>
-<span class="hljs-number">1</span>  <span class="hljs-number">0.371540</span>  <span class="hljs-number">0.751432</span>  <span class="hljs-number">0.224493</span>  <span class="hljs-number">0.575143</span>  <span class="hljs-number">0.273347</span>
-<span class="hljs-number">2</span>  <span class="hljs-number">0.615915</span>  <span class="hljs-number">0.099794</span>  <span class="hljs-number">0.246913</span>  <span class="hljs-number">0.862826</span>  <span class="hljs-number">0.875975</span>
-<span class="hljs-number">3</span>  <span class="hljs-number">0.524642</span>  <span class="hljs-number">0.645666</span>  <span class="hljs-number">0.422228</span>  <span class="hljs-number">0.377380</span>  <span class="hljs-number">0.379291</span>
-<span class="hljs-number">4</span>  <span class="hljs-number">0.107895</span>  <span class="hljs-number">0.933713</span>  <span class="hljs-number">0.409466</span>  <span class="hljs-number">0.078913</span>  <span class="hljs-number">0.767368</span>
-<span class="hljs-number">5</span>  <span class="hljs-number">0.046459</span>  <span class="hljs-number">0.362304</span>  <span class="hljs-number">0.051669</span>  <span class="hljs-number">0.392577</span>  <span class="hljs-number">0.696221</span>
-<span class="hljs-number">6</span>  <span class="hljs-number">0.700829</span>  <span class="hljs-number">0.285290</span>  <span class="hljs-number">0.486674</span>  <span class="hljs-number">0.439223</span>  <span class="hljs-number">0.682216</span>
-<span class="hljs-number">7</span>  <span class="hljs-number">0.028071</span>  <span class="hljs-number">0.642846</span>  <span class="hljs-number">0.849560</span>  <span class="hljs-number">0.908172</span>  <span class="hljs-number">0.153547</span>
-<span class="hljs-number">8</span>  <span class="hljs-number">0.529735</span>  <span class="hljs-number">0.268067</span>  <span class="hljs-number">0.217208</span>  <span class="hljs-number">0.519743</span>  <span class="hljs-number">0.988391</span>
-<span class="hljs-number">9</span>  <span class="hljs-number">0.412213</span>  <span class="hljs-number">0.764697</span>  <span class="hljs-number">0.628845</span>  <span class="hljs-number">0.807078</span>  <span class="hljs-number">0.003180</span>
-          B         C
-<span class="hljs-number">4</span>  <span class="hljs-number">0.933713</span>  <span class="hljs-number">0.409466</span>
-<span class="hljs-number">5</span>  <span class="hljs-number">0.362304</span>  <span class="hljs-number">0.051669</span>
-<span class="hljs-number">6</span>  <span class="hljs-number">0.285290</span>  <span class="hljs-number">0.486674</span>
-<span class="hljs-number">7</span>  <span class="hljs-number">0.642846</span>  <span class="hljs-number">0.849560</span>
-<span class="hljs-number">8</span>  <span class="hljs-number">0.268067</span>  <span class="hljs-number">0.217208</span>
-<span class="hljs-number">9</span>  <span class="hljs-number">0.764697</span>  <span class="hljs-number">0.628845</span>
-</code></pre>
 
                     
                     </section>
@@ -15966,7 +15858,7 @@ df = df.ix[<span class="hljs-number">4</span>: , <span class="hljs-number">1</sp
         <a href="../python/python_setuppy_uninstall.html" class="navigation navigation-prev " aria-label="Previous page: python setup.py uninstall"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../vim/vim.html" class="navigation navigation-next " aria-label="Next page: Vim"><i class="fa fa-angle-right"></i></a>
+        <a href="../python/pandas_ru_men.html" class="navigation navigation-next " aria-label="Next page: pandas 入門"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

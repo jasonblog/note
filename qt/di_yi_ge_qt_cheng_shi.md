@@ -35,8 +35,8 @@ Using Qt version 5.3.1 in /opt/QT5/5.3/gcc/lib
 
 ## Hello for Qt
 
-不 可免俗的，從最簡單的基本視窗產生開始介紹，視窗標題就叫作First Qt!!好了，請新增一個目錄hello，並在當中使用任一編輯器來編輯一個hello.cpp的檔案，內容如下： 
-- hello.cpp
+不 可免俗的，從最簡單的基本視窗產生開始介紹，視窗標題就叫作First Qt!!好了，請新增一個目錄hello，並在當中使用任一編輯器來編輯一個helloworld.cpp的檔案，內容如下： 
+- helloworld.cpp
 
 ```cpp
 #include <QApplication>
@@ -73,6 +73,14 @@ QApplication負責程式的初始、結束及處理事件（event）的迴圈等
 ```sh
 qmake -project
 ```
+
+在 helloworld.pro文件中添加一行：
+
+
+```sh
+QT+=widgets
+```
+
 然後根據專案檔產生Makefile：
 ```sh
 qmake 

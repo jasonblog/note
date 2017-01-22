@@ -996,4 +996,5 @@
    * [IplImage 和 Mat 互轉](opencv/iplimage_he_mat_hu_zhuan.md)
    * [通過C++ wrapper 實現存取圖像像素](opencv/tong_guo_c_++_wrapper_shi_xian_cun_qu_tu_xiang_xia.md)
    * [如何把OpenCV Python獲取的圖像傳遞到C層處理](opencv/ru_he_ba_opencv_python_huo_qu_de_tu_xiang_chuan_di.md)
+* Qt
 

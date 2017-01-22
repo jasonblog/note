@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>抓漏 - gdb 和 valgrind 合體技 | Jason note</title>
+        <title>pandas | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -41,10 +41,10 @@
         
     
     
-    <link rel="next" href="../wen00072/zhua_lou_-_shi_yong_valgrind_jian_cha_c_yu_yan_mem.html" />
+    <link rel="next" href="../vim/vim.html" />
     
     
-    <link rel="prev" href="../wen00072/tan_tan_c_yu_yan_de_quan_yu_bian_shu_he_linux_obje.html" />
+    <link rel="prev" href="../python/python_setuppy_uninstall.html" />
     
 
         <!-- head:end -->
@@ -53,9 +53,9 @@
         <!-- body:start -->
         
     <div class="book"
-        data-level="20.15.17"
-        data-chapter-title="抓漏 - gdb 和 valgrind 合體技"
-        data-filepath="wen00072/zhua_lou_-_gdb_he_valgrind_he_ti_ji.md"
+        data-level="27.26"
+        data-chapter-title="pandas"
+        data-filepath="python/pandas.md"
         data-basepath=".."
         data-revision="Sun Jan 22 2017 22:00:20 GMT+0800 (CST)"
         data-innerlanguage="">
@@ -7667,7 +7667,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="20.15.17" data-path="wen00072/zhua_lou_-_gdb_he_valgrind_he_ti_ji.html">
+        <li class="chapter " data-level="20.15.17" data-path="wen00072/zhua_lou_-_gdb_he_valgrind_he_ti_ji.html">
             
                 
                     <a href="../wen00072/zhua_lou_-_gdb_he_valgrind_he_ti_ji.html">
@@ -9535,7 +9535,7 @@
             
         </li>
     
-        <li class="chapter " data-level="27.26" data-path="python/pandas.html">
+        <li class="chapter active" data-level="27.26" data-path="python/pandas.html">
             
                 
                     <a href="../python/pandas.html">
@@ -15836,171 +15836,123 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="&#x6293;&#x6F0F;--gdb-&#x548C;-valgrind-&#x5408;&#x9AD4;&#x6280;">&#x6293;&#x6F0F; - gdb &#x548C; valgrind &#x5408;&#x9AD4;&#x6280;</h1>
-<p>&#x63A5;&#x7E8C;<a href="http://wen00072.github.io/blog/2014/11/29/catching-leakage-use-valgrind-checking-c-memory-leak" target="_blank">&#x524D;&#x4E00;&#x7BC7;</a>&#x7684;&#x8A71;&#x984C;&#x3002;&#x5728;&#x67E5;&#x8CC7;&#x6599;&#x7684;&#x6642;&#x5019;&#x770B;&#x5230;valgrind&#x53EF;&#x4EE5;&#x548C;gdb&#x5408;&#x4F5C;&#xFF0C;&#x8A66;&#x4E86;&#x4E00;&#x4E0B;&#x767C;&#x73FE;&#x4ED6;&#x7684;&#x4F5C;&#x6CD5;&#x548C;&#x6211;&#x60F3;&#x7684;&#x4E0D;&#x4E00;&#x6A23;&#x3002;&#x539F;&#x672C;&#x4EE5;&#x70BA;&#x662F;valgrind&#x8DD1;&#x51FA;&#x4F86;&#x4EE5;&#x5F8C;&#x76F4;&#x63A5;&#x628A;&#x6F0F;&#x6389;&#x7684;call stack&#x548C;program counter&#x50B3;&#x7D66;gdb&#xFF0C;&#x800C;gdb&#x628A;&#x4ED6;&#x7576;&#x6210;&#x4E00;&#x7A2E;&#x4E2D;&#x65B7;&#x9EDE;&#x3002;&#x7D50;&#x679C;&#x5B8C;&#x5168;&#x4E0D;&#x662F;&#xFF0C;&#x4ED6;&#x7684;&#x7528;&#x6CD5;&#x662F;&#xFF1A;</p>
-<ul>
-<li>&#x8DD1;valgrind&#xFF0C;&#x53C3;&#x6578;&#x6307;&#x5B9A;&#x8981;&#x548C;gdb&#x5408;&#x9AD4;&#xFF0C;&#x9084;&#x6709;&#x4F60;&#x8981;&#x6293;&#x6F0F;&#x7684;&#x7A0B;&#x5F0F;</li>
-<li>&#x53E6;&#x5916;&#x4E00;&#x908A;&#x57F7;&#x884C;gdb&#xFF0C;&#x8F09;&#x5165;&#x4F60;&#x8981;&#x6293;&#x6F0F;&#x7684;&#x7A0B;&#x5F0F;</li>
-<li>gdb &#x9023;&#x5230;valgrind</li>
-<li>&#x5F9E;gdb&#x4E2D;&#x8A2D;<strong>&#x61F7;&#x7591;&#x6F0F;&#x6389;</strong>&#x7684;&#x4E2D;&#x65B7;&#x9EDE;</li>
-<li>&#x5F9E;gdb&#x53EB;valgrind&#x958B;&#x59CB;&#x57F7;&#x884C;&#x4F60;&#x8981;&#x6293;&#x6F0F;&#x7684;&#x7A0B;&#x5F0F;&#xFF0C;gdb&#x5C07;&#x6703;&#x4E2D;&#x65B7;&#x5728;&#x4F60;&#x8A2D;&#x7F6E;&#x7684;&#x4E2D;&#x65B7;&#x9EDE;</li>
-<li>&#x5728;&#x4F7F;&#x7528;valgrind&#x63D0;&#x4F9B;&#x7684;&#x6307;&#x4EE4;&#xFF0C;&#x6BD4;&#x5C0D;&#x57F7;&#x884C;&#x4E2D;&#x65B7;&#x9EDE;&#x4E4B;&#x524D;&#x548C;&#x4E4B;&#x5F8C;&#x662F;&#x5426;&#x6709;memory leak</li>
-</ul>
-<p>&#x6E2C;&#x8A66;&#x7A0B;&#x5F0F;&#x78BC;&#x548C;&#x6E2C;&#x8A66;&#x74B0;&#x5883;&#x548C;<a href="http://wen00072.github.io/blog/2014/11/29/catching-leakage-use-valgrind-checking-c-memory-leak" target="_blank">&#x524D;&#x4E00;&#x7BC7;</a>&#x4E00;&#x6A21;&#x4E00;&#x6A23;&#xFF0C;&#x6240;&#x4EE5;&#x5C31;&#x8ACB;&#x81EA;&#x884C;&#x770B;&#x9023;&#x7D50;&#x3002;</p>
-<h2 id="&#x5408;&#x9AD4;&#x793A;&#x7BC4;">&#x5408;&#x9AD4;&#x793A;&#x7BC4;</h2>
-<ul>
-<li>&#x8DD1;valgrind&#xFF0C;&#x53C3;&#x6578;&#x6307;&#x5B9A;&#x8981;&#x548C;gdb&#x5408;&#x9AD4;&#xFF0C;&#x9084;&#x6709;&#x4F60;&#x8981;&#x6293;&#x6F0F;&#x7684;&#x7A0B;&#x5F0F;<ul>
-<li><code>valgrind --vgdb=yes --vgdb-error=0 ./&#x4F60;&#x8981;&#x6293;&#x6F0F;&#x7684;&#x7A0B;&#x5F0F;</code></li>
-</ul>
-</li>
-</ul>
-<pre><code class="lang-sh">$ valgrind --vgdb=yes --vgdb-error=<span class="hljs-number">0</span> ./leak
-==<span class="hljs-number">28450</span>== Memcheck, a memory error detector
-==<span class="hljs-number">28450</span>== Copyright (C) <span class="hljs-number">2002</span>-<span class="hljs-number">2013</span>, and GNU GPL<span class="hljs-string">&apos;d, by Julian Seward et al.
-==28450== Using Valgrind-3.10.0.SVN and LibVEX; rerun with -h for copyright info
-==28450== Command: ./leak
-==28450== 
-==28450== (action at startup) vgdb me ... 
-==28450== 
-==28450== TO DEBUG THIS PROCESS USING GDB: start GDB like this
-==28450==   /path/to/gdb ./leak
-==28450== and then give GDB the following command
-==28450==   target remote | /usr/lib/valgrind/../../bin/vgdb --pid=28450
-==28450== --pid is optional if only one valgrind process is running
-==28450==
-</span></code></pre>
-<ul>
-<li>&#x53E6;&#x5916;&#x4E00;&#x908A;&#x57F7;&#x884C;gdb&#xFF0C;&#x8F09;&#x5165;&#x4F60;&#x8981;&#x6293;&#x6F0F;&#x7684;&#x7A0B;&#x5F0F;</li>
-</ul>
-<pre><code class="lang-sh">$ gdb ./leak
-GNU gdb (Ubuntu <span class="hljs-number">7.7</span>.<span class="hljs-number">1</span>-<span class="hljs-number">0</span>ubuntu5~<span class="hljs-number">14.04</span>.<span class="hljs-number">2</span>) <span class="hljs-number">7.7</span>.<span class="hljs-number">1</span>
-Copyright (C) <span class="hljs-number">2014</span> Free Software Foundation, Inc.
-License GPLv3+: GNU GPL version <span class="hljs-number">3</span> or later &lt;http://gnu.org/licenses/gpl.html&gt;
-This is free software: you are free to change and redistribute it.
-There is NO WARRANTY, to the extent permitted by law.  Type <span class="hljs-string">&quot;show copying&quot;</span>
-and <span class="hljs-string">&quot;show warranty&quot;</span> <span class="hljs-keyword">for</span> details.
-This GDB was configured as <span class="hljs-string">&quot;x86_64-linux-gnu&quot;</span>.
-Type <span class="hljs-string">&quot;show configuration&quot;</span> <span class="hljs-keyword">for</span> configuration details.
-For bug reporting instructions, please see:
-&lt;http://www.gnu.org/software/gdb/bugs/&gt;.
-Find the GDB manual and other documentation resources online at:
-&lt;http://www.gnu.org/software/gdb/documentation/&gt;.
-For <span class="hljs-built_in">help</span>, <span class="hljs-built_in">type</span> <span class="hljs-string">&quot;help&quot;</span>.
-Type <span class="hljs-string">&quot;apropos word&quot;</span> to search <span class="hljs-keyword">for</span> commands related to <span class="hljs-string">&quot;word&quot;</span>...
-Reading symbols from ./leak...done.
-(gdb)
-</code></pre>
-<ul>
-<li>gdb &#x9023;&#x5230;valgrind<ul>
-<li><code>target remote | vgdb</code></li>
-</ul>
-</li>
-</ul>
-<pre><code class="lang-sh">(gdb)  target remote | vgdb
-Remote debugging using | vgdb
-relaying data between gdb and process <span class="hljs-number">28450</span>
-Reading symbols from /lib64/ld-linux-x86-<span class="hljs-number">64</span>.so.<span class="hljs-number">2</span>...Reading symbols from /usr/lib/debug//lib/x86_64-linux-gnu/ld-<span class="hljs-number">2.19</span>.so...done.
-done.
-Loaded symbols <span class="hljs-keyword">for</span> /lib64/ld-linux-x86-<span class="hljs-number">64</span>.so.<span class="hljs-number">2</span>
-<span class="hljs-number">0</span>x00000000040012d0 <span class="hljs-keyword">in</span> _start () from /lib64/ld-linux-x86-<span class="hljs-number">64</span>.so.<span class="hljs-number">2</span>
-(gdb)
-</code></pre>
-<ul>
-<li>&#x5F9E;gdb&#x4E2D;&#x8A2D;<strong>&#x61F7;&#x7591;&#x6F0F;&#x6389;</strong>&#x7684;&#x4E2D;&#x65B7;&#x9EDE;</li>
-</ul>
-<pre><code class="lang-sh">(gdb) b <span class="hljs-number">47</span>
-Breakpoint <span class="hljs-number">1</span> at <span class="hljs-number">0</span>x400703: file leak.c, line <span class="hljs-number">47</span>.
-(gdb) b <span class="hljs-number">48</span>
-Breakpoint <span class="hljs-number">2</span> at <span class="hljs-number">0</span>x400708: file leak.c, line <span class="hljs-number">48</span>.
-</code></pre>
-<p>47, 48&#x884C;&#x5167;&#x5BB9;&#x662F;</p>
-<pre><code class="lang-c"><span class="hljs-number">47</span>        leak1();
-<span class="hljs-number">48</span>        ch_ptr = leak2();
-</code></pre>
-<ul>
-<li>&#x5F9E;gdb&#x53EB;valgrind&#x958B;&#x59CB;&#x57F7;&#x884C;&#x4F60;&#x8981;&#x6293;&#x6F0F;&#x7684;&#x7A0B;&#x5F0F;&#xFF0C;gdb&#x5C07;&#x6703;&#x4E2D;&#x65B7;&#x5728;&#x4F60;&#x8A2D;&#x7F6E;&#x7684;&#x4E2D;&#x65B7;&#x9EDE;</li>
-</ul>
-<pre><code class="lang-sh">(gdb) c
-Continuing.
+                        <h1 id="pandas">pandas</h1>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
+<span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
 
-Breakpoint <span class="hljs-number">1</span>, main () at leak.c:<span class="hljs-number">47</span>
-<span class="hljs-number">47</span>        leak1();
-(gdb)
-</code></pre>
-<ul>
-<li>&#x5728;&#x4F7F;&#x7528;valgrind&#x63D0;&#x4F9B;&#x7684;&#x6307;&#x4EE4;&#xFF0C;&#x6BD4;&#x5C0D;&#x57F7;&#x884C;&#x4E2D;&#x65B7;&#x9EDE;&#x4E4B;&#x524D;&#x548C;&#x4E4B;&#x5F8C;&#x662F;&#x5426;&#x6709;memory leak<ul>
-<li>&#x8A73;&#x7D30;&#x6307;&#x4EE4;&#x53EF;&#x4EE5;&#x5728;gdb&#x4E2D;&#x6253;<code>help monitor</code>&#x67E5;&#x8A62;</li>
-</ul>
-</li>
-</ul>
-<p>&#x57F7;&#x884C;&#x4E2D;&#x65B7;&#x9EDE;&#x524D;</p>
-<pre><code class="lang-sh">(gdb) monitor leak_check full reachable any
-==<span class="hljs-number">28450</span>== All heap blocks were freed -- no leaks are possible
-==<span class="hljs-number">28450</span>==
-</code></pre>
-<p>&#x57F7;&#x884C;&#x4E0B;&#x4E00;&#x6B65;&#x5F8C;&#x518D;&#x6AA2;&#x67E5;</p>
-<pre><code class="lang-sh">(gdb) n
+data = np.random.rand(<span class="hljs-number">10</span>, <span class="hljs-number">5</span>)
+df = pd.DataFrame(data, columns=list(<span class="hljs-string">&quot;ABCDE&quot;</span>))
+<span class="hljs-keyword">print</span> df 
 
-Breakpoint <span class="hljs-number">2</span>, main () at leak.c:<span class="hljs-number">48</span>
-<span class="hljs-number">48</span>        ch_ptr = leak2();
-(gdb) monitor leak_check full reachable any
-==<span class="hljs-number">28450</span>== <span class="hljs-number">100</span> bytes <span class="hljs-keyword">in</span> <span class="hljs-number">1</span> blocks are still reachable <span class="hljs-keyword">in</span> loss record <span class="hljs-number">1</span> of <span class="hljs-number">1</span>
-==<span class="hljs-number">28450</span>==    at <span class="hljs-number">0</span>x4C2AB80: malloc (<span class="hljs-keyword">in</span> /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
-==<span class="hljs-number">28450</span>==    by <span class="hljs-number">0</span>x40065E: leak1 (leak.c:<span class="hljs-number">11</span>)
-==<span class="hljs-number">28450</span>==    by <span class="hljs-number">0</span>x400707: main (leak.c:<span class="hljs-number">47</span>)
-==<span class="hljs-number">28450</span>== 
-==<span class="hljs-number">28450</span>== LEAK SUMMARY:
-==<span class="hljs-number">28450</span>==    definitely lost: <span class="hljs-number">0</span> bytes <span class="hljs-keyword">in</span> <span class="hljs-number">0</span> blocks
-==<span class="hljs-number">28450</span>==    indirectly lost: <span class="hljs-number">0</span> bytes <span class="hljs-keyword">in</span> <span class="hljs-number">0</span> blocks
-==<span class="hljs-number">28450</span>==      possibly lost: <span class="hljs-number">0</span> bytes <span class="hljs-keyword">in</span> <span class="hljs-number">0</span> blocks
-==<span class="hljs-number">28450</span>==    still reachable: <span class="hljs-number">100</span> bytes <span class="hljs-keyword">in</span> <span class="hljs-number">1</span> blocks
-==<span class="hljs-number">28450</span>==         suppressed: <span class="hljs-number">0</span> bytes <span class="hljs-keyword">in</span> <span class="hljs-number">0</span> blocks
+df.columns = list(<span class="hljs-string">&quot;12345&quot;</span>) // &#x66F4;&#x63DB;&#x884C;&#x6B04;&#x4F4D;&#x540D;&#x7A31;
+
+df.index = list(<span class="hljs-string">&quot;ABCDEFGHIJ&quot;</span>) // &#x66F4;&#x63DB;&#x5217;&#x6B04;&#x4F4D;&#x540D;&#x7A31;
+
+<span class="hljs-keyword">print</span> df
+
+<span class="hljs-keyword">print</span> df.index.values
+<span class="hljs-keyword">print</span> df[<span class="hljs-string">&apos;1&apos;</span>]
+
+df.index = list(<span class="hljs-string">&quot;0123456789&quot;</span>)
 </code></pre>
-<p>&#x591A;&#x57F7;&#x884C;&#x5E7E;&#x6B65;&#x5F8C;&#x518D;&#x770B;&#x770B;leak&#x60C5;&#x6CC1;</p>
-<pre><code class="lang-sh">(gdb) n
-<span class="hljs-number">49</span>        <span class="hljs-keyword">if</span>(ch_ptr) {
-(gdb) n
-<span class="hljs-number">50</span>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s&quot;</span>, ch_ptr);
-(gdb) n
-<span class="hljs-number">53</span>        lk_ptr = leak3();
-(gdb) n
-<span class="hljs-number">54</span>        <span class="hljs-keyword">if</span>(lk_ptr) {
-(gdb) monitor leak_check full reachable any
-==<span class="hljs-number">28450</span>== <span class="hljs-number">8</span> bytes <span class="hljs-keyword">in</span> <span class="hljs-number">1</span> blocks are still reachable <span class="hljs-keyword">in</span> loss record <span class="hljs-number">2</span> of <span class="hljs-number">5</span>
-==<span class="hljs-number">28450</span>==    at <span class="hljs-number">0</span>x4C2AB80: malloc (<span class="hljs-keyword">in</span> /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
-==<span class="hljs-number">28450</span>==    by <span class="hljs-number">0</span>x4006C3: leak3 (leak.c:<span class="hljs-number">33</span>)
-==<span class="hljs-number">28450</span>==    by <span class="hljs-number">0</span>x400732: main (leak.c:<span class="hljs-number">53</span>)
-==<span class="hljs-number">28450</span>== 
-==<span class="hljs-number">28450</span>== <span class="hljs-number">14</span> bytes <span class="hljs-keyword">in</span> <span class="hljs-number">1</span> blocks are still reachable <span class="hljs-keyword">in</span> loss record <span class="hljs-number">3</span> of <span class="hljs-number">5</span>
-==<span class="hljs-number">28450</span>==    at <span class="hljs-number">0</span>x4C2AB80: malloc (<span class="hljs-keyword">in</span> /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
-==<span class="hljs-number">28450</span>==    by <span class="hljs-number">0</span>x4EC02B9: strdup (strdup.c:<span class="hljs-number">42</span>)
-==<span class="hljs-number">28450</span>==    by <span class="hljs-number">0</span>x400687: leak2 (leak.c:<span class="hljs-number">20</span>)
-==<span class="hljs-number">28450</span>==    by <span class="hljs-number">0</span>x40070C: main (leak.c:<span class="hljs-number">48</span>)
-==<span class="hljs-number">28450</span>== 
-==<span class="hljs-number">28450</span>== <span class="hljs-number">14</span> bytes <span class="hljs-keyword">in</span> <span class="hljs-number">1</span> blocks are still reachable <span class="hljs-keyword">in</span> loss record <span class="hljs-number">4</span> of <span class="hljs-number">5</span>
-==<span class="hljs-number">28450</span>==    at <span class="hljs-number">0</span>x4C2AB80: malloc (<span class="hljs-keyword">in</span> /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
-==<span class="hljs-number">28450</span>==    by <span class="hljs-number">0</span>x4EC02B9: strdup (strdup.c:<span class="hljs-number">42</span>)
-==<span class="hljs-number">28450</span>==    by <span class="hljs-number">0</span>x4006E2: leak3 (leak.c:<span class="hljs-number">37</span>)
-==<span class="hljs-number">28450</span>==    by <span class="hljs-number">0</span>x400732: main (leak.c:<span class="hljs-number">53</span>)
-==<span class="hljs-number">28450</span>== 
-==<span class="hljs-number">28450</span>== <span class="hljs-number">100</span> bytes <span class="hljs-keyword">in</span> <span class="hljs-number">1</span> blocks are definitely lost <span class="hljs-keyword">in</span> loss record <span class="hljs-number">5</span> of <span class="hljs-number">5</span>
-==<span class="hljs-number">28450</span>==    at <span class="hljs-number">0</span>x4C2AB80: malloc (<span class="hljs-keyword">in</span> /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
-==<span class="hljs-number">28450</span>==    by <span class="hljs-number">0</span>x40065E: leak1 (leak.c:<span class="hljs-number">11</span>)
-==<span class="hljs-number">28450</span>==    by <span class="hljs-number">0</span>x400707: main (leak.c:<span class="hljs-number">47</span>)
-==<span class="hljs-number">28450</span>== 
-==<span class="hljs-number">28450</span>== LEAK SUMMARY:
-==<span class="hljs-number">28450</span>==    definitely lost: <span class="hljs-number">100</span> bytes <span class="hljs-keyword">in</span> <span class="hljs-number">1</span> blocks
-==<span class="hljs-number">28450</span>==    indirectly lost: <span class="hljs-number">0</span> bytes <span class="hljs-keyword">in</span> <span class="hljs-number">0</span> blocks
-==<span class="hljs-number">28450</span>==      possibly lost: <span class="hljs-number">0</span> bytes <span class="hljs-keyword">in</span> <span class="hljs-number">0</span> blocks
-==<span class="hljs-number">28450</span>==    still reachable: <span class="hljs-number">36</span> bytes <span class="hljs-keyword">in</span> <span class="hljs-number">3</span> blocks
-==<span class="hljs-number">28450</span>==         suppressed: <span class="hljs-number">0</span> bytes <span class="hljs-keyword">in</span> <span class="hljs-number">0</span> blocks
-==<span class="hljs-number">28450</span>==
+<h2 id="dataframeix">DataFrame.ix</h2>
+<h3 id="&#x884C;&#x306E;&#x307F;&#x6307;&#x5B9A;">&#x884C;&#x306E;&#x307F;&#x6307;&#x5B9A;</h3>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
+<span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+
+data = np.random.rand(<span class="hljs-number">10</span>, <span class="hljs-number">5</span>)
+df = pd.DataFrame(data, columns=list(<span class="hljs-string">&quot;ABCDE&quot;</span>))
+
+<span class="hljs-keyword">print</span> df
+
+df = df.ix[ <span class="hljs-number">4</span>: ,:] // &#x884C;&#x6307;&#x5B9A;
+<span class="hljs-keyword">print</span> df
 </code></pre>
-<h2 id="&#x53C3;&#x8003;&#x8CC7;&#x6599;">&#x53C3;&#x8003;&#x8CC7;&#x6599;</h2>
-<ul>
-<li><a href="http://billiob.net/blog/20140330_vgdb.html" target="_blank">gdb + valgrind - (billiob&apos;s blog)</a></li>
-<li><code>man valgrind</code></li>
-</ul>
+<pre><code class="lang-sh">          A         B         C         D         E
+<span class="hljs-number">0</span>  <span class="hljs-number">0.837660</span>  <span class="hljs-number">0.874868</span>  <span class="hljs-number">0.801268</span>  <span class="hljs-number">0.973609</span>  <span class="hljs-number">0.431954</span>
+<span class="hljs-number">1</span>  <span class="hljs-number">0.863254</span>  <span class="hljs-number">0.428056</span>  <span class="hljs-number">0.366020</span>  <span class="hljs-number">0.671288</span>  <span class="hljs-number">0.186050</span>
+<span class="hljs-number">2</span>  <span class="hljs-number">0.839916</span>  <span class="hljs-number">0.116835</span>  <span class="hljs-number">0.553323</span>  <span class="hljs-number">0.504780</span>  <span class="hljs-number">0.715694</span>
+<span class="hljs-number">3</span>  <span class="hljs-number">0.229714</span>  <span class="hljs-number">0.548386</span>  <span class="hljs-number">0.699111</span>  <span class="hljs-number">0.184435</span>  <span class="hljs-number">0.231816</span>
+<span class="hljs-number">4</span>  <span class="hljs-number">0.187478</span>  <span class="hljs-number">0.426919</span>  <span class="hljs-number">0.540911</span>  <span class="hljs-number">0.909147</span>  <span class="hljs-number">0.782173</span>
+<span class="hljs-number">5</span>  <span class="hljs-number">0.638277</span>  <span class="hljs-number">0.893678</span>  <span class="hljs-number">0.208585</span>  <span class="hljs-number">0.937772</span>  <span class="hljs-number">0.285642</span>
+<span class="hljs-number">6</span>  <span class="hljs-number">0.840695</span>  <span class="hljs-number">0.956923</span>  <span class="hljs-number">0.303221</span>  <span class="hljs-number">0.335961</span>  <span class="hljs-number">0.020592</span>
+<span class="hljs-number">7</span>  <span class="hljs-number">0.428946</span>  <span class="hljs-number">0.211034</span>  <span class="hljs-number">0.869003</span>  <span class="hljs-number">0.950929</span>  <span class="hljs-number">0.946157</span>
+<span class="hljs-number">8</span>  <span class="hljs-number">0.058667</span>  <span class="hljs-number">0.154454</span>  <span class="hljs-number">0.239021</span>  <span class="hljs-number">0.333486</span>  <span class="hljs-number">0.900080</span>
+<span class="hljs-number">9</span>  <span class="hljs-number">0.666880</span>  <span class="hljs-number">0.733745</span>  <span class="hljs-number">0.707146</span>  <span class="hljs-number">0.931958</span>  <span class="hljs-number">0.102872</span>
+          A         B         C         D         E
+<span class="hljs-number">4</span>  <span class="hljs-number">0.187478</span>  <span class="hljs-number">0.426919</span>  <span class="hljs-number">0.540911</span>  <span class="hljs-number">0.909147</span>  <span class="hljs-number">0.782173</span>
+<span class="hljs-number">5</span>  <span class="hljs-number">0.638277</span>  <span class="hljs-number">0.893678</span>  <span class="hljs-number">0.208585</span>  <span class="hljs-number">0.937772</span>  <span class="hljs-number">0.285642</span>
+<span class="hljs-number">6</span>  <span class="hljs-number">0.840695</span>  <span class="hljs-number">0.956923</span>  <span class="hljs-number">0.303221</span>  <span class="hljs-number">0.335961</span>  <span class="hljs-number">0.020592</span>
+<span class="hljs-number">7</span>  <span class="hljs-number">0.428946</span>  <span class="hljs-number">0.211034</span>  <span class="hljs-number">0.869003</span>  <span class="hljs-number">0.950929</span>  <span class="hljs-number">0.946157</span>
+<span class="hljs-number">8</span>  <span class="hljs-number">0.058667</span>  <span class="hljs-number">0.154454</span>  <span class="hljs-number">0.239021</span>  <span class="hljs-number">0.333486</span>  <span class="hljs-number">0.900080</span>
+<span class="hljs-number">9</span>  <span class="hljs-number">0.666880</span>  <span class="hljs-number">0.733745</span>  <span class="hljs-number">0.707146</span>  <span class="hljs-number">0.931958</span>  <span class="hljs-number">0.102872</span>
+</code></pre>
+<h3 id="&#x5217;&#x306E;&#x307F;&#x6307;&#x5B9A;">&#x5217;&#x306E;&#x307F;&#x6307;&#x5B9A;</h3>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
+<span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+
+data = np.random.rand(<span class="hljs-number">10</span>, <span class="hljs-number">5</span>)
+df = pd.DataFrame(data, columns=list(<span class="hljs-string">&quot;ABCDE&quot;</span>))
+
+<span class="hljs-keyword">print</span> df
+
+df = df.ix[:, <span class="hljs-number">1</span>:<span class="hljs-number">3</span>]
+<span class="hljs-keyword">print</span> df
+</code></pre>
+<pre><code class="lang-sh">          A         B         C         D         E
+<span class="hljs-number">0</span>  <span class="hljs-number">0.076948</span>  <span class="hljs-number">0.449970</span>  <span class="hljs-number">0.520205</span>  <span class="hljs-number">0.436706</span>  <span class="hljs-number">0.739704</span>
+<span class="hljs-number">1</span>  <span class="hljs-number">0.075599</span>  <span class="hljs-number">0.577579</span>  <span class="hljs-number">0.782207</span>  <span class="hljs-number">0.371012</span>  <span class="hljs-number">0.894063</span>
+<span class="hljs-number">2</span>  <span class="hljs-number">0.885444</span>  <span class="hljs-number">0.135454</span>  <span class="hljs-number">0.105279</span>  <span class="hljs-number">0.006876</span>  <span class="hljs-number">0.540366</span>
+<span class="hljs-number">3</span>  <span class="hljs-number">0.951332</span>  <span class="hljs-number">0.677577</span>  <span class="hljs-number">0.783089</span>  <span class="hljs-number">0.380428</span>  <span class="hljs-number">0.795435</span>
+<span class="hljs-number">4</span>  <span class="hljs-number">0.840197</span>  <span class="hljs-number">0.759181</span>  <span class="hljs-number">0.588425</span>  <span class="hljs-number">0.368400</span>  <span class="hljs-number">0.714982</span>
+<span class="hljs-number">5</span>  <span class="hljs-number">0.075328</span>  <span class="hljs-number">0.926142</span>  <span class="hljs-number">0.487373</span>  <span class="hljs-number">0.964743</span>  <span class="hljs-number">0.836157</span>
+<span class="hljs-number">6</span>  <span class="hljs-number">0.428123</span>  <span class="hljs-number">0.090402</span>  <span class="hljs-number">0.144948</span>  <span class="hljs-number">0.461111</span>  <span class="hljs-number">0.325377</span>
+<span class="hljs-number">7</span>  <span class="hljs-number">0.221599</span>  <span class="hljs-number">0.675153</span>  <span class="hljs-number">0.704074</span>  <span class="hljs-number">0.880876</span>  <span class="hljs-number">0.799039</span>
+<span class="hljs-number">8</span>  <span class="hljs-number">0.587184</span>  <span class="hljs-number">0.403180</span>  <span class="hljs-number">0.454961</span>  <span class="hljs-number">0.710530</span>  <span class="hljs-number">0.699074</span>
+<span class="hljs-number">9</span>  <span class="hljs-number">0.817209</span>  <span class="hljs-number">0.615556</span>  <span class="hljs-number">0.899403</span>  <span class="hljs-number">0.263885</span>  <span class="hljs-number">0.115144</span>
+          B         C
+<span class="hljs-number">0</span>  <span class="hljs-number">0.449970</span>  <span class="hljs-number">0.520205</span>
+<span class="hljs-number">1</span>  <span class="hljs-number">0.577579</span>  <span class="hljs-number">0.782207</span>
+<span class="hljs-number">2</span>  <span class="hljs-number">0.135454</span>  <span class="hljs-number">0.105279</span>
+<span class="hljs-number">3</span>  <span class="hljs-number">0.677577</span>  <span class="hljs-number">0.783089</span>
+<span class="hljs-number">4</span>  <span class="hljs-number">0.759181</span>  <span class="hljs-number">0.588425</span>
+<span class="hljs-number">5</span>  <span class="hljs-number">0.926142</span>  <span class="hljs-number">0.487373</span>
+<span class="hljs-number">6</span>  <span class="hljs-number">0.090402</span>  <span class="hljs-number">0.144948</span>
+<span class="hljs-number">7</span>  <span class="hljs-number">0.675153</span>  <span class="hljs-number">0.704074</span>
+<span class="hljs-number">8</span>  <span class="hljs-number">0.403180</span>  <span class="hljs-number">0.454961</span>
+<span class="hljs-number">9</span>  <span class="hljs-number">0.615556</span>  <span class="hljs-number">0.899403</span>
+</code></pre>
+<h3 id="&#x884C;&#xFF65;&#x5217;&#x306E;&#x4E21;&#x65B9;&#x3092;&#x30B9;&#x30E9;&#x30A4;&#x30B9;&#x3067;&#x6307;&#x5B9A;">&#x884C;&#xFF65;&#x5217;&#x306E;&#x4E21;&#x65B9;&#x3092;&#x30B9;&#x30E9;&#x30A4;&#x30B9;&#x3067;&#x6307;&#x5B9A;</h3>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
+<span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+
+data = np.random.rand(<span class="hljs-number">10</span>, <span class="hljs-number">5</span>)
+df = pd.DataFrame(data, columns=list(<span class="hljs-string">&quot;ABCDE&quot;</span>))
+
+<span class="hljs-keyword">print</span> df
+
+df = df.ix[<span class="hljs-number">4</span>: , <span class="hljs-number">1</span>:<span class="hljs-number">3</span>]
+<span class="hljs-keyword">print</span> df
+</code></pre>
+<pre><code class="lang-sh">          A         B         C         D         E
+<span class="hljs-number">0</span>  <span class="hljs-number">0.537395</span>  <span class="hljs-number">0.934079</span>  <span class="hljs-number">0.655925</span>  <span class="hljs-number">0.235779</span>  <span class="hljs-number">0.707944</span>
+<span class="hljs-number">1</span>  <span class="hljs-number">0.371540</span>  <span class="hljs-number">0.751432</span>  <span class="hljs-number">0.224493</span>  <span class="hljs-number">0.575143</span>  <span class="hljs-number">0.273347</span>
+<span class="hljs-number">2</span>  <span class="hljs-number">0.615915</span>  <span class="hljs-number">0.099794</span>  <span class="hljs-number">0.246913</span>  <span class="hljs-number">0.862826</span>  <span class="hljs-number">0.875975</span>
+<span class="hljs-number">3</span>  <span class="hljs-number">0.524642</span>  <span class="hljs-number">0.645666</span>  <span class="hljs-number">0.422228</span>  <span class="hljs-number">0.377380</span>  <span class="hljs-number">0.379291</span>
+<span class="hljs-number">4</span>  <span class="hljs-number">0.107895</span>  <span class="hljs-number">0.933713</span>  <span class="hljs-number">0.409466</span>  <span class="hljs-number">0.078913</span>  <span class="hljs-number">0.767368</span>
+<span class="hljs-number">5</span>  <span class="hljs-number">0.046459</span>  <span class="hljs-number">0.362304</span>  <span class="hljs-number">0.051669</span>  <span class="hljs-number">0.392577</span>  <span class="hljs-number">0.696221</span>
+<span class="hljs-number">6</span>  <span class="hljs-number">0.700829</span>  <span class="hljs-number">0.285290</span>  <span class="hljs-number">0.486674</span>  <span class="hljs-number">0.439223</span>  <span class="hljs-number">0.682216</span>
+<span class="hljs-number">7</span>  <span class="hljs-number">0.028071</span>  <span class="hljs-number">0.642846</span>  <span class="hljs-number">0.849560</span>  <span class="hljs-number">0.908172</span>  <span class="hljs-number">0.153547</span>
+<span class="hljs-number">8</span>  <span class="hljs-number">0.529735</span>  <span class="hljs-number">0.268067</span>  <span class="hljs-number">0.217208</span>  <span class="hljs-number">0.519743</span>  <span class="hljs-number">0.988391</span>
+<span class="hljs-number">9</span>  <span class="hljs-number">0.412213</span>  <span class="hljs-number">0.764697</span>  <span class="hljs-number">0.628845</span>  <span class="hljs-number">0.807078</span>  <span class="hljs-number">0.003180</span>
+          B         C
+<span class="hljs-number">4</span>  <span class="hljs-number">0.933713</span>  <span class="hljs-number">0.409466</span>
+<span class="hljs-number">5</span>  <span class="hljs-number">0.362304</span>  <span class="hljs-number">0.051669</span>
+<span class="hljs-number">6</span>  <span class="hljs-number">0.285290</span>  <span class="hljs-number">0.486674</span>
+<span class="hljs-number">7</span>  <span class="hljs-number">0.642846</span>  <span class="hljs-number">0.849560</span>
+<span class="hljs-number">8</span>  <span class="hljs-number">0.268067</span>  <span class="hljs-number">0.217208</span>
+<span class="hljs-number">9</span>  <span class="hljs-number">0.764697</span>  <span class="hljs-number">0.628845</span>
+</code></pre>
 
                     
                     </section>
@@ -16011,10 +15963,10 @@ Breakpoint <span class="hljs-number">2</span>, main () at leak.c:<span class="hl
         </div>
 
         
-        <a href="../wen00072/tan_tan_c_yu_yan_de_quan_yu_bian_shu_he_linux_obje.html" class="navigation navigation-prev " aria-label="Previous page: 談談C語言的全域變數和 Linux Object 檔案的關係"><i class="fa fa-angle-left"></i></a>
+        <a href="../python/python_setuppy_uninstall.html" class="navigation navigation-prev " aria-label="Previous page: python setup.py uninstall"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../wen00072/zhua_lou_-_shi_yong_valgrind_jian_cha_c_yu_yan_mem.html" class="navigation navigation-next " aria-label="Next page: 抓漏 - 使用valgrind檢查C語言memory Leak"><i class="fa fa-angle-right"></i></a>
+        <a href="../vim/vim.html" class="navigation navigation-next " aria-label="Next page: Vim"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

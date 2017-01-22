@@ -1,29 +1,29 @@
-# 在QT官网下载最新的版本
+# 在QT官網下載最新的版本
 
 
-1.在QT官网下载最新的版本http://qt-project.org/downloads<br>
-我下的是qt-opensource-linux-x86-5.3.1.run,在终端执行<br>
+1.在QT官網下載最新的版本http://qt-project.org/downloads<br>
+我下的是qt-opensource-linux-x86-5.3.1.run,在終端執行<br>
 
 ```sh
 sudo chmod a+x qt-opensource-linux-x86-5.3.1.run
 ./qt-opensource-linux-x86-5.3.1.run
 ```
 
-然后选择安装目录，默认是/home/username/QT5.3.1,我选择在/opt/QT5
+然後選擇安裝目錄，默認是/home/username/QT5.3.1,我選擇在/opt/QT5
 
-2.安装成功后执行qmake -v 会发现找不到qmake命令，这是因为qmake没有加入到环境变量中<br>
-在～/.bashrc中的最后添加<br>
+2.安裝成功後執行qmake -v 會發現找不到qmake命令，這是因為qmake沒有加入到環境變量中<br>
+在～/.bashrc中的最後添加<br>
 ```sh
 export PATH="/opt/QT5/5.3/gcc/bin":$PATH
 ```
 
-然后要将刚加入的环境变量生效，可以注销之后再登录，也可以执行
+然後要將剛加入的環境變量生效，可以註銷之後再登錄，也可以執行
 
 ```sh
 source ～/.bashrc
 ```
 
-在执行qmake -v的话，会有
+在執行qmake -v的話，會有
 
 ```sh
 root@zwq:~# qmake -v
@@ -31,8 +31,8 @@ QMake version 3.0
 Using Qt version 5.3.1 in /opt/QT5/5.3/gcc/lib
 ```
 
-3.现在谈谈在终端中编译一个简单的qt程序
-代码为
+3.現在談談在終端中編譯一個簡單的qt程序
+代碼為
 
 helloworld.cpp
 
@@ -52,7 +52,7 @@ int main(int argc, char* argv[])
 
 ```
  
-使用qmake命令编译
+使用qmake命令編譯
 ```sh
 qmake -project
 qmake
@@ -76,11 +76,11 @@ QT += widgets
 
 ```
 
-得到-lGL的链接错误，安装mesa
+得到-lGL的鏈接錯誤，安裝mesa
 
 apt-get install libgl1-mesa-dev
 
-但是得到了一些新的链接错误：
+但是得到了一些新的鏈接錯誤：
 
 
 ```sh
@@ -107,7 +107,7 @@ make: *** [helloworld] Error 1
 QT+=widgets
 ```
 
-重新编译。好了。
+重新編譯。好了。
 
 
-再次make就可以编译成功了
+再次make就可以編譯成功了

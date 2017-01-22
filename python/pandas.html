@@ -57,7 +57,7 @@
         data-chapter-title="pandas"
         data-filepath="python/pandas.md"
         data-basepath=".."
-        data-revision="Mon Jan 23 2017 01:45:12 GMT+0800 (CST)"
+        data-revision="Mon Jan 23 2017 01:58:28 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -15875,6 +15875,36 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="pandas">pandas</h1>
+<p><img src="images/pandas-dataframe-shadow.png" alt=""></p>
+<p>For the sake of simplicity, I am not showing the OrderedDict approach because the from_items approach is probably a more likely real world solution.</p>
+<p>If this is a little hard to read, you can also get the PDF version.</p>
+<p>Simple Example
+This may seem like a lot of explaining for a simple concept. However, I frequently use these approaches to build small DataFrames that I combine with my more complicated analysis.</p>
+<p>For one example, let&#x2019;s say we want to save our DataFrame and include a footer so we know when it was created and who it was created by. This is much easier to do if we populate a DataFrame and write it to Excel than if we try to write individual cells to Excel.</p>
+<p>Take our existing DataFrame:</p>
+<pre><code class="lang-py">sales = [(<span class="hljs-string">&apos;account&apos;</span>, [<span class="hljs-string">&apos;Jones LLC&apos;</span>, <span class="hljs-string">&apos;Alpha Co&apos;</span>, <span class="hljs-string">&apos;Blue Inc&apos;</span>]),
+         (<span class="hljs-string">&apos;Jan&apos;</span>, [<span class="hljs-number">150</span>, <span class="hljs-number">200</span>, <span class="hljs-number">50</span>]),
+         (<span class="hljs-string">&apos;Feb&apos;</span>, [<span class="hljs-number">200</span>, <span class="hljs-number">210</span>, <span class="hljs-number">90</span>]),
+         (<span class="hljs-string">&apos;Mar&apos;</span>, [<span class="hljs-number">140</span>, <span class="hljs-number">215</span>, <span class="hljs-number">95</span>]),
+         ]
+df = pd.DataFrame.from_items(sales)
+</code></pre>
+<p>Now build a footer (in a column oriented manner):</p>
+<pre><code class="lang-py"><span class="hljs-keyword">from</span> datetime <span class="hljs-keyword">import</span> date
+
+create_date = <span class="hljs-string">&quot;{:%m-%d-%Y}&quot;</span>.format(date.today())
+created_by = <span class="hljs-string">&quot;CM&quot;</span>
+footer = [(<span class="hljs-string">&apos;Created by&apos;</span>, [created_by]), (<span class="hljs-string">&apos;Created on&apos;</span>, [create_date]), (<span class="hljs-string">&apos;Version&apos;</span>, [<span class="hljs-number">1.1</span>])]
+df_footer = pd.DataFrame.from_items(footer)
+</code></pre>
+<p>Created by    Created on    Version
+0    CM    09-05-2016    1.1</p>
+<p>Combine into a single Excel sheet:</p>
+<pre><code class="lang-py">writer = pd.ExcelWriter(<span class="hljs-string">&apos;simple-report.xlsx&apos;</span>, engine=<span class="hljs-string">&apos;xlsxwriter&apos;</span>)
+df.to_excel(writer, index=<span class="hljs-keyword">False</span>)
+df_footer.to_excel(writer, startrow=<span class="hljs-number">6</span>, index=<span class="hljs-keyword">False</span>)
+writer.save()
+</code></pre>
 
                     
                     </section>

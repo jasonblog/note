@@ -999,4 +999,5 @@
 * [Qt](qt/qt.md)
    * [ubuntu編譯安裝qt5.0.1](qt/ubuntubian_yi_an_zhuang_qt5__0__1.md)
    * [在QT官網下載最新的版本](qt/zai_qt_guan_wang_xia_zai_zui_xin_de_ban_ben.md)
+   * 第一個 Qt 程式
 

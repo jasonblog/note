@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>I2C | Jason note</title>
+        <title>Python Pandas DataFrame 的 iloc[0] 與 iloc[[0]] | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -41,10 +41,10 @@
         
     
     
-    <link rel="next" href="../arduino/rang_arduino_bu_xuyao_shi_yong_sudo.html" />
+    <link rel="next" href="../vim/vim.html" />
     
     
-    <link rel="prev" href="../arduino/i2c_protocol_yuan_li_ji_ying_yong.html" />
+    <link rel="prev" href="../python/pandas_ru_men.html" />
     
 
         <!-- head:end -->
@@ -53,9 +53,9 @@
         <!-- body:start -->
         
     <div class="book"
-        data-level="32.6"
-        data-chapter-title="I2C"
-        data-filepath="arduino/i2c.md"
+        data-level="27.26.2"
+        data-chapter-title="Python Pandas DataFrame 的 iloc[0] 與 iloc[[0]]"
+        data-filepath="python/python_pandas_dataframe_de_iloc_[_0_]_yu_iloc_[[_0.md"
         data-basepath=".."
         data-revision="Sun Jan 22 2017 23:15:42 GMT+0800 (CST)"
         data-innerlanguage="">
@@ -9566,7 +9566,7 @@
             
         </li>
     
-        <li class="chapter " data-level="27.26.2" data-path="python/python_pandas_dataframe_de_iloc_[_0_]_yu_iloc_[[_0.html">
+        <li class="chapter active" data-level="27.26.2" data-path="python/python_pandas_dataframe_de_iloc_[_0_]_yu_iloc_[[_0.html">
             
                 
                     <a href="../python/python_pandas_dataframe_de_iloc_[_0_]_yu_iloc_[[_0.html">
@@ -10346,7 +10346,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="32.6" data-path="arduino/i2c.html">
+        <li class="chapter " data-level="32.6" data-path="arduino/i2c.html">
             
                 
                     <a href="../arduino/i2c.html">
@@ -15859,7 +15859,67 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="i2c">I2C</h1>
+                        <h1 id="python-pandas-dataframe-&#x7684;-iloc0-&#x8207;-iloc0">Python Pandas DataFrame &#x7684; iloc[0] &#x8207; iloc[[0]]</h1>
+<p>Pandas &#x662F; Python &#x7684;&#x4E00;&#x500B;&#x8CC7;&#x6599;&#x64CD;&#x4F5C;&#x5EAB;&#x3002;</p>
+<p>&#x5728;&#x5BEB;&#x5206;&#x985E;&#x5668;&#x7684;&#x6642;&#xFF0C;&#x770B;&#x5230;&#x5225;&#x4EBA;&#x7684;&#x7BC4;&#x4F8B;&#x88E1;&#x5BEB;&#x4E86;&#x9019;&#x6A23;&#x4E00;&#x6BB5;&#xFF1A;DataFrame.iloc[[0]]&#xFF0C;&#x4ED6;&#x5728;[]&#x88E1;&#x9762;&#x653E;&#x5165;[0]&#x800C;&#x4E0D;&#x662F;&#x55AE;&#x7D14;&#x7684;0&#x3002;</p>
+<p>&#x89BA;&#x5F97;&#x9019;&#x500B;&#x53D6;&#x51FA;&#x65B9;&#x6CD5;&#x6709;&#x9EDE;&#x795E;&#x79D8;&#xFF0C;&#x7A76;&#x7ADF;&#x8DDF;DataFrame.iloc[0]&#x6709;&#x4EC0;&#x9EBC;&#x5340;&#x5225;&#x5462;&#xFF1F;</p>
+<p>&#x5728;&#x9019;&#x908A;&#x505A;&#x500B;&#x7D00;&#x9304;&#xFF0C;&#x9806;&#x4FBF;&#x7D66;pandas.DataFrame&#x7684;&#x64CD;&#x4F5C;&#x65B9;&#x6CD5;&#x505A;&#x500B;&#x7B46;&#x8A18;&#x3002;</p>
+<p>&#x53C3;&#x8003;&#x8CC7;&#x6599;&#x548C;&#x90E8;&#x5206;&#x7A0B;&#x5F0F;&#x78BC;&#x4F86;&#x6E90;&#xFF1A;10 Minutes to pandas - pandas 0.18.0 documentation&#x3002;</p>
+<p>&#x904B;&#x884C;&#x74B0;&#x5883;&#x70BA; Python 3.5 + Pandas 0.18</p>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
+<span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+
+<span class="hljs-comment"># &#x5148;&#x5EFA;&#x7ACB;&#x4E00;&#x500B; DataFrame</span>
+
+dates = pd.date_range(<span class="hljs-string">&apos;20150328&apos;</span>, periods=<span class="hljs-number">10</span>)   <span class="hljs-comment"># &#x65E5;&#x671F;&#x5E8F;&#x5217;</span>
+
+df = pd.DataFrame(np.random.randn(<span class="hljs-number">10</span>, <span class="hljs-number">5</span>), index=dates, columns=list(<span class="hljs-string">&apos;ABCDE&apos;</span>))
+
+<span class="hljs-comment"># &#x5404;&#x7A2E;&#x89C0;&#x5BDF;&#x89D2;&#x5EA6;</span>
+
+print(df.index)         <span class="hljs-comment"># &#x5217;&#x51FA;&#x6BCF;&#x4E00;&#x500B; row &#x7684; index &#x6A19;&#x7C64;</span>
+
+print(df.columns)       <span class="hljs-comment"># &#x5217;&#x51FA;&#x6BCF;&#x4E00;&#x500B; column &#x7684;&#x6A19;&#x982D;</span>
+
+print(df.values)        <span class="hljs-comment"># &#x9664;&#x53BB; index &#x8207; column headers &#x5F8C;&#x7684;&#x6578;&#x503C;&#x9663;&#x5217;&#xFF08;np.array&#xFF09;</span>
+
+print(df.describe())    <span class="hljs-comment"># &#x6839;&#x64DA;&#x6BCF;&#x4E00;&#x500B; column &#x63CF;&#x8FF0;&#x5176;&#x8CC7;&#x6599;&#x6027;&#x8CEA;&#xFF08;count, mean, std, ...)</span>
+
+
+<span class="hljs-comment"># Selection: &#x76F4;&#x63A5;&#x53D6;&#x51FA;</span>
+
+print(df[<span class="hljs-string">&apos;A&apos;</span>])          <span class="hljs-comment"># &#x9019;&#x6A23;&#x6703;&#x5217;&#x51FA;&#x6574;&#x500B; DF &#x7684; column &apos;A&apos;</span>
+
+print(df[<span class="hljs-number">0</span>:<span class="hljs-number">5</span>])          <span class="hljs-comment"># &#x5217;&#x51FA; df &#x7684; 0, 1, 2, 3, 4 rows</span>
+
+print(df[[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>]])    <span class="hljs-comment"># &#x5217;&#x51FA; df &#x7684; 0, 1, 2 &#x4E09;&#x500B; columns</span>
+
+
+<span class="hljs-comment"># Selection: &#x4F7F;&#x7528; .loc &#x53EF;&#x4EE5;&#x505A;&#x66F4;&#x7CBE;&#x7D30;&#x7684;&#x9078;&#x51FA;&#x8CC7;&#x6599;</span>
+
+print(df.loc[dates[<span class="hljs-number">0</span>]])                           <span class="hljs-comment"># &#x6839;&#x64DA; row &#x7684; label &#x9078;&#x64C7;</span>
+
+print(df.loc[<span class="hljs-string">&apos;20140103&apos;</span>:<span class="hljs-string">&apos;20140105&apos;</span>, [<span class="hljs-string">&apos;B&apos;</span>, <span class="hljs-string">&apos;C&apos;</span>]])  <span class="hljs-comment"># &#x6839;&#x64DA; row labels &#x548C; column names &#x9078;&#x64C7;</span>
+
+
+<span class="hljs-comment"># Selection: &#x4F7F;&#x7528; .iloc &#x5C31;&#x53EF;&#x4EE5;&#x7528; numpy.array/python array &#x7684;&#x65B9;&#x5F0F;&#x4F86;&#x64CD;&#x4F5C; pandas.DataFrame </span>
+
+print(df.iloc[<span class="hljs-number">3</span>])        <span class="hljs-comment"># &#x53D6;&#x51FA;&#x7B2C;&#x56DB;&#x500B; row</span>
+
+print(df.iloc[<span class="hljs-number">0</span>:<span class="hljs-number">2</span>, <span class="hljs-number">2</span>:<span class="hljs-number">4</span>]) <span class="hljs-comment"># &#x53D6;&#x51FA;&#x4E00;&#x500B;&#x5340;&#x584A; (row_idx=0, 1 and col_idx=2, 3) </span>
+
+print(df.iloc[<span class="hljs-number">1</span>:<span class="hljs-number">4</span>, :])   <span class="hljs-comment"># &#x6839;&#x64DA; row index &#x9078;&#x64C7;</span>
+
+print(df.iloc[:, <span class="hljs-number">1</span>:<span class="hljs-number">3</span>])   <span class="hljs-comment"># &#x6839;&#x64DA; col index &#x9078;&#x64C7;</span>
+
+
+<span class="hljs-comment"># Selection: .iloc[0] &#x548C; .iloc[[0]] &#x7684;&#x5DEE;&#x5225;</span>
+
+print(type(df.iloc[<span class="hljs-number">0</span>]))   <span class="hljs-comment"># pandas.core.series.Series</span>
+
+print(type(df.iloc[[<span class="hljs-number">0</span>]])) <span class="hljs-comment"># pandas.core.frame.DataFrame</span>
+</code></pre>
+<p>&#x5176;&#x5BE6; .iloc[0] &#x548C; .iloc[[0]] &#x7684;&#x5DEE;&#x5225;&#x5C31;&#x662F;&#x4E00;&#x500B;&#x53D6;&#x51FA;&#x7684;&#x578B;&#x614B;&#x662F; Series &#xFF0C;&#x53E6;&#x4E00;&#x500B;&#x662F; DataFrame&#x3002;</p>
 
                     
                     </section>
@@ -15870,10 +15930,10 @@
         </div>
 
         
-        <a href="../arduino/i2c_protocol_yuan_li_ji_ying_yong.html" class="navigation navigation-prev " aria-label="Previous page: I2C protocol 原理及應用"><i class="fa fa-angle-left"></i></a>
+        <a href="../python/pandas_ru_men.html" class="navigation navigation-prev " aria-label="Previous page: pandas 入門"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../arduino/rang_arduino_bu_xuyao_shi_yong_sudo.html" class="navigation navigation-next " aria-label="Next page: 讓 arduino 不需要使用 sudo"><i class="fa fa-angle-right"></i></a>
+        <a href="../vim/vim.html" class="navigation navigation-next " aria-label="Next page: Vim"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

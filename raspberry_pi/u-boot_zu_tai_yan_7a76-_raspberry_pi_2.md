@@ -78,7 +78,7 @@ $ sudo apt-get install libncurses5-dev
     - Require a serial port for console 「很清楚，不需要說明」
     - Provide a serial driver 「也是很清楚」
     - Provide a serial driver in SPL 「再一個空間需要非常限制的裝置上，一個完全的UART驅動程式也是很佔空間的，所以這個選項被省略了，就不會有full uart driver，以節省空間」
-- Custom physical to bus address mapping 「有些SOCs會對於CPU實體位址和DMA，使用一個不同位址的map，如果是的話，就選這個選項，並且記得再你的code裏面去實作相關的mapping funciton」
+- Custom physical to bus address mapping 「有些SOCs會對於CPU實體位址和DMA，使用一個不同位址的map，如果是的話，就選這個選項，並且記得再你的code裡面去實作相關的mapping funciton」
 
 ##11. Library routines
 - Enable regular expression support 「就是正規表示法的函式庫...」

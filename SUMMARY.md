@@ -583,7 +583,7 @@
        * [臺鐵資料下載](python/tai_tie_zi_liao_xia_zai.md)
        * [Find all files in directory with extension .txt in Python](python/find_all_files_in_directory_with_extension_txt_in_.md)
        * [Audio 利用ffmpeg 編碼轉換](python/audio_li_yong_ffmpeg_bian_ma_zhuan_huan.md)
-       * [集台證所融資融券餘額全部資料](python/ji_tai_zheng_suo_rong_zi_rong_quan_yu_e_quan_bu_zi.md)
+       * [集臺證所融資融券餘額全部資料](python/ji_tai_zheng_suo_rong_zi_rong_quan_yu_e_quan_bu_zi.md)
    * [django](python/django.md)
        * [使用heroku部署django應用測試](python/shi_yong_heroku_bu_shu_django_ying_yong_ce_shi.md)
        * [Python Django 快速入門教學](python/python_django_kuai_su_ru_men_jiao_xue.md)
@@ -997,6 +997,6 @@
    * [通過C++ wrapper 實現存取圖像像素](opencv/tong_guo_c_++_wrapper_shi_xian_cun_qu_tu_xiang_xia.md)
    * [如何把OpenCV Python獲取的圖像傳遞到C層處理](opencv/ru_he_ba_opencv_python_huo_qu_de_tu_xiang_chuan_di.md)
 * [Qt](qt/qt.md)
-   * [ubuntu编译安装qt5.0.1](qt/ubuntubian_yi_an_zhuang_qt5__0__1.md)
-   * [在QT官网下载最新的版本](qt/zai_qt_guan_wang_xia_zai_zui_xin_de_ban_ben.md)
+   * [ubuntu編譯安裝qt5.0.1](qt/ubuntubian_yi_an_zhuang_qt5__0__1.md)
+   * [在QT官網下載最新的版本](qt/zai_qt_guan_wang_xia_zai_zui_xin_de_ban_ben.md)
 

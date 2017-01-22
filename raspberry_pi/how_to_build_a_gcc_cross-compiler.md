@@ -49,7 +49,7 @@ $ sudo docker login
 sudo docker run -t -i ubuntu bash
 ```
 
-接下來所有內容都是在Docker裏面執行的。
+接下來所有內容都是在Docker裡面執行的。
 理論上就算你一直複製貼上，應該不會錯的XD
 
 ##建立建置資料夾
@@ -119,7 +119,7 @@ cloog  (opt) :  使用ISL和cloog這兩個套件可以允許一些編譯的最�
 for f in *.tar*; do tar xf $f; done
 ```
 
-##取得target平台資訊
+##取得target平臺資訊
 因為待回build tool chain需要有target的名字，所以先在數莓派裡下以下指令：
 
 ```sh
@@ -128,7 +128,7 @@ gcc -dumpmachine
 
 得到 arm-linux-gnueabihf
 
-如果想要知道到底一個套件底下支援多少個平台，有多少的target名稱，
+如果想要知道到底一個套件底下支援多少個平臺，有多少的target名稱，
 可以爬一下任何一個套件底下的config.sub檔。
 
 ##設定環境變數
@@ -157,7 +157,7 @@ cd ..
 sudo mkdir -p /opt/cross
 ```
 
-因為在build的過程中會一直參考到/opt/cross/bin這個路徑，所以記得export到環境中，有需要的話可以寫到~/.bashrc裏面。
+因為在build的過程中會一直參考到/opt/cross/bin這個路徑，所以記得export到環境中，有需要的話可以寫到~/.bashrc裡面。
 
 ```sh
 export PATH=/opt/cross/bin:$PATH
@@ -237,7 +237,7 @@ cd ..
 
 
 ###5. Compiler Support Library
-- a. 這邊使用step 3的cross-compilers去編譯一些函式庫。 裏面包含了一些C++的例外處理。
+- a. 這邊使用step 3的cross-compilers去編譯一些函式庫。 裡麵包含了一些C++的例外處理。
 - b. 這些函式庫依賴於step 4 所建立的startup 檔案。
 - c. 這步驟所建立出來的函式庫會在step 6用到。
 - d. 這個步驟不需要重新run GCC的組態，只要直接以相同組態加上一些其他的target就好了。

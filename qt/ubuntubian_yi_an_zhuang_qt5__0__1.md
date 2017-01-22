@@ -1,16 +1,16 @@
-# ubuntu编译安装qt5.0.1
+# ubuntu編譯安裝qt5.0.1
 
 
-1、进入官网：http://qt-project.org/downloads下载对应的源码包；
+1、進入官網：http://qt-project.org/downloads下載對應的源碼包；
 
-2、解压;tar -xvzf  qt-everywhere-opensource-src-5.0.1.tar.gz
+2、解壓;tar -xvzf  qt-everywhere-opensource-src-5.0.1.tar.gz
 
 3、cd  qt-everywhere-opensource-src-5.0.1
 
 4、./configure --prefix=\`pwd\`/../qt5  -nomake tests
 
 
-出现：The test for linking against libxcb and support libraries failed!
+出現：The test for linking against libxcb and support libraries failed!
  You might need install dependency packages, or pass -qt-xcb.
  See src/plugins/platforms/xcb/README.
 *** qtbase/configure exited with non-zero status.
@@ -27,7 +27,7 @@ libxcb-sync0-dev libxcb-xfixes0-dev libxrender-dev libxcb-shape0-dev \
 libxcb-randr0-dev libxcb-render-util0 libxcb-render-util0-dev libxcb-glx0-dev
 
 ```
-解决： 
+解決： 
 
 ```sh
 sudo apt-get install  libxcb1 libxcb1-dev libx11-xcb1 libx11-xcb-dev \
@@ -47,4 +47,4 @@ make -j4
 sudo make install
 ```
 
-完成编译安装
+完成編譯安裝

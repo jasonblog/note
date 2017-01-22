@@ -10,7 +10,7 @@
 
 
 這篇文章的成果會從Buildroot專案中build出「bootloader」, 「kernel」和「root fileSystem」，
-然後我們會在將這幾個元件和官方的firmware放到raspberry pi 2裏面開機後來研究整個開機流程。
+然後我們會在將這幾個元件和官方的firmware放到raspberry pi 2裡面開機後來研究整個開機流程。
 
 ![](./images/hughchao.hackpad.com_lxeeNCI57RD_p.png)
 
@@ -99,7 +99,7 @@ sudo docker run -t -i -v ~/mnt/mnt_docker:/tmp/package ubuntu bash
 ```
 
 ~/mnt/mnt_docker : /tmp/package語法是host 和container的資料共享 => host folder ： Container folder
-接下來所有內容都是在Docker裏面執行的。
+接下來所有內容都是在Docker裡面執行的。
 
 ## 下載套件
 
@@ -121,7 +121,7 @@ make raspberrypi2_defconfig
 make 2>&1 | tee build.log
 ```
 結束~~<br>
-但是我要故意把他複雜化，這樣才可以理解他裏面的運作原理！<br>
+但是我要故意把他複雜化，這樣才可以理解他裡面的運作原理！<br>
 請接下面的Build Step by Step開始。<br>
 
 
@@ -135,11 +135,11 @@ cd buildroot/
 ```
 
 `get build information`
-buildroot裏面有很多內建的組態，
+buildroot裡面有很多內建的組態，
 
 ![](./images/hughchao.hackpad.com_lxeeNCI57RD_p.560602_1455546681658_Screenshot from 2016-02-15 22-30-52.png)
 
-裏面有raspberrypi2！
+裡面有raspberrypi2！
 在來看一下怎麼弄，很簡單
 
 ```sh
@@ -158,7 +158,7 @@ buildroot的所有package, sources都是build之前才會從網路上下載下�
 make help
 ```
 
-發現裏面有個指令是
+發現裡面有個指令是
 
 ```sh
 source - download all sources needed for offline-build
@@ -182,19 +182,19 @@ make source
 ```
 
 套件說明：
-總共下載了21個套件，下載完的套件都放在資料夾「dl」裏面，
+總共下載了21個套件，下載完的套件都放在資料夾「dl」裡面，
 底下就來介紹一下每個套件大概的用途：
 - xz-5.2.2:
- 包含對檔案的壓縮和解壓縮，裏面提供了「lzma」和新的「xz」壓縮的格式。
+ 包含對檔案的壓縮和解壓縮，裡面提供了「lzma」和新的「xz」壓縮的格式。
 - gcc-4.9 - 略
 - binutils-2.24 - 略
 - gmp-6.1.0 - 略
 - mpc-1.0.3 - 略
 - mpfr-3.1.3 - 略
 - linux-header - 略
-以上6個套件都是用來建立Corss-Compiler的，請參考我之前發過的主題「How to Build a GCC Cross-Compiler」裏面的套件說明有解釋。
+以上6個套件都是用來建立Corss-Compiler的，請參考我之前發過的主題「How to Build a GCC Cross-Compiler」裡面的套件說明有解釋。
 - m4-1.4.17:
-裏面包含了巨集處理器(macro processor)。
+裡麵包含了巨集處理器(macro processor)。
 - uClibc-ng-1.0.12
 是一種C的library，一般來說都是用Glibc，但是這邊選用uClibc，因為他比較小，也支援沒有MMU的架構，非常適合比較小的系統（< 10 MB）。
 - kmod-22:
@@ -206,15 +206,15 @@ Busybox在單一的可執行文件中提供了精簡的Unix工作集，可運行
 - dosfstools-3.0.28
 可以讓使用者在GNU/Linux OS上很快速的建立，設立標籤和檢查MS-DOS FAT 的檔案格式（mkfs.fat, fsck.fat and fatlabel）。
 - e2fsprogs-1.42.13:
-裏面有處理ext2 檔案系統的程式。當然他也支援ext3和ext4。
+裡面有處理ext2 檔案系統的程式。當然他也支援ext3和ext4。
 - genext2fs-1.4.1
 這個程式可以讓你建立ext2的檔案系統。
 - genimage-8
-可從一個root filesystem裏面建立多種檔案系統和flash image。
+可從一個root filesystem裡面建立多種檔案系統和flash image。
 - confuse-2.8:
 libcoufuse提供了一些組態分析函式庫。
 - flex-2.5.37:
-裏面的套件可以產生可辨識文字pattern的程式(反正就是正規表示法那些東西)。
+裡面的套件可以產生可辨識文字pattern的程式(反正就是正規表示法那些東西)。
 - mtools-4.0.18:
 是一套允許讓Unix系統去操控MS-DOS格式上的檔案操作，像是讀寫檔，和搬運檔案等等。
 - rpi-firmware:
@@ -252,11 +252,11 @@ make 2>&1 | tee build.log
 ```
 
 所有的package都會解壓縮在output/build，並且建置。
-所有的結果都會在output/images裏面。
+所有的結果都會在output/images裡面。
 
 
 
-在output/images裏面，
+在output/images裡面，
 sdcard.img算是整個結果的image，
 假設你的sdcard是 /dev/sdd，
 你只要下指令:
@@ -265,10 +265,10 @@ sdcard.img算是整個結果的image，
 sudo dd if=sdcard.img of=/dev/sdd
 ```
 
-然後在把sdcard卡插進去pi2裏面，就可以開機了，
-但是像我說的，我要故意把他複雜化，這樣才可以理解裏面的運作原理。
+然後在把sdcard卡插進去pi2裡面，就可以開機了，
+但是像我說的，我要故意把他複雜化，這樣才可以理解裡面的運作原理。
 
-在output/images裏面，
+在output/images裡面，
 我們待回會用到的是:
 ```sh
 1. kernel                        --> zImage
@@ -401,7 +401,7 @@ sudo rm rootfs.tar.bz2
 ```
 
 所以我們的極小型root filesystem已經到位了。<br>
-這一個file system裏面所有的東西，基本上都是busybox去兜出來的。<br>
+這一個file system裡面所有的東西，基本上都是busybox去兜出來的。<br>
 由下圖可以看到，幾乎所有的檔案都是連結到/bin/busybox的。<br>
 而/dev這資料夾的檔案都是kernel devtmpfs所建立出來的。<br>
 
@@ -446,8 +446,8 @@ $ sudo mount -o loop,offset=4194304 2015-05-05-raspbian-wheezy.img ~/mnt
 ```sh
 start.elf （GPU frimware） 
 bootcode.bin  ( bootloaders)
-config.txt (裏面也是有一些組態)
-cmdline.txt (這個檔案裏面的文字都會當作參數傳遞給Kernel)
+config.txt (裡面也是有一些組態)
+cmdline.txt (這個檔案裡面的文字都會當作參數傳遞給Kernel)
 fixup.dat  (用來組態GPU和CPU之間的SDRAM partition)
 ```
 
@@ -595,17 +595,17 @@ ttyAMA0::respawn:/sbin/getty -L  ttyAMA0 115200 vt100
 ![](./images/hughchao.hackpad.com_lxeeNCI57RD_p11.png)
 
 
-1. 當pi 2 通電以後，其實第一個啟動的指令，是在SOC的ROM上，好吧，所以代表這邊已經是黑箱了，無法繼續追下去=.=，所以這個黑箱裡所做的是是所謂的first-stage bootloader。在first-stage時，他會mount上我們的SD card裡的FAT32的 boot partition，接下來我們SD Card裏面的bootcode.bin 就是second-stage bootloader。根據文獻，在first-stage時，CPU跟RAM都還沒被初始化（意思是CPU還是在reset的狀態）。所以到目前為止，都是再GPU裏面運行，而不是CPU。
+1. 當pi 2 通電以後，其實第一個啟動的指令，是在SOC的ROM上，好吧，所以代表這邊已經是黑箱了，無法繼續追下去=.=，所以這個黑箱裡所做的是是所謂的first-stage bootloader。在first-stage時，他會mount上我們的SD card裡的FAT32的 boot partition，接下來我們SD Card裡面的bootcode.bin 就是second-stage bootloader。根據文獻，在first-stage時，CPU跟RAM都還沒被初始化（意思是CPU還是在reset的狀態）。所以到目前為止，都是再GPU裡面運行，而不是CPU。
 
 2. 接下來bootloader.bin就會被讀到GPU上的L2 cache上並且被執行。在這步驟就會啟動RAM，並且讀取start.elf檔。
 
-3. 讀取start.elf以後，就是third-stage bootloader了，這個檔案是GPU的軔體，他會去讀取再config.txt裏面得的設定（根據網路文獻，就是把config.txt當成BIOS setting就對了XD）。裏面有些參數是我們可以調整的，都是是些frequency，有需要可以參考[h]。在start.elf階段，GPU和CPU所使用的RAM還是在不同的區段(ex. 如果GPU使用0X0000F000~0X0000FFFF的話，CPU就會使用0X00000000~0X0000EFFF)。
+3. 讀取start.elf以後，就是third-stage bootloader了，這個檔案是GPU的軔體，他會去讀取再config.txt裡面得的設定（根據網路文獻，就是把config.txt當成BIOS setting就對了XD）。裡面有些參數是我們可以調整的，都是是些frequency，有需要可以參考[h]。在start.elf階段，GPU和CPU所使用的RAM還是在不同的區段(ex. 如果GPU使用0X0000F000~0X0000FFFF的話，CPU就會使用0X00000000~0X0000EFFF)。
 
-4. 接下來，如果有cmdline.txt的話，在start.elf裏面也會被讀取，這個檔案包含了一些cmd的參數，然後跑fixup.dat，組態GPU和CPU之間的SDRAM partition，在這個階段CPU就會reset，也代表交接結束了。
+4. 接下來，如果有cmdline.txt的話，在start.elf裡面也會被讀取，這個檔案包含了一些cmd的參數，然後跑fixup.dat，組態GPU和CPU之間的SDRAM partition，在這個階段CPU就會reset，也代表交接結束了。
 
 5. 到這個階段已經是final-stage bootloader了，接下來start.elf會讀取u-boot.bin。
 
-6. 然後我們再自己手動把kernel 也就是zImage給讀進記憶體裏面，並且將控制權交給kernel，然後作業系統就啟動了。
+6. 然後我們再自己手動把kernel 也就是zImage給讀進記憶體裡面，並且將控制權交給kernel，然後作業系統就啟動了。
 當作業系統啟動後，其實GPU還在運行，因為start.elf並不只是GPU的軔體，他也是一個"proprietary OS (私權OS)"叫作VideoCore OS，有時候正常的OS需要一些參數時，也會經由˙mailbox messaging system去要求VCOS傳給他。
 
 7. 當Kernel將大部分的硬體裝置和我們的檔案系統初始化後，就會執行第一個程式/sbin/init。
@@ -615,11 +615,11 @@ ttyAMA0::respawn:/sbin/getty -L  ttyAMA0 115200 vt100
 結論
 1. 正常的狀況下，buildroot並沒有提供GPIO的login shell。（因為是使用busybox，所以當kernel將控制權交給busy的init時，就沒有log了，這地方要再研究一下）`（solved --> 要修改inittab）`
 
-2. 如果是用u-boot去開機的話，螢幕的驅動程式都不會作用。但是鍵盤是可以的。（所以照裡來說，u-boot裏面應該要有驅動才對，這地方也要再研究一下）
-`:另一處「如果是用u-boot去開機的話，螢幕的驅動程式都不會作用」，應該明確說 HDMI output 是否運作，要注意到 RPi 的設定，這點在官方網頁就有說明了`
+2. 如果是用u-boot去開機的話，螢幕的驅動程式都不會作用。但是鍵盤是可以的。（所以照裡來說，u-boot裡面應該要有驅動才對，這地方也要再研究一下）
+`:另一處「如果是用u-boot去開機的話，螢幕的驅動程式都不會作用」，應該明確說 HDMI output 是否運作，要注意到 RPi 的設定，這點在官方網頁就有說明瞭`
 
-3. 所以整個專案下來，我們已經了解了數莓派上Linux的開機流程，接下來，我要嘗試著不要依賴buildroot套件，而是每個元件都自己建立會更加的了解Linux的構成。
-`Jserv:「接下來，我要嘗試著不要依賴buildroot套件，而是每個元件都自己建立會更加的了解Linux的構成」這個目標也不壞，但為何不先試著修改 buildroot 呢？嘗試新增或移除特定的套件呢？
+3. 所以整個專案下來，我們已經瞭解了數莓派上Linux的開機流程，接下來，我要嘗試著不要依賴buildroot套件，而是每個元件都自己建立會更加的瞭解Linux的構成。
+`Jserv:「接下來，我要嘗試著不要依賴buildroot套件，而是每個元件都自己建立會更加的瞭解Linux的構成」這個目標也不壞，但為何不先試著修改 buildroot 呢？嘗試新增或移除特定的套件呢？
 如果現在是 2000 年，我會鼓勵學生用「不透過 buildroot 一類的工具，徒手建立 root filesystem」，但我現在不會建議這樣作，原因是：(1) 你得跟得上時代，和技術社群用相似的開發工具、開發流程，知道如何和其他開發者交流; (2) 這幾年系統變異很大，諸如用 systemd 取代 init、Yocto/OpenEmbedded 技術社群的快速成長，幾乎只能透過閱讀 git log，才能窺知技術發展的動向。倘若你今天還是「閉門造車」，恐怕只是遠離這個世界`
 
 4. `Jserv:至於修改 buildroot，你可以參考這個專案:https://github.com/mpolakovic/qemrdux-player # 透過 buildroot，從無到有打造一個 MP3 Player 的韌體`

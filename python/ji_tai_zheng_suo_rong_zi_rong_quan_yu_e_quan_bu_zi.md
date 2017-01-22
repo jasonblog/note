@@ -1,4 +1,4 @@
-# 集台證所融資融券餘額全部資料
+# 集臺證所融資融券餘額全部資料
 
 
 ## 使用python3
@@ -27,7 +27,7 @@ def head_random():
             hes = {"User-Agent":random.choice(hs)}
       return hes
 
-# 集台證所融資融券餘額全部資料
+# 集臺證所融資融券餘額全部資料
 def read_network_data(date,from_number):
       url = 'http://www.twse.com.tw/ch/trading/exchange/MI_MARGN/MI_MARGN.php'
       head =head_random()
@@ -210,7 +210,7 @@ def head_random():
             hes = {"User-Agent":random.choice(hs)}
       return hes
 
-# 集台證所融資融券餘額全部資料
+# 集臺證所融資融券餘額全部資料
 def read_network_data(date,from_number):
       url = 'http://www.twse.com.tw/ch/trading/exchange/MI_MARGN/MI_MARGN.php'
       head =head_random()

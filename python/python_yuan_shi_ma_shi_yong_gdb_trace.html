@@ -57,7 +57,7 @@
         data-chapter-title="Python 原始碼 使用 gdb trace"
         data-filepath="python/python_yuan_shi_ma_shi_yong_gdb_trace.md"
         data-basepath=".."
-        data-revision="Mon Jan 23 2017 22:59:17 GMT+0800 (CST)"
+        data-revision="Tue Jan 24 2017 00:19:07 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -15919,16 +15919,75 @@ make -j8
 <ul>
 <li>using gdb</li>
 </ul>
-<pre><code class="lang-sh">cgdb ./python
-start
+<pre><code class="lang-sh">cgdb -q ./python
 </code></pre>
-<pre><code class="lang-sh">(gdb) start
-Temporary breakpoint <span class="hljs-number">1</span> at <span class="hljs-number">0</span>x414cb5: file ./Modules/python.c, line <span class="hljs-number">20</span>.
-Starting program: /home/shihyu/Python-<span class="hljs-number">2.7</span>.<span class="hljs-number">13</span>/python
+<pre><code class="lang-sh">(gdb) rbreak tupleobject.c:.
+Breakpoint <span class="hljs-number">1</span> at <span class="hljs-number">0</span>x486cb8: file Objects/tupleobject.c, line <span class="hljs-number">893</span>.
+int PyTuple_ClearFreeList(void);
+Breakpoint <span class="hljs-number">2</span> at <span class="hljs-number">0</span>x486d49: file Objects/tupleobject.c, line <span class="hljs-number">918</span>.
+void PyTuple_Fini(void);
+Breakpoint <span class="hljs-number">3</span> at <span class="hljs-number">0</span>x484d4a: file Objects/tupleobject.c, line <span class="hljs-number">124</span>.
+PyObject *PyTuple_GetItem(PyObject *, Py_ssize_t);
+Breakpoint <span class="hljs-number">4</span> at <span class="hljs-number">0</span>x485b71: file Objects/tupleobject.c, line <span class="hljs-number">428</span>.
+PyObject *PyTuple_GetSlice(PyObject *, Py_ssize_t, Py_ssize_t);
+Breakpoint <span class="hljs-number">5</span> at <span class="hljs-number">0</span>x484b34: file Objects/tupleobject.c, line <span class="hljs-number">53</span>.
+PyObject *PyTuple_New(Py_ssize_t);
+Breakpoint <span class="hljs-number">6</span> at <span class="hljs-number">0</span>x485146: file Objects/tupleobject.c, line <span class="hljs-number">186</span>.
+PyObject *PyTuple_Pack(Py_ssize_t, ...);
+Breakpoint <span class="hljs-number">7</span> at <span class="hljs-number">0</span>x484dbf: file Objects/tupleobject.c, line <span class="hljs-number">140</span>.
+int PyTuple_SetItem(PyObject *, Py_ssize_t, PyObject *);
+Breakpoint <span class="hljs-number">8</span> at <span class="hljs-number">0</span>x484d0c: file Objects/tupleobject.c, line <span class="hljs-number">113</span>.
+Py_ssize_t PyTuple_Size(PyObject *);
+Breakpoint <span class="hljs-number">9</span> at <span class="hljs-number">0</span>x484f85: file Objects/tupleobject.c, line <span class="hljs-number">164</span>.
+void _PyTuple_MaybeUntrack(PyObject *);
+Breakpoint <span class="hljs-number">10</span> at <span class="hljs-number">0</span>x486921: file Objects/tupleobject.c, line <span class="hljs-number">844</span>.
+int _PyTuple_Resize(PyObject **, Py_ssize_t);
+Breakpoint <span class="hljs-number">11</span> at <span class="hljs-number">0</span>x4868e1: file Objects/tupleobject.c, line <span class="hljs-number">760</span>.
+static PyObject *tuple_getnewargs(PyTupleObject *);
+Breakpoint <span class="hljs-number">12</span> at <span class="hljs-number">0</span>x4870e1: file Objects/tupleobject.c, line <span class="hljs-number">1028</span>.
+static PyObject *tuple_iter(PyObject *);
+Breakpoint <span class="hljs-number">13</span> at <span class="hljs-number">0</span>x4863f8: file Objects/tupleobject.c, line <span class="hljs-number">646</span>.
+static PyObject *tuple_new(PyTypeObject *, PyObject *, PyObject *);
+Breakpoint <span class="hljs-number">14</span> at <span class="hljs-number">0</span>x4864ae: file Objects/tupleobject.c, line <span class="hljs-number">667</span>.
+static PyObject *tuple_subtype_new(PyTypeObject *, PyObject *, PyObject *);
+Breakpoint <span class="hljs-number">15</span> at <span class="hljs-number">0</span>x485bd3: file Objects/tupleobject.c, line <span class="hljs-number">442</span>.
+static PyObject *tupleconcat(PyTupleObject *, PyObject *);
+Breakpoint <span class="hljs-number">16</span> at <span class="hljs-number">0</span>x485974: file Objects/tupleobject.c, line <span class="hljs-number">376</span>.
+</code></pre>
+<pre><code class="lang-sh">(gdb) python
+&gt;tup1 = (<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>)
+&gt;end
+(gdb) r
+Starting program: /home/shihyu/Python-<span class="hljs-number">2.7</span>.<span class="hljs-number">13</span>/python 
 [Thread debugging using libthread_db enabled]
 Using host libthread_db library <span class="hljs-string">&quot;/lib/x86_64-linux-gnu/libthread_db.so.1&quot;</span>.
 
-Temporary breakpoint <span class="hljs-number">1</span>, main (argc=<span class="hljs-number">1</span>, argv=<span class="hljs-number">0</span>x7fffffffdbe8) at ./Modules/python.c:<span class="hljs-number">20</span>
+Breakpoint <span class="hljs-number">5</span>, PyTuple_New (size=<span class="hljs-number">0</span>) at Objects/tupleobject.c:<span class="hljs-number">53</span>
+</code></pre>
+<pre><code class="lang-c">  <span class="hljs-number">48</span>&#x2502; PyObject *
+  <span class="hljs-number">49</span>&#x2502; PyTuple_New(<span class="hljs-keyword">register</span> Py_ssize_t size)
+  <span class="hljs-number">50</span>&#x2502; {
+  <span class="hljs-number">51</span>&#x2502;     <span class="hljs-keyword">register</span> PyTupleObject *op;
+  <span class="hljs-number">52</span>&#x2502;     Py_ssize_t i;
+  <span class="hljs-number">53</span>&#x2502;     <span class="hljs-keyword">if</span> (size &lt; <span class="hljs-number">0</span>) {
+  <span class="hljs-number">54</span>&#x2502;         PyErr_BadInternalCall();
+  <span class="hljs-number">55</span>&#x2502;         <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;
+  <span class="hljs-number">56</span>&#x2502;     }
+  <span class="hljs-number">57</span>&#x2502; <span class="hljs-preprocessor">#<span class="hljs-keyword">if</span> PyTuple_MAXSAVESIZE &gt; <span class="hljs-number">0</span></span>
+  <span class="hljs-number">58</span>&#x2502;     <span class="hljs-keyword">if</span> (size == <span class="hljs-number">0</span> &amp;&amp; free_list[<span class="hljs-number">0</span>]) {
+  <span class="hljs-number">59</span>&#x2502;         op = free_list[<span class="hljs-number">0</span>];
+  <span class="hljs-number">60</span>&#x2502;         Py_INCREF(op);
+  <span class="hljs-number">61</span>&#x2502; <span class="hljs-preprocessor">#<span class="hljs-keyword">ifdef</span> COUNT_ALLOCS</span>
+  <span class="hljs-number">62</span>&#x2502;         tuple_zero_allocs++;
+  <span class="hljs-number">63</span>&#x2502; <span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span></span>
+  <span class="hljs-number">64</span>&#x2502;         <span class="hljs-keyword">return</span> (PyObject *) op;
+  <span class="hljs-number">65</span>&#x2502;     }
+  <span class="hljs-number">66</span>&#x2502;     <span class="hljs-keyword">if</span> (size &lt; PyTuple_MAXSAVESIZE &amp;&amp; (op = free_list[size]) != <span class="hljs-literal">NULL</span>) {
+  <span class="hljs-number">67</span>&#x2502;         free_list[size] = (PyTupleObject *) op-&gt;ob_item[<span class="hljs-number">0</span>];
+  <span class="hljs-number">68</span>&#x2502;         numfree[size]--;
+  <span class="hljs-number">69</span>&#x2502; <span class="hljs-preprocessor">#<span class="hljs-keyword">ifdef</span> COUNT_ALLOCS</span>
+  <span class="hljs-number">70</span>&#x2502;         fast_tuple_allocs++;
+  <span class="hljs-number">71</span>&#x2502; <span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span></span>
 </code></pre>
 
                     

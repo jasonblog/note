@@ -57,7 +57,7 @@
         data-chapter-title="pandas 入門"
         data-filepath="python/pandas_ru_men.md"
         data-basepath=".."
-        data-revision="Tue Jan 24 2017 00:43:51 GMT+0800 (CST)"
+        data-revision="Tue Jan 24 2017 01:09:23 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -16076,6 +16076,58 @@ df = df.ix[<span class="hljs-number">4</span>: , <span class="hljs-number">1</sp
 <span class="hljs-number">3</span> -<span class="hljs-number">0.223876</span>  <span class="hljs-number">0.198582</span> -<span class="hljs-number">0.126726</span>
 <span class="hljs-number">4</span>  <span class="hljs-number">0.252367</span> -<span class="hljs-number">0.579578</span>  <span class="hljs-number">0.046591</span>
 <span class="hljs-number">5</span>  <span class="hljs-number">1.753245</span>  <span class="hljs-number">0.339837</span> -<span class="hljs-number">0.432238</span>
+</code></pre>
+<h2 id="drop-&#x522A;&#x9664;-&#x5217;&#x8DDF;&#x884C;">drop &#x522A;&#x9664; &#x5217;&#x8DDF;&#x884C;</h2>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
+<span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+
+data = np.random.rand(<span class="hljs-number">10</span>, <span class="hljs-number">5</span>)
+df = pd.DataFrame(data, columns=list(<span class="hljs-string">&quot;ABCDE&quot;</span>))
+<span class="hljs-keyword">print</span> df
+</code></pre>
+<pre><code class="lang-sh">          A         B         C         D         E
+<span class="hljs-number">0</span>  <span class="hljs-number">0.866928</span>  <span class="hljs-number">0.553043</span>  <span class="hljs-number">0.290353</span>  <span class="hljs-number">0.113969</span>  <span class="hljs-number">0.957001</span>
+<span class="hljs-number">1</span>  <span class="hljs-number">0.865568</span>  <span class="hljs-number">0.462533</span>  <span class="hljs-number">0.473318</span>  <span class="hljs-number">0.149925</span>  <span class="hljs-number">0.701643</span>
+<span class="hljs-number">2</span>  <span class="hljs-number">0.264444</span>  <span class="hljs-number">0.580996</span>  <span class="hljs-number">0.805309</span>  <span class="hljs-number">0.117018</span>  <span class="hljs-number">0.623319</span>
+<span class="hljs-number">3</span>  <span class="hljs-number">0.540383</span>  <span class="hljs-number">0.557930</span>  <span class="hljs-number">0.699899</span>  <span class="hljs-number">0.544156</span>  <span class="hljs-number">0.975295</span>
+<span class="hljs-number">4</span>  <span class="hljs-number">0.833700</span>  <span class="hljs-number">0.753174</span>  <span class="hljs-number">0.796370</span>  <span class="hljs-number">0.982843</span>  <span class="hljs-number">0.135175</span>
+<span class="hljs-number">5</span>  <span class="hljs-number">0.400652</span>  <span class="hljs-number">0.006030</span>  <span class="hljs-number">0.133816</span>  <span class="hljs-number">0.538959</span>  <span class="hljs-number">0.010030</span>
+<span class="hljs-number">6</span>  <span class="hljs-number">0.429210</span>  <span class="hljs-number">0.920838</span>  <span class="hljs-number">0.545176</span>  <span class="hljs-number">0.940524</span>  <span class="hljs-number">0.357602</span>
+<span class="hljs-number">7</span>  <span class="hljs-number">0.794671</span>  <span class="hljs-number">0.053222</span>  <span class="hljs-number">0.002619</span>  <span class="hljs-number">0.712328</span>  <span class="hljs-number">0.972182</span>
+<span class="hljs-number">8</span>  <span class="hljs-number">0.093454</span>  <span class="hljs-number">0.759785</span>  <span class="hljs-number">0.091554</span>  <span class="hljs-number">0.951439</span>  <span class="hljs-number">0.447590</span>
+<span class="hljs-number">9</span>  <span class="hljs-number">0.698792</span>  <span class="hljs-number">0.331673</span>  <span class="hljs-number">0.626928</span>  <span class="hljs-number">0.386095</span>  <span class="hljs-number">0.705186</span>
+</code></pre>
+<h3 id="&#x522A;&#x9664;&#x7B2C;&#x4E00;&#x5217;">&#x522A;&#x9664;&#x7B2C;&#x4E00;&#x5217;</h3>
+<pre><code class="lang-sh">In [<span class="hljs-number">4</span>]: df = df.drop(df.index[<span class="hljs-number">0</span>])
+
+In [<span class="hljs-number">5</span>]: df
+Out[<span class="hljs-number">5</span>]: 
+          A         B         C         D         E
+<span class="hljs-number">1</span>  <span class="hljs-number">0.865568</span>  <span class="hljs-number">0.462533</span>  <span class="hljs-number">0.473318</span>  <span class="hljs-number">0.149925</span>  <span class="hljs-number">0.701643</span>
+<span class="hljs-number">2</span>  <span class="hljs-number">0.264444</span>  <span class="hljs-number">0.580996</span>  <span class="hljs-number">0.805309</span>  <span class="hljs-number">0.117018</span>  <span class="hljs-number">0.623319</span>
+<span class="hljs-number">3</span>  <span class="hljs-number">0.540383</span>  <span class="hljs-number">0.557930</span>  <span class="hljs-number">0.699899</span>  <span class="hljs-number">0.544156</span>  <span class="hljs-number">0.975295</span>
+<span class="hljs-number">4</span>  <span class="hljs-number">0.833700</span>  <span class="hljs-number">0.753174</span>  <span class="hljs-number">0.796370</span>  <span class="hljs-number">0.982843</span>  <span class="hljs-number">0.135175</span>
+<span class="hljs-number">5</span>  <span class="hljs-number">0.400652</span>  <span class="hljs-number">0.006030</span>  <span class="hljs-number">0.133816</span>  <span class="hljs-number">0.538959</span>  <span class="hljs-number">0.010030</span>
+<span class="hljs-number">6</span>  <span class="hljs-number">0.429210</span>  <span class="hljs-number">0.920838</span>  <span class="hljs-number">0.545176</span>  <span class="hljs-number">0.940524</span>  <span class="hljs-number">0.357602</span>
+<span class="hljs-number">7</span>  <span class="hljs-number">0.794671</span>  <span class="hljs-number">0.053222</span>  <span class="hljs-number">0.002619</span>  <span class="hljs-number">0.712328</span>  <span class="hljs-number">0.972182</span>
+<span class="hljs-number">8</span>  <span class="hljs-number">0.093454</span>  <span class="hljs-number">0.759785</span>  <span class="hljs-number">0.091554</span>  <span class="hljs-number">0.951439</span>  <span class="hljs-number">0.447590</span>
+<span class="hljs-number">9</span>  <span class="hljs-number">0.698792</span>  <span class="hljs-number">0.331673</span>  <span class="hljs-number">0.626928</span>  <span class="hljs-number">0.386095</span>  <span class="hljs-number">0.705186</span>
+</code></pre>
+<h3 id="&#x522A;&#x9664;&#x7B2C;&#x4E8C;&#x884C;">&#x522A;&#x9664;&#x7B2C;&#x4E8C;&#x884C;</h3>
+<pre><code class="lang-py">In [<span class="hljs-number">6</span>]: df = df.drop(<span class="hljs-string">&apos;B&apos;</span>,<span class="hljs-number">1</span>)
+
+In [<span class="hljs-number">7</span>]: df
+Out[<span class="hljs-number">7</span>]: 
+          A         C         D         E
+<span class="hljs-number">1</span>  <span class="hljs-number">0.865568</span>  <span class="hljs-number">0.473318</span>  <span class="hljs-number">0.149925</span>  <span class="hljs-number">0.701643</span>
+<span class="hljs-number">2</span>  <span class="hljs-number">0.264444</span>  <span class="hljs-number">0.805309</span>  <span class="hljs-number">0.117018</span>  <span class="hljs-number">0.623319</span>
+<span class="hljs-number">3</span>  <span class="hljs-number">0.540383</span>  <span class="hljs-number">0.699899</span>  <span class="hljs-number">0.544156</span>  <span class="hljs-number">0.975295</span>
+<span class="hljs-number">4</span>  <span class="hljs-number">0.833700</span>  <span class="hljs-number">0.796370</span>  <span class="hljs-number">0.982843</span>  <span class="hljs-number">0.135175</span>
+<span class="hljs-number">5</span>  <span class="hljs-number">0.400652</span>  <span class="hljs-number">0.133816</span>  <span class="hljs-number">0.538959</span>  <span class="hljs-number">0.010030</span>
+<span class="hljs-number">6</span>  <span class="hljs-number">0.429210</span>  <span class="hljs-number">0.545176</span>  <span class="hljs-number">0.940524</span>  <span class="hljs-number">0.357602</span>
+<span class="hljs-number">7</span>  <span class="hljs-number">0.794671</span>  <span class="hljs-number">0.002619</span>  <span class="hljs-number">0.712328</span>  <span class="hljs-number">0.972182</span>
+<span class="hljs-number">8</span>  <span class="hljs-number">0.093454</span>  <span class="hljs-number">0.091554</span>  <span class="hljs-number">0.951439</span>  <span class="hljs-number">0.447590</span>
+<span class="hljs-number">9</span>  <span class="hljs-number">0.698792</span>  <span class="hljs-number">0.626928</span>  <span class="hljs-number">0.386095</span>  <span class="hljs-number">0.705186</span>
 </code></pre>
 
                     

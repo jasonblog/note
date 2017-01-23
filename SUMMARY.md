@@ -616,7 +616,7 @@
    * [Anaconda使用總結](python/anacondashi_yong_zong_jie.md)
    * [python setup.py uninstall](python/python_setuppy_uninstall.md)
    * [Python 原始碼 使用 gdb trace](python/python_yuan_shi_ma_shi_yong_gdb_trace.md)
-   * Debugging CPython with gdb
+   * [Debugging CPython with gdb](python/debugging_cpython_with_gdb.md)
 * [Vim](vim/vim.md)
    * [HOWTO - vi, vim](vim/howto_-_vi,_vim.md)
 * [TDD](tdd/README.md)

@@ -75,12 +75,11 @@ commit hash: 14b24726a81b719b35fee70c8ba8be2d682a7313
 假設你在buildroot最上層，就可以使用下面指令執行qemu 並使用gdb 除錯
 
 ```sh
-qemu-system-arm -M vexpress-a9 -smp 1 -m 256 \
-                -kernel /tmp/kernel/linux-stable/arch/arm/boot/zImage  \
-                -dtb /tmp/kernel/linux-stable/vexpress-v2p-ca9.dtb     \
-                -drive file=output/images/rootfs.ext2,if=sd,format=raw \
-                -append "console=ttyAMA0,115200 root=/dev/mmcblk0"     \
-                -serial stdio -net nic,model=lan9118 -net user -s -S
+qemu-system-arm -M versatilepb \
+                -kernel /tmp/kernel/arch/arm/boot/zImage \
+                -drive file=output/images/rootfs.ext2,if=scsi,format=raw \
+                -append "root=/dev/sda console=ttyAMA0,115200" \
+                -serial stdio -net nic,model=rtl8139 -net user -s -S
 ```
 
 ##gdb

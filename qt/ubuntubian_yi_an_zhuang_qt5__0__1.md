@@ -95,6 +95,8 @@ make
 ./hello_qt
 ```
 
+![](./images/FirstQt-2.jpg)
+
 
 
 - 通常只有指定PATH, qmake 就會指定編譯的lib 路徑 

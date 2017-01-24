@@ -38,10 +38,7 @@ http://download.qt.io/archive/qt/5.8/5.8.0/single/
 ```sh
 tar xvf qt-everywhere-opensource-src-5.8.0.tar.xz
 cd qt-everywhere-opensource-src-5.8.0
-
-./configure -prefix /home/shihyu/Qt/src/qt-everywhere-opensource-src-5.8.0/build/ \
--debug -nomake tests
-
+./configure -prefix `pwd`/build/ -debug -nomake tests
 make -j8
 make install
 ```

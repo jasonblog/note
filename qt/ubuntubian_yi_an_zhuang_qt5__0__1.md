@@ -61,6 +61,42 @@ QMake version 3.1
 Using Qt version 5.8.0 in /home/shihyu/qt-everywhere-opensource-src-5.8.0/build/lib
 ```
 
+
+## Hello Qt test
+
+- hello.cpp
+
+```cpp
+#include <QApplication>
+#include <QLabel>
+
+int main(int argc, char* argv[])
+{
+    QApplication app(argc, argv);
+
+    QLabel* label = new QLabel(
+        "<h1><font color=blue>Hello!World!</font><font color=red>Orz...</font></h1>");
+    label->setWindowTitle("First Qt!");
+    label->resize(200, 50);
+    label->show();
+
+    return app.exec();
+}
+```
+
+```sh
+mkdir hello_qt
+cd hello_qt
+qmake -project
+vim hello_qt.pro
+QT+=widgets
+qmake
+make
+./hello_qt
+```
+
+
+
 - 通常只有指定PATH, qmake 就會指定編譯的lib 路徑 
 
 ```sh

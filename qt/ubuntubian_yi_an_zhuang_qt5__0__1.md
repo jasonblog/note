@@ -1,4 +1,4 @@
-# ubuntu編譯安裝qt5.0.1
+# ubuntu編譯安裝 Qt 5.8.0
 
 ## Requirement package
 

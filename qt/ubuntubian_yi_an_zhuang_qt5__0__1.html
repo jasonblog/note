@@ -57,7 +57,7 @@
         data-chapter-title="ubuntu編譯安裝qt5.0.1"
         data-filepath="qt/ubuntubian_yi_an_zhuang_qt5__0__1.md"
         data-basepath=".."
-        data-revision="Tue Jan 24 2017 14:48:07 GMT+0800 (CST)"
+        data-revision="Tue Jan 24 2017 20:19:02 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -15904,47 +15904,64 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="ubuntu&#x7DE8;&#x8B6F;&#x5B89;&#x88DD;qt501">ubuntu&#x7DE8;&#x8B6F;&#x5B89;&#x88DD;qt5.0.1</h1>
-<p>1&#x3001;&#x9032;&#x5165;&#x5B98;&#x7DB2;&#xFF1A;<a href="http://qt-project.org/downloads&#x4E0B;&#x8F09;&#x5C0D;&#x61C9;&#x7684;&#x6E90;&#x78BC;&#x5305;&#xFF1B;" target="_blank">http://qt-project.org/downloads&#x4E0B;&#x8F09;&#x5C0D;&#x61C9;&#x7684;&#x6E90;&#x78BC;&#x5305;&#xFF1B;</a>
-or </p>
+                        <h1 id="ubuntu&#x7DE8;&#x8B6F;&#x5B89;&#x88DD;-qt-580">ubuntu&#x7DE8;&#x8B6F;&#x5B89;&#x88DD; Qt 5.8.0</h1>
+<h2 id="requirement-package">Requirement package</h2>
+<pre><code class="lang-sh">sudo apt-get install bison build-essential flex gperf ibgstreamer-plugins-base0.<span class="hljs-number">10</span>-dev \
+libasound2-dev libatkmm-<span class="hljs-number">1.6</span>-dev libbz2-dev libcap-dev libcups2-dev libdrm-dev \
+libegl1-mesa-dev libfontconfig1-dev libfreetype6-dev libgcrypt11-dev libglu1-mesa-dev \
+libgstreamer0.<span class="hljs-number">10</span>-dev libicu-dev libnss3-dev libpci-dev libpulse-dev libssl-dev libudev-dev \
+libx11-dev libx11-xcb-dev libxcb-composite0 libxcb-composite0-dev libxcb-cursor-dev \
+libxcb-cursor0 libxcb-damage0 libxcb-damage0-dev libxcb-dpms0 libxcb-dpms0-dev \
+libxcb-dri2-<span class="hljs-number">0</span> libxcb-dri2-<span class="hljs-number">0</span>-dev libxcb-dri3-<span class="hljs-number">0</span> libxcb-dri3-dev libxcb-ewmh-dev libxcb-ewmh2 \
+libxcb-glx0 libxcb-glx0-dev libxcb-icccm4 libxcb-icccm4-dev libxcb-image0 libxcb-image0-dev \
+libxcb-keysyms1 libxcb-keysyms1-dev libxcb-present-dev libxcb-present0 libxcb-randr0 \
+libxcb-randr0-dev libxcb-record0 libxcb-record0-dev libxcb-render-util0 \
+libxcb-render-util0-dev libxcb-render0 libxcb-render0-dev libxcb-res0 libxcb-res0-dev \
+libxcb-screensaver0 libxcb-screensaver0-dev libxcb-shape0 libxcb-shape0-dev libxcb-shm0 \
+libxcb-shm0-dev libxcb-sync-dev libxcb-sync0-dev libxcb-sync1 libxcb-util-dev \
+libxcb-util0-dev libxcb-util1 libxcb-xevie0 libxcb-xevie0-dev libxcb-xf86dri0 \
+libxcb-xf86dri0-dev libxcb-xfixes0 libxcb-xfixes0-dev libxcb-xinerama0 \
+libxcb-xinerama0-dev libxcb-xkb-dev libxcb-xkb1 libxcb-xprint0 libxcb-xprint0-dev \
+libxcb-xtest0 libxcb-xtest0-dev libxcb-xv0 libxcb-xv0-dev libxcb-xvmc0 libxcb-xvmc0-dev \
+libxcb1 libxcb1-dev libxcomposite-dev libxcursor-dev libxdamage-dev libxext-dev \
+libxfixes-dev libxi-dev libxrandr-dev libxrender-dev libxslt-dev libxss-dev \
+libxtst-dev perl python ruby
+</code></pre>
+<h2 id="download-source-code">Download source code</h2>
 <pre><code class="lang-sh">http://download.qt.io/archive/qt/
 http://download.qt.io/archive/qt/<span class="hljs-number">5.8</span>/<span class="hljs-number">5.8</span>.<span class="hljs-number">0</span>/single/
 </code></pre>
-<p>2&#x3001;&#x89E3;&#x58D3;</p>
 <pre><code class="lang-sh">tar xvf qt-everywhere-opensource-src-<span class="hljs-number">5.8</span>.<span class="hljs-number">0</span>.tar.xz
-</code></pre>
-<p>3&#x3001;</p>
-<pre><code class="lang-sh">qt-everywhere-opensource-src-<span class="hljs-number">5.8</span>.<span class="hljs-number">0</span>
-</code></pre>
-<p>4&#x3001;</p>
-<pre><code class="lang-sh">./configure -prefix /home/shihyu/Qt/src/qt-everywhere-opensource-src-<span class="hljs-number">5.8</span>.<span class="hljs-number">0</span>/build/ -debug -nomake tests
-</code></pre>
-<p>&#x51FA;&#x73FE;&#xFF1A;The test for linking against libxcb and support libraries failed!
- You might need install dependency packages, or pass -qt-xcb.
- See src/plugins/platforms/xcb/README.
-<em>*</em> qtbase/configure exited with non-zero status.</p>
-<p>&#x67E5;&#x770B;/home/shiyan/Desktop/QT/qt-everywhere-opensource-src-5.0.1/qtbase/src/plugins/platforms/xcb/README</p>
-<p>On Ubuntu 12.04 icccm1 is replaced by icccm4 and xcb-render-util can be installed automatically:</p>
-<pre><code class="lang-sh">libxcb1 libxcb1-dev libx11-xcb1 libx11-xcb-dev libxcb-keysyms1 \
-libxcb-keysyms1-dev libxcb-image0 libxcb-image0-dev libxcb-shm0 \
-libxcb-shm0-dev libxcb-icccm4 libxcb-icccm4-dev libxcb-sync0 \
-libxcb-sync0-dev libxcb-xfixes0-dev libxrender-dev libxcb-shape0-dev \
-libxcb-randr0-dev libxcb-render-util0 libxcb-render-util0-dev libxcb-glx0-dev
-</code></pre>
-<p>&#x89E3;&#x6C7A;&#xFF1A; </p>
-<pre><code class="lang-sh">sudo apt-get install  libxcb1 libxcb1-dev libx11-xcb1 libx11-xcb-dev \
-libxcb-keysyms1 libxcb-keysyms1-dev libxcb-image0 libxcb-image0-dev \
-libxcb-shm0 libxcb-shm0-dev libxcb-icccm4 libxcb-icccm4-dev libxcb-sync0 \
-libxcb-sync0-dev libxcb-xfixes0-dev libxrender-dev libxcb-shape0-dev \
-libxcb-randr0-dev libxcb-render-util0 libxcb-render-util0-dev libxcb-glx0-dev
-</code></pre>
-<p>5&#x3001;</p>
-<pre><code class="lang-sh">make -j4
-</code></pre>
-<p>6&#x3001;</p>
-<pre><code class="lang-sh">sudo make install
+<span class="hljs-built_in">cd</span> qt-everywhere-opensource-src-<span class="hljs-number">5.8</span>.<span class="hljs-number">0</span>
+
+./configure -prefix /home/shihyu/Qt/src/qt-everywhere-opensource-src-<span class="hljs-number">5.8</span>.<span class="hljs-number">0</span>/build/ \
+-debug -nomake tests
+
+make -j8
+make install
 </code></pre>
 <p>&#x5B8C;&#x6210;&#x7DE8;&#x8B6F;&#x5B89;&#x88DD;</p>
+<ul>
+<li>~/.bashrc</li>
+</ul>
+<p>&#x56E0;&#x70BA;&#x6211;&#x662F;&#x5C07;Qt &#x88DD;&#x5728;&#x81EA;&#x5DF1;&#x7684;home directory, &#x6240;&#x4EE5;$HOME/Qt/src/qt-everywhere-opensource-src-5.8.0/build/bin &#x88E1;&#x9762;&#x6709;&#x4E00;&#x500B;qmake&#x7684;&#x7A0B;&#x5F0F;, &#x901A;&#x5E38;Linux&#x4E5F;&#x6703;&#x5167;&#x5EFA;&#x4E00;&#x500B;qmake&#x7A0B;&#x5F0F;, &#x6709;&#x6642;&#x9019;&#x5169;&#x500B;&#x7248;&#x672C;&#x6703;&#x4E0D;&#x76F8;&#x5BB9;. &#x6240;&#x4EE5;&#x7576;&#x4F60;&#x8981;&#x57F7;&#x884C;qmake&#x9019;&#x500B;&#x7A0B;&#x5F0F;&#x6642;, &#x8ACB;&#x78BA;&#x5B9A;&#x662F;&#x57F7;&#x884C;&#x5230;$HOME/Qt/src/qt-everywhere-opensource-src-5.8.0/build/bin/qmake. &#x901A;&#x5E38;&#x53EA;&#x8981;&#x6CE8;&#x610F;path&#x8A2D;&#x5B9A;&#x7684;&#x5148;&#x5F8C;&#x9806;&#x5E8F;, &#x5982;&#x4E0B;, &#x61C9;&#x8A72;&#x5C31;&#x6C92;&#x554F;&#x984C;:</p>
+<pre><code class="lang-sh"><span class="hljs-built_in">export</span> PATH=<span class="hljs-variable">$HOME</span>/Qt/src/qt-everywhere-opensource-src-<span class="hljs-number">5.8</span>.<span class="hljs-number">0</span>/build/bin/:<span class="hljs-variable">$PATH</span>
+</code></pre>
+<p>&#x5728;&#x57F7;&#x884C;qmake -v&#x7684;&#x8A71;&#xFF0C;&#x6703;&#x6709;qmake &#x6703;&#x628A;lib&#x8DEF;&#x5F91;&#x6307;&#x5B9A;&#x7DE8;&#x8B6F;&#x7684;&#x8DEF;&#x5F91;</p>
+<pre><code class="lang-sh"><span class="hljs-comment"># qmake -v</span>
+QMake version <span class="hljs-number">3.0</span>
+Using Qt version <span class="hljs-number">5.8</span> <span class="hljs-keyword">in</span> /home/shihyu/Qt/src/qt-everywhere-opensource-src-<span class="hljs-number">5.8</span>.<span class="hljs-number">0</span>/build/lib
+</code></pre>
+<ul>
+<li>&#x901A;&#x5E38;&#x53EA;&#x6709;&#x6307;&#x5B9A;PATH, qmake &#x5C31;&#x6703;&#x6307;&#x5B9A;&#x7DE8;&#x8B6F;&#x7684;lib &#x8DEF;&#x5F91; </li>
+</ul>
+<pre><code class="lang-sh">QTDIR=/home/shihyu/Qt/src/qt-everywhere-opensource-src-<span class="hljs-number">5.8</span>.<span class="hljs-number">0</span>/build
+PATH=<span class="hljs-variable">$QTDIR</span>/bin:<span class="hljs-variable">$PATH</span>
+QMAKESPEC=<span class="hljs-variable">$QTDIR</span>/mkspecs/linux-g++
+MANPATH=<span class="hljs-variable">$QTDIR</span>/doc/man:<span class="hljs-variable">$MANPATH</span>
+LD_LIBRARY_PATH=<span class="hljs-variable">$QTDIR</span>/lib:<span class="hljs-variable">$LD_LIBRARY_PATH</span>
+<span class="hljs-built_in">export</span> QTDIR PATH QMAKESPEC MANPATH LD_LIBRARY_PATH
+</code></pre>
 
                     
                     </section>

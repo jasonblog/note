@@ -48,6 +48,16 @@ sudo make install
 export PATH=$HOME/Qt/src/qt-everywhere-opensource-src-5.8.0/build/bin/:$PATH 
 ```
 
+在執行qmake -v的話，會有qmake 會把lib路徑指定編譯的路徑
+
+```sh
+# qmake -v
+QMake version 3.0
+Using Qt version 5.8 in /home/shihyu/Qt/src/qt-everywhere-opensource-src-5.8.0/build/lib
+```
+
+- 通常只有指定PATH, qmake 就會指定編譯的lib 路徑 
+
 ```sh
 QTDIR=/home/shihyu/Qt/src/qt-everywhere-opensource-src-5.8.0/build
 PATH=$QTDIR/bin:$PATH

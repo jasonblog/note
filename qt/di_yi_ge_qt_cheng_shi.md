@@ -127,7 +127,7 @@ int main(int argc, char *argv[]) {
 }
 ```
 
+重新建置之後，執行結果將顯示如下：
 
 ![](./images/FirstQt-2.jpg)
 
-重新建置之後，執行結果將顯示如下：

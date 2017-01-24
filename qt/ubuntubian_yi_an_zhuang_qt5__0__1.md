@@ -2,12 +2,29 @@
 
 
 1、進入官網：http://qt-project.org/downloads下載對應的源碼包；
+or 
 
-2、解壓;tar -xvzf  qt-everywhere-opensource-src-5.0.1.tar.gz
+```sh
+http://download.qt.io/archive/qt/
+http://download.qt.io/archive/qt/5.8/5.8.0/single/
+```
 
-3、cd  qt-everywhere-opensource-src-5.0.1
 
-4、./configure --prefix=\`pwd\`/../qt5  -nomake tests
+2、解壓
+
+```sh
+tar xvf qt-everywhere-opensource-src-5.8.0.tar.xz
+```
+
+3、
+```sh
+qt-everywhere-opensource-src-5.8.0
+```
+
+4、
+```sh
+./configure -prefix /home/shihyu/Qt/src/qt-everywhere-opensource-src-5.8.0/build/ -debug -nomake tests
+```
 
 
 出現：The test for linking against libxcb and support libraries failed!

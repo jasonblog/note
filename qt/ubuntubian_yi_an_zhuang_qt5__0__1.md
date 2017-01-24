@@ -57,8 +57,8 @@ export PATH=$HOME/Qt/src/qt-everywhere-opensource-src-5.8.0/build/bin/:$PATH
 
 ```sh
 # qmake -v
-QMake version 3.0
-Using Qt version 5.8 in /home/shihyu/Qt/src/qt-everywhere-opensource-src-5.8.0/build/lib
+QMake version 3.1
+Using Qt version 5.8.0 in /home/shihyu/qt-everywhere-opensource-src-5.8.0/build/lib
 ```
 
 - 通常只有指定PATH, qmake 就會指定編譯的lib 路徑 

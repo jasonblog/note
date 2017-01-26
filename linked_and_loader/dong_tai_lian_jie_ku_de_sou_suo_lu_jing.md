@@ -1,15 +1,15 @@
-# 动态链接库的搜索路径
+# 動態鏈接庫的搜索路徑
 
 
-man ld.so(8)说，如果库依赖不包括“/”，那么它将按照下面的规则按顺序搜索：
+man ld.so(8)說，如果庫依賴不包括“/”，那麼它將按照下面的規則按順序搜索：
 
-- （仅对ELF格式）如果可执行文件包含DT_RPATH标签，并且不包含DT_RUNPATH标签，将从DT_RPATH列出的路径搜索。（DT_RPATH已经被废弃，请用DT_RUNPATH）
-- 如果LD_LIBRARY_PATH在程序运行时被定义，那么将从它包含的路径开始。安全起见，对于set-user-ID或者set-group-ID的程序，这个变量将被忽略。
-- （仅对ELF格式）如果可执行文件包含DT_RUNPATH标签，将从这个标签列出的路径开始搜索。
-- 从 /etc/ld.so.cache（运行ldconfig产生）中查找文件
-- 从/lib以及/urs/lib，按顺序搜索。如果链接时指定-z nodefaultlib,这个步骤将被忽略。
+- （僅對ELF格式）如果可執行文件包含DT_RPATH標籤，並且不包含DT_RUNPATH標籤，將從DT_RPATH列出的路徑搜索。（DT_RPATH已經被廢棄，請用DT_RUNPATH）
+- 如果LD_LIBRARY_PATH在程序運行時被定義，那麼將從它包含的路徑開始。安全起見，對於set-user-ID或者set-group-ID的程序，這個變量將被忽略。
+- （僅對ELF格式）如果可執行文件包含DT_RUNPATH標籤，將從這個標籤列出的路徑開始搜索。
+- 從 /etc/ld.so.cache（運行ldconfig產生）中查找文件
+- 從/lib以及/urs/lib，按順序搜索。如果鏈接時指定-z nodefaultlib,這個步驟將被忽略。
 
-看起来够简洁的，当做休闲，写个程序验证一下。但在这之前，先介绍一个Glibc扩展的函数（POSIX中没有）
+看起來夠簡潔的，當做休閒，寫個程序驗證一下。但在這之前，先介紹一個Glibc擴展的函數（POSIX中沒有）
 
 ```c
 #define _GNU_SOURCE
@@ -18,7 +18,7 @@ man ld.so(8)说，如果库依赖不包括“/”，那么它将按照下面的�
 int dladdr(void* addr, Dl_info *info);
 ```
 
-这个函数解析传入的函数指针（第一个参数），将信息填充到Dl_info的结构体
+這個函數解析傳入的函數指針（第一個參數），將信息填充到Dl_info的結構體
 
 ```c
 typedef struct {
@@ -30,7 +30,7 @@ typedef struct {
 ```
 
 
-下面是程序以及需要加载的动态库的代码：
+下面是程序以及需要加載的動態庫的代碼：
 
 - ld_main.c
 
@@ -56,36 +56,36 @@ int lib_fun()
 	return 0;
 }
 ```
-编译这两个文件：
+編譯這兩個文件：
 ```sh
-1、动态库：gcc --shared -fPIC ld_lib.c -o libld_lib.so -ldl
+1、動態庫：gcc --shared -fPIC ld_lib.c -o libld_lib.so -ldl
 2、主程序：gcc ld_main.c -o ld_main -Wl,-rpath,./  -ldl -lld_lib -L./
 ```
--Wl,-rpath编译选项将在程序中生成DT_RPATH节点，使用readelf会看到Library rpath被设为当前目录：
+-Wl,-rpath編譯選項將在程序中生成DT_RPATH節點，使用readelf會看到Library rpath被設為當前目錄：
 
 ![](./images/20131105101102375)
 
-接下来将生成的libld_lib.so拷贝到前面介绍到的搜索路径:<br>
-对于LD_LIBRARY_PATH，随便设置：export LD_LIBRARY_PATH=../<br>
-对于ld.so.conf提到的路径，在/etc/ld.so.conf.d/下面随便找一个，或者自己建立一个，这里用系统自带的libc.conf<br>
-中提到的路径：/usr/local/lib<br>
+接下來將生成的libld_lib.so拷貝到前面介紹到的搜索路徑:<br>
+對於LD_LIBRARY_PATH，隨便設置：export LD_LIBRARY_PATH=../<br>
+對於ld.so.conf提到的路徑，在/etc/ld.so.conf.d/下面隨便找一個，或者自己建立一個，這裡用系統自帶的libc.conf<br>
+中提到的路徑：/usr/local/lib<br>
 
 ![](./images/20131105102103015)
 
-然后运行（每次都删除程序优先加载的so文件）：
+然後運行（每次都刪除程序優先加載的so文件）：
 
 ![](./images/20131105102749656)
 
-（ld.so.conf路径更新文件后需要运行ldconfig更新cache，否则会找不到文件，如上图）。
+（ld.so.conf路徑更新文件後需要運行ldconfig更新cache，否則會找不到文件，如上圖）。
 
-关于-z nodefaultlib链接选项：
+關於-z nodefaultlib鏈接選項：
 
 
 ![](./images/20131105103331156)
 
-看来它真起作用了
-关于DT_RUNPATH，需要用到--enable-new-dtags链接选项：
+看來它真起作用了
+關於DT_RUNPATH，需要用到--enable-new-dtags鏈接選項：
 
 ![](./images/20131105103810531)
 
-（`Linux下程序默认不会从当前路径搜索.so文件`，这对于自行开发的分为很多模块，要安装在同一目录的“程序”来说不是个优点。还好可以用DT_RUNPATH指定.so的加载路径）
+（`Linux下程序默認不會從當前路徑搜索.so文件`，這對於自行開發的分為很多模塊，要安裝在同一目錄的“程序”來說不是個優點。還好可以用DT_RUNPATH指定.so的加載路徑）

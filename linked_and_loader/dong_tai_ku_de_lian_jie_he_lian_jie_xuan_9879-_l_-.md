@@ -3,7 +3,7 @@
 
 如何程序在連接時使用了共享庫，就必須在運行的時候能夠找到共享庫的位置。linux的可執行程序在執行的時候默認是先搜索/lib和/usr/lib這兩個目錄，然後按照/etc/ld.so.conf裡面的配置搜索絕對路徑。同時，Linux也提供了環境變量LD_LIBRARY_PATH供用戶選擇使用，用戶可以通過設定它來查找除默認路徑之外的其他路徑，如查找/work/lib路徑,你可以在/etc/rc.d/rc.local或其他系統啟動後即可執行到的腳本添加如下語句：LD_LIBRARY_PATH =/work/lib:$(LD_LIBRARY_PATH)。並且LD_LIBRARY_PATH路徑優先於系統默認路徑之前查找（詳細參考《使用LD_LIBRARY_PATH》）。
 
-不過LD_LIBRARY_PATH的設定作用是全局的，過多的使用可能會影響到其他應用程序的運行，所以多用在調試。（LD_LIBRARY_PATH的缺陷和使用準則，可以參考《Why LD_LIBRARY_PATH is bad》 ）。通常情況下推薦還是使用gcc的-R或-rpath選項來在編譯時就指定庫的查找路徑，並且該庫的路徑信息保存在可執行文件中，運行時它會直接到該路徑查找庫，避免了使用LD_LIBRARY_PATH環境變量查找。
+不過LD_LIBRARY_PATH的設定作用是全局的，過多的使用可能會影響到其他應用程序的運行，所以多用在調試。（LD_LIBRARY_PATH的缺陷和使用準則，可以參考《Why LD_LIBRARY_PATH is bad》 ）。通常情況下推薦還是使用gcc的-R或-rpath選項來在編譯時就指定庫的查找路徑，`並且該庫的路徑信息保存在可執行文件中`，運行時它會直接到該路徑查找庫，避免了使用LD_LIBRARY_PATH環境變量查找。
 
 ##鏈接選項和路徑
 現代連接器在處理動態庫時將鏈接時路徑（Link-time path）和運行時路徑（Run-time path）分開,用戶可以通過-L指定連接時庫的路徑，通過-R（或-rpath）指定程序運行時庫的路徑，大大提高了庫應用的靈活性。比如我們做嵌入式移植時#arm-linux-gcc $(CFLAGS) –o target –L/work/lib/zlib/ -llibz-1.2.3 (work/lib/zlib下是交叉編譯好的zlib庫)，將target編譯好後我們只要把zlib庫拷貝到開發板的系統默認路徑下即可。或者通過-rpath（或-R ）、LD_LIBRARY_PATH指定查找路徑。

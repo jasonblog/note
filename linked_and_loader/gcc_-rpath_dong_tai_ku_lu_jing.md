@@ -1,13 +1,13 @@
-# gcc -rpath 动态库路径
+# gcc -rpath 動態庫路徑
 
 
-在C/C++程序里经常会调用到外部库函数，最常用的方法莫过于export LD_LIBRARY_PATH，不过使用它存在一些弊端，可能会影响到其它程序的运行。在经历的大项目中就遇到过，两个模块同时使用一外部动态库，而且版本还有差异，导致其中一模块出错，两模块是不同时期不同人员分别开发，修正起来费时费力。
+在C/C++程序裡經常會調用到外部庫函數，最常用的方法莫過於export LD_LIBRARY_PATH，不過使用它存在一些弊端，可能會影響到其它程序的運行。在經歷的大項目中就遇到過，兩個模塊同時使用一外部動態庫，而且版本還有差異，導致其中一模塊出錯，兩模塊是不同時期不同人員分別開發，修正起來費時費力。
 
-对于上述问题，一个比较好的方法是在程序编译的时候加上参数-Wl,-rpath，`指定编译好的程序在运行时动态库的目录`。这种方法会将动态库路径写入到elf文件中去。
+對於上述問題，一個比較好的方法是在程序編譯的時候加上參數-Wl,-rpath，`指定編譯好的程序在運行時動態庫的目錄`。這種方法會將動態庫路徑寫入到elf文件中去。
 
 ```sh
 -Wa,<options>            Pass comma-separated <options> on to the assembler
 -Wp,<options>            Pass comma-separated <options> on to the preprocessor
 -Wl,<options>             Pass comma-separated <options> on to the linker 
 ```
-可以用ldd命令查看可执行程序链接的动态库路径。
+可以用ldd命令查看可執行程序鏈接的動態庫路徑。

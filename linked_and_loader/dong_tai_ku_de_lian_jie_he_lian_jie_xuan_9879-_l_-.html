@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>動態庫的鏈接和鏈接選項-L，-rpath-link，-rpath | Jason note</title>
+        <title>-L，-rpath-link，-rpath 動態庫的鏈接和鏈接選項 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -54,10 +54,10 @@
         
     <div class="book"
         data-level="47.21"
-        data-chapter-title="動態庫的鏈接和鏈接選項-L，-rpath-link，-rpath"
+        data-chapter-title="-L，-rpath-link，-rpath 動態庫的鏈接和鏈接選項"
         data-filepath="linked_and_loader/dong_tai_ku_de_lian_jie_he_lian_jie_xuan_9879-_l_-.md"
         data-basepath=".."
-        data-revision="Fri Jan 27 2017 03:30:14 GMT+0800 (CST)"
+        data-revision="Fri Jan 27 2017 04:33:12 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -14303,7 +14303,7 @@
                         
                             <b>47.21.</b>
                         
-                        動態庫的鏈接和鏈接選項-L，-rpath-link，-rpath
+                        -L，-rpath-link，-rpath 動態庫的鏈接和鏈接選項
                     </a>
             
             
@@ -15936,7 +15936,7 @@
                     
                         <h1 id="&#x52D5;&#x614B;&#x5EAB;&#x7684;&#x93C8;&#x63A5;&#x548C;&#x93C8;&#x63A5;&#x9078;&#x9805;l&#xFF0C;rpathlink&#xFF0C;rpath">&#x52D5;&#x614B;&#x5EAB;&#x7684;&#x93C8;&#x63A5;&#x548C;&#x93C8;&#x63A5;&#x9078;&#x9805;-L&#xFF0C;-rpath-link&#xFF0C;-rpath</h1>
 <p>&#x5982;&#x4F55;&#x7A0B;&#x5E8F;&#x5728;&#x9023;&#x63A5;&#x6642;&#x4F7F;&#x7528;&#x4E86;&#x5171;&#x4EAB;&#x5EAB;&#xFF0C;&#x5C31;&#x5FC5;&#x9808;&#x5728;&#x904B;&#x884C;&#x7684;&#x6642;&#x5019;&#x80FD;&#x5920;&#x627E;&#x5230;&#x5171;&#x4EAB;&#x5EAB;&#x7684;&#x4F4D;&#x7F6E;&#x3002;linux&#x7684;&#x53EF;&#x57F7;&#x884C;&#x7A0B;&#x5E8F;&#x5728;&#x57F7;&#x884C;&#x7684;&#x6642;&#x5019;&#x9ED8;&#x8A8D;&#x662F;&#x5148;&#x641C;&#x7D22;/lib&#x548C;/usr/lib&#x9019;&#x5169;&#x500B;&#x76EE;&#x9304;&#xFF0C;&#x7136;&#x5F8C;&#x6309;&#x7167;/etc/ld.so.conf&#x88E1;&#x9762;&#x7684;&#x914D;&#x7F6E;&#x641C;&#x7D22;&#x7D55;&#x5C0D;&#x8DEF;&#x5F91;&#x3002;&#x540C;&#x6642;&#xFF0C;Linux&#x4E5F;&#x63D0;&#x4F9B;&#x4E86;&#x74B0;&#x5883;&#x8B8A;&#x91CF;LD_LIBRARY_PATH&#x4F9B;&#x7528;&#x6236;&#x9078;&#x64C7;&#x4F7F;&#x7528;&#xFF0C;&#x7528;&#x6236;&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x8A2D;&#x5B9A;&#x5B83;&#x4F86;&#x67E5;&#x627E;&#x9664;&#x9ED8;&#x8A8D;&#x8DEF;&#x5F91;&#x4E4B;&#x5916;&#x7684;&#x5176;&#x4ED6;&#x8DEF;&#x5F91;&#xFF0C;&#x5982;&#x67E5;&#x627E;/work/lib&#x8DEF;&#x5F91;,&#x4F60;&#x53EF;&#x4EE5;&#x5728;/etc/rc.d/rc.local&#x6216;&#x5176;&#x4ED6;&#x7CFB;&#x7D71;&#x555F;&#x52D5;&#x5F8C;&#x5373;&#x53EF;&#x57F7;&#x884C;&#x5230;&#x7684;&#x8173;&#x672C;&#x6DFB;&#x52A0;&#x5982;&#x4E0B;&#x8A9E;&#x53E5;&#xFF1A;LD_LIBRARY_PATH =/work/lib:$(LD_LIBRARY_PATH)&#x3002;&#x4E26;&#x4E14;LD_LIBRARY_PATH&#x8DEF;&#x5F91;&#x512A;&#x5148;&#x65BC;&#x7CFB;&#x7D71;&#x9ED8;&#x8A8D;&#x8DEF;&#x5F91;&#x4E4B;&#x524D;&#x67E5;&#x627E;&#xFF08;&#x8A73;&#x7D30;&#x53C3;&#x8003;&#x300A;&#x4F7F;&#x7528;LD_LIBRARY_PATH&#x300B;&#xFF09;&#x3002;</p>
-<p>&#x4E0D;&#x904E;LD_LIBRARY_PATH&#x7684;&#x8A2D;&#x5B9A;&#x4F5C;&#x7528;&#x662F;&#x5168;&#x5C40;&#x7684;&#xFF0C;&#x904E;&#x591A;&#x7684;&#x4F7F;&#x7528;&#x53EF;&#x80FD;&#x6703;&#x5F71;&#x97FF;&#x5230;&#x5176;&#x4ED6;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x7684;&#x904B;&#x884C;&#xFF0C;&#x6240;&#x4EE5;&#x591A;&#x7528;&#x5728;&#x8ABF;&#x8A66;&#x3002;&#xFF08;LD_LIBRARY_PATH&#x7684;&#x7F3A;&#x9677;&#x548C;&#x4F7F;&#x7528;&#x6E96;&#x5247;&#xFF0C;&#x53EF;&#x4EE5;&#x53C3;&#x8003;&#x300A;Why LD_LIBRARY_PATH is bad&#x300B; &#xFF09;&#x3002;&#x901A;&#x5E38;&#x60C5;&#x6CC1;&#x4E0B;&#x63A8;&#x85A6;&#x9084;&#x662F;&#x4F7F;&#x7528;gcc&#x7684;-R&#x6216;-rpath&#x9078;&#x9805;&#x4F86;&#x5728;&#x7DE8;&#x8B6F;&#x6642;&#x5C31;&#x6307;&#x5B9A;&#x5EAB;&#x7684;&#x67E5;&#x627E;&#x8DEF;&#x5F91;&#xFF0C;&#x4E26;&#x4E14;&#x8A72;&#x5EAB;&#x7684;&#x8DEF;&#x5F91;&#x4FE1;&#x606F;&#x4FDD;&#x5B58;&#x5728;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x4E2D;&#xFF0C;&#x904B;&#x884C;&#x6642;&#x5B83;&#x6703;&#x76F4;&#x63A5;&#x5230;&#x8A72;&#x8DEF;&#x5F91;&#x67E5;&#x627E;&#x5EAB;&#xFF0C;&#x907F;&#x514D;&#x4E86;&#x4F7F;&#x7528;LD_LIBRARY_PATH&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x67E5;&#x627E;&#x3002;</p>
+<p>&#x4E0D;&#x904E;LD_LIBRARY_PATH&#x7684;&#x8A2D;&#x5B9A;&#x4F5C;&#x7528;&#x662F;&#x5168;&#x5C40;&#x7684;&#xFF0C;&#x904E;&#x591A;&#x7684;&#x4F7F;&#x7528;&#x53EF;&#x80FD;&#x6703;&#x5F71;&#x97FF;&#x5230;&#x5176;&#x4ED6;&#x61C9;&#x7528;&#x7A0B;&#x5E8F;&#x7684;&#x904B;&#x884C;&#xFF0C;&#x6240;&#x4EE5;&#x591A;&#x7528;&#x5728;&#x8ABF;&#x8A66;&#x3002;&#xFF08;LD_LIBRARY_PATH&#x7684;&#x7F3A;&#x9677;&#x548C;&#x4F7F;&#x7528;&#x6E96;&#x5247;&#xFF0C;&#x53EF;&#x4EE5;&#x53C3;&#x8003;&#x300A;Why LD_LIBRARY_PATH is bad&#x300B; &#xFF09;&#x3002;&#x901A;&#x5E38;&#x60C5;&#x6CC1;&#x4E0B;&#x63A8;&#x85A6;&#x9084;&#x662F;&#x4F7F;&#x7528;gcc&#x7684;-R&#x6216;-rpath&#x9078;&#x9805;&#x4F86;&#x5728;&#x7DE8;&#x8B6F;&#x6642;&#x5C31;&#x6307;&#x5B9A;&#x5EAB;&#x7684;&#x67E5;&#x627E;&#x8DEF;&#x5F91;&#xFF0C;<code>&#x4E26;&#x4E14;&#x8A72;&#x5EAB;&#x7684;&#x8DEF;&#x5F91;&#x4FE1;&#x606F;&#x4FDD;&#x5B58;&#x5728;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x4E2D;</code>&#xFF0C;&#x904B;&#x884C;&#x6642;&#x5B83;&#x6703;&#x76F4;&#x63A5;&#x5230;&#x8A72;&#x8DEF;&#x5F91;&#x67E5;&#x627E;&#x5EAB;&#xFF0C;&#x907F;&#x514D;&#x4E86;&#x4F7F;&#x7528;LD_LIBRARY_PATH&#x74B0;&#x5883;&#x8B8A;&#x91CF;&#x67E5;&#x627E;&#x3002;</p>
 <h2 id="&#x93C8;&#x63A5;&#x9078;&#x9805;&#x548C;&#x8DEF;&#x5F91;">&#x93C8;&#x63A5;&#x9078;&#x9805;&#x548C;&#x8DEF;&#x5F91;</h2>
 <p>&#x73FE;&#x4EE3;&#x9023;&#x63A5;&#x5668;&#x5728;&#x8655;&#x7406;&#x52D5;&#x614B;&#x5EAB;&#x6642;&#x5C07;&#x93C8;&#x63A5;&#x6642;&#x8DEF;&#x5F91;&#xFF08;Link-time path&#xFF09;&#x548C;&#x904B;&#x884C;&#x6642;&#x8DEF;&#x5F91;&#xFF08;Run-time path&#xFF09;&#x5206;&#x958B;,&#x7528;&#x6236;&#x53EF;&#x4EE5;&#x901A;&#x904E;-L&#x6307;&#x5B9A;&#x9023;&#x63A5;&#x6642;&#x5EAB;&#x7684;&#x8DEF;&#x5F91;&#xFF0C;&#x901A;&#x904E;-R&#xFF08;&#x6216;-rpath&#xFF09;&#x6307;&#x5B9A;&#x7A0B;&#x5E8F;&#x904B;&#x884C;&#x6642;&#x5EAB;&#x7684;&#x8DEF;&#x5F91;&#xFF0C;&#x5927;&#x5927;&#x63D0;&#x9AD8;&#x4E86;&#x5EAB;&#x61C9;&#x7528;&#x7684;&#x9748;&#x6D3B;&#x6027;&#x3002;&#x6BD4;&#x5982;&#x6211;&#x5011;&#x505A;&#x5D4C;&#x5165;&#x5F0F;&#x79FB;&#x690D;&#x6642;#arm-linux-gcc $(CFLAGS) &#x2013;o target &#x2013;L/work/lib/zlib/ -llibz-1.2.3 (work/lib/zlib&#x4E0B;&#x662F;&#x4EA4;&#x53C9;&#x7DE8;&#x8B6F;&#x597D;&#x7684;zlib&#x5EAB;)&#xFF0C;&#x5C07;target&#x7DE8;&#x8B6F;&#x597D;&#x5F8C;&#x6211;&#x5011;&#x53EA;&#x8981;&#x628A;zlib&#x5EAB;&#x62F7;&#x8C9D;&#x5230;&#x958B;&#x767C;&#x677F;&#x7684;&#x7CFB;&#x7D71;&#x9ED8;&#x8A8D;&#x8DEF;&#x5F91;&#x4E0B;&#x5373;&#x53EF;&#x3002;&#x6216;&#x8005;&#x901A;&#x904E;-rpath&#xFF08;&#x6216;-R &#xFF09;&#x3001;LD_LIBRARY_PATH&#x6307;&#x5B9A;&#x67E5;&#x627E;&#x8DEF;&#x5F91;&#x3002;</p>
 <p>&#x93C8;&#x63A5;&#x5668;ld&#x7684;&#x9078;&#x9805;&#x6709; -L&#xFF0C;-rpath &#x548C; -rpath-link&#xFF0C;&#x770B;&#x4E86;&#x4E0B; man ld&#xFF0C;&#x5927;&#x81F4;&#x662F;&#x9019;&#x500B;&#x610F;&#x601D;&#xFF1A;</p>

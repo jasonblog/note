@@ -914,7 +914,7 @@
    * [-L，-rpath-link，-rpath 動態庫的鏈接和鏈接選項](linked_and_loader/dong_tai_ku_de_lian_jie_he_lian_jie_xuan_9879-_l_-.md)
    * [gcc -rpath 動態庫路徑](linked_and_loader/gcc_-rpath_dong_tai_ku_lu_jing.md)
    * [動態庫及靜態庫的製作步驟講解](linked_and_loader/dong_tai_ku_ji_jing_tai_ku_de_zhi_zuo_bu_zou_jiang.md)
-   * 动态链接库的搜索路径
+   * [动态链接库的搜索路径](linked_and_loader/dong_tai_lian_jie_ku_de_sou_suo_lu_jing.md)
 * [Bochs](Bochs/bochs.md)
    * [OS dev的Bochs調試](Bochs/os_devde_bochs_diao_shi.md)
 * [Nginx](nginx/nginx.md)

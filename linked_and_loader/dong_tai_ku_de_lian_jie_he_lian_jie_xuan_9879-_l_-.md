@@ -1,22 +1,22 @@
-# 动态库的链接和链接选项-L，-rpath-link，-rpath
+# 動態庫的鏈接和鏈接選項-L，-rpath-link，-rpath
 
 
-如何程序在连接时使用了共享库，就必须在运行的时候能够找到共享库的位置。linux的可执行程序在执行的时候默认是先搜索/lib和/usr/lib这两个目录，然后按照/etc/ld.so.conf里面的配置搜索绝对路径。同时，Linux也提供了环境变量LD_LIBRARY_PATH供用户选择使用，用户可以通过设定它来查找除默认路径之外的其他路径，如查找/work/lib路径,你可以在/etc/rc.d/rc.local或其他系统启动后即可执行到的脚本添加如下语句：LD_LIBRARY_PATH =/work/lib:$(LD_LIBRARY_PATH)。并且LD_LIBRARY_PATH路径优先于系统默认路径之前查找（详细参考《使用LD_LIBRARY_PATH》）。
+如何程序在連接時使用了共享庫，就必須在運行的時候能夠找到共享庫的位置。linux的可執行程序在執行的時候默認是先搜索/lib和/usr/lib這兩個目錄，然後按照/etc/ld.so.conf裡面的配置搜索絕對路徑。同時，Linux也提供了環境變量LD_LIBRARY_PATH供用戶選擇使用，用戶可以通過設定它來查找除默認路徑之外的其他路徑，如查找/work/lib路徑,你可以在/etc/rc.d/rc.local或其他系統啟動後即可執行到的腳本添加如下語句：LD_LIBRARY_PATH =/work/lib:$(LD_LIBRARY_PATH)。並且LD_LIBRARY_PATH路徑優先於系統默認路徑之前查找（詳細參考《使用LD_LIBRARY_PATH》）。
 
-不过LD_LIBRARY_PATH的设定作用是全局的，过多的使用可能会影响到其他应用程序的运行，所以多用在调试。（LD_LIBRARY_PATH的缺陷和使用准则，可以参考《Why LD_LIBRARY_PATH is bad》 ）。通常情况下推荐还是使用gcc的-R或-rpath选项来在编译时就指定库的查找路径，并且该库的路径信息保存在可执行文件中，运行时它会直接到该路径查找库，避免了使用LD_LIBRARY_PATH环境变量查找。
+不過LD_LIBRARY_PATH的設定作用是全局的，過多的使用可能會影響到其他應用程序的運行，所以多用在調試。（LD_LIBRARY_PATH的缺陷和使用準則，可以參考《Why LD_LIBRARY_PATH is bad》 ）。通常情況下推薦還是使用gcc的-R或-rpath選項來在編譯時就指定庫的查找路徑，並且該庫的路徑信息保存在可執行文件中，運行時它會直接到該路徑查找庫，避免了使用LD_LIBRARY_PATH環境變量查找。
 
-##链接选项和路径
-现代连接器在处理动态库时将链接时路径（Link-time path）和运行时路径（Run-time path）分开,用户可以通过-L指定连接时库的路径，通过-R（或-rpath）指定程序运行时库的路径，大大提高了库应用的灵活性。比如我们做嵌入式移植时#arm-linux-gcc $(CFLAGS) –o target –L/work/lib/zlib/ -llibz-1.2.3 (work/lib/zlib下是交叉编译好的zlib库)，将target编译好后我们只要把zlib库拷贝到开发板的系统默认路径下即可。或者通过-rpath（或-R ）、LD_LIBRARY_PATH指定查找路径。
+##鏈接選項和路徑
+現代連接器在處理動態庫時將鏈接時路徑（Link-time path）和運行時路徑（Run-time path）分開,用戶可以通過-L指定連接時庫的路徑，通過-R（或-rpath）指定程序運行時庫的路徑，大大提高了庫應用的靈活性。比如我們做嵌入式移植時#arm-linux-gcc $(CFLAGS) –o target –L/work/lib/zlib/ -llibz-1.2.3 (work/lib/zlib下是交叉編譯好的zlib庫)，將target編譯好後我們只要把zlib庫拷貝到開發板的系統默認路徑下即可。或者通過-rpath（或-R ）、LD_LIBRARY_PATH指定查找路徑。
 
-链接器ld的选项有 -L，-rpath 和 -rpath-link，看了下 man ld，大致是这个意思：
+鏈接器ld的選項有 -L，-rpath 和 -rpath-link，看了下 man ld，大致是這個意思：
 
--L: “链接”的时候，去找的目录，也就是所有的 -lFOO 选项里的库，都会先从 -L 指定的目录去找，然后是默认的地方。编译时的-L选项并不影响环境变量LD_LIBRARY_PATH，-L只是指定了程序编译连接时库的路径，并不影响程序执行时库的路径，系统还是会到默认路径下查找该程序所需要的库，如果找不到，还是会报错，类似cannot open shared object file。
+-L: “鏈接”的時候，去找的目錄，也就是所有的 -lFOO 選項裡的庫，都會先從 -L 指定的目錄去找，然後是默認的地方。編譯時的-L選項並不影響環境變量LD_LIBRARY_PATH，-L只是指定了程序編譯連接時庫的路徑，並不影響程序執行時庫的路徑，系統還是會到默認路徑下查找該程序所需要的庫，如果找不到，還是會報錯，類似cannot open shared object file。
 
--rpath-link：这个也是用于“链接”的时候的，例如你显示指定的需要 FOO.so，但是 FOO.so 本身是需要 BAR.so 的，后者你并没有指定，而是 FOO.so 引用到它，这个时候，会先从 -rpath-link 给的路径里找。
+-rpath-link：這個也是用於“鏈接”的時候的，例如你顯示指定的需要 FOO.so，但是 FOO.so 本身是需要 BAR.so 的，後者你並沒有指定，而是 FOO.so 引用到它，這個時候，會先從 -rpath-link 給的路徑裡找。
 
--rpath: “运行”的时候，去找的目录。运行的时候，要找 .so 文件，会从这个选项里指定的地方去找。对于交叉编译，交叉编译链接器需已经配置 –with-sysroot 选项才能起作用。也就是说，-rpath指定的路径会被记录在生成的可执行程序中，用于运行时查找需要加载的动态库。-rpath-link 则只用于链接时查找。
+-rpath: “運行”的時候，去找的目錄。運行的時候，要找 .so 文件，會從這個選項裡指定的地方去找。對於交叉編譯，交叉編譯鏈接器需已經配置 –with-sysroot 選項才能起作用。也就是說，-rpath指定的路徑會被記錄在生成的可執行程序中，用於運行時查找需要加載的動態庫。-rpath-link 則只用於鏈接時查找。
 
-##链接搜索顺序
+##鏈接搜索順序
 直接man ld。The linker uses the following search paths to locate required shared libraries:
 
 
@@ -34,8 +34,8 @@ If the required shared library is not found, the linker will issue a warning and
 ```
 
 
-##gcc和链接选项的使用
-在gcc中使用ld链接选项时，需要在选项前面加上前缀-Wl(是字母l，不是1，我曾多次弄错），以区别不是编译器的选项。
+##gcc和鏈接選項的使用
+在gcc中使用ld鏈接選項時，需要在選項前面加上前綴-Wl(是字母l，不是1，我曾多次弄錯），以區別不是編譯器的選項。
 
 if the linker is being invoked indirectly, via a compiler driver (e.g. gcc) then all the linker command line options should be prefixed by -Wl, (or whatever is appropriate for the particular compiler driver) like this:
 
@@ -45,7 +45,7 @@ gcc -Wl,--start-group foo.o bar.o -Wl,--end-group
 
 ##rpath-link rptah說明
  
-跨平台編譯的時候時常會出現
+跨平臺編譯的時候時常會出現
 rpath-link與rpath這兩個參數
  
 簡單的來說:

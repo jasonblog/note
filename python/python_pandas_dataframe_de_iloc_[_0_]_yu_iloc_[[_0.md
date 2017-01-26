@@ -5,7 +5,7 @@ Pandas 是 Python 的一個資料操作庫。
 
 在寫分類器的時，看到別人的範例裡寫了這樣一段：DataFrame.iloc[[0]]，他在[]裡面放入[0]而不是單純的0。
 
-覺得這個取出方法有點神秘，究竟跟DataFrame.iloc[0]有什麼區別呢？
+覺得這個取出方法有點神祕，究竟跟DataFrame.iloc[0]有什麼區別呢？
 
 在這邊做個紀錄，順便給pandas.DataFrame的操作方法做個筆記。
 

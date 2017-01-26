@@ -76,7 +76,7 @@ make -p > rule.txt
 ```
 
 
-可以查看 rule.txt 了解 make 的隱含規則
+可以查看 rule.txt 瞭解 make 的隱含規則
 
 
 ##Manual Page
@@ -86,7 +86,7 @@ Manual Page
 - man 指令可以搜尋函式的使用手冊 (ex. man printf)
 - man -k keyword 可以搜尋簡介
 - manual 分許多 section, section 1 為命令列、3為函式庫名稱 (man 3 printf 會列出 C 函式庫的文件)
-- vi 可將游標移到 keyword 上, 按 K 查閱 manual pageman 指令可以搜尋函式的使用手冊 (ex. man printf)
+- vi 可將遊標移到 keyword 上, 按 K 查閱 manual pageman 指令可以搜尋函式的使用手冊 (ex. man printf)
 
 ## Debug / 除錯
 

@@ -57,7 +57,7 @@
         data-chapter-title="基礎範例"
         data-filepath="linked_and_loader/ji_chu_fan_li.md"
         data-basepath=".."
-        data-revision="Fri Jan 27 2017 06:03:27 GMT+0800 (CST)"
+        data-revision="Fri Jan 27 2017 21:35:26 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -16020,10 +16020,13 @@
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
 </code></pre>
-<pre><code class="lang-sh">CC = gcc
+<pre><code class="lang-sh"><span class="hljs-built_in">export</span>  LD_LIBRARY_PATH=LD_LIBRARY_PATH:./
+
+CC = gcc
 
 all: dl.so 
-    $(CC) -o main tdl.c -L./ -ldl 
+    <span class="hljs-comment">#$(CC) -o main tdl.c -L./ -ldl </span>
+    $(CC) -o main tdl.c -L./ -ldl -Wl,-rpath=/home/shihyu/dll 
     <span class="hljs-comment">#$(CC) -o main tdl.c ./libdl.so </span>
 dl.so:
     $(CC) -O <span class="hljs-operator">-f</span>PIC -shared -o libdl.so d2.c 
@@ -16044,7 +16047,7 @@ Dynamic section at offset <span class="hljs-number">0</span>xe18 contains <span 
  <span class="hljs-number">0</span>x0000000000000001 (NEEDED)             Shared library: [libc.so.<span class="hljs-number">6</span>]
 </code></pre>
 <p><code>&#x57F7;&#x884C;&#x671F; Shared library: [libdl.so]&#x672A;&#x6307;&#x5B9A;&#x8DEF;&#x5F91;, &#x9700;&#x8981;&#x4F7F;&#x7528; LD_LIBRARY_PATH &#x6307;&#x4EE4;</code></p>
-<h2 id="&#x7DE8;&#x8B6F;&#x8DDF;&#x57F7;&#x884C;&#x671F;&#x7D81;&#x6B7B;&#x5728;&#x76EE;&#x524D;&#x8DEF;&#x5F91;-libdlso">&#x7DE8;&#x8B6F;&#x8DDF;&#x57F7;&#x884C;&#x671F;&#x7D81;&#x6B7B;&#x5728;&#x76EE;&#x524D;&#x8DEF;&#x5F91; ./libdl.so</h2>
+<h2 id="libdlso--&#x7DE8;&#x8B6F;&#x8DDF;&#x57F7;&#x884C;&#x671F;&#x7D81;&#x6B7B;&#x5728;&#x76EE;&#x524D;&#x8DEF;&#x5F91;">./libdl.so // &#x7DE8;&#x8B6F;&#x8DDF;&#x57F7;&#x884C;&#x671F;&#x7D81;&#x6B7B;&#x5728;&#x76EE;&#x524D;&#x8DEF;&#x5F91;</h2>
 <p><code>gcc&#x7DE8;&#x8B6F;&#x6307;&#x5B9A;&#x5BEB;&#x6B7B;&#x8DEF;&#x5F91; Shared library: [./libdl.so] &#x9748;&#x6D3B;&#x6027;&#x4E0D;&#x597D;</code></p>
 <pre><code class="lang-sh">readelf <span class="hljs-operator">-d</span> main  
 
@@ -16052,6 +16055,18 @@ Dynamic section at offset <span class="hljs-number">0</span>xe18 contains <span 
   Tag        Type                         Name/Value
  <span class="hljs-number">0</span>x0000000000000001 (NEEDED)             Shared library: [./libdl.so]
  <span class="hljs-number">0</span>x0000000000000001 (NEEDED)             Shared library: [libc.so.<span class="hljs-number">6</span>]
+</code></pre>
+<h2 id="wlrpathhomeshihyudll">-Wl,-rpath=/home/shihyu/dll</h2>
+<ul>
+<li><code>&#x57F7;&#x884C;&#x671F;&#x628A;&#x8DEF;&#x5F91;&#x52A0;&#x5165;&#x5728;ELF&#x88E1;&#x9762; //  (RPATH)              Library rpath: [/home/shihyu/dll]</code></li>
+</ul>
+<pre><code class="lang-sh">readelf <span class="hljs-operator">-d</span> main 
+
+Dynamic section at offset <span class="hljs-number">0</span>xe08 contains <span class="hljs-number">26</span> entries:
+  Tag        Type                         Name/Value
+ <span class="hljs-number">0</span>x0000000000000001 (NEEDED)             Shared library: [libdl.so]
+ <span class="hljs-number">0</span>x0000000000000001 (NEEDED)             Shared library: [libc.so.<span class="hljs-number">6</span>]
+ <span class="hljs-number">0</span>x000000000000000f (RPATH)              Library rpath: [/home/shihyu/dll]
 </code></pre>
 
                     

@@ -57,7 +57,7 @@
         data-chapter-title="Clone all repos from a GitHub organization"
         data-filepath="git/clone_all_repos_from_a_github_organization.md"
         data-basepath=".."
-        data-revision="Fri Jan 27 2017 21:40:31 GMT+0800 (CST)"
+        data-revision="Wed Feb 01 2017 11:00:39 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -16000,7 +16000,7 @@
 </ul>
 <pre><code class="lang-sh">curl <span class="hljs-operator">-s</span> https://api.github.com/users/sysprog21/repos?per_page=<span class="hljs-number">200</span> | python -c $<span class="hljs-string">&apos;import json, sys, os\nfor repo in json.load(sys.stdin): os.system(&quot;git clone &quot; + repo[&quot;ssh_url&quot;])&apos;</span>
 </code></pre>
-<pre><code class="lang-sh">python -c <span class="hljs-string">&quot;import json, urllib, os; [os.system(&apos;git clone &apos; + r[&apos;ssh_url&apos;]) for r in json.load(urllib.urlopen(&apos;https://api.github.com/orgs/&lt;&lt;ORG_NAME&gt;&gt;/repos?per_page=200&apos;))]&quot;</span>
+<pre><code class="lang-py">python -c <span class="hljs-string">&quot;import json, urllib, os; [os.system(&apos;git clone &apos; + r[&apos;ssh_url&apos;]) for r in json.load(urllib.urlopen(&apos;https://api.github.com/users/yenWu/repos?per_page=200&apos;))]&quot;</span>
 </code></pre>
 
                     

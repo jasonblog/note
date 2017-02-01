@@ -8,6 +8,6 @@ curl -s https://api.github.com/users/sysprog21/repos?per_page=200 | python -c $'
 ```
 
 
-```sh
-python -c "import json, urllib, os; [os.system('git clone ' + r['ssh_url']) for r in json.load(urllib.urlopen('https://api.github.com/orgs/<<ORG_NAME>>/repos?per_page=200'))]"
+```py
+python -c "import json, urllib, os; [os.system('git clone ' + r['ssh_url']) for r in json.load(urllib.urlopen('https://api.github.com/users/yenWu/repos?per_page=200'))]"
 ```

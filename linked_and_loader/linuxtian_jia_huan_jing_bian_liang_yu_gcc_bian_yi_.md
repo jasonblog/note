@@ -60,10 +60,14 @@ export LIBRARY_PATH
 
 前 面已經說明過了，庫搜索路徑的設置有兩種方式：在環境變量 LD_LIBRARY_PATH 中設置以及在 /etc/ld.so.conf 文件中設置。其中，第二種設置方式需要 root 權限，以改變 /etc/ld.so.conf 文件並執行 /sbin/ldconfig 命令。而且，當系統重新啟動後，所有的基於 GTK2 的程序在運行時都將使用新安裝的 GTK+ 庫。不幸的是，由於 GTK+ 版本的改變，這有時會給應用程序帶來兼容性的問題，造成某些程序運行不正常。為了避免出現上面的這些情況，在 GTK+ 及其依賴庫的安裝過程中對於庫的搜索路徑的設置將採用第一種方式進行。這種設置方式不需要 root 權限，設置也簡單：
 
+```sh
 $ export LD_LIBRARY_PATH=/opt/gtk/lib:$LD_LIBRARY_PATH
+```
 
 可以用下面的命令查看 LD_LIBRAY_PATH 的設置內容：
 
+```sh
 $ echo $LD_LIBRARY_PATH
+```
 
 至此，庫的兩種設置就完成了。

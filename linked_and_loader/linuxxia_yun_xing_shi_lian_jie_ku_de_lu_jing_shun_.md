@@ -19,7 +19,7 @@ example: gcc -Wl,-rpath,/home/arc/test,-rpath,/lib/,-rpath,/usr/lib/,-rpath,/usr
 
 在命令前加環境變量設置，該環境變量只對該命令有效，當該命令執行完成後，該環境變量就無效了。如下述命令：# `LD_LIBRARY_PATH=/root/test/env/lib ./pos`
 
-下面對`編譯`時庫的查找與運行時庫的查找做一個簡單的比較：
+下面對`編譯`時庫的查找與`運行`時庫的查找做一個簡單的`比較`：
 
 1. `編譯時查找的是靜態庫或動態庫，而運行時，查找的只是動態庫。`
 

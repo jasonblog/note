@@ -916,7 +916,7 @@
    * [動態庫及靜態庫的製作步驟講解](linked_and_loader/dong_tai_ku_ji_jing_tai_ku_de_zhi_zuo_bu_zou_jiang.md)
    * [動態鏈接庫的搜索路徑](linked_and_loader/dong_tai_lian_jie_ku_de_sou_suo_lu_jing.md)
    * [Linux添加環境變量與GCC編譯器添加INCLUDE與LIB環境變量](linked_and_loader/linuxtian_jia_huan_jing_bian_liang_yu_gcc_bian_yi_.md)
-   * linux下運行時連結庫的路徑順序
+   * [linux下運行時連結庫的路徑順序](linked_and_loader/linuxxia_yun_xing_shi_lian_jie_ku_de_lu_jing_shun_.md)
 * [Bochs](Bochs/bochs.md)
    * [OS dev的Bochs調試](Bochs/os_devde_bochs_diao_shi.md)
 * [Nginx](nginx/nginx.md)

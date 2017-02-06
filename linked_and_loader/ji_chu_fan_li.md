@@ -1,5 +1,10 @@
 # 基礎範例
 
+[linux下運行時連結庫的路徑順序](http://jasonblog.github.io/note/linked_and_loader/linuxxia_yun_xing_shi_lian_jie_ku_de_lu_jing_shun_.html)
+
+
+[Linux添加環境變量與GCC編譯器添加INCLUDE與LIB環境變量](http://jasonblog.github.io/note/linked_and_loader/linuxtian_jia_huan_jing_bian_liang_yu_gcc_bian_yi_.html)
+
 ###`ld可以叫靜態連接器，ld.so可以叫動態連接器`
 
 ###`編譯時用的連結器是ld，而運行時用的連結器是/lib/ld-linux.so.2`.

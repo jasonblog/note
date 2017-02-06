@@ -1,5 +1,32 @@
 # 基礎範例
 
+ld-linux.so是專門負責尋找庫文件的庫。
+以cat為例，cat首先告訴ld-linux.so它需要libc.so.6這個庫文件，ld-linux.so將按一定順序找到libc.so.6庫再給cat調用。
+
+那ld-linux.so又是怎麼找到的呢？
+其實不用找，ld-linux.so的位置是寫死在程序中的，gcc在編譯程序時就寫死在裡面了。Gcc寫到程序中ld-linux.so的位置是可以改變的，通過修改gcc的spec文件。
+
+
+###編譯時，ld-linux.so查找共享庫的順序：
+```sh
+（1）ld-linux.so.6由gcc的spec文件中所設定 
+（2）gcc --print-search-dirs所打印出的路徑，主要是libgcc_s.so等庫。可以通過GCC_EXEC_PREFIX來設定 
+（3）LIBRARY_PATH環境變量中所設定的路徑，或編譯的命令行中指定的-L/usr/local/lib 
+（4）binutils中的ld所設定的缺省搜索路徑順序，編譯binutils時指定。（可以通過「ld --verbose | grep SEARCH」來查看） 
+（5）二進製程序的搜索路徑順序為PATH環境變量中所設定。一般/usr/local/bin高於/usr/bin
+（6）編譯時的頭文件的搜索路徑順序，與library的查找順序類似。一般/usr/local/include高於/usr/include
+```
+
+###運行時，ld-linux.so查找共享庫的順序：
+```sh
+（1）ld-linux.so.6在可執行的目標文件中被指定，可用readelf命令查看 
+（2）ld-linux.so.6缺省在/usr/lib和lib中搜索；當glibc安裝到/usr/local下時，它查找/usr/local/lib
+（3）LD_LIBRARY_PATH環境變量中所設定的路徑 
+（4）/etc/ld.so.conf（或/usr/local/etc/ld.so.conf）中所指定的路徑，由ldconfig生成二進制的ld.so.cache中
+```
+
+
+
 - d2.c
 
 ```c

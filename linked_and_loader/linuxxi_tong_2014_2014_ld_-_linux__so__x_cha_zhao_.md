@@ -26,7 +26,7 @@ ld-linux.so是專門負責尋找庫文件的庫。
 其實不用找，ld-linux.so的位置是寫死在程序中的，gcc在編譯程序時就寫死在裡面了。Gcc寫到程序中ld-linux.so的位置是可以改變的，通過修改gcc的spec文件。
 
 
-###編譯時，ld-linux.so查找共享庫的順序
+###`編譯時`，ld-linux.so查找共享庫的順序
 ```sh
 （1）ld-linux.so.6由gcc的spec文件中所設定 
 （2）gcc --print-search-dirs所打印出的路徑，主要是libgcc_s.so等庫。可以通過GCC_EXEC_PREFIX來設定 
@@ -36,7 +36,7 @@ ld-linux.so是專門負責尋找庫文件的庫。
 （6）編譯時的頭文件的搜索路徑順序，與library的查找順序類似。一般/usr/local/include高於/usr/include
 ```
 
-###運行時，ld-linux.so查找共享庫的順序：
+###`運行時`，ld-linux.so查找共享庫的順序：
 ```sh
 （1）ld-linux.so.6在可執行的目標文件中被指定，可用readelf命令查看 
 （2）ld-linux.so.6缺省在/usr/lib和lib中搜索；當glibc安裝到/usr/local下時，它查找/usr/local/lib

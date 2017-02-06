@@ -1,6 +1,8 @@
 # 基礎範例
 
-ld可以叫靜態連接器，ld.so可以叫動態連接器
+###`ld可以叫靜態連接器，ld.so可以叫動態連接器`
+
+###`編譯時用的連結器是ld，而運行時用的連結器是/lib/ld-linux.so.2`.
 
 ld-linux.so是專門負責尋找庫文件的庫。
 以cat為例，cat首先告訴ld-linux.so它需要libc.so.6這個庫文件，ld-linux.so將按一定順序找到libc.so.6庫再給cat調用。

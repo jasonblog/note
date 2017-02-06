@@ -1,0 +1,2 @@
+# Linux添加環境變量與GCC編譯器添加INCLUDE與LIB環境變量
+

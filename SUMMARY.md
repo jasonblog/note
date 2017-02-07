@@ -933,7 +933,7 @@
    * [測試的道理](other/ce_shi_de_dao_li.md)
 * [DS_ALGO](ds_algo/dsalgomd.md)
    * [內核雙向鏈表的使用](nei_he_shuang_xiang_lian_biao_de_shi_yong.md)
-   * Linux kernel linked list impl. for user space
+   * [Linux kernel linked list impl. for user space](ds_algo/linux_kernel_linked_list_impl_for_user_space.md)
 * [C](c/c.md)
    * [offsetof與container_of](c/offsetofyu_container_of.md)
    * [read csv in c](c/read_csv_in_c.md)

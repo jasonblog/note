@@ -4,6 +4,9 @@
 - list.h
 
 
+list_head是Linux內核中使用最廣泛的雙向鏈表，`每個節點都可以為任意類型`，可以作為棧或隊列使用
+
+
 ```c
 /**
  *
@@ -368,9 +371,6 @@ static inline void list_splice_init(struct list_head* list,
          n = list_entry(pos->member.prev, typeof(*pos), member); \
          &pos->member != (head);                    \
          pos = n, n = list_entry(n->member.prev, typeof(*n), member))
-
-
-
 
 /*
  * Double linked lists with a single pointer list head.

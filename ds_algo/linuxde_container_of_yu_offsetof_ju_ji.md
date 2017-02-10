@@ -48,6 +48,7 @@ int main()
 另外，我自己定義一個my_offsetof，起始位址由 ` 0 變成  1000`，可以從結果看出它算出的偏移量多了`1000`。
 
 
+
 ![](./images/offsetof_result.PNG)
 
 ##container_of

@@ -55,3 +55,66 @@ int main()
 
 container_of定義在 <linux/kernel.h> 中，它需要引用offsetof巨集，它的作用是用來取得struct結構的起始點，只要知道該結構的任一個成員的位址，就可以使用container_of巨集來算出該結構的起始位址。
 
+
+```c
+/***
+ptr:  指向該結構成員的型別的指標
+Type:  結構名稱
+Member:  結構成員
+***/
+#define container_of(ptr, type, member) ({  \
+        const typeof( ((type *)0)->member ) *__mptr = (ptr);  \
+           (type *)( (char *)__mptr - offsetof(type,member) );})
+```
+
+container_of可分解為2個動作
+1. 定義一個指向member型別的指標__mptr，然後將參數ptr餵給該指標。
+2. 將__mptr的位址減掉member與結構起始點的偏移(利用offsetof)就可得到該結構的起始點位址。
+
+同樣做個範例來測試：
+
+```c
+#include<stdio.h>
+
+#define offsetof(TYPE, MEMBER) ((size_t) &((TYPE *)0)->MEMBER)
+
+#define container_of(ptr, type, member) ({\
+        const typeof( ((type *)0)->member ) *__mptr = (ptr);\
+        (type *)( (char *)__mptr - offsetof(type,member));})
+
+struct MY_DATA {
+    int Data_A , Data_B , Data_C;
+    struct MY_DATA* next;
+};
+
+int main()
+{
+    struct MY_DATA  Obj_one ;
+    struct MY_DATA* RET;
+
+    Obj_one.Data_A = 123;
+    Obj_one.Data_B = 321;
+    Obj_one.Data_C = 987;
+
+    int* Data_B_ptr = &Obj_one.Data_B;
+    RET =  container_of(Data_B_ptr, struct MY_DATA , Data_B);
+
+    puts("\n----------- index member = Data_B -----------");
+    printf("Obj_one's addr = %p\nRET addr =  %p\n", &Obj_one , RET);
+    printf("RET->Data_A = %d\nRET->Data_B = %d\nRET->Data_C = %d\n", \
+           RET->Data_A, \
+           RET->Data_B, \
+           RET->Data_C);
+
+	return 0;
+}
+```
+
+
+執行結果如下: 
+Data_B_ptr是一個指向結構成員Obj_one.Data_B的位址的指標，利用Data_B_ptr的地址與結構成員Data_B在該結構的偏移就可以回推該結構Obj_one的起始位址。
+
+
+![](./images/cantaier_result.png)
+
+

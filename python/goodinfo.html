@@ -57,7 +57,7 @@
         data-chapter-title="goodinfo"
         data-filepath="python/goodinfo.md"
         data-basepath=".."
-        data-revision="Tue Feb 07 2017 22:00:34 GMT+0800 (CST)"
+        data-revision="Sun Feb 19 2017 23:24:32 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -14678,6 +14678,21 @@
             
         </li>
     
+        <li class="chapter " data-level="51.3" data-path="ds_algo/linuxde_container_of_yu_offsetof_ju_ji.html">
+            
+                
+                    <a href="../ds_algo/linuxde_container_of_yu_offsetof_ju_ji.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>51.3.</b>
+                        
+                        Linux的container_of 與 offsetof巨集
+                    </a>
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -16040,6 +16055,51 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="goodinfo">goodinfo</h1>
+<pre><code class="lang-py"><span class="hljs-comment">#! /usr/bin/python</span>
+<span class="hljs-comment"># -*- coding: utf-8 -*-</span>
+<span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+<span class="hljs-keyword">import</span> csv
+<span class="hljs-keyword">import</span> sys
+<span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
+
+<span class="hljs-comment"># python2</span>
+reload(sys)
+sys.setdefaultencoding(<span class="hljs-string">&apos;utf-8&apos;</span>)
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">GetHtmlcode</span><span class="hljs-params">(ID)</span>:</span>
+    source = <span class="hljs-string">&apos;http://goodinfo.tw/StockInfo/StockDetail.asp?STOCK_ID=&apos;</span>
+    url = source + ID
+
+    headers = {<span class="hljs-string">&apos;User-Agent&apos;</span>:<span class="hljs-string">&apos;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36&apos;</span>}
+
+    res = requests.get(<span class="hljs-string">&apos;http://goodinfo.tw/StockInfo/StockDetail.asp?STOCK_ID=2103&apos;</span>, headers=headers)
+    res.encoding = <span class="hljs-string">&apos;utf-8&apos;</span>
+    <span class="hljs-comment">#print res.text</span>
+    soup = BeautifulSoup(res.text.replace(<span class="hljs-string">&apos;&amp;nbsp;&apos;</span>, <span class="hljs-string">&apos;&apos;</span>).replace(<span class="hljs-string">&apos;&#x3000;&apos;</span>,<span class="hljs-string">&apos;&apos;</span>), <span class="hljs-string">&apos;lxml&apos;</span>)
+    <span class="hljs-keyword">return</span> soup
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>:</span>
+    soup = GetHtmlcode(<span class="hljs-string">&apos;2324&apos;</span>)
+
+    <span class="hljs-keyword">for</span> head <span class="hljs-keyword">in</span> soup.select(<span class="hljs-string">&apos;.head_td b&apos;</span>):
+    <span class="hljs-keyword">if</span> head.text == <span class="hljs-string">u&apos;&#x5408;&#x4F75;&#x7372;&#x5229;&#x72C0;&#x6CC1;&apos;</span>:
+        df = pd.read_html(str(head.parent.parent.parent.parent), encoding = <span class="hljs-string">&quot;UTF-8&quot;</span>)
+
+    df2=pd.DataFrame(df[<span class="hljs-number">0</span>])
+    df2 = df2[<span class="hljs-number">2</span>:] <span class="hljs-comment">## &#x53EA;&#x8981;&#x7B2C;&#x4E8C;&#x5217;&#x4E4B;&#x5F8C;</span>
+    df2.columns = df2.iloc[<span class="hljs-number">0</span>] <span class="hljs-comment"># &#x628A;&#x7B2C;&#x4E00;&#x5217;&#x7576;&#x4F5C; columns &#x540D;&#x7A31;</span>
+    df2 = df2.drop(df2.index[<span class="hljs-number">0</span>]) <span class="hljs-comment"># &#x522A;&#x9664;&#x7B2C;&#x4E00;&#x5217; </span>
+    df2.columns.name = <span class="hljs-string">&apos;&apos;</span>
+    df2.index = range(len(df2)) <span class="hljs-comment"># &#x91CD;&#x65B0;&#x7522;&#x751F; index </span>
+    <span class="hljs-keyword">print</span> df2
+
+
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:
+    main()
+</code></pre>
 <pre><code class="lang-py"><span class="hljs-comment">#! /usr/bin/python</span>
 <span class="hljs-comment"># -*- coding: utf-8 -*-</span>
 <span class="hljs-keyword">import</span> re

@@ -30,8 +30,8 @@ def main():
     soup = GetHtmlcode('2324')
 
     for head in soup.select('.head_td b'):
-	if head.text == u'合併獲利狀況':
-	    df = pd.read_html(str(head.parent.parent.parent.parent), encoding = "UTF-8")
+	    if head.text == u'合併獲利狀況':
+	        df = pd.read_html(str(head.parent.parent.parent.parent), encoding = "UTF-8")
 
     df2=pd.DataFrame(df[0])
     df2 = df2[2:] ## 只要第二列之後

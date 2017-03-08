@@ -585,7 +585,7 @@
        * [Audio 利用ffmpeg 編碼轉換](python/audio_li_yong_ffmpeg_bian_ma_zhuan_huan.md)
        * [集臺證所融資融券餘額全部資料](python/ji_tai_zheng_suo_rong_zi_rong_quan_yu_e_quan_bu_zi.md)
        * [goodinfo](python/goodinfo.md)
-       * sqlite3 技術手冊
+       * [sqlite3 技術手冊](python/sqlite3_ji_shu_shou_ce.md)
    * [pandas](python/pandas.md)
        * [pandas 入門](python/pandas_ru_men.md)
        * [Python Pandas DataFrame 的 iloc[0] 與 iloc[[0]]](python/python_pandas_dataframe_de_iloc_[_0_]_yu_iloc_[[_0.md)

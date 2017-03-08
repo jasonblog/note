@@ -618,6 +618,7 @@
    * [python setup.py uninstall](python/python_setuppy_uninstall.md)
    * [Python 原始碼 使用 gdb trace](python/python_yuan_shi_ma_shi_yong_gdb_trace.md)
    * [Debugging CPython with gdb](python/debugging_cpython_with_gdb.md)
+   * Python - 瞭解bytes、str與unicode的區別
 * [Vim](vim/vim.md)
    * [HOWTO - vi, vim](vim/howto_-_vi,_vim.md)
 * [TDD](tdd/README.md)

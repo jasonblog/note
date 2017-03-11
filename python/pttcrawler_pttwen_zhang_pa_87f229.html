@@ -57,7 +57,7 @@
         data-chapter-title="PTTcrawler (PTT文章爬蟲)"
         data-filepath="python/pttcrawler_pttwen_zhang_pa_87f229.md"
         data-basepath=".."
-        data-revision="Sat Mar 11 2017 22:28:31 GMT+0800 (CST)"
+        data-revision="Sat Mar 11 2017 22:51:33 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -16136,6 +16136,86 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="pttcrawler-ptt&#x6587;&#x7AE0;&#x722C;&#x87F2;">PTTcrawler (PTT&#x6587;&#x7AE0;&#x722C;&#x87F2;)</h1>
+<h3 id="&#x57F7;&#x884C;&#x74B0;&#x5883;">&#x57F7;&#x884C;&#x74B0;&#x5883;</h3>
+<p>python2</p>
+<h3 id="&#x57F7;&#x884C;&#x65B9;&#x6CD5;">&#x57F7;&#x884C;&#x65B9;&#x6CD5;</h3>
+<pre><code class="lang-sh">$ python pttcrawler.py [&#x7248;&#x540D;]  [&#x6293;&#x53D6;&#x9801;&#x6578;]
+</code></pre>
+<ul>
+<li>&#x967D;&#x6625;&#x7248;</li>
+</ul>
+<pre><code class="lang-py"><span class="hljs-comment"># coding=UTF-8</span>
+
+<span class="hljs-keyword">import</span> time
+<span class="hljs-keyword">from</span> datetime <span class="hljs-keyword">import</span> datetime
+<span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">import</span> time
+<span class="hljs-keyword">import</span> sys
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+requests.packages.urllib3.disable_warnings()
+
+
+Board = <span class="hljs-string">&apos;&apos;</span>
+payload={
+<span class="hljs-string">&apos;from&apos;</span>:<span class="hljs-string">&apos;/bbs/&apos;</span>+ Board +<span class="hljs-string">&apos;/index.html&apos;</span>,
+<span class="hljs-string">&apos;yes&apos;</span>:<span class="hljs-string">&apos;yes&apos;</span> 
+}
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">getPageNumber</span><span class="hljs-params">(content)</span> :</span>
+    startIndex = content.find(<span class="hljs-string">&apos;index&apos;</span>)
+    endIndex = content.find(<span class="hljs-string">&apos;.html&apos;</span>)
+    pageNumber = content[startIndex+<span class="hljs-number">5</span> : endIndex]
+    <span class="hljs-keyword">return</span> pageNumber
+
+<span class="hljs-comment"># python PttCrawler.py Gossiping 2 </span>
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:
+    Board = str(sys.argv[<span class="hljs-number">1</span>])
+    ParsingPage = int(sys.argv[<span class="hljs-number">2</span>])
+    <span class="hljs-keyword">print</span> <span class="hljs-string">&apos;Start parsing [&apos;</span>+ Board +<span class="hljs-string">&apos;]....&apos;</span>
+    start_time = time.time()
+    rs = requests.session()
+    <span class="hljs-comment">#&#x516B;&#x5366;&#x7248;18&#x7981;</span>
+    res = rs.post(<span class="hljs-string">&apos;https://www.ptt.cc/ask/over18&apos;</span>,verify = <span class="hljs-keyword">False</span>, data = payload)
+    res = rs.get(<span class="hljs-string">&apos;https://www.ptt.cc/bbs/&apos;</span>+ Board +<span class="hljs-string">&apos;/index.html&apos;</span>,verify = <span class="hljs-keyword">False</span>)
+    soup = BeautifulSoup(res.text,<span class="hljs-string">&apos;html.parser&apos;</span>)
+    ALLpageURL = soup.select(<span class="hljs-string">&apos;.btn.wide&apos;</span>)[<span class="hljs-number">1</span>][<span class="hljs-string">&apos;href&apos;</span>]
+    ALLpage = int(getPageNumber(ALLpageURL)) + <span class="hljs-number">1</span>
+    <span class="hljs-keyword">print</span> <span class="hljs-string">&apos;Total pages:&apos;</span>, ALLpage
+    URLlist=[]
+    fileName=<span class="hljs-string">&apos;PttData-&apos;</span>+ Board + <span class="hljs-string">&apos;-&apos;</span> + datetime.now().strftime(<span class="hljs-string">&apos;%Y%m%d%H%M%S&apos;</span>)+<span class="hljs-string">&apos;.txt&apos;</span>
+
+    <span class="hljs-comment">#&#x5F97;&#x5230;&#x6BCF;&#x9801;&#x7684;&#x6240;&#x6709;&#x6587;&#x7AE0;</span>
+    <span class="hljs-keyword">for</span> index <span class="hljs-keyword">in</span> range(ALLpage, ALLpage-int(ParsingPage), -<span class="hljs-number">1</span>):
+        url = <span class="hljs-string">&apos;https://www.ptt.cc/bbs/&apos;</span>+ Board +<span class="hljs-string">&apos;/index&apos;</span>+ str(index) +<span class="hljs-string">&apos;.html&apos;</span>
+        res = rs.get(url, verify = <span class="hljs-keyword">False</span>)
+        soup = BeautifulSoup(res.text,<span class="hljs-string">&apos;html.parser&apos;</span>)
+        UrlPer = []
+        <span class="hljs-keyword">for</span> entry <span class="hljs-keyword">in</span> soup.select(<span class="hljs-string">&apos;.r-ent&apos;</span>):
+            atag = entry.select(<span class="hljs-string">&apos;.title&apos;</span>)[<span class="hljs-number">0</span>].find(<span class="hljs-string">&apos;a&apos;</span>) 
+        <span class="hljs-keyword">if</span>(atag != <span class="hljs-keyword">None</span>):
+               URL = atag[<span class="hljs-string">&apos;href&apos;</span>]          
+               UrlPer.append(<span class="hljs-string">&apos;https://www.ptt.cc&apos;</span> + URL)   
+        <span class="hljs-comment">#&#x9700;&#x8981;&#x53CD;&#x8F49;,&#x56E0;&#x70BA;&#x7DB2;&#x9801;&#x7248;&#x6700;&#x4E0B;&#x9762;&#x624D;&#x662F;&#x6700;&#x65B0;&#x7684;&#x6587;&#x7AE0;</span>
+        <span class="hljs-keyword">for</span> URL <span class="hljs-keyword">in</span> reversed(UrlPer):
+            URLlist.append(URL)   
+
+    strNext = <span class="hljs-string">u&quot;\n\n\n\n***************&#x4E0B;&#x4E00;&#x7BC7;***************\n\n\n\n\n&quot;</span>;
+    content = <span class="hljs-string">&apos;&apos;</span>
+    <span class="hljs-comment">#&#x5F97;&#x5230;&#x6BCF;&#x7BC7;&#x6587;&#x7AE0;&#x7684;&#x5167;&#x5BB9;</span>
+    <span class="hljs-keyword">for</span> URL <span class="hljs-keyword">in</span> URLlist:
+        res = rs.get(URL, verify = <span class="hljs-keyword">False</span>)
+        soup = BeautifulSoup(res.text, <span class="hljs-string">&apos;html.parser&apos;</span>)
+        data = soup.select(<span class="hljs-string">&apos;.bbs-screen.bbs-content&apos;</span>)[<span class="hljs-number">0</span>].text
+        content += (data + strNext)
+        time.sleep(<span class="hljs-number">0.05</span>) 
+
+    <span class="hljs-keyword">with</span> open(fileName,<span class="hljs-string">&apos;wb&apos;</span>) <span class="hljs-keyword">as</span> f:
+        f.write( content.encode(<span class="hljs-string">&apos;utf8&apos;</span>) )  
+
+    <span class="hljs-keyword">print</span> <span class="hljs-string">u&apos;====================END====================&apos;</span>
+    <span class="hljs-keyword">print</span> <span class="hljs-string">u&apos;execution time:&apos;</span> + str(time.time() - start_time)+<span class="hljs-string">&apos;s&apos;</span>
+</code></pre>
+<hr>
 <pre><code class="lang-py"><span class="hljs-comment">#coding=utf-8 </span>
 <span class="hljs-keyword">import</span> re
 <span class="hljs-keyword">import</span> sys

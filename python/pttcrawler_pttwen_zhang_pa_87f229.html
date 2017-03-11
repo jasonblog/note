@@ -57,7 +57,7 @@
         data-chapter-title="PTTcrawler (PTT文章爬蟲)"
         data-filepath="python/pttcrawler_pttwen_zhang_pa_87f229.md"
         data-basepath=".."
-        data-revision="Thu Mar 09 2017 00:47:42 GMT+0800 (CST)"
+        data-revision="Sat Mar 11 2017 22:28:31 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -16313,7 +16313,7 @@ FILENAME=<span class="hljs-string">&quot;&quot;</span>
     &quot;n&quot;: &#x2192;&#x6578;
 }
 </code></pre><h3 id="&#x57F7;&#x884C;&#x74B0;&#x5883;">&#x57F7;&#x884C;&#x74B0;&#x5883;</h3>
-<p>Python 2.7.3</p>
+<p>python 2.7.3</p>
 <h3 id="&#x57F7;&#x884C;&#x65B9;&#x6CD5;">&#x57F7;&#x884C;&#x65B9;&#x6CD5;</h3>
 <pre><code>$ python pttcrawler.py [&#x7248;&#x540D;]  [&#x6293;&#x53D6;&#x9801;&#x6578;]
 </code></pre><h3 id="&#x7BC4;&#x4F8B;">&#x7BC4;&#x4F8B;</h3>
@@ -16321,6 +16321,220 @@ FILENAME=<span class="hljs-string">&quot;&quot;</span>
 <pre><code>$ python pttcrawler.py  Gossiping  2
 </code></pre><p>  &#x5047;&#x8A2D;&#x7E3D;&#x5171;&#x6709;100&#x9801;&#xFF0C;&#x5247;&#x6703;&#x722C;&#x53D6;</p>
 <p>  <a href="https://www.ptt.cc/bbs/Gossiping/index100.html" target="_blank">https://www.ptt.cc/bbs/Gossiping/index100.html</a> &#x81F3; <a href="https://www.ptt.cc/bbs/Gossiping/index101.html" target="_blank">https://www.ptt.cc/bbs/Gossiping/index101.html</a> &#x4E4B;&#x9593;&#x7684;&#x5167;&#x5BB9;&#x3002;</p>
+<hr>
+<h3 id="&#x57F7;&#x884C;&#x74B0;&#x5883;">&#x57F7;&#x884C;&#x74B0;&#x5883;</h3>
+<p>python 3</p>
+<h3 id="&#x57F7;&#x884C;&#x65B9;&#x6CD5;">&#x57F7;&#x884C;&#x65B9;&#x6CD5;</h3>
+<pre><code class="lang-sh">$ python pttcrawler.py [&#x7248;&#x540D;]  [&#x6293;&#x53D6;&#x9801;&#x6578;]
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-comment">#coding=utf-8</span>
+<span class="hljs-keyword">import</span> re
+<span class="hljs-keyword">import</span> sys
+<span class="hljs-keyword">import</span> json
+<span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">import</span> time
+<span class="hljs-keyword">from</span> datetime <span class="hljs-keyword">import</span> datetime
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+
+
+requests.packages.urllib3.disable_warnings()
+
+PttName, fileName = <span class="hljs-string">&quot;&quot;</span>, <span class="hljs-string">&quot;&quot;</span>
+load = {
+    <span class="hljs-string">&apos;from&apos;</span>: <span class="hljs-string">&apos;/bbs/&apos;</span> + PttName + <span class="hljs-string">&apos;/index.html&apos;</span>,
+    <span class="hljs-string">&apos;yes&apos;</span>: <span class="hljs-string">&apos;yes&apos;</span>
+}
+
+rs = requests.session()
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">getPageNumber</span><span class="hljs-params">(content)</span>:</span>
+    startIndex = content.find(<span class="hljs-string">&apos;index&apos;</span>)
+    endIndex = content.find(<span class="hljs-string">&apos;.html&apos;</span>)
+    pageNumber = content[startIndex + <span class="hljs-number">5</span>: endIndex]
+    <span class="hljs-keyword">return</span> pageNumber
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">over18</span><span class="hljs-params">(board)</span>:</span>
+    res = rs.get(<span class="hljs-string">&apos;https://www.ptt.cc/bbs/&apos;</span> + board + <span class="hljs-string">&apos;/index.html&apos;</span>, verify=<span class="hljs-keyword">False</span>)
+    <span class="hljs-comment"># &#x5148;&#x6AA2;&#x67E5;&#x7DB2;&#x5740;&#x662F;&#x5426;&#x5305;&#x542B;&apos;over18&apos;&#x5B57;&#x4E32; ,&#x5982;&#x6709;&#x5247;&#x70BA;18&#x7981;&#x7DB2;&#x7AD9;</span>
+    <span class="hljs-keyword">if</span> (res.url.find(<span class="hljs-string">&apos;over18&apos;</span>) &gt; -<span class="hljs-number">1</span>):
+        print(<span class="hljs-string">&quot;18&#x7981;&#x7DB2;&#x9801;&quot;</span>)
+        load = {
+            <span class="hljs-string">&apos;from&apos;</span>: <span class="hljs-string">&apos;/bbs/&apos;</span> + board + <span class="hljs-string">&apos;/index.html&apos;</span>,
+            <span class="hljs-string">&apos;yes&apos;</span>: <span class="hljs-string">&apos;yes&apos;</span>
+        }
+        res = rs.post(<span class="hljs-string">&apos;https://www.ptt.cc/ask/over18&apos;</span>, verify=<span class="hljs-keyword">False</span>, data=load)
+        <span class="hljs-keyword">return</span> BeautifulSoup(res.text, <span class="hljs-string">&apos;html.parser&apos;</span>)
+    <span class="hljs-keyword">return</span> BeautifulSoup(res.text, <span class="hljs-string">&apos;html.parser&apos;</span>)
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">crawler</span><span class="hljs-params">(url_list)</span>:</span>
+    count, g_id = <span class="hljs-number">0</span>, <span class="hljs-number">0</span>
+    total = len(url_list)
+    <span class="hljs-comment"># &#x958B;&#x59CB;&#x722C;&#x7DB2;&#x9801;</span>
+    <span class="hljs-keyword">while</span> url_list:
+        url = url_list.pop(<span class="hljs-number">0</span>)
+        res = rs.get(url, verify=<span class="hljs-keyword">False</span>)
+        soup = BeautifulSoup(res.text, <span class="hljs-string">&apos;html.parser&apos;</span>)
+        <span class="hljs-comment"># &#x5982;&#x7DB2;&#x9801;&#x5FD9;&#x7DDA;&#x4E2D;,&#x5247;&#x5148;&#x5C07;&#x7DB2;&#x9801;&#x52A0;&#x5165; index_list &#x4E26;&#x4F11;&#x606F;1&#x79D2;&#x5F8C;&#x518D;&#x9023;&#x63A5;</span>
+        <span class="hljs-keyword">if</span> (soup.title.text.find(<span class="hljs-string">&apos;Service Temporarily&apos;</span>) &gt; -<span class="hljs-number">1</span>):
+            url_list.append(url)
+            <span class="hljs-comment"># print u&apos;error_URL:&apos;, url</span>
+            <span class="hljs-comment"># print u&apos;error_URL head:&apos;, soup.title.text</span>
+            time.sleep(<span class="hljs-number">1</span>)
+        <span class="hljs-keyword">else</span>:
+            count += <span class="hljs-number">1</span>
+            <span class="hljs-comment"># print u&apos;OK_URL:&apos;, url</span>
+            <span class="hljs-comment"># print u&apos;OK_URL head:&apos;, soup.title.text</span>
+            <span class="hljs-keyword">for</span> r_ent <span class="hljs-keyword">in</span> soup.find_all(class_=<span class="hljs-string">&quot;r-ent&quot;</span>):
+                <span class="hljs-comment"># &#x5148;&#x5F97;&#x5230;&#x6BCF;&#x7BC7;&#x6587;&#x7AE0;&#x7684;&#x7BC7;url</span>
+                link = r_ent.find(<span class="hljs-string">&apos;a&apos;</span>)
+                <span class="hljs-keyword">if</span> (link):
+                    <span class="hljs-comment"># &#x78BA;&#x5B9A;&#x5F97;&#x5230;url</span>
+                    URL = <span class="hljs-string">&apos;https://www.ptt.cc&apos;</span> + link[<span class="hljs-string">&apos;href&apos;</span>]
+                    g_id = g_id + <span class="hljs-number">1</span>
+                    <span class="hljs-comment"># &#x907F;&#x514D;&#x88AB;&#x8A8D;&#x70BA;&#x653B;&#x64CA;&#x7DB2;&#x7AD9;</span>
+                    time.sleep(<span class="hljs-number">0.1</span>)
+                    <span class="hljs-comment"># &#x958B;&#x59CB;&#x722C;&#x6587;&#x7AE0;&#x5167;&#x5BB9;</span>
+                    parseGos(URL, g_id)
+            print(<span class="hljs-string">&quot;download: &quot;</span> + str(<span class="hljs-number">100</span> * count / total) + <span class="hljs-string">&quot; %.&quot;</span>)
+        <span class="hljs-comment"># &#x907F;&#x514D;&#x88AB;&#x8A8D;&#x70BA;&#x653B;&#x64CA;&#x7DB2;&#x7AD9;</span>
+        time.sleep(<span class="hljs-number">0.1</span>)
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">checkformat</span><span class="hljs-params">(soup, class_tag, data, index, link)</span>:</span>
+    <span class="hljs-comment"># &#x907F;&#x514D;&#x6709;&#x4E9B;&#x6587;&#x7AE0;&#x6703;&#x88AB;&#x4F7F;&#x7528;&#x8005;&#x81EA;&#x884C;&#x522A;&#x9664; &#x6A19;&#x984C;&#x5217; &#x6642;&#x9593;  &#x4E4B;&#x985E;......</span>
+    <span class="hljs-keyword">try</span>:
+        content = soup.select(class_tag)[index].text
+    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:
+        print(<span class="hljs-string">&apos;checkformat error URL&apos;</span>, link)
+        <span class="hljs-comment"># print &apos;checkformat:&apos;,str(e)</span>
+        content = <span class="hljs-string">&quot;no &quot;</span> + data
+    <span class="hljs-keyword">return</span> content
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">parseGos</span><span class="hljs-params">(link, g_id)</span>:</span>
+    res = rs.get(link, verify=<span class="hljs-keyword">False</span>)
+    soup = BeautifulSoup(res.text, <span class="hljs-string">&apos;html.parser&apos;</span>)
+
+    <span class="hljs-comment"># author &#x6587;&#x7AE0;&#x4F5C;&#x8005;</span>
+    <span class="hljs-comment"># author  = soup.select(&apos;.article-meta-value&apos;)[0].text</span>
+    author = checkformat(soup, <span class="hljs-string">&apos;.article-meta-value&apos;</span>, <span class="hljs-string">&apos;author&apos;</span>, <span class="hljs-number">0</span>, link)
+    <span class="hljs-comment"># print &apos;author:&apos;,author</span>
+
+    <span class="hljs-comment"># title &#x6587;&#x7AE0;&#x6A19;&#x984C;  </span>
+    <span class="hljs-comment"># title = soup.select(&apos;.article-meta-value&apos;)[2].text</span>
+    title = checkformat(soup, <span class="hljs-string">&apos;.article-meta-value&apos;</span>, <span class="hljs-string">&apos;title&apos;</span>, <span class="hljs-number">2</span>, link)
+    <span class="hljs-comment"># print &apos;title:&apos;,title</span>
+
+    <span class="hljs-comment"># date &#x6587;&#x7AE0;&#x65E5;&#x671F;</span>
+    <span class="hljs-comment"># date = soup.select(&apos;.article-meta-value&apos;)[3].text</span>
+    date = checkformat(soup, <span class="hljs-string">&apos;.article-meta-value&apos;</span>, <span class="hljs-string">&apos;date&apos;</span>, <span class="hljs-number">3</span>, link)
+    <span class="hljs-comment"># print &apos;date:&apos;,date</span>
+
+    <span class="hljs-comment"># ip &#x6587;&#x7AE0;&#x6587;&#x7AE0;ip       </span>
+    <span class="hljs-keyword">try</span>:
+        targetIP = <span class="hljs-string">u&apos;&#x203B; &#x767C;&#x4FE1;&#x7AD9;: &#x6279;&#x8E22;&#x8E22;&#x5BE6;&#x696D;&#x574A;&apos;</span>
+        ip = soup.find(string=re.compile(targetIP))
+        ip = re.search(<span class="hljs-string">r&quot;[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*&quot;</span>, ip).group()
+    <span class="hljs-keyword">except</span>:
+        ip = <span class="hljs-string">&quot;ip is not find&quot;</span>
+    <span class="hljs-comment"># print &apos;ip:&apos;,ip</span>
+
+    <span class="hljs-comment"># content  &#x6587;&#x7AE0;&#x5167;&#x6587;</span>
+    <span class="hljs-keyword">try</span>:
+        content = soup.find(id=<span class="hljs-string">&quot;main-content&quot;</span>).text
+        target_content = <span class="hljs-string">u&apos;&#x203B; &#x767C;&#x4FE1;&#x7AD9;: &#x6279;&#x8E22;&#x8E22;&#x5BE6;&#x696D;&#x574A;(ptt.cc),&apos;</span>
+        content = content.split(target_content)
+        content = content[<span class="hljs-number">0</span>].split(date)
+        main_content = content[<span class="hljs-number">1</span>].replace(<span class="hljs-string">&apos;\n&apos;</span>, <span class="hljs-string">&apos;  &apos;</span>)
+        <span class="hljs-comment"># print &apos;content:&apos;,main_content</span>
+    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:
+        main_content = <span class="hljs-string">&apos;main_content error&apos;</span>
+        print(<span class="hljs-string">&apos;main_content error URL&apos;</span> + link)
+        <span class="hljs-comment"># print &apos;main_content error:&apos;,str(e)</span>
+
+    <span class="hljs-comment"># message &#x63A8;&#x6587;&#x5167;&#x5BB9;</span>
+    num, g, b, n, message = <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, {}
+
+    <span class="hljs-keyword">for</span> tag <span class="hljs-keyword">in</span> soup.select(<span class="hljs-string">&apos;div.push&apos;</span>):
+        <span class="hljs-keyword">try</span>:
+            <span class="hljs-comment"># push_tag  &#x63A8;&#x6587;&#x6A19;&#x7C64;  &#x63A8;  &#x5653;  &#x8A3B;&#x89E3;(&#x2192;)</span>
+            push_tag = tag.find(<span class="hljs-string">&quot;span&quot;</span>, {<span class="hljs-string">&apos;class&apos;</span>: <span class="hljs-string">&apos;push-tag&apos;</span>}).text
+            <span class="hljs-comment"># print &quot;push_tag:&quot;,push_tag</span>
+
+            <span class="hljs-comment"># push_userid &#x63A8;&#x6587;&#x4F7F;&#x7528;&#x8005;id</span>
+            push_userid = tag.find(<span class="hljs-string">&quot;span&quot;</span>, {<span class="hljs-string">&apos;class&apos;</span>: <span class="hljs-string">&apos;push-userid&apos;</span>}).text
+            <span class="hljs-comment"># print &quot;push_userid:&quot;,push_userid</span>
+
+            <span class="hljs-comment"># push_content &#x63A8;&#x6587;&#x5167;&#x5BB9;</span>
+            push_content = tag.find(<span class="hljs-string">&quot;span&quot;</span>, {<span class="hljs-string">&apos;class&apos;</span>: <span class="hljs-string">&apos;push-content&apos;</span>}).text
+            push_content = push_content[<span class="hljs-number">1</span>:]
+            <span class="hljs-comment"># print &quot;push_content:&quot;,push_content</span>
+
+            <span class="hljs-comment"># push-ipdatetime &#x63A8;&#x6587;&#x6642;&#x9593;</span>
+            push_ipdatetime = tag.find(<span class="hljs-string">&quot;span&quot;</span>, {<span class="hljs-string">&apos;class&apos;</span>: <span class="hljs-string">&apos;push-ipdatetime&apos;</span>}).text
+            push_ipdatetime = push_ipdatetime.rstrip()
+            <span class="hljs-comment"># print &quot;push-ipdatetime:&quot;,push_ipdatetime</span>
+
+            num += <span class="hljs-number">1</span>
+            message[num] = {<span class="hljs-string">&quot;&#x72C0;&#x614B;&quot;</span>: push_tag, <span class="hljs-string">&quot;&#x7559;&#x8A00;&#x8005;&quot;</span>: push_userid,
+                            <span class="hljs-string">&quot;&#x7559;&#x8A00;&#x5167;&#x5BB9;&quot;</span>: push_content, <span class="hljs-string">&quot;&#x7559;&#x8A00;&#x6642;&#x9593;&quot;</span>: push_ipdatetime}
+
+            <span class="hljs-comment"># &#x8A08;&#x7B97;&#x63A8;&#x5653;&#x6587;&#x6578;&#x91CF; g = &#x63A8; , b = &#x5653; , n = &#x8A3B;&#x89E3;</span>
+            <span class="hljs-keyword">if</span> push_tag == <span class="hljs-string">u&apos;&#x63A8; &apos;</span>:
+                g += <span class="hljs-number">1</span>
+            <span class="hljs-keyword">elif</span> push_tag == <span class="hljs-string">u&apos;&#x5653; &apos;</span>:
+                b += <span class="hljs-number">1</span>
+            <span class="hljs-keyword">else</span>:
+                n += <span class="hljs-number">1</span>
+        <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:
+            print(<span class="hljs-string">&quot;push error URL:&quot;</span> + link)
+            <span class="hljs-comment"># print &quot;push error:&quot;,str(e)</span>
+
+    messageNum = {<span class="hljs-string">&quot;g&quot;</span>: g, <span class="hljs-string">&quot;b&quot;</span>: b, <span class="hljs-string">&quot;n&quot;</span>: n, <span class="hljs-string">&quot;all&quot;</span>: num}
+
+    d = {<span class="hljs-string">&quot;a_ID&quot;</span>: g_id, <span class="hljs-string">&quot;b_&#x4F5C;&#x8005;&quot;</span>: author, <span class="hljs-string">&quot;c_&#x6A19;&#x984C;&quot;</span>: title, <span class="hljs-string">&quot;d_&#x65E5;&#x671F;&quot;</span>: date,
+         <span class="hljs-string">&quot;e_ip&quot;</span>: ip, <span class="hljs-string">&quot;f_&#x5167;&#x6587;&quot;</span>: main_content, <span class="hljs-string">&quot;g_&#x63A8;&#x6587;&quot;</span>: message, <span class="hljs-string">&quot;h_&#x63A8;&#x6587;&#x7E3D;&#x6578;&quot;</span>: messageNum}
+
+    <span class="hljs-comment"># json.dumps &#x5E8F;&#x5217;&#x5316;&#x6642;&#x9810;&#x8A2D;&#x70BA;&#x5C0D;&#x4E2D;&#x6587;&#x4F7F;&#x7528;ascii&#x7DE8;&#x78BC;</span>
+    json_data = json.dumps(d, ensure_ascii=<span class="hljs-keyword">False</span>, indent=<span class="hljs-number">4</span>, sort_keys=<span class="hljs-keyword">True</span>) + <span class="hljs-string">&apos;,&apos;</span>
+    store(json_data)
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">store</span><span class="hljs-params">(data)</span>:</span>
+    <span class="hljs-keyword">with</span> open(fileName, <span class="hljs-string">&apos;a&apos;</span>) <span class="hljs-keyword">as</span> f:
+        f.write(data.encode(sys.stdin.encoding, <span class="hljs-string">&quot;replace&quot;</span>).decode(sys.stdin.encoding))
+
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:
+    PttName, ParsingPage = str(sys.argv[<span class="hljs-number">1</span>]), int(sys.argv[<span class="hljs-number">2</span>])
+    start_time = time.time()
+    print(<span class="hljs-string">&apos;Start parsing &apos;</span> + PttName + <span class="hljs-string">&apos;....&apos;</span>)
+    fileName = <span class="hljs-string">&apos;data-&apos;</span> + PttName + <span class="hljs-string">&apos;-&apos;</span> + datetime.now().strftime(<span class="hljs-string">&apos;%Y%m%d%H%M%S&apos;</span>) + <span class="hljs-string">&apos;.json&apos;</span>
+    <span class="hljs-comment"># &#x6AA2;&#x67E5;&#x770B;&#x677F;&#x662F;&#x5426;&#x70BA;18&#x7981;,&#x6709;&#x4E9B;&#x770B;&#x677F;&#x70BA;18&#x7981;</span>
+    soup = over18(PttName)
+    ALLpageURL = soup.select(<span class="hljs-string">&apos;.btn.wide&apos;</span>)[<span class="hljs-number">1</span>][<span class="hljs-string">&apos;href&apos;</span>]
+    <span class="hljs-comment"># &#x5F97;&#x5230;&#x672C;&#x770B;&#x677F;&#x5168;&#x90E8;&#x7684;index&#x6578;&#x91CF;</span>
+    ALLpage = int(getPageNumber(ALLpageURL)) + <span class="hljs-number">1</span>
+    index_list = []
+    <span class="hljs-keyword">for</span> index <span class="hljs-keyword">in</span> range(ALLpage, ALLpage - int(ParsingPage), -<span class="hljs-number">1</span>):
+        page_url = <span class="hljs-string">&apos;https://www.ptt.cc/bbs/&apos;</span> + PttName + <span class="hljs-string">&apos;/index&apos;</span> + str(index) + <span class="hljs-string">&apos;.html&apos;</span>
+        index_list.append(page_url)
+
+    store(<span class="hljs-string">&apos;[\n&apos;</span>)
+    crawler(index_list)
+
+    <span class="hljs-comment"># &#x79FB;&#x9664;&#x6700;&#x5F8C;&#x4E00;&#x500B;  &quot;,&quot; &#x865F;</span>
+    <span class="hljs-keyword">with</span> open(fileName, <span class="hljs-string">&apos;r&apos;</span>) <span class="hljs-keyword">as</span> f:
+        content = f.read()
+    <span class="hljs-keyword">with</span> open(fileName, <span class="hljs-string">&apos;w&apos;</span>) <span class="hljs-keyword">as</span> f:
+        f.write(content[:-<span class="hljs-number">1</span>] + <span class="hljs-string">&quot;\n]&quot;</span>)
+
+    print(<span class="hljs-string">&quot;&#x722C;&#x87F2;&#x7D50;&#x675F;...&quot;</span>)
+    print(<span class="hljs-string">&quot;execution time:&quot;</span> + str(time.time() - start_time) + <span class="hljs-string">&quot;s&quot;</span>)
+</code></pre>
 
                     
                     </section>

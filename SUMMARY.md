@@ -951,7 +951,7 @@
    * [Template in C](c/template_in_c.md)
    * [signed 跟 unsigned 高位元差別](c/signed_gen_unsigned_gao_wei_yuan_cha_bie.md)
    * [21st Century C / 21世紀 C 語言 筆記](c/21st_century_c__21shi_ji_c_yu_yan_bi_ji.md)
-   * 你所不知道的 C 語言
+   * [你所不知道的 C 語言](c/ni_suo_bu_zhi_dao_de_c_yu_yan.md)
 * [OpenSoruce](opensoruce/opensoruce.md)
    * [開源網絡庫的分析libevent muduo nginx](opensoruce/kai_yuan_wang_luo_ku_de_fenxi_libevent_muduo_nginx.md)
    * [libevent 專案分析](opensoruce/libevent_zhuan_an_fen_xi.md)

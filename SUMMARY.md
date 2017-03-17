@@ -954,7 +954,7 @@
    * [你所不知道的 C 語言](c/ni_suo_bu_zhi_dao_de_c_yu_yan.md)
        * [為何要深入學習C語言](c/wei_he_yao_shen_ru_xue_xi_c_yu_yan.md)
        * [指標篇](c/zhi_biao_pian.md)
-       * 編譯器和最佳化原理篇
+       * [編譯器和最佳化原理篇](c/bian_yi_qi_he_zui_jia_hua_yuan_li_pian.md)
 * [OpenSoruce](opensoruce/opensoruce.md)
    * [開源網絡庫的分析libevent muduo nginx](opensoruce/kai_yuan_wang_luo_ku_de_fenxi_libevent_muduo_nginx.md)
    * [libevent 專案分析](opensoruce/libevent_zhuan_an_fen_xi.md)

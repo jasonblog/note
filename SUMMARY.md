@@ -958,6 +958,7 @@
        * [函式呼叫篇](c/han_shi_hu_jiao_pian.md)
        * [物件導向程式設計篇](c/wu_jian_dao_xiang_cheng_shi_she_ji_pian.md)
        * [前置處理器應用篇](c/qian_zhi_chu_li_qi_ying_yong_pian.md)
+       * 動態連結器篇
 * [OpenSoruce](opensoruce/opensoruce.md)
    * [開源網絡庫的分析libevent muduo nginx](opensoruce/kai_yuan_wang_luo_ku_de_fenxi_libevent_muduo_nginx.md)
    * [libevent 專案分析](opensoruce/libevent_zhuan_an_fen_xi.md)

@@ -962,7 +962,7 @@
        * [前置處理器應用篇](c/qian_zhi_chu_li_qi_ying_yong_pian.md)
        * [動態連結器篇](c/dong_tai_lian_jie_qi_pian.md)
        * [遞迴呼叫篇](c/di_hui_hu_jiao_pian.md)
-   * 幫 C 語言加上 Garbage Collector
+   * [幫 C 語言加上 Garbage Collector](c/bang_c_yu_yan_jia_shang_garbage_collector.md)
 * [OpenSoruce](opensoruce/opensoruce.md)
    * [開源網絡庫的分析libevent muduo nginx](opensoruce/kai_yuan_wang_luo_ku_de_fenxi_libevent_muduo_nginx.md)
    * [libevent 專案分析](opensoruce/libevent_zhuan_an_fen_xi.md)

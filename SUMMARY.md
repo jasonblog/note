@@ -707,6 +707,7 @@
        * [gcc編譯，ld連接](gcc/gccbian_yi_ff0c_ld_lian_jie.md)
        * [編譯步驟 - 組譯  連結 測試](gcc/bian_yi_bu_zou_-_zu_yi_lian_jie_ce_shi.md)
        * [Linux GCC 編譯4個過程](gcc/linux_gcc_bian_yi_guo_cheng.md)
+       * dlopen() 與 GCC -rdynamic 選項
    * [Clang](gcc/clang.md)
        * [memory layout C++ objects for clang](gcc/memory_layout_c++_objects_for_clang.md)
 * [FreeRTOS](freertos/freertos.md)

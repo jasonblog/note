@@ -222,6 +222,7 @@
    * [Linux設備模型(2)_Kobject](linux_driver/linuxshe_bei_mo578b28_2__kobject.md)
    * [mmap driver implementation](linux_driver/mmap_driver_implementation.md)
    * [嵌入式Linux驅動模板精講與項目實踐](linux_driver/qian_rushi_linux_qu_dong_mo_ban_jing_jiang_yu_xian.md)
+   * 動手寫 Linux Driver
 * [OS](os/README.md)
    * [[轉]打造簡易作業系統](os/141.md)
        * [(一) 開機Hello World實例](os/14111.md)

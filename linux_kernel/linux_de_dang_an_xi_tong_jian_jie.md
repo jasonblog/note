@@ -118,3 +118,10 @@ Linux 檔案系統的第一層目錄如表格 2 所示，認識這些目錄才�
 
 當我們使用 ls -all 這樣的指令以列出資料夾中的目錄結構時，看到的就是這些概念所反映出的資訊。圖 1 就顯示了 ls 指令所呈現出的資訊與所對應的概念 。
 
+
+![](images/LinuxExt2.jpg)
+![](images/LinuxFileDirectory.jpg)
+![](images/LinuxInode.jpg)
+![](images/LinuxInodeIndex.jpg)
+![](images/LinuxVFS.jpg)
+

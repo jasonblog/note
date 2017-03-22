@@ -203,6 +203,7 @@
    * [根據內核Oops 定位代碼](linux_kernel/gen_ju_nei_he_oops_ding_wei_dai_ma.md)
    * [內核和用戶空間共享內存的實現例程-proc和mmap](linux_kernel/nei_he_he_yong_hu_kong_jian_gong_xiang_nei_cun_de_.md)
    * [陳鍾誠](linux_kernel/chen_zhong_cheng.md)
+       * 簡介
 * [Linux Driver](linux_driver/README.md)
    * [Linux Device Driver Programming](linux_device_driver_programming/README.md)
        * [Linux 裝置驅動程式的概要](linux_device_driver_programming/01.md)

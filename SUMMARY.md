@@ -202,7 +202,7 @@
    * [調試工具ltrace strace ftrace的使用](linux_kernel/diao_shi_gong_ju_ltrace_strace_ftrace_de_shi_yong.md)
    * [根據內核Oops 定位代碼](linux_kernel/gen_ju_nei_he_oops_ding_wei_dai_ma.md)
    * [內核和用戶空間共享內存的實現例程-proc和mmap](linux_kernel/nei_he_he_yong_hu_kong_jian_gong_xiang_nei_cun_de_.md)
-   * [陳鍾誠](linux_kernel/chen_zhong_cheng.md)
+   * [陳鍾誠Linux Kernel](linux_kernel/chen_zhong_cheng.md)
        * [簡介](linux_kernel/jian_jie.md)
        * [行程結構](linux_kernel/xing_cheng_jie_gou.md)
        * [Linux 的記憶體管理](linux_kernel/linux_de_ji_yi_ti_guan_li.md)

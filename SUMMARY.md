@@ -208,7 +208,7 @@
        * [Linux 的記憶體管理](linux_kernel/linux_de_ji_yi_ti_guan_li.md)
        * [Linux 的檔案系統](linux_kernel/linux_de_dang_an_xi_tong_jian_jie.md)
        * [Linux 的輸出入系統](linux_kernel/linux_de_shu_chu_ru_xi_tong.md)
-       * Linux 的目的檔
+       * [Linux 的目的檔](linux_kernel/linux_de_mu_de_dang.md)
 * [Linux Driver](linux_driver/README.md)
    * [Linux Device Driver Programming](linux_device_driver_programming/README.md)
        * [Linux 裝置驅動程式的概要](linux_device_driver_programming/01.md)

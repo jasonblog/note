@@ -34,3 +34,43 @@ https://repo1.maven.org/maven2/com/android/tools/build/gradle/
 - 關閉deamon，
 - 清理依賴緩存
 營造一個全新的打正式包環境。
+
+
+--- 
+
+classpath 'com.android.tools.build:gradle:2.1.3'  // 版本要跟 gradle-wrapper.properties 配合
+
+distributionUrl=http\://services.gradle.org/distributions/gradle-2.14.1-all.zip
+
+classpath 'com.android.tools.build:gradle:2.1.3'
+
+
+```sh
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.1.3'  // 版本要跟 gradle-wrapper.properties
+    }
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+}
+
+```
+---
+
+```sh
+Error:Execution failed for task ':app:processDebugResources'.
+> com.android.ide.common.process.ProcessException: org.gradle.process.internal.ExecException: Process 'command '/home/Android/Sdk/build-tools/23.0.2/aapt'' finished with non-zero exit value 127
+```
+
+——这个问题很难从提示信息看出原因，其实原因是在64位操作系统下面需要对32位库的支持才能运行aapt这个程序，因为aapt只有32位版本，即便是下载的64位的SDK build-tools,这个aapt依然是32位的。解决方法是安装32位的命令支持库：sudo apt-get install lib32stdc++6 lib32z1
+

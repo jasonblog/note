@@ -22,7 +22,7 @@ Copyright (**慣C**) 2015, 2016 [宅色夫](http://wiki.csie.ncku.edu.tw/User/js
 
 ![](images/embedded2015.hackpad.com_2q5oxqltYTG_p.299401_1455784004886_undefined)
 
-[数学定义的 Function](https://www.cs.colorado.edu/~srirams/courses/csci2824-spr14/functionsCompositionAndInverse-17.html)
+[數學定義的 Function](https://www.cs.colorado.edu/~srirams/courses/csci2824-spr14/functionsCompositionAndInverse-17.html)
 
 ![](images/embedded2015.hackpad.com_2q5oxqltYTG_p.299401_1455784093894_func.png)
 
@@ -194,7 +194,7 @@ function epilogue
 
 **延伸閱讀**
 
-* [递归与尾递归（C语言）](http://blog.jobbole.com/80626/)
+* [遞歸與尾遞歸（C語言）](http://blog.jobbole.com/80626/)
 
 ## stack-based buffer overflow
 
@@ -326,13 +326,13 @@ $2 = -168929728
 <heap nr="0">
 ```
 
-glibc 提供了 `malloc_stats()` 和 `malloc_info()` 这两个函式，可显示 process 的 heap 资讯
+glibc 提供了 `malloc_stats()` 和 `malloc_info()` 這兩個函式，可顯示 process 的 heap 資訊
 
-**延伸阅读**
+**延伸閱讀**
 
-* [如何实现一个malloc](http://blog.jobbole.com/75656/)
+* [如何實現一個malloc](http://blog.jobbole.com/75656/)
 * [c malloc/free 初探 ](http://descent-incoming.blogspot.tw/2015/06/c-mallocfree.html) 
-* [用 C 语言编写一个简单的垃圾回收器](http://blog.jobbole.com/77248/)
+* [用 C 語言編寫一個簡單的垃圾回收器](http://blog.jobbole.com/77248/)
 
 [https://sourceware.org/gdb/onlinedocs/gdb/Target-Description-Format.html](https://sourceware.org/gdb/onlinedocs/gdb/Target-Description-Format.html)
 
@@ -364,36 +364,36 @@ malloc: first-fit => [https://github.com/jserv/mini-arm-os/blob/master/07-Thread
 
 ## Q&A
 
-* [x] 频繁地使用 `malloc()` / `free()` 会产生 [memory fragmentation](https://en.wikipedia.org/wiki/Fragmentation_(computing))，该如何避免？
+* [x] 頻繁地使用 `malloc()` / `free()` 會產生 [memory fragmentation](https://en.wikipedia.org/wiki/Fragmentation_(computing))，該如何避免？
     Hint: memory pool
 
-* [x] C++ 中多了 new/delete 两个用法，与 malloc() /  free() 有什么样的差别？<s>比较建议使用哪一种？</s>
+* [x] C++ 中多了 new/delete 兩個用法，與 malloc() /  free() 有什麼樣的差別？<s>比較建議使用哪一種？</s>
     [http://descent-incoming.blogspot.tw/2013/12/operator-newdelete.html](http://descent-incoming.blogspot.tw/2013/12/operator-newdelete.html)
     [http://stackoverflow.com/questions/3941271/why-are-malloc-and-printf-said-as-non-reentrant](http://stackoverflow.com/questions/3941271/why-are-malloc-and-printf-said-as-non-reentrant)
 
-* [x] free完某pointer后是不是一定要做 pointer = NULL？
+* [x] free完某pointer後是不是一定要做 pointer = NULL？
     避免 doubly free
 
-* [x] 如何检查自己的程式有无memory leak(使用ARM或x86的情况)？
+* [x] 如何檢查自己的程式有無memory leak(使用ARM或x86的情況)？
     >> you could try
     >> [http://valgrind.org/](http://valgrind.org/)
 
-* [x] coroutine 主要方法是增加global变数来减少function的中操作stack的存取吗? 而增加的global变数是化简原本stack的记忆体存取，ex 在stack重复push位置一样的值。
+* [x] coroutine 主要方法是增加global變數來減少function的中操作stack的存取嗎? 而增加的global變數是化簡原本stack的記憶體存取，ex 在stack重複push位置一樣的值。
     depends on implementations
     => [http://fanf.livejournal.com/105413.html](http://fanf.livejournal.com/105413.html)
     => [http://blog.linux.org.tw/~jserv/archives/001848.html](http://blog.linux.org.tw/~jserv/archives/001848.html)
 
-* [ ] <s>C 语言是否存在能实现如 C++ RAII 机制的方法？</s>
+* [ ] <s>C 語言是否存在能實現如 C++ RAII 機制的方法？</s>
 
-* [x] C有办法做到JAVA内的reflection机制吗？
+* [x] C有辦法做到JAVA內的reflection機制嗎？
     Eg.  GLib/GObject 
     GLib/GObject is an object system, with single-inheritance and RTTI (run-time type identification), implemented in C.
     [GObject Introspection](https://wiki.gnome.org/action/show/Projects/GObjectIntrospection)
 
-* [x] <s>之前上课有提到C runtime，C runtime是何时被执行的？每种语言都有自己的runtime吗？有的话，怎么知道现在执行的Program需要哪个runtime？</s>
+* [x] <s>之前上課有提到C runtime，C runtime是何時被執行的？每種語言都有自己的runtime嗎？有的話，怎麼知道現在執行的Program需要哪個runtime？</s>
     [http://descent-incoming.blogspot.tw/2016/01/for-stm32f4discovery-12-c.html](http://descent-incoming.blogspot.tw/2016/01/for-stm32f4discovery-12-c.html)
 
-* [x] 为什么 linux kernel 里面很多 function 都要宣告成 static ??
+* [x] 為什麼 linux kernel 裡面很多 function 都要宣告成 static ??
     name conflict, abstraction
 
 * [x] 請問前面的圖把Kernel映射進virtual memory有什麼功用嗎?

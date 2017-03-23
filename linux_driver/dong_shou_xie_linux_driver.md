@@ -149,7 +149,7 @@ $ sudo dmesg | tail
 
 讀取 User Space 的資料
 
-在前一節當中我們提供了一個 API 讓 User Space 可以操作 Driver。但是其實我們是不能直接存取 buf 的內容。因為 Kernel Space 與 User Space 有不同的位址空間，所以不能直接存取他們。我們必須借助 copy_from_user 這個 API。
+在前一節當中我們提供了一個 API 讓 User Space 可以操作 Driver。但是其實我們是不能直接存取 buf 的內容。因為 Kernel Space 與 User Space 有不同的位址空間，所以不能直接存取他們。我們必須藉助 copy_from_user 這個 API。
 
 在使用這個 API 之前，我們必需引入 <asm/uaccess.h>：
 

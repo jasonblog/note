@@ -106,6 +106,6 @@ $ ./a.out bar
 called bar() 
 ```
 
-我們要怎麼取得 Dynamic Symbol Table 裡面的資料呢？這就必須借助 dlopen() 與 dlsym()。根據 man dlopen 的資料，dlopen() 必須要傳入二個參數，第一個參數是要載入的動態函式庫，而第二個參數是函式庫的載入方式。如果我們以 NULL 作為第一個參數，則代表我們要載入執行檔本身的 Dynamic Symbol Table。接著我們就可以用 dlsym() 尋找我們要執行的函式了。
+我們要怎麼取得 Dynamic Symbol Table 裡面的資料呢？這就必須藉助 dlopen() 與 dlsym()。根據 man dlopen 的資料，dlopen() 必須要傳入二個參數，第一個參數是要載入的動態函式庫，而第二個參數是函式庫的載入方式。如果我們以 NULL 作為第一個參數，則代表我們要載入執行檔本身的 Dynamic Symbol Table。接著我們就可以用 dlsym() 尋找我們要執行的函式了。
 
 後注：雖然我覺得這個方法很巧妙也很有趣，不過我覺得這個方法不太安全。因為所有的函式都有可能暴露給 JIT Compiler 使用者。我覺得還是手動建函式表會比較好。這樣我們才可以控制要開放的函式與介面。

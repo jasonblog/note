@@ -21,9 +21,9 @@ Linux 是一個注重速度與實用性的系統，因此沒有採用微核心�
 
 由於開放原始碼的影響，Linux擁有眾多的版本，像是 Red Hat、Ubuntu、Fedora、Debian 等，但是這些版本幾乎都利用 Tovarlds 所維護的核心，整合其他開放原始碼軟體後所形成的，因此雖然版本眾多卻有統一的特性。
 
-由於 Linux 原本是以 GNU 工具所開發的，因此也被稱為 GNU/Linux。由於 GNU工具支援 IEEE 所制定的POSIX 標準，該標準對 UNIX 平台的函式庫進行了基本的統一動作，因此Linux 自然也就屬於POSIX 標準的成員之一。
+由於 Linux 原本是以 GNU 工具所開發的，因此也被稱為 GNU/Linux。由於 GNU工具支援 IEEE 所制定的POSIX 標準，該標準對 UNIX 平臺的函式庫進行了基本的統一動作，因此Linux 自然也就屬於POSIX 標準的成員之一。
 
-雖然 Tovarlds 最早是利用 IBM PC 開發 Linux 作業系統的，但是目前Linux 已經被移值到各種平台上。因此 Linux 所支援的處理器非常眾多，包含 IA32、MIPS、ARM、Power PC 等。當您想要將 Linux 移植到新的處理器上時，必須重新編譯 Linux 核心，您可以利用 GNU 的 gcc, make 等工具編譯 Linux 核心與大部分的 Linux 程式。
+雖然 Tovarlds 最早是利用 IBM PC 開發 Linux 作業系統的，但是目前Linux 已經被移值到各種平臺上。因此 Linux 所支援的處理器非常眾多，包含 IA32、MIPS、ARM、Power PC 等。當您想要將 Linux 移植到新的處理器上時，必須重新編譯 Linux 核心，您可以利用 GNU 的 gcc, make 等工具編譯 Linux 核心與大部分的 Linux 程式。
 
 Linux 並不是一個小型的作業系統，因此在啟動時通常必須透過啟動載入器載入 Linux 。在桌上型電腦中，常被使用的Linux啟動載入器有 GRUB、LILO 等。但是在高階的嵌入式系統當中，Linux 最常用的啟動程式則是U-Boot，這是因為 U-Boot 所支援的處理器非常眾多，因此成為目前最廣為使用的嵌入式啟動載入器。
 

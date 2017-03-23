@@ -9,7 +9,7 @@ Copyright (**慣C**) 2015, 2016 [宅色夫](http://wiki.csie.ncku.edu.tw/User/js
 - [直播錄影](https://www.youtube.com/watch?v=RYXFLxnLsiM)
 
 ## 編譯器無所不在
-* [編譯器的多元應用](https://embedded2015.hackpad.com/Compiler-rtfoECtyuOd): 小小一只 Android 手機，裡頭內建了 8 種以上動態編譯器和虛擬機器
+* [編譯器的多元應用](https://embedded2015.hackpad.com/Compiler-rtfoECtyuOd): 小小一隻 Android 手機，裡頭內建了 8 種以上動態編譯器和虛擬機器
 * 為什麼你該理解編譯器的原理
     * 其中一個理由是理解編譯器的限制: [gcc can](http://peter.kingofcoders.com/?p=1799)[’t handle too much](http://peter.kingofcoders.com/?p=1799) [#if](https://embedded2015.hackpad.com/ep/search/?q=%23if&via=DWAUb7NnQF0) [macro](http://peter.kingofcoders.com/?p=1799)
         * [Compiler 的多元應用](https://embedded2015.hackpad.com/Compiler-rtfoECtyuOd)
@@ -396,7 +396,7 @@ int add5(int a, int b, int c , int d, int e){
 * vendor 部份只是常見是可以塞 vendor 而已, 但沒有一定塞 vendor 的資訊
 * extra-info 部份大部份是在拿來描述用的 ABI 或著是 library 相關資訊
 
-先以常見 x86 的平台為例子：
+先以常見 x86 的平臺為例子：
 
 gcc 下 -v 可以看到以下：
 

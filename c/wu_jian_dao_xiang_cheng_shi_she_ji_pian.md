@@ -194,9 +194,9 @@ struct gr *gr_open(const char *dev, int nonblock)
 }
 ```
 
-在此可見到，oltk 初始化時，會逐一去呼叫 graphics backend (也可以說 "provider") 的 open 這個 method，界面都是一樣的，但實際上的平台相依程式碼卻大相逕庭。oltk 可專注在視覺表現和事件處理，而 framebuffer 到底怎麼提供呢？自行看 [gr_fb.c](http://git.openmoko.org/?p=system-test-suite.git;a=blob_plain;f=gta02-dm2/src/oltk/gr_fb.c;hb=HEAD) 的實做細節即可。
+在此可見到，oltk 初始化時，會逐一去呼叫 graphics backend (也可以說 "provider") 的 open 這個 method，界面都是一樣的，但實際上的平臺相依程式碼卻大相逕庭。oltk 可專注在視覺表現和事件處理，而 framebuffer 到底怎麼提供呢？自行看 [gr_fb.c](http://git.openmoko.org/?p=system-test-suite.git;a=blob_plain;f=gta02-dm2/src/oltk/gr_fb.c;hb=HEAD) 的實做細節即可。
 
-值得注意的是，無論是 [gr_fb.c](http://git.openmoko.org/?p=system-test-suite.git;a=blob_plain;f=gta02-dm2/src/oltk/gr_fb.c;hb=HEAD) 或 [gr_x11.c](http://git.openmoko.org/?p=system-test-suite.git;a=blob_plain;f=gta02-dm2/src/oltk/gr_x11.c;hb=HEAD)，這兩個平台相依的實做，在定義實做本體時，都有 gr 的實例 (instance):
+值得注意的是，無論是 [gr_fb.c](http://git.openmoko.org/?p=system-test-suite.git;a=blob_plain;f=gta02-dm2/src/oltk/gr_fb.c;hb=HEAD) 或 [gr_x11.c](http://git.openmoko.org/?p=system-test-suite.git;a=blob_plain;f=gta02-dm2/src/oltk/gr_x11.c;hb=HEAD)，這兩個平臺相依的實做，在定義實做本體時，都有 gr 的實例 (instance):
 
 ```clike=
 struct gr_fb {
@@ -246,7 +246,7 @@ void oltk_button_set_color(struct oltk_button *b,
 	gr->set_color(gr, b->oltk->color_index, &grrgb, 1);
 ```
 
-顯然，上述程式呼叫的 "set_color"，也是個 method，完全看 gr 這個 instance 指向哪一種平台相依的裝置。
+顯然，上述程式呼叫的 "set_color"，也是個 method，完全看 gr 這個 instance 指向哪一種平臺相依的裝置。
 
 更多的案例可見以下：
 
@@ -268,7 +268,7 @@ void oltk_button_set_color(struct oltk_button *b,
 * 二十年前，軟體設計領域的四位大師 (GoF，「四人幫」，又稱 Gang of Four，即 Erich Gamma, Richard Helm, Ralph Johnson & John Vlissides) 通過著作《**_Design Patterns: Elements of Reusable Object-Oriented Software_**》闡述了設計模式領域的開創性成果
 * 最後一章（遺憾的是，讀者們大多直接將其忽略），他們指出：
     * 「這本書的實際價值也許還值得商榷。畢竟它並沒有提出任何前所未有的演算法或者程式設計技術。它也沒能給出任何嚴格的系統設計方法或者新的設計開發理論 —— 它只是==對現有設計成果的一種審視==。大家當然可以將其視為一套不錯的教材，但它顯然無法為經驗豐富的物件導向設計人員帶來多少幫助。」
-* 「人們很容易將模式視為一種解決方案，或者說一種能夠進行實際採納及重複使用的技術。相較之下，人們很難弄清其更為確切的核心 —— 即定義其能夠解決的問題以及在哪些背景下才屬於最佳解決方案。總體來講，大多數人都能弄清他人正在做什麼，卻不太了解這樣做的理由 —— 而所謂『理由』對於模式而言正是其需要解決的主要問題。理解模式的目標同樣重要，因為這能幫助我們選定適合自己的模式，也能幫助我們理解現有系統的設計方式。模式作者必須弄清並定義該模式所能解決的問題，或者至少在將其作為解決方案之後做出進一步思考。」 (第 393 頁)
+* 「人們很容易將模式視為一種解決方案，或者說一種能夠進行實際採納及重複使用的技術。相較之下，人們很難弄清其更為確切的核心 —— 即定義其能夠解決的問題以及在哪些背景下才屬於最佳解決方案。總體來講，大多數人都能弄清他人正在做什麼，卻不太瞭解這樣做的理由 —— 而所謂『理由』對於模式而言正是其需要解決的主要問題。理解模式的目標同樣重要，因為這能幫助我們選定適合自己的模式，也能幫助我們理解現有系統的設計方式。模式作者必須弄清並定義該模式所能解決的問題，或者至少在將其作為解決方案之後做出進一步思考。」 (第 393 頁)
 * 模式是一套立足於特定背景，且擁有一整套可預測結果的解決方案
 
 https://github.com/QMonkey/OOC-Design-Pattern.git
@@ -388,7 +388,7 @@ int main()
 
 * 你可以把所有的演算法全部寫進同一個物件，然後用條件式判斷來選用所要執行的版本，但是：
     * 物件的程式碼很容易變得過於複雜與肥大，不好理解與修改。
-    * 物件占用過多的記憶體空間，因為可能不會使用到全部的演算法。
+    * 物件佔用過多的記憶體空間，因為可能不會使用到全部的演算法。
     * 擴充新的演算法必須要修改既有的程式碼。
     * 不容易分別開發、修改與測試每一個演算法。
 * 你可以透過繼承，讓子類被重新定義自己的演算法。但是這樣會產生許多類似的類別，但僅僅只有行為上些微的差別。

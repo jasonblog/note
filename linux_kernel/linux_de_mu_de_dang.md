@@ -73,7 +73,7 @@ struct nlist {                  // a.out 的符號表結構
 
 ##目的檔格式 – ELF
 
-目的檔ELF 格式(Executable and Linking Format) 是 UNIX/Linux 系統中較先進的目的檔格式。這種格式是 AT&T 公司在設計第五代UNIX (UNIX System V) 時所發展出來的。因此，ELF格式的主要文件被放在規格書 -『System V Application Binary Interface』的第四章的 Object Files當中 ，該文件詳細的介紹了 UNIX System V 中二進位檔案格式的存放方式。並且在第五章的 Program Loading and Dynamic Linking 當中，說明了動態連結與載入的設計方法。
+目的檔ELF 格式(Executable and Linking Format) 是 UNIX/Linux 系統中較先進的目的檔格式。這種格式是 AT&T 公司在設計第五代UNIX (UNIX System V) 時所發展出來的。因此，ELF格式的主要文件被放在規格書 -『System V Application Binary Interface』的第四章的 Object Files當中 ，該文件詳細的介紹了 UNIX System V 中二進位檔案格式的存放方式。並且在第五章的 Program Loading and Dynamic Linking 當中，說明瞭動態連結與載入的設計方法。
 
 雖然該規格書當中並沒有介紹與機器結構相關的部分，但由於各家CPU廠商都會自行撰寫與處理器有關的規格書，以補充該文件的不足之處，因此，若要查看與處理器相關的部分，可以查看各個廠商的補充文件 。
 
@@ -95,7 +95,7 @@ ELF可用來記錄目的檔 (object file)、執行檔 (executable file)、動態
 typedef struct {
   unsigned char     e_ident[EI_NIDENT];     // ELF 辨識代號區
   Elf32_Half        e_type;                 // 檔案類型代號
-  Elf32_Half        e_machine;              // 機器平台代號
+  Elf32_Half        e_machine;              // 機器平臺代號
   Elf32_Word        e_version;              // 版本資訊
   Elf32_Addr        e_entry;                // 程式的起始位址
   Elf32_Off         e_phoff;                // 程式表頭的位址
@@ -231,7 +231,7 @@ typedef struct {
 
 圖 5. 目的檔ELF的資料結構
 
-分段表頭記錄了各分段 (Section) 的基本資訊，包含分段起始位址等，因此可以透過分段表頭讀取各分段，圖 6 顯示了如何透過分段表頭讀取分段的方法。程式片段 3 則顯示了分段表頭的結構定義程式。
+分段表頭記錄了各分段 (Section) 的基本資訊，包含分段起始位址等，因此可以透過分段表頭讀取各分段，圖 6 顯示瞭如何透過分段表頭讀取分段的方法。程式片段 3 則顯示了分段表頭的結構定義程式。
 
 
 ![](images/ELFsectionheader.jpg)
@@ -257,7 +257,7 @@ typedef struct {
 ```
 
 程式表頭指向各個分區 (Segment) ，包含分區的起始位址，因此可以透過程式表頭取得各分區的詳細內容，
-圖 7 顯示了如何透過程式表頭取得各分區的方法。 程式片段 4 則顯示了程式表頭的結構定義程式。
+圖 7 顯示瞭如何透過程式表頭取得各分區的方法。 程式片段 4 則顯示了程式表頭的結構定義程式。
 
 
 

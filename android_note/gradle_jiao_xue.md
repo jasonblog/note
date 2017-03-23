@@ -72,5 +72,5 @@ Error:Execution failed for task ':app:processDebugResources'.
 > com.android.ide.common.process.ProcessException: org.gradle.process.internal.ExecException: Process 'command '/home/Android/Sdk/build-tools/23.0.2/aapt'' finished with non-zero exit value 127
 ```
 
-——这个问题很难从提示信息看出原因，其实原因是在64位操作系统下面需要对32位库的支持才能运行aapt这个程序，因为aapt只有32位版本，即便是下载的64位的SDK build-tools,这个aapt依然是32位的。解决方法是安装32位的命令支持库：sudo apt-get install lib32stdc++6 lib32z1
+——這個問題很難從提示信息看出原因，其實原因是在64位操作系統下面需要對32位庫的支持才能運行aapt這個程序，因為aapt只有32位版本，即便是下載的64位的SDK build-tools,這個aapt依然是32位的。解決方法是安裝32位的命令支持庫：sudo apt-get install lib32stdc++6 lib32z1
 

@@ -256,8 +256,8 @@ uint16_t value = *(uint8_t*)ptr | ((*(uint8_t*)(ptr+1))<<8);
 
 ### 延伸閱讀
 
-- [C语言内存地址基础](http://blog.jobbole.com/44845/)
-- [失落的C语言结构体封装艺术](http://blog.jobbole.com/57822/)
+- [C語言內存地址基礎](http://blog.jobbole.com/44845/)
+- [失落的C語言結構體封裝藝術](http://blog.jobbole.com/57822/)
 
 ## 沒有「雙指標」只有「指標的指標」
 
@@ -283,7 +283,7 @@ int main()
 
 - `*ptrA` 的數值從 1 變成 2，而且 ptrA 指向的物件也改變了
 - 感想：蔡志浩博士的[推文](https://twitter.com/hao520/status/776971550394167296): (call-by-value 的解讀)
-    - 「台灣人太習慣把人生交給別人決定，把挫折歸咎別人。於是大部分的人的天賦與聰明才智以及改變自己與世界的機會都被浪費了。但這也表示只要正視現實，你有太多價值可以創造」
+    - 「臺灣人太習慣把人生交給別人決定，把挫折歸咎別人。於是大部分的人的天賦與聰明才智以及改變自己與世界的機會都被浪費了。但這也表示只要正視現實，你有太多價值可以創造」
 
 
 ## forward declaration 搭配指標的技巧
@@ -325,7 +325,7 @@ struct oltk {
 ### 延伸閱讀
 
 - [你所不知道的C語言：物件導向程式設計篇](https://hackmd.io/s/HJpiYaZfl)
-- [如何在指针中隐藏数据？](http://blog.jobbole.com/83213/)
+- [如何在指針中隱藏數據？](http://blog.jobbole.com/83213/)
 
 
 
@@ -406,7 +406,7 @@ int calendar[12][31];
 sizeof(calendar) = ? sizeof(b) = ?
 ```
 
-善用 GDB，能省下沒必要的 `printf()`，並可互動分析: (下方以 GNU/Linux x86_64 作為示範平台)
+善用 GDB，能省下沒必要的 `printf()`，並可互動分析: (下方以 GNU/Linux x86_64 作為示範平臺)
 
 - 有時會遇到程式邏輯和結果正確，但因為 `printf()` 的輸出格式沒用對，而誤以為自己程式沒寫好的狀況
 
@@ -655,7 +655,7 @@ strcpy(r, s); strcat(r, t);
 free(r);
 r = NULL; /* Try to reset free’d pointers to NULL */
 
-`int main(int argc, char *argv[], char *envp[])` 的奧秘
+`int main(int argc, char *argv[], char *envp[])` 的奧祕
 
 #include <stdio.h>
 int main(int argc, char (*argv)[0])
@@ -715,9 +715,9 @@ $1 = 0x7fffffffe7c9 "/tmp/x"
 
 ### 延伸閱讀
 
-- [C语言杂谈：指针与数组 (上)](http://blog.jobbole.com/86400/)
-- [C语言杂谈：指针与数组 (下)](http://blog.jobbole.com/86412/)
-- [C 语言中的指针和内存泄漏](http://blog.jobbole.com/84548/)
+- [C語言雜談：指針與數組 (上)](http://blog.jobbole.com/86400/)
+- [C語言雜談：指針與數組 (下)](http://blog.jobbole.com/86412/)
+- [C 語言中的指針和內存洩漏](http://blog.jobbole.com/84548/)
 
 - A common C pitfall is to confuse a pointer with the data to which it points
 
@@ -812,7 +812,7 @@ $ gdb -o fp -g fp.c ` & ` objdump -d fp `
 
 ### 延伸閱讀
 
-- [C语言函数指针基础](http://blog.jobbole.com/44639/)
+- [C語言函數指針基礎](http://blog.jobbole.com/44639/)
 
 
 ## Learn C The Hard Way
@@ -821,7 +821,7 @@ $ gdb -o fp -g fp.c ` & ` objdump -d fp `
 - [Exercise 36: Safer Strings](http://c.learncodethehardway.org/book/ex36.html)
     - "**Why C Strings Were A Horrible Idea**"
         - it is not possible to validate a C string without possibly looping infinitely.
-        - 延伸閱讀: [“NULL”：计算机科学中的最严重错误，造成十亿美元损失](https://linux.cn/article-6503-1.html)
+        - 延伸閱讀: [“NULL”：計算機科學中的最嚴重錯誤，造成十億美元損失](https://linux.cn/article-6503-1.html)
     - 中華民國刑法第 227 條：「對於未滿十四歲之少男或少女為性交者，處三年以上十年以下有期徒刑 ... 對於十四歲以上未滿十六歲之男女為性交者，處七年以下有期徒刑」
     - 刑法第 227-1 條 (兩小無猜條款)，規定未滿十八歲的人犯 227 條時，為告訴乃論，這是考量到雙方都是未成年，因為對性事好奇，或者是彼此相愛而進行性行為，故有特規定這個例外可通融，得免除或減輕其刑。
     - [ [出處](http://yblog.org/archive/index.php/11764) ] 規定要 18 歲以上才可看限制級內容的影片、圖畫和書刊，不過滿 16 歲就可合法性
@@ -829,7 +829,7 @@ $ gdb -o fp -g fp.c ` & ` objdump -d fp `
     - 有沒有發現跟 C-style string 很像？都「經歷過」了，才跟你說以前有「法律疑慮」
     - 延伸閱讀: [Did Ken, Dennis, and Brian choose wrong with NUL-terminated text strings?](http://queue.acm.org/detail.cfm?id=2010365)
         - Performance Costs: 什麼時候 Visual BASIC 會比 C 來得快？像是取得字串的長度，前者是常數時間，但後者就算做了[各式 strlen() 最佳化](https://coldnew.gitbooks.io/2015-embedded-summber/content/exame/detect_macro.html)，終究耗時
-        - Compiler Development Cost: 對於 char msg[256] 這樣的 string literal，編譯器最佳化時，會嘗試用 `memcpy()` 取代 `strcpy()`，前者通常有平台相依的最佳化，而後者因為不能事先知道長度，無法做更有效率的最佳化。但這樣的最佳化技巧要讓編譯器自動施行，導致額外的維護成本
+        - Compiler Development Cost: 對於 char msg[256] 這樣的 string literal，編譯器最佳化時，會嘗試用 `memcpy()` 取代 `strcpy()`，前者通常有平臺相依的最佳化，而後者因為不能事先知道長度，無法做更有效率的最佳化。但這樣的最佳化技巧要讓編譯器自動施行，導致額外的維護成本
         - Security Costs: 一個 `gets()` 就有機會搞垮系統，對照看 [Insecure coding in C](http://www.slideshare.net/olvemaudal/insecure-coding-in-c-and-c)
 - [Exercise 15: Pointers Dreaded Pointers](http://c.learncodethehardway.org/book/ex15.html)
 - [Exercise 16: Structs And Pointers To Them](http://c.learncodethehardway.org/book/ex16.html)
@@ -869,7 +869,7 @@ $ gdb -o fp -g fp.c ` & ` objdump -d fp `
 
 ### 延伸閱讀
 
-- [SDS：一个简易动态字符串库](http://blog.jobbole.com/68119/)
+- [SDS：一個簡易動態字符串庫](http://blog.jobbole.com/68119/)
 
 
 ## Linus Torvalds 親自教你 C 語言
@@ -926,7 +926,7 @@ int main() {
 
 ## Null pointer?
 
-- [台灣工程師常唸錯的英文單字](http://priv.tw/blog/archives/591/)
+- [臺灣工程師常唸錯的英文單字](http://priv.tw/blog/archives/591/)
     - null `[nʌl]` 請不要發「怒偶」，他沒有怒。
 
 ![](https://hackpad-attachments.s3.amazonaws.com/embedded2015.hackpad.com_s0rlzR8wVtm_p.299401_1474171871668_undefined)

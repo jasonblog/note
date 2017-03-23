@@ -273,4 +273,4 @@ static void scan_touched_objects() {
 
 以上程式碼就是一個具體而微的 Conservative Garbage Collector，完整的程式碼與測試程式可以從這裡下載：conservativegc.h , conservativegc.c , test_tree.c , test_many.c 。當然這個 Conservative Garbage Collector 還少了很多東西：包括計算 static storage 的 root set（在 Linux 之下可以檢查 etext 與 end 二者之間的值），還有更有效率的 allocation policy 等等。
 
-備註：如果你真的有在 C/C++ 使用 Garbage Collector 的需求可以參考 libgc，一個由 Boehm、Demers、Weiser 等前輩撰寫 (他們是提出 Conservative Garbage Collector 的重要前輩)，並被移植到多個平台的 Conservative Garbage Collector 函式庫。
+備註：如果你真的有在 C/C++ 使用 Garbage Collector 的需求可以參考 libgc，一個由 Boehm、Demers、Weiser 等前輩撰寫 (他們是提出 Conservative Garbage Collector 的重要前輩)，並被移植到多個平臺的 Conservative Garbage Collector 函式庫。

@@ -89,6 +89,7 @@
    * [Android下設置CPU核心數和頻率](android_note/524.md)
    * [Android系統的智能指針（輕量級指針、強指針和弱指針）的實現原理分析](android_note/androidxi_tong_de_zhi_neng_zhi_zhen_ff08_qing_lian.md)
    * [gradle 教學](android_note/gradle_jiao_xue.md)
+   * Gradle的一些总结
 * [Ubuntu](ubuntu/README.md)
    * [Ubuntu installer](ubuntu/ubuntu_installer.md)
    * [Windows與Ubuntu雙系統，開機時偵測不到彼此的解決方法](ubuntu/windowsyuubuntu_shuang_xi_tong_ff0c_kai_ji_shi_zhe.md)

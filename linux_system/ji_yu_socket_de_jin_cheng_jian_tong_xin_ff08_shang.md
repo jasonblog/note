@@ -260,7 +260,8 @@ int clt_afunix_conn_init(const char* pathname)
 运行结果同网络通信部分。
 本节仅仅给出了一个很简单的通信程序，仅仅简单实现了客户进程和服务进程之间的通信，在下一节笔者将会在本节示例的基础上做修改，写一个在实际应用中可以使用的代码。
 本节示例代码下载链接：
- http://download.csdn.net/detail/gentleliu/8140459
+
+http://download.csdn.net/detail/gentleliu/8140459
  
  
  

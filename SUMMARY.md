@@ -352,7 +352,7 @@
        * [（零）：基础概念](linux_system/ff08_ling_ff09_ff1a_ji_chu_gai_nian.md)
        * [（一）：posix线程及线程间互斥](linux_system/ff08_yi_ff09_ff1a_posix_xian_cheng_ji_xian_cheng_j.md)
        * [（二）：posix线程同步](linux_system/ff08_er_ff09_ff1a_posix_xian_cheng_tong_bu.md)
-       * （三）：posix线程实现单个生产者和单个消费者模型 
+       * [（三）：posix线程实现单个生产者和单个消费者模型](linux_system/ff08_san_ff09_ff1a_posix_xian_cheng_shi_xian_dan_g.md)
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

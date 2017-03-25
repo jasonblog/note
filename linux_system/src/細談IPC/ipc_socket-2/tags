@@ -1,0 +1,56 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+CC	Makefile	/^CC = $(CROSS_COMPILE)gcc$/;"	m
+CLT_BIN	Makefile	/^CLT_BIN = client$/;"	m
+CLT_OBJ	Makefile	/^CLT_OBJ = $(patsubst %.c, %.o, $(wildcard clt\/*.c))$/;"	m
+SER_BIN	Makefile	/^SER_BIN = server$/;"	m
+SER_DO_H_H_H_	ser/ser_do.h	2;"	d
+SER_OBJ	Makefile	/^SER_OBJ = $(patsubst %.c, %.o, $(wildcard ser\/*.c))$/;"	m
+SLN_IPC_MAX_FUNC	include/sock_ipc.h	20;"	d
+SLN_IPC_RC_ERR	include/sock_ipc.h	/^    SLN_IPC_RC_ERR = -1,$/;"	e	enum:__anon1
+SLN_IPC_RC_FUNC	include/sock_ipc.h	/^    SLN_IPC_RC_FUNC = -3,$/;"	e	enum:__anon1
+SLN_IPC_RC_OK	include/sock_ipc.h	/^    SLN_IPC_RC_OK = 0,$/;"	e	enum:__anon1
+SLN_IPC_RC_OTHER	include/sock_ipc.h	/^    SLN_IPC_RC_OTHER = -99$/;"	e	enum:__anon1
+SLN_IPC_RC_TYPE	include/sock_ipc.h	/^    SLN_IPC_RC_TYPE = -2,$/;"	e	enum:__anon1
+SLN_IPC_TYPE_0x1	include/sock_ipc.h	/^    SLN_IPC_TYPE_0x1 = 0,$/;"	e	enum:__anon2
+SLN_IPC_TYPE_0x2	include/sock_ipc.h	/^    SLN_IPC_TYPE_0x2 = 1$/;"	e	enum:__anon2
+SOCK_IPC_H_H_	include/sock_ipc.h	2;"	d
+SOCK_IPC_MAX_BUF	include/sock_ipc.h	5;"	d
+SOCK_IPC_MAX_CONN	include/sock_ipc.h	8;"	d
+SOCK_IPC_NAME	include/sock_ipc.h	4;"	d
+SOCK_IPC_SER_LISTEN_PORT	include/sock_ipc.h	7;"	d
+SRC_BIN	Makefile	/^SRC_BIN = $(CLT_BIN) $(SER_BIN)$/;"	m
+STRIP	Makefile	/^STRIP=$(CROSS_COMPILE)strip$/;"	m
+USE_AF_UNIX	include/sock_ipc.h	10;"	d
+_ipc_sock_msg_t	include/sock_ipc.h	/^typedef struct _ipc_sock_msg_t {$/;"	s
+gbuf	ser/ser_do.c	/^static char     gbuf[256] = "hello, this is server!";$/;"	v	file:
+ipc_recv	clt/clt.c	/^ipc_recv(int sockfd, void *msg, size_t recv_size)$/;"	f	file:
+ipc_send	clt/clt.c	/^ipc_send(int sockfd, const void *msg, size_t send_size)$/;"	f	file:
+ipc_sock_msg_t	include/sock_ipc.h	/^} ipc_sock_msg_t;$/;"	t	typeref:struct:_ipc_sock_msg_t
+main	clt/clt.c	/^int main(int argc, const char *argv[])$/;"	f
+main	ser/ser.c	/^int main(int argc, const char *argv[])$/;"	f
+msg_buf	include/sock_ipc.h	/^    char    msg_buf[SOCK_IPC_MAX_BUF];$/;"	m	struct:_ipc_sock_msg_t
+msg_buflen	include/sock_ipc.h	/^    int     msg_buflen;$/;"	m	struct:_ipc_sock_msg_t
+msg_rc	include/sock_ipc.h	/^    int     msg_rc;$/;"	m	struct:_ipc_sock_msg_t
+msg_type	include/sock_ipc.h	/^    int     msg_type;$/;"	m	struct:_ipc_sock_msg_t
+seraddr	clt/clt.c	/^struct sockaddr_in  seraddr;$/;"	v	typeref:struct:sockaddr_in
+seraddr	clt/clt.c	/^struct sockaddr_un  seraddr;$/;"	v	typeref:struct:sockaddr_un
+sln_ipc_clt_afinet_conn_init	clt/clt.c	/^sln_ipc_clt_afinet_conn_init(int port)$/;"	f
+sln_ipc_clt_afunix_conn_init	clt/clt.c	/^sln_ipc_clt_afunix_conn_init(const char *pathname)$/;"	f
+sln_ipc_clt_conn	clt/clt.c	/^sln_ipc_clt_conn($/;"	f
+sln_ipc_handle_0x1	ser/ser_do.c	/^sln_ipc_handle_0x1(void *recvbuf, int recv_size, void *sendbuf, int *send_size)$/;"	f
+sln_ipc_handle_0x2	ser/ser_do.c	/^sln_ipc_handle_0x2(void *recvbuf, int recv_size, void *sendbuf, int *send_size)$/;"	f
+sln_ipc_rc_t	include/sock_ipc.h	/^} sln_ipc_rc_t;$/;"	t	typeref:enum:__anon1
+sln_ipc_recv	ser/ser.c	/^sln_ipc_recv(int sockfd, void *msg, size_t recv_size)$/;"	f	file:
+sln_ipc_send	ser/ser.c	/^sln_ipc_send(int sockfd, const void *msg, size_t send_size)$/;"	f	file:
+sln_ipc_ser_accept	ser/ser.c	/^sln_ipc_ser_accept(int listenfd)$/;"	f	file:
+sln_ipc_ser_afinet_listen	ser/ser.c	/^sln_ipc_ser_afinet_listen(int port)$/;"	f	file:
+sln_ipc_ser_afunix_listen	ser/ser.c	/^sln_ipc_ser_afunix_listen(const char *pathname)$/;"	f	file:
+sln_ipc_ser_func	ser/ser.c	/^(*sln_ipc_ser_func[SLN_IPC_MAX_FUNC])($/;"	v	file:
+sln_ipc_ser_func_init	ser/ser.c	/^int sln_ipc_ser_func_init(void)$/;"	f
+sln_ipc_ser_loop	ser/ser.c	/^int sln_ipc_ser_loop(void)$/;"	f
+sln_ser_handle	ser/ser.c	/^sln_ser_handle(int sockfd, ipc_sock_msg_t *recv_msg)$/;"	f	file:

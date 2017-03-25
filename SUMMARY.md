@@ -351,6 +351,7 @@
    * [Linux同步与互斥应用](linux_system/linuxtong_bu_yu_hu_chi_ying_yong.md)
        * [（零）：基础概念](linux_system/ff08_ling_ff09_ff1a_ji_chu_gai_nian.md)
        * [（一）：posix线程及线程间互斥](linux_system/ff08_yi_ff09_ff1a_posix_xian_cheng_ji_xian_cheng_j.md)
+       * （二）：posix线程同步 
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

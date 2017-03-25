@@ -342,7 +342,7 @@
        * [mmap系统调用共享内存](linux_system/mmapxi_tong_diao_yong_gong_xiang_nei_cun.md)
        * [posix 共享内存](linux_system/posix_gong_xiang_nei_cun.md)
        * [system V共享内存](linux_system/system_vgong_xiang_nei_cun.md)
-       * pipe和FIFO
+       * [pipe和FIFO](linux_system/pipehe_fifo.md)
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

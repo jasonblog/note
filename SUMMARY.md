@@ -347,6 +347,7 @@
        * [posix消息队列](linux_system/posixxiao_xi_dui_lie.md)
        * [system V 消息队列](linux_system/system_v_xiao_xi_dui_lie.md)
        * [細說linux IPC：各種IPC形式比較總結](linux_system/xi_shuo_linux_ipcff1a_ge_zhong_ipc_xing_shi_bi_jia.md)
+       * 補充 现代Linux有两种共享内存机制
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

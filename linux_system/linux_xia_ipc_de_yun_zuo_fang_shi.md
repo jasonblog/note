@@ -154,10 +154,12 @@ main()
 
 ##二、Message Queue 的基本用法
 參考  http://tldp.org/LDP/lpg/node27.html，主要有四個API
-int msgget ( key_t key, int msgflg );
-int msgsnd ( int msqid, struct msgbuf *msgp, int msgsz, int msgflg );
-int msgrcv ( int msqid, struct msgbuf *msgp, int msgsz, long mtype, int msgflg );
-int msgctl ( int msgqid, int cmd, struct msqid_ds *buf );
+
+- int msgget ( key_t key, int msgflg );
+- int msgsnd ( int msqid, struct msgbuf *msgp, int msgsz, int msgflg );
+- int msgrcv ( int msqid, struct msgbuf *msgp, int msgsz, long mtype, int msgflg );
+- int msgctl ( int msgqid, int cmd, struct msqid_ds *buf );
+
 用法說明：
 
 - 使用函數 key_t ftok(char *name, int id) 取得一個在此系統內唯一的值，假設為 vKey。當然這個值也可以自行指定。

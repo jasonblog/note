@@ -348,7 +348,7 @@
        * [system V 消息隊列](linux_system/system_v_xiao_xi_dui_lie.md)
        * [細說linux IPC：各種IPC形式比較總結](linux_system/xi_shuo_linux_ipcff1a_ge_zhong_ipc_xing_shi_bi_jia.md)
        * [補充 現代Linux有兩種共享內存機制](linux_system/bu_chong_xian_dai_linux_you_liang_zhong_gong_xiang.md)
-   *  Linux同步与互斥应用
+   * [Linux同步与互斥应用](linux_system/linuxtong_bu_yu_hu_chi_ying_yong.md)
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

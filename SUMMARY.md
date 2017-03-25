@@ -337,6 +337,7 @@
    * [Linux 下 IPC 的運作方式](linux_system/linux_xia_ipc_de_yun_zuo_fang_shi.md)
    * [細說linux IPC：各種IPC形式比較總結](linux_system/xi_shuo_linux_ipcff1a_ge_zhong_ipc_xing_shi_bi_jia.md)
    * [细说linux IPC](linux_system/xi_shuo_linux_ipc.md)
+       * 基于socket的进程间通信（上）
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

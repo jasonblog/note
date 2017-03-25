@@ -1,15 +1,15 @@
-# （一）：posix线程及线程间互斥
+# （一）：posix線程及線程間互斥
 
 
-有了进程的概念，为何还要使用线程呢？
+有了進程的概念，為何還要使用線程呢？
 
-首先，回忆一下上一个系列我们讲到的IPC，各个进程之间具有独立的内存空间，要进行数据的传递只能通过通信的方式进行，这种方式不仅费时，而且很不方便。而同一个进程下的线程是共享全局内存的，所以一个线程的数据可以在另一个线程中直接使用，及快捷又方便。
+首先，回憶一下上一個系列我們講到的IPC，各個進程之間具有獨立的內存空間，要進行數據的傳遞只能通過通信的方式進行，這種方式不僅費時，而且很不方便。而同一個進程下的線程是共享全局內存的，所以一個線程的數據可以在另一個線程中直接使用，及快捷又方便。
 
-其次，在Linux系统下，启动一个新的进程必须分配给它独立的地址空间，建立众多的数据表来维护它的代码段、堆栈段和数据段，这是一种"昂贵"的多任务工作方式。而运行于一个进程中的多个线程，它们彼此之间使用相同的地址空间，共享大部分数据，启动一个线程所花费的空间远远小于启动一个进程所花费的空间，而且，线程间彼此切换所需的时间也远远小于进程间切换所需要的时间。
+其次，在Linux系統下，啟動一個新的進程必須分配給它獨立的地址空間，建立眾多的數據表來維護它的代碼段、堆棧段和數據段，這是一種"昂貴"的多任務工作方式。而運行於一個進程中的多個線程，它們彼此之間使用相同的地址空間，共享大部分數據，啟動一個線程所花費的空間遠遠小於啟動一個進程所花費的空間，而且，線程間彼此切換所需的時間也遠遠小於進程間切換所需要的時間。
 
-但是，伴随着这些优点，线程却带来了同步与互斥的问题。下面先讲讲线程基本函数：
+但是，伴隨著這些優點，線程卻帶來了同步與互斥的問題。下面先講講線程基本函數：
 
-###1. 线程的创建pthread_create
+###1. 線程的創建pthread_create
 
 ```c
 #include <pthread.h>
@@ -17,15 +17,15 @@ int pthread_create(pthread_t *thread, const pthread_attr_t *attr,
               void *(*start_routine) (void *), void *arg);
 ```
 
- 一个线程由一个线程ID（参数thread）标识，新的线程创建成功，其值通过指针thread返回。
+ 一個線程由一個線程ID（參數thread）標識，新的線程創建成功，其值通過指針thread返回。
 
-参数attr为线程属性（比如：优先级、初始栈大小等），通常我们使用默认设置，设为NULL。
+參數attr為線程屬性（比如：優先級、初始棧大小等），通常我們使用默認設置，設為NULL。
 
-参数start_routine为一个函数指针，指向线程执行的函数，最后参数arg为函数start_routine唯一参数，如果需要传递多个参数，需要打包为结构，然后将其地址传给该函数。
+參數start_routine為一個函數指針，指向線程執行的函數，最後參數arg為函數start_routine唯一參數，如果需要傳遞多個參數，需要打包為結構，然後將其地址傳給該函數。
 
-pthread_create成功时返回0，失败为非0值，这和其他linux系统调用的习惯不一样。
+pthread_create成功時返回0，失敗為非0值，這和其他linux系統調用的習慣不一樣。
 
-###2. pthread_join函数
+###2. pthread_join函數
 
 ```c
 #include <pthread.h>  
@@ -33,50 +33,50 @@ int pthread_join(pthread_t thread, void **retval);
 ```
 
 
-通过调用该函数等待一个给定线程终止，类似于线程的waitpid函数。
+通過調用該函數等待一個給定線程終止，類似於線程的waitpid函數。
 
-该函数等待参数thread指定的线程终止，该函数会阻塞，直到线程thread终止，将线程返回的(void *)指针赋值为retval指向的位置，然后回收已经终止线程占用的所有存储器资源。
+該函數等待參數thread指定的線程終止，該函數會阻塞，直到線程thread終止，將線程返回的(void *)指針賦值為retval指向的位置，然後回收已經終止線程佔用的所有存儲器資源。
 
 
-###3. pthread_self函数
+###3. pthread_self函數
 
 ```c
 #include <pthread.h>  
 pthread_t pthread_self(void);
 ```
 
-该函数用于获取线程自身线程ID。类似于进程的getpid函数。
+該函數用於獲取線程自身線程ID。類似於進程的getpid函數。
 
 
-###4. pthread_detach函数
+###4. pthread_detach函數
 
 ```c
 #include <pthread.h>  
 int pthread_detach(pthread_t thread);  
 ```
 
- 该函数可分离可结合线程，线程可以通过以pthread_self()为参数的pthread_detach调用来分离他们自己。
+ 該函數可分離可結合線程，線程可以通過以pthread_self()為參數的pthread_detach調用來分離他們自己。
 
-一个分离线程是不能被其他线程回收或杀死的，他的存储器资源在他终止时由系统自动释放。一个可结合线程能够被其他线程收回其资源和杀死，在被其他线程收回之前，他的存储器资源是没有被释放的。在任何一个时间点上，线程是可结合的或者是可分离的。默认情况下，线程是被创建成可结合的。
-
-
-为了避免存储器泄露，每个可结合线程都应该要么被其他线程现实的收回，要么通过调用pthread_detach函数被分离。
+一個分離線程是不能被其他線程回收或殺死的，他的存儲器資源在他終止時由系統自動釋放。一個可結合線程能夠被其他線程收回其資源和殺死，在被其他線程收回之前，他的存儲器資源是沒有被釋放的。在任何一個時間點上，線程是可結合的或者是可分離的。默認情況下，線程是被創建成可結合的。
 
 
-在现实的程序中，我们一般都使用分离的线程。
+為了避免存儲器洩露，每個可結合線程都應該要麼被其他線程現實的收回，要麼通過調用pthread_detach函數被分離。
 
-### 5. pthread_exit函数
+
+在現實的程序中，我們一般都使用分離的線程。
+
+### 5. pthread_exit函數
 
 ```c
 #include <pthread.h>  
 void pthread_exit(void *retval);
 ```
 
- 该函数作用就是终止线程。如果该线程未曾分离，他的线程ID和退出状态将一直保留到调用进程内某个其他线程对他调用pthread_join。
+ 該函數作用就是終止線程。如果該線程未曾分離，他的線程ID和退出狀態將一直保留到調用進程內某個其他線程對他調用pthread_join。
 
-另外，当线程函数（pthread_create第三个参数）返回时，该线程将终止；当创建该线程的进程main函数返回时，该线程也将终止。
+另外，當線程函數（pthread_create第三個參數）返回時，該線程將終止；當創建該線程的進程main函數返回時，該線程也將終止。
 
-下面给一个简单的示例
+下面給一個簡單的示例
  
 ```c
 #include <stdio.h>
@@ -118,7 +118,7 @@ int main(int argc, const char* argv[])
 }
 ```
 
-执行2次输出为：
+執行2次輸出為：
  
 ```sh
 # ./target_bin  
@@ -129,14 +129,14 @@ int main(int argc, const char* argv[])
 =======func_th->9==thread1: 3077708608====  
 ```
 
- 类似于进程，线程的调度随机的。
+ 類似於進程，線程的調度隨機的。
 
 
-在前面开始我们说到同一个进程内的线程是共享全局内存的，那么当多个线程同时去修改一个全局变量的时候就会出问题，如果一个线程在修改某个变量时中途被挂起，操作系统去调度另外一个线程执行，那就可能导致错误。我们无法保证操作系统对这些操作都是原子的。
+在前面開始我們說到同一個進程內的線程是共享全局內存的，那麼當多個線程同時去修改一個全局變量的時候就會出問題，如果一個線程在修改某個變量時中途被掛起，操作系統去調度另外一個線程執行，那就可能導致錯誤。我們無法保證操作系統對這些操作都是原子的。
 
-在我们在现在的例子中这样去复现这种问题：一个线程对一个全局变量（100）进行读-加1-读操作，另个变量对该全局进行减1操作，我们通过sleep来实现加线程先执行，减线程在加线程的加和读之间进行，最后来查看加操作是否是我们期望的结果（101）。例子如下：
+在我們在現在的例子中這樣去復現這種問題：一個線程對一個全局變量（100）進行讀-加1-讀操作，另個變量對該全局進行減1操作，我們通過sleep來實現加線程先執行，減線程在加線程的加和讀之間進行，最後來查看加操作是否是我們期望的結果（101）。例子如下：
 
-（该示例只是为了强化运行时出错，并对这种错误有一个宏观的了解而写）
+（該示例只是為了強化運行時出錯，並對這種錯誤有一個宏觀的瞭解而寫）
 
 ```c
 #include <stdio.h>
@@ -155,7 +155,7 @@ void* func_add_th(void* arg)
     printf("before add 1, gval=%d\n", gval);
     gval += 1;
 
-    sleep(4);//此时add线程挂起，sub线程执行键操作
+    sleep(4);//此時add線程掛起，sub線程執行鍵操作
 
     printf("after add 1, gval=%d\n", gval);
     return NULL;
@@ -185,7 +185,7 @@ int main(int argc, const char* argv[])
         return -1;
     }
 
-    sleep(1);  //保证add线程先被调度
+    sleep(1);  //保證add線程先被調度
     b = 2;
 
     if (0 != pthread_create(&tid2, NULL, func_sub_th, &b)) {
@@ -199,7 +199,7 @@ int main(int argc, const char* argv[])
     return 0;
 }
 ```
-执行结果如下：
+執行結果如下：
 
 
 ```sh
@@ -210,15 +210,15 @@ before add 1, gval=100
 after add 1, gval=100  
 ```
 
-通过输出我们可以看到sub操作在加1和读之间操作，最终读取出来的值仍然是100，不是我们期望的101。
+通過輸出我們可以看到sub操作在加1和讀之間操作，最終讀取出來的值仍然是100，不是我們期望的101。
 
-这就是两个线程不是互斥带来的结果，所以我们希望在某某一线程一段代码执行期间，只有一个线程在运行，当运行完成之后，下一个线程运行该部分代码，所以我们需要将该部分代码加锁。这就是线程编程，也是并发编程需要考虑的问题。
-
-
-解决多线程共享的问题就是使用互斥锁（mutex，即mutual exliusion）来保护共享数据。在执行某一段代码是首先要持有该互斥锁，执行完成之后再释放该锁。互斥锁是类型为pthread_mutex_t的变量。使用如下方法来加锁和解锁操作。
+這就是兩個線程不是互斥帶來的結果，所以我們希望在某某一線程一段代碼執行期間，只有一個線程在運行，當運行完成之後，下一個線程運行該部分代碼，所以我們需要將該部分代碼加鎖。這就是線程編程，也是併發編程需要考慮的問題。
 
 
-派生到我的代码片
+解決多線程共享的問題就是使用互斥鎖（mutex，即mutual exliusion）來保護共享數據。在執行某一段代碼是首先要持有該互斥鎖，執行完成之後再釋放該鎖。互斥鎖是類型為pthread_mutex_t的變量。使用如下方法來加鎖和解鎖操作。
+
+
+派生到我的代碼片
 
 ```c
 #include <pthread.h>  
@@ -227,24 +227,24 @@ int pthread_mutex_trylock(pthread_mutex_t *mutex);
 int pthread_mutex_unlock(pthread_mutex_t *mutex);  
 ```
 
-首先我们需要初始化锁，初始化方法有两种，一种是静态初始化，给锁变量赋值PTHREAD_MUTEX_INITIALIZER，一种动态初始化，使用函数pthread_mutex_init。
+首先我們需要初始化鎖，初始化方法有兩種，一種是靜態初始化，給鎖變量賦值PTHREAD_MUTEX_INITIALIZER，一種動態初始化，使用函數pthread_mutex_init。
 
-我们使用静态方法初始化：
+我們使用靜態方法初始化：
 
 ```c
 pthread_mutex_t     mutex = PTHREAD_MUTEX_INITIALIZER;
 ```
 
- 当试图使用pthread_mutex_lock（）获得一个已经被另外线程加锁的锁时，本线程将阻塞，直到互斥锁被解锁为止。函数pthread_mutex_trylock为获取锁的非阻塞版本，当获取失败时会立即返回。
+ 當試圖使用pthread_mutex_lock（）獲得一個已經被另外線程加鎖的鎖時，本線程將阻塞，直到互斥鎖被解鎖為止。函數pthread_mutex_trylock為獲取鎖的非阻塞版本，當獲取失敗時會立即返回。
 
-我们修改add和sub线程函数分别如下：
+我們修改add和sub線程函數分別如下：
 
 ```c
 void* func_add_th(void* arg)
 {
     int*     val = (int*)arg;
 
-    pthread_mutex_lock(&mutex);//此处加锁
+    pthread_mutex_lock(&mutex);//此處加鎖
     printf("==do %s==thread%d: %u====\n", __func__,
            *val, (unsigned int)pthread_self());
 
@@ -254,7 +254,7 @@ void* func_add_th(void* arg)
     sleep(4);
 
     printf("after add 1, gval=%d\n", gval);
-    pthread_mutex_unlock(&mutex);//此处释放锁
+    pthread_mutex_unlock(&mutex);//此處釋放鎖
     return NULL;
 }
 void* func_sub_th(void* arg)
@@ -272,7 +272,7 @@ void* func_sub_th(void* arg)
 }
 ```
 
-执行结果为：
+執行結果為：
 
 ```sh
 # ./target_bin  
@@ -282,9 +282,9 @@ after add 1, gval=101
 ==do func_sub_th==thread2: 3069221696====  
 ```
 
- 通过结果输出可以看到，sub操作是在add操作执行完成之后才执行的，而add线程输出结果也是我们预期的，所以我们的加锁是成功的。但是如果add线程要执行很久的话，sub线程就要阻塞很久，我们可以将sub线程加锁函数改为非阻塞版本，当加锁失败时，立即返回。
+ 通過結果輸出可以看到，sub操作是在add操作執行完成之後才執行的，而add線程輸出結果也是我們預期的，所以我們的加鎖是成功的。但是如果add線程要執行很久的話，sub線程就要阻塞很久，我們可以將sub線程加鎖函數改為非阻塞版本，當加鎖失敗時，立即返回。
 
-修改后的sub线程函数：
+修改後的sub線程函數：
 
 ```c
 void* func_sub_th(void* arg)
@@ -305,7 +305,7 @@ void* func_sub_th(void* arg)
     return NULL;
 }
 ```
-运行输出为：
+運行輸出為：
 
 ```sh
 # ./target_bin  
@@ -315,7 +315,7 @@ failed to lock!
 after add 1, gval=101  
 ```
 
-当多个线程同时需要多个相同锁时，可能会出现死锁的情况。比如两个线程同时需要互斥锁1和互斥锁2，线程a先获得锁1，线程b获得锁2，这是线程a、b分别还需要锁2和锁1，但此时两个锁都被加锁了，都阻塞在那里等待对方释放锁，这样死锁就出现了。我们来实现一下死锁的情况，将之前两个例子的线程函数修改如下：
+當多個線程同時需要多個相同鎖時，可能會出現死鎖的情況。比如兩個線程同時需要互斥鎖1和互斥鎖2，線程a先獲得鎖1，線程b獲得鎖2，這是線程a、b分別還需要鎖2和鎖1，但此時兩個鎖都被加鎖了，都阻塞在那裡等待對方釋放鎖，這樣死鎖就出現了。我們來實現一下死鎖的情況，將之前兩個例子的線程函數修改如下：
 
 ```c
 pthread_mutex_t     mutex = PTHREAD_MUTEX_INITIALIZER;
@@ -325,11 +325,11 @@ void* func_add_th(void* arg)
 {
     int*     val = (int*)arg;
 
-    pthread_mutex_lock(&mutex);//1. add线程先加第一个锁mutex
+    pthread_mutex_lock(&mutex);//1. add線程先加第一個鎖mutex
     printf("==do %s==thread%d: %u====\n", __func__,
            *val, (unsigned int)pthread_self());
-    sleep(2);//等待2秒，让sub线程加第二个锁mutex_sec
-    pthread_mutex_lock(&mutex_sec);//4. add线程加锁mutex_sec失败
+    sleep(2);//等待2秒，讓sub線程加第二個鎖mutex_sec
+    pthread_mutex_lock(&mutex_sec);//4. add線程加鎖mutex_sec失敗
 
     printf("before add 1, gval=%d\n", gval);
     gval += 1;
@@ -346,8 +346,8 @@ void* func_sub_th(void* arg)
 {
     int*     val = (int*)arg;
 
-    pthread_mutex_lock(&mutex_sec);//2. Sub线程比add线程先加锁mutex_sec
-    pthread_mutex_lock(&mutex);//3. Sub线程加锁mutex失败
+    pthread_mutex_lock(&mutex_sec);//2. Sub線程比add線程先加鎖mutex_sec
+    pthread_mutex_lock(&mutex);//3. Sub線程加鎖mutex失敗
 
     printf("==do %s==thread%d: %u====\n", __func__,
            *val, (unsigned int)pthread_self());
@@ -360,12 +360,12 @@ void* func_sub_th(void* arg)
 }
 ```
 
-上面两个线程按照函数注释中1-2-3-4顺序执行，运行时程序就卡在那里出现了死锁。
+上面兩個線程按照函數註釋中1-2-3-4順序執行，運行時程序就卡在那裡出現了死鎖。
 
-可以使用非阻塞版本的加锁函数来加锁，不过也要注意在第二个锁加锁不成功情况下，需要释放第一个锁再返回，不然其他线程仍然得不到第一个锁。有时在线程需要多个互斥锁时，让线程按照指定的同样顺序进行加锁也可以避免死锁。程序死锁出现时很难定位，所以程序猿在编程（尤其是在设计）时需要注意避免这个问题。
+可以使用非阻塞版本的加鎖函數來加鎖，不過也要注意在第二個鎖加鎖不成功情況下，需要釋放第一個鎖再返回，不然其他線程仍然得不到第一個鎖。有時在線程需要多個互斥鎖時，讓線程按照指定的同樣順序進行加鎖也可以避免死鎖。程序死鎖出現時很難定位，所以程序猿在編程（尤其是在設計）時需要注意避免這個問題。
 
 
-本节示例代码下载：
+本節示例代碼下載：
 
 http://download.csdn.net/detail/gentleliu/8270863
  

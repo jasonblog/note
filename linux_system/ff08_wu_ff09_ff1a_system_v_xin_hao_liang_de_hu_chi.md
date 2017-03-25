@@ -1,10 +1,10 @@
-# （五）：system V信号量的互斥与同步
+# （五）：system V信號量的互斥與同步
 
 
-system V信号量操作类似于posix信号量，但system V信号量的操作要复杂得多，posix信号量使用步骤为sem_init（sem_open）-->sem_wait(sem_post) --> sem_close详见上一节，system V使用不同的函数。
+system V信號量操作類似於posix信號量，但system V信號量的操作要複雜得多，posix信號量使用步驟為sem_init（sem_open）-->sem_wait(sem_post) --> sem_close詳見上一節，system V使用不同的函數。
 
 
-### 1. 创建和打开信号量函数：semget()。
+### 1. 創建和打開信號量函數：semget()。
 
 ```c
 #include <sys/types.h>  
@@ -13,12 +13,12 @@ system V信号量操作类似于posix信号量，但system V信号量的操作�
 int semget(key_t key, int nsems, int semflg);  
 ```
 
-key为ftok返回值或IPC_PRIVATE；
-nsems为指定信号量集合中信号量的数量，一旦创建就不能更改，需要大于0，如果等于0则方位一个已存在的集合。
-semflg为读写权限值组合。IPC_CREAT（创建新的信号量集合）或IPC_CREAT|IPC_EXCL（当将要创建的信号量集合已经存在时，再试图创建将返回EEXIST）。其实IPC_CREAT和IPC_EXCL的组合和open函数的O_CREAT和O_EXCL组合类似。
+key為ftok返回值或IPC_PRIVATE；
+nsems為指定信號量集合中信號量的數量，一旦創建就不能更改，需要大於0，如果等於0則方位一個已存在的集合。
+semflg為讀寫權限值組合。IPC_CREAT（創建新的信號量集合）或IPC_CREAT|IPC_EXCL（當將要創建的信號量集合已經存在時，再試圖創建將返回EEXIST）。其實IPC_CREAT和IPC_EXCL的組合和open函數的O_CREAT和O_EXCL組合類似。
 
 
-###  2. 对象信号集合进行操作函数：semctl()。
+###  2. 對象信號集合進行操作函數：semctl()。
 
 ```c
 #include <sys/types.h>  
@@ -27,17 +27,17 @@ semflg为读写权限值组合。IPC_CREAT（创建新的信号量集合）或IP
 int semctl(int semid, int semnum, int cmd, ...);  
 ```
 
-semid为信号量标识，函数semget的返回值。
-semnum为信号在信号集合中的序号。
-cmd为操作的命令：
+semid為信號量標識，函數semget的返回值。
+semnum為信號在信號集合中的序號。
+cmd為操作的命令：
 ```sh
-GETVAL - 返回指定信号量当前值；
-SETVAL - 设置指定信号量的值；
-IPC_RMIN - 删除信号量集合。
+GETVAL - 返回指定信號量當前值；
+SETVAL - 設置指定信號量的值；
+IPC_RMIN - 刪除信號量集合。
 ```
-其余命令详见man手册。
+其餘命令詳見man手冊。
 
-初始化一个system V信号量如下：
+初始化一個system V信號量如下：
 
 ```c
 int sln_seminit(const char* filename, int initval)
@@ -54,7 +54,7 @@ int sln_seminit(const char* filename, int initval)
     semid = semget(keyid, 1, IPC_CREAT | IPC_EXCL);
 
     if (semid >=
-        0) { // 创建成功，然后修改信号量的初始值为initval
+        0) { // 創建成功，然後修改信號量的初始值為initval
         printf("=== new sem create! ===\n");
 
         if (semctl(semid, 0, SETVAL, initval) < 0) {
@@ -62,7 +62,7 @@ int sln_seminit(const char* filename, int initval)
             return -1;
         }
     } else if (EEXIST ==
-               errno) {  //信号量存在，则打开，再次修改信号量的初始值。
+               errno) {  //信號量存在，則打開，再次修改信號量的初始值。
         printf("=== open a exist sem! ===\n");
         semid = semget(keyid, 0, 0);
 
@@ -83,7 +83,7 @@ int sln_seminit(const char* filename, int initval)
 }
 ```
 
-### 3.信号量PV操作函数：semop()，semtimedop()函数。
+### 3.信號量PV操作函數：semop()，semtimedop()函數。
 
 ```c
 #include <sys/types.h>  
@@ -93,26 +93,26 @@ int sln_seminit(const char* filename, int initval)
 int semop(int semid, struct sembuf *sops, unsigned nsops);  
 int semtimedop(int semid, struct sembuf *sops, unsigned nsops, struct timespec *timeout);  ```
 
-semid为信号量标识，函数semget的返回值；<br>
-sops指向信号量操作结构数组指针；<br>
-nsops为指向数组中sembuf结构体个数。<br>
+semid為信號量標識，函數semget的返回值；<br>
+sops指向信號量操作結構數組指針；<br>
+nsops為指向數組中sembuf結構體個數。<br>
 
 
 ```c
 struct sembuf {  
-    short sem_num;    // 要操作的信号量在信号量集里的编号，  
-    short sem_op;     // 信号量操作  
+    short sem_num;    // 要操作的信號量在信號量集裡的編號，  
+    short sem_op;     // 信號量操作  
     short sem_flg;     // 操作表示符  
 };  
 ```
 
-若sem_op 是正数，其值就加到semval上，即释放信号量控制的资源
+若sem_op 是正數，其值就加到semval上，即釋放信號量控制的資源
 
-若sem_op 是0，那么调用者希望等到semval变为0，如果semval是0就返回;
+若sem_op 是0，那麼調用者希望等到semval變為0，如果semval是0就返回;
 
-若sem_op 是负数，那么调用者希望等待semval变为大于或等于sem_op的绝对值
+若sem_op 是負數，那麼調用者希望等待semval變為大於或等於sem_op的絕對值
 
-P、V操作的实现为：
+P、V操作的實現為：
 
 ```c
 void sln_sem_wait(int semid)
@@ -142,8 +142,8 @@ void sln_sem_post(int semid)
 ```
 
 
-示例代码：
-服务进程：
+示例代碼：
+服務進程：
 
 ```c
 #include <stdio.h>
@@ -402,7 +402,7 @@ int main(int argc, const char* argv[])
 }
 ```
 
-客户进程代码：
+客戶進程代碼：
 
 ```c
 #include <stdio.h>

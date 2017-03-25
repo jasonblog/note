@@ -1,36 +1,36 @@
-# （二）：posix线程同步
+# （二）：posix線程同步
 
 
-上一节说到线程的互斥锁，互斥锁适合防止访问某个共享变量，这一节我们来看看两个线程如何实现同步。互斥锁也可以实现线程同步，当该值满足某种条件时当前线程继续执行，否则继续轮询，不过这样相当浪费cpu时间。我们需要的是让某个线程进入睡眠，当满足该线程执行条件时，另外线程主动通知它，这就是这一节我们要说的条件变量，它常和互斥锁一起使用。
+上一節說到線程的互斥鎖，互斥鎖適合防止訪問某個共享變量，這一節我們來看看兩個線程如何實現同步。互斥鎖也可以實現線程同步，當該值滿足某種條件時當前線程繼續執行，否則繼續輪詢，不過這樣相當浪費cpu時間。我們需要的是讓某個線程進入睡眠，當滿足該線程執行條件時，另外線程主動通知它，這就是這一節我們要說的條件變量，它常和互斥鎖一起使用。
 
-如同信号量，线程可以对一个条件变量执行等待操作。如果如果线程 A 正在等待一个条件变量，它会被阻塞直到另外一个线程B，向同一个条件变量发送信号以改变其状态。不同于信号量，条件变量没有计数值，也不占据内存空间，线程 A 必须在 B 发送信号之前开始等待。如果 B 在 A 执行等待操作之前发送了信号，这个信号就丢失了，同时 A会一直阻塞直到其它线程再次发送信号到这个条件变量。
+如同信號量，線程可以對一個條件變量執行等待操作。如果如果線程 A 正在等待一個條件變量，它會被阻塞直到另外一個線程B，向同一個條件變量發送信號以改變其狀態。不同於信號量，條件變量沒有計數值，也不佔據內存空間，線程 A 必須在 B 發送信號之前開始等待。如果 B 在 A 執行等待操作之前發送了信號，這個信號就丟失了，同時 A會一直阻塞直到其它線程再次發送信號到這個條件變量。
 
-条件变量将允许你实现这样的目的：在一种情况下令线程继续运行，而相反情况下令线程阻塞。只要每个可能涉及到改变状态的线程正确使用条件变量，Linux 将保证当条件改变的时候由于一个条件变量的状态被阻塞的线程均能够被激活。
+條件變量將允許你實現這樣的目的：在一種情況下令線程繼續運行，而相反情況下令線程阻塞。只要每個可能涉及到改變狀態的線程正確使用條件變量，Linux 將保證當條件改變的時候由於一個條件變量的狀態被阻塞的線程均能夠被激活。
 
-GNU/Linux 刚好提供了这个机制，每个条件变量都必须与一个互斥体共同使用，以防止这种竞争状态的发生。这种设计下，线程函数应遵循以下步骤： 
+GNU/Linux 剛好提供了這個機制，每個條件變量都必須與一個互斥體共同使用，以防止這種競爭狀態的發生。這種設計下，線程函數應遵循以下步驟： 
 
-thread_function首先锁定互斥体并且读取标志变量的值。 
-如果标志变量已经被设定，该线程将互斥体解锁然后执行工作函数
-如果标志没有被设置，该线程自动锁定互斥体并开始等待条件变量的信号
+thread_function首先鎖定互斥體並且讀取標誌變量的值。 
+如果標誌變量已經被設定，該線程將互斥體解鎖然後執行工作函數
+如果標誌沒有被設置，該線程自動鎖定互斥體並開始等待條件變量的信號
 
-这里最关键的特点就在第三条。这里，GNU/Linux系统允许你用一个原子操作完成解除互斥体锁定和等待条件变量信号的过程而不会被其它线程在中途插入执行。这就避免了在thread_function中检测标志和等待条件变量的过程中其它线程修改标志变量并对条件变量发送信号的可能性。
+這裡最關鍵的特點就在第三條。這裡，GNU/Linux系統允許你用一個原子操作完成解除互斥體鎖定和等待條件變量信號的過程而不會被其它線程在中途插入執行。這就避免了在thread_function中檢測標誌和等待條件變量的過程中其它線程修改標誌變量並對條件變量發送信號的可能性。
 
-互斥锁是类型为pthread_mutex_t的变量，和互斥锁类似，初始化也两种方法：
-一种是静态初始化，给锁变量赋值PTHREAD_COND_INITIALIZER，
+互斥鎖是類型為pthread_mutex_t的變量，和互斥鎖類似，初始化也兩種方法：
+一種是靜態初始化，給鎖變量賦值PTHREAD_COND_INITIALIZER，
 
 ```c
 pthread_cond_t cond = PTHREAD_COND_INITIALIZER;  
 ```
 
-一种动态初始化，使用函数pthread_cond_init，
+一種動態初始化，使用函數pthread_cond_init，
 
 ```c
 int pthread_cond_init(pthread_cond_t *restrict cond,  const pthread_condattr_t *restrict attr);
 ```
 
-其中第一个参数是一个指向pthread_cond_t变量的指针。第二个参数是一个指向条件变量属性对象的指针；这个参数在 GNU/Linux 系统中是被忽略的。
+其中第一個參數是一個指向pthread_cond_t變量的指針。第二個參數是一個指向條件變量屬性對象的指針；這個參數在 GNU/Linux 系統中是被忽略的。
 
-函数pthread_cond_wait（）使线程阻塞在一个条件变量上。函数原型如下：
+函數pthread_cond_wait（）使線程阻塞在一個條件變量上。函數原型如下：
 
 ```c
 #include <pthread.h>  
@@ -38,11 +38,11 @@ int pthread_cond_wait(pthread_cond_t *restrict cond,  pthread_mutex_t *restrict 
 ```
 
 
-第一个参数是指向一个 pthread_cond_t 类型变量的指针，第二个参数是指向一个pthread_mutex_t类型变量的指针。当调用 pthread_cond_wait 的时候，互斥体对象必须已经被调用线程锁定。这个函数以一个原子操作解锁互斥体并锁定条件变量等待信号。当信号到达且调用线程被解锁之后，pthread_cond_wait自动申请锁定互斥体对象。
+第一個參數是指向一個 pthread_cond_t 類型變量的指針，第二個參數是指向一個pthread_mutex_t類型變量的指針。當調用 pthread_cond_wait 的時候，互斥體對象必須已經被調用線程鎖定。這個函數以一個原子操作解鎖互斥體並鎖定條件變量等待信號。當信號到達且調用線程被解鎖之後，pthread_cond_wait自動申請鎖定互斥體對象。
 
-函数传入的参数mutex用于保护条件，因为我们在调用pthread_cond_wait时，如果条件不成立我们就进入阻塞，但是进入阻塞这个期间，如果条件变量改变了的话，那我们就漏掉了这个条件。因为这个线程还没有放到等待队列上，所以调用pthread_cond_wait前要先锁互斥量，即调用pthread_mutex_lock(),pthread_cond_wait在把线程放进阻塞队列后，自动对mutex进行解锁，使得其它线程可以获得加锁的权利。这样其它线程才能对临界资源进行访问并在适当的时候唤醒这个阻塞的进程。当pthread_cond_wait返回的时候又自动给mutex加锁。
+函數傳入的參數mutex用於保護條件，因為我們在調用pthread_cond_wait時，如果條件不成立我們就進入阻塞，但是進入阻塞這個期間，如果條件變量改變了的話，那我們就漏掉了這個條件。因為這個線程還沒有放到等待隊列上，所以調用pthread_cond_wait前要先鎖互斥量，即調用pthread_mutex_lock(),pthread_cond_wait在把線程放進阻塞隊列後，自動對mutex進行解鎖，使得其它線程可以獲得加鎖的權利。這樣其它線程才能對臨界資源進行訪問並在適當的時候喚醒這個阻塞的進程。當pthread_cond_wait返回的時候又自動給mutex加鎖。
 
-函数pthread_cond_signal（）用来释放被阻塞在条件变量cond上的一个线程。多个线程阻塞在此条件变量上时，哪一个线程被唤醒是由线程的调度策略所决定的。要注意的是，必须用保护条件变量的互斥锁来保护这个函数，否则条件满足信号又可能在测试条件和调用pthread_cond_wait函数之间被发出，从而造成无限制的等待。函数原型如下：
+函數pthread_cond_signal（）用來釋放被阻塞在條件變量cond上的一個線程。多個線程阻塞在此條件變量上時，哪一個線程被喚醒是由線程的調度策略所決定的。要注意的是，必須用保護條件變量的互斥鎖來保護這個函數，否則條件滿足信號又可能在測試條件和調用pthread_cond_wait函數之間被髮出，從而造成無限制的等待。函數原型如下：
 
 
 ```c
@@ -50,7 +50,7 @@ int pthread_cond_wait(pthread_cond_t *restrict cond,  pthread_mutex_t *restrict 
 int pthread_cond_signal(pthread_cond_t *cond);  
 ```
 
-下面给一个示例：
+下面給一個示例：
 
 ```c
 #include <stdio.h>
@@ -67,7 +67,7 @@ void* func1_th(void* arg)
     if (5 != gval) {
         printf("=======%s->%d===thread 1 wait start!====\n", __func__, __LINE__);
         pthread_cond_wait(&cond,
-                          &mutex); //当条件不满足时，此时线程1会自动对mutex进行解锁，使得其它线程可以获得加锁的权利，当收到苏醒时会在执行加锁操作
+                          &mutex); //當條件不滿足時，此時線程1會自動對mutex進行解鎖，使得其它線程可以獲得加鎖的權利，當收到甦醒時會在執行加鎖操作
     }
 
     /**
@@ -89,7 +89,7 @@ void* func2_th(void* arg)
 
         if (5 == gval) {
             pthread_cond_signal(
-                &cond); //当条件满足时，线程2发送信号，线程1收到信号会解除阻塞状态。
+                &cond); //當條件滿足時，線程2發送信號，線程1收到信號會解除阻塞狀態。
             printf("=======%s->%d===signal====\n", __func__, __LINE__);
         }
 
@@ -107,7 +107,7 @@ int main(int argc, const char* argv[])
         return -1;
     }
 
-    sleep(1);     //让线程1先执行，进入等待状态
+    sleep(1);     //讓線程1先執行，進入等待狀態
 
     if (0 != pthread_create(&tid2, NULL, func2_th, NULL)) {
         printf("pthread_create failed!\n");
@@ -119,17 +119,17 @@ int main(int argc, const char* argv[])
     return 0;
 }
 ```
-另一个用来阻塞线程的函数是pthread_cond_timedwait（）。函数原型如下：
+另一個用來阻塞線程的函數是pthread_cond_timedwait（）。函數原型如下：
 
 ```c
 #include <pthread.h>  
 int pthread_cond_timedwait(pthread_cond_t *restrict cond,  pthread_mutex_t *restrict mutex, const struct timespec *restrict abstime);   
 ```
 
-pthread_cond_timedwait 和pthread_cond_wait 一样，自动解锁互斥量及等待条件变量， 但它还限定了等待时间。如果在 abstime 指定的时间内 cond 未触发，互斥量 mutex 被重 新加锁，并返回错误 ETIMEDOUT 。
+pthread_cond_timedwait 和pthread_cond_wait 一樣，自動解鎖互斥量及等待條件變量， 但它還限定了等待時間。如果在 abstime 指定的時間內 cond 未觸發，互斥量 mutex 被重 新加鎖，並返回錯誤 ETIMEDOUT 。
 
 
-。函数pthread_cond_broadcast（pthread_cond_t *cond）用来唤醒所有被阻塞在条件变量cond上的线程。这些线程被唤醒后将再次竞争相应的互斥锁，所以必须小心使用这个函数。函数原型如下：
+。函數pthread_cond_broadcast（pthread_cond_t *cond）用來喚醒所有被阻塞在條件變量cond上的線程。這些線程被喚醒後將再次競爭相應的互斥鎖，所以必須小心使用這個函數。函數原型如下：
 
 
 ```c

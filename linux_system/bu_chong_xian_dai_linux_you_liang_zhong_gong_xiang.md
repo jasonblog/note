@@ -25,7 +25,7 @@ mmap和System V共享內存的主要`區別`在於：
 
 由於接口易用，且可以方便的persist到文件，避免主機shutdown丟失數據的情況，所以在現代操作系統上一般偏向於使用mmap而不是傳統的System V的共享內存機制。
 
-建議僅把mmap用於需要大量內存數據操作的場景，而不用於IPC。因為IPC總是在多個進程之間通信，而通信則涉及到同步問題，如果自己手工在mmap之上實現同步，容易滋生bug。推薦使用socket之類的機制做IPC，基於socket的通信機制相對健全很多，有很多成熟的機制和模式，比如epoll, reactor等。
+建議僅把mmap用於需要大量內存數據操作的場景，而不用於IPC。因為IPC總是在多個進程之間通信，而通信則涉及到同步問題，如果自己手工在mmap之上實現同步，容易滋生bug。推薦使用socket之類的機製做IPC，基於socket的通信機制相對健全很多，有很多成熟的機制和模式，比如epoll, reactor等。
 
 sysv shm的實現可以參考`glibc源碼，shm_open(3)` 打開一個名為abc的共享內存，等價於open("/dev/shm/abc", ..)，其中 /dev/shm 是Linux下sysv共享內存的默認掛載點。shm_open調用返回一個文件描述符，其實也可以給` mmap(2)` 使用，作為named share memory使用。
 

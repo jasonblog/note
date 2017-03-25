@@ -1,8 +1,8 @@
-# （三）：posix线程实现单个生产者和单个消费者模型
+# （三）：posix線程實現單個生產者和單個消費者模型
 
 
-在第一节说到了生产者消费者问题，这一节我们来实现这样一个稍作修改的模型： 初始时缓冲区为空，生产者向缓冲区写入数据，消费者在缓冲区为空的情况下睡眠，当生产者写满缓冲区一半之后后通知消费者可以开始消费，生产者开始睡眠，直到消费者消费完缓冲区一半后通知生产者可以开始生产为止，其中生产者和消费者对缓冲区的访问时互斥的。
-下面来看一下实现：
+在第一節說到了生產者消費者問題，這一節我們來實現這樣一個稍作修改的模型： 初始時緩衝區為空，生產者向緩衝區寫入數據，消費者在緩衝區為空的情況下睡眠，當生產者寫滿緩衝區一半之後後通知消費者可以開始消費，生產者開始睡眠，直到消費者消費完緩衝區一半後通知生產者可以開始生產為止，其中生產者和消費者對緩衝區的訪問時互斥的。
+下面來看一下實現：
 
 
 ```c
@@ -28,16 +28,16 @@ void* consumer_th(void* arg)
             printf("=%s->%d=====consumer wait productor to product, start sleep..., buffer=%d\n",
                    __func__, __LINE__, buffer);
             pthread_cond_wait(&cond_consumer,
-                              &mutex);//当消费者发现缓冲区为空时开始睡眠
+                              &mutex);//當消費者發現緩衝區為空時開始睡眠
         }
 
-        buffer--; //消费者消耗一个缓冲区
+        buffer--; //消費者消耗一個緩衝區
         printf("=%s->%d====consumer consume a buffer, buffer=%d\n", __func__, __LINE__,
                buffer);
 
         if (buffer < MAX_BUFFER / 2) {
             pthread_cond_signal(
-                &cond_productor); //当消费者发现缓冲区不足一半时通知生产者开始生产
+                &cond_productor); //當消費者發現緩衝區不足一半時通知生產者開始生產
             printf("=%s->%d====Notify productor...,, buffer: %d\n", __func__, __LINE__,
                    buffer);
         }
@@ -62,16 +62,16 @@ void* productor_th(void* arg)
         if (buffer >= MAX_BUFFER) {
             printf("=%s->%d=====productor wait consumer to consume, start sleep..., buffer=%d\n",
                    __func__, __LINE__, buffer);
-            pthread_cond_wait(&cond_productor, &mutex);//当缓冲区满时，暂停生产
+            pthread_cond_wait(&cond_productor, &mutex);//當緩衝區滿時，暫停生產
         }
 
-        buffer++;//生产者增加一个缓冲区
+        buffer++;//生產者增加一個緩衝區
         printf("=%s->%d====Product add a buffer..., buffer: %d\n", __func__, __LINE__,
                buffer);
 
         if (buffer > MAX_BUFFER / 2) {
             pthread_cond_signal(
-                &cond_consumer);//当缓冲区增加到一半时，通知消费者可以开始消费
+                &cond_consumer);//當緩衝區增加到一半時，通知消費者可以開始消費
             printf("=%s->%d====Notify consumer...,, buffer: %d\n", __func__, __LINE__,
                    buffer);
         }
@@ -103,18 +103,18 @@ int main(int argc, const char* argv[])
 }
 ```
 
-下面是程序运行输出结果：
+下面是程序運行輸出結果：
 
 
 ```sh
-=consumer_th->20=====consumer wait productor to product, start sleep..., buffer=0//消费者开始睡眠等待生产者唤醒  
+=consumer_th->20=====consumer wait productor to product, start sleep..., buffer=0//消費者開始睡眠等待生產者喚醒  
 =productor_th->54====Product add a buffer..., buffer: 1  
 =productor_th->54====Product add a buffer..., buffer: 2  
 =productor_th->54====Product add a buffer..., buffer: 3  
-=productor_th->54====Product add a buffer..., buffer: 4//生产者开始写缓冲区，当写到第4（超过一半）个通知消费者  
+=productor_th->54====Product add a buffer..., buffer: 4//生產者開始寫緩衝區，當寫到第4（超過一半）個通知消費者  
 =productor_th->58====Notify consumer...,, buffer: 4  
-=consumer_th->25====consumer consume a buffer, buffer=3//消费者一边消费缓冲区  
-=productor_th->54====Product add a buffer..., buffer: 4//生产者一边生产缓冲区  
+=consumer_th->25====consumer consume a buffer, buffer=3//消費者一邊消費緩衝區  
+=productor_th->54====Product add a buffer..., buffer: 4//生產者一邊生產緩衝區  
 =productor_th->58====Notify consumer...,, buffer: 4  
 =productor_th->54====Product add a buffer..., buffer: 5  
 =productor_th->58====Notify consumer...,, buffer: 5  
@@ -123,11 +123,11 @@ int main(int argc, const char* argv[])
 =productor_th->58====Notify consumer...,, buffer: 5  
 =productor_th->54====Product add a buffer..., buffer: 6  
 =productor_th->58====Notify consumer...,, buffer: 6  
-=productor_th->49=====productor wait consumer to consume, start sleep..., buffer=6//当生产者生产缓冲区满时，开始睡眠  
+=productor_th->49=====productor wait consumer to consume, start sleep..., buffer=6//當生產者生產緩衝區滿時，開始睡眠  
 =consumer_th->25====consumer consume a buffer, buffer=5  
 =consumer_th->25====consumer consume a buffer, buffer=4  
 =consumer_th->25====consumer consume a buffer, buffer=3  
-=consumer_th->25====consumer consume a buffer, buffer=2//当消费者消费缓冲区到不足一半时，唤醒生产者开始生产  
+=consumer_th->25====consumer consume a buffer, buffer=2//當消費者消費緩衝區到不足一半時，喚醒生產者開始生產  
 =consumer_th->28====Notify productor...,, buffer: 2  
 =productor_th->54====Product add a buffer..., buffer: 3  
 =productor_th->54====Product add a buffer..., buffer: 4  

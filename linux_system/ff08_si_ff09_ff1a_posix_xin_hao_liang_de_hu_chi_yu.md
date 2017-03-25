@@ -1,16 +1,16 @@
-# （四）：posix信号量的互斥与同步
+# （四）：posix信號量的互斥與同步
 
 
-在前面讲共享内存的IPC时曾说共享内存本身不具备同步机制，如果要实现同步需要使用信号量等手段来实现之，现在我们就来说说使用posix的信号量来实现posix多进程共享内存的同步。其实信号量也可以使用在同一进程的不同线程之间。
+在前面講共享內存的IPC時曾說共享內存本身不具備同步機制，如果要實現同步需要使用信號量等手段來實現之，現在我們就來說說使用posix的信號量來實現posix多進程共享內存的同步。其實信號量也可以使用在同一進程的不同線程之間。
 
-信号量是一个包含非负整数的变量，有两个原子操作，wait和post，也可以说是P操作和V操作，P操作将信号量减一，V操作将信号量加一。如果信号量大于0，P操作直接减一，否则如果等于0，P操作将调用进程（线程）阻塞起来，直到另外进程（线程）执行V操作。
+信號量是一個包含非負整數的變量，有兩個原子操作，wait和post，也可以說是P操作和V操作，P操作將信號量減一，V操作將信號量加一。如果信號量大於0，P操作直接減一，否則如果等於0，P操作將調用進程（線程）阻塞起來，直到另外進程（線程）執行V操作。
 
-信号量可以理解为一种资源的数量，通过这种资源的分配来实现同步或者互斥。当信号量的值为1时，可以实现互斥的功能，此时信号量就是二值信号量，如果信号量的值大于一时，可以实现进程（线程）并发执行。信号量和互斥锁条件变量之间的区别是：互斥锁必须由给它上锁的进程（线程）来解锁，而信号灯P操作不必由执行过它V操作的进程（线程）来执行；互斥锁类似于二值信号量，要么加锁，要么解锁；当向条件变量发信号时，如果此时没有等待在该条件变量上的线程，信号将丢失，而信号量不会。信号量主要用于之间同步，但也可以用在线程之间。互斥锁和条件变量主要用于线程同步，但也可以用于进程间的同步。
+信號量可以理解為一種資源的數量，通過這種資源的分配來實現同步或者互斥。當信號量的值為1時，可以實現互斥的功能，此時信號量就是二值信號量，如果信號量的值大於一時，可以實現進程（線程）併發執行。信號量和互斥鎖條件變量之間的區別是：互斥鎖必須由給它上鎖的進程（線程）來解鎖，而信號燈P操作不必由執行過它V操作的進程（線程）來執行；互斥鎖類似於二值信號量，要麼加鎖，要麼解鎖；當向條件變量發信號時，如果此時沒有等待在該條件變量上的線程，信號將丟失，而信號量不會。信號量主要用於之間同步，但也可以用在線程之間。互斥鎖和條件變量主要用於線程同步，但也可以用於進程間的同步。
 
-POSIX信号量是一个sem_t的变量类型，分有名信号量和无名信号量，无名信号量用在共享信号量内存的情况下，比如同一个进程的不同线程之间，或父子进程之间，有名信号量随内核持续的，所以我们可以跨多个程序操作它们。
+POSIX信號量是一個sem_t的變量類型，分有名信號量和無名信號量，無名信號量用在共享信號量內存的情況下，比如同一個進程的不同線程之間，或父子進程之間，有名信號量隨內核持續的，所以我們可以跨多個程序操作它們。
 
 
-### 1.  函数sem_open创建一个有名信号量或打开一个已存在信号量。函数原型如下：
+### 1.  函數sem_open創建一個有名信號量或打開一個已存在信號量。函數原型如下：
 
 ```c
 #include <fcntl.h> /* For O_* constants */  
@@ -22,11 +22,11 @@ sem_t *sem_open(const char *name, int oflag, mode_t mode, unsigned int value);
 Link with -pthread  
 ```
 
-参数name为posix IPC 名称， 参数oflag可以为0， O_CREAT 或O_CREAT | O_EXCL， 如果指定了O_CREAT，第三、四参数需要指定。mode为指定权限位，value参数指定信号量初始值，二值信号量的值通常为1，计数信号量的值通常大于1。
-函数返回执行sem_t数据类型的指针，出错返回SEM_FAILED。
+參數name為posix IPC 名稱， 參數oflag可以為0， O_CREAT 或O_CREAT | O_EXCL， 如果指定了O_CREAT，第三、四參數需要指定。mode為指定權限位，value參數指定信號量初始值，二值信號量的值通常為1，計數信號量的值通常大於1。
+函數返回執行sem_t數據類型的指針，出錯返回SEM_FAILED。
 
 
-###2. 函数sem_close关闭有名信号量。
+###2. 函數sem_close關閉有名信號量。
 
 ```c
 #include <semaphore.h>  
@@ -34,7 +34,7 @@ int sem_close(sem_t *sem);
 Link with -pthread.
 ```
 
-### 3. 函数sem_unlink删除有名信号量。
+### 3. 函數sem_unlink刪除有名信號量。
 
 ```c
 #include <semaphore.h>  
@@ -42,7 +42,7 @@ int sem_unlink(const char *name);
 Link with -pthread.
 ```
 
-###4.函数sem_wait和函数sem_trywait测试信号量的值，如果信号量值大于0，函数将信号量的值减一并立即返回，如果信号量的值等于0，sem_wait函数开始睡眠，直到信号量的值大于0，这是再减一并立即返回，而sem_trywait函数不睡眠直接返回，并返回EAGAIN错误。函数原型为：
+###4.函數sem_wait和函數sem_trywait測試信號量的值，如果信號量值大於0，函數將信號量的值減一併立即返回，如果信號量的值等於0，sem_wait函數開始睡眠，直到信號量的值大於0，這是再減一併立即返回，而sem_trywait函數不睡眠直接返回，並返回EAGAIN錯誤。函數原型為：
 
 
 ```c
@@ -54,7 +54,7 @@ Link with -pthread.
 ```
 
 
-### 5. 函数sem_post执行和sem_wait相反的操作。当一进程（线程）执行完操作之后，应该调用sem_post，将指定信号量加一，然后唤醒正在等待该信号量变为1的进程（线程）。函数原型：
+### 5. 函數sem_post執行和sem_wait相反的操作。當一進程（線程）執行完操作之後，應該調用sem_post，將指定信號量加一，然後喚醒正在等待該信號量變為1的進程（線程）。函數原型：
 
 ```c
 #include <semaphore.h>  
@@ -62,7 +62,7 @@ int sem_post(sem_t *sem);
 Link with -pthread.  
 ```
 
-### 6. 函数sem_getvalue获取指定信号量的当前值，如果当前信号量已上锁，返回0，或者为负数，其绝对值为等待该信号量的解锁的线程数。
+### 6. 函數sem_getvalue獲取指定信號量的當前值，如果當前信號量已上鎖，返回0，或者為負數，其絕對值為等待該信號量的解鎖的線程數。
 
 ```c
 #include <semaphore.h>  
@@ -70,7 +70,7 @@ int sem_getvalue(sem_t *sem, int *sval);
 Link with -pthread.  
 ```
 
-###   7. 无名信号量使用sem_init()初始化，函数原型为：
+###   7. 無名信號量使用sem_init()初始化，函數原型為：
 
 
 ```c
@@ -79,39 +79,39 @@ int sem_init(sem_t *sem, int pshared, unsigned int value);
 Link with -pthread.  
 ```
 
-sem为无名信号量地址，value为信号量初始值，pshared指定信号量是在进程的各个线程之间共享还是在进程之间共享，如果该值为0，表示在进程的线程之间共享，如果非0则在进出之间共享，无名信号量主要用在有共同祖先的进程或线程之间。
+sem為無名信號量地址，value為信號量初始值，pshared指定信號量是在進程的各個線程之間共享還是在進程之間共享，如果該值為0，表示在進程的線程之間共享，如果非0則在進出之間共享，無名信號量主要用在有共同祖先的進程或線程之間。
 
-这一节使用posix共享内存来实现各个进程之间的通信，并使用posix信号量来达到互斥与同步的目的。首先我们来看看使用信号量实现对共享内存段的互斥访问。
+這一節使用posix共享內存來實現各個進程之間的通信，並使用posix信號量來達到互斥與同步的目的。首先我們來看看使用信號量實現對共享內存段的互斥訪問。
 
-之前线程的访问使用如下方式来达到对公共的内存互斥访问：
+之前線程的訪問使用如下方式來達到對公共的內存互斥訪問：
 
 
 ```c
 pthread_mutex_t     mutex = PTHREAD_MUTEX_INITIALIZER;  
 ......  
-pthread_mutex_lock(&mutex);//加锁  
+pthread_mutex_lock(&mutex);//加鎖  
 ......  
 /*share memory handle*/  
 ......  
-pthread_mutex_unlock(&mutex);//解锁  
+pthread_mutex_unlock(&mutex);//解鎖  
 ......  
 ```
 
-现在我们也使用类似方式来实现：
+現在我們也使用類似方式來實現：
 
 ```c
 sem_t *sem_mutex = NULL;  
 ......  
-SLN_MUTEX_SHM_LOCK(SEM_MUTEX_FILE, sem_mutex);//加锁  
+SLN_MUTEX_SHM_LOCK(SEM_MUTEX_FILE, sem_mutex);//加鎖  
 ......  
 /*share memory handle*/  
  ......  
-SLN_MUTEX_SHM_UNLOCK(sem_mutex);//解锁  
+SLN_MUTEX_SHM_UNLOCK(sem_mutex);//解鎖  
 ...... 
 ```
-其中SEM_MUTEX_FILE为sem_open函数需要的有名信号量名称。
+其中SEM_MUTEX_FILE為sem_open函數需要的有名信號量名稱。
 
-其中两个加锁解锁的实现为：
+其中兩個加鎖解鎖的實現為：
 
 ```c
 #define SLN_MUTEX_SHM_LOCK(shmfile, sem_mutex) do {\  
@@ -125,9 +125,9 @@ SLN_MUTEX_SHM_UNLOCK(sem_mutex);//解锁
 #define SLN_MUTEX_SHM_UNLOCK(sem_mutex) do {sem_post(sem_mutex);} while(0)  
 ```
 
-其实就是初始化一个二值信号量，其初始值为1，并执行wait操作，使信号量的值变为0，此时其它进程想要操作共享内存时也需要执行wait操作，但此时信号量的值为0，所以开始等待信号量的值变为1。当当前进程操作完共享内存后，开始解锁，执行post操作将信号量的值加一，此时其它进程的wait可以返回了。
+其實就是初始化一個二值信號量，其初始值為1，並執行wait操作，使信號量的值變為0，此時其它進程想要操作共享內存時也需要執行wait操作，但此時信號量的值為0，所以開始等待信號量的值變為1。噹噹前進程操作完共享內存後，開始解鎖，執行post操作將信號量的值加一，此時其它進程的wait可以返回了。
 
-下面为一个互斥访问共享内存的示例，posix共享内存实现请查看前面IPC的系列文章。
+下面為一個互斥訪問共享內存的示例，posix共享內存實現請查看前面IPC的系列文章。
 ser process：
 
 ```c
@@ -158,14 +158,14 @@ int main(int argc, const char* argv[])
     sem_t* sem_mutex = NULL;
     char* str = NULL;
 
-    SLN_MUTEX_SHM_LOCK(SEM_MUTEX_FILE, sem_mutex); //加锁
+    SLN_MUTEX_SHM_LOCK(SEM_MUTEX_FILE, sem_mutex); //加鎖
 
     nms_shm_get(SHM_FILE, (void**)&str,
-                SHM_MAX_LEN);  //下面三行互斥访问共享内存
+                SHM_MAX_LEN);  //下面三行互斥訪問共享內存
     sleep(6);
     snprintf(str, SHM_MAX_LEN, "posix semphore server!");
 
-    SLN_MUTEX_SHM_UNLOCK(sem_mutex); //解锁
+    SLN_MUTEX_SHM_UNLOCK(sem_mutex); //解鎖
 
     sleep(6);
 
@@ -190,7 +190,7 @@ int main(int argc, const char *argv[])
 }  
 ```
 
-先启动服务进程首先加锁，创建共享内存并操作它，加锁中sleep 6秒，以便测试客户进程是否在服务进程未释放锁时处于等待状态。客户进程在服务进程启动之后马上启动，此时处于等待状态，当服务进程6秒之后解锁，客户进程获得共享内存信息。再过6秒之后，服务进程删除共享内存，客户进程再此获取共享内存失败。
+先啟動服務進程首先加鎖，創建共享內存並操作它，加鎖中sleep 6秒，以便測試客戶進程是否在服務進程未釋放鎖時處於等待狀態。客戶進程在服務進程啟動之後馬上啟動，此時處於等待狀態，當服務進程6秒之後解鎖，客戶進程獲得共享內存信息。再過6秒之後，服務進程刪除共享內存，客戶進程再此獲取共享內存失敗。
 
 
 ```sh
@@ -204,14 +204,14 @@ client get: (null)
 [1]+ Done ./server  
 ```
 
-posix有名信号量创建的信号量文件和共享内存文件在/dev/shm/目录下：
+posix有名信號量創建的信號量文件和共享內存文件在/dev/shm/目錄下：
 
 ```sh
 # ls /dev/shm/   
  sem.sem_mutex share_memory_file  
  ```
  
- 在两个进程共享数据时，当一个进程向共享内存写入了数据后需要通知另外的进程，这就需要两个进程之间实现同步，这里我们给上面的程序在互斥的基础上加上同步操作。同步也是使用posix信号量来实现。
+ 在兩個進程共享數據時，當一個進程向共享內存寫入了數據後需要通知另外的進程，這就需要兩個進程之間實現同步，這裡我們給上面的程序在互斥的基礎上加上同步操作。同步也是使用posix信號量來實現。
 server process：
 
 
@@ -224,7 +224,7 @@ int main(int argc, const char* argv[])
     char* sharememory = NULL;
 
     sem_consumer = sem_open(SEM_CONSUMER_FILE, O_CREAT, 0666,
-                            0); //初始化信号量sem_consumer ，并设置初始值为0
+                            0); //初始化信號量sem_consumer ，並設置初始值為0
 
     if (SEM_FAILED == sem_consumer) {
         printf("sem_open <%s>: %s\n", SEM_CONSUMER_FILE, strerror(errno));
@@ -232,19 +232,19 @@ int main(int argc, const char* argv[])
     }
 
     sem_productor = sem_open(SEM_PRODUCTOR_FILE, O_CREAT, 0666,
-                             0);//初始化信号量sem_productor ，并设置初始值为0
+                             0);//初始化信號量sem_productor ，並設置初始值為0
 
     if (SEM_FAILED == sem_productor) {
         printf("sem_open <%s>: %s\n", SEM_PRODUCTOR_FILE, strerror(errno));
         return -1;
     }
 
-    for (;;) {//服务进程一直循环处理客户进程请求
+    for (;;) {//服務進程一直循環處理客戶進程請求
         sem_getvalue(sem_consumer, &semval);
         printf("%d waiting...\n", semval);
 
         if (sem_wait(sem_consumer) <
-            0) {//如果sem_consumer为0，则阻塞在此，等待客户进程post操作使sem_consumer大于0，此处和客户进程同步
+            0) {//如果sem_consumer為0，則阻塞在此，等待客戶進程post操作使sem_consumer大於0，此處和客戶進程同步
             printf("sem_wait: %s\n", strerror(errno));
             return -1;
         }
@@ -252,13 +252,13 @@ int main(int argc, const char* argv[])
         printf("Get request...\n");
 
         SLN_MUTEX_SHM_LOCK(SEM_MUTEX,
-                           sem_mutex);//此处开始互斥访问共享内存
+                           sem_mutex);//此處開始互斥訪問共享內存
         nms_shm_get(SHM_FILE, (void**)&sharememory, SHM_MAX_LEN);
         sleep(6);
         snprintf(sharememory, SHM_MAX_LEN, "Hello, this is server's message!");
         SLN_MUTEX_SHM_UNLOCK(sem_mutex);
 
-        sem_post(sem_productor);//使信号量sem_productor加一，使阻塞的客户进程继续执行
+        sem_post(sem_productor);//使信號量sem_productor加一，使阻塞的客戶進程繼續執行
         printf("Response request...\n");
     }
 
@@ -279,7 +279,7 @@ int main(int argc, const char* argv[])
     char* sharememory = NULL;
     sem_t* sem_mutex;
     sem_consumer = sem_open(SEM_CONSUMER_FILE,
-                            O_RDWR);//获取信号量sem_consumer的值
+                            O_RDWR);//獲取信號量sem_consumer的值
 
     if (SEM_FAILED == sem_consumer) {
         printf("sem_open <%s>: %s\n", SEM_CONSUMER_FILE, strerror(errno));
@@ -287,7 +287,7 @@ int main(int argc, const char* argv[])
     }
 
     sem_productor = sem_open(SEM_PRODUCTOR_FILE,
-                             O_RDWR);//获取信号量sem_productor 的值
+                             O_RDWR);//獲取信號量sem_productor 的值
 
     if (SEM_FAILED == sem_productor) {
         printf("sem_open <%s>: %s\n", SEM_PRODUCTOR_FILE, strerror(errno));
@@ -296,14 +296,14 @@ int main(int argc, const char* argv[])
 
     //clear_exist_sem(sem_productor);
 
-    SLN_MUTEX_SHM_LOCK(SEM_MUTEX, sem_mutex);//互斥访问共享内存
+    SLN_MUTEX_SHM_LOCK(SEM_MUTEX, sem_mutex);//互斥訪問共享內存
     nms_shm_get(SHM_FILE, (void**)&sharememory, SHM_MAX_LEN);
     printf("sharememory: %s\n", sharememory);
     SLN_MUTEX_SHM_UNLOCK(sem_mutex);
 
-    sem_post(sem_consumer);//信号量sem_consumer加一，唤醒是阻塞在该信号量上的服务进程
+    sem_post(sem_consumer);//信號量sem_consumer加一，喚醒是阻塞在該信號量上的服務進程
     printf("Post...\n");
-    sem_wait(sem_productor);//等待服务进程回应
+    sem_wait(sem_productor);//等待服務進程迴應
     /*
      timeout.tv_sec = time(NULL) + SEM_TIMEOUT_SEC;
      timeout.tv_nsec = 0;

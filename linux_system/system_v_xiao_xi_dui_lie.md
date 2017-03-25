@@ -1,10 +1,10 @@
-# system V 消息队列
+# system V 消息隊列
 
 
-system V消息队列和posix消息队列类似，linux系统这两种消息队列都支持。先来看一下system V消息队列相关操作及其函数。
+system V消息隊列和posix消息隊列類似，linux系統這兩種消息隊列都支持。先來看一下system V消息隊列相關操作及其函數。
 
 
-- msgget()函数创建一个消息队列或打开一个消息队列。
+- msgget()函數創建一個消息隊列或打開一個消息隊列。
 
 ```c
 #include <sys/types.h>
@@ -13,10 +13,10 @@ system V消息队列和posix消息队列类似，linux系统这两种消息队�
 int msgget(key_t key, int msgflg);
 ```
 
-参数key为ftok返回值或IPC_PRIVATE；
-参数msgflg为IPC_CREAT或和IPC_CREAT | IPC_EXCL，当消息队列已经存在时，而msgflg指定为IPC_CREAT | IPC_EXCL，函数返回EEXIST。
+參數key為ftok返回值或IPC_PRIVATE；
+參數msgflg為IPC_CREAT或和IPC_CREAT | IPC_EXCL，當消息隊列已經存在時，而msgflg指定為IPC_CREAT | IPC_EXCL，函數返回EEXIST。
 
-在系统中的每一个消息队列，内核维护这样一个结构体：
+在系統中的每一個消息隊列，內核維護這樣一個結構體：
 
 ```c
 struct msqid_ds {
@@ -35,7 +35,7 @@ struct msqid_ds {
 };
 ```
 
-其中ipc_perm 结构体定义如下：
+其中ipc_perm 結構體定義如下：
 
 
 ```c
@@ -50,12 +50,12 @@ struct ipc_perm {
 };
 ```
 
-当一个消息队列初始化完后，该消息队列对应的结构被作如下初始化：
+當一個消息隊列初始化完後，該消息隊列對應的結構被作如下初始化：
 
-msg_perm.cuid 和 msg_perm.uid被设置为当前进程的用户ID，msg_perm.cuid 和 msg_perm.uid被设置为当前进程的组ID；msg_perm.mode被设置为msgflg；msg_qnum, msg_lspid, msg_lrpid, msg_stime and msg_rtime  被设置为 0；msg_ctime被设置为当前时间；msg_qbytes被设置为系统限制值MSGMNB。
+msg_perm.cuid 和 msg_perm.uid被設置為當前進程的用戶ID，msg_perm.cuid 和 msg_perm.uid被設置為當前進程的組ID；msg_perm.mode被設置為msgflg；msg_qnum, msg_lspid, msg_lrpid, msg_stime and msg_rtime  被設置為 0；msg_ctime被設置為當前時間；msg_qbytes被設置為系統限制值MSGMNB。
 
 
-- msgsnd()函数向消息队列中添加消息。
+- msgsnd()函數向消息隊列中添加消息。
 
 ```c
 #include <sys/types.h>
@@ -64,8 +64,8 @@ msg_perm.cuid 和 msg_perm.uid被设置为当前进程的用户ID，msg_perm.cui
 int msgsnd(int msqid, const void *msgp, size_t msgsz, int msgflg);
 ```
 
-参数msgqid为消息队列标识，为msgget()返回值；
-参数msgp为指向用户定义结构体的指针，结构体定义格式模板如下：
+參數msgqid為消息隊列標識，為msgget()返回值；
+參數msgp為指向用戶定義結構體的指針，結構體定義格式模板如下：
 
 ```sh
 struct msgbuf {
@@ -74,12 +74,12 @@ struct msgbuf {
 };
 ```
 
-mtex域为数组，该数组大小为函数参数msgsz，mtype的值必须大于0；该结构由用户自己定义，一般根据实际应用来定义。
+mtex域為數組，該數組大小為函數參數msgsz，mtype的值必須大於0；該結構由用戶自己定義，一般根據實際應用來定義。
 
-参数msgsz为将要发送消息的长度，可以指定为0，一般指定为msgbuf结构体长度减去long类型长度（sizeof(msgbuf) - sizeof(long)）；
-参数msgflg为0，或IPC_NOWAIT，IPC_NOWAIT为非阻塞，发送时如果对列数据已满，则函数马上返回错误EAGAIN，如果msgflg为0，则阻塞直到消息队列由足够空间添加新的消息，或消息队列从系统中删除，或被信号中断。
+參數msgsz為將要發送消息的長度，可以指定為0，一般指定為msgbuf結構體長度減去long類型長度（sizeof(msgbuf) - sizeof(long)）；
+參數msgflg為0，或IPC_NOWAIT，IPC_NOWAIT為非阻塞，發送時如果對列數據已滿，則函數馬上返回錯誤EAGAIN，如果msgflg為0，則阻塞直到消息隊列由足夠空間添加新的消息，或消息隊列從系統中刪除，或被信號中斷。
 
-- msgrcv()函数从消息队列中读取消息。
+- msgrcv()函數從消息隊列中讀取消息。
 
 ```c
 #include <sys/types.h>
@@ -89,39 +89,39 @@ ssize_t msgrcv(int msqid, void *msgp, size_t msgsz, long msgtyp,  int msgflg);
 ```
 
 
-参数msgid同函数msgsnd；<br>
-参数msgp通函数函数msgsnd，为指向接收消息结构体指针；<br>
-参数msgsz为接受消息的缓存大小；<br>
-参数msgtyp为读取何种消息，如果为：<br>
+參數msgid同函數msgsnd；<br>
+參數msgp通函數函數msgsnd，為指向接收消息結構體指針；<br>
+參數msgsz為接受消息的緩存大小；<br>
+參數msgtyp為讀取何種消息，如果為：<br>
 
 ```sh
-0 - 读取消息队列中最早的消息，以先进先出的方式读取消息。
-> 0 - 读取消息队列类型为msgtyp最早的消息。
-< 0 - 读取消息队列中，消息类型小于或等于msgtyp绝对值的消息中最小消息类型的最早消息。
+0 - 讀取消息隊列中最早的消息，以先進先出的方式讀取消息。
+> 0 - 讀取消息隊列類型為msgtyp最早的消息。
+< 0 - 讀取消息隊列中，消息類型小於或等於msgtyp絕對值的消息中最小消息類型的最早消息。
 ```
 
-参数msgflg为如下的值或者几个值得或：
+參數msgflg為如下的值或者幾個值得或：
 
-IPC_NOWAIT - 如果队列中没有则立即返回；如果未指定该选项，函数将一直阻塞，直到指定的消息可读取，或消息队列从系统中删除，或被信号中断；
-MSG_NOERROR - 截断消息如果接收到的消息大小大于msgsz给定的值；
-MSG_EXCEPT - 使用大于0的msgtyp去读取消息类型不为msgtyp第一个消息；
+IPC_NOWAIT - 如果隊列中沒有則立即返回；如果未指定該選項，函數將一直阻塞，直到指定的消息可讀取，或消息隊列從系統中刪除，或被信號中斷；
+MSG_NOERROR - 截斷消息如果接收到的消息大小大於msgsz給定的值；
+MSG_EXCEPT - 使用大於0的msgtyp去讀取消息類型不為msgtyp第一個消息；
 
-- msgctl()函数对一个队列做控制操作。
+- msgctl()函數對一個隊列做控制操作。
 
 ```c
 #include <sys/msg.h>
 int msgctl(int msqid, int cmd, struct msqid_ds *buf);
 ```
 
-参数cmd为对队列要做的操作，这些操作有：
+參數cmd為對隊列要做的操作，這些操作有：
 
-IPC_STAT - 获取消息队列信息，从内核数据结构中拷贝消息队列为msqid的结构体到buf指针指向的msqid_ds 结构体中。<br>
-IPC_SET - 使用buf指向的结构体来设置msgqid对应的消息队列内核结构体；<br>
-IPC_RMID - 删除msgqid消息队列；<br>
-IPC_INFO，MSG_INFO， MSG_STAT详见linux man函数手册。<br>
+IPC_STAT - 獲取消息隊列信息，從內核數據結構中拷貝消息隊列為msqid的結構體到buf指針指向的msqid_ds 結構體中。<br>
+IPC_SET - 使用buf指向的結構體來設置msgqid對應的消息隊列內核結構體；<br>
+IPC_RMID - 刪除msgqid消息隊列；<br>
+IPC_INFO，MSG_INFO， MSG_STAT詳見linux man函數手冊。<br>
 
 示例：
-服务进程：
+服務進程：
 
 
 ```c
@@ -201,7 +201,7 @@ int main(int argc, const char* argv[])
 
     if (argc != 2) {
         fprintf(stderr, "Usage: %s <msg type>\n",
-                argv[0]);//运行时，指定服务要进程接收的消息类型
+                argv[0]);//運行時，指定服務要進程接收的消息類型
         return -1;
     }
 
@@ -216,14 +216,14 @@ int main(int argc, const char* argv[])
     }
 
     signal(SIGINT,
-           sigint_func); //服务进程捕获中断信号，在中断处理函数里面删除消息队列并推出程序
+           sigint_func); //服務進程捕獲中斷信號，在中斷處理函數裡面刪除消息隊列並推出程序
 
     sln_server_loop();
 
     return 0;
 }
 ```
-客户进程：
+客戶進程：
 
 ```c
 #include <stdio.h>
@@ -276,7 +276,7 @@ int main(int argc, const char* argv[])
 }
 ```
 
-服务进程首先运行，并在开始读取消息处等待10秒，客户进程在服务进程还未开始读取数据时向消息队列加入多条消息，如下：
+服務進程首先運行，並在開始讀取消息處等待10秒，客戶進程在服務進程還未開始讀取數據時向消息隊列加入多條消息，如下：
 
 ```sh
 ./client 1 abcd
@@ -289,10 +289,10 @@ int main(int argc, const char* argv[])
 ./client 8 xyz
 ```
 
-当服务进程运行时会从消息队列中取出服务进程要取出类型（运行时参数指定）的消息，下面分别是服务器运行时指定的消息类型以及取出的消息（客户端的运行都如上）：
+當服務進程運行時會從消息隊列中取出服務進程要取出類型（運行時參數指定）的消息，下面分別是服務器運行時指定的消息類型以及取出的消息（客戶端的運行都如上）：
 
 ```sh
-# ./server 0（读取所有消息）
+# ./server 0（讀取所有消息）
 receive -  recv len: 5, msg type: 1, msg: abcd
 receive -  recv len: 6, msg type: 2, msg: efghi
 receive -  recv len: 4, msg type: 3, msg: jkl
@@ -301,10 +301,10 @@ receive -  recv len: 7, msg type: 5, msg: opqrst
 receive -  recv len: 3, msg type: 6, msg: uv
 receive -  recv len: 2, msg type: 7, msg: w
 receive -  recv len: 4, msg type: 8, msg: xyz
-# ./server 4 （读取消息类型为4的消息）
+# ./server 4 （讀取消息類型為4的消息）
 Open existing mq!
 receive -  recv len: 3, msg type: 4, msg: mn
-# ./server -5     （读取消息小于5的消息）        
+# ./server -5     （讀取消息小於5的消息）        
 Open existing mq!
 receive -  recv len: 5, msg type: 1, msg: abcd
 receive -  recv len: 6, msg type: 2, msg: efghi
@@ -313,7 +313,7 @@ receive -  recv len: 3, msg type: 4, msg: mn
 receive -  recv len: 7, msg type: 5, msg: opqrst
 ```
 
-在服务器未退出时，可以使用系统命令ipcs查看系统中的消息队列：
+在服務器未退出時，可以使用系統命令ipcs查看系統中的消息隊列：
 
 
 ```sh
@@ -322,18 +322,18 @@ receive -  recv len: 7, msg type: 5, msg: opqrst
 ------ Message Queues --------
 key        msqid      owner      perms      used-bytes   messages    
 0x001fffde 229376     root       0          0            0          
-当用户按下CTRL+C时，程序会删除掉该消息队列，按下CTRL+C后，再查看：
+當用戶按下CTRL+C時，程序會刪除掉該消息隊列，按下CTRL+C後，再查看：
 # ipcs
 
 ------ Message Queues --------
 key        msqid      owner      perms      used-bytes   messages    
 ```
 
-可以看到程序中的删除是成功的。
+可以看到程序中的刪除是成功的。
 
-posix消息队列和system V消息队列大致类似，不过通过这两节可以看到有一些差别：<br>
-posix消息队列有优先级的概念，system V没有，只能按照消息类型的先进先出来读取消息即FIFO；
-system V消息队列有消息类型的概念，并且可以按照消息类型取出消息，而posix不能区分消息类型；
-本节源码下载：
+posix消息隊列和system V消息隊列大致類似，不過通過這兩節可以看到有一些差別：<br>
+posix消息隊列有優先級的概念，system V沒有，只能按照消息類型的先進先出來讀取消息即FIFO；
+system V消息隊列有消息類型的概念，並且可以按照消息類型取出消息，而posix不能區分消息類型；
+本節源碼下載：
 
 http://download.csdn.net/detail/gentleliu/8236745

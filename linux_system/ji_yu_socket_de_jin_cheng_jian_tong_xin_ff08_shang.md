@@ -1,10 +1,10 @@
-# 基于socket的进程间通信（上）
+# 基於socket的進程間通信（上）
 
 
- 在一个较大的工程当中，一般都会有多个进程构成，各个功能是一个独立的进程在运行。既然多个进程构成一个工程，那么多个进程之间肯定会存在一些信息交换或共享数据，这就涉及到进程间通信。进程间通道有很多种，比如有最熟悉网络编程中的socket、还有共享内存、消息队列、信号、管道等很多方式，每一种方式都有自己的适用情况，在本系列文章中笔者将会对多种进程间通信方式进行详解，一是对自己工作多年在这方面的经验做一个积累，二是将其分享给各位民工，或许还能从大家的拍砖当中得到意外收获。
+ 在一個較大的工程當中，一般都會有多個進程構成，各個功能是一個獨立的進程在運行。既然多個進程構成一個工程，那麼多個進程之間肯定會存在一些信息交換或共享數據，這就涉及到進程間通信。進程間通道有很多種，比如有最熟悉網絡編程中的socket、還有共享內存、消息隊列、信號、管道等很多方式，每一種方式都有自己的適用情況，在本系列文章中筆者將會對多種進程間通信方式進行詳解，一是對自己工作多年在這方面的經驗做一個積累，二是將其分享給各位民工，或許還能從大家的拍磚當中得到意外收穫。
  
- socket网络编程可能使用得最多，经常用在网络上不同主机之间的通信。其实在同一主机内通信也可以使用socket来完成，socket进程通信与网络通信使用的是统一套接口，只是地址结构与某些参数不同。在使用socket创建套接字时通过指定参数domain是af_inet（ipv4因特网域）或af_inet6（ipv6因特网域）或af_unix（unix域）来实现。
-在笔者这一篇文章中曾有详细介绍创建socket通信流程及基础知识。
+ socket網絡編程可能使用得最多，經常用在網絡上不同主機之間的通信。其實在同一主機內通信也可以使用socket來完成，socket進程通信與網絡通信使用的是統一套接口，只是地址結構與某些參數不同。在使用socket創建套接字時通過指定參數domain是af_inet（ipv4因特網域）或af_inet6（ipv6因特網域）或af_unix（unix域）來實現。
+在筆者這一篇文章中曾有詳細介紹創建socket通信流程及基礎知識。
 
 
 ```c
@@ -42,7 +42,7 @@ int ser_afinet_listen(int port)
 }
 ```
 
-服务进程处理连接请求如下：
+服務進程處理連接請求如下：
 
 
 ```c
@@ -80,8 +80,8 @@ int ser_accept(int listenfd)
 }
 ```
 
-客户进程初始化如下：
-指定要连接的服务器地址为本地换回地址，这样发送的连接就会回到本地服务进程。
+客戶進程初始化如下：
+指定要連接的服務器地址為本地換回地址，這樣發送的連接就會回到本地服務進程。
 
 ```c
 int clt_afinet_conn_init(int port)
@@ -98,7 +98,7 @@ int clt_afinet_conn_init(int port)
     seraddr.sin_family = af_inet;
     seraddr.sin_port = port;
 
-    if (inet_pton(af_inet, "127.0.0.1", &seraddr.sin_addr) < 0) {//环回地址
+    if (inet_pton(af_inet, "127.0.0.1", &seraddr.sin_addr) < 0) {//環回地址
         fprintf(stderr, "inet_pton: %s\n", strerror(errno));
         return -1;
     }
@@ -107,7 +107,7 @@ int clt_afinet_conn_init(int port)
 }
 ```
 
-客户进程向服务进程发送接收请求如下：
+客戶進程向服務進程發送接收請求如下：
 
 ```c
 
@@ -128,7 +128,7 @@ if ((recvlen = ipc_recv(fd, buf, sizeof(buf))) < 0)
 }
 ```
 
-服务进程先运行，客户进程执行：
+服務進程先運行，客戶進程執行：
 
 ```sh
 # ./client
@@ -137,16 +137,16 @@ recv: hello, ipc client!
 recv: hello ipc server!
 ```
 
-通信过程完成。
-创建类型为af_unix（或af_local）的socket，表示用于进程通信。
-socket进程通信与网络通信使用的是统一套接口：
+通信過程完成。
+創建類型為af_unix（或af_local）的socket，表示用於進程通信。
+socket進程通信與網絡通信使用的是統一套接口：
 
 
 ```sh
 int socket(int domain, int type, int protocol);  
 ```
 
-其中，domain 参数指定协议族，对于本地套接字来说，其值被置为 af_unix 枚举值，随便说一下，af_unix和af_local是同一个值，看下面linux/socket.h头文件部分如下，两个宏的值都一样为1。
+其中，domain 參數指定協議族，對於本地套接字來說，其值被置為 af_unix 枚舉值，隨便說一下，af_unix和af_local是同一個值，看下面linux/socket.h頭文件部分如下，兩個宏的值都一樣為1。
 
 
 ```c
@@ -159,7 +159,7 @@ int socket(int domain, int type, int protocol);
 ……  
 ```
 
-以af_xx开头和pf_xx开头的域都是一样的，继续看头文件部分内容就一切都明白了：
+以af_xx開頭和pf_xx開頭的域都是一樣的，繼續看頭文件部分內容就一切都明白了：
 
 ```c
 ……  
@@ -171,9 +171,9 @@ int socket(int domain, int type, int protocol);
 ……  
 ```
 
-所以我们在指定socket的类型时这四个域可以随便用啦，笔者这里统一使用af_unix了。
-type 参数可被设置为 sock_stream（流式套接字）或 sock_dgram（数据报式套接字），对于本地套接字来说，流式套接字（sock_stream）是一个有顺序的、可靠的双向字节流，相当于在本地进程之间建立起一条数据通道；数据报式套接字（sock_dgram）相当于单纯的发送消息，在进程通信过程中，理论上可能会有信息丢失、复制或者不按先后次序到达的情况，但由于其在本地通信，不通过外界网络，这些情况出现的概率很小。
-本地套接字的通信双方均需要具有本地地址，地址类型为 struct sockaddr_un结构体（位于linux/un.h）：
+所以我們在指定socket的類型時這四個域可以隨便用啦，筆者這裡統一使用af_unix了。
+type 參數可被設置為 sock_stream（流式套接字）或 sock_dgram（數據報式套接字），對於本地套接字來說，流式套接字（sock_stream）是一個有順序的、可靠的雙向字節流，相當於在本地進程之間建立起一條數據通道；數據報式套接字（sock_dgram）相當於單純的發送消息，在進程通信過程中，理論上可能會有信息丟失、複製或者不按先後次序到達的情況，但由於其在本地通信，不通過外界網絡，這些情況出現的概率很小。
+本地套接字的通信雙方均需要具有本地地址，地址類型為 struct sockaddr_un結構體（位於linux/un.h）：
 
 
 ```c
@@ -189,7 +189,7 @@ struct sockaddr_un {
 #endif /* _linux_un_h */ 
 ```
 
-创建监听套接字：
+創建監聽套接字：
 
 ```c
 int ser_afunix_listen(const char* pathname)
@@ -223,9 +223,9 @@ int ser_afunix_listen(const char* pathname)
 }
 ```
  
-服务进程处理连接请求类似上面网络通信。
+服務進程處理連接請求類似上面網絡通信。
  
-客户进程初始化套接字过程为：
+客戶進程初始化套接字過程為：
 
 ```c
 int clt_afunix_conn_init(const char* pathname)
@@ -256,10 +256,10 @@ int clt_afunix_conn_init(const char* pathname)
 }
 ```
 
-客户进程向服务进程发送接收请求类似上面网络通信。
-运行结果同网络通信部分。
-本节仅仅给出了一个很简单的通信程序，仅仅简单实现了客户进程和服务进程之间的通信，在下一节笔者将会在本节示例的基础上做修改，写一个在实际应用中可以使用的代码。
-本节示例代码下载链接：
+客戶進程向服務進程發送接收請求類似上面網絡通信。
+運行結果同網絡通信部分。
+本節僅僅給出了一個很簡單的通信程序，僅僅簡單實現了客戶進程和服務進程之間的通信，在下一節筆者將會在本節示例的基礎上做修改，寫一個在實際應用中可以使用的代碼。
+本節示例代碼下載鏈接：
 
 http://download.csdn.net/detail/gentleliu/8140459
  

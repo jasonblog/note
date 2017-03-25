@@ -1,10 +1,10 @@
-# posix 共享内存
+# posix 共享內存
 
 
-上一节讲了由open函数打开一个内存映射文件，再由mmap函数把得到的`描述符`映射到当前进程地址空间中来。这一节说说另外一种类似的共享内存方法，即有shm_open函数打开一个Posix.1 IPC名字（也许是文件系统中的一个路径名），所返回的描述符由函数mmap映射到当前进程地址空间。
+上一節講了由open函數打開一個內存映射文件，再由mmap函數把得到的`描述符`映射到當前進程地址空間中來。這一節說說另外一種類似的共享內存方法，即有shm_open函數打開一個Posix.1 IPC名字（也許是文件系統中的一個路徑名），所返回的描述符由函數mmap映射到當前進程地址空間。
 
-posix共享内存和尚上一节类似，首先需要制定一个名字参数调用shm_open ，以创建一个新的共享内存对象或打开一个已存在的共享内存对象；然后再调用mmap把共享内存区映射到调用进程的地址空间中。
-shm_open函数原型如下：
+posix共享內存和尚上一節類似，首先需要制定一個名字參數調用shm_open ，以創建一個新的共享內存對象或打開一個已存在的共享內存對象；然後再調用mmap把共享內存區映射到調用進程的地址空間中。
+shm_open函數原型如下：
 
 ```c
 #include <sys/mman.h>  
@@ -17,11 +17,11 @@ Link with -lrt.
 ```
 
 
-参数name为将要被打开或创建的共享内存对象，需要指定为/name的格式。
-参数oflag必须要有O_RDONLY（只读）、标志O_RDWR(读写)，除此之外还可以指定O_CREAT（没有共享对象则创建）、O_EXCL（如果O_CREAT指定，但name不存在，就返回错误）、O_TRUNC（如果共享内存存在，长度就截断为0）。
-参数mode为指定权限位，在指定了O_CREAT的前提下使用，如果没有指定O_CREAT，mode可以指定为0.
+參數name為將要被打開或創建的共享內存對象，需要指定為/name的格式。
+參數oflag必須要有O_RDONLY（只讀）、標誌O_RDWR(讀寫)，除此之外還可以指定O_CREAT（沒有共享對象則創建）、O_EXCL（如果O_CREAT指定，但name不存在，就返回錯誤）、O_TRUNC（如果共享內存存在，長度就截斷為0）。
+參數mode為指定權限位，在指定了O_CREAT的前提下使用，如果沒有指定O_CREAT，mode可以指定為0.
 
-该函数返回一个描述符，在mmap函数（见上一节）第五个参数使用。
+該函數返回一個描述符，在mmap函數（見上一節）第五個參數使用。
 
 ```c
 #define SHM_IPC_FILENAME "sln_shm_file"  
@@ -65,7 +65,7 @@ int main(int argc, const char *argv[])
 }  
 ```
 
-编译执行结果如下：
+編譯執行結果如下：
 
 ```sh
 # ./server   
@@ -73,15 +73,15 @@ int main(int argc, const char *argv[])
 ipc client get: hello posix share memory ipc! This is write by server.  
 ```
 
-shm_open创建的文件位置位于 /dev/shm/ 目录下：
+shm_open創建的文件位置位於 /dev/shm/ 目錄下：
 
 ```sh
 # ll /dev/shm/   
 -rw-r--r-- 1 root root 8193 Oct 30 14:13 sln_shm_file   
 ```
 
-posix共享内存同步可以使用posix信号量来实现，具体在后面同步相关专栏会有详细讲解。
+posix共享內存同步可以使用posix信號量來實現，具體在後面同步相關專欄會有詳細講解。
 
-本节源码下载：
+本節源碼下載：
 http://download.csdn.net/detail/gentleliu/8140869
 

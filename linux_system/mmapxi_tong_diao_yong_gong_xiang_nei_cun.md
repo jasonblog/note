@@ -1,72 +1,72 @@
-# mmap系统调用共享内存
+# mmap系統調用共享內存
 
 
-前面讲到socket的进程间通信方式，这种方式在进程间传递数据时首先需要从进程1地址空间中把数据拷贝到内核，内核再将数据拷贝到进程2的地址空间中，也就是数据传递需要经过内核传递。这样在处理较多数据时效率不是很高，而让多个进程共享一片内存区则解决了之前socket进程通信的问题。共享内存是最快的进程间通信 ，将一片内存映射到多个进程地址空间中，那么进程间的数据传递将不在涉及内核。
+前面講到socket的進程間通信方式，這種方式在進程間傳遞數據時首先需要從進程1地址空間中把數據拷貝到內核，內核再將數據拷貝到進程2的地址空間中，也就是數據傳遞需要經過內核傳遞。這樣在處理較多數據時效率不是很高，而讓多個進程共享一片內存區則解決了之前socket進程通信的問題。共享內存是最快的進程間通信 ，將一片內存映射到多個進程地址空間中，那麼進程間的數據傳遞將不在涉及內核。
 
 
-共享内存并不是从某一进程拥有的内存中划分出来的；进程的内存总是私有的。共享内存是从系统的空闲内存池中分配的，希望访问它的每个进程连接它。这个连接过程称为映射，它给共享内存段分配每个进程的地址空间中的本地地址。
+共享內存並不是從某一進程擁有的內存中劃分出來的；進程的內存總是私有的。共享內存是從系統的空閒內存池中分配的，希望訪問它的每個進程連接它。這個連接過程稱為映射，它給共享內存段分配每個進程的地址空間中的本地地址。
 
 
-mmap()系统调用使得进程之间通过映射同一个普通文件实现共享内存。普通文件被映射到进程地址空间后，进程可以向访问普通内存一样对文件进行访问，不必再调用read()，write()等操作。函数原型为：
+mmap()系統調用使得進程之間通過映射同一個普通文件實現共享內存。普通文件被映射到進程地址空間後，進程可以向訪問普通內存一樣對文件進行訪問，不必再調用read()，write()等操作。函數原型為：
 
 ```c
 #include <sys/mman.h>
 void *mmap(void *addr, size_t length, int prot, int flags,  int fd, off_t offset); 
 ```
 
-其中参数addr为描述符fd应该被映射到进程空间的起始地址，当指定为NULL时内核将自己去选择起始地址，无论addr是为NULL，函数返回值都是fd所映射到内存的起始地址；
+其中參數addr為描述符fd應該被映射到進程空間的起始地址，當指定為NULL時內核將自己去選擇起始地址，無論addr是為NULL，函數返回值都是fd所映射到內存的起始地址；
 
-len是映射到调用进程地址空间的字节数，它 从被映射文件开头offset个字节开始算起，offset通常设置为0；
-prot 参数指定共享内存的访问权限。可取如下几个值的或：PROT_READ（可读） , PROT_WRITE （可写）, PROT_EXEC （可执行）, PROT_NONE（不可访问），该值常设置为PROT_READ | PROT_WRITE 。
+len是映射到調用進程地址空間的字節數，它 從被映射文件開頭offset個字節開始算起，offset通常設置為0；
+prot 參數指定共享內存的訪問權限。可取如下幾個值的或：PROT_READ（可讀） , PROT_WRITE （可寫）, PROT_EXEC （可執行）, PROT_NONE（不可訪問），該值常設置為PROT_READ | PROT_WRITE 。
 
-flags由以下几个常值指定：MAP_SHARED , MAP_PRIVATE , MAP_FIXED，其中，MAP_SHARED（变动是共享的，对共享内存的修改所有进程可见） , MAP_PRIVATE（变动是私有的，对共享内存修改只对该进程可见）   必选其一，而MAP_FIXED则不推荐使用 。
+flags由以下幾個常值指定：MAP_SHARED , MAP_PRIVATE , MAP_FIXED，其中，MAP_SHARED（變動是共享的，對共享內存的修改所有進程可見） , MAP_PRIVATE（變動是私有的，對共享內存修改只對該進程可見）   必選其一，而MAP_FIXED則不推薦使用 。
 
-munmp() 删除地址映射关系，函数原型如下：
+munmp() 刪除地址映射關係，函數原型如下：
 
 ```c
 #include <sys/mman.h>
 int munmap(void *addr, size_t length);
 ```
 
-参数addr是由mmap返回的地址，len是映射区大小。
+參數addr是由mmap返回的地址，len是映射區大小。
 
-进程在映射空间的对共享内容的改变并不直接写回到磁盘文件中，往往在调用munmap（）后才执行该操作。可以通过调用msync()实现磁盘上文件内容与共享内存区的内容一致。 msync()函数原型为：
+進程在映射空間的對共享內容的改變並不直接寫回到磁盤文件中，往往在調用munmap（）後才執行該操作。可以通過調用msync()實現磁盤上文件內容與共享內存區的內容一致。 msync()函數原型為：
 
 ```c
 #include <sys/mman.h>
 int msync(void *addr, size_t length, int flags);
 ```
 
-参数addr和len代表内存区，flags有以下值指定，MS_ASYNC（执行异步写）， MS_SYNC（执行同步写），MS_INVALIDATE（使高速缓存失效）。其中MS_ASYNC和MS_SYNC两个值必须且只能指定一个，一旦写操作排入内核，MS_ASYNC立即返回，MS_SYNC要等到写操作完成后才返回。如果还指定了MS_INVALIDATE，那么与其最终拷贝不一致的文件数据的所有内存中拷贝都失效。
+參數addr和len代表內存區，flags有以下值指定，MS_ASYNC（執行異步寫）， MS_SYNC（執行同步寫），MS_INVALIDATE（使高速緩存失效）。其中MS_ASYNC和MS_SYNC兩個值必須且只能指定一個，一旦寫操作排入內核，MS_ASYNC立即返回，MS_SYNC要等到寫操作完成後才返回。如果還指定了MS_INVALIDATE，那麼與其最終拷貝不一致的文件數據的所有內存中拷貝都失效。
 
 
-在使用open函数打开一个文件之后调用mmap把文件内容映射到调用进程的地址空间，这样我们操作文件内容只需要对映射的地址空间进行操作，而无需再使用open，write等函数。
+在使用open函數打開一個文件之後調用mmap把文件內容映射到調用進程的地址空間，這樣我們操作文件內容只需要對映射的地址空間進行操作，而無需再使用open，write等函數。
 
-使用共享内存的步骤基本是：
-open()创建内存段；
+使用共享內存的步驟基本是：
+open()創建內存段；
 
 
-用 ftruncate()设置它的大小；
-用mmap() 把它映射到进程内存，执行其他参与者需要的操作；
-当使用完时，原来的进程调用 munmap()然后退出。
-下面来看一个实现：
+用 ftruncate()設置它的大小；
+用mmap() 把它映射到進程內存，執行其他參與者需要的操作；
+當使用完時，原來的進程調用 munmap()然後退出。
+下面來看一個實現：
 
-server程序创建内存并向共享内存写入数据：
+server程序創建內存並向共享內存寫入數據：
 
 ```c
 int sln_shm_get(char* shm_file, void** shm, int mem_len)
 {
     int fd;
-    fd = open(shm_file, O_RDWR | O_CREAT, 0644);//1. 创建内存段
+    fd = open(shm_file, O_RDWR | O_CREAT, 0644);//1. 創建內存段
 
     if (fd < 0) {
         printf("open <%s> failed: %s\n", shm_file, strerror(errno));
         return -1;
     }
 
-    ftruncate(fd, mem_len);//2.设置共享内存大小
+    ftruncate(fd, mem_len);//2.設置共享內存大小
     *shm = mmap(NULL, mem_len, PROT_READ | PROT_WRITE, MAP_SHARED, fd,
-                0); //mmap映射系统内存池到进程内存
+                0); //mmap映射系統內存池到進程內存
 
     if (MAP_FAILED == *shm) {
         printf("mmap: %s\n", strerror(errno));
@@ -86,7 +86,7 @@ int main(int argc, const char* argv[])
 }
 ```
 
-client程序映射共享内存并读取其中数据：
+client程序映射共享內存並讀取其中數據：
 
 ```c
 int main(int argc, const char* argv[])
@@ -99,7 +99,7 @@ int main(int argc, const char* argv[])
 }
 ```
 
-先执行server程序向共享内存写入数据，再运行客户程序，运行结果如下：
+先執行server程序向共享內存寫入數據，再運行客戶程序，運行結果如下：
 
 ```sh
 # ./server
@@ -107,7 +107,7 @@ int main(int argc, const char* argv[])
 ipc client get: hello share memory ipc! i'm server.
 ```
 
-共享内存不像socket那样本身具有同步机制，它需要通过增加其他同步操作来实现同步，比如信号量等。同步相关操作在后面会有相关专栏详细叙述。
+共享內存不像socket那樣本身具有同步機制，它需要通過增加其他同步操作來實現同步，比如信號量等。同步相關操作在後面會有相關專欄詳細敘述。
 
-本节源码下载：
+本節源碼下載：
 http://download.csdn.net/detail/gentleliu/8140487

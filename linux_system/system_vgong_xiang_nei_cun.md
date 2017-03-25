@@ -1,8 +1,8 @@
-# system V共享内存
+# system V共享內存
 
 
-system V共享内存和posix共享内存类似，system V共享内存是调用shmget函数和shamat函数。   
-shmget函数创建共享内存区，或者访问一个存在的内存区，类似系统调用共享内存的open和posix共享内存shm_open函数。shmget函数原型为：
+system V共享內存和posix共享內存類似，system V共享內存是調用shmget函數和shamat函數。   
+shmget函數創建共享內存區，或者訪問一個存在的內存區，類似系統調用共享內存的open和posix共享內存shm_open函數。shmget函數原型為：
 
 
 ```c
@@ -13,18 +13,18 @@ int shmget(key_t key, size_t size, int shmflg);
 ```
 
 
-key: 函数ftok返回值，或者IPC_PRIVATE ,当使用IPC_PRIVATE时，最好两个进程空间是共享的，比如父子进程，否则当前进程产生的共享内存标识（返回值），在另一个进程里面不易得到；
+key: 函數ftok返回值，或者IPC_PRIVATE ,當使用IPC_PRIVATE時，最好兩個進程空間是共享的，比如父子進程，否則當前進程產生的共享內存標識（返回值），在另一個進程裡面不易得到；
 
 
-ftok函数原型为：key_t ftok(const char *pathname, int proj_id); 参数pathname为文件绝对路径名，proj_id为一个整型标识符，该函数将一个已存在的的路径名和一个整型标识符转化成一个key_t值（返回值），称为IPC键。
+ftok函數原型為：key_t ftok(const char *pathname, int proj_id); 參數pathname為文件絕對路徑名，proj_id為一個整型標識符，該函數將一個已存在的的路徑名和一個整型標識符轉化成一個key_t值（返回值），稱為IPC鍵。
 
-size：创建新的共享内存大小，当创建一片新的共享内存时，该值为不为0的参数。如果是读取一片共享内存，该值可以为0。
+size：創建新的共享內存大小，當創建一片新的共享內存時，該值為不為0的參數。如果是讀取一片共享內存，該值可以為0。
 
-shmflg：读写权限值组合。IPC_CREAT（创建新的共享内存）或IPC_CREAT|IPC_EXCL（当将要创建的共享内存已经存在时，再试图创建将返回EEXIST）。其实IPC_CREAT和IPC_EXCL的组合和open函数的O_CREAT和O_EXCL组合类似。
+shmflg：讀寫權限值組合。IPC_CREAT（創建新的共享內存）或IPC_CREAT|IPC_EXCL（當將要創建的共享內存已經存在時，再試圖創建將返回EEXIST）。其實IPC_CREAT和IPC_EXCL的組合和open函數的O_CREAT和O_EXCL組合類似。
 
-函数返回共享内存区的标识。shmxxx函数操作共享内存将使用该函数返回值。该函数类似posix共享内存shm_open函数功能。
+函數返回共享內存區的標識。shmxxx函數操作共享內存將使用該函數返回值。該函數類似posix共享內存shm_open函數功能。
 
-当shmget创建或打开一个共享内存区后，需要使用函数shmat来将该片共享内存连接到当前进程空间中来，当某一进程使用完共享内存后，使用函数shmdt断开和共享内存的链接。
+當shmget創建或打開一個共享內存區後，需要使用函數shmat來將該片共享內存連接到當前進程空間中來，當某一進程使用完共享內存後，使用函數shmdt斷開和共享內存的鏈接。
 
 
 ```c
@@ -34,11 +34,11 @@ void *shmat(int shmid, const void *shmaddr, int shmflg);
 int shmdt(const void *shmaddr);  
 ```
 
- shmid：是函数shmget函数返回的共享内存标识符。
+ shmid：是函數shmget函數返回的共享內存標識符。
  
-shmaddr： 连接到调用进程地址空间的地址，如果该参数为NULL，系统选择一个合适地址；如果shmaddr非空并且shmflg指定了选项SHM_RND，那么相应的共享内存链接到由shmaddr参数指定的地址向下舍入一个SHMLAB常值。如果shmaddr非空并且shmflg未指定SHM_RND，共享内存地址链接到shmaddr参数指定的地址。
+shmaddr： 連接到調用進程地址空間的地址，如果該參數為NULL，系統選擇一個合適地址；如果shmaddr非空並且shmflg指定了選項SHM_RND，那麼相應的共享內存鏈接到由shmaddr參數指定的地址向下舍入一個SHMLAB常值。如果shmaddr非空並且shmflg未指定SHM_RND，共享內存地址鏈接到shmaddr參數指定的地址。
 
-shmflg：可以指定SHM_RND和SHM_RDONLY(只读)，如果指定SHM_RDONLY选项，那么调用进程对该片共享内存只有读权限，否则，进程对该片内存将有读写权限。
+shmflg：可以指定SHM_RND和SHM_RDONLY(只讀)，如果指定SHM_RDONLY選項，那麼調用進程對該片共享內存只有讀權限，否則，進程對該片內存將有讀寫權限。
 
 ```c
 #include <sys/ipc.h>
@@ -46,14 +46,14 @@ shmflg：可以指定SHM_RND和SHM_RDONLY(只读)，如果指定SHM_RDONLY选项
 int shmctl(int shmid, int cmd, struct shmid_ds *buf);
 ```
 
-shmid：共享内存区标识；
+shmid：共享內存區標識；
 
-cmd：对共享内存的操作命令，命令IPC_RMID销毁（destroy）一片共享内存，销毁之后所有shmat，shmdt，shmctl对该片内存操作都将失效，销毁该共享内存要等到该共享内存引用计数变为0才进行；IPC_SET命令设置shmid_ds结构成员；IPC_STAT返回当前共享内存结构；其余命令查看man手册。
+cmd：對共享內存的操作命令，命令IPC_RMID銷燬（destroy）一片共享內存，銷燬之後所有shmat，shmdt，shmctl對該片內存操作都將失效，銷燬該共享內存要等到該共享內存引用計數變為0才進行；IPC_SET命令設置shmid_ds結構成員；IPC_STAT返回當前共享內存結構；其餘命令查看man手冊。
 
-buf：为指向shmid_ds数据结构；
+buf：為指向shmid_ds數據結構；
 
 
-system V 共享内存示例：
+system V 共享內存示例：
 
 server process：
 
@@ -115,7 +115,7 @@ int main(int argc, const char* argv[])
     //shmdt(shm_buf);
 
     shmctl(shmid, IPC_RMID,
-           NULL); //server在15秒之后destroy该片共享内存，此时客户进程将获取不到共享内存的内容
+           NULL); //server在15秒之後destroy該片共享內存，此時客戶進程將獲取不到共享內存的內容
 
     return 0;
 }
@@ -171,7 +171,7 @@ int main(int argc, const char* argv[])
 }
 ```
 
-运行时，首先执行server process，使用命令ipcs可以查看当前系统共享内存：
+運行時，首先執行server process，使用命令ipcs可以查看當前系統共享內存：
 ```sh
 # ipcs 
 ------ Message Queues -------- 
@@ -187,14 +187,14 @@ key shmid owner perms bytes nattch status
 key semid owner perms nsems 
 ```
 
-可以看到存在一个共享内存区，其中key为：0x0010a797 ，共享内存ID为：131072 
+可以看到存在一個共享內存區，其中key為：0x0010a797 ，共享內存ID為：131072 
 
 ```sh
 # ./client 
 ipc client get: Hello system V shaare memory IPC! this is write by server. 
 #
 ```
-当server进程destroy共享内存之后，再重复上面步骤，
+當server進程destroy共享內存之後，再重複上面步驟，
 ```sh
 # ipcs 
 
@@ -210,7 +210,7 @@ key shmid owner perms bytes nattch status
 key semid owner perms nsems 
 ```
 
-此时共享内存已经不在了，但文件依然存在。
+此時共享內存已經不在了，但文件依然存在。
 
 ```sh
 # ./client
@@ -219,9 +219,9 @@ ipc client get:
 
 
 
-此时客户端已经不能获取之前共享内存内容了。
-另外，ipcrm命令可以在命令行上删除指定共享内存区。
-通过读取文件/proc/sys/kernel/shmmax可以获取系统所支持共享内存最大值，
+此時客戶端已經不能獲取之前共享內存內容了。
+另外，ipcrm命令可以在命令行上刪除指定共享內存區。
+通過讀取文件/proc/sys/kernel/shmmax可以獲取系統所支持共享內存最大值，
 
 ```sh
 # cat /proc/sys/kernel/shmmax
@@ -229,12 +229,12 @@ ipc client get:
 ```
 
 
-可以看到我目前系统支持最大个共享内存值为：32M。
+可以看到我目前系統支持最大個共享內存值為：32M。
 
 
-通过上示例可以看到system V共享内存和posix共享内存类似，不过posix共享内存的大小可以随时通过ftruncate改变，而system V 的共享内存大小在shmget时就已经确定下来了。
-同样的，system V共享内存大多数时候也需要在多进程之间同步，system V 可以使用自己的信号量来实现，具体细节将在后面同步相关专栏详细讲解。
+通過上示例可以看到system V共享內存和posix共享內存類似，不過posix共享內存的大小可以隨時通過ftruncate改變，而system V 的共享內存大小在shmget時就已經確定下來了。
+同樣的，system V共享內存大多數時候也需要在多進程之間同步，system V 可以使用自己的信號量來實現，具體細節將在後面同步相關專欄詳細講解。
 
-本节源码下载：
+本節源碼下載：
 
 http://download.csdn.net/detail/gentleliu/8140887

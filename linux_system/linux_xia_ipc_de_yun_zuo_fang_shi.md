@@ -16,7 +16,7 @@ IPC溝通的有許多方式，例如：Shared Memory, Message Queue, PIPE, FIFO,
 
 用法說明：
 
-- 使用函數 key_t ftok(char *name, int id) 取得一個在此系統內唯一的值，假設為 vKey。
+- 使用函數 key_t ftok(char *name, int id) 取得一個在此係統內唯一的值，假設為 vKey。
 - 使用函數 vShmId = shmget(vKey, 1024, 0600)取得一個大小為1024bytes, 權限為 0600(read+write) 的Shared Memory 。
 - 使用函數 pShmPtr = shmat(vShmId,0,0) 取得 Shared Memory 對應的指標，以供後續操作。
 - 當不需要使用時，使用 shmctl(vShmId, IPC_RMID, 0) 移除此 Shared Memory 。
@@ -162,7 +162,7 @@ main()
 
 用法說明：
 
-- 使用函數 key_t ftok(char *name, int id) 取得一個在此系統內唯一的值，假設為 vKey。當然這個值也可以自行指定。
+- 使用函數 key_t ftok(char *name, int id) 取得一個在此係統內唯一的值，假設為 vKey。當然這個值也可以自行指定。
 - 使用函數 vQueueId = msgget( vKey, IPC_CREAT | 0660 ) 取得此 message queue 對應的 ID。
 - 定義將傳送的 message 資料結構，假設是 tMsgBuf vxMsgBuf。此處需注意的是第一個欄位需定義為 long mtype, 舉例如下:
 

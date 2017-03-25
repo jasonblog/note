@@ -1,32 +1,32 @@
 # pipe和FIFO
 
 
-在unix系统上最早的IPC形式为管道，管道的创建使用pipe函数：
+在unix系統上最早的IPC形式為管道，管道的創建使用pipe函數：
 
 ```sh
 #include <unistd.h>
 int pipe(int pipefd[2]);
 ```
 
-该函数创建一个单向的管道，返回两个描述符 pipefd[0],和pipefd[1]，pipefd[0]用于读操作，pipefd[1]用于写操作。该函数一般应用在父子进程（有亲缘关系的进程）之间的通信，先是一个进程创建管道，再fork出一个子进程，然后父子进程可以通过管道来实现通信。
+該函數創建一個單向的管道，返回兩個描述符 pipefd[0],和pipefd[1]，pipefd[0]用於讀操作，pipefd[1]用於寫操作。該函數一般應用在父子進程（有親緣關係的進程）之間的通信，先是一個進程創建管道，再fork出一個子進程，然後父子進程可以通過管道來實現通信。
 
-管道具有以下特点：
-管道是半双工的，数据只能向一个方向流动；需要双方通信时，需要建立起两个管道；
-只能用于父子进程或者兄弟进程之间（具有亲缘关系的进程）；
+管道具有以下特點：
+管道是半雙工的，數據只能向一個方向流動；需要雙方通信時，需要建立起兩個管道；
+只能用於父子進程或者兄弟進程之間（具有親緣關係的進程）；
 
-单独构成一种独立的文件系统：管道对于管道两端的进程而言，就是一个文件，但它不是普通的文件，它不属于某种文件系统，而是自立门户，单独构成一种文件系统，并且只存在与内存中。
+單獨構成一種獨立的文件系統：管道對於管道兩端的進程而言，就是一個文件，但它不是普通的文件，它不屬於某種文件系統，而是自立門戶，單獨構成一種文件系統，並且只存在與內存中。
 
-数据的读出和写入：一个进程向管道中写的内容被管道另一端的进程读出。写入的内容每次都添加在管道缓冲区的末尾，并且每次都是从缓冲区的头部读出数据。
+數據的讀出和寫入：一個進程向管道中寫的內容被管道另一端的進程讀出。寫入的內容每次都添加在管道緩衝區的末尾，並且每次都是從緩衝區的頭部讀出數據。
 
 
-函数pipe一般使用步骤如下：
+函數pipe一般使用步驟如下：
 
 ```sh
-1.pipe创建管道；
-2.fork创建子进程；
-3.父子进程分别关闭掉读和写（或写和读）描述符；
-4.读端在读描述符上开始读（或阻塞在读上等待写端完成写），写端开始写，完成父子进程通信过程。
-一个简单的通信实现（来自linux man手册的修改）：
+1.pipe創建管道；
+2.fork創建子進程；
+3.父子進程分別關閉掉讀和寫（或寫和讀）描述符；
+4.讀端在讀描述符上開始讀（或阻塞在讀上等待寫端完成寫），寫端開始寫，完成父子進程通信過程。
+一個簡單的通信實現（來自linux man手冊的修改）：
 ```
 
 
@@ -63,10 +63,10 @@ int main(int argc, char* argv[])
         return -1;
     }
 
-    if (0 == cpid) { /* 子进程 */
-        close(pipefd[1]); /* 子进程关闭写端 */
+    if (0 == cpid) { /* 子進程 */
+        close(pipefd[1]); /* 子進程關閉寫端 */
         readlen = read(pipefd[0], buf,
-                       128); //子进程阻塞在读上，等待父进程写
+                       128); //子進程阻塞在讀上，等待父進程寫
 
         if (readlen < 0) {
             fprintf(stderr, "read: %s\n", strerror(errno));
@@ -75,22 +75,22 @@ int main(int argc, char* argv[])
 
         write(STDOUT_FILENO, buf, readlen);
         write(STDOUT_FILENO, "\n", 1);
-        close(pipefd[0]); //读完之后关闭读描述符
+        close(pipefd[0]); //讀完之後關閉讀描述符
         return 0;
-    } else { /* 父进程 */
-        close(pipefd[0]); /*父进程关闭没用的读端 */
+    } else { /* 父進程 */
+        close(pipefd[0]); /*父進程關閉沒用的讀端 */
         sleep(2);
-        write(pipefd[1], argv[1], strlen(argv[1])); //父进程开始写
-        close(pipefd[1]); /* 父进程关闭写描述符 */
-        wait(NULL); /* 父进程等待子进程退出，回收子进程资源 */
+        write(pipefd[1], argv[1], strlen(argv[1])); //父進程開始寫
+        close(pipefd[1]); /* 父進程關閉寫描述符 */
+        wait(NULL); /* 父進程等待子進程退出，回收子進程資源 */
         return 0;
     }
 }
 ```
 
-运行时将打印命令行输入参数，打印将在父进程睡眠2秒之后，子进程将阻塞在读，直到父进程写完数据，可见管道是有同步机制的，不需要自己添加同步机制。如果希望两个进程双向数据传输，那么需要建立两个管道来实现。
+運行時將打印命令行輸入參數，打印將在父進程睡眠2秒之後，子進程將阻塞在讀，直到父進程寫完數據，可見管道是有同步機制的，不需要自己添加同步機制。如果希望兩個進程雙向數據傳輸，那麼需要建立兩個管道來實現。
 
-管道最大的劣势就是只能在拥有共同祖先进程的进程之间通信，在无亲缘关系的两个进程之间没有办法使用，不过有名管道FIFO解决了这个问题。FIFO类似于pipe，也是只能单向传输数据，不过和pipe不同的是他可以在无亲缘关系的进程之间通信，它提供一个路径与之关联，所以只要能访问该路径的进程都可以建立起通信，类似于前面的共享内存，都提供一个路径与之关联。
+管道最大的劣勢就是隻能在擁有共同祖先進程的進程之間通信，在無親緣關係的兩個進程之間沒有辦法使用，不過有名管道FIFO解決了這個問題。FIFO類似於pipe，也是隻能單向傳輸數據，不過和pipe不同的是他可以在無親緣關係的進程之間通信，它提供一個路徑與之關聯，所以只要能訪問該路徑的進程都可以建立起通信，類似於前面的共享內存，都提供一個路徑與之關聯。
 
 ```sh
 #include <sys/types.h>
@@ -98,11 +98,11 @@ int main(int argc, char* argv[])
 int mkfifo(const char *pathname, mode_t mode);
 ```
 
-pathname 为系统路径名，mode为文件权限位，类似open函数第二个参数。
+pathname 為系統路徑名，mode為文件權限位，類似open函數第二個參數。
 
-打开或创建一个新的fifo是先调用mkfifo，当指定的pathname已存在fifo时，mkfifo返回EEXIST错误，此时再调用open函数。
+打開或創建一個新的fifo是先調用mkfifo，當指定的pathname已存在fifo時，mkfifo返回EEXIST錯誤，此時再調用open函數。
 
-下面来使用mkfifo实现一个无亲缘关系进程间的双向通信，此时需要建立两个fifo，分别用于读写。服务进程循环的读并等待客户进程写，之后打印客户进程传来数据并向客户进程返回数据；客户进程向服务器写数据并等待读取服务进程返回的数据。
+下面來使用mkfifo實現一個無親緣關係進程間的雙向通信，此時需要建立兩個fifo，分別用於讀寫。服務進程循環的讀並等待客戶進程寫，之後打印客戶進程傳來數據並向客戶進程返回數據；客戶進程向服務器寫數據並等待讀取服務進程返回的數據。
 
 server process：
 
@@ -121,14 +121,14 @@ int main(int argc, const char* argv[])
     int wr_fd, rd_fd;
     char sendbuf[128];
     char recvbuf[128];
-    rc = mkfifo(SLN_IPC_2SER_PATH, O_CREAT | O_EXCL); //建立服务进程读的fifo
+    rc = mkfifo(SLN_IPC_2SER_PATH, O_CREAT | O_EXCL); //建立服務進程讀的fifo
 
     if ((rc < 0) && (errno != EEXIST)) {
         fprintf(stderr, "mkfifo: %s\n", strerror(errno));
         return -1;
     }
 
-    rc = mkfifo(SLN_IPC_2CLT_PATH, O_CREAT | O_EXCL); //建立服务进程写的fifo
+    rc = mkfifo(SLN_IPC_2CLT_PATH, O_CREAT | O_EXCL); //建立服務進程寫的fifo
 
     if ((rc < 0) && (errno != EEXIST)) {
         fprintf(stderr, "mkfifo: %s\n", strerror(errno));
@@ -151,7 +151,7 @@ int main(int argc, const char* argv[])
 
     for (;;) {
         rc = read(rd_fd, recvbuf,
-                  sizeof(recvbuf)); //循环等待接受客户进程数据
+                  sizeof(recvbuf)); //循環等待接受客戶進程數據
 
         if (rc < 0) {
             fprintf(stderr, "read: %s\n", strerror(errno));
@@ -222,7 +222,7 @@ int main(int argc, const char *argv[])
 }
 ```
 
-服务器先启动运行，之后运行客户端，运行结果
+服務器先啟動運行，之後運行客戶端，運行結果
 
 ```sh
 # ./server 
@@ -235,7 +235,7 @@ client read: Hello, this is server!
 ```
 
 
-这里有一些类似于socket实现进程间通信过程，只是fifo的读写描述符是两个，socket的读写使用同一个描述符。fifo的出现克服了管道的只能在有亲缘关系的进程之间的通信。和其他的进程间通信一直，fifo传送的数据也是字节流，需要自己定义协议格式来解析通信的数据，可以使用socket章节介绍的方式来实现的通信协议。
+這裡有一些類似於socket實現進程間通信過程，只是fifo的讀寫描述符是兩個，socket的讀寫使用同一個描述符。fifo的出現克服了管道的只能在有親緣關係的進程之間的通信。和其他的進程間通信一直，fifo傳送的數據也是字節流，需要自己定義協議格式來解析通信的數據，可以使用socket章節介紹的方式來實現的通信協議。
 
-本节源码下载：
+本節源碼下載：
 http://download.csdn.net/detail/gentleliu/8183027

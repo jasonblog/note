@@ -57,7 +57,7 @@
         data-chapter-title="Linux 下 IPC 的運作方式"
         data-filepath="linux_system/linux_xia_ipc_de_yun_zuo_fang_shi.md"
         data-basepath=".."
-        data-revision="Sat Mar 25 2017 23:11:40 GMT+0800 (CST)"
+        data-revision="Sat Mar 25 2017 23:20:04 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -16667,12 +16667,14 @@ main()
 }
 </code></pre>
 <h2 id="&#x4E8C;&#x3001;message-queue-&#x7684;&#x57FA;&#x672C;&#x7528;&#x6CD5;">&#x4E8C;&#x3001;Message Queue &#x7684;&#x57FA;&#x672C;&#x7528;&#x6CD5;</h2>
-<p>&#x53C3;&#x8003;  <a href="http://tldp.org/LDP/lpg/node27.html&#xFF0C;&#x4E3B;&#x8981;&#x6709;&#x56DB;&#x500B;API" target="_blank">http://tldp.org/LDP/lpg/node27.html&#xFF0C;&#x4E3B;&#x8981;&#x6709;&#x56DB;&#x500B;API</a>
-int msgget ( key_t key, int msgflg );
-int msgsnd ( int msqid, struct msgbuf <em>msgp, int msgsz, int msgflg );
-int msgrcv ( int msqid, struct msgbuf </em>msgp, int msgsz, long mtype, int msgflg );
-int msgctl ( int msgqid, int cmd, struct msqid_ds *buf );
-&#x7528;&#x6CD5;&#x8AAA;&#x660E;&#xFF1A;</p>
+<p>&#x53C3;&#x8003;  <a href="http://tldp.org/LDP/lpg/node27.html&#xFF0C;&#x4E3B;&#x8981;&#x6709;&#x56DB;&#x500B;API" target="_blank">http://tldp.org/LDP/lpg/node27.html&#xFF0C;&#x4E3B;&#x8981;&#x6709;&#x56DB;&#x500B;API</a></p>
+<ul>
+<li>int msgget ( key_t key, int msgflg );</li>
+<li>int msgsnd ( int msqid, struct msgbuf *msgp, int msgsz, int msgflg );</li>
+<li>int msgrcv ( int msqid, struct msgbuf *msgp, int msgsz, long mtype, int msgflg );</li>
+<li>int msgctl ( int msgqid, int cmd, struct msqid_ds *buf );</li>
+</ul>
+<p>&#x7528;&#x6CD5;&#x8AAA;&#x660E;&#xFF1A;</p>
 <ul>
 <li>&#x4F7F;&#x7528;&#x51FD;&#x6578; key_t ftok(char *name, int id) &#x53D6;&#x5F97;&#x4E00;&#x500B;&#x5728;&#x6B64;&#x7CFB;&#x7D71;&#x5167;&#x552F;&#x4E00;&#x7684;&#x503C;&#xFF0C;&#x5047;&#x8A2D;&#x70BA; vKey&#x3002;&#x7576;&#x7136;&#x9019;&#x500B;&#x503C;&#x4E5F;&#x53EF;&#x4EE5;&#x81EA;&#x884C;&#x6307;&#x5B9A;&#x3002;</li>
 <li>&#x4F7F;&#x7528;&#x51FD;&#x6578; vQueueId = msgget( vKey, IPC_CREAT | 0660 ) &#x53D6;&#x5F97;&#x6B64; message queue &#x5C0D;&#x61C9;&#x7684; ID&#x3002;</li>

@@ -350,6 +350,7 @@
        * [補充 現代Linux有兩種共享內存機制](linux_system/bu_chong_xian_dai_linux_you_liang_zhong_gong_xiang.md)
    * [Linux同步与互斥应用](linux_system/linuxtong_bu_yu_hu_chi_ying_yong.md)
        * [（零）：基础概念](linux_system/ff08_ling_ff09_ff1a_ji_chu_gai_nian.md)
+       * （一）：posix线程及线程间互斥 
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

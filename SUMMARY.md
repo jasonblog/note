@@ -345,7 +345,7 @@
        * [pipe和FIFO](linux_system/pipehe_fifo.md)
        * [信号（上）](linux_system/xin_hao_ff08_shang_ff09.md)
        * [信号（下）](linux_system/xin_hao_ff08_xia_ff09.md)
-       * posix消息队列
+       * [posix消息队列](linux_system/posixxiao_xi_dui_lie.md)
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

@@ -334,7 +334,7 @@
    * [如何手工展開函數棧來定位問題](linux_system/ru_he_shou_gong_zhan_kai_han_shu_zhan_lai_ding_wei.md)
    * [第3章 行程(process)環境](linux_system/di_3_zhang_xing_7a0b28_process_huan_jing.md)
    * [打印出一個完整的程序調用堆棧信息](linux_system/da_yin_chu_yi_ge_wan_zheng_de_cheng_xu_diao_yong_d.md)
-   * Linux 下 IPC 的運作方式
+   * [Linux 下 IPC 的運作方式](linux_system/linux_xia_ipc_de_yun_zuo_fang_shi.md)
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

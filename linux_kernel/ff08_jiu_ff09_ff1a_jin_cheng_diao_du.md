@@ -1,11 +1,11 @@
-# （九）：进程调度
+# （九）：進程調度
 
 
-Linux为多任务系统，正常情况下都存在成百上千个任务。由于linux提供抢占式的多任务模式，所以linux能同时并发地交互执行多个进程，而调度程序将决定哪一个进程投入运行、何时运行、以及运行多长时间。调度程序是像linux这样的多任务操作系统的基础， 只有通过调度程序的合理调度，系统资源才能最大限度地发挥作用，多进程才会有并发执行的效果。当系统中可运行的进程数目比处理器的个数多，就注定在某一时刻有一些进程不能执行，这些不能执行的进程在等待执行。调度程序的基本工作就是停止一个进程的运行，再在这些等待执行的进程中选择一个来执行。
+Linux為多任務系統，正常情況下都存在成百上千個任務。由於linux提供搶佔式的多任務模式，所以linux能同時併發地交互執行多個進程，而調度程序將決定哪一個進程投入運行、何時運行、以及運行多長時間。調度程序是像linux這樣的多任務操作系統的基礎， 只有通過調度程序的合理調度，系統資源才能最大限度地發揮作用，多進程才會有併發執行的效果。當系統中可運行的進程數目比處理器的個數多，就註定在某一時刻有一些進程不能執行，這些不能執行的進程在等待執行。調度程序的基本工作就是停止一個進程的運行，再在這些等待執行的進程中選擇一個來執行。
 
-调度程序停止一个进程的运行，再选择一个另外进程的动作开始运行的动作被称作抢占（preemption）。一个进程在被抢占之前能够运行的时间是预先设置好的，这个预先设置好的时间就是进程的的时间片（timeslice）。时间片就是分配给每个可运行进程的处理器时间段，它表明进程在被抢占前所能持续运行时间。
+調度程序停止一個進程的運行，再選擇一個另外進程的動作開始運行的動作被稱作搶佔（preemption）。一個進程在被搶佔之前能夠運行的時間是預先設置好的，這個預先設置好的時間就是進程的的時間片（timeslice）。時間片就是分配給每個可運行進程的處理器時間段，它表明進程在被搶佔前所能持續運行時間。
 
-处理器的调度策略决定调度程序在何时让什么进程投入运行。调度策略通常需要在进程响应迅速(相应时间短)和进程吞吐量高之间寻找平衡。所以调度程序通常采用一套非常复杂的算法来决定最值得运行的进程投入运行。调度算法中最基本的一类当然就是基于优先级的调度，也就是说优先级高的先运行，相同优先级的按轮转式进行调度。优先级高 的进程使用的时间片也长。调度程序总是选择时间片未用尽且优先级最高的进程运行。这句话就是说用户和系统可以通过设置进程的优先级来响应系统的调度。基于此，linux设计上一套动态优先级的调度方法。一开始，先为进程设置一个基本的优先级，然而它允许调度程序根据需要来加减优先级。linux内核提供了两组独立的优先级范围。第一种是nice值，范围从-20到19，默认为0。nice值越大优先级越小。另外nice值也用来决定分配给进程时间片的长短。linux下通过命令可以查看进程对应nice值，如下：
+處理器的調度策略決定調度程序在何時讓什麼進程投入運行。調度策略通常需要在進程響應迅速(相應時間短)和進程吞吐量高之間尋找平衡。所以調度程序通常採用一套非常複雜的算法來決定最值得運行的進程投入運行。調度算法中最基本的一類當然就是基於優先級的調度，也就是說優先級高的先運行，相同優先級的按輪轉式進行調度。優先級高 的進程使用的時間片也長。調度程序總是選擇時間片未用盡且優先級最高的進程運行。這句話就是說用戶和系統可以通過設置進程的優先級來響應系統的調度。基於此，linux設計上一套動態優先級的調度方法。一開始，先為進程設置一個基本的優先級，然而它允許調度程序根據需要來加減優先級。linux內核提供了兩組獨立的優先級範圍。第一種是nice值，範圍從-20到19，默認為0。nice值越大優先級越小。另外nice值也用來決定分配給進程時間片的長短。linux下通過命令可以查看進程對應nice值，如下：
 
 
 
@@ -31,9 +31,9 @@ F S   UID   PID  PPID  C PRI  NI ADDR SZ WCHAN  TTY          TIME CMD
 ......   
 ```
 
-第二种范围是实时优先级，默认范围是从0到99。任何实时的优先级都高于普通优先级。
+第二種範圍是實時優先級，默認範圍是從0到99。任何實時的優先級都高於普通優先級。
 
-进程执行时，它会根据具体情况改变状态，进程状态是调度和对换的依据。Linux 将进程状态分为五种： TASK_RUNNING 、 TASK_INTERRUPTIBLE 、 TASK_UNINTERRUPTIBLE 、 TASK_STOPPED 和 TASK_ZOMBILE 。进程的状态随着进程的调度发生改变 。
+進程執行時，它會根據具體情況改變狀態，進程狀態是調度和對換的依據。Linux 將進程狀態分為五種： TASK_RUNNING 、 TASK_INTERRUPTIBLE 、 TASK_UNINTERRUPTIBLE 、 TASK_STOPPED 和 TASK_ZOMBILE 。進程的狀態隨著進程的調度發生改變 。
 
 
 <table cellpadding="2" cellspacing="0" border="1" style="background-color:#FFFFFF">
@@ -44,7 +44,7 @@ F S   UID   PID  PPID  C PRI  NI ADDR SZ WCHAN  TTY          TIME CMD
 </div>
 </td>
 <td valign="top" style="width:279px; height:31px">
-<div><span style="font-family:Microsoft YaHei; font-size:14px">可运行</span> </div>
+<div><span style="font-family:Microsoft YaHei; font-size:14px">可運行</span> </div>
 </td>
 </tr>
 <tr>
@@ -53,7 +53,7 @@ F S   UID   PID  PPID  C PRI  NI ADDR SZ WCHAN  TTY          TIME CMD
 </div>
 </td>
 <td valign="top" style="width:279px; height:31px">
-<div><span style="font-family:Microsoft YaHei; font-size:14px">可中断的等待状态</span> </div>
+<div><span style="font-family:Microsoft YaHei; font-size:14px">可中斷的等待狀態</span> </div>
 </td>
 </tr>
 <tr>
@@ -62,7 +62,7 @@ F S   UID   PID  PPID  C PRI  NI ADDR SZ WCHAN  TTY          TIME CMD
 </div>
 </td>
 <td valign="top" style="width:279px; height:31px">
-<div><span style="font-family:Microsoft YaHei; font-size:14px">不可中断的等待状态</span> </div>
+<div><span style="font-family:Microsoft YaHei; font-size:14px">不可中斷的等待狀態</span> </div>
 </td>
 </tr>
 <tr>
@@ -71,7 +71,7 @@ F S   UID   PID  PPID  C PRI  NI ADDR SZ WCHAN  TTY          TIME CMD
 </div>
 </td>
 <td valign="top" style="width:279px; height:31px">
-<div><span style="font-family:Microsoft YaHei; font-size:14px">停止状态</span> </div>
+<div><span style="font-family:Microsoft YaHei; font-size:14px">停止狀態</span> </div>
 </td>
 </tr>
 <tr>
@@ -80,41 +80,41 @@ F S   UID   PID  PPID  C PRI  NI ADDR SZ WCHAN  TTY          TIME CMD
 </div>
 </td>
 <td valign="top" style="width:279px; height:31px">
-<div><span style="font-family:Microsoft YaHei; font-size:14px">被跟踪状态</span> <br>
+<div><span style="font-family:Microsoft YaHei; font-size:14px">被跟蹤狀態</span> <br>
 </div>
 </td>
 </tr>
 </tbody>
 </table>
 
-`TASK_RUNNING （运行）`：无论进程是否正在占用 CPU ，只要具备运行条件，都处于该状态。 Linux 把处于该状态的所有 PCB 组织成一个可运行队列 run_queue ，调度程序从这个队列中选择进程运行。事实上， Linux 是将就绪态和运行态合并为了一种状态。
+`TASK_RUNNING （運行）`：無論進程是否正在佔用 CPU ，只要具備運行條件，都處於該狀態。 Linux 把處於該狀態的所有 PCB 組織成一個可運行隊列 run_queue ，調度程序從這個隊列中選擇進程運行。事實上， Linux 是將就緒態和運行態合併為了一種狀態。
 
-`TASK_INTERRUPTIBLE （可中断阻塞）`： Linux 将阻塞态划分成 TASK_INTERRUPTIBLE 、 TASK_UNINTERRUPTIBLE 、 TASK_STOPPED 三种不同的状态。处于 TASK_INTERRUPTIBLE 状态的进程在资源有效时被唤醒，也可以通过信号或定时中断唤醒。
+`TASK_INTERRUPTIBLE （可中斷阻塞）`： Linux 將阻塞態劃分成 TASK_INTERRUPTIBLE 、 TASK_UNINTERRUPTIBLE 、 TASK_STOPPED 三種不同的狀態。處於 TASK_INTERRUPTIBLE 狀態的進程在資源有效時被喚醒，也可以通過信號或定時中斷喚醒。
 
-`TASK_UNINTERRUPTIBLE （不可中断阻塞）`：另一种阻塞状态，处于该状态的进程只有当资源有效时被唤醒，不能通过信号或定时中断唤醒。在执行ps命令时，进程状态为D且不能被杀死。
+`TASK_UNINTERRUPTIBLE （不可中斷阻塞）`：另一種阻塞狀態，處於該狀態的進程只有當資源有效時被喚醒，不能通過信號或定時中斷喚醒。在執行ps命令時，進程狀態為D且不能被殺死。
 
-`TASK_STOPPED （停止）`：第三种阻塞状态，处于该状态的进程只能通过其他进程的信号才能唤醒。
+`TASK_STOPPED （停止）`：第三種阻塞狀態，處於該狀態的進程只能通過其他進程的信號才能喚醒。
 
-`TASK_TRACED （被跟踪）`：进程正在被另一个进程监视，比如在调试的时候。
+`TASK_TRACED （被跟蹤）`：進程正在被另一個進程監視，比如在調試的時候。
 
-我们在设置这些状态的时候是可以直接用语句进行的比如：p—>state = `TASK_RUNNING`。同时内核也会使用set_task_state()和set_current_state()函数来进行。
+我們在設置這些狀態的時候是可以直接用語句進行的比如：p—>state = `TASK_RUNNING`。同時內核也會使用set_task_state()和set_current_state()函數來進行。
 
-linux调度器是以模块方式提供的，这样允许不同类型的进程可以有针对性地选择调度算法。完全公平调度（CFS）是针对普通进程的调度类，CFS采用的方法是对时间片分配方式进行根本性的重新设计，完全摒弃时间片而是分配给进程一个处理器使用比重。通过这种方式，CFS确保了进程调度中能有恒定的公平性，而将切换频率置于不断变动之中。
+linux調度器是以模塊方式提供的，這樣允許不同類型的進程可以有針對性地選擇調度算法。完全公平調度（CFS）是針對普通進程的調度類，CFS採用的方法是對時間片分配方式進行根本性的重新設計，完全摒棄時間片而是分配給進程一個處理器使用比重。通過這種方式，CFS確保了進程調度中能有恆定的公平性，而將切換頻率置於不斷變動之中。
 
-与Linux 2.6之前调度器不同，2.6版本内核的CFS没有将任务维护在链表式的运行队列中，它抛弃了active/expire数组，而是对每个CPU维护一个以时间为顺序的红黑树。该树方法能够良好运行的原因在于：
+與Linux 2.6之前調度器不同，2.6版本內核的CFS沒有將任務維護在鏈表式的運行隊列中，它拋棄了active/expire數組，而是對每個CPU維護一個以時間為順序的紅黑樹。該樹方法能夠良好運行的原因在於：
 
-* 红黑树可以始终保持平衡，这意味着树上没有路径比任何其他路径长两倍以上。
-* 由于红黑树是二叉树，查找操作的时间复杂度为O(log n)。但是除了最左侧查找以外，很难执行其他查找，并且最左侧的节点指针始终被缓存。
-* 对于大多数操作（插入、删除、查找等），红黑树的执行时间为O(log n)，而以前的调度程序通过具有固定优先级的优先级数组使用 O(1)。O(log n) 行为具有可测量的延迟，但是对于较大的任务数无关紧要。Molnar在尝试这种树方法时，首先对这一点进行了测试。
+* 紅黑樹可以始終保持平衡，這意味著樹上沒有路徑比任何其他路徑長兩倍以上。
+* 由於紅黑樹是二叉樹，查找操作的時間複雜度為O(log n)。但是除了最左側查找以外，很難執行其他查找，並且最左側的節點指針始終被緩存。
+* 對於大多數操作（插入、刪除、查找等），紅黑樹的執行時間為O(log n)，而以前的調度程序通過具有固定優先級的優先級數組使用 O(1)。O(log n) 行為具有可測量的延遲，但是對於較大的任務數無關緊要。Molnar在嘗試這種樹方法時，首先對這一點進行了測試。
 
-* 红黑树可通过内部存储实现，即不需要使用外部分配即可对数据结构进行维护。
+* 紅黑樹可通過內部存儲實現，即不需要使用外部分配即可對數據結構進行維護。
 
-要实现平衡，CFS使用“虚拟运行时”表示某个任务的时间量。任务的虚拟运行时越小，意味着任务被允许访问服务器的时间越短，其对处理器的需求越高。 CFS还包含睡眠公平概念以便确保那些目前没有运行的任务（例如，等待 I/O）在其最终需要时获得相当份额的处理器。由于篇幅原因，这里不详细讲解CFS的实现。
+要實現平衡，CFS使用“虛擬運行時”表示某個任務的時間量。任務的虛擬運行時越小，意味著任務被允許訪問服務器的時間越短，其對處理器的需求越高。 CFS還包含睡眠公平概念以便確保那些目前沒有運行的任務（例如，等待 I/O）在其最終需要時獲得相當份額的處理器。由於篇幅原因，這裡不詳細講解CFS的實現。
 
-对于实时进程， Linux 采用了两种调度策略，即先来先服务调度（ First-In, First-Out ， FIFO ）和时间片轮转调度（ Round Robin ， RR ）。因为实时进程具有一定程度的紧迫性，所以衡量一个实时进程是否应该运行， Linux 采用了一个比较固定的标准。
+對於實時進程， Linux 採用了兩種調度策略，即先來先服務調度（ First-In, First-Out ， FIFO ）和時間片輪轉調度（ Round Robin ， RR ）。因為實時進程具有一定程度的緊迫性，所以衡量一個實時進程是否應該運行， Linux 採用了一個比較固定的標準。
 
-下面是调度相关的一些数据结构：
-调度实体：struct sched_entity
+下面是調度相關的一些數據結構：
+調度實體：struct sched_entity
 
 ```c
 struct sched_entity {  
@@ -183,11 +183,11 @@ struct sched_entity {
 };  
 ```
 
-该结构在./linux/include/linux/sched.h中，表示一个可调度实体（进程，进程组，等等）。它包含了完整的调度信息，用于实现对单个任务或任务组的调度。调度实体可能与进程没有关联。这里包括负载权重load、对应的红黑树结点run_node、虚拟运行时vruntime（表示进程的运行时间，并作为红黑树的索引）、开始执行时间、最后唤醒时间、各种统计数据、用于组调度的CFS运行队列信息cfs_rq，等等。
+該結構在./linux/include/linux/sched.h中，表示一個可調度實體（進程，進程組，等等）。它包含了完整的調度信息，用於實現對單個任務或任務組的調度。調度實體可能與進程沒有關聯。這裡包括負載權重load、對應的紅黑樹結點run_node、虛擬運行時vruntime（表示進程的運行時間，並作為紅黑樹的索引）、開始執行時間、最後喚醒時間、各種統計數據、用於組調度的CFS運行隊列信息cfs_rq，等等。
 
 
-调度类：struct sched_class
-该调度类也在sched.h中，是对调度器操作的面向对象抽象，协助内核调度程序的各种工作。调度类是调度器管理器的核心，每种调度算法模块需要实现struct sched_class建议的一组函数。
+調度類：struct sched_class
+該調度類也在sched.h中，是對調度器操作的面向對象抽象，協助內核調度程序的各種工作。調度類是調度器管理器的核心，每種調度算法模塊需要實現struct sched_class建議的一組函數。
 
 
 ```c
@@ -243,23 +243,23 @@ struct sched_class {
 #endif
 };
 ```
-其中的主要函数：
-* enqueue_task：当某个任务进入可运行状态时，该函数将得到调用。它将调度实体（进程）放入红黑树中，并对 nr_running 变量加 1。从前面“Linux进程管理”的分析中可知，进程创建的最后会调用该函数。
-* dequeue_task：当某个任务退出可运行状态时调用该函数，它将从红黑树中去掉对应的调度实体，并从 nr_running 变量中减 1。
-* yield_task：在 compat_yield sysctl 关闭的情况下，该函数实际上执行先出队后入队；在这种情况下，它将调度实体放在红黑树的最右端。
-* check_preempt_curr：该函数将检查当前运行的任务是否被抢占。在实际抢占正在运行的任务之前，CFS 调度程序模块将执行公平性测试。这将驱动唤醒式（wakeup）抢占。
-* pick_next_task：该函数选择接下来要运行的最合适的进程。
-* load_balance：每个调度程序模块实现两个函数，load_balance_start() 和 load_balance_next()，使用这两个函数实现一个迭代器，在模块的 load_balance 例程中调用。内核调度程序使用这种方法实现由调度模块管理的进程的负载平衡。
-* set_curr_task：当任务修改其调度类或修改其任务组时，将调用这个函数。
-* task_tick：该函数通常调用自 time tick 函数；它可能引起进程切换。这将驱动运行时（running）抢占。
+其中的主要函數：
+* enqueue_task：當某個任務進入可運行狀態時，該函數將得到調用。它將調度實體（進程）放入紅黑樹中，並對 nr_running 變量加 1。從前面“Linux進程管理”的分析中可知，進程創建的最後會調用該函數。
+* dequeue_task：當某個任務退出可運行狀態時調用該函數，它將從紅黑樹中去掉對應的調度實體，並從 nr_running 變量中減 1。
+* yield_task：在 compat_yield sysctl 關閉的情況下，該函數實際上執行先出隊後入隊；在這種情況下，它將調度實體放在紅黑樹的最右端。
+* check_preempt_curr：該函數將檢查當前運行的任務是否被搶佔。在實際搶佔正在運行的任務之前，CFS 調度程序模塊將執行公平性測試。這將驅動喚醒式（wakeup）搶佔。
+* pick_next_task：該函數選擇接下來要運行的最合適的進程。
+* load_balance：每個調度程序模塊實現兩個函數，load_balance_start() 和 load_balance_next()，使用這兩個函數實現一個迭代器，在模塊的 load_balance 例程中調用。內核調度程序使用這種方法實現由調度模塊管理的進程的負載平衡。
+* set_curr_task：當任務修改其調度類或修改其任務組時，將調用這個函數。
+* task_tick：該函數通常調用自 time tick 函數；它可能引起進程切換。這將驅動運行時（running）搶佔。
 
-调度类的引入是接口和实现分离的设计典范，你可以实现不同的调度算法（例如普通进程和实时进程的调度算法就不一样），但由于有统一的接口，使得调度策略 被模块化，一个Linux调度程序可以有多个不同的调度策略。调度类显著增强了内核调度程序的可扩展性。每个任务都属于一个调度类，这决定了任务将如何调 度。 调度类定义一个通用函数集，函数集定义调度器的行为。例如，每个调度器提供一种方式，添加要调度的任务、调出要运行的下一个任务、提供给调度器等等。每个 调度器类都在一对一连接的列表中彼此相连，使类可以迭代（例如， 要启用给定处理器的禁用）。注意，将任务函数加入队列或脱离队列只需从特定调度结构中加入或移除任务。 核心函数 pick_next_task 选择要执行的下一个任务（取决于调度类的具体策略）。
+調度類的引入是接口和實現分離的設計典範，你可以實現不同的調度算法（例如普通進程和實時進程的調度算法就不一樣），但由於有統一的接口，使得調度策略 被模塊化，一個Linux調度程序可以有多個不同的調度策略。調度類顯著增強了內核調度程序的可擴展性。每個任務都屬於一個調度類，這決定了任務將如何調 度。 調度類定義一個通用函數集，函數集定義調度器的行為。例如，每個調度器提供一種方式，添加要調度的任務、調出要運行的下一個任務、提供給調度器等等。每個 調度器類都在一對一連接的列表中彼此相連，使類可以迭代（例如， 要啟用給定處理器的禁用）。注意，將任務函數加入隊列或脫離隊列只需從特定調度結構中加入或移除任務。 核心函數 pick_next_task 選擇要執行的下一個任務（取決於調度類的具體策略）。
 
-sched_rt.c, sched_fair.c, sched_idletask.c等（都在kernel/目录下）就是不同的调度算法实现。不要忘了调度类是任务结构本身的一部分（参见 task_struct）。这一点简化了任务的操作，无论其调度类如何。因为进程描述符中有sched_class引用，这样就可以直接通过进程描述符来 调用调度类中的各种操作。在调度类中，随着调度域的增加，其功能也在增加。 这些域允许您出于负载平衡和隔离的目的将一个或多个处理器按层次关系分组。 一个或多个处理器能够共享调度策略（并在其之间保持负载平衡），或实现独立的调度策略。
+sched_rt.c, sched_fair.c, sched_idletask.c等（都在kernel/目錄下）就是不同的調度算法實現。不要忘了調度類是任務結構本身的一部分（參見 task_struct）。這一點簡化了任務的操作，無論其調度類如何。因為進程描述符中有sched_class引用，這樣就可以直接通過進程描述符來 調用調度類中的各種操作。在調度類中，隨著調度域的增加，其功能也在增加。 這些域允許您出於負載平衡和隔離的目的將一個或多個處理器按層次關係分組。 一個或多個處理器能夠共享調度策略（並在其之間保持負載平衡），或實現獨立的調度策略。
 
-可运行队列：struct rq
+可運行隊列：struct rq
 
-调度程序每次在进程发生切换时，都要从可运行队列中选取一个最佳的进程来运行。Linux内核使用rq数据结构（以前的内核中该结构为 runqueue）表示一个可运行队列信息（也就是就绪队列），每个CPU都有且只有一个这样的结构。该结构在kernel/sched.c中，不仅描述 了每个处理器中处于可运行状态（TASK_RUNNING），而且还描述了该处理器的调度信息。如下：
+調度程序每次在進程發生切換時，都要從可運行隊列中選取一個最佳的進程來運行。Linux內核使用rq數據結構（以前的內核中該結構為 runqueue）表示一個可運行隊列信息（也就是就緒隊列），每個CPU都有且只有一個這樣的結構。該結構在kernel/sched.c中，不僅描述 了每個處理器中處於可運行狀態（TASK_RUNNING），而且還描述了該處理器的調度信息。如下：
 
 
 ```c
@@ -299,7 +299,7 @@ struct rq {
 };  
 ```
 
-进程调度的入口点是函数schedule()，该函数调用pick_next_task()，pick_next_task()会以优先级为序，从高到低，一次检查每一个调度类，且从最高优先级的调度类中，选择最高优先级的进程。
+進程調度的入口點是函數schedule()，該函數調用pick_next_task()，pick_next_task()會以優先級為序，從高到低，一次檢查每一個調度類，且從最高優先級的調度類中，選擇最高優先級的進程。
 
 
 ```c
@@ -344,7 +344,7 @@ need_resched_nonpreemptible:
         idle_balance(cpu, rq);  
   
     put_prev_task(rq, prev);  
-    <strong>next = pick_next_task(rq); //挑选最高优先级别的任务
+    <strong>next = pick_next_task(rq); //挑選最高優先級別的任務
   
     if (likely(prev != next)) {  
         sched_info_switch(prev, next);  
@@ -394,7 +394,7 @@ pick_next_task(struct rq* rq)
         }
     }
 
-    //从最高优先级类开始，遍历每一个调度类。每一个调度类都实现了，他会返回指向下一个可运行进程的指针，没有时返回NULL。
+    //從最高優先級類開始，遍歷每一個調度類。每一個調度類都實現了，他會返回指向下一個可運行進程的指針，沒有時返回NULL。
 
     for (; ;) {
         p = class->pick_next_task(rq);
@@ -411,9 +411,9 @@ pick_next_task(struct rq* rq)
 }
 ```
 
-被阻塞（休眠）的进程处于不可执行状态，是不能被调度的。进程休眠一般是由于等待一些事件，内核首先把自己标记成休眠状态，从可执行红黑树中移出，放入等待队列，然后调用schedule()选择和执行一个其他进程。唤醒的过程刚好相反，进程设置为可执行状态，然后从等待队列中移到可执行红黑树中。    
+被阻塞（休眠）的進程處於不可執行狀態，是不能被調度的。進程休眠一般是由於等待一些事件，內核首先把自己標記成休眠狀態，從可執行紅黑樹中移出，放入等待隊列，然後調用schedule()選擇和執行一個其他進程。喚醒的過程剛好相反，進程設置為可執行狀態，然後從等待隊列中移到可執行紅黑樹中。    
 
-等待队列是由等待某些事件发生的进程组成的简单链表。内核用wake_queue_head_t来代表队列。进程把自己放入等待队列中并设置成不可执状态。当等待队列相关事件发生时，队列上进程会被唤醒。函数inotify_read()是实现等待队列的一个典型用法：
+等待隊列是由等待某些事件發生的進程組成的簡單鏈表。內核用wake_queue_head_t來代表隊列。進程把自己放入等待隊列中並設置成不可執狀態。當等待隊列相關事件發生時，隊列上進程會被喚醒。函數inotify_read()是實現等待隊列的一個典型用法：
 
 ```c
 static ssize_t inotify_read(struct file* file, char __user* buf,
@@ -430,7 +430,7 @@ static ssize_t inotify_read(struct file* file, char __user* buf,
 
     while (1) {
 
-        //进程的状态变更为TASK_INTERRUPTIBLE或TASK_UNINTERRUPTIBLE。
+        //進程的狀態變更為TASK_INTERRUPTIBLE或TASK_UNINTERRUPTIBLE。
         prepare_to_wait(&group->notification_waitq, &wait, TASK_INTERRUPTIBLE);
 
         mutex_lock(&group->notification_mutex);
@@ -485,45 +485,45 @@ static ssize_t inotify_read(struct file* file, char __user* buf,
 }
 ```
 
-唤醒是通过wake_up()进行。她唤醒指定的等待队列上 的所有进程。它调用try_to_wake_up,该函数负责将进程设置为TASK_RUNNING状态，调用active_task()将此进程放入可 执行队列，如果被唤醒进程的优先级比当前正在执行的进程的优先级高，还要设置need_resched标志。
+喚醒是通過wake_up()進行。她喚醒指定的等待隊列上 的所有進程。它調用try_to_wake_up,該函數負責將進程設置為TASK_RUNNING狀態，調用active_task()將此進程放入可 執行隊列，如果被喚醒進程的優先級比當前正在執行的進程的優先級高，還要設置need_resched標誌。
 
-上下文切换，就是从一个可执行进程切换到另一个可执行进程，由定义在kernel/sched.c的context_switch函数负责处理。每当一个新的进程被选出来准备投入运行的时候，schedule就会调用该函数。它主要完成如下两个工作：
+上下文切換，就是從一個可執行進程切換到另一個可執行進程，由定義在kernel/sched.c的context_switch函數負責處理。每當一個新的進程被選出來準備投入運行的時候，schedule就會調用該函數。它主要完成如下兩個工作：
 
-`1.`调用定义在include/asm/mmu_context.h中的switch_mm().该函数负责把虚拟内存从上一个进程映射切换到新进程中。
+`1.`調用定義在include/asm/mmu_context.h中的switch_mm().該函數負責把虛擬內存從上一個進程映射切換到新進程中。
 
-`2.`调用定义在include/asm/system.h的switch_to(),该函数负责从上一个进程的处理器状态切换到新进程的处理器状态，这包括保存，恢复栈信息和寄存器信息。
+`2.`調用定義在include/asm/system.h的switch_to(),該函數負責從上一個進程的處理器狀態切換到新進程的處理器狀態，這包括保存，恢復棧信息和寄存器信息。
 
-内核也必须知道什么时候调用schedule(),单靠用户 代码显示调用schedule(),他们可能就会永远地执行下去，相反，内核提供了一个need_resched标志来表明是否需要重新执行一次调度。当 某个进程耗尽它的时间片时，scheduler_tick()就会设置这个标志，当一个优先级高的进程进入可执行状态的时 候，try_to_wake_up()也会设置这个标志。内核检查该标志，确认其被设置，调用schedule()来切换到一个新的进程。该标志对内核来讲是一个信息，它表示应当有其他进程应当被运行了。
+內核也必須知道什麼時候調用schedule(),單靠用戶 代碼顯示調用schedule(),他們可能就會永遠地執行下去，相反，內核提供了一個need_resched標誌來表明是否需要重新執行一次調度。當 某個進程耗盡它的時間片時，scheduler_tick()就會設置這個標誌，當一個優先級高的進程進入可執行狀態的時 候，try_to_wake_up()也會設置這個標誌。內核檢查該標誌，確認其被設置，調用schedule()來切換到一個新的進程。該標誌對內核來講是一個信息，它表示應當有其他進程應當被運行了。
 
-用于访问和操作need_resched的函数：
+用於訪問和操作need_resched的函數：
 
 <table width="743" cellpadding="2" cellspacing="0" border="1">
 <tbody>
 <tr>
-<td valign="top" width="353"><span style="font-family:微软雅黑; font-size:14px">set_tsk_need_resched(task)</span></td>
-<td valign="top" width="388"><span style="font-family:微软雅黑; font-size:14px">设置指定进程中的need_resched标志</span></td>
+<td valign="top" width="353"><span style="font-family:微軟雅黑; font-size:14px">set_tsk_need_resched(task)</span></td>
+<td valign="top" width="388"><span style="font-family:微軟雅黑; font-size:14px">設置指定進程中的need_resched標誌</span></td>
 </tr>
 <tr>
-<td valign="top" width="353"><span style="font-family:微软雅黑; font-size:14px">clear_tsk_need_resched(task)</span></td>
-<td valign="top" width="388"><span style="font-family:微软雅黑; font-size:14px">清除指定进程中的nedd_resched标志</span></td>
+<td valign="top" width="353"><span style="font-family:微軟雅黑; font-size:14px">clear_tsk_need_resched(task)</span></td>
+<td valign="top" width="388"><span style="font-family:微軟雅黑; font-size:14px">清除指定進程中的nedd_resched標誌</span></td>
 </tr>
 <tr>
-<td valign="top" width="353"><span style="font-family:微软雅黑; font-size:14px">need_resched()</span></td>
-<td valign="top" width="388"><span style="font-family:微软雅黑; font-size:14px">检查need_resched标志的值，如果被设置就返回真，否则返回</span></td>
+<td valign="top" width="353"><span style="font-family:微軟雅黑; font-size:14px">need_resched()</span></td>
+<td valign="top" width="388"><span style="font-family:微軟雅黑; font-size:14px">檢查need_resched標誌的值，如果被設置就返回真，否則返回</span></td>
 </tr>
 </tbody>
 </table>
 
-再返回用户空间以及从中断返回的时候，内核也会检查 need_resched标志，如果已被设置，内核会在继续执行之前调用该调度程序。最后，每个进程都包含一个need_resched标志，这是因为访 问进程描述符内的数值要比访问一个全局变量要快(因为current宏速度很快并且描述符通常都在高速缓存中)。在2.6内核中，他被移到了 thread_info结构体里。
+再返回用戶空間以及從中斷返回的時候，內核也會檢查 need_resched標誌，如果已被設置，內核會在繼續執行之前調用該調度程序。最後，每個進程都包含一個need_resched標誌，這是因為訪 問進程描述符內的數值要比訪問一個全局變量要快(因為current宏速度很快並且描述符通常都在高速緩存中)。在2.6內核中，他被移到了 thread_info結構體裡。
 
 
-###用户抢占发生在一下情况：
-1. 从系统调用返回时；
-2. 从终端处理程序返回用户空间时。
+###用戶搶佔發生在一下情況：
+1. 從系統調用返回時；
+2. 從終端處理程序返回用戶空間時。
 
-###内核抢占发生在:
+###內核搶佔發生在:
 
-1. 中断处理正在执行，且返回内核空间前；
-2. 内核代码再一次具有可抢占性的时候；
-3. 内核任务显示调用schedule()函数；
-4. 内核中的任务阻塞的时候。
+1. 中斷處理正在執行，且返回內核空間前；
+2. 內核代碼再一次具有可搶佔性的時候；
+3. 內核任務顯示調用schedule()函數；
+4. 內核中的任務阻塞的時候。

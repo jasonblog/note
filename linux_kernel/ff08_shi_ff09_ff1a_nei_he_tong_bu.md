@@ -1,28 +1,28 @@
-# （十）：内核同步
+# （十）：內核同步
 
 
-如同linux应用一样，内核的共享资源也要防止并发，因为如果多个执行线程同时访问和操作数据有可能发生各个线程之间相互覆盖共享数据的情况。
+如同linux應用一樣，內核的共享資源也要防止併發，因為如果多個執行線程同時訪問和操作數據有可能發生各個線程之間相互覆蓋共享數據的情況。
 
-在linux只是单一处理器的时候，只有在中断发生或内核请求重新调度执行另一个任务时，数据才可能会并发访问。但自从内核开始支持对称多处理器之后，内核代码可以同时运行在多个处理器上，如果此时不加保护，运行在多个处理器上的代码完全可能在同一时刻并发访问共享数据。
+在linux只是單一處理器的時候，只有在中斷髮生或內核請求重新調度執行另一個任務時，數據才可能會併發訪問。但自從內核開始支持對稱多處理器之後，內核代碼可以同時運行在多個處理器上，如果此時不加保護，運行在多個處理器上的代碼完全可能在同一時刻併發訪問共享數據。
 
-一般把访问和操作共享数据的代码段称作临界区，为了避免在临界区中发生并发访问，程序员必须保证临界区代码原子执行，也就是要么全部执行，要么不执行。如果两个执行线程在同一个临界区同时执行，就发生了竞态（race conditions），避免并发防止竞态就是所谓的同步。
+一般把訪問和操作共享數據的代碼段稱作臨界區，為了避免在臨界區中發生併發訪問，程序員必須保證臨界區代碼原子執行，也就是要麼全部執行，要麼不執行。如果兩個執行線程在同一個臨界區同時執行，就發生了競態（race conditions），避免併發防止競態就是所謂的同步。
 
-在linux内核中造成并发的原因主要有如下:
-
-
-- 中断 -- 中断几乎可以在任何时刻异步发生，也就可能随时打断当前正在执行的代码。
-- 软中断和tasklet -- 内核能在任何时刻唤醒或调度软中断和tasklet，打断当前正在执行的代码。
-- 内核抢占 -- 因为内核具有抢占性，所以内核中的任务可能会被另一任务抢占。
-- 睡眠及与用户空间的同步 -- 在内核执行的进程可能会睡眠，这就会唤醒调度程序，从而导致调度一个新的用户进程执行。
-- 对称多处理 --  两个或多个处理器可以同时执行代码。（真并发）
+在linux內核中造成併發的原因主要有如下:
 
 
-通过锁可以防止并发执行，并且保护临界区不受竞态影响。任何执行线程要访问临界区代码时首先先获得锁，这样当后面另外的执行线程要访问临界区时就不能再获得该锁，这样临界区就禁止后来执行线程访问。linux自身实现了多种不同的锁机制，各种锁各有差别，区别主要在于当锁被争用时，有些会简单地执行等待，而有些锁会使当前任务睡眠直到锁可用为止。本节将会分析各锁的使用和实现。但是使用锁也会带来副作用，锁使得线程按串行方式对资源进行访问，所以使用锁无疑会降低系统性能；并且锁使用不当还会造成死锁。
+- 中斷 -- 中斷幾乎可以在任何時刻異步發生，也就可能隨時打斷當前正在執行的代碼。
+- 軟中斷和tasklet -- 內核能在任何時刻喚醒或調度軟中斷和tasklet，打斷當前正在執行的代碼。
+- 內核搶佔 -- 因為內核具有搶佔性，所以內核中的任務可能會被另一任務搶佔。
+- 睡眠及與用戶空間的同步 -- 在內核執行的進程可能會睡眠，這就會喚醒調度程序，從而導致調度一個新的用戶進程執行。
+- 對稱多處理 --  兩個或多個處理器可以同時執行代碼。（真併發）
 
-下面来看一下linux下同步的方法，包括原子操作、自旋锁、信号量等方式。
 
-`1.`原子操作，该操作是其它同步方法的基础，原子操作可以保证指令以原子的方式执行，执行过程不会被打断。linux内核提供了两组原子操作接口：原子整数操作和原子位操作。
-针对整数的原子操作只能对atomic_t类型的数据进行处理。该类类型定义与文件`<include/linux/types.h>`:
+通過鎖可以防止併發執行，並且保護臨界區不受競態影響。任何執行線程要訪問臨界區代碼時首先先獲得鎖，這樣當後面另外的執行線程要訪問臨界區時就不能再獲得該鎖，這樣臨界區就禁止後來執行線程訪問。linux自身實現了多種不同的鎖機制，各種鎖各有差別，區別主要在於當鎖被爭用時，有些會簡單地執行等待，而有些鎖會使當前任務睡眠直到鎖可用為止。本節將會分析各鎖的使用和實現。但是使用鎖也會帶來副作用，鎖使得線程按串行方式對資源進行訪問，所以使用鎖無疑會降低系統性能；並且鎖使用不當還會造成死鎖。
+
+下面來看一下linux下同步的方法，包括原子操作、自旋鎖、信號量等方式。
+
+`1.`原子操作，該操作是其它同步方法的基礎，原子操作可以保證指令以原子的方式執行，執行過程不會被打斷。linux內核提供了兩組原子操作接口：原子整數操作和原子位操作。
+針對整數的原子操作只能對atomic_t類型的數據進行處理。該類類型定義與文件`<include/linux/types.h>`:
 
 ```c
 typedef struct {  
@@ -30,15 +30,15 @@ typedef struct {
 } atomic_t; 
 ```
 
-下面举例说明原子操作的用法：
-定义一个atomic_c类型的数据很简单，还可以定义时给它设定初值：
+下面舉例說明原子操作的用法：
+定義一個atomic_c類型的數據很簡單，還可以定義時給它設定初值：
 
 ```sh
-(1) atomic_t u;                     /*定义 u*/
-(2) atomic_t v = ATOMIC_INIT(0)     /*定义 v 并把它初始化为0*/
+(1) atomic_t u;                     /*定義 u*/
+(2) atomic_t v = ATOMIC_INIT(0)     /*定義 v 並把它初始化為0*/
 ```
 
-对其操作：
+對其操作：
 
 ```sh
 (1) atomic_set(&v,4)                /* v = 4 ( 原子地)*/
@@ -46,20 +46,20 @@ typedef struct {
 (3) atomic_inc(&v)                   /* v = v + 1 =7（原子地)*/
 ```
 
-如果需要将atomic_t转换成int型，可以使用atomic_read()来完成：
+如果需要將atomic_t轉換成int型，可以使用atomic_read()來完成：
 
 ```c
-printk(“%d\n”,atomic_read(&v));    /* 会打印7*/
+printk(“%d\n”,atomic_read(&v));    /* 會打印7*/
 ```
 
-原子整数操作最常见的用途就是实现计数器。使用复杂的锁机制来保护一个单纯的计数器是很笨拙的，所以，开发者最好使用atomic_inc()和atomic_dec()这两个相对来说轻便一点的操作。
+原子整數操作最常見的用途就是實現計數器。使用複雜的鎖機制來保護一個單純的計數器是很笨拙的，所以，開發者最好使用atomic_inc()和atomic_dec()這兩個相對來說輕便一點的操作。
 
-还可以用原子整数操作原子地执行一个操作并检查结果。一个常见的例子是原子的减操作和检查。
+還可以用原子整數操作原子地執行一個操作並檢查結果。一個常見的例子是原子的減操作和檢查。
 
 ```c
 int atomic_dec_and_test(atomic_t *v)
 ```
-这个函数让给定的原子变量减1，如果结果为0，就返回1；否则返回0。特定体系结构的所有原子整数操作可以在文件`<arch/x86/include/asm/atomic.h>`中找到。如下：
+這個函數讓給定的原子變量減1，如果結果為0，就返回1；否則返回0。特定體系結構的所有原子整數操作可以在文件`<arch/x86/include/asm/atomic.h>`中找到。如下：
 
 
 ```c
@@ -109,7 +109,7 @@ static inline int atomic_sub_and_test(int i, atomic_t *v)
 }  
 ```
 
-除了原子整数之外，内核还提供了一组针对位操作的函数，这些操作也是和体系结构相关的。例如在x86下set_bit实现如下：static __always_inline void
+除了原子整數之外，內核還提供了一組針對位操作的函數，這些操作也是和體系結構相關的。例如在x86下set_bit實現如下：static __always_inline void
 
 
 ```c
@@ -128,74 +128,74 @@ set_bit(unsigned int nr, volatile unsigned long *addr)
 } 
 ```
 
-原子操作是对普通内存地址指针进行的操作，只要指针指向了任何你希望的数据，你就可以对它进行操作。原子位操作(以x86为例)相关函数定义在文件`<arch/x86/include/asm/bitops.h>`中。
+原子操作是對普通內存地址指針進行的操作，只要指針指向了任何你希望的數據，你就可以對它進行操作。原子位操作(以x86為例)相關函數定義在文件`<arch/x86/include/asm/bitops.h>`中。
 
-`2.` 自旋锁
+`2.` 自旋鎖
 
-不是所有的临界区都是像增加或减少变量这么简单，有的时候临界区可能会跨越多个函数，这这时就需要使用更为复杂的同步方法——锁。linux内核中最常见的锁是自旋锁，自旋锁最多只能被一个可执行线程持有，如果一个可执行线程视图获取一个已经被持有的锁，那么该线程将会一直进行忙循环等待锁重新可用。在任意时候，自旋锁都可以防止多余一个执行线程同时进入临界区。由于自旋忙等过程是很费时间的，所以自旋锁不应该被长时间持有。
+不是所有的臨界區都是像增加或減少變量這麼簡單，有的時候臨界區可能會跨越多個函數，這這時就需要使用更為複雜的同步方法——鎖。linux內核中最常見的鎖是自旋鎖，自旋鎖最多隻能被一個可執行線程持有，如果一個可執行線程視圖獲取一個已經被持有的鎖，那麼該線程將會一直進行忙循環等待鎖重新可用。在任意時候，自旋鎖都可以防止多餘一個執行線程同時進入臨界區。由於自旋忙等過程是很費時間的，所以自旋鎖不應該被長時間持有。
 
-自旋锁相关方法如下：
+自旋鎖相關方法如下：
 
 
 <table width="700" cellpadding="2" cellspacing="0" border="1">
 <tbody>
 <tr>
 <td valign="top" width="334" align="center"><span style="font-family:Microsoft YaHei; font-size:14px">方法</span></td>
-<td valign="top" width="175"><span style="font-family:Microsoft YaHei; font-size:14px">spinlock中的定义</span></td>
+<td valign="top" width="175"><span style="font-family:Microsoft YaHei; font-size:14px">spinlock中的定義</span></td>
 </tr>
 <tr>
-<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">定义spin lock并初始化</span></td>
+<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">定義spin lock並初始化</span></td>
 <td valign="top" width="175"><span style="font-family:Microsoft YaHei; font-size:14px">DEFINE_SPINLOC</span><span style="font-family:Microsoft YaHei; font-size:14px">K</span><span style="font-family:Microsoft YaHei; font-size:14px">(</span><span style="font-family:Microsoft YaHei; font-size:14px">)</span></td>
 </tr>
 <tr>
-<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">动态初始化spin lock</span></td>
+<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">動態初始化spin lock</span></td>
 <td valign="top" width="175"><span style="font-family:Microsoft YaHei; font-size:14px">spin_lock_init</span><span style="font-family:Microsoft YaHei; font-size:14px">()</span></td>
 </tr>
 <tr>
-<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">获取指定的spin lock</span></td>
+<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">獲取指定的spin lock</span></td>
 <td valign="top" width="175"><span style="font-family:Microsoft YaHei; font-size:14px">spin_lock</span><span style="font-family:Microsoft YaHei; font-size:14px">()</span></td>
 </tr>
 <tr>
-<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">获取指定的spin lock同时disable本CPU中断</span></td>
+<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">獲取指定的spin lock同時disable本CPU中斷</span></td>
 <td valign="top" width="175"><span style="font-family:Microsoft YaHei; font-size:14px">spin_lock_irq</span><span style="font-family:Microsoft YaHei; font-size:14px">()</span></td>
 </tr>
 <tr>
-<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">保存本CPU当前的irq状态，disable本CPU中断并获取指定的spin lock</span></td>
+<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">保存本CPU當前的irq狀態，disable本CPU中斷並獲取指定的spin lock</span></td>
 <td valign="top" width="175"><span style="font-family:Microsoft YaHei; font-size:14px">spin_lock_irqsave</span><span style="font-family:Microsoft YaHei; font-size:14px">()</span></td>
 </tr>
 <tr>
-<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">获取指定的spin lock同时disable本CPU的bottom half</span></td>
+<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">獲取指定的spin lock同時disable本CPU的bottom half</span></td>
 <td valign="top" width="175"><span style="font-family:Microsoft YaHei; font-size:14px">spin_lock_bh</span><span style="font-family:Microsoft YaHei; font-size:14px">()</span></td>
 </tr>
 <tr>
-<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">释放指定的spin lock</span></td>
+<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">釋放指定的spin lock</span></td>
 <td valign="top" width="175"><span style="font-family:Microsoft YaHei; font-size:14px">spin_unlock</span><span style="font-family:Microsoft YaHei; font-size:14px">()</span></td>
 </tr>
 <tr>
-<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">释放指定的spin lock同时enable本CPU中断</span></td>
+<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">釋放指定的spin lock同時enable本CPU中斷</span></td>
 <td valign="top" width="175"><span style="font-family:Microsoft YaHei; font-size:14px">spin_lock_irq</span><span style="font-family:Microsoft YaHei; font-size:14px">()</span></td>
 </tr>
 <tr>
-<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">释放指定的spin lock同时恢复本CPU的中断状态</span></td>
+<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">釋放指定的spin lock同時恢復本CPU的中斷狀態</span></td>
 <td valign="top" width="175"><span style="font-family:Microsoft YaHei; font-size:14px">spin_lock_irqsave</span><span style="font-family:Microsoft YaHei; font-size:14px">()</span></td>
 </tr>
 <tr>
-<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">获取指定的spin lock同时enable本CPU的bottom half</span></td>
+<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">獲取指定的spin lock同時enable本CPU的bottom half</span></td>
 <td valign="top" width="175"><span style="font-family:Microsoft YaHei; font-size:14px">spin_unlock_bh</span><span style="font-family:Microsoft YaHei; font-size:14px">()</span></td>
 </tr>
 <tr>
-<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">尝试去获取spin lock，如果失败，不会spin，而是返回非零值</span></td>
+<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">嘗試去獲取spin lock，如果失敗，不會spin，而是返回非零值</span></td>
 <td valign="top" width="175"><span style="font-family:Microsoft YaHei; font-size:14px">spin_trylock</span><span style="font-family:Microsoft YaHei; font-size:14px">()</span></td>
 </tr>
 <tr>
-<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">判断spin lock是否是locked，如果其他的thread已经获取了该lock，那么返回非零值，否则返回0</span></td>
+<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">判斷spin lock是否是locked，如果其他的thread已經獲取了該lock，那麼返回非零值，否則返回0</span></td>
 <td valign="top" width="175"><span style="font-family:Microsoft YaHei; font-size:14px">spin_is_locked</span><span style="font-family:Microsoft YaHei; font-size:14px">()</span></td>
 </tr>
 </tbody>
 </table>
 
 
-自旋锁的实现和体系结构密切相关，代码通常通过汇编实现。与体系结构相关的部分定义在`<asm/spinlock.h>`,实际需要用到的接口定义在文件`<linux/spinlock.h>`中。一个实际的锁的类型为spinlock_t，定义在文件`<include/linux/spinlock_types.h>`中:
+自旋鎖的實現和體系結構密切相關，代碼通常通過彙編實現。與體系結構相關的部分定義在`<asm/spinlock.h>`,實際需要用到的接口定義在文件`<linux/spinlock.h>`中。一個實際的鎖的類型為spinlock_t，定義在文件`<include/linux/spinlock_types.h>`中:
 
 ```c
 typedef struct {  
@@ -213,26 +213,26 @@ typedef struct {
 } spinlock_t;  
 ```
 
-自旋锁基本使用形式如下：
+自旋鎖基本使用形式如下：
 
 ```c
 DEFINE_SPINLOCK(lock);  
 spin_lock(&lock);  
-/* 临界区 */  
+/* 臨界區 */  
 spin_unlock(&lock); 
 ```
 
-实际上有 4 个函数可以加锁一个自旋锁:
+實際上有 4 個函數可以加鎖一個自旋鎖:
 
 ```c
 void spin_lock(spinlock_t *lock);
-void spin_lock_irq(spinlock_t *lock);    //相当于spin_lock() + local_irq_disable()。
-void spin_lock_irqsave(spinlock_t *lock, unsigned long flags);//禁止中断(只在本地处理器)在获得自旋锁之前; 之前的中断状态保存在 flags里。相当于spin_lock() + local_irq_save()。
-void spin_lock_bh(spinlock_t *lock);    //获取锁之前禁止软件中断, 
+void spin_lock_irq(spinlock_t *lock);    //相當於spin_lock() + local_irq_disable()。
+void spin_lock_irqsave(spinlock_t *lock, unsigned long flags);//禁止中斷(只在本地處理器)在獲得自旋鎖之前; 之前的中斷狀態保存在 flags裡。相當於spin_lock() + local_irq_save()。
+void spin_lock_bh(spinlock_t *lock);    //獲取鎖之前禁止軟件中斷, 
 ```
 
-但是硬件中断留作打开的，相当于spin_lock() + local_bh_disable()。
-也有 4 个方法来释放一个自旋锁; 你用的那个必须对应你用来获取锁的函数.
+但是硬件中斷留作打開的，相當於spin_lock() + local_bh_disable()。
+也有 4 個方法來釋放一個自旋鎖; 你用的那個必須對應你用來獲取鎖的函數.
 
 ```c
 void spin_unlock(spinlock_t *lock);
@@ -241,7 +241,7 @@ void spin_unlock_irq(spinlock_t *lock);
 void spin_unlock_bh(spinlock_t *lock);
 ```
 
-下面看一下DEFINE_SPINLOCK()、spin_lock_init()、spin_lock()、spin_lock_irqsave()的实现：
+下面看一下DEFINE_SPINLOCK()、spin_lock_init()、spin_lock()、spin_lock_irqsave()的實現：
 
 ```c
 #define DEFINE_SPINLOCK(x)    spinlock_t x = __SPIN_LOCK_UNLOCKED(x)  
@@ -280,7 +280,7 @@ static inline unsigned long __spin_lock_irqsave(spinlock_t *lock)
 {  
     unsigned long flags;  
   
-    local_irq_save(flags);    //spin_lock的实现没有禁止本地中断这一步  
+    local_irq_save(flags);    //spin_lock的實現沒有禁止本地中斷這一步  
     preempt_disable();  
     spin_acquire(&lock->dep_map, 0, 0, _RET_IP_);  
   
@@ -293,19 +293,19 @@ static inline unsigned long __spin_lock_irqsave(spinlock_t *lock)
 }  
 ```
 
-读写自旋锁一种比自旋锁粒度更小的锁机制,它保留了“自旋”的概念,但是在写操作方面,只能最多有1个写进程,在读操作方面,同时可以有多个读执行单元。当然,读和写也不能同时进行。读者写者锁有一个类型 rwlock_t, 在 `<linux/spinlokc.h>` 中定义. 它们可以以 2 种方式被声明和被初始化:
-静态方式：
+讀寫自旋鎖一種比自旋鎖粒度更小的鎖機制,它保留了“自旋”的概念,但是在寫操作方面,只能最多有1個寫進程,在讀操作方面,同時可以有多個讀執行單元。當然,讀和寫也不能同時進行。讀者寫者鎖有一個類型 rwlock_t, 在 `<linux/spinlokc.h>` 中定義. 它們可以以 2 種方式被聲明和被初始化:
+靜態方式：
 
 ```c
 rwlock_t my_rwlock = RW_LOCK_UNLOCKED;
 ```
-动态方式：
+動態方式：
 
 ```c
 rwlock_t my_rwlock;
 rwlock_init(&my_rwlock);
 ```
-可用函数的列表现在应当看来相当类似。 对于读者, 有下列函数可用:
+可用函數的列表現在應當看來相當類似。 對於讀者, 有下列函數可用:
 
 
 ```c
@@ -319,7 +319,7 @@ void read_unlock_irq(rwlock_t *lock);
 void read_unlock_bh(rwlock_t *lock);
 ```
 
-对于写存取的函数是类似的:
+對於寫存取的函數是類似的:
 
 ```c
 void write_lock(rwlock_t *lock);
@@ -333,19 +333,19 @@ void write_unlock_irq(rwlock_t *lock);
 void write_unlock_bh(rwlock_t *lock);
 ```
 
-在与下半部配合使用时，锁机制必须要小心使用。由于下半部可以抢占进程上下文的代码，所以当下半部和进程上下文共享数据时，必须对进程上下文的共享数据进行保护，所以需要加锁的同时还要禁止下半部执行。同样的，由于中断处理器可以抢占下半部，所以如果中断处理器程序和下半部共享数据，那么就必须在获取恰当的锁的同时还要禁止中断。 同类的tasklet不可能同时运行，所以对于同类tasklet中的共享数据不需要保护，但是当数据被两个不同种类的tasklet共享时，就需要在访问下半部中的数据前先获得一个普通的自旋锁。由于同种类型的两个软中断也可以同时运行在一个系统的多个处理器上，所以被软中断共享的数据必须得到锁的保护。
+在與下半部配合使用時，鎖機制必須要小心使用。由於下半部可以搶佔進程上下文的代碼，所以當下半部和進程上下文共享數據時，必須對進程上下文的共享數據進行保護，所以需要加鎖的同時還要禁止下半部執行。同樣的，由於中斷處理器可以搶佔下半部，所以如果中斷處理器程序和下半部共享數據，那麼就必須在獲取恰當的鎖的同時還要禁止中斷。 同類的tasklet不可能同時運行，所以對於同類tasklet中的共享數據不需要保護，但是當數據被兩個不同種類的tasklet共享時，就需要在訪問下半部中的數據前先獲得一個普通的自旋鎖。由於同種類型的兩個軟中斷也可以同時運行在一個系統的多個處理器上，所以被軟中斷共享的數據必須得到鎖的保護。
 
 
-`3.` 信号量
+`3.` 信號量
 
 
-一个被占有的自旋锁使得请求它的线程循环等待而不会睡眠，这很浪费处理器时间，所以自旋锁使用段时间占有的情况。linux提供另外的同步方式可以在锁争用时让请求线程睡眠，直到锁重新可用时在唤醒它，这样处理器就不必循环等待，可以去执行其它代码。这种方式就是即将讨论的信号量。
+一個被佔有的自旋鎖使得請求它的線程循環等待而不會睡眠，這很浪費處理器時間，所以自旋鎖使用段時間佔有的情況。linux提供另外的同步方式可以在鎖爭用時讓請求線程睡眠，直到鎖重新可用時在喚醒它，這樣處理器就不必循環等待，可以去執行其它代碼。這種方式就是即將討論的信號量。
 
-信号量是一种睡眠锁，如果有一个任务试图获得一个已经被占用的信号量时，信号量会将其放入一个等待队列，然后睡眠。当持有的信号量被释放后，处于等待队列中的那个任务将被唤醒，并获得信号量。信号量比自旋锁提供了更好的处理器利用率，因为没有把时间花费在忙等带上。但是信号量也会有一定的开销，被阻塞的线程换入换出有两次明显的上下文切换，这样的开销比自旋锁要大的多。
+信號量是一種睡眠鎖，如果有一個任務試圖獲得一個已經被佔用的信號量時，信號量會將其放入一個等待隊列，然後睡眠。當持有的信號量被釋放後，處於等待隊列中的那個任務將被喚醒，並獲得信號量。信號量比自旋鎖提供了更好的處理器利用率，因為沒有把時間花費在忙等帶上。但是信號量也會有一定的開銷，被阻塞的線程換入換出有兩次明顯的上下文切換，這樣的開銷比自旋鎖要大的多。
 
-如果需要在自旋锁和信号量中做出选择，应该根据锁被持有的时间长短做判断，如果加锁时间不长并且代码不会休眠，利用自旋锁是最佳选择。相反，如果加锁时间可能很长或者代码在持有锁有可能睡眠，那么最好使用信号量来完成加锁功能。信号量一个有用特性就是它可以同时允许任意数量的锁持有者，而自旋锁在一个时刻最多允许一个任务持有它。信号量同时允许的持有者数量可以在声明信号量时指定，当为1时，成为互斥信号量，否则成为计数信号量。
+如果需要在自旋鎖和信號量中做出選擇，應該根據鎖被持有的時間長短做判斷，如果加鎖時間不長並且代碼不會休眠，利用自旋鎖是最佳選擇。相反，如果加鎖時間可能很長或者代碼在持有鎖有可能睡眠，那麼最好使用信號量來完成加鎖功能。信號量一個有用特性就是它可以同時允許任意數量的鎖持有者，而自旋鎖在一個時刻最多允許一個任務持有它。信號量同時允許的持有者數量可以在聲明信號量時指定，當為1時，成為互斥信號量，否則成為計數信號量。
 
-信号量的实现与体系结构相关，信号量使用struct semaphore类型用来表示信号量，定义于文件`<include/linux/semaphore.h>`中:
+信號量的實現與體系結構相關，信號量使用struct semaphore類型用來表示信號量，定義於文件`<include/linux/semaphore.h>`中:
 
 ```c
 struct semaphore {  
@@ -355,12 +355,12 @@ struct semaphore {
 };  
 ```
 
-信号量初始化方法有如下:
+信號量初始化方法有如下:
 方法一:
 
 ```c
 struct semaphore sem;    
-void sema_init(struct semaphore *sem, int val);//初始化信号量,并设置信号量 sem 的值为 val。  ```
+void sema_init(struct semaphore *sem, int val);//初始化信號量,並設置信號量 sem 的值為 val。  ```
 ```c
 static inline void sema_init(struct semaphore *sem, int val)  
 {  
@@ -375,8 +375,8 @@ static inline void sema_init(struct semaphore *sem, int val)
 DECLARE_MUTEX(name);  
 ````
 
-定义一个名为 name 的信号量并初始化为1。
-其实现为:
+定義一個名為 name 的信號量並初始化為1。
+其實現為:
 
 ```c
 #define DECLARE_MUTEX(name)    \  
@@ -385,36 +385,36 @@ DECLARE_MUTEX(name);
 方法三:
 
 ```c
-#define init_MUTEX(sem)        sema_init(sem, 1)    //以不加锁状态动态创建信号量  
-#define init_MUTEX_LOCKED(sem)    sema_init(sem, 0)    //以加锁状态动态创建信号量   
+#define init_MUTEX(sem)        sema_init(sem, 1)    //以不加鎖狀態動態創建信號量  
+#define init_MUTEX_LOCKED(sem)    sema_init(sem, 0)    //以加鎖狀態動態創建信號量   
 ```
 
-信号量初始化后就可以使用了，使用信号量主要有如下方法:
+信號量初始化後就可以使用了，使用信號量主要有如下方法:
 
 
 ```c
-void down(struct semaphore * sem);//该函数用于获得信号量 sem，它会导致睡眠，因此不能在中断上下文使用;    
-int down_interruptible(struct semaphore * sem);//该函数功能与 down 类似，不同之处为，因为 down()而进入睡眠状态的进程不能被信号打断，但因为 down_interruptible()而进入睡眠状态的进程能被信号打断，信号也会导致该函数返回，这时候函数的返回值非 0;    
-int down_trylock(struct semaphore * sem);//该函数尝试获得信号量 sem，如果能够立刻获得，它就获得该信号量并返回0，否则,返回非0值。它不会导致调用者睡眠，可以在中断上下文使用。  
-up(struct semaphore * sem); //释放指定信号量，如果睡眠队列不空，则唤醒其中一个队列。  
-信号量一般这样使用：
+void down(struct semaphore * sem);//該函數用於獲得信號量 sem，它會導致睡眠，因此不能在中斷上下文使用;    
+int down_interruptible(struct semaphore * sem);//該函數功能與 down 類似，不同之處為，因為 down()而進入睡眠狀態的進程不能被信號打斷，但因為 down_interruptible()而進入睡眠狀態的進程能被信號打斷，信號也會導致該函數返回，這時候函數的返回值非 0;    
+int down_trylock(struct semaphore * sem);//該函數嘗試獲得信號量 sem，如果能夠立刻獲得，它就獲得該信號量並返回0，否則,返回非0值。它不會導致調用者睡眠，可以在中斷上下文使用。  
+up(struct semaphore * sem); //釋放指定信號量，如果睡眠隊列不空，則喚醒其中一個隊列。  
+信號量一般這樣使用：
 ```
 
-信号量一般这样使用：
+信號量一般這樣使用：
 
 
 ```c
-/* 定义信号量    
+/* 定義信號量    
 DECLARE_MUTEX(mount_sem);    
-//down(&mount_sem);/* 获取信号量，保护临界区，信号量被占用之后进入不可中断睡眠状态  
-down_interruptible(&mount_sem);/* 获取信号量，保护临界区，信号量被占用之后进入不可中断睡眠状态  
+//down(&mount_sem);/* 獲取信號量，保護臨界區，信號量被佔用之後進入不可中斷睡眠狀態  
+down_interruptible(&mount_sem);/* 獲取信號量，保護臨界區，信號量被佔用之後進入不可中斷睡眠狀態  
 . . .    
-critical section /* 临界区    
+critical section /* 臨界區    
 . . .    
-up(&mount_sem);/* 释放信号量   
+up(&mount_sem);/* 釋放信號量   
 ```
 
-下面看一下这些函数的实现：
+下面看一下這些函數的實現：
 down():
 
 
@@ -504,7 +504,7 @@ static noinline void __sched __up(struct semaphore *sem)
 }  
 ```
 
-正如自旋锁一样，信号量也有区分读写访问的可能，读写信号量在内核中使用rw_semaphore结构表示，x86体系结构定义在`<arch/x86/include/asm/rwsem.h>`文件中：
+正如自旋鎖一樣，信號量也有區分讀寫訪問的可能，讀寫信號量在內核中使用rw_semaphore結構表示，x86體系結構定義在`<arch/x86/include/asm/rwsem.h>`文件中：
 
 ```c
 struct rw_semaphore {  
@@ -516,22 +516,22 @@ struct rw_semaphore {
 #endif  
 };  
 ```
-读写信号量的使用方法和信号量类似，其操作函数有如下:
+讀寫信號量的使用方法和信號量類似，其操作函數有如下:
 
 ```c
-DECLARE_RWSEM(name)             //声明名为name的读写信号量，并初始化它。  
-void init_rwsem(struct rw_semaphore *sem);  //对读写信号量sem进行初始化。  
-void down_read(struct rw_semaphore *sem);   //读者用来获取sem，若没获得时，则调用者睡眠等待。  
-void up_read(struct rw_semaphore *sem);     //读者释放sem。  
-int down_read_trylock(struct rw_semaphore *sem); //读者尝试获取sem，如果获得返回1，如果没有获得返回0。可在中断上下文使用。  
-void down_write(struct rw_semaphore *sem);  //写者用来获取sem，若没获得时，则调用者睡眠等待。  
-int down_write_trylock(struct rw_semaphore *sem);   //写者尝试获取sem，如果获得返回1，如果没有获得返回0。可在中断上下文使用  
-void up_write(struct rw_semaphore *sem);    //写者释放sem。  
-void downgrade_write(struct rw_semaphore *sem); //把写者降级为读者。  
+DECLARE_RWSEM(name)             //聲明名為name的讀寫信號量，並初始化它。  
+void init_rwsem(struct rw_semaphore *sem);  //對讀寫信號量sem進行初始化。  
+void down_read(struct rw_semaphore *sem);   //讀者用來獲取sem，若沒獲得時，則調用者睡眠等待。  
+void up_read(struct rw_semaphore *sem);     //讀者釋放sem。  
+int down_read_trylock(struct rw_semaphore *sem); //讀者嘗試獲取sem，如果獲得返回1，如果沒有獲得返回0。可在中斷上下文使用。  
+void down_write(struct rw_semaphore *sem);  //寫者用來獲取sem，若沒獲得時，則調用者睡眠等待。  
+int down_write_trylock(struct rw_semaphore *sem);   //寫者嘗試獲取sem，如果獲得返回1，如果沒有獲得返回0。可在中斷上下文使用  
+void up_write(struct rw_semaphore *sem);    //寫者釋放sem。  
+void downgrade_write(struct rw_semaphore *sem); //把寫者降級為讀者。  
 ```
 
-`4.` 互斥体
-除了信号量之外，内核拥有一个更简单的且可睡眠的锁，那就是互斥体。互斥体的行为和计数是1的信号量类似，其接口简单，实现更高效。 互斥体在内核中使用mutex表示，定义于`<include/linux/mutex.h>`：
+`4.` 互斥體
+除了信號量之外，內核擁有一個更簡單的且可睡眠的鎖，那就是互斥體。互斥體的行為和計數是1的信號量類似，其接口簡單，實現更高效。 互斥體在內核中使用mutex表示，定義於`<include/linux/mutex.h>`：
 
 ```c
 struct mutex {  
@@ -543,12 +543,12 @@ struct mutex {
 };  
 ```
 
-静态定义mutex：
+靜態定義mutex：
 
 ```c
 DEFINE_MUTEX(name);  
 ```
-实现如下：
+實現如下：
  
 ```c
 #define DEFINE_MUTEX(mutexname) \  
@@ -561,7 +561,7 @@ DEFINE_MUTEX(name);
         __DEBUG_MUTEX_INITIALIZER(lockname) \  
         __DEP_MAP_MUTEX_INITIALIZER(lockname) }  
 ```
-动态定义mutex：
+動態定義mutex：
 
 ```c
 mutex_init(&mutex);  
@@ -586,11 +586,11 @@ __mutex_init(struct mutex *lock, const char *name, struct lock_class_key *key)
     debug_mutex_init(lock, name, key);  
 }  
 ```
-锁定和解锁如下：
+鎖定和解鎖如下：
 
 ```c
 mutex_lock(&mutex);  
-/* 临界区 */  
+/* 臨界區 */  
 mutex_unlock(&mutex);  
 ```
 
@@ -628,34 +628,34 @@ void __sched mutex_unlock(struct mutex *lock)
 
 
 ```c
-int mutex_trylock(struct mutex *);    //视图获取指定互斥体，成功返回1；否则返回0。  
-int mutex_is_locked(struct mutex *lock);    //判断锁是否被占用，是返回1，否则返回0。  
+int mutex_trylock(struct mutex *);    //視圖獲取指定互斥體，成功返回1；否則返回0。  
+int mutex_is_locked(struct mutex *lock);    //判斷鎖是否被佔用，是返回1，否則返回0。  
 ```
 
-使用mutex时，要注意一下：
-mutex的使用技术永远是1；在同一上下文中上锁解锁；当进程持有一个mutex时，进程不可退出；mutex不能在中断或下半部中使用。
+使用mutex時，要注意一下：
+mutex的使用技術永遠是1；在同一上下文中上鎖解鎖；當進程持有一個mutex時，進程不可退出；mutex不能在中斷或下半部中使用。
 
-`5.` 抢占禁止
+`5.` 搶佔禁止
 
-在前面章节讲进程管理的时候听到过内核抢占，由于内核可抢占，内核中的进程随时都可能被另外一个具有更高优先权的进程打断，这也就意味着一个任务与被抢占的任务可能会在同一个临界区运行。所以才有本节前面自旋锁来避免竞态的发生，自旋锁有禁止内核抢占的功能。但像每cpu变量的数据只能被一个处理器访问，可以不需要使用锁来保护，如果没有使用锁，内核又是抢占式的，那么新调度的任务就可能访问同一个变量。这个时候就可以通过禁止内核抢占来避免竞态的发生，禁止内核抢占使用preetmpt_disable()函数，这是一个可以嵌套调用的函数，可以使用任意次。每次调用都必须有一个相应的preempt_enable()调用，当最后一次preempt_enable()被调用时，内核抢占才重新启用。内核抢占相关函数如下：
+在前面章節講進程管理的時候聽到過內核搶佔，由於內核可搶佔，內核中的進程隨時都可能被另外一個具有更高優先權的進程打斷，這也就意味著一個任務與被搶佔的任務可能會在同一個臨界區運行。所以才有本節前面自旋鎖來避免競態的發生，自旋鎖有禁止內核搶佔的功能。但像每cpu變量的數據只能被一個處理器訪問，可以不需要使用鎖來保護，如果沒有使用鎖，內核又是搶佔式的，那麼新調度的任務就可能訪問同一個變量。這個時候就可以通過禁止內核搶佔來避免競態的發生，禁止內核搶佔使用preetmpt_disable()函數，這是一個可以嵌套調用的函數，可以使用任意次。每次調用都必須有一個相應的preempt_enable()調用，當最後一次preempt_enable()被調用時，內核搶佔才重新啟用。內核搶佔相關函數如下：
 
 ```c
-preempt_enable() //内核抢占计数preempt_count减1  
-preempt_disable() //内核抢占计数preempt_count加1，当该值降为0时检查和执行被挂起的需要调度的任务  
-preempt_enable_no_resched()//内核抢占计数preempt_count减1，但不立即抢占式调度  
-preempt_check_resched () //如果必要进行调度  
-preempt_count() //返回抢占计数  
-preempt_schedule() //内核抢占时的调度程序的入口点 
+preempt_enable() //內核搶佔計數preempt_count減1  
+preempt_disable() //內核搶佔計數preempt_count加1，當該值降為0時檢查和執行被掛起的需要調度的任務  
+preempt_enable_no_resched()//內核搶佔計數preempt_count減1，但不立即搶佔式調度  
+preempt_check_resched () //如果必要進行調度  
+preempt_count() //返回搶佔計數  
+preempt_schedule() //內核搶佔時的調度程序的入口點 
 ```
 
 
-以preempt_enable()为例，看一下其实现：
+以preempt_enable()為例，看一下其實現：
 
 ```c
 #define preempt_enable() \
     do { \
         preempt_enable_no_resched(); \
-        barrier(); \        // 加内存屏障，阻止gcc编译器对内存进行优化
+        barrier(); \        // 加內存屏障，阻止gcc編譯器對內存進行優化
 preempt_check_resched();
 \
 
@@ -666,7 +666,7 @@ preempt_check_resched();
         dec_preempt_count(); \
     } while (0)
 #define dec_preempt_count() sub_preempt_count(1)
-# define sub_preempt_count(val)    do { preempt_count() -= (val); } while (0) //此处减少抢占计数  
+# define sub_preempt_count(val)    do { preempt_count() -= (val); } while (0) //此處減少搶佔計數  
 
 #define preempt_check_resched() \
     do { \

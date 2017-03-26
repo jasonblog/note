@@ -1,7 +1,7 @@
-# （八）：进程管理分析
+# （八）：進程管理分析
 
 
-进程其实就是程序的执行时的实例，是处于执行期的程序。在linux内核中，进程列表被存放在一个双向循环链表中，链表中每一项都是类型为task_struct的结构，该结构称作进程描述符，进程描述符包含一个具体进程的所有信息，这个结构就是我们在操作系统中所说的PCB（Process Control Block）。该结构定义于`<include/linux/sched.h>`文件中：
+進程其實就是程序的執行時的實例，是處於執行期的程序。在linux內核中，進程列表被存放在一個雙向循環鏈表中，鏈表中每一項都是類型為task_struct的結構，該結構稱作進程描述符，進程描述符包含一個具體進程的所有信息，這個結構就是我們在操作系統中所說的PCB（Process Control Block）。該結構定義於`<include/linux/sched.h>`文件中：
 
 
 ```c
@@ -29,14 +29,14 @@ struct task_struct {
 };
 ```
 
-该结构体中包含的数据可以完整的描述一个正在执行的程序：打开的文件、进程的地址空间、挂起的信号、进程的状态、以及其他很多信息。
+該結構體中包含的數據可以完整的描述一個正在執行的程序：打開的文件、進程的地址空間、掛起的信號、進程的狀態、以及其他很多信息。
 
-在系统运行过程中，进程频繁切换，所以我们需要一种方式能够快速获得当前进程的task_struct，于是进程内核堆栈底部存放着struct thread_info。该结构中有一个成员指向当前进程的task_struct。在x86上，struct thread_info在文件`<arch/x86/include/asm/thread_info.h>`中定义：
+在系統運行過程中，進程頻繁切換，所以我們需要一種方式能夠快速獲得當前進程的task_struct，於是進程內核堆棧底部存放著struct thread_info。該結構中有一個成員指向當前進程的task_struct。在x86上，struct thread_info在文件`<arch/x86/include/asm/thread_info.h>`中定義：
 
 ```c
 struct thread_info {
     struct task_struct*
-        task;      /* 该指针存放的是指向该任务实际task_struct的指针 */
+        task;      /* 該指針存放的是指向該任務實際task_struct的指針 */
     struct exec_domain*  exec_domain;   /* execution domain */
     __u32           flags;      /* low level flags */
     __u32           status;     /* thread synchronous flags */
@@ -56,11 +56,11 @@ struct thread_info {
 };
 ```
 
-使用current宏就可以获得当前进程的进程描述符。
+使用current宏就可以獲得當前進程的進程描述符。
 
-每一个进程都有一个父进程，每个进程管理自己的子进程。每个进程都是init进程的子进程，init进程在内 核系统启动的最后阶段启动init进程，该进程读取系统的初始化脚本并执行其他相关程序，最终完成系统启动的整个过程。每个进程有0个或多个子进程，进程间的关系存放在进程描述符中。task_struct中有一个parent的指针，指向其父进程；还有个children的指针指向其子进程的链表。所以，对于当前进程，可以通过current宏来获得父进程和子进程的进程描述符。
+每一個進程都有一個父進程，每個進程管理自己的子進程。每個進程都是init進程的子進程，init進程在內 核系統啟動的最後階段啟動init進程，該進程讀取系統的初始化腳本並執行其他相關程序，最終完成系統啟動的整個過程。每個進程有0個或多個子進程，進程間的關係存放在進程描述符中。task_struct中有一個parent的指針，指向其父進程；還有個children的指針指向其子進程的鏈表。所以，對於當前進程，可以通過current宏來獲得父進程和子進程的進程描述符。
 
-下面程序打印当前进程、父进程信息和所有子进程信息：
+下面程序打印當前進程、父進程信息和所有子進程信息：
 
 
 ```c
@@ -79,24 +79,24 @@ void sln_taskstruct_do(void)
                *child_list,
                *cur_chd;
 
-    //获取当前进程信息
+    //獲取當前進程信息
     cur = current;
 
     printk(KERN_ALERT"Current: %s[%d]\n",
            cur->comm, cur->pid);
 
-    //获取父进程信息
+    //獲取父進程信息
     parent = current->parent;
     printk(KERN_ALERT"Parent: %s[%d]\n",
            parent->comm, parent->pid);
 
-    //获取所有祖先进程信息
+    //獲取所有祖先進程信息
     for (task = cur; task != &init_task; task = task->parent) {
         printk(KERN_ALERT"ancestor: %s[%d]\n",
                task->comm, task->pid);
     }
 
-    //获取所有子进程信息
+    //獲取所有子進程信息
     child_list = &cur->children;
     first_child = &cur->children;
 
@@ -132,7 +132,7 @@ MODULE_AUTHOR("shallnet");
 MODULE_DESCRIPTION("blog.csdn.net/shallnet");
 ```
 
-执行结果如下：
+執行結果如下：
 
 ```sh
  # insmod task.ko  
@@ -145,11 +145,11 @@ ancestor: login[2563]
 ancestor: init[1]  
 ```
 
-linux操作系统提供产生进程的机制，在Linux下的fork()使用写时拷贝(copy-on-write)页实现。这种技术原理是：内存并不复制整个进程地址空间，而是让父进程和子进程共享同一拷贝，只有在需要写入的时候，数据才会被复制。也就是资源的复制只是发生在需要写入的时候才进行，在此之前都是以只读的方式共享。
+linux操作系統提供產生進程的機制，在Linux下的fork()使用寫時拷貝(copy-on-write)頁實現。這種技術原理是：內存並不複製整個進程地址空間，而是讓父進程和子進程共享同一拷貝，只有在需要寫入的時候，數據才會被複制。也就是資源的複製只是發生在需要寫入的時候才進行，在此之前都是以只讀的方式共享。
 
-linux通过clone()系统调用实现fork()，然后clone()去调用do_fork()，do_fork()完成创建中大部分工作。库函数vfork()、__clone()都根据各自需要的参数标志去调用clone()。fork()的实际开销就是复制父进程的页表以及给子进程创建唯一的进程描述符。
+linux通過clone()系統調用實現fork()，然後clone()去調用do_fork()，do_fork()完成創建中大部分工作。庫函數vfork()、__clone()都根據各自需要的參數標誌去調用clone()。fork()的實際開銷就是複製父進程的頁表以及給子進程創建唯一的進程描述符。
 
-用户空间的fork()经过系统调用进入内核，在内核中对应的处理函数为sys_fork()，定义于`<arch/x86/kernel/process.c>`文件中。
+用戶空間的fork()經過系統調用進入內核，在內核中對應的處理函數為sys_fork()，定義於`<arch/x86/kernel/process.c>`文件中。
 
 
 ```c
@@ -597,11 +597,11 @@ fork_out:
 }
 ```
 
-上面执行完以后，回到do_fork()函数，如果copy_process()函数成功返回。新创建的子进程被唤醒并让其投入运行。内核有意选择子进程先运行。因为一般子进程都会马上调用exec()函数，这样可以避免写时拷贝的额外开销。如果父进程首先执行的话，有可能会开始向地址空间写入。
+上面執行完以後，回到do_fork()函數，如果copy_process()函數成功返回。新創建的子進程被喚醒並讓其投入運行。內核有意選擇子進程先運行。因為一般子進程都會馬上調用exec()函數，這樣可以避免寫時拷貝的額外開銷。如果父進程首先執行的話，有可能會開始向地址空間寫入。
 
-线程机制提供了在同一程序内共享内存地址空间运行的一组线程。线程机制支持并发程序设计技术，可以共享打开的文件和其他资源。如果你的系统是多核心的，那多线程技术可保证系统的真正并行。在linux中，并没有线程这个概念，linux中所有的线程都当作进程来处理，换句话说就是在内核中并没有什么特殊的结构和算法来表示线程。在linux中，线程仅仅是一个使用共享资源的进程。每个线程都拥有一个隶属于自己的task_struct。所以说线程本质上还是进程，只不过该进程可以和其他一些进程共享某些资源信息。
+線程機制提供了在同一程序內共享內存地址空間運行的一組線程。線程機制支持併發程序設計技術，可以共享打開的文件和其他資源。如果你的系統是多核心的，那多線程技術可保證系統的真正並行。在linux中，並沒有線程這個概念，linux中所有的線程都當作進程來處理，換句話說就是在內核中並沒有什麼特殊的結構和算法來表示線程。在linux中，線程僅僅是一個使用共享資源的進程。每個線程都擁有一個隸屬於自己的task_struct。所以說線程本質上還是進程，只不過該進程可以和其他一些進程共享某些資源信息。
 
-内核有时需要在后台执行一些操作，这种任务可以通过内核线程完成，内核线程独立运行在内核空间的标准进程。内核线程和普通的进程间的区别在于内核线程没有独立的地址空间。它们只在讷河空间运行，从来不切换到用户空间去。内核进程和普通进程一样，可以被调度，也可以被抢占。内核线程也只能由其它内核线程创建，内核是通过从kthreadd内核进程中衍生出所有新的内核线程来自动处理这一点的。在内核中创建一个的内核线程方法如下：
+內核有時需要在後臺執行一些操作，這種任務可以通過內核線程完成，內核線程獨立運行在內核空間的標準進程。內核線程和普通的進程間的區別在於內核線程沒有獨立的地址空間。它們只在訥河空間運行，從來不切換到用戶空間去。內核進程和普通進程一樣，可以被調度，也可以被搶佔。內核線程也只能由其它內核線程創建，內核是通過從kthreadd內核進程中衍生出所有新的內核線程來自動處理這一點的。在內核中創建一個的內核線程方法如下：
 
 
 ```c
@@ -609,7 +609,7 @@ struct task_struct *kthread_create(int (*threadfn)(void *data),
                    void *data,                                                            
                    const char namefmt[], ...)  
 ```
-该函数实现如下：
+該函數實現如下：
 
 ```c
 struct task_struct* kthread_create(int (*threadfn)(void* data),
@@ -644,7 +644,7 @@ struct task_struct* kthread_create(int (*threadfn)(void* data),
 }
 ```
 
-新的任务是由kthread内核进程通过clone()系统调用而创建的。新的进程将运行threadfn函数，给其传递参数data，新的进程名称为namefmt，新创建的进程处于不可运行状态，需要调用wake_up_process()明确的唤醒它，否则它不会主动运行。也可以通过调用kthread_run()来创建一个进程并让它运行起来。
+新的任務是由kthread內核進程通過clone()系統調用而創建的。新的進程將運行threadfn函數，給其傳遞參數data，新的進程名稱為namefmt，新創建的進程處於不可運行狀態，需要調用wake_up_process()明確的喚醒它，否則它不會主動運行。也可以通過調用kthread_run()來創建一個進程並讓它運行起來。
 
 
 ```c
@@ -657,13 +657,13 @@ struct task_struct* kthread_create(int (*threadfn)(void* data),
     __k;                                   \  
 })
 ```
-kthread_run其实就是创建了一个内核线程并且唤醒了。内核线程启动后就一直运行直到调用do_exit()退出或者内核的其他部分调用kthread_stop()退出。
+kthread_run其實就是創建了一個內核線程並且喚醒了。內核線程啟動後就一直運行直到調用do_exit()退出或者內核的其他部分調用kthread_stop()退出。
 
 ```c
 int kthread_stop(struct task_struct *k); 
 ```
 
-下面为一个使用内核线程的示例：
+下面為一個使用內核線程的示例：
 
 ```c
 #include <linux/module.h>
@@ -721,7 +721,7 @@ MODULE_AUTHOR("shallnet");
 MODULE_DESCRIPTION("blog.csdn.net/shallnet");
 ```
 
-既然有进程的创建，那就有进程的终结，终结时内核必须释放它所占有的资源。内核终结时，大部分任务都是靠do_exit()（定义于）来完成。
+既然有進程的創建，那就有進程的終結，終結時內核必須釋放它所佔有的資源。內核終結時，大部分任務都是靠do_exit()（定義於）來完成。
 
 
 ```c
@@ -732,7 +732,7 @@ NORET_TYPE void do_exit(long code)
     profile_task_exit(tsk);
     WARN_ON(atomic_read(&tsk->fs_excl));
 
-    //不可在中断上下文中使用该函数
+    //不可在中斷上下文中使用該函數
     if (unlikely(in_interrupt())) {
         panic("Aiee, killing interrupt handler!");
     }
@@ -752,7 +752,7 @@ NORET_TYPE void do_exit(long code)
         printk(KERN_ALERT
                "Fixing recursive fault but reboot is needed!\n");
 
-        //设置PF_EXITING:表示进程正在退出
+        //設置PF_EXITING:表示進程正在退出
         tsk->flags |= PF_EXITPIDONE;
         set_current_state(TASK_UNINTERRUPTIBLE);
         schedule();
@@ -796,7 +796,7 @@ NORET_TYPE void do_exit(long code)
 
     tsk->exit_code = code;
     taskstats_exit(tsk, group_dead);
-    //调用__exit_mm()函数放弃进程占用的mm_struct,如果没有别的进程使用它们即没被共享，就彻底释放它们
+    //調用__exit_mm()函數放棄進程佔用的mm_struct,如果沒有別的進程使用它們即沒被共享，就徹底釋放它們
     exit_mm(tsk);
 
     if (group_dead) {
@@ -804,8 +804,8 @@ NORET_TYPE void do_exit(long code)
     }
 
     trace_sched_process_exit(tsk);
-    exit_sem(tsk);    //调用sem_exit()函数。如果进程排队等候IPC信号，它则离开队列
-    //分别递减文件描述符，文件系统数据等的引用计数。当引用计数的值为0时，就代表没有进程在使用这些资源，此时就释放
+    exit_sem(tsk);    //調用sem_exit()函數。如果進程排隊等候IPC信號，它則離開隊列
+    //分別遞減文件描述符，文件系統數據等的引用計數。當引用計數的值為0時，就代表沒有進程在使用這些資源，此時就釋放
     exit_files(tsk);
     exit_fs(tsk);
     check_stack_usage();
@@ -823,7 +823,7 @@ NORET_TYPE void do_exit(long code)
      * gets woken up by child-exit notifications.
      */
     perf_event_exit_task(tsk);
-    //调用exit_notify()向父进程发送信号，将子进程的父进程重新设置为线程组中的其他线程或init进程，并把进程状态设为TASK_ZOMBIE.
+    //調用exit_notify()向父進程發送信號，將子進程的父進程重新設置為線程組中的其他線程或init進程，並把進程狀態設為TASK_ZOMBIE.
     exit_notify(tsk, group_dead);
 #ifdef CONFIG_NUMA
     mpol_put(tsk->mempolicy);
@@ -860,7 +860,7 @@ NORET_TYPE void do_exit(long code)
     exit_rcu();
     /* causes final put_task_struct in finish_task_switch(). */
     tsk->state = TASK_DEAD;
-    schedule();    //调用schedule()切换到其他进程
+    schedule();    //調用schedule()切換到其他進程
     BUG();
 
     /* Avoid "noreturn function does return".  */
@@ -870,7 +870,7 @@ NORET_TYPE void do_exit(long code)
 }
 ```
 
-进程终结时所需的清理工作和进程描述符的删除被分开执行，这样尽管在调用了do_exit()之后，线程已经僵死不能允许情况下，系统还是保留了它的进程描述符。在父进程获得已经终结的子进程信息后，子进程的task_struct结构才被释放。Linux中有一系列wait()函数，这些函数都是基于系统调用wait4()实现的。它的动作就是挂起调用它的进程直到其中的一个子进程退出，此时函数会返回该退出子进程的PID。 最终释放进程描述符时，会调用release_task()。
+進程終結時所需的清理工作和進程描述符的刪除被分開執行，這樣儘管在調用了do_exit()之後，線程已經僵死不能允許情況下，系統還是保留了它的進程描述符。在父進程獲得已經終結的子進程信息後，子進程的task_struct結構才被釋放。Linux中有一系列wait()函數，這些函數都是基於系統調用wait4()實現的。它的動作就是掛起調用它的進程直到其中的一個子進程退出，此時函數會返回該退出子進程的PID。 最終釋放進程描述符時，會調用release_task()。
 
 
 ```c
@@ -887,12 +887,12 @@ repeat:
     write_lock_irq(&tasklist_lock);
     tracehook_finish_release_task(p);
     __exit_signal(
-        p);    //释放目前僵死进程所使用的所有剩余资源，并进行统计记录
+        p);    //釋放目前僵死進程所使用的所有剩餘資源，並進行統計記錄
 
     zap_leader = 0;
     leader = p->group_leader;
 
-    //如果进程是线程组最后一个进程，并且领头进程已经死掉，那么就通知僵死的领头进程的父进程
+    //如果進程是線程組最後一個進程，並且領頭進程已經死掉，那麼就通知僵死的領頭進程的父進程
     if (leader != p && thread_group_empty(leader) &&
         leader->exit_state == EXIT_ZOMBIE) {
         BUG_ON(task_detached(leader));
@@ -915,7 +915,7 @@ repeat:
 }
 ```
 
-子进程不一定能保证在父进程前边退出，所以必须要有机制来保证子进程在这种情况下能找到一个新的父进程。否则的话，这些成为孤儿的进程就会在退出时永远处于僵死状态，白白的耗费内存。解决这个问题的办法，就是给子进程在当前线程组内找一个线程作为父亲。一旦系统给进程成功地找到和设置了新的父进程，就不会再有出现驻留僵死进程的危险了，init进程会例行调用wait()来等待子进程，清除所有与其相关的僵死进程。
+子進程不一定能保證在父進程前邊退出，所以必須要有機制來保證子進程在這種情況下能找到一個新的父進程。否則的話，這些成為孤兒的進程就會在退出時永遠處於僵死狀態，白白的耗費內存。解決這個問題的辦法，就是給子進程在當前線程組內找一個線程作為父親。一旦系統給進程成功地找到和設置了新的父進程，就不會再有出現駐留僵死進程的危險了，init進程會例行調用wait()來等待子進程，清除所有與其相關的僵死進程。
 
-本节源码下载：
+本節源碼下載：
 http://download.csdn.net/detail/gentleliu/8944331

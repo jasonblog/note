@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>（十）：内核同步 | Jason note</title>
+        <title>（十）：內核同步 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -54,10 +54,10 @@
         
     <div class="book"
         data-level="10.36.10"
-        data-chapter-title="（十）：内核同步"
+        data-chapter-title="（十）：內核同步"
         data-filepath="linux_kernel/ff08_shi_ff09_ff1a_nei_he_tong_bu.md"
         data-basepath=".."
-        data-revision="Sun Mar 26 2017 21:11:41 GMT+0800 (CST)"
+        data-revision="Sun Mar 26 2017 21:25:14 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -3548,7 +3548,7 @@
                         
                             <b>10.36.8.</b>
                         
-                        （八）：进程管理分析
+                        （八）：進程管理分析
                     </a>
             
             
@@ -3563,7 +3563,7 @@
                         
                             <b>10.36.9.</b>
                         
-                        （九）：进程调度
+                        （九）：進程調度
                     </a>
             
             
@@ -3578,7 +3578,7 @@
                         
                             <b>10.36.10.</b>
                         
-                        （十）：内核同步
+                        （十）：內核同步
                     </a>
             
             
@@ -3593,7 +3593,7 @@
                         
                             <b>10.36.11.</b>
                         
-                        （十一）：内存管理之页的分配与回收
+                        （十一）：內存管理之頁的分配與回收
                     </a>
             
             
@@ -17116,44 +17116,44 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="&#xFF08;&#x5341;&#xFF09;&#xFF1A;&#x5185;&#x6838;&#x540C;&#x6B65;">&#xFF08;&#x5341;&#xFF09;&#xFF1A;&#x5185;&#x6838;&#x540C;&#x6B65;</h1>
-<p>&#x5982;&#x540C;linux&#x5E94;&#x7528;&#x4E00;&#x6837;&#xFF0C;&#x5185;&#x6838;&#x7684;&#x5171;&#x4EAB;&#x8D44;&#x6E90;&#x4E5F;&#x8981;&#x9632;&#x6B62;&#x5E76;&#x53D1;&#xFF0C;&#x56E0;&#x4E3A;&#x5982;&#x679C;&#x591A;&#x4E2A;&#x6267;&#x884C;&#x7EBF;&#x7A0B;&#x540C;&#x65F6;&#x8BBF;&#x95EE;&#x548C;&#x64CD;&#x4F5C;&#x6570;&#x636E;&#x6709;&#x53EF;&#x80FD;&#x53D1;&#x751F;&#x5404;&#x4E2A;&#x7EBF;&#x7A0B;&#x4E4B;&#x95F4;&#x76F8;&#x4E92;&#x8986;&#x76D6;&#x5171;&#x4EAB;&#x6570;&#x636E;&#x7684;&#x60C5;&#x51B5;&#x3002;</p>
-<p>&#x5728;linux&#x53EA;&#x662F;&#x5355;&#x4E00;&#x5904;&#x7406;&#x5668;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x53EA;&#x6709;&#x5728;&#x4E2D;&#x65AD;&#x53D1;&#x751F;&#x6216;&#x5185;&#x6838;&#x8BF7;&#x6C42;&#x91CD;&#x65B0;&#x8C03;&#x5EA6;&#x6267;&#x884C;&#x53E6;&#x4E00;&#x4E2A;&#x4EFB;&#x52A1;&#x65F6;&#xFF0C;&#x6570;&#x636E;&#x624D;&#x53EF;&#x80FD;&#x4F1A;&#x5E76;&#x53D1;&#x8BBF;&#x95EE;&#x3002;&#x4F46;&#x81EA;&#x4ECE;&#x5185;&#x6838;&#x5F00;&#x59CB;&#x652F;&#x6301;&#x5BF9;&#x79F0;&#x591A;&#x5904;&#x7406;&#x5668;&#x4E4B;&#x540E;&#xFF0C;&#x5185;&#x6838;&#x4EE3;&#x7801;&#x53EF;&#x4EE5;&#x540C;&#x65F6;&#x8FD0;&#x884C;&#x5728;&#x591A;&#x4E2A;&#x5904;&#x7406;&#x5668;&#x4E0A;&#xFF0C;&#x5982;&#x679C;&#x6B64;&#x65F6;&#x4E0D;&#x52A0;&#x4FDD;&#x62A4;&#xFF0C;&#x8FD0;&#x884C;&#x5728;&#x591A;&#x4E2A;&#x5904;&#x7406;&#x5668;&#x4E0A;&#x7684;&#x4EE3;&#x7801;&#x5B8C;&#x5168;&#x53EF;&#x80FD;&#x5728;&#x540C;&#x4E00;&#x65F6;&#x523B;&#x5E76;&#x53D1;&#x8BBF;&#x95EE;&#x5171;&#x4EAB;&#x6570;&#x636E;&#x3002;</p>
-<p>&#x4E00;&#x822C;&#x628A;&#x8BBF;&#x95EE;&#x548C;&#x64CD;&#x4F5C;&#x5171;&#x4EAB;&#x6570;&#x636E;&#x7684;&#x4EE3;&#x7801;&#x6BB5;&#x79F0;&#x4F5C;&#x4E34;&#x754C;&#x533A;&#xFF0C;&#x4E3A;&#x4E86;&#x907F;&#x514D;&#x5728;&#x4E34;&#x754C;&#x533A;&#x4E2D;&#x53D1;&#x751F;&#x5E76;&#x53D1;&#x8BBF;&#x95EE;&#xFF0C;&#x7A0B;&#x5E8F;&#x5458;&#x5FC5;&#x987B;&#x4FDD;&#x8BC1;&#x4E34;&#x754C;&#x533A;&#x4EE3;&#x7801;&#x539F;&#x5B50;&#x6267;&#x884C;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8981;&#x4E48;&#x5168;&#x90E8;&#x6267;&#x884C;&#xFF0C;&#x8981;&#x4E48;&#x4E0D;&#x6267;&#x884C;&#x3002;&#x5982;&#x679C;&#x4E24;&#x4E2A;&#x6267;&#x884C;&#x7EBF;&#x7A0B;&#x5728;&#x540C;&#x4E00;&#x4E2A;&#x4E34;&#x754C;&#x533A;&#x540C;&#x65F6;&#x6267;&#x884C;&#xFF0C;&#x5C31;&#x53D1;&#x751F;&#x4E86;&#x7ADE;&#x6001;&#xFF08;race conditions&#xFF09;&#xFF0C;&#x907F;&#x514D;&#x5E76;&#x53D1;&#x9632;&#x6B62;&#x7ADE;&#x6001;&#x5C31;&#x662F;&#x6240;&#x8C13;&#x7684;&#x540C;&#x6B65;&#x3002;</p>
-<p>&#x5728;linux&#x5185;&#x6838;&#x4E2D;&#x9020;&#x6210;&#x5E76;&#x53D1;&#x7684;&#x539F;&#x56E0;&#x4E3B;&#x8981;&#x6709;&#x5982;&#x4E0B;:</p>
+                        <h1 id="&#xFF08;&#x5341;&#xFF09;&#xFF1A;&#x5167;&#x6838;&#x540C;&#x6B65;">&#xFF08;&#x5341;&#xFF09;&#xFF1A;&#x5167;&#x6838;&#x540C;&#x6B65;</h1>
+<p>&#x5982;&#x540C;linux&#x61C9;&#x7528;&#x4E00;&#x6A23;&#xFF0C;&#x5167;&#x6838;&#x7684;&#x5171;&#x4EAB;&#x8CC7;&#x6E90;&#x4E5F;&#x8981;&#x9632;&#x6B62;&#x4F75;&#x767C;&#xFF0C;&#x56E0;&#x70BA;&#x5982;&#x679C;&#x591A;&#x500B;&#x57F7;&#x884C;&#x7DDA;&#x7A0B;&#x540C;&#x6642;&#x8A2A;&#x554F;&#x548C;&#x64CD;&#x4F5C;&#x6578;&#x64DA;&#x6709;&#x53EF;&#x80FD;&#x767C;&#x751F;&#x5404;&#x500B;&#x7DDA;&#x7A0B;&#x4E4B;&#x9593;&#x76F8;&#x4E92;&#x8986;&#x84CB;&#x5171;&#x4EAB;&#x6578;&#x64DA;&#x7684;&#x60C5;&#x6CC1;&#x3002;</p>
+<p>&#x5728;linux&#x53EA;&#x662F;&#x55AE;&#x4E00;&#x8655;&#x7406;&#x5668;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x53EA;&#x6709;&#x5728;&#x4E2D;&#x65B7;&#x9AEE;&#x751F;&#x6216;&#x5167;&#x6838;&#x8ACB;&#x6C42;&#x91CD;&#x65B0;&#x8ABF;&#x5EA6;&#x57F7;&#x884C;&#x53E6;&#x4E00;&#x500B;&#x4EFB;&#x52D9;&#x6642;&#xFF0C;&#x6578;&#x64DA;&#x624D;&#x53EF;&#x80FD;&#x6703;&#x4F75;&#x767C;&#x8A2A;&#x554F;&#x3002;&#x4F46;&#x81EA;&#x5F9E;&#x5167;&#x6838;&#x958B;&#x59CB;&#x652F;&#x6301;&#x5C0D;&#x7A31;&#x591A;&#x8655;&#x7406;&#x5668;&#x4E4B;&#x5F8C;&#xFF0C;&#x5167;&#x6838;&#x4EE3;&#x78BC;&#x53EF;&#x4EE5;&#x540C;&#x6642;&#x904B;&#x884C;&#x5728;&#x591A;&#x500B;&#x8655;&#x7406;&#x5668;&#x4E0A;&#xFF0C;&#x5982;&#x679C;&#x6B64;&#x6642;&#x4E0D;&#x52A0;&#x4FDD;&#x8B77;&#xFF0C;&#x904B;&#x884C;&#x5728;&#x591A;&#x500B;&#x8655;&#x7406;&#x5668;&#x4E0A;&#x7684;&#x4EE3;&#x78BC;&#x5B8C;&#x5168;&#x53EF;&#x80FD;&#x5728;&#x540C;&#x4E00;&#x6642;&#x523B;&#x4F75;&#x767C;&#x8A2A;&#x554F;&#x5171;&#x4EAB;&#x6578;&#x64DA;&#x3002;</p>
+<p>&#x4E00;&#x822C;&#x628A;&#x8A2A;&#x554F;&#x548C;&#x64CD;&#x4F5C;&#x5171;&#x4EAB;&#x6578;&#x64DA;&#x7684;&#x4EE3;&#x78BC;&#x6BB5;&#x7A31;&#x4F5C;&#x81E8;&#x754C;&#x5340;&#xFF0C;&#x70BA;&#x4E86;&#x907F;&#x514D;&#x5728;&#x81E8;&#x754C;&#x5340;&#x4E2D;&#x767C;&#x751F;&#x4F75;&#x767C;&#x8A2A;&#x554F;&#xFF0C;&#x7A0B;&#x5E8F;&#x54E1;&#x5FC5;&#x9808;&#x4FDD;&#x8B49;&#x81E8;&#x754C;&#x5340;&#x4EE3;&#x78BC;&#x539F;&#x5B50;&#x57F7;&#x884C;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8981;&#x9EBC;&#x5168;&#x90E8;&#x57F7;&#x884C;&#xFF0C;&#x8981;&#x9EBC;&#x4E0D;&#x57F7;&#x884C;&#x3002;&#x5982;&#x679C;&#x5169;&#x500B;&#x57F7;&#x884C;&#x7DDA;&#x7A0B;&#x5728;&#x540C;&#x4E00;&#x500B;&#x81E8;&#x754C;&#x5340;&#x540C;&#x6642;&#x57F7;&#x884C;&#xFF0C;&#x5C31;&#x767C;&#x751F;&#x4E86;&#x7AF6;&#x614B;&#xFF08;race conditions&#xFF09;&#xFF0C;&#x907F;&#x514D;&#x4F75;&#x767C;&#x9632;&#x6B62;&#x7AF6;&#x614B;&#x5C31;&#x662F;&#x6240;&#x8B02;&#x7684;&#x540C;&#x6B65;&#x3002;</p>
+<p>&#x5728;linux&#x5167;&#x6838;&#x4E2D;&#x9020;&#x6210;&#x4F75;&#x767C;&#x7684;&#x539F;&#x56E0;&#x4E3B;&#x8981;&#x6709;&#x5982;&#x4E0B;:</p>
 <ul>
-<li>&#x4E2D;&#x65AD; -- &#x4E2D;&#x65AD;&#x51E0;&#x4E4E;&#x53EF;&#x4EE5;&#x5728;&#x4EFB;&#x4F55;&#x65F6;&#x523B;&#x5F02;&#x6B65;&#x53D1;&#x751F;&#xFF0C;&#x4E5F;&#x5C31;&#x53EF;&#x80FD;&#x968F;&#x65F6;&#x6253;&#x65AD;&#x5F53;&#x524D;&#x6B63;&#x5728;&#x6267;&#x884C;&#x7684;&#x4EE3;&#x7801;&#x3002;</li>
-<li>&#x8F6F;&#x4E2D;&#x65AD;&#x548C;tasklet -- &#x5185;&#x6838;&#x80FD;&#x5728;&#x4EFB;&#x4F55;&#x65F6;&#x523B;&#x5524;&#x9192;&#x6216;&#x8C03;&#x5EA6;&#x8F6F;&#x4E2D;&#x65AD;&#x548C;tasklet&#xFF0C;&#x6253;&#x65AD;&#x5F53;&#x524D;&#x6B63;&#x5728;&#x6267;&#x884C;&#x7684;&#x4EE3;&#x7801;&#x3002;</li>
-<li>&#x5185;&#x6838;&#x62A2;&#x5360; -- &#x56E0;&#x4E3A;&#x5185;&#x6838;&#x5177;&#x6709;&#x62A2;&#x5360;&#x6027;&#xFF0C;&#x6240;&#x4EE5;&#x5185;&#x6838;&#x4E2D;&#x7684;&#x4EFB;&#x52A1;&#x53EF;&#x80FD;&#x4F1A;&#x88AB;&#x53E6;&#x4E00;&#x4EFB;&#x52A1;&#x62A2;&#x5360;&#x3002;</li>
-<li>&#x7761;&#x7720;&#x53CA;&#x4E0E;&#x7528;&#x6237;&#x7A7A;&#x95F4;&#x7684;&#x540C;&#x6B65; -- &#x5728;&#x5185;&#x6838;&#x6267;&#x884C;&#x7684;&#x8FDB;&#x7A0B;&#x53EF;&#x80FD;&#x4F1A;&#x7761;&#x7720;&#xFF0C;&#x8FD9;&#x5C31;&#x4F1A;&#x5524;&#x9192;&#x8C03;&#x5EA6;&#x7A0B;&#x5E8F;&#xFF0C;&#x4ECE;&#x800C;&#x5BFC;&#x81F4;&#x8C03;&#x5EA6;&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x7528;&#x6237;&#x8FDB;&#x7A0B;&#x6267;&#x884C;&#x3002;</li>
-<li>&#x5BF9;&#x79F0;&#x591A;&#x5904;&#x7406; --  &#x4E24;&#x4E2A;&#x6216;&#x591A;&#x4E2A;&#x5904;&#x7406;&#x5668;&#x53EF;&#x4EE5;&#x540C;&#x65F6;&#x6267;&#x884C;&#x4EE3;&#x7801;&#x3002;&#xFF08;&#x771F;&#x5E76;&#x53D1;&#xFF09;</li>
+<li>&#x4E2D;&#x65B7; -- &#x4E2D;&#x65B7;&#x5E7E;&#x4E4E;&#x53EF;&#x4EE5;&#x5728;&#x4EFB;&#x4F55;&#x6642;&#x523B;&#x7570;&#x6B65;&#x767C;&#x751F;&#xFF0C;&#x4E5F;&#x5C31;&#x53EF;&#x80FD;&#x96A8;&#x6642;&#x6253;&#x65B7;&#x7576;&#x524D;&#x6B63;&#x5728;&#x57F7;&#x884C;&#x7684;&#x4EE3;&#x78BC;&#x3002;</li>
+<li>&#x8EDF;&#x4E2D;&#x65B7;&#x548C;tasklet -- &#x5167;&#x6838;&#x80FD;&#x5728;&#x4EFB;&#x4F55;&#x6642;&#x523B;&#x559A;&#x9192;&#x6216;&#x8ABF;&#x5EA6;&#x8EDF;&#x4E2D;&#x65B7;&#x548C;tasklet&#xFF0C;&#x6253;&#x65B7;&#x7576;&#x524D;&#x6B63;&#x5728;&#x57F7;&#x884C;&#x7684;&#x4EE3;&#x78BC;&#x3002;</li>
+<li>&#x5167;&#x6838;&#x6436;&#x4F54; -- &#x56E0;&#x70BA;&#x5167;&#x6838;&#x5177;&#x6709;&#x6436;&#x4F54;&#x6027;&#xFF0C;&#x6240;&#x4EE5;&#x5167;&#x6838;&#x4E2D;&#x7684;&#x4EFB;&#x52D9;&#x53EF;&#x80FD;&#x6703;&#x88AB;&#x53E6;&#x4E00;&#x4EFB;&#x52D9;&#x6436;&#x4F54;&#x3002;</li>
+<li>&#x7761;&#x7720;&#x53CA;&#x8207;&#x7528;&#x6236;&#x7A7A;&#x9593;&#x7684;&#x540C;&#x6B65; -- &#x5728;&#x5167;&#x6838;&#x57F7;&#x884C;&#x7684;&#x9032;&#x7A0B;&#x53EF;&#x80FD;&#x6703;&#x7761;&#x7720;&#xFF0C;&#x9019;&#x5C31;&#x6703;&#x559A;&#x9192;&#x8ABF;&#x5EA6;&#x7A0B;&#x5E8F;&#xFF0C;&#x5F9E;&#x800C;&#x5C0E;&#x81F4;&#x8ABF;&#x5EA6;&#x4E00;&#x500B;&#x65B0;&#x7684;&#x7528;&#x6236;&#x9032;&#x7A0B;&#x57F7;&#x884C;&#x3002;</li>
+<li>&#x5C0D;&#x7A31;&#x591A;&#x8655;&#x7406; --  &#x5169;&#x500B;&#x6216;&#x591A;&#x500B;&#x8655;&#x7406;&#x5668;&#x53EF;&#x4EE5;&#x540C;&#x6642;&#x57F7;&#x884C;&#x4EE3;&#x78BC;&#x3002;&#xFF08;&#x771F;&#x4F75;&#x767C;&#xFF09;</li>
 </ul>
-<p>&#x901A;&#x8FC7;&#x9501;&#x53EF;&#x4EE5;&#x9632;&#x6B62;&#x5E76;&#x53D1;&#x6267;&#x884C;&#xFF0C;&#x5E76;&#x4E14;&#x4FDD;&#x62A4;&#x4E34;&#x754C;&#x533A;&#x4E0D;&#x53D7;&#x7ADE;&#x6001;&#x5F71;&#x54CD;&#x3002;&#x4EFB;&#x4F55;&#x6267;&#x884C;&#x7EBF;&#x7A0B;&#x8981;&#x8BBF;&#x95EE;&#x4E34;&#x754C;&#x533A;&#x4EE3;&#x7801;&#x65F6;&#x9996;&#x5148;&#x5148;&#x83B7;&#x5F97;&#x9501;&#xFF0C;&#x8FD9;&#x6837;&#x5F53;&#x540E;&#x9762;&#x53E6;&#x5916;&#x7684;&#x6267;&#x884C;&#x7EBF;&#x7A0B;&#x8981;&#x8BBF;&#x95EE;&#x4E34;&#x754C;&#x533A;&#x65F6;&#x5C31;&#x4E0D;&#x80FD;&#x518D;&#x83B7;&#x5F97;&#x8BE5;&#x9501;&#xFF0C;&#x8FD9;&#x6837;&#x4E34;&#x754C;&#x533A;&#x5C31;&#x7981;&#x6B62;&#x540E;&#x6765;&#x6267;&#x884C;&#x7EBF;&#x7A0B;&#x8BBF;&#x95EE;&#x3002;linux&#x81EA;&#x8EAB;&#x5B9E;&#x73B0;&#x4E86;&#x591A;&#x79CD;&#x4E0D;&#x540C;&#x7684;&#x9501;&#x673A;&#x5236;&#xFF0C;&#x5404;&#x79CD;&#x9501;&#x5404;&#x6709;&#x5DEE;&#x522B;&#xFF0C;&#x533A;&#x522B;&#x4E3B;&#x8981;&#x5728;&#x4E8E;&#x5F53;&#x9501;&#x88AB;&#x4E89;&#x7528;&#x65F6;&#xFF0C;&#x6709;&#x4E9B;&#x4F1A;&#x7B80;&#x5355;&#x5730;&#x6267;&#x884C;&#x7B49;&#x5F85;&#xFF0C;&#x800C;&#x6709;&#x4E9B;&#x9501;&#x4F1A;&#x4F7F;&#x5F53;&#x524D;&#x4EFB;&#x52A1;&#x7761;&#x7720;&#x76F4;&#x5230;&#x9501;&#x53EF;&#x7528;&#x4E3A;&#x6B62;&#x3002;&#x672C;&#x8282;&#x5C06;&#x4F1A;&#x5206;&#x6790;&#x5404;&#x9501;&#x7684;&#x4F7F;&#x7528;&#x548C;&#x5B9E;&#x73B0;&#x3002;&#x4F46;&#x662F;&#x4F7F;&#x7528;&#x9501;&#x4E5F;&#x4F1A;&#x5E26;&#x6765;&#x526F;&#x4F5C;&#x7528;&#xFF0C;&#x9501;&#x4F7F;&#x5F97;&#x7EBF;&#x7A0B;&#x6309;&#x4E32;&#x884C;&#x65B9;&#x5F0F;&#x5BF9;&#x8D44;&#x6E90;&#x8FDB;&#x884C;&#x8BBF;&#x95EE;&#xFF0C;&#x6240;&#x4EE5;&#x4F7F;&#x7528;&#x9501;&#x65E0;&#x7591;&#x4F1A;&#x964D;&#x4F4E;&#x7CFB;&#x7EDF;&#x6027;&#x80FD;&#xFF1B;&#x5E76;&#x4E14;&#x9501;&#x4F7F;&#x7528;&#x4E0D;&#x5F53;&#x8FD8;&#x4F1A;&#x9020;&#x6210;&#x6B7B;&#x9501;&#x3002;</p>
-<p>&#x4E0B;&#x9762;&#x6765;&#x770B;&#x4E00;&#x4E0B;linux&#x4E0B;&#x540C;&#x6B65;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x5305;&#x62EC;&#x539F;&#x5B50;&#x64CD;&#x4F5C;&#x3001;&#x81EA;&#x65CB;&#x9501;&#x3001;&#x4FE1;&#x53F7;&#x91CF;&#x7B49;&#x65B9;&#x5F0F;&#x3002;</p>
-<p><code>1.</code>&#x539F;&#x5B50;&#x64CD;&#x4F5C;&#xFF0C;&#x8BE5;&#x64CD;&#x4F5C;&#x662F;&#x5176;&#x5B83;&#x540C;&#x6B65;&#x65B9;&#x6CD5;&#x7684;&#x57FA;&#x7840;&#xFF0C;&#x539F;&#x5B50;&#x64CD;&#x4F5C;&#x53EF;&#x4EE5;&#x4FDD;&#x8BC1;&#x6307;&#x4EE4;&#x4EE5;&#x539F;&#x5B50;&#x7684;&#x65B9;&#x5F0F;&#x6267;&#x884C;&#xFF0C;&#x6267;&#x884C;&#x8FC7;&#x7A0B;&#x4E0D;&#x4F1A;&#x88AB;&#x6253;&#x65AD;&#x3002;linux&#x5185;&#x6838;&#x63D0;&#x4F9B;&#x4E86;&#x4E24;&#x7EC4;&#x539F;&#x5B50;&#x64CD;&#x4F5C;&#x63A5;&#x53E3;&#xFF1A;&#x539F;&#x5B50;&#x6574;&#x6570;&#x64CD;&#x4F5C;&#x548C;&#x539F;&#x5B50;&#x4F4D;&#x64CD;&#x4F5C;&#x3002;
-&#x9488;&#x5BF9;&#x6574;&#x6570;&#x7684;&#x539F;&#x5B50;&#x64CD;&#x4F5C;&#x53EA;&#x80FD;&#x5BF9;atomic_t&#x7C7B;&#x578B;&#x7684;&#x6570;&#x636E;&#x8FDB;&#x884C;&#x5904;&#x7406;&#x3002;&#x8BE5;&#x7C7B;&#x7C7B;&#x578B;&#x5B9A;&#x4E49;&#x4E0E;&#x6587;&#x4EF6;<code>&lt;include/linux/types.h&gt;</code>:</p>
+<p>&#x901A;&#x904E;&#x9396;&#x53EF;&#x4EE5;&#x9632;&#x6B62;&#x4F75;&#x767C;&#x57F7;&#x884C;&#xFF0C;&#x4E26;&#x4E14;&#x4FDD;&#x8B77;&#x81E8;&#x754C;&#x5340;&#x4E0D;&#x53D7;&#x7AF6;&#x614B;&#x5F71;&#x97FF;&#x3002;&#x4EFB;&#x4F55;&#x57F7;&#x884C;&#x7DDA;&#x7A0B;&#x8981;&#x8A2A;&#x554F;&#x81E8;&#x754C;&#x5340;&#x4EE3;&#x78BC;&#x6642;&#x9996;&#x5148;&#x5148;&#x7372;&#x5F97;&#x9396;&#xFF0C;&#x9019;&#x6A23;&#x7576;&#x5F8C;&#x9762;&#x53E6;&#x5916;&#x7684;&#x57F7;&#x884C;&#x7DDA;&#x7A0B;&#x8981;&#x8A2A;&#x554F;&#x81E8;&#x754C;&#x5340;&#x6642;&#x5C31;&#x4E0D;&#x80FD;&#x518D;&#x7372;&#x5F97;&#x8A72;&#x9396;&#xFF0C;&#x9019;&#x6A23;&#x81E8;&#x754C;&#x5340;&#x5C31;&#x7981;&#x6B62;&#x5F8C;&#x4F86;&#x57F7;&#x884C;&#x7DDA;&#x7A0B;&#x8A2A;&#x554F;&#x3002;linux&#x81EA;&#x8EAB;&#x5BE6;&#x73FE;&#x4E86;&#x591A;&#x7A2E;&#x4E0D;&#x540C;&#x7684;&#x9396;&#x6A5F;&#x5236;&#xFF0C;&#x5404;&#x7A2E;&#x9396;&#x5404;&#x6709;&#x5DEE;&#x5225;&#xFF0C;&#x5340;&#x5225;&#x4E3B;&#x8981;&#x5728;&#x65BC;&#x7576;&#x9396;&#x88AB;&#x722D;&#x7528;&#x6642;&#xFF0C;&#x6709;&#x4E9B;&#x6703;&#x7C21;&#x55AE;&#x5730;&#x57F7;&#x884C;&#x7B49;&#x5F85;&#xFF0C;&#x800C;&#x6709;&#x4E9B;&#x9396;&#x6703;&#x4F7F;&#x7576;&#x524D;&#x4EFB;&#x52D9;&#x7761;&#x7720;&#x76F4;&#x5230;&#x9396;&#x53EF;&#x7528;&#x70BA;&#x6B62;&#x3002;&#x672C;&#x7BC0;&#x5C07;&#x6703;&#x5206;&#x6790;&#x5404;&#x9396;&#x7684;&#x4F7F;&#x7528;&#x548C;&#x5BE6;&#x73FE;&#x3002;&#x4F46;&#x662F;&#x4F7F;&#x7528;&#x9396;&#x4E5F;&#x6703;&#x5E36;&#x4F86;&#x526F;&#x4F5C;&#x7528;&#xFF0C;&#x9396;&#x4F7F;&#x5F97;&#x7DDA;&#x7A0B;&#x6309;&#x4E32;&#x884C;&#x65B9;&#x5F0F;&#x5C0D;&#x8CC7;&#x6E90;&#x9032;&#x884C;&#x8A2A;&#x554F;&#xFF0C;&#x6240;&#x4EE5;&#x4F7F;&#x7528;&#x9396;&#x7121;&#x7591;&#x6703;&#x964D;&#x4F4E;&#x7CFB;&#x7D71;&#x6027;&#x80FD;&#xFF1B;&#x4E26;&#x4E14;&#x9396;&#x4F7F;&#x7528;&#x4E0D;&#x7576;&#x9084;&#x6703;&#x9020;&#x6210;&#x6B7B;&#x9396;&#x3002;</p>
+<p>&#x4E0B;&#x9762;&#x4F86;&#x770B;&#x4E00;&#x4E0B;linux&#x4E0B;&#x540C;&#x6B65;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x5305;&#x62EC;&#x539F;&#x5B50;&#x64CD;&#x4F5C;&#x3001;&#x81EA;&#x65CB;&#x9396;&#x3001;&#x4FE1;&#x865F;&#x91CF;&#x7B49;&#x65B9;&#x5F0F;&#x3002;</p>
+<p><code>1.</code>&#x539F;&#x5B50;&#x64CD;&#x4F5C;&#xFF0C;&#x8A72;&#x64CD;&#x4F5C;&#x662F;&#x5176;&#x5B83;&#x540C;&#x6B65;&#x65B9;&#x6CD5;&#x7684;&#x57FA;&#x790E;&#xFF0C;&#x539F;&#x5B50;&#x64CD;&#x4F5C;&#x53EF;&#x4EE5;&#x4FDD;&#x8B49;&#x6307;&#x4EE4;&#x4EE5;&#x539F;&#x5B50;&#x7684;&#x65B9;&#x5F0F;&#x57F7;&#x884C;&#xFF0C;&#x57F7;&#x884C;&#x904E;&#x7A0B;&#x4E0D;&#x6703;&#x88AB;&#x6253;&#x65B7;&#x3002;linux&#x5167;&#x6838;&#x63D0;&#x4F9B;&#x4E86;&#x5169;&#x7D44;&#x539F;&#x5B50;&#x64CD;&#x4F5C;&#x63A5;&#x53E3;&#xFF1A;&#x539F;&#x5B50;&#x6574;&#x6578;&#x64CD;&#x4F5C;&#x548C;&#x539F;&#x5B50;&#x4F4D;&#x64CD;&#x4F5C;&#x3002;
+&#x91DD;&#x5C0D;&#x6574;&#x6578;&#x7684;&#x539F;&#x5B50;&#x64CD;&#x4F5C;&#x53EA;&#x80FD;&#x5C0D;atomic_t&#x985E;&#x578B;&#x7684;&#x6578;&#x64DA;&#x9032;&#x884C;&#x8655;&#x7406;&#x3002;&#x8A72;&#x985E;&#x985E;&#x578B;&#x5B9A;&#x7FA9;&#x8207;&#x6587;&#x4EF6;<code>&lt;include/linux/types.h&gt;</code>:</p>
 <pre><code class="lang-c"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> {  
     <span class="hljs-keyword">volatile</span> <span class="hljs-keyword">int</span> counter;  
 } <span class="hljs-keyword">atomic_t</span>;
 </code></pre>
-<p>&#x4E0B;&#x9762;&#x4E3E;&#x4F8B;&#x8BF4;&#x660E;&#x539F;&#x5B50;&#x64CD;&#x4F5C;&#x7684;&#x7528;&#x6CD5;&#xFF1A;
-&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;atomic_c&#x7C7B;&#x578B;&#x7684;&#x6570;&#x636E;&#x5F88;&#x7B80;&#x5355;&#xFF0C;&#x8FD8;&#x53EF;&#x4EE5;&#x5B9A;&#x4E49;&#x65F6;&#x7ED9;&#x5B83;&#x8BBE;&#x5B9A;&#x521D;&#x503C;&#xFF1A;</p>
-<pre><code class="lang-sh">(<span class="hljs-number">1</span>) atomic_t u;                     /*&#x5B9A;&#x4E49; u*/
-(<span class="hljs-number">2</span>) atomic_t v = ATOMIC_INIT(<span class="hljs-number">0</span>)     /*&#x5B9A;&#x4E49; v &#x5E76;&#x628A;&#x5B83;&#x521D;&#x59CB;&#x5316;&#x4E3A;<span class="hljs-number">0</span>*/
+<p>&#x4E0B;&#x9762;&#x8209;&#x4F8B;&#x8AAA;&#x660E;&#x539F;&#x5B50;&#x64CD;&#x4F5C;&#x7684;&#x7528;&#x6CD5;&#xFF1A;
+&#x5B9A;&#x7FA9;&#x4E00;&#x500B;atomic_c&#x985E;&#x578B;&#x7684;&#x6578;&#x64DA;&#x5F88;&#x7C21;&#x55AE;&#xFF0C;&#x9084;&#x53EF;&#x4EE5;&#x5B9A;&#x7FA9;&#x6642;&#x7D66;&#x5B83;&#x8A2D;&#x5B9A;&#x521D;&#x503C;&#xFF1A;</p>
+<pre><code class="lang-sh">(<span class="hljs-number">1</span>) atomic_t u;                     /*&#x5B9A;&#x7FA9; u*/
+(<span class="hljs-number">2</span>) atomic_t v = ATOMIC_INIT(<span class="hljs-number">0</span>)     /*&#x5B9A;&#x7FA9; v &#x4E26;&#x628A;&#x5B83;&#x521D;&#x59CB;&#x5316;&#x70BA;<span class="hljs-number">0</span>*/
 </code></pre>
-<p>&#x5BF9;&#x5176;&#x64CD;&#x4F5C;&#xFF1A;</p>
+<p>&#x5C0D;&#x5176;&#x64CD;&#x4F5C;&#xFF1A;</p>
 <pre><code class="lang-sh">(<span class="hljs-number">1</span>) atomic_<span class="hljs-built_in">set</span>(&amp;v,<span class="hljs-number">4</span>)                /* v = <span class="hljs-number">4</span> ( &#x539F;&#x5B50;&#x5730;)*/
 (<span class="hljs-number">2</span>) atomic_add(<span class="hljs-number">2</span>,&amp;v)                /* v = v + <span class="hljs-number">2</span> = <span class="hljs-number">6</span> (&#x539F;&#x5B50;&#x5730;) */
 (<span class="hljs-number">3</span>) atomic_inc(&amp;v)                   /* v = v + <span class="hljs-number">1</span> =<span class="hljs-number">7</span>&#xFF08;&#x539F;&#x5B50;&#x5730;)*/
 </code></pre>
-<p>&#x5982;&#x679C;&#x9700;&#x8981;&#x5C06;atomic_t&#x8F6C;&#x6362;&#x6210;int&#x578B;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;atomic_read()&#x6765;&#x5B8C;&#x6210;&#xFF1A;</p>
-<pre><code class="lang-c">printk(&#x201C;%d\n&#x201D;,atomic_read(&amp;v));    <span class="hljs-comment">/* &#x4F1A;&#x6253;&#x5370;7*/</span>
+<p>&#x5982;&#x679C;&#x9700;&#x8981;&#x5C07;atomic_t&#x8F49;&#x63DB;&#x6210;int&#x578B;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;atomic_read()&#x4F86;&#x5B8C;&#x6210;&#xFF1A;</p>
+<pre><code class="lang-c">printk(&#x201C;%d\n&#x201D;,atomic_read(&amp;v));    <span class="hljs-comment">/* &#x6703;&#x6253;&#x5370;7*/</span>
 </code></pre>
-<p>&#x539F;&#x5B50;&#x6574;&#x6570;&#x64CD;&#x4F5C;&#x6700;&#x5E38;&#x89C1;&#x7684;&#x7528;&#x9014;&#x5C31;&#x662F;&#x5B9E;&#x73B0;&#x8BA1;&#x6570;&#x5668;&#x3002;&#x4F7F;&#x7528;&#x590D;&#x6742;&#x7684;&#x9501;&#x673A;&#x5236;&#x6765;&#x4FDD;&#x62A4;&#x4E00;&#x4E2A;&#x5355;&#x7EAF;&#x7684;&#x8BA1;&#x6570;&#x5668;&#x662F;&#x5F88;&#x7B28;&#x62D9;&#x7684;&#xFF0C;&#x6240;&#x4EE5;&#xFF0C;&#x5F00;&#x53D1;&#x8005;&#x6700;&#x597D;&#x4F7F;&#x7528;atomic_inc()&#x548C;atomic_dec()&#x8FD9;&#x4E24;&#x4E2A;&#x76F8;&#x5BF9;&#x6765;&#x8BF4;&#x8F7B;&#x4FBF;&#x4E00;&#x70B9;&#x7684;&#x64CD;&#x4F5C;&#x3002;</p>
-<p>&#x8FD8;&#x53EF;&#x4EE5;&#x7528;&#x539F;&#x5B50;&#x6574;&#x6570;&#x64CD;&#x4F5C;&#x539F;&#x5B50;&#x5730;&#x6267;&#x884C;&#x4E00;&#x4E2A;&#x64CD;&#x4F5C;&#x5E76;&#x68C0;&#x67E5;&#x7ED3;&#x679C;&#x3002;&#x4E00;&#x4E2A;&#x5E38;&#x89C1;&#x7684;&#x4F8B;&#x5B50;&#x662F;&#x539F;&#x5B50;&#x7684;&#x51CF;&#x64CD;&#x4F5C;&#x548C;&#x68C0;&#x67E5;&#x3002;</p>
+<p>&#x539F;&#x5B50;&#x6574;&#x6578;&#x64CD;&#x4F5C;&#x6700;&#x5E38;&#x898B;&#x7684;&#x7528;&#x9014;&#x5C31;&#x662F;&#x5BE6;&#x73FE;&#x8A08;&#x6578;&#x5668;&#x3002;&#x4F7F;&#x7528;&#x8907;&#x96DC;&#x7684;&#x9396;&#x6A5F;&#x5236;&#x4F86;&#x4FDD;&#x8B77;&#x4E00;&#x500B;&#x55AE;&#x7D14;&#x7684;&#x8A08;&#x6578;&#x5668;&#x662F;&#x5F88;&#x7B28;&#x62D9;&#x7684;&#xFF0C;&#x6240;&#x4EE5;&#xFF0C;&#x958B;&#x767C;&#x8005;&#x6700;&#x597D;&#x4F7F;&#x7528;atomic_inc()&#x548C;atomic_dec()&#x9019;&#x5169;&#x500B;&#x76F8;&#x5C0D;&#x4F86;&#x8AAA;&#x8F15;&#x4FBF;&#x4E00;&#x9EDE;&#x7684;&#x64CD;&#x4F5C;&#x3002;</p>
+<p>&#x9084;&#x53EF;&#x4EE5;&#x7528;&#x539F;&#x5B50;&#x6574;&#x6578;&#x64CD;&#x4F5C;&#x539F;&#x5B50;&#x5730;&#x57F7;&#x884C;&#x4E00;&#x500B;&#x64CD;&#x4F5C;&#x4E26;&#x6AA2;&#x67E5;&#x7D50;&#x679C;&#x3002;&#x4E00;&#x500B;&#x5E38;&#x898B;&#x7684;&#x4F8B;&#x5B50;&#x662F;&#x539F;&#x5B50;&#x7684;&#x6E1B;&#x64CD;&#x4F5C;&#x548C;&#x6AA2;&#x67E5;&#x3002;</p>
 <pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">atomic_dec_and_test</span><span class="hljs-params">(atomic_t *v)</span>
 </span></code></pre>
-<p>&#x8FD9;&#x4E2A;&#x51FD;&#x6570;&#x8BA9;&#x7ED9;&#x5B9A;&#x7684;&#x539F;&#x5B50;&#x53D8;&#x91CF;&#x51CF;1&#xFF0C;&#x5982;&#x679C;&#x7ED3;&#x679C;&#x4E3A;0&#xFF0C;&#x5C31;&#x8FD4;&#x56DE;1&#xFF1B;&#x5426;&#x5219;&#x8FD4;&#x56DE;0&#x3002;&#x7279;&#x5B9A;&#x4F53;&#x7CFB;&#x7ED3;&#x6784;&#x7684;&#x6240;&#x6709;&#x539F;&#x5B50;&#x6574;&#x6570;&#x64CD;&#x4F5C;&#x53EF;&#x4EE5;&#x5728;&#x6587;&#x4EF6;<code>&lt;arch/x86/include/asm/atomic.h&gt;</code>&#x4E2D;&#x627E;&#x5230;&#x3002;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>&#x9019;&#x500B;&#x51FD;&#x6578;&#x8B93;&#x7D66;&#x5B9A;&#x7684;&#x539F;&#x5B50;&#x8B8A;&#x91CF;&#x6E1B;1&#xFF0C;&#x5982;&#x679C;&#x7D50;&#x679C;&#x70BA;0&#xFF0C;&#x5C31;&#x8FD4;&#x56DE;1&#xFF1B;&#x5426;&#x5247;&#x8FD4;&#x56DE;0&#x3002;&#x7279;&#x5B9A;&#x9AD4;&#x7CFB;&#x7D50;&#x69CB;&#x7684;&#x6240;&#x6709;&#x539F;&#x5B50;&#x6574;&#x6578;&#x64CD;&#x4F5C;&#x53EF;&#x4EE5;&#x5728;&#x6587;&#x4EF6;<code>&lt;arch/x86/include/asm/atomic.h&gt;</code>&#x4E2D;&#x627E;&#x5230;&#x3002;&#x5982;&#x4E0B;&#xFF1A;</p>
 <pre><code class="lang-c">#ifndef _ASM_X86_ATOMIC_32_H  
 #define _ASM_X86_ATOMIC_32_H  
 
@@ -17199,7 +17199,7 @@ static inline int atomic_sub_and_test(int i, atomic_t *v)
     return c;  
 }
 </code></pre>
-<p>&#x9664;&#x4E86;&#x539F;&#x5B50;&#x6574;&#x6570;&#x4E4B;&#x5916;&#xFF0C;&#x5185;&#x6838;&#x8FD8;&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x7EC4;&#x9488;&#x5BF9;&#x4F4D;&#x64CD;&#x4F5C;&#x7684;&#x51FD;&#x6570;&#xFF0C;&#x8FD9;&#x4E9B;&#x64CD;&#x4F5C;&#x4E5F;&#x662F;&#x548C;&#x4F53;&#x7CFB;&#x7ED3;&#x6784;&#x76F8;&#x5173;&#x7684;&#x3002;&#x4F8B;&#x5982;&#x5728;x86&#x4E0B;set_bit&#x5B9E;&#x73B0;&#x5982;&#x4E0B;&#xFF1A;static __always_inline void</p>
+<p>&#x9664;&#x4E86;&#x539F;&#x5B50;&#x6574;&#x6578;&#x4E4B;&#x5916;&#xFF0C;&#x5167;&#x6838;&#x9084;&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x7D44;&#x91DD;&#x5C0D;&#x4F4D;&#x64CD;&#x4F5C;&#x7684;&#x51FD;&#x6578;&#xFF0C;&#x9019;&#x4E9B;&#x64CD;&#x4F5C;&#x4E5F;&#x662F;&#x548C;&#x9AD4;&#x7CFB;&#x7D50;&#x69CB;&#x76F8;&#x95DC;&#x7684;&#x3002;&#x4F8B;&#x5982;&#x5728;x86&#x4E0B;set_bit&#x5BE6;&#x73FE;&#x5982;&#x4E0B;&#xFF1A;static __always_inline void</p>
 <pre><code class="lang-c">
 set_bit(unsigned int nr, volatile unsigned long *addr)  
 {  
@@ -17214,69 +17214,69 @@ set_bit(unsigned int nr, volatile unsigned long *addr)
     }  
 }
 </code></pre>
-<p>&#x539F;&#x5B50;&#x64CD;&#x4F5C;&#x662F;&#x5BF9;&#x666E;&#x901A;&#x5185;&#x5B58;&#x5730;&#x5740;&#x6307;&#x9488;&#x8FDB;&#x884C;&#x7684;&#x64CD;&#x4F5C;&#xFF0C;&#x53EA;&#x8981;&#x6307;&#x9488;&#x6307;&#x5411;&#x4E86;&#x4EFB;&#x4F55;&#x4F60;&#x5E0C;&#x671B;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x4F60;&#x5C31;&#x53EF;&#x4EE5;&#x5BF9;&#x5B83;&#x8FDB;&#x884C;&#x64CD;&#x4F5C;&#x3002;&#x539F;&#x5B50;&#x4F4D;&#x64CD;&#x4F5C;(&#x4EE5;x86&#x4E3A;&#x4F8B;)&#x76F8;&#x5173;&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5728;&#x6587;&#x4EF6;<code>&lt;arch/x86/include/asm/bitops.h&gt;</code>&#x4E2D;&#x3002;</p>
-<p><code>2.</code> &#x81EA;&#x65CB;&#x9501;</p>
-<p>&#x4E0D;&#x662F;&#x6240;&#x6709;&#x7684;&#x4E34;&#x754C;&#x533A;&#x90FD;&#x662F;&#x50CF;&#x589E;&#x52A0;&#x6216;&#x51CF;&#x5C11;&#x53D8;&#x91CF;&#x8FD9;&#x4E48;&#x7B80;&#x5355;&#xFF0C;&#x6709;&#x7684;&#x65F6;&#x5019;&#x4E34;&#x754C;&#x533A;&#x53EF;&#x80FD;&#x4F1A;&#x8DE8;&#x8D8A;&#x591A;&#x4E2A;&#x51FD;&#x6570;&#xFF0C;&#x8FD9;&#x8FD9;&#x65F6;&#x5C31;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x66F4;&#x4E3A;&#x590D;&#x6742;&#x7684;&#x540C;&#x6B65;&#x65B9;&#x6CD5;&#x2014;&#x2014;&#x9501;&#x3002;linux&#x5185;&#x6838;&#x4E2D;&#x6700;&#x5E38;&#x89C1;&#x7684;&#x9501;&#x662F;&#x81EA;&#x65CB;&#x9501;&#xFF0C;&#x81EA;&#x65CB;&#x9501;&#x6700;&#x591A;&#x53EA;&#x80FD;&#x88AB;&#x4E00;&#x4E2A;&#x53EF;&#x6267;&#x884C;&#x7EBF;&#x7A0B;&#x6301;&#x6709;&#xFF0C;&#x5982;&#x679C;&#x4E00;&#x4E2A;&#x53EF;&#x6267;&#x884C;&#x7EBF;&#x7A0B;&#x89C6;&#x56FE;&#x83B7;&#x53D6;&#x4E00;&#x4E2A;&#x5DF2;&#x7ECF;&#x88AB;&#x6301;&#x6709;&#x7684;&#x9501;&#xFF0C;&#x90A3;&#x4E48;&#x8BE5;&#x7EBF;&#x7A0B;&#x5C06;&#x4F1A;&#x4E00;&#x76F4;&#x8FDB;&#x884C;&#x5FD9;&#x5FAA;&#x73AF;&#x7B49;&#x5F85;&#x9501;&#x91CD;&#x65B0;&#x53EF;&#x7528;&#x3002;&#x5728;&#x4EFB;&#x610F;&#x65F6;&#x5019;&#xFF0C;&#x81EA;&#x65CB;&#x9501;&#x90FD;&#x53EF;&#x4EE5;&#x9632;&#x6B62;&#x591A;&#x4F59;&#x4E00;&#x4E2A;&#x6267;&#x884C;&#x7EBF;&#x7A0B;&#x540C;&#x65F6;&#x8FDB;&#x5165;&#x4E34;&#x754C;&#x533A;&#x3002;&#x7531;&#x4E8E;&#x81EA;&#x65CB;&#x5FD9;&#x7B49;&#x8FC7;&#x7A0B;&#x662F;&#x5F88;&#x8D39;&#x65F6;&#x95F4;&#x7684;&#xFF0C;&#x6240;&#x4EE5;&#x81EA;&#x65CB;&#x9501;&#x4E0D;&#x5E94;&#x8BE5;&#x88AB;&#x957F;&#x65F6;&#x95F4;&#x6301;&#x6709;&#x3002;</p>
-<p>&#x81EA;&#x65CB;&#x9501;&#x76F8;&#x5173;&#x65B9;&#x6CD5;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>&#x539F;&#x5B50;&#x64CD;&#x4F5C;&#x662F;&#x5C0D;&#x666E;&#x901A;&#x5167;&#x5B58;&#x5730;&#x5740;&#x6307;&#x91DD;&#x9032;&#x884C;&#x7684;&#x64CD;&#x4F5C;&#xFF0C;&#x53EA;&#x8981;&#x6307;&#x91DD;&#x6307;&#x5411;&#x4E86;&#x4EFB;&#x4F55;&#x4F60;&#x5E0C;&#x671B;&#x7684;&#x6578;&#x64DA;&#xFF0C;&#x4F60;&#x5C31;&#x53EF;&#x4EE5;&#x5C0D;&#x5B83;&#x9032;&#x884C;&#x64CD;&#x4F5C;&#x3002;&#x539F;&#x5B50;&#x4F4D;&#x64CD;&#x4F5C;(&#x4EE5;x86&#x70BA;&#x4F8B;)&#x76F8;&#x95DC;&#x51FD;&#x6578;&#x5B9A;&#x7FA9;&#x5728;&#x6587;&#x4EF6;<code>&lt;arch/x86/include/asm/bitops.h&gt;</code>&#x4E2D;&#x3002;</p>
+<p><code>2.</code> &#x81EA;&#x65CB;&#x9396;</p>
+<p>&#x4E0D;&#x662F;&#x6240;&#x6709;&#x7684;&#x81E8;&#x754C;&#x5340;&#x90FD;&#x662F;&#x50CF;&#x589E;&#x52A0;&#x6216;&#x6E1B;&#x5C11;&#x8B8A;&#x91CF;&#x9019;&#x9EBC;&#x7C21;&#x55AE;&#xFF0C;&#x6709;&#x7684;&#x6642;&#x5019;&#x81E8;&#x754C;&#x5340;&#x53EF;&#x80FD;&#x6703;&#x8DE8;&#x8D8A;&#x591A;&#x500B;&#x51FD;&#x6578;&#xFF0C;&#x9019;&#x9019;&#x6642;&#x5C31;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x66F4;&#x70BA;&#x8907;&#x96DC;&#x7684;&#x540C;&#x6B65;&#x65B9;&#x6CD5;&#x2014;&#x2014;&#x9396;&#x3002;linux&#x5167;&#x6838;&#x4E2D;&#x6700;&#x5E38;&#x898B;&#x7684;&#x9396;&#x662F;&#x81EA;&#x65CB;&#x9396;&#xFF0C;&#x81EA;&#x65CB;&#x9396;&#x6700;&#x591A;&#x96BB;&#x80FD;&#x88AB;&#x4E00;&#x500B;&#x53EF;&#x57F7;&#x884C;&#x7DDA;&#x7A0B;&#x6301;&#x6709;&#xFF0C;&#x5982;&#x679C;&#x4E00;&#x500B;&#x53EF;&#x57F7;&#x884C;&#x7DDA;&#x7A0B;&#x8996;&#x5716;&#x7372;&#x53D6;&#x4E00;&#x500B;&#x5DF2;&#x7D93;&#x88AB;&#x6301;&#x6709;&#x7684;&#x9396;&#xFF0C;&#x90A3;&#x9EBC;&#x8A72;&#x7DDA;&#x7A0B;&#x5C07;&#x6703;&#x4E00;&#x76F4;&#x9032;&#x884C;&#x5FD9;&#x5FAA;&#x74B0;&#x7B49;&#x5F85;&#x9396;&#x91CD;&#x65B0;&#x53EF;&#x7528;&#x3002;&#x5728;&#x4EFB;&#x610F;&#x6642;&#x5019;&#xFF0C;&#x81EA;&#x65CB;&#x9396;&#x90FD;&#x53EF;&#x4EE5;&#x9632;&#x6B62;&#x591A;&#x9918;&#x4E00;&#x500B;&#x57F7;&#x884C;&#x7DDA;&#x7A0B;&#x540C;&#x6642;&#x9032;&#x5165;&#x81E8;&#x754C;&#x5340;&#x3002;&#x7531;&#x65BC;&#x81EA;&#x65CB;&#x5FD9;&#x7B49;&#x904E;&#x7A0B;&#x662F;&#x5F88;&#x8CBB;&#x6642;&#x9593;&#x7684;&#xFF0C;&#x6240;&#x4EE5;&#x81EA;&#x65CB;&#x9396;&#x4E0D;&#x61C9;&#x8A72;&#x88AB;&#x9577;&#x6642;&#x9593;&#x6301;&#x6709;&#x3002;</p>
+<p>&#x81EA;&#x65CB;&#x9396;&#x76F8;&#x95DC;&#x65B9;&#x6CD5;&#x5982;&#x4E0B;&#xFF1A;</p>
 <table width="700" cellpadding="2" cellspacing="0" border="1">
 <tbody>
 <tr>
 <td valign="top" width="334" align="center"><span style="font-family:Microsoft YaHei; font-size:14px">&#x65B9;&#x6CD5;</span></td>
-<td valign="top" width="175"><span style="font-family:Microsoft YaHei; font-size:14px">spinlock&#x4E2D;&#x7684;&#x5B9A;&#x4E49;</span></td>
+<td valign="top" width="175"><span style="font-family:Microsoft YaHei; font-size:14px">spinlock&#x4E2D;&#x7684;&#x5B9A;&#x7FA9;</span></td>
 </tr>
 <tr>
-<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">&#x5B9A;&#x4E49;spin lock&#x5E76;&#x521D;&#x59CB;&#x5316;</span></td>
+<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">&#x5B9A;&#x7FA9;spin lock&#x4E26;&#x521D;&#x59CB;&#x5316;</span></td>
 <td valign="top" width="175"><span style="font-family:Microsoft YaHei; font-size:14px">DEFINE_SPINLOC</span><span style="font-family:Microsoft YaHei; font-size:14px">K</span><span style="font-family:Microsoft YaHei; font-size:14px">(</span><span style="font-family:Microsoft YaHei; font-size:14px">)</span></td>
 </tr>
 <tr>
-<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">&#x52A8;&#x6001;&#x521D;&#x59CB;&#x5316;spin lock</span></td>
+<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">&#x52D5;&#x614B;&#x521D;&#x59CB;&#x5316;spin lock</span></td>
 <td valign="top" width="175"><span style="font-family:Microsoft YaHei; font-size:14px">spin_lock_init</span><span style="font-family:Microsoft YaHei; font-size:14px">()</span></td>
 </tr>
 <tr>
-<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">&#x83B7;&#x53D6;&#x6307;&#x5B9A;&#x7684;spin lock</span></td>
+<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">&#x7372;&#x53D6;&#x6307;&#x5B9A;&#x7684;spin lock</span></td>
 <td valign="top" width="175"><span style="font-family:Microsoft YaHei; font-size:14px">spin_lock</span><span style="font-family:Microsoft YaHei; font-size:14px">()</span></td>
 </tr>
 <tr>
-<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">&#x83B7;&#x53D6;&#x6307;&#x5B9A;&#x7684;spin lock&#x540C;&#x65F6;disable&#x672C;CPU&#x4E2D;&#x65AD;</span></td>
+<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">&#x7372;&#x53D6;&#x6307;&#x5B9A;&#x7684;spin lock&#x540C;&#x6642;disable&#x672C;CPU&#x4E2D;&#x65B7;</span></td>
 <td valign="top" width="175"><span style="font-family:Microsoft YaHei; font-size:14px">spin_lock_irq</span><span style="font-family:Microsoft YaHei; font-size:14px">()</span></td>
 </tr>
 <tr>
-<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">&#x4FDD;&#x5B58;&#x672C;CPU&#x5F53;&#x524D;&#x7684;irq&#x72B6;&#x6001;&#xFF0C;disable&#x672C;CPU&#x4E2D;&#x65AD;&#x5E76;&#x83B7;&#x53D6;&#x6307;&#x5B9A;&#x7684;spin lock</span></td>
+<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">&#x4FDD;&#x5B58;&#x672C;CPU&#x7576;&#x524D;&#x7684;irq&#x72C0;&#x614B;&#xFF0C;disable&#x672C;CPU&#x4E2D;&#x65B7;&#x4E26;&#x7372;&#x53D6;&#x6307;&#x5B9A;&#x7684;spin lock</span></td>
 <td valign="top" width="175"><span style="font-family:Microsoft YaHei; font-size:14px">spin_lock_irqsave</span><span style="font-family:Microsoft YaHei; font-size:14px">()</span></td>
 </tr>
 <tr>
-<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">&#x83B7;&#x53D6;&#x6307;&#x5B9A;&#x7684;spin lock&#x540C;&#x65F6;disable&#x672C;CPU&#x7684;bottom half</span></td>
+<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">&#x7372;&#x53D6;&#x6307;&#x5B9A;&#x7684;spin lock&#x540C;&#x6642;disable&#x672C;CPU&#x7684;bottom half</span></td>
 <td valign="top" width="175"><span style="font-family:Microsoft YaHei; font-size:14px">spin_lock_bh</span><span style="font-family:Microsoft YaHei; font-size:14px">()</span></td>
 </tr>
 <tr>
-<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">&#x91CA;&#x653E;&#x6307;&#x5B9A;&#x7684;spin lock</span></td>
+<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">&#x91CB;&#x653E;&#x6307;&#x5B9A;&#x7684;spin lock</span></td>
 <td valign="top" width="175"><span style="font-family:Microsoft YaHei; font-size:14px">spin_unlock</span><span style="font-family:Microsoft YaHei; font-size:14px">()</span></td>
 </tr>
 <tr>
-<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">&#x91CA;&#x653E;&#x6307;&#x5B9A;&#x7684;spin lock&#x540C;&#x65F6;enable&#x672C;CPU&#x4E2D;&#x65AD;</span></td>
+<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">&#x91CB;&#x653E;&#x6307;&#x5B9A;&#x7684;spin lock&#x540C;&#x6642;enable&#x672C;CPU&#x4E2D;&#x65B7;</span></td>
 <td valign="top" width="175"><span style="font-family:Microsoft YaHei; font-size:14px">spin_lock_irq</span><span style="font-family:Microsoft YaHei; font-size:14px">()</span></td>
 </tr>
 <tr>
-<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">&#x91CA;&#x653E;&#x6307;&#x5B9A;&#x7684;spin lock&#x540C;&#x65F6;&#x6062;&#x590D;&#x672C;CPU&#x7684;&#x4E2D;&#x65AD;&#x72B6;&#x6001;</span></td>
+<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">&#x91CB;&#x653E;&#x6307;&#x5B9A;&#x7684;spin lock&#x540C;&#x6642;&#x6062;&#x5FA9;&#x672C;CPU&#x7684;&#x4E2D;&#x65B7;&#x72C0;&#x614B;</span></td>
 <td valign="top" width="175"><span style="font-family:Microsoft YaHei; font-size:14px">spin_lock_irqsave</span><span style="font-family:Microsoft YaHei; font-size:14px">()</span></td>
 </tr>
 <tr>
-<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">&#x83B7;&#x53D6;&#x6307;&#x5B9A;&#x7684;spin lock&#x540C;&#x65F6;enable&#x672C;CPU&#x7684;bottom half</span></td>
+<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">&#x7372;&#x53D6;&#x6307;&#x5B9A;&#x7684;spin lock&#x540C;&#x6642;enable&#x672C;CPU&#x7684;bottom half</span></td>
 <td valign="top" width="175"><span style="font-family:Microsoft YaHei; font-size:14px">spin_unlock_bh</span><span style="font-family:Microsoft YaHei; font-size:14px">()</span></td>
 </tr>
 <tr>
-<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">&#x5C1D;&#x8BD5;&#x53BB;&#x83B7;&#x53D6;spin lock&#xFF0C;&#x5982;&#x679C;&#x5931;&#x8D25;&#xFF0C;&#x4E0D;&#x4F1A;spin&#xFF0C;&#x800C;&#x662F;&#x8FD4;&#x56DE;&#x975E;&#x96F6;&#x503C;</span></td>
+<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">&#x5617;&#x8A66;&#x53BB;&#x7372;&#x53D6;spin lock&#xFF0C;&#x5982;&#x679C;&#x5931;&#x6557;&#xFF0C;&#x4E0D;&#x6703;spin&#xFF0C;&#x800C;&#x662F;&#x8FD4;&#x56DE;&#x975E;&#x96F6;&#x503C;</span></td>
 <td valign="top" width="175"><span style="font-family:Microsoft YaHei; font-size:14px">spin_trylock</span><span style="font-family:Microsoft YaHei; font-size:14px">()</span></td>
 </tr>
 <tr>
-<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">&#x5224;&#x65AD;spin lock&#x662F;&#x5426;&#x662F;locked&#xFF0C;&#x5982;&#x679C;&#x5176;&#x4ED6;&#x7684;thread&#x5DF2;&#x7ECF;&#x83B7;&#x53D6;&#x4E86;&#x8BE5;lock&#xFF0C;&#x90A3;&#x4E48;&#x8FD4;&#x56DE;&#x975E;&#x96F6;&#x503C;&#xFF0C;&#x5426;&#x5219;&#x8FD4;&#x56DE;0</span></td>
+<td valign="top" width="334"><span style="font-family:Microsoft YaHei; font-size:14px">&#x5224;&#x65B7;spin lock&#x662F;&#x5426;&#x662F;locked&#xFF0C;&#x5982;&#x679C;&#x5176;&#x4ED6;&#x7684;thread&#x5DF2;&#x7D93;&#x7372;&#x53D6;&#x4E86;&#x8A72;lock&#xFF0C;&#x90A3;&#x9EBC;&#x8FD4;&#x56DE;&#x975E;&#x96F6;&#x503C;&#xFF0C;&#x5426;&#x5247;&#x8FD4;&#x56DE;0</span></td>
 <td valign="top" width="175"><span style="font-family:Microsoft YaHei; font-size:14px">spin_is_locked</span><span style="font-family:Microsoft YaHei; font-size:14px">()</span></td>
 </tr>
 </tbody>
 </table>
 
 
-<p>&#x81EA;&#x65CB;&#x9501;&#x7684;&#x5B9E;&#x73B0;&#x548C;&#x4F53;&#x7CFB;&#x7ED3;&#x6784;&#x5BC6;&#x5207;&#x76F8;&#x5173;&#xFF0C;&#x4EE3;&#x7801;&#x901A;&#x5E38;&#x901A;&#x8FC7;&#x6C47;&#x7F16;&#x5B9E;&#x73B0;&#x3002;&#x4E0E;&#x4F53;&#x7CFB;&#x7ED3;&#x6784;&#x76F8;&#x5173;&#x7684;&#x90E8;&#x5206;&#x5B9A;&#x4E49;&#x5728;<code>&lt;asm/spinlock.h&gt;</code>,&#x5B9E;&#x9645;&#x9700;&#x8981;&#x7528;&#x5230;&#x7684;&#x63A5;&#x53E3;&#x5B9A;&#x4E49;&#x5728;&#x6587;&#x4EF6;<code>&lt;linux/spinlock.h&gt;</code>&#x4E2D;&#x3002;&#x4E00;&#x4E2A;&#x5B9E;&#x9645;&#x7684;&#x9501;&#x7684;&#x7C7B;&#x578B;&#x4E3A;spinlock_t&#xFF0C;&#x5B9A;&#x4E49;&#x5728;&#x6587;&#x4EF6;<code>&lt;include/linux/spinlock_types.h&gt;</code>&#x4E2D;:</p>
+<p>&#x81EA;&#x65CB;&#x9396;&#x7684;&#x5BE6;&#x73FE;&#x548C;&#x9AD4;&#x7CFB;&#x7D50;&#x69CB;&#x5BC6;&#x5207;&#x76F8;&#x95DC;&#xFF0C;&#x4EE3;&#x78BC;&#x901A;&#x5E38;&#x901A;&#x904E;&#x5F59;&#x7DE8;&#x5BE6;&#x73FE;&#x3002;&#x8207;&#x9AD4;&#x7CFB;&#x7D50;&#x69CB;&#x76F8;&#x95DC;&#x7684;&#x90E8;&#x5206;&#x5B9A;&#x7FA9;&#x5728;<code>&lt;asm/spinlock.h&gt;</code>,&#x5BE6;&#x969B;&#x9700;&#x8981;&#x7528;&#x5230;&#x7684;&#x63A5;&#x53E3;&#x5B9A;&#x7FA9;&#x5728;&#x6587;&#x4EF6;<code>&lt;linux/spinlock.h&gt;</code>&#x4E2D;&#x3002;&#x4E00;&#x500B;&#x5BE6;&#x969B;&#x7684;&#x9396;&#x7684;&#x985E;&#x578B;&#x70BA;spinlock_t&#xFF0C;&#x5B9A;&#x7FA9;&#x5728;&#x6587;&#x4EF6;<code>&lt;include/linux/spinlock_types.h&gt;</code>&#x4E2D;:</p>
 <pre><code class="lang-c"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> {  
     <span class="hljs-keyword">raw_spinlock_t</span> raw_lock;  
 <span class="hljs-preprocessor">#<span class="hljs-keyword">ifdef</span> CONFIG_GENERIC_LOCKBREAK  </span>
@@ -17291,26 +17291,26 @@ set_bit(unsigned int nr, volatile unsigned long *addr)
 <span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span>  </span>
 } <span class="hljs-keyword">spinlock_t</span>;
 </code></pre>
-<p>&#x81EA;&#x65CB;&#x9501;&#x57FA;&#x672C;&#x4F7F;&#x7528;&#x5F62;&#x5F0F;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>&#x81EA;&#x65CB;&#x9396;&#x57FA;&#x672C;&#x4F7F;&#x7528;&#x5F62;&#x5F0F;&#x5982;&#x4E0B;&#xFF1A;</p>
 <pre><code class="lang-c">DEFINE_SPINLOCK(lock);  
 spin_lock(&amp;lock);  
-<span class="hljs-comment">/* &#x4E34;&#x754C;&#x533A; */</span>  
+<span class="hljs-comment">/* &#x81E8;&#x754C;&#x5340; */</span>  
 spin_unlock(&amp;lock);
 </code></pre>
-<p>&#x5B9E;&#x9645;&#x4E0A;&#x6709; 4 &#x4E2A;&#x51FD;&#x6570;&#x53EF;&#x4EE5;&#x52A0;&#x9501;&#x4E00;&#x4E2A;&#x81EA;&#x65CB;&#x9501;:</p>
+<p>&#x5BE6;&#x969B;&#x4E0A;&#x6709; 4 &#x500B;&#x51FD;&#x6578;&#x53EF;&#x4EE5;&#x52A0;&#x9396;&#x4E00;&#x500B;&#x81EA;&#x65CB;&#x9396;:</p>
 <pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">spin_lock</span><span class="hljs-params">(spinlock_t *lock)</span></span>;
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">spin_lock_irq</span><span class="hljs-params">(spinlock_t *lock)</span></span>;    <span class="hljs-comment">//&#x76F8;&#x5F53;&#x4E8E;spin_lock() + local_irq_disable()&#x3002;</span>
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">spin_lock_irqsave</span><span class="hljs-params">(spinlock_t *lock, <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> flags)</span></span>;<span class="hljs-comment">//&#x7981;&#x6B62;&#x4E2D;&#x65AD;(&#x53EA;&#x5728;&#x672C;&#x5730;&#x5904;&#x7406;&#x5668;)&#x5728;&#x83B7;&#x5F97;&#x81EA;&#x65CB;&#x9501;&#x4E4B;&#x524D;; &#x4E4B;&#x524D;&#x7684;&#x4E2D;&#x65AD;&#x72B6;&#x6001;&#x4FDD;&#x5B58;&#x5728; flags&#x91CC;&#x3002;&#x76F8;&#x5F53;&#x4E8E;spin_lock() + local_irq_save()&#x3002;</span>
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">spin_lock_bh</span><span class="hljs-params">(spinlock_t *lock)</span></span>;    <span class="hljs-comment">//&#x83B7;&#x53D6;&#x9501;&#x4E4B;&#x524D;&#x7981;&#x6B62;&#x8F6F;&#x4EF6;&#x4E2D;&#x65AD;,</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">spin_lock_irq</span><span class="hljs-params">(spinlock_t *lock)</span></span>;    <span class="hljs-comment">//&#x76F8;&#x7576;&#x65BC;spin_lock() + local_irq_disable()&#x3002;</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">spin_lock_irqsave</span><span class="hljs-params">(spinlock_t *lock, <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> flags)</span></span>;<span class="hljs-comment">//&#x7981;&#x6B62;&#x4E2D;&#x65B7;(&#x53EA;&#x5728;&#x672C;&#x5730;&#x8655;&#x7406;&#x5668;)&#x5728;&#x7372;&#x5F97;&#x81EA;&#x65CB;&#x9396;&#x4E4B;&#x524D;; &#x4E4B;&#x524D;&#x7684;&#x4E2D;&#x65B7;&#x72C0;&#x614B;&#x4FDD;&#x5B58;&#x5728; flags&#x88E1;&#x3002;&#x76F8;&#x7576;&#x65BC;spin_lock() + local_irq_save()&#x3002;</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">spin_lock_bh</span><span class="hljs-params">(spinlock_t *lock)</span></span>;    <span class="hljs-comment">//&#x7372;&#x53D6;&#x9396;&#x4E4B;&#x524D;&#x7981;&#x6B62;&#x8EDF;&#x4EF6;&#x4E2D;&#x65B7;,</span>
 </code></pre>
-<p>&#x4F46;&#x662F;&#x786C;&#x4EF6;&#x4E2D;&#x65AD;&#x7559;&#x4F5C;&#x6253;&#x5F00;&#x7684;&#xFF0C;&#x76F8;&#x5F53;&#x4E8E;spin_lock() + local_bh_disable()&#x3002;
-&#x4E5F;&#x6709; 4 &#x4E2A;&#x65B9;&#x6CD5;&#x6765;&#x91CA;&#x653E;&#x4E00;&#x4E2A;&#x81EA;&#x65CB;&#x9501;; &#x4F60;&#x7528;&#x7684;&#x90A3;&#x4E2A;&#x5FC5;&#x987B;&#x5BF9;&#x5E94;&#x4F60;&#x7528;&#x6765;&#x83B7;&#x53D6;&#x9501;&#x7684;&#x51FD;&#x6570;.</p>
+<p>&#x4F46;&#x662F;&#x786C;&#x4EF6;&#x4E2D;&#x65B7;&#x7559;&#x4F5C;&#x6253;&#x958B;&#x7684;&#xFF0C;&#x76F8;&#x7576;&#x65BC;spin_lock() + local_bh_disable()&#x3002;
+&#x4E5F;&#x6709; 4 &#x500B;&#x65B9;&#x6CD5;&#x4F86;&#x91CB;&#x653E;&#x4E00;&#x500B;&#x81EA;&#x65CB;&#x9396;; &#x4F60;&#x7528;&#x7684;&#x90A3;&#x500B;&#x5FC5;&#x9808;&#x5C0D;&#x61C9;&#x4F60;&#x7528;&#x4F86;&#x7372;&#x53D6;&#x9396;&#x7684;&#x51FD;&#x6578;.</p>
 <pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">spin_unlock</span><span class="hljs-params">(spinlock_t *lock)</span></span>;
 <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">spin_unlock_irqrestore</span><span class="hljs-params">(spinlock_t *lock, <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> flags)</span></span>;
 <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">spin_unlock_irq</span><span class="hljs-params">(spinlock_t *lock)</span></span>;
 <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">spin_unlock_bh</span><span class="hljs-params">(spinlock_t *lock)</span></span>;
 </code></pre>
-<p>&#x4E0B;&#x9762;&#x770B;&#x4E00;&#x4E0B;DEFINE_SPINLOCK()&#x3001;spin_lock_init()&#x3001;spin_lock()&#x3001;spin_lock_irqsave()&#x7684;&#x5B9E;&#x73B0;&#xFF1A;</p>
+<p>&#x4E0B;&#x9762;&#x770B;&#x4E00;&#x4E0B;DEFINE_SPINLOCK()&#x3001;spin_lock_init()&#x3001;spin_lock()&#x3001;spin_lock_irqsave()&#x7684;&#x5BE6;&#x73FE;&#xFF1A;</p>
 <pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> DEFINE_SPINLOCK(x)    spinlock_t x = __SPIN_LOCK_UNLOCKED(x)  </span>
 
 <span class="hljs-preprocessor"># <span class="hljs-keyword">define</span> spin_lock_init(lock)                    \  </span>
@@ -17344,7 +17344,7 @@ spin_lock:
 {  
     <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> flags;  
 
-    local_irq_save(flags);    <span class="hljs-comment">//spin_lock&#x7684;&#x5B9E;&#x73B0;&#x6CA1;&#x6709;&#x7981;&#x6B62;&#x672C;&#x5730;&#x4E2D;&#x65AD;&#x8FD9;&#x4E00;&#x6B65;  </span>
+    local_irq_save(flags);    <span class="hljs-comment">//spin_lock&#x7684;&#x5BE6;&#x73FE;&#x6C92;&#x6709;&#x7981;&#x6B62;&#x672C;&#x5730;&#x4E2D;&#x65B7;&#x9019;&#x4E00;&#x6B65;  </span>
     preempt_disable();  
     spin_acquire(&amp;lock-&gt;dep_map, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, _RET_IP_);  
 
@@ -17356,15 +17356,15 @@ spin_lock:
     <span class="hljs-keyword">return</span> flags;  
 }
 </code></pre>
-<p>&#x8BFB;&#x5199;&#x81EA;&#x65CB;&#x9501;&#x4E00;&#x79CD;&#x6BD4;&#x81EA;&#x65CB;&#x9501;&#x7C92;&#x5EA6;&#x66F4;&#x5C0F;&#x7684;&#x9501;&#x673A;&#x5236;,&#x5B83;&#x4FDD;&#x7559;&#x4E86;&#x201C;&#x81EA;&#x65CB;&#x201D;&#x7684;&#x6982;&#x5FF5;,&#x4F46;&#x662F;&#x5728;&#x5199;&#x64CD;&#x4F5C;&#x65B9;&#x9762;,&#x53EA;&#x80FD;&#x6700;&#x591A;&#x6709;1&#x4E2A;&#x5199;&#x8FDB;&#x7A0B;,&#x5728;&#x8BFB;&#x64CD;&#x4F5C;&#x65B9;&#x9762;,&#x540C;&#x65F6;&#x53EF;&#x4EE5;&#x6709;&#x591A;&#x4E2A;&#x8BFB;&#x6267;&#x884C;&#x5355;&#x5143;&#x3002;&#x5F53;&#x7136;,&#x8BFB;&#x548C;&#x5199;&#x4E5F;&#x4E0D;&#x80FD;&#x540C;&#x65F6;&#x8FDB;&#x884C;&#x3002;&#x8BFB;&#x8005;&#x5199;&#x8005;&#x9501;&#x6709;&#x4E00;&#x4E2A;&#x7C7B;&#x578B; rwlock_t, &#x5728; <code>&lt;linux/spinlokc.h&gt;</code> &#x4E2D;&#x5B9A;&#x4E49;. &#x5B83;&#x4EEC;&#x53EF;&#x4EE5;&#x4EE5; 2 &#x79CD;&#x65B9;&#x5F0F;&#x88AB;&#x58F0;&#x660E;&#x548C;&#x88AB;&#x521D;&#x59CB;&#x5316;:
-&#x9759;&#x6001;&#x65B9;&#x5F0F;&#xFF1A;</p>
+<p>&#x8B80;&#x5BEB;&#x81EA;&#x65CB;&#x9396;&#x4E00;&#x7A2E;&#x6BD4;&#x81EA;&#x65CB;&#x9396;&#x7C92;&#x5EA6;&#x66F4;&#x5C0F;&#x7684;&#x9396;&#x6A5F;&#x5236;,&#x5B83;&#x4FDD;&#x7559;&#x4E86;&#x201C;&#x81EA;&#x65CB;&#x201D;&#x7684;&#x6982;&#x5FF5;,&#x4F46;&#x662F;&#x5728;&#x5BEB;&#x64CD;&#x4F5C;&#x65B9;&#x9762;,&#x53EA;&#x80FD;&#x6700;&#x591A;&#x6709;1&#x500B;&#x5BEB;&#x9032;&#x7A0B;,&#x5728;&#x8B80;&#x64CD;&#x4F5C;&#x65B9;&#x9762;,&#x540C;&#x6642;&#x53EF;&#x4EE5;&#x6709;&#x591A;&#x500B;&#x8B80;&#x57F7;&#x884C;&#x55AE;&#x5143;&#x3002;&#x7576;&#x7136;,&#x8B80;&#x548C;&#x5BEB;&#x4E5F;&#x4E0D;&#x80FD;&#x540C;&#x6642;&#x9032;&#x884C;&#x3002;&#x8B80;&#x8005;&#x5BEB;&#x8005;&#x9396;&#x6709;&#x4E00;&#x500B;&#x985E;&#x578B; rwlock_t, &#x5728; <code>&lt;linux/spinlokc.h&gt;</code> &#x4E2D;&#x5B9A;&#x7FA9;. &#x5B83;&#x5011;&#x53EF;&#x4EE5;&#x4EE5; 2 &#x7A2E;&#x65B9;&#x5F0F;&#x88AB;&#x8072;&#x660E;&#x548C;&#x88AB;&#x521D;&#x59CB;&#x5316;:
+&#x975C;&#x614B;&#x65B9;&#x5F0F;&#xFF1A;</p>
 <pre><code class="lang-c"><span class="hljs-keyword">rwlock_t</span> my_rwlock = RW_LOCK_UNLOCKED;
 </code></pre>
-<p>&#x52A8;&#x6001;&#x65B9;&#x5F0F;&#xFF1A;</p>
+<p>&#x52D5;&#x614B;&#x65B9;&#x5F0F;&#xFF1A;</p>
 <pre><code class="lang-c"><span class="hljs-keyword">rwlock_t</span> my_rwlock;
 rwlock_init(&amp;my_rwlock);
 </code></pre>
-<p>&#x53EF;&#x7528;&#x51FD;&#x6570;&#x7684;&#x5217;&#x8868;&#x73B0;&#x5728;&#x5E94;&#x5F53;&#x770B;&#x6765;&#x76F8;&#x5F53;&#x7C7B;&#x4F3C;&#x3002; &#x5BF9;&#x4E8E;&#x8BFB;&#x8005;, &#x6709;&#x4E0B;&#x5217;&#x51FD;&#x6570;&#x53EF;&#x7528;:</p>
+<p>&#x53EF;&#x7528;&#x51FD;&#x6578;&#x7684;&#x5217;&#x8868;&#x73FE;&#x5728;&#x61C9;&#x7576;&#x770B;&#x4F86;&#x76F8;&#x7576;&#x985E;&#x4F3C;&#x3002; &#x5C0D;&#x65BC;&#x8B80;&#x8005;, &#x6709;&#x4E0B;&#x5217;&#x51FD;&#x6578;&#x53EF;&#x7528;:</p>
 <pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">read_lock</span><span class="hljs-params">(rwlock_t *lock)</span></span>;
 <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">read_lock_irqsave</span><span class="hljs-params">(rwlock_t *lock, <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> flags)</span></span>;
 <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">read_lock_irq</span><span class="hljs-params">(rwlock_t *lock)</span></span>;
@@ -17374,7 +17374,7 @@ rwlock_init(&amp;my_rwlock);
 <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">read_unlock_irq</span><span class="hljs-params">(rwlock_t *lock)</span></span>;
 <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">read_unlock_bh</span><span class="hljs-params">(rwlock_t *lock)</span></span>;
 </code></pre>
-<p>&#x5BF9;&#x4E8E;&#x5199;&#x5B58;&#x53D6;&#x7684;&#x51FD;&#x6570;&#x662F;&#x7C7B;&#x4F3C;&#x7684;:</p>
+<p>&#x5C0D;&#x65BC;&#x5BEB;&#x5B58;&#x53D6;&#x7684;&#x51FD;&#x6578;&#x662F;&#x985E;&#x4F3C;&#x7684;:</p>
 <pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">write_lock</span><span class="hljs-params">(rwlock_t *lock)</span></span>;
 <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">write_lock_irqsave</span><span class="hljs-params">(rwlock_t *lock, <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> flags)</span></span>;
 <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">write_lock_irq</span><span class="hljs-params">(rwlock_t *lock)</span></span>;
@@ -17385,22 +17385,22 @@ rwlock_init(&amp;my_rwlock);
 <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">write_unlock_irq</span><span class="hljs-params">(rwlock_t *lock)</span></span>;
 <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">write_unlock_bh</span><span class="hljs-params">(rwlock_t *lock)</span></span>;
 </code></pre>
-<p>&#x5728;&#x4E0E;&#x4E0B;&#x534A;&#x90E8;&#x914D;&#x5408;&#x4F7F;&#x7528;&#x65F6;&#xFF0C;&#x9501;&#x673A;&#x5236;&#x5FC5;&#x987B;&#x8981;&#x5C0F;&#x5FC3;&#x4F7F;&#x7528;&#x3002;&#x7531;&#x4E8E;&#x4E0B;&#x534A;&#x90E8;&#x53EF;&#x4EE5;&#x62A2;&#x5360;&#x8FDB;&#x7A0B;&#x4E0A;&#x4E0B;&#x6587;&#x7684;&#x4EE3;&#x7801;&#xFF0C;&#x6240;&#x4EE5;&#x5F53;&#x4E0B;&#x534A;&#x90E8;&#x548C;&#x8FDB;&#x7A0B;&#x4E0A;&#x4E0B;&#x6587;&#x5171;&#x4EAB;&#x6570;&#x636E;&#x65F6;&#xFF0C;&#x5FC5;&#x987B;&#x5BF9;&#x8FDB;&#x7A0B;&#x4E0A;&#x4E0B;&#x6587;&#x7684;&#x5171;&#x4EAB;&#x6570;&#x636E;&#x8FDB;&#x884C;&#x4FDD;&#x62A4;&#xFF0C;&#x6240;&#x4EE5;&#x9700;&#x8981;&#x52A0;&#x9501;&#x7684;&#x540C;&#x65F6;&#x8FD8;&#x8981;&#x7981;&#x6B62;&#x4E0B;&#x534A;&#x90E8;&#x6267;&#x884C;&#x3002;&#x540C;&#x6837;&#x7684;&#xFF0C;&#x7531;&#x4E8E;&#x4E2D;&#x65AD;&#x5904;&#x7406;&#x5668;&#x53EF;&#x4EE5;&#x62A2;&#x5360;&#x4E0B;&#x534A;&#x90E8;&#xFF0C;&#x6240;&#x4EE5;&#x5982;&#x679C;&#x4E2D;&#x65AD;&#x5904;&#x7406;&#x5668;&#x7A0B;&#x5E8F;&#x548C;&#x4E0B;&#x534A;&#x90E8;&#x5171;&#x4EAB;&#x6570;&#x636E;&#xFF0C;&#x90A3;&#x4E48;&#x5C31;&#x5FC5;&#x987B;&#x5728;&#x83B7;&#x53D6;&#x6070;&#x5F53;&#x7684;&#x9501;&#x7684;&#x540C;&#x65F6;&#x8FD8;&#x8981;&#x7981;&#x6B62;&#x4E2D;&#x65AD;&#x3002; &#x540C;&#x7C7B;&#x7684;tasklet&#x4E0D;&#x53EF;&#x80FD;&#x540C;&#x65F6;&#x8FD0;&#x884C;&#xFF0C;&#x6240;&#x4EE5;&#x5BF9;&#x4E8E;&#x540C;&#x7C7B;tasklet&#x4E2D;&#x7684;&#x5171;&#x4EAB;&#x6570;&#x636E;&#x4E0D;&#x9700;&#x8981;&#x4FDD;&#x62A4;&#xFF0C;&#x4F46;&#x662F;&#x5F53;&#x6570;&#x636E;&#x88AB;&#x4E24;&#x4E2A;&#x4E0D;&#x540C;&#x79CD;&#x7C7B;&#x7684;tasklet&#x5171;&#x4EAB;&#x65F6;&#xFF0C;&#x5C31;&#x9700;&#x8981;&#x5728;&#x8BBF;&#x95EE;&#x4E0B;&#x534A;&#x90E8;&#x4E2D;&#x7684;&#x6570;&#x636E;&#x524D;&#x5148;&#x83B7;&#x5F97;&#x4E00;&#x4E2A;&#x666E;&#x901A;&#x7684;&#x81EA;&#x65CB;&#x9501;&#x3002;&#x7531;&#x4E8E;&#x540C;&#x79CD;&#x7C7B;&#x578B;&#x7684;&#x4E24;&#x4E2A;&#x8F6F;&#x4E2D;&#x65AD;&#x4E5F;&#x53EF;&#x4EE5;&#x540C;&#x65F6;&#x8FD0;&#x884C;&#x5728;&#x4E00;&#x4E2A;&#x7CFB;&#x7EDF;&#x7684;&#x591A;&#x4E2A;&#x5904;&#x7406;&#x5668;&#x4E0A;&#xFF0C;&#x6240;&#x4EE5;&#x88AB;&#x8F6F;&#x4E2D;&#x65AD;&#x5171;&#x4EAB;&#x7684;&#x6570;&#x636E;&#x5FC5;&#x987B;&#x5F97;&#x5230;&#x9501;&#x7684;&#x4FDD;&#x62A4;&#x3002;</p>
-<p><code>3.</code> &#x4FE1;&#x53F7;&#x91CF;</p>
-<p>&#x4E00;&#x4E2A;&#x88AB;&#x5360;&#x6709;&#x7684;&#x81EA;&#x65CB;&#x9501;&#x4F7F;&#x5F97;&#x8BF7;&#x6C42;&#x5B83;&#x7684;&#x7EBF;&#x7A0B;&#x5FAA;&#x73AF;&#x7B49;&#x5F85;&#x800C;&#x4E0D;&#x4F1A;&#x7761;&#x7720;&#xFF0C;&#x8FD9;&#x5F88;&#x6D6A;&#x8D39;&#x5904;&#x7406;&#x5668;&#x65F6;&#x95F4;&#xFF0C;&#x6240;&#x4EE5;&#x81EA;&#x65CB;&#x9501;&#x4F7F;&#x7528;&#x6BB5;&#x65F6;&#x95F4;&#x5360;&#x6709;&#x7684;&#x60C5;&#x51B5;&#x3002;linux&#x63D0;&#x4F9B;&#x53E6;&#x5916;&#x7684;&#x540C;&#x6B65;&#x65B9;&#x5F0F;&#x53EF;&#x4EE5;&#x5728;&#x9501;&#x4E89;&#x7528;&#x65F6;&#x8BA9;&#x8BF7;&#x6C42;&#x7EBF;&#x7A0B;&#x7761;&#x7720;&#xFF0C;&#x76F4;&#x5230;&#x9501;&#x91CD;&#x65B0;&#x53EF;&#x7528;&#x65F6;&#x5728;&#x5524;&#x9192;&#x5B83;&#xFF0C;&#x8FD9;&#x6837;&#x5904;&#x7406;&#x5668;&#x5C31;&#x4E0D;&#x5FC5;&#x5FAA;&#x73AF;&#x7B49;&#x5F85;&#xFF0C;&#x53EF;&#x4EE5;&#x53BB;&#x6267;&#x884C;&#x5176;&#x5B83;&#x4EE3;&#x7801;&#x3002;&#x8FD9;&#x79CD;&#x65B9;&#x5F0F;&#x5C31;&#x662F;&#x5373;&#x5C06;&#x8BA8;&#x8BBA;&#x7684;&#x4FE1;&#x53F7;&#x91CF;&#x3002;</p>
-<p>&#x4FE1;&#x53F7;&#x91CF;&#x662F;&#x4E00;&#x79CD;&#x7761;&#x7720;&#x9501;&#xFF0C;&#x5982;&#x679C;&#x6709;&#x4E00;&#x4E2A;&#x4EFB;&#x52A1;&#x8BD5;&#x56FE;&#x83B7;&#x5F97;&#x4E00;&#x4E2A;&#x5DF2;&#x7ECF;&#x88AB;&#x5360;&#x7528;&#x7684;&#x4FE1;&#x53F7;&#x91CF;&#x65F6;&#xFF0C;&#x4FE1;&#x53F7;&#x91CF;&#x4F1A;&#x5C06;&#x5176;&#x653E;&#x5165;&#x4E00;&#x4E2A;&#x7B49;&#x5F85;&#x961F;&#x5217;&#xFF0C;&#x7136;&#x540E;&#x7761;&#x7720;&#x3002;&#x5F53;&#x6301;&#x6709;&#x7684;&#x4FE1;&#x53F7;&#x91CF;&#x88AB;&#x91CA;&#x653E;&#x540E;&#xFF0C;&#x5904;&#x4E8E;&#x7B49;&#x5F85;&#x961F;&#x5217;&#x4E2D;&#x7684;&#x90A3;&#x4E2A;&#x4EFB;&#x52A1;&#x5C06;&#x88AB;&#x5524;&#x9192;&#xFF0C;&#x5E76;&#x83B7;&#x5F97;&#x4FE1;&#x53F7;&#x91CF;&#x3002;&#x4FE1;&#x53F7;&#x91CF;&#x6BD4;&#x81EA;&#x65CB;&#x9501;&#x63D0;&#x4F9B;&#x4E86;&#x66F4;&#x597D;&#x7684;&#x5904;&#x7406;&#x5668;&#x5229;&#x7528;&#x7387;&#xFF0C;&#x56E0;&#x4E3A;&#x6CA1;&#x6709;&#x628A;&#x65F6;&#x95F4;&#x82B1;&#x8D39;&#x5728;&#x5FD9;&#x7B49;&#x5E26;&#x4E0A;&#x3002;&#x4F46;&#x662F;&#x4FE1;&#x53F7;&#x91CF;&#x4E5F;&#x4F1A;&#x6709;&#x4E00;&#x5B9A;&#x7684;&#x5F00;&#x9500;&#xFF0C;&#x88AB;&#x963B;&#x585E;&#x7684;&#x7EBF;&#x7A0B;&#x6362;&#x5165;&#x6362;&#x51FA;&#x6709;&#x4E24;&#x6B21;&#x660E;&#x663E;&#x7684;&#x4E0A;&#x4E0B;&#x6587;&#x5207;&#x6362;&#xFF0C;&#x8FD9;&#x6837;&#x7684;&#x5F00;&#x9500;&#x6BD4;&#x81EA;&#x65CB;&#x9501;&#x8981;&#x5927;&#x7684;&#x591A;&#x3002;</p>
-<p>&#x5982;&#x679C;&#x9700;&#x8981;&#x5728;&#x81EA;&#x65CB;&#x9501;&#x548C;&#x4FE1;&#x53F7;&#x91CF;&#x4E2D;&#x505A;&#x51FA;&#x9009;&#x62E9;&#xFF0C;&#x5E94;&#x8BE5;&#x6839;&#x636E;&#x9501;&#x88AB;&#x6301;&#x6709;&#x7684;&#x65F6;&#x95F4;&#x957F;&#x77ED;&#x505A;&#x5224;&#x65AD;&#xFF0C;&#x5982;&#x679C;&#x52A0;&#x9501;&#x65F6;&#x95F4;&#x4E0D;&#x957F;&#x5E76;&#x4E14;&#x4EE3;&#x7801;&#x4E0D;&#x4F1A;&#x4F11;&#x7720;&#xFF0C;&#x5229;&#x7528;&#x81EA;&#x65CB;&#x9501;&#x662F;&#x6700;&#x4F73;&#x9009;&#x62E9;&#x3002;&#x76F8;&#x53CD;&#xFF0C;&#x5982;&#x679C;&#x52A0;&#x9501;&#x65F6;&#x95F4;&#x53EF;&#x80FD;&#x5F88;&#x957F;&#x6216;&#x8005;&#x4EE3;&#x7801;&#x5728;&#x6301;&#x6709;&#x9501;&#x6709;&#x53EF;&#x80FD;&#x7761;&#x7720;&#xFF0C;&#x90A3;&#x4E48;&#x6700;&#x597D;&#x4F7F;&#x7528;&#x4FE1;&#x53F7;&#x91CF;&#x6765;&#x5B8C;&#x6210;&#x52A0;&#x9501;&#x529F;&#x80FD;&#x3002;&#x4FE1;&#x53F7;&#x91CF;&#x4E00;&#x4E2A;&#x6709;&#x7528;&#x7279;&#x6027;&#x5C31;&#x662F;&#x5B83;&#x53EF;&#x4EE5;&#x540C;&#x65F6;&#x5141;&#x8BB8;&#x4EFB;&#x610F;&#x6570;&#x91CF;&#x7684;&#x9501;&#x6301;&#x6709;&#x8005;&#xFF0C;&#x800C;&#x81EA;&#x65CB;&#x9501;&#x5728;&#x4E00;&#x4E2A;&#x65F6;&#x523B;&#x6700;&#x591A;&#x5141;&#x8BB8;&#x4E00;&#x4E2A;&#x4EFB;&#x52A1;&#x6301;&#x6709;&#x5B83;&#x3002;&#x4FE1;&#x53F7;&#x91CF;&#x540C;&#x65F6;&#x5141;&#x8BB8;&#x7684;&#x6301;&#x6709;&#x8005;&#x6570;&#x91CF;&#x53EF;&#x4EE5;&#x5728;&#x58F0;&#x660E;&#x4FE1;&#x53F7;&#x91CF;&#x65F6;&#x6307;&#x5B9A;&#xFF0C;&#x5F53;&#x4E3A;1&#x65F6;&#xFF0C;&#x6210;&#x4E3A;&#x4E92;&#x65A5;&#x4FE1;&#x53F7;&#x91CF;&#xFF0C;&#x5426;&#x5219;&#x6210;&#x4E3A;&#x8BA1;&#x6570;&#x4FE1;&#x53F7;&#x91CF;&#x3002;</p>
-<p>&#x4FE1;&#x53F7;&#x91CF;&#x7684;&#x5B9E;&#x73B0;&#x4E0E;&#x4F53;&#x7CFB;&#x7ED3;&#x6784;&#x76F8;&#x5173;&#xFF0C;&#x4FE1;&#x53F7;&#x91CF;&#x4F7F;&#x7528;struct semaphore&#x7C7B;&#x578B;&#x7528;&#x6765;&#x8868;&#x793A;&#x4FE1;&#x53F7;&#x91CF;&#xFF0C;&#x5B9A;&#x4E49;&#x4E8E;&#x6587;&#x4EF6;<code>&lt;include/linux/semaphore.h&gt;</code>&#x4E2D;:</p>
+<p>&#x5728;&#x8207;&#x4E0B;&#x534A;&#x90E8;&#x914D;&#x5408;&#x4F7F;&#x7528;&#x6642;&#xFF0C;&#x9396;&#x6A5F;&#x5236;&#x5FC5;&#x9808;&#x8981;&#x5C0F;&#x5FC3;&#x4F7F;&#x7528;&#x3002;&#x7531;&#x65BC;&#x4E0B;&#x534A;&#x90E8;&#x53EF;&#x4EE5;&#x6436;&#x4F54;&#x9032;&#x7A0B;&#x4E0A;&#x4E0B;&#x6587;&#x7684;&#x4EE3;&#x78BC;&#xFF0C;&#x6240;&#x4EE5;&#x7576;&#x4E0B;&#x534A;&#x90E8;&#x548C;&#x9032;&#x7A0B;&#x4E0A;&#x4E0B;&#x6587;&#x5171;&#x4EAB;&#x6578;&#x64DA;&#x6642;&#xFF0C;&#x5FC5;&#x9808;&#x5C0D;&#x9032;&#x7A0B;&#x4E0A;&#x4E0B;&#x6587;&#x7684;&#x5171;&#x4EAB;&#x6578;&#x64DA;&#x9032;&#x884C;&#x4FDD;&#x8B77;&#xFF0C;&#x6240;&#x4EE5;&#x9700;&#x8981;&#x52A0;&#x9396;&#x7684;&#x540C;&#x6642;&#x9084;&#x8981;&#x7981;&#x6B62;&#x4E0B;&#x534A;&#x90E8;&#x57F7;&#x884C;&#x3002;&#x540C;&#x6A23;&#x7684;&#xFF0C;&#x7531;&#x65BC;&#x4E2D;&#x65B7;&#x8655;&#x7406;&#x5668;&#x53EF;&#x4EE5;&#x6436;&#x4F54;&#x4E0B;&#x534A;&#x90E8;&#xFF0C;&#x6240;&#x4EE5;&#x5982;&#x679C;&#x4E2D;&#x65B7;&#x8655;&#x7406;&#x5668;&#x7A0B;&#x5E8F;&#x548C;&#x4E0B;&#x534A;&#x90E8;&#x5171;&#x4EAB;&#x6578;&#x64DA;&#xFF0C;&#x90A3;&#x9EBC;&#x5C31;&#x5FC5;&#x9808;&#x5728;&#x7372;&#x53D6;&#x6070;&#x7576;&#x7684;&#x9396;&#x7684;&#x540C;&#x6642;&#x9084;&#x8981;&#x7981;&#x6B62;&#x4E2D;&#x65B7;&#x3002; &#x540C;&#x985E;&#x7684;tasklet&#x4E0D;&#x53EF;&#x80FD;&#x540C;&#x6642;&#x904B;&#x884C;&#xFF0C;&#x6240;&#x4EE5;&#x5C0D;&#x65BC;&#x540C;&#x985E;tasklet&#x4E2D;&#x7684;&#x5171;&#x4EAB;&#x6578;&#x64DA;&#x4E0D;&#x9700;&#x8981;&#x4FDD;&#x8B77;&#xFF0C;&#x4F46;&#x662F;&#x7576;&#x6578;&#x64DA;&#x88AB;&#x5169;&#x500B;&#x4E0D;&#x540C;&#x7A2E;&#x985E;&#x7684;tasklet&#x5171;&#x4EAB;&#x6642;&#xFF0C;&#x5C31;&#x9700;&#x8981;&#x5728;&#x8A2A;&#x554F;&#x4E0B;&#x534A;&#x90E8;&#x4E2D;&#x7684;&#x6578;&#x64DA;&#x524D;&#x5148;&#x7372;&#x5F97;&#x4E00;&#x500B;&#x666E;&#x901A;&#x7684;&#x81EA;&#x65CB;&#x9396;&#x3002;&#x7531;&#x65BC;&#x540C;&#x7A2E;&#x985E;&#x578B;&#x7684;&#x5169;&#x500B;&#x8EDF;&#x4E2D;&#x65B7;&#x4E5F;&#x53EF;&#x4EE5;&#x540C;&#x6642;&#x904B;&#x884C;&#x5728;&#x4E00;&#x500B;&#x7CFB;&#x7D71;&#x7684;&#x591A;&#x500B;&#x8655;&#x7406;&#x5668;&#x4E0A;&#xFF0C;&#x6240;&#x4EE5;&#x88AB;&#x8EDF;&#x4E2D;&#x65B7;&#x5171;&#x4EAB;&#x7684;&#x6578;&#x64DA;&#x5FC5;&#x9808;&#x5F97;&#x5230;&#x9396;&#x7684;&#x4FDD;&#x8B77;&#x3002;</p>
+<p><code>3.</code> &#x4FE1;&#x865F;&#x91CF;</p>
+<p>&#x4E00;&#x500B;&#x88AB;&#x4F54;&#x6709;&#x7684;&#x81EA;&#x65CB;&#x9396;&#x4F7F;&#x5F97;&#x8ACB;&#x6C42;&#x5B83;&#x7684;&#x7DDA;&#x7A0B;&#x5FAA;&#x74B0;&#x7B49;&#x5F85;&#x800C;&#x4E0D;&#x6703;&#x7761;&#x7720;&#xFF0C;&#x9019;&#x5F88;&#x6D6A;&#x8CBB;&#x8655;&#x7406;&#x5668;&#x6642;&#x9593;&#xFF0C;&#x6240;&#x4EE5;&#x81EA;&#x65CB;&#x9396;&#x4F7F;&#x7528;&#x6BB5;&#x6642;&#x9593;&#x4F54;&#x6709;&#x7684;&#x60C5;&#x6CC1;&#x3002;linux&#x63D0;&#x4F9B;&#x53E6;&#x5916;&#x7684;&#x540C;&#x6B65;&#x65B9;&#x5F0F;&#x53EF;&#x4EE5;&#x5728;&#x9396;&#x722D;&#x7528;&#x6642;&#x8B93;&#x8ACB;&#x6C42;&#x7DDA;&#x7A0B;&#x7761;&#x7720;&#xFF0C;&#x76F4;&#x5230;&#x9396;&#x91CD;&#x65B0;&#x53EF;&#x7528;&#x6642;&#x5728;&#x559A;&#x9192;&#x5B83;&#xFF0C;&#x9019;&#x6A23;&#x8655;&#x7406;&#x5668;&#x5C31;&#x4E0D;&#x5FC5;&#x5FAA;&#x74B0;&#x7B49;&#x5F85;&#xFF0C;&#x53EF;&#x4EE5;&#x53BB;&#x57F7;&#x884C;&#x5176;&#x5B83;&#x4EE3;&#x78BC;&#x3002;&#x9019;&#x7A2E;&#x65B9;&#x5F0F;&#x5C31;&#x662F;&#x5373;&#x5C07;&#x8A0E;&#x8AD6;&#x7684;&#x4FE1;&#x865F;&#x91CF;&#x3002;</p>
+<p>&#x4FE1;&#x865F;&#x91CF;&#x662F;&#x4E00;&#x7A2E;&#x7761;&#x7720;&#x9396;&#xFF0C;&#x5982;&#x679C;&#x6709;&#x4E00;&#x500B;&#x4EFB;&#x52D9;&#x8A66;&#x5716;&#x7372;&#x5F97;&#x4E00;&#x500B;&#x5DF2;&#x7D93;&#x88AB;&#x4F54;&#x7528;&#x7684;&#x4FE1;&#x865F;&#x91CF;&#x6642;&#xFF0C;&#x4FE1;&#x865F;&#x91CF;&#x6703;&#x5C07;&#x5176;&#x653E;&#x5165;&#x4E00;&#x500B;&#x7B49;&#x5F85;&#x968A;&#x5217;&#xFF0C;&#x7136;&#x5F8C;&#x7761;&#x7720;&#x3002;&#x7576;&#x6301;&#x6709;&#x7684;&#x4FE1;&#x865F;&#x91CF;&#x88AB;&#x91CB;&#x653E;&#x5F8C;&#xFF0C;&#x8655;&#x65BC;&#x7B49;&#x5F85;&#x968A;&#x5217;&#x4E2D;&#x7684;&#x90A3;&#x500B;&#x4EFB;&#x52D9;&#x5C07;&#x88AB;&#x559A;&#x9192;&#xFF0C;&#x4E26;&#x7372;&#x5F97;&#x4FE1;&#x865F;&#x91CF;&#x3002;&#x4FE1;&#x865F;&#x91CF;&#x6BD4;&#x81EA;&#x65CB;&#x9396;&#x63D0;&#x4F9B;&#x4E86;&#x66F4;&#x597D;&#x7684;&#x8655;&#x7406;&#x5668;&#x5229;&#x7528;&#x7387;&#xFF0C;&#x56E0;&#x70BA;&#x6C92;&#x6709;&#x628A;&#x6642;&#x9593;&#x82B1;&#x8CBB;&#x5728;&#x5FD9;&#x7B49;&#x5E36;&#x4E0A;&#x3002;&#x4F46;&#x662F;&#x4FE1;&#x865F;&#x91CF;&#x4E5F;&#x6703;&#x6709;&#x4E00;&#x5B9A;&#x7684;&#x958B;&#x92B7;&#xFF0C;&#x88AB;&#x963B;&#x585E;&#x7684;&#x7DDA;&#x7A0B;&#x63DB;&#x5165;&#x63DB;&#x51FA;&#x6709;&#x5169;&#x6B21;&#x660E;&#x986F;&#x7684;&#x4E0A;&#x4E0B;&#x6587;&#x5207;&#x63DB;&#xFF0C;&#x9019;&#x6A23;&#x7684;&#x958B;&#x92B7;&#x6BD4;&#x81EA;&#x65CB;&#x9396;&#x8981;&#x5927;&#x7684;&#x591A;&#x3002;</p>
+<p>&#x5982;&#x679C;&#x9700;&#x8981;&#x5728;&#x81EA;&#x65CB;&#x9396;&#x548C;&#x4FE1;&#x865F;&#x91CF;&#x4E2D;&#x505A;&#x51FA;&#x9078;&#x64C7;&#xFF0C;&#x61C9;&#x8A72;&#x6839;&#x64DA;&#x9396;&#x88AB;&#x6301;&#x6709;&#x7684;&#x6642;&#x9593;&#x9577;&#x77ED;&#x505A;&#x5224;&#x65B7;&#xFF0C;&#x5982;&#x679C;&#x52A0;&#x9396;&#x6642;&#x9593;&#x4E0D;&#x9577;&#x4E26;&#x4E14;&#x4EE3;&#x78BC;&#x4E0D;&#x6703;&#x4F11;&#x7720;&#xFF0C;&#x5229;&#x7528;&#x81EA;&#x65CB;&#x9396;&#x662F;&#x6700;&#x4F73;&#x9078;&#x64C7;&#x3002;&#x76F8;&#x53CD;&#xFF0C;&#x5982;&#x679C;&#x52A0;&#x9396;&#x6642;&#x9593;&#x53EF;&#x80FD;&#x5F88;&#x9577;&#x6216;&#x8005;&#x4EE3;&#x78BC;&#x5728;&#x6301;&#x6709;&#x9396;&#x6709;&#x53EF;&#x80FD;&#x7761;&#x7720;&#xFF0C;&#x90A3;&#x9EBC;&#x6700;&#x597D;&#x4F7F;&#x7528;&#x4FE1;&#x865F;&#x91CF;&#x4F86;&#x5B8C;&#x6210;&#x52A0;&#x9396;&#x529F;&#x80FD;&#x3002;&#x4FE1;&#x865F;&#x91CF;&#x4E00;&#x500B;&#x6709;&#x7528;&#x7279;&#x6027;&#x5C31;&#x662F;&#x5B83;&#x53EF;&#x4EE5;&#x540C;&#x6642;&#x5141;&#x8A31;&#x4EFB;&#x610F;&#x6578;&#x91CF;&#x7684;&#x9396;&#x6301;&#x6709;&#x8005;&#xFF0C;&#x800C;&#x81EA;&#x65CB;&#x9396;&#x5728;&#x4E00;&#x500B;&#x6642;&#x523B;&#x6700;&#x591A;&#x5141;&#x8A31;&#x4E00;&#x500B;&#x4EFB;&#x52D9;&#x6301;&#x6709;&#x5B83;&#x3002;&#x4FE1;&#x865F;&#x91CF;&#x540C;&#x6642;&#x5141;&#x8A31;&#x7684;&#x6301;&#x6709;&#x8005;&#x6578;&#x91CF;&#x53EF;&#x4EE5;&#x5728;&#x8072;&#x660E;&#x4FE1;&#x865F;&#x91CF;&#x6642;&#x6307;&#x5B9A;&#xFF0C;&#x7576;&#x70BA;1&#x6642;&#xFF0C;&#x6210;&#x70BA;&#x4E92;&#x65A5;&#x4FE1;&#x865F;&#x91CF;&#xFF0C;&#x5426;&#x5247;&#x6210;&#x70BA;&#x8A08;&#x6578;&#x4FE1;&#x865F;&#x91CF;&#x3002;</p>
+<p>&#x4FE1;&#x865F;&#x91CF;&#x7684;&#x5BE6;&#x73FE;&#x8207;&#x9AD4;&#x7CFB;&#x7D50;&#x69CB;&#x76F8;&#x95DC;&#xFF0C;&#x4FE1;&#x865F;&#x91CF;&#x4F7F;&#x7528;struct semaphore&#x985E;&#x578B;&#x7528;&#x4F86;&#x8868;&#x793A;&#x4FE1;&#x865F;&#x91CF;&#xFF0C;&#x5B9A;&#x7FA9;&#x65BC;&#x6587;&#x4EF6;<code>&lt;include/linux/semaphore.h&gt;</code>&#x4E2D;:</p>
 <pre><code class="lang-c"><span class="hljs-keyword">struct</span> semaphore {  
      <span class="hljs-keyword">spinlock_t</span>        lock;  
      <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>        count;  
      <span class="hljs-keyword">struct</span> list_head    wait_list;  
 };
 </code></pre>
-<p>&#x4FE1;&#x53F7;&#x91CF;&#x521D;&#x59CB;&#x5316;&#x65B9;&#x6CD5;&#x6709;&#x5982;&#x4E0B;:
+<p>&#x4FE1;&#x865F;&#x91CF;&#x521D;&#x59CB;&#x5316;&#x65B9;&#x6CD5;&#x6709;&#x5982;&#x4E0B;:
 &#x65B9;&#x6CD5;&#x4E00;:</p>
 <pre><code class="lang-c"><span class="hljs-keyword">struct</span> semaphore sem;    
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">sema_init</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> semaphore *sem, <span class="hljs-keyword">int</span> val)</span></span>;<span class="hljs-comment">//&#x521D;&#x59CB;&#x5316;&#x4FE1;&#x53F7;&#x91CF;,&#x5E76;&#x8BBE;&#x7F6E;&#x4FE1;&#x53F7;&#x91CF; sem &#x7684;&#x503C;&#x4E3A; val&#x3002;</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">sema_init</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> semaphore *sem, <span class="hljs-keyword">int</span> val)</span></span>;<span class="hljs-comment">//&#x521D;&#x59CB;&#x5316;&#x4FE1;&#x865F;&#x91CF;,&#x4E26;&#x8A2D;&#x7F6E;&#x4FE1;&#x865F;&#x91CF; sem &#x7684;&#x503C;&#x70BA; val&#x3002;</span>
 </code></pre>
 <pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">inline</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sema_init</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> semaphore *sem, <span class="hljs-keyword">int</span> val)</span>  
 </span>{  
@@ -17413,33 +17413,33 @@ rwlock_init(&amp;my_rwlock);
 <pre><code class="lang-c">DECLARE_MUTEX(name);  
 `
 </code></pre>
-<p>&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;&#x540D;&#x4E3A; name &#x7684;&#x4FE1;&#x53F7;&#x91CF;&#x5E76;&#x521D;&#x59CB;&#x5316;&#x4E3A;1&#x3002;
-&#x5176;&#x5B9E;&#x73B0;&#x4E3A;:</p>
+<p>&#x5B9A;&#x7FA9;&#x4E00;&#x500B;&#x540D;&#x70BA; name &#x7684;&#x4FE1;&#x865F;&#x91CF;&#x4E26;&#x521D;&#x59CB;&#x5316;&#x70BA;1&#x3002;
+&#x5176;&#x5BE6;&#x73FE;&#x70BA;:</p>
 <pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> DECLARE_MUTEX(name)    \  </span>
     <span class="hljs-keyword">struct</span> semaphore name = __SEMAPHORE_INITIALIZER(name, <span class="hljs-number">1</span>)
 </code></pre>
 <p>&#x65B9;&#x6CD5;&#x4E09;:</p>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> init_MUTEX(sem)        sema_init(sem, <span class="hljs-number">1</span>)    <span class="hljs-comment">//&#x4EE5;&#x4E0D;&#x52A0;&#x9501;&#x72B6;&#x6001;&#x52A8;&#x6001;&#x521B;&#x5EFA;&#x4FE1;&#x53F7;&#x91CF;  </span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> init_MUTEX_LOCKED(sem)    sema_init(sem, <span class="hljs-number">0</span>)    <span class="hljs-comment">//&#x4EE5;&#x52A0;&#x9501;&#x72B6;&#x6001;&#x52A8;&#x6001;&#x521B;&#x5EFA;&#x4FE1;&#x53F7;&#x91CF;</span></span>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> init_MUTEX(sem)        sema_init(sem, <span class="hljs-number">1</span>)    <span class="hljs-comment">//&#x4EE5;&#x4E0D;&#x52A0;&#x9396;&#x72C0;&#x614B;&#x52D5;&#x614B;&#x5275;&#x5EFA;&#x4FE1;&#x865F;&#x91CF;  </span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> init_MUTEX_LOCKED(sem)    sema_init(sem, <span class="hljs-number">0</span>)    <span class="hljs-comment">//&#x4EE5;&#x52A0;&#x9396;&#x72C0;&#x614B;&#x52D5;&#x614B;&#x5275;&#x5EFA;&#x4FE1;&#x865F;&#x91CF;</span></span>
 </code></pre>
-<p>&#x4FE1;&#x53F7;&#x91CF;&#x521D;&#x59CB;&#x5316;&#x540E;&#x5C31;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x4E86;&#xFF0C;&#x4F7F;&#x7528;&#x4FE1;&#x53F7;&#x91CF;&#x4E3B;&#x8981;&#x6709;&#x5982;&#x4E0B;&#x65B9;&#x6CD5;:</p>
-<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">down</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> semaphore * sem)</span></span>;<span class="hljs-comment">//&#x8BE5;&#x51FD;&#x6570;&#x7528;&#x4E8E;&#x83B7;&#x5F97;&#x4FE1;&#x53F7;&#x91CF; sem&#xFF0C;&#x5B83;&#x4F1A;&#x5BFC;&#x81F4;&#x7761;&#x7720;&#xFF0C;&#x56E0;&#x6B64;&#x4E0D;&#x80FD;&#x5728;&#x4E2D;&#x65AD;&#x4E0A;&#x4E0B;&#x6587;&#x4F7F;&#x7528;;    </span>
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">down_interruptible</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> semaphore * sem)</span></span>;<span class="hljs-comment">//&#x8BE5;&#x51FD;&#x6570;&#x529F;&#x80FD;&#x4E0E; down &#x7C7B;&#x4F3C;&#xFF0C;&#x4E0D;&#x540C;&#x4E4B;&#x5904;&#x4E3A;&#xFF0C;&#x56E0;&#x4E3A; down()&#x800C;&#x8FDB;&#x5165;&#x7761;&#x7720;&#x72B6;&#x6001;&#x7684;&#x8FDB;&#x7A0B;&#x4E0D;&#x80FD;&#x88AB;&#x4FE1;&#x53F7;&#x6253;&#x65AD;&#xFF0C;&#x4F46;&#x56E0;&#x4E3A; down_interruptible()&#x800C;&#x8FDB;&#x5165;&#x7761;&#x7720;&#x72B6;&#x6001;&#x7684;&#x8FDB;&#x7A0B;&#x80FD;&#x88AB;&#x4FE1;&#x53F7;&#x6253;&#x65AD;&#xFF0C;&#x4FE1;&#x53F7;&#x4E5F;&#x4F1A;&#x5BFC;&#x81F4;&#x8BE5;&#x51FD;&#x6570;&#x8FD4;&#x56DE;&#xFF0C;&#x8FD9;&#x65F6;&#x5019;&#x51FD;&#x6570;&#x7684;&#x8FD4;&#x56DE;&#x503C;&#x975E; 0;    </span>
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">down_trylock</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> semaphore * sem)</span></span>;<span class="hljs-comment">//&#x8BE5;&#x51FD;&#x6570;&#x5C1D;&#x8BD5;&#x83B7;&#x5F97;&#x4FE1;&#x53F7;&#x91CF; sem&#xFF0C;&#x5982;&#x679C;&#x80FD;&#x591F;&#x7ACB;&#x523B;&#x83B7;&#x5F97;&#xFF0C;&#x5B83;&#x5C31;&#x83B7;&#x5F97;&#x8BE5;&#x4FE1;&#x53F7;&#x91CF;&#x5E76;&#x8FD4;&#x56DE;0&#xFF0C;&#x5426;&#x5219;,&#x8FD4;&#x56DE;&#x975E;0&#x503C;&#x3002;&#x5B83;&#x4E0D;&#x4F1A;&#x5BFC;&#x81F4;&#x8C03;&#x7528;&#x8005;&#x7761;&#x7720;&#xFF0C;&#x53EF;&#x4EE5;&#x5728;&#x4E2D;&#x65AD;&#x4E0A;&#x4E0B;&#x6587;&#x4F7F;&#x7528;&#x3002;  </span>
-up(<span class="hljs-keyword">struct</span> semaphore * sem); <span class="hljs-comment">//&#x91CA;&#x653E;&#x6307;&#x5B9A;&#x4FE1;&#x53F7;&#x91CF;&#xFF0C;&#x5982;&#x679C;&#x7761;&#x7720;&#x961F;&#x5217;&#x4E0D;&#x7A7A;&#xFF0C;&#x5219;&#x5524;&#x9192;&#x5176;&#x4E2D;&#x4E00;&#x4E2A;&#x961F;&#x5217;&#x3002;  </span>
-&#x4FE1;&#x53F7;&#x91CF;&#x4E00;&#x822C;&#x8FD9;&#x6837;&#x4F7F;&#x7528;&#xFF1A;
+<p>&#x4FE1;&#x865F;&#x91CF;&#x521D;&#x59CB;&#x5316;&#x5F8C;&#x5C31;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x4E86;&#xFF0C;&#x4F7F;&#x7528;&#x4FE1;&#x865F;&#x91CF;&#x4E3B;&#x8981;&#x6709;&#x5982;&#x4E0B;&#x65B9;&#x6CD5;:</p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">down</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> semaphore * sem)</span></span>;<span class="hljs-comment">//&#x8A72;&#x51FD;&#x6578;&#x7528;&#x65BC;&#x7372;&#x5F97;&#x4FE1;&#x865F;&#x91CF; sem&#xFF0C;&#x5B83;&#x6703;&#x5C0E;&#x81F4;&#x7761;&#x7720;&#xFF0C;&#x56E0;&#x6B64;&#x4E0D;&#x80FD;&#x5728;&#x4E2D;&#x65B7;&#x4E0A;&#x4E0B;&#x6587;&#x4F7F;&#x7528;;    </span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">down_interruptible</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> semaphore * sem)</span></span>;<span class="hljs-comment">//&#x8A72;&#x51FD;&#x6578;&#x529F;&#x80FD;&#x8207; down &#x985E;&#x4F3C;&#xFF0C;&#x4E0D;&#x540C;&#x4E4B;&#x8655;&#x70BA;&#xFF0C;&#x56E0;&#x70BA; down()&#x800C;&#x9032;&#x5165;&#x7761;&#x7720;&#x72C0;&#x614B;&#x7684;&#x9032;&#x7A0B;&#x4E0D;&#x80FD;&#x88AB;&#x4FE1;&#x865F;&#x6253;&#x65B7;&#xFF0C;&#x4F46;&#x56E0;&#x70BA; down_interruptible()&#x800C;&#x9032;&#x5165;&#x7761;&#x7720;&#x72C0;&#x614B;&#x7684;&#x9032;&#x7A0B;&#x80FD;&#x88AB;&#x4FE1;&#x865F;&#x6253;&#x65B7;&#xFF0C;&#x4FE1;&#x865F;&#x4E5F;&#x6703;&#x5C0E;&#x81F4;&#x8A72;&#x51FD;&#x6578;&#x8FD4;&#x56DE;&#xFF0C;&#x9019;&#x6642;&#x5019;&#x51FD;&#x6578;&#x7684;&#x8FD4;&#x56DE;&#x503C;&#x975E; 0;    </span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">down_trylock</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> semaphore * sem)</span></span>;<span class="hljs-comment">//&#x8A72;&#x51FD;&#x6578;&#x5617;&#x8A66;&#x7372;&#x5F97;&#x4FE1;&#x865F;&#x91CF; sem&#xFF0C;&#x5982;&#x679C;&#x80FD;&#x5920;&#x7ACB;&#x523B;&#x7372;&#x5F97;&#xFF0C;&#x5B83;&#x5C31;&#x7372;&#x5F97;&#x8A72;&#x4FE1;&#x865F;&#x91CF;&#x4E26;&#x8FD4;&#x56DE;0&#xFF0C;&#x5426;&#x5247;,&#x8FD4;&#x56DE;&#x975E;0&#x503C;&#x3002;&#x5B83;&#x4E0D;&#x6703;&#x5C0E;&#x81F4;&#x8ABF;&#x7528;&#x8005;&#x7761;&#x7720;&#xFF0C;&#x53EF;&#x4EE5;&#x5728;&#x4E2D;&#x65B7;&#x4E0A;&#x4E0B;&#x6587;&#x4F7F;&#x7528;&#x3002;  </span>
+up(<span class="hljs-keyword">struct</span> semaphore * sem); <span class="hljs-comment">//&#x91CB;&#x653E;&#x6307;&#x5B9A;&#x4FE1;&#x865F;&#x91CF;&#xFF0C;&#x5982;&#x679C;&#x7761;&#x7720;&#x968A;&#x5217;&#x4E0D;&#x7A7A;&#xFF0C;&#x5247;&#x559A;&#x9192;&#x5176;&#x4E2D;&#x4E00;&#x500B;&#x968A;&#x5217;&#x3002;  </span>
+&#x4FE1;&#x865F;&#x91CF;&#x4E00;&#x822C;&#x9019;&#x6A23;&#x4F7F;&#x7528;&#xFF1A;
 </code></pre>
-<p>&#x4FE1;&#x53F7;&#x91CF;&#x4E00;&#x822C;&#x8FD9;&#x6837;&#x4F7F;&#x7528;&#xFF1A;</p>
-<pre><code class="lang-c"><span class="hljs-comment">/* &#x5B9A;&#x4E49;&#x4FE1;&#x53F7;&#x91CF;    
+<p>&#x4FE1;&#x865F;&#x91CF;&#x4E00;&#x822C;&#x9019;&#x6A23;&#x4F7F;&#x7528;&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-comment">/* &#x5B9A;&#x7FA9;&#x4FE1;&#x865F;&#x91CF;    
 DECLARE_MUTEX(mount_sem);    
-//down(&amp;mount_sem);<span class="hljs-comment">/* &#x83B7;&#x53D6;&#x4FE1;&#x53F7;&#x91CF;&#xFF0C;&#x4FDD;&#x62A4;&#x4E34;&#x754C;&#x533A;&#xFF0C;&#x4FE1;&#x53F7;&#x91CF;&#x88AB;&#x5360;&#x7528;&#x4E4B;&#x540E;&#x8FDB;&#x5165;&#x4E0D;&#x53EF;&#x4E2D;&#x65AD;&#x7761;&#x7720;&#x72B6;&#x6001;  
-down_interruptible(&amp;mount_sem);<span class="hljs-comment">/* &#x83B7;&#x53D6;&#x4FE1;&#x53F7;&#x91CF;&#xFF0C;&#x4FDD;&#x62A4;&#x4E34;&#x754C;&#x533A;&#xFF0C;&#x4FE1;&#x53F7;&#x91CF;&#x88AB;&#x5360;&#x7528;&#x4E4B;&#x540E;&#x8FDB;&#x5165;&#x4E0D;&#x53EF;&#x4E2D;&#x65AD;&#x7761;&#x7720;&#x72B6;&#x6001;  
+//down(&amp;mount_sem);<span class="hljs-comment">/* &#x7372;&#x53D6;&#x4FE1;&#x865F;&#x91CF;&#xFF0C;&#x4FDD;&#x8B77;&#x81E8;&#x754C;&#x5340;&#xFF0C;&#x4FE1;&#x865F;&#x91CF;&#x88AB;&#x4F54;&#x7528;&#x4E4B;&#x5F8C;&#x9032;&#x5165;&#x4E0D;&#x53EF;&#x4E2D;&#x65B7;&#x7761;&#x7720;&#x72C0;&#x614B;  
+down_interruptible(&amp;mount_sem);<span class="hljs-comment">/* &#x7372;&#x53D6;&#x4FE1;&#x865F;&#x91CF;&#xFF0C;&#x4FDD;&#x8B77;&#x81E8;&#x754C;&#x5340;&#xFF0C;&#x4FE1;&#x865F;&#x91CF;&#x88AB;&#x4F54;&#x7528;&#x4E4B;&#x5F8C;&#x9032;&#x5165;&#x4E0D;&#x53EF;&#x4E2D;&#x65B7;&#x7761;&#x7720;&#x72C0;&#x614B;  
 . . .    
-critical section <span class="hljs-comment">/* &#x4E34;&#x754C;&#x533A;    
+critical section <span class="hljs-comment">/* &#x81E8;&#x754C;&#x5340;    
 . . .    
-up(&amp;mount_sem);<span class="hljs-comment">/* &#x91CA;&#x653E;&#x4FE1;&#x53F7;&#x91CF;
+up(&amp;mount_sem);<span class="hljs-comment">/* &#x91CB;&#x653E;&#x4FE1;&#x865F;&#x91CF;
 </span></span></span></span></span></code></pre>
-<p>&#x4E0B;&#x9762;&#x770B;&#x4E00;&#x4E0B;&#x8FD9;&#x4E9B;&#x51FD;&#x6570;&#x7684;&#x5B9E;&#x73B0;&#xFF1A;
+<p>&#x4E0B;&#x9762;&#x770B;&#x4E00;&#x4E0B;&#x9019;&#x4E9B;&#x51FD;&#x6578;&#x7684;&#x5BE6;&#x73FE;&#xFF1A;
 down():</p>
 <pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">down</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> semaphore *sem)</span>  
 </span>{  
@@ -17516,7 +17516,7 @@ down():</p>
     wake_up_process(waiter-&gt;task);  
 }
 </code></pre>
-<p>&#x6B63;&#x5982;&#x81EA;&#x65CB;&#x9501;&#x4E00;&#x6837;&#xFF0C;&#x4FE1;&#x53F7;&#x91CF;&#x4E5F;&#x6709;&#x533A;&#x5206;&#x8BFB;&#x5199;&#x8BBF;&#x95EE;&#x7684;&#x53EF;&#x80FD;&#xFF0C;&#x8BFB;&#x5199;&#x4FE1;&#x53F7;&#x91CF;&#x5728;&#x5185;&#x6838;&#x4E2D;&#x4F7F;&#x7528;rw_semaphore&#x7ED3;&#x6784;&#x8868;&#x793A;&#xFF0C;x86&#x4F53;&#x7CFB;&#x7ED3;&#x6784;&#x5B9A;&#x4E49;&#x5728;<code>&lt;arch/x86/include/asm/rwsem.h&gt;</code>&#x6587;&#x4EF6;&#x4E2D;&#xFF1A;</p>
+<p>&#x6B63;&#x5982;&#x81EA;&#x65CB;&#x9396;&#x4E00;&#x6A23;&#xFF0C;&#x4FE1;&#x865F;&#x91CF;&#x4E5F;&#x6709;&#x5340;&#x5206;&#x8B80;&#x5BEB;&#x8A2A;&#x554F;&#x7684;&#x53EF;&#x80FD;&#xFF0C;&#x8B80;&#x5BEB;&#x4FE1;&#x865F;&#x91CF;&#x5728;&#x5167;&#x6838;&#x4E2D;&#x4F7F;&#x7528;rw_semaphore&#x7D50;&#x69CB;&#x8868;&#x793A;&#xFF0C;x86&#x9AD4;&#x7CFB;&#x7D50;&#x69CB;&#x5B9A;&#x7FA9;&#x5728;<code>&lt;arch/x86/include/asm/rwsem.h&gt;</code>&#x6587;&#x4EF6;&#x4E2D;&#xFF1A;</p>
 <pre><code class="lang-c"><span class="hljs-keyword">struct</span> rw_semaphore {  
     <span class="hljs-keyword">signed</span> <span class="hljs-keyword">long</span>        count;  
     <span class="hljs-keyword">spinlock_t</span>        wait_lock;  
@@ -17526,19 +17526,19 @@ down():</p>
 <span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span>  </span>
 };
 </code></pre>
-<p>&#x8BFB;&#x5199;&#x4FE1;&#x53F7;&#x91CF;&#x7684;&#x4F7F;&#x7528;&#x65B9;&#x6CD5;&#x548C;&#x4FE1;&#x53F7;&#x91CF;&#x7C7B;&#x4F3C;&#xFF0C;&#x5176;&#x64CD;&#x4F5C;&#x51FD;&#x6570;&#x6709;&#x5982;&#x4E0B;:</p>
-<pre><code class="lang-c">DECLARE_RWSEM(name)             <span class="hljs-comment">//&#x58F0;&#x660E;&#x540D;&#x4E3A;name&#x7684;&#x8BFB;&#x5199;&#x4FE1;&#x53F7;&#x91CF;&#xFF0C;&#x5E76;&#x521D;&#x59CB;&#x5316;&#x5B83;&#x3002;  </span>
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">init_rwsem</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> rw_semaphore *sem)</span></span>;  <span class="hljs-comment">//&#x5BF9;&#x8BFB;&#x5199;&#x4FE1;&#x53F7;&#x91CF;sem&#x8FDB;&#x884C;&#x521D;&#x59CB;&#x5316;&#x3002;  </span>
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">down_read</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> rw_semaphore *sem)</span></span>;   <span class="hljs-comment">//&#x8BFB;&#x8005;&#x7528;&#x6765;&#x83B7;&#x53D6;sem&#xFF0C;&#x82E5;&#x6CA1;&#x83B7;&#x5F97;&#x65F6;&#xFF0C;&#x5219;&#x8C03;&#x7528;&#x8005;&#x7761;&#x7720;&#x7B49;&#x5F85;&#x3002;  </span>
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">up_read</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> rw_semaphore *sem)</span></span>;     <span class="hljs-comment">//&#x8BFB;&#x8005;&#x91CA;&#x653E;sem&#x3002;  </span>
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">down_read_trylock</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> rw_semaphore *sem)</span></span>; <span class="hljs-comment">//&#x8BFB;&#x8005;&#x5C1D;&#x8BD5;&#x83B7;&#x53D6;sem&#xFF0C;&#x5982;&#x679C;&#x83B7;&#x5F97;&#x8FD4;&#x56DE;1&#xFF0C;&#x5982;&#x679C;&#x6CA1;&#x6709;&#x83B7;&#x5F97;&#x8FD4;&#x56DE;0&#x3002;&#x53EF;&#x5728;&#x4E2D;&#x65AD;&#x4E0A;&#x4E0B;&#x6587;&#x4F7F;&#x7528;&#x3002;  </span>
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">down_write</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> rw_semaphore *sem)</span></span>;  <span class="hljs-comment">//&#x5199;&#x8005;&#x7528;&#x6765;&#x83B7;&#x53D6;sem&#xFF0C;&#x82E5;&#x6CA1;&#x83B7;&#x5F97;&#x65F6;&#xFF0C;&#x5219;&#x8C03;&#x7528;&#x8005;&#x7761;&#x7720;&#x7B49;&#x5F85;&#x3002;  </span>
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">down_write_trylock</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> rw_semaphore *sem)</span></span>;   <span class="hljs-comment">//&#x5199;&#x8005;&#x5C1D;&#x8BD5;&#x83B7;&#x53D6;sem&#xFF0C;&#x5982;&#x679C;&#x83B7;&#x5F97;&#x8FD4;&#x56DE;1&#xFF0C;&#x5982;&#x679C;&#x6CA1;&#x6709;&#x83B7;&#x5F97;&#x8FD4;&#x56DE;0&#x3002;&#x53EF;&#x5728;&#x4E2D;&#x65AD;&#x4E0A;&#x4E0B;&#x6587;&#x4F7F;&#x7528;  </span>
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">up_write</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> rw_semaphore *sem)</span></span>;    <span class="hljs-comment">//&#x5199;&#x8005;&#x91CA;&#x653E;sem&#x3002;  </span>
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">downgrade_write</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> rw_semaphore *sem)</span></span>; <span class="hljs-comment">//&#x628A;&#x5199;&#x8005;&#x964D;&#x7EA7;&#x4E3A;&#x8BFB;&#x8005;&#x3002;</span>
+<p>&#x8B80;&#x5BEB;&#x4FE1;&#x865F;&#x91CF;&#x7684;&#x4F7F;&#x7528;&#x65B9;&#x6CD5;&#x548C;&#x4FE1;&#x865F;&#x91CF;&#x985E;&#x4F3C;&#xFF0C;&#x5176;&#x64CD;&#x4F5C;&#x51FD;&#x6578;&#x6709;&#x5982;&#x4E0B;:</p>
+<pre><code class="lang-c">DECLARE_RWSEM(name)             <span class="hljs-comment">//&#x8072;&#x660E;&#x540D;&#x70BA;name&#x7684;&#x8B80;&#x5BEB;&#x4FE1;&#x865F;&#x91CF;&#xFF0C;&#x4E26;&#x521D;&#x59CB;&#x5316;&#x5B83;&#x3002;  </span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">init_rwsem</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> rw_semaphore *sem)</span></span>;  <span class="hljs-comment">//&#x5C0D;&#x8B80;&#x5BEB;&#x4FE1;&#x865F;&#x91CF;sem&#x9032;&#x884C;&#x521D;&#x59CB;&#x5316;&#x3002;  </span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">down_read</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> rw_semaphore *sem)</span></span>;   <span class="hljs-comment">//&#x8B80;&#x8005;&#x7528;&#x4F86;&#x7372;&#x53D6;sem&#xFF0C;&#x82E5;&#x6C92;&#x7372;&#x5F97;&#x6642;&#xFF0C;&#x5247;&#x8ABF;&#x7528;&#x8005;&#x7761;&#x7720;&#x7B49;&#x5F85;&#x3002;  </span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">up_read</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> rw_semaphore *sem)</span></span>;     <span class="hljs-comment">//&#x8B80;&#x8005;&#x91CB;&#x653E;sem&#x3002;  </span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">down_read_trylock</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> rw_semaphore *sem)</span></span>; <span class="hljs-comment">//&#x8B80;&#x8005;&#x5617;&#x8A66;&#x7372;&#x53D6;sem&#xFF0C;&#x5982;&#x679C;&#x7372;&#x5F97;&#x8FD4;&#x56DE;1&#xFF0C;&#x5982;&#x679C;&#x6C92;&#x6709;&#x7372;&#x5F97;&#x8FD4;&#x56DE;0&#x3002;&#x53EF;&#x5728;&#x4E2D;&#x65B7;&#x4E0A;&#x4E0B;&#x6587;&#x4F7F;&#x7528;&#x3002;  </span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">down_write</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> rw_semaphore *sem)</span></span>;  <span class="hljs-comment">//&#x5BEB;&#x8005;&#x7528;&#x4F86;&#x7372;&#x53D6;sem&#xFF0C;&#x82E5;&#x6C92;&#x7372;&#x5F97;&#x6642;&#xFF0C;&#x5247;&#x8ABF;&#x7528;&#x8005;&#x7761;&#x7720;&#x7B49;&#x5F85;&#x3002;  </span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">down_write_trylock</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> rw_semaphore *sem)</span></span>;   <span class="hljs-comment">//&#x5BEB;&#x8005;&#x5617;&#x8A66;&#x7372;&#x53D6;sem&#xFF0C;&#x5982;&#x679C;&#x7372;&#x5F97;&#x8FD4;&#x56DE;1&#xFF0C;&#x5982;&#x679C;&#x6C92;&#x6709;&#x7372;&#x5F97;&#x8FD4;&#x56DE;0&#x3002;&#x53EF;&#x5728;&#x4E2D;&#x65B7;&#x4E0A;&#x4E0B;&#x6587;&#x4F7F;&#x7528;  </span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">up_write</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> rw_semaphore *sem)</span></span>;    <span class="hljs-comment">//&#x5BEB;&#x8005;&#x91CB;&#x653E;sem&#x3002;  </span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">downgrade_write</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> rw_semaphore *sem)</span></span>; <span class="hljs-comment">//&#x628A;&#x5BEB;&#x8005;&#x964D;&#x7D1A;&#x70BA;&#x8B80;&#x8005;&#x3002;</span>
 </code></pre>
-<p><code>4.</code> &#x4E92;&#x65A5;&#x4F53;
-&#x9664;&#x4E86;&#x4FE1;&#x53F7;&#x91CF;&#x4E4B;&#x5916;&#xFF0C;&#x5185;&#x6838;&#x62E5;&#x6709;&#x4E00;&#x4E2A;&#x66F4;&#x7B80;&#x5355;&#x7684;&#x4E14;&#x53EF;&#x7761;&#x7720;&#x7684;&#x9501;&#xFF0C;&#x90A3;&#x5C31;&#x662F;&#x4E92;&#x65A5;&#x4F53;&#x3002;&#x4E92;&#x65A5;&#x4F53;&#x7684;&#x884C;&#x4E3A;&#x548C;&#x8BA1;&#x6570;&#x662F;1&#x7684;&#x4FE1;&#x53F7;&#x91CF;&#x7C7B;&#x4F3C;&#xFF0C;&#x5176;&#x63A5;&#x53E3;&#x7B80;&#x5355;&#xFF0C;&#x5B9E;&#x73B0;&#x66F4;&#x9AD8;&#x6548;&#x3002; &#x4E92;&#x65A5;&#x4F53;&#x5728;&#x5185;&#x6838;&#x4E2D;&#x4F7F;&#x7528;mutex&#x8868;&#x793A;&#xFF0C;&#x5B9A;&#x4E49;&#x4E8E;<code>&lt;include/linux/mutex.h&gt;</code>&#xFF1A;</p>
+<p><code>4.</code> &#x4E92;&#x65A5;&#x9AD4;
+&#x9664;&#x4E86;&#x4FE1;&#x865F;&#x91CF;&#x4E4B;&#x5916;&#xFF0C;&#x5167;&#x6838;&#x64C1;&#x6709;&#x4E00;&#x500B;&#x66F4;&#x7C21;&#x55AE;&#x7684;&#x4E14;&#x53EF;&#x7761;&#x7720;&#x7684;&#x9396;&#xFF0C;&#x90A3;&#x5C31;&#x662F;&#x4E92;&#x65A5;&#x9AD4;&#x3002;&#x4E92;&#x65A5;&#x9AD4;&#x7684;&#x884C;&#x70BA;&#x548C;&#x8A08;&#x6578;&#x662F;1&#x7684;&#x4FE1;&#x865F;&#x91CF;&#x985E;&#x4F3C;&#xFF0C;&#x5176;&#x63A5;&#x53E3;&#x7C21;&#x55AE;&#xFF0C;&#x5BE6;&#x73FE;&#x66F4;&#x9AD8;&#x6548;&#x3002; &#x4E92;&#x65A5;&#x9AD4;&#x5728;&#x5167;&#x6838;&#x4E2D;&#x4F7F;&#x7528;mutex&#x8868;&#x793A;&#xFF0C;&#x5B9A;&#x7FA9;&#x65BC;<code>&lt;include/linux/mutex.h&gt;</code>&#xFF1A;</p>
 <pre><code class="lang-c"><span class="hljs-keyword">struct</span> mutex {  
     <span class="hljs-comment">/* 1: unlocked, 0: locked, negative: locked, possible waiters */</span>  
     <span class="hljs-keyword">atomic_t</span>        count;  
@@ -17547,10 +17547,10 @@ down():</p>
     ......  
 };
 </code></pre>
-<p>&#x9759;&#x6001;&#x5B9A;&#x4E49;mutex&#xFF1A;</p>
+<p>&#x975C;&#x614B;&#x5B9A;&#x7FA9;mutex&#xFF1A;</p>
 <pre><code class="lang-c">DEFINE_MUTEX(name);
 </code></pre>
-<p>&#x5B9E;&#x73B0;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>&#x5BE6;&#x73FE;&#x5982;&#x4E0B;&#xFF1A;</p>
 <pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> DEFINE_MUTEX(mutexname) \  </span>
     <span class="hljs-keyword">struct</span> mutex mutexname = __MUTEX_INITIALIZER(mutexname)  
 
@@ -17561,7 +17561,7 @@ down():</p>
         __DEBUG_MUTEX_INITIALIZER(lockname) \  
         __DEP_MAP_MUTEX_INITIALIZER(lockname) }
 </code></pre>
-<p>&#x52A8;&#x6001;&#x5B9A;&#x4E49;mutex&#xFF1A;</p>
+<p>&#x52D5;&#x614B;&#x5B9A;&#x7FA9;mutex&#xFF1A;</p>
 <pre><code class="lang-c">mutex_init(&amp;mutex);
 </code></pre>
 <pre><code class="lang-c"><span class="hljs-preprocessor"># <span class="hljs-keyword">define</span> mutex_init(mutex) \  </span>
@@ -17582,9 +17582,9 @@ __mutex_init(<span class="hljs-keyword">struct</span> mutex *lock, <span class="
     debug_mutex_init(lock, name, key);  
 }
 </code></pre>
-<p>&#x9501;&#x5B9A;&#x548C;&#x89E3;&#x9501;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>&#x9396;&#x5B9A;&#x548C;&#x89E3;&#x9396;&#x5982;&#x4E0B;&#xFF1A;</p>
 <pre><code class="lang-c">mutex_lock(&amp;mutex);  
-<span class="hljs-comment">/* &#x4E34;&#x754C;&#x533A; */</span>  
+<span class="hljs-comment">/* &#x81E8;&#x754C;&#x5340; */</span>  
 mutex_unlock(&amp;mutex);
 </code></pre>
 <pre><code class="lang-c"><span class="hljs-keyword">void</span> __<span class="hljs-function">sched <span class="hljs-title">mutex_lock</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> mutex *lock)</span>  
@@ -17616,25 +17616,25 @@ mutex_unlock(&amp;mutex);
 }
 </code></pre>
 <p>&#x5176;&#x4ED6;mutex&#x65B9;&#x6CD5;:</p>
-<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">mutex_trylock</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> mutex *)</span></span>;    <span class="hljs-comment">//&#x89C6;&#x56FE;&#x83B7;&#x53D6;&#x6307;&#x5B9A;&#x4E92;&#x65A5;&#x4F53;&#xFF0C;&#x6210;&#x529F;&#x8FD4;&#x56DE;1&#xFF1B;&#x5426;&#x5219;&#x8FD4;&#x56DE;0&#x3002;  </span>
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">mutex_is_locked</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> mutex *lock)</span></span>;    <span class="hljs-comment">//&#x5224;&#x65AD;&#x9501;&#x662F;&#x5426;&#x88AB;&#x5360;&#x7528;&#xFF0C;&#x662F;&#x8FD4;&#x56DE;1&#xFF0C;&#x5426;&#x5219;&#x8FD4;&#x56DE;0&#x3002;</span>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">mutex_trylock</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> mutex *)</span></span>;    <span class="hljs-comment">//&#x8996;&#x5716;&#x7372;&#x53D6;&#x6307;&#x5B9A;&#x4E92;&#x65A5;&#x9AD4;&#xFF0C;&#x6210;&#x529F;&#x8FD4;&#x56DE;1&#xFF1B;&#x5426;&#x5247;&#x8FD4;&#x56DE;0&#x3002;  </span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">mutex_is_locked</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> mutex *lock)</span></span>;    <span class="hljs-comment">//&#x5224;&#x65B7;&#x9396;&#x662F;&#x5426;&#x88AB;&#x4F54;&#x7528;&#xFF0C;&#x662F;&#x8FD4;&#x56DE;1&#xFF0C;&#x5426;&#x5247;&#x8FD4;&#x56DE;0&#x3002;</span>
 </code></pre>
-<p>&#x4F7F;&#x7528;mutex&#x65F6;&#xFF0C;&#x8981;&#x6CE8;&#x610F;&#x4E00;&#x4E0B;&#xFF1A;
-mutex&#x7684;&#x4F7F;&#x7528;&#x6280;&#x672F;&#x6C38;&#x8FDC;&#x662F;1&#xFF1B;&#x5728;&#x540C;&#x4E00;&#x4E0A;&#x4E0B;&#x6587;&#x4E2D;&#x4E0A;&#x9501;&#x89E3;&#x9501;&#xFF1B;&#x5F53;&#x8FDB;&#x7A0B;&#x6301;&#x6709;&#x4E00;&#x4E2A;mutex&#x65F6;&#xFF0C;&#x8FDB;&#x7A0B;&#x4E0D;&#x53EF;&#x9000;&#x51FA;&#xFF1B;mutex&#x4E0D;&#x80FD;&#x5728;&#x4E2D;&#x65AD;&#x6216;&#x4E0B;&#x534A;&#x90E8;&#x4E2D;&#x4F7F;&#x7528;&#x3002;</p>
-<p><code>5.</code> &#x62A2;&#x5360;&#x7981;&#x6B62;</p>
-<p>&#x5728;&#x524D;&#x9762;&#x7AE0;&#x8282;&#x8BB2;&#x8FDB;&#x7A0B;&#x7BA1;&#x7406;&#x7684;&#x65F6;&#x5019;&#x542C;&#x5230;&#x8FC7;&#x5185;&#x6838;&#x62A2;&#x5360;&#xFF0C;&#x7531;&#x4E8E;&#x5185;&#x6838;&#x53EF;&#x62A2;&#x5360;&#xFF0C;&#x5185;&#x6838;&#x4E2D;&#x7684;&#x8FDB;&#x7A0B;&#x968F;&#x65F6;&#x90FD;&#x53EF;&#x80FD;&#x88AB;&#x53E6;&#x5916;&#x4E00;&#x4E2A;&#x5177;&#x6709;&#x66F4;&#x9AD8;&#x4F18;&#x5148;&#x6743;&#x7684;&#x8FDB;&#x7A0B;&#x6253;&#x65AD;&#xFF0C;&#x8FD9;&#x4E5F;&#x5C31;&#x610F;&#x5473;&#x7740;&#x4E00;&#x4E2A;&#x4EFB;&#x52A1;&#x4E0E;&#x88AB;&#x62A2;&#x5360;&#x7684;&#x4EFB;&#x52A1;&#x53EF;&#x80FD;&#x4F1A;&#x5728;&#x540C;&#x4E00;&#x4E2A;&#x4E34;&#x754C;&#x533A;&#x8FD0;&#x884C;&#x3002;&#x6240;&#x4EE5;&#x624D;&#x6709;&#x672C;&#x8282;&#x524D;&#x9762;&#x81EA;&#x65CB;&#x9501;&#x6765;&#x907F;&#x514D;&#x7ADE;&#x6001;&#x7684;&#x53D1;&#x751F;&#xFF0C;&#x81EA;&#x65CB;&#x9501;&#x6709;&#x7981;&#x6B62;&#x5185;&#x6838;&#x62A2;&#x5360;&#x7684;&#x529F;&#x80FD;&#x3002;&#x4F46;&#x50CF;&#x6BCF;cpu&#x53D8;&#x91CF;&#x7684;&#x6570;&#x636E;&#x53EA;&#x80FD;&#x88AB;&#x4E00;&#x4E2A;&#x5904;&#x7406;&#x5668;&#x8BBF;&#x95EE;&#xFF0C;&#x53EF;&#x4EE5;&#x4E0D;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x9501;&#x6765;&#x4FDD;&#x62A4;&#xFF0C;&#x5982;&#x679C;&#x6CA1;&#x6709;&#x4F7F;&#x7528;&#x9501;&#xFF0C;&#x5185;&#x6838;&#x53C8;&#x662F;&#x62A2;&#x5360;&#x5F0F;&#x7684;&#xFF0C;&#x90A3;&#x4E48;&#x65B0;&#x8C03;&#x5EA6;&#x7684;&#x4EFB;&#x52A1;&#x5C31;&#x53EF;&#x80FD;&#x8BBF;&#x95EE;&#x540C;&#x4E00;&#x4E2A;&#x53D8;&#x91CF;&#x3002;&#x8FD9;&#x4E2A;&#x65F6;&#x5019;&#x5C31;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x7981;&#x6B62;&#x5185;&#x6838;&#x62A2;&#x5360;&#x6765;&#x907F;&#x514D;&#x7ADE;&#x6001;&#x7684;&#x53D1;&#x751F;&#xFF0C;&#x7981;&#x6B62;&#x5185;&#x6838;&#x62A2;&#x5360;&#x4F7F;&#x7528;preetmpt_disable()&#x51FD;&#x6570;&#xFF0C;&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x53EF;&#x4EE5;&#x5D4C;&#x5957;&#x8C03;&#x7528;&#x7684;&#x51FD;&#x6570;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x4EFB;&#x610F;&#x6B21;&#x3002;&#x6BCF;&#x6B21;&#x8C03;&#x7528;&#x90FD;&#x5FC5;&#x987B;&#x6709;&#x4E00;&#x4E2A;&#x76F8;&#x5E94;&#x7684;preempt_enable()&#x8C03;&#x7528;&#xFF0C;&#x5F53;&#x6700;&#x540E;&#x4E00;&#x6B21;preempt_enable()&#x88AB;&#x8C03;&#x7528;&#x65F6;&#xFF0C;&#x5185;&#x6838;&#x62A2;&#x5360;&#x624D;&#x91CD;&#x65B0;&#x542F;&#x7528;&#x3002;&#x5185;&#x6838;&#x62A2;&#x5360;&#x76F8;&#x5173;&#x51FD;&#x6570;&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre><code class="lang-c">preempt_enable() <span class="hljs-comment">//&#x5185;&#x6838;&#x62A2;&#x5360;&#x8BA1;&#x6570;preempt_count&#x51CF;1  </span>
-preempt_disable() <span class="hljs-comment">//&#x5185;&#x6838;&#x62A2;&#x5360;&#x8BA1;&#x6570;preempt_count&#x52A0;1&#xFF0C;&#x5F53;&#x8BE5;&#x503C;&#x964D;&#x4E3A;0&#x65F6;&#x68C0;&#x67E5;&#x548C;&#x6267;&#x884C;&#x88AB;&#x6302;&#x8D77;&#x7684;&#x9700;&#x8981;&#x8C03;&#x5EA6;&#x7684;&#x4EFB;&#x52A1;  </span>
-preempt_enable_no_resched()<span class="hljs-comment">//&#x5185;&#x6838;&#x62A2;&#x5360;&#x8BA1;&#x6570;preempt_count&#x51CF;1&#xFF0C;&#x4F46;&#x4E0D;&#x7ACB;&#x5373;&#x62A2;&#x5360;&#x5F0F;&#x8C03;&#x5EA6;  </span>
-preempt_check_resched () <span class="hljs-comment">//&#x5982;&#x679C;&#x5FC5;&#x8981;&#x8FDB;&#x884C;&#x8C03;&#x5EA6;  </span>
-preempt_count() <span class="hljs-comment">//&#x8FD4;&#x56DE;&#x62A2;&#x5360;&#x8BA1;&#x6570;  </span>
-preempt_schedule() <span class="hljs-comment">//&#x5185;&#x6838;&#x62A2;&#x5360;&#x65F6;&#x7684;&#x8C03;&#x5EA6;&#x7A0B;&#x5E8F;&#x7684;&#x5165;&#x53E3;&#x70B9;</span>
+<p>&#x4F7F;&#x7528;mutex&#x6642;&#xFF0C;&#x8981;&#x6CE8;&#x610F;&#x4E00;&#x4E0B;&#xFF1A;
+mutex&#x7684;&#x4F7F;&#x7528;&#x6280;&#x8853;&#x6C38;&#x9060;&#x662F;1&#xFF1B;&#x5728;&#x540C;&#x4E00;&#x4E0A;&#x4E0B;&#x6587;&#x4E2D;&#x4E0A;&#x9396;&#x89E3;&#x9396;&#xFF1B;&#x7576;&#x9032;&#x7A0B;&#x6301;&#x6709;&#x4E00;&#x500B;mutex&#x6642;&#xFF0C;&#x9032;&#x7A0B;&#x4E0D;&#x53EF;&#x9000;&#x51FA;&#xFF1B;mutex&#x4E0D;&#x80FD;&#x5728;&#x4E2D;&#x65B7;&#x6216;&#x4E0B;&#x534A;&#x90E8;&#x4E2D;&#x4F7F;&#x7528;&#x3002;</p>
+<p><code>5.</code> &#x6436;&#x4F54;&#x7981;&#x6B62;</p>
+<p>&#x5728;&#x524D;&#x9762;&#x7AE0;&#x7BC0;&#x8B1B;&#x9032;&#x7A0B;&#x7BA1;&#x7406;&#x7684;&#x6642;&#x5019;&#x807D;&#x5230;&#x904E;&#x5167;&#x6838;&#x6436;&#x4F54;&#xFF0C;&#x7531;&#x65BC;&#x5167;&#x6838;&#x53EF;&#x6436;&#x4F54;&#xFF0C;&#x5167;&#x6838;&#x4E2D;&#x7684;&#x9032;&#x7A0B;&#x96A8;&#x6642;&#x90FD;&#x53EF;&#x80FD;&#x88AB;&#x53E6;&#x5916;&#x4E00;&#x500B;&#x5177;&#x6709;&#x66F4;&#x9AD8;&#x512A;&#x5148;&#x6B0A;&#x7684;&#x9032;&#x7A0B;&#x6253;&#x65B7;&#xFF0C;&#x9019;&#x4E5F;&#x5C31;&#x610F;&#x5473;&#x8457;&#x4E00;&#x500B;&#x4EFB;&#x52D9;&#x8207;&#x88AB;&#x6436;&#x4F54;&#x7684;&#x4EFB;&#x52D9;&#x53EF;&#x80FD;&#x6703;&#x5728;&#x540C;&#x4E00;&#x500B;&#x81E8;&#x754C;&#x5340;&#x904B;&#x884C;&#x3002;&#x6240;&#x4EE5;&#x624D;&#x6709;&#x672C;&#x7BC0;&#x524D;&#x9762;&#x81EA;&#x65CB;&#x9396;&#x4F86;&#x907F;&#x514D;&#x7AF6;&#x614B;&#x7684;&#x767C;&#x751F;&#xFF0C;&#x81EA;&#x65CB;&#x9396;&#x6709;&#x7981;&#x6B62;&#x5167;&#x6838;&#x6436;&#x4F54;&#x7684;&#x529F;&#x80FD;&#x3002;&#x4F46;&#x50CF;&#x6BCF;cpu&#x8B8A;&#x91CF;&#x7684;&#x6578;&#x64DA;&#x53EA;&#x80FD;&#x88AB;&#x4E00;&#x500B;&#x8655;&#x7406;&#x5668;&#x8A2A;&#x554F;&#xFF0C;&#x53EF;&#x4EE5;&#x4E0D;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x9396;&#x4F86;&#x4FDD;&#x8B77;&#xFF0C;&#x5982;&#x679C;&#x6C92;&#x6709;&#x4F7F;&#x7528;&#x9396;&#xFF0C;&#x5167;&#x6838;&#x53C8;&#x662F;&#x6436;&#x4F54;&#x5F0F;&#x7684;&#xFF0C;&#x90A3;&#x9EBC;&#x65B0;&#x8ABF;&#x5EA6;&#x7684;&#x4EFB;&#x52D9;&#x5C31;&#x53EF;&#x80FD;&#x8A2A;&#x554F;&#x540C;&#x4E00;&#x500B;&#x8B8A;&#x91CF;&#x3002;&#x9019;&#x500B;&#x6642;&#x5019;&#x5C31;&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x7981;&#x6B62;&#x5167;&#x6838;&#x6436;&#x4F54;&#x4F86;&#x907F;&#x514D;&#x7AF6;&#x614B;&#x7684;&#x767C;&#x751F;&#xFF0C;&#x7981;&#x6B62;&#x5167;&#x6838;&#x6436;&#x4F54;&#x4F7F;&#x7528;preetmpt_disable()&#x51FD;&#x6578;&#xFF0C;&#x9019;&#x662F;&#x4E00;&#x500B;&#x53EF;&#x4EE5;&#x5D4C;&#x5957;&#x8ABF;&#x7528;&#x7684;&#x51FD;&#x6578;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x4EFB;&#x610F;&#x6B21;&#x3002;&#x6BCF;&#x6B21;&#x8ABF;&#x7528;&#x90FD;&#x5FC5;&#x9808;&#x6709;&#x4E00;&#x500B;&#x76F8;&#x61C9;&#x7684;preempt_enable()&#x8ABF;&#x7528;&#xFF0C;&#x7576;&#x6700;&#x5F8C;&#x4E00;&#x6B21;preempt_enable()&#x88AB;&#x8ABF;&#x7528;&#x6642;&#xFF0C;&#x5167;&#x6838;&#x6436;&#x4F54;&#x624D;&#x91CD;&#x65B0;&#x555F;&#x7528;&#x3002;&#x5167;&#x6838;&#x6436;&#x4F54;&#x76F8;&#x95DC;&#x51FD;&#x6578;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c">preempt_enable() <span class="hljs-comment">//&#x5167;&#x6838;&#x6436;&#x4F54;&#x8A08;&#x6578;preempt_count&#x6E1B;1  </span>
+preempt_disable() <span class="hljs-comment">//&#x5167;&#x6838;&#x6436;&#x4F54;&#x8A08;&#x6578;preempt_count&#x52A0;1&#xFF0C;&#x7576;&#x8A72;&#x503C;&#x964D;&#x70BA;0&#x6642;&#x6AA2;&#x67E5;&#x548C;&#x57F7;&#x884C;&#x88AB;&#x639B;&#x8D77;&#x7684;&#x9700;&#x8981;&#x8ABF;&#x5EA6;&#x7684;&#x4EFB;&#x52D9;  </span>
+preempt_enable_no_resched()<span class="hljs-comment">//&#x5167;&#x6838;&#x6436;&#x4F54;&#x8A08;&#x6578;preempt_count&#x6E1B;1&#xFF0C;&#x4F46;&#x4E0D;&#x7ACB;&#x5373;&#x6436;&#x4F54;&#x5F0F;&#x8ABF;&#x5EA6;  </span>
+preempt_check_resched () <span class="hljs-comment">//&#x5982;&#x679C;&#x5FC5;&#x8981;&#x9032;&#x884C;&#x8ABF;&#x5EA6;  </span>
+preempt_count() <span class="hljs-comment">//&#x8FD4;&#x56DE;&#x6436;&#x4F54;&#x8A08;&#x6578;  </span>
+preempt_schedule() <span class="hljs-comment">//&#x5167;&#x6838;&#x6436;&#x4F54;&#x6642;&#x7684;&#x8ABF;&#x5EA6;&#x7A0B;&#x5E8F;&#x7684;&#x5165;&#x53E3;&#x9EDE;</span>
 </code></pre>
-<p>&#x4EE5;preempt_enable()&#x4E3A;&#x4F8B;&#xFF0C;&#x770B;&#x4E00;&#x4E0B;&#x5176;&#x5B9E;&#x73B0;&#xFF1A;</p>
+<p>&#x4EE5;preempt_enable()&#x70BA;&#x4F8B;&#xFF0C;&#x770B;&#x4E00;&#x4E0B;&#x5176;&#x5BE6;&#x73FE;&#xFF1A;</p>
 <pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> preempt_enable() \
     do { \
         preempt_enable_no_resched(); \
-        barrier(); \        <span class="hljs-comment">// &#x52A0;&#x5185;&#x5B58;&#x5C4F;&#x969C;&#xFF0C;&#x963B;&#x6B62;gcc&#x7F16;&#x8BD1;&#x5668;&#x5BF9;&#x5185;&#x5B58;&#x8FDB;&#x884C;&#x4F18;&#x5316;</span></span>
+        barrier(); \        <span class="hljs-comment">// &#x52A0;&#x5167;&#x5B58;&#x5C4F;&#x969C;&#xFF0C;&#x963B;&#x6B62;gcc&#x7DE8;&#x8B6F;&#x5668;&#x5C0D;&#x5167;&#x5B58;&#x9032;&#x884C;&#x512A;&#x5316;</span></span>
 preempt_check_resched();
 \
 
@@ -17645,7 +17645,7 @@ preempt_check_resched();
         dec_preempt_count(); \
     } while (<span class="hljs-number">0</span>)</span>
 <span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> dec_preempt_count() sub_preempt_count(<span class="hljs-number">1</span>)</span>
-<span class="hljs-preprocessor"># <span class="hljs-keyword">define</span> sub_preempt_count(val)    do { preempt_count() -= (val); } while (<span class="hljs-number">0</span>) <span class="hljs-comment">//&#x6B64;&#x5904;&#x51CF;&#x5C11;&#x62A2;&#x5360;&#x8BA1;&#x6570;  </span></span>
+<span class="hljs-preprocessor"># <span class="hljs-keyword">define</span> sub_preempt_count(val)    do { preempt_count() -= (val); } while (<span class="hljs-number">0</span>) <span class="hljs-comment">//&#x6B64;&#x8655;&#x6E1B;&#x5C11;&#x6436;&#x4F54;&#x8A08;&#x6578;  </span></span>
 
 <span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> preempt_check_resched() \
     do { \
@@ -17688,10 +17688,10 @@ preempt_check_resched();
         </div>
 
         
-        <a href="../linux_kernel/ff08_jiu_ff09_ff1a_jin_cheng_diao_du.html" class="navigation navigation-prev " aria-label="Previous page: （九）：进程调度"><i class="fa fa-angle-left"></i></a>
+        <a href="../linux_kernel/ff08_jiu_ff09_ff1a_jin_cheng_diao_du.html" class="navigation navigation-prev " aria-label="Previous page: （九）：進程調度"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../linux_kernel/ff08_shi_yi_ff09_ff1a_nei_cun_guan_li_zhi_ye_de_fe.html" class="navigation navigation-next " aria-label="Next page: （十一）：内存管理之页的分配与回收"><i class="fa fa-angle-right"></i></a>
+        <a href="../linux_kernel/ff08_shi_yi_ff09_ff1a_nei_cun_guan_li_zhi_ye_de_fe.html" class="navigation navigation-next " aria-label="Next page: （十一）：內存管理之頁的分配與回收"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

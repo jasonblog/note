@@ -1,16 +1,16 @@
-# （三）：下半部机制之软中断
+# （三）：下半部機制之軟中斷
 
 
-中断处理程序以异步方式执行，其会打断其他重要代码，其运行时该中断同级的其他中断会被屏蔽，并且当前处理器上所有其他中断都有可能会被屏蔽掉，还有中断处理程序不能阻塞，所以中断处理需要尽快结束。由于中断处理程序的这些缺陷，导致了中断处理程序只是整个硬件中断处理流程的一部分，对于那些对时间要求不高的任务，留给中断处理流程的另外一部分，也就是本节要讲的中断处理流程的下半部。
+中斷處理程序以異步方式執行，其會打斷其他重要代碼，其運行時該中斷同級的其他中斷會被屏蔽，並且當前處理器上所有其他中斷都有可能會被屏蔽掉，還有中斷處理程序不能阻塞，所以中斷處理需要儘快結束。由於中斷處理程序的這些缺陷，導致了中斷處理程序只是整個硬件中斷處理流程的一部分，對於那些對時間要求不高的任務，留給中斷處理流程的另外一部分，也就是本節要講的中斷處理流程的下半部。
 
-那哪些工作由中断处理程序完成，哪些工作留给下半部来执行呢？其实上半部和下半部的工作划分不存在某种严格限制，这主要取决于驱动程序开发者自己的判断，一般最好能将中断处理程序执行时间缩短到最小。中断处理程序几乎都需要通过操作硬件对中断的到达进行确认，有时还会做对时间非常敏感的工作（如拷贝数据），其余的工作基本上留给下半部来处理，下半部就是执行与中断处理密切相关但中断处理程序本身不执行的工作。一般对时间非常敏感、和硬件相关、要保证不被其它中断(特别是相同的中断)打断的这些任务放在中断处理程序中执行，其他任务考虑放在下半部执行。
+那哪些工作由中斷處理程序完成，哪些工作留給下半部來執行呢？其實上半部和下半部的工作劃分不存在某種嚴格限制，這主要取決於驅動程序開發者自己的判斷，一般最好能將中斷處理程序執行時間縮短到最小。中斷處理程序幾乎都需要通過操作硬件對中斷的到達進行確認，有時還會做對時間非常敏感的工作（如拷貝數據），其餘的工作基本上留給下半部來處理，下半部就是執行與中斷處理密切相關但中斷處理程序本身不執行的工作。一般對時間非常敏感、和硬件相關、要保證不被其它中斷(特別是相同的中斷)打斷的這些任務放在中斷處理程序中執行，其他任務考慮放在下半部執行。
 
-那下半部什么时候执行呢？下半部不需要指定明确执行时间，只要把任务推迟一点，让它们在系统不太忙且中断恢复后执行就可以了，而且执行期间可以相应所有中断。
+那下半部什麼時候執行呢？下半部不需要指定明確執行時間，只要把任務推遲一點，讓它們在系統不太忙且中斷恢復後執行就可以了，而且執行期間可以相應所有中斷。
 
-上半部只能通过中断处理程序实现，而下半部可以有多种机制来实现，在2.6.32版本中，有三种不同形式的下半部实现机制：软中断、tasklet、工作队列。下面来看一下这三种下半部的实现。
+上半部只能通過中斷處理程序實現，而下半部可以有多種機制來實現，在2.6.32版本中，有三種不同形式的下半部實現機制：軟中斷、tasklet、工作隊列。下面來看一下這三種下半部的實現。
 
-##软中断
-在start_kernerl()函数中，系统初始化软中断。
+##軟中斷
+在start_kernerl()函數中，系統初始化軟中斷。
 
 
 ```c
@@ -21,7 +21,7 @@ asmlinkage void __init start_kernel(void)
   
     smp_setup_processor_id();  
 ......  
-    softirq_init();//初始化软中断  
+    softirq_init();//初始化軟中斷  
 ......  
   
     /* Do the rest non-__init'ed, we're now alive */  
@@ -29,7 +29,7 @@ asmlinkage void __init start_kernel(void)
 }
 ```
 
-在softirq_init()中会注册两个常用类型的软中断, 具体代码如下（位于kernel/softirq.c）:
+在softirq_init()中會註冊兩個常用類型的軟中斷, 具體代碼如下（位於kernel/softirq.c）:
 
 ```c
 void __init softirq_init(void)  
@@ -49,13 +49,13 @@ void __init softirq_init(void)
   
     register_hotcpu_notifier(&remote_softirq_cpu_notifier);  
   
-    //此处注册两个软中断  
+    //此處註冊兩個軟中斷  
     open_softirq(TASKLET_SOFTIRQ, tasklet_action);     open_softirq(HI_SOFTIRQ, tasklet_hi_action);  
 }  
 ```
 
-注册函数open_softirq()参数含义:
-nr:软中断类型 action:软中断处理函数
+註冊函數open_softirq()參數含義:
+nr:軟中斷類型 action:軟中斷處理函數
 
 
 ```c
@@ -65,7 +65,7 @@ void open_softirq(int nr, void (*action)(struct softirq_action *))
 }  
 ```
 
-softirq_action结构表示软中断，定义在`<include/linux/interrupt.h>`
+softirq_action結構表示軟中斷，定義在`<include/linux/interrupt.h>`
 
 
 ```c
@@ -75,13 +75,13 @@ struct softirq_action
 }  
 ```
 
-文件`<kernel/softirq.c>`中定义了32个该结构体的数组：
+文件`<kernel/softirq.c>`中定義了32個該結構體的數組：
 
 ```c
 static struct softirq_action softirq_vec[NR_SOFTIRQS] __cacheline_aligned_in_smp;  
 ```
 
-每注册一个软中断都会占该数组一个位置，因此系统中最多有32个软中断。从上面的代码中,我们可以看到:open_softirq()中.其实就是对softirq_vec数组的nr项赋值.softirq_vec是一个32元素的数组,实际上linux内核只使用了几项：
+每註冊一個軟中斷都會佔該數組一個位置，因此係統中最多有32個軟中斷。從上面的代碼中,我們可以看到:open_softirq()中.其實就是對softirq_vec數組的nr項賦值.softirq_vec是一個32元素的數組,實際上linux內核只使用了幾項：
 
 ```c
 /* PLEASE, avoid to allocate new softirqs, if you need not _really_ high 
@@ -107,24 +107,24 @@ enum
 };  
 ```
 
-那么软中断注册完成之后，什么时候触发软中断处理函数执行呢？通常情况下，软中断会在中断处理程序返回前标记它，使其在稍后合适的时候被执行。在下列地方，待处理的软中断会被检查和执行：
-###1.处理完一个硬件中断以后；
-###2.在ksoftirqd内核线程中；
-###3.在那些显示检查和执行待处理的软中断的代码中，如网络子系统中。
+那麼軟中斷註冊完成之後，什麼時候觸發軟中斷處理函數執行呢？通常情況下，軟中斷會在中斷處理程序返回前標記它，使其在稍後合適的時候被執行。在下列地方，待處理的軟中斷會被檢查和執行：
+###1.處理完一個硬件中斷以後；
+###2.在ksoftirqd內核線程中；
+###3.在那些顯示檢查和執行待處理的軟中斷的代碼中，如網絡子系統中。
 
-有关网络子系统内容可参考文章：http://blog.csdn.net/shallnet/article/details/26269781
+有關網絡子系統內容可參考文章：http://blog.csdn.net/shallnet/article/details/26269781
 
-无论如何，软中断会在do_softirq()（位于`<kernel/softirq.c>`中）中执行，如果有待处理的软中断，do_softirq会循环遍历每一个，调用他们的软中断处理程序。
+無論如何，軟中斷會在do_softirq()（位於`<kernel/softirq.c>`中）中執行，如果有待處理的軟中斷，do_softirq會循環遍歷每一個，調用他們的軟中斷處理程序。
 
 
 ```c
-asmlinkage void do_softirq(void) {     __u32 pending;     unsigned long flags;     //如果在硬件中断环境中就退出，软中断不可以在硬件中断上下文或者是在软中断环境中使用，使用in_interrupt()来防止软中断嵌套，和抢占硬中断环境。     if (in_interrupt())         return;     //禁止本地中断     local_irq_save(flags);     pending = local_softirq_pending();  
-    //如果有软中断要处理，则进入__do_softirq()  
+asmlinkage void do_softirq(void) {     __u32 pending;     unsigned long flags;     //如果在硬件中斷環境中就退出，軟中斷不可以在硬件中斷上下文或者是在軟中斷環境中使用，使用in_interrupt()來防止軟中斷嵌套，和搶佔硬中斷環境。     if (in_interrupt())         return;     //禁止本地中斷     local_irq_save(flags);     pending = local_softirq_pending();  
+    //如果有軟中斷要處理，則進入__do_softirq()  
     if (pending) __do_softirq();     
     local_irq_restore(flags);    
 ```
 
-下面看一下__do_softirq()的实现：
+下面看一下__do_softirq()的實現：
 
 
 ```c
@@ -135,7 +135,7 @@ asmlinkage void __do_softirq(void)
     int max_restart = MAX_SOFTIRQ_RESTART;
     int cpu;
 
-    pending = local_softirq_pending();    //pending用于保留待处理软中断32位位图
+    pending = local_softirq_pending();    //pending用於保留待處理軟中斷32位位圖
     account_system_vtime(current);
 
     __local_bh_disable((unsigned long)__builtin_return_address(0));
@@ -152,12 +152,12 @@ restart:
 
     do {
         if (pending &
-            1) {    //如果pending第n位被设置为1，那么处理第n位对应类型的软中断
+            1) {    //如果pending第n位被設置為1，那麼處理第n位對應類型的軟中斷
             int prev_count = preempt_count();
             kstat_incr_softirqs_this_cpu(h - softirq_vec);
 
             trace_softirq_entry(h, softirq_vec);
-            h->action(h);    //执行软中断处理函数
+            h->action(h);    //執行軟中斷處理函數
             trace_softirq_exit(h, softirq_vec);
 
             if (unlikely(prev_count != preempt_count())) {
@@ -173,8 +173,8 @@ restart:
         }
 
         h++;
-        pending >>= 1;    //pending右移一位，循环检查其每一位
-    } while (pending);    //直到pending变为0，pending最多32位，所以循环最多执行32次。
+        pending >>= 1;    //pending右移一位，循環檢查其每一位
+    } while (pending);    //直到pending變為0，pending最多32位，所以循環最多執行32次。
 
     local_irq_disable();
 
@@ -195,4 +195,4 @@ restart:
 }
 ```
 
-使用软中断必须要在编译期间静态注册，一般只有像网络这样对性能要求高的情况才使用软中断，文章前面我们也看到，系统中注册的软中断就那么几个。大部分时候，使用下半部另外一种机制tasklet的情况更多一些，tasklet可以动态的注册，可以被看作是一种性能和易用性之间寻求平衡的一种产物。事实上，大部分驱动程序都是用tasklet来实现他们的下半部。
+使用軟中斷必須要在編譯期間靜態註冊，一般只有像網絡這樣對性能要求高的情況才使用軟中斷，文章前面我們也看到，系統中註冊的軟中斷就那麼幾個。大部分時候，使用下半部另外一種機制tasklet的情況更多一些，tasklet可以動態的註冊，可以被看作是一種性能和易用性之間尋求平衡的一種產物。事實上，大部分驅動程序都是用tasklet來實現他們的下半部。

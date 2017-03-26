@@ -1,17 +1,17 @@
-# （六）：内核时钟中断
+# （六）：內核時鐘中斷
 
 
-内核中很多函数是基于时间驱动的，其中有些函数需要周期或定期执行。比如有的每秒执行100次，有的在等待一个相对时间之后执行。除此之外，内核还必须管理系统运行的时间日期。 
+內核中很多函數是基於時間驅動的，其中有些函數需要週期或定期執行。比如有的每秒執行100次，有的在等待一個相對時間之後執行。除此之外，內核還必須管理系統運行的時間日期。 
 
-周期性产生的时间都是有系统定时器驱动的，系统定时器是一种可编程硬件芯片，它可以以固定频率产生中断，该中断就是所谓的定时器中断，其所对应的中断处理程序负责更新系统时间，也负责执行需要周期性运行的任务。
+週期性產生的時間都是有系統定時器驅動的，系統定時器是一種可編程硬件芯片，它可以以固定頻率產生中斷，該中斷就是所謂的定時器中斷，其所對應的中斷處理程序負責更新系統時間，也負責執行需要週期性運行的任務。
 
-系统定时器以某种频率自行触发时钟中断，该频率可以通过编程预定，称作节拍率。当时钟中断发生时，内核就通过一种特殊的中断处理器对其进行处理。内核知道连续两次时钟中断的间隔时间，该间隔时间就称为节拍。内核就是靠这种已知的时钟中断间隔来计算实际时间和系统运行时间的。内核通过控制时钟中断维护实际时间，另外内核也为用户提供一组系统调用获取实际日期和实际时间。时钟中断对才操作系统的管理来说十分重要，系统更新运行时间、更新实际时间、均衡调度程序中个处理器上运行队列、检查进程是否用尽时间片等工作都利用时钟中断来周期执行。
+系統定時器以某種頻率自行觸發時鐘中斷，該頻率可以通過編程預定，稱作節拍率。當時鍾中斷髮生時，內核就通過一種特殊的中斷處理器對其進行處理。內核知道連續兩次時鐘中斷的間隔時間，該間隔時間就稱為節拍。內核就是靠這種已知的時鐘中斷間隔來計算實際時間和系統運行時間的。內核通過控制時鐘中斷維護實際時間，另外內核也為用戶提供一組系統調用獲取實際日期和實際時間。時鐘中斷對才操作系統的管理來說十分重要，系統更新運行時間、更新實際時間、均衡調度程序中個處理器上運行隊列、檢查進程是否用盡時間片等工作都利用時鐘中斷來週期執行。
 
-系统定时器频率是通过静态预定义的，也就是HZ，体系结构不同，HZ的值也不同。内核在<asm/param.h>文件中定义，在x86上时钟中断频率为100HZ，也就是说在i386处理上每秒时钟中断100次。
+系統定時器頻率是通過靜態預定義的，也就是HZ，體系結構不同，HZ的值也不同。內核在<asm/param.h>文件中定義，在x86上時鐘中斷頻率為100HZ，也就是說在i386處理上每秒時鐘中斷100次。
 
-linux内核众多子系统都依赖时钟中断工作，所以是时钟中断频率的选择必须考虑频率所有子系统的影响。提高节拍就使得时钟中断产生的更频繁，中断处理程序就会更加频繁的执行，这样就提高了时间驱动时间的准确度，误差更小。如HZ=100，那么时钟每10ms中断一次，周期事件每10ms运行一次，如果HZ=1000，那么周期事件每1ms就会运行一次，这样依赖定时器的系统调用能够以更高的精度运行。既然提高时钟中断频率这么好，那为何要将HZ设置为100呢？因为提高时钟中断频率也会产生副作用，中断频率越高，系统的负担就增加了，处理器需要花时间来执行中断处理程序，中断处理器占用cpu时间越多。这样处理器执行其他工作的时间及越少，并且还会打乱处理器高速缓存。所以选择时钟中断频率时要考虑多方面，要取得各方面的折中的一个合适频率。
+linux內核眾多子系統都依賴時鐘中斷工作，所以是時鐘中斷頻率的選擇必須考慮頻率所有子系統的影響。提高節拍就使得時鐘中斷產生的更頻繁，中斷處理程序就會更加頻繁的執行，這樣就提高了時間驅動時間的準確度，誤差更小。如HZ=100，那麼時鐘每10ms中斷一次，週期事件每10ms運行一次，如果HZ=1000，那麼週期事件每1ms就會運行一次，這樣依賴定時器的系統調用能夠以更高的精度運行。既然提高時鐘中斷頻率這麼好，那為何要將HZ設置為100呢？因為提高時鐘中斷頻率也會產生副作用，中斷頻率越高，系統的負擔就增加了，處理器需要花時間來執行中斷處理程序，中斷處理器佔用cpu時間越多。這樣處理器執行其他工作的時間及越少，並且還會打亂處理器高速緩存。所以選擇時鐘中斷頻率時要考慮多方面，要取得各方面的折中的一個合適頻率。
 
-内核有一个全局变量jiffies，该变量用来记录系统起来以后产生的节拍总数。系统启动是，该变量被设置为0，此后每产生一次时钟中断就增加该变量的值。jiffies每一秒增加的值就是HZ。jiffies定义于头文件`<include/linux/jiffies.h>`中：
+內核有一個全局變量jiffies，該變量用來記錄系統起來以後產生的節拍總數。系統啟動是，該變量被設置為0，此後每產生一次時鐘中斷就增加該變量的值。jiffies每一秒增加的值就是HZ。jiffies定義於頭文件`<include/linux/jiffies.h>`中：
 
 
 
@@ -19,7 +19,7 @@ linux内核众多子系统都依赖时钟中断工作，所以是时钟中断频
 extern unsigned long volatile __jiffy_data jiffies;  
 ```
 
-对于32位unsigned long，可以存放最大值为4294967295，所以当节拍数达到最大值后还要继续增加的话，它的值就会回到0值。内核提供了四个宏（位于文件`<include/linux/jiffies.h>`中）来比较节拍数，这些宏可以正确处理节拍计数回绕情况。
+對於32位unsigned long，可以存放最大值為4294967295，所以當節拍數達到最大值後還要繼續增加的話，它的值就會回到0值。內核提供了四個宏（位於文件`<include/linux/jiffies.h>`中）來比較節拍數，這些宏可以正確處理節拍計數迴繞情況。
 
 
 ```c
@@ -36,7 +36,7 @@ extern unsigned long volatile __jiffy_data jiffies;
 
 ```
 
-下面示例来打印出当前系统启动后经过的jiffies以及秒数：
+下面示例來打印出當前系統啟動後經過的jiffies以及秒數：
 
 ```c
 #include <linux/init.h>
@@ -61,7 +61,7 @@ MODULE_AUTHOR("shallnet");
 MODULE_DESCRIPTION("blog.csdn.net/shallnet");
 ```
 
-执行输出结果为：
+執行輸出結果為：
 
 ```sh
 # insmod jfs.ko  
@@ -69,8 +69,8 @@ MODULE_DESCRIPTION("blog.csdn.net/shallnet");
 Current ticks is: 10106703, seconds: 10106  
 ```
 
-时钟中断发生时，会触发时钟中断处理程序，始终中断处理程序部分和体系结构相关，下面简单分析一下x86体系的处理：
-时钟的初始化在time_init()中，在start_kernel()中调用time_init()，如下：
+時鐘中斷髮生時，會觸發時鐘中斷處理程序，始終中斷處理程序部分和體系結構相關，下面簡單分析一下x86體系的處理：
+時鐘的初始化在time_init()中，在start_kernel()中調用time_init()，如下：
 
 ```c
 asmlinkage void __init start_kernel(void)  
@@ -81,7 +81,7 @@ asmlinkage void __init start_kernel(void)
 }
 ```
 
-下面分析一下time_init()的实现，该函数位于文件`<arch/x86/kernel/time.c>`中：
+下面分析一下time_init()的實現，該函數位於文件`<arch/x86/kernel/time.c>`中：
 
 ```c
 void __init time_init(void)                                                                                                
@@ -96,7 +96,7 @@ static __init void x86_late_time_init(void)
 }  
 ```
 
-结构体x86_init位于arch/x86/kernel/x86_init.c中
+結構體x86_init位於arch/x86/kernel/x86_init.c中
 
 
 ```c
@@ -109,7 +109,7 @@ struct x86_init_ops x86_init __initdata = {
     }  
 } 
 ```
-默认timer初始化函数为：
+默認timer初始化函數為：
 
 ```c
 void __init hpet_time_init(void)                                                                                          
@@ -119,7 +119,7 @@ void __init hpet_time_init(void)
     setup_default_timer_irq();  
 }
 ```
-函数setup_default_timer_irq();注册中断处理函数：
+函數setup_default_timer_irq();註冊中斷處理函數：
 
 ```c
 void __init setup_default_timer_irq(void)                                                                                  
@@ -134,7 +134,7 @@ static struct irqaction irq0  = {
 };
 ```
 
-对应的中断处理函数为:timer_interrupt():
+對應的中斷處理函數為:timer_interrupt():
 
 ```c
 static irqreturn_t timer_interrupt(int irq, void* dev_id)
@@ -156,7 +156,7 @@ static irqreturn_t timer_interrupt(int irq, void* dev_id)
         spin_unlock(&i8259A_lock);
     }
 
-    //在此处调用体系无关的时钟处理例程
+    //在此處調用體系無關的時鐘處理例程
     global_clock_event->event_handler(global_clock_event);
 
     /* MCA bus quirk: Acknowledge irq0 by setting bit 7 in port 0x61 */
@@ -168,8 +168,8 @@ static irqreturn_t timer_interrupt(int irq, void* dev_id)
 }
 ```
 
-时钟例程在系统启动时start_kernel()函数中调用tick_init()初始化：
-（位于文件kernel/time/tick-common.c）
+時鐘例程在系統啟動時start_kernel()函數中調用tick_init()初始化：
+（位於文件kernel/time/tick-common.c）
 
 ```c
 void __init tick_init(void)  
@@ -178,7 +178,7 @@ void __init tick_init(void)
 }  
 ```
 
-tick_notifier定义如下：
+tick_notifier定義如下：
 
 ```c
 static struct notifier_block tick_notifier = {
@@ -234,7 +234,7 @@ void tick_setup_periodic(struct clock_event_device* dev, int broadcast)
 }
 
 /*
- * 根据broadcast设置周期性的处理函数（kernel/time/tick-broadcast.c）,这里就设置了始终中断函数timer_interrupt中调用的时钟处理例程
+ * 根據broadcast設置週期性的處理函數（kernel/time/tick-broadcast.c）,這裡就設置了始終中斷函數timer_interrupt中調用的時鐘處理例程
  */
 void tick_set_periodic_handler(struct clock_event_device* dev, int broadcast)
 {
@@ -246,7 +246,7 @@ void tick_set_periodic_handler(struct clock_event_device* dev, int broadcast)
 }
 
 /*
- * ，以tick_handle_periodic为例，每一个始终节拍都调用该处理函数，而该处理过程中，主要处理工作处于tick_periodic()函数中。
+ * ，以tick_handle_periodic為例，每一個始終節拍都調用該處理函數，而該處理過程中，主要處理工作處於tick_periodic()函數中。
  */
 void tick_handle_periodic(struct clock_event_device* dev)
 {
@@ -274,8 +274,8 @@ void tick_handle_periodic(struct clock_event_device* dev)
     }
 }
 ```
-tick_periodic()函数主要有以下工作：
-下面来看分析一下该函数：
+tick_periodic()函數主要有以下工作：
+下面來看分析一下該函數：
 
 ```c
 /* 
@@ -286,31 +286,31 @@ static void tick_periodic(int cpu)
     if (tick_do_timer_cpu == cpu) {  
         write_seqlock(&xtime_lock);  
   
-        /* 记录下一个节拍事件 */  
+        /* 記錄下一個節拍事件 */  
         tick_next_period = ktime_add(tick_next_period, tick_period);  
   
         do_timer(1);  
         write_sequnlock(&xtime_lock);  
     }  
   
-    update_process_times(user_mode(get_irq_regs()));//更新所耗费的各种节拍数  
+    update_process_times(user_mode(get_irq_regs()));//更新所耗費的各種節拍數  
     profile_tick(CPU_PROFILING);  
 }  
 ```
 
-其中函数do_timer()(位于kernel/timer.c中)对jiffies_64做增加操作：
+其中函數do_timer()(位於kernel/timer.c中)對jiffies_64做增加操作：
 
 
 ```c
 void do_timer(unsigned long ticks)  
 {  
     jiffies_64 += ticks;  
-    update_wall_time();    //更新墙上时钟  
-    calc_global_load();    //更新系统平均负载统计值  
+    update_wall_time();    //更新牆上時鐘  
+    calc_global_load();    //更新系統平均負載統計值  
 }  
 ```
 
-update_process_times更新所耗费的各种节拍数。
+update_process_times更新所耗費的各種節拍數。
 
 
 ```c
@@ -328,7 +328,7 @@ void update_process_times(int user_tick)
     run_posix_cpu_timers(p);  
 }  
 ```
-函数run_local_timers()会标记一个软中断去处理所有到期的定时器。
+函數run_local_timers()會標記一個軟中斷去處理所有到期的定時器。
 
 ```c
 void run_local_timers(void)  
@@ -339,9 +339,9 @@ void run_local_timers(void)
 }  
 ```
 
-在时钟中断处理函数time_interrupt()函数调用体系结构无关的时钟处理例程完成之后，返回到与体系结构的相关的中断处理函数中。以上所有的工作每一次时钟中断都会运行，也就是说如果HZ=100，那么时钟中断处理程序每一秒就会运行100次。
+在時鐘中斷處理函數time_interrupt()函數調用體系結構無關的時鐘處理例程完成之後，返回到與體系結構的相關的中斷處理函數中。以上所有的工作每一次時鐘中斷都會運行，也就是說如果HZ=100，那麼時鐘中斷處理程序每一秒就會運行100次。
 
-本节源码下载：
+本節源碼下載：
 http://download.csdn.net/detail/gentleliu/8944199
 
 

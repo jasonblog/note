@@ -1,9 +1,9 @@
-# （七）：内核定时器和定时执行
+# （七）：內核定時器和定時執行
 
 
-前面章节说到了把工作推后到除现在以外的时间执行的机制是下半部机制，但是当你需要将工作推后到某个确定的时间段之后执行，使用定时器是很好的选择。
+前面章節說到了把工作推後到除現在以外的時間執行的機制是下半部機制，但是當你需要將工作推後到某個確定的時間段之後執行，使用定時器是很好的選擇。
 
-上一节内核时间管理中讲到内核在始终中断发生执行定时器，定时器作为软中断在下半部上下文中执行。时钟中断处理程序会执行update_process_times函数，在该函数中运行run_local_timers()函数来标记一个软中断去处理所有到期的定时器。如下：
+上一節內核時間管理中講到內核在始終中斷髮生執行定時器，定時器作為軟中斷在下半部上下文中執行。時鐘中斷處理程序會執行update_process_times函數，在該函數中運行run_local_timers()函數來標記一個軟中斷去處理所有到期的定時器。如下：
 
 ```c
 void update_process_times(int user_tick)  
@@ -27,7 +27,7 @@ void run_local_timers(void)
 }  
 ```
 
-在分析定时器的实现之前我们先来看一看使用内核定时器的一个实例，具体使用可查看这篇文章：http://blog.csdn.net/shallnet/article/details/17734571，示例如下:
+在分析定時器的實現之前我們先來看一看使用內核定時器的一個實例，具體使用可查看這篇文章：http://blog.csdn.net/shallnet/article/details/17734571，示例如下:
 
 
 ```c
@@ -71,8 +71,8 @@ MODULE_LICENSE("GPL");
 MODULE_AUTHOR("allen");
 ```
 
-该示例作用是每秒钟打印出当前系统jiffies的值。
-内核定时器由结构timer_list表示，定义在文件`<include/linux/timer.h>`中。
+該示例作用是每秒鐘打印出當前系統jiffies的值。
+內核定時器由結構timer_list表示，定義在文件`<include/linux/timer.h>`中。
 
 
 ```c
@@ -93,18 +93,18 @@ struct timer_list {
 };  
 ```
 
-如示例，内核提供部分操作接口来简化管理定时器，
-`第一步`、定义一个定时器：
+如示例，內核提供部分操作接口來簡化管理定時器，
+`第一步`、定義一個定時器：
 
 
 ```c
 struct timer_list   sln_timer;  
 ```
 
-`第二步`、初始化定时器数据结构的内部值。
+`第二步`、初始化定時器數據結構的內部值。
 
 ```c
-init_timer(&sln_timer);//初始化定时器  
+init_timer(&sln_timer);//初始化定時器  
 ```
 
 ```c
@@ -132,25 +132,25 @@ static void __init_timer(struct timer_list* timer,
 }
 ```
 
-`第三步`、填充timer_list结构中需要的值：
+`第三步`、填充timer_list結構中需要的值：
 
 ```c
-sln_timer.expires = jiffies + HZ;   //1s后执行    
-sln_timer.function = sln_timer_do;    //执行函数  
+sln_timer.expires = jiffies + HZ;   //1s後執行    
+sln_timer.function = sln_timer_do;    //執行函數  
 sln_timer.data = 9527;  
 ```
 
-sln_timer.expires表示超时时间，它以节拍为单位的绝对计数值。如果当前jiffies计数等于或大于sln_timer.expires的值，那么sln_timer.function所指向的处理函数sln_timer_do就会执行，并且该函数还要使用长整型参数sln_timer.dat。
+sln_timer.expires表示超時時間，它以節拍為單位的絕對計數值。如果當前jiffies計數等於或大於sln_timer.expires的值，那麼sln_timer.function所指向的處理函數sln_timer_do就會執行，並且該函數還要使用長整型參數sln_timer.dat。
 void sln_timer_do(unsigned long l)；
 
-`第四步`、激活定时器：
+`第四步`、激活定時器：
 
 ```c
-add_timer(&sln_timer);    //向内核注册定时器  
+add_timer(&sln_timer);    //向內核註冊定時器  
 ```
 
-这样定时器就可以运行了。
-add_timer()的实现如下：
+這樣定時器就可以運行了。
+add_timer()的實現如下：
 
 ```c
 void add_timer(struct timer_list *timer)  
@@ -160,19 +160,19 @@ void add_timer(struct timer_list *timer)
 }
 ```
 
-add_timer()调用了mod_timer()。mod_timer()用于修改定时器超时时间。
+add_timer()調用了mod_timer()。mod_timer()用於修改定時器超時時間。
 
 mod_timer(&sln_timer, jiffies + HZ);
 
-由于add_timer()是通过调用mod_timer()来激活定时器，所以也可以直接使用mod_timer()来激活定时器，如果定时器已经初始化但没有激活，mod_timer()也会激活它。
+由於add_timer()是通過調用mod_timer()來激活定時器，所以也可以直接使用mod_timer()來激活定時器，如果定時器已經初始化但沒有激活，mod_timer()也會激活它。
 
-如果需要在定时器超时前停止定时器，使用del_timer()函数来完成。
+如果需要在定時器超時前停止定時器，使用del_timer()函數來完成。
 
 ```c
 del_timer(&sln_timer); 
 ```
 
-该函数实现如下：
+該函數實現如下：
 
 ```c
 int del_timer(struct timer_list* timer)
@@ -217,14 +217,14 @@ static inline void detach_timer(struct timer_list* timer,
 }
 ```
 
-当使用del_timer()返回后，定时器就不会再被激活，但在多处理器机器上定时器上定时器中断可能已经在其他处理器上运行了，所以删除定时器时需要等待可能在其他处理器上运行的定时器处理I程序都退出，这时就要使用del_timer_sync()函数执行删除工作：
+當使用del_timer()返回後，定時器就不會再被激活，但在多處理器機器上定時器上定時器中斷可能已經在其他處理器上運行了，所以刪除定時器時需要等待可能在其他處理器上運行的定時器處理I程序都退出，這時就要使用del_timer_sync()函數執行刪除工作：
 
 ```c
 del_timer_sync(&sln_timer);
 ```
 
-该函数不能再中断上下文中使用。
-该函数详细实现如下：
+該函數不能再中斷上下文中使用。
+該函數詳細實現如下：
 
 ```c
 int del_timer_sync(struct timer_list* timer)
@@ -237,7 +237,7 @@ int del_timer_sync(struct timer_list* timer)
     local_irq_restore(flags);
 #endif
 
-    for (;;) {    //一直循环，直到删除timer成功再退出
+    for (;;) {    //一直循環，直到刪除timer成功再退出
         int ret = try_to_del_timer_sync(timer);
 
         if (ret >= 0) {
@@ -277,27 +277,27 @@ out:
 }
 ```
 
-一般情况下应该使用del_timer_sync()函数代替del_timer()函数，因为无法确定在删除定时器时，他是否在其他处理器上运行。为了防止这种情况的发生，应该调用del_timer_sync()函数而不是del_timer()函数。否则，对定时器执行删除操作后，代码会继续执行，但它有可能会去操作在其它处理器上运行的定时器正在使用的资源，因而造成并发访问，所有优先使用删除定时器的同步方法。
+一般情況下應該使用del_timer_sync()函數代替del_timer()函數，因為無法確定在刪除定時器時，他是否在其他處理器上運行。為了防止這種情況的發生，應該調用del_timer_sync()函數而不是del_timer()函數。否則，對定時器執行刪除操作後，代碼會繼續執行，但它有可能會去操作在其它處理器上運行的定時器正在使用的資源，因而造成併發訪問，所有優先使用刪除定時器的同步方法。
 
-除了使用定时器来推迟任务到指定时间段运行之外，还有其他的方法处理延时请求。有的方法会在延迟任务时挂起处理器，有的却不会。实际上也没有方法能够保证实际的延迟时间刚好等于指定的延迟时间。
+除了使用定時器來推遲任務到指定時間段運行之外，還有其他的方法處理延時請求。有的方法會在延遲任務時掛起處理器，有的卻不會。實際上也沒有方法能夠保證實際的延遲時間剛好等於指定的延遲時間。
 
-`1.` 最简单的 延迟方法是忙等待，该方法实现起来很简单，只需要在循环中不断旋转直到希望的时钟节拍数耗尽。比如：
+`1.` 最簡單的 延遲方法是忙等待，該方法實現起來很簡單，只需要在循環中不斷旋轉直到希望的時鐘節拍數耗盡。比如：
 
 ```c
-unsigned long delay = jiffies+10;   //延迟10个节拍  
+unsigned long delay = jiffies+10;   //延遲10個節拍  
 while(time_before(jiffies,delay))  
         ；  
 ```
 
-这种方法当代码等待时，处理器只能在原地旋转等待，它不会去处理其他任何任务。最好在任务等待时，允许内核重新调度其它任务执行。将上面代码修改如下：
+這種方法當代碼等待時，處理器只能在原地旋轉等待，它不會去處理其他任何任務。最好在任務等待時，允許內核重新調度其它任務執行。將上面代碼修改如下：
 
 ```c
-unsigned long delay = jiffies+10;   //10个节拍  
+unsigned long delay = jiffies+10;   //10個節拍  
 while(time_before(jiffies,delay))  
     cond_resched(); 
 ```
 
-看一下cond_resched()函数具体实现代码：
+看一下cond_resched()函數具體實現代碼：
 
 ```c
 #define cond_resched() ({           \
@@ -318,14 +318,14 @@ int __sched _cond_resched(void)
 static void __cond_resched(void)
 {
     add_preempt_count(PREEMPT_ACTIVE);
-    schedule(); //最终还是调用schedule()函数来重新调度其它程序运行
+    schedule(); //最終還是調用schedule()函數來重新調度其它程序運行
     sub_preempt_count(PREEMPT_ACTIVE);
 }
 ```
 
-函数cond_resched()将重新调度一个新程序投入运行，但它只有在设置完need_resched标志后才能生效。换句话说，就是系统中存在更重要的任务需要运行。再由于该方法需要调用调度程序，所以它不能在中断上下文中使用----只能在进程上下文中使用。事实上，所有延迟方法在进程上下文中使用，因为中断处理程序都应该尽可能快的执行。另外，延迟执行不管在哪种情况下都不应该在持有锁时或者禁止中断时发生。
+函數cond_resched()將重新調度一個新程序投入運行，但它只有在設置完need_resched標誌後才能生效。換句話說，就是系統中存在更重要的任務需要運行。再由於該方法需要調用調度程序，所以它不能在中斷上下文中使用----只能在進程上下文中使用。事實上，所有延遲方法在進程上下文中使用，因為中斷處理程序都應該儘可能快的執行。另外，延遲執行不管在哪種情況下都不應該在持有鎖時或者禁止中斷時發生。
 
-`2.` 有时内核需要更短的延迟，甚至比节拍间隔还要短。这时可以使用内核提供的ms、ns、us级别的延迟函数。
+`2.` 有時內核需要更短的延遲，甚至比節拍間隔還要短。這時可以使用內核提供的ms、ns、us級別的延遲函數。
 
 ```c
 void udelay(unsigned long usecs);    //arch/x86/include/asm/delay.h  
@@ -333,7 +333,7 @@ void ndelay(unsigned long nsecs);    //arch/x86/include/asm/delay.h
 void mdelay(unsigned long msecs);      
 ```
 
-udelay()使用忙循环将任务延迟指定的ms后执行,其依靠执行数次循环达到延迟效果，mdelay()函数是通过udelay()函数实现，如下：
+udelay()使用忙循環將任務延遲指定的ms後執行,其依靠執行數次循環達到延遲效果，mdelay()函數是通過udelay()函數實現，如下：
 
 ```c
 #define mdelay(n) (\   
@@ -342,20 +342,20 @@ udelay()使用忙循环将任务延迟指定的ms后执行,其依靠执行数次
 #endif 
 ```
 
-udelay()函数仅能在要求的延迟时间很短的情况下执行，而在高速机器中时间很长的延迟会造成溢出。对于较长的延迟，mdelay()工作良好。
+udelay()函數僅能在要求的延遲時間很短的情況下執行，而在高速機器中時間很長的延遲會造成溢出。對於較長的延遲，mdelay()工作良好。
 
 
 
-`3.`  schedule_timeout()函数是更理想的延迟执行方法。该方法会让需要延迟执行的任务睡眠到指定的延迟时间耗尽后再重新运行。但该方法也不能保证睡眠时间正好等于指定的延迟时间，只能尽量是睡眠时间接近指定的延迟时间。当指定的时间到期后，内核唤醒被延迟的任务并将其重新放回运行队列。用法如下：
+`3.`  schedule_timeout()函數是更理想的延遲執行方法。該方法會讓需要延遲執行的任務睡眠到指定的延遲時間耗盡後再重新運行。但該方法也不能保證睡眠時間正好等於指定的延遲時間，只能儘量是睡眠時間接近指定的延遲時間。當指定的時間到期後，內核喚醒被延遲的任務並將其重新放回運行隊列。用法如下：
 
 ```c
-set_current_state(TASK_INTERRUPTIBLE);    //将任务设置为可中断睡眠状态  
-schedule_timeout(s*HZ);    //小睡一会儿，“s”秒后唤醒  
+set_current_state(TASK_INTERRUPTIBLE);    //將任務設置為可中斷睡眠狀態  
+schedule_timeout(s*HZ);    //小睡一會兒，“s”秒後喚醒  
 ```
 
-唯一的参数是延迟的相对时间，单位是jiffies，上例中将相应的任务推入可中断睡眠队列，睡眠s秒。在调用函数schedule_timeout之前，不要要将任务设置成可中断或不和中断的一种，否则任务不会休眠。这个函数需要调用调度程序，所以调用它的代码必须保证能够睡眠，简而言之，调用代码必须处于进程上下文中，并且不能持有锁。
+唯一的參數是延遲的相對時間，單位是jiffies，上例中將相應的任務推入可中斷睡眠隊列，睡眠s秒。在調用函數schedule_timeout之前，不要要將任務設置成可中斷或不和中斷的一種，否則任務不會休眠。這個函數需要調用調度程序，所以調用它的代碼必須保證能夠睡眠，簡而言之，調用代碼必須處於進程上下文中，並且不能持有鎖。
 
-事实上schedule_timeout()函数的实现就是内核定时器的一个简单应用。
+事實上schedule_timeout()函數的實現就是內核定時器的一個簡單應用。
 
 
 ```c
@@ -396,10 +396,10 @@ signed long __sched schedule_timeout(signed long timeout)
 
     expire = timeout + jiffies;
 
-    //下一行代码设置了超时执行函数process_timeout()。
+    //下一行代碼設置了超時執行函數process_timeout()。
     setup_timer_on_stack(&timer, process_timeout, (unsigned long)current);
-    __mod_timer(&timer, expire, false, TIMER_NOT_PINNED);    //激活定时器
-    schedule();    //调度其他新任务
+    __mod_timer(&timer, expire, false, TIMER_NOT_PINNED);    //激活定時器
+    schedule();    //調度其他新任務
     del_singleshot_timer_sync(&timer);
 
     /* Remove the timer from the object tracker */
@@ -412,7 +412,7 @@ out:
 }
 ```
 
-当定时器超时时，process_timeout()函数被调用：
+當定時器超時時，process_timeout()函數被調用：
 
 
 ```c
@@ -422,10 +422,10 @@ static void process_timeout(unsigned long __data)
 }  
 ```
 
-当任务被重新调度时，将返回代码进入睡眠前的位置继续执行，位置正好在schedule()处。
+當任務被重新調度時，將返回代碼進入睡眠前的位置繼續執行，位置正好在schedule()處。
 
-进程上下文的代码为了等待特定时间发生，可以将自己放入等待队列。但是，等待队列上的某个任务可能既在等待一个特定事件到来，又在等待一个特定时间到期，就看谁来得更快。这种情况下，代码可以简单的使用scedule_timeout()函数代替schedule()函数，这样一来，当希望指定时间到期后，任务都会被唤醒，当然，代码需要检查被唤醒的原因，有可能是被事件唤醒，也有可能是因为延迟的时间到期，还可能是因为接收到了信号，然后执行相应的操作。
+進程上下文的代碼為了等待特定時間發生，可以將自己放入等待隊列。但是，等待隊列上的某個任務可能既在等待一個特定事件到來，又在等待一個特定時間到期，就看誰來得更快。這種情況下，代碼可以簡單的使用scedule_timeout()函數代替schedule()函數，這樣一來，當希望指定時間到期後，任務都會被喚醒，當然，代碼需要檢查被喚醒的原因，有可能是被事件喚醒，也有可能是因為延遲的時間到期，還可能是因為接收到了信號，然後執行相應的操作。
 
-本文源码下载：
+本文源碼下載：
 http://download.csdn.net/detail/gentleliu/8944281
 

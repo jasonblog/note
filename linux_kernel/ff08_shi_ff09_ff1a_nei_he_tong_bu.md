@@ -649,7 +649,56 @@ preempt_schedule() //内核抢占时的调度程序的入口点
 ```
 
 
+以preempt_enable()为例，看一下其实现：
 
+```c
+#define preempt_enable() \
+    do { \
+        preempt_enable_no_resched(); \
+        barrier(); \        // 加内存屏障，阻止gcc编译器对内存进行优化
+preempt_check_resched();
+\
+
+} while (0)
+#define preempt_enable_no_resched() \
+    do { \
+        barrier(); \
+        dec_preempt_count(); \
+    } while (0)
+#define dec_preempt_count() sub_preempt_count(1)
+# define sub_preempt_count(val)    do { preempt_count() -= (val); } while (0) //此处减少抢占计数  
+
+#define preempt_check_resched() \
+    do { \
+        if (unlikely(test_thread_flag(TIF_NEED_RESCHED))) \
+            preempt_schedule(); \
+    } while (0)
+
+    asmlinkage void __sched preempt_schedule(void)
+{
+    struct thread_info* ti = current_thread_info();
+
+    /*
+     * If there is a non-zero preempt_count or interrupts are disabled,
+     * we do not want to preempt the current task. Just return..
+     */
+    if (likely(ti->preempt_count || irqs_disabled())) {
+        return;
+    }
+
+    do {
+        add_preempt_count(PREEMPT_ACTIVE);
+        schedule();
+        sub_preempt_count(PREEMPT_ACTIVE);
+
+        /*
+         * Check again in case we missed a preemption opportunity
+         * between schedule and now.
+         */
+        barrier();
+    } while (need_resched());
+}
+```
 
 
 

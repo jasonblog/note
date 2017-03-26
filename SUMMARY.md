@@ -218,7 +218,7 @@
        * [（四）：映射設備內核空間到用戶態](linux_kernel/ff08_si_ff09_ff1a_ying_she_she_bei_nei_he_kong_jia.md)
    * [把握linux内核设计思想系列](linux_kernel/ba_wo_linux_nei_he_she_ji_si_xiang_xi_lie.md)
        * [（一）：系统调用](linux_kernel/ff08_yi_ff09_ff1a_xi_tong_diao_yong.md)
-       * （二）：硬中断及中断处理
+       * [（二）：硬中断及中断处理](linux_kernel/ff08_er_ff09_ff1a_ying_zhong_duan_ji_zhong_duan_ch.md)
 * [Linux Driver](linux_driver/README.md)
    * [Linux Device Driver Programming](linux_device_driver_programming/README.md)
        * [Linux 裝置驅動程式的概要](linux_device_driver_programming/01.md)

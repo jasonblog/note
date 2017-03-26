@@ -219,7 +219,6 @@ SYSCALL_DEFINE0(getpid)
 asmlinkage long sys_getpid(void)  
 {  
     return current->tpid;  
-  
 }  
 ```
 

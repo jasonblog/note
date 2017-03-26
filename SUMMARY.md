@@ -224,6 +224,7 @@
        * [（五）：下半部機制之工作隊列及幾種機制的選擇](linux_kernel/ff08_wu_ff09_ff1a_xia_ban_bu_ji_zhi_zhi_gong_zuo_d.md)
        * [（六）：內核時鐘中斷](linux_kernel/ff08_liu_ff09_ff1a_nei_he_shi_zhong_zhong_duan.md)
        * [（七）：內核定時器和定時執行](linux_kernel/ff08_qi_ff09_ff1a_nei_he_ding_shi_qi_he_ding_shi_z.md)
+       * （八）：进程管理分析 
 * [Linux Driver](linux_driver/README.md)
    * [Linux Device Driver Programming](linux_device_driver_programming/README.md)
        * [Linux 裝置驅動程式的概要](linux_device_driver_programming/01.md)

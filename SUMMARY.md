@@ -216,7 +216,7 @@
        * [（二）：proc虛擬文件系統](linux_kernel/ff08_er_ff09_ff1a_proc_xu_ni_wen_jian_xi_tong.md)
        * [（三）：讀寫內核設備驅動文件](linux_kernel/ff08_san_ff09_ff1a_du_xie_nei_he_she_bei_qu_dong_w.md)
        * [（四）：映射設備內核空間到用戶態](linux_kernel/ff08_si_ff09_ff1a_ying_she_she_bei_nei_he_kong_jia.md)
-   * 把握linux内核设计思想系列
+   * [把握linux内核设计思想系列](linux_kernel/ba_wo_linux_nei_he_she_ji_si_xiang_xi_lie.md)
 * [Linux Driver](linux_driver/README.md)
    * [Linux Device Driver Programming](linux_device_driver_programming/README.md)
        * [Linux 裝置驅動程式的概要](linux_device_driver_programming/01.md)

@@ -1,42 +1,42 @@
-# （三）：读写内核设备驱动文件
+# （三）：讀寫內核設備驅動文件
 
 
-读写设备文件也就是调用系统调用read()和write()，系统调用就是内核提供给应用程序的接口，应用程序对底层的操作大部分都是通过系统调用来完成。几乎所有的系统调用都涉及到内核和应用的数据交换，本节并非讲述如何添加一个系统调用（那是第一节的内容），而是讲解如何利用现有系统调用来实现特定的内核与应用交互需求。
+讀寫設備文件也就是調用系統調用read()和write()，系統調用就是內核提供給應用程序的接口，應用程序對底層的操作大部分都是通過系統調用來完成。幾乎所有的系統調用都涉及到內核和應用的數據交換，本節並非講述如何添加一個系統調用（那是第一節的內容），而是講解如何利用現有系統調用來實現特定的內核與應用交互需求。
 
-本节将建立一个字符设备驱动来作为应用和内核之间数据通信的渠道，字符设备驱动有关信息可以参考作者这篇文章：
+本節將建立一個字符設備驅動來作為應用和內核之間數據通信的渠道，字符設備驅動有關信息可以參考作者這篇文章：
 
 http://blog.csdn.net/shallnet/article/details/17734309
 
-建立字符设备驱动有如下步骤：
+建立字符設備驅動有如下步驟：
 
-第一步、注册设备号。
-可以使用如下函数分别静态和动态注册:
+第一步、註冊設備號。
+可以使用如下函數分別靜態和動態註冊:
 
 ```c
 int register_chrdev_region(dev_t from, unsigned count, const char *name)；   
 int alloc_chrdev_region(dev_t *dev, unsigned baseminor, unsigned count, const char *name)；  
 ```
 
-第二步、初始化设备结构体。
-使用函数：
+第二步、初始化設備結構體。
+使用函數：
 
 
 ```c
 void cdev_init(struct cdev *cdev, const struct file_operations *fops)；  
 ```
 
-在调用该函数之前，还需要初始化file_operations结构体，该结构体成员函数是字符设备驱动设计的主要内容，当在应用上调用read和write等函数时，该结构体中对应的函数会被调用。
+在調用該函數之前，還需要初始化file_operations結構體，該結構體成員函數是字符設備驅動設計的主要內容，當在應用上調用read和write等函數時，該結構體中對應的函數會被調用。
        
-第三步、添加设备。
-使用函数:
+第三步、添加設備。
+使用函數:
 
 ```c
 int cdev_add(struct cdev *p, dev_t dev, unsigned count)； 
 ```
 
-第四步、实现file_operations结构体中open()、read()、write()、ioctl()等函数。
+第四步、實現file_operations結構體中open()、read()、write()、ioctl()等函數。
 
-file_operations中的read()和write()函数，就是用来在驱动程序和应用程序间交换数据的。通过数据交换，驱动程序和应用程序可以彼此了解对方的情况。但是驱动程序和应用程序属于不同的地址空间。驱动程序不能直接访问应用程序的地址空间；同样应用程序也不能直接访问驱动程序的地址空间，否则会破坏彼此空间中的数据，从而造成系统崩溃，或者数据损坏。安全的方法是使用内核提供的专用函数，完成数据在应用程序空间和驱动程序空间的交换。这些函数对用户程序传过来的指针进行了严格的检查和必要的转换，从而保证用户程序与驱动程序交换数据的安全性。这些函数有：
+file_operations中的read()和write()函數，就是用來在驅動程序和應用程序間交換數據的。通過數據交換，驅動程序和應用程序可以彼此瞭解對方的情況。但是驅動程序和應用程序屬於不同的地址空間。驅動程序不能直接訪問應用程序的地址空間；同樣應用程序也不能直接訪問驅動程序的地址空間，否則會破壞彼此空間中的數據，從而造成系統崩潰，或者數據損壞。安全的方法是使用內核提供的專用函數，完成數據在應用程序空間和驅動程序空間的交換。這些函數對用戶程序傳過來的指針進行了嚴格的檢查和必要的轉換，從而保證用戶程序與驅動程序交換數據的安全性。這些函數有：
 
 
 ```c
@@ -45,7 +45,7 @@ unsigned long copy_from_user(void *to, const void __user *from, unsigned long n)
 get_user(local,user);  
 ```
 
-当不是该设备时，应当删除该设备、释放申请的设备号。
+當不是該設備時，應當刪除該設備、釋放申請的設備號。
 
 
 ```c
@@ -53,8 +53,8 @@ void cdev_del(struct cdev *dev);
 void unregister_chrdev_region(dev_t from, unsigned count)；  
 ```
 
-这两函数一般在卸载模块中调用。
-下面看一下字符设备的完整实现代码：
+這兩函數一般在卸載模塊中調用。
+下面看一下字符設備的完整實現代碼：
 
 
 ```c
@@ -124,7 +124,7 @@ static ssize_t chr_read(struct file* filp, char __user* buf, size_t size,
         return 0;
     }
 
-    //将内核中数据dev->data，读取到用户空间buf中，读取count字节
+    //將內核中數據dev->data，讀取到用戶空間buf中，讀取count字節
     if (copy_to_user(buf, (void*)(dev->data + p), count)) {
         return -EINVAL;
     } else {
@@ -153,7 +153,7 @@ static ssize_t chr_write(struct file* filp, const char __user* buf, size_t size,
         count = CHAR_DEV_DATA_SIZE - p;
     }
 
-    //将用户空间buf中数据copy到内核空间dev->data中，copy count字节数据
+    //將用戶空間buf中數據copy到內核空間dev->data中，copy count字節數據
     if (copy_from_user(dev->data + p, buf, count)) {
         ret = -EINVAL;
     } else {
@@ -231,14 +231,14 @@ static int chr_dev_init(void)
     int result;
     dev_t devno;
 
-    /* 注册设备号 */
+    /* 註冊設備號 */
     result = alloc_chrdev_region(&devno, 0, 1, "chardev");
 
     if (result < 0) {
         return result;
     }
 
-    // 分配自定义设备结构体内存
+    // 分配自定義設備結構體內存
     chr_devp = kmalloc(CHAR_DEV_NO * sizeof(struct chr_dev), GFP_KERNEL);
 
     if (!chr_devp) {
@@ -248,18 +248,18 @@ static int chr_dev_init(void)
 
     memset(chr_devp, 0, sizeof(struct chr_dev));
 
-    /*初始化设备*/
+    /*初始化設備*/
     cdev_init(&chr_devp->cdev, &chr_fops);
     chr_devp->cdev.owner = THIS_MODULE;
 
-    /* 添加设备 */
+    /* 添加設備 */
     chr_major = MAJOR(devno);
     cdev_add(&chr_devp->cdev, MKDEV(chr_major, 0), CHAR_DEV_NO);
 
-    /*初始自定义设备结构体内存数据*/
+    /*初始自定義設備結構體內存數據*/
     chr_devp->data = kmalloc(CHAR_DEV_DATA_SIZE, GFP_KERNEL);
     memset(chr_devp->data, '*',
-           CHAR_DEV_DATA_SIZE / 100);  //为避免输出太多影响结果显示，此处仅仅初始化40个字节。
+           CHAR_DEV_DATA_SIZE / 100);  //為避免輸出太多影響結果顯示，此處僅僅初始化40個字節。
 
     return 0;
 
@@ -285,7 +285,7 @@ MODULE_AUTHOR("shallnet");
 MODULE_DESCRIPTION("blog.csdn.net/shallnet");
 ```
 
-应用程序实现代码如下：
+應用程序實現代碼如下：
 
 
 ```c
@@ -307,7 +307,7 @@ int main()
     int     fd;
     char    shm[SHR_MEMSIZE];
 
-    /* 打开设备文件 */
+    /* 打開設備文件 */
     fd = open(CHAR_DEV_FILENAME, O_RDWR);
 
     if (fd < 0) {
@@ -315,10 +315,10 @@ int main()
         return -1;
     }
 
-    /* 直接设置共享内存数据 */
+    /* 直接設置共享內存數據 */
     snprintf(shm, sizeof(shm), "this data is writed by user!");
 
-    /* 写入数据 */
+    /* 寫入數據 */
     printf("======== Write data========\n");
 
     if (write(fd, shm, strlen(shm)) < 0) {
@@ -326,7 +326,7 @@ int main()
         return -1;
     }
 
-    /* 再读取数据，以验证应用上设置成功 */
+    /* 再讀取數據，以驗證應用上設置成功 */
     printf("======== Read data========\n");
 
     if (lseek(fd, 0, SEEK_SET) < 0) {
@@ -341,7 +341,7 @@ int main()
 
     printf("read data: %s\n", shm);
 
-    /* 再清空数据之后再读取 */
+    /* 再清空數據之後再讀取 */
     printf("========= Clear it now: =======\n");
 
     if (ioctl(fd, MEM_CLEAR, NULL) < 0) {
@@ -387,32 +387,32 @@ int main()
 }
 ```
 
-在编译驱动和应用程序之后就可以验证内核和应用的数据交换是否成功了。运行验证    如下：
+在編譯驅動和應用程序之後就可以驗證內核和應用的數據交換是否成功了。運行驗證    如下：
 
 
 ```sh
-# insmod chardev.ko  //首先插入模块  
-# cat /proc/devices | grep chardev //查看驱动模块对应主设备号  
+# insmod chardev.ko  //首先插入模塊  
+# cat /proc/devices | grep chardev //查看驅動模塊對應主設備號  
 248 chardev  
-# mknod  /dev/sln_chardev c 248 0     //为设备创建对应节点  
+# mknod  /dev/sln_chardev c 248 0     //為設備創建對應節點  
 ```
 
-然后再运行应用程序：
+然後再運行應用程序：
 
 ```sh
 # ./read_app  
 ======== Write data========  
 ======== Read data========  
-read data: this data is writed by user!************     //读取应用设置数据成功  
-========= Clear it now: =======     //在内核清空数据，应用读取数据为空  
+read data: this data is writed by user!************     //讀取應用設置數據成功  
+========= Clear it now: =======     //在內核清空數據，應用讀取數據為空  
 read data:  
-========= Reset it now: =======     //在内核重设空间数据为hello, user!，应用上再读取该数据，输出预期值！  
+========= Reset it now: =======     //在內核重設空間數據為hello, user!，應用上再讀取該數據，輸出預期值！  
 read data: hello, user!  
 ```
 
-本节只实现了file_operations结构体中部分函数，在后面我们还可以实现其它的函数，也可以实现内核和应用交互数据。
+本節只實現了file_operations結構體中部分函數，在後面我們還可以實現其它的函數，也可以實現內核和應用交互數據。
 
-本节源码下载：
+本節源碼下載：
 http://download.csdn.net/detail/gentleliu/9035821
 
 

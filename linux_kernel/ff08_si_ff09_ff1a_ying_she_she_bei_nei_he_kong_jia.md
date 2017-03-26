@@ -1,13 +1,13 @@
-# （四）：映射设备内核空间到用户态
+# （四）：映射設備內核空間到用戶態
 
 
-一个进程的内存映象由下面几部分组成：代码段、数据段、BSS段和堆栈段，以及内存映射的区域等部分，内存映射函数mmap(), 负责把文件内容映射到进程的虚拟内存空间, 通过对这段内存的读取和修改，来实现对文件的读取和修改，而文件可以是设备驱动文件节点。通过把内核驱动的内存空间映射到应用层，可以实现应用和内核空间的数据交换。
+一個進程的內存映象由下面幾部分組成：代碼段、數據段、BSS段和堆棧段，以及內存映射的區域等部分，內存映射函數mmap(), 負責把文件內容映射到進程的虛擬內存空間, 通過對這段內存的讀取和修改，來實現對文件的讀取和修改，而文件可以是設備驅動文件節點。通過把內核驅動的內存空間映射到應用層，可以實現應用和內核空間的數據交換。
 
-linux设备分三种，字符设备、块设备、网络接口设备。每一个字符设备或块设备都在/dev目录下对应一个设备文件。linux用户态程序通过设备文件（或称设备节点）来使用驱动程序操作字符设备和块设备。
+linux設備分三種，字符設備、塊設備、網絡接口設備。每一個字符設備或塊設備都在/dev目錄下對應一個設備文件。linux用戶態程序通過設備文件（或稱設備節點）來使用驅動程序操作字符設備和塊設備。
 
-本节使用字符设备驱动为例来实现映射，有关字符设备驱动相关内容可参考作者这篇文章：
+本節使用字符設備驅動為例來實現映射，有關字符設備驅動相關內容可參考作者這篇文章：
 http://blog.csdn.net/shallnet/article/details/17734309
-实现内存映射的关键在于实现字符设备驱动的mmap()函数，mmap()函数原型为:
+實現內存映射的關鍵在於實現字符設備驅動的mmap()函數，mmap()函數原型為:
 
 
 ```c
@@ -15,13 +15,13 @@ http://blog.csdn.net/shallnet/article/details/17734309
 void *mmap(void *addr, size_t length, int prot, int flags,  int fd, off_t offset);  
 ```
 
-该函数负责把文件内容映射到进程的虚拟地址空间，通过对这段内存的读取和修改来实现对文件的读取和修改，而不需要再调用read和write；
+該函數負責把文件內容映射到進程的虛擬地址空間，通過對這段內存的讀取和修改來實現對文件的讀取和修改，而不需要再調用read和write；
 
-mmap方法是file_operations结构的成员，在mmap系统调用的发出时被调用。mmap设备方法所需要做的就是建立虚拟地址到物理地址的页表。其实在在我们调用系统调用mmap时，内核中的sys_mmap函数首先根据用户提供给mmap的参数（如起始地址、空间大小、行为修饰符等）创建新的vma。然后再调用相应文件的file_operations中的mmap函数。
+mmap方法是file_operations結構的成員，在mmap系統調用的發出時被調用。mmap設備方法所需要做的就是建立虛擬地址到物理地址的頁表。其實在在我們調用系統調用mmap時，內核中的sys_mmap函數首先根據用戶提供給mmap的參數（如起始地址、空間大小、行為修飾符等）創建新的vma。然後再調用相應文件的file_operations中的mmap函數。
 
-进程虚拟地址空间相关内容可参考作者这篇文章：
+進程虛擬地址空間相關內容可參考作者這篇文章：
 http://blog.csdn.net/shallnet/article/details/47701225
-使用remap_pfn_range()函数将设备内存线性地映射到用户地址空间中。该函数原型为：
+使用remap_pfn_range()函數將設備內存線性地映射到用戶地址空間中。該函數原型為：
 
 
 ```c
@@ -40,12 +40,12 @@ int remap_pfn_range(struct vm_area_struct* vma, unsigned long addr,
 
 ```
 
-其中vma为虚拟内存区域，在一定范围内的页将被映射到该区域内。
-addr为重新映射时的起始地址，该函数为处于addr和addr+size之间的虚拟地址建立页表。
-pfn为与物理内存对于的页帧号，页帧号只是将物理地址右移PAGE_SHIFT位。
-size为以字节为单位，被重新映射的大小。
-prot为新VMA要求的“保护”属性。
-下面看一看file_operations中的mmap成员的实现：
+其中vma為虛擬內存區域，在一定範圍內的頁將被映射到該區域內。
+addr為重新映射時的起始地址，該函數為處於addr和addr+size之間的虛擬地址建立頁表。
+pfn為與物理內存對於的頁幀號，頁幀號只是將物理地址右移PAGE_SHIFT位。
+size為以字節為單位，被重新映射的大小。
+prot為新VMA要求的“保護”屬性。
+下面看一看file_operations中的mmap成員的實現：
 
 
 ```c
@@ -68,7 +68,7 @@ static int chrmem_dev_mmap(struct file*filp, struct vm_area_struct *vma)
 }
 ```
 
-该函数中函数page_to_pfn(shm_page)将表示物理页面的page结构转换为其对应的页帧号。该字符设备驱动的主要思想是建立一个字符设备，在它的驱动程序中申请一块物理内存区域，并利用mmap将这段物理内存区域映射到进程的地址空间中。该驱动源码如下：
+該函數中函數page_to_pfn(shm_page)將表示物理頁面的page結構轉換為其對應的頁幀號。該字符設備驅動的主要思想是建立一個字符設備，在它的驅動程序中申請一塊物理內存區域，並利用mmap將這段物理內存區域映射到進程的地址空間中。該驅動源碼如下：
 
 
 ```c
@@ -149,7 +149,7 @@ static int chrmem_dev_init(void)
     int result;
     dev_t devno;
 
-    /* 分配设备号 */
+    /* 分配設備號 */
     result = alloc_chrdev_region(&devno, 0, 1, "chrmem_dev");
 
     if (result < 0) {
@@ -157,7 +157,7 @@ static int chrmem_dev_init(void)
     }
 
 
-    // 为自定义设备结构体分配内存空间
+    // 為自定義設備結構體分配內存空間
     
     mem_devp = kmalloc(MEMDEV_NR_DEVS * sizeof(struct mem_dev), GFP_KERNEL);
 
@@ -168,15 +168,15 @@ static int chrmem_dev_init(void)
 
     memset(mem_devp, 0, sizeof(struct mem_dev));
 
-    /*初始化字符设备*/
+    /*初始化字符設備*/
     cdev_init(&mem_devp->cdev, &mem_fops);
     mem_devp->cdev.owner = THIS_MODULE;
 
-    /*添加注册字符设备 */
+    /*添加註冊字符設備 */
     mem_major = MAJOR(devno);
     cdev_add(&mem_devp->cdev, MKDEV(mem_major, 0), MEMDEV_NR_DEVS);
 
-    /*初始化自定义设备数据内容*/
+    /*初始化自定義設備數據內容*/
     mem_devp->data = kmalloc(MEMDEV_SIZE, GFP_KERNEL);
     memset(mem_devp->data, '*', MEMDEV_SIZE / 100);
 
@@ -193,14 +193,14 @@ static int chrmem_dev_init(void)
     int result;
     dev_t devno;
 
-    /* 分配设备号 */
+    /* 分配設備號 */
     result = alloc_chrdev_region(&devno, 0, 1, "chrmem_dev");
 
     if (result < 0) {
         return result;
     }
 
-    // 为自定义设备结构体分配内存空
+    // 為自定義設備結構體分配內存空
     chrmem_devp = kmalloc(CHR_MEMDEV_NUM * sizeof(struct chrmem_dev), GFP_KERNEL);
 
     if (!chrmem_devp) {
@@ -210,15 +210,15 @@ static int chrmem_dev_init(void)
 
     memset(chrmem_devp, 0, sizeof(struct chrmem_dev));
 
-    /*初始化字符设备*/
+    /*初始化字符設備*/
     cdev_init(&chrmem_devp->cdev, &chrmem_fops);
     chrmem_devp->cdev.owner = THIS_MODULE;
 
-    /*添加注册字符设备 */
+    /*添加註冊字符設備 */
     chrmem_major = MAJOR(devno);
     cdev_add(&chrmem_devp->cdev, MKDEV(chrmem_major, 0), CHR_MEMDEV_NUM);
 
-    /*初始化自定义设备数据内容*/
+    /*初始化自定義設備數據內容*/
     chrmem_devp->data = kmalloc(CHR_MEMDEV_DATA_SIZE, GFP_KERNEL);
     memset(chrmem_devp->data, '*', CHR_MEMDEV_DATA_SIZE / 100);
 
@@ -246,7 +246,7 @@ MODULE_AUTHOR("shallnet");
 MODULE_DESCRIPTION("blog.csdn.net/shallnet");
 ```
 
-在应用程序中调用mmap来实现内存映射，应用程序代码如下：
+在應用程序中調用mmap來實現內存映射，應用程序代碼如下：
 
 
 ```c
@@ -311,7 +311,7 @@ int main()
 }
 ```
 
-应用程序在实现映射之后，首先读取输出共享内存内容，然后写入，然后清空该共享内存内容以及重设共享内存。在编译驱动和应用程序之后首先插入驱动，在创建设备节点，最后运行应用程序看是否成功，如下:
+應用程序在實現映射之後，首先讀取輸出共享內存內容，然後寫入，然後清空該共享內存內容以及重設共享內存。在編譯驅動和應用程序之後首先插入驅動，在創建設備節點，最後運行應用程序看是否成功，如下:
 
 ```sh
 # insmod memdev.ko  
@@ -328,8 +328,8 @@ After reset, shm = hello, user!
 #  
 ```
 
-可以看到字符设备驱动的内核空间被成功映射到用户态，现在用户空间的一段内存关联到设备内存上，对用户空间的读写就相当于对字符设备的读写。
+可以看到字符設備驅動的內核空間被成功映射到用戶態，現在用戶空間的一段內存關聯到設備內存上，對用戶空間的讀寫就相當於對字符設備的讀寫。
 
-本节源码下载：
+本節源碼下載：
 http://download.csdn.net/detail/gentleliu/9035831
 

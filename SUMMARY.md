@@ -225,6 +225,7 @@
        * [（六）：內核時鐘中斷](linux_kernel/ff08_liu_ff09_ff1a_nei_he_shi_zhong_zhong_duan.md)
        * [（七）：內核定時器和定時執行](linux_kernel/ff08_qi_ff09_ff1a_nei_he_ding_shi_qi_he_ding_shi_z.md)
        * [（八）：进程管理分析](linux_kernel/ff08_ba_ff09_ff1a_jin_cheng_guan_li_fen_xi.md)
+       * （九）：进程调度 
 * [Linux Driver](linux_driver/README.md)
    * [Linux Device Driver Programming](linux_device_driver_programming/README.md)
        * [Linux 裝置驅動程式的概要](linux_device_driver_programming/01.md)

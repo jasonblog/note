@@ -227,6 +227,7 @@
        * [（八）：进程管理分析](linux_kernel/ff08_ba_ff09_ff1a_jin_cheng_guan_li_fen_xi.md)
        * [（九）：进程调度](linux_kernel/ff08_jiu_ff09_ff1a_jin_cheng_diao_du.md)
        * [（十）：内核同步](linux_kernel/ff08_shi_ff09_ff1a_nei_he_tong_bu.md)
+       * （十一）：内存管理之页的分配与回收 
 * [Linux Driver](linux_driver/README.md)
    * [Linux Device Driver Programming](linux_device_driver_programming/README.md)
        * [Linux 裝置驅動程式的概要](linux_device_driver_programming/01.md)

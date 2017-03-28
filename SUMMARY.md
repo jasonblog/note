@@ -506,6 +506,7 @@
    * [深入學習Make命令和Makefile（上）](gunmake/shen_ru_xue_xi_makeming_ling_he_makefile.md)
    * [深入學習Make命令和Makefile（下）](gunmake/shen_ru_xue_xi_makeming_ling_he_makefile_ff08_xia_.md)
    * [Makefile  中的 $@, $^, $< , $? 符號](gunmake/makefile_zhong_de_,_^,__,__fu_hao.md)
+   * 从头开始写项目Makefile
 * [[轉]國王的耳朵是驢耳朵](wen00072/README.md)
    * [Linker script初探 - GNU linker ld手冊略讀](wen00072/221.md)
    * [GNU ld初探](wen00072/222.md)

@@ -510,7 +510,7 @@
        * [（零）：前言](gunmake/ff08_ling_ff09_ff1a_qian_yan.md)
        * [（一）：基本规则](gunmake/ff08_yi_ff09_ff1a_ji_ben_gui_ze.md)
        * [（二）: 隐含规则自动推导](gunmake/ff08_er_ff093a_yin_han_gui_ze_zi_dong_tui_dao.md)
-       * （三）：变量的使用
+       * [（三）：变量的使用](gunmake/ff08_san_ff09_ff1a_bian_liang_de_shi_yong.md)
 * [[轉]國王的耳朵是驢耳朵](wen00072/README.md)
    * [Linker script初探 - GNU linker ld手冊略讀](wen00072/221.md)
    * [GNU ld初探](wen00072/222.md)

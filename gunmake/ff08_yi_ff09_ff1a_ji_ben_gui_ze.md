@@ -195,7 +195,6 @@ tools.o: tools.c tools.h common.h
 clean:  
 >---rm *.o target_bin  
 ```
-给一个今天完整的makefile：
 
 
 

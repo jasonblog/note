@@ -509,6 +509,7 @@
    * [从头开始写项目Makefile](gunmake/cong_tou_kai_shi_xie_xiang_mu_makefile.md)
        * [（零）：前言](gunmake/ff08_ling_ff09_ff1a_qian_yan.md)
        * [（一）：基本规则](gunmake/ff08_yi_ff09_ff1a_ji_ben_gui_ze.md)
+       * （二）:隐含规则自动推导
 * [[轉]國王的耳朵是驢耳朵](wen00072/README.md)
    * [Linker script初探 - GNU linker ld手冊略讀](wen00072/221.md)
    * [GNU ld初探](wen00072/222.md)

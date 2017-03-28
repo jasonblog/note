@@ -228,8 +228,8 @@ make[1]: Leaving directory`/home/Myprojects/example_make/version-3.0/src/main'
 
 每增加一个目录都要在多个伪目标里面加入一行，这样不够自动化啊，于是我们想到shell的循环语 句，我们可以在每条规则的命令处使用for循环。如下：
 
+```sh
 
-```c
 DIR = src  
 SUBDIRS = $(shell ls $(DIR))  
   

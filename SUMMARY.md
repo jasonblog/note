@@ -516,7 +516,7 @@
        * [（六）：参数传递、条件判断、include](gunmake/ff08_liu_ff09_ff1a_can_shu_chuan_di_3001_tiao_jian.md)
        * [（七）：统一目标输出目录](gunmake/ff08_qi_ff09_ff1a_tong_yi_mu_biao_shu_chu_mu_lu.md)
        * [（八）：模式规则](gunmake/ff08_ba_ff09_ff1a_mo_shi_gui_ze.md)
-       * （九）：目录搜索
+       * [（九）：目录搜索](gunmake/ff08_jiu_ff09_ff1a_mu_lu_sou_suo.md)
 * [[轉]國王的耳朵是驢耳朵](wen00072/README.md)
    * [Linker script初探 - GNU linker ld手冊略讀](wen00072/221.md)
    * [GNU ld初探](wen00072/222.md)

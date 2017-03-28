@@ -1,2 +1,2 @@
-# 从头开始写项目Makefile
+# 從頭開始寫項目Makefile
 

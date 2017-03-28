@@ -1,9 +1,9 @@
-# （六）：参数传递、条件判断、include
+# （六）：參數傳遞、條件判斷、include
 
 
-在多个Makefile嵌套调用时，有时我们需要传递一些参数给下一层Makefile。比如我们在顶层Makefile里面定义的打开调试信息变量DEBUG_SYMBOLS，我们希望在进入子目录执行子Makefile时该变量仍然有效，这是需要将该变量传递给子Makefile，那怎么传递呢？这里有两种方法：
+在多個Makefile嵌套調用時，有時我們需要傳遞一些參數給下一層Makefile。比如我們在頂層Makefile裡面定義的打開調試信息變量DEBUG_SYMBOLS，我們希望在進入子目錄執行子Makefile時該變量仍然有效，這是需要將該變量傳遞給子Makefile，那怎麼傳遞呢？這裡有兩種方法：
 
-`1.`     在上层Makefile中使用”export”关键字对需要传递的变量进行声明。比如：
+`1.`     在上層Makefile中使用”export”關鍵字對需要傳遞的變量進行聲明。比如：
 
 
 ```sh
@@ -12,27 +12,27 @@ export DEBUG_SYMBOLS
 ```
 
 
-当不希望将一个变量传递给子 make 时，可以使用指示符 “unexport”来声明这个变量。
-export一般用法是在定义变量的同时对它进行声明。如下：
+當不希望將一個變量傳遞給子 make 時，可以使用指示符 “unexport”來聲明這個變量。
+export一般用法是在定義變量的同時對它進行聲明。如下：
 
 ```sh
 export DEBUG_SYMBOLS = TRUE  
 ```
 
-`2.`     在命令行上指定变量。比如：
+`2.`     在命令行上指定變量。比如：
    
 
 ```sh
 $(MAKE) -C xxx DEBUG_SYMBOLS = TRUE  
 ```
 
-这样在进入子目录xxx执行make时该变量也有效。
+這樣在進入子目錄xxx執行make時該變量也有效。
  
-像编程语言一样，Makefile也有自己的条件语句。条件语句可以根据一个变量值来控制make的执行逻辑。比较常用的条件语句是ifeq –else-endif、ifneq-else-endif、ifdef-else-endif。
+像編程語言一樣，Makefile也有自己的條件語句。條件語句可以根據一個變量值來控制make的執行邏輯。比較常用的條件語句是ifeq –else-endif、ifneq-else-endif、ifdef-else-endif。
 
-ifeq关键字用来判断参数是否相等。
+ifeq關鍵字用來判斷參數是否相等。
 
-比如判断是否生成调试信息可以这么用：
+比如判斷是否生成調試信息可以這麼用：
 
 
 ```sh
@@ -44,23 +44,23 @@ endif
 ```
 
 
-Ifneq和ifeq作用相反，此关键字是用来判断参数是否不相等。
+Ifneq和ifeq作用相反，此關鍵字是用來判斷參數是否不相等。
 
-ifdef关键字用来判断一个变量是否已经定义。
+ifdef關鍵字用來判斷一個變量是否已經定義。
 
-后两个关键字用法和ifeq类似。
+後兩個關鍵字用法和ifeq類似。
  
-现在我们继续改进我们上一节的Makefile，上一节的Makefile完成Makefile的嵌套调用，每一个模块都有自己的Makefile。其实每个模块的Makefile都大同小异，只需要改改最后编译成生成的目标名称或者编译链接选项，规则都差不多，那么我们是否可以考虑将规则部分提取出来，每个模块只需修改各自变量即可。这样是可行的，我们将规则单独提取出来，写一个Makefile.rule，将他放在顶层Makefile同目录下，其他模块内部的Makefile只需要include该Makefile就可以了。如下：
+現在我們繼續改進我們上一節的Makefile，上一節的Makefile完成Makefile的嵌套調用，每一個模塊都有自己的Makefile。其實每個模塊的Makefile都大同小異，只需要改改最後編譯成生成的目標名稱或者編譯鏈接選項，規則都差不多，那麼我們是否可以考慮將規則部分提取出來，每個模塊只需修改各自變量即可。這樣是可行的，我們將規則單獨提取出來，寫一個Makefile.rule，將他放在頂層Makefile同目錄下，其他模塊內部的Makefile只需要include該Makefile就可以了。如下：
 
 ```sh
 include $(SRC_BASE)/Makefile.rule  
 ```
 
-include类似于C语言的头文件包含，你把它理解为为本替换就什么都明白了。
+include類似於C語言的頭文件包含，你把它理解為為本替換就什麼都明白了。
 
-这样以后规则有修改的话我们直接修改该Makefile就可以了，就不用进入每一个模块去修改，这样也便于维护。
+這樣以後規則有修改的話我們直接修改該Makefile就可以了，就不用進入每一個模塊去修改，這樣也便於維護。
 
-这样我们今天顶层Makefile稍作修改：
+這樣我們今天頂層Makefile稍作修改：
 
 
 ```sh
@@ -110,7 +110,7 @@ help:
 .PHONY : all clean distclean tags help  
 ```
 
-目前我们顶层目录下的目录树为：
+目前我們頂層目錄下的目錄樹為：
 
 
 ```sh
@@ -149,7 +149,7 @@ help:
 14 directories, 16 files  
 ```
 
-每个子模块下的Makefile删除规则后修改为如下：
+每個子模塊下的Makefile刪除規則後修改為如下：
  
 
 ```sh
@@ -166,7 +166,7 @@ SRC_LIB = libtools.a
 include $(SRC_BASE)/Makefile.rule  
 ```
 
-而处于顶层目录下的Makefile.rule专门处理各模块编译链接时需要的规则。内容如下：
+而處於頂層目錄下的Makefile.rule專門處理各模塊編譯鏈接時需要的規則。內容如下：
 
 ```sh
 # Copyright (C) 2014 shallnew \at 163 \dot com                                                                                                                                             
@@ -200,16 +200,16 @@ distclean:
 .PHONY : all clean disclean  
 ```
 
-我们将Makefile.rule放在顶层有可能会一不小心在命令行上面执行了该Makefile，如下：
+我們將Makefile.rule放在頂層有可能會一不小心在命令行上面執行了該Makefile，如下：
 
 ```sh
 # make -f Makefile.rule  
 make: Nothing tobe done for `all'.  
 ```
 
-由于我们没有定义变量$(SRC_BIN)和$(SRC_LIB)，伪目标all没有任何依赖，所以编译是无法成功的。这里我们我们应该禁止直接执行该Makefile。
+由於我們沒有定義變量$(SRC_BIN)和$(SRC_LIB)，偽目標all沒有任何依賴，所以編譯是無法成功的。這裡我們我們應該禁止直接執行該Makefile。
 
-在make里面有这样一个变量：MAKELEVEL，它在多级调用的 make 执行过程中。变量代表了调用的深度。在 make 一级级的执行过程中变量MAKELEVEL的值不断的发生变化，通过它的值我们可以了解当前make 递归调用的深度。顶层的MAKELEVEL的值为“0” 、下一级时为“1” 、再下一级为“2”.......，所以我们希望一个子目录的Makefile必须被上层 make 调用才可以执行，而不允许直接执行，我们可以判断变量MAKELEVEL来控制。所以我们这一节最终的Makefile.rule为：
+在make裡面有這樣一個變量：MAKELEVEL，它在多級調用的 make 執行過程中。變量代表了調用的深度。在 make 一級級的執行過程中變量MAKELEVEL的值不斷的發生變化，通過它的值我們可以瞭解當前make 遞歸調用的深度。頂層的MAKELEVEL的值為“0” 、下一級時為“1” 、再下一級為“2”.......，所以我們希望一個子目錄的Makefile必須被上層 make 調用才可以執行，而不允許直接執行，我們可以判斷變量MAKELEVEL來控制。所以我們這一節最終的Makefile.rule為：
 
 
 ```sh
@@ -251,7 +251,7 @@ distclean:
 .PHONY : all cleandisclean   
 ```
 
-此时再直接执行该Makefile：
+此時再直接執行該Makefile：
 
 ```sh
 # make -f Makefile.rule  

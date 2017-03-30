@@ -90,7 +90,7 @@
    * [Android系統的智能指針（輕量級指針、強指針和弱指針）的實現原理分析](android_note/androidxi_tong_de_zhi_neng_zhi_zhen_ff08_qing_lian.md)
    * [gradle 教學](android_note/gradle_jiao_xue.md)
    * [Gradle的一些總結](android_note/gradlede_yi_xie_zong_jie.md)
-   * 线程通信基础流程分析 Handler、Looper、Message、MessageQueue
+   * [线程通信基础流程分析 Handler、Looper、Message、MessageQueue](android_note/xian_cheng_tong_xin_ji_chu_liu_cheng_fen_xi_handle.md)
 * [Ubuntu](ubuntu/README.md)
    * [Ubuntu installer](ubuntu/ubuntu_installer.md)
    * [Windows與Ubuntu雙系統，開機時偵測不到彼此的解決方法](ubuntu/windowsyuubuntu_shuang_xi_tong_ff0c_kai_ji_shi_zhe.md)

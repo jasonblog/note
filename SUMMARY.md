@@ -1100,5 +1100,5 @@
    * [ubuntu編譯安裝 qt 5.8](qt/ubuntubian_yi_an_zhuang_qt5__0__1.md)
    * [在QT官網下載最新的版本](qt/zai_qt_guan_wang_xia_zai_zui_xin_de_ban_ben.md)
    * [環境安裝 & 第一個 Qt 程式](qt/di_yi_ge_qt_cheng_shi.md)
-* SlickEdit
+* [SlickEdit](SlickEdit/slickedit.md)
 

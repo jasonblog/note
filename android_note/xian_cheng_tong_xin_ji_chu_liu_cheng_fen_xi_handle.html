@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>线程通信基础流程分析 Handler、Looper、Message、MessageQueue | Jason note</title>
+        <title>線程通信基礎流程分析 Handler、Looper、Message、MessageQueue | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -54,10 +54,10 @@
         
     <div class="book"
         data-level="4.28"
-        data-chapter-title="线程通信基础流程分析 Handler、Looper、Message、MessageQueue"
+        data-chapter-title="線程通信基礎流程分析 Handler、Looper、Message、MessageQueue"
         data-filepath="android_note/xian_cheng_tong_xin_ji_chu_liu_cheng_fen_xi_handle.md"
         data-basepath=".."
-        data-revision="Fri Mar 31 2017 00:09:36 GMT+0800 (CST)"
+        data-revision="Fri Mar 31 2017 00:13:18 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -1471,7 +1471,7 @@
                         
                             <b>4.28.</b>
                         
-                        线程通信基础流程分析 Handler、Looper、Message、MessageQueue
+                        線程通信基礎流程分析 Handler、Looper、Message、MessageQueue
                     </a>
             
             
@@ -17362,42 +17362,42 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="&#x7EBF;&#x7A0B;&#x901A;&#x4FE1;&#x57FA;&#x7840;&#x6D41;&#x7A0B;&#x5206;&#x6790;-handler&#x3001;looper&#x3001;message&#x3001;messagequeue">&#x7EBF;&#x7A0B;&#x901A;&#x4FE1;&#x57FA;&#x7840;&#x6D41;&#x7A0B;&#x5206;&#x6790; Handler&#x3001;Looper&#x3001;Message&#x3001;MessageQueue</h1>
+                        <h1 id="&#x7DDA;&#x7A0B;&#x901A;&#x4FE1;&#x57FA;&#x790E;&#x6D41;&#x7A0B;&#x5206;&#x6790;-handler&#x3001;looper&#x3001;message&#x3001;messagequeue">&#x7DDA;&#x7A0B;&#x901A;&#x4FE1;&#x57FA;&#x790E;&#x6D41;&#x7A0B;&#x5206;&#x6790; Handler&#x3001;Looper&#x3001;Message&#x3001;MessageQueue</h1>
 <blockquote>
-<p>&#x8001;&#x53F8;&#x673A;&#x4EEC;&#x90FD;&#x77E5;&#x9053;&#xFF0C;Android&#x7684;&#x7EBF;&#x7A0B;&#x95F4;&#x901A;&#x4FE1;&#x5C31;&#x9760;Handler&#x3001;Looper&#x3001;Message&#x3001;MessageQueue&#x8FD9;&#x56DB;&#x4E2A;&#x9EBB;&#x74DC;&#x5144;&#x5F1F;&#x4E86;&#xFF0C;&#x90A3;&#x4E48;&#xFF0C;&#x4ED6;&#x4EEC;&#x662F;&#x600E;&#x4E48;&#x8FD0;&#x4F5C;&#x7684;&#x5462;&#xFF1F;&#x4E0B;&#x9762;&#x505A;&#x4E00;&#x4E2A;&#x57FA;&#x4E8E;&#x4E3B;&#x8981;&#x6E90;&#x4EE3;&#x7801;&#x7684;&#x5927;&#x5B66;&#x751F;&#x6C34;&#x5E73;&#x7684;&#x5206;&#x6790;&#x3002; <a href="http://anangryant.leanote.com/post/Handler%E3%80%81Looper%E3%80%81Message%E3%80%81MessageQueue%E5%88%86%E6%9E%90" target="_blank">&#x539F;&#x6587;&#x94FE;&#x63A5;</a></p>
+<p>&#x8001;&#x53F8;&#x6A5F;&#x5011;&#x90FD;&#x77E5;&#x9053;&#xFF0C;Android&#x7684;&#x7DDA;&#x7A0B;&#x9593;&#x901A;&#x4FE1;&#x5C31;&#x9760;Handler&#x3001;Looper&#x3001;Message&#x3001;MessageQueue&#x9019;&#x56DB;&#x500B;&#x9EBB;&#x74DC;&#x5144;&#x5F1F;&#x4E86;&#xFF0C;&#x90A3;&#x9EBC;&#xFF0C;&#x4ED6;&#x5011;&#x662F;&#x600E;&#x9EBC;&#x904B;&#x4F5C;&#x7684;&#x5462;&#xFF1F;&#x4E0B;&#x9762;&#x505A;&#x4E00;&#x500B;&#x57FA;&#x65BC;&#x4E3B;&#x8981;&#x6E90;&#x4EE3;&#x78BC;&#x7684;&#x5927;&#x5B78;&#x751F;&#x6C34;&#x5E73;&#x7684;&#x5206;&#x6790;&#x3002; <a href="http://anangryant.leanote.com/post/Handler%E3%80%81Looper%E3%80%81Message%E3%80%81MessageQueue%E5%88%86%E6%9E%90" target="_blank">&#x539F;&#x6587;&#x93C8;&#x63A5;</a></p>
 </blockquote>
-<h2 id="looper&#x5148;&#x5206;&#x6790;&#x8FD9;&#x4E2A;&#x662F;&#x56E0;&#x4E3A;&#x80FD;&#x591F;&#x5F15;&#x51FA;&#x56DB;&#x8005;&#x7684;&#x5173;&#x7CFB;">Looper(&#x5148;&#x5206;&#x6790;&#x8FD9;&#x4E2A;&#x662F;&#x56E0;&#x4E3A;&#x80FD;&#x591F;&#x5F15;&#x51FA;&#x56DB;&#x8005;&#x7684;&#x5173;&#x7CFB;)</h2>
-<p>&#x5728;Looper&#x4E2D;&#xFF0C;&#x7EF4;&#x6301;&#x4E00;&#x4E2A;<code>Thread</code>&#x5BF9;&#x8C61;&#x4EE5;&#x53CA;<code>MessageQueue</code>&#xFF0C;&#x901A;&#x8FC7;Looper&#x7684;&#x6784;&#x9020;&#x51FD;&#x6570;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x77E5;&#x9053;:</p>
+<h2 id="looper&#x5148;&#x5206;&#x6790;&#x9019;&#x500B;&#x662F;&#x56E0;&#x70BA;&#x80FD;&#x5920;&#x5F15;&#x51FA;&#x56DB;&#x8005;&#x7684;&#x95DC;&#x4FC2;">Looper(&#x5148;&#x5206;&#x6790;&#x9019;&#x500B;&#x662F;&#x56E0;&#x70BA;&#x80FD;&#x5920;&#x5F15;&#x51FA;&#x56DB;&#x8005;&#x7684;&#x95DC;&#x4FC2;)</h2>
+<p>&#x5728;Looper&#x4E2D;&#xFF0C;&#x7DAD;&#x6301;&#x4E00;&#x500B;<code>Thread</code>&#x5C0D;&#x8C61;&#x4EE5;&#x53CA;<code>MessageQueue</code>&#xFF0C;&#x901A;&#x904E;Looper&#x7684;&#x69CB;&#x9020;&#x51FD;&#x6578;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x77E5;&#x9053;:</p>
 <pre><code>    private Looper(boolean quitAllowed) {
-        mQueue = new MessageQueue(quitAllowed);//&#x4F20;&#x5165;&#x7684;&#x53C2;&#x6570;&#x4EE3;&#x8868;&#x8FD9;&#x4E2A;Queue&#x662F;&#x5426;&#x80FD;&#x591F;&#x88AB;&#x9000;&#x51FA;
+        mQueue = new MessageQueue(quitAllowed);//&#x50B3;&#x5165;&#x7684;&#x53C3;&#x6578;&#x4EE3;&#x8868;&#x9019;&#x500B;Queue&#x662F;&#x5426;&#x80FD;&#x5920;&#x88AB;&#x9000;&#x51FA;
         mThread = Thread.currentThread();
     }
-</code></pre><p><code>Looper</code>&#x5728;&#x6784;&#x9020;&#x51FD;&#x6570;&#x91CC;&#x5E72;&#x4E86;&#x4E24;&#x4EF6;&#x4E8B;&#x60C5;&#xFF1A;</p>
+</code></pre><p><code>Looper</code>&#x5728;&#x69CB;&#x9020;&#x51FD;&#x6578;&#x88E1;&#x5E79;&#x4E86;&#x5169;&#x4EF6;&#x4E8B;&#x60C5;&#xFF1A;</p>
 <ol>
-<li>&#x5C06;&#x7EBF;&#x7A0B;&#x5BF9;&#x8C61;&#x6307;&#x5411;&#x4E86;&#x521B;&#x5EFA;<code>Looper</code>&#x7684;&#x7EBF;&#x7A0B;</li>
-<li>&#x521B;&#x5EFA;&#x4E86;&#x4E00;&#x4E2A;&#x65B0;&#x7684;<code>MessageQueue</code></li>
+<li>&#x5C07;&#x7DDA;&#x7A0B;&#x5C0D;&#x8C61;&#x6307;&#x5411;&#x4E86;&#x5275;&#x5EFA;<code>Looper</code>&#x7684;&#x7DDA;&#x7A0B;</li>
+<li>&#x5275;&#x5EFA;&#x4E86;&#x4E00;&#x500B;&#x65B0;&#x7684;<code>MessageQueue</code></li>
 </ol>
-<p>&#x5206;&#x6790;&#x5B8C;&#x6784;&#x9020;&#x51FD;&#x6570;&#x4E4B;&#x540E;&#xFF0C;&#x63A5;&#x4E0B;&#x6765;&#x6211;&#x4EEC;&#x4E3B;&#x8981;&#x5206;&#x6790;&#x4E24;&#x4E2A;&#x65B9;&#x6CD5;:</p>
+<p>&#x5206;&#x6790;&#x5B8C;&#x69CB;&#x9020;&#x51FD;&#x6578;&#x4E4B;&#x5F8C;&#xFF0C;&#x63A5;&#x4E0B;&#x4F86;&#x6211;&#x5011;&#x4E3B;&#x8981;&#x5206;&#x6790;&#x5169;&#x500B;&#x65B9;&#x6CD5;:</p>
 <ol>
 <li><code>looper.loop()</code></li>
 <li><code>looper.prepare()</code></li>
 </ol>
-<h3 id="looperloop&#xFF08;&#x5728;&#x5F53;&#x524D;&#x7EBF;&#x7A0B;&#x542F;&#x52A8;&#x4E00;&#x4E2A;message-loop&#x673A;&#x5236;&#xFF0C;&#x6B64;&#x6BB5;&#x4EE3;&#x7801;&#x5C06;&#x76F4;&#x63A5;&#x5206;&#x6790;&#x51FA;looper&#x3001;handler&#x3001;message&#x3001;messagequeue&#x7684;&#x5173;&#x7CFB;&#xFF09;">looper.loop()&#xFF08;&#x5728;&#x5F53;&#x524D;&#x7EBF;&#x7A0B;&#x542F;&#x52A8;&#x4E00;&#x4E2A;Message loop&#x673A;&#x5236;&#xFF0C;&#x6B64;&#x6BB5;&#x4EE3;&#x7801;&#x5C06;&#x76F4;&#x63A5;&#x5206;&#x6790;&#x51FA;Looper&#x3001;Handler&#x3001;Message&#x3001;MessageQueue&#x7684;&#x5173;&#x7CFB;&#xFF09;</h3>
+<h3 id="looperloop&#xFF08;&#x5728;&#x7576;&#x524D;&#x7DDA;&#x7A0B;&#x555F;&#x52D5;&#x4E00;&#x500B;message-loop&#x6A5F;&#x5236;&#xFF0C;&#x6B64;&#x6BB5;&#x4EE3;&#x78BC;&#x5C07;&#x76F4;&#x63A5;&#x5206;&#x6790;&#x51FA;looper&#x3001;handler&#x3001;message&#x3001;messagequeue&#x7684;&#x95DC;&#x4FC2;&#xFF09;">looper.loop()&#xFF08;&#x5728;&#x7576;&#x524D;&#x7DDA;&#x7A0B;&#x555F;&#x52D5;&#x4E00;&#x500B;Message loop&#x6A5F;&#x5236;&#xFF0C;&#x6B64;&#x6BB5;&#x4EE3;&#x78BC;&#x5C07;&#x76F4;&#x63A5;&#x5206;&#x6790;&#x51FA;Looper&#x3001;Handler&#x3001;Message&#x3001;MessageQueue&#x7684;&#x95DC;&#x4FC2;&#xFF09;</h3>
 <pre><code> public static void loop() {
-        final Looper me = myLooper();//&#x83B7;&#x5F97;&#x5F53;&#x524D;&#x7EBF;&#x7A0B;&#x7ED1;&#x5B9A;&#x7684;Looper
+        final Looper me = myLooper();//&#x7372;&#x5F97;&#x7576;&#x524D;&#x7DDA;&#x7A0B;&#x7D81;&#x5B9A;&#x7684;Looper
         if (me == null) {
             throw new RuntimeException(&quot;No Looper; Looper.prepare() wasn&apos;t called on this thread.&quot;);
         }
-        final MessageQueue queue = me.mQueue;//&#x83B7;&#x5F97;&#x4E0E;Looper&#x7ED1;&#x5B9A;&#x7684;MessageQueue
+        final MessageQueue queue = me.mQueue;//&#x7372;&#x5F97;&#x8207;Looper&#x7D81;&#x5B9A;&#x7684;MessageQueue
 
         // Make sure the identity of this thread is that of the local process,
         // and keep track of what that identity token actually is.
         Binder.clearCallingIdentity();
         final long ident = Binder.clearCallingIdentity();
 
-        //&#x8FDB;&#x5165;&#x6B7B;&#x5FAA;&#x73AF;&#xFF0C;&#x4E0D;&#x65AD;&#x5730;&#x53BB;&#x53D6;&#x5BF9;&#x8C61;&#xFF0C;&#x5206;&#x53D1;&#x5BF9;&#x8C61;&#x5230;Handler&#x4E2D;&#x6D88;&#x8D39;
+        //&#x9032;&#x5165;&#x6B7B;&#x5FAA;&#x74B0;&#xFF0C;&#x4E0D;&#x65B7;&#x5730;&#x53BB;&#x53D6;&#x5C0D;&#x8C61;&#xFF0C;&#x5206;&#x767C;&#x5C0D;&#x8C61;&#x5230;Handler&#x4E2D;&#x6D88;&#x8CBB;
         for (;;) {
-            Message msg = queue.next(); // &#x4E0D;&#x65AD;&#x7684;&#x53D6;&#x4E0B;&#x4E00;&#x4E2A;Message&#x5BF9;&#x8C61;&#xFF0C;&#x5728;&#x8FD9;&#x91CC;&#x53EF;&#x80FD;&#x4F1A;&#x9020;&#x6210;&#x5835;&#x585E;&#x3002;
+            Message msg = queue.next(); // &#x4E0D;&#x65B7;&#x7684;&#x53D6;&#x4E0B;&#x4E00;&#x500B;Message&#x5C0D;&#x8C61;&#xFF0C;&#x5728;&#x9019;&#x88E1;&#x53EF;&#x80FD;&#x6703;&#x9020;&#x6210;&#x5835;&#x585E;&#x3002;
             if (msg == null) {
                 // No message indicates that the message queue is quitting.
                 return;
@@ -17410,9 +17410,9 @@
                         msg.callback + &quot;: &quot; + msg.what);
             }
 
-            //&#x5728;&#x8FD9;&#x91CC;&#xFF0C;&#x5F00;&#x59CB;&#x5206;&#x53D1;Message&#x4E86;
-            //&#x81F3;&#x4E8E;&#x8FD9;&#x4E2A;target&#x662F;&#x795E;&#x9A6C;&#xFF1F;&#x4EC0;&#x4E48;&#x65F6;&#x5019;&#x88AB;&#x8D4B;&#x503C;&#x7684;&#xFF1F; 
-            //&#x6211;&#x4EEC;&#x4E00;&#x4F1A;&#x5206;&#x6790;Handler&#x7684;&#x65F6;&#x5019;&#x5C31;&#x4F1A;&#x8BB2;&#x5230;
+            //&#x5728;&#x9019;&#x88E1;&#xFF0C;&#x958B;&#x59CB;&#x5206;&#x767C;Message&#x4E86;
+            //&#x81F3;&#x65BC;&#x9019;&#x500B;target&#x662F;&#x795E;&#x99AC;&#xFF1F;&#x4EC0;&#x9EBC;&#x6642;&#x5019;&#x88AB;&#x8CE6;&#x503C;&#x7684;&#xFF1F; 
+            //&#x6211;&#x5011;&#x4E00;&#x6703;&#x5206;&#x6790;Handler&#x7684;&#x6642;&#x5019;&#x5C31;&#x6703;&#x8B1B;&#x5230;
             msg.target.dispatchMessage(msg);
 
             if (logging != null) {
@@ -17430,76 +17430,76 @@
                         + msg.callback + &quot; what=&quot; + msg.what);
             }
 
-            //&#x5F53;&#x5206;&#x53D1;&#x5B8C;Message&#x4E4B;&#x540E;&#xFF0C;&#x5F53;&#x7136;&#x8981;&#x6807;&#x8BB0;&#x5C06;&#x8BE5;Message&#x6807;&#x8BB0;&#x4E3A; *&#x6B63;&#x5728;&#x4F7F;&#x7528;* &#x5566;
+            //&#x7576;&#x5206;&#x767C;&#x5B8C;Message&#x4E4B;&#x5F8C;&#xFF0C;&#x7576;&#x7136;&#x8981;&#x6A19;&#x8A18;&#x5C07;&#x8A72;Message&#x6A19;&#x8A18;&#x70BA; *&#x6B63;&#x5728;&#x4F7F;&#x7528;* &#x5566;
             msg.recycleUnchecked();
         }
     }
-</code></pre><p><em>&#x5206;&#x6790;&#x4E86;&#x4E0A;&#x9762;&#x7684;&#x6E90;&#x4EE3;&#x7801;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x610F;&#x8BC6;&#x5230;&#xFF0C;&#x6700;&#x91CD;&#x8981;&#x7684;&#x65B9;&#x6CD5;&#x662F;&#xFF1A;</em></p>
+</code></pre><p><em>&#x5206;&#x6790;&#x4E86;&#x4E0A;&#x9762;&#x7684;&#x6E90;&#x4EE3;&#x78BC;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x610F;&#x8B58;&#x5230;&#xFF0C;&#x6700;&#x91CD;&#x8981;&#x7684;&#x65B9;&#x6CD5;&#x662F;&#xFF1A;</em></p>
 <ol>
 <li><code>queue.next()</code></li>
 <li><code>msg.target.dispatchMessage(msg)</code></li>
 <li><code>msg.recycleUnchecked()</code></li>
 </ol>
-<p>&#x5176;&#x5B9E;Looper&#x4E2D;&#x6700;&#x91CD;&#x8981;&#x7684;&#x90E8;&#x5206;&#x90FD;&#x662F;&#x7531;<code>Message</code>&#x3001;<code>MessageQueue</code>&#x7EC4;&#x6210;&#x7684;&#x6709;&#x6728;&#x6709;&#xFF01;&#x8FD9;&#x6BB5;&#x6700;&#x91CD;&#x8981;&#x7684;&#x4EE3;&#x7801;&#x4E2D;&#x6D89;&#x53CA;&#x5230;&#x4E86;&#x56DB;&#x4E2A;&#x5BF9;&#x8C61;,&#x4ED6;&#x4EEC;&#x4E0E;&#x5F7C;&#x6B64;&#x7684;&#x5173;&#x7CFB;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>&#x5176;&#x5BE6;Looper&#x4E2D;&#x6700;&#x91CD;&#x8981;&#x7684;&#x90E8;&#x5206;&#x90FD;&#x662F;&#x7531;<code>Message</code>&#x3001;<code>MessageQueue</code>&#x7D44;&#x6210;&#x7684;&#x6709;&#x6728;&#x6709;&#xFF01;&#x9019;&#x6BB5;&#x6700;&#x91CD;&#x8981;&#x7684;&#x4EE3;&#x78BC;&#x4E2D;&#x6D89;&#x53CA;&#x5230;&#x4E86;&#x56DB;&#x500B;&#x5C0D;&#x8C61;,&#x4ED6;&#x5011;&#x8207;&#x5F7C;&#x6B64;&#x7684;&#x95DC;&#x4FC2;&#x5982;&#x4E0B;&#xFF1A;</p>
 <ol>
-<li><code>MessageQueue</code>&#xFF1A;&#x88C5;&#x98DF;&#x7269;&#x7684;&#x5BB9;&#x5668;</li>
-<li><code>Message</code>&#xFF1A;&#x88AB;&#x88C5;&#x7684;&#x98DF;&#x7269;</li>
-<li><code>Handler</code>&#xFF08;msg.target&#x5B9E;&#x9645;&#x4E0A;&#x5C31;&#x662F;<code>Handler</code>&#xFF09;&#xFF1A;&#x98DF;&#x7269;&#x7684;&#x6D88;&#x8D39;&#x8005;</li>
-<li><code>Looper</code>&#xFF1A;&#x8D1F;&#x8D23;&#x5206;&#x53D1;&#x98DF;&#x7269;&#x7684;&#x4EBA;</li>
+<li><code>MessageQueue</code>&#xFF1A;&#x88DD;&#x98DF;&#x7269;&#x7684;&#x5BB9;&#x5668;</li>
+<li><code>Message</code>&#xFF1A;&#x88AB;&#x88DD;&#x7684;&#x98DF;&#x7269;</li>
+<li><code>Handler</code>&#xFF08;msg.target&#x5BE6;&#x969B;&#x4E0A;&#x5C31;&#x662F;<code>Handler</code>&#xFF09;&#xFF1A;&#x98DF;&#x7269;&#x7684;&#x6D88;&#x8CBB;&#x8005;</li>
+<li><code>Looper</code>&#xFF1A;&#x8CA0;&#x8CAC;&#x5206;&#x767C;&#x98DF;&#x7269;&#x7684;&#x4EBA;</li>
 </ol>
-<h3 id="looperprepare&#xFF08;&#x5728;&#x5F53;&#x524D;&#x7EBF;&#x7A0B;&#x5173;&#x8054;&#x4E00;&#x4E2A;looper&#x5BF9;&#x8C61;&#xFF09;">looper.prepare()&#xFF08;&#x5728;&#x5F53;&#x524D;&#x7EBF;&#x7A0B;&#x5173;&#x8054;&#x4E00;&#x4E2A;Looper&#x5BF9;&#x8C61;&#xFF09;</h3>
+<h3 id="looperprepare&#xFF08;&#x5728;&#x7576;&#x524D;&#x7DDA;&#x7A0B;&#x95DC;&#x806F;&#x4E00;&#x500B;looper&#x5C0D;&#x8C61;&#xFF09;">looper.prepare()&#xFF08;&#x5728;&#x7576;&#x524D;&#x7DDA;&#x7A0B;&#x95DC;&#x806F;&#x4E00;&#x500B;Looper&#x5C0D;&#x8C61;&#xFF09;</h3>
 <pre><code> private static void prepare(boolean quitAllowed) {
         if (sThreadLocal.get() != null) {
             throw new RuntimeException(&quot;Only one Looper may be created per thread&quot;);
         }
-        //&#x5728;&#x5F53;&#x524D;&#x7EBF;&#x7A0B;&#x7ED1;&#x5B9A;&#x4E00;&#x4E2A;Looper
+        //&#x5728;&#x7576;&#x524D;&#x7DDA;&#x7A0B;&#x7D81;&#x5B9A;&#x4E00;&#x500B;Looper
         sThreadLocal.set(new Looper(quitAllowed));
     }
-</code></pre><p>&#x4EE5;&#x4E0A;&#x4EE3;&#x7801;&#x53EA;&#x505A;&#x4E86;&#x4E24;&#x4EF6;&#x4E8B;&#x60C5;&#xFF1A;</p>
+</code></pre><p>&#x4EE5;&#x4E0A;&#x4EE3;&#x78BC;&#x53EA;&#x505A;&#x4E86;&#x5169;&#x4EF6;&#x4E8B;&#x60C5;&#xFF1A;</p>
 <ol>
-<li>&#x5224;&#x65AD;&#x5F53;&#x524D;&#x7EBF;&#x7A0B;&#x6709;&#x6728;&#x6709;<code>Looper</code>&#xFF0C;&#x5982;&#x679C;&#x6709;&#x5219;&#x629B;&#x51FA;&#x5F02;&#x5E38;&#xFF08;&#x5728;&#x8FD9;&#x91CC;&#x6211;&#x4EEC;&#x5C31;&#x53EF;&#x4EE5;&#x77E5;&#x9053;&#xFF0C;Android&#x89C4;&#x5B9A;&#x4E00;&#x4E2A;&#x7EBF;&#x7A0B;&#x53EA;&#x80FD;&#x591F;&#x62E5;&#x6709;&#x4E00;&#x4E2A;&#x4E0E;&#x81EA;&#x5DF1;&#x5173;&#x8054;&#x7684;<code>Looper</code>&#xFF09;&#x3002;</li>
-<li>&#x5982;&#x679C;&#x6CA1;&#x6709;&#x7684;&#x8BDD;&#xFF0C;&#x90A3;&#x4E48;&#x5C31;&#x8BBE;&#x7F6E;&#x4E00;&#x4E2A;&#x65B0;&#x7684;<code>Looper</code>&#x5230;&#x5F53;&#x524D;&#x7EBF;&#x7A0B;&#x3002;</li>
+<li>&#x5224;&#x65B7;&#x7576;&#x524D;&#x7DDA;&#x7A0B;&#x6709;&#x6728;&#x6709;<code>Looper</code>&#xFF0C;&#x5982;&#x679C;&#x6709;&#x5247;&#x62CB;&#x51FA;&#x7570;&#x5E38;&#xFF08;&#x5728;&#x9019;&#x88E1;&#x6211;&#x5011;&#x5C31;&#x53EF;&#x4EE5;&#x77E5;&#x9053;&#xFF0C;Android&#x898F;&#x5B9A;&#x4E00;&#x500B;&#x7DDA;&#x7A0B;&#x53EA;&#x80FD;&#x5920;&#x64C1;&#x6709;&#x4E00;&#x500B;&#x8207;&#x81EA;&#x5DF1;&#x95DC;&#x806F;&#x7684;<code>Looper</code>&#xFF09;&#x3002;</li>
+<li>&#x5982;&#x679C;&#x6C92;&#x6709;&#x7684;&#x8A71;&#xFF0C;&#x90A3;&#x9EBC;&#x5C31;&#x8A2D;&#x7F6E;&#x4E00;&#x500B;&#x65B0;&#x7684;<code>Looper</code>&#x5230;&#x7576;&#x524D;&#x7DDA;&#x7A0B;&#x3002;</li>
 </ol>
 <hr>
 <h2 id="handler">Handler</h2>
-<p>&#x7531;&#x4E8E;&#x6211;&#x4EEC;&#x4F7F;&#x7528;Handler&#x7684;&#x901A;&#x5E38;&#x6027;&#x7684;&#x7B2C;&#x4E00;&#x6B65;&#x662F;:</p>
+<p>&#x7531;&#x65BC;&#x6211;&#x5011;&#x4F7F;&#x7528;Handler&#x7684;&#x901A;&#x5E38;&#x6027;&#x7684;&#x7B2C;&#x4E00;&#x6B65;&#x662F;:</p>
 <pre><code> Handler handler = new Handler(){
-        //&#x4F60;&#x4EEC;&#x6709;&#x6CA1;&#x6709;&#x5F88;&#x597D;&#x5947;&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x662F;&#x5728;&#x54EA;&#x91CC;&#x88AB;&#x56DE;&#x8C03;&#x7684;&#xFF1F;
-        //&#x6211;&#x4E5F;&#x662F;&#xFF01;&#x6240;&#x4EE5;&#x63A5;&#x4E0B;&#x6765;&#x4F1A;&#x5206;&#x6790;&#x5230;&#x54DF;&#xFF01;
+        //&#x4F60;&#x5011;&#x6709;&#x6C92;&#x6709;&#x5F88;&#x597D;&#x5947;&#x9019;&#x500B;&#x65B9;&#x6CD5;&#x662F;&#x5728;&#x54EA;&#x88E1;&#x88AB;&#x56DE;&#x8ABF;&#x7684;&#xFF1F;
+        //&#x6211;&#x4E5F;&#x662F;&#xFF01;&#x6240;&#x4EE5;&#x63A5;&#x4E0B;&#x4F86;&#x6703;&#x5206;&#x6790;&#x5230;&#x55B2;&#xFF01;
         @Override
         public void handleMessage(Message msg) {
             //Handler your Message
         }
     };
-</code></pre><p>&#x6240;&#x4EE5;&#x6211;&#x4EEC;&#x5148;&#x6765;&#x5206;&#x6790;<code>Handler</code>&#x7684;&#x6784;&#x9020;&#x65B9;&#x6CD5;</p>
-<pre><code>//&#x7A7A;&#x53C2;&#x6570;&#x7684;&#x6784;&#x9020;&#x65B9;&#x6CD5;&#x4E0E;&#x4E4B;&#x5BF9;&#x5E94;&#xFF0C;&#x8FD9;&#x91CC;&#x53EA;&#x7ED9;&#x51FA;&#x4E3B;&#x8981;&#x7684;&#x4EE3;&#x7801;&#xFF0C;&#x5177;&#x4F53;&#x5927;&#x5BB6;&#x53EF;&#x4EE5;&#x5230;&#x6E90;&#x7801;&#x4E2D;&#x67E5;&#x770B;
+</code></pre><p>&#x6240;&#x4EE5;&#x6211;&#x5011;&#x5148;&#x4F86;&#x5206;&#x6790;<code>Handler</code>&#x7684;&#x69CB;&#x9020;&#x65B9;&#x6CD5;</p>
+<pre><code>//&#x7A7A;&#x53C3;&#x6578;&#x7684;&#x69CB;&#x9020;&#x65B9;&#x6CD5;&#x8207;&#x4E4B;&#x5C0D;&#x61C9;&#xFF0C;&#x9019;&#x88E1;&#x53EA;&#x7D66;&#x51FA;&#x4E3B;&#x8981;&#x7684;&#x4EE3;&#x78BC;&#xFF0C;&#x5177;&#x9AD4;&#x5927;&#x5BB6;&#x53EF;&#x4EE5;&#x5230;&#x6E90;&#x78BC;&#x4E2D;&#x67E5;&#x770B;
 public Handler(Callback callback, boolean async) {
-        //&#x6253;&#x5370;&#x5185;&#x5B58;&#x6CC4;&#x9732;&#x63D0;&#x9192;log
+        //&#x6253;&#x5370;&#x5167;&#x5B58;&#x6D29;&#x9732;&#x63D0;&#x9192;log
         ....
 
-        //&#x83B7;&#x53D6;&#x4E0E;&#x521B;&#x5EFA;Handler&#x7EBF;&#x7A0B;&#x7ED1;&#x5B9A;&#x7684;Looper
+        //&#x7372;&#x53D6;&#x8207;&#x5275;&#x5EFA;Handler&#x7DDA;&#x7A0B;&#x7D81;&#x5B9A;&#x7684;Looper
         mLooper = Looper.myLooper();
         if (mLooper == null) {
             throw new RuntimeException(
                 &quot;Can&apos;t create handler inside thread that has not called Looper.prepare()&quot;);
         }
-        //&#x83B7;&#x53D6;&#x4E0E;Looper&#x7ED1;&#x5B9A;&#x7684;MessageQueue
-        //&#x56E0;&#x4E3A;&#x4E00;&#x4E2A;Looper&#x5C31;&#x53EA;&#x6709;&#x4E00;&#x4E2A;MessageQueue&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x4E0E;&#x5F53;&#x524D;&#x7EBF;&#x7A0B;&#x7ED1;&#x5B9A;&#x7684;MessageQueue
+        //&#x7372;&#x53D6;&#x8207;Looper&#x7D81;&#x5B9A;&#x7684;MessageQueue
+        //&#x56E0;&#x70BA;&#x4E00;&#x500B;Looper&#x5C31;&#x53EA;&#x6709;&#x4E00;&#x500B;MessageQueue&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8207;&#x7576;&#x524D;&#x7DDA;&#x7A0B;&#x7D81;&#x5B9A;&#x7684;MessageQueue
         mQueue = mLooper.mQueue;
         mCallback = callback;
         mAsynchronous = async;
 
     }
-</code></pre><p><em>&#x5E26;&#x4E0A;&#x95EE;&#x9898;&#xFF1A;</em></p>
+</code></pre><p><em>&#x5E36;&#x4E0A;&#x554F;&#x984C;&#xFF1A;</em></p>
 <ol>
-<li><code>Looper.loop()</code>&#x6B7B;&#x5FAA;&#x73AF;&#x4E2D;&#x7684;<code>msg.target</code>&#x662F;&#x4EC0;&#x4E48;&#x65F6;&#x5019;&#x88AB;&#x8D4B;&#x503C;&#x7684;&#xFF1F;</li>
-<li><code>handler.handleMessage(msg)</code>&#x5728;&#x4EC0;&#x4E48;&#x65F6;&#x5019;&#x88AB;&#x56DE;&#x8C03;&#x7684;&#xFF1F;</li>
+<li><code>Looper.loop()</code>&#x6B7B;&#x5FAA;&#x74B0;&#x4E2D;&#x7684;<code>msg.target</code>&#x662F;&#x4EC0;&#x9EBC;&#x6642;&#x5019;&#x88AB;&#x8CE6;&#x503C;&#x7684;&#xFF1F;</li>
+<li><code>handler.handleMessage(msg)</code>&#x5728;&#x4EC0;&#x9EBC;&#x6642;&#x5019;&#x88AB;&#x56DE;&#x8ABF;&#x7684;&#xFF1F;</li>
 </ol>
-<h3 id="a1&#xFF1A;looperloop&#x6B7B;&#x5FAA;&#x73AF;&#x4E2D;&#x7684;msgtarget&#x662F;&#x4EC0;&#x4E48;&#x65F6;&#x5019;&#x88AB;&#x8D4B;&#x503C;&#x7684;&#xFF1F;">A1&#xFF1A;<code>Looper.loop()</code>&#x6B7B;&#x5FAA;&#x73AF;&#x4E2D;&#x7684;<code>msg.target</code>&#x662F;&#x4EC0;&#x4E48;&#x65F6;&#x5019;&#x88AB;&#x8D4B;&#x503C;&#x7684;&#xFF1F;</h3>
-<p>&#x8981;&#x5206;&#x6790;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#xFF0C;&#x5F88;&#x81EA;&#x7136;&#x7684;&#x6211;&#x4EEC;&#x60F3;&#x5230;&#x4ECE;&#x53D1;&#x9001;&#x6D88;&#x606F;&#x5F00;&#x59CB;&#xFF0C;&#x65E0;&#x8BBA;&#x662F;<code>handler.sendMessage(msg)</code>&#x8FD8;&#x662F;<code>handler.sendEmptyMessage(what)</code>&#xFF0C;&#x6211;&#x4EEC;&#x6700;&#x7EC8;&#x90FD;&#x53EF;&#x4EE5;&#x8FFD;&#x6EAF;&#x5230;&#x4EE5;&#x4E0B;&#x65B9;&#x6CD5;</p>
+<h3 id="a1&#xFF1A;looperloop&#x6B7B;&#x5FAA;&#x74B0;&#x4E2D;&#x7684;msgtarget&#x662F;&#x4EC0;&#x9EBC;&#x6642;&#x5019;&#x88AB;&#x8CE6;&#x503C;&#x7684;&#xFF1F;">A1&#xFF1A;<code>Looper.loop()</code>&#x6B7B;&#x5FAA;&#x74B0;&#x4E2D;&#x7684;<code>msg.target</code>&#x662F;&#x4EC0;&#x9EBC;&#x6642;&#x5019;&#x88AB;&#x8CE6;&#x503C;&#x7684;&#xFF1F;</h3>
+<p>&#x8981;&#x5206;&#x6790;&#x9019;&#x500B;&#x554F;&#x984C;&#xFF0C;&#x5F88;&#x81EA;&#x7136;&#x7684;&#x6211;&#x5011;&#x60F3;&#x5230;&#x5F9E;&#x767C;&#x9001;&#x6D88;&#x606F;&#x958B;&#x59CB;&#xFF0C;&#x7121;&#x8AD6;&#x662F;<code>handler.sendMessage(msg)</code>&#x9084;&#x662F;<code>handler.sendEmptyMessage(what)</code>&#xFF0C;&#x6211;&#x5011;&#x6700;&#x7D42;&#x90FD;&#x53EF;&#x4EE5;&#x8FFD;&#x6EAF;&#x5230;&#x4EE5;&#x4E0B;&#x65B9;&#x6CD5;</p>
 <pre><code>public boolean sendMessageAtTime(Message msg, long uptimeMillis) {
         //&#x5F15;&#x7528;Handler&#x4E2D;&#x7684;MessageQueue
-        //&#x8FD9;&#x4E2A;MessageQueue&#x5C31;&#x662F;&#x521B;&#x5EFA;Looper&#x65F6;&#x88AB;&#x521B;&#x5EFA;&#x7684;MessageQueue
+        //&#x9019;&#x500B;MessageQueue&#x5C31;&#x662F;&#x5275;&#x5EFA;Looper&#x6642;&#x88AB;&#x5275;&#x5EFA;&#x7684;MessageQueue
         MessageQueue queue = mQueue;
 
         if (queue == null) {
@@ -17508,20 +17508,20 @@ public Handler(Callback callback, boolean async) {
             Log.w(&quot;Looper&quot;, e.getMessage(), e);
             return false;
         }
-        //&#x5C06;&#x65B0;&#x6765;&#x7684;Message&#x52A0;&#x5165;&#x5230;MessageQueue&#x4E2D;
+        //&#x5C07;&#x65B0;&#x4F86;&#x7684;Message&#x52A0;&#x5165;&#x5230;MessageQueue&#x4E2D;
         return enqueueMessage(queue, msg, uptimeMillis);
     }
-</code></pre><p>&#x6211;&#x4EEC;&#x63A5;&#x4E0B;&#x6765;&#x5206;&#x6790;<code>enqueueMessage(queue, msg, uptimeMillis)</code>:</p>
+</code></pre><p>&#x6211;&#x5011;&#x63A5;&#x4E0B;&#x4F86;&#x5206;&#x6790;<code>enqueueMessage(queue, msg, uptimeMillis)</code>:</p>
 <pre><code>private boolean enqueueMessage(MessageQueue queue, Message msg, long uptimeMillis) {
-        //&#x663E;&#x800C;&#x6613;&#x89C1;&#xFF0C;&#x5927;&#x5199;&#x52A0;&#x7C97;&#x7684;&#x8D4B;&#x503C;&#x554A;&#xFF01;
+        //&#x986F;&#x800C;&#x6613;&#x898B;&#xFF0C;&#x5927;&#x5BEB;&#x52A0;&#x7C97;&#x7684;&#x8CE6;&#x503C;&#x554A;&#xFF01;
         **msg.target = this;**
         if (mAsynchronous) {
             msg.setAsynchronous(true);
         }
         return queue.enqueueMessage(msg, uptimeMillis);
     }
-</code></pre><h3 id="a2&#xFF1A;handlerhandlemessagemsg&#x5728;&#x4EC0;&#x4E48;&#x65F6;&#x5019;&#x88AB;&#x56DE;&#x8C03;&#x7684;&#xFF1F;">A2&#xFF1A;<code>handler.handleMessage(msg)</code>&#x5728;&#x4EC0;&#x4E48;&#x65F6;&#x5019;&#x88AB;&#x56DE;&#x8C03;&#x7684;&#xFF1F;</h3>
-<p>&#x901A;&#x8FC7;&#x4EE5;&#x4E0A;&#x7684;&#x5206;&#x6790;&#xFF0C;&#x6211;&#x4EEC;&#x5F88;&#x660E;&#x786E;&#x7684;&#x77E5;&#x9053;<code>Message</code>&#x4E2D;&#x7684;<code>target</code>&#x662F;&#x5728;&#x4EC0;&#x4E48;&#x65F6;&#x5019;&#x88AB;&#x8D4B;&#x503C;&#x7684;&#x4E86;&#xFF0C;&#x6211;&#x4EEC;&#x5148;&#x6765;&#x5206;&#x6790;&#x5728;<code>Looper.loop()</code>&#x4E2D;&#x51FA;&#x73B0;&#x8FC7;&#x7684;&#x8FC7;&#x7684;<code>dispatchMessage(msg)</code>&#x65B9;&#x6CD5;</p>
+</code></pre><h3 id="a2&#xFF1A;handlerhandlemessagemsg&#x5728;&#x4EC0;&#x9EBC;&#x6642;&#x5019;&#x88AB;&#x56DE;&#x8ABF;&#x7684;&#xFF1F;">A2&#xFF1A;<code>handler.handleMessage(msg)</code>&#x5728;&#x4EC0;&#x9EBC;&#x6642;&#x5019;&#x88AB;&#x56DE;&#x8ABF;&#x7684;&#xFF1F;</h3>
+<p>&#x901A;&#x904E;&#x4EE5;&#x4E0A;&#x7684;&#x5206;&#x6790;&#xFF0C;&#x6211;&#x5011;&#x5F88;&#x660E;&#x78BA;&#x7684;&#x77E5;&#x9053;<code>Message</code>&#x4E2D;&#x7684;<code>target</code>&#x662F;&#x5728;&#x4EC0;&#x9EBC;&#x6642;&#x5019;&#x88AB;&#x8CE6;&#x503C;&#x7684;&#x4E86;&#xFF0C;&#x6211;&#x5011;&#x5148;&#x4F86;&#x5206;&#x6790;&#x5728;<code>Looper.loop()</code>&#x4E2D;&#x51FA;&#x73FE;&#x904E;&#x7684;&#x904E;&#x7684;<code>dispatchMessage(msg)</code>&#x65B9;&#x6CD5;</p>
 <pre><code>public void dispatchMessage(Message msg) {
         if (msg.callback != null) {
             handleCallback(msg);
@@ -17531,22 +17531,22 @@ public Handler(Callback callback, boolean async) {
                     return;
                 }
             }
-            //&#x770B;&#x5230;&#x8FD9;&#x4E2A;&#x5927;&#x5199;&#x52A0;&#x7C97;&#x7684;&#x65B9;&#x6CD5;&#x8C03;&#x7528;&#x6CA1;&#xFF01;
+            //&#x770B;&#x5230;&#x9019;&#x500B;&#x5927;&#x5BEB;&#x52A0;&#x7C97;&#x7684;&#x65B9;&#x6CD5;&#x8ABF;&#x7528;&#x6C92;&#xFF01;
             **handleMessage(msg);**
         }
     }
-</code></pre><p>&#x52A0;&#x4E0A;&#x4EE5;&#x4E0A;&#x5206;&#x6790;&#xFF0C;&#x6211;&#x4EEC;&#x5C06;&#x4E4B;&#x524D;&#x5206;&#x6790;&#x7ED3;&#x679C;&#x4E32;&#x8D77;&#x6765;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x77E5;&#x9053;&#x4E86;&#x67D0;&#x4E9B;&#x4E1C;&#x897F;&#xFF1A;
-<code>Looper.loop()</code>&#x4E0D;&#x65AD;&#x5730;&#x83B7;&#x53D6;<code>MessageQueue</code>&#x4E2D;&#x7684;<code>Message</code>&#xFF0C;&#x7136;&#x540E;&#x8C03;&#x7528;&#x4E0E;<code>Message</code>&#x7ED1;&#x5B9A;&#x7684;<code>Handler</code>&#x5BF9;&#x8C61;&#x7684;<code>dispatchMessage</code>&#x65B9;&#x6CD5;&#xFF0C;&#x6700;&#x540E;&#xFF0C;&#x6211;&#x4EEC;&#x770B;&#x5230;&#x4E86;<code>handleMessage</code>&#x5C31;&#x5728;<code>dispatchMessage</code>&#x65B9;&#x6CD5;&#x91CC;&#x88AB;&#x8C03;&#x7528;&#x7684;&#x3002;</p>
+</code></pre><p>&#x52A0;&#x4E0A;&#x4EE5;&#x4E0A;&#x5206;&#x6790;&#xFF0C;&#x6211;&#x5011;&#x5C07;&#x4E4B;&#x524D;&#x5206;&#x6790;&#x7D50;&#x679C;&#x4E32;&#x8D77;&#x4F86;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x77E5;&#x9053;&#x4E86;&#x67D0;&#x4E9B;&#x6771;&#x897F;&#xFF1A;
+<code>Looper.loop()</code>&#x4E0D;&#x65B7;&#x5730;&#x7372;&#x53D6;<code>MessageQueue</code>&#x4E2D;&#x7684;<code>Message</code>&#xFF0C;&#x7136;&#x5F8C;&#x8ABF;&#x7528;&#x8207;<code>Message</code>&#x7D81;&#x5B9A;&#x7684;<code>Handler</code>&#x5C0D;&#x8C61;&#x7684;<code>dispatchMessage</code>&#x65B9;&#x6CD5;&#xFF0C;&#x6700;&#x5F8C;&#xFF0C;&#x6211;&#x5011;&#x770B;&#x5230;&#x4E86;<code>handleMessage</code>&#x5C31;&#x5728;<code>dispatchMessage</code>&#x65B9;&#x6CD5;&#x88E1;&#x88AB;&#x8ABF;&#x7528;&#x7684;&#x3002;</p>
 <hr>
-<p>&#x901A;&#x8FC7;&#x4EE5;&#x4E0A;&#x7684;&#x5206;&#x6790;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x5F88;&#x6E05;&#x6670;&#x7684;&#x77E5;&#x9053;Handler&#x3001;Looper&#x3001;Message&#x3001;MessageQueue&#x8FD9;&#x56DB;&#x8005;&#x7684;&#x5173;&#x7CFB;&#x4EE5;&#x53CA;&#x5982;&#x4F55;&#x5408;&#x4F5C;&#x7684;&#x4E86;&#x3002;</p>
-<h1 id="&#x603B;&#x7ED3;&#xFF1A;">&#x603B;&#x7ED3;&#xFF1A;</h1>
-<p>&#x5F53;&#x6211;&#x4EEC;&#x8C03;&#x7528;<code>handler.sendMessage(msg)</code>&#x65B9;&#x6CD5;&#x53D1;&#x9001;&#x4E00;&#x4E2A;<code>Message</code>&#x65F6;&#xFF0C;&#x5B9E;&#x9645;&#x4E0A;&#x8FD9;&#x4E2A;<code>Message</code>&#x662F;&#x53D1;&#x9001;&#x5230;<strong>&#x4E0E;&#x5F53;&#x524D;&#x7EBF;&#x7A0B;&#x7ED1;&#x5B9A;</strong>&#x7684;&#x4E00;&#x4E2A;<code>MessageQueue</code>&#x4E2D;&#xFF0C;&#x7136;&#x540E;<strong>&#x4E0E;&#x5F53;&#x524D;&#x7EBF;&#x7A0B;&#x7ED1;&#x5B9A;</strong>&#x7684;<code>Looper</code>&#x5C06;&#x4F1A;&#x4E0D;&#x65AD;&#x7684;&#x4ECE;<code>MessageQueue</code>&#x4E2D;&#x53D6;&#x51FA;&#x65B0;&#x7684;<code>Message</code>&#xFF0C;&#x8C03;&#x7528;<code>msg.target.dispathMessage(msg)</code>&#x65B9;&#x6CD5;&#x5C06;&#x6D88;&#x606F;&#x5206;&#x53D1;&#x5230;&#x4E0E;<code>Message</code>&#x7ED1;&#x5B9A;&#x7684;<code>handler.handleMessage()</code>&#x65B9;&#x6CD5;&#x4E2D;&#x3002;</p>
-<p>&#x4E00;&#x4E2A;<code>Thread</code>&#x5BF9;&#x5E94;&#x591A;&#x4E2A;<code>Handler</code>
-&#x4E00;&#x4E2A;<code>Thread</code>&#x5BF9;&#x5E94;&#x4E00;&#x4E2A;<code>Looper</code>&#x548C;<code>MessageQueue</code>&#xFF0C;<code>Handler</code>&#x4E0E;<code>Thread</code>&#x5171;&#x4EAB;<code>Looper</code>&#x548C;<code>MessageQueue</code>&#x3002;
-<code>Message</code>&#x53EA;&#x662F;&#x6D88;&#x606F;&#x7684;&#x8F7D;&#x4F53;&#xFF0C;&#x5C06;&#x4F1A;&#x88AB;&#x53D1;&#x9001;&#x5230;<strong>&#x4E0E;&#x7EBF;&#x7A0B;&#x7ED1;&#x5B9A;&#x7684;&#x552F;&#x4E00;&#x7684;</strong><code>MessageQueue</code>&#x4E2D;&#xFF0C;&#x5E76;&#x4E14;&#x88AB;<strong>&#x4E0E;&#x7EBF;&#x7A0B;&#x7ED1;&#x5B9A;&#x7684;&#x552F;&#x4E00;&#x7684;</strong><code>Looper</code>&#x5206;&#x53D1;&#xFF0C;&#x88AB;&#x4E0E;&#x5176;&#x81EA;&#x8EAB;&#x7ED1;&#x5B9A;&#x7684;<code>Handler</code>&#x6D88;&#x8D39;&#x3002;</p>
+<p>&#x901A;&#x904E;&#x4EE5;&#x4E0A;&#x7684;&#x5206;&#x6790;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x5F88;&#x6E05;&#x6670;&#x7684;&#x77E5;&#x9053;Handler&#x3001;Looper&#x3001;Message&#x3001;MessageQueue&#x9019;&#x56DB;&#x8005;&#x7684;&#x95DC;&#x4FC2;&#x4EE5;&#x53CA;&#x5982;&#x4F55;&#x5408;&#x4F5C;&#x7684;&#x4E86;&#x3002;</p>
+<h1 id="&#x7E3D;&#x7D50;&#xFF1A;">&#x7E3D;&#x7D50;&#xFF1A;</h1>
+<p>&#x7576;&#x6211;&#x5011;&#x8ABF;&#x7528;<code>handler.sendMessage(msg)</code>&#x65B9;&#x6CD5;&#x767C;&#x9001;&#x4E00;&#x500B;<code>Message</code>&#x6642;&#xFF0C;&#x5BE6;&#x969B;&#x4E0A;&#x9019;&#x500B;<code>Message</code>&#x662F;&#x767C;&#x9001;&#x5230;<strong>&#x8207;&#x7576;&#x524D;&#x7DDA;&#x7A0B;&#x7D81;&#x5B9A;</strong>&#x7684;&#x4E00;&#x500B;<code>MessageQueue</code>&#x4E2D;&#xFF0C;&#x7136;&#x5F8C;<strong>&#x8207;&#x7576;&#x524D;&#x7DDA;&#x7A0B;&#x7D81;&#x5B9A;</strong>&#x7684;<code>Looper</code>&#x5C07;&#x6703;&#x4E0D;&#x65B7;&#x7684;&#x5F9E;<code>MessageQueue</code>&#x4E2D;&#x53D6;&#x51FA;&#x65B0;&#x7684;<code>Message</code>&#xFF0C;&#x8ABF;&#x7528;<code>msg.target.dispathMessage(msg)</code>&#x65B9;&#x6CD5;&#x5C07;&#x6D88;&#x606F;&#x5206;&#x767C;&#x5230;&#x8207;<code>Message</code>&#x7D81;&#x5B9A;&#x7684;<code>handler.handleMessage()</code>&#x65B9;&#x6CD5;&#x4E2D;&#x3002;</p>
+<p>&#x4E00;&#x500B;<code>Thread</code>&#x5C0D;&#x61C9;&#x591A;&#x500B;<code>Handler</code>
+&#x4E00;&#x500B;<code>Thread</code>&#x5C0D;&#x61C9;&#x4E00;&#x500B;<code>Looper</code>&#x548C;<code>MessageQueue</code>&#xFF0C;<code>Handler</code>&#x8207;<code>Thread</code>&#x5171;&#x4EAB;<code>Looper</code>&#x548C;<code>MessageQueue</code>&#x3002;
+<code>Message</code>&#x53EA;&#x662F;&#x6D88;&#x606F;&#x7684;&#x8F09;&#x9AD4;&#xFF0C;&#x5C07;&#x6703;&#x88AB;&#x9AEE;&#x9001;&#x5230;<strong>&#x8207;&#x7DDA;&#x7A0B;&#x7D81;&#x5B9A;&#x7684;&#x552F;&#x4E00;&#x7684;</strong><code>MessageQueue</code>&#x4E2D;&#xFF0C;&#x4E26;&#x4E14;&#x88AB;<strong>&#x8207;&#x7DDA;&#x7A0B;&#x7D81;&#x5B9A;&#x7684;&#x552F;&#x4E00;&#x7684;</strong><code>Looper</code>&#x5206;&#x767C;&#xFF0C;&#x88AB;&#x8207;&#x5176;&#x81EA;&#x8EAB;&#x7D81;&#x5B9A;&#x7684;<code>Handler</code>&#x6D88;&#x8CBB;&#x3002;</p>
 <hr>
 <ul>
-<li>Enjoy Android :) &#x5982;&#x679C;&#x6709;&#x8BEF;&#xFF0C;&#x8F7B;&#x55B7;&#xFF0C;&#x6B22;&#x8FCE;&#x6307;&#x6B63;&#x3002;</li>
+<li>Enjoy Android :) &#x5982;&#x679C;&#x6709;&#x8AA4;&#xFF0C;&#x8F15;&#x5674;&#xFF0C;&#x6B61;&#x8FCE;&#x6307;&#x6B63;&#x3002;</li>
 </ul>
 
                     

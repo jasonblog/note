@@ -1,7 +1,9 @@
 # python string and unicode string
 
 
-python string有兩種 :
+檔案編碼 直譯器編碼 系統編碼
+
+python2 string有兩種 :
 
 - 預設的byte string 
 - 另一種是unicode string。

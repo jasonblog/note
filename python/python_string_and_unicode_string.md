@@ -22,7 +22,7 @@ python string是一連串的byte，`預設是用ascii`來encode。
 '中'和'文'各被encode成兩個byte。
 
 
-vim : set fileencoding=Big5 or gedit 另存big5
+`vim : set fileencoding=Big5 or gedit 另存big5`
 
 ```py
 #!/usr/bin/env python     
@@ -36,10 +36,26 @@ print big5_s
 轉成unicode string。
 在unicode中，每個character都對應到一個code point.
 
+
+`vim : set fileencoding=Big5 or gedit 另存big5`
+
 ```py
->>> unicode_s = big5_s.decode( 'big5' )
->>> unicode_s
+#!/usr/bin/env python     
+ # -*- coding: big5 -*-
+
+big5_s = 'いゅabc'
+print repr(big5_s)
+print big5_s
+
+unicode_s = big5_s.decode('big5')
+print repr(unicode_s)
+print unicode_s
+```
+
+```sh
+'\xa4\xa4\xa4\xe5abc'
+����abc                               // 亂碼可能是終端機是支援utf-8
 u'\u4e2d\u6587abc'
->>> print unicode_s
 中文abc
 ```
+

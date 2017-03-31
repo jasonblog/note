@@ -1,7 +1,7 @@
 # python string and unicode string
 
 
-檔案編碼 直譯器編碼 系統編碼
+`檔案編碼 直譯器編碼 系統編碼要一致`
 
 python2 string有兩種 :
 
@@ -22,13 +22,15 @@ python string是一連串的byte，`預設是用ascii`來encode。
 '中'和'文'各被encode成兩個byte。
 
 
+vim : set fileencoding=Big5 or gedit 另存big5
+
 ```py
-coding=Big5
->>> big5_s = '中文abc'
->>> s
-'\xa4\xa4\xa4\xe5abc'
->>> print big5_s
-中文abc
+#!/usr/bin/env python     
+ # -*- coding: big5 -*-
+
+big5_s = '中文abc'
+print repr(big5_s)
+print big5_s
 ```
 
 轉成unicode string。

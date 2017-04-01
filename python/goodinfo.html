@@ -57,7 +57,7 @@
         data-chapter-title="goodinfo"
         data-filepath="python/goodinfo.md"
         data-basepath=".."
-        data-revision="Sat Apr 01 2017 00:26:04 GMT+0800 (CST)"
+        data-revision="Sun Apr 02 2017 00:16:50 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -17482,6 +17482,52 @@ sys.setdefaultencoding(<span class="hljs-string">&apos;utf-8&apos;</span>)
     df2.columns.name = <span class="hljs-string">&apos;&apos;</span>
     df2.index = range(len(df2)) <span class="hljs-comment"># &#x91CD;&#x65B0;&#x7522;&#x751F; index </span>
     <span class="hljs-keyword">print</span> df2
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:
+    main()
+</code></pre>
+<hr>
+<pre><code class="lang-py"><span class="hljs-comment">#! /usr/bin/python</span>
+<span class="hljs-comment"># -*- coding: utf-8 -*-</span>
+<span class="hljs-keyword">import</span> re
+<span class="hljs-keyword">import</span> urllib2
+<span class="hljs-keyword">import</span> csv
+<span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">GetHtmlcode</span><span class="hljs-params">(ID)</span>:</span>
+    <span class="hljs-comment"># Get the webpage&apos;s source html code</span>
+    source = <span class="hljs-string">&apos;http://goodinfo.tw/StockInfo/StockDetail.asp?STOCK_ID=&apos;</span>
+    url = source + ID
+    <span class="hljs-comment">#print url</span>
+
+    <span class="hljs-comment"># Header</span>
+    headers = { <span class="hljs-string">&apos;User-Agent&apos;</span> : <span class="hljs-string">&apos;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36&apos;</span>,
+                <span class="hljs-string">&apos;Accept&apos;</span> : <span class="hljs-string">&apos;text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8&apos;</span>,
+                <span class="hljs-string">&apos;Accept-Charset&apos;</span> : <span class="hljs-string">&apos;Big5,utf-8;q=0.7,*;q=0.3&apos;</span>,
+                <span class="hljs-comment">#&apos;Accept-Encoding&apos; : &apos;gzip,deflate,sdch&apos;,</span>
+                <span class="hljs-string">&apos;Accept-Language&apos;</span> : <span class="hljs-string">&apos;zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4,ja;q=0.2&apos;</span> ,
+                <span class="hljs-string">&apos;Cache-Control&apos;</span> : <span class="hljs-string">&apos;max-age=0&apos;</span>,
+                <span class="hljs-string">&apos;Connection&apos;</span> : <span class="hljs-string">&apos;keep-alive&apos;</span>,
+                <span class="hljs-string">&apos;Cookie&apos;</span> : <span class="hljs-string">&apos;427 bytes were stripped&apos;</span>,
+                <span class="hljs-string">&apos;Host&apos;</span> : <span class="hljs-string">&apos;www.goodinfo.tw&apos;</span>,
+                <span class="hljs-string">&apos;Referer&apos;</span> : url }
+
+    <span class="hljs-comment"># &#x9023;&#x5230;&#x7DB2;&#x9801;&#x6293;&#x53D6;&#x8CC7;&#x6599;</span>
+    req= urllib2.Request(url,<span class="hljs-string">&quot;&quot;</span>,headers)
+    response = urllib2.urlopen(req)
+    result = response.read().decode(<span class="hljs-string">&apos;utf-8&apos;</span>)
+    <span class="hljs-comment">#print result</span>
+    <span class="hljs-keyword">return</span> result
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>:</span>
+    page = GetHtmlcode(<span class="hljs-string">&apos;2103&apos;</span>)
+    df=pd.read_html(page)
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(df)):
+        <span class="hljs-keyword">print</span> type(df[i].loc[<span class="hljs-number">0</span>,<span class="hljs-number">0</span>])
+
+        <span class="hljs-comment"># &#x6B04;&#x4F4D;&#x5167;&#x5BB9;&#x6BD4;&#x5C0D;</span>
+        <span class="hljs-keyword">if</span> df[i].loc[<span class="hljs-number">0</span>,<span class="hljs-number">0</span>] == <span class="hljs-string">u&quot;&#x7372;&#x3000;&#x5229;&#x3000;&#x72C0;&#x3000;&#x6CC1;      (/)&quot;</span>:
+            <span class="hljs-keyword">print</span> i
 
 <span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:
     main()

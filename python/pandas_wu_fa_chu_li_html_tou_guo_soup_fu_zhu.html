@@ -57,7 +57,7 @@
         data-chapter-title="Pandas 無法處理HTML 透過Soup 輔助"
         data-filepath="python/pandas_wu_fa_chu_li_html_tou_guo_soup_fu_zhu.md"
         data-basepath=".."
-        data-revision="Mon Apr 03 2017 01:20:36 GMT+0800 (CST)"
+        data-revision="Mon Apr 03 2017 02:20:35 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -17455,6 +17455,26 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="pandas-&#x7121;&#x6CD5;&#x8655;&#x7406;html-&#x900F;&#x904E;soup-&#x8F14;&#x52A9;">Pandas &#x7121;&#x6CD5;&#x8655;&#x7406;HTML &#x900F;&#x904E;Soup &#x8F14;&#x52A9;</h1>
+<pre><code class="lang-py"><span class="hljs-comment">#! /usr/bin/python</span>
+<span class="hljs-comment"># -*- coding: utf-8 -*-</span>
+<span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+<span class="hljs-keyword">import</span> codecs
+<span class="hljs-keyword">import</span> sys
+
+reload(sys)
+sys.setdefaultencoding(<span class="hljs-string">&apos;utf-8&apos;</span>)
+
+<span class="hljs-comment">#with codecs.open(&apos;BzPerformance.html&apos;,&apos;r&apos;,encoding=&apos;utf8&apos;) as f:</span>
+<span class="hljs-keyword">with</span> codecs.open(<span class="hljs-string">&apos;aa.html&apos;</span>,<span class="hljs-string">&apos;r&apos;</span>,encoding=<span class="hljs-string">&apos;utf8&apos;</span>) <span class="hljs-keyword">as</span> f:
+    text = f.read()
+
+
+soup = BeautifulSoup(text.replace(<span class="hljs-string">&apos;&amp;nbsp;&apos;</span>, <span class="hljs-string">&apos;&apos;</span>).replace(<span class="hljs-string">&apos;&#x3000;&apos;</span>,<span class="hljs-string">&apos;&apos;</span>), <span class="hljs-string">&apos;lxml&apos;</span>)
+table = soup.find(<span class="hljs-string">&apos;table&apos;</span>, {<span class="hljs-string">&apos;class&apos;</span>: <span class="hljs-string">&apos;solid_1_padding_3_0_tbl&apos;</span>}).findAll(<span class="hljs-string">&apos;thead&apos;</span>)[<span class="hljs-number">1</span>]
+<span class="hljs-keyword">print</span> table
+</code></pre>
+<hr>
 <pre><code class="lang-py"><span class="hljs-comment">#! /usr/bin/python</span>
 <span class="hljs-comment"># -*- coding: utf-8 -*-</span>
 <span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd

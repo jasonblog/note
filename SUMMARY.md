@@ -658,7 +658,7 @@
        * [Python Pandas DataFrame 的 iloc[0] 與 iloc[[0]]](python/python_pandas_dataframe_de_iloc_[_0_]_yu_iloc_[[_0.md)
        * [Pandas Dataframes to_html: Highlighting table rows](python/pandas_dataframes_tohtml__highlighting_table_rows.md)
        * [open  HTML 網頁分析](python/open_html_wang_ye_fen_xi.md)
-       * Pandas 無法處理HTML 透過Soup 輔助
+       * [Pandas 無法處理HTML 透過Soup 輔助](python/pandas_wu_fa_chu_li_html_tou_guo_soup_fu_zhu.md)
    * [django](python/django.md)
        * [使用heroku部署django應用測試](python/shi_yong_heroku_bu_shu_django_ying_yong_ce_shi.md)
        * [Python Django 快速入門教學](python/python_django_kuai_su_ru_men_jiao_xue.md)

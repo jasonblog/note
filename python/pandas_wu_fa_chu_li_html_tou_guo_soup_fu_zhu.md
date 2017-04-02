@@ -1,5 +1,29 @@
 # Pandas 無法處理HTML 透過Soup 輔助
 
+
+
+```py
+#! /usr/bin/python
+# -*- coding: utf-8 -*-
+import pandas as pd
+from bs4 import BeautifulSoup
+import codecs
+import sys
+
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
+#with codecs.open('BzPerformance.html','r',encoding='utf8') as f:
+with codecs.open('aa.html','r',encoding='utf8') as f:
+    text = f.read()
+
+
+soup = BeautifulSoup(text.replace('&nbsp;', '').replace('　',''), 'lxml')
+table = soup.find('table', {'class': 'solid_1_padding_3_0_tbl'}).findAll('thead')[1]
+print table
+```
+---
+
 ```py
 #! /usr/bin/python
 # -*- coding: utf-8 -*-

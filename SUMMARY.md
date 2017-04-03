@@ -693,7 +693,7 @@
        * [淺談 python2及 python3處理中文字串編碼的差異](python/qian_tan_python2_ji_python3_chu_li_zhong_wen_zi_ch.md)
        * [python string and unicode string](python/python_string_and_unicode_string.md)
    * [PTT gamesale 板的買賣文](python/ptt_gamesale_ban_de_mai_mai_wen.md)
-   * BeautifulSoup
+   * [BeautifulSoup](python/beautifulsoup.md)
 * [Vim](vim/vim.md)
    * [HOWTO - vi, vim](vim/howto_-_vi,_vim.md)
 * [TDD](tdd/README.md)

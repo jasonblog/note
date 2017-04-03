@@ -653,6 +653,7 @@
        * [利用PYTHON + GMAIL SMTP 寄送EMAIL及附檔 CATEGORIES](python/li_yong_python_+_gmail_smtp_ji_song_email_ji_fu_da.md)
        * [Post 抓取高鐵](python/post_zhua_qu_gao_tie.md)
        * [goodinfo 經營績效](python/goodinfo_jing_ying_ji_xiao.md)
+       * 使用Pandas 函式將台灣銀行的牌告匯率存進資料庫中
    * [pandas](python/pandas.md)
        * [pandas 入門](python/pandas_ru_men.md)
        * [Python Pandas DataFrame 的 iloc[0] 與 iloc[[0]]](python/python_pandas_dataframe_de_iloc_[_0_]_yu_iloc_[[_0.md)

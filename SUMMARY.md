@@ -695,6 +695,7 @@
    * [PTT gamesale 板的買賣文](python/ptt_gamesale_ban_de_mai_mai_wen.md)
    * [BeautifulSoup](python/beautifulsoup.md)
        * [remove script tags with BeautifulSoup](python/remove_script_tags_with_beautifulsoup.md)
+       * 使用BeautifulSoup
 * [Vim](vim/vim.md)
    * [HOWTO - vi, vim](vim/howto_-_vi,_vim.md)
 * [TDD](tdd/README.md)

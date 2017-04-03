@@ -57,7 +57,7 @@
         data-chapter-title="goodinfo 經營績效"
         data-filepath="python/goodinfo_jing_ying_ji_xiao.md"
         data-basepath=".."
-        data-revision="Tue Apr 04 2017 01:27:53 GMT+0800 (CST)"
+        data-revision="Tue Apr 04 2017 01:58:39 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -17553,12 +17553,14 @@
     <span class="hljs-string">&apos;YEAR_PERIOD&apos;</span>:<span class="hljs-string">&apos;9999&apos;</span>,
     <span class="hljs-string">&apos;RPT_CAT&apos;</span>:<span class="hljs-string">&apos;M_YEAR&apos;</span>,
     <span class="hljs-string">&apos;STEP&apos;</span>:<span class="hljs-string">&apos;DATA&apos;</span>,
-    <span class="hljs-string">&apos;SHEET&apos;</span>: <span class="hljs-string">&apos;&#x80A1;&#x5229;&#x7D71;&#x8A08;&apos;</span>}
+    <span class="hljs-comment">#&apos;SHEET&apos;: &apos;&#x80A1;&#x5229;&#x7D71;&#x8A08;&apos;}</span>
+    <span class="hljs-comment">#&apos;SHEET&apos;: &apos;&#x7372;&#x5229;&#x6307;&#x6A19;&apos;}</span>
+    <span class="hljs-string">&apos;SHEET&apos;</span>: <span class="hljs-string">&apos;PER/PBR&apos;</span>}
 
     res = requests.post(<span class="hljs-string">&apos;http://goodinfo.tw/StockInfo/StockBzPerformance.asp?&apos;</span>, headers=headers, verify=<span class="hljs-keyword">False</span> , data = payload)
     res.encoding = <span class="hljs-string">&apos;utf-8&apos;</span>
     soup = BeautifulSoup(res.text.replace(<span class="hljs-string">&apos;&amp;nbsp;&apos;</span>, <span class="hljs-string">&apos;&apos;</span>).replace(<span class="hljs-string">&apos;&#x3000;&apos;</span>,<span class="hljs-string">&apos;&apos;</span>), <span class="hljs-string">&apos;lxml&apos;</span>)
-    [s.extract() <span class="hljs-keyword">for</span> s <span class="hljs-keyword">in</span> soup(<span class="hljs-string">&apos;thead&apos;</span>)]
+    [s.extract() <span class="hljs-keyword">for</span> s <span class="hljs-keyword">in</span> soup(<span class="hljs-string">&apos;thead&apos;</span>)]  <span class="hljs-comment"># remove thead</span>
     <span class="hljs-keyword">return</span> soup
 
 <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>:</span>
@@ -17567,7 +17569,8 @@
     sys.setdefaultencoding(<span class="hljs-string">&apos;utf-8&apos;</span>)
 
     page = GetHtmlcode(<span class="hljs-string">&apos;1301&apos;</span>)
-    df = pd.read_html(str(page))
+    df = pd.read_html(str(page))[<span class="hljs-number">2</span>]
+    <span class="hljs-comment">#df = df[2:] ## &#x53EA;&#x8981;&#x7B2C;&#x4E8C;&#x5217;&#x4E4B;&#x5F8C;</span>
     <span class="hljs-keyword">print</span> df
 
 <span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:

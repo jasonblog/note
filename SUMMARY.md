@@ -694,6 +694,7 @@
    * [Debugging CPython with gdb](python/debugging_cpython_with_gdb.md)
    * [PTT gamesale 板的買賣文](python/ptt_gamesale_ban_de_mai_mai_wen.md)
    * [BeautifulSoup](python/beautifulsoup.md)
+       * remove script tags with BeautifulSoup
 * [Vim](vim/vim.md)
    * [HOWTO - vi, vim](vim/howto_-_vi,_vim.md)
 * [TDD](tdd/README.md)

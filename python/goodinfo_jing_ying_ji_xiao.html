@@ -57,7 +57,7 @@
         data-chapter-title="goodinfo 經營績效"
         data-filepath="python/goodinfo_jing_ying_ji_xiao.md"
         data-basepath=".."
-        data-revision="Mon Apr 03 2017 12:01:31 GMT+0800 (CST)"
+        data-revision="Mon Apr 03 2017 12:28:51 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -17509,16 +17509,16 @@
 <pre><code class="lang-py"><span class="hljs-comment">#! /usr/bin/python</span>
 <span class="hljs-comment"># -*- coding: utf-8 -*-</span>
 <span class="hljs-keyword">import</span> requests
-<span class="hljs-keyword">import</span> re
-<span class="hljs-keyword">import</span> urllib2
 <span class="hljs-keyword">import</span> csv
+<span class="hljs-keyword">import</span> sys
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
 <span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
 
 <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">GetHtmlcode</span><span class="hljs-params">(ID)</span>:</span>
     <span class="hljs-comment"># Get the webpage&apos;s source html code</span>
     source = <span class="hljs-string">&apos;http://goodinfo.tw/StockInfo/StockBzPerformance.asp?STOCK_ID=&apos;</span>
     url = source + ID
-    <span class="hljs-comment">#print url</span>
+    <span class="hljs-keyword">print</span> url
 
     <span class="hljs-comment"># Header</span>
     headers = { <span class="hljs-string">&apos;User-Agent&apos;</span> : <span class="hljs-string">&apos;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36&apos;</span>,
@@ -17532,33 +17532,28 @@
                 <span class="hljs-string">&apos;Host&apos;</span> : <span class="hljs-string">&apos;www.goodinfo.tw&apos;</span>,
                 <span class="hljs-string">&apos;Referer&apos;</span> : url }
 
-    payload ={
+    <span class="hljs-comment"># &apos;PER/PBR&apos; &apos;&#x7372;&#x5229;&#x6307;&#x6A19;&apos; &apos;&#x80A1;&#x5229;&#x7D71;&#x8A08;&apos;</span>
+    payload = {
     <span class="hljs-string">&apos;STOCK_ID&apos;</span>:ID,
     <span class="hljs-string">&apos;YEAR_PERIOD&apos;</span>:<span class="hljs-string">&apos;9999&apos;</span>,
     <span class="hljs-string">&apos;RPT_CAT&apos;</span>:<span class="hljs-string">&apos;M_YEAR&apos;</span>,
     <span class="hljs-string">&apos;STEP&apos;</span>:<span class="hljs-string">&apos;DATA&apos;</span>,
-    <span class="hljs-string">&apos;SHEET&apos;</span>: <span class="hljs-string">&apos;&#x5E74;&#x589E;&#x7D71;&#x8A08;&apos;</span>
-    }
+    <span class="hljs-string">&apos;SHEET&apos;</span>: <span class="hljs-string">&apos;&#x80A1;&#x5229;&#x7D71;&#x8A08;&apos;</span>}
 
     res = requests.post(<span class="hljs-string">&apos;http://goodinfo.tw/StockInfo/StockBzPerformance.asp?&apos;</span>, headers=headers, verify=<span class="hljs-keyword">False</span> , data = payload)
     res.encoding = <span class="hljs-string">&apos;utf-8&apos;</span>
-    <span class="hljs-keyword">print</span> res.text
-
-    <span class="hljs-string">&apos;&apos;&apos;
-    # &#x9023;&#x5230;&#x7DB2;&#x9801;&#x6293;&#x53D6;&#x8CC7;&#x6599;
-    req= urllib2.Request(url,&quot;&quot;,headers)
-    response = urllib2.urlopen(req)
-    result = response.read().decode(&apos;utf-8&apos;)
-    print result
-    return result
-    &apos;&apos;&apos;</span>
+    soup = BeautifulSoup(res.text.replace(<span class="hljs-string">&apos;&amp;nbsp;&apos;</span>, <span class="hljs-string">&apos;&apos;</span>).replace(<span class="hljs-string">&apos;&#x3000;&apos;</span>,<span class="hljs-string">&apos;&apos;</span>), <span class="hljs-string">&apos;lxml&apos;</span>)
+    [s.extract() <span class="hljs-keyword">for</span> s <span class="hljs-keyword">in</span> soup(<span class="hljs-string">&apos;thead&apos;</span>)]
+    <span class="hljs-keyword">return</span> soup
 
 <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>:</span>
-    <span class="hljs-comment">#fin = open(&apos;StockCode&apos;, &apos;r+&apos;)</span>
-    <span class="hljs-comment">#StockCodeList = [str(i)for i in fin.read().splitlines()]</span>
-    <span class="hljs-comment">#fin.close()</span>
+    <span class="hljs-comment"># python2</span>
+    reload(sys)
+    sys.setdefaultencoding(<span class="hljs-string">&apos;utf-8&apos;</span>)
 
-    page = GetHtmlcode(<span class="hljs-string">&apos;2103&apos;</span>)
+    page = GetHtmlcode(<span class="hljs-string">&apos;1301&apos;</span>)
+    df = pd.read_html(str(page))
+    <span class="hljs-keyword">print</span> df
 
 <span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:
     main()

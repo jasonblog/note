@@ -5,16 +5,16 @@
 #! /usr/bin/python
 # -*- coding: utf-8 -*-
 import requests
-import re
-import urllib2
 import csv
+import sys
+from bs4 import BeautifulSoup
 import pandas as pd
 
 def GetHtmlcode(ID):
     # Get the webpage's source html code
     source = 'http://goodinfo.tw/StockInfo/StockBzPerformance.asp?STOCK_ID='
     url = source + ID
-    #print url
+    print url
 
     # Header
     headers = { 'User-Agent' : 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36',
@@ -28,34 +28,30 @@ def GetHtmlcode(ID):
                 'Host' : 'www.goodinfo.tw',
                 'Referer' : url }
 
-    payload ={
-	'STOCK_ID':ID,
-	'YEAR_PERIOD':'9999',
-	'RPT_CAT':'M_YEAR',
-	'STEP':'DATA',
-	'SHEET': '年增統計'
-    }
+    # 'PER/PBR' '獲利指標' '股利統計'
+    payload = {
+    'STOCK_ID':ID,
+    'YEAR_PERIOD':'9999',
+    'RPT_CAT':'M_YEAR',
+    'STEP':'DATA',
+    'SHEET': '股利統計'}
 
     res = requests.post('http://goodinfo.tw/StockInfo/StockBzPerformance.asp?', headers=headers, verify=False , data = payload)
     res.encoding = 'utf-8'
-    print res.text
-
-    '''
-    # 連到網頁抓取資料
-    req= urllib2.Request(url,"",headers)
-    response = urllib2.urlopen(req)
-    result = response.read().decode('utf-8')
-    print result
-    return result
-    '''
+    soup = BeautifulSoup(res.text.replace('&nbsp;', '').replace('　',''), 'lxml')
+    [s.extract() for s in soup('thead')]
+    return soup
 
 def main():
-    #fin = open('StockCode', 'r+')
-    #StockCodeList = [str(i)for i in fin.read().splitlines()]
-    #fin.close()
+    # python2
+    reload(sys)
+    sys.setdefaultencoding('utf-8')
 
-    page = GetHtmlcode('2103')
+    page = GetHtmlcode('1301')
+    df = pd.read_html(str(page))
+    print df
 
 if __name__ == "__main__":
     main()
+
 ```

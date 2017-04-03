@@ -34,12 +34,14 @@ def GetHtmlcode(ID):
     'YEAR_PERIOD':'9999',
     'RPT_CAT':'M_YEAR',
     'STEP':'DATA',
-    'SHEET': '股利統計'}
+    #'SHEET': '股利統計'}
+    #'SHEET': '獲利指標'}
+    'SHEET': 'PER/PBR'}
 
     res = requests.post('http://goodinfo.tw/StockInfo/StockBzPerformance.asp?', headers=headers, verify=False , data = payload)
     res.encoding = 'utf-8'
     soup = BeautifulSoup(res.text.replace('&nbsp;', '').replace('　',''), 'lxml')
-    [s.extract() for s in soup('thead')]
+    [s.extract() for s in soup('thead')]  # remove thead
     return soup
 
 def main():
@@ -48,10 +50,10 @@ def main():
     sys.setdefaultencoding('utf-8')
 
     page = GetHtmlcode('1301')
-    df = pd.read_html(str(page))
+    df = pd.read_html(str(page))[2]
+    #df = df[2:] ## 只要第二列之後
     print df
 
 if __name__ == "__main__":
     main()
-
 ```

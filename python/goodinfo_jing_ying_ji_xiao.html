@@ -57,7 +57,7 @@
         data-chapter-title="goodinfo 經營績效"
         data-filepath="python/goodinfo_jing_ying_ji_xiao.md"
         data-basepath=".."
-        data-revision="Tue Apr 04 2017 01:58:39 GMT+0800 (CST)"
+        data-revision="Tue Apr 04 2017 23:01:06 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -17524,8 +17524,8 @@
 <pre><code class="lang-py"><span class="hljs-comment">#! /usr/bin/python</span>
 <span class="hljs-comment"># -*- coding: utf-8 -*-</span>
 <span class="hljs-keyword">import</span> requests
-<span class="hljs-keyword">import</span> csv
 <span class="hljs-keyword">import</span> sys
+<span class="hljs-keyword">import</span> os
 <span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
 <span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
 
@@ -17553,14 +17553,47 @@
     <span class="hljs-string">&apos;YEAR_PERIOD&apos;</span>:<span class="hljs-string">&apos;9999&apos;</span>,
     <span class="hljs-string">&apos;RPT_CAT&apos;</span>:<span class="hljs-string">&apos;M_YEAR&apos;</span>,
     <span class="hljs-string">&apos;STEP&apos;</span>:<span class="hljs-string">&apos;DATA&apos;</span>,
-    <span class="hljs-comment">#&apos;SHEET&apos;: &apos;&#x80A1;&#x5229;&#x7D71;&#x8A08;&apos;}</span>
+    <span class="hljs-string">&apos;SHEET&apos;</span>: <span class="hljs-string">&apos;&#x80A1;&#x5229;&#x7D71;&#x8A08;&apos;</span>}
     <span class="hljs-comment">#&apos;SHEET&apos;: &apos;&#x7372;&#x5229;&#x6307;&#x6A19;&apos;}</span>
-    <span class="hljs-string">&apos;SHEET&apos;</span>: <span class="hljs-string">&apos;PER/PBR&apos;</span>}
+    <span class="hljs-comment">#&apos;SHEET&apos;: &apos;PER/PBR&apos;}</span>
 
-    res = requests.post(<span class="hljs-string">&apos;http://goodinfo.tw/StockInfo/StockBzPerformance.asp?&apos;</span>, headers=headers, verify=<span class="hljs-keyword">False</span> , data = payload)
-    res.encoding = <span class="hljs-string">&apos;utf-8&apos;</span>
-    soup = BeautifulSoup(res.text.replace(<span class="hljs-string">&apos;&amp;nbsp;&apos;</span>, <span class="hljs-string">&apos;&apos;</span>).replace(<span class="hljs-string">&apos;&#x3000;&apos;</span>,<span class="hljs-string">&apos;&apos;</span>), <span class="hljs-string">&apos;lxml&apos;</span>)
-    [s.extract() <span class="hljs-keyword">for</span> s <span class="hljs-keyword">in</span> soup(<span class="hljs-string">&apos;thead&apos;</span>)]  <span class="hljs-comment"># remove thead</span>
+    SHEETS = [<span class="hljs-string">&apos;&#x7372;&#x5229;&#x6307;&#x6A19;&apos;</span>,<span class="hljs-string">&apos;&#x5E74;&#x589E;&#x7D71;&#x8A08;&apos;</span>,<span class="hljs-string">&apos;&#x80A1;&#x5229;&#x7D71;&#x8A08;&apos;</span>, <span class="hljs-string">&apos;PER/PBR&apos;</span>]
+    columns = {<span class="hljs-string">&apos;&#x7372;&#x5229;&#x6307;&#x6A19;&apos;</span> : [<span class="hljs-string">u&apos;&#x5E74;&#x5EA6;&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x672C;(&#x5104;)&apos;</span>, <span class="hljs-string">u&apos;&#x8CA1;&#x5831;&#x8A55;&#x5206;&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x6536;&#x76E4;&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x5E73;&#x5747;&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x6F32;&#x8DCC;&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x6F32;&#x8DCC;(%)&apos;</span>, <span class="hljs-string">u&apos;&#x71DF;&#x696D;&#x6536;&#x5165;(&#x5104;)&apos;</span>, <span class="hljs-string">u&apos;&#x71DF;&#x696D;&#x6BDB;&#x5229;(&#x5104;)&apos;</span>,
+                 <span class="hljs-string">u&apos;&#x71DF;&#x696D;&#x5229;&#x76CA;(&#x5104;)&apos;</span>, <span class="hljs-string">u&apos;&#x696D;&#x5916;&#x640D;&#x76CA;(&#x5104;)&apos;</span>, <span class="hljs-string">u&apos;&#x7A05;&#x5F8C;&#x6DE8;&#x5229;(&#x5104;)&apos;</span>,<span class="hljs-string">u&apos;&#x71DF;&#x696D;&#x6536;&#x5165;(%)&apos;</span>, <span class="hljs-string">u&apos;&#x71DF;&#x696D;&#x6BDB;&#x5229;(%)&apos;</span>,<span class="hljs-string">u&apos;&#x71DF;&#x696D;&#x5229;&#x76CA;(%)&apos;</span>, <span class="hljs-string">u&apos;&#x696D;&#x5916;&#x640D;&#x76CA;(%)&apos;</span>, <span class="hljs-string">u&apos;ROE(%)&apos;</span>, 
+                             <span class="hljs-string">u&apos;ROA(%)&apos;</span>, <span class="hljs-string">u&apos;&#x7A05;&#x5F8C;EPS&apos;</span>, <span class="hljs-string">u&apos;&#x6210;&#x9577;(&#x5143;)&apos;</span>, <span class="hljs-string">u&apos;BPS(&#x5143;)&apos;</span>],
+
+               <span class="hljs-string">&apos;&#x5E74;&#x589E;&#x7D71;&#x8A08;&apos;</span> : [<span class="hljs-string">u&apos;&#x5E74;&#x5EA6;&apos;</span>, <span class="hljs-string">u&apos;&#x71DF;&#x696D;&#x6536;&#x5165;&#x91D1;&#x984D;(&#x5104;)&apos;</span>,  <span class="hljs-string">u&apos;&#x71DF;&#x696D;&#x6536;&#x5165;&#x589E;&#x6E1B;(&#x5104;)&apos;</span>,    <span class="hljs-string">u&apos;&#x71DF;&#x696D;&#x6536;&#x5165;&#x589E;&#x6E1B;(%)&apos;</span>, <span class="hljs-string">u&apos;&#x71DF;&#x696D;&#x6BDB;&#x5229;&#x91D1;&#x984D;(&#x5104;)&apos;</span>, <span class="hljs-string">u&apos;&#x71DF;&#x696D;&#x6BDB;&#x5229;&#x589E;&#x6E1B;(&#x5104;)&apos;</span>,<span class="hljs-string">u&apos;&#x71DF;&#x696D;&#x6BDB;&#x5229;&#x589E;&#x6E1B;(%)&apos;</span>,    
+                             <span class="hljs-string">u&apos;&#x6BDB;&#x5229;(%)&apos;</span>, <span class="hljs-string">u&apos;&#x6BDB;&#x5229;&#x589E;&#x6E1B;&#x6578;(&#x5104;)&apos;</span>, <span class="hljs-string">u&apos;&#x7A05;&#x5F8C;&#x6DE8;&#x5229;&#x91D1;&#x984D;(&#x5104;)&apos;</span>,  <span class="hljs-string">u&apos;&#x7A05;&#x5F8C;&#x6DE8;&#x5229;&#x589E;&#x6E1B;(&#x5104;)&apos;</span>, <span class="hljs-string">u&apos;&#x7A05;&#x5F8C;&#x6DE8;&#x5229;&#x589E;&#x6E1B;(%)&apos;</span>,    <span class="hljs-string">u&apos;&#x7A05;&#x5F8C;&#x6DE8;&#x5229;(%)&apos;</span>, <span class="hljs-string">u&apos;&#x7A05;&#x5F8C;&#x589E;&#x6E1B;&#x6578;(&#x5104;)&apos;</span>, <span class="hljs-string">u&apos;EPS(&#x5143;)&apos;</span>,  
+                             <span class="hljs-string">u&apos;&#x6BCF;&#x80A1;&#x76C8;&#x9918;&#x589E;&#x6E1B;(&#x5143;)&apos;</span>, <span class="hljs-string">u&apos;ROE(%)&apos;</span>,  <span class="hljs-string">u&apos;ROE&#x589E;&#x6E1B;&#x6578;&apos;</span>, <span class="hljs-string">u&apos;ROA(%)&apos;</span>, <span class="hljs-string">u&apos;ROA&#x589E;&#x6E1B;&#x6578;&apos;</span>],
+
+
+           <span class="hljs-string">&apos;&#x80A1;&#x5229;&#x7D71;&#x8A08;&apos;</span> : [<span class="hljs-string">u&apos;&#x5E74;&#x5EA6;&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x672C;(&#x5104;)&apos;</span>, <span class="hljs-string">u&apos;&#x8CA1;&#x5831;&#x8A55;&#x5206;&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x6700;&#x9AD8;&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x6700;&#x4F4E;&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x6536;&#x76E4;&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x5E73;&#x5747;&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x6F32;&#x8DCC;&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x6F32;&#x8DCC;(%)&apos;</span>, <span class="hljs-string">u&apos;&#x53BB;&#x5E74;EPS(&#x5143;)&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x5229;&#x73FE;&#x91D1;&apos;</span>,
+                 <span class="hljs-string">u&apos;&#x80A1;&#x5229;&#x80A1;&#x7968;&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x5229;&#x5408;&#x8A08;&apos;</span>, <span class="hljs-string">u&apos;&#x6B96;&#x5229;&#x7387;&#x6700;&#x9AD8;&apos;</span>, <span class="hljs-string">u&apos;&#x6B96;&#x5229;&#x7387;&#x6700;&#x4F4E;&apos;</span>, <span class="hljs-string">u&apos;&#x6B96;&#x5229;&#x7387;&#x5E73;&#x5747;&apos;</span>, <span class="hljs-string">u&apos;&#x76C8;&#x9918;&#x5206;&#x914D;&#x7387;&#x914D;&#x606F;&apos;</span>, <span class="hljs-string">u&apos;&#x76C8;&#x9918;&#x5206;&#x914D;&#x7387;&#x914D;&#x80A1;&apos;</span>, <span class="hljs-string">u&apos;&#x76C8;&#x9918;&#x5206;&#x914D;&#x7387;&#x5408;&#x8A08;&apos;</span>],
+
+           <span class="hljs-string">&apos;PER/PBR&apos;</span> : [<span class="hljs-string">u&apos;&#x5E74;&#x5EA6;&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x672C;(&#x5104;)&apos;</span>, <span class="hljs-string">u&apos;&#x8CA1;&#x5831;&#x8A55;&#x5206;&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x6700;&#x9AD8;&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x6700;&#x4F4E;&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x6536;&#x76E4;&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x5E73;&#x5747;&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x6F32;&#x8DCC;&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x6F32;&#x8DCC;(%)&apos;</span>, <span class="hljs-string">u&apos;EPS(&#x5143;)&apos;</span>, <span class="hljs-string">u&apos;&#x6700;&#x9AD8;PER&apos;</span>,
+                 <span class="hljs-string">u&apos;&#x6700;&#x4F4E;PER&apos;</span>, <span class="hljs-string">u&apos;&#x5E73;&#x5747;PER&apos;</span>, <span class="hljs-string">u&apos;BPS(&#x5143;)&apos;</span>, <span class="hljs-string">u&apos;&#x6700;&#x9AD8;PBR&apos;</span>, <span class="hljs-string">u&apos;&#x6700;&#x4F4E;PBR&apos;</span>, <span class="hljs-string">u&apos;&#x5E73;&#x5747;PBR&apos;</span>]}
+
+    <span class="hljs-keyword">for</span> key <span class="hljs-keyword">in</span> SHEETS:
+        payload[<span class="hljs-string">&apos;SHEET&apos;</span>] = key
+        res = requests.post(<span class="hljs-string">&apos;http://goodinfo.tw/StockInfo/StockBzPerformance.asp?&apos;</span>, headers=headers, verify=<span class="hljs-keyword">False</span> , data = payload)
+        res.encoding = <span class="hljs-string">&apos;utf-8&apos;</span>
+        soup = BeautifulSoup(res.text.replace(<span class="hljs-string">&apos;&amp;nbsp;&apos;</span>, <span class="hljs-string">&apos;&apos;</span>).replace(<span class="hljs-string">&apos;&#x3000;&apos;</span>,<span class="hljs-string">&apos;&apos;</span>), <span class="hljs-string">&apos;lxml&apos;</span>)
+        [s.extract() <span class="hljs-keyword">for</span> s <span class="hljs-keyword">in</span> soup(<span class="hljs-string">&apos;thead&apos;</span>)]  <span class="hljs-comment"># remove thead</span>
+
+        df = pd.read_html(str(soup))[<span class="hljs-number">2</span>]
+        df.columns = columns[key]
+        <span class="hljs-keyword">print</span> df
+
+        key = key.replace(<span class="hljs-string">&apos;/&apos;</span>, <span class="hljs-string">&apos;_&apos;</span>)
+
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> os.path.exists(ID):
+        os.makedirs(ID)
+
+        key = str(ID) + <span class="hljs-string">&apos;/&apos;</span> + key +<span class="hljs-string">&apos;.html&apos;</span> 
+        <span class="hljs-comment">#print key</span>
+        <span class="hljs-comment">#raw_input()</span>
+        df.to_html(str(key))
+
     <span class="hljs-keyword">return</span> soup
 
 <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>:</span>
@@ -17568,13 +17601,133 @@
     reload(sys)
     sys.setdefaultencoding(<span class="hljs-string">&apos;utf-8&apos;</span>)
 
-    page = GetHtmlcode(<span class="hljs-string">&apos;1301&apos;</span>)
-    df = pd.read_html(str(page))[<span class="hljs-number">2</span>]
-    <span class="hljs-comment">#df = df[2:] ## &#x53EA;&#x8981;&#x7B2C;&#x4E8C;&#x5217;&#x4E4B;&#x5F8C;</span>
-    <span class="hljs-keyword">print</span> df
+    fin = open(<span class="hljs-string">&apos;StockCode&apos;</span>, <span class="hljs-string">&apos;r+&apos;</span>)
+    StockCodeList = [str(i)<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> fin.read().splitlines()]
+    fin.close()
+
+    <span class="hljs-keyword">for</span> ID <span class="hljs-keyword">in</span> StockCodeList:
+        page = GetHtmlcode(ID)
+
 
 <span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:
     main()
+</code></pre>
+<pre><code class="lang-sh"><span class="hljs-number">1101</span>
+<span class="hljs-number">1102</span>
+<span class="hljs-number">1216</span>
+<span class="hljs-number">1301</span>
+<span class="hljs-number">1303</span>
+<span class="hljs-number">1326</span>
+<span class="hljs-number">1402</span>
+<span class="hljs-number">1476</span>
+<span class="hljs-number">2002</span>
+<span class="hljs-number">2105</span>
+<span class="hljs-number">2207</span>
+<span class="hljs-number">2301</span>
+<span class="hljs-number">2303</span>
+<span class="hljs-number">2308</span>
+<span class="hljs-number">2311</span>
+<span class="hljs-number">2317</span>
+<span class="hljs-number">2324</span>
+<span class="hljs-number">2325</span>
+<span class="hljs-number">2330</span>
+<span class="hljs-number">2354</span>
+<span class="hljs-number">2357</span>
+<span class="hljs-number">2382</span>
+<span class="hljs-number">2395</span>
+<span class="hljs-number">2408</span>
+<span class="hljs-number">2409</span>
+<span class="hljs-number">2412</span>
+<span class="hljs-number">2454</span>
+<span class="hljs-number">2474</span>
+<span class="hljs-number">2801</span>
+<span class="hljs-number">2912</span>
+<span class="hljs-number">3008</span>
+<span class="hljs-number">3045</span>
+<span class="hljs-number">3481</span>
+<span class="hljs-number">4904</span>
+<span class="hljs-number">4938</span>
+<span class="hljs-number">6505</span>
+<span class="hljs-number">9904</span>
+<span class="hljs-number">1227</span>
+<span class="hljs-number">1232</span>
+<span class="hljs-number">1319</span>
+<span class="hljs-number">1434</span>
+<span class="hljs-number">1477</span>
+<span class="hljs-number">1504</span>
+<span class="hljs-number">1536</span>
+<span class="hljs-number">1537</span>
+<span class="hljs-number">1707</span>
+<span class="hljs-number">1717</span>
+<span class="hljs-number">1722</span>
+<span class="hljs-number">1909</span>
+<span class="hljs-number">2015</span>
+<span class="hljs-number">2101</span>
+<span class="hljs-number">2103</span>
+<span class="hljs-number">2106</span>
+<span class="hljs-number">2201</span>
+<span class="hljs-number">2204</span>
+<span class="hljs-number">2227</span>
+<span class="hljs-number">2313</span>
+<span class="hljs-number">2345</span>
+<span class="hljs-number">2347</span>
+<span class="hljs-number">2355</span>
+<span class="hljs-number">2356</span>
+<span class="hljs-number">2360</span>
+<span class="hljs-number">2376</span>
+<span class="hljs-number">2377</span>
+<span class="hljs-number">2379</span>
+<span class="hljs-number">2383</span>
+<span class="hljs-number">2385</span>
+<span class="hljs-number">2441</span>
+<span class="hljs-number">2449</span>
+<span class="hljs-number">2451</span>
+<span class="hljs-number">2501</span>
+<span class="hljs-number">2542</span>
+<span class="hljs-number">2606</span>
+<span class="hljs-number">2615</span>
+<span class="hljs-number">2903</span>
+<span class="hljs-number">2915</span>
+<span class="hljs-number">3010</span>
+<span class="hljs-number">3030</span>
+<span class="hljs-number">3034</span>
+<span class="hljs-number">3044</span>
+<span class="hljs-number">3189</span>
+<span class="hljs-number">3213</span>
+<span class="hljs-number">3231</span>
+<span class="hljs-number">3702</span>
+<span class="hljs-number">3706</span>
+<span class="hljs-number">5434</span>
+<span class="hljs-number">5471</span>
+<span class="hljs-number">5522</span>
+<span class="hljs-number">6115</span>
+<span class="hljs-number">6146</span>
+<span class="hljs-number">6176</span>
+<span class="hljs-number">6189</span>
+<span class="hljs-number">6192</span>
+<span class="hljs-number">6206</span>
+<span class="hljs-number">6224</span>
+<span class="hljs-number">6239</span>
+<span class="hljs-number">6269</span>
+<span class="hljs-number">6277</span>
+<span class="hljs-number">6279</span>
+<span class="hljs-number">6285</span>
+<span class="hljs-number">6286</span>
+<span class="hljs-number">8050</span>
+<span class="hljs-number">8255</span>
+<span class="hljs-number">8299</span>
+<span class="hljs-number">9907</span>
+<span class="hljs-number">9910</span>
+<span class="hljs-number">9914</span>
+<span class="hljs-number">9917</span>
+<span class="hljs-number">9921</span>
+<span class="hljs-number">9925</span>
+<span class="hljs-number">9930</span>
+<span class="hljs-number">9933</span>
+<span class="hljs-number">9938</span>
+<span class="hljs-number">9941</span>
+<span class="hljs-number">9942</span>
+<span class="hljs-number">9945</span>
 </code></pre>
 
                     

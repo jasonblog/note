@@ -34,14 +34,39 @@ def GetHtmlcode(ID):
     'YEAR_PERIOD':'9999',
     'RPT_CAT':'M_YEAR',
     'STEP':'DATA',
-    #'SHEET': '股利統計'}
+    'SHEET': '股利統計'}
     #'SHEET': '獲利指標'}
-    'SHEET': 'PER/PBR'}
+    #'SHEET': 'PER/PBR'}
 
-    res = requests.post('http://goodinfo.tw/StockInfo/StockBzPerformance.asp?', headers=headers, verify=False , data = payload)
-    res.encoding = 'utf-8'
-    soup = BeautifulSoup(res.text.replace('&nbsp;', '').replace('　',''), 'lxml')
-    [s.extract() for s in soup('thead')]  # remove thead
+    SHEETS = ['獲利指標','年增統計','股利統計', 'PER/PBR']
+    columns = {'獲利指標' : [u'年度', u'股本(億)', u'財報評分', u'股價收盤', u'股價平均', u'股價漲跌', u'股價漲跌(%)', u'營業收入(億)', u'營業毛利(億)',
+			     u'營業利益(億)', u'業外損益(億)', u'稅後淨利(億)',u'營業收入(%)', u'營業毛利(%)',u'營業利益(%)', u'業外損益(%)', u'ROE(%)', 
+                             u'ROA(%)', u'稅後EPS', u'成長(元)', u'BPS(元)'],
+			     
+               '年增統計' : [u'年度', u'營業收入金額(億)',  u'營業收入增減(億)',    u'營業收入增減(%)', u'營業毛利金額(億)', u'營業毛利增減(億)',u'營業毛利增減(%)',    
+                             u'毛利(%)', u'毛利增減數(億)', u'稅後淨利金額(億)',  u'稅後淨利增減(億)', u'稅後淨利增減(%)',    u'稅後淨利(%)', u'稅後增減數(億)', u'EPS(元)',  
+                             u'每股盈餘增減(元)', u'ROE(%)',  u'ROE增減數', u'ROA(%)', u'ROA增減數'],
+
+
+	       '股利統計' : [u'年度', u'股本(億)', u'財報評分', u'股價最高', u'股價最低', u'股價收盤', u'股價平均', u'股價漲跌', u'股價漲跌(%)', u'去年EPS(元)', u'股利現金',
+			     u'股利股票', u'股利合計', u'殖利率最高', u'殖利率最低', u'殖利率平均', u'盈餘分配率配息', u'盈餘分配率配股', u'盈餘分配率合計'],
+
+	       'PER/PBR' : [u'年度', u'股本(億)', u'財報評分', u'股價最高', u'股價最低', u'股價收盤', u'股價平均', u'股價漲跌', u'股價漲跌(%)', u'EPS(元)', u'最高PER',
+			     u'最低PER', u'平均PER', u'BPS(元)', u'最高PBR', u'最低PBR', u'平均PBR']}
+
+    for key in SHEETS:
+        payload['SHEET'] = key
+        res = requests.post('http://goodinfo.tw/StockInfo/StockBzPerformance.asp?', headers=headers, verify=False , data = payload)
+        res.encoding = 'utf-8'
+        soup = BeautifulSoup(res.text.replace('&nbsp;', '').replace('　',''), 'lxml')
+        [s.extract() for s in soup('thead')]  # remove thead
+
+        df = pd.read_html(str(soup))[2]
+        df.columns = columns[key]
+        print df
+        key = key.replace('/', '_')
+        df.to_html(str(key) + '.html')
+
     return soup
 
 def main():
@@ -50,9 +75,9 @@ def main():
     sys.setdefaultencoding('utf-8')
 
     page = GetHtmlcode('1301')
-    df = pd.read_html(str(page))[2]
+    #df = pd.read_html(str(page))[2]
     #df = df[2:] ## 只要第二列之後
-    print df
+    #print df
 
 if __name__ == "__main__":
     main()

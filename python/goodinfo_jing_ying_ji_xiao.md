@@ -7,6 +7,7 @@
 import requests
 import sys
 import os
+import time 
 from bs4 import BeautifulSoup
 import pandas as pd
 
@@ -89,12 +90,12 @@ def main():
     fin.close()
 
     for ID in StockCodeList:
+        time.sleep(10)
         page = GetHtmlcode(ID)
 
 
 if __name__ == "__main__":
     main()
-
 ```
 
 

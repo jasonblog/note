@@ -57,7 +57,7 @@
         data-chapter-title="goodinfo 經營績效"
         data-filepath="python/goodinfo_jing_ying_ji_xiao.md"
         data-basepath=".."
-        data-revision="Thu Apr 06 2017 21:54:34 GMT+0800 (CST)"
+        data-revision="Fri Apr 07 2017 01:14:26 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -17551,6 +17551,194 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="goodinfo-&#x7D93;&#x71DF;&#x7E3E;&#x6548;">goodinfo &#x7D93;&#x71DF;&#x7E3E;&#x6548;</h1>
+<pre><code class="lang-py"><span class="hljs-comment">#! /usr/bin/python</span>
+<span class="hljs-comment"># -*- coding: utf-8 -*-</span>
+<span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">import</span> sys
+<span class="hljs-keyword">import</span> os
+<span class="hljs-keyword">import</span> time 
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+<span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">GetHtmlcode</span><span class="hljs-params">(ID)</span>:</span>
+    <span class="hljs-comment"># Get the webpage&apos;s source html code</span>
+    source = <span class="hljs-string">&apos;http://goodinfo.tw/StockInfo/StockBzPerformance.asp?STOCK_ID=&apos;</span>
+    url = source + ID
+    <span class="hljs-keyword">print</span> url
+
+    <span class="hljs-comment"># Header</span>
+    headers = { <span class="hljs-string">&apos;User-Agent&apos;</span> : <span class="hljs-string">&apos;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36&apos;</span>,
+                <span class="hljs-string">&apos;Accept&apos;</span> : <span class="hljs-string">&apos;text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8&apos;</span>,
+                <span class="hljs-string">&apos;Accept-Charset&apos;</span> : <span class="hljs-string">&apos;Big5,utf-8;q=0.7,*;q=0.3&apos;</span>,
+                <span class="hljs-comment">#&apos;Accept-Encoding&apos; : &apos;gzip,deflate,sdch&apos;,</span>
+                <span class="hljs-string">&apos;Accept-Language&apos;</span> : <span class="hljs-string">&apos;zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4,ja;q=0.2&apos;</span> ,
+                <span class="hljs-string">&apos;Cache-Control&apos;</span> : <span class="hljs-string">&apos;max-age=0&apos;</span>,
+                <span class="hljs-string">&apos;Connection&apos;</span> : <span class="hljs-string">&apos;keep-alive&apos;</span>,
+                <span class="hljs-string">&apos;Cookie&apos;</span> : <span class="hljs-string">&apos;__gads=ID=a9b4db3df9875a51:T=1491062185:S=ALNI_MahBgxXa6B0VuRdoVYVNbFF3PYmbQ; GOOD%5FINFO%5FSTOCK%5FBROWSE%5FLIST=2%7C1301%7C2311; ASPSESSIONIDSCADSSBR=BJJLMMCAPPLDLCHKCNDJIBCG; ASPSESSIONIDQCCCQSCR=CGPPIMCAPHAOLODAHJLPKAIG; ASPSESSIONIDSAACQRDR=LMENOMCAGIHGEEIDJNCJDKJL; ASPSESSIONIDSABARTCR=DDFPGMCALMLHHEJPNJDIBCGC; _ga=GA1.2.1896088280.1491062185; _gat=1; SCREEN_SIZE=WIDTH=1920&amp;HEIGHT=1080&apos;</span>,
+                <span class="hljs-string">&apos;Host&apos;</span> : <span class="hljs-string">&apos;www.goodinfo.tw&apos;</span>,
+                <span class="hljs-string">&apos;Referer&apos;</span> : url }
+
+    <span class="hljs-comment"># &apos;PER/PBR&apos; &apos;&#x7372;&#x5229;&#x6307;&#x6A19;&apos; &apos;&#x80A1;&#x5229;&#x7D71;&#x8A08;&apos;</span>
+    payload = {
+    <span class="hljs-string">u&apos;STOCK_ID&apos;</span>:ID,
+    <span class="hljs-string">u&apos;YEAR_PERIOD&apos;</span>:<span class="hljs-string">u&apos;9999&apos;</span>,
+    <span class="hljs-string">u&apos;RPT_CAT&apos;</span>:<span class="hljs-string">u&apos;M_YEAR&apos;</span>,
+    <span class="hljs-string">u&apos;STEP&apos;</span>:<span class="hljs-string">u&apos;DATA&apos;</span>,
+    <span class="hljs-string">u&apos;SHEET&apos;</span>: <span class="hljs-string">u&apos;&#x80A1;&#x5229;&#x7D71;&#x8A08;&apos;</span>}
+    <span class="hljs-comment">#&apos;SHEET&apos;: &apos;&#x7372;&#x5229;&#x6307;&#x6A19;&apos;}</span>
+    <span class="hljs-comment">#&apos;SHEET&apos;: &apos;PER/PBR&apos;}</span>
+
+    SHEETS = [<span class="hljs-string">u&apos;&#x7372;&#x5229;&#x6307;&#x6A19;&apos;</span>,<span class="hljs-string">u&apos;&#x5E74;&#x589E;&#x7D71;&#x8A08;&apos;</span>,<span class="hljs-string">u&apos;&#x80A1;&#x5229;&#x7D71;&#x8A08;&apos;</span>, <span class="hljs-string">u&apos;PER/PBR&apos;</span>]
+
+    columns = {<span class="hljs-string">u&apos;&#x7372;&#x5229;&#x6307;&#x6A19;&apos;</span> : [<span class="hljs-string">u&apos;&#x5E74;&#x5EA6;&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x672C;(&#x5104;)&apos;</span>, <span class="hljs-string">u&apos;&#x8CA1;&#x5831;&#x8A55;&#x5206;&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x6536;&#x76E4;&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x5E73;&#x5747;&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x6F32;&#x8DCC;&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x6F32;&#x8DCC;(%)&apos;</span>, <span class="hljs-string">u&apos;&#x71DF;&#x696D;&#x6536;&#x5165;(&#x5104;)&apos;</span>, <span class="hljs-string">u&apos;&#x71DF;&#x696D;&#x6BDB;&#x5229;(&#x5104;)&apos;</span>,
+                 <span class="hljs-string">u&apos;&#x71DF;&#x696D;&#x5229;&#x76CA;(&#x5104;)&apos;</span>, <span class="hljs-string">u&apos;&#x696D;&#x5916;&#x640D;&#x76CA;(&#x5104;)&apos;</span>, <span class="hljs-string">u&apos;&#x7A05;&#x5F8C;&#x6DE8;&#x5229;(&#x5104;)&apos;</span>, <span class="hljs-string">u&apos;&#x71DF;&#x696D;&#x6BDB;&#x5229;(%)&apos;</span>,<span class="hljs-string">u&apos;&#x71DF;&#x696D;&#x5229;&#x76CA;(%)&apos;</span>, <span class="hljs-string">u&apos;&#x696D;&#x5916;&#x640D;&#x76CA;(%)&apos;</span>, <span class="hljs-string">u&apos;&#x7A05;&#x5F8C;&#x6DE8;&#x5229;(%)&apos;</span>, <span class="hljs-string">u&apos;ROE(%)&apos;</span>, 
+                             <span class="hljs-string">u&apos;ROA(%)&apos;</span>, <span class="hljs-string">u&apos;&#x7A05;&#x5F8C;EPS(&#x5143;)&apos;</span>, <span class="hljs-string">u&apos;&#x6210;&#x9577;(&#x5143;)&apos;</span>, <span class="hljs-string">u&apos;BPS(&#x5143;)&apos;</span>],
+
+               <span class="hljs-string">u&apos;&#x5E74;&#x589E;&#x7D71;&#x8A08;&apos;</span> : [<span class="hljs-string">u&apos;&#x5E74;&#x5EA6;&apos;</span>, <span class="hljs-string">u&apos;&#x71DF;&#x696D;&#x6536;&#x5165;&#x91D1;&#x984D;(&#x5104;)&apos;</span>,  <span class="hljs-string">u&apos;&#x71DF;&#x696D;&#x6536;&#x5165;&#x589E;&#x6E1B;(&#x5104;)&apos;</span>, <span class="hljs-string">u&apos;&#x71DF;&#x696D;&#x6536;&#x5165;&#x589E;&#x6E1B;(%)&apos;</span>, <span class="hljs-string">u&apos;&#x71DF;&#x696D;&#x6BDB;&#x5229;&#x91D1;&#x984D;(&#x5104;)&apos;</span>, <span class="hljs-string">u&apos;&#x71DF;&#x696D;&#x6BDB;&#x5229;&#x589E;&#x6E1B;(&#x5104;)&apos;</span>,
+                             <span class="hljs-string">u&apos;&#x71DF;&#x696D;&#x6BDB;&#x5229;&#x589E;&#x6E1B;(%)&apos;</span>, <span class="hljs-string">u&apos;&#x6BDB;&#x5229;(%)&apos;</span>, <span class="hljs-string">u&apos;&#x6BDB;&#x5229;&#x589E;&#x6E1B;&#x6578;&apos;</span>, <span class="hljs-string">u&apos;&#x7A05;&#x5F8C;&#x6DE8;&#x5229;&#x91D1;&#x984D;(&#x5104;)&apos;</span>,  <span class="hljs-string">u&apos;&#x7A05;&#x5F8C;&#x6DE8;&#x5229;&#x589E;&#x6E1B;(&#x5104;)&apos;</span>, <span class="hljs-string">u&apos;&#x7A05;&#x5F8C;&#x6DE8;&#x5229;&#x589E;&#x6E1B;(%)&apos;</span>,
+                             <span class="hljs-string">u&apos;&#x7A05;&#x5F8C;&#x6DE8;&#x5229;(%)&apos;</span>, <span class="hljs-string">u&apos;&#x7A05;&#x5F8C;&#x589E;&#x6E1B;&#x6578;&apos;</span>, <span class="hljs-string">u&apos;EPS(&#x5143;)&apos;</span>, <span class="hljs-string">u&apos;&#x6BCF;&#x80A1;&#x76C8;&#x9918;&#x589E;&#x6E1B;(&#x5143;)&apos;</span>, <span class="hljs-string">u&apos;ROE(%)&apos;</span>,  <span class="hljs-string">u&apos;ROE&#x589E;&#x6E1B;&#x6578;&apos;</span>, <span class="hljs-string">u&apos;ROA(%)&apos;</span>, <span class="hljs-string">u&apos;ROA&#x589E;&#x6E1B;&#x6578;&apos;</span>],
+
+
+           <span class="hljs-string">u&apos;&#x80A1;&#x5229;&#x7D71;&#x8A08;&apos;</span> : [<span class="hljs-string">u&apos;&#x5E74;&#x5EA6;&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x672C;(&#x5104;)&apos;</span>, <span class="hljs-string">u&apos;&#x8CA1;&#x5831;&#x8A55;&#x5206;&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x6700;&#x9AD8;&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x6700;&#x4F4E;&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x6536;&#x76E4;&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x5E73;&#x5747;&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x6F32;&#x8DCC;&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x6F32;&#x8DCC;(%)&apos;</span>,
+                             <span class="hljs-string">u&apos;&#x53BB;&#x5E74;EPS(&#x5143;)&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x5229;&#x73FE;&#x91D1;(&#x5143;)&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x5229;&#x80A1;&#x7968;(&#x5143;)&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x5229;&#x5408;&#x8A08;(&#x5143;)&apos;</span>, <span class="hljs-string">u&apos;&#x6B96;&#x5229;&#x7387;&#x6700;&#x9AD8;(%)&apos;</span>, <span class="hljs-string">u&apos;&#x6B96;&#x5229;&#x7387;&#x6700;&#x4F4E;(%)&apos;</span>, <span class="hljs-string">u&apos;&#x6B96;&#x5229;&#x7387;&#x5E73;&#x5747;(%)&apos;</span>, 
+                             <span class="hljs-string">u&apos;&#x76C8;&#x9918;&#x5206;&#x914D;&#x7387;&#x914D;&#x606F;(%)&apos;</span>, <span class="hljs-string">u&apos;&#x76C8;&#x9918;&#x5206;&#x914D;&#x7387;&#x914D;&#x80A1;(%)&apos;</span>, <span class="hljs-string">u&apos;&#x76C8;&#x9918;&#x5206;&#x914D;&#x7387;&#x5408;&#x8A08;(%)&apos;</span>],
+
+           <span class="hljs-string">u&apos;PER/PBR&apos;</span> : [<span class="hljs-string">u&apos;&#x5E74;&#x5EA6;&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x672C;(&#x5104;)&apos;</span>, <span class="hljs-string">u&apos;&#x8CA1;&#x5831;&#x8A55;&#x5206;&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x6700;&#x9AD8;(&#x5143;)&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x6700;&#x4F4E;(&#x5143;)&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x6536;&#x76E4;(&#x5143;)&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x5E73;&#x5747;(&#x5143;)&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x6F32;&#x8DCC;(&#x5143;)&apos;</span>, 
+                            <span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x6F32;&#x8DCC;(%)&apos;</span>, <span class="hljs-string">u&apos;EPS(&#x5143;)&apos;</span>, <span class="hljs-string">u&apos;&#x6700;&#x9AD8;PER&apos;</span>, <span class="hljs-string">u&apos;&#x6700;&#x4F4E;PER&apos;</span>, <span class="hljs-string">u&apos;&#x5E73;&#x5747;PER&apos;</span>, <span class="hljs-string">u&apos;BPS(&#x5143;)&apos;</span>, <span class="hljs-string">u&apos;&#x6700;&#x9AD8;PBR&apos;</span>, <span class="hljs-string">u&apos;&#x6700;&#x4F4E;PBR&apos;</span>, <span class="hljs-string">u&apos;&#x5E73;&#x5747;PBR&apos;</span>]}
+
+    HEADER = <span class="hljs-string">&apos;&apos;&apos;
+    &lt;html&gt;
+    &lt;head&gt;
+        &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot;&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+    &apos;&apos;&apos;</span>
+    FOOTER = <span class="hljs-string">&apos;&apos;&apos;
+    &lt;/body&gt;
+    &lt;/html&gt;
+    &apos;&apos;&apos;</span>
+
+    labels = [<span class="hljs-string">u&apos;&#x5E74;&#x5EA6;&apos;</span>,
+          <span class="hljs-string">u&apos;&#x80A1;&#x672C;&apos;</span>,
+          <span class="hljs-string">u&apos;&#x71DF;&#x6536;(&#x5104;)&apos;</span>,
+          <span class="hljs-string">u&apos;&#x7A05;&#x5F8C;&#x6DE8;&#x5229;(&#x5104;)&apos;</span>,
+          <span class="hljs-string">u&apos;&#x6BDB;&#x5229;(%)&apos;</span>,
+          <span class="hljs-string">u&apos;&#x71DF;&#x76CA;(%)&apos;</span>,
+          <span class="hljs-string">u&apos;ROE&apos;</span>,
+          <span class="hljs-string">u&apos;EPS&apos;</span>,
+          <span class="hljs-string">u&apos;&#x7372;&#x5229;&#x77E9;&#x9663;&apos;</span>,
+          <span class="hljs-string">u&apos;&#x73FE;&#x91D1;&apos;</span>,
+          <span class="hljs-string">u&apos;&#x80A1;&#x7968;&apos;</span>,
+          <span class="hljs-string">u&apos;&#x80A1;&#x5229;&#x5408;&#x8A08;&apos;</span>,
+          <span class="hljs-string">u&apos;&#x9AD8;&#x4F4E;&#x50F9;&#x5DEE;&apos;</span>,
+              <span class="hljs-string">u&apos;&#x6700;&#x9AD8;&#x50F9;&apos;</span>,
+          <span class="hljs-string">u&apos;&#x6700;&#x9AD8;&#x672C;&#x76CA;&#x6BD4;&apos;</span>,
+          <span class="hljs-string">u&apos;&#x65E5;&#x671F;&apos;</span>,
+              <span class="hljs-string">u&apos;&#x6700;&#x4F4E;&#x50F9;&apos;</span>,
+          <span class="hljs-string">u&apos;&#x6700;&#x4F4E;&#x672C;&#x76CA;&#x6BD4;&apos;</span>,
+          <span class="hljs-string">u&apos;&#x65E5;&#x671F;&apos;</span>,
+          <span class="hljs-string">u&apos;&#x6536;&#x76E4;&#x5E73;&#x5747;&#x50F9;&apos;</span>,
+          <span class="hljs-string">u&apos;&#x5E73;&#x5747;&#x672C;&#x76CA;&#x6BD4;&apos;</span>]
+
+    w, h = <span class="hljs-number">21</span>, <span class="hljs-number">10</span>
+    raw_data = [[<span class="hljs-string">&apos;-&apos;</span> <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> range(w)] <span class="hljs-keyword">for</span> y <span class="hljs-keyword">in</span> range(h)] 
+    df_final = pd.DataFrame(raw_data, columns = labels)
+
+    <span class="hljs-keyword">for</span> key <span class="hljs-keyword">in</span> SHEETS:
+        payload[<span class="hljs-string">&apos;SHEET&apos;</span>] = key
+        res = requests.post(<span class="hljs-string">&apos;http://goodinfo.tw/StockInfo/StockBzPerformance.asp?&apos;</span>, headers=headers, verify=<span class="hljs-keyword">False</span> , data = payload)
+        res.encoding = <span class="hljs-string">&apos;utf-8&apos;</span>
+        soup = BeautifulSoup(res.text.replace(<span class="hljs-string">&apos;&amp;nbsp;&apos;</span>, <span class="hljs-string">&apos;&apos;</span>).replace(<span class="hljs-string">&apos;&#x3000;&apos;</span>,<span class="hljs-string">&apos;&apos;</span>), <span class="hljs-string">&apos;lxml&apos;</span>)
+        [s.extract() <span class="hljs-keyword">for</span> s <span class="hljs-keyword">in</span> soup(<span class="hljs-string">&apos;thead&apos;</span>)]  <span class="hljs-comment"># remove thead</span>
+
+        df = pd.read_html(str(soup))[<span class="hljs-number">2</span>]
+        df.columns = columns[key]
+        <span class="hljs-keyword">print</span> df
+
+        <span class="hljs-keyword">if</span> key == <span class="hljs-string">u&apos;&#x7372;&#x5229;&#x6307;&#x6A19;&apos;</span>:
+            df_final[<span class="hljs-string">u&apos;&#x5E74;&#x5EA6;&apos;</span>] = df[<span class="hljs-string">u&apos;&#x5E74;&#x5EA6;&apos;</span>] 
+            df_final[<span class="hljs-string">u&apos;&#x80A1;&#x672C;&apos;</span>] = df[<span class="hljs-string">u&apos;&#x80A1;&#x672C;(&#x5104;)&apos;</span>] 
+            df_final[<span class="hljs-string">u&apos;&#x71DF;&#x6536;(&#x5104;)&apos;</span>] = df[<span class="hljs-string">u&apos;&#x71DF;&#x696D;&#x6536;&#x5165;(&#x5104;)&apos;</span>] 
+            df_final[<span class="hljs-string">u&apos;&#x7A05;&#x5F8C;&#x6DE8;&#x5229;(&#x5104;)&apos;</span>] = df[<span class="hljs-string">u&apos;&#x7A05;&#x5F8C;&#x6DE8;&#x5229;(&#x5104;)&apos;</span>] 
+            df_final[<span class="hljs-string">u&apos;&#x6BDB;&#x5229;(%)&apos;</span>] = df[<span class="hljs-string">u&apos;&#x71DF;&#x696D;&#x6BDB;&#x5229;(%)&apos;</span>] 
+            df_final[<span class="hljs-string">u&apos;&#x71DF;&#x76CA;(%)&apos;</span>] = df[<span class="hljs-string">u&apos;&#x71DF;&#x696D;&#x5229;&#x76CA;(%)&apos;</span>] 
+            df_final[<span class="hljs-string">u&apos;ROE&apos;</span>] = df[<span class="hljs-string">u&apos;ROE(%)&apos;</span>] 
+            df_final[<span class="hljs-string">u&apos;EPS&apos;</span>] = df[<span class="hljs-string">u&apos;&#x7A05;&#x5F8C;EPS(&#x5143;)&apos;</span>] 
+        <span class="hljs-keyword">elif</span> key == <span class="hljs-string">u&apos;&#x80A1;&#x5229;&#x7D71;&#x8A08;&apos;</span>:
+            df_final[<span class="hljs-string">u&apos;&#x73FE;&#x91D1;&apos;</span>] = df[<span class="hljs-string">u&apos;&#x80A1;&#x5229;&#x73FE;&#x91D1;(&#x5143;)&apos;</span>] 
+            df_final[<span class="hljs-string">u&apos;&#x80A1;&#x7968;&apos;</span>] = df[<span class="hljs-string">u&apos;&#x80A1;&#x5229;&#x80A1;&#x7968;(&#x5143;)&apos;</span>] 
+            df_final[<span class="hljs-string">u&apos;&#x80A1;&#x5229;&#x5408;&#x8A08;&apos;</span>] = df[<span class="hljs-string">u&apos;&#x80A1;&#x5229;&#x5408;&#x8A08;(&#x5143;)&apos;</span>] 
+
+            <span class="hljs-comment">#&#x9AD8;&#x4F4E;&#x50F9;&#x5DEE;</span>
+            h = df[<span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x6700;&#x9AD8;&apos;</span>]
+            l = df[<span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x6700;&#x4F4E;&apos;</span>]
+
+            count = <span class="hljs-number">0</span>
+            <span class="hljs-keyword">for</span> hh <span class="hljs-keyword">in</span> h:
+                <span class="hljs-keyword">if</span> hh == <span class="hljs-string">u&apos;-&apos;</span>:
+                    <span class="hljs-keyword">break</span>
+                count = count + <span class="hljs-number">1</span>
+
+            <span class="hljs-keyword">if</span> count &gt; <span class="hljs-number">10</span>:
+                count = <span class="hljs-number">10</span>
+            <span class="hljs-comment">#print count</span>
+
+            h = h[:count]
+            l = l[:count]
+            <span class="hljs-comment">#raw_input()</span>
+            h = pd.to_numeric(h)
+            l = pd.to_numeric(l)
+            df_final[<span class="hljs-string">u&apos;&#x9AD8;&#x4F4E;&#x50F9;&#x5DEE;&apos;</span>] = h - l
+            df_final[<span class="hljs-string">u&apos;&#x6700;&#x9AD8;&#x50F9;&apos;</span>] = df[<span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x6700;&#x9AD8;&apos;</span>] 
+            df_final[<span class="hljs-string">u&apos;&#x6700;&#x4F4E;&#x50F9;&apos;</span>] = df[<span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x6700;&#x4F4E;&apos;</span>] 
+        <span class="hljs-keyword">elif</span> key == <span class="hljs-string">u&apos;PER/PBR&apos;</span>:
+            df_final[<span class="hljs-string">u&apos;&#x6700;&#x9AD8;&#x672C;&#x76CA;&#x6BD4;&apos;</span>] = df[<span class="hljs-string">u&apos;&#x6700;&#x9AD8;PER&apos;</span>] 
+            df_final[<span class="hljs-string">u&apos;&#x6700;&#x4F4E;&#x672C;&#x76CA;&#x6BD4;&apos;</span>] = df[<span class="hljs-string">u&apos;&#x6700;&#x4F4E;PER&apos;</span>] 
+            df_final[<span class="hljs-string">u&apos;&#x6536;&#x76E4;&#x5E73;&#x5747;&#x50F9;&apos;</span>] = df[<span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x5E73;&#x5747;(&#x5143;)&apos;</span>] 
+            df_final[<span class="hljs-string">u&apos;&#x5E73;&#x5747;&#x672C;&#x76CA;&#x6BD4;&apos;</span>] = df[<span class="hljs-string">u&apos;&#x5E73;&#x5747;PER&apos;</span>]
+            <span class="hljs-comment">#print df_final[u&apos;&#x5E73;&#x5747;&#x672C;&#x76CA;&#x6BD4;&apos;]</span>
+            <span class="hljs-comment">#raw_input()</span>
+
+        key = key.replace(<span class="hljs-string">&apos;/&apos;</span>, <span class="hljs-string">&apos;_&apos;</span>)
+
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> os.path.exists(ID):
+        os.makedirs(ID)
+
+        key = str(ID) + <span class="hljs-string">&apos;/&apos;</span> + key +<span class="hljs-string">&apos;.html&apos;</span> 
+        <span class="hljs-comment">#print key</span>
+        <span class="hljs-comment">#raw_input()</span>
+        <span class="hljs-comment">#df.to_html(str(key))</span>
+    <span class="hljs-keyword">with</span> open(str(key), <span class="hljs-string">&apos;w&apos;</span>) <span class="hljs-keyword">as</span> f:
+        f.write(HEADER)
+        f.write(df.to_html(classes=<span class="hljs-string">&apos;df&apos;</span>))
+        f.write(FOOTER)
+
+    key = str(ID) + <span class="hljs-string">&apos;/&#x57FA;&#x672C;&#x8CC7;&#x6599;&#x8868;.html&apos;</span>
+    <span class="hljs-keyword">with</span> open(str(key), <span class="hljs-string">&apos;w&apos;</span>) <span class="hljs-keyword">as</span> f:
+        f.write(HEADER)
+        f.write(df_final.to_html(classes=<span class="hljs-string">&apos;df_final&apos;</span>))
+        f.write(FOOTER)
+
+    <span class="hljs-keyword">return</span> soup
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>:</span>
+    <span class="hljs-comment"># python2</span>
+    reload(sys)
+    sys.setdefaultencoding(<span class="hljs-string">&apos;utf-8&apos;</span>)
+
+    fin = open(<span class="hljs-string">&apos;StockCode&apos;</span>, <span class="hljs-string">&apos;r+&apos;</span>)
+    StockCodeList = [str(i)<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> fin.read().splitlines()]
+    fin.close()
+
+    <span class="hljs-keyword">for</span> ID <span class="hljs-keyword">in</span> StockCodeList:
+        page = GetHtmlcode(ID)
+        <span class="hljs-comment">#time.sleep(10)</span>
+
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:
+    main()
+</code></pre>
+<hr>
 <pre><code class="lang-py"><span class="hljs-comment">#! /usr/bin/python</span>
 <span class="hljs-comment"># -*- coding: utf-8 -*-</span>
 <span class="hljs-keyword">import</span> requests

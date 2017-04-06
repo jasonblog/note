@@ -57,7 +57,7 @@
         data-chapter-title="goodinfo 經營績效"
         data-filepath="python/goodinfo_jing_ying_ji_xiao.md"
         data-basepath=".."
-        data-revision="Wed Apr 05 2017 01:45:55 GMT+0800 (CST)"
+        data-revision="Thu Apr 06 2017 21:16:22 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -17576,6 +17576,19 @@
            <span class="hljs-string">&apos;PER/PBR&apos;</span> : [<span class="hljs-string">u&apos;&#x5E74;&#x5EA6;&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x672C;(&#x5104;)&apos;</span>, <span class="hljs-string">u&apos;&#x8CA1;&#x5831;&#x8A55;&#x5206;&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x6700;&#x9AD8;(&#x5143;)&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x6700;&#x4F4E;(&#x5143;)&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x6536;&#x76E4;(&#x5143;)&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x5E73;&#x5747;(&#x5143;)&apos;</span>, <span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x6F32;&#x8DCC;(&#x5143;)&apos;</span>, 
                             <span class="hljs-string">u&apos;&#x80A1;&#x50F9;&#x6F32;&#x8DCC;(%)&apos;</span>, <span class="hljs-string">u&apos;EPS(&#x5143;)&apos;</span>, <span class="hljs-string">u&apos;&#x6700;&#x9AD8;PER&apos;</span>, <span class="hljs-string">u&apos;&#x6700;&#x4F4E;PER&apos;</span>, <span class="hljs-string">u&apos;&#x5E73;&#x5747;PER&apos;</span>, <span class="hljs-string">u&apos;BPS(&#x5143;)&apos;</span>, <span class="hljs-string">u&apos;&#x6700;&#x9AD8;PBR&apos;</span>, <span class="hljs-string">u&apos;&#x6700;&#x4F4E;PBR&apos;</span>, <span class="hljs-string">u&apos;&#x5E73;&#x5747;PBR&apos;</span>]}
 
+
+    HEADER = <span class="hljs-string">&apos;&apos;&apos;
+    &lt;html&gt;
+    &lt;head&gt;
+        &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot;&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+    &apos;&apos;&apos;</span>
+    FOOTER = <span class="hljs-string">&apos;&apos;&apos;
+    &lt;/body&gt;
+    &lt;/html&gt;
+    &apos;&apos;&apos;</span>
+
     <span class="hljs-keyword">for</span> key <span class="hljs-keyword">in</span> SHEETS:
         payload[<span class="hljs-string">&apos;SHEET&apos;</span>] = key
         res = requests.post(<span class="hljs-string">&apos;http://goodinfo.tw/StockInfo/StockBzPerformance.asp?&apos;</span>, headers=headers, verify=<span class="hljs-keyword">False</span> , data = payload)
@@ -17595,7 +17608,12 @@
         key = str(ID) + <span class="hljs-string">&apos;/&apos;</span> + key +<span class="hljs-string">&apos;.html&apos;</span> 
         <span class="hljs-comment">#print key</span>
         <span class="hljs-comment">#raw_input()</span>
-        df.to_html(str(key))
+        <span class="hljs-comment">#df.to_html(str(key))</span>
+    <span class="hljs-keyword">with</span> open(str(key), <span class="hljs-string">&apos;w&apos;</span>) <span class="hljs-keyword">as</span> f:
+        f.write(HEADER)
+        f.write(df.to_html(classes=<span class="hljs-string">&apos;df&apos;</span>))
+        f.write(FOOTER)
+
 
     <span class="hljs-keyword">return</span> soup
 

@@ -660,6 +660,7 @@
        * [Pandas Dataframes to_html: Highlighting table rows](python/pandas_dataframes_tohtml__highlighting_table_rows.md)
        * [open  HTML 網頁分析](python/open_html_wang_ye_fen_xi.md)
        * [Pandas 無法處理HTML 透過Soup 輔助](python/pandas_wu_fa_chu_li_html_tou_guo_soup_fu_zhu.md)
+       * pandas create dataframe example
    * [編碼](python/bian_ma.md)
        * [Python - 瞭解bytes、str與unicode的區別](python/python_-_liao_jie_bytes__str_yu_unicode_de_qu_bie.md)
        * [淺談 python2及 python3處理中文字串編碼的差異](python/qian_tan_python2_ji_python3_chu_li_zhong_wen_zi_ch.md)

@@ -57,6 +57,19 @@ def GetHtmlcode(ID):
 	       'PER/PBR' : [u'年度', u'股本(億)', u'財報評分', u'股價最高(元)', u'股價最低(元)', u'股價收盤(元)', u'股價平均(元)', u'股價漲跌(元)', 
                             u'股價漲跌(%)', u'EPS(元)', u'最高PER', u'最低PER', u'平均PER', u'BPS(元)', u'最高PBR', u'最低PBR', u'平均PBR']}
 
+
+    HEADER = '''
+    <html>
+	<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	</head>
+	<body>
+    '''
+    FOOTER = '''
+	</body>
+    </html>
+    '''
+
     for key in SHEETS:
         payload['SHEET'] = key
         res = requests.post('http://goodinfo.tw/StockInfo/StockBzPerformance.asp?', headers=headers, verify=False , data = payload)
@@ -76,7 +89,12 @@ def GetHtmlcode(ID):
         key = str(ID) + '/' + key +'.html' 
         #print key
         #raw_input()
-        df.to_html(str(key))
+        #df.to_html(str(key))
+	with open(str(key), 'w') as f:
+	    f.write(HEADER)
+	    f.write(df.to_html(classes='df'))
+	    f.write(FOOTER)
+
 
     return soup
 
@@ -96,6 +114,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 ```
 
 

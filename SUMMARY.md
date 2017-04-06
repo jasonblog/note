@@ -698,7 +698,7 @@
    * [BeautifulSoup](python/beautifulsoup.md)
        * [remove script tags with BeautifulSoup](python/remove_script_tags_with_beautifulsoup.md)
        * [使用BeautifulSoup](python/shi_yong_beautifulsoup.md)
-   * How to define two-dimensional array in python
+   * [How to define two-dimensional array in python](python/how_to_define_two-dimensional_array_in_python.md)
 * [Vim](vim/vim.md)
    * [HOWTO - vi, vim](vim/howto_-_vi,_vim.md)
 * [TDD](tdd/README.md)

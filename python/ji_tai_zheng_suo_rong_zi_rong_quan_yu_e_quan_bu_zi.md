@@ -168,9 +168,16 @@ print('執行完畢！')
 
 ```
 
+- run
 
+```sh
 python3 test.py
+```
+- 查看 sqlite 內容
 
+```sh
+sqlitebrowser twsedata.db
+```
 
 
 ```py

@@ -666,7 +666,6 @@
        * [Python - 瞭解bytes、str與unicode的區別](python/python_-_liao_jie_bytes__str_yu_unicode_de_qu_bie.md)
        * [淺談 python2及 python3處理中文字串編碼的差異](python/qian_tan_python2_ji_python3_chu_li_zhong_wen_zi_ch.md)
        * [python string and unicode string](python/python_string_and_unicode_string.md)
-       * 立即停止使用 setdefaultencoding('utf-8')， 以及為什麼
    * [django](python/django.md)
        * [使用heroku部署django應用測試](python/shi_yong_heroku_bu_shu_django_ying_yong_ce_shi.md)
        * [Python Django 快速入門教學](python/python_django_kuai_su_ru_men_jiao_xue.md)

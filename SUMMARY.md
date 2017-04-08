@@ -116,6 +116,7 @@
    * [qemu-arm 快速驗證arm應用程式](qemu/qemu-arm_kuai_su_yan_zheng_arm_ying_yong_cheng_shi.md)
    * [How Other People Use QEMU](qemu/how_other_people_use_qemu.md)
    * [buildroot & dropbear](qemu/buildroot_&_dropbear.md)
+   * ARM64 Linux kernel + busybox rootFS via NFS over QEMU with GDB
 * [fcamel](fcamel/README.md)
    * [[轉]ld, ld.so 和 ldconfig 的行為](fcamel/01.md)
    * [[轉]解決 undefined symbol / reference](fcamel/02.md)

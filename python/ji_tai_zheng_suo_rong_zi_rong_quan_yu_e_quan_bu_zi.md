@@ -168,7 +168,7 @@ print('執行完畢！')
 
 ```
 
-- run
+- excute
 
 ```sh
 python3 test.py

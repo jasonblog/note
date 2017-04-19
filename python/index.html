@@ -57,7 +57,7 @@
         data-chapter-title="Python"
         data-filepath="python/README.md"
         data-basepath=".."
-        data-revision="Sat Apr 08 2017 14:18:38 GMT+0800 (CST)"
+        data-revision="Thu Apr 20 2017 00:32:26 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -17581,6 +17581,34 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="python">python</h1>
+<ul>
+<li>require packages</li>
+</ul>
+<pre><code class="lang-sh">sudo pip install XlsxWriter
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-comment">##############################################################################</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># A simple example of converting a Pandas dataframe to an xlsx file using</span>
+<span class="hljs-comment"># Pandas and XlsxWriter.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># Copyright 2013-2016, John McNamara, jmcnamara@cpan.org</span>
+<span class="hljs-comment">#</span>
+
+<span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
+
+
+<span class="hljs-comment"># Create a Pandas dataframe from some data.</span>
+df = pd.DataFrame({<span class="hljs-string">&apos;Data&apos;</span>: [<span class="hljs-number">10</span>, <span class="hljs-number">20</span>, <span class="hljs-number">30</span>, <span class="hljs-number">20</span>, <span class="hljs-number">15</span>, <span class="hljs-number">30</span>, <span class="hljs-number">45</span>]})
+
+<span class="hljs-comment"># Create a Pandas Excel writer using XlsxWriter as the engine.</span>
+writer = pd.ExcelWriter(<span class="hljs-string">&apos;pandas_simple.xlsx&apos;</span>, engine=<span class="hljs-string">&apos;xlsxwriter&apos;</span>)
+
+<span class="hljs-comment"># Convert the dataframe to an XlsxWriter Excel object.</span>
+df.to_excel(writer, sheet_name=<span class="hljs-string">&apos;Sheet1&apos;</span>)
+
+<span class="hljs-comment"># Close the Pandas Excel writer and output the Excel file.</span>
+writer.save()
+</code></pre>
 
                     
                     </section>

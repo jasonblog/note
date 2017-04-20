@@ -36,7 +36,7 @@ javac Sample1.java
 ## 產生 header file Sample1.h
 
 ```sh
-javah -jni  Sample1.hSample1
+javah -jni  Sample1
 ```
 
 ```c

@@ -91,7 +91,7 @@
    * [Gradle的一些總結](android_note/gradlede_yi_xie_zong_jie.md)
    * [線程通信基礎流程分析 Handler、Looper、Message、MessageQueue](android_note/xian_cheng_tong_xin_ji_chu_liu_cheng_fen_xi_handle.md)
    * [多執行緒-Handler和Thread的關係 （2）](android_note/duo_zhi_xing_7dd2-_handler_he_thread_de_guan_xi__2.md)
-   * 使用JNI進行Java與C/C++語言混合編程
+   * [使用JNI進行Java與C/C++語言混合編程](android_note/shi_yong_jni_jin_xing_java_yu_c__c_yu_yan_hun_he_b.md)
 * [Ubuntu](ubuntu/README.md)
    * [Ubuntu installer](ubuntu/ubuntu_installer.md)
    * [Windows與Ubuntu雙系統，開機時偵測不到彼此的解決方法](ubuntu/windowsyuubuntu_shuang_xi_tong_ff0c_kai_ji_shi_zhe.md)

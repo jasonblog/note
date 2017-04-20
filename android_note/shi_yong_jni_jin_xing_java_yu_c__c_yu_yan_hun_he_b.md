@@ -151,3 +151,11 @@ gcc -fPIC -Wall -I /usr/lib/jvm/java-8-openjdk-amd64/include/ -I /usr/lib/jvm/ja
 ```sh
 java -Djava.library.path=. Sample1
 ```
+
+
+```sh
+intMethod: 25
+booleanMethod: false
+stringMethod: java
+intArrayMethod: 36
+```

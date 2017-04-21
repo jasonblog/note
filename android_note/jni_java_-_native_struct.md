@@ -1,0 +1,2 @@
+# JNI Java <->  native Struct
+

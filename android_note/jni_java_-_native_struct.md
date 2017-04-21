@@ -160,5 +160,16 @@ gcc -fPIC -Wall -I /usr/lib/jvm/java-8-openjdk-amd64/include/ -I /usr/lib/jvm/ja
 ## Run
 
 ```sh
-java -Djava.library.path=. StructPas
+java -Djava.library.path=. StructPass
+```
+
+```sh
+In C:
+  c.name = "kerker"
+  c.age = 10
+  c.height = 180.000000
+In Java:
+  hello.name = "123"
+  hello.age = 18
+  hello.height = 179.0
 ```

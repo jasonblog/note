@@ -290,7 +290,47 @@ df.head(5)
 
 ![](images/apply.png)
 
+## 過濾
 
+
+在探索數據的時候，你可能經常想要抽取數據中特定的樣本，比如你有一個關於工作滿意度的調查表，你可能就想要提取特定行業或者年齡的人的數據。
+
+在 Pandas 中有多種方法可以實現提取我們想要的信息：
+
+有時你想提取一整列，使用列的標籤可以非常簡單地做到：
+
+```py
+# Getting a column by label
+df['rain_octsep']
+```
+
+注意，當我們提取列的時候，會得到一個 series ，而不是 dataframe 。記得我們前面提到過，你可以把 dataframe 看作是一個 series 的字典，所以在抽取列的時候，我們就會得到一個 series。
+
+還記得我在命名列標籤的時候特意指出的嗎？不用空格、破折號之類的符號，這樣我們就可以像訪問對象屬性一樣訪問數據集的列——只用一個點號。
+
+```py
+# Getting a column by label using .
+df.rain_octsep
+```
+
+這句代碼返回的結果與前一個例子完全一樣——是我們選擇的那列數據。
+
+如果你讀過這個系列關於 `Numpy` 的推文，你可能還記得一個叫做 `布爾過濾（boolean masking）`的技術，通過在一個數組上運行條件來得到一個布林數組。在 Pandas 裡也可以做到。
+
+
+```py
+# Creating a series of booleans based on a conditional
+df.rain_octsep < 1000 # Or df['rain_octsep] < 1000
+```
+
+上面的代碼將會返回一個由布爾值構成的 dataframe。`True` 表示在十月-九月降雨量小於 1000 mm，`False` 表示大於等於 1000 mm。
+
+我們可以用這些條件表達式來過濾現有的 dataframe。
+
+```py
+# Using a series of booleans to filter
+df[df.rain_octsep < 1000]
+```
 
 ![](images/groupby.png)
 ![](images/groupby2.png)

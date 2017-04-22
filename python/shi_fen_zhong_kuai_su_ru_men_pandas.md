@@ -290,52 +290,80 @@ df.head(5)
 
 ![](images/apply.png)
 
-## 過濾
+
+## 操作數據集的結構
 
 
-在探索數據的時候，你可能經常想要抽取數據中特定的樣本，比如你有一個關於工作滿意度的調查表，你可能就想要提取特定行業或者年齡的人的數據。
+另一常見的做法是重新建立數據結構，使得數據集呈現出一種更方便並且（或者）有用的形式。
 
-在 Pandas 中有多種方法可以實現提取我們想要的信息：
+掌握這些轉換最簡單的方法就是觀察轉換的過程。比起這篇文章的其他部分，接下來的操作需要你跟著練習以便能掌握它們。
 
-有時你想提取一整列，使用列的標籤可以非常簡單地做到：
-
-```py
-# Getting a column by label
-df['rain_octsep']
-```
-
-注意，當我們提取列的時候，會得到一個 series ，而不是 dataframe 。記得我們前面提到過，你可以把 dataframe 看作是一個 series 的字典，所以在抽取列的時候，我們就會得到一個 series。
-
-還記得我在命名列標籤的時候特意指出的嗎？不用空格、破折號之類的符號，這樣我們就可以像訪問對象屬性一樣訪問數據集的列——只用一個點號。
+首先，是 groupby ：
 
 ```py
-# Getting a column by label using .
-df.rain_octsep
+#Manipulating structure (groupby, unstack, pivot)
+# Grouby
+df.groupby(df.year // 10 *10).max()
 ```
 
-這句代碼返回的結果與前一個例子完全一樣——是我們選擇的那列數據。
-
-如果你讀過這個系列關於 `Numpy` 的推文，你可能還記得一個叫做 `布爾過濾（boolean masking）`的技術，通過在一個數組上運行條件來得到一個布林數組。在 Pandas 裡也可以做到。
-
-
-```py
-# Creating a series of booleans based on a conditional
-df.rain_octsep < 1000 # Or df['rain_octsep] < 1000
-```
-
-上面的代碼將會返回一個由布爾值構成的 dataframe。`True` 表示在十月-九月降雨量小於 1000 mm，`False` 表示大於等於 1000 mm。
-
-我們可以用這些條件表達式來過濾現有的 dataframe。
-
-```py
-# Using a series of booleans to filter
-df[df.rain_octsep < 1000]
-```
+`groupby` 會按照你選擇的列對數據集進行分組。上例是按照年代分組。不過僅僅這樣做並沒有什麼用，我們必須對其調用函數，比如 `max 、 min 、mean` 等等。例中，我們可以得到 90 年代的均值。
 
 ![](images/groupby.png)
+
+你也可以按照多列進行分組：
+
+```py
+# Grouping by multiple columns
+decade_rain = df.groupby([df.year // 10 * 10, df.rain_octsep // 1000 * 1000])[['outflow_octsep',                                                              'outflow_decfeb', 'outflow_junaug']].mean()
+decade_rain
+```
+
 ![](images/groupby2.png)
-![](images/merge-1.png)
+
+
+接下來是 `unstack` ，最開始可能有一些困惑，它可以將一列數據設置為列標籤。最好還是看看實際的操作：
+
+```py
+# Unstacking
+decade_rain.unstack(0)
+```
+
+這條語句將上例中的 dataframe 轉換為下面的形式。它將第 0 列，也就是 year 列設置為列的標籤。
+
+![](images/unstack.png)
+
+讓我們再操作一次。這次使用第 1 列，也就是 rain_octsep 列：
+
+```py
+# More unstacking
+decade_rain.unstack(1)
+```
+![](images/unstack.png)
+
+在進行下次操作之前，我們先創建一個用於演示的 dataframe :
+
+```py
+# Create a new dataframe containing entries which 
+# has rain_octsep values of greater than 1250
+high_rain = df[df.rain_octsep > 1250]
+high_rain
+```
+
+上面的代碼將會產生如下的 dataframe ，我們將會在上面演示軸向旋轉（pivoting）。
+
 ![](images/newdata.png)
+
+軸旋轉其實就是我們之前已經看到的那些操作的一個集合。首先，它會設置一個新的索引`（set_index()`），然後對索引排序（`sort_index()`），最後調用 `unstack` 。以上的步驟合在一起就是 `pivot` 。接下來看看你能不能搞清楚下面的代碼在幹什麼：
+
+```py
+#Pivoting
+#does set_index, sort_index and unstack in a row
+high_rain.pivot('year', 'rain_octsep')[['outflow_octsep', 'outflow_decfeb', 'outflow_junaug']].fillna('')
+```
+
+注意，最後有一個 .fillna('') 。pivot 產生了很多空的記錄，也就是值為 NaN 的記錄。我個人覺得數據集裡面有很多 NaN 會很煩，所以使用了 fillna('') 。你也可以用別的別的東西，比方說 0 。我們也可以使用 dropna(how = 'any') 來刪除有 NaN 的行，不過這樣就把所有的數據都刪掉了，所以不這樣做。
+
+
+![](images/merge-1.png)
 ![](images/pivot.png)
 ![](images/tu.png)
-![](images/unstack.png)

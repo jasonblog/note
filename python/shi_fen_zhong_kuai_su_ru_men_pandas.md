@@ -60,3 +60,24 @@ df.head(5)
 我們只需要調用 head() 函數並且將想要查看的行數傳入。
 
 得到的結果如下：
+
+
+
+![](images/199.png)
+![](images/apply.png)
+![](images/col_rename-1.png)
+![](images/describe-1.png)
+![](images/groupby.png)
+![](images/groupby2.png)
+![](images/head-1.png)
+![](images/hf.png)
+![](images/merge-1.png)
+![](images/newdata.png)
+![](images/newindex.png)
+![](images/pivot.png)
+![](images/ppp.png)
+![](images/sort.png)
+![](images/tail-1.png)
+![](images/tu.png)
+![](images/tupian.png)
+![](images/unstack.png)

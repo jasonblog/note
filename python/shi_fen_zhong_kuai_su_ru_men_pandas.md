@@ -365,5 +365,55 @@ high_rain.pivot('year', 'rain_octsep')[['outflow_octsep', 'outflow_decfeb', 'out
 
 
 ![](images/pivot.png)
+
+上面的 dataframe 展示了所有降雨超過 1250 的 `outflow` 。誠然，這並不是講解 `pivot` 實際應用最好的例子，但希望你能明白它的意思。看看你能在你的數據集上得到什麼結果。
+
+## 合併數據集
+
+有時你有兩個相關聯的數據集，你想將它們放在一起比較或者合併它們。好的，沒問題，在 Pandas 裡很簡單：
+
+```py
+# Merging two datasets together
+rain_jpn = pd.read_csv('jpn_rain.csv')
+rain_jpn.columns = ['year', 'jpn_rainfall']
+
+uk_jpn_rain = df.merge(rain_jpn, on='year')
+uk_jpn_rain.head(5)
+```
+
+首先你需要通過 `on` 關鍵字來指定需要合併的列。通常你可以省略這個參數，Pandas 將會自動選擇要合併的列。
+
+如下圖所示，兩個數據集在年份這一類上合併了。`jpn_rain` 數據集只有年份和降雨量兩列，通過年份列合併之後，`jpn_rain` 中只有降雨量那一列合併到了 `UK_rain` 數據集中。
+
 ![](images/merge-1.png)
+
+## 使用 Pandas 快速作圖
+
+`Matplotlib` 很棒，但是想要繪製出還算不錯的圖表卻要寫不少代碼，而有時你只是想粗略的做個圖來探索下數據，搞清楚數據的含義。Pandas 通過 `plot` 來解決這個問題：
+
+```py
+# Using pandas to quickly plot graphs
+uk_jpn_rain.plot(x='year', y=['rain_octsep', 'jpn_rainfall'])
+```
+
+這會調用 `Matplotlib` 快速輕鬆地繪出了你的數據圖。通過這個圖你就可以在視覺上分析數據，而且它能在探索數據的時候給你一些方向。比如，看到我的數據圖，你會發現在 1995 年的英國好像有一場乾旱。
+
 ![](images/tu.png)
+
+你會發現英國的降雨明顯少於日本，但人們卻說英國總是下雨。
+
+
+## 保存你的數據集
+
+在清洗、重塑、探索完數據之後，你最後的數據集可能會發生很大改變，並且比最開始的時候更有用。你應該保存原始的數據集，但是你同樣應該保存處理之後的數據。
+
+```py
+# Saving your data to a csv
+df.to_csv('uk_rain.csv')
+```
+
+上面的代碼將會保存你的數據到 `csv` 文件以便下次使用。
+
+我們對 Pandas 的介紹就到此為止了。就像我之前所說的， Pandas 非常強大，我們只是領略到了一點皮毛而已，不過你現在知道的應該足夠你開始清洗和探索數據了。
+
+像以前一樣，我建議你用自己感興趣的數據集做一下練習，坐下來，一杯啤酒配數據。這確實是你唯一熟悉 Pandas 以及這個系列其他庫的方式。而且你也許會發現一些有趣的東西。

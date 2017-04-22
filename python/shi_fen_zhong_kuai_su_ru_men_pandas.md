@@ -361,9 +361,9 @@ high_rain
 high_rain.pivot('year', 'rain_octsep')[['outflow_octsep', 'outflow_decfeb', 'outflow_junaug']].fillna('')
 ```
 
-注意，最後有一個 .fillna('') 。pivot 產生了很多空的記錄，也就是值為 NaN 的記錄。我個人覺得數據集裡面有很多 NaN 會很煩，所以使用了 fillna('') 。你也可以用別的別的東西，比方說 0 。我們也可以使用 dropna(how = 'any') 來刪除有 NaN 的行，不過這樣就把所有的數據都刪掉了，所以不這樣做。
+注意，最後有一個 `.fillna('') `。pivot 產生了很多空的記錄，也就是值為 `NaN` 的記錄。我個人覺得數據集裡面有很多 `NaN` 會很煩，所以使用了 `fillna('')` 。你也可以用別的別的東西，比方說 0 。我們也可以使用 `dropna(how = 'any')` 來刪除有 `NaN` 的行，不過這樣就把所有的數據都刪掉了，所以不這樣做。
 
 
-![](images/merge-1.png)
 ![](images/pivot.png)
+![](images/merge-1.png)
 ![](images/tu.png)

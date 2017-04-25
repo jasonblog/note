@@ -57,7 +57,7 @@
         data-chapter-title="so file crash  using addr2line"
         data-filepath="linked_and_loader/so_file_crash_using_addr2line.md"
         data-basepath=".."
-        data-revision="Tue Apr 25 2017 23:28:46 GMT+0800 (CST)"
+        data-revision="Tue Apr 25 2017 23:41:41 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -17716,20 +17716,18 @@
 <ul>
 <li>Makefile</li>
 </ul>
-<pre><code class="lang-sh"><span class="hljs-built_in">export</span>  LD_LIBRARY_PATH=LD_LIBRARY_PATH:./libs/
-
-CC = gcc
+<pre><code class="lang-sh">CC = gcc
 
 all: dl.so 
-    $(CC) -o main tdl.c -L./libs -ldl 
-    <span class="hljs-comment">#$(CC) -o main tdl.c -L./libs -ldl -Wl,-rpath=/home/shihyu/dll/libs </span>
+    <span class="hljs-comment">#$(CC) -o main tdl.c -L./libs -ldl </span>
+    $(CC) -o main tdl.c -L./libs -ldl -Wl,-rpath=`<span class="hljs-built_in">pwd</span>`/libs 
     <span class="hljs-comment">#$(CC) -o main tdl.c ./libdl.so </span>
 dl.so:
     $(CC) -O <span class="hljs-operator">-f</span>PIC -shared -o libs/libdl.so d2.c 
 
 .PHONY: clean
 clean:                             
-    @rm -rf *.o *.so main
+    @rm -rf *.o libs/*.so main
 </code></pre>
 <pre><code class="lang-sh">dmesg | grep main
 

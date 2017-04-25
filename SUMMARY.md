@@ -981,7 +981,7 @@
    * [tcc 原始碼分析技巧](compiler/tcc_yuan_shi_ma_fen_xi_ji_qiao.md)
 * [linked_and_loader](linked_and_loader/linked_and_loader.md)
    * [基礎範例](linked_and_loader/ji_chu_fan_li.md)
-       * so file crash  using addr2line
+       * [so file crash  using addr2line](linked_and_loader/so_file_crash_using_addr2line.md)
    * [把共享庫(SO)加載到指定的內存地址](linked_and_loader/bagong_xiang_5eab28_so_jia_zai_dao_zhi_ding_de_ne_.md)
    * [Linux GOT與PLT](linked_and_loader/linux_gotyu_plt.md)
    * [GOT和PLT原理簡析](linked_and_loader/gothe_plt_yuan_li_jian_xi.md)

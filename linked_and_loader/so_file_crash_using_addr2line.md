@@ -1,6 +1,58 @@
 # so file crash  using addr2line
 
 
+- tdl.c
+
+```c
+#include <dlfcn.h>
+#include <stdlib.h>
+#include <stdio.h>
+
+void print();
+
+int main()
+{
+    print();
+
+    return 0;
+}
+```
+
+## 故意 crash 
+
+- d2.c 
+
+```c
+#include <stdio.h>
+
+int p = 3;
+void print()
+{
+    int *p = NULL;
+    *p = 10;
+    printf("This is the second dll src!\n");
+}
+```
+
+- Makefile
+
+```sh
+export  LD_LIBRARY_PATH=LD_LIBRARY_PATH:./libs/
+
+CC = gcc
+
+all: dl.so 
+	$(CC) -o main tdl.c -L./libs -ldl 
+	#$(CC) -o main tdl.c -L./libs -ldl -Wl,-rpath=/home/shihyu/dll/libs 
+	#$(CC) -o main tdl.c ./libdl.so 
+dl.so:
+	$(CC) -O -fPIC -shared -o libs/libdl.so d2.c 
+       
+.PHONY: clean
+clean:                             
+	@rm -rf *.o *.so main    
+```
+
 ```sh
 dmesg | grep main
  

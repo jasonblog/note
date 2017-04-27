@@ -1,5 +1,7 @@
+export  LD_LIBRARY_PATH=LD_LIBRARY_PATH:./libs/
 
-CC=gcc
+CC = gcc
+
 all: dl.so 
 	#$(CC) -o main tdl.c -L./libs -ldl 
 	$(CC) -o main tdl.c -L./libs -ldl -Wl,-rpath=`pwd`/libs 

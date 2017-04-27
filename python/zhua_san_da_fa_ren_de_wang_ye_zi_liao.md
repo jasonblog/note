@@ -125,7 +125,7 @@ con.close()
 ```
 
 ## 存到sqlite中
-```
+```py
 import requests
 from bs4 import BeautifulSoup
 from datetime import date,timedelta

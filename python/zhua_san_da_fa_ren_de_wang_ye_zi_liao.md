@@ -88,6 +88,28 @@ stockdf = dfs[0]
 '''
 ```
 
+## 查詢 sqlite 
+
+```py
+#! /usr/bin/python
+# -*- coding: utf-8 -*-
+import pandas as pd
+import sys
+import sqlite3 as lite
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
+# 使用Pandas 下SQL 查詢資料
+with lite.connect('finance.sqlite') as db:
+    #df = pd.read_sql_query('SELECT count(1) FROM trading_volume;', db)
+    #df = pd.read_sql_query('SELECT "證券  代號" FROM trading_volume;', db)
+    df = pd.read_sql_query('SELECT "證券  名稱" FROM trading_volume;', db)
+    print df
+    
+```
+
+---
+
 
 ```py
 抓三大法人統計表，出處來自大數學堂http://course.largitdata.com/course/31/

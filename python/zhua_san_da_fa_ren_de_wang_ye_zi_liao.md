@@ -1,5 +1,93 @@
 # 抓三大法人的網頁資料
 
+## TEST OK 
+
+```py
+#! /usr/bin/python
+# -*- coding: utf-8 -*-
+import requests
+import pandas as pd
+import sys
+import sqlite3 as lite
+from bs4 import BeautifulSoup as bs
+from datetime import date,datetime, timedelta 
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
+payload = {
+'qdate':'105/05/06',
+'select2':'ALL',
+'sorting':'by_issue'    
+}
+
+#日期轉換函式
+def getTWDate(dt):
+    year = int(dt.strftime('%Y')) - 1911
+    monthdate = dt.strftime('%m/%d')
+    ymd = '{}/{}'.format(year, monthdate)
+    return ymd
+
+def getTradingVolume(dt):
+    payload['qdate'] = getTWDate(dt)
+    res = requests.post('http://www.twse.com.tw/ch/trading/fund/T86/T86.php', data=payload)
+    soup = bs(res.text, 'html5lib')
+    tbl = soup.select('#tbl-sortable')[0]
+    dfs = pd.read_html(tbl.prettify('utf-8'), encoding='utf-8')
+    stockdf = dfs[0]
+    stockdf['ymd'] = dt
+    return stockdf
+
+# 批次執行30天的資料
+payload['select2'] = '24'
+dfs = []
+currenttime = datetime.now() 
+for i in range(1,30):
+    dt = currenttime.date() - timedelta(days = i) 
+    dfs.append(getTradingVolume(dt))
+    #print dt,
+
+# 合併所有的Data Frame
+stockdf = pd.concat(dfs, ignore_index=True)
+#print stockdf.head()
+
+# 篩選出台積電股票
+#print stockdf[stockdf[u'證券  代號'.decode('utf-8')] == 2330].head()
+
+# 使用Pandas 將資料塞進資料庫
+with lite.connect('finance.sqlite') as db:
+    stockdf.to_sql(name='trading_volume', index=False, con=db, if_exists='replace')
+
+# 使用Pandas 下SQL 查詢資料
+with lite.connect('finance.sqlite') as db:
+    df = pd.read_sql_query('SELECT count(1) FROM trading_volume;', db)
+    print df
+    
+
+
+'''
+import requests
+from bs4 import BeautifulSoup as bs
+import pandas as pd
+from datetime import date,datetime, timedelta 
+
+payload = {
+'qdate':'105/05/06',
+'select2':'ALL',
+'sorting':'by_issue'    
+}
+
+res = requests.post('http://www.twse.com.tw/ch/trading/fund/T86/T86.php', data=payload)
+#print res.text
+
+soup = bs(res.text, 'html5lib')
+tbl = soup.select('#tbl-sortable')[0]
+dfs = pd.read_html(tbl.prettify('utf-8'), encoding='utf-8')
+stockdf = dfs[0]
+#print stockdf.head()
+#print stockdf
+'''
+```
+
 
 ```py
 抓三大法人統計表，出處來自大數學堂http://course.largitdata.com/course/31/

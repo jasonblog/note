@@ -57,7 +57,7 @@
         data-chapter-title="抓三大法人的網頁資料"
         data-filepath="python/zhua_san_da_fa_ren_de_wang_ye_zi_liao.md"
         data-basepath=".."
-        data-revision="Fri Apr 28 2017 00:45:05 GMT+0800 (CST)"
+        data-revision="Fri Apr 28 2017 03:23:54 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -17783,6 +17783,23 @@ stockdf = dfs[0]
 #print stockdf
 &apos;&apos;&apos;</span>
 </code></pre>
+<h2 id="&#x67E5;&#x8A62;-sqlite">&#x67E5;&#x8A62; sqlite</h2>
+<pre><code class="lang-py"><span class="hljs-comment">#! /usr/bin/python</span>
+<span class="hljs-comment"># -*- coding: utf-8 -*-</span>
+<span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
+<span class="hljs-keyword">import</span> sys
+<span class="hljs-keyword">import</span> sqlite3 <span class="hljs-keyword">as</span> lite
+reload(sys)
+sys.setdefaultencoding(<span class="hljs-string">&apos;utf-8&apos;</span>)
+
+<span class="hljs-comment"># &#x4F7F;&#x7528;Pandas &#x4E0B;SQL &#x67E5;&#x8A62;&#x8CC7;&#x6599;</span>
+<span class="hljs-keyword">with</span> lite.connect(<span class="hljs-string">&apos;finance.sqlite&apos;</span>) <span class="hljs-keyword">as</span> db:
+    <span class="hljs-comment">#df = pd.read_sql_query(&apos;SELECT count(1) FROM trading_volume;&apos;, db)</span>
+    <span class="hljs-comment">#df = pd.read_sql_query(&apos;SELECT &quot;&#x8B49;&#x5238;  &#x4EE3;&#x865F;&quot; FROM trading_volume;&apos;, db)</span>
+    df = pd.read_sql_query(<span class="hljs-string">&apos;SELECT &quot;&#x8B49;&#x5238;  &#x540D;&#x7A31;&quot; FROM trading_volume;&apos;</span>, db)
+    <span class="hljs-keyword">print</span> df
+</code></pre>
+<hr>
 <pre><code class="lang-py">&#x6293;&#x4E09;&#x5927;&#x6CD5;&#x4EBA;&#x7D71;&#x8A08;&#x8868;&#xFF0C;&#x51FA;&#x8655;&#x4F86;&#x81EA;&#x5927;&#x6578;&#x5B78;&#x5802;http://course.largitdata.com/course/<span class="hljs-number">31</span>/
 &#x53EA;&#x80FD;&#x8AAA;david&#x662F;&#x795E;&#xFF0C;&#x6709;&#x6A5F;&#x6703;&#x770B;&#x5230;&#x8981;&#x62DC;
 

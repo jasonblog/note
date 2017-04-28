@@ -19,6 +19,9 @@ df.index = list("ABCDEFGHIJ") # 更換列欄位名稱
 print df
 
 print df.index.values
+print type(df.index.values)
+print df.columns.values
+print type(df.columns.values)
 print df['1']
 
 df.index = list("0123456789")

@@ -1,7 +1,8 @@
 # Retrieving Gmail blocked attachments
 
-> Extract attachments from emails that Gmail doesn't allow you to download. This is dumb. (Only tested with Python 3.4)
+> Extract attachments from emails that Gmail doesn't allow you to download. This is dumb. (Only tested with `Python 3.4`)
 
+## 使用python3
 
 - extract-attachments.py
 

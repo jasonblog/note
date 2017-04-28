@@ -3,6 +3,8 @@
 
 
 ```py
+#! /usr/bin/python
+# -*- coding: utf-8 -*-
 import pandas as pd
 import numpy as np
 
@@ -10,9 +12,9 @@ data = np.random.rand(10, 5)
 df = pd.DataFrame(data, columns=list("ABCDE"))
 print df 
 
-df.columns = list("12345") // 更換行欄位名稱
+df.columns = list("12345") # 更換行欄位名稱
 
-df.index = list("ABCDEFGHIJ") // 更換列欄位名稱
+df.index = list("ABCDEFGHIJ") # 更換列欄位名稱
 
 print df
 

@@ -31,7 +31,9 @@ df.index = list("0123456789")
 print df
 
 # 新增一個columns 欄位
-df.insert(0 , '股票代碼', pd.Series(np.random.randn(len(df['1'])),  index=df.index))
+#df.insert(0 , '股票代碼', pd.Series(np.random.randn(len(df['1'])),  index=df.index))
+df.insert(0 , '股票代碼', pd.Series([2103 for x in range(len(df['1']))],  index=df.index))
+
 print df
 ```
 

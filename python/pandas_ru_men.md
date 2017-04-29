@@ -26,7 +26,14 @@ print type(df.columns.values[0]) # type is str
 print type(df.columns.values) # type os numpy.ndarray
 print df['1']
 
+# 更改 index 名稱
 df.index = list("0123456789")
+print df
+
+# 新增一個columns 欄位
+df.insert(0 , 'e', pd.Series(np.random.randn(len(df['1'])),  index=df.index))
+print df
+#df1 = df.assign('股票代碼'=stockid.values)
 ```
 
 

@@ -57,7 +57,7 @@
         data-chapter-title="pandas 入門"
         data-filepath="python/pandas_ru_men.md"
         data-basepath=".."
-        data-revision="Sat Apr 29 2017 15:08:03 GMT+0800 (CST)"
+        data-revision="Sat Apr 29 2017 15:14:22 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -17741,7 +17741,9 @@ df.index = list(<span class="hljs-string">&quot;0123456789&quot;</span>)
 <span class="hljs-keyword">print</span> df
 
 <span class="hljs-comment"># &#x65B0;&#x589E;&#x4E00;&#x500B;columns &#x6B04;&#x4F4D;</span>
-df.insert(<span class="hljs-number">0</span> , <span class="hljs-string">&apos;&#x80A1;&#x7968;&#x4EE3;&#x78BC;&apos;</span>, pd.Series(np.random.randn(len(df[<span class="hljs-string">&apos;1&apos;</span>])),  index=df.index))
+<span class="hljs-comment">#df.insert(0 , &apos;&#x80A1;&#x7968;&#x4EE3;&#x78BC;&apos;, pd.Series(np.random.randn(len(df[&apos;1&apos;])),  index=df.index))</span>
+df.insert(<span class="hljs-number">0</span> , <span class="hljs-string">&apos;&#x80A1;&#x7968;&#x4EE3;&#x78BC;&apos;</span>, pd.Series([<span class="hljs-number">2103</span> <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> range(len(df[<span class="hljs-string">&apos;1&apos;</span>]))],  index=df.index))
+
 <span class="hljs-keyword">print</span> df
 </code></pre>
 <h2 id="dataframeix">DataFrame.ix</h2>

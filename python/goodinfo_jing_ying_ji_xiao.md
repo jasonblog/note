@@ -101,8 +101,10 @@ sys.setdefaultencoding('utf-8')
 with lite.connect('finance.sqlite') as db:
     #df = pd.read_sql_query('SELECT count(1) FROM trading_volume;', db)
     #df = pd.read_sql_query('SELECT "證券  代號" FROM trading_volume;', db)
-    df = pd.read_sql_query('SELECT "股票代碼" FROM trading_volume;', db)
+    #df = pd.read_sql_query('SELECT "股票代碼" FROM trading_volume;', db)
+    df = pd.read_sql_query("select * from trading_volume where 股票代碼 = '1101'" , db)
     print df
+
 ```
 
 

@@ -57,7 +57,7 @@
         data-chapter-title="goodinfo 經營績效"
         data-filepath="python/goodinfo_jing_ying_ji_xiao.md"
         data-basepath=".."
-        data-revision="Sat Apr 29 2017 23:13:10 GMT+0800 (CST)"
+        data-revision="Sun Apr 30 2017 02:29:05 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -17813,7 +17813,8 @@ sys.setdefaultencoding(<span class="hljs-string">&apos;utf-8&apos;</span>)
 <span class="hljs-keyword">with</span> lite.connect(<span class="hljs-string">&apos;finance.sqlite&apos;</span>) <span class="hljs-keyword">as</span> db:
     <span class="hljs-comment">#df = pd.read_sql_query(&apos;SELECT count(1) FROM trading_volume;&apos;, db)</span>
     <span class="hljs-comment">#df = pd.read_sql_query(&apos;SELECT &quot;&#x8B49;&#x5238;  &#x4EE3;&#x865F;&quot; FROM trading_volume;&apos;, db)</span>
-    df = pd.read_sql_query(<span class="hljs-string">&apos;SELECT &quot;&#x80A1;&#x7968;&#x4EE3;&#x78BC;&quot; FROM trading_volume;&apos;</span>, db)
+    <span class="hljs-comment">#df = pd.read_sql_query(&apos;SELECT &quot;&#x80A1;&#x7968;&#x4EE3;&#x78BC;&quot; FROM trading_volume;&apos;, db)</span>
+    df = pd.read_sql_query(<span class="hljs-string">&quot;select * from trading_volume where &#x80A1;&#x7968;&#x4EE3;&#x78BC; = &apos;1101&apos;&quot;</span> , db)
     <span class="hljs-keyword">print</span> df
 </code></pre>
 <hr>

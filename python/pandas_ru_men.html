@@ -57,7 +57,7 @@
         data-chapter-title="pandas 入門"
         data-filepath="python/pandas_ru_men.md"
         data-basepath=".."
-        data-revision="Sun Apr 30 2017 13:44:19 GMT+0800 (CST)"
+        data-revision="Mon May 01 2017 01:57:44 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -17742,8 +17742,13 @@ df.index = list(<span class="hljs-string">&quot;0123456789&quot;</span>)
 
 <span class="hljs-comment"># &#x65B0;&#x589E;&#x4E00;&#x500B;columns &#x6B04;&#x4F4D;</span>
 <span class="hljs-comment">#df.insert(0 , &apos;&#x80A1;&#x7968;&#x4EE3;&#x78BC;&apos;, pd.Series(np.random.randn(len(df[&apos;1&apos;])),  index=df.index))</span>
+<span class="hljs-keyword">print</span> type(df)
 df.insert(<span class="hljs-number">0</span> , <span class="hljs-string">&apos;&#x80A1;&#x7968;&#x4EE3;&#x78BC;&apos;</span>, pd.Series([<span class="hljs-number">2103</span> <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> range(len(df[<span class="hljs-string">&apos;1&apos;</span>]))],  index=df.index))
+<span class="hljs-keyword">print</span> df
 
+<span class="hljs-comment"># &#x65B0;&#x589E;&#x4E00;&#x5217;&#x6578;&#x64DA;</span>
+mydf = [<span class="hljs-number">1.1</span>, <span class="hljs-number">1.2</span>, <span class="hljs-number">1.3</span>, <span class="hljs-number">1.4</span>, <span class="hljs-number">1.5</span>,<span class="hljs-number">1.6</span>]
+df.loc[len(df)] = mydf
 <span class="hljs-keyword">print</span> df
 </code></pre>
 <h2 id="dataframeix">DataFrame.ix</h2>

@@ -32,8 +32,13 @@ print df
 
 # 新增一個columns 欄位
 #df.insert(0 , '股票代碼', pd.Series(np.random.randn(len(df['1'])),  index=df.index))
+print type(df)
 df.insert(0 , '股票代碼', pd.Series([2103 for x in range(len(df['1']))],  index=df.index))
+print df
 
+# 新增一列數據
+mydf = [1.1, 1.2, 1.3, 1.4, 1.5,1.6]
+df.loc[len(df)] = mydf
 print df
 ```
 

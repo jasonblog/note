@@ -14,6 +14,9 @@
 
 
 ```py
+#! /usr/bin/python
+# -*- coding: utf-8 -*-
+
 import pandas as pd
 import numpy as np
 
@@ -66,6 +69,7 @@ print(df.iloc[:, 1:3])   # 根據 col index 選擇
 print(type(df.iloc[0]))   # pandas.core.series.Series
 
 print(type(df.iloc[[0]])) # pandas.core.frame.DataFrame
+
 ```
 
 其實 .iloc[0] 和 .iloc[[0]] 的差別就是一個取出的型態是 Series ，另一個是 DataFrame。

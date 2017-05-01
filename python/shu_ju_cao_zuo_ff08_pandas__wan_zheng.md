@@ -1181,10 +1181,77 @@ df.iloc[:, 1:2]
 - `.loc[label] 这是严格基于标签的索引`
 - `.iloc[inte] 这是严格基于整数位置的索引`
 - `.ix[] 更像是这两种严格方式的智能整合版。`
-- 
+
 
 
 ```py
 # df.loc[1:2] 用 label 的去切整数，自然会出错
 # df.iloc['two':'three'] 也会出错
+```
+
+```py
+df.loc['two':'three']
+```
+
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year</th>
+      <th>state</th>
+      <th>pop</th>
+      <th>debt</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>two</th>
+      <td>2001</td>
+      <td>Ohino</td>
+      <td>1.7</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>three</th>
+      <td>2002</td>
+      <td>Ohino</td>
+      <td>3.6</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+
+```py
+df.iloc[1:2]
+```
+
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year</th>
+      <th>state</th>
+      <th>pop</th>
+      <th>debt</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>two</th>
+      <td>2001</td>
+      <td>Ohino</td>
+      <td>1.7</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+
+
+## 小结：
+
+- 尽量写两套切片，除非是索引单列则用 df[column]
+- 多用 iloc 和 loc, 除非你很清晰的基于标签
+
+```py
+df2.info() # 说明，ix在这种非整数的整数标签上，他的切片跟loc一样，是基于标签的，而另外两个刚好相反。
 ```

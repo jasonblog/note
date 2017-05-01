@@ -1,9 +1,9 @@
-# 數據操作（Pandas） 完整
+# 数据操作（Pandas） 完整
 
 
-##1.1. pandas 對象
+##1.1. pandas 对象
 
-引入 pandas 等包，DataFrame、Series 屬於常用的，所以直接引入
+引入 pandas 等包，DataFrame、Series 属于常用的，所以直接引入
 
 ```py
 %matplotlib inline
@@ -13,7 +13,7 @@ import pandas as pd
 from pandas import Series, DataFrame
 ```
 
-DataFrame 對象：Pandas DataFrame 是一個表格型的數據結構，有行索引也有列索引
+DataFrame 对象：Pandas DataFrame 是一个表格型的数据结构，有行索引也有列索引
 
 
 ```py
@@ -23,7 +23,7 @@ Image(filename='../../image/DataFrame.png', width=400)
 ![](./images/base_01_pandas_5_0.png)
 
 
-Series 對象：類似於一維數組的對象，由一組同樣 type 的數組和索引組成
+Series 对象：类似于一维数组的对象，由一组同样 type 的数组和索引组成
 
 
 ```py
@@ -32,3 +32,83 @@ s2 = Series(range(1,5)) # -> 1, 2, 3, 4
 s3 = s1 + s2 # -> 1, 3, 5, 7
 s4 = Series(['a','b'])*3 # -> 'aaa','bbb'
 ```
+
+index 对象：即 Series 和 DataFrame 的索引
+
+
+```py
+# 获取索引
+df = DataFrame(s1)
+idx = s1.index
+idx = df.columns # the column index
+idx = df.index # the row index
+```
+
+```py
+
+# 索引的一些特性
+b = idx.is_monotonic_decreasing
+b = idx.is_monotonic_increasing
+b = idx.has_duplicates
+i = idx.nlevels # multi-level indexe
+```
+
+```py
+# 索引的一些方法
+a = idx.values # get as numpy array
+l = idx.tolist() # get as a python list
+# idx = idx.astype(dtype) # change data type
+# b = idx.equals(other) # check for equality 看看是否是相同的索引
+```
+
+```py
+# union of two indexes 合并两个索引
+# idx = idx.union(other)
+
+idx1 = pd.Index([1, 2, 3, 4])
+idx2 = pd.Index([3, 4, 5, 6])
+idx1.union(idx2)
+```
+
+```py
+Int64Index([1, 2, 3, 4, 5, 6], dtype='int64')
+```
+
+```py
+i = idx.nunique() # number unique labels
+label = idx.min() # minimum label
+label = idx.max() # maximum label
+```
+
+创建 Series 和 DataFrame
+
+http://pandas.pydata.org/pandas-docs/stable/dsintro.html
+
+##1.2. DataFrame 入门
+
+```py
+df = DataFrame(np.random.randn(10, 4), columns=['A', 'B', 'C', 'D'])
+```
+
+DataFrame 的一些实用查看方法
+
+```py
+df.info()
+```
+
+
+```py
+
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 10 entries, 0 to 9
+Data columns (total 4 columns):
+A    10 non-null float64
+B    10 non-null float64
+C    10 non-null float64
+D    10 non-null float64
+dtypes: float64(4)
+memory usage: 392.0 bytes
+```
+
+
+

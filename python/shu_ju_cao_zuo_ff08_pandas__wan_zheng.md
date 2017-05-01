@@ -1,9 +1,9 @@
-# 数据操作（Pandas） 完整
+# 數據操作（Pandas） 完整
 
 
-##1.1. pandas 对象
+##1.1. pandas 對象
 
-引入 pandas 等包，DataFrame、Series 属于常用的，所以直接引入
+引入 pandas 等包，DataFrame、Series 屬於常用的，所以直接引入
 
 ```py
 %matplotlib inline
@@ -13,7 +13,7 @@ import pandas as pd
 from pandas import Series, DataFrame
 ```
 
-DataFrame 对象：Pandas DataFrame 是一个表格型的数据结构，有行索引也有列索引
+DataFrame 對象：Pandas DataFrame 是一個表格型的數據結構，有行索引也有列索引
 
 
 ```py
@@ -23,7 +23,7 @@ Image(filename='../../image/DataFrame.png', width=400)
 ![](./images/base_01_pandas_5_0.png)
 
 
-Series 对象：类似于一维数组的对象，由一组同样 type 的数组和索引组成
+Series 對象：類似於一維數組的對象，由一組同樣 type 的數組和索引組成
 
 
 ```py
@@ -33,11 +33,11 @@ s3 = s1 + s2 # -> 1, 3, 5, 7
 s4 = Series(['a','b'])*3 # -> 'aaa','bbb'
 ```
 
-index 对象：即 Series 和 DataFrame 的索引
+index 對象：即 Series 和 DataFrame 的索引
 
 
 ```py
-# 获取索引
+# 獲取索引
 df = DataFrame(s1)
 idx = s1.index
 idx = df.columns # the column index
@@ -62,7 +62,7 @@ l = idx.tolist() # get as a python list
 ```
 
 ```py
-# union of two indexes 合并两个索引
+# union of two indexes 合併兩個索引
 # idx = idx.union(other)
 
 idx1 = pd.Index([1, 2, 3, 4])
@@ -80,17 +80,17 @@ label = idx.min() # minimum label
 label = idx.max() # maximum label
 ```
 
-创建 Series 和 DataFrame
+創建 Series 和 DataFrame
 
 http://pandas.pydata.org/pandas-docs/stable/dsintro.html
 
-##1.2. DataFrame 入门
+##1.2. DataFrame 入門
 
 ```py
 df = DataFrame(np.random.randn(10, 4), columns=['A', 'B', 'C', 'D'])
 ```
 
-DataFrame 的一些实用查看方法
+DataFrame 的一些實用查看方法
 
 ```py
 df.info()
@@ -117,11 +117,11 @@ dfh = df.head(n) # 看前 n 行
 
 
 ```py
-dft = df.tail(n) # 看后 n 行
+dft = df.tail(n) # 看後 n 行
 ```
 
 ```py
-dfs = df.describe() # 各类统计信息
+dfs = df.describe() # 各類統計信息
 ```
 
 ```py
@@ -209,7 +209,7 @@ a = df.values # get a numpy array for df
 ```
 
 
-## 实用方法
+## 實用方法
 
 ```py
 df = DataFrame([1, 23, 3, 5, 2])
@@ -217,7 +217,7 @@ df = DataFrame([1, 23, 3, 5, 2])
 
 ```py
 dfc = df.copy() # copy a DataFrame
-dfr = df.rank() # rank each col (default) 把每个值的地位列出了
+dfr = df.rank() # rank each col (default) 把每個值的地位列出了
 dfs = df.sort() # sort each col (default)
 # dfc = df.astype(dtype) # type conversion
 ```
@@ -229,7 +229,7 @@ dfs = df.sort() # sort each col (default)
 
 ```py
 
-# 下面的两个方法没怎么搞懂
+# 下面的兩個方法沒怎麼搞懂
 df.iteritems()# (col-index, Series) pairs
 df.iterrows() # (row-index, Series) pairs
 # example ... iterating over columns
@@ -245,7 +245,7 @@ Col name: 0
 First value: 1
 ```
 
-## 通用函数
+## 通用函數
 
 <table border="1" class="docutils">
 <colgroup>
@@ -309,9 +309,9 @@ First value: 1
 </tbody>
 </table>
 
-## 1.3. DataFrame Columns 列处理
+## 1.3. DataFrame Columns 列處理
 
-column 其实也是一个 Series
+column 其實也是一個 Series
 
 
 ```py
@@ -340,14 +340,14 @@ Index([u'A', u'B', u'C', u'D'], dtype='object')
 # df = df.rename(columns={'a':1,'b':'x'})
 ```
 
-选择 columns, 也就是提取列
+選擇 columns, 也就是提取列
 
 ```
 
 s = df['C'] # select col to Series
 df = df[['C']] # select col to df
 df = df[['A','B']] # select 2 or more
-df = df[['C', 'B', 'A']]# change order 改变排序了
+df = df[['C', 'B', 'A']]# change order 改變排序了
 s = df[df.columns[0]] # select by number
 f = df[df.columns[[0, 3, 4]] # by number
 s = df.pop('C') # get col & drop from df == df['C']
@@ -356,11 +356,11 @@ s = df.pop('C') # get col & drop from df == df['C']
 
 ```py
 s = df.A # same as s = df['A'],
-# 但不能用 python 特性创建新的 columns
+# 但不能用 python 特性創建新的 columns
 # df['new_col'] = df.a / df.b
 ```
 
-添加新的 columns，添加一个 column 是极为方便的，只要能添加一组数据就行
+添加新的 columns，添加一個 column 是極為方便的，只要能添加一組數據就行
 
 ```py
 df['new_col'] = range(len(df))
@@ -413,18 +413,18 @@ df.head(2)
 </table>
 </div></div>
 
-详情参考 df1[[‘b’,’c’]] = df2[[‘e’,’f’]] df3 = df1.append(other=df2)
+詳情參考 df1[[‘b’,’c’]] = df2[[‘e’,’f’]] df3 = df1.append(other=df2)
 
 
-### 判定函数 pd.Series.where
+### 判定函數 pd.Series.where
 
 ```py
-# 符合 >0 条件的保持原值，其他 =0
+# 符合 >0 條件的保持原值，其他 =0
 df['A'] = df['A'].where(df['A']>0, other=0)
 # df['d']=df['a'].where(df.b!=0,other=df.c)
 ```
 
-###数据格式 转换一列的格式时非常有用。
+###數據格式 轉換一列的格式時非常有用。
 
 s = df[‘col’].astype(str) # Series dtype na = df[‘col’].values # numpy array pl = df[‘col’].tolist() # python list
 
@@ -443,14 +443,14 @@ df['B'].idxmin()
 7
 ```
 
-### 元素级方法
+### 元素級方法
 
 ```py
 s = df[‘col’].isnull() s = df[‘col’].notnull() # not isnull() s = df[‘col’].astype(float) s = df[‘col’].round(decimals=0) s = df[‘col’].diff(periods=1) s = df[‘col’].shift(periods=1) s = df[‘col’].to_datetime() s = df[‘col’].fillna(0) # replace NaN w 0 s = df[‘col’].cumsum() s = df[‘col’].cumprod() s = df[‘col’].pct_change(periods=4) s = df[‘col’].rolling_sum(periods=4, window=4)
 ```
 
 ```py
-df = df.mul(s, axis=0) # on matched rows,相当于 * other Series 每行都与之相乘
+df = df.mul(s, axis=0) # on matched rows,相當於 * other Series 每行都與之相乘
 ```
 
 ```py
@@ -466,7 +466,7 @@ df.columns.get_loc('B')
 df = df.iloc[:, 0:2] # exclusive
 ```
 
-###获取 columns 的具体位置
+###獲取 columns 的具體位置
 
 ```py
 df
@@ -522,7 +522,7 @@ df
 </table>
 </div>
 
-下面那个好像没什么软用
+下面那個好像沒什麼軟用
 
 
 ```py
@@ -541,9 +541,9 @@ Out[152]:
 dtype: object
 ```
 
-## 1.4. DataFrame rows 行处理
+## 1.4. DataFrame rows 行處理
 
-### 获取索引和标签
+### 獲取索引和標籤
 
 ```py
 idx = df.index # get row index
@@ -551,7 +551,7 @@ label = df.index[0] # 1st row label
 lst = df.index.tolist() # get as a list
 ```
 
-### 改变索引或行名
+### 改變索引或行名
 
 ```py
 df.index = idx # new ad hoc index
@@ -563,7 +563,7 @@ df = df.set_index(keys=['r1','r2','etc'])
 df.rename(index={'old':'new'},inplace=True)
 ```
 
-###Drop row 删除行
+###Drop row 刪除行
 
 ````py
 df = df.drop(‘row_label’) df = df.drop(row1) # multi-row df = df.drop([‘row1’,’row2’]) # multi-row
@@ -579,15 +579,15 @@ df = pd.DataFrame(data)
 In [4]:
 # multi-column isin
 lf = {1:[1, 3], 3:[8, 27]} # look for
-f = df[df[list(lf)].isin(lf).all(axis=1)] # 这里看不太懂
+f = df[df[list(lf)].isin(lf).all(axis=1)] # 這裡看不太懂
 ```
 
 
-### 对行做排序
+### 對行做排序
 
 ```py
-df_obj.sort(columns = ‘’)#按列名进行排序
-df_obj.sort_index(by=[‘’,’’])#多列排序,使用时报该函数已过时,请用sort_values
+df_obj.sort(columns = ‘’)#按列名進行排序
+df_obj.sort_index(by=[‘’,’’])#多列排序,使用時報該函數已過時,請用sort_values
 df_obj.sort_values(by=['',''])同上
 ```
 
@@ -800,7 +800,7 @@ df0[['x','y']]
 
 ## 1.5. 索引和切片
 
-整数时一般是不包含的，非整数则会包含尾巴（基于 label）
+整數時一般是不包含的，非整數則會包含尾巴（基於 label）
 
 
 ```py
@@ -852,7 +852,7 @@ c -5.3
 ```
 
 ```py
-ix[::, ::] 可以接受两套切片（axis=0)横向，(axis=1)列向
+ix[::, ::] 可以接受兩套切片（axis=0)橫向，(axis=1)列向
 ```
 
 ```py
@@ -959,7 +959,7 @@ df.ix[:, 'state':'pop']
 </table>
 
 ```py
-df.ix[1] # 切的是行，所以说 ix 默认切的行， 也就是 axis=0
+df.ix[1] # 切的是行，所以說 ix 默認切的行， 也就是 axis=0
 ```
 
 ```py
@@ -972,13 +972,13 @@ Name: two, dtype: object
 
 ## 非 ix
 
-ix 可以说是 pandas 的标准切法，而没有 ix 时，情况就略复杂些了，作者说：
+ix 可以說是 pandas 的標準切法，而沒有 ix 時，情況就略複雜些了，作者說：
 
-- `索引时，选取的是列`
-- `切片时，选取的是行`
+- `索引時，選取的是列`
+- `切片時，選取的是行`
 
 
-记住一点，如果你想看单列或少数列的索引，那么直接用 df[‘column’], 其他就
+記住一點，如果你想看單列或少數列的索引，那麼直接用 df[‘column’], 其他就
 
 ```py
 print(type(df['year']))
@@ -991,8 +991,8 @@ print(type(df[['year']]))
 ```
 
 ```py
-# df['one'] # 会报错，没办法这样索引,这是行
-df[['year', 'state']] # 可运行
+# df['one'] # 會報錯，沒辦法這樣索引,這是行
+df[['year', 'state']] # 可運行
 ```
 
 <table border="1" class="dataframe">
@@ -1034,7 +1034,7 @@ df[['year', 'state']] # 可运行
 
 ```py
 
-df[0:1] # 切第一行，直接 df[0] 是会报错的。而 ix 不会。
+df[0:1] # 切第一行，直接 df[0] 是會報錯的。而 ix 不會。
 ```
 
 <table border="1" class="dataframe">
@@ -1060,7 +1060,7 @@ df[0:1] # 切第一行，直接 df[0] 是会报错的。而 ix 不会。
 
 
 ```py
-df['one':'two'] # 所以他也是可以整数切，也能标签切
+df['one':'two'] # 所以他也是可以整數切，也能標籤切
 ```
 
 <table border="1" class="dataframe">
@@ -1178,15 +1178,15 @@ df.iloc[:, 1:2]
 </table>
 
 
-- `.loc[label] 这是严格基于标签的索引`
-- `.iloc[inte] 这是严格基于整数位置的索引`
-- `.ix[] 更像是这两种严格方式的智能整合版。`
+- `.loc[label] 這是嚴格基於標籤的索引`
+- `.iloc[inte] 這是嚴格基於整數位置的索引`
+- `.ix[] 更像是這兩種嚴格方式的智能整合版。`
 
 
 
 ```py
-# df.loc[1:2] 用 label 的去切整数，自然会出错
-# df.iloc['two':'three'] 也会出错
+# df.loc[1:2] 用 label 的去切整數，自然會出錯
+# df.iloc['two':'three'] 也會出錯
 ```
 
 ```py
@@ -1247,11 +1247,11 @@ df.iloc[1:2]
 </table>
 
 
-## 小结：
+## 小結：
 
-- 尽量写两套切片，除非是索引单列则用 df[column]
-- 多用 iloc 和 loc, 除非你很清晰的基于标签
+- 儘量寫兩套切片，除非是索引單列則用 df[column]
+- 多用 iloc 和 loc, 除非你很清晰的基於標籤
 
 ```py
-df2.info() # 说明，ix在这种非整数的整数标签上，他的切片跟loc一样，是基于标签的，而另外两个刚好相反。
+df2.info() # 說明，ix在這種非整數的整數標籤上，他的切片跟loc一樣，是基於標籤的，而另外兩個剛好相反。
 ```

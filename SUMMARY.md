@@ -669,7 +669,7 @@
        * [Convert list of numpy.float64 to float and Converting strings to floats in a DataFrame](python/convert_list_of_numpyfloat64_to_float_and_converti.md)
        * [Pandas Excel example](python/pandas_excel_example.md)
        * [十分鐘快速入門 Pandas](python/shi_fen_zhong_kuai_su_ru_men_pandas.md)
-       * Add a row to dataframe
+       * [Add a row to dataframe](python/add_a_row_to_dataframe.md)
    * [編碼](python/bian_ma.md)
        * [Python - 瞭解bytes、str與unicode的區別](python/python_-_liao_jie_bytes__str_yu_unicode_de_qu_bie.md)
        * [淺談 python2及 python3處理中文字串編碼的差異](python/qian_tan_python2_ji_python3_chu_li_zhong_wen_zi_ch.md)

@@ -851,5 +851,131 @@ b  7.2
 c -5.3
 ```
 
+```py
+ix[::, ::] 可以接受两套切片（axis=0)横向，(axis=1)列向
+```
+
+```py
+data = {'state':['Ohino','Ohino','Ohino','Nevada','Nevada'],
+        'year':[2000,2001,2002,2001,2002],
+        'pop':[1.5,1.7,3.6,2.4,2.9]}
+
+df = DataFrame(data,index=['one','two','three','four','five'],
+               columns=['year','state','pop','debt'])
+```
+
+```py
+df
+```
+
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year</th>
+      <th>state</th>
+      <th>pop</th>
+      <th>debt</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>one</th>
+      <td>2000</td>
+      <td>Ohino</td>
+      <td>1.5</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>two</th>
+      <td>2001</td>
+      <td>Ohino</td>
+      <td>1.7</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>three</th>
+      <td>2002</td>
+      <td>Ohino</td>
+      <td>3.6</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>four</th>
+      <td>2001</td>
+      <td>Nevada</td>
+      <td>2.4</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>five</th>
+      <td>2002</td>
+      <td>Nevada</td>
+      <td>2.9</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+
+```py
+df.ix[:, 'state':'pop']
+```
+
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>state</th>
+      <th>pop</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>one</th>
+      <td>Ohino</td>
+      <td>1.5</td>
+    </tr>
+    <tr>
+      <th>two</th>
+      <td>Ohino</td>
+      <td>1.7</td>
+    </tr>
+    <tr>
+      <th>three</th>
+      <td>Ohino</td>
+      <td>3.6</td>
+    </tr>
+    <tr>
+      <th>four</th>
+      <td>Nevada</td>
+      <td>2.4</td>
+    </tr>
+    <tr>
+      <th>five</th>
+      <td>Nevada</td>
+      <td>2.9</td>
+    </tr>
+  </tbody>
+</table>
+
+```py
+df.ix[1] # 切的是行，所以说 ix 默认切的行， 也就是 axis=0
+```
+
+```py
+year      2001
+state    Ohino
+pop        1.7
+debt       NaN
+Name: two, dtype: object
+```
+
+## 非 ix
+
+ix 可以说是 pandas 的标准切法，而没有 ix 时，情况就略复杂些了，作者说：
+
+- `索引时，选取的是列`
+- `切片时，选取的是行`
 
 
+记住一点，如果你想看单列或少数列的索引，那么直接用 df[‘column’], 其他就

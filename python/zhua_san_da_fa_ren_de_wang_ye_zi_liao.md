@@ -50,7 +50,7 @@ for i in range(1,30):
 stockdf = pd.concat(dfs, ignore_index=True)
 #print stockdf.head()
 
-# 篩選出台積電股票
+# 篩選出臺積電股票
 #print stockdf[stockdf[u'證券  代號'.decode('utf-8')] == 2330].head()
 
 # 使用Pandas 將資料塞進資料庫

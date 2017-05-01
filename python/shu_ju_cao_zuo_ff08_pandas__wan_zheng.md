@@ -1,9 +1,9 @@
-# 数据操作（Pandas） 完整
+# 數據操作（Pandas） 完整
 
 
-##1.1. pandas 对象
+##1.1. pandas 對象
 
-引入 pandas 等包，DataFrame、Series 属于常用的，所以直接引入
+引入 pandas 等包，DataFrame、Series 屬於常用的，所以直接引入
 
 ```py
 %matplotlib inline
@@ -13,7 +13,7 @@ import pandas as pd
 from pandas import Series, DataFrame
 ```
 
-DataFrame 对象：Pandas DataFrame 是一个表格型的数据结构，有行索引也有列索引
+DataFrame 對象：Pandas DataFrame 是一個表格型的數據結構，有行索引也有列索引
 
 
 ```py
@@ -23,7 +23,7 @@ Image(filename='../../image/DataFrame.png', width=400)
 ![](./images/base_01_pandas_5_0.png)
 
 
-Series 对象：类似于一维数组的对象，由一组同样 type 的数组和索引组成
+Series 對象：類似於一維數組的對象，由一組同樣 type 的數組和索引組成
 
 
 ```py

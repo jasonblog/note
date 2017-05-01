@@ -57,7 +57,7 @@
         data-chapter-title="pandas 入門"
         data-filepath="python/pandas_ru_men.md"
         data-basepath=".."
-        data-revision="Mon May 01 2017 11:07:26 GMT+0800 (CST)"
+        data-revision="Mon May 01 2017 11:21:00 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -17743,6 +17743,82 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="pandas-&#x5165;&#x9580;">pandas &#x5165;&#x9580;</h1>
+<pre><code class="lang-py"><span class="hljs-comment">#! /usr/bin/python</span>
+<span class="hljs-comment"># -*- coding: utf-8 -*-</span>
+
+<span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
+<span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+
+<span class="hljs-comment"># &#x5148;&#x5EFA;&#x7ACB;&#x4E00;&#x500B; DataFrame</span>
+
+dates = pd.date_range(<span class="hljs-string">&apos;20150328&apos;</span>, periods=<span class="hljs-number">10</span>)   <span class="hljs-comment"># &#x65E5;&#x671F;&#x5E8F;&#x5217;</span>
+
+df = pd.DataFrame(np.random.randn(<span class="hljs-number">10</span>, <span class="hljs-number">5</span>), index=dates, columns=list(<span class="hljs-string">&apos;ABCDE&apos;</span>))
+
+<span class="hljs-comment"># &#x5404;&#x7A2E;&#x89C0;&#x5BDF;&#x89D2;&#x5EA6;</span>
+
+print(df.index)         <span class="hljs-comment"># &#x5217;&#x51FA;&#x6BCF;&#x4E00;&#x500B; row &#x7684; index &#x6A19;&#x7C64;</span>
+
+print(df.columns)       <span class="hljs-comment"># &#x5217;&#x51FA;&#x6BCF;&#x4E00;&#x500B; column &#x7684;&#x6A19;&#x982D;</span>
+
+print(df.values)        <span class="hljs-comment"># &#x9664;&#x53BB; index &#x8207; column headers &#x5F8C;&#x7684;&#x6578;&#x503C;&#x9663;&#x5217;&#xFF08;np.array&#xFF09;</span>
+
+print(df.describe())    <span class="hljs-comment"># &#x6839;&#x64DA;&#x6BCF;&#x4E00;&#x500B; column &#x63CF;&#x8FF0;&#x5176;&#x8CC7;&#x6599;&#x6027;&#x8CEA;&#xFF08;count, mean, std, ...)</span>
+
+
+<span class="hljs-comment"># Selection: &#x76F4;&#x63A5;&#x53D6;&#x51FA;</span>
+
+print(df[<span class="hljs-string">&apos;A&apos;</span>])          <span class="hljs-comment"># &#x9019;&#x6A23;&#x6703;&#x5217;&#x51FA;&#x6574;&#x500B; DF &#x7684; column &apos;A&apos;</span>
+
+print(df[<span class="hljs-number">0</span>:<span class="hljs-number">5</span>])          <span class="hljs-comment"># &#x5217;&#x51FA; df &#x7684; 0, 1, 2, 3, 4 rows</span>
+
+print(df[[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>]])    <span class="hljs-comment"># &#x5217;&#x51FA; df &#x7684; 0, 1, 2 &#x4E09;&#x500B; columns</span>
+
+
+<span class="hljs-comment"># Selection: &#x4F7F;&#x7528; .loc &#x53EF;&#x4EE5;&#x505A;&#x66F4;&#x7CBE;&#x7D30;&#x7684;&#x9078;&#x51FA;&#x8CC7;&#x6599;</span>
+
+print(df.loc[dates[<span class="hljs-number">0</span>]])                           <span class="hljs-comment"># &#x6839;&#x64DA; row &#x7684; label &#x9078;&#x64C7;</span>
+
+print(df.loc[<span class="hljs-string">&apos;20140103&apos;</span>:<span class="hljs-string">&apos;20140105&apos;</span>, [<span class="hljs-string">&apos;B&apos;</span>, <span class="hljs-string">&apos;C&apos;</span>]])  <span class="hljs-comment"># &#x6839;&#x64DA; row labels &#x548C; column names &#x9078;&#x64C7;</span>
+
+
+<span class="hljs-comment"># Selection: &#x4F7F;&#x7528; .iloc &#x5C31;&#x53EF;&#x4EE5;&#x7528; numpy.array/python array &#x7684;&#x65B9;&#x5F0F;&#x4F86;&#x64CD;&#x4F5C; pandas.DataFrame </span>
+
+print(df.iloc[<span class="hljs-number">3</span>])        <span class="hljs-comment"># &#x53D6;&#x51FA;&#x7B2C;&#x56DB;&#x500B; row</span>
+
+print(df.iloc[<span class="hljs-number">0</span>:<span class="hljs-number">2</span>, <span class="hljs-number">2</span>:<span class="hljs-number">4</span>]) <span class="hljs-comment"># &#x53D6;&#x51FA;&#x4E00;&#x500B;&#x5340;&#x584A; (row_idx=0, 1 and col_idx=2, 3) </span>
+
+print(df.iloc[<span class="hljs-number">1</span>:<span class="hljs-number">4</span>, :])   <span class="hljs-comment"># &#x6839;&#x64DA; row index &#x9078;&#x64C7;</span>
+
+print(df.iloc[:, <span class="hljs-number">1</span>:<span class="hljs-number">3</span>])   <span class="hljs-comment"># &#x6839;&#x64DA; col index &#x9078;&#x64C7;</span>
+
+
+<span class="hljs-comment"># Selection: .iloc[0] &#x548C; .iloc[[0]] &#x7684;&#x5DEE;&#x5225;</span>
+
+print(type(df.iloc[<span class="hljs-number">0</span>]))   <span class="hljs-comment"># pandas.core.series.Series</span>
+
+print(type(df.iloc[[<span class="hljs-number">0</span>]])) <span class="hljs-comment"># pandas.core.frame.DataFrame</span>
+</code></pre>
+<hr>
+<h2 id="create-dataframe-list-&#x662F;&#x884C;&#x5217;&#x91CF;&#x9700;&#x8F49;&#x7F6E;t">Create DataFrame list &#x662F;&#x884C;&#x5217;&#x91CF;&#x9700;&#x8F49;&#x7F6E;T</h2>
+<pre><code class="lang-py"><span class="hljs-comment">#! /usr/bin/python</span>
+<span class="hljs-comment"># -*- coding: utf-8 -*-</span>
+<span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
+
+<span class="hljs-comment"># &#x65B9;&#x6CD5;&#x4E00;</span>
+df = pd.DataFrame([<span class="hljs-number">1.1</span>, <span class="hljs-number">1.1</span>, <span class="hljs-number">1.1</span>], index = list(<span class="hljs-string">&quot;ABC&quot;</span>)).T <span class="hljs-comment"># list &#x662F;&#x884C;&#x5217;&#x91CF;&#x9700;&#x8F49;&#x7F6E;T</span>
+arow2 = [<span class="hljs-number">2.2</span>, <span class="hljs-number">2.2</span>, <span class="hljs-number">2.2</span>]  
+df.loc[len(df)] = arow2  
+print(df)
+
+<span class="hljs-comment"># &#x65B9;&#x6CD5;&#x4E8C;</span>
+df1 = pd.DataFrame([<span class="hljs-number">1.1</span>, <span class="hljs-number">1.1</span>, <span class="hljs-number">1.1</span>]).T
+df1.columns = list(<span class="hljs-string">&quot;ABC&quot;</span>)
+arow2 = [<span class="hljs-number">2.2</span>, <span class="hljs-number">2.2</span>, <span class="hljs-number">2.2</span>]  
+df1.loc[len(df)] = arow2  
+print(df1)
+</code></pre>
+<hr>
 <pre><code class="lang-py"><span class="hljs-comment">#! /usr/bin/python</span>
 <span class="hljs-comment"># -*- coding: utf-8 -*-</span>
 <span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd

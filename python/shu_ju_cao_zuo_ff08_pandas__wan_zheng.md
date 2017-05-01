@@ -23,3 +23,12 @@ Image(filename='../../image/DataFrame.png', width=400)
 ![](./images/base_01_pandas_5_0.png)
 
 
+Series 对象：类似于一维数组的对象，由一组同样 type 的数组和索引组成
+
+
+```py
+s1 = Series(range(0,4)) # -> 0, 1, 2, 3
+s2 = Series(range(1,5)) # -> 1, 2, 3, 4
+s3 = s1 + s2 # -> 1, 3, 5, 7
+s4 = Series(['a','b'])*3 # -> 'aaa','bbb'
+```

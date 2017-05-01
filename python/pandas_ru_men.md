@@ -58,8 +58,31 @@ print(type(df.iloc[0]))   # pandas.core.series.Series
 
 print(type(df.iloc[[0]])) # pandas.core.frame.DataFrame
 ```
+---
+
+##  Create DataFrame list 是行列量需轉置T
+
+```py
+#! /usr/bin/python
+# -*- coding: utf-8 -*-
+import pandas as pd
+
+# 方法一
+df = pd.DataFrame([1.1, 1.1, 1.1], index = list("ABC")).T # list 是行列量需轉置T
+arow2 = [2.2, 2.2, 2.2]  
+df.loc[len(df)] = arow2  
+print(df)
+
+# 方法二
+df1 = pd.DataFrame([1.1, 1.1, 1.1]).T
+df1.columns = list("ABC")
+arow2 = [2.2, 2.2, 2.2]  
+df1.loc[len(df)] = arow2  
+print(df1)
+```
 
 ---
+
 ```py
 #! /usr/bin/python
 # -*- coding: utf-8 -*-

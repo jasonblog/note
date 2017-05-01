@@ -207,3 +207,117 @@ i
 ```py
 a = df.values # get a numpy array for df
 ```
+
+
+## 实用方法
+
+```py
+df = DataFrame([1, 23, 3, 5, 2])
+```
+
+```py
+dfc = df.copy() # copy a DataFrame
+dfr = df.rank() # rank each col (default) 把每个值的地位列出了
+dfs = df.sort() # sort each col (default)
+# dfc = df.astype(dtype) # type conversion
+```
+
+```py
+/Users/Scott/Library/anaconda2/lib/python2.7/site-packages/ipykernel/__main__.py:3: FutureWarning: sort(....) is deprecated, use sort_index(.....)
+ app.launch_new_instance()
+```
+
+```py
+
+# 下面的两个方法没怎么搞懂
+df.iteritems()# (col-index, Series) pairs
+df.iterrows() # (row-index, Series) pairs
+# example ... iterating over columns
+for (name, series) in df.iteritems():
+    print('Col name: ' + str(name))
+    print('First value: ' +
+        str(series.iat[0]) + '\n')
+```
+
+```py
+
+Col name: 0
+First value: 1
+```
+
+## 通用函数
+
+<table border="1" class="docutils">
+<colgroup>
+<col width="43%">
+<col width="57%">
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">method</th>
+<th class="head">##</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>df = df.abs()</td>
+<td>absolute values</td>
+</tr>
+<tr class="row-odd"><td>df = df.add(o)</td>
+<td>add df, Series or value</td>
+</tr>
+<tr class="row-even"><td>s = df.count()</td>
+<td>non NA/null values</td>
+</tr>
+<tr class="row-odd"><td>df = df.cummax()</td>
+<td>(cols default axis)</td>
+</tr>
+<tr class="row-even"><td>df = df.cummin()</td>
+<td>(cols default axis)</td>
+</tr>
+<tr class="row-odd"><td>df = df.cumsum()</td>
+<td>(cols default axis)</td>
+</tr>
+<tr class="row-even"><td>df = df.cumprod()</td>
+<td>(cols default axis)</td>
+</tr>
+<tr class="row-odd"><td>df = df.diff()</td>
+<td>1st diff (col def axis)</td>
+</tr>
+<tr class="row-even"><td>df = df.div(o)</td>
+<td>div by df, Series, value</td>
+</tr>
+<tr class="row-odd"><td>df = df.dot(o)</td>
+<td>matrix dot product</td>
+</tr>
+<tr class="row-even"><td>s = df.max()</td>
+<td>max of axis (col def)</td>
+</tr>
+<tr class="row-odd"><td>s = df.mean()</td>
+<td>mean (col default axis)</td>
+</tr>
+<tr class="row-even"><td>s = df.median()</td>
+<td>median (col default)</td>
+</tr>
+<tr class="row-odd"><td>s = df.min()</td>
+<td>min of axis (col def)</td>
+</tr>
+<tr class="row-even"><td>df = df.mul(o)</td>
+<td>mul by df Series val</td>
+</tr>
+<tr class="row-odd"><td>s = df.sum()</td>
+<td>sum axis (cols default)</td>
+</tr>
+</tbody>
+</table>
+
+## 1.3. DataFrame Columns 列处理
+
+column 其实也是一个 Series
+
+
+```py
+df = DataFrame(np.random.randn(10, 4), columns=['A', 'B', 'C', 'D'])
+idx = df.columns # get col index
+label = df.columns[0] # 1st col label
+lst = df.columns.tolist() # get as a list
+```
+

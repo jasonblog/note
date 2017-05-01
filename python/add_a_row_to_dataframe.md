@@ -7,3 +7,12 @@ arow2 = [2.2, 2.2, 2.2]
 mydf.loc[len(mydf)] = arow2  
 print(mydf)
 ```
+
+```py
+import pandas as pd
+mydf = pd.DataFrame([1.1, 1.1, 1.1]).T  
+arow2 = [2.2, 2.2, 2.2]  
+mydf.loc[len(mydf)] = arow2  
+print(mydf)
+
+```

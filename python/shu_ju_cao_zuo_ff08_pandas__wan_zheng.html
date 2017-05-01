@@ -57,7 +57,7 @@
         data-chapter-title="數據操作（Pandas） 完整"
         data-filepath="python/shu_ju_cao_zuo_ff08_pandas__wan_zheng.md"
         data-basepath=".."
-        data-revision="Mon May 01 2017 12:13:44 GMT+0800 (CST)"
+        data-revision="Mon May 01 2017 13:08:36 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -17776,6 +17776,1008 @@ Image(filename=<span class="hljs-string">&apos;../../image/DataFrame.png&apos;</
 s2 = Series(range(<span class="hljs-number">1</span>,<span class="hljs-number">5</span>)) <span class="hljs-comment"># -&gt; 1, 2, 3, 4</span>
 s3 = s1 + s2 <span class="hljs-comment"># -&gt; 1, 3, 5, 7</span>
 s4 = Series([<span class="hljs-string">&apos;a&apos;</span>,<span class="hljs-string">&apos;b&apos;</span>])*<span class="hljs-number">3</span> <span class="hljs-comment"># -&gt; &apos;aaa&apos;,&apos;bbb&apos;</span>
+</code></pre>
+<p>index &#x5C0D;&#x8C61;&#xFF1A;&#x5373; Series &#x548C; DataFrame &#x7684;&#x7D22;&#x5F15;</p>
+<pre><code class="lang-py"><span class="hljs-comment"># &#x7372;&#x53D6;&#x7D22;&#x5F15;</span>
+df = DataFrame(s1)
+idx = s1.index
+idx = df.columns <span class="hljs-comment"># the column index</span>
+idx = df.index <span class="hljs-comment"># the row index</span>
+</code></pre>
+<pre><code class="lang-py">
+<span class="hljs-comment"># &#x7D22;&#x5F15;&#x7684;&#x4E00;&#x4E9B;&#x7279;&#x6027;</span>
+b = idx.is_monotonic_decreasing
+b = idx.is_monotonic_increasing
+b = idx.has_duplicates
+i = idx.nlevels <span class="hljs-comment"># multi-level indexe</span>
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-comment"># &#x7D22;&#x5F15;&#x7684;&#x4E00;&#x4E9B;&#x65B9;&#x6CD5;</span>
+a = idx.values <span class="hljs-comment"># get as numpy array</span>
+l = idx.tolist() <span class="hljs-comment"># get as a python list</span>
+<span class="hljs-comment"># idx = idx.astype(dtype) # change data type</span>
+<span class="hljs-comment"># b = idx.equals(other) # check for equality &#x770B;&#x770B;&#x662F;&#x5426;&#x662F;&#x76F8;&#x540C;&#x7684;&#x7D22;&#x5F15;</span>
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-comment"># union of two indexes &#x5408;&#x4F75;&#x5169;&#x500B;&#x7D22;&#x5F15;</span>
+<span class="hljs-comment"># idx = idx.union(other)</span>
+
+idx1 = pd.Index([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>])
+idx2 = pd.Index([<span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>])
+idx1.union(idx2)
+</code></pre>
+<pre><code class="lang-py">Int64Index([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>], dtype=<span class="hljs-string">&apos;int64&apos;</span>)
+</code></pre>
+<pre><code class="lang-py">i = idx.nunique() <span class="hljs-comment"># number unique labels</span>
+label = idx.min() <span class="hljs-comment"># minimum label</span>
+label = idx.max() <span class="hljs-comment"># maximum label</span>
+</code></pre>
+<p>&#x5275;&#x5EFA; Series &#x548C; DataFrame</p>
+<p><a href="http://pandas.pydata.org/pandas-docs/stable/dsintro.html" target="_blank">http://pandas.pydata.org/pandas-docs/stable/dsintro.html</a></p>
+<h2 id="12-dataframe-&#x5165;&#x9580;">1.2. DataFrame &#x5165;&#x9580;</h2>
+<pre><code class="lang-py">df = DataFrame(np.random.randn(<span class="hljs-number">10</span>, <span class="hljs-number">4</span>), columns=[<span class="hljs-string">&apos;A&apos;</span>, <span class="hljs-string">&apos;B&apos;</span>, <span class="hljs-string">&apos;C&apos;</span>, <span class="hljs-string">&apos;D&apos;</span>])
+</code></pre>
+<p>DataFrame &#x7684;&#x4E00;&#x4E9B;&#x5BE6;&#x7528;&#x67E5;&#x770B;&#x65B9;&#x6CD5;</p>
+<pre><code class="lang-py">df.info()
+</code></pre>
+<pre><code class="lang-py">
+&lt;class &apos;pandas.core.frame.DataFrame&apos;&gt;
+RangeIndex: 10 entries, 0 to 9
+Data columns (total 4 columns):
+A    10 non-null float64
+B    10 non-null float64
+C    10 non-null float64
+D    10 non-null float64
+dtypes: float64(4)
+memory usage: 392.0 bytes
+</code></pre>
+<pre><code class="lang-py">n=<span class="hljs-number">4</span>
+dfh = df.head(n) <span class="hljs-comment"># &#x770B;&#x524D; n &#x884C;</span>
+</code></pre>
+<pre><code class="lang-py">dft = df.tail(n) <span class="hljs-comment"># &#x770B;&#x5F8C; n &#x884C;</span>
+</code></pre>
+<pre><code class="lang-py">dfs = df.describe() <span class="hljs-comment"># &#x5404;&#x985E;&#x7D71;&#x8A08;&#x4FE1;&#x606F;</span>
+</code></pre>
+<pre><code class="lang-py">top_left_corner_df = df.iloc[:<span class="hljs-number">5</span>, :<span class="hljs-number">5</span>]
+</code></pre>
+<pre><code class="lang-py">dfT = df.T <span class="hljs-comment"># transpose rows and cols</span>
+</code></pre>
+<h2 id="dataframe-index-&#x7684;&#x4E00;&#x4E9B;&#x7279;&#x6027;">DataFrame index &#x7684;&#x4E00;&#x4E9B;&#x7279;&#x6027;</h2>
+<pre><code class="lang-py">l = df.axes <span class="hljs-comment"># list row and col indexes</span>
+l
+</code></pre>
+<pre><code class="lang-py">[RangeIndex(start=<span class="hljs-number">0</span>, stop=<span class="hljs-number">10</span>, step=<span class="hljs-number">1</span>),
+Index([<span class="hljs-string">u&apos;A&apos;</span>, <span class="hljs-string">u&apos;B&apos;</span>, <span class="hljs-string">u&apos;C&apos;</span>, <span class="hljs-string">u&apos;D&apos;</span>], dtype=<span class="hljs-string">&apos;object&apos;</span>)]
+</code></pre>
+<pre><code class="lang-py">(r, c) = df.axes <span class="hljs-comment"># from above</span>
+</code></pre>
+<pre><code class="lang-py">s = df.dtypes <span class="hljs-comment"># Series column data types</span>
+</code></pre>
+<pre><code class="lang-py">A    float64
+B    float64
+C    float64
+D    float64
+dtype: object
+</code></pre>
+<pre><code class="lang-py">b = df.empty <span class="hljs-comment"># True for empty DataFrame</span>
+b
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-keyword">False</span>
+</code></pre>
+<pre><code class="lang-py">i = df.ndim <span class="hljs-comment"># number of axes (2)</span>
+i
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-number">2</span>
+</code></pre>
+<pre><code class="lang-py">t = df.shape <span class="hljs-comment"># (row-count, column-count)</span>
+t
+</code></pre>
+<pre><code class="lang-py">(<span class="hljs-number">10</span>, <span class="hljs-number">4</span>)
+</code></pre>
+<pre><code class="lang-py">(r, c) = df.shape <span class="hljs-comment"># from above</span>
+(r, c)
+</code></pre>
+<pre><code class="lang-py">(<span class="hljs-number">10</span>, <span class="hljs-number">4</span>)
+</code></pre>
+<pre><code class="lang-py">i = df.size <span class="hljs-comment"># row-count * column-count</span>
+i
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-number">40</span>
+</code></pre>
+<pre><code class="lang-py">a = df.values <span class="hljs-comment"># get a numpy array for df</span>
+</code></pre>
+<h2 id="&#x5BE6;&#x7528;&#x65B9;&#x6CD5;">&#x5BE6;&#x7528;&#x65B9;&#x6CD5;</h2>
+<pre><code class="lang-py">df = DataFrame([<span class="hljs-number">1</span>, <span class="hljs-number">23</span>, <span class="hljs-number">3</span>, <span class="hljs-number">5</span>, <span class="hljs-number">2</span>])
+</code></pre>
+<pre><code class="lang-py">dfc = df.copy() <span class="hljs-comment"># copy a DataFrame</span>
+dfr = df.rank() <span class="hljs-comment"># rank each col (default) &#x628A;&#x6BCF;&#x500B;&#x503C;&#x7684;&#x5730;&#x4F4D;&#x5217;&#x51FA;&#x4E86;</span>
+dfs = df.sort() <span class="hljs-comment"># sort each col (default)</span>
+<span class="hljs-comment"># dfc = df.astype(dtype) # type conversion</span>
+</code></pre>
+<pre><code class="lang-py">/Users/Scott/Library/anaconda2/lib/python2<span class="hljs-number">.7</span>/site-packages/ipykernel/__main__.py:<span class="hljs-number">3</span>: FutureWarning: sort(....) <span class="hljs-keyword">is</span> deprecated, use sort_index(.....)
+ app.launch_new_instance()
+</code></pre>
+<pre><code class="lang-py">
+<span class="hljs-comment"># &#x4E0B;&#x9762;&#x7684;&#x5169;&#x500B;&#x65B9;&#x6CD5;&#x6C92;&#x600E;&#x9EBC;&#x641E;&#x61C2;</span>
+df.iteritems()<span class="hljs-comment"># (col-index, Series) pairs</span>
+df.iterrows() <span class="hljs-comment"># (row-index, Series) pairs</span>
+<span class="hljs-comment"># example ... iterating over columns</span>
+<span class="hljs-keyword">for</span> (name, series) <span class="hljs-keyword">in</span> df.iteritems():
+    print(<span class="hljs-string">&apos;Col name: &apos;</span> + str(name))
+    print(<span class="hljs-string">&apos;First value: &apos;</span> +
+        str(series.iat[<span class="hljs-number">0</span>]) + <span class="hljs-string">&apos;\n&apos;</span>)
+</code></pre>
+<pre><code class="lang-py">
+Col name: <span class="hljs-number">0</span>
+First value: <span class="hljs-number">1</span>
+</code></pre>
+<h2 id="&#x901A;&#x7528;&#x51FD;&#x6578;">&#x901A;&#x7528;&#x51FD;&#x6578;</h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="43%">
+<col width="57%">
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">method</th>
+<th class="head">##</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>df = df.abs()</td>
+<td>absolute values</td>
+</tr>
+<tr class="row-odd"><td>df = df.add(o)</td>
+<td>add df, Series or value</td>
+</tr>
+<tr class="row-even"><td>s = df.count()</td>
+<td>non NA/null values</td>
+</tr>
+<tr class="row-odd"><td>df = df.cummax()</td>
+<td>(cols default axis)</td>
+</tr>
+<tr class="row-even"><td>df = df.cummin()</td>
+<td>(cols default axis)</td>
+</tr>
+<tr class="row-odd"><td>df = df.cumsum()</td>
+<td>(cols default axis)</td>
+</tr>
+<tr class="row-even"><td>df = df.cumprod()</td>
+<td>(cols default axis)</td>
+</tr>
+<tr class="row-odd"><td>df = df.diff()</td>
+<td>1st diff (col def axis)</td>
+</tr>
+<tr class="row-even"><td>df = df.div(o)</td>
+<td>div by df, Series, value</td>
+</tr>
+<tr class="row-odd"><td>df = df.dot(o)</td>
+<td>matrix dot product</td>
+</tr>
+<tr class="row-even"><td>s = df.max()</td>
+<td>max of axis (col def)</td>
+</tr>
+<tr class="row-odd"><td>s = df.mean()</td>
+<td>mean (col default axis)</td>
+</tr>
+<tr class="row-even"><td>s = df.median()</td>
+<td>median (col default)</td>
+</tr>
+<tr class="row-odd"><td>s = df.min()</td>
+<td>min of axis (col def)</td>
+</tr>
+<tr class="row-even"><td>df = df.mul(o)</td>
+<td>mul by df Series val</td>
+</tr>
+<tr class="row-odd"><td>s = df.sum()</td>
+<td>sum axis (cols default)</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="13-dataframe-columns-&#x5217;&#x8655;&#x7406;">1.3. DataFrame Columns &#x5217;&#x8655;&#x7406;</h2>
+<p>column &#x5176;&#x5BE6;&#x4E5F;&#x662F;&#x4E00;&#x500B; Series</p>
+<pre><code class="lang-py">df = DataFrame(np.random.randn(<span class="hljs-number">10</span>, <span class="hljs-number">4</span>), columns=[<span class="hljs-string">&apos;A&apos;</span>, <span class="hljs-string">&apos;B&apos;</span>, <span class="hljs-string">&apos;C&apos;</span>, <span class="hljs-string">&apos;D&apos;</span>])
+idx = df.columns <span class="hljs-comment"># get col index</span>
+label = df.columns[<span class="hljs-number">0</span>] <span class="hljs-comment"># 1st col label</span>
+lst = df.columns.tolist() <span class="hljs-comment"># get as a list</span>
+</code></pre>
+<pre><code class="lang-py">lst
+[<span class="hljs-string">&apos;A&apos;</span>, <span class="hljs-string">&apos;B&apos;</span>, <span class="hljs-string">&apos;C&apos;</span>, <span class="hljs-string">&apos;D&apos;</span>]
+In [<span class="hljs-number">32</span>]:
+label
+Out[<span class="hljs-number">32</span>]:
+<span class="hljs-string">&apos;A&apos;</span>
+In [<span class="hljs-number">33</span>]:
+idx
+Out[<span class="hljs-number">33</span>]:
+Index([<span class="hljs-string">u&apos;A&apos;</span>, <span class="hljs-string">u&apos;B&apos;</span>, <span class="hljs-string">u&apos;C&apos;</span>, <span class="hljs-string">u&apos;D&apos;</span>], dtype=<span class="hljs-string">&apos;object&apos;</span>)
+</code></pre>
+<h3 id="column-&#x6539;&#x540D;">column &#x6539;&#x540D;</h3>
+<pre><code class="lang-py"><span class="hljs-comment"># df.rename(columns={&apos;old&apos;:&apos;new&apos;}, inplace=True)</span>
+<span class="hljs-comment"># df = df.rename(columns={&apos;a&apos;:1,&apos;b&apos;:&apos;x&apos;})</span>
+</code></pre>
+<p>&#x9078;&#x64C7; columns, &#x4E5F;&#x5C31;&#x662F;&#x63D0;&#x53D6;&#x5217;</p>
+<pre><code>
+s = df[&apos;C&apos;] # select col to Series
+df = df[[&apos;C&apos;]] # select col to df
+df = df[[&apos;A&apos;,&apos;B&apos;]] # select 2 or more
+df = df[[&apos;C&apos;, &apos;B&apos;, &apos;A&apos;]]# change order &#x6539;&#x8B8A;&#x6392;&#x5E8F;&#x4E86;
+s = df[df.columns[0]] # select by number
+f = df[df.columns[[0, 3, 4]] # by number
+s = df.pop(&apos;C&apos;) # get col &amp; drop from df == df[&apos;C&apos;]
+</code></pre><p>&#x7528; python &#x7279;&#x6027;&#x63D0;&#x53D6;&#x5217;</p>
+<pre><code class="lang-py">s = df.A <span class="hljs-comment"># same as s = df[&apos;A&apos;],</span>
+<span class="hljs-comment"># &#x4F46;&#x4E0D;&#x80FD;&#x7528; python &#x7279;&#x6027;&#x5275;&#x5EFA;&#x65B0;&#x7684; columns</span>
+<span class="hljs-comment"># df[&apos;new_col&apos;] = df.a / df.b</span>
+</code></pre>
+<p>&#x6DFB;&#x52A0;&#x65B0;&#x7684; columns&#xFF0C;&#x6DFB;&#x52A0;&#x4E00;&#x500B; column &#x662F;&#x6975;&#x70BA;&#x65B9;&#x4FBF;&#x7684;&#xFF0C;&#x53EA;&#x8981;&#x80FD;&#x6DFB;&#x52A0;&#x4E00;&#x7D44;&#x6578;&#x64DA;&#x5C31;&#x884C;</p>
+<pre><code class="lang-py">df[<span class="hljs-string">&apos;new_col&apos;</span>] = range(len(df))
+df[<span class="hljs-string">&apos;new_col&apos;</span>] = np.repeat(np.nan,len(df))
+df[<span class="hljs-string">&apos;random&apos;</span>] = np.random.rand(len(df))
+df[<span class="hljs-string">&apos;index_as_col&apos;</span>] = df.index
+</code></pre>
+<pre><code class="lang-py">df.head(<span class="hljs-number">2</span>)
+</code></pre>
+<div class="output_area container">
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>A</th>
+      <th>B</th>
+      <th>C</th>
+      <th>D</th>
+      <th>new_col</th>
+      <th>random</th>
+      <th>index_as_col</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.458326</td>
+      <td>-1.402187</td>
+      <td>0.446208</td>
+      <td>-0.459079</td>
+      <td>NaN</td>
+      <td>0.920599</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.366833</td>
+      <td>0.618661</td>
+      <td>-0.727332</td>
+      <td>1.152775</td>
+      <td>NaN</td>
+      <td>0.503750</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+
+<p>&#x8A73;&#x60C5;&#x53C3;&#x8003; df1[[&#x2018;b&#x2019;,&#x2019;c&#x2019;]] = df2[[&#x2018;e&#x2019;,&#x2019;f&#x2019;]] df3 = df1.append(other=df2)</p>
+<h3 id="&#x5224;&#x5B9A;&#x51FD;&#x6578;-pdserieswhere">&#x5224;&#x5B9A;&#x51FD;&#x6578; pd.Series.where</h3>
+<pre><code class="lang-py"><span class="hljs-comment"># &#x7B26;&#x5408; &gt;0 &#x689D;&#x4EF6;&#x7684;&#x4FDD;&#x6301;&#x539F;&#x503C;&#xFF0C;&#x5176;&#x4ED6; =0</span>
+df[<span class="hljs-string">&apos;A&apos;</span>] = df[<span class="hljs-string">&apos;A&apos;</span>].where(df[<span class="hljs-string">&apos;A&apos;</span>]&gt;<span class="hljs-number">0</span>, other=<span class="hljs-number">0</span>)
+<span class="hljs-comment"># df[&apos;d&apos;]=df[&apos;a&apos;].where(df.b!=0,other=df.c)</span>
+</code></pre>
+<h3 id="&#x6578;&#x64DA;&#x683C;&#x5F0F;-&#x8F49;&#x63DB;&#x4E00;&#x5217;&#x7684;&#x683C;&#x5F0F;&#x6642;&#x975E;&#x5E38;&#x6709;&#x7528;&#x3002;">&#x6578;&#x64DA;&#x683C;&#x5F0F; &#x8F49;&#x63DB;&#x4E00;&#x5217;&#x7684;&#x683C;&#x5F0F;&#x6642;&#x975E;&#x5E38;&#x6709;&#x7528;&#x3002;</h3>
+<p>s = df[&#x2018;col&#x2019;].astype(str) # Series dtype na = df[&#x2018;col&#x2019;].values # numpy array pl = df[&#x2018;col&#x2019;].tolist() # python list</p>
+<h3 id="columns-&#x7684;&#x4E00;&#x4E9B;&#x7279;&#x6027;&#x548C;&#x65B9;&#x6CD5;">columns &#x7684;&#x4E00;&#x4E9B;&#x7279;&#x6027;&#x548C;&#x65B9;&#x6CD5;</h3>
+<p>value = df[&#x2018;col&#x2019;].dtype # type of data value = df[&#x2018;col&#x2019;].size # col dimensions value = df[&#x2018;col&#x2019;].count()# non-NA count value = df[&#x2018;col&#x2019;].sum() value = df[&#x2018;col&#x2019;].prod() value = df[&#x2018;col&#x2019;].min() value = df[&#x2018;col&#x2019;].max() value = df[&#x2018;col&#x2019;].mean() value = df[&#x2018;col&#x2019;].median() value = df[&#x2018;col&#x2019;].cov(df[&#x2018;col2&#x2019;]) s = df[&#x2018;col&#x2019;].describe() s = df[&#x2018;col&#x2019;].value_counts()</p>
+<h3 id="&#x627E;&#x51FA;&#x6700;&#x5C0F;&#x503C;&#x548C;&#x6700;&#x5927;&#x503C;&#x7684;&#x4F4D;&#x7F6E;">&#x627E;&#x51FA;&#x6700;&#x5C0F;&#x503C;&#x548C;&#x6700;&#x5927;&#x503C;&#x7684;&#x4F4D;&#x7F6E;</h3>
+<pre><code class="lang-py">df[<span class="hljs-string">&apos;B&apos;</span>].idxmax()
+df[<span class="hljs-string">&apos;B&apos;</span>].idxmin()
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-number">7</span>
+</code></pre>
+<h3 id="&#x5143;&#x7D20;&#x7D1A;&#x65B9;&#x6CD5;">&#x5143;&#x7D20;&#x7D1A;&#x65B9;&#x6CD5;</h3>
+<pre><code class="lang-py">s = df[&#x2018;col&#x2019;].isnull() s = df[&#x2018;col&#x2019;].notnull() <span class="hljs-comment"># not isnull() s = df[&#x2018;col&#x2019;].astype(float) s = df[&#x2018;col&#x2019;].round(decimals=0) s = df[&#x2018;col&#x2019;].diff(periods=1) s = df[&#x2018;col&#x2019;].shift(periods=1) s = df[&#x2018;col&#x2019;].to_datetime() s = df[&#x2018;col&#x2019;].fillna(0) # replace NaN w 0 s = df[&#x2018;col&#x2019;].cumsum() s = df[&#x2018;col&#x2019;].cumprod() s = df[&#x2018;col&#x2019;].pct_change(periods=4) s = df[&#x2018;col&#x2019;].rolling_sum(periods=4, window=4)</span>
+</code></pre>
+<pre><code class="lang-py">df = df.mul(s, axis=<span class="hljs-number">0</span>) <span class="hljs-comment"># on matched rows,&#x76F8;&#x7576;&#x65BC; * other Series &#x6BCF;&#x884C;&#x90FD;&#x8207;&#x4E4B;&#x76F8;&#x4E58;</span>
+</code></pre>
+<pre><code class="lang-py">df.columns.get_loc(<span class="hljs-string">&apos;B&apos;</span>)
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-number">0</span>
+</code></pre>
+<pre><code class="lang-py">
+df = df.iloc[:, <span class="hljs-number">0</span>:<span class="hljs-number">2</span>] <span class="hljs-comment"># exclusive</span>
+</code></pre>
+<h3 id="&#x7372;&#x53D6;-columns-&#x7684;&#x5177;&#x9AD4;&#x4F4D;&#x7F6E;">&#x7372;&#x53D6; columns &#x7684;&#x5177;&#x9AD4;&#x4F4D;&#x7F6E;</h3>
+<pre><code class="lang-py">df
+</code></pre>
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year</th>
+      <th>state</th>
+      <th>pop</th>
+      <th>debt</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>one</th>
+      <td>2000</td>
+      <td>Ohino</td>
+      <td>1.5</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>two</th>
+      <td>2001</td>
+      <td>Ohino</td>
+      <td>1.7</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>three</th>
+      <td>2002</td>
+      <td>Ohino</td>
+      <td>3.6</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>four</th>
+      <td>2001</td>
+      <td>Nevada</td>
+      <td>2.4</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>five</th>
+      <td>2002</td>
+      <td>Nevada</td>
+      <td>2.9</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>&#x4E0B;&#x9762;&#x90A3;&#x500B;&#x597D;&#x50CF;&#x6C92;&#x4EC0;&#x9EBC;&#x8EDF;&#x7528;</p>
+<pre><code class="lang-py">In [<span class="hljs-number">167</span>]:
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> [<span class="hljs-string">&apos;pop&apos;</span>, <span class="hljs-string">&apos;state&apos;</span>]:
+    <span class="hljs-keyword">print</span> df.columns.get_loc(i)
+<span class="hljs-number">2</span>
+<span class="hljs-number">1</span>
+In [<span class="hljs-number">152</span>]:
+Series(df.columns)
+Out[<span class="hljs-number">152</span>]:
+<span class="hljs-number">0</span>     year
+<span class="hljs-number">1</span>    state
+<span class="hljs-number">2</span>      pop
+<span class="hljs-number">3</span>     debt
+dtype: object
+</code></pre>
+<h2 id="14-dataframe-rows-&#x884C;&#x8655;&#x7406;">1.4. DataFrame rows &#x884C;&#x8655;&#x7406;</h2>
+<h3 id="&#x7372;&#x53D6;&#x7D22;&#x5F15;&#x548C;&#x6A19;&#x7C64;">&#x7372;&#x53D6;&#x7D22;&#x5F15;&#x548C;&#x6A19;&#x7C64;</h3>
+<pre><code class="lang-py">idx = df.index <span class="hljs-comment"># get row index</span>
+label = df.index[<span class="hljs-number">0</span>] <span class="hljs-comment"># 1st row label</span>
+lst = df.index.tolist() <span class="hljs-comment"># get as a list</span>
+</code></pre>
+<h3 id="&#x6539;&#x8B8A;&#x7D22;&#x5F15;&#x6216;&#x884C;&#x540D;">&#x6539;&#x8B8A;&#x7D22;&#x5F15;&#x6216;&#x884C;&#x540D;</h3>
+<pre><code class="lang-py">df.index = idx <span class="hljs-comment"># new ad hoc index</span>
+df.index = range(len(df)) <span class="hljs-comment"># set with list</span>
+df = df.reset_index() <span class="hljs-comment"># replace old w new</span>
+<span class="hljs-comment"># note: old index stored as a col in df</span>
+df = df.reindex(index=range(len(df)))
+df = df.set_index(keys=[<span class="hljs-string">&apos;r1&apos;</span>,<span class="hljs-string">&apos;r2&apos;</span>,<span class="hljs-string">&apos;etc&apos;</span>])
+df.rename(index={<span class="hljs-string">&apos;old&apos;</span>:<span class="hljs-string">&apos;new&apos;</span>},inplace=<span class="hljs-keyword">True</span>)
+</code></pre>
+<h3 id="drop-row-&#x522A;&#x9664;&#x884C;">Drop row &#x522A;&#x9664;&#x884C;</h3>
+<pre><code class="lang-`py">df = df.drop(&#x2018;row_label&#x2019;) df = df.drop(row1) # multi-row df = df.drop([&#x2018;row1&#x2019;,&#x2019;row2&#x2019;]) # multi-row
+</code></pre>
+<h3 id="&#x67E5;&#x627E;&#x4E00;&#x4E9B;&#x884C;">&#x67E5;&#x627E;&#x4E00;&#x4E9B;&#x884C;</h3>
+<pre><code class="lang-py">In [<span class="hljs-number">23</span>]:
+<span class="hljs-comment"># fake up some data</span>
+data = {<span class="hljs-number">1</span>:[<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>], <span class="hljs-number">2</span>:[<span class="hljs-number">4</span>,<span class="hljs-number">1</span>,<span class="hljs-number">9</span>], <span class="hljs-number">3</span>:[<span class="hljs-number">1</span>,<span class="hljs-number">8</span>,<span class="hljs-number">27</span>]}
+df = pd.DataFrame(data)
+In [<span class="hljs-number">4</span>]:
+<span class="hljs-comment"># multi-column isin</span>
+lf = {<span class="hljs-number">1</span>:[<span class="hljs-number">1</span>, <span class="hljs-number">3</span>], <span class="hljs-number">3</span>:[<span class="hljs-number">8</span>, <span class="hljs-number">27</span>]} <span class="hljs-comment"># look for</span>
+f = df[df[list(lf)].isin(lf).all(axis=<span class="hljs-number">1</span>)] <span class="hljs-comment"># &#x9019;&#x88E1;&#x770B;&#x4E0D;&#x592A;&#x61C2;</span>
+</code></pre>
+<h3 id="&#x5C0D;&#x884C;&#x505A;&#x6392;&#x5E8F;">&#x5C0D;&#x884C;&#x505A;&#x6392;&#x5E8F;</h3>
+<pre><code class="lang-py">df_obj.sort(columns = &#x2018;&#x2019;)<span class="hljs-comment">#&#x6309;&#x5217;&#x540D;&#x9032;&#x884C;&#x6392;&#x5E8F;</span>
+df_obj.sort_index(by=[&#x2018;&#x2019;,&#x2019;&#x2019;])<span class="hljs-comment">#&#x591A;&#x5217;&#x6392;&#x5E8F;,&#x4F7F;&#x7528;&#x6642;&#x5831;&#x8A72;&#x51FD;&#x6578;&#x5DF2;&#x904E;&#x6642;,&#x8ACB;&#x7528;sort_values</span>
+df_obj.sort_values(by=[<span class="hljs-string">&apos;&apos;</span>,<span class="hljs-string">&apos;&apos;</span>])&#x540C;&#x4E0A;
+</code></pre>
+<h3 id="&#x7D22;&#x5F15;&#x524D;&#x594F;">&#x7D22;&#x5F15;&#x524D;&#x594F;</h3>
+<pre><code class="lang-py">df0 = DataFrame({<span class="hljs-string">&apos;x&apos;</span>: [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>], <span class="hljs-string">&apos;y&apos;</span>: [<span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>]}, index=[<span class="hljs-number">3</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>])
+df1 = DataFrame([[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>,], [<span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>], [<span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>]], index=[<span class="hljs-number">3</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>])
+</code></pre>
+<pre><code class="lang-py">df0
+</code></pre>
+<div class="output_area container">
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>x</th>
+      <th>y</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3</td>
+      <td>5</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+
+
+<pre><code class="lang-py">df0[<span class="hljs-number">1</span>:<span class="hljs-number">2</span>]
+</code></pre>
+<table border="" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>x</th>
+      <th>y</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>4</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<pre><code class="lang-py">df1
+</code></pre>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>4</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>6</td>
+      <td>7</td>
+      <td>8</td>
+    </tr>
+  </tbody>
+</table>
+
+<pre><code class="lang-py">df1[<span class="hljs-number">0</span>]
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-number">3</span>    <span class="hljs-number">1</span>
+<span class="hljs-number">2</span>    <span class="hljs-number">3</span>
+<span class="hljs-number">1</span>    <span class="hljs-number">6</span>
+Name: <span class="hljs-number">0</span>, dtype: int64
+</code></pre>
+<pre><code class="lang-py">df1[<span class="hljs-number">0</span>:<span class="hljs-number">2</span>]
+</code></pre>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>4</td>
+      <td>5</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<pre><code class="lang-py">df1.ix[:, <span class="hljs-number">0</span>:<span class="hljs-number">2</span>]
+</code></pre>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>4</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>6</td>
+      <td>7</td>
+      <td>8</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<pre><code class="lang-py">df0[[<span class="hljs-string">&apos;x&apos;</span>,<span class="hljs-string">&apos;y&apos;</span>]]
+</code></pre>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>x</th>
+      <th>y</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3</td>
+      <td>5</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<h2 id="15-&#x7D22;&#x5F15;&#x548C;&#x5207;&#x7247;">1.5. &#x7D22;&#x5F15;&#x548C;&#x5207;&#x7247;</h2>
+<p>&#x6574;&#x6578;&#x6642;&#x4E00;&#x822C;&#x662F;&#x4E0D;&#x5305;&#x542B;&#x7684;&#xFF0C;&#x975E;&#x6574;&#x6578;&#x5247;&#x6703;&#x5305;&#x542B;&#x5C3E;&#x5DF4;&#xFF08;&#x57FA;&#x65BC; label&#xFF09;</p>
+<pre><code class="lang-py">foo = DataFrame([<span class="hljs-number">4.5</span>, <span class="hljs-number">7.2</span>, -<span class="hljs-number">5.3</span>, <span class="hljs-number">3.6</span>], index=[<span class="hljs-string">&apos;a&apos;</span>, <span class="hljs-string">&apos;b&apos;</span>, <span class="hljs-string">&apos;c&apos;</span>, <span class="hljs-string">&apos;d&apos;</span>])
+bar = DataFrame([<span class="hljs-number">4.5</span>, <span class="hljs-number">7.2</span>, -<span class="hljs-number">5.3</span>, <span class="hljs-number">3.6</span>], index=range(<span class="hljs-number">4</span>))
+</code></pre>
+<pre><code class="lang-py">print(foo)
+<span class="hljs-keyword">print</span> <span class="hljs-string">&apos;------&apos;</span>
+print(bar)
+</code></pre>
+<pre><code class="lang-py">     <span class="hljs-number">0</span>
+a  <span class="hljs-number">4.5</span>
+b  <span class="hljs-number">7.2</span>
+c -<span class="hljs-number">5.3</span>
+d  <span class="hljs-number">3.6</span>
+------
+     <span class="hljs-number">0</span>
+<span class="hljs-number">0</span>  <span class="hljs-number">4.5</span>
+<span class="hljs-number">1</span>  <span class="hljs-number">7.2</span>
+<span class="hljs-number">2</span> -<span class="hljs-number">5.3</span>
+<span class="hljs-number">3</span>  <span class="hljs-number">3.6</span>
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-keyword">print</span> foo[:<span class="hljs-number">2</span>]
+<span class="hljs-keyword">print</span> <span class="hljs-string">&apos;------&apos;</span>
+<span class="hljs-keyword">print</span> bar[:<span class="hljs-number">2</span>]
+<span class="hljs-keyword">print</span> <span class="hljs-string">&apos;------&apos;</span>
+<span class="hljs-keyword">print</span> foo[:<span class="hljs-string">&apos;c&apos;</span>]
+</code></pre>
+<pre><code class="lang-py">     <span class="hljs-number">0</span>
+a  <span class="hljs-number">4.5</span>
+b  <span class="hljs-number">7.2</span>
+------
+     <span class="hljs-number">0</span>
+<span class="hljs-number">0</span>  <span class="hljs-number">4.5</span>
+<span class="hljs-number">1</span>  <span class="hljs-number">7.2</span>
+------
+     <span class="hljs-number">0</span>
+a  <span class="hljs-number">4.5</span>
+b  <span class="hljs-number">7.2</span>
+c -<span class="hljs-number">5.3</span>
+</code></pre>
+<pre><code class="lang-py">ix[::, ::] &#x53EF;&#x4EE5;&#x63A5;&#x53D7;&#x5169;&#x5957;&#x5207;&#x7247;&#xFF08;axis=<span class="hljs-number">0</span>)&#x6A6B;&#x5411;&#xFF0C;(axis=<span class="hljs-number">1</span>)&#x5217;&#x5411;
+</code></pre>
+<pre><code class="lang-py">data = {<span class="hljs-string">&apos;state&apos;</span>:[<span class="hljs-string">&apos;Ohino&apos;</span>,<span class="hljs-string">&apos;Ohino&apos;</span>,<span class="hljs-string">&apos;Ohino&apos;</span>,<span class="hljs-string">&apos;Nevada&apos;</span>,<span class="hljs-string">&apos;Nevada&apos;</span>],
+        <span class="hljs-string">&apos;year&apos;</span>:[<span class="hljs-number">2000</span>,<span class="hljs-number">2001</span>,<span class="hljs-number">2002</span>,<span class="hljs-number">2001</span>,<span class="hljs-number">2002</span>],
+        <span class="hljs-string">&apos;pop&apos;</span>:[<span class="hljs-number">1.5</span>,<span class="hljs-number">1.7</span>,<span class="hljs-number">3.6</span>,<span class="hljs-number">2.4</span>,<span class="hljs-number">2.9</span>]}
+
+df = DataFrame(data,index=[<span class="hljs-string">&apos;one&apos;</span>,<span class="hljs-string">&apos;two&apos;</span>,<span class="hljs-string">&apos;three&apos;</span>,<span class="hljs-string">&apos;four&apos;</span>,<span class="hljs-string">&apos;five&apos;</span>],
+               columns=[<span class="hljs-string">&apos;year&apos;</span>,<span class="hljs-string">&apos;state&apos;</span>,<span class="hljs-string">&apos;pop&apos;</span>,<span class="hljs-string">&apos;debt&apos;</span>])
+</code></pre>
+<pre><code class="lang-py">df
+</code></pre>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year</th>
+      <th>state</th>
+      <th>pop</th>
+      <th>debt</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>one</th>
+      <td>2000</td>
+      <td>Ohino</td>
+      <td>1.5</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>two</th>
+      <td>2001</td>
+      <td>Ohino</td>
+      <td>1.7</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>three</th>
+      <td>2002</td>
+      <td>Ohino</td>
+      <td>3.6</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>four</th>
+      <td>2001</td>
+      <td>Nevada</td>
+      <td>2.4</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>five</th>
+      <td>2002</td>
+      <td>Nevada</td>
+      <td>2.9</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+
+<pre><code class="lang-py">df.ix[:, <span class="hljs-string">&apos;state&apos;</span>:<span class="hljs-string">&apos;pop&apos;</span>]
+</code></pre>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>state</th>
+      <th>pop</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>one</th>
+      <td>Ohino</td>
+      <td>1.5</td>
+    </tr>
+    <tr>
+      <th>two</th>
+      <td>Ohino</td>
+      <td>1.7</td>
+    </tr>
+    <tr>
+      <th>three</th>
+      <td>Ohino</td>
+      <td>3.6</td>
+    </tr>
+    <tr>
+      <th>four</th>
+      <td>Nevada</td>
+      <td>2.4</td>
+    </tr>
+    <tr>
+      <th>five</th>
+      <td>Nevada</td>
+      <td>2.9</td>
+    </tr>
+  </tbody>
+</table>
+
+<pre><code class="lang-py">df.ix[<span class="hljs-number">1</span>] <span class="hljs-comment"># &#x5207;&#x7684;&#x662F;&#x884C;&#xFF0C;&#x6240;&#x4EE5;&#x8AAA; ix &#x9ED8;&#x8A8D;&#x5207;&#x7684;&#x884C;&#xFF0C; &#x4E5F;&#x5C31;&#x662F; axis=0</span>
+</code></pre>
+<pre><code class="lang-py">year      <span class="hljs-number">2001</span>
+state    Ohino
+pop        <span class="hljs-number">1.7</span>
+debt       NaN
+Name: two, dtype: object
+</code></pre>
+<h2 id="&#x975E;-ix">&#x975E; ix</h2>
+<p>ix &#x53EF;&#x4EE5;&#x8AAA;&#x662F; pandas &#x7684;&#x6A19;&#x6E96;&#x5207;&#x6CD5;&#xFF0C;&#x800C;&#x6C92;&#x6709; ix &#x6642;&#xFF0C;&#x60C5;&#x6CC1;&#x5C31;&#x7565;&#x8907;&#x96DC;&#x4E9B;&#x4E86;&#xFF0C;&#x4F5C;&#x8005;&#x8AAA;&#xFF1A;</p>
+<ul>
+<li><code>&#x7D22;&#x5F15;&#x6642;&#xFF0C;&#x9078;&#x53D6;&#x7684;&#x662F;&#x5217;</code></li>
+<li><code>&#x5207;&#x7247;&#x6642;&#xFF0C;&#x9078;&#x53D6;&#x7684;&#x662F;&#x884C;</code></li>
+</ul>
+<p>&#x8A18;&#x4F4F;&#x4E00;&#x9EDE;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x60F3;&#x770B;&#x55AE;&#x5217;&#x6216;&#x5C11;&#x6578;&#x5217;&#x7684;&#x7D22;&#x5F15;&#xFF0C;&#x90A3;&#x9EBC;&#x76F4;&#x63A5;&#x7528; df[&#x2018;column&#x2019;], &#x5176;&#x4ED6;&#x5C31;</p>
+<pre><code class="lang-py">print(type(df[<span class="hljs-string">&apos;year&apos;</span>]))
+print(type(df[[<span class="hljs-string">&apos;year&apos;</span>]]))
+</code></pre>
+<pre><code class="lang-py">&lt;class &apos;pandas.core.series.Series&apos;&gt;
+&lt;class &apos;pandas.core.frame.DataFrame&apos;&gt;
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-comment"># df[&apos;one&apos;] # &#x6703;&#x5831;&#x932F;&#xFF0C;&#x6C92;&#x8FA6;&#x6CD5;&#x9019;&#x6A23;&#x7D22;&#x5F15;,&#x9019;&#x662F;&#x884C;</span>
+df[[<span class="hljs-string">&apos;year&apos;</span>, <span class="hljs-string">&apos;state&apos;</span>]] <span class="hljs-comment"># &#x53EF;&#x904B;&#x884C;</span>
+</code></pre>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year</th>
+      <th>state</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>one</th>
+      <td>2000</td>
+      <td>Ohino</td>
+    </tr>
+    <tr>
+      <th>two</th>
+      <td>2001</td>
+      <td>Ohino</td>
+    </tr>
+    <tr>
+      <th>three</th>
+      <td>2002</td>
+      <td>Ohino</td>
+    </tr>
+    <tr>
+      <th>four</th>
+      <td>2001</td>
+      <td>Nevada</td>
+    </tr>
+    <tr>
+      <th>five</th>
+      <td>2002</td>
+      <td>Nevada</td>
+    </tr>
+  </tbody>
+</table>
+
+<pre><code class="lang-py">
+df[<span class="hljs-number">0</span>:<span class="hljs-number">1</span>] <span class="hljs-comment"># &#x5207;&#x7B2C;&#x4E00;&#x884C;&#xFF0C;&#x76F4;&#x63A5; df[0] &#x662F;&#x6703;&#x5831;&#x932F;&#x7684;&#x3002;&#x800C; ix &#x4E0D;&#x6703;&#x3002;</span>
+</code></pre>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year</th>
+      <th>state</th>
+      <th>pop</th>
+      <th>debt</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>one</th>
+      <td>2000</td>
+      <td>Ohino</td>
+      <td>1.5</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<pre><code class="lang-py">df[<span class="hljs-string">&apos;one&apos;</span>:<span class="hljs-string">&apos;two&apos;</span>] <span class="hljs-comment"># &#x6240;&#x4EE5;&#x4ED6;&#x4E5F;&#x662F;&#x53EF;&#x4EE5;&#x6574;&#x6578;&#x5207;&#xFF0C;&#x4E5F;&#x80FD;&#x6A19;&#x7C64;&#x5207;</span>
+</code></pre>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year</th>
+      <th>state</th>
+      <th>pop</th>
+      <th>debt</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>one</th>
+      <td>2000</td>
+      <td>Ohino</td>
+      <td>1.5</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>two</th>
+      <td>2001</td>
+      <td>Ohino</td>
+      <td>1.7</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<pre><code class="lang-py">print(df.columns.tolist())
+print(df.index.tolist())
+</code></pre>
+<pre><code class="lang-py">[<span class="hljs-string">&apos;year&apos;</span>, <span class="hljs-string">&apos;state&apos;</span>, <span class="hljs-string">&apos;pop&apos;</span>, <span class="hljs-string">&apos;debt&apos;</span>]
+[<span class="hljs-string">&apos;one&apos;</span>, <span class="hljs-string">&apos;two&apos;</span>, <span class="hljs-string">&apos;three&apos;</span>, <span class="hljs-string">&apos;four&apos;</span>, <span class="hljs-string">&apos;five&apos;</span>]
+</code></pre>
+<pre><code class="lang-py">df.loc[:, <span class="hljs-string">&apos;year&apos;</span>:<span class="hljs-string">&apos;state&apos;</span>]
+</code></pre>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year</th>
+      <th>state</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>one</th>
+      <td>2000</td>
+      <td>Ohino</td>
+    </tr>
+    <tr>
+      <th>two</th>
+      <td>2001</td>
+      <td>Ohino</td>
+    </tr>
+    <tr>
+      <th>three</th>
+      <td>2002</td>
+      <td>Ohino</td>
+    </tr>
+    <tr>
+      <th>four</th>
+      <td>2001</td>
+      <td>Nevada</td>
+    </tr>
+    <tr>
+      <th>five</th>
+      <td>2002</td>
+      <td>Nevada</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<p>df.iloc[:, 1:2]</p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>state</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>one</th>
+      <td>Ohino</td>
+    </tr>
+    <tr>
+      <th>two</th>
+      <td>Ohino</td>
+    </tr>
+    <tr>
+      <th>three</th>
+      <td>Ohino</td>
+    </tr>
+    <tr>
+      <th>four</th>
+      <td>Nevada</td>
+    </tr>
+    <tr>
+      <th>five</th>
+      <td>Nevada</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<ul>
+<li><code>.loc[label] &#x9019;&#x662F;&#x56B4;&#x683C;&#x57FA;&#x65BC;&#x6A19;&#x7C64;&#x7684;&#x7D22;&#x5F15;</code></li>
+<li><code>.iloc[inte] &#x9019;&#x662F;&#x56B4;&#x683C;&#x57FA;&#x65BC;&#x6574;&#x6578;&#x4F4D;&#x7F6E;&#x7684;&#x7D22;&#x5F15;</code></li>
+<li><code>.ix[] &#x66F4;&#x50CF;&#x662F;&#x9019;&#x5169;&#x7A2E;&#x56B4;&#x683C;&#x65B9;&#x5F0F;&#x7684;&#x667A;&#x80FD;&#x6574;&#x5408;&#x7248;&#x3002;</code></li>
+</ul>
+<pre><code class="lang-py"><span class="hljs-comment"># df.loc[1:2] &#x7528; label &#x7684;&#x53BB;&#x5207;&#x6574;&#x6578;&#xFF0C;&#x81EA;&#x7136;&#x6703;&#x51FA;&#x932F;</span>
+<span class="hljs-comment"># df.iloc[&apos;two&apos;:&apos;three&apos;] &#x4E5F;&#x6703;&#x51FA;&#x932F;</span>
+</code></pre>
+<pre><code class="lang-py">df.loc[<span class="hljs-string">&apos;two&apos;</span>:<span class="hljs-string">&apos;three&apos;</span>]
+</code></pre>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year</th>
+      <th>state</th>
+      <th>pop</th>
+      <th>debt</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>two</th>
+      <td>2001</td>
+      <td>Ohino</td>
+      <td>1.7</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>three</th>
+      <td>2002</td>
+      <td>Ohino</td>
+      <td>3.6</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+
+<pre><code class="lang-py">df.iloc[<span class="hljs-number">1</span>:<span class="hljs-number">2</span>]
+</code></pre>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year</th>
+      <th>state</th>
+      <th>pop</th>
+      <th>debt</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>two</th>
+      <td>2001</td>
+      <td>Ohino</td>
+      <td>1.7</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<h2 id="&#x5C0F;&#x7D50;&#xFF1A;">&#x5C0F;&#x7D50;&#xFF1A;</h2>
+<ul>
+<li>&#x5118;&#x91CF;&#x5BEB;&#x5169;&#x5957;&#x5207;&#x7247;&#xFF0C;&#x9664;&#x975E;&#x662F;&#x7D22;&#x5F15;&#x55AE;&#x5217;&#x5247;&#x7528; df[column]</li>
+<li>&#x591A;&#x7528; iloc &#x548C; loc, &#x9664;&#x975E;&#x4F60;&#x5F88;&#x6E05;&#x6670;&#x7684;&#x57FA;&#x65BC;&#x6A19;&#x7C64;</li>
+</ul>
+<pre><code class="lang-py">df2.info() <span class="hljs-comment"># &#x8AAA;&#x660E;&#xFF0C;ix&#x5728;&#x9019;&#x7A2E;&#x975E;&#x6574;&#x6578;&#x7684;&#x6574;&#x6578;&#x6A19;&#x7C64;&#x4E0A;&#xFF0C;&#x4ED6;&#x7684;&#x5207;&#x7247;&#x8DDF;loc&#x4E00;&#x6A23;&#xFF0C;&#x662F;&#x57FA;&#x65BC;&#x6A19;&#x7C64;&#x7684;&#xFF0C;&#x800C;&#x53E6;&#x5916;&#x5169;&#x500B;&#x525B;&#x597D;&#x76F8;&#x53CD;&#x3002;</span>
 </code></pre>
 
                     

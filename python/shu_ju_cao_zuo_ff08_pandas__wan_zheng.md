@@ -1105,3 +1105,86 @@ print(df.index.tolist())
 ```py
 df.loc[:, 'year':'state']
 ```
+
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year</th>
+      <th>state</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>one</th>
+      <td>2000</td>
+      <td>Ohino</td>
+    </tr>
+    <tr>
+      <th>two</th>
+      <td>2001</td>
+      <td>Ohino</td>
+    </tr>
+    <tr>
+      <th>three</th>
+      <td>2002</td>
+      <td>Ohino</td>
+    </tr>
+    <tr>
+      <th>four</th>
+      <td>2001</td>
+      <td>Nevada</td>
+    </tr>
+    <tr>
+      <th>five</th>
+      <td>2002</td>
+      <td>Nevada</td>
+    </tr>
+  </tbody>
+</table>
+
+
+df.iloc[:, 1:2]
+
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>state</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>one</th>
+      <td>Ohino</td>
+    </tr>
+    <tr>
+      <th>two</th>
+      <td>Ohino</td>
+    </tr>
+    <tr>
+      <th>three</th>
+      <td>Ohino</td>
+    </tr>
+    <tr>
+      <th>four</th>
+      <td>Nevada</td>
+    </tr>
+    <tr>
+      <th>five</th>
+      <td>Nevada</td>
+    </tr>
+  </tbody>
+</table>
+
+
+- `.loc[label] 这是严格基于标签的索引`
+- `.iloc[inte] 这是严格基于整数位置的索引`
+- `.ix[] 更像是这两种严格方式的智能整合版。`
+- 
+
+
+```py
+# df.loc[1:2] 用 label 的去切整数，自然会出错
+# df.iloc['two':'three'] 也会出错
+```

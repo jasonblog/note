@@ -979,3 +979,129 @@ ix 可以说是 pandas 的标准切法，而没有 ix 时，情况就略复杂�
 
 
 记住一点，如果你想看单列或少数列的索引，那么直接用 df[‘column’], 其他就
+
+```py
+print(type(df['year']))
+print(type(df[['year']]))
+```
+
+```py
+<class 'pandas.core.series.Series'>
+<class 'pandas.core.frame.DataFrame'>
+```
+
+```py
+# df['one'] # 会报错，没办法这样索引,这是行
+df[['year', 'state']] # 可运行
+```
+
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year</th>
+      <th>state</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>one</th>
+      <td>2000</td>
+      <td>Ohino</td>
+    </tr>
+    <tr>
+      <th>two</th>
+      <td>2001</td>
+      <td>Ohino</td>
+    </tr>
+    <tr>
+      <th>three</th>
+      <td>2002</td>
+      <td>Ohino</td>
+    </tr>
+    <tr>
+      <th>four</th>
+      <td>2001</td>
+      <td>Nevada</td>
+    </tr>
+    <tr>
+      <th>five</th>
+      <td>2002</td>
+      <td>Nevada</td>
+    </tr>
+  </tbody>
+</table>
+
+```py
+
+df[0:1] # 切第一行，直接 df[0] 是会报错的。而 ix 不会。
+```
+
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year</th>
+      <th>state</th>
+      <th>pop</th>
+      <th>debt</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>one</th>
+      <td>2000</td>
+      <td>Ohino</td>
+      <td>1.5</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+
+
+```py
+df['one':'two'] # 所以他也是可以整数切，也能标签切
+```
+
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year</th>
+      <th>state</th>
+      <th>pop</th>
+      <th>debt</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>one</th>
+      <td>2000</td>
+      <td>Ohino</td>
+      <td>1.5</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>two</th>
+      <td>2001</td>
+      <td>Ohino</td>
+      <td>1.7</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+
+
+```py
+print(df.columns.tolist())
+print(df.index.tolist())
+```
+
+```py
+['year', 'state', 'pop', 'debt']
+['one', 'two', 'three', 'four', 'five']
+```
+
+```py
+df.loc[:, 'year':'state']
+```

@@ -20,4 +20,6 @@ DataFrame 对象：Pandas DataFrame 是一个表格型的数据结构，有行�
 from IPython.display import Image
 Image(filename='../../image/DataFrame.png', width=400)
 ```
+![](./images/base_01_pandas_5_0.png)
+
 

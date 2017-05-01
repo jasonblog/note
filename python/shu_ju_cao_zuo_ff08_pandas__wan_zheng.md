@@ -110,5 +110,100 @@ dtypes: float64(4)
 memory usage: 392.0 bytes
 ```
 
+```py
+n=4
+dfh = df.head(n) # 看前 n 行
+```
 
 
+```py
+dft = df.tail(n) # 看后 n 行
+```
+
+```py
+dfs = df.describe() # 各类统计信息
+```
+
+```py
+top_left_corner_df = df.iloc[:5, :5]
+```
+
+```py
+dfT = df.T # transpose rows and cols
+```
+
+## DataFrame index 的一些特性
+
+```py
+l = df.axes # list row and col indexes
+l
+```
+
+```py
+[RangeIndex(start=0, stop=10, step=1),
+Index([u'A', u'B', u'C', u'D'], dtype='object')]
+```
+
+```py
+(r, c) = df.axes # from above
+```
+
+```py
+s = df.dtypes # Series column data types
+```
+
+```py
+A    float64
+B    float64
+C    float64
+D    float64
+dtype: object
+```
+
+```py
+b = df.empty # True for empty DataFrame
+b
+```
+
+```py
+False
+```
+
+```py
+i = df.ndim # number of axes (2)
+i
+```
+```py
+2
+```
+
+```py
+t = df.shape # (row-count, column-count)
+t
+```
+
+```py
+(10, 4)
+```
+
+```py
+(r, c) = df.shape # from above
+(r, c)
+```
+
+```py
+(10, 4)
+```
+
+```py
+i = df.size # row-count * column-count
+i
+```
+
+```py
+40
+```
+
+```py
+a = df.values # get a numpy array for df
+```

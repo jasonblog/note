@@ -121,6 +121,11 @@ print df
 mydf = [1.1, 1.2, 1.3, 1.4, 1.5,1.6]
 df.loc[len(df)] = mydf
 print df
+
+# get element
+# df.iloc[index]['column name']
+print df.iloc[0]['股票代碼']
+print df.iloc[0]['1']
 ```
 
 

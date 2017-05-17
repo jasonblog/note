@@ -9,7 +9,10 @@ int main(int argc, char* argv[])
     char buf[128];
 
     pipe(p);
+    // 填入10 byte to pipe
+    write(p[1], "HelloWorld", 10);
     memset(buf, '\0', sizeof(buf) / sizeof(buf[0]));
+    // read 128byte 
     read(p[0], buf, sizeof(buf) / sizeof(buf[0]));
     printf("buf=%s\n", buf);
 }

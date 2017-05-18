@@ -1,0 +1,29 @@
+#include <cstdlib>
+using namespace std;
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+class Solution {
+public:
+    bool isBalanced(TreeNode *root) {
+	    if (root == NULL)
+		    return true;
+	    if (root->left && root->right)
+		    return isBalanced(root->left) && isBalanced(root->right);
+	    if (root->left) {
+		    return root->left->left && !root->left->right;
+		    if (root->left->left || root->left->right)
+			    return false;
+		    else
+			    return true;
+	    }
+    }
+
+};
+int main(int argc, char **argv)
+{
+	return 0;
+}

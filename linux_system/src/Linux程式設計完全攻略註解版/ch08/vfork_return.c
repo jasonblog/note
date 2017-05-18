@@ -1,10 +1,14 @@
-#include<stdio.h>
-#include<unistd.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <stdlib.h>
+
 void test()
 {
     pid_t pid;
-    pid = vfork();
+    // vfork 共享 stack
+    //pid = vfork();
+    pid = fork();
 
     if (pid == -1) {
         perror("vfork");
@@ -16,6 +20,7 @@ void test()
         printf("2:parent pid=%d,ppid=%d\n", getpid(), getppid());
     }
 }
+
 void fun()
 {
     int i;
@@ -27,6 +32,7 @@ void fun()
 
     printf("3:child pid=%d,ppid=%d\n", getpid(), getppid());
 }
+
 int main()
 {
     pid_t pid;

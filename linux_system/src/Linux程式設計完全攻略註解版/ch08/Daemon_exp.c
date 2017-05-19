@@ -1,5 +1,4 @@
 #include <unistd.h>
-#include <time.h>
 #include <signal.h>
 #include <fcntl.h>
 #include <sys/syslog.h>
@@ -46,12 +45,12 @@ int init_daemon(const char* pname, int facility)
     umask(0);
     signal(SIGCHLD, SIG_IGN);
     openlog(pname, LOG_PID, facility);
-
     return;
 }
 
 int main(int argc, char* argv[])
 {
+    FILE* fp;
     time_t ticks;
     init_daemon(argv[0], LOG_KERN);
 

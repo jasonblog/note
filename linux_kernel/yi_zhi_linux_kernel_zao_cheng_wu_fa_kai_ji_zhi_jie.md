@@ -22,8 +22,8 @@
 
 
 <p>
+<img src="images/2017-05-15_200559.png">
 
-<img data-attachment-id="4062" data-permalink="https://szlin.me/2017/05/17/unable-to-boot-with-linux-kernel/2017-05-15_200559/" data-orig-file="https://szlin.files.wordpress.com/2017/05/2017-05-15_200559.png?w=663" data-orig-size="649,348" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="2017-05-15_200559" data-image-description="" data-medium-file="https://szlin.files.wordpress.com/2017/05/2017-05-15_200559.png?w=663?w=300" data-large-file="https://szlin.files.wordpress.com/2017/05/2017-05-15_200559.png?w=663?w=649" class="alignnone size-full wp-image-4062" src="https://szlin.files.wordpress.com/2017/05/2017-05-15_200559.png?w=663" alt="2017-05-15_200559.png" srcset="https://szlin.files.wordpress.com/2017/05/2017-05-15_200559.png 649w, https://szlin.files.wordpress.com/2017/05/2017-05-15_200559.png?w=150 150w, https://szlin.files.wordpress.com/2017/05/2017-05-15_200559.png?w=300 300w" sizes="(max-width: 649px) 100vw, 649px">
 
 </p>
 <p>最常遇到開不了機的現象就是 hang 在 <span style="color:#ff0000;">“</span><strong><span style="color:#ff0000;">Starting Kernel"</span> </strong>這邊.</p>
@@ -134,13 +134,21 @@
 <li><span style="color:#000000;"><strong>dt_to_config</strong></span> – 能根據 device tree 資訊來找相對應的 driver, 確認兩邊是相對應的.</li>
 </ul>
 <p style="padding-left:60px;">⇒ 位於 <span style="color:#ff0000;">scripts/dtc/dt_to_config</span>,&nbsp;於 Kernel 4.8 加入</p>
-<p style="padding-left:60px;"><img data-attachment-id="4358" data-permalink="https://szlin.me/2017/05/17/unable-to-boot-with-linux-kernel/2017-05-17_102828/" data-orig-file="https://szlin.files.wordpress.com/2017/05/2017-05-17_102828.png?w=915&amp;h=208" data-orig-size="1597,364" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="2017-05-17_102828" data-image-description="" data-medium-file="https://szlin.files.wordpress.com/2017/05/2017-05-17_102828.png?w=915&amp;h=208?w=300" data-large-file="https://szlin.files.wordpress.com/2017/05/2017-05-17_102828.png?w=915&amp;h=208?w=663" class="alignnone  wp-image-4358" src="https://szlin.files.wordpress.com/2017/05/2017-05-17_102828.png?w=915&amp;h=208" alt="2017-05-17_102828.png" width="915" height="208" srcset="https://szlin.files.wordpress.com/2017/05/2017-05-17_102828.png?w=913&amp;h=208 913w, https://szlin.files.wordpress.com/2017/05/2017-05-17_102828.png?w=150&amp;h=34 150w, https://szlin.files.wordpress.com/2017/05/2017-05-17_102828.png?w=300&amp;h=68 300w, https://szlin.files.wordpress.com/2017/05/2017-05-17_102828.png?w=768&amp;h=175 768w, https://szlin.files.wordpress.com/2017/05/2017-05-17_102828.png?w=1024&amp;h=233 1024w, https://szlin.files.wordpress.com/2017/05/2017-05-17_102828.png 1597w" sizes="(max-width: 915px) 100vw, 915px"></p>
+
+
+<img src="images/2017-05-17_102828.png">
+
+
+
 <p>其他還有像 dt_stat, dt_node_info&nbsp;[3][4][5] 等等的除錯工具可使用.</p>
 <hr>
 <h4><strong><span style="color:#0000ff;">2. 開啟 early printk</span></strong></h4>
 <p>Kernel 啟動時, 有可能因為 console&nbsp;還沒初始化, 導致一些錯誤訊息無法輸出顯示. 這時可以使用 earlyprintk [6] 提早輸出錯誤訊息.</p>
 <h5><strong><span style="color:#000000;">√ 開啟 Kernel 選項</span></strong></h5>
-<p><img data-attachment-id="4311" data-permalink="https://szlin.me/2017/05/17/unable-to-boot-with-linux-kernel/2017-05-16_215007/" data-orig-file="https://szlin.files.wordpress.com/2017/05/2017-05-16_215007.png?w=663" data-orig-size="1776,791" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="2017-05-16_215007" data-image-description="" data-medium-file="https://szlin.files.wordpress.com/2017/05/2017-05-16_215007.png?w=663?w=300" data-large-file="https://szlin.files.wordpress.com/2017/05/2017-05-16_215007.png?w=663?w=663" class="alignnone size-full wp-image-4311" src="https://szlin.files.wordpress.com/2017/05/2017-05-16_215007.png?w=663" alt="2017-05-16_215007.png" srcset="https://szlin.files.wordpress.com/2017/05/2017-05-16_215007.png?w=663 663w, https://szlin.files.wordpress.com/2017/05/2017-05-16_215007.png?w=1326 1326w, https://szlin.files.wordpress.com/2017/05/2017-05-16_215007.png?w=150 150w, https://szlin.files.wordpress.com/2017/05/2017-05-16_215007.png?w=300 300w, https://szlin.files.wordpress.com/2017/05/2017-05-16_215007.png?w=768 768w, https://szlin.files.wordpress.com/2017/05/2017-05-16_215007.png?w=1024 1024w" sizes="(max-width: 663px) 100vw, 663px"></p>
+
+<img src="images/2017-05-16_215007.png">
+
+
 <h5><strong><span style="color:#000000;">√ 設定 bootargs</span></strong></h5>
 <p>在 bootargs 中加入 “earlyprintk" 字串</p>
 <div><div id="highlighter_272609" class="syntaxhighlighter  bash"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash plain">setenv bootargs ${bootargs} earlyprintk</code></div></div></td></tr></tbody></table></div></div>
@@ -159,12 +167,23 @@ ffffffff&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Generic AM33XX (Flattened Dev
 <h5><strong><span style="color:#000000;">√ earlyprintk 運作原理</span></strong></h5>
 <p><span style="color:#0000ff;">earlyprintk 位於 arch/arm/kernel/early_printk.c</span></p>
 <p>由下圖可得知, 主要呼叫 printch() 來輸出字元</p>
-<p><img data-attachment-id="4379" data-permalink="https://szlin.me/2017/05/17/unable-to-boot-with-linux-kernel/%e6%9c%aa%e5%91%bd%e5%90%8d-2/" data-orig-file="https://szlin.files.wordpress.com/2017/05/e69caae591bde5908d.png?w=663" data-orig-size="1036,876" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="未命名" data-image-description="" data-medium-file="https://szlin.files.wordpress.com/2017/05/e69caae591bde5908d.png?w=663?w=300" data-large-file="https://szlin.files.wordpress.com/2017/05/e69caae591bde5908d.png?w=663?w=663" class="alignnone size-full wp-image-4379" src="https://szlin.files.wordpress.com/2017/05/e69caae591bde5908d.png?w=663" alt="未命名.png" srcset="https://szlin.files.wordpress.com/2017/05/e69caae591bde5908d.png?w=663 663w, https://szlin.files.wordpress.com/2017/05/e69caae591bde5908d.png?w=150 150w, https://szlin.files.wordpress.com/2017/05/e69caae591bde5908d.png?w=300 300w, https://szlin.files.wordpress.com/2017/05/e69caae591bde5908d.png?w=768 768w, https://szlin.files.wordpress.com/2017/05/e69caae591bde5908d.png?w=1024 1024w, https://szlin.files.wordpress.com/2017/05/e69caae591bde5908d.png 1036w" sizes="(max-width: 663px) 100vw, 663px"></p>
+
+<img src="images/e69caae591bde5908d.png">
+
+
+
 <p><span style="color:#0000ff;">printch() 位於 arch/arm/kernel/debug.S</span></p>
 <p>由下圖可知 printch() 呼叫<span style="color:#0000ff;"> addruart_current</span></p>
-<p><img data-attachment-id="4411" data-permalink="https://szlin.me/2017/05/17/unable-to-boot-with-linux-kernel/2017-05-17_113828/" data-orig-file="https://szlin.files.wordpress.com/2017/05/2017-05-17_113828.png?w=475&amp;h=124" data-orig-size="571,149" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="2017-05-17_113828" data-image-description="" data-medium-file="https://szlin.files.wordpress.com/2017/05/2017-05-17_113828.png?w=475&amp;h=124?w=300" data-large-file="https://szlin.files.wordpress.com/2017/05/2017-05-17_113828.png?w=475&amp;h=124?w=571" class="alignnone  wp-image-4411" src="https://szlin.files.wordpress.com/2017/05/2017-05-17_113828.png?w=475&amp;h=124" alt="2017-05-17_113828" width="475" height="124" srcset="https://szlin.files.wordpress.com/2017/05/2017-05-17_113828.png?w=475&amp;h=124 475w, https://szlin.files.wordpress.com/2017/05/2017-05-17_113828.png?w=150&amp;h=39 150w, https://szlin.files.wordpress.com/2017/05/2017-05-17_113828.png?w=300&amp;h=78 300w, https://szlin.files.wordpress.com/2017/05/2017-05-17_113828.png 571w" sizes="(max-width: 475px) 100vw, 475px"></p>
+
+
+<img src="images/2017-05-17_113828.png">
+
+
 <p><span style="color:#0000ff;">addruart_current</span> 為巨集, 會再呼叫 <span style="color:#0000ff;">addruart&nbsp;</span></p>
-<p><img data-attachment-id="4413" data-permalink="https://szlin.me/2017/05/17/unable-to-boot-with-linux-kernel/2017-05-17_114026/" data-orig-file="https://szlin.files.wordpress.com/2017/05/2017-05-17_114026.png?w=616&amp;h=164" data-orig-size="734,195" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="2017-05-17_114026" data-image-description="" data-medium-file="https://szlin.files.wordpress.com/2017/05/2017-05-17_114026.png?w=616&amp;h=164?w=300" data-large-file="https://szlin.files.wordpress.com/2017/05/2017-05-17_114026.png?w=616&amp;h=164?w=663" class="alignnone  wp-image-4413" src="https://szlin.files.wordpress.com/2017/05/2017-05-17_114026.png?w=616&amp;h=164" alt="2017-05-17_114026" width="616" height="164" srcset="https://szlin.files.wordpress.com/2017/05/2017-05-17_114026.png?w=616&amp;h=164 616w, https://szlin.files.wordpress.com/2017/05/2017-05-17_114026.png?w=150&amp;h=40 150w, https://szlin.files.wordpress.com/2017/05/2017-05-17_114026.png?w=300&amp;h=80 300w, https://szlin.files.wordpress.com/2017/05/2017-05-17_114026.png 734w" sizes="(max-width: 616px) 100vw, 616px"></p>
+
+<img src="images/2017-05-17_114026.png">
+
+
 <p><span style="color:#0000ff;">addruart</span> 則位於&nbsp;<span style="color:#0000ff;">arch/arm/include/debug/&lt;SoC&gt;.S 中</span></p>
 <p><span style="color:#0000ff;">addruart</span>&nbsp; 實作上會因不同 SoC 特性而有所差異. 但大多是以組語設定 <strong><span style="color:#ff0000;">UART_PHYS</span> </strong>以及 <strong><span style="color:#ff0000;">UART_VIRT</span></strong>.</p>
 <hr>
@@ -174,12 +193,32 @@ ffffffff&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Generic AM33XX (Flattened Dev
 <p>&nbsp;</p>
 <p>原本都可以正常運作, 但某次發現如果在 device tree 中新增項目, 會無法開機</p>
 <p>依照指令來看, 記憶體會是這樣:</p>
-<p><img data-attachment-id="4445" data-permalink="https://szlin.me/2017/05/17/unable-to-boot-with-linux-kernel/2017-05-17_155602/" data-orig-file="https://szlin.files.wordpress.com/2017/05/2017-05-17_155602.png?w=623&amp;h=229" data-orig-size="755,278" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="2017-05-17_155602" data-image-description="" data-medium-file="https://szlin.files.wordpress.com/2017/05/2017-05-17_155602.png?w=623&amp;h=229?w=300" data-large-file="https://szlin.files.wordpress.com/2017/05/2017-05-17_155602.png?w=623&amp;h=229?w=663" class="alignnone  wp-image-4445" src="https://szlin.files.wordpress.com/2017/05/2017-05-17_155602.png?w=623&amp;h=229" alt="2017-05-17_155602" width="623" height="229" srcset="https://szlin.files.wordpress.com/2017/05/2017-05-17_155602.png?w=623&amp;h=229 623w, https://szlin.files.wordpress.com/2017/05/2017-05-17_155602.png?w=150&amp;h=55 150w, https://szlin.files.wordpress.com/2017/05/2017-05-17_155602.png?w=300&amp;h=110 300w, https://szlin.files.wordpress.com/2017/05/2017-05-17_155602.png 755w" sizes="(max-width: 623px) 100vw, 623px"></p>
+
+
+<img src="images/2017-05-17_155602.png">
+
+
+
+
 <p>但是實際開機卻會卡住.</p>
 <p>仔細分析後才發現, 原來 Kernel 實際執行的記憶體位址會是load address 0x80008000, 而不是 bootm 設定的 0x81000000. 而 load address 可透過 mkimage 或者 Kernel Makefile 來進行設定.</p>
-<p><img data-attachment-id="4439" data-permalink="https://szlin.me/2017/05/17/unable-to-boot-with-linux-kernel/%e6%9c%aa%e5%91%bd%e5%90%8d-3/" data-orig-file="https://szlin.files.wordpress.com/2017/05/e69caae591bde5908d1.png?w=663" data-orig-size="626,330" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="未命名" data-image-description="" data-medium-file="https://szlin.files.wordpress.com/2017/05/e69caae591bde5908d1.png?w=663?w=300" data-large-file="https://szlin.files.wordpress.com/2017/05/e69caae591bde5908d1.png?w=663?w=626" class="alignnone size-full wp-image-4439" src="https://szlin.files.wordpress.com/2017/05/e69caae591bde5908d1.png?w=663" alt="未命名.png" srcset="https://szlin.files.wordpress.com/2017/05/e69caae591bde5908d1.png 626w, https://szlin.files.wordpress.com/2017/05/e69caae591bde5908d1.png?w=150 150w, https://szlin.files.wordpress.com/2017/05/e69caae591bde5908d1.png?w=300 300w" sizes="(max-width: 626px) 100vw, 626px"></p>
+
+<img src="images/e69caae591bde5908d1.png">
+
+
+
+
+
 <p><span style="color:#0000ff;">如果 bootm 位址和 load address 不一樣, bootloader 會先把 Kernel move 到 load address</span>, 接著從 entry point 開始執行</p>
-<p><img data-attachment-id="4461" data-permalink="https://szlin.me/2017/05/17/unable-to-boot-with-linux-kernel/2017-05-17_162236/" data-orig-file="https://szlin.files.wordpress.com/2017/05/2017-05-17_162236.png?w=663" data-orig-size="900,658" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="2017-05-17_162236" data-image-description="" data-medium-file="https://szlin.files.wordpress.com/2017/05/2017-05-17_162236.png?w=663?w=300" data-large-file="https://szlin.files.wordpress.com/2017/05/2017-05-17_162236.png?w=663?w=663" class="alignnone size-full wp-image-4461" src="https://szlin.files.wordpress.com/2017/05/2017-05-17_162236.png?w=663" alt="2017-05-17_162236.png" srcset="https://szlin.files.wordpress.com/2017/05/2017-05-17_162236.png?w=663 663w, https://szlin.files.wordpress.com/2017/05/2017-05-17_162236.png?w=150 150w, https://szlin.files.wordpress.com/2017/05/2017-05-17_162236.png?w=300 300w, https://szlin.files.wordpress.com/2017/05/2017-05-17_162236.png?w=768 768w, https://szlin.files.wordpress.com/2017/05/2017-05-17_162236.png 900w" sizes="(max-width: 663px) 100vw, 663px"></p>
+
+
+<img src="images/2017-05-17_162236.png">
+
+
+
+
+
+
 <p>回過來, 那當初為什麼在 device tree 中新增項目, 會造成無法開機呢 ?</p>
 <p>我們來算一下記憶體空間</p>
 <blockquote><p>Load Address: 0x80008000</p>
@@ -199,4 +238,3 @@ ffffffff&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Generic AM33XX (Flattened Dev
 <p>[4]:&nbsp;http://elinux.org/images/b/ba/Dt_stat_150811_1802.patch</p>
 <p>[5]:&nbsp;http://elinux.org/Device_Tree_frowand</p>
 <p>[6]:&nbsp;https://www.kernel.org/doc/Documentation/driver-model/platform.txt</p>
-<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">分享此文：</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" data-shared="sharing-twitter-4052" class="share-twitter sd-button share-icon" href="https://szlin.me/2017/05/17/unable-to-boot-with-linux-kernel/?share=twitter&amp;nb=1" target="_blank" title="分享到 Twitter"><span>Twitter</span></a></li><li class="share-facebook"><a rel="nofollow" data-shared="sharing-facebook-4052" class="share-facebook sd-button share-icon" href="https://szlin.me/2017/05/17/unable-to-boot-with-linux-kernel/?share=facebook&amp;nb=1" target="_blank" title="分享到 Facebook"><span>Facebook<span class="share-count">51</span></span></a></li><li class="share-google-plus-1"><a rel="nofollow" data-shared="sharing-google-4052" class="share-google-plus-1 sd-button share-icon" href="https://szlin.me/2017/05/17/unable-to-boot-with-linux-kernel/?share=google-plus-1&amp;nb=1" target="_blank" title="點擊分享到 Google+"><span>Google</span></a></li><li class="share-end"></li></ul></div></div></div><div class="sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-loaded" id="like-post-wrapper-92877271-4052-5925ca1060577" data-src="//widgets.wp.com/likes/#blog_id=92877271&amp;post_id=4052&amp;origin=szlin.wordpress.com&amp;obj_id=92877271-4052-5925ca1060577" data-name="like-post-frame-92877271-4052-5925ca1060577"><h3 class="sd-title">請按讚：</h3><div class="likes-widget-placeholder post-likes-widget-placeholder" style="height: 55px; display: none;"><span class="button"><span>喜歡</span></span> <span class="loading">載入中...</span></div><iframe class="post-likes-widget jetpack-likes-widget" name="like-post-frame-92877271-4052-5925ca1060577" height="55px" width="100%" frameborder="0" src="//widgets.wp.com/likes/#blog_id=92877271&amp;post_id=4052&amp;origin=szlin.wordpress.com&amp;obj_id=92877271-4052-5925ca1060577"></iframe><span class="sd-text-color"></span><a class="sd-link-color"></a></div></div>			</div>

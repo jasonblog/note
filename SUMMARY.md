@@ -233,7 +233,7 @@
        * [（九）：進程調度](linux_kernel/ff08_jiu_ff09_ff1a_jin_cheng_diao_du.md)
        * [（十）：內核同步](linux_kernel/ff08_shi_ff09_ff1a_nei_he_tong_bu.md)
        * [（十一）：內存管理之頁的分配與回收](linux_kernel/ff08_shi_yi_ff09_ff1a_nei_cun_guan_li_zhi_ye_de_fe.md)
-   * 移植 Linux Kernel 造成無法開機之解決方案以及除錯工具
+   * [移植 Linux Kernel 造成無法開機之解決方案以及除錯工具](linux_kernel/yi_zhi_linux_kernel_zao_cheng_wu_fa_kai_ji_zhi_jie.md)
 * [Linux Driver](linux_driver/README.md)
    * [Linux Device Driver Programming](linux_device_driver_programming/README.md)
        * [Linux 裝置驅動程式的概要](linux_device_driver_programming/01.md)

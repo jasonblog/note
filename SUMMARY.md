@@ -485,7 +485,7 @@
    * [STL 容器 (一) - 基本介紹](c++/stl_rong_qi_4e0029_-_ji_ben_jie_shao.md)
    * [STL 容器 (二) - Iterator](c++/stl_rong_qi_4e8c29_-_iterator.md)
    * [C/C++ 十三誡](c++/cc++_shi_san_jie.md)
-   * 標準類型轉換：static_cast, dynamic_cast, reinterpret_cast, and const_cast
+   * [標準類型轉換：static_cast, dynamic_cast, reinterpret_cast, and const_cast](c++/biao_zhun_lei_xing_zhuan_huan_ff1a_static_cast_,_d.md)
 * [GNU make](gunmake/README.md)
    * [example](gunmake/example.md)
    * [CMake](cmake/cmake.md)

@@ -295,3 +295,22 @@ std::cout << "!!!! imuPath=" << m_imuPath
 		<< " tid=" << GetCurrentThreadId() << std::endl;
 ```
 
+### android NDK write logs to a file
+
+```c
+https://stackoverflow.com/questions/14709773/android-ndk-write-logs-to-a-file
+
+
+FILE f = fopen("/data/data/<application name>/<file name>", 'w');
+fprintf(f, "my message\n");
+fclose(f);
+
+
+#define WRITE_LOG(s, ...) do { \
+FILE *f = fopen("/data/local/tmp/log.txt", "a+"); \
+  fprintf(f, s, __VA_ARGS__); \
+  fflush(f); \
+  fclose(f); \
+} while (0)
+```
+

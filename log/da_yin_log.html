@@ -57,7 +57,7 @@
         data-chapter-title="打印log"
         data-filepath="log/da_yin_log.md"
         data-basepath=".."
-        data-revision="Thu May 25 2017 02:21:39 GMT+0800 (CST)"
+        data-revision="Thu May 25 2017 20:12:55 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -18053,6 +18053,22 @@ kernel panic&#x5F8C;&#x6253;&#x5370;&#x7684;&#x5806;&#x68E7;&#x4FE1;&#x606F;&#x6
 <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;!!!! imuPath=&quot;</span> &lt;&lt; m_imuPath
         &lt;&lt; <span class="hljs-string">&quot; pid=&quot;</span> &lt;&lt; GetCurrentProcessId()
         &lt;&lt; <span class="hljs-string">&quot; tid=&quot;</span> &lt;&lt; GetCurrentThreadId() &lt;&lt; <span class="hljs-built_in">std</span>::endl;
+</code></pre>
+<h3 id="android-ndk-write-logs-to-a-file">android NDK write logs to a file</h3>
+<pre><code class="lang-c">https:<span class="hljs-comment">//stackoverflow.com/questions/14709773/android-ndk-write-logs-to-a-file</span>
+
+
+FILE f = fopen(<span class="hljs-string">&quot;/data/data/&lt;application name&gt;/&lt;file name&gt;&quot;</span>, <span class="hljs-string">&apos;w&apos;</span>);
+<span class="hljs-built_in">fprintf</span>(f, <span class="hljs-string">&quot;my message\n&quot;</span>);
+fclose(f);
+
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> WRITE_LOG(s, ...) do { \
+FILE *f = fopen(<span class="hljs-string">&quot;/data/local/tmp/log.txt&quot;</span>, <span class="hljs-string">&quot;a+&quot;</span>); \
+  fprintf(f, s, __VA_ARGS__); \
+  fflush(f); \
+  fclose(f); \
+} while (<span class="hljs-number">0</span>)</span>
 </code></pre>
 
                     

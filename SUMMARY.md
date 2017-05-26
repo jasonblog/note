@@ -379,7 +379,7 @@
        * [（四）：posix信號量的互斥與同步](linux_system/ff08_si_ff09_ff1a_posix_xin_hao_liang_de_hu_chi_yu.md)
        * [（五）：system V信號量的互斥與同步](linux_system/ff08_wu_ff09_ff1a_system_v_xin_hao_liang_de_hu_chi.md)
        * [（六）：文件鎖](linux_system/ff08_liu_ff09_ff1a_wen_jian_suo.md)
-   * Linux下利用backtrace追踪函数调用堆栈以及定位段错误
+   * [Linux下利用backtrace追踪函数调用堆栈以及定位段错误](linux_system/linuxxia_li_yong_backtrace_zhui_zong_han_shu_diao_.md)
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

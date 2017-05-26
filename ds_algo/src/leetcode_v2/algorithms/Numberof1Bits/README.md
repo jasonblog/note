@@ -8,7 +8,7 @@ Special thanks to @ts for adding this problem and creating all test cases.
 
 # Solution
 
-一个数x与x-1的与运算，就是把最低位的1置0。即 `x & (x - 1)`会把最低位的1置0。
+一個數x與x-1的與運算，就是把最低位的1置0。即 `x & (x - 1)`會把最低位的1置0。
 
 # Coding
 ```c

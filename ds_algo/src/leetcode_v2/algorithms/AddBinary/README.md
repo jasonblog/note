@@ -11,9 +11,9 @@ Return "100".
 
 ## Solution
 
-从字符串末尾逐一相加，直到其中一个字符串结束时，若还有字符串，则追加到结果
+從字符串末尾逐一相加，直到其中一個字符串結束時，若還有字符串，則追加到結果
 
-注意处理进位，尤其不要丢掉最后一位进位
+注意處理進位，尤其不要丟掉最後一位進位
 ```cpp
 class Solution {
 	public:
@@ -63,7 +63,7 @@ class Solution {
 				}
 				j--;
 			}
-			if (carray == '1') { // 最后一位进位
+			if (carray == '1') { // 最後一位進位
 				result.push_back('1');
 			}
 			return string(result.rbegin(), result.rend());

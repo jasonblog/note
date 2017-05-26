@@ -6,7 +6,7 @@ The brackets must close in the correct order, "()" and "()[]{}" are all valid bu
 
 ## Solution
 
-栈的基本应用
+棧的基本應用
 
 ## Code
 ```c

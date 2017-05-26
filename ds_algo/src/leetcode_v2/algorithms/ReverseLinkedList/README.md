@@ -26,7 +26,7 @@ ListNode *reverseIteratively(ListNode *head) {
 }
 ```
 
-递归法，注意更新head指针:
+遞歸法，注意更新head指針:
 
 ```cpp
 ListNode *reverseRecursively(ListNode *&head, ListNode *p) {
@@ -40,6 +40,6 @@ ListNode *reverseRecursively(ListNode *&head, ListNode *p) {
 }
 ```
 
-## 扩展
+## 擴展
 
-[Reverse Linked List II](../ReverseLinkedListII): 逆转指定的区间
+[Reverse Linked List II](../ReverseLinkedListII): 逆轉指定的區間

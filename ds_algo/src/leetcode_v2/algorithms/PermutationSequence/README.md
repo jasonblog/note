@@ -18,9 +18,9 @@ Given n and k, return the kth permutation sequence.
 
 ## Solution
 
-求康托展开式，具体算法见[康托展开算法](https://github.com/krystism/algorithms/tree/master/cantor)
+求康託展開式，具體算法見[康託展開算法](https://github.com/krystism/algorithms/tree/master/cantor)
 
-由于是求第k个排列，而康托展开求的是根据比它小的数量，因此需要k减一
+由於是求第k個排列，而康託展開求的是根據比它小的數量，因此需要k減一
 
 ## Code
 

@@ -31,13 +31,13 @@ Hints:
 
 ## Solution
 
-显然这是一道拓扑排序题。求拓扑排序的算法过程:
+顯然這是一道拓撲排序題。求拓撲排序的算法過程:
 
-* 求出所有节点的入度`in-degree`
-* 搜索`in-degree`，找出入度为0的节点，若没有找到入读为0的节点，则一定存在环，返回false，否则，从节点中删除该节点，并与之相关联的所有有向边。
-* 重复以上，直到所有的节点访问完毕，返回true
+* 求出所有節點的入度`in-degree`
+* 搜索`in-degree`，找出入度為0的節點，若沒有找到入讀為0的節點，則一定存在環，返回false，否則，從節點中刪除該節點，並與之相關聯的所有有向邊。
+* 重複以上，直到所有的節點訪問完畢，返回true
 
-首先求出所有的入度(注意题目的图是后面指向前面):
+首先求出所有的入度(注意題目的圖是後面指向前面):
 
 ```cpp
 vector<int> degree(n, 0);
@@ -47,7 +47,7 @@ for (auto p : request) {
 }
 ```
 
-寻找入度等于0的节点, 返回-1表示没有找到:
+尋找入度等於0的節點, 返回-1表示沒有找到:
 
 ```cpp
 int findZero(const vector<int> &v) {
@@ -60,21 +60,21 @@ int findZero(const vector<int> &v) {
 }
 ```
 
-实现拓扑排序判断:
+實現拓撲排序判斷:
 
 ```cpp
 bool canTopsort(const vector<pair<int, int>> &request, vector<int> &degree) {
 	int n = degree.size();
 	vector<bool> visited(n, false);
 	int sum = 0;
-	while (sum < n) { // 还没有访问完
+	while (sum < n) { // 還沒有訪問完
 		int cur = findZero(degree);
-		if (cur >= 0) { // 访问节点cur
+		if (cur >= 0) { // 訪問節點cur
 			sum++;
-			degree[cur] = -1; // 标记当前节点为已经访问状态
+			degree[cur] = -1; // 標記當前節點為已經訪問狀態
 			for (auto p : request) {
 				if (p.second == cur)
-					degree[p.first]--; // 去掉已访问节点
+					degree[p.first]--; // 去掉已訪問節點
 			}
 		} else
 			return false;
@@ -83,28 +83,28 @@ bool canTopsort(const vector<pair<int, int>> &request, vector<int> &degree) {
 }
 ```
 
-以上方法实质就是BFS，也可以使用DFS，从一个节点出发，顺着边往下走，若回到已经访问的节点，说明存在环。
+以上方法實質就是BFS，也可以使用DFS，從一個節點出發，順著邊往下走，若回到已經訪問的節點，說明存在環。
 
-为了标示正在访问的节点、未访问节点和已经访问节点，我们分别使用-1, 0, 1表示。
+為了標示正在訪問的節點、未訪問節點和已經訪問節點，我們分別使用-1, 0, 1表示。
 
 ```cpp
 bool dfs(const vector<pair<int, int>> &request, vector<int> &visited, int i) {
-	if (visited[i] == -1) // 回到了出发点，说明存在环
+	if (visited[i] == -1) // 回到了出發點，說明存在環
 		return false;
-	if (visited[i] == 1) // 已经访问过该节点了
+	if (visited[i] == 1) // 已經訪問過該節點了
 		return true;
-	visited[i] = -1; // -1 表示正在访问
+	visited[i] = -1; // -1 表示正在訪問
 	for (auto p : request) {
 		if (p.second == i) {
-			if (!dfs(request, visited, p.first))  // 访问下一个节点
+			if (!dfs(request, visited, p.first))  // 訪問下一個節點
 				return false;
 		}
 	}
-	visited[i] = 1; // 标识为已经访问过
+	visited[i] = 1; // 標識為已經訪問過
 	return true;
 }
 
 ```
-## 扩展
+## 擴展
 
-[Course Schedule II](../CourseScheduleII): 输出拓扑排序结果
+[Course Schedule II](../CourseScheduleII): 輸出拓撲排序結果

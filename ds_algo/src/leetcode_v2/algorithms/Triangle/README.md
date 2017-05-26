@@ -20,7 +20,7 @@ Bonus point if you are able to do this using only O(n) extra space, where n is t
 
 ## Solution
 
-典型DP，显然`dp[i][j] = min(dp[i - 1][j], dp[i - 1][j - 1]`, 因此
+典型DP，顯然`dp[i][j] = min(dp[i - 1][j], dp[i - 1][j - 1]`, 因此
 
 ```cpp
 int minimumTotal(vector<vector<int>> &a) {
@@ -40,7 +40,7 @@ int minimumTotal(vector<vector<int>> &a) {
 }
 ```
 
-最后需要O(n)时间寻找最小值，我们可以从底部推顶部，此时`dp[i][j] = min(dp[i + 1][j], dp[i + 1][j + 1]`
+最後需要O(n)時間尋找最小值，我們可以從底部推頂部，此時`dp[i][j] = min(dp[i + 1][j], dp[i + 1][j + 1]`
 
 ```cpp
 int minimumTotal(const vector<vector<int>> &a) {
@@ -60,9 +60,9 @@ int minimumTotal(const vector<vector<int>> &a) {
 }
 ```
 
-以上方法都能解决问题，关键是需要O(n<sup>2</sup>)的空间，题目要求O(n)。
+以上方法都能解決問題，關鍵是需要O(n<sup>2</sup>)的空間，題目要求O(n)。
 
-从状态转移方程可以看出，`dp[i][j]`只和上一行有关，和其他行无关，我们可以复用这些空间，覆盖原来的值，从而达到压缩空间的效果.
+從狀態轉移方程可以看出，`dp[i][j]`只和上一行有關，和其他行無關，我們可以複用這些空間，覆蓋原來的值，從而達到壓縮空間的效果.
 
 ```cpp
 int compress_minimumTotal(const vector<vector<int>> &a) {

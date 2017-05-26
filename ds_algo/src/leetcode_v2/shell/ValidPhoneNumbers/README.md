@@ -22,7 +22,7 @@ Your script should output the following valid phone numbers:
 
 ## Solution
 
-直接`grep`实现，使用-P选项，使用`perl`正则表达式。
+直接`grep`實現，使用-P選項，使用`perl`正則表達式。
 
 ## Code
 

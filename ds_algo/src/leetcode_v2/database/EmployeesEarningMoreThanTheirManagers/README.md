@@ -22,7 +22,7 @@ Given the `Employee` table, write a SQL query that finds out employees who earn 
 +----------+
 ```
 
-## Solution 1: 相关子查询
+## Solution 1: 相關子查詢
 
 ```sql
 select e1.Name as Employee from Employee2 as e1
@@ -30,9 +30,9 @@ where e1.ManagerId is not NULL
 and e1.Salary > (select Salary from Employee2 where Id=e1.ManagerId);
 ```
 
-结果超时，原因是相关子查询效率非常低，应该尽量避免
+結果超時，原因是相關子查詢效率非常低，應該儘量避免
 
-## Solution 2: 内连接
+## Solution 2: 內連接
 
 ```sql
 select e1.Name as Employee from Employee2 as e1
@@ -41,4 +41,4 @@ on e1.ManagerId = e2.Id and e1.Salary > e2.Salary
 where e1.ManagerId is not NULL;
 ```
 
-结果顺利通过。
+結果順利通過。

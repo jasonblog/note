@@ -32,14 +32,14 @@ You should be familiar with how a Trie works. If not, please work on this proble
 
 ## Solution
 
-Trie树的扩展，如果搜索字符，和Trie树一样，若为".", 则DFS之
+Trie樹的擴展，如果搜索字符，和Trie樹一樣，若為".", 則DFS之
 
 ```cpp
 bool search(TrieNode *p, const char *target) const {
 			if (p == nullptr)
 				return false;
 			int len = strlen(target);
-			if (target == nullptr || len == 0) { // 到底单词尾部
+			if (target == nullptr || len == 0) { // 到底單詞尾部
 				return p->exist;
 			}
 			char c = *target;
@@ -56,8 +56,8 @@ bool search(TrieNode *p, const char *target) const {
 		}
 ```
 
-搜索单词`word`, 只需要调用`search(root, word.c_str())`即可.
+搜索單詞`word`, 只需要調用`search(root, word.c_str())`即可.
 
-## 扩展
+## 擴展
 
-[Implement Trie (Prefix Tree)](../ImplementTrie): Trie树实现
+[Implement Trie (Prefix Tree)](../ImplementTrie): Trie樹實現

@@ -25,15 +25,15 @@ day 1
 
 ## Solution
 
-可以使用[关联数组实现](https://github.com/krystism/notes/blob/master/linux/wordCount.md)
+可以使用[關聯數組實現](https://github.com/krystism/notes/blob/master/linux/wordCount.md)
 
-后面需要按频数降序排序可以使用`sort`实现
+後面需要按頻數降序排序可以使用`sort`實現
 
-* -n 表示按照数值排序，而不是默认的字典排序
+* -n 表示按照數值排序，而不是默認的字典排序
 * -t & -k 其中-t指定字段分隔符，-k表示排序的字段
 * -r 表示降序。
 
-代码为:
+代碼為:
 ```bash
 #!/bin/bash
 declare -A count

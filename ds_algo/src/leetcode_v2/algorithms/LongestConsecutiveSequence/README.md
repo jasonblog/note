@@ -10,16 +10,16 @@ Your algorithm should run in O(n) complexity.
 
 ## Solution
 
-刚开始以为是DP，没有思路！
+剛開始以為是DP，沒有思路！
 
-看了答案发现其实并不是很复杂，关键找对思路。。
+看了答案發現其實並不是很複雜，關鍵找對思路。。
 
-使用map，key为数值，value为长度, 设当前遍历数组的值为i
+使用map，key為數值，value為長度, 設當前遍歷數組的值為i
 
-* 若i已经在map中，忽略。
-* 否则`left = map[i - 1] or 0, right = map[i + 1] or 0`,则`map[i] = left + right + 1`,即当前值的长度等于它左相邻和右相邻长度之和+1.
-* 同时需要更新边界值，即`map[i - left] = map[i], map[i + right] = map[i]`, 
-因为我们第一步忽略了已经存在的值，因此我们只需要维护边界值即可，而不用把中间的值同时更新.
+* 若i已經在map中，忽略。
+* 否則`left = map[i - 1] or 0, right = map[i + 1] or 0`,則`map[i] = left + right + 1`,即當前值的長度等於它左相鄰和右相鄰長度之和+1.
+* 同時需要更新邊界值，即`map[i - left] = map[i], map[i + right] = map[i]`, 
+因為我們第一步忽略了已經存在的值，因此我們只需要維護邊界值即可，而不用把中間的值同時更新.
 * 返回最大的map值即可
 
 

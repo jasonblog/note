@@ -4,9 +4,9 @@ Given a positive integer, return its corresponding column title as appear in an 
 
 ## Solution
 
-进制转化，其实质就是把数字转成26进制
+進制轉化，其實質就是把數字轉成26進制
 
-由于`1->A`, `2->B`, `26->Z`,即所以需要把n-1在操作
+由於`1->A`, `2->B`, `26->Z`,即所以需要把n-1在操作
 
 ## Code
 ```cpp
@@ -19,6 +19,6 @@ string convertToTitle(int n) {
 	return string(result.rbegin(), result.rend());
 }
 ```
-## 扩展
+## 擴展
 
-逆过程[Excel Sheet Column Number](../ExcelSheetColumnNumber)
+逆過程[Excel Sheet Column Number](../ExcelSheetColumnNumber)

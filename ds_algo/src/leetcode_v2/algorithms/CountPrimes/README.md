@@ -14,7 +14,7 @@ Special thanks to @mithmatt for adding this problem and creating all test cases.
 
 ## Solution
 
-使用[埃拉托斯特尼筛法](http://en.wikipedia.org/wiki/Sieve_of_Eratosthenes), 具体步骤是
+使用[埃拉託斯特尼篩法](http://en.wikipedia.org/wiki/Sieve_of_Eratosthenes), 具體步驟是
 
 ![Sieve\_of\_Eratosthenes](img/Sieve_of_Eratosthenes_animation.gif)
 
@@ -60,12 +60,12 @@ int countPrimes(int n)
 }
 ```
 
-## 关于素数
+## 關於素數
 
-参见[How Many Primes Are There?](https://primes.utm.edu/howmany.html#pi_def).
+參見[How Many Primes Are There?](https://primes.utm.edu/howmany.html#pi_def).
 
-设pi(x)表示小于等于x的素数个数，主要有3个关于素数结论:
+設pi(x)表示小於等於x的素數個數，主要有3個關於素數結論:
 
-1. pi(x)约等于`x / (logx - 1)
-2. 第n个素数的值约为`nlogn`
-3. x是素数的概率约为`1/logx`
+1. pi(x)約等於`x / (logx - 1)
+2. 第n個素數的值約為`nlogn`
+3. x是素數的概率約為`1/logx`

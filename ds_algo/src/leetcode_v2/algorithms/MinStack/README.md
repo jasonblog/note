@@ -8,10 +8,10 @@ Design a stack that supports push, pop, top, and retrieving the minimum element 
 
 ## Solution
 
-使用两个栈实现，其中一个栈values保存值，另一个栈minValues保存最小值。
+使用兩個棧實現，其中一個棧values保存值，另一個棧minValues保存最小值。
 
-* 当入栈时，如果有更小的值(x <= minValues.top()), 则把该值也压入最小值栈
-* 当出栈时，如果弹出的值是最小值(x == minValues.top())， 则把最小值栈也弹出一个值
+* 當入棧時，如果有更小的值(x <= minValues.top()), 則把該值也壓入最小值棧
+* 當出棧時，如果彈出的值是最小值(x == minValues.top())， 則把最小值棧也彈出一個值
 
 ```cpp
 class MinStack {

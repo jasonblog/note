@@ -6,18 +6,18 @@ Note: The numbers can be arbitrarily large and are non-negative.
 
 ## Solution
 
-模拟法
+模擬法
 
-根据乘法规则，乘数逐位与被乘数相乘，然后相加，因此先实现乘数只有一位的情况:
+根據乘法規則，乘數逐位與被乘數相乘，然後相加，因此先實現乘數只有一位的情況:
 
-为了防止进位处理，把结果reverse保存，即高位在后面，地位在前面，然后被乘数和乘数逐一相乘，如果大于10，则需要进位:
+為了防止進位處理，把結果reverse保存，即高位在後面，地位在前面，然後被乘數和乘數逐一相乘，如果大於10，則需要進位:
 
 ```cpp
 string multiply(string num1, int i) {
 	if (i == 0)
 		return "0";
 	if (i == 1) {
-		reverse(begin(num1), end(num1)); // 返回结果总是reverse的
+		reverse(begin(num1), end(num1)); // 返回結果總是reverse的
 		return num1;
 	}
 	string result;
@@ -38,11 +38,11 @@ string multiply(string num1, int i) {
 ```
 
 
-算得每个结果后，需要把所有的相乘结果相加，因此需要实现大数加法:
+算得每個結果後，需要把所有的相乘結果相加，因此需要實現大數加法:
 
 ```cpp
 /**
-注意num1 和 num2都是reverse的，并且结果也是reverse的
+注意num1 和 num2都是reverse的，並且結果也是reverse的
 */
 string add(string num1, string num2) {
 	string result;
@@ -79,7 +79,7 @@ string add(string num1, string num2) {
 }
 ```
 
-最后结果就是乘数逐位与被乘数相乘即可，注意乘数不是各位时，应该乘以10^<sup>n</sup>，n位第几位：
+最後結果就是乘數逐位與被乘數相乘即可，注意乘數不是各位時，應該乘以10^<sup>n</sup>，n位第幾位：
 
 ```cpp
 string multiply(string num1, string num2) {

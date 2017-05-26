@@ -24,8 +24,8 @@ Special thanks to @stellari for adding this problem and creating all test cases.
 
 ## Solution
 
-设两个链表的长度之差为diff, 设两个指针p, q, p指向长的链表头节点，q指向短链表头指针。
-先让p先走diff步，然后p、q一起走，直到`p == q`，此时即找到了相交节点
+設兩個鏈表的長度之差為diff, 設兩個指針p, q, p指向長的鏈表頭節點，q指向短鏈表頭指針。
+先讓p先走diff步，然後p、q一起走，直到`p == q`，此時即找到了相交節點
 
 ## Code
 ```c

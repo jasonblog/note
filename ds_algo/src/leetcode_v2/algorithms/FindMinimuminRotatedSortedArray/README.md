@@ -10,13 +10,13 @@ You may assume no duplicate exists in the array.
 
 ## Solution
 
-使用二分搜索，设当前搜索范围为`[left, right]`, 则中间的值为`mid = (left + right) /2`, 则
+使用二分搜索，設當前搜索範圍為`[left, right]`, 則中間的值為`mid = (left + right) /2`, 則
 
-* 若`a[left] < a[right]`, 说明没有旋转，返回`a[left]`.
-* 若`a[mid] > a[right]`, 则结果在右边， `left = mid + 1`
-* 若`a[mid] < a[right]`, 则结果在左边， `right = mid`
+* 若`a[left] < a[right]`, 說明沒有旋轉，返回`a[left]`.
+* 若`a[mid] > a[right]`, 則結果在右邊， `left = mid + 1`
+* 若`a[mid] < a[right]`, 則結果在左邊， `right = mid`
 
-关键注意边界为题, 什么时候用`>=`什么时候用`>`, 以及什么时候用`mid`, 什么时候用`mid + 1`
+關鍵注意邊界為題, 什麼時候用`>=`什麼時候用`>`, 以及什麼時候用`mid`, 什麼時候用`mid + 1`
 
 ## Code
 ```cpp
@@ -38,8 +38,8 @@ int findMin(vector<int> &nums) {
 }
 ```
 
-## 扩展
+## 擴展
 
-1. 当有重复元素存在时，见[Find Minimum in Rotated Sorted Array II](../FindMinimuminRotatedSortedArray2)
+1. 當有重複元素存在時，見[Find Minimum in Rotated Sorted Array II](../FindMinimuminRotatedSortedArray2)
 
-2. [Search in Rotated Sorted Array](../SearchinRotatedSortedArray), 在旋转列表中查找某个数
+2. [Search in Rotated Sorted Array](../SearchinRotatedSortedArray), 在旋轉列表中查找某個數

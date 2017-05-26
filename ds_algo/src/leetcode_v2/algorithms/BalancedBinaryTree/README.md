@@ -6,9 +6,9 @@ For this problem, a height-balanced binary tree is defined as a binary tree in w
 
 ## Solution
 
-分别求左右子树的高度，如果高度之差大于1，则不是平衡树
+分別求左右子樹的高度，如果高度之差大於1，則不是平衡樹
 
-而如果子树不是平衡树，结果也一定不是平衡树，因此再求左右子树的同时，顺便判断是否平衡树，能够提高速度
+而如果子樹不是平衡樹，結果也一定不是平衡樹，因此再求左右子樹的同時，順便判斷是否平衡樹，能夠提高速度
 
 ## Code
 ```cpp

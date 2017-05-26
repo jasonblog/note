@@ -6,7 +6,7 @@ The maximum depth is the number of nodes along the longest path from the root no
 
 ## Solution
 
-递归，树的高度等于左子树和右子树深度大的
+遞歸，樹的高度等於左子樹和右子樹深度大的
 
 ## Code
 ```c
@@ -18,6 +18,6 @@ int maxDepth(struct TreeNode *root)
 }
 ```
 
-## 扩展
+## 擴展
 
-求树的最小深度[Minimum Depth of Binary Tree](../MinimumDepthofBinaryTree)
+求樹的最小深度[Minimum Depth of Binary Tree](../MinimumDepthofBinaryTree)

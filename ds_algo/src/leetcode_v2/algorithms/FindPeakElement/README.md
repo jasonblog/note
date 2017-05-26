@@ -21,9 +21,9 @@ Special thanks to @ts for adding this problem and creating all test cases.
 
 ## Solution 1
 
-题目的意思就是找一个局部最大值，即一个元素大于两边相邻的元素，该元素就是Peak Element。
+題目的意思就是找一個局部最大值，即一個元素大於兩邊相鄰的元素，該元素就是Peak Element。
 
-直接搜索数组，时间复杂度O(n).
+直接搜索數組，時間複雜度O(n).
 ```cpp
 int findPeakElement(vector<int> &a) {
 	int n = a.size();
@@ -39,10 +39,10 @@ int findPeakElement(vector<int> &a) {
 
 ## Solution 2
 
-方案1比较次数是2n，实际上从0开始遍历，只需要找到一个元素`a[i] > a[i + 1]`即可，i就是局部最大值。
+方案1比較次數是2n，實際上從0開始遍歷，只需要找到一個元素`a[i] > a[i + 1]`即可，i就是局部最大值。
 
-这是因为`a[-1]`是负无穷的，如果`a[0] > a[1]`，则a[0]就是Peak元素，否则必有`a[1] > a[0]`, 如果a[1] > a[2]，那
-`a[1]`显然是Peak元素，否则`a[1] < a[2]`, 即`a[2] > a[1]`，判断a[2]和a[3]的关系，依次类推，`a[n - 1]`必然小于`a[n]`。
+這是因為`a[-1]`是負無窮的，如果`a[0] > a[1]`，則a[0]就是Peak元素，否則必有`a[1] > a[0]`, 如果a[1] > a[2]，那
+`a[1]`顯然是Peak元素，否則`a[1] < a[2]`, 即`a[2] > a[1]`，判斷a[2]和a[3]的關係，依次類推，`a[n - 1]`必然小於`a[n]`。
 因此Peak元素必然存在
 ```cpp
 int findPeakElement(vector<int> &a) {
@@ -56,18 +56,18 @@ int findPeakElement(vector<int> &a) {
 
 ## Solution 3
 
-方案2只是减少了比较次数，但复杂度依然是O(n), 而题目要求是O(logn)。
+方案2只是減少了比較次數，但複雜度依然是O(n), 而題目要求是O(logn)。
 
-但凡想到O(xxlogn)算法，自然想到的是二分法，当二分法一般针对的是有序集合(有序数组、查找树等),而目前情况都不满足。
+但凡想到O(xxlogn)算法，自然想到的是二分法，當二分法一般針對的是有序集合(有序數組、查找樹等),而目前情況都不滿足。
 
-但是根据前面方案2的思路，如果`a[i] > a[i + 1]`，那a[i]可能就是局部最优，如果`a[i] < a[i + 1]`，那`a[i + 1]`是可能的局部最优.
+但是根據前面方案2的思路，如果`a[i] > a[i + 1]`，那a[i]可能就是局部最優，如果`a[i] < a[i + 1]`，那`a[i + 1]`是可能的局部最優.
 
-根据这个原理，我们就可以自然想到二分法, 设`left = 0, right = n - 1, mid = (left + right) >> 1`, 则:
+根據這個原理，我們就可以自然想到二分法, 設`left = 0, right = n - 1, mid = (left + right) >> 1`, 則:
 
-* `a[mid] > a[mid + 1] && a[mid] > a[mid - 1]`, 返回mid, 否则下一步
-* `a[mid] > a[mid + 1], right = mid`, 否则下一步
+* `a[mid] > a[mid + 1] && a[mid] > a[mid - 1]`, 返回mid, 否則下一步
+* `a[mid] > a[mid + 1], right = mid`, 否則下一步
 * `a[mid] < a[mid - 1], left = mid + 1`。
-* 重复直到`left == right`, 此时left就是Peak元素索引
+* 重複直到`left == right`, 此時left就是Peak元素索引
 
 ```cpp
 int fastFindPeakElement(vector<int> &a) {

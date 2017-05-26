@@ -9,15 +9,15 @@ The signature of the function had been updated to return the index instead of th
 
 ## Solution
 
-模式匹配主要有三种方法:
+模式匹配主要有三種方法:
 
-1. 蛮力法，即BF算法
+1. 蠻力法，即BF算法
 2. KMP算法
-3. BM算法，工程应用比较多
+3. BM算法，工程應用比較多
 
-具体算法见[由KMP算法谈到BM算法](http://blog.csdn.net/v_JULY_v/article/details/6545192)
+具體算法見[由KMP算法談到BM算法](http://blog.csdn.net/v_JULY_v/article/details/6545192)
 
-本题使用BF算法TLE，只能使用KMP或者BM
+本題使用BF算法TLE，只能使用KMP或者BM
 
 ```cpp
 int kmp_strStr(string s, string p) {
@@ -53,6 +53,6 @@ int kmp_strStr(string s, string p) {
 }
 ```
 
-## 备注
+## 備註
 
 java中的indexOf算法使用的是BF算法...

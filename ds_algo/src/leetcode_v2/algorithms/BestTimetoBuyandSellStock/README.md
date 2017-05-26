@@ -6,7 +6,7 @@ If you were only permitted to complete at most one transaction (ie, buy one and 
 
 ## Solution
 
-本质就是求数对之差最大值，只需要保存前面的最小值，然后当前值减去最小值一定是最大的
+本質就是求數對之差最大值，只需要保存前面的最小值，然後當前值減去最小值一定是最大的
 
 ```c
 int maxProfit(int *a, int n)

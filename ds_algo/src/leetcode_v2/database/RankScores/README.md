@@ -31,11 +31,11 @@ For example, given the above Scores table, your query should generate the follow
 
 ## Solution
 
-这个题目比较难。需要得到排名，我们可以换个思路，即需要统计每个元素它大于等于的有多少个元素,
+這個題目比較難。需要得到排名，我們可以換個思路，即需要統計每個元素它大於等於的有多少個元素,
 比如{4.00: [4.00]}, 而3.85: [4.00, 3.85], {3.65:[4.00,3.85,3.65]}, {3.50:[4.00,3.85,3.65,3.5]}
 
 
-要得到这个列表，只需要做一个内连接操作，即
+要得到這個列表，只需要做一個內連接操作，即
 ```sql
 select Scores.Score , Ranking.Score
 	from Scores
@@ -43,7 +43,7 @@ select Scores.Score , Ranking.Score
 	on Scores.Score <= Ranking.Score
 	order by Scores.Score desc;
 ```
-输出为
+輸出為
 
 ```
 4.00	4.00
@@ -61,7 +61,7 @@ select Scores.Score , Ranking.Score
 3.50	3.50
 3.50	3.65
 ```
-我们可以得到排名为4.00:1 3.85: 2, 3.65: 3, 3.50:4, 只需要按照id分组，统计即可
+我們可以得到排名為4.00:1 3.85: 2, 3.65: 3, 3.50:4, 只需要按照id分組，統計即可
 ```sql
 select Scores.Score as Score, COUNT(*) as Rank
 from Scores

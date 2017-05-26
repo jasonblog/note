@@ -14,7 +14,7 @@ Note:
 
 ## Solution
 
-直接前后比较即可
+直接前後比較即可
 ```cpp
 class Solution {
 	public:

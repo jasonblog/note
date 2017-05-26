@@ -13,7 +13,7 @@ Special thanks to @mithmatt for adding this problem and creating all test cases.
 
 ## Solution
 
-利用快排法的partition函数:
+利用快排法的partition函數:
 
 ```cpp
 int partition(vector<int> &nums, int s, int t)
@@ -35,11 +35,11 @@ int partition(vector<int> &nums, int s, int t)
 }
 ```
 
-设返回的位置为pos，这个pos的值一定是排序后的正确顺序，因此若:
+設返回的位置為pos，這個pos的值一定是排序後的正確順序，因此若:
 
-* pos == k - 1, 则直接返回pos位置的值即可
-* 若pos < k - 1, 则在左边查找
-* 否则在右边查找.
+* pos == k - 1, 則直接返回pos位置的值即可
+* 若pos < k - 1, 則在左邊查找
+* 否則在右邊查找.
 
 ```cpp
 int findKthLargest(vector<int> &nums, int k) {

@@ -9,7 +9,7 @@ Special thanks to @jianchao.li.fighter for adding this problem and creating all 
 
 ## Solution
 
-直接遍历数组即可
+直接遍歷數組即可
 
 ```cpp
 vector<string> summaryRanges(vector<int> &nums) {

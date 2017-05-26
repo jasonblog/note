@@ -18,12 +18,12 @@ For example, the lowest common ancestor (LCA) of nodes 5 and 1 is 3. Another exa
 
 ## Solution
 
-判断两个节点:
+判斷兩個節點:
 
-* 若两个节点分别在左右子树，则当前节点就是最低公共祖先节点
-* 若两个节点都在左子树，则最低公共祖先节点在左子树
-* 若两个节点都在右子树，则最低公共祖先节点在右子树
-简单的方法是:
+* 若兩個節點分別在左右子樹，則當前節點就是最低公共祖先節點
+* 若兩個節點都在左子樹，則最低公共祖先節點在左子樹
+* 若兩個節點都在右子樹，則最低公共祖先節點在右子樹
+簡單的方法是:
 ```cpp
 TreeNode *LCA(TreeNode *root, TreeNode *p, TreeNode *q)
 {
@@ -39,9 +39,9 @@ TreeNode *LCA(TreeNode *root, TreeNode *p, TreeNode *q)
 }
 ```
 
-但以上方法复杂度在于findAny，即查找树中是否存在两个节点中的任意一个节点,复杂度为O(n),总复杂度为O(n<sup>2</sup>)
+但以上方法複雜度在於findAny，即查找樹中是否存在兩個節點中的任意一個節點,複雜度為O(n),總複雜度為O(n<sup>2</sup>)
 
-我们可以自底向上遍历结点，一旦遇到结点等于p或者q，则将其向上传递给它的父结点。父结点会判断它的左右子树是否都包含其中一个结点，如果是，则父结点一定是这两个节点p和q的LCA，传递父结点到root。如果不是，我们向上传递其中的包含结点p或者q的子结点，或者NULL(如果子结点不包含任何一个)。该方法时间复杂度为O(n)。
+我們可以自底向上遍歷結點，一旦遇到結點等於p或者q，則將其向上傳遞給它的父結點。父結點會判斷它的左右子樹是否都包含其中一個結點，如果是，則父結點一定是這兩個節點p和q的LCA，傳遞父結點到root。如果不是，我們向上傳遞其中的包含結點p或者q的子結點，或者NULL(如果子結點不包含任何一個)。該方法時間複雜度為O(n)。
 
 ```cpp
 TreeNode *lowestCommonAncestor(TreeNode *root, TreeNode *p, TreeNode *q)
@@ -58,9 +58,9 @@ TreeNode *lowestCommonAncestor(TreeNode *root, TreeNode *p, TreeNode *q)
 }
 ```
 
-也可以分别求出root到p节点路径和root到q节点的路径，然后求这两条路径的最后一个公共节点.
+也可以分別求出root到p節點路徑和root到q節點的路徑，然後求這兩條路徑的最後一個公共節點.
 
-首先求root到p节点的路径:
+首先求root到p節點的路徑:
 
 ```cpp
 bool getPath(TreeNode *root, TreeNode *p, list<TreeNode *> &path) {
@@ -78,7 +78,7 @@ bool getPath(TreeNode *root, TreeNode *p, list<TreeNode *> &path) {
 }
 ```
 
-然后求给定两条路径，求最后一个公共节点:
+然後求給定兩條路徑，求最後一個公共節點:
 
 ```cpp
 TreeNode *findCommonNode(const list<TreeNode *> &l1, const list<TreeNode *> &l2) {
@@ -96,7 +96,7 @@ TreeNode *findCommonNode(const list<TreeNode *> &l1, const list<TreeNode *> &l2)
 }
 ```
 
-于是LCA转化为:
+於是LCA轉化為:
 
 ```cpp
 TreeNode *lowestCommonAncestor(TreeNode *root, TreeNode *p, TreeNode *q)
@@ -116,7 +116,7 @@ TreeNode *lowestCommonAncestor(TreeNode *root, TreeNode *p, TreeNode *q)
 }
 ```
 
-## 相关题目
+## 相關題目
 
-* [Lowest Common Ancestor of a Binary Search Tree](../LowestCommonAncestorofaBinarySearchTree):求BST最低公共祖先节点
-* [Lowest Common Ancestor of a Binary Tree](../LowestCommonAncestorofaBinaryTree):求二叉树最低公共祖先节点
+* [Lowest Common Ancestor of a Binary Search Tree](../LowestCommonAncestorofaBinarySearchTree):求BST最低公共祖先節點
+* [Lowest Common Ancestor of a Binary Tree](../LowestCommonAncestorofaBinaryTree):求二叉樹最低公共祖先節點

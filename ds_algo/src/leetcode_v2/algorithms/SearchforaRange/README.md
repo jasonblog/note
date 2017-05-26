@@ -14,19 +14,19 @@ return `[3, 4]`.
 
 二分搜索
 
-首先找到target索引， 若不存在返回`[-1, -1]`, 否则找到左边界和右边界
+首先找到target索引， 若不存在返回`[-1, -1]`, 否則找到左邊界和右邊界
 
-找左边界，设二分搜索的结果为`left, mid`, 则设`left = left, right = mid`:
+找左邊界，設二分搜索的結果為`left, mid`, 則設`left = left, right = mid`:
 
 * 若`left == right`, 返回right
-* 若`a[left] == target`，left就是左边界.比如`[7,8,8,8], left = 1, target = 8`
-* 若`a[right - 1] != target`, right就是左边界.比如[1,6,8,9], right = 2, target = 8`
-* 设`mid = left + ((right - left) >> 1)`, 若`a[mid] == target`, 则`right = mid`, 否则必然有
-`a[mid] < target`, 则`left = mid + 1`
-* 返回最开始。
+* 若`a[left] == target`，left就是左邊界.比如`[7,8,8,8], left = 1, target = 8`
+* 若`a[right - 1] != target`, right就是左邊界.比如[1,6,8,9], right = 2, target = 8`
+* 設`mid = left + ((right - left) >> 1)`, 若`a[mid] == target`, 則`right = mid`, 否則必然有
+`a[mid] < target`, 則`left = mid + 1`
+* 返回最開始。
 
 
-找右边界类似
+找右邊界類似
 
 ```cpp
 class Solution {

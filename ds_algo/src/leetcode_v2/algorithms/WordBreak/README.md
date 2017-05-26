@@ -10,9 +10,9 @@ Return true because `"leetcode"` can be segmented as `"leet code"`.
 
 ## Solution
 
-类似DP思想:
+類似DP思想:
 
-使用dp[i]表示前面i个字符(0 ~ i - 1)是否可以break, 显然dp[i]取决于i之前是否可以break，并且`dp[0] = true`,即
+使用dp[i]表示前面i個字符(0 ~ i - 1)是否可以break, 顯然dp[i]取決於i之前是否可以break，並且`dp[0] = true`,即
 
 ``` 
 for j from 0 to 1
@@ -21,7 +21,7 @@ for j from 0 to 1
 		break
 ```
 
-于是实现代码为:
+於是實現代碼為:
 
 ```cpp
 bool wordBreak(string s, const unordered_set<string> &dict) {
@@ -40,6 +40,6 @@ bool wordBreak(string s, const unordered_set<string> &dict) {
 }
 ```
 
-## 扩展
+## 擴展
 
-[Word Break II](../WordBreakII): 打印所有的结果
+[Word Break II](../WordBreakII): 打印所有的結果

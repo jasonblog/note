@@ -6,14 +6,14 @@ You may assume that the array is non-empty and the majority element always exist
 
 ## Solution
 
-一个数字出现数组次数的一半，即这个数字的次数超过其他数字出现次数之和
+一個數字出現數組次數的一半，即這個數字的次數超過其他數字出現次數之和
 
-可以用一个count指针，以及当前候选数字result:
+可以用一個count指針，以及當前候選數字result:
 
-* 若`a[i] == result`, 则`count++`，否则若`a[i] != result`,则`count--`
-* 若`count == 0`, 则更新result，即`result = a[i]`
+* 若`a[i] == result`, 則`count++`，否則若`a[i] != result`,則`count--`
+* 若`count == 0`, 則更新result，即`result = a[i]`
 
-最后result就是次数超过一半的数字
+最後result就是次數超過一半的數字
 
 ## Code
 ```c

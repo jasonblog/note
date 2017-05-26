@@ -15,15 +15,15 @@ Although the above answer is in lexicographical order, your answer could be in a
 
 ## Solution
 
-分别遍历追加即可，注意`c++`中字符串追加字符不能用`“” + c`, 而只能用`string() + c`,这一点和java的不同之处。
+分別遍歷追加即可，注意`c++`中字符串追加字符不能用`“” + c`, 而只能用`string() + c`,這一點和java的不同之處。
 
-另外注意c++lambda表达式捕获变量:
+另外注意c++lambda表達式捕獲變量:
 ```
-[&result] 表示捕获result，并且result按引用传递
-[result] 表示捕获result，并且result按值传递
-[&] 所有变量按引用传递
-[=] 所有变量传值
-[] 不捕获任何变量
+[&result] 表示捕獲result，並且result按引用傳遞
+[result] 表示捕獲result，並且result按值傳遞
+[&] 所有變量按引用傳遞
+[=] 所有變量傳值
+[] 不捕獲任何變量
 ```
 ```cpp
 class Solution {

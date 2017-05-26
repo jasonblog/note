@@ -6,11 +6,11 @@ Given a m x n grid filled with non-negative numbers, find a path from top left t
 
 ## Solution
 
-最开始想到用BFS，这思维！
+最開始想到用BFS，這思維！
 
-显然这是最最经典直接的DP问题。
+顯然這是最最經典直接的DP問題。
 
-设`dp[i][j]`表示`a[0][0]`到`a[i][j]`的最小路径, 则显然有动态方程`dp[i][j] = MIN(dp[i - 1][j], dp[i][j - 1])`,
+設`dp[i][j]`表示`a[0][0]`到`a[i][j]`的最小路徑, 則顯然有動態方程`dp[i][j] = MIN(dp[i - 1][j], dp[i][j - 1])`,
 ```cpp
 int minPathSum(vector<vector<int>> &grid) {
 	if (grid.size() < 1)
@@ -30,9 +30,9 @@ int minPathSum(vector<vector<int>> &grid) {
 }
 ```
 
-时间和空间复杂度都是O(nm)。时间复杂度没有什么优化方案，当空间可以采用压缩的方法,显然`dp[i][j]`只依赖于左边和上边一个值,即`dp[i - 1][j]`和`dp[i][j - 1]`,
-而与前面的值无关。所以处理第i行j列时，与i-1行的该j列有关，以及i行j-1列有关，我们只需要声明dp[i], dp表示第i行j列的值,旧值dp[i]相当于`dp[i - 1][j]`,
- `dp[i - 1]`相当于`dp[i][j - 1]`,于是`dp[i] = MIN (dp[i], dp[i - 1]`
+時間和空間複雜度都是O(nm)。時間複雜度沒有什麼優化方案，當空間可以採用壓縮的方法,顯然`dp[i][j]`只依賴於左邊和上邊一個值,即`dp[i - 1][j]`和`dp[i][j - 1]`,
+而與前面的值無關。所以處理第i行j列時，與i-1行的該j列有關，以及i行j-1列有關，我們只需要聲明dp[i], dp表示第i行j列的值,舊值dp[i]相當於`dp[i - 1][j]`,
+ `dp[i - 1]`相當於`dp[i][j - 1]`,於是`dp[i] = MIN (dp[i], dp[i - 1]`
 ```cpp
 int minPathSum(vector<vector<int>> &grid) {
 	if (grid.size() < 1)

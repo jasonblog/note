@@ -8,18 +8,18 @@ Given `1->1->1->2->3`, return `2->3`.
 
 ## Solution
 
-这个与[Remove Duplicates from Sorted List](../RemoveDuplicatesfromSortedList)不同，本题是要删除所有重复的元素，即重复的就要删除，一个不剩，而后者是要删除重复的元素，只保留一个元素.
+這個與[Remove Duplicates from Sorted List](../RemoveDuplicatesfromSortedList)不同，本題是要刪除所有重複的元素，即重複的就要刪除，一個不剩，而後者是要刪除重複的元素，只保留一個元素.
 
-设p为当前的元素，初始化为head, pre为前一个元素，初始化为null， q为后一个元素，即`q = p->next`
+設p為當前的元素，初始化為head, pre為前一個元素，初始化為null， q為後一個元素，即`q = p->next`
 
-* 若`q->val != p->val`, 则直接更新p，pre
+* 若`q->val != p->val`, 則直接更新p，pre
 
 ```c
 pre = p;
 p = p->next;
 ```
 
-* 否则指向删除q，直到q与p值不相等
+* 否則指向刪除q，直到q與p值不相等
 ```c
 while(q && q->val == p->val) {
 	p->next = p->next->next;
@@ -27,9 +27,9 @@ while(q && q->val == p->val) {
 	q = p->next;
 }
 ```
-然后执行以下操作:
+然後執行以下操作:
 
-+ 若`p == head`, 即头节点就出现重复，需要更新head指针，并释放p
++ 若`p == head`, 即頭節點就出現重複，需要更新head指針，並釋放p
 
 ```c
 head = p->next;
@@ -37,7 +37,7 @@ free(p);
 p = head;
 ```
 
-+ 若`p != head`, 则只需要删除p节点即可，利用pre指针
++ 若`p != head`, 則只需要刪除p節點即可，利用pre指針
 
 ```c
 pre->next = pre->next->next;
@@ -80,6 +80,6 @@ struct ListNode* deleteDuplicates(struct ListNode *head)
 }
 ```
 
-## 扩展
+## 擴展
 
-[Remove Duplicates from Sorted List I](../RemoveDuplicatesfromSortedList), 删除重复的元素，即重复的只保留一个，相当于去重
+[Remove Duplicates from Sorted List I](../RemoveDuplicatesfromSortedList), 刪除重複的元素，即重複的只保留一個，相當於去重

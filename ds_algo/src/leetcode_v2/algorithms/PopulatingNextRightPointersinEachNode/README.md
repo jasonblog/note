@@ -41,7 +41,7 @@ After calling your function, the tree should look like:
 
 ## Solution
 
-层次遍历，若当前节点和下一个节点的层次相同，则连接当前节点指向下一个节点
+層次遍歷，若當前節點和下一個節點的層次相同，則連接當前節點指向下一個節點
 
 ```cpp
 struct Bucket {
@@ -61,7 +61,7 @@ public:
 			TreeLinkNode *p = current.node;
 			int level = current.level;
 			q.pop();
-			if (!q.empty()) { // 注意检查是否还存在节点
+			if (!q.empty()) { // 注意檢查是否還存在節點
 				Bucket next = q.front();
 				if (current.level == next.level) {
 					p->next = next.node;
@@ -76,13 +76,13 @@ public:
 };
 ```
 
-但以上方法需要一个队列，需要O(n)的空间。题目要求O(1)的空间。如何解决呢？
+但以上方法需要一個隊列，需要O(n)的空間。題目要求O(1)的空間。如何解決呢？
 
-首先题目已经说明给定的是满二叉树，即所有的叶子都在同一层，并且除了叶子节点，都有两个孩子节点，不存在单孩子节点。
+首先題目已經說明給定的是滿二叉樹，即所有的葉子都在同一層，並且除了葉子節點，都有兩個孩子節點，不存在單孩子節點。
 
-假设我们已经处理完某层的p，现在处理p以下的所有节点，并且上面的层次都已经处理完了，我们可以充分利用next指针来完成。
+假設我們已經處理完某層的p，現在處理p以下的所有節點，並且上面的層次都已經處理完了，我們可以充分利用next指針來完成。
 
-* 首先`p->left->next = p->right`，这是显然的，每个左孩子必然指向它的右孩子.
+* 首先`p->left->next = p->right`，這是顯然的，每個左孩子必然指向它的右孩子.
 
 ```
     p ->  q
@@ -90,10 +90,10 @@ public:
   l1 r1 l2 r2
 ```
 
-* 那么`p->right->next` 指向哪个节点呢？显然是与p同层次的右兄弟节点的左孩子。
-如何得到p的右兄弟？因为p层已经处理完毕，则`p->next`就是它的右兄弟,于是显然`p->right->next = p->next->left`
-* 然后处理同层次的下一个节点的孩子，`p = p->next`，此时p为q节点， 直到p为null，即没有右兄弟节点为止.
-* 处理完成该层次后，处理下一个层次，即`p = pre->left`, pre表示该成的最左节点，即p为上图的l1节点。
+* 那麼`p->right->next` 指向哪個節點呢？顯然是與p同層次的右兄弟節點的左孩子。
+如何得到p的右兄弟？因為p層已經處理完畢，則`p->next`就是它的右兄弟,於是顯然`p->right->next = p->next->left`
+* 然後處理同層次的下一個節點的孩子，`p = p->next`，此時p為q節點， 直到p為null，即沒有右兄弟節點為止.
+* 處理完成該層次後，處理下一個層次，即`p = pre->left`, pre表示該成的最左節點，即p為上圖的l1節點。
 
 ```cpp
 void connect(TreeLinkNode *root) {
@@ -114,6 +114,6 @@ void connect(TreeLinkNode *root) {
 }
 ```
 
-## 扩展
+## 擴展
 
-[Populating Next Right Pointers in Each Node II](../PopulatingNextRightPointersinEachNodeII), 二叉树不是满二叉树的情况，甚至不是完全二叉树！
+[Populating Next Right Pointers in Each Node II](../PopulatingNextRightPointersinEachNodeII), 二叉樹不是滿二叉樹的情況，甚至不是完全二叉樹！

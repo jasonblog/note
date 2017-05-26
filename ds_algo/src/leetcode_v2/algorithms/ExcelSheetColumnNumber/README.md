@@ -18,7 +18,7 @@ Special thanks to @ts for adding this problem and creating all test cases.
 
 ## Solution
 
-进制转化，比如2进制转化成10进制
+進制轉化，比如2進制轉化成10進制
 
 ## Code
 ```c
@@ -36,6 +36,6 @@ int titleToNumber(char* s)
 }
 ```
 
-## 扩展
+## 擴展
 
-逆过程[Excel Sheet Column Title](../ExcelSheetColumnTitle)
+逆過程[Excel Sheet Column Title](../ExcelSheetColumnTitle)

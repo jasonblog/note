@@ -57,7 +57,7 @@
         data-chapter-title="移植 Linux Kernel 造成無法開機之解決方案以及除錯工具"
         data-filepath="linux_kernel/yi_zhi_linux_kernel_zao_cheng_wu_fa_kai_ji_zhi_jie.md"
         data-basepath=".."
-        data-revision="Thu May 25 2017 20:12:55 GMT+0800 (CST)"
+        data-revision="Sat May 27 2017 00:46:15 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -5940,6 +5940,21 @@
     
 
             </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="13.50" data-path="linux_system/linuxxia_li_yong_backtrace_zhui_zong_han_shu_diao_.html">
+            
+                
+                    <a href="../linux_system/linuxxia_li_yong_backtrace_zhui_zong_han_shu_diao_.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>13.50.</b>
+                        
+                        Linux下利用backtrace追蹤函數調用堆棧以及定位段錯誤
+                    </a>
+            
             
         </li>
     
@@ -17793,11 +17808,11 @@
 <p></p><h4 id="1-&#x5C07;&#x65B0;&#x7248;-linux-kernel-&#x79FB;&#x690D;&#x5230;&#x5168;&#x65B0;-soc-&#x4E0A;"><strong><span style="color:#0000ff;">1. &#x5C07;&#x65B0;&#x7248; Linux Kernel &#x79FB;&#x690D;&#x5230;&#x5168;&#x65B0; SoC &#x4E0A;</span></strong></h4><p></p>
 <p>&#x958B;&#x767C;&#x4EBA;&#x54E1;&#x70BA; SoC &#x5EE0;&#x5546;(e.g. MTK, TI, Allwinner) R&amp;D engineer.</p>
 <p>&#x5728;&#x6B64;&#x968E;&#x6BB5;&#x7684;&#x79FB;&#x690D;, &#x9700;&#x8981;&#x5BEB; dtsi, low-level code (&#x4F4D;&#x65BC; arch// &#x5E95;&#x4E0B;) &#x4EE5;&#x53CA; SoC &#x76F8;&#x95DC;&#x7684;&#x5E95;&#x5C64;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;. &#x4E26;&#x4E14;&#x9808;&#x78BA;&#x4FDD; SoC &#x529F;&#x80FD;&#x904B;&#x884C;&#x6B63;&#x5E38;.</p>
-<h4 id="2-&#x5C07;&#x65B0;&#x7248;-linux-kernel-&#x79FB;&#x690D;&#x5230;&#x5168;&#x65B0;&#x5E73;&#x53F0;&#x4E0A;"><span style="color:#0000ff;"><strong>2. &#x5C07;&#x65B0;&#x7248; Linux Kernel &#x79FB;&#x690D;&#x5230;&#x5168;&#x65B0;&#x5E73;&#x53F0;&#x4E0A;</strong></span></h4>
+<h4 id="2-&#x5C07;&#x65B0;&#x7248;-linux-kernel-&#x79FB;&#x690D;&#x5230;&#x5168;&#x65B0;&#x5E73;&#x81FA;&#x4E0A;"><span style="color:#0000ff;"><strong>2. &#x5C07;&#x65B0;&#x7248; Linux Kernel &#x79FB;&#x690D;&#x5230;&#x5168;&#x65B0;&#x5E73;&#x81FA;&#x4E0A;</strong></span></h4>
 <p>&#x958B;&#x767C;&#x4EBA;&#x54E1;&#x70BA;&#x786C;&#x9AD4;&#x5EE0; &#x7684; R&amp;D engineer &#x6216;&#x8005;&#x662F;&#x958B;&#x767C;&#x677F; (e.g. beagleboard, RPi) &#x4E0A;&#x6E38;&#x958B;&#x767C;&#x4EBA;&#x54E1;.</p>
-<p>&#x5728;&#x6B64;&#x968E;&#x6BB5;&#x7684;&#x79FB;&#x690D;, &#x9700;&#x8981;&#x5EFA;&#x7ACB; dts &#x4F86;&#x63CF;&#x8FF0;&#x786C;&#x9AD4;&#x8CC7;&#x8A0A;, &#x4E26;&#x9069;&#x5EA6;&#x4FEE;&#x6539; dtsi. &#x6B64;&#x5916;&#x4E5F;&#x9700;&#x8981;&#x6839;&#x64DA;&#x786C;&#x9AD4;/ &#x9031;&#x908A;/ &#x5E73;&#x53F0;&#x8CC7;&#x8A0A;&#x4F86;&#x5EFA;&#x7ACB;&#x5C6C;&#x65BC;&#x677F;&#x5B50;&#x7684; Kernel &#xA0;config. &#x6A94;.&#xA0;&#x4E26;&#x4E14;&#x9808;&#x78BA;&#x4FDD;&#x786C;&#x9AD4;/ &#x9031;&#x908A;/ &#x5E73;&#x53F0;&#x529F;&#x80FD;&#x904B;&#x884C;&#x6B63;&#x5E38;.</p>
+<p>&#x5728;&#x6B64;&#x968E;&#x6BB5;&#x7684;&#x79FB;&#x690D;, &#x9700;&#x8981;&#x5EFA;&#x7ACB; dts &#x4F86;&#x63CF;&#x8FF0;&#x786C;&#x9AD4;&#x8CC7;&#x8A0A;, &#x4E26;&#x9069;&#x5EA6;&#x4FEE;&#x6539; dtsi. &#x6B64;&#x5916;&#x4E5F;&#x9700;&#x8981;&#x6839;&#x64DA;&#x786C;&#x9AD4;/ &#x9031;&#x908A;/ &#x5E73;&#x81FA;&#x8CC7;&#x8A0A;&#x4F86;&#x5EFA;&#x7ACB;&#x5C6C;&#x65BC;&#x677F;&#x5B50;&#x7684; Kernel &#xA0;config. &#x6A94;.&#xA0;&#x4E26;&#x4E14;&#x9808;&#x78BA;&#x4FDD;&#x786C;&#x9AD4;/ &#x9031;&#x908A;/ &#x5E73;&#x81FA;&#x529F;&#x80FD;&#x904B;&#x884C;&#x6B63;&#x5E38;.</p>
 <h4 id=""></h4>
-<h4 id="3-&#x5C07;&#x65B0;&#x7248;-linux-kernel-&#x79FB;&#x690D;&#x5230;&#x820A;&#x6709;&#x5E73;&#x53F0;&#x4E0A;&#x9032;&#x884C;-kernel-&#x7248;&#x672C;&#x5347;&#x7D1A;"><strong><span style="color:#0000ff;">3. &#x5C07;&#x65B0;&#x7248; Linux Kernel &#x79FB;&#x690D;&#x5230;&#x820A;&#x6709;&#x5E73;&#x53F0;&#x4E0A;&#x9032;&#x884C; Kernel &#x7248;&#x672C;&#x5347;&#x7D1A;</span></strong></h4>
+<h4 id="3-&#x5C07;&#x65B0;&#x7248;-linux-kernel-&#x79FB;&#x690D;&#x5230;&#x820A;&#x6709;&#x5E73;&#x81FA;&#x4E0A;&#x9032;&#x884C;-kernel-&#x7248;&#x672C;&#x5347;&#x7D1A;"><strong><span style="color:#0000ff;">3. &#x5C07;&#x65B0;&#x7248; Linux Kernel &#x79FB;&#x690D;&#x5230;&#x820A;&#x6709;&#x5E73;&#x81FA;&#x4E0A;&#x9032;&#x884C; Kernel &#x7248;&#x672C;&#x5347;&#x7D1A;</span></strong></h4>
 <p>&#x958B;&#x767C;&#x4EBA;&#x54E1;&#x70BA;&#x4EFB;&#x4F55;&#x6709;&#x8208;&#x8DA3;&#x7684; Maker. &#x53EA;&#x8981;&#x6709;&#x958B;&#x767C;&#x7248;&#x5373;&#x53EF;&#x9032;&#x884C; (e.g. beagleboard, RPi).&#xA0;&#x4E00;&#x822C;&#x4F86;&#x8AAA;, Linux Kernel &#x79FB;&#x690D;&#x5927;&#x591A;&#x5C6C;&#x65BC;&#x6B64;&#x7BC4;&#x7587;.</p>
 <p>&#x5728;&#x6B64;&#x968E;&#x6BB5;&#x7684;&#x79FB;&#x690D;, &#x9700;&#x8981;&#x6839;&#x64DA; dtsi &#x7684;&#x7248;&#x672C;&#x5DEE;&#x7570;&#x4F86;&#x5FAE;&#x8ABF; dts &#x683C;&#x5F0F;. &#x6B64;&#x5916;&#x4E5F;&#x9700;&#x8981;&#x6839;&#x64DA; Kernel &#x7248;&#x672C;&#x5DEE;&#x7570;&#x8CC7;&#x8A0A;&#x4F86;&#x5FAE;&#x8ABF;&#x677F;&#x5B50;&#x7684; Kernel &#xA0;config. &#x6A94;.</p>
 <p>&#x6B64;&#x5916;&#x4E5F;&#x9808;&#x53C3;&#x7167;&#x820A;&#x6709; Kernel source &#x4E0A;&#x7684; in-house patch &#x4F86;&#x4FEE;&#x6539;&#x65B0;&#x7248; Kernel source.</p>
@@ -17833,7 +17848,7 @@
 <tr>
 <td style="text-align:center;" width="20%"><span style="color:#0000ff;"><strong>&#x820A;&#x6709; DTS &#x8207; &#x65B0;&#x677F; DTSI&#x4E0D;&#x76F8;&#x5BB9;</strong></span></td>
 <td>
-<p style="text-align:left;">&#x5C07;&#x65B0; Linux Kernel &#x79FB;&#x690D;&#x5230;&#x820A;&#x6709;&#x5E73;&#x53F0;&#x4E0A;&#x9032;&#x884C;Kernel &#x5347;&#x7D1A;</p>
+<p style="text-align:left;">&#x5C07;&#x65B0; Linux Kernel &#x79FB;&#x690D;&#x5230;&#x820A;&#x6709;&#x5E73;&#x81FA;&#x4E0A;&#x9032;&#x884C;Kernel &#x5347;&#x7D1A;</p>
 </td>
 <td style="text-align:left;">&#x95B1;&#x8B80; dtsi git &#x4FEE;&#x6539;&#x6B77;&#x7A0B;, &#x4E26;&#x8A73;&#x7D30;&#x95B1;&#x8B80; <span style="color:#ff0000;">&#x201C;Documentation/devicetree/bindings/&quot;</span> &#x76F8;&#x95DC;&#x6587;&#x4EF6;.</td>
 </tr>
@@ -17842,7 +17857,7 @@
 <td style="text-align:center;">
 <ul>
 <li style="text-align:left;">&#x5C07; Linux&#xA0;&#x79FB;&#x690D;&#x5230;&#x65B0; SoC&#x4E0A;</li>
-<li style="text-align:left;">&#x5C07;&#x65B0; Linux Kernel &#x79FB;&#x690D;&#x5230;&#x5168;&#x65B0;&#x5E73;&#x53F0;&#x4E0A;</li>
+<li style="text-align:left;">&#x5C07;&#x65B0; Linux Kernel &#x79FB;&#x690D;&#x5230;&#x5168;&#x65B0;&#x5E73;&#x81FA;&#x4E0A;</li>
 </ul>
 </td>
 <td style="text-align:left;">&#x548C; Hardware/ Bootloader &#x90E8;&#x9580; R&amp;D &#x5DE5;&#x7A0B;&#x5E2B;&#x5354;&#x540C;&#x5408;&#x4F5C;, &#x4E00;&#x8D77;&#x770B;&#x786C;&#x9AD4;&#x7DDA;&#x8DEF;&#x9664;&#x87F2;</td>
@@ -17852,8 +17867,8 @@
 <td style="text-align:left;">
 <ul>
 <li>&#x5C07; Linux&#xA0;&#x79FB;&#x690D;&#x5230;&#x65B0; SoC&#x4E0A;</li>
-<li>&#x5C07;&#x65B0; Linux Kernel &#x79FB;&#x690D;&#x5230;&#x5168;&#x65B0;&#x5E73;&#x53F0;&#x4E0A;</li>
-<li>&#x5C07;&#x65B0; Linux Kernel &#x79FB;&#x690D;&#x5230;&#x820A;&#x6709;&#x5E73;&#x53F0;&#x4E0A;&#x9032;&#x884C;Kernel &#x5347;&#x7D1A;</li>
+<li>&#x5C07;&#x65B0; Linux Kernel &#x79FB;&#x690D;&#x5230;&#x5168;&#x65B0;&#x5E73;&#x81FA;&#x4E0A;</li>
+<li>&#x5C07;&#x65B0; Linux Kernel &#x79FB;&#x690D;&#x5230;&#x820A;&#x6709;&#x5E73;&#x81FA;&#x4E0A;&#x9032;&#x884C;Kernel &#x5347;&#x7D1A;</li>
 </ul>
 </td>
 <td style="text-align:left;">
@@ -17866,8 +17881,8 @@
 <td style="text-align:center;">
 <ul>
 <li style="text-align:left;">&#x5C07; Linux&#xA0;&#x79FB;&#x690D;&#x5230;&#x65B0; SoC&#x4E0A;</li>
-<li style="text-align:left;">&#x5C07;&#x65B0; Linux Kernel &#x79FB;&#x690D;&#x5230;&#x5168;&#x65B0;&#x5E73;&#x53F0;&#x4E0A;</li>
-<li style="text-align:left;">&#x5C07;&#x65B0; Linux Kernel &#x79FB;&#x690D;&#x5230;&#x820A;&#x6709;&#x5E73;&#x53F0;&#x4E0A;&#x9032;&#x884C;Kernel &#x5347;&#x7D1A;</li>
+<li style="text-align:left;">&#x5C07;&#x65B0; Linux Kernel &#x79FB;&#x690D;&#x5230;&#x5168;&#x65B0;&#x5E73;&#x81FA;&#x4E0A;</li>
+<li style="text-align:left;">&#x5C07;&#x65B0; Linux Kernel &#x79FB;&#x690D;&#x5230;&#x820A;&#x6709;&#x5E73;&#x81FA;&#x4E0A;&#x9032;&#x884C;Kernel &#x5347;&#x7D1A;</li>
 </ul>
 </td>
 <td style="text-align:center;">
@@ -17879,8 +17894,8 @@
 <td style="text-align:center;">
 <ul>
 <li style="text-align:left;">&#x5C07; Linux&#xA0;&#x79FB;&#x690D;&#x5230;&#x65B0; SoC&#x4E0A;</li>
-<li style="text-align:left;">&#x5C07;&#x65B0; Linux Kernel &#x79FB;&#x690D;&#x5230;&#x5168;&#x65B0;&#x5E73;&#x53F0;&#x4E0A;</li>
-<li style="text-align:left;">&#x5C07;&#x65B0; Linux Kernel &#x79FB;&#x690D;&#x5230;&#x820A;&#x6709;&#x5E73;&#x53F0;&#x4E0A;&#x9032;&#x884C;Kernel &#x5347;&#x7D1A;</li>
+<li style="text-align:left;">&#x5C07;&#x65B0; Linux Kernel &#x79FB;&#x690D;&#x5230;&#x5168;&#x65B0;&#x5E73;&#x81FA;&#x4E0A;</li>
+<li style="text-align:left;">&#x5C07;&#x65B0; Linux Kernel &#x79FB;&#x690D;&#x5230;&#x820A;&#x6709;&#x5E73;&#x81FA;&#x4E0A;&#x9032;&#x884C;Kernel &#x5347;&#x7D1A;</li>
 </ul>
 </td>
 <td style="text-align:left;">boot code program &#x9700;&#x8981;&#x6CE8;&#x610F;&#x907F;&#x514D;&#x5C07;&#x5169;&#x8005;&#xA0;memory &#x4F4D;&#x5740;&#x8A2D;&#x592A;&#x8FD1;&#x5C0E;&#x81F4;&#x885D;&#x7A81;.</td>
@@ -17890,8 +17905,8 @@
 <td>
 <ul>
 <li>&#x5C07; Linux&#xA0;&#x79FB;&#x690D;&#x5230;&#x65B0; SoC&#x4E0A;</li>
-<li>&#x5C07;&#x65B0; Linux Kernel &#x79FB;&#x690D;&#x5230;&#x5168;&#x65B0;&#x5E73;&#x53F0;&#x4E0A;</li>
-<li>&#x5C07;&#x65B0; Linux Kernel &#x79FB;&#x690D;&#x5230;&#x820A;&#x6709;&#x5E73;&#x53F0;&#x4E0A;&#x9032;&#x884C;Kernel &#x5347;&#x7D1A;</li>
+<li>&#x5C07;&#x65B0; Linux Kernel &#x79FB;&#x690D;&#x5230;&#x5168;&#x65B0;&#x5E73;&#x81FA;&#x4E0A;</li>
+<li>&#x5C07;&#x65B0; Linux Kernel &#x79FB;&#x690D;&#x5230;&#x820A;&#x6709;&#x5E73;&#x81FA;&#x4E0A;&#x9032;&#x884C;Kernel &#x5347;&#x7D1A;</li>
 </ul>
 </td>
 <td style="text-align:left;">&#x8A18;&#x5F97;&#x91CD;&#x65B0;&#x7DE8;&#x8B6F; Kernel &#x6642;, &#x4E5F;&#x8981;&#x4E00;&#x4F75;&#x91CD;&#x65B0;&#x7DE8;&#x8B6F; DTB. &#x4E26;&#x78BA;&#x4FDD;&#x5169;&#x8005;&#x662F;&#x6210;&#x5C0D;&#x7684;.</td>
@@ -17901,8 +17916,8 @@
 <td>
 <ul>
 <li>&#x5C07; Linux&#xA0;&#x79FB;&#x690D;&#x5230;&#x65B0; SoC&#x4E0A;</li>
-<li>&#x5C07;&#x65B0; Linux Kernel &#x79FB;&#x690D;&#x5230;&#x5168;&#x65B0;&#x5E73;&#x53F0;&#x4E0A;</li>
-<li>&#x5C07;&#x65B0; Linux Kernel &#x79FB;&#x690D;&#x5230;&#x820A;&#x6709;&#x5E73;&#x53F0;&#x4E0A;&#x9032;&#x884C;Kernel &#x5347;&#x7D1A;</li>
+<li>&#x5C07;&#x65B0; Linux Kernel &#x79FB;&#x690D;&#x5230;&#x5168;&#x65B0;&#x5E73;&#x81FA;&#x4E0A;</li>
+<li>&#x5C07;&#x65B0; Linux Kernel &#x79FB;&#x690D;&#x5230;&#x820A;&#x6709;&#x5E73;&#x81FA;&#x4E0A;&#x9032;&#x884C;Kernel &#x5347;&#x7D1A;</li>
 </ul>
 </td>
 <td style="text-align:left;">&#x78BA;&#x5B9A; SoC &#x7A2E;&#x985E;, &#x4E26;&#x5230;Kernel &#x9078;&#x55AE; &#x2013; &#xA0;System Type &#x4E2D;&#x9078;&#x53D6;&#x5C0D;&#x61C9;&#x7684;&#x9078;&#x9805;</td>

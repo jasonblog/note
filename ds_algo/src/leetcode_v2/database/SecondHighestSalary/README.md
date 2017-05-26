@@ -15,32 +15,32 @@ For example, given the above Employee table, the second highest salary is 200. I
 
 ## Solution 1
 
-可以使用子查询的方式,即
+可以使用子查詢的方式,即
 
 ```sql
 select max(Salary) as SecondHighestSalary from Employee where Salary < (select max(Salary) from Employee);
 ```
 
-这种方式更通用，但使用了子查询（不相关子查询），效率会低点。
+這種方式更通用，但使用了子查詢（不相關子查詢），效率會低點。
 
 ## Solution 2
 
-使用mysql特有`LIMIT` 和 `IFNULL`语法，下面简单介绍下:
+使用mysql特有`LIMIT` 和 `IFNULL`語法，下面簡單介紹下:
 
 ### LIMIT
 
-LIMIT可以限制select语句的输出行数，可以有一个参数或者两个参数。
+LIMIT可以限制select語句的輸出行數，可以有一個參數或者兩個參數。
 
-如果只有一个参数，则表示限制的最大行数，如果不足最大行数，则输出所有行。
+如果只有一個參數，則表示限制的最大行數，如果不足最大行數，則輸出所有行。
 
-如果两个参数，前一个参数表示与第一行的偏移量，偏移量为0表示从第一行开始输出，第二个参数表示最大行数。如果偏移量超出行数范围，输出为空
+如果兩個參數，前一個參數表示與第一行的偏移量，偏移量為0表示從第一行開始輸出，第二個參數表示最大行數。如果偏移量超出行數範圍，輸出為空
 
 
 ### IFNULL
 
-两个参数，如果第一个参数为空集合，则输出第二个参数。
+兩個參數，如果第一個參數為空集合，則輸出第二個參數。
 
-综合以上两个函数，可以实现为:
+綜合以上兩個函數，可以實現為:
 
 ```sql
 select ifnull((select distinct Salary from Employee order by Salary desc limit 1,1), null) as SecondHighestSalary;

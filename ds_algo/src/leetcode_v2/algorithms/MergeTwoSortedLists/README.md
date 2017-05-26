@@ -5,7 +5,7 @@ Merge two sorted linked lists and return it as a new list. The new list should b
 
 ## Solution
 
-简单归并操作
+簡單歸併操作
 
 ```c
 struct ListNode *mergeTwoLists(struct ListNode *l1, struct ListNode *l2) {
@@ -45,9 +45,9 @@ struct ListNode *mergeTwoLists(struct ListNode *l1, struct ListNode *l2) {
 	return result;
 }
 ```
-## 扩展
+## 擴展
 
-* [Merge Two Sorted Lists](../MergeTwoSortedLists): 合并两个链表
-* [Merge k Sorted Lists](../MergekSortedLists): 合并K个链表
-* [Merge Sorted Array](../MergeSortedArray): 合并两个数组
-* [Sort List](../SortList): 归并排序两个链表
+* [Merge Two Sorted Lists](../MergeTwoSortedLists): 合併兩個鏈表
+* [Merge k Sorted Lists](../MergekSortedLists): 合併K個鏈表
+* [Merge Sorted Array](../MergeSortedArray): 合併兩個數組
+* [Sort List](../SortList): 歸併排序兩個鏈表

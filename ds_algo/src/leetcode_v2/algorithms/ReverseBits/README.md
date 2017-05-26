@@ -14,7 +14,7 @@ Special thanks to @ts for adding this problem and creating all test cases.
 
 ## Solution
 
-位运算
+位運算
 
 ## Code
 ```c

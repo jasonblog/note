@@ -33,7 +33,7 @@ Hints:
 
 ## Solution
 
-求拓扑排序结果, 算法见[Course Schedule](../CourseSchedule)
+求拓撲排序結果, 算法見[Course Schedule](../CourseSchedule)
 
 ```cpp
 vector<int> topsort(int n, const vector<pair<int, int>> &request) {
@@ -42,14 +42,14 @@ vector<int> topsort(int n, const vector<pair<int, int>> &request) {
 	for (auto p : request) {
 		degree[p.first]++;
 	}
-	while (result.size() < n) { // 还没有访问完
+	while (result.size() < n) { // 還沒有訪問完
 		int cur = findZero(degree);
-		if (cur >= 0) { // 访问节点cur
+		if (cur >= 0) { // 訪問節點cur
 			result.push_back(cur);
-			degree[cur] = -1; // 标记当前节点为已经访问状态
+			degree[cur] = -1; // 標記當前節點為已經訪問狀態
 			for (auto p : request) {
 				if (p.second == cur)
-					degree[p.first]--; // 去掉已访问节点
+					degree[p.first]--; // 去掉已訪問節點
 			}
 		} else
 			return vector<int>();

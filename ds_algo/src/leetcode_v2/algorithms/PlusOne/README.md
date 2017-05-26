@@ -6,7 +6,7 @@ The digits are stored such that the most significant digit is at the head of the
 
 ## Solution
 
-直接从最后开始，处理进位
+直接從最後開始，處理進位
 ```cpp
 vector<int> plusOne(vector<int> &digits) {
 	int i = digits.size() - 1;

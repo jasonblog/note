@@ -12,15 +12,15 @@ Output: index1=1, index2=2
 
 ## Solution 1
 
-暴力枚举法，时间复杂度O(n<sup>2</sup>),时间复杂度O(1)
+暴力枚舉法，時間複雜度O(n<sup>2</sup>),時間複雜度O(1)
 
 ## Solution 2
 
-假设数组为2 7 11 15， target 为9, 则用9减数组的元素得到一个新的数组7 2 -2 -6，则只需要查找数组中的元素是否在新的数组中出现即可判断是否存在满足条件的两个数。
+假設數組為2 7 11 15， target 為9, 則用9減數組的元素得到一個新的數組7 2 -2 -6，則只需要查找數組中的元素是否在新的數組中出現即可判斷是否存在滿足條件的兩個數。
 
-比如2和7 在新的数组中也存在，所以2和7即满足条件。
+比如2和7 在新的數組中也存在，所以2和7即滿足條件。
 
-题目要求找到满足条件的索引，只需要用一个map，key为target-a[i]，value为index。当遍历数组a[i]，若a[i]在map keyset中，则说明i和map[a[i]]即是解。
+題目要求找到滿足條件的索引，只需要用一個map，key為target-a[i]，value為index。當遍歷數組a[i]，若a[i]在map keyset中，則說明i和map[a[i]]即是解。
 
 ```c
 vector<int> twoSum(vector<int> &numbers, int target) {
@@ -37,4 +37,4 @@ vector<int> twoSum(vector<int> &numbers, int target) {
 	return result;
 }
 ```
-时间复杂度为O(n), 空间复杂度O(n).
+時間複雜度為O(n), 空間複雜度O(n).

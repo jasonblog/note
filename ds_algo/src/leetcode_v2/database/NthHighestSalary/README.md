@@ -16,11 +16,11 @@ For example, given the above `Employee` table, the nth highest salary where `n =
 
 同 [SecondHighestSalary](../SecondHighestSalary)
 
-## mysql 函数
+## mysql 函數
 
-mysql 可以自定义过程（无返回值）和函数（有返回值），参数也可以定义为`IN`或者`OUT`,`IN`就是传人的参数,`OUT`就是要写进去的参数（有点像传引用）
+mysql 可以自定義過程（無返回值）和函數（有返回值），參數也可以定義為`IN`或者`OUT`,`IN`就是傳人的參數,`OUT`就是要寫進去的參數（有點像傳引用）
 
-语法:
+語法:
 ```mysql
 CREATE
     [DEFINER = { user | CURRENT_USER }]
@@ -52,7 +52,7 @@ characteristic:
 routine_body:
     Valid SQL routine statement
 ```
-定义例子:
+定義例子:
 ```mysql
 delimiter //
 CREATE PROCEDURE simpleproc (OUT param1 INT)
@@ -60,9 +60,9 @@ CREATE PROCEDURE simpleproc (OUT param1 INT)
 	SELECT COUNT(*) INTO param1 FROM t;
 END//
 ```
-使用`call simpleproc(@count)`调用以上过程，然后`select @count`输出结果
+使用`call simpleproc(@count)`調用以上過程，然後`select @count`輸出結果
 
-定义函数例子:
+定義函數例子:
 
 ```mysql
 delimiter $$
@@ -81,22 +81,22 @@ BEGIN
 END$$
 delimiter ;
 ```
-调用`select hello('world');`输出`Hello, world!`
+調用`select hello('world');`輸出`Hello, world!`
 
-## mysql变量
+## mysql變量
 
-mysql使用`declare 变量名 变量类型`声明变量, 使用`set 变量名 = 值`设置变量值
+mysql使用`declare 變量名 變量類型`聲明變量, 使用`set 變量名 = 值`設置變量值
 
-## mysql分支循环
+## mysql分支循環
 
 ```
-if语句
+if語句
 if(condition) then s1;
 elseif (condition) then s2;
 else s3;
 end if;
 
-[begin_label:]while 循环
+[begin_label:]while 循環
 while condition do
 s1;
 s2;

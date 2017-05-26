@@ -6,7 +6,7 @@ Two binary trees are considered equal if they are structurally identical and the
 
 ## Solution
 
-递归
+遞歸
 
 ## Code
 ```c

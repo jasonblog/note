@@ -36,7 +36,7 @@ Using the above tables as example, return the following:
 
 ## Solution
 
-直接使用exists语句查询
+直接使用exists語句查詢
 
 ## Code
 ```sql
@@ -45,6 +45,6 @@ from Customers as c
 where not exists (select o.Id from Orders as o where c.Id = o.CustomerId);
 ```
 
-## exists语句
+## exists語句
 
-`exists`语句后面接一个`select`子查询，但实际并不返回任何数据，只返回是否有数据，存在返回`true`，否则`false`.
+`exists`語句後面接一個`select`子查詢，但實際並不返回任何數據，只返回是否有數據，存在返回`true`，否則`false`.

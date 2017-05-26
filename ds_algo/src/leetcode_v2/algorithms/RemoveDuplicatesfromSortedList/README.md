@@ -8,11 +8,11 @@ Given `1->1->2->3->3`, return `1->2->3`.
 
 ## Solution
 
-设p指向当前节点，初始化为`p = head`, `q = p->next`, 则:
+設p指向當前節點，初始化為`p = head`, `q = p->next`, 則:
 
-* 若q为null，则说明已到达尾部节点，直接返回
-* 若`q->val != p->val`, 更新p节点, `p = p->next`
-* 否则删除q节点，即`p->next = p->next->next; free(q)`
+* 若q為null，則說明已到達尾部節點，直接返回
+* 若`q->val != p->val`, 更新p節點, `p = p->next`
+* 否則刪除q節點，即`p->next = p->next->next; free(q)`
 
 ```c
 struct ListNode* deleteDuplicates(struct ListNode *head)
@@ -30,6 +30,6 @@ struct ListNode* deleteDuplicates(struct ListNode *head)
 }
 ```
 
-## 扩展
+## 擴展
 
-删除所有的重复节点[Remove Duplicates from Sorted List II](../RemoveDuplicatesfromSortedList2)
+刪除所有的重複節點[Remove Duplicates from Sorted List II](../RemoveDuplicatesfromSortedList2)

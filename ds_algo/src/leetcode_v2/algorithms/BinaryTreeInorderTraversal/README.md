@@ -32,7 +32,7 @@ The above binary tree is serialized as "`{1,2,3,#,#,4,#,#,5}`".
 
 ## Solution
 
-递归方法
+遞歸方法
 ```cpp
 void recursive(vector<int> &result, TreeNode *root) {
 	if (root == nullptr)

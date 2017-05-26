@@ -23,7 +23,7 @@ For example, after running your query, the above `Person` table should have the 
 
 ## Solution 1
 
-只需要先找到按邮箱分组的最小Id，
+只需要先找到按郵箱分組的最小Id，
 ```
 mysql> select * from Person;
 +------+-------+
@@ -49,15 +49,15 @@ mysql> select min(Id) from Person group by Email;
 3 rows in set (0.00 sec)
 
 ```
-然后删除这些不在最小Id的行即可。
+然後刪除這些不在最小Id的行即可。
 
 ```
 mysql> delete from Person where Id not in (select min(Id) from Person group by Email);
 ERROR 1093 (HY000): You can't specify target table 'Person' for update in FROM clause
 ```
-可见，不能在`from`语句中出现需要待更新的表
+可見，不能在`from`語句中出現需要待更新的表
 
-我们可以把`select min(Id) from Person group by Email`生成一个临时表，然后再删除即可。
+我們可以把`select min(Id) from Person group by Email`生成一個臨時表，然後再刪除即可。
 
 ## Code
 
@@ -69,7 +69,7 @@ where p.Id not in
 
 ## Solution 2
 
-MYSQL的delete语句同样可以支持连接操作。先考虑select语句，需要查询重复的`Email`并且Id不是最小的。
+MYSQL的delete語句同樣可以支持連接操作。先考慮select語句，需要查詢重複的`Email`並且Id不是最小的。
 ```
 mysql> select p1.Id, p1.Email from Person p1, Person p2 where p1.Email = p2.Email and p1.Id > p2.Id;
 +------+-------+
@@ -82,7 +82,7 @@ mysql> select p1.Id, p1.Email from Person p1, Person p2 where p1.Email = p2.Emai
 +------+-------+
 4 rows in set (0.00 sec)
 ```
-把`select`换成`delete`即可.
+把`select`換成`delete`即可.
 
 ## Code
 ```sql

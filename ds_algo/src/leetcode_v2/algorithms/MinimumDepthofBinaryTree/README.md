@@ -6,9 +6,9 @@ The minimum depth is the number of nodes along the shortest path from the root n
 
 ## Solution
 
-题目不难，但犯了好几个错误:
+題目不難，但犯了好幾個錯誤:
 
-* 最小深度的概念没有弄清楚，必须是到叶子节点中最短的路径
+* 最小深度的概念沒有弄清楚，必須是到葉子節點中最短的路徑
 ```
   1
  /
@@ -16,20 +16,20 @@ The minimum depth is the number of nodes along the shortest path from the root n
 ```
 以上述的最小深度不是1而是2
 
-* 利用宏求最小值，重复计算导致超时
+* 利用宏求最小值，重複計算導致超時
 ```
 #define MIN(a, b) ((a) < (b) : (a) : (b))
 
 MIN(minDepth(root->left), minDepth(root->right));
 
-展开为
+展開為
 
 minDepth(root->left) < minDepth(root->right) ? minDepth(root->left) : minDepth(root->right);
 ```
 
-发现每次计算左右子树都是两倍计算量
+發現每次計算左右子樹都是兩倍計算量
 
-** 因此以后尽量不要使用宏定义， 而尽量使用内联函数 **
+** 因此以後儘量不要使用宏定義， 而儘量使用內聯函數 **
 
 # Code
 ```cpp
@@ -45,6 +45,6 @@ int minDepth(struct TreeNode *root) {
 }
 ```
 
-## 扩展
+## 擴展
 
 最大深度[Maximum Depth of Binary Tree](../MaximumDepthofBinaryTree)

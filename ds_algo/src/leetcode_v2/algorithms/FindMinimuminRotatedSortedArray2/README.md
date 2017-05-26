@@ -15,9 +15,9 @@ The array may contain duplicates.
 
 ## Solution
 
-和[Find Minimum in Rotated Sorted Array I](../FindMinimuminRotatedSortedArray) 类似，不过需要考虑`a[mid] == a[right]`的情况,
+和[Find Minimum in Rotated Sorted Array I](../FindMinimuminRotatedSortedArray) 類似，不過需要考慮`a[mid] == a[right]`的情況,
 
-此时只需要把`right--`即可
+此時只需要把`right--`即可
 
 ## Code
 ```cpp
@@ -42,8 +42,8 @@ int findMin(vector<int> &nums) {
 }
 ```
 
-## 扩展
+## 擴展
 
-[Search in Rotated Sorted Array](../SearchinRotatedSortedArray), 从旋转列表中查找某个值
+[Search in Rotated Sorted Array](../SearchinRotatedSortedArray), 從旋轉列表中查找某個值
 
 [Find Minimum in Rotated Sorted Array](../FindMinimuminRotatedSortedArray)

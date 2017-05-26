@@ -13,7 +13,7 @@ Given `m, n` satisfy the following condition:
 
 ## Solution
 
-先实现给定start和end逆转:
+先實現給定start和end逆轉:
 
 ```cpp
 void reverse(ListNode *start, ListNode *end) {
@@ -27,16 +27,16 @@ void reverse(ListNode *start, ListNode *end) {
 		pre = p;
 		p = q;
 	}
-	start->next = p; // 注意最后需要更新start为end的next节点
+	start->next = p; // 注意最後需要更新start為end的next節點
 }
 ```
 
-然后只需要定位这个两个指针即可
+然後只需要定位這個兩個指針即可
 
 ```cpp
 ListNode *start = head;
 ListNode *end = head;
-ListNode *prev = nullptr; // 保存前一个节点，因为reverse后需要指向end节点
+ListNode *prev = nullptr; // 保存前一個節點，因為reverse後需要指向end節點
 while (--m) {
 	prev = start;
 	start = start->next;
@@ -48,9 +48,9 @@ while (--n) {
 }
 ```
 
-调用`reverse(start, end)`即可
+調用`reverse(start, end)`即可
 
-最后如果start是head节点，则需要更新head为end节点，否则更新prev节点指向end
+最後如果start是head節點，則需要更新head為end節點，否則更新prev節點指向end
 
 ```cpp
 if (prev)
@@ -59,6 +59,6 @@ else
 	head = end;
 ```
 
-## 扩展
+## 擴展
 
-[Reverse Linked List](../ReverseLinkedList): 逆转整个链表,实现了递归法和迭代法
+[Reverse Linked List](../ReverseLinkedList): 逆轉整個鏈表,實現了遞歸法和迭代法

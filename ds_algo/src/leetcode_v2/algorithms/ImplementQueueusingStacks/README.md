@@ -14,9 +14,9 @@ Notes:
 
 ## Solution
 
-使用两个栈模拟队列
+使用兩個棧模擬隊列
 
-首先定义channel(first, second)操作，表示把第一个栈逐一弹出，并压入第二个栈:
+首先定義channel(first, second)操作，表示把第一個棧逐一彈出，並壓入第二個棧:
 
 ```cpp
 void channel(stack<int> &src, stack<int> &dest) {
@@ -28,10 +28,10 @@ void channel(stack<int> &src, stack<int> &dest) {
 
 ```
 
-* push(), push时往第一个栈压入
-* empty(), 当且仅当两个栈都为空时，队列空
-* peek(), 若第二个栈为空，则channel(first, second), 返回second.top()
-* pop(), 若第二个栈为空，则channel(first, second), second.pop()
+* push(), push時往第一個棧壓入
+* empty(), 當且僅當兩個棧都為空時，隊列空
+* peek(), 若第二個棧為空，則channel(first, second), 返回second.top()
+* pop(), 若第二個棧為空，則channel(first, second), second.pop()
 
 ```cpp
 bool empty(void) {

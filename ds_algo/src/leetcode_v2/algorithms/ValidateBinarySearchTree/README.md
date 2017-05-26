@@ -10,7 +10,7 @@ Assume a BST is defined as follows:
 
 ## Solution
 
-根据定义，很容易写出递归代码:
+根據定義，很容易寫出遞歸代碼:
 ```cpp
 bool isValidBST(TreeNode *root)
 {
@@ -23,10 +23,10 @@ bool isValidBST(TreeNode *root)
 	return isValidBST(root->left) && isValidBST(root->right);
 }
 ```
-即若当前节点小于等于左孩子或者大于等于右孩子，则一定不是BST。
+即若當前節點小於等於左孩子或者大於等於右孩子，則一定不是BST。
 
 
-否则，递归判断左子树和右子树都必须是BST
+否則，遞歸判斷左子樹和右子樹都必須是BST
 
 ```
       10
@@ -36,15 +36,15 @@ bool isValidBST(TreeNode *root)
      6   20
 ```
 
-显然根据以上判断，则上面的是一棵BST，但事实上，显然这不是BST。
+顯然根據以上判斷，則上面的是一棵BST，但事實上，顯然這不是BST。
 
-这是因为不仅要求左子树和右子树必须是BST，还要求左子树的所有节点都必须小于根节点，并且右子树的所有节点都必须大于根节点
+這是因為不僅要求左子樹和右子樹必須是BST，還要求左子樹的所有節點都必須小於根節點，並且右子樹的所有節點都必須大於根節點
 
-根据BST特性，中序遍历序列是有序的，因此我们可以通过中序遍历的方式判断，把序列压入vector中,最后判断vector是否有序即可.
+根據BST特性，中序遍歷序列是有序的，因此我們可以通過中序遍歷的方式判斷，把序列壓入vector中,最後判斷vector是否有序即可.
 
-不过其实我们并不需要保存到vector中，我们只需要和前一个遍历的节点比较即可，若当前节点的值比前一个值小，则不是BST
+不過其實我們並不需要保存到vector中，我們只需要和前一個遍歷的節點比較即可，若當前節點的值比前一個值小，則不是BST
 
-我们可以使用prev保存前一个遍历的值，初始化为`INT_MIN`, 
+我們可以使用prev保存前一個遍歷的值，初始化為`INT_MIN`, 
 ```cpp
 bool isValidBST(TreeNode *root) {
 		if (root == NULL)
@@ -57,24 +57,24 @@ bool isValidBST(TreeNode *root) {
 		return isValidBST(root->right);
 	}
 ```
-但是以下这棵树:
+但是以下這棵樹:
 ```
 
 		INT_MIN
 		/    \
                NULL  NULL
 ```
-即根节点是最小值，没有孩子节点，显然一个节点是BST，但根据以上代码判断会出错.
+即根節點是最小值，沒有孩子節點，顯然一個節點是BST，但根據以上代碼判斷會出錯.
 
-当然只要`INT_MIN`是第一个访问节点，就不能直接和prev判断，否则出错,比如
+當然只要`INT_MIN`是第一個訪問節點，就不能直接和prev判斷，否則出錯,比如
 ```
 		INT_MAX
 		/    \
 	     INT_MIN NULL
 ```
-由于判断左子树不是BST，而导致整个树不是BST。
+由於判斷左子樹不是BST，而導致整個樹不是BST。
 
-因此必须判断是否第一个访问节点处理
+因此必須判斷是否第一個訪問節點處理
 ```cpp
 bool isValidBST(TreeNode *root) {
 	int prev = INT_MIN;
@@ -97,4 +97,4 @@ bool isValidBST(TreeNode *root, int &prev, bool &isFirst) {
 }
 ```
 
-*总结:* 这个题目不是很难，当陷阱很多，尤其是比较前一个数的时候，必须判断是否第一个访问节点
+*總結:* 這個題目不是很難，當陷阱很多，尤其是比較前一個數的時候，必須判斷是否第一個訪問節點

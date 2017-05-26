@@ -4,7 +4,7 @@ Merge k sorted linked lists and return it as one sorted list. Analyze and descri
 
 ## Solution 1 
 
-直接从lists中找最小的节点，插入到归并的链表中。
+直接從lists中找最小的節點，插入到歸併的鏈表中。
 
 ```cpp
 class Solution {
@@ -58,12 +58,12 @@ class Solution {
 };
 ```
 
-这样的瓶颈是每查找一次最小节点都要遍历一遍，复杂度O(n)。总的复杂度为O(n<sup>2</sup>). 
+這樣的瓶頸是每查找一次最小節點都要遍歷一遍，複雜度O(n)。總的複雜度為O(n<sup>2</sup>). 
 
 ## Solution 2
 
-上一个方案主要的问题是要每次找最小值，我们可以使用堆存储最小值，先堆化整个列表，然后`pop`，pop的值就是当前最小值节点p，
-然后让`p = p->next`, 此时如果p不为null，则在push进去，重新堆化，直到只有一个节点即可.
+上一個方案主要的問題是要每次找最小值，我們可以使用堆存儲最小值，先堆化整個列表，然後`pop`，pop的值就是當前最小值節點p，
+然後讓`p = p->next`, 此時如果p不為null，則在push進去，重新堆化，直到只有一個節點即可.
 
 ```cpp
 ListNode *mergeKLists(vector<ListNode *> &lists) {
@@ -94,7 +94,7 @@ ListNode *mergeKLists(vector<ListNode *> &lists) {
 
 ## Solution 3 迭代法
 
-每次从lists中取出两个链表归并，然后把归并的结果压入lists中，直到只有一个链表为止.
+每次從lists中取出兩個鏈表歸併，然後把歸併的結果壓入lists中，直到只有一個鏈表為止.
 
 ```cpp
 ListNode *mergeKLists_withMerge2(vector<ListNode *> &lists)
@@ -112,7 +112,7 @@ ListNode *mergeKLists_withMerge2(vector<ListNode *> &lists)
 
 ## Solution 4 分治法
 
-先归并左半部分，然后归并右半部分，最后再归并左右即可
+先歸併左半部分，然後歸併右半部分，最後再歸併左右即可
 
 ```cpp
 ListNode *mergeKLists_withMerge(vector<ListNode *> &lists, int s, int t)
@@ -129,9 +129,9 @@ ListNode *mergeKLists_withMerge(vector<ListNode *> &lists, int s, int t)
 	}
 ```
 
-## 扩展
+## 擴展
 
-* [Merge Two Sorted Lists](../MergeTwoSortedLists): 合并两个链表
-* [Merge k Sorted Lists](../MergekSortedLists): 合并K个链表
-* [Merge Sorted Array](../MergeSortedArray): 合并两个数组
-* [Sort List](../SortList): 归并排序两个链表
+* [Merge Two Sorted Lists](../MergeTwoSortedLists): 合併兩個鏈表
+* [Merge k Sorted Lists](../MergekSortedLists): 合併K個鏈表
+* [Merge Sorted Array](../MergeSortedArray): 合併兩個數組
+* [Sort List](../SortList): 歸併排序兩個鏈表

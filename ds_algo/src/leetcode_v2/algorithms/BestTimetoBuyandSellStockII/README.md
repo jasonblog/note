@@ -6,7 +6,7 @@ Design an algorithm to find the maximum profit. You may complete as many transac
 
 ## Solution
 
-贪心算法，只要当天比昨天的贵，即有钱赚，就买买买！
+貪心算法，只要當天比昨天的貴，即有錢賺，就買買買！
 
 ```c
 int maxProfit(int *a, int n)
@@ -23,8 +23,8 @@ int maxProfit(int *a, int n)
 }
 ```
 
-## 扩展
+## 擴展
 
-[Best Time to Buy and Sell Stock](../BestTimetoBuyandSellStock), 只能交易一次,动态规划
-[Best Time to Buy and Sell Stock II](#),能不限次数交易， 贪心算法
+[Best Time to Buy and Sell Stock](../BestTimetoBuyandSellStock), 只能交易一次,動態規劃
+[Best Time to Buy and Sell Stock II](#),能不限次數交易， 貪心算法
 [Best Time to Buy and Sell Stock III](../Best Time to Buy and Sell Stock III)

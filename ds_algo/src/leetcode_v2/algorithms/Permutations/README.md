@@ -8,7 +8,7 @@ For example,
 
 ## Solution
 
-全排列, [从一个排列求下一个排列算法](https://github.com/krystism/algorithms/tree/master/permutation)
+全排列, [從一個排列求下一個排列算法](https://github.com/krystism/algorithms/tree/master/permutation)
 
 ## Code
 ```cpp

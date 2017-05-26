@@ -18,11 +18,11 @@ Note: Recursive solution is trivial, could you do it iteratively?
 
 ## Solution
 
-前序遍历，使用递归，就太简单了。
+前序遍歷，使用遞歸，就太簡單了。
 
-如何使用迭代的方式,其实就是使用栈模拟递归(注意递归(DFS)和栈的关系，队列和BFS的关系)
+如何使用迭代的方式,其實就是使用棧模擬遞歸(注意遞歸(DFS)和棧的關係，隊列和BFS的關係)
 
-先访问节点，然后压入右孩子，压入左孩子.
+先訪問節點，然後壓入右孩子，壓入左孩子.
 ```cpp
 vector<int> preorderTraversal(TreeNode *root) {
 	vector<int> result;

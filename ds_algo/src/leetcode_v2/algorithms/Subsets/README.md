@@ -25,7 +25,7 @@ If nums = `[1,2,3]`, a solution is:
 
 ## Solution
 
-使用回溯递归:
+使用回溯遞歸:
 
 ```cpp
 vector<vector<int>> subsets_recurisive(vector<int> &nums) {
@@ -46,14 +46,14 @@ void subsets_recurisive(vector<vector<int>> &result, vector<int> cur, const vect
 }
 ```
 
-递归方法更直接，容易理解，缺点是需要空间保存调用栈。
+遞歸方法更直接，容易理解，缺點是需要空間保存調用棧。
 
 可以使用迭代的方法:
 
-假设我们已经处理完前面的元素，保存在result中，初始化为只有一个元素`[]`,当前处理第i个元素:
+假設我們已經處理完前面的元素，保存在result中，初始化為只有一個元素`[]`,當前處理第i個元素:
 
-遍历所有的result元素Ri， 拷贝Ri副本为Rj， `Rj.push_back(i)`, 再把Rj压入result中，相当于result每个元素一分为二，
-一个包含当前值，一个不包含当前值.
+遍歷所有的result元素Ri， 拷貝Ri副本為Rj， `Rj.push_back(i)`, 再把Rj壓入result中，相當於result每個元素一分為二，
+一個包含當前值，一個不包含當前值.
 
 ```cpp
 vector<vector<int>> subsets_iterative(vector<int> &nums) {
@@ -71,6 +71,6 @@ vector<vector<int>> subsets_iterative(vector<int> &nums) {
 }
 ```
 
-## 扩展
+## 擴展
 
-[Subsets II](../SubsetsII), 有重复元素的情况
+[Subsets II](../SubsetsII), 有重複元素的情況

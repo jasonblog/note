@@ -10,9 +10,9 @@ Given {1,2,3,4}, reorder it to {1,4,2,3}.
 
 ## Solution
 
-首先把链表分成左右两半，若节点个数是奇数，则左边节点个数比右边节点个数多一个节点.
+首先把鏈表分成左右兩半，若節點個數是奇數，則左邊節點個數比右邊節點個數多一個節點.
 
-使用快慢指针法，找到链表的中间节点
+使用快慢指針法，找到鏈表的中間節點
 
 ```cpp
 ListNode *getMidNode(ListNode *head) {
@@ -29,7 +29,7 @@ ListNode *getMidNode(ListNode *head) {
 }
 ```
 
-然后把右半部分逆转,实现逆转链表方法:
+然後把右半部分逆轉,實現逆轉鏈表方法:
 
 ```cpp
 ListNode *reverse(ListNode *head) {
@@ -45,7 +45,7 @@ ListNode *reverse(ListNode *head) {
 }
 ```
 
-最后把左右两半指针间隔插入归并即可:
+最後把左右兩半指針間隔插入歸併即可:
 
 ```cpp
 void merge(ListNode *left, ListNode *right) {
@@ -63,7 +63,7 @@ void merge(ListNode *left, ListNode *right) {
 }
 ```
 
-整个代码流程为:
+整個代碼流程為:
 
 ```cpp
 void reorderList(ListNode *head) {

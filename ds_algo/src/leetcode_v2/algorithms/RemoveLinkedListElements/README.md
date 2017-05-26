@@ -13,7 +13,7 @@ Special thanks to @mithmatt for adding this problem and creating all test cases.
 
 ## Solution
 
-* 先处理头部，如果头部就是要删除的值，直接让头部指向下一个节点，并释放原来的头部
+* 先處理頭部，如果頭部就是要刪除的值，直接讓頭部指向下一個節點，並釋放原來的頭部
 ```c
 while (head && head->val == val) {
 	struct ListNode *q = p->next;
@@ -21,7 +21,7 @@ while (head && head->val == val) {
 	head = q;
 }
 ```
-* 处理非头部节点，此时无需更新头部，只需要遍历等于删除值的节点即可。为了便于删除操作，判断后一个节点，若后一个节点值为删除值，则只需要删除后一个节点即可，否则指向下一个节点
+* 處理非頭部節點，此時無需更新頭部，只需要遍歷等於刪除值的節點即可。為了便於刪除操作，判斷後一個節點，若後一個節點值為刪除值，則只需要刪除後一個節點即可，否則指向下一個節點
 ```c
 struct ListNode *p = head;
 while (p) {

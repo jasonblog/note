@@ -29,7 +29,7 @@ Table: **Address**
 AddressId is the primary key column for this table.
 
 
-Write a SQL query for a report that provides the following information for each person in the Person table, regardless if(无论如何） there is an address for each of those people:
+Write a SQL query for a report that provides the following information for each person in the Person table, regardless if(無論如何） there is an address for each of those people:
 
 ```
 FirstName, LastName, City, State
@@ -37,34 +37,34 @@ FirstName, LastName, City, State
 
 ## Solution
 
-无论地址是否存在，都输出每个Person，显然是左连接操作。
+無論地址是否存在，都輸出每個Person，顯然是左連接操作。
 
 ```sql
 select FirstName, LastName, City, State 
 from Person left join Address on Person.PersonId = Address.PersonId;
 ```
 
-## 表连接总结
+## 表連接總結
 
-表的连接方式大体分为:
+表的連接方式大體分為:
 
-* 内连接
-* 外连接
-* 交叉连接
+* 內連接
+* 外連接
+* 交叉連接
 
-### 内连接 VS 外连接
+### 內連接 VS 外連接
 
-假设有两个表A和B，内连接是A和B的交集,即输出的内容一定在A和B中都有的。而外连接除了A和B的交集，还有可能只存在于A或B的，只存在A而不存在B的，B列用null输出，
-换句话说包括其中一个或者两个表的全集，如果另外一个表不满足连接条件，输出null。
+假設有兩個表A和B，內連接是A和B的交集,即輸出的內容一定在A和B中都有的。而外連接除了A和B的交集，還有可能只存在於A或B的，只存在A而不存在B的，B列用null輸出，
+換句話說包括其中一個或者兩個表的全集，如果另外一個表不滿足連接條件，輸出null。
 
-等值连接是特殊的内连接，其连接条件是等于关系。而自然连接又是特殊的等值连接，它会去除重复属性。
+等值連接是特殊的內連接，其連接條件是等於關係。而自然連接又是特殊的等值連接，它會去除重複屬性。
 
-外连接根据全集端不同，又分为左外连接(简称左连接），右外连接（简称右连接）和全连接。
+外連接根據全集端不同，又分為左外連接(簡稱左連接），右外連接（簡稱右連接）和全連接。
 
-mysql中使用join进行连接操作，默认为内连接。
+mysql中使用join進行連接操作，默認為內連接。
 
-下面用具体的实例看看不同的连接操作：
-首先Person表内容为：
+下面用具體的實例看看不同的連接操作：
+首先Person表內容為：
 ```
 +----------+-----------+----------+
 | PersonId | FirstName | LastName |
@@ -83,7 +83,7 @@ Address表：
 |         2 |        5 | ShaoGuan | GuangDong |
 +-----------+----------+----------+-----------+
 ```
-### 内连接
+### 內連接
 ```
 mysql> select * from Person join Address on Person.PersonId = Address.PersonId;
 +----------+-----------+----------+-----------+----------+---------+---------+
@@ -92,9 +92,9 @@ mysql> select * from Person join Address on Person.PersonId = Address.PersonId;
 |        2 | Mary      | John     |         1 |        2 | BeiJing | BeiJing |
 +----------+-----------+----------+-----------+----------+---------+---------+
 ```
-可见内连接只输出满足连接条件的行。
+可見內連接只輸出滿足連接條件的行。
 
-### 左连接
+### 左連接
 ```
 mysql> select * from Person left join Address on Person.PersonId = Address.PersonId;
 +----------+-----------+----------+-----------+----------+---------+---------+
@@ -104,9 +104,9 @@ mysql> select * from Person left join Address on Person.PersonId = Address.Perso
 |        1 | Wang      | Allen    |      NULL |     NULL | NULL    | NULL    |
 +----------+-----------+----------+-----------+----------+---------+---------+
 ```
-可见，左连接输出左边表的全集，不满足条件的右表输出NULL。
+可見，左連接輸出左邊表的全集，不滿足條件的右表輸出NULL。
 
-### 右连接
+### 右連接
 ```
 mysql> select * from Person right join Address on Person.PersonId = Address.PersonId;
 +----------+-----------+----------+-----------+----------+----------+-----------+
@@ -116,11 +116,11 @@ mysql> select * from Person right join Address on Person.PersonId = Address.Pers
 |     NULL | NULL      | NULL     |         2 |        5 | ShaoGuan | GuangDong |
 +----------+-----------+----------+-----------+----------+----------+-----------+
 ```
-结果不言而喻。
+結果不言而喻。
 
-### 全连接
+### 全連接
 
-mysql不直接支持全连接，可以分别左连接、右连接，然后求并集实现
+mysql不直接支持全連接，可以分別左連接、右連接，然後求並集實現
 
 ```
 mysql> select * from Person  left join Address on Person.PersonId = Address.PersonId
@@ -135,9 +135,9 @@ union
 +----------+-----------+----------+-----------+----------+----------+-----------+
 ```
 
-### 交叉连接
+### 交叉連接
 
-交叉连接相当于无连接条件，左右一一连接，形成笛卡尔积。若|A| = n, |B| = m 则 |A cross join B| = n * m
+交叉連接相當於無連接條件，左右一一連接，形成笛卡爾積。若|A| = n, |B| = m 則 |A cross join B| = n * m
 
 ```
 mysql> select * from Person  cross join Address;
@@ -151,14 +151,14 @@ mysql> select * from Person  cross join Address;
 +----------+-----------+----------+-----------+----------+----------+-----------+
 ```
 
-### 自然连接 VS 等值连接
+### 自然連接 VS 等值連接
 
-自然连接是除去重复属性的等值连接。
+自然連接是除去重複屬性的等值連接。
 
-两者之间的区别和联系如下:
+兩者之間的區別和聯繫如下:
 
-1. 自然连接一定是等值连接，但等值连接不一定是自然连接。等值连接不把重复的属性除去；而自然连接要把重复的属性除去。
+1. 自然連接一定是等值連接，但等值連接不一定是自然連接。等值連接不把重複的屬性除去；而自然連接要把重複的屬性除去。
 
-2. 等值连接要求相等的分量，不一定是公共属性；而自然连接要求相等的分量必须是公共属性。
+2. 等值連接要求相等的分量，不一定是公共屬性；而自然連接要求相等的分量必須是公共屬性。
 
 

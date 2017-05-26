@@ -7,9 +7,9 @@ Could you do it in O(n) time and O(1) space?
 
 ## Solution
 
-找到中间节点，然后原地逆转右半部分，比如左半部分和右半部分是否相等
+找到中間節點，然後原地逆轉右半部分，比如左半部分和右半部分是否相等
 
-首先实现找到中间节点，使用快慢指针:
+首先實現找到中間節點，使用快慢指針:
 
 ```cpp
 ListNode *getMiddleNode(ListNode *head) {
@@ -24,7 +24,7 @@ ListNode *getMiddleNode(ListNode *head) {
 }
 ```
 
-逆转链表:
+逆轉鏈表:
 
 ```cpp
 ListNode *reverse(ListNode *head) {
@@ -42,11 +42,11 @@ ListNode *reverse(ListNode *head) {
 }
 ```
 
-最后结果:
+最後結果:
 
 ```cpp
 bool isPalindrome(ListNode *head) {
-	/* 空节点和单节点 */
+	/* 空節點和單節點 */
 	if (head == nullptr || head->next == nullptr)
 		return true;
 	ListNode *mid = getMiddleNode(head);

@@ -23,9 +23,9 @@ confused what "`{1,#,2,3}`" means? > read more on how binary tree is serialized 
 
 ## Solution
 
-思路就是常规的BFS，然后把结果reverse ?
+思路就是常規的BFS，然後把結果reverse ?
 
-应该还有其他更优算法？
+應該還有其他更優算法？
 ```cpp
 vector<vector<int>> levelOrderBottom(TreeNode *root) {
 	vector<vector<int>> result;

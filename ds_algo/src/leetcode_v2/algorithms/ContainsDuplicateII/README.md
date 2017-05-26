@@ -4,7 +4,7 @@ Given an array of integers and an integer k, find out whether there there are tw
 
 ## Solution
 
-使用hashmap，key存储值，value存储索引, 若`nums[i]`在hashmap中，则若`i - map[nums[i]] <= k`, 返回true
+使用hashmap，key存儲值，value存儲索引, 若`nums[i]`在hashmap中，則若`i - map[nums[i]] <= k`, 返回true
 
 ```cpp
 bool containsNearbyDuplicate(vector<int> &nums, int k) {
@@ -22,8 +22,8 @@ bool containsNearbyDuplicate(vector<int> &nums, int k) {
 }
 ```
 
-## 扩展
+## 擴展
 
-* [Contains Duplicate](../ContainsDuplicate): 判断一个数组是否存在重复元素
-* [Contains Duplicate II](../ContainsDuplicateII):判断一个数组在指定距离内是否存在重复元素
-* [Contains Duplicate III](../ContainsDuplicateIII):判断一个数组在指定距离内是否存在元素距离小于t
+* [Contains Duplicate](../ContainsDuplicate): 判斷一個數組是否存在重複元素
+* [Contains Duplicate II](../ContainsDuplicateII):判斷一個數組在指定距離內是否存在重複元素
+* [Contains Duplicate III](../ContainsDuplicateIII):判斷一個數組在指定距離內是否存在元素距離小於t

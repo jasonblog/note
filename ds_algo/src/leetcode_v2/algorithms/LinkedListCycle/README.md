@@ -7,11 +7,11 @@ Can you solve it without using extra space?
 
 ## Solution
 
-快慢指针法
+快慢指針法
 
-设两个指针p, q, p每次移一个节点，q每次移动两个节点，如果`p == q`，则有环。如果p,q其一等于`NULL`,则无环
+設兩個指針p, q, p每次移一個節點，q每次移動兩個節點，如果`p == q`，則有環。如果p,q其一等於`NULL`,則無環
 
-更多链表环操作，见[Linked List Cycle II](../LinkedListCycle2)
+更多鏈表環操作，見[Linked List Cycle II](../LinkedListCycle2)
 
 ## Code
 ```c

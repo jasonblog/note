@@ -7,10 +7,10 @@ the contiguous subarray `[2,3]` has the largest product = `6`.
 
 ## Solution
 
-设pos，neg分别保存当前的可能最大正数和最小负数，max为候选最大值。则
+設pos，neg分別保存當前的可能最大正數和最小負數，max為候選最大值。則
 
 * `a[i] == 0, pos = neg = 0`
-* `a[i] > 0, pos = MAX(pos * a[i], a[i]), neg = MIN(neg * a[i], a[i])`, 取`MAX，MIN`的原因是排除旧值等于0的情况
+* `a[i] > 0, pos = MAX(pos * a[i], a[i]), neg = MIN(neg * a[i], a[i])`, 取`MAX，MIN`的原因是排除舊值等於0的情況
 * `a[i] < 0, pos = MAX(neg * a[i], a[i]), neg = MIN(pos * a[i], a[i])`
 * `max = MAX(max, pos)`
 
@@ -41,6 +41,6 @@ int maxProduct(vector<int>& nums) {
 }
 ```
 
-## 扩展
+## 擴展
 
-[Maximum Subarray](../MaximumSubarray): 最大连续之和
+[Maximum Subarray](../MaximumSubarray): 最大連續之和

@@ -20,23 +20,23 @@ You may assume both s and t have the same length.
 
 ## Solution
 
-题目的意思就是找一个字母的一一映射，通过映射能够把其中一个单词变化成另一个单词，比如`paper title`, `p->t, a->i, e->l,r->e`, 映射关系不能相交,即
-不能出现一对多和多对一的关系,比如不能出现`a->b, a->c` 或者 `b->a, c->a`.
+題目的意思就是找一個字母的一一映射，通過映射能夠把其中一個單詞變化成另一個單詞，比如`paper title`, `p->t, a->i, e->l,r->e`, 映射關係不能相交,即
+不能出現一對多和多對一的關係,比如不能出現`a->b, a->c` 或者 `b->a, c->a`.
 
-我们可以使用map记录之前的映射关系，
+我們可以使用map記錄之前的映射關係，
 
-* 若s[i], t[i], 若map[s[i]] != t[i]，则返回false
-* 若存在map[k] = t[i], 返回false， 因为此时说明已经有关系映射成t[i]
-* 否则加入map，即map[s[i]] = t[i]
+* 若s[i], t[i], 若map[s[i]] != t[i]，則返回false
+* 若存在map[k] = t[i], 返回false， 因為此時說明已經有關係映射成t[i]
+* 否則加入map，即map[s[i]] = t[i]
 
-使用Hashmap能够O(1)的判断key是否存在，但需要判断value是否存在需要O(n),因此可以使用两个map来减少时间复杂度。
+使用Hashmap能夠O(1)的判斷key是否存在，但需要判斷value是否存在需要O(n),因此可以使用兩個map來減少時間複雜度。
 
-我们使用两个map，如果f 和 g是映射关系，则让赋予他们一样的值，即map1[f] = value, map2[g] = value
+我們使用兩個map，如果f 和 g是映射關係，則讓賦予他們一樣的值，即map1[f] = value, map2[g] = value
 
-则:
+則:
 
 * 若`map1[s[i]] != map2[t[i]]`, 返回`false`
-* 否则`map1[s[i]] = map2[t[i]] = newValue`
+* 否則`map1[s[i]] = map2[t[i]] = newValue`
 
 ```cpp
 bool isIsomorphic(string s, string t)

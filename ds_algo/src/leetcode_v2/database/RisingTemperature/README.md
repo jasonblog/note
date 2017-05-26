@@ -23,7 +23,7 @@ For example, return the following Ids for the above `Weather` table:
 
 ## Solution
 
-自连接查询，需要注意日期的比较,mysql中使用`TO_DAYS`转化，否则是字符串比较。
+自連接查詢，需要注意日期的比較,mysql中使用`TO_DAYS`轉化，否則是字符串比較。
 
 ## Code
 

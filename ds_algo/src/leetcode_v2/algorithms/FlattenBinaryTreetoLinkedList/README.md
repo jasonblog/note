@@ -33,7 +33,7 @@ If you notice carefully in the flattened tree, each node's right child points to
 
 ## Solution 1
 
-递归方法，首先flatten左子树，然后flatten右子树，此时左子树和右子树都已经是一个链表了，
+遞歸方法，首先flatten左子樹，然後flatten右子樹，此時左子樹和右子樹都已經是一個鏈表了，
 ```
             1
            / \
@@ -43,9 +43,9 @@ If you notice carefully in the flattened tree, each node's right child points to
              \
               4
 ```
-此时只需要合并左右子树即可,即把右子树接到左子树的最右节点，即把5接到4后面，最后把右子树指向左子树即可
+此時只需要合併左右子樹即可,即把右子樹接到左子樹的最右節點，即把5接到4後面，最後把右子樹指向左子樹即可
 
-** 处理完后，必须把左子树设为`NULL`，否则出现`RunTime ERROR` **
+** 處理完後，必須把左子樹設為`NULL`，否則出現`RunTime ERROR` **
 
 ## Code
 ```cpp
@@ -56,7 +56,7 @@ void flatten(TreeNode *root) {
 	flatten(root->right);
 	if (root->right == nullptr) {
 		root->right = root->left;
-		root->left = nullptr; // 不能少这个，否则RE
+		root->left = nullptr; // 不能少這個，否則RE
 		return;
 	}
 	TreeNode *p = root->left;
@@ -67,22 +67,22 @@ void flatten(TreeNode *root) {
 		p->right = root->right;
 		root->right = root->left;
 	}
-	root->left = nullptr; // 不能少，否则RE
+	root->left = nullptr; // 不能少，否則RE
 }
 ```
 
 ## Solution 2
 
-使用循环，从root开始，找到root的左子树的最右节点，然后把右子树接到最右节点，右子树指向左子树，左子树设为`NULL`，然后处理右子树即可
+使用循環，從root開始，找到root的左子樹的最右節點，然後把右子樹接到最右節點，右子樹指向左子樹，左子樹設為`NULL`，然後處理右子樹即可
 
-* `root == NULL`, 返回。否则`left = root->left`
-* 若`left != NULL`, 找到left的最右子树p,
+* `root == NULL`, 返回。否則`left = root->left`
+* 若`left != NULL`, 找到left的最右子樹p,
 ```
 p->right = root->right;
 root->right = root->left;
 root->left = NULL;
 ```
-* `root = root->right`, 回到最开始。
+* `root = root->right`, 回到最開始。
 
 ## Code
 ```cpp

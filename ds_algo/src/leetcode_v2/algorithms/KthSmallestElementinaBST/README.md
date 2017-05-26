@@ -19,7 +19,7 @@ Special thanks to @ts for adding this problem and creating all test cases.
 
 ## Solution
 
-中序遍历，更新k值，访问时`k--`， 若此时`k == 0`, 则当前值即为结果
+中序遍歷，更新k值，訪問時`k--`， 若此時`k == 0`, 則當前值即為結果
 
 ```cpp
 public:
@@ -34,8 +34,8 @@ public:
 		return result;
 	}
 private:
-	/* k为需要查找的第k小的数， result为结果，返回true表示已经查找到
-	 * 注意k为引用类型，否则k的值更新不能反馈到上一栈调用
+	/* k為需要查找的第k小的數， result為結果，返回true表示已經查找到
+	 * 注意k為引用類型，否則k的值更新不能反饋到上一棧調用
 	*/
 	bool kthSmallest(TreeNode *root, int &k, int &result) {
 		if (root->left) {
@@ -58,6 +58,6 @@ private:
 };
 ```
 
-## 优化
+## 優化
 
-如果允许修改树结构，保存节点左孩子个数，是否可以优化呢？
+如果允許修改樹結構，保存節點左孩子個數，是否可以優化呢？

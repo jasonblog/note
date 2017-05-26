@@ -12,15 +12,15 @@ Given an integer `n`, generate the nth sequence.
 Note: The sequence of integers will be represented as a string. 
 
 ## Solution
-题目就是从原来的字符串进行字符统计组合成一个新的字符串，
+題目就是從原來的字符串進行字符統計組合成一個新的字符串，
 
 比如`aaabcc`:
 
-* 有3个a => 3a
-* 有1一个b => 1b
-* 有2个c => 2c
+* 有3個a => 3a
+* 有1一個b => 1b
+* 有2個c => 2c
 
-因此最后的结果为`3a1b2c`
+因此最後的結果為`3a1b2c`
 
 直接一一迭代。
 ```cpp
@@ -66,11 +66,11 @@ class Solution {
 };
 ```
 
-## int转化成字符串方法
+## int轉化成字符串方法
 
-注意不能使用字符串相加得到，这习惯java的特别注意，即不能这样`"" + 123`, 而且字符串也不能直接`push_back`数字, 会把数字转成`char`对应的acii码
+注意不能使用字符串相加得到，這習慣java的特別注意，即不能這樣`"" + 123`, 而且字符串也不能直接`push_back`數字, 會把數字轉成`char`對應的acii碼
 
-### 1.使用sprintf函数, 需要自己开辟空间，注意类型转化和格式化
+### 1.使用sprintf函數, 需要自己開闢空間，注意類型轉化和格式化
 
 ```cpp
 char buf[20];
@@ -78,7 +78,7 @@ sprintf(buf, "%d", 123);
 string s1(buf);
 cout << "s1 = " << s1 << endl;
 ```
-### 2.使用stringstream, 推荐使用，内置buffer，自动识别类型
+### 2.使用stringstream, 推薦使用，內置buffer，自動識別類型
 
 ```cpp
 stringstream ss;
@@ -87,7 +87,7 @@ string s2 = ss.str();
 cout << "s2 = " << s2 << endl;
 ```
 
-## string转化成int
+## string轉化成int
 
 ### 1.使用stoi
 
@@ -112,9 +112,9 @@ cout << j << endl;
 ```
 
 
-## 证明count and say出现的数字不会超过4
+## 證明count and say出現的數字不會超過4
 
-从discuss引用的
+從discuss引用的
 
 >Proof by exhaustion and contrapositive:
 >
@@ -142,12 +142,12 @@ cout << j << endl;
 >
 >As every possible case has been examined, and none can reach a 4 while starting at the given beginning (1), it is not possible for a 4-chain to occur, meaning a 4 cannot appear in any valid string for this problem. Further, as stated above, since a 4-chain is impossible, so too are all n-chains with n>4, so no number greater than 4 can appear either.
 
-证明是使用了穷举法和换置位法
+證明是使用了窮舉法和換置位法
 
-要产生4，前面必须有4个连续的数字，比如41,反推前一个数字应该是1111, 然后继续推前面的一个应该是11，但由11推出了是21，和1111矛盾
+要產生4，前面必須有4個連續的數字，比如41,反推前一個數字應該是1111, 然後繼續推前面的一個應該是11，但由11推出了是21，和1111矛盾
 
-同理要有42->2222，2222的前面是2222，当2222的后面是42不是2222，循环矛盾。
+同理要有42->2222，2222的前面是2222，當2222的後面是42不是2222，循環矛盾。
 
-43->3333, 3333的前面是333333，而这个会产生63而不是3333,矛盾
+43->3333, 3333的前面是333333，而這個會產生63而不是3333,矛盾
 
-不能产生4，自然不能产生大于4的
+不能產生4，自然不能產生大於4的

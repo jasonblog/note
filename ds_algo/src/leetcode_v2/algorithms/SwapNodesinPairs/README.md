@@ -11,9 +11,9 @@ Your algorithm should use only constant space. You may not modify the values in 
 
 ## Solution
 
-用三个指针p, q, pre, p指向当前节点，初始化为head，q指向p的下一个节点，pre指向上次完成的节点，初始化null
+用三個指針p, q, pre, p指向當前節點，初始化為head，q指向p的下一個節點，pre指向上次完成的節點，初始化null
 
-交换p，q，同时需要修改pre的下一个节点(之前指向p，由于p和q交换位置，需要修改指向q):
+交換p，q，同時需要修改pre的下一個節點(之前指向p，由於p和q交換位置，需要修改指向q):
 
 ```cpp
 while (p && p->next) {
@@ -27,7 +27,7 @@ while (p && p->next) {
 }
 ```
 
-同时需要注意更新head指针。完整代码:
+同時需要注意更新head指針。完整代碼:
 
 ```cpp
 ListNode *swapPairs(ListNode *head) {
@@ -49,6 +49,6 @@ ListNode *swapPairs(ListNode *head) {
 }
 ```
 
-## 扩展
+## 擴展
 
 [Reverse Nodes in k-Group](../ReverseNodesink-Group)

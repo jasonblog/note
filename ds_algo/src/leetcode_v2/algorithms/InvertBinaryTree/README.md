@@ -24,4 +24,4 @@ This problem was inspired by this original tweet by Max Howell:
 
 ## Solution
 
-递归法，先逆转左孩子、右孩子，再交换左右孩子即可!
+遞歸法，先逆轉左孩子、右孩子，再交換左右孩子即可!

@@ -6,11 +6,11 @@
 <h4><strong><span style="color:#0000ff;">1. 將新版 Linux Kernel 移植到全新 SoC 上</span></strong></h4>
 <p>開發人員為 SoC 廠商(e.g. MTK, TI, Allwinner) R&amp;D engineer.</p>
 <p>在此階段的移植, 需要寫 dtsi, low-level code (位於 arch// 底下) 以及 SoC 相關的底層驅動程式. 並且須確保 SoC 功能運行正常.</p>
-<h4><span style="color:#0000ff;"><strong>2. 將新版 Linux Kernel 移植到全新平台上</strong></span></h4>
+<h4><span style="color:#0000ff;"><strong>2. 將新版 Linux Kernel 移植到全新平臺上</strong></span></h4>
 <p>開發人員為硬體廠 的 R&amp;D engineer 或者是開發板 (e.g. beagleboard, RPi) 上游開發人員.</p>
-<p>在此階段的移植, 需要建立 dts 來描述硬體資訊, 並適度修改 dtsi. 此外也需要根據硬體/ 週邊/ 平台資訊來建立屬於板子的 Kernel &nbsp;config. 檔.&nbsp;並且須確保硬體/ 週邊/ 平台功能運行正常.</p>
+<p>在此階段的移植, 需要建立 dts 來描述硬體資訊, 並適度修改 dtsi. 此外也需要根據硬體/ 週邊/ 平臺資訊來建立屬於板子的 Kernel &nbsp;config. 檔.&nbsp;並且須確保硬體/ 週邊/ 平臺功能運行正常.</p>
 <h4></h4>
-<h4><strong><span style="color:#0000ff;">3. 將新版 Linux Kernel 移植到舊有平台上進行 Kernel 版本升級</span></strong></h4>
+<h4><strong><span style="color:#0000ff;">3. 將新版 Linux Kernel 移植到舊有平臺上進行 Kernel 版本升級</span></strong></h4>
 <p>開發人員為任何有興趣的 Maker. 只要有開發版即可進行 (e.g. beagleboard, RPi).&nbsp;一般來說, Linux Kernel 移植大多屬於此範疇.</p>
 <p>在此階段的移植, 需要根據 dtsi 的版本差異來微調 dts 格式. 此外也需要根據 Kernel 版本差異資訊來微調板子的 Kernel &nbsp;config. 檔.</p>
 <p>此外也須參照舊有 Kernel source 上的 in-house patch 來修改新版 Kernel source.</p>
@@ -46,7 +46,7 @@
 <tr>
 <td style="text-align:center;" width="20%"><span style="color:#0000ff;"><strong>舊有 DTS 與 新板 DTSI不相容</strong></span></td>
 <td>
-<p style="text-align:left;">將新 Linux Kernel 移植到舊有平台上進行Kernel 升級</p>
+<p style="text-align:left;">將新 Linux Kernel 移植到舊有平臺上進行Kernel 升級</p>
 </td>
 <td style="text-align:left;">閱讀 dtsi git 修改歷程, 並詳細閱讀 <span style="color:#ff0000;">“Documentation/devicetree/bindings/"</span> 相關文件.</td>
 </tr>
@@ -55,7 +55,7 @@
 <td style="text-align:center;">
 <ul>
 <li style="text-align:left;">將 Linux&nbsp;移植到新 SoC上</li>
-<li style="text-align:left;">將新 Linux Kernel 移植到全新平台上</li>
+<li style="text-align:left;">將新 Linux Kernel 移植到全新平臺上</li>
 </ul>
 </td>
 <td style="text-align:left;">和 Hardware/ Bootloader 部門 R&amp;D 工程師協同合作, 一起看硬體線路除蟲</td>
@@ -65,8 +65,8 @@
 <td style="text-align:left;">
 <ul>
 <li>將 Linux&nbsp;移植到新 SoC上</li>
-<li>將新 Linux Kernel 移植到全新平台上</li>
-<li>將新 Linux Kernel 移植到舊有平台上進行Kernel 升級</li>
+<li>將新 Linux Kernel 移植到全新平臺上</li>
+<li>將新 Linux Kernel 移植到舊有平臺上進行Kernel 升級</li>
 </ul>
 </td>
 <td style="text-align:left;">
@@ -79,8 +79,8 @@
 <td style="text-align:center;">
 <ul>
 <li style="text-align:left;">將 Linux&nbsp;移植到新 SoC上</li>
-<li style="text-align:left;">將新 Linux Kernel 移植到全新平台上</li>
-<li style="text-align:left;">將新 Linux Kernel 移植到舊有平台上進行Kernel 升級</li>
+<li style="text-align:left;">將新 Linux Kernel 移植到全新平臺上</li>
+<li style="text-align:left;">將新 Linux Kernel 移植到舊有平臺上進行Kernel 升級</li>
 </ul>
 </td>
 <td style="text-align:center;">
@@ -92,8 +92,8 @@
 <td style="text-align:center;">
 <ul>
 <li style="text-align:left;">將 Linux&nbsp;移植到新 SoC上</li>
-<li style="text-align:left;">將新 Linux Kernel 移植到全新平台上</li>
-<li style="text-align:left;">將新 Linux Kernel 移植到舊有平台上進行Kernel 升級</li>
+<li style="text-align:left;">將新 Linux Kernel 移植到全新平臺上</li>
+<li style="text-align:left;">將新 Linux Kernel 移植到舊有平臺上進行Kernel 升級</li>
 </ul>
 </td>
 <td style="text-align:left;">boot code program 需要注意避免將兩者&nbsp;memory 位址設太近導致衝突.</td>
@@ -103,8 +103,8 @@
 <td>
 <ul>
 <li>將 Linux&nbsp;移植到新 SoC上</li>
-<li>將新 Linux Kernel 移植到全新平台上</li>
-<li>將新 Linux Kernel 移植到舊有平台上進行Kernel 升級</li>
+<li>將新 Linux Kernel 移植到全新平臺上</li>
+<li>將新 Linux Kernel 移植到舊有平臺上進行Kernel 升級</li>
 </ul>
 </td>
 <td style="text-align:left;">記得重新編譯 Kernel 時, 也要一併重新編譯 DTB. 並確保兩者是成對的.</td>
@@ -114,8 +114,8 @@
 <td>
 <ul>
 <li>將 Linux&nbsp;移植到新 SoC上</li>
-<li>將新 Linux Kernel 移植到全新平台上</li>
-<li>將新 Linux Kernel 移植到舊有平台上進行Kernel 升級</li>
+<li>將新 Linux Kernel 移植到全新平臺上</li>
+<li>將新 Linux Kernel 移植到舊有平臺上進行Kernel 升級</li>
 </ul>
 </td>
 <td style="text-align:left;">確定 SoC 種類, 並到Kernel 選單 – &nbsp;System Type 中選取對應的選項</td>

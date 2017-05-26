@@ -24,9 +24,9 @@ confused what "`{1,#,2,3}`" means? > read more on how binary tree is serialized 
 ## Solution
 
 
-层次遍历，使用队列。
+層次遍歷，使用隊列。
 
-需要保存层次，因此封装了一个桶用于保存处于的层次
+需要保存層次，因此封裝了一個桶用於保存處於的層次
 ```cpp
 vector<vector<int>> levelOrder(TreeNode *root) {
 	vector<vector<int>> result;

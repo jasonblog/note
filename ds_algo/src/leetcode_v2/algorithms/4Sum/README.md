@@ -17,7 +17,7 @@ Note:
 
 ## Solution
 
-[3Sum](https://github.com/krystism/leetcode/tree/master/algorithms/3Sum)扩展
+[3Sum](https://github.com/krystism/leetcode/tree/master/algorithms/3Sum)擴展
 
 ## Code
 ```cpp

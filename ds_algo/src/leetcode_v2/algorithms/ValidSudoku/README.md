@@ -14,9 +14,9 @@ Subscribe to see which companies asked this question*
 
 ## Solution
 
-此题是纯粹的模拟题，只需要根据数独的规则分别判断每一行、每一列、每一个九宫格是否出现重复数字即可。判断数字是否重复使用hash表即可。
+此題是純粹的模擬題，只需要根據數獨的規則分別判斷每一行、每一列、每一個九宮格是否出現重複數字即可。判斷數字是否重複使用hash表即可。
 
-### 判断每一行
+### 判斷每一行
 
 ```cpp
 bool check_row(const vector<vector<char>> &a, int row) {
@@ -34,7 +34,7 @@ bool check_row(const vector<vector<char>> &a, int row) {
 }
 ```
 
-### 判断每一列
+### 判斷每一列
 
 ```cpp
 bool check_col(const vector<vector<char>> &a, int col) {
@@ -52,9 +52,9 @@ bool check_col(const vector<vector<char>> &a, int col) {
 }
 ```
 
-### 判断每一个九宫格
+### 判斷每一個九宮格
 
-需要注意确定每一个九宫格对应行首和列首，假设九宫格从0开始编号，则第n个九宫格的行位置为`n / 3 * 3`, 列位置为`n % 3 * 3`
+需要注意確定每一個九宮格對應行首和列首，假設九宮格從0開始編號，則第n個九宮格的行位置為`n / 3 * 3`, 列位置為`n % 3 * 3`
 
 ```cpp
 bool check_box(const vector<vector<char>> &a, int box) {
@@ -76,7 +76,7 @@ bool check_box(const vector<vector<char>> &a, int box) {
 }
 ```
 
-实习代码为：
+實習代碼為：
 
 ```cpp
 bool isValidSudoku(vector<vector<char>>& board) {

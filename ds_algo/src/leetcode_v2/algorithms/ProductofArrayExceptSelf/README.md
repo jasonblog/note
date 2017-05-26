@@ -11,14 +11,14 @@ Could you solve it with constant space complexity? (Note: The output array does 
 
 ## Solution
 
-简单方法是使用两个数组a,b，其中一个存储`nums[0..i - 1]`, 另一个数组存`nums[i + 1..n-1]`, 于是结果为`result[i] = a[i] * b[n - i - 1]`，即
-a存储i前面的积，b存储i后面元素的积
+簡單方法是使用兩個數組a,b，其中一個存儲`nums[0..i - 1]`, 另一個數組存`nums[i + 1..n-1]`, 於是結果為`result[i] = a[i] * b[n - i - 1]`，即
+a存儲i前面的積，b存儲i後面元素的積
 
 ```cpp
 vector<int> productExceptSelf(vector<int>& nums) {
     if (nums.empty()) // 空
 	    return vector<int>();
-    if (nums.size() == 1) { //只有一个元素，返回{0}
+    if (nums.size() == 1) { //只有一個元素，返回{0}
 	    return vector<int>({0});
     }
     auto n = nums.size();
@@ -34,11 +34,11 @@ vector<int> productExceptSelf(vector<int>& nums) {
 }
 ```
 
-以上方法O(n)时间，除了结果空间，还需要额外空间O(n)
+以上方法O(n)時間，除了結果空間，還需要額外空間O(n)
 
-题目要求O(1)空间。
+題目要求O(1)空間。
 
-我们发现a数组得到i前面的积后，只需要累乘后面的积即可。
+我們發現a數組得到i前面的積後，只需要累乘後面的積即可。
 
 * `a[n- 1]`不需要乘
 * `a[n - 2] = a[n - 2] * nums[n - 1]`
@@ -46,13 +46,13 @@ vector<int> productExceptSelf(vector<int>& nums) {
 * ...
 * `a[0] = a[0] * nums[n - 1] * nums[n - 2] * ... * nums[1]`
 
-使用一个变量product，表示从后往前的累乘，则`a[i] = a[i] * product`
+使用一個變量product，表示從後往前的累乘，則`a[i] = a[i] * product`
 
 ```cpp
 vector<int> productExceptSelf(vector<int> &nums) {
     if (nums.empty()) // 空
 	    return vector<int>();
-    if (nums.size() == 1) { //只有一个元素，返回{0}
+    if (nums.size() == 1) { //只有一個元素，返回{0}
 	    return vector<int>({0});
     }
     int n = nums.size();
@@ -68,4 +68,4 @@ vector<int> productExceptSelf(vector<int> &nums) {
 
 }
 ```
-此时空间为O(1)
+此時空間為O(1)

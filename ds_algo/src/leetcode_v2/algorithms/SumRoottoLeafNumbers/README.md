@@ -19,7 +19,7 @@ Return the `sum = 12 + 13 = 25`.
 
 ## Solution
 
-递归前序遍历树，并记录经过的数值，当到达叶子时，保存值到vector中, 然后求vector的值即可.
+遞歸前序遍歷樹，並記錄經過的數值，當到達葉子時，保存值到vector中, 然後求vector的值即可.
 ```cpp
 static inline bool isLeaf(TreeNode *root)
 {
@@ -52,9 +52,9 @@ private:
 };
 ```
 
-以上方法的时间空间复杂度都是O(n)。
+以上方法的時間空間複雜度都是O(n)。
 
-时间是不可能优化的，关键空间，我们可以不保存值，直接求解。
+時間是不可能優化的，關鍵空間，我們可以不保存值，直接求解。
 ```cpp
 class Solution {
 public:
@@ -75,4 +75,4 @@ private:
 };
 ```
 
-此时空间复杂度为O(1).
+此時空間複雜度為O(1).

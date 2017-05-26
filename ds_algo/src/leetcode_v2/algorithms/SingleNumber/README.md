@@ -7,7 +7,7 @@ Your algorithm should have a linear runtime complexity. Could you implement it w
 
 ## Solution
 
-使用异或位运算，相同的数字必然相互抵消，剩下只有一个数字的
+使用異或位運算，相同的數字必然相互抵消，剩下只有一個數字的
 
 ## Code
 ```c

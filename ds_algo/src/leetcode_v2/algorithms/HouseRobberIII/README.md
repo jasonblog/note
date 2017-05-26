@@ -28,13 +28,13 @@ Maximum amount of money the thief can `rob = 4 + 5 = 9`.
 
 ## Solution
 
-最开始想到直接层次遍历，获取每一层的值，比如Example 2为`[3,9,5]`,然后转化为[House Robber](../HouseRobber)求解。时间复杂度时O(n),空间复杂度是O(n)。
+最開始想到直接層次遍歷，獲取每一層的值，比如Example 2為`[3,9,5]`,然後轉化為[House Robber](../HouseRobber)求解。時間複雜度時O(n),空間複雜度是O(n)。
 
-看提示说使用DFS，一个节点要么选择要么不选择，设当前节点为p，yes为选择p节点的值，no为不选择p节点的值,f(p)为p节点的值，则：
+看提示說使用DFS，一個節點要麼選擇要麼不選擇，設當前節點為p，yes為選擇p節點的值，no為不選擇p節點的值,f(p)為p節點的值，則：
 
-* 若p为null，则yes = 0， no = 0;
-* 若选择p，则不能选择p的孩子节点，则`p->yes = f(p->left->no) + f(p->right->no) + p->val`;
-* 若不选择p节点，则结果为孩子节点的最大值，即`p->no = max(f(p->left->yes), f(p->left->no)) + max(f(p->right->yes), f(p->right->no))`
+* 若p為null，則yes = 0， no = 0;
+* 若選擇p，則不能選擇p的孩子節點，則`p->yes = f(p->left->no) + f(p->right->no) + p->val`;
+* 若不選擇p節點，則結果為孩子節點的最大值，即`p->no = max(f(p->left->yes), f(p->left->no)) + max(f(p->right->yes), f(p->right->no))`
 
 ```cpp
 void dfs(TreeNode *root, int *yes, int *no) {
@@ -51,7 +51,7 @@ void dfs(TreeNode *root, int *yes, int *no) {
 }
 ```
 
-最后返回`max(root->yes, root->no)`即可。
+最後返回`max(root->yes, root->no)`即可。
 
 ```cpp
 int rob(TreeNode *root) {
@@ -61,8 +61,8 @@ int rob(TreeNode *root) {
 }
 ```
 
-## 参考
+## 參考
 
-1. [House Robber](../HouseRobber): 线性的情况
-2. [House Robber II](../HouseRobberII)：线性的情况，首位相连
-3. [House Robber III](../HouseRobberIII)：树形结构
+1. [House Robber](../HouseRobber): 線性的情況
+2. [House Robber II](../HouseRobberII)：線性的情況，首位相連
+3. [House Robber III](../HouseRobberIII)：樹形結構

@@ -6,7 +6,7 @@ Input is guaranteed to be within the range from 1 to 3999.
 
 ## Solution
 
-罗马数字转换参考[12 Integer to Roman](../IntegertoRoman),我们首先建立一个静态表:
+羅馬數字轉換參考[12 Integer to Roman](../IntegertoRoman),我們首先建立一個靜態表:
 
 ```cpp
 unordered_map<char, int> ROMAN_TABLE = {
@@ -20,10 +20,10 @@ unordered_map<char, int> ROMAN_TABLE = {
 };
 ```
 
-由转化规则可知：
+由轉化規則可知：
 
-* 当罗马数字当前值比前面值大时，需要减去前面的值，比如IV,前面时1,后面时5,需要减去前面的值，结果为４,因此左减至多一位，因此不会出现减两位数的情况。
-* 当当前值比前面的小时，需要加上当前的值。比如VI, 当前为1，前面为5,则结果为6。
+* 當羅馬數字當前值比前面值大時，需要減去前面的值，比如IV,前面時1,後面時5,需要減去前面的值，結果為４,因此左減至多一位，因此不會出現減兩位數的情況。
+* 噹噹前值比前面的小時，需要加上當前的值。比如VI, 當前為1，前面為5,則結果為6。
 
 ```cpp
 int romanToInt(string s) {
@@ -33,7 +33,7 @@ int romanToInt(string s) {
 		int cur = ROMAN_TABLE[s[i]];
 		sum += cur;
 		if (cur > pre) {
-			sum -= 2 * pre; // 原来是＋，需要转化为－，因此减去两倍
+			sum -= 2 * pre; // 原來是＋，需要轉化為－，因此減去兩倍
 		}
 		pre = cur;
 	}
@@ -41,6 +41,6 @@ int romanToInt(string s) {
 }
 ```
 
-## 参考
+## 參考
 
 1. [12 Integer to Roman](../IntegertoRoman)

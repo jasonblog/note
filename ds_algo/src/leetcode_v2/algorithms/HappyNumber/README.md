@@ -15,9 +15,9 @@ Special thanks to @mithmatt for adding this problem and creating all test cases.
 
 # Solution
 
-计算模拟题
+計算模擬題
 
-直接计算下一个值，如果等于1，返回true，否则放入hashset中，若已经存在hashset中，返回false
+直接計算下一個值，如果等於1，返回true，否則放入hashset中，若已經存在hashset中，返回false
 ```cpp
 bool isHappy(int n) {
 	unordered_set<int> s;
@@ -43,7 +43,7 @@ int next(int n) {
 }
 ```
 
-再根据提示，如果该数不是Happy的，则必然出现环，可以使用判断[链表是否存在环](../LinkedListCycle)的方法，设置快慢指针，若快的能和慢的相遇，则有环
+再根據提示，如果該數不是Happy的，則必然出現環，可以使用判斷[鏈表是否存在環](../LinkedListCycle)的方法，設置快慢指針，若快的能和慢的相遇，則有環
 
 ```cpp
 bool isHappy(int n) {

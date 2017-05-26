@@ -7,7 +7,7 @@ You may assume that all inputs are consist of lowercase letters a-z.
 
 ## Solution
 
-[java 实现版本](https://github.com/krystism/algorithms/tree/master/trie)
+[java 實現版本](https://github.com/krystism/algorithms/tree/master/trie)
 
 ```cpp
 class TrieNode {
@@ -63,6 +63,6 @@ class Trie {
 		TrieNode *root;
 };
 ```
-## 扩展
+## 擴展
 
-[Add and Search Word - Data structure design](../AddandSearchWord): 实现含有任意字符的搜索
+[Add and Search Word - Data structure design](../AddandSearchWord): 實現含有任意字符的搜索

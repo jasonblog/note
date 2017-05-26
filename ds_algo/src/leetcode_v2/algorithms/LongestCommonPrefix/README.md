@@ -4,7 +4,7 @@ Write a function to find the longest common prefix string amongst an array of st
 
 ## Solution
 
-逐一比较即可
+逐一比較即可
 ```cpp
 string longestCommonPrefix(vector<string>& strs) {
     int n = strs.size();

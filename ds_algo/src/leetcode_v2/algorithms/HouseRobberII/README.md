@@ -11,9 +11,9 @@ Special thanks to @Freezen for adding this problem and creating all test cases.
 
 ## Solution
 
-分别求包括第一个但不包括最后一个节点、包括最后一个但不包括第一个节点的情况
+分別求包括第一個但不包括最後一個節點、包括最後一個但不包括第一個節點的情況
 
-首先实现没有环的情况:
+首先實現沒有環的情況:
 
 ```c
 int robWithoutCircle(int num[], int n) {
@@ -34,7 +34,7 @@ int robWithoutCircle(int num[], int n) {
 }
 ```
 
-实现带环的情况:
+實現帶環的情況:
 
 ```c
 int rob(int *nums, int n)
@@ -47,8 +47,8 @@ int rob(int *nums, int n)
 }
 ```
 
-## 扩展
+## 擴展
 
-1. [House Robber](../HouseRobber): 线性的情况
-2. [House Robber II](../HouseRobberII)：线性的情况，首位相连
-3. [House Robber III](../HouseRobberIII)：树形结构
+1. [House Robber](../HouseRobber): 線性的情況
+2. [House Robber II](../HouseRobberII)：線性的情況，首位相連
+3. [House Robber III](../HouseRobberIII)：樹形結構

@@ -15,7 +15,7 @@ Related problem: Reverse Words in a String II
 
 ## Solution
 
-[列表旋转算法](https://github.com/krystism/algorithms/tree/master/rotate)
+[列表旋轉算法](https://github.com/krystism/algorithms/tree/master/rotate)
 
 ## Code
 ```c

@@ -21,9 +21,9 @@ Clarification:
 
 ## Solution
 
-1. 先压缩字符串,去掉多余空格。
-2. reverse整个字符串.
-3. reverse每个单词
+1. 先壓縮字符串,去掉多餘空格。
+2. reverse整個字符串.
+3. reverse每個單詞
 
 ## Code
 ```c

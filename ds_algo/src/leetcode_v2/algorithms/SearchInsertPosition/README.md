@@ -14,7 +14,7 @@ Here are few examples.
 
 ## Solution
 
-二分搜索，若没有找到，则最后s == t, s即是需要插入的位置
+二分搜索，若沒有找到，則最後s == t, s即是需要插入的位置
 
 ## Code
 ```c

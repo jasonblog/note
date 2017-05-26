@@ -15,21 +15,21 @@ Here are some examples. Inputs are in the left-hand column and its corresponding
 
 ## Solution
 
-算法见[July字符串全排列](https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/01.06.md)
+算法見[July字符串全排列](https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/01.06.md)
 
-这里需要注意的是有相同的数字出现，注意循环的边界条件
+這裡需要注意的是有相同的數字出現，注意循環的邊界條件
 
 ## Code
 ```c
 void nextPermutation(int num[], int n)
 {
 	int i, j;
-	for (i = n - 2; i >= 0 && num[i] >= num[i + 1]; --i); // 注意边界条件num[i] >= num[i + 1]
+	for (i = n - 2; i >= 0 && num[i] >= num[i + 1]; --i); // 注意邊界條件num[i] >= num[i + 1]
 	if (i < 0) {
 		reverse(num, 0, n - 1);
 		return;
 	}
-	for (j = n - 1; j > i && num[j] <= num[i]; --j); // 注意边界条件num[j] <= num[i];
+	for (j = n - 1; j > i && num[j] <= num[i]; --j); // 注意邊界條件num[j] <= num[i];
 	swap(&num[i], &num[j]);
 	reverse(num, i + 1, n - 1);
 }

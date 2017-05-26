@@ -24,7 +24,7 @@ Note: All emails are in lowercase.
 
 ## Solution 1
 
-直接使用子查询
+直接使用子查詢
 
 ## Code
 ```sql
@@ -35,7 +35,7 @@ where e.count > 1;
 
 ## Solution 2
 
-分组过滤
+分組過濾
 
 ## Code
 ```sql

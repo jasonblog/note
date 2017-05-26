@@ -18,7 +18,7 @@ For example, the lowest common ancestor (LCA) of nodes 2 and 8 is 6. Another exa
 
 ## Solution
 
-由于是BST，若p,q节点都小于root，则一定在左子树，若p，q都大于root，则一定在右子树,否则一个大于root,一个小于root，则root就是最低祖先节点
+由於是BST，若p,q節點都小於root，則一定在左子樹，若p，q都大於root，則一定在右子樹,否則一個大於root,一個小於root，則root就是最低祖先節點
 
 ```cpp
 class Solution {
@@ -39,7 +39,7 @@ private:
 };
 ```
 
-## 相关题目
+## 相關題目
 
-* [Lowest Common Ancestor of a Binary Search Tree](../LowestCommonAncestorofaBinarySearchTree):求BST最低公共祖先节点
-* [Lowest Common Ancestor of a Binary Tree](../LowestCommonAncestorofaBinaryTree):求二叉树最低公共祖先节点
+* [Lowest Common Ancestor of a Binary Search Tree](../LowestCommonAncestorofaBinarySearchTree):求BST最低公共祖先節點
+* [Lowest Common Ancestor of a Binary Tree](../LowestCommonAncestorofaBinaryTree):求二叉樹最低公共祖先節點

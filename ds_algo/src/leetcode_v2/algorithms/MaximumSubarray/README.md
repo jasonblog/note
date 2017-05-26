@@ -12,7 +12,7 @@ If you have figured out the O(n) solution, try coding another solution using the
 
 ## Solution
 
-最大连续之和经典题
+最大連續之和經典題
 
 ```c
 int maxSubArray(int *a, int n)
@@ -30,6 +30,6 @@ int maxSubArray(int *a, int n)
 	return max;
 }
 ```
-## 扩展
+## 擴展
 
-[Maximum Product Subarray](../MaximumProductSubarray): 最大连续之积
+[Maximum Product Subarray](../MaximumProductSubarray): 最大連續之積

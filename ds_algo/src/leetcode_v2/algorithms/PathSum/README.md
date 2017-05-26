@@ -17,10 +17,10 @@ return true, as there exist a root-to-leaf path `5->4->11->2` which sum is 22.
 
 ## Solution
 
-递归题
+遞歸題
 
-* 如果p是叶子节点，则若`p的值等于sum`，`return true`， 否则`return false`
-* 若p不是叶子节点，则一定存在孩子节点，左孩子或者右孩子满足其中一个和为`sum - p->val`即可,即
+* 如果p是葉子節點，則若`p的值等於sum`，`return true`， 否則`return false`
+* 若p不是葉子節點，則一定存在孩子節點，左孩子或者右孩子滿足其中一個和為`sum - p->val`即可,即
 `return hasPath(p->left, sum - p->val) || hasPath(p->right, sum - p->right)`
 
 ## Code
@@ -37,6 +37,6 @@ bool hasPathSum(struct TreeNode *root, int sum) {
 }
 ```
 
-## 扩展
+## 擴展
 
-见[Path Sum II](../PathSum2).
+見[Path Sum II](../PathSum2).

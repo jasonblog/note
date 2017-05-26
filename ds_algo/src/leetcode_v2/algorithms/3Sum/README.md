@@ -15,9 +15,9 @@ The solution set must not contain duplicate triplets.
 
 ## Solution 
 
-两个数之和等于一个数的问题扩展。
+兩個數之和等於一個數的問題擴展。
 
-先排序，依次遍历每个数`a[i]`，在后面的数组中找到两个数之和等于`-a[i]`。
+先排序，依次遍歷每個數`a[i]`，在後面的數組中找到兩個數之和等於`-a[i]`。
 
 ## Code
 ```c

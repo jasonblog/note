@@ -1,4 +1,4 @@
-# SQLite - Python 安装
+# SQLite - Python 安裝
 
 
 <div class="primary">
@@ -9,62 +9,62 @@
 					</div>
 				<h1>SQLite - <span class="color_h1">Python</span></h1>
 
-<h2>安装</h2>
-<p>SQLite3 可使用 sqlite3 模块与 Python 进行集成。sqlite3 模块是由 Gerhard Haring 编写的。它提供了一个与 PEP 249 描述的 DB-API 2.0 规范兼容的 SQL 接口。您不需要单独安装该模块，因为 Python 2.5.x 以上版本默认自带了该模块。</p>
-<p>为了使用 sqlite3 模块，您首先必须创建一个表示数据库的连接对象，然后您可以有选择地创建光标对象，这将帮助您执行所有的 SQL 语句。</p>
-<h2>Python sqlite3 模块 API</h2>
-<p>以下是重要的 sqlite3 模块程序，可以满足您在 Python 程序中使用 SQLite 数据库的需求。如果您需要了解更多细节，请查看 Python sqlite3 模块的官方文档。</p>
+<h2>安裝</h2>
+<p>SQLite3 可使用 sqlite3 模塊與 Python 進行集成。sqlite3 模塊是由 Gerhard Haring 編寫的。它提供了一個與 PEP 249 描述的 DB-API 2.0 規範兼容的 SQL 接口。您不需要單獨安裝該模塊，因為 Python 2.5.x 以上版本默認自帶了該模塊。</p>
+<p>為了使用 sqlite3 模塊，您首先必須創建一個表示數據庫的連接對象，然後您可以有選擇地創建光標對象，這將幫助您執行所有的 SQL 語句。</p>
+<h2>Python sqlite3 模塊 API</h2>
+<p>以下是重要的 sqlite3 模塊程序，可以滿足您在 Python 程序中使用 SQLite 數據庫的需求。如果您需要了解更多細節，請查看 Python sqlite3 模塊的官方文檔。</p>
 <table class="reference notranslate">
-<tbody><tr><th width="5%">序号</th><th>API &amp; 描述</th></tr>
+<tbody><tr><th width="5%">序號</th><th>API &amp; 描述</th></tr>
 <tr><td>1</td><td><b>sqlite3.connect(database [,timeout ,other optional arguments])</b><br>
-<p>该 API 打开一个到 SQLite 数据库文件 database 的链接。您可以使用 ":memory:" 来在 RAM 中打开一个到 database 的数据库连接，而不是在磁盘上打开。如果数据库成功打开，则返回一个连接对象。</p>
-<p>当一个数据库被多个连接访问，且其中一个修改了数据库，此时 SQLite 数据库被锁定，直到事务提交。timeout 参数表示连接等待锁定的持续时间，直到发生异常断开连接。timeout 参数默认是 5.0（5 秒）。</p>
-<p>如果给定的数据库名称 filename 不存在，则该调用将创建一个数据库。如果您不想在当前目录中创建数据库，那么您可以指定带有路径的文件名，这样您就能在任意地方创建数据库。</p>
+<p>該 API 打開一個到 SQLite 數據庫文件 database 的鏈接。您可以使用 ":memory:" 來在 RAM 中打開一個到 database 的數據庫連接，而不是在磁盤上打開。如果數據庫成功打開，則返回一個連接對象。</p>
+<p>當一個數據庫被多個連接訪問，且其中一個修改了數據庫，此時 SQLite 數據庫被鎖定，直到事務提交。timeout 參數表示連接等待鎖定的持續時間，直到發生異常斷開連接。timeout 參數默認是 5.0（5 秒）。</p>
+<p>如果給定的數據庫名稱 filename 不存在，則該調用將創建一個數據庫。如果您不想在當前目錄中創建數據庫，那麼您可以指定帶有路徑的文件名，這樣您就能在任意地方創建數據庫。</p>
 </td></tr>
 <tr><td>2</td><td><b>connection.cursor([cursorClass])</b><br>
-<p>该例程创建一个 <b>cursor</b>，将在 Python 数据库编程中用到。该方法接受一个单一的可选的参数 cursorClass。如果提供了该参数，则它必须是一个扩展自 sqlite3.Cursor 的自定义的 cursor 类。</p>
+<p>該例程創建一個 <b>cursor</b>，將在 Python 數據庫編程中用到。該方法接受一個單一的可選的參數 cursorClass。如果提供了該參數，則它必須是一個擴展自 sqlite3.Cursor 的自定義的 cursor 類。</p>
 </td></tr>
 <tr><td>3</td><td><b>cursor.execute(sql [, optional parameters])</b><br>
-<p>该例程执行一个 SQL 语句。该 SQL 语句可以被参数化（即使用占位符代替 SQL 文本）。sqlite3 模块支持两种类型的占位符：问号和命名占位符（命名样式）。</p>
+<p>該例程執行一個 SQL 語句。該 SQL 語句可以被參數化（即使用佔位符代替 SQL 文本）。sqlite3 模塊支持兩種類型的佔位符：問號和命名佔位符（命名樣式）。</p>
 <p>例如：cursor.execute("insert into people values (?, ?)", (who, age))</p>
 </td></tr>
 <tr><td>4</td><td><b>connection.execute(sql [, optional parameters])</b><br>
-<p>该例程是上面执行的由光标（cursor）对象提供的方法的快捷方式，它通过调用光标（cursor）方法创建了一个中间的光标对象，然后通过给定的参数调用光标的 execute 方法。</p>
+<p>該例程是上面執行的由光標（cursor）對象提供的方法的快捷方式，它通過調用光標（cursor）方法創建了一箇中間的光標對象，然後通過給定的參數調用光標的 execute 方法。</p>
 </td></tr>
 <tr><td>5</td><td><b>cursor.executemany(sql, seq_of_parameters)</b><br>
-<p>该例程对 seq_of_parameters 中的所有参数或映射执行一个 SQL 命令。</p>
+<p>該例程對 seq_of_parameters 中的所有參數或映射執行一個 SQL 命令。</p>
 </td></tr>
 <tr><td>6</td><td><b>connection.executemany(sql[, parameters])</b><br>
-<p>该例程是一个由调用光标（cursor）方法创建的中间的光标对象的快捷方式，然后通过给定的参数调用光标的 executemany 方法。</p>
+<p>該例程是一個由調用光標（cursor）方法創建的中間的光標對象的快捷方式，然後通過給定的參數調用光標的 executemany 方法。</p>
 </td></tr>
 <tr><td>7</td><td><b>cursor.executescript(sql_script)</b><br>
-<p>该例程一旦接收到脚本，会执行多个 SQL 语句。它首先执行 COMMIT 语句，然后执行作为参数传入的 SQL 脚本。所有的 SQL 语句应该用分号（;）分隔。</p>
+<p>該例程一旦接收到腳本，會執行多個 SQL 語句。它首先執行 COMMIT 語句，然後執行作為參數傳入的 SQL 腳本。所有的 SQL 語句應該用分號（;）分隔。</p>
 </td></tr>
 <tr><td>8</td><td><b>connection.executescript(sql_script)</b><br>
-<p>该例程是一个由调用光标（cursor）方法创建的中间的光标对象的快捷方式，然后通过给定的参数调用光标的 executescript 方法。</p>
+<p>該例程是一個由調用光標（cursor）方法創建的中間的光標對象的快捷方式，然後通過給定的參數調用光標的 executescript 方法。</p>
 </td></tr>
 <tr><td>9</td><td><b>connection.total_changes()</b><br>
-<p>该例程返回自数据库连接打开以来被修改、插入或删除的数据库总行数。</p>
+<p>該例程返回自數據庫連接打開以來被修改、插入或刪除的數據庫總行數。</p>
 </td></tr>
 <tr><td>10</td><td><b>connection.commit()</b><br>
-<p>该方法提交当前的事务。如果您未调用该方法，那么自您上一次调用 commit() 以来所做的任何动作对其他数据库连接来说是不可见的。</p>
+<p>該方法提交當前的事務。如果您未調用該方法，那麼自您上一次調用 commit() 以來所做的任何動作對其他數據庫連接來說是不可見的。</p>
 </td></tr>
 <tr><td>11</td><td><b>connection.rollback()</b><br>
-<p>该方法回滚自上一次调用 commit() 以来对数据库所做的更改。</p>
+<p>該方法回滾自上一次調用 commit() 以來對數據庫所做的更改。</p>
 </td></tr>
 <tr><td>12</td><td><b>connection.close()</b><br>
-<p>该方法关闭数据库连接。请注意，这不会自动调用 commit()。如果您之前未调用 commit() 方法，就直接关闭数据库连接，您所做的所有更改将全部丢失！</p>
+<p>該方法關閉數據庫連接。請注意，這不會自動調用 commit()。如果您之前未調用 commit() 方法，就直接關閉數據庫連接，您所做的所有更改將全部丟失！</p>
 </td></tr>
 <tr><td>13</td><td><b>cursor.fetchone()</b><br>
-<p>该方法获取查询结果集中的下一行，返回一个单一的序列，当没有更多可用的数据时，则返回 None。</p>
+<p>該方法獲取查詢結果集中的下一行，返回一個單一的序列，當沒有更多可用的數據時，則返回 None。</p>
 </td></tr>
 <tr><td>14</td><td><b>cursor.fetchmany([size=cursor.arraysize])</b><br>
-<p>该方法获取查询结果集中的下一行组，返回一个列表。当没有更多的可用的行时，则返回一个空的列表。该方法尝试获取由 size 参数指定的尽可能多的行。</p>
+<p>該方法獲取查詢結果集中的下一行組，返回一個列表。當沒有更多的可用的行時，則返回一個空的列表。該方法嘗試獲取由 size 參數指定的儘可能多的行。</p>
 </td></tr><tr><td>15</td><td><b>cursor.fetchall()</b><br>
-<p>该例程获取查询结果集中所有（剩余）的行，返回一个列表。当没有可用的行时，则返回一个空的列表。</p>
+<p>該例程獲取查詢結果集中所有（剩餘）的行，返回一個列表。當沒有可用的行時，則返回一個空的列表。</p>
 </td></tr></tbody></table>
-<h2>连接数据库</h2>
-<p>下面的 Python 代码显示了如何连接到一个现有的数据库。如果数据库不存在，那么它就会被创建，最后将返回一个数据库对象。</p>
+<h2>連接數據庫</h2>
+<p>下面的 Python 代碼顯示瞭如何連接到一個現有的數據庫。如果數據庫不存在，那麼它就會被創建，最後將返回一個數據庫對象。</p>
 <pre class="prettyprint prettyprinted"><span class="com">#!/usr/bin/python</span><span class="pln">
 
 </span><span class="kwd">import</span><span class="pln"> sqlite3
@@ -72,12 +72,12 @@
 conn </span><span class="pun">=</span><span class="pln"> sqlite3</span><span class="pun">.</span><span class="pln">connect</span><span class="pun">(</span><span class="str">'test.db'</span><span class="pun">)</span><span class="pln">
 
 </span><span class="kwd">print</span><span class="pln"> </span><span class="str">"Opened database successfully"</span><span class="pun">;</span></pre>
-<p>在这里，您也可以把数据库名称复制为特定的名称 <b>:memory:</b>，这样就会在 RAM 中创建一个数据库。现在，让我们来运行上面的程序，在当前目录中创建我们的数据库 <b>test.db</b>。您可以根据需要改变路径。保存上面代码到 sqlite.py 文件中，并按如下所示执行。如果数据库成功创建，那么会显示下面所示的消息：</p>
+<p>在這裡，您也可以把數據庫名稱複製為特定的名稱 <b>:memory:</b>，這樣就會在 RAM 中創建一個數據庫。現在，讓我們來運行上面的程序，在當前目錄中創建我們的數據庫 <b>test.db</b>。您可以根據需要改變路徑。保存上面代碼到 sqlite.py 文件中，並按如下所示執行。如果數據庫成功創建，那麼會顯示下面所示的消息：</p>
 <pre class="result prettyprint prettyprinted"><span class="pln">$chmod </span><span class="pun">+</span><span class="pln">x sqlite</span><span class="pun">.</span><span class="pln">py
 $</span><span class="pun">./</span><span class="pln">sqlite</span><span class="pun">.</span><span class="pln">py
 </span><span class="typ">Open</span><span class="pln"> database successfully</span></pre>
-<h2>创建表</h2>
-<p>下面的 Python 代码段将用于在先前创建的数据库中创建一个表：</p>
+<h2>創建表</h2>
+<p>下面的 Python 代碼段將用於在先前創建的數據庫中創建一個表：</p>
 <pre class="prettyprint prettyprinted"><span class="com">#!/usr/bin/python</span><span class="pln">
 
 </span><span class="kwd">import</span><span class="pln"> sqlite3
@@ -94,11 +94,11 @@ conn</span><span class="pun">.</span><span class="pln">execute</span><span class
 </span><span class="kwd">print</span><span class="pln"> </span><span class="str">"Table created successfully"</span><span class="pun">;</span><span class="pln">
 
 conn</span><span class="pun">.</span><span class="pln">close</span><span class="pun">()</span></pre>
-<p>上述程序执行时，它会在 <b>test.db</b> 中创建 COMPANY 表，并显示下面所示的消息：</p>
+<p>上述程序執行時，它會在 <b>test.db</b> 中創建 COMPANY 表，並顯示下面所示的消息：</p>
 <pre class="result prettyprint prettyprinted"><span class="typ">Opened</span><span class="pln"> database successfully
 </span><span class="typ">Table</span><span class="pln"> created successfully</span></pre>
 <h2>INSERT 操作</h2>
-<p>下面的 Python 程序显示了如何在上面创建的 COMPANY 表中创建记录：</p>
+<p>下面的 Python 程序顯示瞭如何在上面創建的 COMPANY 表中創建記錄：</p>
 <pre class="prettyprint prettyprinted"><span class="com">#!/usr/bin/python</span><span class="pln">
 
 </span><span class="kwd">import</span><span class="pln"> sqlite3
@@ -121,11 +121,11 @@ conn</span><span class="pun">.</span><span class="pln">execute</span><span class
 conn</span><span class="pun">.</span><span class="pln">commit</span><span class="pun">()</span><span class="pln">
 </span><span class="kwd">print</span><span class="pln"> </span><span class="str">"Records created successfully"</span><span class="pun">;</span><span class="pln">
 conn</span><span class="pun">.</span><span class="pln">close</span><span class="pun">()</span></pre>
-<p>上述程序执行时，它会在 COMPANY 表中创建给定记录，并会显示以下两行：</p>
+<p>上述程序執行時，它會在 COMPANY 表中創建給定記錄，並會顯示以下兩行：</p>
 <pre class="result prettyprint prettyprinted"><span class="typ">Opened</span><span class="pln"> database successfully
 </span><span class="typ">Records</span><span class="pln"> created successfully</span></pre>
 <h2>SELECT 操作</h2>
-<p>下面的 Python 程序显示了如何从前面创建的 COMPANY 表中获取并显示记录：</p>
+<p>下面的 Python 程序顯示瞭如何從前面創建的 COMPANY 表中獲取並顯示記錄：</p>
 <pre class="prettyprint prettyprinted"><span class="com">#!/usr/bin/python</span><span class="pln">
 
 </span><span class="kwd">import</span><span class="pln"> sqlite3
@@ -142,7 +142,7 @@ cursor </span><span class="pun">=</span><span class="pln"> conn</span><span clas
 
 </span><span class="kwd">print</span><span class="pln"> </span><span class="str">"Operation done successfully"</span><span class="pun">;</span><span class="pln">
 conn</span><span class="pun">.</span><span class="pln">close</span><span class="pun">()</span></pre>
-<p>上述程序执行时，它会产生以下结果：</p>
+<p>上述程序執行時，它會產生以下結果：</p>
 <pre class="result prettyprint prettyprinted"><span class="typ">Opened</span><span class="pln"> database successfully
 ID </span><span class="pun">=</span><span class="pln">  </span><span class="lit">1</span><span class="pln">
 NAME </span><span class="pun">=</span><span class="pln">  </span><span class="typ">Paul</span><span class="pln">
@@ -166,7 +166,7 @@ SALARY </span><span class="pun">=</span><span class="pln">  </span><span class="
 
 </span><span class="typ">Operation</span><span class="pln"> </span><span class="kwd">done</span><span class="pln"> successfully</span></pre>
 <h2>UPDATE 操作</h2>
-<p>下面的 Python 代码显示了如何使用 UPDATE 语句来更新任何记录，然后从 COMPANY 表中获取并显示更新的记录：</p>
+<p>下面的 Python 代碼顯示瞭如何使用 UPDATE 語句來更新任何記錄，然後從 COMPANY 表中獲取並顯示更新的記錄：</p>
 <pre class="prettyprint prettyprinted"><span class="com">#!/usr/bin/python</span><span class="pln">
 
 </span><span class="kwd">import</span><span class="pln"> sqlite3
@@ -187,7 +187,7 @@ cursor </span><span class="pun">=</span><span class="pln"> conn</span><span clas
 
 </span><span class="kwd">print</span><span class="pln"> </span><span class="str">"Operation done successfully"</span><span class="pun">;</span><span class="pln">
 conn</span><span class="pun">.</span><span class="pln">close</span><span class="pun">()</span></pre>
-<p>上述程序执行时，它会产生以下结果：</p>
+<p>上述程序執行時，它會產生以下結果：</p>
 <pre class="result prettyprint prettyprinted"><span class="typ">Opened</span><span class="pln"> database successfully
 </span><span class="typ">Total</span><span class="pln"> number of rows updated </span><span class="pun">:</span><span class="pln"> </span><span class="lit">1</span><span class="pln">
 ID </span><span class="pun">=</span><span class="pln">  </span><span class="lit">1</span><span class="pln">
@@ -212,7 +212,7 @@ SALARY </span><span class="pun">=</span><span class="pln">  </span><span class="
 
 </span><span class="typ">Operation</span><span class="pln"> </span><span class="kwd">done</span><span class="pln"> successfully</span></pre>
 <h2>DELETE 操作</h2>
-<p>下面的 Python 代码显示了如何使用 DELETE 语句删除任何记录，然后从 COMPANY 表中获取并显示剩余的记录：</p>
+<p>下面的 Python 代碼顯示瞭如何使用 DELETE 語句刪除任何記錄，然後從 COMPANY 表中獲取並顯示剩餘的記錄：</p>
 <pre class="prettyprint prettyprinted"><span class="com">#!/usr/bin/python</span><span class="pln">
 
 </span><span class="kwd">import</span><span class="pln"> sqlite3
@@ -233,7 +233,7 @@ cursor </span><span class="pun">=</span><span class="pln"> conn</span><span clas
 
 </span><span class="kwd">print</span><span class="pln"> </span><span class="str">"Operation done successfully"</span><span class="pun">;</span><span class="pln">
 conn</span><span class="pun">.</span><span class="pln">close</span><span class="pun">()</span></pre>
-<p>上述程序执行时，它会产生以下结果：</p>
+<p>上述程序執行時，它會產生以下結果：</p>
 <pre class="result prettyprint prettyprinted"><span class="typ">Opened</span><span class="pln"> database successfully
 </span><span class="typ">Total</span><span class="pln"> number of rows deleted </span><span class="pun">:</span><span class="pln"> </span><span class="lit">1</span><span class="pln">
 ID </span><span class="pun">=</span><span class="pln">  </span><span class="lit">1</span><span class="pln">
@@ -251,7 +251,7 @@ NAME </span><span class="pun">=</span><span class="pln">  </span><span class="ty
 ADDRESS </span><span class="pun">=</span><span class="pln">  </span><span class="typ">Rich</span><span class="pun">-</span><span class="typ">Mond</span><span class="pln">
 SALARY </span><span class="pun">=</span><span class="pln">  </span><span class="lit">65000.0</span><span class="pln">
 
-</span><span class="typ">Operation</span><span class="pln"> </span><span class="kwd">done</span><span class="pln"> successfully</span></pre>												<div class="scroll-top"><a href="javascript:scroll(0,0)">返回顶部</a></div>
+</span><span class="typ">Operation</span><span class="pln"> </span><span class="kwd">done</span><span class="pln"> successfully</span></pre>												<div class="scroll-top"><a href="javascript:scroll(0,0)">返回頂部</a></div>
 				
 			 </div>
 	        	        	 		<div class="clear"></div>

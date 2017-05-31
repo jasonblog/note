@@ -236,6 +236,7 @@
    * [移植 Linux Kernel 造成無法開機之解決方案以及除錯工具](linux_kernel/yi_zhi_linux_kernel_zao_cheng_wu_fa_kai_ji_zhi_jie.md)
    * [delay/ sleep 延遲函式學習筆記](linux_kernel/delay_sleep_yan_chi_han_shi_xue_xi_bi_ji.md)
    * [密碼學演算法實作流程](linux_kernel/mi_ma_xue_yan_suan_fa_shi_zuo_liu_cheng.md)
+   * 效能工具 – perf 來分析探討硬體加密之瓶頸
 * [Linux Driver](linux_driver/README.md)
    * [Linux Device Driver Programming](linux_device_driver_programming/README.md)
        * [Linux 裝置驅動程式的概要](linux_device_driver_programming/01.md)

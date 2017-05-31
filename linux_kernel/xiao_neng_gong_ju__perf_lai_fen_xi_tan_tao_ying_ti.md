@@ -79,3 +79,34 @@
 <p>[12]&nbsp;https://www.kernel.org/doc/gorman/html/understand/understand007.html</p>
 <p>[13]&nbsp;http://blog.rongpmcu.com/copy_from_userfen-xi/</p>
 <p>[14]&nbsp;https://www.softether.org/</p>
+			<style type="text/css">
+			div.wpmrec2x{max-width:610px;}
+			div.wpmrec2x div.u > div{float:left;margin-right:10px;}
+			div.wpmrec2x div.u > div:nth-child(3n){margin-right:0px;}
+			</style>		<div class="wpcnt">
+			<div class="wpa wpmrec wpmrec2x" style="display: inline-block !important;">
+				<span class="wpa-about">廣告</span>
+				<div class="u">
+								<script type="text/javascript" id="s928772711">
+				(function(g,$){if("undefined"!=typeof g.__ATA){
+					g.__ATA.initAd({sectionId:928772711, width:300, height:250});
+					g.__ATA.initAd({sectionId:928772714, width:300, height:250});
+				}})(window,jQuery);
+			</script><div id="fif_slot_automattic-id-2216" style="width:300px;height:250px;"><iframe id="fif_slot_automattic-id-_fif_slot_automattic-id-2216" name="fif_slot_automattic-id-_fif_slot_automattic-id-2216" frameborder="0" scrolling="no" width="300" height="250" style="border:none;width:300px;height:250px;"></iframe></div><div id="fif_slot_automattic-id-825" style="width:300px;height:250px;"><iframe id="fif_slot_automattic-id-_fif_slot_automattic-id-825" name="fif_slot_automattic-id-_fif_slot_automattic-id-825" frameborder="0" scrolling="no" width="300" height="250" style="border:none;width:300px;height:250px;"></iframe></div>
+				</div>
+				        <div id="crt-2105415951" style="width: 300px; height: 250px; display: none !important;"></div>
+        <script type="text/javascript">
+        var o = document.getElementById('crt-2105415951');
+        if ("undefined"!=typeof Criteo) {
+            var p = o.parentNode;
+            p.style.setProperty('display', 'inline-block', 'important');
+            o.style.setProperty('display', 'block', 'important');
+            Criteo.DisplayAcceptableAdIfAdblocked({zoneid:388248,containerid:"crt-2105415951",collapseContainerIfNotAdblocked:true,"callifnotadblocked": function () {var o = document.getElementById('crt-2105415951'); o.style.setProperty('display','none','important');o.style.setProperty('visbility','hidden','important'); }
+        });
+        } else {
+            o.style.setProperty('display', 'none', 'important');
+            o.style.setProperty('visibility', 'hidden', 'important');
+        }
+        </script>
+			</div>
+		</div><div class="teads_slot"><div class="teads-inread"><div style="position: relative;"><div class="teads-ui-components-label">广告</div><div class="teads-player" id="teads0"></div><div class="teads-ui-components-credits"><a href="http://teads.tv/inread-outstream/" rel="nofollow" target="_blank"><span class="teads-ui-components-credits-colored">inRead</span> invented by Teads</a></div></div></div></div><div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">分享此文：</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" data-shared="sharing-twitter-4526" class="share-twitter sd-button share-icon" href="https://szlin.me/2017/05/28/linux-kernel-perf-openvpn/?share=twitter&amp;nb=1" target="_blank" title="分享到 Twitter"><span>Twitter</span></a></li><li class="share-facebook"><a rel="nofollow" data-shared="sharing-facebook-4526" class="share-facebook sd-button share-icon" href="https://szlin.me/2017/05/28/linux-kernel-perf-openvpn/?share=facebook&amp;nb=1" target="_blank" title="分享到 Facebook"><span>Facebook<span class="share-count">15</span></span></a></li><li class="share-google-plus-1"><a rel="nofollow" data-shared="sharing-google-4526" class="share-google-plus-1 sd-button share-icon" href="https://szlin.me/2017/05/28/linux-kernel-perf-openvpn/?share=google-plus-1&amp;nb=1" target="_blank" title="點擊分享到 Google+"><span>Google</span></a></li><li class="share-end"></li></ul></div></div></div><div class="sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-loaded" id="like-post-wrapper-92877271-4526-592ecc5c0d6bd" data-src="//widgets.wp.com/likes/#blog_id=92877271&amp;post_id=4526&amp;origin=szlin.wordpress.com&amp;obj_id=92877271-4526-592ecc5c0d6bd" data-name="like-post-frame-92877271-4526-592ecc5c0d6bd"><h3 class="sd-title">請按讚：</h3><div class="likes-widget-placeholder post-likes-widget-placeholder" style="height: 55px;"><span class="button"><span>喜歡</span></span> <span class="loading">載入中...</span></div><iframe class="post-likes-widget jetpack-likes-widget" name="like-post-frame-92877271-4526-592ecc5c0d6bd" height="55px" width="100%" frameborder="0" src="//widgets.wp.com/likes/#blog_id=92877271&amp;post_id=4526&amp;origin=szlin.wordpress.com&amp;obj_id=92877271-4526-592ecc5c0d6bd"></iframe><span class="sd-text-color"></span><a class="sd-link-color"></a></div></div>			</div>

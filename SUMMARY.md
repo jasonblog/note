@@ -235,7 +235,7 @@
        * [（十一）：內存管理之頁的分配與回收](linux_kernel/ff08_shi_yi_ff09_ff1a_nei_cun_guan_li_zhi_ye_de_fe.md)
    * [移植 Linux Kernel 造成無法開機之解決方案以及除錯工具](linux_kernel/yi_zhi_linux_kernel_zao_cheng_wu_fa_kai_ji_zhi_jie.md)
    * [delay/ sleep 延遲函式學習筆記](linux_kernel/delay_sleep_yan_chi_han_shi_xue_xi_bi_ji.md)
-   * 密碼學演算法實作流程
+   * [密碼學演算法實作流程](linux_kernel/mi_ma_xue_yan_suan_fa_shi_zuo_liu_cheng.md)
 * [Linux Driver](linux_driver/README.md)
    * [Linux Device Driver Programming](linux_device_driver_programming/README.md)
        * [Linux 裝置驅動程式的概要](linux_device_driver_programming/01.md)

@@ -103,7 +103,7 @@
        * [startService及bindService的區別](android_note/startserviceji_bindservice_de_qu_bie.md)
        * [android service 之一 (start service)](android_note/android_service_zhi_yi__start_service.md)
        * [android service 之二(IntentService)](android_note/android_service_zhi_4e8c28_intentservice.md)
-       * Android Service 之三(Bind Service, 继承自 Binder 类)
+       * [Android Service 之三(Bind Service, 继承自 Binder 类)](android_note/android_service_zhi_4e0928_bind_service_,_ji_cheng.md)
 * [Ubuntu](ubuntu/README.md)
    * [Ubuntu installer](ubuntu/ubuntu_installer.md)
    * [Windows與Ubuntu雙系統，開機時偵測不到彼此的解決方法](ubuntu/windowsyuubuntu_shuang_xi_tong_ff0c_kai_ji_shi_zhe.md)

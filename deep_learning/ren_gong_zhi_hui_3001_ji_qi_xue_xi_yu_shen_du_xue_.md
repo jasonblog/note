@@ -9,8 +9,15 @@
 <div class="content"><p><em>此為資深科技圈記者</em><em> Michael Copeland </em><em>撰文介紹深度學習基礎系列文章的首篇。</em></p>
 <p>人工智慧是未來科技發展的趨勢。人工智慧是科幻的恣意想像。人工智慧早就存在於我們的日常生活。這些說法都對，端視你指的是人工智慧的哪個特點。 </p>
 <p>舉例來說，Google DeepMind 的 AlphaGo 項目今年初擊敗韓國圍棋棋王李世乭時，媒體使用「人工智慧」、「機器學習」與「深度學習」這幾個名詞來描述 DeepMind 的致勝方式，這三者雖皆是 AlphaGo 擊敗李世乭的原因，卻並非指同一件事情，其中各有巧妙不同。 </p>
-<p>用同心圓最能簡單說明三者間的關係，最早出現的人工智慧是最大那個圓，接著是後來出現的機器學習，最後是推動目前人工智慧領域出現爆炸性發展的深度學習，則是落在最內一圈。 </p><p>
-</p><div class="imgcenter"><a href="https://blogs.nvidia.com/wp-content/uploads/2016/07/Deep_Learning_Icons_R5_PNG.jpg.png"><img border="0" width="552" height="351" src="https://blogs.nvidia.com/wp-content/uploads/2016/07/Deep_Learning_Icons_R5_PNG.jpg.png" alt="What's the difference between Artificial Intelligence (AI), Machine Learning, and Deep Learning? "></a></div>
+<p>用同心圓最能簡單說明三者間的關係，最早出現的人工智慧是最大那個圓，接著是後來出現的機器學習，最後是推動目前人工智慧領域出現爆炸性發展的深度學習，則是落在最內一圈。 </p>
+
+
+
+
+<p>
+</p>
+
+<div class="imgcenter"><a href="https://blogs.nvidia.com/wp-content/uploads/2016/07/Deep_Learning_Icons_R5_PNG.jpg.png"><img border="0" width="552" height="351" src="https://blogs.nvidia.com/wp-content/uploads/2016/07/Deep_Learning_Icons_R5_PNG.jpg.png" alt="What's the difference between Artificial Intelligence (AI), Machine Learning, and Deep Learning? "></a></div>
 <p></p>
 <p><strong>從不景氣走向繁榮 </strong></p>
 <p>1956年達特矛斯會議集合多位電腦科學家誕生出人工智慧領域，人工智慧始終存在我們腦海的想像裡，在實驗室裡醞釀著。數十年間，人工智慧時而被預示為我們的文明最為璀燦的未來，時而被當成不自量力的電腦阿宅們輕率的想法，而被丟到成堆的科技垃圾報裡。平心而論，在2012年前是處在這兩種情況之間。 </p>

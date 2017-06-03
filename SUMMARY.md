@@ -1138,5 +1138,5 @@
 * [SlickEdit](SlickEdit/slickedit.md)
 * [Deep Learning](deep_learning/deep_learning.md)
    * [深度學習開發環境配置：Ubuntu1 6.04+Nvidia GTX 1080+CUDA 8.0](deep_learning/shen_du_xue_xi_kai_fa_huan_jing_pei_zhi_ff1a_ubunt.md)
-   * 人工智慧、機器學習與深度學習間有什麼區別?
+   * [人工智慧、機器學習與深度學習間有什麼區別?](deep_learning/ren_gong_zhi_hui_3001_ji_qi_xue_xi_yu_shen_du_xue_.md)
 

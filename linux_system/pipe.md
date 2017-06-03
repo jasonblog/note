@@ -110,5 +110,66 @@ int main(void)
 2.fork出去的程式，沒用到的file descriptor一定要記得關
 舉例來說，本來shell主程式裡面有一個pipe，若是此時fork出子程序來exec指令，主程序下wait指令等待子程序執行完畢且主程序沒有關閉pipe，則主程序會卡住。因為當fork的時候，一個pipe實際上會變成兩個pipe，當指派子程序接收pipe資料的時候，如果還有其他pipe沒有關閉，則子程序會判定pipe資料流尚未結束，而繼續癡癡等待輸入，`若是主程序有pipe沒關閉的話，結果就是主程序在等子程序結束，子程序又在等待主程序的pipe輸入資料，造成死結`。
 
+--- 
+
+
+## 实现两个管道双向数据流
+
+```c
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+int main()
+{
+    int fd1[2], fd2[2], cld_pid;
+    char buf[200], len;
+
+    if (pipe(fd1) == -1) { // 创建管道1
+        printf("creat pipe1 error\n");
+        exit(1);
+    }
+
+    if (pipe(fd2) == -1) { // 创建管道2
+        printf("creat pipe2 error\n");
+        exit(1);
+    }
+
+    if ((cld_pid = fork()) == 0) { //子进程
+        close(fd1[1]); // 子进程关闭管道1的写入端
+        close(fd2[0]); // 子进程关闭管道1的读出端
+
+        //子进程读管道1
+        len = read(fd1[0], buf, sizeof(buf));
+        printf("\n这是在子进程：子进程从管道1中读出的字符串 -- %s",
+               buf);
+
+        //子进程写管道2
+        strcpy(buf, "子进程写入管道2的字符串");
+        write(fd2[1], buf, strlen(buf));
+        printf("\n这是在子进程：子进程成功写入如下语句：%s\n", buf);
+
+        exit(0);
+    } else { //父进程
+        close(fd1[0]); // 父进程关闭管道1的读出端
+        close(fd2[1]); // 父进程关闭管道2的写入端
+
+        //父进程写管道1
+        strcpy(buf, "父进程写入管道1的字符串");
+        write(fd1[1], buf, strlen(buf));
+        printf("miaojing\n");
+
+        //父进程读管道2
+        len = read(fd2[0], buf, sizeof(buf));
+        printf("\n这是在父进程：父进程从管道2中读出的字符串 -- %s\n",
+               buf);
+        exit(0);
+    }
+}
+```
+
+
 
 

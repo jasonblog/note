@@ -2,54 +2,54 @@
 
 
 <div class="show-content">
-          <p>Handler是我们在开发中接触到最多的类了。<br>他可谓是Android消息机制中的总调度员。他几乎无所不能：创建消息可以是他，发消息是他，处理消息是他，移除消息还是他。所以，很多开发者对Handler很熟悉，对其背后底层默默工作的MessageQueue和Looper反而比较陌生。</p>
-<p>我们先看一下Handler的类结构：<br></p><div class="image-package">
-<img src="images/652037-e439362539abc0ab.jpg" data-original-src="images/652037-e439362539abc0ab.jpg" style="cursor: zoom-in;"><br><div class="image-caption">Handler类结构.jpg</div>
-</div><p><br>从图中我们可以看出，其包含了文章开头所讲的所有功能函数。<br>Handler的主要功能有：</p>
+          <p>Handler是我們在開發中接觸到最多的類了。<br>他可謂是Android消息機制中的總調度員。他幾乎無所不能：創建消息可以是他，發消息是他，處理消息是他，移除消息還是他。所以，很多開發者對Handler很熟悉，對其背後底層默默工作的MessageQueue和Looper反而比較陌生。</p>
+<p>我們先看一下Handler的類結構：<br></p><div class="image-package">
+<img src="images/652037-e439362539abc0ab.jpg" data-original-src="images/652037-e439362539abc0ab.jpg" style="cursor: zoom-in;"><br><div class="image-caption">Handler類結構.jpg</div>
+</div><p><br>從圖中我們可以看出，其包含了文章開頭所講的所有功能函數。<br>Handler的主要功能有：</p>
 <ol>
-<li>构造函数</li>
-<li>获取消息</li>
-<li>发送消息（消息入队）</li>
-<li>处理消息（消息的真正处理逻辑）</li>
+<li>構造函數</li>
+<li>獲取消息</li>
+<li>發送消息（消息入隊）</li>
+<li>處理消息（消息的真正處理邏輯）</li>
 <li>移除消息（消息出列）</li>
 </ol>
-<h2>构造函数</h2>
-<p>Handler的构造函数最终目的就是设置Handler中的几个重要的成员变量：<code>mLooper</code>,<code>mQueue</code>,<code>mCallback</code>,<code>mAsynchronous</code>。</p>
+<h2>構造函數</h2>
+<p>Handler的構造函數最終目的就是設置Handler中的幾個重要的成員變量：<code>mLooper</code>,<code>mQueue</code>,<code>mCallback</code>,<code>mAsynchronous</code>。</p>
 <table>
 <thead>
 <tr>
 <th>filed</th>
-<th>含义</th>
-<th>说明</th>
+<th>含義</th>
+<th>說明</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>mLooper</td>
-<td>消息循环器Looper</td>
-<td>该Handler所对应的Looper</td>
+<td>消息循環器Looper</td>
+<td>該Handler所對應的Looper</td>
 </tr>
 <tr>
 <td>mQueue</td>
-<td>消息队列MessageQueue</td>
-<td>该Handler所处理消息所在的消息队列</td>
+<td>消息隊列MessageQueue</td>
+<td>該Handler所處理消息所在的消息隊列</td>
 </tr>
 <tr>
 <td>mCallback</td>
-<td>Handler级别回调</td>
-<td>Handler处理所有send Message系列消息时的统一回调。(下文会细述)</td>
+<td>Handler級別回調</td>
+<td>Handler處理所有send Message系列消息時的統一回調。(下文會細述)</td>
 </tr>
 <tr>
 <td>mAsynchronous</td>
-<td>是不是异步处理方式</td>
-<td>其实只有一个作用，就是在设置Barrier时仍可以不受Barrier的影响被正常处理，如果没有设置 Barrier，异步消息就与同步消息没有区别</td>
+<td>是不是異步處理方式</td>
+<td>其實只有一個作用，就是在設置Barrier時仍可以不受Barrier的影響被正常處理，如果沒有設置 Barrier，異步消息就與同步消息沒有區別</td>
 </tr>
 </tbody>
 </table>
-<p>代码如下：</p>
+<p>代碼如下：</p>
 <pre class="hljs java"><code class="java">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Handler</span><span class="hljs-params">(Callback callback, <span class="hljs-keyword">boolean</span> async)</span> </span>{
-        <span class="hljs-comment">//这个会判断一个警告，意思是说Handler class应该是一个静态类，否则可能导致内存泄漏，</span>
-        <span class="hljs-comment">// 至于为什么可以参考链接http://stackoverflow.com/questions/11407943/this-handler-class-should-be-static-or-leaks-might-occur-incominghandler</span>
+        <span class="hljs-comment">//這個會判斷一個警告，意思是說Handler class應該是一個靜態類，否則可能導致內存洩漏，</span>
+        <span class="hljs-comment">// 至於為什麼可以參考鏈接http://stackoverflow.com/questions/11407943/this-handler-class-should-be-static-or-leaks-might-occur-incominghandler</span>
         <span class="hljs-keyword">if</span> (FIND_POTENTIAL_LEAKS) {
             <span class="hljs-keyword">final</span> Class&lt;? extends Handler&gt; klass = getClass();
             <span class="hljs-keyword">if</span> ((klass.isAnonymousClass() || klass.isMemberClass() || klass.isLocalClass()) &amp;&amp;
@@ -58,33 +58,33 @@
                     klass.getCanonicalName());
             }
         }
-        <span class="hljs-comment">//必须先执行Looper.prepare()，才能获取Looper对象，否则为null.</span>
+        <span class="hljs-comment">//必須先執行Looper.prepare()，才能獲取Looper對象，否則為null.</span>
         mLooper = Looper.myLooper();
         <span class="hljs-keyword">if</span> (mLooper == <span class="hljs-keyword">null</span>) {
             <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(
                 <span class="hljs-string">"Can't create handler inside thread that has not called Looper.prepare()"</span>);
         }
-        mQueue = mLooper.mQueue;<span class="hljs-comment">//消息队列，来自Looper对象</span>
-        mCallback = callback;<span class="hljs-comment">//回调方法</span>
-        mAsynchronous = async; <span class="hljs-comment">//设置消息是否为异步处理方式</span>
+        mQueue = mLooper.mQueue;<span class="hljs-comment">//消息隊列，來自Looper對象</span>
+        mCallback = callback;<span class="hljs-comment">//回調方法</span>
+        mAsynchronous = async; <span class="hljs-comment">//設置消息是否為異步處理方式</span>
     }</code></pre>
-<p>代码比较简单，过程为：</p>
+<p>代碼比較簡單，過程為：</p>
 <ol>
-<li>首先判断下是不是有可能内存泄漏（该问题我会有单独的文章阐述），</li>
-<li>然后得到当前线程的Looper赋值给<code>mLooper</code>，如果mLooper为空，说明当前线程并不是一个可接受消息的线程，需要在线程开启时用Looper.prepare()和Looper.loop()来初始化才可以继续。</li>
-<li>为mQueue和mCallback、mAsynchronous等成员函数赋值。</li>
+<li>首先判斷下是不是有可能內存洩漏（該問題我會有單獨的文章闡述），</li>
+<li>然後得到當前線程的Looper賦值給<code>mLooper</code>，如果mLooper為空，說明當前線程並不是一個可接受消息的線程，需要在線程開啟時用Looper.prepare()和Looper.loop()來初始化才可以繼續。</li>
+<li>為mQueue和mCallback、mAsynchronous等成員函數賦值。</li>
 </ol>
-<blockquote><p>Handler也是在这里和Looper、MessageQueue联系起来的。</p></blockquote>
-<h2>获取消息</h2>
-<p>Handler中通过一系列的obtainMessage()方法，封装了Message从消息池中取到符合要求的消息的方法。</p>
+<blockquote><p>Handler也是在這裡和Looper、MessageQueue聯繫起來的。</p></blockquote>
+<h2>獲取消息</h2>
+<p>Handler中通過一系列的obtainMessage()方法，封裝了Message從消息池中取到符合要求的消息的方法。</p>
 <pre class="hljs java"><code class="java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> Message <span class="hljs-title">obtainMessage</span><span class="hljs-params">()</span>
 <span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> Message <span class="hljs-title">obtainMessage</span><span class="hljs-params">(<span class="hljs-keyword">int</span> what)</span>
 <span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> Message <span class="hljs-title">obtainMessage</span><span class="hljs-params">(<span class="hljs-keyword">int</span> what, Object obj)</span>
 <span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> Message <span class="hljs-title">obtainMessage</span><span class="hljs-params">(<span class="hljs-keyword">int</span> what, <span class="hljs-keyword">int</span> arg1, <span class="hljs-keyword">int</span> arg2)</span>
 <span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> Message <span class="hljs-title">obtainMessage</span><span class="hljs-params">(<span class="hljs-keyword">int</span> what, <span class="hljs-keyword">int</span> arg1, <span class="hljs-keyword">int</span> arg2, Object obj)</span></span></code></pre>
-<blockquote><p>这些方法都会将该Handler设置为该消息的<code>target</code>。</p></blockquote>
-<h2>发送消息</h2>
-<p>Handler发送消息主要有两种方法：post系列方法和send系列方法。</p>
+<blockquote><p>這些方法都會將該Handler設置為該消息的<code>target</code>。</p></blockquote>
+<h2>發送消息</h2>
+<p>Handler發送消息主要有兩種方法：post系列方法和send系列方法。</p>
 <ol>
 <li>
 <p>post runnable 系列</p>
@@ -104,31 +104,31 @@
 <span class="hljs-keyword">final</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">sendMessageAtFrontOfQueue</span><span class="hljs-params">(Message msg)</span></span></code></pre>
 </li>
 </ol>
-<p>他们之间的调用关系如图：<br></p><div class="image-package">
-<img src="images/652037-5a2782c8b43acc1d.jpg" data-original-src="images/652037-5a2782c8b43acc1d.jpg" style="cursor: zoom-in;"><br><div class="image-caption">Handler发送消息调用过程</div>
-</div><p><br>他们最终都是将某个消息压入到MessageQueue中，等待处理。区别在于：</p>
+<p>他們之間的調用關係如圖：<br></p><div class="image-package">
+<img src="images/652037-5a2782c8b43acc1d.jpg" data-original-src="images/652037-5a2782c8b43acc1d.jpg" style="cursor: zoom-in;"><br><div class="image-caption">Handler發送消息調用過程</div>
+</div><p><br>他們最終都是將某個消息壓入到MessageQueue中，等待處理。區別在於：</p>
 <ol>
-<li>发送机制不同。<br>post runnable系列处理的参数是封装了需执行动作的runnable，首先将runnable封装成一个Message，然后再调用对应的send系列函数把最终它压入到MessageQueue中。<br>send message系列处理的参数直接是Message，经过一些赋值后，直接压入到MessageQueue中。</li>
-<li>最终处理机制不同。<br>post runnable系列方法在被封装成Message时，设置了其Callback为该runnable，最终在Handler的dispatchMessage里面会交由handlerCallback方法处理，执行其runnable的run()方法。<br>send message系列方法最终会受到Handler的Callback影响，或交由Handler的handleMessage()方法处理。</li>
-<li>两者本质没有区别，区别在于是否post runnable系列方法可以在不继承Handler并重写handleMessage()方法的前提下对一些不可预知的消息类型做相应处理。比较常见的例子如SDK中的这些方法：<pre class="hljs java"><code class="java">Activity.runOnUiThread(Runnable)
+<li>發送機制不同。<br>post runnable系列處理的參數是封裝了需執行動作的runnable，首先將runnable封裝成一個Message，然後再調用對應的send系列函數把最終它壓入到MessageQueue中。<br>send message系列處理的參數直接是Message，經過一些賦值後，直接壓入到MessageQueue中。</li>
+<li>最終處理機制不同。<br>post runnable系列方法在被封裝成Message時，設置了其Callback為該runnable，最終在Handler的dispatchMessage裡面會交由handlerCallback方法處理，執行其runnable的run()方法。<br>send message系列方法最終會受到Handler的Callback影響，或交由Handler的handleMessage()方法處理。</li>
+<li>兩者本質沒有區別，區別在於是否post runnable系列方法可以在不繼承Handler並重寫handleMessage()方法的前提下對一些不可預知的消息類型做相應處理。比較常見的例子如SDK中的這些方法：<pre class="hljs java"><code class="java">Activity.runOnUiThread(Runnable)
 View.post(Runnable)
 View.postDelayed(Runnable, <span class="hljs-keyword">long</span>)</code></pre>
-这也是post系列方法存在的意义。</li>
+這也是post系列方法存在的意義。</li>
 </ol>
-<h2>处理消息</h2>
-<p>从上一篇文章中我们可以知道，Looper循环过程中，取出一条消息后，是通过调用该消息对应的Handler的dispatchMessage(Message msg)对消息进行处理。</p>
+<h2>處理消息</h2>
+<p>從上一篇文章中我們可以知道，Looper循環過程中，取出一條消息後，是通過調用該消息對應的Handler的dispatchMessage(Message msg)對消息進行處理。</p>
 <p>code in Looper.loop():</p>
-<pre class="hljs java"><code class="java">msg.target.dispatchMessage(msg); <span class="hljs-comment">//msg.target就是与此线程关联的Handler对象，调用它的dispatchMessage处理消息</span></code></pre>
-<p>Handler处理消息的源码如下：</p>
+<pre class="hljs java"><code class="java">msg.target.dispatchMessage(msg); <span class="hljs-comment">//msg.target就是與此線程關聯的Handler對象，調用它的dispatchMessage處理消息</span></code></pre>
+<p>Handler處理消息的源碼如下：</p>
 <pre class="hljs java"><code class="java">    <span class="hljs-comment">/**
-     * 在这里处理系统消息
+     * 在這裡處理系統消息
      * Handle system messages here.
      */</span>
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">dispatchMessage</span><span class="hljs-params">(Message msg)</span> </span>{
-        <span class="hljs-keyword">if</span> (msg.callback != <span class="hljs-keyword">null</span>) {<span class="hljs-comment">//post系列方法走这里</span>
+        <span class="hljs-keyword">if</span> (msg.callback != <span class="hljs-keyword">null</span>) {<span class="hljs-comment">//post系列方法走這裡</span>
             handleCallback(msg);
-        } <span class="hljs-keyword">else</span> {<span class="hljs-comment">//sendMessage系列方法走这里</span>
-            <span class="hljs-keyword">if</span> (mCallback != <span class="hljs-keyword">null</span>) {<span class="hljs-comment">//Handler构造函数中定义了Callback的这里处理</span>
+        } <span class="hljs-keyword">else</span> {<span class="hljs-comment">//sendMessage系列方法走這裡</span>
+            <span class="hljs-keyword">if</span> (mCallback != <span class="hljs-keyword">null</span>) {<span class="hljs-comment">//Handler構造函數中定義了Callback的這裡處理</span>
                 <span class="hljs-keyword">if</span> (mCallback.handleMessage(msg)) {
                     <span class="hljs-keyword">return</span>;
                 }
@@ -136,24 +136,24 @@ View.postDelayed(Runnable, <span class="hljs-keyword">long</span>)</code></pre>
             handleMessage(msg);
         }
     }</code></pre>
-<p>其处理逻辑流程如图：<br></p><div class="image-package">
-<img src="images/652037-f399cf90221ad3fc.jpg" data-original-src="images/652037-f399cf90221ad3fc.jpg" style="cursor: zoom-in;"><br><div class="image-caption">Handler处理消息.jpg</div>
-</div><p><br>其实逻辑很简单。</p>
+<p>其處理邏輯流程如圖：<br></p><div class="image-package">
+<img src="images/652037-f399cf90221ad3fc.jpg" data-original-src="images/652037-f399cf90221ad3fc.jpg" style="cursor: zoom-in;"><br><div class="image-caption">Handler處理消息.jpg</div>
+</div><p><br>其實邏輯很簡單。</p>
 <ol>
-<li>首先看是否这条消息是否有已被预设了callback，如果有，直接调用handlerCallback(msg)处理预设好的callback。至此，满足该条件的的消息处理流程结束。</li>
-<li>其次，如果不符合<code>1.</code>中的情况，看该Handler在被创建时，是否有设定Handler级别的Callback，如果有，处理之。这里和<code>1.</code>中所描述情况的区别是，Handler级别的Callback是有返回值的，处理完后会根据返回值看是否需要进一步处理。</li>
-<li>如果Message没有被预设Callback，也没有Handler级别的Callback（或者有但需要进一步处理），必须在 由子类重写的<code>handleMessage(Message msg)</code>中做最后处理。大多数情况下的消息都在这里处理。</li>
+<li>首先看是否這條消息是否有已被預設了callback，如果有，直接調用handlerCallback(msg)處理預設好的callback。至此，滿足該條件的的消息處理流程結束。</li>
+<li>其次，如果不符合<code>1.</code>中的情況，看該Handler在被創建時，是否有設定Handler級別的Callback，如果有，處理之。這裡和<code>1.</code>中所描述情況的區別是，Handler級別的Callback是有返回值的，處理完後會根據返回值看是否需要進一步處理。</li>
+<li>如果Message沒有被預設Callback，也沒有Handler級別的Callback（或者有但需要進一步處理），必須在 由子類重寫的<code>handleMessage(Message msg)</code>中做最後處理。大多數情況下的消息都在這裡處理。</li>
 </ol>
-<blockquote><p>根据Handler中的发送消息的方法源码可知，Post系列方法的都会调用getPostMessage(Runnable r)函数将一个Runnable对象封装成一条Message，封装时，会将该runnable参数作为消息的callback。所以，我们可以得出结论：<strong><code>post runnable系列方法消息的最终都在handleCallback(msg)中处理。</code></strong></p></blockquote>
+<blockquote><p>根據Handler中的發送消息的方法源碼可知，Post系列方法的都會調用getPostMessage(Runnable r)函數將一個Runnable對象封裝成一條Message，封裝時，會將該runnable參數作為消息的callback。所以，我們可以得出結論：<strong><code>post runnable系列方法消息的最終都在handleCallback(msg)中處理。</code></strong></p></blockquote>
 <h2>移除消息</h2>
-<p>根据消息入列的区别，移除消息也分为<code>removeMessages</code>和<code>removeCallbacks</code>两系列。和发送消息类似，<br>Handler的移除消息最终还是对其对应的MessageQueue的操作，从中移除符合条件的消息。</p>
-<blockquote><p>使用Handler的过程中，为避免Activity调用onDestroy后，Handler的MessageQueue中仍存在Message，一般会在onDestroy中调用removeCallbacksAndMessages()方法。</p></blockquote>
-<h2>几个问题</h2>
+<p>根據消息入列的區別，移除消息也分為<code>removeMessages</code>和<code>removeCallbacks</code>兩系列。和發送消息類似，<br>Handler的移除消息最終還是對其對應的MessageQueue的操作，從中移除符合條件的消息。</p>
+<blockquote><p>使用Handler的過程中，為避免Activity調用onDestroy後，Handler的MessageQueue中仍存在Message，一般會在onDestroy中調用removeCallbacksAndMessages()方法。</p></blockquote>
+<h2>幾個問題</h2>
 <ol>
-<li>为什么Handler的构造函数需要一个Callback<br>从Handler的消息处理逻辑可以看出,一旦一个Handler在构造时，Handler级别的Callback 被初始化。是所有没有单独预设Callback的Message(post系列方法发送的消息除外的消息)都会被该Callback处理。<br><strong>我们可以在Handler级别的Callback中加入由该Handler处理的所有类型消息的共同逻辑。</strong>
+<li>為什麼Handler的構造函數需要一個Callback<br>從Handler的消息處理邏輯可以看出,一旦一個Handler在構造時，Handler級別的Callback 被初始化。是所有沒有單獨預設Callback的Message(post系列方法發送的消息除外的消息)都會被該Callback處理。<br><strong>我們可以在Handler級別的Callback中加入由該Handler處理的所有類型消息的共同邏輯。</strong>
 </li>
-<li>Handler是如何与Looper和MessageQueue联系起来的。<br>是通过构造函数中联系起来的，Handler的一堆构造函数，其实最终目的就是设置Handler中的几个重要的成员变量：<code>mLooper</code>,<code>mQueue</code>,<code>mCallback</code>,<code>mAsynchronous</code>。首先设置好mLooper，mLooper中有一个和其一一对应的变量：mQueue。<br>所以，<strong>Hander是通过其对应的mLooper，进而和线程中的消息队列mQueue联系起来的</strong>。</li>
-<li>post系列方法传入的Runnable中若持有Context的引用，会造成内存泄漏吗？<br>显然是会的。Runnable会被封装成Message加入到消息队列中，只要该消息不被处理或者移除，消息队列就会间接持有Context的强引用，造成内存溢出，所以，如果该Handler是针对一个Activity的操作，在Activity的 onDestory()回调函数中中一定要调用removeCallbacksAndMessages()来防止内存泄漏。</li>
+<li>Handler是如何與Looper和MessageQueue聯繫起來的。<br>是通過構造函數中聯繫起來的，Handler的一堆構造函數，其實最終目的就是設置Handler中的幾個重要的成員變量：<code>mLooper</code>,<code>mQueue</code>,<code>mCallback</code>,<code>mAsynchronous</code>。首先設置好mLooper，mLooper中有一個和其一一對應的變量：mQueue。<br>所以，<strong>Hander是通過其對應的mLooper，進而和線程中的消息隊列mQueue聯繫起來的</strong>。</li>
+<li>post系列方法傳入的Runnable中若持有Context的引用，會造成內存洩漏嗎？<br>顯然是會的。Runnable會被封裝成Message加入到消息隊列中，只要該消息不被處理或者移除，消息隊列就會間接持有Context的強引用，造成內存溢出，所以，如果該Handler是針對一個Activity的操作，在Activity的 onDestory()回調函數中中一定要調用removeCallbacksAndMessages()來防止內存洩漏。</li>
 </ol>
 
         </div>

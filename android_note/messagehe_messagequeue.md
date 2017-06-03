@@ -3,85 +3,85 @@
 
 <div class="show-content">
        
-<h3>消息结构</h3>
-<p>每个消息用Message表示，Message主要包含以下内容：</p>
+<h3>消息結構</h3>
+<p>每個消息用Message表示，Message主要包含以下內容：</p>
 <table>
 <thead>
 <tr>
 <th>filed</th>
-<th>含义</th>
-<th>说明</th>
+<th>含義</th>
+<th>說明</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>what</td>
-<td>消息类别</td>
-<td>由用户定义，用来区分不同的消息</td>
+<td>消息類別</td>
+<td>由用戶定義，用來區分不同的消息</td>
 </tr>
 <tr>
 <td>arg1</td>
-<td>参数1</td>
-<td>是一种轻量级的传递数据的方式</td>
+<td>參數1</td>
+<td>是一種輕量級的傳遞數據的方式</td>
 </tr>
 <tr>
 <td>arg2</td>
-<td>参数2</td>
-<td>是一种轻量级的传递数据的方式</td>
+<td>參數2</td>
+<td>是一種輕量級的傳遞數據的方式</td>
 </tr>
 <tr>
 <td>obj</td>
-<td>消息内容</td>
-<td>任意对象，但是使用Messenger跨进程传递Message时不能为null</td>
+<td>消息內容</td>
+<td>任意對象，但是使用Messenger跨進程傳遞Message時不能為null</td>
 </tr>
 <tr>
 <td>data</td>
-<td>Bundle数据</td>
-<td>比较复杂的数据建议使用该变量（相比上面几个，这个县的比较重量级）</td>
+<td>Bundle數據</td>
+<td>比較複雜的數據建議使用該變量（相比上面幾個，這個縣的比較重量級）</td>
 </tr>
 <tr>
 <td>target</td>
-<td>消息响应方</td>
-<td>关联的Handler对象，处理Message时会调用它分发处理Message对象</td>
+<td>消息響應方</td>
+<td>關聯的Handler對象，處理Message時會調用它分發處理Message對象</td>
 </tr>
 <tr>
 <td>when</td>
-<td>触发响应时间</td>
-<td>处理消息时间</td>
+<td>觸發響應時間</td>
+<td>處理消息時間</td>
 </tr>
 <tr>
 <td><code>next</code></td>
-<td>Message队列里的下一个Message对象</td>
-<td>用next指向下一条Message，实现一个链表数据结构，用户一般使用不到该字段。</td>
+<td>Message隊列裡的下一個Message對象</td>
+<td>用next指向下一條Message，實現一個鏈表數據結構，用戶一般使用不到該字段。</td>
 </tr>
 </tbody>
 </table>
-<blockquote><p>这里的用户指一般的APP开发者。</p></blockquote>
-<p>一般不用手动设置target,调用Handler.obtainMessage()方法会自动的设置Message的target为当前的Handler。<br>得到Message之后可以调用sendToTarget(),发送消息给Handler，Handler再把消息放到message queue的尾部。<br>对Message除了给部分成员变量赋值外的操作都可以交由Handler来处理。</p>
+<blockquote><p>這裡的用戶指一般的APP開發者。</p></blockquote>
+<p>一般不用手動設置target,調用Handler.obtainMessage()方法會自動的設置Message的target為當前的Handler。<br>得到Message之後可以調用sendToTarget(),發送消息給Handler，Handler再把消息放到message queue的尾部。<br>對Message除了給部分成員變量賦值外的操作都可以交由Handler來處理。</p>
 <h3>消息池</h3>
-<p>在通过Handler发送消息时，我们可以通过代码<code>Message message=new Message();</code>新建一条消息，但是我们并不推荐这样做，因为这样每次都会新建一条消息，很容易造成资源浪费。Android中设计了消息池用于避免该现象：</p>
+<p>在通過Handler發送消息時，我們可以通過代碼<code>Message message=new Message();</code>新建一條消息，但是我們並不推薦這樣做，因為這樣每次都會新建一條消息，很容易造成資源浪費。Android中設計了消息池用於避免該現象：</p>
 <ul>
 <li>
-<p>获取消息 <code>obtain()</code><br>从消息池中获取消息: <code>Message msg=Message.obtain();</code><br>obtain()方法源码：</p>
+<p>獲取消息 <code>obtain()</code><br>從消息池中獲取消息: <code>Message msg=Message.obtain();</code><br>obtain()方法源碼：</p>
 <pre class="hljs java"><code class="java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Message <span class="hljs-title">obtain</span><span class="hljs-params">()</span> </span>{
       <span class="hljs-keyword">synchronized</span> (sPoolSync) {
           <span class="hljs-keyword">if</span> (sPool != <span class="hljs-keyword">null</span>) {
               Message m = sPool;
               sPool = m.next;
-              m.next = <span class="hljs-keyword">null</span>; <span class="hljs-comment">//从sPool中取出一个Message对象，并消息链表断开</span>
+              m.next = <span class="hljs-keyword">null</span>; <span class="hljs-comment">//從sPool中取出一個Message對象，並消息鏈表斷開</span>
               m.flags = <span class="hljs-number">0</span>; <span class="hljs-comment">// clear in-use flag清除in-use flag</span>
-              sPoolSize--;<span class="hljs-comment">//消息池的可用大小进行-1操作</span>
+              sPoolSize--;<span class="hljs-comment">//消息池的可用大小進行-1操作</span>
               <span class="hljs-keyword">return</span> m;
           }
       }
-      <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Message();<span class="hljs-comment">// 当消息池为空时，直接创建Message对象</span>
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Message();<span class="hljs-comment">// 當消息池為空時，直接創建Message對象</span>
   }</code></pre>
-<blockquote><p>从消息池取Message，都是把消息池表头的Message取走，再把表头指向下一条消息<code>next</code>;</p></blockquote>
+<blockquote><p>從消息池取Message，都是把消息池表頭的Message取走，再把表頭指向下一條消息<code>next</code>;</p></blockquote>
 </li>
 <li>
-<p>回收消息 <code>recycle()</code><br>把不再使用的消息回收到消息池 <code>mgs.recycle();</code><br>recycle()方法源码:</p>
+<p>回收消息 <code>recycle()</code><br>把不再使用的消息回收到消息池 <code>mgs.recycle();</code><br>recycle()方法源碼:</p>
 <pre class="hljs java"><code class="java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">recycle</span><span class="hljs-params">()</span> </span>{
-      <span class="hljs-keyword">if</span> (isInUse()) {<span class="hljs-comment">//判断消息是否正在使用</span>
+      <span class="hljs-keyword">if</span> (isInUse()) {<span class="hljs-comment">//判斷消息是否正在使用</span>
           <span class="hljs-keyword">if</span> (gCheckRecycle) {
               <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(<span class="hljs-string">"This message cannot be recycled because it "</span>
                       + <span class="hljs-string">"is still in use."</span>);
@@ -92,14 +92,14 @@
   }
 
   <span class="hljs-comment">/**
-   * 对于不再使用的消息，加入到消息池
+   * 對於不再使用的消息，加入到消息池
    * Recycles a Message that may be in-use.
    * Used internally by the MessageQueue and Looper when disposing of queued Messages.
    */</span>
   <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">recycleUnchecked</span><span class="hljs-params">()</span> </span>{
       <span class="hljs-comment">// Mark the message as in use while it remains in the recycled object pool.</span>
       <span class="hljs-comment">// Clear out all other details.</span>
-      <span class="hljs-comment">//将消息标示位置为IN_USE，并清空消息所有的参数。</span>
+      <span class="hljs-comment">//將消息標示位置為IN_USE，並清空消息所有的參數。</span>
       flags = FLAG_IN_USE;
       what = <span class="hljs-number">0</span>;
       arg1 = <span class="hljs-number">0</span>;
@@ -113,25 +113,25 @@
       data = <span class="hljs-keyword">null</span>;
 
       <span class="hljs-keyword">synchronized</span> (sPoolSync) {
-          <span class="hljs-keyword">if</span> (sPoolSize &lt; MAX_POOL_SIZE) {<span class="hljs-comment">//当消息池没有满时，将Message对象加入消息池</span>
+          <span class="hljs-keyword">if</span> (sPoolSize &lt; MAX_POOL_SIZE) {<span class="hljs-comment">//當消息池沒有滿時，將Message對象加入消息池</span>
               next = sPool;
               sPool = <span class="hljs-keyword">this</span>;
-              sPoolSize++;<span class="hljs-comment">//消息池的可用大小进行加1操作</span>
+              sPoolSize++;<span class="hljs-comment">//消息池的可用大小進行加1操作</span>
           }
       }
   }</code></pre>
-<blockquote><p>消息回收，就是将Message内容重置后，再把Message加到链表的表头，加入到消息池的过程；</p></blockquote>
+<blockquote><p>消息回收，就是將Message內容重置後，再把Message加到鏈表的表頭，加入到消息池的過程；</p></blockquote>
 </li>
 </ul>
 <h2>MessageQueue</h2>
-<p>负责管理消息队列，实际上Message类有一个next字段，会将Message对象串在一起成为一个消息队列，所以并不需要LinkedList之类的数据结构将Message对象组在一起成为队列。</p>
+<p>負責管理消息隊列，實際上Message類有一個next字段，會將Message對象串在一起成為一個消息隊列，所以並不需要LinkedList之類的數據結構將Message對象組在一起成為隊列。</p>
 <ul>
 <li>
-<strong>创建消息队列</strong><pre class="hljs java"><code class="java">   MessageQueue(<span class="hljs-keyword">boolean</span> quitAllowed) {
+<strong>創建消息隊列</strong><pre class="hljs java"><code class="java">   MessageQueue(<span class="hljs-keyword">boolean</span> quitAllowed) {
       mQuitAllowed = quitAllowed;
-      mPtr = nativeInit();<span class="hljs-comment">//通过native方法初始化消息队列，其中mPtr是供native代码使用</span>
+      mPtr = nativeInit();<span class="hljs-comment">//通過native方法初始化消息隊列，其中mPtr是供native代碼使用</span>
   }</code></pre>
-在MessageQueue初始化的时候调用了nativeInit，这是一个Native方法：<pre class="hljs cpp"><code class="cpp"><span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">android_os_MessageQueue_nativeInit</span><span class="hljs-params">(JNIEnv* env, jobject obj)</span> </span>{ 
+在MessageQueue初始化的時候調用了nativeInit，這是一個Native方法：<pre class="hljs cpp"><code class="cpp"><span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">android_os_MessageQueue_nativeInit</span><span class="hljs-params">(JNIEnv* env, jobject obj)</span> </span>{ 
   NativeMessageQueue* nativeMessageQueue = <span class="hljs-keyword">new</span> NativeMessageQueue(); 
   <span class="hljs-keyword">if</span> (!nativeMessageQueue) { 
       jniThrowRuntimeException(env, <span class="hljs-string">"Unable to allocate native queue"</span>); 
@@ -145,9 +145,9 @@
   env-&gt;SetIntField(messageQueueObj, gMessageQueueClassInfo.mPtr, 
   <span class="hljs-keyword">reinterpret_cast</span>&lt;jint&gt;(nativeMessageQueue)); 
 }</code></pre>
-方法名由java层类的包名+类名+方法名组成，这不是标准，是习惯写法，也可以采用其他名称组合，具体是什么名称由JNINativeMethod方法中Java对象与c++对象的映射决定，此处是JNI方面的内容，不作过多解释。<br>在nativeInit中，new了一个Native层的MessageQueue的对象，并将其地址保存在了Java层MessageQueue的成员mPtr中，Android中有好多这样的实现，一个类在Java层与Native层都有实现，通过JNI的GetFieldID与SetIntField把Native层的类的实例地址保存到Java层类的实例的mPtr成员中，比如Parcel。</li>
+方法名由java層類的包名+類名+方法名組成，這不是標準，是習慣寫法，也可以採用其他名稱組合，具體是什麼名稱由JNINativeMethod方法中Java對象與c++對象的映射決定，此處是JNI方面的內容，不作過多解釋。<br>在nativeInit中，new了一個Native層的MessageQueue的對象，並將其地址保存在了Java層MessageQueue的成員mPtr中，Android中有好多這樣的實現，一個類在Java層與Native層都有實現，通過JNI的GetFieldID與SetIntField把Native層的類的實例地址保存到Java層類的實例的mPtr成員中，比如Parcel。</li>
 </ul>
-<p>再看NativeMessageQueue的实现：</p>
+<p>再看NativeMessageQueue的實現：</p>
 <pre class="hljs aspectj"><code class="aspectj">NativeMessageQueue::NativeMessageQueue() : mInCallback(<span class="hljs-keyword">false</span>), mExceptionObj(NULL) { 
     mLooper = Looper::getForThread();
     <span class="hljs-keyword">if</span> (mLooper == NULL) {
@@ -157,15 +157,15 @@
 }</code></pre>
 <ul>
 <li>
-<p><strong>消息入队 <code>enqueueMessage()</code></strong><br>enqueueMessage 用于将Message对象插入消息队列。MessageQueue永远是按照Message触发的时间先后顺序排列的，队头的消息是将要最早触发的消息。当有消息需要加入消息队列时，会从队列头开始遍历，直到找到消息应该插入的合适位置，以保证所有消息的时间顺序。<br>该方法会被Handler对象调用。<br>源码如下：</p>
+<p><strong>消息入隊 <code>enqueueMessage()</code></strong><br>enqueueMessage 用於將Message對象插入消息隊列。MessageQueue永遠是按照Message觸發的時間先後順序排列的，隊頭的消息是將要最早觸發的消息。當有消息需要加入消息隊列時，會從隊列頭開始遍歷，直到找到消息應該插入的合適位置，以保證所有消息的時間順序。<br>該方法會被Handler對象調用。<br>源碼如下：</p>
 <pre class="hljs java"><code class="java"> <span class="hljs-comment">/**
-   * 添加一条消息到消息队列
+   * 添加一條消息到消息隊列
    * <span class="hljs-doctag">@param</span> msg 要添加的消息
-   * <span class="hljs-doctag">@param</span> when 消息处理时间
-   * <span class="hljs-doctag">@return</span> 添加成功与否
+   * <span class="hljs-doctag">@param</span> when 消息處理時間
+   * <span class="hljs-doctag">@return</span> 添加成功與否
    */</span>
   <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">enqueueMessage</span><span class="hljs-params">(Message msg, <span class="hljs-keyword">long</span> when)</span> </span>{
-      <span class="hljs-keyword">if</span> (msg.target == <span class="hljs-keyword">null</span>) {<span class="hljs-comment">// 每一个Message必须有一个target</span>
+      <span class="hljs-keyword">if</span> (msg.target == <span class="hljs-keyword">null</span>) {<span class="hljs-comment">// 每一個Message必須有一個target</span>
           <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">"Message must have a target."</span>);
       }
       <span class="hljs-keyword">if</span> (msg.isInUse()) {
@@ -187,13 +187,13 @@
           <span class="hljs-keyword">boolean</span> needWake;
           <span class="hljs-keyword">if</span> (p == <span class="hljs-keyword">null</span> || when == <span class="hljs-number">0</span> || when &lt; p.when) {
               <span class="hljs-comment">// New head, wake up the event queue if blocked.</span>
-              <span class="hljs-comment">//p为null(代表MessageQueue没有消息） 或者msg的触发时间是队列中最早的， 则进入该该分支</span>
+              <span class="hljs-comment">//p為null(代表MessageQueue沒有消息） 或者msg的觸發時間是隊列中最早的， 則進入該該分支</span>
               msg.next = p;
               mMessages = msg;
               needWake = mBlocked;
           } <span class="hljs-keyword">else</span> {
-              <span class="hljs-comment">//将消息按时间顺序插入到MessageQueue。一般地，不需要唤醒事件队列，除非</span>
-              <span class="hljs-comment">//消息队头存在barrier，并且同时Message是队列中最早的异步消息。</span>
+              <span class="hljs-comment">//將消息按時間順序插入到MessageQueue。一般地，不需要喚醒事件隊列，除非</span>
+              <span class="hljs-comment">//消息隊頭存在barrier，並且同時Message是隊列中最早的異步消息。</span>
 
               <span class="hljs-comment">// Inserted within the middle of the queue.  Usually we don't have to wake</span>
               <span class="hljs-comment">// up the event queue unless there is a barrier at the head of the queue</span>
@@ -215,7 +215,7 @@
           }
 
           <span class="hljs-comment">// We can assume mPtr != 0 because mQuitting is false.</span>
-          <span class="hljs-comment">//消息没有退出，我们认为此时mPtr != 0</span>
+          <span class="hljs-comment">//消息沒有退出，我們認為此時mPtr != 0</span>
           <span class="hljs-keyword">if</span> (needWake) {
               nativeWake(mPtr);
           }
@@ -224,9 +224,9 @@
   }</code></pre>
 </li>
 <li>
-<p><strong>消息轮询 <code>next()</code></strong><br>最重要的方法,用于获取下一个Message对象，如果没有需要处理的Message对象，该方法将阻塞。MessageQueue用本地方法做同步互斥，因为这样时间更精准。每个Message对象都有一个什么时刻处理该Message对象的属性when，没到时间都不会处理该Message对象，如果时间不精准的话，会导致系统消息不能及时处理。 </p>
+<p><strong>消息輪詢 <code>next()</code></strong><br>最重要的方法,用於獲取下一個Message對象，如果沒有需要處理的Message對象，該方法將阻塞。MessageQueue用本地方法做同步互斥，因為這樣時間更精準。每個Message對象都有一個什麼時刻處理該Message對象的屬性when，沒到時間都不會處理該Message對象，如果時間不精準的話，會導致系統消息不能及時處理。 </p>
 <pre class="hljs java"><code class="java"> <span class="hljs-comment">/**
-   * 依次从MessageQueue中取出Message
+   * 依次從MessageQueue中取出Message
    * <span class="hljs-doctag">@return</span> 消息
    */</span>
   <span class="hljs-function">Message <span class="hljs-title">next</span><span class="hljs-params">()</span> </span>{
@@ -234,17 +234,17 @@
       <span class="hljs-comment">// This can happen if the application tries to restart a looper after quit</span>
       <span class="hljs-comment">// which is not supported.</span>
       <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> ptr = mPtr;
-      <span class="hljs-keyword">if</span> (ptr == <span class="hljs-number">0</span>) {<span class="hljs-comment">//当消息循环已经退出，则直接返回</span>
+      <span class="hljs-keyword">if</span> (ptr == <span class="hljs-number">0</span>) {<span class="hljs-comment">//當消息循環已經退出，則直接返回</span>
           <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
       }
 
-      <span class="hljs-keyword">int</span> pendingIdleHandlerCount = -<span class="hljs-number">1</span>; <span class="hljs-comment">// -1 only during first iteration  循环迭代的首次为-1</span>
+      <span class="hljs-keyword">int</span> pendingIdleHandlerCount = -<span class="hljs-number">1</span>; <span class="hljs-comment">// -1 only during first iteration  循環迭代的首次為-1</span>
       <span class="hljs-keyword">int</span> nextPollTimeoutMillis = <span class="hljs-number">0</span>;
       <span class="hljs-keyword">for</span> (;;) {
           <span class="hljs-keyword">if</span> (nextPollTimeoutMillis != <span class="hljs-number">0</span>) {
               Binder.flushPendingCommands();
           }
-          <span class="hljs-comment">//阻塞操作，当等待nextPollTimeoutMillis时长，或者消息队列被唤醒，都会返回。</span>
+          <span class="hljs-comment">//阻塞操作，當等待nextPollTimeoutMillis時長，或者消息隊列被喚醒，都會返回。</span>
           nativePollOnce(ptr, nextPollTimeoutMillis);
 
           <span class="hljs-keyword">synchronized</span> (<span class="hljs-keyword">this</span>) {
@@ -253,7 +253,7 @@
               Message prevMsg = <span class="hljs-keyword">null</span>;
               Message msg = mMessages;
               <span class="hljs-keyword">if</span> (msg != <span class="hljs-keyword">null</span> &amp;&amp; msg.target == <span class="hljs-keyword">null</span>) {
-                  <span class="hljs-comment">//查询MessageQueue中的下一条异步消息</span>
+                  <span class="hljs-comment">//查詢MessageQueue中的下一條異步消息</span>
                   <span class="hljs-comment">// Stalled by a barrier.  Find the next asynchronous message in the queue.</span>
                   <span class="hljs-keyword">do</span> {
                       prevMsg = msg;
@@ -262,11 +262,11 @@
               }
               <span class="hljs-keyword">if</span> (msg != <span class="hljs-keyword">null</span>) {
                   <span class="hljs-keyword">if</span> (now &lt; msg.when) {
-                      <span class="hljs-comment">//设置下一次轮询消息的超时时间</span>
+                      <span class="hljs-comment">//設置下一次輪詢消息的超時時間</span>
                       <span class="hljs-comment">// Next message is not ready.  Set a timeout to wake up when it is ready.</span>
                       nextPollTimeoutMillis = (<span class="hljs-keyword">int</span>) Math.min(msg.when - now, Integer.MAX_VALUE);
                   } <span class="hljs-keyword">else</span> {
-                      <span class="hljs-comment">// 获取一条消息，并返回</span>
+                      <span class="hljs-comment">// 獲取一條消息，並返回</span>
                       <span class="hljs-comment">// Got a message.</span>
                       mBlocked = <span class="hljs-keyword">false</span>;
                       <span class="hljs-keyword">if</span> (prevMsg != <span class="hljs-keyword">null</span>) {
@@ -276,11 +276,11 @@
                       }
                       msg.next = <span class="hljs-keyword">null</span>;
                       <span class="hljs-keyword">if</span> (DEBUG) Log.v(TAG, <span class="hljs-string">"Returning message: "</span> + msg);
-                      msg.markInUse();<span class="hljs-comment">//设置消息flag成使用状态</span>
-                      <span class="hljs-keyword">return</span> msg;<span class="hljs-comment">//成功地获取MessageQueue中的下一条即将要执行的消息</span>
+                      msg.markInUse();<span class="hljs-comment">//設置消息flag成使用狀態</span>
+                      <span class="hljs-keyword">return</span> msg;<span class="hljs-comment">//成功地獲取MessageQueue中的下一條即將要執行的消息</span>
                   }
               } <span class="hljs-keyword">else</span> {
-                  <span class="hljs-comment">// No more messages.//没有消息了</span>
+                  <span class="hljs-comment">// No more messages.//沒有消息了</span>
                   nextPollTimeoutMillis = -<span class="hljs-number">1</span>;
               }
 
@@ -293,13 +293,13 @@
               <span class="hljs-comment">// If first time idle, then get the number of idlers to run.</span>
               <span class="hljs-comment">// Idle handles only run if the queue is empty or if the first message</span>
               <span class="hljs-comment">// in the queue (possibly a barrier) is due to be handled in the future.</span>
-              <span class="hljs-comment">//当消息队列为空，或者消息队列的第一个消息时</span>
+              <span class="hljs-comment">//當消息隊列為空，或者消息隊列的第一個消息時</span>
               <span class="hljs-keyword">if</span> (pendingIdleHandlerCount &lt; <span class="hljs-number">0</span>
                       &amp;&amp; (mMessages == <span class="hljs-keyword">null</span> || now &lt; mMessages.when)) {
                   pendingIdleHandlerCount = mIdleHandlers.size();
               }
               <span class="hljs-keyword">if</span> (pendingIdleHandlerCount &lt;= <span class="hljs-number">0</span>) {
-                  <span class="hljs-comment">//没有idle handlers 需要运行，则循环并等待。</span>
+                  <span class="hljs-comment">//沒有idle handlers 需要運行，則循環並等待。</span>
                   <span class="hljs-comment">// No idle handlers to run.  Loop and wait some more.</span>
                   mBlocked = <span class="hljs-keyword">true</span>;
                   <span class="hljs-keyword">continue</span>;
@@ -313,14 +313,14 @@
 
           <span class="hljs-comment">// Run the idle handlers.</span>
           <span class="hljs-comment">// We only ever reach this code block during the first iteration.</span>
-          <span class="hljs-comment">//只有第一次循环时，会运行idle handlers，执行完成后，重置pendingIdleHandlerCount为0.</span>
+          <span class="hljs-comment">//只有第一次循環時，會運行idle handlers，執行完成後，重置pendingIdleHandlerCount為0.</span>
           <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; pendingIdleHandlerCount; i++) {
               <span class="hljs-keyword">final</span> IdleHandler idler = mPendingIdleHandlers[i];
               mPendingIdleHandlers[i] = <span class="hljs-keyword">null</span>; <span class="hljs-comment">// release the reference to the handler//去掉handler的引用</span>
 
               <span class="hljs-keyword">boolean</span> keep = <span class="hljs-keyword">false</span>;
               <span class="hljs-keyword">try</span> {
-                  keep = idler.queueIdle();<span class="hljs-comment">//idle时执行的方法</span>
+                  keep = idler.queueIdle();<span class="hljs-comment">//idle時執行的方法</span>
               } <span class="hljs-keyword">catch</span> (Throwable t) {
                   Log.wtf(TAG, <span class="hljs-string">"IdleHandler threw exception"</span>, t);
               }
@@ -333,19 +333,19 @@
           }
 
           <span class="hljs-comment">// Reset the idle handler count to 0 so we do not run them again.</span>
-          <span class="hljs-comment">//重置idle handler个数为0，以保证不会再次重复运行</span>
+          <span class="hljs-comment">//重置idle handler個數為0，以保證不會再次重複運行</span>
           pendingIdleHandlerCount = <span class="hljs-number">0</span>;
 
           <span class="hljs-comment">// While calling an idle handler, a new message could have been delivered</span>
           <span class="hljs-comment">// so go back and look again for a pending message without waiting.</span>
-          <span class="hljs-comment">//当调用一个空闲handler时，一个新message能够被分发，因此无需等待可以直接查询pending message.</span>
+          <span class="hljs-comment">//當調用一個空閒handler時，一個新message能夠被分發，因此無需等待可以直接查詢pending message.</span>
           nextPollTimeoutMillis = <span class="hljs-number">0</span>;
       }
   }</code></pre>
-<blockquote><p>nativePollOnce(ptr, nextPollTimeoutMillis)是一个native方法，是一个阻塞操作。其中nextPollTimeoutMillis代表下一个消息到来前，还需要等待的时长；当nextPollTimeoutMillis = -1时，表示消息队列中无消息，会一直等待下去。空闲后，往往会执行IdleHandler中的方法。当nativePollOnce()返回后，next()从mMessages中提取一个消息。nativePollOnce()在native做了大量的工作，想深入研究可查看资料： <a href="http://gityuan.com/2015/12/27/handler-message-native/" target="_blank">Android消息机制2-Handler(Native层)</a>。</p></blockquote>
+<blockquote><p>nativePollOnce(ptr, nextPollTimeoutMillis)是一個native方法，是一個阻塞操作。其中nextPollTimeoutMillis代表下一個消息到來前，還需要等待的時長；當nextPollTimeoutMillis = -1時，表示消息隊列中無消息，會一直等待下去。空閒後，往往會執行IdleHandler中的方法。當nativePollOnce()返回後，next()從mMessages中提取一個消息。nativePollOnce()在native做了大量的工作，想深入研究可查看資料： <a href="http://gityuan.com/2015/12/27/handler-message-native/" target="_blank">Android消息機制2-Handler(Native層)</a>。</p></blockquote>
 </li>
 <li>
-<p><strong>移除消息 <code>removeMessages()</code></strong><br>就是将消息从链表移除，同时将移除的消息添加到消息池，提供循环复用。<br>采用了两个while循环，第一个循环是从队头开始，移除符合条件的消息，第二个循环是从头部移除完连续的满足条件的消息之后，再从队列后面继续查询是否有满足条件的消息需要被移除。</p>
+<p><strong>移除消息 <code>removeMessages()</code></strong><br>就是將消息從鏈表移除，同時將移除的消息添加到消息池，提供循環複用。<br>採用了兩個while循環，第一個循環是從隊頭開始，移除符合條件的消息，第二個循環是從頭部移除完連續的滿足條件的消息之後，再從隊列後面繼續查詢是否有滿足條件的消息需要被移除。</p>
 <pre class="hljs java"><code class="java">  <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">removeMessages</span><span class="hljs-params">(Handler h, <span class="hljs-keyword">int</span> what, Object object)</span> </span>{
       <span class="hljs-keyword">if</span> (h == <span class="hljs-keyword">null</span>) {
           <span class="hljs-keyword">return</span>;
@@ -353,7 +353,7 @@
 
       <span class="hljs-keyword">synchronized</span> (<span class="hljs-keyword">this</span>) {
           Message p = mMessages;
-          <span class="hljs-comment">//从消息队列的头部开始，移除所有符合条件的消息</span>
+          <span class="hljs-comment">//從消息隊列的頭部開始，移除所有符合條件的消息</span>
           <span class="hljs-comment">// Remove all messages at front.</span>
           <span class="hljs-keyword">while</span> (p != <span class="hljs-keyword">null</span> &amp;&amp; p.target == h &amp;&amp; p.what == what
                  &amp;&amp; (object == <span class="hljs-keyword">null</span> || p.obj == object)) {
@@ -364,7 +364,7 @@
           }
 
           <span class="hljs-comment">// Remove all messages after front.</span>
-          <span class="hljs-comment">//移除剩余的符合要求的消息</span>
+          <span class="hljs-comment">//移除剩餘的符合要求的消息</span>
           <span class="hljs-keyword">while</span> (p != <span class="hljs-keyword">null</span>) {
               Message n = p.next;
               <span class="hljs-keyword">if</span> (n != <span class="hljs-keyword">null</span>) {
@@ -382,30 +382,30 @@
   }</code></pre>
 </li>
 <li>
-<p>退出消息队列<br>消息退出的方式：</p>
+<p>退出消息隊列<br>消息退出的方式：</p>
 <ul>
-<li>当safe =true时，只移除尚未触发的所有消息，对于正在触发的消息并不移除；</li>
-<li>当safe =flase时，移除所有的消息</li>
+<li>當safe =true時，只移除尚未觸發的所有消息，對於正在觸發的消息並不移除；</li>
+<li>當safe =flase時，移除所有的消息</li>
 </ul>
 <pre class="hljs java"><code class="java"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">quit</span><span class="hljs-params">(<span class="hljs-keyword">boolean</span> safe)</span> </span>{
-      <span class="hljs-keyword">if</span> (!mQuitAllowed) {<span class="hljs-comment">// 当mQuitAllowed为false，表示不运行退出，强行调用quit()会抛出异常</span>
+      <span class="hljs-keyword">if</span> (!mQuitAllowed) {<span class="hljs-comment">// 當mQuitAllowed為false，表示不運行退出，強行調用quit()會拋出異常</span>
           <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(<span class="hljs-string">"Main thread not allowed to quit."</span>);
       }
 
       <span class="hljs-keyword">synchronized</span> (<span class="hljs-keyword">this</span>) {
-          <span class="hljs-keyword">if</span> (mQuitting) { <span class="hljs-comment">//防止多次执行退出操作</span>
+          <span class="hljs-keyword">if</span> (mQuitting) { <span class="hljs-comment">//防止多次執行退出操作</span>
               <span class="hljs-keyword">return</span>;
           }
           mQuitting = <span class="hljs-keyword">true</span>;
 
           <span class="hljs-keyword">if</span> (safe) {
-              removeAllFutureMessagesLocked();<span class="hljs-comment">//移除尚未触发的所有消息</span>
+              removeAllFutureMessagesLocked();<span class="hljs-comment">//移除尚未觸發的所有消息</span>
           } <span class="hljs-keyword">else</span> {
               removeAllMessagesLocked();<span class="hljs-comment">//移除所有的消息</span>
           }
 
           <span class="hljs-comment">// We can assume mPtr != 0 because mQuitting was previously false.</span>
-          <span class="hljs-comment">//mQuitting=false，那么认定为 mPtr != 0</span>
+          <span class="hljs-comment">//mQuitting=false，那麼認定為 mPtr != 0</span>
           nativeWake(mPtr);
       }
   }</code></pre>

@@ -1,54 +1,54 @@
-# 概述设计架构
+# 概述設計架構
 
 
 
 <div class="show-content">
-          <p>本系列文章将分N篇介绍Android中的消息机制。</p>
+          <p>本系列文章將分N篇介紹Android中的消息機制。</p>
 <ol>
-<li>概述和设计架构</li>
+<li>概述和設計架構</li>
 <li>Message和MessageQueue</li>
 <li>Looper</li>
 <li>Handler</li>
-<li>Handler使用实战</li>
-<li>Handler引起的内存溢出</li>
+<li>Handler使用實戰</li>
+<li>Handler引起的內存溢出</li>
 <li>ThreadLocal</li>
 </ol>
-<p>Android的应用程序和Windows应用程序一样，都是由消息驱动的。在Android操作系统中，谷歌也实现了消息循环处理机制。</p>
-<h2>相关概念</h2>
-<p>学习Android的消息机制，有几个设计概念我们必须了解：</p>
+<p>Android的應用程序和Windows應用程序一樣，都是由消息驅動的。在Android操作系統中，谷歌也實現了消息循環處理機制。</p>
+<h2>相關概念</h2>
+<p>學習Android的消息機制，有幾個設計概念我們必須瞭解：</p>
 <ol>
 <li>
-<strong>消息：Message</strong><br>消息（Message）代表一个行为（what）或者一串动作（Runnable）,每一个消息在加入消息队列时，都有明确的目标（Handler）。</li>
+<strong>消息：Message</strong><br>消息（Message）代表一個行為（what）或者一串動作（Runnable）,每一個消息在加入消息隊列時，都有明確的目標（Handler）。</li>
 <li>
-<strong>消息队列：MessageQueue</strong><br>以队列的形式对外提供插入和删除的工作，其内部结构是以链表的形式存储消息的。</li>
+<strong>消息隊列：MessageQueue</strong><br>以隊列的形式對外提供插入和刪除的工作，其內部結構是以鏈表的形式存儲消息的。</li>
 <li>
-<strong>Looper</strong><br>Looper是循环的意思，它负责从消息队列中循环的取出消息然后把消息交给目标(Handler)处理。</li>
+<strong>Looper</strong><br>Looper是循環的意思，它負責從消息隊列中循環的取出消息然後把消息交給目標(Handler)處理。</li>
 <li>
-<strong>Handler</strong><br>消息的真正处理者，具备获取消息、发送消息、处理消息、移除消息等功能。</li>
-<li>线程<br>线程，CPU调度资源的基本单位。Android中的消息机制也是基于线程中的概念。</li>
-<li>ThreadLocal<br>可以理解为<code>ThreadLocalData</code>,ThreadLocal的作用是提供线程内的局部变量（TLS），这种变量在线程的生命周期内起作用，每一个线程有他自己所属的值（线程隔离）。<blockquote><p>5、6为牵涉到的概念，不是本文重点。会另起文章讨论</p></blockquote>
+<strong>Handler</strong><br>消息的真正處理者，具備獲取消息、發送消息、處理消息、移除消息等功能。</li>
+<li>線程<br>線程，CPU調度資源的基本單位。Android中的消息機制也是基於線程中的概念。</li>
+<li>ThreadLocal<br>可以理解為<code>ThreadLocalData</code>,ThreadLocal的作用是提供線程內的局部變量（TLS），這種變量在線程的生命週期內起作用，每一個線程有他自己所屬的值（線程隔離）。<blockquote><p>5、6為牽涉到的概念，不是本文重點。會另起文章討論</p></blockquote>
 </li>
 </ol>
-<p>平时我们最常使用的就是Message与Handler了，如果使用过HandlerThread或者自己实现类似HandlerThread的东西可能还会接触到Looper，而MessageQueue是Looper内部使用的，对于标准的SDK，我们是无法实例化并使用的（构造函数是包可见性）。</p>
-<p>我们平时接触到的Looper、Message、Handler都是用JAVA实现的，Android是一个基于Linux的系统，底层用C、C++实现的，而且还有NDK的存在，Android消息驱动的模型为了消息的及时性、高效性，在Native层也设计了Java层对应的类如Looper、MessageQueue等。</p>
+<p>平時我們最常使用的就是Message與Handler了，如果使用過HandlerThread或者自己實現類似HandlerThread的東西可能還會接觸到Looper，而MessageQueue是Looper內部使用的，對於標準的SDK，我們是無法實例化並使用的（構造函數是包可見性）。</p>
+<p>我們平時接觸到的Looper、Message、Handler都是用JAVA實現的，Android是一個基於Linux的系統，底層用C、C++實現的，而且還有NDK的存在，Android消息驅動的模型為了消息的及時性、高效性，在Native層也設計了Java層對應的類如Looper、MessageQueue等。</p>
 <div class="image-package">
-<img src="images/message_queue01.jpg" data-original-src="images/message_queue01.jpg" style="cursor: zoom-in;"><br><div class="image-caption">handle机制.jpg</div>
+<img src="images/message_queue01.jpg" data-original-src="images/message_queue01.jpg" style="cursor: zoom-in;"><br><div class="image-caption">handle機制.jpg</div>
 </div>
-<h2>他们如何协作</h2>
+<h2>他們如何協作</h2>
 <div class="image-package">
-<img src="images/652037-8523323f2946a1d8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" data-original-src="images/652037-8523323f2946a1d8.png?imageMogr2/auto-orient/strip%7CimageView2/2" style="cursor: zoom-in;"><br><div class="image-caption">Handler、MessageQueue、Looper如何协作</div>
+<img src="images/652037-8523323f2946a1d8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" data-original-src="images/652037-8523323f2946a1d8.png?imageMogr2/auto-orient/strip%7CimageView2/2" style="cursor: zoom-in;"><br><div class="image-caption">Handler、MessageQueue、Looper如何協作</div>
 </div>
-<p><strong>一句话总结为：Looper不断从MessageQueue中取出一个Message，然后交给其对应的Handler处理。</strong></p>
-<p>他们之间的类图如下：<br></p><div class="image-package">
-<img src="images/HandlerClass.jpg" data-original-src="images/HandlerClass.jpg" style="cursor: zoom-in;"><br><div class="image-caption">Handler、Looper、Message、MessageQueue类图</div>
-</div><p><br>从上文两张图中我们可以得到以下结论：</p>
+<p><strong>一句話總結為：Looper不斷從MessageQueue中取出一個Message，然後交給其對應的Handler處理。</strong></p>
+<p>他們之間的類圖如下：<br></p><div class="image-package">
+<img src="images/HandlerClass.jpg" data-original-src="images/HandlerClass.jpg" style="cursor: zoom-in;"><br><div class="image-caption">Handler、Looper、Message、MessageQueue類圖</div>
+</div><p><br>從上文兩張圖中我們可以得到以下結論：</p>
 <ol>
-<li>Looper依赖于MessageQueue和Thread，每个Thread只对应一个Looper，每个Looper只对应一个MessageQueue（一对一）。</li>
-<li>MessageQueue依赖于Message，每个MessageQueue中有N个待处理消息（一对N）。</li>
-<li>Message依赖于Handler来进行处理，每个Message有且仅有一个对应的Handler。（一对一）</li>
-<li>Handler中持有Looper和MessageQueue的引用，可直接对其进行操作。</li>
+<li>Looper依賴於MessageQueue和Thread，每個Thread只對應一個Looper，每個Looper只對應一個MessageQueue（一對一）。</li>
+<li>MessageQueue依賴於Message，每個MessageQueue中有N個待處理消息（一對N）。</li>
+<li>Message依賴於Handler來進行處理，每個Message有且僅有一個對應的Handler。（一對一）</li>
+<li>Handler中持有Looper和MessageQueue的引用，可直接對其進行操作。</li>
 </ol>
-<p>还有一点要说明的是：普通的线程是没有looper的，如果需要looper对象，那么必须要先调用Looper.prepare()方法，而且一个线程只能有一个looper。调用完以后，此线程就成为了所谓的LooperThread,若在当前LooperThread中创建Handler对象，那么此Handler会自动关联到当前线程的looper对象，也就是拥有looper的引用。<br>下面是官方给出的LooperThread最标准的用法。</p>
+<p>還有一點要說明的是：普通的線程是沒有looper的，如果需要looper對象，那麼必須要先調用Looper.prepare()方法，而且一個線程只能有一個looper。調用完以後，此線程就成為了所謂的LooperThread,若在當前LooperThread中創建Handler對象，那麼此Handler會自動關聯到當前線程的looper對象，也就是擁有looper的引用。<br>下面是官方給出的LooperThread最標準的用法。</p>
 <pre class="hljs java"><code class="java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LooperThread</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Thread</span> </span>{
 <span class="hljs-keyword">public</span> Handler mHandler;
 
@@ -63,21 +63,21 @@ mHandler = <span class="hljs-keyword">new</span> Handler() {
 
 Looper.loop();
 }</code></pre>
-<h2>为什么我们需要这样的消息处理机制</h2>
+<h2>為什麼我們需要這樣的消息處理機制</h2>
 <ol>
-<li>不阻塞主线程<br>Android应用程序启动时，系统会创建一个主线程，负责与UI组件（widget、view）进行交互，比如控制UI界面界面显示、更新等；分发事件给UI界面处理，比如按键事件、触摸事件、屏幕绘图事件等，因此，Android主线程也称为UI线程。<br>由此可知，UI线程只能处理一些简单的、短暂的操作，如果要执行繁重的任务或者耗时很长的操作，比如访问网络、数据库、下载等，这种单线程模型会导致线程运行性能大大降低，甚至阻塞UI线程，如果被阻塞超过5秒，系统会提示应用程序无相应对话框，缩写为ANR，导致退出整个应用程序或者短暂杀死应用程序。
-<em><strong>Android系统将大部分耗时、繁重任务交给子线程完成，不会在主线程中完成。</strong></em>
+<li>不阻塞主線程<br>Android應用程序啟動時，系統會創建一個主線程，負責與UI組件（widget、view）進行交互，比如控制UI界面界面顯示、更新等；分發事件給UI界面處理，比如按鍵事件、觸摸事件、屏幕繪圖事件等，因此，Android主線程也稱為UI線程。<br>由此可知，UI線程只能處理一些簡單的、短暫的操作，如果要執行繁重的任務或者耗時很長的操作，比如訪問網絡、數據庫、下載等，這種單線程模型會導致線程運行性能大大降低，甚至阻塞UI線程，如果被阻塞超過5秒，系統會提示應用程序無相應對話框，縮寫為ANR，導致退出整個應用程序或者短暫殺死應用程序。
+<em><strong>Android系統將大部分耗時、繁重任務交給子線程完成，不會在主線程中完成。</strong></em>
 </li>
-<li>并发程序设计的<strong>有序性</strong><br>单线程模型的UI主线程也是不安全的，会造成不可确定的结果。<br>线程不安全简单理解为：多线程访问资源时，有可能出现多个线程先后更改数据造成数据不一致。比如，A工作线程（也称为子线程）访问某个公共UI资源，B工作线程在某个时候也访问了该公共资源，当B线程正访问时，公共资源的属性已经被A改变了，这样B得到的结果不是所需要的的，造成了数据不一致的混乱情况。<br>线程安全简单理解为：当一个线程访问功能资源时，对该资源进程了保护，比如加了锁机制，当前线程在没有访问结束释放锁之前，其他线程只能等待直到释放锁才能访问，这样的线程就是安全的。
-<em><strong>Android只允许主线程更新UI界面，子线程处理后的结果无法和主线程交互，即无法直接访问主线程，这就要用到Handler机制来解决此问题。基于Handler机制，在子线程先获得Handler对象，该对象将数据发送到主线程消息队列，主线程通过Loop循环获取消息交给Handler处理。</strong></em>
+<li>併發程序設計的<strong>有序性</strong><br>單線程模型的UI主線程也是不安全的，會造成不可確定的結果。<br>線程不安全簡單理解為：多線程訪問資源時，有可能出現多個線程先後更改數據造成數據不一致。比如，A工作線程（也稱為子線程）訪問某個公共UI資源，B工作線程在某個時候也訪問了該公共資源，當B線程正訪問時，公共資源的屬性已經被A改變了，這樣B得到的結果不是所需要的的，造成了數據不一致的混亂情況。<br>線程安全簡單理解為：當一個線程訪問功能資源時，對該資源進程了保護，比如加了鎖機制，當前線程在沒有訪問結束釋放鎖之前，其他線程只能等待直到釋放鎖才能訪問，這樣的線程就是安全的。
+<em><strong>Android只允許主線程更新UI界面，子線程處理後的結果無法和主線程交互，即無法直接訪問主線程，這就要用到Handler機制來解決此問題。基於Handler機制，在子線程先獲得Handler對象，該對象將數據發送到主線程消息隊列，主線程通過Loop循環獲取消息交給Handler處理。</strong></em>
 </li>
 </ol>
-<h1>是如何完成跨线程通信的</h1>
-<p>Handler发送消息后添加消息到消息队列，然后消息在恰当时候出列，都是由Handler来执行，那么是如何完成跨线程通信的？<br>这里就牵涉到了Linux系统的跨线程通信的知识，Android中采用的是Linux中的管道通信。<br> Looper是通过管道(pipe)实现的。<br>关于管道，简单来说，管道就是一个文件。<br>在管道的两端，分别是两个打开文件文件描述符，这两个打开文件描述符都是对应同一个文件，其中一个是用来读的，别一个是用来写的。<br>一般的使用方式就是，一个线程通过读文件描述符中来读管道的内容，当管道没有内容时，这个线程就会进入等待状态，而另外一个线程通过写文件描述符来向管道中写入内容，写入内容的时候，如果另一端正有线程正在等待管道中的内容，那么这个线程就会被唤醒。这个等待和唤醒的操作是如何进行的呢，这就要借助Linux系统中的epoll机制了。 Linux系统中的epoll机制为处理大批量句柄而作了改进的poll，是Linux下多路复用IO接口select/poll的增强版本，它能显著减少程序在大量并发连接中只有少量活跃的情况下的系统CPU利用率。</p>
-<p>(01) pipe(wakeFds)，该函数创建了两个管道句柄。<br>(02) mWakeReadPipeFd=wakeFds[0]，是读管道的句柄。<br>(03) mWakeWritePipeFd=wakeFds<a href="http://7xkrut.com1.z1.glb.clouddn.com/Handler.png" target="_blank">1</a>，是写管道的句柄。<br>(04) epoll_create(EPOLL_SIZE_HINT)是创建epoll句柄。<br>(05) epoll_ctl(mEpollFd, EPOLL_CTL_ADD, mWakeReadPipeFd, &amp; eventItem)，它的作用是告诉mEpollFd，它要监控mWakeReadPipeFd文件描述符的EPOLLIN事件，即当管道中有内容可读时，就唤醒当前正在等待管道中的内容的线程。</p>
-<p>这样一个线程（比如UI线程）消息队列和Looper就准备就绪了。</p>
-<blockquote><p>消息队列创建时，会调用JNI函数，初始化NativeMessageQueue对象。NativeMessageQueue则会初始化Looper对象。Looper的作用就是，当Java层的消息队列中没有消息时，就使Android应用程序主线程进入等待状态，而当Java层的消息队列中来了新的消息后，就唤醒Android应用程序的主线程来处理这个消息。</p></blockquote>
-<p>由于鄙人C++荒废，在此不做过多探讨。<br>关于C++层逻辑可参考文章：<br><a href="http://blog.csdn.net/luoshengyang/article/details/6817933" target="_blank">Android应用程序消息处理机制（Looper、Handler）分析</a><br><a href="http://gityuan.com/2015/12/27/handler-message-native/" target="_blank">Android消息机制-Handler(native篇)</a><br><a href="http://www.cnblogs.com/angeldevil/p/3340644.html" target="_blank">Android消息处理机制(Handler、Looper、MessageQueue与Message)</a><br><a href="http://wangkuiwu.github.io/2014/08/26/MessageQueue/" target="_blank">Android消息机制架构和源码解析</a></p>
-<p>本系列文章参考的资料还有：<br><a href="http://item.jd.com/11452539.html" target="_blank">书籍：深入理解Android内核设计思想</a><br><a href="http://blog.csdn.net/singwhatiwanna/article/details/17361775" target="_blank">Android源码分析-消息队列和Looper</a><br><a href="http://mouxuejie.com/blog/2016-03-31/message-looper-mechanism/" target="_blank">Android消息循环机制源码分析</a><br><a href="http://www.cloudchou.com/android/post-388.html" target="_blank">Handler Looper MessageQueue 详解</a></p>
+<h1>是如何完成跨線程通信的</h1>
+<p>Handler發送消息後添加消息到消息隊列，然後消息在恰當時候出列，都是由Handler來執行，那麼是如何完成跨線程通信的？<br>這裡就牽涉到了Linux系統的跨線程通信的知識，Android中採用的是Linux中的管道通信。<br> Looper是通過管道(pipe)實現的。<br>關於管道，簡單來說，管道就是一個文件。<br>在管道的兩端，分別是兩個打開文件文件描述符，這兩個打開文件描述符都是對應同一個文件，其中一個是用來讀的，別一個是用來寫的。<br>一般的使用方式就是，一個線程通過讀文件描述符中來讀管道的內容，當管道沒有內容時，這個線程就會進入等待狀態，而另外一個線程通過寫文件描述符來向管道中寫入內容，寫入內容的時候，如果另一端正有線程正在等待管道中的內容，那麼這個線程就會被喚醒。這個等待和喚醒的操作是如何進行的呢，這就要藉助Linux系統中的epoll機制了。 Linux系統中的epoll機制為處理大批量句柄而作了改進的poll，是Linux下多路複用IO接口select/poll的增強版本，它能顯著減少程序在大量併發連接中只有少量活躍的情況下的系統CPU利用率。</p>
+<p>(01) pipe(wakeFds)，該函數創建了兩個管道句柄。<br>(02) mWakeReadPipeFd=wakeFds[0]，是讀管道的句柄。<br>(03) mWakeWritePipeFd=wakeFds<a href="http://7xkrut.com1.z1.glb.clouddn.com/Handler.png" target="_blank">1</a>，是寫管道的句柄。<br>(04) epoll_create(EPOLL_SIZE_HINT)是創建epoll句柄。<br>(05) epoll_ctl(mEpollFd, EPOLL_CTL_ADD, mWakeReadPipeFd, &amp; eventItem)，它的作用是告訴mEpollFd，它要監控mWakeReadPipeFd文件描述符的EPOLLIN事件，即當管道中有內容可讀時，就喚醒當前正在等待管道中的內容的線程。</p>
+<p>這樣一個線程（比如UI線程）消息隊列和Looper就準備就緒了。</p>
+<blockquote><p>消息隊列創建時，會調用JNI函數，初始化NativeMessageQueue對象。NativeMessageQueue則會初始化Looper對象。Looper的作用就是，當Java層的消息隊列中沒有消息時，就使Android應用程序主線程進入等待狀態，而當Java層的消息隊列中來了新的消息後，就喚醒Android應用程序的主線程來處理這個消息。</p></blockquote>
+<p>由於鄙人C++荒廢，在此不做過多探討。<br>關於C++層邏輯可參考文章：<br><a href="http://blog.csdn.net/luoshengyang/article/details/6817933" target="_blank">Android應用程序消息處理機制（Looper、Handler）分析</a><br><a href="http://gityuan.com/2015/12/27/handler-message-native/" target="_blank">Android消息機制-Handler(native篇)</a><br><a href="http://www.cnblogs.com/angeldevil/p/3340644.html" target="_blank">Android消息處理機制(Handler、Looper、MessageQueue與Message)</a><br><a href="http://wangkuiwu.github.io/2014/08/26/MessageQueue/" target="_blank">Android消息機制架構和源碼解析</a></p>
+<p>本系列文章參考的資料還有：<br><a href="http://item.jd.com/11452539.html" target="_blank">書籍：深入理解Android內核設計思想</a><br><a href="http://blog.csdn.net/singwhatiwanna/article/details/17361775" target="_blank">Android源碼分析-消息隊列和Looper</a><br><a href="http://mouxuejie.com/blog/2016-03-31/message-looper-mechanism/" target="_blank">Android消息循環機制源碼分析</a><br><a href="http://www.cloudchou.com/android/post-388.html" target="_blank">Handler Looper MessageQueue 詳解</a></p>
 
         </div>

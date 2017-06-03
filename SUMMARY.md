@@ -106,7 +106,7 @@
        * [Android Service 之三(Bind Service, 繼承自 Binder 類)](android_note/android_service_zhi_4e0928_bind_service_,_ji_cheng.md)
        * [Android Service 之三(Bind Service,使用 Messenger)](android_note/android_service_zhi_4e0928_bind_service_shi_yong_m.md)
        * [Android Service 之三(Bind Service,使用 AIDL)](android_note/android_service_zhi_4e0928_bind_service_shi_yong_a.md)
-       * Android之Service总结
+       * [Android之Service总结](android_note/androidzhi_service_zong_jie.md)
 * [Ubuntu](ubuntu/README.md)
    * [Ubuntu installer](ubuntu/ubuntu_installer.md)
    * [Windows與Ubuntu雙系統，開機時偵測不到彼此的解決方法](ubuntu/windowsyuubuntu_shuang_xi_tong_ff0c_kai_ji_shi_zhe.md)

@@ -103,7 +103,7 @@
        * [startService及bindService的區別](android_note/startserviceji_bindservice_de_qu_bie.md)
        * [android service 之一 (start service)](android_note/android_service_zhi_yi__start_service.md)
        * [android service 之二(IntentService)](android_note/android_service_zhi_4e8c28_intentservice.md)
-       * [Android Service 之三(Bind Service, 继承自 Binder 类)](android_note/android_service_zhi_4e0928_bind_service_,_ji_cheng.md)
+       * [Android Service 之三(Bind Service, 繼承自 Binder 類)](android_note/android_service_zhi_4e0928_bind_service_,_ji_cheng.md)
        * [Android Service 之三(Bind Service,使用 Messenger)](android_note/android_service_zhi_4e0928_bind_service_shi_yong_m.md)
        * [Android Service 之三(Bind Service,使用 AIDL)](android_note/android_service_zhi_4e0928_bind_service_shi_yong_a.md)
 * [Ubuntu](ubuntu/README.md)

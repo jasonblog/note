@@ -718,7 +718,7 @@
    * [How to define two-dimensional array in python](python/how_to_define_two-dimensional_array_in_python.md)
    * [Python技巧(漂亮又通順的程式碼)](python/pythonji_5de728_piao_liang_you_tong_shun_de_cheng_.md)
    * [DB](python/db.md)
-       * [SQLite - Python 安装](python/sqlite_-_python_an_zhuang.md)
+       * [SQLite - Python 安裝](python/sqlite_-_python_an_zhuang.md)
 * [Vim](vim/vim.md)
    * [HOWTO - vi, vim](vim/howto_-_vi,_vim.md)
 * [TDD](tdd/README.md)
@@ -1134,5 +1134,5 @@
    * [環境安裝 & 第一個 Qt 程式](qt/di_yi_ge_qt_cheng_shi.md)
 * [SlickEdit](SlickEdit/slickedit.md)
 * [Deep Learning](deep_learning/deep_learning.md)
-   * [深度学习开发环境配置：Ubuntu1 6.04+Nvidia GTX 1080+CUDA 8.0](deep_learning/shen_du_xue_xi_kai_fa_huan_jing_pei_zhi_ff1a_ubunt.md)
+   * [深度學習開發環境配置：Ubuntu1 6.04+Nvidia GTX 1080+CUDA 8.0](deep_learning/shen_du_xue_xi_kai_fa_huan_jing_pei_zhi_ff1a_ubunt.md)
 

@@ -1123,7 +1123,7 @@
        * [編程判斷兩個鏈表是否相交](interview/bian_cheng_pan_duan_liang_ge_lian_biao_shi_fou_xia.md)
 * [Java](java/java.md)
    * [開檔讀檔 & 正則範例](java/kai_dang_du_dang_&_zheng_ze_fan_li.md)
-   * [Thread和Runnable的区别](java/threadhe_runnable_de_qu_bie.md)
+   * [Thread和Runnable的區別](java/threadhe_runnable_de_qu_bie.md)
 * [Linear Algebra](linear_algebra /linear_algebra.md)
    * [理解矩陣](linear_algebra /li_jie_ju_zhen.md)
 * [Redis](redis/redis.md)

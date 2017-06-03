@@ -4,7 +4,7 @@
 <div class="show-content">
           <p>Handler是我们在开发中接触到最多的类了。<br>他可谓是Android消息机制中的总调度员。他几乎无所不能：创建消息可以是他，发消息是他，处理消息是他，移除消息还是他。所以，很多开发者对Handler很熟悉，对其背后底层默默工作的MessageQueue和Looper反而比较陌生。</p>
 <p>我们先看一下Handler的类结构：<br></p><div class="image-package">
-<img src="http://upload-images.jianshu.io/upload_images/652037-e439362539abc0ab.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" data-original-src="http://upload-images.jianshu.io/upload_images/652037-e439362539abc0ab.jpg?imageMogr2/auto-orient/strip%7CimageView2/2" style="cursor: zoom-in;"><br><div class="image-caption">Handler类结构.jpg</div>
+<img src="images/652037-e439362539abc0ab.jpg" data-original-src="images/652037-e439362539abc0ab.jpg" style="cursor: zoom-in;"><br><div class="image-caption">Handler类结构.jpg</div>
 </div><p><br>从图中我们可以看出，其包含了文章开头所讲的所有功能函数。<br>Handler的主要功能有：</p>
 <ol>
 <li>构造函数</li>
@@ -105,7 +105,7 @@
 </li>
 </ol>
 <p>他们之间的调用关系如图：<br></p><div class="image-package">
-<img src="http://upload-images.jianshu.io/upload_images/652037-5a2782c8b43acc1d.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" data-original-src="http://upload-images.jianshu.io/upload_images/652037-5a2782c8b43acc1d.jpg?imageMogr2/auto-orient/strip%7CimageView2/2" style="cursor: zoom-in;"><br><div class="image-caption">Handler发送消息调用过程</div>
+<img src="images/652037-5a2782c8b43acc1d.jpg" data-original-src="images/652037-5a2782c8b43acc1d.jpg" style="cursor: zoom-in;"><br><div class="image-caption">Handler发送消息调用过程</div>
 </div><p><br>他们最终都是将某个消息压入到MessageQueue中，等待处理。区别在于：</p>
 <ol>
 <li>发送机制不同。<br>post runnable系列处理的参数是封装了需执行动作的runnable，首先将runnable封装成一个Message，然后再调用对应的send系列函数把最终它压入到MessageQueue中。<br>send message系列处理的参数直接是Message，经过一些赋值后，直接压入到MessageQueue中。</li>
@@ -137,7 +137,7 @@ View.postDelayed(Runnable, <span class="hljs-keyword">long</span>)</code></pre>
         }
     }</code></pre>
 <p>其处理逻辑流程如图：<br></p><div class="image-package">
-<img src="http://upload-images.jianshu.io/upload_images/652037-f399cf90221ad3fc.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" data-original-src="http://upload-images.jianshu.io/upload_images/652037-f399cf90221ad3fc.jpg?imageMogr2/auto-orient/strip%7CimageView2/2" style="cursor: zoom-in;"><br><div class="image-caption">Handler处理消息.jpg</div>
+<img src="images/652037-f399cf90221ad3fc.jpg" data-original-src="images/652037-f399cf90221ad3fc.jpg" style="cursor: zoom-in;"><br><div class="image-caption">Handler处理消息.jpg</div>
 </div><p><br>其实逻辑很简单。</p>
 <ol>
 <li>首先看是否这条消息是否有已被预设了callback，如果有，直接调用handlerCallback(msg)处理预设好的callback。至此，满足该条件的的消息处理流程结束。</li>

@@ -1134,5 +1134,5 @@
    * [環境安裝 & 第一個 Qt 程式](qt/di_yi_ge_qt_cheng_shi.md)
 * [SlickEdit](SlickEdit/slickedit.md)
 * [Deep Learning](deep_learning/deep_learning.md)
-   * 深度学习开发环境配置：Ubuntu1 6.04+Nvidia GTX 1080+CUDA 8.0
+   * [深度学习开发环境配置：Ubuntu1 6.04+Nvidia GTX 1080+CUDA 8.0](deep_learning/shen_du_xue_xi_kai_fa_huan_jing_pei_zhi_ff1a_ubunt.md)
 

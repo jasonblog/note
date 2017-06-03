@@ -36,7 +36,7 @@
 </div>
 <h2>他们如何协作</h2>
 <div class="image-package">
-<img src="http://upload-images.jianshu.io/upload_images/652037-8523323f2946a1d8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" data-original-src="http://upload-images.jianshu.io/upload_images/652037-8523323f2946a1d8.png?imageMogr2/auto-orient/strip%7CimageView2/2" style="cursor: zoom-in;"><br><div class="image-caption">Handler、MessageQueue、Looper如何协作</div>
+<img src="images/652037-8523323f2946a1d8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" data-original-src="images/652037-8523323f2946a1d8.png?imageMogr2/auto-orient/strip%7CimageView2/2" style="cursor: zoom-in;"><br><div class="image-caption">Handler、MessageQueue、Looper如何协作</div>
 </div>
 <p><strong>一句话总结为：Looper不断从MessageQueue中取出一个Message，然后交给其对应的Handler处理。</strong></p>
 <p>他们之间的类图如下：<br></p><div class="image-package">

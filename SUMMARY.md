@@ -109,7 +109,7 @@
        * [Android Service 之三(Bind Service,使用 AIDL)](android_note/android_service_zhi_4e0928_bind_service_shi_yong_a.md)
    * [關於Activity](android_note/guan_yu_activity.md)
        * [Android之Activity總結](android_note/androidzhi_activity_zong_jie.md)
-   * IPC
+   * [IPC](android_note/ipc.md)
 * [Ubuntu](ubuntu/README.md)
    * [Ubuntu installer](ubuntu/ubuntu_installer.md)
    * [Windows與Ubuntu雙系統，開機時偵測不到彼此的解決方法](ubuntu/windowsyuubuntu_shuang_xi_tong_ff0c_kai_ji_shi_zhe.md)

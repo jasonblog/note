@@ -271,6 +271,7 @@
 * [Linux System](linux_system/README.md)
    * [Note](linux_system/note.md)
        * [IPC](linux_system/ipc.md)
+           * PIPE
    * [linux系統編程](linux_system/linuxxi_tong_bian_cheng.md)
        * [文件與IO（一）：文件描述符、open，close](linux_system/linuxxi_tong_bian_cheng_zhi_wen_jian_yu_io_ff08_yi.md)
        * [文件與IO（二）：系統調用read和write](linux_system/linuxxi_tong_bian_cheng_zhi_wen_jian_yu_io_ff08_er.md)

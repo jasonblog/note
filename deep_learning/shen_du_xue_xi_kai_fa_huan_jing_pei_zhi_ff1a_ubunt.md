@@ -1,7 +1,7 @@
-# 深度学习开发环境配置：Ubuntu1 6.04+Nvidia GTX 1080+CUDA 8.0
+# 深度學習開發環境配置：Ubuntu1 6.04+Nvidia GTX 1080+CUDA 8.0
 
 
-懒人版方法：
+懶人版方法：
 
 
 ```sh
@@ -11,27 +11,27 @@ sudo apt-get update
 sudo apt-get -y install cuda-drivers cuda
 ```
 
-这个方法会安装稳定版的驱动和CUDA，可能不那么新。
+這個方法會安裝穩定版的驅動和CUDA，可能不那麼新。
 
-然后开始安装 cuDNN, 先下载 cuDNN 6.0,
+然後開始安裝 cuDNN, 先下載 cuDNN 6.0,
 
 
 ```sh
 wget http://developer.download.nvidia.com/compute/redist/cudnn/v6.0/cudnn-8.0-linux-x64-v6.0.tgz
 ```
 
-然后解压到 /usr/local
+然後解壓到 /usr/local
 
 ```sh
 sudo tar -zxf cudnn-8.0-linux-x64-v6.0.tgz -P /usr/local
 ```
 
-至此，驱动， CUDA 和 cuDNN都安装完了。
+至此，驅動， CUDA 和 cuDNN都安裝完了。
 
-如果你想安装最新版的驱动和最新版的CUDA，那么接着读下去吧。
+如果你想安裝最新版的驅動和最新版的CUDA，那麼接著讀下去吧。
 
 
-### 1. 安装 Nvidia 驱动
+### 1. 安裝 Nvidia 驅動
 
 ```sh
 sudo add-apt-repository -qy ppa:graphics-drivers/ppa
@@ -41,18 +41,18 @@ sudo apt-get -qy install mesa-common-dev
 sudo apt-get -qy install freeglut3-dev
 sudo reboot
 ```
-注意，一般比较新的主板，默认是UEFI BIOS，默认启用了 Secure Boot，否则开机后登陆不进去。老主板没有这个问题。
+注意，一般比較新的主板，默認是UEFI BIOS，默認啟用了 Secure Boot，否則開機後登陸不進去。老主板沒有這個問題。
 
-### 2. 安装 CUDA 8.x
+### 2. 安裝 CUDA 8.x
 
-去 CUDA 8.x 下载页面，一定要下载 runfile 安装方式的安装包，参考资料里的好几篇都是选择这种方式，貌似 deb包有坑？
+去 CUDA 8.x 下載頁面，一定要下載 runfile 安裝方式的安裝包，參考資料裡的好幾篇都是選擇這種方式，貌似 deb包有坑？
 
 ```sh
 chmod u+x ./cuda_8.0.27_linux.run
 sudo ./cuda_8.0.27_linux.run --tmpdir=/tmp
 ```
 
-执行后会有一系列提示让你确认，第一个就是问你是否安装显卡驱动，由于前一步已经安装了显卡驱动，所以这里就不需要了，况且 runfile 自带的驱动版本不是最新的。 因此 Install NVIDIA Accelerated Graphics Driver for Linux-x86_64 361.77? 这里选择 no。
+執行後會有一系列提示讓你確認，第一個就是問你是否安裝顯卡驅動，由於前一步已經安裝了顯卡驅動，所以這裡就不需要了，況且 runfile 自帶的驅動版本不是最新的。 因此 Install NVIDIA Accelerated Graphics Driver for Linux-x86_64 361.77? 這裡選擇 no。
 
 
 ```sh
@@ -72,15 +72,15 @@ Enter CUDA Samples Location
  [ default is /home/programmer ]:
  ```
  
- 你以为你会成功安装吗？并不是，你一定会碰到一个错误，Installation Failed. Using unsupported Compiler. ，这是因为 Ubuntu 16.04 默认的 GCC 5.4 对于 CUDA 8.x来说过于新了，CUDA 安装脚本还不能识别新版本的 GCC。
+ 你以為你會成功安裝嗎？並不是，你一定會碰到一個錯誤，Installation Failed. Using unsupported Compiler. ，這是因為 Ubuntu 16.04 默認的 GCC 5.4 對於 CUDA 8.x來說過於新了，CUDA 安裝腳本還不能識別新版本的 GCC。
 
-看了一下安装日志，解决方案也很简单，加一个 --override 选项，
+看了一下安裝日誌，解決方案也很簡單，加一個 --override 選項，
 
 
 ```sh
 sudo ./cuda_8.0.27_linux.run --tmpdir=/tmp --override
 ```
-这次可以成功了。
+這次可以成功了。
 
 
 ```sh
@@ -102,30 +102,30 @@ Logfile is /tmp/cuda_install_6794.log
 Signal caught, cleaning up
 ```
 
-把以下两行加入到 .bashrc
+把以下兩行加入到 .bashrc
 
 ```sh
 export PATH=/usr/local/cuda-8.0/bin${PATH:+:${PATH}}
 export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
 ```
 
-#### 安装补丁
+#### 安裝補丁
 
 ```sh
 chmod u+x ./cuda_8.0.27.1_linux.run
 sudo ./cuda_8.0.27.1_linux.run
 ```
 
-测试是否安装成功
+測試是否安裝成功
 
-最后再来测试一下CUDA，运行：
+最後再來測試一下CUDA，運行：
 
 
 ```sh
 nvidia-smi
 ```
 
-### 结果如下所示：
+### 結果如下所示：
 
 
 ```sh
@@ -148,14 +148,14 @@ Sat Jun  3 13:36:13 2017
 +-----------------------------------------------------------------------------+
 ```
 
-再来试几个CUDA例子：
+再來試幾個CUDA例子：
 
 ```sh
 cd ~/NVIDIA_CUDA-8.0_Samples/1_Utilities/deviceQuery
 make
 ```
 
-执行 ./deviceQuery，得到：
+執行 ./deviceQuery，得到：
 
 
 ```sh
@@ -197,7 +197,7 @@ deviceQuery, CUDA Driver = CUDART, CUDA Driver Version = 8.0, CUDA Runtime Versi
 Result = PASS
 ````
 
-再测试试一下nobody：
+再測試試一下nobody：
 
 
 ```sh
@@ -206,7 +206,7 @@ make
 ```
 
 
-执行：
+執行：
 
 ```sh
 ./nbody -benchmark -numbodies=256000 -device=0
@@ -228,11 +228,11 @@ number of bodies = 256000
 = 5543.830 single-precision GFLOP/s at 20 flops per interaction
 ```
 
-至此，说明 CUDA 8.x 安装成功了。
+至此，說明 CUDA 8.x 安裝成功了。
 
-## 参考资料
+## 參考資料
 
-- 深度学习主机环境配置: Ubuntu16.04+Nvidia GTX 1080+CUDA8.0
+- 深度學習主機環境配置: Ubuntu16.04+Nvidia GTX 1080+CUDA8.0
 - Nvidia GTX 1080 on Ubuntu 16.04 for Deep Learning - Changjiang
 - Build Personal Deep Learning Rig: GTX 1080 + Ubuntu 16.04 + CUDA 8.0RC + CuDnn 7 + Tensorflow/Mxnet/Caffe/Darknet - by Guanghan Ning
 - GeForce GTX 1080, CUDA 8.0, Ubuntu 16.04, Caffe

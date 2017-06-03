@@ -1,0 +1,329 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
+=======
+Changes for 1.4.0 (up to r300):
+=======
+=======
+=======
+=======
+=======
+>>>>>>> Updates version number to 1.7.0
+Changes for 1.7.0:
+
+<<<<<<< HEAD
+* New feature: death tests are supported on OpenBSD and in iOS
+  simulator now.
+* New feature: Google Test now implements a protocol to allow
+  a test runner to detect that a test program has exited
+  prematurely and report it as a failure (before it would be
+  falsely reported as a success if the exit code is 0).
+* New feature: Test::RecordProperty() can now be used outside of the
+  lifespan of a test method, in which case it will be attributed to
+  the current test case or the test program in the XML report.
+* New feature (potentially breaking): --gtest_list_tests now prints
+  the type parameters and value parameters for each test.
+* Improvement: char pointers and char arrays are now escaped properly
+  in failure messages.
+* Improvement: failure summary in XML reports now includes file and
+  line information.
+* Improvement: the <testsuites> XML element now has a timestamp attribute.
+* Improvement: When --gtest_filter is specified, XML report now doesn't
+  contain information about tests that are filtered out.
+* Fixed the bug where long --gtest_filter flag values are truncated in
+  death tests.
+* Potentially breaking change: RUN_ALL_TESTS() is now implemented as a
+  function instead of a macro in order to work better with Clang.
+* Compatibility fixes with C++ 11 and various platforms.
+=======
+* All new improvements in Google Test 1.7.0.
+* New feature: matchers DoubleNear(), FloatNear(),
+  NanSensitiveDoubleNear(), NanSensitiveFloatNear(),
+  UnorderedElementsAre(), UnorderedElementsAreArray(), WhenSorted(),
+  WhenSortedBy(), IsEmpty(), and SizeIs().
+* Improvement: Google Mock can now be built as a DLL.
+* Improvement: when compiled by a C++11 compiler, matchers AllOf()
+  and AnyOf() can accept an arbitrary number of matchers.
+* Improvement: when compiled by a C++11 compiler, matchers
+  ElementsAreArray() can accept an initializer list.
+* Improvement: when exceptions are enabled, a mock method with no
+  default action now throws instead crashing the test.
+* Improvement: added class testing::StringMatchResultListener to aid
+  definition of composite matchers.
+* Improvement: function return types used in MOCK_METHOD*() macros can
+  now contain unprotected commas.
+* Improvement (potentially breaking): EXPECT_THAT() and ASSERT_THAT()
+  are now more strict in ensuring that the value type and the matcher
+  type are compatible, catching potential bugs in tests.
+* Improvement: Pointee() now works on an optional<T>.
+* Improvement: the ElementsAreArray() matcher can now take a vector or
+  iterator range as input, and makes a copy of its input elements
+  before the conversion to a Matcher.
+* Improvement: the Google Mock Generator can now generate mocks for
+  some class templates.
+* Bug fix: mock object destruction triggerred by another mock object's
+  destruction no longer hangs.
+* Improvement: Google Mock Doctor works better with newer Clang and
+  GCC now.
+* Compatibility fixes.
+>>>>>>> Makes EXPECT_THAT typesafe; updates CHANGES for 1.7.0; pulls in gtest r653
+* Bug/warning fixes.
+
+<<<<<<< HEAD
+>>>>>>> Updates the version number to 1.7.0
+Changes for 1.6.0:
+
+* New feature: ADD_FAILURE_AT() for reporting a test failure at the
+  given source location -- useful for writing testing utilities.
+* New feature: the universal value printer is moved from Google Mock
+  to Google Test.
+* New feature: type parameters and value parameters are reported in
+  the XML report now.
+* A gtest_disable_pthreads CMake option.
+* Colored output works in GNU Screen sessions now.
+* Parameters of value-parameterized tests are now printed in the
+  textual output.
+* Failures from ad hoc test assertions run before RUN_ALL_TESTS() are
+  now correctly reported.
+* Arguments of ASSERT_XY and EXPECT_XY no longer need to support << to
+  ostream.
+* More complete handling of exceptions.
+* GTEST_ASSERT_XY can be used instead of ASSERT_XY in case the latter
+  name is already used by another library.
+* --gtest_catch_exceptions is now true by default, allowing a test
+  program to continue after an exception is thrown.
+* Value-parameterized test fixtures can now derive from Test and
+  WithParamInterface<T> separately, easing conversion of legacy tests.
+* Death test messages are clearly marked to make them more
+  distinguishable from other messages.
+* Compatibility fixes for Android, Google Native Client, MinGW, HP UX,
+  PowerPC, Lucid autotools, libCStd, Sun C++, Borland C++ Builder (Code Gear),
+  IBM XL C++ (Visual Age C++), and C++0x.
+* Bug fixes and implementation clean-ups.
+* Potentially incompatible changes: disables the harmful 'make install'
+  command in autotools.
+
+>>>>>>> Changes gtest's version to 1.6.0 and adds release notes.
+Changes for 1.5.0:
+
+ * New feature: assertions can be safely called in multiple threads
+   where the pthreads library is available.
+ * New feature: predicates used inside EXPECT_TRUE() and friends
+   can now generate custom failure messages.
+ * New feature: Google Test can now be compiled as a DLL.
+ * New feature: fused source files are included.
+ * New feature: prints help when encountering unrecognized Google Test flags.
+ * Experimental feature: CMake build script (requires CMake 2.6.4+).
+ * Experimental feature: the Pump script for meta programming.
+ * double values streamed to an assertion are printed with enough precision
+   to differentiate any two different values.
+ * Google Test now works on Solaris and AIX.
+ * Build and test script improvements.
+ * Bug fixes and implementation clean-ups.
+
+ Potentially breaking changes:
+
+ * Stopped supporting VC++ 7.1 with exceptions disabled.
+ * Dropped support for 'make install'.
+
+>>>>>>> Adds threading support (by Miklos Fazekas, Vlad Losev, and Chandler Carruth); adds wide InitGoogleTest to gtest.def (by Vlad Losev); updates the version number (by Zhanyong Wan); updates the release notes for 1.5.0 (by Vlad Losev); removes scons scripts from the distribution (by Zhanyong Wan); adds the cmake build script to the distribution (by Zhanyong Wan); adds fused source files to the distribution (by Vlad Losev and Chandler Carruth).
+Changes for 1.4.0:
+>>>>>>> Updates the 1.4.0 release notes.
+
+ * New feature: the event listener API
+ * New feature: test shuffling
+ * New feature: the XML report format is closer to junitreport and can
+   be parsed by Hudson now.
+ * New feature: when a test runs under Visual Studio, its failures are
+   integrated in the IDE.
+ * New feature: /MD(d) versions of VC++ projects.
+ * New feature: elapsed time for the tests is printed by default.
+ * New feature: comes with a TR1 tuple implementation such that Boost
+   is no longer needed for Combine().
+ * New feature: EXPECT_DEATH_IF_SUPPORTED macro and friends.
+ * New feature: the Xcode project can now produce static gtest
+   libraries in addition to a framework.
+ * Compatibility fixes for Solaris, Cygwin, minGW, Windows Mobile,
+   Symbian, gcc, and C++Builder.
+ * Bug fixes and implementation clean-ups.
+
+>>>>>>> More implementation of the event listener interface (by Vlad Losev); Reduces the stack space usage of assertions by moving AssertHelper's fields to the heap (by Jorg Brown); Makes String faster, smaller, and simpler (by Zhanyong Wan); Fixes a bug in String::Format() (by Chandler); Adds the /MD version of VC projects to the distribution (by Vlad Losev).
+Changes for 1.3.0:
+
+ * New feature: death tests on Windows, Cygwin, and Mac.
+ * New feature: ability to use Google Test assertions in other testing
+   frameworks.
+ * New feature: ability to run disabled test via
+   --gtest_also_run_disabled_tests.
+ * New feature: the --help flag for printing the usage.
+ * New feature: access to Google Test flag values in user code.
+ * New feature: a script that packs Google Test into one .h and one
+   .cc file for easy deployment.
+ * New feature: support for distributing test functions to multiple
+   machines (requires support from the test runner).
+ * Bug fixes and implementation clean-ups.
+
+>>>>>>> Updates the 1.3.0 release note.
+Changes for 1.2.1:
+
+ * Compatibility fixes for Linux IA-64 and IBM z/OS.
+ * Added support for using Boost and other TR1 implementations.
+ * Changes to the build scripts to support upcoming release of Google C++
+   Mocking Framework.
+ * Added Makefile to the distribution package.
+ * Improved build instructions in README.
+
+>>>>>>> Merged release 1.2.1 updates to trunk
+Changes for 1.2.0:
+
+ * New feature: value-parameterized tests.
+ * New feature: the ASSERT/EXPECT_(NON)FATAL_FAILURE(_ON_ALL_THREADS)
+   macros.
+ * Changed the XML report format to match JUnit/Ant's.
+ * Added tests to the Xcode project.
+ * Added scons/SConscript for building with SCons.
+ * Added src/gtest-all.cc for building Google Test from a single file.
+ * Fixed compatibility with Solaris and z/OS.
+ * Enabled running Python tests on systems with python 2.3 installed,
+   e.g. Mac OS X 10.4.
+ * Bug fixes.
+
+Changes for 1.1.0:
+
+ * New feature: type-parameterized tests.
+ * New feature: exception assertions.
+ * New feature: printing elapsed time of tests.
+ * Improved the robustness of death tests.
+ * Added an Xcode project and samples.
+ * Adjusted the output format on Windows to be understandable by Visual Studio.
+ * Minor bug fixes.
+
+Changes for 1.0.1:
+
+ * Added project files for Visual Studio 7.1.
+ * Fixed issues with compiling on Mac OS X.
+ * Fixed issues with compiling on Cygwin.
+
+Changes for 1.0.0:
+
+ * Initial Open Source release of Google Test
+=======
+=======
+=======
+Changes for 1.2.0 (up to r194):
+=======
+=======
+=======
+=======
+>>>>>>> Updates version number to 1.7.0
+Changes for 1.6.0:
+
+* Compilation is much faster and uses much less memory, especially
+  when the constructor and destructor of a mock class are moved out of
+  the class body.
+* New matchers: Pointwise(), Each().
+* New actions: ReturnPointee() and ReturnRefOfCopy().
+* CMake support.
+* Project files for Visual Studio 2010.
+* AllOf() and AnyOf() can handle up-to 10 arguments now.
+* Google Mock doctor understands Clang error messages now.
+* SetArgPointee<> now accepts string literals.
+* gmock_gen.py handles storage specifier macros and template return
+  types now.
+* Compatibility fixes.
+* Bug fixes and implementation clean-ups.
+* Potentially incompatible changes: disables the harmful 'make install'
+  command in autotools.
+
+Potentially breaking changes:
+
+* The description string for MATCHER*() changes from Python-style
+  interpolation to an ordinary C++ string expression.
+* SetArgumentPointee is deprecated in favor of SetArgPointee.
+* Some non-essential project files for Visual Studio 2005 are removed.
+
+>>>>>>> Changes gmock's version to 1.6.0 and adds release notes.
+Changes for 1.5.0:
+
+ * New feature: Google Mock can be safely used in multi-threaded tests
+   on platforms having pthreads.
+ * New feature: function for printing a value of arbitrary type.
+ * New feature: function ExplainMatchResult() for easy definition of
+   composite matchers.
+ * The new matcher API lets user-defined matchers generate custom
+   explanations more directly and efficiently.
+ * Better failure messages all around.
+ * NotNull() and IsNull() now work with smart pointers.
+ * Field() and Property() now work when the matcher argument is a pointer
+   passed by reference.
+ * Regular expression matchers on all platforms.
+ * Added GCC 4.0 support for Google Mock Doctor.
+ * Added gmock_all_test.cc for compiling most Google Mock tests
+   in a single file.
+ * Significantly cleaned up compiler warnings.
+ * Bug fixes, better test coverage, and implementation clean-ups.
+
+ Potentially breaking changes:
+
+ * Custom matchers defined using MatcherInterface or MakePolymorphicMatcher()
+   need to be updated after upgrading to Google Mock 1.5.0; matchers defined
+   using MATCHER or MATCHER_P* aren't affected.
+ * Dropped support for 'make install'.
+
+>>>>>>> Adds threading support (by Vlad Losev); updates the version number (by Zhanyong Wan); adds release notes for 1.5.0 (by Vlad Losev).
+Changes for 1.4.0 (we skipped 1.2.* and 1.3.* to match the version of
+Google Test):
+>>>>>>> Updates the 1.4.0 release notes.
+
+ * Works in more environments: Symbian and minGW, Visual C++ 7.1.
+ * Lighter weight: comes with our own implementation of TR1 tuple (no
+   more dependency on Boost!).
+ * New feature: --gmock_catch_leaked_mocks for detecting leaked mocks.
+ * New feature: ACTION_TEMPLATE for defining templatized actions.
+ * New feature: the .After() clause for specifying expectation order.
+ * New feature: the .With() clause for for specifying inter-argument
+   constraints.
+ * New feature: actions ReturnArg<k>(), ReturnNew<T>(...), and
+   DeleteArg<k>().
+ * New feature: matchers Key(), Pair(), Args<...>(), AllArgs(), IsNull(),
+   and Contains().
+ * New feature: utility class MockFunction<F>, useful for checkpoints, etc.
+ * New feature: functions Value(x, m) and SafeMatcherCast<T>(m).
+ * New feature: copying a mock object is rejected at compile time.
+ * New feature: a script for fusing all Google Mock and Google Test
+   source files for easy deployment.
+ * Improved the Google Mock doctor to diagnose more diseases.
+ * Improved the Google Mock generator script.
+ * Compatibility fixes for Mac OS X and gcc.
+ * Bug fixes and implementation clean-ups.
+
+>>>>>>> Updates CHANGES.
+Changes for 1.1.0:
+
+ * New feature: ability to use Google Mock with any testing framework.
+ * New feature: macros for easily defining new matchers
+ * New feature: macros for easily defining new actions.
+ * New feature: more container matchers.
+ * New feature: actions for accessing function arguments and throwing
+   exceptions.
+ * Improved the Google Mock doctor script for diagnosing compiler errors.
+ * Bug fixes and implementation clean-ups.
+
+>>>>>>> Adds release note for 1.1.0 and switches to use gtest 1.3.0.
+Changes for 1.0.0:
+
+ * Initial Open Source release of Google Mock
+>>>>>>> Initial drop of Google Mock.  The files are incomplete and thus may not build correctly yet.

@@ -32,7 +32,7 @@
 <p>平时我们最常使用的就是Message与Handler了，如果使用过HandlerThread或者自己实现类似HandlerThread的东西可能还会接触到Looper，而MessageQueue是Looper内部使用的，对于标准的SDK，我们是无法实例化并使用的（构造函数是包可见性）。</p>
 <p>我们平时接触到的Looper、Message、Handler都是用JAVA实现的，Android是一个基于Linux的系统，底层用C、C++实现的，而且还有NDK的存在，Android消息驱动的模型为了消息的及时性、高效性，在Native层也设计了Java层对应的类如Looper、MessageQueue等。</p>
 <div class="image-package">
-<img src="https://raw.githubusercontent.com/wangkuiwu/android_applets/master/os/pic/messagequeue/message_queue01.jpg" data-original-src="https://raw.githubusercontent.com/wangkuiwu/android_applets/master/os/pic/messagequeue/message_queue01.jpg" style="cursor: zoom-in;"><br><div class="image-caption">handle机制.jpg</div>
+<img src="images/message_queue01.jpg" data-original-src="images/message_queue01.jpg" style="cursor: zoom-in;"><br><div class="image-caption">handle机制.jpg</div>
 </div>
 <h2>他们如何协作</h2>
 <div class="image-package">
@@ -40,7 +40,7 @@
 </div>
 <p><strong>一句话总结为：Looper不断从MessageQueue中取出一个Message，然后交给其对应的Handler处理。</strong></p>
 <p>他们之间的类图如下：<br></p><div class="image-package">
-<img src="http://7xkrut.com1.z1.glb.clouddn.com/Handler%E7%B1%BB%E5%9B%BE.jpg" data-original-src="http://7xkrut.com1.z1.glb.clouddn.com/Handler%E7%B1%BB%E5%9B%BE.jpg" style="cursor: zoom-in;"><br><div class="image-caption">Handler、Looper、Message、MessageQueue类图</div>
+<img src="images/HandlerClass.jpg" data-original-src="images/HandlerClass.jpg" style="cursor: zoom-in;"><br><div class="image-caption">Handler、Looper、Message、MessageQueue类图</div>
 </div><p><br>从上文两张图中我们可以得到以下结论：</p>
 <ol>
 <li>Looper依赖于MessageQueue和Thread，每个Thread只对应一个Looper，每个Looper只对应一个MessageQueue（一对一）。</li>

@@ -1,8 +1,6 @@
 # 人工智慧、機器學習與深度學習間有什麼區別?
 
 
- create mode 100644 deep_learning/images/Deep_Learning_Icons_R5_PNG.jpg.png
- create mode 100644 deep_learning/images/checkers_philip-taylor-1.jpg
  create mode 100644 deep_learning/images/spam_fit.jpg
 
 
@@ -12,27 +10,30 @@
 <p>用同心圓最能簡單說明三者間的關係，最早出現的人工智慧是最大那個圓，接著是後來出現的機器學習，最後是推動目前人工智慧領域出現爆炸性發展的深度學習，則是落在最內一圈。 </p>
 
 
+<img src="./images/Deep_Learning_Icons_R5_PNG.jpg.png">
 
-
-<p>
-</p>
-
-<div class="imgcenter"><a href="https://blogs.nvidia.com/wp-content/uploads/2016/07/Deep_Learning_Icons_R5_PNG.jpg.png"><img border="0" width="552" height="351" src="https://blogs.nvidia.com/wp-content/uploads/2016/07/Deep_Learning_Icons_R5_PNG.jpg.png" alt="What's the difference between Artificial Intelligence (AI), Machine Learning, and Deep Learning? "></a></div>
-<p></p>
 <p><strong>從不景氣走向繁榮 </strong></p>
 <p>1956年達特矛斯會議集合多位電腦科學家誕生出人工智慧領域，人工智慧始終存在我們腦海的想像裡，在實驗室裡醞釀著。數十年間，人工智慧時而被預示為我們的文明最為璀燦的未來，時而被當成不自量力的電腦阿宅們輕率的想法，而被丟到成堆的科技垃圾報裡。平心而論，在2012年前是處在這兩種情況之間。 </p>
 <p>在過去幾年裡<a href="https://blogs.nvidia.com/blog/2016/01/12/accelerating-ai-artificial-intelligence-gpus/" target="_blank">人工智慧出現爆炸性成長</a>，尤其是自2015年起，主因之一是 GPUs 日漸普極，使得平行運算的速度更快、成本更低，力量也更強大。無限制的儲存空間和影像、文字、交易、地圖資料等各種數據（整個大數據運動）如洪水般湧出，在這樣連續左右拳猛擊的情況下，同樣也是相關主因之一。 </p>
 <p>接著介紹電腦科學家是如何從2012年前人工智慧這個不受重視的領域，發展成為一片欣欣向榮的景象，每天有數百萬人使用這些科學家創造出的應用程式。 </p>
 <p><strong>人工智慧 &nbsp;—&nbsp;&nbsp;機器展現出人類智慧 </strong></p>
 <p>
-</p><div class="imgcenter"><a href="https://blogs.nvidia.com/wp-content/uploads/2016/07/checkers_philip-taylor-1.jpg"><img border="0" width="554" height="367" src="https://blogs.nvidia.com/wp-content/uploads/2016/07/checkers_philip-taylor-1.jpg" alt=" 封我為王：會玩西洋跳棋的電腦程式是最早的人工智慧應用範例之一，在1950年代引發不小的轟動。" title=" 封我為王：會玩西洋跳棋的電腦程式是最早的人工智慧應用範例之一，在1950年代引發不小的轟動。"></a> <br> 封我為王：會玩西洋跳棋的電腦程式是最早的人工智慧應用範例之一，在1950年代引發不小的轟動。 </div>
+
+
+<img src="./images/checkers_philip-taylor-1.jpg">
+
 <p></p>
 <p>回到 1956 年夏天的那場會議，人工智慧領域先驅們的夢想是藉由新興計算機構建具備等同於人類智力特徵的複雜機器。這就是所謂的「廣義人工智慧（General AI）」的概念，擁有人類的所有感覺（甚至可能更多）、所有理智，並且像人類一樣思考的神奇機器。《星際大戰》裡的 C-3PO、成為人類敵人的終結者，電影已經出現太多這些被我們當做朋友的機器。廣義人工智慧的機器向來有充足的理由出現在電影和科幻小說裡，我們阻止不了這件事，至少目前還做不到。 </p>
 <p>那麼我們能做些什麼? 這就到了「狹義人工智慧（Narrow AI）」的概念，這是指在處理特殊任務之際，表現如同人類一樣好，甚至是更好的技術。運用狹義人工智慧的例子有 Pinterest 上的影像分類與 Facebook 的人臉識別。 </p>
 <p>這些是應用狹義人工智慧的例子，展現出人類智能的一些面向。但是又如何做到的？那項智能源自於哪裡？接下來我們來看第二個同心圓，也就是機器學習。 </p>
 <p><strong>機器學習&nbsp;—&nbsp;&nbsp;達到人工智慧的方法 </strong></p>
+
+
+
 <p>
-</p><div class="imgcenter"><a href="https://blogs.nvidia.com/wp-content/uploads/2016/07/spam_fit.jpg"><img border="0" width="551" height="321" src="https://blogs.nvidia.com/wp-content/uploads/2016/07/spam_fit.jpg" alt="清理垃圾郵件：機器學習不斷幫你清理裡收件匣裡的（大部分的）垃圾郵件。" title="清理垃圾郵件：機器學習不斷幫你清理裡收件匣裡的（大部分的）垃圾郵件。"></a><br><em>清理垃圾郵件：機器學習不斷幫你清理裡收件匣裡的（大部分的）垃圾郵件。</em></div>
+</p><div class="imgcenter"><a href=images/spam_fit.jpg"><img border="0" width="551" height="321" src="images/spam_fit.jpg" alt="清理垃圾郵件：機器學習不斷幫你清理裡收件匣裡的（大部分的）垃圾郵件。" title="清理垃圾郵件：機器學習不斷幫你清理裡收件匣裡的（大部分的）垃圾郵件。"></a><br><em>清理垃圾郵件：機器學習不斷幫你清理裡收件匣裡的（大部分的）垃圾郵件。</em></div>
+
+
 <p></p>
 <p><a href="http://www.nvidia.com.tw/object/machine-learning-tw.html" target="_blank">機器學習</a>最基礎的用法，是通過演算法來分析數據、從中學習，以及判斷或預測現實世界裡的某些事，並非手動編寫帶有特定指令的軟體程序來完成某個特殊任務，而是使用大量的數據和演算法來「訓練」機器，讓它學習如何執行任務。 </p>
 <p>  最早提出人工智慧概念的學者們構思出機器學習的概念，多年來也發展出決策樹學習、歸納邏輯編程、叢集、強化學習和貝葉斯網路等演算法，然而這些都沒有達到廣義人工智慧的最終目標，也未實現狹義人工智慧的一小部分目標。 </p>
@@ -41,7 +42,7 @@
 <p>時間和正確的學習演算法改變了一切。 </p>
 <p><strong>深度學習&nbsp;—&nbsp;執行機器學習的技術 </strong></p>
 <p>
-</p><div class="imgcenter"><a href="https://blogs.nvidia.com/wp-content/uploads/2016/07/orange_cat-1.jpg"><img border="0" width="555" height="370" src="https://blogs.nvidia.com/wp-content/uploads/2016/07/orange_cat-1.jpg" alt="H驅趕貓兒：從 YouTube 影片裡中挑出貓咪的圖片，是深度學習首次的突破性表現之一" title="驅趕貓兒：從 YouTube 影片裡中挑出貓咪的圖片，是深度學習首次的突破性表現之一"></a> <br>驅趕貓兒：從 YouTube 影片裡中挑出貓咪的圖片，是深度學習首次的突破性表現之一 </div>
+</p><div class="imgcenter"><a href="images/orange_cat-1.jpg"><img border="0" width="555" height="370" src="images/orange_cat-1.jpg" alt="H驅趕貓兒：從 YouTube 影片裡中挑出貓咪的圖片，是深度學習首次的突破性表現之一" title="驅趕貓兒：從 YouTube 影片裡中挑出貓咪的圖片，是深度學習首次的突破性表現之一"></a> <br>驅趕貓兒：從 YouTube 影片裡中挑出貓咪的圖片，是深度學習首次的突破性表現之一 </div>
 <p></p>
 <p>從早期機器學習又衍生出人工神經網路，這已有幾十年的發展歷史。我們對大腦生物學的理解，也就是所有神經元之間相互連接，成為發展神經網路的靈感。這些人工神經網路的各層、連結和數據傳播方向呈現離散狀態，不像生物大腦中的任何神經元，可以在一定的物理距離內連接其它神經元。 </p>
 <p>像是你可以將一個圖像切成一堆碎片，並且輸入到神經網路的第一層，接著第一層的獨立神經元將數據傳遞給第二層，第二層神經元再傳給第三層，一直傳到最後一層並產生出最終結果。 </p>

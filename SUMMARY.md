@@ -100,6 +100,7 @@
        * [Looper](android_note/looper.md)
        * [Handler](android_note/handler.md)
    * [關於Service](android_note/guan_yu_service.md)
+       * startService及bindService的區別
 * [Ubuntu](ubuntu/README.md)
    * [Ubuntu installer](ubuntu/ubuntu_installer.md)
    * [Windows與Ubuntu雙系統，開機時偵測不到彼此的解決方法](ubuntu/windowsyuubuntu_shuang_xi_tong_ff0c_kai_ji_shi_zhe.md)

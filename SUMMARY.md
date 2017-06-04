@@ -1162,6 +1162,5 @@
    * [深度學習開發環境配置：Ubuntu1 6.04+Nvidia GTX 1080+CUDA 8.0](deep_learning/shen_du_xue_xi_kai_fa_huan_jing_pei_zhi_ff1a_ubunt.md)
    * [在Linux Ubuntu 安裝 Tensorflow 與Keras](deep_learning/zailinux_ubuntu_an_zhuang_tensorflow_yu_keras.md)
 * [Parallel Computing](parallel_computing/parallel_computing.md)
-   * [CUDA、OpenCL、OpenMP、OpenACC等主流并行运算框架](parallel_computing/cudaopenclopenmpopenaccdeng_zhu_liu_bing_xing_yun_.md)
    * [并行计算工具的选择](parallel_computing/bing_xing_ji_suan_gong_ju_de_xuan_ze.md)
 

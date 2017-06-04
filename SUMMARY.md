@@ -784,6 +784,7 @@
        * [Control structures](raspberry_pi/control_structures.md)
        * [Indexing modes](raspberry_pi/indexing_modes.md)
        * [Arrays and structures](raspberry_pi/arrays_and_structures.md)
+       * Functions (I)
 * [OpenGL](opengl/opengl.md)
    * [opengl(mesa) for ubuntu14.04](opengl/mesa.md)
    * [ubuntu 14.04 安裝OpenGL（基於freeglut）](opengl/1.md)

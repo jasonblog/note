@@ -775,7 +775,7 @@
        * [u-boot 組態研究- raspberry pi 2](raspberry_pi/u-boot_zu_tai_yan_7a76-_raspberry_pi_2.md)
        * [How to Build a GCC Cross-Compiler](raspberry_pi/how_to_build_a_gcc_cross-compiler.md)
    * [ARM assembler in Raspberry Pi](raspberry_pi/arm_assembler_in_raspberry_pi.md)
-       * Introduction
+       * [Introduction](raspberry_pi/introduction.md)
        * Table of contents
 * [OpenGL](opengl/opengl.md)
    * [opengl(mesa) for ubuntu14.04](opengl/mesa.md)

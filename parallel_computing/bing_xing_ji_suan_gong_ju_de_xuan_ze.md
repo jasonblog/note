@@ -1,10 +1,10 @@
-# 并行计算工具的选择
+# 並行計算工具的選擇
 
 
-并行计算是未来的发展趋势，如何选择并行的架构是个重要的问题。
+並行計算是未來的發展趨勢，如何選擇並行的架構是個重要的問題。
 
-首先要发挥集群计算的能力，用MPI是个不二的选择。
+首先要發揮集群計算的能力，用MPI是個不二的選擇。
 
-其次为了充分利用cpu和gpu的多核计算能力，有一系列的库可以选择，openMP openACC CUDA OpenCL ，openMP openACC是同一层次的接口，是`share memory并行`，openACC比openMP有所扩展，主要是在GPU的方面，这一层的实现比较简单，如果这一层已经足够了，不要刻意把问题复杂化使用更复杂的调用接口，CUDA OpenCL差不多是一层，openCL的优势在于扩展行强，他只是一个通用的标准，和MPI一样有很多实现，所以对于不同的多核硬件都可以很好的支持，但是Cuda是Nvidia的特别实现，效率上会比openCL略胜一筹，然后还有一个参考是基于前面架构有没有一些现成的库可以使用，比如fft blas等等。
+其次為了充分利用cpu和gpu的多核計算能力，有一系列的庫可以選擇，openMP openACC CUDA OpenCL ，openMP openACC是同一層次的接口，是`share memory並行`，openACC比openMP有所擴展，主要是在GPU的方面，這一層的實現比較簡單，如果這一層已經足夠了，不要刻意把問題複雜化使用更復雜的調用接口，CUDA OpenCL差不多是一層，openCL的優勢在於擴展行強，他只是一個通用的標準，和MPI一樣有很多實現，所以對於不同的多核硬件都可以很好的支持，但是Cuda是Nvidia的特別實現，效率上會比openCL略勝一籌，然後還有一個參考是基於前面架構有沒有一些現成的庫可以使用，比如fft blas等等。
 
-<br><ul><li><b>CUDA</b>: 貌似上面的前辈们都已经总结了优缺点了，再叙述一遍吧。N家的多线程计算平台和API，支持GPU。</li><ul><li>关键词： 既有平台又是API</li><li>语言支持： C/C++, Fortran</li><li>优点：版本更行快，社区活跃, 支持GPU</li><li>缺点：只支持N卡</li></ul><li><b>OpenCL</b>: 不是很了解，搬运下wiki的内容吧。看这wiki的内容，感觉不明觉厉啊。异构平台，支持CPU，GPU， DSPs， FPGAs 等。在多进程方面使用 task-based 和 data-based parallelism。</li><ul><li>关键词： 平台 + API</li><li>语言支持： C/C++</li><li>优点： 跨好多平台啊</li><li>缺点：版本更新慢</li></ul><li><b>OpenMP</b>: 这是directive-based parallelism。在写完一般的代码后，转成多线程需要改动的地方不是很大，但只能支持shared memory（共享存储？），是一个管理线程级别的库。</li><ul><li>关键词： API</li><li>语言支持： C/C++, Fortran</li><li>优点：移植改动少，支持普遍（普通的gcc都支持）</li><li>缺点：只支持shared memory</li></ul><li><b>OpenACC</b>:  支持CPU/GPU工作，从名字Accelerator就可以推断出，主要用于CPU代码向GPU的移植（？有待考证，我在课程中主要是这么用的。。。），更新方面其实也不快，需要注意编程技巧，否则代码会变慢。</li><ul><li>关键词： API</li><li>语言支持： C/C++, Fortran</li><li>优点： 移植简单</li><li>缺点： 编译器啊，支持PGI，看计划有支持GCC，但还不知道什么时候才能发布</li></ul><li><b>OpenMPI</b>:  消息传递接口库。支持分布式存储，适合大规模集群服务器。另外，需要手动管理数据的分布和消息的传递，需要重新修改代码。</li><ul><li>关键词： API</li><li>语言支持： C/C++</li><li>优点： 支持共享存储和分布式存储</li><li>缺点： 模型复杂，需要重构代码。</li>
+<br><ul><li><b>CUDA</b>: 貌似上面的前輩們都已經總結了優缺點了，再敘述一遍吧。N家的多線程計算平臺和API，支持GPU。</li><ul><li>關鍵詞： 既有平臺又是API</li><li>語言支持： C/C++, Fortran</li><li>優點：版本更行快，社區活躍, 支持GPU</li><li>缺點：只支持N卡</li></ul><li><b>OpenCL</b>: 不是很瞭解，搬運下wiki的內容吧。看這wiki的內容，感覺不明覺厲啊。異構平臺，支持CPU，GPU， DSPs， FPGAs 等。在多進程方面使用 task-based 和 data-based parallelism。</li><ul><li>關鍵詞： 平臺 + API</li><li>語言支持： C/C++</li><li>優點： 跨好多平臺啊</li><li>缺點：版本更新慢</li></ul><li><b>OpenMP</b>: 這是directive-based parallelism。在寫完一般的代碼後，轉成多線程需要改動的地方不是很大，但只能支持shared memory（共享存儲？），是一個管理線程級別的庫。</li><ul><li>關鍵詞： API</li><li>語言支持： C/C++, Fortran</li><li>優點：移植改動少，支持普遍（普通的gcc都支持）</li><li>缺點：只支持shared memory</li></ul><li><b>OpenACC</b>:  支持CPU/GPU工作，從名字Accelerator就可以推斷出，主要用於CPU代碼向GPU的移植（？有待考證，我在課程中主要是這麼用的。。。），更新方面其實也不快，需要注意編程技巧，否則代碼會變慢。</li><ul><li>關鍵詞： API</li><li>語言支持： C/C++, Fortran</li><li>優點： 移植簡單</li><li>缺點： 編譯器啊，支持PGI，看計劃有支持GCC，但還不知道什麼時候才能發佈</li></ul><li><b>OpenMPI</b>:  消息傳遞接口庫。支持分佈式存儲，適合大規模集群服務器。另外，需要手動管理數據的分佈和消息的傳遞，需要重新修改代碼。</li><ul><li>關鍵詞： API</li><li>語言支持： C/C++</li><li>優點： 支持共享存儲和分佈式存儲</li><li>缺點： 模型複雜，需要重構代碼。</li>

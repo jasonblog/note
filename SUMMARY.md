@@ -1161,5 +1161,5 @@
    * [機器學習(Machine Learning) 介紹](deep_learning/ji_qi_xue_7fd228_machine_learning__jie_shao.md)
    * [深度學習開發環境配置：Ubuntu1 6.04+Nvidia GTX 1080+CUDA 8.0](deep_learning/shen_du_xue_xi_kai_fa_huan_jing_pei_zhi_ff1a_ubunt.md)
    * [在Linux Ubuntu 安裝 Tensorflow 與Keras](deep_learning/zailinux_ubuntu_an_zhuang_tensorflow_yu_keras.md)
-* Parallel Computing
+* [Parallel Computing](parallel_computing/parallel_computing.md)
 

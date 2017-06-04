@@ -23,7 +23,10 @@ Loading data from memory is a bit complicated because we need to talk about <i>a
 To access data we need to give it a name. Otherwise we could not refer what piece of data we want. But of course a computer does not have a different name for every piece of data it can keep in memory. Well, in fact it does have a name for every piece of data. It is the <i>address</i>. The address is a number, in ARM a 32-bit number that identifies every byte (this is 8 bits) of the memory.
 </p>
 
-<div id="attachment_407" style="width: 144px" class="wp-caption aligncenter"><img data-attachment-id="407" data-permalink="http://thinkingeek.com/2013/01/11/arm-assembler-raspberry-pi-chapter-3/memoria/" data-orig-file="http://thinkingeek.com/wp-content/uploads/2013/01/memoria.png" data-orig-size="342,761" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;}" data-image-title="Memory" data-image-description="" data-medium-file="http://thinkingeek.com/wp-content/uploads/2013/01/memoria-134x300.png" data-large-file="http://thinkingeek.com/wp-content/uploads/2013/01/memoria.png" src="images/memoria-134x300.png" alt="Memory is like an array of bytes where each byte has its own address." width="134" height="300" class="size-medium wp-image-407" scale="0"><p class="wp-caption-text">Memory is like an array of bytes where each byte has its own address.</p></div>
+
+<img src="images/memoria-134x300.png">
+
+
 <p>
 When loading or storing data from/to memory we need to compute an address. This address can be computed in many ways. Each of this modes is called an <i>addressing mode</i>. ARM has several of these addressing modes and it would took a while to explain them all here, so we will consider just one: addressing through a register.
 </p>
@@ -205,7 +208,9 @@ Well, when the assembler emits the binary code, <code>.word myvar1</code> will n
 <p>
 Ok, so two loads. The first one in line 27 actually loads the relocation value of the address of <code>myvar1</code>. This is, there is some data in memory, the address of which is <code>addr_of_myvar1</code>, with a size of 4 bytes containing the real address of <code>myvar1</code>. So after the first <code>ldr</code>, in <code>r1</code> we have the real address of <code>myvar1</code>. But we do not want the address at all, but the contents of the memory at that address, thus we do a second <code>ldr</code>.
 </p>
-<div id="attachment_406" style="width: 291px" class="wp-caption aligncenter"><img data-attachment-id="406" data-permalink="http://thinkingeek.com/2013/01/11/arm-assembler-raspberry-pi-chapter-3/load/" data-orig-file="http://thinkingeek.com/wp-content/uploads/2013/01/load.png" data-orig-size="571,608" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;}" data-image-title="Effect of a load instruction" data-image-description="" data-medium-file="http://thinkingeek.com/wp-content/uploads/2013/01/load-281x300.png" data-large-file="http://thinkingeek.com/wp-content/uploads/2013/01/load.png" src="http://thinkingeek.com/wp-content/uploads/2013/01/load-281x300.png" alt="Assuming the given memory contents, this is what happens to registers after a load instruction is executed." width="281" height="300" class="size-medium wp-image-406" srcset="http://thinkingeek.com/wp-content/uploads/2013/01/load-281x300.png 281w, http://thinkingeek.com/wp-content/uploads/2013/01/load.png 571w" sizes="(max-width: 281px) 100vw, 281px"><p class="wp-caption-text">Assuming the given memory contents, this is what happens to registers after a load instruction is executed.</p></div>
+
+
+<img src="images/load.png">
 
 
 <p>

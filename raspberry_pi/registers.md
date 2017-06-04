@@ -1,4 +1,4 @@
-# Registers
+# Registers and basic arithmetic
 
 
 <div class="main">

@@ -378,7 +378,7 @@ Extraction</span>（特徵萃取），產生<span lang="EN-US">Feature</span>（
 Extraction</span>（特徵萃取）產生<span lang="EN-US">Feature</span>（資料特徵），使用訓練完成的模型進行預測，最後產生預測結果。</span></div>
 <br>
 <div class="separator" style="clear: both; text-align: center;">
-<a href="https://4.bp.blogspot.com/-8ZntfnR6qSs/VsgxNtmsEWI/AAAAAAAAFy8/SrdZCca5Gz0w8zGCZZYuokNeYc6qiOKJA/s1600/ml.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="https://4.bp.blogspot.com/-8ZntfnR6qSs/VsgxNtmsEWI/AAAAAAAAFy8/SrdZCca5Gz0w8zGCZZYuokNeYc6qiOKJA/s1600/ml.png"></a></div>
+<a href="https://4.bp.blogspot.com/-8ZntfnR6qSs/VsgxNtmsEWI/AAAAAAAAFy8/SrdZCca5Gz0w8zGCZZYuokNeYc6qiOKJA/s1600/ml.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="images/ml.png"></a></div>
 <br>
 <!--[if gte mso 9]><xml>
  <o:OfficeDocumentSettings>
@@ -919,7 +919,7 @@ TD (Temporal Difference)</span></div>
 <div class="separator" style="clear: both; text-align: center;">
 </div>
 <div class="separator" style="clear: both; text-align: center;">
-<a href="https://4.bp.blogspot.com/-8Dn1ZD4R0WI/WMuJ6-0DLYI/AAAAAAAAK9k/nAZd5t-fJowKIyYuBAMcqru5-EVQaOMwwCLcB/s1600/ml.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="398" src="https://4.bp.blogspot.com/-8Dn1ZD4R0WI/WMuJ6-0DLYI/AAAAAAAAK9k/nAZd5t-fJowKIyYuBAMcqru5-EVQaOMwwCLcB/s640/ml.PNG" width="640"></a></div>
+<a href="https://4.bp.blogspot.com/-8Dn1ZD4R0WI/WMuJ6-0DLYI/AAAAAAAAK9k/nAZd5t-fJowKIyYuBAMcqru5-EVQaOMwwCLcB/s1600/ml.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="398" src="images/ml1.PNG" width="640"></a></div>
 <br>
 <div class="separator" style="clear: both; text-align: center;">
 <a href="http://2.bp.blogspot.com/-n3wFa8RoQGY/Vi8BZasyhYI/AAAAAAAAFYw/BhKVMoMdKUE/s1600/book.png" style="clear: left; float: left; margin-bottom: 1em; margin-right: 1em;"><br></a></div>

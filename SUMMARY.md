@@ -1163,5 +1163,5 @@
    * [在Linux Ubuntu 安裝 Tensorflow 與Keras](deep_learning/zailinux_ubuntu_an_zhuang_tensorflow_yu_keras.md)
 * [Parallel Computing](parallel_computing/parallel_computing.md)
    * [CUDA、OpenCL、OpenMP、OpenACC等主流并行运算框架](parallel_computing/cudaopenclopenmpopenaccdeng_zhu_liu_bing_xing_yun_.md)
-   * 并行计算工具的选择
+   * [并行计算工具的选择](parallel_computing/bing_xing_ji_suan_gong_ju_de_xuan_ze.md)
 

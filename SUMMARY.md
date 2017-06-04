@@ -777,7 +777,7 @@
    * [ARM assembler in Raspberry Pi](raspberry_pi/arm_assembler_in_raspberry_pi.md)
        * [Table of contents](raspberry_pi/table_of_contents.md)
        * [Introduction](raspberry_pi/introduction.md)
-       * [Registers](raspberry_pi/registers.md)
+       * [Registers and basic arithmetic](raspberry_pi/registers.md)
 * [OpenGL](opengl/opengl.md)
    * [opengl(mesa) for ubuntu14.04](opengl/mesa.md)
    * [ubuntu 14.04 安裝OpenGL（基於freeglut）](opengl/1.md)

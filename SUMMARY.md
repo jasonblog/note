@@ -805,7 +805,7 @@
        * [Objects and libraries](raspberry_pi/objects_and_libraries.md)
    * [Exploring AArch64 assembler](raspberry_pi/exploring_aarch64_assembler.md)
        * [Chapter 1](raspberry_pi/chapter_1.md)
-       * Chapter 2
+       * [Chapter 2](raspberry_pi/chapter_2.md)
 * [OpenGL](opengl/opengl.md)
    * [opengl(mesa) for ubuntu14.04](opengl/mesa.md)
    * [ubuntu 14.04 安裝OpenGL（基於freeglut）](opengl/1.md)

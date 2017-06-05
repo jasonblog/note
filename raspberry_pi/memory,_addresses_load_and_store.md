@@ -387,7 +387,7 @@ That’s all for today.</p>
 		<div class="comment-meta commentmetadata"><a href="http://thinkingeek.com/2013/01/11/arm-assembler-raspberry-pi-chapter-3/#comment-1420">
 			June 11, 2013 at 10:08 pm</a>		</div>
 
-		<p>Thank you for this great tutorial. Very pragmatic and to the point. I cannot put it down <img draggable="false" class="emoji" alt="🙂" src="https://s.w.org/images/core/emoji/2.2.1/svg/1f642.svg" scale="0"></p>
+		<p>Thank you for this great tutorial. Very pragmatic and to the point. I cannot put it down </p>
 
 		<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://thinkingeek.com/2013/01/11/arm-assembler-raspberry-pi-chapter-3/?replytocom=1420#respond" onclick="return addComment.moveForm( &quot;div-comment-1420&quot;, &quot;1420&quot;, &quot;respond&quot;, &quot;371&quot; )" aria-label="Reply to andreas">Reply</a></div>
 				</div>
@@ -820,7 +820,7 @@ Roger</p>
 			December 15, 2016 at 9:20 pm</a>		</div>
 
 		<p>Hi Jon,</p>
-<p>in later chapters we explore this. Keep reading! <img draggable="false" class="emoji" alt="🙂" src="https://s.w.org/images/core/emoji/2.2.1/svg/1f642.svg" scale="0"></p>
+<p>in later chapters we explore this. Keep reading! </p>
 <p>Regards</p>
 
 		<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://thinkingeek.com/2013/01/11/arm-assembler-raspberry-pi-chapter-3/?replytocom=981864#respond" onclick="return addComment.moveForm( &quot;div-comment-981864&quot;, &quot;981864&quot;, &quot;respond&quot;, &quot;371&quot; )" aria-label="Reply to Roger Ferrer Ibáñez">Reply</a></div>

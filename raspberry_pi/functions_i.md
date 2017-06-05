@@ -730,7 +730,7 @@ That’s all for today.</p>
 
 		<p>Let´s suppose I have [1,2,3]. On any high level language, there´s a command called “length” or anything similar that returns the number of elements on the array, which will be 3 on the structure I described previously. </p>
 <p>Is it possible to make the same thing on assembly?</p>
-<p>Thanks for the response <img draggable="false" class="emoji" alt="🙂" src="https://s.w.org/images/core/emoji/2.2.1/svg/1f642.svg" scale="0"></p>
+<p>Thanks for the response </p>
 
 		<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://thinkingeek.com/2013/02/02/arm-assembler-raspberry-pi-chapter-9/?replytocom=1279#respond" onclick="return addComment.moveForm( &quot;div-comment-1279&quot;, &quot;1279&quot;, &quot;respond&quot;, &quot;622&quot; )" aria-label="Reply to Pablo">Reply</a></div>
 				</div>

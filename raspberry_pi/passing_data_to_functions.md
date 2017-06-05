@@ -1424,7 +1424,7 @@ about cubieboard (arm7) we can use this Tutorial,but CPU architecture is differe
 		<p>OK</p>
 <p>I’ll download the document<br>
 /* <a href="http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ddi0406c/index.html" rel="nofollow">http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ddi0406c/index.html</a> */</p>
-<p>During the test &amp; programming, I will ask you to help <img draggable="false" class="emoji" alt="🙂" src="https://s.w.org/images/core/emoji/2.2.1/svg/1f642.svg" scale="0"></p>
+<p>During the test &amp; programming, I will ask you to help </p>
 <p>thanks</p>
 
 		<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://thinkingeek.com/2013/11/20/arm-assembler-raspberry-pi-chapter-17/?replytocom=3017#respond" onclick="return addComment.moveForm( &quot;div-comment-3017&quot;, &quot;3017&quot;, &quot;respond&quot;, &quot;1349&quot; )" aria-label="Reply to Ahrovan">Reply</a></div>

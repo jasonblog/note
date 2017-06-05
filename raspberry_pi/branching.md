@@ -192,11 +192,11 @@ That’s all for today.</p>
 		<div class="comment-meta commentmetadata"><a href="http://thinkingeek.com/2013/01/19/arm-assembler-raspberry-pi-chapter-5/#comment-888">
 			February 7, 2013 at 11:25 pm</a>		</div>
 
-		<p>Hi <img draggable="false" class="emoji" alt="🙂" src="https://s.w.org/images/core/emoji/2.2.1/svg/1f642.svg" scale="0"></p>
+		<p>Hi </p>
 <p>I though that you can manipulate the cpsr directly, isn’t the commands MSR and MRS meant for that ? (Source: Arm v6 reference manual: <a href="http://www.scss.tcd.ie/~waldroj/3d1/arm_arm.pdf" rel="nofollow">http://www.scss.tcd.ie/~waldroj/3d1/arm_arm.pdf</a>)</p>
 <p>The text says that direct manipulation of cpsr is not possible.</p>
-<p>Thanks for the great series, I have got so much out of it. I started by studying the arm instructions at <a href="http://www.davespace.co.uk/arm/introduction-to-arm/index.html" rel="nofollow">http://www.davespace.co.uk/arm/introduction-to-arm/index.html</a> and after that your article series adds to that information nicely by showing how to use the commands in real life <img draggable="false" class="emoji" alt="🙂" src="https://s.w.org/images/core/emoji/2.2.1/svg/1f642.svg" scale="0"></p>
-<p>Keep up the good work <img draggable="false" class="emoji" alt="🙂" src="https://s.w.org/images/core/emoji/2.2.1/svg/1f642.svg" scale="0"></p>
+<p>Thanks for the great series, I have got so much out of it. I started by studying the arm instructions at <a href="http://www.davespace.co.uk/arm/introduction-to-arm/index.html" rel="nofollow">http://www.davespace.co.uk/arm/introduction-to-arm/index.html</a> and after that your article series adds to that information nicely by showing how to use the commands in real life </p>
+<p>Keep up the good work </p>
 
 		<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://thinkingeek.com/2013/01/19/arm-assembler-raspberry-pi-chapter-5/?replytocom=888#respond" onclick="return addComment.moveForm( &quot;div-comment-888&quot;, &quot;888&quot;, &quot;respond&quot;, &quot;447&quot; )" aria-label="Reply to Mikael Hartzell">Reply</a></div>
 				</div>
@@ -210,7 +210,7 @@ That’s all for today.</p>
 			February 8, 2013 at 11:27 pm</a>		</div>
 
 		<p>Hi Mikael,</p>
-<p>thanks for the comment! <img draggable="false" class="emoji" alt="🙂" src="https://s.w.org/images/core/emoji/2.2.1/svg/1f642.svg" scale="0"></p>
+<p>thanks for the comment! </p>
 <p>You are right. I’ll reword the text, just to make clear that while it can be modified it is out of the scope of this chapter.</p>
 <p>Kind regards,</p>
 
@@ -331,7 +331,7 @@ end:<br>
 		<div class="comment-meta commentmetadata"><a href="http://thinkingeek.com/2013/01/19/arm-assembler-raspberry-pi-chapter-5/#comment-1287">
 			May 13, 2013 at 4:03 pm</a>		</div>
 
-		<p>Yup, thanks <img draggable="false" class="emoji" alt="🙂" src="https://s.w.org/images/core/emoji/2.2.1/svg/1f642.svg" scale="0"></p>
+		<p>Yup, thanks </p>
 
 		<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://thinkingeek.com/2013/01/19/arm-assembler-raspberry-pi-chapter-5/?replytocom=1287#respond" onclick="return addComment.moveForm( &quot;div-comment-1287&quot;, &quot;1287&quot;, &quot;respond&quot;, &quot;447&quot; )" aria-label="Reply to Damien">Reply</a></div>
 				</div>
@@ -438,7 +438,7 @@ end:<br>
 
 		<p>Hey Roger,</p>
 <p>I noticed this because “bneq end_of_loop” threw an error. </p>
-<p>I am glad to make a small contribution to your great tutorial, which I am going through with excitement and pleasure by learning asm <img draggable="false" class="emoji" alt="🙂" src="https://s.w.org/images/core/emoji/2.2.1/svg/1f642.svg" scale="0"></p>
+<p>I am glad to make a small contribution to your great tutorial, which I am going through with excitement and pleasure by learning asm </p>
 <p>I also hope the subject will stay understandable for me to the last chapter. May I contact you If some questions will remain open after that?</p>
 <p>Regards.</p>
 
@@ -483,7 +483,7 @@ end:<br>
 
 		<p>Hi Smasher,</p>
 <p>yes of course. Feel free to ask in the comments section of each chapter where you have questions.</p>
-<p>I also hope next chapters are easy to understand as well <img draggable="false" class="emoji" alt="🙂" src="https://s.w.org/images/core/emoji/2.2.1/svg/1f642.svg" scale="0"></p>
+<p>I also hope next chapters are easy to understand as well </p>
 <p>Kind regards,</p>
 
 		<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://thinkingeek.com/2013/01/19/arm-assembler-raspberry-pi-chapter-5/?replytocom=950778#respond" onclick="return addComment.moveForm( &quot;div-comment-950778&quot;, &quot;950778&quot;, &quot;respond&quot;, &quot;447&quot; )" aria-label="Reply to Roger Ferrer Ibáñez">Reply</a></div>

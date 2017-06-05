@@ -673,7 +673,7 @@ That’s all for today.</p>
 			April 11, 2013 at 8:51 pm</a>		</div>
 
 		<p>Glad to know your XPL0 compiler is starting to be useful!</p>
-<p>Regarding the “gcc assembler” issue you had, you’ll never find a manual. GCC targets many architectures (arm, x86, powerpc, etc), so they generate different assembler for each one. Every architecture is different, so you first learn assembler and then you map your programming language to that assembler. Of course, the intermediate steps are more complicated than that, but you get the idea <img draggable="false" class="emoji" alt="🙂" src="https://s.w.org/images/core/emoji/2.2.1/svg/1f642.svg" scale="0"></p>
+<p>Regarding the “gcc assembler” issue you had, you’ll never find a manual. GCC targets many architectures (arm, x86, powerpc, etc), so they generate different assembler for each one. Every architecture is different, so you first learn assembler and then you map your programming language to that assembler. Of course, the intermediate steps are more complicated than that, but you get the idea </p>
 
 		<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://thinkingeek.com/2013/03/16/arm-assembler-raspberry-pi-chapter-11/?replytocom=1171#respond" onclick="return addComment.moveForm( &quot;div-comment-1171&quot;, &quot;1171&quot;, &quot;respond&quot;, &quot;772&quot; )" aria-label="Reply to rferrer">Reply</a></div>
 				</div>

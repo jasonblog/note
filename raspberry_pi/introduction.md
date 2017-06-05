@@ -532,7 +532,7 @@ You should see a 2, which is the exit code of our very first program.</p>
 		<div class="comment-meta commentmetadata"><a href="http://thinkingeek.com/2013/01/09/arm-assembler-raspberry-pi-chapter-1/#comment-178348">
 			July 11, 2014 at 12:04 pm</a>		</div>
 
-		<p>Thank you for this great tutorial. This mini hello world assembler program puts me on the right track. <img draggable="false" class="emoji" alt="🙂" src="https://s.w.org/images/core/emoji/2.2.1/svg/1f642.svg" scale="0"></p>
+		<p>Thank you for this great tutorial. This mini hello world assembler program puts me on the right track. </p>
 
 		<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://thinkingeek.com/2013/01/09/arm-assembler-raspberry-pi-chapter-1/?replytocom=178348#respond" onclick="return addComment.moveForm( &quot;div-comment-178348&quot;, &quot;178348&quot;, &quot;respond&quot;, &quot;334&quot; )" aria-label="Reply to Chria">Reply</a></div>
 				</div>
@@ -698,7 +698,7 @@ Denis</p>
 		<div class="comment-meta commentmetadata"><a href="http://thinkingeek.com/2013/01/09/arm-assembler-raspberry-pi-chapter-1/#comment-945292">
 			October 24, 2015 at 6:02 pm</a>		</div>
 
-		<p>Very friendly introduction! Thanks <img draggable="false" class="emoji" alt="🙂" src="https://s.w.org/images/core/emoji/2.2.1/svg/1f642.svg" scale="0"></p>
+		<p>Very friendly introduction! Thanks </p>
 
 		<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://thinkingeek.com/2013/01/09/arm-assembler-raspberry-pi-chapter-1/?replytocom=945292#respond" onclick="return addComment.moveForm( &quot;div-comment-945292&quot;, &quot;945292&quot;, &quot;respond&quot;, &quot;334&quot; )" aria-label="Reply to Christopher">Reply</a></div>
 				</div>
@@ -774,7 +774,7 @@ Denis</p>
 
 		<p>Hi Helder,</p>
 <p>regarding your question about GUI in assembly, I do not cover GUI in any chapter and I’m not planning to do it. But who knows, maybe I change my mind.</p>
-<p>It is doable, of course, but it would end being doing lots of calls to the specific GUI toolkit API. At first it looks rather boring and tedious. This does not mean it is impossible but I think it is not a task particularly revealing when done using assembler <img draggable="false" class="emoji" alt="🙂" src="https://s.w.org/images/core/emoji/2.2.1/svg/1f642.svg" scale="0"></p>
+<p>It is doable, of course, but it would end being doing lots of calls to the specific GUI toolkit API. At first it looks rather boring and tedious. This does not mean it is impossible but I think it is not a task particularly revealing when done using assembler </p>
 <p>Kind regards,</p>
 
 		<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://thinkingeek.com/2013/01/09/arm-assembler-raspberry-pi-chapter-1/?replytocom=952947#respond" onclick="return addComment.moveForm( &quot;div-comment-952947&quot;, &quot;952947&quot;, &quot;respond&quot;, &quot;334&quot; )" aria-label="Reply to Roger Ferrer Ibáñez">Reply</a></div>
@@ -995,7 +995,7 @@ addr_of_return: .word return</p>
 			June 5, 2016 at 10:15 am</a>		</div>
 
 		<p>Hi Gabriel,</p>
-<p>I have not checked your code but an easy way to generate a random number is calling C library function <code>random</code>. It receives no arguments (but recall that r0 to r3 may be modified by the callee!) and it returns the result as a 32-bit number in r0. Note that these random numbers should <strong>not</strong> be used for serious purposes (like cryptography) <img draggable="false" class="emoji" alt="🙂" src="https://s.w.org/images/core/emoji/2.2.1/svg/1f642.svg" scale="0"></p>
+<p>I have not checked your code but an easy way to generate a random number is calling C library function <code>random</code>. It receives no arguments (but recall that r0 to r3 may be modified by the callee!) and it returns the result as a 32-bit number in r0. Note that these random numbers should <strong>not</strong> be used for serious purposes (like cryptography) </p>
 <p>Kind regards,</p>
 
 		<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://thinkingeek.com/2013/01/09/arm-assembler-raspberry-pi-chapter-1/?replytocom=969199#respond" onclick="return addComment.moveForm( &quot;div-comment-969199&quot;, &quot;969199&quot;, &quot;respond&quot;, &quot;334&quot; )" aria-label="Reply to Roger Ferrer Ibáñez">Reply</a></div>

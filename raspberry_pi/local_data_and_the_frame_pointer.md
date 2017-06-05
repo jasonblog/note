@@ -568,7 +568,7 @@ That’s all for today.</p>
 		<div class="comment-meta commentmetadata"><a href="http://thinkingeek.com/2014/05/11/arm-assembler-raspberry-pi-chapter-18/#comment-129811">
 			May 15, 2014 at 7:59 pm</a>		</div>
 
-		<p>Thanks Fernando! <img draggable="false" class="emoji" alt="🙂" src="https://s.w.org/images/core/emoji/2.2.1/svg/1f642.svg" scale="0"></p>
+		<p>Thanks Fernando! </p>
 
 		<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://thinkingeek.com/2014/05/11/arm-assembler-raspberry-pi-chapter-18/?replytocom=129811#respond" onclick="return addComment.moveForm( &quot;div-comment-129811&quot;, &quot;129811&quot;, &quot;respond&quot;, &quot;1375&quot; )" aria-label="Reply to rferrer">Reply</a></div>
 				</div>

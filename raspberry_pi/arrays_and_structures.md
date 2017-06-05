@@ -452,7 +452,7 @@ Should it really be a[3] = a[3]+a[3]?</p>
 		<div class="comment-meta commentmetadata"><a href="http://thinkingeek.com/2013/01/27/arm-assembler-raspberry-pi-chapter-8/#comment-951025">
 			November 12, 2015 at 3:31 pm</a>		</div>
 
-		<p>Forget about it… that divergence of argument positions drives me mad <img draggable="false" class="emoji" alt="🙂" src="https://s.w.org/images/core/emoji/2.2.1/svg/1f642.svg" scale="0"></p>
+		<p>Forget about it… that divergence of argument positions drives me mad </p>
 
 		<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://thinkingeek.com/2013/01/27/arm-assembler-raspberry-pi-chapter-8/?replytocom=951025#respond" onclick="return addComment.moveForm( &quot;div-comment-951025&quot;, &quot;951025&quot;, &quot;respond&quot;, &quot;546&quot; )" aria-label="Reply to Smasher">Reply</a></div>
 				</div>
@@ -575,7 +575,7 @@ ldr r2, [r1, #+4]!</p>
 		<div class="comment-meta commentmetadata"><a href="http://thinkingeek.com/2013/01/27/arm-assembler-raspberry-pi-chapter-8/#comment-986904">
 			February 17, 2017 at 9:05 pm</a>		</div>
 
-		<p>No worries <img draggable="false" class="emoji" alt="🙂" src="https://s.w.org/images/core/emoji/2.2.1/svg/1f642.svg" scale="0"></p>
+		<p>No worries </p>
 
 		<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://thinkingeek.com/2013/01/27/arm-assembler-raspberry-pi-chapter-8/?replytocom=986904#respond" onclick="return addComment.moveForm( &quot;div-comment-986904&quot;, &quot;986904&quot;, &quot;respond&quot;, &quot;546&quot; )" aria-label="Reply to Roger Ferrer Ibáñez">Reply</a></div>
 				</div>

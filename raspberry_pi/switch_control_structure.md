@@ -1287,7 +1287,7 @@ Thanks for much help, and a great introduction to arm assembly using raspberry p
 		<div class="comment-meta commentmetadata"><a href="http://thinkingeek.com/2013/08/23/arm-assembler-raspberry-pi-chapter-16/#comment-1766">
 			October 20, 2013 at 5:34 pm</a>		</div>
 
-		<p>Thank you very much! <img draggable="false" class="emoji" alt="🙂" src="https://s.w.org/images/core/emoji/2.2.1/svg/1f642.svg" scale="0"></p>
+		<p>Thank you very much! </p>
 
 		<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://thinkingeek.com/2013/08/23/arm-assembler-raspberry-pi-chapter-16/?replytocom=1766#respond" onclick="return addComment.moveForm( &quot;div-comment-1766&quot;, &quot;1766&quot;, &quot;respond&quot;, &quot;1279&quot; )" aria-label="Reply to rferrer">Reply</a></div>
 				</div>
@@ -1314,7 +1314,7 @@ Thanks for much help, and a great introduction to arm assembly using raspberry p
 			April 5, 2014 at 9:40 pm</a>		</div>
 
 		<p>Hi Benny Boo,</p>
-<p>no, but thanks anyway <img draggable="false" class="emoji" alt="🙂" src="https://s.w.org/images/core/emoji/2.2.1/svg/1f642.svg" scale="0"></p>
+<p>no, but thanks anyway </p>
 <p>Kind regards,</p>
 
 		<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://thinkingeek.com/2013/08/23/arm-assembler-raspberry-pi-chapter-16/?replytocom=110796#respond" onclick="return addComment.moveForm( &quot;div-comment-110796&quot;, &quot;110796&quot;, &quot;respond&quot;, &quot;1279&quot; )" aria-label="Reply to rferrer">Reply</a></div>

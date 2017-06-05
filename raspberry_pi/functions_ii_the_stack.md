@@ -430,7 +430,7 @@ end:
     bx lr              /* Leave factorial */</p></div>
 
 <p>
-Note that the remainder of the program does not have to change. This is the cool thing of functions <img draggable="false" class="emoji" alt="🙂" src="https://s.w.org/images/core/emoji/2.2.1/svg/1f642.svg" scale="0">
+Note that the remainder of the program does not have to change. This is the cool thing of functions 
 </p>
 <p>
 Ok, now pay attention to these two sequences in our new factorial version above.

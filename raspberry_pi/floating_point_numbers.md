@@ -319,7 +319,8 @@ That’s all for today.</p>
 		<div class="comment-meta commentmetadata"><a href="http://thinkingeek.com/2013/05/12/arm-assembler-raspberry-pi-chapter-13/#comment-1292">
 			May 14, 2013 at 12:20 pm</a>		</div>
 
-		<p>I am enjoying the series – I seem to read about things here just after I have been looking into them <img draggable="false" class="emoji" alt="🙂" src="https://s.w.org/images/core/emoji/2.2.1/svg/1f642.svg" scale="0"></p>
+		<p>I am enjoying the series – I seem to read about things here just after I have been looking into them 
+        </p>
 <p>” The address of the load/store must be already in a general purpose register, although we can apply an offset in bytes which must be a multiple of 4 (this applies to double-precision as well). ”</p>
 <p>Would the offset not need to be a multiple of 8 for double-precision?</p>
 
@@ -351,7 +352,7 @@ That’s all for today.</p>
 		<p>Thanks, I fixed that lean that slipped in.</p>
 <p>Regarding to your question: a double-precision should be 8-byte aligned per the AAPCS but, as far I’ve tested, a <code>vldr</code> or <code>vstr</code> do not seem to care very much about this constraint. If we follow the AAPCS our double-precision would always be 8-bytes aligned.</p>
 <p>That alignment issue, though, is orthogonal to the offset itself. <code>vstr</code> and <code>vldr</code> are actually ARM generic coprocessor instructions with an appropiate 10 or 11 identifier for the coprocessor. Such generic instructions define an offset that must be a multiple of 4. Imagine we have <code>r1 ← 0x104</code> and the instruction is <code>vldr d0, [r1, #4]</code>, the effect will be <code>d0 ← *(r1 + #4)</code> so <code>d0 ← *(0x108)</code> which is 8-byte aligned. This would still be compliant with the AAPCS.</p>
-<p>Hope this answers your question <img draggable="false" class="emoji" alt="🙂" src="https://s.w.org/images/core/emoji/2.2.1/svg/1f642.svg" scale="0"></p>
+<p>Hope this answers your question </p>
 
 		<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://thinkingeek.com/2013/05/12/arm-assembler-raspberry-pi-chapter-13/?replytocom=1294#respond" onclick="return addComment.moveForm( &quot;div-comment-1294&quot;, &quot;1294&quot;, &quot;respond&quot;, &quot;911&quot; )" aria-label="Reply to rferrer">Reply</a></div>
 				</div>
@@ -445,7 +446,7 @@ vcvt.f32.u32 s4, s4</p>
 			January 23, 2014 at 10:56 am</a>		</div>
 
 		<p>Hi RobG,</p>
-<p>I’ll try to fix though I’m not an ace in this wordpress thingy! <img draggable="false" class="emoji" alt="🙂" src="https://s.w.org/images/core/emoji/2.2.1/svg/1f642.svg" scale="0"></p>
+<p>I’ll try to fix though I’m not an ace in this wordpress thingy! </p>
 <p>Kind regards,</p>
 
 		<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://thinkingeek.com/2013/05/12/arm-assembler-raspberry-pi-chapter-13/?replytocom=3522#respond" onclick="return addComment.moveForm( &quot;div-comment-3522&quot;, &quot;3522&quot;, &quot;respond&quot;, &quot;911&quot; )" aria-label="Reply to rferrer">Reply</a></div>

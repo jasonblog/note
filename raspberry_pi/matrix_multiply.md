@@ -2069,7 +2069,7 @@ sys	0m0.020s</p>
 <p>It looks like that the program is not really using the coprocessor, but the software implementation of that feature.</p>
 <p>It is possible that I overlooked some basics that are necessary in order to use the coprocessor. I was looking for some differences in the usage of newer vfp versions, compared to vfpv2, but I have the impression that it is backwards compatible.<br>
 The output of gcc -v ( <a href="http://dpaste.com/0G2G8JH#wrap" rel="nofollow">http://dpaste.com/0G2G8JH#wrap</a> ) suggest that the OS is capable of utilizing the coprocessor.</p>
-<p>Thank you for your quick reply. <img draggable="false" class="emoji" alt="🙂" src="https://s.w.org/images/core/emoji/2.2.1/svg/1f642.svg" scale="0"></p>
+<p>Thank you for your quick reply. </p>
 
 		<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://thinkingeek.com/2013/05/12/arm-assembler-raspberry-pi-chapter-14/?replytocom=953125#respond" onclick="return addComment.moveForm( &quot;div-comment-953125&quot;, &quot;953125&quot;, &quot;respond&quot;, &quot;1003&quot; )" aria-label="Reply to Martin">Reply</a></div>
 				</div>
@@ -2186,7 +2186,7 @@ Concerning the load of the A-rows: If I do vld2.f32 {q0, q1}, [r4]!, the order i
 
 		<p>Thank you for trying. So no backwards compatibility!<br>
 I’ll search for the neon/advanced simd instructions and try to implement this.</p>
-<p>Keep up the good work! <img draggable="false" class="emoji" alt="🙂" src="https://s.w.org/images/core/emoji/2.2.1/svg/1f642.svg" scale="0"></p>
+<p>Keep up the good work! </p>
 
 		
 				</div>

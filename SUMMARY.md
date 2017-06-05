@@ -809,7 +809,7 @@
        * [Chapter 3](raspberry_pi/chapter_3.md)
        * [Chapter 4](raspberry_pi/chapter_4.md)
        * [Chapter 5](raspberry_pi/chapter_5.md)
-       * Chapter 6
+       * [Chapter 6](raspberry_pi/chapter_6.md)
 * [OpenGL](opengl/opengl.md)
    * [opengl(mesa) for ubuntu14.04](opengl/mesa.md)
    * [ubuntu 14.04 安裝OpenGL（基於freeglut）](opengl/1.md)

@@ -797,7 +797,7 @@
        * [The operating system](raspberry_pi/the_operating_system.md)
        * [Indirect calls](raspberry_pi/indirect_calls.md)
        * [Subword data](raspberry_pi/subword_data.md)
-       * The Thumb instruction set
+       * [The Thumb instruction set](raspberry_pi/the_thumb_instruction_set.md)
 * [OpenGL](opengl/opengl.md)
    * [opengl(mesa) for ubuntu14.04](opengl/mesa.md)
    * [ubuntu 14.04 安裝OpenGL（基於freeglut）](opengl/1.md)

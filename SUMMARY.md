@@ -800,6 +800,7 @@
        * [The Thumb instruction set](raspberry_pi/the_thumb_instruction_set.md)
        * [Nested functions](raspberry_pi/nested_functions.md)
        * [Trampolines](raspberry_pi/trampolines.md)
+       * Integer SIMD
 * [OpenGL](opengl/opengl.md)
    * [opengl(mesa) for ubuntu14.04](opengl/mesa.md)
    * [ubuntu 14.04 安裝OpenGL（基於freeglut）](opengl/1.md)

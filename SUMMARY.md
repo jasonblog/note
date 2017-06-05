@@ -790,6 +790,7 @@
        * [Loops and the status register](raspberry_pi/loops_and_the_status_register.md)
        * [Floating point numbers](raspberry_pi/floating_point_numbers.md)
        * [Matrix multiply](raspberry_pi/matrix_multiply.md)
+       * Integer division
 * [OpenGL](opengl/opengl.md)
    * [opengl(mesa) for ubuntu14.04](opengl/mesa.md)
    * [ubuntu 14.04 安裝OpenGL（基於freeglut）](opengl/1.md)

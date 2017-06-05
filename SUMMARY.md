@@ -787,6 +787,7 @@
        * [Functions (I)](raspberry_pi/functions_i.md)
        * [Functions (II). The stack](raspberry_pi/functions_ii_the_stack.md)
        * [Predication](raspberry_pi/predication.md)
+       * Loops and the status register
 * [OpenGL](opengl/opengl.md)
    * [opengl(mesa) for ubuntu14.04](opengl/mesa.md)
    * [ubuntu 14.04 安裝OpenGL（基於freeglut）](opengl/1.md)

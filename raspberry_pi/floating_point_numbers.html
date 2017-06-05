@@ -57,7 +57,7 @@
         data-chapter-title="Floating point numbers"
         data-filepath="raspberry_pi/floating_point_numbers.md"
         data-basepath=".."
-        data-revision="Mon Jun 05 2017 21:00:19 GMT+0800 (CST)"
+        data-revision="Mon Jun 05 2017 21:15:25 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -12529,6 +12529,21 @@
             
         </li>
     
+        <li class="chapter " data-level="30.26.28" data-path="raspberry_pi/objects_and_libraries.html">
+            
+                
+                    <a href="../raspberry_pi/objects_and_libraries.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>30.26.28.</b>
+                        
+                        Objects and libraries
+                    </a>
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -19126,7 +19141,8 @@ That&#x2019;s all for today.</p>
 <pre><code>    &lt;div class=&quot;comment-meta commentmetadata&quot;&gt;&lt;a href=&quot;http://thinkingeek.com/2013/05/12/arm-assembler-raspberry-pi-chapter-13/#comment-1292&quot;&gt;
         May 14, 2013 at 12:20 pm&lt;/a&gt;        &lt;/div&gt;
 
-    &lt;p&gt;I am enjoying the series &#x2013; I seem to read about things here just after I have been looking into them &lt;img draggable=&quot;false&quot; class=&quot;emoji&quot; alt=&quot;&#x1F642;&quot; src=&quot;https://s.w.org/images/core/emoji/2.2.1/svg/1f642.svg&quot; scale=&quot;0&quot;&gt;&lt;/p&gt;
+    &lt;p&gt;I am enjoying the series &#x2013; I seem to read about things here just after I have been looking into them 
+    &lt;/p&gt;
 </code></pre><p>&#x201D; The address of the load/store must be already in a general purpose register, although we can apply an offset in bytes which must be a multiple of 4 (this applies to double-precision as well). &#x201D;</p>
 <p>Would the offset not need to be a multiple of 8 for double-precision?</p>
 
@@ -19158,7 +19174,7 @@ That&#x2019;s all for today.</p>
     &lt;p&gt;Thanks, I fixed that lean that slipped in.&lt;/p&gt;
 </code></pre><p>Regarding to your question: a double-precision should be 8-byte aligned per the AAPCS but, as far I&#x2019;ve tested, a <code>vldr</code> or <code>vstr</code> do not seem to care very much about this constraint. If we follow the AAPCS our double-precision would always be 8-bytes aligned.</p>
 <p>That alignment issue, though, is orthogonal to the offset itself. <code>vstr</code> and <code>vldr</code> are actually ARM generic coprocessor instructions with an appropiate 10 or 11 identifier for the coprocessor. Such generic instructions define an offset that must be a multiple of 4. Imagine we have <code>r1 &#x2190; 0x104</code> and the instruction is <code>vldr d0, [r1, #4]</code>, the effect will be <code>d0 &#x2190; *(r1 + #4)</code> so <code>d0 &#x2190; *(0x108)</code> which is 8-byte aligned. This would still be compliant with the AAPCS.</p>
-<p>Hope this answers your question <img draggable="false" class="emoji" alt="&#x1F642;" src="https://s.w.org/images/core/emoji/2.2.1/svg/1f642.svg" scale="0"></p>
+<p>Hope this answers your question </p>
 
 <pre><code>    &lt;div class=&quot;reply&quot;&gt;&lt;a rel=&quot;nofollow&quot; class=&quot;comment-reply-link&quot; href=&quot;http://thinkingeek.com/2013/05/12/arm-assembler-raspberry-pi-chapter-13/?replytocom=1294#respond&quot; onclick=&quot;return addComment.moveForm( &amp;quot;div-comment-1294&amp;quot;, &amp;quot;1294&amp;quot;, &amp;quot;respond&amp;quot;, &amp;quot;911&amp;quot; )&quot; aria-label=&quot;Reply to rferrer&quot;&gt;Reply&lt;/a&gt;&lt;/div&gt;
             &lt;/div&gt;
@@ -19249,7 +19265,7 @@ vcvt.f32.u32 s4, s4</p>
         January 23, 2014 at 10:56 am&lt;/a&gt;        &lt;/div&gt;
 
     &lt;p&gt;Hi RobG,&lt;/p&gt;
-</code></pre><p>I&#x2019;ll try to fix though I&#x2019;m not an ace in this wordpress thingy! <img draggable="false" class="emoji" alt="&#x1F642;" src="https://s.w.org/images/core/emoji/2.2.1/svg/1f642.svg" scale="0"></p>
+</code></pre><p>I&#x2019;ll try to fix though I&#x2019;m not an ace in this wordpress thingy! </p>
 <p>Kind regards,</p>
 
 <pre><code>    &lt;div class=&quot;reply&quot;&gt;&lt;a rel=&quot;nofollow&quot; class=&quot;comment-reply-link&quot; href=&quot;http://thinkingeek.com/2013/05/12/arm-assembler-raspberry-pi-chapter-13/?replytocom=3522#respond&quot; onclick=&quot;return addComment.moveForm( &amp;quot;div-comment-3522&amp;quot;, &amp;quot;3522&amp;quot;, &amp;quot;respond&amp;quot;, &amp;quot;911&amp;quot; )&quot; aria-label=&quot;Reply to rferrer&quot;&gt;Reply&lt;/a&gt;&lt;/div&gt;

@@ -792,6 +792,7 @@
        * [Matrix multiply](raspberry_pi/matrix_multiply.md)
        * [Integer division](raspberry_pi/integer_division.md)
        * [Switch control structure](raspberry_pi/switch_control_structure.md)
+       * Passing data to functions
 * [OpenGL](opengl/opengl.md)
    * [opengl(mesa) for ubuntu14.04](opengl/mesa.md)
    * [ubuntu 14.04 安裝OpenGL（基於freeglut）](opengl/1.md)

@@ -1201,5 +1201,4 @@
    * [在Linux Ubuntu 安裝 Tensorflow 與Keras](deep_learning/zailinux_ubuntu_an_zhuang_tensorflow_yu_keras.md)
 * [Parallel Computing](parallel_computing/parallel_computing.md)
    * [並行計算工具的選擇](parallel_computing/bing_xing_ji_suan_gong_ju_de_xuan_ze.md)
-* [linear algebra](linear_algebra/linear_algebra.md)
 

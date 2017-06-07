@@ -1182,7 +1182,7 @@
    * [Thread和Runnable的區別](java/threadhe_runnable_de_qu_bie.md)
 * [Linear Algebra](linear_algebra/linear_algebra.md)
    * [理解矩陣](linear_algebra/li_jie_ju_zhen.md)
-   * [旋转矩阵与四元数](linear_algebra/xuan_zhuan_ju_zhen_yu_si_yuan_shu.md)
+   * [旋转矩阵与四元数](linear_algebra/xuanzhuan_ju_zhen_yu_si_yuan_shu_md.md)
 * [Redis](redis/redis.md)
 * [OpenCV](opencv/opencv.md)
    * [安裝 OpenCV](opencv/an_zhuang_opencv_2__4__9.md)

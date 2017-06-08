@@ -1,10 +1,6 @@
 # Android：远程服务Service（含AIDL & IPC讲解）
 
 
-<div class="show-content">
-          <div class="image-package">
-<img src="http://upload-images.jianshu.io/upload_images/944365-207a738cb165a2da.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" data-original-src="http://upload-images.jianshu.io/upload_images/944365-207a738cb165a2da.png?imageMogr2/auto-orient/strip%7CimageView2/2" style="cursor: zoom-in;"><br><div class="image-caption"></div>
-</div>
 <hr>
 <h1>前言</h1>
 <ul>
@@ -15,7 +11,7 @@
 <hr>
 <h1>目录</h1>
 <div class="image-package">
-<img src="http://upload-images.jianshu.io/upload_images/944365-ea7ba2c6e52ca163.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" data-original-src="http://upload-images.jianshu.io/upload_images/944365-ea7ba2c6e52ca163.png?imageMogr2/auto-orient/strip%7CimageView2/2" style="cursor: zoom-in;"><br><div class="image-caption">目录</div>
+<img src="images/944365-ea7ba2c6e52ca163.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" data-original-src="images/944365-ea7ba2c6e52ca163.png?imageMogr2/auto-orient/strip%7CimageView2/2" style="cursor: zoom-in;"><br><div class="image-caption">目录</div>
 </div>
 <hr>
 <h1>1. 远程服务与本地服务的区别</h1>
@@ -24,14 +20,14 @@
 <li>二者区别的详细区别如下图：</li>
 </ul>
 <div class="image-package">
-<img src="http://upload-images.jianshu.io/upload_images/944365-843b2b4e2988ff66.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" data-original-src="http://upload-images.jianshu.io/upload_images/944365-843b2b4e2988ff66.png?imageMogr2/auto-orient/strip%7CimageView2/2" style="cursor: zoom-in;"><br><div class="image-caption">按运行地点分类</div>
+<img src="images/944365-843b2b4e2988ff66.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" data-original-src="images/944365-843b2b4e2988ff66.png?imageMogr2/auto-orient/strip%7CimageView2/2" style="cursor: zoom-in;"><br><div class="image-caption">按运行地点分类</div>
 </div>
 <hr>
 <h1>2. 使用场景</h1>
 <p>多个应用程序共享同一个后台服务（远程服务）</p>
 <blockquote><p>即一个远程Service与多个应用程序的组件（四大组件）进行跨进程通信</p></blockquote>
 <div class="image-package">
-<img src="http://upload-images.jianshu.io/upload_images/944365-0e2a0b99bf323de8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" data-original-src="http://upload-images.jianshu.io/upload_images/944365-0e2a0b99bf323de8.png?imageMogr2/auto-orient/strip%7CimageView2/2" style="cursor: zoom-in;"><br><div class="image-caption">使用场景</div>
+<img src="images/944365-0e2a0b99bf323de8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" data-original-src="images/944365-0e2a0b99bf323de8.png?imageMogr2/auto-orient/strip%7CimageView2/2" style="cursor: zoom-in;"><br><div class="image-caption">使用场景</div>
 </div>
 <hr>
 <h1>3. 具体使用</h1>
@@ -63,7 +59,7 @@
 <blockquote><p>先下Demo再看，效果会更好：<a href="https://github.com/Carson-Ho/Service_Server" target="_blank">Github_RemoteService_Server</a></p></blockquote>
 <p>步骤1. 新建一个AIDL文件</p>
 <div class="image-package">
-<img src="http://upload-images.jianshu.io/upload_images/944365-765bf5673bb721f4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" data-original-src="http://upload-images.jianshu.io/upload_images/944365-765bf5673bb721f4.png?imageMogr2/auto-orient/strip%7CimageView2/2" style="cursor: zoom-in;"><br><div class="image-caption">新建AIDL文件</div>
+<img src="images/944365-765bf5673bb721f4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" data-original-src="images/944365-765bf5673bb721f4.png?imageMogr2/auto-orient/strip%7CimageView2/2" style="cursor: zoom-in;"><br><div class="image-caption">新建AIDL文件</div>
 </div>
 <p>步骤2. 在新建AIDL文件里定义Service需要与Activity进行通信的内容（方法），并进行编译（Make Project）</p>
 <pre class="hljs java"><code class="java"><span class="hljs-comment">// 在新建的AIDL_Service1.aidl里声明需要与Activity进行通信的方法</span>
@@ -79,7 +75,7 @@
 <span class="hljs-comment">//4. AIDL自动生成的接口（需要导入-import）</span>
 <span class="hljs-comment">//5. 实现android.os.Parcelable 接口的类（需要导入-import)</span></code></pre>
 <div class="image-package">
-<img src="http://upload-images.jianshu.io/upload_images/944365-b3c4011539256750.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" data-original-src="http://upload-images.jianshu.io/upload_images/944365-b3c4011539256750.png?imageMogr2/auto-orient/strip%7CimageView2/2" style="cursor: zoom-in;"><br><div class="image-caption">编译</div>
+<img src="images/944365-b3c4011539256750.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" data-original-src="images/944365-b3c4011539256750.png?imageMogr2/auto-orient/strip%7CimageView2/2" style="cursor: zoom-in;"><br><div class="image-caption">编译</div>
 </div>
 <p>步骤3：在Service子类中实现AIDL中定义的接口方法，并定义生命周期的方法（onCreat、onBind()、blabla）<br><em>MyService.java</em></p>
 <pre class="hljs aspectj"><code class="aspectj"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyService</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Service</span> </span>{
@@ -151,7 +147,7 @@
 <p>步骤1：将服务端的AIDL文件所在的包复制到客户端目录下（Project/app/src/main），并进行编译</p>
 <blockquote><p>注：记得要原封不动地复制！！什么都不要改！</p></blockquote>
 <div class="image-package">
-<img src="http://upload-images.jianshu.io/upload_images/944365-83eec5d94c1549dc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" data-original-src="http://upload-images.jianshu.io/upload_images/944365-83eec5d94c1549dc.png?imageMogr2/auto-orient/strip%7CimageView2/2" style="cursor: zoom-in;"><br><div class="image-caption">复制后的目录</div>
+<img src="images/944365-83eec5d94c1549dc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" data-original-src="images/944365-83eec5d94c1549dc.png?imageMogr2/auto-orient/strip%7CimageView2/2" style="cursor: zoom-in;"><br><div class="image-caption">复制后的目录</div>
 </div>
 <p>步骤2：在主布局文件定义“绑定服务”的按钮<br><em>MainActivity.xml</em></p>
 <pre class="hljs xml"><code class="xml"><span class="php"><span class="hljs-meta">&lt;?</span>xml version=<span class="hljs-string">"1.0"</span> encoding=<span class="hljs-string">"utf-8"</span><span class="hljs-meta">?&gt;</span></span>
@@ -246,7 +242,7 @@
     }</code></pre>
 <h2>4.3 测试结果</h2>
 <div class="image-package">
-<img src="http://upload-images.jianshu.io/upload_images/944365-90d3da78fdab4acd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" data-original-src="http://upload-images.jianshu.io/upload_images/944365-90d3da78fdab4acd.png?imageMogr2/auto-orient/strip%7CimageView2/2" style="cursor: zoom-in;"><br><div class="image-caption">点击绑定服务按钮</div>
+<img src="images/944365-90d3da78fdab4acd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" data-original-src="images/944365-90d3da78fdab4acd.png?imageMogr2/auto-orient/strip%7CimageView2/2" style="cursor: zoom-in;"><br><div class="image-caption">点击绑定服务按钮</div>
 </div>
 <p>从上面测试结果可以看出：</p>
 <ul>
@@ -274,10 +270,3 @@
 <h4>请点赞！因为你们的赞同/鼓励是我写作的最大动力！</h4>
 <blockquote><p><strong>相关文章阅读</strong><br><a href="http://www.jianshu.com/p/ec5a1a30694b" target="_blank">Android开发：最全面、最易懂的Android屏幕适配解决方案</a><br><a href="http://www.jianshu.com/p/9fe944ee02f7" target="_blank">Android开发：Handler异步通信机制全面解析（包含Looper、Message Queue）</a><br><a href="http://www.jianshu.com/p/ce1d060573ba" target="_blank">Android开发：顶部Tab导航栏实现（TabLayout+ViewPager+Fragment）</a><br><a href="http://www.jianshu.com/p/a663803b2a44" target="_blank">Android开发：底部Tab菜单栏实现（FragmentTabHost+ViewPager）</a><br><a href="http://www.jianshu.com/p/b87fee2f7a23" target="_blank">Android开发：JSON简介及最全面解析方法!</a><br><a href="http://www.jianshu.com/p/e636f4f8487b" target="_blank">Android开发：XML简介及DOM、SAX、PULL解析对比</a></p></blockquote>
 <hr>
-<h3>欢迎关注<a href="http://www.jianshu.com/users/383970bef0a0/latest_articles" target="_blank">Carson_Ho</a>的简书！</h3>
-<p>不定期分享关于<strong>安卓开发</strong>的干货，追求<strong>短、平、快</strong>，但<strong>却不缺深度</strong>。</p>
-<div class="image-package">
-<img src="http://upload-images.jianshu.io/upload_images/944365-9b76fa3c52d478a7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" data-original-src="http://upload-images.jianshu.io/upload_images/944365-9b76fa3c52d478a7.png?imageMogr2/auto-orient/strip%7CimageView2/2" style="cursor: zoom-in;"><br><div class="image-caption"></div>
-</div>
-
-        </div>

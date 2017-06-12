@@ -695,7 +695,7 @@
        * [抓三大法人的網頁資料](python/zhua_san_da_fa_ren_de_wang_ye_zi_liao.md)
        * [讀取檔案指定的行](python/du_qu_dang_an_zhi_ding_de_xing.md)
        * [產生曲線圖](python/chan_sheng_qu_xian_tu.md)
-       * 畫出Euler angle 曲線圖
+       * [畫出Euler angle 曲線圖](python/hua_chu_euler_angle_qu_xian_tu.md)
    * [pandas](python/pandas.md)
        * [pandas 入門](python/pandas_ru_men.md)
        * [Python Pandas DataFrame 的 iloc[0] 與 iloc[[0]]](python/python_pandas_dataframe_de_iloc_[_0_]_yu_iloc_[[_0.md)

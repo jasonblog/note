@@ -7,34 +7,38 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
+#f=open("./8g_filter.txt","r")
 f=open("./2g_pure.txt","r")
 lines=f.readlines()
 resultx=[]
 resulty=[]
 resultz=[]
 for x in lines:
-    resultx.append(x.split(' ')[0])
-    resulty.append(x.split(' ')[1])
-    resultz.append(x.split(' ')[2])
+    resultx.append(float(x.split(' ')[0]))
+    resulty.append(float(x.split(' ')[1]))
+    resultz.append(float(x.split(' ')[2]))
 f.close()
 
 plt.rcParams.update({'font.size': 9})
 #print resultx
+print np.std(np.array(resultx))
+print np.std(np.array(resulty))
+print np.std(np.array(resultz))
+    
 plt.figure(1)
 plt.subplot(311)   
-plt.title('x ' + ' max=' + str(max(resultx)).strip() + ", min=" + str(min(resultx)).strip()) 
-#plt.text(60, .025, r'x ' + ' max=' + str(max(resultx)) + ", min=" + str(min(resultx)))
+plt.title('pitch ' + ' max=' + str(max(resultx)).strip() + ", min=" + str(min(resultx)).strip() + ', Peak-Peak=' + str(abs(float(max(resultx)) - float(min(resultx)))).strip()) 
 plt.plot(resultx)
 plt.subplot(312)   
-plt.title('y ' + ' max=' + str(max(resulty)).strip() + ", min=" + str(min(resulty)).strip()) 
+plt.title('yaw ' + ' max=' + str(max(resulty)).strip() + ", min=" + str(min(resulty)).strip() + ', Peak-Peak=' + str(abs(float(max(resulty)) - float(min(resulty)))).strip()) 
 plt.plot(resulty)
 plt.subplot(313)   
 #print str(max(resultz)).strip()
-
-plt.title('z ' + ' max=' + str(max(resultz)).strip() + " , min=" + str(min(resultz)).strip()) 
+plt.title('roll ' + ' max=' + str(max(resultz)).strip() + ", min=" + str(min(resultz)).strip() + ', Peak-Peak=' + str(abs(float(max(resultz)) - float(min(resultz)))).strip()) 
 plt.plot(resultz)
 plt.show()
 ```
+
 
 ```sh
 1.868635 148.656046 -0.602996 

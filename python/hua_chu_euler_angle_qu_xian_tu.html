@@ -41,7 +41,7 @@
         
     
     
-    <link rel="next" href="../python/pandas.html" />
+    <link rel="next" href="../python/biao_zhun_cha_ji_suan.html" />
     
     
     <link rel="prev" href="../python/chan_sheng_qu_xian_tu.html" />
@@ -57,7 +57,7 @@
         data-chapter-title="畫出Euler angle 曲線圖"
         data-filepath="python/hua_chu_euler_angle_qu_xian_tu.md"
         data-basepath=".."
-        data-revision="Mon Jun 12 2017 23:51:13 GMT+0800 (CST)"
+        data-revision="Wed Jun 14 2017 22:56:46 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -10885,6 +10885,21 @@
             
         </li>
     
+        <li class="chapter " data-level="27.1.28" data-path="python/biao_zhun_cha_ji_suan.html">
+            
+                
+                    <a href="../python/biao_zhun_cha_ji_suan.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>27.1.28.</b>
+                        
+                        標準差計算
+                    </a>
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -19125,31 +19140,34 @@
 <span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt
 <span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
 
+<span class="hljs-comment">#f=open(&quot;./8g_filter.txt&quot;,&quot;r&quot;)</span>
 f=open(<span class="hljs-string">&quot;./2g_pure.txt&quot;</span>,<span class="hljs-string">&quot;r&quot;</span>)
 lines=f.readlines()
 resultx=[]
 resulty=[]
 resultz=[]
 <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> lines:
-    resultx.append(x.split(<span class="hljs-string">&apos; &apos;</span>)[<span class="hljs-number">0</span>])
-    resulty.append(x.split(<span class="hljs-string">&apos; &apos;</span>)[<span class="hljs-number">1</span>])
-    resultz.append(x.split(<span class="hljs-string">&apos; &apos;</span>)[<span class="hljs-number">2</span>])
+    resultx.append(float(x.split(<span class="hljs-string">&apos; &apos;</span>)[<span class="hljs-number">0</span>]))
+    resulty.append(float(x.split(<span class="hljs-string">&apos; &apos;</span>)[<span class="hljs-number">1</span>]))
+    resultz.append(float(x.split(<span class="hljs-string">&apos; &apos;</span>)[<span class="hljs-number">2</span>]))
 f.close()
 
 plt.rcParams.update({<span class="hljs-string">&apos;font.size&apos;</span>: <span class="hljs-number">9</span>})
 <span class="hljs-comment">#print resultx</span>
+<span class="hljs-keyword">print</span> np.std(np.array(resultx))
+<span class="hljs-keyword">print</span> np.std(np.array(resulty))
+<span class="hljs-keyword">print</span> np.std(np.array(resultz))
+
 plt.figure(<span class="hljs-number">1</span>)
 plt.subplot(<span class="hljs-number">311</span>)   
-plt.title(<span class="hljs-string">&apos;x &apos;</span> + <span class="hljs-string">&apos; max=&apos;</span> + str(max(resultx)).strip() + <span class="hljs-string">&quot;, min=&quot;</span> + str(min(resultx)).strip()) 
-<span class="hljs-comment">#plt.text(60, .025, r&apos;x &apos; + &apos; max=&apos; + str(max(resultx)) + &quot;, min=&quot; + str(min(resultx)))</span>
+plt.title(<span class="hljs-string">&apos;pitch &apos;</span> + <span class="hljs-string">&apos; max=&apos;</span> + str(max(resultx)).strip() + <span class="hljs-string">&quot;, min=&quot;</span> + str(min(resultx)).strip() + <span class="hljs-string">&apos;, Peak-Peak=&apos;</span> + str(abs(float(max(resultx)) - float(min(resultx)))).strip()) 
 plt.plot(resultx)
 plt.subplot(<span class="hljs-number">312</span>)   
-plt.title(<span class="hljs-string">&apos;y &apos;</span> + <span class="hljs-string">&apos; max=&apos;</span> + str(max(resulty)).strip() + <span class="hljs-string">&quot;, min=&quot;</span> + str(min(resulty)).strip()) 
+plt.title(<span class="hljs-string">&apos;yaw &apos;</span> + <span class="hljs-string">&apos; max=&apos;</span> + str(max(resulty)).strip() + <span class="hljs-string">&quot;, min=&quot;</span> + str(min(resulty)).strip() + <span class="hljs-string">&apos;, Peak-Peak=&apos;</span> + str(abs(float(max(resulty)) - float(min(resulty)))).strip()) 
 plt.plot(resulty)
 plt.subplot(<span class="hljs-number">313</span>)   
 <span class="hljs-comment">#print str(max(resultz)).strip()</span>
-
-plt.title(<span class="hljs-string">&apos;z &apos;</span> + <span class="hljs-string">&apos; max=&apos;</span> + str(max(resultz)).strip() + <span class="hljs-string">&quot; , min=&quot;</span> + str(min(resultz)).strip()) 
+plt.title(<span class="hljs-string">&apos;roll &apos;</span> + <span class="hljs-string">&apos; max=&apos;</span> + str(max(resultz)).strip() + <span class="hljs-string">&quot;, min=&quot;</span> + str(min(resultz)).strip() + <span class="hljs-string">&apos;, Peak-Peak=&apos;</span> + str(abs(float(max(resultz)) - float(min(resultz)))).strip()) 
 plt.plot(resultz)
 plt.show()
 </code></pre>
@@ -20107,7 +20125,7 @@ plt.show()
         <a href="../python/chan_sheng_qu_xian_tu.html" class="navigation navigation-prev " aria-label="Previous page: 產生曲線圖"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../python/pandas.html" class="navigation navigation-next " aria-label="Next page: pandas"><i class="fa fa-angle-right"></i></a>
+        <a href="../python/biao_zhun_cha_ji_suan.html" class="navigation navigation-next " aria-label="Next page: 標準差計算"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

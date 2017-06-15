@@ -1213,4 +1213,5 @@
 * [Parallel Computing](parallel_computing/parallel_computing.md)
    * [並行計算工具的選擇](parallel_computing/bing_xing_ji_suan_gong_ju_de_xuan_ze.md)
 * [Cuda](cuda/cuda.md)
+   * CUDA ---- Hello World From GPU
 

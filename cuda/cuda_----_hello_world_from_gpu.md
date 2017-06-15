@@ -3,11 +3,11 @@
 - hello.cu
 
 
-限定符__global__告诉编译器这个function将由CPU调用在GPU上执行，其调用形式为：
+限定符__global__告訴編譯器這個function將由CPU調用在GPU上執行，其調用形式為：
 
 helloFromGPU<<<1,10>>>();
 
-一个kernel是由一组线程执行，所有线程执行相同的代码。上面一行三对尖括号中的1和10 表明了该function将有10个线程，具体含义之后博文中会详述。下面是完整代码：
+一個kernel是由一組線程執行，所有線程執行相同的代碼。上面一行三對尖括號中的1和10 表明了該function將有10個線程，具體含義之後博文中會詳述。下面是完整代碼：
 
 
 
@@ -40,15 +40,15 @@ nvcc hello.cu -o hello
 ./hello
 ```
 
-这里顺便提及下，我们将CPU端称为host，GPU端称为device。
+這裡順便提及下，我們將CPU端稱為host，GPU端稱為device。
 
-cudaDeviceReset()用来显式的摧毁清理CUDA程序占用的资源。现在用下面的命令编译：
+cudaDeviceReset()用來顯式的摧毀清理CUDA程序佔用的資源。現在用下面的命令編譯：
 
 ```sh
 $nvcc –arch sm_20 hello.cu –o hello
 ```
 
--arch sm_20是用来指定编译器使用Fermi架构产生device代码。编译成功后执行$ ./hello:
+-arch sm_20是用來指定編譯器使用Fermi架構產生device代碼。編譯成功後執行$ ./hello:
 
 ```sh
 Hello World from CPU!
@@ -75,10 +75,10 @@ Hello World from GPU!
 ```
  
 
-一个典型的CUDA程序结构包含五个主要步骤：
+一個典型的CUDA程序結構包含五個主要步驟：
 
-- 分配GPU空间。
-- 将数据从CPU端复制到GPU端。
-- 调用CUDA kernel来执行计算。
-- 计算完成后将数据从GPU拷贝回CPU。
-- 清理GPU内存空间。
+- 分配GPU空間。
+- 將數據從CPU端複製到GPU端。
+- 調用CUDA kernel來執行計算。
+- 計算完成後將數據從GPU拷貝回CPU。
+- 清理GPU內存空間。

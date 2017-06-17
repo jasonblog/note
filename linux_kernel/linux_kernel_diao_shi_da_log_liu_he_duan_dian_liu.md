@@ -184,3 +184,108 @@ sudo cat /sys/module/kvm/sections/.bss
 
 然後在host的GDB中用這些地址加載模塊：
 
+
+```sh
+(gdb) add-symbol-file ~/work/GDB-Kernel/arch/x86/kvm/kvm.ko 0xffffffffa00e4000 -s .data 0xffffffffa0143000 -s .bss 0xffffffffa0152140
+add symbol table from file "/home/binss/work/GDB-Kernel/arch/x86/kvm/kvm.ko" at
+    .text_addr = 0xffffffffa00e4000
+    .data_addr = 0xffffffffa0143000
+    .bss_addr = 0xffffffffa0152140
+(y or n) y
+Reading symbols from /home/binss/work/GDB-Kernel/arch/x86/kvm/kvm.ko...done.
+```
+
+用同樣的方式加載kvm-intel的符號信息：
+
+```sh
+sudo cat /sys/module/kvm_intel/sections/.text
+sudo cat /sys/module/kvm_intel/sections/.data
+sudo cat /sys/module/kvm_intel/sections/.bss
+```
+
+結果：
+```sh
+[email protected] 
+```
+
+```sh
+:~$ sudo cat /sys/module/kvm_intel/sections/.text 0xffffffffa01a3000[emailprotected]
+:~$ sudo cat /sys/module/kvm_intel/sections/.data 0xffffffffa01cb000 [email protected]
+:~$ sudo cat /sys/module/kvm_intel/sections/.bss 0xffffffffa01cbec0
+```
+
+加載：
+
+
+```sh
+(gdb) add-symbol-file ~/work/GDB-Kernel/arch/x86/kvm/kvm-intel.ko 0xffffffffa01a3000 -s .data 0xffffffffa01cb000 -s .bss 0xffffffffa01cbec0
+add symbol table from file "/home/binss/work/GDB-Kernel/arch/x86/kvm/kvm-intel.ko" at
+    .text_addr = 0xffffffffa01a3000
+    .data_addr = 0xffffffffa01cb000
+    .bss_addr = 0xffffffffa01cbec0
+(y or n) y
+Reading symbols from /home/binss/work/GDB-Kernel/arch/x86/kvm/kvm-intel.ko...done.
+```
+
+然後打斷點：
+
+
+```sh
+(gdb) hb vcpu_enter_guest
+Hardware assisted breakpoint 1 at 0xffffffffa0103d37: file ./arch/x86/include/asm/processor.h, line 482.
+
+(gdb) hb vmx_vcpu_run
+Hardware assisted breakpoint 2 at 0xffffffffa01b30e0: file arch/x86/kvm/vmx.c, line 8798.
+
+(gdb) c
+Continuing.
+```
+
+然後就可以進行調試了。在VM中運行：
+
+
+```sh
+qemu-img create -f qcow2 mytest.img 5G
+
+sudo qemu-system-x86_64 -cpu host -hda mytest.img \
+                        -boot c \
+                        -nographic \
+                        -serial mon:stdio \
+                        -vnc :1 \
+                        -smp 1 \
+                        -m 2048 \
+                        --enable-kvm
+```
+
+回到gdb：
+
+```sh
+Thread 2 hit Breakpoint 1, vcpu_run (vcpu=<optimized out>)
+    at /home/binss/work/GDB-Kernel/arch/x86/kvm/x86.c:6788
+6788                            r = vcpu_enter_guest(vcpu);
+(gdb) p vcpu
+$1 = <optimized out>
+(gdb) c
+Continuing.
+
+Thread 2 hit Breakpoint 2, vmx_vcpu_run (vcpu=0xffff8800778a0000)
+    at /home/binss/work/GDB-Kernel/arch/x86/kvm/vmx.c:8798
+8798    {
+(gdb) p vcpu
+$5 = (struct kvm_vcpu *) 0xffff8800778a0000
+(gdb) n
+8799            struct vcpu_vmx *vmx = to_vmx(vcpu);
+(gdb) n
+8803            if (unlikely(!cpu_has_virtual_nmis() && vmx->soft_vnmi_blocked))
+(gdb) p vmx
+$6 = (struct vcpu_vmx *) 0xffff8800778a0000
+```
+
+缺陷在於編譯kernel時強制採用了 -O2 進行編譯，導致一些值被優化後顯示為` <optimized out>` ，可以考慮`反彙編`。
+
+
+##參考
+http://stackoverflow.com/questions/11408041/how-to-debug-the-linux-kernel-with-gdb-and-qemu
+https://wiki.ubuntu.com/Kernel/KernelDebuggingTricks
+http://www.elinux.org/Debugging_The_Linux_Kernel_Using_Gdb
+https://www.phoronix.com/scan.php?page=news_item&px=Linux-4.8-ASLR-Kernel-Mem-Sects

@@ -180,3 +180,51 @@ if (listen(sd, 1) < 0)
 }
 ```
 
+由於使用流套接字，必須對內核聲明接受外來連接請求的意願，並設置連接隊列的尺寸。此處將隊列長度設為1，但是通常會將該值設的高一些，用於接受已建立的連接。在老版本的內核中，該隊列被用於阻止SYN flood攻擊。由於listen系統調用之改為設定已建立連接的數量，該特性已被listen調用遺棄。內核參數tcp_max_syn_backlog承擔了保護系統不受SYN flood攻擊的功能。
+
+```c
+if((client = accept(sd, NULL, NULL)) < 0) {
+    perror("accept");
+    exit(errno);
+}
+```
+
+accept系統調用從待處理的已連接隊列中選取第一個連接請求，為之建立一個新的socket。accept調用的返回值是新建立連接的描述符；新的socket可以用於read、write和poll/select系統調用。
+
+```c
+if((cnt = sendfile(client,fd,&off, BUFF_SIZE)) < 0) {
+    perror("sendfile");
+    exit(errno);
+}
+
+printf("Server sent %d bytes.\n", cnt);
+close(client);
+```
+
+在客戶socket描述符上已經建立好連接，因此可以開始將數據傳輸至遠端系統——這時通過調用sendfile系統調用來完成。該調用在Linux中的原型為如下形式：
+
+```c
+extern ssize_t
+sendfile (int __out_fd, int __in_fd, off_t *offset, size_t __count) __THROW;
+```
+
+前兩個參數為文件描述符，第三個參數表示sendfile開始傳輸數據的偏移量。第四個參數是打算傳輸的字節數。為了sendfile可以使用"零拷貝「特性，網卡需要支持聚合操作，此外還應具備校驗和計算能力。如果你的NIC不具備這些特性，仍可以是用sendfile來發送數據，區別是內核在傳輸前會將所有緩衝區的內容合併。
+
+移植性問題
+
+sendfile系統調用的問題之一，總體上來看，是缺少標準化的實現，這與open系統調用類些。sendfile在Linux、Solaris或HP-UX中的實現有很大的不同。這給希望在網絡傳輸代碼中利用"零拷貝"的開發者帶來了問題。
+
+這些實現差異中的一點在於Linux提供的sendfile，是定義為用於兩個文件描述符之間和文件到socket之間的傳輸接口。另一方面，HP-UX和Solaris中，sendfile只能用於文件到socket的傳輸。
+
+第二點差異，是Linux沒有實現向量化傳輸。Solaris和HP-UX 中的sendfile系統調用包含額外的參數，用於消除為待傳輸數據添加頭部的開銷。
+
+展望
+
+Linux中「零拷貝」的實現還遠未結束，並很可能在不久的未來發生變化。更多的功能將會被添加，例如，現在的sendfile不支持向量化傳輸，而諸如Samba和Apache這樣的服務器不得不是用TCP_COKR標誌來執行多個sendfile調用。該標誌告知系統還有數據要在下一個sendfile調用中到達。TCP_CORK和TCP_NODELAY不兼容，後者在我們希望為數據添加頭部時使用。這也正是一個完美的例子，用於說明支持向量化的sendfile將在那些情況下，消除目前實現所強制產生的多個sendfile調用和延遲。
+
+`當前sendfile一個相當令人不愉快的限制是它無法用戶傳輸大於2GB的文件`。如此尺寸大小的文件，在今天並非十分罕見，不得不複製數據是十分令人失望的。由於這種情況下sendfile和mmap都是不可用的，在未來內核版本中提供sendfile64，將會提供很大的幫助。
+
+
+##結論
+
+儘管有一些缺點，"零拷貝"sendfile是一個很有用的特性。我希望讀者認為本文提供了足夠的信息以開始在程序中使用sendfile。如果你對這個主題有更深層次的興趣，敬請期待我的第二篇文章——"Zero Copy II: Kernel Perspective"，在其中將更深一步的講述"零拷貝"的內核內部實現。

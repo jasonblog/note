@@ -1136,7 +1136,7 @@
        * [遞迴呼叫篇](c/di_hui_hu_jiao_pian.md)
    * [幫 C 語言加上 Garbage Collector](c/bang_c_yu_yan_jia_shang_garbage_collector.md)
    * [memcpy alignment](c/memcpy_alignment.md)
-   * 如何得知 malloc/free 的呼叫次數
+   * [如何得知 malloc/free 的呼叫次數](c/ru_he_de_zhi_malloc__free_de_hu_jiao_ci_shu.md)
 * [OpenSoruce](opensoruce/opensoruce.md)
    * [開源網絡庫的分析libevent muduo nginx](opensoruce/kai_yuan_wang_luo_ku_de_fenxi_libevent_muduo_nginx.md)
    * [libevent 專案分析](opensoruce/libevent_zhuan_an_fen_xi.md)

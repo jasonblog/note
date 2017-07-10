@@ -21,19 +21,22 @@
 
 ```c
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+#include <dlfcn.h>
 
-int main(int argc, char const* argv[])
+void* malloc(size_t size)
 {
-    char* buf;
+    char buf[32];
+    static void* (*real_malloc)(size_t) = NULL;
 
-    printf("Hello World\n");
-    buf = malloc(50);
-    sprintf(buf, "Hi, This is test\r\n");
-    printf("%s", buf);
-    free(buf);
-    return 0;
+    if (real_malloc == NULL) {
+        *(void **)(&real_malloc) = dlsym(RTLD_NEXT, "malloc");
+    }
+
+    sprintf(buf, "malloc called, size = %zu\n", size);
+    write(2, buf, strlen(buf));
+    return real_malloc(size);
 }
 ```
 

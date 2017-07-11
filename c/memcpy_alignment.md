@@ -201,7 +201,7 @@ int main()
 
 ## sse 128-bit暫存器
 
-struct 其實compiler都還是用32 bit暫存器copy 同樣copy 16個byte用128 bit站存器就是只要1個指令
+struct 其實compiler都還是用32 bit暫存器copy 同樣copy 16個byte用128 bit站存器就是隻要1個指令
 
 ```c
 #include <emmintrin.h> /*SSE2*/

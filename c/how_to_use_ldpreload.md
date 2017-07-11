@@ -114,7 +114,7 @@ memory_test$ LD_PRELOAD=libmcount.so ./test
 
 ![](images/ldd.png)
 
-檢查ls and test 執行檔 可以發現ls有linker ld library但是test沒有, 這也是爲何ls可以跑
+檢查ls and test 執行檔 可以發現ls有linker ld library但是test沒有, 這也是為何ls可以跑
 
 ![](images/ldd2.png)
 
@@ -144,8 +144,8 @@ LD_PRELOAD=./libmcount.so ./test
 
 
 
-- lbrary compiler時需要加上-`D_GNU_SOURCE` 是因爲library有用到RTLD_NEXT
-- free pointer 之後需要將pointer 設爲null 這樣在後面如果不小心再free 到時才不會有double free message
+- lbrary compiler時需要加上-`D_GNU_SOURCE` 是因為library有用到RTLD_NEXT
+- free pointer 之後需要將pointer 設為null 這樣在後面如果不小心再free 到時才不會有double free message
 double free or corruption
 C手冊上面有這一段
 

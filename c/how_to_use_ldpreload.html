@@ -57,7 +57,7 @@
         data-chapter-title="How to use LD_PRELOAD and dlsym hook"
         data-filepath="c/how_to_use_ldpreload.md"
         data-basepath=".."
-        data-revision="Tue Jul 11 2017 20:09:39 GMT+0800 (CST)"
+        data-revision="Tue Jul 11 2017 20:38:29 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -17197,6 +17197,21 @@
             
         </li>
     
+        <li class="chapter " data-level="47.28" data-path="linked_and_loader/gccglian_jie_65f6_o_wen_jian_yi_ji_ku_de_shun_xu_w.html">
+            
+                
+                    <a href="../linked_and_loader/gccglian_jie_65f6_o_wen_jian_yi_ji_ku_de_shun_xu_w.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>47.28.</b>
+                        
+                        gcc/g++鏈接時.o文件以及庫的順序問題
+                    </a>
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -19372,7 +19387,7 @@ memory_test$ LD_PRELOAD=libmcount.so ./test
 ./test: symbol lookup error: libmcount.so: undefined symbol: dlsym
 </code></pre>
 <p><img src="images/ldd.png" alt=""></p>
-<p>&#x6AA2;&#x67E5;ls and test &#x57F7;&#x884C;&#x6A94; &#x53EF;&#x4EE5;&#x767C;&#x73FE;ls&#x6709;linker ld library&#x4F46;&#x662F;test&#x6C92;&#x6709;, &#x9019;&#x4E5F;&#x662F;&#x7232;&#x4F55;ls&#x53EF;&#x4EE5;&#x8DD1;</p>
+<p>&#x6AA2;&#x67E5;ls and test &#x57F7;&#x884C;&#x6A94; &#x53EF;&#x4EE5;&#x767C;&#x73FE;ls&#x6709;linker ld library&#x4F46;&#x662F;test&#x6C92;&#x6709;, &#x9019;&#x4E5F;&#x662F;&#x70BA;&#x4F55;ls&#x53EF;&#x4EE5;&#x8DD1;</p>
 <p><img src="images/ldd2.png" alt=""></p>
 <p>&#x731C;&#x6E2C;&#x56E0;&#x8A72;&#x662F;compiler&#x6700;&#x4F73;&#x5316;&#x4E4B;&#x5F8C;&#x5C07;librar&#x53BB;&#x9664;&#x6389;&#x4E86; &#x67E5;&#x770B;&#x7DB2;&#x8DEF;&#x4E0A;&#x6709;&#x4EBA;&#x8AAA;-ldl&#x62C9;&#x5230;&#x6700;&#x5F8C;&#x9762;&#x5C31;&#x53EF;&#x4EE5;
 &#x4FEE;&#x6539;&#x5F8C;&#x505A;&#x6E2C;&#x8A66;&#x78BA;&#x5B9A;test&#x53EF;&#x4EE5;&#x8DD1;&#x4E86;</p>
@@ -19390,8 +19405,8 @@ gcc -D_GNU_SOURCE -shared -fPIC -ldl  -Wl,--no-as-needed -o libmcount.so malloc_
 </code></pre>
 <p><img src="images/result.png" alt=""></p>
 <ul>
-<li>lbrary compiler&#x6642;&#x9700;&#x8981;&#x52A0;&#x4E0A;-<code>D_GNU_SOURCE</code> &#x662F;&#x56E0;&#x7232;library&#x6709;&#x7528;&#x5230;RTLD_NEXT</li>
-<li>free pointer &#x4E4B;&#x5F8C;&#x9700;&#x8981;&#x5C07;pointer &#x8A2D;&#x7232;null &#x9019;&#x6A23;&#x5728;&#x5F8C;&#x9762;&#x5982;&#x679C;&#x4E0D;&#x5C0F;&#x5FC3;&#x518D;free &#x5230;&#x6642;&#x624D;&#x4E0D;&#x6703;&#x6709;double free message
+<li>lbrary compiler&#x6642;&#x9700;&#x8981;&#x52A0;&#x4E0A;-<code>D_GNU_SOURCE</code> &#x662F;&#x56E0;&#x70BA;library&#x6709;&#x7528;&#x5230;RTLD_NEXT</li>
+<li>free pointer &#x4E4B;&#x5F8C;&#x9700;&#x8981;&#x5C07;pointer &#x8A2D;&#x70BA;null &#x9019;&#x6A23;&#x5728;&#x5F8C;&#x9762;&#x5982;&#x679C;&#x4E0D;&#x5C0F;&#x5FC3;&#x518D;free &#x5230;&#x6642;&#x624D;&#x4E0D;&#x6703;&#x6709;double free message
 double free or corruption
 C&#x624B;&#x518A;&#x4E0A;&#x9762;&#x6709;&#x9019;&#x4E00;&#x6BB5;</li>
 </ul>

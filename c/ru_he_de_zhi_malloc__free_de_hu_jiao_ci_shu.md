@@ -43,7 +43,7 @@ void* malloc(size_t size)
 ## 編譯和執行:
 
 ```sh
-$ gcc -D_GNU_SOURCE -shared -ldl -fPIC -o /tmp/libmcount.so malloc_count.c
+$ gcc -D_GNU_SOURCE -shared -fPIC -o /tmp/libmcount.so malloc_count.c -ldl
 $ LD_PRELOAD=/tmp/libmcount.so ls
 ```
 

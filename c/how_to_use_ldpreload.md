@@ -189,7 +189,7 @@ malloc 不能使用 printf , 因為 printf 又呼叫malloc 造成無限循環
 #28873 0x00007fd3c8b6a8f8 in _IO_file_overflow () from /lib/x86_64-linux-gnu/libc.so.6
 #28874 0x00007fd3c8b6928d in _IO_file_xsputn () from /lib/x86_64-linux-gnu/libc.so.6
 #28875 0x00007fd3c8b3d241 in vfprintf () from /lib/x86_64-linux-gnu/libc.so.6
-<font color="#ff0000">#28876 0x00007fd3c8b45899 in printf () from /lib/x86_64-linux-gnu/libc.so.6
+#28876 0x00007fd3c8b45899 in printf () from /lib/x86_64-linux-gnu/libc.so.6
 #28877 0x00007fd3c90dc89d in malloc () from ./libmcount.so</font>
 #28878 0x00007fd3c8b5dcdd in ?? () from /lib/x86_64-linux-gnu/libc.so.6
 #28879 0x00007fd3c8ec49b6 in selinuxfs_exists () from /lib/x86_64-linux-gnu/libselinux.so.1

@@ -57,7 +57,7 @@
         data-chapter-title="How to use LD_PRELOAD and dlsym hook"
         data-filepath="c/how_to_use_ldpreload.md"
         data-basepath=".."
-        data-revision="Tue Jul 11 2017 20:38:29 GMT+0800 (CST)"
+        data-revision="Thu Jul 13 2017 19:52:31 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -19411,6 +19411,52 @@ double free or corruption
 C&#x624B;&#x518A;&#x4E0A;&#x9762;&#x6709;&#x9019;&#x4E00;&#x6BB5;</li>
 </ul>
 <p><img src="images/unnamed.png" alt=""></p>
+<hr>
+<p>malloc &#x4E0D;&#x80FD;&#x4F7F;&#x7528; printf , &#x56E0;&#x70BA; printf &#x53C8;&#x547C;&#x53EB;malloc &#x9020;&#x6210;&#x7121;&#x9650;&#x5FAA;&#x74B0;</p>
+<ul>
+<li>coredump</li>
+</ul>
+<pre><code class="lang-sh"><span class="hljs-comment">#28848 0x00007fd3c8b45899 in printf () from /lib/x86_64-linux-gnu/libc.so.6</span>
+<span class="hljs-comment">#28849 0x00007fd3c90dc89d in malloc () from ./libmcount.so</span>
+<span class="hljs-comment">#28850 0x00007fd3c8b5d1d5 in _IO_file_doallocate () from /lib/x86_64-linux-gnu/libc.so.6</span>
+<span class="hljs-comment">#28851 0x00007fd3c8b6b594 in _IO_doallocbuf () from /lib/x86_64-linux-gnu/libc.so.6</span>
+<span class="hljs-comment">#28852 0x00007fd3c8b6a8f8 in _IO_file_overflow () from /lib/x86_64-linux-gnu/libc.so.6</span>
+<span class="hljs-comment">#28853 0x00007fd3c8b6928d in _IO_file_xsputn () from /lib/x86_64-linux-gnu/libc.so.6</span>
+<span class="hljs-comment">#28854 0x00007fd3c8b3d241 in vfprintf () from /lib/x86_64-linux-gnu/libc.so.6</span>
+<span class="hljs-comment">#28855 0x00007fd3c8b45899 in printf () from /lib/x86_64-linux-gnu/libc.so.6</span>
+<span class="hljs-comment">#28856 0x00007fd3c90dc89d in malloc () from ./libmcount.so</span>
+<span class="hljs-comment">#28857 0x00007fd3c8b5d1d5 in _IO_file_doallocate () from /lib/x86_64-linux-gnu/libc.so.6</span>
+<span class="hljs-comment">#28858 0x00007fd3c8b6b594 in _IO_doallocbuf () from /lib/x86_64-linux-gnu/libc.so.6</span>
+<span class="hljs-comment">#28859 0x00007fd3c8b6a8f8 in _IO_file_overflow () from /lib/x86_64-linux-gnu/libc.so.6</span>
+<span class="hljs-comment">#28860 0x00007fd3c8b6928d in _IO_file_xsputn () from /lib/x86_64-linux-gnu/libc.so.6</span>
+<span class="hljs-comment">#28861 0x00007fd3c8b3d241 in vfprintf () from /lib/x86_64-linux-gnu/libc.so.6</span>
+<span class="hljs-comment">#28862 0x00007fd3c8b45899 in printf () from /lib/x86_64-linux-gnu/libc.so.6</span>
+<span class="hljs-comment">#28863 0x00007fd3c90dc89d in malloc () from ./libmcount.so</span>
+<span class="hljs-comment">#28864 0x00007fd3c8b5d1d5 in _IO_file_doallocate () from /lib/x86_64-linux-gnu/libc.so.6</span>
+<span class="hljs-comment">#28865 0x00007fd3c8b6b594 in _IO_doallocbuf () from /lib/x86_64-linux-gnu/libc.so.6</span>
+<span class="hljs-comment">#28866 0x00007fd3c8b6a8f8 in _IO_file_overflow () from /lib/x86_64-linux-gnu/libc.so.6</span>
+<span class="hljs-comment">#28867 0x00007fd3c8b6928d in _IO_file_xsputn () from /lib/x86_64-linux-gnu/libc.so.6</span>
+<span class="hljs-comment">#28868 0x00007fd3c8b3d241 in vfprintf () from /lib/x86_64-linux-gnu/libc.so.6</span>
+<span class="hljs-comment">#28869 0x00007fd3c8b45899 in printf () from /lib/x86_64-linux-gnu/libc.so.6</span>
+<span class="hljs-comment">#28870 0x00007fd3c90dc89d in malloc () from ./libmcount.so</span>
+<span class="hljs-comment">#28871 0x00007fd3c8b5d1d5 in _IO_file_doallocate () from /lib/x86_64-linux-gnu/libc.so.6</span>
+<span class="hljs-comment">#28872 0x00007fd3c8b6b594 in _IO_doallocbuf () from /lib/x86_64-linux-gnu/libc.so.6</span>
+<span class="hljs-comment">#28873 0x00007fd3c8b6a8f8 in _IO_file_overflow () from /lib/x86_64-linux-gnu/libc.so.6</span>
+<span class="hljs-comment">#28874 0x00007fd3c8b6928d in _IO_file_xsputn () from /lib/x86_64-linux-gnu/libc.so.6</span>
+<span class="hljs-comment">#28875 0x00007fd3c8b3d241 in vfprintf () from /lib/x86_64-linux-gnu/libc.so.6</span>
+<span class="hljs-comment">#28876 0x00007fd3c8b45899 in printf () from /lib/x86_64-linux-gnu/libc.so.6</span>
+<span class="hljs-comment">#28877 0x00007fd3c90dc89d in malloc () from ./libmcount.so&lt;/font&gt;</span>
+<span class="hljs-comment">#28878 0x00007fd3c8b5dcdd in ?? () from /lib/x86_64-linux-gnu/libc.so.6</span>
+<span class="hljs-comment">#28879 0x00007fd3c8ec49b6 in selinuxfs_exists () from /lib/x86_64-linux-gnu/libselinux.so.1</span>
+<span class="hljs-comment">#28880 0x00007fd3c8ebfcdc in ?? () from /lib/x86_64-linux-gnu/libselinux.so.1</span>
+<span class="hljs-comment">#28881 0x00007fd3c92ee6ba in ?? () from /lib64/ld-linux-x86-64.so.2</span>
+<span class="hljs-comment">#28882 0x00007fd3c92ee7cb in ?? () from /lib64/ld-linux-x86-64.so.2</span>
+<span class="hljs-comment">#28883 0x00007fd3c92dec6a in ?? () from /lib64/ld-linux-x86-64.so.2</span>
+<span class="hljs-comment">#28884 0x0000000000000002 in ?? ()</span>
+<span class="hljs-comment">#28885 0x00007ffc1b6f537a in ?? ()</span>
+<span class="hljs-comment">#28886 0x00007ffc1b6f537d in ?? ()</span>
+<span class="hljs-comment">#28887 0x0000000000000000 in ?? ()</span>
+</code></pre>
 
                     
                     </section>

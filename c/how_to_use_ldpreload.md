@@ -152,3 +152,53 @@ C手冊上面有這一段
 
 ![](images/unnamed.png)
 
+
+---
+
+malloc 不能使用 printf , 因為 printf 又呼叫malloc 造成無限循環
+
+
+- coredump
+
+```sh
+#28848 0x00007fd3c8b45899 in printf () from /lib/x86_64-linux-gnu/libc.so.6
+#28849 0x00007fd3c90dc89d in malloc () from ./libmcount.so
+#28850 0x00007fd3c8b5d1d5 in _IO_file_doallocate () from /lib/x86_64-linux-gnu/libc.so.6
+#28851 0x00007fd3c8b6b594 in _IO_doallocbuf () from /lib/x86_64-linux-gnu/libc.so.6
+#28852 0x00007fd3c8b6a8f8 in _IO_file_overflow () from /lib/x86_64-linux-gnu/libc.so.6
+#28853 0x00007fd3c8b6928d in _IO_file_xsputn () from /lib/x86_64-linux-gnu/libc.so.6
+#28854 0x00007fd3c8b3d241 in vfprintf () from /lib/x86_64-linux-gnu/libc.so.6
+#28855 0x00007fd3c8b45899 in printf () from /lib/x86_64-linux-gnu/libc.so.6
+#28856 0x00007fd3c90dc89d in malloc () from ./libmcount.so
+#28857 0x00007fd3c8b5d1d5 in _IO_file_doallocate () from /lib/x86_64-linux-gnu/libc.so.6
+#28858 0x00007fd3c8b6b594 in _IO_doallocbuf () from /lib/x86_64-linux-gnu/libc.so.6
+#28859 0x00007fd3c8b6a8f8 in _IO_file_overflow () from /lib/x86_64-linux-gnu/libc.so.6
+#28860 0x00007fd3c8b6928d in _IO_file_xsputn () from /lib/x86_64-linux-gnu/libc.so.6
+#28861 0x00007fd3c8b3d241 in vfprintf () from /lib/x86_64-linux-gnu/libc.so.6
+#28862 0x00007fd3c8b45899 in printf () from /lib/x86_64-linux-gnu/libc.so.6
+#28863 0x00007fd3c90dc89d in malloc () from ./libmcount.so
+#28864 0x00007fd3c8b5d1d5 in _IO_file_doallocate () from /lib/x86_64-linux-gnu/libc.so.6
+#28865 0x00007fd3c8b6b594 in _IO_doallocbuf () from /lib/x86_64-linux-gnu/libc.so.6
+#28866 0x00007fd3c8b6a8f8 in _IO_file_overflow () from /lib/x86_64-linux-gnu/libc.so.6
+#28867 0x00007fd3c8b6928d in _IO_file_xsputn () from /lib/x86_64-linux-gnu/libc.so.6
+#28868 0x00007fd3c8b3d241 in vfprintf () from /lib/x86_64-linux-gnu/libc.so.6
+#28869 0x00007fd3c8b45899 in printf () from /lib/x86_64-linux-gnu/libc.so.6
+#28870 0x00007fd3c90dc89d in malloc () from ./libmcount.so
+#28871 0x00007fd3c8b5d1d5 in _IO_file_doallocate () from /lib/x86_64-linux-gnu/libc.so.6
+#28872 0x00007fd3c8b6b594 in _IO_doallocbuf () from /lib/x86_64-linux-gnu/libc.so.6
+#28873 0x00007fd3c8b6a8f8 in _IO_file_overflow () from /lib/x86_64-linux-gnu/libc.so.6
+#28874 0x00007fd3c8b6928d in _IO_file_xsputn () from /lib/x86_64-linux-gnu/libc.so.6
+#28875 0x00007fd3c8b3d241 in vfprintf () from /lib/x86_64-linux-gnu/libc.so.6
+<font color="#ff0000">#28876 0x00007fd3c8b45899 in printf () from /lib/x86_64-linux-gnu/libc.so.6
+#28877 0x00007fd3c90dc89d in malloc () from ./libmcount.so</font>
+#28878 0x00007fd3c8b5dcdd in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+#28879 0x00007fd3c8ec49b6 in selinuxfs_exists () from /lib/x86_64-linux-gnu/libselinux.so.1
+#28880 0x00007fd3c8ebfcdc in ?? () from /lib/x86_64-linux-gnu/libselinux.so.1
+#28881 0x00007fd3c92ee6ba in ?? () from /lib64/ld-linux-x86-64.so.2
+#28882 0x00007fd3c92ee7cb in ?? () from /lib64/ld-linux-x86-64.so.2
+#28883 0x00007fd3c92dec6a in ?? () from /lib64/ld-linux-x86-64.so.2
+#28884 0x0000000000000002 in ?? ()
+#28885 0x00007ffc1b6f537a in ?? ()
+#28886 0x00007ffc1b6f537d in ?? ()
+#28887 0x0000000000000000 in ?? ()
+```

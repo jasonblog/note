@@ -121,7 +121,7 @@
 * [Ubuntu](ubuntu/README.md)
    * [Ubuntu installer](ubuntu/ubuntu_installer.md)
    * [Windows與Ubuntu雙系統，開機時偵測不到彼此的解決方法](ubuntu/windowsyuubuntu_shuang_xi_tong_ff0c_kai_ji_shi_zhe.md)
-   * ssh tunnel
+   * [ssh tunnel](ubuntu/ssh_tunnel.md)
 * [QEMU](qemu/README.md)
    * [X86_QEMU](qemu/my_qrmu.md)
    * [ARM_QEMU](qemu/712.md)

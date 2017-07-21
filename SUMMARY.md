@@ -1101,7 +1101,7 @@
    * [程式設計師的自我修養](linked_and_loader/cheng_shi_she_ji_shi_de_zi_wo_xiu_yang.md)
        * [編譯和連結](linked_and_loader/bian_yi_he_lian_jie.md)
        * [目的檔](linked_and_loader/mu_de_dang.md)
-       * 介紹
+       * [介紹](linked_and_loader/jie_shao.md)
 * [Bochs](Bochs/bochs.md)
    * [OS dev的Bochs調試](Bochs/os_devde_bochs_diao_shi.md)
 * [Nginx](nginx/nginx.md)

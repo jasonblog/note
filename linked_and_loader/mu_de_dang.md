@@ -459,3 +459,132 @@ SYMBOL TABLE:
 
 要注意的是初始化指派為 0 的變數還是會放在 BSS ，例如
 
+```sh
+sataic int x1 = 0;
+sataic int x2 = 1;
+```
+
+x1 放 .bss 而 x2 放 .data，因為指派 0 會被認定還未初始化
+
+最佳化後會放在 .bss，這樣可以節省空間
+
+##其他區段
+
+```sh
+.rodatel    : 唯讀資料
+.comment    : 編譯器資訊
+.debug      : 除錯資訊
+.dynamic    : 動態連結資訊
+.hash       : 符號雜湊表
+.line       : 除錯行號表
+.note       : 額外編譯器資訊
+.strtab 
+.symtab
+.shstrtab
+.plt
+.got
+.init
+.fini
+```
+
+## 將檔案作為目的檔區段
+
+我們要將一個 size 為 0x48D 的 image.jpg 作為目的檔中的一個區段
+
+
+```sh
+# 將 image.jpg 轉為 image.o
+$ objcopy -I binary -O elf64-x86-64 -B i386 image.jpg image.o
+$ objdump -ht image.o
+image.o:     file format elf64-x86-64
+
+Sections:
+Idx Name          Size      VMA               LMA               File off  Algn
+  0 .data         0000048d  0000000000000000  0000000000000000  00000040  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+SYMBOL TABLE:
+0000000000000000 l    d  .data  0000000000000000 .data
+0000000000000000 g       .data  0000000000000000 _binary_image_jpg_start
+000000000000048d g       .data  0000000000000000 _binary_image_jpg_end
+000000000000048d g       *ABS*  0000000000000000 _binary_image_jpg_size
+```
+
+現在可以在程式中直接宣告並使用
+
+一般 GCC 編譯原始檔後，會把程式碼放到 .text，全域變數和靜態變數放 .data 和 .bss
+
+GCC 提供一中方法可以讓你將變數、方法放到指定的區段
+
+`__attribute__((section("SectionName")))`
+
+
+```c
+#include <stdio.h>
+
+int g_init_var  = 84;     
+int g_uninit_var;         
+__attribute__((section("FOO"))) int g_foo  = 42;
+
+
+void func1(int i)        
+{                            
+    printf("%d\n",i);
+}
+
+__attribute__((section("BAR"))) void func_bar()
+{                            
+    printf("func_bar\n");
+}
+
+int main(void)
+{                        
+    static int static_var1 = 85;  // .data
+    static int static_var2;       // .bss
+     
+    int a = 1;
+    int b;  
+    func1(static_var1 + static_var2 + a + b);
+    return 0;                        
+}  
+
+objdump -ht SimpleSection.o
+
+SimpleSection.o:     file format elf64-x86-64
+
+Sections:
+Idx Name          Size      VMA               LMA               File off  Algn
+  3 FOO           00000004  0000000000000000  0000000000000000  000000a0  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+
+  5 BAR           00000010  0000000000000000  0000000000000000  000000b1  2**0
+                  CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
+
+0000000000000000 l    d  FOO    0000000000000000 FOO
+0000000000000000 l    d  BAR    0000000000000000 BAR
+```
+
+##ELF 結構描述
+目前 ELF 結構如下
+
+
+```sh
++---------------------+
+|     ELF Header      |
++---------------------+
+|       .text         |
++---------------------+
+|       .data         |
++---------------------+
+|       .bss          |
++---------------------+
+|       ....          |
++---------------------+
+|  Section Header TLB |
++---------------------+
+|     String TLB      |
++---------------------+
+|     Symbol TLB      |
++---------------------+
+```
+
+先看ELF Header

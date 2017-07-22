@@ -161,7 +161,7 @@ gcc -c $file_name.s -o $file_name.o
 ```
 bss 只是為初始化的全域變數/區域靜態變數預留位置，他沒有內容
 
-所以在檔案中不占空間
+所以在檔案中不佔空間
 
 程式指令和資料分開放比較好，主要優點如下
 
@@ -601,15 +601,15 @@ ELF Header:
   Data:                              2's complement, little endian  
   # 版本
   Version:                           1 (current)  
-  # 執行平台
+  # 執行平臺
   OS/ABI:                            UNIX - System V
   # ABI 版本
   ABI Version:                       0
   # ELF 重定類型
   Type:                              REL (Relocatable file)
-  # 硬體平台
+  # 硬體平臺
   Machine:                           Advanced Micro Devices X86-64
-  # 硬體平台版本
+  # 硬體平臺版本
   Version:                           0x1
   # 入口位址
   Entry point address:               0x0
@@ -625,7 +625,7 @@ ELF Header:
   Section header string table index: 10
  ```
  
- ELF 檔案在各平台下通用，ELF 分為 32 和 64 位元兩種版本
+ ELF 檔案在各平臺下通用，ELF 分為 32 和 64 位元兩種版本
  
 可參考/usr/include/elf.h
 
@@ -732,7 +732,7 @@ ELF Header:
  
  ## 魔數(Magic)
  
- Magic 為 16 byte，用來標示 ELF 平台屬性
+ Magic 為 16 byte，用來標示 ELF 平臺屬性
  
  
  ```sh
@@ -823,7 +823,7 @@ OS 透過此欄位判斷檔案類型，而不是透過副檔名，
 
 ## 機器類型(Machine)
 
-此欄位表示可在哪個平台使用，例如 Advanced Micro Devices X86-64 就是能在 x86 下使用
+此欄位表示可在哪個平臺使用，例如 Advanced Micro Devices X86-64 就是能在 x86 下使用
 相關常數以`EM` 開頭
 
 ```sh

@@ -1103,7 +1103,7 @@
        * [編譯和連結](linked_and_loader/bian_yi_he_lian_jie.md)
        * [目的檔](linked_and_loader/mu_de_dang.md)
        * [靜態連結](linked_and_loader/jing_tai_lian_jie.md)
-       * [链接、装载、与库_读书笔记](linked_and_loader/lian_jie_3001_zhuang_zai_3001_yu_ku_du_shu_bi_ji.md)
+       * [鏈接、裝載、與庫_讀書筆記](linked_and_loader/lian_jie_3001_zhuang_zai_3001_yu_ku_du_shu_bi_ji.md)
 * [Bochs](Bochs/bochs.md)
    * [OS dev的Bochs調試](Bochs/os_devde_bochs_diao_shi.md)
 * [Nginx](nginx/nginx.md)

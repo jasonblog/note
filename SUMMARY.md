@@ -263,6 +263,7 @@
    * [密碼學演算法實作流程](linux_kernel/mi_ma_xue_yan_suan_fa_shi_zuo_liu_cheng.md)
    * [效能工具 – perf 來分析探討硬體加密之瓶頸](linux_kernel/xiao_neng_gong_ju__perf_lai_fen_xi_tan_tao_ying_ti.md)
    * [Linux kernel 調試打log流和斷點流](linux_kernel/linux_kernel_diao_shi_da_log_liu_he_duan_dian_liu.md)
+   *  Linux kernel v4.0 code for <奔跑吧Linux内核>
 * [Linux Driver](linux_driver/README.md)
    * [Linux Device Driver Programming](linux_device_driver_programming/README.md)
        * [Linux 裝置驅動程式的概要](linux_device_driver_programming/01.md)

@@ -5,98 +5,124 @@
 微信号：runninglinuxkernel
 微博/微信公众号：奔跑吧Linux内核
 
-1. 目的：
-    * 《奔跑吧linux内核》第6章里提供了一个使用QEMU来单步调试ARM32/ARM64的Linux内核的实验平台，但是默认内核编译的时候默认使用“-02”的GCC编译优化选项，
-    那么导致在QUMU+GDB调试环境中出现光标乱跳以及无法打印有些变量的值“<optimized out>”等问题。本git tree就是为了解决该问题，在Makefile中修改GCC的优化选项为“-O0”。
-    本git tree仅仅是为了提供一个好用的单步调试环境，不适用于其他用途。
-    * 另外还内置了编译好的busybox小文件系统，方便读者快速编译和调试内核。
-    * git tree中上传了《奔跑吧Linux内核》第6章关于QEMU+GDB+eclipse调试内核的样章。
-    * 集成了SystemTap工具和例子.
+##1. 目的：
+* 《奔跑吧linux内核》第6章里提供了一个使用QEMU来单步调试ARM32/ARM64的Linux内核的实验平台，但是默认内核编译的时候默认使用“-02”的GCC编译优化选项，
+那么导致在QUMU+GDB调试环境中出现光标乱跳以及无法打印有些变量的值`“<optimized out>”`等问题。本git tree就是为了解决该问题，在Makefile中修改GCC的优化选项为“-O0”。
+本git tree仅仅是为了提供一个好用的单步调试环境，不适用于其他用途。
+* 另外还内置了编译好的busybox小文件系统，方便读者快速编译和调试内核。
+* git tree中上传了《奔跑吧Linux内核》第6章关于QEMU+GDB+eclipse调试内核的样章。
+* 集成了SystemTap工具和例子.
 
 
-2. 使用方法：
-   本实验是在Ubuntu 16.04上完成的，使用其他版本的Linux发行版遇到编译问题请自行解决了。
+##2. 使用方法：
+本实验是在Ubuntu 16.04上完成的，使用其他版本的Linux发行版遇到编译问题请自行解决了。
+
+```sh
+$ sudo apt-get install qemu libncurses5-dev gcc-arm-linux-gnueabi build-essential gdb-arm-none-eabi gcc-aarch64-linux-gnu eclipse-cdt libdw-dev systemtap systemtap-runtime
+```
+
+编译ARM32内核：
+
+```sh
+$ export ARCH=arm
+$ export CROSS_COMPILE=arm-linux-gnueabi-
+$ cd _install_arm32/dev/
+$ sudo mknod console c 5 1  (注意，不要遗漏该步骤)
+$ cd runninglinuxkernel_4.0
+$ make vexpress_defconfig (在runninglinuxkernel_4.0目录下输入make命令)
+$ make bzImage –j4 
+$ make dtbs
+```
+
+运行ARM32内核：
+```sh
+$ qemu-system-arm -M vexpress-a9 -smp 4 -m 1024M -kernel arch/arm/boot/zImage  -append "rdinit=/linuxrc console=ttyAMA0 loglevel=8" 
+   -dtb arch/arm/boot/dts/vexpress-v2p-ca9.dtb -nographic
+```
+
+编译ARM64内核：
+
+```sh
+$ export ARCH=arm64
+$ export CROSS_COMPILE= aarch64-linux-gnu-
+$ cd _install_arm64/dev
+$ sudo mknod console c 5 1  (注意，不要遗漏该步骤)
+$ cd runninglinuxkernel_4.0 
+$ make defconfig (在runninglinuxkernel_4.0目录下输入make命令)
+$ make –j4 
+```
+
+注意: 由于ubuntu 16.04里没有aarch64的gdb, 建议下载和安装 linaro官方网站上编译好的工具链:
+
+https://releases.linaro.org/components/toolchain/binaries/5.4-2017.01/aarch64-linux-gnu/gcc-linaro-5.4.1-2017.01-i686_aarch64-linux-gnu.tar.xz
+
+
+运行ARM64内核：
+
+```sh
+$ qemu-system-aarch64 -machine virt -cpu cortex-a57 -machine type=virt -nographic -m 2048 –smp 2 -kernel arch/arm64/boot/Image --append "rdinit=/linuxrc console=ttyAMA0"
+```
+
+
+调试内核请见pdf文档。
    
-   $ sudo apt-get install qemu libncurses5-dev gcc-arm-linux-gnueabi build-essential gdb-arm-none-eabi gcc-aarch64-linux-gnu eclipse-cdt libdw-dev systemtap systemtap-runtime
-   
-   编译ARM32内核：
-   $ export ARCH=arm
-   $ export CROSS_COMPILE=arm-linux-gnueabi-
-   $ cd _install_arm32/dev/
-   $ sudo mknod console c 5 1  (注意，不要遗漏该步骤)
-   $ cd runninglinuxkernel_4.0
-   $ make vexpress_defconfig (在runninglinuxkernel_4.0目录下输入make命令)
-   $ make bzImage –j4 
-   $ make dtbs
-   
-   运行ARM32内核：
-   $ qemu-system-arm -M vexpress-a9 -smp 4 -m 1024M -kernel arch/arm/boot/zImage  -append "rdinit=/linuxrc console=ttyAMA0 loglevel=8" 
-       -dtb arch/arm/boot/dts/vexpress-v2p-ca9.dtb -nographic
-   
-   编译ARM64内核：
-   $ export ARCH=arm64
-   $ export CROSS_COMPILE= aarch64-linux-gnu-
-   $ cd _install_arm64/dev
-   $ sudo mknod console c 5 1  (注意，不要遗漏该步骤)
-   $ cd runninglinuxkernel_4.0 
-   $ make defconfig (在runninglinuxkernel_4.0目录下输入make命令)
-   $ make –j4 
-   
-   注意: 由于ubuntu 16.04里没有aarch64的gdb, 建议下载和安装 linaro官方网站上编译好的工具链:
-   https://releases.linaro.org/components/toolchain/binaries/5.4-2017.01/aarch64-linux-gnu/gcc-linaro-5.4.1-2017.01-i686_aarch64-linux-gnu.tar.xz
-   
-   
-   运行ARM64内核：
-   $ qemu-system-aarch64 -machine virt -cpu cortex-a57 -machine type=virt -nographic -m 2048 –smp 2 -kernel arch/arm64/boot/Image --append "rdinit=/linuxrc console=ttyAMA0"
-      
-   调试内核请见pdf文档。
-   
-3. SystemTap实验
-   内置编译好SystemTap工具. ARM版本的内置在_install_arm32目录下, host工具内置在 tools/systemtap-host目录下.
+##3. SystemTap实验
+内置编译好SystemTap工具. ARM版本的内置在_install_arm32目录下, host工具内置在 tools/systemtap-host目录下.
    另外, modules_tools/systemtap目录下面有一些例子.
    
-   编译hello-world.stp
-   $ sudo /home/figo/work/runninglinuxkernel_4.0/runninglinuxkernel_4.0/tools/systemtap_host/bin/stap -gv -a arm -r /home/figo/work/runninglinuxkernel_4.0/runninglinuxkernel_4.0/ -B CROSS_COMPILE=arm-linux-gnueabi- -m hello-world.ko hello-world.stp
-   (注意,上述有两个地方需要使用绝对路径)
-   $ cp hello-world.ko _install_arm32
-   $ make
-   $ qemu-system-arm -M vexpress-a9 -m 1024M -kernel arch/arm/boot/zImage  -append "rdinit=/linuxrc console=ttyAMA0 loglevel=8" -dtb arch/arm/boot/dts/vexpress-v2p-ca9.dtb -nographic
-     #在qemu里运行 staprun hello-world.ko
+###编译hello-world.stp
+
+```sh
+$ sudo /home/figo/work/runninglinuxkernel_4.0/runninglinuxkernel_4.0/tools/systemtap_host/bin/stap -gv -a arm -r /home/figo/work/runninglinuxkernel_4.0/runninglinuxkernel_4.0/ -B CROSS_COMPILE=arm-linux-gnueabi- -m hello-world.ko hello-world.stp
+(注意,上述有两个地方需要使用绝对路径)
+$ cp hello-world.ko _install_arm32
+$ make
+$ qemu-system-arm -M vexpress-a9 -m 1024M -kernel arch/arm/boot/zImage  -append "rdinit=/linuxrc console=ttyAMA0 loglevel=8" -dtb arch/arm/boot/dts/vexpress-v2p-ca9.dtb -nographic
+ #在qemu里运行 staprun hello-world.ko
+```
+
+----
      
-===============================================================================================================
 
- 补充：
-    《奔跑吧Linux内核》是基于ARM32/ARM64为蓝本的，有的小伙伴也希望能以“-O0”来编译x86的kernel image，笨叔叔修改了一下以满足这些小伙伴的需求。
+## 补充：
+
+《奔跑吧Linux内核》是基于ARM32/ARM64为蓝本的，有的小伙伴也希望能以“-O0”来编译x86的kernel image，笨叔叔修改了一下以满足这些小伙伴的需求。
     
-    编译i386 kernel image：
-        $ export ARCH=x86
-        $ cd _install_x86/dev/
-        $ sudo mknod console c 5 1  (注意，不要遗漏该步骤, 只需要一次即可)
-        $ cd runninglinuxkernel_4.0
-        $ make i386_defconfig (在runninglinuxkernel_4.0目录下输入make命令)
-        $ make bzImage –j4 
+编译i386 kernel image：
+```sh
+$ export ARCH=x86
+$ cd _install_x86/dev/
+$ sudo mknod console c 5 1  (注意，不要遗漏该步骤, 只需要一次即可)
+$ cd runninglinuxkernel_4.0
+$ make i386_defconfig (在runninglinuxkernel_4.0目录下输入make命令)
+$ make bzImage –j4 
+```
+运行i386内核：
+```sh
+$ qemu-system-i386 -kernel arch/x86/boot/bzImage -append "rdinit=/linuxrc console=ttyS0" -nographic
+```
 
-     运行i386内核：
-       $ qemu-system-i386 -kernel arch/x86/boot/bzImage -append "rdinit=/linuxrc console=ttyS0" -nographic
-       
-       
-      编译x86_64 kernel image：
-        $ export ARCH=x86)64
-        $ cd _install_x86/dev/
-        $ sudo mknod console c 5 1  (注意，不要遗漏该步骤, 只需要一次即可)
-        $ cd runninglinuxkernel_4.0
-        $ make x86_64_defconfig (在runninglinuxkernel_4.0目录下输入make命令)
-        $ make bzImage –j4 
+编译x86_64 kernel image：
+```sh
+$ export ARCH=x86)64
+$ cd _install_x86/dev/
+$ sudo mknod console c 5 1  (注意，不要遗漏该步骤, 只需要一次即可)
+$ cd runninglinuxkernel_4.0
+$ make x86_64_defconfig (在runninglinuxkernel_4.0目录下输入make命令)
+$ make bzImage –j4 
+```
+ 运行x86_64内核：
+```sh
+$ qemu-system-x86_64 -kernel arch/x86/boot/bzImage -append "rdinit=/linuxrc console=ttyS0" -nographic
+```
+另外在使用gdb+qemu调试x86_64内核时，出现“Remote 'g' packet reply is too long”的错误，解决办法如下：
+下载gdb-7.8源代码，修改./gdb/remote.c +6066去掉如下几行：重新编译gdb
 
-     运行x86_64内核：
-       $ qemu-system-x86_64 -kernel arch/x86/boot/bzImage -append "rdinit=/linuxrc console=ttyS0" -nographic
-       
-       另外在使用gdb+qemu调试x86_64内核时，出现“Remote 'g' packet reply is too long”的错误，解决办法如下：
-              下载gdb-7.8源代码，修改./gdb/remote.c +6066去掉如下几行：重新编译gdb
-                       /* Further sanity checks, with knowledge of the architecture.  */
-                //  if (buf_len > 2 * rsa->sizeof_g_packet)
-                       //  error (_("Remote 'g' packet reply is too long: %s"), rs->buf);
-
+```c
+/* Further sanity checks, with knowledge of the architecture.  */
+//  if (buf_len > 2 * rsa->sizeof_g_packet)
+    //  error (_("Remote 'g' packet reply is too long: %s"), rs->buf);
+```
 
 
 

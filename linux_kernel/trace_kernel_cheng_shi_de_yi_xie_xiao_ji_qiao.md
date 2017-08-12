@@ -39,7 +39,7 @@ CFLAGS_REMOVE_foo.o= -Os
 初期閱讀程式碼時會有一個困難，由於程式碼多，且每個函數在架構上的定位不同，透過 naming rule 我們可以簡單做一些判斷。此外，我們可以透過 ftrace 來知道函數的執行環境。
 
 如下圖的 function graph，我們可以看到函數的 call stack 及被執行的程序等資訊。
-![fgraph](http://image.slidesharecdn.com/trace-code-tips-141213224909-conversion-gate02/95/trace-kernel-code-tips-32-638.jpg?cb=1418511667)
+![fgraph](images/trace-kernel-code-tips-32-638.jpg)
 
 ftrace 可以建立一些簡單過濾的條件，包含 `*` 等規則，方便我們只開啟感興趣的子系統函數。可參考 [2] 中的 `available_filter_functions` 與 `set_ftrace_filter`。
 

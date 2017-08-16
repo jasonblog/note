@@ -718,7 +718,7 @@
        * [Add a row to dataframe](python/add_a_row_to_dataframe.md)
        * [Pandas DataFrame 的 iloc[0] 與 iloc[[0]]](python/pandas_dataframe_de_iloc_[_0_]_yu_iloc_[[_0_]].md)
        * [數據操作（Pandas） 完整](python/shu_ju_cao_zuo_ff08_pandas__wan_zheng.md)
-       * pandas  read csv
+       * [pandas  read csv](python/pandas_read_csv.md)
    * [編碼](python/bian_ma.md)
        * [Python - 瞭解bytes、str與unicode的區別](python/python_-_liao_jie_bytes__str_yu_unicode_de_qu_bie.md)
        * [淺談 python2及 python3處理中文字串編碼的差異](python/qian_tan_python2_ji_python3_chu_li_zhong_wen_zi_ch.md)

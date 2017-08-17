@@ -29,5 +29,4 @@ private:
     double w;
 
 };
-
 #endif

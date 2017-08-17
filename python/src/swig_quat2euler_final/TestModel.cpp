@@ -16,11 +16,6 @@ double Quaternion::norm()
     return std::sqrt(x * x + y * y + z * z + w * w);
 }
 
-double x;
-double y;
-double z;
-double w;
-
 void Quaternion::twoaxisrot(double r11, double r12, double r21, double r31,
                             double r32,
                             double res[])
@@ -165,9 +160,6 @@ void Quaternion::quaternion2Euler(const Quaternion& q, double res[],
     }
 }
 
-///////////////////////////////
-// Helper functions
-///////////////////////////////
 Quaternion operator*(Quaternion& q1, Quaternion& q2)
 {
     Quaternion q;
@@ -190,7 +182,8 @@ double rad2deg(double rad)
     return rad * 180.0 / M_PI;
 }
 
-void Quaternion::Quat2Euler(double w, double x, double y, double z, RotSeq rotSeq)
+void Quaternion::Quat2Euler(double w, double x, double y, double z,
+                            RotSeq rotSeq)
 {
     Quaternion q(x, y, z, w); // x,y,z,w
     double res[3];

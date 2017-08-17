@@ -1,0 +1,23 @@
+//test.c
+#include "test.h"
+
+int fn(int a, int b, FUNC op) 
+{
+    return op(a, b);
+}
+
+int add(int a, int b) 
+{
+    return a + b;
+}
+
+int mul(int a, int b) 
+{
+    return a * b;
+}
+
+int sub(int a, int b)
+{
+    return a - b;
+}
+

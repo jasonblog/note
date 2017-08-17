@@ -10,4 +10,4 @@ TestModel_wrap.cxx: TestModel.i
 	swig -c++ -python TestModel.i
 
 clean:
-	rm -f TestModel.py TestModel_wrap.cxx *.o *.so
+	rm -f TestModel.py TestModel_wrap.cxx *.o *.so *.pyc

@@ -13,6 +13,5 @@ for i in range(lens):
     print df['quat[2]'][i],
     print df['quat[3]'][i]
     '''
-
-    Quaternion_Quat2Euler(df['quat[0]'][i], df['quat[1]'][i], df['quat[2]'][i], df['quat[3]'][i])
+    Quaternion_Quat2Euler(df['quat[0]'][i], df['quat[1]'][i], df['quat[2]'][i], df['quat[3]'][i], xzy)
 

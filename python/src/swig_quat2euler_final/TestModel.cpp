@@ -190,13 +190,13 @@ double rad2deg(double rad)
     return rad * 180.0 / M_PI;
 }
 
-void Quaternion::Quat2Euler(double w, double x, double y, double z)
+void Quaternion::Quat2Euler(double w, double x, double y, double z, RotSeq rotSeq)
 {
     Quaternion q(x, y, z, w); // x,y,z,w
     double res[3];
-    q.quaternion2Euler(q, res, static_cast<RotSeq>(zyx));
+    q.quaternion2Euler(q, res, static_cast<RotSeq>(rotSeq));
     std::cout << "z: " << rad2deg(res[0]) << " y: " << rad2deg(res[1]) << " x: " <<
-              rad2deg(res[2]) << std::endl << std::endl;
+              rad2deg(res[2]) << std::endl;
 }
 
 #if 0

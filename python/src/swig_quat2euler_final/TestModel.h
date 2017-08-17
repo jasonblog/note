@@ -17,7 +17,7 @@ public:
 
     void normalize();
     double norm();
-    static void Quat2Euler(double w, double x, double y, double z);
+    static void Quat2Euler(double w, double x, double y, double z, RotSeq rotSeq);
 
     friend Quaternion operator *(Quaternion& q1, Quaternion& q2);
     friend std::ostream& operator <<(std::ostream& stream, const Quaternion& q);

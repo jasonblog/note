@@ -4,3 +4,4 @@ g++ -shared TestModel.o TestModel_wrap.o -o _TestModel.so
 
 from TestModel import *
 t.add(23,44)
+t.add(23,44)

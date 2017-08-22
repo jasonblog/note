@@ -1,0 +1,24 @@
+-fPIC 作用於編譯階段，告訴編譯器產生與位置無關代碼(Position-Independent Code)，
+則產生的代碼中，沒有絕對地址，全部使用相對地址，故而代碼可以被加載器加載到內存的任意
+位置，都可以正確的執行。這正是共享庫所要求的，共享庫被加載時，在內存的位置不是固定的。
+
+1. gcc -fPIC -shared -o libmyhello.so hello.c
+2. make
+
+
+
+讓程式處於 while(1) 使用下面指令去計算 Base Address 
+grep libmyhello.so /proc/11671/maps | head -1 | awk -F- '{print $1}'
+
+
+
+void func() {
+    char* p = "hello world.\n";
+    p[2] = 'k';  /* sigsegv segmentation fault */
+    printf("%s\n", p);
+}
+
+00000000000006be 是 nm libmyhello.so | ag 'func' 函數起始的offset
+6d9 是p[2] = 'k'; 那行offset 
+
+addr2line -f -C -e libmyhello.so offset_address

@@ -1,0 +1,74 @@
+之前一直在講如何epoll如何好用，但是並沒有實例來演示epoll的使用，下面我們就看一個服務器端使用epoll監聽大量並發鏈接的例子。
+首先看一下epoll的幾個函數的介紹。
+1、epoll_create函數
+
+/** 
+* @brief    該函數生成一個epoll專用的文件描述符。它其實是在內核申請一空間，用來存放你想關注的socket fd上是否發生以及發生了什麼事件。
+* 
+* @param    size    size就是你在這個epoll fd上能關注的最大socket fd數
+* 
+* @return   生成的文件描述符
+*/
+int epoll_create(int size);
+2、epoll_ctl函數
+/** 
+* @brief    該函數用於控制某個epoll文件描述符上的事件，可以註冊事件，修改事件，刪除事件。
+* 
+* @param    epfd    由 epoll_create 生成的epoll專用的文件描述符
+* @param    op      要進行的操作例如註冊事件，可能的取值EPOLL_CTL_ADD 註冊、EPOLL_CTL_MOD 修 改、EPOLL_CTL_DEL 刪除
+* @param    fd      關聯的文件描述符
+* @param    event   指向epoll_event的指針
+* 
+* @return   0       succ
+*           -1      fail
+*/
+int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event);
+其中用到的數據結構結構如下：
+
+typedef union epoll_data { 
+void *ptr;
+int fd;
+__uint32_t u32;
+__uint64_t u64;
+} epoll_data_t; 
+struct epoll_event {
+__uint32_t events; /* Epoll events */
+epoll_data_t data; /* User data variable */
+};
+常用的事件類型:
+EPOLLIN ：表示對應的文件描述符可以讀；
+EPOLLOUT：表示對應的文件描述符可以寫；
+EPOLLPRI：表示對應的文件描述符有緊急的數據可讀
+EPOLLERR：表示對應的文件描述符發生錯誤；
+EPOLLHUP：表示對應的文件描述符被掛斷；
+EPOLLET： 表示對應的文件描述符有事件發生；
+例：
+
+struct epoll_event ev;
+//設置與要處理的事件相關的文件描述符
+ev.data.fd=listenfd;
+//設置要處理的事件類型
+ev.events=EPOLLIN|EPOLLET;
+//註冊epoll事件
+epoll_ctl(epfd,EPOLL_CTL_ADD,listenfd,&ev);
+3、epoll_wait函數
+
+/** 
+* @brief    該函數用於輪詢I/O事件的發生
+* 
+* @param    epfd        由epoll_create 生成的epoll專用的文件描述符
+* @param    events      用於回傳代處理事件的數組
+* @param    maxevents   每次能處理的事件數
+* @param    timeout     等待I/O事件發生的超時值；-1相當於阻塞，0相當於非阻塞。一般用-1即可
+* 
+* @return   >=0         返回發生事件數
+*           -1          錯誤
+*/
+int epoll_wait(int epfd,struct epoll_event * events,int maxevents,int timeout);
+好了，其實在epoll的使用中無非就用到了上面介紹的幾個函數
+
+gcc -o server server.c
+gcc -o client client.c
+sudo ./server
+./client localhost 5000
+./client localhost 5000

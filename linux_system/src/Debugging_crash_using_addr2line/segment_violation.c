@@ -6,10 +6,12 @@
 #include <string.h>
 #include "hello.h"
 
+#define LEN 100
+
 char* FindBaseAddress(const char* SoName) {
     static char BaseAddr[20];
     int pid = getpid();
-    char file_name[50];
+    char file_name[200];
     sprintf(file_name, "/proc/%d/maps", pid);
     char cmd[100];
     sprintf(cmd, "grep %s %s | head -1 | awk -F- \'{print $1}\'", SoName, file_name);
@@ -26,21 +28,21 @@ char* FindBaseAddress(const char* SoName) {
 
 int PrintLineNumber(char* So_Name, int OffsetAddress) {
     char cmd[128];
-    sprintf(cmd, "addr2line -e %s 0x%x", So_Name, OffsetAddress);
+    sprintf(cmd, "addr2line -f -C -e %s 0x%x", So_Name, OffsetAddress);
     system(cmd);
 }
 
 char* FindSoName() {
-    static char p[50] = {'\0'};
+    static char p[200] = {'\0'};
     char* SoName = NULL;
     int fd = open(".backtrace_file", O_RDONLY);
 
     if (!fd) {
         perror("No such file: .backtrace_file or you have not permission to access it\n");
     } else {
-        char cmd_so[100] = "awk -F\"(\" '{if(NR==3) print$1}' .backtrace_file";
+        char cmd_so[200] = "awk -F\"(\" '{if(NR==3) print$1}' .backtrace_file";
         FILE* file =  popen(cmd_so, "r");
-        int n =    fread(p, 1, 50, file);
+        int n =    fread(p, 1, 200, file);
         p[n - 1] = 0;
         SoName = p;
         printf("The .so name is:%s\n", SoName);

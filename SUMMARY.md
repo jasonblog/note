@@ -1211,7 +1211,7 @@
 * [Java](java/java.md)
    * [開檔讀檔 & 正則範例](java/kai_dang_du_dang_&_zheng_ze_fan_li.md)
    * [Thread和Runnable的區別](java/threadhe_runnable_de_qu_bie.md)
-   * 用javac命令行编译多个java文件
+   * [用javac命令行编译多个java文件](java/yong_javac_ming_ling_xing_bian_yi_duo_ge_java_wen_.md)
 * [Linear Algebra](linear_algebra/linear_algebra.md)
    * [理解矩陣](linear_algebra/li_jie_ju_zhen.md)
    * [旋轉矩陣與四元數](linear_algebra/xuanzhuan_ju_zhen_yu_si_yuan_shu_md.md)

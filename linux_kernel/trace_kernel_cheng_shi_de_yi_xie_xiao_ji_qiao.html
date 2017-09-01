@@ -57,7 +57,7 @@
         data-chapter-title="Trace Kernel 程式的一些小技巧"
         data-filepath="linux_kernel/trace_kernel_cheng_shi_de_yi_xie_xiao_ji_qiao.md"
         data-basepath=".."
-        data-revision="Thu Aug 17 2017 22:51:52 GMT+0800 (CST)"
+        data-revision="Fri Sep 01 2017 14:10:42 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -19063,6 +19063,21 @@
             
         </li>
     
+        <li class="chapter " data-level="63.3" data-path="java/yong_javac_ming_ling_xing_bian_yi_duo_ge_java_wen_.html">
+            
+                
+                    <a href="../java/yong_javac_ming_ling_xing_bian_yi_duo_ge_java_wen_.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>63.3.</b>
+                        
+                        用javac命令行編譯多個java文件
+                    </a>
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -19501,13 +19516,13 @@
 <hr>
 <h6 id="tags-twlkh-tracing">tags: <code>twlkh</code>, <code>tracing</code></h6>
 <p>(&#x6709;&#x4E9B;&#x6771;&#x897F;&#x61F6;&#x5F97;&#x6253;&#x6216;&#x662F;&#x622A;&#x5716;&#xFF0C;&#x8868;&#x9054;&#x4E0D;&#x6E05;&#x7684;&#x5730;&#x65B9;&#x6B61;&#x8FCE;&#x81EA;&#x884C;&#x4FEE;&#x6539;)</p>
-<p>&#x7531;&#x65BC; kernel &#x7A0B;&#x5F0F;&#x9F90;&#x5927;&#xFF0C;&#x53C8;&#x6709;&#x5404;&#x7A2E;&#x4E0D;&#x540C;&#x7684; configuration &#x4EE5;&#x53CA;&#x9664;&#x932F;&#x7A0B;&#x5F0F;&#x3002;&#x5C0D;&#x65BC;&#x7A0B;&#x5F0F;&#x7684;&#x4E86;&#x89E3;&#x5E38;&#x5E38;&#x5E36;&#x4F86;&#x56F0;&#x64FE;&#xFF0C;&#x9019;&#x908A;&#x6574;&#x7406;&#x4E00;&#x4E0B;&#x81EA;&#x5DF1;&#x4EE5;&#x524D;&#x5E38;&#x7528;&#x7684;&#x5C0F;&#x6280;&#x5DE7;&#x3002;</p>
+<p>&#x7531;&#x65BC; kernel &#x7A0B;&#x5F0F;&#x9F90;&#x5927;&#xFF0C;&#x53C8;&#x6709;&#x5404;&#x7A2E;&#x4E0D;&#x540C;&#x7684; configuration &#x4EE5;&#x53CA;&#x9664;&#x932F;&#x7A0B;&#x5F0F;&#x3002;&#x5C0D;&#x65BC;&#x7A0B;&#x5F0F;&#x7684;&#x77AD;&#x89E3;&#x5E38;&#x5E38;&#x5E36;&#x4F86;&#x56F0;&#x64FE;&#xFF0C;&#x9019;&#x908A;&#x6574;&#x7406;&#x4E00;&#x4E0B;&#x81EA;&#x5DF1;&#x4EE5;&#x524D;&#x5E38;&#x7528;&#x7684;&#x5C0F;&#x6280;&#x5DE7;&#x3002;</p>
 <h1 id="&#x7DE8;&#x8B6F;&#x6642;&#x671F;&#x7684;&#x5C0F;&#x6280;&#x5DE7;">&#x7DE8;&#x8B6F;&#x6642;&#x671F;&#x7684;&#x5C0F;&#x6280;&#x5DE7;</h1>
 <p>C &#x8A9E;&#x8A00;&#x4E2D;&#x5E38;&#x5E38;&#x900F;&#x904E; preprocess &#x6642;&#x671F;&#x7684; macro &#x4F86;&#x7C21;&#x5316;&#x7A0B;&#x5F0F;&#x6216;&#x662F;&#x5728;  compile time &#x4F86;&#x904E;&#x6FFE;&#x4E0D;&#x540C;&#x7684;&#x7A0B;&#x5F0F;&#x78BC;&#x3002;&#x4F46;&#x662F;&#x6211;&#x5011;&#x5728;&#x8FFD;&#x8E64;&#x7A0B;&#x5F0F;&#x6642;&#x5C31;&#x5FC5;&#x9808;&#x53BB;&#x4E86;&#x89E3;&#x9019;&#x4E9B; macro &#x4F55;&#x6642;&#x6703;&#x88AB;&#x5B9A;&#x7FA9;&#xFF1F;&#x6211;&#x5011;&#x76EE;&#x524D;&#x662F;&#x5426;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x4F7F;&#x7528;&#x7B49;&#x3002; </p>
 <h2 id="&#x8655;&#x7406;-preprocess-macro-&#x9020;&#x6210;&#x7684;&#x9EBB;&#x7169;">&#x8655;&#x7406; preprocess macro &#x9020;&#x6210;&#x7684;&#x9EBB;&#x7169;</h2>
-<p>&#x900F;&#x904E; <code>-save-temps</code> &#x7684; CFLAGS &#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x5728;&#x7DE8;&#x8B6F;&#x6642;&#x671F;&#x5410;&#x51FA;&#x7D93;&#x904E; preprocess &#x7684;&#x4E2D;&#x9593;&#x6A94;&#xFF0C;&#x53EF;&#x900F;&#x904E;&#x9019;&#x500B;&#x6A94;&#x6848;&#x904E;&#x6FFE;&#x6389;&#x5728;&#x6211;&#x5011;&#x76EE;&#x524D;&#x7684;&#x7CFB;&#x7D71;&#x4E0D;&#x9700;&#x8981;&#x7684;&#x8A2D;&#x5B9A;&#x4EE5;&#x53CA;&#x64F4;&#x5C55; macro&#xFF0C;&#x65B9;&#x4FBF;&#x6211;&#x5011;&#x4E86;&#x89E3;&#x76EE;&#x524D;&#x7684;&#x7A0B;&#x5F0F;&#x884C;&#x70BA;&#x3002;</p>
+<p>&#x900F;&#x904E; <code>-save-temps</code> &#x7684; CFLAGS &#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x5728;&#x7DE8;&#x8B6F;&#x6642;&#x671F;&#x5410;&#x51FA;&#x7D93;&#x904E; preprocess &#x7684;&#x4E2D;&#x9593;&#x6A94;&#xFF0C;&#x53EF;&#x900F;&#x904E;&#x9019;&#x500B;&#x6A94;&#x6848;&#x904E;&#x6FFE;&#x6389;&#x5728;&#x6211;&#x5011;&#x76EE;&#x524D;&#x7684;&#x7CFB;&#x7D71;&#x4E0D;&#x9700;&#x8981;&#x7684;&#x8A2D;&#x5B9A;&#x4EE5;&#x53CA;&#x64F4;&#x5C55; macro&#xFF0C;&#x65B9;&#x4FBF;&#x6211;&#x5011;&#x77AD;&#x89E3;&#x76EE;&#x524D;&#x7684;&#x7A0B;&#x5F0F;&#x884C;&#x70BA;&#x3002;</p>
 <h2 id="&#x6AA2;&#x67E5;&#x53CA;&#x641C;&#x5C0B;-kconfig-&#x53C3;&#x6578;&#x8A2D;&#x5B9A;">&#x6AA2;&#x67E5;&#x53CA;&#x641C;&#x5C0B; Kconfig &#x53C3;&#x6578;&#x8A2D;&#x5B9A;</h2>
-<p>Kconfig &#x8A9E;&#x6CD5;&#x4E2D;&#x5141;&#x8A31;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x5B9A;&#x7FA9; config &#x8B8A;&#x6578;&#x3001;&#x6587;&#x5B57;&#x7C21;&#x8FF0;&#x3001;&#x5B8C;&#x6574; help &#x8A0A;&#x606F;&#xFF0C;&#x53E6;&#x5916;&#x6709;&#x76F8;&#x4F9D;&#x6027;&#x7684;&#x8A2D;&#x5B9A;&#xFF08;<code>depend</code>&#x3001;<code>select</code>&#xFF09;&#x3002;&#x6211;&#x5011;&#x5728;&#x7531;&#x6700;&#x5F8C;&#x7522;&#x751F;&#x7684;&#x6A94;&#x6848;&#xFF08;<code>.config</code>&#xFF09;&#x53EF;&#x4EE5;&#x770B;&#x51FA;&#x54EA;&#x4E9B;&#x8B8A;&#x6578;&#x6709;&#x88AB;&#x5B9A;&#x7FA9;&#x54EA;&#x4E9B;&#x6C92;&#x6709;&#x3002;&#x4F46;&#x662F;&#x8981;&#x9032;&#x4E00;&#x6B65;&#x4E86;&#x89E3;&#x9019;&#x4E9B;&#x53C3;&#x6578;&#x7684;&#x771F;&#x6B63;&#x610F;&#x7FA9;&#x53CA;&#x5728; <code>menuconfig</code> &#x4E2D;&#x5C0B;&#x627E;&#x9019;&#x4E9B;&#x8B8A;&#x6578;&#x7684;&#x9801;&#x9762;&#x537B;&#x50CF;&#x5927;&#x6D77;&#x6488;&#x91DD;&#x3002;</p>
+<p>Kconfig &#x8A9E;&#x6CD5;&#x4E2D;&#x5141;&#x8A31;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x5B9A;&#x7FA9; config &#x8B8A;&#x6578;&#x3001;&#x6587;&#x5B57;&#x7C21;&#x8FF0;&#x3001;&#x5B8C;&#x6574; help &#x8A0A;&#x606F;&#xFF0C;&#x53E6;&#x5916;&#x6709;&#x76F8;&#x4F9D;&#x6027;&#x7684;&#x8A2D;&#x5B9A;&#xFF08;<code>depend</code>&#x3001;<code>select</code>&#xFF09;&#x3002;&#x6211;&#x5011;&#x5728;&#x7531;&#x6700;&#x5F8C;&#x7522;&#x751F;&#x7684;&#x6A94;&#x6848;&#xFF08;<code>.config</code>&#xFF09;&#x53EF;&#x4EE5;&#x770B;&#x51FA;&#x54EA;&#x4E9B;&#x8B8A;&#x6578;&#x6709;&#x88AB;&#x5B9A;&#x7FA9;&#x54EA;&#x4E9B;&#x6C92;&#x6709;&#x3002;&#x4F46;&#x662F;&#x8981;&#x9032;&#x4E00;&#x6B65;&#x77AD;&#x89E3;&#x9019;&#x4E9B;&#x53C3;&#x6578;&#x7684;&#x771F;&#x6B63;&#x610F;&#x7FA9;&#x53CA;&#x5728; <code>menuconfig</code> &#x4E2D;&#x5C0B;&#x627E;&#x9019;&#x4E9B;&#x8B8A;&#x6578;&#x7684;&#x9801;&#x9762;&#x537B;&#x50CF;&#x5927;&#x6D77;&#x6488;&#x91DD;&#x3002;</p>
 <p><code>menuconfig</code> &#x6709;&#x63D0;&#x4F9B;&#x641C;&#x5C0B;&#x529F;&#x80FD;&#x65B9;&#x4FBF;&#x6211;&#x5011;&#x5C0B;&#x627E;&#x3002;&#x4F7F;&#x7528;&#x65B9;&#x5F0F;&#x5982;&#x540C; vim &#x641C;&#x5C0B;&#x5B57;&#x4E32;&#x4E00;&#x822C;&#xFF0C;&#x7576;&#x6211;&#x5011;&#x9032;&#x5165;&#x9078;&#x55AE;&#x6642;&#xFF0C;&#x6309; <code>/</code>&#xFF0C;&#x5C31;&#x6703;&#x8DF3;&#x51FA;&#x641C;&#x5C0B;&#x9078;&#x55AE;&#xFF0C;&#x6B64;&#x6642;&#x8F38;&#x5165;&#x6B32;&#x641C;&#x5C0B;&#x7684;&#x8B8A;&#x6578;&#xFF0C;&#x4F8B;&#x5982; <code>FOO_EN</code> &#xFF08;&#x4E0D;&#x9700;&#x5B8C;&#x6574;&#x5B57;&#x4E32;&#xFF09;&#xFF0C; <code>menuconfig</code> &#x5C31;&#x53EF;&#x641C;&#x5C0B;&#x51FA;&#x76F8;&#x95DC;&#x7684;&#x8B8A;&#x6578;&#xFF0C;&#x4EE5;&#x53CA;&#x4ED6;&#x5011;&#x6240;&#x6709;&#x7684;&#x8CC7;&#x8A0A;&#xFF0C;&#x5305;&#x542B;&#x76F8;&#x4F9D;&#x6027;&#x3001;&#x88AB;&#x54EA;&#x4E9B;&#x8B8A;&#x6578;&#x9078;&#x53D6;&#x3001;&#x5728; <code>menuconfig</code> &#x4E2D;&#x7684;&#x76EE;&#x9304;&#x968E;&#x5C64;&#x7B49;&#x3002;</p>
 <h2 id="&#x900F;&#x904E;-kbuild-&#x63A7;&#x5236;&#x55AE;&#x4E00;&#x6A94;&#x6848;&#x7684;-cflags">&#x900F;&#x904E; kbuild &#x63A7;&#x5236;&#x55AE;&#x4E00;&#x6A94;&#x6848;&#x7684; CFLAGS</h2>
 <p>&#x900F;&#x904E; gdb &#x9664;&#x932F; kenrel &#x7A0B;&#x5F0F;&#x901A;&#x5E38;&#x6703;&#x9700;&#x8981;&#x958B;&#x555F; <code>-g -O0</code> &#x7684; CFLAGS &#x4EE5;&#x6E1B;&#x5C11;&#x7A0B;&#x5F0F;&#x88AB;&#x7DE8;&#x8B6F;&#x5668;&#x6700;&#x4F73;&#x5316;&#x5E36;&#x4F86;&#x7684;&#x5F71;&#x97FF;&#x3002;&#x7531;&#x65BC; kernel &#x7A0B;&#x5F0F;&#x9F90;&#x5927;&#xFF0C;&#x82E5;&#x662F;&#x7D71;&#x4E00;&#x958B;&#x555F; <code>-g -O0</code> &#x6703;&#x4F7F;&#x5F97;&#x6700;&#x5F8C;&#x7DE8;&#x51FA;&#x7684; kernel image &#x904E;&#x65BC;&#x9F90;&#x5927;&#x3002;&#x82E5;&#x662F;&#x8A18;&#x61B6;&#x9AD4;&#x53D7;&#x9650;&#x7684;&#x8A71;&#x5E38;&#x5E38;&#x767C;&#x73FE;&#x4E0D;&#x80FD;&#x4F7F;&#x7528;&#x7684;&#x554F;&#x984C;&#x3002;</p>
@@ -19531,7 +19546,7 @@
 <p>&#x4F46;&#x662F;&#x4F7F;&#x7528;&#x4E0A;&#x4E5F;&#x6709;&#x4E00;&#x4E9B;&#x7F3A;&#x9EDE;&#xFF0C;</p>
 <ol>
 <li>Qemu &#x5BE6;&#x73FE;&#x7684;&#x786C;&#x9AD4;&#x529F;&#x80FD;&#x6709;&#x6642;&#x4E0D;&#x662F;&#x90A3;&#x9EBC;&#x5B8C;&#x5168;&#xFF0C;&#x4F8B;&#x5982;&#x6709;&#x4E00;&#x6BB5;&#x6642;&#x9593; Cortex-A &#x7684; secure &#x76F8;&#x95DC;&#x7684;&#x786C;&#x9AD4;&#x529F;&#x80FD;&#x4E26;&#x6C92;&#x6709;&#x5BE6;&#x73FE;&#xFF0C;MIPS &#x7684; &#x591A;&#x6838;&#x5FC3;/&#x591A;&#x57F7;&#x884C;&#x7DD2;&#x4E5F;&#x662F;&#x6700;&#x8FD1;&#x624D;&#x6709;&#x770B;&#x5230;&#x76F8;&#x95DC; patch&#xFF0C;&#x958B;&#x767C;&#x677F;&#x8981;&#x770B;&#x6709;&#x652F;&#x63F4;&#x54EA;&#x4E9B;&#xFF0C;&#x5468;&#x908A;&#x652F;&#x63F4;&#x662F;&#x5426;&#x9F4A;&#x5168;&#x3002;</li>
-<li>Qemu &#x6C92;&#x6709; cache &#x7684;&#x6982;&#x5FF5;&#xFF0C;&#x6240;&#x4EE5;&#x76F8;&#x95DC;&#x7684;&#x529F;&#x80FD;&#x53EA;&#x80FD;&#x5927;&#x6982;&#x53C3;&#x8003;&#x3002;&#x4F46;&#x662F;&#x5C0D;&#x65BC;&#x4E86;&#x89E3;&#x7A0B;&#x5F0F;&#x6D41;&#x7A0B;&#x662F;&#x6C92;&#x554F;&#x984C;&#x7684;&#x3002;</li>
+<li>Qemu &#x6C92;&#x6709; cache &#x7684;&#x6982;&#x5FF5;&#xFF0C;&#x6240;&#x4EE5;&#x76F8;&#x95DC;&#x7684;&#x529F;&#x80FD;&#x53EA;&#x80FD;&#x5927;&#x6982;&#x53C3;&#x8003;&#x3002;&#x4F46;&#x662F;&#x5C0D;&#x65BC;&#x77AD;&#x89E3;&#x7A0B;&#x5F0F;&#x6D41;&#x7A0B;&#x662F;&#x6C92;&#x554F;&#x984C;&#x7684;&#x3002;</li>
 </ol>
 <h1 id="reference">Reference</h1>
 <ol>

@@ -1,0 +1,56 @@
+換掉動態連結的函式庫有不少用途, 比方說像 Scott 提的「用來驗證是否執行到特定函式」, 或如 jserv 提的「在沒有原始碼的情況下修補執行檔的行為」。最近又看到這個東西, 記一下筆記以免忘了。
+
+來看程式碼和執行效果。
+
+mylib.c
+
+#include <stddef.h>
+#include <stdio.h>
+
+int putchar(int c) {
+    printf("call putchar()\n");
+    return c;
+}
+
+void *memset(void *s, int c, size_t n) {
+    printf("call memset()\n");
+    return s;
+}
+main.c
+
+#include <string.h>
+#include <stdio.h>
+
+int main(void) {
+    char s[10];
+    memset(s, 0, 0);
+    putchar('X');
+    putchar('\n');
+    return 0;
+}
+執行結果
+
+$ gcc -Wall -fpic -shared -o libmylib.so mylib.c
+$ gcc -o main main.c
+# 沒用 LD_PRELOAD 的結果
+$ ./main
+X
+# 用 LD_PRELOAD 後的結果, 記得加 "./", 不然會找不到 libmylib.so
+$ LD_PRELOAD=./libmylib.so ./main
+call putchar()
+call putchar()
+$ strings main | grep memset
+可以看出 putchar 有被換成自己編的版本, 但 memset 沒有。用 strings 查看 binary 檔 main 會發覺並沒有呼叫 memset 的跡象。猜測是 compiler 發覺 memset 實際上沒任何作用, 所以沒呼叫。
+
+修改 main.c, 將 memset(s, 0, 0) 換成 memset(s, 0, 1) 再來看看:
+
+$ gcc -o main main.c
+$ strings main | grep memset
+memset
+$ LD_PRELOAD=./libmylib.so ./main
+call memset()
+call putchar()
+call putchar()
+結果顯示有換到 memset, 表示之前是完全沒呼叫 memset, 才會以為沒換到。printf 也是如此, 只輸出字串時, 不會呼叫 printf, 而是用 puts。
+
+參考資料: 《Modifying a Dynamic Library Without Changing the Source Code | Linux Journal》

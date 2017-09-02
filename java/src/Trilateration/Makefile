@@ -16,7 +16,7 @@ CLASSES = \
 		src/TrilaterationTest.java \
 		src/test.java
 
-TEST = classes/test
+TEST = test
 
 default: dir classes
 
@@ -26,10 +26,7 @@ dir:
 classes: $(CLASSES:.java=.class)
 
 run: 
-	$(JVM) -cp ./jars/commons-math3-3.6.1.jar:./jars/junit-4.12.jar $(TEST)
-
-#run: 
-#	java  -cp ./jars/commons-math3-3.6.1.jar:./jars/junit-4.12.jar ./classes/test
+	$(JVM) -cp classes:./jars/commons-math3-3.6.1.jar:./jars/junit-4.12.jar $(TEST)
 
 clean:
 	$(RM) -rf ./classes

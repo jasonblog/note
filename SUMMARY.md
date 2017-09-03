@@ -833,6 +833,7 @@
        * [Chapter 6](raspberry_pi/chapter_6.md)
        * [Chapter 7](raspberry_pi/chapter_7.md)
        * [Chapter 8](raspberry_pi/chapter_8.md)
+   * raspberry 3b 64bit 系统安装，以及交叉编译环境、调试环境的搭建
 * [OpenGL](opengl/opengl.md)
    * [opengl(mesa) for ubuntu14.04](opengl/mesa.md)
    * [ubuntu 14.04 安裝OpenGL（基於freeglut）](opengl/1.md)

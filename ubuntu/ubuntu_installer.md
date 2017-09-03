@@ -849,3 +849,63 @@ done
 adjust_timeout
 ```
 
+
+---
+
+##解決Ubuntu 16.04下提示boot分區空間不足的辦法
+
+
+最近看瞭看/boot的大小，發現幾次升級後，大小不足，所以想擴容，一開始還想用磁盤操作，但上網查詢後發現，磁盤操作實在風險太大，特別是雙系統的Linux，操作又是很麻煩，後來發現可以刪除多餘的舊內核來清理/boot，釋放空間。下面來看看詳細的解決方法吧。
+
+###前言
+
+因為linux內核一直在更新，更新後，舊的內核就不在使用，但舊的內核文件還在boot裡面，占據著空間，更新幾次過後boot分區就會被占滿，顯示boot磁盤空間不足。
+
+###解決辦法
+
+將不用的內核文件刪除，釋放空間。
+
+###步驟如下
+
+一、查看已安裝的內核 dpkg --get-selections |grep linux-image
+```sh
+dpkg --get-selections |grep linux-image
+linux-image-4.4.0-21-generic deinstall
+linux-image-4.4.0-57-generic install
+linux-image-4.4.0-59-generic install
+linux-image-4.4.0-62-generic install
+linux-image-4.4.0-64-generic install
+linux-image-extra-4.4.0-21-generic deinstall
+linux-image-extra-4.4.0-57-generic install
+linux-image-extra-4.4.0-59-generic install
+linux-image-extra-4.4.0-62-generic install
+linux-image-extra-4.4.0-64-generic install
+linux-image-extra-virtual install
+linux-image-generic install
+```
+
+後面帶deinstall的為已刪除的內核，可以忽略
+
+二、使用uname -a查看自己當前啟動的是哪個內核
+
+```sh
+uname -a
+Linux eason 4.4.0-62-generic #83-Ubuntu SMP Wed Jan 18 14:10:15 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
+```
+
+從輸出可知我們當前啟動的內核是4.4.0-62-generic
+
+三、運行apt-get remove命令卸載其他內核，為瞭保險起見，保留最近的一兩個版本。
+
+```sh
+sudo apt-get remove linux-image-4.4.0-57-generic
+sudo apt-get remove linux-image-4.4.0-59-generic
+sudo apt-get remove linux-image-extra-4.4.0-57-generic
+sudo apt-get remove linux-image-extra-4.4.0-59-generic
+```
+
+如提示有未卸載幹凈的可以執行sudo apt-get remove來卸載。
+
+###總結
+
+以上就是這篇文章的全部內容瞭，希望本文的內容對大傢的學習或者工作能帶來一定的幫助，如果有疑問大傢可以留言交流。

@@ -1202,6 +1202,8 @@
    * [Keeping a fork up to date](git/keeping_a_fork_up_to_date.md)
    * [Clone all repos from a GitHub organization](git/clone_all_repos_from_a_github_organization.md)
    * [Git倉庫遷移而不丟失log的方法](git/gitcang_ku_qian_yi_er_bu_diu_shi_log_de_fang_fa.md)
+   * [如何将GIT存储库从一个服务器迁移到新服务器](git/ru_he_jiang_git_cun_chu_ku_cong_yi_ge_fu_wu_qi_qia.md)
+   * [git文件夹内容过大的解决方法](git/gitwen_jian_jia_nei_rong_guo_da_de_jie_jue_fang_fa.md)
 * [Interview](interview/interview.md)
    * [DS_Algo](interview/dsalgo.md)
        * [Linked List的複習總結](interview/linked_listde_fu_xi_zong_jie.md)

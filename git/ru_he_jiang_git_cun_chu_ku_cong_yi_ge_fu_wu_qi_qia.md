@@ -1,60 +1,60 @@
-# 如何将GIT存储库从一个服务器迁移到新服务器
+# 如何將GIT存儲庫從一個服務器遷移到新服務器
 
 
-###问题描述
+###問題描述
 
-我有一台服务器，我正在服用。我唯一要迁移的是我的存储库。该服务器被列为我的一个项目的原始(主)。移动存储库以保持历史记录的正确方法是什么？
-###最佳解决方案
+我有一臺服務器，我正在服用。我唯一要遷移的是我的存儲庫。該服務器被列為我的一個項目的原始(主)。移動存儲庫以保持歷史記錄的正確方法是什麼？
+###最佳解決方案
 
-要添加新的回购位置，
+要添加新的回購位置，
 
 ```sh
 git remote add new_repo_name new_repo_url
 ```
 
-然后将内容推送到新位置
+然後將內容推送到新位置
 
 ```sh
 git push new_repo_name master
 ```
 
-最后删除旧的
+最後刪除舊的
 ```sh
 git remote rm origin
 ```
 
-之后，你可以做什么bdonlan说和编辑the.git /config文件来改变new_repo_name到原点。如果您不删除原始(原始远程存储库)，您只需将更改推送到新的备份库
+之後，你可以做什麼bdonlan說和編輯the.git /config文件來改變new_repo_name到原點。如果您不刪除原始(原始遠程存儲庫)，您只需將更改推送到新的備份庫
 ```sh
 git push new_repo_name master
 ```
 
-###次佳解决方案
+###次佳解決方案
 
-如果要迁移所有分支和标签，您应该使用以下命令：
+如果要遷移所有分支和標籤，您應該使用以下命令：
 ```sh
 git clone --mirror [oldUrl]
 ```
 
-用所有分支克隆旧的回购
+用所有分支克隆舊的回購
 ```sh
 cd the_repo
 git remote add remoteName newRepoUrl
 ```
 
-设置一个新的遥控器
+設置一個新的遙控器
 
 ```sh
 git push -f --tags remoteName refs/heads/*:refs/heads/*
 ```
 
-推送所有参考文献(可能是你想要的)
-###第三种解决方案
+推送所有參考文獻(可能是你想要的)
+###第三種解決方案
 
-复制它。真的很简单:)
-在客户端，只需在客户端的本地备份中编辑.git /config，就可以根据需要将遥控器指向新的URL。
-###第四种方案
+複製它。真的很簡單:)
+在客戶端，只需在客戶端的本地備份中編輯.git /config，就可以根據需要將遙控器指向新的URL。
+###第四種方案
 
-这对我来说无瑕疵。
+這對我來說無瑕疵。
 
 ```sh
 git clone --mirror <URL to my OLD repo location>
@@ -63,30 +63,30 @@ git remote set-url origin <URL to my NEW repo location>
 git push -f origin
 ```
 
-我必须提到，这将创建一个您当前的回购的镜子，然后将其推送到新的位置。因此，这可能需要一些时间才能进行大型回收或连接缓慢。
-##第五种方案
+我必須提到，這將創建一個您當前的回購的鏡子，然後將其推送到新的位置。因此，這可能需要一些時間才能進行大型回收或連接緩慢。
+##第五種方案
 
-我只是重新发表别人所说的话，简单地按照指示清单。
-移动存储库：只需登录到新服务器cd到您要保存存储库的父目录，并使用rsync从旧服务器复制：
+我只是重新發表別人所說的話，簡單地按照指示清單。
+移動存儲庫：只需登錄到新服務器cd到您要保存存儲庫的父目錄，並使用rsync從舊服務器複製：
 ```sh
 new.server> rsync -a -v -e ssh user@old.server.com:path/to/repository.git .
 ```
 
-使客户端指向新的存储库：现在在使用存储库的每个客户端上，只需删除指向旧源的指针，并将其添加到新的存储库。
+使客戶端指向新的存儲庫：現在在使用存儲庫的每個客戶端上，只需刪除指向舊源的指針，並將其添加到新的存儲庫。
 
 ```sh
 client> git remote rm origin
 client> git remote add origin user@new.server.com:path/to/repository.git
 ```
 
-###第六种方案
+###第六種方案
 
-看看这个食谱GitHub：https://help.github.com/articles/importing-an-external-git-repository
-在发现git push --mirror之前，我尝试了一些方法。
-像一个魅力一样工作！
-###第七种方案
+看看這個食譜GitHub：https://help.github.com/articles/importing-an-external-git-repository
+在發現git push --mirror之前，我嘗試了一些方法。
+像一個魅力一樣工作！
+###第七種方案
 
-这在某些其他答案中是部分完成的。
+這在某些其他答案中是部分完成的。
 
 ```sh
 git clone --mirror git@oldserver:oldproject.git
@@ -95,9 +95,9 @@ git remote add new git@newserver:newproject.git
 git push --mirror new
 ```
 
-###第八种方案
+###第八種方案
 
-我按照BitBucket的指示，将所有分支机构的回购移到那里。这里有#字符后面的解释步骤：
+我按照BitBucket的指示，將所有分支機構的回購移到那裡。這裡有#字符後面的解釋步驟：
 
 ```sh
 cd path/to/local/repo
@@ -107,15 +107,15 @@ git push -u origin --all # pushes _ALL_ branches in one go
 git push -u origin --tags # pushes _ALL_ tags in one go
 ```
 
-为我工作很好
-###第九种方案
+為我工作很好
+###第九種方案
 
 您可以使用以下命令：
 ```sh
 git remote set-url --push origin new_repo_url
 ```
 
-示例来自http://gitref.org/remotes/
+示例來自http://gitref.org/remotes/
 
 ```sh
 $ git remote -v
@@ -131,11 +131,11 @@ origin  git://github.com/github/git-reference.git (fetch)
 origin  git://github.com/pjhyett/hw.git (push)
 ```
 
-###第十种方案
+###第十種方案
 
-应该简单如下：
+應該簡單如下：
 git remote set-url origin git://new.url.here
-这样你就可以为新的repo保留名称origin – 然后按照其他答案中的详细说明推送新的repo。假设你单独工作，你有一个本地的回购，你想与你所有的货物一起镜子，你也可以(从您当地的回购)
+這樣你就可以為新的repo保留名稱origin – 然後按照其他答案中的詳細說明推送新的repo。假設你單獨工作，你有一個本地的回購，你想與你所有的貨物一起鏡子，你也可以(從您當地的回購)
 
 ```sh
 git push origin --mirror # origin points to your new repo
@@ -143,6 +143,6 @@ git push origin --mirror # origin points to your new repo
 ```
 
 但是看到Is “git push –mirror” sufficient for backing up my repository?(一切都不使用--mirror但是一次)。
-参考文献
+參考文獻
 
 How to migrate GIT repository from one server to a new one

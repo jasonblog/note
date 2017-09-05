@@ -23,7 +23,7 @@ sudo apt-get install autoconf automake linux-headers-`uname -r` vim-gnome \
                      i2c-tools sshfs wavesurfer audacity fcitx fcitx-chewing libswitch-perl bin86 \
                      inotify-tools u-boot-tools subversion crash tree mscgen krename umbrello \
                      intel2gas kernelshark trace-cmd pppoe shutter dcfldd flex bison help2man \
-                     texinfo texi2html ghp-import autossh samba sdcv xournal cloc
+                     texinfo texi2html ghp-import autossh samba sdcv xournal cloc geogebra
 ```
 
 -  PCMAN 字體

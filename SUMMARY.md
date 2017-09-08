@@ -61,7 +61,7 @@
        * [Linux 效能分析工具: Perf - NCKU 2016](linux_tools/linux_xiao_neng_fen_xi_gong_51773a_perf_-_ncku_2016.md)
    * [Mounting samba shares from a unix client](linux_tools/mounting_samba_shares_from_a_unix_client.md)
    * [cppcheck 靜態程式分析工具](linux_tools/cppcheck_jing_tai_cheng_shi_fen_xi_gong_ju.md)
-   * perf 原理和實務
+   * [perf 原理和實務](linux_tools/perf_yuan_li_he_shi_wu.md)
 * [Android note](android_note/README.md)
    * [android resource](android_note/514.md)
    * [什麼時候用startService，什麼時候用bindService](android_note/startservice_bindservice.md)

@@ -81,7 +81,7 @@ gnuplot 繪製同一來源檔案時指令應為不中斷的一大長串，我們
 
 ## 美圖欣賞
 * 輸出 runtime.png:
-![](https://i.imgur.com/TSVRPZb.png)
+![](images/TSVRPZb.png)
 對應的程式碼
 ```gnuplot=
 reset
@@ -101,7 +101,7 @@ plot [:][:0.100]'output.txt' using 2:xtic(1) with histogram title 'original', \
 
 
 * 善用設定就能得整齊美圖一張
-![](https://i.imgur.com/MS1fh23.png)
+![](images/MS1fh23.png)
 
 [source](https://embedded2016.hackpad.com/concurrent-B-tree-p459m7tm2Ea)
 對應程式碼：
@@ -127,7 +127,7 @@ plot [:][:0.210]'output.txt' using 2:xtic(1) with histogram title 'original', \
 ```
 * 分佈圖
 
-![](https://i.imgur.com/t6xIsO9.png)
+![](images/t6xIsO9.png)
 
 [source](https://hackmd.io/GYJghsCsDMDGCmBaekQA5EBZrxIs0ADHtAOyYCM0mI8AbCKbEA==?view)
 對應的程式碼
@@ -189,7 +189,7 @@ plot \
 ```
 
 * 參考輸出畫面:
-![](https://i.imgur.com/1dahZTk.png)
+![](images/1dahZTk.png)
 
 ## 參考及引用連結
 * [gnuplot manual](http://gnuplot.sourceforge.net/docs_4.6/gnuplot.pdf)

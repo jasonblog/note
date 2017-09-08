@@ -50,7 +50,7 @@ $ sudo apt-get install linux-tools-3.16.0-50-generic linux-cloud-tools-3.16.0-50
 $ perf top
 ```
 其實會出現以下錯誤畫面。
-![](https://i.imgur.com/rpdDV6L.png)
+![](images/rpdDV6L.png)
 
 
 kernel.perf_event_paranoid 是用來決定你在沒有 root 權限下 (Normal User) 使用 perf 時，你可以取得哪些 event data。預設值是 1 ，你可以輸入
@@ -107,7 +107,7 @@ $ ./example
 $ perf top -p $pid
 ```
 應該會得到類似下面的結果：
-![](https://i.imgur.com/3ky5ca0.png)
+![](images/3ky5ca0.png)
 
 預設的 performance event 是 「cycles」，所以這條指令可以分析出消耗 CPU 週期最多的部份，結果顯示函式 compute_pi_baseline() 佔了近 99.9％，跟預期一樣，此函式是程式中的「熱點」！有了一些感覺後，後面會詳細一點介紹 perf 用法。
 
@@ -140,7 +140,7 @@ $ perf top -p $pid
 提昇效能最有效的方式之一就是平行 (parallelism)。處理器在設計時也儘可能地平行，比如 pipeline, superscalar, out-of-execution。
 
 處理器處理一條指令需要分多個步驟完成，比如 fetch 指令，然後完成運算，最後將計算結果輸出到匯流排 (bus) 上。在處理器內部，這可以看作一個三級 pipeline，如下圖處理器 pipeline 所示：
-![](https://i.imgur.com/u0csT1i.png)
+![](images/u0csT1i.png)
 
 ![](/embedded/perf/3stage_pipeline.gif)
 
@@ -204,7 +204,7 @@ $ perf help <command>
 ```shell
 $ perf list
 ```
-![](https://i.imgur.com/2q8TNWN.png)
+![](images/2q8TNWN.png)
 
 ### perf top
 perf top 其實跟平常 Linux  內建的 top 指令很相似。它能夠「即時」的分析各個函式在某個 event 上的熱點，找出拖慢系統的兇手，就如同上面那個範例一樣。甚至，即使沒有特定的程序要觀察，你也可以直接下達 `$ perf top` 指令來觀察是什麼程序吃掉系統效能，導致系統異常變慢。譬如我執行一個無窮迴圈：

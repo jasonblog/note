@@ -564,6 +564,7 @@
        * [（八）：模式規則](gunmake/ff08_ba_ff09_ff1a_mo_shi_gui_ze.md)
        * [（九）：目錄搜索](gunmake/ff08_jiu_ff09_ff1a_mu_lu_sou_suo.md)
        * [（十）：make內嵌函數及make命令顯示](gunmake/ff08_shi_ff09_ff1a_make_nei_qian_han_shu_ji_make_m.md)
+   * Makefile 語法和示範 by Jserv
 * [[轉]國王的耳朵是驢耳朵](wen00072/README.md)
    * [Linker script初探 - GNU linker ld手冊略讀](wen00072/221.md)
    * [GNU ld初探](wen00072/222.md)

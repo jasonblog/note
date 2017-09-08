@@ -32,7 +32,7 @@
 	* `set title "GGG"`: 設定圖形標題為 GGG
 	* `set xtics a`: 設定顯示的 X 軸座標與刻度, 每次增加 a ;在 logscale 時,預設的設定會沒有小刻度
 	* `set xtics a,b`: 設定顯示的 X 軸座標與刻度 起始值 a,每次增加 b
-	* `set format y "10^{%L}"`:Y 軸的值以 10 的 L 次方顯示
+	* `set format y "10^ {%L} "`:Y 軸的值以 10 的 L 次方顯示
 	* `set format x "%a.bf"`: X 軸的值以總長 a 位數,小數點以下 b 位顯示
 	* `set format x "%a.be"`: 以科學記號顯示
 	* `set format x ""`: 不顯示X軸的座標值

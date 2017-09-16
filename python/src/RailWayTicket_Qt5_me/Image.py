@@ -463,6 +463,7 @@ class Image:
                 pass
         Imgarr = [self.im[y: y + h, x: x + w] for x, y, w, h in self.arr]
         self.dicImg.update({"圖片切割": Imgarr})
+        #print Imgarr
         return Imgarr
 
 
@@ -505,6 +506,14 @@ class Image:
             thresh = cv2.cvtColor(thresh, cv2.COLOR_GRAY2RGB)
             imgarr.append(thresh)
         self.dicImg.update({"轉正": imgarr})
+        #print imgarr
+
+        '''
+        for index,img in enumerate(imgarr):
+            print type(img.data)
+            raw_input()
+        '''
+
         return imgarr
 
     #  將圖片顯示出來
@@ -566,8 +575,8 @@ if __name__ == '__main__':
         #  取得驗證碼資料夾裡 隨機一個驗證碼的路徑
         req = requests.get('http://railway.hinet.net/ImageOut.jsp')
         x = Image(req.content)
-        # path=r'D:\FailCaptcha\26.png'
-        # x = Image(path,'local')
+        #path=r'FailCaptcha/10.png'
+        #x = Image(path,'local')
 
         x.posterization() #色調分離
         x.mop_close() #閉運算

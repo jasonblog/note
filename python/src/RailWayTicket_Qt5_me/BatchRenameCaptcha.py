@@ -104,21 +104,41 @@ class RenameWindow(QDialog):
         Img = Image(req.content)
         # 取得處理完後的圖片
         self.imgarr = Img.StartProcess()
-        print self.imgarr
+        #print self.imgarr
         # 用來儲存轉成QPixmap的圖片 用來存檔
         self.PixMaparr = []
         for index,img in enumerate(self.imgarr):
+            height, width,channel = img.shape
+            bytes_ = 3*width
+            #print img.data
+            #raw_input()
+            #qimg = QImage(img.data, width, height, bytes_, Format_RGB888)
+            qimg = QtGui.QImage(img.data, width, height, bytes_, QtGui.QImage.Format_RGB888)
+            pixmap = QtGui.QPixmap(qimg)
+            self.pixBoxs[index].qimage = qimg
+            self.pixBoxs[index].setPixmap(pixmap)
+            self.PixMaparr.append(pixmap)
+            ''' 
             try:
                 height, width,channel = img.shape
-                bytes = 3*width
-                qimg = QImage(img.data, width, height,bytes, QImage.Format_RGB888)
+                bytes_ = 3*width
+                #print img.data
+                #raw_input()
+                #qimg = QImage(img.data, width, height, bytes_, Format_RGB888)
+                qimg = QImage(img.data, width, height, bytes_, QtGui.QImage.Format_RGB888)
                 pixmap = QPixmap(qimg)
                 self.pixBoxs[index].qimage = qimg
                 self.pixBoxs[index].setPixmap(pixmap)
                 self.PixMaparr.append(pixmap)
-            except:
-                print 'aaaaaaaaaaaaaaaaaaaaaaaaaa'
+            except Exception, e:
+		print 'str(Exception):\t', str(Exception)
+		print 'str(e):\t\t', str(e)
+		print 'repr(e):\t', repr(e)
+		print 'e.message:\t', e.message
+		print 'traceback.print_exc():'; traceback.print_exc()
+		print 'traceback.format_exc():\n%s' % traceback.format_exc():
                 pass
+                ''' 
 
     def saveImg(self):
 

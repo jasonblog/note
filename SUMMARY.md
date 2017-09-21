@@ -528,6 +528,7 @@
    * [標準類型轉換：static_cast, dynamic_cast, reinterpret_cast, and const_cast](c++/biao_zhun_lei_xing_zhuan_huan_ff1a_static_cast_,_d.md)
    * [example](c++/example.md)
        * [vector 用法](c++/vector_yong_fa.md)
+   * C++的Class中的一些重點整理
 * [GNU make](gunmake/README.md)
    * [example](gunmake/example.md)
        * [好用 Makefile](gunmake/hao_yong_makefile.md)

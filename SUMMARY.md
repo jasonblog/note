@@ -1211,6 +1211,7 @@
    * [Git倉庫遷移而不丟失log的方法](git/gitcang_ku_qian_yi_er_bu_diu_shi_log_de_fang_fa.md)
    * [如何將GIT存儲庫從一個服務器遷移到新服務器](git/ru_he_jiang_git_cun_chu_ku_cong_yi_ge_fu_wu_qi_qia.md)
    * [git文件夾內容過大的解決方法](git/gitwen_jian_jia_nei_rong_guo_da_de_jie_jue_fang_fa.md)
+   * git commit tree 保留最新20筆
 * [Interview](interview/interview.md)
    * [DS_Algo](interview/dsalgo.md)
        * [Linked List的複習總結](interview/linked_listde_fu_xi_zong_jie.md)

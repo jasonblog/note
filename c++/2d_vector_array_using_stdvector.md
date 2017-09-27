@@ -1,6 +1,22 @@
 # 2D vector array using std::vector
 
 
+M∗NM∗N matrix (assuming int type elements) initialized with all values as KK
+
+```cpp
+std::vector<std::vector<int>> matrix(M, std::vector<int>(N, K));
+```
+
+Otherwise,
+```cpp
+std::vector<int> va(5, 1);    // vector a {1, 1, 1, 1, 1}
+std::vector<int> vb(5, 2);    // vector b {2, 2, 2, 2, 2}
+std::vector<int> vc(5, 3);    // vector c {3, 3, 3, 3, 3}
+ 
+std::vector<std::vector<int>> vv {va, vb, vc};    // vector of vectors
+```
+
+
 ```cpp
 #include<iostream>
 #include<vector>

@@ -530,6 +530,7 @@
        * [vector 用法](c++/vector_yong_fa.md)
        * [父子類別之間函數呼叫](c++/fu_zi_lei_bie_zhi_jian_han_shu_hu_jiao.md)
        * [C++: 父類調用子類的成員函數](c++/c++_fu_lei_diao_yong_zi_lei_de_cheng_yuan_han_shu.md)
+       * Std Pair 用法
    * [C++的Class中的一些重點整理](c++/cde_classzhong_de_yi_xie_zhong_dian_zheng_li.md)
 * [GNU make](gunmake/README.md)
    * [example](gunmake/example.md)

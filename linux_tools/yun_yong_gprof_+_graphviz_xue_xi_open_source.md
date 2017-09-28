@@ -63,7 +63,7 @@ gprof2dot 會以顏色來標記函數被呼叫次數的比例，因為 curl 不�
 
 這樣的圖似乎大到不知道怎麼看，gprof2dot 提供了相當多剪裁的方法，小弟用的方法是直接看有興趣的函數，比方說我想知道是在哪裡建立連接的。於是我搜尋 connect() 這個 socket API，找到了 singleipconnect() 這個嫌疑犯，我們在圖中搜尋 singleipconnect 看看：
 
-![](images/5.png)
+![](images/2016-9-3-07-28-57.png)
 
 
 

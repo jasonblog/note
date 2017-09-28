@@ -538,6 +538,7 @@
    * [LOG 建構解構](c++/log_jian_gou_jie_gou.md)
    * [c++ typeid() 用法 如何正確的顯示 變數型態名稱的亂碼、異常](c++/c++_typeid_yong_fa_ru_he_zheng_que_de_xian_shi_bia.md)
    * [shared_ptr 使用建構解構驗證記憶體回收](c++/sharedptr_shi_yong_jian_gou_jie_gou_yan_zheng_ji_y.md)
+   * 實例研討: 從 C++ 學習 C 高級技巧
 * [GNU make](gunmake/README.md)
    * [example](gunmake/example.md)
        * [好用 Makefile](gunmake/hao_yong_makefile.md)

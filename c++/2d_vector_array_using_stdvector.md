@@ -17,7 +17,7 @@ std::vector<std::vector<int>> vv {va, vb, vc};    // vector of vectors
 ```
 
 
-```cpp
+```
 #include<iostream>
 #include<vector>
 //#include<utility>
@@ -39,6 +39,17 @@ int main()
     cout << matrix.size() << endl;;
     cout << matrix[0].size() << endl;
 
+    cout << p->size() <<endl;
+    cout << p[0][0].size() <<endl;
+	(*p)[0].push_back(100);
+	(*p)[0].push_back(100);
+	(*p)[0].push_back(100);
+	(*p)[0].push_back(100);
+	(*p)[0].push_back(100);
+    cout << p->size() <<endl;
+    cout << p[0][0].size() <<endl;
+    cout << endl;
+
 	matrix[0].push_back(100);
 	matrix[0].push_back(10);
 	matrix[0].push_back(1);
@@ -59,5 +70,6 @@ int main()
 
     return 0;
 }
+```cpp
 
 ```

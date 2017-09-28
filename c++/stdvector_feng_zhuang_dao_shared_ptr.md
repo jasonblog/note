@@ -31,6 +31,12 @@ public:
 };
 //================================================================
 
+
+void test(shared_ptr<std::vector<std::vector<int> > > p) {
+    p->at(0)[0] = 8888;
+    cout << "p address " << p.get() << endl;
+}
+
 int main()
 {
     // M∗NM∗N matrix (assuming int type elements) initialized with all values as KK
@@ -49,12 +55,15 @@ int main()
     cout << p1->size() << endl;
     cout << (*p1)[0].size() << endl;
     (*p)[0].push_back(100);
-    cout << p1->at(0)[0] << endl;
+
+    cout << "p1 address " << p1.get() << endl;
+    cout << "test[+++] " << p1->at(0)[0] << endl;
+    test(p1);
+    cout << "test[---] " << p1->at(0)[0] << endl;
 
     delete p;
     // cout << p->at(0)[0] << endl;
 
     return 0;
 }
-
 ```

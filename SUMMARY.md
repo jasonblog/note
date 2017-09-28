@@ -1140,7 +1140,7 @@
    * [笨方法學語言](other/ben_fang_fa_xue_yu_yan.md)
    * [我是如何學一門新技術的](other/wo_shi_ru_he_xue_yi_men_xin_ji_shu_de.md)
    * [測試的道理](other/ce_shi_de_dao_li.md)
-   * 快速掌握一個語言最常用的50%
+   * [快速掌握一個語言最常用的50%](other/kuai_su_zhang_wo_yi_ge_yu_yan_zui_chang_yong_de_50.md)
 * [DS_ALGO](ds_algo/dsalgomd.md)
    * [內核雙向鏈表的使用](nei_he_shuang_xiang_lian_biao_de_shi_yong.md)
    * [Linux kernel linked list impl. for user space](ds_algo/linux_kernel_linked_list_impl_for_user_space.md)

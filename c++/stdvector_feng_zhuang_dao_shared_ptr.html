@@ -57,7 +57,7 @@
         data-chapter-title="std::vector 封裝到 shared_ptr"
         data-filepath="c++/stdvector_feng_zhuang_dao_shared_ptr.md"
         data-basepath=".."
-        data-revision="Fri Sep 29 2017 01:05:38 GMT+0800 (CST)"
+        data-revision="Fri Sep 29 2017 01:34:32 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -19864,6 +19864,12 @@
 };
 <span class="hljs-comment">//================================================================</span>
 
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">test</span><span class="hljs-params">(<span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; &gt; &gt; p)</span> </span>{
+    p-&gt;at(<span class="hljs-number">0</span>)[<span class="hljs-number">0</span>] = <span class="hljs-number">8888</span>;
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;p address &quot;</span> &lt;&lt; p.get() &lt;&lt; endl;
+}
+
 <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
 </span>{
     <span class="hljs-comment">// M&#x2217;NM&#x2217;N matrix (assuming int type elements) initialized with all values as KK</span>
@@ -19882,7 +19888,11 @@
     <span class="hljs-built_in">cout</span> &lt;&lt; p1-&gt;size() &lt;&lt; endl;
     <span class="hljs-built_in">cout</span> &lt;&lt; (*p1)[<span class="hljs-number">0</span>].size() &lt;&lt; endl;
     (*p)[<span class="hljs-number">0</span>].push_back(<span class="hljs-number">100</span>);
-    <span class="hljs-built_in">cout</span> &lt;&lt; p1-&gt;at(<span class="hljs-number">0</span>)[<span class="hljs-number">0</span>] &lt;&lt; endl;
+
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;p1 address &quot;</span> &lt;&lt; p1.get() &lt;&lt; endl;
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;test[+++] &quot;</span> &lt;&lt; p1-&gt;at(<span class="hljs-number">0</span>)[<span class="hljs-number">0</span>] &lt;&lt; endl;
+    test(p1);
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;test[---] &quot;</span> &lt;&lt; p1-&gt;at(<span class="hljs-number">0</span>)[<span class="hljs-number">0</span>] &lt;&lt; endl;
 
     <span class="hljs-keyword">delete</span> p;
     <span class="hljs-comment">// cout &lt;&lt; p-&gt;at(0)[0] &lt;&lt; endl;</span>

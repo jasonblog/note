@@ -57,7 +57,7 @@
         data-chapter-title="2D vector array using std::vector"
         data-filepath="c++/2d_vector_array_using_stdvector.md"
         data-basepath=".."
-        data-revision="Thu Sep 28 2017 23:35:00 GMT+0800 (CST)"
+        data-revision="Fri Sep 29 2017 00:06:48 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -19822,16 +19822,28 @@
 <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
 </span>{
     <span class="hljs-comment">// M&#x2217;NM&#x2217;N matrix (assuming int type elements) initialized with all values as KK</span>
-    <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">2</span>;
     <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> M = <span class="hljs-number">4</span>;
+    <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">2</span>;
     <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> K = <span class="hljs-number">99</span>;
 
+    <span class="hljs-comment">// 4 X 2</span>
     <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&gt; matrix(M, <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;(N, K));
-    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&gt;* p = <span class="hljs-keyword">new</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&gt;(M, <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;(N, K));
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&gt;* p = <span class="hljs-keyword">new</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&gt;(M,
+            <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;(N, K));
 
 
     <span class="hljs-built_in">cout</span> &lt;&lt; matrix.size() &lt;&lt; endl;;
     <span class="hljs-built_in">cout</span> &lt;&lt; matrix[<span class="hljs-number">0</span>].size() &lt;&lt; endl;
+
+    matrix[<span class="hljs-number">0</span>].push_back(<span class="hljs-number">100</span>);
+    matrix[<span class="hljs-number">0</span>].push_back(<span class="hljs-number">10</span>);
+    matrix[<span class="hljs-number">0</span>].push_back(<span class="hljs-number">1</span>);
+    matrix[<span class="hljs-number">0</span>].push_back(<span class="hljs-number">1</span>);
+    <span class="hljs-built_in">cout</span> &lt;&lt; matrix[<span class="hljs-number">0</span>].size() &lt;&lt; endl;
+    <span class="hljs-built_in">cout</span> &lt;&lt; matrix[<span class="hljs-number">1</span>].size() &lt;&lt; endl;
+
+    <span class="hljs-built_in">cout</span> &lt;&lt; endl;
+
 
     matrix.at(<span class="hljs-number">0</span>)[<span class="hljs-number">0</span>] = <span class="hljs-number">100</span>;
 

@@ -533,7 +533,7 @@
        * [Std Pair 用法](c++/std_pair_yong_fa.md)
        * [2D vector array using std::vector](c++/2d_vector_array_using_stdvector.md)
    * [C++的Class中的一些重點整理](c++/cde_classzhong_de_yi_xie_zhong_dian_zheng_li.md)
-   * LOG 建構解構
+   * [LOG 建構解構](c++/log_jian_gou_jie_gou.md)
 * [GNU make](gunmake/README.md)
    * [example](gunmake/example.md)
        * [好用 Makefile](gunmake/hao_yong_makefile.md)

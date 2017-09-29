@@ -419,6 +419,7 @@
        * [（六）：文件鎖](linux_system/ff08_liu_ff09_ff1a_wen_jian_suo.md)
    * [Linux下利用backtrace追蹤函數調用堆棧以及定位段錯誤](linux_system/linuxxia_li_yong_backtrace_zhui_zong_han_shu_diao_.md)
    * [sendfile:Linux中的"零拷貝"](linux_system/sendfilelinuxzhong_768422_ling_kao_8c9d22.md)
+   * Linux Note: daemon 與 background process 的差異
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

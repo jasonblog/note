@@ -84,3 +84,52 @@ gprof -q curl | ./gprof2dot.py -l singleipconnect -c print  | perl -pe 's/,\s+pe
 結果宛如水晶一樣透明：
 
 ![](images/curltest.png)
+
+
+---
+
+
+如果您照著前面的文章按圖索驥，您會發現有些情況或某些類型的程式會卡住無法進行下去。比方說如果您按 Ctrl+C 中斷 process，或者是用 kill 殺掉某些 background process, daemon，您會發現目錄下找不到 gmon.out，少了 gmon.out，就無法產生 call graph 與最終的 svg 圖檔。
+
+
+```c
+#include <dlfcn.h>
+#include <signal.h>
+ 
+//...
+ 
+int main()
+{
+    //...
+    signal(SIGUSR1, sigUsr1Handler);
+    //...
+    return 0;
+}
+ 
+ 
+void sigUsr1Handler(int sig)
+{
+    void (*_mcleanup)(void);
+     
+    fprintf(stderr, "Exiting on SIGUSR1\n");    
+    _mcleanup = (void (*)(void))dlsym(RTLD_DEFAULT, "_mcleanup");
+    if(_mcleanup == NULL)
+         fprintf(stderr, "Unable to find gprof exit hook\n");
+    else
+        _mcleanup();
+         
+    _exit(0);
+}
+```
+編譯時您可能需要加上連結旗標 `-dl`。然後你就可以用下面的命令中止 process，取得 gmon.out:
+
+```sh
+pkill -SIGUSR1 program_name
+```
+
+這邊當然不能只是貼上 stackoverflow 的解答騙字數，餵狗後找到一篇官方說明:
+
+The profiling library also includes a function (mcleanup) which is typically registered using atexit() to be called as the program exits, and is responsible for writing the file gmon.out. Profiling is turned off, various headers are output, and the histogram is written, followed by the call-graph arcs and the basic-block counts.
+
+由上面的文字可以看到，原本 mcleanup 用 atexit 註冊(應為編譯/連結 -pg 旗標的效果)，然後在 process 自然死亡時被呼叫寫出 gmon.out。但是在 process 不是自我了斷的情況下，顯然mcleanup 沒有被呼叫，也得不到 gmon.out 了。所以必須採取攔截 signal，透過 dlsym 取得 .so 中 mcleanup 符號的手段強制輸出 gmon.out。
+

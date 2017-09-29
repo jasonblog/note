@@ -1241,6 +1241,7 @@
    * [用javac命令行編譯多個java文件](java/yong_javac_ming_ling_xing_bian_yi_duo_ge_java_wen_.md)
    * [Java -jar 選項與 -cp/-classpath](java/java_-jar_xuan_xiang_yu_-_cp_-_classpath.md)
    * [打印函數 / call stack](java/da_yin_han_shu__call_stack.md)
+   * Ubuntu 16.04 安装 Eclipse
 * [Linear Algebra](linear_algebra/linear_algebra.md)
    * [理解矩陣](linear_algebra/li_jie_ju_zhen.md)
    * [旋轉矩陣與四元數](linear_algebra/xuanzhuan_ju_zhen_yu_si_yuan_shu_md.md)

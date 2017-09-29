@@ -64,6 +64,7 @@
    * [perf 原理和實務](linux_tools/perf_yuan_li_he_shi_wu.md)
    * [gnuplot 語法解說和示範](linux_tools/gnuplot_yu_fa_jie_shuo_he_shi_fan.md)
    * [運用 gprof + graphviz 學習 Open Source](linux_tools/yun_yong_gprof_+_graphviz_xue_xi_open_source.md)
+   * 有病治病，沒病強身: Cppcheck + Valgrind
 * [Android note](android_note/README.md)
    * [android resource](android_note/514.md)
    * [什麼時候用startService，什麼時候用bindService](android_note/startservice_bindservice.md)

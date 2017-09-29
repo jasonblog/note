@@ -19,3 +19,11 @@ do
 done
 git diff master --exit-code
 ```
+
+
+## 上傳到github
+
+```sh
+git remote add backup https://github.com/shihyu/runninglinuxkernel_4.git
+git push -u backup new-tree
+```

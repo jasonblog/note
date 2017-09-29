@@ -321,7 +321,7 @@ int main()
 
 `其實這邊跟java稍微不同，因為在java裡面只要子類別有覆寫父類別的方法的話，就會自動去呼叫子類別自己所定義的方法，不用再特別去寫virtual關鍵字。`
 
-如果我們的子類別覆寫了父類別的virtual function，但是名字卻打錯了，這樣就還是只會呼叫父類別的方法。 要怎麼避免呢？答案就是採用pure virtual function，若子類別沒有正確override，則編譯失敗。 `在java中，則是用abstract function來做到，所有包含abstract function的class又稱為interface。` 例如，
+如果我們的子類別覆寫了父類別的virtual function，但是名字卻打錯了，這樣就還是隻會呼叫父類別的方法。 要怎麼避免呢？答案就是採用pure virtual function，若子類別沒有正確override，則編譯失敗。 `在java中，則是用abstract function來做到，所有包含abstract function的class又稱為interface。` 例如，
 
 
 ```cpp

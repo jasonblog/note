@@ -92,7 +92,7 @@ int main()
 我們用視覺化版本的 valkyrie，看看有什麼錯誤發生
 ![](./images/cppcheck_4.png)
 
-從上圖的錯誤訊息可以得知，noinit.c: 17 (範例 Line#14)依賴了一個未初始化的變數，當然上面的例子很簡單，一眼就能看出錯誤。但在複雜的 struct 與 class 中，這是很容易犯的錯誤，也可以看出來  valgrind 絕不是只有檢查 malloc/free 與 new/delete 有沒有匹配這麼簡單的功能。
+從上圖的錯誤訊息可以得知，noinit.c: 17 (範例 Line#14)依賴了一個未初始化的變數，當然上面的例子很簡單，一眼就能看出錯誤。但在複雜的 struct 與 class 中，這是很容易犯的錯誤，也可以看出來  valgrind 絕不是隻有檢查 malloc/free 與 new/delete 有沒有匹配這麼簡單的功能。
 
 再看一個例子
 

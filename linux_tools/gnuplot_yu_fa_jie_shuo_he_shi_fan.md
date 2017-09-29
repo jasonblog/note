@@ -149,9 +149,9 @@ plot [:][:500]'iteration.txt' using 1:2 with points title 'iteration',\
 'harley.txt' using 1:2 with points title 'harley'
 ```
 
-## 案例探討：台北年度雨量長條圖
+## 案例探討：臺北年度雨量長條圖
 
-* 資料來源: [台北地區各氣象站月平均降雨量統計表](http://www.ntpc.gov.tw/ch/home.jsp?id=1358)
+* 資料來源: [臺北地區各氣象站月平均降雨量統計表](http://www.ntpc.gov.tw/ch/home.jsp?id=1358)
 
 ```
 #測站  |  淡水  |  鞍部  |  臺北  |  基隆  |  竹子湖  |

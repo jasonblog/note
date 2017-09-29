@@ -2,7 +2,7 @@
 
 
 Qt 筆記: 花了 6 年才找到的 bug?
-最近有位高手 Heresy 寫了一篇 Boost 與 Qt 的 Signal / Slot 效能測試，讓筆者赫然發現可能跟這幾年產品的效能瓶頸脫不了干係。於是小弟也手癢寫了幾隻程式測試一下，因為 Heresy 兄已經做過了，這邊不再比對 virtual function, boost 與 Qt Signal/Slot 的效能差異。這邊要比對的是 Qt::DirectConnection 與 Qt::QueuedConnection 的效能差異。也就是thread 內與跨 thread signal/slot 效能會差多少？
+最近有位高手 Heresy 寫了一篇 Boost 與 Qt 的 Signal / Slot 效能測試，讓筆者赫然發現可能跟這幾年產品的效能瓶頸脫不了幹係。於是小弟也手癢寫了幾隻程式測試一下，因為 Heresy 兄已經做過了，這邊不再比對 virtual function, boost 與 Qt Signal/Slot 的效能差異。這邊要比對的是 Qt::DirectConnection 與 Qt::QueuedConnection 的效能差異。也就是thread 內與跨 thread signal/slot 效能會差多少？
 
 測試環境
 
@@ -225,4 +225,4 @@ int main(int argc, char *argv[])
 
 當然，有人會說幹麼不用 Qt 本身提供的網路功能就好了？這有一些理由，比方說 Qt 5 之前不支援 serial port，或者是很多人已經很習慣 per thread + blocking IO 的作法了(以筆者碰到的例子是因為前人留下的包袱)，也有可能你是整合非 qt 架構的 source 進入專案。
 
-不過這也是很值得討論的方向。究竟 Qt 有沒有用到該平台上效能最佳的 IO 模型，例如 Windows IO Completion Port，Linux epoll？
+不過這也是很值得討論的方向。究竟 Qt 有沒有用到該平臺上效能最佳的 IO 模型，例如 Windows IO Completion Port，Linux epoll？

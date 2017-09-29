@@ -6,11 +6,11 @@
 來源：[成功大學資訊工程系 Wiki](http://wiki.csie.ncku.edu.tw/embedded/perf-tutorial)
 
 ## 簡介
-[Perf](https://perf.wiki.kernel.org/index.php/Main_Page) 全名是 Performance Event，是在 Linux 2.6.31 以後內建的系統效能分析工具，它隨著核心一併釋出。藉由 perf，應用程式可以利用 PMU (Performance Monitoring Unit), tracepoint 和核心內部的特殊計數器 (counter) 來進行統計，另外還能同時分析運行中的核心程式碼，從而更全面了解應用程式中的效能瓶頸。
+[Perf](https://perf.wiki.kernel.org/index.php/Main_Page) 全名是 Performance Event，是在 Linux 2.6.31 以後內建的系統效能分析工具，它隨著核心一併釋出。藉由 perf，應用程式可以利用 PMU (Performance Monitoring Unit), tracepoint 和核心內部的特殊計數器 (counter) 來進行統計，另外還能同時分析運行中的核心程式碼，從而更全面瞭解應用程式中的效能瓶頸。
 
 相較於 [OProfile](https://en.wikipedia.org/wiki/OProfile) 和 [GProf](https://sourceware.org/binutils/docs/gprof/) ，perf 的優勢在於與 Linux Kernel 緊密結合，並可受益於最先納入核心的新特徵。perf 基本原理是對目標進行取樣，紀錄特定的條件下所偵測的事件是否發生以及發生的次數。例如根據 tick 中斷進行取樣，即在 tick 中斷內觸發取樣點，在取樣點裡判斷行程 (process) 當時的 context。假如一個行程 90% 的時間都花費在函式 foo() 上，那麼 90% 的取樣點都應該落在函式 foo() 的上下文中。
 
-Perf 可取樣的事件非常多，可以分析 Hardware event，如 cpu-cycles、instructions 、cache-misses、branch-misses ...等等。可以分析 Software event，如 page-faults、context-switches ...等等，另外一種就是 Tracepoint event。知道了 cpu-cycles、instructions 我們可以了解 Instruction per cycle 是多少，進而判斷程式碼有沒有好好利用 CPU，cache-misses 可以曉得是否有善用 Locality of reference ，branch-misses 多了是否導致嚴重的 pipeline hazard？另外 Perf 還可以對函式進行採樣，了解效能卡在哪邊。
+Perf 可取樣的事件非常多，可以分析 Hardware event，如 cpu-cycles、instructions 、cache-misses、branch-misses ...等等。可以分析 Software event，如 page-faults、context-switches ...等等，另外一種就是 Tracepoint event。知道了 cpu-cycles、instructions 我們可以瞭解 Instruction per cycle 是多少，進而判斷程式碼有沒有好好利用 CPU，cache-misses 可以曉得是否有善用 Locality of reference ，branch-misses 多了是否導致嚴重的 pipeline hazard？另外 Perf 還可以對函式進行採樣，瞭解效能卡在哪邊。
 
 ## 安裝
 首先利用以下指令查看目前的 Kernel config 有沒有啟用 Perf。如果 PC 上是裝一般 Linux distro，預設值應該都有開啟。
@@ -207,7 +207,7 @@ $ perf list
 ![](images/2q8TNWN.png)
 
 ### perf top
-perf top 其實跟平常 Linux  內建的 top 指令很相似。它能夠「即時」的分析各個函式在某個 event 上的熱點，找出拖慢系統的兇手，就如同上面那個範例一樣。甚至，即使沒有特定的程序要觀察，你也可以直接下達 `$ perf top` 指令來觀察是什麼程序吃掉系統效能，導致系統異常變慢。譬如我執行一個無窮迴圈：
+perf top 其實跟平常 Linux  內建的 top 指令很相似。它能夠「即時」的分析各個函式在某個 event 上的熱點，找出拖慢系統的凶手，就如同上面那個範例一樣。甚至，即使沒有特定的程序要觀察，你也可以直接下達 `$ perf top` 指令來觀察是什麼程序吃掉系統效能，導致系統異常變慢。譬如我執行一個無窮迴圈：
 ```c=
 int main() {
     long int i = 0;
@@ -237,7 +237,7 @@ $ perf top -e cache-misses -c 5000
 ```
 
 ### perf stat
-相較於 top，使用 perf stat 往往是你已經有個要優化的目標，對這個目標進行特定或一系列的 event 檢查，進而了解該程序的效能概況。（event 沒有指定的話，預設會有十種常用 event。）
+相較於 top，使用 perf stat 往往是你已經有個要優化的目標，對這個目標進行特定或一系列的 event 檢查，進而瞭解該程序的效能概況。（event 沒有指定的話，預設會有十種常用 event。）
 我們來對以下程式使用 perf stat 工具 分析 cache miss 情形
 
 ```c=

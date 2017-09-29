@@ -23,7 +23,7 @@ target: 目標檔1 目標檔2
 * 在 makefile 中，行尾如果有一個空白，會造成 make 命令執行錯誤。
 * makefile 的註解（comment）：
     * 如同 C 原始碼檔案一般，在 makefile 中，以 `#` 為行首的文字都是註解。
-    * makefile 中的註解只是協助作者和其它人，了解 makefile 的內容。
+    * makefile 中的註解只是協助作者和其它人，瞭解 makefile 的內容。
 * makefile 的語法規則：
     * makefile 是由很多相依性項目（dependencies）和法則（rules）所組成。
     * 相依性項目，描述目標項目（target，要產生的檔案）和產生該檔案之相關的原始碼檔案。

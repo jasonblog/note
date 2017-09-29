@@ -122,7 +122,7 @@ void Foo::doSomething()
 ```
 
 ##class MyArray
-由上面程式可以很清楚的看到，MyArray object 剛建立時兩個 member data: size_, ary_ 都是 0 (foo.cpp:10-11)，直到呼叫 MyArray::resize() 才會動態產生 int array (foo.cpp:22-29)，MyArray 的用處只是用來比對 std::vector<int>，看看兇手是否與 template 有關。
+由上面程式可以很清楚的看到，MyArray object 剛建立時兩個 member data: size_, ary_ 都是 0 (foo.cpp:10-11)，直到呼叫 MyArray::resize() 才會動態產生 int array (foo.cpp:22-29)，MyArray 的用處只是用來比對 std::vector<int>，看看凶手是否與 template 有關。
 
 ##class Foo
 三個 member data 皆為 static：
@@ -137,7 +137,7 @@ void Foo::doSomething()
 - v_: 如果 v_.size() == 0，則 resize(100)
 - obj_: 如果 obj_.size() == 0，則 resize(200)
 
-以大部分人對 static object 的了解，無論 Foo constructor 被呼叫多少次，v_, obj_ 應該只會 resize 一次(這裡可是 single thread 喔)，真的是這樣嗎？請各位先保持耐心繼續往下看。
+以大部分人對 static object 的瞭解，無論 Foo constructor 被呼叫多少次，v_, obj_ 應該只會 resize 一次(這裡可是 single thread 喔)，真的是這樣嗎？請各位先保持耐心繼續往下看。
 
 ## class Bar
 

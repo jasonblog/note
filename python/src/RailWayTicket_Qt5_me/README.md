@@ -1,9 +1,9 @@
-台鐵訂票規則
+臺鐵訂票規則
 (一)針對每分鐘訂票超過 60 次身分證字號進行阻擋。
 (二)異常訂票 IP 封鎖機制。
 (三)驗證碼改為浮動碼（4~6 碼）。
 
-要爬台鐵網站進行訂票一定要取得 session cookie，
+要爬臺鐵網站進行訂票一定要取得 session cookie，
 直接爬訂票頁面會發生錯誤
 爬時刻表網站需要 zLib 解壓縮
 
@@ -14,7 +14,7 @@ BuyTicket.py        買票爬蟲
 Image.py            處理驗證碼
 kerasInitModel      初始化keras model
 MainWindow.py       顯示GUI視窗
-station.json        存放台鐵車站代碼
+station.json        存放臺鐵車站代碼
 TrainningCNN.py     訓練CNN模型
 VPN.py              執行VPN
 

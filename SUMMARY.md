@@ -498,7 +498,7 @@
    * [gdb調試帶參數程序](gdb/gdbdiao_shi_dai_can_shu_cheng_xu.md)
    * [整理常用的gdb技巧](gdb/zheng_li_chang_yong_de_gdb_ji_qiao.md)
    * [GDB命令基礎，讓你的程序bug無處躲藏](gdb/gdbming_ling_ji_chu_ff0c_rang_ni_de_cheng_xu_bug_w.md)
-   * valgrind + gdb
+   * [valgrind + gdb](gdb/valgrind_+_gdb.md)
 * [Linux內核分析雲課堂學習筆記](mooc_linux_kernel/README.md)
    * [圖解分析彙編代碼以理解計算機是如何工作的](mooc_linux_kernel/191.md)
    * [基於mykernel的一個簡單的時間片輪轉多道程序內核代碼分析](mooc_linux_kernel/192.md)

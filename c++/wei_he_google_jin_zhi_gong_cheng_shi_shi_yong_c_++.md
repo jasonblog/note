@@ -206,3 +206,97 @@ g++ bar.o foo.o main.o -o mytest
 ./mytest 的執行結果：
 ```
 
+![](./images/log2.png)
+
+
+
+從上圖中可以看到 static Bar bar 先被建立，Bar constructor 呼叫 Foo constructor，於是 Foo::cnt_ + 1，Foo::v_, Foo::obj_ 則是依照前述 resize()， 
+
+`但怪異的是進入 main() 後再次呼叫 Foo constructor，居然 Foo::v_, Foo::obj_ 大小仍然為 0 !？What the fuck！？`
+
+valgrind 也告訴你有 memory leak!!
+
+![](./images/log3.png)
+
+先別急著回頭檢查程式，我們換個順序連結 object file 看看：
+
+g++ foo.o bar.o main.o -o mytest
+
+再用 valgrind 檢查一次：
+
+
+![](./images/log4.png)
+
+天啊，這樣就不藥而癒了。
+
+現在你知道為什麼 Google 說 static object 會造成難以發現的 bug 了吧？在大型專案中很難精細控制連結順序，C++ 也未保證 static object 的初始化順序。而我們也看到 POD(Foo::cnt_) 是無害的，他的變化一直在我們預料之中(Foo constructor 被呼叫幾次就遞增幾次)。
+
+這個問題的解決辦法之一是改用 Single Instance Pattern:
+
+
+```cpp
+class Foo
+{
+public:
+    Foo();
+    ~Foo();
+    void doSomething();
+    static Foo* instance();
+     
+private:
+    typedef std::vector<int> IntVector;
+    int cnt_;
+    IntVector v_;
+    MyArray obj_;
+    static Foo *inst_;
+};
+ 
+//...
+ 
+Foo* Foo::inst_ = 0;
+ 
+Foo* Foo::instance()
+{
+    if(!inst_)
+        inst_ = new Foo;
+}
+```
+
+不過這會帶來一個額外的問題：誰來負責刪除 Foo::instance() 產生在 heap 內的物件？如果你妄想使用 std::auto_ptr 或其他類似的 smart pointer，那就又會重回前面 static object 陷阱。
+
+唯一的方式就是打造一個 Foo::clean()，Google 建議註冊 at_quick_exit() 來達成目的，但這個 C++ 11 的東西可不是每個人都有，最簡單的作法就是「以彼之道，還彼之身」，我們創造一個 class CleanUp，在 main() 內把需要在 main() 離開時需要清除的物件註冊進去：
+
+
+```cpp
+#ifndef CLEANUP__H
+#define CLEANUP__H
+ 
+#include <vector>
+ 
+class CleanUp
+{
+     
+public:
+    typedef void (*Handler)(void *arg);
+     
+    CleanUp();
+    ~CleanUp();
+     
+    void push(Handler h, void *arg);
+     
+private:
+    struct HandlerArg
+    {
+        Handler handler_;
+        void *arg_;
+    };
+     
+    typedef std::vector<HandlerArg> HandlerArgVector;
+    HandlerArgVector v_;
+};
+#endif
+```
+
+因為在離開 main() 時會解構堆疊內的 CleanUp object，CleanUp destructor 就順帶呼叫這些 clean handler(如前面提到的 Foo::clean())，就可以完美刪除這些 single instance，又不用依賴新函式庫了。
+
+有位老兄曾經說他幾乎每種環境包含單晶片都是 C++ 給他用下去沒在怕的，但從這個例子我們可以看到，對於 C++ 我們最好還是乖乖學習 Google 遠離地雷區。之前有人說 C++ 是個「學深用淺」的電腦語言，我想現在大家包括小弟知道為什麼這樣解釋了，學深是為了避開陷阱，用淺是高深的用法往往會帶來反效果，正如同這個例子。

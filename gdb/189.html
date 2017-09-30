@@ -57,7 +57,7 @@
         data-chapter-title="gdb 編譯"
         data-filepath="gdb/189.md"
         data-basepath=".."
-        data-revision="Sat Sep 30 2017 02:25:18 GMT+0800 (CST)"
+        data-revision="Sat Sep 30 2017 11:25:32 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -19985,8 +19985,15 @@
                     
                         <h1 id="gdb-&#x7DE8;&#x8B6F;">gdb &#x7DE8;&#x8B6F;</h1>
 <h2 id="gdb79-build--gdbserver-and-gdb">gdb-7.9 build  gdbserver and gdb</h2>
-<pre><code>sudo apt-get install texinfo
-</code></pre><pre><code class="lang-c">gdb &#x7DE8;&#x8B6F;&#x65B0;&#x7248;&#x4FEE;&#x6539;  <span class="hljs-comment">// &#x56E0;&#x70BA; gdb &#x6703;&#x51FA;&#x73FE;  &apos;g&apos; packet reply is too long:</span>
+<p>Dependencies</p>
+<p>Optional
+DejaGnu-1.6 (for tests), Doxygen-1.8.13, Guile-2.0.13, Python-2.7.13, Valgrind-3.12.0, and SystemTap (run-time dependency, also used in a few tests)</p>
+<p>&#x5EFA;&#x8B70;&#xFF1A; &#x7D66;&#x7279;&#x5B9A;&#x7528;&#x6236;&#x5B89;&#x88DD; GDB &#x7684; pretty-printer &#x6253;&#x5370;&#x51FA;&#x53EF;&#x8B80;&#x6027;&#x66F4;&#x597D;&#x7684; stdc++ &#x7684; STL &#x5BB9;&#x5668;
+&#x5728;&#x7DE8;&#x8B6F; GDB &#x4E4B;&#x524D;&#xFF0C;&#x5148;&#x5B89;&#x88DD; ncurses &#x5EAB;&#x548C; Python &#x5EAB;&#xFF08;&#x7528;&#x65BC;&#x5728; GDB &#x4E2D; &#x958B;&#x555F; Python
+&#x652F;&#x6301;&#xFF0C;&#x7DE8;&#x8B6F; GDB &#x6642;&#x5FC5;&#x9808;&#x6DFB;&#x52A0; --with-python &#x9078;&#x9805;&#xFF09;&#x3002;</p>
+<pre><code class="lang-sh">sudo apt-get install texinfo libncurses-dev libreadline-dev python-dev
+</code></pre>
+<pre><code class="lang-c">gdb &#x7DE8;&#x8B6F;&#x65B0;&#x7248;&#x4FEE;&#x6539;  <span class="hljs-comment">// &#x56E0;&#x70BA; gdb &#x6703;&#x51FA;&#x73FE;  &apos;g&apos; packet reply is too long:</span>
 &#x4FEE;&#x6539;gdb/remote.c&#x6587;&#x4EF6;&#xFF0C;&#x5C4F;&#x853D;process_g_packet&#x51FD;&#x6578;&#x4E2D;&#x7684;&#x4E0B;&#x5217;&#x5169;&#x884C;&#xFF1A;
 <span class="hljs-keyword">if</span> (buf_len &gt; <span class="hljs-number">2</span> * rsa-&gt;sizeof_g_packet)
 error (_(&#x201C;Remote &#x2018;g&#x2019; packet reply is too <span class="hljs-keyword">long</span>: %s&#x201D;), rs-&gt;buf);
@@ -20006,14 +20013,36 @@ error (_(&#x201C;Remote &#x2018;g&#x2019; packet reply is too <span class="hljs-
     }
 }
 </code></pre>
-<pre><code>./configure --enable-targets=all --enable-64-bit-bfd --prefix=/usr/local/gdb-7.9
+<pre><code class="lang-sh">./configure --enable-targets=all \
+        --enable-<span class="hljs-number">64</span>-bit-bfd \ 
+        --with-python \
+        -- --with-system-readline
+        --prefix=/home/shihyu/.mybin/gdb_8.<span class="hljs-number">1</span>
 
-# --target=arm-linux&#x8868;&#x793A;&#x751F;&#x6210;&#x7684;gdb&#x8ABF;&#x8A66;&#x7684;&#x76EE;&#x6A19;&#x662F;&#x5728;arm&#x6838;&#x5FC3;Linux&#x7CFB;&#x7D71;&#x4E2D;&#x904B;&#x884C;&#x7684;&#x7A0B;&#x5E8F;
-# --enable-targets=all  gdb&#x53EF;&#x4EE5;&#x7528;&#x540C;&#x4E00;&#x500B;&#x7248;&#x672C;&#x652F;&#x6301;x86&#xFF0C;ppc&#x7B49;&#x591A;&#x7A2E;&#x9AD4;&#x7CFB;&#x7D50;&#x69CB;&#x3002;
-# &#x6BD4;&#x8F03;&#x65B0;&#x7684;bfd&#x4E2D;&#xFF0C;&#x7576;&#x8A2D;&#x7F6E;&#x7684;target&#x662F;64&#x4F4D;&#x6216;&#x8005;&#x6253;&#x958B;--enable-targets=all&#x7684;&#x6642;&#x5019;&#xFF0C;&#x4E0D;&#x9700;&#x8981;&#x8A2D;&#x7F6E;&#x6703;&#x81EA;&#x52D5;&#x6253;&#x958B;&#x9019;&#x500B;&#x9078;&#x9805;&#xFF0C;&#x4E0D;&#x904E;&#x4FDD;&#x96AA;&#x8D77;&#x898B;&#x9084;&#x662F;&#x6253;&#x958B;&#x3002;&#x9019;&#x6A23;&#x7DE8;&#x8B6F;&#x51FA;&#x7684;GDB&#x5C31;&#x80FD;&#x652F;&#x6301;GDB&#x652F;&#x6301;&#x7684;&#x5168;&#x90E8;&#x9AD4;&#x7CFB;&#x7D50;&#x69CB;&#x4E86;&#x3002;
+
+<span class="hljs-comment"># --target=arm-linux&#x8868;&#x793A;&#x751F;&#x6210;&#x7684;gdb&#x8ABF;&#x8A66;&#x7684;&#x76EE;&#x6A19;&#x662F;&#x5728;arm&#x6838;&#x5FC3;Linux&#x7CFB;&#x7D71;&#x4E2D;&#x904B;&#x884C;&#x7684;&#x7A0B;&#x5E8F;</span>
+<span class="hljs-comment"># --enable-targets=all  gdb&#x53EF;&#x4EE5;&#x7528;&#x540C;&#x4E00;&#x500B;&#x7248;&#x672C;&#x652F;&#x6301;x86&#xFF0C;ppc&#x7B49;&#x591A;&#x7A2E;&#x9AD4;&#x7CFB;&#x7D50;&#x69CB;&#x3002;</span>
+<span class="hljs-comment"># &#x6BD4;&#x8F03;&#x65B0;&#x7684;bfd&#x4E2D;&#xFF0C;&#x7576;&#x8A2D;&#x7F6E;&#x7684;target&#x662F;64&#x4F4D;&#x6216;&#x8005;&#x6253;&#x958B;--enable-targets=all&#x7684;&#x6642;&#x5019;&#xFF0C;&#x4E0D;&#x9700;&#x8981;&#x8A2D;&#x7F6E;&#x6703;&#x81EA;&#x52D5;&#x6253;&#x958B;&#x9019;&#x500B;&#x9078;&#x9805;&#xFF0C;&#x4E0D;&#x904E;&#x4FDD;&#x96AA;&#x8D77;&#x898B;&#x9084;&#x662F;&#x6253;&#x958B;&#x3002;&#x9019;&#x6A23;&#x7DE8;&#x8B6F;&#x51FA;&#x7684;GDB&#x5C31;&#x80FD;&#x652F;&#x6301;GDB&#x652F;&#x6301;&#x7684;&#x5168;&#x90E8;&#x9AD4;&#x7CFB;&#x7D50;&#x69CB;&#x4E86;&#x3002;</span>
 make
 sudo make install
-</code></pre><pre><code class="lang-c">(gdb) <span class="hljs-built_in">set</span> architecture
+</code></pre>
+<p>&#x628A;[GCC&#x6E90;&#x78BC;&#x76EE;&#x9304;]/libstdc++-v3/python &#x8907;&#x88FD;&#x5230;&#x4EFB;&#x610F;&#x4E00;&#x500B;&#x76EE;&#x9304;&#xFF08;&#x6BD4;&#x5982; ~/.mybin/gdb_8.1 &#x76EE;&#x9304;&#x4E0B;&#xFF09;&#xFF0C;
+&#x5982;&#x679C;&#x6E90;&#x78BC;&#x76EE;&#x9304;&#x4E0B;&#x6C92;&#x6709;&#x4E0A;&#x8FF0; python &#x76EE;&#x9304;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x7528;&#x5982;&#x4E0B;&#x65B9;&#x5F0F;&#x5F9E;&#x9060;&#x7A0B;&#x5EAB;&#x62C9;&#x53D6;&#x4E4B;&#x5F8C;&#x518D;&#x653E;&#x5230; ~/.mybin/gdb_8.1 &#x76EE;&#x9304;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-sh">svn co svn://gcc.gnu.org/svn/gcc/trunk/libstdc++-v3/python
+</code></pre>
+<p>&#x7136;&#x5F8C;&#xFF0C;&#x7DE8;&#x8F2F; ~/.gdbinit&#xFF0C;&#x6DFB;&#x52A0;&#x5982;&#x4E0B;&#x5167;&#x5BB9;</p>
+<pre><code class="lang-sh">python
+import sys
+import os
+p = os.path.expanduser(<span class="hljs-string">&apos;~/.gdb/python&apos;</span>) 
+<span class="hljs-built_in">print</span> p
+<span class="hljs-keyword">if</span> os.path.exists(p):
+    sys.path.insert(<span class="hljs-number">0</span>, p)
+    from libstdcxx.v6.printers import register_libstdcxx_printers
+    register_libstdcxx_printers(None)
+end
+</code></pre>
+<pre><code class="lang-c">(gdb) <span class="hljs-built_in">set</span> architecture
 Display all <span class="hljs-number">204</span> possibilities? (y or n)
 alpha                          m68k:isa-c:nodiv:mac
 alpha:ev4                      m88k:<span class="hljs-number">88100</span>
@@ -20144,7 +20173,774 @@ time make -j8 2&gt;&amp;1 | tee build.log
 file ./gdbserver
 
 ./gdbserver: ELF 32-bit LSB  executable, ARM, EABI5 version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 3.1.1, BuildID[sha1]=4eec8a5a6893ed8ce65eea5d0741a55cc621236a, not stripped
+</code></pre><hr>
+<h2 id="cgdb">cgdb</h2>
+<p>&#x5B89;&#x88DD; cgdb</p>
+<p>cgdb &#x662F;&#x4E00;&#x500B;&#x958B;&#x6E90;&#x7684; gdb &#x524D;&#x7AEF;&#xFF0C;&#x53EF;&#x4EE5;&#x63D0;&#x4F9B;&#x5BE6;&#x6642;&#x7684;&#x4EE3;&#x78BC;&#x9810;&#x89BD;&#xFF0C;&#x6975;&#x5927;&#x7684;&#x65B9;&#x4FBF;&#x4E86;&#x8ABF;&#x8A66;&#x3002;</p>
+<p>&#x7372;&#x53D6;&#x6E90;&#x78BC;</p>
+<pre><code class="lang-sh">$ git <span class="hljs-built_in">clone</span> git://github.com/cgdb/cgdb.git
 </code></pre>
+<p>&#x4F9D;&#x8CF4;</p>
+<pre><code class="lang-sh">flex( gettext )&#xFF0C;autoconf, aclocal, automake, <span class="hljs-built_in">help</span>2man
+</code></pre>
+<p>&#x5B89;&#x88DD;&#x4F9D;&#x8CF4;
+&#xFF08;1&#xFF09; flex</p>
+<pre><code class="lang-sh">$ sudo apt-get install flex
+</code></pre>
+<p>&#xFF08;2&#xFF09; aclocal, automake, autoconf, autoheader
+&#x9019;&#x4E9B; utilities &#x90FD;&#x5728; automake &#x5305;&#x4E2D;&#xFF0C;&#x56E0;&#x6B64;&#x5B89;&#x88DD;automake &#x5C31;&#x5920;&#x4E86;&#x3002;</p>
+<pre><code class="lang-sh">$ sudo apt-get install automake
+$ sudo apt-get install autotools-dev
+</code></pre>
+<p>(3) makeinfo&#xFF0C;&#x9019;&#x500B; utility &#x5728; texinfo &#x5305;&#x4E2D;</p>
+<pre><code class="lang-sh">$ sudo apt-get install texinfo
+</code></pre>
+<p>&#xFF08;3&#xFF09;help2man</p>
+<pre><code class="lang-sh">$ sudo apt-get install <span class="hljs-built_in">help</span>2man
+</code></pre>
+<h2 id="&#x7DE8;&#x8B6F;&#x548C;&#x5B89;&#x88DD;">&#x7DE8;&#x8B6F;&#x548C;&#x5B89;&#x88DD;</h2>
+<pre><code class="lang-sh">$ <span class="hljs-built_in">cd</span> cgdb
+$ ./autogen.sh
+$ ./configure --prefix=/usr/<span class="hljs-built_in">local</span>
+$ make
+$ sudo make install
+</code></pre>
+<hr>
+<ul>
+<li>~/.gdbinit</li>
+</ul>
+<pre><code class="lang-sh"><span class="hljs-comment">#    ``                                                                                                    </span>
+<span class="hljs-comment">#   STL GDB evaluators/views/utilities - 1.03</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#   The new GDB commands:                                                         </span>
+<span class="hljs-comment">#         are entirely non instrumental                                             </span>
+<span class="hljs-comment">#         do not depend on any &quot;inline&quot;(s) - e.g. size(), [], etc</span>
+<span class="hljs-comment">#       are extremely tolerant to debugger settings</span>
+<span class="hljs-comment">#                                                                                 </span>
+<span class="hljs-comment">#   This file should be &quot;included&quot; in .gdbinit as following:</span>
+<span class="hljs-comment">#   source stl-views.gdb or just paste it into your .gdbinit file</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#   The following STL containers are currently supported:</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#       std::vector&lt;T&gt; -- via pvector command</span>
+<span class="hljs-comment">#       std::list&lt;T&gt; -- via plist or plist_member command</span>
+<span class="hljs-comment">#       std::map&lt;T,T&gt; -- via pmap or pmap_member command</span>
+<span class="hljs-comment">#       std::multimap&lt;T,T&gt; -- via pmap or pmap_member command</span>
+<span class="hljs-comment">#       std::set&lt;T&gt; -- via pset command</span>
+<span class="hljs-comment">#       std::multiset&lt;T&gt; -- via pset command</span>
+<span class="hljs-comment">#       std::deque&lt;T&gt; -- via pdequeue command</span>
+<span class="hljs-comment">#       std::stack&lt;T&gt; -- via pstack command</span>
+<span class="hljs-comment">#       std::queue&lt;T&gt; -- via pqueue command</span>
+<span class="hljs-comment">#       std::priority_queue&lt;T&gt; -- via ppqueue command</span>
+<span class="hljs-comment">#       std::bitset&lt;n&gt; -- via pbitset command</span>
+<span class="hljs-comment">#       std::string -- via pstring command</span>
+<span class="hljs-comment">#       std::widestring -- via pwstring command</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#   The end of this file contains (optional) C++ beautifiers</span>
+<span class="hljs-comment">#   Make sure your debugger supports $argc</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#   Simple GDB Macros writen by Dan Marinescu (H-PhD) - License GPL</span>
+<span class="hljs-comment">#   Inspired by intial work of Tom Malnar, </span>
+<span class="hljs-comment">#     Tony Novac (PhD) / Cornell / Stanford,</span>
+<span class="hljs-comment">#     Gilad Mishne (PhD) and Many Many Others.</span>
+<span class="hljs-comment">#   Contact: dan_c_marinescu@yahoo.com (Subject: STL)</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#   Modified to work with g++ 4.3 by Anders Elton</span>
+<span class="hljs-comment">#   Also added _member functions, that instead of printing the entire class in map, prints a member.</span>
+
+
+
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># std::vector&lt;&gt;</span>
+<span class="hljs-comment">#</span>
+
+define pvector
+    <span class="hljs-keyword">if</span> <span class="hljs-variable">$argc</span> == <span class="hljs-number">0</span>
+        <span class="hljs-built_in">help</span> pvector
+    <span class="hljs-keyword">else</span>
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$size</span> = <span class="hljs-variable">$arg0</span>._M_impl._M_finish - <span class="hljs-variable">$arg0</span>._M_impl._M_start
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$capacity</span> = <span class="hljs-variable">$arg0</span>._M_impl._M_end_of_storage - <span class="hljs-variable">$arg0</span>._M_impl._M_start
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$size_max</span> = <span class="hljs-variable">$size</span> - <span class="hljs-number">1</span>
+    end
+    <span class="hljs-keyword">if</span> <span class="hljs-variable">$argc</span> == <span class="hljs-number">1</span>
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$i</span> = <span class="hljs-number">0</span>
+        <span class="hljs-keyword">while</span> <span class="hljs-variable">$i</span> &lt; <span class="hljs-variable">$size</span>
+            <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;elem[%u]: &quot;</span>, <span class="hljs-variable">$i</span>
+            p *(<span class="hljs-variable">$arg0</span>._M_impl._M_start + <span class="hljs-variable">$i</span>)
+            <span class="hljs-built_in">set</span> <span class="hljs-variable">$i</span>++
+        end
+    end
+    <span class="hljs-keyword">if</span> <span class="hljs-variable">$argc</span> == <span class="hljs-number">2</span>
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$idx</span> = <span class="hljs-variable">$arg1</span>
+        <span class="hljs-keyword">if</span> <span class="hljs-variable">$idx</span> &lt; <span class="hljs-number">0</span> || <span class="hljs-variable">$idx</span> &gt; <span class="hljs-variable">$size_max</span>
+            <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;idx1, idx2 are not in acceptable range: [0..%u].\n&quot;</span>, <span class="hljs-variable">$size_max</span>
+        <span class="hljs-keyword">else</span>
+            <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;elem[%u]: &quot;</span>, <span class="hljs-variable">$idx</span>
+            p *(<span class="hljs-variable">$arg0</span>._M_impl._M_start + <span class="hljs-variable">$idx</span>)
+        end
+    end
+    <span class="hljs-keyword">if</span> <span class="hljs-variable">$argc</span> == <span class="hljs-number">3</span>
+      <span class="hljs-built_in">set</span> <span class="hljs-variable">$start_idx</span> = <span class="hljs-variable">$arg1</span>
+      <span class="hljs-built_in">set</span> <span class="hljs-variable">$stop_idx</span> = <span class="hljs-variable">$arg2</span>
+      <span class="hljs-keyword">if</span> <span class="hljs-variable">$start_idx</span> &gt; <span class="hljs-variable">$stop_idx</span>
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$tmp_idx</span> = <span class="hljs-variable">$start_idx</span>
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$start_idx</span> = <span class="hljs-variable">$stop_idx</span>
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$stop_idx</span> = <span class="hljs-variable">$tmp_idx</span>
+      end
+      <span class="hljs-keyword">if</span> <span class="hljs-variable">$start_idx</span> &lt; <span class="hljs-number">0</span> || <span class="hljs-variable">$stop_idx</span> &lt; <span class="hljs-number">0</span> || <span class="hljs-variable">$start_idx</span> &gt; <span class="hljs-variable">$size_max</span> || <span class="hljs-variable">$stop_idx</span> &gt; <span class="hljs-variable">$size_max</span>
+        <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;idx1, idx2 are not in acceptable range: [0..%u].\n&quot;</span>, <span class="hljs-variable">$size_max</span>
+      <span class="hljs-keyword">else</span>
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$i</span> = <span class="hljs-variable">$start_idx</span>
+        <span class="hljs-keyword">while</span> <span class="hljs-variable">$i</span> &lt;= <span class="hljs-variable">$stop_idx</span>
+            <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;elem[%u]: &quot;</span>, <span class="hljs-variable">$i</span>
+            p *(<span class="hljs-variable">$arg0</span>._M_impl._M_start + <span class="hljs-variable">$i</span>)
+            <span class="hljs-built_in">set</span> <span class="hljs-variable">$i</span>++
+        end
+      end
+    end
+    <span class="hljs-keyword">if</span> <span class="hljs-variable">$argc</span> &gt; <span class="hljs-number">0</span>
+        <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;Vector size = %u\n&quot;</span>, <span class="hljs-variable">$size</span>
+        <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;Vector capacity = %u\n&quot;</span>, <span class="hljs-variable">$capacity</span>
+        <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;Element &quot;</span>
+        whatis <span class="hljs-variable">$arg0</span>._M_impl._M_start
+    end
+end
+
+document pvector
+    Prints std::vector&lt;T&gt; information.
+    Syntax: pvector &lt;vector&gt; &lt;idx1&gt; &lt;idx2&gt;
+    Note: idx, idx1 and idx2 must be <span class="hljs-keyword">in</span> acceptable range [<span class="hljs-number">0</span>..&lt;vector&gt;.size()-<span class="hljs-number">1</span>].
+    Examples:
+    pvector v - Prints vector content, size, capacity and T typedef
+    pvector v <span class="hljs-number">0</span> - Prints element[idx] from vector
+    pvector v <span class="hljs-number">1</span> <span class="hljs-number">2</span> - Prints elements <span class="hljs-keyword">in</span> range [idx1..idx2] from vector
+end 
+
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># std::list&lt;&gt;</span>
+<span class="hljs-comment">#</span>
+
+define plist
+    <span class="hljs-keyword">if</span> <span class="hljs-variable">$argc</span> == <span class="hljs-number">0</span>
+        <span class="hljs-built_in">help</span> plist
+    <span class="hljs-keyword">else</span>
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$head</span> = &amp;<span class="hljs-variable">$arg0</span>._M_impl._M_node
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$current</span> = <span class="hljs-variable">$arg0</span>._M_impl._M_node._M_next
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$size</span> = <span class="hljs-number">0</span>
+        <span class="hljs-keyword">while</span> <span class="hljs-variable">$current</span> != <span class="hljs-variable">$head</span>
+            <span class="hljs-keyword">if</span> <span class="hljs-variable">$argc</span> == <span class="hljs-number">2</span>
+                <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;elem[%u]: &quot;</span>, <span class="hljs-variable">$size</span>
+                p *(<span class="hljs-variable">$arg1</span>*)(<span class="hljs-variable">$current</span> + <span class="hljs-number">1</span>)
+            end
+            <span class="hljs-keyword">if</span> <span class="hljs-variable">$argc</span> == <span class="hljs-number">3</span>
+                <span class="hljs-keyword">if</span> <span class="hljs-variable">$size</span> == <span class="hljs-variable">$arg2</span>
+                    <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;elem[%u]: &quot;</span>, <span class="hljs-variable">$size</span>
+                    p *(<span class="hljs-variable">$arg1</span>*)(<span class="hljs-variable">$current</span> + <span class="hljs-number">1</span>)
+                end
+            end
+            <span class="hljs-built_in">set</span> <span class="hljs-variable">$current</span> = <span class="hljs-variable">$current</span>._M_next
+            <span class="hljs-built_in">set</span> <span class="hljs-variable">$size</span>++
+        end
+        <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;List size = %u \n&quot;</span>, <span class="hljs-variable">$size</span>
+        <span class="hljs-keyword">if</span> <span class="hljs-variable">$argc</span> == <span class="hljs-number">1</span>
+            <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;List &quot;</span>
+            whatis <span class="hljs-variable">$arg0</span>
+            <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;Use plist &lt;variable_name&gt; &lt;element_type&gt; to see the elements in the list.\n&quot;</span>
+        end
+    end
+end
+
+document plist
+    Prints std::list&lt;T&gt; information.
+    Syntax: plist &lt;list&gt; &lt;T&gt; &lt;idx&gt;: Prints list size, <span class="hljs-keyword">if</span> T defined all elements or just element at idx
+    Examples:
+    plist l - prints list size and definition
+    plist l int - prints all elements and list size
+    plist l int <span class="hljs-number">2</span> - prints the third element <span class="hljs-keyword">in</span> the list (<span class="hljs-keyword">if</span> exists) and list size
+end
+
+define plist_member
+    <span class="hljs-keyword">if</span> <span class="hljs-variable">$argc</span> == <span class="hljs-number">0</span>
+        <span class="hljs-built_in">help</span> plist_member
+    <span class="hljs-keyword">else</span>
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$head</span> = &amp;<span class="hljs-variable">$arg0</span>._M_impl._M_node
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$current</span> = <span class="hljs-variable">$arg0</span>._M_impl._M_node._M_next
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$size</span> = <span class="hljs-number">0</span>
+        <span class="hljs-keyword">while</span> <span class="hljs-variable">$current</span> != <span class="hljs-variable">$head</span>
+            <span class="hljs-keyword">if</span> <span class="hljs-variable">$argc</span> == <span class="hljs-number">3</span>
+                <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;elem[%u]: &quot;</span>, <span class="hljs-variable">$size</span>
+                p (*(<span class="hljs-variable">$arg1</span>*)(<span class="hljs-variable">$current</span> + <span class="hljs-number">1</span>)).<span class="hljs-variable">$arg2</span>
+            end
+            <span class="hljs-keyword">if</span> <span class="hljs-variable">$argc</span> == <span class="hljs-number">4</span>
+                <span class="hljs-keyword">if</span> <span class="hljs-variable">$size</span> == <span class="hljs-variable">$arg3</span>
+                    <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;elem[%u]: &quot;</span>, <span class="hljs-variable">$size</span>
+                    p (*(<span class="hljs-variable">$arg1</span>*)(<span class="hljs-variable">$current</span> + <span class="hljs-number">1</span>)).<span class="hljs-variable">$arg2</span>
+                end
+            end
+            <span class="hljs-built_in">set</span> <span class="hljs-variable">$current</span> = <span class="hljs-variable">$current</span>._M_next
+            <span class="hljs-built_in">set</span> <span class="hljs-variable">$size</span>++
+        end
+        <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;List size = %u \n&quot;</span>, <span class="hljs-variable">$size</span>
+        <span class="hljs-keyword">if</span> <span class="hljs-variable">$argc</span> == <span class="hljs-number">1</span>
+            <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;List &quot;</span>
+            whatis <span class="hljs-variable">$arg0</span>
+            <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;Use plist_member &lt;variable_name&gt; &lt;element_type&gt; &lt;member&gt; to see the elements in the list.\n&quot;</span>
+        end
+    end
+end
+
+document plist_member
+    Prints std::list&lt;T&gt; information.
+    Syntax: plist &lt;list&gt; &lt;T&gt; &lt;idx&gt;: Prints list size, <span class="hljs-keyword">if</span> T defined all elements or just element at idx
+    Examples:
+    plist_member l int member - prints all elements and list size
+    plist_member l int member <span class="hljs-number">2</span> - prints the third element <span class="hljs-keyword">in</span> the list (<span class="hljs-keyword">if</span> exists) and list size
+end
+
+
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># std::map and std::multimap</span>
+<span class="hljs-comment">#</span>
+
+define pmap
+    <span class="hljs-keyword">if</span> <span class="hljs-variable">$argc</span> == <span class="hljs-number">0</span>
+        <span class="hljs-built_in">help</span> pmap
+    <span class="hljs-keyword">else</span>
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$tree</span> = <span class="hljs-variable">$arg0</span>
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$i</span> = <span class="hljs-number">0</span>
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$node</span> = <span class="hljs-variable">$tree</span>._M_t._M_impl._M_header._M_left
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$end</span> = <span class="hljs-variable">$tree</span>._M_t._M_impl._M_header
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$tree_size</span> = <span class="hljs-variable">$tree</span>._M_t._M_impl._M_node_count
+        <span class="hljs-keyword">if</span> <span class="hljs-variable">$argc</span> == <span class="hljs-number">1</span>
+            <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;Map &quot;</span>
+            whatis <span class="hljs-variable">$tree</span>
+            <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;Use pmap &lt;variable_name&gt; &lt;left_element_type&gt; &lt;right_element_type&gt; to see the elements in the map.\n&quot;</span>
+        end
+        <span class="hljs-keyword">if</span> <span class="hljs-variable">$argc</span> == <span class="hljs-number">3</span>
+            <span class="hljs-keyword">while</span> <span class="hljs-variable">$i</span> &lt; <span class="hljs-variable">$tree_size</span>
+                <span class="hljs-built_in">set</span> <span class="hljs-variable">$value</span> = (void *)(<span class="hljs-variable">$node</span> + <span class="hljs-number">1</span>)
+                <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;elem[%u].left: &quot;</span>, <span class="hljs-variable">$i</span>
+                p *(<span class="hljs-variable">$arg1</span>*)<span class="hljs-variable">$value</span>
+                <span class="hljs-built_in">set</span> <span class="hljs-variable">$value</span> = <span class="hljs-variable">$value</span> + sizeof(<span class="hljs-variable">$arg1</span>)
+                <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;elem[%u].right: &quot;</span>, <span class="hljs-variable">$i</span>
+                p *(<span class="hljs-variable">$arg2</span>*)<span class="hljs-variable">$value</span>
+                <span class="hljs-keyword">if</span> <span class="hljs-variable">$node</span>._M_right != <span class="hljs-number">0</span>
+                    <span class="hljs-built_in">set</span> <span class="hljs-variable">$node</span> = <span class="hljs-variable">$node</span>._M_right
+                    <span class="hljs-keyword">while</span> <span class="hljs-variable">$node</span>._M_left != <span class="hljs-number">0</span>
+                        <span class="hljs-built_in">set</span> <span class="hljs-variable">$node</span> = <span class="hljs-variable">$node</span>._M_left
+                    end
+                <span class="hljs-keyword">else</span>
+                    <span class="hljs-built_in">set</span> <span class="hljs-variable">$tmp_node</span> = <span class="hljs-variable">$node</span>._M_parent
+                    <span class="hljs-keyword">while</span> <span class="hljs-variable">$node</span> == <span class="hljs-variable">$tmp_node</span>._M_right
+                        <span class="hljs-built_in">set</span> <span class="hljs-variable">$node</span> = <span class="hljs-variable">$tmp_node</span>
+                        <span class="hljs-built_in">set</span> <span class="hljs-variable">$tmp_node</span> = <span class="hljs-variable">$tmp_node</span>._M_parent
+                    end
+                    <span class="hljs-keyword">if</span> <span class="hljs-variable">$node</span>._M_right != <span class="hljs-variable">$tmp_node</span>
+                        <span class="hljs-built_in">set</span> <span class="hljs-variable">$node</span> = <span class="hljs-variable">$tmp_node</span>
+                    end
+                end
+                <span class="hljs-built_in">set</span> <span class="hljs-variable">$i</span>++
+            end
+        end
+        <span class="hljs-keyword">if</span> <span class="hljs-variable">$argc</span> == <span class="hljs-number">4</span>
+            <span class="hljs-built_in">set</span> <span class="hljs-variable">$idx</span> = <span class="hljs-variable">$arg3</span>
+            <span class="hljs-built_in">set</span> <span class="hljs-variable">$ElementsFound</span> = <span class="hljs-number">0</span>
+            <span class="hljs-keyword">while</span> <span class="hljs-variable">$i</span> &lt; <span class="hljs-variable">$tree_size</span>
+                <span class="hljs-built_in">set</span> <span class="hljs-variable">$value</span> = (void *)(<span class="hljs-variable">$node</span> + <span class="hljs-number">1</span>)
+                <span class="hljs-keyword">if</span> *(<span class="hljs-variable">$arg1</span>*)<span class="hljs-variable">$value</span> == <span class="hljs-variable">$idx</span>
+                    <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;elem[%u].left: &quot;</span>, <span class="hljs-variable">$i</span>
+                    p *(<span class="hljs-variable">$arg1</span>*)<span class="hljs-variable">$value</span>
+                    <span class="hljs-built_in">set</span> <span class="hljs-variable">$value</span> = <span class="hljs-variable">$value</span> + sizeof(<span class="hljs-variable">$arg1</span>)
+                    <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;elem[%u].right: &quot;</span>, <span class="hljs-variable">$i</span>
+                    p *(<span class="hljs-variable">$arg2</span>*)<span class="hljs-variable">$value</span>
+                    <span class="hljs-built_in">set</span> <span class="hljs-variable">$ElementsFound</span>++
+                end
+                <span class="hljs-keyword">if</span> <span class="hljs-variable">$node</span>._M_right != <span class="hljs-number">0</span>
+                    <span class="hljs-built_in">set</span> <span class="hljs-variable">$node</span> = <span class="hljs-variable">$node</span>._M_right
+                    <span class="hljs-keyword">while</span> <span class="hljs-variable">$node</span>._M_left != <span class="hljs-number">0</span>
+                        <span class="hljs-built_in">set</span> <span class="hljs-variable">$node</span> = <span class="hljs-variable">$node</span>._M_left
+                    end
+                <span class="hljs-keyword">else</span>
+                    <span class="hljs-built_in">set</span> <span class="hljs-variable">$tmp_node</span> = <span class="hljs-variable">$node</span>._M_parent
+                    <span class="hljs-keyword">while</span> <span class="hljs-variable">$node</span> == <span class="hljs-variable">$tmp_node</span>._M_right
+                        <span class="hljs-built_in">set</span> <span class="hljs-variable">$node</span> = <span class="hljs-variable">$tmp_node</span>
+                        <span class="hljs-built_in">set</span> <span class="hljs-variable">$tmp_node</span> = <span class="hljs-variable">$tmp_node</span>._M_parent
+                    end
+                    <span class="hljs-keyword">if</span> <span class="hljs-variable">$node</span>._M_right != <span class="hljs-variable">$tmp_node</span>
+                        <span class="hljs-built_in">set</span> <span class="hljs-variable">$node</span> = <span class="hljs-variable">$tmp_node</span>
+                    end
+                end
+                <span class="hljs-built_in">set</span> <span class="hljs-variable">$i</span>++
+            end
+            <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;Number of elements found = %u\n&quot;</span>, <span class="hljs-variable">$ElementsFound</span>
+        end
+        <span class="hljs-keyword">if</span> <span class="hljs-variable">$argc</span> == <span class="hljs-number">5</span>
+            <span class="hljs-built_in">set</span> <span class="hljs-variable">$idx1</span> = <span class="hljs-variable">$arg3</span>
+            <span class="hljs-built_in">set</span> <span class="hljs-variable">$idx2</span> = <span class="hljs-variable">$arg4</span>
+            <span class="hljs-built_in">set</span> <span class="hljs-variable">$ElementsFound</span> = <span class="hljs-number">0</span>
+            <span class="hljs-keyword">while</span> <span class="hljs-variable">$i</span> &lt; <span class="hljs-variable">$tree_size</span>
+                <span class="hljs-built_in">set</span> <span class="hljs-variable">$value</span> = (void *)(<span class="hljs-variable">$node</span> + <span class="hljs-number">1</span>)
+                <span class="hljs-built_in">set</span> <span class="hljs-variable">$valueLeft</span> = *(<span class="hljs-variable">$arg1</span>*)<span class="hljs-variable">$value</span>
+                <span class="hljs-built_in">set</span> <span class="hljs-variable">$valueRight</span> = *(<span class="hljs-variable">$arg2</span>*)(<span class="hljs-variable">$value</span> + sizeof(<span class="hljs-variable">$arg1</span>))
+                <span class="hljs-keyword">if</span> <span class="hljs-variable">$valueLeft</span> == <span class="hljs-variable">$idx1</span> &amp;&amp; <span class="hljs-variable">$valueRight</span> == <span class="hljs-variable">$idx2</span>
+                    <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;elem[%u].left: &quot;</span>, <span class="hljs-variable">$i</span>
+                    p <span class="hljs-variable">$valueLeft</span>
+                    <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;elem[%u].right: &quot;</span>, <span class="hljs-variable">$i</span>
+                    p <span class="hljs-variable">$valueRight</span>
+                    <span class="hljs-built_in">set</span> <span class="hljs-variable">$ElementsFound</span>++
+                end
+                <span class="hljs-keyword">if</span> <span class="hljs-variable">$node</span>._M_right != <span class="hljs-number">0</span>
+                    <span class="hljs-built_in">set</span> <span class="hljs-variable">$node</span> = <span class="hljs-variable">$node</span>._M_right
+                    <span class="hljs-keyword">while</span> <span class="hljs-variable">$node</span>._M_left != <span class="hljs-number">0</span>
+                        <span class="hljs-built_in">set</span> <span class="hljs-variable">$node</span> = <span class="hljs-variable">$node</span>._M_left
+                    end
+                <span class="hljs-keyword">else</span>
+                    <span class="hljs-built_in">set</span> <span class="hljs-variable">$tmp_node</span> = <span class="hljs-variable">$node</span>._M_parent
+                    <span class="hljs-keyword">while</span> <span class="hljs-variable">$node</span> == <span class="hljs-variable">$tmp_node</span>._M_right
+                        <span class="hljs-built_in">set</span> <span class="hljs-variable">$node</span> = <span class="hljs-variable">$tmp_node</span>
+                        <span class="hljs-built_in">set</span> <span class="hljs-variable">$tmp_node</span> = <span class="hljs-variable">$tmp_node</span>._M_parent
+                    end
+                    <span class="hljs-keyword">if</span> <span class="hljs-variable">$node</span>._M_right != <span class="hljs-variable">$tmp_node</span>
+                        <span class="hljs-built_in">set</span> <span class="hljs-variable">$node</span> = <span class="hljs-variable">$tmp_node</span>
+                    end
+                end
+                <span class="hljs-built_in">set</span> <span class="hljs-variable">$i</span>++
+            end
+            <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;Number of elements found = %u\n&quot;</span>, <span class="hljs-variable">$ElementsFound</span>
+        end
+        <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;Map size = %u\n&quot;</span>, <span class="hljs-variable">$tree_size</span>
+    end
+end
+
+document pmap
+    Prints std::map&lt;TLeft and TRight&gt; or std::multimap&lt;TLeft and TRight&gt; information. Works <span class="hljs-keyword">for</span> std::multimap as well.
+    Syntax: pmap &lt;map&gt; &lt;T<span class="hljs-built_in">type</span>Left&gt; &lt;TypeRight&gt; &lt;valLeft&gt; &lt;valRight&gt;: Prints map size, <span class="hljs-keyword">if</span> T defined all elements or just element(s) with val(s)
+    Examples:
+    pmap m - prints map size and definition
+    pmap m int int - prints all elements and map size
+    pmap m int int <span class="hljs-number">20</span> - prints the element(s) with left-value = <span class="hljs-number">20</span> (<span class="hljs-keyword">if</span> any) and map size
+    pmap m int int <span class="hljs-number">20</span> <span class="hljs-number">200</span> - prints the element(s) with left-value = <span class="hljs-number">20</span> and right-value = <span class="hljs-number">200</span> (<span class="hljs-keyword">if</span> any) and map size
+end
+
+
+define pmap_member
+    <span class="hljs-keyword">if</span> <span class="hljs-variable">$argc</span> == <span class="hljs-number">0</span>
+        <span class="hljs-built_in">help</span> pmap_member
+    <span class="hljs-keyword">else</span>
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$tree</span> = <span class="hljs-variable">$arg0</span>
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$i</span> = <span class="hljs-number">0</span>
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$node</span> = <span class="hljs-variable">$tree</span>._M_t._M_impl._M_header._M_left
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$end</span> = <span class="hljs-variable">$tree</span>._M_t._M_impl._M_header
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$tree_size</span> = <span class="hljs-variable">$tree</span>._M_t._M_impl._M_node_count
+        <span class="hljs-keyword">if</span> <span class="hljs-variable">$argc</span> == <span class="hljs-number">1</span>
+            <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;Map &quot;</span>
+            whatis <span class="hljs-variable">$tree</span>
+            <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;Use pmap &lt;variable_name&gt; &lt;left_element_type&gt; &lt;right_element_type&gt; to see the elements in the map.\n&quot;</span>
+        end
+        <span class="hljs-keyword">if</span> <span class="hljs-variable">$argc</span> == <span class="hljs-number">5</span>
+            <span class="hljs-keyword">while</span> <span class="hljs-variable">$i</span> &lt; <span class="hljs-variable">$tree_size</span>
+                <span class="hljs-built_in">set</span> <span class="hljs-variable">$value</span> = (void *)(<span class="hljs-variable">$node</span> + <span class="hljs-number">1</span>)
+                <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;elem[%u].left: &quot;</span>, <span class="hljs-variable">$i</span>
+                p (*(<span class="hljs-variable">$arg1</span>*)<span class="hljs-variable">$value</span>).<span class="hljs-variable">$arg2</span>
+                <span class="hljs-built_in">set</span> <span class="hljs-variable">$value</span> = <span class="hljs-variable">$value</span> + sizeof(<span class="hljs-variable">$arg1</span>)
+                <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;elem[%u].right: &quot;</span>, <span class="hljs-variable">$i</span>
+                p (*(<span class="hljs-variable">$arg3</span>*)<span class="hljs-variable">$value</span>).<span class="hljs-variable">$arg4</span>
+                <span class="hljs-keyword">if</span> <span class="hljs-variable">$node</span>._M_right != <span class="hljs-number">0</span>
+                    <span class="hljs-built_in">set</span> <span class="hljs-variable">$node</span> = <span class="hljs-variable">$node</span>._M_right
+                    <span class="hljs-keyword">while</span> <span class="hljs-variable">$node</span>._M_left != <span class="hljs-number">0</span>
+                        <span class="hljs-built_in">set</span> <span class="hljs-variable">$node</span> = <span class="hljs-variable">$node</span>._M_left
+                    end
+                <span class="hljs-keyword">else</span>
+                    <span class="hljs-built_in">set</span> <span class="hljs-variable">$tmp_node</span> = <span class="hljs-variable">$node</span>._M_parent
+                    <span class="hljs-keyword">while</span> <span class="hljs-variable">$node</span> == <span class="hljs-variable">$tmp_node</span>._M_right
+                        <span class="hljs-built_in">set</span> <span class="hljs-variable">$node</span> = <span class="hljs-variable">$tmp_node</span>
+                        <span class="hljs-built_in">set</span> <span class="hljs-variable">$tmp_node</span> = <span class="hljs-variable">$tmp_node</span>._M_parent
+                    end
+                    <span class="hljs-keyword">if</span> <span class="hljs-variable">$node</span>._M_right != <span class="hljs-variable">$tmp_node</span>
+                        <span class="hljs-built_in">set</span> <span class="hljs-variable">$node</span> = <span class="hljs-variable">$tmp_node</span>
+                    end
+                end
+                <span class="hljs-built_in">set</span> <span class="hljs-variable">$i</span>++
+            end
+        end
+        <span class="hljs-keyword">if</span> <span class="hljs-variable">$argc</span> == <span class="hljs-number">6</span>
+            <span class="hljs-built_in">set</span> <span class="hljs-variable">$idx</span> = <span class="hljs-variable">$arg5</span>
+            <span class="hljs-built_in">set</span> <span class="hljs-variable">$ElementsFound</span> = <span class="hljs-number">0</span>
+            <span class="hljs-keyword">while</span> <span class="hljs-variable">$i</span> &lt; <span class="hljs-variable">$tree_size</span>
+                <span class="hljs-built_in">set</span> <span class="hljs-variable">$value</span> = (void *)(<span class="hljs-variable">$node</span> + <span class="hljs-number">1</span>)
+                <span class="hljs-keyword">if</span> *(<span class="hljs-variable">$arg1</span>*)<span class="hljs-variable">$value</span> == <span class="hljs-variable">$idx</span>
+                    <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;elem[%u].left: &quot;</span>, <span class="hljs-variable">$i</span>
+                    p (*(<span class="hljs-variable">$arg1</span>*)<span class="hljs-variable">$value</span>).<span class="hljs-variable">$arg2</span>
+                    <span class="hljs-built_in">set</span> <span class="hljs-variable">$value</span> = <span class="hljs-variable">$value</span> + sizeof(<span class="hljs-variable">$arg1</span>)
+                    <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;elem[%u].right: &quot;</span>, <span class="hljs-variable">$i</span>
+                    p (*(<span class="hljs-variable">$arg3</span>*)<span class="hljs-variable">$value</span>).<span class="hljs-variable">$arg4</span>
+                    <span class="hljs-built_in">set</span> <span class="hljs-variable">$ElementsFound</span>++
+                end
+                <span class="hljs-keyword">if</span> <span class="hljs-variable">$node</span>._M_right != <span class="hljs-number">0</span>
+                    <span class="hljs-built_in">set</span> <span class="hljs-variable">$node</span> = <span class="hljs-variable">$node</span>._M_right
+                    <span class="hljs-keyword">while</span> <span class="hljs-variable">$node</span>._M_left != <span class="hljs-number">0</span>
+                        <span class="hljs-built_in">set</span> <span class="hljs-variable">$node</span> = <span class="hljs-variable">$node</span>._M_left
+                    end
+                <span class="hljs-keyword">else</span>
+                    <span class="hljs-built_in">set</span> <span class="hljs-variable">$tmp_node</span> = <span class="hljs-variable">$node</span>._M_parent
+                    <span class="hljs-keyword">while</span> <span class="hljs-variable">$node</span> == <span class="hljs-variable">$tmp_node</span>._M_right
+                        <span class="hljs-built_in">set</span> <span class="hljs-variable">$node</span> = <span class="hljs-variable">$tmp_node</span>
+                        <span class="hljs-built_in">set</span> <span class="hljs-variable">$tmp_node</span> = <span class="hljs-variable">$tmp_node</span>._M_parent
+                    end
+                    <span class="hljs-keyword">if</span> <span class="hljs-variable">$node</span>._M_right != <span class="hljs-variable">$tmp_node</span>
+                        <span class="hljs-built_in">set</span> <span class="hljs-variable">$node</span> = <span class="hljs-variable">$tmp_node</span>
+                    end
+                end
+                <span class="hljs-built_in">set</span> <span class="hljs-variable">$i</span>++
+            end
+            <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;Number of elements found = %u\n&quot;</span>, <span class="hljs-variable">$ElementsFound</span>
+        end
+        <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;Map size = %u\n&quot;</span>, <span class="hljs-variable">$tree_size</span>
+    end
+end
+
+document pmap_member
+    Prints std::map&lt;TLeft and TRight&gt; or std::multimap&lt;TLeft and TRight&gt; information. Works <span class="hljs-keyword">for</span> std::multimap as well.
+    Syntax: pmap &lt;map&gt; &lt;T<span class="hljs-built_in">type</span>Left&gt; &lt;TypeRight&gt; &lt;valLeft&gt; &lt;valRight&gt;: Prints map size, <span class="hljs-keyword">if</span> T defined all elements or just element(s) with val(s)
+    Examples:
+    pmap_member m class1 member1 class2 member2 - prints class1.member1 : class2.member2
+    pmap_member m class1 member1 class2 member2 lvalue - prints class1.member1 : class2.member2 <span class="hljs-built_in">where</span> class1 == lvalue
+end
+
+
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># std::set and std::multiset</span>
+<span class="hljs-comment">#</span>
+
+define pset
+    <span class="hljs-keyword">if</span> <span class="hljs-variable">$argc</span> == <span class="hljs-number">0</span>
+        <span class="hljs-built_in">help</span> pset
+    <span class="hljs-keyword">else</span>
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$tree</span> = <span class="hljs-variable">$arg0</span>
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$i</span> = <span class="hljs-number">0</span>
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$node</span> = <span class="hljs-variable">$tree</span>._M_t._M_impl._M_header._M_left
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$end</span> = <span class="hljs-variable">$tree</span>._M_t._M_impl._M_header
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$tree_size</span> = <span class="hljs-variable">$tree</span>._M_t._M_impl._M_node_count
+        <span class="hljs-keyword">if</span> <span class="hljs-variable">$argc</span> == <span class="hljs-number">1</span>
+            <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;Set &quot;</span>
+            whatis <span class="hljs-variable">$tree</span>
+            <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;Use pset &lt;variable_name&gt; &lt;element_type&gt; to see the elements in the set.\n&quot;</span>
+        end
+        <span class="hljs-keyword">if</span> <span class="hljs-variable">$argc</span> == <span class="hljs-number">2</span>
+            <span class="hljs-keyword">while</span> <span class="hljs-variable">$i</span> &lt; <span class="hljs-variable">$tree_size</span>
+                <span class="hljs-built_in">set</span> <span class="hljs-variable">$value</span> = (void *)(<span class="hljs-variable">$node</span> + <span class="hljs-number">1</span>)
+                <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;elem[%u]: &quot;</span>, <span class="hljs-variable">$i</span>
+                p *(<span class="hljs-variable">$arg1</span>*)<span class="hljs-variable">$value</span>
+                <span class="hljs-keyword">if</span> <span class="hljs-variable">$node</span>._M_right != <span class="hljs-number">0</span>
+                    <span class="hljs-built_in">set</span> <span class="hljs-variable">$node</span> = <span class="hljs-variable">$node</span>._M_right
+                    <span class="hljs-keyword">while</span> <span class="hljs-variable">$node</span>._M_left != <span class="hljs-number">0</span>
+                        <span class="hljs-built_in">set</span> <span class="hljs-variable">$node</span> = <span class="hljs-variable">$node</span>._M_left
+                    end
+                <span class="hljs-keyword">else</span>
+                    <span class="hljs-built_in">set</span> <span class="hljs-variable">$tmp_node</span> = <span class="hljs-variable">$node</span>._M_parent
+                    <span class="hljs-keyword">while</span> <span class="hljs-variable">$node</span> == <span class="hljs-variable">$tmp_node</span>._M_right
+                        <span class="hljs-built_in">set</span> <span class="hljs-variable">$node</span> = <span class="hljs-variable">$tmp_node</span>
+                        <span class="hljs-built_in">set</span> <span class="hljs-variable">$tmp_node</span> = <span class="hljs-variable">$tmp_node</span>._M_parent
+                    end
+                    <span class="hljs-keyword">if</span> <span class="hljs-variable">$node</span>._M_right != <span class="hljs-variable">$tmp_node</span>
+                        <span class="hljs-built_in">set</span> <span class="hljs-variable">$node</span> = <span class="hljs-variable">$tmp_node</span>
+                    end
+                end
+                <span class="hljs-built_in">set</span> <span class="hljs-variable">$i</span>++
+            end
+        end
+        <span class="hljs-keyword">if</span> <span class="hljs-variable">$argc</span> == <span class="hljs-number">3</span>
+            <span class="hljs-built_in">set</span> <span class="hljs-variable">$idx</span> = <span class="hljs-variable">$arg2</span>
+            <span class="hljs-built_in">set</span> <span class="hljs-variable">$ElementsFound</span> = <span class="hljs-number">0</span>
+            <span class="hljs-keyword">while</span> <span class="hljs-variable">$i</span> &lt; <span class="hljs-variable">$tree_size</span>
+                <span class="hljs-built_in">set</span> <span class="hljs-variable">$value</span> = (void *)(<span class="hljs-variable">$node</span> + <span class="hljs-number">1</span>)
+                <span class="hljs-keyword">if</span> *(<span class="hljs-variable">$arg1</span>*)<span class="hljs-variable">$value</span> == <span class="hljs-variable">$idx</span>
+                    <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;elem[%u]: &quot;</span>, <span class="hljs-variable">$i</span>
+                    p *(<span class="hljs-variable">$arg1</span>*)<span class="hljs-variable">$value</span>
+                    <span class="hljs-built_in">set</span> <span class="hljs-variable">$ElementsFound</span>++
+                end
+                <span class="hljs-keyword">if</span> <span class="hljs-variable">$node</span>._M_right != <span class="hljs-number">0</span>
+                    <span class="hljs-built_in">set</span> <span class="hljs-variable">$node</span> = <span class="hljs-variable">$node</span>._M_right
+                    <span class="hljs-keyword">while</span> <span class="hljs-variable">$node</span>._M_left != <span class="hljs-number">0</span>
+                        <span class="hljs-built_in">set</span> <span class="hljs-variable">$node</span> = <span class="hljs-variable">$node</span>._M_left
+                    end
+                <span class="hljs-keyword">else</span>
+                    <span class="hljs-built_in">set</span> <span class="hljs-variable">$tmp_node</span> = <span class="hljs-variable">$node</span>._M_parent
+                    <span class="hljs-keyword">while</span> <span class="hljs-variable">$node</span> == <span class="hljs-variable">$tmp_node</span>._M_right
+                        <span class="hljs-built_in">set</span> <span class="hljs-variable">$node</span> = <span class="hljs-variable">$tmp_node</span>
+                        <span class="hljs-built_in">set</span> <span class="hljs-variable">$tmp_node</span> = <span class="hljs-variable">$tmp_node</span>._M_parent
+                    end
+                    <span class="hljs-keyword">if</span> <span class="hljs-variable">$node</span>._M_right != <span class="hljs-variable">$tmp_node</span>
+                        <span class="hljs-built_in">set</span> <span class="hljs-variable">$node</span> = <span class="hljs-variable">$tmp_node</span>
+                    end
+                end
+                <span class="hljs-built_in">set</span> <span class="hljs-variable">$i</span>++
+            end
+            <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;Number of elements found = %u\n&quot;</span>, <span class="hljs-variable">$ElementsFound</span>
+        end
+        <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;Set size = %u\n&quot;</span>, <span class="hljs-variable">$tree_size</span>
+    end
+end
+
+document pset
+    Prints std::<span class="hljs-built_in">set</span>&lt;T&gt; or std::multiset&lt;T&gt; information. Works <span class="hljs-keyword">for</span> std::multiset as well.
+    Syntax: pset &lt;<span class="hljs-built_in">set</span>&gt; &lt;T&gt; &lt;val&gt;: Prints <span class="hljs-built_in">set</span> size, <span class="hljs-keyword">if</span> T defined all elements or just element(s) having val
+    Examples:
+    pset s - prints <span class="hljs-built_in">set</span> size and definition
+    pset s int - prints all elements and the size of s
+    pset s int <span class="hljs-number">20</span> - prints the element(s) with value = <span class="hljs-number">20</span> (<span class="hljs-keyword">if</span> any) and the size of s
+end
+
+
+
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># std::dequeue</span>
+<span class="hljs-comment">#</span>
+
+define pdequeue
+    <span class="hljs-keyword">if</span> <span class="hljs-variable">$argc</span> == <span class="hljs-number">0</span>
+        <span class="hljs-built_in">help</span> pdequeue
+    <span class="hljs-keyword">else</span>
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$size</span> = <span class="hljs-number">0</span>
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$start_cur</span> = <span class="hljs-variable">$arg0</span>._M_impl._M_start._M_cur
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$start_last</span> = <span class="hljs-variable">$arg0</span>._M_impl._M_start._M_last
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$start_stop</span> = <span class="hljs-variable">$start_last</span>
+        <span class="hljs-keyword">while</span> <span class="hljs-variable">$start_cur</span> != <span class="hljs-variable">$start_stop</span>
+            p *<span class="hljs-variable">$start_cur</span>
+            <span class="hljs-built_in">set</span> <span class="hljs-variable">$start_cur</span>++
+            <span class="hljs-built_in">set</span> <span class="hljs-variable">$size</span>++
+        end
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$finish_first</span> = <span class="hljs-variable">$arg0</span>._M_impl._M_finish._M_first
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$finish_cur</span> = <span class="hljs-variable">$arg0</span>._M_impl._M_finish._M_cur
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$finish_last</span> = <span class="hljs-variable">$arg0</span>._M_impl._M_finish._M_last
+        <span class="hljs-keyword">if</span> <span class="hljs-variable">$finish_cur</span> &lt; <span class="hljs-variable">$finish_last</span>
+            <span class="hljs-built_in">set</span> <span class="hljs-variable">$finish_stop</span> = <span class="hljs-variable">$finish_cur</span>
+        <span class="hljs-keyword">else</span>
+            <span class="hljs-built_in">set</span> <span class="hljs-variable">$finish_stop</span> = <span class="hljs-variable">$finish_last</span>
+        end
+        <span class="hljs-keyword">while</span> <span class="hljs-variable">$finish_first</span> != <span class="hljs-variable">$finish_stop</span>
+            p *<span class="hljs-variable">$finish_first</span>
+            <span class="hljs-built_in">set</span> <span class="hljs-variable">$finish_first</span>++
+            <span class="hljs-built_in">set</span> <span class="hljs-variable">$size</span>++
+        end
+        <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;Dequeue size = %u\n&quot;</span>, <span class="hljs-variable">$size</span>
+    end
+end
+
+document pdequeue
+    Prints std::dequeue&lt;T&gt; information.
+    Syntax: pdequeue &lt;dequeue&gt;: Prints dequeue size, <span class="hljs-keyword">if</span> T defined all elements
+    Deque elements are listed <span class="hljs-string">&quot;left to right&quot;</span> (left-most stands <span class="hljs-keyword">for</span> front and right-most stands <span class="hljs-keyword">for</span> back)
+    Example:
+    pdequeue d - prints all elements and size of d
+end
+
+
+
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># std::stack</span>
+<span class="hljs-comment">#</span>
+
+define pstack
+    <span class="hljs-keyword">if</span> <span class="hljs-variable">$argc</span> == <span class="hljs-number">0</span>
+        <span class="hljs-built_in">help</span> pstack
+    <span class="hljs-keyword">else</span>
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$start_cur</span> = <span class="hljs-variable">$arg0</span>.c._M_impl._M_start._M_cur
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$finish_cur</span> = <span class="hljs-variable">$arg0</span>.c._M_impl._M_finish._M_cur
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$size</span> = <span class="hljs-variable">$finish_cur</span> - <span class="hljs-variable">$start_cur</span>
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$i</span> = <span class="hljs-variable">$size</span> - <span class="hljs-number">1</span>
+        <span class="hljs-keyword">while</span> <span class="hljs-variable">$i</span> &gt;= <span class="hljs-number">0</span>
+            p *(<span class="hljs-variable">$start_cur</span> + <span class="hljs-variable">$i</span>)
+            <span class="hljs-built_in">set</span> <span class="hljs-variable">$i</span>--
+        end
+        <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;Stack size = %u\n&quot;</span>, <span class="hljs-variable">$size</span>
+    end
+end
+
+document pstack
+    Prints std::stack&lt;T&gt; information.
+    Syntax: pstack &lt;stack&gt;: Prints all elements and size of the stack
+    Stack elements are listed <span class="hljs-string">&quot;top to buttom&quot;</span> (top-most element is the first to come on pop)
+    Example:
+    pstack s - prints all elements and the size of s
+end
+
+
+
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># std::queue</span>
+<span class="hljs-comment">#</span>
+
+define pqueue
+    <span class="hljs-keyword">if</span> <span class="hljs-variable">$argc</span> == <span class="hljs-number">0</span>
+        <span class="hljs-built_in">help</span> pqueue
+    <span class="hljs-keyword">else</span>
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$start_cur</span> = <span class="hljs-variable">$arg0</span>.c._M_impl._M_start._M_cur
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$finish_cur</span> = <span class="hljs-variable">$arg0</span>.c._M_impl._M_finish._M_cur
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$size</span> = <span class="hljs-variable">$finish_cur</span> - <span class="hljs-variable">$start_cur</span>
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$i</span> = <span class="hljs-number">0</span>
+        <span class="hljs-keyword">while</span> <span class="hljs-variable">$i</span> &lt; <span class="hljs-variable">$size</span>
+            p *(<span class="hljs-variable">$start_cur</span> + <span class="hljs-variable">$i</span>)
+            <span class="hljs-built_in">set</span> <span class="hljs-variable">$i</span>++
+        end
+        <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;Queue size = %u\n&quot;</span>, <span class="hljs-variable">$size</span>
+    end
+end
+
+document pqueue
+    Prints std::queue&lt;T&gt; information.
+    Syntax: pqueue &lt;queue&gt;: Prints all elements and the size of the queue
+    Queue elements are listed <span class="hljs-string">&quot;top to bottom&quot;</span> (top-most element is the first to come on pop)
+    Example:
+    pqueue q - prints all elements and the size of q
+end
+
+
+
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># std::priority_queue</span>
+<span class="hljs-comment">#</span>
+
+define ppqueue
+    <span class="hljs-keyword">if</span> <span class="hljs-variable">$argc</span> == <span class="hljs-number">0</span>
+        <span class="hljs-built_in">help</span> ppqueue
+    <span class="hljs-keyword">else</span>
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$size</span> = <span class="hljs-variable">$arg0</span>.c._M_impl._M_finish - <span class="hljs-variable">$arg0</span>.c._M_impl._M_start
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$capacity</span> = <span class="hljs-variable">$arg0</span>.c._M_impl._M_end_of_storage - <span class="hljs-variable">$arg0</span>.c._M_impl._M_start
+        <span class="hljs-built_in">set</span> <span class="hljs-variable">$i</span> = <span class="hljs-variable">$size</span> - <span class="hljs-number">1</span>
+        <span class="hljs-keyword">while</span> <span class="hljs-variable">$i</span> &gt;= <span class="hljs-number">0</span>
+            p *(<span class="hljs-variable">$arg0</span>.c._M_impl._M_start + <span class="hljs-variable">$i</span>)
+            <span class="hljs-built_in">set</span> <span class="hljs-variable">$i</span>--
+        end
+        <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;Priority queue size = %u\n&quot;</span>, <span class="hljs-variable">$size</span>
+        <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;Priority queue capacity = %u\n&quot;</span>, <span class="hljs-variable">$capacity</span>
+    end
+end
+
+document ppqueue
+    Prints std::priority_queue&lt;T&gt; information.
+    Syntax: ppqueue &lt;priority_queue&gt;: Prints all elements, size and capacity of the priority_queue
+    Priority_queue elements are listed <span class="hljs-string">&quot;top to buttom&quot;</span> (top-most element is the first to come on pop)
+    Example:
+    ppqueue pq - prints all elements, size and capacity of pq
+end
+
+
+
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># std::bitset</span>
+<span class="hljs-comment">#</span>
+
+define pbitset
+    <span class="hljs-keyword">if</span> <span class="hljs-variable">$argc</span> == <span class="hljs-number">0</span>
+        <span class="hljs-built_in">help</span> pbitset
+    <span class="hljs-keyword">else</span>
+        p /t <span class="hljs-variable">$arg0</span>._M_w
+    end
+end
+
+document pbitset
+    Prints std::bitset&lt;n&gt; information.
+    Syntax: pbitset &lt;bitset&gt;: Prints all bits <span class="hljs-keyword">in</span> bitset
+    Example:
+    pbitset b - prints all bits <span class="hljs-keyword">in</span> b
+end
+
+
+
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># std::string</span>
+<span class="hljs-comment">#</span>
+
+define pstring
+    <span class="hljs-keyword">if</span> <span class="hljs-variable">$argc</span> == <span class="hljs-number">0</span>
+        <span class="hljs-built_in">help</span> pstring
+    <span class="hljs-keyword">else</span>
+        <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;String \t\t\t= \&quot;%s\&quot;\n&quot;</span>, <span class="hljs-variable">$arg0</span>._M_data()
+        <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;String size/length \t= %u\n&quot;</span>, <span class="hljs-variable">$arg0</span>._M_rep()._M_length
+        <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;String capacity \t= %u\n&quot;</span>, <span class="hljs-variable">$arg0</span>._M_rep()._M_capacity
+        <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;String ref-count \t= %d\n&quot;</span>, <span class="hljs-variable">$arg0</span>._M_rep()._M_refcount
+    end
+end
+
+document pstring
+    Prints std::string information.
+    Syntax: pstring &lt;string&gt;
+    Example:
+    pstring s - Prints content, size/length, capacity and ref-count of string s
+end 
+
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># std::wstring</span>
+<span class="hljs-comment">#</span>
+
+define pwstring
+    <span class="hljs-keyword">if</span> <span class="hljs-variable">$argc</span> == <span class="hljs-number">0</span>
+        <span class="hljs-built_in">help</span> pwstring
+    <span class="hljs-keyword">else</span>
+        call <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;WString \t\t= \&quot;%ls\&quot;\n&quot;</span>, <span class="hljs-variable">$arg0</span>._M_data())
+        <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;WString size/length \t= %u\n&quot;</span>, <span class="hljs-variable">$arg0</span>._M_rep()._M_length
+        <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;WString capacity \t= %u\n&quot;</span>, <span class="hljs-variable">$arg0</span>._M_rep()._M_capacity
+        <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;WString ref-count \t= %d\n&quot;</span>, <span class="hljs-variable">$arg0</span>._M_rep()._M_refcount
+    end
+end
+
+document pwstring
+    Prints std::wstring information.
+    Syntax: pwstring &lt;wstring&gt;
+    Example:
+    pwstring s - Prints content, size/length, capacity and ref-count of wstring s
+end 
+
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># C++ related beautifiers (optional)</span>
+<span class="hljs-comment">#</span>
+
+<span class="hljs-built_in">set</span> height <span class="hljs-number">0</span>
+<span class="hljs-built_in">set</span> <span class="hljs-built_in">history</span> size <span class="hljs-number">10000</span>
+<span class="hljs-built_in">set</span> <span class="hljs-built_in">history</span> filename ~/.gdb_<span class="hljs-built_in">history</span>
+<span class="hljs-built_in">set</span> <span class="hljs-built_in">history</span> save on
+
+<span class="hljs-comment">#&#x9000;&#x51FA;&#x6642;&#x4E0D;&#x986F;&#x793A;&#x63D0;&#x793A;&#x4FE1;&#x606F;</span>
+<span class="hljs-built_in">set</span> confirm off
+
+<span class="hljs-comment">#&#x6309;&#x7167;&#x6D3E;&#x751F;&#x985E;&#x578B;&#x6253;&#x5370;&#x5C0D;&#x8C61;</span>
+<span class="hljs-built_in">set</span> <span class="hljs-built_in">print</span> object on
+
+<span class="hljs-comment">#&#x6253;&#x5370;&#x6578;&#x7D44;&#x7684;&#x7D22;&#x5F15;&#x4E0B;&#x6A19;</span>
+<span class="hljs-built_in">set</span> <span class="hljs-built_in">print</span> array-indexes on
+
+<span class="hljs-comment">#&#x6BCF;&#x884C;&#x6253;&#x5370;&#x4E00;&#x500B;&#x7D50;&#x69CB;&#x9AD4;&#x6210;&#x54E1;</span>
+<span class="hljs-built_in">set</span> <span class="hljs-built_in">print</span> pretty on
+
+<span class="hljs-built_in">set</span> <span class="hljs-built_in">print</span> union on
+
+<span class="hljs-built_in">set</span> <span class="hljs-built_in">print</span> address on 
+
+<span class="hljs-built_in">set</span> <span class="hljs-built_in">print</span> static-members on
+<span class="hljs-built_in">set</span> <span class="hljs-built_in">print</span> vtbl on
+<span class="hljs-built_in">set</span> <span class="hljs-built_in">print</span> demangle on
+<span class="hljs-built_in">set</span> demangle-style gnu-v3
+<span class="hljs-built_in">set</span> <span class="hljs-built_in">print</span> sevenbit-strings off
+<span class="hljs-built_in">set</span> step-mode on
+
+shell rm <span class="hljs-operator">-f</span> ./gdb.log
+<span class="hljs-built_in">set</span> logging off
+<span class="hljs-built_in">set</span> logging file ./gdb.log
+<span class="hljs-built_in">set</span> logging on
+
+python
+import sys
+import os
+p = os.path.expanduser(<span class="hljs-string">&apos;/home/shihyu/.mybin/gdb_8.1/python&apos;</span>) 
+<span class="hljs-built_in">print</span> p
+<span class="hljs-keyword">if</span> os.path.exists(p):
+    sys.path.insert(<span class="hljs-number">0</span>, p)
+    from libstdcxx.v6.printers import register_libstdcxx_printers
+    register_libstdcxx_printers(None)
+end
+</code></pre>
+
                     
                     </section>
                 

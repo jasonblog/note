@@ -57,7 +57,7 @@
         data-chapter-title="shared_ptr 使用建構解構驗證記憶體回收"
         data-filepath="c++/sharedptr_shi_yong_jian_gou_jie_gou_yan_zheng_ji_y.md"
         data-basepath=".."
-        data-revision="Sun Oct 01 2017 18:37:36 GMT+0800 (CST)"
+        data-revision="Sun Oct 01 2017 20:01:41 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -20010,6 +20010,51 @@
 </span>{
     test *pp = <span class="hljs-keyword">new</span> test();
     <span class="hljs-built_in">shared_ptr</span>&lt;test&gt; p(<span class="hljs-keyword">new</span> test());
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<pre><code class="lang-cpp"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;memory&gt;</span></span>
+
+<span class="hljs-keyword">class</span> Base
+{
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testtest</span><span class="hljs-params">()</span> </span>= <span class="hljs-number">0</span>;
+};
+
+<span class="hljs-keyword">class</span> Derived1 : <span class="hljs-keyword">public</span> Base
+{
+<span class="hljs-keyword">public</span>:
+    ~Derived1() {
+        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;~Derived1&quot;</span> &lt;&lt; <span class="hljs-built_in">std</span>::endl;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">testtest</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Derived1::testtest()&quot;</span> &lt;&lt; <span class="hljs-built_in">std</span>::endl;
+    }
+};
+
+<span class="hljs-keyword">class</span> Derived2 : <span class="hljs-keyword">public</span> Base
+{
+<span class="hljs-keyword">public</span>:
+    ~Derived2() {
+        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;~Derived2&quot;</span> &lt;&lt; <span class="hljs-built_in">std</span>::endl;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">testtest</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Derived2::testtest()&quot;</span> &lt;&lt; <span class="hljs-built_in">std</span>::endl;
+    }
+};
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>* argv[])</span>
+</span>{
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">shared_ptr</span>&lt;Base&gt; b = <span class="hljs-literal">NULL</span>;
+
+    b = <span class="hljs-built_in">std</span>::<span class="hljs-built_in">shared_ptr</span>&lt;Base&gt;(<span class="hljs-keyword">new</span> Derived1());
+    b-&gt;testtest();
+    b = <span class="hljs-built_in">std</span>::<span class="hljs-built_in">shared_ptr</span>&lt;Base&gt;(<span class="hljs-keyword">new</span> Derived2());
+    b-&gt;testtest();
 
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }

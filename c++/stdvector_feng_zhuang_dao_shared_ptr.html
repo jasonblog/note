@@ -41,7 +41,7 @@
         
     
     
-    <link rel="next" href="../c++/cde_classzhong_de_yi_xie_zhong_dian_zheng_li.html" />
+    <link rel="next" href="../c++/sharedptr_xiang_xia_zhuan_xing.html" />
     
     
     <link rel="prev" href="../c++/arraycopy_using_stdvector.html" />
@@ -57,7 +57,7 @@
         data-chapter-title="std::vector 封裝到 shared_ptr"
         data-filepath="c++/stdvector_feng_zhuang_dao_shared_ptr.md"
         data-basepath=".."
-        data-revision="Sun Oct 01 2017 20:01:41 GMT+0800 (CST)"
+        data-revision="Mon Oct 02 2017 05:58:01 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -8408,6 +8408,21 @@
                             <b>18.17.7.</b>
                         
                         std::vector 封裝到 shared_ptr
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="18.17.8" data-path="c++/sharedptr_xiang_xia_zhuan_xing.html">
+            
+                
+                    <a href="../c++/sharedptr_xiang_xia_zhuan_xing.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>18.17.8.</b>
+                        
+                        shared_ptr 向下轉型
                     </a>
             
             
@@ -20014,6 +20029,9 @@
 };
 <span class="hljs-comment">//================================================================</span>
 
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">arraycopy</span><span class="hljs-params">(<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">double</span>&gt;&amp; t)</span> </span>{
+    <span class="hljs-built_in">cout</span> &lt;&lt; t.at(<span class="hljs-number">0</span>) &lt;&lt; endl;
+}
 
 <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">test</span><span class="hljs-params">(<span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; &gt; &gt; p)</span>
 </span>{
@@ -20040,6 +20058,12 @@
     <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;p2 Row length : &quot;</span> &lt;&lt; p2-&gt;size() &lt;&lt; endl;
     <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;p2 Col length : &quot;</span> &lt;&lt; (*p2)[<span class="hljs-number">0</span>].size() &lt;&lt; endl;
 
+    <span class="hljs-comment">// &#x5F8C;&#x9762;&#x6703; crash ??</span>
+    <span class="hljs-comment">// type_name((*p2)[0]);</span>
+
+    p2-&gt;at(<span class="hljs-number">0</span>)[<span class="hljs-number">0</span>] = <span class="hljs-number">77</span>;
+    <span class="hljs-built_in">cout</span> &lt;&lt; p2-&gt;at(<span class="hljs-number">0</span>)[<span class="hljs-number">0</span>] &lt;&lt; endl;
+    arraycopy(p2-&gt;at(<span class="hljs-number">0</span>));
 <span class="hljs-preprocessor">#<span class="hljs-keyword">else</span></span>
     <span class="hljs-comment">// M&#x2217;NM&#x2217;N matrix (assuming int type elements) initialized with all values as KK</span>
     <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">2</span>;
@@ -20092,7 +20116,7 @@
         <a href="../c++/arraycopy_using_stdvector.html" class="navigation navigation-prev " aria-label="Previous page: arraycopy using std::vector"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../c++/cde_classzhong_de_yi_xie_zhong_dian_zheng_li.html" class="navigation navigation-next " aria-label="Next page: C++的Class中的一些重點整理"><i class="fa fa-angle-right"></i></a>
+        <a href="../c++/sharedptr_xiang_xia_zhuan_xing.html" class="navigation navigation-next " aria-label="Next page: shared_ptr 向下轉型"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

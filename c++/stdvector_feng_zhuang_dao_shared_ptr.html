@@ -57,7 +57,7 @@
         data-chapter-title="std::vector 封裝到 shared_ptr"
         data-filepath="c++/stdvector_feng_zhuang_dao_shared_ptr.md"
         data-basepath=".."
-        data-revision="Sun Oct 01 2017 18:27:31 GMT+0800 (CST)"
+        data-revision="Sun Oct 01 2017 18:37:36 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -20023,6 +20023,24 @@
 
 <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
 </span>{
+<span class="hljs-preprocessor">#<span class="hljs-keyword">if</span> <span class="hljs-number">1</span></span>
+    <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">2</span>;
+    <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> M = <span class="hljs-number">4</span>;
+    <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> K = <span class="hljs-number">99</span>;
+
+    <span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">double</span>&gt; &gt; p1 = <span class="hljs-literal">NULL</span>;
+    <span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">double</span>&gt; &gt; &gt; p2 = <span class="hljs-literal">NULL</span>;
+
+    p1 = <span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">double</span>&gt; &gt;(<span class="hljs-keyword">new</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">double</span>&gt;(M));
+
+    p2 = <span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">double</span>&gt; &gt; &gt;(<span class="hljs-keyword">new</span>
+            <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">double</span>&gt; &gt;(M, <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">double</span>&gt;(N, K)));
+
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;p1 length : &quot;</span> &lt;&lt; p1-&gt;size() &lt;&lt; endl;
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;p2 Row length : &quot;</span> &lt;&lt; p2-&gt;size() &lt;&lt; endl;
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;p2 Col length : &quot;</span> &lt;&lt; (*p2)[<span class="hljs-number">0</span>].size() &lt;&lt; endl;
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">else</span></span>
     <span class="hljs-comment">// M&#x2217;NM&#x2217;N matrix (assuming int type elements) initialized with all values as KK</span>
     <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">2</span>;
     <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> M = <span class="hljs-number">4</span>;
@@ -20056,6 +20074,7 @@
 
     <span class="hljs-keyword">delete</span> p;
     <span class="hljs-comment">// cout &lt;&lt; p-&gt;at(0)[0] &lt;&lt; endl;</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span></span>
 
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }

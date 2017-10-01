@@ -32,7 +32,8 @@ public:
 //================================================================
 
 
-void test(shared_ptr<std::vector<std::vector<int> > > p) {
+void test(shared_ptr<std::vector<std::vector<int> > > p)
+{
     p->at(0)[0] = 8888;
     cout << "p address " << p.get() << endl;
 }
@@ -44,8 +45,17 @@ int main()
     const int M = 4;
     const int K = 99;
 
-    std::vector<std::vector<int>>* p = new std::vector<std::vector<int>>(M, std::vector<int>(N, K));
-    shared_ptr<std::vector<std::vector<int> > > p1(new std::vector<std::vector<int>>(M, std::vector<int>(N, 0)));
+    std::vector<std::vector<int>>* p = new std::vector<std::vector<int>>(M,
+            std::vector<int>(N, K));
+
+    shared_ptr<std::vector<std::vector<int> > > p1(new
+            std::vector<std::vector<int>>(M, std::vector<int>(N, 0)));
+
+    std::shared_ptr<int> p3 = std::shared_ptr<int>(new int);
+
+    shared_ptr<std::vector<std::vector<int> > > p2 = NULL;
+    p2 = shared_ptr<std::vector<std::vector<int> > >(new
+            std::vector<std::vector<int>>(M, std::vector<int>(N, 0)));
 
     cout << p[0].size() << endl;
     cout << p[0][0].size() << endl;

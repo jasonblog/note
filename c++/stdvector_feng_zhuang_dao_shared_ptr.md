@@ -40,6 +40,24 @@ void test(shared_ptr<std::vector<std::vector<int> > > p)
 
 int main()
 {
+#if 1
+    const int N = 2;
+    const int M = 4;
+    const int K = 99;
+
+    shared_ptr<std::vector<double> > p1 = NULL;
+    shared_ptr<std::vector<std::vector<double> > > p2 = NULL;
+
+    p1 = shared_ptr<std::vector<double> >(new std::vector<double>(M));
+
+    p2 = shared_ptr<std::vector<std::vector<double> > >(new
+            std::vector<std::vector<double> >(M, std::vector<double>(N, K)));
+
+    cout << "p1 length : " << p1->size() << endl;
+    cout << "p2 Row length : " << p2->size() << endl;
+    cout << "p2 Col length : " << (*p2)[0].size() << endl;
+    
+#else
     // M∗NM∗N matrix (assuming int type elements) initialized with all values as KK
     const int N = 2;
     const int M = 4;
@@ -73,6 +91,7 @@ int main()
 
     delete p;
     // cout << p->at(0)[0] << endl;
+#endif
 
     return 0;
 }

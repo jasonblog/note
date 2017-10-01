@@ -31,6 +31,9 @@ public:
 };
 //================================================================
 
+void arraycopy(std::vector<double>& t) {
+	cout << t.at(0) << endl;
+}
 
 void test(shared_ptr<std::vector<std::vector<int> > > p)
 {
@@ -56,7 +59,13 @@ int main()
     cout << "p1 length : " << p1->size() << endl;
     cout << "p2 Row length : " << p2->size() << endl;
     cout << "p2 Col length : " << (*p2)[0].size() << endl;
-    
+
+    // 後面會 crash ??
+    // type_name((*p2)[0]);
+
+	p2->at(0)[0] = 77;
+	cout << p2->at(0)[0] << endl;
+	arraycopy(p2->at(0));
 #else
     // M∗NM∗N matrix (assuming int type elements) initialized with all values as KK
     const int N = 2;
@@ -95,4 +104,6 @@ int main()
 
     return 0;
 }
+
+
 ```

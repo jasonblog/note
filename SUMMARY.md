@@ -538,7 +538,7 @@
        * [2D vector array using std::vector](c++/2d_vector_array_using_stdvector.md)
        * [arraycopy using std::vector](c++/arraycopy_using_stdvector.md)
        * [std::vector 封裝到 shared_ptr](c++/stdvector_feng_zhuang_dao_shared_ptr.md)
-       * shared_ptr 向下轉型
+       * [shared_ptr 向下轉型](c++/sharedptr_xiang_xia_zhuan_xing.md)
    * [C++的Class中的一些重點整理](c++/cde_classzhong_de_yi_xie_zhong_dian_zheng_li.md)
    * [LOG 建構解構](c++/log_jian_gou_jie_gou.md)
    * [c++ typeid() 用法 如何正確的顯示 變數型態名稱的亂碼、異常](c++/c++_typeid_yong_fa_ru_he_zheng_que_de_xian_shi_bia.md)

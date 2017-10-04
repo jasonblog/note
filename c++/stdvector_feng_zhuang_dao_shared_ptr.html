@@ -57,7 +57,7 @@
         data-chapter-title="std::vector 封裝到 shared_ptr"
         data-filepath="c++/stdvector_feng_zhuang_dao_shared_ptr.md"
         data-basepath=".."
-        data-revision="Mon Oct 02 2017 05:58:01 GMT+0800 (CST)"
+        data-revision="Wed Oct 04 2017 10:48:42 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -20029,14 +20029,20 @@
 };
 <span class="hljs-comment">//================================================================</span>
 
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">arraycopy</span><span class="hljs-params">(<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">double</span>&gt;&amp; t)</span> </span>{
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">arraycopy</span><span class="hljs-params">(<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">double</span>&gt;&amp; t)</span>
+</span>{
     <span class="hljs-built_in">cout</span> &lt;&lt; t.at(<span class="hljs-number">0</span>) &lt;&lt; endl;
 }
 
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">test</span><span class="hljs-params">(<span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; &gt; &gt; p)</span>
-</span>{
+<span class="hljs-comment">// void test(shared_ptr&lt;std::vector&lt;std::vector&lt;double&gt; &gt; &gt; p)</span>
+<span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">double</span>&gt; &gt; &gt; test(
+    <span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">double</span>&gt; &gt; &gt;&amp; p)
+{
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;p address &quot;</span> &lt;&lt; p.get() &lt;&lt; <span class="hljs-string">&quot;p count &quot;</span> &lt;&lt; p.use_count() &lt;&lt; <span class="hljs-built_in">std</span>::endl;
     p-&gt;at(<span class="hljs-number">0</span>)[<span class="hljs-number">0</span>] = <span class="hljs-number">8888</span>;
     <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;p address &quot;</span> &lt;&lt; p.get() &lt;&lt; endl;
+
+    <span class="hljs-keyword">return</span> p;
 }
 
 <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
@@ -20048,6 +20054,7 @@
 
     <span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">double</span>&gt; &gt; p1 = <span class="hljs-literal">NULL</span>;
     <span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">double</span>&gt; &gt; &gt; p2 = <span class="hljs-literal">NULL</span>;
+    <span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">double</span>&gt; &gt; &gt; p3 = <span class="hljs-literal">NULL</span>;
 
     p1 = <span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">double</span>&gt; &gt;(<span class="hljs-keyword">new</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">double</span>&gt;(M));
 
@@ -20060,6 +20067,12 @@
 
     <span class="hljs-comment">// &#x5F8C;&#x9762;&#x6703; crash ??</span>
     <span class="hljs-comment">// type_name((*p2)[0]);</span>
+
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;p2 address &quot;</span> &lt;&lt; p2.get() &lt;&lt; <span class="hljs-string">&quot; p2 count &quot;</span> &lt;&lt; p2.use_count() &lt;&lt;
+         <span class="hljs-built_in">std</span>::endl;
+    p3 = test(p2);
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;p3 address &quot;</span> &lt;&lt; p3.get() &lt;&lt; <span class="hljs-string">&quot; p3 count &quot;</span> &lt;&lt; p3.use_count() &lt;&lt;
+         <span class="hljs-built_in">std</span>::endl;
 
     p2-&gt;at(<span class="hljs-number">0</span>)[<span class="hljs-number">0</span>] = <span class="hljs-number">77</span>;
     <span class="hljs-built_in">cout</span> &lt;&lt; p2-&gt;at(<span class="hljs-number">0</span>)[<span class="hljs-number">0</span>] &lt;&lt; endl;

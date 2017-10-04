@@ -31,14 +31,20 @@ public:
 };
 //================================================================
 
-void arraycopy(std::vector<double>& t) {
-	cout << t.at(0) << endl;
+void arraycopy(std::vector<double>& t)
+{
+    cout << t.at(0) << endl;
 }
 
-void test(shared_ptr<std::vector<std::vector<int> > > p)
+// void test(shared_ptr<std::vector<std::vector<double> > > p)
+shared_ptr<std::vector<std::vector<double> > > test(
+    shared_ptr<std::vector<std::vector<double> > >& p)
 {
+    cout << "p address " << p.get() << "p count " << p.use_count() << std::endl;
     p->at(0)[0] = 8888;
     cout << "p address " << p.get() << endl;
+
+    return p;
 }
 
 int main()
@@ -50,6 +56,7 @@ int main()
 
     shared_ptr<std::vector<double> > p1 = NULL;
     shared_ptr<std::vector<std::vector<double> > > p2 = NULL;
+    shared_ptr<std::vector<std::vector<double> > > p3 = NULL;
 
     p1 = shared_ptr<std::vector<double> >(new std::vector<double>(M));
 
@@ -63,9 +70,15 @@ int main()
     // 後面會 crash ??
     // type_name((*p2)[0]);
 
-	p2->at(0)[0] = 77;
-	cout << p2->at(0)[0] << endl;
-	arraycopy(p2->at(0));
+    cout << "p2 address " << p2.get() << " p2 count " << p2.use_count() <<
+         std::endl;
+    p3 = test(p2);
+    cout << "p3 address " << p3.get() << " p3 count " << p3.use_count() <<
+         std::endl;
+
+    p2->at(0)[0] = 77;
+    cout << p2->at(0)[0] << endl;
+    arraycopy(p2->at(0));
 #else
     // M∗NM∗N matrix (assuming int type elements) initialized with all values as KK
     const int N = 2;
@@ -104,6 +117,4 @@ int main()
 
     return 0;
 }
-
-
 ```

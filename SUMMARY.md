@@ -546,7 +546,7 @@
    * [shared_ptr 使用建構解構驗證記憶體回收](c++/sharedptr_shi_yong_jian_gou_jie_gou_yan_zheng_ji_y.md)
    * [實例研討: 從 C++ 學習 C 高級技巧](c++/shi_li_yan_8a0e3a_cong_c_++_xue_xi_c_gao_ji_ji_qia.md)
    * [為何 Google 禁止工程師使用 C++ static object?](c++/wei_he_google_jin_zhi_gong_cheng_shi_shi_yong_c_++.md)
-   * 是否能讓 C++ template 的標頭檔只含宣告不含實作? 
+   * [是否能讓 C++ template 的標頭檔只含宣告不含實作?](c++/shi_fou_neng_rang_c_++_template_de_biao_tou_dang_z.md)
 * [GNU make](gunmake/README.md)
    * [example](gunmake/example.md)
        * [好用 Makefile](gunmake/hao_yong_makefile.md)

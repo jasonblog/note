@@ -333,5 +333,7 @@ y
 ```
 執行gdb ./a.out -x gdb_test.gdb，查看變量的輸出如下
 
+![](images/gdb_test.png)
+
 $1和$3分別是shared_ptr和unordered_map數據類型的原始打印格式，$2和$4是加載boost-gdb-printers之後的打印格式
 

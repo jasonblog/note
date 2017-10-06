@@ -1270,5 +1270,5 @@
    * [並行計算工具的選擇](parallel_computing/bing_xing_ji_suan_gong_ju_de_xuan_ze.md)
 * [Cuda](cuda/cuda.md)
    * [CUDA ---- Hello World From GPU](cuda/cuda_----_hello_world_from_gpu.md)
-* Math
+* [Math](math/math.md)
 

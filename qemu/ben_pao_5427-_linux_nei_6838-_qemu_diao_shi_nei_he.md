@@ -521,47 +521,54 @@ arch/arm/boot/dts/vexpress-v2p-ca9.dtb -S -s
 在 Eclipse 菜单中选择“Run->Debug History”中选择刚才创建的调试选项,或者在快捷菜
 单中点击“小昆虫”图标。
 
-
+![](./images/debug_icon.png)
 
 
 在 Eclipse 的 Console 控制台里,输入“file vmlinux”命令来导入调试文件的符号表。
 
-
+![](images/eclipse_gdb2.png)
 
 图 6.3 console 控制台
+
+
 输入“b do_fork”在 do_fork 函数里设置一个断点了。输入“c”命令就可以开始运行
-将
-核
 QEMU 里的 Linux 内核了,它会停在 do_fork 函数里。
+
+![](images/eclipse_gdb3.png)
+
 图 6.4 Eclipse 调试内核
+
 Eclipse 调试内核比使用 gdb 命令要直观很多,比如参数、局部变量以及数据结构的值都会
 自动显示在“Variables”标签卡上,不需要每次都使用 gdb 的打印命令才能看到变量的值。读
 者可以单步调试并且直观的调试内核了。
+
+
 最后说明一点,读者可能发现 gdb 在单步调试内核时会出现光标乱跳以及无法打印有些变
 量的值等问题,其实这个不能怪罪 gdb 或者 QEMU。那是因为内核编译的默认优化选项是 O2,
 因此如果希望光标不会乱跳,那可以尝试把 Linux-4.0 根目录的 Makefile 中 O2 改成 O0,但是这
 样会编译有问题,所以希望读者自行修改。
-微信公众号:奔跑吧 LINUX 内核奔跑吧-Linux 内核
-722
-6.1.6 实验进阶
+
+
+##6.1.6 实验进阶
 上述的实验是利用 QEMU 和 Initramfs 来搭建一个简单实用的内核调试环境,但是依然存在
 一些缺点,比如所有的步骤都需要手工输入和制作,对于有些刚接触 Linux 的同学来说可能会
 产生各种各样的问题,另外有很多热门的开源组件也没包括进来比如 u-boot、Buildroot 等。为
 此,社区大牛吴章金同学非常热心中国高校的嵌入式系统的教学工作,利用业余时间搭建了一
 个非常好用的实验平台 – Cloud Lab 1 。Cloud Lab 利用 Docker 容器化技术可以快速创建好多好用
-o Linux 0.11 Lab:Linux 0.11 内核实验
-o Linux lab:Linux 内核和嵌入式 Linux 实验
-将
-核
-Cloud Lab 具有以下几个新特性:
-CS630 Qemu Lab:x86 Linux 汇编语言实验
-o
 的实验环境:
-o 通过 Docker 加速环境的安装和重复构建。
-o 提供 Docker 镜像库,方便直接下载实验环境。
-o 便利化的脚本管理,方便环境使用和部署。
+
+- CS630 Qemu Lab:x86 Linux 汇编语言实验
+- Linux 0.11 Lab:Linux 0.11 内核实验
+- Linux lab:Linux 内核和嵌入式 Linux 实验
+
+Cloud Lab 具有以下几个新特性:
+- 通过 Docker 加速环境的安装和重复构建。
+- 提供 Docker 镜像库,方便直接下载实验环境。
+- 便利化的脚本管理,方便环境使用和部署。
+ 
 因此有精力同学可以尝试利用 Cloud Lab 来进一步学习和研究。
-1
+
+
 http://tinylab.org/how-to-deploy-cloud-labs/
 http://tinylab.org/docker-qemu-linux-lab/
 http://tinylab.org/using-linux-lab-to-do-embedded-linux-development/

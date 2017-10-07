@@ -150,6 +150,7 @@
    * [buildroot & dropbear](qemu/buildroot_&_dropbear.md)
    * [ARM64 Linux kernel + busybox rootFS via NFS over QEMU with GDB](qemu/arm64_linux_kernel_+_busybox_rootfs_via_nfs_over_q.md)
    * [奔跑吧-linux内核-qemu调试内核](qemu/ben_pao_5427-_linux_nei_6838-_qemu_diao_shi_nei_he.md)
+   * Linux kernel v4.0 code for <奔跑吧Linux内核>
 * [fcamel](fcamel/README.md)
    * [[轉]ld, ld.so 和 ldconfig 的行為](fcamel/01.md)
    * [[轉]解決 undefined symbol / reference](fcamel/02.md)

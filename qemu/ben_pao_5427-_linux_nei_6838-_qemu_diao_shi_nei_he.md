@@ -202,8 +202,7 @@ RCU restricting CPUs from NR_CPUS=8 to nr_cpu_ids=4.
 RCU: Adjusting geometry for rcu_fanout_leaf=16, nr_cpu_ids=4
 NR_IRQS:16 nr_irqs:16 16
 smp_twd: clock not found -2
-sched_clock: 32 bits at 24MHz, resolution 41ns, wraps every 178956969942ns笨叔叔 <runninglinuxkernel@126.com>
-715
+sched_clock: 32 bits at 24MHz, resolution 41ns, wraps every 178956969942ns
 CPU: Testing write buffer coherency: ok
 CPU0: thread -1, cpu 0, socket 0, mpidr 80000000
 Setting up static identity map for 0x604804f8 - 0x60480550
@@ -225,85 +224,116 @@ sbin sys tmp usr bin dev etc linuxrc proc
 
 ##6.1.2 QEMU 调试 ARM-Linux 内核
 安装 ARM GDB 工具。
+
+```sh
 $ sudo apt-get install gdb-arm-none-eabi
+```
+
 首先要确保编译的内核包含调试信息。
+
+```sh
 Kernel hacking --->
-Compile-time checks and compiler options
-[*] Compile the kernel with debug info
---->
+    Compile-time checks and compiler options --->
+        [*] Compile the kernel with debug info
+```
+
 重新编译内核。在超级终端中输入:
+
+```sh
 $ qemu-system-arm -nographic -M vexpress-a9 -m 1024M -kernel
 arch/arm/boot/zImage -append "rdinit=/linuxrc console=ttyAMA0 loglevel=8" -dtb
 arch/arm/boot/dts/vexpress-v2p-ca9.dtb -S -s
--S:表示 QEMU 虚拟机会冻结 CPU 直到远程的 GDB 输入相应控制命令
--s:表示在 1234 端口接受 GDB 的调试连接
-微信公众号:奔跑吧 LINUX 内核奔跑吧-Linux 内核
-将
-核
-716
+```
+
+- -S:表示 QEMU 虚拟机会冻结 CPU 直到远程的 GDB 输入相应控制命令
+- -s:表示在 1234 端口接受 GDB 的调试连接
+
+
 图 6.1 gdb 调试内核
 然后在另外一个超级终端中启动 ARM GDB
+
+![](./images/qemu_gdb.png)
+
+
+```sh
 $ cd linux-4.0
 $ arm-none-eabi-gdb --tui vmlinux
-(gdb) target remote localhost:1234
-(gdb) b start_kernel
+(gdb) target remote localhost:1234  <= 通过 1234 端口远程连接到 QEMU 平台
+(gdb) b start_kernel                <= 在内核的 start_kernel 处设置断点
 (gdb) c
-<= 通过 1234 端口远程连接到 QEMU 平台
-<= 在内核的 start_kernel 处设置断点
+```
+
+
+
+
+
 如上图所示,GDB 开始接管 ARM-Linux 内核运行,并且到断点中暂停,这时候就可以使用
 GDB 命令来调试内核了。
-6.1.3 QEMU 运行 ARMv8 开发平台
+
+
+##6.1.3 QEMU 运行 ARMv8 开发平台
 Ubuntu16.04 版本的 qemu 包含了 qemu-system-aarch64 工具,但是 Ubunut14.04 版本则需
 要自己编译了。下载 qemu2.6 软件包 1 ,按照如下步骤编译 qemu。
-$
-$
-$
-$
-$
-$
+
+```sh
 sudo apt-get build-dep qemu
 tar –jxf qemu-2.6.0.tar.bz2
 cd qemu-2.6.0
 ./configure –target-list=aarch64-softmmu
 make
 sudo make install
+```
+
 安装如下工具包。
+
+````h
 $sudo apt-get install gcc-aarch64-linux-gnu
-1
-http://wiki.qemu-project.org/download/qemu-2.6.0.tar.bz2笨叔叔 <runninglinuxkernel@126.com>
-717
+```
+
 同样需要编译和制作一个基于 aarch64 架构的最小文件系统。可以参照之前的做法,只是
 编译环境变量不一样了。
+
+```sh
 $ export ARCH=arm64
 $ export CROSS_COMPILE=aarch64-linux-gnu-
+```
+
 下面开始编译内核,我们依然采用 linux-4.0 内核。
-$
-$
-$
-$
+```sh
 cd linux-4.0
 export ARCH=arm64
 export CROSS_COMPILE= aarch64-linux-gnu-
 make menuconfig
+```
+
 依然采用 initramfs 方式来加载最小文件系统,假设编译的最小文件系统放在 linux-4.0 根目
 录下面,文件目录叫_install_arm64,以区别之前编译的 arm32 的最小文件系统。另外设置页的
 大小为 4KB,系统的总线位宽为 48 位。
-将
-核
+
+
+```sh
 General setup --->
-[*] Initial RAM filesystem and RAM disk (initramfs/initrd) support
-(_install_arm64) Initramfs source file(s)
+    [*] Initial RAM filesystem and RAM disk (initramfs/initrd) support
+        (_install_arm64) Initramfs source file(s)
 Boot options -->
-()Default kernel command string
+    ()Default kernel command string
 Kernel Features --->
-Page size (4KB) --->
-Virtual address space size (48-bit) --->
+    Page size (4KB) --->
+        Virtual address space size (48-bit) --->
+```
+
 输入 make –j4 开始编译内核。
 运行 QEMU 来模拟 2 核 Cortex-A57 开发平台。
+
+```sh
 $ qemu-system-aarch64 -machine virt -cpu cortex-a57 -machine type=virt -nographic -
 m 2048 –smp 2 -kernel arch/arm64/boot/Image --append "rdinit=/linuxrc
 console=ttyAMA0"
+```
+
 运行结果如下(删掉部分信息)
+
+```sh
 Booting Linux on physical CPU 0x0
 Initializing cgroup subsys cpu
 Linux version 4.0.0 (figo@figo-OptiPlex-9020) (gcc version 4.9.1 20140529 (prerelease)
@@ -328,10 +358,6 @@ Built 1 zonelists in Zone order, mobility grouping on. Total pages: 516096
 Kernel command line: rdinit=/linuxrc console=ttyAMA0 debug
 PID hash table entries: 4096 (order: 3, 32768 bytes)
 Dentry cache hash table entries: 262144 (order: 9, 2097152 bytes)
-微信公众号:奔跑吧 LINUX 内核奔跑吧-Linux 内核
-718
-将
-核
 Inode-cache hash table entries: 131072 (order: 8, 1048576 bytes)
 software IO TLB [mem 0xb8a00000-0xbca00000] (64MB) mapped at
 [ffff800078a00000-ffff80007c9fffff]
@@ -388,6 +414,8 @@ Freeing unused kernel memory: 1312K (ffff800000774000 - ffff8000008bc000)
 Freeing alternatives memory: 8K (ffff8000008bc000 - ffff8000008be000)
 Please press Enter to activate this console.
 / #
+```
+
 6.1.4 文件系统支持
 本书内存管理中会讲述页面回收相关内容,页面回收代码相当复杂,在 QEMU 上建立一个笨叔叔 <runninglinuxkernel@126.com>
 719

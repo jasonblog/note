@@ -416,59 +416,63 @@ Please press Enter to activate this console.
 / #
 ```
 
-6.1.4 文件系统支持
-本书内存管理中会讲述页面回收相关内容,页面回收代码相当复杂,在 QEMU 上建立一个笨叔叔 <runninglinuxkernel@126.com>
-719
+##6.1.4 文件系统支持
+本书内存管理中会讲述页面回收相关内容,页面回收代码相当复杂,在 QEMU 上建立一个
 可以调试的环境显得相当必要了。这里介绍如何添加了一个 swap 分区。
+
 在 Ubuntu 中创建一个 64MB 的 image。
+
+```sh
 $ dd if=/dev/zero of=swap.img bs=512 count=131072 <=这里使用 DD 命令
+```
+
 然后通过 SD 卡的方式加载 swap.img 到 QEMU 中。
+
+```sh
 $ qemu-system-arm -nographic -M vexpress-a9 -m 64M -kernel
 arch/arm/boot/zImage -append "rdinit=/linuxrc console=ttyAMA0 loglevel=8" -dtb
 arch/arm/boot/dts/vexpress-v2p-ca9.dtb -sd swap.img
 [...]
 # mkswap /dev/mmcblk0 <=第一次需要格式化 swap 分区
-# swapon /dev/mmcblk0
-<= 使能 swap 分区
+# swapon /dev/mmcblk0 <= 使能 swap 分区
 # free
-total
-used
-free
-shared
-buffers
-Mem:
-1026368
-9844
-1016524
-1360
-4
--/+ buffers:
-9840
-1016528
-Swap:
-65532
-0
-65532 <= 可以看到 swap 分区已经工作了
+
+
+total used free shared buffers 
+Mem: 1026368 9844 1016524 1360 4
+-/+ buffers: 9840 1016528
+Swap: 65532 0 65532 <= 可以看到 swap 分区已经工作了
+```
+
 如果需要调试页面回收方面的代码,那可以在 kswapd()函数里设置断点,但是需要在编写
-将
-核
-内存是为了方便触发 kswapd 内核线程工作。
 一个应用程序模拟吃掉内存来触发 kswapd 内核线程工作。QEMU 里的“-m 64M”设置了 64MB
-下面创建一个 ext4 文件系统分区。还是同样的方法先在 Ubuntu 中创建一个 64MB 大小的
-image。
+内存是为了方便触发 kswapd 内核线程工作。
+
+```sh
 $ dd if=/dev/zero of=ext4.img bs=512 count=131072 <=创建一个 img 镜像
 $ mkfs.ext4 ext4.img <=格式化 ext4.img 成 ext4 格式
+```
+
 另外挂载 ext4 文件系统需要打开如下配置选项。
+
+```sh
 [arch/arm/configs/vexpress_defconfig]
 CONFIG_LBDAF=y
 CONFIG_EXT4_FS=y
+```
+
 重新编译内核,make vexpress_defconfig && make。
+
+```sh
 $ qemu-system-arm -nographic -M vexpress-a9 -m 1024M -kernel
 arch/arm/boot/zImage -append "rdinit=/linuxrc console=ttyAMA0 loglevel=8" -dtb
 arch/arm/boot/dts/vexpress-v2p-ca9.dtb -sd ext4.img
 [...]
 # mount -t ext4 /dev/mmcblk0 /mnt/ <=挂载 SD 卡到/mnt 目录
-6.1.5 图形化调试
+```
+
+##6.1.5 图形化调试
+
 之前介绍了如何使用 gdb 和 QEMU 来调试 Linux 内核源代码。由于 gdb 是命令行的方式,
 可能有不少读者希望在 Linux 中能有类似 Virtual C++这样的图形化的开发工具。这里介绍使用
 Eclipse 这个工具来调试内核。Eclipse 是著名的跨平台的开源集成开发环境(IDE),最初主要用
@@ -476,33 +480,54 @@ Eclipse 这个工具来调试内核。Eclipse 是著名的跨平台的开源集�
 发,2001 年贡献给开源社区,有很多开发环境都基于 Eclipse 来完成。
 首先安装 Eclipse-CDT 这个软件。Eclipse-CDT 是 Eclipse 的一个插件,提供强大的 C/C++编译
 和编辑功能。
+
+```sh
 $ sudo apt-get install eclipse-cdt
+```
+
 打开 Eclipse 菜单选择“Window->Open Perspective->C/C++”。新创建一个 C/C++的 Makefile
 工程,在“File->New->Project”中选择“Makefile Project with Exiting Code”来创建一个新的工
 程。
-微信公众号:奔跑吧 LINUX 内核奔跑吧-Linux 内核
-720
+
 接下来配置 Debug 选项。打开 Eclipse 菜单的“Run->Debug Configurations...”选项,创建一
 个“C/C++ Attach to Application”调试选项。
-o Project:选择刚才创建的工程。
-o C/C++ Appliction:选择编译 Linux 内核带符号表信息的 vmlinux。
-o Debugger:选择 gdbserver
-o GDB debugger:填入 arm-none-eabi-gdb
-o Host name or IP addrss: 填入 localhost
-o Port number: 填入 1234
-将
-核
+
+
+-  Project:选择刚才创建的工程。
+-  C/C++ Appliction:选择编译 Linux 内核带符号表信息的 vmlinux。
+-  Debugger:选择 gdbserver
+-  GDB debugger:填入 arm-none-eabi-gdb
+-  Host name or IP addrss: 填入 localhost
+-  Port number: 填入 1234
+
+
 调试选项设置完成之后,点击“Debug”按钮。
+
+![](images/eclipse_gdb1.png)
+
 图 6.2 eclipse 调试选项设置
+
+
+
 在 Ubuntu 的一个终端中先打开 QEMU。为了调试方便,这里没有指定多个 CPU 只是单个
 CPU。
+
+```sh
 $ qemu-system-arm -nographic -M vexpress-a9 -m 1024M -kernel
 arch/arm/boot/zImage -append "rdinit=/linuxrc console=ttyAMA0 loglevel=8" -dtb
 arch/arm/boot/dts/vexpress-v2p-ca9.dtb -S -s
+```
+
 在 Eclipse 菜单中选择“Run->Debug History”中选择刚才创建的调试选项,或者在快捷菜
 单中点击“小昆虫”图标。
-在 Eclipse 的 Console 控制台里,输入“file vmlinux”命令来导入调试文件的符号表。721
-笨叔叔 <runninglinuxkernel@126.com>
+
+
+
+
+在 Eclipse 的 Console 控制台里,输入“file vmlinux”命令来导入调试文件的符号表。
+
+
+
 图 6.3 console 控制台
 输入“b do_fork”在 do_fork 函数里设置一个断点了。输入“c”命令就可以开始运行
 将

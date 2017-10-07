@@ -7,7 +7,7 @@
 
 讀入 template 宣告, 檢查 caller 是否有正確使用目標函式、類別。
 instantiate (實例化) 特定參數的 template。
-比方說定義 std::map<std::string, int> scores 的時候, 除了需要 map 的宣告了解 scores 是否有正確使用 map 的介面外, 還需要 map 的定義 (實作)才知道如何 instantiate std::map<std::string, int>。實例化時會檢查參數 std::string 和 int 是否支援 map 預期的介面。附帶一提, 《Effective C++》
+比方說定義 std::map<std::string, int> scores 的時候, 除了需要 map 的宣告瞭解 scores 是否有正確使用 map 的介面外, 還需要 map 的定義 (實作)才知道如何 instantiate std::map<std::string, int>。實例化時會檢查參數 std::string 和 int 是否支援 map 預期的介面。附帶一提, 《Effective C++》
 
 `稱 template 為「隱式介面 + 編譯期多型` 而 `virtual 是「顯示介面 + 執行期多型」`, 很精闢的描述。
 

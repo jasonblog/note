@@ -9,7 +9,7 @@ tags: C, CLANG, C LANGUAGE, recursion
 Copyright (**慣C**) 2017 [宅色夫](http://wiki.csie.ncku.edu.tw/User/jserv)
 ==[直播錄影](https://www.youtube.com/watch?v=Uzi_b-08uQE)==
 
-![](https://i.imgur.com/sAjUxnk.png)
+![](images/sAjUxnk.png)
 C-section 是 Cesarean section 的縮寫，意思是「剖腹產術」，在本次講座中，我們引申「拿刀侵入程式開發者，萃取出新的生命」。這裡也有 "C"！
 [ [Source](https://www.pinterest.com/explore/c-section-recovery/) ]
 

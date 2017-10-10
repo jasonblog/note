@@ -1178,7 +1178,7 @@
        * [動態連結器篇](c/dong_tai_lian_jie_qi_pian.md)
        * [遞迴呼叫篇](c/di_hui_hu_jiao_pian.md)
        * [數值系統篇](c/shu_zhi_xi_tong_pian.md)
-       * 技巧篇
+       * [技巧篇](c/ji_qiao_pian.md)
    * [幫 C 語言加上 Garbage Collector](c/bang_c_yu_yan_jia_shang_garbage_collector.md)
    * [memcpy alignment](c/memcpy_alignment.md)
    * [如何得知 malloc/free 的呼叫次數](c/ru_he_de_zhi_malloc__free_de_hu_jiao_ci_shu.md)

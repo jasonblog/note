@@ -42,7 +42,8 @@ void naive_transpose(int *src, int *dst, int w, int h)
 * 矩陣的內部資料表達機制「一覽無遺」，違反封裝的原則，而且不同版本的矩陣運算往往伴隨著特製的資料欄位，但上述程式碼無法反映或區隔
 
 - [ ] 需要更好的封裝，這樣才能夠處理不同的內部資料表示法 (data structure) 和演算法 (algorithms)，對外提供一致的介面: [matrix_oo](https://github.com/jserv/matrix_oo)
-```C
+
+```c
 typedef struct matrix_impl Matrix;
 struct matrix_impl {
     float values[4][4];
@@ -93,7 +94,8 @@ int main()
 This encourages immutability, cultivates pure functions, and makes things simpler and easier to understand. It also improves safety by eliminating the possibility of a NULL argument.
 
 :-1: unnecessary mutation (probably), and unsafe
-```C
+
+```c
 void drink_mix(Drink * const drink, Ingredient const ingr) {
     assert(drink);
     color_blend(&(drink->color), ingr.color);
@@ -102,7 +104,8 @@ void drink_mix(Drink * const drink, Ingredient const ingr) {
 ```
 
 :+1: immutability rocks, pure and safe functions everywhere
-```C
+
+```c
 Drink drink_mix(Drink const drink, Ingredient const ingr) {
     return (Drink) {
         .color = color_blend(drink.color, ingr.color),
@@ -140,7 +143,7 @@ Drink drink_mix(Drink const drink, Ingredient const ingr) {
 ## 明確初始化特定結構的成員
 
 * C99 給予我們頗多便利，比方說：
-```C
+```c
 const char *lookup[] = {
     [0] = "Zero",
     [1] = "One",
@@ -150,7 +153,7 @@ assert(!strcasecmp(lookup[0], "ZERO"));
 ```
 
 也可變化如下:
-```C
+```c
 enum cities { Taipei, Tainan, Taichung, };
 int zipcode[] = {
     [Taipei] = 100,
@@ -163,7 +166,7 @@ int zipcode[] = {
 ## 追蹤物件配置的記憶體
 
 前述矩陣操作的程式，我們期望能導入下方這樣自動的處理方式:
-```C
+```c
 struct matrix { size_t rows, cols; int **data; };
 
 struct matrix *matrix_new(size_t rows, size_t cols)

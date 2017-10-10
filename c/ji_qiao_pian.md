@@ -241,7 +241,8 @@ The alloca() function returns a pointer to the beginning of the allocated space.
     }
     ```
 * [Smart pointers for the (GNU) C](https://github.com/Snaipe/libcsptr): Allocating a smart array and printing its contents before destruction:
-```C
+
+```c
 #include <stdio.h>
 #include <csptr/smart_ptr.h>
 #include <csptr/array.h>

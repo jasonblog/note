@@ -133,7 +133,7 @@ reactor 是一種 design pattern，他的概念是「同時」處理多個請求
 	* **Synchronous Event Demultiplexer**: 多對一，擋住與收集 Resource。當有 dispatcher 可以處理時，就會派送 resource 給 dispatcher。如： epoll 將收到的 client request 推到 work queue
 	* **Dispatcher**: 分派從 Demultiplexer 取得的工作到對應的 requset handler。如：將 client 待處理的 request 丟入 work queue，並喚醒 thread 處理這些 request
 	* **Request Handler**: 真正 consume request 的地方。如：worker thread 去處理工作 (client request) 也就是由 Worker thread 負責
-![](https://i.imgur.com/AfE7DuZ.png)
+![](images/AfE7DuZ.png)
 * Reactor 目的為回應 requset、使用 epoll 監控整個系統
 * Server 進入 listen 階段將做三件事 Accept connect、Printing connector、Dealing request
 * reactor 為 ready queue 負責接住 client 的連線要求工作
@@ -212,7 +212,7 @@ design pattern是對軟體設計中普遍存在（反覆出現）的各種問題
 
 ### Async
 * 工作分配、控管 thread (透過 thread pool)
-![](https://i.imgur.com/dp7qbkb.png)
+![](images/dp7qbkb.png)
 * Reactor 的 Client 工作會將處理 request 的工作丟入Work queue，並且在 pipe 寫入 one byte 紀錄
 * Worker thread 若發現 pipe 有紀錄，則會將該 one byte 取出並執行 Work queue 中對應的 request
 
@@ -1112,12 +1112,12 @@ Transfer rate:          564.72 [Kbytes/sec] received
 ### 實做與分析 lock-less thread pool
 * 在使用多執行緒的程式中，為了避免多個執行緒同時對一個變數進行讀寫的動作( race condition)，會使用 mutex_lock 結合 condition variable。然而在 mutex_lock 的取得及釋出上，有不小的成本。
 
-![](https://i.imgur.com/bhsp5jC.png)
+![](images/bhsp5jC.png)
 
 * 執行緒從一個 work queue 中，去搶（競爭）工作來做，為了避免多個執行緒重複執行同一個工作，在取得工作時都必須以 mutex_lock 將執行緒的執行堵塞住。
 * 為了降低 mutex_lock 的使用次數，意味著要降低資源競爭的情況。而為了降低資源競爭的情況，可以將單一個 work queue，改成每一個執行緒都有自己的 work queue，這樣一來每一個執行緒只要從自己的 queue 中拿工作來做，以避免執行緒間搶工作時必須使用 mutex_lock。
 
-![](https://i.imgur.com/vNpPQ2O.png)
+![](images//vNpPQ2O.png)
 * 修改Async的實做
 * 改變 `struct Async`
 原本使用 structure member `tasks` 作為 work queue，儘管 member`threads` 的註解寫著 thread pool 但並沒有實質用處。

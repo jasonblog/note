@@ -57,7 +57,7 @@
         data-chapter-title="技巧篇"
         data-filepath="c/ji_qiao_pian.md"
         data-basepath=".."
-        data-revision="Tue Oct 10 2017 13:59:40 GMT+0800 (CST)"
+        data-revision="Tue Oct 10 2017 14:09:53 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -20192,62 +20192,69 @@ C-section &#x662F; Cesarean section &#x7684;&#x7E2E;&#x5BEB;&#xFF0C;&#x610F;&#x6
 <li>&#x4E0D;&#x540C;&#x7684;&#x8F49;&#x7F6E;&#x77E9;&#x9663;&#x64CD;&#x4F5C;&#xFF0C;&#x4F8B;&#x5982; <a href="https://en.wiktionary.org/wiki/na%C3%AFve" target="_blank">naive</a> (&#x9019;&#x8A5E;&#x5F59;&#x6E90;&#x81EA;&#x6CD5;&#x6587;&#xFF0C;&#x6211;&#x5011;&#x5F15;&#x7533;&#x70BA;&#x5929;&#x771F;&#x7121;&#x90AA;&#x7684;&#x7248;&#x672C;&#xFF0C;&#x4E0D;&#x662F; &quot;native&quot;), SSE, AVX, AVX2&#xFF0C;&#x9700;&#x8981;&#x91CD;&#x8907;&#x64B0;&#x5BEB;&#x76F8;&#x7576;&#x985E;&#x4F3C;&#x7684;&#x7A0B;&#x5F0F;&#x78BC;&#xFF0C;&#x5176;&#x5BE6;&#x90FD;&#x53EF;&#x900F;&#x904E;&#x4E00;&#x81F4;&#x7684;&#x4ECB;&#x9762;&#x4F86;&#x5B58;&#x53D6;&#xFF0C;&#x9019;&#x6A23;&#x6548;&#x80FD;&#x5206;&#x6790;&#x548C;&#x6B63;&#x78BA;&#x6027;&#x9A57;&#x8B49;&#x7684;&#x7A0B;&#x5F0F;&#x78BC;&#x5C31;&#x80FD;&#x5171;&#x7528;</li>
 <li><p>&#x77E9;&#x9663;&#x7684;&#x5167;&#x90E8;&#x8CC7;&#x6599;&#x8868;&#x9054;&#x6A5F;&#x5236;&#x300C;&#x4E00;&#x89BD;&#x7121;&#x907A;&#x300D;&#xFF0C;&#x9055;&#x53CD;&#x5C01;&#x88DD;&#x7684;&#x539F;&#x5247;&#xFF0C;&#x800C;&#x4E14;&#x4E0D;&#x540C;&#x7248;&#x672C;&#x7684;&#x77E9;&#x9663;&#x904B;&#x7B97;&#x5F80;&#x5F80;&#x4F34;&#x96A8;&#x8457;&#x7279;&#x88FD;&#x7684;&#x8CC7;&#x6599;&#x6B04;&#x4F4D;&#xFF0C;&#x4F46;&#x4E0A;&#x8FF0;&#x7A0B;&#x5F0F;&#x78BC;&#x7121;&#x6CD5;&#x53CD;&#x6620;&#x6216;&#x5340;&#x9694;</p>
 </li>
-<li><p>[ ] &#x9700;&#x8981;&#x66F4;&#x597D;&#x7684;&#x5C01;&#x88DD;&#xFF0C;&#x9019;&#x6A23;&#x624D;&#x80FD;&#x5920;&#x8655;&#x7406;&#x4E0D;&#x540C;&#x7684;&#x5167;&#x90E8;&#x8CC7;&#x6599;&#x8868;&#x793A;&#x6CD5; (data structure) &#x548C;&#x6F14;&#x7B97;&#x6CD5; (algorithms)&#xFF0C;&#x5C0D;&#x5916;&#x63D0;&#x4F9B;&#x4E00;&#x81F4;&#x7684;&#x4ECB;&#x9762;: <a href="https://github.com/jserv/matrix_oo" target="_blank">matrix_oo</a>
-```C
-typedef struct matrix_impl Matrix;
-struct matrix_impl {
-  float values[4][4];</p>
-<p>  /<em> operations </em>/
-  bool (<em>equal)(const Matrix, const Matrix);
-  Matrix (</em>mul)(const Matrix, const Matrix);
-};</p>
+<li><p>[ ] &#x9700;&#x8981;&#x66F4;&#x597D;&#x7684;&#x5C01;&#x88DD;&#xFF0C;&#x9019;&#x6A23;&#x624D;&#x80FD;&#x5920;&#x8655;&#x7406;&#x4E0D;&#x540C;&#x7684;&#x5167;&#x90E8;&#x8CC7;&#x6599;&#x8868;&#x793A;&#x6CD5; (data structure) &#x548C;&#x6F14;&#x7B97;&#x6CD5; (algorithms)&#xFF0C;&#x5C0D;&#x5916;&#x63D0;&#x4F9B;&#x4E00;&#x81F4;&#x7684;&#x4ECB;&#x9762;: <a href="https://github.com/jserv/matrix_oo" target="_blank">matrix_oo</a></p>
 </li>
 </ul>
-<p>static Matrix mul(const Matrix a, const Matrix b)
-{
+<pre><code class="lang-c"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> matrix_impl Matrix;
+<span class="hljs-keyword">struct</span> matrix_impl {
+    <span class="hljs-keyword">float</span> values[<span class="hljs-number">4</span>][<span class="hljs-number">4</span>];
+
+    <span class="hljs-comment">/* operations */</span>
+    <span class="hljs-keyword">bool</span> (*equal)(<span class="hljs-keyword">const</span> Matrix, <span class="hljs-keyword">const</span> Matrix);
+    Matrix (*mul)(<span class="hljs-keyword">const</span> Matrix, <span class="hljs-keyword">const</span> Matrix);
+};
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> Matrix <span class="hljs-title">mul</span><span class="hljs-params">(<span class="hljs-keyword">const</span> Matrix a, <span class="hljs-keyword">const</span> Matrix b)</span>
+</span>{
     Matrix matrix = { .values = {
-            { 0, 0, 0, 0, }, { 0, 0, 0, 0, },
-            { 0, 0, 0, 0, }, { 0, 0, 0, 0, },
+            { <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, }, { <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, },
+            { <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, }, { <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, },
         },
     };
-    for (int i = 0; i &lt; 4; i++)
-        for (int j = 0; j &lt; 4; j++)
-            for (int k = 0; k &lt; 4; k++)
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">4</span>; i++)
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; <span class="hljs-number">4</span>; j++)
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> k = <span class="hljs-number">0</span>; k &lt; <span class="hljs-number">4</span>; k++)
                 matrix.values[i][j] += a.values[i][k] * b.values[k][j];
-    return matrix;
-}</p>
-<p>int main()
-{
+    <span class="hljs-keyword">return</span> matrix;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
     Matrix m = {
         .equal = equal,
         .mul = mul,
         .values = { ... },
-    };</p>
-<pre><code>Matrix o = { .mul = mul, };
-o = o.mul(m, n);
-</code></pre><pre><code>
-&#x9019;&#x6A23;&#x7684;&#x597D;&#x8655;&#x662F;:
-* &#x4E00;&#x65E6;&#x5EFA;&#x7ACB;&#x77E9;&#x9663;&#x64CD;&#x4F5C;&#x7684;&#x5BE6;&#x4F8B; (instance)&#xFF0C;&#x6BD4;&#x65B9;&#x8AAA;&#x9019;&#x908A;&#x7684; `Matrix m`&#xFF0C;&#x53EF;&#x4EE5;&#x5F88;&#x5BB9;&#x6613;&#x6307;&#x5B9A;&#x7279;&#x5B9A;&#x7684;&#x65B9;&#x6CD5; (method)&#xFF0C;&#x85C9;&#x7531; [designated initializers](https://gcc.gnu.org/onlinedocs/gcc/Designated-Inits.html)&#xFF0C;&#x5728;&#x7269;&#x4EF6;&#x521D;&#x59CB;&#x5316;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x5C31;&#x6307;&#x5B9A;&#x5C0D;&#x61C9;&#x7684;&#x5BE6;&#x4F5C;&#xFF0C;&#x65E5;&#x5F8C;&#x8981;&#x8B8A;&#x66F4; ([polymorphism](https://en.wikipedia.org/wiki/Polymorphism_(computer_science))) &#x4E5F;&#x5F88;&#x65B9;&#x4FBF;
-    * &#x5EF6;&#x4F38;&#x95B1;&#x8B80;: [Why does C++11 not support designated initializer list as C99?](https://stackoverflow.com/questions/18731707/why-does-c11-not-support-designated-initializer-list-as-c99)
-    * &#x518D;&#x8AAA;&#x4E00;&#x6B21;&#xFF0C;&#x5F9E; C99 (&#x542B;) &#x4EE5;&#x5F8C;&#xFF0C;C &#x548C; C++ &#x7684;&#x767C;&#x5C55;&#x5C31;&#x8D70;&#x5411;&#x622A;&#x7136;&#x4E0D;&#x540C;&#x7684;&#x8DEF;&#x7DDA;&#x3002;[Incompatibilities Between ISO C and ISO C++](http://david.tribble.com/text/cdiffs.htm)
-* &#x7701;&#x4E0B;&#x6307;&#x6A19;&#x64CD;&#x4F5C;&#xFF0C;&#x9664;&#x4E86; function pointer &#x7684;&#x4F7F;&#x7528;&#x5916;&#xFF0C;&#x5728;&#x7A0B;&#x5F0F;&#x4E2D;&#x6C92;&#x6709;&#x76F4;&#x63A5;&#x51FA;&#x73FE;&#xFF0C;&#x5C0D;&#x65BC;&#x6578;&#x503C;&#x8868;&#x9054;&#x8F03;&#x70BA;&#x53CB;&#x5584;
-    * &#x5584;&#x7528; Compound Literals for Structure Assignment
-* &#x514B;&#x670D;&#x547D;&#x540D;&#x7A7A;&#x9593; (namespace) &#x885D;&#x7A81;&#x7684;&#x554F;&#x984C;&#xFF0C;&#x6CE8;&#x610F;&#x4E0A;&#x8FF0; `equal` &#x548C; `mul` &#x51FD;&#x5F0F;&#x5BE6;&#x4F5C;&#x6642;&#x90FD;&#x6A19;&#x8A3B; `static`&#xFF0C;&#x6240;&#x4EE5;&#x53EA;&#x8981;&#x7279;&#x5B9A;&#x5BE6;&#x4F5C;&#x5B58;&#x5728;&#x7368;&#x7ACB;&#x7684; C &#x539F;&#x59CB;&#x7A0B;&#x5F0F;&#x6A94;&#x6848;&#x4E2D;&#xFF0C;&#x5C31;&#x4E0D;&#x6703;&#x8DDF;&#x5176;&#x4ED6; compilation unit &#x5B9A;&#x7FA9;&#x7684;&#x7B26;&#x865F; (symbol) &#x6709;&#x6240;&#x5F71;&#x97FF;&#xFF0C;&#x6700;&#x7D42;&#x50C5;&#x6709; [API gateway](https://github.com/embedded2016/server-framework/blob/master/async.c#L258) &#x9700;&#x8981;&#x516C;&#x958B;&#x63ED;&#x9732;
+    };
 
-:::info
-:girl: ==[Prefer to return a value rather than modifying pointers](https://github.com/mcinglis/c-style#prefer-to-return-a-value-rather-than-modifying-pointers)==
 
-This encourages immutability, cultivates pure functions, and makes things simpler and easier to understand. It also improves safety by eliminating the possibility of a NULL argument.
-
-:-1: unnecessary mutation (probably), and unsafe
-```C
-void drink_mix(Drink * const drink, Ingredient const ingr) {
+    Matrix o = { .mul = mul, };
+    o = o.mul(m, n);
+</code></pre>
+<p>&#x9019;&#x6A23;&#x7684;&#x597D;&#x8655;&#x662F;:</p>
+<ul>
+<li>&#x4E00;&#x65E6;&#x5EFA;&#x7ACB;&#x77E9;&#x9663;&#x64CD;&#x4F5C;&#x7684;&#x5BE6;&#x4F8B; (instance)&#xFF0C;&#x6BD4;&#x65B9;&#x8AAA;&#x9019;&#x908A;&#x7684; <code>Matrix m</code>&#xFF0C;&#x53EF;&#x4EE5;&#x5F88;&#x5BB9;&#x6613;&#x6307;&#x5B9A;&#x7279;&#x5B9A;&#x7684;&#x65B9;&#x6CD5; (method)&#xFF0C;&#x85C9;&#x7531; <a href="https://gcc.gnu.org/onlinedocs/gcc/Designated-Inits.html" target="_blank">designated initializers</a>&#xFF0C;&#x5728;&#x7269;&#x4EF6;&#x521D;&#x59CB;&#x5316;&#x7684;&#x6642;&#x5019;&#xFF0C;&#x5C31;&#x6307;&#x5B9A;&#x5C0D;&#x61C9;&#x7684;&#x5BE6;&#x4F5C;&#xFF0C;&#x65E5;&#x5F8C;&#x8981;&#x8B8A;&#x66F4; (<a href="https://en.wikipedia.org/wiki/Polymorphism_(computer_science" target="_blank">polymorphism</a>)) &#x4E5F;&#x5F88;&#x65B9;&#x4FBF;<ul>
+<li>&#x5EF6;&#x4F38;&#x95B1;&#x8B80;: <a href="https://stackoverflow.com/questions/18731707/why-does-c11-not-support-designated-initializer-list-as-c99" target="_blank">Why does C++11 not support designated initializer list as C99?</a></li>
+<li>&#x518D;&#x8AAA;&#x4E00;&#x6B21;&#xFF0C;&#x5F9E; C99 (&#x542B;) &#x4EE5;&#x5F8C;&#xFF0C;C &#x548C; C++ &#x7684;&#x767C;&#x5C55;&#x5C31;&#x8D70;&#x5411;&#x622A;&#x7136;&#x4E0D;&#x540C;&#x7684;&#x8DEF;&#x7DDA;&#x3002;<a href="http://david.tribble.com/text/cdiffs.htm" target="_blank">Incompatibilities Between ISO C and ISO C++</a></li>
+</ul>
+</li>
+<li>&#x7701;&#x4E0B;&#x6307;&#x6A19;&#x64CD;&#x4F5C;&#xFF0C;&#x9664;&#x4E86; function pointer &#x7684;&#x4F7F;&#x7528;&#x5916;&#xFF0C;&#x5728;&#x7A0B;&#x5F0F;&#x4E2D;&#x6C92;&#x6709;&#x76F4;&#x63A5;&#x51FA;&#x73FE;&#xFF0C;&#x5C0D;&#x65BC;&#x6578;&#x503C;&#x8868;&#x9054;&#x8F03;&#x70BA;&#x53CB;&#x5584;<ul>
+<li>&#x5584;&#x7528; Compound Literals for Structure Assignment</li>
+</ul>
+</li>
+<li>&#x514B;&#x670D;&#x547D;&#x540D;&#x7A7A;&#x9593; (namespace) &#x885D;&#x7A81;&#x7684;&#x554F;&#x984C;&#xFF0C;&#x6CE8;&#x610F;&#x4E0A;&#x8FF0; <code>equal</code> &#x548C; <code>mul</code> &#x51FD;&#x5F0F;&#x5BE6;&#x4F5C;&#x6642;&#x90FD;&#x6A19;&#x8A3B; <code>static</code>&#xFF0C;&#x6240;&#x4EE5;&#x53EA;&#x8981;&#x7279;&#x5B9A;&#x5BE6;&#x4F5C;&#x5B58;&#x5728;&#x7368;&#x7ACB;&#x7684; C &#x539F;&#x59CB;&#x7A0B;&#x5F0F;&#x6A94;&#x6848;&#x4E2D;&#xFF0C;&#x5C31;&#x4E0D;&#x6703;&#x8DDF;&#x5176;&#x4ED6; compilation unit &#x5B9A;&#x7FA9;&#x7684;&#x7B26;&#x865F; (symbol) &#x6709;&#x6240;&#x5F71;&#x97FF;&#xFF0C;&#x6700;&#x7D42;&#x50C5;&#x6709; <a href="https://github.com/embedded2016/server-framework/blob/master/async.c#L258" target="_blank">API gateway</a> &#x9700;&#x8981;&#x516C;&#x958B;&#x63ED;&#x9732;</li>
+</ul>
+<p>:::info
+:girl: ==<a href="https://github.com/mcinglis/c-style#prefer-to-return-a-value-rather-than-modifying-pointers" target="_blank">Prefer to return a value rather than modifying pointers</a>==</p>
+<p>This encourages immutability, cultivates pure functions, and makes things simpler and easier to understand. It also improves safety by eliminating the possibility of a NULL argument.</p>
+<p>:-1: unnecessary mutation (probably), and unsafe</p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">drink_mix</span><span class="hljs-params">(Drink * <span class="hljs-keyword">const</span> drink, Ingredient <span class="hljs-keyword">const</span> ingr)</span> </span>{
     assert(drink);
     color_blend(&amp;(drink-&gt;color), ingr.color);
     drink-&gt;alcohol += ingr.alcohol;
 }
-</code></pre><p>:+1: immutability rocks, pure and safe functions everywhere</p>
-<pre><code class="lang-C"><span class="hljs-function">Drink <span class="hljs-title">drink_mix</span><span class="hljs-params">(Drink <span class="hljs-keyword">const</span> drink, Ingredient <span class="hljs-keyword">const</span> ingr)</span> </span>{
+</code></pre>
+<p>:+1: immutability rocks, pure and safe functions everywhere</p>
+<pre><code class="lang-c"><span class="hljs-function">Drink <span class="hljs-title">drink_mix</span><span class="hljs-params">(Drink <span class="hljs-keyword">const</span> drink, Ingredient <span class="hljs-keyword">const</span> ingr)</span> </span>{
     <span class="hljs-keyword">return</span> (Drink) {
         .color = color_blend(drink.color, ingr.color),
         .alcohol = drink.alcohol + ingr.alcohol
@@ -20288,7 +20295,7 @@ void drink_mix(Drink * const drink, Ingredient const ingr) {
 </ol>
 <h2 id="&#x660E;&#x78BA;&#x521D;&#x59CB;&#x5316;&#x7279;&#x5B9A;&#x7D50;&#x69CB;&#x7684;&#x6210;&#x54E1;">&#x660E;&#x78BA;&#x521D;&#x59CB;&#x5316;&#x7279;&#x5B9A;&#x7D50;&#x69CB;&#x7684;&#x6210;&#x54E1;</h2>
 <ul>
-<li>C99 &#x7D66;&#x4E88;&#x6211;&#x5011;&#x9817;&#x591A;&#x4FBF;&#x5229;&#xFF0C;&#x6BD4;&#x65B9;&#x8AAA;&#xFF1A;<pre><code class="lang-C"><span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *lookup[] = {
+<li>C99 &#x7D66;&#x4E88;&#x6211;&#x5011;&#x9817;&#x591A;&#x4FBF;&#x5229;&#xFF0C;&#x6BD4;&#x65B9;&#x8AAA;&#xFF1A;<pre><code class="lang-c"><span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *lookup[] = {
   [<span class="hljs-number">0</span>] = <span class="hljs-string">&quot;Zero&quot;</span>,
   [<span class="hljs-number">1</span>] = <span class="hljs-string">&quot;One&quot;</span>,
   [<span class="hljs-number">4</span>] = <span class="hljs-string">&quot;Four&quot;</span>
@@ -20298,7 +20305,7 @@ assert(!strcasecmp(lookup[<span class="hljs-number">0</span>], <span class="hljs
 </li>
 </ul>
 <p>&#x4E5F;&#x53EF;&#x8B8A;&#x5316;&#x5982;&#x4E0B;:</p>
-<pre><code class="lang-C"><span class="hljs-keyword">enum</span> cities { Taipei, Tainan, Taichung, };
+<pre><code class="lang-c"><span class="hljs-keyword">enum</span> cities { Taipei, Tainan, Taichung, };
 <span class="hljs-keyword">int</span> zipcode[] = {
     [Taipei] = <span class="hljs-number">100</span>,
     [Tainan] = <span class="hljs-number">700</span>,
@@ -20307,7 +20314,7 @@ assert(!strcasecmp(lookup[<span class="hljs-number">0</span>], <span class="hljs
 </code></pre>
 <h2 id="&#x8FFD;&#x8E64;&#x7269;&#x4EF6;&#x914D;&#x7F6E;&#x7684;&#x8A18;&#x61B6;&#x9AD4;">&#x8FFD;&#x8E64;&#x7269;&#x4EF6;&#x914D;&#x7F6E;&#x7684;&#x8A18;&#x61B6;&#x9AD4;</h2>
 <p>&#x524D;&#x8FF0;&#x77E9;&#x9663;&#x64CD;&#x4F5C;&#x7684;&#x7A0B;&#x5F0F;&#xFF0C;&#x6211;&#x5011;&#x671F;&#x671B;&#x80FD;&#x5C0E;&#x5165;&#x4E0B;&#x65B9;&#x9019;&#x6A23;&#x81EA;&#x52D5;&#x7684;&#x8655;&#x7406;&#x65B9;&#x5F0F;:</p>
-<pre><code class="lang-C">struct matrix { size_t rows, cols; int **data; };
+<pre><code class="lang-c">struct matrix { size_t rows, cols; int **data; };
 
 struct matrix *matrix_new(size_t rows, size_t cols)
 {

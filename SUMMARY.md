@@ -757,7 +757,7 @@
        * [Python 的編碼](python/python_de_bian_ma.md)
        * [瞭解Unicode](python/liao_jie_unicode.md)
        * [python string and unicode string](python/python_string_and_unicode_string.md)
-       * python2 與 python3 編碼差異
+       * [python2 與 python3 編碼差異](python/python2_yu_python3_bian_ma_cha_yi.md)
    * [django](python/django.md)
        * [使用heroku部署django應用測試](python/shi_yong_heroku_bu_shu_django_ying_yong_ce_shi.md)
        * [Python Django 快速入門教學](python/python_django_kuai_su_ru_men_jiao_xue.md)

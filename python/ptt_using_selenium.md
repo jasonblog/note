@@ -15,3 +15,7 @@ for article in soup.select('.r-list-container .r-ent .title a'):
 
 
 ```
+
+```sh
+python3 xxxx.py
+```

@@ -733,6 +733,7 @@
        * [畫四元數曲線圖](python/hua_si_yuan_shu_qu_xian_tu.md)
        * [多筆行平均總和](python/duo_bi_xing_ping_jun_zong_he.md)
        * [SWIG](python/swig.md)
+       * Line notify 
    * [pandas](python/pandas.md)
        * [pandas 入門](python/pandas_ru_men.md)
        * [Python Pandas DataFrame 的 iloc[0] 與 iloc[[0]]](python/python_pandas_dataframe_de_iloc_[_0_]_yu_iloc_[[_0.md)

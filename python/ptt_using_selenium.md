@@ -1,5 +1,6 @@
 # ptt  using  selenium
 
+##python3
 
 ```py
 # -*- coding: utf-8 -*
@@ -16,6 +17,21 @@ for article in soup.select('.r-list-container .r-ent .title a'):
 
 ```
 
-```sh
-python3 xxxx.py
+
+## python2
+
+```py
+# -*- coding: utf-8 -*
+
+from selenium import webdriver
+from bs4 import BeautifulSoup
+driver = webdriver.PhantomJS()
+driver.get("https://www.ptt.cc/bbs/Gamesale/index.html")
+soup = BeautifulSoup(driver.page_source, "lxml")
+for article in soup.select('.r-list-container .r-ent .title a'):
+    title = (article.string)
+    print(title)
+
+
 ```
+

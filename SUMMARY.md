@@ -763,6 +763,7 @@
        * [Python Django 快速入門教學](python/python_django_kuai_su_ru_men_jiao_xue.md)
        * [Django 基本命令](python/django_ji_ben_ming_ling.md)
    * [爬蟲](python/pa_chong.md)
+       * Python爬虫模拟登录的黑魔法
    * [常見錯誤訊息](python/chang_jian_cuo_wu_xun_xi.md)
    * [安裝 Jupyter](python/jupyter.md)
    * [編譯python & 安裝pip](python/292.md)

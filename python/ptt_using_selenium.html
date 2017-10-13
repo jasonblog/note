@@ -57,7 +57,7 @@
         data-chapter-title="ptt  using  selenium"
         data-filepath="python/ptt_using_selenium.md"
         data-basepath=".."
-        data-revision="Sat Oct 14 2017 01:06:34 GMT+0800 (CST)"
+        data-revision="Sat Oct 14 2017 01:18:39 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -20200,6 +20200,7 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="ptt--using--selenium">ptt  using  selenium</h1>
+<h2 id="python3">python3</h2>
 <pre><code class="lang-py"><span class="hljs-comment"># -*- coding: utf-8 -*</span>
 
 <span class="hljs-keyword">from</span> selenium <span class="hljs-keyword">import</span> webdriver
@@ -20211,7 +20212,17 @@ soup = BeautifulSoup(driver.page_source, <span class="hljs-string">&quot;lxml&qu
     title = str(article.string)
     print(title)
 </code></pre>
-<pre><code class="lang-sh">python3 xxxx.py
+<h2 id="python2">python2</h2>
+<pre><code class="lang-py"><span class="hljs-comment"># -*- coding: utf-8 -*</span>
+
+<span class="hljs-keyword">from</span> selenium <span class="hljs-keyword">import</span> webdriver
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+driver = webdriver.PhantomJS()
+driver.get(<span class="hljs-string">&quot;https://www.ptt.cc/bbs/Gamesale/index.html&quot;</span>)
+soup = BeautifulSoup(driver.page_source, <span class="hljs-string">&quot;lxml&quot;</span>)
+<span class="hljs-keyword">for</span> article <span class="hljs-keyword">in</span> soup.select(<span class="hljs-string">&apos;.r-list-container .r-ent .title a&apos;</span>):
+    title = (article.string)
+    print(title)
 </code></pre>
 
                     

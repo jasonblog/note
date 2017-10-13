@@ -36,12 +36,12 @@ Python 2.7 在 GNU/Linux 的執行:
 而 `0.1 - 0.01 - 0.1` 又會得到比預期數值 `0.0` 略小的結果，有辦法讓電腦精準地表達和運算數值嗎？
 :::
 
-## 電腦不是只有二進位
+## 電腦不是隻有二進位
 
 電腦科學家 Donald E. Knuth 在《The Art of Computer Programming》第 2 卷說：
 > "Perhaps the prettiest number system of all is the balanced ternary notation"
 
-這裡的 ternary 意思是三個的、三個一組的、三重的，也稱為 base-3，顧名思義，不是只有 0 或 1，而是將可能的狀態擴充為 `0`, `1`, `2`，在 balanced ternary 中，就是 `-1`, `0`, `+1` 等三個可能狀態，又可以簡寫為 `-`, `0`, `+`。
+這裡的 ternary 意思是三個的、三個一組的、三重的，也稱為 base-3，顧名思義，不是隻有 0 或 1，而是將可能的狀態擴充為 `0`, `1`, `2`，在 balanced ternary 中，就是 `-1`, `0`, `+1` 等三個可能狀態，又可以簡寫為 `-`, `0`, `+`。
 > the ternary values as being "balanced" around the mid-point of 0. The same rules apply to ternary as to any other numeral system: The right-most symbol, R, has it's own value and each successive symbol has it's value multiplied by the base, B, raised to the power of it's distance, D from R.
 
 考慮以下 balanced ternary:
@@ -214,7 +214,7 @@ void *copy_elements(void *ele_src[], int ele_cnt,
 
 * 萊布尼茲在 1678 年發明二進位表示法
     * [ [source](https://kknews.cc/zh-tw/education/xzqr6og.html) ] 萊布尼茲研究 Pascal 在 1642 年設計製造的十進位數字計算機，並在 1671年設計出能作加減乘除的分級計算機設計。藉由多次的加減來實現乘除，還可以求平方根。這過程中，他發現平時用起來很方便的十進位計數法，搬到機械上去實在太麻煩。
-    * 為了解答「能否用較少的數碼來表示一個數呢？」這問題，萊布尼茲在 1678 年發明二進位計數法，也就是二進位。如此一來，用 0 和 1 兩個數碼就可以表示出一切數。比如用 `10` 表示 2，`11` 表示 3，`100` 表示 4，`101` 表示 5，以此類推。
+    * 為瞭解答「能否用較少的數碼來表示一個數呢？」這問題，萊布尼茲在 1678 年發明二進位計數法，也就是二進位。如此一來，用 0 和 1 兩個數碼就可以表示出一切數。比如用 `10` 表示 2，`11` 表示 3，`100` 表示 4，`101` 表示 5，以此類推。
     * 大清國康熙時期，派遣傳教士白晉 (法語: Joachim Bouvet) 回到法國，白晉在 1701 年寄了一封附上兩張易經六十四卦圖的信給萊布尼茲，萊布尼茲受到啟發，稱讚八卦是
     > 「世上流傳下來的科學中最古老的紀念物」。
 
@@ -383,7 +383,7 @@ for (; i < 32; --BITS) {
 
 LOG(N) is BITS
 
-當要算 log10 時, 因為 32-bit unsigned integer 最大只能顯示 4294967295U，所以 32-bit LOG10() 的值只有可能是 0 ~ 9.
+當要算 log10 時, 因為 32-bit unsigned integer 最大隻能顯示 4294967295U，所以 32-bit LOG10() 的值只有可能是 0 ~ 9.
 這時可透過查表法，以省去除法的成本。
 ```C
 unsigned int vals[] = {

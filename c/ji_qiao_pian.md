@@ -117,8 +117,8 @@ Drink drink_mix(Drink const drink, Ingredient const ingr) {
 
 不過仍是不夠好，因為：
 1. Matrix 物件的 `values` 欄位仍需要公開，我們就無法隱藏實作時期究竟用 `float`, `double`, 甚至是其他自訂的資料表達方式 (如 [Fixed-point arithmetic](https://en.wikipedia.org/wiki/Fixed-point_arithmetic))
-2. 天底下的矩陣運算當然不是只有 4x4，現有的程式碼缺乏彈性 (需要透過 malloc 來配置空間)
-3. 如果物件配置的時候，沒有透過 [designated initializers](https://gcc.gnu.org/onlinedocs/gcc/Designated-Inits.html) 指定對應的方法，那麼後續執行 `m.mul()` 就注定會失敗
+2. 天底下的矩陣運算當然不是隻有 4x4，現有的程式碼缺乏彈性 (需要透過 malloc 來配置空間)
+3. 如果物件配置的時候，沒有透過 [designated initializers](https://gcc.gnu.org/onlinedocs/gcc/Designated-Inits.html) 指定對應的方法，那麼後續執行 `m.mul()` 就註定會失敗
 4. 如果 Matrix 物件本身已初始化，以乘法來說，我們期待`matrixA * matrixB`，對應程式碼為 `matO = matA.mul(matB)`，但在上述程式碼中，我們必須寫為 `Matrix o = m.mul(m, n)`，後者較不直覺
 5. 延續 `2.`，如果初始化時配置記憶體，那要如何確保釋放物件時，相關的記憶體也會跟著釋放呢？若沒有充分處理，就會遇到 memory leaks
 6. 初始化 Matrix 的各欄、各列的數值很不直覺，應該設計對應的巨集以化簡
@@ -201,7 +201,7 @@ char * strdupa(const char *s);
 * strdupa() and strndupa() are GNU extensions.
 :::
 
-* `alloca()` 在不同軟硬體平台的落差可能很大，在 Linux man-page 特別強調以下:
+* `alloca()` 在不同軟硬體平臺的落差可能很大，在 Linux man-page 特別強調以下:
 :::warning
 RETURN VALUE
 The alloca() function returns a pointer to the beginning of the allocated space. If the allocation causes stack overflow, program behaviour is ==undefined==.
@@ -410,7 +410,7 @@ foo(b);
 
 ## 計算時間不只在意精準度，還要知道特性
 
-* 參照 [時間處理與 time 函式使用](https://hackmd.io/s/HkiJpDPtx) 和 [计算机系统中的时间](http://blog.haipo.me/?p=906)
+* 參照 [時間處理與 time 函式使用](https://hackmd.io/s/HkiJpDPtx) 和 [計算機系統中的時間](http://blog.haipo.me/?p=906)
 * [High Resolution Timers](http://elinux.org/High_Resolution_Timers)
 
 
@@ -420,7 +420,7 @@ foo(b);
 * 參照 [Computed goto for efficient dispatch tables](http://eli.thegreenplace.net/2012/07/12/computed-goto-for-efficient-dispatch-tables)
     * Doing less per iteration
     * Branch prediction
-* 台大資工 Android Compiler and Virtual Machines ([2014](https://ntu-android-2014.hackpad.com/))
+* 臺大資工 Android Compiler and Virtual Machines ([2014](https://ntu-android-2014.hackpad.com/))
 
 
 ## 高階的 C 語言「開發框架」
@@ -494,5 +494,5 @@ int main ()
 延伸閱讀:
 * [10 C99 tricks](https://blog.noctua-software.com/c-tricks.html)
 * [C Tips and Tricks](https://www.desultoryquest.com/blog/c-tips-and-tricks-0/)
-* [C 语言有什么奇技淫巧？](https://www.zhihu.com/question/27417946)
+* [C 語言有什麼奇技淫巧？](https://www.zhihu.com/question/27417946)
 * [C 語言的奇技淫巧](http://www.anwcl.com/wordpress/c%E8%AF%AD%E8%A8%80%E7%9A%84tricks%E4%B8%8E%E6%9C%AA%E5%AE%9A%E4%B9%89%E8%A1%8C%E4%B8%BA-undefined-behavior/)

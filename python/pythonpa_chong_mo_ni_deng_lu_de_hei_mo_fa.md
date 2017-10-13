@@ -1,11 +1,11 @@
-# Python爬虫模拟登录的黑魔法
+# Python爬蟲模擬登錄的黑魔法
 
 
-今天用 requests + BeautifulSoup 抓取 aliexpress 的时候， 在模拟登录时候出现了很多问题， 提交数据时会对密码等一些字段加密， 而且提交一大堆不知名的字段， 大概有二十多项。 看到那么多字段， 整个人就不好了， 作为一个懒人， 准备绕过这个坑。
+今天用 requests + BeautifulSoup 抓取 aliexpress 的時候， 在模擬登錄時候出現了很多問題， 提交數據時會對密碼等一些字段加密， 而且提交一大堆不知名的字段， 大概有二十多項。 看到那麼多字段， 整個人就不好了， 作為一個懶人， 準備繞過這個坑。
 
-大概思路是这样， 通过 selenium 打开浏览器， 模拟登录。 获取cookies ，并将cookies以文件的形式保存到本地。 当我们使用requests打开页面的时候就可以用本地的cookies。 因为 通过selenium打开浏览器的方式登陆没有那么多限制， 只需要模拟登录流程（ 输入帐号密码， 点击登录即可登陆）。 而且selenium可以模拟各种浏览器， 亦可以在命令行下实现浏览器功能。
+大概思路是這樣， 通過 selenium 打開瀏覽器， 模擬登錄。 獲取cookies ，並將cookies以文件的形式保存到本地。 當我們使用requests打開頁面的時候就可以用本地的cookies。 因為 通過selenium打開瀏覽器的方式登陸沒有那麼多限制， 只需要模擬登錄流程（ 輸入帳號密碼， 點擊登錄即可登陸）。 而且selenium可以模擬各種瀏覽器， 亦可以在命令行下實現瀏覽器功能。
 
-###1: 通过selenium 登录
+###1: 通過selenium 登錄
 
 ```py
 from selenium import webdriver
@@ -27,9 +27,9 @@ def login(username, password browser=None):
 
 ###2: 保存Cookie
 
-通过seleum 模拟登陆， 然后将cookie打包保存到本地
+通過seleum 模擬登陸， 然後將cookie打包保存到本地
 
-将获取的cookies 存放在变量cookies中
+將獲取的cookies 存放在變量cookies中
 
 ```py
 import requests
@@ -54,7 +54,7 @@ import pickle
 pickle.dump( cookies , open("cookies.ini","wb"))
 ```
 
-###我们可以用同样的方法将cookies重新载入
+###我們可以用同樣的方法將cookies重新載入
 
 ```py
 # add them back:
@@ -85,7 +85,7 @@ request.headers.update(headers)
 for cookie in cookies:
     request.cookies.set(cookie['name'], cookie['value'])
 
-# 加载cookies后登录网站
+# 加載cookies後登錄網站
 request.get("www.example.com")
 ```
 
@@ -137,7 +137,7 @@ if __name__ == "__main__":
 ```
 ###友情提示
 
-由于selenium 下的phantomJS在使用过程中出现了不知原因的各种坑。 所以在Python中我们可以用下面的方法，在命令行打开Chrome、FireFox。
+由於selenium 下的phantomJS在使用過程中出現了不知原因的各種坑。 所以在Python中我們可以用下面的方法，在命令行打開Chrome、FireFox。
 
 ```py
 from pyvirtualdisplay import Display

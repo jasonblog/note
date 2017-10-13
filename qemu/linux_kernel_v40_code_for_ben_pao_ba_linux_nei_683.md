@@ -17,7 +17,7 @@
 
 ###1. 目的：
 * 《奔跑吧linux內核》第6章裡提供了一個使用QEMU來單步調試ARM32/ARM64的Linux內核的實驗平臺，但是默認內核編譯的時候默認使用“-02”的GCC編譯優化選項，
-那麼導致在QUMU+GDB調試環境中出現光標亂跳以及無法打印有些變量的值“<optimized out>”等問題。本git tree就是為了解決該問題，在Makefile中修改GCC的優化選項為“-O0”。
+那麼導致在QUMU+GDB調試環境中出現光標亂跳以及無法打印有些變量的值“<optimized out>”等問題。本git tree就是為瞭解決該問題，在Makefile中修改GCC的優化選項為“-O0”。
 本git tree僅僅是為了提供一個好用的單步調試環境，不適用於其他用途。
 * 另外還內置了編譯好的busybox小文件系統，方便讀者快速編譯和調試內核。
 * git tree中上傳了《奔跑吧Linux內核》第6章關於QEMU+GDB+eclipse調試內核的樣章。

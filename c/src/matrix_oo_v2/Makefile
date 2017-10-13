@@ -5,7 +5,8 @@ EXEC = \
 GIT_HOOKS := .git/hooks/applied
 OUT ?= .build
 .PHONY: all
-all: $(GIT_HOOKS) $(OUT) $(EXEC)
+#all: $(GIT_HOOKS) $(OUT) $(EXEC)
+all: $(OUT) $(EXEC)
 
 $(GIT_HOOKS):
 	@scripts/install-git-hooks

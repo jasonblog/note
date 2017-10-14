@@ -109,29 +109,28 @@ Tip	[class^=’cls’] 抓取 class 屬性值為 “cls" 開頭的 element
 [class*=’cls’] 抓取 class 屬性值中包含字串 “cls" 的 element
 ```
 
-Case 5.
+## Case 5.
 
 只抓取含有特定屬性的 element，我們要抓取第 2 行超連結的element，HTML 原始碼如下所示。
 
-1
-2
+
+```html
 <a href="http://www.yahoo.com" alt="yahoo">Yahoo!</a>
 <a title="t2" href="http://www.google.com" class="gls">Google 2</a>
+```
+
 我們只想抓取含有 title、href 與 class 屬性的 element，程式碼如下所示。
 
-1
+
+```html
 find_element_by_css_selector("a[title][href][class]")
-Case 6.
+```
+
+##Case 6.
 
 只抓取某節點中第幾個 element，以下面 HTML 原始碼為範例。
 
-1
-2
-3
-4
-5
-6
-7
+```html
 <table>
     <tr>
         <td>First</td>
@@ -139,34 +138,33 @@ Case 6.
         <td>Third</td>
     </tr>
 </table>
+```
+
 如要抓取 td 標籤中第 1 個 element，可以在節點名稱後加入:first-child，抓到 <td>First</td>，程式碼如下所示。
 
-1
+```html
 find_element_by_css_selector("td:first-child")
+```
+
 如要抓取 td 標籤中第 3 個 element，可以在節點名稱後加入:nth-child(3)，括號中代入索引值，會抓到 <td>Third</td>，程式碼如下所示。
 
-1
+```html
 find_element_by_css_selector("td:nth-child(3)")
-Case 7.
+```
+
+##Case 7.
 
 最後我們用一個例子，來說明抓取 element 可以透過多種方式來抓取同一個 element，HTML 原始碼如下所示。
 
-1
-2
-3
+```html
 <div class="dgl">
     <input value="Google" id="igl">
 </div>
+```
+
 我們欲抓取第 2 行的 input element，可以透過下列方法抓取到 input element，使用者根據不同的結構選擇不同的定位方式。
 
-1
-2
-3
-4
-5
-6
-7
-8
+```html
 find_element_by_css_selector("#igl")
 find_element_by_css_selector("input")
 find_element_by_css_selector("div input")
@@ -175,11 +173,12 @@ find_element_by_css_selector("div.dgl input")
 find_element_by_css_selector("div.dgl input#igl")
 find_element_by_css_selector("div input[value='Google']")
 find_element_by_css_selector("div[class='dgl'] input[value='Google'][id='igl']")
+```
  
 
 以上幾個 Case 均已能滿足大部份的需求，其他更進階的應用可以參考這邊。
 
-參考文章：
+##參考文章：
 
 1. WebDriver Element Locators
 

@@ -736,6 +736,7 @@
        * [ptt  using  selenium](python/ptt_using_selenium.md)
        * [Scrapy + Python 3: PTT 資料抓取與分析](python/scrapy_+_python_3_ptt_zi_liao_zhua_qu_yu_fen_xi.md)
        * [Line notify](python/line_notify.md)
+       * PTT爬文物品 + line 發送
    * [pandas](python/pandas.md)
        * [pandas 入門](python/pandas_ru_men.md)
        * [Python Pandas DataFrame 的 iloc[0] 與 iloc[[0]]](python/python_pandas_dataframe_de_iloc_[_0_]_yu_iloc_[[_0.md)

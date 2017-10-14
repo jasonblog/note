@@ -147,7 +147,7 @@ def line_nofity(item):
 if __name__ == "__main__":  
    PttName = str(sys.argv[1])
    ParsingPage = int(sys.argv[2])
-   KeyWord = (sys.argv[3])
+   KeyWord = (sys.argv[3]).decode('string_escape').decode('utf-8')
    print KeyWord
    FILENAME='/tmp/data-'+PttName+'-'+datetime.now().strftime('%Y-%m-%d-%H-%M-%S')+'.json'
    store('[') 
@@ -166,7 +166,7 @@ with open(FILENAME, 'r') as f:
     json_data = json.load(f)
 
 for item in json_data:
-    if KeyWord in item[u'c_標題']: 
+    if KeyWord in item[u'c_標題'].lower() or KeyWord in item[u'g_內文'].lower():
         line_nofity(item)
         print item[u'b_作者']
         print item[u'c_標題']

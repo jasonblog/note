@@ -57,7 +57,7 @@
         data-chapter-title="PTT爬文物品 + line 發送"
         data-filepath="python/pttpa_wen_wu_pin_+_line_fa_song.md"
         data-basepath=".."
-        data-revision="Sun Oct 15 2017 03:03:16 GMT+0800 (CST)"
+        data-revision="Sun Oct 15 2017 03:40:38 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -11452,31 +11452,31 @@
             
         </li>
     
-        <li class="chapter " data-level="27.1.32" data-path="python/ptt_using_selenium.html">
-            
-                
-                    <a href="../python/ptt_using_selenium.html">
-                
-                        <i class="fa fa-check"></i>
-                        
-                            <b>27.1.32.</b>
-                        
-                        ptt  using  selenium
-                    </a>
-            
-            
-        </li>
-    
-        <li class="chapter " data-level="27.1.33" data-path="python/scrapy_+_python_3_ptt_zi_liao_zhua_qu_yu_fen_xi.html">
+        <li class="chapter " data-level="27.1.32" data-path="python/scrapy_+_python_3_ptt_zi_liao_zhua_qu_yu_fen_xi.html">
             
                 
                     <a href="../python/scrapy_+_python_3_ptt_zi_liao_zhua_qu_yu_fen_xi.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>27.1.33.</b>
+                            <b>27.1.32.</b>
                         
                         Scrapy + Python 3: PTT 資料抓取與分析
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="27.1.33" data-path="python/ptt_using_selenium.html">
+            
+                
+                    <a href="../python/ptt_using_selenium.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>27.1.33.</b>
+                        
+                        ptt  using  selenium
                     </a>
             
             
@@ -20448,8 +20448,8 @@ FILENAME=<span class="hljs-string">&quot;&quot;</span>
 <span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:  
    PttName = str(sys.argv[<span class="hljs-number">1</span>])
    ParsingPage = int(sys.argv[<span class="hljs-number">2</span>])
-   KeyWord = (sys.argv[<span class="hljs-number">3</span>])
-   <span class="hljs-keyword">print</span> KeyWord
+   KeyWord = (sys.argv[<span class="hljs-number">3</span>]).decode(<span class="hljs-string">&apos;string_escape&apos;</span>).decode(<span class="hljs-string">&apos;utf-8&apos;</span>)
+   <span class="hljs-comment">#print KeyWord</span>
    FILENAME=<span class="hljs-string">&apos;/tmp/data-&apos;</span>+PttName+<span class="hljs-string">&apos;-&apos;</span>+datetime.now().strftime(<span class="hljs-string">&apos;%Y-%m-%d-%H-%M-%S&apos;</span>)+<span class="hljs-string">&apos;.json&apos;</span>
    store(<span class="hljs-string">&apos;[&apos;</span>) 
    <span class="hljs-keyword">print</span> <span class="hljs-string">&apos;Start parsing [&apos;</span>,PttName,<span class="hljs-string">&apos;]....&apos;</span>
@@ -20467,7 +20467,7 @@ FILENAME=<span class="hljs-string">&quot;&quot;</span>
     json_data = json.load(f)
 
 <span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> json_data:
-    <span class="hljs-keyword">if</span> KeyWord <span class="hljs-keyword">in</span> item[<span class="hljs-string">u&apos;c_&#x6A19;&#x984C;&apos;</span>]: 
+    <span class="hljs-keyword">if</span> KeyWord <span class="hljs-keyword">in</span> item[<span class="hljs-string">u&apos;c_&#x6A19;&#x984C;&apos;</span>].lower() <span class="hljs-keyword">or</span> KeyWord <span class="hljs-keyword">in</span> item[<span class="hljs-string">u&apos;g_&#x5167;&#x6587;&apos;</span>].lower():
         line_nofity(item)
         <span class="hljs-keyword">print</span> item[<span class="hljs-string">u&apos;b_&#x4F5C;&#x8005;&apos;</span>]
         <span class="hljs-keyword">print</span> item[<span class="hljs-string">u&apos;c_&#x6A19;&#x984C;&apos;</span>]
@@ -20476,13 +20476,15 @@ FILENAME=<span class="hljs-string">&quot;&quot;</span>
         <span class="hljs-keyword">print</span> item[<span class="hljs-string">u&apos;g_&#x5167;&#x6587;&apos;</span>]
         <span class="hljs-keyword">print</span> <span class="hljs-string">&apos;\n&apos;</span>
 </code></pre>
-<h2 id="python-pttcrawlerpython2py-&#x7248;&#x9762;&#x540D;&#x7A31;--&#x722C;&#x7684;&#x9801;&#x6578;-&#x641C;&#x5C0B;&#x95DC;&#x9375;&#x5B57;">python pttcrawler_python2.py &#x7248;&#x9762;&#x540D;&#x7A31;  &#x722C;&#x7684;&#x9801;&#x6578; &#x641C;&#x5C0B;&#x95DC;&#x9375;&#x5B57;</h2>
-<pre><code class="lang-sh">python  pttcrawler_python2.py forsale <span class="hljs-number">3</span> Hunter
+<h2 id="python-pttcrawlerpython2py-&#x7248;&#x9762;&#x540D;&#x7A31;--&#x722C;&#x7684;&#x9801;&#x6578;-&#x641C;&#x5C0B;&#x95DC;&#x9375;&#x5B57;&#x82F1;&#x6587;&#x55AE;&#x5B57;&#x9700;&#x8981;&#x5C0F;&#x5BEB;">python pttcrawler_python2.py &#x7248;&#x9762;&#x540D;&#x7A31;  &#x722C;&#x7684;&#x9801;&#x6578; &#x641C;&#x5C0B;&#x95DC;&#x9375;&#x5B57;(<code>&#x82F1;&#x6587;&#x55AE;&#x5B57;&#x9700;&#x8981;&#x5C0F;&#x5BEB;</code>)</h2>
+<pre><code class="lang-sh">python  pttcrawler_python2.py forsale <span class="hljs-number">3</span> hunter
 </code></pre>
 <ul>
 <li>crontab</li>
 </ul>
-<pre><code class="lang-sh">*/<span class="hljs-number">1</span> * * * *   /usr/bin/python  /home/shihyu/line_ptt/pttcrawler_python2.py forsale <span class="hljs-number">10</span> Hunter <span class="hljs-number">2</span>&gt;&amp;<span class="hljs-number">1</span> | tee /tmp/cronrun.txt
+<pre><code class="lang-sh">*/<span class="hljs-number">1</span> * * * *   /usr/bin/python  /home/shihyu/line_ptt/pttcrawler_python2.py forsale <span class="hljs-number">10</span> hunter <span class="hljs-number">2</span>&gt;&amp;<span class="hljs-number">1</span> | tee /tmp/cronrun.txt
+</code></pre>
+<pre><code class="lang-sh"><span class="hljs-number">2</span>&gt;&amp;<span class="hljs-number">1</span> | tee /tmp/cronrun.txt  <span class="hljs-comment"># &#x7528;&#x5B83; debug</span>
 </code></pre>
 
                     

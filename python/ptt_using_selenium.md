@@ -88,3 +88,27 @@ driver.quit()
 
 
 
+---
+
+##  selenium 如何告訴PTT我已滿18
+
+```py
+# -*- coding: utf-8 -*
+
+from selenium import webdriver
+from bs4 import BeautifulSoup
+driver = webdriver.PhantomJS()
+driver.get("https://www.ptt.cc/bbs/Gossiping/index25664.html")
+buttons = driver.find_elements_by_css_selector("div button[value='yes']")
+
+for button in buttons:
+    button.click()
+
+driver.get("https://www.ptt.cc/bbs/Gossiping/index25664.html")
+soup = BeautifulSoup(driver.page_source, "lxml")
+#print soup.prettify()
+
+for article in soup.select('.r-list-container .r-ent .title a'):
+    title = (article.string)
+    print(title)
+```

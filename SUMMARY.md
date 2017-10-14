@@ -765,6 +765,7 @@
    * [BeautifulSoup](python/beautifulsoup.md)
        * [remove script tags with BeautifulSoup](python/remove_script_tags_with_beautifulsoup.md)
        * [使用BeautifulSoup](python/shi_yong_beautifulsoup.md)
+       * Python使用beautifulsoup解析HTML、XML
    * [爬蟲](python/pa_chong.md)
        * [Python爬蟲模擬登錄的黑魔法](python/pythonpa_chong_mo_ni_deng_lu_de_hei_mo_fa.md)
    * [常見錯誤訊息](python/chang_jian_cuo_wu_xun_xi.md)

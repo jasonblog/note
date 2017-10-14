@@ -133,9 +133,23 @@ def getPageNumber(content) :
     pageNumber = content[startIndex+5 : endIndex]
     return pageNumber
 
+def line_nofity(item):
+    url = "https://notify-api.line.me/api/notify"
+    token = "KXwzqEGtIp1JEkS5GjqXqRAT0D4BdQQvCNcqOa7ySfz"
+    headers = {"Authorization" : "Bearer "+ token}
+
+    message = item[u'b_作者'] + "\n" + item[u'c_標題'] +  "\n" + item[u'd_日期'] + "\n" + item[u'f_網址'] + "\n" + item[u'g_內文'] + "\n"
+    #message = item[u'b_作者'] + "\n"
+    payload = {"message" :  message}
+    files = {"imageFile": open("test.jpg", "rb")} 
+
+    r = requests.post(url ,headers = headers ,params=payload, files=files)
+
 if __name__ == "__main__":  
    PttName = str(sys.argv[1])
    ParsingPage = int(sys.argv[2])
+   KeyWord = (sys.argv[3]).decode(sys.stdin.encoding)
+   print KeyWord
    FILENAME='data-'+PttName+'-'+datetime.now().strftime('%Y-%m-%d-%H-%M-%S')+'.json'
    store('[') 
    print 'Start parsing [',PttName,']....'
@@ -152,9 +166,10 @@ if __name__ == "__main__":
 with open(FILENAME, 'r') as f:
     json_data = json.load(f)
 
-# 可以改要找的物品 keyword
+
 for item in json_data:
-    if u'烤箱' in item[u'c_標題']: 
+    if KeyWord in item[u'c_標題']: 
+        line_nofity(item)
         print item[u'b_作者']
         print item[u'c_標題']
         print item[u'd_日期']
@@ -162,8 +177,10 @@ for item in json_data:
         print item[u'g_內文']
         print '\n'
 
-
 ```
 
+## python pttcrawler_python2.py 版面名稱  爬的頁數 搜尋關鍵字
 
-python  pttcrawler_python2.py forsale 15
+```sh
+python  pttcrawler_python2.py forsale 3 Hunter
+```

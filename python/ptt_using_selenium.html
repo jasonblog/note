@@ -57,7 +57,7 @@
         data-chapter-title="ptt  using  selenium"
         data-filepath="python/ptt_using_selenium.md"
         data-basepath=".."
-        data-revision="Sat Oct 14 2017 04:23:28 GMT+0800 (CST)"
+        data-revision="Sat Oct 14 2017 11:02:54 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -20274,6 +20274,39 @@ soup = BeautifulSoup(driver.page_source, <span class="hljs-string">&quot;lxml&qu
 <span class="hljs-keyword">for</span> article <span class="hljs-keyword">in</span> soup.select(<span class="hljs-string">&apos;.r-list-container .r-ent .title a&apos;</span>):
     title = (article.string)
     print(title)
+</code></pre>
+<hr>
+<h2 id="ptt-18&#x7981;">ptt 18&#x7981;</h2>
+<p>&#x9EDE;&#x9078; &#x300C;&#x6211;&#x540C;&#x610F;&#x2026;&#x300D;&#x7684;&#x6309;&#x9215;&#x5F8C;&#x624D;&#x53EF;&#x9032;&#x5165;&#x8A72;&#x7248;&#x53CA;&#x95B1;&#x8B80;&#x6587;&#x7AE0; 
+&#x65BC;&#x662F;&#x5927;&#x9CE5;&#x7D72;&#x74DC;&#x6C7A;&#x5B9A;&#x8D81;&#x6A5F;&#x73A9;&#x73A9;&#x770B;&#x600E;&#x9EBC;&#x8B93;python&#x9EDE;&#x64CA;&#x7DB2;&#x9801;&#x4E2D;&#x7684;&#x6309;&#x9215;</p>
+<pre><code class="lang-html">#html
+<span class="hljs-tag">&lt;<span class="hljs-title">form</span> <span class="hljs-attribute">action</span>=<span class="hljs-value">&quot;/ask/over18&quot;</span> <span class="hljs-attribute">method</span>=<span class="hljs-value">&quot;post&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">input</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">&quot;hidden&quot;</span> <span class="hljs-attribute">name</span>=<span class="hljs-value">&quot;from&quot;</span> <span class="hljs-attribute">value</span>=<span class="hljs-value">&quot;/bbs/gossiping/index.html&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">&quot;btn-big&quot;</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">&quot;submit&quot;</span> <span class="hljs-attribute">name</span>=<span class="hljs-value">&quot;yes&quot;</span> <span class="hljs-attribute">value</span>=<span class="hljs-value">&quot;yes&quot;</span>&gt;</span>&#x6211;&#x540C;&#x610F;&#xFF0C;&#x6211;&#x5DF2;&#x5E74;&#x6EFF;&#x5341;&#x516B;&#x6B72;<span class="hljs-tag">&lt;<span class="hljs-title">br</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">small</span>&gt;</span>&#x9032;&#x5165;<span class="hljs-tag">&lt;/<span class="hljs-title">small</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">&quot;btn-big&quot;</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">&quot;submit&quot;</span> <span class="hljs-attribute">name</span>=<span class="hljs-value">&quot;no&quot;</span> <span class="hljs-attribute">value</span>=<span class="hljs-value">&quot;no&quot;</span>&gt;</span>&#x672A;&#x6EFF;&#x5341;&#x516B;&#x6B72;&#x6216;&#x4E0D;&#x540C;&#x610F;&#x672C;&#x689D;&#x6B3E;<span class="hljs-tag">&lt;<span class="hljs-title">br</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">small</span>&gt;</span>&#x96E2;&#x958B;<span class="hljs-tag">&lt;/<span class="hljs-title">small</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">form</span>&gt;</span>
+</code></pre>
+<h3 id="&#x5B89;&#x88DD;-geckodriver">&#x5B89;&#x88DD; geckodriver</h3>
+<pre><code class="lang-sh">https://github.com/mozilla/geckodriver/releases
+$ sudo mv ./geckodriver /usr/<span class="hljs-built_in">local</span>/bin/
+$ sudo chmod a+x /usr/<span class="hljs-built_in">local</span>/bin/geckodriver
+</code></pre>
+<h3 id="&#x57F7;&#x884C;-geckodriver-&#x67E5;&#x770B;&#x662F;&#x5426;&#x80FD;&#x6B63;&#x5E38;&#x904B;&#x884C;&#x3002;">&#x57F7;&#x884C; geckodriver &#x67E5;&#x770B;&#x662F;&#x5426;&#x80FD;&#x6B63;&#x5E38;&#x904B;&#x884C;&#x3002;</h3>
+<pre><code class="lang-sh">$ geckodriver 
+<span class="hljs-number">1476443497207</span>    geckodriver    INFO    Listening on <span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span>:<span class="hljs-number">4444</span>
+</code></pre>
+<pre><code class="lang-py"><span class="hljs-comment"># -*- coding: utf-8 -*</span>
+
+<span class="hljs-keyword">from</span> selenium <span class="hljs-keyword">import</span> webdriver
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+
+driver = webdriver.Firefox()
+driver.get(<span class="hljs-string">&quot;https://www.ptt.cc/bbs/Gossiping/index.html&quot;</span>)
+button = driver.find_element_by_class_name(<span class="hljs-string">&apos;btn-big&apos;</span>)
+button.click() <span class="hljs-comment"># click &#x7B2C;&#x4E00;&#x500B;&#x6293;&#x5230;&#x7684; btn-big</span>
+soup = BeautifulSoup(driver.page_source)
+<span class="hljs-keyword">print</span> soup.text
+driver.quit()
 </code></pre>
 
                     

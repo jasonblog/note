@@ -192,3 +192,13 @@ python  pttcrawler_python2.py forsale 3 hunter
 ```sh
 2>&1 | tee /tmp/cronrun.txt  # 用它 debug
 ```
+
+
+```sh
+*/20 * * * *   /usr/bin/python  /home/shihyu/line_ptt/pttcrawler_python2.py forsale 3 華納 2>&1 | tee /tmp/cronrun.txt
+*/20 * * * * sleep 60;  /usr/bin/python  /home/shihyu/line_ptt/pttcrawler_python2.py hypermall 3 Timberland 2>&1 | tee /tmp/cronrun.txt
+*/20 * * * * sleep 60;  /usr/bin/python  /home/shihyu/line_ptt/pttcrawler_python2.py hypermall 3 hunter 2>&1 | tee /tmp/cronrun.txt
+*/50 * * * * sleep 60;  /usr/bin/python  /home/shihyu/line_ptt/pttcrawler_python2.py Ame_Casual 3 danner 2>&1 | tee /tmp/cronrun.txt
+*/50 * * * * sleep 60;  /usr/bin/python  /home/shihyu/line_ptt/pttcrawler_python2.py outdoorgear 3 danner 2>&1 | tee /tmp/cronrun.txt
+*/50 * * * * sleep 60;  /usr/bin/python  /home/shihyu/line_ptt/pttcrawler_python2.py outdoorgear 3 arc 2>&1 | tee /tmp/cronrun.txt
+```

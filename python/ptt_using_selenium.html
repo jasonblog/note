@@ -57,7 +57,7 @@
         data-chapter-title="ptt  using  selenium"
         data-filepath="python/ptt_using_selenium.md"
         data-basepath=".."
-        data-revision="Sat Oct 14 2017 13:27:16 GMT+0800 (CST)"
+        data-revision="Sat Oct 14 2017 14:13:42 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -20350,6 +20350,48 @@ soup = BeautifulSoup(driver.page_source, <span class="hljs-string">&quot;lxml&qu
 <span class="hljs-keyword">for</span> article <span class="hljs-keyword">in</span> soup.select(<span class="hljs-string">&apos;.r-list-container .r-ent .title a&apos;</span>):
     title = (article.string)
     print(title)
+</code></pre>
+<h2 id="todo">TODO</h2>
+<pre><code class="lang-py"><span class="hljs-comment"># -*- coding: utf-8 -*</span>
+<span class="hljs-keyword">import</span> sys
+<span class="hljs-keyword">from</span> selenium <span class="hljs-keyword">import</span> webdriver
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+
+driver = webdriver.PhantomJS()
+driver.get(<span class="hljs-string">&quot;https://www.ptt.cc/ask/over18&quot;</span>)
+buttons = driver.find_elements_by_css_selector(<span class="hljs-string">&quot;div button[value=&apos;yes&apos;]&quot;</span>)
+<span class="hljs-keyword">for</span> button <span class="hljs-keyword">in</span> buttons:
+    button.click()
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">getPageNumber</span><span class="hljs-params">(content)</span> :</span>
+    startIndex = content.find(<span class="hljs-string">&apos;index&apos;</span>)
+    endIndex = content.find(<span class="hljs-string">&apos;.html&apos;</span>)
+    pageNumber = content[startIndex+<span class="hljs-number">5</span> : endIndex]
+    <span class="hljs-keyword">return</span> pageNumber
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">PageCount</span><span class="hljs-params">(PttName)</span>:</span>
+    driver.get(<span class="hljs-string">&apos;https://www.ptt.cc/bbs/&apos;</span>+PttName+<span class="hljs-string">&apos;/index.html&apos;</span>)
+    soup = BeautifulSoup(driver.page_source, <span class="hljs-string">&quot;lxml&quot;</span>)
+    ALLpageURL = soup.select(<span class="hljs-string">&apos;.btn.wide&apos;</span>)[<span class="hljs-number">1</span>][<span class="hljs-string">&apos;href&apos;</span>]
+    ALLpage=int(getPageNumber(ALLpageURL))+<span class="hljs-number">1</span>
+    <span class="hljs-keyword">return</span>  ALLpage
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">crawler</span><span class="hljs-params">(PttName,ParsingPage)</span>:</span>
+    ALLpage=PageCount(PttName)
+    <span class="hljs-keyword">print</span> ALLpage
+
+    driver.get(<span class="hljs-string">&quot;https://www.ptt.cc/bbs/Gossiping/index25664.html&quot;</span>)
+    soup = BeautifulSoup(driver.page_source, <span class="hljs-string">&quot;lxml&quot;</span>)
+    <span class="hljs-comment">#print soup.prettify()</span>
+    <span class="hljs-keyword">for</span> article <span class="hljs-keyword">in</span> soup.select(<span class="hljs-string">&apos;.r-list-container .r-ent .title a&apos;</span>):
+    title = (article.string)
+    print(title)
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:  
+   PttName = str(sys.argv[<span class="hljs-number">1</span>])
+   ParsingPage = int(sys.argv[<span class="hljs-number">2</span>])
+   <span class="hljs-keyword">print</span> <span class="hljs-string">&apos;Start parsing [&apos;</span>,PttName,<span class="hljs-string">&apos;]....&apos;</span>
+   crawler(PttName,ParsingPage)
 </code></pre>
 
                     

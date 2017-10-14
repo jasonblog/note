@@ -310,3 +310,139 @@ show_distributions(total_comments, total_pushes, total_hates)
 可以看到，大部分都是推文比較多，不過也有人幾乎都在噓文呢！
 
 每個推文者的推噓文次數
+
+
+![](./images/1.png)
+
+##用語分析
+
+接下來我們來看看文章裡出現哪些字比較容易被推或噓，以及網友推噓文時都用什麼用詞吧。
+
+首先利用結巴分詞，把每篇文章的詞收集起來，順便紀錄文章分數：
+
+```py
+# grap post
+words = []
+scores = []
+
+for post in posts:
+    d = defaultdict(int)
+    content = post['content']
+    if post['score'] != 0:
+        for l in content.split('\n'):
+            if l:
+                for w in jieba.cut(l):
+                    d[w] += 1
+        if len(d) > 0:
+            words.append(d)
+            scores.append(1 if post['score'] > 0 else 0)
+```
+
+推文們也比照辦理：
+
+```py
+# grap comments
+c_words = []
+c_scores = []
+
+for post in posts:
+    for comment in post['comments']:
+        l = comment['content'].strip()
+        if l and comment['score'] != 0:
+            d = defaultdict(int)
+            for w in jieba.cut(l):
+                d[w] += 1
+            if len(d) > 0:
+                c_scores.append(1 if comment['score'] > 0 else 0)
+                c_words.append(d)
+```
+
+最後用 TfidfTransformer 做出特徵向量，配合 LinearSVC 進行預測訓練：
+
+
+```py
+# convert to vectors
+dvec = DictVectorizer()
+tfidf = TfidfTransformer()
+X = tfidf.fit_transform(dvec.fit_transform(words))
+
+c_dvec = DictVectorizer()
+c_tfidf = TfidfTransformer()
+c_X = c_tfidf.fit_transform(c_dvec.fit_transform(c_words))
+
+svc = LinearSVC()
+svc.fit(X, scores)
+
+c_svc = LinearSVC()
+c_svc.fit(c_X, c_scores)
+```
+
+然後就可以畫圖了：
+
+
+```py
+def display_top_features(weights, names, top_n, select=abs):
+    top_features = sorted(zip(weights, names), key=lambda x: select(x[0]), reverse=True)[:top_n]
+    top_weights = [x[0] for x in top_features]
+    top_names = [x[1] for x in top_features]
+
+    fig, ax = plt.subplots(figsize=(10,8))
+    ind = np.arange(top_n)
+    bars = ax.bar(ind, top_weights, color='blue', edgecolor='black')
+    for bar, w in zip(bars, top_weights):
+        if w < 0:
+            bar.set_facecolor('red')
+
+    width = 0.30
+    ax.set_xticks(ind + width)
+    ax.set_xticklabels(top_names, rotation=45, fontsize=12, fontdict={'fontname': 'Droid Sans Fallback', 'fontsize':12})
+
+    plt.show(fig)
+```
+
+原本我想同時列出正向和負向詞彙，但後來發現似乎負向詞彙都比較強，所以只好分開列出了。
+
+首先是貼文的負向詞彙，不知為何，如果文中出現「妹妹」似乎就很容易被噓呢！
+
+```py
+# top features for posts
+display_top_features(svc.coef_[0], dvec.get_feature_names(), 30)
+```
+
+## 貼文負向詞彙
+
+![](./images/2.png)
+
+然後是貼文的正向詞彙，看不出什麼 QQ。
+
+```py
+# top positive features for posts
+display_top_features(svc.coef_[0], dvec.get_feature_names(), 30, select=lambda x: x)
+```
+## 貼文正向詞彙
+
+![](./images/3.png)
+推文的正負向詞彙倒是滿有趣，最強的特徵是「紅明顯」和「給推」，哈哈。
+
+```py
+# top features for comments
+display_top_features(c_svc.coef_[0], c_dvec.get_feature_names(), 30)
+# top positive features for comments
+display_top_features(c_svc.coef_[0], c_dvec.get_feature_names(), 30, select=lambda x: x)
+
+```
+
+
+##推文負向詞彙
+![](./images/4.png)
+
+## 推文正向詞彙
+![](./images/5.png)
+
+
+##結語
+雖然已經過了那麼多年，Python 3 的使用率還是沒能上升到理想的境界，不過已經是漸入佳境了。 希望更多人一起來寫 Python 3。
+
+做完分析感覺 PTT 實在是一個寶庫，尤其各種特殊看板似乎很適合拿來測風向。不知還能做出什麼分析應用呢？
+
+這次實驗所用到的程式碼按照慣例放在 GitHub 上面供參考：https://github.com/shaform/experiments/tree/master/scrapy。

@@ -57,7 +57,7 @@
         data-chapter-title="PTT爬文物品 + line 發送"
         data-filepath="python/pttpa_wen_wu_pin_+_line_fa_song.md"
         data-basepath=".."
-        data-revision="Sat Oct 14 2017 22:42:28 GMT+0800 (CST)"
+        data-revision="Sat Oct 14 2017 23:29:35 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -20434,9 +20434,23 @@ FILENAME=<span class="hljs-string">&quot;&quot;</span>
     pageNumber = content[startIndex+<span class="hljs-number">5</span> : endIndex]
     <span class="hljs-keyword">return</span> pageNumber
 
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">line_nofity</span><span class="hljs-params">(item)</span>:</span>
+    url = <span class="hljs-string">&quot;https://notify-api.line.me/api/notify&quot;</span>
+    token = <span class="hljs-string">&quot;KXwzqEGtIp1JEkS5GjqXqRAT0D4BdQQvCNcqOa7ySfz&quot;</span>
+    headers = {<span class="hljs-string">&quot;Authorization&quot;</span> : <span class="hljs-string">&quot;Bearer &quot;</span>+ token}
+
+    message = item[<span class="hljs-string">u&apos;b_&#x4F5C;&#x8005;&apos;</span>] + <span class="hljs-string">&quot;\n&quot;</span> + item[<span class="hljs-string">u&apos;c_&#x6A19;&#x984C;&apos;</span>] +  <span class="hljs-string">&quot;\n&quot;</span> + item[<span class="hljs-string">u&apos;d_&#x65E5;&#x671F;&apos;</span>] + <span class="hljs-string">&quot;\n&quot;</span> + item[<span class="hljs-string">u&apos;f_&#x7DB2;&#x5740;&apos;</span>] + <span class="hljs-string">&quot;\n&quot;</span> + item[<span class="hljs-string">u&apos;g_&#x5167;&#x6587;&apos;</span>] + <span class="hljs-string">&quot;\n&quot;</span>
+    <span class="hljs-comment">#message = item[u&apos;b_&#x4F5C;&#x8005;&apos;] + &quot;\n&quot;</span>
+    payload = {<span class="hljs-string">&quot;message&quot;</span> :  message}
+    files = {<span class="hljs-string">&quot;imageFile&quot;</span>: open(<span class="hljs-string">&quot;test.jpg&quot;</span>, <span class="hljs-string">&quot;rb&quot;</span>)} 
+
+    r = requests.post(url ,headers = headers ,params=payload, files=files)
+
 <span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:  
    PttName = str(sys.argv[<span class="hljs-number">1</span>])
    ParsingPage = int(sys.argv[<span class="hljs-number">2</span>])
+   KeyWord = (sys.argv[<span class="hljs-number">3</span>]).decode(sys.stdin.encoding)
+   <span class="hljs-keyword">print</span> KeyWord
    FILENAME=<span class="hljs-string">&apos;data-&apos;</span>+PttName+<span class="hljs-string">&apos;-&apos;</span>+datetime.now().strftime(<span class="hljs-string">&apos;%Y-%m-%d-%H-%M-%S&apos;</span>)+<span class="hljs-string">&apos;.json&apos;</span>
    store(<span class="hljs-string">&apos;[&apos;</span>) 
    <span class="hljs-keyword">print</span> <span class="hljs-string">&apos;Start parsing [&apos;</span>,PttName,<span class="hljs-string">&apos;]....&apos;</span>
@@ -20453,9 +20467,10 @@ FILENAME=<span class="hljs-string">&quot;&quot;</span>
 <span class="hljs-keyword">with</span> open(FILENAME, <span class="hljs-string">&apos;r&apos;</span>) <span class="hljs-keyword">as</span> f:
     json_data = json.load(f)
 
-<span class="hljs-comment"># &#x53EF;&#x4EE5;&#x6539;&#x8981;&#x627E;&#x7684;&#x7269;&#x54C1; keyword</span>
+
 <span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> json_data:
-    <span class="hljs-keyword">if</span> <span class="hljs-string">u&apos;&#x70E4;&#x7BB1;&apos;</span> <span class="hljs-keyword">in</span> item[<span class="hljs-string">u&apos;c_&#x6A19;&#x984C;&apos;</span>]: 
+    <span class="hljs-keyword">if</span> KeyWord <span class="hljs-keyword">in</span> item[<span class="hljs-string">u&apos;c_&#x6A19;&#x984C;&apos;</span>]: 
+        line_nofity(item)
         <span class="hljs-keyword">print</span> item[<span class="hljs-string">u&apos;b_&#x4F5C;&#x8005;&apos;</span>]
         <span class="hljs-keyword">print</span> item[<span class="hljs-string">u&apos;c_&#x6A19;&#x984C;&apos;</span>]
         <span class="hljs-keyword">print</span> item[<span class="hljs-string">u&apos;d_&#x65E5;&#x671F;&apos;</span>]
@@ -20463,7 +20478,9 @@ FILENAME=<span class="hljs-string">&quot;&quot;</span>
         <span class="hljs-keyword">print</span> item[<span class="hljs-string">u&apos;g_&#x5167;&#x6587;&apos;</span>]
         <span class="hljs-keyword">print</span> <span class="hljs-string">&apos;\n&apos;</span>
 </code></pre>
-<p>python  pttcrawler_python2.py forsale 15</p>
+<h2 id="python-pttcrawlerpython2py-&#x7248;&#x9762;&#x540D;&#x7A31;--&#x722C;&#x7684;&#x9801;&#x6578;-&#x641C;&#x5C0B;&#x95DC;&#x9375;&#x5B57;">python pttcrawler_python2.py &#x7248;&#x9762;&#x540D;&#x7A31;  &#x722C;&#x7684;&#x9801;&#x6578; &#x641C;&#x5C0B;&#x95DC;&#x9375;&#x5B57;</h2>
+<pre><code class="lang-sh">python  pttcrawler_python2.py forsale <span class="hljs-number">3</span> Hunter
+</code></pre>
 
                     
                     </section>

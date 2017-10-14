@@ -182,3 +182,9 @@ for item in json_data:
 ```sh
 python  pttcrawler_python2.py forsale 3 Hunter
 ```
+
+- crontab
+
+```sh
+*/1 * * * *   /usr/bin/python  /home/shihyu/line_ptt/pttcrawler_python2.py forsale 10 Hunter 2>&1 | tee /tmp/cronrun.txt
+```

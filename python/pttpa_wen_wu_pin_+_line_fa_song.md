@@ -141,16 +141,15 @@ def line_nofity(item):
     message = item[u'b_作者'] + "\n" + item[u'c_標題'] +  "\n" + item[u'd_日期'] + "\n" + item[u'f_網址'] + "\n" + item[u'g_內文'] + "\n"
     #message = item[u'b_作者'] + "\n"
     payload = {"message" :  message}
-    files = {"imageFile": open("test.jpg", "rb")} 
-
+    files = {"imageFile": open("/home/shihyu/line_ptt/test.jpg", "rb")} 
     r = requests.post(url ,headers = headers ,params=payload, files=files)
 
 if __name__ == "__main__":  
    PttName = str(sys.argv[1])
    ParsingPage = int(sys.argv[2])
-   KeyWord = (sys.argv[3]).decode(sys.stdin.encoding)
+   KeyWord = (sys.argv[3])
    print KeyWord
-   FILENAME='data-'+PttName+'-'+datetime.now().strftime('%Y-%m-%d-%H-%M-%S')+'.json'
+   FILENAME='/tmp/data-'+PttName+'-'+datetime.now().strftime('%Y-%m-%d-%H-%M-%S')+'.json'
    store('[') 
    print 'Start parsing [',PttName,']....'
    crawler(PttName,ParsingPage)
@@ -165,7 +164,6 @@ if __name__ == "__main__":
  
 with open(FILENAME, 'r') as f:
     json_data = json.load(f)
-
 
 for item in json_data:
     if KeyWord in item[u'c_標題']: 

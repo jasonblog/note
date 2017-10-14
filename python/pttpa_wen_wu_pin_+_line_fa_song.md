@@ -148,7 +148,7 @@ if __name__ == "__main__":
    PttName = str(sys.argv[1])
    ParsingPage = int(sys.argv[2])
    KeyWord = (sys.argv[3]).decode('string_escape').decode('utf-8')
-   print KeyWord
+   #print KeyWord
    FILENAME='/tmp/data-'+PttName+'-'+datetime.now().strftime('%Y-%m-%d-%H-%M-%S')+'.json'
    store('[') 
    print 'Start parsing [',PttName,']....'
@@ -174,7 +174,6 @@ for item in json_data:
         print item[u'f_網址']
         print item[u'g_內文']
         print '\n'
-
 ```
 
 ## python pttcrawler_python2.py 版面名稱  爬的頁數 搜尋關鍵字(`英文單字需要小寫`)
@@ -187,4 +186,9 @@ python  pttcrawler_python2.py forsale 3 hunter
 
 ```sh
 */1 * * * *   /usr/bin/python  /home/shihyu/line_ptt/pttcrawler_python2.py forsale 10 hunter 2>&1 | tee /tmp/cronrun.txt
+```
+
+
+```sh
+2>&1 | tee /tmp/cronrun.txt  # 用它 debug
 ```

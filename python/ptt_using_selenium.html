@@ -57,7 +57,7 @@
         data-chapter-title="ptt  using  selenium"
         data-filepath="python/ptt_using_selenium.md"
         data-basepath=".."
-        data-revision="Sat Oct 14 2017 12:17:26 GMT+0800 (CST)"
+        data-revision="Sat Oct 14 2017 13:27:16 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -11999,6 +11999,21 @@
             
         </li>
     
+        <li class="chapter " data-level="27.6.2" data-path="python/selenium_shi_yong_css_locator_ding_wei_html_elemen.html">
+            
+                
+                    <a href="../python/selenium_shi_yong_css_locator_ding_wei_html_elemen.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>27.6.2.</b>
+                        
+                        Selenium 使用 CSS locator 定位 HTML element
+                    </a>
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -20314,6 +20329,27 @@ button.click() <span class="hljs-comment"># click &#x7B2C;&#x4E00;&#x500B;&#x629
 soup = BeautifulSoup(driver.page_source)
 <span class="hljs-keyword">print</span> soup.text
 driver.quit()
+</code></pre>
+<hr>
+<h2 id="selenium-&#x5982;&#x4F55;&#x544A;&#x8A34;ptt&#x6211;&#x5DF2;&#x6EFF;18">selenium &#x5982;&#x4F55;&#x544A;&#x8A34;PTT&#x6211;&#x5DF2;&#x6EFF;18</h2>
+<pre><code class="lang-py"><span class="hljs-comment"># -*- coding: utf-8 -*</span>
+
+<span class="hljs-keyword">from</span> selenium <span class="hljs-keyword">import</span> webdriver
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+driver = webdriver.PhantomJS()
+driver.get(<span class="hljs-string">&quot;https://www.ptt.cc/bbs/Gossiping/index25664.html&quot;</span>)
+buttons = driver.find_elements_by_css_selector(<span class="hljs-string">&quot;div button[value=&apos;yes&apos;]&quot;</span>)
+
+<span class="hljs-keyword">for</span> button <span class="hljs-keyword">in</span> buttons:
+    button.click()
+
+driver.get(<span class="hljs-string">&quot;https://www.ptt.cc/bbs/Gossiping/index25664.html&quot;</span>)
+soup = BeautifulSoup(driver.page_source, <span class="hljs-string">&quot;lxml&quot;</span>)
+<span class="hljs-comment">#print soup.prettify()</span>
+
+<span class="hljs-keyword">for</span> article <span class="hljs-keyword">in</span> soup.select(<span class="hljs-string">&apos;.r-list-container .r-ent .title a&apos;</span>):
+    title = (article.string)
+    print(title)
 </code></pre>
 
                     

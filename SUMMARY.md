@@ -768,6 +768,7 @@
        * Python使用beautifulsoup解析HTML、XML
    * [爬蟲](python/pa_chong.md)
        * [Python爬蟲模擬登錄的黑魔法](python/pythonpa_chong_mo_ni_deng_lu_de_hei_mo_fa.md)
+       * Selenium 使用 CSS locator 定位 HTML element
    * [常見錯誤訊息](python/chang_jian_cuo_wu_xun_xi.md)
    * [安裝 Jupyter](python/jupyter.md)
    * [編譯python & 安裝pip](python/292.md)

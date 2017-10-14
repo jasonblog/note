@@ -142,19 +142,21 @@ def PageCount(PttName):
 
 def crawler(PttName,ParsingPage):
     ALLpage=PageCount(PttName)
-    print ALLpage
-
-    driver.get("https://www.ptt.cc/bbs/Gossiping/index25664.html")
-    soup = BeautifulSoup(driver.page_source, "lxml")
-    #print soup.prettify()
-    for article in soup.select('.r-list-container .r-ent .title a'):
-	title = (article.string)
-	print(title)
+    #print ALLpage
+    for number  in range(ALLpage, ALLpage-int(ParsingPage),-1):
+        driver.get('https://www.ptt.cc/bbs/'+PttName+'/index'+str(number)+'.html')
+        soup = BeautifulSoup(driver.page_source, "lxml")
+        #print soup.prettify()
+        for article in soup.select('.r-list-container .r-ent .title a'):
+            title = (article.string)
+            print(title)
 
 if __name__ == "__main__":  
    PttName = str(sys.argv[1])
    ParsingPage = int(sys.argv[2])
    print 'Start parsing [',PttName,']....'
    crawler(PttName,ParsingPage)
+
+
 
 ```

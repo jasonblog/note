@@ -152,11 +152,11 @@ if __name__ == "__main__":
 with open(FILENAME, 'r') as f:
     json_data = json.load(f)
 
-
+# 可以改要找的物品 keyword
 for item in json_data:
     if u'烤箱' in item[u'c_標題']: 
         print item[u'b_作者']
-        print type(item[u'c_標題'])
+        print item[u'c_標題']
         print item[u'd_日期']
         print item[u'f_網址']
         print item[u'g_內文']
@@ -164,3 +164,6 @@ for item in json_data:
 
 
 ```
+
+
+python  pttcrawler_python2.py forsale 15

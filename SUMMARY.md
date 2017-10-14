@@ -550,7 +550,7 @@
    * [實例研討: 從 C++ 學習 C 高級技巧](c++/shi_li_yan_8a0e3a_cong_c_++_xue_xi_c_gao_ji_ji_qia.md)
    * [為何 Google 禁止工程師使用 C++ static object?](c++/wei_he_google_jin_zhi_gong_cheng_shi_shi_yong_c_++.md)
    * [是否能讓 C++ template 的標頭檔只含宣告不含實作?](c++/shi_fou_neng_rang_c_++_template_de_biao_tou_dang_z.md)
-   * 改善C++程序的150个建议
+   * [改善C++程序的150个建议](c++/gai_shan_c_cheng_xu_de_150_ge_jian_yi.md)
 * [GNU make](gunmake/README.md)
    * [example](gunmake/example.md)
        * [好用 Makefile](gunmake/hao_yong_makefile.md)

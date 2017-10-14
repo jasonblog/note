@@ -112,3 +112,49 @@ for article in soup.select('.r-list-container .r-ent .title a'):
     title = (article.string)
     print(title)
 ```
+
+## TODO
+
+```py
+# -*- coding: utf-8 -*
+import sys
+from selenium import webdriver
+from bs4 import BeautifulSoup
+
+driver = webdriver.PhantomJS()
+driver.get("https://www.ptt.cc/ask/over18")
+buttons = driver.find_elements_by_css_selector("div button[value='yes']")
+for button in buttons:
+    button.click()
+
+def getPageNumber(content) :
+    startIndex = content.find('index')
+    endIndex = content.find('.html')
+    pageNumber = content[startIndex+5 : endIndex]
+    return pageNumber
+
+def PageCount(PttName):
+    driver.get('https://www.ptt.cc/bbs/'+PttName+'/index.html')
+    soup = BeautifulSoup(driver.page_source, "lxml")
+    ALLpageURL = soup.select('.btn.wide')[1]['href']
+    ALLpage=int(getPageNumber(ALLpageURL))+1
+    return  ALLpage
+
+def crawler(PttName,ParsingPage):
+    ALLpage=PageCount(PttName)
+    print ALLpage
+
+    driver.get("https://www.ptt.cc/bbs/Gossiping/index25664.html")
+    soup = BeautifulSoup(driver.page_source, "lxml")
+    #print soup.prettify()
+    for article in soup.select('.r-list-container .r-ent .title a'):
+	title = (article.string)
+	print(title)
+
+if __name__ == "__main__":  
+   PttName = str(sys.argv[1])
+   ParsingPage = int(sys.argv[2])
+   print 'Start parsing [',PttName,']....'
+   crawler(PttName,ParsingPage)
+
+```

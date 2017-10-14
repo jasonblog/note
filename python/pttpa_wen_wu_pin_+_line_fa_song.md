@@ -177,14 +177,14 @@ for item in json_data:
 
 ```
 
-## python pttcrawler_python2.py 版面名稱  爬的頁數 搜尋關鍵字
+## python pttcrawler_python2.py 版面名稱  爬的頁數 搜尋關鍵字(`英文單字需要小寫`)
 
 ```sh
-python  pttcrawler_python2.py forsale 3 Hunter
+python  pttcrawler_python2.py forsale 3 hunter
 ```
 
 - crontab
 
 ```sh
-*/1 * * * *   /usr/bin/python  /home/shihyu/line_ptt/pttcrawler_python2.py forsale 10 Hunter 2>&1 | tee /tmp/cronrun.txt
+*/1 * * * *   /usr/bin/python  /home/shihyu/line_ptt/pttcrawler_python2.py forsale 10 hunter 2>&1 | tee /tmp/cronrun.txt
 ```

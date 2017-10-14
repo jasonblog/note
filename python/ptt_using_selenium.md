@@ -53,7 +53,7 @@ for article in soup.select('.r-list-container .r-ent .title a'):
 ```
 
 
-### 安装 geckodriver
+### 安裝 geckodriver
 
 ```sh
 https://github.com/mozilla/geckodriver/releases
@@ -61,7 +61,7 @@ $ sudo mv ./geckodriver /usr/local/bin/
 $ sudo chmod a+x /usr/local/bin/geckodriver
 ```
 
-### 执行 geckodriver 查看是否能正常运行。
+### 執行 geckodriver 查看是否能正常運行。
 
 ```sh
 $ geckodriver 

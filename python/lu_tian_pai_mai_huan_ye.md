@@ -34,9 +34,12 @@ def PageCount(keyword) :
 
 def crawler(keyword):
     ALLpage = PageCount(keyword)
-    print ALLpage
+    #print ALLpage
 
     for number  in range(ALLpage, 1, -1):
+        #url = 'http://search.ruten.com.tw/search/s000.php?enc=u&searchfrom=indexbar&k='+keyword+'&t=0&p='+str(number)
+        #print url
+        #raw_input()
         h = requests.get('http://search.ruten.com.tw/search/s000.php?enc=u&searchfrom=indexbar&k='+keyword+'&t=0&p='+str(number), headers=headers, cookies=cookies)
         soup = BeautifulSoup(h.text,'html.parser')
         wb = h.text

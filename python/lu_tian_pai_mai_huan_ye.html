@@ -57,7 +57,7 @@
         data-chapter-title="露天拍賣 換頁"
         data-filepath="python/lu_tian_pai_mai_huan_ye.md"
         data-basepath=".."
-        data-revision="Sun Oct 15 2017 21:57:31 GMT+0800 (CST)"
+        data-revision="Sun Oct 15 2017 22:31:01 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -20409,11 +20409,22 @@ sys.setdefaultencoding(<span class="hljs-string">&apos;utf8&apos;</span>)
         <span class="hljs-comment">#print url</span>
         <span class="hljs-comment">#raw_input()</span>
         h = requests.get(<span class="hljs-string">&apos;http://search.ruten.com.tw/search/s000.php?enc=u&amp;searchfrom=indexbar&amp;k=&apos;</span>+keyword+<span class="hljs-string">&apos;&amp;t=0&amp;p=&apos;</span>+str(number), headers=headers, cookies=cookies)
-        soup = BeautifulSoup(h.text,<span class="hljs-string">&apos;html.parser&apos;</span>)
         wb = h.text
         b = wb.encode(<span class="hljs-string">&apos;latin-1&apos;</span>)
-        u = b.decode(<span class="hljs-string">&apos;utf-8&apos;</span>)
-        <span class="hljs-keyword">print</span> u
+        h = b.decode(<span class="hljs-string">&apos;utf-8&apos;</span>)
+        soup = BeautifulSoup(h,<span class="hljs-string">&apos;html.parser&apos;</span>)
+        spans = soup.find_all(<span class="hljs-string">&apos;span&apos;</span>, {<span class="hljs-string">&apos;class&apos;</span> : <span class="hljs-string">&apos;rt-goods-list-item-name-text&apos;</span>})
+        lines = [span.get_text() <span class="hljs-keyword">for</span> span <span class="hljs-keyword">in</span> spans]
+
+        <span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> lines:
+            print(line)
+
+<span class="hljs-string">&apos;&apos;&apos;
+        wb = h.text
+        b = wb.encode(&apos;latin-1&apos;)
+        u = b.decode(&apos;utf-8&apos;)
+        print u
+        &apos;&apos;&apos;</span>
 
 <span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:  
     keyword = str(sys.argv[<span class="hljs-number">1</span>])

@@ -8,7 +8,7 @@
 ##環境設置
 由於這次是要爬 PTT 的資料，為了避免一旦被鎖 IP，就會無法上 PTT，很不方便。所以我特地使用了 NTU CS 自己的機器，同時也設定高一點的連線延遲，避免同時產生太多連線。
 
-如果你是用自己的主機而不是用系上工作站，可能還需要安裝額外套件：
+如果你是用自己的主機而不是用繫上工作站，可能還需要安裝額外套件：
 
 ```sh
 sudo apt-get install python3-dev libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev
@@ -222,7 +222,7 @@ matplotlib
 Numpy
 scikit-learn
 Seaborn
-结巴中文分词
+結巴中文分詞
 ```
 
 首先載入所有會用到的套件：

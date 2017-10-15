@@ -45,11 +45,21 @@ def crawler(keyword):
         b = wb.encode('latin-1')
         h = b.decode('utf-8')
         soup = BeautifulSoup(h,'html.parser')
-        spans = soup.find_all('span', {'class' : 'rt-goods-list-item-name-text'})
-        lines = [span.get_text() for span in spans]
+        titles = soup.find_all('span', {'class' : 'rt-goods-list-item-name-text'})
+        prices = soup.find_all('strong', {'class' : 'rt-text-price'})
+        urls = soup.find_all('a', {'class': 'rt-goods-list-item-name-link', 'href': True})
 
-        for line in lines:
-            print(line)
+        titles = [title.get_text() for title in titles]
+        prices = [price.get_text() for price in prices]
+        urls = [url['href'] for url in urls]
+
+        for i in range(0, len(urls)):
+            print("\n")
+            print(titles[i])
+            print(prices[i])
+            print(urls[i])
+            print("\n")
+
 
 '''
         wb = h.text
@@ -63,6 +73,7 @@ if __name__ == "__main__":
     print keyword
     #raw_input()
     crawler(keyword)
+
 ```
 
 ```sh

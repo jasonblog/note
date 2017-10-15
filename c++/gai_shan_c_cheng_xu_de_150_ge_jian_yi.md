@@ -346,7 +346,8 @@ MI(多重继承)意味着设计的高复杂性、维护的高难度性，尽量�
 实现这一目标有三种方法：
 - 将模板的声明和定义都放置在同一个.h文件中；
 - 按照旧有的习惯性做法来处理，声明是声明，实现是实现，二者相互分离，但是需要包含头文件的地方- 做一些改变，如，在使用模板时，必须用#include “Temp.cpp”替换掉#include “Temp.h”；
-使用关键字export来定义具体的模板类对象和模板函数。
+- 使用关键字export来定义具体的模板类对象和模板函数。
+
 但是2、3需要编译器支持，所以最优策略还是：`将模板的声明和定义都放置在同一个.h文件中`，虽然在某种程度上这破坏了代码的优雅性。
 
 ###建议62：用模板替代参数化类型的宏函数
@@ -355,49 +356,46 @@ MI(多重继承)意味着设计的高复杂性、维护的高难度性，尽量�
 有可能在不该进行宏替换的时候进行了替换，违背了作者的意图。
 模板是实现代码复用的一种工具，它可以实现类型参数化，达到让代码真正复用的目的。
 宏：
-1
+
+```cpp
 #define min(a, b)  ( (a) < (b) ? (a) : (b) )
+```
+
 用模板函数替换上面的宏：
-1
-2
-3
-4
-5
+```cpp
 template <typename T>
 const T min(const T &t1, const T &t2)
 {
     return t1 > t2 ? t2 : t1;
 }
+```
 
-建议63：区分函数模板与模板函数、类模板与模板类
+###建议63：区分函数模板与模板函数、类模板与模板类
 函数模板的重点在于“模板”两个字，前面的“函数”只是一个修饰词。其表示的是一个专门用来生产函数的模板。而模板函数重点在“函数”，表示的是用模板所生成的函数。
+
 函数模板生成模板函数。
+
 函数模板：
-1
-2
-3
-4
-5
+
+```cpp
 template <typename T>
 void Func(const T &a)
 {
     // ......
 }
+```
+
 使用其生成的模板函数：
-1
-2
-3
+
+```cpp
 Func<int>(a);
 Func<float>(a);
 // ......
+```
+
 类模板：
-1
-2
-3
-4
-5
-6
-7
+
+```cpp
 template <class T>
 class List_item
 {
@@ -405,28 +403,24 @@ public:
     T m_val;
     // ......
 }
+```
+
 使用其生成的模板类：
-1
-2
-3
+
+```cpp
 List_item<int> list1;
 List_item<float> list2;
 // ......
+```
 
-建议64：区分继承与模板
+###建议64：区分继承与模板
+
 模板的长处在于处理不同类型间“千篇一律”的操作。
 
-建议66：传值throw异常，传引用catch异常
+###建议66：传值throw异常，传引用catch异常
 异常处理标准形式：throw byvalue, catch by reference
-1
-2
-3
-4
-5
-6
-7
-8
-9
+
+```cpp
 try
 {
     // ...
@@ -436,19 +430,12 @@ catch(const exception &e)    // by const reference
 {
     // ...
 }
+```
 
-建议67：用”throw ;”来重新抛出异常
+###建议67：用”throw ;”来重新抛出异常
 对于异常的重新抛出，需要注意：(1)重新抛出的异常对象只能出现在catch块或catch调用的函数中；(2)如果在处理代码不执行时碰到”throw ;”语句，将会调用terminate函数。
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
+
+```cpp
 try
 {
     // ...
@@ -459,47 +446,41 @@ catch(const exception &e)    // by const reference
     // ...
     throw ;    // 重新抛出异常
 }
+```
 
-建议68：了解异常捕获与函数参数传递之间的差异
+### 建议68：了解异常捕获与函数参数传递之间的差异
 异常与函数参数的传递之间差异：(1)控制权；(2)对象拷贝的次数；(3)异常类型转换；(4)异常类型匹配。
 
-建议69：熟悉异常处理的代价
+###建议69：熟悉异常处理的代价
+
 异常处理在带来便利的同时，也会带来时间和空间上的开销，使程序效率降低，体积增大，同时会加大代码调试和管理的成本。
 
-建议70：尽量保证异常安全
+###建议70：尽量保证异常安全
 如果采用了异常机制，请尽量保证异常安全：努力实现强保证，至少实现基本保证。
 
 Google不使用C++异常处理：(见Google C++ Style Guide上的说明)
 We do not use C++ exceptions.
 
-建议71：尽量熟悉C++标准库
-C++标准库主要包含的组件：
-C标准函数库；
-输入/输出(input/output)；
-字符串(string)；
-容器(containers)；
-算法(algorithms)；
-迭代器(iterators)；
-国际化(internationalization)；
-数值(numerics)；
-语言支持(languagesupport)；
-诊断(diagnostics)；
-通用工具(general utilities)。
+###建议71：尽量熟悉C++标准库
+- C++标准库主要包含的组件：
+- C标准函数库；
+- 输入/输出(input/output)；
+- `字符串(string)；`
+- `容器(containers)；`
+- `算法(algorithms)；`
+- `迭代器(iterators)；`
+- 国际化(internationalization)；
+- 数值(numerics)；
+- 语言支持(languagesupport)；
+- 诊断(diagnostics)；
+- 通用工具(general utilities)。
+
+
 字符串、容器、算法、迭代器四部分采用了模板技术，一般被统称为STL(Standard Template Library,即标准模板库)。
+
 在C++标准中，STL被组织成了13个头文件：
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
+
+```cpp
 <algorithm>
 <deque>
 <functional>
@@ -513,58 +494,70 @@ C标准函数库；
 <set>
 <stack>
 <utility>
+```
 
-建议72：熟悉STL中的有关术语
-容器：是一个对象，它将对象作为元素来存储；
-泛型(Genericity)：泛型就是通用，或者说是类型独立；
-算法：就是对一个对象序列所采取的某些操作，例如std::sort()、std::copy()、std::remove()；
-适配器(Adaptor)：是一个非常特殊的对象，它的作用就是使函数转化为函数对象，或者是将多参数的函数对象转化为少参数的函数对象；
-O(h)：它是一个表示算法性能的特殊符号，在STL规范中用于表示标准库算法和容器操作的最低性能极限；
-迭代器：是一种可以当做通用指针来使用的对象，迭代器可以用于元素遍历、元素添加和元素删除。
+###建议72：熟悉STL中的有关术语
 
-建议73：删除指针的容器时避免资源泄露
+- 容器：是一个对象，它将对象作为元素来存储；
+- 泛型(Genericity)：泛型就是通用，或者说是类型独立；
+- 算法：就是对一个对象序列所采取的某些操作，例如std::sort()、std::copy()、std::remove()；
+`适配器(Adaptor)`：是一个非常特殊的对象，它的作用就是`使函数转化为函数对象，或者是将多参数的函数对象转化为少参数的函数对象；`
+- O(h)：它是一个表示算法性能的特殊符号，在STL规范中用于表示标准库算法和容器操作的最低性能极限；
+- 迭代器：是一种可以`当做通用指针`来`使用`的对象，迭代器可以用于元素遍历、元素添加和元素删除。
+
+###建议73：删除指针的容器时避免资源泄露
+
 STL容器虽然智能，但尚不能担当删除它们所包含指针的这一责任。
+
 所以，在要删除指针的容器时须避免资源泄露：或者在容器销毁前手动删除容器中的每个指针，或者使用智能引用计数指针对象(比如Boost的shared_ptr)来代替普通指针。
 
-建议74：选择合适的STL容器
+###建议74：选择合适的STL容器
+
 容器分为：
-标准STL序列容器：vector、 string、 deque和list；
-标准STL关联容器：set、 multiset、 map和multimap；
-非标准序列容器：slist(单向链表)和rope(重型字符串)；
-非标准关联容器：hash_set、 hash_multiset、 hash_map和hash_multimap；
-标准非STL容器：数组、 bitset、 valarray、 stack、 queue和priority_queue。
 
-建议75：不要在STL容器中存储auto_ptr对象
+- 标准STL序列容器：vector、 string、 deque和list；
+- 标准STL关联容器：set、 multiset、 map和multimap；
+- 非标准序列容器：slist(单向链表)和rope(重型字符串)；
+- 非标准关联容器：hash_set、 hash_multiset、 hash_map和hash_multimap；
+- 标准非STL容器：数组、 bitset、 valarray、 stack、 queue和priority_queue。
+
+### 建议75：不要在STL容器中存储auto_ptr对象
 auto_ptr是C++标准中提供的智能指针，它是一个RAII对象，它在初始化时获得资源，析构时自动释放资源。
+
 C++标准中规定：STL容器元素必须能够进行拷贝构造和赋值操作。
-禁止在STL容器中存储auto_ptr对象原因有两个：
-auto_ptr拷贝操作不安全，会使原指针对象变NULL；
-严重影响代码的可移植性。
 
-建议76：熟悉删除STL容器中元素的惯用法
-删除容器中具有特定值的元素：如果容器是vector、 string或deque，使用erase-remove的惯用法(remove只会将不应该删除的元素前移，然后返回一个迭代器，该迭代器指向的是那个应该删除的元素，所以如果要真正删除这一元素，在调用remove之后还必须调用erase)；如果容器是list，使用list::remove；如果容器是标准关联容器，使用它的erase成员函数；
-删除容器中满足某些条件的所有元素：如果容器是vector、 string或deque，使用erase-remove_if惯用法；如果容器是list，使用list::remove_if；如果容器是标准关联容器，使用remove_copy_if & swap组合算法，或者自己写一个遍历删除算法。
+`禁止`在STL容器中存储auto_ptr对象原因有两个：
 
-建议77：小心迭代器的失效
+- auto_ptr拷贝操作不安全，会使原指针对象变NULL；
+- 严重影响代码的可移植性。
+
+###建议76：熟悉删除STL容器中元素的惯用法
+
+- 删除容器中具有特定值的元素：如果容器是vector、 string或deque，`使用erase-remove的惯用法`(remove只会将不应该删除的元素前移，然后返回一个迭代器，该迭代器指向的是那个应该删除的元素，所以如果要真正删除这一元素，在调用remove之后还必须调用erase)；如果容器是list，使用list::remove；如果容器是标准关联容器，使用它的erase成员函数；
+
+- 删除容器中满足某些条件的所有元素：如果容器是vector、 string或deque，`使用erase-remove_if惯用法`；如果容器是list，使用list::remove_if；如果容器是标准关联容器，使用remove_copy_if & swap组合算法，或者自己写一个遍历删除算法。
+
+###建议77：小心迭代器的失效
+
 迭代器是一个对象，其内存大小为12(sizeof(vector<int>::iterator)，vs2010,32bit)。引起迭代器失效的最主要操作就是插入、删除。对于序列容器(如vector和deque)，插入和删除操作可能会使容器的部分或全部迭代器失效。因为vector和deque必须使用连续分配的内存来存储元素，向容器中添加一个元素可能会导致后面邻接的内存没有可用的空闲空间而引起存储空间的重新分配。一旦这种情况发生，容器中的所有的迭代器就会全部失效。
 
-建议78：尽量使用vector和string代替动态分配数组
+### 建议78：尽量使用vector和string代替动态分配数组
 相较于内建数组，vector和string具有几方面的优点：
-它们能够自动管理内存；
-它们提供了丰富的接口；
-与C的内存模型兼容；
-集众人智慧之大成。
 
-建议79：掌握vector和string与C语言API的通信方式
+- 它们能够自动管理内存；
+- 它们提供了丰富的接口；
+- 与C的内存模型兼容；
+- 集众人智慧之大成。
+
+###建议79：掌握vector和string与C语言API的通信方式
 使用vector::operator[]和string::c_str是实现STL容器与C语言API通信的最佳方式。
-1
-2
-3
-4
+
+```cpp
 vector<int> intContainer;
 ......
 int *pData = NULL;
 pData = &(intContainer[0]);    // 因为vector的存储区连续
+```
 
 ###建议80：多用算法调用，少用手写循环
 

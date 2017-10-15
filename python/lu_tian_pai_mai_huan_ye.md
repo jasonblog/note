@@ -41,19 +41,28 @@ def crawler(keyword):
         #print url
         #raw_input()
         h = requests.get('http://search.ruten.com.tw/search/s000.php?enc=u&searchfrom=indexbar&k='+keyword+'&t=0&p='+str(number), headers=headers, cookies=cookies)
-        soup = BeautifulSoup(h.text,'html.parser')
+        wb = h.text
+        b = wb.encode('latin-1')
+        h = b.decode('utf-8')
+        soup = BeautifulSoup(h,'html.parser')
+        spans = soup.find_all('span', {'class' : 'rt-goods-list-item-name-text'})
+        lines = [span.get_text() for span in spans]
+
+        for line in lines:
+            print(line)
+
+'''
         wb = h.text
         b = wb.encode('latin-1')
         u = b.decode('utf-8')
         print u
+        '''
 
 if __name__ == "__main__":  
     keyword = str(sys.argv[1])
     print keyword
     #raw_input()
     crawler(keyword)
-
-
 ```
 
 ```sh

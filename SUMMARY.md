@@ -766,6 +766,7 @@
        * [Python Django 快速入門教學](python/python_django_kuai_su_ru_men_jiao_xue.md)
        * [Django 基本命令](python/django_ji_ben_ming_ling.md)
    * [正則 Regex](python/zheng_ze_regex.md)
+       * Python的re模塊
    * [BeautifulSoup](python/beautifulsoup.md)
        * [remove script tags with BeautifulSoup](python/remove_script_tags_with_beautifulsoup.md)
        * [使用BeautifulSoup](python/shi_yong_beautifulsoup.md)

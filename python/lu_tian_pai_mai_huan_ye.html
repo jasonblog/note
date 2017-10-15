@@ -57,7 +57,7 @@
         data-chapter-title="露天拍賣 換頁"
         data-filepath="python/lu_tian_pai_mai_huan_ye.md"
         data-basepath=".."
-        data-revision="Sun Oct 15 2017 21:06:19 GMT+0800 (CST)"
+        data-revision="Sun Oct 15 2017 21:10:55 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -20402,9 +20402,12 @@ sys.setdefaultencoding(<span class="hljs-string">&apos;utf8&apos;</span>)
 
 <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">crawler</span><span class="hljs-params">(keyword)</span>:</span>
     ALLpage = PageCount(keyword)
-    <span class="hljs-keyword">print</span> ALLpage
+    <span class="hljs-comment">#print ALLpage</span>
 
     <span class="hljs-keyword">for</span> number  <span class="hljs-keyword">in</span> range(ALLpage, <span class="hljs-number">1</span>, -<span class="hljs-number">1</span>):
+        <span class="hljs-comment">#url = &apos;http://search.ruten.com.tw/search/s000.php?enc=u&amp;searchfrom=indexbar&amp;k=&apos;+keyword+&apos;&amp;t=0&amp;p=&apos;+str(number)</span>
+        <span class="hljs-comment">#print url</span>
+        <span class="hljs-comment">#raw_input()</span>
         h = requests.get(<span class="hljs-string">&apos;http://search.ruten.com.tw/search/s000.php?enc=u&amp;searchfrom=indexbar&amp;k=&apos;</span>+keyword+<span class="hljs-string">&apos;&amp;t=0&amp;p=&apos;</span>+str(number), headers=headers, cookies=cookies)
         soup = BeautifulSoup(h.text,<span class="hljs-string">&apos;html.parser&apos;</span>)
         wb = h.text

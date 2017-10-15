@@ -34,9 +34,9 @@ def PageCount(keyword) :
 
 def crawler(keyword):
     ALLpage = PageCount(keyword)
-    #print ALLpage
+    print ALLpage
 
-    for number  in range(ALLpage, 1, -1):
+    for number  in range(ALLpage, 0, -1):
         #url = 'http://search.ruten.com.tw/search/s000.php?enc=u&searchfrom=indexbar&k='+keyword+'&t=0&p='+str(number)
         #print url
         #raw_input()
@@ -49,9 +49,13 @@ def crawler(keyword):
 
 if __name__ == "__main__":  
     keyword = str(sys.argv[1])
+    print keyword
+    #raw_input()
     crawler(keyword)
+
+
 ```
 
 ```sh
-python test.py linux
+python test.py 'Lowe Alpine Strike'
 ```

@@ -42,26 +42,19 @@ def crawler(keyword):
         #raw_input()
         h = requests.get('http://search.ruten.com.tw/search/s000.php?enc=u&searchfrom=indexbar&k='+keyword+'&t=0&p='+str(number), headers=headers, cookies=cookies)
         wb = h.text
+
         b = wb.encode('latin-1')
         h = b.decode('utf-8')
+
         soup = BeautifulSoup(h,'html.parser')
-        titles = soup.find_all('span', {'class' : 'rt-goods-list-item-name-text'})
-        prices = soup.find_all('strong', {'class' : 'rt-text-price'})
-        urls = soup.find_all('a', {'class': 'rt-goods-list-item-name-link', 'href': True})
+	for each_li in soup.findAll('li',{'class':'rt-goods-list-item'}):
+	    #print each_li
+	    raw_input()
+	    print each_li.div.a['href']
+	    print each_li.div.a['title']
+	    print each_li.p.strong.text
 
-        titles = [title.get_text() for title in titles]
-        prices = [price.get_text() for price in prices]
-        urls = [url['href'] for url in urls]
-
-        for i in range(0, len(urls)):
-            print("\n")
-            print(titles[i])
-            print(prices[i])
-            print(urls[i])
-            print("\n")
-
-
-'''
+        '''
         wb = h.text
         b = wb.encode('latin-1')
         u = b.decode('utf-8')
@@ -73,7 +66,6 @@ if __name__ == "__main__":
     print keyword
     #raw_input()
     crawler(keyword)
-
 ```
 
 ```sh

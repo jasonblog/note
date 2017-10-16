@@ -57,7 +57,7 @@
         data-chapter-title="使用BeautifulSoup"
         data-filepath="python/shi_yong_beautifulsoup.md"
         data-basepath=".."
-        data-revision="Sun Oct 15 2017 23:13:41 GMT+0800 (CST)"
+        data-revision="Mon Oct 16 2017 19:42:48 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -20504,7 +20504,37 @@ date_t = strftime(<span class="hljs-string">&quot;%Y%m%d&quot;</span>) <span cla
 </code></pre>
 <p>&#x82E5;&#x6BD4;&#x8F03;&#x5728;&#x610F;&#x57F7;&#x884C;&#x6548;&#x80FD;&#x7684;&#x5FEB;&#x6162;&#xFF0C;&#x4E5F;&#x8A31;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x770B;&#x770B;lxml&#x9019;&#x500B;&#x5957;&#x4EF6;</p>
 <p>&#x8FFD;&#x8A18;</p>
-<p>```py</p>
+<h2 id="&#x9732;&#x5929;&#x62CD;&#x8CE3;">&#x9732;&#x5929;&#x62CD;&#x8CE3;</h2>
+<pre><code class="lang-py"><span class="hljs-comment"># -*- coding: utf-8 -*-</span>
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+
+html_doc = <span class="hljs-string">&quot;&quot;&quot;
+&lt;html&gt;
+&lt;body&gt;
+&lt;div class=&quot;section-content-row&quot;&gt;
+    &lt;h2 class=&quot;rt-goods-list-item-name&quot;&gt;
+                            &lt;a class=&quot;rt-goods-list-item-name-link&quot; href=&quot;http://goods.ruten.com.tw/item/show?21716971337096&quot; title=&quot;&#x524D;&#x5F80;Lowe Alpine Strike 24 &#x904B;&#x52D5;&#x80CC;&#x5305;/&#x90FD;&#x6703;&#x65E5;&#x7528;&#x5F8C;&#x80CC;&#x5305; FDP55 &#x9ED1;&#x5546;&#x54C1;&#x9801;&#x9762;&quot; target=&quot;_blank&quot;&gt;
+                              &lt;span class=&quot;rt-goods-list-item-name-text&quot; itemprop=&quot;name&quot;&gt;Lowe Alpine Strike 24 &#x904B;&#x52D5;&#x80CC;&#x5305;/&#x90FD;&#x6703;&#x65E5;&#x7528;&#x5F8C;&#x80CC;&#x5305; FDP55 &#x9ED1;&lt;/span&gt;
+                            &lt;/a&gt;
+                          &lt;/h2&gt;
+    &lt;div class=&quot;rt-goods-list-item-price-sell&quot;&gt;
+        &lt;div class=&quot;rt-goods-list-item-price&quot;&gt;
+            &lt;strong class=&quot;item-price-symbol rt-text-larger rt-text-price&quot; itemprop=&quot;offers&quot; itemscope=&quot;&quot; itemtype=&quot;http://schema.org/Offer&quot;&gt;2,363&lt;meta itemprop=&quot;price&quot; content=&quot;2363&quot;&gt;&lt;meta itemprop=&quot;priceCurrency&quot; content=&quot;TWD&quot;&gt;
+                                  &lt;/strong&gt;
+
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&quot;&quot;&quot;</span>
+
+soup = BeautifulSoup(html_doc, <span class="hljs-string">&apos;html.parser&apos;</span>)
+<span class="hljs-keyword">for</span> each_div <span class="hljs-keyword">in</span> soup.findAll(<span class="hljs-string">&apos;div&apos;</span>,{<span class="hljs-string">&apos;class&apos;</span>:<span class="hljs-string">&apos;section-content-row&apos;</span>}):
+    <span class="hljs-keyword">print</span> each_div.h2.span.text 
+    <span class="hljs-keyword">print</span> each_div.h2.a[<span class="hljs-string">&apos;href&apos;</span>]
+    <span class="hljs-keyword">print</span> each_div.div.div.strong.text
+</code></pre>
 
                     
                     </section>

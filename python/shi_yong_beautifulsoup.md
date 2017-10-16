@@ -180,4 +180,36 @@ for x_list in constellation:
 
 追記
 
+## 露天拍賣
+
 ```py
+# -*- coding: utf-8 -*-
+from bs4 import BeautifulSoup
+
+html_doc = """
+<html>
+<body>
+<div class="section-content-row">
+    <h2 class="rt-goods-list-item-name">
+                            <a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21716971337096" title="前往Lowe Alpine Strike 24 運動背包/都會日用後背包 FDP55 黑商品頁面" target="_blank">
+                              <span class="rt-goods-list-item-name-text" itemprop="name">Lowe Alpine Strike 24 運動背包/都會日用後背包 FDP55 黑</span>
+                            </a>
+                          </h2>
+    <div class="rt-goods-list-item-price-sell">
+        <div class="rt-goods-list-item-price">
+            <strong class="item-price-symbol rt-text-larger rt-text-price" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">2,363<meta itemprop="price" content="2363"><meta itemprop="priceCurrency" content="TWD">
+                                  </strong>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
+"""
+
+soup = BeautifulSoup(html_doc, 'html.parser')
+for each_div in soup.findAll('div',{'class':'section-content-row'}):
+    print each_div.h2.span.text 
+    print each_div.h2.a['href']
+    print each_div.div.div.strong.text
+    ```

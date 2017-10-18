@@ -27,8 +27,8 @@ cmake -D CMAKE_INSTALL_PREFIX=/home/shihyu/.mybin/opencv-3.2.0 \
 ## 查看opencv版本：
 
 ```sh
-pkg-config --modversion opencv249
-pkg-config --modversion opencv310
+pkg-config --modversion opencv-2.4.13
+pkg-config --modversion opencv-3.2.0
 ```
 
 

@@ -53,7 +53,6 @@ vim opencv3.conf
 /home/shihyu/.mybin/opencv-3.2.0/lib/
 
 ~/.bashrc
-
 PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/home/shihyu/.mybin/opencv-2.4.13/lib/pkgconfig
 export PKG_CONFIG_PATH
 

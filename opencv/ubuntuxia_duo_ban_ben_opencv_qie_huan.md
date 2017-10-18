@@ -35,10 +35,11 @@ pkg-config --modversion opencv-3.2.0
 ## 編譯工程時：
 
 ```sh
-g++ main.cpp -o main `pkg-config --libs --cflags opencv249`
-//選擇249版本編譯
-g++ main.cpp -o main `pkg-config --libs --cflags opencv310`
-//選擇310版本編譯
+g++ -ggdb `pkg-config --cflags opencv-2.4.13`  main.cpp -o main `pkg-config --libs opencv-2.4.13`
+//選擇2.4.13版本編譯
+
+g++ -ggdb `pkg-config --cflags opencv-3.2.0`  main.cpp -o main `pkg-config --libs opencv-3.2.0`
+//選擇3.2.0版本編譯
 ```
 
 

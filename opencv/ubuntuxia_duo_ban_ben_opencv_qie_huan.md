@@ -46,7 +46,7 @@ g++ -ggdb `pkg-config --cflags opencv-3.2.0`  main.cpp -o main `pkg-config --lib
 ```sh
 /etc/ld.so.conf.d
 opencv-2.4.13.conf
-opencv-3.1.0.conf
+opencv-3.2.0.conf
 
 ~/.mybin/opencv-2.4.13/lib/pkgconfig
 opencv-2.4.13.pc

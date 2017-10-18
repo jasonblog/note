@@ -44,15 +44,18 @@ g++ -ggdb `pkg-config --cflags opencv-3.2.0`  main.cpp -o main `pkg-config --lib
 
 
 ```sh
-/etc/ld.so.conf.d
-opencv-2.4.13.conf
-opencv-3.2.0.conf
+cd /etc/ld.so.conf.d
 
-~/.mybin/opencv-2.4.13/lib/pkgconfig
-opencv-2.4.13.pc
+vim opencv2.conf
+/home/shihyu/.mybin/opencv-2.4.13/lib/
 
-/home/shihyu/.mybin/opencv-3.1.0/lib/pkgconfig
-opencv-3.1.0.pc
+vim opencv3.conf
+/home/shihyu/.mybin/opencv-3.2.0/lib/
+
+~/.bashrc
+
+PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/home/shihyu/.mybin/opencv-2.4.13/lib/pkgconfig
+export PKG_CONFIG_PATH
 
 PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/home/shihyu/.mybin/opencv-2.4.13/lib/pkgconfig
 export PKG_CONFIG_PATH

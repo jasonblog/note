@@ -57,7 +57,7 @@
         data-chapter-title="ubuntu下多版本opencv切換"
         data-filepath="opencv/ubuntuxia_duo_ban_ben_opencv_qie_huan.md"
         data-basepath=".."
-        data-revision="Mon Oct 16 2017 22:01:05 GMT+0800 (CST)"
+        data-revision="Wed Oct 18 2017 19:54:55 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -20390,28 +20390,38 @@ cmake -D CMAKE_INSTALL_PREFIX=/home/shihyu/.mybin/opencv-<span class="hljs-numbe
 
 -D WITH_CUDA=OFF // cuda <span class="hljs-built_in">disable</span>
 </code></pre>
-<h2 id="&#x67E5;&#x770B;opencv&#x7248;&#x672C;&#xFF1A;">&#x67E5;&#x770B;opencv&#x7248;&#x672C;&#xFF1A;</h2>
-<pre><code class="lang-sh">pkg-config --modversion opencv249
-pkg-config --modversion opencv310
-</code></pre>
 <h2 id="&#x7DE8;&#x8B6F;&#x5DE5;&#x7A0B;&#x6642;&#xFF1A;">&#x7DE8;&#x8B6F;&#x5DE5;&#x7A0B;&#x6642;&#xFF1A;</h2>
-<pre><code class="lang-sh">g++ main.cpp -o main `pkg-config --libs --cflags opencv249`
-//&#x9078;&#x64C7;<span class="hljs-number">249</span>&#x7248;&#x672C;&#x7DE8;&#x8B6F;
-g++ main.cpp -o main `pkg-config --libs --cflags opencv310`
-//&#x9078;&#x64C7;<span class="hljs-number">310</span>&#x7248;&#x672C;&#x7DE8;&#x8B6F;
+<pre><code class="lang-sh">g++ -ggdb `pkg-config --cflags opencv-<span class="hljs-number">2.4</span>.<span class="hljs-number">13</span>`  main.cpp -o main `pkg-config --libs opencv-<span class="hljs-number">2.4</span>.<span class="hljs-number">13</span>`
+//&#x9078;&#x64C7;<span class="hljs-number">2.4</span>.<span class="hljs-number">13</span>&#x7248;&#x672C;&#x7DE8;&#x8B6F;
+
+g++ -ggdb `pkg-config --cflags opencv-<span class="hljs-number">3.2</span>.<span class="hljs-number">0</span>`  main.cpp -o main `pkg-config --libs opencv-<span class="hljs-number">3.2</span>.<span class="hljs-number">0</span>`
+//&#x9078;&#x64C7;<span class="hljs-number">3.2</span>.<span class="hljs-number">0</span>&#x7248;&#x672C;&#x7DE8;&#x8B6F;
 </code></pre>
-<pre><code class="lang-sh">/etc/ld.so.conf.d
-opencv-<span class="hljs-number">2.4</span>.<span class="hljs-number">13</span>.conf
-opencv-<span class="hljs-number">3.1</span>.<span class="hljs-number">0</span>.conf
+<pre><code class="lang-sh"><span class="hljs-built_in">cd</span> /home/shihyu/.mybin/opencv-<span class="hljs-number">2.4</span>.<span class="hljs-number">13</span>/lib/pkgconfig
+mv opencv.pc opencv-<span class="hljs-number">2.4</span>.<span class="hljs-number">13</span>.pc
 
-~/.mybin/opencv-<span class="hljs-number">2.4</span>.<span class="hljs-number">13</span>/lib/pkgconfig
-opencv-<span class="hljs-number">2.4</span>.<span class="hljs-number">13</span>.pc
+<span class="hljs-built_in">cd</span> /home/shihyu/.mybin/opencv-<span class="hljs-number">3.2</span>.<span class="hljs-number">0</span>/lib/pkgconfig
+mv opencv.pc opencv-<span class="hljs-number">3.2</span>.<span class="hljs-number">0</span>.pc
 
-/home/shihyu/.mybin/opencv-<span class="hljs-number">3.1</span>.<span class="hljs-number">0</span>/lib/pkgconfig
-opencv-<span class="hljs-number">3.1</span>.<span class="hljs-number">0</span>.pc
 
+<span class="hljs-built_in">cd</span> /etc/ld.so.conf.d
+
+vim opencv2.conf
+/home/shihyu/.mybin/opencv-<span class="hljs-number">2.4</span>.<span class="hljs-number">13</span>/lib/
+
+vim opencv3.conf
+/home/shihyu/.mybin/opencv-<span class="hljs-number">3.2</span>.<span class="hljs-number">0</span>/lib/
+
+~/.bashrc
 PKG_CONFIG_PATH=<span class="hljs-variable">$PKG_CONFIG_PATH</span>:/home/shihyu/.mybin/opencv-<span class="hljs-number">2.4</span>.<span class="hljs-number">13</span>/lib/pkgconfig
 <span class="hljs-built_in">export</span> PKG_CONFIG_PATH
+
+PKG_CONFIG_PATH=<span class="hljs-variable">$PKG_CONFIG_PATH</span>:/home/shihyu/.mybin/opencv-<span class="hljs-number">3.2</span>.<span class="hljs-number">0</span>/lib/pkgconfig
+<span class="hljs-built_in">export</span> PKG_CONFIG_PATH
+</code></pre>
+<h2 id="&#x67E5;&#x770B;opencv&#x7248;&#x672C;&#xFF1A;">&#x67E5;&#x770B;opencv&#x7248;&#x672C;&#xFF1A;</h2>
+<pre><code class="lang-sh">pkg-config --modversion opencv-<span class="hljs-number">2.4</span>.<span class="hljs-number">13</span>
+pkg-config --modversion opencv-<span class="hljs-number">3.2</span>.<span class="hljs-number">0</span>
 </code></pre>
 <ul>
 <li>build_all.sh</li>

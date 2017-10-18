@@ -24,12 +24,6 @@ cmake -D CMAKE_INSTALL_PREFIX=/home/shihyu/.mybin/opencv-3.2.0 \
 -D WITH_CUDA=OFF // cuda disable
 ```
 
-## 查看opencv版本：
-
-```sh
-pkg-config --modversion opencv-2.4.13
-pkg-config --modversion opencv-3.2.0
-```
 
 
 ## 編譯工程時：
@@ -44,6 +38,13 @@ g++ -ggdb `pkg-config --cflags opencv-3.2.0`  main.cpp -o main `pkg-config --lib
 
 
 ```sh
+cd /home/shihyu/.mybin/opencv-2.4.13/lib/pkgconfig
+mv opencv.pc opencv-2.4.13.pc
+
+cd /home/shihyu/.mybin/opencv-3.2.0/lib/pkgconfig
+mv opencv.pc opencv-3.2.0.pc
+
+
 cd /etc/ld.so.conf.d
 
 vim opencv2.conf
@@ -56,8 +57,15 @@ vim opencv3.conf
 PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/home/shihyu/.mybin/opencv-2.4.13/lib/pkgconfig
 export PKG_CONFIG_PATH
 
-PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/home/shihyu/.mybin/opencv-2.4.13/lib/pkgconfig
+PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/home/shihyu/.mybin/opencv-3.2.0/lib/pkgconfig
 export PKG_CONFIG_PATH
+```
+
+## 查看opencv版本：
+
+```sh
+pkg-config --modversion opencv-2.4.13
+pkg-config --modversion opencv-3.2.0
 ```
 
 - build_all.sh

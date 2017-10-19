@@ -57,7 +57,7 @@
         data-chapter-title="ultrasound raw data"
         data-filepath="python/ultrasound_raw_data.md"
         data-basepath=".."
-        data-revision="Wed Oct 18 2017 20:52:20 GMT+0800 (CST)"
+        data-revision="Fri Oct 20 2017 00:12:46 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -20389,8 +20389,8 @@
 </ul>
 <pre><code class="lang-py"><span class="hljs-comment">#!/usr/bin/python</span>
 <span class="hljs-comment"># -*- coding: utf-8 -*-</span>
-<span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt
 <span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+<span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt
 <span class="hljs-keyword">import</span> re
 <span class="hljs-keyword">import</span> sys
 
@@ -20409,6 +20409,14 @@
         resultz.append(p.findall(lines[i])[<span class="hljs-number">0</span>][<span class="hljs-number">2</span>])
     <span class="hljs-comment">#print p.findall(lines[i])[0]</span>
     <span class="hljs-comment">#print type(p.findall(lines[i])[0][0])</span>
+
+    resultx = [float(i) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> resultx]
+    resulty = [float(i) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> resulty]
+    resultz = [float(i) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> resultz]
+
+    <span class="hljs-keyword">print</span> np.std(np.array(resultx))
+    <span class="hljs-keyword">print</span> np.std(np.array(resulty))
+    <span class="hljs-keyword">print</span> np.std(np.array(resultz))
 
     plt.rcParams.update({<span class="hljs-string">&apos;font.size&apos;</span>: <span class="hljs-number">9</span>})
     plt.figure(<span class="hljs-number">1</span>)

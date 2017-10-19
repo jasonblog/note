@@ -75,6 +75,7 @@ if __name__ == "__main__":
     fin = open(sys.argv[1])
     get_nodes(fin)
 
+
 ```
 
 - data.txt

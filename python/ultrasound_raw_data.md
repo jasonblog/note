@@ -5,8 +5,8 @@
 ```py
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib.pyplot as plt
 import re
 import sys
 
@@ -25,6 +25,14 @@ def get_nodes(inputline):
         resultz.append(p.findall(lines[i])[0][2])
 	#print p.findall(lines[i])[0]
 	#print type(p.findall(lines[i])[0][0])
+
+    resultx = [float(i) for i in resultx]
+    resulty = [float(i) for i in resulty]
+    resultz = [float(i) for i in resultz]
+
+    print np.std(np.array(resultx))
+    print np.std(np.array(resulty))
+    print np.std(np.array(resultz))
 
     plt.rcParams.update({'font.size': 9})
     plt.figure(1)
@@ -66,6 +74,7 @@ def get_nodes(inputline):
 if __name__ == "__main__":
     fin = open(sys.argv[1])
     get_nodes(fin)
+
 ```
 
 - data.txt

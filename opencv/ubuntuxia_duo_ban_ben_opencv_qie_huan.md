@@ -132,3 +132,54 @@ sudo nano /etc/ld.so.conf.d/opencv310.conf
 sudo ldconfig
 //刷新
 ```
+
+--- 
+
+##1、假如安装了opencv以下两个版本：
+
+```sh
+opencv-2.4.13 
+opencv-3.2.0
+```
+
+##2、安装目录分别为：
+
+```sh
+/usr/local/opencv-2.4.13 
+/usr/local/opencv-3.2.0
+```
+
+##3、opencv-2.4.13切换为opencv-3.2.0
+
+默认版本为/usr/local/opencv-2.4.13
+
+##4、打开终端，输入以下命令：
+
+###1、打开文件：
+
+```sh
+sudo gedit ~/.bashrc 
+```
+
+###2、在文件末尾添加以下内容，然后保存：
+
+```sh
+export PKG_CONFIG_PATH=/usr/local/opencv-3.2.0/lib/pkgconfig  
+export LD_LIBRARY_PATH=/usr/local/opencv-3.2.0/lib  
+```
+
+###3、输入命令：
+
+```sh
+source ~/.bashrc  
+```
+
+###4、继续输入
+
+```sh
+pkg-config --modversion opencv  
+pkg-config --cflags opencv  
+pkg-config --libs opencv  
+```
+
+以上步骤完成，即为替换完成，如果想从opencv-3.2.0切换回去，步骤同上。

@@ -191,8 +191,8 @@ html_doc = """
 <body>
 <div class="section-content-row">
     <h2 class="rt-goods-list-item-name">
-                            <a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21716971337096" title="前往Lowe Alpine Strike 24 運動背包/都會日用後背包 FDP55 黑商品頁面" target="_blank">
-                              <span class="rt-goods-list-item-name-text" itemprop="name">Lowe Alpine Strike 24 運動背包/都會日用後背包 FDP55 黑</span>
+                            <a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21716971337096" title="前往Lowe Alpine Strike 24 運動揹包/都會日用後揹包 FDP55 黑商品頁面" target="_blank">
+                              <span class="rt-goods-list-item-name-text" itemprop="name">Lowe Alpine Strike 24 運動揹包/都會日用後揹包 FDP55 黑</span>
                             </a>
                           </h2>
     <div class="rt-goods-list-item-price-sell">
@@ -230,9 +230,9 @@ html_doc = """
 <meta content="IE=edge;" http-equiv="X-UA-Compatible"/>
 <title>搜尋結果 : Lowe Alpine Strike - 露天拍賣</title>
 <meta content="" name="description"/>
-<meta content="Lowe Alpine Strike - 露天拍賣-台灣 NO.1 拍賣網站" property="og:title"/>
-<meta content="Lowe Alpine Strike - 露天拍賣-台灣 NO.1 拍賣網站" property="og:description"/>
-<meta content="露天拍賣-台灣 NO.1 拍賣網站" property="og:site_name">
+<meta content="Lowe Alpine Strike - 露天拍賣-臺灣 NO.1 拍賣網站" property="og:title"/>
+<meta content="Lowe Alpine Strike - 露天拍賣-臺灣 NO.1 拍賣網站" property="og:description"/>
+<meta content="露天拍賣-臺灣 NO.1 拍賣網站" property="og:site_name">
 <meta content="website" property="og:type"/>
 <script src="http://www.ruten.com.tw/js/mobile_detect.min.js?v=20160728" type="text/javascript"></script>
 <link href="http://www.ruten.com.tw/css/d/v2/style-reset.css?v=20160803" rel="stylesheet" type="text/css"/>
@@ -251,7 +251,7 @@ html_doc = """
 <div class="rt-header-part">
 <h1 class="rt-heading" itemscope="" itemtype="http://schema.org/WPHeader">
 <a class="rt-logo" href="http://www.ruten.com.tw" itemprop="url" title="前往露天拍賣首頁">
-<span class="rt-logo-title hide" itemprop="name">露天拍賣-台灣 NO.1 拍賣網站</span>
+<span class="rt-logo-title hide" itemprop="name">露天拍賣-臺灣 NO.1 拍賣網站</span>
 <img alt="露天拍賣" class="rt-logo-image" src="http://www.ruten.com.tw/images/logo_s.gif"/>
 </a>
 </h1>
@@ -790,7 +790,7 @@ html_doc = """
 <label class="rt-filter-form-label" for="fy">地區：</label>
 <select class="rt-filter-form-select" id="fy" name="fy">
 <option value="0">不限地區</option>
-<option value="1">台北市</option>
+<option value="1">臺北市</option>
 <option value="2">基隆市</option>
 <option value="3">新北市</option>
 <option value="4">宜蘭縣</option>
@@ -798,16 +798,16 @@ html_doc = """
 <option value="6">新竹縣</option>
 <option value="7">桃園市</option>
 <option value="8">苗栗縣</option>
-<option value="9">台中市</option>
+<option value="9">臺中市</option>
 <option value="10">彰化縣</option>
 <option value="11">南投縣</option>
 <option value="12">嘉義市</option>
 <option value="13">嘉義縣</option>
 <option value="14">雲林縣</option>
-<option value="15">台南市</option>
+<option value="15">臺南市</option>
 <option value="16">高雄市</option>
 <option value="17">屏東縣</option>
-<option value="18">台東縣</option>
+<option value="18">臺東縣</option>
 <option value="19">花蓮縣</option>
 <option value="20">澎湖縣</option>
 <option value="21">金門縣</option>
@@ -951,13 +951,13 @@ html_doc = """
 </li>
 <li class="rt-goods-list-item " itemscope="" itemtype="http://schema.org/Product">
 <div class="rt-goods-list-item-image-wrap">
-<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21716971337096" target="_blank" title="前往Lowe Alpine Strike 24 運動背包/都會日用後背包 FDP55 黑商品頁面">
-<img alt="Lowe Alpine Strike 24 運動背包/都會日用後背包 FDP55 黑" class="rt-goods-list-item-image" itemprop="image" src="http://b.rimg.com.tw/s2/6/29/88/21716971337096_111_m.jpg" title="Lowe Alpine Strike 24 運動背包/都會日用後背包 FDP55 黑">
+<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21716971337096" target="_blank" title="前往Lowe Alpine Strike 24 運動揹包/都會日用後揹包 FDP55 黑商品頁面">
+<img alt="Lowe Alpine Strike 24 運動揹包/都會日用後揹包 FDP55 黑" class="rt-goods-list-item-image" itemprop="image" src="http://b.rimg.com.tw/s2/6/29/88/21716971337096_111_m.jpg" title="Lowe Alpine Strike 24 運動揹包/都會日用後揹包 FDP55 黑">
 </img></a>
 </div>
 <h3 class="rt-goods-list-item-name">
-<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21716971337096" target="_blank" title="前往Lowe Alpine Strike 24 運動背包/都會日用後背包 FDP55 黑商品頁面">
-<span class="rt-goods-list-item-name-text" itemprop="name">Lowe Alpine Strike 24 運動背包/都會日用後背包 FDP55 黑</span>
+<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21716971337096" target="_blank" title="前往Lowe Alpine Strike 24 運動揹包/都會日用後揹包 FDP55 黑商品頁面">
+<span class="rt-goods-list-item-name-text" itemprop="name">Lowe Alpine Strike 24 運動揹包/都會日用後揹包 FDP55 黑</span>
 </a>
 </h3>
 <p class="rt-goods-list-item-price text-right" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
@@ -976,13 +976,13 @@ html_doc = """
 </li>
 <li class="rt-goods-list-item " itemscope="" itemtype="http://schema.org/Product">
 <div class="rt-goods-list-item-image-wrap">
-<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21716971330538" target="_blank" title="前往Lowe Alpine Strike 24 運動背包/都會日用後背包 FDP55 浴火浩克商品頁面">
-<img alt="Lowe Alpine Strike 24 運動背包/都會日用後背包 FDP55 浴火浩克" class="rt-goods-list-item-image" itemprop="image" src="http://d.rimg.com.tw/s2/6/0f/ea/21716971330538_734_m.jpg" title="Lowe Alpine Strike 24 運動背包/都會日用後背包 FDP55 浴火浩克">
+<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21716971330538" target="_blank" title="前往Lowe Alpine Strike 24 運動揹包/都會日用後揹包 FDP55 浴火浩克商品頁面">
+<img alt="Lowe Alpine Strike 24 運動揹包/都會日用後揹包 FDP55 浴火浩克" class="rt-goods-list-item-image" itemprop="image" src="http://d.rimg.com.tw/s2/6/0f/ea/21716971330538_734_m.jpg" title="Lowe Alpine Strike 24 運動揹包/都會日用後揹包 FDP55 浴火浩克">
 </img></a>
 </div>
 <h3 class="rt-goods-list-item-name">
-<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21716971330538" target="_blank" title="前往Lowe Alpine Strike 24 運動背包/都會日用後背包 FDP55 浴火浩克商品頁面">
-<span class="rt-goods-list-item-name-text" itemprop="name">Lowe Alpine Strike 24 運動背包/都會日用後背包 FDP55 浴火浩克</span>
+<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21716971330538" target="_blank" title="前往Lowe Alpine Strike 24 運動揹包/都會日用後揹包 FDP55 浴火浩克商品頁面">
+<span class="rt-goods-list-item-name-text" itemprop="name">Lowe Alpine Strike 24 運動揹包/都會日用後揹包 FDP55 浴火浩克</span>
 </a>
 </h3>
 <p class="rt-goods-list-item-price text-right" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
@@ -1001,16 +1001,16 @@ html_doc = """
 </li>
 <li class="rt-goods-list-item " itemscope="" itemtype="http://schema.org/Product">
 <div class="rt-goods-list-item-image-wrap">
-<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21716927114023" target="_blank" title="前往【山野倉庫】歐洲-Lowe Alpine Strike 12登山多功能背包商品頁面">
-<img alt="【山野倉庫】歐洲-Lowe Alpine Strike 12登山多功能背包" class="rt-goods-list-item-image" itemprop="image" src="http://f.rimg.com.tw/s1/3/5f/27/21716927114023_388_m.jpg" title="【山野倉庫】歐洲-Lowe Alpine Strike 12登山多功能背包">
+<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21716927114023" target="_blank" title="前往【山野倉庫】歐洲-Lowe Alpine Strike 12登山多功能揹包商品頁面">
+<img alt="【山野倉庫】歐洲-Lowe Alpine Strike 12登山多功能揹包" class="rt-goods-list-item-image" itemprop="image" src="http://f.rimg.com.tw/s1/3/5f/27/21716927114023_388_m.jpg" title="【山野倉庫】歐洲-Lowe Alpine Strike 12登山多功能揹包">
 </img></a>
 <div class="rt-goods-list-item-similar">
 <a class="rt-goods-list-item-similar-link" href="http://find.ruten.com.tw/search/alike.php?tag=fb49a0f7921eb40273b96108e726d394e3af1456&amp;g=21716927114023&amp;c=0&amp;k=Lowe Alpine Strike&amp;p=1" rel="nofollow" title="顯示多筆相似商品">多筆相似商品</a>
 </div>
 </div>
 <h3 class="rt-goods-list-item-name">
-<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21716927114023" target="_blank" title="前往【山野倉庫】歐洲-Lowe Alpine Strike 12登山多功能背包商品頁面">
-<span class="rt-goods-list-item-name-text" itemprop="name">【山野倉庫】歐洲-Lowe Alpine Strike 12登山多功能背包</span>
+<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21716927114023" target="_blank" title="前往【山野倉庫】歐洲-Lowe Alpine Strike 12登山多功能揹包商品頁面">
+<span class="rt-goods-list-item-name-text" itemprop="name">【山野倉庫】歐洲-Lowe Alpine Strike 12登山多功能揹包</span>
 </a>
 </h3>
 <p class="rt-goods-list-item-price text-right" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
@@ -1029,13 +1029,13 @@ html_doc = """
 </li>
 <li class="rt-goods-list-item " itemscope="" itemtype="http://schema.org/Product">
 <div class="rt-goods-list-item-image-wrap">
-<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21715812650378" target="_blank" title="前往Lowe Alpine FDP53-M節慶紅 Strike 12L休閒登山背包/健走/登山包/多功能後背包商品頁面">
-<img alt="Lowe Alpine FDP53-M節慶紅 Strike 12L休閒登山背包/健走/登山包/多功能後背包" class="rt-goods-list-item-image" itemprop="image" src="http://b.rimg.com.tw/s2/6/01/8a/21715812650378_157_m.jpg" title="Lowe Alpine FDP53-M節慶紅 Strike 12L休閒登山背包/健走/登山包/多功能後背包">
+<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21715812650378" target="_blank" title="前往Lowe Alpine FDP53-M節慶紅 Strike 12L休閒登山揹包/健走/登山包/多功能後揹包商品頁面">
+<img alt="Lowe Alpine FDP53-M節慶紅 Strike 12L休閒登山揹包/健走/登山包/多功能後揹包" class="rt-goods-list-item-image" itemprop="image" src="http://b.rimg.com.tw/s2/6/01/8a/21715812650378_157_m.jpg" title="Lowe Alpine FDP53-M節慶紅 Strike 12L休閒登山揹包/健走/登山包/多功能後揹包">
 </img></a>
 </div>
 <h3 class="rt-goods-list-item-name">
-<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21715812650378" target="_blank" title="前往Lowe Alpine FDP53-M節慶紅 Strike 12L休閒登山背包/健走/登山包/多功能後背包商品頁面">
-<span class="rt-goods-list-item-name-text" itemprop="name">Lowe Alpine FDP53-M節慶紅 Strike 12L休閒登山背包/健走/登山包/多功能後背包</span>
+<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21715812650378" target="_blank" title="前往Lowe Alpine FDP53-M節慶紅 Strike 12L休閒登山揹包/健走/登山包/多功能後揹包商品頁面">
+<span class="rt-goods-list-item-name-text" itemprop="name">Lowe Alpine FDP53-M節慶紅 Strike 12L休閒登山揹包/健走/登山包/多功能後揹包</span>
 </a>
 </h3>
 <p class="rt-goods-list-item-price text-right" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
@@ -1054,13 +1054,13 @@ html_doc = """
 </li>
 <li class="rt-goods-list-item " itemscope="" itemtype="http://schema.org/Product">
 <div class="rt-goods-list-item-image-wrap">
-<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21715812650323" target="_blank" title="前往Lowe Alpine FDP53-M4藍燈閃電 Strike 12L休閒登山背包/健走/登山包/多功能後背包商品頁面">
-<img alt="Lowe Alpine FDP53-M4藍燈閃電 Strike 12L休閒登山背包/健走/登山包/多功能後背包" class="rt-goods-list-item-image" itemprop="image" src="http://d.rimg.com.tw/s1/6/01/53/21715812650323_810_m.jpg" title="Lowe Alpine FDP53-M4藍燈閃電 Strike 12L休閒登山背包/健走/登山包/多功能後背包">
+<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21715812650323" target="_blank" title="前往Lowe Alpine FDP53-M4藍燈閃電 Strike 12L休閒登山揹包/健走/登山包/多功能後揹包商品頁面">
+<img alt="Lowe Alpine FDP53-M4藍燈閃電 Strike 12L休閒登山揹包/健走/登山包/多功能後揹包" class="rt-goods-list-item-image" itemprop="image" src="http://d.rimg.com.tw/s1/6/01/53/21715812650323_810_m.jpg" title="Lowe Alpine FDP53-M4藍燈閃電 Strike 12L休閒登山揹包/健走/登山包/多功能後揹包">
 </img></a>
 </div>
 <h3 class="rt-goods-list-item-name">
-<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21715812650323" target="_blank" title="前往Lowe Alpine FDP53-M4藍燈閃電 Strike 12L休閒登山背包/健走/登山包/多功能後背包商品頁面">
-<span class="rt-goods-list-item-name-text" itemprop="name">Lowe Alpine FDP53-M4藍燈閃電 Strike 12L休閒登山背包/健走/登山包/多功能後背包</span>
+<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21715812650323" target="_blank" title="前往Lowe Alpine FDP53-M4藍燈閃電 Strike 12L休閒登山揹包/健走/登山包/多功能後揹包商品頁面">
+<span class="rt-goods-list-item-name-text" itemprop="name">Lowe Alpine FDP53-M4藍燈閃電 Strike 12L休閒登山揹包/健走/登山包/多功能後揹包</span>
 </a>
 </h3>
 <p class="rt-goods-list-item-price text-right" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
@@ -1079,13 +1079,13 @@ html_doc = """
 </li>
 <li class="rt-goods-list-item " itemscope="" itemtype="http://schema.org/Product">
 <div class="rt-goods-list-item-image-wrap">
-<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21715812499896" target="_blank" title="前往Lowe Alpine FDP53-P波斯綠 Strike 12L休閒登山背包/健走/登山包/多功能後背包商品頁面">
-<img alt="Lowe Alpine FDP53-P波斯綠 Strike 12L休閒登山背包/健走/登山包/多功能後背包" class="rt-goods-list-item-image" itemprop="image" src="http://f.rimg.com.tw/s2/3/b5/b8/21715812499896_765_m.jpg" title="Lowe Alpine FDP53-P波斯綠 Strike 12L休閒登山背包/健走/登山包/多功能後背包">
+<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21715812499896" target="_blank" title="前往Lowe Alpine FDP53-P波斯綠 Strike 12L休閒登山揹包/健走/登山包/多功能後揹包商品頁面">
+<img alt="Lowe Alpine FDP53-P波斯綠 Strike 12L休閒登山揹包/健走/登山包/多功能後揹包" class="rt-goods-list-item-image" itemprop="image" src="http://f.rimg.com.tw/s2/3/b5/b8/21715812499896_765_m.jpg" title="Lowe Alpine FDP53-P波斯綠 Strike 12L休閒登山揹包/健走/登山包/多功能後揹包">
 </img></a>
 </div>
 <h3 class="rt-goods-list-item-name">
-<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21715812499896" target="_blank" title="前往Lowe Alpine FDP53-P波斯綠 Strike 12L休閒登山背包/健走/登山包/多功能後背包商品頁面">
-<span class="rt-goods-list-item-name-text" itemprop="name">Lowe Alpine FDP53-P波斯綠 Strike 12L休閒登山背包/健走/登山包/多功能後背包</span>
+<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21715812499896" target="_blank" title="前往Lowe Alpine FDP53-P波斯綠 Strike 12L休閒登山揹包/健走/登山包/多功能後揹包商品頁面">
+<span class="rt-goods-list-item-name-text" itemprop="name">Lowe Alpine FDP53-P波斯綠 Strike 12L休閒登山揹包/健走/登山包/多功能後揹包</span>
 </a>
 </h3>
 <p class="rt-goods-list-item-price text-right" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
@@ -1104,13 +1104,13 @@ html_doc = """
 </li>
 <li class="rt-goods-list-item " itemscope="" itemtype="http://schema.org/Product">
 <div class="rt-goods-list-item-image-wrap">
-<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21715812397747" target="_blank" title="前往Lowe Alpine FDP54-M4藍燈閃電Strike 18L休閒登山背包/健走/登山包/多功能後背包商品頁面">
-<img alt="Lowe Alpine FDP54-M4藍燈閃電Strike 18L休閒登山背包/健走/登山包/多功能後背包" class="rt-goods-list-item-image" itemprop="image" src="http://b.rimg.com.tw/s1/2/26/b3/21715812397747_881_m.jpg" title="Lowe Alpine FDP54-M4藍燈閃電Strike 18L休閒登山背包/健走/登山包/多功能後背包">
+<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21715812397747" target="_blank" title="前往Lowe Alpine FDP54-M4藍燈閃電Strike 18L休閒登山揹包/健走/登山包/多功能後揹包商品頁面">
+<img alt="Lowe Alpine FDP54-M4藍燈閃電Strike 18L休閒登山揹包/健走/登山包/多功能後揹包" class="rt-goods-list-item-image" itemprop="image" src="http://b.rimg.com.tw/s1/2/26/b3/21715812397747_881_m.jpg" title="Lowe Alpine FDP54-M4藍燈閃電Strike 18L休閒登山揹包/健走/登山包/多功能後揹包">
 </img></a>
 </div>
 <h3 class="rt-goods-list-item-name">
-<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21715812397747" target="_blank" title="前往Lowe Alpine FDP54-M4藍燈閃電Strike 18L休閒登山背包/健走/登山包/多功能後背包商品頁面">
-<span class="rt-goods-list-item-name-text" itemprop="name">Lowe Alpine FDP54-M4藍燈閃電Strike 18L休閒登山背包/健走/登山包/多功能後背包</span>
+<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21715812397747" target="_blank" title="前往Lowe Alpine FDP54-M4藍燈閃電Strike 18L休閒登山揹包/健走/登山包/多功能後揹包商品頁面">
+<span class="rt-goods-list-item-name-text" itemprop="name">Lowe Alpine FDP54-M4藍燈閃電Strike 18L休閒登山揹包/健走/登山包/多功能後揹包</span>
 </a>
 </h3>
 <p class="rt-goods-list-item-price text-right" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
@@ -1129,13 +1129,13 @@ html_doc = """
 </li>
 <li class="rt-goods-list-item " itemscope="" itemtype="http://schema.org/Product">
 <div class="rt-goods-list-item-image-wrap">
-<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21715812376328" target="_blank" title="前往Lowe Alpine FDP54-M3浴火浩克Strike 18L休閒登山背包/健走/登山包/多功能後背包商品頁面">
-<img alt="Lowe Alpine FDP54-M3浴火浩克Strike 18L休閒登山背包/健走/登山包/多功能後背包" class="rt-goods-list-item-image" itemprop="image" src="http://d.rimg.com.tw/s2/1/d3/08/21715812376328_773_m.jpg" title="Lowe Alpine FDP54-M3浴火浩克Strike 18L休閒登山背包/健走/登山包/多功能後背包">
+<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21715812376328" target="_blank" title="前往Lowe Alpine FDP54-M3浴火浩克Strike 18L休閒登山揹包/健走/登山包/多功能後揹包商品頁面">
+<img alt="Lowe Alpine FDP54-M3浴火浩克Strike 18L休閒登山揹包/健走/登山包/多功能後揹包" class="rt-goods-list-item-image" itemprop="image" src="http://d.rimg.com.tw/s2/1/d3/08/21715812376328_773_m.jpg" title="Lowe Alpine FDP54-M3浴火浩克Strike 18L休閒登山揹包/健走/登山包/多功能後揹包">
 </img></a>
 </div>
 <h3 class="rt-goods-list-item-name">
-<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21715812376328" target="_blank" title="前往Lowe Alpine FDP54-M3浴火浩克Strike 18L休閒登山背包/健走/登山包/多功能後背包商品頁面">
-<span class="rt-goods-list-item-name-text" itemprop="name">Lowe Alpine FDP54-M3浴火浩克Strike 18L休閒登山背包/健走/登山包/多功能後背包</span>
+<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21715812376328" target="_blank" title="前往Lowe Alpine FDP54-M3浴火浩克Strike 18L休閒登山揹包/健走/登山包/多功能後揹包商品頁面">
+<span class="rt-goods-list-item-name-text" itemprop="name">Lowe Alpine FDP54-M3浴火浩克Strike 18L休閒登山揹包/健走/登山包/多功能後揹包</span>
 </a>
 </h3>
 <p class="rt-goods-list-item-price text-right" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
@@ -1154,13 +1154,13 @@ html_doc = """
 </li>
 <li class="rt-goods-list-item " itemscope="" itemtype="http://schema.org/Product">
 <div class="rt-goods-list-item-image-wrap">
-<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21715811754114" target="_blank" title="前往Lowe Alpine FDP54-S雲杉綠Strike 18L休閒登山背包 Lowe Alpine FD/健走/登山包商品頁面">
-<img alt="Lowe Alpine FDP54-S雲杉綠Strike 18L休閒登山背包 Lowe Alpine FD/健走/登山包" class="rt-goods-list-item-image" itemprop="image" src="http://f.rimg.com.tw/s2/8/54/82/21715811754114_342_m.jpg" title="Lowe Alpine FDP54-S雲杉綠Strike 18L休閒登山背包 Lowe Alpine FD/健走/登山包">
+<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21715811754114" target="_blank" title="前往Lowe Alpine FDP54-S雲杉綠Strike 18L休閒登山揹包 Lowe Alpine FD/健走/登山包商品頁面">
+<img alt="Lowe Alpine FDP54-S雲杉綠Strike 18L休閒登山揹包 Lowe Alpine FD/健走/登山包" class="rt-goods-list-item-image" itemprop="image" src="http://f.rimg.com.tw/s2/8/54/82/21715811754114_342_m.jpg" title="Lowe Alpine FDP54-S雲杉綠Strike 18L休閒登山揹包 Lowe Alpine FD/健走/登山包">
 </img></a>
 </div>
 <h3 class="rt-goods-list-item-name">
-<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21715811754114" target="_blank" title="前往Lowe Alpine FDP54-S雲杉綠Strike 18L休閒登山背包 Lowe Alpine FD/健走/登山包商品頁面">
-<span class="rt-goods-list-item-name-text" itemprop="name">Lowe Alpine FDP54-S雲杉綠Strike 18L休閒登山背包 Lowe Alpine FD/健走/登山包</span>
+<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21715811754114" target="_blank" title="前往Lowe Alpine FDP54-S雲杉綠Strike 18L休閒登山揹包 Lowe Alpine FD/健走/登山包商品頁面">
+<span class="rt-goods-list-item-name-text" itemprop="name">Lowe Alpine FDP54-S雲杉綠Strike 18L休閒登山揹包 Lowe Alpine FD/健走/登山包</span>
 </a>
 </h3>
 <p class="rt-goods-list-item-price text-right" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
@@ -1179,13 +1179,13 @@ html_doc = """
 </li>
 <li class="rt-goods-list-item " itemscope="" itemtype="http://schema.org/Product">
 <div class="rt-goods-list-item-image-wrap">
-<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21715811739443" target="_blank" title="前往Lowe Alpine FDP54-B黑Strike 18L休閒登山背包/健走/登山包/多功能後背包商品頁面">
-<img alt="Lowe Alpine FDP54-B黑Strike 18L休閒登山背包/健走/登山包/多功能後背包" class="rt-goods-list-item-image" itemprop="image" src="http://b.rimg.com.tw/s1/8/1b/33/21715811739443_797_m.jpg" title="Lowe Alpine FDP54-B黑Strike 18L休閒登山背包/健走/登山包/多功能後背包">
+<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21715811739443" target="_blank" title="前往Lowe Alpine FDP54-B黑Strike 18L休閒登山揹包/健走/登山包/多功能後揹包商品頁面">
+<img alt="Lowe Alpine FDP54-B黑Strike 18L休閒登山揹包/健走/登山包/多功能後揹包" class="rt-goods-list-item-image" itemprop="image" src="http://b.rimg.com.tw/s1/8/1b/33/21715811739443_797_m.jpg" title="Lowe Alpine FDP54-B黑Strike 18L休閒登山揹包/健走/登山包/多功能後揹包">
 </img></a>
 </div>
 <h3 class="rt-goods-list-item-name">
-<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21715811739443" target="_blank" title="前往Lowe Alpine FDP54-B黑Strike 18L休閒登山背包/健走/登山包/多功能後背包商品頁面">
-<span class="rt-goods-list-item-name-text" itemprop="name">Lowe Alpine FDP54-B黑Strike 18L休閒登山背包/健走/登山包/多功能後背包</span>
+<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21715811739443" target="_blank" title="前往Lowe Alpine FDP54-B黑Strike 18L休閒登山揹包/健走/登山包/多功能後揹包商品頁面">
+<span class="rt-goods-list-item-name-text" itemprop="name">Lowe Alpine FDP54-B黑Strike 18L休閒登山揹包/健走/登山包/多功能後揹包</span>
 </a>
 </h3>
 <p class="rt-goods-list-item-price text-right" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
@@ -1204,13 +1204,13 @@ html_doc = """
 </li>
 <li class="rt-goods-list-item " itemscope="" itemtype="http://schema.org/Product">
 <div class="rt-goods-list-item-image-wrap">
-<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21715811707875" target="_blank" title="前往Lowe Alpine FDP55-M3浴火浩克 Strike 24L休閒登山背包/健走/登山包/多功能後背包商品頁面">
-<img alt="Lowe Alpine FDP55-M3浴火浩克 Strike 24L休閒登山背包/健走/登山包/多功能後背包" class="rt-goods-list-item-image" itemprop="image" src="http://d.rimg.com.tw/s1/7/9f/e3/21715811707875_367_m.jpg" title="Lowe Alpine FDP55-M3浴火浩克 Strike 24L休閒登山背包/健走/登山包/多功能後背包">
+<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21715811707875" target="_blank" title="前往Lowe Alpine FDP55-M3浴火浩克 Strike 24L休閒登山揹包/健走/登山包/多功能後揹包商品頁面">
+<img alt="Lowe Alpine FDP55-M3浴火浩克 Strike 24L休閒登山揹包/健走/登山包/多功能後揹包" class="rt-goods-list-item-image" itemprop="image" src="http://d.rimg.com.tw/s1/7/9f/e3/21715811707875_367_m.jpg" title="Lowe Alpine FDP55-M3浴火浩克 Strike 24L休閒登山揹包/健走/登山包/多功能後揹包">
 </img></a>
 </div>
 <h3 class="rt-goods-list-item-name">
-<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21715811707875" target="_blank" title="前往Lowe Alpine FDP55-M3浴火浩克 Strike 24L休閒登山背包/健走/登山包/多功能後背包商品頁面">
-<span class="rt-goods-list-item-name-text" itemprop="name">Lowe Alpine FDP55-M3浴火浩克 Strike 24L休閒登山背包/健走/登山包/多功能後背包</span>
+<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21715811707875" target="_blank" title="前往Lowe Alpine FDP55-M3浴火浩克 Strike 24L休閒登山揹包/健走/登山包/多功能後揹包商品頁面">
+<span class="rt-goods-list-item-name-text" itemprop="name">Lowe Alpine FDP55-M3浴火浩克 Strike 24L休閒登山揹包/健走/登山包/多功能後揹包</span>
 </a>
 </h3>
 <p class="rt-goods-list-item-price text-right" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
@@ -1229,13 +1229,13 @@ html_doc = """
 </li>
 <li class="rt-goods-list-item " itemscope="" itemtype="http://schema.org/Product">
 <div class="rt-goods-list-item-image-wrap">
-<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21643141490454" target="_blank" title="前往Lowe Alpine FDP55-24S雲杉綠 Strike 24L休閒登山背包 健行背包/多功能背包/運動旅行背包商品頁面">
-<img alt="Lowe Alpine FDP55-24S雲杉綠 Strike 24L休閒登山背包 健行背包/多功能背包/運動旅行背包" class="rt-goods-list-item-image" itemprop="image" src="http://f.rimg.com.tw/s2/f/57/16/21643141490454_419_m.jpg" title="Lowe Alpine FDP55-24S雲杉綠 Strike 24L休閒登山背包 健行背包/多功能背包/運動旅行背包">
+<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21643141490454" target="_blank" title="前往Lowe Alpine FDP55-24S雲杉綠 Strike 24L休閒登山揹包 健行揹包/多功能揹包/運動旅行揹包商品頁面">
+<img alt="Lowe Alpine FDP55-24S雲杉綠 Strike 24L休閒登山揹包 健行揹包/多功能揹包/運動旅行揹包" class="rt-goods-list-item-image" itemprop="image" src="http://f.rimg.com.tw/s2/f/57/16/21643141490454_419_m.jpg" title="Lowe Alpine FDP55-24S雲杉綠 Strike 24L休閒登山揹包 健行揹包/多功能揹包/運動旅行揹包">
 </img></a>
 </div>
 <h3 class="rt-goods-list-item-name">
-<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21643141490454" target="_blank" title="前往Lowe Alpine FDP55-24S雲杉綠 Strike 24L休閒登山背包 健行背包/多功能背包/運動旅行背包商品頁面">
-<span class="rt-goods-list-item-name-text" itemprop="name">Lowe Alpine FDP55-24S雲杉綠 Strike 24L休閒登山背包 健行背包/多功能背包/運動旅行背包</span>
+<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21643141490454" target="_blank" title="前往Lowe Alpine FDP55-24S雲杉綠 Strike 24L休閒登山揹包 健行揹包/多功能揹包/運動旅行揹包商品頁面">
+<span class="rt-goods-list-item-name-text" itemprop="name">Lowe Alpine FDP55-24S雲杉綠 Strike 24L休閒登山揹包 健行揹包/多功能揹包/運動旅行揹包</span>
 </a>
 </h3>
 <p class="rt-goods-list-item-price text-right" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
@@ -1254,13 +1254,13 @@ html_doc = """
 </li>
 <li class="rt-goods-list-item " itemscope="" itemtype="http://schema.org/Product">
 <div class="rt-goods-list-item-image-wrap">
-<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21642042865684" target="_blank" title="前往義大利 Lowe Alpine Strike 24L 氧化鉛紅 後背包 登山 | 健行 | 旅遊 | 書包商品頁面">
-<img alt="義大利 Lowe Alpine Strike 24L 氧化鉛紅 後背包 登山 | 健行 | 旅遊 | 書包" class="rt-goods-list-item-image" itemprop="image" src="http://b.rimg.com.tw/s2/3/a8/14/21642042865684_340_m.jpg" title="義大利 Lowe Alpine Strike 24L 氧化鉛紅 後背包 登山 | 健行 | 旅遊 | 書包">
+<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21642042865684" target="_blank" title="前往義大利 Lowe Alpine Strike 24L 氧化鉛紅 後揹包 登山 | 健行 | 旅遊 | 書包商品頁面">
+<img alt="義大利 Lowe Alpine Strike 24L 氧化鉛紅 後揹包 登山 | 健行 | 旅遊 | 書包" class="rt-goods-list-item-image" itemprop="image" src="http://b.rimg.com.tw/s2/3/a8/14/21642042865684_340_m.jpg" title="義大利 Lowe Alpine Strike 24L 氧化鉛紅 後揹包 登山 | 健行 | 旅遊 | 書包">
 </img></a>
 </div>
 <h3 class="rt-goods-list-item-name">
-<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21642042865684" target="_blank" title="前往義大利 Lowe Alpine Strike 24L 氧化鉛紅 後背包 登山 | 健行 | 旅遊 | 書包商品頁面">
-<span class="rt-goods-list-item-name-text" itemprop="name">義大利 Lowe Alpine Strike 24L 氧化鉛紅 後背包 登山 | 健行 | 旅遊 | 書包</span>
+<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21642042865684" target="_blank" title="前往義大利 Lowe Alpine Strike 24L 氧化鉛紅 後揹包 登山 | 健行 | 旅遊 | 書包商品頁面">
+<span class="rt-goods-list-item-name-text" itemprop="name">義大利 Lowe Alpine Strike 24L 氧化鉛紅 後揹包 登山 | 健行 | 旅遊 | 書包</span>
 </a>
 </h3>
 <p class="rt-goods-list-item-price text-right" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
@@ -1279,13 +1279,13 @@ html_doc = """
 </li>
 <li class="rt-goods-list-item " itemscope="" itemtype="http://schema.org/Product">
 <div class="rt-goods-list-item-image-wrap">
-<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21642042103713" target="_blank" title="前往義大利 Lowe Alpine Strike 18L 氧化鉛紅 後背包 登山 | 健行 | 旅遊 | 書包商品頁面">
-<img alt="義大利 Lowe Alpine Strike 18L 氧化鉛紅 後背包 登山 | 健行 | 旅遊 | 書包" class="rt-goods-list-item-image" itemprop="image" src="http://d.rimg.com.tw/s1/8/07/a1/21642042103713_857_m.jpg" title="義大利 Lowe Alpine Strike 18L 氧化鉛紅 後背包 登山 | 健行 | 旅遊 | 書包">
+<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21642042103713" target="_blank" title="前往義大利 Lowe Alpine Strike 18L 氧化鉛紅 後揹包 登山 | 健行 | 旅遊 | 書包商品頁面">
+<img alt="義大利 Lowe Alpine Strike 18L 氧化鉛紅 後揹包 登山 | 健行 | 旅遊 | 書包" class="rt-goods-list-item-image" itemprop="image" src="http://d.rimg.com.tw/s1/8/07/a1/21642042103713_857_m.jpg" title="義大利 Lowe Alpine Strike 18L 氧化鉛紅 後揹包 登山 | 健行 | 旅遊 | 書包">
 </img></a>
 </div>
 <h3 class="rt-goods-list-item-name">
-<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21642042103713" target="_blank" title="前往義大利 Lowe Alpine Strike 18L 氧化鉛紅 後背包 登山 | 健行 | 旅遊 | 書包商品頁面">
-<span class="rt-goods-list-item-name-text" itemprop="name">義大利 Lowe Alpine Strike 18L 氧化鉛紅 後背包 登山 | 健行 | 旅遊 | 書包</span>
+<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21642042103713" target="_blank" title="前往義大利 Lowe Alpine Strike 18L 氧化鉛紅 後揹包 登山 | 健行 | 旅遊 | 書包商品頁面">
+<span class="rt-goods-list-item-name-text" itemprop="name">義大利 Lowe Alpine Strike 18L 氧化鉛紅 後揹包 登山 | 健行 | 旅遊 | 書包</span>
 </a>
 </h3>
 <p class="rt-goods-list-item-price text-right" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
@@ -1304,13 +1304,13 @@ html_doc = """
 </li>
 <li class="rt-goods-list-item " itemscope="" itemtype="http://schema.org/Product">
 <div class="rt-goods-list-item-image-wrap">
-<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21642042004735" target="_blank" title="前往義大利 Lowe Alpine Strike 18L 雲杉綠 後背包 登山 | 健行 | 旅遊 | 書包商品頁面">
-<img alt="義大利 Lowe Alpine Strike 18L 雲杉綠 後背包 登山 | 健行 | 旅遊 | 書包" class="rt-goods-list-item-image" itemprop="image" src="http://f.rimg.com.tw/s1/6/84/ff/21642042004735_682_m.jpg" title="義大利 Lowe Alpine Strike 18L 雲杉綠 後背包 登山 | 健行 | 旅遊 | 書包">
+<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21642042004735" target="_blank" title="前往義大利 Lowe Alpine Strike 18L 雲杉綠 後揹包 登山 | 健行 | 旅遊 | 書包商品頁面">
+<img alt="義大利 Lowe Alpine Strike 18L 雲杉綠 後揹包 登山 | 健行 | 旅遊 | 書包" class="rt-goods-list-item-image" itemprop="image" src="http://f.rimg.com.tw/s1/6/84/ff/21642042004735_682_m.jpg" title="義大利 Lowe Alpine Strike 18L 雲杉綠 後揹包 登山 | 健行 | 旅遊 | 書包">
 </img></a>
 </div>
 <h3 class="rt-goods-list-item-name">
-<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21642042004735" target="_blank" title="前往義大利 Lowe Alpine Strike 18L 雲杉綠 後背包 登山 | 健行 | 旅遊 | 書包商品頁面">
-<span class="rt-goods-list-item-name-text" itemprop="name">義大利 Lowe Alpine Strike 18L 雲杉綠 後背包 登山 | 健行 | 旅遊 | 書包</span>
+<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21642042004735" target="_blank" title="前往義大利 Lowe Alpine Strike 18L 雲杉綠 後揹包 登山 | 健行 | 旅遊 | 書包商品頁面">
+<span class="rt-goods-list-item-name-text" itemprop="name">義大利 Lowe Alpine Strike 18L 雲杉綠 後揹包 登山 | 健行 | 旅遊 | 書包</span>
 </a>
 </h3>
 <p class="rt-goods-list-item-price text-right" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
@@ -1329,13 +1329,13 @@ html_doc = """
 </li>
 <li class="rt-goods-list-item " itemscope="" itemtype="http://schema.org/Product">
 <div class="rt-goods-list-item-image-wrap">
-<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21642041621964" target="_blank" title="前往義大利 Lowe Alpine Strike 18L  黑橘 後背包 登山 | 健行 | 旅遊 | 書包商品頁面">
-<img alt="義大利 Lowe Alpine Strike 18L  黑橘 後背包 登山 | 健行 | 旅遊 | 書包" class="rt-goods-list-item-image" itemprop="image" src="http://b.rimg.com.tw/s2/0/ad/cc/21642041621964_957_m.jpg" title="義大利 Lowe Alpine Strike 18L  黑橘 後背包 登山 | 健行 | 旅遊 | 書包">
+<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21642041621964" target="_blank" title="前往義大利 Lowe Alpine Strike 18L  黑橘 後揹包 登山 | 健行 | 旅遊 | 書包商品頁面">
+<img alt="義大利 Lowe Alpine Strike 18L  黑橘 後揹包 登山 | 健行 | 旅遊 | 書包" class="rt-goods-list-item-image" itemprop="image" src="http://b.rimg.com.tw/s2/0/ad/cc/21642041621964_957_m.jpg" title="義大利 Lowe Alpine Strike 18L  黑橘 後揹包 登山 | 健行 | 旅遊 | 書包">
 </img></a>
 </div>
 <h3 class="rt-goods-list-item-name">
-<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21642041621964" target="_blank" title="前往義大利 Lowe Alpine Strike 18L  黑橘 後背包 登山 | 健行 | 旅遊 | 書包商品頁面">
-<span class="rt-goods-list-item-name-text" itemprop="name">義大利 Lowe Alpine Strike 18L  黑橘 後背包 登山 | 健行 | 旅遊 | 書包</span>
+<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21642041621964" target="_blank" title="前往義大利 Lowe Alpine Strike 18L  黑橘 後揹包 登山 | 健行 | 旅遊 | 書包商品頁面">
+<span class="rt-goods-list-item-name-text" itemprop="name">義大利 Lowe Alpine Strike 18L  黑橘 後揹包 登山 | 健行 | 旅遊 | 書包</span>
 </a>
 </h3>
 <p class="rt-goods-list-item-price text-right" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
@@ -1354,13 +1354,13 @@ html_doc = """
 </li>
 <li class="rt-goods-list-item " itemscope="" itemtype="http://schema.org/Product">
 <div class="rt-goods-list-item-image-wrap">
-<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21619691674383" target="_blank" title="前往【速捷戶外】英國 Lowe Alpine - Strike 24L背包(氧化鉛紅)FDP-55-24O 登山背包 旅行背商品頁面">
-<img alt="【速捷戶外】英國 Lowe Alpine - Strike 24L背包(氧化鉛紅)FDP-55-24O 登山背包 旅行背" class="rt-goods-list-item-image" itemprop="image" src="http://d.rimg.com.tw/s1/b/37/0f/21619691674383_569_m.jpg" title="【速捷戶外】英國 Lowe Alpine - Strike 24L背包(氧化鉛紅)FDP-55-24O 登山背包 旅行背">
+<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21619691674383" target="_blank" title="前往【速捷戶外】英國 Lowe Alpine - Strike 24L揹包(氧化鉛紅)FDP-55-24O 登山揹包 旅行背商品頁面">
+<img alt="【速捷戶外】英國 Lowe Alpine - Strike 24L揹包(氧化鉛紅)FDP-55-24O 登山揹包 旅行背" class="rt-goods-list-item-image" itemprop="image" src="http://d.rimg.com.tw/s1/b/37/0f/21619691674383_569_m.jpg" title="【速捷戶外】英國 Lowe Alpine - Strike 24L揹包(氧化鉛紅)FDP-55-24O 登山揹包 旅行背">
 </img></a>
 </div>
 <h3 class="rt-goods-list-item-name">
-<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21619691674383" target="_blank" title="前往【速捷戶外】英國 Lowe Alpine - Strike 24L背包(氧化鉛紅)FDP-55-24O 登山背包 旅行背商品頁面">
-<span class="rt-goods-list-item-name-text" itemprop="name">【速捷戶外】英國 Lowe Alpine - Strike 24L背包(氧化鉛紅)FDP-55-24O 登山背包 旅行背</span>
+<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21619691674383" target="_blank" title="前往【速捷戶外】英國 Lowe Alpine - Strike 24L揹包(氧化鉛紅)FDP-55-24O 登山揹包 旅行背商品頁面">
+<span class="rt-goods-list-item-name-text" itemprop="name">【速捷戶外】英國 Lowe Alpine - Strike 24L揹包(氧化鉛紅)FDP-55-24O 登山揹包 旅行背</span>
 </a>
 </h3>
 <p class="rt-goods-list-item-price text-right" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
@@ -1379,13 +1379,13 @@ html_doc = """
 </li>
 <li class="rt-goods-list-item " itemscope="" itemtype="http://schema.org/Product">
 <div class="rt-goods-list-item-image-wrap">
-<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21619691632860" target="_blank" title="前往【速捷戶外】英國 Lowe Alpine - Strike 24L背包(黑)FDP-55-24B 登山背包 旅行背包 校商品頁面">
-<img alt="【速捷戶外】英國 Lowe Alpine - Strike 24L背包(黑)FDP-55-24B 登山背包 旅行背包 校" class="rt-goods-list-item-image" itemprop="image" src="http://f.rimg.com.tw/s2/a/94/dc/21619691632860_474_m.jpg" title="【速捷戶外】英國 Lowe Alpine - Strike 24L背包(黑)FDP-55-24B 登山背包 旅行背包 校">
+<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21619691632860" target="_blank" title="前往【速捷戶外】英國 Lowe Alpine - Strike 24L揹包(黑)FDP-55-24B 登山揹包 旅行揹包 校商品頁面">
+<img alt="【速捷戶外】英國 Lowe Alpine - Strike 24L揹包(黑)FDP-55-24B 登山揹包 旅行揹包 校" class="rt-goods-list-item-image" itemprop="image" src="http://f.rimg.com.tw/s2/a/94/dc/21619691632860_474_m.jpg" title="【速捷戶外】英國 Lowe Alpine - Strike 24L揹包(黑)FDP-55-24B 登山揹包 旅行揹包 校">
 </img></a>
 </div>
 <h3 class="rt-goods-list-item-name">
-<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21619691632860" target="_blank" title="前往【速捷戶外】英國 Lowe Alpine - Strike 24L背包(黑)FDP-55-24B 登山背包 旅行背包 校商品頁面">
-<span class="rt-goods-list-item-name-text" itemprop="name">【速捷戶外】英國 Lowe Alpine - Strike 24L背包(黑)FDP-55-24B 登山背包 旅行背包 校</span>
+<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21619691632860" target="_blank" title="前往【速捷戶外】英國 Lowe Alpine - Strike 24L揹包(黑)FDP-55-24B 登山揹包 旅行揹包 校商品頁面">
+<span class="rt-goods-list-item-name-text" itemprop="name">【速捷戶外】英國 Lowe Alpine - Strike 24L揹包(黑)FDP-55-24B 登山揹包 旅行揹包 校</span>
 </a>
 </h3>
 <p class="rt-goods-list-item-price text-right" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
@@ -1404,13 +1404,13 @@ html_doc = """
 </li>
 <li class="rt-goods-list-item " itemscope="" itemtype="http://schema.org/Product">
 <div class="rt-goods-list-item-image-wrap">
-<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21618643483006" target="_blank" title="前往【速捷戶外】英國 Lowe Alpine - Strike 18L背包(黑)FDP-54-18B 登山背包 旅行背包 校商品頁面">
-<img alt="【速捷戶外】英國 Lowe Alpine - Strike 18L背包(黑)FDP-54-18B 登山背包 旅行背包 校" class="rt-goods-list-item-image" itemprop="image" src="http://b.rimg.com.tw/s2/1/15/7e/21618643483006_265_m.jpg" title="【速捷戶外】英國 Lowe Alpine - Strike 18L背包(黑)FDP-54-18B 登山背包 旅行背包 校">
+<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21618643483006" target="_blank" title="前往【速捷戶外】英國 Lowe Alpine - Strike 18L揹包(黑)FDP-54-18B 登山揹包 旅行揹包 校商品頁面">
+<img alt="【速捷戶外】英國 Lowe Alpine - Strike 18L揹包(黑)FDP-54-18B 登山揹包 旅行揹包 校" class="rt-goods-list-item-image" itemprop="image" src="http://b.rimg.com.tw/s2/1/15/7e/21618643483006_265_m.jpg" title="【速捷戶外】英國 Lowe Alpine - Strike 18L揹包(黑)FDP-54-18B 登山揹包 旅行揹包 校">
 </img></a>
 </div>
 <h3 class="rt-goods-list-item-name">
-<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21618643483006" target="_blank" title="前往【速捷戶外】英國 Lowe Alpine - Strike 18L背包(黑)FDP-54-18B 登山背包 旅行背包 校商品頁面">
-<span class="rt-goods-list-item-name-text" itemprop="name">【速捷戶外】英國 Lowe Alpine - Strike 18L背包(黑)FDP-54-18B 登山背包 旅行背包 校</span>
+<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21618643483006" target="_blank" title="前往【速捷戶外】英國 Lowe Alpine - Strike 18L揹包(黑)FDP-54-18B 登山揹包 旅行揹包 校商品頁面">
+<span class="rt-goods-list-item-name-text" itemprop="name">【速捷戶外】英國 Lowe Alpine - Strike 18L揹包(黑)FDP-54-18B 登山揹包 旅行揹包 校</span>
 </a>
 </h3>
 <p class="rt-goods-list-item-price text-right" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
@@ -1429,13 +1429,13 @@ html_doc = """
 </li>
 <li class="rt-goods-list-item " itemscope="" itemtype="http://schema.org/Product">
 <div class="rt-goods-list-item-image-wrap">
-<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21618643479371" target="_blank" title="前往【速捷戶外】英國 Lowe Alpine - Strike 18L背包(氧化鉛紅)FDP-54-18O 登山背包 旅行背商品頁面">
-<img alt="【速捷戶外】英國 Lowe Alpine - Strike 18L背包(氧化鉛紅)FDP-54-18O 登山背包 旅行背" class="rt-goods-list-item-image" itemprop="image" src="http://d.rimg.com.tw/s1/1/07/4b/21618643479371_300_m.jpg" title="【速捷戶外】英國 Lowe Alpine - Strike 18L背包(氧化鉛紅)FDP-54-18O 登山背包 旅行背">
+<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21618643479371" target="_blank" title="前往【速捷戶外】英國 Lowe Alpine - Strike 18L揹包(氧化鉛紅)FDP-54-18O 登山揹包 旅行背商品頁面">
+<img alt="【速捷戶外】英國 Lowe Alpine - Strike 18L揹包(氧化鉛紅)FDP-54-18O 登山揹包 旅行背" class="rt-goods-list-item-image" itemprop="image" src="http://d.rimg.com.tw/s1/1/07/4b/21618643479371_300_m.jpg" title="【速捷戶外】英國 Lowe Alpine - Strike 18L揹包(氧化鉛紅)FDP-54-18O 登山揹包 旅行背">
 </img></a>
 </div>
 <h3 class="rt-goods-list-item-name">
-<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21618643479371" target="_blank" title="前往【速捷戶外】英國 Lowe Alpine - Strike 18L背包(氧化鉛紅)FDP-54-18O 登山背包 旅行背商品頁面">
-<span class="rt-goods-list-item-name-text" itemprop="name">【速捷戶外】英國 Lowe Alpine - Strike 18L背包(氧化鉛紅)FDP-54-18O 登山背包 旅行背</span>
+<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21618643479371" target="_blank" title="前往【速捷戶外】英國 Lowe Alpine - Strike 18L揹包(氧化鉛紅)FDP-54-18O 登山揹包 旅行背商品頁面">
+<span class="rt-goods-list-item-name-text" itemprop="name">【速捷戶外】英國 Lowe Alpine - Strike 18L揹包(氧化鉛紅)FDP-54-18O 登山揹包 旅行背</span>
 </a>
 </h3>
 <p class="rt-goods-list-item-price text-right" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
@@ -1454,13 +1454,13 @@ html_doc = """
 </li>
 <li class="rt-goods-list-item " itemscope="" itemtype="http://schema.org/Product">
 <div class="rt-goods-list-item-image-wrap">
-<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21618643470169" target="_blank" title="前往【速捷戶外】英國 Lowe Alpine - Strike 18L背包(特攻隊紫)FDP-54-18M 登山背包 旅行背商品頁面">
-<img alt="【速捷戶外】英國 Lowe Alpine - Strike 18L背包(特攻隊紫)FDP-54-18M 登山背包 旅行背" class="rt-goods-list-item-image" itemprop="image" src="http://f.rimg.com.tw/s1/0/e3/59/21618643470169_721_m.jpg" title="【速捷戶外】英國 Lowe Alpine - Strike 18L背包(特攻隊紫)FDP-54-18M 登山背包 旅行背">
+<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21618643470169" target="_blank" title="前往【速捷戶外】英國 Lowe Alpine - Strike 18L揹包(特攻隊紫)FDP-54-18M 登山揹包 旅行背商品頁面">
+<img alt="【速捷戶外】英國 Lowe Alpine - Strike 18L揹包(特攻隊紫)FDP-54-18M 登山揹包 旅行背" class="rt-goods-list-item-image" itemprop="image" src="http://f.rimg.com.tw/s1/0/e3/59/21618643470169_721_m.jpg" title="【速捷戶外】英國 Lowe Alpine - Strike 18L揹包(特攻隊紫)FDP-54-18M 登山揹包 旅行背">
 </img></a>
 </div>
 <h3 class="rt-goods-list-item-name">
-<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21618643470169" target="_blank" title="前往【速捷戶外】英國 Lowe Alpine - Strike 18L背包(特攻隊紫)FDP-54-18M 登山背包 旅行背商品頁面">
-<span class="rt-goods-list-item-name-text" itemprop="name">【速捷戶外】英國 Lowe Alpine - Strike 18L背包(特攻隊紫)FDP-54-18M 登山背包 旅行背</span>
+<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21618643470169" target="_blank" title="前往【速捷戶外】英國 Lowe Alpine - Strike 18L揹包(特攻隊紫)FDP-54-18M 登山揹包 旅行背商品頁面">
+<span class="rt-goods-list-item-name-text" itemprop="name">【速捷戶外】英國 Lowe Alpine - Strike 18L揹包(特攻隊紫)FDP-54-18M 登山揹包 旅行背</span>
 </a>
 </h3>
 <p class="rt-goods-list-item-price text-right" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
@@ -1479,16 +1479,16 @@ html_doc = """
 </li>
 <li class="rt-goods-list-item " itemscope="" itemtype="http://schema.org/Product">
 <div class="rt-goods-list-item-image-wrap">
-<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21612175262410" target="_blank" title="前往【山野倉庫】歐洲-Lowe Alpine FDP-54  Strike 18多功能背包商品頁面">
-<img alt="【山野倉庫】歐洲-Lowe Alpine FDP-54  Strike 18多功能背包" class="rt-goods-list-item-image" itemprop="image" src="http://b.rimg.com.tw/s2/7/de/ca/21612175262410_934_m.jpg" title="【山野倉庫】歐洲-Lowe Alpine FDP-54  Strike 18多功能背包">
+<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21612175262410" target="_blank" title="前往【山野倉庫】歐洲-Lowe Alpine FDP-54  Strike 18多功能揹包商品頁面">
+<img alt="【山野倉庫】歐洲-Lowe Alpine FDP-54  Strike 18多功能揹包" class="rt-goods-list-item-image" itemprop="image" src="http://b.rimg.com.tw/s2/7/de/ca/21612175262410_934_m.jpg" title="【山野倉庫】歐洲-Lowe Alpine FDP-54  Strike 18多功能揹包">
 </img></a>
 <div class="rt-goods-list-item-similar">
 <a class="rt-goods-list-item-similar-link" href="http://find.ruten.com.tw/search/alike.php?tag=4aa619899b28ba714d3c4c40d9fa8fc0a6766665&amp;g=21612175262410&amp;c=0&amp;k=Lowe Alpine Strike&amp;p=1" rel="nofollow" title="顯示多筆相似商品">多筆相似商品</a>
 </div>
 </div>
 <h3 class="rt-goods-list-item-name">
-<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21612175262410" target="_blank" title="前往【山野倉庫】歐洲-Lowe Alpine FDP-54  Strike 18多功能背包商品頁面">
-<span class="rt-goods-list-item-name-text" itemprop="name">【山野倉庫】歐洲-Lowe Alpine FDP-54  Strike 18多功能背包</span>
+<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21612175262410" target="_blank" title="前往【山野倉庫】歐洲-Lowe Alpine FDP-54  Strike 18多功能揹包商品頁面">
+<span class="rt-goods-list-item-name-text" itemprop="name">【山野倉庫】歐洲-Lowe Alpine FDP-54  Strike 18多功能揹包</span>
 </a>
 </h3>
 <p class="rt-goods-list-item-price text-right" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
@@ -1507,16 +1507,16 @@ html_doc = """
 </li>
 <li class="rt-goods-list-item " itemscope="" itemtype="http://schema.org/Product">
 <div class="rt-goods-list-item-image-wrap">
-<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21612175204506" target="_blank" title="前往【山野倉庫】歐洲-Lowe Alpine FDP-55  Strike 24多功能背包商品頁面">
-<img alt="【山野倉庫】歐洲-Lowe Alpine FDP-55  Strike 24多功能背包" class="rt-goods-list-item-image" itemprop="image" src="http://d.rimg.com.tw/s2/6/fc/9a/21612175204506_745_m.jpg" title="【山野倉庫】歐洲-Lowe Alpine FDP-55  Strike 24多功能背包">
+<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21612175204506" target="_blank" title="前往【山野倉庫】歐洲-Lowe Alpine FDP-55  Strike 24多功能揹包商品頁面">
+<img alt="【山野倉庫】歐洲-Lowe Alpine FDP-55  Strike 24多功能揹包" class="rt-goods-list-item-image" itemprop="image" src="http://d.rimg.com.tw/s2/6/fc/9a/21612175204506_745_m.jpg" title="【山野倉庫】歐洲-Lowe Alpine FDP-55  Strike 24多功能揹包">
 </img></a>
 <div class="rt-goods-list-item-similar">
 <a class="rt-goods-list-item-similar-link" href="http://find.ruten.com.tw/search/alike.php?tag=7debeb82d85c9abc342e2408a53461eaf6a0beb2&amp;g=21612175204506&amp;c=0&amp;k=Lowe Alpine Strike&amp;p=1" rel="nofollow" title="顯示多筆相似商品">多筆相似商品</a>
 </div>
 </div>
 <h3 class="rt-goods-list-item-name">
-<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21612175204506" target="_blank" title="前往【山野倉庫】歐洲-Lowe Alpine FDP-55  Strike 24多功能背包商品頁面">
-<span class="rt-goods-list-item-name-text" itemprop="name">【山野倉庫】歐洲-Lowe Alpine FDP-55  Strike 24多功能背包</span>
+<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21612175204506" target="_blank" title="前往【山野倉庫】歐洲-Lowe Alpine FDP-55  Strike 24多功能揹包商品頁面">
+<span class="rt-goods-list-item-name-text" itemprop="name">【山野倉庫】歐洲-Lowe Alpine FDP-55  Strike 24多功能揹包</span>
 </a>
 </h3>
 <p class="rt-goods-list-item-price text-right" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
@@ -1535,13 +1535,13 @@ html_doc = """
 </li>
 <li class="rt-goods-list-item " itemscope="" itemtype="http://schema.org/Product">
 <div class="rt-goods-list-item-image-wrap">
-<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21537638529247" target="_blank" title="前往Lowe Alpine Strike 18L休閒登山背包 FDP25-18TA墨西哥紅 健行旅行背包/多功能運動背包商品頁面">
-<img alt="Lowe Alpine Strike 18L休閒登山背包 FDP25-18TA墨西哥紅 健行旅行背包/多功能運動背包" class="rt-goods-list-item-image" itemprop="image" src="http://f.rimg.com.tw/s1/a/b4/df/21537638529247_663_m.jpg" title="Lowe Alpine Strike 18L休閒登山背包 FDP25-18TA墨西哥紅 健行旅行背包/多功能運動背包">
+<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21537638529247" target="_blank" title="前往Lowe Alpine Strike 18L休閒登山揹包 FDP25-18TA墨西哥紅 健行旅行揹包/多功能運動揹包商品頁面">
+<img alt="Lowe Alpine Strike 18L休閒登山揹包 FDP25-18TA墨西哥紅 健行旅行揹包/多功能運動揹包" class="rt-goods-list-item-image" itemprop="image" src="http://f.rimg.com.tw/s1/a/b4/df/21537638529247_663_m.jpg" title="Lowe Alpine Strike 18L休閒登山揹包 FDP25-18TA墨西哥紅 健行旅行揹包/多功能運動揹包">
 </img></a>
 </div>
 <h3 class="rt-goods-list-item-name">
-<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21537638529247" target="_blank" title="前往Lowe Alpine Strike 18L休閒登山背包 FDP25-18TA墨西哥紅 健行旅行背包/多功能運動背包商品頁面">
-<span class="rt-goods-list-item-name-text" itemprop="name">Lowe Alpine Strike 18L休閒登山背包 FDP25-18TA墨西哥紅 健行旅行背包/多功能運動背包</span>
+<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21537638529247" target="_blank" title="前往Lowe Alpine Strike 18L休閒登山揹包 FDP25-18TA墨西哥紅 健行旅行揹包/多功能運動揹包商品頁面">
+<span class="rt-goods-list-item-name-text" itemprop="name">Lowe Alpine Strike 18L休閒登山揹包 FDP25-18TA墨西哥紅 健行旅行揹包/多功能運動揹包</span>
 </a>
 </h3>
 <p class="rt-goods-list-item-price text-right" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
@@ -1560,13 +1560,13 @@ html_doc = """
 </li>
 <li class="rt-goods-list-item " itemscope="" itemtype="http://schema.org/Product">
 <div class="rt-goods-list-item-image-wrap">
-<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21526917670477" target="_blank" title="前往[ Lowe Alpine ] Strike 24 運動背包/都會日用後背包 FDP25 墨西哥紅商品頁面">
-<img alt="[ Lowe Alpine ] Strike 24 運動背包/都會日用後背包 FDP25 墨西哥紅" class="rt-goods-list-item-image" itemprop="image" src="http://b.rimg.com.tw/s1/3/46/4d/21526917670477_923_m.jpg" title="[ Lowe Alpine ] Strike 24 運動背包/都會日用後背包 FDP25 墨西哥紅">
+<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21526917670477" target="_blank" title="前往[ Lowe Alpine ] Strike 24 運動揹包/都會日用後揹包 FDP25 墨西哥紅商品頁面">
+<img alt="[ Lowe Alpine ] Strike 24 運動揹包/都會日用後揹包 FDP25 墨西哥紅" class="rt-goods-list-item-image" itemprop="image" src="http://b.rimg.com.tw/s1/3/46/4d/21526917670477_923_m.jpg" title="[ Lowe Alpine ] Strike 24 運動揹包/都會日用後揹包 FDP25 墨西哥紅">
 </img></a>
 </div>
 <h3 class="rt-goods-list-item-name">
-<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21526917670477" target="_blank" title="前往[ Lowe Alpine ] Strike 24 運動背包/都會日用後背包 FDP25 墨西哥紅商品頁面">
-<span class="rt-goods-list-item-name-text" itemprop="name">[ Lowe Alpine ] Strike 24 運動背包/都會日用後背包 FDP25 墨西哥紅</span>
+<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21526917670477" target="_blank" title="前往[ Lowe Alpine ] Strike 24 運動揹包/都會日用後揹包 FDP25 墨西哥紅商品頁面">
+<span class="rt-goods-list-item-name-text" itemprop="name">[ Lowe Alpine ] Strike 24 運動揹包/都會日用後揹包 FDP25 墨西哥紅</span>
 </a>
 </h3>
 <p class="rt-goods-list-item-price text-right" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
@@ -1587,13 +1587,13 @@ html_doc = """
 </li>
 <li class="rt-goods-list-item " itemscope="" itemtype="http://schema.org/Product">
 <div class="rt-goods-list-item-image-wrap">
-<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21525839284177" target="_blank" title="前往【速捷戶外】英國 Lowe Alpine -Lowe Strike 12L背包(幻象灰) #FDP-25-12 登山背包商品頁面">
-<img alt="【速捷戶外】英國 Lowe Alpine -Lowe Strike 12L背包(幻象灰) #FDP-25-12 登山背包" class="rt-goods-list-item-image" itemprop="image" src="http://d.rimg.com.tw/s1/c/67/d1/21525839284177_70_m.jpg" title="【速捷戶外】英國 Lowe Alpine -Lowe Strike 12L背包(幻象灰) #FDP-25-12 登山背包">
+<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21525839284177" target="_blank" title="前往【速捷戶外】英國 Lowe Alpine -Lowe Strike 12L揹包(幻象灰) #FDP-25-12 登山揹包商品頁面">
+<img alt="【速捷戶外】英國 Lowe Alpine -Lowe Strike 12L揹包(幻象灰) #FDP-25-12 登山揹包" class="rt-goods-list-item-image" itemprop="image" src="http://d.rimg.com.tw/s1/c/67/d1/21525839284177_70_m.jpg" title="【速捷戶外】英國 Lowe Alpine -Lowe Strike 12L揹包(幻象灰) #FDP-25-12 登山揹包">
 </img></a>
 </div>
 <h3 class="rt-goods-list-item-name">
-<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21525839284177" target="_blank" title="前往【速捷戶外】英國 Lowe Alpine -Lowe Strike 12L背包(幻象灰) #FDP-25-12 登山背包商品頁面">
-<span class="rt-goods-list-item-name-text" itemprop="name">【速捷戶外】英國 Lowe Alpine -Lowe Strike 12L背包(幻象灰) #FDP-25-12 登山背包</span>
+<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21525839284177" target="_blank" title="前往【速捷戶外】英國 Lowe Alpine -Lowe Strike 12L揹包(幻象灰) #FDP-25-12 登山揹包商品頁面">
+<span class="rt-goods-list-item-name-text" itemprop="name">【速捷戶外】英國 Lowe Alpine -Lowe Strike 12L揹包(幻象灰) #FDP-25-12 登山揹包</span>
 </a>
 </h3>
 <p class="rt-goods-list-item-price text-right" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
@@ -1612,13 +1612,13 @@ html_doc = """
 </li>
 <li class="rt-goods-list-item " itemscope="" itemtype="http://schema.org/Product">
 <div class="rt-goods-list-item-image-wrap">
-<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21525839264827" target="_blank" title="前往【速捷戶外】英國|Lowe Alpine-Lowe Strike 18背包(青鳥藍)FDP-25-18 登山背包 旅行背商品頁面">
-<img alt="【速捷戶外】英國|Lowe Alpine-Lowe Strike 18背包(青鳥藍)FDP-25-18 登山背包 旅行背" class="rt-goods-list-item-image" itemprop="image" src="http://f.rimg.com.tw/s1/c/1c/3b/21525839264827_158_m.jpg" title="【速捷戶外】英國|Lowe Alpine-Lowe Strike 18背包(青鳥藍)FDP-25-18 登山背包 旅行背">
+<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21525839264827" target="_blank" title="前往【速捷戶外】英國|Lowe Alpine-Lowe Strike 18揹包(青鳥藍)FDP-25-18 登山揹包 旅行背商品頁面">
+<img alt="【速捷戶外】英國|Lowe Alpine-Lowe Strike 18揹包(青鳥藍)FDP-25-18 登山揹包 旅行背" class="rt-goods-list-item-image" itemprop="image" src="http://f.rimg.com.tw/s1/c/1c/3b/21525839264827_158_m.jpg" title="【速捷戶外】英國|Lowe Alpine-Lowe Strike 18揹包(青鳥藍)FDP-25-18 登山揹包 旅行背">
 </img></a>
 </div>
 <h3 class="rt-goods-list-item-name">
-<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21525839264827" target="_blank" title="前往【速捷戶外】英國|Lowe Alpine-Lowe Strike 18背包(青鳥藍)FDP-25-18 登山背包 旅行背商品頁面">
-<span class="rt-goods-list-item-name-text" itemprop="name">【速捷戶外】英國|Lowe Alpine-Lowe Strike 18背包(青鳥藍)FDP-25-18 登山背包 旅行背</span>
+<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21525839264827" target="_blank" title="前往【速捷戶外】英國|Lowe Alpine-Lowe Strike 18揹包(青鳥藍)FDP-25-18 登山揹包 旅行背商品頁面">
+<span class="rt-goods-list-item-name-text" itemprop="name">【速捷戶外】英國|Lowe Alpine-Lowe Strike 18揹包(青鳥藍)FDP-25-18 登山揹包 旅行背</span>
 </a>
 </h3>
 <p class="rt-goods-list-item-price text-right" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
@@ -1637,13 +1637,13 @@ html_doc = """
 </li>
 <li class="rt-goods-list-item " itemscope="" itemtype="http://schema.org/Product">
 <div class="rt-goods-list-item-image-wrap">
-<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21525839249785" target="_blank" title="前往【速捷戶外】英國|Lowe Alpine-Lowe Strike 18背包(鱷魚綠)FDP-25-18 登山背包 旅行背商品頁面">
-<img alt="【速捷戶外】英國|Lowe Alpine-Lowe Strike 18背包(鱷魚綠)FDP-25-18 登山背包 旅行背" class="rt-goods-list-item-image" itemprop="image" src="http://b.rimg.com.tw/s1/b/e1/79/21525839249785_15_m.jpg" title="【速捷戶外】英國|Lowe Alpine-Lowe Strike 18背包(鱷魚綠)FDP-25-18 登山背包 旅行背">
+<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21525839249785" target="_blank" title="前往【速捷戶外】英國|Lowe Alpine-Lowe Strike 18揹包(鱷魚綠)FDP-25-18 登山揹包 旅行背商品頁面">
+<img alt="【速捷戶外】英國|Lowe Alpine-Lowe Strike 18揹包(鱷魚綠)FDP-25-18 登山揹包 旅行背" class="rt-goods-list-item-image" itemprop="image" src="http://b.rimg.com.tw/s1/b/e1/79/21525839249785_15_m.jpg" title="【速捷戶外】英國|Lowe Alpine-Lowe Strike 18揹包(鱷魚綠)FDP-25-18 登山揹包 旅行背">
 </img></a>
 </div>
 <h3 class="rt-goods-list-item-name">
-<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21525839249785" target="_blank" title="前往【速捷戶外】英國|Lowe Alpine-Lowe Strike 18背包(鱷魚綠)FDP-25-18 登山背包 旅行背商品頁面">
-<span class="rt-goods-list-item-name-text" itemprop="name">【速捷戶外】英國|Lowe Alpine-Lowe Strike 18背包(鱷魚綠)FDP-25-18 登山背包 旅行背</span>
+<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21525839249785" target="_blank" title="前往【速捷戶外】英國|Lowe Alpine-Lowe Strike 18揹包(鱷魚綠)FDP-25-18 登山揹包 旅行背商品頁面">
+<span class="rt-goods-list-item-name-text" itemprop="name">【速捷戶外】英國|Lowe Alpine-Lowe Strike 18揹包(鱷魚綠)FDP-25-18 登山揹包 旅行背</span>
 </a>
 </h3>
 <p class="rt-goods-list-item-price text-right" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
@@ -1662,13 +1662,13 @@ html_doc = """
 </li>
 <li class="rt-goods-list-item " itemscope="" itemtype="http://schema.org/Product">
 <div class="rt-goods-list-item-image-wrap">
-<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21525839238794" target="_blank" title="前往【速捷戶外】英國 Lowe Alpine -Lowe Strike 24L背包(幻象灰) #FDP-25-24 登山商品頁面">
-<img alt="【速捷戶外】英國 Lowe Alpine -Lowe Strike 24L背包(幻象灰) #FDP-25-24 登山" class="rt-goods-list-item-image" itemprop="image" src="http://d.rimg.com.tw/s2/b/b6/8a/21525839238794_873_m.jpg" title="【速捷戶外】英國 Lowe Alpine -Lowe Strike 24L背包(幻象灰) #FDP-25-24 登山">
+<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21525839238794" target="_blank" title="前往【速捷戶外】英國 Lowe Alpine -Lowe Strike 24L揹包(幻象灰) #FDP-25-24 登山商品頁面">
+<img alt="【速捷戶外】英國 Lowe Alpine -Lowe Strike 24L揹包(幻象灰) #FDP-25-24 登山" class="rt-goods-list-item-image" itemprop="image" src="http://d.rimg.com.tw/s2/b/b6/8a/21525839238794_873_m.jpg" title="【速捷戶外】英國 Lowe Alpine -Lowe Strike 24L揹包(幻象灰) #FDP-25-24 登山">
 </img></a>
 </div>
 <h3 class="rt-goods-list-item-name">
-<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21525839238794" target="_blank" title="前往【速捷戶外】英國 Lowe Alpine -Lowe Strike 24L背包(幻象灰) #FDP-25-24 登山商品頁面">
-<span class="rt-goods-list-item-name-text" itemprop="name">【速捷戶外】英國 Lowe Alpine -Lowe Strike 24L背包(幻象灰) #FDP-25-24 登山</span>
+<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21525839238794" target="_blank" title="前往【速捷戶外】英國 Lowe Alpine -Lowe Strike 24L揹包(幻象灰) #FDP-25-24 登山商品頁面">
+<span class="rt-goods-list-item-name-text" itemprop="name">【速捷戶外】英國 Lowe Alpine -Lowe Strike 24L揹包(幻象灰) #FDP-25-24 登山</span>
 </a>
 </h3>
 <p class="rt-goods-list-item-price text-right" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
@@ -1687,13 +1687,13 @@ html_doc = """
 </li>
 <li class="rt-goods-list-item " itemscope="" itemtype="http://schema.org/Product">
 <div class="rt-goods-list-item-image-wrap">
-<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21525839223754" target="_blank" title="前往【速捷戶外】英國 Lowe Alpine -Lowe Strike 24L背包(單寧藍) #FDP-25-24 登山背包商品頁面">
-<img alt="【速捷戶外】英國 Lowe Alpine -Lowe Strike 24L背包(單寧藍) #FDP-25-24 登山背包" class="rt-goods-list-item-image" itemprop="image" src="http://f.rimg.com.tw/s2/b/7b/ca/21525839223754_628_m.jpg" title="【速捷戶外】英國 Lowe Alpine -Lowe Strike 24L背包(單寧藍) #FDP-25-24 登山背包">
+<a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21525839223754" target="_blank" title="前往【速捷戶外】英國 Lowe Alpine -Lowe Strike 24L揹包(單寧藍) #FDP-25-24 登山揹包商品頁面">
+<img alt="【速捷戶外】英國 Lowe Alpine -Lowe Strike 24L揹包(單寧藍) #FDP-25-24 登山揹包" class="rt-goods-list-item-image" itemprop="image" src="http://f.rimg.com.tw/s2/b/7b/ca/21525839223754_628_m.jpg" title="【速捷戶外】英國 Lowe Alpine -Lowe Strike 24L揹包(單寧藍) #FDP-25-24 登山揹包">
 </img></a>
 </div>
 <h3 class="rt-goods-list-item-name">
-<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21525839223754" target="_blank" title="前往【速捷戶外】英國 Lowe Alpine -Lowe Strike 24L背包(單寧藍) #FDP-25-24 登山背包商品頁面">
-<span class="rt-goods-list-item-name-text" itemprop="name">【速捷戶外】英國 Lowe Alpine -Lowe Strike 24L背包(單寧藍) #FDP-25-24 登山背包</span>
+<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21525839223754" target="_blank" title="前往【速捷戶外】英國 Lowe Alpine -Lowe Strike 24L揹包(單寧藍) #FDP-25-24 登山揹包商品頁面">
+<span class="rt-goods-list-item-name-text" itemprop="name">【速捷戶外】英國 Lowe Alpine -Lowe Strike 24L揹包(單寧藍) #FDP-25-24 登山揹包</span>
 </a>
 </h3>
 <p class="rt-goods-list-item-price text-right" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
@@ -2129,14 +2129,14 @@ _ts_js_fn('run');
 '''
 <li class="rt-goods-list-item " itemscope="" itemtype="http://schema.org/Product">
     <div class="rt-goods-list-item-image-wrap">
-        <a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21716971337096" target="_blank" title="前往Lowe Alpine Strike 24 運動背包/都會日用後背包 FDP55 黑商品頁面">
-            <img alt="Lowe Alpine Strike 24 運動背包/都會日用後背包 FDP55 黑" class="rt-goods-list-item-image" itemprop="image" src="http://b.rimg.com.tw/s2/6/29/88/21716971337096_111_m.jpg" title="Lowe Alpine Strike 24 運動背包/都會日用後背包 FDP55 黑">
+        <a class="rt-goods-list-item-image-link" href="http://goods.ruten.com.tw/item/show?21716971337096" target="_blank" title="前往Lowe Alpine Strike 24 運動揹包/都會日用後揹包 FDP55 黑商品頁面">
+            <img alt="Lowe Alpine Strike 24 運動揹包/都會日用後揹包 FDP55 黑" class="rt-goods-list-item-image" itemprop="image" src="http://b.rimg.com.tw/s2/6/29/88/21716971337096_111_m.jpg" title="Lowe Alpine Strike 24 運動揹包/都會日用後揹包 FDP55 黑">
 
         </a>
     </div>
     <h3 class="rt-goods-list-item-name">
-<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21716971337096" target="_blank" title="前往Lowe Alpine Strike 24 運動背包/都會日用後背包 FDP55 黑商品頁面">
-<span class="rt-goods-list-item-name-text" itemprop="name">Lowe Alpine Strike 24 運動背包/都會日用後背包 FDP55 黑</span>
+<a class="rt-goods-list-item-name-link" href="http://goods.ruten.com.tw/item/show?21716971337096" target="_blank" title="前往Lowe Alpine Strike 24 運動揹包/都會日用後揹包 FDP55 黑商品頁面">
+<span class="rt-goods-list-item-name-text" itemprop="name">Lowe Alpine Strike 24 運動揹包/都會日用後揹包 FDP55 黑</span>
 </a>
 </h3>
     <p class="rt-goods-list-item-price text-right" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">

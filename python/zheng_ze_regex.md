@@ -13,7 +13,7 @@
 compile(pattern, flags=0)
 ```
 
-re.compile用來將正則表達式轉換爲一個「pattern object」，我們可以稱之爲「模式對象」。將正則表達式轉換爲模式對象的作用就是可以將其保存下來，已備後續之用。
+re.compile用來將正則表達式轉換為一個「pattern object」，我們可以稱之為「模式對象」。將正則表達式轉換為模式對象的作用就是可以將其保存下來，已備後續之用。
 
 比如：
 
@@ -58,7 +58,7 @@ re.findall(pat, text)
 ['Hello', 'hm', 'this', 'is', 'Tom', 'speaking', 'who', 'are', 'you']
 ```
 
-這樣就可以找出text中所有匹配pat的項（例子中爲單詞）。
+這樣就可以找出text中所有匹配pat的項（例子中為單詞）。
 
 ```py
 match(pattern, string, flags=0)

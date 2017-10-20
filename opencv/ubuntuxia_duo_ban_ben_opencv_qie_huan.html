@@ -57,7 +57,7 @@
         data-chapter-title="ubuntu下多版本opencv切換"
         data-filepath="opencv/ubuntuxia_duo_ban_ben_opencv_qie_huan.md"
         data-basepath=".."
-        data-revision="Fri Oct 20 2017 00:12:46 GMT+0800 (CST)"
+        data-revision="Sat Oct 21 2017 01:56:40 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -20500,6 +20500,34 @@ sudo nano /etc/ld.so.conf.d/opencv310.conf
 sudo ldconfig
 //&#x5237;&#x65B0;
 </code></pre>
+<hr>
+<h2 id="1&#x3001;&#x5047;&#x5982;&#x5B89;&#x88DD;&#x4E86;opencv&#x4EE5;&#x4E0B;&#x5169;&#x500B;&#x7248;&#x672C;&#xFF1A;">1&#x3001;&#x5047;&#x5982;&#x5B89;&#x88DD;&#x4E86;opencv&#x4EE5;&#x4E0B;&#x5169;&#x500B;&#x7248;&#x672C;&#xFF1A;</h2>
+<pre><code class="lang-sh">opencv-<span class="hljs-number">2.4</span>.<span class="hljs-number">13</span> 
+opencv-<span class="hljs-number">3.2</span>.<span class="hljs-number">0</span>
+</code></pre>
+<h2 id="2&#x3001;&#x5B89;&#x88DD;&#x76EE;&#x9304;&#x5206;&#x5225;&#x70BA;&#xFF1A;">2&#x3001;&#x5B89;&#x88DD;&#x76EE;&#x9304;&#x5206;&#x5225;&#x70BA;&#xFF1A;</h2>
+<pre><code class="lang-sh">/usr/<span class="hljs-built_in">local</span>/opencv-<span class="hljs-number">2.4</span>.<span class="hljs-number">13</span> 
+/usr/<span class="hljs-built_in">local</span>/opencv-<span class="hljs-number">3.2</span>.<span class="hljs-number">0</span>
+</code></pre>
+<h2 id="3&#x3001;opencv2413&#x5207;&#x63DB;&#x70BA;opencv320">3&#x3001;opencv-2.4.13&#x5207;&#x63DB;&#x70BA;opencv-3.2.0</h2>
+<p>&#x9ED8;&#x8A8D;&#x7248;&#x672C;&#x70BA;/usr/local/opencv-2.4.13</p>
+<h2 id="4&#x3001;&#x6253;&#x958B;&#x7D42;&#x7AEF;&#xFF0C;&#x8F38;&#x5165;&#x4EE5;&#x4E0B;&#x547D;&#x4EE4;&#xFF1A;">4&#x3001;&#x6253;&#x958B;&#x7D42;&#x7AEF;&#xFF0C;&#x8F38;&#x5165;&#x4EE5;&#x4E0B;&#x547D;&#x4EE4;&#xFF1A;</h2>
+<h3 id="1&#x3001;&#x6253;&#x958B;&#x6587;&#x4EF6;&#xFF1A;">1&#x3001;&#x6253;&#x958B;&#x6587;&#x4EF6;&#xFF1A;</h3>
+<pre><code class="lang-sh">sudo gedit ~/.bashrc
+</code></pre>
+<h3 id="2&#x3001;&#x5728;&#x6587;&#x4EF6;&#x672B;&#x5C3E;&#x6DFB;&#x52A0;&#x4EE5;&#x4E0B;&#x5167;&#x5BB9;&#xFF0C;&#x7136;&#x5F8C;&#x4FDD;&#x5B58;&#xFF1A;">2&#x3001;&#x5728;&#x6587;&#x4EF6;&#x672B;&#x5C3E;&#x6DFB;&#x52A0;&#x4EE5;&#x4E0B;&#x5167;&#x5BB9;&#xFF0C;&#x7136;&#x5F8C;&#x4FDD;&#x5B58;&#xFF1A;</h3>
+<pre><code class="lang-sh"><span class="hljs-built_in">export</span> PKG_CONFIG_PATH=/usr/<span class="hljs-built_in">local</span>/opencv-<span class="hljs-number">3.2</span>.<span class="hljs-number">0</span>/lib/pkgconfig  
+<span class="hljs-built_in">export</span> LD_LIBRARY_PATH=/usr/<span class="hljs-built_in">local</span>/opencv-<span class="hljs-number">3.2</span>.<span class="hljs-number">0</span>/lib
+</code></pre>
+<h3 id="3&#x3001;&#x8F38;&#x5165;&#x547D;&#x4EE4;&#xFF1A;">3&#x3001;&#x8F38;&#x5165;&#x547D;&#x4EE4;&#xFF1A;</h3>
+<pre><code class="lang-sh"><span class="hljs-built_in">source</span> ~/.bashrc
+</code></pre>
+<h3 id="4&#x3001;&#x7E7C;&#x7E8C;&#x8F38;&#x5165;">4&#x3001;&#x7E7C;&#x7E8C;&#x8F38;&#x5165;</h3>
+<pre><code class="lang-sh">pkg-config --modversion opencv  
+pkg-config --cflags opencv  
+pkg-config --libs opencv
+</code></pre>
+<p>&#x4EE5;&#x4E0A;&#x6B65;&#x9A5F;&#x5B8C;&#x6210;&#xFF0C;&#x5373;&#x70BA;&#x66FF;&#x63DB;&#x5B8C;&#x6210;&#xFF0C;&#x5982;&#x679C;&#x60F3;&#x5F9E;opencv-3.2.0&#x5207;&#x63DB;&#x56DE;&#x53BB;&#xFF0C;&#x6B65;&#x9A5F;&#x540C;&#x4E0A;&#x3002;</p>
 
                     
                     </section>

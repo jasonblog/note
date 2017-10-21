@@ -57,7 +57,7 @@
         data-chapter-title="露天拍賣 換頁"
         data-filepath="python/lu_tian_pai_mai_huan_ye.md"
         data-basepath=".."
-        data-revision="Sat Oct 21 2017 14:42:05 GMT+0800 (CST)"
+        data-revision="Sat Oct 21 2017 15:10:40 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -20430,12 +20430,13 @@ sys.setdefaultencoding(<span class="hljs-string">&apos;utf8&apos;</span>)
         h = b.decode(<span class="hljs-string">&apos;utf-8&apos;</span>)
 
         soup = BeautifulSoup(h,<span class="hljs-string">&apos;html.parser&apos;</span>)
-    <span class="hljs-keyword">for</span> each_li <span class="hljs-keyword">in</span> soup.findAll(<span class="hljs-string">&apos;li&apos;</span>,{<span class="hljs-string">&apos;class&apos;</span>:<span class="hljs-string">&apos;rt-goods-list-item&apos;</span>}):
-        <span class="hljs-comment">#print each_li</span>
-        raw_input()
-        <span class="hljs-keyword">print</span> each_li.div.a[<span class="hljs-string">&apos;href&apos;</span>]
-        <span class="hljs-keyword">print</span> each_li.div.a[<span class="hljs-string">&apos;title&apos;</span>]
-        <span class="hljs-keyword">print</span> each_li.p.strong.text
+
+        <span class="hljs-keyword">for</span> each_li <span class="hljs-keyword">in</span> soup.findAll(<span class="hljs-string">&apos;li&apos;</span>,{<span class="hljs-string">&apos;class&apos;</span>:<span class="hljs-string">&apos;rt-goods-list-item&apos;</span>}):
+            <span class="hljs-comment">#print each_li</span>
+            <span class="hljs-comment">#raw_input()</span>
+            <span class="hljs-keyword">print</span> each_li.div.a[<span class="hljs-string">&apos;href&apos;</span>]
+            <span class="hljs-keyword">print</span> each_li.span.text
+            <span class="hljs-keyword">print</span> each_li.p.strong.text
 
         <span class="hljs-string">&apos;&apos;&apos;
         wb = h.text

@@ -15,7 +15,7 @@ headers = {
 cookies = {
     '_ts_id':  '999999999999999999', 
 }
-  
+
 reload(sys)  
 sys.setdefaultencoding('utf8')  
 
@@ -47,12 +47,13 @@ def crawler(keyword):
         h = b.decode('utf-8')
 
         soup = BeautifulSoup(h,'html.parser')
-	for each_li in soup.findAll('li',{'class':'rt-goods-list-item'}):
-	    #print each_li
-	    raw_input()
-	    print each_li.div.a['href']
-	    print each_li.div.a['title']
-	    print each_li.p.strong.text
+
+        for each_li in soup.findAll('li',{'class':'rt-goods-list-item'}):
+            #print each_li
+            #raw_input()
+            print each_li.div.a['href']
+            print each_li.span.text
+            print each_li.p.strong.text
 
         '''
         wb = h.text

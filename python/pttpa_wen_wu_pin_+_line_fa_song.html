@@ -57,7 +57,7 @@
         data-chapter-title="PTT爬文物品 + line 發送"
         data-filepath="python/pttpa_wen_wu_pin_+_line_fa_song.md"
         data-basepath=".."
-        data-revision="Sat Oct 21 2017 01:56:40 GMT+0800 (CST)"
+        data-revision="Sat Oct 21 2017 14:42:05 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -20384,177 +20384,180 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="ptt&#x722C;&#x6587;&#x7269;&#x54C1;--line-&#x767C;&#x9001;">PTT&#x722C;&#x6587;&#x7269;&#x54C1; + line &#x767C;&#x9001;</h1>
-<pre><code class="lang-py"><span class="hljs-comment">#coding=utf-8 </span>
-<span class="hljs-keyword">import</span> re
-<span class="hljs-keyword">import</span> sys
-<span class="hljs-keyword">import</span> json
-<span class="hljs-keyword">import</span> requests
-<span class="hljs-keyword">import</span> io
-<span class="hljs-keyword">import</span> random
-<span class="hljs-keyword">from</span> time <span class="hljs-keyword">import</span> sleep
-<span class="hljs-keyword">from</span> datetime <span class="hljs-keyword">import</span> datetime
-<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup  
-requests.packages.urllib3.disable_warnings()
+<pre><code class="lang-py"><span class="hljs-comment">#coding=utf-8  </span>
+<span class="hljs-keyword">import</span> re 
+<span class="hljs-keyword">import</span> sys 
+<span class="hljs-keyword">import</span> json 
+<span class="hljs-keyword">import</span> requests 
+<span class="hljs-keyword">import</span> io 
+<span class="hljs-keyword">import</span> random 
+<span class="hljs-keyword">from</span> time <span class="hljs-keyword">import</span> sleep 
+<span class="hljs-keyword">from</span> datetime <span class="hljs-keyword">import</span> datetime 
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup   
+requests.packages.urllib3.disable_warnings() 
 
-PttName=<span class="hljs-string">&quot;&quot;</span>
-load={
-<span class="hljs-string">&apos;from&apos;</span>:<span class="hljs-string">&apos;/bbs/&apos;</span>+PttName+<span class="hljs-string">&apos;/index.html&apos;</span>,
-<span class="hljs-string">&apos;yes&apos;</span>:<span class="hljs-string">&apos;yes&apos;</span> 
-}
+PttName=<span class="hljs-string">&quot;&quot;</span> 
+load={ 
+<span class="hljs-string">&apos;from&apos;</span>:<span class="hljs-string">&apos;/bbs/&apos;</span>+PttName+<span class="hljs-string">&apos;/index.html&apos;</span>, 
+<span class="hljs-string">&apos;yes&apos;</span>:<span class="hljs-string">&apos;yes&apos;</span>  
+} 
 
-rs=requests.session()
-res=rs.post(<span class="hljs-string">&apos;https://www.ptt.cc/ask/over18&apos;</span>,verify=<span class="hljs-keyword">False</span>,data=load)
-FILENAME=<span class="hljs-string">&quot;&quot;</span>
+rs=requests.session() 
+res=rs.post(<span class="hljs-string">&apos;https://www.ptt.cc/ask/over18&apos;</span>,verify=<span class="hljs-keyword">False</span>,data=load) 
+FILENAME=<span class="hljs-string">&quot;&quot;</span> 
 
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">PageCount</span><span class="hljs-params">(PttName)</span>:</span>
-    res=rs.get(<span class="hljs-string">&apos;https://www.ptt.cc/bbs/&apos;</span>+PttName+<span class="hljs-string">&apos;/index.html&apos;</span>,verify=<span class="hljs-keyword">False</span>)
-    soup=BeautifulSoup(res.text,<span class="hljs-string">&apos;html.parser&apos;</span>)
-    ALLpageURL = soup.select(<span class="hljs-string">&apos;.btn.wide&apos;</span>)[<span class="hljs-number">1</span>][<span class="hljs-string">&apos;href&apos;</span>]
-    ALLpage=int(getPageNumber(ALLpageURL))+<span class="hljs-number">1</span>
-    <span class="hljs-keyword">return</span>  ALLpage 
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">PageCount</span><span class="hljs-params">(PttName)</span>:</span> 
+    res=rs.get(<span class="hljs-string">&apos;https://www.ptt.cc/bbs/&apos;</span>+PttName+<span class="hljs-string">&apos;/index.html&apos;</span>,verify=<span class="hljs-keyword">False</span>) 
+    soup=BeautifulSoup(res.text,<span class="hljs-string">&apos;html.parser&apos;</span>) 
+    ALLpageURL = soup.select(<span class="hljs-string">&apos;.btn.wide&apos;</span>)[<span class="hljs-number">1</span>][<span class="hljs-string">&apos;href&apos;</span>] 
+    ALLpage=int(getPageNumber(ALLpageURL))+<span class="hljs-number">1</span> 
+    <span class="hljs-keyword">return</span> ALLpage  
 
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">crawler</span><span class="hljs-params">(PttName,ParsingPage)</span>:</span>
-        ALLpage=PageCount(PttName)
-        g_id = <span class="hljs-number">0</span>;
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">crawler</span><span class="hljs-params">(PttName,ParsingPage)</span>:</span> 
+    ALLpage=PageCount(PttName) 
+    g_id = <span class="hljs-number">0</span>; 
 
-    <span class="hljs-keyword">for</span> number  <span class="hljs-keyword">in</span> range(ALLpage, ALLpage-int(ParsingPage),-<span class="hljs-number">1</span>):
-            res=rs.get(<span class="hljs-string">&apos;https://www.ptt.cc/bbs/&apos;</span>+PttName+<span class="hljs-string">&apos;/index&apos;</span>+str(number)+<span class="hljs-string">&apos;.html&apos;</span>,verify=<span class="hljs-keyword">False</span>)
-            soup = BeautifulSoup(res.text,<span class="hljs-string">&apos;html.parser&apos;</span>)
-            <span class="hljs-comment">#print soup.prettify()</span>
-        <span class="hljs-keyword">for</span> tag <span class="hljs-keyword">in</span> soup.select(<span class="hljs-string">&apos;div.title&apos;</span>):
-        <span class="hljs-keyword">try</span>:
-                    atag=tag.find(<span class="hljs-string">&apos;a&apos;</span>)
-                    time=random.uniform(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>)/<span class="hljs-number">5</span>
-                    <span class="hljs-comment">#print &apos;time:&apos;,time</span>
-                    sleep(time)
-                    <span class="hljs-keyword">if</span>(atag):
-                       URL=atag[<span class="hljs-string">&apos;href&apos;</span>]   
-                       link=<span class="hljs-string">&apos;https://www.ptt.cc&apos;</span>+URL
-                       <span class="hljs-comment">#print link</span>
-                   g_id = g_id+<span class="hljs-number">1</span>
-               parseGos(link,g_id)                     
-        <span class="hljs-keyword">except</span>:
-                    <span class="hljs-keyword">print</span> <span class="hljs-string">&apos;error:&apos;</span>,URL
+    <span class="hljs-keyword">for</span> number <span class="hljs-keyword">in</span> range(ALLpage, ALLpage-int(ParsingPage),-<span class="hljs-number">1</span>): 
+        res=rs.get(<span class="hljs-string">&apos;https://www.ptt.cc/bbs/&apos;</span>+PttName+<span class="hljs-string">&apos;/index&apos;</span>+str(number)+<span class="hljs-string">&apos;.html&apos;</span>,verify=<span class="hljs-keyword">False</span>) 
+        soup = BeautifulSoup(res.text,<span class="hljs-string">&apos;html.parser&apos;</span>) 
+        <span class="hljs-comment">#print soup.prettify() </span>
+        <span class="hljs-keyword">for</span> tag <span class="hljs-keyword">in</span> soup.select(<span class="hljs-string">&apos;div.title&apos;</span>): 
+            <span class="hljs-keyword">try</span>: 
+                atag=tag.find(<span class="hljs-string">&apos;a&apos;</span>) 
+                time=random.uniform(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>)/<span class="hljs-number">5</span> 
+                <span class="hljs-comment">#print &apos;time:&apos;,time </span>
+                sleep(time) 
+                <span class="hljs-keyword">if</span>(atag): 
+                    URL=atag[<span class="hljs-string">&apos;href&apos;</span>]    
+                    link=<span class="hljs-string">&apos;https://www.ptt.cc&apos;</span>+URL 
+                    <span class="hljs-comment">#print link </span>
+                g_id = g_id+<span class="hljs-number">1</span> 
+                parseGos(link,g_id)                      
+            <span class="hljs-keyword">except</span>: 
+                <span class="hljs-keyword">print</span> <span class="hljs-string">&apos;error:&apos;</span>,URL 
 
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">parseGos</span><span class="hljs-params">(link , g_id)</span>:</span>
-        <span class="hljs-comment">#print link</span>
-        res=rs.get(link,verify=<span class="hljs-keyword">False</span>)
-        soup = BeautifulSoup(res.text,<span class="hljs-string">&apos;html.parser&apos;</span>)
-        <span class="hljs-comment"># author</span>
-        author  = soup.select(<span class="hljs-string">&apos;.article-meta-value&apos;</span>)[<span class="hljs-number">0</span>].text
-        <span class="hljs-comment">#author = soup.find(&quot;span&quot;, {&apos;class&apos;: &apos;article-meta-value&apos;}).text              </span>
-        <span class="hljs-comment">#print &apos;author:&apos;,author</span>
-        <span class="hljs-comment"># title</span>
-        title = soup.select(<span class="hljs-string">&apos;.article-meta-value&apos;</span>)[<span class="hljs-number">2</span>].text
-        <span class="hljs-comment">#print &apos;title:&apos;,title</span>
-        <span class="hljs-comment"># date</span>
-        date = soup.select(<span class="hljs-string">&apos;.article-meta-value&apos;</span>)[<span class="hljs-number">3</span>].text
-        <span class="hljs-comment">#print &apos;date:&apos;,date</span>
-        <span class="hljs-comment"># ip       </span>
-        <span class="hljs-keyword">try</span>:
-                targetIP=<span class="hljs-string">u&apos;&#x203B; &#x767C;&#x4FE1;&#x7AD9;: &#x6279;&#x8E22;&#x8E22;&#x5BE6;&#x696D;&#x574A;&apos;</span>
-                ip =  soup.find(string = re.compile(targetIP))
-                ip = re.search(<span class="hljs-string">r&quot;[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*&quot;</span>,ip).group()
-        <span class="hljs-keyword">except</span>:
-                ip = <span class="hljs-string">&quot;ip is not find&quot;</span>
-        <span class="hljs-comment">#print &apos;ip:&apos;,ip</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">parseGos</span><span class="hljs-params">(link , g_id)</span>:</span> 
+        <span class="hljs-comment">#print link </span>
+        res=rs.get(link,verify=<span class="hljs-keyword">False</span>) 
+        soup = BeautifulSoup(res.text,<span class="hljs-string">&apos;html.parser&apos;</span>) 
+        <span class="hljs-comment"># author </span>
+        author = soup.select(<span class="hljs-string">&apos;.article-meta-value&apos;</span>)[<span class="hljs-number">0</span>].text 
+        <span class="hljs-comment">#author = soup.find(&quot;span&quot;, {&apos;class&apos;: &apos;article-meta-value&apos;}).text               </span>
+        <span class="hljs-comment">#print &apos;author:&apos;,author </span>
+        <span class="hljs-comment"># title </span>
+        title = soup.select(<span class="hljs-string">&apos;.article-meta-value&apos;</span>)[<span class="hljs-number">2</span>].text 
+        <span class="hljs-comment">#print &apos;title:&apos;,title </span>
+        <span class="hljs-comment"># date </span>
+        date = soup.select(<span class="hljs-string">&apos;.article-meta-value&apos;</span>)[<span class="hljs-number">3</span>].text 
+        <span class="hljs-comment">#print &apos;date:&apos;,date </span>
+        <span class="hljs-comment"># ip        </span>
+        <span class="hljs-keyword">try</span>: 
+                targetIP=<span class="hljs-string">u&apos;&#x203B; &#x767C;&#x4FE1;&#x7AD9;: &#x6279;&#x8E22;&#x8E22;&#x5BE6;&#x696D;&#x574A;&apos;</span> 
+                ip = soup.find(string = re.compile(targetIP)) 
+                ip = re.search(<span class="hljs-string">r&quot;[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*&quot;</span>,ip).group() 
+        <span class="hljs-keyword">except</span>: 
+                ip = <span class="hljs-string">&quot;ip is not find&quot;</span> 
+        <span class="hljs-comment">#print &apos;ip:&apos;,ip </span>
 
-        <span class="hljs-comment"># content</span>
-        content = soup.find(id=<span class="hljs-string">&quot;main-content&quot;</span>).text
-        target_content=<span class="hljs-string">u&apos;&#x203B; &#x767C;&#x4FE1;&#x7AD9;: &#x6279;&#x8E22;&#x8E22;&#x5BE6;&#x696D;&#x574A;(ptt.cc),&apos;</span>
-        content = content.split(target_content)
-        content = content[<span class="hljs-number">0</span>].split(date)
-        main_content = content[<span class="hljs-number">1</span>].replace(<span class="hljs-string">&apos;\n&apos;</span>, <span class="hljs-string">&apos;  &apos;</span>).replace(<span class="hljs-string">&apos;\t&apos;</span>, <span class="hljs-string">&apos;  &apos;</span>)
-        <span class="hljs-comment">#print &apos;content:&apos;,main_content</span>
+        <span class="hljs-comment"># content </span>
+        content = soup.find(id=<span class="hljs-string">&quot;main-content&quot;</span>).text 
+        target_content=<span class="hljs-string">u&apos;&#x203B; &#x767C;&#x4FE1;&#x7AD9;: &#x6279;&#x8E22;&#x8E22;&#x5BE6;&#x696D;&#x574A;(ptt.cc),&apos;</span> 
+        content = content.split(target_content) 
+        content = content[<span class="hljs-number">0</span>].split(date) 
+        main_content = content[<span class="hljs-number">1</span>].replace(<span class="hljs-string">&apos;\n&apos;</span>, <span class="hljs-string">&apos; &apos;</span>).replace(<span class="hljs-string">&apos;\t&apos;</span>, <span class="hljs-string">&apos; &apos;</span>) 
+        <span class="hljs-comment">#print &apos;content:&apos;,main_content </span>
 
-        <span class="hljs-comment"># message</span>
-        num , g , b , n ,message = <span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,{}
-        <span class="hljs-keyword">for</span> tag <span class="hljs-keyword">in</span> soup.select(<span class="hljs-string">&apos;div.push&apos;</span>):
-                num += <span class="hljs-number">1</span>
-                push_tag = tag.find(<span class="hljs-string">&quot;span&quot;</span>, {<span class="hljs-string">&apos;class&apos;</span>: <span class="hljs-string">&apos;push-tag&apos;</span>}).text
-                <span class="hljs-comment">#print &quot;push_tag:&quot;,push_tag</span>
-                push_userid = tag.find(<span class="hljs-string">&quot;span&quot;</span>, {<span class="hljs-string">&apos;class&apos;</span>: <span class="hljs-string">&apos;push-userid&apos;</span>}).text       
-                <span class="hljs-comment">#print &quot;push_userid:&quot;,push_userid</span>
-                push_content = tag.find(<span class="hljs-string">&quot;span&quot;</span>, {<span class="hljs-string">&apos;class&apos;</span>: <span class="hljs-string">&apos;push-content&apos;</span>}).text   
-                push_content = push_content[<span class="hljs-number">1</span>:]
-                <span class="hljs-comment">#print &quot;push_content:&quot;,push_content</span>
-                push_ipdatetime = tag.find(<span class="hljs-string">&quot;span&quot;</span>, {<span class="hljs-string">&apos;class&apos;</span>: <span class="hljs-string">&apos;push-ipdatetime&apos;</span>}).text   
-                push_ipdatetime = remove(push_ipdatetime, <span class="hljs-string">&apos;\n&apos;</span>)
-                <span class="hljs-comment">#print &quot;push-ipdatetime:&quot;,push_ipdatetime </span>
+        <span class="hljs-comment"># message </span>
+        num , g , b , n ,message = <span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,{} 
+        <span class="hljs-keyword">for</span> tag <span class="hljs-keyword">in</span> soup.select(<span class="hljs-string">&apos;div.push&apos;</span>): 
+                num += <span class="hljs-number">1</span> 
+                push_tag = tag.find(<span class="hljs-string">&quot;span&quot;</span>, {<span class="hljs-string">&apos;class&apos;</span>: <span class="hljs-string">&apos;push-tag&apos;</span>}).text 
+                <span class="hljs-comment">#print &quot;push_tag:&quot;,push_tag </span>
+                push_userid = tag.find(<span class="hljs-string">&quot;span&quot;</span>, {<span class="hljs-string">&apos;class&apos;</span>: <span class="hljs-string">&apos;push-userid&apos;</span>}).text        
+                <span class="hljs-comment">#print &quot;push_userid:&quot;,push_userid </span>
+                push_content = tag.find(<span class="hljs-string">&quot;span&quot;</span>, {<span class="hljs-string">&apos;class&apos;</span>: <span class="hljs-string">&apos;push-content&apos;</span>}).text    
+                push_content = push_content[<span class="hljs-number">1</span>:] 
+                <span class="hljs-comment">#print &quot;push_content:&quot;,push_content </span>
+                push_ipdatetime = tag.find(<span class="hljs-string">&quot;span&quot;</span>, {<span class="hljs-string">&apos;class&apos;</span>: <span class="hljs-string">&apos;push-ipdatetime&apos;</span>}).text    
+                push_ipdatetime = remove(push_ipdatetime, <span class="hljs-string">&apos;\n&apos;</span>) 
+                <span class="hljs-comment">#print &quot;push-ipdatetime:&quot;,push_ipdatetime  </span>
 
-                message[num]={<span class="hljs-string">&quot;&#x72C0;&#x614B;&quot;</span>:push_tag.encode(<span class="hljs-string">&apos;utf-8&apos;</span>),<span class="hljs-string">&quot;&#x7559;&#x8A00;&#x8005;&quot;</span>:push_userid.encode(<span class="hljs-string">&apos;utf-8&apos;</span>),
-                              <span class="hljs-string">&quot;&#x7559;&#x8A00;&#x5167;&#x5BB9;&quot;</span>:push_content.encode(<span class="hljs-string">&apos;utf-8&apos;</span>),<span class="hljs-string">&quot;&#x7559;&#x8A00;&#x6642;&#x9593;&quot;</span>:push_ipdatetime.encode(<span class="hljs-string">&apos;utf-8&apos;</span>)}
-                <span class="hljs-keyword">if</span> push_tag == <span class="hljs-string">u&apos;&#x63A8; &apos;</span>:
-                        g += <span class="hljs-number">1</span>
-                <span class="hljs-keyword">elif</span> push_tag == <span class="hljs-string">u&apos;&#x5653; &apos;</span>:
-                        b += <span class="hljs-number">1</span>
-                <span class="hljs-keyword">else</span>:
-                        n += <span class="hljs-number">1</span>
+                message[num]={<span class="hljs-string">&quot;&#x72C0;&#x614B;&quot;</span>:push_tag.encode(<span class="hljs-string">&apos;utf-8&apos;</span>),<span class="hljs-string">&quot;&#x7559;&#x8A00;&#x8005;&quot;</span>:push_userid.encode(<span class="hljs-string">&apos;utf-8&apos;</span>), 
+                              <span class="hljs-string">&quot;&#x7559;&#x8A00;&#x5167;&#x5BB9;&quot;</span>:push_content.encode(<span class="hljs-string">&apos;utf-8&apos;</span>),<span class="hljs-string">&quot;&#x7559;&#x8A00;&#x6642;&#x9593;&quot;</span>:push_ipdatetime.encode(<span class="hljs-string">&apos;utf-8&apos;</span>)} 
+                <span class="hljs-keyword">if</span> push_tag == <span class="hljs-string">u&apos;&#x63A8; &apos;</span>: 
+                        g += <span class="hljs-number">1</span> 
+                <span class="hljs-keyword">elif</span> push_tag == <span class="hljs-string">u&apos;&#x5653; &apos;</span>: 
+                        b += <span class="hljs-number">1</span> 
+                <span class="hljs-keyword">else</span>: 
+                        n += <span class="hljs-number">1</span> 
 
-        messageNum = {<span class="hljs-string">&quot;g&quot;</span>:g,<span class="hljs-string">&quot;b&quot;</span>:b,<span class="hljs-string">&quot;n&quot;</span>:n,<span class="hljs-string">&quot;all&quot;</span>:num}
-        <span class="hljs-comment"># json-data  type(d) dict</span>
+        messageNum = {<span class="hljs-string">&quot;g&quot;</span>:g,<span class="hljs-string">&quot;b&quot;</span>:b,<span class="hljs-string">&quot;n&quot;</span>:n,<span class="hljs-string">&quot;all&quot;</span>:num} 
+        <span class="hljs-comment"># json-data type(d) dict </span>
 
-        d={ <span class="hljs-string">&quot;a_ID&quot;</span>:g_id , <span class="hljs-string">&quot;b_&#x4F5C;&#x8005;&quot;</span>:author.encode(<span class="hljs-string">&apos;utf-8&apos;</span>), <span class="hljs-string">&quot;c_&#x6A19;&#x984C;&quot;</span>:title.encode(<span class="hljs-string">&apos;utf-8&apos;</span>), <span class="hljs-string">&quot;d_&#x65E5;&#x671F;&quot;</span>:date.encode(<span class="hljs-string">&apos;utf-8&apos;</span>),
-        <span class="hljs-string">&quot;e_ip&quot;</span>:ip.encode(<span class="hljs-string">&apos;utf-8&apos;</span>), <span class="hljs-string">&quot;f_&#x7DB2;&#x5740;&quot;</span>: link.encode(<span class="hljs-string">&apos;utf-8&apos;</span>), <span class="hljs-string">&quot;g_&#x5167;&#x6587;&quot;</span>:main_content.encode(<span class="hljs-string">&apos;utf-8&apos;</span>), <span class="hljs-string">&quot;h_&#x63A8;&#x6587;&quot;</span>:message,<span class="hljs-string">&quot;i_&#x63A8;&#x6587;&#x7E3D;&#x6578;&quot;</span>:messageNum}
-        json_data = json.dumps(d,ensure_ascii=<span class="hljs-keyword">False</span>,indent=<span class="hljs-number">4</span>,sort_keys=<span class="hljs-keyword">True</span>)+<span class="hljs-string">&apos;,&apos;</span>
-    store(json_data) 
+        d={ <span class="hljs-string">&quot;a_ID&quot;</span>:g_id , <span class="hljs-string">&quot;b_&#x4F5C;&#x8005;&quot;</span>:author.encode(<span class="hljs-string">&apos;utf-8&apos;</span>), <span class="hljs-string">&quot;c_&#x6A19;&#x984C;&quot;</span>:title.encode(<span class="hljs-string">&apos;utf-8&apos;</span>), <span class="hljs-string">&quot;d_&#x65E5;&#x671F;&quot;</span>:date.encode(<span class="hljs-string">&apos;utf-8&apos;</span>), 
+        <span class="hljs-string">&quot;e_ip&quot;</span>:ip.encode(<span class="hljs-string">&apos;utf-8&apos;</span>), <span class="hljs-string">&quot;f_&#x7DB2;&#x5740;&quot;</span>: link.encode(<span class="hljs-string">&apos;utf-8&apos;</span>), <span class="hljs-string">&quot;g_&#x5167;&#x6587;&quot;</span>:main_content.encode(<span class="hljs-string">&apos;utf-8&apos;</span>), <span class="hljs-string">&quot;h_&#x63A8;&#x6587;&quot;</span>:message,<span class="hljs-string">&quot;i_&#x63A8;&#x6587;&#x7E3D;&#x6578;&quot;</span>:messageNum} 
+        json_data = json.dumps(d,ensure_ascii=<span class="hljs-keyword">False</span>,indent=<span class="hljs-number">4</span>,sort_keys=<span class="hljs-keyword">True</span>)+<span class="hljs-string">&apos;,&apos;</span> 
+        store(json_data)  
 
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">store</span><span class="hljs-params">(data)</span>:</span>
-    <span class="hljs-keyword">with</span> open(FILENAME, <span class="hljs-string">&apos;a&apos;</span>) <span class="hljs-keyword">as</span> f:
-        f.write(data)
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">store</span><span class="hljs-params">(data)</span>:</span> 
+    <span class="hljs-keyword">with</span> open(FILENAME, <span class="hljs-string">&apos;a&apos;</span>) <span class="hljs-keyword">as</span> f: 
+        f.write(data) 
 
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">remove</span><span class="hljs-params">(value, deletechars)</span>:</span>
-    <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> deletechars:
-        value = value.replace(c,<span class="hljs-string">&apos;&apos;</span>)
-    <span class="hljs-keyword">return</span> value.rstrip();
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">remove</span><span class="hljs-params">(value, deletechars)</span>:</span> 
+    <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> deletechars: 
+        value = value.replace(c,<span class="hljs-string">&apos;&apos;</span>) 
+    <span class="hljs-keyword">return</span> value.rstrip(); 
 
 
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">getPageNumber</span><span class="hljs-params">(content)</span> :</span>
-    startIndex = content.find(<span class="hljs-string">&apos;index&apos;</span>)
-    endIndex = content.find(<span class="hljs-string">&apos;.html&apos;</span>)
-    pageNumber = content[startIndex+<span class="hljs-number">5</span> : endIndex]
-    <span class="hljs-keyword">return</span> pageNumber
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">getPageNumber</span><span class="hljs-params">(content)</span> :</span> 
+    startIndex = content.find(<span class="hljs-string">&apos;index&apos;</span>) 
+    endIndex = content.find(<span class="hljs-string">&apos;.html&apos;</span>) 
+    pageNumber = content[startIndex+<span class="hljs-number">5</span> : endIndex] 
+    <span class="hljs-keyword">return</span> pageNumber 
 
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">line_nofity</span><span class="hljs-params">(item)</span>:</span>
-    url = <span class="hljs-string">&quot;https://notify-api.line.me/api/notify&quot;</span>
-    token = <span class="hljs-string">&quot;KXwzqEGtIp1JEkS5GjqXqRAT0D4BdQQvCNcqOa7ySfz&quot;</span>
-    headers = {<span class="hljs-string">&quot;Authorization&quot;</span> : <span class="hljs-string">&quot;Bearer &quot;</span>+ token}
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">line_nofity</span><span class="hljs-params">(item)</span>:</span> 
+    url = <span class="hljs-string">&quot;https://notify-api.line.me/api/notify&quot;</span> 
+    token = <span class="hljs-string">&quot;KXwzqEGtIp1JEkS5GjqXqRAT0D4BdQQvCNcqOa7ySfz&quot;</span> 
+    headers = {<span class="hljs-string">&quot;Authorization&quot;</span> : <span class="hljs-string">&quot;Bearer &quot;</span>+ token} 
 
-    message = item[<span class="hljs-string">u&apos;b_&#x4F5C;&#x8005;&apos;</span>] + <span class="hljs-string">&quot;\n&quot;</span> + item[<span class="hljs-string">u&apos;c_&#x6A19;&#x984C;&apos;</span>] +  <span class="hljs-string">&quot;\n&quot;</span> + item[<span class="hljs-string">u&apos;d_&#x65E5;&#x671F;&apos;</span>] + <span class="hljs-string">&quot;\n&quot;</span> + item[<span class="hljs-string">u&apos;f_&#x7DB2;&#x5740;&apos;</span>] + <span class="hljs-string">&quot;\n&quot;</span> + item[<span class="hljs-string">u&apos;g_&#x5167;&#x6587;&apos;</span>] + <span class="hljs-string">&quot;\n&quot;</span>
-    <span class="hljs-comment">#message = item[u&apos;b_&#x4F5C;&#x8005;&apos;] + &quot;\n&quot;</span>
-    payload = {<span class="hljs-string">&quot;message&quot;</span> :  message}
-    files = {<span class="hljs-string">&quot;imageFile&quot;</span>: open(<span class="hljs-string">&quot;/home/shihyu/line_ptt/test.jpg&quot;</span>, <span class="hljs-string">&quot;rb&quot;</span>)} 
-    r = requests.post(url ,headers = headers ,params=payload, files=files)
+    message = item[<span class="hljs-string">u&apos;b_&#x4F5C;&#x8005;&apos;</span>] + <span class="hljs-string">&quot;\n&quot;</span> + item[<span class="hljs-string">u&apos;c_&#x6A19;&#x984C;&apos;</span>] + <span class="hljs-string">&quot;\n&quot;</span> + item[<span class="hljs-string">u&apos;d_&#x65E5;&#x671F;&apos;</span>] + <span class="hljs-string">&quot;\n&quot;</span> + item[<span class="hljs-string">u&apos;f_&#x7DB2;&#x5740;&apos;</span>] + <span class="hljs-string">&quot;\n&quot;</span> + item[<span class="hljs-string">u&apos;g_&#x5167;&#x6587;&apos;</span>] + <span class="hljs-string">&quot;\n&quot;</span> 
+    <span class="hljs-comment">#message = item[u&apos;b_&#x4F5C;&#x8005;&apos;] + &quot;\n&quot; </span>
+    payload = {<span class="hljs-string">&quot;message&quot;</span> : message} 
+    <span class="hljs-comment">#files = {&quot;imageFile&quot;: open(&quot;test.jpg&quot;, &quot;rb&quot;)}  </span>
 
-<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:  
-   PttName = str(sys.argv[<span class="hljs-number">1</span>])
-   ParsingPage = int(sys.argv[<span class="hljs-number">2</span>])
-   KeyWord = (sys.argv[<span class="hljs-number">3</span>]).decode(<span class="hljs-string">&apos;string_escape&apos;</span>).decode(<span class="hljs-string">&apos;utf-8&apos;</span>)
-   <span class="hljs-comment">#print KeyWord</span>
-   FILENAME=<span class="hljs-string">&apos;/tmp/data-&apos;</span>+PttName+<span class="hljs-string">&apos;-&apos;</span>+datetime.now().strftime(<span class="hljs-string">&apos;%Y-%m-%d-%H-%M-%S&apos;</span>)+<span class="hljs-string">&apos;.json&apos;</span>
-   store(<span class="hljs-string">&apos;[&apos;</span>) 
-   <span class="hljs-keyword">print</span> <span class="hljs-string">&apos;Start parsing [&apos;</span>,PttName,<span class="hljs-string">&apos;]....&apos;</span>
-   crawler(PttName,ParsingPage)
-   store(<span class="hljs-string">&apos;]&apos;</span>) 
+    <span class="hljs-comment">#r = requests.post(url ,headers = headers ,params=payload, files=files) </span>
+    r = requests.post(url ,headers = headers ,params=payload)
 
-   <span class="hljs-keyword">with</span> open(FILENAME, <span class="hljs-string">&apos;r&apos;</span>) <span class="hljs-keyword">as</span> f:
-        p = f.read()
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:   
+   PttName = str(sys.argv[<span class="hljs-number">1</span>]) 
+   ParsingPage = int(sys.argv[<span class="hljs-number">2</span>]) 
+   KeyWord = (sys.argv[<span class="hljs-number">3</span>]).decode(sys.stdin.encoding) 
+   <span class="hljs-keyword">print</span> KeyWord 
+   FILENAME=<span class="hljs-string">&apos;data-&apos;</span>+PttName+<span class="hljs-string">&apos;-&apos;</span>+datetime.now().strftime(<span class="hljs-string">&apos;%Y-%m-%d-%H-%M-%S&apos;</span>)+<span class="hljs-string">&apos;.json&apos;</span> 
+   store(<span class="hljs-string">&apos;[&apos;</span>)  
+   <span class="hljs-keyword">print</span> <span class="hljs-string">&apos;Start parsing [&apos;</span>,PttName,<span class="hljs-string">&apos;]....&apos;</span> 
+   crawler(PttName,ParsingPage) 
+   store(<span class="hljs-string">&apos;]&apos;</span>)  
 
-   <span class="hljs-keyword">with</span> open(FILENAME, <span class="hljs-string">&apos;w&apos;</span>) <span class="hljs-keyword">as</span> f:
-        <span class="hljs-comment">#f.write(p.replace(&apos;,]&apos;,&apos;]&apos;))</span>
-        f.write(p[:-<span class="hljs-number">2</span>]+<span class="hljs-string">&apos;]&apos;</span>)   
+   <span class="hljs-keyword">with</span> open(FILENAME, <span class="hljs-string">&apos;r&apos;</span>) <span class="hljs-keyword">as</span> f: 
+        p = f.read() 
 
-<span class="hljs-keyword">with</span> open(FILENAME, <span class="hljs-string">&apos;r&apos;</span>) <span class="hljs-keyword">as</span> f:
-    json_data = json.load(f)
+   <span class="hljs-keyword">with</span> open(FILENAME, <span class="hljs-string">&apos;w&apos;</span>) <span class="hljs-keyword">as</span> f: 
+        <span class="hljs-comment">#f.write(p.replace(&apos;,]&apos;,&apos;]&apos;)) </span>
+        f.write(p[:-<span class="hljs-number">2</span>]+<span class="hljs-string">&apos;]&apos;</span>)    
 
-<span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> json_data:
-    <span class="hljs-keyword">if</span> KeyWord <span class="hljs-keyword">in</span> item[<span class="hljs-string">u&apos;c_&#x6A19;&#x984C;&apos;</span>].lower() <span class="hljs-keyword">or</span> KeyWord <span class="hljs-keyword">in</span> item[<span class="hljs-string">u&apos;g_&#x5167;&#x6587;&apos;</span>].lower():
-        line_nofity(item)
-        <span class="hljs-keyword">print</span> item[<span class="hljs-string">u&apos;b_&#x4F5C;&#x8005;&apos;</span>]
-        <span class="hljs-keyword">print</span> item[<span class="hljs-string">u&apos;c_&#x6A19;&#x984C;&apos;</span>]
-        <span class="hljs-keyword">print</span> item[<span class="hljs-string">u&apos;d_&#x65E5;&#x671F;&apos;</span>]
-        <span class="hljs-keyword">print</span> item[<span class="hljs-string">u&apos;f_&#x7DB2;&#x5740;&apos;</span>]
-        <span class="hljs-keyword">print</span> item[<span class="hljs-string">u&apos;g_&#x5167;&#x6587;&apos;</span>]
+<span class="hljs-keyword">with</span> open(FILENAME, <span class="hljs-string">&apos;r&apos;</span>) <span class="hljs-keyword">as</span> f: 
+    json_data = json.load(f) 
+
+
+<span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> json_data: 
+    <span class="hljs-keyword">if</span> KeyWord <span class="hljs-keyword">in</span> item[<span class="hljs-string">u&apos;c_&#x6A19;&#x984C;&apos;</span>]:  
+        line_nofity(item) 
+        <span class="hljs-keyword">print</span> item[<span class="hljs-string">u&apos;b_&#x4F5C;&#x8005;&apos;</span>] 
+        <span class="hljs-keyword">print</span> item[<span class="hljs-string">u&apos;c_&#x6A19;&#x984C;&apos;</span>] 
+        <span class="hljs-keyword">print</span> item[<span class="hljs-string">u&apos;d_&#x65E5;&#x671F;&apos;</span>] 
+        <span class="hljs-keyword">print</span> item[<span class="hljs-string">u&apos;f_&#x7DB2;&#x5740;&apos;</span>] 
+        <span class="hljs-keyword">print</span> item[<span class="hljs-string">u&apos;g_&#x5167;&#x6587;&apos;</span>] 
         <span class="hljs-keyword">print</span> <span class="hljs-string">&apos;\n&apos;</span>
 </code></pre>
 <h2 id="python-pttcrawlerpython2py-&#x7248;&#x9762;&#x540D;&#x7A31;--&#x722C;&#x7684;&#x9801;&#x6578;-&#x641C;&#x5C0B;&#x95DC;&#x9375;&#x5B57;&#x82F1;&#x6587;&#x55AE;&#x5B57;&#x9700;&#x8981;&#x5C0F;&#x5BEB;">python pttcrawler_python2.py &#x7248;&#x9762;&#x540D;&#x7A31;  &#x722C;&#x7684;&#x9801;&#x6578; &#x641C;&#x5C0B;&#x95DC;&#x9375;&#x5B57;(<code>&#x82F1;&#x6587;&#x55AE;&#x5B57;&#x9700;&#x8981;&#x5C0F;&#x5BEB;</code>)</h2>

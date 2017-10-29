@@ -49,7 +49,7 @@ https://github.com/vim/vim.git
 ```
 
 ```sh
-./configure  --prefix=/root/.mybin/vim \
+./configure  --prefix=/home/shihyu/.mybin/vim \
 --enable-multibyte \
 --enable-fontset \
 --enable-xim  \
@@ -66,8 +66,8 @@ https://github.com/vim/vim.git
 --with-compiledby=erocpil  \
 --with-features=huge \
 --enable-luainterp=dynamic  \
---with-python-config-dir=/usr/lib/python2.7/config \
---with-python3-config-dir=/usr/lib/python3.2/config
+--with-python-config-dir=/usr/lib/python2.7/config-x86_64-linux-gnu \
+--with-python3-config-dir=/usr/lib/python3.5/config-3.5m-x86_64-linux-gnu
 ```
 
 ```sh

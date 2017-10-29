@@ -1,17 +1,17 @@
-# 編譯vim8並添加對lua,python,ruby的支持
+# 编译vim8并添加对lua,python,ruby的支持
 
 
-##卸載原有vim
+##卸载原有vim
 
 ```sh
 sudo apt-get remove --purge vim vim-runtime vim-gnome vim-tiny vim-gui-common
 sudo rm -rf /usr/local/share/vim /usr/bin/vim
 ```
 
-建議卸載原有 vim 版本
+建议卸载原有 vim 版本
 
 
-##下載並解壓源碼包
+##下载并解压源码包
 
 
 ```sh
@@ -21,10 +21,10 @@ https://github.com/vim/vim/releases
 
 ```
 
-對vim8的開發還在火熱進行中，在我下載該源碼包後的9小時內又產生了3個新版本。
+对vim8的开发还在火热进行中，在我下载该源码包后的9小时内又产生了3个新版本。
 
 
-##安裝相關依賴
+##安装相关依赖
 
 ```sh
 sudo apt-get install lua5.1 liblua5.1-dev \
@@ -35,7 +35,7 @@ sudo apt-get install lua5.1 liblua5.1-dev \
                      libxpm-dev libxt-dev
 ```
 
-## 編譯vim8
+## 编译vim8
 
 生成Makefile :
 
@@ -58,23 +58,23 @@ sudo apt-get install lua5.1 liblua5.1-dev \
 --enable-fontset \
 --enable-largefile \
 --disable-netbeans \
---with-compiledby="Fan" \
+--with-compiledby="Jason" \
 --enable-fail-if-missing
 ```
 
-建 議：將上面的命令添加到目錄下的 configure 文件中，替換掉文件中原有的 ./configure ?@。
+建 议：将上面的命令添加到目录下的 configure 文件中，替换掉文件中原有的 ./configure ?@。
 
 
-## 使用make進行編譯：
+## 使用make进行编译：
 
 ```sh
 make
 ```
 
-`注意`：無需添加--with-lua-prefix=/usr/include/lua5.1選項，只需存在--enable-luainterp選項即可為vim8添加lua支持。
+`注意`：无需添加--with-lua-prefix=/usr/include/lua5.1选项，只需存在--enable-luainterp选项即可为vim8添加lua支持。
 
 
-編譯失敗的腳本
+编译失败的脚本
 
 ```sh
 ./configure --with-vim-name=vim \
@@ -96,36 +96,36 @@ make
 --with-compiledby="YourName"  \
 --enable-fail-if-missing
 
-# 遇到的幾個錯誤：
-# 腳本中的 \ 後不能有空格，而因在\後直接換行
-# bash: /usr/bin/python3.5-config: 沒有那個文件或目錄    原因是沒有安裝：python3.5-dev
+# 遇到的几个错误：
+# 脚本中的 \ 后不能有空格，而因在\后直接换行
+# bash: /usr/bin/python3.5-config: 没有那个文件或目录    原因是没有安装：python3.5-dev
 # checking if lua.h can be found in /usr/include/lua5.3/include... no
 # checking if lua.h can be found in /usr/include/lua5.3/include/lua... no
 ```
 
-## 安裝vim8
+## 安装vim8
 
 ###生成 deb 包
 
 ```sh
 sudo checkinstall --install=no
-# ... 對deb進行描述
+# ... 对deb进行描述
 ```
 
-###安裝
+###安装
 
 ```sh
 sudo dpkg -i vim-***.deb
 ```
 
-### 查看安裝：
+### 查看安装：
 
 ```sh
 [fan 12:28:37]/tmp/vim-8.0.0768$ vim --version
 VIM - Vi IMproved 8.0 (2016 Sep 12, compiled Jul 25 2017 12:21:19)
-包含補丁: 1-768
-編譯者 fan
-巨型版本 無圖形界面。  可使用(+)與不可使用(-)的功能:
+包含补丁: 1-768
+编译者 fan
+巨型版本 无图形界面。  可使用(+)与不可使用(-)的功能:
 +acl             +file_in_path    +mouse_sgr       +tag_old_static
 +arabic          +find_in_path    -mouse_sysmouse  -tag_any_white
 +autocmd         +float           +mouse_urxvt     -tcl
@@ -156,15 +156,15 @@ VIM - Vi IMproved 8.0 (2016 Sep 12, compiled Jul 25 2017 12:21:19)
 +ex_extra        -mouse_gpm       -sun_workshop    +xterm_clipboard
 +extra_search    -mouse_jsbterm   +syntax          -xterm_save
 +farsi           +mouse_netterm   +tag_binary      
-     系統 vimrc 文件: "$VIM/vimrc"
-     用戶 vimrc 文件: "$HOME/.vimrc"
- 第二用戶 vimrc 文件: "~/.vim/vimrc"
-      用戶 exrc 文件: "$HOME/.exrc"
+     系统 vimrc 文件: "$VIM/vimrc"
+     用户 vimrc 文件: "$HOME/.vimrc"
+ 第二用户 vimrc 文件: "~/.vim/vimrc"
+      用户 exrc 文件: "$HOME/.exrc"
        defaults file: "$VIMRUNTIME/defaults.vim"
-         $VIM 預設值: "/usr/local/share/vim"
+         $VIM 预设值: "/usr/local/share/vim"
 ```
 
-##參考
+##参考
 
 Google搜索： Installing vim 8 with lua on Ubuntu 
 Install Vim 8 with Python, Python 3, Ruby and Lua support on Ubuntu 16.04 

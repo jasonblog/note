@@ -41,6 +41,7 @@ sudo apt-get install lua5.1 liblua5.1-dev \
 
 ```sh
 ./configure \
+--prefix=/home/shihyu/.mybin/vim \
 --enable-multibyte \
 --enable-perlinterp=dynamic \
 --enable-rubyinterp=dynamic \

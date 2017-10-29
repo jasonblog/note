@@ -805,6 +805,7 @@
    * [Python 讀取csv的某行](python/python_du_qu_csv_de_mou_xing.md)
 * [Vim](vim/vim.md)
    * [HOWTO - vi, vim](vim/howto_-_vi,_vim.md)
+   * 编译vim8并添加对lua,python,ruby的支持
 * [TDD](tdd/README.md)
    * [程式設計師升級必練內功：TDD Kata](tdd/311.md)
 * [Raspberry_Pi](raspberry_pi/README.md)

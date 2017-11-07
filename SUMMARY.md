@@ -1294,6 +1294,7 @@
    * [CUDA ---- Hello World From GPU](cuda/cuda_----_hello_world_from_gpu.md)
 * [Math](math/math.md)
    * [三角函數](math/san_jiao_han_shu.md)
+   * Angle Between Two 3D Vectors
 * [Third-party](third-party/third-party.md)
    * [Eigen 使用](third-party/eigen_shi_yong.md)
 

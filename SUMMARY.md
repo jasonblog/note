@@ -1295,6 +1295,7 @@
 * [Math](math/math.md)
    * [三角函數](math/san_jiao_han_shu.md)
    * [Angle Between Two 3D Vectors](math/angle_between_two_3d_vectors.md)
+   * FINDING OPTIMAL ROTATION AND TRANSLATION BETWEEN CORRESPONDING 3D POINTS
 * [Third-party](third-party/third-party.md)
    * [Eigen 使用](third-party/eigen_shi_yong.md)
 

@@ -1298,7 +1298,7 @@
    * [FINDING OPTIMAL ROTATION AND TRANSLATION BETWEEN CORRESPONDING 3D POINTS](math/finding_optimal_rotation_and_translation_between_c.md)
    * [以矩陣來表示轉換](math/yi_ju_zhen_lai_biao_shi_zhuan_huan.md)
    * [NumPy 矩陣乘法](math/numpy_ju_zhen_cheng_fa.md)
-   * 奇异值分解(SVD) --- 几何意义
+   * [奇异值分解(SVD) --- 几何意义](math/qi_yi_zhi_fen_89e328_svd__---_ji_he_yi_yi.md)
 * [Third-party](third-party/third-party.md)
    * [Eigen 使用](third-party/eigen_shi_yong.md)
 

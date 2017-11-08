@@ -1297,7 +1297,7 @@
    * [Angle Between Two 3D Vectors](math/angle_between_two_3d_vectors.md)
    * [FINDING OPTIMAL ROTATION AND TRANSLATION BETWEEN CORRESPONDING 3D POINTS](math/finding_optimal_rotation_and_translation_between_c.md)
    * [以矩陣來表示轉換](math/yi_ju_zhen_lai_biao_shi_zhuan_huan.md)
-   * NumPy 矩阵乘法
+   * [NumPy 矩阵乘法](math/numpy_ju_zhen_cheng_fa.md)
 * [Third-party](third-party/third-party.md)
    * [Eigen 使用](third-party/eigen_shi_yong.md)
 

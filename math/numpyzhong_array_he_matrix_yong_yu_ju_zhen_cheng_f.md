@@ -1,9 +1,9 @@
-# NumPy中array和matrix用于矩阵乘法时的区别
+# NumPy中array和matrix用於矩陣乘法時的區別
 
 
-在NumPy中，array用于表示通用的N维数组，matrix则特定用于线性代数计算。array和matrix都可以用来表示矩阵，二者在进行乘法操作时，有一些不同之处。
+在NumPy中，array用於表示通用的N維數組，matrix則特定用於線性代數計算。array和matrix都可以用來表示矩陣，二者在進行乘法操作時，有一些不同之處。
 
-使用array时，运算符 * 用于计算`数量`积（点乘），函数 dot() 用于计算`矢量`积（叉乘），例子如：
+使用array時，運算符 * 用於計算`數量`積（點乘），函數 dot() 用於計算`矢量`積（叉乘），例子如：
 
 
 ```py
@@ -16,7 +16,7 @@ print 'a * b = \n', a * b
 print 'np.dot(a, b) = \n', np.dot(a, b)
 ```
 
-运行结果为：
+運行結果為：
 
 ```sh
 a * b = 
@@ -27,9 +27,9 @@ np.dot(a, b) =
  [43 50]]
 ```
 
-可见，当a和b为array时， ```a * b``` 计算了a和b的数量积（对应Matlab的 ```a .* b``` ）， ```dot(a, b)``` 计算了a和b的矢量积（对应Matlab的 a * b ）。
+可見，當a和b為array時， ```a * b``` 計算了a和b的數量積（對應Matlab的 ```a .* b``` ）， ```dot(a, b)``` 計算了a和b的矢量積（對應Matlab的 a * b ）。
 
-与array不同的是，使用matrix时，运算符 * 用于计算矢量积，函数 multiply() 用于计算数量积，例子如：
+與array不同的是，使用matrix時，運算符 * 用於計算矢量積，函數 multiply() 用於計算數量積，例子如：
 
 
 ```py
@@ -42,7 +42,7 @@ print 'a * b = \n', a * b
 print 'np.multiply(a, b) = \n', np.multiply(a, b)
 ```
 
-运行结果为：
+運行結果為：
 
 
 ```sh
@@ -54,4 +54,4 @@ np.multiply(a, b) =
  [21 32]]
  ```
  
- 可见，当a和b为matrix时， a * b 计算了a和b的矢量积， multiply(a, b) 计算了a和b的数量积。当使用matrix时，无论是生成矩阵还是计算，Numpy的风格和Matlab更加贴近，降低了语言切换时的负担。
+ 可見，當a和b為matrix時， a * b 計算了a和b的矢量積， multiply(a, b) 計算了a和b的數量積。當使用matrix時，無論是生成矩陣還是計算，Numpy的風格和Matlab更加貼近，降低了語言切換時的負擔。

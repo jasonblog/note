@@ -1301,5 +1301,5 @@
    * [奇異值分解(SVD) --- 幾何意義](math/qi_yi_zhi_fen_89e328_svd__---_ji_he_yi_yi.md)
 * [Third-party](third-party/third-party.md)
    * [Eigen 使用](third-party/eigen_shi_yong.md)
-   * C++矩陣處理庫--Eigen初步使用
+   * [C++矩陣處理庫--Eigen初步使用](third-party/cju_zhen_chu_li_5eab--_eigen_chu_bu_shi_yong.md)
 

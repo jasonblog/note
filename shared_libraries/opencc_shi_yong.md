@@ -1,6 +1,19 @@
 # Opencc 使用
 
 
+```sh
+https://github.com/BYVoid/OpenCC
+```
+
+
+```sh
+cmake -DCMAKE_INSTALL_PREFIX="/home/shihyu/.mybin/opencc" \
+-DCMAKE_INSTALL_RPATH="/home/shihyu/.mybin/opencc/lib" ../
+
+make && make install
+```
+
+
 ```py
 # -*- coding: utf-8 -*-
 # Author: bl_indie

@@ -803,6 +803,7 @@
    * [DB](python/db.md)
        * [SQLite - Python 安裝](python/sqlite_-_python_an_zhuang.md)
    * [Python 讀取csv的某行](python/python_du_qu_csv_de_mou_xing.md)
+   * 用 Anaconda 完美解决 Python2 和 python3 共存问题
 * [Vim](vim/vim.md)
    * [HOWTO - vi, vim](vim/howto_-_vi,_vim.md)
    * [編譯vim8並添加對lua,python,ruby的支持](vim/bian_yi_vim8_bing_tian_jia_dui_lua_,_python_,_ruby.md)

@@ -67,17 +67,17 @@ using namespace std;
 
 int main()
 {
-    // 矩阵类模板的前三个参数为：数据类型，行，列
+    // 矩陣類模板的前三個參數為：數據類型，行，列
     Eigen::Matrix< float, 2, 3 > matrix_23;
-    // 填充数据
+    // 填充數據
     matrix_23 << 1, 2, 3, 4, 5, 6;
-    // 输出:
+    // 輸出:
     // 1 2 3
     // 4 5 6
     cout << matrix_23 << endl;
 
-    // 访问元素
-    // 输出：
+    // 訪問元素
+    // 輸出：
     // 1
     // 2
     for (int i = 0; i < 1; i++)
@@ -85,13 +85,13 @@ int main()
             cout << matrix_23(i, j) << endl;
         }
 
-    // Vector3d实质上是Eigen::Matrix< double, 3, 1 >
+    // Vector3d實質上是Eigen::Matrix< double, 3, 1 >
     Eigen::Vector3d v_3d;
     v_3d << 3, 2, 1;
 
-    // 矩阵和向量相乘，但不允许混合类型
+    // 矩陣和向量相乘，但不允許混合類型
     Eigen::Matrix< double, 2, 1 > result = matrix_23.cast< double >() * v_3d;
-    // 输出：
+    // 輸出：
     // 10
     // 28
     cout << result << endl;
@@ -103,25 +103,25 @@ int main()
     cout << matrix_33.transpose() << endl;
     cout << matrix_33.sum() << endl;   // 各元素和
     cout << matrix_33.trace() << endl;
-    cout << 10 * matrix_33 << endl;  // 数乘
+    cout << 10 * matrix_33 << endl;  // 數乘
     cout << matrix_33.inverse() << endl;   // 逆
     // cout << matrix_33.derterminant() << endl;
 
-    // 特征值
+    // 特徵值
     Eigen::SelfAdjointEigenSolver< Eigen::Matrix3d > eigen_solver(matrix_33);
     cout << "Eigen values = " << eigen_solver.eigenvalues() << endl;
     cout << "Eigen vectors = " << eigen_solver.eigenvectors() << endl;
 
     // 解方程
     // matrix_33 * x = v_3d
-    // 直接求逆（运算量大）
+    // 直接求逆（運算量大）
     Eigen::Vector3d x = matrix_33.inverse() * v_3d;
     cout << "x = " << x << endl;
-    // 矩阵分解法，如QR分解
+    // 矩陣分解法，如QR分解
     x = matrix_33.colPivHouseholderQr().solve(v_3d);
     cout << "x = " << x << endl;
 
-    // 若不确定矩阵大小，可以使用动态大小的矩阵
+    // 若不確定矩陣大小，可以使用動態大小的矩陣
     Eigen::Matrix< double, Eigen::Dynamic, Eigen::Dynamic > matrix_dynamic;
 
     Eigen::MatrixXd matrix_x;

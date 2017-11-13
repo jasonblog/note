@@ -41,6 +41,8 @@
         
     
     
+    <link rel="next" href="../third-party/cju_zhen_chu_li_5eab--_eigen_chu_bu_shi_yong.html" />
+    
     
     <link rel="prev" href="../third-party/third-party.html" />
     
@@ -55,7 +57,7 @@
         data-chapter-title="Eigen 使用"
         data-filepath="third-party/eigen_shi_yong.md"
         data-basepath=".."
-        data-revision="Thu Nov 09 2017 11:24:49 GMT+0800 (CST)"
+        data-revision="Mon Nov 13 2017 21:09:38 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -12539,6 +12541,21 @@
             
         </li>
     
+        <li class="chapter " data-level="27.34" data-path="python/yong_anaconda_wan_mei_jie_jue_python2_he_python3_g.html">
+            
+                
+                    <a href="../python/yong_anaconda_wan_mei_jie_jue_python2_he_python3_g.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>27.34.</b>
+                        
+                        用 Anaconda 完美解決 Python2 和 python3 共存問題
+                    </a>
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -20484,6 +20501,21 @@
             
         </li>
     
+        <li class="chapter " data-level="73.2" data-path="third-party/cju_zhen_chu_li_5eab--_eigen_chu_bu_shi_yong.html">
+            
+                
+                    <a href="../third-party/cju_zhen_chu_li_5eab--_eigen_chu_bu_shi_yong.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>73.2.</b>
+                        
+                        C++矩陣處理庫--Eigen初步使用
+                    </a>
+            
+            
+        </li>
+    
 
             </ul>
             
@@ -20568,6 +20600,76 @@ int main(int argc, char *argv[])
     return 0;
 }
 </code></pre>
+<h2 id="eigen&#x57FA;&#x672C;&#x7528;&#x6CD5;">Eigen&#x57FA;&#x672C;&#x7528;&#x6CD5;</h2>
+<pre><code class="lang-cpp"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;Eigen/Core&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;Eigen/Dense&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-comment">// &#x77E9;&#x9663;&#x985E;&#x6A21;&#x677F;&#x7684;&#x524D;&#x4E09;&#x500B;&#x53C3;&#x6578;&#x70BA;&#xFF1A;&#x6578;&#x64DA;&#x985E;&#x578B;&#xFF0C;&#x884C;&#xFF0C;&#x5217;</span>
+    Eigen::Matrix&lt; <span class="hljs-keyword">float</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span> &gt; matrix_23;
+    <span class="hljs-comment">// &#x586B;&#x5145;&#x6578;&#x64DA;</span>
+    matrix_23 &lt;&lt; <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>;
+    <span class="hljs-comment">// &#x8F38;&#x51FA;:</span>
+    <span class="hljs-comment">// 1 2 3</span>
+    <span class="hljs-comment">// 4 5 6</span>
+    <span class="hljs-built_in">cout</span> &lt;&lt; matrix_23 &lt;&lt; endl;
+
+    <span class="hljs-comment">// &#x8A2A;&#x554F;&#x5143;&#x7D20;</span>
+    <span class="hljs-comment">// &#x8F38;&#x51FA;&#xFF1A;</span>
+    <span class="hljs-comment">// 1</span>
+    <span class="hljs-comment">// 2</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">1</span>; i++)
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; <span class="hljs-number">2</span>; j++) {
+            <span class="hljs-built_in">cout</span> &lt;&lt; matrix_23(i, j) &lt;&lt; endl;
+        }
+
+    <span class="hljs-comment">// Vector3d&#x5BE6;&#x8CEA;&#x4E0A;&#x662F;Eigen::Matrix&lt; double, 3, 1 &gt;</span>
+    Eigen::Vector3d v_3d;
+    v_3d &lt;&lt; <span class="hljs-number">3</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>;
+
+    <span class="hljs-comment">// &#x77E9;&#x9663;&#x548C;&#x5411;&#x91CF;&#x76F8;&#x4E58;&#xFF0C;&#x4F46;&#x4E0D;&#x5141;&#x8A31;&#x6DF7;&#x5408;&#x985E;&#x578B;</span>
+    Eigen::Matrix&lt; <span class="hljs-keyword">double</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span> &gt; result = matrix_23.cast&lt; <span class="hljs-keyword">double</span> &gt;() * v_3d;
+    <span class="hljs-comment">// &#x8F38;&#x51FA;&#xFF1A;</span>
+    <span class="hljs-comment">// 10</span>
+    <span class="hljs-comment">// 28</span>
+    <span class="hljs-built_in">cout</span> &lt;&lt; result &lt;&lt; endl;
+
+    Eigen::Matrix3d matrix_33 = Eigen::Matrix3d::Zero();
+    matrix_33 = Eigen::Matrix3d::Random();
+    <span class="hljs-built_in">cout</span> &lt;&lt; matrix_33 &lt;&lt; endl;
+
+    <span class="hljs-built_in">cout</span> &lt;&lt; matrix_33.transpose() &lt;&lt; endl;
+    <span class="hljs-built_in">cout</span> &lt;&lt; matrix_33.sum() &lt;&lt; endl;   <span class="hljs-comment">// &#x5404;&#x5143;&#x7D20;&#x548C;</span>
+    <span class="hljs-built_in">cout</span> &lt;&lt; matrix_33.trace() &lt;&lt; endl;
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-number">10</span> * matrix_33 &lt;&lt; endl;  <span class="hljs-comment">// &#x6578;&#x4E58;</span>
+    <span class="hljs-built_in">cout</span> &lt;&lt; matrix_33.inverse() &lt;&lt; endl;   <span class="hljs-comment">// &#x9006;</span>
+    <span class="hljs-comment">// cout &lt;&lt; matrix_33.derterminant() &lt;&lt; endl;</span>
+
+    <span class="hljs-comment">// &#x7279;&#x5FB5;&#x503C;</span>
+    Eigen::SelfAdjointEigenSolver&lt; Eigen::Matrix3d &gt; eigen_solver(matrix_33);
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Eigen values = &quot;</span> &lt;&lt; eigen_solver.eigenvalues() &lt;&lt; endl;
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Eigen vectors = &quot;</span> &lt;&lt; eigen_solver.eigenvectors() &lt;&lt; endl;
+
+    <span class="hljs-comment">// &#x89E3;&#x65B9;&#x7A0B;</span>
+    <span class="hljs-comment">// matrix_33 * x = v_3d</span>
+    <span class="hljs-comment">// &#x76F4;&#x63A5;&#x6C42;&#x9006;&#xFF08;&#x904B;&#x7B97;&#x91CF;&#x5927;&#xFF09;</span>
+    Eigen::Vector3d x = matrix_33.inverse() * v_3d;
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;x = &quot;</span> &lt;&lt; x &lt;&lt; endl;
+    <span class="hljs-comment">// &#x77E9;&#x9663;&#x5206;&#x89E3;&#x6CD5;&#xFF0C;&#x5982;QR&#x5206;&#x89E3;</span>
+    x = matrix_33.colPivHouseholderQr().solve(v_3d);
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;x = &quot;</span> &lt;&lt; x &lt;&lt; endl;
+
+    <span class="hljs-comment">// &#x82E5;&#x4E0D;&#x78BA;&#x5B9A;&#x77E9;&#x9663;&#x5927;&#x5C0F;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x52D5;&#x614B;&#x5927;&#x5C0F;&#x7684;&#x77E9;&#x9663;</span>
+    Eigen::Matrix&lt; <span class="hljs-keyword">double</span>, Eigen::Dynamic, Eigen::Dynamic &gt; matrix_dynamic;
+
+    Eigen::MatrixXd matrix_x;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
 
                     
                     </section>
@@ -20578,8 +20680,10 @@ int main(int argc, char *argv[])
         </div>
 
         
-        <a href="../third-party/third-party.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: Third-party"><i class="fa fa-angle-left"></i></a>
+        <a href="../third-party/third-party.html" class="navigation navigation-prev " aria-label="Previous page: Third-party"><i class="fa fa-angle-left"></i></a>
         
+        
+        <a href="../third-party/cju_zhen_chu_li_5eab--_eigen_chu_bu_shi_yong.html" class="navigation navigation-next " aria-label="Next page: C++矩陣處理庫--Eigen初步使用"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

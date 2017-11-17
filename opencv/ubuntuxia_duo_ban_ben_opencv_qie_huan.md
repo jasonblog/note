@@ -25,17 +25,35 @@
 
 ```sh
 
+cmake -D CMAKE_INSTALL_PREFIX=/home/shihyu/.mybin/opencv-2.4.13 \
+      -D CMAKE_PREFIX_PATH=/home/shihyu/.mybin/opencv-2.4.13/share/OpenCV \
+      -D BUILD_NEW_PYTHON_SUPPORT=ON \
+      -D CMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} -D_FORCE_INLINES" \
+      -D CMAKE_BUILD_TYPE:STRING=RelWithDebInfo \
+      -D CMAKE_BUILD_TYPE=DEBUG \
+      -D WITH_CUDA=OFF ..
+
+
+cmake -D CMAKE_INSTALL_PREFIX=/home/shihyu/.mybin/opencv-3.3.1 \
+      -D CMAKE_PREFIX_PATH=/home/shihyu/.mybin/opencv-3.3.1/share/OpenCV \
+      -D BUILD_NEW_PYTHON_SUPPORT=ON \
+      -D CMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} -D_FORCE_INLINES" \
+      -D CMAKE_BUILD_TYPE:STRING=RelWithDebInfo \
+      -D CMAKE_BUILD_TYPE=DEBUG \
+      -D WITH_CUDA=OFF ..
+    
+    
+
 //添加pkg-config包路径信息
 sudo cp ~/.mybin/opencv-2.4.13/lib/pkgconfig/opencv.pc /usr/lib/pkgconfig/opencv2.pc
 sudo cp ~/.mybin/opencv-3.3.1/lib/pkgconfig/opencv.pc /usr/lib/pkgconfig/opencv3.pc
 
-//添加pkg-config包路径信息
+//添加链接库路径
+sudo vim /etc/ld.so.conf.d/opencv2.conf
+/home/shihyu/.mybin/opencv-2.4.13/lib/
 
 sudo vim /etc/ld.so.conf.d/opencv3.conf
->>/usr/local/opencv2.4.9/lib
-//添加链接库路径
-sudo 
->>/usr/local/opencv3.1.0/lib
+/home/shihyu/.mybin/opencv-3.3.1/lib
  
 sudo ldconfig
 //刷新

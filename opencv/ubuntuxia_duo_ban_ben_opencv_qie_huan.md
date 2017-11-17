@@ -1,25 +1,25 @@
 # ubuntu下多版本opencv切換
 
 
-的第三方库当中，所以我决定再装2.4版本。
-在win平台上面，多版本只需要添加多个环境变量即可，同理，linux下面也是通过改变环境变量设置达到多版本的目的。
+的第三方庫當中，所以我決定再裝2.4版本。
+在win平臺上面，多版本只需要添加多個環境變量即可，同理，linux下面也是通過改變環境變量設置達到多版本的目的。
 
-首先需要了解pkg-config这个包管理工具，关于opencv的包含和库的路径的识别，都是依赖于这个管理工具的.pc文件，具体内容自行google。
+首先需要了解pkg-config這個包管理工具，關於opencv的包含和庫的路徑的識別，都是依賴於這個管理工具的.pc文件，具體內容自行google。
 
-还需要一提的是，我们要分清楚一下几个关键文件的作用和不同。
+還需要一提的是，我們要分清楚一下幾個關鍵文件的作用和不同。
 
 
 ```sh
-/etc/bash.bashrc                                         //系统变量，（方法1）可通过向其添加指向opencv.pc的变量路径以达到系统识别的目的
-/home/jiluobo/.bashrc                               //用户变量，（方法2）可通过向其添加指向opencv.pc的变量路径以达到系统识别的目的
-/etc/ld.so.conf                                              //编译时链接库的路径，一般内容为：include /etc/ld.so.conf.d/*.conf
-/etc/ld.so.conf.d/*.conf                               //存放各.pc文件的链接库路径
-/usr/lib/pkgconfig/*.pc                              //pkg-config工具识别的.pc文件
+/etc/bash.bashrc                                         //系統變量，（方法1）可通過向其添加指向opencv.pc的變量路徑以達到系統識別的目的
+/home/jiluobo/.bashrc                               //用戶變量，（方法2）可通過向其添加指向opencv.pc的變量路徑以達到系統識別的目的
+/etc/ld.so.conf                                              //編譯時鏈接庫的路徑，一般內容為：include /etc/ld.so.conf.d/*.conf
+/etc/ld.so.conf.d/*.conf                               //存放各.pc文件的鏈接庫路徑
+/usr/lib/pkgconfig/*.pc                              //pkg-config工具識別的.pc文件
 ```
 
-好了，不费话，多版本切换的方法有许多，好处也是多多滴，这里我选择一种最方便，而且需要卸载时都没有任何残留的方式。
+好了，不費話，多版本切換的方法有許多，好處也是多多滴，這裡我選擇一種最方便，而且需要卸載時都沒有任何殘留的方式。
 
-这里选择从编译opencv开始，可以按自己需要选择性观看，以便出错时回头查错：
+這裡選擇從編譯opencv開始，可以按自己需要選擇性觀看，以便出錯時回頭查錯：
 
 
 
@@ -44,11 +44,11 @@ cmake -D CMAKE_INSTALL_PREFIX=/home/shihyu/.mybin/opencv-3.3.1 \
     
     
 
-//添加pkg-config包路径信息
+//添加pkg-config包路徑信息
 sudo cp ~/.mybin/opencv-2.4.13/lib/pkgconfig/opencv.pc /usr/lib/pkgconfig/opencv2.pc
 sudo cp ~/.mybin/opencv-3.3.1/lib/pkgconfig/opencv.pc /usr/lib/pkgconfig/opencv3.pc
 
-//添加链接库路径
+//添加鏈接庫路徑
 sudo vim /etc/ld.so.conf.d/opencv2.conf
 /home/shihyu/.mybin/opencv-2.4.13/lib/
 
@@ -68,16 +68,16 @@ pkg-config --modversion opencv3
 ```
 
 
-##编译工程时：
+##編譯工程時：
 
 ```sh
 g++ main.cpp -o main `pkg-config --libs --cflags opencv2`
-//选择2版本编译
+//選擇2版本編譯
 g++ main.cpp -o main `pkg-config --libs --cflags opencv3`
-//选择3版本编译
+//選擇3版本編譯
 ```
 
-##使用qt建立工程时，在工程.pro文件中添加：
+##使用qt建立工程時，在工程.pro文件中添加：
 
 
 ```sh
@@ -93,10 +93,10 @@ LIBS += /usr/local/opencv3.1.0/lib/*.so
 //310版本
 ```
 
-##使用CMake编译工程时：
+##使用CMake編譯工程時：
 
 
-在相应版本的opencv安装目录下（/usr/local/opencv-2.4.9/share/OpenCV）查找OpenCVConfig.cmake，然后使用文件所在的那个路径
+在相應版本的opencv安裝目錄下（/usr/local/opencv-2.4.9/share/OpenCV）查找OpenCVConfig.cmake，然後使用文件所在的那個路徑
 
 
 ---

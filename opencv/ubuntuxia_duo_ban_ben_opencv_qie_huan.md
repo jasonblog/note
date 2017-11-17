@@ -1,6 +1,49 @@
 # ubuntu下多版本opencv切換
 
 
+的第三方库当中，所以我决定再装2.4版本。
+在win平台上面，多版本只需要添加多个环境变量即可，同理，linux下面也是通过改变环境变量设置达到多版本的目的。
+
+首先需要了解pkg-config这个包管理工具，关于opencv的包含和库的路径的识别，都是依赖于这个管理工具的.pc文件，具体内容自行google。
+
+还需要一提的是，我们要分清楚一下几个关键文件的作用和不同。
+
+
+```sh
+/etc/bash.bashrc                                         //系统变量，（方法1）可通过向其添加指向opencv.pc的变量路径以达到系统识别的目的
+/home/jiluobo/.bashrc                               //用户变量，（方法2）可通过向其添加指向opencv.pc的变量路径以达到系统识别的目的
+/etc/ld.so.conf                                              //编译时链接库的路径，一般内容为：include /etc/ld.so.conf.d/*.conf
+/etc/ld.so.conf.d/*.conf                               //存放各.pc文件的链接库路径
+/usr/lib/pkgconfig/*.pc                              //pkg-config工具识别的.pc文件
+```
+
+好了，不费话，多版本切换的方法有许多，好处也是多多滴，这里我选择一种最方便，而且需要卸载时都没有任何残留的方式。
+
+这里选择从编译opencv开始，可以按自己需要选择性观看，以便出错时回头查错：
+
+
+
+```sh
+
+//添加pkg-config包路径信息
+sudo cp ~/.mybin/opencv-2.4.13/lib/pkgconfig/opencv.pc /usr/lib/pkgconfig/opencv2.pc
+sudo cp ~/.mybin/opencv-3.3.1/lib/pkgconfig/opencv.pc /usr/lib/pkgconfig/opencv3.pc
+
+//添加pkg-config包路径信息
+
+sudo vim /etc/ld.so.conf.d/opencv3.conf
+>>/usr/local/opencv2.4.9/lib
+//添加链接库路径
+sudo 
+>>/usr/local/opencv3.1.0/lib
+ 
+sudo ldconfig
+//刷新
+```
+
+---
+
+
 ```sh
 cmake -D CMAKE_INSTALL_PREFIX=/home/shihyu/.mybin/opencv-2.4.13 \
       -D CMAKE_PREFIX_PATH=/home/shihyu/.mybin/opencv-2.4.13/share/OpenCV \

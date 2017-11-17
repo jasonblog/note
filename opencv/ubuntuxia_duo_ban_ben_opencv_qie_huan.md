@@ -59,6 +59,46 @@ sudo ldconfig
 //刷新
 ```
 
+
+##查看opencv版本：
+
+```sh
+pkg-config --modversion opencv2
+pkg-config --modversion opencv3
+```
+
+
+##编译工程时：
+
+```sh
+g++ main.cpp -o main `pkg-config --libs --cflags opencv2`
+//选择2版本编译
+g++ main.cpp -o main `pkg-config --libs --cflags opencv3`
+//选择3版本编译
+```
+
+##使用qt建立工程时，在工程.pro文件中添加：
+
+
+```sh
+INCLUDEPATH += /usr/local/opencv2.4.9/include \
+                               /usr/local/opencv2.4.9/include/opencv \
+                               /usr/local/opencv2.4.9/include/opencv2
+LIBS += /usr/local/opencv2.4.9/lib/*.so
+//249版本
+INCLUDEPATH += /usr/local/opencv3.1.0/include \
+                               /usr/local/opencv3.1.0/include/opencv \
+                               /usr/local/opencv3.1.0/include/opencv2
+LIBS += /usr/local/opencv3.1.0/lib/*.so
+//310版本
+```
+
+##使用CMake编译工程时：
+
+
+在相应版本的opencv安装目录下（/usr/local/opencv-2.4.9/share/OpenCV）查找OpenCVConfig.cmake，然后使用文件所在的那个路径
+
+
 ---
 
 

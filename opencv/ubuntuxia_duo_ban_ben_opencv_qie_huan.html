@@ -57,7 +57,7 @@
         data-chapter-title="ubuntu下多版本opencv切換"
         data-filepath="opencv/ubuntuxia_duo_ban_ben_opencv_qie_huan.md"
         data-basepath=".."
-        data-revision="Fri Nov 17 2017 20:33:51 GMT+0800 (CST)"
+        data-revision="Sat Nov 18 2017 00:31:36 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -20625,6 +20625,23 @@ LIBS += /usr/<span class="hljs-built_in">local</span>/opencv3.<span class="hljs-
 </code></pre>
 <h2 id="&#x4F7F;&#x7528;cmake&#x7DE8;&#x8B6F;&#x5DE5;&#x7A0B;&#x6642;&#xFF1A;">&#x4F7F;&#x7528;CMake&#x7DE8;&#x8B6F;&#x5DE5;&#x7A0B;&#x6642;&#xFF1A;</h2>
 <p>&#x5728;&#x76F8;&#x61C9;&#x7248;&#x672C;&#x7684;opencv&#x5B89;&#x88DD;&#x76EE;&#x9304;&#x4E0B;&#xFF08;/usr/local/opencv-2.4.9/share/OpenCV&#xFF09;&#x67E5;&#x627E;OpenCVConfig.cmake&#xFF0C;&#x7136;&#x5F8C;&#x4F7F;&#x7528;&#x6587;&#x4EF6;&#x6240;&#x5728;&#x7684;&#x90A3;&#x500B;&#x8DEF;&#x5F91;</p>
+<pre><code class="lang-sh"><span class="hljs-shebang">#!/bin/sh
+</span>
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">$#</span> <span class="hljs-operator">-gt</span> <span class="hljs-number">0</span> ] ; <span class="hljs-keyword">then</span>
+    base=`basename <span class="hljs-variable">$1</span> .cpp`
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;compiling <span class="hljs-variable">$base</span>&quot;</span>
+    g++ -ggdb `pkg-config --cflags opencv` <span class="hljs-variable">$base</span>.cpp -o <span class="hljs-variable">$base</span> `pkg-config --libs opencv`
+<span class="hljs-keyword">else</span>
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> *.c; <span class="hljs-keyword">do</span>
+        <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;compiling <span class="hljs-variable">$i</span>&quot;</span>
+        gcc -ggdb `pkg-config --cflags opencv` -o `basename <span class="hljs-variable">$i</span> .c` <span class="hljs-variable">$i</span> `pkg-config --libs opencv`;
+    <span class="hljs-keyword">done</span>
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> *.cpp; <span class="hljs-keyword">do</span>
+        <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;compiling <span class="hljs-variable">$i</span>&quot;</span>
+        g++ -ggdb `pkg-config --cflags opencv` -o `basename <span class="hljs-variable">$i</span> .cpp` <span class="hljs-variable">$i</span> `pkg-config --libs opencv`;
+    <span class="hljs-keyword">done</span>
+<span class="hljs-keyword">fi</span>
+</code></pre>
 <hr>
 <pre><code class="lang-sh">cmake -D CMAKE_INSTALL_PREFIX=/home/shihyu/.mybin/opencv-<span class="hljs-number">2.4</span>.<span class="hljs-number">13</span> \
       -D CMAKE_PREFIX_PATH=/home/shihyu/.mybin/opencv-<span class="hljs-number">2.4</span>.<span class="hljs-number">13</span>/share/OpenCV \

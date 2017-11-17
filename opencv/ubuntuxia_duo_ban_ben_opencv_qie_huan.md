@@ -99,6 +99,26 @@ LIBS += /usr/local/opencv3.1.0/lib/*.so
 在相應版本的opencv安裝目錄下（/usr/local/opencv-2.4.9/share/OpenCV）查找OpenCVConfig.cmake，然後使用文件所在的那個路徑
 
 
+```sh
+#!/bin/sh
+
+if [ $# -gt 0 ] ; then
+    base=`basename $1 .cpp`
+    echo "compiling $base"
+    g++ -ggdb `pkg-config --cflags opencv` $base.cpp -o $base `pkg-config --libs opencv`
+else
+    for i in *.c; do
+        echo "compiling $i"
+        gcc -ggdb `pkg-config --cflags opencv` -o `basename $i .c` $i `pkg-config --libs opencv`;
+    done
+    for i in *.cpp; do
+        echo "compiling $i"
+        g++ -ggdb `pkg-config --cflags opencv` -o `basename $i .cpp` $i `pkg-config --libs opencv`;
+    done
+fi
+```
+
+
 ---
 
 

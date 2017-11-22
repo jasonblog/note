@@ -1,5 +1,26 @@
 #安裝 Jupyter
 
+
+
+## 在jupyter中同時使用Python2 Python3
+
+
+先安裝Python2和Python3的ipython notebook
+
+```sh
+pip2 install ipython notebook
+pip3 install ipython notebook
+```
+
+分別用各自的ipython執行下面的指令
+
+```sh
+ipython2 kernelspec install-self
+ipython3 kernelspec install-self
+```
+就能在ipython notebook裡面同時使用兩種版本的Python了
+
+
 - ##透過文字終端機安裝
 
 ```sh

@@ -57,7 +57,7 @@
         data-chapter-title="gdb 編譯"
         data-filepath="gdb/189.md"
         data-basepath=".."
-        data-revision="Wed Nov 22 2017 11:14:31 GMT+0800 (CST)"
+        data-revision="Tue Nov 28 2017 10:37:45 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -20598,6 +20598,24 @@ error (_(&#x201C;Remote &#x2018;g&#x2019; packet reply is too <span class="hljs-
             rsa-&gt;regs[i].in_g_packet = <span class="hljs-number">1</span>;
     }
 }
+</code></pre>
+<h4 id="&#x627E;&#x5230;python&#x53EF;&#x57F7;&#x884C;&#x7A0B;&#x5E8F;&#x7684;&#x4F4D;&#x7F6E;">&#x627E;&#x5230;python&#x53EF;&#x57F7;&#x884C;&#x7A0B;&#x5E8F;&#x7684;&#x4F4D;&#x7F6E;</h4>
+<pre><code class="lang-sh"><span class="hljs-built_in">which</span> python
+
+/home/shihyu/anaconda2/bin/python
+</code></pre>
+<h4 id="&#x82E5;&#x4E3A;anaconda&#xFF0C;&#x5219;&#x4F7F;&#x7528;anacondalib">&#x82E5;&#x4E3A;Anaconda&#xFF0C;&#x5219;&#x4F7F;&#x7528;Anaconda/lib</h4>
+<pre><code class="lang-sh">
+&#x8A2D;&#x7F6E;&#x74B0;&#x5883;&#x8B8A;&#x91CF;
+
+<span class="hljs-built_in">export</span> LDFLAGS=<span class="hljs-string">&quot;-Wl,-rpath,/home/shihyu/anaconda2/lib \
+                -L/home/shihyu/anaconda2/lib&quot;</span>
+
+./configure --enable-targets=all \
+            --enable-<span class="hljs-number">64</span>-bit-bfd \
+            --with-python=<span class="hljs-string">&quot;/home/shihyu/anaconda2/bin/&quot;</span> \
+            --with-system-readline \
+            --prefix=/home/shihyu/.mybin/gdb_8.<span class="hljs-number">1</span>
 </code></pre>
 <pre><code class="lang-sh">./configure --enable-targets=all \
             --enable-<span class="hljs-number">64</span>-bit-bfd \

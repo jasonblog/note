@@ -116,6 +116,7 @@ Dynamic section at offset 0xe18 contains 25 entries:
 
 
 ## -Wl,-rpath=/home/shihyu/dll
+or cmake -DCMAKE_INSTALL_PREFIX=/home/shihyu/.mybin/stlink DCMAKE_EXE_LINKER_FLAGS="-Wl,-rpath,/home/shihyu/.mybin/stlink/lib" ..
 
 - `動態庫路徑寫入到elf檔案 //  (RPATH)              Library rpath: [/home/shihyu/dll]`
 

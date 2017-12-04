@@ -1,13 +1,13 @@
 # CMake 常用指令
 
 
-文档：http://www.cmake.org/Wiki/CMake
+文檔：http://www.cmake.org/Wiki/CMake
 
-简单好用的构建工具，主页：http://www.cmake.org
+簡單好用的構建工具，主頁：http://www.cmake.org
 
-步骤如下：
+步驟如下：
 
-##第一步，编写 CMakeLists.txt 文件
+##第一步，編寫 CMakeLists.txt 文件
 
 
 ```sh
@@ -20,18 +20,18 @@ SET(CMAKE_BUILD_TYPE Debug)
 ADD_EXECUTABLE(main ${SRC_LIST})
 ```
 
-其中，PROJECT 指定工程名、 SET 是 cmake 变量赋值命令、 ADD_EXECUTABLE 指定生成可执行程序的名字。 括号内的大写字符串是 cmake 内部预定义变量，这是 CMakeLists.txt 脚本的重点，下面详细讲述：
+其中，PROJECT 指定工程名、 SET 是 cmake 變量賦值命令、 ADD_EXECUTABLE 指定生成可執行程序的名字。 括號內的大寫字符串是 cmake 內部預定義變量，這是 CMakeLists.txt 腳本的重點，下面詳細講述：
 
 
-- SRC_LIST 指定参与编译的源码文件列表，如果有多个文件请用空格隔开， 如，你工程有 main.cpp, lib/MyClass.cpp, lib/MyClass.h 三个文件， 那么可以指定为 SET(SRC_LIST main.cpp lib/MyClass.cpp)
-- CMAKE_CXX_COMPILER 指定选用何种编译器
-- CMAKE_CXX_FLAGS 设定编译选项
-- CMAKE_EXE_LINKER_FLAGS 设定链接选项
-- 一定要将 -lc++ 和 -lc++abi 独立设定到 CMAKE_EXE_LINKER_FLAGS 变量中而不能放在 CMAKE_CXX_FLAGS, 否则无法通过链接
-- CMAKE_BUILD_TYPE 设定生成的可执行程序中是否包含调试信息
+- SRC_LIST 指定參與編譯的源碼文件列表，如果有多個文件請用空格隔開， 如，你工程有 main.cpp, lib/MyClass.cpp, lib/MyClass.h 三個文件， 那麼可以指定為 SET(SRC_LIST main.cpp lib/MyClass.cpp)
+- CMAKE_CXX_COMPILER 指定選用何種編譯器
+- CMAKE_CXX_FLAGS 設定編譯選項
+- CMAKE_EXE_LINKER_FLAGS 設定鏈接選項
+- 一定要將 -lc++ 和 -lc++abi 獨立設定到 CMAKE_EXE_LINKER_FLAGS 變量中而不能放在 CMAKE_CXX_FLAGS, 否則無法通過鏈接
+- CMAKE_BUILD_TYPE 設定生成的可執行程序中是否包含調試信息
 
 
-另外，对于编译选项，我的原则是严己宽人。 也就是说，在我本机上使用最严格的编译选项以发现尽量多 bug, 发布给其他人的源码包使用最宽松的编译选项以减少环境差异导致编译失败的可能。 前面罗列出来的就是严格版的 CMakeLists.txt, 宽松版我会考虑： 编译器改用 GCC（很多人没装 clang），忽略所有编译警告，让编译器进行代码优化，去掉调试信息，添加安装路径等要素，具体如下：
+另外，對於編譯選項，我的原則是嚴己寬人。 也就是說，在我本機上使用最嚴格的編譯選項以發現儘量多 bug, 發佈給其他人的源碼包使用最寬鬆的編譯選項以減少環境差異導致編譯失敗的可能。 前面羅列出來的就是嚴格版的 CMakeLists.txt, 寬鬆版我會考慮： 編譯器改用 GCC（很多人沒裝 clang），忽略所有編譯警告，讓編譯器進行代碼優化，去掉調試信息，添加安裝路徑等要素，具體如下：
 
 
 ```sh
@@ -45,37 +45,37 @@ INSTALL(PROGRAMS porgram_name DESTINATION /usr/bin/)
 ```
 
 
-## 第二步，基于 CMakeLists.txt 生成 Makefile
+## 第二步，基於 CMakeLists.txt 生成 Makefile
 
 
-在 CMakeLists.txt 所在目录执行
+在 CMakeLists.txt 所在目錄執行
 
 ```sh
 cmake CMakeLists.txt
 ```
 
-执行成功的话，你将在该目录下看到 Makefile 文件
+執行成功的話，你將在該目錄下看到 Makefile 文件
 
-## 第三步，基于 Makefile 生成可执行程序
+## 第三步，基於 Makefile 生成可執行程序
 
-相同目录下执行
+相同目錄下執行
 
 ```sh
 make
 ```
 
-这一步，就是在调用编译器进行编译，如果存在代码问题，修正错误后重新执行这一步即可，不用再次执行第一、二步
+這一步，就是在調用編譯器進行編譯，如果存在代碼問題，修正錯誤後重新執行這一步即可，不用再次執行第一、二步
 
 
-基本上，你的新工程，可以在基于上面的 CMakeLists.txt 进行修改，执行一次第二步后，每次代码调整只需执行第三步即可
+基本上，你的新工程，可以在基於上面的 CMakeLists.txt 進行修改，執行一次第二步後，每次代碼調整隻需執行第三步即可
 
-##使其更像一个工程
+##使其更像一個工程
 
-采用外部构建 (out-of-source), 构建目录是工程目录下的 build 自录
+採用外部構建 (out-of-source), 構建目錄是工程目錄下的 build 自錄
 
-- 添加子目录 src, build
+- 添加子目錄 src, build
 
-- 为 src 子目录建立 CMakeLists.txt, 内容如下：
+- 為 src 子目錄建立 CMakeLists.txt, 內容如下：
 
 ```sh
 SET(CMAKE_CXX_COMPILER "clang")
@@ -86,9 +86,9 @@ ADD_EXECUTABLE(gdt generate_dt.c)
 ADD_EXECUTABLE(dt digital_triangle.c)
 ```
 
-PROJECT_BINARY_DIR 变量指的编译发生的当前目录
+PROJECT_BINARY_DIR 變量指的編譯發生的當前目錄
 
-- 修改根目录中的 CMakeLists.txt 修改为如下内容：
+- 修改根目錄中的 CMakeLists.txt 修改為如下內容：
 
 
 ```sh
@@ -98,26 +98,26 @@ ADD_SUBDIRECTORY(src bin)
 ```
 
 ADD_SUBDIRECTORY(source_dir [binary_dir] [EXCLUDE_FROM_ALL])
-这个指令用于向当前工程添加存放源文件的子目录，并可以指定中间二进制和目标二进制存放的位置。 EXCLUDE_FROM_ALL 参数的含义是将这个目录从编译过程中排除
+這個指令用於向當前工程添加存放源文件的子目錄，並可以指定中間二進制和目標二進制存放的位置。 EXCLUDE_FROM_ALL 參數的含義是將這個目錄從編譯過程中排除
 
-- 进入 build 目录，执行如下命令
+- 進入 build 目錄，執行如下命令
 
 ```sh
 cmake ..
 make
 ```
 
-可执行文件就生成在 build/bin 目录
+可執行文件就生成在 build/bin 目錄
 
-##一些变量
+##一些變量
 
-- LINK_LIBRARIES 设置链接库
+- LINK_LIBRARIES 設置鏈接庫
 
-##静态与动态库的构建
+##靜態與動態庫的構建
 
-###简单的静态库的构建
+###簡單的靜態庫的構建
 
-例如源文件的目录结构如下：
+例如源文件的目錄結構如下：
 
 ```sh
 slist
@@ -128,7 +128,7 @@ slist
 ```
 
 
-首先新建文件 slist/CMakeLists.txt, 内容如下：
+首先新建文件 slist/CMakeLists.txt, 內容如下：
 
 ```sh
 PROJECT(slist)
@@ -136,7 +136,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.0)
 ADD_SUBDIRECTORY(src lib)
 ```
 
-然后新建文件 slist/src/CMakeLists.txt, 内容如下：
+然後新建文件 slist/src/CMakeLists.txt, 內容如下：
 
 
 ```sh
@@ -152,17 +152,17 @@ INSTALL(TARGETS slist ARCHIVE DESTINATION ${INSTALL_PREFIX}/lib)
 INSTALL(FILES slist.h DESTINATION ${INSTALL_PREFIX}/include)
 ```
 
-其中的一些变量解释如下：
+其中的一些變量解釋如下：
 
 
 - ADD_LIBRARY(libname [SHARED|STATIC|MODULE] [EXCLUDE_FROM_ALL] source1 source2 ... sourceN)
-    -  SHARED 动态库
-    - STATIC 静态库
-    - MODULE 在使用 dyld 的系统有效，如果不支持 dyld, 则被当作 SHARED 对待
-    - EXCLUDE_FROM_ALL 这个库不会被默认构建，除非有其他的组件依赖或者手工构建
+    -  SHARED 動態庫
+    - STATIC 靜態庫
+    - MODULE 在使用 dyld 的系統有效，如果不支持 dyld, 則被當作 SHARED 對待
+    - EXCLUDE_FROM_ALL 這個庫不會被默認構建，除非有其他的組件依賴或者手工構建
     
 
-安装方法如下：
+安裝方法如下：
 
 ```sh
 cd build
@@ -171,9 +171,9 @@ make
 make install
 ```
 
-执行完上面的命令之后，生成的静态库文件 libslist.a 被安装到 /Users/mwum/code/lib 目录， src/slist.h 文件被安装到 /Users/mwum/code/include 目录
+執行完上面的命令之後，生成的靜態庫文件 libslist.a 被安裝到 /Users/mwum/code/lib 目錄， src/slist.h 文件被安裝到 /Users/mwum/code/include 目錄
 
-或者将 slist/src/CMakeLists.txt 文件中关于 INSTALL_PREFIX 这个变量的信息删除，如下：
+或者將 slist/src/CMakeLists.txt 文件中關於 INSTALL_PREFIX 這個變量的信息刪除，如下：
 
 
 ```sh
@@ -188,7 +188,7 @@ INSTALL(FILES slist.h DESTINATION include)
 INSTALL(TARGETS slist ARCHIVE DESTINATION lib)
 ```
 
-安装的时候执行如下命令来手动指定要安装到的目录
+安裝的時候執行如下命令來手動指定要安裝到的目錄
 
 
 
@@ -199,17 +199,17 @@ make
 make install
 ```
 
-如果要删除被安装的文件，可执行命令
+如果要刪除被安裝的文件，可執行命令
 
 ```sh
 cat install_manifest.txt | sudo xargs rm
 ```
 
-install_manifest.txt 文件记录了安装的所有东西的路径
+install_manifest.txt 文件記錄了安裝的所有東西的路徑
 
-## 同时构建静态库和动态库
+## 同時構建靜態庫和動態庫
 
-slist/CMakeLists.txt, 内容如下：
+slist/CMakeLists.txt, 內容如下：
 
 ```sh
 PROJECT(slist)
@@ -218,7 +218,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.0)
 ADD_SUBDIRECTORY(src lib)
 ```
 
-slist/src/CMakeLists.txt, 内容如下：
+slist/src/CMakeLists.txt, 內容如下：
 
 
 ```sh
@@ -240,9 +240,9 @@ INSTALL(TARGETS slist_static ARCHIVE DESTINATION ${INSTALL_PREFIX}/lib)
 INSTALL(TARGETS slist_shared LIBRARY DESTINATION ${INSTALL_PREFIX}/lib)
 ```
 
-其中的一些变量解释如下：
+其中的一些變量解釋如下：
 
-- 这条指令可以用来设置输出的名称，对于动态库，还可以用来指定动态库版本和 API 版本
+- 這條指令可以用來設置輸出的名稱，對於動態庫，還可以用來指定動態庫版本和 API 版本
 
 ```sh
 SET_TARGET_PROPERTIES(target1 target2 ...
@@ -251,5 +251,5 @@ SET_TARGET_PROPERTIES(target1 target2 ...
                       
 ```
 
-- VERSION 表示动态库的版本，SOVERSION 表示 API 的版本
+- VERSION 表示動態庫的版本，SOVERSION 表示 API 的版本
 

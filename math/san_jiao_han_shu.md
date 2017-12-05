@@ -44,3 +44,23 @@ math.sqrt(3*3 + 4*4) # 5.0
 math.degrees(math.pi/6)  # 29.999999999999996
 math.radians(30)         # 0.5235987755982988
 ```
+
+
+```py
+# coding=UTF-8
+import math
+
+a = math.pi/6   # math.pi = 3.141592653589793
+#print math.sin(a)   # 0.49999999999999994
+#print math.cos(a)   # 0.8660254037844387
+#print math.tan(a)   # 0.5773502691896256
+
+print math.sin(math.radians(30))   # 1/2
+print math.sin(math.radians(45))   # 1 / math.sqrt(2) = 0.7071067811865475
+print math.sin(math.radians(60))   # math.sqrt(3) / 2.0 = 0.8660254037844386
+
+# degrees：把弧度值轉換為角度
+# radians：把角度值轉換為弧度
+print math.degrees(math.pi/6)  # 29.999999999999996
+print math.radians(30)         # 0.5235987755982988
+```

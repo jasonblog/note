@@ -57,7 +57,7 @@
         data-chapter-title="三角函數"
         data-filepath="math/san_jiao_han_shu.md"
         data-basepath=".."
-        data-revision="Tue Dec 05 2017 15:18:21 GMT+0800 (CST)"
+        data-revision="Tue Dec 05 2017 17:31:58 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -20617,19 +20617,27 @@ math.radians(<span class="hljs-number">30</span>)         <span class="hljs-comm
 <pre><code class="lang-py"><span class="hljs-comment"># coding=UTF-8</span>
 <span class="hljs-keyword">import</span> math
 
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_angle</span><span class="hljs-params">(a, b, c)</span>:</span>
+    <span class="hljs-keyword">return</span> round(math.degrees(math.acos((a ** <span class="hljs-number">2</span> + b ** <span class="hljs-number">2</span> - c ** <span class="hljs-number">2</span>) / (<span class="hljs-number">2</span> * a * b))))
+
 a = math.pi/<span class="hljs-number">6</span>   <span class="hljs-comment"># math.pi = 3.141592653589793</span>
 <span class="hljs-comment">#print math.sin(a)   # 0.49999999999999994</span>
 <span class="hljs-comment">#print math.cos(a)   # 0.8660254037844387</span>
 <span class="hljs-comment">#print math.tan(a)   # 0.5773502691896256</span>
 
-<span class="hljs-keyword">print</span> math.sin(math.radians(<span class="hljs-number">30</span>))   <span class="hljs-comment"># 1/2</span>
-<span class="hljs-keyword">print</span> math.sin(math.radians(<span class="hljs-number">45</span>))   <span class="hljs-comment"># 1 / math.sqrt(2) = 0.7071067811865475</span>
-<span class="hljs-keyword">print</span> math.sin(math.radians(<span class="hljs-number">60</span>))   <span class="hljs-comment"># math.sqrt(3) / 2.0 = 0.8660254037844386</span>
+<span class="hljs-keyword">print</span> math.sin(math.radians(<span class="hljs-number">30</span>))   <span class="hljs-comment"># 1/2 </span>
+<span class="hljs-keyword">print</span> math.sin(math.radians(<span class="hljs-number">45</span>))   <span class="hljs-comment"># 1 / math.sqrt(2) = 0.7071067811865475 </span>
+<span class="hljs-keyword">print</span> math.sin(math.radians(<span class="hljs-number">60</span>))   <span class="hljs-comment"># math.sqrt(3) / 2.0 = 0.8660254037844386 </span>
 
 <span class="hljs-comment"># degrees&#xFF1A;&#x628A;&#x5F27;&#x5EA6;&#x503C;&#x8F49;&#x63DB;&#x70BA;&#x89D2;&#x5EA6;</span>
 <span class="hljs-comment"># radians&#xFF1A;&#x628A;&#x89D2;&#x5EA6;&#x503C;&#x8F49;&#x63DB;&#x70BA;&#x5F27;&#x5EA6;</span>
 <span class="hljs-keyword">print</span> math.degrees(math.pi/<span class="hljs-number">6</span>)  <span class="hljs-comment"># 29.999999999999996</span>
 <span class="hljs-keyword">print</span> math.radians(<span class="hljs-number">30</span>)         <span class="hljs-comment"># 0.5235987755982988</span>
+
+<span class="hljs-comment"># &#x5DF2;&#x7D93;&#x4E09;&#x908A;&#x4F59;&#x7384;&#x5B9A;&#x7406;&#x6C42;&#x593E;&#x89D2;</span>
+<span class="hljs-keyword">print</span> get_angle(<span class="hljs-number">2</span>,math.sqrt(<span class="hljs-number">3</span>), <span class="hljs-number">1</span>)
+<span class="hljs-keyword">print</span> get_angle(<span class="hljs-number">2</span>,math.sqrt(<span class="hljs-number">3</span>), <span class="hljs-number">1</span>)
+<span class="hljs-keyword">print</span> get_angle(<span class="hljs-number">1</span>, math.sqrt(<span class="hljs-number">3</span>),<span class="hljs-number">2</span>)
 </code></pre>
 
                     

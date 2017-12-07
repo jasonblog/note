@@ -496,6 +496,61 @@ if __name__ == "__main__":
 
 ```
 
+### 單一筆股票獲利測試
+
+```py
+#! /usr/bin/python
+# -*- coding: utf-8 -*-
+import requests
+import sys
+import os
+import time 
+from bs4 import BeautifulSoup
+import pandas as pd
+
+def GetHtmlcode(ID):
+    # Get the webpage's source html code
+    source = 'https://goodinfo.tw/StockInfo/StockBzPerformance.asp?STOCK_ID='
+    url = source + ID
+    print url
+
+    # Header
+    headers = { 'accept' : '*/*' ,
+                'accept-encoding' : 'gzip, deflate, br',
+                'accept-language' : 'zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4,zh-CN;q=0.2',
+                'content-length' : '0',
+                'content-type' : 'application/x-www-form-urlencoded;',
+                'cookie' : '__gads=ID=fe562308f92c2979:T=1511748749:S=ALNI_MZDfWP11BwzcEPLDztntanza0Uc0Q; GOOD%5FINFO%5FSTOCK%5FBROWSE%5FLIST=4%7C2324%7C2385%7C9924%7C2103; _ga=GA1.2.1450427542.1511748749; _gid=GA1.2.614910067.1512647858; SCREEN_SIZE=WIDTH=1680&HEIGHT=1050',
+                'dnt' : '1',
+                'origin' : 'https://goodinfo.tw',
+                'referer' : url,
+                'user-agent' : 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36'}
+
+    # 'PER/PBR' '獲利指標' '股利統計'
+    payload = {
+    u'STOCK_ID': ID,
+    u'YEAR_PERIOD':u'9999',
+    u'RPT_CAT':u'M_YEAR',
+    u'STEP':u'DATA',
+    u'SHEET': u'獲利指標'}
+    #'SHEET': '獲利指標'}
+    #'SHEET': 'PER/PBR'}
+
+    res = requests.post('https://goodinfo.tw/StockInfo/StockBzPerformance.asp?', headers=headers, verify=False , data = payload)
+    res.encoding = 'utf-8'
+    print res.text
+    raw_input()
+
+def main():
+    reload(sys)
+    sys.setdefaultencoding('utf-8')
+    page = GetHtmlcode('2103')
+
+
+if __name__ == "__main__":
+    main()
+```
+
 
 ```sh
 1101

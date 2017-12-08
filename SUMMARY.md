@@ -879,6 +879,7 @@
        * [Chapter 7](raspberry_pi/chapter_7.md)
        * [Chapter 8](raspberry_pi/chapter_8.md)
    * [raspberry 3b 64bit 系統安裝，以及交叉編譯環境、調試環境的搭建](raspberry_pi/raspberry_3b_64bit_xi_tong_an_zhuang_ff0c_yi_ji_ji.md)
+   * 树莓派autossh反向隧道
 * [OpenGL](opengl/opengl.md)
    * [opengl(mesa) for ubuntu14.04](opengl/mesa.md)
    * [ubuntu 14.04 安裝OpenGL（基於freeglut）](opengl/1.md)

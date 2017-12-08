@@ -68,7 +68,7 @@ print math.sin(math.radians(60))   # math.sqrt(3) / 2.0 = 0.8660254037844386
 print math.degrees(math.pi/6)  # 29.999999999999996
 print math.radians(30)         # 0.5235987755982988
 
-# 已經三邊余玄定理求夾角
+# 已經三邊餘玄定理求夾角
 print get_angle(2,math.sqrt(3), 1)
 print get_angle(2,math.sqrt(3), 1)
 print get_angle(1, math.sqrt(3),2)

@@ -94,9 +94,12 @@ LIBS += /usr/local/opencv3.1.0/lib/*.so
 ```
 
 ##使用CMake編譯工程時：
-
+在CMakeLists.txt 裡面加入不同版本路徑 
+set(OpenCV_DIR /home/shihyu/.mybin/opencv-3.3.1/share/OpenCV)
+find_package(OpenCV)
 
 在相應版本的opencv安裝目錄下（/usr/local/opencv-2.4.9/share/OpenCV）查找OpenCVConfig.cmake，然後使用文件所在的那個路徑
+
 
 
 ```sh

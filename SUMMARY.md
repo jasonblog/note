@@ -271,7 +271,7 @@
    * [Linux kernel 調試打log流和斷點流](linux_kernel/linux_kernel_diao_shi_da_log_liu_he_duan_dian_liu.md)
    * [Linux kernel v4.0 code for <奔跑吧Linux內核>](linux_kernel/linux_kernel_v40_code_for_ben_pao_ba_linux_nei_683.md)
    * [Trace Kernel 程式的一些小技巧](linux_kernel/trace_kernel_cheng_shi_de_yi_xie_xiao_ji_qiao.md)
-   * Embedded Linux Primer 讀書筆記
+   * [Embedded Linux Primer 讀書筆記](linux_kernel/embedded_linux_primer_du_shu_bi_ji.md)
 * [Linux Driver](linux_driver/README.md)
    * [Linux Device Driver Programming](linux_device_driver_programming/README.md)
        * [Linux 裝置驅動程式的概要](linux_device_driver_programming/01.md)

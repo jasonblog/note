@@ -274,7 +274,7 @@
    * [Embedded Linux Primer 讀書筆記](linux_kernel/embedded_linux_primer_du_shu_bi_ji.md)
        * [Chapter 2: The Big Picture](linux_kernel/chapter_2_the_big_picture.md)
        * [Chapter 4:淺談Linux 核心](linux_kernel/di_4_zhang_ff1a_linux_he_xin_jie_shao.md)
-       * Chapter 5 : Kernel Initialization
+       * [Chapter 5 : Kernel Initialization](linux_kernel/chapter_5__kernel_initialization.md)
 * [Linux Driver](linux_driver/README.md)
    * [Linux Device Driver Programming](linux_device_driver_programming/README.md)
        * [Linux 裝置驅動程式的概要](linux_device_driver_programming/01.md)

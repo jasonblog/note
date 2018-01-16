@@ -273,6 +273,7 @@
    * [Trace Kernel 程式的一些小技巧](linux_kernel/trace_kernel_cheng_shi_de_yi_xie_xiao_ji_qiao.md)
    * [Embedded Linux Primer 讀書筆記](linux_kernel/embedded_linux_primer_du_shu_bi_ji.md)
        * [Chapter 2: The Big Picture](linux_kernel/chapter_2_the_big_picture.md)
+       * 第4章：Linux核心介紹
 * [Linux Driver](linux_driver/README.md)
    * [Linux Device Driver Programming](linux_device_driver_programming/README.md)
        * [Linux 裝置驅動程式的概要](linux_device_driver_programming/01.md)

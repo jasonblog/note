@@ -37,6 +37,7 @@ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- zImage -j4
 
 ```
 這裡列出比較重要的幾個：
+
 | 檔案 | 功能 | RPi source |
 | --- | --- | ----- |
 |`vmlinux`|`vmlinux`是ELF格式binary檔案，為最原始也未壓縮的kernel鏡像。|`./vmlinux`|
@@ -58,6 +59,7 @@ vmlinux被objcopy包到Image：
 - -O：告訴objcopy要生成一個binary檔。
 - -R：移除ELF(vmlinux)中名稱為.comment的section。
 - -S：去除debug symbols。
+
 ```
 arm-linux-gnueabihf-objcopy -O binary -R .comment -S  vmlinux arch/arm/boot/Image
 ```
@@ -68,6 +70,7 @@ arm-linux-gnueabihf-objcopy -O binary -R .comment -S  vmlinux arch/arm/boot/Imag
 (cat arch/arm/boot/compressed/../Image | gzip -n -f -9 > arch/arm/boot/compressed/piggy.gzip) || (rm -f arch/arm/boot/compressed/piggy.gzip ; false)
 ```
 然後`piggy.gzip.S`被生成(**不過我看不懂這個步驟**)。
+
 ```
 arm-linux-gnueabihf-gcc -Wp,-MD,arch/arm/boot/compressed/.piggy.gzip.o.d  -nostdinc -isystem /usr/lib/gcc-cross/arm-linux-gnueabihf/5/include -I./arch/arm/include -Iarch/arm/include/generated/uapi -Iarch/arm/include/generated  -Iinclude -I./arch/arm/include/uapi -Iarch/arm/include/generated/uapi -I./include/uapi -Iinclude/generated/uapi -include ./include/linux/kconfig.h -D__KERNEL__ -mlittle-endian -Iarch/arm/mach-bcm2709/include   -D__ASSEMBLY__ -mabi=aapcs-linux -mno-thumb-interwork -mfpu=vfp -funwind-tables -marm -D__LINUX_ARM_ARCH__=7 -march=armv7-a  -include asm/unified.h -msoft-float  -DCC_HAVE_ASM_GOTO        -DZIMAGE     -c -o arch/arm/boot/compressed/piggy.gzip.o arch/arm/boot/compressed/piggy.gzip.S
 ```
@@ -159,7 +162,7 @@ Linux啟動流程大概是這樣：
 - 建立基本的錯誤偵測與回報。
 - 控制權交給main.c裡的`start_kernel()`。以下是我在`head-common.S`(被include進`head.S`)找到的相關片段：
 
-```C
+```c
  THUMB( ldr sp, [r3, #16]       )
     str r9, [r4]            @ Save processor ID
     str r1, [r5]            @ Save machine type
@@ -174,6 +177,7 @@ ENDPROC(__mmap_switched)
 
 ### 5.2.2 ./init/main.c
 `./init/main.c`的主要函式為`start_kernel()`，這個函式會呼叫setup_arch(&command_line)函式(定義在`./arch/arm/kernel/setup.c`)來設定整個架構，包括辨別CPU並將其進階功能初始化。此函式的頭兩行：
+
 ```c
 void __init setup_arch(char **cmdline_p)
 {
@@ -181,17 +185,21 @@ void __init setup_arch(char **cmdline_p)
 
         setup_processor();
 ```
+
 這個`setup_processor()`是用來確認CPU ID而且顯示其資訊。`dmesg`可看到：
+
 ```
 [    0.000000] CPU: ARMv6-compatible processor [410fb767] revision 7 (ARMv7), cr=00c5387d
 [    0.000000] CPU: PIPT / VIPT nonaliasing data cache, VIPT nonaliasing instruction cache
 [    0.000000] Machine model: Raspberry Pi Model B Plus Rev 1.2
 
 ```
+
 `setup_arch`最後會做一些machine-dependent的初始化，至於會怎麼做不同結構有不同作法。ARM的話它會指到`./arch/arm/mach-*`去抓該結構對應的檔案(使用第4章說的.config去設定Makefile)，MIPS的作法也類似，Power Architecture則會放在`platforms`資料夾。
 
 ## 5.3 Kernel Command-Line Processing
 一樣，RPi的dmesg
+
 ```
 [    0.000000] Kernel command line: dma.dmachans=0x7f35 bcm2708_fb.fbwidth=656 bcm2708_fb.fbheight=416 bcm2708.boardrev=0x10 bcm2708.serial=0x38df2486 smsc95xx.macaddr=B8:27:EB:DF:24:86 bcm2708_fb.fbswap=1 bcm2708.uart_clock=48000000 bcm2708.disk_led_gpio=47 bcm2708.disk_led_active_low=0 vc_mem.mem_base=0x1ec00000 vc_mem.mem_size=0x20000000  dwc_otg.lpm_enable=0 console=ttyAMA0,115200 console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 elevator=deadline fsck.repair=yes rootwait
 ```
@@ -252,6 +260,8 @@ static struct obs_kernel_param __setup_console_setup __used __section(.init.setu
 我看不懂`__aligned(1)`和`__used`的作用。
 :::
 :::info
+
+```
 1. 編譯器通常可透過一些擴充語法來為函數或變數設置屬性。一般比較常用到的例子如變數的字節對齊(aligment)，例如希望某個變數的位址對齊 4-byte aligment。
 2. 由於每個編譯器擴充語法不同，甚至不同版本關鍵字不同等。所以程式中通常會透過 macro 來定義通用規則以達到較好的可移植性。如以下語法 
    #define __used         `__attribute__ ((__used__))` 
@@ -260,7 +270,8 @@ static struct obs_kernel_param __setup_console_setup __used __section(.init.setu
 4. __aligned(1) 不太確定是否有特殊涵意，通常是 2-byte 以上會特別設置。
 5. 寫程式時有時候會看到編譯時會吐出 compiling warning，某些狀況可能是人為疏忽，會造成程式運行時不可預期的錯誤(有時在最佳化後才會出現問題)。嚴謹的專案會盡可能清除所有的 compiling warning。kernel 中將所有的 compiling warning 都轉換成 compiling error（GCC 提供的功能）。其中有一項 warning 是關於定義卻未被使用（`defined but not used` or `set but not used`），但在某些情況下這是我們預期的行為時，可設置 `__used` 這個屬性告知編譯器，希望保留變數不被最佳化移除，設置後也不會吐出這個 compiling warning (或是 error)了。如以下連結的討論
    http://stackoverflow.com/questions/31637626/whats-the-usecase-of-gccs-used-attribute
-:::
+```
+
 
 第2行去掉對齊設定就變成
 ```c

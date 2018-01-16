@@ -154,8 +154,11 @@ c0008000 T stext
 
 郭小偉：high memory是為了要解決32 bits現有的kernel address space無法1-on-1 map所有記憶體空間所產生的觀念。如果要map high memory是使用kmap_atomic這個function。打個比方x86_32的PAE mode下可支援64GB的physical address space，但是卻只有32bits的virtual address space。
 以ARM來說high memory暫時map的window範圍是從FIXADDR_START~FIXADDR_END(3MB)的空間。
+
+```c
 #define FIXADDR_START 0xffc00000UL
 #define FIXADDR_END 0xfff00000UL
+```
 
 舉個例子，如果今天ARM kernel發生do_anoymous_page，kernel會先透過buddy system從high memory要到一個page，之後用kmap_atomic把他map進去上面的空間範圍，之後進行clear_page清為零的動作，隨即kunmap。清除完了以後再把page給user space address做pte map。然而實際的情況卻沒有這麼單純，還需要考量cache aliasing的問題，kernel需要map一塊和user space相同color bit的address才能避免cache aliasing的問題。不過這裡就扯遠了。
 
@@ -205,20 +208,34 @@ ISR能做的事很有限，不能sleep或呼叫可能會導致阻塞的kernel函
 
 [^1]: Chen Kun-Yi：[Wiki](https://en.wikipedia.org/wiki/Flash_memory) 有寫到Micron Technology and Sun Microsystems announced an SLC NAND flash memory chip rated for 1,000,000 P/E cycles on 17 December 2008.[25]
 估計就是這時候 NAND 壽命長過 NOR 。 但是可以看 Write endurance 這節，看現在一般實際的產品就知道。 
+
 [^2]: Chen Kun-Yi：因為演算法可以cover因為製程微縮帶來的壽命減少，不然以前是不能商業化的。
+
 [^3]: Chen Kun-Yi：我剛看到一份m system的文件，說NAND可以10萬次到100萬次erase，估計是早期可能是NAND可以，所以壽命長。但是我這10年用的 NAND 最多 10萬次 連 Msystems 的 disk on chip 都是這樣但是用的NOR基本還是10萬次 但是因為NAND這些年因為製程微縮跟各種演算法進步，所以現在廠商的保證次數都低於10萬次，甚至TLC都只有千次左右。
+
 [^4]: 吳鑫偉：如果flash controller有支援wear leveling那麼就存在FLT這層,則在Linux上只能看到block device,換句話說無法直接操作flash controller,反之如果不存在FLT layer(也就是wear leveling由mtd filesystem完成),則linux就可以直接操作flash controller,也就是存在flash driver layer,總之應該不會出現2者都存在的狀況。
+
 [^5]: 吳鑫偉：physical memory address <-> virtual memory address 的mapping不一定只靠MMU負責，這要看架構，如MIPS有些區塊是靠硬體做phy=>vir. addr.的one to one mapping,但是大多由MMU負責並沒有錯。
+
 [^6]: 吳鑫偉+郭小偉：當user program執行時，在user space有自己的stack，當它呼叫system call進到kernel執行時,這時候用的stack在kernel space裡，是在fork的時候分配出來的：
 _do_fork-->copy_process-->dup_task_struct-->alloc_thread_stack_node。目前x86_64的stack size在2014年的時候被改成16KB，由於Minchan Kim在使用qemu的時候發現某個call path太長導致system randomly crash。最後其實是kernel stack不夠用(commit: 6538b8ea886e x86_64: expand kernel stack to 16K)。
+
 [^7]: 郭小偉：embedded system上面一般不會開啟swap。原因不外乎：1). flash memory寫入速度慢，影響performance 2). flash memory有寫入次數的限制。因此，關閉swap需要承擔的風險是在memory超用時，OOM killer會起來殺掉process。在一開始設計系統規格的時候就要知道需要用掉多少的memory，並且把系統規格設計在安全的範圍內。再來swap space只會swap out anonymous memory(沒有map到實體file，e.g. stack, heap)。控制system swap的積極程度在`/proc/sys/vm/swappiness`，其值越小，kernel盡量不會使用到swap space。當其值為0，一個zone裡面的(free + file backed) pages小於hige water mark，就會啟動swap機制。參考： `Documentation/sysctl/vm.txt`。
+
 [^8]: 郭小偉：swap機制會在兩個點被觸發：1). kswapd一段時間就會被叫醒，之後根據swappiness的值決定要不要swap out pages。 2). memory短缺，要不到memory的情況。詳情請參考：`__alloc_pages_slowpath`。當在buddy system的freelist要不到page(s)的時候會開始進行compaction或者叫醒kswapd。真的不行就會手動直接回收頁。最後無力回天則呼叫OOM killer。以上兩點都會把pages回收並且丟進去swap。
+
 [^9]: 郭小偉：swap space也會被hibernation用到。
+
 [^10]: Chen-Yu Tsai：highmem 是在 32 bit 平台上才會看到，主要原因是因為 kernel space map 在 upper 1G，此時你在 kernel space 可以用的就只有這 1G, 還要扣掉 kernel 本身的 text, data 等等，還有 highmem mapping 用的 window。至於 highmem 存取的方式就是把你要存取的部分 map 進保留的 window 裡去，EMS或AGP有類似的概念。
+
 [^11]: Viller Hsiao：virtual 跟 physical 中間還有一層 logical。logical 與 physical 只是一個 shift(1-1 mapping)，kernel 跑在 logical，另外再把 logical mapping 到 virtual 給 userspace 用。
+
 [^12]: Roach Lin：" physical memory address <-> virtual memory address 的mapping": 硬體(MMU)負責實際的轉換, 而kernel(memory management)要負責管理, 原則是physical memory需要mapping到virtual memory, 我們在protected mode下才能讀寫, 也就是page table要填寫完成, 如果kernel沒有幫你mapping完, MMU也轉不過去。
+
 [^13]: Yu-Ming Chang：NAND 結構: plane -> block -> page (data area + oob area)。block是erase單位, page是read/write單位，以前小page最大到2KB，現在大page甚至支援到16KB。block內傳統會包含64/128/256 pages，到3D NAND時代，可能成長到數百個page (e.g.1024 pages per block in Micron's floating gate 3D NAND)。NOR flash部份：Erase有sector erase(數十到數百KB) and bulk erase (已經可以到數MB)寫入單位從 byte 到 一次256byte都有。本質上, NAND和NOR其實是同一種原理(either floating gate or SONOS)來儲存資料。
+
 [^14]: Yu-Ming Chang： filesystem 和 MTD device 在不同level，raw flash的使用方式，可以靠有wear-leveling的FS來存取MTD device。MTD device 加了FTL的code (e.g., nftl)可以掛成 block device<上面就可以用傳統的block file system，只是linux預設的ftl是沒處理wear-leveling。
+
 
 ## 參考資料 ##
 

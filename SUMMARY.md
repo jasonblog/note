@@ -276,7 +276,7 @@
        * [Chapter 4:淺談Linux 核心](linux_kernel/di_4_zhang_ff1a_linux_he_xin_jie_shao.md)
        * [Chapter 5 : Kernel Initialization](linux_kernel/chapter_5__kernel_initialization.md)
        * [Chapter 6 : User Space Initialization](linux_kernel/chapter_6__user_space_initialization.md)
-       * ch8: 裝置驅動程式的基本知識
+       * [ch8: 裝置驅動程式的基本知識](linux_kernel/ch8_zhuang_zhi_qu_dong_cheng_shi_de_ji_ben_zhi_shi.md)
 * [Linux Driver](linux_driver/README.md)
    * [Linux Device Driver Programming](linux_device_driver_programming/README.md)
        * [Linux 裝置驅動程式的概要](linux_device_driver_programming/01.md)

@@ -33,7 +33,7 @@ BIOS ~ Basic Input/Output Software，雖然名字是那樣但是根本一點都�
 
 以下是一個bootloader(U-boot/XPedite5501)的實例：
 
-![](https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/U-boot.png/800px-U-boot.png)
+![](./images/800px-U-boot.png)
 
 由此可大略了解bootloader對於周邊硬體的初始化步驟。
 初始化完，bootloader需載入作業系統，以U-boot為例：
@@ -84,10 +84,10 @@ INIT: version 2.86 booting
 特點：1->0很容易，0->1(erase)很麻煩，需要對整個block來做。
 所以如果要更改儲存資料，必須把那塊block整個erase然後重新寫入，所以比一般硬碟慢很多。為了能更方便做0->1(erase block)的動作，通常會把空間分成很多block，讀取或寫入以page為單位，清除以block為單位：
 
-![](https://flashdba.files.wordpress.com/2014/06/nand-flash-die-layout.png)
+![](./images/nand-flash-die-layout.png)
 
 有時候為了某些讀寫策略(安排需要頻繁讀寫的部份有較好效能)，flash memory裡面的block大小會不同，例如stm32F407：
-![](http://aimagin.com/blog/wp-content/uploads/2014/12/11.png)
+![](./images/11.png)
 
 如果要修改flash memory上某block的資料(不管改1bit或1byte)，其步驟為：
 - 將該block讀進RAM
@@ -100,7 +100,7 @@ INIT: version 2.86 booting
 #### NOR 跟 NAND 的差異
 
 架構上不太一樣，NOR的記憶體陣列為並聯，NAND為串聯。以房子比喻的話，NOR像一群透天厝，貴，能塞的人少，要找人要挨家挨戶問，但是比較好找人(單位成本高，資料密度低，讀寫慢，但支援隨機存取，有時甚至可以不需要把資料載入RAM便可執行)；NAND像一群高樓大廈每間比較便宜，塞的人多可是要找人得靠電梯，至少電梯比走路快(資料密度高，單位成本低，讀寫快，多用於大量數據資料連續存取)。
-![](http://www.eeherald.com/images/nor_nand_cell.jpg)
+![](./images/nor_nand_cell.jpg)
 
 由於NAND成本低資料密度高，一般在出廠時就會有部份的晶片(Chip)含有壞區塊(Bad/Invalid Block)，所以使用上一定要搭配控制器去作壞區塊管理(Bad Block Management)。NOR一般出廠時是沒有壞區塊，但是不論NAND還是NOR用久了一樣會壞，所以壞區塊管理還是有必要的[^13]。
 
@@ -108,7 +108,7 @@ INIT: version 2.86 booting
 
 如果要把Linux安裝在空間有限的flash memory上，通常策略如下(Raw表示無使用檔案系統)：
 
-![](http://free-electrons.com/wp-content/uploads/2012/12/flash-partitions.png)
+![](./images/flash-partitions.png)
 
 通常kernel和ramdisk檔案系統的image都是壓縮過的，由`bootloader`去解壓縮。
 
@@ -131,14 +131,14 @@ Wear leveling的實作預設由flash controller進行。不過Linux亦提供[Mem
 ### 2.3.5 Memory Space
 
 通常physical address會這樣安排：SDRAM最底(0000_0000)，Flash memory(如果裡頭有bootloader的話)最高(FFFF_FFFF)，peripheral或PCI的外部裝置夾在中間。
-![](http://www.valvers.com/wp-content/uploads/2013/01/arm-c-virtual-addresses.jpg)
+![](./images/arm-c-virtual-addresses.jpg)
 
 通常MCU會搭配Memory Management Unit (MMU)去負責管理存取限制(acess right)跟位址解析(memory translation ，即virtual和physical address的轉換)[^5][^11][^12]。有了MMU的幫助，Linux kernel可以創造出virtual memory。Virtual memory的size看起來比可利用的physical memory大，可以讓記憶體能更有效的被利用。Kernel也可以加強不同process/task之間的記憶體管理，不會讓不該侵入僅屬於某process的記憶體區塊被別的process存取。
 
 ### 2.3.6 Execution Contexts
 
 當Linux kernel把MMU設置完成，kernel就會使用自己的virtual memory space。目前的kernel版本是把virtual kernel space設成 0xC0000000開始(位址比這個小的都算user space)。
-![](http://www.programering.com/images/remote/ZnJvbT1jc2RuJnVybD13WnVCbkx5Z1hkdWxHVGZSVE0yRXpYeEVETXhrRE12a0RNdkVUTXdJekx6UldZdnhHYzE5Q2R1VkdkdTkyWXRBM2R2MDJiajVDYmw1bWNsdEdlMTVXYXNsMkx2b0RjMFJIYQ.jpg)
+![](./images/ZnJvbT1jc2RuJnVybD13WnVCbkx5Z1hkdWxHVGZSVE0yRXpYeEVETXhrRE12a0RNdkVUTXdJekx6UldZdnhHYzE5Q2R1VkdkdTkyWXRBM2R2MDJiajVDYmw1bWNsdEdlMTVXYXNsMkx2b0RjMFJIYQ.jpg)
 
 這邊我去看了RPi的System.map(在source裡面，[此處有github連結](https://raw.githubusercontent.com/raspberrypi/firmware/master/extra/System.map))。這邊有一段：
 ```
@@ -149,8 +149,9 @@ c0008000 T stext
 ```
 剛好是0x00001240後跳到0xc0000000以後。這個切法是3G(user)/1G(kernel)。user space process用的記憶體就是user區。kernel space process一般來說是用kernel區，kernel區的memory裏面又有所謂的highmem跟lowmem去解決並非所有實體記憶體都有機會被對應到這kernel 1GB的記憶體空間的問題(kernel 本身的 text, data 等等就佔一堆)[^10]。
 
-![](http://loda.hala01.com/wp-content/uploads/2012/10/image013.png)
-:::info
+
+
+
 郭小偉：high memory是為了要解決32 bits現有的kernel address space無法1-on-1 map所有記憶體空間所產生的觀念。如果要map high memory是使用kmap_atomic這個function。打個比方x86_32的PAE mode下可支援64GB的physical address space，但是卻只有32bits的virtual address space。
 以ARM來說high memory暫時map的window範圍是從FIXADDR_START~FIXADDR_END(3MB)的空間。
 #define FIXADDR_START 0xffc00000UL
@@ -163,7 +164,8 @@ Viller Hsiao 補充：2.3.6 的問題我猜作者應該只是要闡述 kernel sp
 
 在x86_64的情況則類似下圖，0xffffffff80000000 以上都是保留給 kernel 用的。而在 x86_64 vmlinux，他把 0xffffffff81000000 拿來當作 _text 開頭。
 :::
-![](http://image.slidesharecdn.com/nlkb20140628-140726212831-phpapp02/95/linux-kernel-booting-process-1-for-nlkb-57-638.jpg?cb=1406410448)
+![](./images/linux-kernel-booting-process-1-for-nlkb-57-638.jpg)
+
 
 當使用者執行程式要去存取需要權限的resource(例如I/O等)，其步驟為：
 1. 使用者在user space執行process A

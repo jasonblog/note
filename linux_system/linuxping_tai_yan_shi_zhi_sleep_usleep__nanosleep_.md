@@ -1,4 +1,4 @@
-# Linux平台延時之sleep、usleep、nanosleep、select比較
+# Linux平臺延時之sleep、usleep、nanosleep、select比較
 
 - sleep的精度是秒
 - usleep的精度是微妙，不精確

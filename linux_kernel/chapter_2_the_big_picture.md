@@ -11,9 +11,9 @@ Chapter 2: The Big Picture
 - 通常含有可跟使用者互動的介面。
 - 為了cost-down所以能運用的資源有限，不把系統cost-down的話就輪到人被cost-down了。
 - 有時需要使用電池，所以要儘量控制電力消費以增加續航力。
-- 通常需要特製的計算平台或作業系統。
+- 通常需要特製的計算平臺或作業系統。
 - 通常只能使用內建軟體，不能安裝使用者自訂的軟體。然後軟硬體一起打包賣。
-- 軟體的設計傾向於減少人為干預，使用者不需要費太多力氣就能輕鬆使用。
+- 軟體的設計傾向於減少人為幹預，使用者不需要費太多力氣就能輕鬆使用。
 
 ### 2.1.1 BIOS vs. Bootloader
 BIOS ~ Basic Input/Output Software，雖然名字是那樣但是根本一點都不basic。它是一個相對複雜的系統軟體，其包含了一些對於個人電腦系統底層(low-level)的詳細設定。
@@ -35,7 +35,7 @@ BIOS ~ Basic Input/Output Software，雖然名字是那樣但是根本一點都�
 
 ![](./images/800px-U-boot.png)
 
-由此可大略了解bootloader對於周邊硬體的初始化步驟。
+由此可大略瞭解bootloader對於周邊硬體的初始化步驟。
 初始化完，bootloader需載入作業系統，以U-boot為例：
 ```
 tftp 600000 uImage
@@ -70,7 +70,7 @@ dmesg | grep root
 
 這樣安排的優點是系統不會因為一個使用者的程式就會整個崩潰。
 
-不過不管是RPi或筆電我都沒在dmesg裏面看到類似這種INIT開始的訊息：
+不過不管是RPi或筆電我都沒在dmesg裡面看到類似這種INIT開始的訊息：
 ```
 INIT: version 2.86 booting
 ```
@@ -118,7 +118,7 @@ INIT: version 2.86 booting
 
 :::info
 Viller Hsiao補充：
-wear leveling 就我的了解，是因為 flash 有寫的次數限制，但使用上有可能某些區塊因為頻率較高的被寫到，造成這些 block 較其他容易損壞，而別的 block 可能根本沒用幾次。
+wear leveling 就我的瞭解，是因為 flash 有寫的次數限制，但使用上有可能某些區塊因為頻率較高的被寫到，造成這些 block 較其他容易損壞，而別的 block 可能根本沒用幾次。
 所以我們可以這樣做，假設要寫到 offset 0x1000 的 block，軟體再幫忙轉一層 mapping table，最後真正寫到一個 random 的 block（比如說第一次轉寫到 0x1234，第二次寫就 轉 mapping 到 0x4567）。讓每個 block 被寫的次數可以比較平均。現在這層的動作可能在軟體底層實現或是 flash controller 裡面的 MCU 就幫你做掉了。
 :::
 
@@ -147,7 +147,7 @@ c0004000 A swapper_pg_dir
 c0008000 T _text
 c0008000 T stext
 ```
-剛好是0x00001240後跳到0xc0000000以後。這個切法是3G(user)/1G(kernel)。user space process用的記憶體就是user區。kernel space process一般來說是用kernel區，kernel區的memory裏面又有所謂的highmem跟lowmem去解決並非所有實體記憶體都有機會被對應到這kernel 1GB的記憶體空間的問題(kernel 本身的 text, data 等等就佔一堆)[^10]。
+剛好是0x00001240後跳到0xc0000000以後。這個切法是3G(user)/1G(kernel)。user space process用的記憶體就是user區。kernel space process一般來說是用kernel區，kernel區的memory裡面又有所謂的highmem跟lowmem去解決並非所有實體記憶體都有機會被對應到這kernel 1GB的記憶體空間的問題(kernel 本身的 text, data 等等就佔一堆)[^10]。
 
 
 
@@ -222,11 +222,11 @@ _do_fork-->copy_process-->dup_task_struct-->alloc_thread_stack_node。目前x86_
 
 [^7]: 郭小偉：embedded system上面一般不會開啟swap。原因不外乎：1). flash memory寫入速度慢，影響performance 2). flash memory有寫入次數的限制。因此，關閉swap需要承擔的風險是在memory超用時，OOM killer會起來殺掉process。在一開始設計系統規格的時候就要知道需要用掉多少的memory，並且把系統規格設計在安全的範圍內。再來swap space只會swap out anonymous memory(沒有map到實體file，e.g. stack, heap)。控制system swap的積極程度在`/proc/sys/vm/swappiness`，其值越小，kernel盡量不會使用到swap space。當其值為0，一個zone裡面的(free + file backed) pages小於hige water mark，就會啟動swap機制。參考： `Documentation/sysctl/vm.txt`。
 
-[^8]: 郭小偉：swap機制會在兩個點被觸發：1). kswapd一段時間就會被叫醒，之後根據swappiness的值決定要不要swap out pages。 2). memory短缺，要不到memory的情況。詳情請參考：`__alloc_pages_slowpath`。當在buddy system的freelist要不到page(s)的時候會開始進行compaction或者叫醒kswapd。真的不行就會手動直接回收頁。最後無力回天則呼叫OOM killer。以上兩點都會把pages回收並且丟進去swap。
+[^8]: 郭小偉：swap機制會在兩個點被觸發：1). kswapd一段時間就會被叫醒，之後根據swappiness的值決定要不要swap out pages。 2). memory短缺，要不到memory的情況。詳情請參考：`__alloc_pages_slowpath`。當在buddy system的freelist要不到page(s)的時候會開始進行compaction或者叫醒kswapd。真的不行就會手動直接回收頁。最後無力迴天則呼叫OOM killer。以上兩點都會把pages回收並且丟進去swap。
 
 [^9]: 郭小偉：swap space也會被hibernation用到。
 
-[^10]: Chen-Yu Tsai：highmem 是在 32 bit 平台上才會看到，主要原因是因為 kernel space map 在 upper 1G，此時你在 kernel space 可以用的就只有這 1G, 還要扣掉 kernel 本身的 text, data 等等，還有 highmem mapping 用的 window。至於 highmem 存取的方式就是把你要存取的部分 map 進保留的 window 裡去，EMS或AGP有類似的概念。
+[^10]: Chen-Yu Tsai：highmem 是在 32 bit 平臺上才會看到，主要原因是因為 kernel space map 在 upper 1G，此時你在 kernel space 可以用的就只有這 1G, 還要扣掉 kernel 本身的 text, data 等等，還有 highmem mapping 用的 window。至於 highmem 存取的方式就是把你要存取的部分 map 進保留的 window 裡去，EMS或AGP有類似的概念。
 
 [^11]: Viller Hsiao：virtual 跟 physical 中間還有一層 logical。logical 與 physical 只是一個 shift(1-1 mapping)，kernel 跑在 logical，另外再把 logical mapping 到 virtual 給 userspace 用。
 

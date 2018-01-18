@@ -39,7 +39,7 @@ pi@raspberrypi:~ $ tree -L 1 /
 |`/dev`|**`device node`集中處。 Embedded linux 不可省略此部份。**|
 |`/etc`|**系統設定檔。 通常Embedded linux 不可省略此部份。**|
 |`/home`|使用者的檔案所在目錄。|
-|`/lib`|**系統函式庫，包含C標準函式庫(libc)或動態連結器(ld)等。 Embedded linux 不可省略此部份，在一般迷你系統中其也佔了大部份容量。**|
+|`/lib`|**系統函式庫，包含C標準函式庫(libc)或動態連結器(ld)等。 Embedded linux 不可省略此部份，在一般迷你係統中其也佔了大部份容量。**|
 |`/lost+found`|沒法被`fsck`回復的檔案會被複製到此。|
 |`/media`|為使用者隨身碟或CD之類的可移除裝置的掛載處，一般不需 super user 權限即可自動掛載。|
 |`/mnt`|臨時掛載的檔案系統都掛在此目錄下。|
@@ -96,9 +96,9 @@ if (execute_command) {
     panic("No working init found.  Try passing init= option to kernel. "
           "See Linux Documentation/init.txt for guidance.");
 ```
-前面說過，`try_to_run_init_process`或`run_init_process`只是個封裝函式，用意是把引入的檔案名稱用`execve()`執行。如果`kernel_init`在命令列沒有收到關於 `ramdisk_execute_command` 的設定，然後那四個 `try_to_run_init_process` 找到一個可以run成功的執行檔，那個檔案就會被執行並取代原本這個`kernel_init` process(PID不變)。如果這四個地方都找不到那只好接panic了(因為`./init/main.c`內的函式只能被執行一次，失敗了不能重來，除非重開機)。
+前面說過，`try_to_run_init_process`或`run_init_process`只是個封裝函式，用意是把引入的檔案名稱用`execve()`執行。如果`kernel_init`在命令列沒有收到關於 `ramdisk_execute_command` 的設定，然後那四個 `try_to_run_init_process` 找到一個可以run成功的執行檔，那個檔案就會被執行並取代原本這個`kernel_init` process(PID不變)。如果這四個地方都找不到那隻好接panic了(因為`./init/main.c`內的函式只能被執行一次，失敗了不能重來，除非重開機)。
 
-當然，為了要執行被`try_to_run_init_process`引入的可執行檔，執行`kernel_init`前要先把檔案系統掛載上去才行，不然kernel根本找不到`/sbin/init`或是此執行檔依賴的函式庫。問題就出在這了，有時候由於受限於硬體驅動程式(例如SATA硬碟，其驅動程式一般放在`/lib/modules`而不在Image裏面)，在執行`kernel_init`前根本沒法去掛載儲存裝置，既然還沒有掛載那你上哪找`/sbin/init`？臨時虛擬檔案系統(Initial RAM Disk/initrd 或 Initial RAM Filesystem/initramfs)就是為了解決這個問題：先把必要的檔案載入到記憶體中並虛擬成檔案系統讓系統可以執行，之後再釋放以及掛上真的檔案系統。
+當然，為了要執行被`try_to_run_init_process`引入的可執行檔，執行`kernel_init`前要先把檔案系統掛載上去才行，不然kernel根本找不到`/sbin/init`或是此執行檔依賴的函式庫。問題就出在這了，有時候由於受限於硬體驅動程式(例如SATA硬碟，其驅動程式一般放在`/lib/modules`而不在Image裡面)，在執行`kernel_init`前根本沒法去掛載儲存裝置，既然還沒有掛載那你上哪找`/sbin/init`？臨時虛擬檔案系統(Initial RAM Disk/initrd 或 Initial RAM Filesystem/initramfs)就是為瞭解決這個問題：先把必要的檔案載入到記憶體中並虛擬成檔案系統讓系統可以執行，之後再釋放以及掛上真的檔案系統。
 
 ## 6.3 The init Process
 
@@ -114,7 +114,7 @@ if (execute_command) {
 ![](images/oMrdJkd.png)
 
 ### 6.4.1 - 6.4.4 `initrd`的流程
-- 開發者需將`initrd`的(壓縮過的)映像檔準備好，裏面包含必要的函式庫與執行檔。
+- 開發者需將`initrd`的(壓縮過的)映像檔準備好，裡麵包含必要的函式庫與執行檔。
 - `bootloader`負責將`initrd`映像檔載入到記憶體中，放在`/initrd.image`。
     - 如果`bootloader`將kernel與`initrd`映像檔**分別載入**，那`bootloader`必須將`initrd`在記憶體的位址傳給kernel(可用command line等方式)。
     - 早前有些ARM系統會把kernel與`initrd`映像檔串起來一起載入，然後使用command line將`initrd`在記憶體的位址傳給kernel。不過此方式已被`initramfs`取代。
@@ -149,11 +149,11 @@ RPi就是使用這樣的設定(在`/boot/cmdline.txt`中有`root=/dev/mmcblk0p2`
 |---|--------|-----------|
 |載入/設定的時機|`prepare_namespace()`|`do_basic_setup()`(較`initrd`更為提前)|
 |Image格式|壓縮過的(gzipped)檔案系統(如ext2)|cpio+gzip，使用上較方便，亦可顧及檔案權限(限root)|
-|Image製作|跟kernel Image分開(也可串在一起)|被包在kernel image裏面|
+|Image製作|跟kernel Image分開(也可串在一起)|被包在kernel image裡面|
 |作法|ram disk(block device)|tmpfs(將cache掛載像個檔案系統，並把initramfs放在cache，需要的話直接從cache抓出來執行)|
 |先執行的程式|`/linuxrc`|`/init`(若是ramdisk_execute_command沒有發現有另外指定檔案)|
 
-要編譯`initramfs`的話是在`./usr`這個目錄裏面去做：
+要編譯`initramfs`的話是在`./usr`這個目錄裡面去做：
 ```
 ~/git/raspberry_kernel/linux/usr$ ls -l
 total 60
@@ -195,7 +195,7 @@ default_initramfs() {
 - [鳥哥第十九章、開機流程、模組管理與 Loader](http://linux.vbird.org/linux_basic/0510osloader.php)
 - [What are the minimum root filesystem applications that are required to fully boot linux?](http://unix.stackexchange.com/questions/136278/what-are-the-minimum-root-filesystem-applications-that-are-required-to-fully-boo)
 - [Jserv's bolg: 深入理解 Linux 2.6 的 initramfs 機制 (上)](http://blog.linux.org.tw/~jserv/archives/001954.html)
-- [Linux2.6 内核的 Initrd 机制解析](https://www.ibm.com/developerworks/cn/linux/l-k26initrd/)
+- [Linux2.6 內核的 Initrd 機制解析](https://www.ibm.com/developerworks/cn/linux/l-k26initrd/)
 - [Richman 的雜記 -- initramfs 簡介，一個新的 initial RAM disks 的模型 ](http://blog.linux.org.tw/~jserv/archives/001954.html)
 - [Al Viro's new execve/kernel_thread design](https://lwn.net/Articles/520227/)
 - [Android 筆記-Linux Kernel SMP (Symmetric Multi-Processors) 開機流程解析 Part(4) Linux 多核心啟動流程-kthreadd 與相關的核心模組](http://loda.hala01.com/2011/09/android-%E7%AD%86%E8%A8%98-linux-kernel-smp-symmetric-multi-processors-%E9%96%8B%E6%A9%9F%E6%B5%81%E7%A8%8B%E8%A7%A3%E6%9E%90-part4-linux-%E5%A4%9A%E6%A0%B8%E5%BF%83%E5%95%9F%E5%8B%95%E6%B5%81/)

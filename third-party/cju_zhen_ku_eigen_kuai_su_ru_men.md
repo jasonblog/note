@@ -1,9 +1,9 @@
-# C++矩阵库 Eigen 快速入门
+# C++矩陣庫 Eigen 快速入門
 
-最近需要用 C++ 做一些数值计算，之前一直采用Matlab 混合编程的方式处理矩阵运算，非常麻烦，直到发现了 Eigen 库，简直相见恨晚，好用哭了。 Eigen 是一个基于C++模板的线性代数库，直接将库下载后放在项目目录下，然后包含头文件就能使用，非常方便。此外，Eigen的接口清晰，稳定高效。唯一的问题是之前一直用 Matlab，对 Eigen 的 API 接口不太熟悉，如果能有 Eigen 和 Matlab 对应的说明想必是极好的，终于功夫不负有心人，让我找到了，原文在这里，不过排版有些混乱，我将其重新整理了一下，方便日后查询。
+最近需要用 C++ 做一些數值計算，之前一直採用Matlab 混合編程的方式處理矩陣運算，非常麻煩，直到發現了 Eigen 庫，簡直相見恨晚，好用哭了。 Eigen 是一個基於C++模板的線性代數庫，直接將庫下載後放在項目目錄下，然後包含頭文件就能使用，非常方便。此外，Eigen的接口清晰，穩定高效。唯一的問題是之前一直用 Matlab，對 Eigen 的 API 接口不太熟悉，如果能有 Eigen 和 Matlab 對應的說明想必是極好的，終於功夫不負有心人，讓我找到了，原文在這裡，不過排版有些混亂，我將其重新整理了一下，方便日後查詢。
 
 
-##Eigen 矩阵定义
+##Eigen 矩陣定義
 
 
 ```c
@@ -25,7 +25,7 @@ x(i)              // x(i+1)           // Matlab is 1-based
 C(i,j)            // C(i+1,j+1)       //
 ```
 
-## Eigen 基础使用
+## Eigen 基礎使用
 
 ```c
 // Basic usage
@@ -48,7 +48,7 @@ B << A, A, A;     // B is three horizontally stacked A's.
 A.fill(10);       // Fill A with all 10's.
 ```
 
-## Eigen 特殊矩阵生成
+## Eigen 特殊矩陣生成
 
 ```c
 // Eigen                            // Matlab
@@ -65,7 +65,7 @@ v.setLinSpaced(size,low,high)       // v = linspace(low,high,size)'
 ```
 
 
-## Eigen 矩阵分块
+## Eigen 矩陣分塊
 
 ```c
 // Matrix slicing and blocks. All expressions listed here are read/write.
@@ -105,7 +105,7 @@ P.bottomRightCorner<rows,cols>()   // P(end-rows+1:end, end-cols+1:end)
 ```
 
 
-## Eigen 矩阵元素交换
+## Eigen 矩陣元素交換
 
 ```c
 // Of particular note is Eigen's swap function which is highly optimized.
@@ -114,7 +114,7 @@ R.row(i) = P.col(j);               // R(i, :) = P(:, i)
 R.col(j1).swap(mat1.col(j2));      // R(:, [j1 j2]) = R(:, [j2, j1])
 ```
 
-## Eigen 矩阵转置
+## Eigen 矩陣轉置
 
 ```c
 // Views, transpose, etc; all read-write except for .adjoint().
@@ -127,7 +127,7 @@ R.transpose().colwise().reverse(); // rot90(R)
 R.conjugate()                      // conj(R)
 ```
 
-## Eigen 矩阵乘积
+## Eigen 矩陣乘積
 
 ```c
 // All the same as Matlab, but matlab doesn't have *= style operators.
@@ -141,7 +141,7 @@ a *= M;            R  = P + Q;      R  = P/s;
 
 ```
 
-## Eigen 矩阵单个元素操作
+## Eigen 矩陣單個元素操作
 
 ```c
 // Vectorized operations on each element independently
@@ -178,7 +178,7 @@ R.array().abs2()          // abs(P.^2)
 (R.array() < s).select(P,Q);  // (R < s ? P : Q)
 ```
 
-## Eigen 矩阵化简
+## Eigen 矩陣化簡
 
 ```c
 // Reductions.
@@ -203,7 +203,7 @@ R.colwise().any()         // any(R)
 R.rowwise().any()         // any(R, 2)
 ```
 
-## Eigen 矩阵点乘
+## Eigen 矩陣點乘
 
 ```c
 // Dot products, norms, etc.
@@ -214,7 +214,7 @@ x.dot(y)                  // dot(x, y)
 x.cross(y)                // cross(x, y) Requires #include <Eigen/Geometry>
 ```
 
-## Eigen 矩阵类型转换
+## Eigen 矩陣類型轉換
 
 ```c
 //// Type conversion
@@ -227,7 +227,7 @@ A.imag();                          // imag(A)
 // if the original type equals destination type, no work is done
 ```
 
-## Eigen 求解线性方程组 Ax = b
+## Eigen 求解線性方程組 Ax = b
 
 ```c
 // Solve Ax = b. Result stored in x. Matlab: x = A \ b.
@@ -243,7 +243,7 @@ x = A.svd() .solve(b));  // Stable, slowest. #include <Eigen/SVD>
 // .svd()  -> .matrixU(), .singularValues(), and .matrixV()
 ```
 
-## Eigen 矩阵特征值
+## Eigen 矩陣特徵值
 
 ```c
 // Eigenvalue problems
@@ -255,7 +255,7 @@ eig.eigenvectors();               // vec
 // For self-adjoint matrices use SelfAdjointEigenSolver<>
 ```
 
-##参考文献
+##參考文獻
 
 【1】http://eigen.tuxfamily.org/dox/AsciiQuickReference.txt
 

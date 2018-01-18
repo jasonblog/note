@@ -463,7 +463,7 @@ splasky@splasky-XPS13→ [~/workspace/kernel_module/module] (master) 237h29m $ d
 https://www.gnu.org/licenses/quick-guide-gplv3.html
 
 # 作者推薦的參考書目
-[Linux Device Drivers](http://www.oreilly.com.tw/product_linux.php?id=a184):台灣:Linux 驅動程式, 3/e (Linux Device Drivers, 3/e) 
+[Linux Device Drivers](http://www.oreilly.com.tw/product_linux.php?id=a184):臺灣:Linux 驅動程式, 3/e (Linux Device Drivers, 3/e) 
 [Essential Linux Device Drivers](https://www.amazon.com/Essential-Device-Drivers-Sreekrishnan-Venkateswaran/dp/0132396556)有中文版
 [Filesystem Hierarchy Standard](https://zh.wikipedia.org/wiki/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84%E6%A0%87%E5%87%86)
 

@@ -105,7 +105,7 @@ bootloader與bootstrap loader的不同在於：前者在電源被打開始開始
 - 載入Image。
 
 ### 5.1.4 Boot Message
-我看了一下我的RPi的dmesg，並沒有如書中提到有decompress_kernel的相關訊息(dmesg的第1條訊息是從`start_kernel`來的，就算開了`initcall_debug`也一樣)，不過原始檔`misc.c`裏面的確有這個function
+我看了一下我的RPi的dmesg，並沒有如書中提到有decompress_kernel的相關訊息(dmesg的第1條訊息是從`start_kernel`來的，就算開了`initcall_debug`也一樣)，不過原始檔`misc.c`裡面的確有這個function
 ```C=1
 void
 decompress_kernel(unsigned long output_start, unsigned long free_mem_ptr_p,
@@ -136,14 +136,14 @@ decompress_kernel(unsigned long output_start, unsigned long free_mem_ptr_p,
 :::warning
 不過我覺得奇怪，bootstrap loader的過程怎麼會顯示在dmesg裡，如果bootstrap真的是介於bootloader跟kernel介入之間的過渡期的話，那它怎麼有機會管到`pr_info`那去？kernel應該還沒有機會初始關於`pr_info`的設定不是嗎？
 :::
-然後dmesg裏面的確有kernel version string，這行是對應到`start_kernel`中的`pr_notice("%s", linux_banner)`：
+然後dmesg裡面的確有kernel version string，這行是對應到`start_kernel`中的`pr_notice("%s", linux_banner)`：
 ```
 [    0.000000] Linux version 4.4.21-rt27 (wtchen@wtchen-Inspiron-5423) (gcc version 5.4.0 20160609 (Ubuntu/Linaro 5.4.0-6ubuntu1~16.04
 .1) ) #1 PREEMPT RT Mon Sep 19 16:03:55 CEST 2016
 ```
 這邊的`#1`是Build number，每重新compile一次就會被`./scripts/mkversion`增加1，可用`make mrproper`使之重新回到1。
 
-但是我在原始檔的`init/main.c`裏面的start_kernel裡並沒有看到相關部份：
+但是我在原始檔的`init/main.c`裡面的start_kernel裡並沒有看到相關部份：
 
  // scripts/mkcompile_h
 
@@ -280,7 +280,7 @@ static struct obs_kernel_param __setup_console_setup __section(.init.setup)
 ```
 所以這兩行code做的就是：
 1. 編譯器創造出一個叫作`__setup_str_console_setup[]`的區域字串常數為`"console"`;
-2. 編譯器創造出一個類型為`struct obs_kernel_param`的靜態變數`__setup_console_setup`，裏面含有三個元件：剛剛創的字串常數`__setup_str_console_setup[]`，一個指向setup function的函數指標(此例來說就是`console_setup`)，一個flag。
+2. 編譯器創造出一個類型為`struct obs_kernel_param`的靜態變數`__setup_console_setup`，裡面含有三個元件：剛剛創的字串常數`__setup_str_console_setup[]`，一個指向setup function的函數指標(此例來說就是`console_setup`)，一個flag。
 3. 在連結期間(link stage)，這兩行定義出的結構都會被塞到ELF物件的`.init.setup`部位。
 
 以下是從`./init/main.c`摘錄出如何處理`struct obs_kernel_param`物件的函式，我以註解的方式說明我對這code的理解。
@@ -412,7 +412,7 @@ LTO_REFERENCE_INITCALL(__initcall_customize_machine3)
 
 要注意的是`.initcallN.init`這部份，這個`N`代表初始化的順序(level)，在`__define_initcall`的程式碼中可發現，`arch_initcall`是排在`core_initcall`等後面。
 
-不管是`__setup`還是`__initcall`，這些macro是提供一個可以初始子系統，並且在初始完成後釋放占用的記憶體的機制。
+不管是`__setup`還是`__initcall`，這些macro是提供一個可以初始子系統，並且在初始完成後釋放佔用的記憶體的機制。
 `__initcall` macro是在kernel 2.6之後才開始加入，至於之前是使用`device_initcall` macro (level=6)。
 
 ## 5.5 init Thread
@@ -503,13 +503,13 @@ systemd─┬─agetty
 
 ### 5.6 Summary
 - ~~靠！一堆好複雜的code！終於看完了！~~
-- 因為kernel超複雜，所以了解其架構很重要。
+- 因為kernel超複雜，所以瞭解其架構很重要。
 
 ## 參考資料
 - [The initcall mechanism](https://xinqiu.gitbooks.io/linux-insides-cn/content/Concepts/initcall.html)
 - [預處理器(Preprocessor)](http://edisonx.pixnet.net/blog/post/42489122-%E9%A0%90%E8%99%95%E7%90%86%E5%99%A8(preprocessor))
 - [The C Preprocessor](http://www.cprogramming.com/tutorial/cpreprocessor.html)
-- [=5内核启动流程之(start_kernel()-rest_init()-cpu_idle() schedule() 0&1号进程)](http://wenku.baidu.com/view/f384a4d980eb6294dd886ca4.html)
+- [=5內核啟動流程之(start_kernel()-rest_init()-cpu_idle() schedule() 0&1號進程)](http://wenku.baidu.com/view/f384a4d980eb6294dd886ca4.html)
 - [`__init`-開機完成後釋放記憶體](http://kezeodsnx.pixnet.net/blog/post/32301845-__init%3A-%E9%96%8B%E6%A9%9F%E5%AE%8C%E6%88%90%E5%BE%8C%E9%87%8B%E6%94%BE%E8%A8%98%E6%86%B6%E9%AB%94)
 - [kernel__initcalls](http://blog.techveda.org/kernel__initcalls/)
 - [How Boot Loaders Work](https://lennartb.home.xs4all.nl/bootloaders/node3.html)

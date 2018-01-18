@@ -91,7 +91,7 @@ ip=<client-ip>:<server-ip>:<gw-ip>:<netmask>:<hostname>:<device>:<autoconf>
 * 讓linux和process交換訊息的介面
 * 利用`mount`(不帶任何參數)可以列出所有已經掛載的檔案系統
 * 所有在核心中執行的使用者行程,都有一個/proc中的項目代號(PID)
-* /proc本身也是被掛載的檔案系統，類型是proc,因此系統中最上層目錄必須要有一個掛載點/proc讓proc掛載
+* /proc本身也是被掛載的檔案系統，類型是proc,因此係統中最上層目錄必須要有一個掛載點/proc讓proc掛載
 * 掛載proc:
     * mount -t proc /proc /proc
     * mount -t proc none /proc

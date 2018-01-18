@@ -432,7 +432,7 @@
    * [Linux Note: daemon 與 background process 的差異](linux_system/linux_note_daemon_yu_background_process_de_cha_yi.md)
    * [x86 有個有個 lea 指令 (Load Effective Address)](linux_system/x86_you_ge_you_ge_lea_zhi_ling__load_effective_add.md)
    * [Linux平台延時之sleep、usleep、nanosleep、select比較](linux_system/linuxping_tai_yan_shi_zhi_sleep_usleep__nanosleep_.md)
-   * linux 用户空间 和 内核空间 延时函数
+   * [linux 用户空间 和 内核空间 延时函数](linux_system/linux_yong_hu_kong_jian_he_nei_he_kong_jian_yan_sh.md)
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

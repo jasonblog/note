@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>linux 用户空间 和 内核空间 延时函数 | Jason note</title>
+        <title>linux 用戶空間 和 內核空間 延時函數 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -54,10 +54,10 @@
         
     <div class="book"
         data-level="13.56"
-        data-chapter-title="linux 用户空间 和 内核空间 延时函数"
+        data-chapter-title="linux 用戶空間 和 內核空間 延時函數"
         data-filepath="linux_system/linux_yong_hu_kong_jian_he_nei_he_kong_jian_yan_sh.md"
         data-basepath=".."
-        data-revision="Thu Jan 18 2018 19:57:23 GMT+0800 (CST)"
+        data-revision="Thu Jan 18 2018 20:02:17 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -6780,7 +6780,7 @@
                         
                             <b>13.55.</b>
                         
-                        Linux平台延時之sleep、usleep、nanosleep、select比較
+                        Linux平臺延時之sleep、usleep、nanosleep、select比較
                     </a>
             
             
@@ -6795,7 +6795,7 @@
                         
                             <b>13.56.</b>
                         
-                        linux 用户空间 和 内核空间 延时函数
+                        linux 用戶空間 和 內核空間 延時函數
                     </a>
             
             
@@ -20741,7 +20741,7 @@
                         
                             <b>73.3.</b>
                         
-                        C++矩阵库 Eigen 快速入门
+                        C++矩陣庫 Eigen 快速入門
                     </a>
             
             
@@ -20785,21 +20785,21 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="linux-&#x7528;&#x6237;&#x7A7A;&#x95F4;-&#x548C;-&#x5185;&#x6838;&#x7A7A;&#x95F4;-&#x5EF6;&#x65F6;&#x51FD;&#x6570;">linux &#x7528;&#x6237;&#x7A7A;&#x95F4; &#x548C; &#x5185;&#x6838;&#x7A7A;&#x95F4; &#x5EF6;&#x65F6;&#x51FD;&#x6570;</h1>
-<h2 id="&#x7528;&#x6237;&#x7A7A;&#x95F4;">&#x7528;&#x6237;&#x7A7A;&#x95F4;:</h2>
+                        <h1 id="linux-&#x7528;&#x6236;&#x7A7A;&#x9593;-&#x548C;-&#x5167;&#x6838;&#x7A7A;&#x9593;-&#x5EF6;&#x6642;&#x51FD;&#x6578;">linux &#x7528;&#x6236;&#x7A7A;&#x9593; &#x548C; &#x5167;&#x6838;&#x7A7A;&#x9593; &#x5EF6;&#x6642;&#x51FD;&#x6578;</h1>
+<h2 id="&#x7528;&#x6236;&#x7A7A;&#x9593;">&#x7528;&#x6236;&#x7A7A;&#x9593;:</h2>
 <p>1.<code>unsigned int sleep(unsigned int seconds);</code><br>
-  sleep()&#x4F1A;&#x4F7F;&#x5F53;&#x524D;&#x7A0B;&#x5E8F;&#x4F11;&#x7720;seconds&#x79D2;&#x3002;&#x5982;&#x679C;sleep()&#x6CA1;&#x7761;&#x9971;&#xFF0C;&#x5B83;&#x5C06;&#x4F1A;&#x8FD4;&#x56DE;&#x8FD8;&#x9700;&#x8981;&#x8865;&#x7720;&#x7684;&#x65F6;&#x95F4;&#xFF0C;&#x5426;&#x5219;&#x4E00;&#x822C;&#x8FD4;&#x56DE;&#x96F6;&#x3002; </p>
+  sleep()&#x6703;&#x4F7F;&#x7576;&#x524D;&#x7A0B;&#x5E8F;&#x4F11;&#x7720;seconds&#x79D2;&#x3002;&#x5982;&#x679C;sleep()&#x6C92;&#x7761;&#x98FD;&#xFF0C;&#x5B83;&#x5C07;&#x6703;&#x8FD4;&#x56DE;&#x9084;&#x9700;&#x8981;&#x88DC;&#x7720;&#x7684;&#x6642;&#x9593;&#xFF0C;&#x5426;&#x5247;&#x4E00;&#x822C;&#x8FD4;&#x56DE;&#x96F6;&#x3002; </p>
 <ol>
 <li><p><code>void usleep(unsigned long usec);</code> <br>
-usleep&#x4E0E;sleep()&#x7C7B;&#x540C;&#xFF0C;&#x4E0D;&#x540C;&#x4E4B;&#x5904;&#x5728;&#x4E8E;&#x4F11;&#x7720;&#x7684;&#x65F6;&#x95F4;&#x5355;&#x4F4D;&#x4E3A;&#x6BEB;&#x79D2;&#xFF08;10E-6&#x79D2;&#xFF09;&#x3002; </p>
+usleep&#x8207;sleep()&#x985E;&#x540C;&#xFF0C;&#x4E0D;&#x540C;&#x4E4B;&#x8655;&#x5728;&#x65BC;&#x4F11;&#x7720;&#x7684;&#x6642;&#x9593;&#x55AE;&#x4F4D;&#x70BA;&#x6BEB;&#x79D2;&#xFF08;10E-6&#x79D2;&#xFF09;&#x3002; </p>
 </li>
 <li><p><code>int select(0,NULL,NULL,NULL,struct timeval *tv);</code>  <br>
-&#x53EF;&#x4EE5;&#x5229;&#x7528;select&#x5B9E;&#x73B0;sleep()&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x5B83;&#x5C06;&#x4E0D;&#x4F1A;&#x7B49;&#x5F85;&#x4EFB;&#x4F55;&#x4E8B;&#x4EF6;&#x53D1;&#x751F;&#x3002; </p>
+&#x53EF;&#x4EE5;&#x5229;&#x7528;select&#x5BE6;&#x73FE;sleep()&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x5B83;&#x5C07;&#x4E0D;&#x6703;&#x7B49;&#x5F85;&#x4EFB;&#x4F55;&#x4E8B;&#x4EF6;&#x767C;&#x751F;&#x3002; </p>
 </li>
-<li><p><code>int nanosleep(struct timespec *req,struct timespec *rem);</code><br><br>nanosleep&#x4F1A;&#x6C89;&#x7761;req&#x6240;&#x6307;&#x5B9A;&#x7684;&#x65F6;&#x95F4;&#xFF0C;&#x82E5;rem&#x4E3A;non-null&#xFF0C;&#x800C;&#x4E14;&#x6CA1;&#x7761;&#x9971;&#xFF0C;&#x5C06;&#x4F1A;&#x628A;&#x8981;&#x8865;&#x7720;&#x7684;&#x65F6;&#x95F4;&#x653E;&#x5728;rem&#x4E0A;&#x3002;</p>
+<li><p><code>int nanosleep(struct timespec *req,struct timespec *rem);</code><br><br>nanosleep&#x6703;&#x6C89;&#x7761;req&#x6240;&#x6307;&#x5B9A;&#x7684;&#x6642;&#x9593;&#xFF0C;&#x82E5;rem&#x70BA;non-null&#xFF0C;&#x800C;&#x4E14;&#x6C92;&#x7761;&#x98FD;&#xFF0C;&#x5C07;&#x6703;&#x628A;&#x8981;&#x88DC;&#x7720;&#x7684;&#x6642;&#x9593;&#x653E;&#x5728;rem&#x4E0A;&#x3002;</p>
 </li>
 </ol>
-<p>&#x5B9E;&#x9645;&#x4E0A;&#x7528;select&#x662F;<code>&#x4E07;&#x80FD;</code>&#x7684;&#xFF0C;&#x4E0B;&#x9762;&#x7684;&#x662F;&#x4E00;&#x4E2A;&#x4F7F;&#x7528;select&#x7684;&#x4F8B;&#x5B50;&#xFF1A;</p>
+<p>&#x5BE6;&#x969B;&#x4E0A;&#x7528;select&#x662F;<code>&#x842C;&#x80FD;</code>&#x7684;&#xFF0C;&#x4E0B;&#x9762;&#x7684;&#x662F;&#x4E00;&#x500B;&#x4F7F;&#x7528;select&#x7684;&#x4F8B;&#x5B50;&#xFF1A;</p>
 <pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;time.h&gt;</span></span>
 <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/time.h&gt;</span></span>
 
@@ -20811,16 +20811,16 @@ usleep&#x4E0E;sleep()&#x7C7B;&#x540C;&#xFF0C;&#x4E0D;&#x540C;&#x4E4B;&#x5904;&#x
     select(<span class="hljs-number">0</span>,<span class="hljs-literal">NULL</span>,<span class="hljs-literal">NULL</span>,<span class="hljs-literal">NULL</span>,&amp;tv);
 }
 </code></pre>
-<p>iSec &#x4E3A;&#x5EF6;&#x65F6;&#x79D2;&#x6570;,Usec&#x4E3A;&#x5EF6;&#x65F6;&#x5FAE;&#x79D2;&#x6570;.</p>
+<p>iSec &#x70BA;&#x5EF6;&#x6642;&#x79D2;&#x6578;,Usec&#x70BA;&#x5EF6;&#x6642;&#x5FAE;&#x79D2;&#x6578;.</p>
 <p>&#x6CE8;:
-1&#x79D2;=1000&#x6BEB;&#x79D2;=1000000&#x5FAE;&#x79D2;=1000000000&#x7EB3;&#x79D2;=1000000000000&#x76AE;&#x79D2;=1000000000000000&#x98DE;&#x79D2;
+1&#x79D2;=1000&#x6BEB;&#x79D2;=1000000&#x5FAE;&#x79D2;=1000000000&#x7D0D;&#x79D2;=1000000000000&#x76AE;&#x79D2;=1000000000000000&#x98DB;&#x79D2;
 1s=1000ms=1000000us=1000000000ns=1000000000000ps=1000000000000000fs</p>
-<h2 id="&#x5185;&#x6838;&#x7A7A;&#x95F4;">&#x5185;&#x6838;&#x7A7A;&#x95F4;:</h2>
-<p>&#x5185;&#x6838;&#x91CC;&#x9762;&#x5DF2;&#x7ECF;&#x5B9E;&#x73B0;&#x4E86;&#x5EF6;&#x65F6;&#x51FD;&#x6570;.</p>
+<h2 id="&#x5167;&#x6838;&#x7A7A;&#x9593;">&#x5167;&#x6838;&#x7A7A;&#x9593;:</h2>
+<p>&#x5167;&#x6838;&#x88E1;&#x9762;&#x5DF2;&#x7D93;&#x5BE6;&#x73FE;&#x4E86;&#x5EF6;&#x6642;&#x51FD;&#x6578;.</p>
 <h1 id="include-">include <linux delay.h=""></linux></h1>
-<p>udelay(int n);  &#x5EF6;&#x65F6;n&#x5FAE;&#x79D2;
-mdelay(int n);  &#x5EF6;&#x65F6;n&#x6BEB;&#x79D2;
-ndelay(int n);  &#x5EF6;&#x65F6;n&#x7EB3;&#x79D2;</p>
+<p>udelay(int n);  &#x5EF6;&#x6642;n&#x5FAE;&#x79D2;
+mdelay(int n);  &#x5EF6;&#x6642;n&#x6BEB;&#x79D2;
+ndelay(int n);  &#x5EF6;&#x6642;n&#x7D0D;&#x79D2;</p>
 
                     
                     </section>
@@ -20831,7 +20831,7 @@ ndelay(int n);  &#x5EF6;&#x65F6;n&#x7EB3;&#x79D2;</p>
         </div>
 
         
-        <a href="../linux_system/linuxping_tai_yan_shi_zhi_sleep_usleep__nanosleep_.html" class="navigation navigation-prev " aria-label="Previous page: Linux平台延時之sleep、usleep、nanosleep、select比較"><i class="fa fa-angle-left"></i></a>
+        <a href="../linux_system/linuxping_tai_yan_shi_zhi_sleep_usleep__nanosleep_.html" class="navigation navigation-prev " aria-label="Previous page: Linux平臺延時之sleep、usleep、nanosleep、select比較"><i class="fa fa-angle-left"></i></a>
         
         
         <a href="../assembly/index.html" class="navigation navigation-next " aria-label="Next page: Assembly"><i class="fa fa-angle-right"></i></a>

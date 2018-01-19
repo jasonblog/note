@@ -57,7 +57,7 @@
         data-chapter-title="即時系統 使用排程器"
         data-filepath="linux_system/ji_shi_xi_tong_shi_yong_pai_cheng_qi.md"
         data-basepath=".."
-        data-revision="Fri Jan 19 2018 03:09:21 GMT+0800 (CST)"
+        data-revision="Fri Jan 19 2018 12:49:12 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -20895,6 +20895,84 @@ $ sudo /sbin/sysctl -w kernel.sched_rt_runtime_us=<span class="hljs-number">9500
 $ sudo /sbin/sysctl -w kernel.sched_rt_runtime_us=<span class="hljs-number">500000</span>
 </code></pre>
 <p>&#x53C8;&#x6216;&#x8005;&#x63A1;&#x7528;&#x62C9;&#x5927;&#x9593;&#x9694;&#xFF0C;&#x8B93;&#x6BCF;&#x4E00;&#x500B; thread &#x90FD;&#x505C;&#x6B62;&#x6578;&#x5341;&#x79D2;&#x4EE5;&#x4E0A;&#x3002;</p>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> _GNU_SOURCE</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/time.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;pthread.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;assert.h&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">double</span> <span class="hljs-title">my_clock</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">struct</span> timespec t;
+    assert(clock_gettime(CLOCK_THREAD_CPUTIME_ID, &amp;t) == <span class="hljs-number">0</span>);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">1e-9</span> * t.tv_nsec + t.tv_sec;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">busy_work</span><span class="hljs-params">(<span class="hljs-keyword">int</span> mid)</span>
+</span>{
+    <span class="hljs-comment">// pthread_mutex_lock(&amp;outputlock);</span>
+    {
+        <span class="hljs-keyword">double</span> sttime = my_clock();
+
+        <span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>) {
+            <span class="hljs-keyword">if</span> (my_clock() - sttime &gt; mid) {
+                <span class="hljs-keyword">break</span>;
+            }
+        }
+
+        <span class="hljs-comment">// pthread_mutex_unlock(&amp;outputlock);</span>
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span>* <span class="hljs-title">pthread_do</span><span class="hljs-params">(<span class="hljs-keyword">void</span>* arg)</span>
+</span>{
+    <span class="hljs-keyword">struct</span> timeval begin, end;
+    <span class="hljs-comment">//int count = 0;</span>
+    <span class="hljs-keyword">struct</span> sched_param param;
+    param.sched_priority = sched_get_priority_max(SCHED_FIFO);
+    sched_setscheduler(<span class="hljs-number">0</span>, SCHED_FIFO, &amp;param);
+
+    <span class="hljs-keyword">cpu_set_t</span> mask;
+    CPU_ZERO(&amp;mask);
+    CPU_SET(<span class="hljs-number">0</span>, &amp;mask);
+    sched_setaffinity(<span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(mask), &amp;mask);
+
+    <span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>) {
+        <span class="hljs-comment">//count++;</span>
+        gettimeofday(&amp;begin, <span class="hljs-literal">NULL</span>);
+        busy_work(<span class="hljs-number">1</span>);
+        gettimeofday(&amp;end, <span class="hljs-literal">NULL</span>);
+        <span class="hljs-keyword">double</span> span = end.tv_sec - begin.tv_sec +
+                      (end.tv_usec - begin.tv_usec) / <span class="hljs-number">1000000.0</span>;
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;sub pthread diff time: %.12f\n&quot;</span>, <span class="hljs-number">1</span> - span);
+    }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">struct</span> timeval begin, end;
+    <span class="hljs-keyword">pthread_t</span> pthd;
+    <span class="hljs-comment">//int count = 0;</span>
+
+    pthd = pthread_create(&amp;pthd, <span class="hljs-literal">NULL</span>, pthread_do, <span class="hljs-literal">NULL</span>);
+
+    <span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>) {
+        <span class="hljs-comment">//count++;</span>
+        gettimeofday(&amp;begin, <span class="hljs-literal">NULL</span>);
+        sleep(<span class="hljs-number">1</span>);
+        gettimeofday(&amp;end, <span class="hljs-literal">NULL</span>);
+        <span class="hljs-keyword">double</span> span = end.tv_sec - begin.tv_sec +
+                      (end.tv_usec - begin.tv_usec) / <span class="hljs-number">1000000.0</span>;
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;main pthread diff time: %.12f\n&quot;</span>, <span class="hljs-number">1</span> - span);
+    }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
 
                     
                     </section>

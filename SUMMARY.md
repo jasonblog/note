@@ -1211,6 +1211,7 @@
        * [數值系統篇](c/shu_zhi_xi_tong_pian.md)
        * [技巧篇](c/ji_qiao_pian.md)
        * [server-framework](c/server-framework.md)
+       * 開發工具和規格標準
    * [幫 C 語言加上 Garbage Collector](c/bang_c_yu_yan_jia_shang_garbage_collector.md)
    * [memcpy alignment](c/memcpy_alignment.md)
    * [如何得知 malloc/free 的呼叫次數](c/ru_he_de_zhi_malloc__free_de_hu_jiao_ci_shu.md)

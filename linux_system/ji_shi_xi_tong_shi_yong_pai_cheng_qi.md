@@ -139,3 +139,84 @@ $ sudo /sbin/sysctl -w kernel.sched_rt_runtime_us=500000
 ```
 
 又或者採用拉大間隔，讓每一個 thread 都停止數十秒以上。
+
+
+```c
+#define _GNU_SOURCE
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/time.h>
+#include <pthread.h>
+#include <unistd.h>
+#include <assert.h>
+
+static double my_clock(void)
+{
+    struct timespec t;
+    assert(clock_gettime(CLOCK_THREAD_CPUTIME_ID, &t) == 0);
+    return 1e-9 * t.tv_nsec + t.tv_sec;
+}
+
+static void busy_work(int mid)
+{
+    // pthread_mutex_lock(&outputlock);
+    {
+        double sttime = my_clock();
+
+        while (1) {
+            if (my_clock() - sttime > mid) {
+                break;
+            }
+        }
+
+        // pthread_mutex_unlock(&outputlock);
+    }
+}
+
+void* pthread_do(void* arg)
+{
+    struct timeval begin, end;
+    //int count = 0;
+    struct sched_param param;
+    param.sched_priority = sched_get_priority_max(SCHED_FIFO);
+    sched_setscheduler(0, SCHED_FIFO, &param);
+
+    cpu_set_t mask;
+    CPU_ZERO(&mask);
+    CPU_SET(0, &mask);
+    sched_setaffinity(0, sizeof(mask), &mask);
+
+    while (1) {
+        //count++;
+        gettimeofday(&begin, NULL);
+        busy_work(1);
+        gettimeofday(&end, NULL);
+        double span = end.tv_sec - begin.tv_sec +
+                      (end.tv_usec - begin.tv_usec) / 1000000.0;
+        printf("sub pthread diff time: %.12f\n", 1 - span);
+    }
+
+    return NULL;
+}
+
+int main(void)
+{
+    struct timeval begin, end;
+    pthread_t pthd;
+    //int count = 0;
+
+    pthd = pthread_create(&pthd, NULL, pthread_do, NULL);
+
+    while (1) {
+        //count++;
+        gettimeofday(&begin, NULL);
+        sleep(1);
+        gettimeofday(&end, NULL);
+        double span = end.tv_sec - begin.tv_sec +
+                      (end.tv_usec - begin.tv_usec) / 1000000.0;
+        printf("main pthread diff time: %.12f\n", 1 - span);
+    }
+
+    return 0;
+}
+```

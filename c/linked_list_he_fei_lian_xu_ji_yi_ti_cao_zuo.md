@@ -22,7 +22,8 @@ Copyright (**慣C**) 2018 [宅色夫](http://wiki.csie.ncku.edu.tw/User/jserv)
         - node is not in the list
 
 - [ ] 原本的程式碼 (10 行)
-```C
+
+```c
 void remove_list_node(List *list, Node *target)
 {
   Node *prev = NULL;
@@ -41,7 +42,8 @@ void remove_list_node(List *list, Node *target)
 ```
 
 - [ ] 有「品味」的版本 (4 行)
-```C
+
+```c
 void remove_list_node(List *list, Node *target)
 {
     // The "indirect" pointer points to the *address*
@@ -54,6 +56,7 @@ void remove_list_node(List *list, Node *target)
     *indirect = target->next;
 }
 ```
+
 :::info
 從「要更新什麼位置的資料」思考，無論是 head 或者非 head，更新的是同一類型的資料，不用特別操作，自然省下額外的處理
 :::
@@ -65,6 +68,7 @@ void remove_list_node(List *list, Node *target)
 
 - [ ] [dlist](https://github.com/laserswald/dlist): Type-safe single file linked list
 * [dlist](https://github.com/laserswald/dlist) 使用方式
+
 
 ```c
 #include <dlist.h>
@@ -106,7 +110,7 @@ int main(int argc, char **argv) {
 
 除了計算 $\mu , \lambda$ ，還需要記錄整個串列的長度，若不記錄，會影響到之後 bubble sort 的實作。
 
-```clike
+```c
 Node *move(Node *cur) {
     if (cur)
         retunr cur->next;

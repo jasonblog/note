@@ -11,11 +11,11 @@ Copyright (**慣C**) 2018 [宅色夫](http://wiki.csie.ncku.edu.tw/User/jserv)
 ## 從 Linux 核心的藝術談起
 
 - [ ] [Linus Torvalds 在 TED 2016 的訪談](http://www.ted.com/talks/linus_torvalds_the_mind_behind_linux?language=zh-tw)
-![](https://i.imgur.com/PYHZ8h0.png)
+![](./images/PYHZ8h0.png)
 「我不是願景家，我是工程師。我對那些四處遊蕩、望著雲端的人沒有任何意見。但是我是看著地面的人，我想修補就在我面前的坑洞，以免跌進去。」
 * [從刪除 linked-list node 看程式設計的品味](https://medium.com/fcamels-notes/%E5%BE%9E%E5%88%AA%E9%99%A4-linked-list-node-%E7%9C%8B%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E7%9A%84%E5%93%81%E5%91%B3-b597cc5af785)
     * CMU [Linked Lists](https://www.cs.cmu.edu/~adamchik/15-121/lectures/Linked%20Lists/linked%20lists.html)
-    ![](https://i.imgur.com/Qof9hCw.png)
+    ![](./images/Qof9hCw.png)
     * 3 exceptional cases, we need to take care of:
         - list is empty
         - delete the head node
@@ -65,7 +65,8 @@ void remove_list_node(List *list, Node *target)
 
 - [ ] [dlist](https://github.com/laserswald/dlist): Type-safe single file linked list
 * [dlist](https://github.com/laserswald/dlist) 使用方式
-```C
+
+```c
 #include <dlist.h>
 
 struct my_data { int data; }
@@ -84,7 +85,8 @@ int main(int argc, char **argv) {
 用 [龜兔賽跑(Floyd's algorithm)](http://www.csie.ntnu.edu.tw/~u91029/Function.html#4)來偵測是否有 cycle 產生
 
 有 3 種狀態需要做討論
-![](https://i.imgur.com/WEPT0Xx.jpg)
+
+![](./images/WEPT0Xx.jpg)
 
 圖(1) cycle 在中間、圖(2) 頭尾相連、圖(3)為尾尾相連
 * $a$ 為起始點
@@ -260,9 +262,11 @@ gint	g_async_queue_length_unlocked ()
 
 [concurrent-ll](https://github.com/jserv/concurrent-ll)程式碼，分析 lock和lock-free版本
 
-![](https://i.imgur.com/7cJwMuC.png)
-![](https://i.imgur.com/oLpSYM7.png)
-![](https://i.imgur.com/G8C2CM5.png)
+![](images/7cJwMuC.png)
+
+![](images/oLpSYM7.png)
+
+![](images/G8C2CM5.png)
 
 十字叉叉代表 scalability（延伸擴展性） 線條代表 Throughput (資料吞吐量)，綠色線條為lock-free，紅色線條為lock-based。可以很清楚看到 lock-based 的效能不管多少 thread 都不太會提升效能，而lock-free就會隨著 thread 變多效能提高。
 

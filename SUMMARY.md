@@ -1214,6 +1214,7 @@
        * [server-framework](c/server-framework.md)
        * [開發工具和規格標準](c/kai_fa_gong_ju_he_gui_ge_biao_zhun.md)
        * [goto 和流程控制篇](c/goto_he_liu_cheng_kong_zhi_pian.md)
+       * linked list 和非連續記憶體操作
    * [幫 C 語言加上 Garbage Collector](c/bang_c_yu_yan_jia_shang_garbage_collector.md)
    * [memcpy alignment](c/memcpy_alignment.md)
    * [如何得知 malloc/free 的呼叫次數](c/ru_he_de_zhi_malloc__free_de_hu_jiao_ci_shu.md)

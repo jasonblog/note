@@ -12,7 +12,7 @@ Copyright (**慣C**) 2017 [宅色夫](http://wiki.csie.ncku.edu.tw/User/jserv)
 
 [Edgar Dijkstra: Go To Statement Considered Harmful](https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra68.pdf) [1968 年]
 
-[Considered harmful](https://en.wikipedia.org/wiki/Considered_harmful) 對應到台灣的新聞用語就是「恐有 ___ 的疑慮」
+[Considered harmful](https://en.wikipedia.org/wiki/Considered_harmful) 對應到臺灣的新聞用語就是「恐有 ___ 的疑慮」
 
 需要留意到 Dijkstra 撰文的年代，當時的程式開發者面對的程式語言有諸多限制，並且容易濫用 goto，最後產生了 Spaghetti Code
 

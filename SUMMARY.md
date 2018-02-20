@@ -515,7 +515,7 @@
    * [GDB命令基礎，讓你的程序bug無處躲藏](gdb/gdbming_ling_ji_chu_ff0c_rang_ni_de_cheng_xu_bug_w.md)
    * [valgrind + gdb](gdb/valgrind_+_gdb.md)
    * [調試技巧備忘](gdb/diao_shi_ji_qiao_bei_wang.md)
-   * Trace Function Calls Using GDB Revisited
+   * [Trace Function Calls Using GDB Revisited](gdb/trace_function_calls_using_gdb_revisited.md)
 * [Linux內核分析雲課堂學習筆記](mooc_linux_kernel/README.md)
    * [圖解分析彙編代碼以理解計算機是如何工作的](mooc_linux_kernel/191.md)
    * [基於mykernel的一個簡單的時間片輪轉多道程序內核代碼分析](mooc_linux_kernel/192.md)

@@ -923,7 +923,7 @@
    * [使用valgrind檢查內存問題](debug/shi_yong_valgrind_jian_cha_nei_cun_wen_ti.md)
    * [GDB技巧：使用checkpoint解決難以復現的Bug](debug/gdbji_qiao_ff1a_shi_yong_checkpoint_jie_jue_nan_yi.md)
    * [強制進程產生coredump，檢測死鎖以及進程快照](debug/qiang_zhi_jin_cheng_chan_sheng_coredump_ff0c_jian_.md)
-   * 如何快速地在每个函数入口处加入相同的语句？
+   * 如何快速地在每個函數入口處加入相同的語句？
 * [thinker_note](thinker/thinkernote.md)
    * [如果有人要求你改善系統](thinker/ru_guo_you_ren_yao_qiu_ni_gai_shan_xi_tong.md)
    * [閱讀程式碼的心理層面](thinker/yue_du_cheng_shi_ma_de_xin_li_ceng_mian.md)

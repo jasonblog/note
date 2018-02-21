@@ -10,7 +10,7 @@ scj@scjComputer:~/THpro/func_trace$ tree .
 │   ├── bar.c
 │   └── bar.h
 ├── main.c
-└── 步骤
+└── 步驟
 ```
 
 - func_trace.c
@@ -112,7 +112,7 @@ int main(int argc, char **argv) {
 ```
 
 
-然后按照如下顺序执行：
+然後按照如下順序執行：
 
 ```sh
 gcc func_trace.c -c
@@ -120,16 +120,16 @@ gcc main.c ./imple/*.c func_trace.o -finstrument-functions
 ./a.out
 ./func_trace.sh a.out func_trace.out
 ```
-可以直接编译好多源文件的程序了。
-直接把main.c以外的文件放进imple文件夹里头就可以
+可以直接編譯好多源文件的程序了。
+直接把main.c以外的文件放進imple文件夾裡頭就可以
 
-如果第二步有问题，用
+如果第二步有問題，用
 
 ```sh
 gcc main.c ./source/*.c func_trace.o -finstrument-functions 2>trace_log.txt
 ```
 
-导出编译信息
+導出編譯信息
 
 
-imple文件夹里头的东西封装成so后反而看不到调用过程。
+imple文件夾裡頭的東西封裝成so後反而看不到調用過程。

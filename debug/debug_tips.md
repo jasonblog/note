@@ -44,7 +44,92 @@ void __cyg_profile_func_exit(void *func, void *caller) {
 ```
 
 - func_trace.sh
-- 
+
+```sh
+#!/bin/bash
+EXECUTABLE="$1"
+TRACELOG="$2"
+
+while read TRACEFLAG FADDR CADDR; do
+FNAME="$(addr2line -f -e ${EXECUTABLE} ${FADDR}|head -1)"
+
+if test "${TRACEFLAG}" = "entry"
+then
+CNAME="$(addr2line -f -e ${EXECUTABLE} ${CADDR}|head -1)"
+CLINE="$(addr2line -s -e ${EXECUTABLE} ${CADDR})"
+echo "Enter ${FNAME} called from ${CNAME} (${CLINE})"
+fi
+
+if test "${TRACEFLAG}" = "exit"
+then
+echo "Exit  ${FNAME}"
+fi
+
+done < "${TRACELOG}"
+```
+- bar.c
+
+```c
+#include "bar.h"
+
+int bar(void) {
+  zoo();
+  return 1;
+}
+
+int foo(void) {  
+  return 2; 
+}
+
+void zoo(void) { 
+  foo(); 
+}
+```
+
+- bar.h
 
 
+```c
+#ifndef bar_h
+#define bar_h
 
+int bar(void);
+int foo(void);
+void zoo(void);
+
+#endif
+```
+
+- main.c
+
+```c
+#include <stdio.h>
+#include "./imple/bar.h"
+
+int main(int argc, char **argv) { 
+    bar(); 
+}
+```
+
+
+然后按照如下顺序执行：
+
+```sh
+gcc func_trace.c -c
+gcc main.c ./imple/*.c func_trace.o -finstrument-functions
+./a.out
+./func_trace.sh a.out func_trace.out
+```
+可以直接编译好多源文件的程序了。
+直接把main.c以外的文件放进imple文件夹里头就可以
+
+如果第二步有问题，用
+
+```sh
+gcc main.c ./source/*.c func_trace.o -finstrument-functions 2>trace_log.txt
+```
+
+导出编译信息
+
+
+imple文件夹里头的东西封装成so后反而看不到调用过程。

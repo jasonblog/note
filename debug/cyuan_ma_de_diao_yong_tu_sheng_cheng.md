@@ -1,18 +1,18 @@
-# C++源码的调用图生成
+# C++源碼的調用圖生成
 
 
 ##主要思路
 
-利用`gcc/g++的-finstrument-functions`的注入选项，
-得到每个函数的调用地址信息，生成一个`trace文件`，
-然后利用`addr2line和c++filt将函数名及其所在源码位置`从地址中解析出来，
-从而得到程序的`Call Stack`，
-然后用`pygraphviz`画出来
+利用`gcc/g++的-finstrument-functions`的注入選項，
+得到每個函數的調用地址信息，生成一個`trace文件`，
+然後利用`addr2line和c++filt將函數名及其所在源碼位置`從地址中解析出來，
+從而得到程序的`Call Stack`，
+然後用`pygraphviz`畫出來
 
 使用示例
 
-比如我现在有`A.hpp、B.hpp、C.hpp、ABCTest.cpp`这几个文件，
-我想看他们的`Call Graph`
+比如我現在有`A.hpp、B.hpp、C.hpp、ABCTest.cpp`這幾個文件，
+我想看他們的`Call Graph`
 
 - A.hpp
 
@@ -124,51 +124,51 @@ int main(int argc, char *argv[])
 }
 ```
 
-然后按下面编译(instrument.c在上面github地址中可以下载，用于注入地址信息）：
+然後按下面編譯(instrument.c在上面github地址中可以下載，用於注入地址信息）：
 
 ```sh
 g++ -g -finstrument-functions -O0 instrument.c ABCTest.cpp -o test
 ```
 
-然后运行程序，得到trace.txt
-输入shell命令./test
-最后
-输入shell命令
+然後運行程序，得到trace.txt
+輸入shell命令./test
+最後
+輸入shell命令
 ```sh
 python CallGraph.py trace.txt test
 ```
-弹出一张Call Graph
+彈出一張Call Graph
 
 ![](images/tmpscSkcY.png)
 
 
 
 
-## 图上标注含义:
+## 圖上標註含義:
 
-- 绿线表示程序启动后的第一次调用
+- 綠線表示程序啟動後的第一次調用
 
-- 红线表示进入当前上下文的最后一次调用
+- 紅線表示進入當前上下文的最後一次調用
 
-- 每一条线表示一次调用，#符号后面的数字是序号，at XXX表示该次调用发生在这个文件（文件路径在框上方）的第几行
+- 每一條線表示一次調用，#符號後面的數字是序號，at XXX表示該次調用發生在這個文件（文件路徑在框上方）的第幾行
 
-- 在圆圈里，XXX:YYY，YYY是调用的函数名，XXX表示这个函数是在该文件的第几行被定义的
+- 在圓圈裡，XXX:YYY，YYY是調用的函數名，XXX表示這個函數是在該文件的第幾行被定義的
 
-##获取C/C++调用关系
+##獲取C/C++調用關係
 
-利用`-finstrument-functions` 编译选项，
-可以让编译器在每个函数的开头和结尾注入`__cyg_profile_func_enter`和 `__cyg_profile_func_exit
-`这两个函数的实现由用户定义
+利用`-finstrument-functions` 編譯選項，
+可以讓編譯器在每個函數的開頭和結尾註入`__cyg_profile_func_enter`和 `__cyg_profile_func_exit
+`這兩個函數的實現由用戶定義
 
-在本例中，只用到`__cyg_profile_func_enter`，定义在instrument.c中，
-其函数原型如下:
+在本例中，只用到`__cyg_profile_func_enter`，定義在instrument.c中，
+其函數原型如下:
 `void __cyg_profile_func_enter (void *this_fn, void *call_site);`
-其中this_fn为 被调用的地址，call_site为 调用方的地址
+其中this_fn為 被調用的地址，call_site為 調用方的地址
 
-显然，假如我们把所有的 调用方和被调用方的地址 都打印出来，
-就可以得到一张完整的运行时Call Graph
+顯然，假如我們把所有的 調用方和被調用方的地址 都打印出來，
+就可以得到一張完整的運行時Call Graph
 
-因此，我们的instrument.c实现如下：
+因此，我們的instrument.c實現如下：
 
 
 ```c
@@ -205,13 +205,13 @@ void __cyg_profile_func_enter( void *this_fn, void *call_site )
 }
 ```
 
-其中main_constructor在 调用main 前执行，main_deconstructor在调用main后执行，
-以上几个函数的作用就是 将所有的 调用方和被调用方的地址 写入trace.txt中
+其中main_constructor在 調用main 前執行，main_deconstructor在調用main後執行，
+以上幾個函數的作用就是 將所有的 調用方和被調用方的地址 寫入trace.txt中
 
-然而，现在有一个问题，就是trace.txt中保存的是地址，我们如何将地址翻译成源码中的符号？
+然而，現在有一個問題，就是trace.txt中保存的是地址，我們如何將地址翻譯成源碼中的符號？
 答案就是用addr2line
 
-以上面ABCTest.cpp工程为例，比如我们现在有地址0x400974，输入以下命令
+以上面ABCTest.cpp工程為例，比如我們現在有地址0x400974，輸入以下命令
 
 ```sh
 addr2line 0x400aa4 -e a.out -f
@@ -223,18 +223,18 @@ _ZN1A4AOneEv
 /home/cheukyin/PersonalProjects/CodeSnippet/python/SRCGraphviz/c++/A.hpp:11
 ```
 
-第一行该地址所在的函数名，第二行为函数所在的源码位置
+第一行該地址所在的函數名，第二行為函數所在的源碼位置
 
-然而，你一定会问，_ZN1A4AOneEv是什么鬼？
-为实现重载、命名空间等功能，因此`C++有name mangling`，因此函数名是不可读的
+然而，你一定會問，_ZN1A4AOneEv是什麼鬼？
+為實現重載、命名空間等功能，因此`C++有name mangling`，因此函數名是不可讀的
 
-我们需要利用c++filt作进一步解析：
+我們需要利用c++filt作進一步解析：
 ```sh
-输入shell命令 addr2line 0x400aa4 -e a.out -f | c++filt
+輸入shell命令 addr2line 0x400aa4 -e a.out -f | c++filt
 ```
 
-经过上面的步骤，我们已经可以把所有的(调用方, 被调用方)对分析出来了，相当于获取到调用图所有的节点和边，
-最后可以用`pygraphviz`将 每一条调用关系 画出来即可，代码用python实现在 CallGraph.py 中
+經過上面的步驟，我們已經可以把所有的(調用方, 被調用方)對分析出來了，相當於獲取到調用圖所有的節點和邊，
+最後可以用`pygraphviz`將 每一條調用關係 畫出來即可，代碼用python實現在 CallGraph.py 中
 
 - CallGraph.py
 

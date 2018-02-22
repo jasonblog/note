@@ -924,7 +924,7 @@
    * [GDB技巧：使用checkpoint解決難以復現的Bug](debug/gdbji_qiao_ff1a_shi_yong_checkpoint_jie_jue_nan_yi.md)
    * [強制進程產生coredump，檢測死鎖以及進程快照](debug/qiang_zhi_jin_cheng_chan_sheng_coredump_ff0c_jian_.md)
    * [如何快速地在每個函數入口處加入相同的語句？](debug/ru_he_kuai_su_di_zai_mei_ge_han_shu_ru_kou_chu_jia.md)
-   * [C++源码的调用图生成](debug/cyuan_ma_de_diao_yong_tu_sheng_cheng.md)
+   * [C++源碼的調用圖生成](debug/cyuan_ma_de_diao_yong_tu_sheng_cheng.md)
 * [thinker_note](thinker/thinkernote.md)
    * [如果有人要求你改善系統](thinker/ru_guo_you_ren_yao_qiu_ni_gai_shan_xi_tong.md)
    * [閱讀程式碼的心理層面](thinker/yue_du_cheng_shi_ma_de_xin_li_ceng_mian.md)

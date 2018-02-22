@@ -57,7 +57,7 @@
         data-chapter-title="Debug Tips"
         data-filepath="debug/debug_tips.md"
         data-basepath=".."
-        data-revision="Thu Feb 22 2018 01:40:41 GMT+0800 (CST)"
+        data-revision="Thu Feb 22 2018 16:57:39 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -14411,9 +14411,32 @@
             
         </li>
     
-        <li class="chapter " data-level="34.10" >
+        <li class="chapter " data-level="34.10" data-path="debug/ru_he_kuai_su_di_zai_mei_ge_han_shu_ru_kou_chu_jia.html">
             
-            <span><b>34.10.</b> 如何快速地在每個函數入口處加入相同的語句？</span>
+                
+                    <a href="../debug/ru_he_kuai_su_di_zai_mei_ge_han_shu_ru_kou_chu_jia.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>34.10.</b>
+                        
+                        如何快速地在每個函數入口處加入相同的語句？
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="34.11" data-path="debug/cyuan_ma_de_diao_yong_tu_sheng_cheng.html">
+            
+                
+                    <a href="../debug/cyuan_ma_de_diao_yong_tu_sheng_cheng.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>34.11.</b>
+                        
+                        C++源碼的調用圖生成
+                    </a>
             
             
         </li>
@@ -20883,122 +20906,6 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="debug-tips">Debug Tips</h1>
-<pre><code class="lang-sh">scj@scjComputer:~/THpro/func_trace$ tree .
-.
-&#x251C;&#x2500;&#x2500; func_trace.c
-&#x251C;&#x2500;&#x2500; func_trace.sh
-&#x251C;&#x2500;&#x2500; imple
-&#x2502;   &#x251C;&#x2500;&#x2500; bar.c
-&#x2502;   &#x2514;&#x2500;&#x2500; bar.h
-&#x251C;&#x2500;&#x2500; main.c
-&#x2514;&#x2500;&#x2500; &#x6B65;&#x9A5F;
-</code></pre>
-<ul>
-<li>func_trace.c</li>
-</ul>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
-
-<span class="hljs-keyword">static</span> FILE *fp_trace;
-
-<span class="hljs-keyword">void</span> __attribute__((constructor)) traceBegin(<span class="hljs-keyword">void</span>) {
-  fp_trace = fopen(<span class="hljs-string">&quot;func_trace.out&quot;</span>, <span class="hljs-string">&quot;w&quot;</span>);
-}
-
-<span class="hljs-keyword">void</span> __attribute__((destructor)) traceEnd(<span class="hljs-keyword">void</span>) {
-  <span class="hljs-keyword">if</span> (fp_trace != <span class="hljs-literal">NULL</span>) {
-    fclose(fp_trace);
-  }
-}
-
-<span class="hljs-keyword">void</span> __cyg_profile_func_enter(<span class="hljs-keyword">void</span> *func, <span class="hljs-keyword">void</span> *caller) {
-  <span class="hljs-keyword">if</span> (fp_trace != <span class="hljs-literal">NULL</span>) {
-    <span class="hljs-built_in">fprintf</span>(fp_trace, <span class="hljs-string">&quot;entry %p %p\n&quot;</span>, func, caller);
-  }
-}
-
-<span class="hljs-keyword">void</span> __cyg_profile_func_exit(<span class="hljs-keyword">void</span> *func, <span class="hljs-keyword">void</span> *caller) {
-  <span class="hljs-keyword">if</span> (fp_trace != <span class="hljs-literal">NULL</span>) {
-    <span class="hljs-built_in">fprintf</span>(fp_trace, <span class="hljs-string">&quot;exit %p %p\n&quot;</span>, func, caller);
-  }
-}
-</code></pre>
-<ul>
-<li>func_trace.sh</li>
-</ul>
-<pre><code class="lang-sh"><span class="hljs-shebang">#!/bin/bash</span>
-EXECUTABLE=<span class="hljs-string">&quot;<span class="hljs-variable">$1</span>&quot;</span>
-TRACELOG=<span class="hljs-string">&quot;<span class="hljs-variable">$2</span>&quot;</span>
-
-<span class="hljs-keyword">while</span> <span class="hljs-built_in">read</span> TRACEFLAG FADDR CADDR; <span class="hljs-keyword">do</span>
-FNAME=<span class="hljs-string">&quot;<span class="hljs-variable">$(addr2line -f -e ${EXECUTABLE} ${FADDR}|head -1)</span>&quot;</span>
-
-<span class="hljs-keyword">if</span> <span class="hljs-built_in">test</span> <span class="hljs-string">&quot;<span class="hljs-variable">${TRACEFLAG}</span>&quot;</span> = <span class="hljs-string">&quot;entry&quot;</span>
-<span class="hljs-keyword">then</span>
-CNAME=<span class="hljs-string">&quot;<span class="hljs-variable">$(addr2line -f -e ${EXECUTABLE} ${CADDR}|head -1)</span>&quot;</span>
-CLINE=<span class="hljs-string">&quot;<span class="hljs-variable">$(addr2line -s -e ${EXECUTABLE} ${CADDR})</span>&quot;</span>
-<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Enter <span class="hljs-variable">${FNAME}</span> called from <span class="hljs-variable">${CNAME}</span> (<span class="hljs-variable">${CLINE}</span>)&quot;</span>
-<span class="hljs-keyword">fi</span>
-
-<span class="hljs-keyword">if</span> <span class="hljs-built_in">test</span> <span class="hljs-string">&quot;<span class="hljs-variable">${TRACEFLAG}</span>&quot;</span> = <span class="hljs-string">&quot;exit&quot;</span>
-<span class="hljs-keyword">then</span>
-<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Exit  <span class="hljs-variable">${FNAME}</span>&quot;</span>
-<span class="hljs-keyword">fi</span>
-
-<span class="hljs-keyword">done</span> &lt; <span class="hljs-string">&quot;<span class="hljs-variable">${TRACELOG}</span>&quot;</span>
-</code></pre>
-<ul>
-<li>bar.c</li>
-</ul>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;bar.h&quot;</span></span>
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">bar</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span> </span>{
-  zoo();
-  <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
-}
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">foo</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span> </span>{  
-  <span class="hljs-keyword">return</span> <span class="hljs-number">2</span>; 
-}
-
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">zoo</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span> </span>{ 
-  foo(); 
-}
-</code></pre>
-<ul>
-<li>bar.h</li>
-</ul>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">ifndef</span> bar_h</span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> bar_h</span>
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">bar</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span>;
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">foo</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span>;
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">zoo</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span>;
-
-<span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span></span>
-</code></pre>
-<ul>
-<li>main.c</li>
-</ul>
-<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
-<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;./imple/bar.h&quot;</span></span>
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span> **argv)</span> </span>{ 
-    bar(); 
-}
-</code></pre>
-<p>&#x7136;&#x5F8C;&#x6309;&#x7167;&#x5982;&#x4E0B;&#x9806;&#x5E8F;&#x57F7;&#x884C;&#xFF1A;</p>
-<pre><code class="lang-sh">gcc func_trace.c -c
-gcc main.c ./imple/*.c func_trace.o -finstrument-functions
-./a.out
-./func_trace.sh a.out func_trace.out
-</code></pre>
-<p>&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x7DE8;&#x8B6F;&#x597D;&#x591A;&#x6E90;&#x6587;&#x4EF6;&#x7684;&#x7A0B;&#x5E8F;&#x4E86;&#x3002;
-&#x76F4;&#x63A5;&#x628A;main.c&#x4EE5;&#x5916;&#x7684;&#x6587;&#x4EF6;&#x653E;&#x9032;imple&#x6587;&#x4EF6;&#x593E;&#x88E1;&#x982D;&#x5C31;&#x53EF;&#x4EE5;</p>
-<p>&#x5982;&#x679C;&#x7B2C;&#x4E8C;&#x6B65;&#x6709;&#x554F;&#x984C;&#xFF0C;&#x7528;</p>
-<pre><code class="lang-sh">gcc main.c ./<span class="hljs-built_in">source</span>/*.c func_trace.o -finstrument-functions <span class="hljs-number">2</span>&gt;trace_log.txt
-</code></pre>
-<p>&#x5C0E;&#x51FA;&#x7DE8;&#x8B6F;&#x4FE1;&#x606F;</p>
-<p>imple&#x6587;&#x4EF6;&#x593E;&#x88E1;&#x982D;&#x7684;&#x6771;&#x897F;&#x5C01;&#x88DD;&#x6210;so&#x5F8C;&#x53CD;&#x800C;&#x770B;&#x4E0D;&#x5230;&#x8ABF;&#x7528;&#x904E;&#x7A0B;&#x3002;</p>
 
                     
                     </section>

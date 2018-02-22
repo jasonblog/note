@@ -175,7 +175,7 @@
    * [寫 linux daemon 的注意事項](fcamel/911.md)
    * [signal 小知識](fcamel/912.md)
    * [gold 和 GNU ld 行為差異造成的問題](fcamel/913.md)
-   * 如何在 Linux 上使用自行編譯的第三方函式庫
+   * [如何在 Linux 上使用自行編譯的第三方函式庫](fcamel/ru_he_zai_linux_shang_shi_yong_zi_xing_bian_yi_de_.md)
 * [ARM](arm/README.md)
    * [ARM彙編語言](arm/101.md)
    * [ARM尋址方式](arm/102.md)

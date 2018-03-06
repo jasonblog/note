@@ -122,6 +122,7 @@
        * [Android四大組件：Service服務史上最全面解析](android_note/androidsi_da_zu_jian_ff1a_service_fu_wu_shi_shang_.md)
        * [（本地、可通信的、前臺、遠程）Service使用全面介紹](android_note/ff08_ben_di_3001_ke_tong_xin_de_3001_qian_tai_3001.md)
        * [Android：遠程服務Service（含AIDL & IPC講解）](android_note/androidff1a_yuan_cheng_fu_wu_service_ff08_han_aidl.md)
+   * 反組譯 apk
 * [Ubuntu](ubuntu/README.md)
    * [Ubuntu installer](ubuntu/ubuntu_installer.md)
    * [Windows與Ubuntu雙系統，開機時偵測不到彼此的解決方法](ubuntu/windowsyuubuntu_shuang_xi_tong_ff0c_kai_ji_shi_zhe.md)

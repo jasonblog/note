@@ -1175,6 +1175,7 @@
        * [目的檔](linked_and_loader/mu_de_dang.md)
        * [靜態連結](linked_and_loader/jing_tai_lian_jie.md)
        * [鏈接、裝載、與庫_讀書筆記](linked_and_loader/lian_jie_3001_zhuang_zai_3001_yu_ku_du_shu_bi_ji.md)
+   * gcc 編譯順序問題
 * [Bochs](Bochs/bochs.md)
    * [OS dev的Bochs調試](Bochs/os_devde_bochs_diao_shi.md)
 * [Nginx](nginx/nginx.md)

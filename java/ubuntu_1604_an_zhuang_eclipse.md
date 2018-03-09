@@ -5,7 +5,7 @@
 
 ##2 下載Eclipse安裝器
 
-http://www.eclipse.org/downloads/；根據系統類型下載：
+http://www.eclipse.org/downloads/   // 根據系統類型下載：
 
 
 ![](images/Screen-Shot-2016-05-06-at-09.57.57.png)
@@ -54,3 +54,16 @@ Name[en]=Eclipse
 
 
 ![](images/Screen-Shot-2016-05-06-at-10.35.44.png)
+
+## 給Eclipse安裝CDT插件
+
+```
+Eclipse->Help->Install New Software
+```
+
+
+## 改變字型
+
+```sh
+Go to references → General → Appearance → Colors and Fonts, expand the "Basic" folder and select "Text Font" and change that to whatever size you like.
+```

@@ -12,11 +12,11 @@ http://download.qt.io/archive/qt/5.8/5.8.0/single/
 http://download.qt.io/official_releases/qt/5.9/5.9.2/qt-opensource-linux-x64-5.9.2.run 
 chmod u+x qt-opensource-linux-x64-5.9.2.run 
 ./qt-opensource-linux-x64-5.9.2.run 
-进入安装界面，进行安装 
-安装完成之后进入安装目录运行QtCreator
+進入安裝界面，進行安裝 
+安裝完成之後進入安裝目錄運行QtCreator
 ```
 
-## 添加环境变量 
+## 添加環境變量 
 ```sh
 ## QT
 QT_VERSION=5.10.1
@@ -25,13 +25,13 @@ export LD_LIBRARY_PATH=${QT_PATH}/Tools/QtCreator/lib:${QT_PATH}/Tools/QtCreator
 export PATH=${QT_PATH}/${QT_VERSION}/gcc_64/bin:${QT_PATH}/Tools/QtCreator/bin:$PATH
 ```
 
-## 执行qtcreator
+## 執行qtcreator
 qtcreator
 
 
-## QtCreator无法输入中文
+## QtCreator無法輸入中文
 
-设置环境变量export QT_IM_MODULE=iBus
+設置環境變量export QT_IM_MODULE=iBus
 
 
 ---

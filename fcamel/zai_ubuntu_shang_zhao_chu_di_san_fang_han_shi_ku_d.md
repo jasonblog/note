@@ -125,7 +125,7 @@ $ make V=1 | grep ClientWin.c
 
 關於如何讓 make 顯示編譯時的參數 (cflags)，參見這裡。
 
-繼續追踪程式碼
+繼續追蹤程式碼
 
 在 src/GetProp.c 裡發現：
 

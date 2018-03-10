@@ -57,7 +57,7 @@
         data-chapter-title="ubuntu編譯安裝 qt 5.8"
         data-filepath="qt/ubuntubian_yi_an_zhuang_qt5__0__1.md"
         data-basepath=".."
-        data-revision="Sat Mar 10 2018 03:22:24 GMT+0800 (CST)"
+        data-revision="Sat Mar 10 2018 19:26:20 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -20966,6 +20966,30 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="ubuntu&#x7DE8;&#x8B6F;&#x5B89;&#x88DD;-qt-580">ubuntu&#x7DE8;&#x8B6F;&#x5B89;&#x88DD; Qt 5.8.0</h1>
+<h2 id="download-source-code">Download source code</h2>
+<pre><code class="lang-sh">http://download.qt.io/archive/qt/
+http://download.qt.io/archive/qt/<span class="hljs-number">5.8</span>/<span class="hljs-number">5.8</span>.<span class="hljs-number">0</span>/single/
+</code></pre>
+<h2 id="&#x5B89;&#x88DD;qt-precompile">&#x5B89;&#x88DD;Qt precompile</h2>
+<pre><code class="lang-sg">http://download.qt.io/official_releases/qt/5.9/5.9.2/qt-opensource-linux-x64-5.9.2.run 
+chmod u+x qt-opensource-linux-x64-5.9.2.run 
+./qt-opensource-linux-x64-5.9.2.run 
+&#x9032;&#x5165;&#x5B89;&#x88DD;&#x754C;&#x9762;&#xFF0C;&#x9032;&#x884C;&#x5B89;&#x88DD; 
+&#x5B89;&#x88DD;&#x5B8C;&#x6210;&#x4E4B;&#x5F8C;&#x9032;&#x5165;&#x5B89;&#x88DD;&#x76EE;&#x9304;&#x904B;&#x884C;QtCreator
+</code></pre>
+<h2 id="&#x6DFB;&#x52A0;&#x74B0;&#x5883;&#x8B8A;&#x91CF;">&#x6DFB;&#x52A0;&#x74B0;&#x5883;&#x8B8A;&#x91CF;</h2>
+<pre><code class="lang-sh"><span class="hljs-comment">## QT</span>
+QT_VERSION=<span class="hljs-number">5.10</span>.<span class="hljs-number">1</span>
+QT_PATH=/home/shihyu/<span class="hljs-string">&quot;Qt&quot;</span><span class="hljs-variable">${QT_VERSION}</span>
+<span class="hljs-built_in">export</span> LD_LIBRARY_PATH=<span class="hljs-variable">${QT_PATH}</span>/Tools/QtCreator/lib:<span class="hljs-variable">${QT_PATH}</span>/Tools/QtCreator/lib/qtcreator:<span class="hljs-variable">${QT_PATH}</span>/Tools/QtCreator/lib/Qt/lib:<span class="hljs-variable">$LD_LIBRARY_PATH</span>
+<span class="hljs-built_in">export</span> PATH=<span class="hljs-variable">${QT_PATH}</span>/<span class="hljs-variable">${QT_VERSION}</span>/gcc_64/bin:<span class="hljs-variable">${QT_PATH}</span>/Tools/QtCreator/bin:<span class="hljs-variable">$PATH</span>
+</code></pre>
+<h2 id="&#x57F7;&#x884C;qtcreator">&#x57F7;&#x884C;qtcreator</h2>
+<p>qtcreator</p>
+<h2 id="qtcreator&#x7121;&#x6CD5;&#x8F38;&#x5165;&#x4E2D;&#x6587;">QtCreator&#x7121;&#x6CD5;&#x8F38;&#x5165;&#x4E2D;&#x6587;</h2>
+<p>&#x8A2D;&#x7F6E;&#x74B0;&#x5883;&#x8B8A;&#x91CF;export QT_IM_MODULE=iBus</p>
+<hr>
+<h2 id="&#x81EA;&#x884C;&#x7DE8;&#x8B6F;">&#x81EA;&#x884C;&#x7DE8;&#x8B6F;</h2>
 <h2 id="requirement-package">Requirement package</h2>
 <pre><code class="lang-sh">sudo apt-get install bison build-essential flex gperf ibgstreamer-plugins-base0.<span class="hljs-number">10</span>-dev \
 libasound2-dev libatkmm-<span class="hljs-number">1.6</span>-dev libbz2-dev libcap-dev libcups2-dev libdrm-dev \
@@ -20987,10 +21011,6 @@ libxcb-xtest0 libxcb-xtest0-dev libxcb-xv0 libxcb-xv0-dev libxcb-xvmc0 libxcb-xv
 libxcb1 libxcb1-dev libxcomposite-dev libxcursor-dev libxdamage-dev libxext-dev \
 libxfixes-dev libxi-dev libxrandr-dev libxrender-dev libxslt-dev libxss-dev \
 libxtst-dev perl python ruby
-</code></pre>
-<h2 id="download-source-code">Download source code</h2>
-<pre><code class="lang-sh">http://download.qt.io/archive/qt/
-http://download.qt.io/archive/qt/<span class="hljs-number">5.8</span>/<span class="hljs-number">5.8</span>.<span class="hljs-number">0</span>/single/
 </code></pre>
 <pre><code class="lang-sh">tar xvf qt-everywhere-opensource-src-<span class="hljs-number">5.8</span>.<span class="hljs-number">0</span>.tar.xz
 <span class="hljs-built_in">cd</span> qt-everywhere-opensource-src-<span class="hljs-number">5.8</span>.<span class="hljs-number">0</span>

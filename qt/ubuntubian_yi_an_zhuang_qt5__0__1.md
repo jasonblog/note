@@ -1,5 +1,43 @@
 # ubuntu編譯安裝 Qt 5.8.0
 
+## Download source code
+
+```sh
+http://download.qt.io/archive/qt/
+http://download.qt.io/archive/qt/5.8/5.8.0/single/
+```
+
+## 安裝Qt precompile
+```sg
+http://download.qt.io/official_releases/qt/5.9/5.9.2/qt-opensource-linux-x64-5.9.2.run 
+chmod u+x qt-opensource-linux-x64-5.9.2.run 
+./qt-opensource-linux-x64-5.9.2.run 
+进入安装界面，进行安装 
+安装完成之后进入安装目录运行QtCreator
+```
+
+## 添加环境变量 
+```sh
+## QT
+QT_VERSION=5.10.1
+QT_PATH=/home/shihyu/"Qt"${QT_VERSION}
+export LD_LIBRARY_PATH=${QT_PATH}/Tools/QtCreator/lib:${QT_PATH}/Tools/QtCreator/lib/qtcreator:${QT_PATH}/Tools/QtCreator/lib/Qt/lib:$LD_LIBRARY_PATH
+export PATH=${QT_PATH}/${QT_VERSION}/gcc_64/bin:${QT_PATH}/Tools/QtCreator/bin:$PATH
+```
+
+## 执行qtcreator
+qtcreator
+
+
+## QtCreator无法输入中文
+
+设置环境变量export QT_IM_MODULE=iBus
+
+
+---
+
+## 自行編譯
+
 ## Requirement package
 
 ```sh
@@ -26,12 +64,6 @@ libxtst-dev perl python ruby
 ```
 
 
-## Download source code
-
-```sh
-http://download.qt.io/archive/qt/
-http://download.qt.io/archive/qt/5.8/5.8.0/single/
-```
 
 
 

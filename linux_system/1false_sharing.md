@@ -1,16 +1,16 @@
 # 1(FALSE SHARING)
 
 
-注：考虑到我本人长期使用linux系统做开发，因此有些代码在windows环境下无法编译或者会有问题，建议大家都使用linux环境做实验，最好是2.6内核的，处理器需要是多核。很多读者说我是纸上谈兵，这个确实不好，从本系列开始基本都是50行左右的代码。本系列不代表任何学术或业界立场，仅我个人兴趣爱好，由于水平有限，错误难免，请不要有过分期望。
+注：考慮到我本人長期使用linux系統做開發，因此有些代碼在windows環境下無法編譯或者會有問題，建議大家都使用linux環境做實驗，最好是2.6內核的，處理器需要是多核。很多讀者說我是紙上談兵，這個確實不好，從本系列開始基本都是50行左右的代碼。本系列不代表任何學術或業界立場，僅我個人興趣愛好，由於水平有限，錯誤難免，請不要有過分期望。
 
 
-废话不多说，今天就写第一篇如下：
+廢話不多說，今天就寫第一篇如下：
 
 
 
-以下一段代码分别编译成两个程序，仅仅是变量定义的差别，执行时间差距巨大，这是什么原因呢？
+以下一段代碼分別編譯成兩個程序，僅僅是變量定義的差別，執行時間差距巨大，這是什麼原因呢？
 
-本博客暂不解密，等数天后，我把后半部写上，希望读者朋友们踊跃实验，并回答。
+本博客暫不解密，等數天後，我把後半部寫上，希望讀者朋友們踴躍實驗，並回答。
 
 
 ```c
@@ -41,42 +41,42 @@ void* sum2(void*)
 int main()
 {
         pthread_t* thread = (pthread_t*) malloc(2*sizeof( pthread_t));
-        pthread_create(&thread[0],NULL,sum1,NULL);  //创建2个线程分别求和
+        pthread_create(&thread[0],NULL,sum1,NULL);  //創建2個線程分別求和
         pthread_create(&thread[1],NULL,sum2,NULL);
-        pthread_join(thread[0],NULL);    //等待2个线程结束计算。
+        pthread_join(thread[0],NULL);    //等待2個線程結束計算。
         pthread_join(thread[1],NULL);
         free(thread);
         printf("cnt_1:%d,cnt_2:%d",cnt_1,cnt_2);
 }
 ```
 
-编译方法：
+編譯方法：
 ```sh
 g++ fs.cpp -o test_nfs -g -D NONFS –lpthread
 g++ fs.cpp -o test_fs -g -D FS –lpthread
 ```
-用time ./test_nfs 和 time ./test_fs会发现执行时间差别很大，请读者踊跃跟帖作答，谢谢。
+用time ./test_nfs 和 time ./test_fs會發現執行時間差別很大，請讀者踴躍跟帖作答，謝謝。
 
 
 
-查了一下 __attribute__((aligned(64)))，是让变量按64字节对齐，让两个变量在内存的位置相聚远一些，避开了false share的情况。所以时间少了。
-按照ForestDB的说法，如果编译器自动把两个变量安排得相聚远了，这个__attribute__((aligned(64)))就没啥意义了。
+查了一下 __attribute__((aligned(64)))，是讓變量按64字節對齊，讓兩個變量在內存的位置相聚遠一些，避開了false share的情況。所以時間少了。
+按照ForestDB的說法，如果編譯器自動把兩個變量安排得相聚遠了，這個__attribute__((aligned(64)))就沒啥意義了。
 
-## 【续】
+## 【續】
 
-该文有很多网友回复，比较集中的看法是CPU字节对齐，巧合的是有一个朋友用这个代码做了测试，发现对齐和不对齐的代码执行的速度是一样的，原因是他的笔记本安装的linux操作系统，而笔记本是单核的，所以就出现了这个状况，如果和CPU字节对齐，在单核的情况下怎么会速度一样呢？另外如果是CPU字节对齐，把线程去掉，替换成两个函数依次执行，也应该有效率的差异。 
+該文有很多網友回覆，比較集中的看法是CPU字節對齊，巧合的是有一個朋友用這個代碼做了測試，發現對齊和不對齊的代碼執行的速度是一樣的，原因是他的筆記本安裝的linux操作系統，而筆記本是單核的，所以就出現了這個狀況，如果和CPU字節對齊，在單核的情況下怎麼會速度一樣呢？另外如果是CPU字節對齊，把線程去掉，替換成兩個函數依次執行，也應該有效率的差異。 
 
-这是一种典型的FALSE SHARING问题，在SMP(对称多处理）的架构下常见的问题。SMP简单的说就是多个CPU核，共享一个内存和总线，L1 cache也叫芯片缓存，一般是私有的，即每个CPU核带一个，L2 cache可能是私有的也可能是部分共享的。
+這是一種典型的FALSE SHARING問題，在SMP(對稱多處理）的架構下常見的問題。SMP簡單的說就是多個CPU核，共享一個內存和總線，L1 cache也叫芯片緩存，一般是私有的，即每個CPU核帶一個，L2 cache可能是私有的也可能是部分共享的。
 
-为了表明FALSE SHARE带来的影响，设计了这个简单的多线程程序，包含两个线程，他们分别做求和使用不同的变量，但由于cnt_1的地址和cnt_2的地址在同一条cache line中，实测环境中cnt_1的地址为0x600c00，cnt_2的地址为0x600c08，而cache line的大小为64个字节（cache line大小可以通过getconf LEVEL1_DCACHE_LINESIZE得到,或者命令cat /sys/devices/system/cpu/cpu0/cache/index0/coherency_line_size得到），这样就会发生FALSE SHARING问题。将两个变量在64字节对齐后，cnt_1的地址为0x600c40，cnt_2的地址为0x600c80，恰好错开在两条cache line上，源代码参加上篇博客。
-
-
-
-FALSE SHARING问题在此前的博客也有详细讨论，可以参见：http://blog.csdn.net/pennyliang/archive/2010/07/27/5766541.aspx
+為了表明FALSE SHARE帶來的影響，設計了這個簡單的多線程程序，包含兩個線程，他們分別做求和使用不同的變量，但由於cnt_1的地址和cnt_2的地址在同一條cache line中，實測環境中cnt_1的地址為0x600c00，cnt_2的地址為0x600c08，而cache line的大小為64個字節（cache line大小可以通過getconf LEVEL1_DCACHE_LINESIZE得到,或者命令cat /sys/devices/system/cpu/cpu0/cache/index0/coherency_line_size得到），這樣就會發生FALSE SHARING問題。將兩個變量在64字節對齊後，cnt_1的地址為0x600c40，cnt_2的地址為0x600c80，恰好錯開在兩條cache line上，源代碼參加上篇博客。
 
 
 
-最后，可能有读者会问，有谁会这么脑残写这样的代码，日常编码怎么会碰到这样的问题呢？我给大家说一个具体的场景，假如有一个lock-free的queues，里面包含了很多类型的queue，每个queue包含一个head和一个tail，这两个值分别被消费者和生产者之间竞争，因此如果不考虑false sharing问题，可能会造成低效代码。这样一个多线程共享的队列结构（多生产者，多消费者共享）用以下哪种结构更好呢？我不再公布答案，有兴趣的朋友可以去找找这方面的代码，看看他们是怎么写的。
+FALSE SHARING問題在此前的博客也有詳細討論，可以參見：http://blog.csdn.net/pennyliang/archive/2010/07/27/5766541.aspx
+
+
+
+最後，可能有讀者會問，有誰會這麼腦殘寫這樣的代碼，日常編碼怎麼會碰到這樣的問題呢？我給大家說一個具體的場景，假如有一個lock-free的queues，裡面包含了很多類型的queue，每個queue包含一個head和一個tail，這兩個值分別被消費者和生產者之間競爭，因此如果不考慮false sharing問題，可能會造成低效代碼。這樣一個多線程共享的隊列結構（多生產者，多消費者共享）用以下哪種結構更好呢？我不再公佈答案，有興趣的朋友可以去找找這方面的代碼，看看他們是怎麼寫的。
 
 
 ```sh

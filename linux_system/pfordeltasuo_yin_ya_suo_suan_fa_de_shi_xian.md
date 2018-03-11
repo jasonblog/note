@@ -1,15 +1,15 @@
-# PForDelta索引压缩算法的实现
+# PForDelta索引壓縮算法的實現
 
 
-前日一个朋友给我发来了一个索引压缩算法，写得非常漂亮而且简洁，压缩比和解压性能方面大大超过目前已知的一些字节对齐的算法和Pfordelta这样的非字节对齐的算法，让人叹为观止，这是我看到的最好的压缩算法，他将会以论文的形式发表，相信必将震惊世界，我之前也写了很多Pfordelta的博客，大家对这个算法的具体实现很好奇，有几个难点，一个是bit pack和unpack，一个是关于exception的占位符在做链接的时候如果间隔超过了2的b次方如何处理等等，在以前的博客中曾应用了一个日本开发者开发的算法，但目前已经不开源了，我昨天又读了一遍pfordelta实现方面的论文【Super-Scalar RAM-CPU Cache compression】，今天一天写了个大概，bit pack和unpack在1，2，4，8，16...这种2的幂是比较容易处理的，其余的比较困难，我这里只实现了pack3和unpack3，论文【Balancing Vectorized Query Execution with Bandwidth-optimized Storage】中给出了unpack12的参考代码，理论上应该实现从pack3到pack16的全部方法，限于博客篇幅不全写了，有兴趣读者朋友依葫芦画瓢可以继续完成。
+前日一個朋友給我發來了一個索引壓縮算法，寫得非常漂亮而且簡潔，壓縮比和解壓性能方面大大超過目前已知的一些字節對齊的算法和Pfordelta這樣的非字節對齊的算法，讓人歎為觀止，這是我看到的最好的壓縮算法，他將會以論文的形式發表，相信必將震驚世界，我之前也寫了很多Pfordelta的博客，大家對這個算法的具體實現很好奇，有幾個難點，一個是bit pack和unpack，一個是關於exception的佔位符在做鏈接的時候如果間隔超過了2的b次方如何處理等等，在以前的博客中曾應用了一個日本開發者開發的算法，但目前已經不開源了，我昨天又讀了一遍pfordelta實現方面的論文【Super-Scalar RAM-CPU Cache compression】，今天一天寫了個大概，bit pack和unpack在1，2，4，8，16...這種2的冪是比較容易處理的，其餘的比較困難，我這裡只實現了pack3和unpack3，論文【Balancing Vectorized Query Execution with Bandwidth-optimized Storage】中給出了unpack12的參考代碼，理論上應該實現從pack3到pack16的全部方法，限於博客篇幅不全寫了，有興趣讀者朋友依葫蘆畫瓢可以繼續完成。
 
-值得注意的是：（1）PFORDelta可以对0值进行压缩，这是非常有利的。（2）pack和unpack的函数指针数组也比较有特色，PACK[bitwidth](code,data,MAX);通过bitwidth值来取相应的pack和unpack函数，提高CPU流水线的通畅性。
+值得注意的是：（1）PFORDelta可以對0值進行壓縮，這是非常有利的。（2）pack和unpack的函數指針數組也比較有特色，PACK[bitwidth](code,data,MAX);通過bitwidth值來取相應的pack和unpack函數，提高CPU流水線的通暢性。
 
-算法本博客不做过多解释，有兴趣的朋友可以参见我此前的博客：
+算法本博客不做過多解釋，有興趣的朋友可以參見我此前的博客：
 
 http://blog.csdn.net/pennyliang/archive/2010/09/25/5905691.aspx
 
-另外，我这位朋友想让我做一个最快的Pfordelta算法来PK一下，会输多少，我知道肯定会输，而且会很大，只是想尽可能做个最合格的对手，如果有读者朋友有更好的实现，也请发给我参考，非常感谢。
+另外，我這位朋友想讓我做一個最快的Pfordelta算法來PK一下，會輸多少，我知道肯定會輸，而且會很大，只是想盡可能做個最合格的對手，如果有讀者朋友有更好的實現，也請發給我參考，非常感謝。
 
 
 ```c

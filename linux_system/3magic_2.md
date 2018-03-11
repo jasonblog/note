@@ -1,26 +1,26 @@
 # 3(magic 2)
 
 
-在编码的时候，编译器生成什么样的代码，往往我们是不清楚的，但一旦清楚了以后，就能利用这种性质来做一些优化，当然这种优化可能是有限的，但在累积的效应下，这些优化会显得很大，比如每天省1毛钱，省一辈子，也是一笔不小的开销。
+在編碼的時候，編譯器生成什麼樣的代碼，往往我們是不清楚的，但一旦清楚了以後，就能利用這種性質來做一些優化，當然這種優化可能是有限的，但在累積的效應下，這些優化會顯得很大，比如每天省1毛錢，省一輩子，也是一筆不小的開銷。
 
-我们来用一段简单的代码来说明这个问题，下面这段代码可能太平平无奇了，其中结构体test_1是3个字节，而test_2是4个字节，为了让test_2凑够2的倍数，特别加了一个padding字段。
+我們來用一段簡單的代碼來說明這個問題，下面這段代碼可能太平平無奇了，其中結構體test_1是3個字節，而test_2是4個字節，為了讓test_2湊夠2的倍數，特別加了一個padding字段。
 
-详细的过程参见代码和附带的注释信息，我们把最后的结论提前，因为代码和分析有点长。
+詳細的過程參見代碼和附帶的註釋信息，我們把最後的結論提前，因為代碼和分析有點長。
 
-结论如下：
+結論如下：
 
 ```
-1）在结构体大小的选择上，我们尽可能选择2的幂，2，4，8，16
+1）在結構體大小的選擇上，我們儘可能選擇2的冪，2，4，8，16
 
-2）在做乘法时，尽可能选择2的幂，这样可以大大加快计算速度。
+2）在做乘法時，儘可能選擇2的冪，這樣可以大大加快計算速度。
 
-3）在设定一些变量时，尽可能选择2的幂，512，1024，而不是选择整数例如500，1000，这在计算上都可能带来低效。
+3）在設定一些變量時，儘可能選擇2的冪，512，1024，而不是選擇整數例如500，1000，這在計算上都可能帶來低效。
 ```
 
 
-最后本文介绍了gdb单步调试汇编的一些技巧，如果看寄存器的话，还可以加上display $rsp等命令，以后会有例子用到。
+最後本文介紹了gdb單步調試彙編的一些技巧，如果看寄存器的話，還可以加上display $rsp等命令，以後會有例子用到。
 
-我的实验环境为64位系统，32位也基本类似，希望有兴趣的读者可以自行实验，获得更加真实的体验。
+我的實驗環境為64位系統，32位也基本類似，希望有興趣的讀者可以自行實驗，獲得更加真實的體驗。
 
 
 ```c
@@ -52,13 +52,13 @@ int main(void)
         b *= 3;
         c *= 4;
         d *= 50;
-        //////////////乘法和加法的关系////////////////////////////
+        //////////////乘法和加法的關係////////////////////////////
 
 
         test_1* p = (test_1*)malloc(10*sizeof(test_1));
         test_2* q = (test_2*)malloc(10*sizeof(test_2));
         printf("sizeof test_1:%d,test_2:%d/n",sizeof(test_1),sizeof(test_2));
-        //////////////结构体大小是2的倍数的好处///////////////////
+        //////////////結構體大小是2的倍數的好處///////////////////
         for(int i=0;i<10;++i)
         {
                 p[i].a = '0';
@@ -69,13 +69,13 @@ int main(void)
 }
 ```
 
-以上程序用g++ -g test.cpp -o test生成可执行程序。我们这里都没有使用编译器优化，有兴趣的读者可以看看
+以上程序用g++ -g test.cpp -o test生成可執行程序。我們這裡都沒有使用編譯器優化，有興趣的讀者可以看看
 
 ```sh
-g++ -O3 -g test.cpp -o test后的代码，很多地方在编译过程中就被略去了。
+g++ -O3 -g test.cpp -o test後的代碼，很多地方在編譯過程中就被略去了。
 ```
  
-可用objdump -d test看汇编代码，我们下面只给出gdp单步调试的过程。
+可用objdump -d test看彙編代碼，我們下面只給出gdp單步調試的過程。
 
  
 ```sh
@@ -97,7 +97,7 @@ Breakpoint 1, main () at test.cpp:22
 1: x/i $pc  0x4005ce <main+22>: movl   $0x2,0xffffffffffffffe0(%rbp)
 (gdb) 
 25              a *= 2;
-1: x/i $pc  0x4005d5 <main+29>: shll   0xffffffffffffffd8(%rbp)           //乘2的情况下，只需要一个shll指令就能完成
+1: x/i $pc  0x4005d5 <main+29>: shll   0xffffffffffffffd8(%rbp)           //乘2的情況下，只需要一個shll指令就能完成
 (gdb) 
 26              b *= 3;
 1: x/i $pc  0x4005d8 <main+32>: mov    0xffffffffffffffdc(%rbp),%edx
@@ -112,16 +112,16 @@ Breakpoint 1, main () at test.cpp:22
 1: x/i $pc  0x4005df <main+39>: add    %edx,%eax
 (gdb) 
 0x00000000004005e1      26              b *= 3;
-1: x/i $pc  0x4005e1 <main+41>: mov    %eax,0xffffffffffffffdc(%rbp)   //乘3的情况下，相当于2个加法，b'=b+b;b=b+b'
+1: x/i $pc  0x4005e1 <main+41>: mov    %eax,0xffffffffffffffdc(%rbp)   //乘3的情況下，相當於2個加法，b'=b+b;b=b+b'
 (gdb) 
 27              c *= 4;
-1: x/i $pc  0x4005e4 <main+44>: shll   $0x2,0xffffffffffffffe0(%rbp)      //乘4的情况下，1个shll命令就能搞定
+1: x/i $pc  0x4005e4 <main+44>: shll   $0x2,0xffffffffffffffe0(%rbp)      //乘4的情況下，1個shll命令就能搞定
 (gdb) 
 28              d *= 50;
 1: x/i $pc  0x4005e8 <main+48>: mov    0xffffffffffffffe4(%rbp),%eax
 (gdb) 
 0x000liang004005eb      28              d *= 50;
-1: x/i $pc  0x4005eb <main+51>: imul   $0x32,%eax,%eax                //50不是2的倍数且不能靠有限加法来解决，只好用imul
+1: x/i $pc  0x4005eb <main+51>: imul   $0x32,%eax,%eax                //50不是2的倍數且不能靠有限加法來解決，只好用imul
 (gdb) 
 0x00000000004005ee      28              d *= 50;
 1: x/i $pc  0x4005ee <main+54>: mov    %eax,0xffffffffffffffe4(%rbp)
@@ -130,7 +130,7 @@ Breakpoint 1, main () at test.cpp:22
 1: x/i $pc  0x4005f1 <main+57>: mov    $0x1e,%edi
 
 
-。。。略去一部分分配和打印sizeof的汇编代码
+。。。略去一部分分配和打印sizeof的彙編代碼
 
  
 
@@ -147,13 +147,13 @@ Breakpoint 1, main () at test.cpp:22
 38                      p[i].a = '0';
 1: x/i $pc  0x40062f <main+119>:        mov    0xfffffffffffffffc(%rbp),%eax
 (gdb) 
-0x0000000000400632      38                      p[i].a = '0';                               //test_1的size为3，因此在执行的时候耗费了
-1: x/i $pc  0x400632 <main+122>:        movslq %eax,%rdx                       //6条指令
+0x0000000000400632      38                      p[i].a = '0';                               //test_1的size為3，因此在執行的時候耗費了
+1: x/i $pc  0x400632 <main+122>:        movslq %eax,%rdx                       //6條指令
 (gdb) 
 0x0000000000400635      38                      p[i].a = '0';
 1: x/i $pc  0x400635 <main+125>:        mov    %rdx,%rax
 (gdb) 
-0x0000000000400638      38                      p[i].a = '0';                               //这里计算偏移耗费了2个加法指令
+0x0000000000400638      38                      p[i].a = '0';                               //這裡計算偏移耗費了2個加法指令
 1: x/i $pc  0x400638 <main+128>:        add    %rax,%rax
 (gdb) 
 0x000000000040063b      38                      p[i].a = '0';
@@ -165,14 +165,14 @@ Breakpoint 1, main () at test.cpp:22
 0x0000000000400642      38                      p[i].a = '0';
 1: x/i $pc  0x400642 <main+138>:        movb   $0x30,(%rax)
 (gdb) 
-39                      q[i].a = '1';                                                                           //test_2的size为4，只需要5条指令
+39                      q[i].a = '1';                                                                           //test_2的size為4，只需要5條指令
 1: x/i $pc  0x400645 <main+141>:        mov    0xfffffffffffffffc(%rbp),%eax
 (gdb) 
 0x0000000000400648      39                      q[i].a = '1';
 1: x/i $pc  0x400648 <main+144>:        cltq   
 (gdb) 
 0x000000000040064a      39                      q[i].a = '1';
-1: x/i $pc  0x40064a <main+146>:        shl    $0x2,%rax                             //这里在计算偏移的时候直接用%rax*4就可算得。
+1: x/i $pc  0x40064a <main+146>:        shl    $0x2,%rax                             //這裡在計算偏移的時候直接用%rax*4就可算得。
 (gdb) 
 0x000000000040064e      39                      q[i].a = '1';
 1: x/i $pc  0x40064e <main+150>:        add    0xfffffffffffffff0(%rbp),%rax

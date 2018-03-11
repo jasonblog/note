@@ -2,25 +2,25 @@
 
 
 
-在数量众多的文件读写时，例如一个目录下有400万个图片文件，需要将这400万个图片文件打包，如果这400万个文件读写顺序不对，将会到这磁头来回seek，即便单文件顺序，但由于每个文件较小，因此顺序的机会有限，大部分呈现随机读的状态。
+在數量眾多的文件讀寫時，例如一個目錄下有400萬個圖片文件，需要將這400萬個圖片文件打包，如果這400萬個文件讀寫順序不對，將會到這磁頭來回seek，即便單文件順序，但由於每個文件較小，因此順序的機會有限，大部分呈現隨機讀的狀態。
 
-linux内核的IO scheduling 是针对单个文件的，有四种调度方式，但缺乏对大量文件的调度，因此有必要在用户空间进行IO调度。
+linux內核的IO scheduling 是針對單個文件的，有四種調度方式，但缺乏對大量文件的調度，因此有必要在用戶空間進行IO調度。
 
-简单来说我们有一个目录D，目录下有file1，....file400million（文件名），这样400万个文件
+簡單來說我們有一個目錄D，目錄下有file1，....file400million（文件名），這樣400萬個文件
 
-首先第一步，获得每个file的首个逻辑块对应的PBI(physical block id)，生成(PBI,filename)的pair
+首先第一步，獲得每個file的首個邏輯塊對應的PBI(physical block id)，生成(PBI,filename)的pair
 
-第二步，对FBI进行排序
+第二步，對FBI進行排序
 
-第三步，按照排序结果进行IO
+第三步，按照排序結果進行IO
 
 
 
-举例，假定有三个文件FILEA，FILEB，FILEC
+舉例，假定有三個文件FILEA，FILEB，FILEC
 
-第一步，FILEA的FBI为4094，FILEB的FBI为2310，FILEC的FBI为8910
+第一步，FILEA的FBI為4094，FILEB的FBI為2310，FILEC的FBI為8910
 
-则得到如下的列表
+則得到如下的列表
 
 4094 FILEA
 
@@ -28,7 +28,7 @@ linux内核的IO scheduling 是针对单个文件的，有四种调度方式，�
 
 8910    FILEC
 
-第二步，对FBI按升序排列，得到
+第二步，對FBI按升序排列，得到
 
 2310    FILEB 
 
@@ -36,19 +36,19 @@ linux内核的IO scheduling 是针对单个文件的，有四种调度方式，�
 
 8910    FILEC 
 
-第三步，读入文件的顺序确定为FILEB,FILEA,FILEC，依次入读
+第三步，讀入文件的順序確定為FILEB,FILEA,FILEC，依次入讀
 
 
 
-补充两个基本要点：
+補充兩個基本要點：
 
-1）每个文件的逻辑块从0开始编号
+1）每個文件的邏輯塊從0開始編號
 
-2）每个文件的物理块可以认为是连续（或者接近连续，这个由操作系统保证）
+2）每個文件的物理塊可以認為是連續（或者接近連續，這個由操作系統保證）
 
 
 
-以下代码为获得任意一个文件的全部物理块号
+以下代碼為獲得任意一個文件的全部物理塊號
 
 ```c
 #include "stdio.h"
@@ -71,13 +71,13 @@ int main(void)
 
     int ret = fstat(fd, &buf);
 
-    int nr_blocks = buf.st_blocks; //获取逻辑块数
+    int nr_blocks = buf.st_blocks; //獲取邏輯塊數
 
     for (int i = 0; i < nr_blocks; ++i) {
 
         int physic_block_id = i;
         int ret = ioctl(fd, FIBMAP,
-                        &physic_block_id); //从指定逻辑块获得物理块号，需要有root权限。
+                        &physic_block_id); //從指定邏輯塊獲得物理塊號，需要有root權限。
 
         if (!physic_block_id) {
             continue;

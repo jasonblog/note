@@ -1,7 +1,7 @@
 # Manual FIle Locking
 
 
-类似fputs这样的标准文件IO函数均为线程安全，即函数内部会加锁解锁，但如果是大量文件读写，可以采用flockfile函数来进行统一加锁减锁，而内部采用线程不安全的文件IO。
+類似fputs這樣的標準文件IO函數均為線程安全，即函數內部會加鎖解鎖，但如果是大量文件讀寫，可以採用flockfile函數來進行統一加鎖減鎖，而內部採用線程不安全的文件IO。
 
 例如
 
@@ -12,7 +12,7 @@ fputs("YYY",stream);
 fputs("ZZZ",stream);
 ```
 
-可以改写为
+可以改寫為
 
 ```c
 flockfile(stream)
@@ -25,8 +25,8 @@ fputs_unlocked("ZZZ",stream);
 funlockfile(stream)
 ```
 
-这样由三次加锁减锁操作，变为了一次，提高了效率。而且确保了XXX，YYY，ZZZ的顺序写入，即保证了写入顺序。
+這樣由三次加鎖減鎖操作，變為了一次，提高了效率。而且確保了XXX，YYY，ZZZ的順序寫入，即保證了寫入順序。
 
 
 
-以上参考 《Linux 系统编程》 ROBERT LOVE著 P80
+以上參考 《Linux 系統編程》 ROBERT LOVE著 P80

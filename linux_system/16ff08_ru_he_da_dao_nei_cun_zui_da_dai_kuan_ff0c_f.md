@@ -1,21 +1,21 @@
-# 16（如何达到内存最大带宽，复杂指令）
+# 16（如何達到內存最大帶寬，複雜指令）
 
 
-内存的使用可以说对程序员来说极其重要，特别在大规模数据处理中，如何达到内存带宽的极限是程序员追求的目标。
+內存的使用可以說對程序員來說極其重要，特別在大規模數據處理中，如何達到內存帶寬的極限是程序員追求的目標。
 
-从本节开始，通过一系列的例子，来进行探讨。本系列全部采用汇编语言，使用的例子只有一个就是内存拷贝，这个最容易理解，最容易举例的例子。
-
-
-
-本节给出的代码是baseline，也就是最差的方法，将来的方法都比这个要强的多，包括了精简指令，内存的预取，MMX寄存器，块复制等多项技术，希望读者朋友持续阅读。希望达到的目的包括：
-
-（1）读完该小系列后，对汇编和内存的一些基本指令会有一定了解和应用
-
-（2）对内存的原理，寄存器有深入理解
+從本節開始，通過一系列的例子，來進行探討。本系列全部採用彙編語言，使用的例子只有一個就是內存拷貝，這個最容易理解，最容易舉例的例子。
 
 
 
-按照奇淫巧计的惯例，代码详细讲解将在续篇中给出。以下代码编译方式gcc -g -o test main.c。限64位机。
+本節給出的代碼是baseline，也就是最差的方法，將來的方法都比這個要強的多，包括了精簡指令，內存的預取，MMX寄存器，塊複製等多項技術，希望讀者朋友持續閱讀。希望達到的目的包括：
+
+（1）讀完該小系列後，對彙編和內存的一些基本指令會有一定了解和應用
+
+（2）對內存的原理，寄存器有深入理解
+
+
+
+按照奇淫巧計的慣例，代碼詳細講解將在續篇中給出。以下代碼編譯方式gcc -g -o test main.c。限64位機。
 
 
 ```c
@@ -122,7 +122,7 @@ int main(void)
 }
 ```
 
-rdtsc函数是获取机器开机的时间戳。下面这段文字来自intel指令手册：
+rdtsc函數是獲取機器開機的時間戳。下面這段文字來自intel指令手冊：
 
 Loads the current value of the processor’s time-stamp counter (a 64-bit MSR) into
 the EDX:EAX registers and also loads the IA32_TSC_AUX MSR (address
@@ -132,7 +132,7 @@ the IA32_TSC MSR; and the ECX register is loaded with the low-order 32-bits of
 IA32_TSC_AUX MSR. On processors that support the Intel 64 architecture, the highorder
 32 bits of each of RAX, RDX, and RCX are cleared.
 
-其中=a是EAX的简写和=d是EDX寄存器的简写，表示该指令的结果EAX寄存器存放在lo中，EDX寄存器存放在hi中。这并不难理解，该系列第二篇博客也介绍过rdtsc指令。
+其中=a是EAX的簡寫和=d是EDX寄存器的簡寫，表示該指令的結果EAX寄存器存放在lo中，EDX寄存器存放在hi中。這並不難理解，該系列第二篇博客也介紹過rdtsc指令。
 
 
 ```c
@@ -144,13 +144,13 @@ static __inline__ unsigned long long rdtsc(void)
 }   
 ```
 
-64位程序参数传递的方法和32位有很大不同，是通过寄存器来传递的，m_b_64(to,from,qdword_cnt);   这段函数在执行前，首先将to指向的地址存放在RDI寄存器中，然后将from指向的地址存放在RSI寄存器中，qdword_cnt存放在RDX寄存器中。而REP MOVSQ的含义是：Move RCX quadwords from[RSI] to [RDI].因此需要将存放在RDX寄存器的qdword_cnt存放在RCX寄存器内。
+64位程序參數傳遞的方法和32位有很大不同，是通過寄存器來傳遞的，m_b_64(to,from,qdword_cnt);   這段函數在執行前，首先將to指向的地址存放在RDI寄存器中，然後將from指向的地址存放在RSI寄存器中，qdword_cnt存放在RDX寄存器中。而REP MOVSQ的含義是：Move RCX quadwords from[RSI] to [RDI].因此需要將存放在RDX寄存器的qdword_cnt存放在RCX寄存器內。
 
   
 
-关于REP MOVSQ/MOVSW/MOVSD/MOVSB命令的详细情况，可查询intel指令手册。
+關於REP MOVSQ/MOVSW/MOVSD/MOVSB命令的詳細情況，可查詢intel指令手冊。
 
 
 
-以上内存拷贝方法差距不大，MOVSQ并没有比MOVSB有显著提升，后面还会介绍更多的方法，会大幅度提高内存拷贝的性能，待续。
+以上內存拷貝方法差距不大，MOVSQ並沒有比MOVSB有顯著提升，後面還會介紹更多的方法，會大幅度提高內存拷貝的性能，待續。
 

@@ -448,6 +448,7 @@
        * [6(shellcode)](linux_system/6shellcode.md)
        * [7(Lock-free实验)](linux_system/7lock-freeshi_9a8c29.md)
        * [8(嵌入汇编的另一种写法)](linux_system/8qian_ru_hui_bian_de_ling_yi_zhong_xie_6cd529.md)
+       * PForDelta索引压缩算法的实现
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

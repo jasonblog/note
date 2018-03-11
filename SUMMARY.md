@@ -439,6 +439,7 @@
    * [即時系統 使用排程器](linux_system/ji_shi_xi_tong_shi_yong_pai_cheng_qi.md)
    * [性能分析工具使用 callgrind+kcachegrind](linux_system/xing_neng_fen_xigong_ju_shi_yong_callgrind_+_kcach.md)
    * [linux编程的108种奇淫巧计](linux_system/linuxbian_cheng_de_108_zhong_qi_yin_qiao_ji.md)
+       * 1(FALSE SHARING)
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

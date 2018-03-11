@@ -443,6 +443,7 @@
        * [1(FALSE SHARING)](linux_system/1false_sharing.md)
        * [2(RDTSC)](linux_system/2rdtsc.md)
        * [3(magic 2)](linux_system/3magic_2.md)
+       * 4(编译展开)
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

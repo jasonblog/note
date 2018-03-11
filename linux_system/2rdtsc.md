@@ -79,3 +79,60 @@ time ./test_m32
 相关解释，预计下周一发博客进行解释，有兴趣的朋友可以先看下列推荐读物。
 
 
+
+---
+
+有时候我们希望在x86平台下获得更加高的精度。如果我们想准确的知道一段程序，一个函数的执行时间，可以连续执行2次rdtsc，之间没有一行代码，来计算这两段指令执行过程会有的cycle数，不同机器可能都会有不同，和机器的性能有关系，但和负载没关系，也就是多进程，多线程情况下，连续两个rdtsc之间不会插入很多cycle，这一点大家可以做实验来验证。
+
+```c
+start = rdtsc();
+end = rdtsc();
+```
+
+在获得这个数据后，我们对一段代码的执行时间就可以做一个更加精确的估计。我的测试机比较一般大约是100个cycle，
+
+用100/(3000.164*1000*1000)=0.033微秒，约合33纳秒，这个时间段几乎是不会发生什么进程切换的，因此可以认为计算的精度是可接受的。
+
+RDTSC只在X86下有效，其余平台会有类似指令来做准确计数，RDTSC指令的精度是可以接受的，里面能插得cycle是很有限的。如果对计数要求没那么高，可以采用一些通用库函数，当然你也可以用类似的方法来考察这些库函数的精度，连续执行2次就行。
+
+
+例如下面的代码得到两次rdtsc指令之间的cycle数。
+
+
+```c
+#include <stdlib.h>
+#include <stdio.h>
+
+#if defined(__i386__)
+
+static __inline__ unsigned long long rdtsc(void)
+{
+  unsigned long long int x;
+     __asm__ volatile ("rdtsc" : "=A" (x));
+     return x;
+}
+#elif defined(__x86_64__)
+static __inline__ unsigned long long rdtsc(void)
+{
+  unsigned hi, lo;
+  __asm__ __volatile__ ("rdtsc" : "=a"(lo), "=d"(hi));
+  return ( (unsigned long long)lo)|( ((unsigned long long)hi)<<32 );
+}
+
+#endif
+
+int main(void)
+{
+        register int start = 0;
+        register int end = 0;
+        const int MAX_COUNT = 10000000;
+        volatile int sum = 0;
+        const float CPU_MHZ = 3000.164; //use cat /proc/cpuinfo get the value
+        const float CPU_tick_count_per_second = CPU_MHZ*1000*1000;
+        start = rdtsc();
+        end = rdtsc();
+
+        printf("sum:%d,run tick count:%d,run time:%f/n",sum,end - start,(end -start)/CPU_tick_count_per_second);
+        return 0;
+}
+```

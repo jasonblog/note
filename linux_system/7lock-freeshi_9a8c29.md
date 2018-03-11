@@ -225,3 +225,194 @@ lock显然就不合适了。就应该把自己放到阻塞态去。
 
 
 
+## (Lock-free之二)
+
+本节增加test_and_set的原语和一个spinlock比较完整的实现（参照nginx spin lock），主要的变化在于插入了__asm__ ("pause")指令，且插入次数是尝试锁的次数的2次幂，有助于在减少重试次数，通过这一变化可以对比看出CPU100%占用的问题得到了缓解。test_and_set指令在未来的博客中还会继续提到，cas，tas，fetch_and_add是这一系列中需要使用的仅有的3条原子操作。
+
+test_and_set的语义为传入一个地址将其无条件置1，并返回该地址值的原来值，如果原来是1，返回1，如果原来是非1，返回非1，这提供了一个关门的好处，如果变量是非1，在进入临界区以后，该变量自动关门，后面的尝试全部失败因为是while(tas(V)==1)的操作，在使用完临界区以后，将该值请零（reset），必然有一个会在spin的过程中拿到，但是这种调度是有偶然性的，因此可能会出现饥饿，而且并发数越多的情况下，越容易出现饥饿，spin的次数不易过大，本文指定为4096，该值可以根据实际环境调整，参见nginx源码。
+
+
+```sh
+//编译方法
+
+//g++ test.cpp -o test_cas_imp -D CAS_IMP -lpthread
+//g++ test.cpp -o test_cas_imp_all -D CAS_IMP_ALL -lpthread
+//g++ test.cpp -o test_tas_imp -D TAS_IMP -lpthread
+//g++ test.cpp -o test_tas_imp_all -D CAS_IMP_ALL -lpthread
+```
+
+```cpp
+# include <stdio.h>
+#include <pthread.h>
+#include <string.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <syscall.h>
+#if defined(__x86_64__)
+#define ATOMICOPS_WORD_SUFFIX "q"
+#else
+#define ATOMICOPS_WORD_SUFFIX "l"
+#endif
+static inline bool compare_and_swap(volatile size_t* p, size_t val_old,
+                                    size_t val_new)
+{
+    char ret;
+    __asm__ __volatile__("lock; cmpxchg" ATOMICOPS_WORD_SUFFIX " %3, %0; setz %1"
+                         : "=m"(*p), "=q"(ret)
+                         : "m"(*p), "r"(val_new), "a"(val_old)
+                         : "memory");
+    return (bool)ret;
+}
+static inline size_t fetch_and_add(volatile size_t* p, size_t add)
+{
+    unsigned int ret;
+    __asm__ __volatile__("lock; xaddl %0, %1"
+                         :"=r"(ret), "=m"(*p)
+                         : "0"(add), "m"(*p)
+                         : "memory");
+    return ret;
+};
+static inline int test_and_set(volatile int* s)    /* tested */
+{
+    int r;
+    __asm__ __volatile__(
+        "xchgl %0, %1"
+        : "=r"(r), "=m"(*s)
+        : "0"(1), "m"(*s)
+        : "memory");
+
+    return r;
+}
+static inline int reset(volatile int* s)
+{
+    *s = 0;
+}
+
+volatile size_t g_uCount;
+pthread_mutex_t g_tLck = PTHREAD_MUTEX_INITIALIZER;
+const size_t cnt_num = 10000000;
+volatile int tas_lock = 0;
+
+
+void* sum_with_cas_imp(void*)
+{
+    for (int i = 0; i < cnt_num; ++i) {
+        for (;;) {
+            size_t u = g_uCount;
+
+            if (compare_and_swap(&g_uCount, u, u + 1)) {
+                break;
+            }
+        }
+    }
+}
+void* sum_with_tas_imp(void*)
+{
+    for (int i = 0; i < cnt_num; ++i) {
+        while ((test_and_set(&tas_lock)) == 1) {}
+
+        ++g_uCount;
+        reset(&tas_lock);
+    }
+}
+
+void* sum_with_cas_imp_all(void*)
+{
+    for (int i = 0; i < cnt_num;) {
+        for (;;) {
+            size_t u = g_uCount;
+
+            if (compare_and_swap(&g_uCount, u, u + 1)) {
+                goto L1;
+            }
+
+            for (size_t n = 1; n < 4096; n <<= 1) {
+                for (size_t i = 0; i < n; i++) {
+                    __asm__("pause") ;
+                }
+
+                u = g_uCount;
+
+                if (compare_and_swap(&g_uCount, u, u + 1)) {
+                    goto L1;
+                }
+
+            }
+
+            syscall(SYS_sched_yield);
+        }
+
+L1:
+        ++i;
+    }
+}
+
+// reference:http://nginx.sourcearchive.com/documentation/0.7.59-1/ngx__spinlock_8c-source.html
+
+void* sum_with_tas_imp_all(void*)
+
+{
+
+    for (int i = 0; i < cnt_num; ++i) {
+        for (size_t n = 1; (test_and_set(&tas_lock)) == 1; n <<= 1) {
+            if (n < 4096) {
+                for (size_t i = 0; i < n; i++) {
+                    __asm__("pause") ;
+                }
+            }
+            else {
+                syscall(SYS_sched_yield);
+                n = 1;
+            }
+        }
+
+        ++g_uCount;
+        reset(&tas_lock);
+
+    }
+
+}
+
+void* sum(void*)
+
+{
+#ifdef CAS_IMP
+    sum_with_cas_imp(NULL);
+#endif
+
+#ifdef TAS_IMP
+    sum_with_tas_imp(NULL);
+#endif
+
+#ifdef CAS_IMP_ALL
+    sum_with_cas_imp_all(NULL);
+#endif
+
+#ifdef TAS_IMP_ALL
+    sum_with_tas_imp_all(NULL);
+#endif
+};
+
+int main()
+{
+    pthread_t* thread = (pthread_t*) malloc(10 * sizeof(pthread_t));
+
+    for (int i = 0; i < 10; ++i) {
+        pthread_create(&thread[i], NULL, sum, NULL);
+    }
+
+    for (int i = 0; i < 10; ++i) {
+        pthread_join(thread[i], NULL);
+    }
+
+    printf("g_uCount:%d/n", g_uCount);
+    free(thread);
+}
+```
+
+我搜了一下也有一些不错的文章供大家参考
+
+我要啦免费统计
+（1）http://student.csdn.net/space.php?uid=45153&do=thread&id=7403
+
+（2）http://www.ibm.com/developerworks/cn/linux/l-rwlock_writing/

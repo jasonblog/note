@@ -441,7 +441,7 @@
        * 2(RDTSC)
    * [linux编程的108种奇淫巧计](linux_system/linuxbian_cheng_de_108_zhong_qi_yin_qiao_ji.md)
        * [1(FALSE SHARING)](linux_system/1false_sharing.md)
-       * 2(RDTSC)
+       * [2(RDTSC)](linux_system/2rdtsc.md)
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

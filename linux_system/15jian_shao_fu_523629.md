@@ -271,6 +271,6 @@ pennyliang5:   48 c1 e8 06           shr    $0x6,%rax
 
 参考阅读：
 
- http://www-903.ibm.com/kr/techinfo/xseries/download/write_back_vs_write_through.pdf
+http://www-903.ibm.com/kr/techinfo/xseries/download/write_back_vs_write_through.pdf
 
- http://en.wikipedia.org/wiki/CPU_cache
+http://en.wikipedia.org/wiki/CPU_cache

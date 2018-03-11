@@ -122,3 +122,35 @@ int main(void)
 }
 ```
 
+rdtsc函数是获取机器开机的时间戳。下面这段文字来自intel指令手册：
+
+Loads the current value of the processor’s time-stamp counter (a 64-bit MSR) into
+the EDX:EAX registers and also loads the IA32_TSC_AUX MSR (address
+C000_0103H) into the ECX register. The EDX register is loaded with the high-order
+32 bits of the IA32_TSC MSR; the EAX register is loaded with the low-order 32 bits of
+the IA32_TSC MSR; and the ECX register is loaded with the low-order 32-bits of
+IA32_TSC_AUX MSR. On processors that support the Intel 64 architecture, the highorder
+32 bits of each of RAX, RDX, and RCX are cleared.
+
+其中=a是EAX的简写和=d是EDX寄存器的简写，表示该指令的结果EAX寄存器存放在lo中，EDX寄存器存放在hi中。这并不难理解，该系列第二篇博客也介绍过rdtsc指令。
+
+
+```c
+static __inline__ unsigned long long rdtsc(void)   
+{   
+  unsigned hi, lo;  
+  __asm__ __volatile__ ("rdtsc" : "=a"(lo), "=d"(hi));   
+  return ( (unsigned long long)lo)|( ((unsigned long long)hi)<<32 );   
+}   
+```
+
+64位程序参数传递的方法和32位有很大不同，是通过寄存器来传递的，m_b_64(to,from,qdword_cnt);   这段函数在执行前，首先将to指向的地址存放在RDI寄存器中，然后将from指向的地址存放在RSI寄存器中，qdword_cnt存放在RDX寄存器中。而REP MOVSQ的含义是：Move RCX quadwords from[RSI] to [RDI].因此需要将存放在RDX寄存器的qdword_cnt存放在RCX寄存器内。
+
+  
+
+关于REP MOVSQ/MOVSW/MOVSD/MOVSB命令的详细情况，可查询intel指令手册。
+
+
+
+以上内存拷贝方法差距不大，MOVSQ并没有比MOVSB有显著提升，后面还会介绍更多的方法，会大幅度提高内存拷贝的性能，待续。
+

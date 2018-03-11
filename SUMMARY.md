@@ -447,6 +447,7 @@
        * [5(rbp寄存器)](linux_system/5rbpji_cun_566829.md)
        * [6(shellcode)](linux_system/6shellcode.md)
        * [7(Lock-free实验)](linux_system/7lock-freeshi_9a8c29.md)
+       * 8(嵌入汇编的另一种写法)
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

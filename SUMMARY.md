@@ -453,6 +453,7 @@
        * [12(存储计算)](linux_system/12cun_chu_ji_7b9729.md)
        * [15(减少复制)](linux_system/15jian_shao_fu_523629.md)
        * [16（如何达到内存最大带宽，复杂指令）](linux_system/16ff08_ru_he_da_dao_nei_cun_zui_da_dai_kuan_ff0c_f.md)
+       * 17（如何达到内存最大带宽，精简指令，预取和NT）
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

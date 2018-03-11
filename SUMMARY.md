@@ -450,6 +450,7 @@
        * [8(嵌入汇编的另一种写法)](linux_system/8qian_ru_hui_bian_de_ling_yi_zhong_xie_6cd529.md)
        * [PForDelta索引压缩算法的实现](linux_system/pfordeltasuo_yin_ya_suo_suan_fa_de_shi_xian.md)
        * [11(乱序)](linux_system/11luan_5e8f29.md)
+       * 12(存储计算)
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

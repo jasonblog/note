@@ -451,7 +451,7 @@
        * [PForDelta索引压缩算法的实现](linux_system/pfordeltasuo_yin_ya_suo_suan_fa_de_shi_xian.md)
        * [11(乱序)](linux_system/11luan_5e8f29.md)
        * [12(存储计算)](linux_system/12cun_chu_ji_7b9729.md)
-       * 15(减少复制)
+       * [15(减少复制)](linux_system/15jian_shao_fu_523629.md)
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

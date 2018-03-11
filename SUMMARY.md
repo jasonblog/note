@@ -446,6 +446,7 @@
        * [4(编译展开)](linux_system/4bian_yi_zhan_5f0029.md)
        * [5(rbp寄存器)](linux_system/5rbpji_cun_566829.md)
        * [6(shellcode)](linux_system/6shellcode.md)
+       * 7(Lock-free实验)
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

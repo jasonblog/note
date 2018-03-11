@@ -456,7 +456,7 @@
        * [17（如何达到内存最大带宽，精简指令，预取和NT）](linux_system/17ff08_ru_he_da_dao_nei_cun_zui_da_dai_kuan_ff0c_j.md)
        * [18（SIMD）](linux_system/18simd.md)
        * 关于bit操作(bit_set test_bit)
-       * put variables in a regsiter
+       * [put variables in a regsiter](linux_system/put_variables_in_a_regsiter.md)
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

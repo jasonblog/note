@@ -8,7 +8,7 @@
 CPU通過芯片緩存(L1 Cache)和內存進行數據交互。而交互的單位叫做cache line,大小為2的冪，32或64字節,虛擬內存頁面大小為4KB。cache line的交互分為兩種回填(refill)和回寫(write-back)兩種。假定CPU需要從虛擬內存讀取一個字節的操作數，其地址為0xFFFFFFA3，cache line的大小為32字節，則CPU需要將地址0xFFFFFFA0地址開始的32個字節全部讀入，填充出一個完整的cache line後，然後從該cache line的第4個字節處取得該字節的內容。如果後繼的指令也需要同樣從cache行中讀，那麼填充cache line是值得的；否則，額外的填充cache line的時間就是浪費。因此指令和數據的局部性越好，越符合cache line的設計要求。
 
 
-我們都非常熟悉的memset函數，如果我們手寫一個memset可能不如庫函數memset的實現性能高，為什麼呢？其中一個主要優化技術稱之為non-temporal，其基本思想是，如果要寫入的內存數據無用時，直接寫入，而不需要回填cache line。涉及的指令包括movnti,movntdq,sfence等。通俗點說，我們要將一個字符(char)，memset在一片內存上，而這片內存上原有的數據顯然沒有用了，即不需要將這片數據的內容先refill進cacheline，在cacheline中改寫了然後再寫回內存，只需要直接將數據寫入內存即可。庫函數的memset使用的是通用寄存器，而不是SSE寄存器，使用了movnti指令，通過objdump指令可以將庫函數的memset代碼導出，參見在本文的最後。
+我們都非常熟悉的memset函數，如果我們手寫一個memset可能不如庫函數memset的實現性能高，為什麼呢？其中一個主要優化技術稱之為non-temporal，其基本思想是，如果要寫入的內存數據無用時，直接寫入，而不需要回填cache line。涉及的指令包括movnti,movntdq,sfence等。通俗點說，我們要將一個字符(char)，memset在一片內存上，而這片內存上原有的數據顯然沒有用了，即不需要將這片數據的內容先refill進cacheline，在cacheline中改寫瞭然後再寫回內存，只需要直接將數據寫入內存即可。庫函數的memset使用的是通用寄存器，而不是SSE寄存器，使用了movnti指令，通過objdump指令可以將庫函數的memset代碼導出，參見在本文的最後。
 
 為什麼一定要refill呢，不refill不可以嗎？假定我們對一片內存寫入1個字節（假定一條cache line是32字節），數據交互的單位是cache Line,系統怎麼知道另外的31個字節是什麼呢？這一寫回，這1個字節是對的，另外的31個字節就未定義了。因此小數據的讀寫refill是有必要的，但是，對於大片內存的寫入，顯然refill是可以避免的，intel提供的non-temperal方法也就是為這個目的服務的，即本文的減少複製的優化思想。
 

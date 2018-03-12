@@ -1,5 +1,3 @@
-# C 编译链接
-
 
 <div class="post-container">
   <div class="blog-header">
@@ -565,23 +563,6 @@ An alias for –syms
 <h4 id="1-静态库生成动态库">1. 静态库生成动态库</h4>
 
 <p>可以通过多个静态库生成动态库，而实际上静态库是一堆 <code class="highlighter-rouge">.o</code> 库的压缩集合，而生成动态库需要保证 <code class="highlighter-rouge">.o</code> 编译后是与地址无关的，也就是添加 <code class="highlighter-rouge">-fPIC</code> 参数。</p>
-
-
-  <hr>
-  <nav>
-    <ul class="pager">
-         <li class="previous"><a href="/post/security-libgcrypt-practice.html" title="libgcrypt 使用">← Older</a></li> 
-         <li class="next"><a href="/post/python-gevent-greenlet.html" title="Greenlet Gevent">Newer →</a></li> 
-    </ul>
-  </nav><br>
-<!--
-  <hr><div id="section-donate"><span>赏</span></div><br>
-  <p style="text-indent:0px;text-align:center;">如果喜欢这里的文章，而且又不差钱的话，欢迎打赏个早餐 ^_^</p><br>
-  <div class="row" style="text-align:center;" >
-    <div class="col-md-6"><img src="/images/system/barcode-pay-alipay.jpg" style="width:150px;height:150px;" title="支付宝捐赠" /><br>支付宝打赏</div>
-    <div class="col-md-6"><img src="/images/system/barcode-pay-wechat.jpg" style="width:150px;height:150px;" title="微信捐赠" /><br>微信打赏</div>
-  </div><br><hr>
--->
 
 
 

@@ -283,7 +283,7 @@ https://blog.0xbadc0de.be/archives/300
 
 	如果攻擊者在用戶與遠程主機之間（如公共的 wifi 區域），用偽造的公鑰，獲取用戶的登錄密碼。再用這個密碼登錄遠程主機，那麼 SSH 的安全機制就蕩然無存了。這種風險就是著名的 "中間人攻擊" （Man-in-the-middle attack）。<br><br>
 
-	為了解決這一問題，如果你是第一次登錄對方主機，系統會出現類似下面的提示：
+	為瞭解決這一問題，如果你是第一次登錄對方主機，系統會出現類似下面的提示：
 <pre>
 $ ssh user@host
 The authenticity of host 'host (12.18.429.21)' can't be established.

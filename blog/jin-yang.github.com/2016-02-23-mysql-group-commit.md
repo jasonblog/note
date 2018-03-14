@@ -110,7 +110,7 @@ prepare_commit_mutex 的鎖機制會嚴重影響高併發時的性能，而且 b
 
 接下來，看看如何保證 binlog 寫入順序和存儲引擎提交順序是一致的，並且能夠進行 binlog 的組提交？5.6 引入了組提交，並將提交過程分成 Flush stage、Sync stage、Commit stage 三個階段。
 
-這樣，事務提交時分為了如下的階段：
+這樣，事務提交時分為瞭如下的階段：
 
 {% highlight text %}
 InnoDB, Prepare

@@ -945,7 +945,7 @@ $ gcc -o exe main.c -L ./ -lvis
 main.c:(.text+0x17): undefined reference to `is_hidden'
 {% endhighlight %}
 
-說明了 hidden 確實起到作用了。
+說明瞭 hidden 確實起到作用了。
 
 ### \_\_attribute\_\_((sentinel))
 

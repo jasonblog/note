@@ -17,7 +17,7 @@ UUID 的目的是讓分佈式系統中的所有元素，都能有唯一的辨識
 
 ## 簡介
 
-[Universally Unique IDentifier, UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier) 是一個 128 位的數字，一般通過 32 個十六進制表示，一般類似 `00d460f0-ec1a-4a0f-a452-1afb4b5d1686` ，詳細標準可以參考 [RFC4122](https://tools.ietf.org/html/rfc4122) 。
+[Universally Unique IDentifier, UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier) 是一個 128 位的數字，一般通過 32 個十六進製表示，一般類似 `00d460f0-ec1a-4a0f-a452-1afb4b5d1686` ，詳細標準可以參考 [RFC4122](https://tools.ietf.org/html/rfc4122) 。
 
 在 Linux 中，可以通過 `uudigen` 生成一個 UUID ，該命令實際上調用的是 `libuuid` 庫，可以生成基於時間 (`--time`) 或者隨機 (`--random`) 的 UUID 字符串。
 

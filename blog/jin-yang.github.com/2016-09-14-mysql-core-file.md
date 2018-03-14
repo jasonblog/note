@@ -389,7 +389,7 @@ foobar.debug 默認會採用 DWARF 4 格式來保存調試信息，可以通過 
 
 通過 gcc -g 命令，所有函數名都會自動的生成相應的 debuginfo，供 systemtap 進行探測，<!--這種方法在英文上稱為：Debuginfo-based instrumentation，-->其侷限性在於，只能收集到函數調用的初始時刻、以及函數返回的結束時刻的上下文信息。
 
-為了解決這個問題，又提出了一種新方法 ```Compiled-in instrumentation```，可以把探針安插到指定的某行代碼中，從而可以收集到那行代碼執行時的上下文信息，這種探針被稱為 Marker 探針。
+為瞭解決這個問題，又提出了一種新方法 ```Compiled-in instrumentation```，可以把探針安插到指定的某行代碼中，從而可以收集到那行代碼執行時的上下文信息，這種探針被稱為 Marker 探針。
 
 編寫 Marker 探針，示例如下：
 

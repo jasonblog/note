@@ -207,7 +207,7 @@ struct vm_area_struct {   // include/linux/mm_types.h
 <!--
 另外，假如該 vm_area_struct 描述的是一個文件映射的虛存空間，成員 vm_file 便指向被映射的文件的 file 結構，vm_pgoff 是該虛存空間起始地址在 vm_file 文件裡面的文件偏移，單位為物理頁面。<br><br>
 
-一個程序可以選擇 MAP_SHARED 或 MAP_PRIVATE 將一個文件的某部分數據映射到自己的虛存空間裡面，這兩種映射方式的區別在於：MAP_SHARED 映射後在內存中對該虛存空間的數據進行修改會影響到其他以同樣方式映射該部分數據的進程，並且該修改還會被寫回文件裡面去，也就是這些進程實際上是在共用這些數據；而 MAP_PRIVATE 映射後對該虛存空間的數據進行修改不會影響到其他進程，也不會被寫入文件中。<br><br>
+一個程序可以選擇 MAP_SHARED 或 MAP_PRIVATE 將一個文件的某部分數據映射到自己的虛存空間裡面，這兩種映射方式的區別在於：MAP_SHARED 映射後在內存中對該虛存空間的數據進行修改會影響到其他以同樣方式映射該部分數據的進程，並且該修改還會被寫迴文件裡面去，也就是這些進程實際上是在共用這些數據；而 MAP_PRIVATE 映射後對該虛存空間的數據進行修改不會影響到其他進程，也不會被寫入文件中。<br><br>
 
 來自不同進程，所有映射同一個文件的 vm_area_struct 結構都會根據其共享模式分別組織成兩個鏈表。鏈表的鏈頭分別是：vm_file->f_dentry->d_inode->i_mapping->i_mmap_shared,vm_file->f_dentry->d_inode->i_mapping->i_mmap。而vm_area_struct結構中的vm_next_share指向鏈表中的下一個節點；vm_pprev_share是一個指針的指針，它的值是鏈表中上一個節點（頭節點）結構的vm_next_share（i_mmap_shared或i_mmap）的地址。<br><br>
 

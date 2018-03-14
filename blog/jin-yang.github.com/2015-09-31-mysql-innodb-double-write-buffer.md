@@ -59,7 +59,7 @@ Sector size (logical/physical): 512 bytes / 512 bytes
 
 MySQL 在崩潰恢復階段，讀取數據頁時，需要檢查頁的 checksum，當發生 partial page write 時，頁已經損壞，就導致數據無法恢復。
 
-為了解決上述問題，採用兩次寫，此時需要額外添加兩個部分，A) 內存中的兩次寫緩衝 (double write buffer)，大小為 2MB；B) 磁盤上共享表空間中連續的 128 頁，大小也為 2MB。
+為瞭解決上述問題，採用兩次寫，此時需要額外添加兩個部分，A) 內存中的兩次寫緩衝 (double write buffer)，大小為 2MB；B) 磁盤上共享表空間中連續的 128 頁，大小也為 2MB。
 
 ### 配置參數
 
@@ -275,7 +275,7 @@ try_again:
     // 當batch_running為TRUE，表示已有線程開始做batch flush來刷dblwr，釋放互斥鎖，重新等待
     if (buf_dblwr->batch_running) {
         /* 正常來說，只有後臺線程才會做batche flush操作，正常不會有競爭；
-           唯一的例外是當達到sync checkpoint時，用戶線程強制做batch flush操作。*/
+           唯一的例外是當達到sync checkpoint時，用戶線程強製做batch flush操作。*/
         int64_t sig_count = os_event_reset(buf_dblwr->b_event);
         mutex_exit(&buf_dblwr->mutex);
         os_event_wait_low(buf_dblwr->b_event, sig_count);

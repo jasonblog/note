@@ -495,7 +495,7 @@ fd3 3   | p3 -------> 文件表2 ---------> vnode2
 
 ### 內核結構
 
-每個進程都對應一個結構體 `struct task_struct`，裡面包含一個數據成員：
+每個進程都對應一個結構體 `struct task_struct`，裡麵包含一個數據成員：
 
 {% highlight c %}
 struct task_struct {

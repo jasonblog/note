@@ -237,7 +237,7 @@ pickle.PicklingError: Can't pickle quoteattr: it's not found as fake.quoteattr
 
 ### 導致對象不能回收
 
-在一些場景下可能會導致內存洩露。這與 Python 的垃圾回收機制有關，正常採用的是引用計數，為了解決循環引用，引入了 gc 模塊，但是如果對於對象中存在 `__del__()` 方法，那麼將導致對象不能回收。
+在一些場景下可能會導致內存洩露。這與 Python 的垃圾回收機制有關，正常採用的是引用計數，為瞭解決循環引用，引入了 gc 模塊，但是如果對於對象中存在 `__del__()` 方法，那麼將導致對象不能回收。
 
 {% highlight text %}
 $ cat test.py

@@ -66,7 +66,7 @@ RPM 包通常有一個通用的命名方式：name-version-release.arch.rpm 。
 
 如 gd-devel-2.0.35-11.el6.x86_64.rpm ，gd 是這個包的主包名；devel 是這個包的分包名； 2.0.35 是表示版本信息，2 為主版本號，0 表示次版本號，35 為源碼包的發行號也叫修訂號； 11.el6 中的 11 是 rpm 的發行號， el6 表示 RHEL6； x86_64 是表示適合的平臺。
 
-為了解決各個包之間的依賴關係，可以採用 YUM (Yellowdog Updater Modified) 進行管理，該軟件是由 Seth Vidal 開發，用於管理 RPM 包。
+為瞭解決各個包之間的依賴關係，可以採用 YUM (Yellowdog Updater Modified) 進行管理，該軟件是由 Seth Vidal 開發，用於管理 RPM 包。
 
 ### 常用命令
 

@@ -530,7 +530,7 @@ sys     0m0.004s
 
 
 最後，我們看到real time大於user time和sys time的總和，這說明進程不是在系統調用中阻塞,就是得不到運行的機會.
-而sleep()的運用，也說明了這一點.
+而sleep()的運用，也說明瞭這一點.
 
 
 
@@ -570,7 +570,7 @@ http://www.cnblogs.com/xmphoenix/archive/2011/05/09/2041546.html
 
 `gettimeofday()` 是 C 庫提供的函數，它封裝了內核裡的 `sys_gettimeofday()` 系統調用。
 
-在 x86_64 體系上，使用 `vsyscall` 實現了 `gettimeofday()` 這個系統調用，簡單來說，就是創建了一個共享的內存頁面，它的數據由內核來維護，但是，用戶態也有權限訪問這個內核頁面，由此，不通過中斷 `gettimeofday()` 也就拿到了系統時間。
+在 x86_64 體繫上，使用 `vsyscall` 實現了 `gettimeofday()` 這個系統調用，簡單來說，就是創建了一個共享的內存頁面，它的數據由內核來維護，但是，用戶態也有權限訪問這個內核頁面，由此，不通過中斷 `gettimeofday()` 也就拿到了系統時間。
 
 ### 函數作用
 

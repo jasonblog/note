@@ -51,7 +51,7 @@ Lua 提供了大量的 API 操作棧，用於向棧中壓入元素、查詢棧�
 
 注意lua_to*和lua_is*系列函數都是試圖轉換棧中元素為相應中的值。比如lua_isnumber不會檢查是否為數字類型，而是檢查是否能轉換為數字類型；lua_isstring也類似，它對於任意數字，lua_isstring都返回真。要想真正返回棧中元素的類型，可以用函數lua_type。每種類型對應於一個常量（LUA_TNIL，LUA_TBOOLEAN，LUA_TNUMBER等），這些常量定義在頭文件lua.h中。
 
-值得一提是lua_tolstring函數，它的函數原型是const char *lua_tolstring (lua_State *L, int index, size_t *len)。它會把棧中索引為index的Lua值裝換為一個C字符串。若參數Len不為NULL，則*Len會保存字符串的長度。棧中的Lua值必須為string或number類型，否則函數返回NULL。若棧中Lua值為number類型，則該函數實質會改變棧中的值為string類型，由於這個原因，在利用lua_next遍歷棧中的table時，對key使用lua_tolstring尤其需要注意，除非知道key都是string類型。lua_tolstring函數返回的指針，指向的是Lua虛擬機內部的字符串，這個字符串是以'\0'結尾的，但字符串中間也可能包含值為0的字符。由於Lua自身的垃圾回收，因此當棧中的字符串被彈出後，函數返回的指針所有指向的字符串可能就不能再有效了。也說明了，當一個C函數從Lua收到一個字符串參數時，在C函數中，即不能在訪問字符串時從棧中彈出它，也不能修改字符串。
+值得一提是lua_tolstring函數，它的函數原型是const char *lua_tolstring (lua_State *L, int index, size_t *len)。它會把棧中索引為index的Lua值裝換為一個C字符串。若參數Len不為NULL，則*Len會保存字符串的長度。棧中的Lua值必須為string或number類型，否則函數返回NULL。若棧中Lua值為number類型，則該函數實質會改變棧中的值為string類型，由於這個原因，在利用lua_next遍歷棧中的table時，對key使用lua_tolstring尤其需要注意，除非知道key都是string類型。lua_tolstring函數返回的指針，指向的是Lua虛擬機內部的字符串，這個字符串是以'\0'結尾的，但字符串中間也可能包含值為0的字符。由於Lua自身的垃圾回收，因此當棧中的字符串被彈出後，函數返回的指針所有指向的字符串可能就不能再有效了。也說明瞭，當一個C函數從Lua收到一個字符串參數時，在C函數中，即不能在訪問字符串時從棧中彈出它，也不能修改字符串。
 
 #### 3. 其它操作棧的函數
 

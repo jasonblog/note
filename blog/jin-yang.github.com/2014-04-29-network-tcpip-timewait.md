@@ -5,10 +5,10 @@ comments: true
 language: chinese
 category: [linux, network]
 keywords: 網絡,linux,network,time wait
-description: TIME_WAIT 是 TCP 協議棧中比較特殊的狀態，其主要目的是保證不同的鏈接不會相互干擾，但是對於一些高性能的場景，就可能由於較多的 TIME_WAIT 狀態最終導致鏈接不可用。如下簡單介紹如何充分利用該狀態。
+description: TIME_WAIT 是 TCP 協議棧中比較特殊的狀態，其主要目的是保證不同的鏈接不會相互幹擾，但是對於一些高性能的場景，就可能由於較多的 TIME_WAIT 狀態最終導致鏈接不可用。如下簡單介紹如何充分利用該狀態。
 ---
 
-```TIME_WAIT``` 是 TCP 協議棧中比較特殊的狀態，其主要目的是保證不同的鏈接不會相互干擾，但是對於一些高性能的場景，就可能由於較多的 ```TIME_WAIT``` 狀態最終導致鏈接不可用。
+```TIME_WAIT``` 是 TCP 協議棧中比較特殊的狀態，其主要目的是保證不同的鏈接不會相互幹擾，但是對於一些高性能的場景，就可能由於較多的 ```TIME_WAIT``` 狀態最終導致鏈接不可用。
 
 如下簡單介紹如何充分利用該狀態。
 
@@ -525,7 +525,7 @@ TCP 應當是以太網協定族中被運用最為遍及的協定之一，在此�
 
 * TCP 報文中，seq 長度為 32-bits，也就限制了發端最多一次發送 2^30 長度的數據，就必須等待 ACK 信號，對於超高速以太網 (>1G)，這樣會影響 TCP 連接的轉發效率。
 
-為了解決上面提到的問題，通過 TimeStamp 選項主要有兩個用途:
+為瞭解決上面提到的問題，通過 TimeStamp 選項主要有兩個用途:
 
 * 測量 TCP 連接兩端通訊的延遲 (Round Trip Time Measurement)
 

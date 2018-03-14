@@ -208,7 +208,7 @@ Accept-Ranges: bytes
 
 TCP 連接的新建成本很高，因為需要客戶端和服務器三次握手，並且開始時發送速率較慢 (slow start)。所以，`HTTP 1.0` 版本的性能比較差，尤其隨著網頁加載的外部資源越來越多，這個問題就愈發突出了。
 
-為了解決這個問題，有些瀏覽器在請求時，用了一個非標準的 `Connection` 字段。
+為瞭解決這個問題，有些瀏覽器在請求時，用了一個非標準的 `Connection` 字段。
 
 {% highlight text %}
 Connection: keep-alive

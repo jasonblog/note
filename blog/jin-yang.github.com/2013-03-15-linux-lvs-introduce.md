@@ -52,7 +52,7 @@ NAT 也就是修改報文的源或者目的地址以及端口號，是一種外�
 
 ![network interface]({{ site.url }}/images/network/lvs-nat-example-2.png){: .pull-center }
 
-一個報文的處理過程大致經過了如下的三個步驟：
+一個報文的處理過程大致經過瞭如下的三個步驟：
 
 1. Director 收到報文後會做 DNAT，也就是修改目的地址以及端口號為真正的服務器，然後發送到 RS；
 
@@ -187,7 +187,7 @@ net.ipv4.conf.tunl0.hidden = 1
 
 除了上述的 IP-IP Tunnelling 方式，LVS 和 RS 必須在同一個 LAN 或者 VLAN 下，否則 LVS 無法作為 RS 的網關。這將導致：A) 運維不方便，跨 VLAN 的 RS 無法接入；B) 水平擴展受限制。
 
-Full-NAT 是為了解決此問題，他在 SNAT/DNAT 的基礎上，加上另一種轉換，過程如下。
+Full-NAT 是為瞭解決此問題，他在 SNAT/DNAT 的基礎上，加上另一種轉換，過程如下。
 
 ![network interface]({{ site.url }}/images/network/lvs-full-nat-example.png){: .pull-center }
 

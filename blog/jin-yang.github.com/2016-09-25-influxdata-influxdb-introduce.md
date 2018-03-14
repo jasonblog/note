@@ -97,7 +97,7 @@ influxdb/tsdb/internal/meta.proto
 
 ### 安裝
 
-實際上，編譯好的二進制程序，可以直接從官網 [www.influxdata.com/downloads/](https://www.influxdata.com/downloads/) 上下載，例如，在 CentOS 中，可以通過如下方式安裝，安裝後數據默認保存在 /var/lib/influxdb 目錄下。
+實際上，編譯好的二進製程序，可以直接從官網 [www.influxdata.com/downloads/](https://www.influxdata.com/downloads/) 上下載，例如，在 CentOS 中，可以通過如下方式安裝，安裝後數據默認保存在 /var/lib/influxdb 目錄下。
 
 {% highlight text %}
 ----- 下載二進制安裝包

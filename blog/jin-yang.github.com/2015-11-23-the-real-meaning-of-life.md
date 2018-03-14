@@ -123,7 +123,7 @@ This is the story no one's going to tell you, but you will experience for sure:
 
 ![the real meaning of life]({{ site.url }}/images/lifes/the_meaning_of_life_24.jpg){: .pull-center}
 
-人生是 60 歲的時候，還能跑一場馬拉松。
+人生是 60 歲的時候，還能跑一場馬拉鬆。
 
 ![the real meaning of life]({{ site.url }}/images/lifes/the_meaning_of_life_25.jpg){: .pull-center}
 

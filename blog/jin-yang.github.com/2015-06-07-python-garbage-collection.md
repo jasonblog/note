@@ -105,7 +105,7 @@ print 'gc.garbage is:', gc.garbage
 
 在調用 del 之前，列表還被 a、b 引用，稱之為可達的（reachable），此時不能刪除；在執行 del 之後，兩者實際只剩下了對象之間的相互引用，因此是需要被刪除的。但是引用計數仍然為 1，Python 的引用計數機制不會回收這兩個對象。
 
-如上所述，為了解決循環引用，Python 引入了 "標記-清除" 和 "分代收集" 機制，可以通過 gc.collect() 調用，該函數會返回不可達（unreachable）對象數。
+如上所述，為瞭解決循環引用，Python 引入了 "標記-清除" 和 "分代收集" 機制，可以通過 gc.collect() 調用，該函數會返回不可達（unreachable）對象數。
 
 實際上，由於調用了 gc.set_debug()，gc 模塊會把垃圾回收是的信息 上面的執行結果顯示，有兩個是不可達的（unreachable）對象，這也就是需要回收的對象了，當調用 gc.collect() 時，首先會監測到 a、b 都將成為了不可達(unreachable)對象，且循環引用將被拆除，此時 a、b 引用數都是 0，兩者將被回收，所以 gc.collect() 將返回 2 。
 

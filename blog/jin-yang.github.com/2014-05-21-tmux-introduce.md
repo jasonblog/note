@@ -204,7 +204,7 @@ set-option -g display-time 5000  # 提示信息的持續時間，單位為毫秒
 set-option -g repeat-time 1000   # 通過<prefix>激活控制檯後持續時間，避免每次都要先激活控制檯，單位為毫秒
 set-option -g status-keys vi     # 操作狀態欄時的默認鍵盤佈局；可以設置為vi或emacs
 
-set -sg escape-time 1      # tmux在發送命令時，會添加了一個延遲，可能會對其它軟件如vim造成干擾
+set -sg escape-time 1      # tmux在發送命令時，會添加了一個延遲，可能會對其它軟件如vim造成幹擾
                            # 該選項可以增加其響應速度，單位毫秒
 
 set -g base-index 1        # 將session中的窗口序列初始值設置為從1開始
@@ -378,7 +378,7 @@ tmux 的各個組件可以通過前景色和後景色進行設置。
 
 在 Putty 中，右擊 -> Change Settings... -> Window -> Colours 選中， Allow terminal to specify ANSI colours 和 Allow terminal to use xterm 256-colour mode ，並在 Indicate bolded text by changing: The colour 。
 
-tmux 啟動時可以使用 -2 參數，此時 tmux 會強制假設終端支持 256 色。
+tmux 啟動時可以使用 -2 參數，此時 tmux 會強製假設終端支持 256 色。
 
 ### 設置狀態欄
 

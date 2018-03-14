@@ -57,7 +57,7 @@
         data-chapter-title="1(FALSE SHARING)"
         data-filepath="linux_system/1false_sharing.md"
         data-basepath=".."
-        data-revision="Mon Mar 12 2018 20:48:11 GMT+0800 (CST)"
+        data-revision="Wed Mar 14 2018 21:53:02 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -18762,7 +18762,22 @@
                         
                             <b>47.31.</b>
                         
-                        C 编译链接
+                        C 編譯鏈接
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="47.32" data-path="linked_and_loader/c_jia_zai_guo_cheng.html">
+            
+                
+                    <a href="../linked_and_loader/c_jia_zai_guo_cheng.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>47.32.</b>
+                        
+                        C 加載過程
                     </a>
             
             
@@ -19578,7 +19593,7 @@
                         
                             <b>52.16.</b>
                         
-                        C 语言的奇技淫巧
+                        C 語言的奇技淫巧
                     </a>
             
             
@@ -21366,7 +21381,7 @@ g++ fs.cpp -o <span class="hljs-built_in">test</span>_fs -g -D FS &#x2013;lpthre
 <p>&#x9019;&#x662F;&#x4E00;&#x7A2E;&#x5178;&#x578B;&#x7684;FALSE SHARING&#x554F;&#x984C;&#xFF0C;&#x5728;SMP(&#x5C0D;&#x7A31;&#x591A;&#x8655;&#x7406;&#xFF09;&#x7684;&#x67B6;&#x69CB;&#x4E0B;&#x5E38;&#x898B;&#x7684;&#x554F;&#x984C;&#x3002;SMP&#x7C21;&#x55AE;&#x7684;&#x8AAA;&#x5C31;&#x662F;&#x591A;&#x500B;CPU&#x6838;&#xFF0C;&#x5171;&#x4EAB;&#x4E00;&#x500B;&#x5167;&#x5B58;&#x548C;&#x7E3D;&#x7DDA;&#xFF0C;L1 cache&#x4E5F;&#x53EB;&#x82AF;&#x7247;&#x7DE9;&#x5B58;&#xFF0C;&#x4E00;&#x822C;&#x662F;&#x79C1;&#x6709;&#x7684;&#xFF0C;&#x5373;&#x6BCF;&#x500B;CPU&#x6838;&#x5E36;&#x4E00;&#x500B;&#xFF0C;L2 cache&#x53EF;&#x80FD;&#x662F;&#x79C1;&#x6709;&#x7684;&#x4E5F;&#x53EF;&#x80FD;&#x662F;&#x90E8;&#x5206;&#x5171;&#x4EAB;&#x7684;&#x3002;</p>
 <p>&#x70BA;&#x4E86;&#x8868;&#x660E;FALSE SHARE&#x5E36;&#x4F86;&#x7684;&#x5F71;&#x97FF;&#xFF0C;&#x8A2D;&#x8A08;&#x4E86;&#x9019;&#x500B;&#x7C21;&#x55AE;&#x7684;&#x591A;&#x7DDA;&#x7A0B;&#x7A0B;&#x5E8F;&#xFF0C;&#x5305;&#x542B;&#x5169;&#x500B;&#x7DDA;&#x7A0B;&#xFF0C;&#x4ED6;&#x5011;&#x5206;&#x5225;&#x505A;&#x6C42;&#x548C;&#x4F7F;&#x7528;&#x4E0D;&#x540C;&#x7684;&#x8B8A;&#x91CF;&#xFF0C;&#x4F46;&#x7531;&#x65BC;cnt_1&#x7684;&#x5730;&#x5740;&#x548C;cnt_2&#x7684;&#x5730;&#x5740;&#x5728;&#x540C;&#x4E00;&#x689D;cache line&#x4E2D;&#xFF0C;&#x5BE6;&#x6E2C;&#x74B0;&#x5883;&#x4E2D;cnt_1&#x7684;&#x5730;&#x5740;&#x70BA;0x600c00&#xFF0C;cnt_2&#x7684;&#x5730;&#x5740;&#x70BA;0x600c08&#xFF0C;&#x800C;cache line&#x7684;&#x5927;&#x5C0F;&#x70BA;64&#x500B;&#x5B57;&#x7BC0;&#xFF08;cache line&#x5927;&#x5C0F;&#x53EF;&#x4EE5;&#x901A;&#x904E;getconf LEVEL1_DCACHE_LINESIZE&#x5F97;&#x5230;,&#x6216;&#x8005;&#x547D;&#x4EE4;cat /sys/devices/system/cpu/cpu0/cache/index0/coherency_line_size&#x5F97;&#x5230;&#xFF09;&#xFF0C;&#x9019;&#x6A23;&#x5C31;&#x6703;&#x767C;&#x751F;FALSE SHARING&#x554F;&#x984C;&#x3002;&#x5C07;&#x5169;&#x500B;&#x8B8A;&#x91CF;&#x5728;64&#x5B57;&#x7BC0;&#x5C0D;&#x9F4A;&#x5F8C;&#xFF0C;cnt_1&#x7684;&#x5730;&#x5740;&#x70BA;0x600c40&#xFF0C;cnt_2&#x7684;&#x5730;&#x5740;&#x70BA;0x600c80&#xFF0C;&#x6070;&#x597D;&#x932F;&#x958B;&#x5728;&#x5169;&#x689D;cache line&#x4E0A;&#xFF0C;&#x6E90;&#x4EE3;&#x78BC;&#x53C3;&#x52A0;&#x4E0A;&#x7BC7;&#x535A;&#x5BA2;&#x3002;</p>
 <p>FALSE SHARING&#x554F;&#x984C;&#x5728;&#x6B64;&#x524D;&#x7684;&#x535A;&#x5BA2;&#x4E5F;&#x6709;&#x8A73;&#x7D30;&#x8A0E;&#x8AD6;&#xFF0C;&#x53EF;&#x4EE5;&#x53C3;&#x898B;&#xFF1A;<a href="http://blog.csdn.net/pennyliang/archive/2010/07/27/5766541.aspx" target="_blank">http://blog.csdn.net/pennyliang/archive/2010/07/27/5766541.aspx</a></p>
-<p>&#x6700;&#x5F8C;&#xFF0C;&#x53EF;&#x80FD;&#x6709;&#x8B80;&#x8005;&#x6703;&#x554F;&#xFF0C;&#x6709;&#x8AB0;&#x6703;&#x9019;&#x9EBC;&#x8166;&#x6B98;&#x5BEB;&#x9019;&#x6A23;&#x7684;&#x4EE3;&#x78BC;&#xFF0C;&#x65E5;&#x5E38;&#x7DE8;&#x78BC;&#x600E;&#x9EBC;&#x6703;&#x78B0;&#x5230;&#x9019;&#x6A23;&#x7684;&#x554F;&#x984C;&#x5462;&#xFF1F;&#x6211;&#x7D66;&#x5927;&#x5BB6;&#x8AAA;&#x4E00;&#x500B;&#x5177;&#x9AD4;&#x7684;&#x5834;&#x666F;&#xFF0C;&#x5047;&#x5982;&#x6709;&#x4E00;&#x500B;lock-free&#x7684;queues&#xFF0C;&#x88E1;&#x9762;&#x5305;&#x542B;&#x4E86;&#x5F88;&#x591A;&#x985E;&#x578B;&#x7684;queue&#xFF0C;&#x6BCF;&#x500B;queue&#x5305;&#x542B;&#x4E00;&#x500B;head&#x548C;&#x4E00;&#x500B;tail&#xFF0C;&#x9019;&#x5169;&#x500B;&#x503C;&#x5206;&#x5225;&#x88AB;&#x6D88;&#x8CBB;&#x8005;&#x548C;&#x751F;&#x7522;&#x8005;&#x4E4B;&#x9593;&#x7AF6;&#x722D;&#xFF0C;&#x56E0;&#x6B64;&#x5982;&#x679C;&#x4E0D;&#x8003;&#x616E;false sharing&#x554F;&#x984C;&#xFF0C;&#x53EF;&#x80FD;&#x6703;&#x9020;&#x6210;&#x4F4E;&#x6548;&#x4EE3;&#x78BC;&#x3002;&#x9019;&#x6A23;&#x4E00;&#x500B;&#x591A;&#x7DDA;&#x7A0B;&#x5171;&#x4EAB;&#x7684;&#x968A;&#x5217;&#x7D50;&#x69CB;&#xFF08;&#x591A;&#x751F;&#x7522;&#x8005;&#xFF0C;&#x591A;&#x6D88;&#x8CBB;&#x8005;&#x5171;&#x4EAB;&#xFF09;&#x7528;&#x4EE5;&#x4E0B;&#x54EA;&#x7A2E;&#x7D50;&#x69CB;&#x66F4;&#x597D;&#x5462;&#xFF1F;&#x6211;&#x4E0D;&#x518D;&#x516C;&#x4F48;&#x7B54;&#x6848;&#xFF0C;&#x6709;&#x8208;&#x8DA3;&#x7684;&#x670B;&#x53CB;&#x53EF;&#x4EE5;&#x53BB;&#x627E;&#x627E;&#x9019;&#x65B9;&#x9762;&#x7684;&#x4EE3;&#x78BC;&#xFF0C;&#x770B;&#x770B;&#x4ED6;&#x5011;&#x662F;&#x600E;&#x9EBC;&#x5BEB;&#x7684;&#x3002;</p>
+<p>&#x6700;&#x5F8C;&#xFF0C;&#x53EF;&#x80FD;&#x6709;&#x8B80;&#x8005;&#x6703;&#x554F;&#xFF0C;&#x6709;&#x8AB0;&#x6703;&#x9019;&#x9EBC;&#x8166;&#x6B98;&#x5BEB;&#x9019;&#x6A23;&#x7684;&#x4EE3;&#x78BC;&#xFF0C;&#x65E5;&#x5E38;&#x7DE8;&#x78BC;&#x600E;&#x9EBC;&#x6703;&#x78B0;&#x5230;&#x9019;&#x6A23;&#x7684;&#x554F;&#x984C;&#x5462;&#xFF1F;&#x6211;&#x7D66;&#x5927;&#x5BB6;&#x8AAA;&#x4E00;&#x500B;&#x5177;&#x9AD4;&#x7684;&#x5834;&#x666F;&#xFF0C;&#x5047;&#x5982;&#x6709;&#x4E00;&#x500B;lock-free&#x7684;queues&#xFF0C;&#x88E1;&#x9EB5;&#x5305;&#x542B;&#x4E86;&#x5F88;&#x591A;&#x985E;&#x578B;&#x7684;queue&#xFF0C;&#x6BCF;&#x500B;queue&#x5305;&#x542B;&#x4E00;&#x500B;head&#x548C;&#x4E00;&#x500B;tail&#xFF0C;&#x9019;&#x5169;&#x500B;&#x503C;&#x5206;&#x5225;&#x88AB;&#x6D88;&#x8CBB;&#x8005;&#x548C;&#x751F;&#x7522;&#x8005;&#x4E4B;&#x9593;&#x7AF6;&#x722D;&#xFF0C;&#x56E0;&#x6B64;&#x5982;&#x679C;&#x4E0D;&#x8003;&#x616E;false sharing&#x554F;&#x984C;&#xFF0C;&#x53EF;&#x80FD;&#x6703;&#x9020;&#x6210;&#x4F4E;&#x6548;&#x4EE3;&#x78BC;&#x3002;&#x9019;&#x6A23;&#x4E00;&#x500B;&#x591A;&#x7DDA;&#x7A0B;&#x5171;&#x4EAB;&#x7684;&#x968A;&#x5217;&#x7D50;&#x69CB;&#xFF08;&#x591A;&#x751F;&#x7522;&#x8005;&#xFF0C;&#x591A;&#x6D88;&#x8CBB;&#x8005;&#x5171;&#x4EAB;&#xFF09;&#x7528;&#x4EE5;&#x4E0B;&#x54EA;&#x7A2E;&#x7D50;&#x69CB;&#x66F4;&#x597D;&#x5462;&#xFF1F;&#x6211;&#x4E0D;&#x518D;&#x516C;&#x4F48;&#x7B54;&#x6848;&#xFF0C;&#x6709;&#x8208;&#x8DA3;&#x7684;&#x670B;&#x53CB;&#x53EF;&#x4EE5;&#x53BB;&#x627E;&#x627E;&#x9019;&#x65B9;&#x9762;&#x7684;&#x4EE3;&#x78BC;&#xFF0C;&#x770B;&#x770B;&#x4ED6;&#x5011;&#x662F;&#x600E;&#x9EBC;&#x5BEB;&#x7684;&#x3002;</p>
 <pre><code class="lang-sh">&#x3010;<span class="hljs-number">1</span>&#x3011;
 
 struct queues{

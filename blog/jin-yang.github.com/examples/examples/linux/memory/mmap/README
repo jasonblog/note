@@ -1,0 +1,16 @@
+1. 打开文件，并影射到内存，修改内存等同于修改文件的内容。
+    gcc 0-filemap.c -o filemap -Wall
+    ./filemap
+    cat file.txt
+
+2. 两个进程之间通过mmap共享内存，其中 share1 会先初始化内存，然后睡眠 11 秒，此时可以通过 share2 读取其中的内容。
+   11 秒过后，将文件内容重新设置为 0 。
+    gcc 1-sharemem1.c -o sharemem1 -Wall
+    gcc 1-sharemem2.c -o sharemem2 -Wall
+    ./sharemem1
+    ./sharemem2
+    当 share1 输出 initialize over 后，查询的信息不再是 0 ，而随后会再次设置为 0。
+
+3. 使用匿名，在父子进程中通讯
+    gcc 2-anonymem.c -o anonymem -Wall
+    ./anonymem

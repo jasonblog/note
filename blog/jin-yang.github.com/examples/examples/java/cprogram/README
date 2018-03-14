@@ -1,0 +1,6 @@
+通过 Java 程序调用 C 程序。
+ 1. 通过 make 编译生成 HelloWorld.class 。
+ 2. 通过 javah HelloWorld 生成 HelloWorld.h 头文件，其中有相应函数的声明。
+ 3. 将声明复制到 ctest.c 文件中，生成相应的文件。
+ 4. 同时通过 make 生成 libctest.so 动态库。
+ 5. 运行 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD; java HelloWorld 命令。

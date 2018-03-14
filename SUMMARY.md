@@ -1198,6 +1198,7 @@
        * [鏈接、裝載、與庫_讀書筆記](linked_and_loader/lian_jie_3001_zhuang_zai_3001_yu_ku_du_shu_bi_ji.md)
    * [gcc 編譯順序問題](linked_and_loader/gcc_bian_yi_shun_xu_wen_ti.md)
    * [C 編譯鏈接](linked_and_loader/c_bian_yi_lian_jie.md)
+   * C 加载过程
 * [Bochs](Bochs/bochs.md)
    * [OS dev的Bochs調試](Bochs/os_devde_bochs_diao_shi.md)
 * [Nginx](nginx/nginx.md)

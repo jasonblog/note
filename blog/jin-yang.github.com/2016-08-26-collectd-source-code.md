@@ -1,20 +1,20 @@
 ---
-title: Collectd 源码解析
+title: Collectd 源碼解析
 layout: post
 comments: true
 language: chinese
 category: [linux,misc]
 keywords: collectd,monitor,linux
-description: 介绍下 Collectd 中源码的实现。
+description: 介紹下 Collectd 中源碼的實現。
 ---
 
-接下来介绍下 Collectd 中源码的实现。
+接下來介紹下 Collectd 中源碼的實現。
 
 <!-- more -->
 
-## 简介
+## 簡介
 
-在编译源码前，需要先安装部分依赖库。
+在編譯源碼前，需要先安裝部分依賴庫。
 
 {% highlight text %}
 # yum install libtool-ltdl-devel flex bison
@@ -25,7 +25,7 @@ libtool-ltdl-devel
 ibtoolize: `COPYING.LIB' not found in `/usr/share/libtool/libltdl'
 -->
 
-接着介绍下源码编译时常用的命令。
+接著介紹下源碼編譯時常用的命令。
 
 {% highlight text %}
 ----- 如果修改了configure.ac
@@ -34,7 +34,7 @@ $ autoreconf -ivf
 ----- 修改Makefile.am
 $ automake --add-missing --copy
 
------ 编译测试##默认关闭所有插件，指定需要编译的插件
+----- 編譯測試##默認關閉所有插件，指定需要編譯的插件
 $ mkdir build && cd build
 $ ../configure --enable-debug --enable-all-plugins=no \
     --enable-logfile --enable-unixsock --enable-write-log \
@@ -43,13 +43,13 @@ $ ../configure --enable-debug --enable-all-plugins=no \
 $ make
 $ make distclean
 
------ 单元测试##
+----- 單元測試##
 $ make check
 
------ 压测工具，会随机生成host、plugin、values，尽量模拟正常的采集流量
+----- 壓測工具，會隨機生成host、plugin、values，儘量模擬正常的採集流量
 $ collectd-tg
 
------ 源码发布打包
+----- 源碼發佈打包
 $ make distcheck
 {% endhighlight %}
 
@@ -61,9 +61,9 @@ $ make distcheck
     --enable-java --with-java
 -->
 
-与测试相关的宏定义在 testing.h 文件中，执行 ```make check``` 需要定义 TESTS 变量，可以指定多个，如果返回非零则表示失败，详细可以查看 [Support for test suites](https://www.gnu.org/software/automake/manual/html_node/Tests.html) 。
+與測試相關的宏定義在 testing.h 文件中，執行 ```make check``` 需要定義 TESTS 變量，可以指定多個，如果返回非零則表示失敗，詳細可以查看 [Support for test suites](https://www.gnu.org/software/automake/manual/html_node/Tests.html) 。
 
-对于 man 文档，通过 man_MANS 变量定义，然后会根据后缀名自动安装到相应的系统目录。
+對於 man 文檔，通過 man_MANS 變量定義，然後會根據後綴名自動安裝到相應的系統目錄。
 
 <!--
 * tries to do a VPATH build (see VPATH Builds), with the srcdir and all its content made read-only;
@@ -73,7 +73,7 @@ $ make distcheck
 * finally, makes another tarball to ensure the distribution is self-contained.
 -->
 
-打包时可以通过 EXTRA_DIST 变量指定比较特殊的一些文件。
+打包時可以通過 EXTRA_DIST 變量指定比較特殊的一些文件。
 
 
 
@@ -81,23 +81,23 @@ $ make distcheck
 
 ## 常用概念
 
-在介绍源码的实现前，首先看下一些常见的概念。
+在介紹源碼的實現前，首先看下一些常見的概念。
 
-插件采集的数据保存在 value_list_t 中，这个对应了 types.db 中的一行记录，types.db 中一行可能会包含了多个采集结构，例如 load 指标，那么与之对应 value_list_t 也可能会包含了多个采集值。
+插件採集的數據保存在 value_list_t 中，這個對應了 types.db 中的一行記錄，types.db 中一行可能會包含了多個採集結構，例如 load 指標，那麼與之對應 value_list_t 也可能會包含了多個採集值。
 
-### 标示符 (Identifier)
+### 標示符 (Identifier)
 
-value_list_t 中还包含了用于构建标示符 (Identifier) 的值，包括了: host、plugin、plugin instance (optional)、type、type instance (optional) 五部分，其中两个是可选的，其含义如下：
+value_list_t 中還包含了用於構建標示符 (Identifier) 的值，包括了: host、plugin、plugin instance (optional)、type、type instance (optional) 五部分，其中兩個是可選的，其含義如下：
 
-* host 主机名称，可以再插件中设置，否则直接获取配置文件中的主机名；
-* plugin 一般是插件名称；
-* plugin instance 可选，例如 CPU 在多核的场景；
-* type 很多还是和插件相同，感觉有些冲突；
-* type instance 可选，监控的不同类型，例如 CPU 的指标有 idle、usage 等。
+* host 主機名稱，可以再插件中設置，否則直接獲取配置文件中的主機名；
+* plugin 一般是插件名稱；
+* plugin instance 可選，例如 CPU 在多核的場景；
+* type 很多還是和插件相同，感覺有些衝突；
+* type instance 可選，監控的不同類型，例如 CPU 的指標有 idle、usage 等。
 
-其中每项命名的最大值为 64，建议不要使用 ```'/'``` 和 ```'-'```，格式化时通过 ```format_name()``` 实现，串行化的格式为：```host "/" plugin ["-" plugin instance] "/" type ["-" type instance]``` 。
+其中每項命名的最大值為 64，建議不要使用 ```'/'``` 和 ```'-'```，格式化時通過 ```format_name()``` 實現，串行化的格式為：```host "/" plugin ["-" plugin instance] "/" type ["-" type instance]``` 。
 
-如下，是几个常见的示例：
+如下，是幾個常見的示例：
 
 {% highlight text %}
 localhost/cpu-0/cpu-idle
@@ -106,27 +106,27 @@ wanda/disk-hdc1/disk_octets
 leeloo/load/load
 {% endhighlight %}
 
-常见的在 global cache 中会使用，用于保存最近保存的一次数据，与 notification 相关的参数。
+常見的在 global cache 中會使用，用於保存最近保存的一次數據，與 notification 相關的參數。
 
-个人建议使用 Plugin + Plugin Instance + types.db 这种方式定义 Identifier 。
+個人建議使用 Plugin + Plugin Instance + types.db 這種方式定義 Identifier 。
 
 
-### 采集值类型
+### 採集值類型
 
-Collectd 中总共有四种类型，简单介绍如下。
+Collectd 中總共有四種類型，簡單介紹如下。
 
-* GAUSE: 直接使用采样值，通常为温度、内存使用率等参数值；
-* DERIVE: 计算采样的速率，计算公式为 ```rate=(value_new-value_old)/(time_new-time_old)``` ，需要注意，如果值非递增，那么可能产生负值；
-* COUNTER: 与 DERIVE 相同，只是当 ```value_new<value_old``` 时则认为是 "wrapped around" <!--，此时会按照 ```rate=(2**width-value_old+value_new)/(time_new-time_old)width=value_old< 2**32 ? 32 : 64```--> 。
-* ABSOULUTE: 与 GAUSE 比较相似，只是该值是无符号整数，且会除以当前时间与上次采样时间的差值；
+* GAUSE: 直接使用採樣值，通常為溫度、內存使用率等參數值；
+* DERIVE: 計算採樣的速率，計算公式為 ```rate=(value_new-value_old)/(time_new-time_old)``` ，需要注意，如果值非遞增，那麼可能產生負值；
+* COUNTER: 與 DERIVE 相同，只是當 ```value_new<value_old``` 時則認為是 "wrapped around" <!--，此時會按照 ```rate=(2**width-value_old+value_new)/(time_new-time_old)width=value_old< 2**32 ? 32 : 64```--> 。
+* ABSOULUTE: 與 GAUSE 比較相似，只是該值是無符號整數，且會除以當前時間與上次採樣時間的差值；
 
-需要注意的是，COUNTER 值采集的三种特殊情况：1) 计数器达到最大值，导致回环；2) 监控服务维护(重启或者手动计数器清零)；3) 监控 agent 重启，导致上次计数丢失。这三种情况可能会导致采集指标异常，通常只有一个采集点，一般可以过滤或者忽略掉。
+需要注意的是，COUNTER 值採集的三種特殊情況：1) 計數器達到最大值，導致迴環；2) 監控服務維護(重啟或者手動計數器清零)；3) 監控 agent 重啟，導致上次計數丟失。這三種情況可能會導致採集指標異常，通常只有一個採集點，一般可以過濾或者忽略掉。
 
-<!-- 详见: https://collectd.org/wiki/index.php/Data_source -->
+<!-- 詳見: https://collectd.org/wiki/index.php/Data_source -->
 
-#### 源码实现
+#### 源碼實現
 
-相关的代码内容如下。
+相關的代碼內容如下。
 
 {% highlight c %}
 #define DS_TYPE_COUNTER 0
@@ -201,49 +201,49 @@ int value_to_rate(gauge_t *ret_rate,
 
 
 
-## 插件实现
+## 插件實現
 
-首先，简单说下插件是如何加载的。
+首先，簡單說下插件是如何加載的。
 
-有个配置项 ```AutoLoadPlugin false``` 用于控制是否会自动加载插件，默认需要先通过 LoadPlugin 指令加载插件，然后再在 ```<Plugin XXX>``` 中进行配置，否则会报错；当然也可以将该参数修改为 true ，然后在遇到 ```<Plugin XXX>``` 时自动加载。
+有個配置項 ```AutoLoadPlugin false``` 用於控制是否會自動加載插件，默認需要先通過 LoadPlugin 指令加載插件，然後再在 ```<Plugin XXX>``` 中進行配置，否則會報錯；當然也可以將該參數修改為 true ，然後在遇到 ```<Plugin XXX>``` 時自動加載。
 
-源码中有一个示例插件，可查看 ```contrib/examples``` 目录下的文件；当然，也可以参考 [官方文档](https://collectd.org/wiki/index.php/Plugin_architecture) 。
+源碼中有一個示例插件，可查看 ```contrib/examples``` 目錄下的文件；當然，也可以參考 [官方文檔](https://collectd.org/wiki/index.php/Plugin_architecture) 。
 
-插件的实现实际上主要是通过将回调函数注册到链表上。
+插件的實現實際上主要是通過將回調函數註冊到鏈表上。
 
 {% highlight text %}
 int plugin_register_init()<<<1>>>
-注册初始化函数，正式创建读写线程之前执行。
-使用链表: list_init
+註冊初始化函數，正式創建讀寫線程之前執行。
+使用鏈表: list_init
 
 int plugin_register_config()<<<2>>>
-简单的配置处理，只含有配置项以及回调函数。
-使用链表: first_callback
+簡單的配置處理，只含有配置項以及回調函數。
+使用鏈表: first_callback
 
 int plugin_register_complex_config()<<<2>>>
-通过一个注册的回调函数进行配置解析，在链表末尾写入；该函数会对配置项进行检测，包括了一些复杂的逻辑处理。
-使用链表: complex_callback_head
+通過一個註冊的回調函數進行配置解析，在鏈表末尾寫入；該函數會對配置項進行檢測，包括了一些複雜的邏輯處理。
+使用鏈表: complex_callback_head
 
 int plugin_register_flush()<<<3>>>
-有部分插件会缓存数据，例如network、rrdtool等，通过函数注册到链表，在执行 flush 命令时会调用链表上的各个函数。
-使用链表: list_flush，通过plugin_flush()函数调用
+有部分插件會緩存數據，例如network、rrdtool等，通過函數註冊到鏈表，在執行 flush 命令時會調用鏈表上的各個函數。
+使用鏈表: list_flush，通過plugin_flush()函數調用
 
 int plugin_register_read()<<<3>>>
 int plugin_register_complex_read()
-两个函数的区别在于回调函数中是否需要传入参数，详见plugin_read_thread()中的调用。
-使用链表：read_list
+兩個函數的區別在於回調函數中是否需要傳入參數，詳見plugin_read_thread()中的調用。
+使用鏈表：read_list
 
 int plugin_register_write()<<<3>>>
-写入插件的回调函数注册。
-使用链表：list_write
+寫入插件的回調函數註冊。
+使用鏈表：list_write
 
 int plugin_register_missing()<<<3>>>
-会在每次的时间间隔检查是否有数据丢失，当发现有数据丢失时会调用注册的函数。
-使用链表：list_missing
+會在每次的時間間隔檢查是否有數據丟失，當發現有數據丟失時會調用註冊的函數。
+使用鏈表：list_missing
 
 int plugin_register_shutdown()<<<4>>>
-通过plugin_shutdown_all()函数调用。
-使用链表：list_shutdown
+通過plugin_shutdown_all()函數調用。
+使用鏈表：list_shutdown
 {% endhighlight %}
 
 <!--
@@ -257,9 +257,9 @@ https://collectd.org/wiki/index.php/Plugin_architecture
 
 首先，新增 autoconf 的配置。
 
-需要通过自定义的宏 ```AC_PLUGIN()``` 添加插件编译，其中第一个参数为 ```--enable-XXX``` 使用，第二个表示是否需要编译 (例如是否依赖的库存在，如果出了C99/POSIX不依赖其它则设置为 "yes" 即可)，第三个参数为注释，用于 ```./configure --help``` 。
+需要通過自定義的宏 ```AC_PLUGIN()``` 添加插件編譯，其中第一個參數為 ```--enable-XXX``` 使用，第二個表示是否需要編譯 (例如是否依賴的庫存在，如果出了C99/POSIX不依賴其它則設置為 "yes" 即可)，第三個參數為註釋，用於 ```./configure --help``` 。
 
-如下是简单的示例。
+如下是簡單的示例。
 
 {% highlight text %}
 AC_PLUGIN([name],                $with_dependency,          [description])
@@ -268,14 +268,14 @@ AC_PLUGIN([xmms],                [$with_libxmms],           [XMMS statistics])
 AC_PLUGIN([zookeeper],           [yes],                     [Zookeeper statistics])
 {% endhighlight %}
 
-添加上述的宏之后，会增加如下功能：
- * 使用 configure 命令配置时，可以通过 ```--enable-XXX``` ```--disable-XXX``` 或者 ```--enable-XXX=force``` 参数配置是否需要编译
- * 在 Makefile.am 中可以通过 ```if BUILD_PLUGIN_XXX``` 判断是否需要编译生成动态库；
- * 最终生成的配置头文件 src/config.h 中含有 ```HAVE_PLUGIN_XXX``` 定义宏。
+添加上述的宏之後，會增加如下功能：
+ * 使用 configure 命令配置時，可以通過 ```--enable-XXX``` ```--disable-XXX``` 或者 ```--enable-XXX=force``` 參數配置是否需要編譯
+ * 在 Makefile.am 中可以通過 ```if BUILD_PLUGIN_XXX``` 判斷是否需要編譯生成動態庫；
+ * 最終生成的配置頭文件 src/config.h 中含有 ```HAVE_PLUGIN_XXX``` 定義宏。
 
-接着增加 automake 配置。
+接著增加 automake 配置。
 
-在如上的 ```AC_PLUGIN()``` 宏中，会通过 ```AM_CONDITIONAL()``` 定义一个 ```BUILD_PLUGIN_XXX```，不同的目录下都有相应的 Makefile.am 文件；例如，要增加一个插件，可以使用类似如下配置。
+在如上的 ```AC_PLUGIN()``` 宏中，會通過 ```AM_CONDITIONAL()``` 定義一個 ```BUILD_PLUGIN_XXX```，不同的目錄下都有相應的 Makefile.am 文件；例如，要增加一個插件，可以使用類似如下配置。
 
 {% highlight text %}
 if BUILD_PLUGIN_FOOBAR
@@ -287,209 +287,209 @@ if BUILD_PLUGIN_FOOBAR
 endif
 {% endhighlight %}
 
-然后就可以通过 autoreconf + automake 重新生成。
+然後就可以通過 autoreconf + automake 重新生成。
 
 
-## 源码详解
+## 源碼詳解
 
-介绍下调用流程。
+介紹下調用流程。
 
-### 内存管理
+### 內存管理
 
-这里以 load 插件为例。
+這裡以 load 插件為例。
 
-1. 通过 ```plugin_register_read()``` 函数注册到链表中，调用回调函数采集指标；
-2. 回调函数，load 通过 ```VALUE_LIST_INIT``` 宏初始化，也就是初始化一个本地的临时变量，然后通过 ```plugin_dispatch_values()``` 函数发送给 collectd 核心；
-3. 在 ```plugin_write_enqueue()``` 函数中主要的内存分配函数，包括了 ```malloc(sizeof(write_queue_t)) + malloc(sizeof(value_list_t)) + calloc(len,sizeof(values)) + calloc(1,sizeof(meta_data_t))```，如果中间有内存分配失败则释放；
-4. 而写线程插件会阻塞在 ```plugin_write_dequeue()``` 中，该函数会释放 ```sfree(write_queue_t)``` ，然后返回 ```value_list_t``` 指针；
-5. 线程的主循环 ```plugin_write_thread()``` 函数中，在执行完分发后会调用 ```plugin_value_list_free()``` 释放之前申请的主要内存。
+1. 通過 ```plugin_register_read()``` 函數註冊到鏈表中，調用回調函數採集指標；
+2. 回調函數，load 通過 ```VALUE_LIST_INIT``` 宏初始化，也就是初始化一個本地的臨時變量，然後通過 ```plugin_dispatch_values()``` 函數發送給 collectd 核心；
+3. 在 ```plugin_write_enqueue()``` 函數中主要的內存分配函數，包括了 ```malloc(sizeof(write_queue_t)) + malloc(sizeof(value_list_t)) + calloc(len,sizeof(values)) + calloc(1,sizeof(meta_data_t))```，如果中間有內存分配失敗則釋放；
+4. 而寫線程插件會阻塞在 ```plugin_write_dequeue()``` 中，該函數會釋放 ```sfree(write_queue_t)``` ，然後返回 ```value_list_t``` 指針；
+5. 線程的主循環 ```plugin_write_thread()``` 函數中，在執行完分發後會調用 ```plugin_value_list_free()``` 釋放之前申請的主要內存。
 
-calloc() 会将申请的缓存初始化为 0 ，而 malloc() 不会初始化内存。
+calloc() 會將申請的緩存初始化為 0 ，而 malloc() 不會初始化內存。
 
-### 调用流程
+### 調用流程
 
-首先看下整个软件调用流程。
+首先看下整個軟件調用流程。
 
 {% highlight text %}
 main()
- | <<<<<<<<<========= 读取配置文件
+ | <<<<<<<<<========= 讀取配置文件
  |-plugin_init_ctx()                            <ctx>
- |-cf_read()                                  ← 读取配置文件
- | |-cf_read_generic()                        ← 判断文件是否存在
- | | |-wordexp()                              ← 文件扩展，确保文件存在
- | | |-stat()                                 ← 判断是文件夹还是文件
- | | |-cf_read_file()                         ← 读取配置文件内容
- | | | |-oconfig_parse_file()                 ← 解析配置项
+ |-cf_read()                                  ← 讀取配置文件
+ | |-cf_read_generic()                        ← 判斷文件是否存在
+ | | |-wordexp()                              ← 文件擴展，確保文件存在
+ | | |-stat()                                 ← 判斷是文件夾還是文件
+ | | |-cf_read_file()                         ← 讀取配置文件內容
+ | | | |-oconfig_parse_file()                 ← 解析配置項
  | | | | |-fopen()
  | | | | |-oconfig_parse_fh()
- | | | | | |-yyset_in()                       ← 入参是FILE*类型
- | | | | | |-yyparse()                        ← 使用LEX+YACC进行词法+语法解析
- | | | | | |-yyset_in()                       ← 处理完成，修改为NULL值
+ | | | | | |-yyset_in()                       ← 入參是FILE*類型
+ | | | | | |-yyparse()                        ← 使用LEX+YACC進行詞法+語法解析
+ | | | | | |-yyset_in()                       ← 處理完成，修改為NULL值
  | | | | |-fclose()
- | | | |-cf_include_all()                     ← 在解析完上述配置文件后查看是否有Include选项
- | | |-cf_read_dir()                          ← 如果是目录，会递归调用cf_read_generic()
+ | | | |-cf_include_all()                     ← 在解析完上述配置文件後查看是否有Include選項
+ | | |-cf_read_dir()                          ← 如果是目錄，會遞歸調用cf_read_generic()
  | | |-cf_ci_append_children()                ← 添加到root中
  | |
- | |-dispatch_value()                         ← 没有子配置项，一般为全局配置
- | | |-dispatch_global_option()               ← 全局配置，也就是cf_global_options变量中的定义
- | | | |-global_option_set()                  ← 设置全局变量
- | | |-dispatch_value_typesdb()               ← 对于cf_value_map中的定义，例如Typesdb，解析types.db
- | |   |-read_types_list()                    ← 读取一个配置文件，可以通过TypesDB指定多个配置文件
+ | |-dispatch_value()                         ← 沒有子配置項，一般為全局配置
+ | | |-dispatch_global_option()               ← 全局配置，也就是cf_global_options變量中的定義
+ | | | |-global_option_set()                  ← 設置全局變量
+ | | |-dispatch_value_typesdb()               ← 對於cf_value_map中的定義，例如Typesdb，解析types.db
+ | |   |-read_types_list()                    ← 讀取一個配置文件，可以通過TypesDB指定多個配置文件
  | |     |-fopen()
  | |     |-parse_file()
  | |     | |-fgets()
  | |     | |-parse_line()
- | |     |   |-plugin_register_data_set()     ← 注册data_set_t类型，通过avl保存在data_sets全局变量中
+ | |     |   |-plugin_register_data_set()     ← 註冊data_set_t類型，通過avl保存在data_sets全局變量中
  | |     |-fclose()
  | |
- | |-dispatch_block()                         ← 有子配置项时，也就是配置块
- | | |-dispatch_loadplugin()                  ← LoadPlugin，会调用plugin_load()
- | | | |-plugin_set_ctx()                    <ctx>获取插件上下文
+ | |-dispatch_block()                         ← 有子配置項時，也就是配置塊
+ | | |-dispatch_loadplugin()                  ← LoadPlugin，會調用plugin_load()
+ | | | |-plugin_set_ctx()                    <ctx>獲取插件上下文
  | | | |-plugin_load()
- | | |   |-strcasecmp()                       ← 对于python、perl插件，需要做部分初始化操作
+ | | |   |-strcasecmp()                       ← 對於python、perl插件，需要做部分初始化操作
  | | |   |-plugin_load_file()
- | | |     |-lt_dlsym()                       ← 调用各个插件的module_register()函数
- | | |       |-plugin_register_complex_read() ← 会生成read_func_t对象
- | | |         |-plugin_insert_read()         ← 写入到list以及heap
- | | | |-plugin_set_ctx()                    获取插件上下文
+ | | |     |-lt_dlsym()                       ← 調用各個插件的module_register()函數
+ | | |       |-plugin_register_complex_read() ← 會生成read_func_t對象
+ | | |         |-plugin_insert_read()         ← 寫入到list以及heap
+ | | | |-plugin_set_ctx()                    獲取插件上下文
  | | |
- | | |-dispatch_block_plugin()                ← Plugin，会调用plugin_load()
- | | | |-plugin_load()                        ← 需要配置AutoLoadPlugin(true)参数
- | | | | ### 调用complex_callback_head链表
+ | | |-dispatch_block_plugin()                ← Plugin，會調用plugin_load()
+ | | | |-plugin_load()                        ← 需要配置AutoLoadPlugin(true)參數
+ | | | | ### 調用complex_callback_head鏈表
  | | | |-dispatch_value_plugin()
  | | |   |-cf_dispatch()
- | | |     |-cf_search()                      ← 查找first_callback链表中的回调函数
+ | | |     |-cf_search()                      ← 查找first_callback鏈表中的回調函數
  | | |
- | | |-fc_configure()                         ← Chain，模块
+ | | |-fc_configure()                         ← Chain，模塊
  | |   |-fc_init_once()
  | |   |-fc_config_add_chain()
- | |-oconfig_free()                           ← 释放配置项
- | | |-oconfig_free_all()                     ← 释放配置，会递归调用
- | |-read_types_list()                        ← 如果配置文件中没有指定types.db，则加载默认
+ | |-oconfig_free()                           ← 釋放配置項
+ | | |-oconfig_free_all()                     ← 釋放配置，會遞歸調用
+ | |-read_types_list()                        ← 如果配置文件中沒有指定types.db，則加載默認
  |
- | <<<<<<<<<========= 系统初始化
- |-change_basedir()                           ← 如果设置了basedir，则尝试切换
- | |-chdir()                                  ← 切换到指定目录下
- |-init_global_variables()                    ← 初始化全局变量，如interval_g、timeout_g、hostname
- | |-cf_get_default_interval()                ← 设置全局的时间间隔
- | |-init_hostname()                          ← 获取主机名
- | | |-global_option_get()                    ← 尝试从配置文件中通过Hostname选项获取主机名
- | | |-gethostname()                          ← 没有配置则尝试通过该系统调用获取
- | | |-global_option_get()                    ← 通过FQDNLookup确认是否需要查找主机名
- | | |-getaddrinfo()                          ← 如果上述配置为true
- | |-return()                                 ← 如果使用了-t参数
+ | <<<<<<<<<========= 系統初始化
+ |-change_basedir()                           ← 如果設置了basedir，則嘗試切換
+ | |-chdir()                                  ← 切換到指定目錄下
+ |-init_global_variables()                    ← 初始化全局變量，如interval_g、timeout_g、hostname
+ | |-cf_get_default_interval()                ← 設置全局的時間間隔
+ | |-init_hostname()                          ← 獲取主機名
+ | | |-global_option_get()                    ← 嘗試從配置文件中通過Hostname選項獲取主機名
+ | | |-gethostname()                          ← 沒有配置則嘗試通過該系統調用獲取
+ | | |-global_option_get()                    ← 通過FQDNLookup確認是否需要查找主機名
+ | | |-getaddrinfo()                          ← 如果上述配置為true
+ | |-return()                                 ← 如果使用了-t參數
  | |-fork()                                   ← daemonize
- |-sigaction()                                ← 注册信号处理函数，包括了SIGINT、SIGTERM、SIGUSR1
+ |-sigaction()                                ← 註冊信號處理函數，包括了SIGINT、SIGTERM、SIGUSR1
  |
- | <<<<<<<<<========= 创建工作线程
+ | <<<<<<<<<========= 創建工作線程
  |-do_init()
- | |-plugin_init_all()                        ← 会设置缓存队列的大小
- |   |-uc_init()                              ← 初始化全局变量cache_tree(平衡二叉树)
- |   | ###BEGIN读取所需要的配置参数
- |   |-plugin_register_read()                 ← 如果已经配置CollectInternalStats，则注册一个读取插件
- |   |-fc_chain_get_by_name()                 ← 读取PreCacheChain、PostCacheChain配置参数
+ | |-plugin_init_all()                        ← 會設置緩存隊列的大小
+ |   |-uc_init()                              ← 初始化全局變量cache_tree(平衡二叉樹)
+ |   | ###BEGIN讀取所需要的配置參數
+ |   |-plugin_register_read()                 ← 如果已經配置CollectInternalStats，則註冊一個讀取插件
+ |   |-fc_chain_get_by_name()                 ← 讀取PreCacheChain、PostCacheChain配置參數
  |   |
- |   |-cf_callback()                          ← <<<1>>>调用list_init链表中回调函数，检测插件是否正常
+ |   |-cf_callback()                          ← <<<1>>>調用list_init鏈表中回調函數，檢測插件是否正常
  |   |
- |   |-start_write_threads()                  ← 开启写线程
- |   | |-plugin_write_thread()                ← 启动写线程，真正的线程执行函数
- |   | | | ###BEGIN###while循环调用，判断write_loop是否可用
- |   | | |-plugin_write_dequeue()             ← 从write_queue链表的首部获取一个对象，队列递减
- |   | | | |-pthread_cond_wait()              ← 等待write_cond条件变量，使用write_lock锁
- |   | | |-plugin_dispatch_values_internal()  ← 入参是value_list_t类型
- |   | | | |-c_avl_get()                      ← 从data_sets中获取对应的数据类型，也就是types.db中
- |   | | | |-escape_slashes()                 ← 处理host、plugin、type中可能的转移字符
- |   | | | |-fc_process_chain()               ← 如果pre_cache_chain不为空，则调用该函数
- |   | | | |-uc_update()                      ← 更新缓存cache_tree，入参为data_set_t和value_list_t
- |   | | | | |-FORMAT_VL()                    ← 实际上是调用format_name()将vl中的值生成标示符
- |   | | | | |-c_avl_get()                    ← 利用上述标示符获取cache_entry_t，在此会缓存最近的一次采集数据
- |   | | | | |... ...                         ← 会根据不同的类型进行处理，例如DS_TYPE_GAUGE
- |   | | | | |-uc_check_range()               ← 检查是否在指定的范围内
- |   | | | |-fc_process_chain()  ##OR1##      ← 如果有post_cache_chain则调用
- |   | | | |-fc_default_action() ##OR1##      ← 调用写入插件写入
+ |   |-start_write_threads()                  ← 開啟寫線程
+ |   | |-plugin_write_thread()                ← 啟動寫線程，真正的線程執行函數
+ |   | | | ###BEGIN###while循環調用，判斷write_loop是否可用
+ |   | | |-plugin_write_dequeue()             ← 從write_queue鏈表的首部獲取一個對象，隊列遞減
+ |   | | | |-pthread_cond_wait()              ← 等待write_cond條件變量，使用write_lock鎖
+ |   | | |-plugin_dispatch_values_internal()  ← 入參是value_list_t類型
+ |   | | | |-c_avl_get()                      ← 從data_sets中獲取對應的數據類型，也就是types.db中
+ |   | | | |-escape_slashes()                 ← 處理host、plugin、type中可能的轉移字符
+ |   | | | |-fc_process_chain()               ← 如果pre_cache_chain不為空，則調用該函數
+ |   | | | |-uc_update()                      ← 更新緩存cache_tree，入參為data_set_t和value_list_t
+ |   | | | | |-FORMAT_VL()                    ← 實際上是調用format_name()將vl中的值生成標示符
+ |   | | | | |-c_avl_get()                    ← 利用上述標示符獲取cache_entry_t，在此會緩存最近的一次採集數據
+ |   | | | | |... ...                         ← 會根據不同的類型進行處理，例如DS_TYPE_GAUGE
+ |   | | | | |-uc_check_range()               ← 檢查是否在指定的範圍內
+ |   | | | |-fc_process_chain()  ##OR1##      ← 如果有post_cache_chain則調用
+ |   | | | |-fc_default_action() ##OR1##      ← 調用寫入插件寫入
  |   | | |   |-fc_bit_write_invoke()
- |   | | |     |-plugin_write()               ← 通过list_write链表调用各个组件写入
- |   | | |       |                            ← 当所有插件都写入失败时返回-1，否则返回0
+ |   | | |     |-plugin_write()               ← 通過list_write鏈表調用各個組件寫入
+ |   | | |       |                            ← 當所有插件都寫入失敗時返回-1，否則返回0
  |   | | |       |-cf_callback()
  |   | | | ###END###while
- |   | | |-plugin_value_list_free()           ← TODODO:是否使用缓存池
- |   | |-set_thread_name()                    ← 设置线程名称writerN
+ |   | | |-plugin_value_list_free()           ← TODODO:是否使用緩存池
+ |   | |-set_thread_name()                    ← 設置線程名稱writerN
  |   |
- |   |-start_read_threads()                   ← 创建多个读线程，需要保证read_heap!=NULL
- |     |-plugin_read_thread()                 ← 线程实际入口，在一个死循环中执行，详细见后面的解析
- |     | | ###BEGIN###while循环调用，判断read_loop是否可用
- |     | |-pthread_cond_wait()                ← 等待read_cond条件变量，使用read_lock锁
+ |   |-start_read_threads()                   ← 創建多個讀線程，需要保證read_heap!=NULL
+ |     |-plugin_read_thread()                 ← 線程實際入口，在一個死循環中執行，詳細見後面的解析
+ |     | | ###BEGIN###while循環調用，判斷read_loop是否可用
+ |     | |-pthread_cond_wait()                ← 等待read_cond條件變量，使用read_lock鎖
  |     | |-c_heap_get_root()
  |     | | ###END###
- |     |-set_thread_name()                    ← 设置线程名称writerN
+ |     |-set_thread_name()                    ← 設置線程名稱writerN
  |
- |-test_readall()                             ← 如果使用参数-T，则调用插件读取一行
- | |-plugin_read_all_once()                   ← 调用各个插件的读取函数，测试是否有误
+ |-test_readall()                             ← 如果使用參數-T，則調用插件讀取一行
+ | |-plugin_read_all_once()                   ← 調用各個插件的讀取函數，測試是否有誤
  |   |-c_heap_get_root()
- |   |-rf_callback()                          ← 调用各个插件的读取函数
+ |   |-rf_callback()                          ← 調用各個插件的讀取函數
  |
- |-do_loop()                                  ← 在此包括了时间间隔
- | |-cf_get_default_interval()                ← 获取默认的时间间隔
+ |-do_loop()                                  ← 在此包括了時間間隔
+ | |-cf_get_default_interval()                ← 獲取默認的時間間隔
  | |-cdtime()
- | | ###BEGIN###while循环调用，判断loop是否可用
+ | | ###BEGIN###while循環調用，判斷loop是否可用
  | |-plugin_read_all()
- |   |-uc_check_timeout()                     ← 主线程检查是否有插件超时
- |     |-plugin_dispatch_missing()            ← 如果有超时，则调用注册的回调函数
+ |   |-uc_check_timeout()                     ← 主線程檢查是否有插件超時
+ |     |-plugin_dispatch_missing()            ← 如果有超時，則調用註冊的回調函數
  |
- |-do_shutdown()                              ← 通过INT、TERM信号用于关闭
-   |-plugin_shutdown_all()                    ← 调用链表上回调函数
+ |-do_shutdown()                              ← 通過INT、TERM信號用於關閉
+   |-plugin_shutdown_all()                    ← 調用鏈表上回調函數
      |-destroy_all_callbacks()
 
------ 注册简单读取插件
-plugin_register_read()                        ← 新建read_func_t对象
+----- 註冊簡單讀取插件
+plugin_register_read()                        ← 新建read_func_t對象
  |-plugin_insert_read()
-   |-llist_create()                           ← 如果第一次调用，则生成read_list
-   |-c_heap_create()                          ← 如果第一次调用，则生成read_heap
-   |-llist_search()                           ← 是否重复注册，直接返回
-   |-c_heap_insert()                          ← 写入read_heap，通过rf_next_read排序，也即下次要读取时间
+   |-llist_create()                           ← 如果第一次調用，則生成read_list
+   |-c_heap_create()                          ← 如果第一次調用，則生成read_heap
+   |-llist_search()                           ← 是否重複註冊，直接返回
+   |-c_heap_insert()                          ← 寫入read_heap，通過rf_next_read排序，也即下次要讀取時間
 
------ 各个插件在采集完数据之后用于保存数据
+----- 各個插件在採集完數據之後用於保存數據
 plugin_dispatch_values()
- |-check_drop_value()                         ← 检查是否会丢弃数据
- | |-get_drop_probability()                   ← 用于计算是否丢弃
- |-plugin_write_enqueue()                     ← 直接写入到write_queue链表的末尾
-   |-plugin_value_list_clone()                ← 复制一份，会自动填充主机名、采集时间、采样频率
+ |-check_drop_value()                         ← 檢查是否會丟棄數據
+ | |-get_drop_probability()                   ← 用於計算是否丟棄
+ |-plugin_write_enqueue()                     ← 直接寫入到write_queue鏈表的末尾
+   |-plugin_value_list_clone()                ← 複製一份，會自動填充主機名、採集時間、採樣頻率
    | |-malloc()
    | |-meta_data_clone()
-   |-plugin_get_ctx()                        保存读插件的上下文信息
-   |-pthread_mutex_lock()                    对write_lock加锁
-   |-pthread_cond_signal()                   向write_cond发送信号
-   |-pthread_cond_signal()                    ← 添加到write_queue链表中，并发送write_cond
+   |-plugin_get_ctx()                        保存讀插件的上下文信息
+   |-pthread_mutex_lock()                    對write_lock加鎖
+   |-pthread_cond_signal()                   向write_cond發送信號
+   |-pthread_cond_signal()                    ← 添加到write_queue鏈表中，併發送write_cond
 
------ 注册简单写回调函数，保存到list_write链表中
+----- 註冊簡單寫回調函數，保存到list_write鏈表中
 plugin_register_write()
  |-create_register_callback()
-   |-calloc()                                 ← 分配插件需要空间
-   |-register_callback()                      ← 添加到list_write链表中
+   |-calloc()                                 ← 分配插件需要空間
+   |-register_callback()                      ← 添加到list_write鏈表中
 
------ 注册到链表中，部分需要插件需要执行刷新，如rrdtool、network会注册该函数
+----- 註冊到鏈表中，部分需要插件需要執行刷新，如rrdtool、network會註冊該函數
 plugin_register_flush()
- |-create_register_callback()                 ← 添加到list_flush链表中
- |-plugin_register_complex_read()             ← 如果刷新时间间隔不为0，则调用该插件注册
-                                              ← 回调函数plugin_flush_timeout_callback()
+ |-create_register_callback()                 ← 添加到list_flush鏈表中
+ |-plugin_register_complex_read()             ← 如果刷新時間間隔不為0，則調用該插件註冊
+                                              ← 回調函數plugin_flush_timeout_callback()
 {% endhighlight %}
 
 <!--
-cache_tree中的值什么时候开始刷新？保存了什么样的数据？
-线程切换时上下文的调用？
+cache_tree中的值什麼時候開始刷新？保存了什麼樣的數據？
+線程切換時上下文的調用？
 -->
 
-### 读线程
+### 讀線程
 
-在通过 ```plugin_register_read()``` 函数进行注册时，会生成 read_list 和 read_heap 两个全局变量，其中 read_list 只是用来维护注册的读插件，实际用途不大；而 read_heap 类似于堆排序，用于获取最近需要进行读取的插件，也就是说，下个时间点调用那个函数，通过 heap 进行排序。
+在通過 ```plugin_register_read()``` 函數進行註冊時，會生成 read_list 和 read_heap 兩個全局變量，其中 read_list 只是用來維護註冊的讀插件，實際用途不大；而 read_heap 類似於堆排序，用於獲取最近需要進行讀取的插件，也就是說，下個時間點調用那個函數，通過 heap 進行排序。
 
-如果调用插件读取失败，则会采用 double 的退避措施，也就是将下次采集时间乘以 2，直到 max_read_interval 值；读取成功时则会直接恢复原有的采集时间。
+如果調用插件讀取失敗，則會採用 double 的退避措施，也就是將下次採集時間乘以 2，直到 max_read_interval 值；讀取成功時則會直接恢復原有的採集時間。
 
 {% highlight c %}
 static void *plugin_read_thread(void __attribute__((unused)) * args) {
   while (read_loop != 0) {
-    // 从read_heap中读取排序在前的对象，一般只是由于多线程之间竞争导致阻塞
-    // 不过，还有可能会存在线程数大于插件数的情况，此时就会进入条件等待
+    // 從read_heap中讀取排序在前的對象，一般只是由於多線程之間競爭導致阻塞
+    // 不過，還有可能會存在線程數大於插件數的情況，此時就會進入條件等待
     pthread_mutex_lock(&read_lock);
     rf = c_heap_get_root(read_heap);
     if (rf == NULL) {
@@ -499,32 +499,32 @@ static void *plugin_read_thread(void __attribute__((unused)) * args) {
     }
     pthread_mutex_unlock(&read_lock);
 
-    // 也就是监控的时间间隔，正常会在插件加载的时候已经配置
-    // 默认是采用全局的配置，不过也可以在插件配置中设置自己的参数
+    // 也就是監控的時間間隔，正常會在插件加載的時候已經配置
+    // 默認是採用全局的配置，不過也可以在插件配置中設置自己的參數
     if (rf->rf_interval == 0) {
       rf->rf_interval = plugin_get_interval();
       rf->rf_effective_interval = rf->rf_interval;
       rf->rf_next_read = cdtime();
     }
 
-    // 正常来说我们可以在此执行nsleep()做等待，但是在关闭读线程时，仍使用read_cond
+    // 正常來說我們可以在此執行nsleep()做等待，但是在關閉讀線程時，仍使用read_cond
     pthread_mutex_lock(&read_lock);
-    // 对于Linux来说，不会有惊群现象，但是对于NetBSD而且CPU>1时会存在问题
+    // 對於Linux來說，不會有驚群現象，但是對於NetBSD而且CPU>1時會存在問題
     rc = 0;
     while ((read_loop != 0) && (cdtime() < rf->rf_next_read) && rc == 0) {
       rc = pthread_cond_timedwait(&read_cond, &read_lock,
                                   &CDTIME_T_TO_TIMESPEC(rf->rf_next_read));
     }
-    rf_type = rf->rf_type;          // 需要持有read_lock读取
+    rf_type = rf->rf_type;          // 需要持有read_lock讀取
     pthread_mutex_unlock(&read_lock);
 
-    // 如上所述，此时可能是需要退出的，在此检查下
+    // 如上所述，此時可能是需要退出的，在此檢查下
     if (read_loop == 0) {
-      c_heap_insert(read_heap, rf); // 为了可以正常free，需要将rf重新插入到read_heap中
+      c_heap_insert(read_heap, rf); // 為了可以正常free，需要將rf重新插入到read_heap中
       break;
     }
 
-    // 在plugin_unregister_read()函数中，已经将该插件删除，此时只需要删除即可
+    // 在plugin_unregister_read()函數中，已經將該插件刪除，此時只需要刪除即可
     if (rf_type == RF_REMOVE) {
       DEBUG("plugin_read_thread: Destroying the `%s' callback.", rf->rf_name);
       sfree(rf->rf_name);
@@ -533,7 +533,7 @@ static void *plugin_read_thread(void __attribute__((unused)) * args) {
       continue;
     }
 
-    // OK，开始正式调用插件读取数据了
+    // OK，開始正式調用插件讀取數據了
     DEBUG("plugin_read_thread: Handling `%s'.", rf->rf_name);
     start = cdtime();
     old_ctx = plugin_set_ctx(rf->rf_ctx);
@@ -550,7 +550,7 @@ static void *plugin_read_thread(void __attribute__((unused)) * args) {
     plugin_set_ctx(old_ctx);
 
 
-    // 如果失败则会将下次采集的时间间隔double，当然是有上限的；成功时则会恢复原有的采集时间间隔
+    // 如果失敗則會將下次採集的時間間隔double，當然是有上限的；成功時則會恢復原有的採集時間間隔
     if (status != 0) {
       rf->rf_effective_interval *= 2;
       if (rf->rf_effective_interval > max_read_interval)
@@ -559,19 +559,19 @@ static void *plugin_read_thread(void __attribute__((unused)) * args) {
       rf->rf_effective_interval = rf->rf_interval;
     }
     now = cdtime();
-    elapsed = (now - start);  // 计算本次花费的时间
+    elapsed = (now - start);  // 計算本次花費的時間
     if (elapsed > rf->rf_effective_interval)
       WARNING(... ...);
 
-    // 计算下次需要调用插件的时间
+    // 計算下次需要調用插件的時間
     rf->rf_next_read += rf->rf_effective_interval;
 
-    // 如果采集时间超过了时间间隔，则立即重新采集
+    // 如果採集時間超過了時間間隔，則立即重新採集
     if (rf->rf_next_read < now) {
       rf->rf_next_read = now;
     }
 
-    // 重新写入到read_heap中，到此插件调用结束
+    // 重新寫入到read_heap中，到此插件調用結束
     c_heap_insert(read_heap, rf);
   } /* while (read_loop) */
 
@@ -580,20 +580,20 @@ static void *plugin_read_thread(void __attribute__((unused)) * args) {
 } /* void *plugin_read_thread */
 {% endhighlight %}
 
-从上述的函数调用可知，collectd 框架不会负责数据采集写入，需要由各个插件负责。
+從上述的函數調用可知，collectd 框架不會負責數據採集寫入，需要由各個插件負責。
 
-### 插件采集数据
+### 插件採集數據
 
-实际上，在 contrib/examples 目录下有个插件的示例程序；在此选一个比较简单的插件 load，一般最终会通过 ```plugin_dispatch_values()``` 函数提交。该函数主要是将数据添加到 write_queue_head 列表中，并发送 write_cond。
+實際上，在 contrib/examples 目錄下有個插件的示例程序；在此選一個比較簡單的插件 load，一般最終會通過 ```plugin_dispatch_values()``` 函數提交。該函數主要是將數據添加到 write_queue_head 列表中，併發送 write_cond。
 
 <!--
-### 线程上下文
+### 線程上下文
 
-TODO:保存的什么信息？？？？
+TODO:保存的什麼信息？？？？
 
 plugin_init_ctx()
  |-pthread_key_create()
- |-plugin_ctx_key_initialized=1 标识已经完成初始化
+ |-plugin_ctx_key_initialized=1 標識已經完成初始化
 
 struct plugin_ctx_s {
   cdtime_t interval;
@@ -603,8 +603,8 @@ struct plugin_ctx_s {
 typedef struct plugin_ctx_s plugin_ctx_t;
 
 struct write_queue_s {
-  value_list_t *vl;      采集的指标，对应types.db中的一行
-  plugin_ctx_t ctx;      线程上下文，干嘛用的？？？
+  value_list_t *vl;      採集的指標，對應types.db中的一行
+  plugin_ctx_t ctx;      線程上下文，幹嘛用的？？？
   write_queue_t *next;
 };
 typedef struct write_queue_s write_queue_t;
@@ -612,7 +612,7 @@ typedef struct write_queue_s write_queue_t;
 value_list_t
 
 
-写入插件的回调函数接口：
+寫入插件的回調函數接口：
 typedef int (*plugin_write_cb)(const data_set_t *, const value_list_t *, user_data_t *);
 
 
@@ -630,34 +630,34 @@ union value_u {
 typedef union value_u value_t;
 
 struct value_list_s {
-  value_t *values; 采集指标，该值类型与数量与types.db中的定义相同，插件填充
-  size_t values_len; 采集指标数，同样与types.db中的值相同，插件填充
-  cdtime_t time; 可以在plugin_value_list_clone()中自动填充
+  value_t *values; 採集指標，該值類型與數量與types.db中的定義相同，插件填充
+  size_t values_len; 採集指標數，同樣與types.db中的值相同，插件填充
+  cdtime_t time; 可以在plugin_value_list_clone()中自動填充
   cdtime_t interval; 同上
   char host[DATA_MAX_NAME_LEN]; 同上
-  char plugin[DATA_MAX_NAME_LEN]; 从哪个插件获取，需要插件填充
-  char plugin_instance[DATA_MAX_NAME_LEN];  同上，可选
-  char type[DATA_MAX_NAME_LEN]; 根据该参数从data_sets中查找，需要插件填充
-  char type_instance[DATA_MAX_NAME_LEN]; 同上，可选
-  meta_data_t *meta; 元数据，用于插件特定目的使用，目前多数插件没有使用
+  char plugin[DATA_MAX_NAME_LEN]; 從哪個插件獲取，需要插件填充
+  char plugin_instance[DATA_MAX_NAME_LEN];  同上，可選
+  char type[DATA_MAX_NAME_LEN]; 根據該參數從data_sets中查找，需要插件填充
+  char type_instance[DATA_MAX_NAME_LEN]; 同上，可選
+  meta_data_t *meta; 元數據，用於插件特定目的使用，目前多數插件沒有使用
 };
 typedef struct value_list_s value_list_t;
 
 
 
 
-在 Collectd 中，其时间通过 cdtime_t 结构体表示，采用 64-bits 无符号整型，所有相关的处理都通过对应的函数处理，例如 读取时间 ```cf_util_get_cdtime()```、获取当前时间 ```cdtime()```、时间转换为浮点 ```CDTIME_T_TO_DOUBLE()``` 等等。
+在 Collectd 中，其時間通過 cdtime_t 結構體表示，採用 64-bits 無符號整型，所有相關的處理都通過對應的函數處理，例如 讀取時間 ```cf_util_get_cdtime()```、獲取當前時間 ```cdtime()```、時間轉換為浮點 ```CDTIME_T_TO_DOUBLE()``` 等等。
 
-关于时间相关的其它辅助函数，可以查看 utils_time.c 文件中的内容。
+關於時間相關的其它輔助函數，可以查看 utils_time.c 文件中的內容。
 
 
 target_notification.c
 
 
-plugin_register_notification() 插件注册信息
- |-create_register_callback() 注册到list_notification链表中
+plugin_register_notification() 插件註冊信息
+ |-create_register_callback() 註冊到list_notification鏈表中
 
-plugin_dispatch_notification() 发送notify信息，很多插件都可以通过该函数发送消息
+plugin_dispatch_notification() 發送notify信息，很多插件都可以通過該函數發送消息
 
 
 The Notification target can be used to create a notification with arbitrary text.
@@ -698,7 +698,7 @@ https://collectd.org/wiki/index.php/Chains
 https://mailman.verplant.org/pipermail/collectd/2017-April/thread.html
 
 
-collectd 数据类型详解
+collectd 數據類型詳解
 
 http://blog.kankanan.com/article/collectd-6570636e7c7b578b8be689e3.html
 
@@ -713,16 +713,16 @@ https://collectd.org/wiki/index.php/Release_process
 plugin_dispatch_multivalue() memory
 
 
-complex 主要是会在检查配置文件读取配置项时，判断是否需要注册各种回调函数。
+complex 主要是會在檢查配置文件讀取配置項時，判斷是否需要註冊各種回調函數。
 
 
-## threshold 实现
+## threshold 實現
 
 
 plugin_register_complex_config()
- |-cf_register_complex() 会添加到complex_callback_head链表的尾部
+ |-cf_register_complex() 會添加到complex_callback_head鏈表的尾部
 
-在配置初始化函数 ut_config() 函数中，会注册两个主要的回调函数 ut_missing() 以及 ut_check_threshold() 两个函数；其插件规则保存在threshold_tree，一个自平衡二叉树(AVL)结构体。
+在配置初始化函數 ut_config() 函數中，會註冊兩個主要的回調函數 ut_missing() 以及 ut_check_threshold() 兩個函數；其插件規則保存在threshold_tree，一個自平衡二叉樹(AVL)結構體。
 
 
 
@@ -737,11 +737,11 @@ ut_check_threshold()
 thresholds解析
 
 
-## 插件实现
+## 插件實現
 
 SRC-TODO:
-  1. plugin_read_thread()添加线程ID，方便调试。
-  2. 从一个固定整点时间点开始，而非从启动时间开始计时。
+  1. plugin_read_thread()添加線程ID，方便調試。
+  2. 從一個固定整點時間點開始，而非從啟動時間開始計時。
 
 
 https://collectd.org/wiki/index.php/Plugin_architecture
@@ -752,35 +752,35 @@ InnoDB: tablespace but not the InnoDB log files. See
 InnoDB: http://dev.mysql.com/doc/refman/5.6/en/forcing-innodb-recovery.html
 InnoDB: for more information.
 
-日志显示是数据文件的 LSN 比 Redo Log 的 LSN 要大，当系统尝试使用 Redo Log 去修复数据页面的时候，发现 Redo Log LSN 比数据页面还小，所以导致错误。数据页的 LSN 在一般情况下，都是小于 Redo Log 的，因为在事物提交时先顺序写入 Redo Log ，然后后台线程将脏页刷新到数据文件中，所以，数据页的 LSN 正常情况下永远会比 Redo Log 的 LSN 小。
+日誌顯示是數據文件的 LSN 比 Redo Log 的 LSN 要大，當系統嘗試使用 Redo Log 去修復數據頁面的時候，發現 Redo Log LSN 比數據頁面還小，所以導致錯誤。數據頁的 LSN 在一般情況下，都是小於 Redo Log 的，因為在事物提交時先順序寫入 Redo Log ，然後後臺線程將髒頁刷新到數據文件中，所以，數據頁的 LSN 正常情況下永遠會比 Redo Log 的 LSN 小。
 
-可能场景：
-1. 如果有批量更新未提交，然后 kill 进程之后执行回滚操作，但是未等回滚执行完毕就 kill -9 mysql 导致回滚崩溃。
+可能場景：
+1. 如果有批量更新未提交，然後 kill 進程之後執行回滾操作，但是未等回滾執行完畢就 kill -9 mysql 導致回滾崩潰。
 
-buf_page_io_complete() BP的异步读写完成
- |-buf_page_is_corrupted() 直接报错函数
-   |-memcmp() 非压缩页，则检查页头部与尾部的LSN是否相同
-   |-log_peek_lsn() 获取当前的log_sys->lsn，TODO如何获取？？？
-   | <<<IMPORTANT>>> 如果当前LSN小于页面保存的FIL_PAGE_LSN那么则报错"in the future"
-   |-buf_page_is_checksum_valid_crc32() 根据不同的页校验算法进行校验
+buf_page_io_complete() BP的異步讀寫完成
+ |-buf_page_is_corrupted() 直接報錯函數
+   |-memcmp() 非壓縮頁，則檢查頁頭部與尾部的LSN是否相同
+   |-log_peek_lsn() 獲取當前的log_sys->lsn，TODO如何獲取？？？
+   | <<<IMPORTANT>>> 如果當前LSN小於頁面保存的FIL_PAGE_LSN那麼則報錯"in the future"
+   |-buf_page_is_checksum_valid_crc32() 根據不同的頁校驗算法進行校驗
 
-页是否损坏判断：
-1. 非压缩页校验 FIL_PAGE_LSN 和 FIL_PAGE_END_LSN_OLD_CHKSUM 所在的低 4 Bytes 是否相同，LSN是8Bytes为什么只校验低4Bytes？？？
+頁是否損壞判斷：
+1. 非壓縮頁校驗 FIL_PAGE_LSN 和 FIL_PAGE_END_LSN_OLD_CHKSUM 所在的低 4 Bytes 是否相同，LSN是8Bytes為什麼只校驗低4Bytes？？？
 2. 如果是
 
-InnoDB 恢复流程
+InnoDB 恢復流程
 https://forums.cpanel.net/threads/innodb-corruption-repair-guide.418722/
 https://boknowsit.wordpress.com/2012/12/22/mysql-log-is-in-the-future/
 
 
 FIXME:
 mysql-innodb-crash-recovery.html
-recv_recovery_from_checkpoint_start() 函数末尾设置recv_lsn_checks_on为TRUE
- |-recv_find_max_checkpoint() 从redolog中...
+recv_recovery_from_checkpoint_start() 函數末尾設置recv_lsn_checks_on為TRUE
+ |-recv_find_max_checkpoint() 從redolog中...
  |-log_group_read_checkpoint_info()
 collectd.html
 
-增加 History 配置项，用于保存历史数据。
+增加 History 配置項，用於保存歷史數據。
 
 
 typedef unsigned long long counter_t;
@@ -790,7 +790,7 @@ typedef uint64_t absolute_t;
 
 global cache
 
-如果没有则通过 uc_insert() 写入，
+如果沒有則通過 uc_insert() 寫入，
 
 
 
@@ -801,34 +801,34 @@ I'm not that familiar with automake, but I am pretty sure there is some way to s
 
 ?int uc_get_history(const data_set_t *ds, const value_list_t *vl, gauge_t *ret_history, size_t num_steps, size_t num_ds);
 
-ds+vl 为调用 write 回调函数时的入参，
+ds+vl 為調用 write 回調函數時的入參，
 
 
 
-什么情况下会阻塞？？
+什麼情況下會阻塞？？
 
-fc_register_target()  添加到target_list_head链表的末尾
+fc_register_target()  添加到target_list_head鏈表的末尾
 
 fc_configure()
- |-fc_init_once() 初始化内置target，包括了jump、stop、return、write
- |-fc_config_add_chain() 如果使用Chain参数
+ |-fc_init_once() 初始化內置target，包括了jump、stop、return、write
+ |-fc_config_add_chain() 如果使用Chain參數
    |-fc_config_add_target()
 
-fc_process_chain() 流程的处理
+fc_process_chain() 流程的處理
 
 https://collectd.org/wiki/index.php/Target:Notification
 
-fc_register_match() 添加到match_list_head链表的末尾
+fc_register_match() 添加到match_list_head鏈表的末尾
 -->
 
 
-## 插件实现
+## 插件實現
 
 ### exec
 
-这是一个通用的插件，不过每次执行时都需要 fork 一个进程，如果需要多次采集那么其性能会变的很差，所以对于一些特定的插件，如 Python 建议不要使用该插件。
+這是一個通用的插件，不過每次執行時都需要 fork 一個進程，如果需要多次採集那麼其性能會變的很差，所以對於一些特定的插件，如 Python 建議不要使用該插件。
 
-如下是一个 exec 插件的配置示例。
+如下是一個 exec 插件的配置示例。
 
 {% highlight text %}
 Loadplugin exec
@@ -839,7 +839,7 @@ Loadplugin exec
 </Plugin>
 {% endhighlight %}
 
-以 bash 插件为例，直接通过 [Plain text protocol](https://collectd.org/wiki/index.php/Plain_text_protocol) 方式向 Collectd 发送数据。
+以 bash 插件為例，直接通過 [Plain text protocol](https://collectd.org/wiki/index.php/Plain_text_protocol) 方式向 Collectd 發送數據。
 
 {% highlight bash %}
 #!/bin/bash
@@ -868,7 +868,7 @@ while sleep "$INTERVAL"; do
 done
 {% endhighlight %}
 
-在配置文件中添加如下内容即可。
+在配置文件中添加如下內容即可。
 
 {% highlight text %}
 <Plugin exec>
@@ -880,11 +880,11 @@ done
 
 ### python
 
-Python 中有很多不错的库，例如可以通过 [pypi/collectd](https://pypi.python.org/pypi/collectd) 库，可以向 collectd 的服务端发送数据。而 collectd 的 Python 插件实现，实际上是在插件中以 C 语言的形式实现了一个 collectd 插件。
+Python 中有很多不錯的庫，例如可以通過 [pypi/collectd](https://pypi.python.org/pypi/collectd) 庫，可以向 collectd 的服務端發送數據。而 collectd 的 Python 插件實現，實際上是在插件中以 C 語言的形式實現了一個 collectd 插件。
 
 #### 示例
 
-Collectd 的插件回调函数同样可以在 Python 中调用，也即 ```config```、```init```、```read```、```write```、```log```、```flush```、```shutdown``` 等接口，当然需要在其前添加 ```register_*``` 。
+Collectd 的插件回調函數同樣可以在 Python 中調用，也即 ```config```、```init```、```read```、```write```、```log```、```flush```、```shutdown``` 等接口，當然需要在其前添加 ```register_*``` 。
 
 {% highlight python %}
 import collectd
@@ -926,7 +926,7 @@ collectd.register_config(config_func)
 collectd.register_read(read_func)
 {% endhighlight %}
 
-然后在配置文件中添加如下内容即可。
+然後在配置文件中添加如下內容即可。
 
 {% highlight text %}
 LoadPlugin python
@@ -941,9 +941,9 @@ LoadPlugin python
 
 ### java
 
-与 Python 相似，同样是内嵌了 JVM ，并将 API 暴露给 JAVA 程序，这样就不需要每次重新调用生成新的进程以及启动 JVM 。
+與 Python 相似，同樣是內嵌了 JVM ，並將 API 暴露給 JAVA 程序，這樣就不需要每次重新調用生成新的進程以及啟動 JVM 。
 
-在 CentOS 中，编译前需要安装开发包，如 ```java-1.8.0-openjdk-devel```，在通过 ```configure``` 命令进行配置时需要添加 ```--enable-java --with-java=$JAVA_HOME``` 参数；除了上述两个参数外，还可以通过命令行指定 JAVA 相关的参数，示例如下：
+在 CentOS 中，編譯前需要安裝開發包，如 ```java-1.8.0-openjdk-devel```，在通過 ```configure``` 命令進行配置時需要添加 ```--enable-java --with-java=$JAVA_HOME``` 參數；除了上述兩個參數外，還可以通過命令行指定 JAVA 相關的參數，示例如下：
 
 {% highlight text %}
 $ ./configure --with-java=$JAVA_HOME JAVA_CFLAGS="-I$JAVA_HOME/include -I$JAVA_HOME/include/linux" \
@@ -953,9 +953,9 @@ $ ./configure --with-java=$JAVA_HOME JAVA_CFLAGS="-I$JAVA_HOME/include -I$JAVA_H
     --enable-java=force
 {% endhighlight %}
 
-编译完成后，会生成 ```bindings/java/.libs/{collectd-api.jar,generic-jmx.jar}``` 两个 jar 包；当通过 RPM 包安装时，默认会安装到 `/usr/share/collectd/java/` 目录下。
+編譯完成後，會生成 ```bindings/java/.libs/{collectd-api.jar,generic-jmx.jar}``` 兩個 jar 包；當通過 RPM 包安裝時，默認會安裝到 `/usr/share/collectd/java/` 目錄下。
 
-如下是一个 java 配置内容。
+如下是一個 java 配置內容。
 
 {% highlight text %}
 <Plugin "java">
@@ -969,7 +969,7 @@ $ ./configure --with-java=$JAVA_HOME JAVA_CFLAGS="-I$JAVA_HOME/include -I$JAVA_H
 </Plugin>
 {% endhighlight %}
 
-以及采集程序示例。
+以及採集程序示例。
 
 {% highlight java %}
 import org.collectd.api.Collectd;
@@ -1002,7 +1002,7 @@ https://github.com/Gnome-OPW/collectd
 https://github.com/auxesis/collectd-opentsdb
 http://www.programcreek.com/java-api-examples/index.php?api=org.collectd.api.ValueList
 
-内核加密算法
+內核加密算法
 http://bbs.chinaunix.net/thread-1984676-1-1.html
 http://blog.chinaunix.net/uid-26126915-id-3687668.html
 http://bbs.chinaunix.net/thread-3627341-1-1.html
@@ -1018,28 +1018,28 @@ http://bbs.chinaunix.net/thread-3627341-1-1.html
 
 
 
-## 杂项
+## 雜項
 
 ### libtoolize
 
-如果报 ```libtoolize: 'COPYING.LIB' not found in '/usr/share/libtool/libltdl'``` 错误。
+如果報 ```libtoolize: 'COPYING.LIB' not found in '/usr/share/libtool/libltdl'``` 錯誤。
 
-依赖 ```libtool-ltdl-devel``` 库，一个 GUN 提供的库，类似于 POSIX 的 ```dlopen()``` ，不过据说更简单且强大；详细可以参考官方文档 [Using libltdl](https://www.gnu.org/software/libtool/manual/html_node/Using-libltdl.html) 。
+依賴 ```libtool-ltdl-devel``` 庫，一個 GUN 提供的庫，類似於 POSIX 的 ```dlopen()``` ，不過據說更簡單且強大；詳細可以參考官方文檔 [Using libltdl](https://www.gnu.org/software/libtool/manual/html_node/Using-libltdl.html) 。
 
-另外，需要注意的是，该库并不能保证线程安全。
+另外，需要注意的是，該庫並不能保證線程安全。
 
 ## BUG-FIX
 
-### 日志输出
+### 日誌輸出
 
-如果将日志输出到文件时，可能会报如下的错误。
+如果將日誌輸出到文件時，可能會報如下的錯誤。
 
 {% highlight text %}
 collectd -C collectd.conf -t
 logfile plugin: fopen (/opt/collectd/var/log/collectd.log) failed: No such file or directory
 {% endhighlight %}
 
-修改 logfile.c 中的默认文件，设置为标准错误输出 ```STDERR``` 。
+修改 logfile.c 中的默認文件，設置為標準錯誤輸出 ```STDERR``` 。
 
 {% highlight c %}
 //#define DEFAULT_LOGFILE LOCALSTATEDIR "/log/collectd.log"
@@ -1050,13 +1050,13 @@ logfile plugin: fopen (/opt/collectd/var/log/collectd.log) failed: No such file 
 
 1\. meta data 的作用是？
 
-meta data (meta_data_t) 用于将一些数据附加到已经存在的结构体上，如 values_list_t，对应的是 KV 结构，其中一个使用场景是 network 插件，用于标示从哪个插件采集来的，防止出现循环，也用于该插件的 Forward 选项。
+meta data (meta_data_t) 用於將一些數據附加到已經存在的結構體上，如 values_list_t，對應的是 KV 結構，其中一個使用場景是 network 插件，用於標示從哪個插件採集來的，防止出現循環，也用於該插件的 Forward 選項。
 
 
 
-## 参考
+## 參考
 
-一些与 collectd 相关的工具，可以参考 [Related sites](http://collectd.org/related.shtml) 。
+一些與 collectd 相關的工具，可以參考 [Related sites](http://collectd.org/related.shtml) 。
 
 
 
@@ -1070,7 +1070,7 @@ http://www.cppblog.com/woaidongmao/archive/2008/11/23/67637.html
 https://www2.cs.arizona.edu/~debray/Teaching/CSc453/DOCS/lex%20tutorial.ppt
 http://web.eecs.utk.edu/~bvz/teaching/cs461Sp11/notes/flex/
 
-通过 flex+bison 解析，源码保存在 src/liboconfig 目录下；正常源码编译时需要通过 flex+bison 生成源码文件，这里实际在发布前已经转换，所以在编译时就免去了这一步骤。
+通過 flex+bison 解析，源碼保存在 src/liboconfig 目錄下；正常源碼編譯時需要通過 flex+bison 生成源碼文件，這裡實際在發佈前已經轉換，所以在編譯時就免去了這一步驟。
 -->
 
 

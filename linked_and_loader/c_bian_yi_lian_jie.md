@@ -57,7 +57,7 @@
 
 <p>然後，可以通過 <code class="highlighter-rouge">gcc -c section.c</code> 編譯，編譯完上述的文件之後，可以通過 <code class="highlighter-rouge">objdump -h</code> 查看頭部信息，也可以通過 <code class="highlighter-rouge">-x</code> 參數查看更詳細的信息。</p>
 
-<p>比較重要的是 <code class="highlighter-rouge">File off</code> 和 <code class="highlighter-rouge">Size</code> 信息，一般頭部信息的大小為 <code class="highlighter-rouge">0x34</code> ，因此第一個段的地址就會從 <code class="highlighter-rouge">0x34</code> 開始 (地址從 0 開始計數)，另外，由於需要 4bytes 對齊，因此會從 <code class="highlighter-rouge">54(0x36)</code> 開始。也可以通過 size 查看，採用的是十進制，最後會用十進制和十六進制表示總的大小。</p>
+<p>比較重要的是 <code class="highlighter-rouge">File off</code> 和 <code class="highlighter-rouge">Size</code> 信息，一般頭部信息的大小為 <code class="highlighter-rouge">0x34</code> ，因此第一個段的地址就會從 <code class="highlighter-rouge">0x34</code> 開始 (地址從 0 開始計數)，另外，由於需要 4bytes 對齊，因此會從 <code class="highlighter-rouge">54(0x36)</code> 開始。也可以通過 size 查看，採用的是十進制，最後會用十進制和十六進製表示總的大小。</p>
 
 <p>數據段 <code class="highlighter-rouge">.data</code> 用來保存已經初始化了的全局變量和局部靜態變量，如上述的 <code class="highlighter-rouge">global_init_var</code> 和 <code class="highlighter-rouge">static_var</code> 。</p>
 
@@ -185,7 +185,7 @@ $ gcc -c main.c -o main.o</code></pre></figure>
 
 <p>由於歷史的原因最基本的 C 語言庫 glibc 動態鏈接庫不使用這種規則，如 <code class="highlighter-rouge">libc-x.y.z.so</code> 、<code class="highlighter-rouge">ld-x.y.z.so</code> 。</p>
 
-<p>下面這篇論文， Library Interface Versioning in Solaris and Linux ，對 Salaris 和 Linux 的共享庫版本機制和符號版本機制做了非常詳細的介紹。</p>
+<p>下面這篇論文， Library Interface Versioning in Solaris and Linux ，對 Salaris 和 Linux 的共享庫版本機制和符號版本機製做了非常詳細的介紹。</p>
 
 <p>在 Linux 中採用 SO-NAME 的命名機制，每個庫會對應一個 SO-NAME ，這個 SO-NAME 只保留主版本號，也即 SO-NAME 規定了共享庫的接口。</p>
 
@@ -444,7 +444,7 @@ $ gcc -rdynamic -o foobar foobar.c -ldl              # 編譯測試</code></pre>
 -x, --all-headers
   顯示所有的頭部信息，包括了符號表和重定位表，等價於 -a -f -h -p -r -t 。
 -s, --full-contents
-  顯示所請求段的全部信息，通常用十六進制表示，默認只會顯示非空段。
+  顯示所請求段的全部信息，通常用十六進製表示，默認只會顯示非空段。
 -d, --disassemble
   反彙編，一般只反彙編含有指令的段。
 -t, --syms

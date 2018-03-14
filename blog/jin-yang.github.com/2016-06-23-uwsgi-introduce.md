@@ -1,30 +1,30 @@
 ---
-title: uWSGI 简介
+title: uWSGI 簡介
 layout: post
 comments: true
 language: chinese
 category: [webserver,network]
-keywords: uwsgi,简介
-description: 这是一个 C 语言编写的 web 容器，实现了 wsgi 和 uwsig 协议，速度很快。
+keywords: uwsgi,簡介
+description: 這是一個 C 語言編寫的 web 容器，實現了 wsgi 和 uwsig 協議，速度很快。
 ---
 
-这是一个 C 语言编写的 web 容器，实现了 wsgi 和 uwsig 协议，速度很快。
+這是一個 C 語言編寫的 web 容器，實現了 wsgi 和 uwsig 協議，速度很快。
 
 <!-- more -->
 
 
-## 简介
+## 簡介
 
-### 安装
+### 安裝
 
-可以直接参考 [Github - unbit/uwsgi](https://github.com/unbit/uwsgi) 源码，可以通过 yum 进行安装，不过安装的版本比较低，后面测试的时候会有很多的问题。
+可以直接參考 [Github - unbit/uwsgi](https://github.com/unbit/uwsgi) 源碼，可以通過 yum 進行安裝，不過安裝的版本比較低，後面測試的時候會有很多的問題。
 
 {% highlight text %}
 # yum install python-pip
 # pip install uwsgi
 {% endhighlight %}
 
-然后新建一个很简单的脚本，如下。
+然後新建一個很簡單的腳本，如下。
 
 {% highlight text %}
 $ cat foobar.py
@@ -35,7 +35,7 @@ def application(env, start-response):
 $ uwsgi --http :8001 --wsgi-file foobar.py
 {% endhighlight %}
 
-当然，启动的时候可以通过如下方式启动。
+當然，啟動的時候可以通過如下方式啟動。
 
 {% highlight text %}
 $ cat foobar.ini
@@ -47,23 +47,23 @@ http-socket = 127.0.0.1:8001
 $ uwsgi --ini foobar.ini
 {% endhighlight %}
 
-然后浏览器访问 [http://localhost:8001](http://localhost:8001) 或者 `curl http://127.1:8001` 即可，最终返回如下内容。
+然後瀏覽器訪問 [http://localhost:8001](http://localhost:8001) 或者 `curl http://127.1:8001` 即可，最終返回如下內容。
 
 ![flask uwsgi]({{ site.url }}/images/webserver/flask_uwsgi.png "flask uwsgi"){: .pull-center}
 
-上述通过 uwsgi 启动时，如果启动报错，无法识别 `--wsgi-file` 时，实际是由于版本过低导致的。
+上述通過 uwsgi 啟動時，如果啟動報錯，無法識別 `--wsgi-file` 時，實際是由於版本過低導致的。
 
-## 调优
+## 調優
 
-调优uwsgi，后台启动，热更改PY，杜绝502
+調優uwsgi，後臺啟動，熱更改PY，杜絕502
 
-经典配置需要看下
+經典配置需要看下
 
 uwsgi-docs-cn.readthedocs.io/zh_CN/latest/Snippets.html
 
-## 监控
+## 監控
 
-除了可以通过 SNMP 监控之外，uWSGI 可以将当前的状态以 json 格式输出，可以通过如下的方式设置，其中 stats-http 用于提供 HTTP 服务。
+除了可以通過 SNMP 監控之外，uWSGI 可以將當前的狀態以 json 格式輸出，可以通過如下的方式設置，其中 stats-http 用於提供 HTTP 服務。
 
 {% highlight text %}
 --stats 127.1:1717
@@ -74,7 +74,7 @@ uwsgi-docs-cn.readthedocs.io/zh_CN/latest/Snippets.html
 --stats 127.1:1717 --stats-http
 {% endhighlight %}
 
-然后可以通过如下的方式进行查看，返回的是一个 json 结果。
+然後可以通過如下的方式進行查看，返回的是一個 json 結果。
 
 {% highlight text %}
 $ nc -U /tmp/stats.sock
@@ -83,7 +83,7 @@ $ uwsgi --connect-and-read /tmp/stats.sock
 $ uwsgi --connect-and-read 127.1 1717
 {% endhighlight %}
 
-另外，还有一个类似 top 的工具，可以实时查看。
+另外，還有一個類似 top 的工具，可以實時查看。
 
 {% highlight text %}
 # pip install uwsgitop
@@ -131,12 +131,12 @@ vacuum = true
 
 
 <!--
-uwsgi基础 最佳实践和问题
+uwsgi基礎 最佳實踐和問題
 
 
-# 常见问题
+# 常見問題
 
-入口为 main@core/uwsgi.c 。
+入口為 main@core/uwsgi.c 。
 
 {% highlight text %}
 |-uwsgi_setup()

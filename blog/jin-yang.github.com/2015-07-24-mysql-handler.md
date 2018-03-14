@@ -1,14 +1,14 @@
 ---
-title: MySQL Handler 监控
+title: MySQL Handler 監控
 layout: post
 comments: true
 language: chinese
 category: [mysql,database]
 keywords: mysql,database,handler
-description: 在 MySQL 中有很多的 handler_* 类型的监控，接下来我们就看看这些监控项。
+description: 在 MySQL 中有很多的 handler_* 類型的監控，接下來我們就看看這些監控項。
 ---
 
-在 MySQL 中有很多的 handler_* 类型的监控，接下来我们就看看这些监控项。
+在 MySQL 中有很多的 handler_* 類型的監控，接下來我們就看看這些監控項。
 
 <!-- more -->
 
@@ -18,9 +18,9 @@ description: 在 MySQL 中有很多的 handler_* 类型的监控，接下来我�
 </style>
 -->
 
-## 简介
+## 簡介
 
-通过 ```SHOW GLOBAL STATUS``` 命令查看时，其中有一部分是 ```Handler_*``` 类型的监控，显示了数据库处理 SQL 语句的状态，对于调试 SQL 语句有很大意义。
+通過 ```SHOW GLOBAL STATUS``` 命令查看時，其中有一部分是 ```Handler_*``` 類型的監控，顯示了數據庫處理 SQL 語句的狀態，對於調試 SQL 語句有很大意義。
 
 {% highlight text %}
 mysql> SHOW GLOBAL STATUS LIKE 'handler_%';
@@ -49,7 +49,7 @@ mysql> SHOW GLOBAL STATUS LIKE 'handler_%';
 18 rows in set (0.02 sec)
 {% endhighlight %}
 
-不同的发行版本可能会有些区别，其中在 MySQL 上的查询如下，而在 MariaDB 的发行版本中，实际上还有 ```Handler_read_rnd_deleted``` 一项的；在源码 sql/mysqld.cc 中有如下内容。
+不同的發行版本可能會有些區別，其中在 MySQL 上的查詢如下，而在 MariaDB 的發行版本中，實際上還有 ```Handler_read_rnd_deleted``` 一項的；在源碼 sql/mysqld.cc 中有如下內容。
 
 {% highlight c %}
 SHOW_VAR status_vars[]= {
@@ -92,11 +92,11 @@ SHOW_VAR status_vars[]= {
 };
 {% endhighlight %}
 
-如下，仅介绍下与 ```Handler_read_*``` 相关的内容。
+如下，僅介紹下與 ```Handler_read_*``` 相關的內容。
 
 ## Handler_read_*
 
-这里的监控项是处理 SELECT 语句相关。
+這裡的監控項是處理 SELECT 語句相關。
 
 {% highlight text %}
   {"Handler_read_first",       (char*) offsetof(STATUS_VAR, ha_read_first_count),
@@ -108,27 +108,27 @@ SHOW_VAR status_vars[]= {
   {"Handler_read_rnd_next",    (char*) offsetof(STATUS_VAR, ha_read_rnd_next_count),
 {% endhighlight %}
 
-其中，前五个统计项的含义如下所示。
+其中，前五個統計項的含義如下所示。
 
 {% highlight text %}
-Handler_read_first    : 读索引的第一项
-Handler_read_key      : 读索引的某一项
-Handler_read_next     : 读索引的下一项
-Handler_read_last     : 读索引的最后第一项
-Handler_read_prev     : 读索引的前一项
+Handler_read_first    : 讀索引的第一項
+Handler_read_key      : 讀索引的某一項
+Handler_read_next     : 讀索引的下一項
+Handler_read_last     : 讀索引的最後第一項
+Handler_read_prev     : 讀索引的前一項
 
-## 有四种组合
-1. Handler_read_first、Handler_read_next 组合应该是索引覆盖扫描
-2. Handler_read_key 基于索引取值
-3. Handler_read_key、Handler_read_next 组合应该是索引范围扫描
-4. Handler_read_last、Handler_read_prev 组合应该是索引范围扫描（orde by desc）
+## 有四種組合
+1. Handler_read_first、Handler_read_next 組合應該是索引覆蓋掃描
+2. Handler_read_key 基於索引取值
+3. Handler_read_key、Handler_read_next 組合應該是索引範圍掃描
+4. Handler_read_last、Handler_read_prev 組合應該是索引範圍掃描（orde by desc）
 {% endhighlight %}
 
-索引项之间都是有顺序的，所以才有 first, last, next, prev 等等；而后两个是对数据文件的计数器。
+索引項之間都是有順序的，所以才有 first, last, next, prev 等等；而後兩個是對數據文件的計數器。
 
 
 <!--
-测试发现与显示内容有所出入。
+測試發現與顯示內容有所出入。
 CREATE TABLE IF NOT EXISTS `foo` (
    `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
    `name` VARCHAR(10) NOT NULL,
@@ -149,7 +149,7 @@ INSERT INTO `foo` VALUES
    (9, 'Leong', now());
 -->
 
-为了进行测试，假设，有如下的数据。
+為了進行測試，假設，有如下的數據。
 
 {% highlight text %}
 CREATE TABLE test (
@@ -166,7 +166,7 @@ INSERT INTO test VALUES
     (NULL, 'yza', NOW()), (NULL, 'def', NOW());
 {% endhighlight %}
 
-在下面的测试里，每次执行SQL时按照如下过程执行：
+在下面的測試裡，每次執行SQL時按照如下過程執行：
 
 {% highlight text %}
 FLUSH STATUS;
@@ -183,7 +183,7 @@ is high, it suggests that the server is doing a lot of full index scans;
 for example, SELECT col1 FROM foo, assuming that col1 is indexed.
 {% endhighlight %}
 
-说明 SQL 是在做一个全索引扫描，注意是全索引(也可以是主健)，而不是部分，所以说如果存在 WHERE 语句，这个参数是不会变的。如果这个监控的数值很大，说明查询都是在索引里完成的，而不是数据文件里；不过仍是做一次完整的扫描。
+說明 SQL 是在做一個全索引掃描，注意是全索引(也可以是主健)，而不是部分，所以說如果存在 WHERE 語句，這個參數是不會變的。如果這個監控的數值很大，說明查詢都是在索引裡完成的，而不是數據文件裡；不過仍是做一次完整的掃描。
 
 {% highlight text %}
 +----------+     +----+----+
@@ -207,9 +207,9 @@ mysql> SHOW SESSION STATUS LIKE 'Handler_read%';
 +-----------------------+-------+
 | Variable_name         | Value |
 +-----------------------+-------+
-| Handler_read_first    | 1     |  会从索引的第一条记录开始读取
-| Handler_read_key      | 1     |  也就是对应了第一条
-| Handler_read_next     | 10    |  加上通过key读取的，实际读取了11条记录
+| Handler_read_first    | 1     |  會從索引的第一條記錄開始讀取
+| Handler_read_key      | 1     |  也就是對應了第一條
+| Handler_read_next     | 10    |  加上通過key讀取的，實際讀取了11條記錄
 +-----------------------+-------+
 7 rows in set (0.00 sec)
 
@@ -222,7 +222,7 @@ mysql> EXPLAIN SELECT data FROM test;
 1 row in set (0.00 sec)
 {% endhighlight %}
 
-也就是说，在上述的查询中，是一次全索引查询，也就是执行了 10 次索引查询。
+也就是說，在上述的查詢中，是一次全索引查詢，也就是執行了 10 次索引查詢。
 
 {% highlight text %}
 mysql> SELECT data FROM test WHERE data BETWEEN 'A' AND 'O';
@@ -232,9 +232,9 @@ mysql> SHOW SESSION STATUS LIKE 'Handler_read%';
 +--------------------------+-------+
 | Variable_name            | Value |
 +--------------------------+-------+
-| Handler_read_first       | 0     |  不会读取索引的第一条记录
-| Handler_read_key         | 1     |  但是会通过索引读取'A'所在位置
-| Handler_read_next        | 6     |  加上通过key读取的，实际读取了7条记录
+| Handler_read_first       | 0     |  不會讀取索引的第一條記錄
+| Handler_read_key         | 1     |  但是會通過索引讀取'A'所在位置
+| Handler_read_next        | 6     |  加上通過key讀取的，實際讀取了7條記錄
 +--------------------------+-------+
 7 rows in set (0.00 sec)
 
@@ -247,7 +247,7 @@ mysql> EXPLAIN SELECT data FROM test WHERE data BETWEEN 'A' AND 'O';
 1 row in set (0.00 sec)
 {% endhighlight %}
 
-上述的查询实际上没有从 Handler_read_first 开始；另外，执行如下的 SQL，均未读取 first 。
+上述的查詢實際上沒有從 Handler_read_first 開始；另外，執行如下的 SQL，均未讀取 first 。
 
 {% highlight text %}
 mysql> SELECT data FROM test WHERE data < 'O';
@@ -255,7 +255,7 @@ mysql> SELECT data FROM test WHERE data LIKE 'a%';
 mysql> SELECT data FROM test WHERE data IN ('abc', 'abd', 'acd');
 {% endhighlight %}
 
-通常来说，如果不是完全的全索引扫描，一般 read_first 不会增加。
+通常來說，如果不是完全的全索引掃描，一般 read_first 不會增加。
 
 ### handler_read_key
 
@@ -264,7 +264,7 @@ The number of requests to read a row based on a key. If this value is high,
 it is a good indication that your tables are properly indexed for your queries.
 {% endhighlight %}
 
-此选项数值如果很高，那么恭喜你，你的系统高效的使用了索引，一切运转良好。
+此選項數值如果很高，那麼恭喜你，你的系統高效的使用了索引，一切運轉良好。
 
 {% highlight text %}
 +-------------+          +-------+
@@ -288,9 +288,9 @@ mysql> SHOW SESSION STATUS LIKE 'Handler_read%';
 +-----------------------+-------+
 | Variable_name         | Value |
 +-----------------------+-------+
-| Handler_read_first    | 0     |  不会读取第一条记录
-| Handler_read_key      | 1     |  通过索引找到第一条记录
-| Handler_read_next     | 2     |  遍厉，会读取最后一条记录以判断是否满足条件
+| Handler_read_first    | 0     |  不會讀取第一條記錄
+| Handler_read_key      | 1     |  通過索引找到第一條記錄
+| Handler_read_next     | 2     |  遍厲，會讀取最後一條記錄以判斷是否滿足條件
 +-----------------------+-------+
 7 rows in set (0.00 sec)
 
@@ -311,7 +311,7 @@ is incremented if you are querying an index column with a range
 constraint or if you are doing an index scan.
 {% endhighlight %}
 
-此选项表明在进行索引扫描时，按照索引从数据文件里取数据的次数，示例的话可以参考上面的。
+此選項表明在進行索引掃描時，按照索引從數據文件裡取數據的次數，示例的話可以參考上面的。
 
 {% highlight text %}
 +-------------+          +-------+
@@ -333,7 +333,7 @@ The number of requests to read the previous row in key order. This read
 method is mainly used to optimize ORDER BY ... DESC.
 {% endhighlight %}
 
-此选项表明在进行索引扫描时，按照索引倒序从数据文件里取数据的次数，一般就是 ORDER BY ... DESC。
+此選項表明在進行索引掃描時，按照索引倒序從數據文件裡取數據的次數，一般就是 ORDER BY ... DESC。
 
 {% highlight text %}
 +-------------+          +-------+
@@ -358,10 +358,10 @@ mysql> SHOW SESSION STATUS LIKE 'Handler_read%';
 | Variable_name         | Value |
 +-----------------------+-------+
 | Handler_read_first    | 0     |
-| Handler_read_key      | 1     |  通过索引读取
-| Handler_read_last     | 1     |  读取最后一条记录
+| Handler_read_key      | 1     |  通過索引讀取
+| Handler_read_last     | 1     |  讀取最後一條記錄
 | Handler_read_next     | 0     |
-| Handler_read_prev     | 10    |  利用索引逆序读，加上读取最后一条记录实际读取了11条
+| Handler_read_prev     | 10    |  利用索引逆序讀，加上讀取最後一條記錄實際讀取了11條
 +-----------------------+-------+
 7 rows in set (0.02 sec)
 
@@ -376,7 +376,7 @@ mysql> EXPLAIN SELECT data FROM test ORDER BY data DESC;
 
 ### handler_read_last
 
-与 handler_read_first 类似，例如逆序读取最后一条记录，在此不做过多介绍了。
+與 handler_read_first 類似，例如逆序讀取最後一條記錄，在此不做過多介紹了。
 
 ### handler_read_rnd
 
@@ -387,14 +387,14 @@ You probably have a lot of queries that require MySQL to scan entire tables
 or you have joins that don't use keys properly.
 {% endhighlight %}
 
-简单的说，就是查询直接操作了数据文件，很多时候表现为没有使用索引(可能时全表扫描)、文件排序、JOIN 使用不当。
+簡單的說，就是查詢直接操作了數據文件，很多時候表現為沒有使用索引(可能時全表掃描)、文件排序、JOIN 使用不當。
 
 <!--
 TODODO:
 This status comes into account if the old file_sort mechanism is used [ 2 ].
 -->
 
-测试时，需要修改下上述的表结构。
+測試時，需要修改下上述的表結構。
 
 {% highlight text %}
 mysql> ALTER TABLE test ADD COLUMN file_sort text;
@@ -441,7 +441,7 @@ mysql> EXPLAIN SELECT * FROM test ORDER BY file_sort ASC;
 1 row in set, 1 warning (0.00 sec)
 {% endhighlight %}
 
-**注意**：这里的性能会变得非常差，所以一定要尽量避免。
+**注意**：這裡的性能會變得非常差，所以一定要儘量避免。
 
 ### handler_read_rnd_next
 
@@ -452,7 +452,7 @@ that your tables are not properly indexed or that your queries are not
 written to take advantage of the indexes you have.
 {% endhighlight %}
 
-此选项表明在进行数据文件扫描时，从数据文件里取数据的次数。
+此選項表明在進行數據文件掃描時，從數據文件裡取數據的次數。
 
 {% highlight text %}
 +------+------+          +-------+
@@ -490,7 +490,7 @@ mysql> EXPLAIN SELECT * FROM test;
 1 row in set, 1 warning (0.00 sec)
 {% endhighlight %}
 
-另外，再看如下的一个示例。
+另外，再看如下的一個示例。
 
 {% highlight text %}
 mysql> SELECT * FROM test WHERE ts = '2008-01-18 17:33:39';
@@ -516,16 +516,16 @@ mysql> EXPLAIN SELECT * FROM test WHERE ts = '2008-01-18 17:33:39';
 1 row in set, 1 warning (0.00 sec)
 {% endhighlight %}
 
-### 总结
+### 總結
 
-不同平台，不同版本的 MySQL，在运行上面例子的时候，Handler_read_* 的数值可能会有所不同，这并不要紧，关键是你要意识到 Handler_read_* 可以协助你理解 MySQL 处理查询的过程。
+不同平臺，不同版本的 MySQL，在運行上面例子的時候，Handler_read_* 的數值可能會有所不同，這並不要緊，關鍵是你要意識到 Handler_read_* 可以協助你理解 MySQL 處理查詢的過程。
 
-其中，Handler_read_rnd 和 Handler_read_rnd_next 是越低越好，如果很高，应该进行索引相关的调优；而 Handler_read_key 的数值是越高越好，越高代表使用索引的读很高；其它的计数器，要具体情况具体分析。
+其中，Handler_read_rnd 和 Handler_read_rnd_next 是越低越好，如果很高，應該進行索引相關的調優；而 Handler_read_key 的數值是越高越好，越高代表使用索引的讀很高；其它的計數器，要具體情況具體分析。
 
-另外需要注意的是，不只有 SELECT 语句，UPDATE、DELETE 等语句也需要先查询，所以也会影响上述参数。
+另外需要注意的是，不只有 SELECT 語句，UPDATE、DELETE 等語句也需要先查詢，所以也會影響上述參數。
 
 <!--
-说到判断查询方式优劣这个问题，就再顺便提提show profile语法，在新版MySQL里提供了这个功能：
+說到判斷查詢方式優劣這個問題，就再順便提提show profile語法，在新版MySQL裡提供了這個功能：
 mysql> set profiling=on;
 mysql> use mysql;
 mysql> select * from user;
@@ -563,9 +563,9 @@ mysql> flush tables;
 -->
 
 
-## 参考
+## 參考
 
-上述的内容其中很大一部分是参考 [The handler_read_* status variables](http://www.fromdual.ch/mysql-handler-read-status-variables)，也可以查看 [本地文档](/reference/mysql/the handler_read status variables.mht) 。
+上述的內容其中很大一部分是參考 [The handler_read_* status variables](http://www.fromdual.ch/mysql-handler-read-status-variables)，也可以查看 [本地文檔](/reference/mysql/the handler_read status variables.mht) 。
 
 <!--
 http://blog.itpub.net/26250550/viewspace-1076292/

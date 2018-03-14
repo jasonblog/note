@@ -5,76 +5,76 @@ comments: true
 language: chinese
 category: [mysql,database]
 keywords: mysql,core,file
-description: 简单分析下 mysqld 进程关闭的过程，并讨论如何安全地关闭 MySQL 实例。
+description: 簡單分析下 mysqld 進程關閉的過程，並討論如何安全地關閉 MySQL 實例。
 ---
 
-Core 文件又称为 Core Dump 文件，对于线上的服务而言，也就意味着进程异常；而且，如果进程占用内存很大，但是 dump 到磁盘上，也会花很长时间。
+Core 文件又稱為 Core Dump 文件，對於線上的服務而言，也就意味著進程異常；而且，如果進程佔用內存很大，但是 dump 到磁盤上，也會花很長時間。
 
-当然，Core 虽然会终止掉当前进程，但是也会保留下第一手的现场数据，包括了进程被终止时内存、CPU寄存器等信息，可以供后续开发人员进行调试。
+當然，Core 雖然會終止掉當前進程，但是也會保留下第一手的現場數據，包括了進程被終止時內存、CPU寄存器等信息，可以供後續開發人員進行調試。
 
-接下来，看看 MySQL 中 Core 文件的处理。
+接下來，看看 MySQL 中 Core 文件的處理。
 
 <!-- more -->
 
 ![core file logo]({{ site.url }}/images/databases/mysql/core-file-logo.jpg "core file logo"){: .pull-center width="50%"}
 
-## 简介
+## 簡介
 
-在开发一个程序时，程序可能会在运行过程中异常终止或者崩溃，这时操作系统就会把程序挂掉时的内存状态记录下来，并写入一个叫做 Core 的文件中，这种行为就叫做 Core Dump 操作，通过这个文件可以方便的进行调试。
+在開發一個程序時，程序可能會在運行過程中異常終止或者崩潰，這時操作系統就會把程序掛掉時的內存狀態記錄下來，並寫入一個叫做 Core 的文件中，這種行為就叫做 Core Dump 操作，通過這個文件可以方便的進行調試。
 
-> 在使用半导体作为内存的材料前，人类使用的是线圈作为内存的材料，线圈叫做 Core，用线圈制作的内存就是 Core Memory。
+> 在使用半導體作為內存的材料前，人類使用的是線圈作為內存的材料，線圈叫做 Core，用線圈製作的內存就是 Core Memory。
 
-除了内存信息之外，还有些关键的程序运行状态也会同时 dump 下来，例如寄存器信息 (包括程序指针、栈指针等)、内存管理信息、其他处理器和操作系统状态和信息；而这些信息对于编程人员诊断和调试程序是非常有帮助。
+除了內存信息之外，還有些關鍵的程序運行狀態也會同時 dump 下來，例如寄存器信息 (包括程序指針、棧指針等)、內存管理信息、其他處理器和操作系統狀態和信息；而這些信息對於編程人員診斷和調試程序是非常有幫助。
 
 > A core dump is the recorded state of the working memory of a computer program at a specific time, generally when the program has terminated abnormally (crashed). In practice, other key pieces of program state are usually dumped at the same time, including the processor registers, which may include the program counter and stack pointer, memory management information, and other processor and operating system flags and information. The name comes from the once-standard memory technology core memory. Core dumps are often used to diagnose or debug errors in computer programs.
 >
 > On many operating systems, a fatal error in a program automatically triggers a core dump, and by extension the phrase "to dump core" has come to mean, in many cases, any fatal error, regardless of whether a record of the program memory is created.
 
-### 开启CoreDump
+### 開啟CoreDump
 
-可以使用命令 ulimit 开启，也可以在程序中通过 setrlimit 系统调用开启；先介绍下前者配置方式。
+可以使用命令 ulimit 開啟，也可以在程序中通過 setrlimit 系統調用開啟；先介紹下前者配置方式。
 
 {% highlight text %}
------ 查看配置，如果为0，则说明未开启
+----- 查看配置，如果為0，則說明未開啟
 $ ulimit -c
 
------ 设置转储文件大小，单位是blocks(KB)，unlimited表示不限
+----- 設置轉儲文件大小，單位是blocks(KB)，unlimited表示不限
 # ulimit -c unlimited
 
------ 设置转储文件大小为100KB
+----- 設置轉儲文件大小為100KB
 # ulimit -c 100
 {% endhighlight %}
 
-当设置为 unlimited 时，则表示不限制内核转储文件的大小，发生问题时所有的内存都将转储到文件中；对于大量消耗内存的程序可以限制转储文件的大小。
+當設置為 unlimited 時，則表示不限制內核轉儲文件的大小，發生問題時所有的內存都將轉儲到文件中；對於大量消耗內存的程序可以限制轉儲文件的大小。
 
-如果要持久化，可以修改 ```/etc/security/limits.conf``` 文件即可，参考如下示例。
+如果要持久化，可以修改 ```/etc/security/limits.conf``` 文件即可，參考如下示例。
 
 {% highlight text %}
 #<domain>      <type>  <item>         <value>
     *           soft    core          unlimited
 {% endhighlight %}
 
-默认生成的 core 文件保存在可执行文件所在目录下，文件名为 core；当然，也可以通过如下方式进行设置。
+默認生成的 core 文件保存在可執行文件所在目錄下，文件名為 core；當然，也可以通過如下方式進行設置。
 
 {% highlight text %}
------ 添加PID后缀
+----- 添加PID後綴
 # echo 1 > /proc/sys/kernel/core_uses_pid
 
------ 设置输出目录，格式为core-命令名-PID-时间戳
+----- 設置輸出目錄，格式為core-命令名-PID-時間戳
 # echo "/tmp/core-%e-%p-%t" > /proc/sys/kernel/core_pattern
 
-常见参数：
-   %t: 设置文件转储时的 unix 时间，从 1970.1.1 0:00:00 开始的秒数。
-   %e: 执行的命令名。
-   %p: 被转储进程的 PID 。
-   %u: 被转储进程的真实用户 ID ，也即 UID 。
-   %g: 被转储进程的真实组 ID ，也即 GID 。
-   %s: 引发转储的信号编号。
-   %h: 主机名，同 uname(2) 返回的 nodename 。
-   %c: 转储文件大小的上限，2.6.24 以后可以使用。
+常見參數：
+   %t: 設置文件轉儲時的 unix 時間，從 1970.1.1 0:00:00 開始的秒數。
+   %e: 執行的命令名。
+   %p: 被轉儲進程的 PID 。
+   %u: 被轉儲進程的真實用戶 ID ，也即 UID 。
+   %g: 被轉儲進程的真實組 ID ，也即 GID 。
+   %s: 引發轉儲的信號編號。
+   %h: 主機名，同 uname(2) 返回的 nodename 。
+   %c: 轉儲文件大小的上限，2.6.24 以後可以使用。
 {% endhighlight %}
 
-设置完 core_pattern 之后，core_user_pid 会无效，也可以通过 sysctl 进行设置。
+設置完 core_pattern 之後，core_user_pid 會無效，也可以通過 sysctl 進行設置。
 
 {% highlight text %}
 # cat /etc/sysctl.conf
@@ -84,21 +84,21 @@ kernel.core_user_pid = 0
 {% endhighlight %}
 
 
-### 测试示例
+### 測試示例
 
-可以在程序执行期间发送 SIGSEGV(11) 信号，也即 ```Ctrl+\``` 快捷键。
+可以在程序執行期間發送 SIGSEGV(11) 信號，也即 ```Ctrl+\``` 快捷鍵。
 
 {% highlight text %}
------ 使用Ctrl+\退出程序，产生core dump
+----- 使用Ctrl+\退出程序，產生core dump
 $ sleep 100
 ^\Quit (core dumped)
 
------ 或者发送SIGSEGV(11)信号
+----- 或者發送SIGSEGV(11)信號
 # kill -s SIGSEGV $$
 # kill -11 <pid>
 {% endhighlight %}
 
-接着看一个简单的示例程序。
+接著看一個簡單的示例程序。
 
 {% highlight text %}
 $ cat << EOF > create_core.c
@@ -110,7 +110,7 @@ int a (int *p)
 int main (void)
 {
   int *p = NULL;
-  *p = 0;         // 访问0地址，发生Segmentation fault错误
+  *p = 0;         // 訪問0地址，發生Segmentation fault錯誤
   return a (p);
 }
 EOF
@@ -119,7 +119,7 @@ $ ./create_core
 Segmentation fault (core dumped)
 {% endhighlight %}
 
-也可以通过 API 进行设置，不过此时编译之后，在运行时需要 root 权限。
+也可以通過 API 進行設置，不過此時編譯之後，在運行時需要 root 權限。
 
 {% highlight cpp %}
 #include <stdio.h>
@@ -143,13 +143,13 @@ int main(void)
     printf("After set rlimit CORE dump current is:%d, max is:%d\n",
            (int)rlmt.rlim_cur, (int)rlmt.rlim_max);
 
-    int *ptr = NULL;  // 测试非法内存，产生core文件
+    int *ptr = NULL;  // 測試非法內存，產生core文件
     *ptr = 10;
     return 0;
 }
 {% endhighlight %}
 
-在调试时可以通过 ```gdb program core-file``` 调试，当然编译时，需要加上调试信息 (-g)。
+在調試時可以通過 ```gdb program core-file``` 調試，當然編譯時，需要加上調試信息 (-g)。
 
 {% highlight text %}
 $ gdb core_demo core_demo.core.24816
@@ -172,9 +172,9 @@ Stack level 0, frame at 0xffd590a4:
   ebp at 0xffd5909c, eip at 0xffd590a0
 {% endhighlight %}
 
-从上面可以看出，可以还原 core_demo 执行时的场景，使用 where 或者 backtrace 查看当前程序调用函数栈帧，来定位 core dump 的文件行，还可以查看寄存器、变量等信息。
+從上面可以看出，可以還原 core_demo 執行時的場景，使用 where 或者 backtrace 查看當前程序調用函數棧幀，來定位 core dump 的文件行，還可以查看寄存器、變量等信息。
 
-也可以通过如下方式查看。
+也可以通過如下方式查看。
 
 {% highlight text %}
 $ gdb -c core_demo.core.24816 core_demo
@@ -184,17 +184,17 @@ $ gdb -c core_demo.core.24816 core_demo
 ### 其它
 
 {% highlight text %}
------ 查找core文件，以及文件类型
+----- 查找core文件，以及文件類型
 # find $HOME -name "core*"
 /home/oli/core.6440
 # file core
 core:      ELF 32-bit LSB core file Intel 80386, version 1 (SYSV), SVR4-style
 
------ 查看是那个进程信息
+----- 查看是那個進程信息
 # strings core.6440 | head
 {% endhighlight %}
 
-可以在 core_pattern 中加入管道符，然后调用用户程序，例如将转储文件压缩。
+可以在 core_pattern 中加入管道符，然後調用用戶程序，例如將轉儲文件壓縮。
 
 {% highlight text %}
 # echo "|/usr/local/sbin/core_helper %e %p %t" > /proc/sys/kernel/core_pattern
@@ -205,7 +205,7 @@ exec gzip - > /var/$1-$2-$3.core.gz
 $ gunzip -c /var/xxx-xxx-xxx.core.gz > ~/xxx-xxx-xxx.core
 {% endhighlight %}
 
-可以将 ```ulimit -S -c unlimited > /dev/null 2>&1``` 使用户登陆时即可以设置转储功能。默认内核会转储共享内存，可以设置排除共享内存。
+可以將 ```ulimit -S -c unlimited > /dev/null 2>&1``` 使用戶登陸時即可以設置轉儲功能。默認內核會轉儲共享內存，可以設置排除共享內存。
 
 
 
@@ -232,7 +232,7 @@ Max core file size        1024000              1024000              bytes
 
 ## debuginfo
 
-为了能够使用 gdb 跟踪调试程序，需要在编译期使用 -g 选项；而对于系统库或是 Linux 内核，使用 gdb 调试或使用 systemtap 探测时，还需要安装相应的 debuginfo 包。
+為了能夠使用 gdb 跟蹤調試程序，需要在編譯期使用 -g 選項；而對於系統庫或是 Linux 內核，使用 gdb 調試或使用 systemtap 探測時，還需要安裝相應的 debuginfo 包。
 
 例如 glibc 及它的 debuginfo 包。
 
@@ -244,11 +244,11 @@ glibc-2.17-157.el7_3.1.x86_64
 glibc-debuginfo-2.17-157.el7_3.1.x86_64
 {% endhighlight %}
 
-接下来，我们看看 debuginfo 包中包含了那些信息，该包是如何制作的，而且 glibc 和 debuginfo 是如何关联起来的。
+接下來，我們看看 debuginfo 包中包含了那些信息，該包是如何製作的，而且 glibc 和 debuginfo 是如何關聯起來的。
 
 ### 包含信息
 
-首先看看 glibc-debuginfo 包中包含有什么内容。
+首先看看 glibc-debuginfo 包中包含有什麼內容。
 
 {% highlight text %}
 $ rpm -ql glibc-debuginfo
@@ -272,23 +272,23 @@ $ rpm -ql glibc-debuginfo
 ... ...
 {% endhighlight %}
 
-可以看出，glibc-debuginfo 大致有三类文件：
+可以看出，glibc-debuginfo 大致有三類文件：
 
 存放在/usr/lib/debug/下的：.build-id/nn/nnn...nnn.debug文件，文件名是hash key。
-存放在/usr/lib/debug/下的其它*.debug文件，其文件名，是库文件名+.debug后缀。
-glibc的源代码
+存放在/usr/lib/debug/下的其它*.debug文件，其文件名，是庫文件名+.debug後綴。
+glibc的源代碼
 
-当使用 gdb 调试时，需要在机器码与源代码之间，建立起映射关系，这就需要三个信息：
+當使用 gdb 調試時，需要在機器碼與源代碼之間，建立起映射關係，這就需要三個信息：
 
-* 机器码：可执行文件、动态链接库，例如上面的/lib64/libc-2.18.so；
-* 源代码：显然就是glibc-debuginfo中，包含的*.c和*.h等源文件；
-* 映射关系：也就是保存在*.debug文件中的信息。
+* 機器碼：可執行文件、動態鏈接庫，例如上面的/lib64/libc-2.18.so；
+* 源代碼：顯然就是glibc-debuginfo中，包含的*.c和*.h等源文件；
+* 映射關係：也就是保存在*.debug文件中的信息。
 
 ### 如何生成
 
-通过 gcc -g 编译时，默认机器码与源代码的映射关系会与可执行程序、动态链接库合并在一起；但是这样就导致文件特别大，而对于普通用户来说是不需要的。
+通過 gcc -g 編譯時，默認機器碼與源代碼的映射關係會與可執行程序、動態鏈接庫合併在一起；但是這樣就導致文件特別大，而對於普通用戶來說是不需要的。
 
-正是了为解决这个问题，在 Linux 上的各种程序和库，在生成 RPM 时，就已经把 debuginfo 单独的抽取出来，因此形成了独立的 debuginfo 包。
+正是了為解決這個問題，在 Linux 上的各種程序和庫，在生成 RPM 時，就已經把 debuginfo 單獨的抽取出來，因此形成了獨立的 debuginfo 包。
 
 {% highlight text %}
 $ cat << EOF > foobar.c
@@ -300,36 +300,36 @@ int main(void)
 }
 EOF
 
------ 其中参数-ggdb生成gdb格式调试信息
+----- 其中參數-ggdb生成gdb格式調試信息
 $ gcc -ggdb foobar.c -o foobar
 
------ 创建一个包含debuginfo的文件
+----- 創建一個包含debuginfo的文件
 $ objcopy --only-keep-debug foobar foobar.debug
 
------ 清除原执行文件中的调试信息，如下两个操作相同
+----- 清除原執行文件中的調試信息，如下兩個操作相同
 $ objcopy --strip-debug foobar
 $ strip --strip-debug foobar
 
------ 此时尝试加载调试符号时会报错
+----- 此時嘗試加載調試符號時會報錯
 $ gdb foobar
 GNU gdb (GDB) Red Hat Enterprise Linux 7.6.1-94.el7
 ... ...
 Reading symbols from /tmp/foobar...(no debugging symbols found)...done.
 (gdb)
 
------ 当然，现在可以指定gdb需要加载的debuginfo即可，如下两者相同
+----- 當然，現在可以指定gdb需要加載的debuginfo即可，如下兩者相同
 $ gdb foobar -s foobar.debug
 $ gdb
 (gdb) file foobar
 (gdb) symbol foobar.debug
 {% endhighlight %}
 
-显然，gdb 现在无法找到调试信息了；我们需要告诉 gdb 如何正确地找到它对应的 debug 文件，也就是上述的 foobar.debug 文件。
+顯然，gdb 現在無法找到調試信息了；我們需要告訴 gdb 如何正確地找到它對應的 debug 文件，也就是上述的 foobar.debug 文件。
 
-对于 Linux 下的 ELF(Executable and Linkable Format) 格式文件，可以通过一个 .gnu_debuglink 段来保存信息，可通过 ```objcopy --add-gnu-debuglink``` 添加。
+對於 Linux 下的 ELF(Executable and Linkable Format) 格式文件，可以通過一個 .gnu_debuglink 段來保存信息，可通過 ```objcopy --add-gnu-debuglink``` 添加。
 
 {% highlight text %}
------ 添加一个包含路径文件的.gnu_debuglink section
+----- 添加一個包含路徑文件的.gnu_debuglink section
 $ objcopy --add-gnu-debuglink=foobar.debug foobar
 
 ----- 查看.gnu_debuglink section
@@ -339,7 +339,7 @@ Contents of section .gnu_debuglink:
  0000 666f6f62 61722e64 65627567 00000000  foobar.debug....
  0010 ba8924f6
 
------ 现在可以直接调试了
+----- 現在可以直接調試了
 $ gdb foobar
 GNU gdb (GDB) Red Hat Enterprise Linux 7.6.1-94.el7
 ... ...
@@ -348,11 +348,11 @@ done.
 (gdb)
 {% endhighlight %}
 
-上面的 objcopy 是把 foobar.debug 的文件名以及这个文件的 CRC 校验码，写到了.gnu_debuglink 这个 ELF 的头部值中，但是并没有告诉 foobar.debug 所在的路径。
+上面的 objcopy 是把 foobar.debug 的文件名以及這個文件的 CRC 校驗碼，寫到了.gnu_debuglink 這個 ELF 的頭部值中，但是並沒有告訴 foobar.debug 所在的路徑。
 
-### 搜索路径
+### 搜索路徑
 
-在 Linux 中，在编译时会根据时间戳生成 build-id，并保存到 ```gnu.build-id section``` 中；可以通过如下命令查看 ```"gnu.build-id" section``` 信息。
+在 Linux 中，在編譯時會根據時間戳生成 build-id，並保存到 ```gnu.build-id section``` 中；可以通過如下命令查看 ```"gnu.build-id" section``` 信息。
 
 {% highlight text %}
 $ readelf -n foobar
@@ -361,9 +361,9 @@ $ readelf --wide --sections foobar |grep build
 $ objdump -s -j .note.gnu.build-id foobar
 {% endhighlight %}
 
-而 gdb 默认会搜索指定目录 (```show debug-file-directory```) 下与 build-id 关联的 .debug 文件。默认 gdb 搜索的文件名为 NN/N...N.debug, 前两个 "NN" 就是 build-id 前两位，后面的 N...N 则是 build-id 的剩余部分，只是改了个文件名而已。
+而 gdb 默認會搜索指定目錄 (```show debug-file-directory```) 下與 build-id 關聯的 .debug 文件。默認 gdb 搜索的文件名為 NN/N...N.debug, 前兩個 "NN" 就是 build-id 前兩位，後面的 N...N 則是 build-id 的剩餘部分，只是改了個文件名而已。
 
-而 gdb 则是通过下面的顺序查找 foobar.debug 文件：
+而 gdb 則是通過下面的順序查找 foobar.debug 文件：
 
 {% highlight text %}
 1. <global debug directory>/.build-id/nn/nnnn...nnnn.foobar.debug
@@ -372,26 +372,26 @@ $ objdump -s -j .note.gnu.build-id foobar
 4. <global debug directory>/<the patch of foobar>/foobar.debug
 {% endhighlight %}
 
-而 ```<global debug directory>``` 默认为 /usr/lib/debug/；可以通过 ```set/show debug-file-directory``` 命令来设置或查看这个值。
+而 ```<global debug directory>``` 默認為 /usr/lib/debug/；可以通過 ```set/show debug-file-directory``` 命令來設置或查看這個值。
 
 {% highlight text %}
 (gdb) show debug-file-directory
 (gdb) set debug-file-directory PATH
 {% endhighlight %}
 
-假设 foobar 的 Build ID 为 ```3bda624ab466b7725faaf5cde424a5674a741c5d```，可将 foobar.debug 文件移动到 ```/usr/lib/debug/.build-id/3b/da624ab466b7725faaf5cde424a5674a741c5d.debug``` 。
+假設 foobar 的 Build ID 為 ```3bda624ab466b7725faaf5cde424a5674a741c5d```，可將 foobar.debug 文件移動到 ```/usr/lib/debug/.build-id/3b/da624ab466b7725faaf5cde424a5674a741c5d.debug``` 。
 
 <!-- readelf -S utmp -->
 
-foobar.debug 默认会采用 DWARF 4 格式来保存调试信息，可以通过 ```readelf -w foobar.debug``` 来查看 DWARF 的内容；详见 [DWARF Debugging Information Format Version 4](http://dwarfstd.org/doc/DWARF4.pdf) 。
+foobar.debug 默認會採用 DWARF 4 格式來保存調試信息，可以通過 ```readelf -w foobar.debug``` 來查看 DWARF 的內容；詳見 [DWARF Debugging Information Format Version 4](http://dwarfstd.org/doc/DWARF4.pdf) 。
 
-### 生成Marker探针
+### 生成Marker探針
 
-通过 gcc -g 命令，所有函数名都会自动的生成相应的 debuginfo，供 systemtap 进行探测，<!--这种方法在英文上称为：Debuginfo-based instrumentation，-->其局限性在于，只能收集到函数调用的初始时刻、以及函数返回的结束时刻的上下文信息。
+通過 gcc -g 命令，所有函數名都會自動的生成相應的 debuginfo，供 systemtap 進行探測，<!--這種方法在英文上稱為：Debuginfo-based instrumentation，-->其侷限性在於，只能收集到函數調用的初始時刻、以及函數返回的結束時刻的上下文信息。
 
-为了解决这个问题，又提出了一种新方法 ```Compiled-in instrumentation```，可以把探针安插到指定的某行代码中，从而可以收集到那行代码执行时的上下文信息，这种探针被称为 Marker 探针。
+為了解決這個問題，又提出了一種新方法 ```Compiled-in instrumentation```，可以把探針安插到指定的某行代碼中，從而可以收集到那行代碼執行時的上下文信息，這種探針被稱為 Marker 探針。
 
-编写 Marker 探针，示例如下：
+編寫 Marker 探針，示例如下：
 
 {% highlight text %}
 #include <sys/sdt.h>
@@ -399,38 +399,38 @@ DTRACE_PROBE(provider, name)
 DTRACE_PROBE4(provider, name, arg1, arg2, arg3, arg4)
 {% endhighlight %}
 
-写好 Marker 探针并成功编译后，可以使用下面的 systemtap 指令来查看 Marker 探针是否生效。
+寫好 Marker 探針併成功編譯後，可以使用下面的 systemtap 指令來查看 Marker 探針是否生效。
 
 {% highlight text %}
 stap -L 'process("/path/to/foobar").mark("*")'
 {% endhighlight %}
 
 <!--
-更具体的操作方法详见文献6，值得一提的是，Marker探针是非常轻量的，它几乎对程序的性能没有影响，因为它只会在代码中生成nop汇编指令。它是通过把现场的上下文信息，保存在ELF文件的特定的section header(.stapsdt.base)来实现的，只会增加debuginfo文件的大小。
+更具體的操作方法詳見文獻6，值得一提的是，Marker探針是非常輕量的，它幾乎對程序的性能沒有影響，因為它只會在代碼中生成nop彙編指令。它是通過把現場的上下文信息，保存在ELF文件的特定的section header(.stapsdt.base)來實現的，只會增加debuginfo文件的大小。
 -->
 
-详细可以参考 [Adding User Space Probing to an Application (heapsort example)](https://sourceware.org/systemtap/wiki/AddingUserSpaceProbingToApps) 。
+詳細可以參考 [Adding User Space Probing to an Application (heapsort example)](https://sourceware.org/systemtap/wiki/AddingUserSpaceProbingToApps) 。
 
 
 ## MySQL
 
-对于一般进程，要让进程崩溃时能生成 core file 用于调试，只需要设置 rlimit 的 core file size > 0 即可；比如，用在 ```ulimit -c unlimited``` 时启动程序。
+對於一般進程，要讓進程崩潰時能生成 core file 用於調試，只需要設置 rlimit 的 core file size > 0 即可；比如，用在 ```ulimit -c unlimited``` 時啟動程序。
 
-对 MySQL 来说，由于 core file 中会包含表空间的数据，所以默认情况下为了安全，mysqld 捕获了 SEGV 等信号，崩溃时并不会生成 core file，需要在 my.cnf 或启动参数中加上 core-file 。
+對 MySQL 來說，由於 core file 中會包含表空間的數據，所以默認情況下為了安全，mysqld 捕獲了 SEGV 等信號，崩潰時並不會生成 core file，需要在 my.cnf 或啟動參數中加上 core-file 。
 
 {% highlight text %}
 [mysqld]
 core_file = ON
 {% endhighlight %}
 
-但是即使做到了以上两点，在 mysqld crash 时可能还是无法 core dump 。
+但是即使做到了以上兩點，在 mysqld crash 時可能還是無法 core dump 。
 
-如果程序通过 ```seteuid()/setegid()``` 系统调用，改变了进程的有效用户或组，则在默认情况下系统不会为这些进程生成 CoreDump 。简单来说，如果你当初是以用户 A 运行了某个程序，但在 ps 里看到的这个程序的用户却是 B 的话，那么这些进程就是调用了 seteuid 了。
+如果程序通過 ```seteuid()/setegid()``` 系統調用，改變了進程的有效用戶或組，則在默認情況下系統不會為這些進程生成 CoreDump 。簡單來說，如果你當初是以用戶 A 運行了某個程序，但在 ps 裡看到的這個程序的用戶卻是 B 的話，那麼這些進程就是調用了 seteuid 了。
 
-对于 MySQL 来说，无论通过什么用户利用 mysqld_safe 启动，mysqld 的有效用户始终是 mysql 用户；为了能让 MySQL 生成 core dump，需要设置 ```/proc/sys/fs/suid_dumpable``` 文件的内容改为 1 。
+對於 MySQL 來說，無論通過什麼用戶利用 mysqld_safe 啟動，mysqld 的有效用戶始終是 mysql 用戶；為了能讓 MySQL 生成 core dump，需要設置 ```/proc/sys/fs/suid_dumpable``` 文件的內容改為 1 。
 
 <!--
-还有一些系统参数会影响 core dump。以下脚本可供参考：
+還有一些系統參數會影響 core dump。以下腳本可供參考：
 
 echo 2 >/proc/sys/fs/suid_dumpable
 chmod 0777 /var/crash
@@ -438,14 +438,14 @@ echo /var/crash/core> /proc/sys/kernel/core_pattern
 echo 1 >/proc/sys/kernel/core_uses_pid
 -->
 
-之后，就可以用 kill -SEGV 让 mysqld 崩溃，测试一下能不能正常产生 core file 了。
+之後，就可以用 kill -SEGV 讓 mysqld 崩潰，測試一下能不能正常產生 core file 了。
 
 
-## 参考
+## 參考
 
-关于 Core Dump 的常用命令可以参考 [Hunting the core](http://www.fromdual.com/hunting-the-core) 。
+關於 Core Dump 的常用命令可以參考 [Hunting the core](http://www.fromdual.com/hunting-the-core) 。
 
-对于如何分离 debuginfo 文件可以参考 [Debugging Information in Separate Files](https://sourceware.org/gdb/onlinedocs/gdb/Separate-Debug-Files.html) 。
+對於如何分離 debuginfo 文件可以參考 [Debugging Information in Separate Files](https://sourceware.org/gdb/onlinedocs/gdb/Separate-Debug-Files.html) 。
 
 
 <!--

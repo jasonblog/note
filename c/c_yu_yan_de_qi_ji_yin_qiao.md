@@ -865,7 +865,7 @@ $ gcc -shared -o libvis.so -fvisibility=hidden foobar.c
 /tmp/cckYTHcl.o: In function `main':
 main.c:(.text+0x17): undefined reference to `is_hidden'</code></pre></figure>
 
-<p>說明了 hidden 確實起到作用了。</p>
+<p>說明瞭 hidden 確實起到作用了。</p>
 
 <h3 id="__attribute__sentinel">__attribute__((sentinel))</h3>
 

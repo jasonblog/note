@@ -5,62 +5,62 @@ comments: true
 language: chinese
 category: [linux,misc]
 keywords: git,版本管理,branch,分支
-description: 相比其它的版本管理软件，git 有很多优点，其中很重要的一个特性就是版本的分支 (branch) 和合并 (merge) 十分方便。git 分支并非生成一个物理代码拷贝，而是只生成一个指向当前版本的指针，又被称为 "快照" (snapshot) ，因此，处理起来是分快速，而且节省空间。接下来，就看看 git 的版本分支管理策略。
+description: 相比其它的版本管理軟件，git 有很多優點，其中很重要的一個特性就是版本的分支 (branch) 和合並 (merge) 十分方便。git 分支並非生成一個物理代碼拷貝，而是隻生成一個指向當前版本的指針，又被稱為 "快照" (snapshot) ，因此，處理起來是分快速，而且節省空間。接下來，就看看 git 的版本分支管理策略。
 ---
 
-相比其它的版本管理软件，git 有很多优点，其中很重要的一个特性就是版本的分支 (branch) 和合并 (merge) 十分方便。
+相比其它的版本管理軟件，git 有很多優點，其中很重要的一個特性就是版本的分支 (branch) 和合並 (merge) 十分方便。
 
-git 分支并非生成一个物理代码拷贝，而是只生成一个指向当前版本的指针，又被称为 "快照" (snapshot) ，因此，处理起来是分快速，而且节省空间。
+git 分支並非生成一個物理代碼拷貝，而是隻生成一個指向當前版本的指針，又被稱為 "快照" (snapshot) ，因此，處理起來是分快速，而且節省空間。
 
-接下来，就看看 git 的版本分支管理策略。
+接下來，就看看 git 的版本分支管理策略。
 
 <!-- more -->
 
 
 ## 分支
 
-Git 版本的分支 (branch) 和合并 (merge) 十分方便，只生成一个指向当前版本的指针 (称为 "快照")，而非生成一份现有代码的物理拷贝，所以非常快捷易用。
+Git 版本的分支 (branch) 和合並 (merge) 十分方便，只生成一個指向當前版本的指針 (稱為 "快照")，而非生成一份現有代碼的物理拷貝，所以非常快捷易用。
 
-更加详细的内容可以查看 [Git Branching](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell) 。
+更加詳細的內容可以查看 [Git Branching](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell) 。
 
-### 追踪分支
+### 追蹤分支
 
-追踪分支是用与联系本地分支和远程分支，在追踪分支 (Tracking Branches) 上执行 push 或 pull 时，会自动关联到远程分支上；如果要经常从远程仓库里拉取分支到本地，而且想简单使用 `git pull` 命令，那么就应当使用 "追踪分支" 。
+追蹤分支是用與聯繫本地分支和遠程分支，在追蹤分支 (Tracking Branches) 上執行 push 或 pull 時，會自動關聯到遠程分支上；如果要經常從遠程倉庫里拉取分支到本地，而且想簡單使用 `git pull` 命令，那麼就應當使用 "追蹤分支" 。
 
-可以通过如下命令手动创建一个追踪分支。
+可以通過如下命令手動創建一個追蹤分支。
 
 {% highlight text %}
 $ git branch --track experimental origin/experimental
 {% endhighlight %}
 
-当运行 `git pull experimental` 命令时，会自动从 `origin/experimental` fetch 内容，然后再将该分支 merge 进本地的 `experimental` 分支。
+當運行 `git pull experimental` 命令時，會自動從 `origin/experimental` fetch 內容，然後再將該分支 merge 進本地的 `experimental` 分支。
 
-当要把修改 push 到 origin 时, 它会将你本地的 `experimental` 分支中的修改推送到 `origin/experimental` 分支里，而且无需指定 origin 。
+當要把修改 push 到 origin 時, 它會將你本地的 `experimental` 分支中的修改推送到 `origin/experimental` 分支裡，而且無需指定 origin 。
 
 ### fast-forward
 
-当前分支合并到另一分支时，当没分歧解决时就会直接移动文件指针，这就被叫做 fast-forward 。
+當前分支合併到另一分支時，當沒分歧解決時就會直接移動文件指針，這就被叫做 fast-forward 。
 
-举例来说，一直在 develop 分支开发，然后新建了一个 feature 分支，并在该分支上进行一系列提交，完成后，回到 develop 分支，此时，如果 develop 分支在创建 feature 分支后从未产生任何新的提交，此时的合并就叫 fast forward 。
+舉例來說，一直在 develop 分支開發，然後新建了一個 feature 分支，並在該分支上進行一系列提交，完成後，回到 develop 分支，此時，如果 develop 分支在創建 feature 分支後從未產生任何新的提交，此時的合併就叫 fast forward 。
 
-**注意**：可以看出这次合并完之后的视图为扁平状，看不出 feature 分支开发的任何信息。
+**注意**：可以看出這次合併完之後的視圖為扁平狀，看不出 feature 分支開發的任何信息。
 
 ![git develop model no-ff means]({{ site.url }}/images/misc/git-develop-model-no-ff-means.png "git develop model no-ff means"){: .pull-center width="70%" }
 
-另外，可以使用 `--no-ff` (no fast foward) 进行合并，使得每一次的合并都创建一个新的 commit 记录，并强制保留 feature 分支的开发记录，也就告诉后来者 **一系列的提交都是为了同一个目的** 。
+另外，可以使用 `--no-ff` (no fast foward) 進行合併，使得每一次的合併都創建一個新的 commit 記錄，並強制保留 feature 分支的開發記錄，也就告訴後來者 **一系列的提交都是為了同一個目的** 。
 
 {% highlight text %}
 [branch "master"]
 mergeoptions = --no-commit --no-ff
 {% endhighlight %}
 
-如果远程和本地分支的提交线图有分叉，也即不能 fast-forwarded，git 会执行一次 merge 操作，也就是产生一次没意义的提交记录，从而造成提交日志比较混乱。
+如果遠程和本地分支的提交線圖有分叉，也即不能 fast-forwarded，git 會執行一次 merge 操作，也就是產生一次沒意義的提交記錄，從而造成提交日誌比較混亂。
 
 #### rebase VS. no-ff
 
-pull 时可以使用 `git pull --rebase` 选项，也即当提交线图有分叉的话，git 会用 rebase 策略来代替默认的 merge 策略，可以通过 `man git-merge` 查看详细内容，其好处介绍如下。
+pull 時可以使用 `git pull --rebase` 選項，也即當提交線圖有分叉的話，git 會用 rebase 策略來代替默認的 merge 策略，可以通過 `man git-merge` 查看詳細內容，其好處介紹如下。
 
-假设提交线图在执行 pull 前是这样的：
+假設提交線圖在執行 pull 前是這樣的：
 
 {% highlight text %}
                  A---B---C  remotes/origin/master
@@ -68,7 +68,7 @@ pull 时可以使用 `git pull --rebase` 选项，也即当提交线图有分叉
            D---E---F---G  master
 {% endhighlight %}
 
-如果是执行 `git pull` 后，提交线图会变成这样：
+如果是執行 `git pull` 後，提交線圖會變成這樣：
 
 {% highlight text %}
                  A---B---C remotes/origin/master
@@ -76,7 +76,7 @@ pull 时可以使用 `git pull --rebase` 选项，也即当提交线图有分叉
            D---E---F---G---H master
 {% endhighlight %}
 
-结果多出了 H 这个没必要的提交记录，如果执行 `git pull --rebase` 的话，提交线图会变成如下：
+結果多出了 H 這個沒必要的提交記錄，如果執行 `git pull --rebase` 的話，提交線圖會變成如下：
 
 {% highlight text %}
                        remotes/origin/master
@@ -84,16 +84,16 @@ pull 时可以使用 `git pull --rebase` 选项，也即当提交线图有分叉
            D---E---A---B---C---F'---G'  master
 {% endhighlight %}
 
-F G 两个提交通过 rebase 方式重新拼接在 C 之后，多余的分叉去掉了，目的达到。大多数时候，使用 `git pull --rebase` 是为了使提交线图更好看，从而方便 code review 。
+F G 兩個提交通過 rebase 方式重新拼接在 C 之後，多餘的分叉去掉了，目的達到。大多數時候，使用 `git pull --rebase` 是為了使提交線圖更好看，從而方便 code review 。
 
 <!--
-不过，如果你对使用 git 还不是十分熟练的话，我的建议是 git pull --rebase 多练习几次之后再使用，因为 rebase 在 git 中，算得上是『危险行为』。
-另外，还需注意的是，使用 git pull --rebase 比直接 pull 容易导致冲突的产生，如果预期冲突比较多的话，建议还是直接 pull。
+不過，如果你對使用 git 還不是十分熟練的話，我的建議是 git pull --rebase 多練習幾次之後再使用，因為 rebase 在 git 中，算得上是『危險行為』。
+另外，還需注意的是，使用 git pull --rebase 比直接 pull 容易導致衝突的產生，如果預期衝突比較多的話，建議還是直接 pull。
 -->
 
-#### 最佳实践
+#### 最佳實踐
 
-在合并分支之前，例如要在本地将 feature 分支合并到 dev 分支，会先检查 feature 分支是否落后于远程 dev 分支：
+在合併分支之前，例如要在本地將 feature 分支合併到 dev 分支，會先檢查 feature 分支是否落後於遠程 dev 分支：
 
 {% highlight text %}
 $ git checkout dev
@@ -101,91 +101,91 @@ $ git fetch                   ← 更新dev分支，pull<=>fetch+merge
 $ git log feature..dev
 {% endhighlight %}
 
-如果没有输出任何提交信息的话，即表示 feature 对于 dev 分支是 up-to-date 的，如果有输出的而马上执行了 `git merge --no-ff` 的话，提交线图会变成上图的左侧。
+如果沒有輸出任何提交信息的話，即表示 feature 對於 dev 分支是 up-to-date 的，如果有輸出的而馬上執行了 `git merge --no-ff` 的話，提交線圖會變成上圖的左側。
 
 <!--
-所以这时在合并前，通常我会先执行：
+所以這時在合併前，通常我會先執行：
 git checkout feature
 git rebase dev
-这样就可以将 feature 重新拼接到更新了的 dev 之后，然后就可以合并了，最终得到一个干净舒服的提交线图。
-再次提醒：像之前提到的，rebase 是『危险行为』，建议你足够熟悉 git 时才这么做，否则的话是得不偿失啊。
+這樣就可以將 feature 重新拼接到更新了的 dev 之後，然後就可以合併了，最終得到一個乾淨舒服的提交線圖。
+再次提醒：像之前提到的，rebase 是『危險行為』，建議你足夠熟悉 git 時才這麼做，否則的話是得不償失啊。
 -->
 
-### 常用场景
+### 常用場景
 
-如上是从现有代码中 clone 并查看分支，进行开发。
+如上是從現有代碼中 clone 並查看分支，進行開發。
 
 {% highlight text %}
------ 1. 克隆代码，可以指定分支或者tag，默认是master
+----- 1. 克隆代碼，可以指定分支或者tag，默認是master
 $ git clone -b <branch/tag> https://github.com/master-dev.git
 
------ 2. 查看所有分支，有master(本地主分支)、origin/master(远程主分支)、其它(如origin/dev)
------    默认两个master关联，保持同步；由于dev本地没有关联，从而无法在那里开发
-$ git branch --all                    ← 查看包括本地以及远程分支
+----- 2. 查看所有分支，有master(本地主分支)、origin/master(遠程主分支)、其它(如origin/dev)
+-----    默認兩個master關聯，保持同步；由於dev本地沒有關聯，從而無法在那裡開發
+$ git branch --all                    ← 查看包括本地以及遠程分支
 $ git branch                          ← 只查看本地分支
 
------ 3. 创建本地关联origin/dev的分支
------    默认本地dev分支的初始代码和远程的dev分支代码一样
+----- 3. 創建本地關聯origin/dev的分支
+-----    默認本地dev分支的初始代碼和遠程的dev分支代碼一樣
 $ git checkout dev origin/dev
 
------ 4. 切换到dev分支进行开发
+----- 4. 切換到dev分支進行開發
 $ git checkout dev
 {% endhighlight %}
 
-接下来看看如何从无到有新建分支，并提交到远端。
+接下來看看如何從無到有新建分支，並提交到遠端。
 
 {% highlight text %}
 ----- 完整命令
 $ git push <remote-host> <local-branch>:<remote-branch>
 
------ 1. 创建本地新的hello分支
-$ git branch hello                    ← 创建本地分支
+----- 1. 創建本地新的hello分支
+$ git branch hello                    ← 創建本地分支
 $ git branch                          ← 查看本地分支
 
------ 2. 将hello分支发布到远程仓库
+----- 2. 將hello分支發佈到遠程倉庫
 $ git push origin dev:dev
 
------ 3. 删除远程分支
+----- 3. 刪除遠程分支
 $ git branch -r -d origin/branch-name
 $ git push origin :branch-name
 {% endhighlight %}
 
-实际上，第一步创建完本地分支后，该本地分支远程仓库并不知道，此时可以在本地分支开发，然后 merge 到 master ，使用 master 同步代码。
+實際上，第一步創建完本地分支後，該本地分支遠程倉庫並不知道，此時可以在本地分支開發，然後 merge 到 master ，使用 master 同步代碼。
 
 {% highlight text %}
------ 1. 创建本地新的hello分支
-$ git branch hello                    ← 创建本地分支
+----- 1. 創建本地新的hello分支
+$ git branch hello                    ← 創建本地分支
 
------ 2. 切换到hello分支开发代码
+----- 2. 切換到hello分支開發代碼
 $ git checkout hello
 
------ 3. 开发完成后，合并主分支
-$ git checkout master                 ← 切换到主分支
-$ git merge hello                     ← 把hello分支的更改合并到master
-$ git push                            ← 提交主分支代码远程
+----- 3. 開發完成後，合併主分支
+$ git checkout master                 ← 切換到主分支
+$ git merge hello                     ← 把hello分支的更改合併到master
+$ git push                            ← 提交主分支代碼遠程
 
------ 4. 删除本地分支
+----- 4. 刪除本地分支
 $ git branch -d hello
 {% endhighlight %}
 
-**注意**：在分支切换之前最好先commit全部的改变，除非你真的知道自己在做什么
+**注意**：在分支切換之前最好先commit全部的改變，除非你真的知道自己在做什麼
 
-### 合并冲突
+### 合併衝突
 
-作为分布式版本控制系统，所有修改操作都是基于本地的，在团队协作时，如果同时修改了相同的代码，而你同伴先于你 push 到远端，那么你必须先 pull 做本地合并，然后在 push 到远程。
+作為分佈式版本控制系統，所有修改操作都是基於本地的，在團隊協作時，如果同時修改了相同的代碼，而你同伴先於你 push 到遠端，那麼你必須先 pull 做本地合併，然後在 push 到遠程。
 
-当在合并的时候，可能会出现代码冲突。
+當在合併的時候，可能會出現代碼衝突。
 
 {% highlight text %}
------ 0. 尝试合并
+----- 0. 嘗試合併
 $ git checkout master
 $ git merge hello
 
------ 1. 发生冲突时，将会暂停合并，可以通过如下命令查看冲突文件
+----- 1. 發生衝突時，將會暫停合併，可以通過如下命令查看衝突文件
 $ git status
 {% endhighlight %}
 
-当查看冲突的文件时，显示的内容如下。
+當查看衝突的文件時，顯示的內容如下。
 
 {% highlight text %}
 <<<<<<< HEAD:index.html
@@ -197,7 +197,7 @@ $ git status
 >>>>>>> foobar:index.html
 {% endhighlight %}
 
-其中冲突的两个分支的内容通过 ```======``` 进行分割，解决冲突后，其内容如下。
+其中衝突的兩個分支的內容通過 ```======``` 進行分割，解決衝突後，其內容如下。
 
 {% highlight text %}
 <div id="footer">
@@ -205,7 +205,7 @@ $ git status
 </div>
 {% endhighlight %}
 
-然后，通过 ```git add index.html``` 命令标记下，表示现在已经解决了冲突；当然，也可以使用 `git mergetool` 工具。
+然後，通過 ```git add index.html``` 命令標記下，表示現在已經解決了衝突；當然，也可以使用 `git mergetool` 工具。
 
 #### 其它
 
@@ -214,122 +214,122 @@ $ git branch -v
 $ git branch --merged
 $ git branch --no-merged
 
------ 获取某个分支
-$ git clone http://github.com/project/foobar.git    # 只能获取默认的分支，一般是master，可以手动设置
+----- 獲取某個分支
+$ git clone http://github.com/project/foobar.git    # 只能獲取默認的分支，一般是master，可以手動設置
 $ git branch -a                                     # 查看所有分支
-$ git checkout -b dev origin/dev                    # 获取其它分支
+$ git checkout -b dev origin/dev                    # 獲取其它分支
 {% endhighlight %}
 
 
-## 经典 branch 工作模式
+## 經典 branch 工作模式
 
-如下是一个不错的代码管理模式，详细的可以参考 [A successful Git branching model](http://nvie.com/posts/a-successful-git-branching-model/)，也可以查看 [本地文档](/reference/misc/A successful Git branching model.mht) ，如下是一个简单介绍。
+如下是一個不錯的代碼管理模式，詳細的可以參考 [A successful Git branching model](http://nvie.com/posts/a-successful-git-branching-model/)，也可以查看 [本地文檔](/reference/misc/A successful Git branching model.mht) ，如下是一個簡單介紹。
 
 ![git development model]({{ site.url }}/images/misc/git-develop-model.png "git development model"){: .pull-center width="90%" }
 
-从上图可以看到主要包含下面几个分支，简单介绍如下：
+從上圖可以看到主要包含下面幾個分支，簡單介紹如下：
 
-* master: 主分支，用来版本发布，通常
-* develop：日常开发分支，保存了开发的最新代码，用于每天的回归测试；
-* feature：新的特性或者功能开发分支，只与 develop 分支交互；
-* release：预发布分支，在特性开发基本测试完成后，准备发布前，用于发布前最后测试；
-* hotfix：线上 bug 修复分支。
+* master: 主分支，用來版本發佈，通常
+* develop：日常開發分支，保存了開發的最新代碼，用於每天的迴歸測試；
+* feature：新的特性或者功能開發分支，只與 develop 分支交互；
+* release：預發佈分支，在特性開發基本測試完成後，準備發佈前，用於發佈前最後測試；
+* hotfix：線上 bug 修復分支。
 
-接下来详细介绍。
+接下來詳細介紹。
 
-> NOTE: 如下的介绍中有个 bump-version.sh 脚本，该脚本的作用是，将源码中与版本号相关的内容替换为最新的值，然后用于发布。其中 Github 上有个相关的版本，可以参考 [Github bumpversion](https://github.com/peritus/bumpversion) 。
+> NOTE: 如下的介紹中有個 bump-version.sh 腳本，該腳本的作用是，將源碼中與版本號相關的內容替換為最新的值，然後用於發佈。其中 Github 上有個相關的版本，可以參考 [Github bumpversion](https://github.com/peritus/bumpversion) 。
 
 ### Main Branches
 
-含两个主分支 master 和 develop ，其中 origin/master 表示主分支， HEAD 始终是用于生产环境的代码。而 origin/develop 表示主开发分支，其中的 HEAD 表示最新提交的代码，这也就是每天用来编译测试的代码。
+含兩個主分支 master 和 develop ，其中 origin/master 表示主分支， HEAD 始終是用於生產環境的代碼。而 origin/develop 表示主開發分支，其中的 HEAD 表示最新提交的代碼，這也就是每天用來編譯測試的代碼。
 
 ![git master develop]({{ site.url }}/images/misc/git-master-develop.png "git master develop"){: .pull-center width="50%" }
 
-当开发分支的代码趋于稳定之后，且准备发布时，只需要打个发布的版本号标签 (tag) 即可。
+當開發分支的代碼趨於穩定之後，且準備發佈時，只需要打個發佈的版本號標籤 (tag) 即可。
 
-因此，每次提交到主干时，也就意味着这是一个新的生产版本的发布，那么可以通过一个 hook 自动编译，生成生产环境的安装包。
+因此，每次提交到主幹時，也就意味著這是一個新的生產版本的發佈，那麼可以通過一個 hook 自動編譯，生成生產環境的安裝包。
 
 {% highlight text %}
------ 新建一个仓库，默认会有一个master分支
+----- 新建一個倉庫，默認會有一個master分支
 $ git init
 $ echo 'Hello World!' > README
 $ git add README
 $ git commit -m 'Initial Commit'
 
------ 新建一个develop分支
+----- 新建一個develop分支
 $ git branch develop
 {% endhighlight %}
 
-上述的 main 和 develop 都可以称之为主干分支。
+上述的 main 和 develop 都可以稱之為主幹分支。
 
-除了主干的分支外，还包括了一些其它分支，区别是这些分支有固定的生命周期，包括了 Feature Branches、Release Branches、Hotfix Branches 三种针对不同的场景，也对应了如何获取分支以及如何合并分支。
+除了主幹的分支外，還包括了一些其它分支，區別是這些分支有固定的生命週期，包括了 Feature Branches、Release Branches、Hotfix Branches 三種針對不同的場景，也對應瞭如何獲取分支以及如何合併分支。
 
-如上介绍的三种分支也可以被称为 Support Branches，接下来详细介绍这三种分支。
+如上介紹的三種分支也可以被稱為 Support Branches，接下來詳細介紹這三種分支。
 
 ### Feature Branches
 
-特性分支用来开发一个新的特性，这一分支从 develop 创建，而且最终会合并到 develop 分支；当然，也有可能最终取消掉，这取决于最终产品的决策。
+特性分支用來開發一個新的特性，這一分支從 develop 創建，而且最終會合併到 develop 分支；當然，也有可能最終取消掉，這取決於最終產品的決策。
 
 ![git develop model feature branches]({{ site.url }}/images/misc/git-develop-model-feature-branches.png "git develop model feature branches"){: .pull-center width="20%" }
 
-接下来看看如何使用。
+接下來看看如何使用。
 
 {% highlight text %}
------ 0. 创建新的特性分支
+----- 0. 創建新的特性分支
 $ git checkout -b feature-foobar develop
 
------ 1. 执行一些操作，多次提交
+----- 1. 執行一些操作，多次提交
 $ echo "FOOBAR Feature 1" >> README
 $ git commit -a -m "foobar feature 1"
 $ echo "FOOBAR Feature 2" >> README
 $ git commit -a -m "foobar feature 2"
 
------ 2.1 开发完成，接下来准备合并，先切换到develop分支
+----- 2.1 開發完成，接下來準備合併，先切換到develop分支
 $ git checkout develop
 
------ 2.2 合并到develop主分支
+----- 2.2 合併到develop主分支
 $ git merge --no-ff feature-foobar
 
------ 2.3 删除原来的分支
+----- 2.3 刪除原來的分支
 $ git branch -d feature-foobar
 
------ 2.4 提交到远程仓库
+----- 2.4 提交到遠程倉庫
 $ git push origin develop
 {% endhighlight %}
 
-另外，需要注意的是，上述合并到主分支的时候，采用的是 \-\-no-ff 模式。
+另外，需要注意的是，上述合併到主分支的時候，採用的是 \-\-no-ff 模式。
 
 ![git develop model no-ff means]({{ site.url }}/images/misc/git-develop-model-no-ff-means.png "git develop model no-ff means"){: .pull-center width="70%" }
 
-该参数的作用是强行关闭 fast-forward 方式，该方式就是当条件允许的时候，git 直接把 HEAD 指针指向合并分支的头，完成合并。不过如果删除分支，由于这个过程中没有创建 commit，则会丢失分支信息，使用该参数将保留分支 commit 历史。
+該參數的作用是強行關閉 fast-forward 方式，該方式就是當條件允許的時候，git 直接把 HEAD 指針指向合併分支的頭，完成合並。不過如果刪除分支，由於這個過程中沒有創建 commit，則會丟失分支信息，使用該參數將保留分支 commit 歷史。
 
-实际上，通过 git log 查看时，使用 \-\-on-ff 会强制添加 commit ，否则看不到合并的信息。
+實際上，通過 git log 查看時，使用 \-\-on-ff 會強制添加 commit ，否則看不到合併的信息。
 
 <!--
-git merge --squash 是用来把一些不必要commit进行压缩，比如说，你的feature在开发的时候写的commit很乱，那么我们合并的时候不希望把这些历史commit带过来，于是使用--squash进行合并，此时文件已经同合并后一样了，但不移动HEAD，不提交。需要进行一次额外的commit来“总结”一下，然后完成最终的合并。
+git merge --squash 是用來把一些不必要commit進行壓縮，比如說，你的feature在開發的時候寫的commit很亂，那麼我們合併的時候不希望把這些歷史commit帶過來，於是使用--squash進行合併，此時文件已經同合併後一樣了，但不移動HEAD，不提交。需要進行一次額外的commit來“總結”一下，然後完成最終的合併。
 -->
 
-另外，还有个参数 \-\-squash，会把多次分支 commit 历史压缩为一次。
+另外，還有個參數 \-\-squash，會把多次分支 commit 歷史壓縮為一次。
 
 
 ### Release Branches
 
-用于正式发布前的最后测试，尽量减少 bug 数目，添加元信息 (版本号以及发布日期等)。该分支从 develop 创建，可以合并到 develop 或者 master 分支，其命名为 release-* 。
+用於正式發佈前的最後測試，儘量減少 bug 數目，添加元信息 (版本號以及發佈日期等)。該分支從 develop 創建，可以合併到 develop 或者 master 分支，其命名為 release-* 。
 
-合并到 master 之后就可以用于发布了，而之所以合并到 develop ，是为了将最新修改合并到新的开发分支。
+合併到 master 之後就可以用於發佈了，而之所以合併到 develop ，是為了將最新修改合併到新的開發分支。
 
 {% highlight text %}
------ 1. 创建分支，并更新文件一些头部信息等，然后提交
+----- 1. 創建分支，並更新文件一些頭部信息等，然後提交
 $ git checkout -b release-1.2 develop
 $ ./bump-version.sh 1.2
 $ git commit -a -m "Bumped version number to 1.2"
 
------ 2. 测试没有问题后，准备正式发布
+----- 2. 測試沒有問題後，準備正式發佈
 $ git checkout master
 $ git merge --no-ff release-1.2
 $ git tag -a 1.2
 
------ 3. 删除release分支
+----- 3. 刪除release分支
 $ git checkout develop
 $ git merge --no-ff release-1.2
 $ git branch -d release-1.2
@@ -337,58 +337,58 @@ $ git branch -d release-1.2
 
 ### Hotfix Branches
 
-该分支由于修复线上 bug，当线上代码出现 bug 时，从 master 开一个 hotfix 分支，修复 bug 之后再将 hotfix 分支合并到 master 分支并进行发布，同时也需要合并到 develop 分支上去。
+該分支由於修復線上 bug，當線上代碼出現 bug 時，從 master 開一個 hotfix 分支，修復 bug 之後再將 hotfix 分支合併到 master 分支並進行發佈，同時也需要合併到 develop 分支上去。
 
 ![git develop model hotfix branch]({{ site.url }}/images/misc/git-develop-model-hotfix-branch.png "git develop model hotfix branch"){: .pull-center width="50%" }
 
-可以发现，hotfix 和 release 分支功能类似，两者好处是不会打断 develop 分支正常功能开发。
+可以發現，hotfix 和 release 分支功能類似，兩者好處是不會打斷 develop 分支正常功能開發。
 
 {% highlight text %}
------ 1. 从master获取分支
+----- 1. 從master獲取分支
 $ git checkout -b hotfix-1.2.1 master
 $ ./bump-version.sh 1.2.1
 $ git commit -a -m "Bumped version number to 1.2.1"
 
------ 2. 然后修改代码修复bug，并提交
+----- 2. 然後修改代碼修復bug，並提交
 $ git commit -m "Fixed severe production problem"
 
------ 3. bug修复后，将该分支合并到master
+----- 3. bug修復後，將該分支合併到master
 $ git checkout master
 $ git merge --no-ff hotfix-1.2.1
 $ git tag -a 1.2.1
 
------ 4. 然后将hotfix合并到develop分支
+----- 4. 然後將hotfix合併到develop分支
 $ git checkout develop
 $ git merge --no-ff hotfix-1.2.1
 
------ 5. 删除hotfix分支
+----- 5. 刪除hotfix分支
 $ git branch -d hotfix-1.2.1
 {% endhighlight %}
 
 
 ## git-flow
 
-[git-flow](https://github.com/nvie/gitflow) 提供了很多不错的脚本，来支持上述的这种开发模式，不过它并没有提供重置 (rebase) 特性分支的能力，安装方式可以参考 [gitflow-installation](https://github.com/nvie/gitflow/wiki/Installation) 。
+[git-flow](https://github.com/nvie/gitflow) 提供了很多不錯的腳本，來支持上述的這種開發模式，不過它並沒有提供重置 (rebase) 特性分支的能力，安裝方式可以參考 [gitflow-installation](https://github.com/nvie/gitflow/wiki/Installation) 。
 
-该工具集成了一些常见的命令，每次操作实际都会提示一些操作记录。
+該工具集成了一些常見的命令，每次操作實際都會提示一些操作記錄。
 
-### 安装
+### 安裝
 
-可以直接从 [github gitflow/contrib/gitflow-installer.sh](https://raw.githubusercontent.com/nvie/gitflow/develop/contrib/gitflow-installer.sh) 下载文件，然后执行如下命令即可。
+可以直接從 [github gitflow/contrib/gitflow-installer.sh](https://raw.githubusercontent.com/nvie/gitflow/develop/contrib/gitflow-installer.sh) 下載文件，然後執行如下命令即可。
 
 {% highlight text %}
------ 安装
+----- 安裝
 $ wget --no-check-certificate -q https://raw.githubusercontent.com/.../gitflow-installer.sh
 # bash gitflow-installer.sh install stable
 $ rm gitflow-installer.sh
 
------ 删除
+----- 刪除
 # bash gitflow-installer.sh uninstall
 {% endhighlight %}
 
-实际上很简单，只是将代码 clone 到本地，然后通过 install 命令安装；当然，也可以离线安装，该模块会依赖于 [github - nvie/shFlags](https://github.com/nvie/shFlags)，直接将该代码下载并放置到源码的 shFlags 目录下即可。
+實際上很簡單，只是將代碼 clone 到本地，然後通過 install 命令安裝；當然，也可以離線安裝，該模塊會依賴於 [github - nvie/shFlags](https://github.com/nvie/shFlags)，直接將該代碼下載並放置到源碼的 shFlags 目錄下即可。
 
-最后，通过 ```make install``` 安装，也可以执行如下步骤，不过需要修改安装脚本的代码，注释掉下载代码的步骤。
+最後，通過 ```make install``` 安裝，也可以執行如下步驟，不過需要修改安裝腳本的代碼，註釋掉下載代碼的步驟。
 
 {% highlight text %}
 $ tar -xf gitflow-x.x.x.tar.gz shFlags-x.x.x.tar.gz
@@ -401,7 +401,7 @@ $ mv shFlags-x.x.x gitflow/shFlags
 
 ### 初始化
 
-使用 git-flow 时，需要从初始化一个 git 库开始，其中命令如下。
+使用 git-flow 時，需要從初始化一個 git 庫開始，其中命令如下。
 
 {% highlight text %}
 $ git flow init
@@ -417,37 +417,37 @@ Support branches? [support/]
 Version tag prefix? []
 {% endhighlight %}
 
-主要是回答几个关于分支的命名约定，建议使用默认值。
+主要是回答幾個關於分支的命名約定，建議使用默認值。
 
-对于最后的 tag 选项，可以设置为软件的名称，例如 ```foobar-```，然后 Release Branches 的名称使用类似 ```v1.1.0``` 名称，那么最终的 tag 名即为 ```foobar-v1.1.0``` 。
+對於最後的 tag 選項，可以設置為軟件的名稱，例如 ```foobar-```，然後 Release Branches 的名稱使用類似 ```v1.1.0``` 名稱，那麼最終的 tag 名即為 ```foobar-v1.1.0``` 。
 
-关于该 tag 的信息可以通过 ```git show foobar-v1.1.0``` 命令查看。
+關於該 tag 的信息可以通過 ```git show foobar-v1.1.0``` 命令查看。
 
 ### 新特性
 
-关于新特性的开发流程，为即将发布的版本开发新功能特性，这通常只存在开发者的库中。
+關於新特性的開發流程，為即將發佈的版本開發新功能特性，這通常只存在開發者的庫中。
 
 #### 增加新特性
 
-新特性的开发是基于 'develop' 分支的，可以通过下面的命令开始开发新特性：
+新特性的開發是基於 'develop' 分支的，可以通過下面的命令開始開發新特性：
 
 {% highlight text %}
 $ git flow feature start MYFEATURE
 {% endhighlight %}
 
-这个操作创建了一个基于 'develop' 的特性分支，并切换到这个分支之下。
+這個操作創建了一個基於 'develop' 的特性分支，並切換到這個分支之下。
 
 #### 完成新特性
 
-完成开发新特性之后，执行下面的操作，主要是合并 MYFEATURE 分支到 'develop'，并删除这个新特性分支，然后切换回 'develop' 分支。
+完成開發新特性之後，執行下面的操作，主要是合併 MYFEATURE 分支到 'develop'，並刪除這個新特性分支，然後切換回 'develop' 分支。
 
 {% highlight text %}
 $ git flow feature finish MYFEATURE
 {% endhighlight %}
 
-#### 发布新特性
+#### 發佈新特性
 
-主要用于合作开发一新特性，将新特性分支发布到远程服务器，这样其他用户可以使用该分支。
+主要用於合作開發一新特性，將新特性分支發佈到遠程服務器，這樣其他用戶可以使用該分支。
 
 {% highlight text %}
 $ git flow feature publish MYFEATURE
@@ -455,65 +455,65 @@ $ git flow feature publish MYFEATURE
 
 #### 取得新特性分支
 
-主要用于取得其他用户发布的新特性分支，并签出远程的变更，主要有如下的两种方式。
+主要用於取得其他用戶發佈的新特性分支，並簽出遠程的變更，主要有如下的兩種方式。
 
 {% highlight text %}
------ 签出特性分支变更
+----- 簽出特性分支變更
 $ git flow feature pull origin MYFEATURE
 
------ 跟踪特性分支变更
+----- 跟蹤特性分支變更
 $ git flow feature track MYFEATURE
 {% endhighlight %}
 
-### 预发布版本
+### 預發佈版本
 
-该分支准备开始发布，用于支持一个新的用于生产环境的发布版本，允许修正小问题 (bug)，但不新增特性，并为发布版本准备元数据。
+該分支準備開始發佈，用於支持一個新的用於生產環境的發佈版本，允許修正小問題 (bug)，但不新增特性，併為發佈版本準備元數據。
 
-#### 准备
+#### 準備
 
-开始准备预发布版本，它从 'develop' 分支开始创建一个 release 分支。
+開始準備預發佈版本，它從 'develop' 分支開始創建一個 release 分支。
 
 {% highlight text %}
 $ git flow release start RELEASE [BASE]
 {% endhighlight %}
 
-可以选择一个 [BASE] 参数，这是 'develop' 分支提交记录的 hash 值。
+可以選擇一個 [BASE] 參數，這是 'develop' 分支提交記錄的 hash 值。
 
-创建 release 分支之后，可以立即发布到远端，从而允许其它用户向这个 release 分支提交代码，该命令十分类似发布新特性：
+創建 release 分支之後，可以立即發佈到遠端，從而允許其它用戶向這個 release 分支提交代碼，該命令十分類似發佈新特性：
 
 {% highlight text %}
------ 提交到远端
+----- 提交到遠端
 $ git flow release publish RELEASE
 
------ 签出release版本的远程变更
+----- 簽出release版本的遠程變更
 $ git flow release track RELEASE
 {% endhighlight %}
 
-#### 完成预发布版本
+#### 完成預發佈版本
 
-完成 release 版本分支操作，主要执行下面几个动作：A) 合并 release 分支到 master 分支；B) 用 release 分支名打 tag；C) 归并 release 分支到 develop；D) 移除 release 分支。
+完成 release 版本分支操作，主要執行下面幾個動作：A) 合併 release 分支到 master 分支；B) 用 release 分支名打 tag；C) 歸併 release 分支到 develop；D) 移除 release 分支。
 
 {% highlight text %}
 $ git flow release finish RELEASE
 {% endhighlight %}
 
-### 紧急修复
+### 緊急修復
 
-当生产环境的版本突然发现一个严重 bug 时，需要立即修正；此时，有可能是需要修正 master 分支上某个 tag 标记的生产版本。
+當生產環境的版本突然發現一個嚴重 bug 時，需要立即修正；此時，有可能是需要修正 master 分支上某個 tag 標記的生產版本。
 
-#### 开始
+#### 開始
 
-像其它 git flow 命令一样, 可以通过如下命令创建一个紧急修复分支。
+像其它 git flow 命令一樣, 可以通過如下命令創建一個緊急修復分支。
 
 {% highlight text %}
 $ git flow hotfix start VERSION [BASENAME]
 {% endhighlight %}
 
-VERSION 参数标记着修正版本，可以从 [BASENAME] 开始，[BASENAME] 为 finish release 时填写的版本号。
+VERSION 參數標記著修正版本，可以從 [BASENAME] 開始，[BASENAME] 為 finish release 時填寫的版本號。
 
 #### 完成
 
-当完成紧急修复分支后，代码归并回 develop 和 master 分支，相应地，master 分支打上修正版本的 tag 。
+當完成緊急修復分支後，代碼歸併回 develop 和 master 分支，相應地，master 分支打上修正版本的 tag 。
 
 {% highlight text %}
 $ git flow hotfix finish VERSION
@@ -523,13 +523,13 @@ $ git flow hotfix finish VERSION
 
 ##### unable to start editor
 
-可以通过 `git config --global core.editor "vim"` 命令设置。
+可以通過 `git config --global core.editor "vim"` 命令設置。
 
-## 参考
+## 參考
 
-关于 Git 的分支介绍可以参考 [git-scm.com/doc](https://git-scm.com/doc) 中的介绍，另外，还有一本不错介绍 Git 的资料 [Pro Git Book](http://git-scm.com/book/)；另外一个不错的文档 [图解Git](http://marklodato.github.io/visual-git-guide/index-zh-cn.html)，或者 [本地文档](/reference/misc/git_graphs.mht) 。
+關於 Git 的分支介紹可以參考 [git-scm.com/doc](https://git-scm.com/doc) 中的介紹，另外，還有一本不錯介紹 Git 的資料 [Pro Git Book](http://git-scm.com/book/)；另外一個不錯的文檔 [圖解Git](http://marklodato.github.io/visual-git-guide/index-zh-cn.html)，或者 [本地文檔](/reference/misc/git_graphs.mht) 。
 
-对于一种不错的 Git 分支管理模式，也即如上的介绍，可以参考 [A successful Git branching model](http://nvie.com/posts/a-successful-git-branching-model/) 或者 [本地文档](/reference/misc/A successful Git branching model.mht) 。
+對於一種不錯的 Git 分支管理模式，也即如上的介紹，可以參考 [A successful Git branching model](http://nvie.com/posts/a-successful-git-branching-model/) 或者 [本地文檔](/reference/misc/A successful Git branching model.mht) 。
 
 <!--
 http://www.worldhello.net/gotgithub/index.html

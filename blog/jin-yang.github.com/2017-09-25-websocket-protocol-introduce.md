@@ -1,47 +1,47 @@
 ---
-title: WebSocket 协议简介
+title: WebSocket 協議簡介
 layout: post
 comments: true
 language: chinese
 category: [linux,network]
 keywords: websocket,protocol,http,tcp
-description: 对于 HTTP 协议，通信只能由客户端发起，服务端无法主动向客户端推送信息，通过轮询方式就很消耗资源。为了达到实时响应以及良好的用户体验，通常通过 AJAX 实现异步无刷新请求功能，不过只能在浏览器异步请求服务器，也就是拉取；而推送一般通过类似 Comet 的技术，略显复杂。而 WebSocket 是一种全新的协议，将 TCP 的 Socket 应用在了 web page 上，从而使通信双方建立起一个保持在活动状态连接通道，并且属于全双工工作模式。
+description: 對於 HTTP 協議，通信只能由客戶端發起，服務端無法主動向客戶端推送信息，通過輪詢方式就很消耗資源。為了達到實時響應以及良好的用戶體驗，通常通過 AJAX 實現異步無刷新請求功能，不過只能在瀏覽器異步請求服務器，也就是拉取；而推送一般通過類似 Comet 的技術，略顯複雜。而 WebSocket 是一種全新的協議，將 TCP 的 Socket 應用在了 web page 上，從而使通信雙方建立起一個保持在活動狀態連接通道，並且屬於全雙工工作模式。
 ---
 
-对于 HTTP 协议，通信只能由客户端发起，服务端无法主动向客户端推送信息，通过轮询方式就很消耗资源。
+對於 HTTP 協議，通信只能由客戶端發起，服務端無法主動向客戶端推送信息，通過輪詢方式就很消耗資源。
 
-为了达到实时响应以及良好的用户体验，通常通过 AJAX 实现异步无刷新请求功能，不过只能在浏览器异步请求服务器，也就是拉取；而推送一般通过类似 Comet 的技术，略显复杂。
+為了達到實時響應以及良好的用戶體驗，通常通過 AJAX 實現異步無刷新請求功能，不過只能在瀏覽器異步請求服務器，也就是拉取；而推送一般通過類似 Comet 的技術，略顯複雜。
 
-而 WebSocket 是一种全新的协议，将 TCP 的 Socket 应用在了 web page 上，从而使通信双方建立起一个保持在活动状态连接通道，并且属于全双工工作模式。
+而 WebSocket 是一種全新的協議，將 TCP 的 Socket 應用在了 web page 上，從而使通信雙方建立起一個保持在活動狀態連接通道，並且屬於全雙工工作模式。
 
 <!-- more -->
 
 ## 示例
 
-WebSocket 协议是借用 HTTP 协议的 `101 switch protocol` 来达到协议转换的，从 HTTP 协议切换成 WebSocket 通信协议。
+WebSocket 協議是借用 HTTP 協議的 `101 switch protocol` 來達到協議轉換的，從 HTTP 協議切換成 WebSocket 通信協議。
 
-WebSocket 是基于 TCP 协议，握手阶段采用 HTTP 协议，而且没有同源限制，客户端可以与任意服务器通信，协议标识符是 ws (如果加密，则为wss)。
+WebSocket 是基於 TCP 協議，握手階段採用 HTTP 協議，而且沒有同源限制，客戶端可以與任意服務器通信，協議標識符是 ws (如果加密，則為wss)。
 
 其中示例程序如下：
 
 {% highlight javascript %}
-// 与服务端建立链接
+// 與服務端建立鏈接
 var ws = new WebSocket("wss://echo.websocket.org");
 
-// 建立链接后的回调函数
+// 建立鏈接後的回調函數
 ws.onopen = function(event) {
 	console.log("Connection open ...");
 	ws.send("Hello WebSockets!");
 };
 
-// 收到服务器数据后的回调函数
+// 收到服務器數據後的回調函數
 ws.onmessage = function(event) {
-	// 数据格式可以是文本
+	// 數據格式可以是文本
 	if(typeof event.data === String) {
 		console.log("Received Message: " + event.data);
 	}
 
-	// 也可能是二进制数据
+	// 也可能是二進制數據
 	if(event.data instanceof ArrayBuffer){
 		var buffer = event.data;
 		console.log("Received arraybuffer");
@@ -50,25 +50,25 @@ ws.onmessage = function(event) {
 	ws.close();
 };
 
-// 链接关闭后的回调函数
+// 鏈接關閉後的回調函數
 ws.onclose = function(event) {
 	console.log("Connection closed.");
 };
 
-// 错误异常处理
+// 錯誤異常處理
 socket.onerror = function(event) {
 	// handle error event
 };
 {% endhighlight %}
 
-其中每个实例中有 readyState 属性，用于返回实例对象的当前状态，共有四种。
+其中每個實例中有 readyState 屬性，用於返回實例對象的當前狀態，共有四種。
 
-* CONNECTING：值为0，表示正在连接。
-* OPEN：值为1，表示连接成功，可以通信了。
-* CLOSING：值为2，表示连接正在关闭。
-* CLOSED：值为3，表示连接已经关闭，或者打开连接失败。
+* CONNECTING：值為0，表示正在連接。
+* OPEN：值為1，表示連接成功，可以通信了。
+* CLOSING：值為2，表示連接正在關閉。
+* CLOSED：值為3，表示連接已經關閉，或者打開連接失敗。
 
-对于回调函数，在如上的示例中只指定了一个，也可以通过如下代码添加多个回调函数：
+對於回調函數，在如上的示例中只指定了一個，也可以通過如下代碼添加多個回調函數：
 
 {% highlight javascript %}
 ws.addEventListener('open', function(event) {
@@ -76,31 +76,31 @@ ws.addEventListener('open', function(event) {
 });
 {% endhighlight %}
 
-如上收到数据后判断类型时，除了上述动态判断收到的数据类型，也可以使用 binaryType 属性，显式指定收到的二进制数据类型。
+如上收到數據後判斷類型時，除了上述動態判斷收到的數據類型，也可以使用 binaryType 屬性，顯式指定收到的二進制數據類型。
 
 {% highlight javascript %}
-// 收到的是 blob 数据
+// 收到的是 blob 數據
 ws.binaryType = "blob";
 ws.onmessage = function(e) {
 	console.log(e.data.size);
 };
 
-// 收到的是 ArrayBuffer 数据
+// 收到的是 ArrayBuffer 數據
 ws.binaryType = "arraybuffer";
 ws.onmessage = function(e) {
 	console.log(e.data.byteLength);
 };
 {% endhighlight %}
 
-## 协议简介
+## 協議簡介
 
-WebSocket 协议是基于 Frame 而非 Stream ，也就是说，数据的传输不是像传统的流式读写一样按字节发送，而是采用一帧一帧的 Frame，并且每个 Frame 都定义了严格的数据结构，因此所有的信息就在这个 Frame 载体中。
+WebSocket 協議是基於 Frame 而非 Stream ，也就是說，數據的傳輸不是像傳統的流式讀寫一樣按字節發送，而是採用一幀一幀的 Frame，並且每個 Frame 都定義了嚴格的數據結構，因此所有的信息就在這個 Frame 載體中。
 
-默认情况下，WebSocket 协议使用 80 端口建立普通连接，加密的 TLS 连接默认使用 443 端口，与 HTTP 相同。
+默認情況下，WebSocket 協議使用 80 端口建立普通連接，加密的 TLS 連接默認使用 443 端口，與 HTTP 相同。
 
-### 服务器握手响应
+### 服務器握手響應
 
-首先需要浏览器主动发起一个 HTTP 请求，每一个响应头之间用 `\r\n` 间隔，最后再放一个 `\r\n` 空行，请求内容大致如下：
+首先需要瀏覽器主動發起一個 HTTP 請求，每一個響應頭之間用 `\r\n` 間隔，最後再放一個 `\r\n` 空行，請求內容大致如下：
 
 {% highlight text %}
 GET HTTP/1.1
@@ -109,16 +109,16 @@ Connection: Upgrade
 Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=
 {% endhighlight %}
 
-其中包含了几个关键的字段：
+其中包含了幾個關鍵的字段：
 
-* Upgrade 内容为 websocket，该字段标示改变 HTTP 协议版本或换用其他协议，这里是换用了 websocket 协议。
-* Sec-WebSocket-Key 一个随机的经过 Base64 编码的字符串，像密钥一样用于服务器和客户端的握手过程。
+* Upgrade 內容為 websocket，該字段標示改變 HTTP 協議版本或換用其他協議，這裡是換用了 websocket 協議。
+* Sec-WebSocket-Key 一個隨機的經過 Base64 編碼的字符串，像密鑰一樣用於服務器和客戶端的握手過程。
 
-当服务器接收到来自客户端的 upgrade 请求，就将请求头中的 `Sec-WebSocket-Key` 字段提取出来，追加一个固定的 `258EAFA5-E914-47DA-95CA-C5AB0DC85B11` 字符串，并进行 `SHA-1` 加密，然后再次经过 Base64 编码生成一个新的 key，作为响应头中的 `Sec-WebSocket-Accept` 字段的内容返回给浏览器。
+當服務器接收到來自客戶端的 upgrade 請求，就將請求頭中的 `Sec-WebSocket-Key` 字段提取出來，追加一個固定的 `258EAFA5-E914-47DA-95CA-C5AB0DC85B11` 字符串，並進行 `SHA-1` 加密，然後再次經過 Base64 編碼生成一個新的 key，作為響應頭中的 `Sec-WebSocket-Accept` 字段的內容返回給瀏覽器。
 
-浏览器接收到来自服务器的响应，便会解析响应中的 `Sec-WebSocket-Accept` 字段，与自己加密编码后的串进行匹配，一旦匹配成功，便可以准备建立 WebSocket 链接了。
+瀏覽器接收到來自服務器的響應，便會解析響應中的 `Sec-WebSocket-Accept` 字段，與自己加密編碼後的串進行匹配，一旦匹配成功，便可以準備建立 WebSocket 鏈接了。
 
-然后服务器响应类似如下的 HTTP 报文。
+然後服務器響應類似如下的 HTTP 報文。
 
 {% highlight text %}
 HTTP/1.1 101 Switching Protocols
@@ -127,11 +127,11 @@ Connection: Upgrade
 Sec-WebSocket-Accept: 4O33ZinyFxWKCaxf7T4yCA==
 {% endhighlight %}
 
-另外，客户端向服务器发起握手请求的 header 中，可以通过 `Sec-WebSocket-Protocol` 字段指定一个子协议，服务器在建立连接的响应头中包含同样的字段，内容就是选择的子协议之一。
+另外，客戶端向服務器發起握手請求的 header 中，可以通過 `Sec-WebSocket-Protocol` 字段指定一個子協議，服務器在建立連接的響應頭中包含同樣的字段，內容就是選擇的子協議之一。
 
-### 协议
+### 協議
 
-接下来的数据传输就是通过 WebSocket 协议了，传输的数据都是以 Frame 形式实现，类似于 TCP/UDP 协议中的报文段 Segment。
+接下來的數據傳輸就是通過 WebSocket 協議了，傳輸的數據都是以 Frame 形式實現，類似於 TCP/UDP 協議中的報文段 Segment。
 
 {% highlight text %}
   0                   1                   2                   3
@@ -157,42 +157,42 @@ Sec-WebSocket-Accept: 4O33ZinyFxWKCaxf7T4yCA==
 
 #### Masking-key
 
-当 mask 字段的值为 1 时，payload-data 字段的数据需要经这个掩码进行解密；如果是 0 ，那么数据的解析就不涉及到掩码，直接使用就行。
+當 mask 字段的值為 1 時，payload-data 字段的數據需要經這個掩碼進行解密；如果是 0 ，那麼數據的解析就不涉及到掩碼，直接使用就行。
 
-不过，如果消息是从客户端发送到服务器，那么 mask 一定是 1，而 Masking-key 一定是一个 32bit 的值。
+不過，如果消息是從客戶端發送到服務器，那麼 mask 一定是 1，而 Masking-key 一定是一個 32bit 的值。
 
 ### 分片 (Fragment)
 
-理论上来说，每个帧 (Frame) 的大小是没有限制的，但是发送的数据有不能太大，否则无法高效的利用网络带宽 (由于MSS)，如果要传输大片数据就需要使用分片。
+理論上來說，每個幀 (Frame) 的大小是沒有限制的，但是發送的數據有不能太大，否則無法高效的利用網絡帶寬 (由於MSS)，如果要傳輸大片數據就需要使用分片。
 
-将原本一个大的帧拆分成数个小的帧，下面是把一个大的 Frame 分片的图示：
+將原本一個大的幀拆分成數個小的幀，下面是把一個大的 Frame 分片的圖示：
 
 Number:
 
    FIN:
 Opcode: !0 0 0
 
-  编号：      0  1  ....  n-2 n-1
+  編號：      0  1  ....  n-2 n-1
     分片：     |——|——|......|——|——|
       FIN：      0  0  ....   0  1
         Opcode：   !0 0  ....   0  0
 
-由上述可知，第一个分片的 FIN 为0，Opcode为非0值（0x1或0x2），最后一个分片的FIN为1，Opcode为0。中间分片的FIN和Opcode二者均为0。
+由上述可知，第一個分片的 FIN 為0，Opcode為非0值（0x1或0x2），最後一個分片的FIN為1，Opcode為0。中間分片的FIN和Opcode二者均為0。
 
-	Note1：消息的分片必须由发送者按给定的顺序发送给接收者。
+	Note1：消息的分片必須由發送者按給定的順序發送給接收者。
 
-	Note2：控制帧禁止分片
+	Note2：控制幀禁止分片
 
-	Note3：接受者不必按顺序缓存整个frame来处理
-
-
+	Note3：接受者不必按順序緩存整個frame來處理
 
 
-## 参考
 
-类似 CGI ，通过标准输入输出作为 WebSocket 的输入输出，很特别但是实用的服务器 [http://websocketd.com/](http://websocketd.com/) ，一个通过前端显示 vmstats 的工程实现，详见 [Github web-vmstats](https://github.com/joewalnes/web-vmstats) 。
 
-基于 [libwebsockets](https://github.com/warmcat/libwebsockets) 实现的工程，包括：数据展示 [JitterTrap](https://github.com/acooks/jittertrap)、共享终端 [ttyd](https://github.com/tsl0922/ttyd) 。
+## 參考
+
+類似 CGI ，通過標準輸入輸出作為 WebSocket 的輸入輸出，很特別但是實用的服務器 [http://websocketd.com/](http://websocketd.com/) ，一個通過前端顯示 vmstats 的工程實現，詳見 [Github web-vmstats](https://github.com/joewalnes/web-vmstats) 。
+
+基於 [libwebsockets](https://github.com/warmcat/libwebsockets) 實現的工程，包括：數據展示 [JitterTrap](https://github.com/acooks/jittertrap)、共享終端 [ttyd](https://github.com/tsl0922/ttyd) 。
 
 <!--
 [WebSocket API](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket) 。

@@ -1,72 +1,72 @@
 ---
-title: Linux IO 多路复用
+title: Linux IO 多路複用
 layout: post
 comments: true
 language: chinese
 category: [linux,program]
-keywords: linux,io,multiplexing,多路复用
-description: 通过 IO 多路复用技术，系统内核缓冲 IO 数据，当某个 IO 准备好后，系统通知应用程序该 IO 可读或可写，这样应用程序可以马上完成相应的 IO 操作，而不需要等待系统完成相应 IO 操作，从而应用程序不必因等待 IO 操作而阻塞。这里简单介绍下 Linux 中 IO 多路复用的使用。
+keywords: linux,io,multiplexing,多路複用
+description: 通過 IO 多路複用技術，系統內核緩衝 IO 數據，當某個 IO 準備好後，系統通知應用程序該 IO 可讀或可寫，這樣應用程序可以馬上完成相應的 IO 操作，而不需要等待系統完成相應 IO 操作，從而應用程序不必因等待 IO 操作而阻塞。這裡簡單介紹下 Linux 中 IO 多路複用的使用。
 ---
 
-通过 IO 多路复用技术，系统内核缓冲 IO 数据，当某个 IO 准备好后，系统通知应用程序该 IO 可读或可写，这样应用程序可以马上完成相应的 IO 操作，而不需要等待系统完成相应 IO 操作，从而应用程序不必因等待 IO 操作而阻塞。
+通過 IO 多路複用技術，系統內核緩衝 IO 數據，當某個 IO 準備好後，系統通知應用程序該 IO 可讀或可寫，這樣應用程序可以馬上完成相應的 IO 操作，而不需要等待系統完成相應 IO 操作，從而應用程序不必因等待 IO 操作而阻塞。
 
-这里简单介绍下 Linux 中 IO 多路复用的使用。
+這裡簡單介紹下 Linux 中 IO 多路複用的使用。
 
 <!-- more -->
 
-## 简介
+## 簡介
 
-在 Linux 中，会将很多资源通过文件描述符表示，包括了文件系统、网络、物理设备等等。
+在 Linux 中，會將很多資源通過文件描述符表示，包括了文件系統、網絡、物理設備等等。
 
-文件描述符就是一个整数，默认会选择最小未使用的数值，其中有三个比较固定，比较特殊的值，0 是标准输入，1 是标准输出，2 是标准错误输出。
+文件描述符就是一個整數，默認會選擇最小未使用的數值，其中有三個比較固定，比較特殊的值，0 是標準輸入，1 是標準輸出，2 是標準錯誤輸出。
 
-0、1、2 是整数表示的，对应的 FILE* 结构的表示就是 stdin、stdout、stderr。
+0、1、2 是整數表示的，對應的 FILE* 結構的表示就是 stdin、stdout、stderr。
 
 ## select
 
-select 可以用来监视多个文件句柄的状态变化，程序会阻塞在 select 直到被监视的文件句柄有一个或多个发生了状态改变，然后通知应用程序，应用程序 <font color='blue'>轮询</font> 所有的 FD 集合，判断监控的 FD 是否有事件发生，并作相应的处理。
+select 可以用來監視多個文件句柄的狀態變化，程序會阻塞在 select 直到被監視的文件句柄有一個或多個發生了狀態改變，然後通知應用程序，應用程序 <font color='blue'>輪詢</font> 所有的 FD 集合，判斷監控的 FD 是否有事件發生，並作相應的處理。
 
-select 相关的声明和宏，通过宏来设置参数，相应的执行流程如下。
+select 相關的聲明和宏，通過宏來設置參數，相應的執行流程如下。
 
 {% highlight text %}
 int select(int maxfd, fd_set * readfds, fd_set * writefds, fd_set * exceptfds, struct timeval * timeout);
-FD_CLR(inr fd, fd_set* set);                               // 清除描述词组set中相关fd的位
-FD_ISSET(int fd, fd_set *set);                             // 用来测试描述词组set中相关fd的位是否为真
-FD_SET(int fd, fd_set*set);                                // 用来设置描述词组set中相关fd的位
-FD_ZERO(fd_set *set);                                      // 用来清除描述词组set的全部位
+FD_CLR(inr fd, fd_set* set);                               // 清除描述詞組set中相關fd的位
+FD_ISSET(int fd, fd_set *set);                             // 用來測試描述詞組set中相關fd的位是否為真
+FD_SET(int fd, fd_set*set);                                // 用來設置描述詞組set中相關fd的位
+FD_ZERO(fd_set *set);                                      // 用來清除描述詞組set的全部位
 struct timeval {
    time_t tv_sec;
    time_t tv_usec;
 };
 
------ 调用流程
-fd_set readfso;                                            // 1.1 定义需要监视的描述符
+----- 調用流程
+fd_set readfso;                                            // 1.1 定義需要監視的描述符
 FD_ZERO(&readfso);                                         // 1.2 清空
-FD_SET(fd, &readfso);                                      // 1.3 设置需要监控的描述符，如fd=1
+FD_SET(fd, &readfso);                                      // 1.3 設置需要監控的描述符，如fd=1
 while(1) {
     readfs = readfso;
-    ret = select(maxfd+1, &readfds, NULL, NULL, timeout);  // 2.1 监听所关注的事件，在此为监听读事件
-    if (ret > 0)                                           // 3.1.1 监听事件发生
-        for (i = 0; i > FD_SETSIZE; i++)                   // 3.1.2 需要遍历所有fd
+    ret = select(maxfd+1, &readfds, NULL, NULL, timeout);  // 2.1 監聽所關注的事件，在此為監聽讀事件
+    if (ret > 0)                                           // 3.1.1 監聽事件發生
+        for (i = 0; i > FD_SETSIZE; i++)                   // 3.1.2 需要遍歷所有fd
             if (FD_ISSET(fd, &readfds))
                 handleEvent();
-    else if (ret == 0)                                     // 3.2 超时
+    else if (ret == 0)                                     // 3.2 超時
         handle timeout
-    else if (ret < 0)                                      // 3.3 发生错误
+    else if (ret < 0)                                      // 3.3 發生錯誤
         handle error
 }
 {% endhighlight %}
 
-在 select 函数中，各个参数的含义如下。
-* maxfd 为最大文件描述符+1，因此在程序中需要知道最大描述符的值。
-* 接着的三个参数分别设置所监听的读、写、异常事件对应的描述符。该值传入需要监控事件的描述符，返回值保存了发生了的事件对应的描述符。
-* 设置超时时间，NULL 表示一直等待。
+在 select 函數中，各個參數的含義如下。
+* maxfd 為最大文件描述符+1，因此在程序中需要知道最大描述符的值。
+* 接著的三個參數分別設置所監聽的讀、寫、異常事件對應的描述符。該值傳入需要監控事件的描述符，返回值保存了發生了的事件對應的描述符。
+* 設置超時時間，NULL 表示一直等待。
 
-返回值：成功则返回文件描述符状态已改变的总数；如果返回 0 代表在描述词状态改变前已超过 timeout 时间；当有错误发生时则返回 -1，错误原因存于 errno ，此时参数 readfds, writefds, exceptfds 和 timeout 的值变成不可预测。
+返回值：成功則返回文件描述符狀態已改變的總數；如果返回 0 代表在描述詞狀態改變前已超過 timeout 時間；當有錯誤發生時則返回 -1，錯誤原因存於 errno ，此時參數 readfds, writefds, exceptfds 和 timeout 的值變成不可預測。
 
-在有返回值时，需要通过 FD_ISSET 循环遍历各个描述符，从而文件描述符越多，效率也就越低。而且，每次调用 select 时都需要重新设置需要监控的文件描述符。
+在有返回值時，需要通過 FD_ISSET 循環遍歷各個描述符，從而文件描述符越多，效率也就越低。而且，每次調用 select 時都需要重新設置需要監控的文件描述符。
 
-fd_set 在 ```sys/select.h``` 中定义，大致可以简化为如下的结构，也就是实际用数组表示，其中每一位代表一个文件描述符，最大可以表示 1024 个，也就是说 select 能监视的描述符最大为 1024 。最大可以监控的文件描述符数可以通过 FD_SETSIZE 获得，描述符需要通过对应的宏来配置。
+fd_set 在 ```sys/select.h``` 中定義，大致可以簡化為如下的結構，也就是實際用數組表示，其中每一位代表一個文件描述符，最大可以表示 1024 個，也就是說 select 能監視的描述符最大為 1024 。最大可以監控的文件描述符數可以通過 FD_SETSIZE 獲得，描述符需要通過對應的宏來配置。
 
 {% highlight c %}
 typedef struct {
@@ -76,13 +76,13 @@ typedef struct {
 
 ## poll
 
-和 select() 不一样，poll() 没有使用低效的三个基于位的文件描述符 set ，而是采用了一个单独的结构体 pollfd 数组，由 fds 指针指向这个数组，采用链表保存文件描述符。
+和 select() 不一樣，poll() 沒有使用低效的三個基於位的文件描述符 set ，而是採用了一個單獨的結構體 pollfd 數組，由 fds 指針指向這個數組，採用鏈表保存文件描述符。
 
 {% highlight text %}
 struct pollfd {
     int fd;              /* 文件描述符 */
     short events;        /* 等待的事件 */
-    short revents;       /* 实际发生了的事件 */
+    short revents;       /* 實際發生了的事件 */
 } ;
 typedef unsigned long   nfds_t;
 int poll(struct pollfd *fds, nfds_t nfds, int timeout);
@@ -101,70 +101,70 @@ else if (ret > 0)
     handle error
 {% endhighlight %}
 
-fds 表示需要监控的文件描述符；nfds 表示 fds 的大小，也即需要监控的描述符数量。如果 fd 为负，则忽略 events，revents 返回 0。
+fds 表示需要監控的文件描述符；nfds 表示 fds 的大小，也即需要監控的描述符數量。如果 fd 為負，則忽略 events，revents 返回 0。
 
-返回值与 select 的返回值含义相同。
+返回值與 select 的返回值含義相同。
 
 
 ## epoll
 
-epoll 是 Linux 内核为处理大批量句柄而作了改进的 poll，是 Linux 下多路复用 IO 接口 select/poll 的增强版本，它能显著减少程序在大量并发连接中只有少量活跃的情况下的系统 CPU 利用率。
+epoll 是 Linux 內核為處理大批量句柄而作了改進的 poll，是 Linux 下多路複用 IO 接口 select/poll 的增強版本，它能顯著減少程序在大量併發連接中只有少量活躍的情況下的系統 CPU 利用率。
 
-### 对比
+### 對比
 
-select 模型的缺点：
+select 模型的缺點：
 
-* 最大并发数限制，因为一个进程所打开的文件描述符是有限制的，由 FD_SETSIZE 设置，默认值是 1024/2048 ，因此 select 模型的最大并发数就被相应限制了。
-* 效率问题，每次 select 调用返回都需要线性扫描全部的 FD 集合，确定那个描述符发生了相应事件，这样效率就会呈现线性下降。
-* 内核/用户空间内存拷贝问题，在通知用户事件发生时采用内存拷贝。
-* 触发方式采用的是水平触发，应用程序如果没有完成对一个已经就绪的文件描述符的 IO 操作，那么之后每次 select 调用还是会将这些文件描述符通知进程。
+* 最大併發數限制，因為一個進程所打開的文件描述符是有限制的，由 FD_SETSIZE 設置，默認值是 1024/2048 ，因此 select 模型的最大併發數就被相應限制了。
+* 效率問題，每次 select 調用返回都需要線性掃描全部的 FD 集合，確定那個描述符發生了相應事件，這樣效率就會呈現線性下降。
+* 內核/用戶空間內存拷貝問題，在通知用戶事件發生時採用內存拷貝。
+* 觸發方式採用的是水平觸發，應用程序如果沒有完成對一個已經就緒的文件描述符的 IO 操作，那麼之後每次 select 調用還是會將這些文件描述符通知進程。
 
-对于 poll 而言，2 和 3 都没有改掉，相比来说，epoll 要好的多。
-* epoll 没有最大并发连接的限制，上限是最大可以打开文件的数目，这个数字一般远大于 2048, 一般来说这个数目和系统内存关系很大 ，具体数目可以在 /proc/sys/fs/epoll/max_user_watches 中查看。
-* 效率提升，epoll 最大的优点就在于它只管你“活跃”的连接，而跟连接总数无关，因此在实际的网络环境中，epoll 的效率就会远远高于 select 和 poll。
-* 内存拷贝，epoll 在这点上使用了“共享内存”，这个内存拷贝也省略了。mmap 加速内核与用户空间的信息传递，epoll 是通过内核于用户空间 mmap 同一块内存，避免了无谓的内存拷贝。
+對於 poll 而言，2 和 3 都沒有改掉，相比來說，epoll 要好的多。
+* epoll 沒有最大併發連接的限制，上限是最大可以打開文件的數目，這個數字一般遠大於 2048, 一般來說這個數目和系統內存關係很大 ，具體數目可以在 /proc/sys/fs/epoll/max_user_watches 中查看。
+* 效率提升，epoll 最大的優點就在於它只管你“活躍”的連接，而跟連接總數無關，因此在實際的網絡環境中，epoll 的效率就會遠遠高於 select 和 poll。
+* 內存拷貝，epoll 在這點上使用了“共享內存”，這個內存拷貝也省略了。mmap 加速內核與用戶空間的信息傳遞，epoll 是通過內核於用戶空間 mmap 同一塊內存，避免了無謂的內存拷貝。
 
 <!--
-select 可以在某一时间监视最大达到 FD_SETSIZE 数量的文件描述符， 通常是由在 libc 编译时指定的一个比较小的数字。
-poll 在同一时间能够监视的文件描述符数量并没有受到限制，即使除了其它因素，更加的是我们必须在每一次都扫描所有通过的描述符来检查其是否存在己就绪通知，它的时间复杂度为 O(n) ，是缓慢的。
+select 可以在某一時間監視最大達到 FD_SETSIZE 數量的文件描述符， 通常是由在 libc 編譯時指定的一個比較小的數字。
+poll 在同一時間能夠監視的文件描述符數量並沒有受到限制，即使除了其它因素，更加的是我們必須在每一次都掃描所有通過的描述符來檢查其是否存在己就緒通知，它的時間複雜度為 O(n) ，是緩慢的。
 
-epoll 没有以上所示的限制，并且不用执行线性扫描。因此， 它能有更高的执行效率且可以处理大数量的事件。
+epoll 沒有以上所示的限制，並且不用執行線性掃描。因此， 它能有更高的執行效率且可以處理大數量的事件。
 
-当描述符被添加到epoll实例中， 有两种添加模式： level triggered（水平触发） 和 edge triggered（边沿触发） 。 当使用 level triggered 模式并且数据就绪待读， epoll_wait总是会返加就绪事件。如果你没有将数据读取完， 并且调用epoll_wait 在epoll 实例上再次监听这个描述符， 由于还有数据是可读的，它会再次返回。在 edge triggered 模式时， 你只会得一次就绪通知。 如果你没有将数据读完， 并且再次在 epoll实例上调用 epoll_wait ， 由于就绪事件已经被发送所以它会阻塞。
+當描述符被添加到epoll實例中， 有兩種添加模式： level triggered（水平觸發） 和 edge triggered（邊沿觸發） 。 當使用 level triggered 模式並且數據就緒待讀， epoll_wait總是會返加就緒事件。如果你沒有將數據讀取完， 並且調用epoll_wait 在epoll 實例上再次監聽這個描述符， 由於還有數據是可讀的，它會再次返回。在 edge triggered 模式時， 你只會得一次就緒通知。 如果你沒有將數據讀完， 並且再次在 epoll實例上調用 epoll_wait ， 由於就緒事件已經被髮送所以它會阻塞。
 -->
 
 
-### 函数接口
+### 函數接口
 
-epoll 相关的函数主要有如下三种，分别用于创建，注册、修改、删除，等待事件发生。
+epoll 相關的函數主要有如下三種，分別用於創建，註冊、修改、刪除，等待事件發生。
 
-#### 创建
+#### 創建
 
-创建 epoll 文件描述符，```int epoll_create (int size)``` 。
+創建 epoll 文件描述符，```int epoll_create (int size)``` 。
 
-需要注意的是，当创建好 epoll 句柄后，它就是会占用一个 fd 值，在 linux 下如果查看 ```/proc/<PID>/fd/```，是能够看到这个 fd 的，所以在使用完 epoll 后，必须调用 close() 关闭，否则可能导致 fd 被耗尽。
+需要注意的是，當創建好 epoll 句柄後，它就是會佔用一個 fd 值，在 linux 下如果查看 ```/proc/<PID>/fd/```，是能夠看到這個 fd 的，所以在使用完 epoll 後，必須調用 close() 關閉，否則可能導致 fd 被耗盡。
 
-调用成功则返回与实例关联的文件描述符，该文件描述符与真实的文件没有任何关系，仅作为接下来调用的函数的句柄，实际就是申请一个内核空间，用来保存所关注的 fd 上发生的时将。size 为了与之前兼容，应该大于 0 ，现在是动态分配，而非指定支持事件的数目。正常返回值大于 0；发生错误时，返回 -1，errno 表明错误类型。
+調用成功則返回與實例關聯的文件描述符，該文件描述符與真實的文件沒有任何關係，僅作為接下來調用的函數的句柄，實際就是申請一個內核空間，用來保存所關注的 fd 上發生的時將。size 為了與之前兼容，應該大於 0 ，現在是動態分配，而非指定支持事件的數目。正常返回值大於 0；發生錯誤時，返回 -1，errno 表明錯誤類型。
 
 #### 修改
 
 控制文件描述符，```int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event);``` 。
 
-类似于相对于 select 模型中的 FD_SET 和 FD_CLR 宏，用于注册、修改、删除；与 select 不同的是，select 在监听事件时告诉内核要监听什么类型的事件，而是在这里先注册要监听的事件类型。
+類似於相對於 select 模型中的 FD_SET 和 FD_CLR 宏，用於註冊、修改、刪除；與 select 不同的是，select 在監聽事件時告訴內核要監聽什麼類型的事件，而是在這裡先註冊要監聽的事件類型。
 
-其中<font color='blue'>参数 epfd 是 epoll_create()</font> 创建 epoll 专用的文件描述符；op 用于表示对应的操作(EPOLL_CTL_ADD、EPOLL_CTL_MOD、EPOLL_CTL_DEL)；fd 表示需要监控的描述符；event 表示需要监控的事件。
+其中<font color='blue'>參數 epfd 是 epoll_create()</font> 創建 epoll 專用的文件描述符；op 用於表示對應的操作(EPOLL_CTL_ADD、EPOLL_CTL_MOD、EPOLL_CTL_DEL)；fd 表示需要監控的描述符；event 表示需要監控的事件。
 
 #### 等待
 
-等待事件 ```int epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout);```，内核通过 events 返回发生事件的集合，maxevents 告之内核最多可以返回的事件数，该函数返回需要处理的事件数目，如返回 0 表示已超时。
+等待事件 ```int epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout);```，內核通過 events 返回發生事件的集合，maxevents 告之內核最多可以返回的事件數，該函數返回需要處理的事件數目，如返回 0 表示已超時。
 
-等待 IO 事件的发生，epfd 是由 epoll_create() 生成的 epoll 专用的文件描述符；epoll_event 用于回传事件发生对应的数组；maxevents 表示能处理的最多的事件数；timeout 等待 IO 事件发生的超时值，-1 表示永久。
+等待 IO 事件的發生，epfd 是由 epoll_create() 生成的 epoll 專用的文件描述符；epoll_event 用於回傳事件發生對應的數組；maxevents 表示能處理的最多的事件數；timeout 等待 IO 事件發生的超時值，-1 表示永久。
 
-epoll_wait() 首先判断参数的有效性，最后会调用 ep_epoll() 函数。epoll 不仅会告诉应用程序有 IO 事件到来，还会告诉应用程序相关的信息，这些信息是应用程序填充的，因此根据这些信息应用程序就能直接定位到事件，而不必遍历整个 FD 集合。
+epoll_wait() 首先判斷參數的有效性，最後會調用 ep_epoll() 函數。epoll 不僅會告訴應用程序有 IO 事件到來，還會告訴應用程序相關的信息，這些信息是應用程序填充的，因此根據這些信息應用程序就能直接定位到事件，而不必遍歷整個 FD 集合。
 
 ### epoll() 的使用
 
-如下是 epoll 使用的数据结构，执行过程。
+如下是 epoll 使用的數據結構，執行過程。
 
 {% highlight text %}
 struct epoll_event {
@@ -181,133 +181,133 @@ typedef union epoll_data {
 
 struct epoll_event event;
 struct epoll_event *events;
-int efd = epoll_create(1);                        // 1. 创建文件描述符，大于0即可，实际内核中动态分配
+int efd = epoll_create(1);                        // 1. 創建文件描述符，大於0即可，實際內核中動態分配
 if (efd == -1 || error == 0)
     error
 
-event.data.fd = fd;                               // 2.1 设置需要监听的fd
-event.events = EPOLLIN | EPOLLET;                 // 2.2 设置需要监听的事件
-ret = epoll_ctl(efd, EPOLL_CTL_ADD, 0, &event)    // 2.3 可以添加、修改、删除
+event.data.fd = fd;                               // 2.1 設置需要監聽的fd
+event.events = EPOLLIN | EPOLLET;                 // 2.2 設置需要監聽的事件
+ret = epoll_ctl(efd, EPOLL_CTL_ADD, 0, &event)    // 2.3 可以添加、修改、刪除
 if (ret == -1)
     error
 
-events = calloc(MAX_EVENTS, sizeof event);        // 3.1 申请内存，可返回的最大事件数
+events = calloc(MAX_EVENTS, sizeof event);        // 3.1 申請內存，可返回的最大事件數
 while (1) {
-    n = epoll_wait(efd, events, MAX_EVENTS, -1);  // 3.2 等待事件发生
-    if (n == 0)                                   // 3.3 超时
+    n = epoll_wait(efd, events, MAX_EVENTS, -1);  // 3.2 等待事件發生
+    if (n == 0)                                   // 3.3 超時
         timeout
-    else if (n < 0)                               // 3.4 发生错误
-        if(EINTT == errno)                        // 3.5 由于中断，忽略
+    else if (n < 0)                               // 3.4 發生錯誤
+        if(EINTT == errno)                        // 3.5 由於中斷，忽略
             n = 0; continue;
         else
             error
-    else                                          // 3.6 处理发生的事件
+    else                                          // 3.6 處理髮生的事件
         for(i = 0; i &lt; n; i++)
             if (events[i].data.fd == fd)
                 handleEvent
-            else if (enents[i].events & EPOLLIN)   // 某些事件发生
+            else if (enents[i].events & EPOLLIN)   // 某些事件發生
                 //
 }
 free(events);
 close(fd);
 {% endhighlight %}
 
-结构体 epoll_event 用于注册所感兴趣的事件和回传所发生待处理的事件。epoll_data 联合体用来保存触发事件相关的描述符所对应的信息，可以保存很多类型的信息，如 fd 、指针等等，有了它，应用程序就可以直接定位目标了。
+結構體 epoll_event 用於註冊所感興趣的事件和回傳所發生待處理的事件。epoll_data 聯合體用來保存觸發事件相關的描述符所對應的信息，可以保存很多類型的信息，如 fd 、指針等等，有了它，應用程序就可以直接定位目標了。
 
-对于 epoll_data ，如一个 client 连接到服务器时，服务器通过调用 accept 函数可以得到 client 对应的 socket 文件描述符，并通过 epoll_data 的 fd 字段返回。
+對於 epoll_data ，如一個 client 連接到服務器時，服務器通過調用 accept 函數可以得到 client 對應的 socket 文件描述符，並通過 epoll_data 的 fd 字段返回。
 
-epoll_event 结构体的 events 字段是表示感兴趣的事件和被触发的事件，可能的取值为：
+epoll_event 結構體的 events 字段是表示感興趣的事件和被觸發的事件，可能的取值為：
 
 {% highlight text %}
-EPOLLIN ：对应的文件描述符可以读；
-EPOLLOUT：对应的文件描述符可以写；
-EPOLLPRI：对应的文件描述符有紧急的数据可读；
-EPOLLERR：对应的文件描述符发生错误；
-EPOLLHUP：对应的文件描述符被挂断；
-EPOLLET ：对应的文件描述符有事件发生。
+EPOLLIN ：對應的文件描述符可以讀；
+EPOLLOUT：對應的文件描述符可以寫；
+EPOLLPRI：對應的文件描述符有緊急的數據可讀；
+EPOLLERR：對應的文件描述符發生錯誤；
+EPOLLHUP：對應的文件描述符被掛斷；
+EPOLLET ：對應的文件描述符有事件發生。
 {% endhighlight %}
 
 <!--
-LT(level triggered)，默认的工作方式，同时支持 block 和 no-block socket。对于该模式，内核告诉你一个文件描述符是否就绪了，然后你可以对这个就绪的 fd 进行 IO 操作。如果你不作任何操作，或者还没有处理完，内核还会继续通知你的，所以，这种模式编程出错误可能性要小一点。传统的 select/poll 都是这种模型的代表。
+LT(level triggered)，默認的工作方式，同時支持 block 和 no-block socket。對於該模式，內核告訴你一個文件描述符是否就緒了，然後你可以對這個就緒的 fd 進行 IO 操作。如果你不作任何操作，或者還沒有處理完，內核還會繼續通知你的，所以，這種模式編程出錯誤可能性要小一點。傳統的 select/poll 都是這種模型的代表。
 
-ET(edge-triggered)，高速工作方式，只支持 no-block socket。在这种模式下，当描述符从未就绪变为就绪时，内核通过 epoll 告诉你，然后它会假设你知道文件描述符已经就绪，并且不会再为那个文件描述符发送更多的就绪通知，直到你做了某些操作导致那个文件描述符不再为就绪状态了，比如，你在发送、接收或者接收请求，或者发送接收的数据少于一定量时导致了一个 EWOULDBLOCK 错误。但是请注意，如果一直不对这个 fd 作 IO 操作（从而导致它再次变成未就绪），内核不会发送更多的通知(only once)，不过在TCP协议中，ET模式的加速效用仍需要更多的benchmark确认。
+ET(edge-triggered)，高速工作方式，只支持 no-block socket。在這種模式下，當描述符從未就緒變為就緒時，內核通過 epoll 告訴你，然後它會假設你知道文件描述符已經就緒，並且不會再為那個文件描述符發送更多的就緒通知，直到你做了某些操作導致那個文件描述符不再為就緒狀態了，比如，你在發送、接收或者接收請求，或者發送接收的數據少於一定量時導致了一個 EWOULDBLOCK 錯誤。但是請注意，如果一直不對這個 fd 作 IO 操作（從而導致它再次變成未就緒），內核不會發送更多的通知(only once)，不過在TCP協議中，ET模式的加速效用仍需要更多的benchmark確認。
 
-ET和LT的区别在于LT事件不会丢弃，而是只要读buffer里面有数据可以让用户读，则不断的通知你。而ET则只在事件发生之时通知。可以简单理解为LT是水平触发，而ET则为边缘触发。
+ET和LT的區別在於LT事件不會丟棄，而是隻要讀buffer裡面有數據可以讓用戶讀，則不斷的通知你。而ET則只在事件發生之時通知。可以簡單理解為LT是水平觸發，而ET則為邊緣觸發。
 
-ET模式仅当状态发生变化的时候才获得通知,这里所谓的状态的变化并不包括缓冲区中还有未处理的数据,也就是说,如果要采用ET模式,需要一直read/write直到出错为止,很多人反映为什么采用ET模式只接收了一部分数据就再也得不到通知了,大多因为这样;而LT模式是只要有数据没有处理就会一直通知下去的.
+ET模式僅當狀態發生變化的時候才獲得通知,這裡所謂的狀態的變化並不包括緩衝區中還有未處理的數據,也就是說,如果要採用ET模式,需要一直read/write直到出錯為止,很多人反映為什麼採用ET模式只接收了一部分數據就再也得不到通知了,大多因為這樣;而LT模式是隻要有數據沒有處理就會一直通知下去的.
 -->
 
-### 内核实现
+### 內核實現
 
-如下是与 epoll 相关的结构设计，先看下与结构体相关的结构图。
+如下是與 epoll 相關的結構設計，先看下與結構體相關的結構圖。
 
 ![io epoll structure]({{ site.url }}/images/linux/kernel/io-epoll-structure.png "io epoll structure"){: .pull-center width="80%" }
 
-其中 `struct epitem` 是 epoll 的基本单元，对于每一个事件，都会建立一个 epitem 结构体，下面分别介绍一下几个主要的变量的含义：
+其中 `struct epitem` 是 epoll 的基本單元，對於每一個事件，都會建立一個 epitem 結構體，下面分別介紹一下幾個主要的變量的含義：
 
 {% highlight c %}
 struct epitem{
-    struct rb_node rbn;         // 红黑树节点
-    struct list_head rdllink;   // 双向链表节点，当epitem对应fd已经ready时，会在ep_poll_callback()函数中将该
-                                //   结点链接到eventpoll中的rdllist循环链表中去，这样就将ready的epitem都串连起来了
-    struct epoll_filefd ffd;    // 事件句柄信息，包含了一个fd以及fd对应的file指针
-    struct eventpoll *ep;       // 指向其所属的eventpoll对象，用于获取与epitem对应的eventpoll
-    struct epoll_event event;   // 期待发生的事件类型，对应了epoll_ctl()中的指针，用于存储用户空间的epoll_event拷贝
+    struct rb_node rbn;         // 紅黑樹節點
+    struct list_head rdllink;   // 雙向鏈表節點，當epitem對應fd已經ready時，會在ep_poll_callback()函數中將該
+                                //   結點鏈接到eventpoll中的rdllist循環鏈表中去，這樣就將ready的epitem都串連起來了
+    struct epoll_filefd ffd;    // 事件句柄信息，包含了一個fd以及fd對應的file指針
+    struct eventpoll *ep;       // 指向其所屬的eventpoll對象，用於獲取與epitem對應的eventpoll
+    struct epoll_event event;   // 期待發生的事件類型，對應了epoll_ctl()中的指針，用於存儲用戶空間的epoll_event拷貝
 }
 
 int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event);
 {% endhighlight %}
 
-当某一进程调用 `epoll_create()` 方法时，内核会创建一个 `eventpoll` 结构体，这个结构体中有两个成员与 epoll 的使用方式密切相关。
+當某一進程調用 `epoll_create()` 方法時，內核會創建一個 `eventpoll` 結構體，這個結構體中有兩個成員與 epoll 的使用方式密切相關。
 
 {% highlight c %}
 struct eventpoll{
-    struct rb_root  rbr;        // 红黑树的根节点，这颗树中存储着所有添加到epoll中的需要监控的事件
-                                //   它的结点都为epitem变量，通过它可以很方便的增删改查epitem
-    struct list_head rdlist;    // 双链表中则存放着将要通过epoll_wait返回给用户的满足条件的事件
-                                //   链表中的每个结点即为epitem中的rdllink
+    struct rb_root  rbr;        // 紅黑樹的根節點，這顆樹中存儲著所有添加到epoll中的需要監控的事件
+                                //   它的結點都為epitem變量，通過它可以很方便的增刪改查epitem
+    struct list_head rdlist;    // 雙鏈表中則存放著將要通過epoll_wait返回給用戶的滿足條件的事件
+                                //   鏈表中的每個結點即為epitem中的rdllink
 };
 {% endhighlight %}
 
-每一个 epoll 对象都有一个独立的 `eventpoll` 结构体，用于存放通过 `epoll_ctl()` 方法向 epoll 对象中添加进来的事件，这些事件都会挂载在红黑树中。
+每一個 epoll 對象都有一個獨立的 `eventpoll` 結構體，用於存放通過 `epoll_ctl()` 方法向 epoll 對象中添加進來的事件，這些事件都會掛載在紅黑樹中。
 
-而所有添加到 epoll 中的事件都会与设备+网卡驱动程序建立回调关系，也就是说，当相应的事件发生时会调用这个回调方法。这个回调方法在内核中就是 `ep_poll_callback()` 它会将发生的事件添加到 rdlist 双链表中。
+而所有添加到 epoll 中的事件都會與設備+網卡驅動程序建立回調關係，也就是說，當相應的事件發生時會調用這個回調方法。這個回調方法在內核中就是 `ep_poll_callback()` 它會將發生的事件添加到 rdlist 雙鏈表中。
 
 <br>
 
-接着再看下 `struct eppoll_entry` 结构体，它主要有这样几个变量：
+接著再看下 `struct eppoll_entry` 結構體，它主要有這樣幾個變量：
 
 {% highlight c %}
 struct eppoll_entry {
-    struct epitem *base;       // 指向其对应的epitem
-    wait_queue_t wait;         // 等待队列的项，wait中有一个唤醒回调函数指针，该指针被初始化为ep_poll_callback
+    struct epitem *base;       // 指向其對應的epitem
+    wait_queue_t wait;         // 等待隊列的項，wait中有一個喚醒回調函數指針，該指針被初始化為ep_poll_callback
 };
 {% endhighlight %}
 
-如上的 wait 成员会被挂在到设备的等待队列中，等待设备的唤醒，当设备因状态改变唤醒 wait 时，会执行 `ep_poll_callback`，而该函数会做这样一件事 `list_add_tail(&epi->rdllink,&ep->rdllist)` 。
+如上的 wait 成員會被掛在到設備的等待隊列中，等待設備的喚醒，當設備因狀態改變喚醒 wait 時，會執行 `ep_poll_callback`，而該函數會做這樣一件事 `list_add_tail(&epi->rdllink,&ep->rdllist)` 。
 
 <!--
-，其中epi即为epitem变量，通过wait偏移拿到eppoll_entry，然后可以拿到base指针，即拿到了对应的epitem，而ep即为eventpoll变量，通过epitem的ep指针即可拿到，list_add_tail将epi的rdllink链到ep的rdllist中
+，其中epi即為epitem變量，通過wait偏移拿到eppoll_entry，然後可以拿到base指針，即拿到了對應的epitem，而ep即為eventpoll變量，通過epitem的ep指針即可拿到，list_add_tail將epi的rdllink鏈到ep的rdllist中
 
 
-下面结合这幅图大致讲解一下epoll_create、epoll_ctl、epoll_wait都在做些什么：
+下面結合這幅圖大致講解一下epoll_create、epoll_ctl、epoll_wait都在做些什麼：
 
-    首先，epoll_create会创建一个epoll的文件（epfd），同时创建并初始化一个struct eventpoll，其中file的private_data指针即指向了eventpoll变量，因此，知道epfd就可以拿到file，即拿到了eventpoll变量,这就是epoll_create所做的工作
-    epoll_ctl又做了什么事呢？首先大家看到了eventpoll中的rb_root红黑树吗？epoll_ctl其实就是在操作这颗红黑树，epoll_ctl有三种操作：
+    首先，epoll_create會創建一個epoll的文件（epfd），同時創建並初始化一個struct eventpoll，其中file的private_data指針即指向了eventpoll變量，因此，知道epfd就可以拿到file，即拿到了eventpoll變量,這就是epoll_create所做的工作
+    epoll_ctl又做了什麼事呢？首先大家看到了eventpoll中的rb_root紅黑樹嗎？epoll_ctl其實就是在操作這顆紅黑樹，epoll_ctl有三種操作：
 
-    EPOLL_CTL_ADD：往红黑树中创建并添加一个epitem，对应处理函数为ep_insert
-    在添加epitem时，也就是在ep_insert过程中，会创建一个eppoll_entry，并将其wait_queue挂载到设备的等待队列上，其中该wait_queue的唤醒回调函数为ep_poll_callback，当设备有事件ready而唤醒wait_queue时，就会执行ep_poll_callback将当前epitem链接到eventpoll中的rdllist中去，另外，如果在挂载wait_queue时就发现设备有事件ready了，同样会将epitem链接到rdllist中去。若每次调用poll函数,操作系统都要把current(当前进程)挂到fd对应的所有设备的等待队列上,可以想象,fd多到上千的时候,这样“挂”法很费事;而每次调用epoll_wait则没有这么罗嗦,epoll只在epoll_ctl时把current挂一遍(这第一遍是免不了的)并给每个fd一个命令“好了就调回调函数”,如果设备有事件了,通过回调函数,会把fd放入rdllist,而每次调用epoll_wait就只是收集rdllist里的fd就可以了——epoll巧妙的利用回调函数,实现了更高效的事件驱动模型
+    EPOLL_CTL_ADD：往紅黑樹中創建並添加一個epitem，對應處理函數為ep_insert
+    在添加epitem時，也就是在ep_insert過程中，會創建一個eppoll_entry，並將其wait_queue掛載到設備的等待隊列上，其中該wait_queue的喚醒回調函數為ep_poll_callback，當設備有事件ready而喚醒wait_queue時，就會執行ep_poll_callback將當前epitem鏈接到eventpoll中的rdllist中去，另外，如果在掛載wait_queue時就發現設備有事件ready了，同樣會將epitem鏈接到rdllist中去。若每次調用poll函數,操作系統都要把current(當前進程)掛到fd對應的所有設備的等待隊列上,可以想象,fd多到上千的時候,這樣“掛”法很費事;而每次調用epoll_wait則沒有這麼羅嗦,epoll只在epoll_ctl時把current掛一遍(這第一遍是免不了的)並給每個fd一個命令“好了就調回調函數”,如果設備有事件了,通過回調函數,會把fd放入rdllist,而每次調用epoll_wait就只是收集rdllist裡的fd就可以了——epoll巧妙的利用回調函數,實現了更高效的事件驅動模型
 
-    EPOLL_CTL_MOD：修改对应的epitem，对应处理函数为ep_modify
-    在ep_modify过程中，处理会修改epitem对应的event值，同样会先查看一下对应设备的当前状态，如果有ready事件发生，则会将当前epitem链接到rdllist中去
-    EPOLL_CTL_DEL：从红黑树中删除对应的epitem，对应处理函数为ep_remove
-    释放钩子、链接、资源空间等，如epitem所占的空间
-    其实epoll_ctl已经将绝大部分事情都做了，epoll_wait有只需要收集结果就行了，它的目标也很单一，就看rdllist中是否有元素即可，当然，它还需要控制timeout，及结果转移，因为对于rdllist链接的epitem，只能说明其对应的fd有事件ready，但是哪些事件是不知道的，因此epoll_ctl再收集结果时，会亲自查看一下对应file的ready状态来写回events
+    EPOLL_CTL_MOD：修改對應的epitem，對應處理函數為ep_modify
+    在ep_modify過程中，處理會修改epitem對應的event值，同樣會先查看一下對應設備的當前狀態，如果有ready事件發生，則會將當前epitem鏈接到rdllist中去
+    EPOLL_CTL_DEL：從紅黑樹中刪除對應的epitem，對應處理函數為ep_remove
+    釋放鉤子、鏈接、資源空間等，如epitem所佔的空間
+    其實epoll_ctl已經將絕大部分事情都做了，epoll_wait有隻需要收集結果就行了，它的目標也很單一，就看rdllist中是否有元素即可，當然，它還需要控制timeout，及結果轉移，因為對於rdllist鏈接的epitem，只能說明其對應的fd有事件ready，但是哪些事件是不知道的，因此epoll_ctl再收集結果時，會親自查看一下對應file的ready狀態來寫回events
 -->
 
 #### 初始化
 
-epoll 的几个接口实际都对应于 kernel 的 API ，主要位于 `fs/eventpoll.c` 文件中。在分析 epoll 时发现有 `fs_initcall()` 这样的调用，以此为例分析一下 Linux 的初始化。
+epoll 的幾個接口實際都對應於 kernel 的 API ，主要位於 `fs/eventpoll.c` 文件中。在分析 epoll 時發現有 `fs_initcall()` 這樣的調用，以此為例分析一下 Linux 的初始化。
 
 {% highlight c %}
 fs_initcall(eventpoll_init);                                      // fs/eventpoll.c
@@ -316,25 +316,25 @@ fs_initcall(eventpoll_init);                                      // fs/eventpol
       static initcall_t __initcall_##fn##id __used \
       __attribute__((__section__(".initcall" #id ".init"))) = fn
 
-// 最后展开为
+// 最後展開為
 static initcall_t __initcall_eventpoll_init5 __used
      __attribute__((__section__(".initcall5.init"))) = eventpoll_init;
 {% endhighlight %}
 
-也就是在 `.initcall5.init` 段中定义了一个变量 `__initcall_eventpoll_init5` 并将改变量赋值为 `eventpoll_init`，内核中对初始化的调用过程如下。
+也就是在 `.initcall5.init` 段中定義了一個變量 `__initcall_eventpoll_init5` 並將改變量賦值為 `eventpoll_init`，內核中對初始化的調用過程如下。
 
 {% highlight text %}
 arch/x86/kernel/head_64.S
  |-x86_64_start_kernel()                 arch/x86/kernel/head[64|32].c
    |-start_kernel()                      init/main.c
      |-rest_init()
-       |-kernel_init()                   通过内核线程实现
+       |-kernel_init()                   通過內核線程實現
          |-kernel_init_freeable()
            |-do_basic_setup()
              |-do_initcalls()
 {% endhighlight %}
 
-对于 epoll 来说，实际是在初始化过程中对变量进行初始化。
+對於 epoll 來說，實際是在初始化過程中對變量進行初始化。
 
 {% highlight c %}
 static int __init eventpoll_init(void)
@@ -379,19 +379,19 @@ static int __init eventpoll_init(void)
 }
 {% endhighlight %}
 
-主要是进行一些初始化配置，同时创建了 2 个内核 cache 用于存放 epitem 和 epoll_entry 。
+主要是進行一些初始化配置，同時創建了 2 個內核 cache 用於存放 epitem 和 epoll_entry 。
 
-#### 创建对象
+#### 創建對象
 
-通过 `epoll_create()` 创建一个 epoll 实例，同时创建并初始化一个 `struct eventpoll`，其中返回值 epfd 所对应的 file 的 `private_data` 指针即指向了 `eventpoll` 变量，因此，知道 epfd 就可以拿到 file，即拿到了 `eventpoll` 变量。
+通過 `epoll_create()` 創建一個 epoll 實例，同時創建並初始化一個 `struct eventpoll`，其中返回值 epfd 所對應的 file 的 `private_data` 指針即指向了 `eventpoll` 變量，因此，知道 epfd 就可以拿到 file，即拿到了 `eventpoll` 變量。
 
 {% highlight c %}
-SYSCALL_DEFINE1(epoll_create, int, size)  // epoll_create函数带一个整型参数
+SYSCALL_DEFINE1(epoll_create, int, size)  // epoll_create函數帶一個整型參數
 {
 	if (size <= 0)
 		return -EINVAL;
 
-	return sys_epoll_create1(0);          // 实际上是调用epoll_create1
+	return sys_epoll_create1(0);          // 實際上是調用epoll_create1
 }
 /* Open an eventpoll file descriptor.  */
 SYSCALL_DEFINE1(epoll_create1, int, flags)
@@ -405,40 +405,40 @@ SYSCALL_DEFINE1(epoll_create1, int, flags)
     if (flags & ~EPOLL_CLOEXEC)
     	return -EINVAL;
     /* Create the internal data structure ("struct eventpoll").  */
-    error = ep_alloc(&ep);   // 分配eventpoll结构体
+    error = ep_alloc(&ep);   // 分配eventpoll結構體
     if (error < 0)
     	return error;
     /*
      * Creates all the items needed to setup an eventpoll file. That is,
      * a file structure and a free file descriptor.
      */
-    // 创建与eventpoll结构体相对应的file结构，ep保存在file->private_data结构中，其中
-    // eventpoll_fops 为该文件所对应的操作函数
+    // 創建與eventpoll結構體相對應的file結構，ep保存在file->private_data結構中，其中
+    // eventpoll_fops 為該文件所對應的操作函數
     error = anon_inode_getfd("[eventpoll]", &eventpoll_fops, ep, O_RDWR | (flags & O_CLOEXEC));
     if (error < 0)
-    	ep_free(ep);        // 如果出错则释放该eventpoll结构体
+    	ep_free(ep);        // 如果出錯則釋放該eventpoll結構體
     
     return error;
 }
 {% endhighlight %}
 
-`anon_inode_getfd()` 创建与 `struct eventpoll` 对应的 file 结构，其中 ep 保存在 `file->private_data` 结构中，同时为该新文件定义操作函数。
+`anon_inode_getfd()` 創建與 `struct eventpoll` 對應的 file 結構，其中 ep 保存在 `file->private_data` 結構中，同時為該新文件定義操作函數。
 
-从这几行代码可以看出，`epoll_create()` 主要做了两件事：
+從這幾行代碼可以看出，`epoll_create()` 主要做了兩件事：
 
-* 创建并初始化一个 `struct eventpoll` 变量；
-* 创建 epoll 的 file 结构，并指定 file 的 `private_data` 指针指向刚创建的 `eventpoll` 变量，这样，只要根据 `epoll` 文件描述符 epfd 就可以拿到 file 进而就拿到了 `eventpoll` 变量，该 `eventpoll` 就是 `epoll_ctl()` 和 `epoll_wait()` 工作的场所。
+* 創建並初始化一個 `struct eventpoll` 變量；
+* 創建 epoll 的 file 結構，並指定 file 的 `private_data` 指針指向剛創建的 `eventpoll` 變量，這樣，只要根據 `epoll` 文件描述符 epfd 就可以拿到 file 進而就拿到了 `eventpoll` 變量，該 `eventpoll` 就是 `epoll_ctl()` 和 `epoll_wait()` 工作的場所。
 
-对外看来，`epoll_create()` 就做了一件事，那就是创建一个 epoll 文件，事实上，更关键的是，它创建了一个 `struct eventpoll` 变量，该变量为 `epoll_ctl()` 和 `epoll_wait()` 的工作打下了基础。
+對外看來，`epoll_create()` 就做了一件事，那就是創建一個 epoll 文件，事實上，更關鍵的是，它創建了一個 `struct eventpoll` 變量，該變量為 `epoll_ctl()` 和 `epoll_wait()` 的工作打下了基礎。
 
-#### 添加监控
+#### 添加監控
 
-`epoll_ctl()` 主要是针对 epfd 所对应的 epoll 实例进行增、删、改操作，一个新创建的 epoll 文件带有一个 `struct eventpoll` ，同时该结构体上再挂一个红黑树，红黑树上的每个节点挂的是 `struct epitem`，这个红黑树就是每次 `epoll_ctl()` 时 fd 存放的地方。
+`epoll_ctl()` 主要是針對 epfd 所對應的 epoll 實例進行增、刪、改操作，一個新創建的 epoll 文件帶有一個 `struct eventpoll` ，同時該結構體上再掛一個紅黑樹，紅黑樹上的每個節點掛的是 `struct epitem`，這個紅黑樹就是每次 `epoll_ctl()` 時 fd 存放的地方。
 
 {% highlight c %}
 /*
- * epfd为该epoll套接字实例,op表示对应的操作，fd表示新加入的套接字，
- * 结构体epoll_event 用于注册fd所感兴趣的事件和回传在fd上所发生待处理的事件
+ * epfd為該epoll套接字實例,op表示對應的操作，fd表示新加入的套接字，
+ * 結構體epoll_event 用於註冊fd所感興趣的事件和回傳在fd上所發生待處理的事件
  */
 SYSCALL_DEFINE4(epoll_ctl, int, epfd, int, op, int, fd,
 		struct epoll_event __user *, event)
@@ -451,13 +451,13 @@ SYSCALL_DEFINE4(epoll_ctl, int, epfd, int, op, int, fd,
     struct epoll_event epds;
     
     error = -EFAULT;
-    // 将用户传入的event_poll拷贝到epds中
+    // 將用戶傳入的event_poll拷貝到epds中
     if (ep_op_has_event(op) && copy_from_user(&epds, event, sizeof(struct epoll_event)))
         goto error_return;
 
     /* Get the "struct file *" for the eventpoll file */
     error = -EBADF;
-    file = fget(epfd); // 获取该epoll套接字实例所对应的文件描述符
+    file = fget(epfd); // 獲取該epoll套接字實例所對應的文件描述符
     if (!file)
         goto error_return;
 
@@ -484,7 +484,7 @@ SYSCALL_DEFINE4(epoll_ctl, int, epfd, int, op, int, fd,
      * At this point it is safe to assume that the "private_data" contains
      * our own data structure.
      */
-    ep = file->private_data; // 获取epoll实例所对应的eventpoll结构体
+    ep = file->private_data; // 獲取epoll實例所對應的eventpoll結構體
 
     /*
      * When we insert an epoll file descriptor, inside another epoll file
@@ -510,28 +510,28 @@ SYSCALL_DEFINE4(epoll_ctl, int, epfd, int, op, int, fd,
      * Try to lookup the file inside our RB tree, Since we grabbed "mtx"
      * above, we can be sure to be able to use the item looked up by
      * ep_find() till we release the mutex.
-     * ep_find即从ep中的红黑树中根据tfile和fd来查找epitem
+     * ep_find即從ep中的紅黑樹中根據tfile和fd來查找epitem
      */
     epi = ep_find(ep, tfile, fd);
 
     error = -EINVAL;
     switch (op) {
-    case EPOLL_CTL_ADD: // 对应于socket上事件注册
-        if (!epi) {     // 红黑树中不存在这个节点
-            // 确保"出错、连接挂起"被当做事件，将出错信息返回给应用
+    case EPOLL_CTL_ADD: // 對應於socket上事件註冊
+        if (!epi) {     // 紅黑樹中不存在這個節點
+            // 確保"出錯、連接掛起"被當做事件，將出錯信息返回給應用
             epds.events |= POLLERR | POLLHUP;
             error = ep_insert(ep, &epds, tfile, fd);
         } else
             error = -EEXIST;
         break;
-    case EPOLL_CTL_DEL: // 删除
-        if (epi)        // 存在则删除这个节点，不存在则报错
+    case EPOLL_CTL_DEL: // 刪除
+        if (epi)        // 存在則刪除這個節點，不存在則報錯
             error = ep_remove(ep, epi);
         else
             error = -ENOENT;
         break;
     case EPOLL_CTL_MOD: // 修改
-        if (epi) {      // 存在则修改该fd所对应的事件，不存在则报错
+        if (epi) {      // 存在則修改該fd所對應的事件，不存在則報錯
             epds.events |= POLLERR | POLLHUP;
             error = ep_modify(ep, epi, &epds);
         } else
@@ -552,11 +552,11 @@ error_return:
 }
 {% endhighlight %}
 
-对于往 epoll 实例中添加新的套接字，其实现主要通过 `ep_insert()` 完成，先分析 `epoll_wait` 再回过头来分析 `ep_insert()` 。
+對於往 epoll 實例中添加新的套接字，其實現主要通過 `ep_insert()` 完成，先分析 `epoll_wait` 再回過頭來分析 `ep_insert()` 。
 
 #### 等待事件
 
-`epoll_wait()` 用来等待 epoll 文件上的 IO 事件发生，其代码如下：
+`epoll_wait()` 用來等待 epoll 文件上的 IO 事件發生，其代碼如下：
 
 {% highlight c %}
 /*
@@ -598,10 +598,10 @@ SYSCALL_DEFINE4(epoll_wait, int, epfd, struct epoll_event __user *, events,
      * At this point it is safe to assume that the "private_data" contains
      * our own data structure.
      */
-    ep = file->private_data;  // 获取struct eventpoll结构
+    ep = file->private_data;  // 獲取struct eventpoll結構
 
     /* Time to fish for events ... */
-    error = ep_poll(ep, events, maxevents, timeout); // 核心代码
+    error = ep_poll(ep, events, maxevents, timeout); // 核心代碼
 
 error_fput:
     fput(file);
@@ -611,7 +611,7 @@ error_return:
 }
 {% endhighlight %}
 
-可以看出该函数主要时通过 epfd 获取对应的 `struct eventpoll` 结构，然后调用 `ep_poll()` 函数，下面来看 `ep_poll()` 的实现。
+可以看出該函數主要時通過 epfd 獲取對應的 `struct eventpoll` 結構，然後調用 `ep_poll()` 函數，下面來看 `ep_poll()` 的實現。
 
 
 {% highlight c %}
@@ -665,16 +665,16 @@ static int ep_poll(struct eventpoll *ep, struct epoll_event __user *events,
 
 fetch_events:
     spin_lock_irqsave(&ep->lock, flags);
-    // 如果rdllist中还没有epitem时，就开始等待了
+    // 如果rdllist中還沒有epitem時，就開始等待了
     if (!ep_events_available(ep)) {
         /*
          * We don't have any available event to return to the caller.
          * We need to sleep here, and we will be wake up by
          * ep_poll_callback() when events will become available.
          */
-        // 初始化等待队列，等待队列项对应的线程即为当前线程
+        // 初始化等待隊列，等待隊列項對應的線程即為當前線程
         init_waitqueue_entry(&wait, current);
-        // 先将当前线程挂到等待队列上，之后在调用schedule_timeout时，就开始了超时等待了
+        // 先將當前線程掛到等待隊列上，之後在調用schedule_timeout時，就開始了超時等待了
         __add_wait_queue_exclusive(&ep->wq, &wait);
 
         for (;;) {
@@ -683,10 +683,10 @@ fetch_events:
              * a wakeup in between. That's why we set the task state
              * to TASK_INTERRUPTIBLE before doing the checks.
              */
-             // 因为会被阻塞，这里先设置线程状态为可中断
+             // 因為會被阻塞，這裡先設置線程狀態為可中斷
             set_current_state(TASK_INTERRUPTIBLE);
-            // 整个循环的核心，其实就在看rdllist中是否有数据，或者等待超时
-            // 应征了前面的说明，epoll_wait只需要等着收集数据即可
+            // 整個循環的核心，其實就在看rdllist中是否有數據，或者等待超時
+            // 應徵了前面的說明，epoll_wait只需要等著收集數據即可
             if (ep_events_available(ep) || timed_out)
                 break;
             if (signal_pending(current)) {
@@ -724,23 +724,23 @@ check_events:
 {% endhighlight %}
 
 <!--
-29-43行：主要是超时时间的处理，若超时时间为0，则直接检查有没有准备好的I/O事件，有则立即发送给用户空间去处理；若超时时间大于0，计算好精确的超时时间后，等待事件的发生，45-86行等待指定的时间直到有I/O事件出现；
+29-43行：主要是超時時間的處理，若超時時間為0，則直接檢查有沒有準備好的I/O事件，有則立即發送給用戶空間去處理；若超時時間大於0，計算好精確的超時時間後，等待事件的發生，45-86行等待指定的時間直到有I/O事件出現；
 
-54-58行：如果还没有I/O事件出现，则准备休眠。先初始化等待队列，把当前线程挂在该队列上，同时把这个队列挂在eventpoll结构的wq上，
+54-58行：如果還沒有I/O事件出現，則準備休眠。先初始化等待隊列，把當前線程掛在該隊列上，同時把這個隊列掛在eventpoll結構的wq上，
 
-60-82行：在指定的超时时间内循环检测有没有I/O事件发生，有事件发生、超时或者收到信号都会跳出循环。
+60-82行：在指定的超時時間內循環檢測有沒有I/O事件發生，有事件發生、超時或者收到信號都會跳出循環。
 
-83行：运行到此处有I/O事件发生，不用再等待，则移除该队列
+83行：運行到此處有I/O事件發生，不用再等待，則移除該隊列
 -->
 
-调用 `epoll_wait()` 检查是否有事件发生时，只需检查 `eventpoll` 中 `rdlist` 链表是否有 `epitem` 元素即可。如果 rdlist 不为空，则把发生的事件复制到用户态，同时将事件数量返回给用户。
+調用 `epoll_wait()` 檢查是否有事件發生時，只需檢查 `eventpoll` 中 `rdlist` 鏈表是否有 `epitem` 元素即可。如果 rdlist 不為空，則把發生的事件複製到用戶態，同時將事件數量返回給用戶。
 
 ![epoll data structure]({{ site.url }}/images/linux/kernel/epoll-data-structure.jpg "epoll data structure"){: .pull-center width="60%" }
 
-## 参考
+## 參考
 
 <!--
-Linux设备驱动程序——高级字符驱动程序操作(poll机制)
+Linux設備驅動程序——高級字符驅動程序操作(poll機制)
 http://blog.chinaunix.net/uid-29339876-id-4070572.html
 -->
 

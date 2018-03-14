@@ -1,45 +1,45 @@
 ---
-title: MySQL 语法解析
+title: MySQL 語法解析
 layout: post
 comments: true
 language: chinese
 category: [mysql,database]
-keywords: mysql,lex,bison,yacc,flex,词法,语法
-description: 当服务器接收到一条 SQL 语句时，其处理过程为：词法分析，语法分析，语义分析，构造执行树，生成执行计划，计划的执行。其中，词法语法解析的处理过程根编译原理上的东西基本类似；MySQL 并没有使用 lex 来实现词法分析，但是语法分析却用了 yacc。与之对比的 SQLite 数据库，其词法分析器是手工写的，语法分析器由 Lemon 生成。在此介绍其在 MySQL 中的使用。
+keywords: mysql,lex,bison,yacc,flex,詞法,語法
+description: 當服務器接收到一條 SQL 語句時，其處理過程為：詞法分析，語法分析，語義分析，構造執行樹，生成執行計劃，計劃的執行。其中，詞法語法解析的處理過程根編譯原理上的東西基本類似；MySQL 並沒有使用 lex 來實現詞法分析，但是語法分析卻用了 yacc。與之對比的 SQLite 數據庫，其詞法分析器是手工寫的，語法分析器由 Lemon 生成。在此介紹其在 MySQL 中的使用。
 ---
 
-当服务器接收到一条 SQL 语句时，其处理过程为：词法分析，语法分析，语义分析，构造执行树，生成执行计划，计划的执行。
+當服務器接收到一條 SQL 語句時，其處理過程為：詞法分析，語法分析，語義分析，構造執行樹，生成執行計劃，計劃的執行。
 
-其中，词法语法解析的处理过程根编译原理上的东西基本类似；MySQL 并没有使用 lex 来实现词法分析，但是语法分析却用了 yacc。
+其中，詞法語法解析的處理過程根編譯原理上的東西基本類似；MySQL 並沒有使用 lex 來實現詞法分析，但是語法分析卻用了 yacc。
 
-与之对比的 SQLite 数据库，其词法分析器是手工写的，语法分析器由 Lemon 生成。
+與之對比的 SQLite 數據庫，其詞法分析器是手工寫的，語法分析器由 Lemon 生成。
 
-在此介绍其在 MySQL 中的使用。
+在此介紹其在 MySQL 中的使用。
 
 <!-- more -->
 
-## 简介
+## 簡介
 
-Lex-Yacc (词法扫描器-语法分析器) 在 Linux 上就是 flex-bison；使用 bison 时，采用的语法必须是上下文无关文法 (context-free grammar)；可以通过 ```yum install flex flex-devel bison``` 进行安装。
+Lex-Yacc (詞法掃描器-語法分析器) 在 Linux 上就是 flex-bison；使用 bison 時，採用的語法必須是上下文無關文法 (context-free grammar)；可以通過 ```yum install flex flex-devel bison``` 進行安裝。
 
-首先，介绍下基本的概念。
+首先，介紹下基本的概念。
 
 ### BNF
 
-也就是 Backus-Naur Form 巴科斯范式，由 John Backus 和 Peter Naur 首先引入的，用来描述计算机语言语法的符号集，现在，几乎每一位新编程语言书籍的作者都使用巴科斯范式来定义编程语言的语法规则。
+也就是 Backus-Naur Form 巴科斯範式，由 John Backus 和 Peter Naur 首先引入的，用來描述計算機語言語法的符號集，現在，幾乎每一位新編程語言書籍的作者都使用巴科斯範式來定義編程語言的語法規則。
 
-其推到规则通过 ```::=``` 定义，左侧为非终结符，右侧为一个表达式；表达式由一个符号序列，或用 ```'|'``` 分隔的多个符号序列构成，从未在左端出现的符号叫做终结符。
+其推到規則通過 ```::=``` 定義，左側為非終結符，右側為一個表達式；表達式由一個符號序列，或用 ```'|'``` 分隔的多個符號序列構成，從未在左端出現的符號叫做終結符。
 
 {% highlight text %}
-"..."  : 术语符号，表示字符本身，用double_quote用来代表双引号
-< >    : 必选项
-[ ]    : 可选项，最多出现一次
-{ }    : 可重复0至无数次的项
-|      : 左右两边任选一项，相当于OR
-::=    : 被定义为
+"..."  : 術語符號，表示字符本身，用double_quote用來代表雙引號
+< >    : 必選項
+[ ]    : 可選項，最多出現一次
+{ }    : 可重複0至無數次的項
+|      : 左右兩邊任選一項，相當於OR
+::=    : 被定義為
 {% endhighlight %}
 
-如下是 Java 中的 For 语句实例：
+如下是 Java 中的 For 語句實例：
 
 {% highlight text %}
 FOR_STATEMENT ::=
@@ -50,56 +50,56 @@ FOR_STATEMENT ::=
 ")" statement
 {% endhighlight %}
 
-其中 RFC2234 定义了扩展的巴科斯范式 (ABNF)。
+其中 RFC2234 定義了擴展的巴科斯範式 (ABNF)。
 
-### 上下文无关文法
+### 上下文無關文法
 
-简单来说就是每个产生式的左边只有一个非终结符；首先，试着用汉语来稍微解释一下。
+簡單來說就是每個產生式的左邊只有一個非終結符；首先，試著用漢語來稍微解釋一下。
 
 {% highlight text %}
-本来这个进球就是违例的，但你不肯承认也没办法
-我有一本来自美国的花花公子杂志
-拿我的笔记本来
+本來這個進球就是違例的，但你不肯承認也沒辦法
+我有一本來自美國的花花公子雜誌
+拿我的筆記本來
 {% endhighlight %}
 
-如果汉语是上下文无关文法，那么我们任何时候看见 ```"本来"``` 两个字，都可以把它规约为一个词；可惜汉语不是上下文无关文法，所以能否归约为一个词，要看它的上下文是什么。如上的示例中，只有第一句可以规约为一个词。
+如果漢語是上下文無關文法，那麼我們任何時候看見 ```"本來"``` 兩個字，都可以把它規約為一個詞；可惜漢語不是上下文無關文法，所以能否歸約為一個詞，要看它的上下文是什麼。如上的示例中，只有第一句可以規約為一個詞。
 
 <!--
-上下文无关文法就是说这个文法中所有的产生式左边只有一个非终结符，比如：
+上下文無關文法就是說這個文法中所有的產生式左邊只有一個非終結符，比如：
 S -> aSb
 S -> ab
-这个文法有两个产生式，每个产生式左边只有一个非终结符S，这就是上下文无关文法，因为你只要找到符合产生式右边的串，就可以把它归约为对应的非终结符。
+這個文法有兩個產生式，每個產生式左邊只有一個非終結符S，這就是上下文無關文法，因為你只要找到符合產生式右邊的串，就可以把它歸約為對應的非終結符。
 
 比如：
 aSb -> aaSbb
 S -> ab
-这就是上下文相关文法，因为它的第一个产生式左边有不止一个符号，所以你在匹配这个产生式中的S的时候必需确保这个S有正确的“上下文”，也就是左边的a和右边的b，所以叫上下文相关文法。
+這就是上下文相關文法，因為它的第一個產生式左邊有不止一個符號，所以你在匹配這個產生式中的S的時候必需確保這個S有正確的“上下文”，也就是左邊的a和右邊的b，所以叫上下文相關文法。
 
 
 
 
-其中，生成式由终结符和非终结符组成，分别用大写、小写表示；如果终结字符是一个单字符，那么可以直接使用该字符，如;、)、[。对于语义来说，如整型 INTEGER 的值可以是 1、34、5555。当匹配一个语义时可以直接执行一个动作。
+其中，生成式由終結符和非終結符組成，分別用大寫、小寫表示；如果終結字符是一個單字符，那麼可以直接使用該字符，如;、)、[。對於語義來說，如整型 INTEGER 的值可以是 1、34、5555。當匹配一個語義時可以直接執行一個動作。
 
-解析器相对于状态机多了一个栈，从而可以处理移进和规约。简单的说，LR(1) 就是指，只需要预读一个 token 那么就可以知道如何解析字符串中的任意一部分。虽然 bison 可以适用于几乎所有的上下文无关语法，不过其针对 LR(1) 做了专门的优化。
+解析器相對於狀態機多了一個棧，從而可以處理移進和規約。簡單的說，LR(1) 就是指，只需要預讀一個 token 那麼就可以知道如何解析字符串中的任意一部分。雖然 bison 可以適用於幾乎所有的上下文無關語法，不過其針對 LR(1) 做了專門的優化。
 
-在一些确定性的 LR(1) 语法中，仍然会存在这歧义，可能不知道对那个语法规则执行规约，或者不知道是执行规约还是移进，分别被称为 规约/规约冲突 或者 移进/规约冲突。
+在一些確定性的 LR(1) 語法中，仍然會存在這歧義，可能不知道對那個語法規則執行規約，或者不知道是執行規約還是移進，分別被稱為 規約/規約衝突 或者 移進/規約衝突。
 
-关于上下文相关、无关语法可以参考 WiKi <a href="https://en.wikipedia.org/wiki/Context-free_grammar">Context-free grammar</a>、<a href="https://en.wikipedia.org/wiki/Context-sensitive_grammar">Context-sensitive grammar</a>，以及 <a href="http://cs.union.edu/~striegnk/courses/nlp-with-prolog/html/node37.html">Context Free Grammars</a>，也可以参考本地文档。
+關於上下文相關、無關語法可以參考 WiKi <a href="https://en.wikipedia.org/wiki/Context-free_grammar">Context-free grammar</a>、<a href="https://en.wikipedia.org/wiki/Context-sensitive_grammar">Context-sensitive grammar</a>，以及 <a href="http://cs.union.edu/~striegnk/courses/nlp-with-prolog/html/node37.html">Context Free Grammars</a>，也可以參考本地文檔。
 -->
 
-## Lex 词法分析
+## Lex 詞法分析
 
-Flex 采用的是状态机，通过分析输入流 (字符流)，只要发现一段字符能够匹配一个关键字 (正则表达式)，就会采取对应的动作。
+Flex 採用的是狀態機，通過分析輸入流 (字符流)，只要發現一段字符能夠匹配一個關鍵字 (正則表達式)，就會採取對應的動作。
 
-Flex 文件被 ```%%``` 分成了上中下三个部分：
+Flex 文件被 ```%%``` 分成了上中下三個部分：
 
-1. 第一部分中要写入 C/C++ 代码必须用 ```%{``` 和 ```%}``` 括起来，将原封不动放到生成源码中。
+1. 第一部分中要寫入 C/C++ 代碼必須用 ```%{``` 和 ```%}``` 括起來，將原封不動放到生成源碼中。
 
-2. 第二部分是规则段，包括了模式 (正则表达式) 和动作，由空白分开，当匹配到模式时，就会执行后面的动作。
+2. 第二部分是規則段，包括了模式 (正則表達式) 和動作，由空白分開，當匹配到模式時，就會執行後面的動作。
 
-3. 第三部分可以直接写入 C/C++ 代码。
+3. 第三部分可以直接寫入 C/C++ 代碼。
 
-yylex() 是扫描程序的入口，调用该函数启动或重新开始，该函数会初始化一些全局变量，然后开始扫描。如果定义的 flex 动作是将数值传递给调用程序 (return)，那么对 yylex() 的下次调用就从它停止的地方继续扫描。
+yylex() 是掃描程序的入口，調用該函數啟動或重新開始，該函數會初始化一些全局變量，然後開始掃描。如果定義的 flex 動作是將數值傳遞給調用程序 (return)，那麼對 yylex() 的下次調用就從它停止的地方繼續掃描。
 
 {% highlight text %}
 %{
@@ -119,22 +119,22 @@ int main(void) {
 }
 {% endhighlight %}
 
-特殊字符 ```'.'``` 表示匹配换行符以外的任意单个字符，```'\n'``` 匹配换行符；```ECHO``` 表示输出匹配的模式，默认行为为，也就是将输入原样输出：
+特殊字符 ```'.'``` 表示匹配換行符以外的任意單個字符，```'\n'``` 匹配換行符；```ECHO``` 表示輸出匹配的模式，默認行為為，也就是將輸入原樣輸出：
 
 {% highlight c %}
 #define ECHO fwrite(yytext, yyleng, 1, yyout)
 {% endhighlight %}
 
-默认将 stdin 作为输入，可以通过如下命令测试。
+默認將 stdin 作為輸入，可以通過如下命令測試。
 
 {% highlight text %}
------ 首先按照规则生成C源码lex.yy.c
+----- 首先按照規則生成C源碼lex.yy.c
 $ flex example.l
 
------ 然后进行编译
+----- 然後進行編譯
 $ cc lex.yy.c -o example -lfl
 
------ 直接执行测试，Ctrl-D退出
+----- 直接執行測試，Ctrl-D退出
 $ ./example
 is
 is: VERB
@@ -150,46 +150,46 @@ COMMON WORD
 ^*&
 {% endhighlight %}
 
-在处理时，flex 采用两个原则：A) 只匹配一次；B) 执行当前输入的最长可能匹配值。也就是对与 island 不会匹配 is 和 land 。当然，我们可以使用一个文件作为关键字列表，而非每次都需要编译。
+在處理時，flex 採用兩個原則：A) 只匹配一次；B) 執行當前輸入的最長可能匹配值。也就是對與 island 不會匹配 is 和 land 。當然，我們可以使用一個文件作為關鍵字列表，而非每次都需要編譯。
 
-解析时会通过 yyin 读取，如果需要在 yacc 或者其它文件中设置，那么可以通过如下方式修改。
+解析時會通過 yyin 讀取，如果需要在 yacc 或者其它文件中設置，那麼可以通過如下方式修改。
 
 {% highlight c %}
 extern FILE *yyin;
 yyin = fopen("filename","r");
 {% endhighlight %}
 
-通过 flex 处理文件后，会将匹配转化为指定的符号，然后供 yacc 处理。
+通過 flex 處理文件後，會將匹配轉化為指定的符號，然後供 yacc 處理。
 
 ### 常用功能
 
-简单列举常用函数。
+簡單列舉常用函數。
 
 
-#### 正则表达式
+#### 正則表達式
 
-flex 常用正则表达式：
+flex 常用正則表達式：
 
-1. 格式与 grep 相似；
-2. ```<<EOF>>``` 标示文件结束；
+1. 格式與 grep 相似；
+2. ```<<EOF>>``` 標示文件結束；
 3. 常用字符集，如 ```[:alpha:]```, ```[:digit:]```, ```[:alnum:]```, ```[:space:]``` 等；
-4. ```{name}``` 使用预定义的 name 。
+4. ```{name}``` 使用預定義的 name 。
 
-简单示例，计算平均值。
+簡單示例，計算平均值。
 
 {% highlight text %}
 %{
 #include <stdio.h>
 #include <stdlib.h>
 %}
-dgt    [0-9] // 通过name方式定义
+dgt    [0-9] // 通過name方式定義
 %%
 {dgt}+   return atoi(yytext);
 %%
 void main()
 {
    int val, total = 0, n = 0;
-   while ( (val = yylex()) > 0 ) { // 到文件结束时返回0
+   while ( (val = yylex()) > 0 ) { // 到文件結束時返回0
       total += val;
       n++;
    }
@@ -197,22 +197,22 @@ void main()
 }
 {% endhighlight %}
 
-如上如果在编译时使用 ```-Wall``` 参数，会报 ```warning: `yyunput’ defined but not used``` 之类的异常，如下介绍可以通过如下选项关闭。
+如上如果在編譯時使用 ```-Wall``` 參數，會報 ```warning: `yyunput’ defined but not used``` 之類的異常，如下介紹可以通過如下選項關閉。
 
 {% highlight text %}
 %option nounput
 %option noinput
 {% endhighlight %}
 
-#### 多规则匹配
+#### 多規則匹配
 
-如果有多个值匹配，那么 flex 会按照如下的规则选取。
+如果有多個值匹配，那麼 flex 會按照如下的規則選取。
 
-1. 贪婪匹配，选择最大的匹配值；
-2. 多个规则匹配，选择第一个；
-3. 没有规则匹配则会选择默认规则。
+1. 貪婪匹配，選擇最大的匹配值；
+2. 多個規則匹配，選擇第一個；
+3. 沒有規則匹配則會選擇默認規則。
 
-例如，通过 ```"/*"(.|\n)*"*/"``` 规则匹配 C 语言中的注释，那么如下场景可能出错。
+例如，通過 ```"/*"(.|\n)*"*/"``` 規則匹配 C 語言中的註釋，那麼如下場景可能出錯。
 
 {% highlight c %}
 #include <stdio.h>  /* definitions */
@@ -225,21 +225,21 @@ int main(int argc, char * argv[ ]) {
 }
 {% endhighlight %}
 
-贪婪匹配，会从 ```/* def``` 到 ```nts */``` 之间的内容都作为注释，此时就需要使用条件 (Condition) 规则。例如，以 ```<S>``` 开始的规则，只有在条件 S 时才会进行匹配，可以在 definition section 段通过如下方式定义条件。
+貪婪匹配，會從 ```/* def``` 到 ```nts */``` 之間的內容都作為註釋，此時就需要使用條件 (Condition) 規則。例如，以 ```<S>``` 開始的規則，只有在條件 S 時才會進行匹配，可以在 definition section 段通過如下方式定義條件。
 
 {% highlight text %}
 %x S exclusive start conditions
 %s S inclusive start conditions
 {% endhighlight %}
 
-然后，通过 ```BEGIN(S)``` 进入条件，另外，flex 有个初始条件，可以通过 ```BEGIN(INITIAL)``` 返回；如果使用多个状态，那么实际上可以实现一个状态机，详见 [lex tutorial.ppt](https://www2.cs.arizona.edu/~debray/Teaching/CSc453/DOCS/lex tutorial.ppt) 或者 [本地文档](/reference/databases/mysql/lex_tutorial.ppt) 。
+然後，通過 ```BEGIN(S)``` 進入條件，另外，flex 有個初始條件，可以通過 ```BEGIN(INITIAL)``` 返回；如果使用多個狀態，那麼實際上可以實現一個狀態機，詳見 [lex tutorial.ppt](https://www2.cs.arizona.edu/~debray/Teaching/CSc453/DOCS/lex tutorial.ppt) 或者 [本地文檔](/reference/databases/mysql/lex_tutorial.ppt) 。
 
-关于上述内容，也可以参考 [Start conditions](http://dinosaur.compilertools.net/flex/flex_11.html) 中的介绍。
+關於上述內容，也可以參考 [Start conditions](http://dinosaur.compilertools.net/flex/flex_11.html) 中的介紹。
 
 
 #### yyterminate()
 
-可在一个动作中代替 return 使用，用于结束扫描并向扫描器的调用者返回 0；可以通过如下方式自定义。
+可在一個動作中代替 return 使用，用於結束掃描並向掃描器的調用者返回 0；可以通過如下方式自定義。
 
 {% highlight c %}
 #ifdef yyterminate
@@ -250,64 +250,64 @@ int main(int argc, char * argv[ ]) {
         return YY_NULL; } while (0)
 {% endhighlight %}
 
-#### 配置选项
+#### 配置選項
 
 {% highlight text %}
-%option yylineno    提供当前的行信息，通常用于后续打印错误行信息
-%option noyywrap    不生成yywrap()声明
-%option noinput     会生成#define YY_NO_INPUT 1定义
-%option nounput     会生成#define YY_NO_UNPUT 1定义
+%option yylineno    提供當前的行信息，通常用於後續打印錯誤行信息
+%option noyywrap    不生成yywrap()聲明
+%option noinput     會生成#define YY_NO_INPUT 1定義
+%option nounput     會生成#define YY_NO_UNPUT 1定義
 {% endhighlight %}
 
-flex 会声明一个 ```int yywarp(void);``` 函数，但是不会自动定义，所以通常会在最后的 section 实现该函数。该函数的作用是将多个输入文件打包成一个输入，也就是当 ```yylex()``` 读取到一个文件结束 (EOF) 时，会调用 ```yywrap()``` ，如果返回 1 则表示后面没有其它输入文件了，此时 ```yylex()``` 函数结束；当然，```yywrap()``` 也可以打开下一个输入文件，再向 ```yylex()``` 函数返回 0 ，告诉它后面还有别的输入文件。
+flex 會聲明一個 ```int yywarp(void);``` 函數，但是不會自動定義，所以通常會在最後的 section 實現該函數。該函數的作用是將多個輸入文件打包成一個輸入，也就是當 ```yylex()``` 讀取到一個文件結束 (EOF) 時，會調用 ```yywrap()``` ，如果返回 1 則表示後面沒有其它輸入文件了，此時 ```yylex()``` 函數結束；當然，```yywrap()``` 也可以打開下一個輸入文件，再向 ```yylex()``` 函數返回 0 ，告訴它後面還有別的輸入文件。
 
-如果只有一个文件，那么可以通过 ```%option noyywrap``` 不声明该函数，也就不需要再实现。
+如果只有一個文件，那麼可以通過 ```%option noyywrap``` 不聲明該函數，也就不需要再實現。
 
 
 ### 其它
 
 
-#### 值传递
+#### 值傳遞
 
-在通过 flex 进行扫描时，会将值保存在 yylval 变量中，而 bison 则读取 yylval 中的值，该变量默认是 int 类型，如果要使用字符串类型，那么可以在 .l+.y 的头部第一句加入 ```#define YYSTYPE char*``` 即可。
+在通過 flex 進行掃描時，會將值保存在 yylval 變量中，而 bison 則讀取 yylval 中的值，該變量默認是 int 類型，如果要使用字符串類型，那麼可以在 .l+.y 的頭部第一句加入 ```#define YYSTYPE char*``` 即可。
 
 {% highlight text %}
-// 在.l赋值的时候，要特别注意，需要拷贝字符串
+// 在.l賦值的時候，要特別注意，需要拷貝字符串
 yylval = strdup(yytext);  return WORD;
-// 在.y取用的时候，直接强转就可以了
+// 在.y取用的時候，直接強轉就可以了
 (char*)$1
 {% endhighlight %}
 
-关于更优雅的实现方式，当然是用 union 啦，仿照上面，很容易写出来的。
+關於更優雅的實現方式，當然是用 union 啦，仿照上面，很容易寫出來的。
 
 
-#### 标准格式
+#### 標準格式
 
 {% highlight text %}
 %{
-/* C语言定义，包括了头文件、宏定义、全局变量定义、函数声明等 */
+/* C語言定義，包括了頭文件、宏定義、全局變量定義、函數聲明等 */
 }%
-%option noinput       /* 常见的配置选项 */
-WHITE_SPACE [\ \t\b]  /* 正则表达式的定义，如下section时可以直接使用这里定义的宏 */
+%option noinput       /* 常見的配置選項 */
+WHITE_SPACE [\ \t\b]  /* 正則表達式的定義，如下section時可以直接使用這裡定義的宏 */
 COMMENT #.*
 %%
 {WHITE_SPACE}           |
-{COMMENT}               {/* ignore */}  /* 规则定义处理 */
+{COMMENT}               {/* ignore */}  /* 規則定義處理 */
 %%
-/* C语言，函数实现等 */
+/* C語言，函數實現等 */
 {% endhighlight %}
 
 
 
-## YACC 语法分析
+## YACC 語法分析
 
-bison 读入一个 CFG 文法的文件，在程序内经过计算，输出一个 parser generator 的 c 文件；也就是说 Bison 适合上下文无关文法，采用 LALR Parser (LALR语法分析器)。
+bison 讀入一個 CFG 文法的文件，在程序內經過計算，輸出一個 parser generator 的 c 文件；也就是說 Bison 適合上下文無關文法，採用 LALR Parser (LALR語法分析器)。
 
-在实现时，bison 会创建一组状态，每个状态用来表示规则中的一个可能位置，同时还会维护一个堆栈，这个堆栈叫做分析器堆栈 (parser stack)。每次读入一个终结符 (token)，它会将该终结符及其语意值一起压入堆栈，把一个 token 压入堆栈通常叫做移进 (shifting)。
+在實現時，bison 會創建一組狀態，每個狀態用來表示規則中的一個可能位置，同時還會維護一個堆棧，這個堆棧叫做分析器堆棧 (parser stack)。每次讀入一個終結符 (token)，它會將該終結符及其語意值一起壓入堆棧，把一個 token 壓入堆棧通常叫做移進 (shifting)。
 
-当已经移进的后 n 个终结符可以与一个左侧的文法规则相匹配时，这个 n 各终结符会被根据那个规则结合起来，同时将这 n 个终结符出栈，左侧的符号如栈，这叫做归约 (reduction)。
+當已經移進的後 n 個終結符可以與一個左側的文法規則相匹配時，這個 n 各終結符會被根據那個規則結合起來，同時將這 n 個終結符出棧，左側的符號如棧，這叫做歸約 (reduction)。
 
-如果可以将 bison+flex 混合使用，当语法分析需要输入标记 (token) 时，就会调用 yylex() ，然后匹配规则，如果找到则返回。
+如果可以將 bison+flex 混合使用，當語法分析需要輸入標記 (token) 時，就會調用 yylex() ，然後匹配規則，如果找到則返回。
 
 
 
@@ -315,37 +315,37 @@ bison 读入一个 CFG 文法的文件，在程序内经过计算，输出一个
 <!--
 
 
-<br><br><h2>预读</h2><p>
-Bison 分析器并不总是当 N 个终结符与组匹配某一规则时立即进行归约，这种策略对于大部分语言来说并不合适。相反，当可以进行归约时，分析器有时会“预读” (looks ahead) 下一个终结符来决定做什么。<br><br>
+<br><br><h2>預讀</h2><p>
+Bison 分析器並不總是當 N 個終結符與組匹配某一規則時立即進行歸約，這種策略對於大部分語言來說並不合適。相反，當可以進行歸約時，分析器有時會“預讀” (looks ahead) 下一個終結符來決定做什麼。<br><br>
 
-当一个终结符被读进来后，并不会立即移进堆栈，而是首先作为一个预读终结符 (look-ahead token)。此后，分析器开始对栈上的终结符和组执行一个或多个归约，而预读终结符仍然放在一边。当没有归约可做时，这个预读终结符才会被移进堆栈。这并不表示所有可能的归约都已经做了，这要取决于预读终结符的类型，一些规则可能选择推迟它们的使用。<br><br>
+當一個終結符被讀進來後，並不會立即移進堆棧，而是首先作為一個預讀終結符 (look-ahead token)。此後，分析器開始對棧上的終結符和組執行一個或多個歸約，而預讀終結符仍然放在一邊。當沒有歸約可做時，這個預讀終結符才會被移進堆棧。這並不表示所有可能的歸約都已經做了，這要取決於預讀終結符的類型，一些規則可能選擇推遲它們的使用。<br><br>
 
 
 
- 主程序分为如下几个步骤进行:
-    1. 读取/解析命令行选项 Main.getargs(), 打开文件 Files.openfiles()
-       这些是程序基本的准备工作, 一般不属于算法范畴, 我们略去不述.
-    2. 读入文法文件 Reader.reader(), 文法文件一般以 .y 为后缀.
-       读取时建立内存的一些中间数据结构(主要是单链结构), 后面详述.
-    3. 将第2步读入的数据进行检查, 消除无用的,错误的产生式, 建立/转换为适合
-       计算 LR 的数据结构(主要是单链=>数组结构). 预先计算一些辅助数据.
-    4. 计算 LR0 状态集, 结果可能是一个非确定的(有冲突的)有限状态机.
-    5. 转变第 4 步的状态机为确定的 LALR 状态机.
-    6. 如果第 5 步中有 s/r, r/r 冲突, 则解决冲突.
-    7. 输出及别的收尾工作. 一般略去不细述了.
+ 主程序分為如下幾個步驟進行:
+    1. 讀取/解析命令行選項 Main.getargs(), 打開文件 Files.openfiles()
+       這些是程序基本的準備工作, 一般不屬於算法範疇, 我們略去不述.
+    2. 讀入文法文件 Reader.reader(), 文法文件一般以 .y 為後綴.
+       讀取時建立內存的一些中間數據結構(主要是單鏈結構), 後面詳述.
+    3. 將第2步讀入的數據進行檢查, 消除無用的,錯誤的產生式, 建立/轉換為適合
+       計算 LR 的數據結構(主要是單鏈=>數組結構). 預先計算一些輔助數據.
+    4. 計算 LR0 狀態集, 結果可能是一個非確定的(有衝突的)有限狀態機.
+    5. 轉變第 4 步的狀態機為確定的 LALR 狀態機.
+    6. 如果第 5 步中有 s/r, r/r 衝突, 則解決衝突.
+    7. 輸出及別的收尾工作. 一般略去不細述了.
 -->
 
-### 语法定义
+### 語法定義
 
-同 flex 相似，仍然通过 ```%%``` 将文件分为三部分：
+同 flex 相似，仍然通過 ```%%``` 將文件分為三部分：
 
-1. 第一部分将原封不动放到生成源码中，如果要写入 C/C++ 代码，则必须用 ```%{``` 和 ```%}``` 括起来。
+1. 第一部分將原封不動放到生成源碼中，如果要寫入 C/C++ 代碼，則必須用 ```%{``` 和 ```%}``` 括起來。
 
-2. 第二部分是规则段，包括了模式 (正则表达式) 和动作，由空白分开，当匹配到模式时，就会执行后面的动作。每条规则都是由 ```':'``` 操作符左侧的一个名字、右侧的符号列表、动作代码、规则结束符 ```(;)``` 组成。
+2. 第二部分是規則段，包括了模式 (正則表達式) 和動作，由空白分開，當匹配到模式時，就會執行後面的動作。每條規則都是由 ```':'``` 操作符左側的一個名字、右側的符號列表、動作代碼、規則結束符 ```(;)``` 組成。
 
-3. 第三部分可以直接写入 C/C++ 代码。
+3. 第三部分可以直接寫入 C/C++ 代碼。
 
-如下，是一个简单示例，分别是 frame.l 和 frame.y 文件。
+如下，是一個簡單示例，分別是 frame.l 和 frame.y 文件。
 
 {% highlight text %}
 %{
@@ -377,32 +377,32 @@ int main()
 }
 {% endhighlight %}
 
-然后，通过如下命令进行测试。
+然後，通過如下命令進行測試。
 
 {% highlight text %}
------ 编译生成lex.yy.c文件
+----- 編譯生成lex.yy.c文件
 $ flex frame.l
 
------ 产生frame.tab.c和frame.tab.h文件
+----- 產生frame.tab.c和frame.tab.h文件
 $ bison -d frame.y
 
------ 编译生成二进制文件
+----- 編譯生成二進制文件
 $ gcc frame.tab.c lex.yy.c
 {% endhighlight %}
 
 ### 常用功能
 
-yacc 中定义了很多的符号，详细的可以查看 [Bison Symbols](http://dinosaur.compilertools.net/bison/bison_13.html) 中的介绍，如下简单介绍常见的符号定义：
+yacc 中定義了很多的符號，詳細的可以查看 [Bison Symbols](http://dinosaur.compilertools.net/bison/bison_13.html) 中的介紹，如下簡單介紹常見的符號定義：
 
 {% highlight text %}
 %start foobar
-  修改默认的开始规则，例如从foobar规则开始解析，默认从第一条规则开始
+  修改默認的開始規則，例如從foobar規則開始解析，默認從第一條規則開始
 {% endhighlight %}
 
 
-#### 高级yylval
+#### 高級yylval
 
-YACC 的 yylval 类型取决于 YYSTYPE 定义 (一般通过 typedef 定义)，可以通过定义 YYSTYPE 为联合体，在 YACC 中，也可以使用 ```%union``` 语句，此时会自动定义该类型的变量。
+YACC 的 yylval 類型取決於 YYSTYPE 定義 (一般通過 typedef 定義)，可以通過定義 YYSTYPE 為聯合體，在 YACC 中，也可以使用 ```%union``` 語句，此時會自動定義該類型的變量。
 
 {% highlight text %}
 %token TOKHEATER TOKHEAT TOKTARGET TOKTEMPERATURE
@@ -415,15 +415,15 @@ YACC 的 yylval 类型取决于 YYSTYPE 定义 (一般通过 typedef 定义)，�
 %token <string> WORD
 {% endhighlight %}
 
-定义了我们的联合体，它仅包含数字和字体串，然后使用一个扩展的%token语法，告诉YACC应该取联合体的哪一个部分。
+定義了我們的聯合體，它僅包含數字和字體串，然後使用一個擴展的%token語法，告訴YACC應該取聯合體的哪一個部分。
 
 
 <!--
-这个例子中，我们定义STATE 为一个整数，这点跟前面一样，NUMBER符号用于读取温度值。
+這個例子中，我們定義STATE 為一個整數，這點跟前面一樣，NUMBER符號用於讀取溫度值。
 
-不过新的WORD被定义为一个字符串。
+不過新的WORD被定義為一個字符串。
 
-分词器文件也有很多改变：
+分詞器文件也有很多改變：
 
 %{
 #include <stdio.h>
@@ -442,7 +442,7 @@ temperature        return TOKTEMPERATURE;
 [ \t]+             /* ignore whitespace */;
 %%
 
-如你所见，我们不再直接获取yylval的值，而是添加一个后缀指示想取得哪个部分的值。不过在YACC语法中，我们无须这样做，因为YACC为我们做了神奇的这些：
+如你所見，我們不再直接獲取yylval的值，而是添加一個後綴指示想取得哪個部分的值。不過在YACC語法中，我們無須這樣做，因為YACC為我們做了神奇的這些：
 
 heater_select:
         TOKHEATER WORD
@@ -452,7 +452,7 @@ heater_select:
         }
         ;
 
-由于上面的%token定义，YACC自动从联合体中挑选string成员。同时也请注意，我们保存了一份$2的副本，它在后面被用于告诉用户是哪一个加热器发出的命令：
+由於上面的%token定義，YACC自動從聯合體中挑選string成員。同時也請注意，我們保存了一份$2的副本，它在後面被用於告訴用戶是哪一個加熱器發出的命令：
 
 target_set:
         TOKTARGET TOKTEMPERATURE NUMBER
@@ -462,13 +462,13 @@ target_set:
         ;
 -->
 
-#### 杂项
+#### 雜項
 
-简单介绍其它功能。
+簡單介紹其它功能。
 
-##### 变量
+##### 變量
 
-```$$ $1 $2 ...``` 定义了默认的参数，示例如下：
+```$$ $1 $2 ...``` 定義了默認的參數，示例如下：
 
 {% highlight text %}
 exp:
@@ -481,39 +481,39 @@ exp[result]:
 
 
 <!--
-上述函数的作用为<ul><li>
+上述函數的作用為<ul><li>
     yywrap<br>
-    可以在lex或者yacc文件中定义，该函数是必须的，给了这个函数实现之后不再需要依赖flex库，在次只是简单返回1，表示输入已经结束。函数yywrap能够用于是否继续读取其它的文件，当遇到EOF时，你可以打开其它文件并返回0。或者，返回1，意味着真正的结束。</li><br><li>
+    可以在lex或者yacc文件中定義，該函數是必須的，給了這個函數實現之後不再需要依賴flex庫，在次只是簡單返回1，表示輸入已經結束。函數yywrap能夠用於是否繼續讀取其它的文件，當遇到EOF時，你可以打開其它文件並返回0。或者，返回1，意味著真正的結束。</li><br><li>
 
     program<br>
-    这是语法规则里面的第一个非终结符，注意上面的格式哦：“program”后 面紧跟着一个冒号“:”，然后换行之后有一个分号“;”，这表明这个 program是由空串组成的。至于什么是非终结符以及什么是终结符，还有什 么是语法规则都会在后面的章节中进行详细介 绍。</li><br><li>
+    這是語法規則裡面的第一個非終結符，注意上面的格式哦：“program”後 面緊跟著一個冒號“:”，然後換行之後有一個分號“;”，這表明這個 program是由空串組成的。至於什麼是非終結符以及什麼是終結符，還有什 麼是語法規則都會在後面的章節中進行詳細介 紹。</li><br><li>
 
     yyerror<br>
-    错误处理函数，为了保证代码尽可能的简洁，在此什么都不做。</li><br><li>
+    錯誤處理函數，為了保證代碼儘可能的簡潔，在此什麼都不做。</li><br><li>
 
     yyparse<br>
-    这个函数是yacc生成的，在代码里可以直接使用。lex生成的函数为yylex，实际上yyparse还间接调用了yylex函数，可以查看生成的C源文件。
+    這個函數是yacc生成的，在代碼裡可以直接使用。lex生成的函數為yylex，實際上yyparse還間接調用了yylex函數，可以查看生成的C源文件。
 </li></ul>
 </p>
 
 
-* lex/yacc程序组成结构、文件格式。
-* 如何在lex/yacc中使用C++和STL库，用extern "C"声明那些lex/yacc生成的、要链接的C函数，如yylex(), yywrap(), yyerror()。
-* 重定义YYSTYPE/yylval为复杂类型。
-* lex里多状态的定义和使用，用BEGIN宏在初始态和其它状态间切换。
-* lex里正则表达式的定义、识别方式。
-* lex里用yylval向yacc返回数据。
-* yacc里用%token<>方式声明yacc记号。
-* yacc里用%type<>方式声明非终结符的类型。
-* 在yacc嵌入的C代码动作里，对记号属性($1, $2等)、和非终结符属性($$)的正确引用方法。
-* 对yyin/yyout重赋值，以改变yacc默认的输入/输出目标。
+* lex/yacc程序組成結構、文件格式。
+* 如何在lex/yacc中使用C++和STL庫，用extern "C"聲明那些lex/yacc生成的、要鏈接的C函數，如yylex(), yywrap(), yyerror()。
+* 重定義YYSTYPE/yylval為複雜類型。
+* lex裡多狀態的定義和使用，用BEGIN宏在初始態和其它狀態間切換。
+* lex里正則表達式的定義、識別方式。
+* lex裡用yylval向yacc返回數據。
+* yacc裡用%token<>方式聲明yacc記號。
+* yacc裡用%type<>方式聲明非終結符的類型。
+* 在yacc嵌入的C代碼動作裡，對記號屬性($1, $2等)、和非終結符屬性($$)的正確引用方法。
+* 對yyin/yyout重賦值，以改變yacc默認的輸入/輸出目標。
 
 
 
 
 
-<br><br><h2>调试</h2><p>
-通常来说 bison 生成 *.tab.{c,h} 两个文件，如果通过 --report=state 或者 --verbose 生成 *.output 输出。
+<br><br><h2>調試</h2><p>
+通常來說 bison 生成 *.tab.{c,h} 兩個文件，如果通過 --report=state 或者 --verbose 生成 *.output 輸出。
 -->
 
 
@@ -521,17 +521,17 @@ exp[result]:
 
 <!--
 <ul><li>
-token 标记<br>
-在yacc文件中进行定义，通过bison生成头文件，头文件中会定义为宏或者enmu(yacc生成的.c文件直接使用数字，在yytoknum[]中)，通常从258开始，通常1～265表示字符，还有一些内部的定义。如frame.y，则生成frame.tab.h，在frame.l中通常需要包含该头文件。</li><br><li>
+token 標記<br>
+在yacc文件中進行定義，通過bison生成頭文件，頭文件中會定義為宏或者enmu(yacc生成的.c文件直接使用數字，在yytoknum[]中)，通常從258開始，通常1～265表示字符，還有一些內部的定義。如frame.y，則生成frame.tab.h，在frame.l中通常需要包含該頭文件。</li><br><li>
 
     int yyparse(void)/int yylex(void)<br>
-    yyparse()为bison的执行入口，程序可以直接通过该函数执行；yyparse()会通过yylex()获得token。
+    yyparse()為bison的執行入口，程序可以直接通過該函數執行；yyparse()會通過yylex()獲得token。
     </li></ul>
     flex frame.l<br>
     bison -d frame.y<br>
     cc frame.tab.c lex.yy.c -ll -o example<br><br>
 
-    如果需要进行调试需要通过如下方式进行编译<br>
+    如果需要進行調試需要通過如下方式進行編譯<br>
     flex frame.l<br>
     bison -y -d -t frame.l<br>
     cc -g frame.tab.c lex.yy.c -ll -o example<br>
@@ -545,11 +545,11 @@ token 标记<br>
 
 
 
-## 源码解析
+## 源碼解析
 
-Linux 一般来说，词法和语法解析都是通过 Flex 与 Bison 完成的；而在 MySQL 中，词法分析使用自己的程序，而语法分析使用的是 Bison；Bison 会根据 MySQL 定义的语法规则，进行语法解析。
+Linux 一般來說，詞法和語法解析都是通過 Flex 與 Bison 完成的；而在 MySQL 中，詞法分析使用自己的程序，而語法分析使用的是 Bison；Bison 會根據 MySQL 定義的語法規則，進行語法解析。
 
-完成语法解析后，会将解析结果生成的数据结构保存在 struct LEX 中，该结构体在 sql/sql_lex.h 文件中定义。
+完成語法解析後，會將解析結果生成的數據結構保存在 struct LEX 中，該結構體在 sql/sql_lex.h 文件中定義。
 
 {% highlight cpp %}
 struct LEX: public Query_tables_list
@@ -567,32 +567,32 @@ private:
 }
 {% endhighlight %}
 
-优化器会根据这里的数据，生成相应的执行计划，最后调用存储引擎执行。
+優化器會根據這裡的數據，生成相應的執行計劃，最後調用存儲引擎執行。
 
-### 执行过程
+### 執行過程
 
-以下是语法解析模块掉用过程。
+以下是語法解析模塊掉用過程。
 
 {% highlight text %}
 mysql_parse()
  |-mysql_reset_thd_for_next_command()
  |-lex_start()
  |-query_cache_send_result_to_client()              #  首先查看cache
- |-parse_sql()                                      #  MYSQLparse的外包函数
-   |-MYSQLparse()                                   #  实际的解析函数入口
+ |-parse_sql()                                      #  MYSQLparse的外包函數
+   |-MYSQLparse()                                   #  實際的解析函數入口
 {% endhighlight %}
 
-如上，SQL 解析入口会调用 MYSQLparse ，而在 sql/sql_yacc.cc 中有如下的宏定义，也就说，在预编译阶段，会将 yyparse 替换为 MYSQLparse ，所以 **实际调用的仍是 yyparse 函数**。
+如上，SQL 解析入口會調用 MYSQLparse ，而在 sql/sql_yacc.cc 中有如下的宏定義，也就說，在預編譯階段，會將 yyparse 替換為 MYSQLparse ，所以 **實際調用的仍是 yyparse 函數**。
 
 {% highlight c %}
 #define yyparse         MYSQLparse
 {% endhighlight %}
 
-记下来详细介绍其实现细节。
+記下來詳細介紹其實現細節。
 
-### 词法解析
+### 詞法解析
 
-MYSQL 的词法分析并没有使用 LEX，而是有自己的一套词法分析，代码详见 sql/sql_lex.cc 中的实现，其入口函数是 MYSQLlex() 。
+MYSQL 的詞法分析並沒有使用 LEX，而是有自己的一套詞法分析，代碼詳見 sql/sql_lex.cc 中的實現，其入口函數是 MYSQLlex() 。
 
 {% highlight cpp %}
 int MYSQLlex(YYSTYPE *yylval, YYLTYPE *yylloc, THD *thd)
@@ -643,24 +643,24 @@ int MYSQLlex(YYSTYPE *yylval, YYLTYPE *yylloc, THD *thd)
 
 
 
-### 语法分析
+### 語法分析
 
-Bison 和词法分析的函数接口是 yylex()，在需要的时候掉用 yylex() 获取词法解析的数据，并完成自己的语法解析。
+Bison 和詞法分析的函數接口是 yylex()，在需要的時候掉用 yylex() 獲取詞法解析的數據，並完成自己的語法解析。
 
-正常来说，Bison 的实际入口函数应该是 yyparse() ，而在 MySQL 中通过宏定义，将 yyparse() 替换为 MYSQLParse()；如上所述，实际调用的仍然是 yyparse() 。
+正常來說，Bison 的實際入口函數應該是 yyparse() ，而在 MySQL 中通過宏定義，將 yyparse() 替換為 MYSQLParse()；如上所述，實際調用的仍然是 yyparse() 。
 
-另外，我们可以根据 Bison 中的 Action 操作来查看 MySQL 解析结果的存储结构。
+另外，我們可以根據 Bison 中的 Action 操作來查看 MySQL 解析結果的存儲結構。
 
 
 
-## 调试
+## 調試
 
-在这里通过考察存储的 WHERE 数据结构来查看语法解析的结果。
+在這裡通過考察存儲的 WHERE 數據結構來查看語法解析的結果。
 
 {% highlight text %}
 (gdb) attach PID
-(gdb) set print pretty on                                  # 设置显示样式
-(gdb) b mysql_execute_command                              # 可以用来查看所有的SQL
+(gdb) set print pretty on                                  # 設置顯示樣式
+(gdb) b mysql_execute_command                              # 可以用來查看所有的SQL
 (gdb) p thd->lex->select_lex
 (gdb) p ((Item_cond*)thd->lex->select_lex->where)->list    # 查看WHERE中的list
 (gdb) detach
@@ -668,26 +668,26 @@ Bison 和词法分析的函数接口是 yylex()，在需要的时候掉用 yylex
 
 
 
-## 参考
+## 參考
 
 ### Flex/Bison
 
-关于最原始的论文，可以参考 [Lex - A Lexical Analyzer Generator](http://www.cs.utexas.edu/users/novak/lexpaper.htm) ([本地](/reference/databases/mysql/LEX_A_Lexical_Analyzer_Generator.html))，以及 [Yacc: Yet Another Compiler-Compiler](http://www.cs.utexas.edu/users/novak/yaccpaper.htm) ([本地](/reference/databases/mysql/YACC_Yet_Another_Compiler_Compiler.html))。
+關於最原始的論文，可以參考 [Lex - A Lexical Analyzer Generator](http://www.cs.utexas.edu/users/novak/lexpaper.htm) ([本地](/reference/databases/mysql/LEX_A_Lexical_Analyzer_Generator.html))，以及 [Yacc: Yet Another Compiler-Compiler](http://www.cs.utexas.edu/users/novak/yaccpaper.htm) ([本地](/reference/databases/mysql/YACC_Yet_Another_Compiler_Compiler.html))。
 
-对于 Lex 和 Yacc 来说，比较经典的入门可以参考 [Lex & Yacc Tutorial](http://epaperpress.com/lexandyacc/index.html)，其中包括了如何编写一个计算器，以及相关的调试等信息；也可以参考 [本地文档](/reference/databases/mysql/LexAndYaccTutorial.pdf)，以及相关的 [源码](/reference/databases/mysql/LexAndYaccCode.zip) 。
+對於 Lex 和 Yacc 來說，比較經典的入門可以參考 [Lex & Yacc Tutorial](http://epaperpress.com/lexandyacc/index.html)，其中包括瞭如何編寫一個計算器，以及相關的調試等信息；也可以參考 [本地文檔](/reference/databases/mysql/LexAndYaccTutorial.pdf)，以及相關的 [源碼](/reference/databases/mysql/LexAndYaccCode.zip) 。
 
-关于总体介绍可以参考 [Lex and YACC primer](http://www.tldp.org/HOWTO/Lex-YACC-HOWTO.html)，或者 [本地文档](/reference/databases/mysql/LEX_YACC_Primer_HOWTO.html)，也可以查看中文翻译 [如何使用 Lex/YACC](http://segmentfault.com/blog/icattlecoder/1190000000396608)，以及 [本地](/reference/databases/mysql/LEX_YACC_Primer_HOWTO_cn.mht)，以及 [示例源码](/reference/databases/mysql/lex-yacc-examples.tar.gz) ；以及 [Bison-Flex 笔记](/reference/databases/mysql/Bison_Flex_Notes.mht)、[Flex/Bison Tutorial](/reference/databases/mysql/Tutorial-Flex_Bison.pdf) 。
+關於總體介紹可以參考 [Lex and YACC primer](http://www.tldp.org/HOWTO/Lex-YACC-HOWTO.html)，或者 [本地文檔](/reference/databases/mysql/LEX_YACC_Primer_HOWTO.html)，也可以查看中文翻譯 [如何使用 Lex/YACC](http://segmentfault.com/blog/icattlecoder/1190000000396608)，以及 [本地](/reference/databases/mysql/LEX_YACC_Primer_HOWTO_cn.mht)，以及 [示例源碼](/reference/databases/mysql/lex-yacc-examples.tar.gz) ；以及 [Bison-Flex 筆記](/reference/databases/mysql/Bison_Flex_Notes.mht)、[Flex/Bison Tutorial](/reference/databases/mysql/Tutorial-Flex_Bison.pdf) 。
 
-关于调试方法可以参考 [Understanding Your Parser](http://www.gnu.org/software/bison/manual/html_node/Understanding.html)，这个是 [Bison Offical Documents](http://www.gnu.org/software/bison/manual/html_node/index.html) 文档的一部分；更多可以参考 [dinosaur.compilertools.net](http://dinosaur.compilertools.net/) 查看相关的资料。
+關於調試方法可以參考 [Understanding Your Parser](http://www.gnu.org/software/bison/manual/html_node/Understanding.html)，這個是 [Bison Offical Documents](http://www.gnu.org/software/bison/manual/html_node/index.html) 文檔的一部分；更多可以參考 [dinosaur.compilertools.net](http://dinosaur.compilertools.net/) 查看相關的資料。
 
 
 <!--
-自己动手写编译器
+自己動手寫編譯器
 http://pandolia.net/tinyc/
 https://bellard.org/tcc/
-计算器
+計算器
 http://good-ed.blogspot.tw/2010/04/lexyacc.html
-编写自己的编译器
+編寫自己的編譯器
 http://coolshell.cn/articles/1547.html
 
 http://blog.csdn.net/huyansoft/article/details/8860224

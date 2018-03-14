@@ -1,36 +1,36 @@
 ---
-title: Linux 网络半链接、链接队列
+title: Linux 網絡半鏈接、鏈接隊列
 layout: post
 comments: true
 language: chinese
 category: [linux, network]
-keywords: linux,network,网络,链接,半链接,队列
-description: 我们知道在建立链接阶段，需要完成三次握手，而这一阶段是在内核中完成，为此保存了两个队列：半链接队列 (SYN队列)、链接队列 (Accepted队列)。 那么，这两个队列分别对应到内核中的那些成员？队列的大小由那些参数决定？当队列满了之后，对应用的影响是什么？其报错的内容是什么？ 在这篇文章里大致介绍下。
+keywords: linux,network,網絡,鏈接,半鏈接,隊列
+description: 我們知道在建立鏈接階段，需要完成三次握手，而這一階段是在內核中完成，為此保存了兩個隊列：半鏈接隊列 (SYN隊列)、鏈接隊列 (Accepted隊列)。 那麼，這兩個隊列分別對應到內核中的那些成員？隊列的大小由那些參數決定？當隊列滿了之後，對應用的影響是什麼？其報錯的內容是什麼？ 在這篇文章裡大致介紹下。
 ---
 
-我们知道在建立链接阶段，需要完成三次握手，而这一阶段是在内核中完成，为此保存了两个队列：半链接队列 (SYN队列)、链接队列 (Accepted队列)。
+我們知道在建立鏈接階段，需要完成三次握手，而這一階段是在內核中完成，為此保存了兩個隊列：半鏈接隊列 (SYN隊列)、鏈接隊列 (Accepted隊列)。
 
-那么，这两个队列分别对应到内核中的那些成员？队列的大小由那些参数决定？当队列满了之后，对应用的影响是什么？其报错的内容是什么？
+那麼，這兩個隊列分別對應到內核中的那些成員？隊列的大小由那些參數決定？當隊列滿了之後，對應用的影響是什麼？其報錯的內容是什麼？
 
-在这篇文章里大致介绍下。
+在這篇文章裡大致介紹下。
 
 <!-- more -->
 
-## 简介
+## 簡介
 
-Linux 内核中的协议栈，在管理 TCP 链接时使用了两个队列，包括：半链接队列，用来保存处于 SYN_SENT 和 SYN_RECV 状态的请求；Accepted 队列，用来保存已经处于 established 状态，但是应用层还没来得及调用 accept() 取走的请求。
+Linux 內核中的協議棧，在管理 TCP 鏈接時使用了兩個隊列，包括：半鏈接隊列，用來保存處於 SYN_SENT 和 SYN_RECV 狀態的請求；Accepted 隊列，用來保存已經處於 established 狀態，但是應用層還沒來得及調用 accept() 取走的請求。
 
-对这两个队列比较关心的，也就是这两队列在内核中的对象是什么，其长度又是怎么定义的。
+對這兩個隊列比較關心的，也就是這兩隊列在內核中的對象是什麼，其長度又是怎麼定義的。
 
-注意，这两个队列都是在服务端的，而我们监听端口的建立是通过 listen() 完成，基本可以判断出来，两个队列的初始化操作也基本在该接口中调用完成。
+注意，這兩個隊列都是在服務端的，而我們監聽端口的建立是通過 listen() 完成，基本可以判斷出來，兩個隊列的初始化操作也基本在該接口中調用完成。
 
-所以首先看的是 listen() 系统调用。
+所以首先看的是 listen() 系統調用。
 
-## listen() - 队列的初始化
+## listen() - 隊列的初始化
 
-首先开始讨论的是 backlog 参数，英语中的原意是 "积压未办之事；没交付的订货" 。
+首先開始討論的是 backlog 參數，英語中的原意是 "積壓未辦之事；沒交付的訂貨" 。
 
-讨论 backlog 时，容易想到 socket 编程中 `listen()` 接口的 backlog 参数，而该参数与 Linux 内核中的 backlog 是否一样？通过 `man 2 listen` 可以看到，对应该接口中 backlog 的解释如下。
+討論 backlog 時，容易想到 socket 編程中 `listen()` 接口的 backlog 參數，而該參數與 Linux 內核中的 backlog 是否一樣？通過 `man 2 listen` 可以看到，對應該接口中 backlog 的解釋如下。
 
 {% highlight text %}
 int listen(int sockfd, int backlog);
@@ -43,9 +43,9 @@ retransmission, the request may be ignored so that a later reattempt
 at connection succeeds.
 {% endhighlight %}
 
-这里的解释非常简短，对于我们的帮助实际并不是很大，还是那句话 "Show me the CODE!!!" 。
+這裡的解釋非常簡短，對於我們的幫助實際並不是很大，還是那句話 "Show me the CODE!!!" 。
 
-首先是 listen() 系统调用的入口，按照上述的说法，可以想像的到，listen() 系统调用必然要分配一个 listen_sock 结构体。
+首先是 listen() 系統調用的入口，按照上述的說法，可以想像的到，listen() 系統調用必然要分配一個 listen_sock 結構體。
 
 {% highlight c %}
 SYSCALL_DEFINE2(listen, int, fd, int, backlog)
@@ -56,14 +56,14 @@ SYSCALL_DEFINE2(listen, int, fd, int, backlog)
 
     sock = sockfd_lookup_light(fd, &err, &fput_needed);
     if (sock) {
-        /* backlog 会选择 listen() 传入的参数与 net.core.somaxconn 的最小值 */
+        /* backlog 會選擇 listen() 傳入的參數與 net.core.somaxconn 的最小值 */
         somaxconn = sock_net(sock->sk)->core.sysctl_somaxconn;
         if ((unsigned int)backlog > somaxconn)
             backlog = somaxconn;
 
         err = security_socket_listen(sock, backlog);
         if (!err)
-            /* 实际会调用 inet_listen() */
+            /* 實際會調用 inet_listen() */
             err = sock->ops->listen(sock, backlog);
 
         fput_light(sock->file, fput_needed);
@@ -72,41 +72,41 @@ SYSCALL_DEFINE2(listen, int, fd, int, backlog)
 }
 {% endhighlight %}
 
-也就是取得入参与 somaxconn 的最小值后，调用 inet_listen() 函数，在该函数中会初始化半链接队列，并设置 accepted 队列的最大值。
+也就是取得入參與 somaxconn 的最小值後，調用 inet_listen() 函數，在該函數中會初始化半鏈接隊列，並設置 accepted 隊列的最大值。
 
 {% highlight c %}
 int inet_listen(struct socket *sock, int backlog)
 {
     ... ...
-    /* 如果已经处于 listen 状态了，那么之修改 backlog */
+    /* 如果已經處於 listen 狀態了，那麼之修改 backlog */
     if (old_state != TCP_LISTEN) {
-        ... ...                        // fastopen相关暂时忽略
+        ... ...                        // fastopen相關暫時忽略
         err = inet_csk_listen_start(sk, backlog);
         if (err)
             goto out;
     }
-    sk->sk_max_ack_backlog = backlog;  // 设置accept队列的最大值
+    sk->sk_max_ack_backlog = backlog;  // 設置accept隊列的最大值
     ... ...
 }
 {% endhighlight %}
 
-接着来看 inet_csk_listen_start() 函数的实现，其主要工作是调用 reqsk_queue_alloc() 新分配一个 listen socket 以及相应的 accept 队列；然后对申请的端口进行判断。
+接著來看 inet_csk_listen_start() 函數的實現，其主要工作是調用 reqsk_queue_alloc() 新分配一個 listen socket 以及相應的 accept 隊列；然後對申請的端口進行判斷。
 
 {% highlight c %}
 int inet_csk_listen_start(struct sock *sk, const int nr_table_entries)
 {
     ... ...
-    // 在下面的函数中分配listen_sock以及相应的accept队列
+    // 在下面的函數中分配listen_sock以及相應的accept隊列
     int rc = reqsk_queue_alloc(&icsk->icsk_accept_queue, nr_table_entries);
     ... ...
-    // 这里之所以还要再次判断一下端口，是为了防止另一个进程 程在我们调用listen之前改变了这个端口的信息.
+    // 這裡之所以還要再次判斷一下端口，是為了防止另一個進程 程在我們調用listen之前改變了這個端口的信息.
     sk->sk_state = TCP_LISTEN;
     if (!sk->sk_prot->get_port(sk, inet->inet_num)) {
-        // 将端口赋值给sport，并加入到inet_hashinfo(上面已经分析过)的listening_hash hash链表中.
+        // 將端口賦值給sport，並加入到inet_hashinfo(上面已經分析過)的listening_hash hash鏈表中.
         inet->inet_sport = htons(inet->inet_num);
 
         sk_dst_reset(sk);
-        sk->sk_prot->hash(sk);  // 这里调用__inet_hash实现的
+        sk->sk_prot->hash(sk);  // 這裡調用__inet_hash實現的
 
         return 0;
     }
@@ -114,7 +114,7 @@ int inet_csk_listen_start(struct sock *sk, const int nr_table_entries)
 }
 {% endhighlight %}
 
-对于半链接队列，实际是在 reqsk_queue_alloc() 中完成，在该函数中同样会完成 listen_sock 新建。
+對於半鏈接隊列，實際是在 reqsk_queue_alloc() 中完成，在該函數中同樣會完成 listen_sock 新建。
 
 {% highlight c %}
 int reqsk_queue_alloc(struct request_sock_queue *queue,
@@ -151,19 +151,19 @@ int reqsk_queue_alloc(struct request_sock_queue *queue,
 }
 {% endhighlight %}
 
-实际上，如果 listen(..., 20)，且内核参数值如下，那么此时 nr_table_entries = 16、max_qlen_log = 4 。
+實際上，如果 listen(..., 20)，且內核參數值如下，那麼此時 nr_table_entries = 16、max_qlen_log = 4 。
 {% highlight text %}
 $ sysctl -w net.ipv4.tcp_max_syn_backlog=2
 $ sysctl -w net.core.somaxconn=3
 {% endhighlight %}
 
-但是，对于一个 `listen sock`，我们真的能保存 16 个 `SYN_RCV` 状态的链接吗？答案是 "不能" 。
+但是，對於一個 `listen sock`，我們真的能保存 16 個 `SYN_RCV` 狀態的鏈接嗎？答案是 "不能" 。
 
-### 数据结构
+### 數據結構
 
-上面介绍了两个队列的创建过程，接下来再看下相关的数据结构。擦，有点本末倒置 ^_^
+上面介紹了兩個隊列的創建過程，接下來再看下相關的數據結構。擦，有點本末倒置 ^_^
 
-每当一个 SYN 请求到来时，都会新建一个 request_sock 结构体，并加入到 listen_sock.request_sock 的 hash 表中。完成握手后，将它放入到 inet_connection_sock.request_sock_queue 队列中；这样当 accept() 函数调用时，就会直接从这个队列中读取。
+每當一個 SYN 請求到來時，都會新建一個 request_sock 結構體，並加入到 listen_sock.request_sock 的 hash 表中。完成握手後，將它放入到 inet_connection_sock.request_sock_queue 隊列中；這樣當 accept() 函數調用時，就會直接從這個隊列中讀取。
 
 {% highlight c %}
 struct request_sock {
@@ -177,9 +177,9 @@ struct request_sock {
     u32             window_clamp; /* window clamp at creation time */
     u32             rcv_wnd;      /* rcv_wnd offered first time */
     u32             ts_recent;
-    unsigned long           expires;     // 这个请求在队列中存活的时间
+    unsigned long           expires;     // 這個請求在隊列中存活的時間
     const struct request_sock_ops   *rsk_ops;
-    struct sock         *sk;             // 链接成功的socket数目???
+    struct sock         *sk;             // 鏈接成功的socket數目???
     u32             secid;
     u32             peer_secid;
 };
@@ -188,12 +188,12 @@ struct listen_sock {
     u8          max_qlen_log;
     u8          synflood_warned;
     /* 2 bytes hole, try to use */
-    int         qlen;                               // 当前的半连接队列的长度
-    int         qlen_young;                         // 队列新成员的个数
+    int         qlen;                               // 當前的半連接隊列的長度
+    int         qlen_young;                         // 隊列新成員的個數
     int         clock_hand;
     u32         hash_rnd;
-    u32                 nr_table_entries;                   // 当前的syn_backlog(半开连接队列)的最大值
-    struct request_sock *syn_table[0];              // 存放SYN队列，也即半链接队列
+    u32                 nr_table_entries;                   // 當前的syn_backlog(半開連接隊列)的最大值
+    struct request_sock *syn_table[0];              // 存放SYN隊列，也即半鏈接隊列
 };
 
 struct request_sock_queue {
@@ -201,13 +201,13 @@ struct request_sock_queue {
     struct request_sock       *rskq_accept_tail;
     rwlock_t                  syn_wait_lock;
     u8                        rskq_defer_accept;
-    struct listen_sock        *listen_opt;          // 对应的listen_sock结构体
+    struct listen_sock        *listen_opt;          // 對應的listen_sock結構體
     struct fastopen_queue     *fastopenq;
 };
 
 struct inet_connection_sock {
     struct inet_sock          icsk_inet;
-    struct request_sock_queue icsk_accept_queue;    // 已经建立链接的FIFO队列
+    struct request_sock_queue icsk_accept_queue;    // 已經建立鏈接的FIFO隊列
     ... ...
     __u8                      icsk_syn_retries;
     unsigned long             icsk_timeout;
@@ -221,36 +221,36 @@ struct inet_connection_sock {
 <!--
     struct listen_sock {
          u8           max_qlen_log;
-    /*qlen最大长度取对数log，即log2 (max_qlen)，这个值在进入SYN/ACK定时器时有用*/
+    /*qlen最大長度取對數log，即log2 (max_qlen)，這個值在進入SYN/ACK定時器時有用*/
         int          qlen_young;
-    /*也是指当前的半开连接队列长度,不过这个值会当重传syn/ack的时候(这里要注意是这个syn/ack第一次重传的时候才会减一)自动减一，也就是重传了SYN/ACK的request_sock不在是新的request_sock，在SYN/ACK定时器时有用*/
+    /*也是指當前的半開連接隊列長度,不過這個值會當重傳syn/ack的時候(這裡要注意是這個syn/ack第一次重傳的時候才會減一)自動減一，也就是重傳了SYN/ACK的request_sock不在是新的request_sock，在SYN/ACK定時器時有用*/
 
         int          clock_hand;
-    /*每次SYN-ACK定时器超时时，我们需要遍历SYN队列哈希表，但表太大了，所以每次都只遍历部分哈希表，而每次遍历完，将哈希索引值放在clock_hand这里，下次遍历时直接从clock_hand开始，而不用从头开始*/
+    /*每次SYN-ACK定時器超時時，我們需要遍歷SYN隊列哈希表，但表太大了，所以每次都只遍歷部分哈希表，而每次遍歷完，將哈希索引值放在clock_hand這裡，下次遍歷時直接從clock_hand開始，而不用從頭開始*/
          u32          hash_rnd;
     };
 -->
 
-上述的结构体中，只包括了半链接的队列长度，而对于 accept 队列的长度，实际保存在 sock 结构体中。
+上述的結構體中，只包括了半鏈接的隊列長度，而對於 accept 隊列的長度，實際保存在 sock 結構體中。
 {% highlight c %}
 struct sock {
-    unsigned short      sk_ack_backlog;     // 队列长度
-    unsigned short      sk_max_ack_backlog; // 最大的队列长度
+    unsigned short      sk_ack_backlog;     // 隊列長度
+    unsigned short      sk_max_ack_backlog; // 最大的隊列長度
 };
 {% endhighlight %}
-该 sock 是 server 端的 listen 队列长度，而 client 只保留成 request_sock 。
+該 sock 是 server 端的 listen 隊列長度，而 client 只保留成 request_sock 。
 
-最后，当 accept() 从 icsk_accept_queue 队列中取得 request_sock 之后，将该变量从这个队列中释放，然后在 BSD 层新建一个 socket 结构，并将它和接收端新建的 sock 结构关联起来。
+最後，當 accept() 從 icsk_accept_queue 隊列中取得 request_sock 之後，將該變量從這個隊列中釋放，然後在 BSD 層新建一個 socket 結構，並將它和接收端新建的 sock 結構關聯起來。
 
-### accept() 系统调用
+### accept() 系統調用
 
-最终调用的是 inet_csk_accept() 函数，该函数会调用 reqsk_queue_get_child() 从 accept 队列中取一个 request_sock。
+最終調用的是 inet_csk_accept() 函數，該函數會調用 reqsk_queue_get_child() 從 accept 隊列中取一個 request_sock。
 
 {% highlight c %}
 struct sock *inet_csk_accept(struct sock *sk, int flags, int *err)
 {
     struct request_sock_queue *queue = &icsk->icsk_accept_queue;
-    // 查找已经建立的链接
+    // 查找已經建立的鏈接
     if (reqsk_queue_empty(queue)) {
         long timeo = sock_rcvtimeo(sk, flags & O_NONBLOCK);
 
@@ -270,53 +270,53 @@ struct sock *inet_csk_accept(struct sock *sk, int flags, int *err)
 }
 {% endhighlight %}
 
-## 源码解析
+## 源碼解析
 
-内核中与队列相关的设置参数如下：
+內核中與隊列相關的設置參數如下：
 
-* net.ipv4.tcp_max_syn_backlog[256]：用于保存半链接队列。注意，如果开启了 syncookies，那么基本上没有限制，所以在如下的实验中要关闭 cookies 。
+* net.ipv4.tcp_max_syn_backlog[256]：用於保存半鏈接隊列。注意，如果開啟了 syncookies，那麼基本上沒有限制，所以在如下的實驗中要關閉 cookies 。
 
-* net.core.somaxconn[128]：Accepted 队列最大长度，表示最多有 129 个 established 链接等待 accept()。
+* net.core.somaxconn[128]：Accepted 隊列最大長度，表示最多有 129 個 established 鏈接等待 accept()。
 
-### 握手过程
+### 握手過程
 
-如上所述，握手链接过程包括了如下的步骤：
+如上所述，握手鍊接過程包括瞭如下的步驟：
 
-1. 收到客户端的 SYN 请求，并将这个请求放入 syn_table 中去；
-2. 服务器端回复 SYNACK；
-3. 收到客户端的 ACK；
+1. 收到客戶端的 SYN 請求，並將這個請求放入 syn_table 中去；
+2. 服務器端回覆 SYNACK；
+3. 收到客戶端的 ACK；
 4. 放入 accept queue 中。
 
-对于 IPv4 来说，对应的操作函数通过如下结构体定义：
+對於 IPv4 來說，對應的操作函數通過如下結構體定義：
 
 {% highlight c %}
 const struct inet_connection_sock_af_ops ipv4_specific = {
     ... ...
-    .conn_request      = tcp_v4_conn_request,   // 对应收到SYN请求
-    .syn_recv_sock     = tcp_v4_syn_recv_sock,  // 对应收到ACK请求
+    .conn_request      = tcp_v4_conn_request,   // 對應收到SYN請求
+    .syn_recv_sock     = tcp_v4_syn_recv_sock,  // 對應收到ACK請求
     ... ...
 };
 {% endhighlight %}
 
-接下来查看各个阶段的内容。
+接下來查看各個階段的內容。
 
-### 客户端发送 SYN 请求报文到服务端
+### 客戶端發送 SYN 請求報文到服務端
 
-此时，客户端和服务端分别处于 SYN_SENT 和 SYN_RECV 状态。
+此時，客戶端和服務端分別處於 SYN_SENT 和 SYN_RECV 狀態。
 
-其中服务端的处理流程如下：
+其中服務端的處理流程如下：
 
 {% highlight text %}
 tcp_v4_do_rcv()
- |-tcp_v4_hnd_req()                         # 被动打开时的处理，包括收到SYN或ACK
- |-sock_rps_save_rxhash()                   # 如果返回值nsk!=sk，则表示是收到了ACK报文
- |-tcp_child_process()                      # 处理新的sock
+ |-tcp_v4_hnd_req()                         # 被動打開時的處理，包括收到SYN或ACK
+ |-sock_rps_save_rxhash()                   # 如果返回值nsk!=sk，則表示是收到了ACK報文
+ |-tcp_child_process()                      # 處理新的sock
    |-tcp_rcv_state_process()
-     |-icsk->icsk_af_ops->conn_request()    # 实际调用tcp_v4_conn_request()
+     |-icsk->icsk_af_ops->conn_request()    # 實際調用tcp_v4_conn_request()
        |-tcp_conn_request()
 {% endhighlight %}
 
-tcp_conn_request() 函数是主要的处理流程，其处理流程如下，在此重点关注一下 drop 的处理逻辑。
+tcp_conn_request() 函數是主要的處理流程，其處理流程如下，在此重點關注一下 drop 的處理邏輯。
 
 {% highlight c %}
 int tcp_conn_request(struct request_sock_ops *rsk_ops,
@@ -324,36 +324,36 @@ int tcp_conn_request(struct request_sock_ops *rsk_ops,
              struct sock *sk, struct sk_buff *skb)
 {
     ... ...
-    /* 1. 判断半链接队列是否已满，listen_sock.qlen >> listen_sock.max_qlen_log */
-    if ((sysctl_tcp_syncookies == 2 ||         // 为2表示用来测试
+    /* 1. 判斷半鏈接隊列是否已滿，listen_sock.qlen >> listen_sock.max_qlen_log */
+    if ((sysctl_tcp_syncookies == 2 ||         // 為2表示用來測試
          inet_csk_reqsk_queue_is_full(sk)) && !isn) {
         want_cookie = tcp_syn_flood_action(sk, skb, rsk_ops->slab_name);
         if (!want_cookie)
             goto drop;
     }
 
-    /* 2. 判断accept队列是否已满，sock.sk_ack_backlog > sock.sk_max_ack_backlog；
-     * 以及 listen_sock.qlen_young 的值是否大于 1 。
-     * 也就意味着，如果全连接队列满了，且有未重传过的半连接，则直接丢弃SYN请求
+    /* 2. 判斷accept隊列是否已滿，sock.sk_ack_backlog > sock.sk_max_ack_backlog；
+     * 以及 listen_sock.qlen_young 的值是否大於 1 。
+     * 也就意味著，如果全連接隊列滿了，且有未重傳過的半連接，則直接丟棄SYN請求
      */
     if (sk_acceptq_is_full(sk) && inet_csk_reqsk_queue_young(sk) > 1) {
         NET_INC_STATS_BH(sock_net(sk), LINUX_MIB_LISTENOVERFLOWS);
         goto drop;
     }
 
-    /* 链接未满，申请一个struct request_sock变量 */
+    /* 鏈接未滿，申請一個struct request_sock變量 */
     req = inet_reqsk_alloc(rsk_ops);
     if (!req)
         goto drop;
 
     ... ...
 
-    /* OK, 一切正常，发送 SYNACK */
+    /* OK, 一切正常，發送 SYNACK */
     err = af_ops->send_synack(sk, dst, &fl, req,
                   skb_get_queue_mapping(skb), &foc);
     if (!fastopen) {
         ... ...
-        /* 实际调用 inet_csk_reqsk_queue_hash_add() 函数将该请求添加到半链接队列中 */
+        /* 實際調用 inet_csk_reqsk_queue_hash_add() 函數將該請求添加到半鏈接隊列中 */
         af_ops->queue_hash_add(sk, req, TCP_TIMEOUT_INIT);
     }
 
@@ -361,22 +361,22 @@ int tcp_conn_request(struct request_sock_ops *rsk_ops,
 }
 {% endhighlight %}
 
-#### 判断半链接队列是否已满
+#### 判斷半鏈接隊列是否已滿
 
-该判断通过 inet_csk_reqsk_queue_is_full(sk) 实现，也即比较如下的值。
+該判斷通過 inet_csk_reqsk_queue_is_full(sk) 實現，也即比較如下的值。
 {% highlight text %}
 listen_sock.qlen >> listen_sock.max_qlen_log 。
 {% endhighlight %}
 
-其中的 qlen 代表的是 listen_sock 中的 syn_table 的长度，那什么是 max_qlen_log 呢？可以直接参考上面的介绍。
+其中的 qlen 代表的是 listen_sock 中的 syn_table 的長度，那什麼是 max_qlen_log 呢？可以直接參考上面的介紹。
 
-#### 判断accept队列已满
+#### 判斷accept隊列已滿
 
-在上述的第二步中，在通过 sk_acceptq_is_full() 判断 accept 队列已满的情况下，同是也会判断 listen_sock 结构体中的 qlen_young 变量是否大于 1 。
+在上述的第二步中，在通過 sk_acceptq_is_full() 判斷 accept 隊列已滿的情況下，同是也會判斷 listen_sock 結構體中的 qlen_young 變量是否大於 1 。
 
-而 qlen_young 是对 syn_table 的计数，当进入 syn_table 时加 1，出了syn_table 时减 1 。
+而 qlen_young 是對 syn_table 的計數，當進入 syn_table 時加 1，出了syn_table 時減 1 。
 
-首先介绍一下什么是 qlen_young，下面是摘抄自网络上的注释：
+首先介紹一下什麼是 qlen_young，下面是摘抄自網絡上的註釋：
 
 {% highlight text %}
 qlen_young
@@ -388,40 +388,40 @@ dec 1 except it had been retransmitted.
 see tcp_synack_timer() for more details about qlen_young and clock_hand.
 {% endhighlight %}
 
-这也就意味着，qlen_young 记录了半链接队列里面第一次接收到的 SYN 报文数量，当然，其中不含已经超时重传的链接。
+這也就意味著，qlen_young 記錄了半鏈接隊列裡面第一次接收到的 SYN 報文數量，當然，其中不含已經超時重傳的鏈接。
 
-这也就意味着，如果 accept 队列满了，那么 qlen_young 就一直增加，而新来的请求就会直接被 drop 掉。但是，真实情况是，我们在客户端却很少发现这种情况，Why？？？
+這也就意味著，如果 accept 隊列滿了，那麼 qlen_young 就一直增加，而新來的請求就會直接被 drop 掉。但是，真實情況是，我們在客戶端卻很少發現這種情況，Why？？？
 
-原因有两个：A) 客户端会不断重试，通过 tcp_syn_retries 设置；B) 在 inet_csk_reqsk_queue_prune() 函数中，会不断尝试发送 SYN+ACK 报文，此时 qlen_young 会减小。
+原因有兩個：A) 客戶端會不斷重試，通過 tcp_syn_retries 設置；B) 在 inet_csk_reqsk_queue_prune() 函數中，會不斷嘗試發送 SYN+ACK 報文，此時 qlen_young 會減小。
 
-这也就是说，在第一次的时候，之前的握手过程都没有重传过，所以这个 syn 包 server 端会直接 drop 掉，之后 client 会重传 syn，当 inet_csk_reqsk_queue_yong(sk) < 1 时，那么这个 syn 会被 server 端接受。server 会回复 synack 给 client，这样一来两边的状态就变为 client(ESTABLISHED)+server(SYN_SENT) 。
+這也就是說，在第一次的時候，之前的握手過程都沒有重傳過，所以這個 syn 包 server 端會直接 drop 掉，之後 client 會重傳 syn，當 inet_csk_reqsk_queue_yong(sk) < 1 時，那麼這個 syn 會被 server 端接受。server 會回覆 synack 給 client，這樣一來兩邊的狀態就變為 client(ESTABLISHED)+server(SYN_SENT) 。
 
-### 客户端回复 ACK 报文到服务端
+### 客戶端回覆 ACK 報文到服務端
 
-当 client 收到 synack 后回复 ack 给 server，此时 server 端的处理流程为：
+當 client 收到 synack 後回覆 ack 給 server，此時 server 端的處理流程為：
 
 {% highlight text %}
 tcp_v4_do_rcv()
  |-tcp_rcv_state_process()
    |-tcp_check_req()
-   | |-inet_csk(sk)->icsk_af_ops->syn_recv_sock()     # 实际调用tcp_v4_syn_recv_sock()
-   |   |-sk_acceptq_is_full()                         # 判断接收队列是否已满
-   |   |-tcp_create_openreq_child()                   # 完成三次握手之后，才正式创建新的socket
+   | |-inet_csk(sk)->icsk_af_ops->syn_recv_sock()     # 實際調用tcp_v4_syn_recv_sock()
+   |   |-sk_acceptq_is_full()                         # 判斷接收隊列是否已滿
+   |   |-tcp_create_openreq_child()                   # 完成三次握手之後，才正式創建新的socket
    |
-   |-req->rsk_ops->send_reset()                       # 如果设置了overflow，则会返回reset报文
+   |-req->rsk_ops->send_reset()                       # 如果設置了overflow，則會返回reset報文
 {% endhighlight %}
 
-如果 server 端设置了 sysctl_tcp_abort_on_overflow 那么 server 会发送 rst 给 client，并删除掉这个链接；否则 server 端只是记录一下 LINUX_MIB_LISTENOVERFLOWS，然后返回。
+如果 server 端設置了 sysctl_tcp_abort_on_overflow 那麼 server 會發送 rst 給 client，並刪除掉這個鏈接；否則 server 端只是記錄一下 LINUX_MIB_LISTENOVERFLOWS，然後返回。
 
-默认情况下是不会设置的，server 端只是标记连接请求块的 acked 标志，之后连接建立定时器，会遍历半连接表，重新发送 synack，重复上面的过程，具体的过程可以查看 inet_csk_reqsk_queue_prune()，重传会直到超过 synack 重传的阀值，才会把该连接从半连接链表中删除。
+默認情況下是不會設置的，server 端只是標記連接請求塊的 acked 標誌，之後連接建立定時器，會遍歷半連接表，重新發送 synack，重複上面的過程，具體的過程可以查看 inet_csk_reqsk_queue_prune()，重傳會直到超過 synack 重傳的閥值，才會把該連接從半連接鏈表中刪除。
 
 <br>
 
-在函数 tcpp_create_openreq_child() 中才真正 clone 出一个新的 socket，也就是只有通过了 3 次握手后，Linux 才会产生新的 socket。而在 3 次握手中所传的 socket 实际上是 server 处于 listen 状态的 socket，那也就是说这个 socket 只有一个 TCP_LISTEN 状态。
+在函數 tcpp_create_openreq_child() 中才真正 clone 出一個新的 socket，也就是隻有通過了 3 次握手後，Linux 才會產生新的 socket。而在 3 次握手中所傳的 socket 實際上是 server 處於 listen 狀態的 socket，那也就是說這個 socket 只有一個 TCP_LISTEN 狀態。
 
-## 实验
+## 實驗
 
-为了方便我们观察，需要修改一下 Linux 内核的配置参数。首先查看下操作系统默认的内核参数值，为了后面恢复。下面是自己笔记本上的默认配置参数。
+為了方便我們觀察，需要修改一下 Linux 內核的配置參數。首先查看下操作系統默認的內核參數值，為了後面恢復。下面是自己筆記本上的默認配置參數。
 {% highlight text %}
 $ sysctl net.ipv4.tcp_max_syn_backlog
 net.ipv4.tcp_max_syn_backlog = 256
@@ -442,54 +442,54 @@ $ sysctl net.ipv4.tcp_synack_retries
 net.ipv4.tcp_synack_retries = 5
 {% endhighlight %}
 
-为了方便查看，我们先修改几个参数。
+為了方便查看，我們先修改幾個參數。
 
 {% highlight text %}
-$ sysctl -w net.ipv4.tcp_max_syn_backlog=2        # 将半链接队列设置较小的值
-$ sysctl -w net.core.somaxconn=3                  # 监听队列的长度同样设小
-$ sysctl -w net.ipv4.tcp_syncookies=0             # 关闭sync cookies
-$ sysctl -w net.ipv4.tcp_syn_retries=2            # 当客户端无法链接时，重发SYN报文的次数，设置较小值
-$ sysctl -w net.ipv4.tcp_synack_retries=20        # 服务端没有收到ACK时，重发SYN+ACK的次数，同样设置较大值
+$ sysctl -w net.ipv4.tcp_max_syn_backlog=2        # 將半鏈接隊列設置較小的值
+$ sysctl -w net.core.somaxconn=3                  # 監聽隊列的長度同樣設小
+$ sysctl -w net.ipv4.tcp_syncookies=0             # 關閉sync cookies
+$ sysctl -w net.ipv4.tcp_syn_retries=2            # 當客戶端無法鏈接時，重發SYN報文的次數，設置較小值
+$ sysctl -w net.ipv4.tcp_synack_retries=20        # 服務端沒有收到ACK時，重發SYN+ACK的次數，同樣設置較大值
 {% endhighlight %}
 
-在代码中使用的是 listen(..., 20)，那么在设置完内核参数之后，我们首先计算一下两个队列的长度，其实上面已经计算过了。
+在代碼中使用的是 listen(..., 20)，那麼在設置完內核參數之後，我們首先計算一下兩個隊列的長度，其實上面已經計算過了。
 {% highlight text %}
------ accept队列长度
+----- accept隊列長度
 entries = min(backlog/*from listen()*/, net.core.somaxconn) = 3
 
------ 半链接队列长度
+----- 半鏈接隊列長度
 entries = min(entries, net.ipv4.sysctl_max_syn_backlog) = 2
 entries = max(entries, 8) = 8
 entries = roundup_pow_of_two( 8 + 1) = 16
 {% endhighlight %}
 
-也就是说，半链接队列大小是 16；accept 队列大小是 3 。
+也就是說，半鏈接隊列大小是 16；accept 隊列大小是 3 。
 
-### 测试程序
+### 測試程序
 
-测试程序直接用 C 写的一个简单回显程序，源码可以从 [本地][syn_ack_source] 直接下载。
+測試程序直接用 C 寫的一個簡單回顯程序，源碼可以從 [本地][syn_ack_source] 直接下載。
 
-这个程序非常简单，服务端每次最多只会处理一个请求，只有当第一个客户端关闭之后，才会接着响应其它的请求，否则就一直保存在内核的队列中。
+這個程序非常簡單，服務端每次最多隻會處理一個請求，只有當第一個客戶端關閉之後，才會接著響應其它的請求，否則就一直保存在內核的隊列中。
 
-上述的服务器默认使用 8080 端口，为了观察方便，我们直接通过 ss 监控链接数，命令如下：
+上述的服務器默認使用 8080 端口，為了觀察方便，我們直接通過 ss 監控鏈接數，命令如下：
 
 {% highlight text %}
 # watch -n 1 "ss -tann '( sport = 8080 or dport = 8080 )'"
 {% endhighlight %}
 
-也就是查看源端口或者目的端口是 8080 的所有 TCP 链接，且每秒刷新一次。
+也就是查看源端口或者目的端口是 8080 的所有 TCP 鏈接，且每秒刷新一次。
 
-接下来验证的时候简单分为两个场景，是否设置 net.ipv4.tcp_abort_on_overflow 。
+接下來驗證的時候簡單分為兩個場景，是否設置 net.ipv4.tcp_abort_on_overflow 。
 
-###  设置 tcp_abort_on_overflow
+###  設置 tcp_abort_on_overflow
 
-如果设置 overflow=1 则在尝试建立第 6 个链接时报错 Connection reset by peer 。
+如果設置 overflow=1 則在嘗試建立第 6 個鏈接時報錯 Connection reset by peer 。
 
 ![overflow1]{: .pull-center}
 
-其中包括了一个 accept 的链接 + 四个在 accept 队列中的链接，那么在尝试建第六个的时候就会报错。
+其中包括了一個 accept 的鏈接 + 四個在 accept 隊列中的鏈接，那麼在嘗試建第六個的時候就會報錯。
 
-这里有个问题，我们设置的 accept 队列是 3，为什么保存了 4 个链接，可以参考如下的介绍，忘了从那里摘抄的了。
+這裡有個問題，我們設置的 accept 隊列是 3，為什麼保存了 4 個鏈接，可以參考如下的介紹，忘了從那裡摘抄的了。
 {% highlight text %}
 When I use linux TCP socket, and find there is a bug in function sk_acceptq_is_full():
   When a new SYN comes, TCP module first checks its validation. If valid, send SYN+ACK to
@@ -514,19 +514,19 @@ sk->sk_ack_backlog is initialized to 0. Assuming accept() system call is not inv
 I think it has bugs. after listen system call. sk->sk_max_ack_backlog=1 but now it can accept 2 connections.
 {% endhighlight %}
 
-也就是说，accept 的链接数总是 +1 。
+也就是說，accept 的鏈接數總是 +1 。
 
 ###  取消 tcp_abort_on_overflow
 
-将该参数设置为 0 时，在 accept 队列溢出时就不会发送 rst 报文，而是直接 drop 报文。如果此时通过 tcpdump 之类的工具查看时，可以发现客户端一直在重试。
+將該參數設置為 0 時，在 accept 隊列溢出時就不會發送 rst 報文，而是直接 drop 報文。如果此時通過 tcpdump 之類的工具查看時，可以發現客戶端一直在重試。
 
 ![overflow0]{: .pull-center width="700"}
 
-此时，是在尝试建立第 9 个链接时报错 Connection timed out 。
+此時，是在嘗試建立第 9 個鏈接時報錯 Connection timed out 。
 
-我们在上述的计算过程中，半链接队列应该是 16 个才对，此时只有 3 个处于 SYN-RECV 的报文，这是为什么？？？ 还是看一下代码。
+我們在上述的計算過程中，半鏈接隊列應該是 16 個才對，此時只有 3 個處於 SYN-RECV 的報文，這是為什麼？？？ 還是看一下代碼。
 
-仍然是在 tcp_conn_request() 函数中，在已经尝试建立链接时，会发现如下的代码。
+仍然是在 tcp_conn_request() 函數中，在已經嘗試建立鏈接時，會發現如下的代碼。
 
 {% highlight c %}
 int tcp_conn_request(struct request_sock_ops *rsk_ops,
@@ -546,26 +546,26 @@ int tcp_conn_request(struct request_sock_ops *rsk_ops,
 }
 {% endhighlight %}
 
-在上述的判断中，可以从 1 到 3 计算一下，当尝试建立第 4 个链接时，就会为 true ，那么就直接将报文 drop 掉了。
+在上述的判斷中，可以從 1 到 3 計算一下，當嘗試建立第 4 個鏈接時，就會為 true ，那麼就直接將報文 drop 掉了。
 
-## 总结
+## 總結
 
-listen() 中的入参 backlog 不仅影响到了链接队列，还影响到了半链接队列。
+listen() 中的入參 backlog 不僅影響到了鏈接隊列，還影響到了半鏈接隊列。
 
 
 <!--
-何时添加到半链接队列中
+何時添加到半鏈接隊列中
 .queue_hash_add = inet_csk_reqsk_queue_hash_add()
 inet_csk_reqsk_queue_added()
 
-tcp_rcv_synsent_state_process()    设置为TCP_SYN_RECV
+tcp_rcv_synsent_state_process()    設置為TCP_SYN_RECV
 
-擦，为什么 nr_table_entries 是 16 ，qlen 是 3 ，却不能再接收 SYN 请求了。
+擦，為什麼 nr_table_entries 是 16 ，qlen 是 3 ，卻不能再接收 SYN 請求了。
 -->
 
 
 
 
-[syn_ack_source]:    /reference/linux/network/syn_ack.tar.bz2        "简单的回显测试程序源码"
-[overflow1]:         /images/linux/network-synack-overflow-1.png     "设置overflow时的参数"
-[overflow0]:         /images/linux/network-synack-overflow-0.png     "取消overflow时的参数"
+[syn_ack_source]:    /reference/linux/network/syn_ack.tar.bz2        "簡單的回顯測試程序源碼"
+[overflow1]:         /images/linux/network-synack-overflow-1.png     "設置overflow時的參數"
+[overflow0]:         /images/linux/network-synack-overflow-0.png     "取消overflow時的參數"

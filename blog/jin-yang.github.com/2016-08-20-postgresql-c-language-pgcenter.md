@@ -1,20 +1,20 @@
 ---
-title: PostgreSQL C 语言编程
+title: PostgreSQL C 語言編程
 layout: post
 comments: true
 language: chinese
 category: [database,postgresql,linux]
-keywords: libpq,c,语言,编程,pgcenter
-description: 简单记录一下一些与 Markdown 相关的内容，包括了一些使用模版。
+keywords: libpq,c,語言,編程,pgcenter
+description: 簡單記錄一下一些與 Markdown 相關的內容，包括了一些使用模版。
 ---
 
-对于 PostgreSQL 的 C 语言编程，可以直接使用 libpq 库，这里简单介绍其使用方法。
+對於 PostgreSQL 的 C 語言編程，可以直接使用 libpq 庫，這裡簡單介紹其使用方法。
 
 <!-- more -->
 
 ## libpq
 
-在 CentOS 中，处理通过源码编译安装之外，还可以安装 `postgresqlXX-devel` 包，然后可以通过如下的方式进行编译。
+在 CentOS 中，處理通過源碼編譯安裝之外，還可以安裝 `postgresqlXX-devel` 包，然後可以通過如下的方式進行編譯。
 
 {% highlight text %}
 $ pg_config --includedir
@@ -22,7 +22,7 @@ $ pg_config --libdir
 $ gcc -I/usr/pgsql-9.2/include/ -L/usr/pgsql-9.2/lib/ -lpq -o version version.c
 {% endhighlight %}
 
-如下是一个常见操作的示例集合。
+如下是一個常見操作的示例集合。
 
 {% highlight c %}
 #include <stdio.h>
@@ -167,13 +167,13 @@ SELECT pg_cancel_backend(procpid);
 -- kill idle query
 SELECT pg_terminate_backend(procpid);
 
-### 表膨胀
+### 表膨脹
 
 http://mysql.taobao.org/monthly/2015/12/07/
 https://chenhuajun.github.io/2017/08/15/PostgreSQL%E7%9A%84%E8%A1%A8%E8%86%A8%E8%83%80%E5%8F%8A%E5%AF%B9%E7%AD%96.html
-PostgreSQL 秒杀场景优化
+PostgreSQL 秒殺場景優化
 https://yq.aliyun.com/articles/3010
-PG压测
+PG壓測
 http://www.zhongweicheng.com/?p=3103
 
 SELECT
@@ -188,28 +188,28 @@ WHERE
 ORDER BY dead_tup_ratio DESC
 LIMIT 10;
 
-## 监控
+## 監控
 
-#### 链接数
+#### 鏈接數
 
-所有的当前链接信息保存在 `pg_stat_activity` 视图中，可以通过 `SELECT definition FROM pg_views WHERE viewname = 'pg_stat_activity';` 查看视图的定义。
+所有的當前鏈接信息保存在 `pg_stat_activity` 視圖中，可以通過 `SELECT definition FROM pg_views WHERE viewname = 'pg_stat_activity';` 查看視圖的定義。
 
 https://www.postgresql.org/docs/9.2/static/monitoring-stats.html#PG-STAT-ACTIVITY-VIEW
 
------ 所有连接数及其状态
+----- 所有連接數及其狀態
 SELECT * FROM pg_stat_activity;
------ 查看最大连接数限制
+----- 查看最大連接數限制
 SHOW max_connections;
------ 为超级用户保留的连接数
+----- 為超級用戶保留的連接數
 SHOW superuser_reserved_connections;
 
------ 链接状态统计(单个数据库还是整体的) ****
+----- 鏈接狀態統計(單個數據庫還是整體的) ****
 SELECT state, count(*) FROM pg_stat_activity GROUP BY state;
------ 获取最大链接数
+----- 獲取最大鏈接數
 SELECT setting::int FROM pg_settings WHERE name = 'max_connections';
------ 等待锁的链接数
+----- 等待鎖的鏈接數
 SELECT count(*) FROM pg_stat_activity WHERE waiting = 'true';
------ TPS递增
+----- TPS遞增
 select datname, xact_commit, xact_rollback, (xact_commit + xact_rollback) as all from pg_stat_database WHERE datname NOT IN ('TEMPLATE0', 'TEMPLATE1', 'POSTGRES') AND xact_commit > 0 AND xact_rollback > 0;
 
 
@@ -219,7 +219,7 @@ SELECT s.state,COUNT(datid) AS current FROM pg_stat_activity s GROUP BY 1 ORDER 
 trans(dbname)   commit,rollback,total
 connect percent,total,active,idle,idle_tx
 
-获取当前长事务的最大执行时间
+獲取當前長事務的最大執行時間
 select max(extract(epoch from  now()-xact_start)) as interval from pg_stat_activity where state<>'idle' and now()-xact_start > interval '1 sec';
 
 
@@ -227,13 +227,13 @@ select max(extract(epoch from  now()-xact_start)) as interval from pg_stat_acti
 
 pg_stat_bgwriter
 
-#### 数据库大小
+#### 數據庫大小
 
------ 除去内部数据库之外的数据库大小
+----- 除去內部數據庫之外的數據庫大小
 SELECT datname, pg_database_size(oid) size FROM pg_database WHERE datname NOT IN ('TEMPLATE0', 'TEMPLATE1', 'POSTGRES');
 
 
------ SLOW DML (长事务的最大时间)
+----- SLOW DML (長事務的最大時間)
 SELECT count(*) from pg_stat_activity where state = 'active' and now() - query_start > '1 sec'::interval;
 
 SELECT count(*) from pg_stat_activity where state = 'active' and now() - query_start > '$PARAM1 sec'::interval and query ~* '^(insert|update|delete)');
@@ -255,26 +255,26 @@ https://www.postgresql.org/docs/9.3/static/monitoring.html
 
 ## pgcenter
 
-pgcenter 是一个 PG 终端的监控工具，但又不仅仅是监控工具，还提供了一些快速访问功能，例如编辑配置文件、重载配置、查看日志文件等。
+pgcenter 是一個 PG 終端的監控工具，但又不僅僅是監控工具，還提供了一些快速訪問功能，例如編輯配置文件、重載配置、查看日誌文件等。
 
-可以直接查看 [github.com/lesovsky/pgcenter](https://github.com/lesovsky/pgcenter)，实际上很多的查询 SQL 是在 [pg-utils](https://github.com/PostgreSQL-Consulting/pg-utils/blob/master/sql/global_reports/query_stat_total.sql) 。
+可以直接查看 [github.com/lesovsky/pgcenter](https://github.com/lesovsky/pgcenter)，實際上很多的查詢 SQL 是在 [pg-utils](https://github.com/PostgreSQL-Consulting/pg-utils/blob/master/sql/global_reports/query_stat_total.sql) 。
 
 {% highlight text %}
------ 安装依赖库
+----- 安裝依賴庫
 # yum install ncurses-devel postgresql-devel
------ 直接编译、安装
+----- 直接編譯、安裝
 # make && make install
 
------ 登陆查看当前的状态
+----- 登陸查看當前的狀態
 $ pgcenter -h <host> -p <port> -U <user> -d <dbname>
 $ pgcenter -h 127.1 -p 5432 -U postgres -d postgres
 {% endhighlight %}
 
-## 参考
+## 參考
 
-另外常用的 C 语言组件还有 libzdb、pgpool (提供连接池+负载均衡)、pgbouncer (只有连接池)。
+另外常用的 C 語言組件還有 libzdb、pgpool (提供連接池+負載均衡)、pgbouncer (只有連接池)。
 
-关于 C 语言编程，可以参考 [libpq](https://www.postgresql.org/docs/9.2/static/libpq.html) 、[libpq-example](https://www.postgresql.org/docs/9.2/static/libpq-example.html) 。
+關於 C 語言編程，可以參考 [libpq](https://www.postgresql.org/docs/9.2/static/libpq.html) 、[libpq-example](https://www.postgresql.org/docs/9.2/static/libpq-example.html) 。
 
 <!--
 https://github.com/ty4z2008/Qix/blob/master/pg.md

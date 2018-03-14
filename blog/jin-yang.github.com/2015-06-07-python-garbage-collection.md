@@ -5,88 +5,88 @@ language: chinese
 comments: true
 category: [linux, python]
 keywords: python,garbage collection,垃圾回收
-description: Python 带有自动垃圾回收机制，但是它真的能处理所有的垃圾回收问题吗？ 是不是有了自动垃圾回收，就不用再担心内存泄露了呢？ 为什么经常会看到文章说，在实现自己的类时，不要使用 \_\_del\_\_() ？ 多当代的语言都实现了垃圾回收机制，包括 Java、Ruby、Lua、Go等，从而将众码农从内存管理中释放出来，那么 Python 的垃圾回收是怎么实现的呢？ 篇文章将详细介绍 Python 垃圾回收的使用方法，包括示例以及相关的源码分析。
+description: Python 帶有自動垃圾回收機制，但是它真的能處理所有的垃圾回收問題嗎？ 是不是有了自動垃圾回收，就不用再擔心內存洩露了呢？ 為什麼經常會看到文章說，在實現自己的類時，不要使用 \_\_del\_\_() ？ 多當代的語言都實現了垃圾回收機制，包括 Java、Ruby、Lua、Go等，從而將眾碼農從內存管理中釋放出來，那麼 Python 的垃圾回收是怎麼實現的呢？ 篇文章將詳細介紹 Python 垃圾回收的使用方法，包括示例以及相關的源碼分析。
 ---
 
-Python 带有自动垃圾回收机制，但是它真的能处理所有的垃圾回收问题吗？ 是不是有了自动垃圾回收，就不用再担心内存泄露了呢？ 为什么经常会看到文章说，在实现自己的类时，不要使用 \_\_del\_\_() ？
+Python 帶有自動垃圾回收機制，但是它真的能處理所有的垃圾回收問題嗎？ 是不是有了自動垃圾回收，就不用再擔心內存洩露了呢？ 為什麼經常會看到文章說，在實現自己的類時，不要使用 \_\_del\_\_() ？
 
-很多当代的语言都实现了垃圾回收机制，包括 Java、Ruby、Lua、Go等，从而将众码农从内存管理中释放出来，那么 Python 的垃圾回收是怎么实现的呢？
+很多當代的語言都實現了垃圾回收機制，包括 Java、Ruby、Lua、Go等，從而將眾碼農從內存管理中釋放出來，那麼 Python 的垃圾回收是怎麼實現的呢？
 
-这篇文章将详细介绍 Python 垃圾回收的使用方法，包括示例以及相关的源码分析。
+這篇文章將詳細介紹 Python 垃圾回收的使用方法，包括示例以及相關的源碼分析。
 
 <!-- more -->
 
-## 简介
+## 簡介
 
 ![garbage-logo]{: .pull-right width='230'}
-在介绍 Python 的垃圾收集回收（Garbage Collection）之前，先稍微介绍一些背景。
+在介紹 Python 的垃圾收集回收（Garbage Collection）之前，先稍微介紹一些背景。
 
-现在的主流语言基本都支持三种最基本的内存分配方式： A）静态分配，如静态变量、全剧变量，通常这一部分内存不需要释放或者回收； B）自动分配，通常由语言或者编译器控制，如栈中局部变量、参数传递； C）动态分配，这部分通常在栈中分配，由用户申请。
+現在的主流語言基本都支持三種最基本的內存分配方式： A）靜態分配，如靜態變量、全劇變量，通常這一部分內存不需要釋放或者回收； B）自動分配，通常由語言或者編譯器控制，如棧中局部變量、參數傳遞； C）動態分配，這部分通常在棧中分配，由用戶申請。
 
-那么，垃圾收集机制就是用来处理程序动态分配内存时产生的垃圾。
+那麼，垃圾收集機制就是用來處理程序動態分配內存時產生的垃圾。
 
-在没有垃圾回收机制时，比如在写 C 语言程序时，我们需要时刻记着什么时候申请了内存，什么时候需要释放内存！！！如果忘了释放或者在一个条件分支内没有释放内存，那么就会造成内存泄露；如果提前释放了，后面的程序仍然使用这部分内存，就必然导致内存异常。
+在沒有垃圾回收機制時，比如在寫 C 語言程序時，我們需要時刻記著什麼時候申請了內存，什麼時候需要釋放內存！！！如果忘了釋放或者在一個條件分支內沒有釋放內存，那麼就會造成內存洩露；如果提前釋放了，後面的程序仍然使用這部分內存，就必然導致內存異常。
 
-垃圾回收机制使得众码农不再需要考虑动态内存的管理。
+垃圾回收機制使得眾碼農不再需要考慮動態內存的管理。
 
 ### Python 的垃圾回收
 
-在 Python 中，主要通过引用计数（Reference Counting）进行垃圾回收。引用计数法有其明显的优点，如高效、实现逻辑简单、将垃圾回收随机分配到运行的阶段，正常程序的运行比较平稳。
+在 Python 中，主要通過引用計數（Reference Counting）進行垃圾回收。引用計數法有其明顯的優點，如高效、實現邏輯簡單、將垃圾回收隨機分配到運行的階段，正常程序的運行比較平穩。
 
-但是，很多带有自动垃圾回收的语言并未使用引用计数，必然存在者缺点，通常有：
+但是，很多帶有自動垃圾回收的語言並未使用引用計數，必然存在者缺點，通常有：
 
-- 逻辑简单，但实现有些麻烦。每个对象需要分配单独的空间来统计引用计数，并且需要对引用计数进行维护，在维护的时候很容易会出错。
+- 邏輯簡單，但實現有些麻煩。每個對象需要分配單獨的空間來統計引用計數，並且需要對引用計數進行維護，在維護的時候很容易會出錯。
 
-- 在一些场景下，可能会比较慢。正常来说垃圾回收会比较平稳运行，但是当需要释放一个大的对象时，比如字典，需要对引用的所有对象循环嵌套调用，从而可能会花费比较长的时间。
+- 在一些場景下，可能會比較慢。正常來說垃圾回收會比較平穩運行，但是當需要釋放一個大的對象時，比如字典，需要對引用的所有對象循環嵌套調用，從而可能會花費比較長的時間。
 
-- 循环引用。这将是引用计数的致命伤，引用计数对此是无解的，因此必须要使用其它的垃圾回收算法对其进行补充。
+- 循環引用。這將是引用計數的致命傷，引用計數對此是無解的，因此必須要使用其它的垃圾回收算法對其進行補充。
 
-也就是说，Python 的垃圾回收机制，很大一部分是为了处理可能产生的循环引用，是对引用计数的补充。<br><br>
-
-
-Python 采用了 "标记-清除"（Mark and Sweep）算法，解决容器对象可能产生的循环引用问题。
-
-跟其名称一样，该算法在进行垃圾回收时分成了两步，分别是： A）标记阶段，遍历所有的对象，如果是可达的（reachable），也就是还有对象引用它，那么就标记该对象为可达； B）清除阶段，再次遍历对象，如果发现某个对象没有标记为可达，则就将其回收。
-
-注意，在进行垃圾回收的阶段，会暂停整个应用程序，等待标记清除结束后才会恢复应用程序的运行。<br><br>
+也就是說，Python 的垃圾回收機制，很大一部分是為了處理可能產生的循環引用，是對引用計數的補充。<br><br>
 
 
-为了减少垃圾回收的时间，Python 通过 "分代回收"（Generation Collection）以空间换时间的方法提高垃圾回收效率。
+Python 採用了 "標記-清除"（Mark and Sweep）算法，解決容器對象可能產生的循環引用問題。
 
-分代回收是基于这样的一个统计事实，对于程序，存在一定比例的内存块的生存周期比较短；而剩下的内存块，生存周期会比较长，甚至会从程序开始一直持续到程序结束。这一比例通常在 80%～90% 之间，这种思想简单点说就是：对象存在时间越长，越可能不是垃圾，应该越少去收集。
+跟其名稱一樣，該算法在進行垃圾回收時分成了兩步，分別是： A）標記階段，遍歷所有的對象，如果是可達的（reachable），也就是還有對象引用它，那麼就標記該對象為可達； B）清除階段，再次遍歷對象，如果發現某個對象沒有標記為可達，則就將其回收。
 
-这样在执行标记-清除算法时可以有效减小遍历的对象数，从而提高垃圾回收的速度。<br><br>
-
-
-总体来说，在 Python 中，主要通过引用计数进行垃圾回收；通过 "标记-清除" 解决容器对象可能产生的循环引用问题；通过 "分代回收" 以空间换时间的方法提高垃圾回收效率。
+注意，在進行垃圾回收的階段，會暫停整個應用程序，等待標記清除結束後才會恢復應用程序的運行。<br><br>
 
 
-## 实战
+為了減少垃圾回收的時間，Python 通過 "分代回收"（Generation Collection）以空間換時間的方法提高垃圾回收效率。
 
-下面通过 Python 程序大致介绍垃圾回收机制，也可以参考 [Generational GC in Python and Ruby][gc-in-python-ruby]，该文章同时介绍了 Python 和 Ruby 的垃圾回收机制。
+分代回收是基於這樣的一個統計事實，對於程序，存在一定比例的內存塊的生存週期比較短；而剩下的內存塊，生存週期會比較長，甚至會從程序開始一直持續到程序結束。這一比例通常在 80%～90% 之間，這種思想簡單點說就是：對象存在時間越長，越可能不是垃圾，應該越少去收集。
 
-### 引用计数
+這樣在執行標記-清除算法時可以有效減小遍歷的對象數，從而提高垃圾回收的速度。<br><br>
 
-如上所述，Python 的垃圾回收采用引用计数，每个对象都会维护一个引用计数器，当引用计数变为 0 时该对象被回收。
 
-当对象被创建并赋值给变量时，该对象的引用计数被设置为 1；当该对象被赋值给其他变量时，或者作为参数传递给函数，该对象的引用计数同样也加 1 。
+總體來說，在 Python 中，主要通過引用計數進行垃圾回收；通過 "標記-清除" 解決容器對象可能產生的循環引用問題；通過 "分代回收" 以空間換時間的方法提高垃圾回收效率。
 
-当变量被赋值给另外一个对象或者显示销毁时，源对象的引用计数也会自动减 1，只有当减到 0 时，该对象才会被真正删除。
 
-对象的引用计数可以通过 sys 提供的 getrefcount() 函数获得，该函数会包含传参的引用。
+## 實戰
+
+下面通過 Python 程序大致介紹垃圾回收機制，也可以參考 [Generational GC in Python and Ruby][gc-in-python-ruby]，該文章同時介紹了 Python 和 Ruby 的垃圾回收機制。
+
+### 引用計數
+
+如上所述，Python 的垃圾回收採用引用計數，每個對象都會維護一個引用計數器，當引用計數變為 0 時該對象被回收。
+
+當對象被創建並賦值給變量時，該對象的引用計數被設置為 1；當該對象被賦值給其他變量時，或者作為參數傳遞給函數，該對象的引用計數同樣也加 1 。
+
+當變量被賦值給另外一個對象或者顯示銷燬時，源對象的引用計數也會自動減 1，只有當減到 0 時，該對象才會被真正刪除。
+
+對象的引用計數可以通過 sys 提供的 getrefcount() 函數獲得，該函數會包含傳參的引用。
 
 {% highlight python %}
->>> foo = "XYZ"                            # 此时引用计数是1
->>> sys.getrefcount(foo)                   # 返回2，包括了getrefcount()的参数引用
+>>> foo = "XYZ"                            # 此時引用計數是1
+>>> sys.getrefcount(foo)                   # 返回2，包括了getrefcount()的參數引用
 >>> bar = foo                              # 2
 >>> foo = 123                              # 1
 {% endhighlight %}
 
-当字符串对象 "XYZ" 被创建并赋值给 foo 时，引用计数是 1，当增加了一个别名 bar 时，引用计数变成了 2，不过当 foo 被重新赋值给整数对像 123 时，"XYZ" 对象的引用计数自减 1 ，又变成 1 了。
+當字符串對象 "XYZ" 被創建並賦值給 foo 時，引用計數是 1，當增加了一個別名 bar 時，引用計數變成了 2，不過當 foo 被重新賦值給整數對像 123 時，"XYZ" 對象的引用計數自減 1 ，又變成 1 了。
 
-### 循环引用 (Cyclic References)
+### 循環引用 (Cyclic References)
 
-循环引用可以使一组对象的引用计数不是 0 ，但是这些对象实际上并没有被任何外部变量引用，只是他们之间相互引用。这也就是说，实际上对象应该被删除了，但是引用计数机制却告诉我们不能回收这些对象。
+循環引用可以使一組對象的引用計數不是 0 ，但是這些對象實際上並沒有被任何外部變量引用，只是他們之間相互引用。這也就是說，實際上對象應該被刪除了，但是引用計數機制卻告訴我們不能回收這些對象。
 
 {% highlight python %}
 import sys, gc
@@ -103,16 +103,16 @@ print gc.collect()
 print 'gc.garbage is:', gc.garbage
 {% endhighlight %}
 
-在调用 del 之前，列表还被 a、b 引用，称之为可达的（reachable），此时不能删除；在执行 del 之后，两者实际只剩下了对象之间的相互引用，因此是需要被删除的。但是引用计数仍然为 1，Python 的引用计数机制不会回收这两个对象。
+在調用 del 之前，列表還被 a、b 引用，稱之為可達的（reachable），此時不能刪除；在執行 del 之後，兩者實際只剩下了對象之間的相互引用，因此是需要被刪除的。但是引用計數仍然為 1，Python 的引用計數機制不會回收這兩個對象。
 
-如上所述，为了解决循环引用，Python 引入了 "标记-清除" 和 "分代收集" 机制，可以通过 gc.collect() 调用，该函数会返回不可达（unreachable）对象数。
+如上所述，為了解決循環引用，Python 引入了 "標記-清除" 和 "分代收集" 機制，可以通過 gc.collect() 調用，該函數會返回不可達（unreachable）對象數。
 
-实际上，由于调用了 gc.set_debug()，gc 模块会把垃圾回收是的信息 上面的执行结果显示，有两个是不可达的（unreachable）对象，这也就是需要回收的对象了，当调用 gc.collect() 时，首先会监测到 a、b 都将成为了不可达(unreachable)对象，且循环引用将被拆除，此时 a、b 引用数都是 0，两者将被回收，所以 gc.collect() 将返回 2 。
+實際上，由於調用了 gc.set_debug()，gc 模塊會把垃圾回收是的信息 上面的執行結果顯示，有兩個是不可達的（unreachable）對象，這也就是需要回收的對象了，當調用 gc.collect() 時，首先會監測到 a、b 都將成為了不可達(unreachable)對象，且循環引用將被拆除，此時 a、b 引用數都是 0，兩者將被回收，所以 gc.collect() 將返回 2 。
 
-在上述的示例中，如果只删除 a 或者 b ，实际也不会被垃圾回收处理掉。<br><br>
+在上述的示例中，如果只刪除 a 或者 b ，實際也不會被垃圾回收處理掉。<br><br>
 
 
-在执行上述的程序时，可以看到 uncollectable 的对象数是 0 ，也就是没有不可回收的对像。当然，这也意味着可能会出现不可回收的对像，下面看一种循环引用产生的垃圾回收问题。
+在執行上述的程序時，可以看到 uncollectable 的對象數是 0 ，也就是沒有不可回收的對像。當然，這也意味著可能會出現不可回收的對像，下面看一種循環引用產生的垃圾回收問題。
 
 {% highlight python %}
 import sys, gc
@@ -136,61 +136,61 @@ print gc.collect()
 print gc.garbage
 {% endhighlight %}
 
-从输出中可以看到 uncollectable 字样，额，很明显这次垃圾回收搞不定了，造成了内存泄漏。
+從輸出中可以看到 uncollectable 字樣，額，很明顯這次垃圾回收搞不定了，造成了內存洩漏。
 
-当对象含有 `__del__()` 方法（在 Python 中称为 finalizer）时，对于这样的对象，跟据 Python 的定义，在释放该对象占用的资源前需要调用该函数。由于 Python 的垃圾回收机制不能保证垃圾回收的顺序，可能在删除 b 之后，在 `a.__del__()` 中仍然会调用 b 对象，这样将会造成异常。
+當對象含有 `__del__()` 方法（在 Python 中稱為 finalizer）時，對於這樣的對象，跟據 Python 的定義，在釋放該對象佔用的資源前需要調用該函數。由於 Python 的垃圾回收機制不能保證垃圾回收的順序，可能在刪除 b 之後，在 `a.__del__()` 中仍然會調用 b 對象，這樣將會造成異常。
 
-为此，Python 采取了比较保守的策略，也就是说对于当自定的类，如果存在 `__del__()` 时，不会对该对象进行垃圾回收。这样的对象，Python 会直接放到一个 garbage 列表中，这个列表在运行期间不会释放，对于 Python 来说不会有内存泄露，但是对于该程序来说，实际上已经发生了内存泄露。<br><br>
-
-
-这也就是为什么很多 Python 的书籍建议不要使用 `__del__()` 的主要原因。虽然说同时出现定义 `__del__()` 和循环引用的概率比较小，但为了防止内存泄露，在使用 `__del__()` 时一定要慎重，如果要用的话一定要保证没有循环引用。
-
-当用户发现有这种情况时，最根本的时取消 `__del__()` 或者循环引用；如果知道一个安全的次序，那么就可以打破引用环，然后再执行 `del gc.garbage[:]` ，以清空垃圾对象列表，可以参考 [gc – Garbage Collector][gc-module-pymotw] 。<br><br>
+為此，Python 採取了比較保守的策略，也就是說對於當自定的類，如果存在 `__del__()` 時，不會對該對象進行垃圾回收。這樣的對象，Python 會直接放到一個 garbage 列表中，這個列表在運行期間不會釋放，對於 Python 來說不會有內存洩露，但是對於該程序來說，實際上已經發生了內存洩露。<br><br>
 
 
-对于 gc.garbage ，文档描述为：A list of objects which the collector found to be unreachable but could not be freed (uncollectable objects).
+這也就是為什麼很多 Python 的書籍建議不要使用 `__del__()` 的主要原因。雖然說同時出現定義 `__del__()` 和循環引用的概率比較小，但為了防止內存洩露，在使用 `__del__()` 時一定要慎重，如果要用的話一定要保證沒有循環引用。
 
-也就是说 gc.garbage 返回的应该是 unreachable 且不能被回收的对象，也就是上述的 a、b（因为有 \_\_del\_\_）。实际上，上面的结果也包含了字典，这个是在 gc.set_debug() 中设置的，gc.DEBUG_LEAK 会包含 gc.DEBUG_SAVEALL，那么所有的 unreachable 对象都将加入 gc.garbage 返回的列表，而不止不能被回收的对象。
+當用戶發現有這種情況時，最根本的時取消 `__del__()` 或者循環引用；如果知道一個安全的次序，那麼就可以打破引用環，然後再執行 `del gc.garbage[:]` ，以清空垃圾對象列表，可以參考 [gc – Garbage Collector][gc-module-pymotw] 。<br><br>
 
 
-### gc 模块
+對於 gc.garbage ，文檔描述為：A list of objects which the collector found to be unreachable but could not be freed (uncollectable objects).
 
-Python 的垃圾回收实际是通过 gc 模块实现的，并将 Python 的垃圾回收管理接口暴露出来，通过该模块可以用来处理垃圾回收相关的工作。
+也就是說 gc.garbage 返回的應該是 unreachable 且不能被回收的對象，也就是上述的 a、b（因為有 \_\_del\_\_）。實際上，上面的結果也包含了字典，這個是在 gc.set_debug() 中設置的，gc.DEBUG_LEAK 會包含 gc.DEBUG_SAVEALL，那麼所有的 unreachable 對象都將加入 gc.garbage 返回的列表，而不止不能被回收的對象。
 
-该模块源码保存在 Modules/gcmodule.c 文件中，gc 模块中的函数同时会对应到 gcmodule.c 中的函数，如 gc.get_count() 对应于 gc_get_count()。
 
-常见的函数包括了如下：
+### gc 模塊
+
+Python 的垃圾回收實際是通過 gc 模塊實現的，並將 Python 的垃圾回收管理接口暴露出來，通過該模塊可以用來處理垃圾回收相關的工作。
+
+該模塊源碼保存在 Modules/gcmodule.c 文件中，gc 模塊中的函數同時會對應到 gcmodule.c 中的函數，如 gc.get_count() 對應於 gc_get_count()。
+
+常見的函數包括瞭如下：
 
 - enable()、disable()、isenable()   
-  分别用于打开、关闭、查看 Python 的垃圾回收器。注意，当关闭垃圾回收时，只是取消了自动垃圾回收，此时仍然可以通过 gc.collect() 进行回收。
+  分別用於打開、關閉、查看 Python 的垃圾回收器。注意，當關閉垃圾回收時，只是取消了自動垃圾回收，此時仍然可以通過 gc.collect() 進行回收。
 
 - set_debug()、get_debug()   
-  用于设置和过去调试格式，通过设置 (DEBUG_STATS | DEBUG_LEAK) 标志位，实际上就可以打印 gc 模块的所有信息。
+  用於設置和過去調試格式，通過設置 (DEBUG_STATS | DEBUG_LEAK) 標誌位，實際上就可以打印 gc 模塊的所有信息。
 
 - get_count()   
-  获取当前的 count 值。
+  獲取當前的 count 值。
 
 - set_threshold()、get_threshold()   
-  设置或者获得每代的上限值。
+  設置或者獲得每代的上限值。
 
 - collect([generation=2])   
-  进行垃圾回收，主要的垃圾回收函数。
+  進行垃圾回收，主要的垃圾回收函數。
 
 - get_referents(obj)   
-  返回该对象直接引用的对象，非 container 为 0；其中 class 对象包括了 __dict__ 和类对象。
+  返回該對象直接引用的對象，非 container 為 0；其中 class 對象包括了 __dict__ 和類對象。
 
 - get_referrers(obj)   
-  返回指向该对象的所有对象，该函数通过遍历分代的所有对象，查找并保存符合的对象。
+  返回指向該對象的所有對象，該函數通過遍歷分代的所有對象，查找並保存符合的對象。
 
 - get_object()   
-  返回分代中的所有对象，该函数会返回一大堆的对象。
+  返回分代中的所有對象，該函數會返回一大堆的對象。
 
 
 ### weakref
 
-如上所述，在 Python 中主要通过引用计数来销毁对象，实际上我们可以通过 weakref 模块创建到对象的弱引用，这样 Python 会在对象的引用计数为 0 或只存在对象的弱引用时回收这个对象。
+如上所述，在 Python 中主要通過引用計數來銷燬對象，實際上我們可以通過 weakref 模塊創建到對象的弱引用，這樣 Python 會在對象的引用計數為 0 或只存在對象的弱引用時回收這個對象。
 
-最简单的方式是通过 weakref.ref(obj[, callback]) 来创建一个弱引用对象，然后通过调用实例可以获得原来的对象。创建弱引用的时候可以设置回调函数，该函数会在原对象销毁前调用，并且将 weakref 作为参数传入。
+最簡單的方式是通過 weakref.ref(obj[, callback]) 來創建一個弱引用對象，然後通過調用實例可以獲得原來的對象。創建弱引用的時候可以設置回調函數，該函數會在原對象銷燬前調用，並且將 weakref 作為參數傳入。
 
 {% highlight python %}
 import weakref
@@ -204,19 +204,19 @@ class WeakTest(object):
 def callback(r):
     print "weakref object:", r, "target object dead!"
 
-o = WeakTest('foobar')                                            # 创建新对象
-r = weakref.ref(o, callback)                                      # 创建弱引用对象，回调函数为可选
-print "the number of weakref in 'o'", weakref.getweakrefcount(o)  # 原对象的弱引用数目
-print "and the objects are:", weakref.getweakrefs(o)              # 原对象弱引用的列表
-print r() is o                                                    # 可以通过弱引用可以访问原对象
-p = weakref.proxy(o)                                              # 代理对象，对其使用等价于对原对象使用
-print r().name, p.name                                            # 调用原对象的属性
-del o                                                             # 此时r()变为None
+o = WeakTest('foobar')                                            # 創建新對象
+r = weakref.ref(o, callback)                                      # 創建弱引用對象，回調函數為可選
+print "the number of weakref in 'o'", weakref.getweakrefcount(o)  # 原對象的弱引用數目
+print "and the objects are:", weakref.getweakrefs(o)              # 原對象弱引用的列表
+print r() is o                                                    # 可以通過弱引用可以訪問原對象
+p = weakref.proxy(o)                                              # 代理對象，對其使用等價於對原對象使用
+print r().name, p.name                                            # 調用原對象的屬性
+del o                                                             # 此時r()變為None
 {% endhighlight %}
 
-当然，比较方便的方式是通过 proxy() 函数创建代理（proxy），这个代理实际就可以当作原对象使用，对代理对象的操作可以等价于对原对象的操作。
+當然，比較方便的方式是通過 proxy() 函數創建代理（proxy），這個代理實際就可以當作原對象使用，對代理對象的操作可以等價於對原對象的操作。
 
-通过弱引用可以很有效的处理循环引用，比如下面的示例。
+通過弱引用可以很有效的處理循環引用，比如下面的示例。
 
 {% highlight python %}
 import weakref
@@ -234,24 +234,24 @@ B.a = weakref.proxy(A)                                # B.a = A
 del A, B
 {% endhighlight %}
 
-当不使用弱引用时，上述的方式会造成循环引用，通过弱引用可以有效避免循环引用的产生。需要注意的是大部分的对象不能通过弱引用来访问，如常见的 int、string、list等。
+當不使用弱引用時，上述的方式會造成循環引用，通過弱引用可以有效避免循環引用的產生。需要注意的是大部分的對象不能通過弱引用來訪問，如常見的 int、string、list等。
 
-如果使用多个弱引用对象，可以考虑使用 WeakKeyDictionary、WeakValueDictionary、WeakSet，详细可以参考 [weakref – Garbage-collectable references to objects][weakref-pymotw] 。
-
-
-weakref 模块的实现在 Modules/_weakref.c 中，是对 Objects/weakrefobject.c 的封装，如果感兴趣可以参考一下源码。
+如果使用多個弱引用對象，可以考慮使用 WeakKeyDictionary、WeakValueDictionary、WeakSet，詳細可以參考 [weakref – Garbage-collectable references to objects][weakref-pymotw] 。
 
 
+weakref 模塊的實現在 Modules/_weakref.c 中，是對 Objects/weakrefobject.c 的封裝，如果感興趣可以參考一下源碼。
 
 
 
-## 源码
 
-Python 的垃圾回收机制主要在 Modules/gcmodule.c 中实现，同时也通过 gc 模块将相应的接口暴露出来，可以通过 gc 模块查看。
 
-### 相关数据结构
+## 源碼
 
-Python 中，每个对象中都会包含 PyObject_HEAD 宏，其中包含了 ob_refcnt 用于统计该对象的引用计数。下面的代码是 int 类型的对象，其它类型于此相似，都会包含 PyObject_HEAD 宏。
+Python 的垃圾回收機制主要在 Modules/gcmodule.c 中實現，同時也通過 gc 模塊將相應的接口暴露出來，可以通過 gc 模塊查看。
+
+### 相關數據結構
+
+Python 中，每個對象中都會包含 PyObject_HEAD 宏，其中包含了 ob_refcnt 用於統計該對象的引用計數。下面的代碼是 int 類型的對象，其它類型於此相似，都會包含 PyObject_HEAD 宏。
 
 {% highlight c %}
 #define PyObject_HEAD                    \
@@ -264,14 +264,14 @@ typedef struct {
 } PyIntObject;
 {% endhighlight %}
 
-每次新建、赋值、传参等操作时，都会修改 ob_refcnt，当减小到 0 时，就会回收该对象。<br><br>
+每次新建、賦值、傳參等操作時，都會修改 ob_refcnt，當減小到 0 時，就會回收該對象。<br><br>
 
 
-我们在开头讲过，Python 通过 "标记-删除" 处理可能出现的循环引用问题。
+我們在開頭講過，Python 通過 "標記-刪除" 處理可能出現的循環引用問題。
 
-对于 int、string 等类型来说，是不可能产生循环引用的，因为它们内部不可能有对其它对象的引用。能发生循环引用的，只会发生在容器（container）对象中，如 list、dict、class、instance 等。因此 Python 的垃圾回收只针对这些容器对象，并对这些对象，在内部维护了一个双向链表。
+對於 int、string 等類型來說，是不可能產生循環引用的，因為它們內部不可能有對其它對象的引用。能發生循環引用的，只會發生在容器（container）對象中，如 list、dict、class、instance 等。因此 Python 的垃圾回收只針對這些容器對象，並對這些對象，在內部維護了一個雙向鏈表。
 
-每个容器对象都会包含一个 PyGC_Head 结构。
+每個容器對象都會包含一個 PyGC_Head 結構。
 
 {% highlight c %}
 typedef union _gc_head {
@@ -284,16 +284,16 @@ typedef union _gc_head {
 } PyGC_Head;
 {% endhighlight %}
 
-通常来说，我们会把这个列表称为 "有效列表"（active list）；由于 Python 同时使用了 "分代回收"，实际上其中的 0 代就对应着上述的有效列表，新建的对象都会先放置到该列表中。<br><br>
+通常來說，我們會把這個列表稱為 "有效列表"（active list）；由於 Python 同時使用了 "分代回收"，實際上其中的 0 代就對應著上述的有效列表，新建的對象都會先放置到該列表中。<br><br>
 
 
-在 Python 中的分代回收采用三代，实际就是通过三个链表实现，每代通过 threshold 表示该代最多容纳对象的个数，当超过该值时会触发垃圾回收，可以通过 gc.get_threshold() 获得该参数。
+在 Python 中的分代回收採用三代，實際就是通過三個鏈表實現，每代通過 threshold 表示該代最多容納對象的個數，當超過該值時會觸發垃圾回收，可以通過 gc.get_threshold() 獲得該參數。
 
-需要注意的是，上述的阈值并非该代中实际含有的对象数，当前每代的对象数可以通过 gc.get_count() 获得，该函数实际会从该代的头部遍历这个链表。
+需要注意的是，上述的閾值並非該代中實際含有的對象數，當前每代的對象數可以通過 gc.get_count() 獲得，該函數實際會從該代的頭部遍歷這個鏈表。
 
-以 threshold 的默认值为例，也就是 0~2 代分别为 700、10、10，这实际意味着当 0 代超过 700 后会触发回收；1 代超过 700x10 后触发回收；2 代超过 700x10x10 后会触发回收操作。
+以 threshold 的默認值為例，也就是 0~2 代分別為 700、10、10，這實際意味著當 0 代超過 700 後會觸發回收；1 代超過 700x10 後觸發回收；2 代超過 700x10x10 後會觸發回收操作。
 
-也就是说如果触发了一次当前代的回收，会把上代的 count 加 1 。
+也就是說如果觸發了一次當前代的回收，會把上代的 count 加 1 。
 {% highlight c %}
 struct gc_generation {
     PyGC_Head head;
@@ -312,14 +312,14 @@ static struct gc_generation generations[NUM_GENERATIONS] = {
 };
 {% endhighlight %}
 
-上述实际是创建了三代的链表，并对 threshold 和 count 初始化。
+上述實際是創建了三代的鏈表，並對 threshold 和 count 初始化。
 
 
 
 
-### 对象初始化
+### 對象初始化
 
-下面通过跟踪一个 list 对象的创建过程来查看 Python 的垃圾回收机制。list 对象通过 PyList_New() 函数创建，其创建过程大致如下。
+下面通過跟蹤一個 list 對象的創建過程來查看 Python 的垃圾回收機制。list 對象通過 PyList_New() 函數創建，其創建過程大致如下。
 
 {% highlight c %}
 /* FILE: Objects/listobject.c */
@@ -333,24 +333,24 @@ PyObject* PyList_New(Py_ssize_t size) {
 }
 {% endhighlight %}
 
-首先通过 PyObject_GC_New() 初始化一个对象，而这个函数实际上是对 _PyObject_GC_New() 的宏定义，最终调用的是 _PyObject_GC_New()。
+首先通過 PyObject_GC_New() 初始化一個對象，而這個函數實際上是對 _PyObject_GC_New() 的宏定義，最終調用的是 _PyObject_GC_New()。
 
-该函数主要作了两件事情：A）分配内存结构，同时会将第 0 代的 count 加 1，如果超过了阈值，则会通过 collect_generations() 触发一次垃圾回收； B）初始化数据结构。注意，在这一步中还没有将该对象插入到链表中。
+該函數主要作了兩件事情：A）分配內存結構，同時會將第 0 代的 count 加 1，如果超過了閾值，則會通過 collect_generations() 觸發一次垃圾回收； B）初始化數據結構。注意，在這一步中還沒有將該對象插入到鏈表中。
 
-最终插入链表实际是通过 _PyObject_GC_TRACK() 实现的，也就是插入到 _PyGC_generation0 中（第 0 代）。
+最終插入鏈表實際是通過 _PyObject_GC_TRACK() 實現的，也就是插入到 _PyGC_generation0 中（第 0 代）。
 
-到此，已经完成了对象的新建，并可以 "监控" 该对象。
+到此，已經完成了對象的新建，並可以 "監控" 該對象。
 
 
-### 垃圾回收机制
+### 垃圾回收機制
 
-Python 中的垃圾回收机制实际通过 collect(gen) 实现，其中 gen 是所定义的代数。
+Python 中的垃圾回收機制實際通過 collect(gen) 實現，其中 gen 是所定義的代數。
 
-当我们一直新建 container 对象时，如果超过了第 0 代的上限，就会通过 collect_generations() 调用 Python 的垃圾回收机制。该函数会从最高代（数字最大）开始检测，当超过阈值之后就会触发该代的垃圾回收操作，所以有可能是从第 1、2 代触发垃圾回收。
+當我們一直新建 container 對象時，如果超過了第 0 代的上限，就會通過 collect_generations() 調用 Python 的垃圾回收機制。該函數會從最高代（數字最大）開始檢測，當超過閾值之後就會觸發該代的垃圾回收操作，所以有可能是從第 1、2 代觸發垃圾回收。
 
-当第一次超过 700 后，则会调用 collect_generations()，该函数会从 2 依次向下检测，当超过阈值则会调用 collect()，此时第 1、2 代的 count 仍为 0 ，所以最终会调用 collect(0) 。
+當第一次超過 700 後，則會調用 collect_generations()，該函數會從 2 依次向下檢測，當超過閾值則會調用 collect()，此時第 1、2 代的 count 仍為 0 ，所以最終會調用 collect(0) 。
 
-接下来主要查看 collect() 函数。
+接下來主要查看 collect() 函數。
 
 {% highlight c %}
 /* FILE: Modules/gcmodule.c */
@@ -384,48 +384,48 @@ static Py_ssize_t collect(int generation)
 }
 {% endhighlight %}
 
-假设，第 0 代有如下的对象，每个对象用黑色方框表示，其中数字表示引用计数。其中各个对象是通过双向链表相互链接的，只是没有表示出来，其中双向线表示相互引用，蓝色表示本代外部的引用。
+假設，第 0 代有如下的對象，每個對象用黑色方框表示，其中數字表示引用計數。其中各個對象是通過雙向鏈表相互鏈接的，只是沒有表示出來，其中雙向線表示相互引用，藍色表示本代外部的引用。
 
 ![garbage-explain1]{: .pull-center width='400'}
 
-在第 ❶ 步中，首先处理每代的 count，也就是将上一代的加 1，并将本代以及一下的清零。这也就是之前说的 700、700x10、700x10x10 的关系了。
+在第 ❶ 步中，首先處理每代的 count，也就是將上一代的加 1，並將本代以及一下的清零。這也就是之前說的 700、700x10、700x10x10 的關係了。
 
-在第 ❷ 步中，将本代以下的链表合并到本代，以后的操作实际上都是针对于这一链表的操作。也就是说每次 Python 执行垃圾回收时，会检测本代及以下的对象。
+在第 ❷ 步中，將本代以下的鏈表合併到本代，以後的操作實際上都是針對於這一鏈表的操作。也就是說每次 Python 執行垃圾回收時，會檢測本代及以下的對象。
 
-接着在第 ❸ 步中，查找含有外部引用的对象，为了不影响对象的原引用计数，先通过 update_refs() 将 ob_refcnt 复制到 gc_refs，后面的操作都是针对 gc_refs；然后通过 subtract_refs() 遍历整个链表，将本代对象的 gc_refs 及其引用减 1。此时，对于 gc_refs > 0 的对象，一定有该代之外的对象引用，是不应该被删除的。
+接著在第 ❸ 步中，查找含有外部引用的對象，為了不影響對象的原引用計數，先通過 update_refs() 將 ob_refcnt 複製到 gc_refs，後面的操作都是針對 gc_refs；然後通過 subtract_refs() 遍歷整個鏈表，將本代對象的 gc_refs 及其引用減 1。此時，對於 gc_refs > 0 的對象，一定有該代之外的對象引用，是不應該被刪除的。
 
-执行完 subtract_refs() 之后，各个对象的引用如下所示，可以看出，在此时并不是说 gc_refs = 0 的对象就一定是垃圾对象。
+執行完 subtract_refs() 之後，各個對象的引用如下所示，可以看出，在此時並不是說 gc_refs = 0 的對象就一定是垃圾對象。
 
-如 "JKL"，虽然此时计算的 gc_refs = 0，但是该对象不应该删除，因为还被 "MNO" 所引用。
+如 "JKL"，雖然此時計算的 gc_refs = 0，但是該對象不應該刪除，因為還被 "MNO" 所引用。
 
 ![garbage-explain2]{: .pull-center width='400'}
 
-然后是将 unreachable 的对象分开，在第 ❹ 步中调用 move_unreachable() 函数。该函数会遍历整个链表，在遍历整个链表时，会将 gc_refs=0 的对象移动到 unreachable 列表中，并将 gc_refs 临时设置为 GC_TENTATIVELY_UNREACHABLE。如上所述，因为这些对象仍可能会被 gc_refs > 0 的对象引用，在遍历后续的对象时会重新将这些对象设置为 reachable，通过 visit_reachable() 实现。
+然後是將 unreachable 的對象分開，在第 ❹ 步中調用 move_unreachable() 函數。該函數會遍歷整個鏈表，在遍歷整個鏈表時，會將 gc_refs=0 的對象移動到 unreachable 列表中，並將 gc_refs 臨時設置為 GC_TENTATIVELY_UNREACHABLE。如上所述，因為這些對象仍可能會被 gc_refs > 0 的對象引用，在遍歷後續的對象時會重新將這些對象設置為 reachable，通過 visit_reachable() 實現。
 
-到此为止，处于 unreachable 链表中的对象都是不可达的，也就是应该被回收的垃圾。那么接下来就需要对这些 unreachable 的对象进行处理了。
+到此為止，處於 unreachable 鏈表中的對象都是不可達的，也就是應該被回收的垃圾。那麼接下來就需要對這些 unreachable 的對象進行處理了。
 
-接下来在第 ❺ 步中，实际要遍历 unreachable 链表，并处理含有 finalizers 的对象，通过 move_finalizers() 将 unreachable 链表中含有 \_\_del\_\_ 的对象放到 finalizers 链表中。对于在 finalizers 链表中指向的对象同样也需要放到该链表中，该功能是通过 move_finalizer_reachable() 函数实现。
+接下來在第 ❺ 步中，實際要遍歷 unreachable 鏈表，並處理含有 finalizers 的對象，通過 move_finalizers() 將 unreachable 鏈表中含有 \_\_del\_\_ 的對象放到 finalizers 鏈表中。對於在 finalizers 鏈表中指向的對象同樣也需要放到該鏈表中，該功能是通過 move_finalizer_reachable() 函數實現。
 
-到此，unreachable 中包含了可以通过 Python 回收的对象，而 finalizers 中包含了不能通过 Python 回收的对象，会将这些对象分别打印出来。在 finalizers 中的对象，会保存到 garbage 中，可以通过 gc.garbage() 查看。<br><br>
+到此，unreachable 中包含了可以通過 Python 回收的對象，而 finalizers 中包含了不能通過 Python 回收的對象，會將這些對象分別打印出來。在 finalizers 中的對象，會保存到 garbage 中，可以通過 gc.garbage() 查看。<br><br>
 
-接下来还会通过 handle_weakrefs() 函数处理 unreachable 链表中的 weakref 对象；通过 delete_garbage() 处理 unreachable 链表中的垃圾对象。
+接下來還會通過 handle_weakrefs() 函數處理 unreachable 鏈表中的 weakref 對象；通過 delete_garbage() 處理 unreachable 鏈表中的垃圾對象。
 
-当然除此之外，Python 也对垃圾回收机制进行了优化，详细可以参考源码中的注释。
-
-
-
-
-## 总结
-
-有 \_\_del\_\_() 函数的对象，如果存在循环引用，会导致内存泄露；如果没有 \_\_del\_\_() 可以自动垃圾回收掉。
-
-需要注意的是，要么在实现类时不要单独实现 \_\_del\_\_() 函数，要么需要确保不要形成循环引用，对于循环引用可以通过 objgraph 进行检测。
+當然除此之外，Python 也對垃圾回收機制進行了優化，詳細可以參考源碼中的註釋。
 
 
 
-[weakref-pymotw]:          http://pymotw.com/2/weakref/index.html                 "PyMOTW 中关于弱引用的介绍"
-[gc-module-pymotw]:        http://pymotw.com/2/gc/index.html                      "PyMOTW 中关于垃圾回收的介绍，包括如何消除uncollectable对象"
-[gc-in-python-ruby]:       http://patshaughnessy.net/2013/10/30/generational-gc-in-python-and-ruby  "关于Python和Ruby垃圾回收机制的比较"
+
+## 總結
+
+有 \_\_del\_\_() 函數的對象，如果存在循環引用，會導致內存洩露；如果沒有 \_\_del\_\_() 可以自動垃圾回收掉。
+
+需要注意的是，要麼在實現類時不要單獨實現 \_\_del\_\_() 函數，要麼需要確保不要形成循環引用，對於循環引用可以通過 objgraph 進行檢測。
+
+
+
+[weakref-pymotw]:          http://pymotw.com/2/weakref/index.html                 "PyMOTW 中關於弱引用的介紹"
+[gc-module-pymotw]:        http://pymotw.com/2/gc/index.html                      "PyMOTW 中關於垃圾回收的介紹，包括如何消除uncollectable對象"
+[gc-in-python-ruby]:       http://patshaughnessy.net/2013/10/30/generational-gc-in-python-and-ruby  "關於Python和Ruby垃圾回收機制的比較"
 
 
 <!-- pictures -->

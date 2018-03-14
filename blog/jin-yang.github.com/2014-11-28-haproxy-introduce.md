@@ -1,88 +1,88 @@
 ---
-title: HAProxy 简介
+title: HAProxy 簡介
 layout: post
 comments: true
 language: chinese
 category: [linux,network,misc]
 keywords: haproxy
-description: HAProxy 是一个免费的负载均衡软件，可以运行于大部分主流的 Linux 操作系统上，提供了 L4 和 L7 两种负载均衡能力，可媲美商用负载均衡器的性能和稳定性，使其不仅仅是免费负载均衡软件的首选，更几乎成为了唯一选择。这里简单介绍下 HAProxy 的使用方式。
+description: HAProxy 是一個免費的負載均衡軟件，可以運行於大部分主流的 Linux 操作系統上，提供了 L4 和 L7 兩種負載均衡能力，可媲美商用負載均衡器的性能和穩定性，使其不僅僅是免費負載均衡軟件的首選，更幾乎成為了唯一選擇。這裡簡單介紹下 HAProxy 的使用方式。
 ---
 
-HAProxy 是一个免费的负载均衡软件，可以运行于大部分主流的 Linux 操作系统上，提供了 L4 和 L7 两种负载均衡能力，可媲美商用负载均衡器的性能和稳定性，使其不仅仅是免费负载均衡软件的首选，更几乎成为了唯一选择。
+HAProxy 是一個免費的負載均衡軟件，可以運行於大部分主流的 Linux 操作系統上，提供了 L4 和 L7 兩種負載均衡能力，可媲美商用負載均衡器的性能和穩定性，使其不僅僅是免費負載均衡軟件的首選，更幾乎成為了唯一選擇。
 
-这里简单介绍下 HAProxy 的使用方式。
+這裡簡單介紹下 HAProxy 的使用方式。
 
 <!-- more -->
 
-## 简介
+## 簡介
 
-相比 Nginx 来说，HAProxy 支持自定义 URL 健康监测；会话保持除了可以使用 `IP_HASH` 外，还可以使用 `URL_HASH` 算法；支持多种负载均衡等等，如下是 HAProxy 提供的主要功能：
+相比 Nginx 來說，HAProxy 支持自定義 URL 健康監測；會話保持除了可以使用 `IP_HASH` 外，還可以使用 `URL_HASH` 算法；支持多種負載均衡等等，如下是 HAProxy 提供的主要功能：
 
-* 负载均衡。提供 L4 和 L7 两种模式，支持 `RoundRobin`、`Static RoundRobin`、`LeastConnection`、`Source IP Hash`、`URI Hash`、`URL_PARAM Hash`、`HTTP_HEADER Hash` 等丰富的负载均衡算法；
-* 健康检查。支持 `TCP`、`HTTP`、`SSL`、`MySQL`、`Redis` 等多种健康检查模式；
-* 会话保持。对于未实现会话共享的应用集群，可通过 `Insert Cookie`、`Rewrite Cookie`、`Prefix Cookie` 以及上述的多种 `Hash` 方式实现会话保持；
-* SSL 支持。可以解析 `HTTPS` 协议，并能够将请求解密为 `HTTP` 后向后端传输；
-* HTTP。可以对请求进行重写与重定向，支持多种 `HTTP` 模式；
-* 监控与统计。提供了基于 Web 的统计页面，展现健康状态和流量数据。
+* 負載均衡。提供 L4 和 L7 兩種模式，支持 `RoundRobin`、`Static RoundRobin`、`LeastConnection`、`Source IP Hash`、`URI Hash`、`URL_PARAM Hash`、`HTTP_HEADER Hash` 等豐富的負載均衡算法；
+* 健康檢查。支持 `TCP`、`HTTP`、`SSL`、`MySQL`、`Redis` 等多種健康檢查模式；
+* 會話保持。對於未實現會話共享的應用集群，可通過 `Insert Cookie`、`Rewrite Cookie`、`Prefix Cookie` 以及上述的多種 `Hash` 方式實現會話保持；
+* SSL 支持。可以解析 `HTTPS` 協議，並能夠將請求解密為 `HTTP` 後向後端傳輸；
+* HTTP。可以對請求進行重寫與重定向，支持多種 `HTTP` 模式；
+* 監控與統計。提供了基於 Web 的統計頁面，展現健康狀態和流量數據。
 
-在配置文件中可以通过 `balance` 参数指定算法，如下仅介绍一些常用的算法：
+在配置文件中可以通過 `balance` 參數指定算法，如下僅介紹一些常用的算法：
 
 {% highlight text %}
 roundrobin:
-  轮询，适用于短链接，会根据权重比选择服务器，支持4096个后端服务器；注意，这里的权重信息可以动态修改。
+  輪詢，適用於短鏈接，會根據權重比選擇服務器，支持4096個後端服務器；注意，這裡的權重信息可以動態修改。
 static-rr:
-  与上类似，只是这里的服务器权重不能动态修改，而且对于服务器的数量没有限制，消耗CPU相对也较少。
+  與上類似，只是這裡的服務器權重不能動態修改，而且對於服務器的數量沒有限制，消耗CPU相對也較少。
 leastconn:
-  选择链接数最少的服务器建立链接，通常在使用长连接时，例如MySQL、LDAP等，对于短链接HTTP不建议使用；
-  这里的服务器权重可以动态调整。
+  選擇鏈接數最少的服務器建立鏈接，通常在使用長連接時，例如MySQL、LDAP等，對於短鏈接HTTP不建議使用；
+  這裡的服務器權重可以動態調整。
 first:
-  忽略权重信息，选择第一个可用服务器，需要设置服务器的最大连接数，适用于长连接；常用于动态扩容的场景，
-  一般有工具用于动态监测，提供动态伸缩服务。
+  忽略權重信息，選擇第一個可用服務器，需要設置服務器的最大連接數，適用於長連接；常用於動態擴容的場景，
+  一般有工具用於動態監測，提供動態伸縮服務。
 source
-  源地址算法，通过客户端的原IP地址进行hash，只要没有服务器宕机，那么一个客户端的请求都会由同一台服务器处理。
+  源地址算法，通過客戶端的原IP地址進行hash，只要沒有服務器宕機，那麼一個客戶端的請求都會由同一臺服務器處理。
 uri
-  算法，需要使用HTTP服务，通过 HTTP URI 地址来选择对应服务器。
+  算法，需要使用HTTP服務，通過 HTTP URI 地址來選擇對應服務器。
 hdr
-  通过 HTTP eder 内容来选择对应服务器。
+  通過 HTTP eder 內容來選擇對應服務器。
 {% endhighlight %}
 
-在源码中，其实现在 `lb_XXX.c` 文件中，关于 HAProxy 的健康检查可以参考 [Health checking](https://www.haproxy.com/doc/aloha/7.0/haproxy/healthchecks.html) 。
+在源碼中，其實現在 `lb_XXX.c` 文件中，關於 HAProxy 的健康檢查可以參考 [Health checking](https://www.haproxy.com/doc/aloha/7.0/haproxy/healthchecks.html) 。
 
 ## 配置文件
 
-详细可以查看官方的文档 [doc/configuration.txt](http://www.haproxy.org/download/1.7/doc/configuration.txt) ，这里简单介绍常见的概念。
+詳細可以查看官方的文檔 [doc/configuration.txt](http://www.haproxy.org/download/1.7/doc/configuration.txt) ，這裡簡單介紹常見的概念。
 
-如下是常见的运维操作。
+如下是常見的運維操作。
 
 {% highlight text %}
------ 测试配置文件是否有语法错误
+----- 測試配置文件是否有語法錯誤
 # haproxy -c -f /etc/haproxy/haproxy.cfg
------ 没有问题则尝试启动
+----- 沒有問題則嘗試啟動
 # haproxy -f /etc/haproxy/haproxy.cfg
------ 重新加载
+----- 重新加載
 # haproxy -f /etc/haproxy/haproxy.cfg -sf `cat /var/run/haproxy.pid`
 {% endhighlight %}
 
-在通过 `systemctl status haproxy` 启动时，也就是使用 systemd 时，实际会有一个 wrap 程序启动，所以会看到有多个进程启动。
+在通過 `systemctl status haproxy` 啟動時，也就是使用 systemd 時，實際會有一個 wrap 程序啟動，所以會看到有多個進程啟動。
 
-HAProxy 配置文件由全局配置+代理配置两部分组成，又分为五段：global、defaults、frontend、backend、listen。
+HAProxy 配置文件由全局配置+代理配置兩部分組成，又分為五段：global、defaults、frontend、backend、listen。
 
 {% highlight text %}
 global:
-  全局配置内容，用于定义全局参数，属于进程级的配置，通常和操作系统配置有关。
+  全局配置內容，用於定義全局參數，屬於進程級的配置，通常和操作系統配置有關。
 default:
-  作为frontend、backend、listen的默认配置参数。
+  作為frontend、backend、listen的默認配置參數。
 frontend:
-  接收请求的前端虚拟节点，在1.3版本引入，用于简化haproxy配置文件复杂度，可以通过ACL规则指定要使用的后端backend。
+  接收請求的前端虛擬節點，在1.3版本引入，用於簡化haproxy配置文件複雜度，可以通過ACL規則指定要使用的後端backend。
 backend:
-  后端服务器配置。
+  後端服務器配置。
 listen:
-  frontend+backend结合体，1.3版本之前使用，主要为了保持兼容性。
+  frontend+backend結合體，1.3版本之前使用，主要為了保持兼容性。
 {% endhighlight %}
 
-### 日志配置
+### 日誌配置
 
-在 `global` 中设置日志的级别，然后通过 syslog 进行保存。
+在 `global` 中設置日誌的級別，然後通過 syslog 進行保存。
 
 {% highlight text %}
 $ cat /etc/haproxy/haproxy.conf
@@ -93,16 +93,16 @@ global
 使用 `rsyslog` 保存。
 
 {% highlight text %}
------ 确认添加了include子目录，因为如下的HAProxy配置会放置到子目录下。
+----- 確認添加了include子目錄，因為如下的HAProxy配置會放置到子目錄下。
 cat /etc/rsyslog.conf | grep "IncludeConfig"
------ 修改rsyslog的主配置文件，开启远程日志，查看是否开启UDP端口
+----- 修改rsyslog的主配置文件，開啟遠程日誌，查看是否開啟UDP端口
 cat /etc/sysconfig/rsyslog | grep "SYSLOGD_OPTIONS"
 SYSLOGD_OPTIONS="-c 2 -r -m 0"
-#-c 2 使用兼容模式，默认是 -c 5
-#-r 开启远程日志
-#-m 0 标记时间戳。单位是分钟，为0时，表示禁用该功能
+#-c 2 使用兼容模式，默認是 -c 5
+#-r 開啟遠程日誌
+#-m 0 標記時間戳。單位是分鐘，為0時，表示禁用該功能
 
------ 添加HAProxy配置文件，需要注意最后一行，否则会同时写入haproxy.log和message文件
+----- 添加HAProxy配置文件，需要注意最後一行，否則會同時寫入haproxy.log和message文件
 cat /etc/rsyslog.d/haproxy.conf
 $ModLoad imudp
 $UDPServerRun 514
@@ -139,7 +139,7 @@ global
 
     # turn on stats unix socket
     stats socket /var/run/haproxy.sock level admin process 1
-    stats timeout 5m                   # 设置等待输入超时时间为5min
+    stats timeout 5m                   # 設置等待輸入超時時間為5min
 
 #---------------------------------------------------------------------
 # common defaults that all the 'listen' and 'backend' sections will
@@ -148,33 +148,33 @@ global
 defaults
     mode                    http
     log                     global
-    option                  tcplog                 # 默认只打印很少的信息，指定打印详细信息
+    option                  tcplog                 # 默認只打印很少的信息，指定打印詳細信息
     option                  httplog
-    option                  dontlognull            # 默认会将保活等信息记录到日志，可通过该选项关闭
+    option                  dontlognull            # 默認會將保活等信息記錄到日誌，可通過該選項關閉
     option http-server-close
-    option                  redispatch             # 使用cookies后会发送到指定服务器，如果服务器不可用则重新调度
-    retries                 3                      # 3次连接失败则认为服务不可用
-    timeout http-request    10s                    # 默认http请求超时时间
-    timeout queue           1m                     # 默认队列超时时间
-    timeout connect         10s                    # 默认连接超时时间
-    timeout client          1m                     # 默认客户端超时时间
-    timeout server          1m                     # 默认服务器超时时间
-    timeout http-keep-alive 10s                    # 默认持久连接超时时间
-    timeout check           10s                    # 默认检查时间间隔
-    maxconn                 3000                   # 最大连接数
+    option                  redispatch             # 使用cookies後會發送到指定服務器，如果服務器不可用則重新調度
+    retries                 3                      # 3次連接失敗則認為服務不可用
+    timeout http-request    10s                    # 默認http請求超時時間
+    timeout queue           1m                     # 默認隊列超時時間
+    timeout connect         10s                    # 默認連接超時時間
+    timeout client          1m                     # 默認客戶端超時時間
+    timeout server          1m                     # 默認服務器超時時間
+    timeout http-keep-alive 10s                    # 默認持久連接超時時間
+    timeout check           10s                    # 默認檢查時間間隔
+    maxconn                 3000                   # 最大連接數
 
 #---------------------------------------------------------------------
 # main frontend which proxys to the backends
 #---------------------------------------------------------------------
 frontend  main *:5000
-    # 新建acl策略path_beg以/static /images等开头的访问路径，-i忽略大小写 
+    # 新建acl策略path_beg以/static /images等開頭的訪問路徑，-i忽略大小寫 
     acl url_static       path_beg       -i /static /images /javascript /stylesheets
-    # 新建acl策略path_end以.jpg .gif等结尾的访问路径，-i忽略大小写 
+    # 新建acl策略path_end以.jpg .gif等結尾的訪問路徑，-i忽略大小寫 
     acl url_static       path_end       -i .jpg .gif .png .css .js
 
-    # 如果匹配url_static这个acl策略，则使用static这个后端 
+    # 如果匹配url_static這個acl策略，則使用static這個後端 
     use_backend static          if url_static
-    # 没有任何配置的情况下，使用默认的后端app 
+    # 沒有任何配置的情況下，使用默認的後端app 
     default_backend             app
 
 #---------------------------------------------------------------------
@@ -195,10 +195,10 @@ backend app
     server  app4 127.0.0.1:5004 check
 
 #---------------------------------------------------------------------
-# 1.3之前使用，为了保持向后兼容，建议使用frontend+backend代替
-# 关于server的详细配置选项可以参考Server and default-server options
-#  * maxconn NUM 每个后端服务器的最大链接数，超过该值则保存在队列中
-#  * maxqueue NUM 超过该队列后会重新选择后端服务器
+# 1.3之前使用，為了保持向後兼容，建議使用frontend+backend代替
+# 關於server的詳細配置選項可以參考Server and default-server options
+#  * maxconn NUM 每個後端服務器的最大鏈接數，超過該值則保存在隊列中
+#  * maxqueue NUM 超過該隊列後會重新選擇後端服務器
 #---------------------------------------------------------------------
 listen http-proxy 192.168.1.201:80
     mode http
@@ -215,47 +215,47 @@ listen http-proxy 192.168.1.201:80
 <!--
 ### HTTPS 配置 (SSL Termination With HAProxy)
 
-对 http://www.foobar.com 域名的访问会自动跳转为 https://www.foobar.com ，而对 http://haproxy.foobar.com 访问走 http 协议。
+對 http://www.foobar.com 域名的訪問會自動跳轉為 https://www.foobar.com ，而對 http://haproxy.foobar.com 訪問走 http 協議。
 
 http://virtuallyhyper.com/2013/05/configure-haproxy-to-load-balance-sites-with-ssl/
 http://www.ilanni.com/?p=10641
 http://www.oschina.net/translate/getting-the-most-of-haproxy?print
 
-另外，源码目录下有很多不错的文档可以参考，例如架构(architecture.txt)、配置文件(configuration.txt)、管理(management.txt)等，还有很多内部设计文档。
+另外，源碼目錄下有很多不錯的文檔可以參考，例如架構(architecture.txt)、配置文件(configuration.txt)、管理(management.txt)等，還有很多內部設計文檔。
 
 /etc/haproxy
 /etc/haproxy/haproxy.cfg #配置文件
-/etc/logrotate.d/haproxy #日志轮转
-/etc/rc.d/init.d/haproxy #运行脚本
-/usr/bin/halog           #日志分析工具
+/etc/logrotate.d/haproxy #日誌輪轉
+/etc/rc.d/init.d/haproxy #運行腳本
+/usr/bin/halog           #日誌分析工具
 /usr/sbin/haproxy
 
-可以通过haproxy -vv查看详细的编译参数。
+可以通過haproxy -vv查看詳細的編譯參數。
 
 
-## 监控信息
+## 監控信息
 
-关于监控项的详细介绍可以查看源码 doc/management.txt 文件中 Statistics and monitoring 的内容，目前主要分为了三部分：1) Frontend；2) Backend(Servers)；3) HAProxy Health Check 。
+關於監控項的詳細介紹可以查看源碼 doc/management.txt 文件中 Statistics and monitoring 的內容，目前主要分為了三部分：1) Frontend；2) Backend(Servers)；3) HAProxy Health Check 。
 
-**注意** 按照 HAProxy 的模型来说，是单进程的，如果为了优化多核场景采用多进程，那么需要为每个进程配置一个访问地址。
+**注意** 按照 HAProxy 的模型來說，是單進程的，如果為了優化多核場景採用多進程，那麼需要為每個進程配置一個訪問地址。
 
-### 监控页面
+### 監控頁面
 
-可以通过如下配置打开一个 HTTP 监控页面，然后可以直接通过浏览器访问，如果要查看 csv 格式，可以通过 ```curl --silent "http://192.144.35.35:85/status;csv"``` 命令查看。
+可以通過如下配置打開一個 HTTP 監控頁面，然後可以直接通過瀏覽器訪問，如果要查看 csv 格式，可以通過 ```curl --silent "http://192.144.35.35:85/status;csv"``` 命令查看。
 
 ```
 listen stats_auth 192.144.35.35:85
     mode http
     stats enable
-    bind-process 1                   # 监控的HAProxy进程
-    stats uri /status                # 监控URI地址
-    stats admin if LOCALHOST         # 默认监控页面是只读，可以通过该选项开启启停服务等操作
-    stats auth monitor:foobar        # 指定登陆用户密码，可以配置多个
-    stats realm "Haproxy Statistics" # 如果没有登陆，浏览器的用户名密码弹出窗口
-    stats refresh 5s                 # 自动刷新，通常用于一直打开的浏览器页面
-    stats hide-version               # 隐藏版本信息
-    stats scope .                    # 指定监控显示的范围
-    stats show-desc Node for Europe  # 后续的都是描述信息
+    bind-process 1                   # 監控的HAProxy進程
+    stats uri /status                # 監控URI地址
+    stats admin if LOCALHOST         # 默認監控頁面是隻讀，可以通過該選項開啟啟停服務等操作
+    stats auth monitor:foobar        # 指定登陸用戶密碼，可以配置多個
+    stats realm "Haproxy Statistics" # 如果沒有登陸，瀏覽器的用戶名密碼彈出窗口
+    stats refresh 5s                 # 自動刷新，通常用於一直打開的瀏覽器頁面
+    stats hide-version               # 隱藏版本信息
+    stats scope .                    # 指定監控顯示的範圍
+    stats show-desc Node for Europe  # 後續的都是描述信息
     stats show-legends
     stats show-node
 ```
@@ -264,7 +264,7 @@ Starting frontend GLOBAL: cannot bind UNIX socket [/var/run/haproxy1.sock]
 
 ### Unix Socket
 
-相比来说这是更好的方式，方便自动化、可以在线修改配置、安全，可以通过如下配置进行修改。
+相比來說這是更好的方式，方便自動化、可以在線修改配置、安全，可以通過如下配置進行修改。
 
 ```
 global # Make sure you add it to the global section
@@ -272,13 +272,13 @@ global # Make sure you add it to the global section
     stats timeout 2m # Wait up to 2 minutes for input
 ```
 
-timeout 选项通常是用在交互场景下；而 mode 600 level admin 分别表示 socket 的权限，以及是否开启管理模式，默认是只读的；然后就可以通过 netcat 或者 socat 进行访问，当然官方推荐使用后者，而实际上前者更加通用些；Socket 方式提供了非交互式以及交互式两种。
+timeout 選項通常是用在交互場景下；而 mode 600 level admin 分別表示 socket 的權限，以及是否開啟管理模式，默認是隻讀的；然後就可以通過 netcat 或者 socat 進行訪問，當然官方推薦使用後者，而實際上前者更加通用些；Socket 方式提供了非交互式以及交互式兩種。
 
-非交互方式比较适合脚本采集监控数据，可以一次发送多个命令，如下分别返回 HAProxy 的进程信息，以及监控数据(页面 URI 返回的数据)。
+非交互方式比較適合腳本採集監控數據，可以一次發送多個命令，如下分別返回 HAProxy 的進程信息，以及監控數據(頁面 URI 返回的數據)。
 
 echo "show info;show stat" | nc -U /var/run/haproxy.sock
 
-交互模式实际上也就是单行，比较适合登陆查看，如下通过 prompt 命令，表示进入交互模式；更多命令可以查看源码 doc/management.txt 文件中 Unix Socket commands 的内容。
+交互模式實際上也就是單行，比較適合登陸查看，如下通過 prompt 命令，表示進入交互模式；更多命令可以查看源碼 doc/management.txt 文件中 Unix Socket commands 的內容。
 
 $ nc -U /var/run/haproxy.sock
 $ prompt
@@ -290,26 +290,26 @@ net.ipv4.ip_nonlocal_bind=1
 sysctl -p
 
 
-### 监控指标
+### 監控指標
 
-列举常用的监控指标，以及源码中对应的函数。
+列舉常用的監控指標，以及源碼中對應的函數。
 
 #### show info
 
-对应源码中的 stats_fill_info() 函数，主要包括了当前 HAProxy 的配置信息，例如资源限制、资源使用率等信息。
+對應源碼中的 stats_fill_info() 函數，主要包括了當前 HAProxy 的配置信息，例如資源限制、資源使用率等信息。
 
 Name: HAProxy
 Version: 1.5.18
 Release_date: 2016/05/10
-Nbproc: 4                  配置的进程数，在配置文件中通过nbproc配置
-Process_num: 1             当前的进程号，编号从1开始
-Pid: 96699                 当前的进程ID
-Uptime: 1d 20h10m06s       服务启动时间，格式化后
-Uptime_sec: 159006         服务启动时间，按秒计算
-Memmax_MB: 0               当前进程可以使用的最大内存，对应了global.rlimit_memmax变量，会在启动时通过global.rlimit_memmax_all计算
-Ulimit-n: 8036             单个进程最大的描述符数global.rlimit_nofile，可以在配置文件中通过ulimit-n设置，否则与maxsock相同
-Maxsock: 8036              最大sock数目，在程序中单独计算，与maxconn、pipe数量相关，详见global.maxsock变量
-Maxconn: 4000              可以在配置文件中通过maxconn设置
+Nbproc: 4                  配置的進程數，在配置文件中通過nbproc配置
+Process_num: 1             當前的進程號，編號從1開始
+Pid: 96699                 當前的進程ID
+Uptime: 1d 20h10m06s       服務啟動時間，格式化後
+Uptime_sec: 159006         服務啟動時間，按秒計算
+Memmax_MB: 0               當前進程可以使用的最大內存，對應了global.rlimit_memmax變量，會在啟動時通過global.rlimit_memmax_all計算
+Ulimit-n: 8036             單個進程最大的描述符數global.rlimit_nofile，可以在配置文件中通過ulimit-n設置，否則與maxsock相同
+Maxsock: 8036              最大sock數目，在程序中單獨計算，與maxconn、pipe數量相關，詳見global.maxsock變量
+Maxconn: 4000              可以在配置文件中通過maxconn設置
 Hard_maxconn: 4000
 CurrConns: 0
 CumConns: 3
@@ -325,25 +325,25 @@ SessRateLimit: 0
 MaxSessRate: 0
 ZlibMemUsage: 0
 MaxZlibMemUsage: 0
-Tasks: 11                  内存中保存的任务数，通过task_new()函数分配，注意可能部分任务只是缓存，并没有使用
-Run_queue: 1               当前运行队列的大小，可以参考run_queue_cur变量，包含了当前查询的链接，详见process_runnable_tasks()函数
-Idle_pct: 100              空闲比率
-node: hamonitor1           节点信息
+Tasks: 11                  內存中保存的任務數，通過task_new()函數分配，注意可能部分任務只是緩存，並沒有使用
+Run_queue: 1               當前運行隊列的大小，可以參考run_queue_cur變量，包含了當前查詢的鏈接，詳見process_runnable_tasks()函數
+Idle_pct: 100              空閒比率
+node: hamonitor1           節點信息
 
 si_attach_conn()
  |-conn_attach()
 
 
-cfg_register_section() 通过该函数将配置文件解析函数添加到sections中，会调用section_parser()函数解析。
+cfg_register_section() 通過該函數將配置文件解析函數添加到sections中，會調用section_parser()函數解析。
 
-整个HAProxy配置文件解析完成后，listener相关也已初始化完毕，如下简单梳理一下几个accept方法的设计逻辑：
-* listener_accept(): 对应不同协议的accept()方法，IPv4对应该方法，负责接收并新建TCP连接；该函数中通过accept()系统调用建立链接后，接着会触发listener自己的accept方法也就是session_accept_fd()；
-* session_accept_fd(): 负责创建+初始化session，并在stream_new()函数中调用frontend的accept方法frontend_accept()；
-* frontend_accept(): 该函数主要负责session前端的TCP连接的初始化，包括socket设置，log设置，以及session部分成员的初始化。
-接下来 TCP 新建连接处理过程，基本上都是与这三个函数相关。
+整個HAProxy配置文件解析完成後，listener相關也已初始化完畢，如下簡單梳理一下幾個accept方法的設計邏輯：
+* listener_accept(): 對應不同協議的accept()方法，IPv4對應該方法，負責接收並新建TCP連接；該函數中通過accept()系統調用建立鏈接後，接著會觸發listener自己的accept方法也就是session_accept_fd()；
+* session_accept_fd(): 負責創建+初始化session，並在stream_new()函數中調用frontend的accept方法frontend_accept()；
+* frontend_accept(): 該函數主要負責session前端的TCP連接的初始化，包括socket設置，log設置，以及session部分成員的初始化。
+接下來 TCP 新建連接處理過程，基本上都是與這三個函數相關。
 
 
-建链的处理都是通过_do_poll()处理，只是不同的多路复用方式实现不同，而入口的函数名相同，位于不同的文件中。
+建鏈的處理都是通過_do_poll()處理，只是不同的多路複用方式實現不同，而入口的函數名相同，位於不同的文件中。
 
 session_accept()
 
@@ -351,25 +351,25 @@ session_accept()
 tcp_bind_listener()
 
 stats_parse_global()
- |-str2listener() 监听地址解析
+ |-str2listener() 監聽地址解析
 
-上述客户端的处理在cli.c文件中，
+上述客戶端的處理在cli.c文件中，
 cli_io_handler()
 cli_parse_request()
 
-uxst_bind_listener() 报错
+uxst_bind_listener() 報錯
 
 
 ### tips
 
-#### 多路复用
+#### 多路複用
 http://www.cnblogs.com/Anker/p/3263780.html
-HAProxy支持多种多路复用机制，包括了select、poll、epoll、kqueue等，简单介绍下ev_epoll.c中实现的epoll机制。
+HAProxy支持多種多路複用機制，包括了select、poll、epoll、kqueue等，簡單介紹下ev_epoll.c中實現的epoll機制。
 
 
 int fd_nbupdt = 0;             // number of updates in the list
 unsigned int *fd_updt = NULL;  // FD updates list
-这两个全局变量用来记录状态需要更新的 fd 的数量及具体的 fd ，在 _do_poll() 函数中会根据这些信息修改对应 fd 的 epoll 设置。
+這兩個全局變量用來記錄狀態需要更新的 fd 的數量及具體的 fd ，在 _do_poll() 函數中會根據這些信息修改對應 fd 的 epoll 設置。
 
 /* info about one given fd */
 struct fdtab {
@@ -385,35 +385,35 @@ struct fdtab {
 };
 struct fdtab *fdtab = NULL;     /* array of all the file descriptors */
 
-全局变量 *fdtab 记录了 HAProxy 中所有与 fd 相关的信息，数组的 index 是 fd 对应的值，用于快速定位到某个 fd 的信息。
+全局變量 *fdtab 記錄了 HAProxy 中所有與 fd 相關的信息，數組的 index 是 fd 對應的值，用於快速定位到某個 fd 的信息。
 
-在 fd.h 头文件中定义了一些操作 fd event 的函数，主要是fd_(want|stop)_(recv|send)类似的函数，用于设置 fd 启动、停止接收以及发送；简单来说就是修改fdtabl[fd]中的状态值，如果有更新则添加到fd_updt[]数组中。
+在 fd.h 頭文件中定義了一些操作 fd event 的函數，主要是fd_(want|stop)_(recv|send)類似的函數，用於設置 fd 啟動、停止接收以及發送；簡單來說就是修改fdtabl[fd]中的狀態值，如果有更新則添加到fd_updt[]數組中。
 
-接下来，看下_do_poll()函数中的主要处理过程，大致可以分为三部分：
-1. 从fd_updt[]获取更新的fd列表，判断各个fd event的变化情况，并通过epoll_ctl()进行设置；
-2. 计算epoll_wait需要等待的最大超时时间，并调用epoll_wait()获取当前活动的fd；
-3. 逐一处理所有有 IO 事件的 fd。
+接下來，看下_do_poll()函數中的主要處理過程，大致可以分為三部分：
+1. 從fd_updt[]獲取更新的fd列表，判斷各個fd event的變化情況，並通過epoll_ctl()進行設置；
+2. 計算epoll_wait需要等待的最大超時時間，並調用epoll_wait()獲取當前活動的fd；
+3. 逐一處理所有有 IO 事件的 fd。
 
-        fdtab[fd].updated = 0; // 只有被修改过(更新、新建)且有owner才会被使用
-        eo = fdtab[fd].state;  // 关于状态的概念、转换等信息可以查看src/fd.c文件中的注释
-        en = fd_compute_new_polled_status(eo);  // 状态转换可以查看fd.c中的注释
-        if ((eo ^ en) & FD_EV_POLLED_RW) { // 1. 按位异或，如果有变更则通过epoll_ctl()修改
+        fdtab[fd].updated = 0; // 只有被修改過(更新、新建)且有owner才會被使用
+        eo = fdtab[fd].state;  // 關於狀態的概念、轉換等信息可以查看src/fd.c文件中的註釋
+        en = fd_compute_new_polled_status(eo);  // 狀態轉換可以查看fd.c中的註釋
+        if ((eo ^ en) & FD_EV_POLLED_RW) { // 1. 按位異或，如果有變更則通過epoll_ctl()修改
 
-#### 位或 VS. 逻辑或
-在HAProxy中有一个函数用来判断buffer是否为空的代码：
+#### 位或 VS. 邏輯或
+在HAProxy中有一個函數用來判斷buffer是否為空的代碼：
 static inline int buffer_not_empty(const struct buffer *buf)
 {
  return buf->i | buf->o;
 }
-其中 buf->i 和 buf->o 都是 unsigned int 类型，这两个成员任何一个非零就代表着 buffer 不空，正常来说应该采用 logical-OR 但是这里采用的却是 bitwise-OR ，其原因是两者的功能相同，而前者生成的机器代码更少效率更高。
+其中 buf->i 和 buf->o 都是 unsigned int 類型，這兩個成員任何一個非零就代表著 buffer 不空，正常來說應該採用 logical-OR 但是這裡採用的卻是 bitwise-OR ，其原因是兩者的功能相同，而前者生成的機器代碼更少效率更高。
 static inline int buffer_not_empty(const struct buffer *buf)
 {
  return buf->i || buf->o;
 }
 
-#### 实现文件复制
+#### 實現文件複製
 
-最简单的方式就是申请一份内存buffer，通过系统调用 read() 读取源文件的一段数据到 buffer，然后将此 buffer 再通过 write() 系统调用写到目标文件，示例代码如下：
+最簡單的方式就是申請一份內存buffer，通過系統調用 read() 讀取源文件的一段數據到 buffer，然後將此 buffer 再通過 write() 系統調用寫到目標文件，示例代碼如下：
 
 char buf[max_read];
 off_t size = stat_buf.st_size, off_in=0;
@@ -424,16 +424,16 @@ while ( off_in < size ) {
  write(f_out, buf, len);
 }
 
-还有一种方式是通过 mmap() 系统调用实现，示例代码如下：
+還有一種方式是通過 mmap() 系統調用實現，示例代碼如下：
 
 size_t filesize = stat_buf.st_size;
 source = mmap(0, filesize, PROT_READ, MAP_SHARED, f_in, 0);
 target = mmap(0, filesize, PROT_WRITE, MAP_SHARED, f_out, 0);
 memcpy(target, source, filesize);
 
-因为 mmap() 不需要内核态和用户态的内存拷贝，从而效率大大提高。另外一种是通过 splice() 系统调用实现，这是 Linux 2.6.17 新加入的系统调用，用于在两个文件间移动数据，而无需内核态和用户态的内存拷贝，但需要借助管道 (pipe) 实现。
+因為 mmap() 不需要內核態和用戶態的內存拷貝，從而效率大大提高。另外一種是通過 splice() 系統調用實現，這是 Linux 2.6.17 新加入的系統調用，用於在兩個文件間移動數據，而無需內核態和用戶態的內存拷貝，但需要藉助管道 (pipe) 實現。
 
-大概原理就是通过pipe buffer实现一组内核内存页（pages of kernel memory）的引用计数指针（reference-counted pointers），数据拷贝过程中并不真正拷贝数据，而是创建一个新的指向内存页的指针。也就是说拷贝过程实质是指针的拷贝。示例代码如下：
+大概原理就是通過pipe buffer實現一組內核內存頁（pages of kernel memory）的引用計數指針（reference-counted pointers），數據拷貝過程中並不真正拷貝數據，而是創建一個新的指向內存頁的指針。也就是說拷貝過程實質是指針的拷貝。示例代碼如下：
 
 int pipefd[2];
 pipe( pipefd );
@@ -445,7 +445,7 @@ while ( off_in < size ) {
  splice(pipefd[0], NULL, f_out, &off_out, len, SPLICE_F_MORE |SPLICE_F_MOVE);
 }
 
-使用splice一定要注意，因为其借助管道实现，而管道有众所周知的空间限制问题，超过了限制就会hang住，所以每次写入管道的数据量好严格控制，保守的建议值是一个内存页大小，即4k。另外，off_in和off_out传递的是指针，其值splice会做一定变动，使用时应注意。
+使用splice一定要注意，因為其藉助管道實現，而管道有眾所周知的空間限制問題，超過了限制就會hang住，所以每次寫入管道的數據量好嚴格控制，保守的建議值是一個內存頁大小，即4k。另外，off_in和off_out傳遞的是指針，其值splice會做一定變動，使用時應注意。
 http://abcdxyzk.github.io/blog/2015/05/07/kernel-mm-splice/
 https://www.ibm.com/developerworks/cn/linux/l-cn-zerocopy2/
 
@@ -461,30 +461,30 @@ http://www.ttlsa.com/linux/haproxy-study-tutorial/
 
 https://github.com/1u4nx/Exploit-Exercises-Nebula
 
-minconn, maxconn and fullconn参数的对比
+minconn, maxconn and fullconn參數的對比
 http://www.serverphorums.com/read.php?10,292171
-运维0宕机时间，使用TC+IPtables技术
+運維0宕機時間，使用TC+IPtables技術
 https://engineeringblog.yelp.com/2015/04/true-zero-downtime-haproxy-reloads.html
-性能调优
+性能調優
 https://medium.freecodecamp.com/how-we-fine-tuned-haproxy-to-achieve-2-000-000-concurrent-ssl-connections-d017e61a4d27
 常用Python工具
 https://github.com/feurix/hatop/blob/master/bin/hatop
 https://github.com/unixsurfer/haproxyadmin
 https://github.com/breakwang/zabbix-external-script-haproxy_monitor/blob/master/haproxy_monitor.py
-HAProxy源码介绍
+HAProxy源碼介紹
 http://blog.chinaunix.net/uid/10167808/list/1.html?cid=178438
-用HAProxy来检测MySQL复制的延迟的教程
+用HAProxy來檢測MySQL複製的延遲的教程
 http://www.jb51.net/article/64615.htm
 官方blog
 https://blog.haproxy.com/
-haproxy的stick-table实际应用探索
+haproxy的stick-table實際應用探索
 http://blog.sina.com.cn/s/blog_704836f40102w243.html
-HAProxy的独门武器：ebtree
+HAProxy的獨門武器：ebtree
 http://mp.weixin.qq.com/s?__biz=MzA5NzA0ODA1Nw==&mid=2650513447&idx=1&sn=a44562e281beef32e6e2f59d2d887b9c&scene=5&srcid=05258uXjxyX8evtbriDv0wYn#rd
 
 #### show pools
 
-对应源码中 dump_pools_to_trash() 函数，用于显示当前内存池的使用情况。
+對應源碼中 dump_pools_to_trash() 函數，用於顯示當前內存池的使用情況。
 
 ```
 Dumping pools usage. Use SIGQUIT to flush them.
@@ -503,15 +503,15 @@ Total: 10 pools, 35888 bytes allocated, 35888 used.
 
 #### show stat
 
-对应到源码中的 cli_io_handler_dump_stat() 函数，这里实际会打印一个 proxy 对应的信息，frontend 和 backend 略有区别，而 backend 和 server 基本相同。
+對應到源碼中的 cli_io_handler_dump_stat() 函數，這裡實際會打印一個 proxy 對應的信息，frontend 和 backend 略有區別，而 backend 和 server 基本相同。
 
 ```
 >>>>>frontend<<<<<
 Session:
-   current(scur)               px->feconn                   session_accept_fd()     前端建立的会话数，可以用于评估当前资源使用量，是否达到了maxconn；如果迅速上涨，说明backend异常或者DDoS攻击。
-   max(smax)                   px->fe_counters.conn_max     session_accept_fd()     计数清零以来，所建立连接的最大值。
-   limit(slim)                 px->maxconn                                          在配置文件中设置的最大值
-   total(stot)                 px->fe_counters.cum_sess     proxy_inc_fe_sess_ctr() 已处理的请求数，一直递增，在session_count_new()函数中调用
+   current(scur)               px->feconn                   session_accept_fd()     前端建立的會話數，可以用於評估當前資源使用量，是否達到了maxconn；如果迅速上漲，說明backend異常或者DDoS攻擊。
+   max(smax)                   px->fe_counters.conn_max     session_accept_fd()     計數清零以來，所建立連接的最大值。
+   limit(slim)                 px->maxconn                                          在配置文件中設置的最大值
+   total(stot)                 px->fe_counters.cum_sess     proxy_inc_fe_sess_ctr() 已處理的請求數，一直遞增，在session_count_new()函數中調用
 Session Rate:                 
    Current Connection Rate     px->fe_conn_per_sec          proxy_inc_fe_conn_ctr()
    Current Session Rate(rate)  px->fe_sess_per_sec          proxy_inc_fe_sess_ctr()
@@ -524,19 +524,19 @@ Bytes:                        
    Out(out)                    px->fe_counters.bytes_out
    Out(bypassed)               px->fe_counters.comp_byp
 Denied:                       
-   Req(dreq)                   px->fe_counters.denied_req  tcp_exec_action_silent_drop() 处于安全考虑拒绝的请求数，一般是根据规则丢弃
-   Resp(dresp)                 px->fe_counters.denied_resp 同上，拒绝的响应数
+   Req(dreq)                   px->fe_counters.denied_req  tcp_exec_action_silent_drop() 處於安全考慮拒絕的請求數，一般是根據規則丟棄
+   Resp(dresp)                 px->fe_counters.denied_resp 同上，拒絕的響應數
 Errors:                       
-   Req(ereq)                   px->fe_counters.failed_req  在HTTP模式中会有失败
+   Req(ereq)                   px->fe_counters.failed_req  在HTTP模式中會有失敗
 >>>>>backend<<<<<
 Queue:
-   current(qcur)               px->nbpend                   pendconn_add()          默认会直接添加到各个后端Server服务器的队列中，如果已满则添加到be队列中。
-   max(qmax)                   px->be_counters.nbpend_max   pendconn_add()          计数清零以来，所建立会话的最大值。
+   current(qcur)               px->nbpend                   pendconn_add()          默認會直接添加到各個後端Server服務器的隊列中，如果已滿則添加到be隊列中。
+   max(qmax)                   px->be_counters.nbpend_max   pendconn_add()          計數清零以來，所建立會話的最大值。
 Session:
-   current(scur)               px->beconn                   stream_set_backend()    默认会直接添加到各个后端Server服务器的队列中，如果已满则添加到be队列中。
-   max(smax)                   px->be_counters.nbpend_max   pendconn_add()          计数清零以来，所建立会话的最大值。
-   limit(slim)                 px->fullconn                                         在配置文件中设置，可以通过fullconn设置，否则计算所有proxy的累加值
-   total(stot)                 px->be_counters.cum_conn     proxy_inc_be_ctr()      已处理的请求数，一直递增
+   current(scur)               px->beconn                   stream_set_backend()    默認會直接添加到各個後端Server服務器的隊列中，如果已滿則添加到be隊列中。
+   max(smax)                   px->be_counters.nbpend_max   pendconn_add()          計數清零以來，所建立會話的最大值。
+   limit(slim)                 px->fullconn                                         在配置文件中設置，可以通過fullconn設置，否則計算所有proxy的累加值
+   total(stot)                 px->be_counters.cum_conn     proxy_inc_be_ctr()      已處理的請求數，一直遞增
 Session Rate: xxx                
    Current Connection Rate     px->fe_conn_per_sec          proxy_inc_fe_conn_ctr()
    Current Session Rate(rate)  px->fe_sess_per_sec          proxy_inc_fe_sess_ctr()
@@ -548,46 +548,46 @@ Bytes:                        
    In(in)                      px->be_counters.bytes_in
    Out(out)                    px->be_counters.bytes_out
 Denied:                       
-   Req(dreq)                   px->be_counters.denied_req  处于安全考虑拒绝的请求数，一般是根据规则丢弃
-   Resp(dresp)                 px->be_counters.denied_resp 同上，拒绝的响应数
+   Req(dreq)                   px->be_counters.denied_req  處於安全考慮拒絕的請求數，一般是根據規則丟棄
+   Resp(dresp)                 px->be_counters.denied_resp 同上，拒絕的響應數
 Errors:                       
-   Conn(econ)                  px->be_counters.failed_conns                         场景的是队列满、没有服务器等，导致请求发送失败
+   Conn(econ)                  px->be_counters.failed_conns                         場景的是隊列滿、沒有服務器等，導致請求發送失敗
    Resq(eresp)                 px->be_counters.failed_resp                          只在HTTP模式中存在
 Warnings:
-   Retr(wretr)                 px->be_counters.retries                              链接后端失败的次数，可以尝试多次
-   Redis(wredis)               px->be_counters.redispatches                         尝试多次后仍然失败，则发送给其他服务器，注意需要配置允许redispatch选项
+   Retr(wretr)                 px->be_counters.retries                              鏈接後端失敗的次數，可以嘗試多次
+   Redis(wredis)               px->be_counters.redispatches                         嘗試多次後仍然失敗，則發送給其他服務器，注意需要配置允許redispatch選項
 Server:
-   Act(act)                    px->srv_act                                          当前有多少服务是正常的
-   Bck(bck)                    px->srv_bck                                          backup服务器可用数
+   Act(act)                    px->srv_act                                          當前有多少服務是正常的
+   Bck(bck)                    px->srv_bck                                          backup服務器可用數
 ```
 
 #### 其它
 
-除此之外，还可以通过 ```show errors```、```show sess [id]```、```show table [id]```、```show acl [id]```、```show map [id]``` 命令查看状态。
+除此之外，還可以通過 ```show errors```、```show sess [id]```、```show table [id]```、```show acl [id]```、```show map [id]``` 命令查看狀態。
 
-Connection和Session的区别
+Connection和Session的區別
 
-在建立连接之后，需要一些初始化操作，只有正常完成这些操作之后，才会作为会话。
+在建立連接之後，需要一些初始化操作，只有正常完成這些操作之後，才會作為會話。
 
 tcp_connect_server()
  |-conn_ctrl_init()
 
 listener_accept()
- |-accept() 调用系统API建立连接
+ |-accept() 調用系統API建立連接
 
 session_accept_fd
- |-proxy_inc_fe_conn_ctr() 新增connect统计信息
- |-session_count_new() 新增session统计信息
- | |-proxy_inc_fe_sess_ctr() 统计信息更新
+ |-proxy_inc_fe_conn_ctr() 新增connect統計信息
+ |-session_count_new() 新增session統計信息
+ | |-proxy_inc_fe_sess_ctr() 統計信息更新
 
-HAProxy当前的任务信息保存在static struct eb_root rqueue指定的队列中，这是一个ebtree结构体，每个任务通过struct task结构体表示。
+HAProxy當前的任務信息保存在static struct eb_root rqueue指定的隊列中，這是一個ebtree結構體，每個任務通過struct task結構體表示。
 
-很多的状态信息处理在src/stats.c文件中，例如listener的监控数据处理在stats_fill_li_stats()函数中；而一些宏则通过enum stat_field定义，例如ST_F_PXNAME(pxname)值。
+很多的狀態信息處理在src/stats.c文件中，例如listener的監控數據處理在stats_fill_li_stats()函數中；而一些宏則通過enum stat_field定義，例如ST_F_PXNAME(pxname)值。
 
 
 
 ### 配置文件解析
-cfgparse_init() 会在main函数启动前添加默认解析配置项
+cfgparse_init() 會在main函數啟動前添加默認解析配置項
 
   clear counters : clear max statistics counters (add 'all' for all counters)
   clear table    : remove an entry from a table
@@ -624,7 +624,7 @@ cfgparse_init() 会在main函数启动前添加默认解析配置项
   clear map <id> : clear the content of this map
   set ssl <stmt> : set statement for ssl
 
-TCP(Layer 4)和HTTP(Layer 7)负载均衡，反向代理。HAProxy单点，可以使用Pacemaker或者Keepalived提供高可用
+TCP(Layer 4)和HTTP(Layer 7)負載均衡，反向代理。HAProxy單點，可以使用Pacemaker或者Keepalived提供高可用
 
 ACLs
   Extract some information, make decision
@@ -639,14 +639,14 @@ Stick Tables
   Record information in table, eg. source address
   Check table for new connections, select backend
 
-后台服务器只能看到HAProxy，HTTP可以通过添加X-Forwarded-For头部信息。
+後臺服務器只能看到HAProxy，HTTP可以通過添加X-Forwarded-For頭部信息。
 
 curl --silent "http://192.144.35.35:85/status;csv"
 
 info_field_names[] <==> show info
 stat_field_names[] <==> show stat
 
-http_stats_io_handler() 内置HTTP服务器处理
+http_stats_io_handler() 內置HTTP服務器處理
  |-stats_dump_stat_to_buffer()     // same as above, but used for CSV or HTML
    |-stats_dump_csv_header()      // emits the CSV headers (same as above)
    |-stats_dump_html_head()       // emits the HTML headers
@@ -656,7 +656,7 @@ http_stats_io_handler() 内置HTTP服务器处理
    | |-stats_dump_fe_stats() frontend statistics
    | | |-stats_fill_fe_stats()
    | |-stats_dump_li_stats() listener statistics
-   | | |-stats_fill_li_stats() 将数据保存在静态变量stats中
+   | | |-stats_fill_li_stats() 將數據保存在靜態變量stats中
    | |-stats_dump_sv_stats() server statistics
    | | |-stats_fill_sv_stats()
    | |-stats_dump_be_stats() backend statistics
@@ -695,11 +695,11 @@ http_stats_io_handler() 内置HTTP服务器处理
 $ nc -U /var/run/haproxy.sock
 $ prompt
 > show info
-cli_io_handler() Unix Socket的命令处理函数接口，这里的处理通过状态机完成
- |-bo_getline() 读取命令行
- |-cli_parse_request() 调用定义的回调函数解析命令，并复制给appctx变量
- | |-cli_find_kw() 查找定义的结构体，主要是各种回调函数
- |-appctx->io_handler() 调用各个插件定义的处理函数
+cli_io_handler() Unix Socket的命令處理函數接口，這裡的處理通過狀態機完成
+ |-bo_getline() 讀取命令行
+ |-cli_parse_request() 調用定義的回調函數解析命令，並複製給appctx變量
+ | |-cli_find_kw() 查找定義的結構體，主要是各種回調函數
+ |-appctx->io_handler() 調用各個插件定義的處理函數
 
 struct cli_kw_list {
   struct list list;
@@ -707,24 +707,24 @@ struct cli_kw_list {
 };
 
 
-show info; 结构体定义<->enum info_field@stats.h  回调函数<->cli_io_handler_dump_info()@stat.c
+show info; 結構體定義<->enum info_field@stats.h  回調函數<->cli_io_handler_dump_info()@stat.c
 cli_io_handler_dump_info()
  |-stats_dump_info_to_buffer()
-   |-stats_fill_info() 填充数值，各个HAProxy监控信息与内部变量的对应关系
+   |-stats_fill_info() 填充數值，各個HAProxy監控信息與內部變量的對應關係
 
-show pools; 通过pools
+show pools; 通過pools
 cli_io_handler_dump_pools()
  |-dump_pools_to_trash()
 
 echo "show stat" | nc -U /var/run/haproxy.sock
 cli_io_handler_dump_stat()
- |-stats_dump_stat_to_buffer() HTML和CLI都会调用该函数
-   |-stats_dump_csv_header() 打印CSV头信息
-   |-stats_dump_proxy_to_buffer() 会循环调用打印proxy信息，使用csv格式
+ |-stats_dump_stat_to_buffer() HTML和CLI都會調用該函數
+   |-stats_dump_csv_header() 打印CSV頭信息
+   |-stats_dump_proxy_to_buffer() 會循環調用打印proxy信息，使用csv格式
      |-stats_dump_fe_stats() frontend statistics
      | |-stats_fill_fe_stats()
      |-stats_dump_li_stats() listener statistics
-     | |-stats_fill_li_stats() 将数据保存在静态变量stats中
+     | |-stats_fill_li_stats() 將數據保存在靜態變量stats中
      |-stats_dump_sv_stats() server statistics
      | |-stats_fill_sv_stats()
      |-stats_dump_be_stats() backend statistics
@@ -744,27 +744,27 @@ echo "show map" | nc -U /var/run/haproxy.sock
 cli_parse_show_map()
 
 stick table
-一般来说可以通过cookies和hash来映射front+back end，所以就有了stick table。
+一般來說可以通過cookies和hash來映射front+back end，所以就有了stick table。
 
-客户端支持的命令通过struct cli_kw_list结构体定义，例如：show pools(memory.c)、show stats(stats.c)等，该结构体中包括了解析函数、处理函数的定义；而且利用GCC的__attribute__((constructor))特性，在执行main()函数之前调用cli_register_kw()函数执行，而该函数实际就是将其添加到cli_keywords.list中。
+客戶端支持的命令通過struct cli_kw_list結構體定義，例如：show pools(memory.c)、show stats(stats.c)等，該結構體中包括瞭解析函數、處理函數的定義；而且利用GCC的__attribute__((constructor))特性，在執行main()函數之前調用cli_register_kw()函數執行，而該函數實際就是將其添加到cli_keywords.list中。
 
 /usr/bin/python /usr/local/bin/denyhosts.py --daemon --config=/usr/share/denyhosts/denyhosts.cfg
 
  
-### 服务器状态检测
-用于检查后台的服务器是否正常，可以根据不同服务类型进行检测。
+### 服務器狀態檢測
+用於檢查後臺的服務器是否正常，可以根據不同服務類型進行檢測。
 check: httpchk、smtpchk、mysql-check、pgsql-check、ssl-hello-chk
-  默认认为服务器是正常的，通过该参数表示需要进行检测确认服务器状态；
+  默認認為服務器是正常的，通過該參數表示需要進行檢測確認服務器狀態；
 rise:
-  多少次检测正常后认为该服务器是正常的；
+  多少次檢測正常後認為該服務器是正常的；
 fall:
-  多少次检测失败后认为该服务器异常；
+  多少次檢測失敗後認為該服務器異常；
 inter:
-  设置检测的时间间隔，另外还可以定义fastinter、downinter参数，根据不同的状态设置检测时间间隔；
+  設置檢測的時間間隔，另外還可以定義fastinter、downinter參數，根據不同的狀態設置檢測時間間隔；
 
 
 
-timeout check 通过min("timeout connect", "inter")作为与后台服务器建立连接的超时时间；该参数对应了建立链接后读取数据的超时时间；如果该参数没有设置，那么就直接使用inter作为(connect+read)的超时时间；一般来说检查的时间要小于正常业务处理时间，所以该值要小于timeout server指定的超时时间。
+timeout check 通過min("timeout connect", "inter")作為與後臺服務器建立連接的超時時間；該參數對應了建立鏈接後讀取數據的超時時間；如果該參數沒有設置，那麼就直接使用inter作為(connect+read)的超時時間；一般來說檢查的時間要小於正常業務處理時間，所以該值要小於timeout server指定的超時時間。
 
 timeout client                            X          X         X         -
 timeout client-fin                        X          X         X         -
@@ -777,135 +777,135 @@ timeout server-fin                        X       
 timeout tarpit                            X          X         X         X
 timeout tunnel                            X          -         X         X
 
-haproxy 负责处理请求的核心数据结构是 struct session，本文不对该数据结构进行分析。
+haproxy 負責處理請求的核心數據結構是 struct session，本文不對該數據結構進行分析。
 
-从业务的处理的角度，简单介绍一下对 session 的理解：
+從業務的處理的角度，簡單介紹一下對 session 的理解：
 
-    haproxy 每接收到 client 的一个连接，便会创建一个 session 结构，该结构一直伴随着连接的处理，直至连接被关闭，session 才会被释放
-    haproxy 其他的数据结构，大多会通过引用的方式和 session 进行关联
-    一个业务 session 上会存在两个 TCP 连接，一个是 client 到 haproxy，一个是 haproxy 到后端 server。
+    haproxy 每接收到 client 的一個連接，便會創建一個 session 結構，該結構一直伴隨著連接的處理，直至連接被關閉，session 才會被釋放
+    haproxy 其他的數據結構，大多會通過引用的方式和 session 進行關聯
+    一個業務 session 上會存在兩個 TCP 連接，一個是 client 到 haproxy，一個是 haproxy 到後端 server。
 
-此外，一个 session，通常还要对应一个 task，haproxy 最终用来做调度的是通过 task。
+此外，一個 session，通常還要對應一個 task，haproxy 最終用來做調度的是通過 task。
 struct proxy {
-  struct lbprm lbprm;  // 负载均衡参数
+  struct lbprm lbprm;  // 負載均衡參數
 };
 -->
 
-## 源码解析
+## 源碼解析
 
 `HAProxy is a single-threaded, event-driven, non-blocking daemon.`
 
-启动非常简单，只需要一个可执行文件+配置文件即可，启动之后基本处理如下的三个操作：
+啟動非常簡單，只需要一個可執行文件+配置文件即可，啟動之後基本處理如下的三個操作：
 
 {% highlight text %}
-1. 处理链接；
-   1.1 从frontend指定的监听端口创建链接；
-   1.2 应用frontend指定的规则，包括了阻塞、修改头部信息、统计等；
-   1.3 将链接传递给backend指定的服务器；
-   1.4 应用backend指定的规则；
-   1.5 根据策略决定将链接发送给那个服务器；
-   1.6 对响应数据应用backend指定的规则；
-   1.7 对响应数据应用frontend指定的规则；
-   1.8 发送日志；
-   1.9 如果是HTTP那么会等待新请求，否则就关闭链接；
-2. 周期性检查服务器的状态；
-3. 与其它HAProxy节点交换数据；
+1. 處理鏈接；
+   1.1 從frontend指定的監聽端口創建鏈接；
+   1.2 應用frontend指定的規則，包括了阻塞、修改頭部信息、統計等；
+   1.3 將鏈接傳遞給backend指定的服務器；
+   1.4 應用backend指定的規則；
+   1.5 根據策略決定將鏈接發送給那個服務器；
+   1.6 對響應數據應用backend指定的規則；
+   1.7 對響應數據應用frontend指定的規則；
+   1.8 發送日誌；
+   1.9 如果是HTTP那麼會等待新請求，否則就關閉鏈接；
+2. 週期性檢查服務器的狀態；
+3. 與其它HAProxy節點交換數據；
 {% endhighlight %}
 
-然后，直接看下源码解析过程。
+然後，直接看下源碼解析過程。
 
 {% highlight text %}
 main()
- |-init()                                  ← 所有的初始化操作，包括各个模块初始化、命令行解析等
- | |-cfgfiles_expand_directories()         ← 处理配置文件，参数解析会将配置文件保存在cfg_cfgfiles
- | |-init_default_instance()               ← 初始化默认配置
- | |-readcfgfile()                         ← 读取配置文件，并调用sections->section_parser()对应的函数
- | | |-cfg_parse_listen()                  ← 对于frontend、backend、listen段的参数解析验证
+ |-init()                                  ← 所有的初始化操作，包括各個模塊初始化、命令行解析等
+ | |-cfgfiles_expand_directories()         ← 處理配置文件，參數解析會將配置文件保存在cfg_cfgfiles
+ | |-init_default_instance()               ← 初始化默認配置
+ | |-readcfgfile()                         ← 讀取配置文件，並調用sections->section_parser()對應的函數
+ | | |-cfg_parse_listen()                  ← 對於frontend、backend、listen段的參數解析驗證
  | |   |-str2listener()
  | |     |-l->frontend=curproxy
- | |     |-tcpv4_add_listener()            ← 添加到proto_tcpv4对象中的链表，真正监听会在proto_XXX.c文件中
- | |       |-listener->proto=&proto_tcpv4  ← 会设置该变量，后续的接收链接也就对应了accept变量
- | |-check_config_validity()               ← 配置文件格式校验
- | | |-listener->frontend=curproxy         ← 在上面解析，实际上curporxy->accept=frontend_accept
+ | |     |-tcpv4_add_listener()            ← 添加到proto_tcpv4對象中的鏈表，真正監聽會在proto_XXX.c文件中
+ | |       |-listener->proto=&proto_tcpv4  ← 會設置該變量，後續的接收鏈接也就對應了accept變量
+ | |-check_config_validity()               ← 配置文件格式校驗
+ | | |-listener->frontend=curproxy         ← 在上面解析，實際上curporxy->accept=frontend_accept
  | | |-listener->accept=session_accept_fd
  | | |-listener->handler=process_stream
- | | |-根据不同的后端服务器选择算法选择
+ | | |-根據不同的後端服務器選擇算法選擇
  | |
  | | <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<解析完配置文件>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
  | |
- | |-start_checks()                        ← 执行后端检查任务
+ | |-start_checks()                        ← 執行後端檢查任務
  | | |-start_check_task()
  | |   |-process_chk()
  | |     |-process_chk_conn()
  | |       |-connect_conn_chk()
- | |         |-event_srv_chk_r()           ← 健康检查，在check_conn_cb变量中定义，通过conn_attach()绑定
- | |           |-tcpcheck_main()           ← 如果是TCP检查PR_O2_TCPCHK_CHK
+ | |         |-event_srv_chk_r()           ← 健康檢查，在check_conn_cb變量中定義，通過conn_attach()綁定
+ | |           |-tcpcheck_main()           ← 如果是TCP檢查PR_O2_TCPCHK_CHK
  | |
- | |-init_pollers()                        ← 选择多路复用方法，也就是设置cur_poller
- |   |-calloc()                            ← 分配资源fd_cache+fd_updt，其大小是global.maxsock
- |   |-bp->init()                          ← 调用各个可用poll方法的初始化函数，选择第一个可用方法
- |   |-memcpy()                            ← 复制到cur_poller全局变量中
+ | |-init_pollers()                        ← 選擇多路複用方法，也就是設置cur_poller
+ |   |-calloc()                            ← 分配資源fd_cache+fd_updt，其大小是global.maxsock
+ |   |-bp->init()                          ← 調用各個可用poll方法的初始化函數，選擇第一個可用方法
+ |   |-memcpy()                            ← 複製到cur_poller全局變量中
  |
- |-start_proxies()                         ← 开始启动，调用各协议bind接口，对TCPv4就是tcp_bind_listener()
+ |-start_proxies()                         ← 開始啟動，調用各協議bind接口，對TCPv4就是tcp_bind_listener()
  |-protocol_bind_all()
- |-protocol_enable_all()                   ← 启动各个协议，例如ipv4/ipv6/unix等
+ |-protocol_enable_all()                   ← 啟動各個協議，例如ipv4/ipv6/unix等
  |
- | <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<主循环处理流程>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ | <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<主循環處理流程>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
  |
  |-run_poll_loop()
  | |-tv_update_date()
  | | ###WHILE###BEGIN
- | |-process_runnable_tasks()              ← 调用可运行任务
- | | |-process_stream()                    ← 一般是调用该函数，也可执行struct task.process中自定义函数
+ | |-process_runnable_tasks()              ← 調用可運行任務
+ | | |-process_stream()                    ← 一般是調用該函數，也可執行struct task.process中自定義函數
  | |   |
- | |   | <<PHASE:解析请求>>                ← 会根据定义的各种规则选择后端
- | |   |-process_switching_rules()         ← 除了默认使用的后端服务器之外，会根据规则再次选择<<RULES>>
- | |   | |-stream_set_backend()            ← 选择该后端，<<STAT:be->beconn>>
- | |   |   |-proxy_inc_be_ctr()            ← 后端统计值的更新
+ | |   | <<PHASE:解析請求>>                ← 會根據定義的各種規則選擇後端
+ | |   |-process_switching_rules()         ← 除了默認使用的後端服務器之外，會根據規則再次選擇<<RULES>>
+ | |   | |-stream_set_backend()            ← 選擇該後端，<<STAT:be->beconn>>
+ | |   |   |-proxy_inc_be_ctr()            ← 後端統計值的更新
  | |   |-http_process_tarpit()
  | |   |
- | |   | <<PHASE:解析响应>>
- | |   |-process_store_rules()             ← 处理规则
+ | |   | <<PHASE:解析響應>>
+ | |   |-process_store_rules()             ← 處理規則
  | |   |
- | |   | <<PAHSE:正式处理请求>>
- | |   |-sess_prepare_conn_req()           ← 选择后端的服务器
+ | |   | <<PAHSE:正式處理請求>>
+ | |   |-sess_prepare_conn_req()           ← 選擇後端的服務器
  | |     |-srv_redispatch_connect()
- | |       |-assign_server_and_queue()     ← 选择后端的服务器，并添加到队列中
- | |         |-assign_server()             ← 根据负载均衡配置选择后端服务器
+ | |       |-assign_server_and_queue()     ← 選擇後端的服務器，並添加到隊列中
+ | |         |-assign_server()             ← 根據負載均衡配置選擇後端服務器
  | |         | |-get_server_sh()
  | |         |   |-chash_get_server_hash() ← 使用一致性hash算法
  | |         |-sess_change_server()
- | |         |-pendconn_add()              ← 如果后端服务器已满，则添加到proxy队列中<<STAT:px->nbpend++>>
+ | |         |-pendconn_add()              ← 如果後端服務器已滿，則添加到proxy隊列中<<STAT:px->nbpend++>>
  | |
- | |-signal_process_queue()                ← 信号队列，如果捕获了信号则处理
- | |-wake_expired_tasks()                  ← 超时任务
- | |-cur_poller.poll()                     ← 不同平台的多路复用技术
- | | |-_do_poll()                          ← 以ev_epoll.c中的epoll为例
+ | |-signal_process_queue()                ← 信號隊列，如果捕獲了信號則處理
+ | |-wake_expired_tasks()                  ← 超時任務
+ | |-cur_poller.poll()                     ← 不同平臺的多路複用技術
+ | | |-_do_poll()                          ← 以ev_epoll.c中的epoll為例
  | |   |-epoll_wait()
  | |   |-fd_may_recv()
- | |   | |-fd_update_cache()               ← 在处理函数中只添加到cache中，真正的处理过程在后面
+ | |   | |-fd_update_cache()               ← 在處理函數中只添加到cache中，真正的處理過程在後面
  | |   |-fd_may_send()
  | |     |-fd_update_cache()
  | |
- | |-fd_process_cached_events()            ← 真正处理epoll()中触发的事件
- | | |-fdtab[fd].iocb(fd)                  ← 调用注册的回调函数，一般是conn_fd_handler()
- | |   |-conn->data->recv(conn)            ← 实际调用si_conn_recv_cb()函数，也就是负责接收的函数
- | |   | |-conn->xprt->rcv_pipe()          ← 如果不启用SSL则调用raw_sock_to_pipe()，否则调用下面的buff函数
- | |   | |-conn->xprt->rcv_buf()           ← 不启用SSL则调用raw_sock_to_buf()，否则调用ssl_sock_to_buf()
- | |   |-conn->data->recv(conn)            ← 实际调用si_conn_send_cb()函数，也就是负责发送的函数
+ | |-fd_process_cached_events()            ← 真正處理epoll()中觸發的事件
+ | | |-fdtab[fd].iocb(fd)                  ← 調用註冊的回調函數，一般是conn_fd_handler()
+ | |   |-conn->data->recv(conn)            ← 實際調用si_conn_recv_cb()函數，也就是負責接收的函數
+ | |   | |-conn->xprt->rcv_pipe()          ← 如果不啟用SSL則調用raw_sock_to_pipe()，否則調用下面的buff函數
+ | |   | |-conn->xprt->rcv_buf()           ← 不啟用SSL則調用raw_sock_to_buf()，否則調用ssl_sock_to_buf()
+ | |   |-conn->data->recv(conn)            ← 實際調用si_conn_send_cb()函數，也就是負責發送的函數
  | |
  | |-applet_run_active()
  | | ###WHILE###END
  |-deinit() 清理操作
 {% endhighlight %}
 
-## 参考
+## 參考
 
-官方网站为 [www.haproxy.org](http://www.haproxy.org/)，源码可以直接从 [https://github.com/haproxy/haproxy](https://github.com/haproxy/haproxy) 下载，很多帮助文档可以直接查看源码中的 doc 目录。
+官方網站為 [www.haproxy.org](http://www.haproxy.org/)，源碼可以直接從 [https://github.com/haproxy/haproxy](https://github.com/haproxy/haproxy) 下載，很多幫助文檔可以直接查看源碼中的 doc 目錄。
 
-关于帮助文档也可以查看 [haproxy-dconv](http://cbonte.github.io/haproxy-dconv/)，另外有个监控工具 [HATop](http://feurix.org/projects/hatop/) 。
+關於幫助文檔也可以查看 [haproxy-dconv](http://cbonte.github.io/haproxy-dconv/)，另外有個監控工具 [HATop](http://feurix.org/projects/hatop/) 。
 
-[MySQL Load Balancing with HAProxy - Tutorial](http://severalnines.com/tutorials/mysql-load-balancing-haproxy-tutorial) 同时包含了一个不错的终端录制工具 [asciinema.org](https://asciinema.org/) 。
+[MySQL Load Balancing with HAProxy - Tutorial](http://severalnines.com/tutorials/mysql-load-balancing-haproxy-tutorial) 同時包含了一個不錯的終端錄製工具 [asciinema.org](https://asciinema.org/) 。
 
 
 <!--

@@ -1,103 +1,103 @@
 ---
-title: MySQL 插件详解
+title: MySQL 插件詳解
 layout: post
 comments: true
 language: chinese
 category: [mysql,database]
 keywords: mysql,plugin,插件
-description: 在 MySQL 中，为了提高其灵活性，很多的功能都是通过插件来实现的，常见的比如 semi-sync、存储引擎、登陆认证等等。因为 MySQL 是 C/C++ 实现的，对于插件来说实际为动态链接库，保存在 plugin_dir 变量对应的目录下。在此介绍一下 MySQL 的插件实现。
+description: 在 MySQL 中，為了提高其靈活性，很多的功能都是通過插件來實現的，常見的比如 semi-sync、存儲引擎、登陸認證等等。因為 MySQL 是 C/C++ 實現的，對於插件來說實際為動態鏈接庫，保存在 plugin_dir 變量對應的目錄下。在此介紹一下 MySQL 的插件實現。
 ---
 
-在 MySQL 中，为了提高其灵活性，很多的功能都是通过插件来实现的，常见的比如 semi-sync、存储引擎、登陆认证等等。因为 MySQL 是 C/C++ 实现的，对于插件来说实际为动态链接库，保存在 plugin_dir 变量对应的目录下。
+在 MySQL 中，為了提高其靈活性，很多的功能都是通過插件來實現的，常見的比如 semi-sync、存儲引擎、登陸認證等等。因為 MySQL 是 C/C++ 實現的，對於插件來說實際為動態鏈接庫，保存在 plugin_dir 變量對應的目錄下。
 
-在此介绍一下 MySQL 的插件实现。
+在此介紹一下 MySQL 的插件實現。
 
 <!-- more -->
 
-## 简介
+## 簡介
 
-插件的安装也比较简单，可以在配置文件中通过 `plugin_load="XXX"` 设置，或者通过 MySQL 命令 `install plugin` 安装，安装之后会在 `mysql.plugin` 中插入一条记录，在下次启动时，将会自动加载。
+插件的安裝也比較簡單，可以在配置文件中通過 `plugin_load="XXX"` 設置，或者通過 MySQL 命令 `install plugin` 安裝，安裝之後會在 `mysql.plugin` 中插入一條記錄，在下次啟動時，將會自動加載。
 
-另外，可以在启动时通过 `--disable-plugin-plg-name` 或 `--plugin-plg-name=OFF` 禁止插件启动，此时表中为 `DISABLED` 。如果不能加载插件，默认会继续启动，如果设置为没有该插件则停止启动可以使用，`--plugin-my-plugin=FORCE` 。
+另外，可以在啟動時通過 `--disable-plugin-plg-name` 或 `--plugin-plg-name=OFF` 禁止插件啟動，此時表中為 `DISABLED` 。如果不能加載插件，默認會繼續啟動，如果設置為沒有該插件則停止啟動可以使用，`--plugin-my-plugin=FORCE` 。
 
-例如，可以通过如下方式加载插件。
+例如，可以通過如下方式加載插件。
 
 {% highlight text %}
 $ cat ~/.my.cnf
 plugin_load="rpl_semi_sync_master=semisync_master.so"
 
-mysql > SHOW VARIABLES LIKE 'plugin_dir';                                       ← 查看插件的目录
-mysql > INSTALL PLUGIN plg_name SONAME "plg_dynamic.so";                        ← 安装插件
-mysql > UNINSTALL PLUGIN plg_name;                                              ← 卸载插件
-mysql > SHOW PLUGINS;                                                           ← 查看当前插件，同下
-mysql > SELECT * FROM information_schema.plugins WHERE PLUGIN_NAME='plg-name';  ← 详细信息
-mysql > SELECT * FROM mysql.plugin;                                             ← 查看已经安装的插件
+mysql > SHOW VARIABLES LIKE 'plugin_dir';                                       ← 查看插件的目錄
+mysql > INSTALL PLUGIN plg_name SONAME "plg_dynamic.so";                        ← 安裝插件
+mysql > UNINSTALL PLUGIN plg_name;                                              ← 卸載插件
+mysql > SHOW PLUGINS;                                                           ← 查看當前插件，同下
+mysql > SELECT * FROM information_schema.plugins WHERE PLUGIN_NAME='plg-name';  ← 詳細信息
+mysql > SELECT * FROM mysql.plugin;                                             ← 查看已經安裝的插件
 {% endhighlight %}
 
-在 `information_schema.plugins` 中可以看到，存在了三个版本信息，其中 `plugin_version` 作者可以随意指定；`plugin_type_version` 和 `plugin_library_version` 决定了 API 的版本。
+在 `information_schema.plugins` 中可以看到，存在了三個版本信息，其中 `plugin_version` 作者可以隨意指定；`plugin_type_version` 和 `plugin_library_version` 決定了 API 的版本。
 
 ### 插件示例
 
-插件的示例可以参考 `plugin/daemon_example` ，该插件会在 `show variable like 'datadir'` 目录下创建一个 `mysql-heartbeat.log` 日志文件，每隔 5s 打印一条日志。
+插件的示例可以參考 `plugin/daemon_example` ，該插件會在 `show variable like 'datadir'` 目錄下創建一個 `mysql-heartbeat.log` 日誌文件，每隔 5s 打印一條日誌。
 
-可以通过 `show plugins` 查看插件，也可以查看 `mysql.plugin` 表。
+可以通過 `show plugins` 查看插件，也可以查看 `mysql.plugin` 表。
 
-## 存储引擎
+## 存儲引擎
 
-MySQL 提供了访问不同的存储引擎数据表的虚拟层 API，"table handler" 指的是 storage engine 与 MySQL 优化器的接口，通过这些接口很多存储引擎可以很快集成到 MySQL 中。
+MySQL 提供了訪問不同的存儲引擎數據表的虛擬層 API，"table handler" 指的是 storage engine 與 MySQL 優化器的接口，通過這些接口很多存儲引擎可以很快集成到 MySQL 中。
 
-在 MySQL 中采用了插件式的存储引擎，与插件类似，存储引擎以 `.so` 文件的格式进行保存，均存放在 `plugin_dir` 变量指定大目录下，可以通过如下的方式进行查看、安装、卸载。
+在 MySQL 中採用了插件式的存儲引擎，與插件類似，存儲引擎以 `.so` 文件的格式進行保存，均存放在 `plugin_dir` 變量指定大目錄下，可以通過如下的方式進行查看、安裝、卸載。
 
 {% highlight text %}
-mysql > SHOW VARIABLES LIKE 'have_dynamic_loading';     ← 查看是否支持动态加载
+mysql > SHOW VARIABLES LIKE 'have_dynamic_loading';     ← 查看是否支持動態加載
 mysql > SHOW ENGINES;                                   ← 或者SHOW STORAGE ENGINES;
 mysql > INSTALL PLUGIN Innodb SONAME "ha_innodb.so";
 mysql > UNINSTALL PLUGIN Innodb;
 {% endhighlight %}
 
-注意安装时指定的名称需要与 `st_mysql_plugin.name` 相同，大小写不敏感。
+注意安裝時指定的名稱需要與 `st_mysql_plugin.name` 相同，大小寫不敏感。
 
 ### TokuDB 使用
 
-一个类似 InnoDB 的存储引擎，对于 percona 发行版本本身已经带了 TokuDB，可以通过如下方式查看。
+一個類似 InnoDB 的存儲引擎，對於 percona 發行版本本身已經帶了 TokuDB，可以通過如下方式查看。
 
 {% highlight text %}
-mysql> show variables like 'plugin_dir';                   ← 查看插件保存的路径
-$ ls {plugin_dir} | grep toku                              ← 查看是否存在该引擎
+mysql> show variables like 'plugin_dir';                   ← 查看插件保存的路徑
+$ ls {plugin_dir} | grep toku                              ← 查看是否存在該引擎
 
-# yum instrall jemalloc                                    ← 安装jemalloc库，依赖epel
-# LD_PRELOAD=/usr/lib64/libjemalloc.so.1 mysqld ...        ← 需要通过LD_PRELOAD指定库的位置
+# yum instrall jemalloc                                    ← 安裝jemalloc庫，依賴epel
+# LD_PRELOAD=/usr/lib64/libjemalloc.so.1 mysqld ...        ← 需要通過LD_PRELOAD指定庫的位置
 
-# echo never > /sys/kernel/mm/transparent_hugepage/enabled ← 关闭hugepage，实际只需要关闭这一选项即可
+# echo never > /sys/kernel/mm/transparent_hugepage/enabled ← 關閉hugepage，實際只需要關閉這一選項即可
 # echo never > /sys/kernel/mm/transparent_hugepage/defrag
 
-mysql> INSTALL PLUGIN tokudb SONAME 'ha_tokudb.so';        ← 安装TokuDB
+mysql> INSTALL PLUGIN tokudb SONAME 'ha_tokudb.so';        ← 安裝TokuDB
 mysql> SHOW ENGINES;                                       ← 查看所有的引擎
-mysql> SHOW VARIABLES LIKE 'tokudb%';                      ← 查看TokuDB相关配置
+mysql> SHOW VARIABLES LIKE 'tokudb%';                      ← 查看TokuDB相關配置
 
-mysql> UNINSTALL PLUGIN  tokudb;                           ← 卸载之
+mysql> UNINSTALL PLUGIN  tokudb;                           ← 卸載之
 {% endhighlight %}
 
-使用 TokuDB 引擎时，需要修改内核配置，禁用 transparent_hugepage，否则可能会导致 TokuDB 内存泄露。另外，需要注意的是，在第一次插入之后再启动时会自动加载。
+使用 TokuDB 引擎時，需要修改內核配置，禁用 transparent_hugepage，否則可能會導致 TokuDB 內存洩露。另外，需要注意的是，在第一次插入之後再啟動時會自動加載。
 
-如果是通过 mysqld_safe 启动，需要在配置文件中添加如下的选项。
+如果是通過 mysqld_safe 啟動，需要在配置文件中添加如下的選項。
 
 {% highlight text %}
 [mysqld_safe]
 malloc_lib = /usr/lib64/libjemalloc.so
 {% endhighlight %}
 
-另外，可以参考 TokuDB 的官方文档，[Percona TokuDB - Documentation](https://www.percona.com/doc/percona-tokudb/index.html) 。
+另外，可以參考 TokuDB 的官方文檔，[Percona TokuDB - Documentation](https://www.percona.com/doc/percona-tokudb/index.html) 。
 
-### 存储引擎示例
+### 存儲引擎示例
 
-在源码的 `storage/example` 目录下有一个简单的存储引擎示例，基本就是什么也不做，只是告知你应该如何添加一个存储引擎。
+在源碼的 `storage/example` 目錄下有一個簡單的存儲引擎示例，基本就是什麼也不做，只是告知你應該如何添加一個存儲引擎。
 
-可以在编译时添加 `-DWITH_EXAMPLE_STORAGE_ENGINE=ON` 选项，或者在该目录下执行 `make` 命令，此时会生成一个 `ha_example.so` 文件。然后可以通过如下的方式添加该引擎：
+可以在編譯時添加 `-DWITH_EXAMPLE_STORAGE_ENGINE=ON` 選項，或者在該目錄下執行 `make` 命令，此時會生成一個 `ha_example.so` 文件。然後可以通過如下的方式添加該引擎：
 
 {% highlight text %}
 mysql > INSTALL PLUGIN example SONAME 'ha_example.so';
-mysql > CREATE TABLE test (i INT) ENGINE = EXAMPLE;     // 测试
+mysql > CREATE TABLE test (i INT) ENGINE = EXAMPLE;     // 測試
 Query OK, 0 rows affected (0.02 sec)
 mysql > INSERT INTO test VALUES(1),(2),(3);
 Query OK, 3 rows affected (0.00 sec)
@@ -107,15 +107,15 @@ Empty set (0.00 sec)
 mysql > UNINSTALL PLUGIN example;
 {% endhighlight %}
 
-也可以参考一个示例 [skeleton-mysql-engine](http://bazaar.launchpad.net/~statik/+junk/skeleton-mysql-engine/files) ，不过有点老了。
+也可以參考一個示例 [skeleton-mysql-engine](http://bazaar.launchpad.net/~statik/+junk/skeleton-mysql-engine/files) ，不過有點老了。
 
-### DIY 创建简单存储引擎
+### DIY 創建簡單存儲引擎
 
-在此我们简单创建一个示例存储引擎，实际上类似于上述的 example 存储引擎。
+在此我們簡單創建一個示例存儲引擎，實際上類似於上述的 example 存儲引擎。
 
-创建一个 foobar 存储引擎，可以直接从简单的示例复制新目录即可，此处假设从 blackhole 复制到新的文件夹，该存储引擎可以创建 insert 之后不能 select 查到。
+創建一個 foobar 存儲引擎，可以直接從簡單的示例複製新目錄即可，此處假設從 blackhole 複製到新的文件夾，該存儲引擎可以創建 insert 之後不能 select 查到。
 
-blackhole 存储引擎，实际不会存储任何数据，如果开启了 binlog 则会记录 binlog 。
+blackhole 存儲引擎，實際不會存儲任何數據，如果開啟了 binlog 則會記錄 binlog 。
 
 {% highlight text %}
 mysql> CREATE TABLE test(i INT, c CHAR(10)) ENGINE = BLACKHOLE;
@@ -123,7 +123,7 @@ mysql> INSERT INTO test VALUES(1,'record one'),(2,'record two');
 mysql> SELECT * FROM test;
 {% endhighlight %}
 
-下面以 blackhole 作为示例创建我们的 foobar 。
+下面以 blackhole 作為示例創建我們的 foobar 。
 
 {% highlight text %}
 $ cd storage/ && cp blackhole foobar -rf && cd foobar
@@ -132,24 +132,24 @@ $ sed -e s/\<BLACKHOLE\>/FOOBAR/g -e s/\<blackhole\>/foobar/g ha_blackhole.cc > 
 $ cat CMakeLists.txt
 SET(FOOBAR_SOURCES  ha_foobar.cc ha_foobar.h)
 MYSQL_ADD_PLUGIN(foobar ${FOOBAR_SOURCES} STORAGE_ENGINE)
-$ cd ../../build && make                                 ← 第一次创建时
-$ cd ../../build/storage/foobar && make                  ← 重新修改之后，只需要在该目录make即可
-# make install                                           ← 安装需要root权限
+$ cd ../../build && make                                 ← 第一次創建時
+$ cd ../../build/storage/foobar && make                  ← 重新修改之後，只需要在該目錄make即可
+# make install                                           ← 安裝需要root權限
 {% endhighlight %}
 
-到此为止，可以像使用 blackhole 引擎一样使用 foobar 。
+到此為止，可以像使用 blackhole 引擎一樣使用 foobar 。
 
 
 
-## 实现
+## 實現
 
-在此介绍一下 MySQL 中，插件的源码实现机制。
+在此介紹一下 MySQL 中，插件的源碼實現機制。
 
-### 插件定义
+### 插件定義
 
-这里也就是一些插件的通用实现，plugin API 的实现在 sql/sql_plugin.cc 这个文件中，载入 plugin 使用 dl_open 动态加载共享库的方法打开 so 文件，获得需要执行的加载函数和卸载函数的指针。
+這裡也就是一些插件的通用實現，plugin API 的實現在 sql/sql_plugin.cc 這個文件中，載入 plugin 使用 dl_open 動態加載共享庫的方法打開 so 文件，獲得需要執行的加載函數和卸載函數的指針。
 
-插件类型及相关宏定义在 include/sql/plugin.h，包括了些常见的类型，例如：
+插件類型及相關宏定義在 include/sql/plugin.h，包括了些常見的類型，例如：
 
 {% highlight c %}
 #define MYSQL_UDF_PLUGIN                 0  /* User-defined function        */
@@ -163,11 +163,11 @@ $ cd ../../build/storage/foobar && make                  ← 重新修改之后�
 #define MYSQL_MAX_PLUGIN_TYPE_NUM        8  /* The number of plugin types   */
 {% endhighlight %}
 
-如果自己要实现一种新的插件，需要在这里添加一种新的插件类型。
+如果自己要實現一種新的插件，需要在這裡添加一種新的插件類型。
 
-使用预编译宏和函数指针来实现插件，通过 mysql_declare_plugin, mysql_declare_plugin_end 两个宏来定义一个插件，其中包含了一些常见的变量，而实际最终定义的是一个 struct st_mysql_plugin 结构体。
+使用預編譯宏和函數指針來實現插件，通過 mysql_declare_plugin, mysql_declare_plugin_end 兩個宏來定義一個插件，其中包含了一些常見的變量，而實際最終定義的是一個 struct st_mysql_plugin 結構體。
 
-其中动态加载和静态加载会对应不同的宏定义，下面以动态加载举例。
+其中動態加載和靜態加載會對應不同的宏定義，下面以動態加載舉例。
 
 {% highlight c %}
 #define mysql_declare_plugin(NAME) \
@@ -188,22 +188,22 @@ struct st_mysql_plugin _mysql_plugin_declarations_[]= {
 
 struct st_mysql_plugin
 {
-    int type;                    // 插件类型，这里填MYSQL_DAEMON_PLUGIN 即可
-    void *info;                  // 插件类型描述符，对于daemon类来说没用，指向一个常量即可
-    const char *name;            // 插件名，这个就是前面的install命令里的plugin_name
-    const char *author;          // 插件作者，长度可以任意，但是mysql只使用前64个字符
-    const char *descr;           // 插件描述，可以任意长
+    int type;                    // 插件類型，這裡填MYSQL_DAEMON_PLUGIN 即可
+    void *info;                  // 插件類型描述符，對於daemon類來說沒用，指向一個常量即可
+    const char *name;            // 插件名，這個就是前面的install命令裡的plugin_name
+    const char *author;          // 插件作者，長度可以任意，但是mysql只使用前64個字符
+    const char *descr;           // 插件描述，可以任意長
     int license;                 // PLUGIN_LICENSE_GPL
-    int (*init)(void);           // install或启动时调用的函数，0-success，1-failure
-    int (*deinit)(void);         // uninstall或关闭时调用的函数
-    unsigned int version;        // 插件版本，随意
-    struct st_mysql_show_var     // 指向的show_var，可为NULL
-    struct st_mysql_sys_var      // 指向的sys_var，可为NULL
+    int (*init)(void);           // install或啟動時調用的函數，0-success，1-failure
+    int (*deinit)(void);         // uninstall或關閉時調用的函數
+    unsigned int version;        // 插件版本，隨意
+    struct st_mysql_show_var     // 指向的show_var，可為NULL
+    struct st_mysql_sys_var      // 指向的sys_var，可為NULL
     void * __reserved1;          // 保留字段
 };
 {% endhighlight %}
 
-假设定义简单的插件 foobar ，以及其扩展后的结构，实际上定义了三个变量，分别为： \_mysql_plugin_interface_version_, \_mysql_sizeof_struct_st_plugin_, \_mysql_plugin_declarations_[]。
+假設定義簡單的插件 foobar ，以及其擴展後的結構，實際上定義了三個變量，分別為： \_mysql_plugin_interface_version_, \_mysql_sizeof_struct_st_plugin_, \_mysql_plugin_declarations_[]。
 
 {% highlight c %}
 mysql_declare_plugin(foobar)
@@ -219,11 +219,11 @@ struct st_mysql_plugin _mysql_plugin_declarations_[]= {
 { ... },{0,0,0,0,0,0,0,0,0,0,0,0,0}};
 {% endhighlight %}
 
-上述展开的是动态加载，如果是静态加载则每个变量会带上插件的名称，个人感觉动态加载不需要用名称去区分。
+上述展開的是動態加載，如果是靜態加載則每個變量會帶上插件的名稱，個人感覺動態加載不需要用名稱去區分。
 
-### 加载过程
+### 加載過程
 
-在 MySQL 的主函数中，会通过 plugin_init()@sql/sql_plugin.cc 对插件进行初始化，该函数是所有静态链接的初始化入口，动态加载应该是在 install 时加载。
+在 MySQL 的主函數中，會通過 plugin_init()@sql/sql_plugin.cc 對插件進行初始化，該函數是所有靜態鏈接的初始化入口，動態加載應該是在 install 時加載。
 
 {% highlight text %}
 mysqld_main()
@@ -234,34 +234,34 @@ mysqld_main()
          |-innobase_init()
 {% endhighlight %}
 
-插件的初始化过程为。
+插件的初始化過程為。
 
 {% highlight c %}
 int plugin_init(int *argc, char **argv, int flags) {
     ... ...
-    init_alloc_root(...);                // 初始化内存分配pool
-    my_hash_init(...);                   // hash结构初始化
-    my_init_dynamic_array(...);          // 初始化运行时plugin数组，plugin_dl_array用来保存动态加载plugin，
-                                         // plugin_array保存静态链接plugin。而且最多各自能有16个plugin。
+    init_alloc_root(...);                // 初始化內存分配pool
+    my_hash_init(...);                   // hash結構初始化
+    my_init_dynamic_array(...);          // 初始化運行時plugin數組，plugin_dl_array用來保存動態加載plugin，
+                                         // plugin_array保存靜態鏈接plugin。而且最多各自能有16個plugin。
 
-   // 初始化静态链接plugin
+   // 初始化靜態鏈接plugin
    for (builtins= mysqld_builtins; *builtins; builtins++) {
-      // 每一个plugin还可以有多个子plugin，参见见面的plugin声明
+      // 每一個plugin還可以有多個子plugin，參見見面的plugin聲明
       for (plugin= *builtins; plugin->info; plugin++) {
-         register_builtin(plugin, &tmp, &plugin_ptr); // 将plugin放到plugin_array和plugin_hash中
-         // 这个时候只初始化csv或者myisam plugin。
-         // 初始化plugin，调用初始化函数，将插件状态变量加入到状态变量列表中等操作
+         register_builtin(plugin, &tmp, &plugin_ptr); // 將plugin放到plugin_array和plugin_hash中
+         // 這個時候只初始化csv或者myisam plugin。
+         // 初始化plugin，調用初始化函數，將插件狀態變量加入到狀態變量列表中等操作
          plugin_initialize(plugin_ptr);
       }
    }
 
-   // 根据用户选项初始化动态加载plugin
+   // 根據用戶選項初始化動態加載plugin
    if (!(flags & PLUGIN_INIT_SKIP_DYNAMIC_LOADING)) {
       if (opt_plugin_load)
-         // 根据配置加载制定的plugin，包括找到dll、加载、寻找符号并设置plugin结构
+         // 根據配置加載制定的plugin，包括找到dll、加載、尋找符號並設置plugin結構
          plugin_load_list(&tmp_root, argc, argv, opt_plugin_load);
       if (!(flags & PLUGIN_INIT_SKIP_PLUGIN_TABLE))
-         // 加载系统plugin table中的plugin
+         // 加載系統plugin table中的plugin
          plugin_load(&tmp_root, argc, argv);
    }
 
@@ -279,17 +279,17 @@ int plugin_init(int *argc, char **argv, int flags) {
 }
 {% endhighlight %}
 
-这个函数执行结束以后，在 plugin_array、plugin_dl_array、plugin_hash 中保存了当前加载了的所有的 plugin，到此插件的初始化结束。
+這個函數執行結束以後，在 plugin_array、plugin_dl_array、plugin_hash 中保存了當前加載了的所有的 plugin，到此插件的初始化結束。
 
-接下来，我们到 plugin_initialize() 函数中查看相应的内容，也就是插件初始化的执行流程。
+接下來，我們到 plugin_initialize() 函數中查看相應的內容，也就是插件初始化的執行流程。
 
 #### plugin_initialize()
 
-在该函数中，会调用每个 plugin 自己的 init() 函数，而且对于各种不同类型的 plugin 其初始化函数的参数也不一样，这是通过一个全局的 plugin_type_initialize() 间接层来实现的。
+在該函數中，會調用每個 plugin 自己的 init() 函數，而且對於各種不同類型的 plugin 其初始化函數的參數也不一樣，這是通過一個全局的 plugin_type_initialize() 間接層來實現的。
 
-该数组对每种类型定义了一个函数，比如对于 storage plugin 对应的是 ha_initialize_handlerton()，对于 information scheme 对应的是 initialize_schema_table()，然后在这些函数中再调用 plugin 的初始化函数。
+該數組對每種類型定義了一個函數，比如對於 storage plugin 對應的是 ha_initialize_handlerton()，對於 information scheme 對應的是 initialize_schema_table()，然後在這些函數中再調用 plugin 的初始化函數。
 
-实际上，对于其它类型的 plugin，如果没有定义这个中间层初始化函数，那么就会直接调用了插件的初始化函数。
+實際上，對於其它類型的 plugin，如果沒有定義這個中間層初始化函數，那麼就會直接調用了插件的初始化函數。
 
 {% highlight c %}
 static int plugin_initialize(MEM_ROOT *tmp_root, struct st_plugin_int *plugin,
@@ -365,14 +365,14 @@ err:
 }
 {% endhighlight %}
 
-代码的处理逻辑可以很容易从上述的代码中查看。另外，需要注意的是关于强制初始化的插件。
+代碼的處理邏輯可以很容易從上述的代碼中查看。另外，需要注意的是關於強制初始化的插件。
 
-实际上也就是在初始化时有一个 mysql_mandatory_plugins[]，该数组实际在 cmake/plugin.cmake 或者 sql/sql_builtin.cc.in 中定义，其中必须包含的插件通常有但不仅限于 binlog、mysql_password。
+實際上也就是在初始化時有一個 mysql_mandatory_plugins[]，該數組實際在 cmake/plugin.cmake 或者 sql/sql_builtin.cc.in 中定義，其中必須包含的插件通常有但不僅限於 binlog、mysql_password。
 
 
 
 <!--
-每一个插件都需要实现一个 init 函数，该函数实在插件安装的时候调用，该函数的功能是：新建一个functions_t的对象，并将对象中的func1和func2分别指向插件中的功能函数。类似下面的过程：
+每一個插件都需要實現一個 init 函數，該函數實在插件安裝的時候調用，該函數的功能是：新建一個functions_t的對象，並將對象中的func1和func2分別指向插件中的功能函數。類似下面的過程：
 
 plugin1_init(void *p)
 {
@@ -380,11 +380,11 @@ plugin1_init(void *p)
     p->func1= function1;
     p->func2 = function2;
 }
-插件安装完成之后MySQL上层运行FUNC1和FUNC2时就可以调用到插件中的功能函数function1和function2了。
+插件安裝完成之後MySQL上層運行FUNC1和FUNC2時就可以調用到插件中的功能函數function1和function2了。
 
-插件的安装过程中调用的函数是plugin_init，该函数在sql_plugin中实现，这个函数最终会调用插件模块内实现的初始化函数。
+插件的安裝過程中調用的函數是plugin_init，該函數在sql_plugin中實現，這個函數最終會調用插件模塊內實現的初始化函數。
 
-每一个插件模块中都要实现一个通用的插件接口，以半同步插件的master为例，该接口的格式如下所示：
+每一個插件模塊中都要實現一個通用的插件接口，以半同步插件的master為例，該接口的格式如下所示：
 
 mysql_declare_plugin(semi_sync_master)
 {
@@ -404,7 +404,7 @@ mysql_declare_plugin(semi_sync_master)
 }
 mysql_declare_plugin_end;
 
-其中，semi_sync_master_plugin_init是该插件的init函数，在插件安装的时候调用。相反semi_sync_master_plugin_deinit在插件卸载的时候调用，可以实现资源的释放等操作。semi_sync_master_status_vars和semi_sync_master_system_vars中分别定义了插件中所使用的状态和变量，他们都有固定的格式。
+其中，semi_sync_master_plugin_init是該插件的init函數，在插件安裝的時候調用。相反semi_sync_master_plugin_deinit在插件卸載的時候調用，可以實現資源的釋放等操作。semi_sync_master_status_vars和semi_sync_master_system_vars中分別定義了插件中所使用的狀態和變量，他們都有固定的格式。
 -->
 
 
@@ -412,13 +412,13 @@ mysql_declare_plugin_end;
 
 
 
-## 参考
+## 參考
 
-首先是官方文档，可以参考 [MySQL Internals Manual - Writing a Custom Storage Engine](https://dev.mysql.com/doc/internals/en/custom-engine.html)，关于存储引擎还可以参考 [MySQL中文全文索引插件 mysqlcft 1.0.0](http://zyan.cc/post/356/)，也可以参考 [本地文档](/reference/mysql/mysqlcft.mht) 。
+首先是官方文檔，可以參考 [MySQL Internals Manual - Writing a Custom Storage Engine](https://dev.mysql.com/doc/internals/en/custom-engine.html)，關於存儲引擎還可以參考 [MySQL中文全文索引插件 mysqlcft 1.0.0](http://zyan.cc/post/356/)，也可以參考 [本地文檔](/reference/mysql/mysqlcft.mht) 。
 
-有本很经典的书，比较详细介绍了一些 MySQL 插件的实现方法，可以查看 [MySQl 5.1 Plugin Development](http://mofedogroup.synthasite.com/resources/MySQL%205.1%20Plugin%20Development.pdf) 或者 [本地文档](/reference/mysql/MySQL 5.1 Plugin Development(Sergei & Andrew).pdf) 。
+有本很經典的書，比較詳細介紹了一些 MySQL 插件的實現方法，可以查看 [MySQl 5.1 Plugin Development](http://mofedogroup.synthasite.com/resources/MySQL%205.1%20Plugin%20Development.pdf) 或者 [本地文檔](/reference/mysql/MySQL 5.1 Plugin Development(Sergei & Andrew).pdf) 。
 
-在如上文章中，介绍了一个 blackhole 引擎，关于其应用可以参考 [MySQL replication using blackhole engine](http://jroller.com/dschneller/entry/mysql_replication_using_blackhole_engine)，一个关于 blackhole 的主备复制应用，或者参考 [本地文档](/reference/mysql/mysql_replication_using_blackhole_engine.mht)。
+在如上文章中，介紹了一個 blackhole 引擎，關於其應用可以參考 [MySQL replication using blackhole engine](http://jroller.com/dschneller/entry/mysql_replication_using_blackhole_engine)，一個關於 blackhole 的主備複製應用，或者參考 [本地文檔](/reference/mysql/mysql_replication_using_blackhole_engine.mht)。
 
 {% highlight text %}
 {% endhighlight %}

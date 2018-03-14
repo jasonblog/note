@@ -1,5 +1,5 @@
 ---
-title: Python 与 Curses
+title: Python 與 Curses
 layout: post
 comments: true
 language: chinese
@@ -12,9 +12,9 @@ description:
 
 
 <!--
-如果你有许多的窗口对象(都需要刷新), 为了避免不必要的闪烁, 你可以先对各个需要刷新的窗口调用 noutrefresh(), 它将升级内在的数据结构使之匹配你所要的内容, 然后统一调用 doupdate() 来刷新屏幕.
+如果你有許多的窗口對象(都需要刷新), 為了避免不必要的閃爍, 你可以先對各個需要刷新的窗口調用 noutrefresh(), 它將升級內在的數據結構使之匹配你所要的內容, 然後統一調用 doupdate() 來刷新屏幕.
 
-通常，如果有 6 个参数 (pad 的 refresh 函数)，其参数及其含义如下。
+通常，如果有 6 個參數 (pad 的 refresh 函數)，其參數及其含義如下。
 
 window.refresh([pminrow, pmincol, sminrow, smincol, smaxrow, smaxcol])
 
@@ -29,7 +29,7 @@ The lower right-hand corner of the rectangle to be displayed in the pad is calcu
 
 ## curses
 
-在 C 提供的库中，除了提供标准库之外，还包括了如下的内容。
+在 C 提供的庫中，除了提供標準庫之外，還包括瞭如下的內容。
 
 {% highlight text %}
 /usr/lib64/libform.so.5
@@ -46,11 +46,11 @@ The lower right-hand corner of the rectangle to be displayed in the pad is calcu
 /usr/lib64/libtinfo.so.5
 {% endhighlight %}
 
-除了上述的库之外，可以从 [github mirro](https://github.com/mirror/ncurses) 下载代码，其中包含了很多的测试或者示例代码。
+除了上述的庫之外，可以從 [github mirro](https://github.com/mirror/ncurses) 下載代碼，其中包含了很多的測試或者示例代碼。
 
 ### curses.panel
 
-如下是一个简单的示例，会绘制两个 panel ，而且第二个 panel 会自动移动。
+如下是一個簡單的示例，會繪製兩個 panel ，而且第二個 panel 會自動移動。
 
 {% highlight python %}
 from time import sleep
@@ -92,13 +92,13 @@ if __name__ == '__main__':
     curses.wrapper(test)
 {% endhighlight %}
 
-## 异步程序
+## 異步程序
 
-默认来说，当从键盘获取输入时，会阻塞读取，如下一步步介绍异步实现调用。
+默認來說，當從鍵盤獲取輸入時，會阻塞讀取，如下一步步介紹異步實現調用。
 
 ### 同步程序
 
-如下是一个同步程序。
+如下是一個同步程序。
 
 {% highlight c %}
 #include <stdlib.h>
@@ -130,11 +130,11 @@ int main(void)
 }
 {% endhighlight %}
 
-上述程序会一直阻塞在 `getch()` 函数中，当输入 `q` 后会退出 `while` 循环，然后才执行 `addstr()` 函数。如果要实现异步调用，可以通过 A) 设置输入`O_ASYNC`位；B) 使用 `aio_read()` 实现。
+上述程序會一直阻塞在 `getch()` 函數中，當輸入 `q` 後會退出 `while` 循環，然後才執行 `addstr()` 函數。如果要實現異步調用，可以通過 A) 設置輸入`O_ASYNC`位；B) 使用 `aio_read()` 實現。
 
 ### O_ASYNC
 
-接下来，看看如何通过设置 `O_ASYNC` 标志位来实现异步读取。
+接下來，看看如何通過設置 `O_ASYNC` 標誌位來實現異步讀取。
 
 {% highlight c %}
 #include <fcntl.h>
@@ -164,10 +164,10 @@ int main(void)
   clear();
 
   int fd_flags;
-  fcntl(0, F_SETOWN, getpid());            // 当输入就绪的时候发送信号
+  fcntl(0, F_SETOWN, getpid());            // 當輸入就緒的時候發送信號
   fd_flags = fcntl(0, F_GETFL);
-  fcntl(0, F_SETFL, (fd_flags | O_ASYNC)); // 设置输入为O_ASYNC
-  signal(SIGIO, on_input);                 // IO信号回调函数
+  fcntl(0, F_SETFL, (fd_flags | O_ASYNC)); // 設置輸入為O_ASYNC
+  signal(SIGIO, on_input);                 // IO信號回調函數
 
   while(1){
     move(20, 22);
@@ -181,16 +181,16 @@ int main(void)
 }
 {% endhighlight %}
 
-上面这个例子可以看到，会先输出 `do other thing` 字符串，也就是运行 `addstr()` 函数，同时在你输入字符程序可以通过信号处理函数 `on_input` 来接受输入进行响应，从而达到了异步的效果。
+上面這個例子可以看到，會先輸出 `do other thing` 字符串，也就是運行 `addstr()` 函數，同時在你輸入字符程序可以通過信號處理函數 `on_input` 來接受輸入進行響應，從而達到了異步的效果。
 
 ### aio_read()
 
-异步输入的第二种方法是通过 `aio_read()` 实现，相比来说更加灵活，但是设置起来也比较复杂，其设置步骤如下：
-  1. 设置信号处理函数，接受用户输入；
-  2. 设置 `struct aiocb` 中的变量指明等待什么类型的输入，当输入的时候产生什么信号；
-  3. 将 `struct aiocb` 传递给 `aio_read()` 来递交读入请求。
+異步輸入的第二種方法是通過 `aio_read()` 實現，相比來說更加靈活，但是設置起來也比較複雜，其設置步驟如下：
+  1. 設置信號處理函數，接受用戶輸入；
+  2. 設置 `struct aiocb` 中的變量指明等待什麼類型的輸入，當輸入的時候產生什麼信號；
+  3. 將 `struct aiocb` 傳遞給 `aio_read()` 來遞交讀入請求。
 
-其中 `struct aiocb` 定义如下:
+其中 `struct aiocb` 定義如下:
 
 {% highlight c %}
 struct aiocb {
@@ -217,7 +217,7 @@ struct sigevent {
 };
 {% endhighlight %}
 
-下面是一个简单的例子:
+下面是一個簡單的例子:
 
 {% highlight c %}
 #include <aio.h>
@@ -259,11 +259,11 @@ int main(void)
   static char input[1];
   kbcbuf.aio_fildes = 0;
   kbcbuf.aio_offset = 0;
-  kbcbuf.aio_buf = input; // 设置接受输入的buf
-  kbcbuf.aio_nbytes = 1;  // 设置接受输入的字节大小
-  // 设置处理输入的方法，SIGE_SIGNAL代表通过发送信号来处理
+  kbcbuf.aio_buf = input; // 設置接受輸入的buf
+  kbcbuf.aio_nbytes = 1;  // 設置接受輸入的字節大小
+  // 設置處理輸入的方法，SIGE_SIGNAL代表通過發送信號來處理
   kbcbuf.aio_sigevent.sigev_notify = SIGEV_SIGNAL;
-  // 设置要发送的信号
+  // 設置要發送的信號
   kbcbuf.aio_sigevent.sigev_signo = SIGIO;
 
   aio_read(&kbcbuf);
@@ -280,23 +280,23 @@ int main(void)
 }
 {% endhighlight %}
 
-可以通过 `gcc -o main main.c -Wall -lncurses -lrt` 编译。
+可以通過 `gcc -o main main.c -Wall -lncurses -lrt` 編譯。
 
-### 异步函数
+### 異步函數
 
-实际上，也可以直接使用类似 select()、poll()、epoll() 函数。
+實際上，也可以直接使用類似 select()、poll()、epoll() 函數。
 
 
-## 参考
+## 參考
 
-可以查看下官方的介绍文档 [Curses Programming with Python](https://docs.python.org/2/howto/curses.html)，以及 Python 中的 curses 模块，可查看 [Terminal handling for character-cell displays](https://docs.python.org/2/library/curses.html) 。
+可以查看下官方的介紹文檔 [Curses Programming with Python](https://docs.python.org/2/howto/curses.html)，以及 Python 中的 curses 模塊，可查看 [Terminal handling for character-cell displays](https://docs.python.org/2/library/curses.html) 。
 
 <!--
 Terminal handling for character-cell displays
 https://docs.python.org/dev/library/curses.html
 -->
 
-关于 C 语言中 ncurses 的相关内容可以参考 [NCURSES Programming HOWTO](http://tldp.org/HOWTO/NCURSES-Programming-HOWTO/) 文档，以及官方网站 [www.gnu.org](https://www.gnu.org/software/ncurses/) 中的介绍。
+關於 C 語言中 ncurses 的相關內容可以參考 [NCURSES Programming HOWTO](http://tldp.org/HOWTO/NCURSES-Programming-HOWTO/) 文檔，以及官方網站 [www.gnu.org](https://www.gnu.org/software/ncurses/) 中的介紹。
 
 <!--
 A panel stack extension for curses
@@ -312,7 +312,7 @@ http://www.cnblogs.com/nzhl/p/5603600.html
 
 libev+ncurse
 https://lists.gnu.org/archive/html/bug-ncurses/2015-06/msg00046.html
-ncurse贪吃蛇
+ncurse貪吃蛇
 http://www.cnblogs.com/eledim/p/4857557.html
 
 http://www.cnblogs.com/starof/p/4703820.html
@@ -340,7 +340,7 @@ http://keyvanfatehi.com/2011/08/02/Asynchronous-c-programs-an-event-loop-and-ncu
 BSD Games is a collection of the classic text based games distributed with *BSD
 http://wiki.linuxquestions.org/wiki/BSD_games
 
-有趣！10个你不得不知的Linux终端游戏 
+有趣！10個你不得不知的Linux終端遊戲 
 http://www.freebuf.com/articles/others-articles/124743.html
 -->
 

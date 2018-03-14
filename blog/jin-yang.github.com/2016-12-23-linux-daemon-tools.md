@@ -1,18 +1,18 @@
 ---
-title: Linux 后台服务管理
+title: Linux 後臺服務管理
 layout: post
 comments: true
 language: chinese
 category: [linux,misc]
-keywords: 服务管理,monit,supervisor,goreman
-description: 在 Linux 中，对于一个后台服务，如果要可靠地在后台运行，最好能监控进程状态，在意外结束时能自动重启。常见的功能全面的主流工具主要有 monit(C)、supervisor(Python)、goreman(Go)，其中 goreman 是对 Ruby 下广泛使用的 foreman 工具，使用 golang 的重写。在此，仅介绍下在 Linux 中如何使用。
+keywords: 服務管理,monit,supervisor,goreman
+description: 在 Linux 中，對於一個後臺服務，如果要可靠地在後臺運行，最好能監控進程狀態，在意外結束時能自動重啟。常見的功能全面的主流工具主要有 monit(C)、supervisor(Python)、goreman(Go)，其中 goreman 是對 Ruby 下廣泛使用的 foreman 工具，使用 golang 的重寫。在此，僅介紹下在 Linux 中如何使用。
 ---
 
-在 Linux 中，对于一个后台服务，如果要可靠地在后台运行，最好能监控进程状态，在意外结束时能自动重启。
+在 Linux 中，對於一個後臺服務，如果要可靠地在後臺運行，最好能監控進程狀態，在意外結束時能自動重啟。
 
-常见的功能全面的主流工具主要有 monit(C)、supervisor(Python)、goreman(Go)，其中 goreman 是对 Ruby 下广泛使用的 foreman 工具，使用 golang 的重写。
+常見的功能全面的主流工具主要有 monit(C)、supervisor(Python)、goreman(Go)，其中 goreman 是對 Ruby 下廣泛使用的 foreman 工具，使用 golang 的重寫。
 
-在此，仅介绍下在 Linux 中如何使用。
+在此，僅介紹下在 Linux 中如何使用。
 
 <!-- more -->
 
@@ -20,37 +20,37 @@ description: 在 Linux 中，对于一个后台服务，如果要可靠地在后
 
 ![monit logo]({{ site.url }}/images/linux/monit-logo.png "monit logo"){: .pull-center width="40%" }
 
-[Monit](http://mmonit.com/monit/) 是一款功能非常丰富的进程、文件、目录和设备的监测软件，通过 C 语言开发，是一款轻量级的后台管理服务，适用于 *nix 平台。
+[Monit](http://mmonit.com/monit/) 是一款功能非常豐富的進程、文件、目錄和設備的監測軟件，通過 C 語言開發，是一款輕量級的後臺管理服務，適用於 *nix 平臺。
 
-它可以自动修复那些已经停止运作的程序，特使适合处理那些由于多种原因导致的软件错误，同时 Monit 包含一个内嵌的 HTTP(S) Web 界面，你可以使用浏览器方便地查看 Monit 所监视的服务器。
+它可以自動修復那些已經停止運作的程序，特使適合處理那些由於多種原因導致的軟件錯誤，同時 Monit 包含一個內嵌的 HTTP(S) Web 界面，你可以使用瀏覽器方便地查看 Monit 所監視的服務器。
 
-在 CentOS 中，可以直接通过如下命令安装。
+在 CentOS 中，可以直接通過如下命令安裝。
 
 {% highlight text %}
 # yum --enablerepo=epel install monit
 {% endhighlight %}
 
-如果启动时不使用 arguments 参数，则会直接作为服务进程启动，否则尝试链接 127.0.0.1:2812 并执行相应的命令；简单列举下 monit 启动是相关的命令，以及参数。
+如果啟動時不使用 arguments 參數，則會直接作為服務進程啟動，否則嘗試鏈接 127.0.0.1:2812 並執行相應的命令；簡單列舉下 monit 啟動是相關的命令，以及參數。
 
 {% highlight text %}
 monit [options] {arguments}
 
-常用参数：
-  -I 前端执行，默认会自动切换为后台执行；
-  -t 对配置文件执行参数检查；
+常用參數：
+  -I 前端執行，默認會自動切換為後臺執行；
+  -t 對配置文件執行參數檢查；
   -c 指定配置文件；
   -g
-  -i 查看monit的ID，第一次会自动生成并保存到~/.monit.id文件中；
+  -i 查看monit的ID，第一次會自動生成並保存到~/.monit.id文件中；
   -r 重新生成ID；
-  -H [file] 生成指定文件的SHA1和MD5校验值；
+  -H [file] 生成指定文件的SHA1和MD5校驗值；
 
-常用参数：
+常用參數：
   status [name]
-    查看某个服务的状态，如果不使用name，则会打印所有服务状态；
+    查看某個服務的狀態，如果不使用name，則會打印所有服務狀態；
   summary [name]
-    打印概览；
+    打印概覽；
   quit
-    退出服务；
+    退出服務；
 
 常用命令：
   monit -I -c monitrc
@@ -103,9 +103,9 @@ monit [options] {arguments}
 
 ### 配置
 
-#### 启动内置httpd服务
+#### 啟動內置httpd服務
 
-其中 status、summary、report 指令，需要启动 httpd 服务才可以，否则无法建立链接。
+其中 status、summary、report 指令，需要啟動 httpd 服務才可以，否則無法建立鏈接。
 
 {% highlight text %}
 set httpd port 2812 and
@@ -116,20 +116,20 @@ set httpd port 2812 and
 
 
 <!--
-### 源码编译
+### 源碼編譯
 
 {% highlight text %}
 ./configure
-man -l monit.1 查看帮助信息
+man -l monit.1 查看幫助信息
 {% endhighlight %}
 
-所有的服务都保存在 servicelist 链表中，会在 p.y 做语法解析时进行初始化。
+所有的服務都保存在 servicelist 鏈表中，會在 p.y 做語法解析時進行初始化。
 
 {% highlight text %}
 do_action()
- |-do_default()      启动服务
+ |-do_default()      啟動服務
    |
-   |                 在while循环中执行
+   |                 在while循環中執行
    |-validate()
      |-Event_queue_process()
 {% endhighlight %}
@@ -140,9 +140,9 @@ do_action()
 ## Goreman
 -->
 
-## 参考
+## 參考
 
-[Monit Offical](http://mmonit.com/monit/)，可以查看官方文档 [Monit Reference](https://mmonit.com/monit/documentation/monit.html)，也可以直接查看 man 。
+[Monit Offical](http://mmonit.com/monit/)，可以查看官方文檔 [Monit Reference](https://mmonit.com/monit/documentation/monit.html)，也可以直接查看 man 。
 
 {% highlight text %}
 {% endhighlight %}

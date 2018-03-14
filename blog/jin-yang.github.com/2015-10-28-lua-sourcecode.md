@@ -1,80 +1,80 @@
 ---
-title: Lua 源码解析
+title: Lua 源碼解析
 layout: post
 comments: true
 language: chinese
 category: [program, linux]
-keywords: lua,源码解析
-description: Lua 类似于 Java、Python，实际执行的都不是机器码，而是运行在虚拟机上的，而虚拟机则屏蔽了底层不同的硬件，从而使得这些程序可以跨平台执行，包括不同的操作系统以及不同的硬件平台。相比而言，Lua 的代码十分简单，源码总共才 2W 行左右，但是却实现了很多不错的特性。接下来，我们看看 Lua 具体是如何工作的。
+keywords: lua,源碼解析
+description: Lua 類似於 Java、Python，實際執行的都不是機器碼，而是運行在虛擬機上的，而虛擬機則屏蔽了底層不同的硬件，從而使得這些程序可以跨平臺執行，包括不同的操作系統以及不同的硬件平臺。相比而言，Lua 的代碼十分簡單，源碼總共才 2W 行左右，但是卻實現了很多不錯的特性。接下來，我們看看 Lua 具體是如何工作的。
 ---
 
-Lua 类似于 Java、Python，实际执行的都不是机器码，而是运行在虚拟机上的，而虚拟机则屏蔽了底层不同的硬件，从而使得这些程序可以跨平台执行，包括不同的操作系统以及不同的硬件平台。
+Lua 類似於 Java、Python，實際執行的都不是機器碼，而是運行在虛擬機上的，而虛擬機則屏蔽了底層不同的硬件，從而使得這些程序可以跨平臺執行，包括不同的操作系統以及不同的硬件平臺。
 
-相比而言，Lua 的代码十分简单，源码总共才 2W 行左右，但是却实现了很多不错的特性。
+相比而言，Lua 的代碼十分簡單，源碼總共才 2W 行左右，但是卻實現了很多不錯的特性。
 
-接下来，我们看看 Lua 具体是如何工作的。
+接下來，我們看看 Lua 具體是如何工作的。
 
 <!-- more -->
 
-## 简介
+## 簡介
 
-Lua 的代码同样可以被编译，不过与 C/C++ 不同的是，是将源程序编译成为字节码，然后交由虚拟机解释执行。在 Lua 中，每个函数编译器都将创建一个原型(prototype)，它由一组指令及其使用到的常量组成。
+Lua 的代碼同樣可以被編譯，不過與 C/C++ 不同的是，是將源程序編譯成為字節碼，然後交由虛擬機解釋執行。在 Lua 中，每個函數編譯器都將創建一個原型(prototype)，它由一組指令及其使用到的常量組成。
 
-最初的 Lua 虚拟机是基于栈的，到 1993 年，Lua5.0 版本，采用了基于寄存器的虚拟机，使得 Lua 的解释效率得到提升。
+最初的 Lua 虛擬機是基於棧的，到 1993 年，Lua5.0 版本，採用了基於寄存器的虛擬機，使得 Lua 的解釋效率得到提升。
 
-相比来说，Lua 的代码十分简单，源码可以直接从 [www.lua.org](http://www.lua.org/download.html) 上下载，其中有关虚拟机相关的内容可以参考 lua.c 和 luac.c 的实现。其中 luac 实现了如何编译 lua 程序，而 lua 则包括了运行的虚拟机。
+相比來說，Lua 的代碼十分簡單，源碼可以直接從 [www.lua.org](http://www.lua.org/download.html) 上下載，其中有關虛擬機相關的內容可以參考 lua.c 和 luac.c 的實現。其中 luac 實現瞭如何編譯 lua 程序，而 lua 則包括了運行的虛擬機。
 
-## 虚拟机
+## 虛擬機
 
-Lua 一直把虚拟机执行代码的效率作为一个非常重要的设计目标，而采用什么样的指令系统的对于虚拟机的执行效率来说至关重要，通常根据指令获取操作数的方式不同，可以把虚拟机分为两种：基于栈的虚拟机 (Stack Based VM) 以及基于寄存器的虚拟机 (Register Based VM)。
+Lua 一直把虛擬機執行代碼的效率作為一個非常重要的設計目標，而採用什麼樣的指令系統的對於虛擬機的執行效率來說至關重要，通常根據指令獲取操作數的方式不同，可以把虛擬機分為兩種：基於棧的虛擬機 (Stack Based VM) 以及基於寄存器的虛擬機 (Register Based VM)。
 
 ### Stack based VM
 
-目前，大多数的虚拟机都采用传统的 Stack Based VM，如 JVM、Python，该模型的指令一般都是在当前 stack 中获取和保存操作数。例如，一个简单的加法赋值运算 a=b+c，对于该模型，一般会被转化成如下的指令。
+目前，大多數的虛擬機都採用傳統的 Stack Based VM，如 JVM、Python，該模型的指令一般都是在當前 stack 中獲取和保存操作數。例如，一個簡單的加法賦值運算 a=b+c，對於該模型，一般會被轉化成如下的指令。
 
 {% highlight text %}
-push b;     // 将变量b的值压入stack
-push c;     // 将变量c的值压入stack
-add;        // 将stack顶部的两个值弹出后相加，然后将结果压入stack顶
-mov a;      // 将stack顶部结果放到a中
+push b;     // 將變量b的值壓入stack
+push c;     // 將變量c的值壓入stack
+add;        // 將stack頂部的兩個值彈出後相加，然後將結果壓入stack頂
+mov a;      // 將stack頂部結果放到a中
 {% endhighlight %}
 
-由于 Stack Based VM 的指令都是基于当前 stack 来查找操作数的，这就相当于所有操作数的存储位置都是运行期决定的，在编译器的代码生成阶段不需要额外为在哪里存储操作数费心，所以 stack based 的编译器实现起来相对比较简单直接，也正因为这个原因，每条指令占用的存储空间也比较小。
+由於 Stack Based VM 的指令都是基於當前 stack 來查找操作數的，這就相當於所有操作數的存儲位置都是運行期決定的，在編譯器的代碼生成階段不需要額外為在哪裡存儲操作數費心，所以 stack based 的編譯器實現起來相對比較簡單直接，也正因為這個原因，每條指令佔用的存儲空間也比較小。
 
-但是，对于一个简单的运算，stack based vm 会使用过多的指令组合来完成，这样就增加了整体指令集合的长度。vm 会使用同样多的迭代次数来执行这些指令，这对于效率来说会有很大的影响。并且，由于操作数都要放到stack上面，使得移动这些操作数的内存复制大大增加，这也会影响到效率。
+但是，對於一個簡單的運算，stack based vm 會使用過多的指令組合來完成，這樣就增加了整體指令集合的長度。vm 會使用同樣多的迭代次數來執行這些指令，這對於效率來說會有很大的影響。並且，由於操作數都要放到stack上面，使得移動這些操作數的內存複製大大增加，這也會影響到效率。
 
 ### Register Based VM
 
-Lua 采用该模型，指令都是在已经分配好的寄存器中存取操作数，对于上面的运算，Register Based VM 一般会使用如下的指令。
+Lua 採用該模型，指令都是在已經分配好的寄存器中存取操作數，對於上面的運算，Register Based VM 一般會使用如下的指令。
 
 {% highlight text %}
-add a b c; // 将b与c对应的寄存器的值相加，将结果保存在a对应的寄存器中
+add a b c; // 將b與c對應的寄存器的值相加，將結果保存在a對應的寄存器中
 {% endhighlight %}
 
-Register Based VM 的指令可以直接对应标准的 3 地址指令，用一条指令完成了上面多条指令的计算工作，并且有效地减少了内存复制操作，这样的指令系统对于效率有很大的帮助。
+Register Based VM 的指令可以直接對應標準的 3 地址指令，用一條指令完成了上面多條指令的計算工作，並且有效地減少了內存複製操作，這樣的指令系統對於效率有很大的幫助。
 
-不过，在编译器设计上，就要在代码生成阶段对寄存器进行分配，采用图着色这样的算法，增加了实现的复杂度，并且每条指令所占用的存储空间也相应的增加了。
+不過，在編譯器設計上，就要在代碼生成階段對寄存器進行分配，採用圖著色這樣的算法，增加了實現的複雜度，並且每條指令所佔用的存儲空間也相應的增加了。
 
-接下来查看 lua 的实现细节。
-
-
+接下來查看 lua 的實現細節。
 
 
-## 类型定义
 
-Lua 是一种动态类型的语言 (dynamically typed language)，也就是说，在定义的变量中不包含类型的信息，只有相应的值才会包含类型信息。
 
-本类型有八种：nil、boolean、number、string、function、userdata、thread 和 table，在 src/lua.h 文件中定义，如 LUA_TSTRING、LUA_TFUNCTIOIN 等。
+## 類型定義
 
-需要注意的数据类型是 userdata，在内部实现分为了 LUA_TLIGHTUSERDATA 和 LUA_TUSERDATA，两者都对应 void* 指针，区别在于，前者是由 Lua 外部的使用者来完成，后者则是通过 Lua 内部来完成，也就是说前者是通过用户来维护其生命周期。
+Lua 是一種動態類型的語言 (dynamically typed language)，也就是說，在定義的變量中不包含類型的信息，只有相應的值才會包含類型信息。
 
-另外，Lua 支持垃圾回收，内部用一个宏 iscollectable() 标示哪些类型需要进行 gc 操作，包括 LUA_TSTRING 之后的数据类型，都需要进行 gc 操作。
+本類型有八種：nil、boolean、number、string、function、userdata、thread 和 table，在 src/lua.h 文件中定義，如 LUA_TSTRING、LUA_TFUNCTIOIN 等。
+
+需要注意的數據類型是 userdata，在內部實現分為了 LUA_TLIGHTUSERDATA 和 LUA_TUSERDATA，兩者都對應 void* 指針，區別在於，前者是由 Lua 外部的使用者來完成，後者則是通過 Lua 內部來完成，也就是說前者是通過用戶來維護其生命週期。
+
+另外，Lua 支持垃圾回收，內部用一個宏 iscollectable() 標示哪些類型需要進行 gc 操作，包括 LUA_TSTRING 之後的數據類型，都需要進行 gc 操作。
 
 {% highlight lua %}
 #define iscollectable(o)  (ttype(o) >= LUA_TSTRING)
 {% endhighlight %}
 
-需要 gc 的数据类型，都会有一个 CommonHeader 成员，并且这个成员在结构体定义的最开始部分。在 Lua 中，值通过 TValue 结构体来表示。
+需要 gc 的數據類型，都會有一個 CommonHeader 成員，並且這個成員在結構體定義的最開始部分。在 Lua 中，值通過 TValue 結構體來表示。
 
 {% highlight c %}
 typedef union Value {
@@ -93,15 +93,15 @@ typedef struct lua_TValue {
 } TValue;
 {% endhighlight %}
 
-在 Lua 中个被称为 Tagged Values，也就是包括了一个值以及其类型。在 Value 中，gc 表示需要垃圾回收的一些值，如 string、table 等；p 表示 light userdata，不会被 gc 的。
+在 Lua 中個被稱為 Tagged Values，也就是包括了一個值以及其類型。在 Value 中，gc 表示需要垃圾回收的一些值，如 string、table 等；p 表示 light userdata，不會被 gc 的。
 
-注意，由于 Value 采用了 union 类型，这里可能会导致空间的浪费，对于某些硬件是可以进行优化的。
+注意，由於 Value 採用了 union 類型，這裡可能會導致空間的浪費，對於某些硬件是可以進行優化的。
 
 ### Tables
 
-Table 是 Lua 中唯一表示数据结构的类型，其中的函数环境 (env)、元表 (metatable)、模块 (module) 和注册表 (registery) 等都是通过 table 表示。在 Lua-5.0 后，table 是以一种混合型数据结构来实现的，它包含一个哈希表部分和一个数组部分。
+Table 是 Lua 中唯一表示數據結構的類型，其中的函數環境 (env)、元表 (metatable)、模塊 (module) 和註冊表 (registery) 等都是通過 table 表示。在 Lua-5.0 後，table 是以一種混合型數據結構來實現的，它包含一個哈希表部分和一個數組部分。
 
-对于哈希部分，如果发生冲突则通过链表解决。
+對於哈希部分，如果發生衝突則通過鏈表解決。
 
 {% highlight c %}
 typedef union TKey {
@@ -131,11 +131,11 @@ typedef struct Table {
 
 {% endhighlight %}
 
-成员 array、sizearray 用于表示数组部分及其大小，node、lsizenode 表示哈希部分，不过需要注意的是，后者保存的是哈希表大小的幂次，而非真实大小，比如哈希表的大小为 2^N，则 lsizenode 的值是 N。
+成員 array、sizearray 用於表示數組部分及其大小，node、lsizenode 表示哈希部分，不過需要注意的是，後者保存的是哈希表大小的冪次，而非真實大小，比如哈希表的大小為 2^N，則 lsizenode 的值是 N。
 
 #### 新建
 
-table 也是可以进行垃圾回收的对象。
+table 也是可以進行垃圾回收的對象。
 
 {% highlight c %}
 Table *luaH_new (lua_State *L) {
@@ -150,11 +150,11 @@ Table *luaH_new (lua_State *L) {
 }
 {% endhighlight %}
 
-首先，所有可 GC 的对象均通过 luaC_newobj() 创建一个新的可回收对象，并把创建的对象放到 GC 链表中；然后，通过 setnodevector() 来初始化 table 哈希表部分，其初始大小为 1 且 node 指向一个静态全局变量 dummynode_ 而非 NULL，从而减少操作表时的判断操作。
+首先，所有可 GC 的對象均通過 luaC_newobj() 創建一個新的可回收對象，並把創建的對象放到 GC 鏈表中；然後，通過 setnodevector() 來初始化 table 哈希表部分，其初始大小為 1 且 node 指向一個靜態全局變量 dummynode_ 而非 NULL，從而減少操作表時的判斷操作。
 
 #### 查找
 
-实际上也就是对于 t[key] 操作所执行的过程。
+實際上也就是對於 t[key] 操作所執行的過程。
 
 {% highlight c %}
 const TValue *luaH_get (Table *t, const TValue *key) {
@@ -174,17 +174,17 @@ const TValue *luaH_get (Table *t, const TValue *key) {
 }
 {% endhighlight %}
 
-如上，根据不同的类型的下标，会进入不同的查询。
+如上，根據不同的類型的下標，會進入不同的查詢。
 
-对于字符串类型，通过 luaH_getstr() 先获得相应字符串在哈希表中的链表，然后遍历这个链表，采用内存地址比较字符串，若找到则返回相应的值，否则 nil 。
+對於字符串類型，通過 luaH_getstr() 先獲得相應字符串在哈希表中的鏈表，然後遍歷這個鏈表，採用內存地址比較字符串，若找到則返回相應的值，否則 nil 。
 
-如果是整型则调用 luaH_getint() 查找，如果 key 的值小于等于数组大小，则直接返回相应的值，否则去哈希表中去查找。
+如果是整型則調用 luaH_getint() 查找，如果 key 的值小於等於數組大小，則直接返回相應的值，否則去哈希表中去查找。
 
-对应其他类型，统一调用 getgeneric()，也就是计算 hash 值并在链表中查找，通过 luaV_equalobj() 对各种类型进行比较。
+對應其他類型，統一調用 getgeneric()，也就是計算 hash 值並在鏈表中查找，通過 luaV_equalobj() 對各種類型進行比較。
 
-#### 赋值
+#### 賦值
 
-也就是 t["key"]=1，会调用函数 luaH_set() 。
+也就是 t["key"]=1，會調用函數 luaH_set() 。
 
 {% highlight c %}
 TValue *luaH_set (lua_State *L, Table *t, const TValue *key) {
@@ -195,19 +195,19 @@ TValue *luaH_set (lua_State *L, Table *t, const TValue *key) {
 }
 {% endhighlight %}
 
-首先查找 key 是否在 table 中，存在则替换原来的值，否则调用 luaH_newkey() 插入新值。
+首先查找 key 是否在 table 中，存在則替換原來的值，否則調用 luaH_newkey() 插入新值。
 
 
 
-## 虚拟机的体系结构图
+## 虛擬機的體系結構圖
 
-如上所述，所谓的 Register Based VM 是指指令的寻址方式，而实际上，Lua 解释器还是一个以栈为中心的结构。
+如上所述，所謂的 Register Based VM 是指指令的尋址方式，而實際上，Lua 解釋器還是一個以棧為中心的結構。
 
 ![lua operation classes]({{ site.url }}/images/lua/structure.png "lua operation classes"){: .pull-center}
 
-在 struct lua_State 中，有许多个字段用于描述这个栈结构，其中 stack 成员用于指向绝对栈底，而 base 指向了当前正在执行的函数的第一个参数，而 top 指向栈顶的第一个空元素。
+在 struct lua_State 中，有許多個字段用於描述這個棧結構，其中 stack 成員用於指向絕對棧底，而 base 指向了當前正在執行的函數的第一個參數，而 top 指向棧頂的第一個空元素。
 
-可以看到，这个体系结构中并没有独立出来的寄存器，从以下代码来看：
+可以看到，這個體系結構中並沒有獨立出來的寄存器，從以下代碼來看：
 
 {% highlight text %}
 #define RA(i)    (base+GETARG_A(i))
@@ -221,67 +221,67 @@ TValue *luaH_set (lua_State *L, Table *t, const TValue *key) {
 #define KBx(i)    check_exp(getBMode(GET_OPCODE(i)) == OpArgK, k+GETARG_Bx(i))
 {% endhighlight %}
 
-当指令操作数的类型是寄存器时，它的内容是以 base 为基址在栈上的索引值。如图所示，寄存器实际是 base 之上栈元素的别名；当指令操作数的类型的常数时，它首先判断 B 操作数的最位是否为零；如果是零，则按照和寄存器的处理方法一样做，如果不是零，则在常数表中找相应的值。
+當指令操作數的類型是寄存器時，它的內容是以 base 為基址在棧上的索引值。如圖所示，寄存器實際是 base 之上棧元素的別名；當指令操作數的類型的常數時，它首先判斷 B 操作數的最位是否為零；如果是零，則按照和寄存器的處理方法一樣做，如果不是零，則在常數表中找相應的值。
 
-Lua 中函数的执行过程是这样的，首先将函数压栈，然后依次将参数压栈，形成图中所示的栈的内容. 因此 R[0] 到 R[n] 分别表示了 Arg[1] 到 Arg[N+1]。
+Lua 中函數的執行過程是這樣的，首先將函數壓棧，然後依次將參數壓棧，形成圖中所示的棧的內容. 因此 R[0] 到 R[n] 分別表示了 Arg[1] 到 Arg[N+1]。
 
-在第一个参数之下，就是当前正在执行的函数，对于 Lua 的函数来说，指向类型为 Prototype 的 TValue，在 Prototype 中字段 code 指向了一个数组用来表示组成这个函数的所有指令，字段 k 指向一个数组来表示这个函数使用到的所有常量。最后，Lua 在解释执行过程中有专门的变量 pc 来指向下一条要执行的指令。
+在第一個參數之下，就是當前正在執行的函數，對於 Lua 的函數來說，指向類型為 Prototype 的 TValue，在 Prototype 中字段 code 指向了一個數組用來表示組成這個函數的所有指令，字段 k 指向一個數組來表示這個函數使用到的所有常量。最後，Lua 在解釋執行過程中有專門的變量 pc 來指向下一條要執行的指令。
 
-如上图所示，每个函数的 Proto 都有一个属于本函数的常量表，用于存放编译过程中函数所用到的常量。
+如上圖所示，每個函數的 Proto 都有一個屬於本函數的常量表，用於存放編譯過程中函數所用到的常量。
 
-另外，在 Proto 中还包含了一个 upvalue 描述表，用于存放在编译过程中确定的本函数所使用的 upvalue。在运行时，通过 OP_CLOSURE 指令创建一个 closure 时，会根据 Proto 中的描述，为这个 closure 初始化 upvalue 表，该表的访问不需要使用名称，而是通过 id 进行。
+另外，在 Proto 中還包含了一個 upvalue 描述表，用於存放在編譯過程中確定的本函數所使用的 upvalue。在運行時，通過 OP_CLOSURE 指令創建一個 closure 時，會根據 Proto 中的描述，為這個 closure 初始化 upvalue 表，該表的訪問不需要使用名稱，而是通過 id 進行。
 
 
 
-### 字节码
+### 字節碼
 
-Lua 的指令使用一个 32bit 的 unsigned integer 表示，可以通过 luac 编译成字节码，或者直接查看。
+Lua 的指令使用一個 32bit 的 unsigned integer 表示，可以通過 luac 編譯成字節碼，或者直接查看。
 
 {% highlight text %}
------ 查看foobar.lua的具体内容
+----- 查看foobar.lua的具體內容
 $ cat foobar.lua
 #!/usr/bin/lua
 print('Hello World')
 
------ 然后通过luac命令编译
+----- 然後通過luac命令編譯
 $ luac foobar.lua
 
------ 两个以上-l会打印详细信息
+----- 兩個以上-l會打印詳細信息
 $ luac -l -l foobar.lua
 {% endhighlight %}
 
-然后通过 vi 的 :%!xxd 或者 hexedit 查看编译后的文件，其中 lua5.1 的字节码文件的头部长 12 字节。
+然後通過 vi 的 :%!xxd 或者 hexedit 查看編譯後的文件，其中 lua5.1 的字節碼文件的頭部長 12 字節。
 
 {% highlight text %}
 1b4c 7561 5100 0104 0804 0800
 {% endhighlight %}
 
-其中的字符为 1-4) "\033Lua"；5) 标识 lua 的版本号，lua5.1 为 0x51；6) 保留，默认是 0x0；7) 标识字节序，little-endian 为 0x01，big-endian 为 0x00；8) sizeof(int) 大小；9) sizeof(size_t)；10) sizeof(Instruction)，内部指令类型的大小；11) sizeof(lua_Number)，lua_Number 即为 double；12) 判断 lua_Number 类型起否有效，一般为 0x00。
+其中的字符為 1-4) "\033Lua"；5) 標識 lua 的版本號，lua5.1 為 0x51；6) 保留，默認是 0x0；7) 標識字節序，little-endian 為 0x01，big-endian 為 0x00；8) sizeof(int) 大小；9) sizeof(size_t)；10) sizeof(Instruction)，內部指令類型的大小；11) sizeof(lua_Number)，lua_Number 即為 double；12) 判斷 lua_Number 類型起否有效，一般為 0x00。
 
-其中 lua5.2 字节码文件头的长度为 18 字节。
+其中 lua5.2 字節碼文件頭的長度為 18 字節。
 
 {% highlight text %}
 1b4c 7561 5200 0104 0804 0800 1993 0d0a 1a0a
 {% endhighlight %}
-其中第 1-12 字节与 lua5.1 意义相同，第 5 字节在 lua5.2 中为 0x52；第 13-18 字节是为了捕获字节码的转换错误而设置的，其值为 "\x19\x93\r\n\x1a\n"。
+其中第 1-12 字節與 lua5.1 意義相同，第 5 字節在 lua5.2 中為 0x52；第 13-18 字節是為了捕獲字節碼的轉換錯誤而設置的，其值為 "\x19\x93\r\n\x1a\n"。
 
 
 
-### 体系结构与指令系统
+### 體系結構與指令系統
 
-和虚拟机以及指令相关的文件主要有两个: lopcodes.c 和 lvm.c，这两个文件分别用于描述操作码(指令)和虚拟机。
+和虛擬機以及指令相關的文件主要有兩個: lopcodes.c 和 lvm.c，這兩個文件分別用於描述操作碼(指令)和虛擬機。
 
-Lua5.2 共有 40 条指令，通过 enum OpCode 定义，而 luaP_opnames[]、luaP_opmodes[] 分别描述了这些指令的名称和模式，根据指令参数的不同，可以将所有指令分为 4 类。
+Lua5.2 共有 40 條指令，通過 enum OpCode 定義，而 luaP_opnames[]、luaP_opmodes[] 分別描述了這些指令的名稱和模式，根據指令參數的不同，可以將所有指令分為 4 類。
 
 ![lua operation classes]({{ site.url }}/images/lua/operation.png "lua operation classes"){: .pull-center}
 
-除 sBx 之外，所有的指令参数都是 unsigned integer 类型，而 sBx 可以表示负数，但表示方法比较特殊。sBx 的 18bit 可表示的最大整数为 262143，这个数的一半 131071 用来表示 0，所以 -1 可以表示为 -1 + 131071，也就是 131070，而 +1 可以表示为 +1 + 131071，也就是 131072。
+除 sBx 之外，所有的指令參數都是 unsigned integer 類型，而 sBx 可以表示負數，但表示方法比較特殊。sBx 的 18bit 可表示的最大整數為 262143，這個數的一半 131071 用來表示 0，所以 -1 可以表示為 -1 + 131071，也就是 131070，而 +1 可以表示為 +1 + 131071，也就是 131072。
 
-ABC 一般用来存放指令操作数据的地址，而地址可以分成 3 种：寄存器id、常量表id、upvalue id。Lua 将当前函数的 stack 作为寄存器使用，编号从 0 开始，当前函数的 stack 与寄存器数组是相同的概念，stack(n) 其实就是 register(n)。
+ABC 一般用來存放指令操作數據的地址，而地址可以分成 3 種：寄存器id、常量表id、upvalue id。Lua 將當前函數的 stack 作為寄存器使用，編號從 0 開始，當前函數的 stack 與寄存器數組是相同的概念，stack(n) 其實就是 register(n)。
 
-A 被大多数指令用来指定计算结果的目标寄存器地址，B、C 用来存放寄存器地址和常量地址，并通过最左面的一个 bit 来区分。在指令生成阶段，如果 B 或 C 所引用的常量地址超出了表示范围，则首先会生成指令将常量装载到临时寄存器，然后再将 B 或 C 改为使用该寄存器地址。
+A 被大多數指令用來指定計算結果的目標寄存器地址，B、C 用來存放寄存器地址和常量地址，並通過最左面的一個 bit 來區分。在指令生成階段，如果 B 或 C 所引用的常量地址超出了表示範圍，則首先會生成指令將常量裝載到臨時寄存器，然後再將 B 或 C 改為使用該寄存器地址。
 
-区别在于，后面部是分割成为两个长度为 9 位的操作符(B, C)，一个无符号的 18 位操作符 Bx 还是有符号的 18 位操作符 sBx，这些定义的代码如下。
+區別在於，後面部是分割成為兩個長度為 9 位的操作符(B, C)，一個無符號的 18 位操作符 Bx 還是有符號的 18 位操作符 sBx，這些定義的代碼如下。
 
 {% highlight c %}
 /*
@@ -305,48 +305,48 @@ A 被大多数指令用来指定计算结果的目标寄存器地址，B、C 用
 
 ### 指令操作模式
 
-也就是 luaP_opmodes[]，使用一个字节来表示指令的操作模式，其具体含义如下：
+也就是 luaP_opmodes[]，使用一個字節來表示指令的操作模式，其具體含義如下：
 
-* 最高位来表示是否是一条测试指令，之所以将这一类型的指令特别地标识出来，是因为 Lua 的指令长度是 32 位，对于分支指令来说，要想在这 32 位中既表示两个操作数来做比较，同时还要表示一个跳转的地址，是很困难的。因此将这种指令分成两条，第一条是测试指令，紧接着一条无条件跳转。如果判断条件成立则将 PC(Program Counter，指示下一条要执行的指令) 加一，跳过下一条无条件跳转指令，继续执行；否则跳转。
+* 最高位來表示是否是一條測試指令，之所以將這一類型的指令特別地標識出來，是因為 Lua 的指令長度是 32 位，對於分支指令來說，要想在這 32 位中既表示兩個操作數來做比較，同時還要表示一個跳轉的地址，是很困難的。因此將這種指令分成兩條，第一條是測試指令，緊接著一條無條件跳轉。如果判斷條件成立則將 PC(Program Counter，指示下一條要執行的指令) 加一，跳過下一條無條件跳轉指令，繼續執行；否則跳轉。
 
-* 第二位用于表示 A 操作数是否被设置。
+* 第二位用於表示 A 操作數是否被設置。
 
-* 接下来的二位用于表示操作数 B 的格式，OpArgN 表示操作数未被使用，OpArgU 表示操作数被使用(立即数)，OpArgR 表示表示操作数是寄存器或者跳转的偏移量，OpArgK 表示操作数是寄存器或者常量。
+* 接下來的二位用於表示操作數 B 的格式，OpArgN 表示操作數未被使用，OpArgU 表示操作數被使用(立即數)，OpArgR 表示表示操作數是寄存器或者跳轉的偏移量，OpArgK 表示操作數是寄存器或者常量。
 
 
 
-## 虚拟机的执行
+## 虛擬機的執行
 
-首先看下 Lua 虚拟机是如何执行的，对应函数的源码是 lua.c，编译之后是一个 stand-alone 的解析器，默认会进入一个交互式的命令行解析器，当然也可以执行一个 lua 脚本文件。
+首先看下 Lua 虛擬機是如何執行的，對應函數的源碼是 lua.c，編譯之後是一個 stand-alone 的解析器，默認會進入一個交互式的命令行解析器，當然也可以執行一個 lua 腳本文件。
 
-该程序最终会调用 luaV_execute() 函数执行，开始会初始化 global_State、lua_State 两个结构体，用来保存上下文的相关信息。
+該程序最終會調用 luaV_execute() 函數執行，開始會初始化 global_State、lua_State 兩個結構體，用來保存上下文的相關信息。
 
 {% highlight text %}
 main()
- |-luaL_newstate()                  # 创建global_State+lua_State，并初始化
- |-lua_pcall()                      # 实际会调用pmain()函数
-   |                                # 根据不同的参数调用不同的函数
-   |-runargs()                      # 执行命令行通过-e指定的命令
-   |-doREPL()                       # 执行交互模式，也即read-eval-print loop
-   |-handle_script()                # 执行lua脚本
-     |-luaL_loadfile()              # 加载lua文件，后面详细介绍
+ |-luaL_newstate()                  # 創建global_State+lua_State，並初始化
+ |-lua_pcall()                      # 實際會調用pmain()函數
+   |                                # 根據不同的參數調用不同的函數
+   |-runargs()                      # 執行命令行通過-e指定的命令
+   |-doREPL()                       # 執行交互模式，也即read-eval-print loop
+   |-handle_script()                # 執行lua腳本
+     |-luaL_loadfile()              # 加載lua文件，後面詳細介紹
      | |-lua_load()
      |
-     |-docall()                     # 调用执行
+     |-docall()                     # 調用執行
        |-lua_pcall()
-         |-luaD_pcall()             # 实际会调用f_call()函数
+         |-luaD_pcall()             # 實際會調用f_call()函數
 {% endhighlight %}
 
-在调用函数执行过程中，最终会调用 luaV_execute() 函数。
+在調用函數執行過程中，最終會調用 luaV_execute() 函數。
 <!--
-其中，pc 被初始化成为了 L->savedpc，base 被初始化成为了 L->base，即程序从 L->savedpc 开始执行，其中 L->savedpc 在函数调用的预处理过程中指向了当前函数的 code，而 L->base 指向栈中当前函数的下一个位置；cl 表示当前正在执行闭包，k 指向当前闭包的常量表。
+其中，pc 被初始化成為了 L->savedpc，base 被初始化成為了 L->base，即程序從 L->savedpc 開始執行，其中 L->savedpc 在函數調用的預處理過程中指向了當前函數的 code，而 L->base 指向棧中當前函數的下一個位置；cl 表示當前正在執行閉包，k 指向當前閉包的常量表。
 -->
 
-其中，主要处理字节码的是 for(;;){} 循环，也即进入到解释器的主循环，处理很简单，取得当前指令，pc 递增，初始化 ra，然后根据指令的操作码进行选择；然后接下来是一大串的 switch ... case ... 处理。
+其中，主要處理字節碼的是 for(;;){} 循環，也即進入到解釋器的主循環，處理很簡單，取得當前指令，pc 遞增，初始化 ra，然後根據指令的操作碼進行選擇；然後接下來是一大串的 switch ... case ... 處理。
 
-接下来对其中有主要的几类指令进行说明。
+接下來對其中有主要的幾類指令進行說明。
 
-### 传值类的指令，以 MOVE 为代表
+### 傳值類的指令，以 MOVE 為代表
 
 {% highlight c %}
 void luaV_execute (lua_State *L) {
@@ -364,9 +364,9 @@ void luaV_execute (lua_State *L) {
       (void)L; checkliveness(G(L),io1); }
 {% endhighlight %}
 
-该指令将操作数 A、B 都做为寄存器，然后将 B 的值给 A，而实现也是简单明了，只有一句。宏展开以后，可以看到，R[A]、R[B] 的类型是 TValue，只是将这两域的值传过来即可。对于可回收对象来说，真实值不会保存在栈上，所以只是改了指针，而对于非可回收对象来说，则是直接将值从 R[B] 赋到 R[A]。
+該指令將操作數 A、B 都做為寄存器，然後將 B 的值給 A，而實現也是簡單明瞭，只有一句。宏展開以後，可以看到，R[A]、R[B] 的類型是 TValue，只是將這兩域的值傳過來即可。對於可回收對象來說，真實值不會保存在棧上，所以只是改了指針，而對於非可回收對象來說，則是直接將值從 R[B] 賦到 R[A]。
 
-### 数值运算类指令，以 ADD 为代表
+### 數值運算類指令，以 ADD 為代表
 
 {% highlight c %}
 void luaV_execute (lua_State *L) {
@@ -390,9 +390,9 @@ void luaV_execute (lua_State *L) {
 #define intop(op,v1,v2) l_castU2S(l_castS2U(v1) op l_castS2U(v2))
 {% endhighlight %}
 
-当两个值都是数值的话，其中关键的一行是 setivalue(ra, intop(+, ib, ic));，也就是两个操作数相加以后把值赋给 R[A]。值得注意的是，操作数 B,C 都是 RK，即可能是寄存器也可能是常量，这最决于最 B 和 C 的最高位是否为 1，如果是 1 则常量，反之则是寄存器；具体可以参考宏 RKB 的实现。
+當兩個值都是數值的話，其中關鍵的一行是 setivalue(ra, intop(+, ib, ic));，也就是兩個操作數相加以後把值賦給 R[A]。值得注意的是，操作數 B,C 都是 RK，即可能是寄存器也可能是常量，這最決於最 B 和 C 的最高位是否為 1，如果是 1 則常量，反之則是寄存器；具體可以參考宏 RKB 的實現。
 
-如果两个操作数不是数值，但可以转换成 Number，则调用 setfltvalue(ra, luai_numadd(L, nb, nc));。如果无法转换，则使用元表机制，该函数的实现如下:
+如果兩個操作數不是數值，但可以轉換成 Number，則調用 setfltvalue(ra, luai_numadd(L, nb, nc));。如果無法轉換，則使用元表機制，該函數的實現如下:
 
 {% highlight c %}
 int luaT_callbinTM (lua_State *L, const TValue *p1, const TValue *p2,
@@ -428,12 +428,12 @@ void luaT_trybinTM (lua_State *L, const TValue *p1, const TValue *p2,
 }
 {% endhighlight %}
 
-上面 luaT_trybinTM() 用于调用元表中的元方法，因为在 Lua 老版本中元方法也被叫做 tag method，所以函数最后是以 TM 结尾的。
+上面 luaT_trybinTM() 用於調用元表中的元方法，因為在 Lua 老版本中元方法也被叫做 tag method，所以函數最後是以 TM 結尾的。
 
-在 luaT_callTM() 中，将元方法、第一、第二操作数先后压栈，再调用并取因返回值。
+在 luaT_callTM() 中，將元方法、第一、第二操作數先後壓棧，再調用並取因返回值。
 
 
-### 逻辑运算类指令，以 EQ 为代表
+### 邏輯運算類指令，以 EQ 為代表
 
 {% highlight c %}
 void luaV_execute (lua_State *L) {
@@ -459,10 +459,10 @@ void luaV_execute (lua_State *L) {
 #define donextjump(ci)  { i = *ci->u.l.savedpc; dojump(ci, i, 1); }
 {% endhighlight %}
 
-其中 luaV_equalobj() 与之前的算术运算类似，如果 RK[B]==RK[C] 并且 A 为 1 的情况下，也就是条件为真，则会使用 pc 取出下一条指令，调用 dojump() 进行跳转.
+其中 luaV_equalobj() 與之前的算術運算類似，如果 RK[B]==RK[C] 並且 A 為 1 的情況下，也就是條件為真，則會使用 pc 取出下一條指令，調用 dojump() 進行跳轉.
 
 
-### 函数调用类指令，以 CALL 为代表
+### 函數調用類指令，以 CALL 為代表
 
 {% highlight c %}
 void luaV_execute (lua_State *L) {
@@ -486,18 +486,18 @@ void luaV_execute (lua_State *L) {
 }
 {% endhighlight %}
 
-其中分为了 C 以及 Lua。
+其中分為了 C 以及 Lua。
 
 
 
 
-## 闭包实现
+## 閉包實現
 
-在 Lua 中，函数和闭包都是通过闭包实现的。
+在 Lua 中，函數和閉包都是通過閉包實現的。
 
-### 结构体
+### 結構體
 
-Lua 中包括了两种闭包：C 闭包和 Lua 闭包，分别通过两种结构体表示。
+Lua 中包括了兩種閉包：C 閉包和 Lua 閉包，分別通過兩種結構體表示。
 
 {% highlight c %}
 #define CommonHeader    GCObject *next; lu_byte tt; lu_byte marked
@@ -523,13 +523,13 @@ typedef union Closure {
 } Closure;
 {% endhighlight %}
 
-Lua 语言本身是支持闭包的，而所谓的闭包实际上就是把几个值和函数绑定在一起，在 Lua 中，这些值被称为 upvalues；而且，在 Lua 中，每个函数可以和一个 env 绑定。
+Lua 語言本身是支持閉包的，而所謂的閉包實際上就是把幾個值和函數綁定在一起，在 Lua 中，這些值被稱為 upvalues；而且，在 Lua 中，每個函數可以和一個 env 綁定。
 
 
 
-## Lua 代码编译
+## Lua 代碼編譯
 
-关于 lua 代码是如何编译的，可以查看 luac 的代码实现。代码需要执行时，会通过 Proto 格式保存，字节码保存在 code 成员变量中。
+關於 lua 代碼是如何編譯的，可以查看 luac 的代碼實現。代碼需要執行時，會通過 Proto 格式保存，字節碼保存在 code 成員變量中。
 
 {% highlight c %}
 typedef struct Proto {
@@ -546,7 +546,7 @@ typedef struct Proto {
   int linedefined;
   int lastlinedefined;
   TValue *k;  /* constants used by the function */
-  Instruction *code;       // opcodes，操作码，以数组格式保存，类型为[int|long]
+  Instruction *code;       // opcodes，操作碼，以數組格式保存，類型為[int|long]
   struct Proto **p;  /* functions defined inside the function */
   int *lineinfo;  /* map from opcodes to source lines (debug information) */
   LocVar *locvars;  /* information about local variables (debug information) */
@@ -557,7 +557,7 @@ typedef struct Proto {
 } Proto;
 {% endhighlight %}
 
-Lua 源码中可以通过 luaL_loadfile()、luaL_loadstring()、luaL_loadbuffer() 载入并编译 lua 代码，而这些函数实际调用的是 lua_load() 函数。
+Lua 源碼中可以通過 luaL_loadfile()、luaL_loadstring()、luaL_loadbuffer() 載入並編譯 lua 代碼，而這些函數實際調用的是 lua_load() 函數。
 
 {% highlight text %}
 lua_load()@lapi.c
@@ -565,38 +565,38 @@ lua_load()@lapi.c
   |-luaZ_init()
   |-luaD_protectedparser()
   | |-luaZ_initbuffer()
-  | |-luaD_pcall()                    # 实际调用的是f_parser()
-  | | |-zgetc()                       # 获取第一个字符，判断是否已经编译
+  | |-luaD_pcall()                    # 實際調用的是f_parser()
+  | | |-zgetc()                       # 獲取第一個字符，判斷是否已經編譯
   | | |                               #=================
-  | | |-checkmode()                   # 1. 如果是二进制
-  | | |-luaU_undump()                 #  1.1 加载预编译的二进制代码
+  | | |-checkmode()                   # 1. 如果是二進制
+  | | |-luaU_undump()                 #  1.1 加載預編譯的二進制代碼
   | | |-checkmode()                   # 2. 如果是文本
   | | |-luaY_parser()
   | | | |-mainfunc()
   | | |   |-luaX_next()
   | | |   | |-llex()
-  | | |   |-statlist()                # 词法解析主函数
-  | | |     |-statement()             # 根据相应的词法进行处理
+  | | |   |-statlist()                # 詞法解析主函數
+  | | |     |-statement()             # 根據相應的詞法進行處理
   | | |       |-ifstat()              #
   | | |       |-whilestat()
   | | |                               #=================
   | | |-luaF_initupvals()
-  | |-luaZ_freebuffer()               # 释放一系列缓存
+  | |-luaZ_freebuffer()               # 釋放一系列緩存
   | |-... ...
   |-lua_unlock()
 {% endhighlight %}
 
-Lua 是一个轻量级高效率的语言，不仅体现在它本身虚拟机的运行效率上，而且也体现在他整个的编译系统的实现上，因为绝大多数的 lua 脚本需要运行期动态的加载编译，如果编译过程本身非常耗时，或者占用很多的内存，也同样会影响到整体的运行效率。
+Lua 是一個輕量級高效率的語言，不僅體現在它本身虛擬機的運行效率上，而且也體現在他整個的編譯系統的實現上，因為絕大多數的 lua 腳本需要運行期動態的加載編譯，如果編譯過程本身非常耗時，或者佔用很多的內存，也同樣會影響到整體的運行效率。
 
-编译系统的工作就是将符合语法规则的 chunk 转换成可运行的 closure，closure 对象是 Lua 运行期一个函数的实例对象。除此之外，还有 Proto 对象，这是 lua 内部代表一个 closure 原型的对象，有关函数的大部分信息都保存在这里：
+編譯系統的工作就是將符合語法規則的 chunk 轉換成可運行的 closure，closure 對象是 Lua 運行期一個函數的實例對象。除此之外，還有 Proto 對象，這是 lua 內部代表一個 closure 原型的對象，有關函數的大部分信息都保存在這裡：
 
-* 指令列表：包含了函数编译后生成的虚拟机指令。
-* 常量表：这个函数运行期需要的所有常量，在指令中，常量使用常量表id进行索引。
-* 子proto表：所有内嵌于这个函数的proto列表，在OP_CLOSURE指令中的proto id就是索引的这个表。
-* 局部变量描述：这个函数使用到的所有局部变量名称，以及生命期。由于所有的局部变量运行期都被转化成了寄存器id，所以这些信息只是debug使用。
-* Upvalue描述：设个函数所使用到的Upvalue的描述，用来在创建closure时初始化Upvalue。
+* 指令列表：包含了函數編譯後生成的虛擬機指令。
+* 常量表：這個函數運行期需要的所有常量，在指令中，常量使用常量表id進行索引。
+* 子proto表：所有內嵌於這個函數的proto列表，在OP_CLOSURE指令中的proto id就是索引的這個表。
+* 局部變量描述：這個函數使用到的所有局部變量名稱，以及生命期。由於所有的局部變量運行期都被轉化成了寄存器id，所以這些信息只是debug使用。
+* Upvalue描述：設個函數所使用到的Upvalue的描述，用來在創建closure時初始化Upvalue。
 
-每个 closure 都对应着自己的 proto，而运行期一个 proto 可以产生多个 closure 来代表这个函数实例。
+每個 closure 都對應著自己的 proto，而運行期一個 proto 可以產生多個 closure 來代表這個函數實例。
 
 
 {% highlight lua %}
@@ -607,10 +607,10 @@ Lua 是一个轻量级高效率的语言，不仅体现在它本身虚拟机的�
 
 <!--
 
-可以参考云风编写的文档，如下为本地文档 <a href="reference/source/lua 源码鉴赏 readinglua 云风.pdf">lua 源码鉴赏</a>，关于源码解析可以参考 <a href="http://blog.csdn.net/yuanlin2008/article/category/1307277">探索Lua5.2内部实现</a>，或者 <a href="https://github.com/lichuang/Lua-Source-Internal">lua 详解</a> 以及相关的 <a href="http://www.codedump.info/?tag=lua">codedump 个人博客</a>。<br><br>
+可以參考雲風編寫的文檔，如下為本地文檔 <a href="reference/source/lua 源碼鑑賞 readinglua 雲風.pdf">lua 源碼鑑賞</a>，關於源碼解析可以參考 <a href="http://blog.csdn.net/yuanlin2008/article/category/1307277">探索Lua5.2內部實現</a>，或者 <a href="https://github.com/lichuang/Lua-Source-Internal">lua 詳解</a> 以及相關的 <a href="http://www.codedump.info/?tag=lua">codedump 個人博客</a>。<br><br>
 
-http://simohayha.iteye.com/blog/517748                               lua源码剖析(一)
-http://blog.csdn.net/column/details/luainternals.html                探索Lua5.2内部实现
-http://blog.csdn.net/INmouse/article/details/1540418                 Lua源码分析(1)
+http://simohayha.iteye.com/blog/517748                               lua源碼剖析(一)
+http://blog.csdn.net/column/details/luainternals.html                探索Lua5.2內部實現
+http://blog.csdn.net/INmouse/article/details/1540418                 Lua源碼分析(1)
 http://www.cppblog.com/airtrack/archive/2012/07/19/184211.aspx
 -->

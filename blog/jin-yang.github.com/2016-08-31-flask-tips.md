@@ -1,25 +1,25 @@
 ---
-title: Flask 常见示例
+title: Flask 常見示例
 layout: post
 comments: true
 language: chinese
 category: [python,program,webserver]
 keywords: flask,示例
-description: 记录 Flask 常见的示例，可以用来作为参考使用。
+description: 記錄 Flask 常見的示例，可以用來作為參考使用。
 ---
 
-记录 Flask 常见的示例，可以用来作为参考使用。
+記錄 Flask 常見的示例，可以用來作為參考使用。
 
 <!-- more -->
 
-## 最简单的应用
+## 最簡單的應用
 
 {% highlight python %}
 from flask import Flask
 app = Flask(__name__)
 
-@app.route('/')                                  # 指定多个URL
-@app.route('/index',  methods=['GET', 'POST'])   # 指定多个方法
+@app.route('/')                                  # 指定多個URL
+@app.route('/index',  methods=['GET', 'POST'])   # 指定多個方法
 def hello_world():
     return 'Hello World!'
 
@@ -27,9 +27,9 @@ if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True, processes=10)
 {% endhighlight %}
 
-指定监听地址，端口号，并使用调试模式，当然只用于调试。
+指定監聽地址，端口號，並使用調試模式，當然只用於調試。
 
-## 获取参数
+## 獲取參數
 
 {% highlight python %}
 from flask import Flask,request
@@ -57,9 +57,9 @@ if __name__ == '__main__':
 
 
 
-## POST 请求处理
+## POST 請求處理
 
-假设以用户注册为例，需要向服务器发送用户名和密码，其中服务器侧的程序如下：
+假設以用戶註冊為例，需要向服務器發送用戶名和密碼，其中服務器側的程序如下：
 
 {% highlight python %}
 from flask import Flask, request
@@ -68,21 +68,21 @@ app = Flask(__name__)
 
 @app.route('/register', methods=['POST'])
 def register():
-    print request.headers                              # 头部信息
-    print request.form                                 # 所有表单内容
-    print request.form['name']                         # 获取name参数
+    print request.headers                              # 頭部信息
+    print request.form                                 # 所有表單內容
+    print request.form['name']                         # 獲取name參數
     print request.form.get('name')                     # 如上
-    print request.form.getlist('name')                 # 获取name的列表
-    print request.form.get('nickname', default='fool') # 参数无则返回默认值
+    print request.form.getlist('name')                 # 獲取name的列表
+    print request.form.get('nickname', default='fool') # 參數無則返回默認值
     return 'welcome'
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
 {% endhighlight %}
 
-如上的 request.form 是个 ImmutableMultiDict 对象，详细可查看源码中的 flask.Request.form 。
+如上的 request.form 是個 ImmutableMultiDict 對象，詳細可查看源碼中的 flask.Request.form 。
 
-其中客户端 client.py 的内容如下：
+其中客戶端 client.py 的內容如下：
 
 {% highlight python %}
 import requests
@@ -92,9 +92,9 @@ print r.text
 {% endhighlight %}
 
 
-## 路由、变量转换
+## 路由、變量轉換
 
-可以给 URL 添加变量部分，&lt;converter:variable_name&gt; 分别指定了转换器，以及转换后变量的名称。
+可以給 URL 添加變量部分，&lt;converter:variable_name&gt; 分別指定了轉換器，以及轉換後變量的名稱。
 
 {% highlight python %}
 from flask import Flask
@@ -114,16 +114,16 @@ if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
 {% endhighlight %}
 
-默认采用的是 string(字符串，无斜线)、int(整数)、float(浮点型)、path(类似字符串，但是可以接受斜线) 。
+默認採用的是 string(字符串，無斜線)、int(整數)、float(浮點型)、path(類似字符串，但是可以接受斜線) 。
 
 
 ## 重定向
 
-Flask 中有两种重定向的行为，分别介绍如下。
+Flask 中有兩種重定向的行為，分別介紹如下。
 
 ### 唯一 URL / 重定向
 
-Flask 的 URL 规则基于 Werkzeug 的路由模块，其中有个默认的重定向规则，也就是唯一 URL / 的重定向行为，如下所示。
+Flask 的 URL 規則基於 Werkzeug 的路由模塊，其中有個默認的重定向規則，也就是唯一 URL / 的重定向行為，如下所示。
 
 {% highlight python %}
 from flask import Flask
@@ -141,28 +141,28 @@ if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
 {% endhighlight %}
 
-上述的方式中，当尝试访问 projects 时会重定向到 projects/，而对于第二种尝试访问 about/ 时会产生 404 "Not Found" 错误。
+上述的方式中，當嘗試訪問 projects 時會重定向到 projects/，而對於第二種嘗試訪問 about/ 時會產生 404 "Not Found" 錯誤。
 
 {% highlight text %}
 $ curl -L http://127.1:8080/projects
 {% endhighlight %}
 
-### 用户重定向
+### 用戶重定向
 
-另外一种，在 Flask 中通常是通过 redirect() 执行重定向操作，有如下的几种方式。
+另外一種，在 Flask 中通常是通過 redirect() 執行重定向操作，有如下的幾種方式。
 
 {% highlight text %}
-redirect("http://www.foobar.com", code=302)   # 直接调转到某一个网站
-redirect("/login", code=302)                  # 在本网站内调转，通常用于多个APP调转
-redirect(url_for("login.user_login"))         # 用于同一个APP的调转
+redirect("http://www.foobar.com", code=302)   # 直接調轉到某一個網站
+redirect("/login", code=302)                  # 在本網站內調轉，通常用於多個APP調轉
+redirect(url_for("login.user_login"))         # 用於同一個APP的調轉
 {% endhighlight %}
 
-code 可以选择 301 (永久性跳转)、302 (临时性跳转)，其它的还有 303、305、307 等操作。
+code 可以選擇 301 (永久性跳轉)、302 (臨時性跳轉)，其它的還有 303、305、307 等操作。
 
 
-## 构造 URL
+## 構造 URL
 
-可以通过 url_for() 来给指定的函数构造 URL，第一个参数是函数名，并接受规则变量部分的命名参数，如果是未知变量部分则会添加到 URL 末尾作为查询参数。
+可以通過 url_for() 來給指定的函數構造 URL，第一個參數是函數名，並接受規則變量部分的命名參數，如果是未知變量部分則會添加到 URL 末尾作為查詢參數。
 
 {% highlight python %}
 from flask import Flask, url_for
@@ -190,12 +190,12 @@ with app.test_request_context():
 # /user/John%20Doe
 {% endhighlight %}
 
-通过 url_for() 函数，URL 构建会转义特殊字符和 Unicode 数据，免去你很多麻烦。
+通過 url_for() 函數，URL 構建會轉義特殊字符和 Unicode 數據，免去你很多麻煩。
 
 
 ## Cookies
 
-可以通过如下方法设置 cookies，如果要使用会话可以查看下部分的内容。
+可以通過如下方法設置 cookies，如果要使用會話可以查看下部分的內容。
 
 {% highlight python %}
 from flask import Flask, request, make_response
@@ -218,9 +218,9 @@ if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
 {% endhighlight %}
 
-如上，Cookies 是设置在响应对象上的，而通常视图函数只是返回字符串，之后由 Flask 将字符串转换为响应对象，如果要显式地转换，可以使用 make_response() 函数然后再进行修改。
+如上，Cookies 是設置在響應對象上的，而通常視圖函數只是返回字符串，之後由 Flask 將字符串轉換為響應對象，如果要顯式地轉換，可以使用 make_response() 函數然後再進行修改。
 
-然后通过如下方式进行测试。
+然後通過如下方式進行測試。
 
 {% highlight text %}
 $ curl http://127.1:8080/set -c /tmp/cookie
@@ -234,9 +234,9 @@ $ cat /tmp/cookis
 注意，上述的 cookies 中是明文保存的。
 
 
-## 会话 session
+## 會話 session
 
-会话允许你在不同请求间存储特定用户的信息，是在 Cookies 的基础上实现的，并且对 Cookies 进行密钥签名。这意味着用户可以查看你 Cookie 的内容，但却不能修改它，除非用户知道签名的密钥。
+會話允許你在不同請求間存儲特定用戶的信息，是在 Cookies 的基礎上實現的，並且對 Cookies 進行密鑰簽名。這意味著用戶可以查看你 Cookie 的內容，但卻不能修改它，除非用戶知道簽名的密鑰。
 
 {% highlight python %}
 from flask import Flask, session, escape, request
@@ -266,13 +266,13 @@ if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
 {% endhighlight %}
 
-然后通过如下方式进行测试。
+然後通過如下方式進行測試。
 
 {% highlight text %}
 $ curl http://127.1:8080/login/Andy -c /tmp/cookie
 Hello World
 
-# 即使重新加载，只要密钥没有改变就不会有问题
+# 即使重新加載，只要密鑰沒有改變就不會有問題
 $ curl http://127.1:8080/ -b /tmp/cookie
 Logged in as Andy
 
@@ -281,12 +281,12 @@ $ cat /tmp/cookis
 127.1   FALSE   /       FALSE   0       username        "the username"
 {% endhighlight %}
 
-上述的密钥可以通过 os.urandom(24) 生成随机秘密。如果发现某些请求并没有持久化，这时需要检查你的页面响应中的 Cookies 的大小，并与 Web 浏览器所支持的大小对比。
+上述的密鑰可以通過 os.urandom(24) 生成隨機祕密。如果發現某些請求並沒有持久化，這時需要檢查你的頁面響應中的 Cookies 的大小，並與 Web 瀏覽器所支持的大小對比。
 
 
-## 执行命令
+## 執行命令
 
-可以在 flask 中设置一些初始化操作命令，直接通过 flask 命令执行。
+可以在 flask 中設置一些初始化操作命令，直接通過 flask 命令執行。
 
 {% highlight python %}
 from flask import Flask
@@ -301,21 +301,21 @@ def show_entries():
     return "Hello World!\n"
 {% endhighlight %}
 
-假设上述文件文 foobar.py，则可以通过如下命令执行。
+假設上述文件文 foobar.py，則可以通過如下命令執行。
 
 {% highlight text %}
 $ export FLASK_APP=foobar.py
-$ flask init                      # 执行初始化命令
+$ flask init                      # 執行初始化命令
 Initialized the environment.
-$ flask run                       # 可以直接运行
+$ flask run                       # 可以直接運行
  * Serving Flask app "foobar"
  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
 {% endhighlight %}
 
 
-## 消息闪现
+## 消息閃現
 
-Flask 提供了消息闪现系统，可以简单地给用户反馈，增加用户体验。 消息闪现系统通常会在请求结束时记录信息，并在下一个（且仅在下一个）请求中访问记录的信息，展现这些消息通常结合要模板布局。
+Flask 提供了消息閃現系統，可以簡單地給用戶反饋，增加用戶體驗。 消息閃現系統通常會在請求結束時記錄信息，並在下一個（且僅在下一個）請求中訪問記錄的信息，展現這些消息通常結合要模板佈局。
 
 {% highlight python %}
 # -*- coding:utf-8 -*-
@@ -341,11 +341,11 @@ if __name__ == '__main__':
 { % for message in get_flashed_messages() % } { { message } } { % endfor % }
 {% endhighlight %}
 
-该方法会在 session 中保存 session['_flashes'] = flashes 值，所以需要配置 secret_key，使用 flash() 方法可以闪现一条消息，要操作消息本身，使用 get_flashed_messages() 函数，并且只能在模板中也可以使用。
+該方法會在 session 中保存 session['_flashes'] = flashes 值，所以需要配置 secret_key，使用 flash() 方法可以閃現一條消息，要操作消息本身，使用 get_flashed_messages() 函數，並且只能在模板中也可以使用。
 
-## 工厂模式
+## 工廠模式
 
-您可以像下面展示的这样，从一个函数里启动这个应用:
+您可以像下面展示的這樣，從一個函數裡啟動這個應用:
 
 {% highlight python %}
 def create_app(config_filename):
@@ -358,7 +358,7 @@ def create_app(config_filename):
     return app
 {% endhighlight %}
 
-此时如果要获取当前配置下的应用程序，可以使用 current_app 。
+此時如果要獲取當前配置下的應用程序，可以使用 current_app 。
 
 {% highlight python %}
 from flask import current_app, Blueprint, render_template
@@ -369,7 +369,7 @@ def index():
     return render_template(current_app.config['INDEX_TEMPLATE'])
 {% endhighlight %}
 
-所以，要使用这样的一个应用，你必须先创建这个应用对象，这里是一个运行此类程序的 run.py 文件的例子。
+所以，要使用這樣的一個應用，你必須先創建這個應用對象，這裡是一個運行此類程序的 run.py 文件的例子。
 
 {% highlight python %}
 from yourapplication import create_app
@@ -379,20 +379,20 @@ app.run()
 
 
 
-## 处理JSON
+## 處理JSON
 
-实际上包括了两种，一个是如何接收 json 数据，还有就是如何返回 json 数据。
+實際上包括了兩種，一個是如何接收 json 數據，還有就是如何返回 json 數據。
 
-### 接收JSON请求
+### 接收JSON請求
 
-首先是前端通过 jQuery 发送数据请求。
+首先是前端通過 jQuery 發送數據請求。
 
 {% highlight javascript %}
 $.ajax({
      type        : 'post',
      contentType : 'application/json; charset=UTF-8',
      url         : SCRIPT_ROOT_URL,
-     dataType    : 'json',   // 注意，这里是指期望接收到数据的格式
+     dataType    : 'json',   // 注意，這裡是指期望接收到數據的格式
      data        : JSON.stringify({
                   'username': $('input[name=username]').val(),
                   'address': $('input[name=address]').val()
@@ -404,13 +404,13 @@ $.ajax({
          $('#info').text(data.info);
      }
 });
-// NOTE: 如果是表单，可以使用jquery的serialize()获取表单的全部数据
+// NOTE: 如果是表單，可以使用jquery的serialize()獲取表單的全部數據
 // data = $('#some-form').serialize();
 {% endhighlight %}
 
-注意，如果上述的请求中，如果不使用 JSON.stringify() 函数处理，实际上发送的请求是在请求 URL 后面添加参数，例如 /your/url/?username=foobar&address=china 。
+注意，如果上述的請求中，如果不使用 JSON.stringify() 函數處理，實際上發送的請求是在請求 URL 後面添加參數，例如 /your/url/?username=foobar&address=china 。
 
-也就是说，请求头中的 Content-Tpye 默认是 application/x-www-form-urlencoded，所以参数会被编码上述的格式，提交到后端，后端会当作表单数据处理。
+也就是說，請求頭中的 Content-Tpye 默認是 application/x-www-form-urlencoded，所以參數會被編碼上述的格式，提交到後端，後端會當作表單數據處理。
 
 {% highlight python %}
 # -*- coding:utf-8 -*-
@@ -429,9 +429,9 @@ if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
 {% endhighlight %}
 
-### 返回JSON数据
+### 返回JSON數據
 
-处理 JSON 需要把请求头和响应头的 Content-Type 设置为 application/json 。
+處理 JSON 需要把請求頭和響應頭的 Content-Type 設置為 application/json 。
 
 {% highlight python %}
 # -*- coding:utf-8 -*-
@@ -445,7 +445,7 @@ app = Flask(__name__)
 def foobar1():
     return json.dumps({'info': 'hello world'})
 
-# 2. 默认返回text/html格式，可以设置为返回json格式
+# 2. 默認返回text/html格式，可以設置為返回json格式
 @app.route('/json2', methods=['POST'])
 def foobar2():
     print request.headers, request.json, request.get_data()
@@ -454,7 +454,7 @@ def foobar2():
     response.headers.add('Server', 'python flask')
     return response
 
-# 3. 使用Flask库中的jsonify
+# 3. 使用Flask庫中的jsonify
 @app.route('/json3', methods=['POST'])
 def foobar3():
     return jsonify({'info': 'hello world'})
@@ -463,7 +463,7 @@ if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
 {% endhighlight %}
 
-客户端内容如下。
+客戶端內容如下。
 
 {% highlight python %}
 import requests, json
@@ -475,11 +475,11 @@ print r.headers
 print r.json()
 {% endhighlight %}
 
-简单来说，jsonify() 函数返回了 flask.Response() 对象，而且其中返回消息的 content-type 头信息为 'application/json'，而 json.dumps() 则是返回一个 encoded 字符串。
+簡單來說，jsonify() 函數返回了 flask.Response() 對象，而且其中返回消息的 content-type 頭信息為 'application/json'，而 json.dumps() 則是返回一個 encoded 字符串。
 
-另外，需要注意的是 jsonify() 的参数是 kwargs 或者 dictionaries；而 json.dumps() 还支持 lists 以及其它数据类型。
+另外，需要注意的是 jsonify() 的參數是 kwargs 或者 dictionaries；而 json.dumps() 還支持 lists 以及其它數據類型。
 
-也可以使用如下的修饰符，当报错时，会直接返回相应的报错信息。
+也可以使用如下的修飾符，當報錯時，會直接返回相應的報錯信息。
 
 {% highlight python %}
 from functools import wraps
@@ -504,17 +504,17 @@ def foobar():
     return dict(info='hello world')
 {% endhighlight %}
 
-### 源码解析
+### 源碼解析
 
-其中 get_json() 函数在源码的 flask/wrappers.py 文件中，其代码也很简单，源码如下。
+其中 get_json() 函數在源碼的 flask/wrappers.py 文件中，其代碼也很簡單，源碼如下。
 
 {% highlight python %}
 def get_json(self, force=False, silent=False, cache=True):
-    if not (force or self.is_json):     # 如果不是json格式，则返回None
+    if not (force or self.is_json):     # 如果不是json格式，則返回None
         return None
 
     request_charset = self.mimetype_params.get('charset')
-    try:                                # 然后尝试通过json.loads()加载JSON格式数据
+    try:                                # 然後嘗試通過json.loads()加載JSON格式數據
         data = _get_data(self, cache)
         if request_charset is not None:
             rv = json.loads(data, encoding=request_charset)
@@ -530,7 +530,7 @@ def get_json(self, force=False, silent=False, cache=True):
     return rv
 {% endhighlight %}
 
-而返回的 json 数据处理如下，在 flask/json.py 文件中，代码如下。
+而返回的 json 數據處理如下，在 flask/json.py 文件中，代碼如下。
 
 {% highlight python %}
 def jsonify(*args, **kwargs):
@@ -558,9 +558,9 @@ def jsonify(*args, **kwargs):
 
 
 
-## 参考
+## 參考
 
-关于一些技巧，可以直接参考 [快速入门](http://docs.jinkan.org/docs/flask/quickstart.html) 所展示的示例。
+關於一些技巧，可以直接參考 [快速入門](http://docs.jinkan.org/docs/flask/quickstart.html) 所展示的示例。
 
 
 {% highlight python %}

@@ -1,94 +1,94 @@
 ---
-title: Linux 网络协议栈简介
+title: Linux 網絡協議棧簡介
 layout: post
 comments: true
 language: chinese
 category: [network]
-keywords: linux,network,网络,协议栈
-description: Linux 的 TCP/IP 协议栈估计是目前最灵活、应用最广的网络协议栈了，具有清晰的层次结构以及清晰定义的原语和接口，不仅使得上层应用开发者可以无需关心下层架构或者内部机制，从而提供相对透明的操作网络。在本文中简单介绍一下与协议栈相关的基本内容，如标准模型、数据传输等。
+keywords: linux,network,網絡,協議棧
+description: Linux 的 TCP/IP 協議棧估計是目前最靈活、應用最廣的網絡協議棧了，具有清晰的層次結構以及清晰定義的原語和接口，不僅使得上層應用開發者可以無需關心下層架構或者內部機制，從而提供相對透明的操作網絡。在本文中簡單介紹一下與協議棧相關的基本內容，如標準模型、數據傳輸等。
 ---
 
-Linux 的 TCP/IP 协议栈估计是目前最灵活、应用最广的网络协议栈了，具有清晰的层次结构以及清晰定义的原语和接口，不仅使得上层应用开发者可以无需关心下层架构或者内部机制，从而提供相对透明的操作网络。
+Linux 的 TCP/IP 協議棧估計是目前最靈活、應用最廣的網絡協議棧了，具有清晰的層次結構以及清晰定義的原語和接口，不僅使得上層應用開發者可以無需關心下層架構或者內部機制，從而提供相對透明的操作網絡。
 
-在本文中简单介绍一下与协议栈相关的内容。
+在本文中簡單介紹一下與協議棧相關的內容。
 
 <!-- more -->
 
-## 标准模型
+## 標準模型
 
-实际上有两套模型：七层 OSI 和 四层 TCP/IP 模型，由于种种原因，前者只存在于理论中，而实际应用的是后者，也就是 Linux 协议栈的实现，两者的对应关系如下：
+實際上有兩套模型：七層 OSI 和 四層 TCP/IP 模型，由於種種原因，前者只存在於理論中，而實際應用的是後者，也就是 Linux 協議棧的實現，兩者的對應關係如下：
 
 ![OSI and TCP/IP Models]({{ site.url }}/images/network/network-introduce-OSI-TCP-IP.png "OSI and TCP/IP Models"){: .pull-center}
 
-在 TCP/IP 模型中，不同的协议层对应数据的名称也有所区别，而且每层都有不同的协议栈，详细的可以查看图片 [OSI 七层模型.png]({{ site.url }}/images/network/network-introduce-OSI-models.gif) 。
+在 TCP/IP 模型中，不同的協議層對應數據的名稱也有所區別，而且每層都有不同的協議棧，詳細的可以查看圖片 [OSI 七層模型.png]({{ site.url }}/images/network/network-introduce-OSI-models.gif) 。
 
 
-## 数据传输
+## 數據傳輸
 
-接下来看看数据是如何通过协议栈在网络中进行传输的。假设有如下的网络，其中 Host X 尝试从 Server X 上下载 Html 文件，也就是现在我们浏览器经常办的事。
+接下來看看數據是如何通過協議棧在網絡中進行傳輸的。假設有如下的網絡，其中 Host X 嘗試從 Server X 上下載 Html 文件，也就是現在我們瀏覽器經常辦的事。
 
 ![How the Network Stack Operates]({{ site.url }}/images/network/network-introduce-how-works.png "How the Network Stack Operates"){: .pull-center}
 
-那么有如下的疑问：
+那麼有如下的疑問：
 
-* Host X 和 Server Y 在不同的局域网中，它们是如何进行通讯的呢？
+* Host X 和 Server Y 在不同的局域網中，它們是如何進行通訊的呢？
 
-* Host X 不知道 Server Y 的物理地址，那么 X 如何发送请求呢？
+* Host X 不知道 Server Y 的物理地址，那麼 X 如何發送請求呢？
 
-首先在应用层 (Application Layer)，也就是用户在浏览器中输入 www.baidu.com 然后按下回车后，此时首先会通过 DNS 解析出该 URL 中主机的 IP 地址，假设是上图中的 208.201.237.37，那么接下来两台机器间就是通过 IP 来进行通讯。
+首先在應用層 (Application Layer)，也就是用戶在瀏覽器中輸入 www.baidu.com 然後按下回車後，此時首先會通過 DNS 解析出該 URL 中主機的 IP 地址，假設是上圖中的 208.201.237.37，那麼接下來兩臺機器間就是通過 IP 來進行通訊。
 
-在 TCP 传输层 (Transport Layer) 中，如果消息过长会将要发送的数据拆分成多个请求，并且会将源 IP、目的 IP、源 Port、目的 Port 包在消息头中，其中目的 Port 对于 HTTP 请求来说默认是 80，而源 Port 则是 OS 动态分配的。此时，TCP 并不知道如何将报文发送到目的地，实际上这是 IP 层所作的事情。
+在 TCP 傳輸層 (Transport Layer) 中，如果消息過長會將要發送的數據拆分成多個請求，並且會將源 IP、目的 IP、源 Port、目的 Port 包在消息頭中，其中目的 Port 對於 HTTP 請求來說默認是 80，而源 Port 則是 OS 動態分配的。此時，TCP 並不知道如何將報文發送到目的地，實際上這是 IP 層所作的事情。
 
-IP 网络层 (Network Layer) 尝试将报文直接发送出去，但是路由表中没有找到目的 IP，那么就会发送给系统指定的默认网关，也就是 Router RT1。
+IP 網絡層 (Network Layer) 嘗試將報文直接發送出去，但是路由表中沒有找到目的 IP，那麼就會發送給系統指定的默認網關，也就是 Router RT1。
 
-然后就是链路层 (Link Layer)，不同的链路层实现的机制有所区别，对于以太网来说，是通过 MAC 地址标示地址的，而 IP 地址和 MAC 的映射是通过 ARP 查询，有了路由器 RT1 的 MAC 地址之后，那么在局域网中就可以直接传输报文了。
+然後就是鏈路層 (Link Layer)，不同的鏈路層實現的機制有所區別，對於以太網來說，是通過 MAC 地址標示地址的，而 IP 地址和 MAC 的映射是通過 ARP 查詢，有了路由器 RT1 的 MAC 地址之後，那麼在局域網中就可以直接傳輸報文了。
 
-接下来，就是在 RT1、RT2 ... ... 中的传输了，实际上除了最后一个路由器之外，其操作相同：
+接下來，就是在 RT1、RT2 ... ... 中的傳輸了，實際上除了最後一個路由器之外，其操作相同：
 
-1. 移除链路层头部。
+1. 移除鏈路層頭部。
 
-2. 找到对应的 IP 地址。
+2. 找到對應的 IP 地址。
 
-3. 发现该 IP 仍然不在该局域网中，找到下跳 MAC，新建一个链路层头。
+3. 發現該 IP 仍然不在該局域網中，找到下跳 MAC，新建一個鏈路層頭。
 
-4. 然后发送到下一个路由中。
+4. 然後發送到下一個路由中。
 
-实际上打包的过程，以及报文的内容如下：
+實際上打包的過程，以及報文的內容如下：
 
 ![messages travel the stack]({{ site.url }}/images/network/netwok-introduce-travels.png "messages travel the stack"){: .pull-center}
 
-其中 a~d 为在主机 Host X 上各层的打包过程，而 e 是在 RT1-RT2 的报文。
+其中 a~d 為在主機 Host X 上各層的打包過程，而 e 是在 RT1-RT2 的報文。
 
 
 
-## Linux 协议栈
+## Linux 協議棧
 
-Linux 协议栈的内容大致如下图所示。
+Linux 協議棧的內容大致如下圖所示。
 
 ![the linux TCP/IP stack]({{ site.url }}/images/network/introduce-linux-TCP-IP-stack.jpg "the linux TCP/IP stack"){: .pull-center}
 
-其中应用层通过 glibc 封装的系统调用与内核交换程序，例如 socket()、bind()、recv()、send() 等函数，在内核中实际实现的一个与虚拟文件系统类似的接口，也就是 socketfs 。
+其中應用層通過 glibc 封裝的系統調用與內核交換程序，例如 socket()、bind()、recv()、send() 等函數，在內核中實際實現的一個與虛擬文件系統類似的接口，也就是 socketfs 。
 
-接下来就是对不同协议栈的实现，最常用的就是 TCP/IP 协议栈了，包括了 TCP、UDP、IP、ICMP、ARP 等等，下面我们会逐步讲解内核中各个模块的实现。
+接下來就是對不同協議棧的實現，最常用的就是 TCP/IP 協議棧了，包括了 TCP、UDP、IP、ICMP、ARP 等等，下面我們會逐步講解內核中各個模塊的實現。
 
-## 杂项
+## 雜項
 
 ### Request For Comments, RFC
 
-RFC 是最重要，也是最常用的资料之一。通常，当某家机构或团体开发出了一套标准或提出对某种标准的设想，想要征询外界的意见时，就会在 Internet 上发放一份 RFC。
+RFC 是最重要，也是最常用的資料之一。通常，當某家機構或團體開發出了一套標準或提出對某種標準的設想，想要徵詢外界的意見時，就會在 Internet 上發放一份 RFC。
 
-一个 RFC 文件在成为官方标准前一般至少要经历 4 个阶段 【RFC2026】：因特网草案、建议标准、草案标准、因特网标准。
+一個 RFC 文件在成為官方標準前一般至少要經歷 4 個階段 【RFC2026】：因特網草案、建議標準、草案標準、因特網標準。
 
-如下是一些常见的协议，可以选择 txt、pdf 等版本：
+如下是一些常見的協議，可以選擇 txt、pdf 等版本：
 
 * [RFC-6176 Secure Sockets Layer (SSL) V2.0](https://tools.ietf.org/html/rfc6176)
 * [RFC-6101 Secure Sockets Layer (SSL) V3.0](https://tools.ietf.org/html/rfc6101)
 
 
 
-## 参考
+## 參考
 
-其中与 Linux 协议栈相关的两本很不错的书籍，包括 《Understanding Linux Network Internals》 以及 《The Linux Networking Architecture: Design and Implementation of Network Protocols in the Linux Kernel》。
+其中與 Linux 協議棧相關的兩本很不錯的書籍，包括 《Understanding Linux Network Internals》 以及 《The Linux Networking Architecture: Design and Implementation of Network Protocols in the Linux Kernel》。
 
 {% highlight c %}
 {% endhighlight %}

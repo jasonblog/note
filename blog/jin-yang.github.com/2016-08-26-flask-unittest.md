@@ -1,41 +1,41 @@
 ---
-title: Flask 单元测试
+title: Flask 單元測試
 layout: post
 comments: true
 language: chinese
 category: [webserver]
-keywords: flask,单元测试,unittest
-description: 在 Python 中，有各种各样的测试框架，包括了 unittest、testtools、subunit、coverage、testrepository、nose、mox、mock、fixtures、discover 等等。而 unittest 是 Python 标准库中的一个模块，是其它框架和工具的基础。
+keywords: flask,單元測試,unittest
+description: 在 Python 中，有各種各樣的測試框架，包括了 unittest、testtools、subunit、coverage、testrepository、nose、mox、mock、fixtures、discover 等等。而 unittest 是 Python 標準庫中的一個模塊，是其它框架和工具的基礎。
 ---
 
-在 Python 中，有各种各样的测试框架，包括了 unittest、testtools、subunit、coverage、testrepository、nose、mox、mock、fixtures、discover 等等。而 unittest 是 Python 标准库中的一个模块，是其它框架和工具的基础。
+在 Python 中，有各種各樣的測試框架，包括了 unittest、testtools、subunit、coverage、testrepository、nose、mox、mock、fixtures、discover 等等。而 unittest 是 Python 標準庫中的一個模塊，是其它框架和工具的基礎。
 
 <!-- more -->
 
-## unittest 简介
+## unittest 簡介
 
-其时最好的资料是参考官方文档 [unittest — Unit testing framework](http://docs.python.org/2.7/library/unittest.html)，其中包含了一些常见的概念。
+其時最好的資料是參考官方文檔 [unittest — Unit testing framework](http://docs.python.org/2.7/library/unittest.html)，其中包含了一些常見的概念。
 
-在开始就是介绍四个重要的概念：test fixture、test case、test suite、test runner。
+在開始就是介紹四個重要的概念：test fixture、test case、test suite、test runner。
 
-一个 test case 实例就是一个测试用例，包括了一套完整的测试流程：测试前准备环境的搭建 (setUp)，执行测试代码 (run)，以及测试后环境的还原 (tearDown)。多个测试用例组合到一起，就是 test suite；当然 test suite 可能会是 test suite 以及 test case 的组合。
+一個 test case 實例就是一個測試用例，包括了一套完整的測試流程：測試前準備環境的搭建 (setUp)，執行測試代碼 (run)，以及測試後環境的還原 (tearDown)。多個測試用例組合到一起，就是 test suite；當然 test suite 可能會是 test suite 以及 test case 的組合。
 
 
 <!--
-test loader 是用来加载 test Case到TestSuite中的，其中有几个loadTestsFrom__()方法，就是从各个地方寻找TestCase，创建它们的实例，然后add到TestSuite中，再返回一个TestSuite实例。
-TextTestRunner是来执行测试用例的，其中的run(test)会执行TestSuite/TestCase中的run(result)方法。
-测试的结果会保存到TextTestResult实例中，包括运行了多少测试用例，成功了多少，失败了多少等信息。
+test loader 是用來加載 test Case到TestSuite中的，其中有幾個loadTestsFrom__()方法，就是從各個地方尋找TestCase，創建它們的實例，然後add到TestSuite中，再返回一個TestSuite實例。
+TextTestRunner是來執行測試用例的，其中的run(test)會執行TestSuite/TestCase中的run(result)方法。
+測試的結果會保存到TextTestResult實例中，包括運行了多少測試用例，成功了多少，失敗了多少等信息。
 
 
-这样整个流程就清楚了，首先是要写好TestCase，然后由TestLoader加载TestCase到TestSuite，然后由TextTestRunner来运行TestSuite，运行的结果保存在TextTestResult中，整个过程集成在unittest.main模块中。
+這樣整個流程就清楚了，首先是要寫好TestCase，然後由TestLoader加載TestCase到TestSuite，然後由TextTestRunner來運行TestSuite，運行的結果保存在TextTestResult中，整個過程集成在unittest.main模塊中。
 
-现在已经涉及到了test case, test suite, test runner这三个概念了，还有test fixture没有提到，那什么是test fixture呢？？在TestCase的docstring中有这样一段话：
+現在已經涉及到了test case, test suite, test runner這三個概念了，還有test fixture沒有提到，那什麼是test fixture呢？？在TestCase的docstring中有這樣一段話：
 
 Test authors should subclass TestCase for their own tests. Construction and deconstruction of the test's environment ('fixture') can be implemented by overriding the 'setUp' and 'tearDown' methods respectively.
 
-可见，对一个测试用例环境的搭建和销毁，是一个fixture，通过覆盖TestCase的setUp()和tearDown()方法来实现。这个有什么用呢？比如说在这个测试用例中需要访问数据库，那么可以在setUp()中建立数据库连接以及进行一些初始化，在tearDown()中清除在数据库中产生的数据，然后关闭连接。注意tearDown的过程很重要，要为以后的TestCase留下一个干净的环境。关于fixture，还有一个专门的库函数叫做fixtures，功能更加强大，以后会介绍到。
+可見，對一個測試用例環境的搭建和銷燬，是一個fixture，通過覆蓋TestCase的setUp()和tearDown()方法來實現。這個有什麼用呢？比如說在這個測試用例中需要訪問數據庫，那麼可以在setUp()中建立數據庫連接以及進行一些初始化，在tearDown()中清除在數據庫中產生的數據，然後關閉連接。注意tearDown的過程很重要，要為以後的TestCase留下一個乾淨的環境。關於fixture，還有一個專門的庫函數叫做fixtures，功能更加強大，以後會介紹到。
 
-至此，概念和流程基本清楚了，下面通过简单的例子再来实践一下，就拿unittest文档上的例子吧：
+至此，概念和流程基本清楚了，下面通過簡單的例子再來實踐一下，就拿unittest文檔上的例子吧：
 
 
 
@@ -48,7 +48,7 @@ A test runner is an object that provides a single method, run(), which accepts a
 
 -->
 
-接下来直接看一个示例，用来测试 random 库中的部分函数。
+接下來直接看一個示例，用來測試 random 庫中的部分函數。
 
 {% highlight python %}
 # -*- coding:utf-8 -*-
@@ -56,20 +56,20 @@ import random
 import unittest
 
 class TestSequenceFunctions(unittest.TestCase):
-    def setUp(self):          # 初始化设置
+    def setUp(self):          # 初始化設置
         self.seq = range(10)
-    def tearDown(self):       # 测试完成后的清理
+    def tearDown(self):       # 測試完成後的清理
         pass
-    def test_shuffle(self):   # 将序列随机化，需要保证没有丢失元素
+    def test_shuffle(self):   # 將序列隨機化，需要保證沒有丟失元素
         random.shuffle(self.seq)
         self.seq.sort()
         self.assertEqual(self.seq, range(10))
         # should raise an exception for an immutable sequence
         self.assertRaises(TypeError, random.shuffle, (1,2,3))
-    def test_choice(self):    # 随机选择其中一个元素
+    def test_choice(self):    # 隨機選擇其中一個元素
         element = random.choice(self.seq)
         self.assertTrue(element in self.seq)
-    def test_sample(self):    # 选择n个随机且独立的元素
+    def test_sample(self):    # 選擇n個隨機且獨立的元素
         with self.assertRaises(ValueError):
             random.sample(self.seq, 20)
         for element in random.sample(self.seq, 5):
@@ -81,7 +81,7 @@ if __name__ == '__main__':
 
 <!--
 [python] view plain copy
-在CODE上查看代码片派生到我的代码片
+在CODE上查看代碼片派生到我的代碼片
 
     def loadTestsFromTestCase(self, testCaseClass):
         """Return a suite of all tests cases contained in testCaseClass"""
@@ -94,10 +94,10 @@ if __name__ == '__main__':
         loaded_suite = self.suiteClass(map(testCaseClass, testCaseNames))
         return loaded_suite
 
-getTestCaseNames()是从TestCase这个类中找所有以“test”开头的方法，然后注意第9行，在构造TestSuite对象时，其参数使用了一个map方法，即对testCaseNames中的每一个元素，使用testCaseClass为其构造对象，其结果是一个TestCase的对象集合，可以用下面的代码来分步说明：
+getTestCaseNames()是從TestCase這個類中找所有以“test”開頭的方法，然後注意第9行，在構造TestSuite對象時，其參數使用了一個map方法，即對testCaseNames中的每一個元素，使用testCaseClass為其構造對象，其結果是一個TestCase的對象集合，可以用下面的代碼來分步說明：
 
 [python] view plain copy
-在CODE上查看代码片派生到我的代码片
+在CODE上查看代碼片派生到我的代碼片
 
     testcases = []
     for name in testCaeNames:
@@ -105,18 +105,18 @@ getTestCaseNames()是从TestCase这个类中找所有以“test”开头的方�
     loaded_suite = self.suiteClass(tuple(testcases))
 
 
-可见，对每一个以test开头的方法，都为其构建了一个TestCase对象，值得注意的是，如果没有定义test开头的方法，而是将测试代码写到了一个名为runTest的方法中，那么会为该runTest方法构建TestCase对象，如果定义了test开头的方法，就会忽略runTest方法。
+可見，對每一個以test開頭的方法，都為其構建了一個TestCase對象，值得注意的是，如果沒有定義test開頭的方法，而是將測試代碼寫到了一個名為runTest的方法中，那麼會為該runTest方法構建TestCase對象，如果定義了test開頭的方法，就會忽略runTest方法。
 
-至此，基本就清楚了，每一个以test开头的方法，都会为其构建TestCase对象，也就是说TestSequenceFunctions类中其实定义了三个TestCase，之所以写成这样，是为了方便，因为这几个测试用例的fixture是相同的，如果每一个测试用例单独写成一个TestCase的话，会有很多的冗余代码。
+至此，基本就清楚了，每一個以test開頭的方法，都會為其構建TestCase對象，也就是說TestSequenceFunctions類中其實定義了三個TestCase，之所以寫成這樣，是為了方便，因為這幾個測試用例的fixture是相同的，如果每一個測試用例單獨寫成一個TestCase的話，會有很多的冗餘代碼。
 -->
 
 
 
-## flask 单元测试
+## flask 單元測試
 
-### 简单测试
+### 簡單測試
 
-假设当我们访问应用的根 URL 时应该显示 "Helle World\n"，新增了一个新的测试用例来测试:
+假設當我們訪問應用的根 URL 時應該顯示 "Helle World\n"，新增了一個新的測試用例來測試:
 
 <!--
 class FlaskrTestCase(unittest.TestCase):
@@ -135,7 +135,7 @@ class FlaskrTestCase(unittest.TestCase):
         assert 'No entries here so far' in rv.data
 -->
 
-注意，我们的调试函数都是以 test 开头的，也就是 unittest 定义的标准，用于测试的函数并运行它们。
+注意，我們的調試函數都是以 test 開頭的，也就是 unittest 定義的標準，用於測試的函數並運行它們。
 
 {% highlight python %}
 # -*- coding:utf-8 -*-
@@ -147,7 +147,7 @@ class FoobarTestCase(unittest.TestCase):
     def setUp(self):
         foobar.app.config['TESTING'] = True
         self.app = foobar.app.test_client()
-        foobar.init()             # 调用应用中的命令
+        foobar.init()             # 調用應用中的命令
     def tearDown(self):
         pass
     def test_check_entry(self):
@@ -158,12 +158,12 @@ if __name__ == '__main__':
     unittest.main()
 {% endhighlight %}
 
-在如上的测试用例中，通过使用 self.app.get 向应用的指定 URL 发送一个 HTTP GET 请求，该函数调用会返回一个 Flask.response_class 对象；然后，可以使用 data 属性来检查应用的返回值。
+在如上的測試用例中，通過使用 self.app.get 嚮應用的指定 URL 發送一個 HTTP GET 請求，該函數調用會返回一個 Flask.response_class 對象；然後，可以使用 data 屬性來檢查應用的返回值。
 
 
-### 登录和注销
+### 登錄和註銷
 
-很多应用的功能必须登录以后才能使用，因此必须测试应用的登录和注销，因为登录和注销后会重定向到别的页面，因此必须告诉客户端使用 follow_redirects 追踪重定向。
+很多應用的功能必須登錄以後才能使用，因此必須測試應用的登錄和註銷，因為登錄和註銷後會重定向到別的頁面，因此必須告訴客戶端使用 follow_redirects 追蹤重定向。
 
 {% highlight python %}
 def login(self, username, password):
@@ -187,7 +187,7 @@ def test_login_logout(self):
 
 ## 使用 pytest
 
-实际上 Python 中使用比较多的是 nose 以及 pytest，据说 nose 要更加好用一些，不过在 flask 示例中使用的是 pytest，为了便于参考，我们还是直接使用 pytest 。
+實際上 Python 中使用比較多的是 nose 以及 pytest，據說 nose 要更加好用一些，不過在 flask 示例中使用的是 pytest，為了便於參考，我們還是直接使用 pytest 。
 
 
 <!---
@@ -196,9 +196,9 @@ http://dormousehole.readthedocs.io/en/latest/testing.html
 -->
 
 
-## 参考
+## 參考
 
-在源码的 examples 中，有个 minitwit 示例，使用 pytest 进行测试，可以参考。
+在源碼的 examples 中，有個 minitwit 示例，使用 pytest 進行測試，可以參考。
 
 
 {% highlight python %}

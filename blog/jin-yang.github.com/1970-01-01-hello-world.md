@@ -6,7 +6,7 @@ language: chinese
 usemath: true
 category: [misc]
 keywords: hello world,示例,sample,markdown
-description: 简单记录一下一些与 Markdown 相关的内容，包括了一些使用模版。
+description: 簡單記錄一下一些與 Markdown 相關的內容，包括了一些使用模版。
 ---
 
 Hi, the world, I'm coooooooooming.
@@ -25,7 +25,7 @@ Oooops, just examples, ignore me, darling.
 -->
 </style>
 
-静思
+靜思
 
 <div id="colorbox">
     <span style="width:125.2px;background-color: #81C2D6" alt="81C2D6">HEX<br>#81C2D6<br>RGB<br>129.194.214<br>CMYK<br>10.9.0.16</span>
@@ -36,20 +36,20 @@ Oooops, just examples, ignore me, darling.
 </div>
 <div class="clearfix"></div>
 
-## Heading 2，目录 2
+## Heading 2，目錄 2
 
-### Heading 3， 目录 3
+### Heading 3， 目錄 3
 
-#### Heading 4，目录 4
+#### Heading 4，目錄 4
 
-##### Heading 5，目录 5
+##### Heading 5，目錄 5
 
-###### Heading 6， 目录 6
+###### Heading 6， 目錄 6
 
 
 ## MISC
 
-### Separator，分割线
+### Separator，分割線
 
 下面的效果是相同的。
 
@@ -66,26 +66,26 @@ Oooops, just examples, ignore me, darling.
 
 
 
-### The Fonts， 字体设置
+### The Fonts， 字體設置
 
-*This is emphasized 斜体*.   _This is also emphasized 还是斜体_.
+*This is emphasized 斜體*.   _This is also emphasized 還是斜體_.
 
-**Strong font 粗体** __Also strong font 还是粗体__
+**Strong font 粗體** __Also strong font 還是粗體__
 
-Water is H<sub>2</sub>O. 4<sup>2</sup>=16. 上标、下标测试。
+Water is H<sub>2</sub>O. 4<sup>2</sup>=16. 上標、下標測試。
 
-Code Use the `printf()` function，代码模块。
+Code Use the `printf()` function，代碼模塊。
 
-Code Use the <code>printf()</code> function，与上面功能一样。
+Code Use the <code>printf()</code> function，與上面功能一樣。
 
-``There is a literal backtick (`) here.``，额，还是代码模块。
+``There is a literal backtick (`) here.``，額，還是代碼模塊。
 
-The New York Times <cite>(That’s a citation)</cite>. 引用测试，和斜体相似。
+The New York Times <cite>(That’s a citation)</cite>. 引用測試，和斜體相似。
 
-This is <u>Underline</u>. 下划线。
+This is <u>Underline</u>. 下劃線。
 
 
-### Code Snippets，代码高亮显示
+### Code Snippets，代碼高亮顯示
 
 Syntax highlighting via Pygments. css java sh c gas asm cpp c++
 
@@ -134,9 +134,9 @@ Non Pygments code example
 
 ### Block Quote， 段引用
 
-下面时关于段引用的测试。
+下面時關於段引用的測試。
 
-单段的引用。Just one paragraph.
+單段的引用。Just one paragraph.
 
 > My conclusion after the trip was "well, now I know that there's at least one company in the world that can succeed with the waterfall model" and I decided to stop bashing the waterfall model as hard as I usually do. Now, however, with all the problems Toyota are having, I'm starting to reconsider.q q q q q q q q q q q q q q q<from>kkkkk</from>
 
@@ -147,7 +147,7 @@ Non Pygments code example
 >
 > My conclusion after the trip was "well, now I know that there's at least one company in the world that can succeed with the waterfall model" and I decided to stop bashing the waterfall model as hard as I usually do. Now, however, with all the problems Toyota are having, I'm starting to .q q q q q
 
-单段，但较为复杂的引用。
+單段，但較為複雜的引用。
 
 > My conclusion after the trip was "well,
 > now I know that there's at least one company in the world
@@ -169,9 +169,9 @@ Non Pygments code example
 
 
 
-### Unordered Lists，无序列表
+### Unordered Lists，無序列表
 
-如下是三种不同的表达方式。
+如下是三種不同的表達方式。
 
 #### Unordered Lists 1
 
@@ -193,7 +193,7 @@ Non Pygments code example
 
 #### 其它
 
-如下的各个列表项中，各个项之间表示为段落，而之前的不是，也就是说添加了 ```<p></p>``` ，所以现在看起来各个段之间空隙有点大。
+如下的各個列表項中，各個項之間表示為段落，而之前的不是，也就是說添加了 ```<p></p>``` ，所以現在看起來各個段之間空隙有點大。
 
 - Item one
 
@@ -203,7 +203,7 @@ Non Pygments code example
 
 ### Ordered Lists，有序列表
 
-有序表的表达方式，只与顺序相关，而与列表前的数字无关。
+有序表的表達方式，只與順序相關，而與列表前的數字無關。
 
 #### Ordered Lists 1
 
@@ -225,9 +225,9 @@ Non Pygments code example
 9. Item two
 5. Item three
 
-### Lists Tips，列表补记
+### Lists Tips，列表補記
 
-列表项目标记通常是放在最左边，但是其实也可以缩进，最多 3 个空格，项目标记后面则一定要接着至少一个空格或制表符。
+列表項目標記通常是放在最左邊，但是其實也可以縮進，最多 3 個空格，項目標記後面則一定要接著至少一個空格或製表符。
 
 *   Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
     Aliquam hendrerit mi posuere lectus. Vestibulum enim wisi,
@@ -235,7 +235,7 @@ Non Pygments code example
 *   Donec sit amet nisl. Aliquam semper ipsum sit amet velit.
     Suspendisse id sem consectetuer libero luctus adipiscing.
 
-如下显示相同。
+如下顯示相同。
 
 *   Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
 Aliquam hendrerit mi posuere lectus. Vestibulum enim wisi,
@@ -243,7 +243,7 @@ viverra nec, fringilla in, laoreet vitae, risus.
 *   Donec sit amet nisl. Aliquam semper ipsum sit amet velit.
 Suspendisse id sem consectetuer libero luctus adipiscing.
 
-如下是在同一列表中，显示两个段落。
+如下是在同一列表中，顯示兩個段落。
 
 1.  This is a list item with two paragraphs. Lorem ipsum dolor
     sit amet, consectetuer adipiscing elit. Aliquam hendrerit
@@ -261,7 +261,7 @@ sit amet, consectetuer adipiscing elit.
 
 ### Tables, 表格
 
-kramdown 默认支持表格，只需要设置好 ```table thead tbody th tr td``` 对应的属性即可。
+kramdown 默認支持表格，只需要設置好 ```table thead tbody th tr td``` 對應的屬性即可。
 
 |head1 head1 head1|head2 head2 head2|head3 head3 head3|head4 head4 head4|
 |---|:---|:---:|---:|
@@ -276,9 +276,9 @@ bar | bar  | bar
 baz | baz  | baz
 -->
 
-### MathJax, 数学表达式
+### MathJax, 數學表達式
 
-如下是一个数学表达式。
+如下是一個數學表達式。
 
 $$
 \begin{align*}
@@ -297,9 +297,9 @@ $$
 \end{align*}
 $$
 
-段内插入LaTeX代码是这样的：$\exp(-\frac{x^2}{2})$，试试看看吧
+段內插入LaTeX代碼是這樣的：$\exp(-\frac{x^2}{2})$，試試看看吧
 
-### Pictures，图片显示
+### Pictures，圖片顯示
 
 ![If the picture doesnt exist]({{ site.url }}/images/linux-liberty.png "an example picture"){: .pull-left}
 
@@ -314,9 +314,9 @@ $$
 
 ### Reference，引用
 
-如下是一个简单的链接 [an example](http://example.com/ "Title")，当然也可以使用网站的相对路径 [About Me](/about/) 。
+如下是一個簡單的鏈接 [an example](http://example.com/ "Title")，當然也可以使用網站的相對路徑 [About Me](/about/) 。
 
-也可以将网站的引用与 URL 分别区分开，如下是其中的示例，而且不区分大小写，[RTEMS] [1]、[Linux] [2]、[GUN][GUN]、[GUN][gun] 。
+也可以將網站的引用與 URL 分別區分開，如下是其中的示例，而且不區分大小寫，[RTEMS] [1]、[Linux] [2]、[GUN][GUN]、[GUN][gun] 。
 
 <!-- the following can occur on anywhere -->
 [1]: http://www.rtems.com                              "A Real Time kernel"
@@ -392,7 +392,7 @@ $$
 ➓
 
 
-用pt-table-checksum校验数据一致性
+用pt-table-checksum校驗數據一致性
 http://www.nettedfish.com/blog/2013/06/04/check-replication-consistency-by-pt-table-checksum/
 
 Choosing MySQL High Availability Solutions
@@ -409,15 +409,15 @@ http://www.jianshu.com/p/c16686b35807
 http://slideplayer.com/slide/6146721/
 http://miguelangelnieto.net/index.php/how-to-createrestore-a-slave-using-gtid-replication-in-mysql-5-6/
 
-???支持基于所有数据库、指定数据库、指定表的复制。
+???支持基於所有數據庫、指定數據庫、指定表的複製。
 
-默认使用基于GTID的异步复制，同时支持半同步复制 (semi-synchronous)，基于 NDB 的同步复制以及延迟复制 (Delayed Replication)
+默認使用基於GTID的異步複製，同時支持半同步複製 (semi-synchronous)，基於 NDB 的同步複製以及延遲複製 (Delayed Replication)
 
 
 
 
 ### NC
-socat加强版
+socat加強版
 http://brieflyx.me/2015/linux-tools/socat-introduction/
 
 
@@ -428,13 +428,13 @@ http://www.cnblogs.com/respawn/archive/2012/07/09/2582078.html
 
 ### TSD
 
-在多线程程序中，所有线程共享程序中的变量，如果每个线程需要保存独自的数据，例如每个线程维护一个链表，但是通过相同的函数处理，这就是 Thread Specific Data 的作用。如下介绍 TSD 的使用方法：
+在多線程程序中，所有線程共享程序中的變量，如果每個線程需要保存獨自的數據，例如每個線程維護一個鏈表，但是通過相同的函數處理，這就是 Thread Specific Data 的作用。如下介紹 TSD 的使用方法：
 
-1. 声明一个 pthread_key_t 类型的全局变量；
-2. 通过 pthread_key_create() 函数创建 TSD，实际就是分配一个实例，并将其赋值给 pthread_key_t 变量，所有的线程都可以通过该变量访问，这就相当于提供了同名而不同值的全局变量；
-3. 调用  pthread_setspcific()、pthread_getspecific() 存储或者获取各个线程特有的值；
+1. 聲明一個 pthread_key_t 類型的全局變量；
+2. 通過 pthread_key_create() 函數創建 TSD，實際就是分配一個實例，並將其賦值給 pthread_key_t 變量，所有的線程都可以通過該變量訪問，這就相當於提供了同名而不同值的全局變量；
+3. 調用  pthread_setspcific()、pthread_getspecific() 存儲或者獲取各個線程特有的值；
 
-TSD的实现详见： https://www.ibm.com/developerworks/cn/linux/thread/posix_threadapi/part2/
+TSD的實現詳見： https://www.ibm.com/developerworks/cn/linux/thread/posix_threadapi/part2/
 
 int pthread_key_create(pthread_key_t *key, void (*destructor)(void*));
 int pthread_setspecific(pthread_key_t key, const void *value);
@@ -442,20 +442,20 @@ void *pthread_getspecific(pthread_key_t key);
 
 
 
-### innodb_locks_unsafe_for_binlog 参数相关
-另外设置 innodb_locks_unsafe_for_binlog=1 ,binlog也要设为row格式。
+### innodb_locks_unsafe_for_binlog 參數相關
+另外設置 innodb_locks_unsafe_for_binlog=1 ,binlog也要設為row格式。
 https://dev.mysql.com/doc/refman/5.7/en/innodb-parameters.html#sysvar_innodb_locks_unsafe_for_binlog
-innodb默认使用了next-gap算法，这种算法结合了index-row锁和gap锁。正因为这样的锁算法，innodb在可重复读这样的默认隔离级别上，可以避免幻象的产生。innodb_locks_unsafe_for_binlog最主要的作用就是控制innodb是否对gap加锁。
-注意该参数如果是enable的，则是unsafe的，此时gap不会加锁；反之，如果disable掉该参数，则gap会加锁。当然对于一些和数据完整性相关的定义，如外键和唯一索引（含主键）需要对gap进行加锁，那么innodb_locks_unsafe_for_binlog的设置并不会影响gap是否加锁。
-在5.1.15的时候，innodb引入了一个概念叫做“semi-consistent”，这样会在innodb_locks_unsafe_for_binlog的状态为ennable时在一定程度上提高update并发性。
+innodb默認使用了next-gap算法，這種算法結合了index-row鎖和gap鎖。正因為這樣的鎖算法，innodb在可重複讀這樣的默認隔離級別上，可以避免幻象的產生。innodb_locks_unsafe_for_binlog最主要的作用就是控制innodb是否對gap加鎖。
+注意該參數如果是enable的，則是unsafe的，此時gap不會加鎖；反之，如果disable掉該參數，則gap會加鎖。當然對於一些和數據完整性相關的定義，如外鍵和唯一索引（含主鍵）需要對gap進行加鎖，那麼innodb_locks_unsafe_for_binlog的設置並不會影響gap是否加鎖。
+在5.1.15的時候，innodb引入了一個概念叫做“semi-consistent”，這樣會在innodb_locks_unsafe_for_binlog的狀態為ennable時在一定程度上提高update併發性。
 https://yq.aliyun.com/articles/62372
 
 
 
 ### FLUSH TABLES WITH READ LOCK
-FLUSH TABLES WITH READ LOCK命令的作用是关闭所有打开的表，会将所有脏页刷新到磁盘，同时对所有数据库中的表都加一个全局读锁，直到显示执行UNLOCK TABLES，才释放持有的读锁。
+FLUSH TABLES WITH READ LOCK命令的作用是關閉所有打開的表，會將所有髒頁刷新到磁盤，同時對所有數據庫中的表都加一個全局讀鎖，直到顯示執行UNLOCK TABLES，才釋放持有的讀鎖。
 
-该操作常用于获取一致性数据备份。
+該操作常用於獲取一致性數據備份。
 
 http://aklaus.blog.51cto.com/9724632/1656991
 http://blog.csdn.net/zbszhangbosen/article/details/7434181
@@ -467,7 +467,7 @@ http://blog.csdn.net/arkblue/article/details/27376991
 https://www.percona.com/blog/2012/03/23/how-flush-tables-with-read-lock-works-with-innodb-tables/
 https://www.percona.com/blog/2010/04/24/how-fast-is-flush-tables-with-read-lock/
 
-加锁过程是什么样的，为什么会阻塞现有的SELECT查询？
+加鎖過程是什麼樣的，為什麼會阻塞現有的SELECT查詢？
 
 http://www.penglixun.com/tech/database/the_process_of_mysqldump.html
 http://www.cnblogs.com/digdeep/p/4947694.html
@@ -481,9 +481,9 @@ http://dinglin.iteye.com/blog/1236330
 http://xstarcd.github.io/wiki/MySQL/MySQL_replicate_error.html
 
 #### FOR UPDATE/
-SELECT ... FOR UPDATE 用于对查询的数据添加IX锁(意向排它锁)，此时，其它会话也就无法在这些记录上添加任何的S锁或X锁，通常使用的场景是为了防止在低隔离级别下出现幻读现象，用于保证 “本事务看到的是数据库存储的最新数据，并且看到的数据只能由本事务修改”。
+SELECT ... FOR UPDATE 用於對查詢的數據添加IX鎖(意向排它鎖)，此時，其它會話也就無法在這些記錄上添加任何的S鎖或X鎖，通常使用的場景是為了防止在低隔離級別下出現幻讀現象，用於保證 “本事務看到的是數據庫存儲的最新數據，並且看到的數據只能由本事務修改”。
 
-InnoDB默认使用快照读，使用 FOR UPDATE 之后不会阻塞其它会话的快照读，当然会阻塞lock in share mode和for update这种显示加锁的查询操作。
+InnoDB默認使用快照讀，使用 FOR UPDATE 之後不會阻塞其它會話的快照讀，當然會阻塞lock in share mode和for update這種顯示加鎖的查詢操作。
 
 CREATE TABLE `foobar` (
   `id` int(11) NOT NULL,
@@ -504,38 +504,38 @@ select * from foobar where col = 11;
 update foobar set col = col*2 where col=11;
 
 
-SELECT ... LOCK IN SHARE MODE对于查询的数据添加IS(意向共享锁)，此时，其它会话可以读取这些记录，也可以继续添加IS锁，但是无法修改这些记录直到该事务执行完成。
+SELECT ... LOCK IN SHARE MODE對於查詢的數據添加IS(意向共享鎖)，此時，其它會話可以讀取這些記錄，也可以繼續添加IS鎖，但是無法修改這些記錄直到該事務執行完成。
 
-通常用于两张存在关联关系表的写操作，拿mysql官方文档的例子来说，一个表是child表，一个是parent表，假设child表的某一列child_id映射到parent表的c_child_id列，那么从业务角度讲，此时我直接insert一条child_id=100记录到child表是存在风险的，因为刚insert的时候可能在parent表里删除了这条c_child_id=100的记录，那么业务数据就存在不一致的风险。正确的方法是再插入时执行select * from parent where c_child_id=100 lock in share mode,锁定了parent表的这条记录，然后执行insert into child(child_id) values (100)就ok了。
+通常用於兩張存在關聯關係表的寫操作，拿mysql官方文檔的例子來說，一個表是child表，一個是parent表，假設child表的某一列child_id映射到parent表的c_child_id列，那麼從業務角度講，此時我直接insert一條child_id=100記錄到child表是存在風險的，因為剛insert的時候可能在parent表裡刪除了這條c_child_id=100的記錄，那麼業務數據就存在不一致的風險。正確的方法是再插入時執行select * from parent where c_child_id=100 lock in share mode,鎖定了parent表的這條記錄，然後執行insert into child(child_id) values (100)就ok了。
 
 http://blog.csdn.net/cug_jiang126com/article/details/50544728
 http://chenzhou123520.iteye.com/blog/1860954
 https://www.percona.com/blog/2006/08/06/select-lock-in-share-mode-and-for-update/
 
 
-#### 复制过滤可能产生的异常
+#### 複製過濾可能產生的異常
 
 http://keithlan.github.io/2015/11/02/mysql_replicate_rule/
 
-#### BLOG和TEXT区别
-BLOB和TEXT分别用于保存二进制和非二进制字符串，保存数据可变，都可以分为四类：TINYBLOB、BLOB、MEDIUMBLOB 和 LONGBLOB ，TEXT与之类似，只是其容纳长度有所不同；两者区别如下：
+#### BLOG和TEXT區別
+BLOB和TEXT分別用於保存二進制和非二進制字符串，保存數據可變，都可以分為四類：TINYBLOB、BLOB、MEDIUMBLOB 和 LONGBLOB ，TEXT與之類似，只是其容納長度有所不同；兩者區別如下：
 
-* BLOB为二进制字符串，TEXT为非二进制字符串；
-* BLOG列没有字符集，并且排序和比较基于列值字节的数值；TEXT列有字符集，并且根据字符集的规则进行排序和比较；
-* 两种类型的DML不存在大小写转换，在非严格模式下超出最大长度时会截断并产生告警；严格模式则会报错；
+* BLOB為二進制字符串，TEXT為非二進制字符串；
+* BLOG列沒有字符集，並且排序和比較基於列值字節的數值；TEXT列有字符集，並且根據字符集的規則進行排序和比較；
+* 兩種類型的DML不存在大小寫轉換，在非嚴格模式下超出最大長度時會截斷併產生告警；嚴格模式則會報錯；
 
-两者可以分别视为VARCHAR和VARBINARY，但是有如下区别：
-* BLOB和TEXT列不能有默认值；
+兩者可以分別視為VARCHAR和VARBINARY，但是有如下區別：
+* BLOB和TEXT列不能有默認值；
 
-当保存或检索BLOB和TEXT列的值时不删除尾部空格。(这与VARBINARY和VARCHAR列相同）.
+當保存或檢索BLOB和TEXT列的值時不刪除尾部空格。(這與VARBINARY和VARCHAR列相同）.
 
-对于BLOB和TEXT列的索引，必须指定索引前缀的长度。对于CHAR和VARCHAR，前缀长度是可选的.
+對於BLOB和TEXT列的索引，必須指定索引前綴的長度。對於CHAR和VARCHAR，前綴長度是可選的.
 
-LONG和LONG VARCHAR对应MEDIUMTEXT数据类型。这是为了保证兼容性。如果TEXT列类型使用BINARY属性，将为列分配列字符集的二元校对规则.
+LONG和LONG VARCHAR對應MEDIUMTEXT數據類型。這是為了保證兼容性。如果TEXT列類型使用BINARY屬性，將為列分配列字符集的二元校對規則.
 
-MySQL连接程序/ODBC将BLOB值定义为LONGVARBINARY，将MySQL TEXT值定义为LONGVARCHAR。由于BLOB和TEXT值可能会非常长，使用它们时可能遇到一些约束.
+MySQL連接程序/ODBC將BLOB值定義為LONGVARBINARY，將MySQL TEXT值定義為LONGVARCHAR。由於BLOB和TEXT值可能會非常長，使用它們時可能遇到一些約束.
 
-BLOB或TEXT对象的最大大小由其类型确定，但在客户端和服务器之间实际可以传递的最大值由可用内存数量和通信缓存区大小确定。你可以通过更改max_allowed_packet变量的值更改消息缓存区的大小，但必须同时修改服务器和客户端程序。例如，可以使用 MySQL和MySQLdump来更改客户端的max_allowed_packet值.
+BLOB或TEXT對象的最大大小由其類型確定，但在客戶端和服務器之間實際可以傳遞的最大值由可用內存數量和通信緩存區大小確定。你可以通過更改max_allowed_packet變量的值更改消息緩存區的大小，但必須同時修改服務器和客戶端程序。例如，可以使用 MySQL和MySQLdump來更改客戶端的max_allowed_packet值.
 
 
 create table foobar (
@@ -555,7 +555,7 @@ http://53873039oycg.iteye.com/blog/2002448
 
 
 #### 高可用
-循环复制
+循環複製
 http://xiezhenye.com/2015/08/%E8%AE%B0%E4%B8%80%E6%AC%A1-mysql-%E5%BE%AA%E7%8E%AF%E5%A4%8D%E5%88%B6.html
 http://www.cnblogs.com/cchust/p/5450510.html
 http://imysql.com/2015/09/14/solutions-of-mysql-ha.shtml
@@ -570,65 +570,65 @@ http://www.cnblogs.com/pangguoping/p/5721517.html
 
 ##### MySQL Cache
 
-sql_cache意思是说，查询的时候使用缓存。
+sql_cache意思是說，查詢的時候使用緩存。
 
-sql_no_cache意思是查询的时候不适用缓存。
+sql_no_cache意思是查詢的時候不適用緩存。
 
-sql_buffer_result意思是说，在查询语句中，将查询结果缓存到临时表中。
+sql_buffer_result意思是說，在查詢語句中，將查詢結果緩存到臨時表中。
 
-这三者正好配套使用。sql_buffer_result将尽快释放表锁，这样其他sql就能够尽快执行。
+這三者正好配套使用。sql_buffer_result將盡快釋放表鎖，這樣其他sql就能夠儘快執行。
 
-使用 FLUSH QUERY CACHE 命令，你可以整理查询缓存，以更好的利用它的内存。这个命令不会从缓存中移除任何查询。FLUSH TABLES 会转储清除查询缓存。
-RESET QUERY CACHE 使命从查询缓存中移除所有的查询结果。
+使用 FLUSH QUERY CACHE 命令，你可以整理查詢緩存，以更好的利用它的內存。這個命令不會從緩存中移除任何查詢。FLUSH TABLES 會轉儲清除查詢緩存。
+RESET QUERY CACHE 使命從查詢緩存中移除所有的查詢結果。
 
 --------------------------------------------------
 
-那么MySQL到底是怎么决定到底要不要把查询结果放到查询缓存中呢？
+那麼MySQL到底是怎麼決定到底要不要把查詢結果放到查詢緩存中呢？
 
-是根据query_cache_type这个变量来决定的。
+是根據query_cache_type這個變量來決定的。
 
-这个变量有三个取值：0,1,2，分别代表了off、on、demand。
+這個變量有三個取值：0,1,2，分別代表了off、on、demand。
 
-意思是说，如果是0，那么query cache 是关闭的。如果是1，那么查询总是先到查询缓存中查找，除非使用了sql_no_cache。如果是2，那么，只有使用 sql_cache的查询，才会去查询缓存中查找。
+意思是說，如果是0，那麼query cache 是關閉的。如果是1，那麼查詢總是先到查詢緩存中查找，除非使用了sql_no_cache。如果是2，那麼，只有使用 sql_cache的查詢，才會去查詢緩存中查找。
 
 
 ###
 ysql [(none)]>grant super on db1.* to 'dtstack'@'%';
-ERROR 1221 (HY000): Incorrect usage of DB GRANT and GLOBAL PRIVILEGES        --因为super权限是管理级别的权限(super ,process,file)，不能够指定某个数据库on 后面必须跟*.*
+ERROR 1221 (HY000): Incorrect usage of DB GRANT and GLOBAL PRIVILEGES        --因為super權限是管理級別的權限(super ,process,file)，不能夠指定某個數據庫on 後面必須跟*.*
 
-正确用法：
+正確用法：
 mysql [(none)]>grant super on *.* to 'dtstack'@'%';
 Query OK, 0 rows affected (0.01 sec)
-释：
-1.super权限可以使用change master to 语句
+釋：
+1.super權限可以使用change master to 語句
 2.kill ， mysqladmin kill  kill_threads
 3.purge binary logs
     EG：
         wjj@(www.dtstack.com) [(none)]>show binary logs;
-          mysql [(none)]>purge binary logs to 'mysql-bin.000005';  --解释：删除MySQLbinlog日志，删除mysql-bin.000005之前的，不包括他本身
+          mysql [(none)]>purge binary logs to 'mysql-bin.000005';  --解釋：刪除MySQLbinlog日誌，刪除mysql-bin.000005之前的，不包括他本身
           Query OK, 0 rows affected (0.03 sec
           mysql [(none)]>show binary logs;
        
-4.可以设置全局参数模式set global xx
-5.mysqladmin debug  启动或禁用日志记录
-6.有权限设置relad_only
-7.连接数达到max_connections上限时无法创建连接时，拥有super权限的用户可以创建一个连接
+4.可以設置全局參數模式set global xx
+5.mysqladmin debug  啟動或禁用日誌記錄
+6.有權限設置relad_only
+7.連接數達到max_connections上限時無法創建連接時，擁有super權限的用戶可以創建一個連接
 
-网络设置，包括了如何设置服务端+客户端、广播、多播等。
+網絡設置，包括瞭如何設置服務端+客戶端、廣播、多播等。
 https://collectd.org/wiki/index.php/Networking_introduction
-写入RRD文件，包括了Collectd对RRD的优化，以及其中一篇RRD优化介绍的文章
+寫入RRD文件，包括了Collectd對RRD的優化，以及其中一篇RRD優化介紹的文章
 http://oss.oetiker.ch/rrdtool-trac/wiki/TuningRRD
 https://collectd.org/wiki/index.php/Inside_the_RRDtool_plugin
-惊群问题讨论
+驚群問題討論
 http://www.voidcn.com/blog/liujiyong7/article/p-377809.html
-linux时间相关结构体和函数整理
+linux時間相關結構體和函數整理
 http://www.cnblogs.com/zhiranok/archive/2012/01/15/linux_c_time_struct.html
-Heap数据结构(栈)
+Heap數據結構(棧)
 http://www.cnblogs.com/gaochundong/p/binary_heap.html
 http://www.cnblogs.com/skywang12345/p/3610187.html
 
 
-AVL数
+AVL數
 https://courses.cs.washington.edu/courses/cse373/06sp/handouts/lecture12.pdf
 https://www.cise.ufl.edu/~nemo/cop3530/AVL-Tree-Rotations.pdf
 http://www.cnblogs.com/zhoujinyi/p/6497231.html
@@ -641,7 +641,7 @@ https://www.unixhot.com/page/ops
 
 
 
-对于GROUP BY、ORDER BY、DISTINCT类似的SQL，可能会用到临时表，通常在内存中使用MEMORY存储引擎，或者磁盘上使用MyISAM存储引擎。一般，当超过了tmp_table_size大小之后，会在磁盘上创建，另外，对于
+對於GROUP BY、ORDER BY、DISTINCT類似的SQL，可能會用到臨時表，通常在內存中使用MEMORY存儲引擎，或者磁盤上使用MyISAM存儲引擎。一般，當超過了tmp_table_size大小之後，會在磁盤上創建，另外，對於
 https://www.percona.com/blog/2007/08/16/how-much-overhead-is-caused-by-on-disk-temporary-tables/
 https://www.percona.com/blog/2007/08/18/how-fast-can-you-sort-data-with-mysql/
 
@@ -653,9 +653,9 @@ http://halobates.de/memorywaste.pdf
 BuildBot
 
 
-非常经典的《Linux平台下的漏洞分析入门 》
+非常經典的《Linux平臺下的漏洞分析入門 》
 https://github.com/1u4nx/Exploit-Exercises-Nebula
-原文在这里
+原文在這裡
 https://www.mattandreko.com/
 
 http://hustcat.github.io/iostats/
@@ -664,30 +664,30 @@ http://www.udpwork.com/item/12931.html
 
 FIXME:
   linux-monitor-io.html
-/proc/diskstats 中包括了主设备号、次设备号和设备名称，剩余的各个字段的含义简单列举如下，详细可以查看内核文档 [I/O statistics fields](https://www.kernel.org/doc/Documentation/iostats.txt) 。
+/proc/diskstats 中包括了主設備號、次設備號和設備名稱，剩餘的各個字段的含義簡單列舉如下，詳細可以查看內核文檔 [I/O statistics fields](https://www.kernel.org/doc/Documentation/iostats.txt) 。
 
-可以通过 grep diskstats 找到对应内核源码实现在 diskstats_show()@block/genhd.c 中。
+可以通過 grep diskstats 找到對應內核源碼實現在 diskstats_show()@block/genhd.c 中。
 
-获取源码 diskstats_show() + struct disk_stats 。
+獲取源碼 diskstats_show() + struct disk_stats 。
 
-可以看到是通过 part_round_stats() 函数获取每个磁盘的最新统计信息，通过 struct hd_struct 中的 struct disk_stats *dkstats 结构体保存，然后利用 part_stat_read() 函数统计各个 CPU 的值 (如果是多核)。
-
-
-在 Bash 编程时，经常需要切换目录，可以通过 pushd、popd、dirs 命令切换目录。
-
-pushd  切换到参数指定的目录，并把原目录和当前目录压入到一个虚拟的堆栈中，不加参数则在最近两个目录间切换；
-popd   弹出堆栈中最近的目录；
-dirs   列出当前堆栈中保存的目录列表；
-  -v 在目录前添加编号，每行显示一个目录；
-  -c 清空栈；
-
-切换目录时，会将上次目录保存在 $OLDPWD 变量中，与 "-" 相同，可以通过 cd - 切换回上次的目录。
+可以看到是通過 part_round_stats() 函數獲取每個磁盤的最新統計信息，通過 struct hd_struct 中的 struct disk_stats *dkstats 結構體保存，然後利用 part_stat_read() 函數統計各個 CPU 的值 (如果是多核)。
 
 
+在 Bash 編程時，經常需要切換目錄，可以通過 pushd、popd、dirs 命令切換目錄。
 
-set -o history 开启bash的历史功能
+pushd  切換到參數指定的目錄，並把原目錄和當前目錄壓入到一個虛擬的堆棧中，不加參數則在最近兩個目錄間切換；
+popd   彈出堆棧中最近的目錄；
+dirs   列出當前堆棧中保存的目錄列表；
+  -v 在目錄前添加編號，每行顯示一個目錄；
+  -c 清空棧；
 
-判断目录是否存在，如果目录名中有'-'则需要进行转义。
+切換目錄時，會將上次目錄保存在 $OLDPWD 變量中，與 "-" 相同，可以通過 cd - 切換回上次的目錄。
+
+
+
+set -o history 開啟bash的歷史功能
+
+判斷目錄是否存在，如果目錄名中有'-'則需要進行轉義。
 
 dir="/tmp/0\-test"
 if [ ! -d "${dir}" ]; then
@@ -696,29 +696,29 @@ fi
 
 
 c_avl_tree_t *c_avl_create(int (*compare)(const void *, const void *));
-入参：
-  比较函数，类似strcmp()；
-实现：
-  1. 保证 compare 有效，非 NULL；
-  2. 申请内存，部分结构体初始化。
+入參：
+  比較函數，類似strcmp()；
+實現：
+  1. 保證 compare 有效，非 NULL；
+  2. 申請內存，部分結構體初始化。
 返回：
-  成功返回结构体指针；参数异常或者没有内存，返回 NULL；
+  成功返回結構體指針；參數異常或者沒有內存，返回 NULL；
 
 int c_avl_insert(c_avl_tree_t *t, void *key, void *value);
 返回：
-  -1：内存不足；
-  0： 节点写入正常；
-  1:  节点已经存在；
+  -1：內存不足；
+  0： 節點寫入正常；
+  1:  節點已經存在；
 
 int c_avl_get(c_avl_tree_t *t, const void *key, void **value);
-调用者保证 t 存在 (非NULL)。
+調用者保證 t 存在 (非NULL)。
 返回：
-  -1：对象不存在；
-  0： 查找成功，对应的值保存在value中；
+  -1：對象不存在；
+  0： 查找成功，對應的值保存在value中；
 
 int c_avl_remove(c_avl_tree_t *t, const void *key, void **rkey, void **rvalue);
 返回：
-  -1：对象不存在；
+  -1：對象不存在；
 
 
 _remove()
@@ -727,7 +727,7 @@ rebalance()
 verify_tree()
 
 
-安全渗透所需的工具
+安全滲透所需的工具
 https://wizardforcel.gitbooks.io/daxueba-kali-linux-tutorial/content/2.html
 
 
@@ -739,25 +739,25 @@ https://wizardforcel.gitbooks.io/daxueba-kali-linux-tutorial/content/2.html
 log (0) = -&infin;
 sqrt (-1) = NaN
 
-infinity (无穷)、NaN (非数值)
+infinity (無窮)、NaN (非數值)
 
-除了 infin 自身和 NaN 之外，infin (正无穷) 大于任何值；而 NaN 不等于任何值，包括其自身，而且与 <, >, <=, >= 使用时将会报错。
-
-
+除了 infin 自身和 NaN 之外，infin (正無窮) 大於任何值；而 NaN 不等於任何值，包括其自身，而且與 <, >, <=, >= 使用時將會報錯。
 
 
 
 
 
-如果有 group 采用相同的 group-id，也就是有 alias group ，那么在删除某个
+
+
+如果有 group 採用相同的 group-id，也就是有 alias group ，那麼在刪除某個
 
 groupdel: cannot remove the primary group of user 'monitor'
 
------ 将原用户修改为其它分组
+----- 將原用戶修改為其它分組
 # usermod -g sys monitor
------ 删除分组
+----- 刪除分組
 # groupdel test
------ 修改回来
+----- 修改回來
 # usermod -g monitor monitor
 
 
@@ -788,25 +788,25 @@ jinyang ALL=(root) NOPASSWD: ALL
 
 
 
-shell版本号比较
+shell版本號比較
 http://blog.topspeedsnail.com/archives/3999
 https://www.netfilter.org/documentation/HOWTO/NAT-HOWTO-6.html
-man 3 yum.conf 确认下YUM配置文件中的变量信息
+man 3 yum.conf 確認下YUM配置文件中的變量信息
 https://unix.stackexchange.com/questions/19701/yum-how-can-i-view-variables-like-releasever-basearch-yum0
 
 
 FORTIFY.Key_Management--Hardcoded_Encryption_Key    strcasecmp("Interval", child->key)
 
 int lt_dlinit (void);
-  初始化，在使用前调用，可以多次调用，正常返回 0 ；
+  初始化，在使用前調用，可以多次調用，正常返回 0 ；
 const char * lt_dlerror (void);
-  返回最近一次可读的错误原因，如果没有错误返回 NULL；
+  返回最近一次可讀的錯誤原因，如果沒有錯誤返回 NULL；
 void * lt_dlsym (lt_dlhandle handle, const char *name);
-  返回指向 name 模块的指针，如果没有找到则返回 NULL 。
+  返回指向 name 模塊的指針，如果沒有找到則返回 NULL 。
 lt_dlhandle lt_dlopen (const char *filename);
-  加载失败返回 NULL，多次加载会返回相同的值；
+  加載失敗返回 NULL，多次加載會返回相同的值；
 int lt_dlclose (lt_dlhandle handle);
-  模块的应用次数减一，当减到 0 时会自动卸载；成功返回 0 。
+  模塊的應用次數減一，當減到 0 時會自動卸載；成功返回 0 。
 
 https://github.com/carpedm20/awesome-hacking
 http://jamyy.us.to/blog/2014/01/5800.html
@@ -823,7 +823,7 @@ http://duartes.org/gustavo/blog/post/page-cache-the-affair-between-memory-and-fi
 
 https://www.quora.com/What-is-the-major-difference-between-the-buffer-cache-and-the-page-cache
 
-从free到page cache
+從free到page cache
 http://www.cnblogs.com/hustcat/archive/2011/10/27/2226995.html
 
 
@@ -847,15 +847,15 @@ https://en.wikipedia.org/wiki/Stack_buffer_overflow#Stack_canaries
 https://gcc.gnu.org/onlinedocs/gcc/Debugging-Options.html
 https://outflux.net/blog/archives/2014/01/27/fstack-protector-strong/
 -pipe
-  从源码生成可执行文件一般需要四个步骤，并且还会产生中间文件，该参数用于配置实用PIPE，一些平台会失败，不过 GNU 不受影响。
+  從源碼生成可執行文件一般需要四個步驟，並且還會產生中間文件，該參數用於配置實用PIPE，一些平臺會失敗，不過 GNU 不受影響。
 -fexceptions
-  打开异常处理，该选项会生成必要的代码来处理异常的抛出和捕获，对于 C++ 等会触发异常的语言来说，默认都会指定该选项。所生成的代码不会造成性能损失，但会造成尺寸上的损失。因此，如果想要编译不使用异常的 C++ 代码，可能需要指定选项 -fno-exceptions 。
+  打開異常處理，該選項會生成必要的代碼來處理異常的拋出和捕獲，對於 C++ 等會觸發異常的語言來說，默認都會指定該選項。所生成的代碼不會造成性能損失，但會造成尺寸上的損失。因此，如果想要編譯不使用異常的 C++ 代碼，可能需要指定選項 -fno-exceptions 。
 -Wall -Werror -O2 -g --param=ssp-buffer-size=4 -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1  -m64 -mtune=generic -DLT_LAZY_OR_NOW="RTLD_LAZY|RTLD_GLOBAL"
 
 
 
 
-关于Linux内核很不错的介绍
+關於Linux內核很不錯的介紹
 http://duartes.org/gustavo/blog/
 
 
@@ -863,7 +863,7 @@ http://duartes.org/gustavo/blog/
 
 
 
-编程时常有 Client 和 Server 需要各自得到对方 IP 和 Port 的需求，此时就可以通过 getsockname() 和 getpeername() 获取。
+編程時常有 Client 和 Server 需要各自得到對方 IP 和 Port 的需求，此時就可以通過 getsockname() 和 getpeername() 獲取。
 
 python -c '
 import sys
@@ -874,31 +874,31 @@ print s.getsockname()
 s.close()'
 
 
-Python判断IP有效性
+Python判斷IP有效性
 https://gist.github.com/youngsterxyf/5088954
 
 
 
-安全渗透工具集
+安全滲透工具集
 https://wizardforcel.gitbooks.io/daxueba-kali-linux-tutorial/content/2.html
 
-hostname获取方式，在启动时通过 1) global_option_get() 配置文件获取；2) gethostname()；3) getaddrinfo()。
+hostname獲取方式，在啟動時通過 1) global_option_get() 配置文件獲取；2) gethostname()；3) getaddrinfo()。
 
 #include <unistd.h>
 int gethostname(char *name, size_t len);
-  返回本地主机的标准主机名；正常返回 0 否则返回 -1，错误码保存在 errno 中。
+  返回本地主機的標準主機名；正常返回 0 否則返回 -1，錯誤碼保存在 errno 中。
 
 #include <netdb.h>
 #include <sys/socket.h>
 struct hostent *gethostbyname(const char *name);
-  用域名或主机名获取IP地址，注意只支持IPv4；正常返回一个 struct hostent 结构，否则返回 NULL。
+  用域名或主機名獲取IP地址，注意只支持IPv4；正常返回一個 struct hostent 結構，否則返回 NULL。
 
 #include<netdb.h>
 int getaddrinfo(const char *hostname, const char *service, const struct addrinfo *hints, struct addrinfo **result);
-  hostname: 一个主机名或者地址串，IPv4的点分十进制串或者IPv6的16进制串；
-  service : 服务名可以是十进制的端口号，也可以是已定义的服务名称，如ftp、http等；
-  hints   : 可以为空，用于指定返回的类型信息，例如，服务支持 TCP/UDP 那么，可以设置 ai_socktype 为 SOCK_DGRAM 只返回 UDP 信息；
-  result  : 返回的结果。
+  hostname: 一個主機名或者地址串，IPv4的點分十進制串或者IPv6的16進制串；
+  service : 服務名可以是十進制的端口號，也可以是已定義的服務名稱，如ftp、http等；
+  hints   : 可以為空，用於指定返回的類型信息，例如，服務支持 TCP/UDP 那麼，可以設置 ai_socktype 為 SOCK_DGRAM 只返回 UDP 信息；
+  result  : 返回的結果。
   返回 0 成功。
 
 struct addrinfo {
@@ -907,25 +907,25 @@ struct addrinfo {
     int              ai_socktype;
     int              ai_protocol;
     socklen_t        ai_addrlen;
-    struct sockaddr *ai_addr;        // IP地址，需要通过inet_ntop()转换为IP字符串
-    char            *ai_canonname;   // 返回的主机名
+    struct sockaddr *ai_addr;        // IP地址，需要通過inet_ntop()轉換為IP字符串
+    char            *ai_canonname;   // 返回的主機名
     struct addrinfo *ai_next;
 };
 http://blog.csdn.net/a_ran/article/details/41871437
 
 
 const char *inet_ntop(int af, const void *src, char *dst, socklen_t cnt);
-  将类型为af的网络地址结构src，转换成主机序的字符串形式，存放在长度为cnt的字符串中。返回指向dst的一个指针。如果函数调用错误，返回值是NULL。
+  將類型為af的網絡地址結構src，轉換成主機序的字符串形式，存放在長度為cnt的字符串中。返回指向dst的一個指針。如果函數調用錯誤，返回值是NULL。
 
 
 
-对于不信任的组件建议使用后者，因为 ldd 可能会加载后显示依赖的库，从而导致安全问题。
+對於不信任的組件建議使用後者，因為 ldd 可能會加載後顯示依賴的庫，從而導致安全問題。
 
------ 查看依赖的库
+----- 查看依賴的庫
 $ ldd /usr/bin/ssh
 $ objdump -p /usr/bin/ssh | grep NEEDED
 
------ 运行程序加载的库
+----- 運行程序加載的庫
 # pldd $(pidof mysqld)
 
 
@@ -933,93 +933,93 @@ $ objdump -p /usr/bin/ssh | grep NEEDED
 
 
 VIRT, Virtual Memory Size @
-  该任务的总的虚拟内存，包括了 code、data、shared libraries、换出到磁盘的页、已经映射但是没有使用的页。
+  該任務的總的虛擬內存，包括了 code、data、shared libraries、換出到磁盤的頁、已經映射但是沒有使用的頁。
 USED, Memory in Use @
-  包括了已使用的物理内存 RES ，以及换出到磁盘的内存 SWAP。
+  包括了已使用的物理內存 RES ，以及換出到磁盤的內存 SWAP。
 %MEM, Memory Usage(RES) @
-  当前任务使用的内存与整个物理内存的占比。
+  當前任務使用的內存與整個物理內存的佔比。
 CODE, Code Size
-  可执行代码占用的物理内存数，也被称为 Text Resident Set, TRS。
+  可執行代碼佔用的物理內存數，也被稱為 Text Resident Set, TRS。
 DATA, Data+Stack Size
-  除了代码之外的物理内存占用数，也就是 Data Resident Set, DRS 。
+  除了代碼之外的物理內存佔用數，也就是 Data Resident Set, DRS 。
 RES, Resident Memory Size @
-  驻留在物理内存中的使用量。
+  駐留在物理內存中的使用量。
 SHR, Shared Memory Size @
-  包括了共享内存以及共享库的数据。
+  包括了共享內存以及共享庫的數據。
 
 SWAP, Swapped Size
-  换出到磁盘的内存。
+  換出到磁盤的內存。
 nMaj, nMin, nDRT
 
 
-RES = CODE + DATA???? DATA太大了，为什么
+RES = CODE + DATA???? DATA太大了，為什麼
 
 ====== ps
 DRS, Data Resident Set <=> top(DATA) !!!
-  除了代码之外的物理内存占用数。
+  除了代碼之外的物理內存佔用數。
 RSS, Resident Set Size <=> top(RES)
-  物理内存使用数。
+  物理內存使用數。
 TRS, Text Resident Set <=> top(CODE) !!!
-  代码在内存中的占用数。
+  代碼在內存中的佔用數。
 VSZ, Virtual Memory Size <=> top(VIRT) <=> pmap -d(mapped)
-  虚拟内存的大小。
+  虛擬內存的大小。
 
-RES(top) 和 RSS(ps) 实际上读取的是 /proc/$(pidof process)/stat 或者 /proc/$(pidof process)/status statm。
+RES(top) 和 RSS(ps) 實際上讀取的是 /proc/$(pidof process)/stat 或者 /proc/$(pidof process)/status statm。
 pmap -d $(pidof uagent)
 pmap -x $(pidof uagent)
 ps -o pid,pmem,drs,trs,rss,vsz Hp `pidof uagent`
 
-另外，cgtop 中显示的内存与什么相关？？？？
+另外，cgtop 中顯示的內存與什麼相關？？？？
 ps(TRS) 和 top(CODE) 的值不相同。
 
 http://blog.csdn.net/u011547375/article/details/9851455
 https://stackoverflow.com/questions/7594548/res-code-data-in-the-output-information-of-the-top-command-why
 https://static.googleusercontent.com/media/research.google.com/zh-CN//pubs/archive/36669.pdf
 https://landley.net/kdocs/ols/2010/ols2010-pages-245-254.pdf
-LDD 跟 PMAP 加载的库不同？
+LDD 跟 PMAP 加載的庫不同？
 
 awk 'BEGIN{sum=0};{if($3~/x/) {sum+=$2}};END{print sum}' /tmp/1
 
 procs_refresh
 
-Top用于查看Linux系统下进程信息，有时候需要选择显示那些列，以及按照某一列进行排序。查询整理如下：
+Top用於查看Linux系統下進程信息，有時候需要選擇顯示那些列，以及按照某一列進行排序。查詢整理如下：
 
 
-top 除了默认的列之外，可以选择需要显示的列，操作如下：
+top 除了默認的列之外，可以選擇需要顯示的列，操作如下：
 
------ 选择需要显示的列
-1) 按 f 键进入选择界面；2) 方向键选择需要的列；3) 通过空格选择需要显示的列。
+----- 選擇需要顯示的列
+1) 按 f 鍵進入選擇界面；2) 方向鍵選擇需要的列；3) 通過空格選擇需要顯示的列。
 
-列显示位置调整：
-执行top命令后，按 o 键，选择要调整位置的列（如K:CUP Usageage），按动一下大写K则显示位置往上调整，按动一下小写K则显示位置往下调整。
+列顯示位置調整：
+執行top命令後，按 o 鍵，選擇要調整位置的列（如K:CUP Usageage），按動一下大寫K則顯示位置往上調整，按動一下小寫K則顯示位置往下調整。
 
 列排序：
-执行top命令后，按 shift + f（小写），进入选择排序列页面，再按要排序的列的代表字母即可；
+執行top命令後，按 shift + f（小寫），進入選擇排序列頁面，再按要排序的列的代表字母即可；
 
 systemctl set-property --runtime uagent.service CPUQuota=5% MemoryLimit=30M
 
-关于资源配置的选项可以通过 ```man 5 systemd.resource-control``` 方式查看，默认是没有开启审计的，所以通过 ```systemd-cgtop``` 没有显示具体的资源。
+關於資源配置的選項可以通過 ```man 5 systemd.resource-control``` 方式查看，默認是沒有開啟審計的，所以通過 ```systemd-cgtop``` 沒有顯示具體的資源。
 
-很多相关的内核文档链接
+很多相關的內核文檔鏈接
 https://www.freedesktop.org/software/systemd/man/systemd.resource-control.html
 
-注册信号处理函数
+註冊信號處理函數
 
 setsid()
 pidfile_create()
 
 https://www.ibm.com/support/knowledgecenter/zh/ssw_aix_61/com.ibm.aix.genprogc/ie_prog_4lex_yacc.htm
 
-flex 通过 yylval 将数据传递给 yacc；如果在 yacc 中使用了 ```%union``` ，那么各个条件的目的变量使用 yyval 。
+flex 通過 yylval 將數據傳遞給 yacc；如果在 yacc 中使用了 ```%union``` ，那麼各個條件的目的變量使用 yyval 。
 
 https://www.howtoforge.com/storing-files-directories-in-memory-with-tmpfs
 
 
 
-meminfo详解
+meminfo詳解
 https://lwn.net/Articles/28345/
 
-ps的SIZE以及RSS不含部分的内存统计，所以要比pmap -d统计的RSS小。
+ps的SIZE以及RSS不含部分的內存統計，所以要比pmap -d統計的RSS小。
 The SIZE and RSS fields don't count some parts of a process including the page tables, kernel stack, struct thread_info
 https://techtalk.intersec.com/2013/07/memory-part-2-understanding-process-memory/
 http://tldp.org/LDP/tlk/mm/memory.html
@@ -1034,7 +1034,7 @@ http://blog.csdn.net/lijzheng/article/details/23618365
 https://yq.aliyun.com/articles/54405
 https://stackoverflow.com/questions/31328349/stack-memory-management-in-linux
 /post/mysql-parser.html
-yyset_in() 设置入口
+yyset_in() 設置入口
 
 
 pmap -d $(pidof uagent)
@@ -1055,12 +1055,12 @@ $ cat /proc/1076/status | grep -i vmsize
 VmSize:      106516 kB
 VmSize = memory + memory-mapped hardware (e.g. video card memory).
 
-kmap 是用来建立映射的，映射后返回了被映射的高端内存在内核的线性地址
+kmap 是用來建立映射的，映射後返回了被映射的高端內存在內核的線性地址
 https://www.zhihu.com/question/30338816
 http://blog.csdn.net/gatieme/article/details/52705142
 http://www.cnblogs.com/zhiliao112/p/4251221.html
 http://way4ever.com/?p=236
-awk统计Linux最常用命令
+awk統計Linux最常用命令
 http://www.ha97.com/3980.html
 awk使用技巧
 http://blog.csdn.net/ultrani/article/details/6750434
@@ -1068,9 +1068,9 @@ http://blog.csdn.net/u011204847/article/details/51205031 *****
 http://ustb80.blog.51cto.com/6139482/1051310
 
 
-关于smaps的详细介绍
+關於smaps的詳細介紹
 https://jameshunt.us/writings/smaps.html
-$ cat /proc/self/smaps  相比maps显示更详细信息
+$ cat /proc/self/smaps  相比maps顯示更詳細信息
 $ cat /proc/self/maps
 address                  perms   offset   dev   inode       pathname
 7f571af7a000-7f571af7d000 ---p 00000000 00:00 0
@@ -1078,7 +1078,7 @@ address                  perms   offset   dev   inode       pathname
 7f571b0ac000-7f571b0ad000 r--p 00021000 08:01 1838227       /usr/lib/ld-2.21.so
 7ffe49dbd000-7ffe49dbf000 r-xp 00000000 00:00 0             [vdso]
 
-列说明:
+列說明:
     starting address - ending address
     permissions
         r : read
@@ -1086,16 +1086,16 @@ address                  perms   offset   dev   inode       pathname
         x : execute
         s : shared
         p : private (copy on write)
-    offset   : 如果不是file，则为0；
-    device   : 如果是file，则是file所在device的major and monior device number，否则为00:00；
-    inode    : 如果是file，则是file的inode number，否则为0；
-    pathname : 有几种情况；
+    offset   : 如果不是file，則為0；
+    device   : 如果是file，則是file所在device的major and monior device number，否則為00:00；
+    inode    : 如果是file，則是file的inode number，否則為0；
+    pathname : 有幾種情況；
         file absolute path
         [stack]         the stack of the main process
         [stack:1001]    the stack of the thread with tid 1001
         [heap]
         [vdso] - virtual dynamic shared object, the kernel system call handler
-        空白 -通常都是mmap创建的，用于其他一些用途的，比如共享内存
+        空白 -通常都是mmap創建的，用於其他一些用途的，比如共享內存
 
 
 df -h
@@ -1104,7 +1104,7 @@ echo $((0x0a))
 
 print "Backed by file:\n";
 print "  RO data                   r--  $mapped_rodata\n";
-print "  Unreadable                ---  $mapped_unreadable\n"; 共享库同时存在？？？？
+print "  Unreadable                ---  $mapped_unreadable\n"; 共享庫同時存在？？？？
 print "  Unknown                        $mapped_unknown\n";
 print "Anonymous:\n";
 print "  Writable code (stack)     rwx  $writable_code\n";
@@ -1113,7 +1113,7 @@ print "  RO data                   r--  $rodata\n";
 print "  Unreadable                ---  $unreadable\n";
 print "  Unknown                        $unbacked_unknown\n";
 
-16进制求和，都是16进制
+16進制求和，都是16進制
 awk --non-decimal-data  '{sum=($1 + $2); printf("0x%x %s\n", sum,$3)}'
 strtonum("0x" $1)
 echo $(( 16#a36b ))
@@ -1121,41 +1121,41 @@ echo "obase=2;256"|bc ibase base
 
 
 print "Backed by file:\n";
-print "  Unreadable                ---  $mapped_unreadable\n"; 共享库同时存在？？？？
+print "  Unreadable                ---  $mapped_unreadable\n"; 共享庫同時存在？？？？
 print "  Unknown                        $mapped_unknown\n";
 print "Anonymous:\n";
 print "  Unreadable                ---  $unreadable\n";
 print "  Unknown                        $unbacked_unknown\n";
 
-代码
-r-x 代码，包括程序(File)、共享库(File)、vdso(2Pages)、vsyscall(1Page)
-rwx 没有，Backed by file: Write/Exec (jump tables); Anonymous: Writable code (stack)
-r-- 程序中的只读数据，如字符串，包括程序(File)、共享库(File)
-rw- 可读写变量，如全局变量；包括程序(File)、共享库(File)、stack、heap、匿名映射
+代碼
+r-x 代碼，包括程序(File)、共享庫(File)、vdso(2Pages)、vsyscall(1Page)
+rwx 沒有，Backed by file: Write/Exec (jump tables); Anonymous: Writable code (stack)
+r-- 程序中的只讀數據，如字符串，包括程序(File)、共享庫(File)
+rw- 可讀寫變量，如全局變量；包括程序(File)、共享庫(File)、stack、heap、匿名映射
 
-静态数据、全局变量将保存在 ELF 的 .data 段中。
-与smaps相关，以及一些实例
+靜態數據、全局變量將保存在 ELF 的 .data 段中。
+與smaps相關，以及一些實例
 https://jameshunt.us/writings/smaps.html
 
 
-各共享库的代码段，存放着二进制可执行的机器指令，是由kernel把该库ELF文件的代码段map到虚存空间；
-各共享库的数据段，存放着程序执行所需的全局变量，是由kernel把ELF文件的数据段map到虚存空间；
+各共享庫的代碼段，存放著二進制可執行的機器指令，是由kernel把該庫ELF文件的代碼段map到虛存空間；
+各共享庫的數據段，存放著程序執行所需的全局變量，是由kernel把ELF文件的數據段map到虛存空間；
 
-用户代码段，存放着二进制形式的可执行的机器指令，是由kernel把ELF文件的代码段map到虚存空间；
-用户数据段之上是代码段，存放着程序执行所需的全局变量，是由kernel把ELF文件的数据段map到虚存空间；
+用戶代碼段，存放著二進制形式的可執行的機器指令，是由kernel把ELF文件的代碼段map到虛存空間；
+用戶數據段之上是代碼段，存放著程序執行所需的全局變量，是由kernel把ELF文件的數據段map到虛存空間；
 
-用户数据段之下是堆(heap)，当且仅当malloc调用时存在，是由kernel把匿名内存map到虚存空间，堆则在程序中没有调用malloc的情况下不存在；
-用户数据段之下是栈(stack)，作为进程的临时数据区，是由kernel把匿名内存map到虚存空间，栈空间的增长方向是从高地址到低地址。
+用戶數據段之下是堆(heap)，當且僅當malloc調用時存在，是由kernel把匿名內存map到虛存空間，堆則在程序中沒有調用malloc的情況下不存在；
+用戶數據段之下是棧(stack)，作為進程的臨時數據區，是由kernel把匿名內存map到虛存空間，棧空間的增長方向是從高地址到低地址。
 
 https://wiki.wxwidgets.org/Valgrind_Suppression_File_Howto
 
 
-另外，可以通过 ldd 查看对应的映射地址，在实际映射到物理内存时，会添加随机的变量，不过如上的各个共享库的地址是相同的。
+另外，可以通過 ldd 查看對應的映射地址，在實際映射到物理內存時，會添加隨機的變量，不過如上的各個共享庫的地址是相同的。
 
-可以通过 echo $(( 0x00007f194de48000 - 0x00007f194dc2c000)) 计算差值。
+可以通過 echo $(( 0x00007f194de48000 - 0x00007f194dc2c000)) 計算差值。
 
 
-maps 文件对应了内核中的 show_map()
+maps 文件對應了內核中的 show_map()
 
 show_map()
  |-show_map_vma()
@@ -1165,16 +1165,16 @@ address                  perms   offset   dev   inode       pathname
 http://duartes.org/gustavo/blog/post/how-the-kernel-manages-your-memory/
 
 
-主要是anon中的rw属性导致
+主要是anon中的rw屬性導致
 cat /proc/$(pidof uagent)/maps | grep stack | wc -l
 
 
 
-Clean_pages 自从映射之后没有被修改的页；
+Clean_pages 自從映射之後沒有被修改的頁；
 Dirty_pages 反之；
 RSS 包括了共享以及私有，Shared_Clean+Shared_Dirty、Private_Clean+Private_Dirty
-PSS (Proportional set size) 包括了所有的私有页 (Private Pages) 以及共享页的平均值。例如，一个进程有100K的私有页，与一个进程有500K的共享页，与四个进程有500K的共享页，那么 PSS=100K+(500K/2)+(500K/5)=450K
-USS (Unique set size) 私有页的和。
+PSS (Proportional set size) 包括了所有的私有頁 (Private Pages) 以及共享頁的平均值。例如，一個進程有100K的私有頁，與一個進程有500K的共享頁，與四個進程有500K的共享頁，那麼 PSS=100K+(500K/2)+(500K/5)=450K
+USS (Unique set size) 私有頁的和。
 
 awk -f test.awk /proc/$(pidof uagent)/maps
 #! /bin/awk -f
@@ -1345,7 +1345,7 @@ END {
 
 
 
-可以通过mprotect设置内存的属性
+可以通過mprotect設置內存的屬性
 https://linux.die.net/man/2/mprotect
 Memory protection keys
 https://lwn.net/Articles/643797/
@@ -1358,10 +1358,10 @@ https://www.elastic.co/guide/en/logstash/current/plugins-codecs-collectd.html
 
 
 
-真随机数等生成
+真隨機數等生成
 http://www.cnblogs.com/bigship/archive/2010/04/04/1704228.html
 
-在打印时，如果使用了 size_t 类型，那么通过 ```%d``` 打印将会打印一个告警，可以通过如下方式修改，也就是添加 ```z``` 描述。
+在打印時，如果使用了 size_t 類型，那麼通過 ```%d``` 打印將會打印一個告警，可以通過如下方式修改，也就是添加 ```z``` 描述。
 
 size_t x = ...;
 ssize_t y = ...;
@@ -1369,34 +1369,34 @@ printf("%zu\n", x);  // prints as unsigned decimal
 printf("%zx\n", x);  // prints as hex
 printf("%zd\n", y);  // prints as signed decimal
 
-/proc/iomem 保存物理地址的映射情况，每行代表一个资源 (地址范围和资源名)，其中可用物理内存的资源名为 "System RAM" ，在内核中通过 insert_resource() 这个API注册到 iomem_resource 这颗资源树上。
+/proc/iomem 保存物理地址的映射情況，每行代表一個資源 (地址範圍和資源名)，其中可用物理內存的資源名為 "System RAM" ，在內核中通過 insert_resource() 這個API註冊到 iomem_resource 這顆資源樹上。
 
-例如，如下的内容：
+例如，如下的內容：
 
 01200000-0188b446 : Kernel code
 0188b447-01bae6ff : Kernel data
 01c33000-01dbbfff : Kernel bss
 
-这些地址范围都是基于物理地址的，在 ```setup_arch()@arch/x86/kernel/setup.c``` 中通过如下方式注册。
+這些地址範圍都是基於物理地址的，在 ```setup_arch()@arch/x86/kernel/setup.c``` 中通過如下方式註冊。
 
 max_pfn = e820_end_of_ram_pfn();
         code_resource.start = __pa_symbol(_text);
         code_resource.end = __pa_symbol(_etext)-1;
         insert_resource(&iomem_resource, &code_resource);
 
-linux虚拟地址转物理地址
+linux虛擬地址轉物理地址
 http://luodw.cc/2016/02/17/address/
-Linux内存管理
+Linux內存管理
 http://gityuan.com/2015/10/30/kernel-memory/
 /proc/iomem和/proc/ioports
 http://blog.csdn.net/ysbj123/article/details/51088644
-port地址空间和memory地址空间是两个分别编址的空间，都是从0地址开始
-port地址也可以映射到memory空间中来，前提是硬件必须支持MMIO
-iomem—I/O映射方式的I/O端口和内存映射方式的I/O端口
+port地址空間和memory地址空間是兩個分別編址的空間，都是從0地址開始
+port地址也可以映射到memory空間中來，前提是硬件必須支持MMIO
+iomem—I/O映射方式的I/O端口和內存映射方式的I/O端口
 http://www.cnblogs.com/b2tang/archive/2009/07/07/1518175.html
 
 
-协程
+協程
 https://github.com/Tencent/libco
 
 
@@ -1416,12 +1416,12 @@ sed只取匹配部分
 http://mosquito.blog.51cto.com/2973374/1072249
 http://blog.sina.com.cn/s/blog_470ab86f010115kv.html
 
-通过sed只显示匹配行或者某些行
------ 显示1,10行
+通過sed只顯示匹配行或者某些行
+----- 顯示1,10行
 $ sed -n '1,10p' filename
------ 显示第10行
+----- 顯示第10行
 $ sed -n '10p' filename
------ 显示某些匹配行
+----- 顯示某些匹配行
 $ sed -n '/This/p' filename
 sed -n '/\<collectd\>/p' *
 sed -i 's/\<Collectd/Uagent/g' *
@@ -1430,34 +1430,34 @@ sed -i 's/\<Collectd/Uagent/g' *
 
 
 Proxy
-简单的实现，通常用于嵌入式系统
+簡單的實現，通常用於嵌入式系統
 https://github.com/kklis/proxy
-Golang实现的代理，包括了0复制技术等 
+Golang實現的代理，包括了0複製技術等 
 https://github.com/funny/proxy
-dnscrypt-proxy DNS客户端与服务端的加密传输，使用libevent库
+dnscrypt-proxy DNS客戶端與服務端的加密傳輸，使用libevent庫
 https://github.com/jedisct1/dnscrypt-proxy
-ProxyChains Sock以及HTTP代理，通常用在类似TOR上面
+ProxyChains Sock以及HTTP代理，通常用在類似TOR上面
 https://github.com/haad/proxychains
 https://github.com/rofl0r/proxychains-ng
-基于libevent的简单代理服务
+基於libevent的簡單代理服務
 https://github.com/wangchuan3533/proxy
-支持多种协议的代理服务，包括FTP、DNS、TCP、UDP等等
+支持多種協議的代理服務，包括FTP、DNS、TCP、UDP等等
 https://github.com/z3APA3A/3proxy
-一个加密的代理服务
+一個加密的代理服務
 https://github.com/proxytunnel/proxytunnel
-Vanish缓存中使用的代理服务
+Vanish緩存中使用的代理服務
 https://github.com/varnish/hitch
-360修改的MySQL代理服务
+360修改的MySQL代理服務
 https://github.com/Qihoo360/Atlas
-Twitter提供的Memchached代理服务
+Twitter提供的Memchached代理服務
 https://github.com/twitter/twemproxy
 
-UDP可靠传输方案
+UDP可靠傳輸方案
 http://blog.codingnow.com/2016/03/reliable_udp.html
 http://blog.csdn.net/kennyrose/article/details/7557917
-BitCoin中使用的可靠UDP传输方案
+BitCoin中使用的可靠UDP傳輸方案
 https://github.com/maidsafe-archive/MaidSafe-RUDP
-UDP方案的优缺点
+UDP方案的優缺點
 https://blog.wilddog.com/?p=668
 
 
@@ -1475,17 +1475,17 @@ https://github.com/funzoneq/collectd-haproxy-nbproc
 https://github.com/signalfx/collectd-haproxy  ***
 https://github.com/mleinart/collectd-haproxy  *
 
-很多collectd插件的组合，很多不错的监控指标梳理
+很多collectd插件的組合，很多不錯的監控指標梳理
 https://github.com/signalfx/integrations
 https://github.com/DataDog/the-monitor
 https://www.librato.com/docs/kb/collect/integrations/haproxy/
 https://www.datadoghq.com/blog/monitoring-haproxy-performance-metrics/
 https://github.com/mleinart/collectd-haproxy/blob/master/haproxy.py
-Request: (只对HTTP代理有效)
-   request_rate(req_rate)      px->fe_req_per_sec           proxy_inc_fe_req_ctr()  请求速率
-   req_rate_max 请求限制速率
-   req_tot 目前为止总的请求数
-Response: (只对HTTP代理有效)
+Request: (只對HTTP代理有效)
+   request_rate(req_rate)      px->fe_req_per_sec           proxy_inc_fe_req_ctr()  請求速率
+   req_rate_max 請求限制速率
+   req_tot 目前為止總的請求數
+Response: (只對HTTP代理有效)
   'hrsp_1xx': ('response_1xx', 'derive'),
   'hrsp_2xx': ('response_2xx', 'derive'),
   'hrsp_3xx': ('response_3xx', 'derive'),
@@ -1495,8 +1495,8 @@ Response: (只对HTTP代理有效)
 
 >>>>>backend<<<<<
 Time:
-  qtime (v1.5+) 过去1024个请求在队里中的平均等待时间
-  rtime (v1.5+) 过去1024个请求在队里中的平均响应时间
+  qtime (v1.5+) 過去1024個請求在隊裡中的平均等待時間
+  rtime (v1.5+) 過去1024個請求在隊裡中的平均響應時間
 
 
 
@@ -1517,7 +1517,7 @@ https://github.com/flike/kingshard/blob/master/doc/KingDoc/kingshard_admin_api.m
 __attribute__((warn_unused_result))
 
 
-协程
+協程
 http://blog.163.com/shu_wang/blog/static/1721704112016114113331412
 https://stackoverflow.com/questions/28977302/how-do-stackless-coroutines-differ-from-stackful-coroutines
 http://www.infoq.com/cn/articles/CplusStyleCorourtine-At-Wechat
@@ -1527,7 +1527,7 @@ http://www.infoq.com/cn/articles/fine-tuned-haproxy-to-achieve-concurrent-ssl-co
 
 
 
-JMX(Java Management Extensions) 是一个为应用程序植入管理功能的框架，是一套标准的代理和服务，实际上，用户可以在任何 Java 应用程序中使用这些代理和服务实现管理。
+JMX(Java Management Extensions) 是一個為應用程序植入管理功能的框架，是一套標準的代理和服務，實際上，用戶可以在任何 Java 應用程序中使用這些代理和服務實現管理。
 http://blog.csdn.net/derekjiang/article/details/4532375
 http://tomcat.apache.org/tomcat-6.0-doc/monitoring.html#Enabling_JMX_Remote
 http://comeonbabye.iteye.com/blog/1463104
@@ -1535,7 +1535,7 @@ https://visualvm.github.io/
 http://blog.csdn.net/kingzone_2008/article/details/50865350
 
 
-Buddy 和  Slub 是 Linux 内核中的内存管理算法。Buddy 防止内存的 "外碎片"，即防止内存块越分越小，而不能满足大块内存分配的需求。Slub 防止内存的 "内碎片"，即尽量按请求的大小分配内存块，防止内存块使用上的浪费。https://github.com/chenfangxin/buddy_slub
+Buddy 和  Slub 是 Linux 內核中的內存管理算法。Buddy 防止內存的 "外碎片"，即防止內存塊越分越小，而不能滿足大塊內存分配的需求。Slub 防止內存的 "內碎片"，即儘量按請求的大小分配內存塊，防止內存塊使用上的浪費。https://github.com/chenfangxin/buddy_slub
 
 https://stackoverflow.com/questions/9873061/how-to-set-the-source-port-in-the-udp-socket-in-c
 http://www.binarytides.com/programming-udp-sockets-c-linux/
@@ -1555,7 +1555,7 @@ socktop(systap使用)
 
 
 
-Socket INTR的处理
+Socket INTR的處理
 http://blog.csdn.net/SUKHOI27SMK/article/details/43021081
 
 http://www.tldp.org/HOWTO/html_single/C++-dlopen/
@@ -1570,36 +1570,36 @@ https://github.com/lsalzman/enet
 https://askubuntu.com/questions/714503/regular-expressions-vs-filename-globbing
 
 
-1.       #注释
-2.       变量：使用set命令显式定义及赋值，在非if语句中，使用${}引用，if中直接使用变量名引用；后续的set命令会清理变量原来的值；
-3.       command (args ...)  #命令不分大小写，参数使用空格分隔，使用双引号引起参数中空格
-4.       set(var a;b;c) <=> set(var a b c)  #定义变量var并赋值为a;b;c这样一个string list
-5.       Add_executable(${var}) <=> Add_executable(a b c)   #变量使用${xxx}引用
+1.       #註釋
+2.       變量：使用set命令顯式定義及賦值，在非if語句中，使用${}引用，if中直接使用變量名引用；後續的set命令會清理變量原來的值；
+3.       command (args ...)  #命令不分大小寫，參數使用空格分隔，使用雙引號引起參數中空格
+4.       set(var a;b;c) <=> set(var a b c)  #定義變量var並賦值為a;b;c這樣一個string list
+5.       Add_executable(${var}) <=> Add_executable(a b c)   #變量使用${xxx}引用
 
------ 条件语句
-if(var)   # 其中空 0 N No OFF FALSE 视为假，NOT 后为真
+----- 條件語句
+if(var)   # 其中空 0 N No OFF FALSE 視為假，NOT 後為真
 else()/elseif()
 endif(var)
 
-7.       循环语句
+7.       循環語句
 
 Set(VAR a b c)
 
 Foreach(f ${VAR})       …Endforeach(f)
 
-8.       循环语句
+8.       循環語句
 
 WHILE() … ENDWHILE()
 
 
 
-INCLUDE_DIRECTORIES(include)  # 本地的include目录设置
-LINK_LIBRARIES('m')           # 添加库依赖，等价于命令行中的-lm参数
+INCLUDE_DIRECTORIES(include)  # 本地的include目錄設置
+LINK_LIBRARIES('m')           # 添加庫依賴，等價於命令行中的-lm參數
 
 
 
-GTest 实际上不建议直接使用二进制文件，而是建议从源码开始编译。https://github.com/google/googletest/blob/master/googletest/docs/FAQ.md
-如果要使用二进制包，那么可以使用如下方式进行配置。
+GTest 實際上不建議直接使用二進制文件，而是建議從源碼開始編譯。https://github.com/google/googletest/blob/master/googletest/docs/FAQ.md
+如果要使用二進制包，那麼可以使用如下方式進行配置。
 find_package(PkgConfig)
 pkg_check_modules(GTEST REQUIRED gtest>=1.7.0)
 pkg_check_modules(GMOCK REQUIRED gmock>=1.7.0)
@@ -1611,7 +1611,7 @@ include_directories(
 http://www.yeolar.com/note/2014/12/16/cmake-how-to-find-libraries/
 http://blog.csdn.net/netnote/article/details/4051620
 
-find_package(Threads REQUIRED)   # 使用内置模块查找thread库支持
+find_package(Threads REQUIRED)   # 使用內置模塊查找thread庫支持
 
 
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
@@ -1624,17 +1624,17 @@ option(WITH_UNIT_TESTS "Compile with unit tests" OFF)
 
 
 
-https://github.com/sohutv/cachecloud  Redis监控管理
-https://github.com/apache/incubator-superset 牛掰的项目管理
+https://github.com/sohutv/cachecloud  Redis監控管理
+https://github.com/apache/incubator-superset 牛掰的項目管理
 https://github.com/huichen/wukong 悟空搜索引擎
-https://github.com/sylnsfar/qrcode   动态二维码生成
-https://github.com/hellysmile/fake-useragent 伪装浏览器身份
-https://github.com/jwasham/coding-interview-university 谷歌面试题
-https://github.com/Tencent/libco 腾讯协程库
-https://github.com/xtaci/kcptun 最快的UDP传输
-https://github.com/reorx/httpstat 图形显示http处理耗时
-https://github.com/ajermakovics/jvm-mon JVM监控
-https://github.com/stampery/mongoaudit MongoDB审计
+https://github.com/sylnsfar/qrcode   動態二維碼生成
+https://github.com/hellysmile/fake-useragent 偽裝瀏覽器身份
+https://github.com/jwasham/coding-interview-university 谷歌面試題
+https://github.com/Tencent/libco 騰訊協程庫
+https://github.com/xtaci/kcptun 最快的UDP傳輸
+https://github.com/reorx/httpstat 圖形顯示http處理耗時
+https://github.com/ajermakovics/jvm-mon JVM監控
+https://github.com/stampery/mongoaudit MongoDB審計
 https://github.com/alexazhou/VeryNginx
 https://github.com/helloqingfeng/Awsome-Front-End-learning-resource
 https://github.com/shimohq/chinese-programmer-wrong-pronunciation
@@ -1677,15 +1677,15 @@ http://blog.csdn.net/factor2000/article/details/3929816
 http://www.tldp.org/HOWTO/html_single/C++-dlopen/
 
 
-Chrome Vimium 快捷键可以直接通过 ? 查看。
+Chrome Vimium 快捷鍵可以直接通過 ? 查看。
 
 git clone -b 0.10.0 https://github.com/pika/pika.git
 
 
-日志保存在 /var/log/rabbitmq 目录下。
+日誌保存在 /var/log/rabbitmq 目錄下。
 
 schema_integrity_check_failed
-一般是由于 mnesia 数据库的问题导致，简单粗暴的方式是直接删除。
+一般是由於 mnesia 數據庫的問題導致，簡單粗暴的方式是直接刪除。
 
 systemd
 rabbitmq-server.service: Got notification message from PID 10513
@@ -1709,19 +1709,19 @@ http://blog.csdn.net/anzhsoft/article/details/19563091
 
 
 
-首先通过 crontab(crontab.c) 完成任务的编辑，然后通过 poke_daemon() 通知 crond 程序，实际上就是通过 utime() 修改 SPOOL_DIR 目录的访问和修改时间。而在 crond(cron.c) 程序中，会通过 inotify 机制接收，然后进行更新。
+首先通過 crontab(crontab.c) 完成任務的編輯，然後通過 poke_daemon() 通知 crond 程序，實際上就是通過 utime() 修改 SPOOL_DIR 目錄的訪問和修改時間。而在 crond(cron.c) 程序中，會通過 inotify 機制接收，然後進行更新。
 
 http://blog.csdn.net/rain_qingtian/article/details/11008779
 
 https://github.com/DaveGamble/cJSON
 
-语法规则可以参考 [JSON: The Fat-Free Alternative to XML](yuhttp://www.json.org/fatfree.html) 。
+語法規則可以參考 [JSON: The Fat-Free Alternative to XML](yuhttp://www.json.org/fatfree.html) 。
 
-parse_value()  正式的语法解析
+parse_value()  正式的語法解析
 
 https://github.com/staticlibs/ccronexpr
 
-American Fuzzy Lop, AFL 是一种开源的模糊测试器，由谷歌的 Michal Zalewski 开发。可以在源码编译时添加，或者使用 QEMU 模式，也就是 QEMU-(User Mode) ，在执行时注入部分代码进行测试。http://lcamtuf.coredump.cx/afl/
+American Fuzzy Lop, AFL 是一種開源的模糊測試器，由谷歌的 Michal Zalewski 開發。可以在源碼編譯時添加，或者使用 QEMU 模式，也就是 QEMU-(User Mode) ，在執行時注入部分代碼進行測試。http://lcamtuf.coredump.cx/afl/
 https://github.com/google/syzkaller
 https://github.com/xxg1413/fuzzer/tree/master/iFuzz
 https://stfpeak.github.io/2017/06/12/AFL-Cautions/
@@ -1776,7 +1776,7 @@ https://github.com/dspinellis/cqmetrics
 VGC、RATS、Source Insight
 
 
-测试版本
+測試版本
 
 
 core
@@ -1785,7 +1785,7 @@ CPP-Check
 Flawfinder
 
 
-静态安全扫描 flawfinder、RATS、ITS4、VCG、CPPLint、SPlint
+靜態安全掃描 flawfinder、RATS、ITS4、VCG、CPPLint、SPlint
 
 Python: Pychecker、Pylint、RATS
 
@@ -1794,51 +1794,51 @@ python -m SimpleHTTPServer
 
 ## flawfinder
 
-一个 Python 写的程序，用于扫描代码，然后在规则库 (c_ruleset) 中查找符合规则的场景。
+一個 Python 寫的程序，用於掃描代碼，然後在規則庫 (c_ruleset) 中查找符合規則的場景。
 
-源码可以直接从 [www.dwheeler.com](https://www.dwheeler.com/flawfinder/) 上下载，安装方式可以查看 README 文件，也就是如下命令。
+源碼可以直接從 [www.dwheeler.com](https://www.dwheeler.com/flawfinder/) 上下載，安裝方式可以查看 README 文件，也就是如下命令。
 
 $ tar xvzf FILENAME.tar.gz       # Uncompress distribution file
 $ cd flawfinder-*                # cd into it.
 # make prefix=/usr install       # Install in /usr
 
-该工具只针对单个语句进行词法分析，不检查上下文，不分析数据类型和数据流；检查运行时可能存在的问题，比如内存泄露；然后会根据规则库给出代码建议。这也就意味着会有部分的误报，不过因为使用简单，仍不失为一个不错的静态检测工具。
+該工具只針對單個語句進行詞法分析，不檢查上下文，不分析數據類型和數據流；檢查運行時可能存在的問題，比如內存洩露；然後會根據規則庫給出代碼建議。這也就意味著會有部分的誤報，不過因為使用簡單，仍不失為一個不錯的靜態檢測工具。
 
-检查可以直接指定文件或者目录，工具会自动查看所有的 C/C++ 文件，如果是 patch (diff -u、svn diff、git diff) 添加参数 --patch/-P 即可。严重等级从 0 到 5 依次增加，而且会标示出 [Common Weakness Enumeration, CWE](https://cwe.mitre.org/data/) 对应。
+檢查可以直接指定文件或者目錄，工具會自動查看所有的 C/C++ 文件，如果是 patch (diff -u、svn diff、git diff) 添加參數 --patch/-P 即可。嚴重等級從 0 到 5 依次增加，而且會標示出 [Common Weakness Enumeration, CWE](https://cwe.mitre.org/data/) 對應。
 
-检查时会读取 ruleset 中的规则，然后如果匹配 (hit) 则将匹配数据保存到 hitlist 中，
+檢查時會讀取 ruleset 中的規則，然後如果匹配 (hit) 則將匹配數據保存到 hitlist 中，
 
-### 常见操作
+### 常見操作
 
-1. 重点检查与外部不可信用户的交互程序，先确保这部分程序无异常；
-2. 如果已经审计的函数，可以通过 ```// Flawfinder: ignore``` 或者 ```/* Flawfinder: ignore */``` 减少异常输出，为了兼容，也可以使用 ```ITS4``` 或者 ```RATS``` 替换 ```Flawfinder```；
+1. 重點檢查與外部不可信用戶的交互程序，先確保這部分程序無異常；
+2. 如果已經審計的函數，可以通過 ```// Flawfinder: ignore``` 或者 ```/* Flawfinder: ignore */``` 減少異常輸出，為了兼容，也可以使用 ```ITS4``` 或者 ```RATS``` 替換 ```Flawfinder```；
 
 
 --inputs/-I
-  只检查从外部用户(不可信)获取数据的函数；
+  只檢查從外部用戶(不可信)獲取數據的函數；
 --neverignore/-n
-  默认可以通过上述的方式忽略标记的行，通过该参数用于强制检测所有的代码；
+  默認可以通過上述的方式忽略標記的行，通過該參數用於強制檢測所有的代碼；
 --savehitlist, --loadhitlist, --diffhitlist
-  用于保存、加载、比较hitlist；
+  用於保存、加載、比較hitlist；
 --minlevel=NUMBER
-  指定最小的错误汇报级别；
+  指定最小的錯誤彙報級別；
 
 --quiet/-Q
-  默认会在检测时打印检查了哪些文件，通过该选项可以关闭，通常用于格式化输出检测；
+  默認會在檢測時打印檢查了哪些文件，通過該選項可以關閉，通常用於格式化輸出檢測；
 --dataonly/-D
-  不显示header和footer，可以配合--quiet参数只显示数据；
+  不顯示header和footer，可以配合--quiet參數只顯示數據；
 --singleline/-S
-  检测结果默认会多行显示，该参数指定一行显示；
+  檢測結果默認會多行顯示，該參數指定一行顯示；
 --immediate/-i
-  默认在全部文件检测完之后，进行排序，然后显示最终的结果，该参数可以在监测到异常后立即显示；
+  默認在全部文件檢測完之後，進行排序，然後顯示最終的結果，該參數可以在監測到異常後立即顯示；
 
 
------ 检查所有的代码，即使已经标记为ignore的代码
+----- 檢查所有的代碼，即使已經標記為ignore的代碼
 $ flawfinder --neverignore src
------ 可以通过如下命令输出，以供其它自动化工具使用
+----- 可以通過如下命令輸出，以供其它自動化工具使用
 $ flawfinder -QD src
 $ flawfinder -QDSC src
------ 检查代码只汇报CWE-120或者CWE-126
+----- 檢查代碼只彙報CWE-120或者CWE-126
 $ flawfinder --regex "CWE-120|CWE-126" src/
 
 
@@ -1846,7 +1846,7 @@ $ flawfinder --regex "CWE-120|CWE-126" src/
 
 
 
-uagent 调试，
+uagent 調試，
 export UAGENT_TRACE="yes"
 
 flawfinder -Q --minlevel=5 src | less
@@ -1855,116 +1855,116 @@ flawfinder -Q --minlevel=5 src | less
 
 int lcc_connect(const char *address, lcc_connection_t **ret_con);
 功能：
-  建立指向address的socket链接，通过ret_con返回链接信息；
-入参:
+  建立指向address的socket鏈接，通過ret_con返回鏈接信息；
+入參:
   address socket地址，如/usr/var/run/uagent.sock、unix:/usr/var/run/uagent.sock；
-  ret_con 返回的已经建立好的链接；
+  ret_con 返回的已經建立好的鏈接；
 返回值：
-  -1 入参异常，或者没有内存；
+  -1 入參異常，或者沒有內存；
   0  正常返回；
 
 int lcc_disconnect(lcc_connection_t *c);
 功能：
-  关闭链接，释放资源；
+  關閉鏈接，釋放資源；
 
 ## coverage
 http://blog.csdn.net/livelylittlefish/article/details/6448885
-编译链接时需要修改配置选项。
+編譯鏈接時需要修改配置選項。
 
-* 编译的时候，增加 -fprofile-arcs -ftest-coverage 或者 –coverage；
-* 链接的时候，增加 -fprofile-arcs 或者 –lgcov；
-* 打开–g3 选项，去掉-O2以上级别的代码优化选项，否则编译器会对代码做一些优化，例如行合并，从而影响行覆盖率结果。
+* 編譯的時候，增加 -fprofile-arcs -ftest-coverage 或者 –coverage；
+* 鏈接的時候，增加 -fprofile-arcs 或者 –lgcov；
+* 打開–g3 選項，去掉-O2以上級別的代碼優化選項，否則編譯器會對代碼做一些優化，例如行合併，從而影響行覆蓋率結果。
 
 ifeq ($(coverage), yes)
 CFLAGS   +=  -fprofile-arcs -ftest-coverage -g3
 LDFLAGS  +=  -fprofile-arcs -ftest-coverage
 endif
 
-如下是测试步骤。
------ 1. 编译源码，此时每个文件都会生成一个*.gcno文件
+如下是測試步驟。
+----- 1. 編譯源碼，此時每個文件都會生成一個*.gcno文件
 $ make coverage=yes
------ 2. 运行，运行之后会生成 *.gcda 文件
+----- 2. 運行，運行之後會生成 *.gcda 文件
 $ ./helloworld
------ 3.1 可以通过如下命令生成单个文件的覆盖率，生成的是文本文件*.gcov
+----- 3.1 可以通過如下命令生成單個文件的覆蓋率，生成的是文本文件*.gcov
 $ gcov helloworld.c
 
-除了使用 gcov 之外，还可以通过 lcov 查看覆盖率，简单说下 *.gcov 的文件格式。
+除了使用 gcov 之外，還可以通過 lcov 查看覆蓋率，簡單說下 *.gcov 的文件格式。
 
     -:    2:#include <assert.h>   非有效行
     -:    3:#include <stdlib.h>
  ... ...
-  148:   71:  if (n == NULL)      调用次数
-#####:   72:    return (0);       未调用
+  148:   71:  if (n == NULL)      調用次數
+#####:   72:    return (0);       未調用
 
 
-简单介绍下代码覆盖率的常见术语。
+簡單介紹下代碼覆蓋率的常見術語。
 
 
-主要是基本块（Basic Block），基本块图（Basic Block Graph），行覆盖率（line coverage）, 分支覆盖率（branch coverage）等。
+主要是基本塊（Basic Block），基本塊圖（Basic Block Graph），行覆蓋率（line coverage）, 分支覆蓋率（branch coverage）等。
 
-##### 基本块
-这里可以把基本块看成一行整体的代码，基本块内的代码是线性的，要不全部运行，要不都不运行，其详细解释如下：
+##### 基本塊
+這裡可以把基本塊看成一行整體的代碼，基本塊內的代碼是線性的，要不全部運行，要不都不運行，其詳細解釋如下：
 A basic block is a sequence of instructions with only entry and only one exit. If any one of the instructions are executed, they will all be executed, and in sequence from first to last.
 
 
 
 
 
-    基本块图（Basic Block Graph），基本块的最后一条语句一般都要跳转，否则后面一条语句也会被计算为基本块的一部分。 如果跳转语句是有条件的，就产生了一个分支(arc)，该基本块就有两个基本块作为目的地。如果把每个基本块当作一个节点，那么一个函数中的所有基本块就构成了一个有向图，称之为基本块图(Basic Block Graph)。且只要知道图中部分BB或arc的执行次数就可以推算出所有的BB和所有的arc的执行次数；
-    打桩，意思是在有效的基本块之间增加计数器，计算该基本块被运行的次数；打桩的位置都是在基本块图的有效边上；
+    基本塊圖（Basic Block Graph），基本塊的最後一條語句一般都要跳轉，否則後面一條語句也會被計算為基本塊的一部分。 如果跳轉語句是有條件的，就產生了一個分支(arc)，該基本塊就有兩個基本塊作為目的地。如果把每個基本塊當作一個節點，那麼一個函數中的所有基本塊就構成了一個有向圖，稱之為基本塊圖(Basic Block Graph)。且只要知道圖中部分BB或arc的執行次數就可以推算出所有的BB和所有的arc的執行次數；
+    打樁，意思是在有效的基本塊之間增加計數器，計算該基本塊被運行的次數；打樁的位置都是在基本塊圖的有效邊上；
 
-##### 行覆盖率
-就是源代码有效行数与被执行的代码行的比率；
+##### 行覆蓋率
+就是源代碼有效行數與被執行的代碼行的比率；
 
-##### 分支覆盖率
-有判定语句的地方都会出现 2 个分支，整个程序经过的分支与所有分支的比率是分支覆盖率。注意，与条件覆盖率(condition coverage)有细微差别，条件覆盖率在判定语句的组合上有更细的划分。
+##### 分支覆蓋率
+有判定語句的地方都會出現 2 個分支，整個程序經過的分支與所有分支的比率是分支覆蓋率。注意，與條件覆蓋率(condition coverage)有細微差別，條件覆蓋率在判定語句的組合上有更細的劃分。
 
-### gcc/g++ 编译选项
+### gcc/g++ 編譯選項
 
-如上所述，在编译完成后会生成 *.gcno 文件，在运行正常结束后生成 *.gcda 数据文件，然后通过 gcov 工具查看结果。
+如上所述，在編譯完成後會生成 *.gcno 文件，在運行正常結束後生成 *.gcda 數據文件，然後通過 gcov 工具查看結果。
 
 --ftest-coverage
-  让编译器生成与源代码同名的*.gcno文件 (note file)，含有重建基本块依赖图和将源代码关联至基本块的必要信息；
+  讓編譯器生成與源代碼同名的*.gcno文件 (note file)，含有重建基本塊依賴圖和將源代碼關聯至基本塊的必要信息；
 --fprofile-arcs
-  让编译器静态注入对每个源代码行关联的计数器进行操作的代码，并在链接阶段链入静态库libgcov.a，其中包含在程序正常结束时生成*.gcda文件的逻辑；
+  讓編譯器靜態注入對每個源代碼行關聯的計數器進行操作的代碼，並在鏈接階段鏈入靜態庫libgcov.a，其中包含在程序正常結束時生成*.gcda文件的邏輯；
 
-可以通过源码解析来说明到底这 2 个选项做了什么，命令如下：
+可以通過源碼解析來說明到底這 2 個選項做了什麼，命令如下：
 g++ -c -o hello.s hello.c -g -Wall -S
 g++ -c -o hello_c.s hello.c -g -Wall –coverage -S
 vimdiff hello.s hello_c.s
 
 
-1. 覆盖率的结果只有被测试到的文件会被显示，并非所有被编译的代码都被作为覆盖率的分母
+1. 覆蓋率的結果只有被測試到的文件會被顯示，並非所有被編譯的代碼都被作為覆蓋率的分母
 
-实际上，可以看到整个覆盖率的产生的过程是4个步骤的流程，一般都通过外围脚本，或者makefile/shell/python来把整个过程自动化。2个思路去解决这个问题，都是通过外围的伪装。第一个，就是修改lcov的 app.info ，中间文件，找到其他的文件与覆盖率信息的地方，结合makefile，把所有被编译过的源程序检查是否存于 app.info 中，如果没有，增加进去。第二个伪装，是伪装 *.gcda，没有一些源码覆盖率信息的原因就是该文件没有被调用到，没有响应的gcda文件产生。
-
-
-2. 后台进程的覆盖率数据收集；
+實際上，可以看到整個覆蓋率的產生的過程是4個步驟的流程，一般都通過外圍腳本，或者makefile/shell/python來把整個過程自動化。2個思路去解決這個問題，都是通過外圍的偽裝。第一個，就是修改lcov的 app.info ，中間文件，找到其他的文件與覆蓋率信息的地方，結合makefile，把所有被編譯過的源程序檢查是否存於 app.info 中，如果沒有，增加進去。第二個偽裝，是偽裝 *.gcda，沒有一些源碼覆蓋率信息的原因就是該文件沒有被調用到，沒有響應的gcda文件產生。
 
 
-其实上述覆盖率信息的产生，不仅可以针对单元测试，对于功能测试同样适用。但功能测试，一般linux下c/c++都是实现了某个Daemon进程，而覆盖率产生的条件是程序需要正常退出，即用户代码调用 exit 正常结束时，gcov_exit 函数才得到调用，其继续调用 __gcov_flush 函数输出统计数据到 *.gcda 文件中。同样2个思路可以解决这个问题，
+2. 後臺進程的覆蓋率數據收集；
 
-第一，给被测程序增加一个 signal handler，拦截 SIGHUP、SIGINT、SIGQUIT、SIGTERM 等常见强制退出信号，并在 signal handler 中主动调用 exit 或 __gcov_flush 函数输出统计结果。但这个需要修改被测程序。这个也是我们之前的通用做法。但参加过清无同学的一个讲座后，发现了下面第二种更好的方法。
 
-第二，借用动态库预加载技术和 gcc 扩展的 constructor 属性，我们可以将 signalhandler 和其注册过程都封装到一个独立的动态库中，并在预加载动态库时实现信号拦截注册。这样，就可以简单地通过如下命令行来实现异常退出时的统计结果输出了。
+其實上述覆蓋率信息的產生，不僅可以針對單元測試，對於功能測試同樣適用。但功能測試，一般linux下c/c++都是實現了某個Daemon進程，而覆蓋率產生的條件是程序需要正常退出，即用戶代碼調用 exit 正常結束時，gcov_exit 函數才得到調用，其繼續調用 __gcov_flush 函數輸出統計數據到 *.gcda 文件中。同樣2個思路可以解決這個問題，
+
+第一，給被測程序增加一個 signal handler，攔截 SIGHUP、SIGINT、SIGQUIT、SIGTERM 等常見強制退出信號，並在 signal handler 中主動調用 exit 或 __gcov_flush 函數輸出統計結果。但這個需要修改被測程序。這個也是我們之前的通用做法。但參加過清無同學的一個講座後，發現了下面第二種更好的方法。
+
+第二，借用動態庫預加載技術和 gcc 擴展的 constructor 屬性，我們可以將 signalhandler 和其註冊過程都封裝到一個獨立的動態庫中，並在預加載動態庫時實現信號攔截註冊。這樣，就可以簡單地通過如下命令行來實現異常退出時的統計結果輸出了。
 
 
 ### lcov
 
-用于生成 html 格式的报告。
+用於生成 html 格式的報告。
 
 yum install --enablerepo=epel lcov perl-GD
 
 ----- 1. 生成*.info文件
 $ lcov -d . -o 'hello_test.info' -t ‘Hello test’ -b . -c
-参数解析：
-   -d 指定目录
------ 2. 生成html，-o指定输出目录，可以通过HTTP服务器查看了
+參數解析：
+   -d 指定目錄
+----- 2. 生成html，-o指定輸出目錄，可以通過HTTP服務器查看了
 $ genhtml -o result hello_test.info
 
 
 
-## 静态检查
+## 靜態檢查
 
 http://www.freebuf.com/sectool/119680.html
 
@@ -1972,18 +1972,18 @@ cppcheck、Splint(Secure Programming Lint)
 
 ### cppcheck
 
-直接从 [github cppcheck](https://github.com/danmar/cppcheck) 下载，然后通过 make && make install 编译安装即可。
+直接從 [github cppcheck](https://github.com/danmar/cppcheck) 下載，然後通過 make && make install 編譯安裝即可。
 
 cppcheck -j 3 --force --enable=all src/*
 
 --force
-  如果#ifdef的宏定义过多，则cppcheck只检查部分
+  如果#ifdef的宏定義過多，則cppcheck只檢查部分
 -j
-  检查线程的个数，用于并发检查；
+  檢查線程的個數，用於併發檢查；
 --enable
-  指定当前的检查级别，可选的参数有all，style，information等；
+  指定當前的檢查級別，可選的參數有all，style，information等；
 --inconclusive
-  默认只会打印一些确认的错误，通过该参数配置异常的都打印；
+  默認只會打印一些確認的錯誤，通過該參數配置異常的都打印；
 
 
 
@@ -1992,16 +1992,16 @@ cppcheck -j 3 --force --enable=all src/*
 http://www.cnblogs.com/bangerlee/archive/2011/09/07/2166593.html
 
 
-## 圈复杂度 (Cyclomatic complexity)
+## 圈複雜度 (Cyclomatic complexity)
 
 OCLint(Mac) cppncss SourceMonitor(Windows)
 
-常用概念介绍如下：
+常用概念介紹如下：
 
-* Non Commenting Source Statements, NCSS 去除注释的有效代码行；
-* Cyclomatic Complexity Number, CCN 圈复杂度。
+* Non Commenting Source Statements, NCSS 去除註釋的有效代碼行；
+* Cyclomatic Complexity Number, CCN 圈複雜度。
 
-同样，一个函数的 CCN 意味着需要多少个测试案例来覆盖其不同的路径，当 CCN 发生很大波动或者 CCN 很高的代码片段被变更时，意味改动引入缺陷风险高，一般最好小于 10 。
+同樣，一個函數的 CCN 意味著需要多少個測試案例來覆蓋其不同的路徑，當 CCN 發生很大波動或者 CCN 很高的代碼片段被變更時，意味改動引入缺陷風險高，一般最好小於 10 。
 
 
 
@@ -2014,10 +2014,10 @@ http://www.campwoodsw.com/sourcemonitor.html
 
 ### cppncss
 
-很简单的计算圈复杂度的工具，java。
+很簡單的計算圈複雜度的工具，java。
 
 
-## 内存检测
+## 內存檢測
 
 Valgrind
 
@@ -2025,7 +2025,7 @@ Valgrind
 HAVE_LIBGEN_H 1
 HAVE_FNMATCH_H 1
 
------ 当前目录下生成buildbot_master目录，以及配置文件master.cfg.sample
+----- 當前目錄下生成buildbot_master目錄，以及配置文件master.cfg.sample
 $ buildbot create-master buildbot_master
 
 
@@ -2033,9 +2033,9 @@ $ cd buildbot_master && mv master.cfg.sample master.cfg
 $ buildbot checkconfig master.cfg
 c['buildbotNetUsageData'] = None
 
------ 运行
+----- 運行
 $ buildbot start buildbot_master
-# 查看日志
+# 查看日誌
 tail -f master/twistd.log
 
 
@@ -2081,7 +2081,7 @@ main()
 
 
 
-onion_http_new() 会将onion_http_read_ready()赋值给read_ready
+onion_http_new() 會將onion_http_read_ready()賦值給read_ready
 
 onion_http_read_ready()
  |-onion_request_process()
@@ -2090,7 +2090,7 @@ onion_http_read_ready()
 onion_url_new()
  |-onion_url_handler()
 
-onion_listen_point_accept() 在listen端口上出现时调用
+onion_listen_point_accept() 在listen端口上出現時調用
 
 onion_listen_point_read_ready()
 
@@ -2101,27 +2101,27 @@ onion_listen_point_read_ready()
 
 
 
-Micro Transport Protocol, μTP，因为 μ 输入困难 μTP 通常被写为 uTP 。这是一个由 BitTorrent 公司开发的协议，在 UDP 协议之上实现可靠传输与拥塞控制等特性，可以克服多数防火墙和 NAT 的阻碍，从而大大提高用户的连接性以及下载速度。
+Micro Transport Protocol, μTP，因為 μ 輸入困難 μTP 通常被寫為 uTP 。這是一個由 BitTorrent 公司開發的協議，在 UDP 協議之上實現可靠傳輸與擁塞控制等特性，可以克服多數防火牆和 NAT 的阻礙，從而大大提高用戶的連接性以及下載速度。
 
-关于该协议的详细内容可以参考 [uTorrent Transport Protocol](http://www.bittorrent.org/beps/bep_0029.html) 中的内容。
+關於該協議的詳細內容可以參考 [uTorrent Transport Protocol](http://www.bittorrent.org/beps/bep_0029.html) 中的內容。
 
-max_window 最大窗口，在传输过程中 (in-flight) 可能的最大字节，也就是已经被发送但是还没有收到响应的报文；
-cur_window 当前窗口，当前正在传输中的字节数。
-wnd_size   窗口大小，也就是对端建议使用的窗口大小，同时会限制传输过程中的字节数。
+max_window 最大窗口，在傳輸過程中 (in-flight) 可能的最大字節，也就是已經被髮送但是還沒有收到響應的報文；
+cur_window 當前窗口，當前正在傳輸中的字節數。
+wnd_size   窗口大小，也就是對端建議使用的窗口大小，同時會限制傳輸過程中的字節數。
 
-只有当 (cur_window + packet_size) <= min(max_window, wnd_size) 时才可以发送数据，
+只有當 (cur_window + packet_size) <= min(max_window, wnd_size) 時才可以發送數據，
 
 A socket may only send a packet if cur_window + packet_size is less than or equal to min(max_window, wnd_size). The packet size may vary, see the packet sizes section.
 
-上报协议格式内容
+上報協議格式內容
 http://code.huawei.com/Monitor/CloudMonitor-Common/wikis/agent-protocol
 
 
-cJSON_CreateObject()    创建新的对象，设置对应的type类型
- |-cJSON_New_Item()     新申请cJSON结构内存，并初始化为0
-cJSON_CreateString()    和cJSON_CreateRaw()函数调用相同，只是设置的类型不同
+cJSON_CreateObject()    創建新的對象，設置對應的type類型
+ |-cJSON_New_Item()     新申請cJSON結構內存，並初始化為0
+cJSON_CreateString()    和cJSON_CreateRaw()函數調用相同，只是設置的類型不同
  |-cJSON_New_Item()
- |-cJSON_strdup()       创建对象后会将字符串复制一份
+ |-cJSON_strdup()       創建對象後會將字符串複製一份
 cJSON_Print()
  |-print()
    |-print_value()
@@ -2131,30 +2131,30 @@ typedef struct cJSON {
     /* next/prev allow you to walk array/object chains. Alternatively, use GetArraySize/GetArrayItem/GetObjectItem */
     struct cJSON *next;
     struct cJSON *prev;
-    struct cJSON *child;    对于Array类型，则会作为链表头
-    int type;               类型，包括了String、Number、Raw等
-    char *valuestring;      如果是String或者Raw时使用
-    int valueint;           这个已经取消，使用valuedouble替换，为了兼容未删除
-    double valuedouble;     如果是Number时使用
+    struct cJSON *child;    對於Array類型，則會作為鏈表頭
+    int type;               類型，包括了String、Number、Raw等
+    char *valuestring;      如果是String或者Raw時使用
+    int valueint;           這個已經取消，使用valuedouble替換，為了兼容未刪除
+    double valuedouble;     如果是Number時使用
 
     /* The item's name string, if this item is the child of, or is in the list of subitems of an object. */
     char *string;
 } cJSON;
 
-Invalid、True、False、NULL、Object、Array 通过 type 区分，
+Invalid、True、False、NULL、Object、Array 通過 type 區分，
 
 cJSON_Parse()
  |-cJSON_ParseWithOpts()
    |-cJSON_New_Item()
-   |-parse_value()  根据不同的字段进行解析
+   |-parse_value()  根據不同的字段進行解析
 
 cJSON_Duplicate()
 cJSON_Minify()
 ???cJSON_Compare()
 
 cJSON_Parse()
-cJSON_Print()  按照可阅读的格式打印，方便阅读，一般用于交互
-cJSON_PrintUnformatted() 最小化打印，一般用于格式发送
+cJSON_Print()  按照可閱讀的格式打印，方便閱讀，一般用於交互
+cJSON_PrintUnformatted() 最小化打印，一般用於格式發送
 cJSON_PrintBuffered()
 cJSON_PrintPreallocated()
 
@@ -2162,7 +2162,7 @@ string trim
 https://stackoverflow.com/questions/122616/how-do-i-trim-leading-trailing-whitespace-in-a-standard-way
 
 
-scanf 中一种很少见但很有用的转换字符 `[...]` 和 `[ ^...]` 。
+scanf 中一種很少見但很有用的轉換字符 `[...]` 和 `[ ^...]` 。
 
 #include <stdio.h>
 int main()
@@ -2173,37 +2173,37 @@ int main()
     return 0;
 }
 
-运行，输入 `1234werew` 后，结果是 `1234` ，也就是说，如果输入的字符属于方括号内字符串中某个字符，那么就提取该字符；如果一经发现不属于就结束提取。
+運行，輸入 `1234werew` 後，結果是 `1234` ，也就是說，如果輸入的字符屬於方括號內字符串中某個字符，那麼就提取該字符；如果一經發現不屬於就結束提取。
 
-这就是 ANSI C 增加的一种新特性，称为扫描集 (scanset)，由一对方括号中的一串字符定义，左方括号前必须缀以百分号，通过 `^` 表示补集。
+這就是 ANSI C 增加的一種新特性，稱為掃描集 (scanset)，由一對方括號中的一串字符定義，左方括號前必須綴以百分號，通過 `^` 表示補集。
 
-注意，其中必须至少包含一个字符，否则非法，如 `%[]` 和 `%[^]` 是非法的。
+注意，其中必須至少包含一個字符，否則非法，如 `%[]` 和 `%[^]` 是非法的。
 
-%[a-z]  读取在 a-z 之间的字符串
-    char s[]="hello, my friend";   // 注意: 逗号在不a-z之间
+%[a-z]  讀取在 a-z 之間的字符串
+    char s[]="hello, my friend";   // 注意: 逗號在不a-z之間
     sscanf(s, "%[a-z]", string);   // string=hello
-%[^a-z] 读取不在 a-z 之间的字符串，如果碰到a-z之间的字符则停止
+%[^a-z] 讀取不在 a-z 之間的字符串，如果碰到a-z之間的字符則停止
     char s[]="HELLOkitty";
     sscanf( s, "%[^a-z]", string); // string=HELLO
-%*[^=]  前面带 * 号表示不保存变量，跳过符合条件的字符串。
+%*[^=]  前面帶 * 號表示不保存變量，跳過符合條件的字符串。
     char s[]="notepad=1.0.0.1001" ;
     char szfilename [32] = "" ;
     int i = sscanf( s, "%*[^=]", szfilename ) ;
-// szfilename=NULL,因为没保存
+// szfilename=NULL,因為沒保存
 
 int i = sscanf( s, "%*[^=]=%s", szfilename ) ;
 // szfilename=1.0.0.1001
 
 
-%40c 读取40个字符
+%40c 讀取40個字符
 
 
-%[^=] 读取字符串直到碰到’=’号，’^’后面可以带更多字符,如：
+%[^=] 讀取字符串直到碰到’=’號，’^’後面可以帶更多字符,如：
               char s[]="notepad=1.0.0.1001" ;
               char szfilename [32] = "" ;
              int i = sscanf( s, "%[^=]", szfilename ) ;
            // szfilename=notepad
-       如果参数格式是：%[^=:] ，那么也可以从 notepad:1.0.0.1001读取notepad
+       如果參數格式是：%[^=:] ，那麼也可以從 notepad:1.0.0.1001讀取notepad
 http://www.cnblogs.com/mafly/p/postman.html
 
 http://www.quartz-scheduler.org/documentation/quartz-2.x/tutorials/crontrigger.html
@@ -2213,7 +2213,7 @@ https://meekrosoft.wordpress.com/2009/11/09/unit-testing-c-code-with-the-googlet
 
 https://en.wikipedia.org/wiki/Network_Time_Protocol
 
-Linux 内核通过 adjtime() 或者 ntp_adjtime() 来进行时钟的同步，ntptime
+Linux 內核通過 adjtime() 或者 ntp_adjtime() 來進行時鐘的同步，ntptime
 http://jfcarter.net/~jimc/documents/bugfix/12-ntp-wont-sync.html
 http://libev.schmorp.de/bench.c
 https://stackoverflow.com/questions/14621261/using-libev-with-multiple-threads
@@ -2235,9 +2235,9 @@ http://kagachipg.blogspot.com/2013/10/multi-thread-in-libev.html
 
 
 conn_config()
- |-port_collect_listening  如果配置了ListeningPorts变量则设置为1
- |-conn_get_port_entry()   对于LocalPort和RemotePort参数，如果存在则设置否则创建
- |-port_collect_total      如果配置了AllPortsSummary变量则设置为1
+ |-port_collect_listening  如果配置了ListeningPorts變量則設置為1
+ |-conn_get_port_entry()   對於LocalPort和RemotePort參數，如果存在則設置否則創建
+ |-port_collect_total      如果配置了AllPortsSummary變量則設置為1
 conn_read()
  |-
 ####
@@ -2251,26 +2251,26 @@ $ cat request.txt | openssl s_client -connect 127.1:443
 
 printf 'GET / HTTP/1.1\r\nHost: github.com\r\n\r\n' | ncat --ssl github.com 443
 
------ 发送系统日志内容
+----- 發送系統日誌內容
 $ ncat -l -p 6500 | tee -a copy.out | tar -zx -C $(mktemp -d)
 $ (tar -zc -C /var/log; tail -f /var/log/syslog) | ncat 127.1 6500
 
------ 使用SSL传输
+----- 使用SSL傳輸
 $ ncat -l -p 6500 --ssl --ssl-cert /etc/ssl/host.crt \
     --ssl-key /etc/ssl/host.key > out.tgz
 $ tar -zc ~ | ncat --ssl 127.1 6500
 
------ 使用UDP协议
+----- 使用UDP協議
 $ ncat -l -p 6500 --udp > out.tgz
 $ tar -zc ~ | ncat --udp machineb 6500
 
 ----- 使用SCTP
 $ ncat --sctp -l -p 6500 > out.tgz
 $ tar -zc ~ | ncat --sctp machineb 6500
-给系统添加根证书
+給系統添加根證書
 http://manuals.gfi.com/en/kerio/connect/content/server-configuration/ssl-certificates/adding-trusted-root-certificates-to-the-server-1605.html
 https://segmentfault.com/a/1190000002569859
-CentOS 会保存在 /etc/ssl/certs/ 目录下，
+CentOS 會保存在 /etc/ssl/certs/ 目錄下，
 
 --ssl                  Connect or listen with SSL
 --ssl-cert             Specify SSL certificate file (PEM) for listening
@@ -2282,11 +2282,11 @@ http://blog.csdn.net/ljy1988123/article/details/51424162
 http://blog.csdn.net/younger_china/article/details/72081779
 http://blog.csdn.net/yusiguyuan/article/details/48265205
 
-SSL Certificate File 文件中包含了一个 X.509 证书，实际上也就是加密用的公钥，而 SSL Certificate Key File 文件中是公钥对应的私钥，在进行安全传输时就需要这对密钥。有的程序是将两者放在一起，如一些 Java 程序；有的则会分开存储，如 Apache 。
+SSL Certificate File 文件中包含了一個 X.509 證書，實際上也就是加密用的公鑰，而 SSL Certificate Key File 文件中是公鑰對應的私鑰，在進行安全傳輸時就需要這對密鑰。有的程序是將兩者放在一起，如一些 Java 程序；有的則會分開存儲，如 Apache 。
 
-一般在申请了证书之后，如通过 GoDaddy，会提供上述的两个文件。
+一般在申請了證書之後，如通過 GoDaddy，會提供上述的兩個文件。
 
-如果服务端只使用了上述的两个文件，那么实际上客户端并不知道这个证书是谁颁发的；不过一般来说没有太大问题，因为客户端会保存很多的 CA 证书，包括中间证书以及根证书。如果要直接指定证书的依赖关系，可以通过 SSLCertificateChainFile 参数指定。
+如果服務端只使用了上述的兩個文件，那麼實際上客戶端並不知道這個證書是誰頒發的；不過一般來說沒有太大問題，因為客戶端會保存很多的 CA 證書，包括中間證書以及根證書。如果要直接指定證書的依賴關係，可以通過 SSLCertificateChainFile 參數指定。
 
 Nginx https配置
 https://fatesinger.com/75967
@@ -2296,11 +2296,11 @@ https://imququ.com/post/my-nginx-conf-for-security.html
 tail  -> coreutils
 tailf -> util-linux
 
-Linux Shell man 命令详细介绍
+Linux Shell man 命令詳細介紹
 http://blog.jobbole.com/93404/
 http://www.lai18.com/content/1010397.html
 
-网络监控
+網絡監控
 https://stackoverflow.com/questions/614795/simulate-delayed-and-dropped-packets-on-linux
 
 The f_frsize value is the actual minimum allocation unit of the
@@ -2317,27 +2317,27 @@ http://blog.csdn.net/c80486/article/details/45066439
 http://www.hzrcj.org.cn/personnel/pd01/findda_qc01
 https://github.com/mkirchner/tcping/blob/master/tcping.c
 
-C格式化检查
+C格式化檢查
 sparse
 
 indent                                \
- --ignore-profile                  \    不读取indent的配置文件
+ --ignore-profile                  \    不讀取indent的配置文件
  --k-and-r-style                   \    指定使用Kernighan&Ritchie的格式
- --indent-level8                   \    缩进多少字符，如果为tab的整数倍，用tab来缩进，否则用空格填充
- --tab-size8                       \    tab大小为8
- --swallow-optional-blank-lines    \    删除多余的空白行
- --line-length130                  \    设置每行的长度
- --no-space-after-casts            \    不要在cast后添加一个空格
- --space-special-semicolon         \    若for或while区段只有一行时，在分号前加上空格
- --else-endif-column1              \    将注释置于else与elseif右侧
-    --use-tabs                        \    使用tab做缩进
- --blank-lines-after-procedures    \    函数结束后加空行
- --blank-lines-after-declarations  \    声明结束后加空行
+ --indent-level8                   \    縮進多少字符，如果為tab的整數倍，用tab來縮進，否則用空格填充
+ --tab-size8                       \    tab大小為8
+ --swallow-optional-blank-lines    \    刪除多餘的空白行
+ --line-length130                  \    設置每行的長度
+ --no-space-after-casts            \    不要在cast後添加一個空格
+ --space-special-semicolon         \    若for或while區段只有一行時，在分號前加上空格
+ --else-endif-column1              \    將註釋置於else與elseif右側
+    --use-tabs                        \    使用tab做縮進
+ --blank-lines-after-procedures    \    函數結束後加空行
+ --blank-lines-after-declarations  \    聲明結束後加空行
     load.c
 
 find -type f -regextype posix-egrep -regex ".*(~|\.bak)$" -exec ls -alh {} \;
 
-NAN 一种是 <math.h> 中提供的默认值，也可以自定义宏，如下
+NAN 一種是 <math.h> 中提供的默認值，也可以自定義宏，如下
 
 #define NAN          (0.0 / 0.0)
 #define isnan(f)     ((f) != (f))
@@ -2346,21 +2346,21 @@ NAN 一种是 <math.h> 中提供的默认值，也可以自定义宏，如下
 
 http://zh.cppreference.com/w/c/numeric/math/fpclassify
 
-其中使用 `isnan()` 时，`FLT_EVAL_METHOD` 将被忽略。
+其中使用 `isnan()` 時，`FLT_EVAL_METHOD` 將被忽略。
 
 FIXME:
 https://jin-yang.github.io/post/collectd-source-code.html
- |   | | | | |-FORMAT_VL()                    ← 实际上是调用format_name()将vl中的值生成标示符
+ |   | | | | |-FORMAT_VL()                    ← 實際上是調用format_name()將vl中的值生成標示符
              |-pthread_mutex_lock()
- |   | | | | |-c_avl_get()                    ← 利用上述标示符获取cache_entry_t，在此会缓存最近的一次采集数据
-             |-uc_insert() 如果不存在则插入，直接解锁退出
-    |-合法性检查，上次的采集时间应该小于本次时间
-    |-根据不同的类型进行检查<<<DS-TYPE>>>，计算方法详见如下
- |   | | | | |... ...                         ← 会根据不同的类型进行处理，例如DS_TYPE_GAUGE
- |   | | | | |-uc_check_range()               ← 检查是否在指定的范围内
+ |   | | | | |-c_avl_get()                    ← 利用上述標示符獲取cache_entry_t，在此會緩存最近的一次採集數據
+             |-uc_insert() 如果不存在則插入，直接解鎖退出
+    |-合法性檢查，上次的採集時間應該小於本次時間
+    |-根據不同的類型進行檢查<<<DS-TYPE>>>，計算方法詳見如下
+ |   | | | | |... ...                         ← 會根據不同的類型進行處理，例如DS_TYPE_GAUGE
+ |   | | | | |-uc_check_range()               ← 檢查是否在指定的範圍內
 
-values_raw   保存原始数据的值
-values_gauge 会按照不同的类型进行计算，其中计算规则如下
+values_raw   保存原始數據的值
+values_gauge 會按照不同的類型進行計算，其中計算規則如下
 
 
 
@@ -2375,7 +2375,7 @@ http://perthcharles.github.io/2015/08/25/clean-commit-log-before-push/
 https://github.com/chenzhiwei/linux/tree/master/git
 https://ddnode.com/2015/04/14/git-modify-remote-responsity-url.html
 
-通过amend修改之后，需要使用--force强制推送该分支。
+通過amend修改之後，需要使用--force強制推送該分支。
 git push --force origin feature/ping:feature/ping
 
 etcd
@@ -2389,11 +2389,11 @@ http://www.ruanyifeng.com/blog/2011/09/curl.html
 http://www.cnblogs.com/gbyukg/p/3326825.html
 https://stackoverflow.com/questions/27368952/linux-best-way-in-two-way-ipc-in-c
 http://www.cnblogs.com/zhang-shijie/p/5439210.html
-正则表达式
+正則表達式
 https://www.zhihu.com/question/27434493
 
 
-以 `CHECK_SYMBOL_EXISTS()` 宏为例，对于 CentOS，在 `/usr/share/cmakeX/Modules` 中存在 `CheckSymbolExists.cmake` 模板，可以直接查看相关宏的定义；其它类似模板同样可以进行相应的检查。
+以 `CHECK_SYMBOL_EXISTS()` 宏為例，對於 CentOS，在 `/usr/share/cmakeX/Modules` 中存在 `CheckSymbolExists.cmake` 模板，可以直接查看相關宏的定義；其它類似模板同樣可以進行相應的檢查。
 
 ss -tan |awk 'NR>1{++S[$1]}END{for (a in S) print a,S[a]}' && ./tcpstatus
 
@@ -2402,14 +2402,14 @@ https://github.com/octo/liboping
 
 
 https://www.typora.io/#windows
-json-handle markdown edit chrome浏览器
+json-handle markdown edit chrome瀏覽器
 http://blog.csdn.net/fandroid/article/details/45787423
-进程通讯
+進程通訊
 http://blog.csdn.net/21aspnet/article/details/7479469
 
 https://github.com/TeamStuQ/skill-map
 
-## 网络监控
+## 網絡監控
 
 Interface /proc/net/dev
 TCPConns
@@ -2422,12 +2422,12 @@ ethtool
    ethtool -i eth0
 netstat
 
-libev压测
+libev壓測
 http://libev.schmorp.de/bench.c
-spark经典
+spark經典
 https://aiyanbo.gitbooks.io/spark-programming-guide-zh-cn/content/index.html
 https://github.com/lw-lin/CoolplaySpark/blob/master/Spark%20Streaming%20%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E7%B3%BB%E5%88%97/readme.md
-小型数据库
+小型數據庫
 lmdb
 cdb  https://github.com/rmind/libcdb
 Kyoto Cabinet   http://fallabs.com/kyotocabinet/
@@ -2452,10 +2452,10 @@ https://bg2bkk.github.io/post/futex%E5%92%8Clinux%E7%9A%84%E7%BA%BF%E7%A8%8B%E5%
 http://kexianda.info/2017/08/17/%E5%B9%B6%E5%8F%91%E7%B3%BB%E5%88%97-5-%E4%BB%8EAQS%E5%88%B0futex%E4%B8%89-glibc-NPTL-%E7%9A%84mutex-cond%E5%AE%9E%E7%8E%B0/
 
 https://github.com/Hack-with-Github/Awesome-Hacking
-NTPL生产者消费者模型
+NTPL生產者消費者模型
 http://cis.poly.edu/cs3224a/Code/ProducerConsumerUsingPthreads.c
 
-netlink编程，以及比较有意思的程序
+netlink編程，以及比較有意思的程序
 http://edsionte.com/techblog/archives/4140
 https://github.com/lebougui/netlink
 https://github.com/eworm-de/netlink-notify
@@ -2465,37 +2465,37 @@ https://www.cyberciti.biz/files/ss.html
 https://serverfault.com/questions/510708/tail-inotify-cannot-be-used-reverting-to-polling-too-many-open-files
 https://serverfault.com/questions/561107/how-to-find-out-the-reasons-why-the-network-interface-is-dropping-packets
 
-多线程编程，其中有很多DESIGN_XXX.txt的文档，甚至包括了Systemtap的使用，其底层用到的是系统提供的 futex_XXX() 调用。
+多線程編程，其中有很多DESIGN_XXX.txt的文檔，甚至包括了Systemtap的使用，其底層用到的是系統提供的 futex_XXX() 調用。
 https://github.com/lattera/glibc/tree/master/nptl
 https://en.wikipedia.org/wiki/List_of_C%2B%2B_multi-threading_libraries
 
-浅谈C++ Multithreading Programming
+淺談C++ Multithreading Programming
 http://dreamrunner.org/blog/2014/08/07/C-multithreading-programming/
 Introduction to Parallel Computing
 https://computing.llnl.gov/tutorials/parallel_comp/
 解剖 Mutex
 https://techsingular.org/2012/01/05/%E8%A7%A3%E5%89%96-mutex/
-Pthreads并行编程之spin lock与mutex性能对比分析
+Pthreads並行編程之spin lock與mutex性能對比分析
 http://www.parallellabs.com/2010/01/31/pthreads-programming-spin-lock-vs-mutex-performance-analysis/
-Linux线程浅析
+Linux線程淺析
 http://blog.csdn.net/qq_29924041/article/details/69213248
 
 LinuxThreads VS. NPTL
 https://www.ibm.com/developerworks/cn/linux/l-threading.html
 http://pauillac.inria.fr/~xleroy/linuxthreads/
 
-FUTEX简析，也可以通过man 7 futex man 2 futex 查看
+FUTEX簡析，也可以通過man 7 futex man 2 futex 查看
 http://blog.sina.com.cn/s/blog_e59371cc0102v29b.html
 futex and userspace thread syncronization (gnu/linux glibc/nptl) analysis
 http://cottidianus.livejournal.com/325955.html
-原始论文
+原始論文
 https://www.kernel.org/doc/ols/2002/ols2002-pages-479-495.pdf
-进程资源
+進程資源
 http://liaoph.com/inux-process-management/
 
 http://www.cnblogs.com/big-xuyue/p/4098578.html
 
-BMON Ncurse编程
+BMON Ncurse編程
 tcpconns
 conn_read()
  |-conn_reset_port_entry()
@@ -2505,27 +2505,27 @@ conn_read()
    |-conn_handle_ports()
 
 ping
-Host    会新建一个hostlist_t对象
+Host    會新建一個hostlist_t對象
 SourceAddress   ping_source
-Device          ping_device，要求OPING库的版本大于1.3
+Device          ping_device，要求OPING庫的版本大於1.3
 TTL             ping_ttl，要求0<ttl<255
-Interval        ping_interval，采集时间间隔，需要大于0
-Size            ping_data，指定报文的大小
-Timeout         ping_timeout，超时时间设置
+Interval        ping_interval，採集時間間隔，需要大於0
+Size            ping_data，指定報文的大小
+Timeout         ping_timeout，超時時間設置
 MaxMissed       ping_max_missed
 
-Timeout 不能超过 Interval ，否则会将 Timeout 调整为 0.9 * Interval 。
+Timeout 不能超過 Interval ，否則會將 Timeout 調整為 0.9 * Interval 。
   
 ping_init()
  |-start_thread()
-   |-pthread_mutex_lock() 会做条件判断，防止重复创建线程
-   |-plugin_thread_create()  创建ping_thread()线程
-会有一个线程ping_thread()一直采集数据，
+   |-pthread_mutex_lock() 會做條件判斷，防止重複創建線程
+   |-plugin_thread_create()  創建ping_thread()線程
+會有一個線程ping_thread()一直採集數據，
 
 ./configure --prefix=/usr
   
 https://cmake.org/Wiki/CMake_FAQ
-cmake最终打印信息
+cmake最終打印信息
 https://stackoverflow.com/questions/25240105/how-to-print-messages-after-make-done-with-cmake
 
 
@@ -2534,13 +2534,13 @@ https://stackoverflow.com/questions/25240105/how-to-print-messages-after-make-do
 
 http://jialeicui.github.io/blog/file_atomic_operations.html
 
-当多个进程通过 write/read 调用同时访问一个文件时，无法保证操作的原子性，因为在两个函数调用间，内核可能会将进程挂起执行另外的进程。
+當多個進程通過 write/read 調用同時訪問一個文件時，無法保證操作的原子性，因為在兩個函數調用間，內核可能會將進程掛起執行另外的進程。
 
-如果想要避免这种情况的话，则需要使用 pread/pwrite 函数。
+如果想要避免這種情況的話，則需要使用 pread/pwrite 函數。
 
 ssize_t pread(int fd ，void *buffer ，size_t size，off_t offset);
-  返回读取到的字节数，offset是指的从文件开始位置起的offset个字节数开始读。
-  其定位和读取操作为原子操作，而且读取过后的文件偏移量不会发生改变。
+  返回讀取到的字節數，offset是指的從文件開始位置起的offset個字節數開始讀。
+  其定位和讀取操作為原子操作，而且讀取過後的文件偏移量不會發生改變。
 
 https://github.com/Garik-/ev_httpclient
 https://github.com/zhaojh329/evmongoose
@@ -2554,19 +2554,19 @@ https://github.com/cinsk/evhttpserv
 https://github.com/erikarn/libevhtp-http
 http://beej.us/guide/bgnet/output/html/multipage/recvman.html
 
-LMDB 中所有的读写都是通过事务来执行，其事务具备以下特点：
+LMDB 中所有的讀寫都是通過事務來執行，其事務具備以下特點：
 
-支持事务嵌套(??)
-读写事务可以并发执行，但写写事务需要被串行化
-因此，在lmdb实现中，为了保证写事务的串行化执行，事务执行之前首先要获取全局的写锁。
+支持事務嵌套(??)
+讀寫事務可以併發執行，但寫寫事務需要被串行化
+因此，在lmdb實現中，為了保證寫事務的串行化執行，事務執行之前首先要獲取全局的寫鎖。
 
-底层读写的实现
+底層讀寫的實現
 
-lmdb 使用 mmap 访问存储，不管这个存储是在内存上还是在持久存储上，都是将需要访问的文件只读地装载到宿主进程的地址空间，直接访问相应的地址。
+lmdb 使用 mmap 訪問存儲，不管這個存儲是在內存上還是在持久存儲上，都是將需要訪問的文件只讀地裝載到宿主進程的地址空間，直接訪問相應的地址。
 
-减少了硬盘、内核地址控件和用户地址空间之间的拷贝，也简化了平坦的“索引空间”上的实现，因为使用了read-only的mmap，规避了因为宿主程序错误将存储结构写坏的风险。IO的调度由操作系统的页调度机制完成。
+減少了硬盤、內核地址控件和用戶地址空間之間的拷貝，也簡化了平坦的“索引空間”上的實現，因為使用了read-only的mmap，規避了因為宿主程序錯誤將存儲結構寫壞的風險。IO的調度由操作系統的頁調度機制完成。
 
-而写操作，则是通过write系统调用进行的，这主要是为了利用操作系统的文件系统一致性，避免在被访问的地址上进行同步。
+而寫操作，則是通過write系統調用進行的，這主要是為了利用操作系統的文件系統一致性，避免在被訪問的地址上進行同步。
 
 https://hackage.haskell.org/package/lmdb
 http://wiki.dreamrunner.org/public_html/C-C++/Library-Notes/LMDB.html
@@ -2578,28 +2578,28 @@ https://github.com/pmwkaa/sophia
 
 http://www.zkt.name/skip-list/
 
-FIXMAP 是什么意思
+FIXMAP 是什麼意思
 MDB_FIXEDMAP
 
 MDB_DUPFIXED
 MDB_DUPSORT
-内存减小时的优化场景
+內存減小時的優化場景
 http://www.openldap.org/conf/odd-sandiego-2004/Jonghyuk.pdf
 https://symas.com/performance-tradeoffs-in-lmdb/
 http://gridmix.blog.51cto.com/4764051/1731411
 
-## 事务
+## 事務
 
-LMDB 每个事务都会分配唯一的事务编号 (txid)，而且会被持久化。
+LMDB 每個事務都會分配唯一的事務編號 (txid)，而且會被持久化。
 
-### 事务表
+### 事務表
 
-初始化时会创建一张读事务表，该表记录了当前所有的读事务以及读事务的执行者 (持有该事务的进程与线程 id )；读事务表不仅会在内存中维护，同时会将该信息持久化到磁盘上，也就是位与数据库文件相同目录下的 lock.mdb 文件。
+初始化時會創建一張讀事務表，該表記錄了當前所有的讀事務以及讀事務的執行者 (持有該事務的進程與線程 id )；讀事務表不僅會在內存中維護，同時會將該信息持久化到磁盤上，也就是位與數據庫文件相同目錄下的 lock.mdb 文件。
 
-事务表的文件存储格式如下图所示：
+事務表的文件存儲格式如下圖所示：
 http://www.d-kai.me/lmdb%E8%B0%83%E7%A0%94/
 
-该事务表会在 LMDB 打开时初始化，也就是在 `mdb_env_setup_locks()` 函数中，其调用流程如下：
+該事務表會在 LMDB 打開時初始化，也就是在 `mdb_env_setup_locks()` 函數中，其調用流程如下：
 
 mdb_env_open(MDB_env *env, const char *path, unsigned int flags, mdb_mode_t mode) {
     ......
@@ -2612,19 +2612,19 @@ mdb_env_open(MDB_env *env, const char *path, unsigned int flags, mdb_mode_t mode
     ......
 }
 
-### 页管理
+### 頁管理
 
-这应该是 lmdb 中最核心的数据结构了，所有的数据和元数据都存储在page内。
+這應該是 lmdb 中最核心的數據結構了，所有的數據和元數據都存儲在page內。
 
 #### Meta Page
 
-Meta Page 使用了起始的两个 Page，在第一次创建的时候会初始化页面，并将相同的内容写入到 Page0 和 Page1 中，也就是说开始时两个页的内容一致；写入是通过 `mdb_env_init_meta()` 函数完成。
+Meta Page 使用了起始的兩個 Page，在第一次創建的時候會初始化頁面，並將相同的內容寫入到 Page0 和 Page1 中，也就是說開始時兩個頁的內容一致；寫入是通過 `mdb_env_init_meta()` 函數完成。
 
-因为存在两个页，每次写入或者读取时需要选一个页，其计算规则很简单：
+因為存在兩個頁，每次寫入或者讀取時需要選一個頁，其計算規則很簡單：
 
 meta = env->me_metas[txn->mt_txnid & 1];
 
-也就是用本次操作的事务 id 取最低位，后面解释这么使用的原因。
+也就是用本次操作的事務 id 取最低位，後面解釋這麼使用的原因。
 
 main()
  |-mdb_env_create()
@@ -2638,15 +2638,15 @@ main()
  | | |-mdb_fopen()
  | | |-mdb_env_excl_lock()
  | |-mdb_env_open2()
- |   |-mdb_env_read_header()   尝试从头部读取信息，如果是第一次创建，则会调用如下函数
- |   |-mdb_env_init_meta0()  第一次创建
- |   |-mdb_env_init_meta()   第一次创建时同样需要初始化
- |   |-mdb_env_map()  调用mmap进行映射
- |-mdb_txn_begin()  开启事务，允许嵌套
+ |   |-mdb_env_read_header()   嘗試從頭部讀取信息，如果是第一次創建，則會調用如下函數
+ |   |-mdb_env_init_meta0()  第一次創建
+ |   |-mdb_env_init_meta()   第一次創建時同樣需要初始化
+ |   |-mdb_env_map()  調用mmap進行映射
+ |-mdb_txn_begin()  開啟事務，允許嵌套
    |-mdb_txn_renew0()
  |-mdb_dbi_open()
  |-mdb_put()
-   |-mdb_cursor_put() 最复杂的函数处理
+   |-mdb_cursor_put() 最複雜的函數處理
  |-mdb_txn_commit()
  |-mdb_env_stat()
 mdb_get
@@ -2681,45 +2681,45 @@ int main(int argc, char *argv[])
 
 FIXME:
 /post/linux-monitor-cpu.html
-  ps -Lf 60010 查看线程
+  ps -Lf 60010 查看線程
 
-CMAKE教程，很不错
+CMAKE教程，很不錯
 https://blog.gmem.cc/cmake-study-note
 
 
 https://github.com/jamesroutley/write-a-hash-table
 
-使用场景：
-1. 不判断内存是否申请失败
+使用場景：
+1. 不判斷內存是否申請失敗
 
-cJSON *tag = cJSON_CreateObject() 不判断是否为NULL
-cJSON_AddStringToObject(tag, "key", "value"); 可能会导致内存泄露。场景tag=NULL时，会通过"value"创建一个对象，当tag为NULL时，则会直接退出，那么通过 "value" 创建的对象将无法释放。
+cJSON *tag = cJSON_CreateObject() 不判斷是否為NULL
+cJSON_AddStringToObject(tag, "key", "value"); 可能會導致內存洩露。場景tag=NULL時，會通過"value"創建一個對象，當tag為NULL時，則會直接退出，那麼通過 "value" 創建的對象將無法釋放。
 
 cJSON_AddItemToArray(data, metric = cJSON_CreateObject());
 cJSON_AddStringToObject(metric, "mi_n", m->string);
 
-比如 Facebook 的 wdt (https://github.com/facebook/wdt)，Twitter 的 ( https://github.com/lg/murder )，百度的 Ginko 等等，还有包括亚马逊 Apollo 里面的文件分发系统，它们那个和我们的有点不太一样，他们的是基于 S3 做的。
-蜻蜓 - P2P文件分发
+比如 Facebook 的 wdt (https://github.com/facebook/wdt)，Twitter 的 ( https://github.com/lg/murder )，百度的 Ginko 等等，還有包括亞馬遜 Apollo 裡面的文件分發系統，它們那個和我們的有點不太一樣，他們的是基於 S3 做的。
+蜻蜓 - P2P文件分發
 AOL - 集中配置管理
 
 插件
 
 PING_OPT_QOS:
-  通过setsockopt()配置IP_TOS，实际上是设置IP头的Type-of-Service字段，用于描述IP包的优先级和QoS选项，例如IPTOS_LOWDELAY、IPTOS_THROUGHPUT等。
+  通過setsockopt()配置IP_TOS，實際上是設置IP頭的Type-of-Service字段，用於描述IP包的優先級和QoS選項，例如IPTOS_LOWDELAY、IPTOS_THROUGHPUT等。
 
-会议内容：
-1. 监控需求。通过常驻进程记录上次历史数据，用于计数类型指标统计，目前方案可能会丢失部分监控数据。该问题CloudAgent方的郑力、王一力认可。
-2. CloudAgent实现。目前针对日志采集普罗米修斯已经开始开发常驻监控端口，细节尚未讨论，该功能点基本功能满足指标上报的需求。
-3. 对接CloudAgent方案。具体细节需要接下来讨论，包括对接方式、保活检测、常驻进程的管理等等。
-4. 监控Uagent需求。需要提供动态修改功能，目前来看开发量还比较大；监控插件部分需要做少量修改，之前实现的中间件如haproxy、nginx可以继续使用。
+會議內容：
+1. 監控需求。通過常駐進程記錄上次歷史數據，用於計數類型指標統計，目前方案可能會丟失部分監控數據。該問題CloudAgent方的鄭力、王一力認可。
+2. CloudAgent實現。目前針對日誌採集普羅米修斯已經開始開發常駐監控端口，細節尚未討論，該功能點基本功能滿足指標上報的需求。
+3. 對接CloudAgent方案。具體細節需要接下來討論，包括對接方式、保活檢測、常駐進程的管理等等。
+4. 監控Uagent需求。需要提供動態修改功能，目前來看開發量還比較大；監控插件部分需要做少量修改，之前實現的中間件如haproxy、nginx可以繼續使用。
 
-参数修改
+參數修改
 PING_OPT_TIMEOUT:
-  设置超时时间。
+  設置超時時間。
 PING_OPT_TTL:
-  同样是通过setsockopt()配置IP_TTL。
+  同樣是通過setsockopt()配置IP_TTL。
 PING_OPT_SOURCE:
-  需要通过getaddrinfo()获取。
+  需要通過getaddrinfo()獲取。
 
 ENOTSUP
 
@@ -2730,8 +2730,8 @@ main()
  | |-ping_alloc()
  | |-getaddrinfo() reverse查找
  |-ping_send()
-   |-ping_open_socket() 如果还没有打开
-   |-select() 执行异步接口
+   |-ping_open_socket() 如果還沒有打開
+   |-select() 執行異步接口
    |-ping_receive_one()
    |-ping_send_one()
 
@@ -2739,9 +2739,9 @@ main()
 https://stackoverflow.com/questions/16010622/reasoning-behind-c-sockets-sockaddr-and-sockaddr-storage?answertab=votes
 
 FIXME:
-获取CPU核数
+獲取CPU核數
 http://blog.csdn.net/turkeyzhou/article/details/5962041
-浮点数比较
+浮點數比較
 http://www.cnblogs.com/youxin/p/3306136.html
 MemAvailable
 https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=34e431b0ae398fc54ea69ff85ec700722c9da773
@@ -2754,7 +2754,7 @@ http-parser
 https://github.com/nodejs/http-parser
 picohttpparser
 https://github.com/h2o/picohttpparser
-为什么会使用http-parser
+為什麼會使用http-parser
 https://stackoverflow.com/questions/28891806/what-is-http-parser-where-it-is-used-what-does-it-do
 http://mendsley.github.io/2012/12/19/tinyhttp.html
 https://github.com/tinylcy/tinyhttpd
@@ -2766,7 +2766,7 @@ pthread_rwlock_t lock = PTHREAD_RWLOCK_INITIALIZER;
 http://www.cnblogs.com/renxinyuan/p/3875659.html
 http://blog-kingshaohua.rhcloud.com/archives/54
 
-设置线程名称
+設置線程名稱
 http://blog.csdn.net/jasonchen_gbd/article/details/51308638
 https://gxnotes.com/article/78417.html
 http://www.cprogramming.com/debugging/segfaults.html
@@ -2784,9 +2784,9 @@ http://www.firefoxbug.com/index.php/archives/1942/
 http://cr.yp.to/daemontools.html
 http://www.voidcn.com/article/p-vfwivasm-ru.html
 
-如果没有将线程设置为 detached ，而且没有显示的 pthread_exit()，那么在通过 valgrind 进行测试时会发现出现了内存泄露。
+如果沒有將線程設置為 detached ，而且沒有顯示的 pthread_exit()，那麼在通過 valgrind 進行測試時會發現出現了內存洩露。
 
-在通过 pthread_key_create() 创建私有变量时，只有调用 pthread_exit() 后才会调用上述函数注册的 destructor ；例如主进程实际上不会调用 destructors，此时可以通过 atexit() 注册回调函数。
+在通過 pthread_key_create() 創建私有變量時，只有調用 pthread_exit() 後才會調用上述函數註冊的 destructor ；例如主進程實際上不會調用 destructors，此時可以通過 atexit() 註冊回調函數。
 
 
 
@@ -2815,9 +2815,9 @@ http://blog.csdn.net/hbhhww/article/details/8237309
 
 Address already in use
 
-该错误信息是由于返回了 EADDRINUSE 错误码，通常是由 TCP 套接字的 TIME_WAIT 状态引起，该状态在套接字关闭后会保留约 2~4 分钟，只有在该状态 TIME_WAIT 退出之后，套接字被删除，该地址才能被重新绑定而不出问题。
+該錯誤信息是由於返回了 EADDRINUSE 錯誤碼，通常是由 TCP 套接字的 TIME_WAIT 狀態引起，該狀態在套接字關閉後會保留約 2~4 分鐘，只有在該狀態 TIME_WAIT 退出之後，套接字被刪除，該地址才能被重新綁定而不出問題。
 
-在 C 中，可以通过如下方式设置端口允许重用。
+在 C 中，可以通過如下方式設置端口允許重用。
 
 int opt = 1;
 setsockopt(socket_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
@@ -2825,41 +2825,41 @@ setsockopt(socket_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
 /linux-monitor-cpu.html
 ps -ax -o uid,pid,ppid,tpgid,pgrp,session,lstart,cmd
 
-Linux查看某个文件被谁占用
-当用户卸载某个目录的时候，因其他用户在当前目录或者当前目录在运行一个程序，卸载时报busy的处理办法：
+Linux查看某個文件被誰佔用
+當用戶卸載某個目錄的時候，因其他用戶在當前目錄或者當前目錄在運行一個程序，卸載時報busy的處理辦法：
 
 1：fuser -av /mnt
-查看占用mnt的程序以及pid，根据pid去kill -9
+查看佔用mnt的程序以及pid，根據pid去kill -9
 
 2：fuser -km /mnt
-查看占用mnt的程序并自动kill
--m是指定被占用的目录，-k是kill
+查看佔用mnt的程序並自動kill
+-m是指定被佔用的目錄，-k是kill
 
 3：losf /mnt
-查看正在使用的某个文件
-4：递归查看某个目录的文件信息
+查看正在使用的某個文件
+4：遞歸查看某個目錄的文件信息
 lsof +D /mnt/fat
 
-5:列出某个用户打开的文件信息
+5:列出某個用戶打開的文件信息
 
 lsof -u student
 
-6：列出某个程序打开的文件信息
+6：列出某個程序打開的文件信息
 
 lsof -c mysql
 http://blog.csdn.net/kozazyh/article/details/5495532
 
 
-System V IPC 分三类：消息队列、信号量、共享内存区，都采用 `key_t` 作为其内部使用的标示，该类型在 `<sys/types.h>` 中定义，一般是 32 位整数。
+System V IPC 分三類：消息隊列、信號量、共享內存區，都採用 `key_t` 作為其內部使用的標示，該類型在 `<sys/types.h>` 中定義，一般是 32 位整數。
 
-通常可以使用 ftok() 函数，也就是 file to key，把一个已存在的路径名和一个整数标识符转换成一个 `key_t` 值，该函数声明如下：
+通常可以使用 ftok() 函數，也就是 file to key，把一個已存在的路徑名和一個整數標識符轉換成一個 `key_t` 值，該函數聲明如下：
 
 #include <sys/ipc.h>
 key_t ftok (const char *pathname, int proj_id);
 
-pathname 通常是跟本应用相关的路径；proj_id 指的是本应用所用到的 IPC 的一个序列号，通常约定好，这样可以获取相同的 `key_t` 值。
+pathname 通常是跟本應用相關的路徑；proj_id 指的是本應用所用到的 IPC 的一個序列號，通常約定好，這樣可以獲取相同的 `key_t` 值。
 
-注意，需要保证该路径应用程序可以访问，并且在运行期间不能删除。
+注意，需要保證該路徑應用程序可以訪問，並且在運行期間不能刪除。
 
 #include <stdio.h>        
 #include <stdlib.h>   
@@ -2882,20 +2882,20 @@ int main() 
         return 0; 
 }
 
-通过执行结果可看出，ftok获取的键值是由ftok()函数的第二个参数的后8个bit，st_dev的后两位，st_ino的后四位构成的
+通過執行結果可看出，ftok獲取的鍵值是由ftok()函數的第二個參數的後8個bit，st_dev的後兩位，st_ino的後四位構成的
 
 ### semget
 
-创建一个新的信号量或获取一个已经存在的信号量的键值。
+創建一個新的信號量或獲取一個已經存在的信號量的鍵值。
 
 #include <sys/sem.h>
 int semget(key_t key, int nsems, int semflg);
 
-key: 为整型值，可以自己设定，有两种场景
-   1. IPC_PRIVATE 通常为 0，创建一个仅能被本进程给我的信号量。
-   2. 非 0 的值，可以自己手动指定，或者通过 ftok() 函数获取一个唯一的键值。
-nsems: 初始化信号量的个数。
-semflg: 信号量创建方式或权限，包括了 IPC_CREAT(不存在则创建，存在则获取)；IPC_EXCL(不存在则建立，否则报错)。
+key: 為整型值，可以自己設定，有兩種場景
+   1. IPC_PRIVATE 通常為 0，創建一個僅能被本進程給我的信號量。
+   2. 非 0 的值，可以自己手動指定，或者通過 ftok() 函數獲取一個唯一的鍵值。
+nsems: 初始化信號量的個數。
+semflg: 信號量創建方式或權限，包括了 IPC_CREAT(不存在則創建，存在則獲取)；IPC_EXCL(不存在則建立，否則報錯)。
 
 #include <stdio.h>
 #include <sys/sem.h>
@@ -2903,13 +2903,13 @@ semflg: 信号量创建方式或权限，包括了 IPC_CREAT(不存在则创建�
 int main()
 {
  int semid;
- semid = semget(666, 1, IPC_CREAT | 0666); // 创建了一个权限为666的信号量
+ semid = semget(666, 1, IPC_CREAT | 0666); // 創建了一個權限為666的信號量
  printf("semid=%d\n", semid);
  return 0;
 }
 
-可以用 ipcs –s 来查看是否创建成功。
-用 ipcrm -s semid 号来删除指定的信号量。
+可以用 ipcs –s 來查看是否創建成功。
+用 ipcrm -s semid 號來刪除指定的信號量。
 
 
 
@@ -2918,7 +2918,7 @@ int main()
 ################################
 
 
-针对特定对象，可以通过如下方式指定特定的编译选项、头文件路径、宏定义。
+針對特定對象，可以通過如下方式指定特定的編譯選項、頭文件路徑、宏定義。
 
 target_compile_definitions(audio_decoder_unittests
  PRIVATE "AUDIO_DECODER_UNITTEST"
@@ -2931,21 +2931,21 @@ target_compile_options(RTPencode PRIVATE "/wd4267")
 
 
 ## 配置文件
-CheckSymbolExists.cmake   宏定义检查
+CheckSymbolExists.cmake   宏定義檢查
 
 
 ################################
 # Curl
 ################################
 
-详细可以查看 http://php.net/manual/zh/function.curl-setopt.php
+詳細可以查看 http://php.net/manual/zh/function.curl-setopt.php
 https://moz.com/devblog/high-performance-libcurl-tips/
 
 CURLOPT_NOSIGNAL
 
-CURLOPT_WRITEFUNCTION 用于设置数据读取之后的回调函数，通过该函数可以保存结果，其函数声明如下。
+CURLOPT_WRITEFUNCTION 用於設置數據讀取之後的回調函數，通過該函數可以保存結果，其函數聲明如下。
     size_t function( char *ptr, size_t size, size_t nmemb, void *userdata);
-CURLOPT_WRITEDATA 定义了上述函数声明中userdata的值。
+CURLOPT_WRITEDATA 定義了上述函數聲明中userdata的值。
 
 #include <stdio.h>
 #include <curl/curl.h>
@@ -2979,33 +2979,33 @@ int main(void)
 }
 
 CURLOPT_USERNAME
-CURLOPT_PASSWORD 分别设置用户名密码，低版本可以通过CURLOPT_USERPWD选项设置，其值为"user:password" 。
+CURLOPT_PASSWORD 分別設置用戶名密碼，低版本可以通過CURLOPT_USERPWD選項設置，其值為"user:password" 。
 
-CURLOPT_TIMEOUT_MS 设置超时时间。
+CURLOPT_TIMEOUT_MS 設置超時時間。
 
 CURLOPT_MAXREDIRS
-CURLOPT_FOLLOWLOCATION 允许重定向，以及设置重定向的跳转次数。
+CURLOPT_FOLLOWLOCATION 允許重定向，以及設置重定向的跳轉次數。
 
 
-CURLOPT_SSL_VERIFYPEER 验证证书，证书信息可以通过 CURLOPT_CAINFO 设置，或在 CURLOPT_CAPATH 中设置证书目录。
+CURLOPT_SSL_VERIFYPEER 驗證證書，證書信息可以通過 CURLOPT_CAINFO 設置，或在 CURLOPT_CAPATH 中設置證書目錄。
 
-CURLOPT_SSL_VERIFYHOST 设置为 1 是检查服务器SSL证书中是否存在一个公用名(common name)。译者注：公用名(Common Name)一般来讲就是填写你将要申请SSL证书的域名 (domain)或子域名(sub domain)。 设置成 2，会检查公用名是否存在，并且是否与提供的主机名匹配。 0 为不检查名称。 在生产环境中，这个值应该是 2（默认值）。
+CURLOPT_SSL_VERIFYHOST 設置為 1 是檢查服務器SSL證書中是否存在一個公用名(common name)。譯者注：公用名(Common Name)一般來講就是填寫你將要申請SSL證書的域名 (domain)或子域名(sub domain)。 設置成 2，會檢查公用名是否存在，並且是否與提供的主機名匹配。 0 為不檢查名稱。 在生產環境中，這個值應該是 2（默認值）。
 
 
 ./configure  \
-    --disable-shared --enable-static                     不使用动态库，而是静态编译
-    --without-libidn2 --without-winidn                   忽略国际化库
- --disable-ipv6 --disable-unix-sockets                关闭IPV6以及Unix Socket
- --without-ssl --without-gnutls --without-nss         关闭安全配置项1
- --without-libssh2 --disable-tls-srp --without-gssapi 关闭安全配置项2
-    --without-zlib                                       不支持压缩
+    --disable-shared --enable-static                     不使用動態庫，而是靜態編譯
+    --without-libidn2 --without-winidn                   忽略國際化庫
+ --disable-ipv6 --disable-unix-sockets                關閉IPV6以及Unix Socket
+ --without-ssl --without-gnutls --without-nss         關閉安全配置項1
+ --without-libssh2 --disable-tls-srp --without-gssapi 關閉安全配置項2
+    --without-zlib                                       不支持壓縮
  --disable-ares --disable-threaded-resolver      
- --without-librtmp  --disable-rtsp                    关闭不需要的协议1
- --disable-ldap --disable-ldaps                       关闭不需要的协议2
+ --without-librtmp  --disable-rtsp                    關閉不需要的協議1
+ --disable-ldap --disable-ldaps                       關閉不需要的協議2
  --disable-dict --disable-file --disable-gopher
  --disable-ftp --disable-imap --disable-pop3
  --disable-smtp --disable-telnet --disable-tftp
- --disable-sspi                                       Windows选项
+ --disable-sspi                                       Windows選項
  --without-libpsl --without-libmetalink
     --with-nghttp2
  
@@ -3022,7 +3022,7 @@ Protocols:        ${SUPPORT_PROTOCOLS}
 
 curl_code = curl_easy_perform (session);
 long http_code = 0;
-curl_easy_getinfo(session, CURLINFO_RESPONSE_CODE, &http_code);  /* 获取返回码 */
+curl_easy_getinfo(session, CURLINFO_RESPONSE_CODE, &http_code);  /* 獲取返回碼 */
 
 
 
@@ -3030,23 +3030,23 @@ http://187.0.0.1:8080/status
 
 
 
-使用 curl 测量 Web 站点的响应时间。
+使用 curl 測量 Web 站點的響應時間。
 
 curl -o /dev/null -s -w '%{http_code}-%{time_namelookup}:%{time_connect}:%{time_appconnect}:%{time_pretransfer}:%{time_redirect}:%{time_starttransfer}:%{time_total}\n' 'http://187.0.0.1:8080/status'
 
-time_namelookup     DNS解析时间，从请求开始到DNS解析完毕所用时间
-time_connect     建立到服务器的 TCP 连接所用的时间
-time_appconnect     连接建立完成时间，如SSL/SSH等建立连接或者完成三次握手时间
-time_pretransfer    准备传输的时间，对于一些协议需要做一些初始化操作
-time_redirect       重定向时间，包括到最后一次传输前的几次重定向的DNS解析、连接、预传输、传输时间
-time_starttransfer 传输时间，在发出请求之后，服务器返回数据的第一个字节所用的时间
-time_total          完成请求所用的时间
-speed_download      下载速度，单位是字节/秒
-http_code           返回码
+time_namelookup     DNS解析時間，從請求開始到DNS解析完畢所用時間
+time_connect     建立到服務器的 TCP 連接所用的時間
+time_appconnect     連接建立完成時間，如SSL/SSH等建立連接或者完成三次握手時間
+time_pretransfer    準備傳輸的時間，對於一些協議需要做一些初始化操作
+time_redirect       重定向時間，包括到最後一次傳輸前的幾次重定向的DNS解析、連接、預傳輸、傳輸時間
+time_starttransfer 傳輸時間，在發出請求之後，服務器返回數據的第一個字節所用的時間
+time_total          完成請求所用的時間
+speed_download      下載速度，單位是字節/秒
+http_code           返回碼
 
-注意，如果某一步失败了，该步骤对应的值实际上显示的是 0 ，此时需要通过总时间减去上一步的消耗时间。
+注意，如果某一步失敗了，該步驟對應的值實際上顯示的是 0 ，此時需要通過總時間減去上一步的消耗時間。
 
-上述的执行，是在执行 curl_easy_perform() 函数的时候开始的，在 docs/examples 目录下，有很多的参考实例。
+上述的執行，是在執行 curl_easy_perform() 函數的時候開始的，在 docs/examples 目錄下，有很多的參考實例。
 
 
 const char *optstr;
@@ -3085,21 +3085,21 @@ https://www.zhihu.com/question/47990356
 http://www.wowotech.net/kernel_synchronization/Why-Memory-Barriers.html
 http://blog.csdn.net/qb_2008/article/details/6840570
 
-网卡缓存
+網卡緩存
 https://zrj.me/archives/1102
 
 
 
 http://www.cnblogs.com/bodhitree/p/6018369.html
-sed高级用法
+sed高級用法
 https://www.zhukun.net/archives/6975
 http://gohom.win/2015/06/20/shell-symbol/
 mysql core dump
 http://xiezhenye.com/2015/05/%E8%8E%B7%E5%8F%96-mysql-%E5%B4%A9%E6%BA%83%E6%97%B6%E7%9A%84-core-file.html
-文件句柄数
+文件句柄數
 http://blog.sina.com.cn/s/blog_919f173b01014vol.html
 http://www.opstool.com/article/166
-rpm 升级到旧的版本
+rpm 升級到舊的版本
 http://ftp.rpm.org/max-rpm/s1-rpm-upgrade-nearly-identical.html#S2-RPM-UPGRADE-OLDPACKAGE-OPTION
 https://stackoverflow.com/questions/2452226/master-branch-and-origin-master-have-diverged-how-to-undiverge-branches
 C hash算法
@@ -3117,7 +3117,7 @@ http://xstarcd.github.io/wiki/sysadmin/ntpd.html
 ps -ax -o lstart,cmd
 
 
-可以通过如下命令指定分支，提交后会修改原数据中的 `Subproject commit` 。
+可以通過如下命令指定分支，提交後會修改原數據中的 `Subproject commit` 。
 cd submodule_directory
 git checkout v1.0
 cd ..
@@ -3152,27 +3152,27 @@ http://www.freebuf.com/sectool/150367.html
 
 
 
-tar 打包可以通过 --exclude=dir 排除。
-通过 `--transform` 参数可以根据 `sed` 语法进行一些转换，例如增加前缀 `'s,^,prefix/,'` 或者 `s%^%prefix/%`。
+tar 打包可以通過 --exclude=dir 排除。
+通過 `--transform` 參數可以根據 `sed` 語法進行一些轉換，例如增加前綴 `'s,^,prefix/,'` 或者 `s%^%prefix/%`。
 
 
 
-支持数据类型float, int, str, text, log
+支持數據類型float, int, str, text, log
 
-支持函数：
-    abschange 计算最新值和上次采集值相减的绝对值，对于字符串0/相同、1/不同，1->5=4, 3->1=2
+支持函數：
+    abschange 計算最新值和上次採集值相減的絕對值，對於字符串0/相同、1/不同，1->5=4, 3->1=2
 
 https://www.zabbix.com/documentation/3.0/manual/appendix/triggers/functions
 
 
-支持数据类型：
-   Numeric (unsigned) - 64位无符号整数；
-   Numeric (float) - 浮点数，可以存储负值，范围是 [-999999999999.9999, 999999999999.9999]，同时可以支持科学计算 1e+7、1e-4；
-   Character - 短文本数据，最大255字节；
+支持數據類型：
+   Numeric (unsigned) - 64位無符號整數；
+   Numeric (float) - 浮點數，可以存儲負值，範圍是 [-999999999999.9999, 999999999999.9999]，同時可以支持科學計算 1e+7、1e-4；
+   Character - 短文本數據，最大255字節；
   
   
-Log - 具有可选日志相关属性的长文本数据(timestamp, source, severity, logeventid)
-Text - 长文本数据
+Log - 具有可選日誌相關屬性的長文本數據(timestamp, source, severity, logeventid)
+Text - 長文本數據
 
 
 Tim O’Reilly and Crew [5, p.726]
@@ -3182,46 +3182,46 @@ Adrian Cockcroft [6, p. 229]
 The load average is the sum of the run queue length and the number of jobs currently running on the CPUs.
 
 
-默认没有移动平均值计算，只是针对单个值进行计算。
+默認沒有移動平均值計算，只是針對單個值進行計算。
 
-threshold_tree 仍然通过format_name格式化名称。
+threshold_tree 仍然通過format_name格式化名稱。
  
-目前分为了三种类型，分别为 Host > Plugin > Type ，需要按照层级进行排列，例如 Host 下面可以有 Plugin 和 Type 段；Plugin 下可以有 Type 但是不能有 Host 。
+目前分為了三種類型，分別為 Host > Plugin > Type ，需要按照層級進行排列，例如 Host 下面可以有 Plugin 和 Type 段；Plugin 下可以有 Type 但是不能有 Host 。
 
-其它的配置项用于一些类似阈值的判断等，只能在 Type 下面配置。
+其它的配置項用於一些類似閾值的判斷等，只能在 Type 下面配置。
 
 FailureMax Value
 WarningMax Value
- 设置报警的上限值，如果没有配置则是正无穷。告警发送规则如下：
-    A) (FailureMax, +infty) 发送 FAILURE 通知；
-    B) (WarningMax, FailureMax] 发送 WARNING 通知；
+ 設置報警的上限值，如果沒有配置則是正無窮。告警發送規則如下：
+    A) (FailureMax, +infty) 發送 FAILURE 通知；
+    B) (WarningMax, FailureMax] 發送 WARNING 通知；
 
 FailureMin Value
 WarningMin Value
- 设置报警的下限值，如果没有配置则是负无穷。告警发送规则如下：
-    A) (-infty, FailureMin) 发送 FAILURE 通知；
-    B) [FailureMin, WarningMin) 发送 WARNING 通知；
+ 設置報警的下限值，如果沒有配置則是負無窮。告警發送規則如下：
+    A) (-infty, FailureMin) 發送 FAILURE 通知；
+    B) [FailureMin, WarningMin) 發送 WARNING 通知；
 
 Persist true|false(default)
- 多久发送一次报警，设置规则如下：
-    true) 每次超过阈值之后都会发送一次报警通知；
-    false) 只有在状态发生转换且前一次状态是OKAY时才会发送一次通知。
+ 多久發送一次報警，設置規則如下：
+    true) 每次超過閾值之後都會發送一次報警通知；
+    false) 只有在狀態發生轉換且前一次狀態是OKAY時才會發送一次通知。
 
 PersistOK true|false(default)
- 定义如何发送OKAY通知，设置规则如下：
-    true) 每次在正常范围内都会发送通知；
-    false) 当本次状态正常而且之前状态不正常时才发送一次OK通知。
+ 定義如何發送OKAY通知，設置規則如下：
+    true) 每次在正常範圍內都會發送通知；
+    false) 當本次狀態正常而且之前狀態不正常時才發送一次OK通知。
 
 Hysteresis Value
- 迟滞作用，用于处理在一个状态内重复变换，在该阈值范围内不会告警。
+ 遲滯作用，用於處理在一個狀態內重複變換，在該閾值範圍內不會告警。
 
 Hits Value
-    告警条件必须连续满足多少次之后才会发送告警。
+    告警條件必須連續滿足多少次之後才會發送告警。
 
 Interesting true(default)|false
- 发现数据未更新时是否发送告警，会根据插件的采集时间间隔以及 Timeout 参数判断是否有事件发生。
-    true) 发送FAILURE报警；
-    false) 忽略该事件。
+ 發現數據未更新時是否發送告警，會根據插件的採集時間間隔以及 Timeout 參數判斷是否有事件發生。
+    true) 發送FAILURE報警；
+    false) 忽略該事件。
 
 DataSource  <-> Types.db 中字段，例如midterm
 Host <-> host
@@ -3229,64 +3229,64 @@ Plugin <-> plugin
 Type <-> type
 Instance <-> type_instance
 
-1. 根据value list中的参数获取到具体的配置。
+1. 根據value list中的參數獲取到具體的配置。
 2.
 
 Invert true|false
 Percentage true|false
 
-以 loadavg 为例，其实现在 fs/proc/loadavg.c 中。
+以 loadavg 為例，其實現在 fs/proc/loadavg.c 中。
 calc_global_load()
-监控指标，其中监控插件包括了
+監控指標，其中監控插件包括了
 
 https://en.wikipedia.org/wiki/Moving_average
 http://www.perfdynamics.com/CMG/CMGslides4up.pdf
 https://zh.wikipedia.org/wiki/%E7%A7%BB%E5%8B%95%E5%B9%B3%E5%9D%87
 
-移动平均 (Moving Average) 可以处理短期波动，反映长期趋势或周期，从数学上看做是卷积。
+移動平均 (Moving Average) 可以處理短期波動，反映長期趨勢或週期，從數學上看做是卷積。
 
 
-## 简单移动平均
+## 簡單移動平均
 
-Simple Moving Average, SMA 将变量的前 N 值做平均。
+Simple Moving Average, SMA 將變量的前 N 值做平均。
 
 SMA = (V1 + V2 + ... + Vn) / n
 
-当有新值之后，无需重复计算，只需要将最老的旧值删除，然后加入新值。
+當有新值之後，無需重複計算，只需要將最老的舊值刪除，然後加入新值。
 
 SMAn = SMAn-1 - V1/n + V/n
 
-这样需要保存 N 个值。
+這樣需要保存 N 個值。
 
-## 加权移动平均
+## 加權移動平均
 
-Weighted Moving Average, WMA 也就是在计算平均值时将部分数据乘以不同数值，
+Weighted Moving Average, WMA 也就是在計算平均值時將部分數據乘以不同數值，
 
-## 指数移动平均
+## 指數移動平均
 
 Exponential Moving Average, EMA
 
 
------ 锁定用户该用户不能再次登录
+----- 鎖定用戶該用戶不能再次登錄
 ALTER USER username ACCOUNT LOCK;
------ 解锁用户
+----- 解鎖用戶
 ALTER USER username ACCOUNT UNLOCK;
 
 aussdb plugin: Connect to database failed: FATAL:  The account has been locked.
 FATAL:  The account has been locked.
 
-Zabbix上报数据格式
+Zabbix上報數據格式
 http://www.ttlsa.com/zabbix/zabbix-active-and-passive-checks/
-Open-falcon 上报数据
+Open-falcon 上報數據
 http://blog.niean.name/2015/08/06/falcon-intro
-main_timer_loop() 周期计算定义的触发值，如果有事件发生，那么就直接写入到数据库中。
+main_timer_loop() 週期計算定義的觸發值，如果有事件發生，那麼就直接寫入到數據庫中。
 
 
-timer_thread()     main_timer_loop时间相关的处理
+timer_thread()     main_timer_loop時間相關的處理
  |-process_time_functions()
- | |-DCconfig_get_time_based_triggers() 从缓存中获取trigger表达式
- | |-evaluate_expressions()       触发器表达式的主要处理函数，同时会产生事件
- | | |-substitute_simple_macros() 宏分为两类，分别是{...} {$...}
+ | |-DCconfig_get_time_based_triggers() 從緩存中獲取trigger表達式
+ | |-evaluate_expressions()       觸發器表達式的主要處理函數，同時會產生事件
+ | | |-substitute_simple_macros() 宏分為兩類，分別是{...} {$...}
  | | |-substitute_functions()
  | | | |-zbx_evaluate_item_functions()
  | | |   |-evaluate_function()
@@ -3295,8 +3295,8 @@ timer_thread()     main_timer_loop时间相关的处理
  | |-DBbegin()
  | |-process_triggers() T:triggers
  | | |-process_trigger()
- | |   |-add_event()              会保存到内存的events数组中
- | |-process_events()             处理事件，主要是将新事件插入数据库
+ | |   |-add_event()              會保存到內存的events數組中
+ | |-process_events()             處理事件，主要是將新事件插入數據庫
  | | |-save_events() T:events
  | | |-process_actions() T:actions
  | | |-clean_events()
@@ -3305,28 +3305,28 @@ timer_thread()     main_timer_loop时间相关的处理
  |-process_maintenance()
 
 
-源码解析
+源碼解析
 https://jackywu.github.io/articles/zabbix_server%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/
 
-## 表结构
+## 表結構
 
 {<server>:<key>.<function>(<parameter>)}<operator><constant>
 
-hosts  包含了主机以及模板信息。
+hosts  包含了主機以及模板信息。
     select hostid, host from hosts where status = 0;
-    hostid  主机ID
- host    主机、模板名
- status  0->主机 3->模板
-goups   主机的逻辑分组
-hosts_grous 分组和主机之间的关联关系
-items 监控项，保存了每个主机的监控项，该监控项来自的模板ID
+    hostid  主機ID
+ host    主機、模板名
+ status  0->主機 3->模板
+goups   主機的邏輯分組
+hosts_grous 分組和主機之間的關聯關係
+items 監控項，保存了每個主機的監控項，該監控項來自的模板ID
     select itemid, name, key_, templateid, delay, status, units from items where hostid = 10107;
-triggers 触发器，其中表达式中使用的是function id
+triggers 觸發器，其中表達式中使用的是function id
  select triggerid, expression, status, value, description from triggers;
  select * from functions where functionid = 13302;
 functions
 
-Paxos协议解析
+Paxos協議解析
 https://zhuanlan.zhihu.com/p/21438357?refer=lynncui
 
 https://github.com/hanc00l/wooyun_public
@@ -3339,7 +3339,7 @@ http://blog.phpdr.net/java-visualvm%E8%AE%BE%E7%BD%AEjstat%E5%92%8Cjmx.html
 
 
 http://metrics20.org/spec/
-Stack Overflow 的架构
+Stack Overflow 的架構
 https://zhuanlan.zhihu.com/p/22353191
 GCC部分文件取消告警
 http://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html

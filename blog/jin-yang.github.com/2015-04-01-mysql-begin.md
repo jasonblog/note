@@ -1,78 +1,78 @@
 ---
-title: MySQL 写在开头
+title: MySQL 寫在開頭
 layout: post
 comments: true
 language: chinese
 category: [mysql,database]
 keywords: mysql
-description: 保存一下经常使用的经典 MySQL 资源。
+description: 保存一下經常使用的經典 MySQL 資源。
 ---
 
-保存一下经常使用的经典 MySQL 资源。
+保存一下經常使用的經典 MySQL 資源。
 
 <!-- more -->
 
-## 常用网站
+## 常用網站
 
-记录一些常用的网站。
+記錄一些常用的網站。
 
-### 官方网站
+### 官方網站
 
-* [MySQL Documentation](http://dev.mysql.com/doc/)，MySQL 官方网站的参考文档，经常使用的包括了 [MySQL Reference Manual](http://dev.mysql.com/doc/refman/en/)、[MySQL Internals Manual](http://dev.mysql.com/doc/internals/en/)，还包括了一些 API 接口。
+* [MySQL Documentation](http://dev.mysql.com/doc/)，MySQL 官方網站的參考文檔，經常使用的包括了 [MySQL Reference Manual](http://dev.mysql.com/doc/refman/en/)、[MySQL Internals Manual](http://dev.mysql.com/doc/internals/en/)，還包括了一些 API 接口。
 
-* [MySQL-InnoDB](https://blogs.oracle.com/mysqlinnodb/) InnoDB 的官方 blog ，很多不错的文章。
+* [MySQL-InnoDB](https://blogs.oracle.com/mysqlinnodb/) InnoDB 的官方 blog ，很多不錯的文章。
 
 * [MySQL Server Blog](http://mysqlserverteam.com/)、[MySQL High Availability](http://mysqlhighavailability.com/) 。
 
-* [Contributing Code to MySQL](https://community.oracle.com/docs/DOC-914911)，介绍如何向 MySQL 社区贡献代码。
+* [Contributing Code to MySQL](https://community.oracle.com/docs/DOC-914911)，介紹如何向 MySQL 社區貢獻代碼。
 
-* [Worklog Tasks](https://dev.mysql.com/worklog/)，也就是 MySQL 的任务列表，很多需求均可以在此查看。
+* [Worklog Tasks](https://dev.mysql.com/worklog/)，也就是 MySQL 的任務列表，很多需求均可以在此查看。
 
-### 数据库排名
+### 數據庫排名
 
-关于当前数据库的排名比较有权威的是 [DB-Engines](http://db-engines.com/)，包括了关系型数据库、时序型数据库等等，其排名的数据计算是依据几个不同的因素，其中包括了：
+關於當前數據庫的排名比較有權威的是 [DB-Engines](http://db-engines.com/)，包括了關係型數據庫、時序型數據庫等等，其排名的數據計算是依據幾個不同的因素，其中包括了：
 
-* Google 以及 Bing 搜索引擎的关键字搜索数量；
-* Google Trends 的搜索数量；
-* Indeed 网站中的职位搜索量；
-* LinkedIn 中提到关键字的个人资料数；
-* Stackoverflow 上相关的问题和关注者数量。
+* Google 以及 Bing 搜索引擎的關鍵字搜索數量；
+* Google Trends 的搜索數量；
+* Indeed 網站中的職位搜索量；
+* LinkedIn 中提到關鍵字的個人資料數；
+* Stackoverflow 上相關的問題和關注者數量。
 
-其中各种类型数据库的综合排名可以参考 [DB-Engines Ranking](http://db-engines.com/en/ranking)，各个数据库的排名趋势则可以参考 [DB-Engines Ranking Trend](http://db-engines.com/en/ranking_trend) 。
+其中各種類型數據庫的綜合排名可以參考 [DB-Engines Ranking](http://db-engines.com/en/ranking)，各個數據庫的排名趨勢則可以參考 [DB-Engines Ranking Trend](http://db-engines.com/en/ranking_trend) 。
 
 
 ## Blogs
 
-一些比较常见、经典的 Blogs 。
+一些比較常見、經典的 Blogs 。
 
 ### Jeremy Cole
 
-目前在 Google 任职的大牛，分别在 MySQL AB、Yahoo、Twitter、Google 待过，看他的 blog 竟然还玩过 AVR 的 ^_^
+目前在 Google 任職的大牛，分別在 MySQL AB、Yahoo、Twitter、Google 待過，看他的 blog 竟然還玩過 AVR 的 ^_^
 
-可以参考其个人 blog：[Jeremy Cole](https://blog.jcole.us/) ，很大一部分是与 InnoDB 文件格式相关的内容，写的不错。
+可以參考其個人 blog：[Jeremy Cole](https://blog.jcole.us/) ，很大一部分是與 InnoDB 文件格式相關的內容，寫的不錯。
 
-其维护了一个使用 Ruby 语言编写的 innodb_ruby 工具，用来查看 Innodb 的数据文件状态，当然只适用于实验测试环境。
+其維護了一個使用 Ruby 語言編寫的 innodb_ruby 工具，用來查看 Innodb 的數據文件狀態，當然只適用於實驗測試環境。
 
-innodb_ruby 工具的源码可以参考 [Github](https://github.com/jeremycole/innodb_ruby/)，其安装、使用方法可以参考 [Github WiKi](https://github.com/jeremycole/innodb_ruby/wiki) 。
+innodb_ruby 工具的源碼可以參考 [Github](https://github.com/jeremycole/innodb_ruby/)，其安裝、使用方法可以參考 [Github WiKi](https://github.com/jeremycole/innodb_ruby/wiki) 。
 
 
-## 经典文章
+## 經典文章
 
-* [How does a relational database work](http://coding-geek.com/how-databases-work/)，一篇很好的文章，对关系型数据库的初步介绍。
+* [How does a relational database work](http://coding-geek.com/how-databases-work/)，一篇很好的文章，對關係型數據庫的初步介紹。
 
-* [An Outline for a Book on InnoDB](http://www.xaprb.com/blog/2015/08/08/innodb-book-outline/)，关于 InnoDB 的一些关键技术点。
+* [An Outline for a Book on InnoDB](http://www.xaprb.com/blog/2015/08/08/innodb-book-outline/)，關於 InnoDB 的一些關鍵技術點。
 
-* [Awesome MySQL](http://shlomi-noach.github.io/awesome-mysql/)，介绍很多与 MySQL 相关的软件、资源等。
+* [Awesome MySQL](http://shlomi-noach.github.io/awesome-mysql/)，介紹很多與 MySQL 相關的軟件、資源等。
 
-## 经典课程
+## 經典課程
 
-* [Stanford 数据库课程](http://web.stanford.edu/class/cs245/)，介绍了一些常用的数据库工具，如 [Innodb diagrams](https://github.com/jeremycole/innodb_diagrams)、[Innodb Ruby](https://github.com/jeremycole/innodb_ruby/) 。
+* [Stanford 數據庫課程](http://web.stanford.edu/class/cs245/)，介紹了一些常用的數據庫工具，如 [Innodb diagrams](https://github.com/jeremycole/innodb_diagrams)、[Innodb Ruby](https://github.com/jeremycole/innodb_ruby/) 。
 
 <!--
-<a href="http://www.innomysql.net/">Inside MySQL</a> 网易姜承尧的 blog 。<br><br>
-<a href="https://github.com/percona/tokudb-engine">tokudb-engine github</a>，据说一个很牛掰的存储引擎，与 InnoDB 类似，percona 实现的。<br><br>
+<a href="http://www.innomysql.net/">Inside MySQL</a> 網易姜承堯的 blog 。<br><br>
+<a href="https://github.com/percona/tokudb-engine">tokudb-engine github</a>，據說一個很牛掰的存儲引擎，與 InnoDB 類似，percona 實現的。<br><br>
 <a href="http://www.gpfeng.com/">Learn AND live</a> <br><br>
-<a href="http://mysql.taobao.org/index.php?title=%E9%A6%96%E9%A1%B5">淘宝MySQL</a>，官方 blog 。<br><br>
+<a href="http://mysql.taobao.org/index.php?title=%E9%A6%96%E9%A1%B5">淘寶MySQL</a>，官方 blog 。<br><br>
 http://cn.planet.mysql.com/
 hotpu-meeting.b0.upaiyun.com/2014dtcc/post_pdf/hedengcheng.pdf
 
@@ -85,11 +85,11 @@ http://siddontang.com/?p=594
 http://keithlan.github.io/      binlog
 http://hatemysql.com/           binlog
 
-备份
+備份
 http://apprize.info/php/effective/index.html
 
 
-http://www.cnblogs.com/cenliang/p/4908085.html MySQL高可用方案，包括相关资料
+http://www.cnblogs.com/cenliang/p/4908085.html MySQL高可用方案，包括相關資料
 
 
 maatkit MySQL工具集
@@ -100,7 +100,7 @@ https://www.percona.com/blog/2009/05/14/why-mysqls-binlog-do-db-option-is-danger
 
 http://keithlan.github.io/2015/11/02/mysql_replicate_rule/
 
-如果有人问你数据库的原理，叫他看这篇文章
+如果有人問你數據庫的原理，叫他看這篇文章
 http://blog.jobbole.com/100349/
 
 
@@ -112,23 +112,23 @@ http://blog.itpub.net/22664653/viewspace-762668/
 http://dba.stackexchange.com/questions/8011/any-better-way-out-of-mysql-innodb-log-in-the-future
 https://www.percona.com/blog/2013/09/11/how-to-move-the-innodb-log-sequence-number-lsn-forward/
 InnoDB log sequence number NNNNNN is in the future!
-LSN比较重要的是崩溃恢复阶段以及BP的清理控制，正常来说LSN是一直递增的，
+LSN比較重要的是崩潰恢復階段以及BP的清理控制，正常來說LSN是一直遞增的，
 
-1. 逐渐增加innodb_force_recovery参数值，一般最好不要超过4，指导MySQL可以正常启动。
+1. 逐漸增加innodb_force_recovery參數值，一般最好不要超過4，指導MySQL可以正常啟動。
 [mysqld]
 innodb_force_recovery = 1
-2. 将数据导出
+2. 將數據導出
 mysqldump -u root -p --all-databases > all-databases.sql
-3. 关闭服务器
-4. 删除掉出错的数据文件
+3. 關閉服務器
+4. 刪除掉出錯的數據文件
 mv ib_logfile0 ib_logfile0.bak
 mv ib_logfile1 ib_logfile1.bak
 mv ibdata1 ibdata1.bak
-5. 启动mysql，然后从备份文件恢复数据
+5. 啟動mysql，然後從備份文件恢復數據
 sudo service mysql start
 mysql -u root -p < all-databases.sql
 
-### MySQL 密码
+### MySQL 密碼
 http://cenalulu.github.io/mysql/myall-about-mysql-password/
 https://dev.mysql.com/doc/refman/5.7/en/start-slave.html
 

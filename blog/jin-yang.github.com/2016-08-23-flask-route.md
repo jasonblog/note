@@ -5,18 +5,18 @@ comments: true
 language: chinese
 category: [webserver]
 keywords: flaks,路由控制,route
-description: 实际上，flask 框架 (或者以 Werkzeug 为基础构建的应用) 所做的事情就是，将 URL 映射到业务逻辑的处理代码。在这篇文章中，我们看看 flask 框架是如何做映射的。
+description: 實際上，flask 框架 (或者以 Werkzeug 為基礎構建的應用) 所做的事情就是，將 URL 映射到業務邏輯的處理代碼。在這篇文章中，我們看看 flask 框架是如何做映射的。
 ---
 
-实际上，flask 框架 (或者以 Werkzeug 为基础构建的应用) 所做的事情就是，将 URL 映射到业务逻辑的处理代码。
+實際上，flask 框架 (或者以 Werkzeug 為基礎構建的應用) 所做的事情就是，將 URL 映射到業務邏輯的處理代碼。
 
-在这篇文章中，我们看看 flask 框架是如何做映射的。
+在這篇文章中，我們看看 flask 框架是如何做映射的。
 
 <!-- more -->
 
-## 简介
+## 簡介
 
-flask 中对路由的定义示例如下，也即通过 @app.route('URL') 修饰器来定义路由表。
+flask 中對路由的定義示例如下，也即通過 @app.route('URL') 修飾器來定義路由表。
 
 {% highlight python %}
 @app.route('/user/<name>')
@@ -24,7 +24,7 @@ def user(name):
     return 'Hello, %s!' % name
 {% endhighlight %}
 
-实际上，也可以通过 add_url_rule() 函数进行设置，两者的效果是一样的。
+實際上，也可以通過 add_url_rule() 函數進行設置，兩者的效果是一樣的。
 
 {% highlight python %}
 def user(name):
@@ -32,19 +32,19 @@ def user(name):
 app.add_url_rule('/user/<name>', 'user', user)
 {% endhighlight %}
 
-其中，在如上的路由定义时，可以进行类型转换，默认 URL 转换器只支持 string、int、float、path 4 种类型，并不支持正则，默认是 string，其中 path 与 string 类似，区别在于其支持斜线。
+其中，在如上的路由定義時，可以進行類型轉換，默認 URL 轉換器只支持 string、int、float、path 4 種類型，並不支持正則，默認是 string，其中 path 與 string 類似，區別在於其支持斜線。
 
 ### 路由流程
 
-很多人会认为，如果用户访问 http://www.foobar.com/user/andy 这个 URL，flask 会找到相应的函数，然后传递 name='andy'，执行这个函数并返回值。但是，flask 真的是直接根据路由查询视图函数么？
+很多人會認為，如果用戶訪問 http://www.foobar.com/user/andy 這個 URL，flask 會找到相應的函數，然後傳遞 name='andy'，執行這個函數並返回值。但是，flask 真的是直接根據路由查詢視圖函數麼？
 
-实际上，会有三个元素的的对应关系，也就是 view_func、endpoint、url 之间的对应关系。
+實際上，會有三個元素的的對應關係，也就是 view_func、endpoint、url 之間的對應關係。
 
-在 flask 中，view_func 与 url 并不是直接对应的，当用户发送一个 url 请求过来时，先通过 rule 找到 endpoint(url_map)，然后通过 endpoint 再去找到对应的 view_func。通常，endpoint 和视图函数名一样。
+在 flask 中，view_func 與 url 並不是直接對應的，當用戶發送一個 url 請求過來時，先通過 rule 找到 endpoint(url_map)，然後通過 endpoint 再去找到對應的 view_func。通常，endpoint 和視圖函數名一樣。
 
 ### 路由集中到一起
 
-python 的装饰器其实就是返回函数的函数，外层函数的参数就是装饰器的参数，内层函数的参数是被装饰的函数，所以直接调用 app.route 应该会返回一个函数，直接把 handler 传进去就可以注册它。
+python 的裝飾器其實就是返回函數的函數，外層函數的參數就是裝飾器的參數，內層函數的參數是被裝飾的函數，所以直接調用 app.route 應該會返回一個函數，直接把 handler 傳進去就可以註冊它。
 
 {% highlight python %}
 app.route(pattern)(handler)
@@ -53,7 +53,7 @@ app.route(pattern)(handler)
 
 ### endpoint 使用
 
-最主要的使用是使用 url_for() 做反向查找，也就是当你修改 URL 指向时，不会影响到原有的代码。
+最主要的使用是使用 url_for() 做反向查找，也就是當你修改 URL 指向時，不會影響到原有的代碼。
 
 {% highlight python %}
 @app.route('/')
@@ -64,7 +64,7 @@ def user(name):
     return 'Hello, %s!' % name
 {% endhighlight %}
 
-据说，之所以使用 endpoint，有个原因是 blueprint，如下是一个 blueprint 的简单示例。
+據說，之所以使用 endpoint，有個原因是 blueprint，如下是一個 blueprint 的簡單示例。
 
 {% highlight python %}
 # FILE: main.py
@@ -97,12 +97,12 @@ def greeting():
     return 'Hello, lowly normal user!'
 {% endhighlight %}
 
-好像还有其它原因，为什么非要添加一个中间层。
+好像還有其它原因，為什麼非要添加一箇中間層。
 
 
-## 源码解析
+## 源碼解析
 
-这个修饰器在 app.py 中定义，实际上也可以等同于 add_url_rule() 方法的调用。
+這個修飾器在 app.py 中定義，實際上也可以等同於 add_url_rule() 方法的調用。
 
 {% highlight python %}
 def route(self, rule, **options):
@@ -113,7 +113,7 @@ def route(self, rule, **options):
     return decorator
 {% endhighlight %}
 
-还是以上面的示例为例，view 定义如下。
+還是以上面的示例為例，view 定義如下。
 
 {% highlight python %}
 @app.route('/user/<name>')
@@ -121,13 +121,13 @@ def user(name):
     return 'Hello, %s!' % name
 {% endhighlight %}
 
-实际上这段代码在去掉修饰符之后，等同于如下代码，也就是最终会调用 add_url_rule() 函数。
+實際上這段代碼在去掉修飾符之後，等同於如下代碼，也就是最終會調用 add_url_rule() 函數。
 
 {% highlight python %}
 user = app.route('/user/<name>')(user)
 {% endhighlight %}
 
-最终等价于如下的代码。
+最終等價於如下的代碼。
 
 {% highlight python %}
 def user(name):
@@ -135,39 +135,39 @@ def user(name):
 app.add_url_rule('/user/<name>', None, user)
 {% endhighlight %}
 
-在修饰符 route 的实现中，其中有个 endpoint 参数，这是用于 url_for() 的反向查找，默认为 None，但 flask 在后面会赋值为函数本身的名称。
+在修飾符 route 的實現中，其中有個 endpoint 參數，這是用於 url_for() 的反向查找，默認為 None，但 flask 在後面會賦值為函數本身的名稱。
 
-上述调用，会执行 add_url_rule()，该函数的定义如下：
+上述調用，會執行 add_url_rule()，該函數的定義如下：
 
 {% highlight text %}
 add_url_rule(self, rule, endpoint=None, view_func=None, **options)
        rule: 匹配的路由地址
-  view_func: 视图函数
-   endpoint: 接下来会重点讲解的
+  view_func: 視圖函數
+   endpoint: 接下來會重點講解的
 {% endhighlight %}
 
-其实现为：
+其實現為：
 
 {% highlight python %}
 def add_url_rule(self, rule, endpoint=None, view_func=None, **options):
-    # ...省略对参数的处理
+    # ...省略對參數的處理
     rule = self.url_rule_class(rule, methods=methods, **options)
     rule.provide_automatic_options = provide_automatic_options
     self.url_map.add(rule)
 {% endhighlight %}
 
-再跟进发现 rule 由 url_rule_class 实例化得到，包括后面的 url_map 都是从 werkzeug.routing 导入的，暂时就不深入了。
+再跟進發現 rule 由 url_rule_class 實例化得到，包括後面的 url_map 都是從 werkzeug.routing 導入的，暫時就不深入了。
 
 
-### 映射关系
+### 映射關係
 
-在源码中可以发现，每个 app 会有两个主要的变量：
+在源碼中可以發現，每個 app 會有兩個主要的變量：
 
-* view_functions，这是一个字典，存储 endpoint-view_func 键值对。
+* view_functions，這是一個字典，存儲 endpoint-view_func 鍵值對。
 
-* url_map，它是一个在 werkzeug/routing.py 中实现的 Map 类，包含了一个列表，保存了 role 实例。
+* url_map，它是一個在 werkzeug/routing.py 中實現的 Map 類，包含了一個列表，保存了 role 實例。
 
-在程序运行之前，add_url_rule() 就已经将上述的两个变量设置完成了，在代码中可以通过如下函数测试：
+在程序運行之前，add_url_rule() 就已經將上述的兩個變量設置完成了，在代碼中可以通過如下函數測試：
 
 {% highlight python %}
 # -*- coding:utf-8 -*-
@@ -187,21 +187,21 @@ if __name__ == '__main__':
     app.run()
 {% endhighlight %}
 
-从上述代码的输出可以看出，url_map 存储的是 url 与 endpoint 的映射!
+從上述代碼的輸出可以看出，url_map 存儲的是 url 與 endpoint 的映射!
 
 
 <!--
-一个 endpoint 只能对应于一个 view_func，在通过 add_url_rule() 函数注册的时候，如果不指定 endpoint，那么 endpoint 就会默认为函数名字，如果同一个 endpoint 于多个 url 注册的话，会有问题，详见代码中，会判断之前已经对应到的跟现在是不是一个，如果不是的话，那么就要抛出异常。然后再去访问这些url当然是肯定不行的啦。有时间会慢慢扩充这部分的内容。
+一個 endpoint 只能對應於一個 view_func，在通過 add_url_rule() 函數註冊的時候，如果不指定 endpoint，那麼 endpoint 就會默認為函數名字，如果同一個 endpoint 於多個 url 註冊的話，會有問題，詳見代碼中，會判斷之前已經對應到的跟現在是不是一個，如果不是的話，那麼就要拋出異常。然後再去訪問這些url當然是肯定不行的啦。有時間會慢慢擴充這部分的內容。
 
 
-通过阅读这段代码，发现Flask在每个实例里定义了一个Map类（从werkzeug导入）url_map，一个字典view_functions。
+通過閱讀這段代碼，發現Flask在每個實例裡定義了一個Map類（從werkzeug導入）url_map，一個字典view_functions。
 
-注册路由分为两步。
+註冊路由分為兩步。
 
-第一步是通过一个Rule类作为入参调用Map类的add方法向url_map里添加一个路由规则，url_map里有一个列表_rules，用来存储实例下所有的路由规则，这个列表的每一个元素都是一个Rule类，其次，url_map中还有一个字典_rules_by_endpoint，这个字典也是存储路由规则的，不过它按照endpoint把它们分开存储了，key值就是endpoint，value是个Rule类。endpoint用来生成URL，可以是字符串、数字甚至是函数，这里使用的是注册的路由处理函数的名字。在向url_map添加路由规则的时候，会触发Rule类实例的绑定方法bind()，这个方法把url_map加入到Rule实例的成员变量中，并触发编译方法compile()，把rule规则和各路由选项解析生成正则表达式并存储进Rule实例中。
+第一步是通過一個Rule類作為入參調用Map類的add方法向url_map裡添加一個路由規則，url_map裡有一個列表_rules，用來存儲實例下所有的路由規則，這個列表的每一個元素都是一個Rule類，其次，url_map中還有一個字典_rules_by_endpoint，這個字典也是存儲路由規則的，不過它按照endpoint把它們分開存儲了，key值就是endpoint，value是個Rule類。endpoint用來生成URL，可以是字符串、數字甚至是函數，這裡使用的是註冊的路由處理函數的名字。在向url_map添加路由規則的時候，會觸發Rule類實例的綁定方法bind()，這個方法把url_map加入到Rule實例的成員變量中，並觸發編譯方法compile()，把rule規則和各路由選項解析生成正則表達式並存儲進Rule實例中。
 
-第二步是把需要注册的路由处理函数加入到Flask实例的字典view_functions中，key即为函数名。
-到这里，flask生成了一个URL route系统，具体如何命中，继续研究代码。
+第二步是把需要註冊的路由處理函數加入到Flask實例的字典view_functions中，key即為函數名。
+到這裡，flask生成了一個URL route系統，具體如何命中，繼續研究代碼。
 -->
 
 
@@ -209,9 +209,9 @@ if __name__ == '__main__':
 
 
 
-## 转换器
+## 轉換器
 
-通过运行如下代码，可以获取 Flask 默认支持的转换器。
+通過運行如下代碼，可以獲取 Flask 默認支持的轉換器。
 {% highlight python %}
 from flask import Flask
 from pprint import pprint
@@ -220,7 +220,7 @@ if __name__ == '__main__':
     pprint(app.url_map.converters)
 {% endhighlight %}
 
-那如何创建一个新的路由解析转化器呢？ 在源码的 app.py 注释里有个简单的例子，这个例子是创建了一个 list 类型的路由转换器：
+那如何創建一個新的路由解析轉化器呢？ 在源碼的 app.py 註釋裡有個簡單的例子，這個例子是創建了一個 list 類型的路由轉換器：
 
 {% highlight python %}
 from werkzeug.routing import BaseConverter
@@ -236,9 +236,9 @@ app = Flask(__name__)
 app.url_map.converters['list'] = ListConverter
 {% endhighlight %}
 
-类似上述的方式，我们可以很容易创建一个正则解析器。
+類似上述的方式，我們可以很容易創建一個正則解析器。
 
-因为之前的转换器最终也是转换成正则的，只需要将获取的值设置为regex属性就可以使用了：
+因為之前的轉換器最終也是轉換成正則的，只需要將獲取的值設置為regex屬性就可以使用了：
 
 {% highlight python %}
 from flask import Flask
@@ -271,10 +271,10 @@ if __name__ == '__main__':
     app.run()
 {% endhighlight %}
 
-Flask（其实是 Werkzeug）使用 Converter 把 URL 中特殊部分 (`<regex("[a-zA-Z0-9]+"):uuid>`) 转换为 Python 变量，通用格式是 `<converter(args):var_name>`，在这个例子中，一个叫 regex 的 converter 把 URL 中相应字段转换为 view() 中的 uuid 变量。
+Flask（其實是 Werkzeug）使用 Converter 把 URL 中特殊部分 (`<regex("[a-zA-Z0-9]+"):uuid>`) 轉換為 Python 變量，通用格式是 `<converter(args):var_name>`，在這個例子中，一個叫 regex 的 converter 把 URL 中相應字段轉換為 view() 中的 uuid 變量。
 
 <!--
-因此，converter的regex就是用来判断这串字符是否符合转换格式，ok就转换，否则跳过。对于IntegerConverter来说，"abc"显然无能为力。也就是说，其实Werkzeug的路由本来就支持用正则表达式。string、int、float等都是从它派生出来的（可以看看IntegerConverter等built-in Converter的regex）。
+因此，converter的regex就是用來判斷這串字符是否符合轉換格式，ok就轉換，否則跳過。對於IntegerConverter來說，"abc"顯然無能為力。也就是說，其實Werkzeug的路由本來就支持用正則表達式。string、int、float等都是從它派生出來的（可以看看IntegerConverter等built-in Converter的regex）。
 -->
 
 

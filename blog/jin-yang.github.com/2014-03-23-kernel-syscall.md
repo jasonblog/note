@@ -1,32 +1,32 @@
 ---
-title: Linux 系统调用
+title: Linux 系統調用
 layout: post
 comments: true
 language: chinese
 category: [linux,misc]
-keywords: linux,内核,kernel,系统调用
-description: Intel 的 x86 架构的 CPU 提供了 0 到 3 四个特权级，而在 Linux 操作系统中主要采用了 0 和 3 两个特权级，也就是我们通常所说的内核态和用户态。从用户态向内核态切换通常有 3 种情况： A) 系统调用(主动)，用户态的进程申请操作系统的服务，通常用软中断实现；B) 产生异常，如缺页异常、除0异常；C) 外设产生中断，如键盘、磁盘等。下面以系统调用来讲解。
+keywords: linux,內核,kernel,系統調用
+description: Intel 的 x86 架構的 CPU 提供了 0 到 3 四個特權級，而在 Linux 操作系統中主要採用了 0 和 3 兩個特權級，也就是我們通常所說的內核態和用戶態。從用戶態向內核態切換通常有 3 種情況： A) 系統調用(主動)，用戶態的進程申請操作系統的服務，通常用軟中斷實現；B) 產生異常，如缺頁異常、除0異常；C) 外設產生中斷，如鍵盤、磁盤等。下面以系統調用來講解。
 ---
 
-Intel 的 x86 架构的 CPU 提供了 0 到 3 四个特权级，而在 Linux 操作系统中主要采用了 0 和 3 两个特权级，也就是我们通常所说的内核态和用户态。
+Intel 的 x86 架構的 CPU 提供了 0 到 3 四個特權級，而在 Linux 操作系統中主要採用了 0 和 3 兩個特權級，也就是我們通常所說的內核態和用戶態。
 
-从用户态向内核态切换通常有 3 种情况： A) 系统调用(主动)，用户态的进程申请操作系统的服务，通常用软中断实现；B) 产生异常，如缺页异常、除0异常；C) 外设产生中断，如键盘、磁盘等。
+從用戶態向內核態切換通常有 3 種情況： A) 系統調用(主動)，用戶態的進程申請操作系統的服務，通常用軟中斷實現；B) 產生異常，如缺頁異常、除0異常；C) 外設產生中斷，如鍵盤、磁盤等。
 
-下面以系统调用来讲解。
+下面以系統調用來講解。
 
 <!-- more -->
 
-## 简介
+## 簡介
 
-在 x86 中，通过中断来调用系统调用的效率被证明是非常低的，如果用户程序频繁使用系统调用接口，那么会显著降低执行效率。Intel 很早就注意到了这个问题，并且引进了一个更有效的 sysenter 和 sysexit 形式的系统调用接口。
+在 x86 中，通過中斷來調用系統調用的效率被證明是非常低的，如果用戶程序頻繁使用系統調用接口，那麼會顯著降低執行效率。Intel 很早就注意到了這個問題，並且引進了一個更有效的 sysenter 和 sysexit 形式的系統調用接口。
 
-快速系统调用最初在 Pentium Pro 处理器中出现，但是由于硬件上的 bug ，实际上并没有被大量 CPU 采用。这就是为什么可以看到 PentiumⅡ 甚至 Pentium Ⅲ 最后实际引入了 sysenter 。
+快速系統調用最初在 Pentium Pro 處理器中出現，但是由於硬件上的 bug ，實際上並沒有被大量 CPU 採用。這就是為什麼可以看到 PentiumⅡ 甚至 Pentium Ⅲ 最後實際引入了 sysenter 。
 
-由于硬件的问题，操作系统经历了很长时间才支持快速系统调用，Linux 最早在 2002.11 才开始支持，此时已经过去了 10 年。通过反汇编可以发现，```__kernel_vsyscall``` 实际会调用 ```sysenter``` 。
+由於硬件的問題，操作系統經歷了很長時間才支持快速系統調用，Linux 最早在 2002.11 才開始支持，此時已經過去了 10 年。通過反彙編可以發現，```__kernel_vsyscall``` 實際會調用 ```sysenter``` 。
 
-## 使用系统调用
+## 使用系統調用
 
-系统调用号可以从 ```/usr/include/syscall.h``` 中查看，在 C 中调用系统调用可以使用 ```syscall()``` 或者 glibc 封装的系统调用。
+系統調用號可以從 ```/usr/include/syscall.h``` 中查看，在 C 中調用系統調用可以使用 ```syscall()``` 或者 glibc 封裝的系統調用。
 
 {% highlight c %}
 #include <stdio.h>
@@ -50,7 +50,7 @@ int main(void) {
 }
 {% endhighlight %}
 
-或者使用汇编。
+或者使用匯編。
 
 {% highlight asm %}
 # Writes "Hello, World" to the console using only system calls. Runs on 64-bit Linux only.
@@ -74,19 +74,19 @@ message:
     .ascii  "Hello, world\n"
 {% endhighlight %}
 
-对于相应的系统调用可以通过 ```strace -e trace=write ./a.out``` 查看，注意，如果通过如下的 vdso 则不会捕捉到相应的系统调用。
+對於相應的系統調用可以通過 ```strace -e trace=write ./a.out``` 查看，注意，如果通過如下的 vdso 則不會捕捉到相應的系統調用。
 
-## 系统实现
+## 系統實現
 
-在比较老的系统中，是通过软中断实现。在 32-bits 系统中，系统调用号通过 ```eax``` 传入，各个参数依次通过 ```ebx```, ```ecx```, ```edx```, ```esi```, ```edi```, ```ebp``` 传入，然后调用 ```int 0x80``` ；返回值通过 ```eax``` 传递。所有寄存器的值都会保存。
+在比較老的系統中，是通過軟中斷實現。在 32-bits 系統中，系統調用號通過 ```eax``` 傳入，各個參數依次通過 ```ebx```, ```ecx```, ```edx```, ```esi```, ```edi```, ```ebp``` 傳入，然後調用 ```int 0x80``` ；返回值通過 ```eax``` 傳遞。所有寄存器的值都會保存。
 
-在 64-bits 系统中，系统调用号通过 ```rax``` 传入，各个参数依次通过 ```rdi```, ```rsi```, ```rdx```, ```r10```, ```r8```, ```r9``` 传入, 然后调用 ```syscall```；返回值通过 ```rax``` 传递。系统调用时 ```rcx``` 和 ```r11``` 不会保存。
+在 64-bits 系統中，系統調用號通過 ```rax``` 傳入，各個參數依次通過 ```rdi```, ```rsi```, ```rdx```, ```r10```, ```r8```, ```r9``` 傳入, 然後調用 ```syscall```；返回值通過 ```rax``` 傳遞。系統調用時 ```rcx``` 和 ```r11``` 不會保存。
 
-对于系统调用的执行过程，可通过解析反汇编代码查看，真正的程序入口是 ```_start```，下面解析查看过程。
+對於系統調用的執行過程，可通過解析反彙編代碼查看，真正的程序入口是 ```_start```，下面解析查看過程。
 
 ### 示例程序
 
-以 ```write()``` 系统调用为例，通过 ```gcc -o write write.c -static``` 编译，注意最好静态编译，否则不方便查看。
+以 ```write()``` 系統調用為例，通過 ```gcc -o write write.c -static``` 編譯，注意最好靜態編譯，否則不方便查看。
 
 {% highlight c %}
 #include <unistd.h>
@@ -97,36 +97,36 @@ int main(int argc, char **argv)
 }
 {% endhighlight %}
 
-通过如下方式查看函数调用过程，write() 是 glibc 封装的函数，具体实现可以查看源码，callq 等同于 call 。
+通過如下方式查看函數調用過程，write() 是 glibc 封裝的函數，具體實現可以查看源碼，callq 等同於 call 。
 
 {% highlight text %}
-(gdb) disassemble main                                      # 反汇编main函数
+(gdb) disassemble main                                      # 反彙編main函數
 Dump of assembler code for function main:
    0x0000000000400dc0 <+0>:     push   %rbp
-   0x0000000000400dc1 <+1>:     mov    %rsp,%rbp            # 保存栈桢
-   0x0000000000400dc4 <+4>:     mov    $0xd,%edx            # 字符串长度
-   0x0000000000400dc9 <+9>:     mov    $0x48f230,%esi       # 字符串地址，打印数据 x/s 0x48f230
-   0x0000000000400dce <+14>:    mov    $0x2,%edi            # 传入的第一个参数
+   0x0000000000400dc1 <+1>:     mov    %rsp,%rbp            # 保存棧楨
+   0x0000000000400dc4 <+4>:     mov    $0xd,%edx            # 字符串長度
+   0x0000000000400dc9 <+9>:     mov    $0x48f230,%esi       # 字符串地址，打印數據 x/s 0x48f230
+   0x0000000000400dce <+14>:    mov    $0x2,%edi            # 傳入的第一個參數
    0x0000000000400dd3 <+19>:    callq  0x40ed30 <write>
    0x0000000000400dd8 <+24>:    mov    $0x0,%eax
    0x0000000000400ddd <+29>:    pop    %rbp
    0x0000000000400dde <+30>:    retq
 End of assembler dump.
 
-(gdb) disassemble 0x40ed30                                   # 反汇编write函数
+(gdb) disassemble 0x40ed30                                   # 反彙編write函數
 Dump of assembler code for function write:
    0x000000000040ed30 <+0>:     cmpl   $0x0,0x2ae155(%rip)
    0x000000000040ed37 <+7>:     jne    0x40ed4d <write+29>
-   0x000000000040ed39 <+0>:     mov    $0x1,%eax             # wirte的系统调用号
-   0x000000000040ed3e <+5>:     syscall                      # 执行系统调用
+   0x000000000040ed39 <+0>:     mov    $0x1,%eax             # wirte的系統調用號
+   0x000000000040ed3e <+5>:     syscall                      # 執行系統調用
    ... ...
 {% endhighlight %}
 
-系统会采用 syscall 和 sysenter，x32 大多采用 sysenter，而 x64 采用的是 syscall 。
+系統會採用 syscall 和 sysenter，x32 大多采用 sysenter，而 x64 採用的是 syscall 。
 
-### 内核实现
+### 內核實現
 
-Linux 内核中维护了一张系统调用表 ```sys_call_table[ ]@arch/x86/kernel/syscall_64.c``` ，这是一个一维数组，索引为系统调用号，表中的元素是系统调用函数。
+Linux 內核中維護了一張系統調用表 ```sys_call_table[ ]@arch/x86/kernel/syscall_64.c``` ，這是一個一維數組，索引為系統調用號，表中的元素是系統調用函數。
 
 {% highlight text %}
 const sys_call_ptr_t sys_call_table[__NR_syscall_max+1] = {
@@ -135,9 +135,9 @@ const sys_call_ptr_t sys_call_table[__NR_syscall_max+1] = {
 };
 {% endhighlight %}
 
-如上所示，默认所有调用都初始化为 ```sys_ni_syscall()``` ，而 ```asm/syscalls_64.h``` 实际是在编译时动态产生的。
+如上所示，默認所有調用都初始化為 ```sys_ni_syscall()``` ，而 ```asm/syscalls_64.h``` 實際是在編譯時動態產生的。
 
-编译内核时，会执行 ```arch/x86/syscalls/Makefile``` ，该文件会调用 shell 脚本 ```syscalltdr.sh``` ，该脚本以 ```syscall_64.tbl``` 文件作为输入，然后生成 ```arch/x86/include/generated/asm/syscalls_64.h``` ，最后生成的内容如下。
+編譯內核時，會執行 ```arch/x86/syscalls/Makefile``` ，該文件會調用 shell 腳本 ```syscalltdr.sh``` ，該腳本以 ```syscall_64.tbl``` 文件作為輸入，然後生成 ```arch/x86/include/generated/asm/syscalls_64.h``` ，最後生成的內容如下。
 
 {% highlight c %}
 //### arch/x86/include/generated/asm/syscalls_64.h
@@ -155,35 +155,35 @@ const sys_call_ptr_t sys_call_table[__NR_syscall_max+1] = {
 };
 {% endhighlight %}
 
-最早的时候，在 x86 中，需要通过门进入内核态，系统调用通过 ```int $0x80``` 指令产生一个编号为 128 的软中断，对应于是中断描述符表 IDT 中的第 128 项，在此预设了一个内核空间的地址，它指向了系统调用处理程序 ```system_call()``` (该函数在 ```arch/x86/kernel/entry_64.S``` 中定义)。
+最早的時候，在 x86 中，需要通過門進入內核態，系統調用通過 ```int $0x80``` 指令產生一個編號為 128 的軟中斷，對應於是中斷描述符表 IDT 中的第 128 項，在此預設了一個內核空間的地址，它指向了系統調用處理程序 ```system_call()``` (該函數在 ```arch/x86/kernel/entry_64.S``` 中定義)。
 
-由于传统的 ```int 0x80``` 系统调用浪费了很多时间，2.6 以后会采用 sysenter/sysexit/syscall 。
+由於傳統的 ```int 0x80``` 系統調用浪費了很多時間，2.6 以後會採用 sysenter/sysexit/syscall 。
 
-### 添加系统调用
+### 添加系統調用
 
-添加系统调用方法如下。
+添加系統調用方法如下。
 
-#### 1. 定义系统调用号
+#### 1. 定義系統調用號
 
-在系统调用向量表里添加自定义的系统调用号。
+在系統調用向量表裡添加自定義的系統調用號。
 
-向 ```arch/x86/syscalls/syscall_64.tbl``` 中加入自定义的系统调用号和函数名，添加时可以参考文件的注释，在 x86-64 中可以定义 common/64/x32 三种类型。
+向 ```arch/x86/syscalls/syscall_64.tbl``` 中加入自定義的系統調用號和函數名，添加時可以參考文件的註釋，在 x86-64 中可以定義 common/64/x32 三種類型。
 
 {% highlight text %}
 555 common foobar    sys_foobar
 {% endhighlight %}
 
-#### 2. 添加函数声明
+#### 2. 添加函數聲明
 
-在 ```arch/x86/include/asm/syscalls.h``` 中添加函数声明。
+在 ```arch/x86/include/asm/syscalls.h``` 中添加函數聲明。
 
 {% highlight text %}
 asmlinkage void sys_foobar(void) ;
 {% endhighlight %}
 
-#### 3. 添加函数的定义
+#### 3. 添加函數的定義
 
-在文件 ```kernel/sys.c``` 文件中加入对 ```sys_foobar()``` 的定义。
+在文件 ```kernel/sys.c``` 文件中加入對 ```sys_foobar()``` 的定義。
 
 {% highlight c %}
 SYSCALL_DEFINE0(foobar)
@@ -194,22 +194,22 @@ SYSCALL_DEFINE0(foobar)
 EXPORT_SYMBOL(sys_foobar);
 {% endhighlight %}
 
-#### 4. 编译安装
+#### 4. 編譯安裝
 
-通过 ```make bzImage && make install``` 编译安装。
-
-
+通過 ```make bzImage && make install``` 編譯安裝。
 
 
-## 优化
 
-```vsyscall``` 和 ```vDSO``` 是两种用来加速系统调用的机制。两者在执行系统调用时，都不需要改变优先级进入内核模式，不过相比来说后者更安全。如果获得了 ```system()``` 的入口，那么可以执行几乎任意的程序，```vDSO``` 采用随机地址 (```cat /proc/self/maps```)，而且去除了一些可能有风险的代码。
 
-静态连接都会调用"调用系统"，如果通过 strace 跟踪，则都会观察到系统调用。
+## 優化
+
+```vsyscall``` 和 ```vDSO``` 是兩種用來加速系統調用的機制。兩者在執行系統調用時，都不需要改變優先級進入內核模式，不過相比來說後者更安全。如果獲得了 ```system()``` 的入口，那麼可以執行幾乎任意的程序，```vDSO``` 採用隨機地址 (```cat /proc/self/maps```)，而且去除了一些可能有風險的代碼。
+
+靜態連接都會調用"調用系統"，如果通過 strace 跟蹤，則都會觀察到系統調用。
 
 ### 示例
 
-简单介绍 ```gettimeofday()``` 的使用方法，一般不需要获取时区，所以第二个参数通常设置为 ```NULL``` 。
+簡單介紹 ```gettimeofday()``` 的使用方法，一般不需要獲取時區，所以第二個參數通常設置為 ```NULL``` 。
 
 {% highlight c %}
 #include <stdio.h>
@@ -231,7 +231,7 @@ int main(int argc, char **argv)
 }
 {% endhighlight %}
 
-在 x32 上，```gettimeofday()``` 会调用 ```__kernel_vsyscall()```，然后到 ```sysenter``` 指令。而在 x64 上，同时使用 ```vsyscall``` 和 ```vdso```（这个可以通过```/proc/PID/maps```查看），应该优先使用 ```vdso``` 。
+在 x32 上，```gettimeofday()``` 會調用 ```__kernel_vsyscall()```，然後到 ```sysenter``` 指令。而在 x64 上，同時使用 ```vsyscall``` 和 ```vdso```（這個可以通過```/proc/PID/maps```查看），應該優先使用 ```vdso``` 。
 
 {% highlight text %}
 $ gcc gettimeofday.c -o gettimeofday -Wall -g
@@ -251,44 +251,44 @@ Breakpoint 1 at 0x400460
 
 ## VDSO
 
-Virtual Dynamic Shared Object, VDSO 是内核提供的功能，也就是为什么需要 ```asm/vsyscall.h``` 头文件，它提供了一种快速廉价的系统调用方式。
+Virtual Dynamic Shared Object, VDSO 是內核提供的功能，也就是為什麼需要 ```asm/vsyscall.h``` 頭文件，它提供了一種快速廉價的系統調用方式。
 
-有些系统调用如 ```gettimeofday()``` ，会经常调用，传统的系统调用方式是通过软中断指令 ```int 0x80``` 实现的，最新的采用 ```syscall()``` 。不论何种操作，都需要进行压栈、跳转、权限级别提升，恢复用户栈，并跳转回低级别代码。
+有些系統調用如 ```gettimeofday()``` ，會經常調用，傳統的系統調用方式是通過軟中斷指令 ```int 0x80``` 實現的，最新的採用 ```syscall()``` 。不論何種操作，都需要進行壓棧、跳轉、權限級別提升，恢復用戶棧，並跳轉回低級別代碼。
 
-vdso 是将内核态的调用映射到用户态的地址空间中，会将当前时间放置到其它应用都可以访问的固定地方，这样应用不需要系统调用即可以。linux 中通过 ```vsyscall``` 实现，现在只支持三种系统调用，详见 ```asm/vsyscall.h``` 。
+vdso 是將內核態的調用映射到用戶態的地址空間中，會將當前時間放置到其它應用都可以訪問的固定地方，這樣應用不需要系統調用即可以。linux 中通過 ```vsyscall``` 實現，現在只支持三種系統調用，詳見 ```asm/vsyscall.h``` 。
 
 <!--
-"快速系统调用指令"比起中断指令来说，其消耗时间必然会少一些，但是随着 CPU 设计的发展，将来应该不会再出现类似 Intel Pentium4 这样悬殊的差距。而"快速系统调用指令"比起中断方式的系统调用方式，还存在一定局限，例如无法在一个系统调用处理过程中再通过"快速系统调用指令"调用别的系统调用。因此，并不一定每个系统调用都需要通过"快速系统调用指令"来实现。比如，对于复杂的系统调用例如 fork，两种系统调用方式的时间差和系统调用本身运行消耗的时间来比，可以忽略不计，此处采取"快速系统调用指令"方式没有什么必要。而真正应该使用"快速系统调用指令"方式的，是那些本身运行时间很短，对时间精确性要求高的系统调用，例如 getuid、gettimeofday 等等。因此，采取灵活的手段，针对不同的系统调用采取不同的方式，才能得到最优化的性能和实现最完美的功能。
+"快速系統調用指令"比起中斷指令來說，其消耗時間必然會少一些，但是隨著 CPU 設計的發展，將來應該不會再出現類似 Intel Pentium4 這樣懸殊的差距。而"快速系統調用指令"比起中斷方式的系統調用方式，還存在一定侷限，例如無法在一個系統調用處理過程中再通過"快速系統調用指令"調用別的系統調用。因此，並不一定每個系統調用都需要通過"快速系統調用指令"來實現。比如，對於複雜的系統調用例如 fork，兩種系統調用方式的時間差和系統調用本身運行消耗的時間來比，可以忽略不計，此處採取"快速系統調用指令"方式沒有什麼必要。而真正應該使用"快速系統調用指令"方式的，是那些本身運行時間很短，對時間精確性要求高的系統調用，例如 getuid、gettimeofday 等等。因此，採取靈活的手段，針對不同的系統調用採取不同的方式，才能得到最優化的性能和實現最完美的功能。
 -->
 
-vdso.so 就是内核提供的虚拟的 .so ，这个 .so 文件不在磁盘上，而是在内核里头。内核把包含某 .so 的内存页在程序启动的时候映射入其内存空间，对应的程序就可以当普通的 .so 来使用里头的函数，比如 ```syscall()``` 。
+vdso.so 就是內核提供的虛擬的 .so ，這個 .so 文件不在磁盤上，而是在內核裡頭。內核把包含某 .so 的內存頁在程序啟動的時候映射入其內存空間，對應的程序就可以當普通的 .so 來使用裡頭的函數，比如 ```syscall()``` 。
 
 ### ASLR
 
-Address-Space Layout Randomization, ASLR 将用户的一些地址随机化，如 stack, mmap region, heap, text ，可以通过 ```randomize_va_space``` 配置，对应的值有三种：
+Address-Space Layout Randomization, ASLR 將用戶的一些地址隨機化，如 stack, mmap region, heap, text ，可以通過 ```randomize_va_space``` 配置，對應的值有三種：
 
-* 0 - 表示关闭进程地址空间随机化。
-* 1 - 表示将mmap的基址，stack和vdso页面随机化。
-* 2 - 表示在1的基础上增加栈（heap）的随机化。
+* 0 - 表示關閉進程地址空間隨機化。
+* 1 - 表示將mmap的基址，stack和vdso頁面隨機化。
+* 2 - 表示在1的基礎上增加棧（heap）的隨機化。
 
-可通过 ```echo '0' > /proc/sys/kernel/randomize_va_space``` 或 ```sysctl -w kernel.randomize_va_space=0``` 设置。然后，可以通过如下方式获取 ```vdso.so``` 文件。
+可通過 ```echo '0' > /proc/sys/kernel/randomize_va_space``` 或 ```sysctl -w kernel.randomize_va_space=0``` 設置。然後，可以通過如下方式獲取 ```vdso.so``` 文件。
 
 {% highlight text %}
 $ cat /proc/sys/kernel/randomize_va_space
-# sysctl -w kernel.randomize_va_space=0                           # 关闭随机映射
-$ cat /proc/self/maps                                             # 查看vdso在内存中的映射位置
+# sysctl -w kernel.randomize_va_space=0                           # 關閉隨機映射
+$ cat /proc/self/maps                                             # 查看vdso在內存中的映射位置
 ... ...
-7ffff7ffa000-7ffff7ffc000 r-xp 00000000 00:00 0  [vdso]           # 占用了2pages
+7ffff7ffa000-7ffff7ffc000 r-xp 00000000 00:00 0  [vdso]           # 佔用了2pages
 ... ...
-# dd if=/proc/self/mem of=linux-gate.so bs=4096 skip=$[7ffff7ffa] count=2  # 从内存中复制
+# dd if=/proc/self/mem of=linux-gate.so bs=4096 skip=$[7ffff7ffa] count=2  # 從內存中複製
 
-$ readelf -h linux-gate.so                                        # 查看头信息
-$ file linux-gate.so                                              # 查看文件类型，为shared-library ELF
-$ objdump -T linux-gate.so                                        # 打印符号表，或者用-d反汇编
-$ objdump -d linux-gate.so | grep -A5 \<__vdso.*:                 # 查看包含vdso的函数
+$ readelf -h linux-gate.so                                        # 查看頭信息
+$ file linux-gate.so                                              # 查看文件類型，為shared-library ELF
+$ objdump -T linux-gate.so                                        # 打印符號表，或者用-d反彙編
+$ objdump -d linux-gate.so | grep -A5 \<__vdso.*:                 # 查看包含vdso的函數
 {% endhighlight %}
 
-可以从内存中读取该文件，或者使用 ```extract_vdso.c``` 直接读取该文件。
+可以從內存中讀取該文件，或者使用 ```extract_vdso.c``` 直接讀取該文件。
 
 <!--
 #!/bin/bash
@@ -349,21 +349,21 @@ ffffe413:       c3                      ret
 
 https://github.com/oliver/ptrace-sampler -->
 
-### 内核实现
+### 內核實現
 
-内核实现在 ```arch/x86/vdso``` 中，编译生成 ```vdso.so``` 文件，通常来说该文件小于一个 page(4096) ，那么在内存中会映射为一个 page ，如果大于 4k ，会映射为 2pages 。
+內核實現在 ```arch/x86/vdso``` 中，編譯生成 ```vdso.so``` 文件，通常來說該文件小於一個 page(4096) ，那麼在內存中會映射為一個 page ，如果大於 4k ，會映射為 2pages 。
 
-细节可以直接查看内核代码。
+細節可以直接查看內核代碼。
 
-### 添加函数
+### 添加函數
 
-在此通过 vdso 添加一个函数，返回一个值。
+在此通過 vdso 添加一個函數，返回一個值。
 
-#### 1. 定义函数
+#### 1. 定義函數
 
-在 ```arch/x86/vdso``` 目录下创建 ```vfoobar.c```，其中 notrace 在 ```arch/x86/include/asm/linkage.h``` 中定义，也就是 ```#define notrace __attribute__((no_instrument_function))``` 。
+在 ```arch/x86/vdso``` 目錄下創建 ```vfoobar.c```，其中 notrace 在 ```arch/x86/include/asm/linkage.h``` 中定義，也就是 ```#define notrace __attribute__((no_instrument_function))``` 。
 
-同时需要告诉编译器一个用户态的函数 foobar() ，该函数属性为 weak 。weak 表示该函数在运行时才会解析，而且可以被覆盖。
+同時需要告訴編譯器一個用戶態的函數 foobar() ，該函數屬性為 weak 。weak 表示該函數在運行時才會解析，而且可以被覆蓋。
 
 {% highlight c %}
 #include <asm/linkage.h>
@@ -374,9 +374,9 @@ notrace int __vdso_foobar(void)
 int foobar(void) __attribute__((weak, alias("__vdso_foobar")));
 {% endhighlight %}
 
-#### 2. 添加到连接描述符
+#### 2. 添加到連接描述符
 
-修改 ```arch/x86/vdso/vdso.lds.S``` ，这样编译的时或才会添加到 ```vdso.so``` 文件中。
+修改 ```arch/x86/vdso/vdso.lds.S``` ，這樣編譯的時或才會添加到 ```vdso.so``` 文件中。
 
 {% highlight text %}
 VERSION {
@@ -395,16 +395,16 @@ VERSION {
 
 #### 3. 添加Makefile
 
-修改 ```arch/x86/vdso/Makefile``` 文件，从而可以在编译内核时同时编译该文件。
+修改 ```arch/x86/vdso/Makefile``` 文件，從而可以在編譯內核時同時編譯該文件。
 
 {% highlight text %}
 # files to link into the vdso
 vobjs-y := vdso-note.o vclock_gettime.o vgetcpu.o vfoobar.o
 {% endhighlight %}
 
-#### 4. 编辑用户程序
+#### 4. 編輯用戶程序
 
-通过 ```gcc foobar_u.c vdso.so``` 编译如下文件，其中 vdso.so 提供了编译时的符号解析。
+通過 ```gcc foobar_u.c vdso.so``` 編譯如下文件，其中 vdso.so 提供了編譯時的符號解析。
 
 {% highlight c %}
 #include <stdio.h>
@@ -415,34 +415,34 @@ int main(void)
 }
 {% endhighlight %}
 
-不过这样有一个缺陷，就是即使已经修改了内核，那么该函数还是返回之前设置的值。实际上可以返回一个内核中的值，如 ```gettimeofday()``` ，实际通过 ```update_vsyscall()@arch/x86/kernel/vsyscall_64.c``` 进行更新，相应的设置可以参考相关函数调用。
+不過這樣有一個缺陷，就是即使已經修改了內核，那麼該函數還是返回之前設置的值。實際上可以返回一個內核中的值，如 ```gettimeofday()``` ，實際通過 ```update_vsyscall()@arch/x86/kernel/vsyscall_64.c``` 進行更新，相應的設置可以參考相關函數調用。
 
-## 参考
+## 參考
 
-int 0x80 的系统调用方式可以参考 [Linux系统调用的实现机制分析](/reference/linux/kernel/syscall.doc)；关于系统调用表可查看 [LINUX System Call Quick Reference](http://www.digilife.be/quickreferences/qrc/linux%20system%20call%20quick%20reference.pdf) 或者 [本地文档](/reference/linux/kernel/linux_system_call_reference.pdf) 。
+int 0x80 的系統調用方式可以參考 [Linux系統調用的實現機制分析](/reference/linux/kernel/syscall.doc)；關於系統調用表可查看 [LINUX System Call Quick Reference](http://www.digilife.be/quickreferences/qrc/linux%20system%20call%20quick%20reference.pdf) 或者 [本地文檔](/reference/linux/kernel/linux_system_call_reference.pdf) 。
 
-简单介绍系统调用，包含了简单 hello world [Linux System Calls](http://cs.lmu.edu/~ray/notes/linuxsyscalls/)，也可以参考 [本地文档](/reference/linux/kernel/Linux_System_Calls.maff) 。
+簡單介紹系統調用，包含了簡單 hello world [Linux System Calls](http://cs.lmu.edu/~ray/notes/linuxsyscalls/)，也可以參考 [本地文檔](/reference/linux/kernel/Linux_System_Calls.maff) 。
 
-[What is linux-gate.so.1?](http://www.trilithium.com/johan/2005/08/linux-gate/) by Johan Petersson 主要介绍 linux-gate.so.1 的作用。
+[What is linux-gate.so.1?](http://www.trilithium.com/johan/2005/08/linux-gate/) by Johan Petersson 主要介紹 linux-gate.so.1 的作用。
 
-[linux-gate.so 技术细节](http://www.newsmth.net/bbsanc.php?path=%2Fgroups%2Fcomp.faq%2FKernelTech%2Finnovate%2Fsolofox%2FM.1222336489.G0) 水木社区，介绍 linux-gate.so ，含有仿真的示例。
+[linux-gate.so 技術細節](http://www.newsmth.net/bbsanc.php?path=%2Fgroups%2Fcomp.faq%2FKernelTech%2Finnovate%2Fsolofox%2FM.1222336489.G0) 水木社區，介紹 linux-gate.so ，含有仿真的示例。
 
 <!--
 What is linux-gate.so.1?
 /reference/linux/kernel/What_is_linux-gate.so.1.maff
 
-linux-gate.so 技术细节
+linux-gate.so 技術細節
 /reference/linux/kernel/linux_gate.maff
 -->
 
-[Intel P6 vs P7 system call performance](https://lkml.org/lkml/2002/12/18/218) 中有 Linus Torvalds 对于 ```__kernel_vsyscall``` 的介绍；关于 ```syscall``` 和 ```sysret``` 两个指令非常详细的介绍 [使用 syscall/sysret 指令](http://www.mouseos.com/arch/syscall_sysret.html)。
+[Intel P6 vs P7 system call performance](https://lkml.org/lkml/2002/12/18/218) 中有 Linus Torvalds 對於 ```__kernel_vsyscall``` 的介紹；關於 ```syscall``` 和 ```sysret``` 兩個指令非常詳細的介紹 [使用 syscall/sysret 指令](http://www.mouseos.com/arch/syscall_sysret.html)。
 
 <!--
 使用 syscall/sysret 指令
 /reference/linux/kernel/syscall_sysret.maff
 -->
 
-[Creating a vDSO: the Colonel's Other Chicken](http://www.linuxjournal.com/content/creating-vdso-colonels-other-chicken) ，介绍如何添加一个 vdso 函数。
+[Creating a vDSO: the Colonel's Other Chicken](http://www.linuxjournal.com/content/creating-vdso-colonels-other-chicken) ，介紹如何添加一個 vdso 函數。
 
 <!--
 http://blog.csdn.net/anzhsoft/article/details/18776111

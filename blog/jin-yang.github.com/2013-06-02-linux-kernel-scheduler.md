@@ -1,124 +1,124 @@
 ---
-title: Kernel 调度系统
+title: Kernel 調度系統
 layout: post
 comments: true
 language: chinese
 category: [linux,misc]
-keywords: linux,scheduling policy,调度策略
-description: 操作系统的调度算法必须实现几个互相冲突的目标：进程响应时间尽可能快，后台作业的吞吐量尽可能高，进程的饥饿现象尽可能避免，低优先级和高优先级进程的需要尽可能调和等等。什么时候以怎样的方式选择一个进程运行，就是所谓的调度策略 (Scheduling Policy)。本文中，介绍下 Linux Kernel 中时如何实现的。
+keywords: linux,scheduling policy,調度策略
+description: 操作系統的調度算法必須實現幾個互相沖突的目標：進程響應時間儘可能快，後臺作業的吞吐量儘可能高，進程的飢餓現象儘可能避免，低優先級和高優先級進程的需要儘可能調和等等。什麼時候以怎樣的方式選擇一個進程運行，就是所謂的調度策略 (Scheduling Policy)。本文中，介紹下 Linux Kernel 中時如何實現的。
 ---
 
-操作系统的调度算法必须实现几个互相冲突的目标：进程响应时间尽可能快，后台作业的吞吐量尽可能高，进程的饥饿现象尽可能避免，低优先级和高优先级进程的需要尽可能调和等等。
+操作系統的調度算法必須實現幾個互相沖突的目標：進程響應時間儘可能快，後臺作業的吞吐量儘可能高，進程的飢餓現象儘可能避免，低優先級和高優先級進程的需要儘可能調和等等。
 
-什么时候以怎样的方式选择一个进程运行，就是所谓的调度策略 (Scheduling Policy)。
+什麼時候以怎樣的方式選擇一個進程運行，就是所謂的調度策略 (Scheduling Policy)。
 
-本文中，介绍下 Linux Kernel 中时如何实现的。
+本文中，介紹下 Linux Kernel 中時如何實現的。
 
 <!-- more -->
 
-## 调度器
+## 調度器
 
-Linux 的调度算法通过模块的方式实现，每种类型的调度器会有一个优先级，调度时会按照优先级遍历调度类，拥有一个可执行进程的最高优先级的调度器类胜出，去选择下面要执行的那个程序。
+Linux 的調度算法通過模塊的方式實現，每種類型的調度器會有一個優先級，調度時會按照優先級遍歷調度類，擁有一個可執行進程的最高優先級的調度器類勝出，去選擇下面要執行的那個程序。
 
-### 调度类型
+### 調度類型
 
-目前 Linux 中主要有两大类调度算法，CFS (完全公平调度算法) 以及 实时调度算法，在应用中，可以通过 ```sched_setscheduler()``` 函数修改进程的调度策略，目前有 5 种调度策略：
+目前 Linux 中主要有兩大類調度算法，CFS (完全公平調度算法) 以及 實時調度算法，在應用中，可以通過 ```sched_setscheduler()``` 函數修改進程的調度策略，目前有 5 種調度策略：
 
-* SCHED_NORMAL<br>最常用的，调度策略主要用于 CFS 调度，存在静态优先级和动态优先级。
-* SCHED_BATCH<br>除了不能抢占外，与上相同，可让任务延长执行的时间 (time slice)，减小上下文切换的次数，以提高 cache 的利用率 (每次 context-switch 都会导致 cache-flush)。<br>该调度策略适用于周期批量执行的任务，而不适合交互性的产品，主要是由于任务的切换延迟，让人感觉系统性能不佳。
-* SCHED_IDLE<br>它甚至比 nice 19 还弱，用于空闲时需要处理的任务。
-* SCHED_RR<br>多次循环调度，拥有时间片，结束后会放在队列末尾。
-* SCHED_FIFO<br>先进先出规则，一次机会做完，没有时间片可以运行任意长的时间。
+* SCHED_NORMAL<br>最常用的，調度策略主要用於 CFS 調度，存在靜態優先級和動態優先級。
+* SCHED_BATCH<br>除了不能搶佔外，與上相同，可讓任務延長執行的時間 (time slice)，減小上下文切換的次數，以提高 cache 的利用率 (每次 context-switch 都會導致 cache-flush)。<br>該調度策略適用於週期批量執行的任務，而不適合交互性的產品，主要是由於任務的切換延遲，讓人感覺系統性能不佳。
+* SCHED_IDLE<br>它甚至比 nice 19 還弱，用於空閒時需要處理的任務。
+* SCHED_RR<br>多次循環調度，擁有時間片，結束後會放在隊列末尾。
+* SCHED_FIFO<br>先進先出規則，一次機會做完，沒有時間片可以運行任意長的時間。
 
-其中前面三种策略使用的是 CFS 调度器类，后面两种使用 RT 调度器类。任何时候，实时进程的优先级都高于普通进程，实时进程只会被更高级的实时进程抢占。
+其中前面三種策略使用的是 CFS 調度器類，後面兩種使用 RT 調度器類。任何時候，實時進程的優先級都高於普通進程，實時進程只會被更高級的實時進程搶佔。
 
-### 调度时机
+### 調度時機
 
-Linux 调度时机主要有：
+Linux 調度時機主要有：
 
-1. 进程状态转换的时刻：进程终止、进程睡眠；<br>进程调用 ```sleep()``` 或 ```exit()``` 等进行状态转换，此时会主动调用调度程序进行进程调度；
+1. 進程狀態轉換的時刻：進程終止、進程睡眠；<br>進程調用 ```sleep()``` 或 ```exit()``` 等進行狀態轉換，此時會主動調用調度程序進行進程調度；
 
-2. 当前进程的时间片用完时（current->counter=0）<br>由于进程的时间片是由时钟中断来更新的，因此，这种情况和时机 4 是一样的。
+2. 當前進程的時間片用完時（current->counter=0）<br>由於進程的時間片是由時鐘中斷來更新的，因此，這種情況和時機 4 是一樣的。
 
-3. 设备驱动程序<br>当设备驱动程序执行长而重复的任务时，直接调用调度程序。在每次反复循环中，驱动程序都检查 ```need_resched``` 的值，如果必要，则调用调度程序 ```schedule()``` 主动放弃 CPU 。
+3. 設備驅動程序<br>當設備驅動程序執行長而重複的任務時，直接調用調度程序。在每次反覆循環中，驅動程序都檢查 ```need_resched``` 的值，如果必要，則調用調度程序 ```schedule()``` 主動放棄 CPU 。
 
-4. 进程从中断、异常及系统调用返回到用户态时<br>如前所述，不管是从中断、异常还是系统调用返回，最终都调用 ```ret_from_sys_call()```，由这个函数进行调度标志的检测，如果必要，则调用调用调度程序。
+4. 進程從中斷、異常及系統調用返回到用戶態時<br>如前所述，不管是從中斷、異常還是系統調用返回，最終都調用 ```ret_from_sys_call()```，由這個函數進行調度標誌的檢測，如果必要，則調用調用調度程序。
 
-对于最后一条，那么为什么从系统调用返回时要调用调度程序呢？这主要是从效率考虑，从系统调用返回意味着要离开内核态而返回到用户态，而状态的转换要花费一定的时间，因此，在返回到用户态前，系统把在内核态该处理的事全部做完。
+對於最後一條，那麼為什麼從系統調用返回時要調用調度程序呢？這主要是從效率考慮，從系統調用返回意味著要離開內核態而返回到用戶態，而狀態的轉換要花費一定的時間，因此，在返回到用戶態前，系統把在內核態該處理的事全部做完。
 
-### SMP 负载均衡
+### SMP 負載均衡
 
-在目前的 CFS 调度器中，每个 CPU 维护本地 RQ 所有进程的公平性，为了实现跨 CPU 的调度公平性，CFS 必须定时进行 load balance，将一些进程从繁忙的 CPU 的 RQ 中移到其他空闲的 RQ 中。
+在目前的 CFS 調度器中，每個 CPU 維護本地 RQ 所有進程的公平性，為了實現跨 CPU 的調度公平性，CFS 必須定時進行 load balance，將一些進程從繁忙的 CPU 的 RQ 中移到其他空閒的 RQ 中。
 
-这个 load balance 的过程需要获得其它 RQ 的锁，这种操作降低了多运行队列带来的并行性。当然，load balance 引入的加锁操作依然比全局锁的代价要低，这种代价差异随着 CPU 个数的增加而更加显著。
+這個 load balance 的過程需要獲得其它 RQ 的鎖，這種操作降低了多運行隊列帶來的並行性。當然，load balance 引入的加鎖操作依然比全局鎖的代價要低，這種代價差異隨著 CPU 個數的增加而更加顯著。
 
-但是，如果系统中的 CPU 个数有限，多 RQ 的优势便不明显了；而采用单一队列，每一个需要调度的新进程都可以在全局范围内查找最合适的 CPU ，而无需 CFS 那样等待 load balance 代码来决定，这减少了多 CPU 之间裁决的延迟，最终的结果是更小的调度延迟。
+但是，如果系統中的 CPU 個數有限，多 RQ 的優勢便不明顯了；而採用單一隊列，每一個需要調度的新進程都可以在全局範圍內查找最合適的 CPU ，而無需 CFS 那樣等待 load balance 代碼來決定，這減少了多 CPU 之間裁決的延遲，最終的結果是更小的調度延遲。
 
-也就是说，CFS 为了维护多 CPU 上的公平性，所采用的负载平衡机制，可能会抵消了 per cpu queue 曾带来的好处。
+也就是說，CFS 為了維護多 CPU 上的公平性，所採用的負載平衡機制，可能會抵消了 per cpu queue 曾帶來的好處。
 
-## CFS 完全公平调度
+## CFS 完全公平調度
 
-Completely Fair Schedule, CFS 在 2.6.23 引入，同时包括了模块化、完全公平调度、组调度等一系列特性；按作者的说法：CFS 80% 的工作可以用一句话来概括，**CFS 在真实的硬件上模拟了理想且精确的多任务处理器**。
+Completely Fair Schedule, CFS 在 2.6.23 引入，同時包括了模塊化、完全公平調度、組調度等一系列特性；按作者的說法：CFS 80% 的工作可以用一句話來概括，**CFS 在真實的硬件上模擬了理想且精確的多任務處理器**。
 
 {% highlight text %}
 80% of CFS's design can be summed up in a single sentence: CFS basically models
 an "ideal, precise multi-tasking CPU" on real hardware.
 {% endhighlight %}
 
-关于 CFS 的简单介绍可以查看内核文档 [sched-design-CFS.txt]( {{ site.kernel_docs_url }}/Documentation/scheduler/sched-design-CFS.txt ) 。
+關於 CFS 的簡單介紹可以查看內核文檔 [sched-design-CFS.txt]( {{ site.kernel_docs_url }}/Documentation/scheduler/sched-design-CFS.txt ) 。
 
-### 简介
+### 簡介
 
-该模型是从 RSDL/SD 中吸取了完全公平的思想，不再跟踪进程的睡眠时间，也不再企图区分交互式进程，它将所有的进程都统一对待，在既定的时间内每个进程都获得了公平的 CPU 占用时间，调度的依据就是每个进程的权重，这就是公平的含义。
+該模型是從 RSDL/SD 中吸取了完全公平的思想，不再跟蹤進程的睡眠時間，也不再企圖區分交互式進程，它將所有的進程都統一對待，在既定的時間內每個進程都獲得了公平的 CPU 佔用時間，調度的依據就是每個進程的權重，這就是公平的含義。
 
-为了实现完全公平调度，内核引入了虚拟时钟（virtual clock）的概念，统计进程已经运行的时间采用虚拟运行时间 (virtual runtime)，该值与具体的时钟晶振没有关系，只是为了公平分配 CPU 时间而提出的一种时间量度。
+為了實現完全公平調度，內核引入了虛擬時鐘（virtual clock）的概念，統計進程已經運行的時間採用虛擬運行時間 (virtual runtime)，該值與具體的時鐘晶振沒有關係，只是為了公平分配 CPU 時間而提出的一種時間量度。
 
-vt 是递增的，该值与其实际的运行时间成正比，与权重成反比；也就是说权重越高，对应的优先级越高，进而该进程虚拟时钟增长的就慢。权重的计算与静态优先级相关，该值在 ```set_load_weight()``` 函数中设置。
+vt 是遞增的，該值與其實際的運行時間成正比，與權重成反比；也就是說權重越高，對應的優先級越高，進而該進程虛擬時鐘增長的就慢。權重的計算與靜態優先級相關，該值在 ```set_load_weight()``` 函數中設置。
 
-注意，优先级和权重之间的关系并不是简单的线性关系，内核使用一些经验数值来进行转化。
+注意，優先級和權重之間的關係並不是簡單的線性關係，內核使用一些經驗數值來進行轉化。
 
-如上所述，这就意味着，vt 用来作为对进程进行排序的参考，而不能用来反映进程真实执行时间。
+如上所述，這就意味著，vt 用來作為對進程進行排序的參考，而不能用來反映進程真實執行時間。
 
 <!--
-CFS 的核心思想是把 CPU 总时间按运行队列所占权重进行分配，即占用 CPU 后能够执行的理想运行时间 (ideal runtime)，而在调度时选择 vt 最小的运行，并且保证在某个时间周期 (__sched_period) 内运行队列里的所有调度单元都能够至少被调度执行一次。
+CFS 的核心思想是把 CPU 總時間按運行隊列所佔權重進行分配，即佔用 CPU 後能夠執行的理想運行時間 (ideal runtime)，而在調度時選擇 vt 最小的運行，並且保證在某個時間週期 (__sched_period) 內運行隊列裡的所有調度單元都能夠至少被調度執行一次。
 
-并且为了保证新进程能够获得合理的 vruntime，不至于一开始太小导致长期占用 cpu，在每个 cfs_rq 上维护了一个 min_vruntime，所有调度单元的 vruntime 调整按它自己 cfs_rq 中的 min_vruntime 做为基准。
+並且為了保證新進程能夠獲得合理的 vruntime，不至於一開始太小導致長期佔用 cpu，在每個 cfs_rq 上維護了一個 min_vruntime，所有調度單元的 vruntime 調整按它自己 cfs_rq 中的 min_vruntime 做為基準。
 
-假设有 a、b、c 三个进程，权重分别是1、2、3,那么所有的进程的权重和为6, 按照cfs的公平原则来分配，那么a的重要性为1/6, b、c 为2/6, 3/6。这样如果a、b、c 运行一次的总时间为6个时间单位，a占1个，b占2个，c占3个。
+假設有 a、b、c 三個進程，權重分別是1、2、3,那麼所有的進程的權重和為6, 按照cfs的公平原則來分配，那麼a的重要性為1/6, b、c 為2/6, 3/6。這樣如果a、b、c 運行一次的總時間為6個時間單位，a佔1個，b佔2個，c佔3個。
 -->
 
 
 
 ### FAQs
 
-CFS 的基本原理是在一个调度周期 (sched_latency_ns) 内让每个进程至少有机会运行一次，也就是说每个进程等待 CPU 的最长时间不超过这个调度周期。
+CFS 的基本原理是在一個調度週期 (sched_latency_ns) 內讓每個進程至少有機會運行一次，也就是說每個進程等待 CPU 的最長時間不超過這個調度週期。
 
-然后根据进程的数量平分这个调度周期内的 CPU 使用权，由于进程的优先级 (nice) 不同，分割调度周期的时候要加权；每个进程的累计运行时间保存在自己的 vruntime 字段里，哪个进程的 vruntime 最小就获得本轮运行的权利。
+然後根據進程的數量平分這個調度週期內的 CPU 使用權，由於進程的優先級 (nice) 不同，分割調度週期的時候要加權；每個進程的累計運行時間保存在自己的 vruntime 字段裡，哪個進程的 vruntime 最小就獲得本輪運行的權利。
 
-#### 新进程vruntime的初始值是0？
+#### 新進程vruntime的初始值是0？
 
-假如新进程 vruntime 的初值为 0 的话，也就是比老进程的值小很多，那么它在相当长的时间内都会保持抢占 CPU 的优势，老进程就要饿死了，这显然是不公平的。
+假如新進程 vruntime 的初值為 0 的話，也就是比老進程的值小很多，那麼它在相當長的時間內都會保持搶佔 CPU 的優勢，老進程就要餓死了，這顯然是不公平的。
 
-所以 CFS 为每个 CPU 的运行队列 cfs_rq 维护了一个 min_vruntime 字段，记录该运行队列中所有进程的最小 vruntime 值，新进程的初始 vruntime 值就以其所在运行队列的 min_vruntime 为基础来设置，与老进程保持在合理的差距范围内。
+所以 CFS 為每個 CPU 的運行隊列 cfs_rq 維護了一個 min_vruntime 字段，記錄該運行隊列中所有進程的最小 vruntime 值，新進程的初始 vruntime 值就以其所在運行隊列的 min_vruntime 為基礎來設置，與老進程保持在合理的差距範圍內。
 
 <!--
-新进程的vruntime初值的设置与两个参数有关：
-sched_child_runs_first：规定fork之后让子进程先于父进程运行;
-sched_features的START_DEBIT位：规定新进程的第一次运行要有延迟。
+新進程的vruntime初值的設置與兩個參數有關：
+sched_child_runs_first：規定fork之後讓子進程先於父進程運行;
+sched_features的START_DEBIT位：規定新進程的第一次運行要有延遲。
 
 注：
-sched_features是控制调度器特性的开关，每个bit表示调度器的一个特性。在sched_features.h文件中记录了全部的特性。START_DEBIT是其中之一，如果打开这个特性，表示给新进程的vruntime初始值要设置得比默认值更大一些，这样会推迟它的运行时间，以防进程通过不停的fork来获得cpu时间片。
+sched_features是控制調度器特性的開關，每個bit表示調度器的一個特性。在sched_features.h文件中記錄了全部的特性。START_DEBIT是其中之一，如果打開這個特性，表示給新進程的vruntime初始值要設置得比默認值更大一些，這樣會推遲它的運行時間，以防進程通過不停的fork來獲得cpu時間片。
 
-如果参数 sched_child_runs_first打开，意味着创建子进程后，保证子进程会在父进程之前运行。
+如果參數 sched_child_runs_first打開，意味著創建子進程後，保證子進程會在父進程之前運行。
 
-子进程在创建时，vruntime初值首先被设置为min_vruntime；然后，如果sched_features中设置了START_DEBIT位，vruntime会在min_vruntime的基础上再增大一些。设置完子进程的vruntime之后，检查sched_child_runs_first参数，如果为1的话，就比较父进程和子进程的vruntime，若是父进程的vruntime更小，就对换父、子进程的vruntime，这样就保证了子进程会在父进程之前运行。
+子進程在創建時，vruntime初值首先被設置為min_vruntime；然後，如果sched_features中設置了START_DEBIT位，vruntime會在min_vruntime的基礎上再增大一些。設置完子進程的vruntime之後，檢查sched_child_runs_first參數，如果為1的話，就比較父進程和子進程的vruntime，若是父進程的vruntime更小，就對換父、子進程的vruntime，這樣就保證了子進程會在父進程之前運行。
 -->
 
-#### 休眠进程的vruntime一直保持不变吗？
+#### 休眠進程的vruntime一直保持不變嗎？
 
-如果休眠进程的 vruntime 保持不变，而其它运行进程的 vruntime 一直在增加，那么休眠进程唤醒时，由于其 vruntime 相比要小很多，就会使它获得长时间抢占 CPU 的优势，从而导致其它进程饿死。
+如果休眠進程的 vruntime 保持不變，而其它運行進程的 vruntime 一直在增加，那麼休眠進程喚醒時，由於其 vruntime 相比要小很多，就會使它獲得長時間搶佔 CPU 的優勢，從而導致其它進程餓死。
 
-为此，CFS 会在休眠进程被唤醒时重新设置 vruntime 值，以 min_vruntime 值为基础，并进行一定的补偿。
+為此，CFS 會在休眠進程被喚醒時重新設置 vruntime 值，以 min_vruntime 值為基礎，並進行一定的補償。
 
 {% highlight c %}
 static void place_entity(struct cfs_rq *cfs_rq, struct sched_entity *se, int initial)
@@ -131,11 +131,11 @@ static void place_entity(struct cfs_rq *cfs_rq, struct sched_entity *se, int ini
      * little, place the new task so that it fits in the slot that
      * stays open at the end.
      */
-    if (initial && sched_feat(START_DEBIT))  /* initial表示新进程 */
+    if (initial && sched_feat(START_DEBIT))  /* initial表示新進程 */
         vruntime += sched_vslice(cfs_rq, se);
 
     /* sleeps up to a single latency don't count. */
-    if (!initial) { /* 休眠进程 */
+    if (!initial) { /* 休眠進程 */
         unsigned long thresh = sysctl_sched_latency;
 
         /*
@@ -153,37 +153,37 @@ static void place_entity(struct cfs_rq *cfs_rq, struct sched_entity *se, int ini
 }
 {% endhighlight %}
 
-#### 休眠进程在唤醒时会立刻抢占CPU吗？
+#### 休眠進程在喚醒時會立刻搶佔CPU嗎？
 
-这由 CFS 的唤醒抢占特性决定，也即 sched_features 的 WAKEUP_PREEMPT 位。
+這由 CFS 的喚醒搶佔特性決定，也即 sched_features 的 WAKEUP_PREEMPT 位。
 
-由于休眠进程在唤醒时会获得 vruntime 的补偿，所以在醒来时抢占 CPU 是大概率事件，这也是 CFS 调度算法的本意，即保证交互式进程的响应速度，因为交互式进程等待用户输入会频繁休眠。
+由於休眠進程在喚醒時會獲得 vruntime 的補償，所以在醒來時搶佔 CPU 是大概率事件，這也是 CFS 調度算法的本意，即保證交互式進程的響應速度，因為交互式進程等待用戶輸入會頻繁休眠。
 
 <!--
-除了交互式进程以外，主动休眠的进程同样也会在唤醒时获得补偿，例如通过调用sleep()、nanosleep()的方式，定时醒来完成特定任务，这类进程往往并不要求快速响应，但是CFS不会把它们与交互式进程区分开来，它们同样也会在每次唤醒时获得vruntime补偿，这有可能会导致其它更重要的应用进程被抢占，有损整体性能。我曾经处理过的一个案例：服务器上有两类应用进程，A进程定时循环检查有没有新任务，如果有的话就简单预处理后通知B进程，然后调用nanosleep()主动休眠，醒来后再重复下一个循环；B进程负责数据运算，是CPU消耗型的；B进程的运行时间很长，而A进程每次运行时间都很短，但睡眠/唤醒却十分频繁，每次唤醒就会抢占B，导致B的运行频繁被打断，大量的进程切换带来很大的开销，整体性能下降很厉害。那有什么办法吗？有，CFS可以禁止唤醒抢占 特性：
+除了交互式進程以外，主動休眠的進程同樣也會在喚醒時獲得補償，例如通過調用sleep()、nanosleep()的方式，定時醒來完成特定任務，這類進程往往並不要求快速響應，但是CFS不會把它們與交互式進程區分開來，它們同樣也會在每次喚醒時獲得vruntime補償，這有可能會導致其它更重要的應用進程被搶佔，有損整體性能。我曾經處理過的一個案例：服務器上有兩類應用進程，A進程定時循環檢查有沒有新任務，如果有的話就簡單預處理後通知B進程，然後調用nanosleep()主動休眠，醒來後再重複下一個循環；B進程負責數據運算，是CPU消耗型的；B進程的運行時間很長，而A進程每次運行時間都很短，但睡眠/喚醒卻十分頻繁，每次喚醒就會搶佔B，導致B的運行頻繁被打斷，大量的進程切換帶來很大的開銷，整體性能下降很厲害。那有什麼辦法嗎？有，CFS可以禁止喚醒搶佔 特性：
 # echo NO_WAKEUP_PREEMPT > /sys/kernel/debug/sched_features
 
-禁用唤醒抢占 特性之后，刚唤醒的进程不会立即抢占运行中的进程，而是要等到运行进程用完时间片之后。在以上案例中，经过这样的调整之后B进程被抢占的频率大大降低了，整体性能得到了改善。
+禁用喚醒搶佔 特性之後，剛喚醒的進程不會立即搶佔運行中的進程，而是要等到運行進程用完時間片之後。在以上案例中，經過這樣的調整之後B進程被搶佔的頻率大大降低了，整體性能得到了改善。
 
-如果禁止唤醒抢占特性对你的系统来说太过激进的话，你还可以选择调大以下参数：
+如果禁止喚醒搶佔特性對你的系統來說太過激進的話，你還可以選擇調大以下參數：
 
 sched_wakeup_granularity_ns
-这个参数限定了一个唤醒进程要抢占当前进程之前必须满足的条件：只有当该唤醒进程的vruntime比当前进程的vruntime小、并且两者差距(vdiff)大于sched_wakeup_granularity_ns的情况下，才可以抢占，否则不可以。这个参数越大，发生唤醒抢占就越不容易。
+這個參數限定了一個喚醒進程要搶佔當前進程之前必須滿足的條件：只有當該喚醒進程的vruntime比當前進程的vruntime小、並且兩者差距(vdiff)大於sched_wakeup_granularity_ns的情況下，才可以搶佔，否則不可以。這個參數越大，發生喚醒搶佔就越不容易。
 -->
 
-#### 进程占用的CPU时间片可以无穷小吗？
+#### 進程佔用的CPU時間片可以無窮小嗎？
 
-假设有两个进程，它们的 vruntime 初值一样，当其中的一个进程运行后，它的 vruntime 就比另外的进大了，那么正在运行的进程什么时候会被抢占呢？
+假設有兩個進程，它們的 vruntime 初值一樣，當其中的一個進程運行後，它的 vruntime 就比另外的進大了，那麼正在運行的進程什麼時候會被搶佔呢？
 
-答案是：为了避免进程切换过于频繁造成太大的资源消耗，CFS 设定了进程占用 CPU 的最小时间值 (sched_min_granularity_ns)，正在 CPU 上运行的进程如果不足这个时间是不可以被调离 CPU 的。
+答案是：為了避免進程切換過於頻繁造成太大的資源消耗，CFS 設定了進程佔用 CPU 的最小時間值 (sched_min_granularity_ns)，正在 CPU 上運行的進程如果不足這個時間是不可以被調離 CPU 的。
 
-另外，CFS 默认会把调度周期 sched_latency_ns 按照进程的数量平分，给每个进程平均分配相同的 CPU 时间片，但是如果进程数量太多的话，就会造成 CPU 时间片太小，如果小于上述的最小值，那么就以最小值为准，而调度周期也不再遵守 sched_latency_ns 。
+另外，CFS 默認會把調度週期 sched_latency_ns 按照進程的數量平分，給每個進程平均分配相同的 CPU 時間片，但是如果進程數量太多的話，就會造成 CPU 時間片太小，如果小於上述的最小值，那麼就以最小值為準，而調度週期也不再遵守 sched_latency_ns 。
 
-<!-- 而是以 (sched_min_granularity_ns * 进程数量) 的乘积为准。-->
+<!-- 而是以 (sched_min_granularity_ns * 進程數量) 的乘積為準。-->
 
-#### 进程切换CPU时vruntime会不会改变？
+#### 進程切換CPU時vruntime會不會改變？
 
-在 SMP 系统上，当 CPU 的负载不同时会进行负载均衡，而每个 CPU 都有自己的运行队列，而每个队列中的 vruntime 也各不相同，比如可以对比下每个运行队列的 min_vruntime 值：
+在 SMP 系統上，當 CPU 的負載不同時會進行負載均衡，而每個 CPU 都有自己的運行隊列，而每個隊列中的 vruntime 也各不相同，比如可以對比下每個運行隊列的 min_vruntime 值：
 
 {% highlight text %}
 # grep min_vruntime /proc/sched_debug
@@ -193,11 +193,11 @@ sched_wakeup_granularity_ns
   .min_vruntime                  : 692323575.852029
 {% endhighlight %}
 
-显然，如果对 vruntime 不做处理直接切换，必然会导致不公平。
+顯然，如果對 vruntime 不做處理直接切換，必然會導致不公平。
 
-当进程从一个 CPU 的中出队 (dequeue_entity) 时，它的 vruntime 要减去队列的 min_vruntime 值；而当进程加入另一个 CPU 的运行队列 (enqueue_entiry) 时，它的 vruntime 要加上该队列的 min_vruntime 值。
+當進程從一個 CPU 的中出隊 (dequeue_entity) 時，它的 vruntime 要減去隊列的 min_vruntime 值；而當進程加入另一個 CPU 的運行隊列 (enqueue_entiry) 時，它的 vruntime 要加上該隊列的 min_vruntime 值。
 
-这样，进程从一个 CPU 迁移到另一个 CPU 之后 vruntime 保持相对公平。
+這樣，進程從一個 CPU 遷移到另一個 CPU 之後 vruntime 保持相對公平。
 
 {% highlight c %}
 static void
@@ -230,100 +230,100 @@ enqueue_entity(struct cfs_rq *cfs_rq, struct sched_entity *se, int flags)
 
 
 
-## 源码解析
+## 源碼解析
 
-接下来看看 Linux 中代码的实现。
+接下來看看 Linux 中代碼的實現。
 
-### 相关结构体
+### 相關結構體
 
-Linux2.6.24 内核采用分层管理调度，也就是两层：第一层被称为核心调度器，在核心调度器下面为调度器类。调度算法实现相关的数据结构主要有运行实体 (struct rq)、调度类 (struct sched_class) 和运行队列。
+Linux2.6.24 內核採用分層管理調度，也就是兩層：第一層被稱為核心調度器，在核心調度器下面為調度器類。調度算法實現相關的數據結構主要有運行實體 (struct rq)、調度類 (struct sched_class) 和運行隊列。
 
 ![scheduler stucture]({{ site.url }}/images/linux/kernel/scheduler_stucture.png "scheduler stucture"){: .pull-center }
 
-首先是进程描述符中与调度相关的信息。
+首先是進程描述符中與調度相關的信息。
 
 {% highlight c %}
 struct task_struct {
     ... ...
-    int prio, static_prio, normal_prio;      // 进程优先级
-    unsigned int rt_priority;                // RT优先级
-    const struct sched_class *sched_class;   // 响应的调度类
+    int prio, static_prio, normal_prio;      // 進程優先級
+    unsigned int rt_priority;                // RT優先級
+    const struct sched_class *sched_class;   // 響應的調度類
     struct sched_entity se;
     struct sched_rt_entity rt;
     struct sched_dl_entity dl;
-    unsigned int policy;                     // 调度策略，默认为SCHED_NORMAL
-    cpumask_t cpus_allowed;                  // 限制此进程在哪个处理器上运行
+    unsigned int policy;                     // 調度策略，默認為SCHED_NORMAL
+    cpumask_t cpus_allowed;                  // 限制此進程在哪個處理器上運行
     ... ...
 };
 {% endhighlight %}
 
-就绪队列用于存储一些基本的用于调度的信息，包括实时调度的、CFS 调度的以及 DL 调度的，两者属于不同的调度实体，每个 CPU 会有一个 rq 结构体，也就是就绪队列。
+就緒隊列用於存儲一些基本的用於調度的信息，包括實時調度的、CFS 調度的以及 DL 調度的，兩者屬於不同的調度實體，每個 CPU 會有一個 rq 結構體，也就是就緒隊列。
 
 {% highlight c %}
 struct rq {                      // @ kernel/sched/sched.h
-    spinlock_t lock;                     // 锁
-    unsigned long nr_running;            // 当前就绪对列进程的数目
-    struct load_weight load;             // 当前就绪队列负荷
-    struct task_struct *curr, *idle;     // 分别指向当前以及空闲进程描述符
-    struct cfs_rq cfs;                   // 分别表示三个不同的就绪队列
+    spinlock_t lock;                     // 鎖
+    unsigned long nr_running;            // 當前就緒對列進程的數目
+    struct load_weight load;             // 當前就緒隊列負荷
+    struct task_struct *curr, *idle;     // 分別指向當前以及空閒進程描述符
+    struct cfs_rq cfs;                   // 分別表示三個不同的就緒隊列
     struct rt_rq rt;
     struct dl_rq dl;
-    u64 clock;                           // 就绪队列的时钟，这个是周期更新的，真实的系统晶振时钟
+    u64 clock;                           // 就緒隊列的時鐘，這個是週期更新的，真實的系統晶振時鐘
 };
 
 struct cfs_rq {                  // @ kernel/sched/sched.h
-    struct load_weight load;             // 队列上所有进程的权重值weight总和
-    unsigned int nr_running;             // 当前就绪队列的进程数=队列进程的总数+正在运行的那个进程
-    struct sched_entity *curr;           // 指向当前进程的运行实体
-    struct rb_root tasks_timeline;       // 就绪队列的树跟
-    struct rb_node *rb_leftmost;         // 保存红黑树最左边的节点，直接作为下一个运行进程
+    struct load_weight load;             // 隊列上所有進程的權重值weight總和
+    unsigned int nr_running;             // 當前就緒隊列的進程數=隊列進程的總數+正在運行的那個進程
+    struct sched_entity *curr;           // 指向當前進程的運行實體
+    struct rb_root tasks_timeline;       // 就緒隊列的樹跟
+    struct rb_node *rb_leftmost;         // 保存紅黑樹最左邊的節點，直接作為下一個運行進程
 };
 {% endhighlight %}
 
-调度类 ```sched_class``` 为模块编程的上层支持，对于每个 Linux 新添加进来的调度算法都有自己的调度类实例，包括了 ```fair_sched_class```、```rt_sched_class```、```dl_sched_class```、```idle_sched_class``` 等。
+調度類 ```sched_class``` 為模塊編程的上層支持，對於每個 Linux 新添加進來的調度算法都有自己的調度類實例，包括了 ```fair_sched_class```、```rt_sched_class```、```dl_sched_class```、```idle_sched_class``` 等。
 
 {% highlight c %}
 struct sched_class {            // @ kernel/sched/sched.h
-    const struct sched_class *next;                                           // 调度类组成单向链表
-    void (*enqueue_task) (struct rq *rq, struct task_struct *p, int wakeup);  // 向就绪队列插入进程
-    void (*dequeue_task) (struct rq *rq, struct task_struct *p, int flags);   // 从就绪队列中删除
-    void (*yield_task) (struct rq *rq);                                       // 进程主动放弃处理器
-    void (*check_preempt_curr) (struct rq *rq, struct task_struct *p);        // 用一个新唤醒的进程抢占当前进程
-    struct task_struct * (*pick_next_task) (struct rq *rq);                   // 选择下一个将要运行的进程
+    const struct sched_class *next;                                           // 調度類組成單向鏈表
+    void (*enqueue_task) (struct rq *rq, struct task_struct *p, int wakeup);  // 向就緒隊列插入進程
+    void (*dequeue_task) (struct rq *rq, struct task_struct *p, int flags);   // 從就緒隊列中刪除
+    void (*yield_task) (struct rq *rq);                                       // 進程主動放棄處理器
+    void (*check_preempt_curr) (struct rq *rq, struct task_struct *p);        // 用一個新喚醒的進程搶佔當前進程
+    struct task_struct * (*pick_next_task) (struct rq *rq);                   // 選擇下一個將要運行的進程
     void (*put_prev_task) (struct rq *rq, struct task_struct *p);
-    void (*task_tick) (struct rq *rq, struct task_struct *p);                 // 由周期调度器调用
-    void (*task_new) (struct rq *rq, struct task_struct *p);                  // 每次建立新进程调用此函数通知调度器
+    void (*task_tick) (struct rq *rq, struct task_struct *p);                 // 由週期調度器調用
+    void (*task_new) (struct rq *rq, struct task_struct *p);                  // 每次建立新進程調用此函數通知調度器
 };
 {% endhighlight %}
 
-调度运行队列，也就是就绪队列，用于保存处于 ready 状态的进程，不同的调度算法使用不同的运行队列，对于 CFS 调度，运用的是红黑树；而对于实时调度为组链表。
+調度運行隊列，也就是就緒隊列，用於保存處於 ready 狀態的進程，不同的調度算法使用不同的運行隊列，對於 CFS 調度，運用的是紅黑樹；而對於實時調度為組鏈表。
 
-运行实体，也就是调度单位，对应的结构为 ```sched_entity```。调度器的调度单位不再是进程，而是可调度的实体，可以将多个进程捆绑在一起作为一个调度单位 (即调度实体) 进行调度，也就是说可调度实体可以是一个进程，也可以是多个进程构成的一个组。
+運行實體，也就是調度單位，對應的結構為 ```sched_entity```。調度器的調度單位不再是進程，而是可調度的實體，可以將多個進程捆綁在一起作為一個調度單位 (即調度實體) 進行調度，也就是說可調度實體可以是一個進程，也可以是多個進程構成的一個組。
 
-另外，由于 CFS 不再有时间片的概念，但仍需要对每个进程运行的时间记账，从而确保每个进程只在公平分配给他的处理器时间内运行，相关信息同样保存在 sched_entity 中。
+另外，由於 CFS 不再有時間片的概念，但仍需要對每個進程運行的時間記賬，從而確保每個進程只在公平分配給他的處理器時間內運行，相關信息同樣保存在 sched_entity 中。
 
 {% highlight c %}
 struct sched_entity {
-    unsigned int        on_rq;                    // 是否在运行队列或正在执行，当前任务不会保存在红黑树中
-    struct load_weight  load;                     // 该调度实体的权重，决定了运行时间以及被调用次数
-    u64                 vruntime;                 // 存放进程的虚拟运行时间，用于调度器的选择
-    u64                 exec_start                // 记录上次执行update_curr()的时间
-    u64                 sum_exec_runtime;         // 进程总共执行的cpu clock，占用cpu的物理时间
-    u64                 pre_sum_exec_runtime;     // 进程在切换经CPU时的sum_exec_runtime值
+    unsigned int        on_rq;                    // 是否在運行隊列或正在執行，當前任務不會保存在紅黑樹中
+    struct load_weight  load;                     // 該調度實體的權重，決定了運行時間以及被調用次數
+    u64                 vruntime;                 // 存放進程的虛擬運行時間，用於調度器的選擇
+    u64                 exec_start                // 記錄上次執行update_curr()的時間
+    u64                 sum_exec_runtime;         // 進程總共執行的cpu clock，佔用cpu的物理時間
+    u64                 pre_sum_exec_runtime;     // 進程在切換經CPU時的sum_exec_runtime值
 };
 {% endhighlight %}
 
-每个 ```task_struct``` 都嵌入了一个 ```sched_entity```，这也就是为什么进程也是一个可调度实体。
+每個 ```task_struct``` 都嵌入了一個 ```sched_entity```，這也就是為什麼進程也是一個可調度實體。
 
-### 代码实现
+### 代碼實現
 
-调度器的核心代码在 ```kernel/sched``` 目录下，包括 ```sched_init()```、```schedule()```、```scheduler_tick()``` 等，其中核心调度器包括了：
+調度器的核心代碼在 ```kernel/sched``` 目錄下，包括 ```sched_init()```、```schedule()```、```scheduler_tick()``` 等，其中核心調度器包括了：
 
-* 周期性调度器，schedule_tick()<br>不负责进程的切换，只是定时更新调度相关的统计信息，以备主调度器使用。
+* 週期性調度器，schedule_tick()<br>不負責進程的切換，只是定時更新調度相關的統計信息，以備主調度器使用。
 
-* 主调度器，schedule()<br>完成进程的切换，将 CPU 的使用权从一个进程切换到另一个进程。
+* 主調度器，schedule()<br>完成進程的切換，將 CPU 的使用權從一個進程切換到另一個進程。
 
-我们知道在通过 ```fork()```、```vfork()```、```clone()``` 等函数时，进程创建最终都会调用 ```do_fork()```，而该函数会调用 ```copy_process()->sched_fork()``` 。
+我們知道在通過 ```fork()```、```vfork()```、```clone()``` 等函數時，進程創建最終都會調用 ```do_fork()```，而該函數會調用 ```copy_process()->sched_fork()``` 。
 
 {% highlight text %}
 do_fork()
@@ -337,85 +337,85 @@ do_fork()
  |-put_pid()
 {% endhighlight %}
 
-在 ```sched_fork()``` 函数中会复制父进程的优先级，并将 ```fair_sched_class``` 调度器类实例的地址赋给新进程中的 ```sched_class``` 指针。
+在 ```sched_fork()``` 函數中會複製父進程的優先級，並將 ```fair_sched_class``` 調度器類實例的地址賦給新進程中的 ```sched_class``` 指針。
 
 
 ### scheduler_tick()
 
-```scheduler_tick()``` 会以 HZ 为周期调度，用来更新运行队列的时钟及 load，然后调用当前进程的调度器类的周期调度函数。
+```scheduler_tick()``` 會以 HZ 為週期調度，用來更新運行隊列的時鐘及 load，然後調用當前進程的調度器類的週期調度函數。
 
 {% highlight text %}
 scheduler_tick()
-  |-update_rq_clock()                 更新运行队列的时钟rq->clock
-  |-curr->sched_class->task_tick()    执行调度器的周期性函数，以CFS为例
-  | |-task_tick_fair()                CFS对应的task_tick()
+  |-update_rq_clock()                 更新運行隊列的時鐘rq->clock
+  |-curr->sched_class->task_tick()    執行調度器的週期性函數，以CFS為例
+  | |-task_tick_fair()                CFS對應的task_tick()
   |   |-entity_tick()
   |     |-update_curr()
-  |     |-update_cfs_shares()         对SMP有效
-  |     |-check_preempt_tick()        检查当前进程是否运行了足够长的时间，是否需要抢占
-  |-update_cpu_load_active()          更新运行队列load，将数组中先前存储的load向后移动一个位置，并插入新值
+  |     |-update_cfs_shares()         對SMP有效
+  |     |-check_preempt_tick()        檢查當前進程是否運行了足夠長的時間，是否需要搶佔
+  |-update_cpu_load_active()          更新運行隊列load，將數組中先前存儲的load向後移動一個位置，並插入新值
 {% endhighlight %}
 
-在 ```update_cpu_load_active()``` 中，更新运行队列的 load 本质是将数组中先前存储的负荷值向后移动一个位置，将当前负荷记入数组的第一个位置。
+在 ```update_cpu_load_active()``` 中，更新運行隊列的 load 本質是將數組中先前存儲的負荷值向後移動一個位置，將當前負荷記入數組的第一個位置。
 
-另外，```check_preempt_tick()``` 函数用于检查当前进程是否运行了足够长的时间，如果超过了理想运行时间则无条件 resched；如果运行时间小于 ```sysctl_sched_min_granularity``` 那么也直接返回。
+另外，```check_preempt_tick()``` 函數用於檢查當前進程是否運行了足夠長的時間，如果超過了理想運行時間則無條件 resched；如果運行時間小於 ```sysctl_sched_min_granularity``` 那麼也直接返回。
 
-可以看到每个时钟都对会当前运行的 se 进行实质执行时间及虚拟执行时间进行更新，最后检查该进程是否运行的足够长的时间，如果是的话则将它置为 ```TIF_NEED_RESCHED``` 供主调度在适当的时机进行切换。
+可以看到每個時鐘都對會當前運行的 se 進行實質執行時間及虛擬執行時間進行更新，最後檢查該進程是否運行的足夠長的時間，如果是的話則將它置為 ```TIF_NEED_RESCHED``` 供主調度在適當的時機進行切換。
 
 ### schedule()
 
-核心调度函数为 ```schedule()```，作为内核和其他部分用于调用进程调度器的入口，选择哪个进程可以运行，何时将其投入运行。
+核心調度函數為 ```schedule()```，作為內核和其他部分用於調用進程調度器的入口，選擇哪個進程可以運行，何時將其投入運行。
 
 <!--
 <pre style="font-size:0.8em; face:arial;">
 schedule()
   |-sched_submit_work()
   |-__schedule()
-     |-deactivate_task()                     // 从运行队列中删除prev进程，与具体的调度类相关
-     |-pick_next_task()                      // 从各自的运行队列中选择下一个进程来运行
-     |  |-class->pick_next_task()            // 调用调度类的相应函数，以CFS为例
+     |-deactivate_task()                     // 從運行隊列中刪除prev進程，與具體的調度類相關
+     |-pick_next_task()                      // 從各自的運行隊列中選擇下一個進程來運行
+     |  |-class->pick_next_task()            // 調用調度類的相應函數，以CFS為例
      |  |-pick_next_task_fair()
      |     |-pick_next_entity()
-     |-context_switch()                      // 执行进程的上下文切换
+     |-context_switch()                      // 執行進程的上下文切換
 </pre>
 
-schedule() 通常会找到一个最高优先级的调度类，查找自己的可运行队列，然后找到下一个该运行的进程，该函数唯一重要的事情是调用 pick_next_task() 。<br><br>
+schedule() 通常會找到一個最高優先級的調度類，查找自己的可運行隊列，然後找到下一個該運行的進程，該函數唯一重要的事情是調用 pick_next_task() 。<br><br>
 
-其主要流程为：<ol><li>
-将当前进程从相应的运行队列中删除；</li><br><li>
+其主要流程為：<ol><li>
+將當前進程從相應的運行隊列中刪除；</li><br><li>
 
-计算和更新调度实体和进程的相关调度信息；</li><br><li>
+計算和更新調度實體和進程的相關調度信息；</li><br><li>
 
-将当前进重新插入到调度运行队列中，对于CFS调度，根据具体的运行时间进行插入而对于实时调度插入到对应优先级队列的队尾；</li><br><li>
+將當前進重新插入到調度運行隊列中，對於CFS調度，根據具體的運行時間進行插入而對於實時調度插入到對應優先級隊列的隊尾；</li><br><li>
 
-从运行队列中选择运行的下一个进程；</li><br><li>
+從運行隊列中選擇運行的下一個進程；</li><br><li>
 
-进程调度信息和上下文切换；
+進程調度信息和上下文切換；
 </li></ol>
-当进程上下文切换后（关于进程切换在前面的文章中有介绍），调度就基本上完成了，当前运行的进程就是切换过来的进程了。
-在上述结构体中，sum_exec_runtime - pre_sum_exec_runtime 等于进程获得 CPU 使用权后总的总时间，也就是 ideal_runtime 已被消耗了多少。<br><br>
+當進程上下文切換後（關於進程切換在前面的文章中有介紹），調度就基本上完成了，當前運行的進程就是切換過來的進程了。
+在上述結構體中，sum_exec_runtime - pre_sum_exec_runtime 等於進程獲得 CPU 使用權後總的總時間，也就是 ideal_runtime 已被消耗了多少。<br><br>
 
-在抽象模型中，计算 ideal_runtime 的时候需要求所有进程的权重值的和；而实际实现的时候，没有求和的过程，而是把该值记录在就绪队列的 load.weight 中。在向就绪队列中添加新进程时，就加上新进程的权重值，反之则减去。<br><br>
+在抽象模型中，計算 ideal_runtime 的時候需要求所有進程的權重值的和；而實際實現的時候，沒有求和的過程，而是把該值記錄在就緒隊列的 load.weight 中。在向就緒隊列中添加新進程時，就加上新進程的權重值，反之則減去。<br><br>
 
-每个进程的 ideal_runtime 并没有用变量保存起来，而是在需要用到时用函数 sched_slice() 计算得到，计算规则为 (task->se.load.weight/cfs_rq->load.weight)*period 。<br><br>
+每個進程的 ideal_runtime 並沒有用變量保存起來，而是在需要用到時用函數 sched_slice() 計算得到，計算規則為 (task->se.load.weight/cfs_rq->load.weight)*period 。<br><br>
 
-period 也没有用变量来保存，用 __sched_period() 计算得到，sysctl_sched_latency * (nr_running / sysctl_nr_latency)。
+period 也沒有用變量來保存，用 __sched_period() 計算得到，sysctl_sched_latency * (nr_running / sysctl_nr_latency)。
 -->
 
-## 参考
+## 參考
 
 <!--
 http://linuxperf.com/?p=42
 
-linux cfs调度器_理论模型
+linux cfs調度器_理論模型
 http://www.cnblogs.com/openix/archive/2013/08/13/3254394.html
- Linux内核学习笔记（一）CFS完全公平调度类
+ Linux內核學習筆記（一）CFS完全公平調度類
 http://blog.chinaunix.net/uid-24757773-id-3266304.html
-Linux内核-CFS进程调度器
+Linux內核-CFS進程調度器
 https://wongxingjun.github.io/2015/09/09/Linux%E5%86%85%E6%A0%B8-CFS%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E5%99%A8/
 Completely Fair Scheduler
 http://www.linuxjournal.com/magazine/completely-fair-scheduler
-linux内核分析——CFS
+linux內核分析——CFS
 http://muyunzhe.blog.51cto.com/9164050/1651853
 -->
 

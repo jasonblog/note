@@ -1,143 +1,143 @@
 ---
-title: Linux 监控之 CPU
+title: Linux 監控之 CPU
 layout: post
 comments: true
 language: chinese
 category: [linux]
-keywords: linux,monitor,监控,cpu
-description: Linux 中的系统监控，包括了常见的计算、内存、网络等监控指标，以及相应的工具。
+keywords: linux,monitor,監控,cpu
+description: Linux 中的系統監控，包括了常見的計算、內存、網絡等監控指標，以及相應的工具。
 ---
 
-Linux 中的系统监控，包括了常见的计算、内存、网络等监控指标，以及相应的工具。
+Linux 中的系統監控，包括了常見的計算、內存、網絡等監控指標，以及相應的工具。
 
 <!-- more -->
 
-## 简介
+## 簡介
 
-最初 CPU 的频率越高，则性能越好，而频率与制程密切相关，但是制程存在一个天花板，目前一般到 10nm；为了提升性能， cpu 开始采用多核，即在一个封装里放多个 core，而且又发明了超线程技术 Hyper-threading 。
+最初 CPU 的頻率越高，則性能越好，而頻率與製程密切相關，但是製程存在一個天花板，目前一般到 10nm；為了提升性能， cpu 開始採用多核，即在一個封裝裡放多個 core，而且又發明了超線程技術 Hyper-threading 。
 
-> CPU 制程技术最小能做到多少纳米？
+> CPU 製程技術最小能做到多少納米？
 >
-> 其实从科技发展的角度来说，并没有绝对的极限，我们能确定的是，芯片制程越小，单位体积的集成度越高，就意味着处理效率和发热量越小。但受制于切割工艺的极限，以目前的情况来看，理论上的制程极限我们还是可以简单的分析出来的。
+> 其實從科技發展的角度來說，並沒有絕對的極限，我們能確定的是，芯片製程越小，單位體積的集成度越高，就意味著處理效率和發熱量越小。但受制於切割工藝的極限，以目前的情況來看，理論上的製程極限我們還是可以簡單的分析出來的。
 >
-> 我们知道，硅原子大小半径为110皮米，也就是0.11纳米，直径0.22nm。虽然3D晶体管的出现已经让芯片不再全部依赖制程大小，而制程工艺的提升，也意味着会决定3D晶体管横面积大小，不过，在不破坏硅原子本身的前提下，芯片制造目前还是有理论极限的，在0.5nm左右，之所以不是0.2nm，是因为本身硅原子之间也要保持一定的距离。而从实际角度上看，Intel在9nm制程上已经出现了切割良品率低和漏电率低的问题，所以0.5nm这个理论极限在目前的科学技术上看，几乎是不可能的。
+> 我們知道，硅原子大小半徑為110皮米，也就是0.11納米，直徑0.22nm。雖然3D晶體管的出現已經讓芯片不再全部依賴製程大小，而製程工藝的提升，也意味著會決定3D晶體管橫面積大小，不過，在不破壞硅原子本身的前提下，芯片製造目前還是有理論極限的，在0.5nm左右，之所以不是0.2nm，是因為本身硅原子之間也要保持一定的距離。而從實際角度上看，Intel在9nm製程上已經出現了切割良品率低和漏電率低的問題，所以0.5nm這個理論極限在目前的科學技術上看，幾乎是不可能的。
 
-> 其中有常见的概念，直接复制 WikiPedia 中的解释。
+> 其中有常見的概念，直接複製 WikiPedia 中的解釋。
 >
 > [SMP(Symmetric multiprocessing)](https://en.wikipedia.org/wiki/Symmetric_multiprocessing), involves a multiprocessor computer hardware architecture where two or more identical processors are connected to a single shared main memory and are controlled by a single OS instance.
 >
 > [NUMA(Non-Uniform Memory Access)](https://en.wikipedia.org/wiki/Non-Uniform_Memory_Access), is a computer memory design used in multiprocessing, where the memory access time depends on the memory location relative to a processor. Under NUMA, a processor can access its own local memory faster than non-local memory, that is, memory local to another processor or memory shared between processors. NUMA architectures logically follow in scaling from symmetric multiprocessing (SMP) architectures.
 
-下图展示了这些术语之间的逻辑关系。
+下圖展示了這些術語之間的邏輯關係。
 
 ![cpu topology]({{ site.url }}/images/linux/monitor-cpu-topology.jpg "cpu topology"){: .pull-center width="350px" }
 
-一个 NUMA node 包括一个或者多个 Socket，以及与之相连的 local memory；一个多核的 Socket 有多个 Core，如果 CPU 支持 HT，OS 还会把这个 Core 看成 2 个 Logical Processor。
+一個 NUMA node 包括一個或者多個 Socket，以及與之相連的 local memory；一個多核的 Socket 有多個 Core，如果 CPU 支持 HT，OS 還會把這個 Core 看成 2 個 Logical Processor。
 
-NUMA 常见问题可参考 [Frequently Asked Questions About NUMA](http://lse.sourceforge.net/numa/faq/index.html)，或者 [本地文档](/reference/linux/monitor/NUMA Frequently Asked Questions.html) 。
+NUMA 常見問題可參考 [Frequently Asked Questions About NUMA](http://lse.sourceforge.net/numa/faq/index.html)，或者 [本地文檔](/reference/linux/monitor/NUMA Frequently Asked Questions.html) 。
 
-### 内存模型
+### 內存模型
 
-通常有两种不同的内存管理方式：
+通常有兩種不同的內存管理方式：
 
-* UMA(Uniform Memory Acess)，将可用的内存以连续的方式组织起来，可能有小的缺口，每个处理器访问各个内存区的速度都是一样的；
-* NUMA(Non-Uniform Memory Access)，系统中每个处理器都有本地内存，可以支持特别快速的访问，各个处理器之间通过总线连接起来，以支持对其他的处理器的内存访问。
+* UMA(Uniform Memory Acess)，將可用的內存以連續的方式組織起來，可能有小的缺口，每個處理器訪問各個內存區的速度都是一樣的；
+* NUMA(Non-Uniform Memory Access)，系統中每個處理器都有本地內存，可以支持特別快速的訪問，各個處理器之間通過總線連接起來，以支持對其他的處理器的內存訪問。
 
-在 CentOS 中可以通过如下命令查看是否为 NUMA。
+在 CentOS 中可以通過如下命令查看是否為 NUMA。
 
 {% highlight text %}
-# yum install numactl -y             # 安装numactl命令
+# yum install numactl -y             # 安裝numactl命令
 # numactl --hardware
-available: 2 nodes (0-1)             # 当前机器有2个NUMA node，编号0-1
+available: 2 nodes (0-1)             # 當前機器有2個NUMA node，編號0-1
 node 0 cpus: 0 1 2 3
-node 0 size: 8113 MB                 # node 0物理内存大小
+node 0 size: 8113 MB                 # node 0物理內存大小
 node 0 free: 182 MB
-node distances:                      # node距离，可简单认为是CPU本node内存访问和跨node内存访问的成本
-node   0   1                         # 可知跨node的内存访问成本(20)是本地node内存(10)的2倍
+node distances:                      # node距離，可簡單認為是CPU本node內存訪問和跨node內存訪問的成本
+node   0   1                         # 可知跨node的內存訪問成本(20)是本地node內存(10)的2倍
   0:  10  20
   1:  20  10
 
 $ grep -i numa /var/log/dmesg
-[xxxxx] No NUMA configuration found  # 非NUMA，否则是
+[xxxxx] No NUMA configuration found  # 非NUMA，否則是
 {% endhighlight %}
 
-当然如果开机时间过长，可能会导致日志已经被覆盖，此时可以通过如下方式查看。
+當然如果開機時間過長，可能會導致日誌已經被覆蓋，此時可以通過如下方式查看。
 
 {% highlight text %}
-$ cat /proc/cpuinfo | grep "physical id" | wc -l     # 查看当前计算机中的物理核个数
-$ ls /sys/devices/system/node/ | grep node | wc -l   # 有多少个node
+$ cat /proc/cpuinfo | grep "physical id" | wc -l     # 查看當前計算機中的物理核個數
+$ ls /sys/devices/system/node/ | grep node | wc -l   # 有多少個node
 
-$ lscpu -p                                           # 查看CPU架构
+$ lscpu -p                                           # 查看CPU架構
 {% endhighlight %}
 
-在 /proc/cpuinfo 中的 physical id，描述的就是 Socket 的编号。
+在 /proc/cpuinfo 中的 physical id，描述的就是 Socket 的編號。
 
-如果物理核数目有多个，而且 node 的个数也有多个，说明这是一个 NUMA 系统，每个目录内部有多个文件和子目录描述该 node 内 cpu、内存等信息，比如说 node0/meminfo 描述了 node0 内存相关信息；如果 node 的个数只有 1 个，说明这是一个 SMP 系统。
+如果物理核數目有多個，而且 node 的個數也有多個，說明這是一個 NUMA 系統，每個目錄內部有多個文件和子目錄描述該 node 內 cpu、內存等信息，比如說 node0/meminfo 描述了 node0 內存相關信息；如果 node 的個數只有 1 個，說明這是一個 SMP 系統。
 
-关于 NUMA 的详细信息可以通过 dmidecode 查看。
+關於 NUMA 的詳細信息可以通過 dmidecode 查看。
 
 
-### 内核数
+### 內核數
 
-通过 /proc/cpuinfo 可以查看跟 core 相关的信息，这里包括了 socket、物理核、逻辑核的概念。
+通過 /proc/cpuinfo 可以查看跟 core 相關的信息，這裡包括了 socket、物理核、邏輯核的概念。
 
 {% highlight text %}
-# cat /proc/cpuinfo | grep "physical id" | sort -u | wc -l   # 显示socket的数目
+# cat /proc/cpuinfo | grep "physical id" | sort -u | wc -l   # 顯示socket的數目
 
 # cat /proc/cpuinfo
 ... ...
-    cpu cores : 4              # 一个socket有4个物理核
-    core id   : 1              # 一个core在socket内的编号，同样是物理核编码
+    cpu cores : 4              # 一個socket有4個物理核
+    core id   : 1              # 一個core在socket內的編號，同樣是物理核編碼
 ... ...
 
-# cat /proc/cpuinfo | grep "cpu cores" | uniq | cut -d: -f2  # 每个socket的物理核数目
+# cat /proc/cpuinfo | grep "cpu cores" | uniq | cut -d: -f2  # 每個socket的物理核數目
 
-# cat /proc/cpuinfo | grep processor                         # 查看有多少个逻辑核
+# cat /proc/cpuinfo | grep processor                         # 查看有多少個邏輯核
 {% endhighlight %}
 
 
 ### Cache
 
-关于 CPU 中的 Cache 信息，可以通过 /proc/cpuinfo 查看，分为 L1、L2、L3，其中 L1 又分为独立的指令 cache 和数据 cache。
+關於 CPU 中的 Cache 信息，可以通過 /proc/cpuinfo 查看，分為 L1、L2、L3，其中 L1 又分為獨立的指令 cache 和數據 cache。
 
 {% highlight text %}
 processor       : 0
-cache size      : 12288 KB     # L3 Cache的总大小
+cache size      : 12288 KB     # L3 Cache的總大小
 cache_alignment : 64
 {% endhighlight %}
 
-详细的 cache 信息可以通过 sysfs 查看，也即在 ```/sys/devices/system/cpu/``` 目录下，其中 cpu 目录下的编号是逻辑 cpu，且该目录下包括了 index0 (L1数据cache)、index1 (L1指令cache)、index2 (L2 cache)、index3 (L3 cache，对应cpuinfo里的cache) 。
+詳細的 cache 信息可以通過 sysfs 查看，也即在 ```/sys/devices/system/cpu/``` 目錄下，其中 cpu 目錄下的編號是邏輯 cpu，且該目錄下包括了 index0 (L1數據cache)、index1 (L1指令cache)、index2 (L2 cache)、index3 (L3 cache，對應cpuinfo裡的cache) 。
 
 <!--
-在 indexN 目录下的内容为：
-* type，cache 的类型，分为数据和指令，常见的有 Data、Instruction。
-* Level，相应的等级。
+在 indexN 目錄下的內容為：
+* type，cache 的類型，分為數據和指令，常見的有 Data、Instruction。
+* Level，相應的等級。
 * Size，大小。
 coherency_line_size * physical_line_partition * ways_of_associativity * number_of_sets = size 。
-shared_cpu_map，标示被那些 CPU 共享。
+shared_cpu_map，標示被那些 CPU 共享。
 -->
 
 
 ## CPU Usage VS. LOAD
 
-Linux 系统的 CPU 使用率就是 CPU 的使用状况，也就是一段时间之中，CPU 用于执行任务占用的时间与总的时间的比率。
+Linux 系統的 CPU 使用率就是 CPU 的使用狀況，也就是一段時間之中，CPU 用於執行任務佔用的時間與總的時間的比率。
 
 <!--
 {% highlight text %}
-%user Percentage of CPU utilization that occurred while executing at the user level (application). Note that this field includes time spent running virtual processors. （未标志nice值的）用户态程序的CPU占用率。
-%nice Percentage of CPU utilization that occurred while executing at the user level with nice priority. 标志了nice值的用户态程序的CPU占用率。
-%system Percentage of CPU utilization that occurred while executing at the system level (kernel). Note that this field includes time spent servicing hardware and software interrupts. 系统态（内核）程序的CPU占用率。
-%iowait Percentage of time that the CPU or CPUs were idle during which the system had an outstanding disk I/O request. I/O等待的CPU占用率。
-%steal Percentage of time spent in involuntary wait by the virtual CPU or CPUs while the hypervisor was servicing another virtual processor. 这个一般是在虚拟机中才能看到数值，比如：我的VPS供应商CPU overcommitment很严重，故我偶尔能看到%steal值有点高。
-%idle Percentage of time that the CPU or CPUs were idle and the system did not have an outstanding disk I/O request. %idle越高，说明CPU越空闲。
+%user Percentage of CPU utilization that occurred while executing at the user level (application). Note that this field includes time spent running virtual processors. （未標誌nice值的）用戶態程序的CPU佔用率。
+%nice Percentage of CPU utilization that occurred while executing at the user level with nice priority. 標誌了nice值的用戶態程序的CPU佔用率。
+%system Percentage of CPU utilization that occurred while executing at the system level (kernel). Note that this field includes time spent servicing hardware and software interrupts. 系統態（內核）程序的CPU佔用率。
+%iowait Percentage of time that the CPU or CPUs were idle during which the system had an outstanding disk I/O request. I/O等待的CPU佔用率。
+%steal Percentage of time spent in involuntary wait by the virtual CPU or CPUs while the hypervisor was servicing another virtual processor. 這個一般是在虛擬機中才能看到數值，比如：我的VPS供應商CPU overcommitment很嚴重，故我偶爾能看到%steal值有點高。
+%idle Percentage of time that the CPU or CPUs were idle and the system did not have an outstanding disk I/O request. %idle越高，說明CPU越空閒。
 {% endhighlight %}
 -->
 
-### 相关文件
+### 相關文件
 
-CPU 的全局性能指标保存在 ```/proc/stat``` 文件中，大部分监控都是读取该文件，如 dstat 。对于文件的解读可以参考 man 5 proc 中的 ```/proc/stat``` 部分，也可以参考 [online man  5 proc](http://man7.org/linux/man-pages/man5/proc.5.html) 。
+CPU 的全局性能指標保存在 ```/proc/stat``` 文件中，大部分監控都是讀取該文件，如 dstat 。對於文件的解讀可以參考 man 5 proc 中的 ```/proc/stat``` 部分，也可以參考 [online man  5 proc](http://man7.org/linux/man-pages/man5/proc.5.html) 。
 
-进程和线程的统计可参考 ```/proc/<pid>/stat``` 和 ```/proc/<pid>/task/<tid>/stat```；需要注意的是，对于不同的内核版本， ```/proc/stat``` 内容会有所区别：```steal (since Linux 2.6.11)```、```guest (since Linux 2.6.24)```、```guest_nice (since Linux 2.6.33)``` 。
+進程和線程的統計可參考 ```/proc/<pid>/stat``` 和 ```/proc/<pid>/task/<tid>/stat```；需要注意的是，對於不同的內核版本， ```/proc/stat``` 內容會有所區別：```steal (since Linux 2.6.11)```、```guest (since Linux 2.6.24)```、```guest_nice (since Linux 2.6.33)``` 。
 
 {% highlight text %}
 cpu  3816877 11951 424208 1254811 21564 0 2153 0 0 0
@@ -154,52 +154,52 @@ procs_blocked 0
 softirq 76359224 43 47319594 111 58877 726684 9 63206 16513537 0 11677163
 {% endhighlight %}
 
-对于上述文件的内容，简单介绍如下。
+對於上述文件的內容，簡單介紹如下。
 
 {% highlight text %}
 cpu cpuN
-    CPU使用情况，都是从系统启动到当前的值，单位是节拍 (Jiffies)，总计分为10列；
+    CPU使用情況，都是從系統啟動到當前的值，單位是節拍 (Jiffies)，總計分為10列；
   **user
-    普通进程处于用户态的运行时间，不包括nice为负的进程消耗时间。
+    普通進程處於用戶態的運行時間，不包括nice為負的進程消耗時間。
   **nice
-    nice值为负的进程所占用的用户态时间。
+    nice值為負的進程所佔用的用戶態時間。
   **system
-    处于核心态的运行时间，也包括 IRQ 和 softirq 时间。
-    如果系统CPU占用率高，表明系统某部分存在瓶颈，通常值越低越好。
+    處於核心態的運行時間，也包括 IRQ 和 softirq 時間。
+    如果系統CPU佔用率高，表明系統某部分存在瓶頸，通常值越低越好。
   **idle
-    空闲时间，不包含 IO 等待时间。
+    空閒時間，不包含 IO 等待時間。
   **iowait
-    等待 IO 响应的时间(since 2.5.41)。
-    如果系统花费大量时间等待 IO ，说明存在 IO 瓶颈。
+    等待 IO 響應的時間(since 2.5.41)。
+    如果系統花費大量時間等待 IO ，說明存在 IO 瓶頸。
   **irq
-    处理硬中断的时间(since 2.6.0-test4)。
+    處理硬中斷的時間(since 2.6.0-test4)。
   **softirq
-    处理软中断的时间(since 2.6.0-test4)。
+    處理軟中斷的時間(since 2.6.0-test4)。
   **steal
-    当采用虚拟环境时，运行在其它操作系统上的时间，此时hypervisor在为另一个虚拟处理器服务，具体监控指标详见后面。
+    當採用虛擬環境時，運行在其它操作系統上的時間，此時hypervisor在為另一個虛擬處理器服務，具體監控指標詳見後面。
   **guest
-    内核运行在虚拟机上的时间。
+    內核運行在虛擬機上的時間。
   **guest_nice
     同上。
 intr
-    中断信息，首列为系统启动以来，发生的所有的中断的次数；接着的每个数对应特定中断自系统启动以来所发生的次数。
+    中斷信息，首列為系統啟動以來，發生的所有的中斷的次數；接著的每個數對應特定中斷自系統啟動以來所發生的次數。
 ctxt
-    系统启动以来CPU发生的上下文交换的次数。
+    系統啟動以來CPU發生的上下文交換的次數。
 btime
-    给出了从系统启动到现在为止的时间，单位为秒。
+    給出了從系統啟動到現在為止的時間，單位為秒。
 processes
-    自系统启动以来所创建的任务的个数目。
+    自系統啟動以來所創建的任務的個數目。
 procs_running
-    当前运行队列的任务的数目。
+    當前運行隊列的任務的數目。
 procs_blocked
-    当前被阻塞的任务的数目。
+    當前被阻塞的任務的數目。
 {% endhighlight %}
 
-PS: 如果 iowait 的值过高，表示硬盘存在 I/O 瓶颈。如果 idle 值高但系统响应慢时，有可能是 CPU 等待分配内存，此时应加大内存容量。
+PS: 如果 iowait 的值過高，表示硬盤存在 I/O 瓶頸。如果 idle 值高但系統響應慢時，有可能是 CPU 等待分配內存，此時應加大內存容量。
 
-### 内核实现
+### 內核實現
 
-/proc/stat 文件在 ```proc_stat_init()@fs/proc/stat.c``` 函数中实现，会在内核初始化时调用；对上述文件的读写，会调用 proc_stat_operations 所定义的函数。
+/proc/stat 文件在 ```proc_stat_init()@fs/proc/stat.c``` 函數中實現，會在內核初始化時調用；對上述文件的讀寫，會調用 proc_stat_operations 所定義的函數。
 
 {% highlight c %}
 static const struct file_operations proc_stat_operations = {
@@ -210,7 +210,7 @@ static const struct file_operations proc_stat_operations = {
 };
 {% endhighlight %}
 
-打开文件会调用函数 stat_open() ，该函数首先申请大小为 size 的内存，来存放临时数据，也是我们看到的 stat 里的最终数据；文件中的数据由 show_stat() 函数填充。
+打開文件會調用函數 stat_open() ，該函數首先申請大小為 size 的內存，來存放臨時數據，也是我們看到的 stat 裡的最終數據；文件中的數據由 show_stat() 函數填充。
 
 {% highlight c %}
 static int show_stat(struct seq_file *p, void *v)
@@ -319,7 +319,7 @@ static int show_stat(struct seq_file *p, void *v)
 }
 {% endhighlight %}
 
-在上述的函数中，会依次统计 cpu 的各个参数，下面以 user 为例。
+在上述的函數中，會依次統計 cpu 的各個參數，下面以 user 為例。
 
 
 <!--
@@ -333,9 +333,9 @@ user = (*SHIFT_PERCPU_PTR(&(kernel_cpustat), per_cpu_offset(i))).cpustat[CPUTIME
 kernel/sched/cputime.c
 
 
-其中包括了 cpu 的心能指标，进程切换次数ctxt、内核启动的时间btime、所有创建的进程processes、正在运行进程的数量procs_running、阻塞的进程数量procs_blocked、所有io等待的进程数量、软中断的信息。
+其中包括了 cpu 的心能指標，進程切換次數ctxt、內核啟動的時間btime、所有創建的進程processes、正在運行進程的數量procs_running、阻塞的進程數量procs_blocked、所有io等待的進程數量、軟中斷的信息。
 
-在top、sar、vmstat、mpstat等命令中可以看到CPU使用率通常包含如下几种统计（摘自 man sar）：
+在top、sar、vmstat、mpstat等命令中可以看到CPU使用率通常包含如下幾種統計（摘自 man sar）：
 
 top
 [root@jay-linux ~]# sar -u 1 5
@@ -343,47 +343,47 @@ top
 [root@jay-linux ~]# mpstat -P ALL 1 5
 
 
-Linux的Load（系统负载），是一个让新手不太容易了解的概念。top/uptime等工具默认会显示1分钟、5分钟、15分钟的平均Load。具体来说，平均Load是指，在特定的一段时间内统计的正在CPU中运行的(R状态)、正在等待CPU运行的、处于不可中断睡眠的(D状态)的任务数量的平均值。
-我估计也没说的太清楚，看下wikipedia上的一段话吧：An idle computer has a load number of 0. Each process using or waiting for CPU (the ready queue or run queue) increments the load number by 1. Most UNIX systems count only processes in the running (on CPU) or runnable (waiting for CPU) states. However, Linux also includes processes in uninterruptible sleep states (usually waiting for disk activity), which can lead to markedly different results if many processes remain blocked in I/O due to a busy or stalled I/O system.
-还有man sar中的解释：The load average is calculated as the average number of runnable or running tasks (R state), and the number of tasks in uninterruptible sleep (D state) over the specified interval.
-对于一个系统来说，多少的Load算合理，多少又算Load高呢？
-一般来说，对于Load的数值不要大于系统的CPU核数（或者开启了超线程，超线程也当成CPU core吧）。当然，有人觉得Load等于CPU core数量的2倍也没事，不过，我自己是在Load达到CPU core数量时，一般都会去查看下是什么具体原因导致load较高的。
-Linux中查看Load的命令，推荐如下：
+Linux的Load（系統負載），是一個讓新手不太容易瞭解的概念。top/uptime等工具默認會顯示1分鐘、5分鐘、15分鐘的平均Load。具體來說，平均Load是指，在特定的一段時間內統計的正在CPU中運行的(R狀態)、正在等待CPU運行的、處於不可中斷睡眠的(D狀態)的任務數量的平均值。
+我估計也沒說的太清楚，看下wikipedia上的一段話吧：An idle computer has a load number of 0. Each process using or waiting for CPU (the ready queue or run queue) increments the load number by 1. Most UNIX systems count only processes in the running (on CPU) or runnable (waiting for CPU) states. However, Linux also includes processes in uninterruptible sleep states (usually waiting for disk activity), which can lead to markedly different results if many processes remain blocked in I/O due to a busy or stalled I/O system.
+還有man sar中的解釋：The load average is calculated as the average number of runnable or running tasks (R state), and the number of tasks in uninterruptible sleep (D state) over the specified interval.
+對於一個系統來說，多少的Load算合理，多少又算Load高呢？
+一般來說，對於Load的數值不要大於系統的CPU核數（或者開啟了超線程，超線程也當成CPU core吧）。當然，有人覺得Load等於CPU core數量的2倍也沒事，不過，我自己是在Load達到CPU core數量時，一般都會去查看下是什麼具體原因導致load較高的。
+Linux中查看Load的命令，推薦如下：
 [root@jay-linux ~]# top
 [root@jay-linux ~]# uptime
 [root@jay-linux ~]# sar -q 1 5
-最后，说一下CPU使用率和Load的关系吧。如果主要是CPU密集型的程序在运行（If CPU utilization is near 100 percent (user + nice + system), the workload sampled is CPU-bound.），那么CPU利用率高，Load一般也会比较高。而I/O密集型的程序在运行，可能看到CPU的%user, %system都不高，%iowait可能会有点高，这时的Load通常比较高。同理，程序读写慢速I/O设备（如磁盘、NFS）比较多时，Load可能会比较，而CPU利用率不一定高。这种情况，还经常发生在系统内存不足并开始使用swap的时候，Load一般会比较高，而CPU使用率并不高。
+最後，說一下CPU使用率和Load的關係吧。如果主要是CPU密集型的程序在運行（If CPU utilization is near 100 percent (user + nice + system), the workload sampled is CPU-bound.），那麼CPU利用率高，Load一般也會比較高。而I/O密集型的程序在運行，可能看到CPU的%user, %system都不高，%iowait可能會有點高，這時的Load通常比較高。同理，程序讀寫慢速I/O設備（如磁盤、NFS）比較多時，Load可能會比較，而CPU利用率不一定高。這種情況，還經常發生在系統內存不足並開始使用swap的時候，Load一般會比較高，而CPU使用率並不高。
 
-本文就简单说这么多了，想了解更全面的信息，可参考以下方法：
-1. man sar, man top （认真看相关解析，定有收获）
+本文就簡單說這麼多了，想了解更全面的信息，可參考以下方法：
+1. man sar, man top （認真看相關解析，定有收穫）
 2. wikipedia：http://en.wikipedia.org/wiki/Load_%28computing%29
-3. 帮助理解Load：http://blog.scoutapp.com/articles/2009/07/31/understanding-load-averages
-4. 帮助理解load的中文博客：http://www.blogjava.net/cenwenchu/archive/2008/06/30/211712.html
+3. 幫助理解Load：http://blog.scoutapp.com/articles/2009/07/31/understanding-load-averages
+4. 幫助理解load的中文博客：http://www.blogjava.net/cenwenchu/archive/2008/06/30/211712.html
 http://os.51cto.com/art/201012/240719.htm
 </p>
 
 
-> 通过 uptime 可以查看当前时间、已经运行时间、用户、负载等信息，top 命令第一行也是。
+> 通過 uptime 可以查看當前時間、已經運行時間、用戶、負載等信息，top 命令第一行也是。
 > <pre style="font-size:0.8em;line-height:1.2em;">$ uptime
 > 18:02:41 up 41 days, 23:42,  3 users,  load average: 0.20, 0.32, 0.45</pre>
-> 显示当前时间 "18:02:41" ，已经运行的时间 "up 41 days, 23:42" ，登录用户数 "3 users" ，过去 1, 5, 15 分钟的平均负载 "load average: 0.20, 0.32, 0.45" 。
+> 顯示當前時間 "18:02:41" ，已經運行的時間 "up 41 days, 23:42" ，登錄用戶數 "3 users" ，過去 1, 5, 15 分鐘的平均負載 "load average: 0.20, 0.32, 0.45" 。
 
 
 
 
 
 
-一般程序分为了 CPU/IO 密集型，不同类型的进程表现以及瓶颈也有所区别。如果是 CPU 密集型，当增大压力时，就很容易把 CPU 利用率打满；而对于 IO 密集型，增大压力时，CPU 使用率不一定能上去。
+一般程序分為了 CPU/IO 密集型，不同類型的進程表現以及瓶頸也有所區別。如果是 CPU 密集型，當增大壓力時，就很容易把 CPU 利用率打滿；而對於 IO 密集型，增大壓力時，CPU 使用率不一定能上去。
 
-对于后者，大文件读写的 CPU 开销远小于小文件读写的开销；这时因为在 IO 吞吐量一定时，小文件的读写更加频繁，需要更多的 CPU 来处理 IO 中断。
+對於後者，大文件讀寫的 CPU 開銷遠小於小文件讀寫的開銷；這時因為在 IO 吞吐量一定時，小文件的讀寫更加頻繁，需要更多的 CPU 來處理 IO 中斷。
 
 
 
-在Linux/Unix下，CPU利用率分为用户态，系统态和空闲态，分别表示CPU处于用户态执行的时间，系统内核执行的时间，和空闲系统进程执行的时间。平时所说的CPU利用率是指：CPU执行非系统空闲进程的时间 / CPU总的执行时间。
+在Linux/Unix下，CPU利用率分為用戶態，系統態和空閒態，分別表示CPU處於用戶態執行的時間，系統內核執行的時間，和空閒系統進程執行的時間。平時所說的CPU利用率是指：CPU執行非系統空閒進程的時間 / CPU總的執行時間。
 
-在Linux的内核中，有一个全局变量：Jiffies。 Jiffies代表时间。它的单位随硬件平台的不同而不同。系统里定义了一个常数HZ，代表每秒种最小时间间隔的数目。这样jiffies的单位就是1/HZ。Intel平台jiffies的单位是1/100秒，这就是系统所能分辨的最小时间间隔了。每个CPU时间片，Jiffies都要加1。 CPU的利用率就是用执行用户态+系统态的Jiffies除以总的Jifffies来表示。
+在Linux的內核中，有一個全局變量：Jiffies。 Jiffies代表時間。它的單位隨硬件平臺的不同而不同。系統裡定義了一個常數HZ，代表每秒種最小時間間隔的數目。這樣jiffies的單位就是1/HZ。Intel平臺jiffies的單位是1/100秒，這就是系統所能分辨的最小時間間隔了。每個CPU時間片，Jiffies都要加1。 CPU的利用率就是用執行用戶態+系統態的Jiffies除以總的Jifffies來表示。
 
-在Linux系统中，可以用/proc/stat文件来计算cpu的利用率(详细的解释可参考：http://www.linuxhowtos.org/System/procstat.htm)。这个文件包含了所有CPU活动的信息，该文件中的所有值都是从系统启动开始累计到当前时刻。
+在Linux系統中，可以用/proc/stat文件來計算cpu的利用率(詳細的解釋可參考：http://www.linuxhowtos.org/System/procstat.htm)。這個文件包含了所有CPU活動的信息，該文件中的所有值都是從系統啟動開始累計到當前時刻。
 
 
 
@@ -397,43 +397,43 @@ http://os.51cto.com/art/201012/240719.htm
 
 ## 其它
 
-### 线程相关
+### 線程相關
 
-可以通过 ```ps -eLf``` 命令查看，也即通过 -L 参数显示其 LWP(线程ID) 和 NLWP(线程的个数)，而且，还可以查看线程在哪个 CPU 上运行。
+可以通過 ```ps -eLf``` 命令查看，也即通過 -L 參數顯示其 LWP(線程ID) 和 NLWP(線程的個數)，而且，還可以查看線程在哪個 CPU 上運行。
 
 {% highlight text %}
 $ ps -eo ruser,pid,ppid,lwp,psr,args -L
 {% endhighlight %}
 
-其中，每一列依次为：用户ID，进程ID，父进程ID，线程ID，运行该线程的CPU的序号，命令行参数（包括命令本身）。
+其中，每一列依次為：用戶ID，進程ID，父進程ID，線程ID，運行該線程的CPU的序號，命令行參數（包括命令本身）。
 
-对于 top 命令，可以通过 ```top -p LWP``` 、```top -H``` 或者 ```top + H``` ，也即通过 H 命令打开线程。
+對於 top 命令，可以通過 ```top -p LWP``` 、```top -H``` 或者 ```top + H``` ，也即通過 H 命令打開線程。
 
 
-## 参考
+## 參考
 
-关于 CPU 的顶层布局可以参考 [玩转CPU Topology](http://www.searchtb.com/2012/12/%E7%8E%A9%E8%BD%ACcpu-topology.html)，或者 [本地文档](/reference/linux/monitor/all_about_cpu_topology.mht)；另外一个可以参考的是 [13 种在 Linux 系统上检测 CPU 信息的工具](https://linux.cn/article-5104-1.html?pr)，或者 [本地文档](/reference/linux/monitor/How to check CPU info on Linux.mht)，[check-cpu-info-linux.pdf](/reference/linux/monitor/check-cpu-info-linux.pdf) 。
+關於 CPU 的頂層佈局可以參考 [玩轉CPU Topology](http://www.searchtb.com/2012/12/%E7%8E%A9%E8%BD%ACcpu-topology.html)，或者 [本地文檔](/reference/linux/monitor/all_about_cpu_topology.mht)；另外一個可以參考的是 [13 種在 Linux 系統上檢測 CPU 信息的工具](https://linux.cn/article-5104-1.html?pr)，或者 [本地文檔](/reference/linux/monitor/How to check CPU info on Linux.mht)，[check-cpu-info-linux.pdf](/reference/linux/monitor/check-cpu-info-linux.pdf) 。
 
-LIKWID 工具介绍可参考 [Lightweight performance tools](http://tools.zih.tu-dresden.de/2011/downloads/treibig-likwid-ParTools.pdf) 或者 [本地文档](/reference/linux/monitor/treibig-likwid-ParTools.pdf)，源码查看 [Github](https://github.com/RRZE-HPC/likwid) 。
+LIKWID 工具介紹可參考 [Lightweight performance tools](http://tools.zih.tu-dresden.de/2011/downloads/treibig-likwid-ParTools.pdf) 或者 [本地文檔](/reference/linux/monitor/treibig-likwid-ParTools.pdf)，源碼查看 [Github](https://github.com/RRZE-HPC/likwid) 。
 
 <!--
-https://linux.cn/article-6201-1.html    *****非常经典：关于现代 CPU，程序员应当更新的知识
+https://linux.cn/article-6201-1.html    *****非常經典：關於現代 CPU，程序員應當更新的知識
 
 http://www.cnblogs.com/yjf512/archive/2012/12/10/2811823.html
 
-/proc/stat的CPU负载信息说明
+/proc/stat的CPU負載信息說明
 http://myssh.igigo.net/post/xiao-za-sui/-proc-statde-cpufu-zai-xin-xi-shuo-ming
 
 Understanding CPU Steal Time - when should you be worried
 ?http://blog.scoutapp.com/articles/2013/07/25/understanding-cpu-steal-time-when-should-you-be-worried
 
-Linux CPU利用率计算原理及内核实现
+Linux CPU利用率計算原理及內核實現
 http://ilinuxkernel.com/?p=333
 
 https://github.com/Leo-G/DevopsWiki/wiki/How-Linux-CPU-Usage-Time-and-Percentage-is-calculated
 http://www.samirchen.com/linux-cpu-performance/
 
-https://linux.cn/article-6201-1.html    *****非常经典：关于现代 CPU，程序员应当更新的知识
+https://linux.cn/article-6201-1.html    *****非常經典：關於現代 CPU，程序員應當更新的知識
 
 -->
 

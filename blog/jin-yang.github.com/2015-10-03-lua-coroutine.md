@@ -1,49 +1,49 @@
 ---
-title: Lua 协程
+title: Lua 協程
 layout: post
 comments: true
 language: chinese
 category: [program, linux]
-keywords: lua,协程,coroutine
-description: 协程是另外一种并发方式，相比多进程或者多线程来说，其上下文的切换成本开销更小，这也意味这协程的执行更加高效。Lua 作为一种简单的语言，仍然可以支持闭包、协程等较新的特性，在此介绍一下协程相关的内容。
+keywords: lua,協程,coroutine
+description: 協程是另外一種併發方式，相比多進程或者多線程來說，其上下文的切換成本開銷更小，這也意味這協程的執行更加高效。Lua 作為一種簡單的語言，仍然可以支持閉包、協程等較新的特性，在此介紹一下協程相關的內容。
 ---
 
-协程是另外一种并发方式，相比多进程或者多线程来说，其上下文的切换成本开销更小，这也意味这协程的执行更加高效。
+協程是另外一種併發方式，相比多進程或者多線程來說，其上下文的切換成本開銷更小，這也意味這協程的執行更加高效。
 
-Lua 作为一种简单的语言，仍然可以支持闭包、协程等较新的特性，在此介绍一下协程相关的内容。
+Lua 作為一種簡單的語言，仍然可以支持閉包、協程等較新的特性，在此介紹一下協程相關的內容。
 
 <!-- more -->
 
-## 简介
+## 簡介
 
-对于并发任务，通常有两种解决方法：A) 抢占式 (preemptive) 多任务，常见的是通过操作系统决定何时执行哪个任务；B) 协作式 (cooperative) 多任务，有任务自身决定何时放弃任务的执行。
+對於併發任務，通常有兩種解決方法：A) 搶佔式 (preemptive) 多任務，常見的是通過操作系統決定何時執行哪個任務；B) 協作式 (cooperative) 多任務，有任務自身決定何時放棄任務的執行。
 
-协程 (coroutine) 是一种程序控制机制，实际上在上世纪 60 年代就已经被提出，用来方便地实现协作式的多任务。在很多主流的程序语言中，如 C/C++、Java 等，很少能看到协程，但现在不少脚本语言，如 Python、Lua 等，都提供了协程或与之相似的机制。
+協程 (coroutine) 是一種程序控制機制，實際上在上世紀 60 年代就已經被提出，用來方便地實現協作式的多任務。在很多主流的程序語言中，如 C/C++、Java 等，很少能看到協程，但現在不少腳本語言，如 Python、Lua 等，都提供了協程或與之相似的機制。
 
-Lua 实现的是一种非对称式 (asymmetric) 或者称为半对称式 (semi-symmetric) 协程，之所以被称为非对称的，是因为它提供了两种传递程序控制权的操作：A) 利用 resume() (重)调用协程；B) 通过 yield 挂起协程并将程序控制权返回给协程的调用者。这看起来有点像函数的调用过程。
+Lua 實現的是一種非對稱式 (asymmetric) 或者稱為半對稱式 (semi-symmetric) 協程，之所以被稱為非對稱的，是因為它提供了兩種傳遞程序控制權的操作：A) 利用 resume() (重)調用協程；B) 通過 yield 掛起協程並將程序控制權返回給協程的調用者。這看起來有點像函數的調用過程。
 
-而 libtask 的实现就更像对称式的协程。
+而 libtask 的實現就更像對稱式的協程。
 
-协程类似于线程，包含了自己的栈、本地变量、指针，但是包括了其它的全局变量是共享的。与线程不同的是，线程可以真正的在多个核上并发执行，而协程在具体的时间只能运行其中的一个。
+協程類似於線程，包含了自己的棧、本地變量、指針，但是包括了其它的全局變量是共享的。與線程不同的是，線程可以真正的在多個核上併發執行，而協程在具體的時間只能運行其中的一個。
 
 ### 常用接口
 
-与协程相关的函数包含在 coroutine table 中，其中的 create() 函数用来创建一个协程，该函数会返回一个 thread 类型的变量，用来表示协程。
+與協程相關的函數包含在 coroutine table 中，其中的 create() 函數用來創建一個協程，該函數會返回一個 thread 類型的變量，用來表示協程。
 
 {% highlight lua %}
 co = coroutine.create(function () print("Hello World") end)
 print(co)    --> thread: 0x24a0b20
 {% endhighlight %}
 
-Lua 中的协程包含了四种状态：suspended、running、dead 以及 normal，可以通过 satatus() 查看。
+Lua 中的協程包含了四種狀態：suspended、running、dead 以及 normal，可以通過 satatus() 查看。
 
 {% highlight lua %}
 print(coroutine.status(co)) --> suspended
 {% endhighlight %}
 
-刚创建的协程处于 suspended 状态，也就是说创建时不会自动运行；可以通过 resume() 函数运行或者重新运行该协程，将状态从 suspended 转换为 running 。如上的函数中，仅仅打印字符串，那么执行完成之后，状态会变为 dead 。
+剛創建的協程處於 suspended 狀態，也就是說創建時不會自動運行；可以通過 resume() 函數運行或者重新運行該協程，將狀態從 suspended 轉換為 running 。如上的函數中，僅僅打印字符串，那麼執行完成之後，狀態會變為 dead 。
 
-到此为止，协程就像是一个执行起来比较麻烦的函数；不过其真正有用的是 yield() 函数，可以将当前协程转换为 suspended 状态，然后等待协程后续执行。
+到此為止，協程就像是一個執行起來比較麻煩的函數；不過其真正有用的是 yield() 函數，可以將當前協程轉換為 suspended 狀態，然後等待協程後續執行。
 
 {% highlight lua %}
 co = coroutine.create(function ()
@@ -52,26 +52,26 @@ co = coroutine.create(function ()
         coroutine.yield()
     end
 end)
------ OK，开始执行，直到第一次到达yield
+----- OK，開始執行，直到第一次到達yield
 coroutine.resume(co)        --> co     1
------ 此时状态再次转换为suspended
+----- 此時狀態再次轉換為suspended
 print(coroutine.status(co)) --> suspended
------ 再次运行多次
+----- 再次運行多次
 coroutine.resume(co)        --> co     2
 coroutine.resume(co)        --> co     3
 coroutine.resume(co)        --> prints nothing
 print(coroutine.resume(co)) --> false  cannot resume dead coroutine
 {% endhighlight %}
 
-当执行了三次之后，在第四次执行时，协程将结束循环并返回；如果再此尝试执行，则会返回 false 以及相关的错误信息。
+當執行了三次之後，在第四次執行時，協程將結束循環並返回；如果再此嘗試執行，則會返回 false 以及相關的錯誤信息。
 
 
-当在协程 A 中 resume() 另外一个协程 B 时，A 的状态不是 suspended，因为我们不能再通过 resume() 调用执行，而且协程 A 也不是 running 状态，协程 B 才是，因此协程 A 处于 normal 状态。
+當在協程 A 中 resume() 另外一個協程 B 時，A 的狀態不是 suspended，因為我們不能再通過 resume() 調用執行，而且協程 A 也不是 running 狀態，協程 B 才是，因此協程 A 處於 normal 狀態。
 
 
 ### resume()
 
-在调用 resume() 执行时，是处于保护状态的，也就是说如果在协程中有异常时，会返回到 resmue() 调用处。正常来说，yield() 只会返回 true，而实际上还可以通过该函数返回值。
+在調用 resume() 執行時，是處於保護狀態的，也就是說如果在協程中有異常時，會返回到 resmue() 調用處。正常來說，yield() 只會返回 true，而實際上還可以通過該函數返回值。
 
 {% highlight lua %}
 co = coroutine.create(function (a,b)
@@ -85,36 +85,36 @@ end)
 print(coroutine.resume(co)) --> true   6   7
 {% endhighlight %}
 
-如上，通过 return 同样可以返回相应的值。
+如上，通過 return 同樣可以返回相應的值。
 
 ## 示例
 
-接下来查看几个经典的示例。
+接下來查看幾個經典的示例。
 
-### 生产者-消费者
+### 生產者-消費者
 
-这也许是最经典的示例了，其中生产者一直从文件中读取数据，然后将读取的数据传递给消费者，两个程序的执行过程如下：
+這也許是最經典的示例了，其中生產者一直從文件中讀取數據，然後將讀取的數據傳遞給消費者，兩個程序的執行過程如下：
 
 {% highlight lua %}
 function producer ()
     while true do
-        local x = io.read()  -- 从文件中读取新的值
-        send(x)              -- 将数据发送给消费者
+        local x = io.read()  -- 從文件中讀取新的值
+        send(x)              -- 將數據發送給消費者
     end
 end
 function consumer ()
     while true do
-        local x = receive()  -- 从生产者中接收新的值
-        io.write(x, "\n")    -- 消费之
+        local x = receive()  -- 從生產者中接收新的值
+        io.write(x, "\n")    -- 消費之
     end
 end
 {% endhighlight %}
 
-从表面看来，两个程序都有自己的循环，而且每个程序都是可以被调用的，但实际上只能有一个是主循环，而另外一个将成为被调用者。通过 resume-yield 刚好可以实现这种逻辑。
+從表面看來，兩個程序都有自己的循環，而且每個程序都是可以被調用的，但實際上只能有一個是主循環，而另外一個將成為被調用者。通過 resume-yield 剛好可以實現這種邏輯。
 
-当协程调用 yield() 后，将会返回到 resume() 调用；同样，调用 resume() 时会返回 yield() 的结果。正好符合上述的场景，receive() 调用生产者生成新的数据，然后 send() 将新的值返回给消费者。当然，上述的模型中，生产者将成为协程。
+當協程調用 yield() 後，將會返回到 resume() 調用；同樣，調用 resume() 時會返回 yield() 的結果。正好符合上述的場景，receive() 調用生產者生成新的數據，然後 send() 將新的值返回給消費者。當然，上述的模型中，生產者將成為協程。
 
-如下为完整的示例，生产者将会从 stdin 中读取一行，然后传递给消费者，通过 Ctrl-D 退出。
+如下為完整的示例，生產者將會從 stdin 中讀取一行，然後傳遞給消費者，通過 Ctrl-D 退出。
 
 {% highlight lua %}
 function receive ()
@@ -126,30 +126,30 @@ function send (x)
 end
 producer = coroutine.create(function ()
     while true do
-        local x = io.read()    -- 从文件中读取新的值
-        send(x)                -- 将数据发送给消费者
+        local x = io.read()    -- 從文件中讀取新的值
+        send(x)                -- 將數據發送給消費者
     end
 end)
 function consumer ()
     while true do
-        local x = receive()    -- 从生产者中接收新的值
+        local x = receive()    -- 從生產者中接收新的值
         if x == nil then
             return 0
         else
-            io.write(x, "\n")  -- 消费之
+            io.write(x, "\n")  -- 消費之
         end
     end
 end
 consumer()
 {% endhighlight %}
 
-在上述程序中，当消费者需要数据时将会调用生产者，相当于是消费者驱动的；当然，也可以使用生产者驱动，此时消费者将成为协程。
+在上述程序中，當消費者需要數據時將會調用生產者，相當於是消費者驅動的；當然，也可以使用生產者驅動，此時消費者將成為協程。
 
-### 生产者-过滤器-消费者
+### 生產者-過濾器-消費者
 
-这是上面生产者-消费者模型的扩展，过滤器用来作些数据处理，例如数据转换、过滤等。此时的过滤器同时是生产者也是消费者，将 resume 调用生产者生成数据，将转换后的值 yield 给消费者。
+這是上面生產者-消費者模型的擴展，過濾器用來作些數據處理，例如數據轉換、過濾等。此時的過濾器同時是生產者也是消費者，將 resume 調用生產者生成數據，將轉換後的值 yield 給消費者。
 
-整个函数的调用过程如下：
+整個函數的調用過程如下：
 
 {% highlight lua %}
 function receive (prod)
@@ -162,8 +162,8 @@ end
 function producer ()
     return coroutine.create(function ()
         while true do
-            local x = io.read()    -- 从文件中读取新的值
-            send(x)                -- 将数据发送给消费者
+            local x = io.read()    -- 從文件中讀取新的值
+            send(x)                -- 將數據發送給消費者
         end
     end)
 end
@@ -180,56 +180,56 @@ function filter (prod)
 end
 function consumer (prod)
     while true do
-        local x = receive(prod)    -- 从生产者中接收新的值
+        local x = receive(prod)    -- 從生產者中接收新的值
         if x == nil then
             return 0
         else
-            io.write(x, "\n")      -- 消费之
+            io.write(x, "\n")      -- 消費之
         end
     end
 end
------ 其调用过程大致如下
+----- 其調用過程大致如下
 p = producer()
 f = filter(p)
 consumer(f)
------ 也可以简单写为
+----- 也可以簡單寫為
 --consumer(filter(producer()))
 {% endhighlight %}
 
-### 非抢占式的多线程
+### 非搶佔式的多線程
 
-实际上协程更类似于非抢占式的多线程，当一个协程运行时，除非主动通过 yield() 让出执行权，否则不能被动的抢占。很多场景下这一模型都能正常运行，但是当任意协程调用阻塞式的操作时，那么整个程序都将会被阻塞。接下来看看如何解决这一问题。
+實際上協程更類似於非搶佔式的多線程，當一個協程運行時，除非主動通過 yield() 讓出執行權，否則不能被動的搶佔。很多場景下這一模型都能正常運行，但是當任意協程調用阻塞式的操作時，那麼整個程序都將會被阻塞。接下來看看如何解決這一問題。
 
-简单通过下载多个网页作为示例。注意，该示例依赖于 socket 模块，在 CentOS 可以直接通过 yum install lua-socket 进行安装，依赖 EPEL 源。
+簡單通過下載多個網頁作為示例。注意，該示例依賴於 socket 模塊，在 CentOS 可以直接通過 yum install lua-socket 進行安裝，依賴 EPEL 源。
 
-如下为简单读取 http://www.baidu.com/ 的内容。
+如下為簡單讀取 http://www.baidu.com/ 的內容。
 
 {% highlight lua %}
 #!/usr/bin/lua
 local socket = require("socket")
 local host, file = "www.baidu.com", "/"
 
--- 创建一个TCP连接，连接到HTTP连接的标准80端口上
+-- 創建一個TCP連接，連接到HTTP連接的標準80端口上
 local sock = assert(socket.connect(host, 80))
 sock:send("GET " .. file .. " HTTP/1.0\r\n\r\n")
 repeat
-    -- 以1K的字节块来接收数据，并把接收到字节块输出来
+    -- 以1K的字節塊來接收數據，並把接收到字節塊輸出來
     local chunk, status, partial = sock:receive(2^10)
     io.write(chunk or partial)
 until status == "closed"
--- 关闭 TCP 连接
+-- 關閉 TCP 連接
 sock:close()
 {% endhighlight %}
 
-如果采用串行的方式，实际上很大一部分时间都耗费在了等待网络数据上，也就是阻塞在了 receive() 函数调用中。所以，通过并发可以提高读取效率。
+如果採用串行的方式，實際上很大一部分時間都耗費在了等待網絡數據上，也就是阻塞在了 receive() 函數調用中。所以，通過併發可以提高讀取效率。
 
-通过协程可以很容易实现并发，当一个协程没有数据时返回给一个 dispatcher，然后调度另外的协程。
+通過協程可以很容易實現併發，當一個協程沒有數據時返回給一個 dispatcher，然後調度另外的協程。
 
-首先需要将上述的程序改写为一个函数，实际上我们对网页的内容并不感兴趣，因此只统计一下网站返回的字节数，而非其内容。
+首先需要將上述的程序改寫為一個函數，實際上我們對網頁的內容並不感興趣，因此只統計一下網站返回的字節數，而非其內容。
 
 {% highlight lua %}
 function receive (connection)
-    connection:settimeout(0)    -- 设置为非阻塞模式
+    connection:settimeout(0)    -- 設置為非阻塞模式
     local s, status, partial = connection:receive(2^10)
     if status == "timeout" then
         coroutine.yield(connection)
@@ -239,7 +239,7 @@ end
 
 function download (host, file)
     local c = assert(socket.connect(host, 80))
-    local count = 0             -- 用于统计读取的字节数
+    local count = 0             -- 用於統計讀取的字節數
     c:send("GET " .. file .. " HTTP/1.0\r\n\r\n")
     repeat
         local chunk, status = receive(c)
@@ -250,38 +250,38 @@ function download (host, file)
 end
 {% endhighlight %}
 
-接下来看看 dispatcher 的内容。
+接下來看看 dispatcher 的內容。
 
 {% highlight lua %}
 threads = {}
 function get (host, file)
-    -- 创建协程
+    -- 創建協程
     local co = coroutine.create(function ()
         download(host, file)
     end)
-    table.insert(threads, co)   -- 将创建的协程添加到列表中，等待被调用
+    table.insert(threads, co)   -- 將創建的協程添加到列表中，等待被調用
 end
 
 function dispatch ()
     local i = 1
     while true do
-        if threads[i] == nil then               -- 判断是否还有需要执行的线程
-            if threads[1] == nil then break end -- 判断是否已经都执行完
-            i = 1                               -- 还有，从头开始执行一次
+        if threads[i] == nil then               -- 判斷是否還有需要執行的線程
+            if threads[1] == nil then break end -- 判斷是否已經都執行完
+            i = 1                               -- 還有，從頭開始執行一次
         end
         local status, res = coroutine.resume(threads[i])
-        if not res then   -- 返回false表示该协程已经执行完
-            table.remove(threads, i)  -- 删除之
+        if not res then   -- 返回false表示該協程已經執行完
+            table.remove(threads, i)  -- 刪除之
         else
-            i = i + 1     -- 然后执行下一个
+            i = i + 1     -- 然後執行下一個
         end
     end
 end
 {% endhighlight %}
 
-其中 threads 保存了正在执行的协程，get() 函数用于添加需要下载的页面。dispatch() 则是主要的任务调度过程，其处理也非常简单，就是不断的遍历整个表，查看是否还有需要执行的任务。
+其中 threads 保存了正在執行的協程，get() 函數用於添加需要下載的頁面。dispatch() 則是主要的任務調度過程，其處理也非常簡單，就是不斷的遍歷整個表，查看是否還有需要執行的任務。
 
-然后通过如下方式进行调用。
+然後通過如下方式進行調用。
 
 {% highlight lua %}
 host = "www.w3.org"
@@ -293,7 +293,7 @@ dispatch()
 {% endhighlight %}
 
 
-## 参考
+## 參考
 
 [Coroutines in Lua](http://www.inf.puc-rio.br/~roberto/docs/corosblp.pdf) 。
 

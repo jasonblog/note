@@ -5,21 +5,21 @@ comments: true
 language: chinese
 category: [mysql,database]
 keywords: mysql,c,api
-description: 在编写 MySQL 客户端程序时，最常见的就是如何连接以及关闭 MySQL，这里需要注意，如果使用不当将会造成内存泄漏。这里，简单介绍 MySQL 中如何通过 C 进行编程。
+description: 在編寫 MySQL 客戶端程序時，最常見的就是如何連接以及關閉 MySQL，這裡需要注意，如果使用不當將會造成內存洩漏。這裡，簡單介紹 MySQL 中如何通過 C 進行編程。
 ---
 
-在编写 MySQL 客户端程序时，最常见的就是如何连接以及关闭 MySQL，这里需要注意，如果使用不当将会造成内存泄漏。
+在編寫 MySQL 客戶端程序時，最常見的就是如何連接以及關閉 MySQL，這裡需要注意，如果使用不當將會造成內存洩漏。
 
-这里，简单介绍 MySQL 中如何通过 C 进行编程。
+這裡，簡單介紹 MySQL 中如何通過 C 進行編程。
 
 <!-- more -->
 
-## 简介
+## 簡介
 
 
-单线程环境，一般使用 `-lmysqlclient` 链接 MySQL 客户库，其中 `mysql_init()` 会自动调用 `my_library_init()` 初始化 MySQL 库，所以不需要，需要注意的是这两个函数都是非线程安全的。
+單線程環境，一般使用 `-lmysqlclient` 鏈接 MySQL 客戶庫，其中 `mysql_init()` 會自動調用 `my_library_init()` 初始化 MySQL 庫，所以不需要，需要注意的是這兩個函數都是非線程安全的。
 
-示例代码如下。
+示例代碼如下。
 
 {% highlight c %}
 void wrap_mysql_connect(MYSQL *mysql_conn)
@@ -43,9 +43,9 @@ void wrap_mysql_close(MYSQL *mysql_conn)
 }
 {% endhighlight %}
 
-多线程环境，一般调用 `-lmysqlclient_r` 安全类库，需要在各个线程中调用 `mysql_library_init()` `mysql_library_end()` 来分配和释放 MySQL 资源，或者增加线程锁保护资源，否则会造成内存泄漏。
+多線程環境，一般調用 `-lmysqlclient_r` 安全類庫，需要在各個線程中調用 `mysql_library_init()` `mysql_library_end()` 來分配和釋放 MySQL 資源，或者增加線程鎖保護資源，否則會造成內存洩漏。
 
-示例代码如下。
+示例代碼如下。
 
 {% highlight c %}
 void wrap_mysql_connect(MYSQL *mysql_conn)
@@ -77,14 +77,14 @@ void pa_mysql_close(MYSQL *mysql_conn)
 {% endhighlight %}
 
 
-在使用 MySQL 多线程时，需要注意如下的问题：
+在使用 MySQL 多線程時，需要注意如下的問題：
 
-1. `mysql_library_init()` 和 `mysql_library_end()` 必须要在同一个线程中，否则会出现 `Error in my_thread_global_end(): 1 threads didn't exit` 的报错。
-2. 当通过 `mysql_ping()` 检测到链接断开后，直接调用 `mysql_real_connect()` 重新链接会导致本次链接的部分内存没有释放。
-3. 如果设置成自动重新链接，那么在其它线程通过 `mysql_ping()` 重新链接时，同样会存在问题。
+1. `mysql_library_init()` 和 `mysql_library_end()` 必須要在同一個線程中，否則會出現 `Error in my_thread_global_end(): 1 threads didn't exit` 的報錯。
+2. 當通過 `mysql_ping()` 檢測到鏈接斷開後，直接調用 `mysql_real_connect()` 重新鏈接會導致本次鏈接的部分內存沒有釋放。
+3. 如果設置成自動重新鏈接，那麼在其它線程通過 `mysql_ping()` 重新鏈接時，同樣會存在問題。
 
 
-## 简单示例
+## 簡單示例
 
 {% highlight c %}
 #include <mysql.h>
@@ -140,7 +140,7 @@ int main(int argc, char **argv)
 }
 {% endhighlight %}
 
-然后通过如下方式进行编译。
+然後通過如下方式進行編譯。
 
 {% highlight text %}
 hello: main.c
@@ -149,36 +149,36 @@ hello: main.c
 
 ## MySQL-Python
 
-Python 中提供了统一的数据库接口，也就是 [DB-API](https://www.python.org/dev/peps/pep-0249/)，在此之前不同类型的数据库实现的接口各不相同，当更换不同数据库时需要做大量的修改，而 DB-API 实际上提供了一个标准的数据库访问接口。
+Python 中提供了統一的數據庫接口，也就是 [DB-API](https://www.python.org/dev/peps/pep-0249/)，在此之前不同類型的數據庫實現的接口各不相同，當更換不同數據庫時需要做大量的修改，而 DB-API 實際上提供了一個標準的數據庫訪問接口。
 
-该规范定义了线程安全级别、连接接口、异常、游标等等。
+該規範定義了線程安全級別、連接接口、異常、遊標等等。
 
-### MySQLdb 安装
+### MySQLdb 安裝
 
-MySQLdb 是用于 Python 链接 MySQL 数据库的模块，实现了 Python 数据库 API 规范 V2.0，基于 MySQL C API 建立。
+MySQLdb 是用於 Python 鏈接 MySQL 數據庫的模塊，實現了 Python 數據庫 API 規範 V2.0，基於 MySQL C API 建立。
 
 {% highlight text %}
------ 可以通过PIP安装
+----- 可以通過PIP安裝
 # apt-get install python-pip
 # pip install --proxy=http://your-proxy-ip:port mysql-python
 
------ 或者使用easy_install方式安装
+----- 或者使用easy_install方式安裝
 # easy_install mysql-python
 
------ 也可以通过源码安装
+----- 也可以通過源碼安裝
 # unzip MySQL-python-1.2.5.zip && cd
 # python setup.py install
 {% endhighlight %}
 
-最简单的还是通过类似 YUM APT-GET 的包管理工具安装，否则会需要安装 libmysqlclient-dev 之类的依赖库，详细内容可以参考 [PyPi MySQL-Python](https://pypi.python.org/pypi/MySQL-python) 以及 [MySQL Repositories](https://dev.mysql.com/downloads/repo/yum/) 。
+最簡單的還是通過類似 YUM APT-GET 的包管理工具安裝，否則會需要安裝 libmysqlclient-dev 之類的依賴庫，詳細內容可以參考 [PyPi MySQL-Python](https://pypi.python.org/pypi/MySQL-python) 以及 [MySQL Repositories](https://dev.mysql.com/downloads/repo/yum/) 。
 
-MySQLdb 底层会调用 `_mysql` 模块，这是一个 C 编写的模块，实际上就是对 MySQL-CAPI 的封装，安装后包保存在 `/usr/lib64/python2.6/site-packages/` 目录下。
+MySQLdb 底層會調用 `_mysql` 模塊，這是一個 C 編寫的模塊，實際上就是對 MySQL-CAPI 的封裝，安裝後包保存在 `/usr/lib64/python2.6/site-packages/` 目錄下。
 
-### 异常处理
+### 異常處理
 
-MySQLdb 会有两种异常，包括了 `MySQLdb.Warning`、`MySQLdb.Error`，不太清楚 Warning 是作什么的，不是 SQL 返回的 Warning 。
+MySQLdb 會有兩種異常，包括了 `MySQLdb.Warning`、`MySQLdb.Error`，不太清楚 Warning 是作什麼的，不是 SQL 返回的 Warning 。
 
-如果在只捕获 Warning 时，可能会发现程序并未捕获警告，这是因为 Python 程序 try...except... 默认只能捕获到错误异常，可以通过如下方式更改 Warning 的级别，让 Python 程序认为这是一个错误，从而捕捉到它。
+如果在只捕獲 Warning 時，可能會發現程序並未捕獲警告，這是因為 Python 程序 try...except... 默認只能捕獲到錯誤異常，可以通過如下方式更改 Warning 的級別，讓 Python 程序認為這是一個錯誤，從而捕捉到它。
 
 {% highlight text %}
 from warnings import filterwarnings
@@ -195,7 +195,7 @@ except MySQLdb.Error, e:
 
 
 
-## 参考
+## 參考
 
 [MySQLdb User's Guide](http://mysql-python.sourceforge.net/MySQLdb.html) 。
 
@@ -205,9 +205,9 @@ http://www.runoob.com/python/python-mysql.html
 http://www.crazyant.net/686.html
 
 
-mysql_real_escape_string() 和 mysql_real_string() 两者从入参实际上就可以做区分，前者需要链接 + 字符串，后者只需要字符串。前者会根据当前的符号集进行转换，也就是可以正常的处理一些多字符的字符集，而后者可能会在一个字符中间插入转义符。
+mysql_real_escape_string() 和 mysql_real_string() 兩者從入參實際上就可以做區分，前者需要鏈接 + 字符串，後者只需要字符串。前者會根據當前的符號集進行轉換，也就是可以正常的處理一些多字符的字符集，而後者可能會在一個字符中間插入轉義符。
 
-不过除了采用 escaping ，建议使用参数化查询。
+不過除了採用 escaping ，建議使用參數化查詢。
 
 
 MySQL timeout知多少
@@ -216,13 +216,13 @@ http://blog.csdn.net/sgbfblog/article/details/44262339
 
 
 <br><br><br><h2>OB-error totally whack</h2><p>
-MySQL 错误码包括了服务器端和客户端，而最大值在客户端，错误的最大值为 CR_MAX_ERROR。在 _mysql 中，如果大于该值则直接返回 error totally whack 错误。<br><br>
+MySQL 錯誤碼包括了服務器端和客戶端，而最大值在客戶端，錯誤的最大值為 CR_MAX_ERROR。在 _mysql 中，如果大於該值則直接返回 error totally whack 錯誤。<br><br>
 
-而 OB 错误的最大值为 5999(my_config.h)，因此只需要将判断修改为 5999 即可，此时错误类型为 OperationalError。可以通过如下的方式进行编译。
+而 OB 錯誤的最大值為 5999(my_config.h)，因此只需要將判斷修改為 5999 即可，此時錯誤類型為 OperationalError。可以通過如下的方式進行編譯。
 <pre style="font-size:0.8em; face:arial;">
 gcc _mysql.c -I/usr/include/python2.7 -I/usr/include/mysql -fPIC -shared -L/usr/bin -o _mysql.so
 </pre>
-然后将 _mysql.so 复制到 /usr/lib64/python2.6/site-packages/ 。
+然後將 _mysql.so 複製到 /usr/lib64/python2.6/site-packages/ 。
 -->
 
 

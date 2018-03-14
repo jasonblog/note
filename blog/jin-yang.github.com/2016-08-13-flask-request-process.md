@@ -1,36 +1,36 @@
 ---
-title: Flask 请求处理流程
+title: Flask 請求處理流程
 layout: post
 comments: true
 language: chinese
 category: [webserver]
-keywords: flask,请求处理
-description: 实际上与其它的 web 框架处理流程基本相同，在此介绍下在 Flask 中，一次请求到响应的处理流程。Flask 支持多线程和多进程，通常每个线程或者进程一次只会处理一个请求。当然也可以通过类似 gevent 使用协程、事件库进行优化，对于目前使用的 WebSocket 技术会有较高的优化，不过还没有仔细研究过。OK，接下来看看 Falsk 是如何处理每次的网络请求。
+keywords: flask,請求處理
+description: 實際上與其它的 web 框架處理流程基本相同，在此介紹下在 Flask 中，一次請求到響應的處理流程。Flask 支持多線程和多進程，通常每個線程或者進程一次只會處理一個請求。當然也可以通過類似 gevent 使用協程、事件庫進行優化，對於目前使用的 WebSocket 技術會有較高的優化，不過還沒有仔細研究過。OK，接下來看看 Falsk 是如何處理每次的網絡請求。
 ---
 
-实际上与其它的 web 框架处理流程基本相同，在此介绍下在 Flask 中，一次请求到响应的处理流程。Flask 支持多线程和多进程，通常每个线程或者进程一次只会处理一个请求。
+實際上與其它的 web 框架處理流程基本相同，在此介紹下在 Flask 中，一次請求到響應的處理流程。Flask 支持多線程和多進程，通常每個線程或者進程一次只會處理一個請求。
 
-当然也可以通过类似 gevent 使用协程、事件库进行优化，对于目前使用的 WebSocket 技术会有较高的优化，不过还没有仔细研究过。
+當然也可以通過類似 gevent 使用協程、事件庫進行優化，對於目前使用的 WebSocket 技術會有較高的優化，不過還沒有仔細研究過。
 
-OK，接下来看看 Falsk 是如何处理每次的网络请求。
+OK，接下來看看 Falsk 是如何處理每次的網絡請求。
 
 <!-- more -->
 
-## 简介
+## 簡介
 
-Flask 执行时有两种方式，一种是调用 `app.run()` 执行，通常用于调试阶段，默认会在 Python 文件修改之后可以自动加载，所以非常方便；另外一种是通过类似 uwsgi 程序调用执行。
+Flask 執行時有兩種方式，一種是調用 `app.run()` 執行，通常用於調試階段，默認會在 Python 文件修改之後可以自動加載，所以非常方便；另外一種是通過類似 uwsgi 程序調用執行。
 
 ### WSGI
 
-在详细介绍 Flask 处理流程之前，首先说明一下 WSGI 接口定义。
+在詳細介紹 Flask 處理流程之前，首先說明一下 WSGI 接口定義。
 
-WSGI (Web Server Gateway Interface) 定义了 Web 服务器和 Web 应用程序之间的一种简单而通用的接口，封装了接受请求、解析请求、发送响应等等的这些底层的代码和操作，使开发者可以高效的编写 Web 应用；该接口通常在 Python 中使用，Flask 也是基于此接口的。
+WSGI (Web Server Gateway Interface) 定義了 Web 服務器和 Web 應用程序之間的一種簡單而通用的接口，封裝了接受請求、解析請求、發送響應等等的這些底層的代碼和操作，使開發者可以高效的編寫 Web 應用；該接口通常在 Python 中使用，Flask 也是基於此接口的。
 
-如下是从 stackflow 找到的一个不错的图片，一图胜千言阿。
+如下是從 stackflow 找到的一個不錯的圖片，一圖勝千言阿。
 
 ![WSGI Flow(PEP 3333)]({{ site.url }}/images/python/flask-wsgi-interface.png "WSGI Flow(PEP 3333)"){: .pull-center; width='90%'}
 
-如下是一个简单的使用 WSGI 的示例：
+如下是一個簡單的使用 WSGI 的示例：
 
 {% highlight python %}
 def application(environ, start_response):
@@ -38,31 +38,31 @@ def application(environ, start_response):
     return [u'<h1>Hello World, This is WSGI!</h1>']
 {% endhighlight %}
 
-其中接口非常简单，包含了两个参数：
+其中接口非常簡單，包含了兩個參數：
 
-* environ: 包含全部 HTTP 请求信息的字典，由 WSGI Server 解析 HTTP 请求生成。
+* environ: 包含全部 HTTP 請求信息的字典，由 WSGI Server 解析 HTTP 請求生成。
 
-* start_response: 一个 WSGI Server 提供的函数，调用可以发送响应的状态码和 HTTP 报文头，函数在返回前必须调用一次 start_response() 进行设置。
+* start_response: 一個 WSGI Server 提供的函數，調用可以發送響應的狀態碼和 HTTP 報文頭，函數在返回前必須調用一次 start_response() 進行設置。
 
-另外，application() 应当返回一个可以迭代的对象，也就是 HTTP 正文；该函数由 WSGI Server 直接调用，并提供响应的参数。
+另外，application() 應當返回一個可以迭代的對象，也就是 HTTP 正文；該函數由 WSGI Server 直接調用，並提供響應的參數。
 
 ![WSGI Application]({{ site.url }}/images/python/flask-wsgi-application.jpg "WSGI Application"){: .pull-center}
 
 
-Python 内置了一个 WSGIREF 的 WSGI 服务器，不过性能不是很好，一般只用在开发环境；通常开发环境中一般使用 gunicorn、uwsgi 等。
+Python 內置了一個 WSGIREF 的 WSGI 服務器，不過性能不是很好，一般只用在開發環境；通常開發環境中一般使用 gunicorn、uwsgi 等。
 
-### Flask 调用
+### Flask 調用
 
-在此，我们一步步查看调试时的执行过程（前面说的第一种方式），也就是在此讲解的是 `app.run()` 这种方式的调用；而后者的调用实际也是殊途同归，最终执行路径会到同一代码段，下面会有说明。
+在此，我們一步步查看調試時的執行過程（前面說的第一種方式），也就是在此講解的是 `app.run()` 這種方式的調用；而後者的調用實際也是殊途同歸，最終執行路徑會到同一代碼段，下面會有說明。
 
-接下来从程序初始化、执行程序、处理请求等，一步步查看，实际简化后的调用过程如下。
+接下來從程序初始化、執行程序、處理請求等，一步步查看，實際簡化後的調用過程如下。
 
 
-## 调用 flask 之前
+## 調用 flask 之前
 
-实际上就是在加载程序，然后调用 run() 函数之前。
+實際上就是在加載程序，然後調用 run() 函數之前。
 
-首先会从 flask 包导入了 Flask 类，该类位于源码的 app.py 文件，基本上就是简单的初始化一些参数；然后，调用该类中的 run() 方法，对于 Flask 类的源码简化后如下。
+首先會從 flask 包導入了 Flask 類，該類位於源碼的 app.py 文件，基本上就是簡單的初始化一些參數；然後，調用該類中的 run() 方法，對於 Flask 類的源碼簡化後如下。
 
 {% highlight python %}
 class Flask(_PackageBoundObject):
@@ -71,11 +71,11 @@ class Flask(_PackageBoundObject):
         run_simple(host, port, self, **options)
 {% endhighlight %}
 
-可以看到，实际执行的是 werkzeug 库中的 run_simple() 函数，该函数在 serving.py 文件中进行定义，该函数非常简单，最终调用的是内嵌的 inner() 函数。
+可以看到，實際執行的是 werkzeug 庫中的 run_simple() 函數，該函數在 serving.py 文件中進行定義，該函數非常簡單，最終調用的是內嵌的 inner() 函數。
 
-另外，实际上在 Flask 中可以设置为在模块改变之后自动重新加载，这也就是默认值，该功能实际会调用 run_with_reloader() 函数，最终仍然调用 inner() 函数。
+另外，實際上在 Flask 中可以設置為在模塊改變之後自動重新加載，這也就是默認值，該功能實際會調用 run_with_reloader() 函數，最終仍然調用 inner() 函數。
 
-接下来看看 inner() 函数，如下。
+接下來看看 inner() 函數，如下。
 
 {% highlight python %}
 def inner():
@@ -92,11 +92,11 @@ def inner():
     srv.serve_forever()
 {% endhighlight %}
 
-该函数中，通过 make_server() 函数调用，返回 ThreadedWSGIServer()、ForkingWSGIServer()、BaseWSGIServer() 中的一个对象实例，从名称就可以看出来，分别会使用线程、进程做并发。
+該函數中，通過 make_server() 函數調用，返回 ThreadedWSGIServer()、ForkingWSGIServer()、BaseWSGIServer() 中的一個對象實例，從名稱就可以看出來，分別會使用線程、進程做併發。
 
-创建完成之后，就会调用 server_forever() 函数，从名称就可以看出，基本就是一直运行程序，等待请求、处理请求、发送响应；接下来看看其具体的实现。
+創建完成之後，就會調用 server_forever() 函數，從名稱就可以看出，基本就是一直運行程序，等待請求、處理請求、發送響應；接下來看看其具體的實現。
 
-最终会使用 BaseHTTPServer 中的 HTTPServer 模块，这是一个通用的模块，会调用 WSGIRequestHandler 中的 handle_one_request() 函数，而实际上，最终会调用 run_wsgi() 函数。
+最終會使用 BaseHTTPServer 中的 HTTPServer 模塊，這是一個通用的模塊，會調用 WSGIRequestHandler 中的 handle_one_request() 函數，而實際上，最終會調用 run_wsgi() 函數。
 
 {% highlight python %}
 def run_wsgi(self):
@@ -116,11 +116,11 @@ def run_wsgi(self):
 
     def execute(app):
         application_iter = app(environ, start_response)
-        # environ是为了给request传递请求的
-        # start_response主要是增加响应头和状态码，最后需要werkzeug发送请求
+        # environ是為了給request傳遞請求的
+        # start_response主要是增加響應頭和狀態碼，最後需要werkzeug發送請求
         try:
-            for data in application_iter: #根据wsgi规范，app返回的是一个序列
-                write(data) #发送结果
+            for data in application_iter: #根據wsgi規範，app返回的是一個序列
+                write(data) #發送結果
             if not headers_sent:
                 write(b'')
         finally:
@@ -134,26 +134,26 @@ def run_wsgi(self):
     ... ...
 {% endhighlight %}
 
-到此的话，基本就到了 wsgi 规范规定的接口规范，也就是说 app 需要实现一个接口，接受两个参数，也即函数声明是 application(environ, start_response) 。
+到此的話，基本就到了 wsgi 規範規定的接口規範，也就是說 app 需要實現一個接口，接受兩個參數，也即函數聲明是 application(environ, start_response) 。
 
-可以看到，app.run() 模式会调用 BaseHTTPServer 模块处理请求，然后交给实际 wsgi 接口定义的接口。不过，这种方式只适用于调试阶段，BaseHTTPServer 没有进行很好的优化。
+可以看到，app.run() 模式會調用 BaseHTTPServer 模塊處理請求，然後交給實際 wsgi 接口定義的接口。不過，這種方式只適用於調試階段，BaseHTTPServer 沒有進行很好的優化。
 
 
-## 殊途同归
+## 殊途同歸
 
-如上所述，到此为止，实际上就到了 app.run() 和 uwsgi 都调用的接口，也就是 wsgi 的规范中定义的 API 了，最终就到了 Flask 中定义的对象了，也即 Flask 类的定义。
+如上所述，到此為止，實際上就到了 app.run() 和 uwsgi 都調用的接口，也就是 wsgi 的規範中定義的 API 了，最終就到了 Flask 中定義的對象了，也即 Flask 類的定義。
 
-对于 flask 而言，实际是通过定义一个类实现的，也就是 app.py 文件中的 class Flask，而在该类中提供了 \_\_call\_\_() 函数来适配 wsgi 规范。
+對於 flask 而言，實際是通過定義一個類實現的，也就是 app.py 文件中的 class Flask，而在該類中提供了 \_\_call\_\_() 函數來適配 wsgi 規範。
 
 {% highlight python %}
 class Flask(_PackageBoundObject):
-    def __call__(self, environ, start_response):   # wsgi定义的入口
+    def __call__(self, environ, start_response):   # wsgi定義的入口
         """Shortcut for :attr:`wsgi_app`."""
         return self.wsgi_app(environ, start_response)
 
     def wsgi_app(self, environ, start_response):
-        ctx = self.request_context(environ)    # 通过传入的环境变量构建request信息
-        ctx.push()    # 注意：这个ctx就是所说的同时有request,session属性的上下文
+        ctx = self.request_context(environ)    # 通過傳入的環境變量構建request信息
+        ctx.push()    # 注意：這個ctx就是所說的同時有request,session屬性的上下文
         error = None
         try:
             try:
@@ -171,46 +171,46 @@ class Flask(_PackageBoundObject):
         return RequestContext(self, environ)
 {% endhighlight %}
 
-如山所示，实际上在 wsgi_app() 中就是 Flask 的主要处理流程了，而且代码非常清晰，包括了上下文的生成，请求的分发，返回请求的响应。
+如山所示，實際上在 wsgi_app() 中就是 Flask 的主要處理流程了，而且代碼非常清晰，包括了上下文的生成，請求的分發，返回請求的響應。
 
-其中，比较重要的一个就是请求上下文的生成，也就是 request_context() 以及 push() 到栈中，其中的 class RequestContext 就是保持一个请求的上下文的变量，在请求到来之前 _request_ctx_stack 一直是空的，当请求到来的时候会调用 ctx.push() 向栈中添加上下文信息。
+其中，比較重要的一個就是請求上下文的生成，也就是 request_context() 以及 push() 到棧中，其中的 class RequestContext 就是保持一個請求的上下文的變量，在請求到來之前 _request_ctx_stack 一直是空的，當請求到來的時候會調用 ctx.push() 向棧中添加上下文信息。
 
-在每次请求调用结束后，也就是在 wsgi_app() 中的 finally 中会调用 ctx.auto_pop(error)，该函数中会根据情况判断是否清除放在 _request_ctx_stack 中的 ctx 。
+在每次請求調用結束後，也就是在 wsgi_app() 中的 finally 中會調用 ctx.auto_pop(error)，該函數中會根據情況判斷是否清除放在 _request_ctx_stack 中的 ctx 。
 
-更加详细的内容可以参考 [Flask 上下文理解](/blog/flask-context.html) 。
+更加詳細的內容可以參考 [Flask 上下文理解](/blog/flask-context.html) 。
 
 
 
-## 请求分发
+## 請求分發
 
-书接上文，接下来是处理请求的分发。
+書接上文，接下來是處理請求的分發。
 
 {% highlight python %}
 def full_dispatch_request(self):
-    # 1. 首先会判断是否为第一次执行，通过before_first_request()注册函数
-    self.try_trigger_before_first_request_functions() # 注意只在第一个请求调用
+    # 1. 首先會判斷是否為第一次執行，通過before_first_request()註冊函數
+    self.try_trigger_before_first_request_functions() # 注意只在第一個請求調用
     try:
         request_started.send(self)
-        # 2. 一些预处理，包括url_value_preprocessor()、before_request()
+        # 2. 一些預處理，包括url_value_preprocessor()、before_request()
         rv = self.preprocess_request()
         if rv is None:
-            # 3. 一般上述的函数不会返回值，通常会调用如下函数
+            # 3. 一般上述的函數不會返回值，通常會調用如下函數
             rv = self.dispatch_request()
     except Exception as e:
         rv = self.handle_user_exception(e)
-    # 4. 通过返回的值生成响应
+    # 4. 通過返回的值生成響應
     response = self.make_response(rv)
-    # 5. 处理after_request()请求
+    # 5. 處理after_request()請求
     response = self.process_response(response)
     request_finished.send(self, response=response)
     return response
 {% endhighlight %}
 
-在 dispatch_request() 函数中就会根据之前定义的 view 调用相应的函数处理。另外，在该函数之外，也就是弹出上下文的时候会调用 teardown_reques() 注册的函数。
+在 dispatch_request() 函數中就會根據之前定義的 view 調用相應的函數處理。另外，在該函數之外，也就是彈出上下文的時候會調用 teardown_reques() 註冊的函數。
 
 ### dispatch_request()
 
-在该函数中会根据 URL 进行实际的请求分发，异常处理在上述的 full_dispatch_request() 中处理。
+在該函數中會根據 URL 進行實際的請求分發，異常處理在上述的 full_dispatch_request() 中處理。
 
 {% highlight python %}
 def dispatch_request(self):
@@ -228,26 +228,26 @@ def dispatch_request(self):
 {% endhighlight %}
 
 
-## 钩子函数
+## 鉤子函數
 
-在上述的处理流程中实际上可以之间看出来，在此简单总结下可以使用的钩子函数。
+在上述的處理流程中實際上可以之間看出來，在此簡單總結下可以使用的鉤子函數。
 
 * before_first_request<br>
-在第一次请求时会调用，后续的所有请求都不会在调用该函数，除非重新初始化。
+在第一次請求時會調用，後續的所有請求都不會在調用該函數，除非重新初始化。
 
 * before_request<br>
-每次处理请求前会调用该函数，包括了第一次请求。
+每次處理請求前會調用該函數，包括了第一次請求。
 
 * after_request<br>
-如果请求没有异常，每次请求之后会调用的函数。
+如果請求沒有異常，每次請求之後會調用的函數。
 
 * teardown_request<br>
-即使遇到了异常，每次请求之后也会调用的函数。
+即使遇到了異常，每次請求之後也會調用的函數。
 
 * teardown_appcontext<br>
-会在应用退出的时候被调用。
+會在應用退出的時候被調用。
 
-结下来我们看看这些钩子函数是如何使用的。
+結下來我們看看這些鉤子函數是如何使用的。
 
 
 {% highlight python %}
@@ -289,27 +289,27 @@ if __name__ == '__main__':
 
 
 <!--
-### 请求开始
+### 請求開始
 
-通过 request_started.send(self) 发送请求开始信号，告知 subscriber 请求开始了。
+通過 request_started.send(self) 發送請求開始信號，告知 subscriber 請求開始了。
 
-### 预处理
+### 預處理
 
 self.preprocess_request()
 
 
-### 将请求返回值构造响应类
+### 將請求返回值構造響應類
 
 self.make_response(rv)
 
 
-### 请求结束
+### 請求結束
 
-通过 request_finished.send(self, response=response) 发送请求结束信号。
+通過 request_finished.send(self, response=response) 發送請求結束信號。
 
-### 响应客户端
+### 響應客戶端
 
-通过 response(environ, start_response) 函数将响应发送给客户端。
+通過 response(environ, start_response) 函數將響應發送給客戶端。
 -->
 
 

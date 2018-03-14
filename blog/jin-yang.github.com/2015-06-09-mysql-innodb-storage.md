@@ -1,30 +1,30 @@
 ---
-title: InnoDB 存储空间
+title: InnoDB 存儲空間
 layout: post
 comments: true
 language: chinese
 category: [mysql,database]
-keywords: mysql,innodb,表空间,table space
-description: InnoDB 表空间 (table space) 用来组织存储保存的数据，本文中对表空间管理进行分析。
+keywords: mysql,innodb,表空間,table space
+description: InnoDB 表空間 (table space) 用來組織存儲保存的數據，本文中對錶空間管理進行分析。
 ---
 
-InnoDB 表空间 (table space) 用来组织存储保存的数据，本文中对表空间管理进行分析。
+InnoDB 表空間 (table space) 用來組織存儲保存的數據，本文中對錶空間管理進行分析。
 
 <!-- more -->
 
-## 简介
+## 簡介
 
-InnoDB 实现的表空间是在文件系统之上又构建的一层逻辑存储的空间管理，每个表空间在逻辑上划分为了如下的几层结构，依次包括 table space、segment inode、extent、page、record 。
+InnoDB 實現的表空間是在文件系統之上又構建的一層邏輯存儲的空間管理，每個表空間在邏輯上劃分為瞭如下的幾層結構，依次包括 table space、segment inode、extent、page、record 。
 
 ![innodb files](/images/databases/mysql/innodb-tablespace.png){: .pull-center }
 
-如图所示，InnoDB 最小读写单位是 Page；为了高效管理，又将连续的 64 个页称为 "extent"，而且在一个表空间中，通常是以 "extent" 为单位进行资源分配。
+如圖所示，InnoDB 最小讀寫單位是 Page；為了高效管理，又將連續的 64 個頁稱為 "extent"，而且在一個表空間中，通常是以 "extent" 為單位進行資源分配。
 
-除此之外，还在 extents 上层添加了一个 segment inode 管理，最多可以管理 256 个 extents。如果 page 采用默认的 16K，那么对应的 extent 大小为 64*16K=1M，而 segment 对应 256M 。
+除此之外，還在 extents 上層添加了一個 segment inode 管理，最多可以管理 256 個 extents。如果 page 採用默認的 16K，那麼對應的 extent 大小為 64*16K=1M，而 segment 對應 256M 。
 
-### 参数设置
+### 參數設置
 
-首先确认几个与表空间管理相关的参数，也就是打开独立表空间，且采用默认的页大小为 16K 。
+首先確認幾個與表空間管理相關的參數，也就是打開獨立表空間，且採用默認的頁大小為 16K 。
 
 {% highlight text %}
 mysql> SHOW VARIABLES LIKE 'innodb_file_per_table';
@@ -46,24 +46,24 @@ mysql> SHOW VARIABLES LIKE 'innodb_page_size';
 
 ### 工具
 
-在查看表空间时可以使用几个常用的工具，可以参考 [innodb_page_info](/reference/databases/mysql/innodb_page_info) 。
+在查看錶空間時可以使用幾個常用的工具，可以參考 [innodb_page_info](/reference/databases/mysql/innodb_page_info) 。
 
 {% highlight text %}
------ 查看每个页的详细信息
+----- 查看每個頁的詳細信息
 $ innodb_page_info -v dept_emp.ibd
 
 {% endhighlight %}
 
 
-## 文件格式详解
+## 文件格式詳解
 
-InnoDB 的存储文件格式如上图所示，我们直接从大到小介绍其结构，依次从 space file -> segment -> extent -> page -> row 逐一介绍。
+InnoDB 的存儲文件格式如上圖所示，我們直接從大到小介紹其結構，依次從 space file -> segment -> extent -> page -> row 逐一介紹。
 
 ### Space File 格式
 
-Space File 主要包括了两类：系统空间 (system space) 和 表空间 (Per-table space files)。一个表空间文件，实际就是一系列 Pages 的组合 (最大 2<sup>32</sup>)，为了方便管理，你可以理解为做了三级的划分，分别是 segment、extent、page 。
+Space File 主要包括了兩類：系統空間 (system space) 和 表空間 (Per-table space files)。一個表空間文件，實際就是一系列 Pages 的組合 (最大 2<sup>32</sup>)，為了方便管理，你可以理解為做了三級的劃分，分別是 segment、extent、page 。
 
-其基本结构如下所示：
+其基本結構如下所示：
 
 {% highlight text %}
 0 KiB   +---------------------------------------------------+
@@ -95,7 +95,7 @@ Space File 主要包括了两类：系统空间 (system space) 和 表空间 (Pe
    v    +---------------------------------------------------+
 {% endhighlight %}
 
-对于 Page0 肯定是 "File SPace HeaDeR"，其中维护了 extent 相关的信息，例如那些是空闲的、满的、有碎片的 (fragmented)。在 FSP_HDR 页中，只能维护 256 个 extent 相关的信息 (16,384 pages==256MiB)，这也就导致每隔 256M 都需要有一个 XDES 来管理接下来的 extent 元信息。
+對於 Page0 肯定是 "File SPace HeaDeR"，其中維護了 extent 相關的信息，例如那些是空閒的、滿的、有碎片的 (fragmented)。在 FSP_HDR 頁中，只能維護 256 個 extent 相關的信息 (16,384 pages==256MiB)，這也就導致每隔 256M 都需要有一個 XDES 來管理接下來的 extent 元信息。
 
 <!--
 The third page in each space (page 2) will be an INODE page, which is used to store lists related to file segments (groupings of extents plus an array of singly-allocated “fragment” pages). Each INODE page can store 85 INODE entries, and each index requires two INODE entries. (A more detailed discussion of INODE entries and file segments is reserved for a future post.)
@@ -104,9 +104,9 @@ Alongside each FSP_HDR or XDES page will also be an IBUF_BITMAP page, which is u
 -->
 
 
-#### 系统空间
+#### 系統空間
 
-在系统空间中的固定位置保存了与 InnoDB 相关的关键信息，其中的 FSP_HDR、IBUF_BITMAP、INODE 三个页都是相同的，只是之后的页会有区别。
+在系統空間中的固定位置保存了與 InnoDB 相關的關鍵信息，其中的 FSP_HDR、IBUF_BITMAP、INODE 三個頁都是相同的，只是之後的頁會有區別。
 
 {% highlight text %}
 0 KiB    +---------------------------------------------------+
@@ -140,7 +140,7 @@ Page 192 +---------------------------------------------------+
    v     +---------------------------------------------------+
 {% endhighlight %}
 <!--
-Page3 以下的页定义为：
+Page3 以下的頁定義為：
 
 Page 3, type SYS: Headers and bookkeeping information related to insert buffering.
 Page 4, type INDEX: The root page of the index structure used for insert buffering.
@@ -153,9 +153,9 @@ Pages 128-191: The second block of the double write buffer.
 All other pages are allocated on an as-needed basis to indexes, rollback segments, undo logs, etc.
 -->
 
-#### 表空间 Per-table Space Files
+#### 表空間 Per-table Space Files
 
-这需要打开 innodb_file_per_table 变量之后才会生效。
+這需要打開 innodb_file_per_table 變量之後才會生效。
 
 {% highlight text %}
 0 KiB    +---------------------------------------------------+
@@ -190,7 +190,7 @@ Since most of InnoDB’s bookkeeping structures are stored in the system space, 
 
 ### Segment
 
-在 segment 中保存了与 extent 相关的元数据，实际上是在空间文件的固定位置保存了 extent 的元数据信息，其格式为 FSP_HDR/XDES，其结构也非常简单，在 Page Body 中保存了 256 个 extent descriptors 。
+在 segment 中保存了與 extent 相關的元數據，實際上是在空間文件的固定位置保存了 extent 的元數據信息，其格式為 FSP_HDR/XDES，其結構也非常簡單，在 Page Body 中保存了 256 個 extent descriptors 。
 
 {% highlight text %}
 00000 +---------------------------------------------------+
@@ -222,17 +222,17 @@ Since most of InnoDB’s bookkeeping structures are stored in the system space, 
 16384 +---------------------------------------------------+
 {% endhighlight %}
 
-该页的类型同样在 fil0fil.h 中定义。
+該頁的類型同樣在 fil0fil.h 中定義。
 
 {% highlight c %}
 #define FIL_PAGE_INODE      3   /*!< Index node */
 {% endhighlight %}
 
-该类型的页定义为 inode，这与文件系统中的 inode 概念有点混淆，实际上与文件系统中的概念完全不同，在 InnoDB 中只是描述了与 extent 相关的信息。
+該類型的頁定義為 inode，這與文件系統中的 inode 概念有點混淆，實際上與文件系統中的概念完全不同，在 InnoDB 中只是描述了與 extent 相關的信息。
 
 ### Extents and extent descriptors
 
-extent 是为了更加方便的管理 page，也可以称为簇或者区，对于 16KiB 大小的 page 一个 extent 管理 64 个，其定义在 fsp0types.h 文件中定义，不同大小的页，对应的 extent 也有所不同。
+extent 是為了更加方便的管理 page，也可以稱為簇或者區，對於 16KiB 大小的 page 一個 extent 管理 64 個，其定義在 fsp0types.h 文件中定義，不同大小的頁，對應的 extent 也有所不同。
 
 {% highlight c %}
 /** File space extent size in pages
@@ -252,7 +252,7 @@ page size | file space extent size
                 (4194304U / UNIV_PAGE_SIZE))))
 {% endhighlight %}
 
-extent 是通过一个叫簇描述符 (extent descriptor) 来表示的，对应了上述的 XDES Entry，详细格式如下：
+extent 是通過一個叫簇描述符 (extent descriptor) 來表示的，對應了上述的 XDES Entry，詳細格式如下：
 
 {% highlight text %}
 N    +------------------------------------+
@@ -267,7 +267,7 @@ N+24 +------------------------------------+
 N+40 +------------------------------------+
 {% endhighlight %}
 
-详细的宏定义在 fsp0fsp.h 头文件中。
+詳細的宏定義在 fsp0fsp.h 頭文件中。
 
 {% highlight c %}
 #define XDES_ID                            0
@@ -278,15 +278,15 @@ N+40 +------------------------------------+
 #define XDES_SIZE (XDES_BITMAP + UT_BITS_IN_BYTES(FSP_EXTENT_SIZE * XDES_BITS_PER_PAGE))
 {% endhighlight %}
 
-每个 extent descriptor 会管理 64 个 pages，最后的 16Bytes 用来标识这 64 个 page 的状态，如空闲、半空闲，主要目的是为了能够快速从这 64 个 page 中找到空闲的 page。
+每個 extent descriptor 會管理 64 個 pages，最後的 16Bytes 用來標識這 64 個 page 的狀態，如空閒、半空閒，主要目的是為了能夠快速從這 64 個 page 中找到空閒的 page。
 
 
 <!--
-XDES_ID 存放该extent所属segment的id
+XDES_ID 存放該extent所屬segment的id
 
-XDES_FLST_NODE实际是一个文件链表节点，这样可以把extent descriptor组织成一个链表，实际上我们在extent更上层管理extent时会把extent链在一起组成链表，那么实际链表的节点就是extent descriptor的这个字段，比如某个segment的extent free list和表空间的extent frag list都是通过这个节点组织extent链表的，这个后续详细说明
+XDES_FLST_NODE實際是一個文件鏈表節點，這樣可以把extent descriptor組織成一個鏈表，實際上我們在extent更上層管理extent時會把extent鏈在一起組成鏈表，那麼實際鏈表的節點就是extent descriptor的這個字段，比如某個segment的extent free list和表空間的extent frag list都是通過這個節點組織extent鏈表的，這個後續詳細說明
 
-XDES_STATE标识该extent descriptor所代表的extent的所属状态，定义如下：
+XDES_STATE標識該extent descriptor所代表的extent的所屬狀態，定義如下：
 
 /* States of a descriptor */
 #define    XDES_FREE     1    /* extent is in free list of space */
@@ -298,25 +298,25 @@ XDES_STATE标识该extent descriptor所代表的extent的所属状态，定义�
 
 ### Page
 
-页是 InnoDB 中的最小的逻辑存储单位，很多基本操作都是以页为单位进行，在 ```include/univ.i``` 文件中通过宏指定，默认大小是 16K。
+頁是 InnoDB 中的最小的邏輯存儲單位，很多基本操作都是以頁為單位進行，在 ```include/univ.i``` 文件中通過宏指定，默認大小是 16K。
 
 {% highlight c %}
 #define UNIV_PAGE_SIZE      ((ulint) srv_page_size)
 {% endhighlight %}
 
-而变量 ```srv_page_size``` 的大小，实际对应了 ```innodb_page_size``` 参数。与页相关的宏定义基本都在 fil0fil.h 头文件中，其中定义了多种页类型，其中比较常见的举例如下：
+而變量 ```srv_page_size``` 的大小，實際對應了 ```innodb_page_size``` 參數。與頁相關的宏定義基本都在 fil0fil.h 頭文件中，其中定義了多種頁類型，其中比較常見的舉例如下：
 
 {% highlight c %}
-#define FIL_PAGE_INDEX      17855    // 数据索引页
-#define FIL_PAGE_UNDO_LOG   2        // 事务回滚日志页
-#define FIL_PAGE_INODE      3        // inode页，用来管理segment
+#define FIL_PAGE_INDEX      17855    // 數據索引頁
+#define FIL_PAGE_UNDO_LOG   2        // 事務回滾日誌頁
+#define FIL_PAGE_INODE      3        // inode頁，用來管理segment
 {% endhighlight %}
 
-如上所述，默认每个页的大小为 16K=16384Byte，每个页通过一个 int32 类型的值标识其在表空间中页的偏移量，也就是说默认的表空间最大是 2<sup>32</sup> x 16 KiB = 64 TiB 。
+如上所述，默認每個頁的大小為 16K=16384Byte，每個頁通過一個 int32 類型的值標識其在表空間中頁的偏移量，也就是說默認的表空間最大是 2<sup>32</sup> x 16 KiB = 64 TiB 。
 
-#### 页格式
+#### 頁格式
 
-所有 page 的格式都是相同的，由 page_header、page_body、page_trailer 三部分组成。
+所有 page 的格式都是相同的，由 page_header、page_body、page_trailer 三部分組成。
 
 {% highlight text %}
 00000 +-------------------------------------------+
@@ -332,20 +332,20 @@ XDES_STATE标识该extent descriptor所代表的extent的所属状态，定义�
 16384 +-------------------------------------------+
 {% endhighlight %}
 
-如上，包括了 page 的头信息，占 38 个字节，像页类型这样的元数据信息会保存在该字段中；page trailer 也就是页末尾的最后 8 个字节；剩余中间的部分作为 page body，也即页的实体信息，对这部分来说不同的页类型包含了不同的内容。
+如上，包括了 page 的頭信息，佔 38 個字節，像頁類型這樣的元數據信息會保存在該字段中；page trailer 也就是頁末尾的最後 8 個字節；剩餘中間的部分作為 page body，也即頁的實體信息，對這部分來說不同的頁類型包含了不同的內容。
 
-而对应页内各个 field 的大小，是在 fil0fil.h 头文件中通过宏进行定义。需要注意的是，很大一部分宏，实际定义的是在页内的偏移量，可以参考其注释。
+而對應頁內各個 field 的大小，是在 fil0fil.h 頭文件中通過宏進行定義。需要注意的是，很大一部分宏，實際定義的是在頁內的偏移量，可以參考其註釋。
 
 {% highlight c %}
 #define FIL_PAGE_DATA       38  /*!< start of the data on the page */
 #define FIL_PAGE_DATA_END   8   /*!< size of the page trailer */
 {% endhighlight %}
 
-页中其它的偏移量同样在 fil0fil.h 头文件中定义。
+頁中其它的偏移量同樣在 fil0fil.h 頭文件中定義。
 
 #### Header+Tailer
 
-其中，Header 和 Tailer 中保存元信息的详细内容如下所示：
+其中，Header 和 Tailer 中保存元信息的詳細內容如下所示：
 
 {% highlight text %}
 00000 +-------------------------------------------+
@@ -375,40 +375,40 @@ XDES_STATE标识该extent descriptor所代表的extent的所属状态，定义�
 16384 +-------------------------------------------+
 {% endhighlight %}
 
-在 Page Header 中，各个字段的占用空间以及大致的含义如下。
+在 Page Header 中，各個字段的佔用空間以及大致的含義如下。
 
 {% highlight text %}
-FIL_PAGE_SPACE_OR_CHKSUM    # 4，对于大于4.0.14的版本，存储的为checksum，否则为0
-FIL_PAGE_OFFSET             # 4，页号page no，一般是在表空间的物理偏移量
-FIL_PAGE_PREV               # 4，前一页的page no，B+tree的叶子节点是通过链表串起来，很多类型的页不需要该值
-FIL_PAGE_NEXT               # 4，后一页的page no
-FIL_PAGE_LSN                # 8，更改记录时最大的redo log lsn，一般用在redo log恢复时使用
-FIL_PAGE_TYPE               # 2，page的类型
-FIL_PAGE_FILE_FLUSH_LSN     # 8，space文件最后被flush是的redo log lsn，只在第一页中设置
-FIL_PAGE_SPACE_ID           # 4，最后被归档的archive log file序号，同样只在space的第一个页中被设置
+FIL_PAGE_SPACE_OR_CHKSUM    # 4，對於大於4.0.14的版本，存儲的為checksum，否則為0
+FIL_PAGE_OFFSET             # 4，頁號page no，一般是在表空間的物理偏移量
+FIL_PAGE_PREV               # 4，前一頁的page no，B+tree的葉子節點是通過鏈表串起來，很多類型的頁不需要該值
+FIL_PAGE_NEXT               # 4，後一頁的page no
+FIL_PAGE_LSN                # 8，更改記錄時最大的redo log lsn，一般用在redo log恢復時使用
+FIL_PAGE_TYPE               # 2，page的類型
+FIL_PAGE_FILE_FLUSH_LSN     # 8，space文件最後被flush是的redo log lsn，只在第一頁中設置
+FIL_PAGE_SPACE_ID           # 4，最後被歸檔的archive log file序號，同樣只在space的第一個頁中被設置
 {% endhighlight %}
 
-这里的页号 (page no) 实际上是相对于整个表空间的偏移量，表空间可以包含有多个文件，而这个页号是连续的。在各个页的头部中，还保存了前后页的 page no，从而形成了类似双像链表的结构。
+這裡的頁號 (page no) 實際上是相對於整個表空間的偏移量，表空間可以包含有多個文件，而這個頁號是連續的。在各個頁的頭部中，還保存了前後頁的 page no，從而形成了類似雙像鏈表的結構。
 
-不同类型的页对应 body 部分的数据结构是不同的，因此需要根据 header 中的页类型来解析该页的数据。另外，页号会在页初始化完成之后赋值，可以用来校验通过偏移量读取的页是否正确。
+不同類型的頁對應 body 部分的數據結構是不同的，因此需要根據 header 中的頁類型來解析該頁的數據。另外，頁號會在頁初始化完成之後賦值，可以用來校驗通過偏移量讀取的頁是否正確。
 
-对于 tailer 来说，高 4 位是用来存储 FIL_PAGE_LSN 的部分信息，低 4 位用来表示 page 页中数据老的 checksum 信息。
+對於 tailer 來說，高 4 位是用來存儲 FIL_PAGE_LSN 的部分信息，低 4 位用來表示 page 頁中數據老的 checksum 信息。
 
 #### checksum
 
-在 5.6.3 中，引入了 [innodb_checksum_algorithm](http://dev.mysql.com/doc/refman/en/innodb-parameters.html#sysvar_innodb_checksum_algorithm) 这一变量，用于设置 checksum 的计算方式，默认采用的是 INNODB 。其中 checksum 分别在 header 和 tailer 保存，在 tailer 中保存的是老的方式，后面将会被取消掉。
+在 5.6.3 中，引入了 [innodb_checksum_algorithm](http://dev.mysql.com/doc/refman/en/innodb-parameters.html#sysvar_innodb_checksum_algorithm) 這一變量，用於設置 checksum 的計算方式，默認採用的是 INNODB 。其中 checksum 分別在 header 和 tailer 保存，在 tailer 中保存的是老的方式，後面將會被取消掉。
 
 
 
 ## Index
 
-在 InnoDB 中，所有的都是通过 Index 表示，包括主表和索引表，该类型的页同样在 fil0fil.h 中定义。
+在 InnoDB 中，所有的都是通過 Index 表示，包括主表和索引表，該類型的頁同樣在 fil0fil.h 中定義。
 
 {% highlight c %}
 #define FIL_PAGE_INDEX      17855   /*!< B-tree node */
 {% endhighlight %}
 
-该页的结构如下。
+該頁的結構如下。
 
 {% highlight text %}
 00000 +-------------------------------+
@@ -455,7 +455,7 @@ FIL_PAGE_SPACE_ID           # 4，最后被归档的archive log file序号，同
 
 #### System Records
 
-每个 INDEX 页都包含两个被称为 infimum 和 supremum 的系统记录，而且其偏移量是固定的，分别为 offset 99 以及 offset 112 。
+每個 INDEX 頁都包含兩個被稱為 infimum 和 supremum 的系統記錄，而且其偏移量是固定的，分別為 offset 99 以及 offset 112 。
 
 {% highlight text %}
 094 +------------------------------------+
@@ -491,7 +491,7 @@ rem0rec.cc
 
 ## Record
 
-记录头信息如下。
+記錄頭信息如下。
 
 {% highlight text %}
 094 +------------------------------------+
@@ -523,21 +523,21 @@ N   +------------------------------------+
 
 
 
-其中 index page body 由 5 部分组成：body header、recorders、free recorders、free heap 和 page directory，其中 body header 的结构定义如下：
+其中 index page body 由 5 部分組成：body header、recorders、free recorders、free heap 和 page directory，其中 body header 的結構定義如下：
 
 
 
 
-## 实践
+## 實踐
 
-如上，介绍了 InnoDB 存储的数据格式，接下来实际查看下；本文中在测试的时候，使用的工具可以参考 [innodb_ruby](https://github.com/jeremycole/innodb_ruby) 。
+如上，介紹了 InnoDB 存儲的數據格式，接下來實際查看下；本文中在測試的時候，使用的工具可以參考 [innodb_ruby](https://github.com/jeremycole/innodb_ruby) 。
 
 {% highlight text %}
 ----- 新建表
 mysql> create table test.foobar (id int);
 Query OK, 0 rows affected (0.05 sec)
 
------ 新建之后，直接查看状态
+----- 新建之後，直接查看狀態
 $ innodb_space -f test/foobar.ibd space-page-type-regions
 start       end         count       type
 0           0           1           FSP_HDR
@@ -547,7 +547,7 @@ start       end         count       type
 4           5           2           FREE (ALLOCATED)
 {% endhighlight %}
 
-此时，只分配了标准的空间页，总共 6 Pages，包括了 FSP_HDR、IBUF_BITMAP、INODE、ROOT INDEX page，而且还有两个已经分配的未使用的页。
+此時，只分配了標準的空間頁，總共 6 Pages，包括了 FSP_HDR、IBUF_BITMAP、INODE、ROOT INDEX page，而且還有兩個已經分配的未使用的頁。
 
 
 
@@ -555,11 +555,11 @@ start       end         count       type
 
 
 
-## 参考
+## 參考
 
-关于表空间的介绍可以参考 PPT [InnoDB Internals: InnoDB File Formats and Source Code Structure](/reference/mysql/InnoDBFileFormat.pdf) 的介绍，上面的很多图片是直接从该 PPT 复制下来的。
+關於表空間的介紹可以參考 PPT [InnoDB Internals: InnoDB File Formats and Source Code Structure](/reference/mysql/InnoDBFileFormat.pdf) 的介紹，上面的很多圖片是直接從該 PPT 複製下來的。
 
-关于 InnoDB 的文件格式，详细内容可以参考 Jeremy Cole 的一系列文章 [InnoDB internals, structures, and behavior](https://blog.jcole.us/innodb/) ，对文件存储格式讲解的十分详细。
+關於 InnoDB 的文件格式，詳細內容可以參考 Jeremy Cole 的一系列文章 [InnoDB internals, structures, and behavior](https://blog.jcole.us/innodb/) ，對文件存儲格式講解的十分詳細。
 
 
 
@@ -572,7 +572,7 @@ http://blog.csdn.net/yuanrxdu/article/details/4221598
 http://www.linuxidc.com/Linux/2016-03/128827.htm
 http://www.cnblogs.com/zhoujinyi/archive/2012/10/17/2726462.html
 
-innodb文件类型格式整理，故障恢复
+innodb文件類型格式整理，故障恢復
 https://github.com/chhabhaiya/undrop-for-innodb
 http://www.askmaclean.com/archives/mysql-recover-innodb.html
 
@@ -580,7 +580,7 @@ http://www.askmaclean.com/archives/mysql-recover-innodb.html
 Chapter 22 InnoDB Storage Engine
 https://dev.mysql.com/doc/internals/en/innodb.html
 
-MySQL · 引擎特性 · InnoDB文件系统管理
+MySQL · 引擎特性 · InnoDB文件系統管理
 https://yq.aliyun.com/articles/5586
 -->
 

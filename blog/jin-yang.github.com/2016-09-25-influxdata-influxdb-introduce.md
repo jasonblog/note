@@ -4,82 +4,82 @@ layout: post
 comments: true
 language: chinese
 category: [linux,golang,database]
-keywords: influxdb,telegraf,influxdata,时序数据库
-description: InfluxDB 是一个开源分布式时序、事件和指标数据库，使用 Go 语言编写，无需外部依赖，其设计目标是实现分布式和水平伸缩扩展。InfluxData 提供了 TICK 一套解决方案，不过使用比较多的是 InfluxDB，在此就介绍下 InfluxDB 以及 Telegraf 。
+keywords: influxdb,telegraf,influxdata,時序數據庫
+description: InfluxDB 是一個開源分佈式時序、事件和指標數據庫，使用 Go 語言編寫，無需外部依賴，其設計目標是實現分佈式和水平伸縮擴展。InfluxData 提供了 TICK 一套解決方案，不過使用比較多的是 InfluxDB，在此就介紹下 InfluxDB 以及 Telegraf 。
 ---
 
-InfluxDB 是一个开源分布式时序、事件和指标数据库，使用 Go 语言编写，无需外部依赖，其设计目标是实现分布式和水平伸缩扩展。
+InfluxDB 是一個開源分佈式時序、事件和指標數據庫，使用 Go 語言編寫，無需外部依賴，其設計目標是實現分佈式和水平伸縮擴展。
 
-InfluxData 提供了 TICK 一套解决方案，不过使用比较多的是 InfluxDB，在此就介绍下 InfluxDB 以及 Telegraf 。
+InfluxData 提供了 TICK 一套解決方案，不過使用比較多的是 InfluxDB，在此就介紹下 InfluxDB 以及 Telegraf 。
 
 <!-- more -->
 
 ![influxdb]({{ site.url }}/images/databases/influxdb/influxdb-golang.png "influxdb"){: .pull-center width="90%" }
 
-## 简介
+## 簡介
 
-在对时序数据进行存储时，常见的有多种格式：A) 使用文件 (如: RRD, Whisper)；B) 使用 LSM 树 (如: LevelDB, RocksDB, Cassandra)；C) 使用 B-Tree 排序和 k/v 存储 (如: BoltDB, LMDB) 。
+在對時序數據進行存儲時，常見的有多種格式：A) 使用文件 (如: RRD, Whisper)；B) 使用 LSM 樹 (如: LevelDB, RocksDB, Cassandra)；C) 使用 B-Tree 排序和 k/v 存儲 (如: BoltDB, LMDB) 。
 
-如下，就是 InfluxDATA 提供的一整套监控解决方案，包括了数据采集 (Telegraf)、数据存储 (InfluxDB)、数据展示 (Chronograf) 以及报警 (Kapacitor) 。
+如下，就是 InfluxDATA 提供的一整套監控解決方案，包括了數據採集 (Telegraf)、數據存儲 (InfluxDB)、數據展示 (Chronograf) 以及報警 (Kapacitor) 。
 
 ![TICK]({{ site.url }}/images/databases/influxdb/tick-stack-grid.jpg "TICK"){: .pull-center width="60%" }
 
-而实际上，使用比较多的是 InfluxDB ，这是一个时序数据库，关于时序数据库的排名，可以直接在 [db-engines.com](http://db-engines.com/en/ranking/time+series+dbms) 查看，InfluxDB 的活跃度基本排在第一。
+而實際上，使用比較多的是 InfluxDB ，這是一個時序數據庫，關於時序數據庫的排名，可以直接在 [db-engines.com](http://db-engines.com/en/ranking/time+series+dbms) 查看，InfluxDB 的活躍度基本排在第一。
 
-除了上述 InfluxDATA 提供的解决方案之外，通常还可以使用如下的方案。
+除了上述 InfluxDATA 提供的解決方案之外，通常還可以使用如下的方案。
 
 {% highlight text %}
-采集数据 (collectd) ==>>==>> 存储数据 (InfluxDB) ==>>==>> 显示数据 (Grafana)
+採集數據 (collectd) ==>>==>> 存儲數據 (InfluxDB) ==>>==>> 顯示數據 (Grafana)
 {% endhighlight %}
 
-0.8.4 版本之前只能通过 [influxdb-collectd-proxy](https://github.com/hoonmin/influxdb-collectd-proxy) 采集 collectd 上报的数据，之后 InfluxDB 自动提供了接口；当然，默认是不开启的，需要在配置文件中设置。
+0.8.4 版本之前只能通過 [influxdb-collectd-proxy](https://github.com/hoonmin/influxdb-collectd-proxy) 採集 collectd 上報的數據，之後 InfluxDB 自動提供了接口；當然，默認是不開啟的，需要在配置文件中設置。
 
-在此，还是重点介绍下 InfluxDB 。
+在此，還是重點介紹下 InfluxDB 。
 
 #### 特性
 
-简单列举下 InfluxDB 所支持的特性：
+簡單列舉下 InfluxDB 所支持的特性：
 
-* 支持 Regular Timeseries 以及 Irregular Timeseries，前者是指时间间隔固定，后者指不固定，例如报警、入侵事件等；
-* 可以将秒级监控在后台转换为分钟级，减小存储空间 (Continuous Queries)；
-* 采用 Schemaless ，列存储，压缩率高，可以存储任意数量的列；
-* 提供 min, max, sum, count, mean 等聚合函数；
-* 使用类 SQL 语句；
-* Built-in Explorer 自带管理工具，默认不打开，需要在配置文件中配置；
-* Native HTTP API，采用内置 HTTP 服务 (Protobuf API 暂时不提供)。
+* 支持 Regular Timeseries 以及 Irregular Timeseries，前者是指時間間隔固定，後者指不固定，例如報警、入侵事件等；
+* 可以將秒級監控在後臺轉換為分鐘級，減小存儲空間 (Continuous Queries)；
+* 採用 Schemaless ，列存儲，壓縮率高，可以存儲任意數量的列；
+* 提供 min, max, sum, count, mean 等聚合函數；
+* 使用類 SQL 語句；
+* Built-in Explorer 自帶管理工具，默認不打開，需要在配置文件中配置；
+* Native HTTP API，採用內置 HTTP 服務 (Protobuf API 暫時不提供)。
 
 <!--
-Protocol Buffers 是一种轻便高效的结构化数据存储格式，可以用于结构化数据串行化，很适合做数据存储或RPC 数据交换格式。
+Protocol Buffers 是一種輕便高效的結構化數據存儲格式，可以用於結構化數據串行化，很適合做數據存儲或RPC 數據交換格式。
 influxdb/tsdb/internal/meta.proto
 -->
 
 ### 常用概念
 
-简单列举下常见的概念。
+簡單列舉下常見的概念。
 
 ##### Database
 
-数据库，可以创建多个，不同数据库中的数据文件存放在磁盘上的不同目录。
+數據庫，可以創建多個，不同數據庫中的數據文件存放在磁盤上的不同目錄。
 
 ##### Measurement
 
-数据库中的表，例如 memory 记录了内存相关统计，其中包括了 used、cached、free 等。
+數據庫中的表，例如 memory 記錄了內存相關統計，其中包括了 used、cached、free 等。
 
 ##### Point
 
-表里的一行数据，由 A) 时间戳 (timestamp，每条记录的时间，数据库的主索引，会自动生成)；B) 数据 (field，记录的 Key/Value 例如温度、湿度)；C) 标签 (tags，有索引如地区、海拔)组成。
+表裡的一行數據，由 A) 時間戳 (timestamp，每條記錄的時間，數據庫的主索引，會自動生成)；B) 數據 (field，記錄的 Key/Value 例如溫度、溼度)；C) 標籤 (tags，有索引如地區、海拔)組成。
 
 ##### Tag/tag key/tag value
 
-有点不太好解释，可以理解为标签，或者二级索引，例如采集机器的 CPU 信息的时候，可以设置两个 tag 分别是机器 IP 以及第几个 CPU，在查询的时候放在 where 条件中，从而不需要遍厉整个表，这是一个 ```map[stirng]string``` 结构。
+有點不太好解釋，可以理解為標籤，或者二級索引，例如採集機器的 CPU 信息的時候，可以設置兩個 tag 分別是機器 IP 以及第幾個 CPU，在查詢的時候放在 where 條件中，從而不需要遍厲整個表，這是一個 ```map[stirng]string``` 結構。
 
 ##### Fields
 
-也就是实际记录的数据值，是 ```map[string]interface{}``` 类型，类似于 C 语言中的 void * ，这里的 ```interface{}``` 可以是 int、int32、int64、float32、float64，也就是真正需要显示或者计算的值，例如 CPU 的 sys, user, iowait 等。
+也就是實際記錄的數據值，是 ```map[string]interface{}``` 類型，類似於 C 語言中的 void * ，這裡的 ```interface{}``` 可以是 int、int32、int64、float32、float64，也就是真正需要顯示或者計算的值，例如 CPU 的 sys, user, iowait 等。
 
 ##### Retention Policy
 
-存储策略，InfluxDB 会自动清理数据，可以设置数据保留的时间，默认会创建存储策略 autogen (保留时间为永久)，之后用户可以自己设置，例如保留最近 30 天的数据。
+存儲策略，InfluxDB 會自動清理數據，可以設置數據保留的時間，默認會創建存儲策略 autogen (保留時間為永久)，之後用戶可以自己設置，例如保留最近 30 天的數據。
 
 <!-- Series<br>measurement, retention policy, tag set 的集合。 -->
 
@@ -95,64 +95,64 @@ influxdb/tsdb/internal/meta.proto
                        +----------+
 {% endhighlight %}
 
-### 安装
+### 安裝
 
-实际上，编译好的二进制程序，可以直接从官网 [www.influxdata.com/downloads/](https://www.influxdata.com/downloads/) 上下载，例如，在 CentOS 中，可以通过如下方式安装，安装后数据默认保存在 /var/lib/influxdb 目录下。
+實際上，編譯好的二進制程序，可以直接從官網 [www.influxdata.com/downloads/](https://www.influxdata.com/downloads/) 上下載，例如，在 CentOS 中，可以通過如下方式安裝，安裝後數據默認保存在 /var/lib/influxdb 目錄下。
 
 {% highlight text %}
------ 下载二进制安装包
+----- 下載二進制安裝包
 $ wget https://dl.influxdata.com/influxdb/releases/influxdb-1.1.1.x86_64.rpm
------ 查看二进制包的内容
+----- 查看二進制包的內容
 $ rpm -qpl influxdb-1.1.1.x86_64.rpm
------ 解压二进制包
+----- 解壓二進制包
 $ rpm2cpio influxdb-1.1.1.x86_64.rpm | cpio -div
------ 安装二进制包
+----- 安裝二進制包
 # rpm -ivh influxdb-1.1.1.x86_64.rpm
------ 启动服务，可以查看/usr/lib/systemd/system/influxdb.service文件
+----- 啟動服務，可以查看/usr/lib/systemd/system/influxdb.service文件
 # systemctl start influxdb
 {% endhighlight %}
 
-安装完之后，可以看到如下的可执行文件。
+安裝完之後，可以看到如下的可執行文件。
 
-* influxd，服务器，可以直接通过该命令启动；
-* influx，InfluxDB 命令行客户端，可链接服务器，执行一些常见的命令；
-* influx_inspect，用于查看磁盘 shards 上的详细信息；
-* influx_stress，压力测试工具；
-* influx_tsm，数据库转换工具，可以将数据库从 b1 或 bz1 格式转换为 tsm1 格式。
+* influxd，服務器，可以直接通過該命令啟動；
+* influx，InfluxDB 命令行客戶端，可鏈接服務器，執行一些常見的命令；
+* influx_inspect，用於查看磁盤 shards 上的詳細信息；
+* influx_stress，壓力測試工具；
+* influx_tsm，數據庫轉換工具，可以將數據庫從 b1 或 bz1 格式轉換為 tsm1 格式。
 
 
-### 源码编译
+### 源碼編譯
 
-当然，主要介绍下 influxdb 和 telegraf 的源码编译。
+當然，主要介紹下 influxdb 和 telegraf 的源碼編譯。
 
 #### build.py
 
-在源码中，有一个编译脚本 build.py，可以通过该脚本进行编译、打包等操作。
+在源碼中，有一個編譯腳本 build.py，可以通過該腳本進行編譯、打包等操作。
 
-实际上，在 build.py 脚本中，会通过 git 检查相应的版本 (详见 get_current_XXX 类函数)，所以需要保证这是一个 git 版本库，也就是说，如果通过该工具编译，需要通过 git clone 下载源码。
+實際上，在 build.py 腳本中，會通過 git 檢查相應的版本 (詳見 get_current_XXX 類函數)，所以需要保證這是一個 git 版本庫，也就是說，如果通過該工具編譯，需要通過 git clone 下載源碼。
 
-另外，代码库的依赖是通过 Go Dependancy Manager, GDM 管理的，当然如果没有安装，则会自动安装；然后下载依赖的代码库；最后，会直接调用 go install 安装。
+另外，代碼庫的依賴是通過 Go Dependancy Manager, GDM 管理的，當然如果沒有安裝，則會自動安裝；然後下載依賴的代碼庫；最後，會直接調用 go install 安裝。
 
-> TIP: 如果无法直接连接到网络，可以将 get_current_XXX()、go_get()、local_changes() 返回正常的值即可，例如 get_current_commit() 返回 "foobar" ，go_get() 返回 true 等等；当然，此时，依赖的代码库需要手动下载 (执行go install时会显示依赖包)。
+> TIP: 如果無法直接連接到網絡，可以將 get_current_XXX()、go_get()、local_changes() 返回正常的值即可，例如 get_current_commit() 返回 "foobar" ，go_get() 返回 true 等等；當然，此時，依賴的代碼庫需要手動下載 (執行go install時會顯示依賴包)。
 
-编译后的程序，会最终安装到 $GOPATH/bin/ 目录下；也可以打包成 rpm 包，不过没仔细研究，后面再看看。
+編譯後的程序，會最終安裝到 $GOPATH/bin/ 目錄下；也可以打包成 rpm 包，不過沒仔細研究，後面再看看。
 
 
 #### influxdb
 
-对于 InfluxDB 可以通过如下方式安装。
+對於 InfluxDB 可以通過如下方式安裝。
 
 {% highlight text %}
------ 1. 下载相关的分支
+----- 1. 下載相關的分支
 $ git clone -b v1.1.1 https://github.com/influxdata/influxdb.git .
------ 2. 直接进行编译，如果并非通过git下载源码，需要如上修改build.py文件
+----- 2. 直接進行編譯，如果並非通過git下載源碼，需要如上修改build.py文件
 $ ./build.py
------ 3. 直接复制到$GOPATH/bin目录下即可
+----- 3. 直接複製到$GOPATH/bin目錄下即可
 $ cp build/* $GOPATH/bin
 {% endhighlight %}
 
 <!--
-或者如下的方式，不过安装的时候有问题，暂不确认
+或者如下的方式，不過安裝的時候有問題，暫不確認
 go get github.com/influxdata/influxdb
 cd $GOPATH/src/github.com/influxdata/
 go get ./...
@@ -162,9 +162,9 @@ go install ./...
 
 #### telegraf
 
-对于 telegraf 可以直接使用 make 安装，对于其中一些依赖库，如 golang.org/x/crypto ，可能会导致无法下载，可以直接从 github 上下载，然后删除 Godeps 相关依赖。
+對於 telegraf 可以直接使用 make 安裝，對於其中一些依賴庫，如 golang.org/x/crypto ，可能會導致無法下載，可以直接從 github 上下載，然後刪除 Godeps 相關依賴。
 
-另外，通过上述方法下载时，需要使用 git clone 下载，否则会由于缺少 .git 目录导致报错；这也意味着，如果可以确保相关的依赖都已经下载之后，直接将 build.py 脚本中的 go_get() 注释掉即可，这样就不会通过 gdm 下载依赖包了。
+另外，通過上述方法下載時，需要使用 git clone 下載，否則會由於缺少 .git 目錄導致報錯；這也意味著，如果可以確保相關的依賴都已經下載之後，直接將 build.py 腳本中的 go_get() 註釋掉即可，這樣就不會通過 gdm 下載依賴包了。
 
 {% highlight text %}
 $ go get github.com/influxdata/telegraf
@@ -172,13 +172,13 @@ $ cd $GOPATH/src/github.com/influxdata/telegraf
 $ make
 {% endhighlight %}
 
-如官方所述，该工具是插件式的，这也就导致其在编译时，会依赖很多的插件，如果只需要部分插件，可以在 plugins 目录下，修改相应分类的 all/all.go 文件，将不需要的注释掉即可。
+如官方所述，該工具是插件式的，這也就導致其在編譯時，會依賴很多的插件，如果只需要部分插件，可以在 plugins 目錄下，修改相應分類的 all/all.go 文件，將不需要的註釋掉即可。
 
-其实，主要修改 ```plubins/{inputs,outputs}/all/all.go``` 即可。
+其實，主要修改 ```plubins/{inputs,outputs}/all/all.go``` 即可。
 
 <!--
-telegraf开发：
-通过源码进行编译，执行 script/build.py，该脚本依赖git+gdm，如果非联网，则需要手动下载安装插件，实际其执行命令如下。
+telegraf開發：
+通過源碼進行編譯，執行 script/build.py，該腳本依賴git+gdm，如果非聯網，則需要手動下載安裝插件，實際其執行命令如下。
 GOOS=linux GOARCH=amd64 go build -o /home/jinyang/workspace/src/github.com/influxdata/telegraf/build/telegraf -ldflags="-X main.version=foobar_version -X main.branch=foobar_branch -X main.commit=foobar_commit" ./cmd/telegraf
 
 生成配置文件：
@@ -187,40 +187,40 @@ GOOS=linux GOARCH=amd64 go build -o /home/jinyang/workspace/src/github.com/influ
 
 #### tips
 
-需要注意的是，通过 gdm 安装依赖时，可能会由于墙 (你懂得) 部分包无法下载，但是现象是 hang 住 :-( 所以，可以从 github 上手动下载，一般都会有镜像的。
+需要注意的是，通過 gdm 安裝依賴時，可能會由於牆 (你懂得) 部分包無法下載，但是現象是 hang 住 :-( 所以，可以從 github 上手動下載，一般都會有鏡像的。
 
 
 ###  配置文件
 
-默认使用 ```/etc/influxdb/influxdb.conf``` ，默认会使用如下的端口：
+默認使用 ```/etc/influxdb/influxdb.conf``` ，默認會使用如下的端口：
 
-* 8083: Web-Admin管理服务的端口，如果是本地可以直接通过 [http://localhost:8083](http://localhost:8083) 打开，不过默认没有开启，需要在配置文件中打开；
-* 8086: HTTP-API的端口，用于接收请求和发送数据；
-* 8088: 集群端口，用于 InfluxDB 集群通讯使用，不过 0.11.1 版本之后就不再提供集群化的解决方案了，只有企业版才提供该功能；
+* 8083: Web-Admin管理服務的端口，如果是本地可以直接通過 [http://localhost:8083](http://localhost:8083) 打開，不過默認沒有開啟，需要在配置文件中打開；
+* 8086: HTTP-API的端口，用於接收請求和發送數據；
+* 8088: 集群端口，用於 InfluxDB 集群通訊使用，不過 0.11.1 版本之後就不再提供集群化的解決方案了，只有企業版才提供該功能；
 
 
 <!--
 http://www.xusheng.org/blog/2016/08/12/influxdb-relay-performance-bottle-neck-analysing/
 -->
 
-简单列举下常见的配置。
+簡單列舉下常見的配置。
 
 {% highlight text %}
-# 管理面需要打开如下配置
+# 管理面需要打開如下配置
 [admin]
 enabled = true
 bind-address = ":8083"
 
-# 如果不指定，则会通过os.hostname()通过系统获取，可能会报错
+# 如果不指定，則會通過os.hostname()通過系統獲取，可能會報錯
 hostname = '192.168.1.23'
-# 默认每隔24小时会向usage.influxdata.com发送一些统计数据，可以关闭掉
+# 默認每隔24小時會向usage.influxdata.com發送一些統計數據，可以關閉掉
 reporting-disabled = true
 {% endhighlight %}
 
 
-### Python访问
+### Python訪問
 
-通过 Python 访问 InfluxDB 需要安装 [InfluxDB Python](https://pypi.python.org/pypi/influxdb/)，然后通过如下方式访问即可。
+通過 Python 訪問 InfluxDB 需要安裝 [InfluxDB Python](https://pypi.python.org/pypi/influxdb/)，然後通過如下方式訪問即可。
 
 {% highlight text %}
 $ python
@@ -247,12 +247,12 @@ $ python
 
 ### 常用操作
 
-在 InfluxDB 中，写入数据采用行格式，可以粗略的将要存入的一条数据看作一个虚拟的 key 和其对应的 value (field value)，格式如下：
+在 InfluxDB 中，寫入數據採用行格式，可以粗略的將要存入的一條數據看作一個虛擬的 key 和其對應的 value (field value)，格式如下：
 
 {% highlight text %}
 <measurement>[,<tag-key>=<tag-value>...] <field-key>=<field-value>[,<field2-key>=<field2-value>...] [timestamp]
 
-cpu,host=serverA,region=west value=0.64   服务器默认时间
+cpu,host=serverA,region=west value=0.64   服務器默認時間
 temperature,zipcode=384250,province=zhejiang value=75,humidity=20 1434067467000000000
 {% endhighlight %}
 <!--
@@ -260,32 +260,32 @@ payment,device=mobile,product=Notepad,method=credit billed=33,licenses=3i 143406
 stock,symbol=AAPL bid=127.46,ask=127.48
 -->
 
-常见操作列举如下，可以通过 \-precision 参数指定时间格式以及精度，例如 rfc3339 。
+常見操作列舉如下，可以通過 \-precision 參數指定時間格式以及精度，例如 rfc3339 。
 
 {% highlight text %}
------ 写入数据
+----- 寫入數據
 $ curl -i -XPOST 'http://localhost:8086/write?db=testDB'
     --data-binary 'weather,altitude=1000,area=北 temperature=11,humidity=-4'
 $ curl -i -XPOST 'http://localhost:8086/write?db=testDB&precision=s'
     --data-binary 'weather,altitude=1000,area=北 temperature=11,humidity=-4'
 influx> INSERT weather,altitude=1000,area=北 temperature=11,humidity=-4;
 
------ 查询
+----- 查詢
 $ curl -G 'http://localhost:8086/query?pretty=true' --data-urlencode "db=mydb" -precision 'rfc3339'
     --data-urlencode "q=SELECT * FROM weather ORDER BY time DESC LIMIT 3"
 $ curl -G 'http://localhost:8086/query?u=readonly&p=password&pretty=true' --data-urlencode "db=mydb"
     --data-urlencode "q=SELECT * FROM weather ORDER BY time DESC LIMIT 3"
 
------ 设置过期策略
+----- 設置過期策略
 $ curl -G http://localhost:8086/query --data-urlencode
     "q=CREATE RETENTION POLICY bar ON foo DURATION 300d REPLICATION 3 DEFAULT"
 {% endhighlight %}
 
-另外，支持 JSON 格式写入、GZIP 压缩数据插入及查询，详细可以参考源码中的 tests 目录。
+另外，支持 JSON 格式寫入、GZIP 壓縮數據插入及查詢，詳細可以參考源碼中的 tests 目錄。
 
-## 运维操作
+## 運維操作
 
-基本的数据保存目录如下。
+基本的數據保存目錄如下。
 
 {% highlight text %}
 .
@@ -296,13 +296,13 @@ $ curl -G http://localhost:8086/query --data-urlencode
 │   │       │   └── 000000004-000000003.tsm
 │   │       └── 3
 │   └── telegraf
-│       └── autogen  存储策略
+│       └── autogen  存儲策略
 │           ├── 12
 │           │   └── 000000132-000000002.tsm
 │           └── 7
 │               └── 000000003-000000002.tsm
 ├── meta
-│   └── meta.db    元数据
+│   └── meta.db    元數據
 └── wal
     ├── _internal
     │   └── monitor
@@ -321,24 +321,24 @@ $ curl -G http://localhost:8086/query --data-urlencode
                 └── _00010.wal
 {% endhighlight %}
 
-### 系统监控
+### 系統監控
 
-可以查看 [官方文档](https://docs.influxdata.com/influxdb/v1.1/troubleshooting/statistics/)，关于 GoLang 的内部运行状态，可以参考 [https://golang.org/pkg/runtime](https://golang.org/pkg/runtime/) 。
+可以查看 [官方文檔](https://docs.influxdata.com/influxdb/v1.1/troubleshooting/statistics/)，關於 GoLang 的內部運行狀態，可以參考 [https://golang.org/pkg/runtime](https://golang.org/pkg/runtime/) 。
 
 {% highlight text %}
------ InfluxDB本身的监控统计数据，保存在内存中，重启后会丢失
+----- InfluxDB本身的監控統計數據，保存在內存中，重啟後會丟失
 SHOW STATS FOR <'module'>
 
------ 包括编译信息、主机名、系统配置、启动时间、内存使用率、GoLang运行环境信息
+----- 包括編譯信息、主機名、系統配置、啟動時間、內存使用率、GoLang運行環境信息
 SHOW DIAGNOSTICS FOR <'module'>
 
------ 内部监控进程保存的数据，包含了各种监控的历史数据
+----- 內部監控進程保存的數據，包含了各種監控的歷史數據
 _internal
 {% endhighlight %}
 
-### 元数据查看
+### 元數據查看
 
-仅简单列举一下常见的命令，详细可以查看 [官方文档](https://docs.influxdata.com/influxdb/v1.1/query_language/schema_exploration/) 。
+僅簡單列舉一下常見的命令，詳細可以查看 [官方文檔](https://docs.influxdata.com/influxdb/v1.1/query_language/schema_exploration/) 。
 
 {% highlight text %}
 SHOW SERIES;
@@ -350,69 +350,69 @@ SHOW FIELD KEYS ON telegraf FROM cpu;
 SHOW MEASUREMENTS
 {% endhighlight %}
 
-### 用户权限管理
+### 用戶權限管理
 
-InfluxDB 的权限设置比较简单，只有读、写、ALL 三种，详细参考 [官方文档](https://docs.influxdata.com/influxdb/v1.1/query_language/authentication_and_authorization/) 。默认不开启用户认证，需要修改配置文件：
+InfluxDB 的權限設置比較簡單，只有讀、寫、ALL 三種，詳細參考 [官方文檔](https://docs.influxdata.com/influxdb/v1.1/query_language/authentication_and_authorization/) 。默認不開啟用戶認證，需要修改配置文件：
 
 {% highlight text %}
 [http]
 auth-enabled = true
 {% endhighlight %}
 
-常见命令如下：
+常見命令如下：
 
 {% highlight text %}
------ 授权
+----- 授權
 GRANT [READ,WRITE,ALL] ON <database_name> TO <username>
 GRANT ALL PRIVILEGES TO "username"
 
------ 撤销权限
+----- 撤銷權限
 REVOKE [READ,WRITE,ALL] ON <database_name> FROM <username>
 REVOKE ALL PRIVILEGES FROM "username"
 
------ 查看权限
+----- 查看權限
 SHOW GRANTS FOR <user_name>
 
------ 显示用户
+----- 顯示用戶
 SHOW USERS
 
------ 创建用户
+----- 創建用戶
 CREATE USER "readonly" WITH PASSWORD 'password'
 
------ 创建管理员权限的用户
+----- 創建管理員權限的用戶
 CREATE USER "readonly" WITH PASSWORD 'password' WITH ALL PRIVILEGES
 
------ 删除用户
+----- 刪除用戶
 DROP USER "readonly"
 
------ 修改密码
+----- 修改密碼
 SET PASSWORD FOR <username> = '<password>'
 {% endhighlight %}
 
-### 备份恢复
+### 備份恢復
 
-只支持全量备份，不支持增量，包括了元数据以及增量数据的备份，可以参考 [官方文档](https://docs.influxdata.com/influxdb/v1.1/administration/backup_and_restore/) 。
+只支持全量備份，不支持增量，包括了元數據以及增量數據的備份，可以參考 [官方文檔](https://docs.influxdata.com/influxdb/v1.1/administration/backup_and_restore/) 。
 
 {% highlight text %}
------ 元数据备份
+----- 元數據備份
 $ influxd backup <path-to-backup>
 
------ 数据备份
+----- 數據備份
 $ influxd backup -database <mydatabase> <path-to-backup>
 $ influxd backup -database telegraf -retention autogen -since 2016-02-01T00:00:00Z /tmp/backup
 $ influxd backup -database mydatabase -host 10.0.0.1:8088 /tmp/remote-backup
 
------ 恢复
+----- 恢復
 $ influxd restore -metadir /var/lib/influxdb/meta /tmp/backup
 $ influxd restore -database telegraf -datadir /var/lib/influxdb/data /tmp/backup
 {% endhighlight %}
 
-### 数据保存策略
+### 數據保存策略
 
-也就是 Retention Policies，可以设置保存的时间，例如保存 30 天。
+也就是 Retention Policies，可以設置保存的時間，例如保存 30 天。
 
 {% highlight text %}
------ 查询
+----- 查詢
 SHOW RETENTION POLICIES ON "database_name";
 
 ----- 新建
@@ -421,36 +421,36 @@ CREATE RETENTION POLICY "rp_name" ON "db_name" DURATION 30d REPLICATION 1 DEFAUL
 ----- 修改
 ALTER RETENTION POLICY "rp_name" ON db_name DURATION 3w DEFAULT;
 
------ 删除
+----- 刪除
 DROP RETENTION POLICY "rp_name" ON "db_name";
 {% endhighlight %}
 
-### 连续查询
+### 連續查詢
 
-也就是 Continuous Queries，当数据超过保存策略里指定的时间之后，就会被删除；可以通过连续查询把原来的秒级数据，保存为分钟级或者小时级的数据，从而减小数据的占用空间。
+也就是 Continuous Queries，當數據超過保存策略裡指定的時間之後，就會被刪除；可以通過連續查詢把原來的秒級數據，保存為分鐘級或者小時級的數據，從而減小數據的佔用空間。
 
 {% highlight text %}
 ----- 查看
 SHOW CONTINUOUS QUERIES;
 
------ 创建
+----- 創建
 CREATE CONTINUOUS QUERY cq-name ON db-name BEGIN
     SELECT mean(tbl-name) INTO newtbl-name FROM tbl-name GROUP BY time(30m) END;
 
------ 删除
+----- 刪除
 DROP CONTINUOUS QUERY <cq-name> ON <db-name>;
 {% endhighlight %}
 
 ### 其它
 
-1\. 获取最近更新数据，并转换为当前时间
+1\. 獲取最近更新數據，並轉換為當前時間
 
 {% highlight text %}
 select threads_running from mysql order by time desc limit 1;
 date -d @`echo 1483441750000000000 | awk '{print substr($0,1,10)}'` +"%Y-%m-%d %H:%M:%S"
 {% endhighlight %}
 
-2\. 检查系统是否存活
+2\. 檢查系統是否存活
 
 {% highlight text %}
 $ curl -sl -I localhost:8086/ping
@@ -459,45 +459,45 @@ $ curl -sl -I localhost:8086/ping
 3\. 常用操作
 
 {% highlight text %}
------ 简单查询
+----- 簡單查詢
 SELECT * FROM weather ORDER BY time DESC LIMIT 3;
 
------ 指定时间范围，时间格式也可以为'2017-01-03 00:00:00'
+----- 指定時間範圍，時間格式也可以為'2017-01-03 00:00:00'
 SELECT usage_idle FROM cpu WHERE time >= '2017-01-03T12:40:38.708Z' AND time <= '2017-01-03T12:40:50.708Z';
 
------ 最近40min内的数据
+----- 最近40min內的數據
 SELECT * FROM mysql WHERE time >= now() - 40m;
 
------ 最近5分钟的秒级差值
+----- 最近5分鐘的秒級差值
 SELECT derivative("queries", 1s) AS "queries" from "mysql" where time > now() - 5m;
 
------ 最近5min的秒级写入
+----- 最近5min的秒級寫入
 $ influx -database '_internal' -precision 'rfc3339'
       -execute 'select derivative(pointReq, 1s) from "write" where time > now() - 5m'
 
------ 也可以通过日志查看
+----- 也可以通過日誌查看
 $ grep 'POST' /var/log/influxdb/influxd.log | awk '{ print $10 }' | sort | uniq -c
 $ journalctl -u influxdb.service | awk '/POST/ { print $10 }' | sort | uniq -c
 {% endhighlight %}
 
 <!--
-存储引擎 (Storage Engine)： https://docs.influxdata.com/influxdb/v1.1/concepts/storage_engine/
+存儲引擎 (Storage Engine)： https://docs.influxdata.com/influxdb/v1.1/concepts/storage_engine/
 
-进程运行时会启动多个进程，可以通过 pstree -p PID 查看，其中包括了一个 HTTPD 服务进程，也就对应了 services/httpd 目录下的代码。
+進程運行時會啟動多個進程，可以通過 pstree -p PID 查看，其中包括了一個 HTTPD 服務進程，也就對應了 services/httpd 目錄下的代碼。
 
-以查询请求为例，实际的会路由到 handler.go 中指定的处理函数，也就是 serveQuery() 函数，而该函数中的处理逻辑基本相同：
+以查詢請求為例，實際的會路由到 handler.go 中指定的處理函數，也就是 serveQuery() 函數，而該函數中的處理邏輯基本相同：
 
-A) 解析SQL；B) 执行；C) 返回结果。
+A) 解析SQL；B) 執行；C) 返回結果。
 -->
 
-## 存储引擎
+## 存儲引擎
 
 
 
 
 
 
-Bolt 是一个 Go 语言编写的嵌入式 KV 数据库，提供了一个简单可靠的方式做数据持久化，按照作者在 [Github BoltDB](https://github.com/boltdb/bolt) 中的介绍：
+Bolt 是一個 Go 語言編寫的嵌入式 KV 數據庫，提供了一個簡單可靠的方式做數據持久化，按照作者在 [Github BoltDB](https://github.com/boltdb/bolt) 中的介紹：
 
 {% highlight text %}
 Bolt is a pure Go key/value store inspired by Howard Chu's LMDB project. The goal
@@ -505,21 +505,21 @@ of the project is to provide a simple, fast, and reliable database for projects
 that don't require a full database server such as Postgres or MySQL.
 {% endhighlight %}
 
-与 LevelDB 有所区别，BoltDB 支持完全可序列化的 ACID 事务；而且，提供稳定的 API 接口，而非类似 SQLite 的 SQL 接口；从而也就意味着它更加方便地整合到其它系统。
+與 LevelDB 有所區別，BoltDB 支持完全可序列化的 ACID 事務；而且，提供穩定的 API 接口，而非類似 SQLite 的 SQL 接口；從而也就意味著它更加方便地整合到其它系統。
 
 
 <!--
-BoltDB将数据保存在一个单独的内存映射的文件里。它没有wal、线程压缩和垃圾回收；它仅仅安全地处理一个文件。
+BoltDB將數據保存在一個單獨的內存映射的文件裡。它沒有wal、線程壓縮和垃圾回收；它僅僅安全地處理一個文件。
 LevelDB和BoltDB的不同
 
-LevelDB是Google开发的，也是一个k/v的存储数据库，和BoltDB比起起来有很大的不同。对于使用者而言，最大的不同就是LevelDB没有事务。在其内部，也有很多的不同：LevelDB实现了一个日志结构化的merge tree。它将有序的key/value存储在不同文件的之中，并通过“层级”把它们分开，并且周期性地将小的文件merge为更大的文件。这让其在随机写的时候会很快，但是读的时候却很慢。这也让LevelDB的性能不可预知：但数据量很小的时候，它可能性能很好，但是当随着数据量的增加，性能只会越来越糟糕。而且做merge的线程也会在服务器上出现问题。LevelDB是C++写的，但是也有些Go的实现方式，如syndtr/goleveldb、leveldb-go。
+LevelDB是Google開發的，也是一個k/v的存儲數據庫，和BoltDB比起起來有很大的不同。對於使用者而言，最大的不同就是LevelDB沒有事務。在其內部，也有很多的不同：LevelDB實現了一個日誌結構化的merge tree。它將有序的key/value存儲在不同文件的之中，並通過“層級”把它們分開，並且週期性地將小的文件merge為更大的文件。這讓其在隨機寫的時候會很快，但是讀的時候卻很慢。這也讓LevelDB的性能不可預知：但數據量很小的時候，它可能性能很好，但是當隨著數據量的增加，性能只會越來越糟糕。而且做merge的線程也會在服務器上出現問題。LevelDB是C++寫的，但是也有些Go的實現方式，如syndtr/goleveldb、leveldb-go。
 
-BoltDB使用一个单独的内存映射的文件，实现一个写入时拷贝的B+树，这能让读取更快。而且，BoltDB的载入时间很快，特别是在从crash恢复的时候，因为它不需要去通过读log（其实它压根也没有）去找到上次成功的事务，它仅仅从两个B+树的根节点读取ID。
+BoltDB使用一個單獨的內存映射的文件，實現一個寫入時拷貝的B+樹，這能讓讀取更快。而且，BoltDB的載入時間很快，特別是在從crash恢復的時候，因為它不需要去通過讀log（其實它壓根也沒有）去找到上次成功的事務，它僅僅從兩個B+樹的根節點讀取ID。
 -->
 
-### 安装、使用
+### 安裝、使用
 
-在设置好 golang 的环境变量之后，可以很简单的通过 go get 获取源码并安装到 $GOPATH/bin 目录下，其命令如下：
+在設置好 golang 的環境變量之後，可以很簡單的通過 go get 獲取源碼並安裝到 $GOPATH/bin 目錄下，其命令如下：
 
 {% highlight text %}
 $ go get github.com/boltdb/bolt/...
@@ -528,11 +528,11 @@ $ go get github.com/boltdb/bolt/...
 <!--
 
 使用Bolt
-打开数据库并初始化事务
+打開數據庫並初始化事務
 
-Bolt将所有数据都存储在一个文件中，这让它很容易使用和部署，用户肯定很高兴地发现他们根本不需要去配置数据库或是要DBA去维护它，我们需要对这文件所做的就是打开他们 ，如果你想要打开的文件不存在就会新建。
+Bolt將所有數據都存儲在一個文件中，這讓它很容易使用和部署，用戶肯定很高興地發現他們根本不需要去配置數據庫或是要DBA去維護它，我們需要對這文件所做的就是打開他們 ，如果你想要打開的文件不存在就會新建。
 
-在这个例子中我们blog.db这个数据库在当前文件夹：
+在這個例子中我們blog.db這個數據庫在當前文件夾：
 
 package main
 
@@ -552,30 +552,30 @@ func main() {
     // ...
 }
 
-在你打开之后，你有两种处理它的方式：读-写和只读操作，读-写方式开始于db.Update方法：
+在你打開之後，你有兩種處理它的方式：讀-寫和只讀操作，讀-寫方式開始於db.Update方法：
 
 err := db.Update(func(tx *bolt.Tx) error {
     // ...read or write...
     return nil
 })
 
-可以看到，你传入了db.update函数一个参数，在函数内部你可以get/set数据和处理error。如果返回为nil，事务就会从数据库得到一个commit，但是如果你返回一个实际的错误，则会做回滚，你在函数中做的任何事情都不会commit到磁盘上。这很方便和自然，因为你不需要人为地去关心事务的回滚，只需要返回一个错误，其他的由Bolt去帮你完成。
+可以看到，你傳入了db.update函數一個參數，在函數內部你可以get/set數據和處理error。如果返回為nil，事務就會從數據庫得到一個commit，但是如果你返回一個實際的錯誤，則會做回滾，你在函數中做的任何事情都不會commit到磁盤上。這很方便和自然，因為你不需要人為地去關心事務的回滾，只需要返回一個錯誤，其他的由Bolt去幫你完成。
 
-只读事务在db.View函数之中：
+只讀事務在db.View函數之中：
 
 err := db.View(func(tx *bolt.Tx) error {
     // ...
     return nil
 })
 
-在函数中你可以读取，但是不能做修改。
-存储数据
+在函數中你可以讀取，但是不能做修改。
+存儲數據
 
-Bolt是一个k/v的存储并提供了一个映射表，这意味着你可以通过name拿到值，就像Go原生的map，但是另外因为key是有序的，所以你可以通过key来遍历。
+Bolt是一個k/v的存儲並提供了一個映射表，這意味著你可以通過name拿到值，就像Go原生的map，但是另外因為key是有序的，所以你可以通過key來遍歷。
 
-这里还有另外一层：k-v存储在bucket中，你可以将bucket当做一个key的集合或者是数据库中的表。（顺便提一句，buckets中可以包含其他的buckets，这将会相当有用）
+這裡還有另外一層：k-v存儲在bucket中，你可以將bucket當做一個key的集合或者是數據庫中的表。（順便提一句，buckets中可以包含其他的buckets，這將會相當有用）
 
-你可以通过下面打方法update数据库;
+你可以通過下面打方法update數據庫;
 
 db.Update(func(tx *bolt.Tx) error {
     b, err := tx.CreateBucketIfNotExists([]byte("posts"))
@@ -585,10 +585,10 @@ db.Update(func(tx *bolt.Tx) error {
     return b.Put([]byte("2015-01-01"), []byte("My New Year post"))
 })
 
-我们新建了一个名为“posts”的bucket，然后将key为“2014-01-01”的vaue置为“My New Year Post”。注意bucket的名字、key和value都是bytes的slices。
-读取数据
+我們新建了一個名為“posts”的bucket，然後將key為“2014-01-01”的vaue置為“My New Year Post”。注意bucket的名字、key和value都是bytes的slices。
+讀取數據
 
-在你存储了一些值到数据库之后，你可以这样读取他们：
+在你存儲了一些值到數據庫之後，你可以這樣讀取他們：
 
 db.View(func(tx *bolt.Tx) error {
     b := tx.Bucket([]byte("posts"))
@@ -597,12 +597,12 @@ db.View(func(tx *bolt.Tx) error {
     return nil
 })
 
-你可以在Bolt的Readme里读到更多处理事务和遍历key的例子。
-Go中的简单持久化
+你可以在Bolt的Readme裡讀到更多處理事務和遍歷key的例子。
+Go中的簡單持久化
 
-Bolt存储bytes，但是如果我们想存储一些结构体呢？这很容易通过Go的标准库实现，我们可以存储Json或是Gob编码后的结构化数据。或者，可以不限你自己使用标准库，你也可以使用Protocal Buffer或是其他的序列化方法。
+Bolt存儲bytes，但是如果我們想存儲一些結構體呢？這很容易通過Go的標準庫實現，我們可以存儲Json或是Gob編碼後的結構化數據。或者，可以不限你自己使用標準庫，你也可以使用Protocal Buffer或是其他的序列化方法。
 
-例如，如果你想要存储一个博客的描述：
+例如，如果你想要存儲一個博客的描述：
 
 type Post struct {
     Created time.Time
@@ -610,7 +610,7 @@ type Post struct {
     Content string
 }
 
-我们可以先编码，例如使用Json，然后将编码后的bytes存储到BoltDB中：
+我們可以先編碼，例如使用Json，然後將編碼後的bytes存儲到BoltDB中：
 
 post := &Post{
    Created: time.Now(),
@@ -630,17 +630,17 @@ db.Update(func(tx *bolt.Tx) error {
     return b.Put([]byte(post.Created.Format(time.RFC3339)), encoded)
 })
 
-当读取的时候，只需要将bytes unmarshal为结构体。
+當讀取的時候，只需要將bytes unmarshal為結構體。
 使用Bolt的命令行
 
-BoltDB提供了一个名叫bolt的命令行工具，你可以列出buckets和keys、检索values、一致性检验。
+BoltDB提供了一個名叫bolt的命令行工具，你可以列出buckets和keys、檢索values、一致性檢驗。
 
 用法可以使用--help查看。
 
-例如，检查blog.db数据库的一致性，核对每个页面: bolt check blog.db
-总结
+例如，檢查blog.db數據庫的一致性，核對每個頁面: bolt check blog.db
+總結
 
-Bolt真是一个简单易用的数据库，在Go的生态系统里将会有光明的未来。现在已经成熟并成功使用在一些项目之上，并且在大的读写中性能很好。比如现在这个不让我们省心的时间序列数据库Influxdb。
+Bolt真是一個簡單易用的數據庫，在Go的生態系統裡將會有光明的未來。現在已經成熟併成功使用在一些項目之上，並且在大的讀寫中性能很好。比如現在這個不讓我們省心的時間序列數據庫Influxdb。
 -->
 
 
@@ -664,21 +664,21 @@ Bolt真是一个简单易用的数据库，在Go的生态系统里将会有光�
 <!--
 
 1. 交互
-  监控页面提供分组机制，用户可以按照业务类型分组，也可以按照业务类型+DB类型分组。
-  按照集群分组显示，不同的数据库类型会自动选择一个默认的主机图表显示。
-  提供三个入口：A)数据库管理页面，选择相应集群或者机器的监控；B) 监控页面中的搜索功能；C) 监控大盘中的部分，也可以提供搜索。
-  Reference 14款基于JQuery的实时搜索插件： http://www.iteye.com/news/25269   
+  監控頁面提供分組機制，用戶可以按照業務類型分組，也可以按照業務類型+DB類型分組。
+  按照集群分組顯示，不同的數據庫類型會自動選擇一個默認的主機圖表顯示。
+  提供三個入口：A)數據庫管理頁面，選擇相應集群或者機器的監控；B) 監控頁面中的搜索功能；C) 監控大盤中的部分，也可以提供搜索。
+  Reference 14款基於JQuery的實時搜索插件： http://www.iteye.com/news/25269   
 
-2. API接口定义
-  请求：
+2. API接口定義
+  請求：
   {
-       'host': '192.145.48.68',                                 # 主机IP
+       'host': '192.145.48.68',                                 # 主機IP
        'series': [
             {
-               'name'       : 'cpu',                            # 对应InfluxDB的measurement
-               'columns'    : ['usage_idle', 'usage_iowait'],   # 查询的fields，或者列(为了对显示友好可以通过js添加映射)
-               'start_time' : '2017-01-04T07:30:23.283Z',       # 开始时间ISO(UTC)
-               'end_time'   : '2017-01-04T07:30:23.283Z'        # 可选，如果为空则获取开始时间后的所有数据
+               'name'       : 'cpu',                            # 對應InfluxDB的measurement
+               'columns'    : ['usage_idle', 'usage_iowait'],   # 查詢的fields，或者列(為了對顯示友好可以通過js添加映射)
+               'start_time' : '2017-01-04T07:30:23.283Z',       # 開始時間ISO(UTC)
+               'end_time'   : '2017-01-04T07:30:23.283Z'        # 可選，如果為空則獲取開始時間後的所有數據
             },
             {
                'name'       : 'memeory'
@@ -686,7 +686,7 @@ Bolt真是一个简单易用的数据库，在Go的生态系统里将会有光�
             ... ...
        ]
    }
-   响应(需要保证values递增，多个查询返回多个series)：
+   響應(需要保證values遞增，多個查詢返回多個series)：
    {
         'results': [ {
             'series': [
@@ -714,21 +714,21 @@ Bolt真是一个简单易用的数据库，在Go的生态系统里将会有光�
            ] }
         ]
     }
-   异常：
+   異常：
    {
         'error': 'error message'
    }
-注意：查询数据的范围(start_time,end_time]为了防止不同指标的采集数据不同，从而将范围放到了measurements请求中。
+注意：查詢數據的範圍(start_time,end_time]為了防止不同指標的採集數據不同，從而將範圍放到了measurements請求中。
 
 
 Bugfix:
-1. 修改时间采集间隔之后，会导致显示问题。
-   原因：目前是获取一个点之后，直接shift移除一个，从而导致如果前后时间差不同，如 10s=>1s 会导致显示出现问题；建议按照时间区间处理。
+1. 修改時間採集間隔之後，會導致顯示問題。
+   原因：目前是獲取一個點之後，直接shift移除一個，從而導致如果前後時間差不同，如 10s=>1s 會導致顯示出現問題；建議按照時間區間處理。
 
 
 
 
-influx_inspect 用于查看磁盘shards上的详细信息；将shard的信息转换为line protocol模式，然后重新写入到数据库中。
+influx_inspect 用於查看磁盤shards上的詳細信息；將shard的信息轉換為line protocol模式，然後重新寫入到數據庫中。
 
 usage: influx_inspect [[command] [arguments]]
 
@@ -738,18 +738,18 @@ The commands are:
     help                 display this help message
     report               displays a shard level report
 
-默认查看当前目录下的 tsm 文件，例如 influx_inspect report -detailed 。
+默認查看當前目錄下的 tsm 文件，例如 influx_inspect report -detailed 。
 
-删除表: 可能会导致写入失败 https://blog.xiagaogao.com/20160117/influxdb%20%E4%B8%AD%E7%94%A8%E6%AD%A3%E7%A1%AE%E7%9A%84%E5%A7%BF%E5%8A%BF%E5%88%A0%E9%99%A4measurement.html
+刪除表: 可能會導致寫入失敗 https://blog.xiagaogao.com/20160117/influxdb%20%E4%B8%AD%E7%94%A8%E6%AD%A3%E7%A1%AE%E7%9A%84%E5%A7%BF%E5%8A%BF%E5%88%A0%E9%99%A4measurement.html
     DROP SERIES FROM 'measurement_name'
     DROP MEASUREMENT <measurement_name>
 -->
 
-## 参考
+## 參考
 
-* 关于时序数据库的排名，可以参考 [db-engines.com](http://db-engines.com/en/ranking/time+series+dbms)。
-* 官方网站 [www.influxdata.com](https://www.influxdata.com/)，包括了相关的文档。
-* 源码可以直接从 Github 下载，[Github InfluxDB](https://github.com/influxdata/influxdb)、[Github Telegraf](https://github.com/influxdata/telegraf) 。
+* 關於時序數據庫的排名，可以參考 [db-engines.com](http://db-engines.com/en/ranking/time+series+dbms)。
+* 官方網站 [www.influxdata.com](https://www.influxdata.com/)，包括了相關的文檔。
+* 源碼可以直接從 Github 下載，[Github InfluxDB](https://github.com/influxdata/influxdb)、[Github Telegraf](https://github.com/influxdata/telegraf) 。
 
 <!--
 [Github Grafana](https://github.com/grafana/grafana)、[grafana.org](http://grafana.org/)
@@ -757,7 +757,7 @@ The commands are:
      http://blog.fatedier.com/2016/08/05/detailed-in-influxdb-tsm-storage-engine-one/
 InfluxDB Docs:
      https://docs.influxdata.com/influxdb/v1.1/introduction/
-InfluxDB(InfluxDB详解之TSM存储引擎解析):
+InfluxDB(InfluxDB詳解之TSM存儲引擎解析):
      http://blog.fatedier.com/2016/08/05/detailed-in-influxdb-tsm-storage-engine-one/
 Time Structured Merge Tree:
      https://www.influxdata.com/new-storage-engine-time-structured-merge-tree/
@@ -765,14 +765,14 @@ Gorilla: A Fast, Scalable, InMemory Time Series Database
      http://www.vldb.org/pvldb/vol8/p1816-teller.pdf
 InfluxDB Storage Engine:
      https://docs.influxdata.com/influxdb/v1.1/concepts/storage_engine/
-InfluxDB Glossary of Terms: 各种名词解释
+InfluxDB Glossary of Terms: 各種名詞解釋
      https://docs.influxdata.com/influxdb/v1.1/concepts/glossary/
-MySQLMTOP(国内的MySQL监控):
+MySQLMTOP(國內的MySQL監控):
      http://www.lepus.cc/page/opensource
-该网站有很多不错的文章，可供参考
+該網站有很多不錯的文章，可供參考
      http://www.opscoder.info/boltdb_intro.html
 
-ClusterControl(Percona集群监控)
+ClusterControl(Percona集群監控)
 -->
 
 {% highlight text %}

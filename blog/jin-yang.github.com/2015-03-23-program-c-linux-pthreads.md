@@ -1,31 +1,31 @@
 ---
-title: Linux 线程编程
+title: Linux 線程編程
 layout: post
 comments: true
 language: chinese
 category: [program,linux]
 keywords: linux,program,pthread
-description: 简单介绍下 Linux 中与线程相关的编程。
+description: 簡單介紹下 Linux 中與線程相關的編程。
 ---
 
-简单介绍下 Linux 中与线程相关的编程。
+簡單介紹下 Linux 中與線程相關的編程。
 
 <!-- more -->
 
 
 ## TSD
 
-在多线程程序中，所有线程共享程序中的变量，对于全局变量，所有线程都可以访问修改，如果希望么个线程单独使用，那么就需要 Thread Specific Data, TSD 了。
+在多線程程序中，所有線程共享程序中的變量，對於全局變量，所有線程都可以訪問修改，如果希望麼個線程單獨使用，那麼就需要 Thread Specific Data, TSD 了。
 
-简言之，表面是一个全局变量，所有线程都可以使用它，而实际实现时，它的值在每一个线程中又是单独存储的。
+簡言之，表面是一個全局變量，所有線程都可以使用它，而實際實現時，它的值在每一個線程中又是單獨存儲的。
 
-TSD 的使用方法简单介绍如下：
+TSD 的使用方法簡單介紹如下：
 
-1. 声明一个类型为 pthread_key_t 类型的全局变量，后续所有的操作都会用到该变量；
-2. 在创建线程前调用 pthread_key_create() 创建该变量，入参为上面的变量以及清理函数(为NULL时调用默认的清理函数)；
-3. 启动线程，在不同的线程中分别通过 pthread_setspcific() 和 pthread_getspecific() 函数设置以及获取变量。
+1. 聲明一個類型為 pthread_key_t 類型的全局變量，後續所有的操作都會用到該變量；
+2. 在創建線程前調用 pthread_key_create() 創建該變量，入參為上面的變量以及清理函數(為NULL時調用默認的清理函數)；
+3. 啟動線程，在不同的線程中分別通過 pthread_setspcific() 和 pthread_getspecific() 函數設置以及獲取變量。
 
-使用的函数声明如下。
+使用的函數聲明如下。
 
 {% highlight c %}
 int pthread_key_create(pthread_key_t *key, void (*destructor)(void*));
@@ -33,7 +33,7 @@ int pthread_setspecific(pthread_key_t key, const void *value);
 void *pthread_getspecific(pthread_key_t key);
 {% endhighlight %}
 
-如下是一个简单示例。
+如下是一個簡單示例。
 
 {% highlight c %}
 #include <stdio.h>
@@ -42,7 +42,7 @@ void *pthread_getspecific(pthread_key_t key);
 #include <pthread.h>
 
 pthread_key_t key;
-struct test_struct { // 用于测试的结构
+struct test_struct { // 用於測試的結構
     int i;
     float k;
 };

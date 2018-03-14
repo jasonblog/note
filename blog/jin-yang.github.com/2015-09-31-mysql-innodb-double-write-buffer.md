@@ -5,33 +5,33 @@ comments: true
 language: chinese
 category: [mysql,database]
 keywords: mysql,innodb,double write buffer
-description: 从 Double Write Buffer 来看，貌似是内存中的一块缓存区域，实际上，这里的 buffer 并不只是一块内存区域，而是还包括了存放在表空间中或是单独指定的某个文件中的一个 buffer 。在此，介绍下为什么会有 Double Write Buffer，以及其是如何实现的。
+description: 從 Double Write Buffer 來看，貌似是內存中的一塊緩存區域，實際上，這裡的 buffer 並不只是一塊內存區域，而是還包括了存放在表空間中或是單獨指定的某個文件中的一個 buffer 。在此，介紹下為什麼會有 Double Write Buffer，以及其是如何實現的。
 ---
 
-从 Double Write Buffer 来看，貌似是内存中的一块缓存区域，实际上，这里的 buffer 并不只是一块内存区域，而是还包括了存放在表空间中或是单独指定的某个文件中的一个 buffer 。
+從 Double Write Buffer 來看，貌似是內存中的一塊緩存區域，實際上，這裡的 buffer 並不只是一塊內存區域，而是還包括了存放在表空間中或是單獨指定的某個文件中的一個 buffer 。
 
-在此，介绍下为什么会有 Double Write Buffer，以及其是如何实现的。
+在此，介紹下為什麼會有 Double Write Buffer，以及其是如何實現的。
 
 <!-- more -->
 
-## 简介
+## 簡介
 
-总体来说，Double Write Buffer 是 InnoDB 所使用的一种较为独特的文件 Flush 实现技术，也就是牺牲了一点点写性能，提高系统 Crash 或者断电情况下数据的安全性，避免写入的数据不完整。
+總體來說，Double Write Buffer 是 InnoDB 所使用的一種較為獨特的文件 Flush 實現技術，也就是犧牲了一點點寫性能，提高系統 Crash 或者斷電情況下數據的安全性，避免寫入的數據不完整。
 
-在介绍 double write 的实现之前，有必要先了解一下 partial page write 问题。
+在介紹 double write 的實現之前，有必要先了解一下 partial page write 問題。
 
 <!--
-一般来说，Innodb 在将数据同步到数据文件进行持久化之前，首先会将需要同步的内容写入存在于表空间中的系统保留的存储空间，也就是被我们称之为 Double Write Buffer 的地方，然后再将数据进 行文件同步。所以实质上，Double Write Buffer 中就是存放了一份需要同步到文件中数据的一个备份， 以便在遇到系统 Crash 或者主机断电的时候，能够校验最后一次文件同步是否准确的完成了，如果未完 成，则可以通过这个备份来继续完成工作，保证数据的正确性。
+一般來說，Innodb 在將數據同步到數據文件進行持久化之前，首先會將需要同步的內容寫入存在於表空間中的系統保留的存儲空間，也就是被我們稱之為 Double Write Buffer 的地方，然後再將數據進 行文件同步。所以實質上，Double Write Buffer 中就是存放了一份需要同步到文件中數據的一個備份， 以便在遇到系統 Crash 或者主機斷電的時候，能夠校驗最後一次文件同步是否準確的完成了，如果未完 成，則可以通過這個備份來繼續完成工作，保證數據的正確性。
 -->
 
-### 问题起因
+### 問題起因
 
-InnoDB 中的默认页大小是 16KB，通过 innodb_page_size 变量定义，很多的操作 (主要是对数据文件操作)，如数据校验、写入磁盘等，也是以页为单位进行。
+InnoDB 中的默認頁大小是 16KB，通過 innodb_page_size 變量定義，很多的操作 (主要是對數據文件操作)，如數據校驗、寫入磁盤等，也是以頁為單位進行。
 
-而计算机硬件和操作系统的原子操作通常小于该值，一般为 512 字节，也就意味着，在极端情况下（如宕机、断电、OS Crash 等），往往并不能保证写入页的原子性。
+而計算機硬件和操作系統的原子操作通常小於該值，一般為 512 字節，也就意味著，在極端情況下（如宕機、斷電、OS Crash 等），往往並不能保證寫入頁的原子性。
 
 {% highlight text %}
------ MySQL变量查看，数据写入页大小为16K
+----- MySQL變量查看，數據寫入頁大小為16K
 mysql> SHOW GLOBAL VARIABLES LIKE 'innodb_page_size';
 +------------------+-------+
 | Variable_name    | Value |
@@ -40,7 +40,7 @@ mysql> SHOW GLOBAL VARIABLES LIKE 'innodb_page_size';
 +------------------+-------+
 1 row in set (0.06 sec)
 
------ 查看文件系统的块大小，一般为4K
+----- 查看文件系統的塊大小，一般為4K
 # getconf PAGESIZE
 # blockdev --getbsz /dev/sda7
 # dumpe2fs /dev/sda7 | grep "Block size"
@@ -52,21 +52,21 @@ Block size:               4096
 Sector size (logical/physical): 512 bytes / 512 bytes
 {% endhighlight %}
 
-<!--从上面的结果可以看到DB page=4*OS page=16*IO page=32*sector size
-磁盘IO除了IO block size，还有一个概念是扇区(IO sector)，扇区是磁盘物理操作的基本单位，而IO 块是磁盘操作的逻辑单位，一个IO块对应一个或多个扇区，扇区大小一般为512个字节。 -->
+<!--從上面的結果可以看到DB page=4*OS page=16*IO page=32*sector size
+磁盤IO除了IO block size，還有一個概念是扇區(IO sector)，扇區是磁盤物理操作的基本單位，而IO 塊是磁盤操作的邏輯單位，一個IO塊對應一個或多個扇區，扇區大小一般為512個字節。 -->
 
-例如，16K 的数据，在写入 4K 时机器宕机，此时只有一部分写是成功的，这种情况下就是 partial page write 问题。
+例如，16K 的數據，在寫入 4K 時機器宕機，此時只有一部分寫是成功的，這種情況下就是 partial page write 問題。
 
-MySQL 在崩溃恢复阶段，读取数据页时，需要检查页的 checksum，当发生 partial page write 时，页已经损坏，就导致数据无法恢复。
+MySQL 在崩潰恢復階段，讀取數據頁時，需要檢查頁的 checksum，當發生 partial page write 時，頁已經損壞，就導致數據無法恢復。
 
-为了解决上述问题，采用两次写，此时需要额外添加两个部分，A) 内存中的两次写缓冲 (double write buffer)，大小为 2MB；B) 磁盘上共享表空间中连续的 128 页，大小也为 2MB。
+為了解決上述問題，採用兩次寫，此時需要額外添加兩個部分，A) 內存中的兩次寫緩衝 (double write buffer)，大小為 2MB；B) 磁盤上共享表空間中連續的 128 頁，大小也為 2MB。
 
-### 配置参数
+### 配置參數
 
-在 InnoDB 中，可以通过如下方式查看 double write 的状态。
+在 InnoDB 中，可以通過如下方式查看 double write 的狀態。
 
 {% highlight text %}
------- 查看是否启用了double write，以及相关参数
+------ 查看是否啟用了double write，以及相關參數
 mysql> SHOW VARIABLES LIKE 'innodb_doublewrite%';
 +-------------------------------+-------+
 | Variable_name                 | Value |
@@ -76,113 +76,113 @@ mysql> SHOW VARIABLES LIKE 'innodb_doublewrite%';
 +-------------------------------+-------+
 2 rows in set (0.02 sec)
 
------ 可以查询double write的使用情况
+----- 可以查詢double write的使用情況
 mysql> SHOW STATUS LIKE 'innodb_dblwr_%';
 +----------------------------+-------+
 | Variable_name              | Value |
 +----------------------------+-------+
-| Innodb_dblwr_pages_written | 14615 |   从BP写入到dblwr的page数
-| Innodb_dblwr_writes        | 636   |   写文件的次数
+| Innodb_dblwr_pages_written | 14615 |   從BP寫入到dblwr的page數
+| Innodb_dblwr_writes        | 636   |   寫文件的次數
 +----------------------------+-------+
 2 rows in set (0.02 sec)
 {% endhighlight %}
 
-如上可以得到平均每次写操作合并页数为 ```Innodb_dblwr_pages_written/Innodb_dblwr_writes``` 。
+如上可以得到平均每次寫操作合併頁數為 ```Innodb_dblwr_pages_written/Innodb_dblwr_writes``` 。
 
 
-### 工作过程
+### 工作過程
 
-工作过程大致如下：
+工作過程大致如下：
 
-1. 当需要将缓冲池的脏页刷新到 data file 时，并不直接写到数据文件中，而是先拷贝至内存中的 double write buffer。
-2. 接着从 double write buffer 分两次写入磁盘共享表空间中，每次写入 1MB，并马上调用 fsync 函数，同步到磁盘，避免缓冲带来的问题。
-3. 第 2 步完成后，再将两次写缓冲区写入数据文件。
+1. 當需要將緩衝池的髒頁刷新到 data file 時，並不直接寫到數據文件中，而是先拷貝至內存中的 double write buffer。
+2. 接著從 double write buffer 分兩次寫入磁盤共享表空間中，每次寫入 1MB，並馬上調用 fsync 函數，同步到磁盤，避免緩衝帶來的問題。
+3. 第 2 步完成後，再將兩次寫緩衝區寫入數據文件。
 
-如下是执行示意图。
+如下是執行示意圖。
 
 ![how innodb double write works]({{ site.url }}/images/databases/mysql/innodb-double-write-works.jpg "how innodb double write works"){: .pull-center }
 
-在这个过程中，第二步的 double write 是顺序写，所以开销并不大；而第三步，在将 double write buffer 写入各表空间文件，是离散写入；而 double write 实际引入的是第二步的开销。
+在這個過程中，第二步的 double write 是順序寫，所以開銷並不大；而第三步，在將 double write buffer 寫入各表空間文件，是離散寫入；而 double write 實際引入的是第二步的開銷。
 
-### 恢复过程
+### 恢復過程
 
-有 double write 后，恢复时就简单多了，首先检查数据页，如果损坏，则尝试从 double write 中恢复数据；然后，检查 double writer 的数据的完整性，如果不完整直接丢弃，重新执行 redo log；如果 double write 的数据是完整的，用 double buffer 的数据更新该数据页，跳过该 redo log。
+有 double write 後，恢復時就簡單多了，首先檢查數據頁，如果損壞，則嘗試從 double write 中恢復數據；然後，檢查 double writer 的數據的完整性，如果不完整直接丟棄，重新執行 redo log；如果 double write 的數據是完整的，用 double buffer 的數據更新該數據頁，跳過該 redo log。
 
 ![how innodb double write recovery]({{ site.url }}/images/databases/mysql/innodb-double-write-recovery.jpg "how innodb double write recovery"){: .pull-center }
 
-有些时候，并不是所有的场景都需要使用 Double Write 这样的机制来保证数据的安全准确性，比如当我们使用某些特别文件系统的时候，如在 Solaris 平台上非常著名的 ZFS 文件系统，他就可以自己保证文件写入的完整性。
+有些時候，並不是所有的場景都需要使用 Double Write 這樣的機制來保證數據的安全準確性，比如當我們使用某些特別文件系統的時候，如在 Solaris 平臺上非常著名的 ZFS 文件系統，他就可以自己保證文件寫入的完整性。
 
-再有就是从机，或者硬件也提供了类似的原子写入功能，因此可以关闭 double write 功能。
+再有就是從機，或者硬件也提供了類似的原子寫入功能，因此可以關閉 double write 功能。
 
-也即将 innodb_doublewrite 变量设置为 OFF，此时的写入过程大致如下。
+也即將 innodb_doublewrite 變量設置為 OFF，此時的寫入過程大致如下。
 
 ![innodb double write closed]({{ site.url }}/images/databases/mysql/innodb-double-write-closed.png "innodb double write closed"){: .pull-center width="90%" }
 
-## 源码解析
+## 源碼解析
 
-如上所述，一个 dblwr 有 2MB 也就是 128 pages，其中默认有 120 pages 用于批量刷新，可以直接通过 ```innodb_doublewrite_batch_size``` 变量设置，其包括了 BUF_FLUSH_LRU、BUF_FLUSH_LIST，剩下的 8 个页用于单个 page 的 flush。
+如上所述，一個 dblwr 有 2MB 也就是 128 pages，其中默認有 120 pages 用於批量刷新，可以直接通過 ```innodb_doublewrite_batch_size``` 變量設置，其包括了 BUF_FLUSH_LRU、BUF_FLUSH_LIST，剩下的 8 個頁用於單個 page 的 flush。
 
 {% highlight cpp %}
-UNIV_INTERN buf_dblwr_t* buf_dblwr = NULL;          // 定义Double Write Buffer全局变量
+UNIV_INTERN buf_dblwr_t* buf_dblwr = NULL;          // 定義Double Write Buffer全局變量
 
 struct buf_dblwr_t {
-    ib_mutex_t  mutex;                 // 互斥量，用于保护first_free、write_buf
-    ulint       block1;                // 第一个doubewrite块(64 pages)的page no
-    ulint       block2;                // 第二个doublewrite块的page no
-    ulint       first_free;            // 在write_buf中第一个空闲的位置，单位为UNIV_PAGE_SIZE
-    ulint       b_reserved;            // 为batch flush预留的slot数
+    ib_mutex_t  mutex;                 // 互斥量，用於保護first_free、write_buf
+    ulint       block1;                // 第一個doubewrite塊(64 pages)的page no
+    ulint       block2;                // 第二個doublewrite塊的page no
+    ulint       first_free;            // 在write_buf中第一個空閒的位置，單位為UNIV_PAGE_SIZE
+    ulint       b_reserved;            // 為batch flush預留的slot數
     os_event_t  b_event;               // 等待batch flush完成的事件
-    ulint       s_reserved;            // 为单个page刷新预留的slot数
+    ulint       s_reserved;            // 為單個page刷新預留的slot數
     os_event_t  s_event;               // 等待single flush完成的事件
-    bool*       in_use;                // 标记一个slot是否被使用，只用于single page flush
-    bool        batch_running;         // 当设置为TRUE时，表明有batch flush正在执行
-    byte*       write_buf;             // dblwr在内存的缓存，以UNIV_PAGE_SIZE为单位对齐
-    byte*       write_buf_unaligned;   // 未对齐的write_buf
-    buf_page_t**    buf_block_arr;     // 存储已经cache到write_buf的block的指针
+    bool*       in_use;                // 標記一個slot是否被使用，只用於single page flush
+    bool        batch_running;         // 當設置為TRUE時，表明有batch flush正在執行
+    byte*       write_buf;             // dblwr在內存的緩存，以UNIV_PAGE_SIZE為單位對齊
+    byte*       write_buf_unaligned;   // 未對齊的write_buf
+    buf_page_t**    buf_block_arr;     // 存儲已經cache到write_buf的block的指針
 };
 {% endhighlight %}
 
-对于 FLUSH 操作，有三种类型。
+對於 FLUSH 操作，有三種類型。
 
-* BUF_FLUSH_LRU<br>从 buffer pool 的 LRU 上扫描并刷新。
-* BUF_FLUSH_LIST<br>从 buffer pool 的 FLUSH LIST 上扫描并刷新。
-* BUF_FLUSH_SINGLE_PAGE<br>从 LRU 上只刷新一个 page，会通过 ```buf_dblwr_write_single_page()``` 来写一个 page 。
+* BUF_FLUSH_LRU<br>從 buffer pool 的 LRU 上掃描並刷新。
+* BUF_FLUSH_LIST<br>從 buffer pool 的 FLUSH LIST 上掃描並刷新。
+* BUF_FLUSH_SINGLE_PAGE<br>從 LRU 上只刷新一個 page，會通過 ```buf_dblwr_write_single_page()``` 來寫一個 page 。
 
-前两种属于 BATCH FLUSH，最后一种属于 SINGLE FLUSH，在 ```buf_flush_write_block_low()``` 函数中执行如下逻辑。
+前兩種屬於 BATCH FLUSH，最後一種屬於 SINGLE FLUSH，在 ```buf_flush_write_block_low()``` 函數中執行如下邏輯。
 
 <!--
-BUF_FLUSH_SINGLE_PAGE在几种情况下使用到：
+BUF_FLUSH_SINGLE_PAGE在幾種情況下使用到：
 1.buf_flush_or_remove_page
-2.buf_flush_single_page_from_LRU，这在FREE LIST不够用时，IO-bound场景下，可能频繁调用到（buf_LRU_get_free_block）
+2.buf_flush_single_page_from_LRU，這在FREE LIST不夠用時，IO-bound場景下，可能頻繁調用到（buf_LRU_get_free_block）
 3.buf_flush_page_try
 -->
 
 {% highlight text %}
-buf_flush_page()                      将可以刷新的页写入到磁盘中
+buf_flush_page()                      將可以刷新的頁寫入到磁盤中
  |-buf_flush_write_block_low()
-   |-buf_dblwr_write_single_page()    刷新类型为BUF_FLUSH_SINGLE_PAGE时
-   |                                  会写入dblwr+sync，然后写入datafile+sync
+   |-buf_dblwr_write_single_page()    刷新類型為BUF_FLUSH_SINGLE_PAGE時
+   |                                  會寫入dblwr+sync，然後寫入datafile+sync
    |
-   |-buf_dblwr_add_to_batch()         批量写入，只要是非SINGLE都划分到此类
+   |-buf_dblwr_add_to_batch()         批量寫入，只要是非SINGLE都劃分到此類
    |
-   |-fil_flush()                      如果是同步，则刷新并等待执行完成
+   |-fil_flush()                      如果是同步，則刷新並等待執行完成
    |-buf_page_io_complete()
 {% endhighlight %}
 
-在如上的配置中，只要不是 SINGLE 类型，都作为 BATCH 。
+在如上的配置中，只要不是 SINGLE 類型，都作為 BATCH 。
 
 ### single
 
-也就是在 ```buf_dblwr_write_single_page()``` 函数中，用于将一个 page 加入到 double write buffer 中，并完成写操作
+也就是在 ```buf_dblwr_write_single_page()``` 函數中，用於將一個 page 加入到 double write buffer 中，並完成寫操作
 
 {% highlight cpp %}
 void buf_dblwr_write_single_page(buf_page_t* bpage, bool sync)
 {
-    // 计算为single刷新预留的dblwr page，其中size为dblwr总的页数，一般为128 pages
+    // 計算為single刷新預留的dblwr page，其中size為dblwr總的頁數，一般為128 pages
     size = 2 * TRX_SYS_DOUBLEWRITE_BLOCK_SIZE;
-    n_slots = size - srv_doublewrite_batch_size;  // 默认为8 pages
+    n_slots = size - srv_doublewrite_batch_size;  // 默認為8 pages
 
-    // 接下来需要检查下数据的有效性
+    // 接下來需要檢查下數據的有效性
     if (buf_page_get_state(bpage) == BUF_BLOCK_FILE_PAGE) {
 
         /* Check that the actual page in the buffer pool is
@@ -198,7 +198,7 @@ void buf_dblwr_write_single_page(buf_page_t* bpage, bool sync)
     }
 
 retry:
-    // 当s_reserved值等于最大single page数量时，线程会等待有空闲slot
+    // 當s_reserved值等於最大single page數量時，線程會等待有空閒slot
     mutex_enter(&buf_dblwr->mutex);
     if (buf_dblwr->s_reserved == n_slots) {
 
@@ -210,7 +210,7 @@ retry:
         goto retry;
     }
 
-    // 找到一个没有在使用的slot，分配给当前page，将in_use设为TRUE，并递增s_reserved
+    // 找到一個沒有在使用的slot，分配給當前page，將in_use設為TRUE，並遞增s_reserved
     for (i = srv_doublewrite_batch_size; i < size; ++i) {
         if (!buf_dblwr->in_use[i]) {
             break;
@@ -219,9 +219,9 @@ retry:
     buf_dblwr->in_use[i] = true;
     buf_dblwr->s_reserved++;
     buf_dblwr->buf_block_arr[i] = bpage;
-    mutex_exit(&buf_dblwr->mutex);        // 同时释放buf_dblwr->mutex
+    mutex_exit(&buf_dblwr->mutex);        // 同時釋放buf_dblwr->mutex
 
-    // 将单个page写入到double write buffer中
+    // 將單個page寫入到double write buffer中
     if (i < TRX_SYS_DOUBLEWRITE_BLOCK_SIZE) {
         offset = buf_dblwr->block1 + i;
     } else {
@@ -231,7 +231,7 @@ retry:
     if (bpage->size.is_compressed()) {
         memcpy(buf_dblwr->write_buf + univ_page_size.physical() * i,
                bpage->zip.data, bpage->size.physical());
-        // 对于压缩页，会补0
+        // 對於壓縮頁，會補0
         memset(buf_dblwr->write_buf + univ_page_size.physical() * i
                + bpage->size.physical(), 0x0,
                univ_page_size.physical() - bpage->size.physical());
@@ -252,10 +252,10 @@ retry:
                NULL);
     }
 
-    // 将doublewrite buffer中的数据，也就是系统表，写入到磁盘
+    // 將doublewrite buffer中的數據，也就是系統表，寫入到磁盤
     fil_flush(TRX_SYS_SPACE);
 
-    // 将数据写入到数据表中，此时可能是同步操作
+    // 將數據寫入到數據表中，此時可能是同步操作
     buf_dblwr_write_block_to_datafile(bpage, sync);
 }
 {% endhighlight %}
@@ -263,33 +263,33 @@ retry:
 
 ### batch
 
-入口函数为 ```buf_dblwr_add_to_batch()```，也就是将一个 page 加入到 double write buffer 中，如果 batch 满了，则刷 double write buffer 到磁盘。
+入口函數為 ```buf_dblwr_add_to_batch()```，也就是將一個 page 加入到 double write buffer 中，如果 batch 滿了，則刷 double write buffer 到磁盤。
 
 {% highlight cpp %}
 void buf_dblwr_add_to_batch(buf_page_t* bpage)
 {
 try_again:
-    // 获取buf_dblwr->mutex锁
+    // 獲取buf_dblwr->mutex鎖
     mutex_enter(&buf_dblwr->mutex);
 
-    // 当batch_running为TRUE，表示已有线程开始做batch flush来刷dblwr，释放互斥锁，重新等待
+    // 當batch_running為TRUE，表示已有線程開始做batch flush來刷dblwr，釋放互斥鎖，重新等待
     if (buf_dblwr->batch_running) {
-        /* 正常来说，只有后台线程才会做batche flush操作，正常不会有竞争；
-           唯一的例外是当达到sync checkpoint时，用户线程强制做batch flush操作。*/
+        /* 正常來說，只有後臺線程才會做batche flush操作，正常不會有競爭；
+           唯一的例外是當達到sync checkpoint時，用戶線程強制做batch flush操作。*/
         int64_t sig_count = os_event_reset(buf_dblwr->b_event);
         mutex_exit(&buf_dblwr->mutex);
         os_event_wait_low(buf_dblwr->b_event, sig_count);
         goto try_again;
     }
 
-    // 如果batch满了，则释放mutex，主动把dblwr的写到磁盘
+    // 如果batch滿了，則釋放mutex，主動把dblwr的寫到磁盤
     if (buf_dblwr->first_free == srv_doublewrite_batch_size) {
         mutex_exit(&(buf_dblwr->mutex));
         buf_dblwr_flush_buffered_writes();
         goto try_again;
     }
 
-    // 将page拷贝到第buf_dblwr->first_free个槽位，并设置相应的变量
+    // 將page拷貝到第buf_dblwr->first_free個槽位，並設置相應的變量
     byte*   p = buf_dblwr->write_buf
         + univ_page_size.physical() * buf_dblwr->first_free;
     if (bpage->size.is_compressed()) {
@@ -309,7 +309,7 @@ try_again:
     buf_dblwr->first_free++;
     buf_dblwr->b_reserved++;
 
-    // 再次判断batch是否满了，是则释放mutex，主动把dblwr的写到磁盘
+    // 再次判斷batch是否滿了，是則釋放mutex，主動把dblwr的寫到磁盤
     if (buf_dblwr->first_free == srv_doublewrite_batch_size) {
         mutex_exit(&(buf_dblwr->mutex));
         buf_dblwr_flush_buffered_writes();
@@ -321,12 +321,12 @@ try_again:
 
 {% endhighlight %}
 
-接下来，再看看上述函数中调用的 ```buf_dblwr_flush_buffered_writes()```，该函数会对 batch flush 操作批量刷 double write buffer 函数。
+接下來，再看看上述函數中調用的 ```buf_dblwr_flush_buffered_writes()```，該函數會對 batch flush 操作批量刷 double write buffer 函數。
 
 {% highlight cpp %}
 void buf_dblwr_flush_buffered_writes(void)
 {
-    // 如果没有开启doublewrite buffer则直接调用同步写入函数
+    // 如果沒有開啟doublewrite buffer則直接調用同步寫入函數
     if (!srv_use_doublewrite_buf || buf_dblwr == NULL) {
         /* Sync the writes to the disk. */
         buf_dblwr_sync_datafiles();
@@ -334,16 +334,16 @@ void buf_dblwr_flush_buffered_writes(void)
     }
 
 try_again:
-    mutex_enter(&buf_dblwr->mutex);  // 获取锁
+    mutex_enter(&buf_dblwr->mutex);  // 獲取鎖
 
-    // 第一次写入时，直接调用同步写入
+    // 第一次寫入時，直接調用同步寫入
     if (buf_dblwr->first_free == 0) {
         mutex_exit(&buf_dblwr->mutex);
         os_aio_simulated_wake_handler_threads();
         return;
     }
 
-    // 如果batch_running为TRUE，表示正有线程在做batch flush，则等待一段时间重试
+    // 如果batch_running為TRUE，表示正有線程在做batch flush，則等待一段時間重試
     if (buf_dblwr->batch_running) {
         int64_t sig_count = os_event_reset(buf_dblwr->b_event);
         mutex_exit(&buf_dblwr->mutex);
@@ -351,15 +351,15 @@ try_again:
         goto try_again;
     }
 
-    // 设置buf_dblwr->batch_running为true，防止并发写入
-    // 正常来说批量写入只有后台函数以及checkpoint sync的用户线程，但是单页也有可能
+    // 設置buf_dblwr->batch_running為true，防止併發寫入
+    // 正常來說批量寫入只有後臺函數以及checkpoint sync的用戶線程，但是單頁也有可能
     buf_dblwr->batch_running = true;
     first_free = buf_dblwr->first_free;
 
-    mutex_exit(&buf_dblwr->mutex); // 释放锁
+    mutex_exit(&buf_dblwr->mutex); // 釋放鎖
     write_buf = buf_dblwr->write_buf;
 
-    // 检查每一个将要写dblwr的block以及write_buf中的page是否被损坏或者LSN值是否正确
+    // 檢查每一個將要寫dblwr的block以及write_buf中的page是否被損壞或者LSN值是否正確
     for (ulint len2 = 0, i = 0;
          i < buf_dblwr->first_free;
          len2 += UNIV_PAGE_SIZE, i++) {
@@ -376,7 +376,7 @@ try_again:
         buf_dblwr_check_page_lsn(write_buf + len2);
     }
 
-    // 将write_buf中的page写入到文件中，先写第一个block，再写第二个block
+    // 將write_buf中的page寫入到文件中，先寫第一個block，再寫第二個block
     /* Write out the first block of the doublewrite buffer */
     len = ut_min(TRX_SYS_DOUBLEWRITE_BLOCK_SIZE,
              buf_dblwr->first_free) * UNIV_PAGE_SIZE;
@@ -433,18 +433,18 @@ flush:
 {% endhighlight %}
 
 <!--
-    8.将double write buffer刷到磁盘后（fil_flush(TRX_SYS_SPACE);），逐个开始写数据文件(OS_AIO_SIMULATED_WAKE_LATER)
+    8.將double write buffer刷到磁盤後（fil_flush(TRX_SYS_SPACE);），逐個開始寫數據文件(OS_AIO_SIMULATED_WAKE_LATER)
 
      866                 buf_dblwr_write_block_to_datafile(
      867                         buf_dblwr->buf_block_arr[i]);
-    9.唤醒IO线程（os_aio_simulated_wake_handler_threads）
+    9.喚醒IO線程（os_aio_simulated_wake_handler_threads）
 
-注意这里，在函数结束时并没有将batch_running设置为FALSE，因为这里对数据文件做的是异步写，设置标记位的工作留给了IO线程来完成
+注意這裡，在函數結束時並沒有將batch_running設置為FALSE，因為這裡對數據文件做的是異步寫，設置標記位的工作留給了IO線程來完成
 io_handler_thread-> fil_aio_wait-> buf_page_io_complete->buf_flush_write_complete->buf_dblwr_update()：
-看起来在double write buffer中，BATCH FLUSH 和SINGER PAGE FLUSH对应的slot非常独立，那么我们是否可以把这个mutex拆成两个呢？
+看起來在double write buffer中，BATCH FLUSH 和SINGER PAGE FLUSH對應的slot非常獨立，那麼我們是否可以把這個mutex拆成兩個呢？
 
-简单的测试了一把，结果是。。。。。差别不大
-我把自己的想法提到buglist上了，不知道官方的怎么看。。。
+簡單的測試了一把，結果是。。。。。差別不大
+我把自己的想法提到buglist上了，不知道官方的怎麼看。。。
 -->
 
 

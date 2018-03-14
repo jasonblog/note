@@ -1,33 +1,33 @@
 ---
-title: libev 事件库
+title: libev 事件庫
 layout: post
 comments: true
 language: chinese
 category: [linux,program]
 keywords: linux,program,libev,event loop
-description: libev 与 libevent 类似，是一个 C 语言编写的，高性能的事件循环库，在此详细介绍下。
+description: libev 與 libevent 類似，是一個 C 語言編寫的，高性能的事件循環庫，在此詳細介紹下。
 ---
 
-libev 是一个 C 语言编写的，高性能的事件循环库，与此类似的事件循环库还有 libevent、libubox 等，在此详细介绍下 libev 相关的内容。
+libev 是一個 C 語言編寫的，高性能的事件循環庫，與此類似的事件循環庫還有 libevent、libubox 等，在此詳細介紹下 libev 相關的內容。
 
 <!-- more -->
 
-## 简介
+## 簡介
 
-关于 libev 详见官网 [http://software.schmorp.de](http://software.schmorp.de/pkg/libev.html)，其帮助文档可以参考 [官方文档](http://pod.tst.eu/http://cvs.schmorp.de/libev/ev.pod)，安装完之后，可通过 `man 3 ev` 查看帮助信息，文档也在源码中保存了一份，可以通过 `man -l ev.3` 命令查看。
+關於 libev 詳見官網 [http://software.schmorp.de](http://software.schmorp.de/pkg/libev.html)，其幫助文檔可以參考 [官方文檔](http://pod.tst.eu/http://cvs.schmorp.de/libev/ev.pod)，安裝完之後，可通過 `man 3 ev` 查看幫助信息，文檔也在源碼中保存了一份，可以通過 `man -l ev.3` 命令查看。
 
-### 安装
+### 安裝
 
-安装可以源码安装，或者在 CentOS 中，最简单可通过如下方式安装。
+安裝可以源碼安裝，或者在 CentOS 中，最簡單可通過如下方式安裝。
 
 {% highlight text %}
------ 安装库
+----- 安裝庫
 # yum install libev libev-devel
 {% endhighlight %}
 
 ### 示例程序
 
-如下是一个简单的示例程序。
+如下是一個簡單的示例程序。
 
 {% highlight c %}
 #include <ev.h>       // a single header file is required
@@ -81,26 +81,26 @@ int main (void)
 }
 {% endhighlight %}
 
-可以通过如下命令编译。
+可以通過如下命令編譯。
 
 {% highlight text %}
------ 编译示例程序
+----- 編譯示例程序
 $ gcc -lev example.c -o example
 {% endhighlight %}
 
-### 执行过程
+### 執行過程
 
-libev 是一个事件循环，首先需要注册感兴趣的事件，libev 会监控这些事件，当事件发生时调用相应的处理函数，也就是回调函数。其处理过程为：
+libev 是一個事件循環，首先需要註冊感興趣的事件，libev 會監控這些事件，當事件發生時調用相應的處理函數，也就是回調函數。其處理過程為：
 
-1. 初始化一个事件循环<br>可以通过 ev_default_loop(0) 或者 EV_DEFAULT 初始化，两者等价。
-2. 定义数据<br>在 ev.h 中定义了各种类型的，如 ev_io、ev_timer、ev_signal等。
-3. 注册感兴趣的事件<br>在此被称为 watchers ，这个是 C 结构体。
-4. 启动监控<br>启动上步注册的事件，如 ev_io_start()、ev_timer_start() 等。
-5. 启动 libev<br>重复 1,2 步，然后启动 libev 事件循环，直接执行 ev_run() 即可。
+1. 初始化一個事件循環<br>可以通過 ev_default_loop(0) 或者 EV_DEFAULT 初始化，兩者等價。
+2. 定義數據<br>在 ev.h 中定義了各種類型的，如 ev_io、ev_timer、ev_signal等。
+3. 註冊感興趣的事件<br>在此被稱為 watchers ，這個是 C 結構體。
+4. 啟動監控<br>啟動上步註冊的事件，如 ev_io_start()、ev_timer_start() 等。
+5. 啟動 libev<br>重複 1,2 步，然後啟動 libev 事件循環，直接執行 ev_run() 即可。
 
-## 源码详解
+## 源碼詳解
 
-libev 通过观察器 (watcher) 来监听各种事件，watcher 包括了事件类型、优先级、触发条件和回调函数等参数；将其注册到事件循环上，在满足注册的条件时，会触发观察器，调用它的回调函数。
+libev 通過觀察器 (watcher) 來監聽各種事件，watcher 包括了事件類型、優先級、觸發條件和回調函數等參數；將其註冊到事件循環上，在滿足註冊的條件時，會觸發觀察器，調用它的回調函數。
 
 
 {% highlight text %}
@@ -131,9 +131,9 @@ enum {
 {% endhighlight %}
 
 
-libev 中的观察器分为 4 种状态：初始化、启动/活动、等待、停止。
+libev 中的觀察器分為 4 種狀態：初始化、啟動/活動、等待、停止。
 
-首先需要对 watcher 初始化，可通过 `ev_TYPE_init()` 或者 `ev_init()`+`ev_TYPE_set()` 初始化，两者等效；实际就是设置对应结构体的初始值。
+首先需要對 watcher 初始化，可通過 `ev_TYPE_init()` 或者 `ev_init()`+`ev_TYPE_set()` 初始化，兩者等效；實際就是設置對應結構體的初始值。
 
 {% highlight c %}
 #define ev_io_init(ev,cb,fd,events)              \
@@ -164,23 +164,23 @@ libev 中的观察器分为 4 种状态：初始化、启动/活动、等待、�
     do { ev_init ((ev), (cb)); ev_async_set ((ev)); } while (0)
 {% endhighlight %}
 
-接下来，通过 `ev_TYPE_start()`、`ev_TYPE_stop()` 来启动、停止观察器，停止同时会释放内存。
+接下來，通過 `ev_TYPE_start()`、`ev_TYPE_stop()` 來啟動、停止觀察器，停止同時會釋放內存。
 
-### 结构体
+### 結構體
 
-libev 通过 C 语言实现，其中通过宏实现了一种类似的继承机制，也就是其中各种 Watchers 的部分成员变量是相同的，只有少部分成员为各自独有，接下来简单介绍下。
+libev 通過 C 語言實現，其中通過宏實現了一種類似的繼承機制，也就是其中各種 Watchers 的部分成員變量是相同的，只有少部分成員為各自獨有，接下來簡單介紹下。
 
-每个 watcher 都会包含 EV_WATCHER 宏定义的内容，该宏实际会包含如下内容，其中 type 对应类型，如 ev_io 等。
+每個 watcher 都會包含 EV_WATCHER 宏定義的內容，該宏實際會包含如下內容，其中 type 對應類型，如 ev_io 等。
 
 {% highlight c %}
 # define EV_CB_DECLARE(type) void (*cb)(EV_P_ struct type *w, int revents);
 
 #define EV_WATCHER(type) \
-  int active;          /* private，是否激活，通过start()/stop()处理 */ \
-  int pending;         /* private，有事件就绪等待处理，对应了等待队列的下标 */ \
-  EV_DECL_PRIORITY     /* private，定义优先级，如果没有使用优先级则是空 */ \
-  EV_COMMON            /* rw，私有数据，一般是void *data */ \
-  EV_CB_DECLARE (type) /* private，回调函数 */
+  int active;          /* private，是否激活，通過start()/stop()處理 */ \
+  int pending;         /* private，有事件就緒等待處理，對應了等待隊列的下標 */ \
+  EV_DECL_PRIORITY     /* private，定義優先級，如果沒有使用優先級則是空 */ \
+  EV_COMMON            /* rw，私有數據，一般是void *data */ \
+  EV_CB_DECLARE (type) /* private，回調函數 */
 
 #define EV_WATCHER_LIST(type)           \
   EV_WATCHER (type)                     \
@@ -212,7 +212,7 @@ typedef struct ev_timer {
 } ev_timer;
 {% endhighlight %}
 
-如上的 ev_watcher 结构体可以时为 “基类”，通过宏 EV_WATCHER 定义了它的所有成员；而像 IO Watcher、Signal Watcher 是以链表的形式进行组织的，所以在 ev_watcher 基类的基础上，定义了 ev_watcher 的子类 ev_watcher_list 。
+如上的 ev_watcher 結構體可以時為 “基類”，通過宏 EV_WATCHER 定義了它的所有成員；而像 IO Watcher、Signal Watcher 是以鏈表的形式進行組織的，所以在 ev_watcher 基類的基礎上，定義了 ev_watcher 的子類 ev_watcher_list 。
 
 
 
@@ -223,21 +223,21 @@ typedef struct ev_timer {
 
 
 
-#### 多实例支持
+#### 多實例支持
 
-ev_loop 是主循环，保存了与循环相关的很多变量，而 `EV_MULTIPLICITY` 是一个条件编译的宏，表明是否支持有多个 ev_loop 实例存在，表现在源码中表示是否需要传递 `struct ev_loop *loop` 参数，一般来说，每个线程中有且仅有一个 ev_loop 实例。
+ev_loop 是主循環，保存了與循環相關的很多變量，而 `EV_MULTIPLICITY` 是一個條件編譯的宏，表明是否支持有多個 ev_loop 實例存在，表現在源碼中表示是否需要傳遞 `struct ev_loop *loop` 參數，一般來說，每個線程中有且僅有一個 ev_loop 實例。
 
 <!--
-如果支持多个loop，则default_loop_struct就是一个静态的struct ev_loop类型的结构体，其中包含了各种成员，比如ev_tstamp ev_rt_now;  int  pendingpri;等等。
+如果支持多個loop，則default_loop_struct就是一個靜態的struct ev_loop類型的結構體，其中包含了各種成員，比如ev_tstamp ev_rt_now;  int  pendingpri;等等。
 
-ev_default_loop_ptr就是指向struct  ev_loop 类型的指针。
+ev_default_loop_ptr就是指向struct  ev_loop 類型的指針。
 
-如果不支持多个loop，则上述的struct  ev_loop结构就不复存在，其成员都是以静态变量的形式进行定义，而ev_default_loop_ptr也只是一个int变量，用来表明”loop”是否已经初始化成功。
+如果不支持多個loop，則上述的struct  ev_loop結構就不復存在，其成員都是以靜態變量的形式進行定義，而ev_default_loop_ptr也只是一個int變量，用來表明”loop”是否已經初始化成功。
 -->
 
-### 系统时间
+### 系統時間
 
-先看下 libev 是如何使用时间的，因为该库中很多与时间相关的操作；在 libev.m4 中，定义了与之相关的宏，如下所示。
+先看下 libev 是如何使用時間的，因為該庫中很多與時間相關的操作；在 libev.m4 中，定義了與之相關的宏，如下所示。
 
 {% highlight text %}
 AC_CHECK_FUNCS(clock_gettime, [], [
@@ -270,9 +270,9 @@ AC_CHECK_FUNCS(nanosleep, [], [
 ])
 {% endhighlight %}
 
-`clock_gettime()` 函数的调用有两种方式，分别是系统调用和 `-lrt` 库；在上述的 `libev.m4` 中，会进行检测，首先会检测 `clock_gettime()` 系统调用是否可用，如果可用会定义 `HAVE_CLOCK_SYSCALL` 宏。
+`clock_gettime()` 函數的調用有兩種方式，分別是系統調用和 `-lrt` 庫；在上述的 `libev.m4` 中，會進行檢測，首先會檢測 `clock_gettime()` 系統調用是否可用，如果可用會定義 `HAVE_CLOCK_SYSCALL` 宏。
 
-libev 提供了单调递增 (monotonic) 以及实时时间 (realtime) 两种记时方式，其宏定义的方式如下，而 `HAVE_CLOCK_SYSCALL` 和 `HAVE_CLOCK_GETTIME` 的详见 libev.m4 中定义，优先使用 `SYS_clock_gettime()` 系统调用 API 函数。
+libev 提供了單調遞增 (monotonic) 以及實時時間 (realtime) 兩種記時方式，其宏定義的方式如下，而 `HAVE_CLOCK_SYSCALL` 和 `HAVE_CLOCK_GETTIME` 的詳見 libev.m4 中定義，優先使用 `SYS_clock_gettime()` 系統調用 API 函數。
 
 {% highlight c %}
 # if HAVE_CLOCK_SYSCALL
@@ -306,7 +306,7 @@ libev 提供了单调递增 (monotonic) 以及实时时间 (realtime) 两种记�
 # endif
 {% endhighlight %}
 
-优先使用系统调用和单调递增时间，在 CentOS 7 中通常定义为。
+優先使用系統調用和單調遞增時間，在 CentOS 7 中通常定義為。
 
 {% highlight text %}
 #define HAVE_CLOCK_GETTIME 1
@@ -314,11 +314,11 @@ libev 提供了单调递增 (monotonic) 以及实时时间 (realtime) 两种记�
 #define EV_USE_MONOTONIC 1
 {% endhighlight %}
 
-在如下的初始化函数中介绍详细的细节。
+在如下的初始化函數中介紹詳細的細節。
 
 <!--
-场景：
-    1. 使用系统调用
+場景：
+    1. 使用系統調用
     syscall (SYS_clock_gettime, CLOCK_REALTIME, &ts);
 -->
 
@@ -326,9 +326,9 @@ libev 提供了单调递增 (monotonic) 以及实时时间 (realtime) 两种记�
 
 ### 初始化
 
-无论是通过 `EV_DEFAULT` 宏还是 `ev_default_loop()` 函数进行初始化，实际上功能都相同，也就是都调用了 `ev_default_loop(0)` 进行初始化，主要流程为 `ev_default_loop()->loop_init()` 。
+無論是通過 `EV_DEFAULT` 宏還是 `ev_default_loop()` 函數進行初始化，實際上功能都相同，也就是都調用了 `ev_default_loop(0)` 進行初始化，主要流程為 `ev_default_loop()->loop_init()` 。
 
-如下主要介绍 `loop_init()` 函数。
+如下主要介紹 `loop_init()` 函數。
 
 {% highlight c %}
 #ifndef EV_HAVE_EV_TIME
@@ -367,7 +367,7 @@ get_clock (void)
 
 void noinline ecb_cold loop_init (EV_P_ unsigned int flags) EV_THROW
 {
-  if (!backend) {  // 如果backend还没有确定
+  if (!backend) {  // 如果backend還沒有確定
       origflags = flags;
 
 #if EV_USE_REALTIME
@@ -460,23 +460,23 @@ void noinline ecb_cold loop_init (EV_P_ unsigned int flags) EV_THROW
 }
 {% endhighlight %}
 
-其中有两个比较重要的时间变量，也就是 `ev_rt_now` 和 `mn_now`，前者表示当前的日历时间，也就是自 1970.01.01 以来的秒数，该值通过 `gettimeofday()` 得到。
+其中有兩個比較重要的時間變量，也就是 `ev_rt_now` 和 `mn_now`，前者表示當前的日曆時間，也就是自 1970.01.01 以來的秒數，該值通過 `gettimeofday()` 得到。
 
-### 调用流程
+### 調用流程
 
-在介绍各个 Watcher 的流程之前，首先看下主循环的执行过程。
+在介紹各個 Watcher 的流程之前，首先看下主循環的執行過程。
 
-该函数通常是在各个事件初始化完成之后调用，也就是等待操作系统的事件，然后调用已经注册的回调函数，并一直重复循环执行。
+該函數通常是在各個事件初始化完成之後調用，也就是等待操作系統的事件，然後調用已經註冊的回調函數，並一直重複循環執行。
 
 {% highlight c %}
 int ev_run (EV_P_ int flags)
 {
-  ++loop_depth;      // 如果定义了EV_FEATURE_API宏
+  ++loop_depth;      // 如果定義了EV_FEATURE_API宏
   loop_done = EVBREAK_CANCEL;
-  EV_INVOKE_PENDING; // 在执行前确认所有的事件已经执行
+  EV_INVOKE_PENDING; // 在執行前確認所有的事件已經執行
 
   do {
-      ev_verify (EV_A);  // 当EV_VERIFY >= 2时，用于校验当前的结构体是否正常
+      ev_verify (EV_A);  // 當EV_VERIFY >= 2時，用於校驗當前的結構體是否正常
       if (expect_false (curpid)) /* penalise the forking check even more */
         if (expect_false (getpid () != curpid)) {
             curpid = getpid ();
@@ -514,8 +514,8 @@ int ev_run (EV_P_ int flags)
         /* remember old timestamp for io_blocktime calculation */
         ev_tstamp prev_mn_now = mn_now;
 
-        /* 会更新当前时间mn_now和ev_rt_now，如果发现时间被调整，则调用
-         * timers_reschedule()函数调整堆loop->timers()中的每个节点。
+        /* 會更新當前時間mn_now和ev_rt_now，如果發現時間被調整，則調用
+         * timers_reschedule()函數調整堆loop->timers()中的每個節點。
          */
         time_update (EV_A_ 1e100);
 
@@ -527,23 +527,23 @@ int ev_run (EV_P_ int flags)
         if (expect_true (!(flags & EVRUN_NOWAIT || idleall || !activecnt || pipe_write_skipped))) {
             waittime = MAX_BLOCKTIME;
 
-            if (timercnt) {    // 如果有定时器存在则重新计算等待时间
+            if (timercnt) {    // 如果有定時器存在則重新計算等待時間
                 ev_tstamp to = ANHE_at (timers [HEAP0]) - mn_now;
                 if (waittime > to) waittime = to;
             }
-            if (periodiccnt) { // 如果定义了EV_PERIODIC_ENABLE宏
+            if (periodiccnt) { // 如果定義了EV_PERIODIC_ENABLE宏
                 ev_tstamp to = ANHE_at (periodics [HEAP0]) - ev_rt_now;
                 if (waittime > to) waittime = to;
             }
 
             /* don't let timeouts decrease the waittime below timeout_blocktime */
-            if (expect_false (waittime < timeout_blocktime)) // 默认timeout_blocktime为0
+            if (expect_false (waittime < timeout_blocktime)) // 默認timeout_blocktime為0
               waittime = timeout_blocktime;
 
             /* at this point, we NEED to wait, so we have to ensure */
             /* to pass a minimum nonzero value to the backend */
             if (expect_false (waittime < backend_mintime))
-              waittime = backend_mintime;  // 不同的后端最小等待时间不同
+              waittime = backend_mintime;  // 不同的後端最小等待時間不同
 
             /* extra check because io_blocktime is commonly 0 */
             if (expect_false (io_blocktime)) {
@@ -562,8 +562,8 @@ int ev_run (EV_P_ int flags)
 #if EV_FEATURE_API
         ++loop_count;
 #endif
-        /* 调用IO复用函数，例如epoll_poll()，在此需要保证阻塞时间小于loop->timers，
-         * 以及loop->periodics的栈顶元素的触发时间。
+        /* 調用IO複用函數，例如epoll_poll()，在此需要保證阻塞時間小於loop->timers，
+         * 以及loop->periodics的棧頂元素的觸發時間。
          */
         assert ((loop_done = EVBREAK_RECURSE, 1)); /* assert for side effect */
         backend_poll (EV_A_ waittime);
@@ -578,12 +578,12 @@ int ev_run (EV_P_ int flags)
         }
 
         /* update ev_rt_now, do magic */
-        time_update (EV_A_ waittime + sleeptime); // 更新时间，防止timejump
+        time_update (EV_A_ waittime + sleeptime); // 更新時間，防止timejump
       }
 
-      /* 如果栈顶元素的超时时间已经超过了当前时间，则将栈顶元素的监控器添加到
-       * loop->pendings中，并调整堆结构，接着判断栈顶元素是否仍超时，一致重复，
-       * 直到栈顶元素不再超时。
+      /* 如果棧頂元素的超時時間已經超過了當前時間，則將棧頂元素的監控器添加到
+       * loop->pendings中，並調整堆結構，接著判斷棧頂元素是否仍超時，一致重複，
+       * 直到棧頂元素不再超時。
        */
       timers_reify (EV_A); /* relative timers called last */
       periodics_reify (EV_A); /* absolute timers called first */
@@ -595,7 +595,7 @@ int ev_run (EV_P_ int flags)
       if (expect_false (checkcnt))
         queue_events (EV_A_ (W *)checks, checkcnt, EV_CHECK);
 
-      /* 按照优先级，顺序遍厉loop->pendings数组，调用其中每个监视器的回调函数 */
+      /* 按照優先級，順序遍厲loop->pendings數組，調用其中每個監視器的回調函數 */
       EV_INVOKE_PENDING;
     } while (expect_true (
         activecnt
@@ -683,11 +683,11 @@ int ev_run (EV_P_ int flags)
 <!--
 {% highlight text %}
 void ev_invoke_pending (struct ev_loop *loop);
-  调用所有pending的watchers。
+  調用所有pending的watchers。
 
 ev_default_loop()/ev_loop_new()
  |-loop_init()
-   |-ev_recommended_backends()    如果没有设置backend则会尝试选择
+   |-ev_recommended_backends()    如果沒有設置backend則會嘗試選擇
      |-ev_supported_backends()
  |-ev_prepare_init()
 
@@ -699,7 +699,7 @@ ev_run()
 
 ### IO Watcher
 
-对 IO 事件的监控的函数，会在 loop_init() 中初始化 backend_poll 变量，正是通过该函数监控 io 事件，如下是一个简单的示例。
+對 IO 事件的監控的函數，會在 loop_init() 中初始化 backend_poll 變量，正是通過該函數監控 io 事件，如下是一個簡單的示例。
 
 {% highlight text %}
 void cb (struct ev_loop *loop, ev_io *w, int revents)
@@ -708,68 +708,68 @@ void cb (struct ev_loop *loop, ev_io *w, int revents)
     // .. read from stdin here (or from w->fd) and handle any I/O errors
 }
 ev_io watcher;
-ev_io_init (&watcher, cb, STDIN_FILENO, EV_READ);  // 初始化，第三个是文件描述符，第四个是监听事件
+ev_io_init (&watcher, cb, STDIN_FILENO, EV_READ);  // 初始化，第三個是文件描述符，第四個是監聽事件
 ev_io_start (loop, &watcher);
 {% endhighlight %}
 
-其中，ev_io_init() 用来设置结构体的参数，除了初始化通用的变量之外，还包括 io 观察器对应的 fd 和 event 。
+其中，ev_io_init() 用來設置結構體的參數，除了初始化通用的變量之外，還包括 io 觀察器對應的 fd 和 event 。
 
 #### ev_io_start()
 
-作用是设置 `ANFD anfds[]`，其中文件描述符为其序号，并将相应的 IO Watcher 插入到对应 fd 的链表中。由于对应 fd 的监控条件已有改动了，同时会在 `int fdchanges[]` 中记录下该 fd ，并在后续的步骤中调用系统的接口修改对该 fd 监控条件。
+作用是設置 `ANFD anfds[]`，其中文件描述符為其序號，並將相應的 IO Watcher 插入到對應 fd 的鏈表中。由於對應 fd 的監控條件已有改動了，同時會在 `int fdchanges[]` 中記錄下該 fd ，並在後續的步驟中調用系統的接口修改對該 fd 監控條件。
 
 {% highlight c %}
 void noinline ev_io_start (EV_P_ ev_io *w) EV_THROW
 {
   int fd = w->fd;
-  if (expect_false (ev_is_active (w))) // 如果已经启动则直接退出
+  if (expect_false (ev_is_active (w))) // 如果已經啟動則直接退出
     return;
-  EV_FREQUENT_CHECK;                   // 通过ev_verify()校验数据格式是否正常
+  EV_FREQUENT_CHECK;                   // 通過ev_verify()校驗數據格式是否正常
 
-  ev_start (EV_A_ (W)w, 1);            // 设置watch->active变量
+  ev_start (EV_A_ (W)w, 1);            // 設置watch->active變量
   array_needsize (ANFD, anfds, anfdmax, fd + 1, array_init_zero);
   wlist_add (&anfds[fd].head, (WL)w);
 
-  // 添加到fdchanges[]数组中
+  // 添加到fdchanges[]數組中
   fd_change (EV_A_ fd, w->events & EV__IOFDSET | EV_ANFD_REIFY);
   w->events &= ~EV__IOFDSET;
 
-  EV_FREQUENT_CHECK;                   // 如上，通过ev_verify()校验数据格式是否正常
+  EV_FREQUENT_CHECK;                   // 如上，通過ev_verify()校驗數據格式是否正常
 }
 {% endhighlight %}
 
 ![libev io watcher]({{ site.url }}/images/programs/libev_io_watcher_anfds.png "libev io watcher"){: .pull-center }
 
-调用 ev_run() 开始等待事件的触发，该函数中首先会调用 fd_reify()，该函数根据 fdchanges[] 中记录的描述符，将该描述符上的事件添加到 backend 所使用的数据结构中；调用 time_update() 更新当前时间。
+調用 ev_run() 開始等待事件的觸發，該函數中首先會調用 fd_reify()，該函數根據 fdchanges[] 中記錄的描述符，將該描述符上的事件添加到 backend 所使用的數據結構中；調用 time_update() 更新當前時間。
 
-接着计算超时时间，并调用 backend_poll() 开始等待事件的发生，如果事件在规定时间内触发的话，则会调用 fd_event() 将触发的监视器记录到 pendings 中；
+接著計算超時時間，並調用 backend_poll() 開始等待事件的發生，如果事件在規定時間內觸發的話，則會調用 fd_event() 將觸發的監視器記錄到 pendings 中；
 
-backend 监听函数 (如 select()、poll()、epoll_wait()等) 返回后，再次调用 time_update() 更新时间，然后调用 ev_invoke_pending() ，依次处理 pendings 中的监视器，调用该监视器的回调函数。
+backend 監聽函數 (如 select()、poll()、epoll_wait()等) 返回後，再次調用 time_update() 更新時間，然後調用 ev_invoke_pending() ，依次處理 pendings 中的監視器，調用該監視器的回調函數。
 
 
 
 #### fd_reify()
 
-该函数在 ev_run() 的每轮循环中都会调用；会将 fdchanges 中记录的这些新事件一个个的处理，并调用后端 IO 复用的 backend_modify 宏。
+該函數在 ev_run() 的每輪循環中都會調用；會將 fdchanges 中記錄的這些新事件一個個的處理，並調用後端 IO 複用的 backend_modify 宏。
 
 <!--
-这里需要注意fd_reify()中的思想，anfd[fd] 结构体中，还有一个events事件，它是原先的所有watcher 的事件的 "|" 操作，向系统的epoll 从新添加描述符的操作 是在下次事件迭代开始前进行的，当我们依次扫描fdchangs，找到对应的anfd 结构，如果发现先前的events 与 当前所有的watcher 的"|" 操作结果不等，则表示我们需要调用epoll_ctrl 之类的函数来进行更改，反之不做操作。
+這裡需要注意fd_reify()中的思想，anfd[fd] 結構體中，還有一個events事件，它是原先的所有watcher 的事件的 "|" 操作，向系統的epoll 從新添加描述符的操作 是在下次事件迭代開始前進行的，當我們依次掃描fdchangs，找到對應的anfd 結構，如果發現先前的events 與 當前所有的watcher 的"|" 操作結果不等，則表示我們需要調用epoll_ctrl 之類的函數來進行更改，反之不做操作。
 
-实际上 Linux 在分配 fd 时，总是选择系统可用的最小 fd ，所以 anfd 这个数组长度不会太大，而且这个数组会动态分配。
+實際上 Linux 在分配 fd 時，總是選擇系統可用的最小 fd ，所以 anfd 這個數組長度不會太大，而且這個數組會動態分配。
 
-然后启动事件驱动器，最后实际会阻塞到 backend_poll() 中，等待对应的 IO 事件。<br><br>
+然後啟動事件驅動器，最後實際會阻塞到 backend_poll() 中，等待對應的 IO 事件。<br><br>
 
-以 epoll 为例，实际调用的是 ev_epoll.c@epoll_poll() 。当 epoll_wait() 返回一个 fd_event 时 ，就可以直接定位到对应 fd 的 watchers-list ，而这个 watchers-list 的长度与注册的事件相关。<br><br>
+以 epoll 為例，實際調用的是 ev_epoll.c@epoll_poll() 。當 epoll_wait() 返回一個 fd_event 時 ，就可以直接定位到對應 fd 的 watchers-list ，而這個 watchers-list 的長度與註冊的事件相關。<br><br>
 
-fd_event 会有一个导致触发的事件，依次检查对应的 wathers-list ，也即用这个事件依次和各个 watch 注册的 event 做 & 操作，如果不为 0 ，则把对应的 watch 加入到待处理队列 pendings 中。<br><br>
+fd_event 會有一個導致觸發的事件，依次檢查對應的 wathers-list ，也即用這個事件依次和各個 watch 註冊的 event 做 & 操作，如果不為 0 ，則把對應的 watch 加入到待處理隊列 pendings 中。<br><br>
 
-当我们启用 watcher 优先级模式时，pendings 是个 2 维数组，此时仅考虑普通模式。
+當我們啟用 watcher 優先級模式時，pendings 是個 2 維數組，此時僅考慮普通模式。
 -->
 
 
-#### 多路复用
+#### 多路複用
 
-当前支持的多路复用通过如下方式定义，
+當前支持的多路複用通過如下方式定義，
 
 {% highlight c %}
 /* method bits to be ored together */
@@ -785,7 +785,7 @@ enum {
 };
 {% endhighlight %}
 
-而在通过 configure 进行编译时，会对宏进行处理，以 epoll 为例，可以查看 ev.c 中的内容；在通过 configure 编译时，如果支持 EPOLL 会在 config.h 中生成 `HAVE_POLL` 和 `HAVE_POLL_H` 宏定义。
+而在通過 configure 進行編譯時，會對宏進行處理，以 epoll 為例，可以查看 ev.c 中的內容；在通過 configure 編譯時，如果支持 EPOLL 會在 config.h 中生成 `HAVE_POLL` 和 `HAVE_POLL_H` 宏定義。
 
 {% highlight c %}
 # if HAVE_POLL && HAVE_POLL_H
@@ -798,20 +798,20 @@ enum {
 # endif
 {% endhighlight %}
 
-之后调用 ev_recommended_backends() 得到当前系统支持的 backend 类型，比如 select、poll、epoll 等；然后，接下来就是根据系统支持的 backend，按照一定的优先顺序，去初始化 backend 。
+之後調用 ev_recommended_backends() 得到當前系統支持的 backend 類型，比如 select、poll、epoll 等；然後，接下來就是根據系統支持的 backend，按照一定的優先順序，去初始化 backend 。
 
 <!--
-接下来，初始化loop中的ev_prepare监视器pending_w，以及ev_io监视器pipe_w
+接下來，初始化loop中的ev_prepare監視器pending_w，以及ev_io監視器pipe_w
 
-loop_init返回后，backend已经初始化完成，接着，初始化并启动信号监视器ev_signal childev。暂不深入。
+loop_init返回後，backend已經初始化完成，接著，初始化並啟動信號監視器ev_signal childev。暫不深入。
 
-至此，初始化默认loop的工作就完成了。
+至此，初始化默認loop的工作就完成了。
 -->
 
 
 ### Signal Watcher
 
-在收到 SIGINT 时做些清理，直接退出。
+在收到 SIGINT 時做些清理，直接退出。
 
 {% highlight text %}
 static void sigint_cb (struct ev_loop *loop, ev_signal *w, int revents)
@@ -867,7 +867,7 @@ int main (void)
 
 ### Child Watcher
 
-fork 一个新进程，给它安装一个child处理器等待进程结束。
+fork 一個新進程，給它安裝一個child處理器等待進程結束。
 
 {% highlight text %}
 ev_child cw;
@@ -890,12 +890,12 @@ if (pid < 0) {            // error
 }
 {% endhighlight %}
 
-实际上，是通过注册一个 `SIGCHILD` 信号进行处理的，其回调函数是 `childcb` 。
+實際上，是通過註冊一個 `SIGCHILD` 信號進行處理的，其回調函數是 `childcb` 。
 
 
 ### Filestat Watcher
 
-监控 Makefile 是否有变化，可以通过修改文件触发事件。
+監控 Makefile 是否有變化，可以通過修改文件觸發事件。
 
 {% highlight text %}
 static void filestat_cb (struct ev_loop *loop, ev_stat *w, int revents)
@@ -915,9 +915,9 @@ ev_stat_init (&makefile, filestat_cb, "Makefile", 0.);
 ev_stat_start (loop, &makefile);
 {% endhighlight %}
 
-## 代码优化
+## 代碼優化
 
-libev 可以通过很多宏进行调优，默认会通过 EV_FEATURES 宏定义一些特性，定义如下。
+libev 可以通過很多宏進行調優，默認會通過 EV_FEATURES 宏定義一些特性，定義如下。
 
 {% highlight c %}
 #ifndef EV_FEATURES
@@ -940,29 +940,29 @@ libev 可以通过很多宏进行调优，默认会通过 EV_FEATURES 宏定义�
 
 
 
-## 内存分配
+## 內存分配
 
-可以看到很多数组会通过 `array_needsize()` 函数分配内存，简单来说，为了防止频繁申请内存，每次都会尝试申请 `MALLOC_ROUND` 宏指定大小的内存，一般是 4K 。
+可以看到很多數組會通過 `array_needsize()` 函數分配內存，簡單來說，為了防止頻繁申請內存，每次都會嘗試申請 `MALLOC_ROUND` 宏指定大小的內存，一般是 4K 。
 
-如下是在 `ev_timer_start()` 函数中的使用方法。
+如下是在 `ev_timer_start()` 函數中的使用方法。
 
 {% highlight text %}
 array_needsize(ANHE, timers, timermax, ev_active (w) + 1, EMPTY2);
 {% endhighlight %}
 
-简单来说，`ANHE` 表示数组中的成员类型；`timers` 表示数组的基地址；`timermax` 表示当其值，因为可能会预分配一部分内存，所以在分配完成后，同时会将真正分配的内存数返回；`ev_active(w)+1` 表示需要申请的大小。
+簡單來說，`ANHE` 表示數組中的成員類型；`timers` 表示數組的基地址；`timermax` 表示當其值，因為可能會預分配一部分內存，所以在分配完成後，同時會將真正分配的內存數返回；`ev_active(w)+1` 表示需要申請的大小。
 
-在分配内存时，默认会采用 `realloc()` 函数，如果想要自己定义，可以通过 `ev_set_allocator()` 函数进行设置。
+在分配內存時，默認會採用 `realloc()` 函數，如果想要自己定義，可以通過 `ev_set_allocator()` 函數進行設置。
 
 
-## 参考
+## 參考
 
-源码可以从 [freenode - libev](http://freecode.com/projects/libev) 上下载，不过最近的更新是 2011 年，也可以从 [github](https://github.com/enki/libev) 上下载，或者下载 [本地保存版本 libev-4.22](/reference/linux/libev-4.22.tar.bz2)；帮助文档可以参考 [本地文档](/reference/linux/libev.html) 。
+源碼可以從 [freenode - libev](http://freecode.com/projects/libev) 上下載，不過最近的更新是 2011 年，也可以從 [github](https://github.com/enki/libev) 上下載，或者下載 [本地保存版本 libev-4.22](/reference/linux/libev-4.22.tar.bz2)；幫助文檔可以參考 [本地文檔](/reference/linux/libev.html) 。
 
-对于 python ，提供了相关的扩展 [Python libev interface - pyev](http://packages.python.org/pyev/) 。
+對於 python ，提供了相關的擴展 [Python libev interface - pyev](http://packages.python.org/pyev/) 。
 
 <!--
-libev and libevent对比
+libev and libevent對比
 https://blog.gevent.org/2011/04/28/libev-and-libevent/
 -->
 

@@ -1,48 +1,48 @@
 ---
-title: MySQL 主备数据校验
+title: MySQL 主備數據校驗
 layout: post
 comments: true
 language: chinese
 category: [mysql,database]
-keywords: mysql,主备复制,一致性校验
-description: 由于各种原因，MySQL 主从架构可能会出现数据不一致的情况出现，为此需要对主备复制的数据进行校验。在此，简单介绍 Percona-Toolkits 提供的数据校验方式。
+keywords: mysql,主備複製,一致性校驗
+description: 由於各種原因，MySQL 主從架構可能會出現數據不一致的情況出現，為此需要對主備複製的數據進行校驗。在此，簡單介紹 Percona-Toolkits 提供的數據校驗方式。
 ---
 
-由于各种原因，MySQL 主从架构可能会出现数据不一致的情况出现，为此需要对主备复制的数据进行校验。
+由於各種原因，MySQL 主從架構可能會出現數據不一致的情況出現，為此需要對主備複製的數據進行校驗。
 
-在此，简单介绍 Percona-Toolkits 提供的数据校验方式。
+在此，簡單介紹 Percona-Toolkits 提供的數據校驗方式。
 
 <!-- more -->
 
-## 简介
+## 簡介
 
-由于各种原因，MySQL 主从架构可能会出现数据不一致的情况出现，大致归结为如下几类：
+由於各種原因，MySQL 主從架構可能會出現數據不一致的情況出現，大致歸結為如下幾類：
 
-* 主备方式，且在备库写数据；
-* 执行了 non-deterministic query，如用户自定义函数、rand() 等；
-* 回滚掺杂事务表和非事务表的事务；
-* binlog 或者 relaylog 数据损坏。
+* 主備方式，且在備庫寫數據；
+* 執行了 non-deterministic query，如用戶自定義函數、rand() 等；
+* 回滾摻雜事務表和非事務表的事務；
+* binlog 或者 relaylog 數據損壞。
 
-在主库执行基于 statement 的 SQL 语句生成主库数据块的 checksum，把相同的 SQL 语句传递到从库，并在从库上计算相同数据块的 checksum，最后，比较主从库上相同数据块的 checksum 值，由此判断主从数据是否一致。
+在主庫執行基於 statement 的 SQL 語句生成主庫數據塊的 checksum，把相同的 SQL 語句傳遞到從庫，並在從庫上計算相同數據塊的 checksum，最後，比較主從庫上相同數據塊的 checksum 值，由此判斷主從數據是否一致。
 
-这种校验是分表进行的，在每个表内部又是分块进行的，而且提供了非常多的限流选项，因此对线上服务的冲击较小。
+這種校驗是分表進行的，在每個表內部又是分塊進行的，而且提供了非常多的限流選項，因此對線上服務的衝擊較小。
 
-### 环境搭建
+### 環境搭建
 
-在 CentOS 中可以通过如下方式安装依赖 RPM 包。
+在 CentOS 中可以通過如下方式安裝依賴 RPM 包。
 
 {% highlight text %}
 # rpm -ivh perl-DBD-MySQL perl-TermReadKey
 # rpm -ivh percona-toolkit-x.x.x.el7.x86_64.rpm
 {% endhighlight %}
 
-三个包分别为 MySQL 驱动、交互密码输入、主备数据校验工具。如果是双主配置，只需要在一个节点部署即可。如果要测试，可以通过 ```PTDEBUG=1 pt-table-checksum > /tmp/checksum.log 2>&1``` 测试。
+三個包分別為 MySQL 驅動、交互密碼輸入、主備數據校驗工具。如果是雙主配置，只需要在一個節點部署即可。如果要測試，可以通過 ```PTDEBUG=1 pt-table-checksum > /tmp/checksum.log 2>&1``` 測試。
 
-可以通过 ```pt-table-checksum --help``` 查看帮助信息，或者 ```perldoc /usr/local/bin/pt-table-checksum``` 查看详细帮助。
+可以通過 ```pt-table-checksum --help``` 查看幫助信息，或者 ```perldoc /usr/local/bin/pt-table-checksum``` 查看詳細幫助。
 
-### 新建校验结果保存表
+### 新建校驗結果保存表
 
-分别在主备新建数据校验表。
+分別在主備新建數據校驗表。
 
 {% highlight sql %}
 CREATE TABLE `zabbix`.`checksums` (
@@ -63,11 +63,11 @@ CREATE TABLE `zabbix`.`checksums` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 {% endhighlight %}
 
-### 主机用户创建
+### 主機用戶創建
 
-首先需要创建如下用户。
+首先需要創建如下用戶。
 
-#### 脚本部署主机
+#### 腳本部署主機
 
 {% highlight sql %}
 CREATE USER 'checker' IDENTIFIED BY 'password';
@@ -75,14 +75,14 @@ GRANT SUPER, PROCESS, SHOW DATABASES ON *.* TO 'checker'@'localhost';
 GRANT DELETE, INSERT, UPDATE ON zabbix.checksums TO 'checker'@'localhost';
 {% endhighlight %}
 
-权限配置解析：
+權限配置解析：
 
-* SUPER: SET @@binlog_format:="STATEMENT" 设置会话级的 binlog 格式；
-* PROCESS: SHOW GRANTS FOR 查看当前用户的权限信息；
-* SHOW DATABASES: 查看是否存在数据库；
-* DELETE,INSERT,UPDATE: 用于清理、REPLACE INTO、UPDATE checksums 的历史数据；
+* SUPER: SET @@binlog_format:="STATEMENT" 設置會話級的 binlog 格式；
+* PROCESS: SHOW GRANTS FOR 查看當前用戶的權限信息；
+* SHOW DATABASES: 查看是否存在數據庫；
+* DELETE,INSERT,UPDATE: 用於清理、REPLACE INTO、UPDATE checksums 的歷史數據；
 
-#### 另外一台主机
+#### 另外一臺主機
 
 {% highlight sql %}
 CREATE USER 'checker' IDENTIFIED BY 'password';
@@ -90,13 +90,13 @@ GRANT PROCESS, SUPER, REPLICATION CLIENT ON *.* TO 'checker'@'IP-MASTER';
 GRANT SELECT ON zabbix.* TO 'checker'@'IP-MASTER';
 {% endhighlight %}
 
-权限配置解析：
+權限配置解析：
 
-* SUPER, REPLICATION CLIENT: SHOW SLAVE STATUS 查看是否已经同步完成；
-* SELECT: EXPLAIN 评估备库数据量；
+* SUPER, REPLICATION CLIENT: SHOW SLAVE STATUS 查看是否已經同步完成；
+* SELECT: EXPLAIN 評估備庫數據量；
 
 
-### 数据校验命令
+### 數據校驗命令
 
 {% highlight text %}
 $ pt-table-checksum --nocheck-replication-filters --check-slave-tables --chunk-size-limit=1.5 \
@@ -109,9 +109,9 @@ $ pt-table-checksum --nocheck-replication-filters --check-slave-tables --chunk-s
   --databases=somedb --tables=table1,table2,table3
 {% endhighlight %}
 
-### 数据不一致检查
+### 數據不一致檢查
 
-可以直接通过如下命令查看数据不一致的表，需要在备库执行。
+可以直接通過如下命令查看數據不一致的表，需要在備庫執行。
 
 {% highlight sql %}
 SELECT db, tbl, SUM(this_cnt) AS total_rows, COUNT(*) AS chunks
@@ -124,35 +124,35 @@ SELECT db, tbl, SUM(this_cnt) AS total_rows, COUNT(*) AS chunks
 {% endhighlight %}
 
 
-## 执行流程
+## 執行流程
 
-该工具每次只检测一个表，对于表中的数据会分割成 chunk，一般是 1000 条左右数据(默认会动态调整)；这个系统的调用流程可以阐述如下：
+該工具每次只檢測一個表，對於表中的數據會分割成 chunk，一般是 1000 條左右數據(默認會動態調整)；這個系統的調用流程可以闡述如下：
 
-#### 设置超时时间
+#### 設置超時時間
 
-为了减小对线上事务的影响，在主库建立链接后，会先设置会话变量 ```innodb_lock_wait_timeout=1``` 和 ```wait_timeout=10000```，也可以通过 ```--set-vars wait_timeout=500``` 参数覆盖默认值。
+為了減小對線上事務的影響，在主庫建立鏈接後，會先設置會話變量 ```innodb_lock_wait_timeout=1``` 和 ```wait_timeout=10000```，也可以通過 ```--set-vars wait_timeout=500``` 參數覆蓋默認值。
 
-#### 检查 sql_mode
+#### 檢查 sql_mode
 
-通过 ```SELECT @@SQL_MODE``` 命令，确认该变量中不包含 ```ONLY_FULL_GROUP_BY```，因为对于一些正常的函数，该模式仍可能会出错，因此需要通过 ```SET SQL_MODE``` 命令重新设置。
+通過 ```SELECT @@SQL_MODE``` 命令，確認該變量中不包含 ```ONLY_FULL_GROUP_BY```，因為對於一些正常的函數，該模式仍可能會出錯，因此需要通過 ```SET SQL_MODE``` 命令重新設置。
 
-#### 设置 binlog_mode
+#### 設置 binlog_mode
 
-查看当前 ```SELECT @@binlog_mode``` 模式，如果不是 STATEMENT，默认会报错直接退出；当然，可以通过 ```--[no]check-binlog-format``` 参数不检查该参数。
+查看當前 ```SELECT @@binlog_mode``` 模式，如果不是 STATEMENT，默認會報錯直接退出；當然，可以通過 ```--[no]check-binlog-format``` 參數不檢查該參數。
 
-然后，仍会设置会话变量 ```/*!50108 SET @@binlog_format := 'STATEMENT'*/``` 。
+然後，仍會設置會話變量 ```/*!50108 SET @@binlog_format := 'STATEMENT'*/``` 。
 
-#### 设置隔离级别
+#### 設置隔離級別
 
-设置会话的隔离级别为 ```SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ```，主要因为在将 binog_format 设置为 STATEMENT 后，且隔离级别为 RR，那么会报如下的错误 ```Transaction level 'READ-COMMITTED' in InnoDB is not safe for binlog mode 'STATEMENT'```，当然，这正是我们需要的，所以直接忽略该报错信息。
+設置會話的隔離級別為 ```SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ```，主要因為在將 binog_format 設置為 STATEMENT 後，且隔離級別為 RR，那麼會報如下的錯誤 ```Transaction level 'READ-COMMITTED' in InnoDB is not safe for binlog mode 'STATEMENT'```，當然，這正是我們需要的，所以直接忽略該報錯信息。
 
-#### 查找备库
+#### 查找備庫
 
-通过 ```get_slaves()``` 函数查找备库，当然可以在启动时设置不同的备库查找方式，详见 ```find_slave_hosts()``` 函数。
+通過 ```get_slaves()``` 函數查找備庫，當然可以在啟動時設置不同的備庫查找方式，詳見 ```find_slave_hosts()``` 函數。
 
 #### 拼接 SQL
 
-接下来就是拼接主库执行的 SQL 语句，主要的格式如下：
+接下來就是拼接主庫執行的 SQL 語句，主要的格式如下：
 
 {% highlight sql %}
 REPLACE INTO checksum_table(db, tbl, chunk, ...)
@@ -162,19 +162,19 @@ FROM tables FORCE INDEX(`PRIMARY`)
 WHERE ((col >= ?)) AND ((col <= ?));
 {% endhighlight %}
 
-简单介绍下拼接上述 SQL 时的注意内容：
+簡單介紹下拼接上述 SQL 時的注意內容：
 
-* 拼接各个列时，会根据不同的数据类型进行处理，例如以 ```TIMESTAMP``` 类型使用 ```UNIX_TIMESTAMP()``` 函数；可能为 ```NULL``` 时，使用 ```CONCAT(ISNULL())``` 等等；
-* 每次执行查询前会通过 ```EXPLAIN``` 生成执行计划，主要关注评估数据量、索引使用情况，执行时会强制使用索引；
-* 通过 ```WHERE``` 进行分区，也就是 chunk 块，默认会使执行结果尽量接近 ```--chunk-time``` 参数指定的时间，所以每次 chunk 的大小会动态调整。
+* 拼接各個列時，會根據不同的數據類型進行處理，例如以 ```TIMESTAMP``` 類型使用 ```UNIX_TIMESTAMP()``` 函數；可能為 ```NULL``` 時，使用 ```CONCAT(ISNULL())``` 等等；
+* 每次執行查詢前會通過 ```EXPLAIN``` 生成執行計劃，主要關注評估數據量、索引使用情況，執行時會強制使用索引；
+* 通過 ```WHERE``` 進行分區，也就是 chunk 塊，默認會使執行結果儘量接近 ```--chunk-time``` 參數指定的時間，所以每次 chunk 的大小會動態調整。
 
-#### 等待备库执行完成
+#### 等待備庫執行完成
 
-在执行完上述的 SQL 后，需要等待备库执行完成上述的 SQL 语句，也即是计算备库的 CRC 值。
+在執行完上述的 SQL 後，需要等待備庫執行完成上述的 SQL 語句，也即是計算備庫的 CRC 值。
 
-#### 更新主库校验值
+#### 更新主庫校驗值
 
-校验完成后在主库更新校验值，SQL 如下，该语句会将主库校验值同步到备库：
+校驗完成後在主庫更新校驗值，SQL 如下，該語句會將主庫校驗值同步到備庫：
 
 {% highlight sql %}
 UPDATE checksum_table SET chunk_time = ?, master_crc = ?, master_cnt = ?
@@ -183,22 +183,22 @@ UPDATE checksum_table SET chunk_time = ?, master_crc = ?, master_cnt = ?
 
 #### 等待同步完成
 
-接下来就是等待备库执行完成上述的 SQL 语句，也即将主库的校验值同步到备库。在按照 chunk 执行完成之后，接下来只需要去备库的 checksums 表中找 ```master_cnt <> this_cnt or OR master_crc <> this_crc``` 的记录即可。
+接下來就是等待備庫執行完成上述的 SQL 語句，也即將主庫的校驗值同步到備庫。在按照 chunk 執行完成之後，接下來只需要去備庫的 checksums 表中找 ```master_cnt <> this_cnt or OR master_crc <> this_crc``` 的記錄即可。
 
-### 校验函数
+### 校驗函數
 
-简单介绍下上述校验命令中的函数。
+簡單介紹下上述校驗命令中的函數。
 
 #### COALESCE()
 
-类似于 Oracle 中的 NVL() 函数，语义略有区别，会返回参数中第一个非 NULL 表达式的值，从左到右：
+類似於 Oracle 中的 NVL() 函數，語義略有區別，會返回參數中第一個非 NULL 表達式的值，從左到右：
 
 {% highlight text %}
------ 如下函数返回 1
+----- 如下函數返回 1
 mysql> SELECT COALESCE(NULL, NULL, 1);
 {% endhighlight %}
 
-通常使用场景为，如果某个字段默认是 NULL，如果不想返回 NULL，而是 0 或其它值，可以使用该函数：
+通常使用場景為，如果某個字段默認是 NULL，如果不想返回 NULL，而是 0 或其它值，可以使用該函數：
 
 {% highlight text %}
 mysql> SELECT COALESCE(field_name, 0) AS value FROM table;
@@ -206,7 +206,7 @@ mysql> SELECT COALESCE(field_name, 0) AS value FROM table;
 
 #### BIT_XOR()
 
-用于 Binary String 的检测，会字段的值逐位进行检测，如果 bit 相同则返回 0，否则返回 1；比较时会按照行逐行进行检测，示例如下：
+用於 Binary String 的檢測，會字段的值逐位進行檢測，如果 bit 相同則返回 0，否則返回 1；比較時會按照行逐行進行檢測，示例如下：
 
 {% highlight text %}
 mysql> CREATE TABLE foobar (id INT);
@@ -214,11 +214,11 @@ mysql> INSERT INTO foobar VALUES(100), (100), (120);
 mysql> SELECT BIT_XOR(id) FROM foobar;
 {% endhighlight %}
 
-首先是第一行与第二行比较，结果是 0；然后结果 0 与第三行比较，结果是 120。
+首先是第一行與第二行比較，結果是 0；然後結果 0 與第三行比較，結果是 120。
 
 #### CAST()/CONVERT()
 
-CAST() 和 CONVERT() 用来进行类型转换，只是语法不同，可用类型包括了 BINARY、CHAR(N)、DATE、TIME、DATETIME、DECIMAL、SIGNED、UNSIGNED 等：
+CAST() 和 CONVERT() 用來進行類型轉換，只是語法不同，可用類型包括了 BINARY、CHAR(N)、DATE、TIME、DATETIME、DECIMAL、SIGNED、UNSIGNED 等：
 
 {% highlight text %}
 CAST(value AS type);
@@ -227,57 +227,57 @@ CONVERT(value, type);
 
 #### CONV()
 
-语法为 ```CONV(N,from_base,to_base)```，该函数用于数字的基数转换，最小基数值是2，最大值为36，如果任一参数为NULL，则该函数返回NULL。
+語法為 ```CONV(N,from_base,to_base)```，該函數用於數字的基數轉換，最小基數值是2，最大值為36，如果任一參數為NULL，則該函數返回NULL。
 
 {% highlight text %}
------ 将数字5从基数16转为基数2
+----- 將數字5從基數16轉為基數2
 SELECT CONV(5,16,2);
 {% endhighlight %}
 
 
-## 配置选项
+## 配置選項
 
-接下来，看下执行命令时的常用参数。
+接下來，看下執行命令時的常用參數。
 
-### 安全选项
+### 安全選項
 
-* \-\-[no]check-replication-filters (可选)
+* \-\-[no]check-replication-filters (可選)
 
-是否检查复制过滤规则，默认会检查，如果检查到有设置过滤规则会直接退出，主要防治检查的表在主库存在，而备库不存在导致 SQL 异常，主备复制出错；
+是否檢查複製過濾規則，默認會檢查，如果檢查到有設置過濾規則會直接退出，主要防治檢查的表在主庫存在，而備庫不存在導致 SQL 異常，主備複製出錯；
 
-* \-\-[no]check-slave-tables (设置)
+* \-\-[no]check-slave-tables (設置)
 
-默认检查，查看是否所有从库都有被检查的表和列，防止由于改程序导致主备复制异常；每次同时会通过 EXPLAIN 检查备库的执行计划，评估行数；
+默認檢查，查看是否所有從庫都有被檢查的表和列，防止由於改程序導致主備複製異常；每次同時會通過 EXPLAIN 檢查備庫的執行計劃，評估行數；
 
-* \-\-chunk-size-limit=2.0 (设置，尽量确保有主键或者唯一索引)
+* \-\-chunk-size-limit=2.0 (設置，儘量確保有主鍵或者唯一索引)
 
-每次执行校验 SQL 前，会通过 EXPLAIN 检查本次执行SQL的数据量，对于没有唯一索引的表，通过 EXPLAIN 查看的行数差异会比较大，该参数就用于设置最大可以超过 chunk-size 几倍；如果超过 chunk-size*chunk-size-limit，那么就不会对本次的 chunk 做校验。
+每次執行校驗 SQL 前，會通過 EXPLAIN 檢查本次執行SQL的數據量，對於沒有唯一索引的表，通過 EXPLAIN 查看的行數差異會比較大，該參數就用於設置最大可以超過 chunk-size 幾倍；如果超過 chunk-size*chunk-size-limit，那麼就不會對本次的 chunk 做校驗。
 
-如果是 1.0，就以 chunk-size 为准；是 0.0 则表示不对 chunk 大小做校验。
+如果是 1.0，就以 chunk-size 為準；是 0.0 則表示不對 chunk 大小做校驗。
 
-### 限速选项
+### 限速選項
 
-* \-\-check-interval=1 (可选)
+* \-\-check-interval=1 (可選)
 
-需要睡眠多久，再检查一次主从延迟是否超过 max-lag，默认是 1 秒；
+需要睡眠多久，再檢查一次主從延遲是否超過 max-lag，默認是 1 秒；
 
-* \-\-max-load=Threads_running=25 (建议设置)
+* \-\-max-load=Threads_running=25 (建議設置)
 
-设置最大负载，当超过这个值时就等待，防止由于工具导致过载，默认是 ```Threads_running=25``` 等价于 ```Threads_running:25```，可以逗号分隔设置多个值；如果不指定值则会在开始检查变量对应的值，并将上限设置为 120%；
+設置最大負載，當超過這個值時就等待，防止由於工具導致過載，默認是 ```Threads_running=25``` 等價於 ```Threads_running:25```，可以逗號分隔設置多個值；如果不指定值則會在開始檢查變量對應的值，並將上限設置為 120%；
 
-每次执行完一个 chunk 之后，会通过 ```SHOW GLOBAL STATUS``` 查看当前服务器的状态，如果超过了上述值，就会等待；如果校验 SQL 导致锁等待，则会导致队列增加，进而 Threads_running 增加，通过该参数可以减小系统负载。
+每次執行完一個 chunk 之後，會通過 ```SHOW GLOBAL STATUS``` 查看當前服務器的狀態，如果超過了上述值，就會等待；如果校驗 SQL 導致鎖等待，則會導致隊列增加，進而 Threads_running 增加，通過該參數可以減小系統負載。
 
-* \-\-check-slave-lag="h=slave1" (可选)
+* \-\-check-slave-lag="h=slave1" (可選)
 
-是否只检查这个从库的复制延迟，如果有些场景通过 pt-slave-delay 特意设置了延迟复制，那么可以通过该参数指定需要关注哪些复制延迟。
+是否只檢查這個從庫的複製延遲，如果有些場景通過 pt-slave-delay 特意設置了延遲複製，那麼可以通過該參數指定需要關注哪些複製延遲。
 
-* \-\-max-lag=1s (设置)
+* \-\-max-lag=1s (設置)
 
-检查备库的最大延迟，也就是 ```Seconds_Behind_Master``` 参数，当超过这个就等待，而且如果备库复制线程异常，同样会等待；默认会检查所有库，也可以通过 check-slave-lag 指定需要检查哪些库。
+檢查備庫的最大延遲，也就是 ```Seconds_Behind_Master``` 參數，當超過這個就等待，而且如果備庫複製線程異常，同樣會等待；默認會檢查所有庫，也可以通過 check-slave-lag 指定需要檢查哪些庫。
 
-### 过滤选项
+### 過濾選項
 
-可以指定只检查哪些数据库、表、列、存储引擎等，也可以使用 Perl 正则表达式；除此之外，也可以指定忽略哪些。
+可以指定只檢查哪些數據庫、表、列、存儲引擎等，也可以使用 Perl 正則表達式；除此之外，也可以指定忽略哪些。
 
 * \-\-ignore-databases
 * \-\-ignore-databases-regex
@@ -292,7 +292,7 @@ SELECT CONV(5,16,2);
 * \-\-columns
 * \-\-engines
 
-### 主库登陆选项
+### 主庫登陸選項
 
 * \-\-host
 * \-\-user
@@ -301,103 +301,103 @@ SELECT CONV(5,16,2);
 * \-\-ask-pass
 * \-\-socket
 
-### 其它参数：
+### 其它參數：
 
 * \-\-[no]empty-replicate-table
 
-默认yes，会在每次执行校验前清理要校验表对应的记录，注意该操作不会TRUNCATE TABLE，如果需要，则要手动执行；
+默認yes，會在每次執行校驗前清理要校驗表對應的記錄，注意該操作不會TRUNCATE TABLE，如果需要，則要手動執行；
 
 * \-\-progress=time,30
 
-输出当前的进展，有三种输出方式，包括了两个参数值，默认是 time,30，还可以设置为 percentage,time,iterations；
+輸出當前的進展，有三種輸出方式，包括了兩個參數值，默認是 time,30，還可以設置為 percentage,time,iterations；
 
 * \-\-explain
 
-打印要执行的命令，但是不执行 (dry run)；
+打印要執行的命令，但是不執行 (dry run)；
 
 * \-\-[no]create-replicate-table
 
-检查 replicate 参数指定的表，如果不存在是否创建；
+檢查 replicate 參數指定的表，如果不存在是否創建；
 
 * \-\-replicate=percona.checksums
 
-将校验结果写入到那个表中，默认是 percona.checksums，可以通过该参数指定；
+將校驗結果寫入到那個表中，默認是 percona.checksums，可以通過該參數指定；
 
-* \-\-binary-index (默认不开启测试)
+* \-\-binary-index (默認不開啟測試)
 
-默认通过 replicate 指定的表的 lower_boundary、upper_boundary 字段格式为 text，有些情况下可能会存在不兼容，通过该参数将定义上述字段为 blob 格式；
+默認通過 replicate 指定的表的 lower_boundary、upper_boundary 字段格式為 text，有些情況下可能會存在不兼容，通過該參數將定義上述字段為 blob 格式；
 
 * \-\-[no]replicate-check
 
-默认 yes，也就是每次校验完一个表之后，会等待各个备库同步完成，从而进行数据校验，如果关闭则需要通过 replicate-check-only 参数再检查一遍；
+默認 yes，也就是每次校驗完一個表之後，會等待各個備庫同步完成，從而進行數據校驗，如果關閉則需要通過 replicate-check-only 參數再檢查一遍；
 
 * \-\-replicate-check-only
 
-不执行数据校验的 SQL，只查询保存的结果；
+不執行數據校驗的 SQL，只查詢保存的結果；
 
 * \-\-run-time=NUM
 
-要执行多长时间，每个循环会检测是否达到该参数设置值，可以指定单位，默认是秒，可以指定参数 s=seconds,m=minutes,h=hours,d=days；如果使用 ```--resume``` 那么之前的时间也会计算在内；
+要執行多長時間，每個循環會檢測是否達到該參數設置值，可以指定單位，默認是秒，可以指定參數 s=seconds,m=minutes,h=hours,d=days；如果使用 ```--resume``` 那麼之前的時間也會計算在內；
 
 * \-\-recurse=NUM
 
-在查找复制库时指定递归层次，可以查看 ```recurse_to_slaves()``` 函数；
+在查找複製庫時指定遞歸層次，可以查看 ```recurse_to_slaves()``` 函數；
 
 * \-\-recursion-method=processlist
 
-递归查找时的方法，包括了 processlist(```SHOW PROCESSLIST```)、hosts(```SHOW SLAVE HOSTS```)、none，详细查看 ```recurse_to_slaves()``` 函数；默认在启动时会检查所有的级联备库，可以通过该参数确认递归方法，通过 recurse 设置检查级联数；
+遞歸查找時的方法，包括了 processlist(```SHOW PROCESSLIST```)、hosts(```SHOW SLAVE HOSTS```)、none，詳細查看 ```recurse_to_slaves()``` 函數；默認在啟動時會檢查所有的級聯備庫，可以通過該參數確認遞歸方法，通過 recurse 設置檢查級聯數；
 
 * \-\-[no]check-binlog-format
 
-检查各个节点的格式是否相同，一般需要保证 binlog 格式为 STATEMENT 。
+檢查各個節點的格式是否相同，一般需要保證 binlog 格式為 STATEMENT 。
 
 * \-\-[no]check-plan
 
-每次在执行正式查询前，默认会通过 EXPLAIN 查看执行计划，然后判断执行计划是否有问题，有可能会跳过本 chunk；
+每次在執行正式查詢前，默認會通過 EXPLAIN 查看執行計劃，然後判斷執行計劃是否有問題，有可能會跳過本 chunk；
 
 * \-\-replicate-check-retries
 
-当出现校验异常时，会尝试多少次；
+當出現校驗異常時，會嘗試多少次；
 
 * \-\-replicate-database
 
-默认会在执行过程中通过 USE 切换数据库，如果设置了 ```binlog_ignore_db```、```replicate_ignore_db``` 类型的参数，那么可能会导致错误，通过该参数可以防止切换数据库；
+默認會在執行過程中通過 USE 切換數據庫，如果設置了 ```binlog_ignore_db```、```replicate_ignore_db``` 類型的參數，那麼可能會導致錯誤，通過該參數可以防止切換數據庫；
 
 * \-\-chunk-index
 
-优先选择使用的索引，如果索引不存在则自动选择合适的索引，然后在执行 SQL 时会通过 ```FORCE INDEX``` 指定索引，当然如果指定错的话可能会有问题，建议只针对单表设置；
+優先選擇使用的索引，如果索引不存在則自動選擇合適的索引，然後在執行 SQL 時會通過 ```FORCE INDEX``` 指定索引，當然如果指定錯的話可能會有問題，建議只針對單表設置；
 
 * \-\-chunk-index-columns
 
-只使用索引最左匹配的几个列，通常可以在 MySQL 优化器有问题时进行设置；
+只使用索引最左匹配的幾個列，通常可以在 MySQL 優化器有問題時進行設置；
 
 * \-\-chunk-size
 
-每次校验查询时的查询数据行数，可以使用 k,M,G 后缀，不建议直接使用，最好设置 chunk-time；默认会在每次查询时动态调整尽量接近 chunk-time 值，不指定时采用默认值作为起始值，后续的查询则动态调整，如果指定则严格按照该参数进行查询；
+每次校驗查詢時的查詢數據行數，可以使用 k,M,G 後綴，不建議直接使用，最好設置 chunk-time；默認會在每次查詢時動態調整儘量接近 chunk-time 值，不指定時採用默認值作為起始值，後續的查詢則動態調整，如果指定則嚴格按照該參數進行查詢；
 
 * \-\-chunk-time
 
-如上，每次查询会动态调整 checksum 查询的记录数，使执行时间尽量接近该值，单位是秒；
+如上，每次查詢會動態調整 checksum 查詢的記錄數，使執行時間儘量接近該值，單位是秒；
 
 * \-\-config
 
-指定配置文件，如果指定则需要设置为命令行的第一项；
+指定配置文件，如果指定則需要設置為命令行的第一項；
 
 * \-\-defaults-file
 
-指定 MySQL 配置文件，需要使用绝对路径；
+指定 MySQL 配置文件，需要使用絕對路徑；
 
 * \-\-float-precision
 
-用于浮点数四舍五入，会通过 ROUND() 函数处理，防止在不同平台上由于精度不同导致校验失败，例如为2时对于 1.008 和 1.009 会四舍五入为 1.01；
+用於浮點數四捨五入，會通過 ROUND() 函數處理，防止在不同平臺上由於精度不同導致校驗失敗，例如為2時對於 1.008 和 1.009 會四捨五入為 1.01；
 
 * \-\-function
 
-指定数据校验的函数，如果采用 CRC32 可能会有 hash 冲突，而 SHA1+MD5 对 CPU 消耗比较大，也可以使用 FNV1A_64()、MURMUR_HASH() 自定义函数进行处理；
+指定數據校驗的函數，如果採用 CRC32 可能會有 hash 衝突，而 SHA1+MD5 對 CPU 消耗比較大，也可以使用 FNV1A_64()、MURMUR_HASH() 自定義函數進行處理；
 
 * \-\-pid
 
-指定 PID 文件，一般只允许一个实例部署；
+指定 PID 文件，一般只允許一個實例部署；
 
 * \-\-plugin
 
@@ -405,66 +405,66 @@ SELECT CONV(5,16,2);
 
 * \-\-quiet
 
-使用一次时只打印 Errors、Warnings、数据不一致；使用两次则只输出错误信息；
+使用一次時只打印 Errors、Warnings、數據不一致；使用兩次則只輸出錯誤信息；
 
 * \-\-resume
 
-继续上次中断；
+繼續上次中斷；
 
 * \-\-retries
 
-发生非致命问题时(锁等待超时、查询被 kill 等)，每个 chunk 的重试执行次数；
+發生非致命問題時(鎖等待超時、查詢被 kill 等)，每個 chunk 的重試執行次數；
 
 * \-\-separator
 
-执行 CONCAT_WS() 函数时指定的分隔符，默认是 #；
+執行 CONCAT_WS() 函數時指定的分隔符，默認是 #；
 
 * \-\-set-vars
 
-设置会话变量，默认会设置 ```wait_timeout=10000```、```innodb_lock_wait_timeout=1``` 两个参数；
+設置會話變量，默認會設置 ```wait_timeout=10000```、```innodb_lock_wait_timeout=1``` 兩個參數；
 
 * \-\-version
 
-查看当前版本；
+查看當前版本；
 
 * \-\-[no]version-check
 
-自动检查版本，用于更新，除了检查 Percona-toolkit 版本之外，还会检查 Perl 以及 MySQL 的版本，并打印已知问题；
+自動檢查版本，用於更新，除了檢查 Percona-toolkit 版本之外，還會檢查 Perl 以及 MySQL 的版本，並打印已知問題；
 
 * \-\-chunk-size=1000
 
-每次 checksum 校验时查询的记录数，如果指定了该参数，则将 chunk-time 设置为 0；
+每次 checksum 校驗時查詢的記錄數，如果指定了該參數，則將 chunk-time 設置為 0；
 
 * \-\-chunk-time=0.5
 
-每次动态调整 checksum 记录数，使执行时间尽量接近该值，单位是秒；
+每次動態調整 checksum 記錄數，使執行時間儘量接近該值，單位是秒；
 
 * \-\-slave-skip-tolerance
 
-如果设置主库一个 chunk 校验完，而备库可能超过限制大小，那么就会跳过备库的查询；
+如果設置主庫一個 chunk 校驗完，而備庫可能超過限制大小，那麼就會跳過備庫的查詢；
 
 * \-\-trim
 
-主要是针对 VARCHAR 类型的数据列，主要用于 4.1 和 >=5.0 的数据对比，5.0 之后会保存 VARCHAR 类型开始与结尾的空格，而 4.1 则会自动去除；
+主要是針對 VARCHAR 類型的數據列，主要用於 4.1 和 >=5.0 的數據對比，5.0 之後會保存 VARCHAR 類型開始與結尾的空格，而 4.1 則會自動去除；
 
 * \-\-where
 
-用于过滤部分数据，与 mysqldump 的 -w 选项类似；
+用於過濾部分數據，與 mysqldump 的 -w 選項類似；
 
 
 ## FAQs
 
 ##### 1. binlog在row模式下是否支持？
-工具在执行时会将会话变量binlog格式设置为statement；如果级联开启了--log-slave-updates选项，而binlog_format=ROW，那么此时仍有可能在会导致下一层的级联校验失败。
+工具在執行時會將會話變量binlog格式設置為statement；如果級聯開啟了--log-slave-updates選項，而binlog_format=ROW，那麼此時仍有可能在會導致下一層的級聯校驗失敗。
 
 ##### 2. 如何做到流量控制？
-提供了多个参数进行流量控制，每次执行完一个chunk之后，会检查参数是否满足限流要求，如果超过限制则睡眠等待，直到满足要求。详见参数配置中的 "限速选项" 。
+提供了多個參數進行流量控制，每次執行完一個chunk之後，會檢查參數是否滿足限流要求，如果超過限制則睡眠等待，直到滿足要求。詳見參數配置中的 "限速選項" 。
 
 
 <!--
-### 校验数据表确认
+### 校驗數據表確認
 
-导出当前表结构，过滤表数量：
+導出當前表結構，過濾表數量：
 
 ```
 mysqldump --no-data -S /var/lib/mysql/mysql.sock -u omadmin -p'Opsmonitordb@2015' zabbix > opsmonitor.sql
@@ -472,7 +472,7 @@ cat opsmonitor.sql | grep "CREATE TABLE" | wc -l
 cat opsmonitor.sql | grep "PRIMARY KEY" | wc -l
 ```
 
-总计114个表，109有Primary Key，监控表包含了除dbversion、history、history_str、history_uint、tmp_cpustat、history_text、history_log外所有表，包括了
+總計114個表，109有Primary Key，監控表包含了除dbversion、history、history_str、history_uint、tmp_cpustat、history_text、history_log外所有表，包括了
 
 
 pt-table-checksum --nocheck-binlog-format \
@@ -480,20 +480,20 @@ pt-table-checksum --nocheck-binlog-format \
   --replicate=sakila.checksums
 
 
-get_replication_filters() 如果设置check-replication-filters参数，则检查是否设置了过滤选项
+get_replication_filters() 如果設置check-replication-filters參數，則檢查是否設置了過濾選項
 
-check_slave_tables() 默认check-slave-tables
+check_slave_tables() 默認check-slave-tables
 
 
-|-make_chunk_checksum() 生成需要进行校验的列，只有在没有索引或者chunk过大时才会报错
-| |-get_crc_args() 获取CRC参数，测试各种HASH函数测试是否可用
+|-make_chunk_checksum() 生成需要進行校驗的列，只有在沒有索引或者chunk過大時才會報錯
+| |-get_crc_args() 獲取CRC參數，測試各種HASH函數測試是否可用
 | |-make_row_checksum()
-|-OobNibbleIterator() 新建一个循环
+|-OobNibbleIterator() 新建一個循環
   |-
 
 can_nibble()
- |-get_row_estimate() 评估当前数据量，主要通过EXPLAIN测试
- |-_find_best_index() 查找最优的索引
+ |-get_row_estimate() 評估當前數據量，主要通過EXPLAIN測試
+ |-_find_best_index() 查找最優的索引
 
 get_connected_slaves()
 wait_for_master()
@@ -518,7 +518,7 @@ http://keithlan.github.io/2016/05/25/pt_table_checksum/
 http://www.cnblogs.com/xuanzhi201111/p/4180638.html
 -->
 
-## 参考
+## 參考
 
 [DSN (DATA SOURCE NAME) SPECIFICATIONS](https://www.percona.com/doc/percona-toolkit/2.1/dsn_data_source_name_specifications.html)
 

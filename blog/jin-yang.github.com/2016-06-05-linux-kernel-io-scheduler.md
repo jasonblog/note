@@ -1,168 +1,168 @@
 ---
-title: Linux IO 调度器
+title: Linux IO 調度器
 layout: post
 comments: true
 language: chinese
 category: [linux,misc]
 keywords: linux,io,scheduler
-description: 简单记录一下一些与 Markdown 相关的内容，包括了一些使用模版。
+description: 簡單記錄一下一些與 Markdown 相關的內容，包括了一些使用模版。
 ---
 
-用来决定块设备上 IO 操作提交顺序的方法，主要是用于提高吞吐量、降低响应时间。然而两者是相互矛盾的，为了尽量平衡这两者，Linux 内核提供了多种调度算法来适应不同的 IO 请求场景。
+用來決定塊設備上 IO 操作提交順序的方法，主要是用於提高吞吐量、降低響應時間。然而兩者是相互矛盾的，為了儘量平衡這兩者，Linux 內核提供了多種調度算法來適應不同的 IO 請求場景。
 
-这里简单介绍下 Linux 中的 IO 调度器。
+這裡簡單介紹下 Linux 中的 IO 調度器。
 
 <!-- more -->
 
-## Linux IO 调度算法
+## Linux IO 調度算法
 
-Linux 2.6 引入了新的 IO 调度子系统，其总体目标是希望让磁头可以沿着一个方向移动，移动到底了再往反方向走，这恰恰类似于现实生活中的电梯模型，所以对应的调度算法也就叫做电梯算法。
+Linux 2.6 引入了新的 IO 調度子系統，其總體目標是希望讓磁頭可以沿著一個方向移動，移動到底了再往反方向走，這恰恰類似於現實生活中的電梯模型，所以對應的調度算法也就叫做電梯算法。
 
-内核中的电梯算法包括了：AS(Anticipatory)、CFQ(Complete Fairness Queueing)、Deadline、NOOP(No Operation)，可以在启动的时候通过内核参数指定，默认使用的是 CFQ 。
+內核中的電梯算法包括了：AS(Anticipatory)、CFQ(Complete Fairness Queueing)、Deadline、NOOP(No Operation)，可以在啟動的時候通過內核參數指定，默認使用的是 CFQ 。
 
-可以通过如下方式查看或者设置 IO 的调度算法。
+可以通過如下方式查看或者設置 IO 的調度算法。
 
 {% highlight text %}
------ 查看当前系统支持的IO调度算法
+----- 查看當前系統支持的IO調度算法
 # dmesg | grep -i scheduler
 io scheduler noop registered
 io scheduler anticipatory registered
 io scheduler deadline registered
 io scheduler cfq registered (default)
 
------ 查看当前系统的IO调度方法
+----- 查看當前系統的IO調度方法
 $ cat /sys/block/BLOCK-DEVICE/queue/scheduler
 noop anticipatory deadline [cfq]
 
------ 临时修改IO调度方法
+----- 臨時修改IO調度方法
 $ echo "noop" > /sys/block/BLOCK-DEVICE/queue/scheduler
 
------ 永久修改参数
+----- 永久修改參數
 # vim /boot/grub/menu.lst
 kernel /boot/vmlinuz-2.6.32-504.el6 ro root=LABEL=/ elevator=deadline quiet
 {% endhighlight %}
 
 ## NOOP
 
-全称为 No Operation，实际上就是实现了最简单的 FIFO 队列，所有 IO 请求基本会按照先进先出的规则操作，不过对于一些相邻的还是做了 IO 请求合并，而非完全按照 FIFO 规则。
+全稱為 No Operation，實際上就是實現了最簡單的 FIFO 隊列，所有 IO 請求基本會按照先進先出的規則操作，不過對於一些相鄰的還是做了 IO 請求合併，而非完全按照 FIFO 規則。
 
 {% highlight text %}
------ 有如下的IO请求序列
+----- 有如下的IO請求序列
 100, 500, 101, 10, 56, 1000
------ 经过NOOP算法处理之后会按照如下顺序处理
+----- 經過NOOP算法處理之後會按照如下順序處理
 100(101), 500, 10, 56, 1000
 {% endhighlight %}
 
-这一算法是 2.4 之前版本的唯一调度算法，计算比较简单，从而减少了 CPU 的使用，不过容易造成 IO 请求饿死。
+這一算法是 2.4 之前版本的唯一調度算法，計算比較簡單，從而減少了 CPU 的使用，不過容易造成 IO 請求餓死。
 
 <!---
-关于IO饿死的描述如下：因为写请求比读请求更容易。写请求通过文件系统cache，不需要等一次写完成，就可以开始下一次写操作，写请求通过合并，堆积到I/O队列中。读请求需要等到它前面所有的读操作完成，才能进行下一次读操作。在读操作之间有几毫秒时间，而写请求在这之间就到来 ，饿死了后面的读请求 。其适用于SSD或Fusion IO环境下。
+關於IO餓死的描述如下：因為寫請求比讀請求更容易。寫請求通過文件系統cache，不需要等一次寫完成，就可以開始下一次寫操作，寫請求通過合併，堆積到I/O隊列中。讀請求需要等到它前面所有的讀操作完成，才能進行下一次讀操作。在讀操作之間有幾毫秒時間，而寫請求在這之間就到來 ，餓死了後面的讀請求 。其適用於SSD或Fusion IO環境下。
 -->
 
-其应用环境主要有以下两种：一是物理设备中包含了自己的 IO 调度程序，比如 SCSI 的 TCQ；二是寻道时间可以忽略不计的设备，比如 SSD 等。
+其應用環境主要有以下兩種：一是物理設備中包含了自己的 IO 調度程序，比如 SCSI 的 TCQ；二是尋道時間可以忽略不計的設備，比如 SSD 等。
 
 ## CFQ
 
-CFQ (Complete Fair Queuing) 完全公平的排队。
+CFQ (Complete Fair Queuing) 完全公平的排隊。
 
-该算法会按照 IO 请求的地址进行排序，而非按照 FIFO 的顺序进行响应。该算法为每个进程/线程单独创建一个队列来管理该进程所产生的请求，各队列之间的调度使用时间片来调度，以此来保证每个进程都能被很好的分配到 IO 带宽。
+該算法會按照 IO 請求的地址進行排序，而非按照 FIFO 的順序進行響應。該算法為每個進程/線程單獨創建一個隊列來管理該進程所產生的請求，各隊列之間的調度使用時間片來調度，以此來保證每個進程都能被很好的分配到 IO 帶寬。
 
-这是一种 QoS 的 IO 调度算法，为每一个进程分配一个时间窗口，在该时间窗口内，允许进程发出 IO 请求。通过时间窗口在不同进程间的移动，保证了对于所有进程而言都有公平的发出 IO 请求的机会；同时 CFQ 也实现了进程的优先级控制，可保证高优先级进程可以获得更长的时间窗口。
+這是一種 QoS 的 IO 調度算法，為每一個進程分配一個時間窗口，在該時間窗口內，允許進程發出 IO 請求。通過時間窗口在不同進程間的移動，保證了對於所有進程而言都有公平的發出 IO 請求的機會；同時 CFQ 也實現了進程的優先級控制，可保證高優先級進程可以獲得更長的時間窗口。
 
 {% highlight text %}
------ 有如下的IO请求序列
+----- 有如下的IO請求序列
 100，500，101，10，56，1000
------ 经过CFQ算法处理之后会按照如下顺序处理
+----- 經過CFQ算法處理之後會按照如下順序處理
 100，101，500，1000，10，56
 {% endhighlight %}
 
-在传统机械磁盘上，寻道会消耗绝大多数的 IO 响应时间，所以 CFQ 尽量减小磁盘的寻道时间。
+在傳統機械磁盤上，尋道會消耗絕大多數的 IO 響應時間，所以 CFQ 儘量減小磁盤的尋道時間。
 
-CFQ 适用于系统中存在多任务 IO 请求的情况，通过在多进程中轮换，保证了系统 IO 请求整体的低延迟。但是，对于只有少数进程存在大量密集的 IO 请求的情况，会出现明显的 IO 性能下降。
+CFQ 適用於系統中存在多任務 IO 請求的情況，通過在多進程中輪換，保證了系統 IO 請求整體的低延遲。但是，對於只有少數進程存在大量密集的 IO 請求的情況，會出現明顯的 IO 性能下降。
 
-通过 CFQ 算法可以有效提高 SATA 盘的整体吞吐量，但是对于先来的 IO 请求并不一定能被满足，也可能会出现饿死的情况，对于通用的服务器也是比较好的选择。
+通過 CFQ 算法可以有效提高 SATA 盤的整體吞吐量，但是對於先來的 IO 請求並不一定能被滿足，也可能會出現餓死的情況，對於通用的服務器也是比較好的選擇。
 
-CFQ 是 Deadline 和 AS 调度器的折中，对于多媒体应用和桌面系统是最好的选择。
+CFQ 是 Deadline 和 AS 調度器的折中，對於多媒體應用和桌面系統是最好的選擇。
 
-### 配置参数
+### 配置參數
 
-CFQ 调度器主要提供如下参数。
+CFQ 調度器主要提供如下參數。
 
 {% highlight text %}
 $ ls /sys/block/BLOCK-DEVICE/queue/iosched/
 
 slice_idle
-	如果一个进程在自己的时间窗口里，经过 slice_idle 时间都没有发送 IO 请求，则调度选择下一个程序。
+	如果一個進程在自己的時間窗口裡，經過 slice_idle 時間都沒有發送 IO 請求，則調度選擇下一個程序。
 quantum
-	该参数控制在一个时间窗口内可以发送的 IO 请求的最大数目。
+	該參數控制在一個時間窗口內可以發送的 IO 請求的最大數目。
 low_latency
-	对于 IO 请求延时非常重要的任务，可以打开低延迟模式来降低 IO 请求的延时。
+	對於 IO 請求延時非常重要的任務，可以打開低延遲模式來降低 IO 請求的延時。
 {% endhighlight %}
 
 ## DEADLINE
 
-在 CFQ 的基础上，解决了 IO 请求可能会被饿死的极端情况，除了 CFQ 本身具有的 IO 排序队列之外，还分别为读 IO 和写 IO 提供了 FIFO 队列，读 FIFO 队列的最大等待时间为 500ms，写 FIFO 队列的最大等待时间为 5s。
+在 CFQ 的基礎上，解決了 IO 請求可能會被餓死的極端情況，除了 CFQ 本身具有的 IO 排序隊列之外，還分別為讀 IO 和寫 IO 提供了 FIFO 隊列，讀 FIFO 隊列的最大等待時間為 500ms，寫 FIFO 隊列的最大等待時間為 5s。
 
-也就是说针对 IO 请求的延时而设计，每个 IO 请求都被附加一个最后执行期限。该算法维护两类队列，一是按照扇区排序的读写请求队列；二是按照过期时间排序的读写请求队列。
+也就是說針對 IO 請求的延時而設計，每個 IO 請求都被附加一個最後執行期限。該算法維護兩類隊列，一是按照扇區排序的讀寫請求隊列；二是按照過期時間排序的讀寫請求隊列。
 
-如果当前没有 IO 请求过期，则会按照扇区顺序执行 IO 请求；如果发现过期的 IO 请求，则会处理按照过期时间排序的队列，直到所有过期请求都被发送为止；在处理请求时，该算法会优先考虑读请求。
+如果當前沒有 IO 請求過期，則會按照扇區順序執行 IO 請求；如果發現過期的 IO 請求，則會處理按照過期時間排序的隊列，直到所有過期請求都被髮送為止；在處理請求時，該算法會優先考慮讀請求。
 
-FIFO 队列内的 IO 请求优先级要比 CFQ 队列中的高，而读 FIFO 队列的优先级又比写 FIFO 队列的优先级高，也就是说 `FIFO(Read) > FIFO(Write) > CFQ` 。
+FIFO 隊列內的 IO 請求優先級要比 CFQ 隊列中的高，而讀 FIFO 隊列的優先級又比寫 FIFO 隊列的優先級高，也就是說 `FIFO(Read) > FIFO(Write) > CFQ` 。
 
-<!--Deadline 确保了在一个截止时间内服务请求，这个截止时间是可调整的，为了防止了写操作由于不能读取而饿死，默认读期限短于写期限。 -->
+<!--Deadline 確保了在一個截止時間內服務請求，這個截止時間是可調整的，為了防止了寫操作由於不能讀取而餓死，默認讀期限短於寫期限。 -->
 
-### 参数配置
+### 參數配置
 
-当系统中存在的 IO 请求进程数量比较少时，与 CFQ 算法相比，DEADLINE 算法可以提供较高的 IO 吞吐率，主要提供如下参数。
+當系統中存在的 IO 請求進程數量比較少時，與 CFQ 算法相比，DEADLINE 算法可以提供較高的 IO 吞吐率，主要提供如下參數。
 
 {% highlight text %}
 $ ls /sys/block/BLOCK-DEVICE/queue/iosched/
 
 writes_starved
-	该参数控制当读写队列均不为空时，发送多少个读请求后，允许发射写请求。
+	該參數控制當讀寫隊列均不為空時，發送多少個讀請求後，允許發射寫請求。
 read_expire
-	参数控制读请求的过期时间，单位毫秒。
+	參數控制讀請求的過期時間，單位毫秒。
 write_expire
-	参数控制写请求的过期时间，单位毫秒。
+	參數控制寫請求的過期時間，單位毫秒。
 {% endhighlight %}
 
-该算法适用于数据库环境，如 MySQL、PostgreSQL、ES 等。
+該算法適用於數據庫環境，如 MySQL、PostgreSQL、ES 等。
 
 ## Anticipatory
 
-CFQ 和 DEADLINE 主要聚焦于一些零散的 IO 请求上，而对于连续的 IO 请求，比如顺序读写，并没有做优化。
+CFQ 和 DEADLINE 主要聚焦於一些零散的 IO 請求上，而對於連續的 IO 請求，比如順序讀寫，並沒有做優化。
 
-该算法在 DEADLINE 的基础上，为每个读 IO 都设置了 6ms 的等待时间窗口，如果在这 6ms 内 OS 收到了相邻位置的读 IO 请求，就可以立即处理。
+該算法在 DEADLINE 的基礎上，為每個讀 IO 都設置了 6ms 的等待時間窗口，如果在這 6ms 內 OS 收到了相鄰位置的讀 IO 請求，就可以立即處理。
 
 <!--
-本质上与Deadline一样，但在最后一次读操作后，要等待6ms，才能继续进行对其它I/O请求进行调度。可以从应用程序中预订一个新的读请求，改进读操作的执行，但以一些写操作为代价。它会在每个6ms中插入新的I/O操作，而会将一些小写入流合并成一个大写入流，用写入延时换取最大的写入吞吐量。AS适合于写入较多的环境，比如文件服务器，但对对数据库环境表现很差。
+本質上與Deadline一樣，但在最後一次讀操作後，要等待6ms，才能繼續進行對其它I/O請求進行調度。可以從應用程序中預訂一個新的讀請求，改進讀操作的執行，但以一些寫操作為代價。它會在每個6ms中插入新的I/O操作，而會將一些小寫入流合併成一個大寫入流，用寫入延時換取最大的寫入吞吐量。AS適合於寫入較多的環境，比如文件服務器，但對對數據庫環境表現很差。
 -->
 
 
 
 <!--
-读测试
+讀測試
 # time dd if=/dev/sda1 of=/dev/null bs=2M count=300
-写测试
+寫測試
 # time dd if=/dev/zero of=/tmp/test bs=2M count=300
 
 
-ionice可以更改任务的类型和优先级，不过只有cfq调度程序可以用ionice。
+ionice可以更改任務的類型和優先級，不過只有cfq調度程序可以用ionice。
 
-采用cfq的实时调度，优先级为7
+採用cfq的實時調度，優先級為7
 ionice -c1 -n7 -ptime dd if=/dev/sda1 f=/tmp/test bs=2M count=300&
-采用缺省的磁盘I/O调度，优先级为3
+採用缺省的磁盤I/O調度，優先級為3
 ionice -c2 -n3 -ptime dd if=/dev/sda1 f=/tmp/test bs=2M count=300&
-采用空闲的磁盘调度，优先级为0
+採用空閒的磁盤調度，優先級為0
 ionice -c3 -n0 -ptime dd if=/dev/sda1 f=/tmp/test bs=2M count=300&
-ionice的磁盘调度优先级有8种，最高是0，最低是7。注意，磁盘调度的优先级与进程nice的优先级没有关系。一个是针对进程I/O的优先级，一个是针对进程CPU的优先级。
+ionice的磁盤調度優先級有8種，最高是0，最低是7。注意，磁盤調度的優先級與進程nice的優先級沒有關係。一個是針對進程I/O的優先級，一個是針對進程CPU的優先級。
 
-七、总结
+七、總結
 
-CFQ和DEADLINE考虑的焦点在于满足零散IO请求上。对于连续的IO请求，比如顺序读，并没有做优化。为了满足随机IO和顺序IO混合的场景，Linux还支持ANTICIPATORY调度算法。ANTICIPATORY的在DEADLINE的基础上，为每个读IO都设置了6ms的等待时间窗口。如果在这6ms内OS收到了相邻位置的读IO请求，就可以立即满足。
+CFQ和DEADLINE考慮的焦點在於滿足零散IO請求上。對於連續的IO請求，比如順序讀，並沒有做優化。為了滿足隨機IO和順序IO混合的場景，Linux還支持ANTICIPATORY調度算法。ANTICIPATORY的在DEADLINE的基礎上，為每個讀IO都設置了6ms的等待時間窗口。如果在這6ms內OS收到了相鄰位置的讀IO請求，就可以立即滿足。
 
-IO调度器算法的选择，既取决于硬件特征，也取决于应用场景。
-在传统的SAS盘上，CFQ、DEADLINE、ANTICIPATORY都是不错的选择；对于专属的数据库服务器，DEADLINE的吞吐量和响应时间都表现良好。然而在新兴的固态硬盘比如SSD、Fusion IO上，最简单的NOOP反而可能是最好的算法，因为其他三个算法的优化是基于缩短寻道时间的，而固态硬盘没有所谓的寻道时间且IO响应时间非常短。
+IO調度器算法的選擇，既取決於硬件特徵，也取決於應用場景。
+在傳統的SAS盤上，CFQ、DEADLINE、ANTICIPATORY都是不錯的選擇；對於專屬的數據庫服務器，DEADLINE的吞吐量和響應時間都表現良好。然而在新興的固態硬盤比如SSD、Fusion IO上，最簡單的NOOP反而可能是最好的算法，因為其他三個算法的優化是基於縮短尋道時間的，而固態硬盤沒有所謂的尋道時間且IO響應時間非常短。
 
 https://github.com/torvalds/linux/tree/master/Documentation/block
 http://wiki.linuxquestions.org/wiki/IOSched
@@ -175,8 +175,8 @@ http://www.cnblogs.com/zhenjing/archive/2012/06/20/linux_writeback.html
 
 
 
-<br><br><br><h1>IO 调度源码分析</h1><p>
-其中调度算法的更改等操作保存在 block/elevator.c 中，相关的调度算法为 block/*-iosched.c 。
+<br><br><br><h1>IO 調度源碼分析</h1><p>
+其中調度算法的更改等操作保存在 block/elevator.c 中，相關的調度算法為 block/*-iosched.c 。
 <pre style="font-size:0.8em; face:arial;">
 .elevator_dispatch_fn    取出
 .elevator_add_req_fn     添加
@@ -186,9 +186,9 @@ http://www.cnblogs.com/zhenjing/archive/2012/06/20/linux_writeback.html
 
 
 
-## 参考
+## 參考
 
-[Linux IO Stack Diagram](/reference/linux/linux-io-stack-diagram_v0.1.pdf) 文件系统与 IO 的调用层次。
+[Linux IO Stack Diagram](/reference/linux/linux-io-stack-diagram_v0.1.pdf) 文件系統與 IO 的調用層次。
 
 <!--
 https://www.xaprb.com/blog/2010/01/09/how-linux-iostat-computes-its-results/

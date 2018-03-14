@@ -5,36 +5,36 @@ comments: true
 language: chinese
 category: [linux,program,misc]
 keywords: mysql,database,handler
-description: 从最经典 "Hello World" C 程序实例，逐步演示如何通过各种常用工具来分析 ELF 文件，并逐步精简代码，尽量减少可执行文件的大小。接下来，看看一个可打印 "Hello World" 的可执行文件能够小到什么样的地步。
+description: 從最經典 "Hello World" C 程序實例，逐步演示如何通過各種常用工具來分析 ELF 文件，並逐步精簡代碼，儘量減少可執行文件的大小。接下來，看看一個可打印 "Hello World" 的可執行文件能夠小到什麼樣的地步。
 ---
 
-从最经典 "Hello World" C 程序实例，逐步演示如何通过各种常用工具来分析 ELF 文件，并逐步精简代码，尽量减少可执行文件的大小。
+從最經典 "Hello World" C 程序實例，逐步演示如何通過各種常用工具來分析 ELF 文件，並逐步精簡代碼，儘量減少可執行文件的大小。
 
-接下来，看看一个可打印 "Hello World" 的可执行文件能够小到什么样的地步。
+接下來，看看一個可打印 "Hello World" 的可執行文件能夠小到什麼樣的地步。
 
 <!-- more -->
 
-## 简介
+## 簡介
 
-为了最小化可执行文件，需要了解可执行文件的格式，链接生成可执行文件时的后台细节，有哪些内容被链接到了目标代码中，通过选择合适的可执行文件格式并剔除对可执行文件的最终运行没有影响的内容，就可以实现目标代码的裁减。
+為了最小化可執行文件，需要了解可執行文件的格式，鏈接生成可執行文件時的後臺細節，有哪些內容被鏈接到了目標代碼中，通過選擇合適的可執行文件格式並剔除對可執行文件的最終運行沒有影響的內容，就可以實現目標代碼的裁減。
 
-因此，通过探索减少可执行文件大小的方法，就相当于实践性地去探索了可执行文件的格式以及链接过程的细节。
+因此，通過探索減少可執行文件大小的方法，就相當於實踐性地去探索了可執行文件的格式以及鏈接過程的細節。
 
-### 可执行文件格式
+### 可執行文件格式
 
-需要找到一个目标系统支持该可执行文件格式，在 *NIX 平台下主要包括了以下的三种可执行文件格式，这三种格式基本上代表了可执行文件的一个发展过程：
+需要找到一個目標系統支持該可執行文件格式，在 *NIX 平臺下主要包括了以下的三種可執行文件格式，這三種格式基本上代表了可執行文件的一個發展過程：
 
-* a.out，非常紧凑，只包含了程序运行所必须的信息 (文本、数据、BSS)，而且每个 section 的顺序是固定的。
-* coff，为了提高扩展性，引入了一个分区表以支持更多分区信息，重定位在链接时就已经完成，因此不支持动态链接，不过扩展 coff 支持。
-* elf，不仅支持动态链接，而且有很好的扩展性，可描述可重定位文件、可执行文件和可共享文件 (动态链接库) 三类文件。
+* a.out，非常緊湊，只包含了程序運行所必須的信息 (文本、數據、BSS)，而且每個 section 的順序是固定的。
+* coff，為了提高擴展性，引入了一個分區表以支持更多分區信息，重定位在鏈接時就已經完成，因此不支持動態鏈接，不過擴展 coff 支持。
+* elf，不僅支持動態鏈接，而且有很好的擴展性，可描述可重定位文件、可執行文件和可共享文件 (動態鏈接庫) 三類文件。
 
-如下是 ELF 文件的结构图：
+如下是 ELF 文件的結構圖：
 
 ![linux elf format]({{ site.url }}/images/linux/elf-format.png "linux elf format"){: .pull-center }
 
-无论是文件头部、程序头部表、节区头部表还是各个节区，都是通过特定的结构体描述的，这些结构在 elf.h 文件中定义，例如 CentOS 保存在 `/usr/include/elf.h` 文件中。
+無論是文件頭部、程序頭部表、節區頭部表還是各個節區，都是通過特定的結構體描述的，這些結構在 elf.h 文件中定義，例如 CentOS 保存在 `/usr/include/elf.h` 文件中。
 
-文件头部用于描述整个文件的类型、大小、运行平台、程序入口、程序头部表和节区头部表等信息，可以通过如下方式查看文件头部信息。
+文件頭部用於描述整個文件的類型、大小、運行平臺、程序入口、程序頭部表和節區頭部表等信息，可以通過如下方式查看文件頭部信息。
 
 {% highlight text %}
 ----- Hello World示例程序
@@ -47,36 +47,36 @@ int main(void)
 }
 EOF
 
------ 编译产生可重定向的目标代码，查看类型
+----- 編譯產生可重定向的目標代碼，查看類型
 $ gcc -c hello.c
 $ readelf -h hello.o | grep Type
   Type:                              REL (Relocatable file)
 
------ 生成可执行文件，查看类型
+----- 生成可執行文件，查看類型
 $ gcc -o hello hello.o
 $ readelf -h hello | grep Type
   Type:                              EXEC (Executable file)
 
------ 生成共享库，并查看文件类型
+----- 生成共享庫，並查看文件類型
 $ gcc -fpic -shared -W1,-soname,libhello.so.0 -o libhello.so.0.0 hello.o
 $ readelf -h libhello.so.0.0 | grep Type
   Type:                              DYN (Shared object file)
 {% endhighlight %}
 
-那么 `Section Header Table, SHT` 和 `Program Header Table, PHT` 有什么用呢？前者只对可重定向文件有用，而后者只对可执行文件和可共享文件有用。
+那麼 `Section Header Table, SHT` 和 `Program Header Table, PHT` 有什麼用呢？前者只對可重定向文件有用，而後者只對可執行文件和可共享文件有用。
 
 ### Section Header Table
 
-SHT 用来描述各分区，包括各分区的名字、大小、类型、虚拟内存中的位置、相对文件头的位置等，连接器可以根据文件头部表和节区表的描述信息对各种输入的可重定位文件进行合适的链接。
+SHT 用來描述各分區，包括各分區的名字、大小、類型、虛擬內存中的位置、相對文件頭的位置等，連接器可以根據文件頭部表和節區表的描述信息對各種輸入的可重定位文件進行合適的鏈接。
 
 <!--
-包括节区的合并与重组、符号的重定位（确认符号在虚拟内存中的地址）等，把各个可重定向输入文件链接成一个可执行文件（或者是可共享文件）。如果可执行文件中使用了动态连接库，那么将包含一些用于动态符号链接的节区。
+包括節區的合併與重組、符號的重定位（確認符號在虛擬內存中的地址）等，把各個可重定向輸入文件鏈接成一個可執行文件（或者是可共享文件）。如果可執行文件中使用了動態連接庫，那麼將包含一些用於動態符號鏈接的節區。
 -->
 
-可以通过 `readelf -S` 或者 `objdump -h` 查看分区表信息。
+可以通過 `readelf -S` 或者 `objdump -h` 查看分區表信息。
 
 {% highlight text %}
------ 可执行文件、可共享库、可重定位文件默认都生成有分区表
+----- 可執行文件、可共享庫、可重定位文件默認都生成有分區表
 $ readelf -S hello
 ...
 Section Headers:
@@ -95,24 +95,24 @@ Section Headers:
 ...
 {% endhighlight %}
 
-其中不同文件类型，其分区会有所区别，不过有部分分区，包括 `.text`、`.data`、`.bss` 是必须的，如果使用了动态链接库，那么需要 `.interp` 分区告知系统使用什么动态连接器程序来进行动态符号链接，进行某些符号地址的重定位。
+其中不同文件類型，其分區會有所區別，不過有部分分區，包括 `.text`、`.data`、`.bss` 是必須的，如果使用了動態鏈接庫，那麼需要 `.interp` 分區告知系統使用什麼動態連接器程序來進行動態符號鏈接，進行某些符號地址的重定位。
 
 <!--
-通常，.rel.text节区只有可重定向文件有，用于链接时对代码区进行重定向，而.hash,.plt,.got等节区则只有可执行文件（或可共享库）有，这些节区对程序的运行特别重要。还有一些节区，可能仅仅是用于注释，比如.comment，这些对程序的运行似乎没有影响，是可有可无的，不过有些节区虽然对程序的运行没有用处，但是却可以用来辅助对程序进行调试或者对程序运行效率有影响。
+通常，.rel.text節區只有可重定向文件有，用於鏈接時對代碼區進行重定向，而.hash,.plt,.got等節區則只有可執行文件（或可共享庫）有，這些節區對程序的運行特別重要。還有一些節區，可能僅僅是用於註釋，比如.comment，這些對程序的運行似乎沒有影響，是可有可無的，不過有些節區雖然對程序的運行沒有用處，但是卻可以用來輔助對程序進行調試或者對程序運行效率有影響。
 -->
 
 ### Program Header Table
 
-虽然上述的三类文件都包含一些分区，不过分区表只有可重定位文件才是必须的，而程序的执行并不需要分区表，只需要程序头部表以便知道如何加载和执行文件。另外，如果需要对可执行文件或者动态连接库进行调试，那么分区表是必要的，否则调试器将无法工作。
+雖然上述的三類文件都包含一些分區，不過分區表只有可重定位文件才是必須的，而程序的執行並不需要分區表，只需要程序頭部表以便知道如何加載和執行文件。另外，如果需要對可執行文件或者動態連接庫進行調試，那麼分區表是必要的，否則調試器將無法工作。
 
-下面来介绍程序头部表，可通过 `readelf -l` 或者 `objdump -p` 查看。
+下面來介紹程序頭部表，可通過 `readelf -l` 或者 `objdump -p` 查看。
 
 {% highlight text %}
------ 对于可重定向文件，gcc没有产生程序头部，因为它对可重定向文件没用
+----- 對於可重定向文件，gcc沒有產生程序頭部，因為它對可重定向文件沒用
 $ readelf -l hello.o
 There are no program headers in this file.
 
------ 可执行文件和可共享文件都有程序头部
+----- 可執行文件和可共享文件都有程序頭部
 $  readelf -l hello
 ...
 Program Headers:
@@ -135,25 +135,25 @@ Program Headers:
    05     .note.ABI-tag
 {% endhighlight %}
 
-从上面可看出程序头部表描述了一些段 (Segment)，这些段对应着一个或者多个 Sections，可以通过 `readelf -l` 显示了各个段与分区的映射。
+從上面可看出程序頭部表描述了一些段 (Segment)，這些段對應著一個或者多個 Sections，可以通過 `readelf -l` 顯示了各個段與分區的映射。
 
 <!--
-这些段描述了段的名字、类型、大小、第一个字节在文件中的位置、将占用的虚拟内存大小、在虚拟内存中的位置等。这样系统程序解释器将知道如何把可执行文件加载到内存中以及进行动态链接等动作。
+這些段描述了段的名字、類型、大小、第一個字節在文件中的位置、將佔用的虛擬內存大小、在虛擬內存中的位置等。這樣系統程序解釋器將知道如何把可執行文件加載到內存中以及進行動態鏈接等動作。
 
-该可执行文件包含7个段，PHDR指程序头部，INTERP正好对应.interp节区，两个LOAD段包含程序的代码和数据部分，分别包含有.text和.data，.bss节区，DYNAMIC段包含.daynamic，这个节区可能包含动态连接库的搜索路径、可重定位表的地址等信息，它们用于动态连接器。NOTE和GNU_STACK段貌似作用不大，只是保存了一些辅助信息。因此，对于一个不使用动态连接库的程序来说，可能只包含LOAD段，如果一个程序没有数据，那么只有一个LOAD段就可以了。
+該可執行文件包含7個段，PHDR指程序頭部，INTERP正好對應.interp節區，兩個LOAD段包含程序的代碼和數據部分，分別包含有.text和.data，.bss節區，DYNAMIC段包含.daynamic，這個節區可能包含動態連接庫的搜索路徑、可重定位表的地址等信息，它們用於動態連接器。NOTE和GNU_STACK段貌似作用不大，只是保存了一些輔助信息。因此，對於一個不使用動態連接庫的程序來說，可能只包含LOAD段，如果一個程序沒有數據，那麼只有一個LOAD段就可以了。
 -->
 
-简单来说，Linux 支持多种可执行文件格式，但是目前 ELF 较通用，所以这里选择 ELF 作为讨论对象。<!--通过上面对ELF文件分析发现一个可执行的文件可能包含一些对它的运行没用的信息，比如节区表、一些用于调试、注释的节区。如果能够删除这些信息就可以减少可执行文件的大小，而且不会影响可执行文件的正常运行。-->
+簡單來說，Linux 支持多種可執行文件格式，但是目前 ELF 較通用，所以這裡選擇 ELF 作為討論對象。<!--通過上面對ELF文件分析發現一個可執行的文件可能包含一些對它的運行沒用的信息，比如節區表、一些用於調試、註釋的節區。如果能夠刪除這些信息就可以減少可執行文件的大小，而且不會影響可執行文件的正常運行。-->
 
 ## 最小化
 
-仅仅从是否影响一个 C 语言程序运行的角度上说，GCC 默认链接到可执行文件的几个可重定位文件 (`crt1.o` `rti.o` `crtbegin.o` `crtend.o` `crtn.o` ) 并不是必须的。
+僅僅從是否影響一個 C 語言程序運行的角度上說，GCC 默認鏈接到可執行文件的幾個可重定位文件 (`crt1.o` `rti.o` `crtbegin.o` `crtend.o` `crtn.o` ) 並不是必須的。
 
-不过需要注意的是，如果没有链接那些文件但在程序末尾使用了 return 语句，`main()` 将无法返回，需要替换为 `_exit()`<!--；另外，既然程序在进入main之前有一个入口，那么main入口就不是必须的。因此，如果不采用默认链接也可以减少可执行文件的大小-->。
+不過需要注意的是，如果沒有鏈接那些文件但在程序末尾使用了 return 語句，`main()` 將無法返回，需要替換為 `_exit()`<!--；另外，既然程序在進入main之前有一個入口，那麼main入口就不是必須的。因此，如果不採用默認鏈接也可以減少可執行文件的大小-->。
 
-下面以 Hello World 为例，尝试最小化示例程序。
+下面以 Hello World 為例，嘗試最小化示例程序。
 
-### 1. 默认大小
+### 1. 默認大小
 
 {% highlight text %}
 $ cat << EOF > hello.c
@@ -165,15 +165,15 @@ int main(void)
 }
 EOF
 
------ 生成二进制文件，并查看其大小
+----- 生成二進制文件，並查看其大小
 $ gcc -o hello hello.c
 $ wc -c hello
 8520 hello
 {% endhighlight %}
 
-### 2. 自定义编译
+### 2. 自定義編譯
 
-可以考虑把 `return 0` 替换成 `_exit(0)` 并包含定义该函数的 `unistd.h` 头文件，然后接着使用如下的 `Makefile` 进行编译。
+可以考慮把 `return 0` 替換成 `_exit(0)` 幷包含定義該函數的 `unistd.h` 頭文件，然後接著使用如下的 `Makefile` 進行編譯。
 
 {% highlight text %}
 $ cat << EOF > hello.c
@@ -186,20 +186,20 @@ int main(void)
 }
 EOF
 
------ 生成汇编语言
+----- 生成彙編語言
 $ gcc -S hello.c
 
------ 将main入口替换为_start
+----- 將main入口替換為_start
 $ sed -i -e "s/main/_start/g" hello.s
 
------ 编译链接生成可执行文件
+----- 編譯鏈接生成可執行文件
 $ gcc -c hello.s
 $ ld -o hello hello.o -lc -dynamic-linker /lib64/ld-linux-x86-64.so.2
 $ wc -c hello
 6192 hello
 {% endhighlight %}
 
-如果报 `Accessing a corrupted shared library` 错误，那么可能是由于 ld 与编译的程序位数不同，对于 32-bits 的程序，可以通过如下方式编译链接。
+如果報 `Accessing a corrupted shared library` 錯誤，那麼可能是由於 ld 與編譯的程序位數不同，對於 32-bits 的程序，可以通過如下方式編譯鏈接。
 
 {% highlight text %}
 $ gcc -m32 -S hello.c
@@ -207,12 +207,12 @@ $ gcc -m32 -c hello.s
 $ ld -o hello hello.o -m elf_i386 -lc -dynamic-linker /lib/ld-linux.so.2
 {% endhighlight %}
 
-### 3. 删除无用分区
+### 3. 刪除無用分區
 
-部分分区对于程序的运行并非必要的，可以通过 `strip -R` 或者 `objcop -R` 删除。
+部分分區對於程序的運行並非必要的，可以通過 `strip -R` 或者 `objcop -R` 刪除。
 
 {% highlight text %}
------ 查看分区信息
+----- 查看分區信息
 $ readelf -l hello | grep "Segment Sections..." -A 10
   Segment Sections...
    00     
@@ -223,18 +223,18 @@ $ readelf -l hello | grep "Segment Sections..." -A 10
    05     
    06     .dynamic 
 
------ 删除两个无用的分区
+----- 刪除兩個無用的分區
 $ strip -R .hash hello
 $ strip -R .gnu.version hello
 $ wc -c hello
 5192 hello
 {% endhighlight %}
 
-另外，可以从 [Kickers of ELF](http://www.muppetlabs.com/~breadbox/software/elfkickers.html) 下载编译 sstrip 程序，然后执行 `sstrip hello` 删除分区表，在此就不再测试了。
+另外，可以從 [Kickers of ELF](http://www.muppetlabs.com/~breadbox/software/elfkickers.html) 下載編譯 sstrip 程序，然後執行 `sstrip hello` 刪除分區表，在此就不再測試了。
 
-### 4. 使用汇编
+### 4. 使用匯編
 
-接下来看看如何通过汇编进行优化，如下是直接通过 `gcc -S hello.c` 生成的汇编语言，然后以此为基础进行修改。
+接下來看看如何通過彙編進行優化，如下是直接通過 `gcc -S hello.c` 生成的彙編語言，然後以此為基礎進行修改。
 
 {% highlight as %}
         .file   "hello.c"
@@ -263,7 +263,7 @@ main:
         .section        .note.GNU-stack,"",@progbits
 {% endhighlight %}
 
-修改为如下。
+修改為如下。
 
 {% highlight as %}
 .LC0:
@@ -285,16 +285,16 @@ main:
         .cfi_endproc
 {% endhighlight %}
 
-接着看看直接通过 `_start()` 作为入口。
+接著看看直接通過 `_start()` 作為入口。
 
 {% highlight text %}
------ 替换掉main
+----- 替換掉main
 $ sed -i -e "s/main/_start/g" hello.s
------ 编译链接
+----- 編譯鏈接
 $ as --64 -o  hello.o hello.s
 $ ld -o hello hello.o -lc -dynamic-linker /lib64/ld-linux-x86-64.so.2
 
------ 删除两个无用的分区以及分区表
+----- 刪除兩個無用的分區以及分區表
 $ strip -R .hash hello
 $ strip -R .gnu.version hello
 $ sstrip hello
@@ -302,9 +302,9 @@ $ wc -c hello
 4136 hello
 {% endhighlight %}
 
-### 5. 使用系统调用
+### 5. 使用系統調用
 
-也可以直接使用系统调用，此时链接时就不需要依赖 lib 库了。
+也可以直接使用系統調用，此時鏈接時就不需要依賴 lib 庫了。
 
 {% highlight text %}
 $ cat hello.s
@@ -325,7 +325,7 @@ _start:
 message:
     .ascii  "Hello World!\n"
 
------ 编译链接
+----- 編譯鏈接
 $ gcc -c hello.s
 $ ld -o hello hello.o
 $ readelf -l hello
@@ -348,20 +348,20 @@ $ wc -c hello
 175 hello
 {% endhighlight %}
 
-也可以通过 `gcc -nostdlib hello.s -o hello` 进行编译，不过对应的字节会较多，当然，也可以参考 [为可执行文件"减肥"](www.tinylab.org/as-an-executable-file-to-slim-down) 中的介绍在汇编上进行优化。
+也可以通過 `gcc -nostdlib hello.s -o hello` 進行編譯，不過對應的字節會較多，當然，也可以參考 [為可執行文件"減肥"](www.tinylab.org/as-an-executable-file-to-slim-down) 中的介紹在彙編上進行優化。
 
-## 参考
+## 參考
 
-关于最小化可执行 ELF 文件可以参考 [The Teensy Files](http://www.muppetlabs.com/~breadbox/software/tiny/) 中的相关文章，以及相关的 ELF 操作程序 [github BR903/ELFkickers](https://github.com/BR903/ELFkickers) 。
+關於最小化可執行 ELF 文件可以參考 [The Teensy Files](http://www.muppetlabs.com/~breadbox/software/tiny/) 中的相關文章，以及相關的 ELF 操作程序 [github BR903/ELFkickers](https://github.com/BR903/ELFkickers) 。
 
 <!--
-为可执行文件"减肥"
+為可執行文件"減肥"
 www.tinylab.org/as-an-executable-file-to-slim-down/
 /reference/linux/as-an-executable-file-to-slim.maff
 
 http://www.muppetlabs.com/~breadbox/software/elfkickers.html
 
-X86汇编调用框架浅析与CFI简介
+X86彙編調用框架淺析與CFI簡介
 http://blog.csdn.net/permike/article/details/41550991
 -->
 

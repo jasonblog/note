@@ -1,62 +1,62 @@
 ---
-title: 英语的杂七杂八
+title: 英語的雜七雜八
 layout: post
 comments: true
 language: chinese
 category: [misc]
-keywords: 英语
-description: 英语杂七杂八
+keywords: 英語
+description: 英語雜七雜八
 ---
 
 
 <!-- more -->
 
-## 简写
+## 簡寫
 
 #### PS / P.S. / PS.
 
-Postscript 备注，又可解释为附言、后记的缩写，常用于信末签名后的。
+Postscript 備註，又可解釋為附言、後記的縮寫，常用於信末簽名後的。
 
 #### CC
 
-Carbon Copying 复写、抄送，用于 e-mails 中。如 The email CC to me 。
+Carbon Copying 複寫、抄送，用於 e-mails 中。如 The email CC to me 。
 
 #### FYI
 
-For Your Information 提供给您的信息，供您参考。为工作用语，常用于工作的电子邮件中。一般转发邮件时，如果没有需要补充的，就直接写 FYI ，意思是请大家看看注意一下。
+For Your Information 提供給您的信息，供您參考。為工作用語，常用於工作的電子郵件中。一般轉發郵件時，如果沒有需要補充的，就直接寫 FYI ，意思是請大家看看注意一下。
 
 #### AKA
 
-also known as，是又名...，也叫作，换句话说的意思。
+also known as，是又名...，也叫作，換句話說的意思。
 
 #### TODO
 
-to do 用来表示这个地方还有一些事情要做，程序尚有不足，还有一些代码要写，可以作为程序员编写代码时给自己留个备忘。
+to do 用來表示這個地方還有一些事情要做，程序尚有不足，還有一些代碼要寫，可以作為程序員編寫代碼時給自己留個備忘。
 
-## 俚语
+## 俚語
 
 #### Karma is a bitch.
 
 It is another way of saying "What goes around comes around." This means that if you do something bad to someone, one day someone will do bad things to you.
 
-Karma 是印度教的轮回因果报应，通常用在坏事上，比较贴切的是 "出来混迟早是要还的" 。
+Karma 是印度教的輪迴因果報應，通常用在壞事上，比較貼切的是 "出來混遲早是要還的" 。
 
 
 ## 其它
 
-#### 美国人姓名
+#### 美國人姓名
 
-英美人姓名的排列是名在前姓在后，如 John Wilson，John 是名，Wilson 是姓。又如 Edward Adam Davis, Edward 是教名，Adam 是本人名，Davis 为姓。
+英美人姓名的排列是名在前姓在後，如 John Wilson，John 是名，Wilson 是姓。又如 Edward Adam Davis, Edward 是教名，Adam 是本人名，Davis 為姓。
 
-妇女的姓名，结婚后一般是自己的名加丈夫的姓，如 Marie White 女士与 John Davis 先生结婚，婚后女方姓名为 Marie Davis 。
+婦女的姓名，結婚後一般是自己的名加丈夫的姓，如 Marie White 女士與 John Davis 先生結婚，婚後女方姓名為 Marie Davis 。
 
 #### Rain Check
 
-Rain Check 是美国流行口语，典故出自露天举行的棒球比赛。棒球是最受美国人欢迎的运动之一，如球赛进行时天不作美，突然之间下起了倾盆大雨，比赛不得不取消，但是观众可以领取 “雨票”，或用原票存根作为 “雨票”，即球赛改期举行时可凭之入场。
+Rain Check 是美國流行口語，典故出自露天舉行的棒球比賽。棒球是最受美國人歡迎的運動之一，如球賽進行時天不作美，突然之間下起了傾盆大雨，比賽不得不取消，但是觀眾可以領取 “雨票”，或用原票存根作為 “雨票”，即球賽改期舉行時可憑之入場。
 
-Rain Check 这句话后来有了引伸意思，日常生活中普遍应用。比方说有人请你吃饭或看戏，假如你刚巧因事不能奉陪，你可用婉谢的口吻说：```May I take a rain check?``` 直解是：可以给我一张雨票吗? 地道英语的引伸义是：这次抱歉不能赴约，下次有请必到。
+Rain Check 這句話後來有了引伸意思，日常生活中普遍應用。比方說有人請你吃飯或看戲，假如你剛巧因事不能奉陪，你可用婉謝的口吻說：```May I take a rain check?``` 直解是：可以給我一張雨票嗎? 地道英語的引伸義是：這次抱歉不能赴約，下次有請必到。
 
-上句是很客气的委婉讲法，如果约你的外国朋友已经是很熟的了，你大可直接说 ```I will take a rain check.```，还有，```Can I take a rain check on it? ``` 里的 rain check 意思自然一目了然了。
+上句是很客氣的委婉講法，如果約你的外國朋友已經是很熟的了，你大可直接說 ```I will take a rain check.```，還有，```Can I take a rain check on it? ``` 裡的 rain check 意思自然一目瞭然了。
 
 
 <!--

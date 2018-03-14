@@ -1,38 +1,38 @@
 ---
-title: MySQL 半同步复制
+title: MySQL 半同步複製
 layout: post
 comments: true
 language: chinese
 category: [mysql,database]
-keywords: mysql,log,binlog,错误日志,日志
-description: MySQL 中的日志主要包括了：错误日志、查询日志、慢查询日志、事务日志、二进制日志。在此，介绍下一些常见的配置。
+keywords: mysql,log,binlog,錯誤日誌,日誌
+description: MySQL 中的日誌主要包括了：錯誤日誌、查詢日誌、慢查詢日誌、事務日誌、二進制日誌。在此，介紹下一些常見的配置。
 ---
 
 
 <!-- more -->
 
-MySQL 提供了原生的异步复制，也就是主库的数据落地之后，并不关心备库的日志是否落库，从而可能导致较多的数据丢失。
+MySQL 提供了原生的異步複製，也就是主庫的數據落地之後，並不關心備庫的日誌是否落庫，從而可能導致較多的數據丟失。
 
-从 MySQL5.5 开始引入了一种半同步复制功能，该功能可以确保主服务器和访问链中至少一台从服务器之间的数据一致性和冗余，从而可以减少数据的丢失。
+從 MySQL5.5 開始引入了一種半同步複製功能，該功能可以確保主服務器和訪問鏈中至少一臺從服務器之間的數據一致性和冗餘，從而可以減少數據的丟失。
 
-接下来，我们就简单介绍下 MySQL 中的半同步复制。
+接下來，我們就簡單介紹下 MySQL 中的半同步複製。
 
-## 简介
+## 簡介
 
-半同步复制时，通常是一台主库并配置多个备库，在这样的复制拓扑中，只有在至少一台从服务器确认更新已经收到并写入了其中继日志 (Relay Log) 之后，主库才完成提交。
+半同步複製時，通常是一臺主庫並配置多個備庫，在這樣的複製拓撲中，只有在至少一臺從服務器確認更新已經收到並寫入了其中繼日誌 (Relay Log) 之後，主庫才完成提交。
 
-当然，如果网络出现故障，导致复制超时，主库会暂时切换到原生的异步复制模式；那么，此时备库也可能会丢失事务。
+當然，如果網絡出現故障，導致複製超時，主庫會暫時切換到原生的異步複製模式；那麼，此時備庫也可能會丟失事務。
 
-### 半同步复制配置
+### 半同步複製配置
 
-semisync 采用 MySQL Plugin 方式实现，可以在主库和备库上分别安装不同的插件，但是一般线上会将主备插件都安装上，谁知道哪天会做个主备切换呢！！！
+semisync 採用 MySQL Plugin 方式實現，可以在主庫和備庫上分別安裝不同的插件，但是一般線上會將主備插件都安裝上，誰知道哪天會做個主備切換呢！！！
 
 {% highlight text %}
 mysql> INSTALL PLUGIN rpl_semi_sync_slave  SONAME 'semisync_slave.so';
 mysql> INSTALL PLUGIN rpl_semi_sync_master SONAME 'semisync_master.so';
 {% endhighlight %}
 
-安装完插件后，可以通过如下命令查看半同步复制的参数。
+安裝完插件後，可以通過如下命令查看半同步複製的參數。
 
 {% highlight text %}
 mysql> SHOW GLOBAL VARIABLES LIKE '%semi%';
@@ -51,92 +51,92 @@ mysql> SHOW GLOBAL VARIABLES LIKE '%semi%';
 8 rows in set (0.02 sec)
 {% endhighlight %}
 
-使用时，可以根据拓扑结构来定义主库和备库的配置，各个配置项的详细解释如下：
+使用時，可以根據拓撲結構來定義主庫和備庫的配置，各個配置項的詳細解釋如下：
 
-* rpl_semi_sync_master_enabled<br>是否开启主库的 semisync，立刻生效；
-* rpl_semi_sync_slave_enabled<br>是否开启备库 semisync，立即生效；
-* rpl_semi_sync_master_timeout<br>主库上客户端的等待时间(毫秒)，当超时后，客户端返回，同步复制退化成原生的异步复制；
-* rpl_semi_sync_master_wait_no_slave<br>当开启时，当备库起来并跟上主库时，自动切换到同步模式；如果关闭，即使备库跟上主库，也不会启用半同步；
-* rpl_semi_sync_master_trace_level/rpl_semi_sync_slave_trace_level<br>输出监控信息的级别，不同的级别输出信息不同，用于调试；
+* rpl_semi_sync_master_enabled<br>是否開啟主庫的 semisync，立刻生效；
+* rpl_semi_sync_slave_enabled<br>是否開啟備庫 semisync，立即生效；
+* rpl_semi_sync_master_timeout<br>主庫上客戶端的等待時間(毫秒)，當超時後，客戶端返回，同步複製退化成原生的異步複製；
+* rpl_semi_sync_master_wait_no_slave<br>當開啟時，當備庫起來並跟上主庫時，自動切換到同步模式；如果關閉，即使備庫跟上主庫，也不會啟用半同步；
+* rpl_semi_sync_master_trace_level/rpl_semi_sync_slave_trace_level<br>輸出監控信息的級別，不同的級別輸出信息不同，用於調試；
 
-当主库打开半同步复制时，必须至少有一个链接的备库是打开半同步复制的，否则主库每次都会等待到超时；因此，如果想关闭半同步复制必须要先关闭主库配置，再关闭备库配置。
+當主庫打開半同步複製時，必須至少有一個鏈接的備庫是打開半同步複製的，否則主庫每次都會等待到超時；因此，如果想關閉半同步複製必須要先關閉主庫配置，再關閉備庫配置。
 
-当前的半同步复制状态，可以通过如下命令查看。
+當前的半同步複製狀態，可以通過如下命令查看。
 
 {% highlight text %}
 mysql> SHOW STATUS LIKE '%semi%';
 +--------------------------------------------+-------+
 | Variable_name                              | Value |
 +--------------------------------------------+-------+
-| Rpl_semi_sync_master_clients               | 1     | 半同步复制客户端的个数
-| Rpl_semi_sync_master_net_avg_wait_time     | 0     | 平均等待时间，毫秒
-| Rpl_semi_sync_master_net_wait_time         | 0     | 总共等待时间
-| Rpl_semi_sync_master_net_waits             | 0     | 等待次数
-| Rpl_semi_sync_master_no_times              | 1     | 关闭半同步复制的次数
-| Rpl_semi_sync_master_no_tx                 | 1     | 没有成功接收slave提交的次数
-| Rpl_semi_sync_master_status                | ON    | 异步模式还是半同步模式，ON为半同步
-| Rpl_semi_sync_master_timefunc_failures     | 0     | 调用时间函数失败的次数
-| Rpl_semi_sync_master_tx_avg_wait_time      | 0     | 事务的平均传输时间
-| Rpl_semi_sync_master_tx_wait_time          | 0     | 事务的总共传输时间
-| Rpl_semi_sync_master_tx_waits              | 0     | 事物等待次数
-| Rpl_semi_sync_master_wait_pos_backtraverse | 0     | 后来的先到了，而先来的还没有到的次数
-| Rpl_semi_sync_master_wait_sessions         | 0     | 有多少个session因为slave的回复而造成等待
-| Rpl_semi_sync_master_yes_tx                | 0     | 成功接受到slave事务回复的次数
+| Rpl_semi_sync_master_clients               | 1     | 半同步複製客戶端的個數
+| Rpl_semi_sync_master_net_avg_wait_time     | 0     | 平均等待時間，毫秒
+| Rpl_semi_sync_master_net_wait_time         | 0     | 總共等待時間
+| Rpl_semi_sync_master_net_waits             | 0     | 等待次數
+| Rpl_semi_sync_master_no_times              | 1     | 關閉半同步複製的次數
+| Rpl_semi_sync_master_no_tx                 | 1     | 沒有成功接收slave提交的次數
+| Rpl_semi_sync_master_status                | ON    | 異步模式還是半同步模式，ON為半同步
+| Rpl_semi_sync_master_timefunc_failures     | 0     | 調用時間函數失敗的次數
+| Rpl_semi_sync_master_tx_avg_wait_time      | 0     | 事務的平均傳輸時間
+| Rpl_semi_sync_master_tx_wait_time          | 0     | 事務的總共傳輸時間
+| Rpl_semi_sync_master_tx_waits              | 0     | 事物等待次數
+| Rpl_semi_sync_master_wait_pos_backtraverse | 0     | 後來的先到了，而先來的還沒有到的次數
+| Rpl_semi_sync_master_wait_sessions         | 0     | 有多少個session因為slave的回覆而造成等待
+| Rpl_semi_sync_master_yes_tx                | 0     | 成功接受到slave事務回覆的次數
 | Rpl_semi_sync_slave_status                 | ON    |
 +--------------------------------------------+-------+
 15 rows in set (0.00 sec)
 {% endhighlight %}
 
-### 5.7 增强
+### 5.7 增強
 
-MySQL 5.7 版本修复了 semi sync 的一些 bug 并且增强了功能，主要包括了入下两个。
+MySQL 5.7 版本修復了 semi sync 的一些 bug 並且增強了功能，主要包括了入下兩個。
 
-* 支持发送binlog和接受ack的异步化;
-* 支持在事务commit前等待ACK;
+* 支持發送binlog和接受ack的異步化;
+* 支持在事務commit前等待ACK;
 
 <!--
-* 在server层判断备库是否要求半同步以减少Plugin锁冲突;
-* 解除binlog dump线程和lock_log的冲突等等。
+* 在server層判斷備庫是否要求半同步以減少Plugin鎖衝突;
+* 解除binlog dump線程和lock_log的衝突等等。
 -->
 
-新的异步模式可以提高半同步模式下的系统事务处理能力。
+新的異步模式可以提高半同步模式下的系統事務處理能力。
 
-#### binlog发送和接收ack异步
+#### binlog發送和接收ack異步
 
-旧版本的 semi sync 受限于主库的 dump thread ，原因是该线程承担了两份不同且又十分频繁的任务：A) 发送 binlog 给备库；B) 等待备库反馈信息；而且这两个任务是串行的，dump thread 必须等待备库返回之后才会传送下一个 events 事务。
+舊版本的 semi sync 受限於主庫的 dump thread ，原因是該線程承擔了兩份不同且又十分頻繁的任務：A) 發送 binlog 給備庫；B) 等待備庫反饋信息；而且這兩個任務是串行的，dump thread 必須等待備庫返回之後才會傳送下一個 events 事務。
 
-大体的实现思路是主库分为了两个线程，也就是原来的 dump 线程，以及 ack reciver 线程。
+大體的實現思路是主庫分為了兩個線程，也就是原來的 dump 線程，以及 ack reciver 線程。
 
 
-#### 事务commit前等待ACK
+#### 事務commit前等待ACK
 
-新版本的 semi sync 增加了 ```rpl_semi_sync_master_wait_point``` 参数控制半同步模式下，主库在返回给客户端事务成功的时间点。该参数有两个值：AFTER_SYNC(默认值)、AFTER_COMMIT 。
+新版本的 semi sync 增加了 ```rpl_semi_sync_master_wait_point``` 參數控制半同步模式下，主庫在返回給客戶端事務成功的時間點。該參數有兩個值：AFTER_SYNC(默認值)、AFTER_COMMIT 。
 
 ##### after commit
 
-这也是最初版本的同步方式，主库将每事务写入 binlog，发送给备库并刷新到磁盘 (relaylog)，然后在主库提交事务，并等待备库的响应；一旦接到备库的反馈，主库将结果反馈给客户端。
+這也是最初版本的同步方式，主庫將每事務寫入 binlog，發送給備庫並刷新到磁盤 (relaylog)，然後在主庫提交事務，並等待備庫的響應；一旦接到備庫的反饋，主庫將結果反饋給客戶端。
 
 <!--
-   在AFTER_COMMIT模式下,如果slave 没有应用日志,此时master crash，系统failover到slave，app将发现数据出现不一致，在master提交而slave 没有应用。
+   在AFTER_COMMIT模式下,如果slave 沒有應用日誌,此時master crash，系統failover到slave，app將發現數據出現不一致，在master提交而slave 沒有應用。
 -->
 
-由于主库是在三段提交的最后 commit 阶段完成后才等待，所以主库的其它会话是可以看到这个事务的，所以这时候可能会导致主备库数据不一致。
+由於主庫是在三段提交的最後 commit 階段完成後才等待，所以主庫的其它會話是可以看到這個事務的，所以這時候可能會導致主備庫數據不一致。
 
 ##### after sync
 
-主库将事务写入 binlog，发送给备库并刷新到磁盘，主库等待备库的响应；一旦接到备库的反馈，主库会提交事务并且返回结果给客户端。
+主庫將事務寫入 binlog，發送給備庫並刷新到磁盤，主庫等待備庫的響應；一旦接到備庫的反饋，主庫會提交事務並且返回結果給客戶端。
 
-在该模式下，所有的客户端在同一时刻查看已经提交的数据。假如发生主库 crash，所有在主库上已经提交的事务已经同步到备库并记录到 relay log，切到从库可以减小数据损失。
-
-
+在該模式下，所有的客戶端在同一時刻查看已經提交的數據。假如發生主庫 crash，所有在主庫上已經提交的事務已經同步到備庫並記錄到 relay log，切到從庫可以減小數據損失。
 
 
 
 
 
-## 源码实现简介
 
-半同步复制采用 plugin+HOOK 的方式实现，也就是通过 HOOK 回调 plugin 中定义的函数，可以参考如下的示例：
+
+## 源碼實現簡介
+
+半同步複製採用 plugin+HOOK 的方式實現，也就是通過 HOOK 回調 plugin 中定義的函數，可以參考如下的示例：
 
 {% highlight cpp %}
 // sql/binlog.cc
@@ -147,11 +147,11 @@ RUN_HOOK(transaction, after_commit, (head, all));
   (group ##_delegate->is_empty() ?              \
    0 : group ##_delegate->hook args)
 
-// 因此上例被转化成
+// 因此上例被轉化成
 transaction_delegate->is_empty() ? 0 : transaction_delegate->after_commit(head, all);
 {% endhighlight %}
 
-具体的回调接口实例以及函数在 sql/rpl_hander.cc 文件中定义，主要有如下的五种类型，而其中的 server_state_delegate 变量，只与服务器状态有关，可以忽略。
+具體的回調接口實例以及函數在 sql/rpl_hander.cc 文件中定義，主要有如下的五種類型，而其中的 server_state_delegate 變量，只與服務器狀態有關，可以忽略。
 
 {% highlight cpp %}
 Trans_delegate *transaction_delegate;
@@ -164,11 +164,11 @@ Binlog_relay_IO_delegate *binlog_relay_io_delegate;
 #endif /* HAVE_REPLICATION */
 {% endhighlight %}
 
-也就是说，主要有四类 XXX_delegate 对象；首先看下主库的初始化过程。
+也就是說，主要有四類 XXX_delegate 對象；首先看下主庫的初始化過程。
 
-### 主库初始化
+### 主庫初始化
 
-在主库半同步复制初始化时，会调用 semi_sync_master_plugin_init() 函数，这三个 obeserver 定义了各自的函数接口，详细如下：
+在主庫半同步複製初始化時，會調用 semi_sync_master_plugin_init() 函數，這三個 obeserver 定義了各自的函數接口，詳細如下：
 
 {% highlight cpp %}
 Trans_observer trans_observer = {
@@ -202,13 +202,13 @@ static int semi_sync_master_plugin_init(void *p) {
   if (ack_receiver.init())
     return 1;
 
-  // 为transaction_delegate增加transmit_observer
+  // 為transaction_delegate增加transmit_observer
   if (register_trans_observer(&trans_observer, p))
     return 1;
-  // 为binlog_transmit_delegate增加storage_observer
+  // 為binlog_transmit_delegate增加storage_observer
   if (register_binlog_storage_observer(&storage_observer, p))
     return 1;
-  // 为binlog_transmit_delegate增加transmit_observer
+  // 為binlog_transmit_delegate增加transmit_observer
   if (register_binlog_transmit_observer(&transmit_observer, p))
     return 1;
   return 0;
@@ -233,24 +233,24 @@ mysql_declare_plugin(semi_sync_master)
 mysql_declare_plugin_end;
 {% endhighlight %}
 
-在插件初始化时，会注册各种类型的 observer，然后在 RUN_HOOK() 宏时，就会直接调用上述的函数，可以直接通过类似 ```transmit_start``` 成员变量查看。
+在插件初始化時，會註冊各種類型的 observer，然後在 RUN_HOOK() 宏時，就會直接調用上述的函數，可以直接通過類似 ```transmit_start``` 成員變量查看。
 
-所有从 server 层向 plugin 的函数调用，都是通过函数指针来完成的，因此我们只需要搞清楚上述几个函数的调用逻辑，基本就可以清楚 semisync plugin 在 MySQL 里的处理逻辑。
+所有從 server 層向 plugin 的函數調用，都是通過函數指針來完成的，因此我們只需要搞清楚上述幾個函數的調用邏輯，基本就可以清楚 semisync plugin 在 MySQL 裡的處理邏輯。
 
-#### 初始化过程
+#### 初始化過程
 
-如下是半同步插件主库的执行步骤。
+如下是半同步插件主庫的執行步驟。
 
 {% highlight text %}
-semi_sync_master_plugin_init()            ← 主库插件初始化
- |-ReplSemiSyncMaster::initObject()       ← 一系列系统初始化，如超时时间等
+semi_sync_master_plugin_init()            ← 主庫插件初始化
+ |-ReplSemiSyncMaster::initObject()       ← 一系列系統初始化，如超時時間等
  | |-setWaitTimeout()
  | |-setTraceLevel()
  | |-setWaitSlaveCount()
  |
- |-Ack_receiver::init()                   ← 通过线程处理备库返回的响应
+ |-Ack_receiver::init()                   ← 通過線程處理備庫返回的響應
  | |-start()
- |   |-ack_receive_handler()              ← 新建单独线程接收响应，run()函数的包装
+ |   |-ack_receive_handler()              ← 新建單獨線程接收響應，run()函數的包裝
  |     |-run()
  |
  |-register_trans_observer()
@@ -258,39 +258,39 @@ semi_sync_master_plugin_init()            ← 主库插件初始化
  |-register_binlog_transmit_observer()
 {% endhighlight %}
 
-### 备库初始化
+### 備庫初始化
 
-备库会注册 binlog_relay_io_delegate 对象，其它操作与主库类似，在此就不做过多介绍了。
+備庫會註冊 binlog_relay_io_delegate 對象，其它操作與主庫類似，在此就不做過多介紹了。
 
 
-## 详细操作
+## 詳細操作
 
-接下来，一步步看看半同步复制是如何执行的。
+接下來，一步步看看半同步複製是如何執行的。
 
-### 主库DUMP
+### 主庫DUMP
 
-在备库中，通过 ```START SLAVE``` 命令启动后，会向主库发送 DUMP 命令。
+在備庫中，通過 ```START SLAVE``` 命令啟動後，會向主庫發送 DUMP 命令。
 
 {% highlight text %}
 dispatch_command()
  |-com_binlog_dump_gtid()           ← COM_BINLOG_DUMP_GTID
  |-com_binlog_dump()                ← COM_BINLOG_DUMP
-   |-mysql_binlog_send()            ← 上述的两个命令都会到此函数
-     |-Binlog_sender::run()         ← 新建Binlog_sender对象并执行run()函数
+   |-mysql_binlog_send()            ← 上述的兩個命令都會到此函數
+     |-Binlog_sender::run()         ← 新建Binlog_sender對象並執行run()函數
        |-init()
        | |-transmit_start()         ← RUN_HOOK()，binlog_transmit_delegate
-       | |                          ← 实际调用repl_semi_binlog_dump_start()
+       | |                          ← 實際調用repl_semi_binlog_dump_start()
        |
-       |-###BEGIN while()循环，只要没有错误，线程未被杀死，则一直执行
+       |-###BEGIN while()循環，只要沒有錯誤，線程未被殺死，則一直執行
        |-open_binlog_file()
-       |-send_binlog()              ← 发送二进制日志
+       |-send_binlog()              ← 發送二進制日誌
        | |-send_events()
        |   |-after_send_hook()
-       |     |-RUN_HOOK()           ← 调用binlog_transmit->after_send_event()钩子函数
+       |     |-RUN_HOOK()           ← 調用binlog_transmit->after_send_event()鉤子函數
        |-###END
 {% endhighlight %}
 
-MySQL 会通过 mysql_binlog_send() 处理每个备库发送的 dump 请求，在开始 dump 之前，会调用如上的 HOOK 函数，而对于半同步复制，实际会调用 repl_semi_binlog_dump_start() 。
+MySQL 會通過 mysql_binlog_send() 處理每個備庫發送的 dump 請求，在開始 dump 之前，會調用如上的 HOOK 函數，而對於半同步複製，實際會調用 repl_semi_binlog_dump_start() 。
 
 {% highlight cpp %}
 void Binlog_sender::init()
@@ -316,32 +316,32 @@ void Binlog_sender::init()
 }
 {% endhighlight %}
 
-看看半同步复制中的 repl_semi_binlog_dump_start() 函数，是如何处理的。
+看看半同步複製中的 repl_semi_binlog_dump_start() 函數，是如何處理的。
 
 {% highlight text %}
 repl_semi_binlog_dump_start()
- |-get_user_var_int()               ← 获取备库参数rpl_semi_sync_slave
- |-ack_receiver.add_slave()         ← 增加备库计数，通过
+ |-get_user_var_int()               ← 獲取備庫參數rpl_semi_sync_slave
+ |-ack_receiver.add_slave()         ← 增加備庫計數，通過
  |-repl_semisync.handleAck()
    |-reportReplyBinlog()
 {% endhighlight %}
 
-对于 repl_semi_binlog_dump_start() 函数，主要做以下几件事情：
+對於 repl_semi_binlog_dump_start() 函數，主要做以下幾件事情：
 
-1. 判断连接的备库是否开启半同步复制，也即查看备库是否设置 rpl_semi_sync_slave 变量；
-2. 如果备库开启了半同步，则增加连接的备库计数，可查看 rpl_semi_sync_master_clients；
-3. 最后会调用 reportReplyBinlog() 函数，该函数在后面详述。
+1. 判斷連接的備庫是否開啟半同步複製，也即查看備庫是否設置 rpl_semi_sync_slave 變量；
+2. 如果備庫開啟了半同步，則增加連接的備庫計數，可查看 rpl_semi_sync_master_clients；
+3. 最後會調用 reportReplyBinlog() 函數，該函數在後面詳述。
 
 
 <!--
-当备库从主库上断开时会调用 repl_semi_binlog_dump_end() 函数，该函数会将计数器rpl_semi_sync_master_clients减1
+當備庫從主庫上斷開時會調用 repl_semi_binlog_dump_end() 函數，該函數會將計數器rpl_semi_sync_master_clients減1
 -->
 
-### 执行DML
+### 執行DML
 
-以执行一条简单的 DML 操作为例，例如 ```INSERT INTO t VALUES (1)``` 。
+以執行一條簡單的 DML 操作為例，例如 ```INSERT INTO t VALUES (1)``` 。
 
-在事务提交时，也就是在 ordered_commit() 函数中，当主库将 binlog 写入到文件中后，且在尚未调用 fsync 之前，会调用如下内容。
+在事務提交時，也就是在 ordered_commit() 函數中，當主庫將 binlog 寫入到文件中後，且在尚未調用 fsync 之前，會調用如下內容。
 
 {% highlight cpp %}
 int MYSQL_BIN_LOG::ordered_commit(THD *thd, bool all, bool skip_commit)
@@ -372,30 +372,30 @@ int MYSQL_BIN_LOG::ordered_commit(THD *thd, bool all, bool skip_commit)
 }
 {% endhighlight %}
 
-在上述源码中的 RUN_HOOK() 宏中，对于半同步复制，实际调用的也就是 ```repl_semi_report_binlog_update()``` 函数；另外，在源码会创建 ```ReplSemiSyncMaster repl_semisync;``` 全局对象。
+在上述源碼中的 RUN_HOOK() 宏中，對於半同步複製，實際調用的也就是 ```repl_semi_report_binlog_update()``` 函數；另外，在源碼會創建 ```ReplSemiSyncMaster repl_semisync;``` 全局對象。
 
 {% highlight text %}
 repl_semi_report_binlog_update()
- |-repl_semisync.getMasterEnabled()         ← 判断是否启动了主库
- |-repl_semisync.writeTranxInBinlog()       ← 保存最大事务的binlog位置
+ |-repl_semisync.getMasterEnabled()         ← 判斷是否啟動了主庫
+ |-repl_semisync.writeTranxInBinlog()       ← 保存最大事務的binlog位置
 {% endhighlight %}
 
 
-writeTranxInBinlog() 会存储当前的 binlog 文件名和偏移量，更新当前最大的事务 binlog 位置；
+writeTranxInBinlog() 會存儲當前的 binlog 文件名和偏移量，更新當前最大的事務 binlog 位置；
 
-<!--存储在 repl_semisync对象的commit_file_name_和commit_file_pos_中(commit_file_name_inited_被设置为TRUE)；然后将该事务的位点信息存储到active_tranxs中（active_tranxs_->insert_tranx_node(log_file_name, log_file_pos)），这是一个链表，用来存储所有活跃的事务的位点信息，每个新加的节点都能保证位点在已有节点之后；另外还维持了一个key->value的数组，数组下标即为事务binlog坐标计算的hash，值为相同hash值的链表
+<!--存儲在 repl_semisync對象的commit_file_name_和commit_file_pos_中(commit_file_name_inited_被設置為TRUE)；然後將該事務的位點信息存儲到active_tranxs中（active_tranxs_->insert_tranx_node(log_file_name, log_file_pos)），這是一個鏈表，用來存儲所有活躍的事務的位點信息，每個新加的節點都能保證位點在已有節點之後；另外還維持了一個key->value的數組，數組下標即為事務binlog座標計算的hash，值為相同hash值的鏈表
 
-这些操作都在锁LOCK_binlog_的保护下进行的, 即使semisync退化成同步状态，也会继续更新位点（但不写事务节点），主要是为了监控后续SLAVE时候能够跟上当前的事务Bilog状态；
+這些操作都在鎖LOCK_binlog_的保護下進行的, 即使semisync退化成同步狀態，也會繼續更新位點（但不寫事務節點），主要是為了監控後續SLAVE時候能夠跟上當前的事務Bilog狀態；
 
-事实上，有两个变量来控制SEMISYNC是否开启：
-state_  为true表示同步，为false表示异步状态，semi sync退化时会修改改变量（ReplSemiSyncMaster::switch_off）
+事實上，有兩個變量來控制SEMISYNC是否開啟：
+state_  為true表示同步，為false表示異步狀態，semi sync退化時會修改改變量（ReplSemiSyncMaster::switch_off）
 
-另外一个变量是master_enabled_，这个是由参数rpl_semi_sync_master_enabled来控制的。
+另外一個變量是master_enabled_，這個是由參數rpl_semi_sync_master_enabled來控制的。
 -->
 
-### 事务提交后
+### 事務提交後
 
-在事务 commit 之后，也就是在 sql/binlog.cc 文件中，会调用如下的函数，可以从代码中看到，实际会调用 after_commit 钩子函数，也就是 repl_semi_report_commit() 函数。
+在事務 commit 之後，也就是在 sql/binlog.cc 文件中，會調用如下的函數，可以從代碼中看到，實際會調用 after_commit 鉤子函數，也就是 repl_semi_report_commit() 函數。
 
 {% highlight cpp %}
 void MYSQL_BIN_LOG::process_after_commit_stage_queue(THD *thd, THD *first)
@@ -425,35 +425,35 @@ void MYSQL_BIN_LOG::process_after_commit_stage_queue(THD *thd, THD *first)
 }
 {% endhighlight %}
 
-其中，上述的函数会在 Group Commit 的第三个阶段 (也即 commit 阶段) 执行，也就是通过 leader 线程依次为其他线程调用 repl_semi_report_commit() 函数。
+其中，上述的函數會在 Group Commit 的第三個階段 (也即 commit 階段) 執行，也就是通過 leader 線程依次為其他線程調用 repl_semi_report_commit() 函數。
 
 {% highlight text %}
 repl_semi_report_commit()
- |-repl_semisync.commitTrx()      ← 入参为binlog文件名+位置
-   |-lock()                       ← 获取mutex锁
-   |-THD_ENTER_COND()             ← 线程进入新状态
+ |-repl_semisync.commitTrx()      ← 入參為binlog文件名+位置
+   |-lock()                       ← 獲取mutex鎖
+   |-THD_ENTER_COND()             ← 線程進入新狀態
 {% endhighlight %}
 
-commitTrx() 是实现客户端同步等待的主要部分，主要做以下事情。
+commitTrx() 是實現客戶端同步等待的主要部分，主要做以下事情。
 
-##### 1. 线程进入新状态
+##### 1. 線程進入新狀態
 
-用户线程进入新的状态，通过 ```SHOW PROCESSLIST``` 可看到线程状态为 ```"Waiting for semi-sync ACK from slave"``` 。
+用戶線程進入新的狀態，通過 ```SHOW PROCESSLIST``` 可看到線程狀態為 ```"Waiting for semi-sync ACK from slave"``` 。
 
-##### 2. 检查当前线程状态
+##### 2. 檢查當前線程狀態
 
-线程中会执行如下的判断，也就是判断是否已经启用了 semisync 主，而且还在等待 binlog 文件。
+線程中會執行如下的判斷，也就是判斷是否已經啟用了 semisync 主，而且還在等待 binlog 文件。
 
 {% highlight cpp %}
 /* This is the real check inside the mutex. */
 if (getMasterEnabled() && trx_wait_binlog_name)
 {% endhighlight %}
 
-注意，上述操作是在持有锁的状态下进行的检查。
+注意，上述操作是在持有鎖的狀態下進行的檢查。
 
-##### 3. 设置超时时间
+##### 3. 設置超時時間
 
-会根据 wait_timeout_ 设置超时时间变量，随后进入如下的 while 循环。
+會根據 wait_timeout_ 設置超時時間變量，隨後進入如下的 while 循環。
 
 {% highlight cpp %}
 while (is_on())
@@ -462,27 +462,27 @@ while (is_on())
 }
 {% endhighlight %}
 
-只要 semisync 没有退化到异步状态，就会一直在 while 循环中等待，直到超时或者获得备库反馈；
+只要 semisync 沒有退化到異步狀態，就會一直在 while 循環中等待，直到超時或者獲得備庫反饋；
 
 <!--
-while循环内的工作包括：
+while循環內的工作包括：
 
-(1)判断：
-当reply_file_name_inited_为true时，如果reply_file_name_及reply_file_pos_大于当前事务等待的位置，表示备库已经收到了比当前位置更后的事务，这时候无需等待，直接返回；
+(1)判斷：
+當reply_file_name_inited_為true時，如果reply_file_name_及reply_file_pos_大於當前事務等待的位置，表示備庫已經收到了比當前位置更後的事務，這時候無需等待，直接返回；
 
-当wait_file_name_inited_为true时，比较当前事务位置和（wait_file_name_，wait_file_pos_）的大小，如果当期事务更小，则将wait_file_pos_和wait_file_name_设置为当前事务的值；
-否则，若wait_file_name_inited_为false，将wait_file_name_inited_设置为TRUE，同样将上述两个变量设置为当前事务的值；
-这么做的目的是为了维持当前需要等待的最小binlog位置
+當wait_file_name_inited_為true時，比較當前事務位置和（wait_file_name_，wait_file_pos_）的大小，如果當期事務更小，則將wait_file_pos_和wait_file_name_設置為當前事務的值；
+否則，若wait_file_name_inited_為false，將wait_file_name_inited_設置為TRUE，同樣將上述兩個變量設置為當前事務的值；
+這麼做的目的是為了維持當前需要等待的最小binlog位置
 
-(2)增加等待线程计数rpl_semi_sync_master_wait_sessions++
-wait_result = cond_timewait(&abstime);  线程进入condition wait
-在唤醒或超时后rpl_semi_sync_master_wait_sessions–
+(2)增加等待線程計數rpl_semi_sync_master_wait_sessions++
+wait_result = cond_timewait(&abstime);  線程進入condition wait
+在喚醒或超時後rpl_semi_sync_master_wait_sessions–
 
-如果是等待超时的，rpl_semi_sync_master_wait_timeouts++，并关闭semisync (switch_off()，将state_/wait_file_name_inited_/reply_file_name_inited_设置为false，rpl_semi_sync_master_off_times++，同时唤醒其他等待的线程(COND_binlog_send_))
+如果是等待超時的，rpl_semi_sync_master_wait_timeouts++，並關閉semisync (switch_off()，將state_/wait_file_name_inited_/reply_file_name_inited_設置為false，rpl_semi_sync_master_off_times++，同時喚醒其他等待的線程(COND_binlog_send_))
 
-如果是被唤醒的，则增加计数：rpl_semi_sync_master_trx_wait_num++、rpl_semi_sync_master_trx_wait_time += wait_time， 然后回到1)，去检查相关变量；
+如果是被喚醒的，則增加計數：rpl_semi_sync_master_trx_wait_num++、rpl_semi_sync_master_trx_wait_time += wait_time， 然後回到1)，去檢查相關變量；
 
-4).退出循环后，更新计数
+4).退出循環後，更新計數
 
     /* Update the status counter. */
     if (is_on())
@@ -492,30 +492,30 @@ wait_result = cond_timewait(&abstime);  线程进入condition wait
 
 
 
-然后返回；
+然後返回；
 
-可以看到，上述关键的一步是对（reply_file_name_，reply_file_pos_）的判断，以决定是否需要继续等待；该变量的更新由dump线程来触发
+可以看到，上述關鍵的一步是對（reply_file_name_，reply_file_pos_）的判斷，以決定是否需要繼續等待；該變量的更新由dump線程來觸發
 -->
 
-### dump线程的处理
+### dump線程的處理
 
-接着，看看在执行一条事务后，dump 线程会有哪些调用逻辑呢？
+接著，看看在執行一條事務後，dump 線程會有哪些調用邏輯呢？
 
 <!--
-1.开始发送binlog之前需要重置packet（reset_transmit_packet）
+1.開始發送binlog之前需要重置packet（reset_transmit_packet）
 
-调用函数repl_semi_reserve_header，用于在Packet的头部预留字节，以维护和备库的交互信息，目前共预留3个字节
+調用函數repl_semi_reserve_header，用於在Packet的頭部預留字節，以維護和備庫的交互信息，目前共預留3個字節
 
-这里在packet的头部拷贝两个字节，值为ReplSemiSyncBase::kSyncHeader，固定值，作为MAGIC NUMBER
+這裡在packet的頭部拷貝兩個字節，值為ReplSemiSyncBase::kSyncHeader，固定值，作為MAGIC NUMBER
 
 const unsigned char  ReplSemiSyncBase::kSyncHeader[2] =
   {ReplSemiSyncBase::kPacketMagicNum, 0};
 
-只有备库开启了semisync的情况下，才会去保留额外的packet头部比特位，不管主库是否开启了semisync
+只有備庫開啟了semisync的情況下，才會去保留額外的packet頭部比特位，不管主庫是否開啟了semisync
 
-2.在发送binlog事件之前调用repl_semi_before_send_event，确认是否需要备库反馈，通过设置之前预留的三个字节的第3个字节
+2.在發送binlog事件之前調用repl_semi_before_send_event，確認是否需要備庫反饋，通過設置之前預留的三個字節的第3個字節
 
-HOOK位置（函数mysql_binlog_send）
+HOOK位置（函數mysql_binlog_send）
 
 1659             if (RUN_HOOK(binlog_transmit, before_send_event,
 1660                          (thd, 0/*flags*/, packet, log_file_name, pos)))
@@ -532,27 +532,27 @@ repl_semi_before_send_event->
                                         log_pos,
                                         param->server_id);
 
-该函数执行以下步骤，目的是填充上一步保留的头部字节：
+該函數執行以下步驟，目的是填充上一步保留的頭部字節：
 
-1）检查主库和备库是否同时打开了semisync，如果没有，直接返回
+1）檢查主庫和備庫是否同時打開了semisync，如果沒有，直接返回
 
-2）加锁LOCK_binlog_，再次检查主库是否开启semisync
+2）加鎖LOCK_binlog_，再次檢查主庫是否開啟semisync
 
-设置sync为false；
+設置sync為false；
 
-3）如果当前semisync是同步状态（即state_为TRUE）
+3）如果當前semisync是同步狀態（即state_為TRUE）
 
-同样的先检查当前的binlog位点是否有其他备库已经接受到（reply_file_name_inited_为true，并且<reply_file_name_, reply_file_pos_>比当前dump线程的位点要大）；则sync为false，goto l_end
+同樣的先檢查當前的binlog位點是否有其他備庫已經接受到（reply_file_name_inited_為true，並且<reply_file_name_, reply_file_pos_>比當前dump線程的位點要大）；則sync為false，goto l_end
 
-如果当前正在等待的事务最小位点（wait_file_name_，wait_file_pos_）比当前dump线程的位点要小（或者wait_file_name_inited_为false,只有当前dump线程），再次检查当前dump线程的bin log位点是否是事务的最后一个事件(通过遍历由函数repl_semisync.writeTranxInBinlog产生的事务节点Hash链表来检查)，如果是的话，则设置sync为true
+如果當前正在等待的事務最小位點（wait_file_name_，wait_file_pos_）比當前dump線程的位點要小（或者wait_file_name_inited_為false,只有當前dump線程），再次檢查當前dump線程的bin log位點是否是事務的最後一個事件(通過遍歷由函數repl_semisync.writeTranxInBinlog產生的事務節點Hash鏈表來檢查)，如果是的話，則設置sync為true
 
-4)如果当前semisync为异步状态(state_为FALSE)
+4)如果當前semisync為異步狀態(state_為FALSE)
 
-当commit_file_name_inited_为TRUE时（事务提交位点信息被更新过，在函数repl_semisync.writeTranxInBinlog中），如果dump线程的位点大于等于上次事务提交的位点（commit_file_name_, commit_file_pos_），表示当前dump线程已经追赶上了主库位点，因此sync被设置为TRUE，
+當commit_file_name_inited_為TRUE時（事務提交位點信息被更新過，在函數repl_semisync.writeTranxInBinlog中），如果dump線程的位點大於等於上次事務提交的位點（commit_file_name_, commit_file_pos_），表示當前dump線程已經追趕上了主庫位點，因此sync被設置為TRUE，
 
-当commit_file_name_inited_为false时，表示还没有事务提交位点信息，同样设置sync为TRUE；
+當commit_file_name_inited_為false時，表示還沒有事務提交位點信息，同樣設置sync為TRUE；
 
-5)当sync为TRUE时，设置packet头部，告诉备库需要其提供反馈
+5)當sync為TRUE時，設置packet頭部，告訴備庫需要其提供反饋
 
   if (sync)
   {
@@ -566,9 +566,9 @@ const unsigned char ReplSemiSyncBase::kPacketFlagSync = 0x01;
 -->
 
 
-### 发送事件后
+### 發送事件後
 
-该 HOOK 在 mysql_binlog_send() 函数中调用，也就是 binlog_transmit->after_send_event() 函数，对于半同步复制，实际调用函数 repl_semi_after_send_event() 来读取备库的反馈。
+該 HOOK 在 mysql_binlog_send() 函數中調用，也就是 binlog_transmit->after_send_event() 函數，對於半同步複製，實際調用函數 repl_semi_after_send_event() 來讀取備庫的反饋。
 
 {% highlight cpp %}
 int repl_semi_after_send_event(Binlog_transmit_param *param,
@@ -599,30 +599,30 @@ int repl_semi_after_send_event(Binlog_transmit_param *param,
 }
 {% endhighlight %}
 
-如果该事件需要 skip 则调用 skipSlaveReply()，否则调用 readSlaveReply()；前者只判断事件的头部是否设置了需要 sync，如果是的，则调用 ```handleAck->reportReplyBinlog()```；后者则先读取备库传递的数据包，从中读出备库传递的 binlog 坐标信息，函数 readSlaveReply() 主要有如下流程：
+如果該事件需要 skip 則調用 skipSlaveReply()，否則調用 readSlaveReply()；前者只判斷事件的頭部是否設置了需要 sync，如果是的，則調用 ```handleAck->reportReplyBinlog()```；後者則先讀取備庫傳遞的數據包，從中讀出備庫傳遞的 binlog 座標信息，函數 readSlaveReply() 主要有如下流程：
 
-1. 如果无需等待，直接返回；
-2. 通过 net_flush() 将数据发送到备库，防止数据保存在主的缓存中，然后调用 net_clear()。
+1. 如果無需等待，直接返回；
+2. 通過 net_flush() 將數據發送到備庫，防止數據保存在主的緩存中，然後調用 net_clear()。
 
-到此为止，就已经算将数据发送到了备库，而响应的处理则是在一个单独的线程里处理的。
+到此為止，就已經算將數據發送到了備庫，而響應的處理則是在一個單獨的線程裡處理的。
 
-在 semisync 的主库启动之后，会创建一个 ack_receive_handler() 线程，处理备库的响应报文；实际上会阻塞在 my_net_read() 函数中。
+在 semisync 的主庫啟動之後，會創建一個 ack_receive_handler() 線程，處理備庫的響應報文；實際上會阻塞在 my_net_read() 函數中。
 
 {% highlight text %}
-ack_receive_handler()           新建单独线程接收响应，run()函数的包装
+ack_receive_handler()           新建單獨線程接收響應，run()函數的包裝
  |-run()
-   |                            ###BEGIN while循环
-   |-select()                   等待备库响应报文
+   |                            ###BEGIN while循環
+   |-select()                   等待備庫響應報文
    |-net_clear()
-   |-my_net_read()              读取数据
-   |-reportReplyPacket()        获取备库返回的文件名以及position
+   |-my_net_read()              讀取數據
+   |-reportReplyPacket()        獲取備庫返回的文件名以及position
      |-handleAck()
        |-reportReplyBinlog()
-         |-getMasterEnabled()   检查是否为主
-         |-try_switch_on()      如果是异步，则尝试转换为同步模式
+         |-getMasterEnabled()   檢查是否為主
+         |-try_switch_on()      如果是異步，則嘗試轉換為同步模式
 {% endhighlight %}
 
-从 my_net_read() 接收到备库返回的数据后，从数据包中读取备库传递过来的 binlog 位点信息，然后调用 reportReplyBinlog()；该函数的主要调用流程如下：
+從 my_net_read() 接收到備庫返回的數據後，從數據包中讀取備庫傳遞過來的 binlog 位點信息，然後調用 reportReplyBinlog()；該函數的主要調用流程如下：
 
 {% highlight cpp %}
 void ReplSemiSyncMaster::reportReplyBinlog(const char *log_file_name,
@@ -636,17 +636,17 @@ void ReplSemiSyncMaster::reportReplyBinlog(const char *log_file_name,
   function_enter(kWho);
   mysql_mutex_assert_owner(&LOCK_binlog_);
 
-  // 1. 检查主库 semisync 是否打开，如果没有则直接结束；
+  // 1. 檢查主庫 semisync 是否打開，如果沒有則直接結束；
   if (!getMasterEnabled())
     goto l_end;
 
-  // 2. 如果当前 semisync 为异步状态，尝试将其切换为同步状态；
+  // 2. 如果當前 semisync 為異步狀態，嘗試將其切換為同步狀態；
   if (!is_on())
     try_switch_on(log_file_name, log_file_pos);
 
-  // 3. 将dump线程从备库反馈的位点信息与(reply_file_name_, reply_file_pos_)做对比
-  //    如果小于后者，说明已经有别的备库读到更新的事务了，此时无需更新
-  //    如上所述，semisync只保证全局至少有一个备库读到更新的事务
+  // 3. 將dump線程從備庫反饋的位點信息與(reply_file_name_, reply_file_pos_)做對比
+  //    如果小於後者，說明已經有別的備庫讀到更新的事務了，此時無需更新
+  //    如上所述，semisync只保證全局至少有一個備庫讀到更新的事務
   if (reply_file_name_inited_) {
     cmp = ActiveTranx::compare(log_file_name, log_file_pos,
                                reply_file_name_, reply_file_pos_);
@@ -655,7 +655,7 @@ void ReplSemiSyncMaster::reportReplyBinlog(const char *log_file_name,
     }
   }
 
-  // 4. 如果需要，更新位点，清理当前位点之前的事务节点信息
+  // 4. 如果需要，更新位點，清理當前位點之前的事務節點信息
   if (need_copy_send_pos) {
     strncpy(reply_file_name_, log_file_name, sizeof(reply_file_name_) - 1);
     reply_file_name_[sizeof(reply_file_name_) - 1]= '\0';
@@ -667,7 +667,7 @@ void ReplSemiSyncMaster::reportReplyBinlog(const char *log_file_name,
                             log_file_name, (unsigned long)log_file_pos);
   }
 
-  // 5. 接收到的备库反馈位点信息大于等于当前等待的事务的最小位点，则设置更新
+  // 5. 接收到的備庫反饋位點信息大於等於當前等待的事務的最小位點，則設置更新
   if (rpl_semi_sync_master_wait_sessions > 0) {
     cmp = ActiveTranx::compare(reply_file_name_, reply_file_pos_,
                                wait_file_name_, wait_file_pos_);
@@ -679,7 +679,7 @@ void ReplSemiSyncMaster::reportReplyBinlog(const char *log_file_name,
 
  l_end:
 
-  // 6. 释放锁，进行一次 broadcast，唤醒等待的用户线程
+  // 6. 釋放鎖，進行一次 broadcast，喚醒等待的用戶線程
   if (can_release_threads) {
     if (trace_level_ & kTraceDetail)
       sql_print_information("%s: signal all waiting threads.", kWho);
@@ -690,9 +690,9 @@ void ReplSemiSyncMaster::reportReplyBinlog(const char *log_file_name,
 }
 {% endhighlight %}
 
-## 备库
+## 備庫
 
-当接受到主库发送的 binlog 后，由于开启了 semisync 的备库需要为主库发送响应；与主库类似，备库同样也是为 Binlog_relay_IO_delegate 增加一个 observer 。
+當接受到主庫發送的 binlog 後，由於開啟了 semisync 的備庫需要為主庫發送響應；與主庫類似，備庫同樣也是為 Binlog_relay_IO_delegate 增加一個 observer 。
 
 {% highlight cpp %}
 Binlog_relay_IO_observer relay_io_observer = {
@@ -717,11 +717,11 @@ static int semi_sync_slave_plugin_init(void *p)
 }
 {% endhighlight %}
 
-如上，也就是 relay_io_observer，同样通过 HOOK 方式回调 PLUGIN 函数，主要包括了上述的接口函数。
+如上，也就是 relay_io_observer，同樣通過 HOOK 方式回調 PLUGIN 函數，主要包括了上述的接口函數。
 
-### 开启IO线程
+### 開啟IO線程
 
-在执行 start slave 命令时，也就是在 handle_slave_io() 函数中，会调用如下的钩子函数，也就是 relay_io 中的 thread_start() 函数，而实际调用的是 repl_semi_slave_io_start() 。
+在執行 start slave 命令時，也就是在 handle_slave_io() 函數中，會調用如下的鉤子函數，也就是 relay_io 中的 thread_start() 函數，而實際調用的是 repl_semi_slave_io_start() 。
 
 {% highlight cpp %}
 extern "C" void *handle_slave_io(void *arg)
@@ -740,7 +740,7 @@ extern "C" void *handle_slave_io(void *arg)
 }
 {% endhighlight %}
 
-在 repl_semi_slave_io_start() 函数中，最终会调用 slaveStart() 函数。
+在 repl_semi_slave_io_start() 函數中，最終會調用 slaveStart() 函數。
 
 {% highlight cpp %}
 int ReplSemiSyncSlave::slaveStart(Binlog_relay_IO_param *param)
@@ -753,13 +753,13 @@ int ReplSemiSyncSlave::slaveStart(Binlog_relay_IO_param *param)
 }
 {% endhighlight %}
 
-如上，函数功能很简单，主要是设置全局变量 rpl_semi_sync_slave_status 。
+如上，函數功能很簡單，主要是設置全局變量 rpl_semi_sync_slave_status 。
 
-### 发起dump请求
+### 發起dump請求
 
-当与主库成功建立连接之后，接下来从库会向主库发起 dump 请求，同样是在 handle_slave_io() 函数中，在调用 request_dump() 函数时，会调用钩子函数 relay_io->thread_start()，而实际调用的是 repl_semi_slave_request_dump() 。
+當與主庫成功建立連接之後，接下來從庫會向主庫發起 dump 請求，同樣是在 handle_slave_io() 函數中，在調用 request_dump() 函數時，會調用鉤子函數 relay_io->thread_start()，而實際調用的是 repl_semi_slave_request_dump() 。
 
-调用的 HOOK 位置为 handle_slave_io->request_dump() ，如下。
+調用的 HOOK 位置為 handle_slave_io->request_dump() ，如下。
 
 {% highlight cpp %}
 static int request_dump(THD *thd, MYSQL* mysql, Master_info* mi,
@@ -774,7 +774,7 @@ static int request_dump(THD *thd, MYSQL* mysql, Master_info* mi,
 }
 {% endhighlight %}
 
-在 repl_semi_slave_request_dump() 函数中会检查主库是否支持 semisync，主要检查是否存在 rpl_semi_sync_master_enabled 变量，如果支持则在备库设置用户变量 rpl_semi_sync_slave 。
+在 repl_semi_slave_request_dump() 函數中會檢查主庫是否支持 semisync，主要檢查是否存在 rpl_semi_sync_master_enabled 變量，如果支持則在備庫設置用戶變量 rpl_semi_sync_slave 。
 
 {% highlight cpp %}
 int repl_semi_slave_request_dump(Binlog_relay_IO_param *param,
@@ -796,14 +796,14 @@ int repl_semi_slave_request_dump(Binlog_relay_IO_param *param,
 }
 {% endhighlight %}
 
-主库就是通过 rpl_semi_sync_slave 来判断一个 dump 请求的 SLAVE 是否是开启半同步复制。
+主庫就是通過 rpl_semi_sync_slave 來判斷一個 dump 請求的 SLAVE 是否是開啟半同步複製。
 
-到此为止，备库就已经初始化成功。
+到此為止，備庫就已經初始化成功。
 
 
-### 读取事件
+### 讀取事件
 
-同样是在 handle_slave_io() 函数中，会调用 relay_io->after_read_event() 钩子函数，而实际上调用的函数是 repl_semi_slave_read_event() 。
+同樣是在 handle_slave_io() 函數中，會調用 relay_io->after_read_event() 鉤子函數，而實際上調用的函數是 repl_semi_slave_read_event() 。
 
 {% highlight cpp %}
 extern "C" void *handle_slave_io(void *arg)
@@ -841,15 +841,15 @@ extern "C" void *handle_slave_io(void *arg)
 
 <!--
 
-由于我们在主库上是对packet头部有附加了3个比特的，这里需要将其读出来，同时需要更新event_buf及event_len的值；
+由於我們在主庫上是對packet頭部有附加了3個比特的，這裡需要將其讀出來，同時需要更新event_buf及event_len的值；
 
-如果rpl_semi_sync_slave_status为false，表示开启io线程时未打开semisync，直接使用packet的长度即可，否则调用ReplSemiSyncSlave::slaveReadSyncHeader，去读取packet的头部信息，如果需要给主库一个ack，则设置semi_sync_need_reply为TRUE
+如果rpl_semi_sync_slave_status為false，表示開啟io線程時未打開semisync，直接使用packet的長度即可，否則調用ReplSemiSyncSlave::slaveReadSyncHeader，去讀取packet的頭部信息，如果需要給主庫一個ack，則設置semi_sync_need_reply為TRUE
 
 ,
 
-### 写入relaylog
+### 寫入relaylog
 
-d.当将binlog写入relaylog之后(即完成函数queue_event之后)，调用repl_semi_slave_queue_event
+d.當將binlog寫入relaylog之後(即完成函數queue_event之後)，調用repl_semi_slave_queue_event
 HOOK位置 (handle_slave_io)
 
 4295       if (RUN_HOOK(binlog_relay_io, after_queue_event,
@@ -861,17 +861,17 @@ HOOK位置 (handle_slave_io)
 4301         goto err;
 4302       }
 
-如果备库开启了semisync且需要ack时（pl_semi_sync_slave_status && semi_sync_need_reply），调用ReplSemiSyncSlave::slaveReply，向主库发送数据包，包括当前的binlog文件名及偏移量信息
+如果備庫開啟了semisync且需要ack時（pl_semi_sync_slave_status && semi_sync_need_reply），調用ReplSemiSyncSlave::slaveReply，向主庫發送數據包，包括當前的binlog文件名及偏移量信息
 
-### 停止IO线程
+### 停止IO線程
 
-e.停止IO线程时，调用函数repl_semi_slave_io_end，将rpl_semi_sync_slave_status设置为false，这里判断的mysql_reply实际上不会用到;
+e.停止IO線程時，調用函數repl_semi_slave_io_end，將rpl_semi_sync_slave_status設置為false，這裡判斷的mysql_reply實際上不會用到;
 
-存在的问题主要集中在主库上：
+存在的問題主要集中在主庫上：
 
-1.锁的粒度太粗，看看能不能细化，或者使用lock-free的算法来优化
+1.鎖的粒度太粗，看看能不能細化，或者使用lock-free的算法來優化
 
-2.字符串比较的调用，大部分是对binlog文件名的比较，实际上只要比较后面的那一串数字就足够了；尝试下看看能否有性能优化
+2.字符串比較的調用，大部分是對binlog文件名的比較，實際上只要比較後面的那一串數字就足夠了；嘗試下看看能否有性能優化
 
 -->
 
@@ -885,9 +885,9 @@ e.停止IO线程时，调用函数repl_semi_slave_io_end，将rpl_semi_sync_slav
 
 
 
-## 参考
+## 參考
 
-关于半同步参数的介绍可以参考 [Semisynchronous Replication Administrative Interface](https://dev.mysql.com/doc/refman/en/replication-semisync-interface.html)；以及 [Reference Manual - Semisync](https://dev.mysql.com/doc/refman/5.7/en/replication-semisync.html) 。
+關於半同步參數的介紹可以參考 [Semisynchronous Replication Administrative Interface](https://dev.mysql.com/doc/refman/en/replication-semisync-interface.html)；以及 [Reference Manual - Semisync](https://dev.mysql.com/doc/refman/5.7/en/replication-semisync.html) 。
 
 
 <!--

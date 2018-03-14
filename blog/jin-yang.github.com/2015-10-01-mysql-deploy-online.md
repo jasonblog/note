@@ -1,36 +1,36 @@
 ---
-title: MySQL 线上部署
+title: MySQL 線上部署
 layout: post
 comments: true
 language: chinese
 category: [mysql,database]
-keywords: mysql,线上部署
-description: 主要介绍下 MySQL 如何在线上进行部署。
+keywords: mysql,線上部署
+description: 主要介紹下 MySQL 如何在線上進行部署。
 ---
 
-主要介绍下 MySQL 如何在线上进行部署。
+主要介紹下 MySQL 如何在線上進行部署。
 
 <!-- more -->
 
 ![mysql deploy online logo]({{ site.url }}/images/databases/mysql/deploy-online-logo.png "mysql deploy online logo"){: .pull-center width="50%" }
 
-可以通过如下步骤部署 MySQL 服务。
+可以通過如下步驟部署 MySQL 服務。
 
-### 创建用户
+### 創建用戶
 
-首先创建 MySQL 用户和组。
+首先創建 MySQL 用戶和組。
 
 {% highlight text %}
 # groupadd -r mysql
 # useradd -r -g mysql -M -s /sbin/nologin mysql
-参数:
-    -r 添加系统用户组、系统用户
-    -g 指定用户需要添加到的group
-    -M 不创建home目录
+參數:
+    -r 添加系統用戶組、系統用戶
+    -g 指定用戶需要添加到的group
+    -M 不創建home目錄
     -s 指定使用的shell
 {% endhighlight %}
 
-当出现权限问题时，可以通过如下方式进行调试。
+當出現權限問題時，可以通過如下方式進行調試。
 
 {% highlight text %}
 # usermod -s /bin/bash mysql
@@ -39,9 +39,9 @@ description: 主要介绍下 MySQL 如何在线上进行部署。
 # usermod -s /sbin/nologin mysql
 {% endhighlight %}
 
-### 创建数据目录
+### 創建數據目錄
 
-创建数据目录，另外需要保证 mysql 用户对安装目录有读权限，否则加载插件时可能失败。
+創建數據目錄，另外需要保證 mysql 用戶對安裝目錄有讀權限，否則加載插件時可能失敗。
 
 {% highlight text %}
 # mkdir -pv /opt/data
@@ -49,9 +49,9 @@ description: 主要介绍下 MySQL 如何在线上进行部署。
 # chown -R --verbose mysql:mysql /opt/mysql-5.7
 {% endhighlight %}
 
-### 数据库初始化操作
+### 數據庫初始化操作
 
-创建系统自带的数据库和表，如果后续误删除，可以直接再次执行如下命令。
+創建系統自帶的數據庫和表，如果後續誤刪除，可以直接再次執行如下命令。
 
 {% highlight text %}
 # /opt/mysql-5.7/bin/mysqld --initialize-insecure --basedir=/opt/mysql-5.7 \
@@ -60,7 +60,7 @@ description: 主要介绍下 MySQL 如何在线上进行部署。
 
 ### 添加配置文件
 
-如下只是一个简单的配置，详细配置文件可以查看。
+如下只是一個簡單的配置，詳細配置文件可以查看。
 
 {% highlight text %}
 # vi /etc/my.cnf
@@ -82,11 +82,11 @@ character-set-server = utf8
 skip-name-resolve
 {% endhighlight %}
 
-### 启动脚本
+### 啟動腳本
 
-注意，在编译后源码的 support-files 目录下，包括了一些常见的脚本。
+注意，在編譯後源碼的 support-files 目錄下，包括了一些常見的腳本。
 
-如果使用的是 SysV 系统，可以拷贝服务启动脚本到 /etc/init.d/mysqld 目录下，不过现在一般采用 systemd 管理服务；当然，可以后直接通过该脚本启动服务。
+如果使用的是 SysV 系統，可以拷貝服務啟動腳本到 /etc/init.d/mysqld 目錄下，不過現在一般採用 systemd 管理服務；當然，可以後直接通過該腳本啟動服務。
 
 {% highlight text %}
 # cp support-files/mysql.server /etc/init.d/mysqld
@@ -127,19 +127,19 @@ WantedBy=multi-user.target
 
 ### 安全加固
 
-5.7 对系统安全进行了加固，例如：
+5.7 對系統安全進行了加固，例如：
 
-* 在数据库初始化时，如果使用的是 initialize 参数初始化数据库，则会为 root 用户设置一个默认的密码，保存在 /root/.mysql_secret 文件中。
+* 在數據庫初始化時，如果使用的是 initialize 參數初始化數據庫，則會為 root 用戶設置一個默認的密碼，保存在 /root/.mysql_secret 文件中。
 
-* 密码强度管理，该功能是通过 validate\_password 插件进行判断。
+* 密碼強度管理，該功能是通過 validate\_password 插件進行判斷。
 
-* 原 SET PASSWORD=PASSWORD('paasword'); 方式，修改为 SET password='password';，而且官方建议使用 alster 方式。
+* 原 SET PASSWORD=PASSWORD('paasword'); 方式，修改為 SET password='password';，而且官方建議使用 alster 方式。
 
 {% highlight text %}
------ 推荐密码修改方式
+----- 推薦密碼修改方式
 mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY 'new_password';
 
------ validate_password插件加载方式
+----- validate_password插件加載方式
 $ cat /etc/my.cnf
 [mysqld]
 plugin-load=validate_password.so
@@ -148,15 +148,15 @@ mysql> INSTALL PLUGIN validate_password SONAME 'validate_password.so';
 mysql> SHOW VARIABLES LIKE 'validate%';
 {% endhighlight %}
 
-另外，可以通过如下脚本加固，简单来说就是设置 root 密码，删除 test 数据库。
+另外，可以通過如下腳本加固，簡單來說就是設置 root 密碼，刪除 test 數據庫。
 
 {% highlight text %}
 # /opt/mysql-5.7/bin/mysql_secure_installation
 {% endhighlight %}
 
-### 防火墙设置
+### 防火牆設置
 
-设置为允许 3306 端口可以远程访问，如下，将 192.168.1.0/24 网段的客户机设置为白名单。
+設置為允許 3306 端口可以遠程訪問，如下，將 192.168.1.0/24 網段的客戶機設置為白名單。
 
 {% highlight text %}
 # vim /etc/sysconfig/iptables

@@ -1,51 +1,51 @@
 ---
-title: CentOS 安装与配置
+title: CentOS 安裝與配置
 layout: post
 comments: true
 language: chinese
 category: [linux]
-keywords: linux,centos,安装,配置
-description: CentOS (Community Enterprise Operating System) 也即社区版的企业操作系统，是 Linux 的发行版本之一，来自于 Red Hat Enterprise Linux 所开放的源码编译而成。因此，对稳定性较高的服务器通常以 CentOS 替代商业版的 Red Hat 。两者的不同在于 CentOS 并不包含封闭源代码软件。下面会介绍桌面版的 CentOS 在安装时需要作的一些常用配置。
+keywords: linux,centos,安裝,配置
+description: CentOS (Community Enterprise Operating System) 也即社區版的企業操作系統，是 Linux 的發行版本之一，來自於 Red Hat Enterprise Linux 所開放的源碼編譯而成。因此，對穩定性較高的服務器通常以 CentOS 替代商業版的 Red Hat 。兩者的不同在於 CentOS 並不包含封閉源代碼軟件。下面會介紹桌面版的 CentOS 在安裝時需要作的一些常用配置。
 ---
 
-CentOS (Community Enterprise Operating System) 也即社区版的企业操作系统，是 Linux 的发行版本之一，来自于 Red Hat Enterprise Linux 所开放的源码编译而成。因此，对稳定性较高的服务器通常以 CentOS 替代商业版的 Red Hat 。
+CentOS (Community Enterprise Operating System) 也即社區版的企業操作系統，是 Linux 的發行版本之一，來自於 Red Hat Enterprise Linux 所開放的源碼編譯而成。因此，對穩定性較高的服務器通常以 CentOS 替代商業版的 Red Hat 。
 
-两者的不同在于 CentOS 并不包含封闭源代码软件。下面会介绍桌面版的 CentOS 在安装时需要作的一些常用配置。
+兩者的不同在於 CentOS 並不包含封閉源代碼軟件。下面會介紹桌面版的 CentOS 在安裝時需要作的一些常用配置。
 
 <!-- more -->
 
 ![centos logo]({{ site.url }}/images/linux/centos-logo.png "centos logo"){: .pull-center }
 
-## 安装 CentOS
+## 安裝 CentOS
 
-对于 CentOS 桌面版的安装也比较简单，完全是基于图形界面的，安装时可以从 [www.centos.org](https://www.centos.org/download/) 上下载相应版本，一般用 LiveGNOME 或者 LiveKDE 。
+對於 CentOS 桌面版的安裝也比較簡單，完全是基於圖形界面的，安裝時可以從 [www.centos.org](https://www.centos.org/download/) 上下載相應版本，一般用 LiveGNOME 或者 LiveKDE 。
 
-当然，也可以从国内的一些镜像网站上下载，例如 [阿里云镜像](http://mirrors.aliyun.com/)、[搜狐镜像](http://mirrors.sohu.com/)、[网易镜像](http://mirrors.163.com/) 上下载。
+當然，也可以從國內的一些鏡像網站上下載，例如 [阿里雲鏡像](http://mirrors.aliyun.com/)、[搜狐鏡像](http://mirrors.sohu.com/)、[網易鏡像](http://mirrors.163.com/) 上下載。
 
-下载了 ISO 镜像之后可以通过如下方式安装到 U 盘中，如果有 Linux 发行版，安装过程将很简单；如下是通过 dd 命令直接复制即可。
+下載了 ISO 鏡像之後可以通過如下方式安裝到 U 盤中，如果有 Linux 發行版，安裝過程將很簡單；如下是通過 dd 命令直接複製即可。
 
 {% highlight text %}
------ 查看U盘的设备号
+----- 查看U盤的設備號
 # fdisk -l
 ... ...
 Disk /dev/sdc: 4002 MB, 4002910208 bytes, 7818184 sectors
 ... ...
 
------ 将ISO镜像原样复制到U盘中
+----- 將ISO鏡像原樣複製到U盤中
 # dd if=xxx.iso of=/dev/sdb
 
------ 从另外一个终端执行，查看复制到U盘的进度
+----- 從另外一個終端執行，查看複製到U盤的進度
 # while killall -USR1 dd; do sleep 5; done
 {% endhighlight %}
 
-接下来就看看如何配置一些常用的环境。
+接下來就看看如何配置一些常用的環境。
 
 
-## 软件安装
+## 軟件安裝
 
 ![centos power logo]({{ site.url }}/images/linux/centos-power-logo.jpg "centos power logo"){: .pull-right }
 
-在 CentOS 中，会通过 YUM 或者 RPM 进行软件包的管理。其中 RPM (Redhat Package Manager) 是由 RedHat 公司提供的软件包管理器，可以实现软件包的安装、查询、卸载、升级以及校验等，相关的数据会保存在 /var/lib/rpm 目录下，但 rpm 不能很好的解决软件之间的依赖关系。
+在 CentOS 中，會通過 YUM 或者 RPM 進行軟件包的管理。其中 RPM (Redhat Package Manager) 是由 RedHat 公司提供的軟件包管理器，可以實現軟件包的安裝、查詢、卸載、升級以及校驗等，相關的數據會保存在 /var/lib/rpm 目錄下，但 rpm 不能很好的解決軟件之間的依賴關係。
 
 <!--
 There are five basic modes for RPM command
@@ -55,160 +55,160 @@ There are five basic modes for RPM command
     Verify : It is used to query about different RPM packages.
     Query : It is used for the verification of any RPM package.-->
 
-在安装时，通常系统文件存放在 /bin、/sbin、/lib 目录下，而第三方软件会存放在 /usr/local/bin、/usr/local/sbin、 /usr/local/lib、/usr/share/man 和 /usr/local/share/man (后两者为说明文件) 。
+在安裝時，通常系統文件存放在 /bin、/sbin、/lib 目錄下，而第三方軟件會存放在 /usr/local/bin、/usr/local/sbin、 /usr/local/lib、/usr/share/man 和 /usr/local/share/man (後兩者為說明文件) 。
 
-RPM 包通常有一个通用的命名方式：name-version-release.arch.rpm 。
+RPM 包通常有一個通用的命名方式：name-version-release.arch.rpm 。
 
-* name: 表示包的名称，包括主包名和分包名；
+* name: 表示包的名稱，包括主包名和分包名；
 * version: 表示包的版本信息；
-* release: 用于标识 rpm 包本身的发行号，可还包含适应的操作系统；
-* arch: 表示主机平台，noarch 表示此包能安装到所有平台上面。
+* release: 用於標識 rpm 包本身的發行號，可還包含適應的操作系統；
+* arch: 表示主機平臺，noarch 表示此包能安裝到所有平臺上面。
 
-如 gd-devel-2.0.35-11.el6.x86_64.rpm ，gd 是这个包的主包名；devel 是这个包的分包名； 2.0.35 是表示版本信息，2 为主版本号，0 表示次版本号，35 为源码包的发行号也叫修订号； 11.el6 中的 11 是 rpm 的发行号， el6 表示 RHEL6； x86_64 是表示适合的平台。
+如 gd-devel-2.0.35-11.el6.x86_64.rpm ，gd 是這個包的主包名；devel 是這個包的分包名； 2.0.35 是表示版本信息，2 為主版本號，0 表示次版本號，35 為源碼包的發行號也叫修訂號； 11.el6 中的 11 是 rpm 的發行號， el6 表示 RHEL6； x86_64 是表示適合的平臺。
 
-为了解决各个包之间的依赖关系，可以采用 YUM (Yellowdog Updater Modified) 进行管理，该软件是由 Seth Vidal 开发，用于管理 RPM 包。
+為了解決各個包之間的依賴關係，可以採用 YUM (Yellowdog Updater Modified) 進行管理，該軟件是由 Seth Vidal 開發，用於管理 RPM 包。
 
 ### 常用命令
 
-如下列举一些常用的命令。
+如下列舉一些常用的命令。
 
 {% highlight text %}
------ 查看软件信息
-# rpm -q kernel                                           // 查看安装包的全名
-# rpm -ql kernel                                          // 查看已安装软件包含有的文件
-# rpm -qi kernel                                          // 查看已安装软件包的摘要信息
-# rpm -qa | grep software                                 // 查看是否安装了software
-# rpm -qf /usr/sbin/ifcfg                                 // 查看某文件属于那个包
+----- 查看軟件信息
+# rpm -q kernel                                           // 查看安裝包的全名
+# rpm -ql kernel                                          // 查看已安裝軟件包含有的文件
+# rpm -qi kernel                                          // 查看已安裝軟件包的摘要信息
+# rpm -qa | grep software                                 // 查看是否安裝了software
+# rpm -qf /usr/sbin/ifcfg                                 // 查看某文件屬於那個包
 # rpm -qc iproute                                         // 查看生成了那些配置文件
-# rpm -qd iproute                                         // 查看生成了那些帮助文件
+# rpm -qd iproute                                         // 查看生成了那些幫助文件
 # rpm -qpi iproute.rpm                                    // 查看rpm包的信息
-# rpm -qpl iproute.rpm                                    // 查看rpm包中含有的软件列表
+# rpm -qpl iproute.rpm                                    // 查看rpm包中含有的軟件列表
 # yum info mysql                                          // 查看包信息
 
------ 搜索软件
+----- 搜索軟件
 # yum search package                                      // 搜索package
 
------ 安装软件
-# rpm --checksig foobar.rpm                               // 校验PGP Signature，查看完整性和来源
-# rpm -qpR foobar.rpm                                     // 查看依赖
-# rpm -ivh --nodeps --force foobar.rpm                    // 强制安装，如果其它软件包未安装，则不能工作
-# yum -y install foobar                                   // 默认为 yes ，通常用于脚本文件，不需要交互
+----- 安裝軟件
+# rpm --checksig foobar.rpm                               // 校驗PGP Signature，查看完整性和來源
+# rpm -qpR foobar.rpm                                     // 查看依賴
+# rpm -ivh --nodeps --force foobar.rpm                    // 強制安裝，如果其它軟件包未安裝，則不能工作
+# yum -y install foobar                                   // 默認為 yes ，通常用於腳本文件，不需要交互
 
------ 只下载软件，如下命令包含在yum-utils包中
-# yumdownloader PACK                                      // 使用yum自带软件
-# yum -y install yum-downloadonly                         // 通过yum-downloadonly插件
+----- 只下載軟件，如下命令包含在yum-utils包中
+# yumdownloader PACK                                      // 使用yum自帶軟件
+# yum -y install yum-downloadonly                         // 通過yum-downloadonly插件
 # yum -y install --downloadonly --downloaddir=/tmp/ PACK  // 直接使用
 
------ 安装软件包群，很多被打包成Group的软件，可以通过如下命令查看、安装
+----- 安裝軟件包群，很多被打包成Group的軟件，可以通過如下命令查看、安裝
 # yum grouplist
 # yum groupinstall 'MySQL Database'
 # yum groupupdate 'MySQL Database'
 # yum groupremove 'MySQL Database'
 
------ 卸载软件
+----- 卸載軟件
 # rpm -evv --nodeps foobar                                // 不需要指定到foobar.rpm
 # yum -y remove foobar
 
------ 升级软件包
+----- 升級軟件包
 # rpm -Uvh foobar.rpm                                     // 如果新版本不工作，仍可以使用之前的版本
-# yum check-update                                        // 查看可升级的软件包
-# yum update foobar                                       // 升级特定的软件
-# yum update                                              // 升级所有软件
+# yum check-update                                        // 查看可升級的軟件包
+# yum update foobar                                       // 升級特定的軟件
+# yum update                                              // 升級所有軟件
 
 ----- 清除/更新Cache
-# yum clean all                                           // 默认会保存在/var/cache/yum
-# yum makecache                                           // 通常在修改/etc/yum/repos.d目录下配置文件之后
+# yum clean all                                           // 默認會保存在/var/cache/yum
+# yum makecache                                           // 通常在修改/etc/yum/repos.d目錄下配置文件之後
 
------ 获得源码，需要安装yum-utils工具，提供了yumdownloader
-# vi /etc/yum.repos.d/CentOS-Source.repo                  // 将enabled设置为1
-# yum clean all                                           // 清空缓存
+----- 獲得源碼，需要安裝yum-utils工具，提供了yumdownloader
+# vi /etc/yum.repos.d/CentOS-Source.repo                  // 將enabled設置為1
+# yum clean all                                           // 清空緩存
 # yum makecache                                           // 使修改生效
-# rpm -qf `which mysql`                                   // 查看对应安装包
-# yumdownloader --source mariadb                          // 下载源码包，不加--source则只下载
-# rpm2cpio coreutils-8.4-19.el6_4.2.src.rpm | cpio -ivd   // 解压rpm包
+# rpm -qf `which mysql`                                   // 查看對應安裝包
+# yumdownloader --source mariadb                          // 下載源碼包，不加--source則只下載
+# rpm2cpio coreutils-8.4-19.el6_4.2.src.rpm | cpio -ivd   // 解壓rpm包
 
------ 列出软件
-# yum list | less                                         // 列出所有可安装的软件包
-# yum list updates                                        // 列出所有可更新的软件包
-# yum list installed                                      // 列出所有已安装的软件包
-# yum list extras                                         // 列出所有已安装但不在 Yum Repository 內的软件包
-# yum list [package]                                      // 列出所指定的软件包
+----- 列出軟件
+# yum list | less                                         // 列出所有可安裝的軟件包
+# yum list updates                                        // 列出所有可更新的軟件包
+# yum list installed                                      // 列出所有已安裝的軟件包
+# yum list extras                                         // 列出所有已安裝但不在 Yum Repository 內的軟件包
+# yum list [package]                                      // 列出所指定的軟件包
 
 ----- 其它
-# yum shell                                               // 交互环境，可以执行多条命令
-# yum history                                             // 查看历史
-# rpm -Vp xxx.rpm                                         // 与数据库中的版本校验 (Verify)
-# rpm -Va                                                 // 校验所有的
-# rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6      // 导入 GPG key
------ 查询未安装软件包的依赖关系
+# yum shell                                               // 交互環境，可以執行多條命令
+# yum history                                             // 查看歷史
+# rpm -Vp xxx.rpm                                         // 與數據庫中的版本校驗 (Verify)
+# rpm -Va                                                 // 校驗所有的
+# rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6      // 導入 GPG key
+----- 查詢未安裝軟件包的依賴關係
 $ rpm -qRp vim-common-6.3.046-2.el4.1.x86_64.rpm
------ 查询已安装软件包的依赖关系
+----- 查詢已安裝軟件包的依賴關係
 $ rpm -qR vim-common-6.3.046-2.el4.1
 
------ 数据库出错，通过下述命令重建
+----- 數據庫出錯，通過下述命令重建
 # rm /var/lib/rpm/__db*
 # rpm --rebuilddb
 # rpmdb_verify Packages
 {% endhighlight %}
 
-yum makecache 会把服务器的包信息下载到本地电脑缓存起来，配合 yum -C search xxx 使用，不用上网检索就能查找软件的相关信息。
+yum makecache 會把服務器的包信息下載到本地電腦緩存起來，配合 yum -C search xxx 使用，不用上網檢索就能查找軟件的相關信息。
 
-### 问题排查
+### 問題排查
 
-如果在通过 yum 安装软件时出现，Another app is currently holding the yum lock 错误，可以通过 cat /var/run/yum.pid 查看占用的进程的 PID ，通过 rm -f /var/run/yum.pid 删除，重新安装。
+如果在通過 yum 安裝軟件時出現，Another app is currently holding the yum lock 錯誤，可以通過 cat /var/run/yum.pid 查看佔用的進程的 PID ，通過 rm -f /var/run/yum.pid 刪除，重新安裝。
 
 
 
 ## 源配置
 
-CentOS 中官方的源只包含了有限的安装包，为此需要安装一些常用的三方源。当然，也可以自己手动创建 Yum 仓库，主要采用了 createrepo，用于生成 repodata 软件信息仓库。
+CentOS 中官方的源只包含了有限的安裝包，為此需要安裝一些常用的三方源。當然，也可以自己手動創建 Yum 倉庫，主要採用了 createrepo，用於生成 repodata 軟件信息倉庫。
 
 可以通常如下命令查看源列表的配置。
 
 {% highlight text %}
-# yum repolist                                            // 查看现在可用的源列表
+# yum repolist                                            // 查看現在可用的源列表
 # yum repolist all                                        // 查看所有的源列表
-# yum --enablerepo=epel install mysql                     // 从指定源列表下载
+# yum --enablerepo=epel install mysql                     // 從指定源列表下載
 {% endhighlight %}
 
-接下来看看如何配置第三方的源。
+接下來看看如何配置第三方的源。
 
 ### 使用第三方源
 
-配置完成后可以通过 yum repolist all 命令查看三方源是否生效，通过 yum list software 查看相应的软件。对于一些 RPM 包，也可以从 [pkgs.org/search/](http://pkgs.org/search/) 或者 [http://www.rpmfind.net](http://www.rpmfind.net) 查找相应的软件包，以及与该软件包相关的依赖。
+配置完成後可以通過 yum repolist all 命令查看三方源是否生效，通過 yum list software 查看相應的軟件。對於一些 RPM 包，也可以從 [pkgs.org/search/](http://pkgs.org/search/) 或者 [http://www.rpmfind.net](http://www.rpmfind.net) 查找相應的軟件包，以及與該軟件包相關的依賴。
 
-注意：如果在安装过程中出现 error: Failed dependencies 可以使用 --nodeps --force 选项强制安装，不过此时有可能导致部分功能失效。
+注意：如果在安裝過程中出現 error: Failed dependencies 可以使用 --nodeps --force 選項強制安裝，不過此時有可能導致部分功能失效。
 
-另外，关于 CentOS 的第三方源，可以参考 [CentOS Wiki](http://wiki.centos.org/zh/AdditionalResources/Repositories) 中给出的参考意见。
+另外，關於 CentOS 的第三方源，可以參考 [CentOS Wiki](http://wiki.centos.org/zh/AdditionalResources/Repositories) 中給出的參考意見。
 
-#### 准备工作
+#### 準備工作
 
-在使用时，最好先安装 yum-priorities 插件，该插件用来设置 yum 在调用软件源时的顺序，因为官方提供的软件源，都是比较稳定和被推荐使用的，因此，官方源的顺序要高于第三方源的顺序。
+在使用時，最好先安裝 yum-priorities 插件，該插件用來設置 yum 在調用軟件源時的順序，因為官方提供的軟件源，都是比較穩定和被推薦使用的，因此，官方源的順序要高於第三方源的順序。
 
 {% highlight text %}
 # yum install yum-priorities
 {% endhighlight %}
 
-安装完后需要设置 /etc/yum.repos.d/ 目录下的 *.repo 相关文件，例如 CentOS-Base.repo、epel.repo、nux-dextop.repo 等，在这些文件中插入顺序指令 priority=N (N为1到99的正整数，数值越小优先级越高)，一般第三的软件源设置的优先级大于 10 。
+安裝完後需要設置 /etc/yum.repos.d/ 目錄下的 *.repo 相關文件，例如 CentOS-Base.repo、epel.repo、nux-dextop.repo 等，在這些文件中插入順序指令 priority=N (N為1到99的正整數，數值越小優先級越高)，一般第三的軟件源設置的優先級大於 10 。
 
 
-#### 国内官方源
+#### 國內官方源
 
-也就是一些 CentOS 的镜像，常见的有 [centos.ustc.edu.cn](http://centos.ustc.edu.cn/)、[mirrors.163.com](http://mirrors.163.com/centos/)、[mirrors.sohu.com](http://mirrors.sohu.com/centos/)，只需要修改基本数据源中的 URL 配置选项。
+也就是一些 CentOS 的鏡像，常見的有 [centos.ustc.edu.cn](http://centos.ustc.edu.cn/)、[mirrors.163.com](http://mirrors.163.com/centos/)、[mirrors.sohu.com](http://mirrors.sohu.com/centos/)，只需要修改基本數據源中的 URL 配置選項。
 
 
 #### EPEL, Extra Packages for Enterprise Linux
 
-EPEL是由 Fedora 社区打造，为 RHEL 及衍生发行版如 CentOS、Scientific Linux 等提供高质量软件包的项目，详细内容可以参考 [EPEL-Wiki](https://fedoraproject.org/wiki/EPEL/zh-cn) 。
+EPEL是由 Fedora 社區打造，為 RHEL 及衍生髮行版如 CentOS、Scientific Linux 等提供高質量軟件包的項目，詳細內容可以參考 [EPEL-Wiki](https://fedoraproject.org/wiki/EPEL/zh-cn) 。
 
-安装源，其中对应的版本需要根据当前的版本自行选择。
+安裝源，其中對應的版本需要根據當前的版本自行選擇。
 
 {% highlight text %}
 # rpm -Uvh http://mirrors.ustc.edu.cn/epel/beta/7/x86_64/epel-release-7-0.2.noarch.rpm
 # rpm -Uvh http://dl.fedoraproject.org/pub/epel/beta/7/x86_64/epel-release-7-0.2.noarch.rpm
 {% endhighlight %}
 
-接下来时导入证书，当然这步也可以在通过 yum 安装时根据提示自动导入。
+接下來時導入證書，當然這步也可以在通過 yum 安裝時根據提示自動導入。
 
 {% highlight text %}
 # rpm -import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7
@@ -217,7 +217,7 @@ EPEL是由 Fedora 社区打造，为 RHEL 及衍生发行版如 CentOS、Scienti
 
 #### rpmforge
 
-可以从 [pkgs.repoforge.org](http://pkgs.repoforge.org/rpmforge-release/) 或者 [apt.sw.be](http://apt.sw.be/redhat/el7/en/x86_64/rpmforge/RPMS/) 下载。
+可以從 [pkgs.repoforge.org](http://pkgs.repoforge.org/rpmforge-release/) 或者 [apt.sw.be](http://apt.sw.be/redhat/el7/en/x86_64/rpmforge/RPMS/) 下載。
 
 {% highlight text %}
 # rpm -Uvh http://apt.sw.be/redhat/el7/en/x86_64/rpmforge/RPMS/rpmforge-release-xxx.rpm
@@ -225,55 +225,55 @@ EPEL是由 Fedora 社区打造，为 RHEL 及衍生发行版如 CentOS、Scienti
 
 #### nux-dextop
 
-直接从 [nux-dextop-release*rpm](http://li.nux.ro/download/nux/dextop/el7/x86_64/) 上查找安装最新的配置，通常 mplayer 会包含在该三方源中。
+直接從 [nux-dextop-release*rpm](http://li.nux.ro/download/nux/dextop/el7/x86_64/) 上查找安裝最新的配置，通常 mplayer 會包含在該三方源中。
 
 
 
 ### 使用本地源
 
-可以通过如下方法使用本地源，也就是下载的包含安装包的 ISO 镜像。
+可以通過如下方法使用本地源，也就是下載的包含安裝包的 ISO 鏡像。
 
-对于 VMware 需要通过如下方法挂载，[Setting] -> [Hardware] -> [CD/DVD] -> 右边 Device 里勾选 Connected，在 Use ISO image file 里选择 ISO 文件后确定即可。
+對於 VMware 需要通過如下方法掛載，[Setting] -> [Hardware] -> [CD/DVD] -> 右邊 Device 裡勾選 Connected，在 Use ISO image file 裡選擇 ISO 文件後確定即可。
 
-CentOS 中使用的 yum 源配置文件保存在 /etc/yum.repos.d 目录下，主要包括了两个配置文件 CentOS-Base.repo 和 CentOS-Media.repo；其中，前者是配置网络 yum 源的，而后者是用来配置本地 yum 源。
+CentOS 中使用的 yum 源配置文件保存在 /etc/yum.repos.d 目錄下，主要包括了兩個配置文件 CentOS-Base.repo 和 CentOS-Media.repo；其中，前者是配置網絡 yum 源的，而後者是用來配置本地 yum 源。
 
 {% highlight text %}
------ 对于VM来说，也可以使用Share Folder
+----- 對於VM來說，也可以使用Share Folder
 # mount /dev/cdrom /media/cdrom
 # mount -o loop /mnt/hgfs/Share/CentOS-xxx-xxx-bin-DVD.iso /media/cdrom/
 # vi /etc/yum.repos.d/iso.repo
 [c6-media]
-name=CentOS-$releasever - Media      # 自定义名称
-baseurl=file:///media/cdrom/         # 可以指定多个路径
+name=CentOS-$releasever - Media      # 自定義名稱
+baseurl=file:///media/cdrom/         # 可以指定多個路徑
         file:///media/cdrom2/
 gpgcheck=1
 enabled=0
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
 
------ 清除缓存
+----- 清除緩存
 # yum clean all
 
------ 证书也可以使用如下方式安装
+----- 證書也可以使用如下方式安裝
 # rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-5
-# yum --enablerepo=c6-media install mysql-server                   # 本地和网络
-# yum --disablerepo=\* --enablerepo=c6-media install mysql-server  # 只使用本地光盘
+# yum --enablerepo=c6-media install mysql-server                   # 本地和網絡
+# yum --disablerepo=\* --enablerepo=c6-media install mysql-server  # 只使用本地光盤
 {% endhighlight %}
 
 #### 原生本地源
 
-如上的 ISO 镜像文件中，已经包含了索引文件 (位于 repodata 文件夹)，如果自己创建本地镜像，例如平时收藏的 RPM 软件包或者集成测试等，此时需要通过 createrepo 创建索引文件。
+如上的 ISO 鏡像文件中，已經包含了索引文件 (位於 repodata 文件夾)，如果自己創建本地鏡像，例如平時收藏的 RPM 軟件包或者集成測試等，此時需要通過 createrepo 創建索引文件。
 
-当然，如过没有 createrepo 命令，则需要安装 createrepo.xxx.rpm 包。
+當然，如過沒有 createrepo 命令，則需要安裝 createrepo.xxx.rpm 包。
 
 {% highlight text %}
------ 1. 创建本地yum仓库目录
+----- 1. 創建本地yum倉庫目錄
 $ mkdir -p /share/CentOS/7/local/x86_64/RPMS
 
------ 2. 创建索引&更新缓存
+----- 2. 創建索引&更新緩存
 $ createrepo /share/CentOS/7/local/x86_64
 $ yum makecache
 
------ 3. 创建本地repo文件
+----- 3. 創建本地repo文件
 $ cat<<-"EOF">/etc/yum.repos.d/CentOS-Local.repo
 [local]
 name=CentOS-$releasever - local packages for $basearch
@@ -284,23 +284,23 @@ protect=1
 EOF
 {% endhighlight %}
 
-另外，可以参考 [How to create public mirrors for CentOS](https://wiki.centos.org/HowTos/CreatePublicMirrors)、[Create Local Repos](https://wiki.centos.org/HowTos/CreateLocalRepos) 。
+另外，可以參考 [How to create public mirrors for CentOS](https://wiki.centos.org/HowTos/CreatePublicMirrors)、[Create Local Repos](https://wiki.centos.org/HowTos/CreateLocalRepos) 。
 
 
-## 常用软件配置
+## 常用軟件配置
 
-### 安装编译环境
+### 安裝編譯環境
 
-如下是安装 C/C++ 编译工具。
+如下是安裝 C/C++ 編譯工具。
 
 {% highlight text %}
 # yum install gcc
-# yum install gcc-c++             # 安装g++
+# yum install gcc-c++             # 安裝g++
 {% endhighlight %}
 
-### 支持 NTFS 文件系统
+### 支持 NTFS 文件系統
 
-可以在安装完第三方软件源 EPEL 之后通过如下命令安装。
+可以在安裝完第三方軟件源 EPEL 之後通過如下命令安裝。
 
 {% highlight text %}
 # wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo
@@ -309,37 +309,37 @@ EOF
 # yum --enablerepo=epel install ntfs-3g
 {% endhighlight %}
 
-但是如果是最新版本的 CentOS，可能在三方库中没有相应的安装包，那么此时就需要从源码编译安装。直接从 [www.tuxera.com](http://www.tuxera.com/community/ntfs-3g-download/) 下载源码，然后通过如下方式编译。
+但是如果是最新版本的 CentOS，可能在三方庫中沒有相應的安裝包，那麼此時就需要從源碼編譯安裝。直接從 [www.tuxera.com](http://www.tuxera.com/community/ntfs-3g-download/) 下載源碼，然後通過如下方式編譯。
 
 {% highlight text %}
 $ tar -zxvf ntfs-3g_ntfsprogs-2014.2.15.tgz
 $ cd ntfs-3g_ntfsprogs-2014.2.15
 $ ./configure
 $ make
-# make install                # 完成安装，需要root权限
+# make install                # 完成安裝，需要root權限
 {% endhighlight %}
 
-接下来配置为自动挂载，假设对应的磁盘为 /dev/sda5 。
+接下來配置為自動掛載，假設對應的磁盤為 /dev/sda5 。
 
 {% highlight text %}
 # blkid /dev/sda5             # 查看UUID
-# vi /etc/fstab               # 添加如下的内容
+# vi /etc/fstab               # 添加如下的內容
 UUID=xxxxxxxxxxx /media/disk  ntfs-3g defaults 0 0
 {% endhighlight %}
 
 
-### 安装 Flash 插件
+### 安裝 Flash 插件
 
-直接从如下网站 [www.adobe.com](http://get.adobe.com/cn/flashplayer/) 获得，主要有两种方法。
+直接從如下網站 [www.adobe.com](http://get.adobe.com/cn/flashplayer/) 獲得，主要有兩種方法。
 
-A) YUM 安装。下载时选择 "YUM，适用于Linux(YUM)"，实际会下载一个 RPM 安装包，用来安装 adobe 的 yum 源配置文件。
+A) YUM 安裝。下載時選擇 "YUM，適用於Linux(YUM)"，實際會下載一個 RPM 安裝包，用來安裝 adobe 的 yum 源配置文件。
 
 {% highlight text %}
-# rpm -ivh adobe-release-i386-1.0-1.noarch.rpm        安装Adobe的源
-# yum install flash-plugin                            安装falsh插件
+# rpm -ivh adobe-release-i386-1.0-1.noarch.rpm        安裝Adobe的源
+# yum install flash-plugin                            安裝falsh插件
 {% endhighlight %}
 
-B）RPM 安装。在下载页面选择 ".rpm，适用于其它Linux"，此时将会直接下载 RPM 安装包，可以直接通过 RPM 进行安装。
+B）RPM 安裝。在下載頁面選擇 ".rpm，適用於其它Linux"，此時將會直接下載 RPM 安裝包，可以直接通過 RPM 進行安裝。
 
 {% highlight text %}
 # rpm -ivh flash-plugin-11.2.202.297-release.i386.rpm
@@ -347,13 +347,13 @@ B）RPM 安装。在下载页面选择 ".rpm，适用于其它Linux"，此时将
 
 ### Gnome-Terminal配置
 
-A) 取消声音。Edit->Preferences->Profiles->选择对应配置文件[Edit]->General->取消Terminal bell。
+A) 取消聲音。Edit->Preferences->Profiles->選擇對應配置文件[Edit]->General->取消Terminal bell。
 
-B) 设置启动快捷键。在 CentOS 的系统菜单中选择 Applications -> System Tools -> Keyboard -> Shortcuts -> Custom Shortcuts 设置命令为 gnome-terminal --hide-menubar --maximize，详细参数可以参考 gnome-terminal --help-window-options。
+B) 設置啟動快捷鍵。在 CentOS 的系統菜單中選擇 Applications -> System Tools -> Keyboard -> Shortcuts -> Custom Shortcuts 設置命令為 gnome-terminal --hide-menubar --maximize，詳細參數可以參考 gnome-terminal --help-window-options。
 
-C) 颜色设置。个人比较喜欢的颜色配置，文本颜色 #dbfef8，背景颜色 #2f4f4f 。
+C) 顏色設置。個人比較喜歡的顏色配置，文本顏色 #dbfef8，背景顏色 #2f4f4f 。
 
-D) 设置为半透明。首先尝试在 Edit->Preferences 菜单中设置，如果不生效，则在 ~/.bashrc 文件中添加如下内容，其中 80 对应不同的透明度。
+D) 設置為半透明。首先嚐試在 Edit->Preferences 菜單中設置，如果不生效，則在 ~/.bashrc 文件中添加如下內容，其中 80 對應不同的透明度。
 
 {% highlight bash %}
 if [ -n "$WINDOWID" ]; then
@@ -362,53 +362,53 @@ if [ -n "$WINDOWID" ]; then
 fi
 {% endhighlight %}
 
-另外，可以将 bash 替换为 zsh 。
+另外，可以將 bash 替換為 zsh 。
 {% highlight text %}
-# chsh -s /bin/zsh     # 修改默认shell
+# chsh -s /bin/zsh     # 修改默認shell
 {% endhighlight %}
 
-guake，一个不错的弹出式终端工具，很酷，不过感觉不太实用。
+guake，一個不錯的彈出式終端工具，很酷，不過感覺不太實用。
 
-### 绘图软件
+### 繪圖軟件
 
-inkscape 用于绘制矢量图，另一个比较简单的是 [xfig](http://www.xfig.org/userman/) ，一款 old style 的画图工具。
+inkscape 用於繪製矢量圖，另一個比較簡單的是 [xfig](http://www.xfig.org/userman/) ，一款 old style 的畫圖工具。
 
 {% highlight text %}
 # yum install inkscape
 {% endhighlight %}
 
-另外一个就是 GIMP，同样可以通过 YUM 安装，方式同上。
+另外一個就是 GIMP，同樣可以通過 YUM 安裝，方式同上。
 
 
-### 虚拟机
+### 虛擬機
 
-常用的是 VirtualBox，可以直接从 [www.virtualbox.org](https://www.virtualbox.org/) 上下载相应的安装包，也就是 CentOS 的版本，然后通过如下方式安装。
+常用的是 VirtualBox，可以直接從 [www.virtualbox.org](https://www.virtualbox.org/) 上下載相應的安裝包，也就是 CentOS 的版本，然後通過如下方式安裝。
 
 {% highlight text %}
-# yum install kernel-devel                      # 编译内核模块时需要该包
-# rpm -ivh VirtualBox-x.x.x.rpm                 # 安装
-# /sbin/vboxconfig                              # 重新编译内核模块
+# yum install kernel-devel                      # 編譯內核模塊時需要該包
+# rpm -ivh VirtualBox-x.x.x.rpm                 # 安裝
+# /sbin/vboxconfig                              # 重新編譯內核模塊
 {% endhighlight %}
 
-安装时可以直接参考网上的文章。
+安裝時可以直接參考網上的文章。
 
 
-### 浏览器设置
+### 瀏覽器設置
 
-主要包括了比较常用的 FireFox 以及 Chrome，其中前者是默认安装的。
+主要包括了比較常用的 FireFox 以及 Chrome，其中前者是默認安裝的。
 
 #### Firefox
 
-可以安装常用的插件，如 Regular Expressions Tester (一个正则表达式的测试工具)、Vimperator (将对火狐的部分操作改为VIM模式)、Mozilla Archive Format (用来保存查看mhtml格式的文件)。
+可以安裝常用的插件，如 Regular Expressions Tester (一個正則表達式的測試工具)、Vimperator (將對火狐的部分操作改為VIM模式)、Mozilla Archive Format (用來保存查看mhtml格式的文件)。
 
 #### Chrome
 
-可以参考 [Google Chrome 51 Released – Install on RHEL/CentOS 7/6 and Fedora 23-15](http://www.tecmint.com/install-google-chrome-on-redhat-centos-fedora-linux/)
+可以參考 [Google Chrome 51 Released – Install on RHEL/CentOS 7/6 and Fedora 23-15](http://www.tecmint.com/install-google-chrome-on-redhat-centos-fedora-linux/)
 
 
-### CHM 阅读器
+### CHM 閱讀器
 
-Linux 中常见的 chm 阅读器有 xchm、kchmiewer 等，在 CentOS 可以直接安装 xchm 。
+Linux 中常見的 chm 閱讀器有 xchm、kchmiewer 等，在 CentOS 可以直接安裝 xchm 。
 
 {% highlight text %}
 # yum --enablerepo=nux-dextop,epel install xchm
@@ -416,49 +416,49 @@ Linux 中常见的 chm 阅读器有 xchm、kchmiewer 等，在 CentOS 可以直�
 
 
 
-### 音频/视频软件
+### 音頻/視頻軟件
 
-在 CentOS 中，默认使用的是 Rythmbox/Totem，不过感觉使用有点麻烦，还是用 Mplayer/Audacious 比较方便，不过需要依赖 nux-dextop 源，当然也可以从 [pkgs.org](http://pkgs.org/search/) 上下载相关的二进制文件。
+在 CentOS 中，默認使用的是 Rythmbox/Totem，不過感覺使用有點麻煩，還是用 Mplayer/Audacious 比較方便，不過需要依賴 nux-dextop 源，當然也可以從 [pkgs.org](http://pkgs.org/search/) 上下載相關的二進制文件。
 
 {% highlight text %}
 # yum --enablerepo=nux-dextop install mplayer audacious plugins-freeworld-mp3
 {% endhighlight %}
 
-对于 Mplayer，如果使用时无法缩放，可以在 ~/.mplayer/config 中添加 zoom=yes 配置项。
+對於 Mplayer，如果使用時無法縮放，可以在 ~/.mplayer/config 中添加 zoom=yes 配置項。
 
-其中 plugins-freeworld-mp3 是 Audacious 中的 MP3 解码器。不过默认的外观不太好看，不过还好支持其它主题，可以从 [gnome-look.org](http://gnome-look.org) 中的 XMMS Themes 中选择主题，保存在 /usr/share/audacious/Skins 目录下，然后可以从 Audacious 的 Settings 窗口中看到。
+其中 plugins-freeworld-mp3 是 Audacious 中的 MP3 解碼器。不過默認的外觀不太好看，不過還好支持其它主題，可以從 [gnome-look.org](http://gnome-look.org) 中的 XMMS Themes 中選擇主題，保存在 /usr/share/audacious/Skins 目錄下，然後可以從 Audacious 的 Settings 窗口中看到。
 
-对于中文，在主窗口中右击，选择 Settings->Playlist->Compalibility[Fallback...]，设置为 cp936 (比其它的要更通用)，重新加载播放列表即可。
+對於中文，在主窗口中右擊，選擇 Settings->Playlist->Compalibility[Fallback...]，設置為 cp936 (比其它的要更通用)，重新加載播放列表即可。
 
-另外，除上述的 GUI 播放器之外，还有些终端播放器，如 [Console Music](https://github.com/cmus/cmus)、[Music On Console](https://moc.daper.net/) ([Github](https://github.com/sagitter/moc)) 。
-
-
+另外，除上述的 GUI 播放器之外，還有些終端播放器，如 [Console Music](https://github.com/cmus/cmus)、[Music On Console](https://moc.daper.net/) ([Github](https://github.com/sagitter/moc)) 。
 
 
-### 笔记类
 
-比较悲剧，Linux 下面没有发现很好用的笔记软件，其中 WizNote 算是比较好用的，不过还是有 BUGs 。
+
+### 筆記類
+
+比較悲劇，Linux 下面沒有發現很好用的筆記軟件，其中 WizNote 算是比較好用的，不過還是有 BUGs 。
 
 #### tagspace
 
-直接从官网 [www.tagspaces.org](http://www.tagspaces.org/) 下载，然后解压直接运行即可。
+直接從官網 [www.tagspaces.org](http://www.tagspaces.org/) 下載，然後解壓直接運行即可。
 
-#### 为知笔记
+#### 為知筆記
 
-一个跨平台的笔记 [www.wiz.cn](http://www.wiz.cn/)，安装方法可以查看 [GitHub](https://github.com/wizteam/wizqtclient)，可以查看相关的开源依赖 [为知笔记中使用的开源组件和协议](http://blog.wiz.cn/wiznote-opensource.html) 。
+一個跨平臺的筆記 [www.wiz.cn](http://www.wiz.cn/)，安裝方法可以查看 [GitHub](https://github.com/wizteam/wizqtclient)，可以查看相關的開源依賴 [為知筆記中使用的開源組件和協議](http://blog.wiz.cn/wiznote-opensource.html) 。
 
 #### MarkDown
 
-一些网页的工具， [StackEdit](https://stackedit.io/editor)、[Markable](https://markable.in/)、[Cmd Markdown](https://www.zybuluo.com/mdeditor)、[MaHua](http://mahua.jser.me/)、[马克飞象](https://maxiang.io/) 。
+一些網頁的工具， [StackEdit](https://stackedit.io/editor)、[Markable](https://markable.in/)、[Cmd Markdown](https://www.zybuluo.com/mdeditor)、[MaHua](http://mahua.jser.me/)、[馬克飛象](https://maxiang.io/) 。
 
 #### Haroopad
 
-一个 MarkDown 软件，使用 Chromium 作为 UI，可以参考 [官方文档](http://pad.haroopress.com/) 。
+一個 MarkDown 軟件，使用 Chromium 作為 UI，可以參考 [官方文檔](http://pad.haroopress.com/) 。
 
 <!--
 $ tar -zxvf haroopad-v0.12.2_amd64.tar.gz
 $ tar -zxvf data.tar.gz
-# cp -r --link usr /usr                         # 创建硬链接
+# cp -r --link usr /usr                         # 創建硬鏈接
 $ tar -zxvf control.tar.gz
 # ./postinst
 # vi /usr/share/applications/Haroopad.desktop   # 修改ICON
@@ -469,17 +469,17 @@ Icon=/usr/share/icons/hicolor/128x128/apps/haroopad.png
 
 #### 其它
 
-另外，两个在 Mac 上很经典的软件 Mou 以及 [MacDown](http://macdown.uranusjr.com/features/)，对于 MacDown 源码可以参考 [Github](https://github.com/MacDownApp/macdown) 。
+另外，兩個在 Mac 上很經典的軟件 Mou 以及 [MacDown](http://macdown.uranusjr.com/features/)，對於 MacDown 源碼可以參考 [Github](https://github.com/MacDownApp/macdown) 。
 
 
-## 参考
+## 參考
 
-官方的镜像列表，可以参考 [List of CentOS Mirrors](https://www.centos.org/download/mirrors/) 。
+官方的鏡像列表，可以參考 [List of CentOS Mirrors](https://www.centos.org/download/mirrors/) 。
 
 <!--
-gpg签名
+gpg簽名
 /etc/pki/rpm-gpg/RPM*
-rpm 安装时可能会报 NOKEY 的错误信息 --nogpgcheck nosignature
+rpm 安裝時可能會報 NOKEY 的錯誤信息 --nogpgcheck nosignature
 -->
 
 {% highlight text %}

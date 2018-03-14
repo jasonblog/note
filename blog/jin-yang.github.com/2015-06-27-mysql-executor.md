@@ -1,28 +1,28 @@
 ---
-title: MySQL 执行简介
+title: MySQL 執行簡介
 layout: post
 comments: true
 language: chinese
 category: [mysql,database]
-keywords: mysql,执行
-description: 最后是 MySQL 的执行。
+keywords: mysql,執行
+description: 最後是 MySQL 的執行。
 ---
 
-最后是 MySQL 的执行。
+最後是 MySQL 的執行。
 
 <!-- more -->
 
-## 简介
+## 簡介
 
-MySQL 的 join 操作主要是采用 nest loop 算法，其它算法暂不讨论，其中涉及的主要函数有如下 do_select()、sub_select()、evaluate_join_record()，其简单的调用堆栈可以参考如下：
+MySQL 的 join 操作主要是採用 nest loop 算法，其它算法暫不討論，其中涉及的主要函數有如下 do_select()、sub_select()、evaluate_join_record()，其簡單的調用堆棧可以參考如下：
 
 {% highlight text %}
-$ pgrep mysqld                            ← 查看mysqld的进程号
+$ pgrep mysqld                            ← 查看mysqld的進程號
 32204
 
 $ gdb
-(gdb) attach 32204                        ← 链接到mysqld服务器
-(gdb) b evaluate_join_record              ← 设置断点，然后另一个终端链接mysql
+(gdb) attach 32204                        ← 鏈接到mysqld服務器
+(gdb) b evaluate_join_record              ← 設置斷點，然後另一個終端鏈接mysql
 (gdb) bt
 #0  evaluate_join_record (...)     at sql/sql_executor.cc:1473
 #1  sub_select (...)               at sql/sql_executor.cc:1291
@@ -57,19 +57,19 @@ $ gdb
 #13 0x00007fc30b037ced in clone () from /lib64/libc.so.6
 -->
 
-MySQL 的执行器与优化器类似，同样共享 JOIN 中的内容，也就是一个查询的上下文信息；而真正执行的函数为 JOIN::exec()@sql/sql_executor.cc。
+MySQL 的執行器與優化器類似，同樣共享 JOIN 中的內容，也就是一個查詢的上下文信息；而真正執行的函數為 JOIN::exec()@sql/sql_executor.cc。
 
-在此主要查看下 exec 的执行过程，实际的执行函数在 do_select() 中，接下来简单分析下源码的执行过程。
-
-
-
-
-## 源码解析
+在此主要查看下 exec 的執行過程，實際的執行函數在 do_select() 中，接下來簡單分析下源碼的執行過程。
 
 
 
 
-MySQL 执行器的源码主要在 sql_executor.cc 中，如下简单说明下函数的执行过程，只是包含了主要的路径。
+## 源碼解析
+
+
+
+
+MySQL 執行器的源碼主要在 sql_executor.cc 中，如下簡單說明下函數的執行過程，只是包含了主要的路徑。
 
 {% highlight c %}
 static int do_select(JOIN *join,List<Item> *fields,TABLE *table,Procedure *procedure)
@@ -78,7 +78,7 @@ static int do_select(JOIN *join,List<Item> *fields,TABLE *table,Procedure *proce
     Next_select_func end_select= setup_end_select_func(join);
     if (join->table_count) {
        join->join_tab[join->top_join_tab_count - 1].next_select= end_select;
-       join_tab=join->join_tab+join->const_tables;        // 对const表的优化
+       join_tab=join->join_tab+join->const_tables;        // 對const表的優化
     }
     ... ...
     if (join->table_count == join->const_tables) {
@@ -87,10 +87,10 @@ static int do_select(JOIN *join,List<Item> *fields,TABLE *table,Procedure *proce
       if (join->outer_ref_cond && !join->outer_ref_cond->val_int())
         error= NESTED_LOOP_NO_MORE_ROWS;
       else
-        error= sub_select(join,join_tab,0);   // 会调用sub_select，且不是最后一条
+        error= sub_select(join,join_tab,0);   // 會調用sub_select，且不是最後一條
       if ((error == NESTED_LOOP_OK || error == NESTED_LOOP_NO_MORE_ROWS)
           && join->thd->killed != ABORT_QUERY)
-        error= sub_select(join,join_tab,1);   // 最后的调用函数
+        error= sub_select(join,join_tab,1);   // 最後的調用函數
       ... ...
     }
 }
@@ -98,10 +98,10 @@ static int do_select(JOIN *join,List<Item> *fields,TABLE *table,Procedure *proce
 enum_nested_loop_state sub_select(JOIN *join,JOIN_TAB *join_tab,bool end_of_records)
 {
   ... ...
-  if (end_of_records)     // 如果已经到了记录的结束位置，则直接调用qep_tab->next_select()
+  if (end_of_records)     // 如果已經到了記錄的結束位置，則直接調用qep_tab->next_select()
   {
     enum_nested_loop_state nls=
-    (*qep_tab->next_select)(join,qep_tab+1,end_of_records); // 详见###1
+    (*qep_tab->next_select)(join,qep_tab+1,end_of_records); // 詳見###1
     DBUG_RETURN(nls);
   }
   READ_RECORD *info= &qep_tab->read_record;
@@ -110,13 +110,13 @@ enum_nested_loop_state sub_select(JOIN *join,JOIN_TAB *join_tab,bool end_of_reco
   while (rc == NESTED_LOOP_OK && join->return_tab >= qep_tab_idx)
   {
     int error;
-    if (in_first_read)                        // 首先读取第一条记录
-    {                                         // 详见###2，会在后面判断是否满足条件
+    if (in_first_read)                        // 首先讀取第一條記錄
+    {                                         // 詳見###2，會在後面判斷是否滿足條件
       in_first_read= false;
       error= (*qep_tab->read_first_record)(qep_tab);
     }
     else
-      error= info->read_record(info);         // 循环读取记录直到结束位置，详见###3
+      error= info->read_record(info);         // 循環讀取記錄直到結束位置，詳見###3
 
     if (error > 0 || (join->thd->is_error())) // Fatal error
       rc= NESTED_LOOP_ERROR;
@@ -128,7 +128,7 @@ enum_nested_loop_state sub_select(JOIN *join,JOIN_TAB *join_tab,bool end_of_reco
       rc= NESTED_LOOP_KILLED;
     }
     else
-    {                                         // 如果没有异常，则对记录判断是否满足条件
+    {                                         // 如果沒有異常，則對記錄判斷是否滿足條件
       if (qep_tab->keep_current_rowid)
         qep_tab->table()->file->position(qep_tab->table()->record[0]);
       rc= evaluate_join_record(join, qep_tab);
@@ -140,134 +140,134 @@ enum_nested_loop_state sub_select(JOIN *join,JOIN_TAB *join_tab,bool end_of_reco
 static enum_nested_loop_state evaluate_join_record(JOIN *join, JOIN_TAB *join_tab, int error)
 {
     ... ...
-    COND* select_cond= join_tab->select_cond; // 取出相应的条件，其初始化在优化阶段里调用make_join_select()->
-                             // add_not_null_conds() -> make_cond_for_table() 完成相应join_table的select_cond初始化
+    COND* select_cond= join_tab->select_cond; // 取出相應的條件，其初始化在優化階段裡調用make_join_select()->
+                             // add_not_null_conds() -> make_cond_for_table() 完成相應join_table的select_cond初始化
     ... ...
-    if (select_cond) {       // 如果有查询条件
-        select_cond_result= MY_TEST(select_cond->val_int()); // 完成从引擎获得的数据与query中该table的cond比较的过程
-                             // 其最终调用的是Item_cmpfunc里的接口，如对于简单的数字等值比较使用Item_func_eq::val_int()->
+    if (select_cond) {       // 如果有查詢條件
+        select_cond_result= MY_TEST(select_cond->val_int()); // 完成從引擎獲得的數據與query中該table的cond比較的過程
+                             // 其最終調用的是Item_cmpfunc裡的接口，如對於簡單的數字等值比較使用Item_func_eq::val_int()->
                              // intArg_comparator::compare_int_signed()
     ... ...
     if (found) {
         rc= (*join_tab->next_select)(join,join_tab+1, 0);
     } else {
-        join_tab->read_record.unlock_row(join_tab);   // 调用rr_unlock_row最终调用引擎的unlock_row对行进行解锁
+        join_tab->read_record.unlock_row(join_tab);   // 調用rr_unlock_row最終調用引擎的unlock_row對行進行解鎖
     }
     ... ...
 }
 {% endhighlight %}
 
 
-对于如上的函数调用，其主要的处理过程在 sub_query() 函数中，暂时小结一下上面出现的三个比较重要的函数指针：
+對於如上的函數調用，其主要的處理過程在 sub_query() 函數中，暫時小結一下上面出現的三個比較重要的函數指針：
 
-* join_tab->read_first_record<br>读取第一条记录使用的方法。
+* join_tab->read_first_record<br>讀取第一條記錄使用的方法。
 
-* info->read_record<br>读取非第一条记录使用的方法，对于多条记录会循环调用该函数，该方法是根据 optimize 选择的 join type 来指定的。
+* info->read_record<br>讀取非第一條記錄使用的方法，對於多條記錄會循環調用該函數，該方法是根據 optimize 選擇的 join type 來指定的。
 
-* join_tab->next_select<br>在 sub_select() 中的最后一条记录调用，也就是连接下一个 table 的方法，这里除了最后一个表使用 end_select 之外，其它的都使用 sub_select。
+* join_tab->next_select<br>在 sub_select() 中的最後一條記錄調用，也就是連接下一個 table 的方法，這裡除了最後一個表使用 end_select 之外，其它的都使用 sub_select。
 
-上述的三个指针基本组成了 nest loop 的主要过程。MySQL 会循环调用 read_record() 函数读取当前表的记录，如果有满足条件的记录则会调用 next_select 指针指定的函数。
+上述的三個指針基本組成了 nest loop 的主要過程。MySQL 會循環調用 read_record() 函數讀取當前表的記錄，如果有滿足條件的記錄則會調用 next_select 指針指定的函數。
 
-接下来，分别讲解上述源码中的标记部分。
+接下來，分別講解上述源碼中的標記部分。
 
 #### next_select
 
-这也就是源码中 ```###1``` 的标记；在创建 JOIN 实例时，也就是一个查询的上下文信息时，默认该变量的值是 sub_select() 。
+這也就是源碼中 ```###1``` 的標記；在創建 JOIN 實例時，也就是一個查詢的上下文信息時，默認該變量的值是 sub_select() 。
 
 <!--
-另外，在优化器中，会对该变量进行赋值。
+另外，在優化器中，會對該變量進行賦值。
 
-其中 next_select 是在 optimize 的 make_join_readinfo() 里初始化，会把所有的 join 表的 next_select 指针初始化为 sub_selec()，也就是说这里如果还有 join_tab 需要 join 的话，再次进入 sub_select，这就是 nest_loop 的思想所在。
+其中 next_select 是在 optimize 的 make_join_readinfo() 裡初始化，會把所有的 join 表的 next_select 指針初始化為 sub_selec()，也就是說這裡如果還有 join_tab 需要 join 的話，再次進入 sub_select，這就是 nest_loop 的思想所在。
 
-对于最后一个表的 next_select 则会在 do_select() 里调用 setup_end_select() 来选择对应的 end_select 函数。当执行到 end_select 时，这个就说明 join 操作完成，并把数据返回到客户端。
+對於最後一個表的 next_select 則會在 do_select() 裡調用 setup_end_select() 來選擇對應的 end_select 函數。當執行到 end_select 時，這個就說明 join 操作完成，並把數據返回到客戶端。
 -->
 
 
 
 #### read_first_record
 
-对应源码中的 ```###2```，该函数主要用于读取第一条记录。
+對應源碼中的 ```###2```，該函數主要用於讀取第一條記錄。
 
 <!--
-* 在 exec() -> exec_inner() -> make_simple_join() 中，将上述的值赋值为 join_init_read_record()，也就是默认值，对于没有被优化的 join 则会使用该方法。
+* 在 exec() -> exec_inner() -> make_simple_join() 中，將上述的值賦值為 join_init_read_record()，也就是默認值，對於沒有被優化的 join 則會使用該方法。
 -->
 
-* 在 optimize() -> pick_table_access_method() 根据 join type 的不同类型选择相应的方法。<font color='blue'>注意：这里的 join type 就是 explain 中的 type 字段对应值</font> 。
+* 在 optimize() -> pick_table_access_method() 根據 join type 的不同類型選擇相應的方法。<font color='blue'>注意：這裡的 join type 就是 explain 中的 type 字段對應值</font> 。
 
 #### read_record
 
-也就是源码中的 ```###3```，用于读取数据，该方法主要在两个地方做赋值：
+也就是源碼中的 ```###3```，用於讀取數據，該方法主要在兩個地方做賦值：
 
-* 在读取第一条记录的入口函数中，会调用 <font color="blue">init_read_record() 函数初始化 info->read_record 变量</font>，如全表扫描调用 rr_sequential() 函数，对于 ref join 则调用 join_read_next_same() 等。
+* 在讀取第一條記錄的入口函數中，會調用 <font color="blue">init_read_record() 函數初始化 info->read_record 變量</font>，如全表掃描調用 rr_sequential() 函數，對於 ref join 則調用 join_read_next_same() 等。
 
-* 同样在 pick_table_access_method() 函数中，设置 read_first_record 的同时设置了该变量。
+* 同樣在 pick_table_access_method() 函數中，設置 read_first_record 的同時設置了該變量。
 
 
 
-## 总结
+## 總結
 
-实际上的执行流程如下，在此以简单的查询为例。
+實際上的執行流程如下，在此以簡單的查詢為例。
 
 {% highlight text %}
-JOIN::exec()                              ← 在优化完成之后，根据执行计划进行相应的查询操作
-  |-THD_STAGE_INFO()                      ← 设置线程的状态为executing，在sql/mysqld.cc文件中定义
-  |-set_executed()                        ← 设置为执行状态，JOIN::executed=true
+JOIN::exec()                              ← 在優化完成之後，根據執行計劃進行相應的查詢操作
+  |-THD_STAGE_INFO()                      ← 設置線程的狀態為executing，在sql/mysqld.cc文件中定義
+  |-set_executed()                        ← 設置為執行狀態，JOIN::executed=true
   |-prepare_result()
-  |-send_result_set_metadata()            ← 先将元数据发送给客户端
+  |-send_result_set_metadata()            ← 先將元數據發送給客戶端
   |
-  |-do_select()                           ←### 查询的实际入口函数，做JOIN操作，会返回给客户端或写入表
+  |-do_select()                           ←### 查詢的實際入口函數，做JOIN操作，會返回給客戶端或寫入表
     |                                     ←### <1>
     |
-    |-join->first_select(join,qep_tab,0)  ← 1. 执行nest loop操作，默认会调用sub_select()函数，
-    | |                                   ←    也即循环调用rnd_next()+evaluate_join_record()
+    |-join->first_select(join,qep_tab,0)  ← 1. 執行nest loop操作，默認會調用sub_select()函數，
+    | |                                   ←    也即循環調用rnd_next()+evaluate_join_record()
     | |
-    | |###while循环读取数据###
-    | |                                   ← 2. 调用存储引擎接口读取数据
-    | |-qep_tab->read_first_record()      ← 2.1. 首次调用，实际为join_init_read_record()
-    | | |-tab->quick()->reset()           ← 对于quick调用QUICK_RANGE_SELECT::reset()函数
-    | | | |-file->ha_index_init()         ← 会调用存储引擎接口
+    | |###while循環讀取數據###
+    | |                                   ← 2. 調用存儲引擎接口讀取數據
+    | |-qep_tab->read_first_record()      ← 2.1. 首次調用，實際為join_init_read_record()
+    | | |-tab->quick()->reset()           ← 對於quick調用QUICK_RANGE_SELECT::reset()函數
+    | | | |-file->ha_index_init()         ← 會調用存儲引擎接口
     | | | | |-index_init()
     | | | |   |-change_active_index()
     | | | |     |-innobase_get_index()
     | | | |-file->multi_range_read_init()
-    | | |-init_read_record()              ← 设置read_record指针，在此为rr_quick
+    | | |-init_read_record()              ← 設置read_record指針，在此為rr_quick
     | |
-    | |-info->read_record()               ← 2.2 再次调用，如上，该函数在init_read_record()中初始化
-    | | |-info->quick->get_next()         ← 实际调用QUICK_RANGE_SELECT::get_next()
-    | |   |-file->multi_range_read_next() ← 调用handler.cc文件中函数
-    | |     |-read_range_first()          ← 对于第一次调用
-    | |     | |-ha_index_read_map()       ← 存储引擎调用
+    | |-info->read_record()               ← 2.2 再次調用，如上，該函數在init_read_record()中初始化
+    | | |-info->quick->get_next()         ← 實際調用QUICK_RANGE_SELECT::get_next()
+    | |   |-file->multi_range_read_next() ← 調用handler.cc文件中函數
+    | |     |-read_range_first()          ← 對於第一次調用
+    | |     | |-ha_index_read_map()       ← 存儲引擎調用
     | |     |   |-index_read()
     | |     |     |-row_search_mvcc()
     | |     |
-    | |     |-read_range_next()           ← 对于非第一次调用
+    | |     |-read_range_next()           ← 對於非第一次調用
     | |       |-ha_index_next()
     | |         |-general_fetch()
     | |           |-row_search_mvcc()
     | |
-    | |-evaluate_join_record()            ← 2.3 处理读取的记录，判断是否满足条件，包括了第一条记录
-    |   |-qep_tab->next_select()          ← 对于查询，实际会调用end_send()
+    | |-evaluate_join_record()            ← 2.3 處理讀取的記錄，判斷是否滿足條件，包括了第一條記錄
+    |   |-qep_tab->next_select()          ← 對於查詢，實際會調用end_send()
     |     |-Query_result_send::send_data()
     |
-    |-join->first_select(join,qep_tab,1)  ← 3. 一个table已经读取数据结束，同样默认调用sub_select()
-    | |-join_tab->next_select()           ← 调用该函数处理下个表或者结束处理
+    |-join->first_select(join,qep_tab,1)  ← 3. 一個table已經讀取數據結束，同樣默認調用sub_select()
+    | |-join_tab->next_select()           ← 調用該函數處理下個表或者結束處理
     |
     |-join->select_lex->query_result()->send_eof()
 {% endhighlight %}
 
-在 ```<1>``` 中，对于简单的查询 (const且不需要临时文件)，实际上只需要执行 end_select() 即可，上述介绍的是常用的查询方式。
+在 ```<1>``` 中，對於簡單的查詢 (const且不需要臨時文件)，實際上只需要執行 end_select() 即可，上述介紹的是常用的查詢方式。
 
 ### sub_select()
 
-这是 MySQL 的 JOIN 实现比较重要的函数，很多比较有用的函数信息，可以查看注释。
+這是 MySQL 的 JOIN 實現比較重要的函數，很多比較有用的函數信息，可以查看註釋。
 
 {% highlight text %}
 enum_nested_loop_state sub_select(JOIN *join, QEP_TAB *const qep_tab,bool end_of_records);
 
-参数:
-  join          : 本次查询的上下文信息。
+參數:
+  join          : 本次查詢的上下文信息。
   join_tab      :
-  end_of_records: 是否执行获取记录的最后一步。
+  end_of_records: 是否執行獲取記錄的最後一步。
 {% endhighlight %}
 
 
@@ -277,11 +277,11 @@ enum_nested_loop_state sub_select(JOIN *join, QEP_TAB *const qep_tab,bool end_of
 
 ## 示例
 
-接下来通过几个示例查看 nest loop 的执行过程。
+接下來通過幾個示例查看 nest loop 的執行過程。
 
-### 全表扫描
+### 全表掃描
 
-如下是单表的全表扫描。
+如下是單表的全表掃描。
 
 {% highlight text %}
 mysql> explain select emp_no from salaries where salary = 90930;
@@ -293,26 +293,26 @@ mysql> explain select emp_no from salaries where salary = 90930;
 1 row in set (0.00 sec)
 {% endhighlight %}
 
-这里只有一个表，所以 join_tab 只有一个；而且是全表扫描，所以 read_first_record、read_record 两个指针都被指定为 rr_sequential() 函数。
+這裡只有一個表，所以 join_tab 只有一個；而且是全表掃描，所以 read_first_record、read_record 兩個指針都被指定為 rr_sequential() 函數。
 
-又因为是 select 语句，会直接将数据返回给客户端，所以其中的 next_select 就是 end_send() 函数；如果是 insert ... select ... 语句的话，那么会在 setup_end_select_func() 中设置为 end_write() 完成数据的写入。
+又因為是 select 語句，會直接將數據返回給客戶端，所以其中的 next_select 就是 end_send() 函數；如果是 insert ... select ... 語句的話，那麼會在 setup_end_select_func() 中設置為 end_write() 完成數據的寫入。
 
-其执行流程基本如下。
+其執行流程基本如下。
 
 ![sequential](/images/databases/mysql/innodb-rr-sequential-1.png){: .pull-center}
 
-通过 gdb 查看的结果如下：
+通過 gdb 查看的結果如下：
 
 {% highlight text %}
 (gdb) set print pretty on
 (gdb) b sub_select
 Breakpoint 1 at 0x7fe9b7453ac8: file sql/sql_select.cc, line 18197.
 
------ 查看表的数量，此时join_tab只有一个
+----- 查看錶的數量，此時join_tab只有一個
 (gdb) p join->table_count
 $1 = 1
 
------ const表的数量，为0
+----- const表的數量，為0
 (gdb) p join->const_tables
 $2 = 0
 
@@ -324,11 +324,11 @@ $4 = (READ_RECORD::Setup_func) 0x7fe9b7455d02 <join_init_read_record(st_join_tab
 $5 = (READ_RECORD::Read_func) 0x7fe9b776837b <rr_sequential(READ_RECORD*)>
 {% endhighlight %}
 
-实际的处理流程很简单。
+實際的處理流程很簡單。
 
-### 两表简单JOIN
+### 兩表簡單JOIN
 
-如下的两个表的 JOIN 操作，其中 e.gender 和 s.salary 都不是索引。
+如下的兩個表的 JOIN 操作，其中 e.gender 和 s.salary 都不是索引。
 
 {% highlight text %}
 mysql> explain select * from salaries s join employees e on (s.emp_no=e.emp_no) where
@@ -342,23 +342,23 @@ mysql> explain select * from salaries s join employees e on (s.emp_no=e.emp_no) 
 2 rows in set (0.00 sec)
 {% endhighlight %}
 
-如上的 explain 结果可以基本确定 MySQL 的执行过程。
+如上的 explain 結果可以基本確定 MySQL 的執行過程。
 
-大概的执行过程是：e 表进入 sub_select() 执行，通过 rr_sequential() 函数获取该表的每条记录，然后通过 evaluate_join_record() 判断该记录是否满足 e.gender='F' [using where]，如果没有满足则接着取下一条，满足的话，则把它的 e.emp_no 传递给 s 表。
+大概的執行過程是：e 表進入 sub_select() 執行，通過 rr_sequential() 函數獲取該表的每條記錄，然後通過 evaluate_join_record() 判斷該記錄是否滿足 e.gender='F' [using where]，如果沒有滿足則接著取下一條，滿足的話，則把它的 e.emp_no 傳遞給 s 表。
 
-接下来 s 执行 sub_select，其 type 是 ref，就是通过索引来获得记录而非全表扫描，也即拿 e.emp_no 的值来检索 s 的 PRIMARY KEY 来获得记录；最后再通过 s 的 evaluate_join_record() 判断是否满足 salary=90930 这个条件，如果满足是直接发送给客户端，否则获得记录进行判断。
+接下來 s 執行 sub_select，其 type 是 ref，就是通過索引來獲得記錄而非全表掃描，也即拿 e.emp_no 的值來檢索 s 的 PRIMARY KEY 來獲得記錄；最後再通過 s 的 evaluate_join_record() 判斷是否滿足 salary=90930 這個條件，如果滿足是直接發送給客戶端，否則獲得記錄進行判斷。
 
 ![sequential](/images/databases/mysql/innodb-rr-sequential-2.png){: .pull-center}
 
-接下来仍然通过 gdb 查看上面两个表的三个函数指针来验证上面的过程：
+接下來仍然通過 gdb 查看上面兩個表的三個函數指針來驗證上面的過程：
 
 {% highlight text %}
------ 查看表名的顺序，如下的两种方式相同
+----- 查看錶名的順序，如下的兩種方式相同
 (gdb) p join->join_tab[0]->table->alias->Ptr
 (gdb) p join->table[0]->alias->Ptr
 $1 = 0x7fe9870171c8 "e"
 
------ 查看表以及const表的数量
+----- 查看錶以及const表的數量
 (gdb) p join->table_count
 $2 = 2
 (gdb) p join->const_tables
@@ -380,13 +380,13 @@ $8 = (READ_RECORD::Read_func) 0x7fe9b776837b <rr_sequential(READ_RECORD*)>
 $9 = (READ_RECORD::Read_func) 0x7fe9b7455985 <join_read_next_same(READ_RECORD*)>
 {% endhighlight %}
 
-处理上述的处理过程是两个表的 JOIN 处理。
+處理上述的處理過程是兩個表的 JOIN 處理。
 
 
 
-### 两表 Const JOIN
+### 兩表 Const JOIN
 
-与上面 SQL 不同的是，emp_no 采用的是主健，执行计划如下：
+與上面 SQL 不同的是，emp_no 採用的是主健，執行計劃如下：
 
 {% highlight text %}
 mysql> explain select * from salaries s join employees e on (s.emp_no=e.emp_no) where
@@ -400,20 +400,20 @@ mysql> explain select * from salaries s join employees e on (s.emp_no=e.emp_no) 
 2 rows in set (0.00 sec)
 {% endhighlight %}
 
-正常来说，执行过程仍然如上所示，其中驱动表是 e，但是确实是这样的吗？实际上，在 sub_select() 设置断点后，实际第一次的入参时 s 表，而非我们开始认为的 e 表。
+正常來說，執行過程仍然如上所示，其中驅動表是 e，但是確實是這樣的嗎？實際上，在 sub_select() 設置斷點後，實際第一次的入參時 s 表，而非我們開始認為的 e 表。
 
 {% highlight text %}
------ 查看表名的顺序，如下的两种方式相同
+----- 查看錶名的順序，如下的兩種方式相同
 (gdb) p join->join_tab[0]->table->alias->Ptr
 $1 = 0x7fe9870171c8 "e"
 
------ 查看表以及const表的数量
+----- 查看錶以及const表的數量
 (gdb) p join->table_count
 $2 = 2
 (gdb) p join->const_tables
 $3 = 1
 
------ 查看第一次进入sub_select()时的表名称
+----- 查看第一次進入sub_select()時的表名稱
 (gdb) p join_tab->table->alias->Ptr
 $4 = 0x7fe987017248 "s"
 
@@ -433,20 +433,20 @@ $8 = (READ_RECORD::Read_func) 0x7fe9b776837b <rr_sequential(READ_RECORD*)>
 $9 = (READ_RECORD::Read_func) 0x7fe9b7455985 <join_read_next_same(READ_RECORD*)>
 {% endhighlight %}
 
-实际上对于 const 类型，我们可以直接获取到对应的查询条件，此时只需要对 s 表进行过滤即可。
+實際上對於 const 類型，我們可以直接獲取到對應的查詢條件，此時只需要對 s 表進行過濾即可。
 
 <!--
-在代码中，选择第一个 table 时使用的时
+在代碼中，選擇第一個 table 時使用的時
 --->
 
-如果直接查看 salaries 表中 emp_no 是 62476 的记录，会发现总共有 15 条记录；那么在 gdb 调试时，如果在 evaluate_join_record() 中设置断点之后，总共执行了 16 次。除了比较 15 次记录之外，在最后一条记录，同样会调用该函数。
+如果直接查看 salaries 表中 emp_no 是 62476 的記錄，會發現總共有 15 條記錄；那麼在 gdb 調試時，如果在 evaluate_join_record() 中設置斷點之後，總共執行了 16 次。除了比較 15 次記錄之外，在最後一條記錄，同樣會調用該函數。
 
-这一部分在优化器 make_join_statistics()，详细内容后面再介绍。
+這一部分在優化器 make_join_statistics()，詳細內容後面再介紹。
 
 <!--
-其实有这个现象的根本原因是do_select调用sub_select时指定的join_tab：
-即这个join_tab是由const_tables指定的。而这个值则是在optimize的make_join_statistics根据优化情况进行赋值的。这个优化主要是指对const join可以直接获得它的记录，而不必通过sub_select去获得。
-这里我们简单说明一下make_join_statistics的过程：
+其實有這個現象的根本原因是do_select調用sub_select時指定的join_tab：
+即這個join_tab是由const_tables指定的。而這個值則是在optimize的make_join_statistics根據優化情況進行賦值的。這個優化主要是指對const join可以直接獲得它的記錄，而不必通過sub_select去獲得。
+這裡我們簡單說明一下make_join_statistics的過程：
 
 http://blog.csdn.net/wudongxu/article/details/6683846
 -->

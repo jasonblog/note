@@ -1,82 +1,82 @@
 ---
-title: Linux 共享内存
+title: Linux 共享內存
 layout: post
 comments: true
 language: chinese
 category: [linux,misc]
-keywords: linux,内存,shared memory,共享内存
-description: 共享内存应该是进程间通信最有效的方式，同一块物理内存被映射到两个不同进程 A、B 各自的地址空间；进程 A 可以立即看到进程 B 对共享内存中数据的更新，反之亦然。接下来简单介绍下与共享内存相关的内容。
+keywords: linux,內存,shared memory,共享內存
+description: 共享內存應該是進程間通信最有效的方式，同一塊物理內存被映射到兩個不同進程 A、B 各自的地址空間；進程 A 可以立即看到進程 B 對共享內存中數據的更新，反之亦然。接下來簡單介紹下與共享內存相關的內容。
 ---
 
-共享内存应该是进程间通信最有效的方式，同一块物理内存被映射到两个不同进程 A、B 各自的地址空间；进程 A 可以立即看到进程 B 对共享内存中数据的更新，反之亦然。
+共享內存應該是進程間通信最有效的方式，同一塊物理內存被映射到兩個不同進程 A、B 各自的地址空間；進程 A 可以立即看到進程 B 對共享內存中數據的更新，反之亦然。
 
-接下来简单介绍下与共享内存相关的内容。
+接下來簡單介紹下與共享內存相關的內容。
 
 <!-- more -->
 
-## 简介
+## 簡介
 
-采用共享内存通信的一个显而易见的好处是效率高，因为进程可以直接读写内存，而不需要任何数据的拷贝。对于像管道和消息队列等通信方式，则需要在内核和用户空间进行四次的数据拷贝，而共享内存则只拷贝两次数据：一次从输入文件到共享内存区，另一次从共享内存区到输出文件。
+採用共享內存通信的一個顯而易見的好處是效率高，因為進程可以直接讀寫內存，而不需要任何數據的拷貝。對於像管道和消息隊列等通信方式，則需要在內核和用戶空間進行四次的數據拷貝，而共享內存則只拷貝兩次數據：一次從輸入文件到共享內存區，另一次從共享內存區到輸出文件。
 
 <!--
-实际上，进程之间在共享内存时，并不总是读写少量数据后就 解除映射，有新的通信时，再重新建立共享内存区域。而是保持共享区域，直到通信完毕为止，这样，数据内容一直保存在共享内存中，并没有写回文件。共享内存 中的内容往往是在解除映射时才写回文件的。因此，采用共享内存的通信方式效率是非常高的。
+實際上，進程之間在共享內存時，並不總是讀寫少量數據後就 解除映射，有新的通信時，再重新建立共享內存區域。而是保持共享區域，直到通信完畢為止，這樣，數據內容一直保存在共享內存中，並沒有寫回文件。共享內存 中的內容往往是在解除映射時才寫回文件的。因此，採用共享內存的通信方式效率是非常高的。
 -->
 
-**注意** 共享内存并未提供同步机制，也就是说，在第一个进程结束对共享内存的写操作之前，并无自动机制可以阻止第二个进程开始对它进行读取。所以我们通常需要用其他的机制来同步对共享内存的访问，例如信号量、互斥锁。
+**注意** 共享內存並未提供同步機制，也就是說，在第一個進程結束對共享內存的寫操作之前，並無自動機制可以阻止第二個進程開始對它進行讀取。所以我們通常需要用其他的機制來同步對共享內存的訪問，例如信號量、互斥鎖。
 
 <!--
 
-1、shmget函数
-该函数用来创建共享内存，它的原型为：
+1、shmget函數
+該函數用來創建共享內存，它的原型為：
     int shmget(key_t key, size_t size, int shmflg);
-第一个参数，与信号量的semget函数一样，程序需要提供一个参数key（非0整数），它有效地为共享内存段命名，shmget函数成功时返回一个与key相关的共享内存标识符（非负整数），用于后续的共享内存函数。调用失败返回-1.
+第一個參數，與信號量的semget函數一樣，程序需要提供一個參數key（非0整數），它有效地為共享內存段命名，shmget函數成功時返回一個與key相關的共享內存標識符（非負整數），用於後續的共享內存函數。調用失敗返回-1.
 
-不相关的进程可以通过该函数的返回值访问同一共享内存，它代表程序可能要使用的某个资源，程序对所有共享内存的访问都是间接的，程序先通过调用shmget函数并提供一个键，再由系统生成一个相应的共享内存标识符（shmget函数的返回值），只有shmget函数才直接使用信号量键，所有其他的信号量函数使用由semget函数返回的信号量标识符。
+不相關的進程可以通過該函數的返回值訪問同一共享內存，它代表程序可能要使用的某個資源，程序對所有共享內存的訪問都是間接的，程序先通過調用shmget函數並提供一個鍵，再由系統生成一個相應的共享內存標識符（shmget函數的返回值），只有shmget函數才直接使用信號量鍵，所有其他的信號量函數使用由semget函數返回的信號量標識符。
 
-第二个参数，size以字节为单位指定需要共享的内存容量
+第二個參數，size以字節為單位指定需要共享的內存容量
 
-第三个参数，shmflg是权限标志，它的作用与open函数的mode参数一样，如果要想在key标识的共享内存不存在时，创建它的话，可以与IPC_CREAT做或操作。共享内存的权限标志与文件的读写权限一样，举例来说，0644,它表示允许一个进程创建的共享内存被内存创建者所拥有的进程向共享内存读取和写入数据，同时其他用户创建的进程只能读取共享内存。
+第三個參數，shmflg是權限標誌，它的作用與open函數的mode參數一樣，如果要想在key標識的共享內存不存在時，創建它的話，可以與IPC_CREAT做或操作。共享內存的權限標誌與文件的讀寫權限一樣，舉例來說，0644,它表示允許一個進程創建的共享內存被內存創建者所擁有的進程向共享內存讀取和寫入數據，同時其他用戶創建的進程只能讀取共享內存。
 
-2、shmat函数
-第一次创建完共享内存时，它还不能被任何进程访问，shmat函数的作用就是用来启动对该共享内存的访问，并把共享内存连接到当前进程的地址空间。它的原型如下：
+2、shmat函數
+第一次創建完共享內存時，它還不能被任何進程訪問，shmat函數的作用就是用來啟動對該共享內存的訪問，並把共享內存連接到當前進程的地址空間。它的原型如下：
 [cpp] view plain copy
-print?在CODE上查看代码片派生到我的代码片
+print?在CODE上查看代碼片派生到我的代碼片
 
     void *shmat(int shm_id, const void *shm_addr, int shmflg);
 
-第一个参数，shm_id是由shmget函数返回的共享内存标识。
-第二个参数，shm_addr指定共享内存连接到当前进程中的地址位置，通常为空，表示让系统来选择共享内存的地址。
-第三个参数，shm_flg是一组标志位，通常为0。
+第一個參數，shm_id是由shmget函數返回的共享內存標識。
+第二個參數，shm_addr指定共享內存連接到當前進程中的地址位置，通常為空，表示讓系統來選擇共享內存的地址。
+第三個參數，shm_flg是一組標誌位，通常為0。
 
-调用成功时返回一个指向共享内存第一个字节的指针，如果调用失败返回-1.
+調用成功時返回一個指向共享內存第一個字節的指針，如果調用失敗返回-1.
 
-3、shmdt函数
-该函数用于将共享内存从当前进程中分离。注意，将共享内存分离并不是删除它，只是使该共享内存对当前进程不再可用。它的原型如下：
+3、shmdt函數
+該函數用於將共享內存從當前進程中分離。注意，將共享內存分離並不是刪除它，只是使該共享內存對當前進程不再可用。它的原型如下：
 [cpp] view plain copy
-print?在CODE上查看代码片派生到我的代码片
+print?在CODE上查看代碼片派生到我的代碼片
 
     int shmdt(const void *shmaddr);
 
-参数shmaddr是shmat函数返回的地址指针，调用成功时返回0，失败时返回-1.
+參數shmaddr是shmat函數返回的地址指針，調用成功時返回0，失敗時返回-1.
 
-4、shmctl函数
-与信号量的semctl函数一样，用来控制共享内存，它的原型如下：
+4、shmctl函數
+與信號量的semctl函數一樣，用來控制共享內存，它的原型如下：
 [cpp] view plain copy
-print?在CODE上查看代码片派生到我的代码片
+print?在CODE上查看代碼片派生到我的代碼片
 
     int shmctl(int shm_id, int command, struct shmid_ds *buf);
 
-第一个参数，shm_id是shmget函数返回的共享内存标识符。
+第一個參數，shm_id是shmget函數返回的共享內存標識符。
 
-第二个参数，command是要采取的操作，它可以取下面的三个值 ：
-    IPC_STAT：把shmid_ds结构中的数据设置为共享内存的当前关联值，即用共享内存的当前关联值覆盖shmid_ds的值。
-    IPC_SET：如果进程有足够的权限，就把共享内存的当前关联值设置为shmid_ds结构中给出的值
-    IPC_RMID：删除共享内存段
+第二個參數，command是要採取的操作，它可以取下面的三個值 ：
+    IPC_STAT：把shmid_ds結構中的數據設置為共享內存的當前關聯值，即用共享內存的當前關聯值覆蓋shmid_ds的值。
+    IPC_SET：如果進程有足夠的權限，就把共享內存的當前關聯值設置為shmid_ds結構中給出的值
+    IPC_RMID：刪除共享內存段
 
-第三个参数，buf是一个结构指针，它指向共享内存模式和访问权限的结构。
-shmid_ds结构至少包括以下成员：
+第三個參數，buf是一個結構指針，它指向共享內存模式和訪問權限的結構。
+shmid_ds結構至少包括以下成員：
 [cpp] view plain copy
-print?在CODE上查看代码片派生到我的代码片
+print?在CODE上查看代碼片派生到我的代碼片
 
     struct shmid_ds
     {
@@ -86,12 +86,12 @@ print?在CODE上查看代码片派生到我的代码片
     };
 
 
-三、使用共享内存进行进程间通信
-说了这么多，又到了实战的时候了。下面就以两个不相关的进程来说明进程间如何通过共享内存来进行通信。其中一个文件shmread.c创建共享内存，并读取其中的信息，另一个文件shmwrite.c向共享内存中写入数据。为了方便操作和数据结构的统一，为这两个文件定义了相同的数据结构，定义在文件shmdata.c中。结构shared_use_st中的written作为一个可读或可写的标志，非0：表示可读，0表示可写，text则是内存中的文件。
+三、使用共享內存進行進程間通信
+說了這麼多，又到了實戰的時候了。下面就以兩個不相關的進程來說明進程間如何通過共享內存來進行通信。其中一個文件shmread.c創建共享內存，並讀取其中的信息，另一個文件shmwrite.c向共享內存中寫入數據。為了方便操作和數據結構的統一，為這兩個文件定義了相同的數據結構，定義在文件shmdata.c中。結構shared_use_st中的written作為一個可讀或可寫的標誌，非0：表示可讀，0表示可寫，text則是內存中的文件。
 
-shmdata.h的源代码如下：
+shmdata.h的源代碼如下：
 [cpp] view plain copy
-print?在CODE上查看代码片派生到我的代码片
+print?在CODE上查看代碼片派生到我的代碼片
 
     #ifndef _SHMDATA_H_HEADER
     #define _SHMDATA_H_HEADER
@@ -100,15 +100,15 @@ print?在CODE上查看代码片派生到我的代码片
 
     struct shared_use_st
     {
-        int written;//作为一个标志，非0：表示可读，0表示可写
-        char text[TEXT_SZ];//记录写入和读取的文本
+        int written;//作為一個標誌，非0：表示可讀，0表示可寫
+        char text[TEXT_SZ];//記錄寫入和讀取的文本
     };
 
     #endif
 
-源文件shmread.c的源代码如下：
+源文件shmread.c的源代碼如下：
 [cpp] view plain copy
-print?在CODE上查看代码片派生到我的代码片
+print?在CODE上查看代碼片派生到我的代碼片
 
     #include <unistd.h>
     #include <stdlib.h>
@@ -118,18 +118,18 @@ print?在CODE上查看代码片派生到我的代码片
 
     int main()
     {
-        int running = 1;//程序是否继续运行的标志
-        void *shm = NULL;//分配的共享内存的原始首地址
+        int running = 1;//程序是否繼續運行的標誌
+        void *shm = NULL;//分配的共享內存的原始首地址
         struct shared_use_st *shared;//指向shm
-        int shmid;//共享内存标识符
-        //创建共享内存
+        int shmid;//共享內存標識符
+        //創建共享內存
         shmid = shmget((key_t)1234, sizeof(struct shared_use_st), 0666|IPC_CREAT);
         if(shmid == -1)
         {
             fprintf(stderr, "shmget failed\n");
             exit(EXIT_FAILURE);
         }
-        //将共享内存连接到当前进程的地址空间
+        //將共享內存連接到當前進程的地址空間
         shm = shmat(shmid, 0, 0);
         if(shm == (void*)-1)
         {
@@ -137,32 +137,32 @@ print?在CODE上查看代码片派生到我的代码片
             exit(EXIT_FAILURE);
         }
         printf("\nMemory attached at %X\n", (int)shm);
-        //设置共享内存
+        //設置共享內存
         shared = (struct shared_use_st*)shm;
         shared->written = 0;
-        while(running)//读取共享内存中的数据
+        while(running)//讀取共享內存中的數據
         {
-            //没有进程向共享内存定数据有数据可读取
+            //沒有進程向共享內存定數據有數據可讀取
             if(shared->written != 0)
             {
                 printf("You wrote: %s", shared->text);
                 sleep(rand() % 3);
-                //读取完数据，设置written使共享内存段可写
+                //讀取完數據，設置written使共享內存段可寫
                 shared->written = 0;
-                //输入了end，退出循环（程序）
+                //輸入了end，退出循環（程序）
                 if(strncmp(shared->text, "end", 3) == 0)
                     running = 0;
             }
-            else//有其他进程在写数据，不能读取数据
+            else//有其他進程在寫數據，不能讀取數據
                 sleep(1);
         }
-        //把共享内存从当前进程中分离
+        //把共享內存從當前進程中分離
         if(shmdt(shm) == -1)
         {
             fprintf(stderr, "shmdt failed\n");
             exit(EXIT_FAILURE);
         }
-        //删除共享内存
+        //刪除共享內存
         if(shmctl(shmid, IPC_RMID, 0) == -1)
         {
             fprintf(stderr, "shmctl(IPC_RMID) failed\n");
@@ -171,9 +171,9 @@ print?在CODE上查看代码片派生到我的代码片
         exit(EXIT_SUCCESS);
     }
 
-源文件shmwrite.c的源代码如下：
+源文件shmwrite.c的源代碼如下：
 [cpp] view plain copy
-print?在CODE上查看代码片派生到我的代码片
+print?在CODE上查看代碼片派生到我的代碼片
 
     #include <unistd.h>
     #include <stdlib.h>
@@ -187,16 +187,16 @@ print?在CODE上查看代码片派生到我的代码片
         int running = 1;
         void *shm = NULL;
         struct shared_use_st *shared = NULL;
-        char buffer[BUFSIZ + 1];//用于保存输入的文本
+        char buffer[BUFSIZ + 1];//用於保存輸入的文本
         int shmid;
-        //创建共享内存
+        //創建共享內存
         shmid = shmget((key_t)1234, sizeof(struct shared_use_st), 0666|IPC_CREAT);
         if(shmid == -1)
         {
             fprintf(stderr, "shmget failed\n");
             exit(EXIT_FAILURE);
         }
-        //将共享内存连接到当前进程的地址空间
+        //將共享內存連接到當前進程的地址空間
         shm = shmat(shmid, (void*)0, 0);
         if(shm == (void*)-1)
         {
@@ -204,27 +204,27 @@ print?在CODE上查看代码片派生到我的代码片
             exit(EXIT_FAILURE);
         }
         printf("Memory attached at %X\n", (int)shm);
-        //设置共享内存
+        //設置共享內存
         shared = (struct shared_use_st*)shm;
-        while(running)//向共享内存中写数据
+        while(running)//向共享內存中寫數據
         {
-            //数据还没有被读取，则等待数据被读取,不能向共享内存中写入文本
+            //數據還沒有被讀取，則等待數據被讀取,不能向共享內存中寫入文本
             while(shared->written == 1)
             {
                 sleep(1);
                 printf("Waiting...\n");
             }
-            //向共享内存中写入数据
+            //向共享內存中寫入數據
             printf("Enter some text: ");
             fgets(buffer, BUFSIZ, stdin);
             strncpy(shared->text, buffer, TEXT_SZ);
-            //写完数据，设置written使共享内存段可读
+            //寫完數據，設置written使共享內存段可讀
             shared->written = 1;
-            //输入了end，退出循环（程序）
+            //輸入了end，退出循環（程序）
             if(strncmp(buffer, "end", 3) == 0)
                 running = 0;
         }
-        //把共享内存从当前进程中分离
+        //把共享內存從當前進程中分離
         if(shmdt(shm) == -1)
         {
             fprintf(stderr, "shmdt failed\n");
@@ -234,42 +234,42 @@ print?在CODE上查看代码片派生到我的代码片
         exit(EXIT_SUCCESS);
     }
 
-再来看看运行的结果：
+再來看看運行的結果：
 
 
 
 分析：
-1、程序shmread创建共享内存，然后将它连接到自己的地址空间。在共享内存的开始处使用了一个结构struct_use_st。该结构中有个标志written，当共享内存中有其他进程向它写入数据时，共享内存中的written被设置为0，程序等待。当它不为0时，表示没有进程对共享内存写入数据，程序就从共享内存中读取数据并输出，然后重置设置共享内存中的written为0，即让其可被shmwrite进程写入数据。
+1、程序shmread創建共享內存，然後將它連接到自己的地址空間。在共享內存的開始處使用了一個結構struct_use_st。該結構中有個標誌written，當共享內存中有其他進程向它寫入數據時，共享內存中的written被設置為0，程序等待。當它不為0時，表示沒有進程對共享內存寫入數據，程序就從共享內存中讀取數據並輸出，然後重置設置共享內存中的written為0，即讓其可被shmwrite進程寫入數據。
 
-2、程序shmwrite取得共享内存并连接到自己的地址空间中。检查共享内存中的written，是否为0，若不是，表示共享内存中的数据还没有被完，则等待其他进程读取完成，并提示用户等待。若共享内存的written为0，表示没有其他进程对共享内存进行读取，则提示用户输入文本，并再次设置共享内存中的written为1，表示写完成，其他进程可对共享内存进行读操作。
+2、程序shmwrite取得共享內存並連接到自己的地址空間中。檢查共享內存中的written，是否為0，若不是，表示共享內存中的數據還沒有被完，則等待其他進程讀取完成，並提示用戶等待。若共享內存的written為0，表示沒有其他進程對共享內存進行讀取，則提示用戶輸入文本，並再次設置共享內存中的written為1，表示寫完成，其他進程可對共享內存進行讀操作。
 
-四、关于前面的例子的安全性讨论
-这个程序是不安全的，当有多个程序同时向共享内存中读写数据时，问题就会出现。可能你会认为，可以改变一下written的使用方式，例如，只有当written为0时进程才可以向共享内存写入数据，而当一个进程只有在written不为0时才能对其进行读取，同时把written进行加1操作，读取完后进行减1操作。这就有点像文件锁中的读写锁的功能。咋看之下，它似乎能行得通。但是这都不是原子操作，所以这种做法是行不能的。试想当written为0时，如果有两个进程同时访问共享内存，它们就会发现written为0，于是两个进程都对其进行写操作，显然不行。当written为1时，有两个进程同时对共享内存进行读操作时也是如些，当这两个进程都读取完是，written就变成了-1.
+四、關於前面的例子的安全性討論
+這個程序是不安全的，當有多個程序同時向共享內存中讀寫數據時，問題就會出現。可能你會認為，可以改變一下written的使用方式，例如，只有當written為0時進程才可以向共享內存寫入數據，而當一個進程只有在written不為0時才能對其進行讀取，同時把written進行加1操作，讀取完後進行減1操作。這就有點像文件鎖中的讀寫鎖的功能。咋看之下，它似乎能行得通。但是這都不是原子操作，所以這種做法是行不能的。試想當written為0時，如果有兩個進程同時訪問共享內存，它們就會發現written為0，於是兩個進程都對其進行寫操作，顯然不行。當written為1時，有兩個進程同時對共享內存進行讀操作時也是如些，當這兩個進程都讀取完是，written就變成了-1.
 
-要想让程序安全地执行，就要有一种进程同步的进制，保证在进入临界区的操作是原子操作。例如，可以使用前面所讲的信号量来进行进程的同步。因为信号量的操作都是原子性的。
+要想讓程序安全地執行，就要有一種進程同步的進制，保證在進入臨界區的操作是原子操作。例如，可以使用前面所講的信號量來進行進程的同步。因為信號量的操作都是原子性的。
 
-五、使用共享内存的优缺点
-1、优点：我们可以看到使用共享内存进行进程间的通信真的是非常方便，而且函数的接口也简单，数据的共享还使进程间的数据不用传送，而是直接访问内存，也加快了程序的效率。同时，它也不像匿名管道那样要求通信的进程有一定的父子关系。
+五、使用共享內存的優缺點
+1、優點：我們可以看到使用共享內存進行進程間的通信真的是非常方便，而且函數的接口也簡單，數據的共享還使進程間的數據不用傳送，而是直接訪問內存，也加快了程序的效率。同時，它也不像匿名管道那樣要求通信的進程有一定的父子關係。
 
-2、缺点：共享内存没有提供同步的机制，这使得我们在使用共享内存进行进程间通信时，往往要借助其他的手段来进行进程间的同步工作。
+2、缺點：共享內存沒有提供同步的機制，這使得我們在使用共享內存進行進程間通信時，往往要藉助其他的手段來進行進程間的同步工作。
 -->
 
 ## 使用示例
 
-共享内存主要用于进程间通信，Linux 有几种方式的共享内存 (Shared Memory) 机制：
+共享內存主要用於進程間通信，Linux 有幾種方式的共享內存 (Shared Memory) 機制：
 
-1. ```System V shared memory(shmget/shmat/shmdt)```，用于不相关进程的通讯；
-2. ```POSIX shared memory(shm_open/shm_unlink)```，同样不同进程通讯，相比接口更简单；
-3. ```mmap(), shared mappings``` 包括了 A) 匿名映射 (通过fork关联)，B) 文件映射，通常用于不相关的进程通讯；
+1. ```System V shared memory(shmget/shmat/shmdt)```，用於不相關進程的通訊；
+2. ```POSIX shared memory(shm_open/shm_unlink)```，同樣不同進程通訊，相比接口更簡單；
+3. ```mmap(), shared mappings``` 包括了 A) 匿名映射 (通過fork關聯)，B) 文件映射，通常用於不相關的進程通訊；
 
-SYSV 和 POSIX 两者提供功能基本类似，也就是 ```semaphores``` ```shared memory``` ```message queues```，不过由于 SYSV 的历史原因使用更广泛，不过两者的实现基本相同。
+SYSV 和 POSIX 兩者提供功能基本類似，也就是 ```semaphores``` ```shared memory``` ```message queues```，不過由於 SYSV 的歷史原因使用更廣泛，不過兩者的實現基本相同。
 
 {% highlight text %}
 The POSIX shared memory object implementation on Linux 2.4 makes use of
 a dedicated filesystem, which is normally mounted under /dev/shm.
 {% endhighlight %}
 
-也就是说，POSIX 共享内存是基于 tmpfs 来实现的，而 SYSV 共享内存在内核也是基于 tmpfs 实现的；从内核文档 [tmpfs.txt]({{ site.kernel_docs_url }}/Documentation/filesystems/tmpfs.txt) 可以看到如下内容：
+也就是說，POSIX 共享內存是基於 tmpfs 來實現的，而 SYSV 共享內存在內核也是基於 tmpfs 實現的；從內核文檔 [tmpfs.txt]({{ site.kernel_docs_url }}/Documentation/filesystems/tmpfs.txt) 可以看到如下內容：
 
 {% highlight text %}
 1) There is always a kernel internal mount which you will not see at
@@ -300,32 +300,32 @@ a dedicated filesystem, which is normally mounted under /dev/shm.
    distributions should succeed with a tmpfs /tmp.
 {% endhighlight %}
 
-在上述的内容中，tmpfs 与共享内存相关的主要有两个作用：
+在上述的內容中，tmpfs 與共享內存相關的主要有兩個作用：
 
-* SYSV 还有匿名内存映射，这部分由内核管理，用户不可见；
-* POSIX 由用户负责 mount，而且一般 mount 到 ```/dev/shm```，依赖 ```CONFIG_TMPFS``` 。
+* SYSV 還有匿名內存映射，這部分由內核管理，用戶不可見；
+* POSIX 由用戶負責 mount，而且一般 mount 到 ```/dev/shm```，依賴 ```CONFIG_TMPFS``` 。
 
 ### SYSV
 
-可以通过示例 [github shmv.c]({{ site.example_repository }}/linux/memory/sharedmemory/shmv.c) 。
+可以通過示例 [github shmv.c]({{ site.example_repository }}/linux/memory/sharedmemory/shmv.c) 。
 
 {% highlight text %}
------ 查看以及调整支持的最大内存，shmmax shmall shmmni
+----- 查看以及調整支持的最大內存，shmmax shmall shmmni
 $ cat /proc/sys/kernel/shmmax
 33554432
 
------ 修改为32M
+----- 修改為32M
 # echo 33554432 > /proc/sys/kernel/shmmax
 
------ 尝试创建65M的system V共享内存时失败
+----- 嘗試創建65M的system V共享內存時失敗
 $ ipcmk -M 68157440
 ipcmk: create share memory failed: Invalid argument
 
------ 创建10M共享内存
+----- 創建10M共享內存
 $ ipcmk -M 10485760
 Shared memory id: 19431492
 
------ 查看刚创建的共享内存
+----- 查看剛創建的共享內存
 $ ipcs -m -i 19431492
 Shared memory Segment shmid=19431492
 uid=0   gid=0   cuid=0  cgid=0
@@ -335,23 +335,23 @@ att_time=Not set
 det_time=Not set
 change_time=Sun May 28 10:15:50 2015
 
------ 删除刚创建的资源
+----- 刪除剛創建的資源
 # ipcrm -m 19431492
 {% endhighlight %}
 
-注意，这里看到的 system v 共享内存的大小并不受 ```/dev/shm``` 的影响。
+注意，這裡看到的 system v 共享內存的大小並不受 ```/dev/shm``` 的影響。
 
 <!--
-System V共享内存把所有共享数据放在共享内存区，任何想要访问该数据的进程都必须在本进程的地址空间新增一块内存区域，用来映射存放共享数据的物理内存页面。System V共享内存通过shmget函数获得或创建一个IPC共享内存区域，并返回相应的标识符，内核在保证shmget获得或创建一个共享内存区，初始化该共享内存区相应的shmid_kernel结构，同时还将在特殊文件系统shm中创建并打开一个同名文件，并在内存中建立起该文件的相应的dentry及inode结构，新打开的文件不属于任何一个进程，所有这一切都是系统调用shmget函数完成的。
+System V共享內存把所有共享數據放在共享內存區，任何想要訪問該數據的進程都必須在本進程的地址空間新增一塊內存區域，用來映射存放共享數據的物理內存頁面。System V共享內存通過shmget函數獲得或創建一個IPC共享內存區域，並返回相應的標識符，內核在保證shmget獲得或創建一個共享內存區，初始化該共享內存區相應的shmid_kernel結構，同時還將在特殊文件系統shm中創建並打開一個同名文件，並在內存中建立起該文件的相應的dentry及inode結構，新打開的文件不屬於任何一個進程，所有這一切都是系統調用shmget函數完成的。
 -->
 
-#### 配置项
+#### 配置項
 
-与共享内存相关的内容可以参考 ```/etc/sysctl.conf``` 文件中的配置，简介如下：
+與共享內存相關的內容可以參考 ```/etc/sysctl.conf``` 文件中的配置，簡介如下：
 
 {% highlight text %}
 kernel.shmmax = 4398046511104
-kernel.shmall = 1073741824     系统可用共享内存的总页数
+kernel.shmall = 1073741824     系統可用共享內存的總頁數
 kernel.shmmni = 4096
 {% endhighlight %}
 
@@ -359,25 +359,25 @@ kernel.shmmni = 4096
 
 ### POSIX
 
-大多数的 Linux 发行版本中，内存盘默认使用的是 `/dev/shm` 路径，文件系统类型为 tmpfs，默认大小是内存实际的大小，其大小可以通过 `df -h` 查看。
+大多數的 Linux 發行版本中，內存盤默認使用的是 `/dev/shm` 路徑，文件系統類型為 tmpfs，默認大小是內存實際的大小，其大小可以通過 `df -h` 查看。
 
 {% highlight text %}
------ 查看当前大小
+----- 查看當前大小
 $ df -h /dev/shm
 Filesystem      Size  Used Avail Use% Mounted on
 tmpfs           3.9G   17M  3.9G   1% /dev/shm
 
------ 修改挂载点的大小，然后重新挂载
+----- 修改掛載點的大小，然後重新掛載
 $ cat /etc/fstab
 tmpfs /dev/shm tmpfs defaults,size=4096M 0 0
 # mount -o remount /dev/shm
 
------ 不用重启重新挂载
+----- 不用重啟重新掛載
 # mount -o remount,size=256M /dev/shm
 # mount -o size=1500M -o nr_inodes=1000000 -o noatime,nodiratime -o remount /dev/shm
 {% endhighlight %}
 
-可以通过示例 [github posix.c]({{ site.example_repository }}/linux/memory/sharedmemory/posix.c) ，将会申请 65M 左右的共享内存。
+可以通過示例 [github posix.c]({{ site.example_repository }}/linux/memory/sharedmemory/posix.c) ，將會申請 65M 左右的共享內存。
 
 {% highlight text %}
 $ df -h /dev/shm
@@ -388,17 +388,17 @@ $ ls /dev/shm/shm1 -alh
 $ stat /dev/shm/shm1
 {% endhighlight %}
 
-注意，如果申请的内存超过了限制，那么会报 ```Bus error``` 的错误。
+注意，如果申請的內存超過了限制，那麼會報 ```Bus error``` 的錯誤。
 
-### 总结
+### 總結
 
-虽然 System V 与 POSIX 共享内存都是通过 tmpfs 实现，但是两个不同实例，对于 ```/proc/sys/kernel/shmmax``` 只会影响 SYS V 共享内存，```/dev/shm``` 只会影响 Posix 共享内存。
+雖然 System V 與 POSIX 共享內存都是通過 tmpfs 實現，但是兩個不同實例，對於 ```/proc/sys/kernel/shmmax``` 只會影響 SYS V 共享內存，```/dev/shm``` 只會影響 Posix 共享內存。
 
 ## tmpfs
 
-tmpfs 是基于内存/交换分区的文件系统，ramdisk 是作为块设备，基于 ext 的文件系统，所以不会绕过 page cache 的内存复制；而 tmpfs 直接操作内存做为文件系统的，而不是基于块设备的。
+tmpfs 是基於內存/交換分區的文件系統，ramdisk 是作為塊設備，基於 ext 的文件系統，所以不會繞過 page cache 的內存複製；而 tmpfs 直接操作內存做為文件系統的，而不是基於塊設備的。
 
-其源码实现在 `mm/shmem.c` 中，根据 `CONFIG_SHMEM` 是否配置，略微有所区别。
+其源碼實現在 `mm/shmem.c` 中，根據 `CONFIG_SHMEM` 是否配置，略微有所區別。
 
 {% highlight c %}
 static struct file_system_type shmem_fs_type = {
@@ -410,7 +410,7 @@ static struct file_system_type shmem_fs_type = {
 };
 {% endhighlight %}
 
-在函数 `init_tmpfs()` 里，实际会通过 `register_filesystem()` 函数将 tmpfs 注册到文件系统中，在 `shmem_file_setup()` 中，更改了 `file->f_op = &shmem_file_operations;` 下面来看具体的结构体。
+在函數 `init_tmpfs()` 裡，實際會通過 `register_filesystem()` 函數將 tmpfs 註冊到文件系統中，在 `shmem_file_setup()` 中，更改了 `file->f_op = &shmem_file_operations;` 下面來看具體的結構體。
 
 {% highlight c %}
 static struct file_operations shmem_file_operations = {
@@ -425,17 +425,17 @@ static struct file_operations shmem_file_operations = {
 };
 {% endhighlight %}
 
-也就是说在操作在 tmpfs 文件时候，并没有使用常用的 ext 文件系统中的函数 `do_sync_read()`，而是调用了 tmpfs 自己封装的函数 `shmem_file_read()`，当然在 `shmem_file_read()` 并没有对 page cache 进行操作，虽然里面还是使用了 page cache 中 maping、file、inode 等结构体和算法。
+也就是說在操作在 tmpfs 文件時候，並沒有使用常用的 ext 文件系統中的函數 `do_sync_read()`，而是調用了 tmpfs 自己封裝的函數 `shmem_file_read()`，當然在 `shmem_file_read()` 並沒有對 page cache 進行操作，雖然裡面還是使用了 page cache 中 maping、file、inode 等結構體和算法。
 
 
 <!--
-3. 函数shmem_file_read主要是调用do_shmem_file_read函数，在do_shmem_file_read函数中核心是shmem_getpage，通过索引和inode快速找到page.
+3. 函數shmem_file_read主要是調用do_shmem_file_read函數，在do_shmem_file_read函數中核心是shmem_getpage，通過索引和inode快速找到page.
 -->
 
-## 参考
+## 參考
 
 <!--
-[浅析Linux的共享内存与tmpfs文件系统](http://hustcat.github.io/shared-memory-tmpfs/)
+[淺析Linux的共享內存與tmpfs文件系統](http://hustcat.github.io/shared-memory-tmpfs/)
 -->
 
 {% highlight text %}

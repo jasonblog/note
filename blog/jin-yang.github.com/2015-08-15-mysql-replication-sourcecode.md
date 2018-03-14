@@ -1,57 +1,57 @@
 ---
-title: MySQL 复制源码解析
+title: MySQL 複製源碼解析
 layout: post
 comments: true
 language: chinese
 category: [mysql,database]
-keywords: mysql,复制,源码
-description: MySQL 的主从复制是通过 binlog 完成的，从库通过 dump 协议来交互数据的，binlog 复制的基本逻辑处理单元为 event 。在本文中，我们看看源码是如何执行的。
+keywords: mysql,複製,源碼
+description: MySQL 的主從複製是通過 binlog 完成的，從庫通過 dump 協議來交互數據的，binlog 複製的基本邏輯處理單元為 event 。在本文中，我們看看源碼是如何執行的。
 ---
 
-MySQL 的主从复制是通过 binlog 完成的，从库通过 dump 协议来交互数据的，binlog 复制的基本逻辑处理单元为 event 。
+MySQL 的主從複製是通過 binlog 完成的，從庫通過 dump 協議來交互數據的，binlog 複製的基本邏輯處理單元為 event 。
 
-在本文中，我们看看源码是如何执行的。
+在本文中，我們看看源碼是如何執行的。
 
 <!-- more -->
 
 ![gtid source code]({{ site.url }}/images/databases/mysql/replicatioin-sourcecode-logo.jpg "gtid source code"){: .pull-center }
 
 <!--
-## 简介
+## 簡介
 
-如下，是与复制相关的代码文件的简介。
+如下，是與複製相關的代碼文件的簡介。
 
 {% highlight text %}
 slave.(h|cc)
-    IO/SQL 线程的实现，主要是 slave 的管理逻辑实现，不含从网络 dump 数据、解析 relay 日志等底层处理逻辑。
+    IO/SQL 線程的實現，主要是 slave 的管理邏輯實現，不含從網絡 dump 數據、解析 relay 日誌等底層處理邏輯。
 log.(h|cc)
-    对event的排序，以及创建、写入、删除 binlog 的高级日志机制，也包含 binlog 的部分回调函数。
+    對event的排序，以及創建、寫入、刪除 binlog 的高級日誌機制，也包含 binlog 的部分回調函數。
 log_event.(h|cc)
-    包含 log_event 类及其子类，用于所有 event 的创建、写入、输出等底层操作，基本是对数据的序列化。
+    包含 log_event 類及其子類，用於所有 event 的創建、寫入、輸出等底層操作，基本是對數據的序列化。
 rpl_rli.(h|cc)
-    relay_log_info 数据结构的实现，主要用于 SQL 线程，同时也包含部分 SQL 线程的方法，另一部分在 slave.cc 中。
+    relay_log_info 數據結構的實現，主要用於 SQL 線程，同時也包含部分 SQL 線程的方法，另一部分在 slave.cc 中。
 rpl_mi.(h|cc)
-    master_info 数据结构的实现，主要用于 IO 线程。
+    master_info 數據結構的實現，主要用於 IO 線程。
 sql_repl.cc
-    主的 dump 线程的实现，主要用于将 binlog 发送到备，同时也包含大部分命令的实现。
+    主的 dump 線程的實現，主要用於將 binlog 發送到備，同時也包含大部分命令的實現。
 sql_binlog.cc
-    binlog 语句的执行实现。
+    binlog 語句的執行實現。
 rpl_record.(h|cc)
-    编码以及解码 row 模式下的 row event 格式的工具方法。
+    編碼以及解碼 row 模式下的 row event 格式的工具方法。
 rpl_failsafe.(h|cc)
-    备机初始化以及注册到主的实现。
+    備機初始化以及註冊到主的實現。
 rpl_constants.h
-    复制事件的定义。
+    複製事件的定義。
 {% endhighlight %}
 -->
 
-## 执行命令
+## 執行命令
 
-配置主备复制时，都是通过各种的 SQL 指令配置的；所以呢，首先看看这些命令的入口，以及命令是如何执行的。
+配置主備複製時，都是通過各種的 SQL 指令配置的；所以呢，首先看看這些命令的入口，以及命令是如何執行的。
 
-其中，与复制相关的命令主要包括了如下几个：```change master```、```show slave stat```、```show master stat```、```start slave```、```stop slave``` 等命令。
+其中，與複製相關的命令主要包括瞭如下幾個：```change master```、```show slave stat```、```show master stat```、```start slave```、```stop slave``` 等命令。
 
-如下是上述命令在源码中的实际入口，可以根据不同命令入口查看。
+如下是上述命令在源碼中的實際入口，可以根據不同命令入口查看。
 
 {% highlight cpp %}
 int mysql_execute_command(THD *thd, bool first_level)
@@ -119,7 +119,7 @@ int mysql_execute_command(THD *thd, bool first_level)
 }
 {% endhighlight %}
 
-注意下面的命令 COM_REGISTER_SLAVE 会直接在 dispatch_command() 函数中执行。
+注意下面的命令 COM_REGISTER_SLAVE 會直接在 dispatch_command() 函數中執行。
 
 {% highlight cpp %}
 bool dispatch_command(THD *thd, const COM_DATA *com_data,
@@ -141,81 +141,81 @@ bool dispatch_command(THD *thd, const COM_DATA *com_data,
 }
 {% endhighlight %}
 
-## 启动备库
+## 啟動備庫
 
-首先，在会在备库执行 ```change master``` 函数，将主库信息写入到备库。
+首先，在會在備庫執行 ```change master``` 函數，將主庫信息寫入到備庫。
 
 {% highlight text %}
 mysql_execute_command()
- |-check_global_access()          ← 查看用户是否有权限
- |-change_master_cmd()            ← 判断是否创建channel，调用如下函数
-   |-change_master()              ← 命令的实际入口函数
+ |-check_global_access()          ← 查看用戶是否有權限
+ |-change_master_cmd()            ← 判斷是否創建channel，調用如下函數
+   |-change_master()              ← 命令的實際入口函數
 {% endhighlight %}
 
-在编译源码的时候需要开启 HAVE_REPLICATION 的宏定义，在备库上执行 ```start slave``` 命令后，会在 sql_parse.cc 中执行 SQLCOM_SLAVE_START 分支，实际执行的是 start_slave() 函数。
+在編譯源碼的時候需要開啟 HAVE_REPLICATION 的宏定義，在備庫上執行 ```start slave``` 命令後，會在 sql_parse.cc 中執行 SQLCOM_SLAVE_START 分支，實際執行的是 start_slave() 函數。
 
 {% highlight text %}
 mysql_execute_command()
  |-start_slave_cmd()
    |-start_slave()
      |-start_slave_threads()
-       |-start_slave_thread()                ← 先启动IO线程，无误再启动SQL线程
-       | |-handle_slave_io()                 ← IO线程处理函数
+       |-start_slave_thread()                ← 先啟動IO線程，無誤再啟動SQL線程
+       | |-handle_slave_io()                 ← IO線程處理函數
        |
        |-start_slave_thread()
-         |-handle_slave_sql()                ← SQL线程处理函数
+         |-handle_slave_sql()                ← SQL線程處理函數
 {% endhighlight %}
 
-备库中有两类处理线程，也就对应了两个函数 handle_slave_sql() 和 handle_slave_io()，分别用于从主库读取数据，以及将主库数据写入到备库。
+備庫中有兩類處理線程，也就對應了兩個函數 handle_slave_sql() 和 handle_slave_io()，分別用於從主庫讀取數據，以及將主庫數據寫入到備庫。
 
-接下来依次查看这两类处理线程。
+接下來依次查看這兩類處理線程。
 
-## 连接主库
+## 連接主庫
 
-首先，查看下 Slave 如何注册并请求 Master 的 binlog，也就是对应备库的 IO 线程。其中 Slave IO 线程对应的入口函数为 handle_slave_io()，大致处理流程为：
+首先，查看下 Slave 如何註冊並請求 Master 的 binlog，也就是對應備庫的 IO 線程。其中 Slave IO 線程對應的入口函數為 handle_slave_io()，大致處理流程為：
 
 {% highlight text %}
 handle_slave_io()
-  |-my_thread_init()                ← 0) 线程初始化
+  |-my_thread_init()                ← 0) 線程初始化
   |-init_slave_thread()
-  |-RUN_HOOK()                      ←    调用relay_io->thread_start钩子函数
+  |-RUN_HOOK()                      ←    調用relay_io->thread_start鉤子函數
   |
-  |-safe_connect()                  ← 1) 以标准的连接方式连上master
-  |-get_master_version_and_clock()       并获取主库的所需信息
+  |-safe_connect()                  ← 1) 以標準的連接方式連上master
+  |-get_master_version_and_clock()       並獲取主庫的所需信息
   |-get_master_uuid()
   |-io_thread_init_commands()
   |
-  |-register_slave_on_master()      ← 2) 把自己注册到master上去
-  | |-net_store_data()              ←    设置数据包
-  | |-simple_command()              ←    S把自己的ID、IP、端口、用户名提交给M，用于注册
-  | |                               ←    **上述会发送COM_REGISTER_SLAVE命令**
+  |-register_slave_on_master()      ← 2) 把自己註冊到master上去
+  | |-net_store_data()              ←    設置數據包
+  | |-simple_command()              ←    S把自己的ID、IP、端口、用戶名提交給M，用於註冊
+  | |                               ←    **上述會發送COM_REGISTER_SLAVE命令**
   |
-  |                                 ###1BEGIN while循环中检测io_slave_killed()
+  |                                 ###1BEGIN while循環中檢測io_slave_killed()
   |
-  |-request_dump()                  ← 3) 开始请求数据，向master请求binlog数据
-  | |-RUN_HOOK()                    ←    调用relay_io->before_request_transmit()
-  | |-int2store()                   ←    会根据是否为GTID作区分
-  | |-simple_command()              ←    发送dump数据请求
-  | |                               ←    **执行COM_BINLOG_DUMP_GTID/COM_BINLOG_DUMP命令**
+  |-request_dump()                  ← 3) 開始請求數據，向master請求binlog數據
+  | |-RUN_HOOK()                    ←    調用relay_io->before_request_transmit()
+  | |-int2store()                   ←    會根據是否為GTID作區分
+  | |-simple_command()              ←    發送dump數據請求
+  | |                               ←    **執行COM_BINLOG_DUMP_GTID/COM_BINLOG_DUMP命令**
   |
-  |                                 ###2BEGIN while循环中检测io_slave_killed()
+  |                                 ###2BEGIN while循環中檢測io_slave_killed()
   |
-  |-read_event()                    ← 4) 读取event并存放到本地relay log中
-  | |-cli_safe_read()               ←    等待主库将binlog数据发过来
+  |-read_event()                    ← 4) 讀取event並存放到本地relay log中
+  | |-cli_safe_read()               ←    等待主庫將binlog數據發過來
   |   |-my_net_read()
-  |-RUN_HOOK()                      ←    调用relay_io->after_read_event()
+  |-RUN_HOOK()                      ←    調用relay_io->after_read_event()
   |
-  |-queue_event()                   ← 5) 将接收到的event保存在relaylog中
-  |-RUN_HOOK()                      ←    调用relay_io->after_queue_event()
+  |-queue_event()                   ← 5) 將接收到的event保存在relaylog中
+  |-RUN_HOOK()                      ←    調用relay_io->after_queue_event()
   |-flush_master_info()
   |
   |                                 ###2END
   |                                 ###1END
 {% endhighlight %}
 
-如上所述，当备库注册到主库时，会发送 COM_REGISTER_SLAVE 命令；请求 binlog 日志时则会根据是否使用 GTID，发送 COM_BINLOG_DUMP_GTID/COM_BINLOG_DUMP 命令。
+如上所述，當備庫註冊到主庫時，會發送 COM_REGISTER_SLAVE 命令；請求 binlog 日誌時則會根據是否使用 GTID，發送 COM_BINLOG_DUMP_GTID/COM_BINLOG_DUMP 命令。
 
-接下来看下主库是如何处理备库的 binlog 请求，这里相关的命令都会在 dispatch_command() 函数中进行处理，其核心的内容为。
+接下來看下主庫是如何處理備庫的 binlog 請求，這裡相關的命令都會在 dispatch_command() 函數中進行處理，其核心的內容為。
 
 {% highlight c %}
 bool dispatch_command(THD *thd, const COM_DATA *com_data,
@@ -225,7 +225,7 @@ bool dispatch_command(THD *thd, const COM_DATA *com_data,
   switch (command) {
       ... ...
 #ifdef HAVE_REPLICATION
-      case COM_REGISTER_SLAVE:    // 注册slave
+      case COM_REGISTER_SLAVE:    // 註冊slave
           if (!register_slave(thd, (uchar*)packet, packet_length))
               my_ok(thd);
           break;
@@ -244,26 +244,26 @@ bool dispatch_command(THD *thd, const COM_DATA *com_data,
 }
 {% endhighlight %}
 
-下面以 COM_BINLOG_DUMP 为例介绍 master 是怎么发送 binlog event 给 slave 的。
+下面以 COM_BINLOG_DUMP 為例介紹 master 是怎麼發送 binlog event 給 slave 的。
 
 {% highlight text %}
 dispatch_command()
  |-com_binlog_dump_gtid()           ← COM_BINLOG_DUMP_GTID
  |-com_binlog_dump()                ← COM_BINLOG_DUMP
-   |-kill_zombie_dump_threads()     ← 如果同一个备库注册，会移除跟该备库匹配的binlog dump线程
-   |-mysql_binlog_send()            ← 上述两个命令都会执行到此处
-     |                              ← 会打开文件，在指定位置读取文件，将event按照顺序发给备库
-     |-Binlog_sender::run()         ← 调用rpl_binlog_sender.cc中的发送
+   |-kill_zombie_dump_threads()     ← 如果同一個備庫註冊，會移除跟該備庫匹配的binlog dump線程
+   |-mysql_binlog_send()            ← 上述兩個命令都會執行到此處
+     |                              ← 會打開文件，在指定位置讀取文件，將event按照順序發給備庫
+     |-Binlog_sender::run()         ← 調用rpl_binlog_sender.cc中的發送
        |-init()
-       | |-init_heartbeat_period()  ← 启动心跳
+       | |-init_heartbeat_period()  ← 啟動心跳
        | |-transmit_start()         ← RUN_HOOK()，binlog_transmit_delegate
        |
-       |-###BEGIN while()循环，只要没有错误，线程未被杀死，则一直执行
+       |-###BEGIN while()循環，只要沒有錯誤，線程未被殺死，則一直執行
        |-open_binlog_file()
-       |-send_binlog()              ← 发送二进制日志
+       |-send_binlog()              ← 發送二進制日誌
        | |-send_events()
        |   |-after_send_hook()
-       |     |-RUN_HOOK()           ← 调用binlog_transmit->after_send_event()钩子函数
+       |     |-RUN_HOOK()           ← 調用binlog_transmit->after_send_event()鉤子函數
        |
        |-set_last_file()
        |-end_io_cache()
@@ -271,62 +271,62 @@ dispatch_command()
        |-###END
 {% endhighlight %}
 
-综上所述，MySQL 复制需要 Slave 先注册到 Master，再向 Master 提交 binlog 和 POS，请求发送 binlog；Master 接收到请求后，先做一系列验证，打开本地 binlog 文件，按照内部 event 的顺序，依序发给 slave。
+綜上所述，MySQL 複製需要 Slave 先註冊到 Master，再向 Master 提交 binlog 和 POS，請求發送 binlog；Master 接收到請求後，先做一系列驗證，打開本地 binlog 文件，按照內部 event 的順序，依序發給 slave。
 
-## 备库应用日志
+## 備庫應用日誌
 
-我们知道，在主库中会利用多线程机制并发执行，而复制时，在 5.6 之前只会有一个 SQL 线程，就导致复制延迟成为 MySQL 最为诟病的问题之一。
+我們知道，在主庫中會利用多線程機制併發執行，而複製時，在 5.6 之前只會有一個 SQL 線程，就導致複製延遲成為 MySQL 最為詬病的問題之一。
 
-在 5.6 版本中，MySQL 提供了基于 schema 或者说是数据库的并行复制功能，不过对于很多单库的应用场景下，性能提升有限；5.7 开始，提供了基于组提交的并行复制技术，基本可以被认为是真正意义上的并行复制技术。
+在 5.6 版本中，MySQL 提供了基於 schema 或者說是數據庫的並行複製功能，不過對於很多單庫的應用場景下，性能提升有限；5.7 開始，提供了基於組提交的並行複製技術，基本可以被認為是真正意義上的並行複製技術。
 
-### 源码解析
+### 源碼解析
 
-与 MySQL 备库中提供的多线程并发机制相关的，有两个函数的入口：handle_slave_worker() 和 handle_slave_sql()；前者为真正的工作函数，后者作为协调器会启动和分配 worker 线程。
+與 MySQL 備庫中提供的多線程併發機制相關的，有兩個函數的入口：handle_slave_worker() 和 handle_slave_sql()；前者為真正的工作函數，後者作為協調器會啟動和分配 worker 線程。
 
-其中，handle_slave_sql() 主要调用了 slave_worker_exec_job_group() ，该函数会利用 C++ 的多态性，调用相应 event 的 do_apply_event() 虚函数，以便将不同的 event 操作在备机上重做一遍。
+其中，handle_slave_sql() 主要調用了 slave_worker_exec_job_group() ，該函數會利用 C++ 的多態性，調用相應 event 的 do_apply_event() 虛函數，以便將不同的 event 操作在備機上重做一遍。
 
-如下是 handle_slave_sql() 函数的调用逻辑。
+如下是 handle_slave_sql() 函數的調用邏輯。
 
 {% highlight text %}
-handle_slave_sql()                              ← ###作为协调线程
+handle_slave_sql()                              ← ###作為協調線程
  |-my_thread_init()
  |-init_slave_thread()
  |-slave_start_workers()                          MTS(Multi-Threaded Slave)
  | |-init_hash_workers()
  | |-slave_start_single_worker()
  |   |-Rpl_info_factory::create_worker()
- |   |-###                                      ← 如下操作是在一个线程里
- |   |-handle_slave_worker()                    ← ###对于复制的并行执行线程
+ |   |-###                                      ← 如下操作是在一個線程裡
+ |   |-handle_slave_worker()                    ← ###對於複製的並行執行線程
  |     |-my_thread_init()
  |     |-init_slave_thread()
- |     |                                        ← 在while循环中执行
+ |     |                                        ← 在while循環中執行
  |     |-slave_worker_exec_job_group()
- |       |-pop_jobs_item()                      ← 获取具体的event(ev)，会阻塞等待==<<<==
- |       |                                      ← 在while循环中执行
+ |       |-pop_jobs_item()                      ← 獲取具體的event(ev)，會阻塞等待==<<<==
+ |       |                                      ← 在while循環中執行
  |       |-is_gtid_event()
  |       |-worker->slave_worker_exec_event(ev)
- |         |-ev->do_apply_event_worker()        ← 调用该函数应用event
- |           |-do_apply_event()                 ← 利用C++多态性执行对应的event
+ |         |-ev->do_apply_event_worker()        ← 調用該函數應用event
+ |           |-do_apply_event()                 ← 利用C++多態性執行對應的event
  |
- |-### 如下从IO线程中读取数据
- |-sql_slave_killed()                           ← 只要线程未kill则一直执行
+ |-### 如下從IO線程中讀取數據
+ |-sql_slave_killed()                           ← 只要線程未kill則一直執行
    |-exec_relay_log_event()
-     |-next_event()                             ← 从cache或者relaylog中读取event
-     | |-sql_slave_killed()                     ← 只要线程未kill则一直执行
-     | |-Log_event::read_log_event()            ← 读取记录，第一参数为IO_CACHE
-     |   |-my_b_read()                          ← 从磁盘读取头部，并检查头部信息是否合法
-     |   |-Log_event::read_log_event()          ← 处理读取到缓存中的数据，第一个参数为char*
+     |-next_event()                             ← 從cache或者relaylog中讀取event
+     | |-sql_slave_killed()                     ← 只要線程未kill則一直執行
+     | |-Log_event::read_log_event()            ← 讀取記錄，第一參數為IO_CACHE
+     |   |-my_b_read()                          ← 從磁盤讀取頭部，並檢查頭部信息是否合法
+     |   |-Log_event::read_log_event()          ← 處理讀取到緩存中的數據，第一個參數為char*
      |     | ... ...
-     |     |-Write_rows_log_event()             ← 根据不同的event类型，创建ev对象
+     |     |-Write_rows_log_event()             ← 根據不同的event類型，創建ev對象
      |     |-Update_rows_log_event()
      |     |-Delete_rows_log_event()
      |     | ... ...
      |
-     |-apply_event_and_update_pos()             ← 执行event并修改当前读的位置
-       |-append_item_to_jobs()                  ← 发送给workers线程==>>>==
+     |-apply_event_and_update_pos()             ← 執行event並修改當前讀的位置
+       |-append_item_to_jobs()                  ← 發送給workers線程==>>>==
 {% endhighlight %}
 
-首先，看下 SQL 线程的处理流程，也就是从 read_log_event() 函数中读取处理；这里会根据事件的类型来调用相应的构造函数，这里只关心 ROW 模式的事件处理：
+首先，看下 SQL 線程的處理流程，也就是從 read_log_event() 函數中讀取處理；這裡會根據事件的類型來調用相應的構造函數，這裡只關心 ROW 模式的事件處理：
 
 {% highlight cpp %}
 Log_event* Log_event::read_log_event(const char* buf, uint event_len, const char **error,
@@ -359,7 +359,7 @@ Log_event* Log_event::read_log_event(const char* buf, uint event_len, const char
 }
 {% endhighlight %}
 
-如下是 do_apply_event_worker() 函数的代码，event 是 binlog 的最小单元，所有的 event 的父类是 Log_event(抽象基类)，它定义了一系列虚函数，其中就包括我们这里调用的函数。
+如下是 do_apply_event_worker() 函數的代碼，event 是 binlog 的最小單元，所有的 event 的父類是 Log_event(抽象基類)，它定義了一系列虛函數，其中就包括我們這裡調用的函數。
 
 {% highlight cpp %}
 inline int Log_event::do_apply_event_worker(Slave_worker *w)
@@ -380,20 +380,20 @@ inline int Log_event::do_apply_event_worker(Slave_worker *w)
 }
 {% endhighlight %}
 
-对于 do_apply_event() 实现可以查看 sql/log_event.cc 文件内容。
+對於 do_apply_event() 實現可以查看 sql/log_event.cc 文件內容。
 
-## 事件简介
+## 事件簡介
 
-在 INSERT、UPDATE、DELETE 事件中，实际执行父类 ```Rows_log_event::do_apply_event()```，接下来，简单说明下数据是怎么应用到备库。
+在 INSERT、UPDATE、DELETE 事件中，實際執行父類 ```Rows_log_event::do_apply_event()```，接下來，簡單說明下數據是怎麼應用到備庫。
 
 {% highlight text %}
 Write_rows_log_event
 Update_rows_log_event
 Delete_rows_log_event
-    如上三个事件都是调用其基类Rows_log_event::do_apply_event()；
+    如上三個事件都是調用其基類Rows_log_event::do_apply_event()；
 {% endhighlight %}
 
-其中 Rows_log_event::do_apply_event() 函数的部分调用代码逻辑如下。
+其中 Rows_log_event::do_apply_event() 函數的部分調用代碼邏輯如下。
 
 {% highlight cpp %}
 int Rows_log_event::do_apply_event(Relay_log_info const *rli)
@@ -456,9 +456,9 @@ int Rows_log_event::do_apply_event(Relay_log_info const *rli)
 }
 {% endhighlight %}
 
-首先，通过 get_table() 调用，从 table map 中获得对应的 table 信息，然后根据不同的类型通过 do_apply_row_ptr 函数指针指向的函数，将事件对应操作应用到备库。
+首先，通過 get_table() 調用，從 table map 中獲得對應的 table 信息，然後根據不同的類型通過 do_apply_row_ptr 函數指針指向的函數，將事件對應操作應用到備庫。
 
-如上代码所示，do_apply_row_ptr 函数指针可能指向以下几种不同的函数：
+如上代碼所示，do_apply_row_ptr 函數指針可能指向以下幾種不同的函數：
 
 {% highlight text %}
 do_hash_scan_and_update
@@ -467,7 +467,7 @@ do_table_scan_and_update
 do_apply_row
 {% endhighlight %}
 
-对于 insert 操作，不用查找数据，会直接调用 do_apply_row() ，调用逻辑如下。
+對於 insert 操作，不用查找數據，會直接調用 do_apply_row() ，調用邏輯如下。
 
 {% highlight text %}
 do_apply_row()
@@ -476,11 +476,11 @@ do_apply_row()
      |-ha_start_bulk_insert()
 {% endhighlight %}
 
-也就是说，它直接把这一行数据交给了存储引擎，让存储引擎把数据给插进去。
+也就是說，它直接把這一行數據交給了存儲引擎，讓存儲引擎把數據給插進去。
 
 <!--
 {% highlight text %}
-Log_event::print_base64()                        下面的调用只有这一个路径
+Log_event::print_base64()                        下面的調用只有這一個路徑
 Rows_log_event::print_verbose()
 Rows_log_event::print_verbose_one_row()
  |-log_event_print_value()
@@ -488,9 +488,9 @@ Rows_log_event::print_verbose_one_row()
 -->
 
 
-## 参考
+## 參考
 
-MySQL 中与复制相关的内容，可以参考官方文档 [MySQL Reference Manual - Replication](http://dev.mysql.com/doc/refman/en/replication.html)。
+MySQL 中與複製相關的內容，可以參考官方文檔 [MySQL Reference Manual - Replication](http://dev.mysql.com/doc/refman/en/replication.html)。
 
 
 {% highlight text %}

@@ -1,63 +1,63 @@
 ---
-title: Linux 网络设置
+title: Linux 網絡設置
 layout: post
 comments: true
 category: [linux, network]
 language: chinese
-keywords: linux,网络设置
-description: 主要记录下在 Linux 中，一些常见的网络配置，例如 IP 地址、路由、MAC 地址、主机名等设置方式。
+keywords: linux,網絡設置
+description: 主要記錄下在 Linux 中，一些常見的網絡配置，例如 IP 地址、路由、MAC 地址、主機名等設置方式。
 ---
 
-主要记录下在 Linux 中，一些常见的网络配置，例如 IP 地址、路由、MAC 地址、主机名等设置方式。
+主要記錄下在 Linux 中，一些常見的網絡配置，例如 IP 地址、路由、MAC 地址、主機名等設置方式。
 
 <!-- more -->
 
-## 常见配置
+## 常見配置
 
-简单列举一些常见的网络配置。
+簡單列舉一些常見的網絡配置。
 
 {% highlight text %}
-# ifconfig eth0 down                                      ← 关闭网络设备
-# ifconfig eth0 hw ether xx:xx:xx:xx:xx:xx                ← 设置MAC地址
+# ifconfig eth0 down                                      ← 關閉網絡設備
+# ifconfig eth0 hw ether xx:xx:xx:xx:xx:xx                ← 設置MAC地址
 # ifconfig eht0 up
 # ifconfig eth0 210.72.137.115 netmask 255.255.255.0      ← 配置IP
-# route add default gw 192.168.0.100 dev eth0             ← 添加默认路由
+# route add default gw 192.168.0.100 dev eth0             ← 添加默認路由
 
-# ifconfig eth0:0 210.72.137.115 netmask 255.255.255.0 up ← 设置VIP
-# ifconfig eth0:0 down                                    ← 关闭VIP配置
+# ifconfig eth0:0 210.72.137.115 netmask 255.255.255.0 up ← 設置VIP
+# ifconfig eth0:0 down                                    ← 關閉VIP配置
 {% endhighlight %}
 
-如果 IP 和 GW 不在同一网段会出现 SIOCADDRT:No such process. 的错误，可以在上一条命令之前添加如下命令。
+如果 IP 和 GW 不在同一網段會出現 SIOCADDRT:No such process. 的錯誤，可以在上一條命令之前添加如下命令。
 
 {% highlight text %}
 # route add -host 192.168.0.100 [netmask 0.0.0.0] dev eth0
 {% endhighlight %}
 
-对于 ARP 可以通过如下方式查看。
+對於 ARP 可以通過如下方式查看。
 
 {% highlight text %}
-# arp -n                                               ← 查看当前系统的ARP表
-# arp -s 10.15.72.25 408:d0:9f:e2:4d:c3                ← 网关绑定ip和网关的mac
-# arp -d 10.15.72.73                                   ← 删除arp记录
+# arp -n                                               ← 查看當前系統的ARP表
+# arp -s 10.15.72.25 408:d0:9f:e2:4d:c3                ← 網關綁定ip和網關的mac
+# arp -d 10.15.72.73                                   ← 刪除arp記錄
 {% endhighlight %}
 
-另外，是和无线网络相关的命令。
+另外，是和無線網絡相關的命令。
 
 {% highlight text %}
-# ifconfig eth0 promisc                                ← 设置混杂模式
-# ifconfig eth0 -promisc                               ← 取消混杂模式
+# ifconfig eth0 promisc                                ← 設置混雜模式
+# ifconfig eth0 -promisc                               ← 取消混雜模式
 {% endhighlight %}
 
-### 常见文件
+### 常見文件
 
-在 Linux 中，包括了一些常见的系统文件，简单列举如下：
+在 Linux 中，包括了一些常見的系統文件，簡單列舉如下：
 
-* /etc/protocols 主机使用的协议以及各个协议的协议号；
-* /etc/services 主机的不同端口的网络服务。
+* /etc/protocols 主機使用的協議以及各個協議的協議號；
+* /etc/services 主機的不同端口的網絡服務。
 
 #### /etc/networks
 
-另外这个文件主要完成域名与网络地址的映射，其内容如下，在此简单介绍下。
+另外這個文件主要完成域名與網絡地址的映射，其內容如下，在此簡單介紹下。
 
 {% highlight text %}
 default 0.0.0.0
@@ -66,9 +66,9 @@ loopback 127.0.0.0
 foobarname 192.168.1.0
 {% endhighlight %}
 
-其中的网络地址是以 .0 结尾，而且只支持 Class A, B, C 网络，不能直接指定 IP 地址，对于 IP 应该保存在 /etc/hosts 文件中。
+其中的網絡地址是以 .0 結尾，而且只支持 Class A, B, C 網絡，不能直接指定 IP 地址，對於 IP 應該保存在 /etc/hosts 文件中。
 
-例如，上述的最后一条记录，假设有 IP 地址为 192.168.1.5，那么查看路由时会显示如下内容。
+例如，上述的最後一條記錄，假設有 IP 地址為 192.168.1.5，那麼查看路由時會顯示如下內容。
 
 {% highlight text %}
 $ route
@@ -85,44 +85,44 @@ foobarname      *               255.255.255.0   U     0      0        0 eth0
 
 ## hostname 修改
 
-hostname 是 Linux 系统下的一个内核参数，可以通过 /proc/sys/kernel/hostname 访问该参数当前值，不过其值一般是在系统启动时通过初始化脚本设置的。当然，这也就导致不同的发行版本，甚至不同的版本，其设置方式也各有区别。
+hostname 是 Linux 系統下的一個內核參數，可以通過 /proc/sys/kernel/hostname 訪問該參數當前值，不過其值一般是在系統啟動時通過初始化腳本設置的。當然，這也就導致不同的發行版本，甚至不同的版本，其設置方式也各有區別。
 
-常见的一些操作可以通过如下方式查看。
+常見的一些操作可以通過如下方式查看。
 
 {% highlight text %}
 ----- 查看(三者值相同)
-$ hostname                                     ← 查看主机名
-$ hostname -i                                  ← 查看主机的IP
+$ hostname                                     ← 查看主機名
+$ hostname -i                                  ← 查看主機的IP
 $ cat /proc/sys/kernel/hostname
 $ sysctl kernel.hostname
 
------ 临时修改(重启后会失效)，立即生效
+----- 臨時修改(重啟後會失效)，立即生效
 $ echo foobar > /proc/sys/kernel/hostname
 $ sysctl kernel.hostname=foobar
 $ hostname foobar
-$ export HOSTNAME=foobar                       ← 解决bash的PS显示问题
+$ export HOSTNAME=foobar                       ← 解決bash的PS顯示問題
 
------ 永久修改 (需要重启网络)   
+----- 永久修改 (需要重啟網絡)   
 $ cat /etc/sysconfig/network                   ← CentOS/RedHat
 NETWORKING=yes
 HOSTNAME=foobar.localdomain
 $ cat /etc/hostname                            ← Debian/Ubuntu
 foobar
 
------ 重启网络
+----- 重啟網絡
 $ /etc/init.d/network restart
 {% endhighlight %}
 
-其中，有几点需要注意的：
+其中，有幾點需要注意的：
 
-* 在 CentOS 中，如果在上述的配置文件中没有配置，实际也会读取 /etc/hostname 文件。查看 man hostname 帮助时，也需要同时设置 /etc/hostname 。
-* 通过 strace 命令查看系统调用时，实际是调用的 uname() 这个内核 API 。
+* 在 CentOS 中，如果在上述的配置文件中沒有配置，實際也會讀取 /etc/hostname 文件。查看 man hostname 幫助時，也需要同時設置 /etc/hostname 。
+* 通過 strace 命令查看系統調用時，實際是調用的 uname() 這個內核 API 。
 
-以 CentOS 为例，在系统启动时，会执行 /etc/rc.d/init.d/network 脚本，该脚本会根据不同的配置文件尝试获取 hostname 。
+以 CentOS 為例，在系統啟動時，會執行 /etc/rc.d/init.d/network 腳本，該腳本會根據不同的配置文件嘗試獲取 hostname 。
 
-另外，一个比较容易混淆的文件是 /etc/hosts，该文件实际上就只提供了一个本地设置的 DNS 映射关系，只是有些启动脚本会通过该文件读取 hostname，这也就导致会认为 hostname 的修改是通过该文件配置的。 
+另外，一個比較容易混淆的文件是 /etc/hosts，該文件實際上就只提供了一個本地設置的 DNS 映射關係，只是有些啟動腳本會通過該文件讀取 hostname，這也就導致會認為 hostname 的修改是通過該文件配置的。 
 
-当然，最好也设置好该文件内容。
+當然，最好也設置好該文件內容。
 
 {% highlight text %}
 $ cat /etc/hosts
@@ -132,7 +132,7 @@ $ cat /etc/hosts
 
 ## 路由配置
 
-关于 IP 路由相关命令，详细可以查看 [IP Route Management](http://linux-ip.net/html/tools-ip-route.html) 。
+關於 IP 路由相關命令，詳細可以查看 [IP Route Management](http://linux-ip.net/html/tools-ip-route.html) 。
 
 {% highlight text %}
 # route -n
@@ -140,24 +140,24 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
 0.0.0.0         192.145.12.254  0.0.0.0         UG    0      0        0 eth0
 100.125.0.0     0.0.0.0         255.255.248.0   U     0      0        0 eth1
 
-输出：
-  Flags 路由标志，标记当前网络节点的状态，各个标志简述如下：
-    U Up              此路由当前为启动状态
-    G Gateway         此网关为一路由器
-    ! Reject Route    表示此路由当前为关闭状态，常用于抵挡不安全规则
-    H Host            表示此网关为一主机
-    R Reinstate Route 使用动态路由重新初始化的路由
-    D Dynamically     此路由是动态性地写入
-    M Modified        此路由是由路由守护程序或导向器动态修改
+輸出：
+  Flags 路由標誌，標記當前網絡節點的狀態，各個標誌簡述如下：
+    U Up              此路由當前為啟動狀態
+    G Gateway         此網關為一路由器
+    ! Reject Route    表示此路由當前為關閉狀態，常用於抵擋不安全規則
+    H Host            表示此網關為一主機
+    R Reinstate Route 使用動態路由重新初始化的路由
+    D Dynamically     此路由是動態性地寫入
+    M Modified        此路由是由路由守護程序或導向器動態修改
 
------ 增加一条到达244.0.0.0的路由
+----- 增加一條到達244.0.0.0的路由
 # route add -net 224.0.0.0 netmask 240.0.0.0 dev eth0
------ 增加一条屏蔽的路由，目的地址为224.x.x.x将被拒绝
+----- 增加一條屏蔽的路由，目的地址為224.x.x.x將被拒絕
 # route add -net 224.0.0.0 netmask 240.0.0.0 reject
------ 删除路由记录
+----- 刪除路由記錄
 # route del -net 224.0.0.0 netmask 240.0.0.0
 # route del -net 224.0.0.0 netmask 240.0.0.0 reject
------ 删除和添加设置默认网关
+----- 刪除和添加設置默認網關
 # route del default gw 192.168.120.240
 # route add default gw 192.168.120.240
 {% endhighlight %}
@@ -166,15 +166,15 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
 
 ip route list
 
-Destination、Gateway、Genmask，目标地址、网管、掩码
+Destination、Gateway、Genmask，目標地址、網管、掩碼
 
-第一行表示主机所在网络的地址为192.168.120.0，若数据传送目标是在本局域网内通信，则可直接通过eth0转发数据包;
+第一行表示主機所在網絡的地址為192.168.120.0，若數據傳送目標是在本局域網內通信，則可直接通過eth0轉發數據包;
 
-第四行表示数据传送目的是访问Internet，则由接口eth0，将数据包发送到网关192.168.120.240
+第四行表示數據傳送目的是訪問Internet，則由接口eth0，將數據包發送到網關192.168.120.240
 
 Metric
 
-metric Metric 为路由指定一个整数成本值标（从 1 至 9999），当在路由表(与转发的数据包目标地址最匹配)的多个路由中进行选择时可以使用。
+metric Metric 為路由指定一個整數成本值標（從 1 至 9999），當在路由表(與轉發的數據包目標地址最匹配)的多個路由中進行選擇時可以使用。
 
 http://www.cnblogs.com/vamei/archive/2012/10/07/2713023.html
 
@@ -185,38 +185,38 @@ ip route get
 
 一般路由匹配的流程是：
 
-1. 先匹配掩码，掩码最精确匹配的路由优先 (longest prefix match)；
-2. 如果有多条路由，则匹配 [管理距离](https://en.wikipedia.org/wiki/Administrative_distance)，管理距离小的路由优先；
-3. 如果管理距离相同，在匹配度量值 (lowest metric)，度量值小的优先
-4. 如果度量值相同，则选择负载均衡，具体的方式看采用哪种路由协议和相关的配置了。
+1. 先匹配掩碼，掩碼最精確匹配的路由優先 (longest prefix match)；
+2. 如果有多條路由，則匹配 [管理距離](https://en.wikipedia.org/wiki/Administrative_distance)，管理距離小的路由優先；
+3. 如果管理距離相同，在匹配度量值 (lowest metric)，度量值小的優先
+4. 如果度量值相同，則選擇負載均衡，具體的方式看採用哪種路由協議和相關的配置了。
 
-Routing Cache 也称为 Forwarding Information Base, FIB，通过 Hash 保存了最近使用路由信息，如果在 Cache 找到了对应的路由信息，那么会直接使用该规则进行转发，而不再查找路由表。
+Routing Cache 也稱為 Forwarding Information Base, FIB，通過 Hash 保存了最近使用路由信息，如果在 Cache 找到了對應的路由信息，那麼會直接使用該規則進行轉發，而不再查找路由表。
 
-注意，Routing Cache 和 Route Table 是不相关的，所以在修改路由表之后最后手动清空下 Cache ，可以通过 ```/proc/net/rt_cache``` 文件查看或者使用如下命令：
+注意，Routing Cache 和 Route Table 是不相關的，所以在修改路由表之後最後手動清空下 Cache ，可以通過 ```/proc/net/rt_cache``` 文件查看或者使用如下命令：
 
 <!-- http://linux-ip.net/html/routing-selection.html -->
 
 ## 常用命令
 
-### TCP 状态排查
+### TCP 狀態排查
 
-可以通过如下命令查看 TCP 状态。
+可以通過如下命令查看 TCP 狀態。
 
 {% highlight text %}
------ 查看链接状态，并对其进行统计，如下的两种方法相同
+----- 查看鏈接狀態，並對其進行統計，如下的兩種方法相同
 $ netstat -atn | awk '/^tcp/ {++s[$NF]} END {for(key in s) print s[key], "\t", key}' | sort -nr
 $ ss -ant | awk ' {++s[$1]} END {for(key in s) print s[key], "\t", key}' | sort -nr
 
------ 查找较多time_wait连接
+----- 查找較多time_wait連接
 $ netstat -n|grep TIME_WAIT|awk '{print $5}'|sort|uniq -c|sort -rn|head -n20
 
------ 对接的IP进行排序
+----- 對接的IP進行排序
 $ netstat -ntu | awk '/^tcp/ {print $5}' | cut -d: -f1 | sort | uniq -c | sort -n
 
------ 查看80端口连接数最多的20个IP
+----- 查看80端口連接數最多的20個IP
 $ netstat -ant |awk '/:80/{split($5,ip,":");++A[ip[1]]}END{for(i in A) print A[i],i}' |sort -rn|head -n20
 
------ 80端口的各个TCP链接状态
+----- 80端口的各個TCP鏈接狀態
 $ netstat -n | grep `hostname -i`:80 |awk '/^tcp/{++S[$NF]}END{for (key in S) print key,S[key]}'
 {% endhighlight %}
 

@@ -5,37 +5,37 @@ layout: post
 comments: true
 language: chinese
 category: [mysql,database]
-keywords: mysql,monitor,监控,percona tools,sysbench,tcprstat,压测,响应时间,工具
-description: 工欲善其事，必先利其器；在本文章中介绍了与 MySQL 相关的一些常见的工具，列入 percona 工具集，常见的压测工具 sysbench，服务器响应时间 tcprstat。包括了它们使用方法，详细的执行过程等。
+keywords: mysql,monitor,監控,percona tools,sysbench,tcprstat,壓測,響應時間,工具
+description: 工欲善其事，必先利其器；在本文章中介紹了與 MySQL 相關的一些常見的工具，列入 percona 工具集，常見的壓測工具 sysbench，服務器響應時間 tcprstat。包括了它們使用方法，詳細的執行過程等。
 ---
 
-在此介绍一些 MySQL 中常用的工具，包括了 percona-tools、sysbench 等工具。
+在此介紹一些 MySQL 中常用的工具，包括了 percona-tools、sysbench 等工具。
 
-接下来我们看看。
+接下來我們看看。
 
 <!-- more -->
 
-部分软件会依赖 automake autoconf libtool 等工具，需要在编译之前进行安装。
+部分軟件會依賴 automake autoconf libtool 等工具，需要在編譯之前進行安裝。
 
 ## percona-tools
 
 ![Percona Tools Logo]({{ site.url }}/images/databases/mysql/percona-tools-logo.png "Percona Tools Logo"){: .pull-right width="300px"}
 
-该工具集基本上是 perl 脚本，可以直接从官方网站 [percona-toolkit](https://www.percona.com/downloads/percona-toolkit/) 上下载源码，或者 [github](https://github.com/percona/percona-toolkit/releases) ，文档也可以直接从上述的网站下载，只需要填写个表格即可。
+該工具集基本上是 perl 腳本，可以直接從官方網站 [percona-toolkit](https://www.percona.com/downloads/percona-toolkit/) 上下載源碼，或者 [github](https://github.com/percona/percona-toolkit/releases) ，文檔也可以直接從上述的網站下載，只需要填寫個表格即可。
 
-为了方便下载，本地保存了一个版本 [percona-toolkit-2.2.19.tar.gz](/reference/mysql/percona-toolkit-2.2.19.tar.gz) 以及 [Percona-Toolkit-2.2.19.pdf](/reference/mysql/Percona-Toolkit-2.2.19.pdf) 。
+為了方便下載，本地保存了一個版本 [percona-toolkit-2.2.19.tar.gz](/reference/mysql/percona-toolkit-2.2.19.tar.gz) 以及 [Percona-Toolkit-2.2.19.pdf](/reference/mysql/Percona-Toolkit-2.2.19.pdf) 。
 
-该工具是 [Aspersa](http://aspersa.googlecode.com/svn/html/index.html) 和 Aspersa 两个工具的合并修改过来的，这是一套脚本工具，不过保存在 google code 中，所以需要翻墙；也可以查看一下 [本地版本](/reference/mysql/aspersa.tar.bz2) 以及 [本地保存文档](/reference/mysql/aspersa) 。
+該工具是 [Aspersa](http://aspersa.googlecode.com/svn/html/index.html) 和 Aspersa 兩個工具的合併修改過來的，這是一套腳本工具，不過保存在 google code 中，所以需要翻牆；也可以查看一下 [本地版本](/reference/mysql/aspersa.tar.bz2) 以及 [本地保存文檔](/reference/mysql/aspersa) 。
 
-接下来我们看看如何使用这一工具集，不过在此介绍其中的一部分工具的使用，剩余的一部分工具将会在其它文章中继续介绍。
+接下來我們看看如何使用這一工具集，不過在此介紹其中的一部分工具的使用，剩餘的一部分工具將會在其它文章中繼續介紹。
 
-安装方式可以从源码包中的 INSTALL 文件中查看，或者简单执行如下命令。
+安裝方式可以從源碼包中的 INSTALL 文件中查看，或者簡單執行如下命令。
 
 {% highlight text %}
------ 安装依赖的perl三方包
+----- 安裝依賴的perl三方包
 # yum install perl-Digest-MD5
 
------ 安装percona-tools
+----- 安裝percona-tools
 # perl Makefile.PL
 # make
 # make test
@@ -48,14 +48,14 @@ description: 工欲善其事，必先利其器；在本文章中介绍了与 MyS
 ## sysbench
 
 <!--
-一个不错的Sysbench示例
+一個不錯的Sysbench示例
 https://wiki.gentoo.org/wiki/Sysbench
 
-ScaleArc: 使用 sysbench 对数据库进行压力测试
+ScaleArc: 使用 sysbench 對數據庫進行壓力測試
 http://www.oschina.net/translate/scalearc-benchmarking-sysbench
 -->
 
-sysbench 用于基准测试，包括了：CPU 性能、磁盘 IO 性能、调度程序性能、内存分配及传输速度、POSIX 线程性能、数据库性能(OLTP基准测试，支持 MySQL、PostgreSQL、Oracle)等。
+sysbench 用於基準測試，包括了：CPU 性能、磁盤 IO 性能、調度程序性能、內存分配及傳輸速度、POSIX 線程性能、數據庫性能(OLTP基準測試，支持 MySQL、PostgreSQL、Oracle)等。
 
 ![Sysbench Logo]({{ site.url }}/images/databases/mysql/sysbench-logo.jpg "Sysbench Logo"){: .pull-center }
 
@@ -65,30 +65,30 @@ sysbench 用于基准测试，包括了：CPU 性能、磁盘 IO 性能、调度
 $ sysbench [common-options] --test=name [test-options] command
 {% endhighlight %}
 
-其中 \-\-test 指定测试工具，command 包括了 prepare、run、cleanup、help，prepare 用于准备数据，常用于 fileio、oltp 测试，其它用于运行、清理、查看帮助。
+其中 \-\-test 指定測試工具，command 包括了 prepare、run、cleanup、help，prepare 用於準備數據，常用於 fileio、oltp 測試，其它用於運行、清理、查看幫助。
 
-### 安装
+### 安裝
 
-最新的是在 github 上维护的 [akopytov/sysbench](https://github.com/akopytov/sysbench)，下载源码可以通过如下方式编译。
+最新的是在 github 上維護的 [akopytov/sysbench](https://github.com/akopytov/sysbench)，下載源碼可以通過如下方式編譯。
 
 {% highlight text %}
 $ ./autogen.sh && ./configure && make && cd sysbench
-$ ./sysbench --help                                        // 查看帮助
-$ ./sysbench --test=cpu help                               // 查看标准测试的帮助
+$ ./sysbench --help                                        // 查看幫助
+$ ./sysbench --test=cpu help                               // 查看標準測試的幫助
 {% endhighlight %}
 
-在执行 ./configure 时，如果通过 mysql_config 无法找到库、头文件目录等，可以通过 \-\-with-mysql-includes=...、\-\-with-mysql-libs=... 进行配置。
+在執行 ./configure 時，如果通過 mysql_config 無法找到庫、頭文件目錄等，可以通過 \-\-with-mysql-includes=...、\-\-with-mysql-libs=... 進行配置。
 
-如果想要支持 pgsql 和 Oracle，在配置时需要添加 \-\-with-pgsql 或者 \-\-with-oracle 选项，否则默认只支持 MySQL，相关的驱动源码保存在 sysbench/drivers 目录下。
+如果想要支持 pgsql 和 Oracle，在配置時需要添加 \-\-with-pgsql 或者 \-\-with-oracle 選項，否則默認只支持 MySQL，相關的驅動源碼保存在 sysbench/drivers 目錄下。
 
 
-### 基准测试
+### 基準測試
 
-介绍一些常见的基准测试，关于 OLTP 单独再述。
+介紹一些常見的基準測試，關於 OLTP 單獨再述。
 
-#### CPU 性能测试
+#### CPU 性能測試
 
-使用 64 位整数，测试计算质数直到某个最大值所需要的时间。
+使用 64 位整數，測試計算質數直到某個最大值所需要的時間。
 
 {% highlight text %}
 $ ./sysbench --test=cpu help
@@ -96,18 +96,18 @@ $ ./sysbench --test=cpu --cpu-max-prime=2000 run
 {% endhighlight %}
 
 
-#### 线程基准测试
+#### 線程基準測試
 
-测试线程调度器的性能，对于高负载情况下测试线程调度器的行为非常有用。
+測試線程調度器的性能，對於高負載情況下測試線程調度器的行為非常有用。
 
 {% highlight text %}
 $ ./sysbench --test=threads help
 $ ./sysbench --test=threads --num-threads=500 --thread-yields=100 --thread-locks=4 run
 {% endhighlight %}
 
-#### 内存基准测试
+#### 內存基準測試
 
-用于测试内存的连续读写性能。
+用於測試內存的連續讀寫性能。
 
 {% highlight text %}
 $ ./sysbench --test=memory help
@@ -115,9 +115,9 @@ $ ./sysbench --test=memory --memory-block-size=8k --memory-total-size=1G run
 {% endhighlight %}
 
 
-#### 互斥锁基准测试
+#### 互斥鎖基準測試
 
-互斥锁用于在多线程编程中，防止两个线程同时对同一公共资源，如全局变量，进行读写的机制来保证共享数据操作的完整性。测试互斥锁的性能，方式是模拟所有线程在同一时刻并发运行，并都短暂请求互斥锁。
+互斥鎖用於在多線程編程中，防止兩個線程同時對同一公共資源，如全局變量，進行讀寫的機制來保證共享數據操作的完整性。測試互斥鎖的性能，方式是模擬所有線程在同一時刻併發運行，並都短暫請求互斥鎖。
 
 {% highlight text %}
 $ ./sysbench --test=mutex help
@@ -126,18 +126,18 @@ $ ./sysbench --test=mutex --num-threads=100 --mutex-num=1000 \
 {% endhighlight %}
 
 
-#### 文件 IO 基准测试
+#### 文件 IO 基準測試
 
-测试包括了 prepare、run、cleanup，主要用于准备测试需要文件，运行测试，清理。注意，生成的数据文件至少要比内存大，否则操作系统可能会缓存大部分的数据，导致测试结果无法体现 IO 密集型的工作负载。
+測試包括了 prepare、run、cleanup，主要用於準備測試需要文件，運行測試，清理。注意，生成的數據文件至少要比內存大，否則操作系統可能會緩存大部分的數據，導致測試結果無法體現 IO 密集型的工作負載。
 
 
 ### OLTP
 
-之前的版本 oltp 是内建的版本，现在采用的是 lua 脚本实现，保存在 tests/db 目录下，通过这种方式，使得需要定制个性化测试时不用再重新编译。
+之前的版本 oltp 是內建的版本，現在採用的是 lua 腳本實現，保存在 tests/db 目錄下，通過這種方式，使得需要定製個性化測試時不用再重新編譯。
 
-在此只针对 MySQL，进行测试；该驱动保存在源码的 drivers/mysql 目录下，关于驱动相关的参数，例如 mysql-host、mysql-socket 等，可以查看源码。如果不指定则默认使用 sbtest 数据库，此时需要手动创建该数据库。
+在此只針對 MySQL，進行測試；該驅動保存在源碼的 drivers/mysql 目錄下，關於驅動相關的參數，例如 mysql-host、mysql-socket 等，可以查看源碼。如果不指定則默認使用 sbtest 數據庫，此時需要手動創建該數據庫。
 
-编译完成之后，直接到源码的的 sysbench 目录下执行如下命令即可。
+編譯完成之後，直接到源碼的的 sysbench 目錄下執行如下命令即可。
 
 {% highlight text %}
 $ ./sysbench --mysql-host=127.1 --mysql-port=3306 --mysql-user=root \
@@ -153,14 +153,14 @@ $ ./sysbench --mysql-host=127.1 --mysql-port=3306 --mysql-user=root \
     --test=tests/db/oltp.lua --oltp_tables_count=1 --oltp-table-size=1000 cleanup
 {% endhighlight %}
 
-如上的命令，prepare 只需要执行一次，然后可以执行多次 run 即可。其它一些常见的参数可以参考：
+如上的命令，prepare 只需要執行一次，然後可以執行多次 run 即可。其它一些常見的參數可以參考：
 
 {% highlight text %}
---num-threads=1         线程数
---report-interval=5     每隔5秒打印一次统计结果
+--num-threads=1         線程數
+--report-interval=5     每隔5秒打印一次統計結果
 {% endhighlight %}
 
-对于 MyISAM 的测试可以直接将上述的存储引擎更换为 myisam 即可，命令详见如下。
+對於 MyISAM 的測試可以直接將上述的存儲引擎更換為 myisam 即可，命令詳見如下。
 
 {% highlight text %}
 $ ./sysbench --mysql-host=127.1 --mysql-port=3306 --mysql-user=root \
@@ -176,44 +176,44 @@ $ ./sysbench --mysql-host=127.1 --mysql-port=3306 --mysql-user=root \
     --test=tests/db/oltp.lua --oltp_tables_count=1 --oltp-table-size=1000 cleanup
 {% endhighlight %}
 
-### 源码相关
+### 源碼相關
 
-相关的驱动文件保存在 sysbench/drivers 目录下，测试相关模块保存在 sysbench/tests 目录下，下面看下与 DB 相关的脚本。
+相關的驅動文件保存在 sysbench/drivers 目錄下，測試相關模塊保存在 sysbench/tests 目錄下，下面看下與 DB 相關的腳本。
 
 #### tests/db
 
-首先看下 common.lua 这个文件，该文件用于读取参数、执行 prepare、执行 cleanup；其中后两者分别对应了相应的函数，prepare 会调用 create_insert 创建表并插入数据；而清除则是简单删除掉之前创建的表。
+首先看下 common.lua 這個文件，該文件用於讀取參數、執行 prepare、執行 cleanup；其中後兩者分別對應了相應的函數，prepare 會調用 create_insert 創建表並插入數據；而清除則是簡單刪除掉之前創建的表。
 
-接下来看看 oltp.lua 文件，主要有两个函数：A) thread_init() 会调用 set_vars() 设置与 oltp 相关的参数，初始化每个线程相关的参数；B) event() 函数用于处理每次调用，包括了事务执行包含了那些语句，及其次数等。
+接下來看看 oltp.lua 文件，主要有兩個函數：A) thread_init() 會調用 set_vars() 設置與 oltp 相關的參數，初始化每個線程相關的參數；B) event() 函數用於處理每次調用，包括了事務執行包含了那些語句，及其次數等。
 
-其中一个比较简单的示例可以参考 oltp_simple.lua 文件。
+其中一個比較簡單的示例可以參考 oltp_simple.lua 文件。
 
 ## tcprstat
 
-关于该工具详细可以参考 [通过 tcprstat 工具统计应答时间](/post/linux-tcprstat.html) 的内容，包括了详细代码的参考。
+關於該工具詳細可以參考 [通過 tcprstat 工具統計應答時間](/post/linux-tcprstat.html) 的內容，包括了詳細代碼的參考。
 
-如文章中所示，如果服务器监听 127.1 会导致无法使用，可以通过如下方法解决。
+如文章中所示，如果服務器監聽 127.1 會導致無法使用，可以通過如下方法解決。
 
 {% highlight text %}
------ 1. 设置一个本地域的浮动IP地址
+----- 1. 設置一個本地域的浮動IP地址
 # ifconfig lo:1 127.168.1.1 netmask 255.0.0.0
 
------ 2. 配置文件中添加如下内容，然后重启服务器
+----- 2. 配置文件中添加如下內容，然後重啟服務器
 [mysqld]
 bind-address=127.168.1.1
 
------ 3. 通过如下方式启动tcprstat
+----- 3. 通過如下方式啟動tcprstat
 $ tcprstat -l 127.1 -p 3306 -t 1 -n 0
 {% endhighlight %}
 
-按照如上方式，可以基本解决本地测试的 bug 。
+按照如上方式，可以基本解決本地測試的 bug 。
 
 
 ## 其它
 
-实时监控可以直接参考 [orzdba](http://code.taobao.org/p/orzdba/src/trunk/)，可直接下载安装使用；另外相关的还有 [Percona Monitoring Plugins](https://www.percona.com/downloads/percona-monitoring-plugins/LATEST/)，也就是 zabbix、nagios、cacti 插件。
+實時監控可以直接參考 [orzdba](http://code.taobao.org/p/orzdba/src/trunk/)，可直接下載安裝使用；另外相關的還有 [Percona Monitoring Plugins](https://www.percona.com/downloads/percona-monitoring-plugins/LATEST/)，也就是 zabbix、nagios、cacti 插件。
 
-[mycli](http://mycli.net/) 是一个使用 Python 编写的命令行终端，可以支持自动补全，以及高亮显示。
+[mycli](http://mycli.net/) 是一個使用 Python 編寫的命令行終端，可以支持自動補全，以及高亮顯示。
 
 <!--
 Galera replication for MySQL

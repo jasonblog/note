@@ -5,20 +5,20 @@ comments: true
 language: chinese
 category: [misc]
 keywords: awesome,stuff
-description: 简单记录一下一些常见的资源。
+description: 簡單記錄一下一些常見的資源。
 ---
 
-简单记录一下一些常见的资源。
+簡單記錄一下一些常見的資源。
 
 <!-- more -->
 
-## 运维监控平台
+## 運維監控平臺
 
-* [AdminLTE](https://adminlte.io/) ，一个开源的后台控制面板和仪表盘模板，基于 Bootstrap3 框架。
+* [AdminLTE](https://adminlte.io/) ，一個開源的後臺控制面板和儀表盤模板，基於 Bootstrap3 框架。
 
 ## 其它
 
-* [Let's Build a Simple Database](https://cstack.github.io/db_tutorial/) ，详细介绍如何构建一个小型数据库，基本类似于 SQLite 。
+* [Let's Build a Simple Database](https://cstack.github.io/db_tutorial/) ，詳細介紹如何構建一個小型數據庫，基本類似於 SQLite 。
 
 <!---
 https://github.com/miloyip/nativejson-benchmark
@@ -34,9 +34,9 @@ https://github.com/udp/json-parser
 https://github.com/vodik/envoy
 
 
-AIDE 主机级别的安全检测
+AIDE 主機級別的安全檢測
 http://aide.sourceforge.net/
-SNORT 安全入侵检测
+SNORT 安全入侵檢測
 https://www.snort.org/
 -->
 

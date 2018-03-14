@@ -5,37 +5,37 @@ comments: true
 language: chinese
 category: [mysql,database]
 keywords: mysql,innodb,checkpoint
-description: 如果 redo log 可以无限地增大，同时缓冲池也足够大，是不是就意味着可以不将缓冲池中的脏页刷新回磁盘上？宕机时，完全可以通过 redo log 来恢复整个数据库系统中的数据。显然，上述的前提条件是不满足的，这也就引入了 checkpoint 技术。在这篇文章里，就简单介绍下 MySQL 中的实现。
+description: 如果 redo log 可以無限地增大，同時緩衝池也足夠大，是不是就意味著可以不將緩衝池中的髒頁刷新回磁盤上？宕機時，完全可以通過 redo log 來恢復整個數據庫系統中的數據。顯然，上述的前提條件是不滿足的，這也就引入了 checkpoint 技術。在這篇文章裡，就簡單介紹下 MySQL 中的實現。
 ---
 
-如果 redo log 可以无限地增大，同时缓冲池也足够大，是不是就意味着可以不将缓冲池中的脏页刷新回磁盘上？宕机时，完全可以通过 redo log 来恢复整个数据库系统中的数据。
+如果 redo log 可以無限地增大，同時緩衝池也足夠大，是不是就意味著可以不將緩衝池中的髒頁刷新回磁盤上？宕機時，完全可以通過 redo log 來恢復整個數據庫系統中的數據。
 
-显然，上述的前提条件是不满足的，这也就引入了 checkpoint 技术。
+顯然，上述的前提條件是不滿足的，這也就引入了 checkpoint 技術。
 
-在这篇文章里，就简单介绍下 MySQL 中的实现。
+在這篇文章裡，就簡單介紹下 MySQL 中的實現。
 
 <!-- more -->
 
-## 简介
+## 簡介
 
-Checkpoint (检查点) 的目的是为了解决以下几个问题：1、缩短数据库的恢复时间；2、缓冲池不够用时，将脏页刷新到磁盘；3、重做日志不可用时，刷新脏页。
+Checkpoint (檢查點) 的目的是為了解決以下幾個問題：1、縮短數據庫的恢復時間；2、緩衝池不夠用時，將髒頁刷新到磁盤；3、重做日誌不可用時，刷新髒頁。
 
-* 数据库宕机时，不需要重做所有的日志，因为 Checkpoint 之前的脏页都已经刷新回磁盘，只需对 Checkpoint 后的 redo log 进行恢复即可，这样就大大缩短了恢复的时间。
+* 數據庫宕機時，不需要重做所有的日誌，因為 Checkpoint 之前的髒頁都已經刷新回磁盤，只需對 Checkpoint 後的 redo log 進行恢復即可，這樣就大大縮短了恢復的時間。
 
-* 当缓冲池不够用时，会根据 LRU 算法淘汰最近最少使用的页，若此页为脏页，那么需要强制执行 Checkpoint，将脏页刷回磁盘。
+* 當緩衝池不夠用時，會根據 LRU 算法淘汰最近最少使用的頁，若此頁為髒頁，那麼需要強制執行 Checkpoint，將髒頁刷回磁盤。
 
-* 当前数据库对 redo log 的设计都是循环使用的，为了防止被覆盖，必须强制 Checkpoint，将缓冲池中的页至少刷新到当前 redo log 的位置。
+* 當前數據庫對 redo log 的設計都是循環使用的，為了防止被覆蓋，必須強制 Checkpoint，將緩衝池中的頁至少刷新到當前 redo log 的位置。
 
-InnoDB 通过 Log Sequence Number, LSN 来标记版本，这是 8 字节的数字，每个页有 LSN，重做日志中也有 LSN，Checkpoint 也有 LSN，这个是联系三者的关键变量。
+InnoDB 通過 Log Sequence Number, LSN 來標記版本，這是 8 字節的數字，每個頁有 LSN，重做日誌中也有 LSN，Checkpoint 也有 LSN，這個是聯繫三者的關鍵變量。
 
-LSN 当前状态可以通过如下命令查看。
+LSN 當前狀態可以通過如下命令查看。
 
 {% highlight text %}
 mysql> SHOW ENGINE INNODB STATUS\G
 ---
 LOG
 ---
-Log sequence number 293590838           LSN1事务创建时一条日志
+Log sequence number 293590838           LSN1事務創建時一條日誌
 Log flushed up to   293590838
 Pages flushed up to 293590838
 Last checkpoint at  293590829
@@ -43,21 +43,21 @@ Last checkpoint at  293590829
 1139 log i/o's done, 0.00 log i/o's/second
 {% endhighlight %}
 
-### 分类
+### 分類
 
-通常有两种 Checkpoint，分别为：Sharp Checkpoint、Fuzzy Checkpoint；前者在正常关闭数据库时使用，会将所有脏页刷回磁盘；后者，会在运行时使用，用于部分脏页的刷新。
+通常有兩種 Checkpoint，分別為：Sharp Checkpoint、Fuzzy Checkpoint；前者在正常關閉數據庫時使用，會將所有髒頁刷回磁盤；後者，會在運行時使用，用於部分髒頁的刷新。
 
-Checkpoint 所做的事情无外乎是将缓冲池中的脏页刷回到磁盘，不同之处在于每次刷新多少页到磁盘，每次从哪里取脏页，以及什么时间触发 Checkpoint。
+Checkpoint 所做的事情無外乎是將緩衝池中的髒頁刷回到磁盤，不同之處在於每次刷新多少頁到磁盤，每次從哪裡取髒頁，以及什麼時間觸發 Checkpoint。
 
 #### Master Thread Checkpoint
 
-InnoDB 的主线程以每秒或每十秒的速度从缓冲池的脏页列表中刷新一定比例的页回磁盘，这个过程是异步的，此时 InnoDB 可以进行其他的操作，用户查询线程不会阻塞。
+InnoDB 的主線程以每秒或每十秒的速度從緩衝池的髒頁列表中刷新一定比例的頁回磁盤，這個過程是異步的，此時 InnoDB 可以進行其他的操作，用戶查詢線程不會阻塞。
 
 #### FLUSH_LRU_LIST Checkpoint
 
-InnoDB 要保证 BP 中有足够空闲页，在 1.1.x 之前，该操作发生在用户查询线程中，显然这会阻塞用户的查询。如果没有足够空闲页，需要将 LRU 列表尾端的页移除，如果有脏页，那么就需要进行 Checkpoint，因为这些页来自 LRU 列表，所以称为 FLUSH_LRU_LIST Checkpoint 。
+InnoDB 要保證 BP 中有足夠空閒頁，在 1.1.x 之前，該操作發生在用戶查詢線程中，顯然這會阻塞用戶的查詢。如果沒有足夠空閒頁，需要將 LRU 列表尾端的頁移除，如果有髒頁，那麼就需要進行 Checkpoint，因為這些頁來自 LRU 列表，所以稱為 FLUSH_LRU_LIST Checkpoint 。
 
-MySQL-5.6 (InnoDB-1.2.x) 版本开始，这个检查被放在了一个单独的 Page Cleaner 线程中进行，而且用户可以通过参数 ```innodb_lru_scan_depth``` 控制 LRU 列表中可用页的数量。
+MySQL-5.6 (InnoDB-1.2.x) 版本開始，這個檢查被放在了一個單獨的 Page Cleaner 線程中進行，而且用戶可以通過參數 ```innodb_lru_scan_depth``` 控制 LRU 列表中可用頁的數量。
 
 {% highlight text %}
 mysql>  SHOW GLOBAL VARIABLES LIKE 'innodb_lru_scan_depth';
@@ -71,34 +71,34 @@ mysql>  SHOW GLOBAL VARIABLES LIKE 'innodb_lru_scan_depth';
 
 #### Async/Sync Flush Checkpoint
 
-是指重做日志文件不可用时，需要强制将脏页列表中的一些页刷新回磁盘，而此时脏页是从脏页列表中选取的，这可以保证重做日志文件可循环使用。
+是指重做日誌文件不可用時，需要強制將髒頁列表中的一些頁刷新回磁盤，而此時髒頁是從髒頁列表中選取的，這可以保證重做日誌文件可循環使用。
 
-在 InnoDB 1.2.X 版本之前，Async Flush Checkpoint 会阻塞发现问题的用户查询线程，Sync Flush Checkpoint 会阻塞所有查询线程；InnoDB 1.2.X 之后放到单独的 Page Cleaner Thread。
+在 InnoDB 1.2.X 版本之前，Async Flush Checkpoint 會阻塞發現問題的用戶查詢線程，Sync Flush Checkpoint 會阻塞所有查詢線程；InnoDB 1.2.X 之後放到單獨的 Page Cleaner Thread。
 
 
 
 <!--
-若将已经写入到重做日志的 LSN 记为 redo_lsn，将已经刷新回磁盘最新页的 LSN 记为 checkpoint_lsn，则可定义：
+若將已經寫入到重做日誌的 LSN 記為 redo_lsn，將已經刷新回磁盤最新頁的 LSN 記為 checkpoint_lsn，則可定義：
 
 checkpoint_age = redo_lsn - checkpoint_lsn
 
-再定义以下的变量：
+再定義以下的變量：
 
 async_water_mark = 75% * total_redo_log_file_size
 
 sync_water_mark = 90% * total_redo_log_file_size
 
-若每个重做日志文件的大小为1GB，并且定义了两个重做日志文件，则重做日志文件的总大小为2GB。那么async_water_mark=1.5GB，sync_water_mark=1.8GB。则：
+若每個重做日誌文件的大小為1GB，並且定義了兩個重做日誌文件，則重做日誌文件的總大小為2GB。那麼async_water_mark=1.5GB，sync_water_mark=1.8GB。則：
 
-当checkpoint_age<async_water_mark时，不需要刷新任何脏页到磁盘；
+當checkpoint_age<async_water_mark時，不需要刷新任何髒頁到磁盤；
 
-当async_water_mark<checkpoint_age<sync_water_mark时触发Async Flush，从Flush列表中刷新足够的脏页回磁盘，使得刷新后满足checkpoint_age<async_water_mark；
+當async_water_mark<checkpoint_age<sync_water_mark時觸發Async Flush，從Flush列表中刷新足夠的髒頁回磁盤，使得刷新後滿足checkpoint_age<async_water_mark；
 
-checkpoint_age>sync_water_mark这种情况一般很少发生，除非设置的重做日志文件太小，并且在进行类似LOAD DATA的BULK INSERT操作。此时触发Sync Flush操作，从Flush列表中刷新足够的脏页回磁盘，使得刷新后满足checkpoint_age<async_water_mark。
+checkpoint_age>sync_water_mark這種情況一般很少發生，除非設置的重做日誌文件太小，並且在進行類似LOAD DATA的BULK INSERT操作。此時觸發Sync Flush操作，從Flush列表中刷新足夠的髒頁回磁盤，使得刷新後滿足checkpoint_age<async_water_mark。
 
-可见，Async/Sync Flush Checkpoint是为了保证重做日志的循环使用的可用性。在InnoDB 1.2.x版本之前，Async Flush Checkpoint会阻塞发现问题的用户查询线程，而Sync Flush Checkpoint会阻塞所有的用户查询线程，并且等待脏页刷新完成。从InnoDB 1.2.x版本开始——也就是MySQL 5.6版本，这部分的刷新操作同样放入到了单独的Page Cleaner Thread中，故不会阻塞用户查询线程。
+可見，Async/Sync Flush Checkpoint是為了保證重做日誌的循環使用的可用性。在InnoDB 1.2.x版本之前，Async Flush Checkpoint會阻塞發現問題的用戶查詢線程，而Sync Flush Checkpoint會阻塞所有的用戶查詢線程，並且等待髒頁刷新完成。從InnoDB 1.2.x版本開始——也就是MySQL 5.6版本，這部分的刷新操作同樣放入到了單獨的Page Cleaner Thread中，故不會阻塞用戶查詢線程。
 
-MySQL官方版本并不能查看刷新页是从Flush列表中还是从LRU列表中进行Checkpoint的，也不知道因为重做日志而产生的Async/Sync Flush的次数。但是InnoSQL版本提供了方法，可以通过命令SHOW ENGINE INNODB STATUS来观察，如：
+MySQL官方版本並不能查看刷新頁是從Flush列表中還是從LRU列表中進行Checkpoint的，也不知道因為重做日誌而產生的Async/Sync Flush的次數。但是InnoSQL版本提供了方法，可以通過命令SHOW ENGINE INNODB STATUS來觀察，如：
 
 {% highlight text %}
 mysql> show engine innodb status \G
@@ -130,7 +130,7 @@ https://www.percona.com/blog/2011/04/04/innodb-flushing-theory-and-solutions/
 
 #### Dirty Page too much Checkpoint
 
-即脏页数量太多时，InnoDB 会强制进行 Checkpoint 。
+即髒頁數量太多時，InnoDB 會強制進行 Checkpoint 。
 
 {% highlight text %}
 mysql> SHOW GLOBAL VARIABLES LIKE 'innodb_max_dirty_pages_pct';
@@ -142,36 +142,36 @@ mysql> SHOW GLOBAL VARIABLES LIKE 'innodb_max_dirty_pages_pct';
 1 row in set (0.03 sec)
 {% endhighlight %}
 
-也即当缓冲池中脏页的数量占据 75% 时，强制进行 Checkpoint，刷新一部分的脏页到磁盘，其目的还是为了保证缓冲池中有足够可用的空闲页。
+也即當緩衝池中髒頁的數量佔據 75% 時，強制進行 Checkpoint，刷新一部分的髒頁到磁盤，其目的還是為了保證緩衝池中有足夠可用的空閒頁。
 
-### CheckPoint 机制
+### CheckPoint 機制
 
-在 Innodb 每次都取最老的 modified page 对应的 LSN，并将此脏页的 LSN 作为 Checkpoint 点记录到日志文件，意思就是 "此 LSN 之前对应的日志和数据都已经刷新到磁盘" 。
+在 Innodb 每次都取最老的 modified page 對應的 LSN，並將此髒頁的 LSN 作為 Checkpoint 點記錄到日誌文件，意思就是 "此 LSN 之前對應的日誌和數據都已經刷新到磁盤" 。
 
-当 MySQL 启动做崩溃恢复时，会从 last checkpoint 对应的 LSN 开始扫描 redo log ，并将其应用到 buffer pool，直到 last checkpoint 对应的 LSN 等于 log flushed up to 对应的 LSN，则恢复完成。
+當 MySQL 啟動做崩潰恢復時，會從 last checkpoint 對應的 LSN 開始掃描 redo log ，並將其應用到 buffer pool，直到 last checkpoint 對應的 LSN 等於 log flushed up to 對應的 LSN，則恢復完成。
 
-如下是整个 redo log 的生命周期。
+如下是整個 redo log 的生命週期。
 
 ![innodb checkpoint lsn]({{ site.url }}/images/databases/mysql/checkpoint-lsn.png "innodb checkpoint lsn"){: .pull-center }
 
-InnoDB 的一条事务日志共经历 4 个阶段：
+InnoDB 的一條事務日誌共經歷 4 個階段：
 
-1. 创建阶段 (log sequence number, LSN1)：事务创建一条日志，当前系统 LSN 最大值，新的事务日志 LSN 将在此基础上生成，也就是 LSN1+新日志的大小；
+1. 創建階段 (log sequence number, LSN1)：事務創建一條日誌，當前系統 LSN 最大值，新的事務日誌 LSN 將在此基礎上生成，也就是 LSN1+新日誌的大小；
 
-2. 日志刷盘 (log flushed up to, LSN2)：当前已经写入日志文件做持久化的 LSN；
+2. 日誌刷盤 (log flushed up to, LSN2)：當前已經寫入日誌文件做持久化的 LSN；
 
-3. 数据刷盘 (oldest modified data log, LSN3)：当前最旧的脏页数据对应的 LSN，写 Checkpoint 的时候直接将此 LSN 写入到日志文件；
+3. 數據刷盤 (oldest modified data log, LSN3)：當前最舊的髒頁數據對應的 LSN，寫 Checkpoint 的時候直接將此 LSN 寫入到日誌文件；
 
-4. 写CKP (last checkpoint at, LSN4)：当前已经写入 Checkpoint 的 LSN，也就是上次的写入；
+4. 寫CKP (last checkpoint at, LSN4)：當前已經寫入 Checkpoint 的 LSN，也就是上次的寫入；
 
-对于系统来说，以上 4 个 LSN 是递减的，即： LSN1>=LSN2>=LSN3>=LSN4 。如上所述，LSN 当前状态可以通过如下命令查看。
+對於系統來說，以上 4 個 LSN 是遞減的，即： LSN1>=LSN2>=LSN3>=LSN4 。如上所述，LSN 當前狀態可以通過如下命令查看。
 
 {% highlight text %}
 mysql> SHOW ENGINE INNODB STATUS\G
 ---
 LOG
 ---
-Log sequence number 293590838           LSN1事务创建时一条日志
+Log sequence number 293590838           LSN1事務創建時一條日誌
 Log flushed up to   293590838
 Pages flushed up to 293590838
 Last checkpoint at  293590829
@@ -179,7 +179,7 @@ Last checkpoint at  293590829
 1139 log i/o's done, 0.00 log i/o's/second
 {% endhighlight %}
 
-如上的信息是在 log_print() 函数中打印。
+如上的信息是在 log_print() 函數中打印。
 
 {% highlight cpp %}
 void log_print( FILE* file)
@@ -198,55 +198,55 @@ void log_print( FILE* file)
 }
 {% endhighlight %}
 
-### 日志保护机制
+### 日誌保護機制
 
-InnoDB 中 LSN 是单调递增的，而日志文件大小却是固定的，所以在写入的时候通过取余来计算偏移量，这样存在两个 LSN 写入到同一位置的可能，如果日志被覆盖，而数据也没有刷盘，一旦宕机，数据就丢失了。
+InnoDB 中 LSN 是單調遞增的，而日誌文件大小卻是固定的，所以在寫入的時候通過取餘來計算偏移量，這樣存在兩個 LSN 寫入到同一位置的可能，如果日誌被覆蓋，而數據也沒有刷盤，一旦宕機，數據就丟失了。
 
-为此，InnoDB 实现了一套日志保护机制，详细实现如下。
+為此，InnoDB 實現了一套日誌保護機制，詳細實現如下。
 
 ![checkpoint redo buffer protect]({{ site.url }}/images/databases/mysql/checkpoint-redo-buffer-protect.png "checkpoint redo buffer protect"){: .pull-center }
 
-首先，明确下概念，上述的 buf 是指 redo log buffer，而 ckp 实际上与 buffer pool 相关，也就是脏页的刷脏。上述直线表示 redo log 的空间，会乘 0.9 的安全系数。
+首先，明確下概念，上述的 buf 是指 redo log buffer，而 ckp 實際上與 buffer pool 相關，也就是髒頁的刷髒。上述直線表示 redo log 的空間，會乘 0.9 的安全係數。
 
-* Ckp age (LSN1- LSN4) 还没有做 Checkpoint 的日志范围，若超过日志空间，说明被覆盖的日志可能还没有刷到磁盘，而其 BP 中对应的数据 (脏页) 肯定没有刷到磁盘上；
-* Buf age (LSN1- LSN3) 脏页对应的日志还没有刷盘的范围，若超过日志空间，说明被覆盖的日志及其 BP 中对应数据肯定还没有刷到磁盘；
-
-<!--
-* Buf async (日志空间 * 7/8) 强制将 Buf age-Buf async 的脏页刷盘，此时事务还可以继续执行，所以为async，对事务的执行速度没有直接影响（有间接影响，例如CPU和磁盘更忙了，事务的执行速度可能受到影响）
-* Buf sync    日志空间大小 * 15/16    强制将2*(Buf age-Buf async)的脏页刷盘，此时事务停止执行，所以为sync，由于有大量的脏页刷盘，因此阻塞的时间比Ckp sync要长。
-* Ckp async   日志空间大小 * 31/32    强制写Checkpoint，此时事务还可以继续执行，所以为async，对事务的执行速度没有影响（间接影响也不大，因为写Checkpoint的操作比较简单）
-* Ckp sync    日志空间大小 * 64/64    强制写Checkpoint，此时事务停止执行，所以为sync，但由于写Checkpoint的操作比较简单，即使阻塞，时间也很短
--->
-
-当事务执行速度大于刷脏速度时，Ckp age和Buf age (innodb_flush_log_at_trx_commit!=1时) 都会逐步增长，当达到 async 点的时候，强制进行写 redo-log 或者写 Checkpoint，如果这样做还是赶不上事务执行的速度，则为了避免数据丢失，到达 sync 点的时候，会阻塞其它所有的事务，专门进行 redo-log 刷盘或者写 Checkpoint。
-
-也就是说，只要事务执行速度大于脏页刷盘速度，最终都会触发日志保护机制，进而将事务阻塞，导致 MySQL 操作挂起。
+* Ckp age (LSN1- LSN4) 還沒有做 Checkpoint 的日誌範圍，若超過日誌空間，說明被覆蓋的日誌可能還沒有刷到磁盤，而其 BP 中對應的數據 (髒頁) 肯定沒有刷到磁盤上；
+* Buf age (LSN1- LSN3) 髒頁對應的日誌還沒有刷盤的範圍，若超過日誌空間，說明被覆蓋的日誌及其 BP 中對應數據肯定還沒有刷到磁盤；
 
 <!--
-由于写Checkpoint本身的操作相比写脏页要简单，耗费时间也要少得多，且Ckp sync点在Buf sync点之后，因此绝大部分的阻塞都是阻塞在了Buf sync点，这也是当事务阻塞的时候，IO很高的原因，因为这个时候在不断的刷脏页数据到磁盘。例如如下截图的日志显示了很多事务阻塞在了Buf sync点：
+* Buf async (日誌空間 * 7/8) 強制將 Buf age-Buf async 的髒頁刷盤，此時事務還可以繼續執行，所以為async，對事務的執行速度沒有直接影響（有間接影響，例如CPU和磁盤更忙了，事務的執行速度可能受到影響）
+* Buf sync    日誌空間大小 * 15/16    強制將2*(Buf age-Buf async)的髒頁刷盤，此時事務停止執行，所以為sync，由於有大量的髒頁刷盤，因此阻塞的時間比Ckp sync要長。
+* Ckp async   日誌空間大小 * 31/32    強制寫Checkpoint，此時事務還可以繼續執行，所以為async，對事務的執行速度沒有影響（間接影響也不大，因為寫Checkpoint的操作比較簡單）
+* Ckp sync    日誌空間大小 * 64/64    強制寫Checkpoint，此時事務停止執行，所以為sync，但由於寫Checkpoint的操作比較簡單，即使阻塞，時間也很短
 -->
 
-## 源码解析
+當事務執行速度大於刷髒速度時，Ckp age和Buf age (innodb_flush_log_at_trx_commit!=1時) 都會逐步增長，當達到 async 點的時候，強制進行寫 redo-log 或者寫 Checkpoint，如果這樣做還是趕不上事務執行的速度，則為了避免數據丟失，到達 sync 點的時候，會阻塞其它所有的事務，專門進行 redo-log 刷盤或者寫 Checkpoint。
 
-### 临界范围计算
+也就是說，只要事務執行速度大於髒頁刷盤速度，最終都會觸發日誌保護機制，進而將事務阻塞，導致 MySQL 操作掛起。
 
-如下是相关的变量以及临界值的计算函数。
+<!--
+由於寫Checkpoint本身的操作相比寫髒頁要簡單，耗費時間也要少得多，且Ckp sync點在Buf sync點之後，因此絕大部分的阻塞都是阻塞在了Buf sync點，這也是當事務阻塞的時候，IO很高的原因，因為這個時候在不斷的刷髒頁數據到磁盤。例如如下截圖的日誌顯示了很多事務阻塞在了Buf sync點：
+-->
+
+## 源碼解析
+
+### 臨界範圍計算
+
+如下是相關的變量以及臨界值的計算函數。
 
 {% highlight text %}
------ 相关变量
+----- 相關變量
 innodb_log_buffer_size         = 16777216 = 16M
 innodb_log_file_size           = 50331648 = 48M
 innodb_log_files_in_group      = 2
 innodb_flush_log_at_trx_commit = 1
 innodb_thread_concurrency      = 0
 
------ 计算临界函数调用栈
+----- 計算臨界函數調用棧
 innobase_start_or_create_for_mysql()
  |-log_group_init()
-   |-log_calc_max_ages()                计算临界范围
+   |-log_calc_max_ages()                計算臨界範圍
 {% endhighlight %}
 
-接下来看看临界值是如何计算的。
+接下來看看臨界值是如何計算的。
 
 {% highlight cpp %}
 bool log_calc_max_ages(void)
@@ -254,10 +254,10 @@ bool log_calc_max_ages(void)
     log_mutex_enter();
     group = UT_LIST_GET_FIRST(log_sys->log_groups);
 
-    // 设置redo-log的最大磁盘空间，也就是64-bits正整数的最大值
+    // 設置redo-log的最大磁盤空間，也就是64-bits正整數的最大值
     smallest_capacity = LSN_MAX;
 
-    // 5.7实际只支持一个分组，获取的是除了头(LOG_FILE_HDR_SIZE)之外的总redo-log空间大小
+    // 5.7實際只支持一個分組，獲取的是除了頭(LOG_FILE_HDR_SIZE)之外的總redo-log空間大小
     while (group) {
         if (log_group_get_capacity(group) < smallest_capacity) {
             smallest_capacity = log_group_get_capacity(group);
@@ -265,20 +265,20 @@ bool log_calc_max_ages(void)
         group = UT_LIST_GET_NEXT(log_groups, group);
     }
 
-    // 实际真正可以使用的空间需要乘以一个安全系数0.9
+    // 實際真正可以使用的空間需要乘以一個安全係數0.9
     smallest_capacity = smallest_capacity - smallest_capacity / 10;
 
-    // 为每个OS线程预留一部分存储空间
+    // 為每個OS線程預留一部分存儲空間
     free = LOG_CHECKPOINT_FREE_PER_THREAD * (10 + srv_thread_concurrency)
         + LOG_CHECKPOINT_EXTRA_FREE;
-    if (free >= smallest_capacity / 2) {  // 需要预留足够的内存空间
+    if (free >= smallest_capacity / 2) {  // 需要預留足夠的內存空間
         success = false;
         goto failure;
     } else {
         margin = smallest_capacity - free;
     }
 
-    // 好吧，再预留一部分内存空间
+    // 好吧，再預留一部分內存空間
     margin = margin - margin / 10;  /* Add still some extra safety */
     log_sys->log_group_capacity = smallest_capacity;
 
@@ -300,43 +300,43 @@ failure:
 }
 {% endhighlight %}
 
-关于边界划分可以简单查看下图。
+關於邊界劃分可以簡單查看下圖。
 
 ![checkpoint max ages]({{ site.url }}/images/databases/mysql/innodb-checkpoint-max-ages.png "checkpoint max ages"){: .pull-center width="90%"}
 
 
-### 边界检查
+### 邊界檢查
 
-对于 ```max_modified_age_async``` 变量，也就是异步刷新，会在 page cleaner 线程中检查<!--，在此暂时就不做过多介绍了，在后面会做详细介绍 -->。
+對於 ```max_modified_age_async``` 變量，也就是異步刷新，會在 page cleaner 線程中檢查<!--，在此暫時就不做過多介紹了，在後面會做詳細介紹 -->。
 
 {% highlight text %}
 #define PCT_IO(p) ((ulong) (srv_io_capacity * ((double) (p) / 100.0)))
 
-buf_flush_page_cleaner_coordinator()            ← 该函数基本上每秒调用一次
+buf_flush_page_cleaner_coordinator()            ← 該函數基本上每秒調用一次
  |-buf_flush_page_cleaner_coordinator()
    |-page_cleaner_flush_pages_recommendation()
-     |-log_get_lsn()                            ← 获取当前lsn，也就是log_sys->lsn
-     |-af_get_pct_for_dirty()                   ← 是否需要刷新多个页，返回IO-Capacity的百分比
+     |-log_get_lsn()                            ← 獲取當前lsn，也就是log_sys->lsn
+     |-af_get_pct_for_dirty()                   ← 是否需要刷新多個頁，返回IO-Capacity的百分比
      | |-buf_get_modified_ratio_pct()
      |   |-buf_get_total_list_len()
      |
-     |-af_get_pct_for_lsn()                     ← 计算是否需要进行异步刷redo-log，返回IO-Capacity的百分比
-     | |-log_get_max_modified_age_async()       ← 获取max_modified_age_async
+     |-af_get_pct_for_lsn()                     ← 計算是否需要進行異步刷redo-log，返回IO-Capacity的百分比
+     | |-log_get_max_modified_age_async()       ← 獲取max_modified_age_async
      |
-     |-ut_max()                                 ← 获取上述两个返回值的最大值
+     |-ut_max()                                 ← 獲取上述兩個返回值的最大值
 {% endhighlight %}
 
 <!--
-至于异步刷脏，log_sys->max_modified_age_async被封装在函数log_get_max_modified_age_async中， 被函数af_get_pct_for_lsn。显而易见，异步刷脏是由page cleaner线程来完成的。
+至於異步刷髒，log_sys->max_modified_age_async被封裝在函數log_get_max_modified_age_async中， 被函數af_get_pct_for_lsn。顯而易見，異步刷髒是由page cleaner線程來完成的。
 
-在函数af_get_pct_for_lsn中，根据当前的LSN，计算需要以IO capacity的百分之几来刷脏
+在函數af_get_pct_for_lsn中，根據當前的LSN，計算需要以IO capacity的百分之幾來刷髒
 
-当当前lsn-buf_pool_get_oldest_modification()超过log_sys->max_modified_age_async时：
+噹噹前lsn-buf_pool_get_oldest_modification()超過log_sys->max_modified_age_async時：
 
 age = log_sys->lsn – buf_pool_get_oldest_modification()
 lsn_age_factor = (age *100)/log_sys->max_modified_age_async )
 
-返回值为：
+返回值為：
 pct =   [
                  (innodb_io_capacity_max/innodb_io_capacity)
                  *
@@ -344,13 +344,13 @@ pct =   [
           ] /7.5
 
 
-另外，如果参数innodb_adaptive_flushing设置为OFF，且没有超过log_get_max_modified_age_async()的话，直接返回0
+另外，如果參數innodb_adaptive_flushing設置為OFF，且沒有超過log_get_max_modified_age_async()的話，直接返回0
 
-Page cleaner线程会同时根据LSN 和脏页比例来获取pct，并取其中的最大值。
+Page cleaner線程會同時根據LSN 和髒頁比例來獲取pct，並取其中的最大值。
 -->
 
 
-除了 ```max_modified_age_async``` 变量之外，其它相关的变量都会在 ```log_checkpoint_margin()``` 函数中进行比较，详细内容可以直接查看如下函数。
+除了 ```max_modified_age_async``` 變量之外，其它相關的變量都會在 ```log_checkpoint_margin()``` 函數中進行比較，詳細內容可以直接查看如下函數。
 
 {% highlight cpp %}
 static void log_checkpoint_margin(void)
@@ -367,23 +367,23 @@ loop:
     log_mutex_enter();
     ut_ad(!recv_no_log_write);
 
-    // 判断是否需要执行flush或者checkpoint，不需要则直接返回
+    // 判斷是否需要執行flush或者checkpoint，不需要則直接返回
     if (!log->check_flush_or_checkpoint) {
         log_mutex_exit();
         return;
     }
 
-    // 找出当前所有buffer pool实例中最老的LSN，实际上直接读取每个flush_list的尾部即可
+    // 找出當前所有buffer pool實例中最老的LSN，實際上直接讀取每個flush_list的尾部即可
     oldest_lsn = log_buf_pool_get_oldest_modification();
 
-    // 如果计算的age大于max_modified_age_sync，则需要做一次同步刷新
+    // 如果計算的age大於max_modified_age_sync，則需要做一次同步刷新
     age = log->lsn - oldest_lsn;
     if (age > log->max_modified_age_sync) {
         /* A flush is urgent: we have to do a synchronous preflush */
         advance = age - log->max_modified_age_sync;
     }
 
-    // 计算checkpoint_age，并判断是否需要做checkpoint以及是否需要同步
+    // 計算checkpoint_age，並判斷是否需要做checkpoint以及是否需要同步
     checkpoint_age = log->lsn - log->last_checkpoint_lsn;
     if (checkpoint_age > log->max_checkpoint_age) {
         /* A checkpoint is urgent: we do it synchronously */
@@ -403,10 +403,10 @@ loop:
 
     if (advance) {
         lsn_t   new_oldest = oldest_lsn + advance;
-        // 需要同步刷新，则将LSN推进到新的LSN位置
+        // 需要同步刷新，則將LSN推進到新的LSN位置
         success = log_preflush_pool_modified_pages(new_oldest);
 
-        // 如果失败说明有其它的线程在处理
+        // 如果失敗說明有其它的線程在處理
         /* If the flush succeeded, this thread has done its part
         and can proceed. If it did not succeed, there was another
         thread doing a flush at the same time. */
@@ -428,10 +428,10 @@ loop:
 {% endhighlight %}
 
 <!--
-另外，这几个变量在函数log_close中会被用到，它会去做一件重要的事情：设置log_sys->check_flush_or_checkpoint。
+另外，這幾個變量在函數log_close中會被用到，它會去做一件重要的事情：設置log_sys->check_flush_or_checkpoint。
 -->
 
-在用户线程中，会调用 ```log_free_check()``` 函数检查是否需要将日志刷新到磁盘。
+在用戶線程中，會調用 ```log_free_check()``` 函數檢查是否需要將日誌刷新到磁盤。
 
 {% highlight text %}
 log_free_check()
@@ -439,22 +439,22 @@ log_free_check()
    |-log_write_up_to()
 {% endhighlight %}
 
-在 ```log_check_margins()``` 函数中，会检查 ```log_sys->buf_free > log->max_buf_free```，如果成立则会执行日志刷盘操作。
+在 ```log_check_margins()``` 函數中，會檢查 ```log_sys->buf_free > log->max_buf_free```，如果成立則會執行日誌刷盤操作。
 
 
-### 检查点写入
+### 檢查點寫入
 
-一般会通过调用 ```log_checkpoint()``` 函数完成 checkpoint 的写入，需要注意的是，该函数中只会完成 checkpoint 的写入，并不会刷脏页。
+一般會通過調用 ```log_checkpoint()``` 函數完成 checkpoint 的寫入，需要注意的是，該函數中只會完成 checkpoint 的寫入，並不會刷髒頁。
 
-当然也可以调用 ```log_make_checkpoint_at()``` 完成刷脏以及 checkpoint 的写入。
+當然也可以調用 ```log_make_checkpoint_at()``` 完成刷髒以及 checkpoint 的寫入。
 
 {% highlight text %}
 log_make_checkpoint_at()
  |-log_preflush_pool_modified_pages()
- |-log_checkpoint()                         ← 并不从BP中刷脏页，只检查BP中的最大LSN，然后刷新到磁盘
-   |-log_mutex_enter()                      ← 持有log_sys->mutex锁
+ |-log_checkpoint()                         ← 並不從BP中刷髒頁，只檢查BP中的最大LSN，然後刷新到磁盤
+   |-log_mutex_enter()                      ← 持有log_sys->mutex鎖
    |-log_buf_pool_get_oldest_modification()
-   | |-buf_pool_get_oldest_modification()   ← 遍厉所有BP实例，获取最大lsn，之前都已经写入磁盘
+   | |-buf_pool_get_oldest_modification()   ← 遍厲所有BP實例，獲取最大lsn，之前都已經寫入磁盤
    |
    |-fil_names_clear()
    | |-mtr_t::commit_checkpoint()
@@ -462,10 +462,10 @@ log_make_checkpoint_at()
    |-log_write_up_to()
    |
    |-log_write_checkpoint_info()
-     |-log_group_checkpoint()               ← 将checkpoint信息写入redolog头部，两个写入点轮流写入
+     |-log_group_checkpoint()               ← 將checkpoint信息寫入redolog頭部，兩個寫入點輪流寫入
 {% endhighlight %}
 
-checkpoint 信息分别保存在 ib_logfile0 的 512 字节和 1536(3*512) 字节处，每个 checkpoint 默认大小为 512 字节，当然，其中很大一部分是空白，详细可以参考如下函数。
+checkpoint 信息分別保存在 ib_logfile0 的 512 字節和 1536(3*512) 字節處，每個 checkpoint 默認大小為 512 字節，當然，其中很大一部分是空白，詳細可以參考如下函數。
 
 {% highlight cpp %}
 static void log_group_checkpoint(log_group_t* group)
@@ -517,23 +517,23 @@ static void log_group_checkpoint(log_group_t* group)
 }
 {% endhighlight %}
 
-InnoDB 的 checkpoint 主要有 3 部分信息组成：
+InnoDB 的 checkpoint 主要有 3 部分信息組成：
 
-* checkpoint no<br>每次写入都会递增，用于轮流写入 redo log 的头部的两部分，可以通过该值判断那个比较新；
-* checkpoint lsn<br>记录了产生该 checkpoint 时 log_sys->next_checkpoint_lsn 是 flush 的 LSN，确保在该 LSN 前面的数据页都已经落盘，不再需要通过 redo log 进行恢复；
-* checkpoint offset<br>记录了该 checkpoint 产生时，redo log 在 ib_logfile 中的偏移量，通过该值就可以找到需要恢复的 redo log 开始位置。
+* checkpoint no<br>每次寫入都會遞增，用於輪流寫入 redo log 的頭部的兩部分，可以通過該值判斷那個比較新；
+* checkpoint lsn<br>記錄了產生該 checkpoint 時 log_sys->next_checkpoint_lsn 是 flush 的 LSN，確保在該 LSN 前面的數據頁都已經落盤，不再需要通過 redo log 進行恢復；
+* checkpoint offset<br>記錄了該 checkpoint 產生時，redo log 在 ib_logfile 中的偏移量，通過該值就可以找到需要恢復的 redo log 開始位置。
 
-每次在启动时，都会尝试读取两个值，并比较两者，获取较大的值。
+每次在啟動時，都會嘗試讀取兩個值，並比較兩者，獲取較大的值。
 
 <!--
-## 参考
+## 參考
 
 http://tech.uc.cn/?p=716
 
 Checkpoint原理
 http://hedengcheng.com/?p=88
 
-关于checkpoint机制
+關於checkpoint機制
 http://www.cnblogs.com/chenpingzhao/p/5107480.html
 
 -->

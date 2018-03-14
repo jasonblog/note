@@ -8,31 +8,31 @@ keywords: 加密算法
 description:
 ---
 
-libgcrypt 是一个非常成熟的加密算法库，也是著名的开源加密软件 GnuPG 的底层库，支持多种对称、非对称加密算法，以及多种 Hash 算法。
+libgcrypt 是一個非常成熟的加密算法庫，也是著名的開源加密軟件 GnuPG 的底層庫，支持多種對稱、非對稱加密算法，以及多種 Hash 算法。
 
-接下来，看看该库的使用方式。
+接下來，看看該庫的使用方式。
 
 <!-- more -->
 
-## 简介
+## 簡介
 
-现代加密算法中，对称密钥算法通常被分为 ```Stream Ciphers``` 和 ```Block Ciphers``` 。
+現代加密算法中，對稱密鑰算法通常被分為 ```Stream Ciphers``` 和 ```Block Ciphers``` 。
 
-分组密码也被称分块密码，是一种对称密钥密码，会将明文分成多个等长的分组 (其中常见的有64 bits、128 bits、256 bits)，并用相同的密码算法和密钥对每组分别进行加密和解密，常见的有 DES、3DES、AES、IDEA、Blowfish、Twofish 。
+分組密碼也被稱分塊密碼，是一種對稱密鑰密碼，會將明文分成多個等長的分組 (其中常見的有64 bits、128 bits、256 bits)，並用相同的密碼算法和密鑰對每組分別進行加密和解密，常見的有 DES、3DES、AES、IDEA、Blowfish、Twofish 。
 
-分块密码加密以 bit 为单位，用来处理固定长度的字符串，需要加密的比特长度必须和分块大小一样长，或者是分块的整数倍，而且输入 (明文) 和输出 (密文) 都是同样长度的。
+分塊密碼加密以 bit 為單位，用來處理固定長度的字符串，需要加密的比特長度必須和分塊大小一樣長，或者是分塊的整數倍，而且輸入 (明文) 和輸出 (密文) 都是同樣長度的。
 
-之所以输出不能比输入短，是遵循 ```Pigeonhole Principle``` (鸽巢原理) 和密码必须是可逆的事实，然而，输出比输入更长又是不可取的。
+之所以輸出不能比輸入短，是遵循 ```Pigeonhole Principle``` (鴿巢原理) 和密碼必須是可逆的事實，然而，輸出比輸入更長又是不可取的。
 
-流加密算法每次对 1bit 或者 1byte 进行加密，通过无线循环的伪随机数生成器 (PRG，pseudo-random generator) 作为 key ，所以需要保证 PRG 的不可预测性，不过其生成的密钥本身可能会比要加密的数据大，常见的有 RC4 ，不过一些块加密模式 CTR、OFB 有类似流加密的功能。
+流加密算法每次對 1bit 或者 1byte 進行加密，通過無線循環的偽隨機數生成器 (PRG，pseudo-random generator) 作為 key ，所以需要保證 PRG 的不可預測性，不過其生成的密鑰本身可能會比要加密的數據大，常見的有 RC4 ，不過一些塊加密模式 CTR、OFB 有類似流加密的功能。
 
-## 对称加密
+## 對稱加密
 
-简单介绍下常见的对称加密算法。
+簡單介紹下常見的對稱加密算法。
 
 ### XOR
 
-简单的异或就是对称加密最基本的操作。
+簡單的異或就是對稱加密最基本的操作。
 
 {% highlight text %}
 01100001 --- a
@@ -41,34 +41,34 @@ libgcrypt 是一个非常成熟的加密算法库，也是著名的开源加密�
 00000011
 {% endhighlight %}
 
-如果把 ```a``` 称作明文，```b``` 称作密钥，```XOR``` 则为加密，得到的结果是密文。
+如果把 ```a``` 稱作明文，```b``` 稱作密鑰，```XOR``` 則為加密，得到的結果是密文。
 
-将明文与一串等长的随机比特序列进行XOR运算，则密码被称为一次性密码。
+將明文與一串等長的隨機比特序列進行XOR運算，則密碼被稱為一次性密碼。
 
-一次性密码是由 ```G.S.Vernam``` 与 1917 年提出的，因此又称维纳密码 (Vernam Cipher)；1949 年香农 (C.E.Shannon) 通过数学方法证明一次性密码无法破解。
+一次性密碼是由 ```G.S.Vernam``` 與 1917 年提出的，因此又稱維納密碼 (Vernam Cipher)；1949 年香農 (C.E.Shannon) 通過數學方法證明一次性密碼無法破解。
 
-为什么说一次性密码无法破解？假设我们对其进行暴力破解，遍历所有可能的密钥只是时间问题，然而即使可以遍历所有密钥，你也无法判断解密出的数据哪个是正确的明文。
+為什麼說一次性密碼無法破解？假設我們對其進行暴力破解，遍歷所有可能的密鑰只是時間問題，然而即使可以遍歷所有密鑰，你也無法判斷解密出的數據哪個是正確的明文。
 
-拿上文中的异或例子来说，遍历所有可能的 `b` 一共有 256 种可能，例如，通过暴力破解结果可能是 `00000011`、`00000010`、`00000110` 等等，那么哪个是正确的呢？
+拿上文中的異或例子來說，遍歷所有可能的 `b` 一共有 256 種可能，例如，通過暴力破解結果可能是 `00000011`、`00000010`、`00000110` 等等，那麼哪個是正確的呢？
 
-之所以一次性密码并没有被使用，主要有两个原因：A) 只用一次的密钥如何配送；B) 密钥必须与明文等长。
+之所以一次性密碼並沒有被使用，主要有兩個原因：A) 只用一次的密鑰如何配送；B) 密鑰必須與明文等長。
 
 ### RC4
 
-Rivest Cipher 4, RC4 由美国密码学家罗纳德·李维斯特 (Ron Rivest) 在 1987 年设计，是一种流加密算法，密钥长度可变，它加解密使用相同的密钥，因此也属于对称加密算法。
+Rivest Cipher 4, RC4 由美國密碼學家羅納德·李維斯特 (Ron Rivest) 在 1987 年設計，是一種流加密算法，密鑰長度可變，它加解密使用相同的密鑰，因此也屬於對稱加密算法。
 
-RC4 是有线等效加密 (WEP) 中采用的加密算法，也曾经是 TLS 可采用的算法之一，由于 RC4 算法存在弱点，2015.02 所发布的 RFC 7465 规定禁止在 TLS 中使用 RC4 加密算法。
+RC4 是有線等效加密 (WEP) 中採用的加密算法，也曾經是 TLS 可採用的算法之一，由於 RC4 算法存在弱點，2015.02 所發佈的 RFC 7465 規定禁止在 TLS 中使用 RC4 加密算法。
 
 <!--
 算法
 
-总结起来就3步：
+總結起來就3步：
 
-    通过算法生成一个256字节的S-box。
-    再通过算法每次取出S-box中的某一字节K.
-    将K与明文做异或得到密文。
+    通過算法生成一個256字節的S-box。
+    再通過算法每次取出S-box中的某一字節K.
+    將K與明文做異或得到密文。
 
-Step1. 密钥变换算法
+Step1. 密鑰變換算法
 
 for i from 0 to 255
     S[i] := i
@@ -80,9 +80,9 @@ for i from 0 to 255
 endfor
 
 先初始化S-box，使得S[0] = 0, S[1] = 1 ... S[255] = 255。
-而后再打乱S-box，这一步会引入密钥。打乱后得到一个乱序的S-box。
+而後再打亂S-box，這一步會引入密鑰。打亂後得到一個亂序的S-box。
 
-Step2. 伪随机算法
+Step2. 偽隨機算法
 
 i := 0
 j := 0
@@ -94,117 +94,117 @@ while GeneratingOutput:
     output K
 endwhile
 
-通过算法取出S-box中的一位K。
+通過算法取出S-box中的一位K。
 
 Step3. 加密
 
-将上一步取出的K与明文当前字节做异或得到密文。明文的每一字节都会重复2，3步骤。
+將上一步取出的K與明文當前字節做異或得到密文。明文的每一字節都會重複2，3步驟。
 -->
 
 ### DES
 
-Data Encryption Standard, DES 是一种对称密钥分组加密算法，1976 年被美国联邦政府的国家标准局确定为联邦资料处理标准 (FIPS)，它基于 56 位密钥的对称算法。
+Data Encryption Standard, DES 是一種對稱密鑰分組加密算法，1976 年被美國聯邦政府的國家標準局確定為聯邦資料處理標準 (FIPS)，它基於 56 位密鑰的對稱算法。
 
-DES 现在已经不再是一种安全的加密方法，主要因为它使用的 56 位密钥过短，而且在 1999.01 时，distributed.net 与电子前哨基金会合作，在 22 小时 15 分钟内即公开破解了一个 DES 密钥。
+DES 現在已經不再是一種安全的加密方法，主要因為它使用的 56 位密鑰過短，而且在 1999.01 時，distributed.net 與電子前哨基金會合作，在 22 小時 15 分鐘內即公開破解了一個 DES 密鑰。
 
-DES 是一种分组加密算法，一组长度为 64 位，不过只有 56 位被实际用于算法，其余 8 位可以被用于校验，并在算法中被丢弃，也就是说 DES 的有效密钥长度仅为 56 位。
+DES 是一種分組加密算法，一組長度為 64 位，不過只有 56 位被實際用於算法，其餘 8 位可以被用於校驗，並在算法中被丟棄，也就是說 DES 的有效密鑰長度僅為 56 位。
 
 <!--
-Feistel结构
+Feistel結構
 
-    明文数据（64bit）被分成左右两部分（各32bit）。
-    将输入的右侧使用轮函数处理。
-    处理后得出的数据与左侧做异或得到加密后的左侧
+    明文數據（64bit）被分成左右兩部分（各32bit）。
+    將輸入的右側使用輪函數處理。
+    處理後得出的數據與左側做異或得到加密後的左側
 
-这个过程被称为一轮。一轮结束后交换左右数据，进行下一轮计算。DES会进行16轮计算（最后一轮不交换左右数据）。这种左右交叉处理的结构成为feistel结构。feistel结构也被应用到其它许多加密算法中。
+這個過程被稱為一輪。一輪結束後交換左右數據，進行下一輪計算。DES會進行16輪計算（最後一輪不交換左右數據）。這種左右交叉處理的結構成為feistel結構。feistel結構也被應用到其它許多加密算法中。
 
-实际上首尾各有一次置换，称为IP与FP（或称`IP^-1`，FP为IP的反函数（即IP“撤销”FP的操作，反之亦然）。IP和FP几乎没有密码学上的重要性，为了在1970年代中期的硬件上简化输入输出数据库的过程而被显式的包括在标准中。更多置换的细节见DES补充材料。
-F函数
+實際上首尾各有一次置換，稱為IP與FP（或稱`IP^-1`，FP為IP的反函數（即IP“撤銷”FP的操作，反之亦然）。IP和FP幾乎沒有密碼學上的重要性，為了在1970年代中期的硬件上簡化輸入輸出數據庫的過程而被顯式的包括在標準中。更多置換的細節見DES補充材料。
+F函數
 
-上图显示了F函数的步骤，主要包含4个步骤：
+上圖顯示了F函數的步驟，主要包含4個步驟：
 
-    扩张：将32位的半块扩展到48位（图中的E）。
-    与密钥混合：用异或操作将扩张的结果和一个子密钥进行混合。
-    S-box：在与子密钥混合之后，块被分成8个6位的块。8个S-box（图中S1-S8）的每一个都使用以查找表方式提供的非线性的变换将它的6个输入位变成4个输出位。
-    置换：最后，S-box的32个输出位利用固定的置换，“P置换”进行重组。这个设计是为了将每个S-box的4位输出在下一轮的扩张后，使用4个不同的S-box进行处理。
+    擴張：將32位的半塊擴展到48位（圖中的E）。
+    與密鑰混合：用異或操作將擴張的結果和一個子密鑰進行混合。
+    S-box：在與子密鑰混合之後，塊被分成8個6位的塊。8個S-box（圖中S1-S8）的每一個都使用以查找表方式提供的非線性的變換將它的6個輸入位變成4個輸出位。
+    置換：最後，S-box的32個輸出位利用固定的置換，“P置換”進行重組。這個設計是為了將每個S-box的4位輸出在下一輪的擴張後，使用4個不同的S-box進行處理。
 
-下面具体分析每一步：
+下面具體分析每一步：
 
-扩张
+擴張
 
-按照固定的方式，将32bit重新排列成48bit。某些位在输出中被用到了不止一次，例如输入的第5位出现在输出的第6和8位。
+按照固定的方式，將32bit重新排列成48bit。某些位在輸出中被用到了不止一次，例如輸入的第5位出現在輸出的第6和8位。
 
-子密钥
+子密鑰
 
-子密钥生成方法被称为密钥调度。首先通过选择置换1（PC-1）从64位输入密钥中选出56位的密钥，剩下的8位要么直接丢弃，要么作为奇偶校验位。然后，56位分成两个28位的半密钥；每个半密钥接下来都被分别处理。在接下来的回次中，两个半密钥都被左移1或2位（由回次数决定），然后通过选择置换2（PC-2）产生48位的子密钥（每个半密钥24位）。
+子密鑰生成方法被稱為密鑰調度。首先通過選擇置換1（PC-1）從64位輸入密鑰中選出56位的密鑰，剩下的8位要麼直接丟棄，要麼作為奇偶校驗位。然後，56位分成兩個28位的半密鑰；每個半密鑰接下來都被分別處理。在接下來的回次中，兩個半密鑰都被左移1或2位（由回次數決定），然後通過選擇置換2（PC-2）產生48位的子密鑰（每個半密鑰24位）。
 
-    选择置换1（PC-1）
+    選擇置換1（PC-1）
 
-    从原密钥中采用固定取法取出56位，如下图左半密钥第一位57代表原密钥第57位。用此方法重新组合了密钥。
+    從原密鑰中採用固定取法取出56位，如下圖左半密鑰第一位57代表原密鑰第57位。用此方法重新組合了密鑰。
 
-    选择置换2（PC-2）
+    選擇置換2（PC-2）
 
     左移
 
 S-box
 
-在密码学中，一个S盒（Substitution-box，置换盒）是对称密钥加密算法执行置换计算的基本结构。它们通常用于模糊密钥与密文之间的关系。S盒通常是固定的（例如DES和AES加密算法）, 也有一些加密算法的S盒是基于密钥动态生成的。
+在密碼學中，一個S盒（Substitution-box，置換盒）是對稱密鑰加密算法執行置換計算的基本結構。它們通常用於模糊密鑰與密文之間的關係。S盒通常是固定的（例如DES和AES加密算法）, 也有一些加密算法的S盒是基於密鑰動態生成的。
 
-回到DES算法，DES的其中一个S-box：
+回到DES算法，DES的其中一個S-box：
 
-给定6比特输入，将外面两个比特（第一个和最后一个比特）作为行条件，中间四个比特（inner four bits）作为列条件进行查表，最终获得4比特输出。例如，输入“011011”，通过外面两个比特“01”和中间的比特“1101”进行查表，最终的输出应该是“1001”。
+給定6比特輸入，將外面兩個比特（第一個和最後一個比特）作為行條件，中間四個比特（inner four bits）作為列條件進行查表，最終獲得4比特輸出。例如，輸入“011011”，通過外面兩個比特“01”和中間的比特“1101”進行查表，最終的輸出應該是“1001”。
 
-P置换
+P置換
 
-P置换将32位的半块数据重新排列。
+P置換將32位的半塊數據重新排列。
 -->
 
 
 ### Blowfish
 
-Blowfish 是 1993 年布鲁斯·施奈尔 (Bruce Schneier) 开发的对称密钥区块加密算法，区块长为 64 位，密钥为 1 至 448 位的可变长度，是 [Feistel Cipher](https://en.wikipedia.org/wiki/Feistel_cipher) 的一种，与 DES 等算法相比，其处理速度较快，而且可以免费使用。
+Blowfish 是 1993 年布魯斯·施奈爾 (Bruce Schneier) 開發的對稱密鑰區塊加密算法，區塊長為 64 位，密鑰為 1 至 448 位的可變長度，是 [Feistel Cipher](https://en.wikipedia.org/wiki/Feistel_cipher) 的一種，與 DES 等算法相比，其處理速度較快，而且可以免費使用。
 
 ![cipher ecb mode encrypt]({{ site.url }}/images/linux/cipher-feistel-diagram.png "cipher ecb mode encrypt"){: .pull-center }
 
 <!--
-## 非对称加密
+## 非對稱加密
 https://l2x.gitbooks.io/understanding-cryptography/docs/chapter-3/rsa.html
 -->
 
 
 ## 工作模式
 
-前面说的 DES、AES 等分组密码，都只能加密固定长度的明文，例如 AES 输入是 128bit，而实际使用时明文长度不确定，那么此时如何加密呢？
+前面說的 DES、AES 等分組密碼，都只能加密固定長度的明文，例如 AES 輸入是 128bit，而實際使用時明文長度不確定，那麼此時如何加密呢？
 
-工作模式本质上是分组密码迭代方式，如果模式选择不恰当，那么可能会带来安全隐患。我们需要寻找一种模式，至少得满足：A) 相同的明文分组加密后密文不同；B) 明文微小变化都能造成密文有很大变化。
+工作模式本質上是分組密碼迭代方式，如果模式選擇不恰當，那麼可能會帶來安全隱患。我們需要尋找一種模式，至少得滿足：A) 相同的明文分組加密後密文不同；B) 明文微小變化都能造成密文有很大變化。
 
-详细可以查看 [Block cipher mode of operation](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation) 中的介绍。
+詳細可以查看 [Block cipher mode of operation](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation) 中的介紹。
 
 ### ECB 模式
 
-也就是电子密码本模式 (Electronic CodeBook, ECB)，这是最简单的块密码加密模式，加密前根据加密块大小 (如 AES 为 128 bit) 分成若干块，之后将每块使用相同的密钥单独加密，解密同理。
+也就是電子密碼本模式 (Electronic CodeBook, ECB)，這是最簡單的塊密碼加密模式，加密前根據加密塊大小 (如 AES 為 128 bit) 分成若干塊，之後將每塊使用相同的密鑰單獨加密，解密同理。
 
 ![cipher ecb mode encrypt]({{ site.url }}/images/linux/cipher-ecb-mode-encrypt.png "cipher ecb mode encrypt"){: .pull-center }
 
 ![cipher ecb mode decrypt]({{ site.url }}/images/linux/cipher-ecb-mode-decrypt.png "cipher ecb mode decrypt"){: .pull-center }
 
-ECB 模式是最简单的一种，好处是每块数据的加解密可以并行计算；但是也有很严重的问题，就是相同的明文会得到同样的密文，在某些环境下不能提供严格的数据保密性。
+ECB 模式是最簡單的一種，好處是每塊數據的加解密可以並行計算；但是也有很嚴重的問題，就是相同的明文會得到同樣的密文，在某些環境下不能提供嚴格的數據保密性。
 
 ### CBC 模式
 
-密码分组链接 (Cipher-Block Chaining, CBC)，由 IBM 在 1976 年发明，每个明文块先与前一个密文块进行异或后，再进行加密，其中第一个明文块需要与一个叫初始化向量的数据块异或，一般来说初始化向量采用随机值。
+密碼分組鏈接 (Cipher-Block Chaining, CBC)，由 IBM 在 1976 年發明，每個明文塊先與前一個密文塊進行異或後，再進行加密，其中第一個明文塊需要與一個叫初始化向量的數據塊異或，一般來說初始化向量採用隨機值。
 
 ![cipher cbc mode encrypt]({{ site.url }}/images/linux/cipher-cbc-mode-encrypt.png "cipher cbc mode encrypt"){: .pull-center }
 
 ![cipher cbc mode decrypt]({{ site.url }}/images/linux/cipher-cbc-mode-decrypt.png "cipher cbc mode decrypt"){: .pull-center }
 
-CBC 相比 ECB 有更高的保密性，但由于对每个数据块的加密依赖与前一个数据块的加密，所以加密无法并行。而且与 ECB 一样在加密前可能需要对数据进行填充，不适合对流数据进行加密。
+CBC 相比 ECB 有更高的保密性，但由於對每個數據塊的加密依賴與前一個數據塊的加密，所以加密無法並行。而且與 ECB 一樣在加密前可能需要對數據進行填充，不適合對流數據進行加密。
 
 ### CFB 模式
 
-密文反馈模式 (Cipher FeedBack, CFB)，前一个密文分组会被送入密码算法的输入端，再将输出的结果与明文做异或。
+密文反饋模式 (Cipher FeedBack, CFB)，前一個密文分組會被送入密碼算法的輸入端，再將輸出的結果與明文做異或。
 
-与 ECB 和 CBC 模式只能够加密块数据不同，CFB 能够将块密文 (Block Cipher) 转换为流密文 (Stream Cipher)。CFB 的加密工作分为两部分：A) 将一前段加密得到的密文再加密；B) 将第 A 步加密得到的数据与当前段的明文异或。
+與 ECB 和 CBC 模式只能夠加密塊數據不同，CFB 能夠將塊密文 (Block Cipher) 轉換為流密文 (Stream Cipher)。CFB 的加密工作分為兩部分：A) 將一前段加密得到的密文再加密；B) 將第 A 步加密得到的數據與當前段的明文異或。
 
 ![cipher cfb mode encrypt]({{ site.url }}/images/linux/cipher-cfb-mode-encrypt.png "cipher cfb mode encrypt"){: .pull-center }
 
@@ -214,7 +214,7 @@ CBC 相比 ECB 有更高的保密性，但由于对每个数据块的加密依�
 
 ### OFB 模式
 
-输出反馈模式 (Output Feedback, OFB)，前一组密码算法输出会输入到下一组密码算法输入。
+輸出反饋模式 (Output Feedback, OFB)，前一組密碼算法輸出會輸入到下一組密碼算法輸入。
 
 ![cipher ofb mode encrypt]({{ site.url }}/images/linux/cipher-ofb-mode-encrypt.png "cipher ofb mode encrypt"){: .pull-center }
 
@@ -222,61 +222,61 @@ CBC 相比 ECB 有更高的保密性，但由于对每个数据块的加密依�
 
 ### CTR 模式
 
-计数器模式 (Counter, CTR)，每个分组对应一个累加的计数器，并通过计数器来生成加密密钥流。
+計數器模式 (Counter, CTR)，每個分組對應一個累加的計數器，並通過計數器來生成加密密鑰流。
 
 ![cipher ctr mode encrypt]({{ site.url }}/images/linux/cipher-ctr-mode-encrypt.png "cipher ctr mode encrypt"){: .pull-center }
 
 ![cipher ctr mode decrypt]({{ site.url }}/images/linux/cipher-ctr-mode-decrypt.png "cipher ctr mode decrypt"){: .pull-center }
 
-图中 ```Nonce+Counter``` 是一个计数器，Nonce 和前面几种模式的 IV 类似，每次加密都需要随机生成，而计数器 Counter 是累加的。CTR 模式特点是每组加密都是独立的，不依赖前一组，这就意味着在生成计数器后，每个分组可以并行计算。
+圖中 ```Nonce+Counter``` 是一個計數器，Nonce 和前面幾種模式的 IV 類似，每次加密都需要隨機生成，而計數器 Counter 是累加的。CTR 模式特點是每組加密都是獨立的，不依賴前一組，這就意味著在生成計數器後，每個分組可以並行計算。
 
-### 模式选择
+### 模式選擇
 
-简单介绍下各个模式的有缺点。
+簡單介紹下各個模式的有缺點。
 
 {% highlight text %}
 <<<<< ECB
-优点
-    简单
+優點
+    簡單
     快速
-    支持并行计算（加密、解密）
-缺点
-    明文中的重复排列会反映在密文中
-    通过删除、替换密文分组可以对明文进行操作
-备注：不应使用
+    支持並行計算（加密、解密）
+缺點
+    明文中的重複排列會反映在密文中
+    通過刪除、替換密文分組可以對明文進行操作
+備註：不應使用
 
 <<<<< CBC
-优点
-    明文的重复排列不会反映在密文中
-    支持并行计算（解密）
-缺点
-    加密不支持并行计算
-备注：推荐使用
+優點
+    明文的重複排列不會反映在密文中
+    支持並行計算（解密）
+缺點
+    加密不支持並行計算
+備註：推薦使用
 
 <<<<< CFB
-优点
+優點
     不需要填充
-    支持并行计算（解密）
-缺点
-    加密不支持并行
-备注：推荐使用CTR模式代替
+    支持並行計算（解密）
+缺點
+    加密不支持並行
+備註：推薦使用CTR模式代替
 
 <<<<< OFB
-优点
+優點
     不需要填充
-    可事先进行加密、解密准备
-    加解密使用相同结构
-缺点
-    不支持并行
-备注：推荐使用CTR模式代替
+    可事先進行加密、解密準備
+    加解密使用相同結構
+缺點
+    不支持並行
+備註：推薦使用CTR模式代替
 
 <<<<< CTR
-优点
+優點
     不需要填充
-    可事先进行加密、解密准备
-    加解密使用相同结构
-    支持并行计算（加密、解密）
-备注：推荐使用
+    可事先進行加密、解密準備
+    加解密使用相同結構
+    支持並行計算（加密、解密）
+備註：推薦使用
 {% endhighlight %}
 
 
@@ -284,65 +284,65 @@ CBC 相比 ECB 有更高的保密性，但由于对每个数据块的加密依�
 
 
 <!--
-Password-Based Key Derivation Function, PBKDF2 用来导出密钥的函数用于生成加密的密码。
+Password-Based Key Derivation Function, PBKDF2 用來導出密鑰的函數用於生成加密的密碼。
 
-它的基本原理是通过一个伪随机函数（例如HMAC函数），把明文和一个盐值作为输入参数，然后重复进行运算，并最终产生密钥。
+它的基本原理是通過一個偽隨機函數（例如HMAC函數），把明文和一個鹽值作為輸入參數，然後重複進行運算，並最終產生密鑰。
 
-如果重复的次数足够大，破解的成本就会变得很高。而盐值的添加也会增加“彩虹表”攻击的难度。
+如果重複的次數足夠大，破解的成本就會變得很高。而鹽值的添加也會增加“彩虹表”攻擊的難度。
 -->
 
-## libgcrypt 编程
+## libgcrypt 編程
 
-简单介绍常见的编程方式，详细内容可以参考官方文档 [The Libgcrypt Reference Manual](https://www.gnupg.org/documentation/manuals/gcrypt/index.html)。
+簡單介紹常見的編程方式，詳細內容可以參考官方文檔 [The Libgcrypt Reference Manual](https://www.gnupg.org/documentation/manuals/gcrypt/index.html)。
 
 ### 常用概念
 
 #### 初始化向量
 
-```Initialization Vector, IV``` 也就是用于开始随机化加密的一块数据，因此可以由相同的明文，相同的密钥产生不同的密文，而无需重新产生密钥。
+```Initialization Vector, IV``` 也就是用於開始隨機化加密的一塊數據，因此可以由相同的明文，相同的密鑰產生不同的密文，而無需重新產生密鑰。
 
-一般来说 IV 无需保密，而且在同一密钥的情况下不要使用相同的 IV ，否则可能会导致不安全。
+一般來說 IV 無需保密，而且在同一密鑰的情況下不要使用相同的 IV ，否則可能會導致不安全。
 
 <!--
-例如，对于CBC和CFB，重用IV会导致泄露平文首个块的某些信息，亦包括两个不同消息中相同的前缀。对于OFB和CTR而言，重用IV会导致完全失去安全性。另外，在CBC模式中，IV在加密时必须是无法预测的；特别的，在许多实现中使用的产生IV的方法，例如SSL2.0使用的，即采用上一个消息的最后一块密文作为下一个消息的IV，是不安全的[12]。
+例如，對於CBC和CFB，重用IV會導致洩露平文首個塊的某些信息，亦包括兩個不同消息中相同的前綴。對於OFB和CTR而言，重用IV會導致完全失去安全性。另外，在CBC模式中，IV在加密時必須是無法預測的；特別的，在許多實現中使用的產生IV的方法，例如SSL2.0使用的，即採用上一個消息的最後一塊密文作為下一個消息的IV，是不安全的[12]。
 -->
 
 #### 填充
 
-块密码只能对指定长度的数据块进行处理，而消息的长度通常是可变的，因此部分模式 (ECB、CBC) 需要将最后一块在加密前进行填充，以满足特定长度的需求。
+塊密碼只能對指定長度的數據塊進行處理，而消息的長度通常是可變的，因此部分模式 (ECB、CBC) 需要將最後一塊在加密前進行填充，以滿足特定長度的需求。
 
 <!--
-有数种填充方法，其中最简单的一种是在平文的最后填充空字符以使其长度为块长度的整数倍，但必须保证可以恢复平文的原始长度；例如，若平文是C语言风格的字符串，则只有串尾会有空字符。稍微复杂一点的方法则是原始的DES使用的方法，即在数据后添加一个1位，再添加足够的0位直到满足块长度的要求；若消息长度刚好符合块长度，则添加一个填充块。最复杂的则是针对CBC的方法，例如密文窃取，残块终结等，不会产生额外的密文，但会增加一些复杂度。布鲁斯·施奈尔和尼尔斯·弗格森提出了两种简单的可能性：添加一个值为128的字节（十六进制的80），再以0字节填满最后一个块；或向最后一个块填充n个值均为n的字节[13]。
+有數種填充方法，其中最簡單的一種是在平文的最後填充空字符以使其長度為塊長度的整數倍，但必須保證可以恢復平文的原始長度；例如，若平文是C語言風格的字符串，則只有串尾會有空字符。稍微複雜一點的方法則是原始的DES使用的方法，即在數據後添加一個1位，再添加足夠的0位直到滿足塊長度的要求；若消息長度剛好符合塊長度，則添加一個填充塊。最複雜的則是針對CBC的方法，例如密文竊取，殘塊終結等，不會產生額外的密文，但會增加一些複雜度。布魯斯·施奈爾和尼爾斯·弗格森提出了兩種簡單的可能性：添加一個值為128的字節（十六進制的80），再以0字節填滿最後一個塊；或向最後一個塊填充n個值均為n的字節[13]。
 
-CFB、OFB 和 CTR 模式不需要对长度进行处理，因为这些模式是会对加密块与明文进行异或操作，那么最后一个明文块 (可能不完整) 与加密流块异或后，产生了所需大小的密文块。
+CFB、OFB 和 CTR 模式不需要對長度進行處理，因為這些模式是會對加密塊與明文進行異或操作，那麼最後一個明文塊 (可能不完整) 與加密流塊異或後，產生了所需大小的密文塊。
 
-流密码的这个特性使得它们可以应用在需要密文和平文数据长度严格相等的场合，也可以应用在以流形式传输数据而不便于进行填充的场合。
+流密碼的這個特性使得它們可以應用在需要密文和平文數據長度嚴格相等的場合，也可以應用在以流形式傳輸數據而不便於進行填充的場合。
 -->
 
-### 对称加密
+### 對稱加密
 
-也就是直接使用 libgcrypt 对称加密。
+也就是直接使用 libgcrypt 對稱加密。
 
-#### 1. 传入密钥
+#### 1. 傳入密鑰
 
-一般不会直接使用用户的输入直接作为密钥，而是通过一个密钥导出函数 (如PBKDF2) 生成，入参中有两个比较重要的函数：A) 输入密码，用户输入；B) 初始化向量，程序提供。
+一般不會直接使用用戶的輸入直接作為密鑰，而是通過一個密鑰導出函數 (如PBKDF2) 生成，入參中有兩個比較重要的函數：A) 輸入密碼，用戶輸入；B) 初始化向量，程序提供。
 
 {% highlight text %}
 gpg_error_t gcry_kdf_derive ( const void *passphrase, size_t passphraselen,
         int algo, int subalgo, const void *salt, size_t saltlen,
         unsigned long iterations, size_t keysize, void *keybuffer );
-参数主要包括四部分：
-  1. passphrase, passphraselen  传入的密钥明文和长度
-  2. algo, subalgo, iterations 使用的 Key Derivation Function (KDF) 算法，及其迭代次数
-  3. salt, saltlen 加盐的盐串和长度
-  4. keysize, keybuffer 用于保存生成密钥的缓存长度，以及返回密钥内容
+參數主要包括四部分：
+  1. passphrase, passphraselen  傳入的密鑰明文和長度
+  2. algo, subalgo, iterations 使用的 Key Derivation Function (KDF) 算法，及其迭代次數
+  3. salt, saltlen 加鹽的鹽串和長度
+  4. keysize, keybuffer 用於保存生成密鑰的緩存長度，以及返回密鑰內容
 {% endhighlight %}
 
 #### 2. 初始化加密句柄
 
-在获得密钥之后，就需要对加密的句柄进行设置，在后续的所有操作中都会使用该句柄操作。
+在獲得密鑰之後，就需要對加密的句柄進行設置，在後續的所有操作中都會使用該句柄操作。
 
-接着，需要选定加密算法，以及加密模式，在 libgcrypt 中，加密算法用宏来标识，需要传递指定的宏，来告知它想用哪种加密算法。
+接著，需要選定加密算法，以及加密模式，在 libgcrypt 中，加密算法用宏來標識，需要傳遞指定的宏，來告知它想用哪種加密算法。
 
 {% highlight text %}
 size_t gcry_cipher_get_algo_keylen (int algo);
@@ -352,11 +352,11 @@ gcry_error_t gcry_cipher_setkey (gcry_cipher_hd_t h, const void *k, size_t l);
 gcry_error_t gcry_cipher_setiv (gcry_cipher_hd_t h, const void *k, size_t l);
 {% endhighlight %}
 
-这里需要注意的是，初始化向量一般是一个 Block Size，而后续准备加密的数据需要保证是 Block Size 的整数倍，否则会报错。
+這裡需要注意的是，初始化向量一般是一個 Block Size，而後續準備加密的數據需要保證是 Block Size 的整數倍，否則會報錯。
 
 #### 3. 加解密
 
-接着就是通过如下函数加解密了。
+接著就是通過如下函數加解密了。
 
 {% highlight text %}
 gcry_error_t gcry_cipher_encrypt (gcry_cipher_hd_t h, unsigned char *out, size_t outsize,
@@ -378,32 +378,32 @@ In general a secure memory is locked with mlock so it can't be paged out.
 
 ### 示例程序
 
-列举常见的示例程序，对称加解密 [symmetric.c]( {{ site.example_repository }}/cipher/libgcrypt/symmetric.c )、哈希函数 [hash.c]( {{ site.example_repository }}/cipher/libgcrypt/hash.c )、以及密钥导出函数 [pbkdf.c]( {{ site.example_repository }}/cipher/libgcrypt/pbkdf.c ) 。
+列舉常見的示例程序，對稱加解密 [symmetric.c]( {{ site.example_repository }}/cipher/libgcrypt/symmetric.c )、哈希函數 [hash.c]( {{ site.example_repository }}/cipher/libgcrypt/hash.c )、以及密鑰導出函數 [pbkdf.c]( {{ site.example_repository }}/cipher/libgcrypt/pbkdf.c ) 。
 
 
 ## 其它
 
 ### HMAC
 
-HMAC 是密钥相关的哈希运算消息认证码，HMAC 运算时利用哈希算法，以一个密钥和一个消息为输入，生成一个消息摘要作为输出。
+HMAC 是密鑰相關的哈希運算消息認證碼，HMAC 運算時利用哈希算法，以一個密鑰和一個消息為輸入，生成一個消息摘要作為輸出。
 
-HMAC 的一个典型应用是用在 ```Challenge/Response``` 身份认证中，一般的处理流程如下：
+HMAC 的一個典型應用是用在 ```Challenge/Response``` 身份認證中，一般的處理流程如下：
 
-1. 客户端向服务器发出一个验证请求。
-2. 服务器接到此请求后生成一个随机数并通过网络传输给客户端 (Challenge)。
-3. 客户端将收到的随机数与客户保存的密码做 HMAC-MD5 计算，并将结果作为认证证据传给服务器 (Response)。
-4. 服务器同样执行 HMSC-MD5 运算，与客户端传回的响应结果比较，如果相同则认为客户端是一个合法用户。
+1. 客戶端向服務器發出一個驗證請求。
+2. 服務器接到此請求後生成一個隨機數並通過網絡傳輸給客戶端 (Challenge)。
+3. 客戶端將收到的隨機數與客戶保存的密碼做 HMAC-MD5 計算，並將結果作為認證證據傳給服務器 (Response)。
+4. 服務器同樣執行 HMSC-MD5 運算，與客戶端傳回的響應結果比較，如果相同則認為客戶端是一個合法用戶。
 
-## 参考
+## 參考
 
-对各种密码保存方案的评估，例如安全性，可以直接参考 [On The Security of Password Manager Database Formats](https://www.cs.ox.ac.uk/files/6487/pwvault.pdf) 。
+對各種密碼保存方案的評估，例如安全性，可以直接參考 [On The Security of Password Manager Database Formats](https://www.cs.ox.ac.uk/files/6487/pwvault.pdf) 。
 
 <!--
-Password Safe库信息
+Password Safe庫信息
 https://pwsafe.org/readmore.shtml
-从FireFox获取密码
+從FireFox獲取密碼
 http://www.nirsoft.net/utils/passwordfox.html
-密码保存策略
+密碼保存策略
 https://nakedsecurity.sophos.com/2013/11/20/serious-security-how-to-store-your-users-passwords-safely/
 Twofish
 https://www.schneier.com/academic/twofish/
@@ -422,25 +422,25 @@ http://china.safenet-inc.com/webback/UploadFile/DownloadDoc/416b8c01-c42f-4251-a
 
 
 
-调用链判断
+調用鏈判斷
 touch /tmp/{top.sh,mid.sh,bot.sh}
 echo '/tmp/top.sh |/tmp/mid.sh|/tmp/bot.sh' > script_chain
-fpge script_chain  生成指纹，脚本会使用绝对路径，指纹库保存在 /usr/local/var/.bfbase 文件中
+fpge script_chain  生成指紋，腳本會使用絕對路徑，指紋庫保存在 /usr/local/var/.bfbase 文件中
    md5sum /tmp/top.sh | awk '{print $1}'    -> 'xxxxx'
    echo -n "xxxxx" | md5sum | awk '{print $1}' -> 'yyyyy'
    md5sum /tmp/top.sh | awk '{print $1}'    -> 'zzzzz'
    echo -n "yyyyy" "zzzzz" | md5sum | awk '{print $1}'
-   最终调用 password -i -fp "111111111111111"
-   password -i -fp footprint 经过一系列HASH算法计算，保存到指纹文件中
-password -e "test" 加密密码，其中 -k 指定的key为数组动态选择
+   最終調用 password -i -fp "111111111111111"
+   password -i -fp footprint 經過一系列HASH算法計算，保存到指紋文件中
+password -e "test" 加密密碼，其中 -k 指定的key為數組動態選擇
    echo 'test'|openssl aes-256-cbc -e -k U2FsdGVkX1+AVVVxxWOuFFCBEU7jwC4dbksnF0/Wz44 -base64
    生成密文： 222222222222
 password -d "222222222222" -fp "111111111111111"
-   首先会验证传入的指纹与文件中保存的是否相同
+   首先會驗證傳入的指紋與文件中保存的是否相同
    echo '222222222222'|openssl aes-256-cbc -d -k U2FsdGVkX1+AVVVxxWOuFFCBEU7jwC4dbksnF0/Wz44 -base64
-password -z 删除指纹库，直接rm删除
+password -z 刪除指紋庫，直接rm刪除
 
-脚本中使用方式如下：top.sh添加
+腳本中使用方式如下：top.sh添加
 export __FPRINT__=""
 __dig__=`md5sum $0|awk '{print $1}'`
 __FPRINT__=`echo -n "$__FPRINT__""$__dig__"|md5sum|awk '{print $1}'`
@@ -451,7 +451,7 @@ __FPRINT__=`echo -n "$__FPRINT__""$__dig__"|md5sum|awk '{print $1}'`
 password -d "口令密文" -fp "$__FPRINT__"
 
 
-从栈中获取密码
+從棧中獲取密碼
 $ read -s -p "password: " PASSWD; echo
 password:
 $ echo $PASSWD

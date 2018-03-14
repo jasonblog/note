@@ -1,24 +1,24 @@
 ---
-title: MySQL 关闭过程
+title: MySQL 關閉過程
 layout: post
 comments: true
 language: chinese
 category: [mysql,database]
-keywords: mysql,shutdown,关闭
-description: 简单分析下 mysqld 进程关闭的过程，并讨论如何安全地关闭 MySQL 实例。
+keywords: mysql,shutdown,關閉
+description: 簡單分析下 mysqld 進程關閉的過程，並討論如何安全地關閉 MySQL 實例。
 ---
 
-简单分析下 mysqld 进程关闭的过程，并讨论如何安全地关闭 MySQL 实例。
+簡單分析下 mysqld 進程關閉的過程，並討論如何安全地關閉 MySQL 實例。
 
 <!-- more -->
 
-## 简介
+## 簡介
 
-通常有几种方式关闭 MySQL 服务器，常见有如下：A) 执行 ```mysqladmin shutdown``` 命令；B) 向服务器发送 SIGTERM、SIGQUIT 信号。
+通常有幾種方式關閉 MySQL 服務器，常見有如下：A) 執行 ```mysqladmin shutdown``` 命令；B) 向服務器發送 SIGTERM、SIGQUIT 信號。
 
 ### mysqladmin
 
-首先，看下通过 ```mysqladmin shutdown``` 调用时的执行流程。
+首先，看下通過 ```mysqladmin shutdown``` 調用時的執行流程。
 
 {% highlight cpp %}
 static int execute_commands(MYSQL *mysql,int argc, char **argv)
@@ -44,174 +44,174 @@ static int execute_commands(MYSQL *mysql,int argc, char **argv)
 }
 {% endhighlight %}
 
-如上，当版本小于 5.7.9 时，实际上会调用 ```mysql_shutdown()``` 函数，而在 5.7.9 版本之后(包括该版本)，则会调用 ```mysql_query()``` 函数。
+如上，當版本小於 5.7.9 時，實際上會調用 ```mysql_shutdown()``` 函數，而在 5.7.9 版本之後(包括該版本)，則會調用 ```mysql_query()``` 函數。
 
-在此，主要看下后者的处理。
+在此，主要看下後者的處理。
 
 {% highlight text %}
 dispatch_command()
  |                              ← COM_SHUTDOWN:
- |-shutdown()                   ← 调用相同文件下的函数，关闭mysqld服务
+ |-shutdown()                   ← 調用相同文件下的函數，關閉mysqld服務
    |-check_global_access()
-   |-my_ok()                    ← 返回客户端，COM_QUERY<=>my_ok()，COM_SHUTDOWN<=>my_eof()
-   |-general_log_print()        ← 打印日志"Got shutdown command for"
+   |-my_ok()                    ← 返回客戶端，COM_QUERY<=>my_ok()，COM_SHUTDOWN<=>my_eof()
+   |-general_log_print()        ← 打印日誌"Got shutdown command for"
    |-kill_mysql()
-     |-pthread_kill()           ← 向signal_thread发送SIGTERM信号
+     |-pthread_kill()           ← 向signal_thread發送SIGTERM信號
 {% endhighlight %}
 
-也就是说，实际上还是通过用户线程向服务发送 SIGTERM 信号完成。 
+也就是說，實際上還是通過用戶線程向服務發送 SIGTERM 信號完成。 
 
 ### sigterm
 
-如上，两种方式最终的实现都是通过发送 SIGTERM 信号完成的，那么我们接下来就看看 mysqld 服务是如何处理该信号量的。
+如上，兩種方式最終的實現都是通過發送 SIGTERM 信號完成的，那麼我們接下來就看看 mysqld 服務是如何處理該信號量的。
 
 #### 初始化
 
-其中部分信号，如 SIGABRT、SIGSEGV 等会在 ```my_init_signals()``` 函数中进行初始化信号处理函数，而 SIGTERM、SIGQUIT、SIGHUP 则会在单独的线程中进行处理，对应 ```signal_hand()``` 函数。
+其中部分信號，如 SIGABRT、SIGSEGV 等會在 ```my_init_signals()``` 函數中進行初始化信號處理函數，而 SIGTERM、SIGQUIT、SIGHUP 則會在單獨的線程中進行處理，對應 ```signal_hand()``` 函數。
 
 {% highlight text %}
 mysqld_main()
- |-my_init_signals()               ← 设置信号处理函数
- |-start_signal_handler()          ← 创建一个单独的信号处理线程
-   |-mysql_thread_create()         ← 创建signal_hand()单独线程
+ |-my_init_signals()               ← 設置信號處理函數
+ |-start_signal_handler()          ← 創建一個單獨的信號處理線程
+   |-mysql_thread_create()         ← 創建signal_hand()單獨線程
 {% endhighlight %}
 
-#### 信号处理
+#### 信號處理
 
-接下来看看 ```signal_hand()``` 函数中的处理方式。
+接下來看看 ```signal_hand()``` 函數中的處理方式。
 
 {% highlight text %}
 signal_hand()
- |-abort_loop=true                 ← 设置abort_loop变量，很多循环会检查该变量
- |-pthread_kill()                  ← 先主线程发送SIGUSR1信号
- |-close_connections()             ← 关闭所有链接
+ |-abort_loop=true                 ← 設置abort_loop變量，很多循環會檢查該變量
+ |-pthread_kill()                  ← 先主線程發送SIGUSR1信號
+ |-close_connections()             ← 關閉所有鏈接
 {% endhighlight %}
 
-实际上，在主线程中对 SIGUSR1 信号并没有进行处理，应该只是一个线程切换；接下来，还是看看主线程的处理：
+實際上，在主線程中對 SIGUSR1 信號並沒有進行處理，應該只是一個線程切換；接下來，還是看看主線程的處理：
 
 {% highlight text %}
 mysqld_main()
- |-my_thread_join()                ← 等待上述的signal_hand()处理线程
+ |-my_thread_join()                ← 等待上述的signal_hand()處理線程
  |-clean_up()
    |-plugin_shutdown()
      |-plugin_deinitialize()
        |-ha_finalize_handlerton()
-         |-hton->panic()           ← 调用插件的关闭函数
+         |-hton->panic()           ← 調用插件的關閉函數
 {% endhighlight %}
 
-也就是会依次调用各个存储引擎的 ```panic()``` 函数，对应到 InnoDB 就是 ```innobase_end()``` 函数。
+也就是會依次調用各個存儲引擎的 ```panic()``` 函數，對應到 InnoDB 就是 ```innobase_end()``` 函數。
 
-## InnoDB 关闭过程
+## InnoDB 關閉過程
 
-在关闭 MySQL 时，可以通过 innodb_fast_shutdown 参数控制存储引擎 InnoDB 的行为，该参数可以取 0、1、2，各个值的含义分别如下：
+在關閉 MySQL 時，可以通過 innodb_fast_shutdown 參數控制存儲引擎 InnoDB 的行為，該參數可以取 0、1、2，各個值的含義分別如下：
 
-0 关闭时 InnoDB 需要完成所有的 full purge 和 merge insert buffer 操作，这个过程会需要一定的时间，有时候可能会花上几个小时；通常在升级 InnoDB 时，需要设置为 0。
+0 關閉時 InnoDB 需要完成所有的 full purge 和 merge insert buffer 操作，這個過程會需要一定的時間，有時候可能會花上幾個小時；通常在升級 InnoDB 時，需要設置為 0。
 
-1 默认值，关闭 InooDB 时不完成 full purge 和 merge insert buffer，但是会将缓冲池中的脏页写到磁盘中。
+1 默認值，關閉 InooDB 時不完成 full purge 和 merge insert buffer，但是會將緩衝池中的髒頁寫到磁盤中。
 
-2 意味着既不完成 full purge 和 merge insert buffer，同时也不将缓冲池中的脏页刷新到磁盘，但是会将 redo log 写入到磁盘；这种情况下，事务也不会丢失，但是下次启动时需要执行崩溃恢复。
+2 意味著既不完成 full purge 和 merge insert buffer，同時也不將緩衝池中的髒頁刷新到磁盤，但是會將 redo log 寫入到磁盤；這種情況下，事務也不會丟失，但是下次啟動時需要執行崩潰恢復。
 
-接着看看 InnoDB 关闭时的详细处理过程。
+接著看看 InnoDB 關閉時的詳細處理過程。
 
-### 源码解析
+### 源碼解析
 
-如下是代码的处理过程，其中 ```logs_empty_and_mark_files_at_shutdown()``` 函数是主要的关闭处理函数，在系统关闭时同时执行 sharp checkpoint 操作。
+如下是代碼的處理過程，其中 ```logs_empty_and_mark_files_at_shutdown()``` 函數是主要的關閉處理函數，在系統關閉時同時執行 sharp checkpoint 操作。
 
 {% highlight text %}
 innobase_end()
- |-srv_fast_shutdown                           ← 根据参数innodb_fast_shutdown判断是否快速关闭
- |-hash_table_free()                           ← 释放innodb表占用的内存
+ |-srv_fast_shutdown                           ← 根據參數innodb_fast_shutdown判斷是否快速關閉
+ |-hash_table_free()                           ← 釋放innodb表佔用的內存
  |-innobase_shutdown_for_mysql()
  | |-fts_optimize_shutdown()
  | |-dict_stats_shutdown()
- | |-logs_empty_and_mark_files_at_shutdown()   ← 1.  将buffer pool落盘，并将LSN写入表空间，主要函数，后面均为资源清理
- | | |-ib::info()                              ← 1.0 打印Starting shutdown日志 <<<<<<
- | | |-srt_shutdown_state                            设置变量，进入SRV_SHUTDOWN_CLEANUP状态
+ | |-logs_empty_and_mark_files_at_shutdown()   ← 1.  將buffer pool落盤，並將LSN寫入表空間，主要函數，後面均為資源清理
+ | | |-ib::info()                              ← 1.0 打印Starting shutdown日誌 <<<<<<
+ | | |-srt_shutdown_state                            設置變量，進入SRV_SHUTDOWN_CLEANUP狀態
  | | |
- | | |-srv_any_background_threads_are_active() ← 1.1 等待后台线程关闭，没1min打印一次等待线程信息
+ | | |-srv_any_background_threads_are_active() ← 1.1 等待後臺線程關閉，沒1min打印一次等待線程信息
  | | |
- | | |-trx_sys_any_active_transactions()       ← 1.2 如果事务已经在prepare阶段了，则等待其处理完成
+ | | |-trx_sys_any_active_transactions()       ← 1.2 如果事務已經在prepare階段了，則等待其處理完成
  | | |
- | | |-srv_get_active_thread_type()            ← 1.3 等待worker、master、purge线程进入suspend状态
+ | | |-srv_get_active_thread_type()            ← 1.3 等待worker、master、purge線程進入suspend狀態
  | | |
- | | |-srt_shutdown_state                            设置变量，进入SRV_SHUTDOWN_FLUSH_PHASE状态
- | | |-buf_page_cleaner_is_active              ← 1.4 正常此时只剩下了page_cleaner线程刷Buffer Pool了，等待其完成
- | | |-buf_pool_check_no_pending_io()                检查IO操作是否都已经完成
+ | | |-srt_shutdown_state                            設置變量，進入SRV_SHUTDOWN_FLUSH_PHASE狀態
+ | | |-buf_page_cleaner_is_active              ← 1.4 正常此時只剩下了page_cleaner線程刷Buffer Pool了，等待其完成
+ | | |-buf_pool_check_no_pending_io()                檢查IO操作是否都已經完成
  | | |
- | | |                                         ← 1.5 如果srv_fast_shutdown变量值为2
- | | |-log_buffer_flush_to_disk()                    将redo-log刷新到磁盘
+ | | |                                         ← 1.5 如果srv_fast_shutdown變量值為2
+ | | |-log_buffer_flush_to_disk()                    將redo-log刷新到磁盤
  | | |-srv_any_background_threads_are_active()
- | | |-fil_close_all_files()                         关闭文件，然后返回
+ | | |-fil_close_all_files()                         關閉文件，然後返回
  | | |
- | | |-log_make_checkpoint_at()                ← 1.6 将最近LSN做checkpoint
- | | |-fil_flush_file_spaces()                       将表空间文件和日志文件刷新到磁盘
- | | |-srt_shutdown_state                            设置变量，进入SRV_SHUTDOWN_LAST_PHASE状态
- | | |-srv_get_active_thread_type()                  再次确认所有服务已经关闭
+ | | |-log_make_checkpoint_at()                ← 1.6 將最近LSN做checkpoint
+ | | |-fil_flush_file_spaces()                       將表空間文件和日誌文件刷新到磁盤
+ | | |-srt_shutdown_state                            設置變量，進入SRV_SHUTDOWN_LAST_PHASE狀態
+ | | |-srv_get_active_thread_type()                  再次確認所有服務已經關閉
  | | |
- | | |-fil_write_flushed_lsn()                 ← 1.7 将LSN写入到系统表空间的第一页中
- | | |-fil_close_all_files()                         关闭所有文件
+ | | |-fil_write_flushed_lsn()                 ← 1.7 將LSN寫入到系統表空間的第一頁中
+ | | |-fil_close_all_files()                         關閉所有文件
  | |
- | |-srv_conc_get_active_threads()             ← 正常应该无活跃的线程，有则打印到日志
+ | |-srv_conc_get_active_threads()             ← 正常應該無活躍的線程，有則打印到日誌
  | |
- | |                                           ← 2. 接下来是一些资源的清理
- | |-srv_shutdown_all_bg_threads()                  关闭InnoDB创建的后台线程
- | |-fclose()                                       关闭InnoDB打开的文件
+ | |                                           ← 2. 接下來是一些資源的清理
+ | |-srv_shutdown_all_bg_threads()                  關閉InnoDB創建的後臺線程
+ | |-fclose()                                       關閉InnoDB打開的文件
  | |-dict_stats_thread_deinit()
- | |                                                释放mutexes，释放内存
- | |-os_thread_free()                               释放线程相关的资源
- | |-sync_check_close()                             释放同步相关资源
+ | |                                                釋放mutexes，釋放內存
+ | |-os_thread_free()                               釋放線程相關的資源
+ | |-sync_check_close()                             釋放同步相關資源
  |
  |-innobase_space_shutdown()
 {% endhighlight %}
 
-实际上，Buffer Pool 中脏页刷到磁盘的操作是最耗时的，脏页越多需要 flush 的块也就越多，从而导致关闭时间变长；可以通过下面的命令来观察 Dirty Page 的数量：
+實際上，Buffer Pool 中髒頁刷到磁盤的操作是最耗時的，髒頁越多需要 flush 的塊也就越多，從而導致關閉時間變長；可以通過下面的命令來觀察 Dirty Page 的數量：
 
 {% highlight text %}
 $ mysqladmin -uroot ext -i 1 | grep "Innodb_buffer_pool_pages_dirty"
 {% endhighlight %}
 
 <!--
-2. 参数innodb_max_dirty_pages_pct
+2. 參數innodb_max_dirty_pages_pct
 
-Buffer_Pool中Dirty_Page所占的数量，直接影响InnoDB的关闭时间。参数innodb_max_dirty_pages_pct可以直接控制了Dirty_Page在Buffer_Pool中所占的比率，而且幸运的是innodb_max_dirty_pages_pct是可以动态改变的。
+Buffer_Pool中Dirty_Page所佔的數量，直接影響InnoDB的關閉時間。參數innodb_max_dirty_pages_pct可以直接控制了Dirty_Page在Buffer_Pool中所佔的比率，而且幸運的是innodb_max_dirty_pages_pct是可以動態改變的。
 
-所以，在关闭InnoDB之前先将innodb_max_dirty_pages_pct调小，强制数据块Flush一段时间，则能够大大缩短MySQL关闭的时间。
+所以，在關閉InnoDB之前先將innodb_max_dirty_pages_pct調小，強制數據塊Flush一段時間，則能夠大大縮短MySQL關閉的時間。
 set global innodb_max_dirty_pages_pct=0;
 
-一般执行了上面的命令之后，Dirty_Page的Flush仍需要一段时间，所以要稍等一会儿，再关闭MySQL才有效果。
-3. 关闭前做些什么
+一般執行了上面的命令之後，Dirty_Page的Flush仍需要一段時間，所以要稍等一會兒，再關閉MySQL才有效果。
+3. 關閉前做些什麼
 
-有时候，就算你改变innodb_max_dirty_pages_pct=0，仍然不能保证InnoDB快速关闭。还有一些注意事项。
+有時候，就算你改變innodb_max_dirty_pages_pct=0，仍然不能保證InnoDB快速關閉。還有一些注意事項。
 
-设置数据库为只读：如果数据库一直是活跃的，有连接在向里面写数据，那么Dirty Page则还可能不断的产生。
+設置數據庫為只讀：如果數據庫一直是活躍的，有連接在向裡面寫數據，那麼Dirty Page則還可能不斷的產生。
 
-如果是备库，在innodb_max_dirty_pages_pct设置成0的同时，最好先stop slave：这个很关键，而且对关闭时间影响也会很大。第一，主动stop slave后，MySQL在关闭时，需要停止的线程其实是更少了的。第二，如果slave的SQL线程还在执行的话，Buffer Pool则还在活动，Dirty Page也可能还会不断的增多。
+如果是備庫，在innodb_max_dirty_pages_pct設置成0的同時，最好先stop slave：這個很關鍵，而且對關閉時間影響也會很大。第一，主動stop slave後，MySQL在關閉時，需要停止的線程其實是更少了的。第二，如果slave的SQL線程還在執行的話，Buffer Pool則還在活動，Dirty Page也可能還會不斷的增多。
 
-一般，如果注意到了上面三点：
+一般，如果注意到了上面三點：
 set global innodb_max_dirty_pages_pct=0
 set global read_only=1
 stop slave
 
-关闭数据库，就会很快了。如果你把上面三步做完，然后观察Dirty Page的数量，当数量很少时，再执行命令关库，这样总能保证以较快的速度完成关库命令。
-4. 一个注意事项
+關閉數據庫，就會很快了。如果你把上面三步做完，然後觀察Dirty Page的數量，當數量很少時，再執行命令關庫，這樣總能保證以較快的速度完成關庫命令。
+4. 一個注意事項
 
-这里需要注意的是，你不需等到Dirty Page的数量到零，才开始关闭MySQL。因为有时候，即使已经没有活动的会话时，InnoDB的Insert Buffer的合并仍然会产生一些Dirty Page，所以这时你可能会发现，等了很久很久很久Dirty Page的数量仍然大于零。
+這裡需要注意的是，你不需等到Dirty Page的數量到零，才開始關閉MySQL。因為有時候，即使已經沒有活動的會話時，InnoDB的Insert Buffer的合併仍然會產生一些Dirty Page，所以這時你可能會發現，等了很久很久很久Dirty Page的數量仍然大於零。
 
-其实这时，你已经可以快速的关闭数据库了。我怎么判断这种情况呢？这时我们可以通过InnoDB的LSN来判断，下面是SHOW InnoDB Status里面获取的信息：
+其實這時，你已經可以快速的關閉數據庫了。我怎麼判斷這種情況呢？這時我們可以通過InnoDB的LSN來判斷，下面是SHOW InnoDB Status裡面獲取的信息：
 
 Log sequence number 814 3121743145
 Log flushed up to   814 3121092043
 Last checkpoint at  814 2826361389
 
-这里看到，当前的LSN是814 3121743145，最后一个检查点在814 2826361389，也就是说两者相差了3121743145-2826361389=295381756，那么意味着InnoDB还有很多Dirty Page需要Flush。
+這裡看到，當前的LSN是814 3121743145，最後一個檢查點在814 2826361389，也就是說兩者相差了3121743145-2826361389=295381756，那麼意味著InnoDB還有很多Dirty Page需要Flush。
 
-下面是另一个库的LSN信息：
+下面是另一個庫的LSN信息：
 
 Log sequence number 0 1519256161
 Log flushed up to   0 1519256161
 Last checkpoint at  0 1519256161
 
-可以看到，这里的Dirty Page都已经Flush了，那么关闭InnoDB也就很快了。
+可以看到，這裡的Dirty Page都已經Flush了，那麼關閉InnoDB也就很快了。
 -->
 
 
@@ -219,17 +219,17 @@ Last checkpoint at  0 1519256161
 
 ### FAQs
 
-1\. 如何查看 InnoDB 在等待那些线程？
+1\. 如何查看 InnoDB 在等待那些線程？
 
-InnoDB 在关闭时，会每隔 100ms 检查一次后台线程是否已经全部退出，具体检查那些线程可以查看 ```srv_any_background_threads_are_active()``` 函数；等待超过了 1min ，则会打印日志 "Waiting for" 。
+InnoDB 在關閉時，會每隔 100ms 檢查一次後臺線程是否已經全部退出，具體檢查那些線程可以查看 ```srv_any_background_threads_are_active()``` 函數；等待超過了 1min ，則會打印日誌 "Waiting for" 。
 
-2\. 为什么要等待出于 prepare 阶段的事务？
+2\. 為什麼要等待出於 prepare 階段的事務？
 
-如果事务处于 prepare 阶段，说明已经在 InnoDB 执行了 commit 操作，也就是在存储引擎中认为已经提交，只需要服务端提交即可，显然，我们不希望丢失这部分数据。
+如果事務處於 prepare 階段，說明已經在 InnoDB 執行了 commit 操作，也就是在存儲引擎中認為已經提交，只需要服務端提交即可，顯然，我們不希望丟失這部分數據。
 
-实际上，接下来的操作不会再与客户端进行交互，都是服务端的执行流程了，正常来说执行的时间会非常短。
+實際上，接下來的操作不會再與客戶端進行交互，都是服務端的執行流程了，正常來說執行的時間會非常短。
 
-## 参考
+## 參考
 
 [Reference Manual - The Server Shutdown Process](https://dev.mysql.com/doc/refman/en/server-shutdown.html)
 

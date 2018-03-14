@@ -1,283 +1,283 @@
 ---
-title: TCP/IP 协议简介
+title: TCP/IP 協議簡介
 layout: post
 comments: true
 language: chinese
 category: [linux, network]
-keywords: linux,tcp,ip,协议,面向链接
-description: TCP 协议是 "面向连接" 的，整个过程被分为几个阶段：准备、协商、建立连接、管理以及最后的连接终止，同时可以管理多个链接。接下来，我们看看 TCP 协议是如何实现的。
+keywords: linux,tcp,ip,協議,面向鏈接
+description: TCP 協議是 "面向連接" 的，整個過程被分為幾個階段：準備、協商、建立連接、管理以及最後的連接終止，同時可以管理多個鏈接。接下來，我們看看 TCP 協議是如何實現的。
 ---
 
-TCP 协议是 "面向连接" 的，整个过程被分为几个阶段：准备、协商、建立连接、管理以及最后的连接终止，同时可以管理多个链接。
+TCP 協議是 "面向連接" 的，整個過程被分為幾個階段：準備、協商、建立連接、管理以及最後的連接終止，同時可以管理多個鏈接。
 
-接下来，我们看看 TCP 协议是如何实现的。
+接下來，我們看看 TCP 協議是如何實現的。
 
 <!-- more -->
 
-## 简介
+## 簡介
 
-如上，TCP 可以同时管理多个连接，因此需要赋予每个连接一个唯一的标识进行识别，这个标识就是连接两端的 IP 以及端口号 (共4个key)，从而保证了连接后续的建立、管理和中断都是独立分开的。
+如上，TCP 可以同時管理多個連接，因此需要賦予每個連接一個唯一的標識進行識別，這個標識就是連接兩端的 IP 以及端口號 (共4個key)，從而保證了連接後續的建立、管理和中斷都是獨立分開的。
 
-对于各个状态迁移采用 FSM (Finite State Machine，有限状态机) 进行描述，其包含了如下的几种状态：
+對於各個狀態遷移採用 FSM (Finite State Machine，有限狀態機) 進行描述，其包含了如下的幾種狀態：
 
-* state：在一个给定的时间，协议应用（protocol software）的环境以及状态的详细说明；
-* transition：从一个状态到另一个状态的动作；
-* event：引起状态间切换的事件；
-* action：设备在切换到另一个状态之前，所做的对于 event 的回应。
+* state：在一個給定的時間，協議應用（protocol software）的環境以及狀態的詳細說明；
+* transition：從一個狀態到另一個狀態的動作；
+* event：引起狀態間切換的事件；
+* action：設備在切換到另一個狀態之前，所做的對於 event 的迴應。
 
-下图是一个 TCP 有限状态机的简化版本。
+下圖是一個 TCP 有限狀態機的簡化版本。
 
 ![TCP/IP Finite State Machine FSM]({{ site.url }}/images/network/tcpip_The-TCP-Finite-State-MachineFSM.png "TCP/IP Finite State Machine FSM"){: .pull-center}
 
 ### TCB
 
-由于每个连接都是独立的，所以我们使用了一个定制的数据结构来将与连接相关的信息分别存储，这个就是 TCB (Transmission Control Block，传输控制模块)。
+由於每個連接都是獨立的，所以我們使用了一個定製的數據結構來將與連接相關的信息分別存儲，這個就是 TCB (Transmission Control Block，傳輸控制模塊)。
 
-在连接启动建立之前，内核会做一些准备工作，其中之一就是建立起维护连接信息的 TCB ，而且两端的 TCB 都是由两端自己的设备去维护。
+在連接啟動建立之前，內核會做一些準備工作，其中之一就是建立起維護連接信息的 TCB ，而且兩端的 TCB 都是由兩端自己的設備去維護。
 
-TCB 保存了与连接相关的所有的重要信息，比如两端端口号，用于连接识别；用于管理连接数据流的 buffer 的内存指针；TCB 也用于窗口切换机制，用来保存所接收到的数据中有哪些已经被确认和尚未被确认的变量，当前窗口大小等等。
+TCB 保存了與連接相關的所有的重要信息，比如兩端端口號，用於連接識別；用於管理連接數據流的 buffer 的內存指針；TCB 也用於窗口切換機制，用來保存所接收到的數據中有哪些已經被確認和尚未被確認的變量，當前窗口大小等等。
 
-### 报文头部
+### 報文頭部
 
-按照 OSI 的七层模型，ARP 工作在第二层 (Data Link，Frame)，IP 在第三层 (Network, Packet)，第四层 (Transport, Segment)。数据依次打包，传到对端后，各个层解析自己的协议，然后把数据交给更高层的协议处理。
+按照 OSI 的七層模型，ARP 工作在第二層 (Data Link，Frame)，IP 在第三層 (Network, Packet)，第四層 (Transport, Segment)。數據依次打包，傳到對端後，各個層解析自己的協議，然後把數據交給更高層的協議處理。
 
 ![TCP/IP Protocal Header]({{ site.url }}/images/network/tcpip_TCP-Header.png "TCP/IP Protocal Header"){: .pull-center}
 
 
 <!--
-1. 源端口号：数据发起者的端口号，16bit
-2. 目的端口号：数据接收者的端口号，16bit
-3. 序号：32bit的序列号，由发送方使用
-4. 确认序号：32bit的确认号，是接收数据方期望收到发送方的下一个报文段的序号，因此确认序号应当是上次已成功收到数据字节序号加1。
-5. 首部长度：首部中32bit字的数目，可表示15*32bit=60字节的首部。一般首部长度为20字节。
-6. 保留：6bit, 均为0
-7. 紧急URG：当URG=1时，表示报文段中有紧急数据，应尽快传送。
-8. 确认比特ACK：ACK = 1时代表这是一个确认的TCP包，取值0则不是确认包。
-9. 推送比特PSH：当发送端PSH=1时，接收端尽快的交付给应用进程。
-10. 复位比特（RST）：当RST=1时，表明TCP连接中出现严重差错，必须释放连接，再重新建立连接。
-11. 同步比特SYN：在建立连接是用来同步序号。SYN=1， ACK=0表示一个连接请求报文段。SYN=1，ACK=1表示同意建立连接。
-12. 终止比特FIN：FIN=1时，表明此报文段的发送端的数据已经发送完毕，并要求释放传输连接。
-13. 窗口：用来控制对方发送的数据量，通知发放已确定的发送窗口上限。
-14. 检验和：该字段检验的范围包括首部和数据这两部分。由发端计算和存储，并由收端进行验证。
-15. 紧急指针：紧急指针在URG=1时才有效，它指出本报文段中的紧急数据的字节数。
-16. 选项：长度可变，最长可达40字节
+1. 源端口號：數據發起者的端口號，16bit
+2. 目的端口號：數據接收者的端口號，16bit
+3. 序號：32bit的序列號，由發送方使用
+4. 確認序號：32bit的確認號，是接收數據方期望收到發送方的下一個報文段的序號，因此確認序號應當是上次已成功收到數據字節序號加1。
+5. 首部長度：首部中32bit字的數目，可表示15*32bit=60字節的首部。一般首部長度為20字節。
+6. 保留：6bit, 均為0
+7. 緊急URG：當URG=1時，表示報文段中有緊急數據，應儘快傳送。
+8. 確認比特ACK：ACK = 1時代表這是一個確認的TCP包，取值0則不是確認包。
+9. 推送比特PSH：當發送端PSH=1時，接收端儘快的交付給應用進程。
+10. 復位比特（RST）：當RST=1時，表明TCP連接中出現嚴重差錯，必須釋放連接，再重新建立連接。
+11. 同步比特SYN：在建立連接是用來同步序號。SYN=1， ACK=0表示一個連接請求報文段。SYN=1，ACK=1表示同意建立連接。
+12. 終止比特FIN：FIN=1時，表明此報文段的發送端的數據已經發送完畢，並要求釋放傳輸連接。
+13. 窗口：用來控制對方發送的數據量，通知發放已確定的發送窗口上限。
+14. 檢驗和：該字段檢驗的範圍包括首部和數據這兩部分。由發端計算和存儲，並由收端進行驗證。
+15. 緊急指針：緊急指針在URG=1時才有效，它指出本報文段中的緊急數據的字節數。
+16. 選項：長度可變，最長可達40字節
 -->
 
-上图是 TCP 头部，来自 [nmap tcpip-ref](http://nmap.org/book/tcpip-ref.html)，需要注意的是 A) TCP 包是没有 IP 地址，那是 IP 层的事，但是有源端口和目标端口。
+上圖是 TCP 頭部，來自 [nmap tcpip-ref](http://nmap.org/book/tcpip-ref.html)，需要注意的是 A) TCP 包是沒有 IP 地址，那是 IP 層的事，但是有源端口和目標端口。
 
-上图中比较重要的是，A) Sequence Number 是包的序号，用来解决网络包乱序问题；B) Acknowledgement Number 用于确认收到包，用来解决丢包问题；C) Window 又叫 Advertised-Window 或者 Sliding Window 滑动窗口，用于解决流控；D) TCP Flag ，也就是包的类型，主要是用于操控 TCP 的状态机的。
+上圖中比較重要的是，A) Sequence Number 是包的序號，用來解決網絡包亂序問題；B) Acknowledgement Number 用於確認收到包，用來解決丟包問題；C) Window 又叫 Advertised-Window 或者 Sliding Window 滑動窗口，用於解決流控；D) TCP Flag ，也就是包的類型，主要是用於操控 TCP 的狀態機的。
 
-## 三次握手，建立连接
+## 三次握手，建立連接
 
-三次握手主要用于建立连接，主要过程如下所示。
+三次握手主要用於建立連接，主要過程如下所示。
 
 ![TCP/IP Three Way Handshaking]({{ site.url }}/images/network/tcpip_Three-Way-Handshaking.png "TCP/IP Three Way Handshaking"){: .pull-center}
 
-简单看下连接的建立过程，在建立链接之前，server 已经处于 LISTEN 状态，而客户端处于 CLOSED 状态。
+簡單看下連接的建立過程，在建立鏈接之前，server 已經處於 LISTEN 狀態，而客戶端處於 CLOSED 狀態。
 
-1. 第一次握手，客户端设置 TCB 并发送 SYN(syn=j) 包到服务器，尝试建立连接，而客户端进入 SYN-SENT 状态，等待服务器确认。
-2. 第二次握手，服务器收到 SYN 包，必须确认客户的 SYN(ack=j+1)，同时自己也发送一个 SYN (syn=k) 包，也即 SYN+ACK 包，此时服务器进入 SYN_RECEIVED 状态，同时将该链接保存在半连接队列。
-3. 第三次握手，客户端收到服务器的 SYN+ACK 包，向服务器发送确认包 ACK(ack=k+1)，客户端进入 ESTABLISHED 状态；当服务器接收到 ACK 后也进入 ESTABLISHED 状态，完成三次握手。
+1. 第一次握手，客戶端設置 TCB 併發送 SYN(syn=j) 包到服務器，嘗試建立連接，而客戶端進入 SYN-SENT 狀態，等待服務器確認。
+2. 第二次握手，服務器收到 SYN 包，必須確認客戶的 SYN(ack=j+1)，同時自己也發送一個 SYN (syn=k) 包，也即 SYN+ACK 包，此時服務器進入 SYN_RECEIVED 狀態，同時將該鏈接保存在半連接隊列。
+3. 第三次握手，客戶端收到服務器的 SYN+ACK 包，向服務器發送確認包 ACK(ack=k+1)，客戶端進入 ESTABLISHED 狀態；當服務器接收到 ACK 後也進入 ESTABLISHED 狀態，完成三次握手。
 
-注意，对于服务端会将 ESTABLISHED 状态的连接移入 accept 队列，等待应用调用 accept() 。
+注意，對於服務端會將 ESTABLISHED 狀態的連接移入 accept 隊列，等待應用調用 accept() 。
 
-可以看到，在服务端，建立连接涉及两个队列：
+可以看到，在服務端，建立連接涉及兩個隊列：
 
-* 半连接队列，保存了处于 SYN_RECV 状态的连接，表示服务器已经收到 SYN 包，并向客户发出确认，在等待客户端的确认。队列长度由 net.ipv4.tcp_max_syn_backlog 设置，一般默认值为 512 或者 1024，超过这个数量，系统将不再接受新的 TCP 连接请求。
-* 连接队列，保存 ESTABLISHED 状态的连接。队列长度为 min(net.core.somaxconn, backlog)，其中 backlog 是调用 listen(int sockfd, int backlog) 时设置。
+* 半連接隊列，保存了處於 SYN_RECV 狀態的連接，表示服務器已經收到 SYN 包，並向客戶發出確認，在等待客戶端的確認。隊列長度由 net.ipv4.tcp_max_syn_backlog 設置，一般默認值為 512 或者 1024，超過這個數量，系統將不再接受新的 TCP 連接請求。
+* 連接隊列，保存 ESTABLISHED 狀態的連接。隊列長度為 min(net.core.somaxconn, backlog)，其中 backlog 是調用 listen(int sockfd, int backlog) 時設置。
 
-### 序列号同步
+### 序列號同步
 
-通过 TCP 的三次握手，除了建立链接之外，设备上的 TCP 层也进行一些必须的信息交换，包括了 A) 第一次数据传输时使用的序列号，B) 有关如何操作该连接的一些参数。这一过程一般被称为 “序列号同步(Sequence Number Synchronization)”，这是建立连接过程中一个很重要的部分。
+通過 TCP 的三次握手，除了建立鏈接之外，設備上的 TCP 層也進行一些必須的信息交換，包括了 A) 第一次數據傳輸時使用的序列號，B) 有關如何操作該連接的一些參數。這一過程一般被稱為 “序列號同步(Sequence Number Synchronization)”，這是建立連接過程中一個很重要的部分。
 
 ![TCP/IP Server Client Process]({{ site.url }}/images/network/tcpip_server-client-process.jpg "TCP/IP Server Client Process"){: .pull-center  width="50%"}
 
-在建立链接时，双方需要相互通知自己的初始序列号 (Inital Sequence Number, ISN)，也就是 Synchronize Sequence Numbers。如上图中的 x 和 y，该值会作为以后的数据通信的序号，以保证应用层接收到的数据不会因为网络上的传输的问题而乱序，TCP 也就是用这个序号来拼接数据。
+在建立鏈接時，雙方需要相互通知自己的初始序列號 (Inital Sequence Number, ISN)，也就是 Synchronize Sequence Numbers。如上圖中的 x 和 y，該值會作為以後的數據通信的序號，以保證應用層接收到的數據不會因為網絡上的傳輸的問題而亂序，TCP 也就是用這個序號來拼接數據。
 
-可以通过如下图的方式查看序列号是如何变化的，也就是使用 Wireshark 菜单中的 Statistics => Flow Graph… 。
+可以通過如下圖的方式查看序列號是如何變化的，也就是使用 Wireshark 菜單中的 Statistics => Flow Graph… 。
 
 ![TCP/IP Sequence Number Process]({{ site.url }}/images/network/tcpip_sequence-number-process.jpg "TCP/IP Sequence Number Process"){: .pull-center }
 
-你可以看到，序列号的增加是和传输的字节数相关的。上图中，三次握手后，来了两个长度为 1440 的包，而第二个包的 SeqNum 就成了1441，然后第一个 ACK 回的是 1441，表示第一个 1440 收到了。
+你可以看到，序列號的增加是和傳輸的字節數相關的。上圖中，三次握手後，來了兩個長度為 1440 的包，而第二個包的 SeqNum 就成了1441，然後第一個 ACK 回的是 1441，表示第一個 1440 收到了。
 
-注意：Wireshark 抓包程序看3次握手，会发现SeqNum总是为0，这是为了显示更友好，使用了相对序号，只要在右键菜单中的 protocol preference 中取消掉就可以看到 “Absolute SeqNum” 了。
+注意：Wireshark 抓包程序看3次握手，會發現SeqNum總是為0，這是為了顯示更友好，使用了相對序號，只要在右鍵菜單中的 protocol preference 中取消掉就可以看到 “Absolute SeqNum” 了。
 
-更加详细的可以参考 [查看 TCP/IP 三次握手](/blog/network-wireshark.html)，或者参考 [Understanding TCP Sequence and Acknowledgment Numbers](http://packetlife.net/blog/2010/jun/7/understanding-tcp-sequence-acknowledgment-numbers/)
-，或者 [本地文档](/reference/linux/network/Understanding TCP Sequence and Acknowledgment Numbers.mht) 。
+更加詳細的可以參考 [查看 TCP/IP 三次握手](/blog/network-wireshark.html)，或者參考 [Understanding TCP Sequence and Acknowledgment Numbers](http://packetlife.net/blog/2010/jun/7/understanding-tcp-sequence-acknowledgment-numbers/)
+，或者 [本地文檔](/reference/linux/network/Understanding TCP Sequence and Acknowledgment Numbers.mht) 。
 
-### 序列号相关
+### 序列號相關
 
-有一个问题，我们为什么不能每次都把数据的第一位的序号编为 1，或者一个固定值 ? 如果采用固定的序列号，可能会导致不同链接的数据流混乱。
+有一個問題，我們為什麼不能每次都把數據的第一位的序號編為 1，或者一個固定值 ? 如果採用固定的序列號，可能會導致不同鏈接的數據流混亂。
 
-假设我们在 A 和 B 之间建立起了一个连接， A 向 B 发送了一个 byte1 到 byte30 的消息，但是此时网络出现问题，这个数据流被延迟了，最后，这个连接中断。此时我们重启了 A 到 B 的连接， A 向 B 发送了一个以 1 为序列开头的数据流，然而此时可能之前的 byte1 到 byte30 发送到了 B ， B 也会认为这 30 个 byte 可能就是来自于后来新连接从而接受，那么此时就出现了错误。
+假設我們在 A 和 B 之間建立起了一個連接， A 向 B 發送了一個 byte1 到 byte30 的消息，但是此時網絡出現問題，這個數據流被延遲了，最後，這個連接中斷。此時我們重啟了 A 到 B 的連接， A 向 B 發送了一個以 1 為序列開頭的數據流，然而此時可能之前的 byte1 到 byte30 發送到了 B ， B 也會認為這 30 個 byte 可能就是來自於後來新連接從而接受，那麼此時就出現了錯誤。
 
-为此，在 RFC793 中规定，ISN 会使用一个与时间绑定的计数器，在 TCP 层启动的时候初始化，每 4 微秒自增 1，直到溢出归 0，这样，一个 ISN 周期大约是 4.55 小时。
+為此，在 RFC793 中規定，ISN 會使用一個與時間綁定的計數器，在 TCP 層啟動的時候初始化，每 4 微秒自增 1，直到溢出歸 0，這樣，一個 ISN 週期大約是 4.55 小時。
 
-因为，我们假设我们的 TCP Segment 在网络上的存活时间不会超过 Maximum Segment Lifetime，只要 MSL 的值小于 4.55 小时，那么，我们就不会重用到 ISN。
+因為，我們假設我們的 TCP Segment 在網絡上的存活時間不會超過 Maximum Segment Lifetime，只要 MSL 的值小於 4.55 小時，那麼，我們就不會重用到 ISN。
 
-这种解决方式会带来另外一个问题，就是 ISN 变得可以被预测：可以通过分析连接的之前的 ISN 然后预测后来的 ISN ，这就造成了一个安全隐患，这个漏洞在过去曾经被利用发起国著名的 Mitnick 攻击。为了解决这个问题，现在使用的随机数代理的自增。
+這種解決方式會帶來另外一個問題，就是 ISN 變得可以被預測：可以通過分析連接的之前的 ISN 然後預測後來的 ISN ，這就造成了一個安全隱患，這個漏洞在過去曾經被利用發起國著名的 Mitnick 攻擊。為了解決這個問題，現在使用的隨機數代理的自增。
 
 <!--
 
-<h3>TCP序列号的协商</h3>
-<p>设备选好自己使用的 ISN 以后，就会把 ISN 的值填在 SYN 消息的序列号区中，并发送给对端，对端接收到以后，会回应一个 ACK （也可能包含自己的 SYN ），在 ACK 消息中，在“确认编号”区会设一个值，这个值等于接收到的 SYN 的 ISN 的值加一。这代表着设备接收到的下一个序列号来自于自己的对端。ISN 实际代表着最后收到的 byte 的序列号（假设连接是新建立并且上没有数据传输的情况下），具体这两个域是如何控制数据传输的，会在后面做介绍。<br><br>
+<h3>TCP序列號的協商</h3>
+<p>設備選好自己使用的 ISN 以後，就會把 ISN 的值填在 SYN 消息的序列號區中，併發送給對端，對端接收到以後，會迴應一個 ACK （也可能包含自己的 SYN ），在 ACK 消息中，在“確認編號”區會設一個值，這個值等於接收到的 SYN 的 ISN 的值加一。這代表著設備接收到的下一個序列號來自於自己的對端。ISN 實際代表著最後收到的 byte 的序列號（假設連接是新建立並且上沒有數據傳輸的情況下），具體這兩個域是如何控制數據傳輸的，會在後面做介紹。<br><br>
 
-关键点：作为连接建立就绪过程中的一部分， TCP 连接的两端都会告知对方自己在做第一次传输的时候将是用什么序列号，告知方式是将这个值放在 SYN 消息头部的序列号区域。对端收到以后，会对其进行确认，确认方式就是在 ACK 消息的头部的“确认编号”区域填入一个增加 1 后的数值。这个过程就叫做通讯序列号的协商。<br><br>
+關鍵點：作為連接建立就緒過程中的一部分， TCP 連接的兩端都會告知對方自己在做第一次傳輸的時候將是用什麼序列號，告知方式是將這個值放在 SYN 消息頭部的序列號區域。對端收到以後，會對其進行確認，確認方式就是在 ACK 消息的頭部的“確認編號”區域填入一個增加 1 後的數值。這個過程就叫做通訊序列號的協商。<br><br>
 
-这里有一个简单的例子描述三次握手过程中的序列号是如何工作的，我选用了较小 ISN 方便描述，但是要记住 ISN 可以是一任意一个 32 位二进制的值。
+這裡有一個簡單的例子描述三次握手過程中的序列號是如何工作的，我選用了較小 ISN 方便描述，但是要記住 ISN 可以是一任意一個 32 位二進制的值。
 
 <ol type="A"><li>
-Client发出连接请求：Client 选在一个 ISN 给其传输使用，假设为 4567 。那么 Client 会发送一个序列号域值为 4567 的 SYN 消息。</li><br><li>
+Client發出連接請求：Client 選在一個 ISN 給其傳輸使用，假設為 4567 。那麼 Client 會發送一個序列號域值為 4567 的 SYN 消息。</li><br><li>
 
-Server 进行确认并发出连接请求： Server 使用 12998 作为其连接请求的 ISN 。接收到 Client 的 SYN 以后，它会发送一个 SYN+ACK ，其中 ACK 的确认编号区的值为 4568（自增 1 ）， SYN 的序列号域值为 12998 。</li><br><li>
+Server 進行確認併發出連接請求： Server 使用 12998 作為其連接請求的 ISN 。接收到 Client 的 SYN 以後，它會發送一個 SYN+ACK ，其中 ACK 的確認編號區的值為 4568（自增 1 ）， SYN 的序列號域值為 12998 。</li><br><li>
 
-Client 进行确认：Client 返回个 Server 一个 ACK 消息， ACK 消息的确认编号区的值为 12999（Server 的 SYN 消息 ISN 自增 1 ）。</li></ol>
+Client 進行確認：Client 返回個 Server 一個 ACK 消息， ACK 消息的確認編號區的值為 12999（Server 的 SYN 消息 ISN 自增 1 ）。</li></ol>
 <center><img src="pictures/Three-Way-Handshaking-Sequence.png" height="410" width="450"></center><br>
-现在连接就已经就绪了，准备好传输数据。 Client 发送数据的第一个 byte 的编号就会是 4568 ， Server 的第一个则会是 12999 。</p>
+現在連接就已經就緒了，準備好傳輸數據。 Client 發送數據的第一個 byte 的編號就會是 4568 ， Server 的第一個則會是 12999 。</p>
 -->
 
 
-### SYN 超时与 SYN Flood 攻击
+### SYN 超時與 SYN Flood 攻擊
 
-在建立链接时，如果服务端接到了客户端发的 SYN 后回了 SYN-ACK 后客户端掉线了，服务端没有收到客户端回来的 ACK，那么这个连接处于一个中间状态，即没成功，也没失败。于是，服务端对于在一定时间内没收到 ACK 的请求会重发 SYN-ACK。
+在建立鏈接時，如果服務端接到了客戶端發的 SYN 後回了 SYN-ACK 後客戶端掉線了，服務端沒有收到客戶端回來的 ACK，那麼這個連接處於一箇中間狀態，即沒成功，也沒失敗。於是，服務端對於在一定時間內沒收到 ACK 的請求會重發 SYN-ACK。
 
-在 Linux 中，默认重试次数为 5 次，重试的间隔时间分别为 1s, 2s, 4s, 8s, 16s，在第 5 次发出后还要等 32s 都知道第 5 次也超时了，所以，总共需要 1s + 2s + 4s+ 8s+ 16s + 32s = 2^6 -1 = 63s，TCP 才会把断开这个连接。
+在 Linux 中，默認重試次數為 5 次，重試的間隔時間分別為 1s, 2s, 4s, 8s, 16s，在第 5 次發出後還要等 32s 都知道第 5 次也超時了，所以，總共需要 1s + 2s + 4s+ 8s+ 16s + 32s = 2^6 -1 = 63s，TCP 才會把斷開這個連接。
 
-SYN Flood 攻击就是给服务器发了一个 SYN 后，就下线了，于是服务器需要默认等 63s 才会断开连接，这样，攻击者就可以把服务器的 SYN 连接的队列耗尽，让正常的连接请求不能处理。
+SYN Flood 攻擊就是給服務器發了一個 SYN 後，就下線了，於是服務器需要默認等 63s 才會斷開連接，這樣，攻擊者就可以把服務器的 SYN 連接的隊列耗盡，讓正常的連接請求不能處理。
 
-对于正常请求，应该调整三个 TCP 参数：A)  tcp_synack_retries 减少重试次数；B) tcp_max_syn_backlog 增大SYN连接数；C) tcp_abort_on_overflow 处理不过来干脆就直接拒绝连接了。
+對於正常請求，應該調整三個 TCP 參數：A)  tcp_synack_retries 減少重試次數；B) tcp_max_syn_backlog 增大SYN連接數；C) tcp_abort_on_overflow 處理不過來乾脆就直接拒絕連接了。
 
 
 ### TCP SYNC cookies
 
-SYN Cookie 是对 TCP 服务器端的三次握手协议作一些修改，专门用来防范 SYN Flood 攻击。
+SYN Cookie 是對 TCP 服務器端的三次握手協議作一些修改，專門用來防範 SYN Flood 攻擊。
 
-其原理是，在 TCP 服务器收到 TCP SYN 包并返回 TCP SYN+ACK 包时，不分配一个专门的数据区，而是根据这个 SYN 包计算出一个 cookie 值。在收到 TCP ACK 包时，TCP 服务器在根据那个 cookie 值检查这个 TCP ACK 包的合法性。如果合法，再分配专门的数据区进行处理未来的 TCP 连接。
+其原理是，在 TCP 服務器收到 TCP SYN 包並返回 TCP SYN+ACK 包時，不分配一個專門的數據區，而是根據這個 SYN 包計算出一個 cookie 值。在收到 TCP ACK 包時，TCP 服務器在根據那個 cookie 值檢查這個 TCP ACK 包的合法性。如果合法，再分配專門的數據區進行處理未來的 TCP 連接。
 
-于是，Linux下给了一个叫tcp_syncookies的参数来应对这个事——当SYN队列满了后，TCP会通过源地址端口、目标地址端口和时间戳打造出一个特别的Sequence Number发回去（又叫cookie），如果是攻击者则不会有响应，如果是正常连接，则会把这个 SYN Cookie发回来，然后服务端可以通过cookie建连接（即使你不在SYN队列中）。请注意，请先千万别用tcp_syncookies来处理正常的大负载的连接的情况。因为，synccookies是妥协版的TCP协议，并不严谨。
+於是，Linux下給了一個叫tcp_syncookies的參數來應對這個事——當SYN隊列滿了後，TCP會通過源地址端口、目標地址端口和時間戳打造出一個特別的Sequence Number發回去（又叫cookie），如果是攻擊者則不會有響應，如果是正常連接，則會把這個 SYN Cookie發回來，然後服務端可以通過cookie建連接（即使你不在SYN隊列中）。請注意，請先千萬別用tcp_syncookies來處理正常的大負載的連接的情況。因為，synccookies是妥協版的TCP協議，並不嚴謹。
 
-## 四次握手，关闭连接
+## 四次握手，關閉連接
 
-关闭相对来说要复杂，这是由于两端设备都在相互的发送/接收数据，当一端告诉对端 “我打算关闭这个连接” 时，而对端以及相应的应用程序可能完全不知道自己的对端正在打算关闭这个连接，所以为了能够优雅的关闭当期的连接并且还要保证不会产生数据丢失，这个步骤就会相对的复杂一些。
+關閉相對來說要複雜，這是由於兩端設備都在相互的發送/接收數據，當一端告訴對端 “我打算關閉這個連接” 時，而對端以及相應的應用程序可能完全不知道自己的對端正在打算關閉這個連接，所以為了能夠優雅的關閉當期的連接並且還要保證不會產生數據丟失，這個步驟就會相對的複雜一些。
 
-通过信息同步，当两端的程序都意识到 “这个连接就要被关闭” 并且已经停止发送数据的时候才能真正的开始着手关闭这个连接。而对于连接的一端来说，连接的关闭意味着自己停止发送数据，但是还可以接受从对端传来的数据，直到对端也停止发送。
+通過信息同步，當兩端的程序都意識到 “這個連接就要被關閉” 並且已經停止發送數據的時候才能真正的開始著手關閉這個連接。而對於連接的一端來說，連接的關閉意味著自己停止發送數據，但是還可以接受從對端傳來的數據，直到對端也停止發送。
 
-说是四次握手，而实际上是两次，这是因为 TCP 是全双工的，发送方和接收方都需要 FIN 和 ACK，只不过，有一方是被动的，所以看上去就成了所谓的四次挥手。如果两边同时断连接，那就会就进入到 CLOSING 状态，然后到达 TIME_WAIT 状态。
+說是四次握手，而實際上是兩次，這是因為 TCP 是全雙工的，發送方和接收方都需要 FIN 和 ACK，只不過，有一方是被動的，所以看上去就成了所謂的四次揮手。如果兩邊同時斷連接，那就會就進入到 CLOSING 狀態，然後到達 TIME_WAIT 狀態。
 
-### 标准连接关闭过程
+### 標準連接關閉過程
 
-两端通过发送 FIN 消息来告知对端自己将关闭连接，当对端接收到 FIN 消息以后，会返回一个 ACK 消息告知 FIN 消息已经收到。只有当双方都发送了 FIN 并且接收到了 ACK 才会被认为已经完全的断开。
+兩端通過發送 FIN 消息來告知對端自己將關閉連接，當對端接收到 FIN 消息以後，會返回一個 ACK 消息告知 FIN 消息已經收到。只有當雙方都發送了 FIN 並且接收到了 ACK 才會被認為已經完全的斷開。
 
 ![TCP/IP Four Way Handshake]({{ site.url }}/images/network/tcpip_Four-Way-Handshake.png "TCP/IP Four Way Handshake"){: .pull-center}
 
-### 同时关闭
+### 同時關閉
 
-如下图所示，在这个过程中有很多是相对称的地方，状态对称，动作和结果也对称。在 CLOSED 状态时，也就是没有连接时， TCP 层会保证所有重要的数据已经发送到应用层，有时候可以理解成是一个 “push” 。 TCB 也会在连接关闭完成后被销毁。
+如下圖所示，在這個過程中有很多是相對稱的地方，狀態對稱，動作和結果也對稱。在 CLOSED 狀態時，也就是沒有連接時， TCP 層會保證所有重要的數據已經發送到應用層，有時候可以理解成是一個 “push” 。 TCB 也會在連接關閉完成後被銷燬。
 
-关键点：就像连接可以通过两端同时主动 OPEN 建立，连接也可以通过两端同时中断来完成关闭。在这种情况下，转换过程会有一些不同，两端的设备都是先用 ACK 回复对端发来的 FIN ，然后再等待接受返回的 ACK ，最后再经过 2 倍 MSL 来确保消息和数据已经传输完成，终于关闭了连接。
+關鍵點：就像連接可以通過兩端同時主動 OPEN 建立，連接也可以通過兩端同時中斷來完成關閉。在這種情況下，轉換過程會有一些不同，兩端的設備都是先用 ACK 回覆對端發來的 FIN ，然後再等待接受返回的 ACK ，最後再經過 2 倍 MSL 來確保消息和數據已經傳輸完成，終於關閉了連接。
 
 ![TCP/IP Four Way Handshake Sync]({{ site.url }}/images/network/tcpip_Four-Way-Handshake-Sync.png "TCP/IP Four Way Handshake Sync"){: .pull-center}
 
 ### CLOSE-WAIT 和 TIME-WAIT
 
-收到 FIN 消息的服务器可能会在 CLOSE-WAIT 状态等待相当长的一段时间，直到对应的应用程序告诉它 “我已经准备好关闭连接了”。TCP 不能假设自己会需要等待多久，在这一段时间里， Server 可能仍在发送数据，而 Client 则一直在接受，但是 Client 已经不会再发给 Server 数据了。
+收到 FIN 消息的服務器可能會在 CLOSE-WAIT 狀態等待相當長的一段時間，直到對應的應用程序告訴它 “我已經準備好關閉連接了”。TCP 不能假設自己會需要等待多久，在這一段時間裡， Server 可能仍在發送數據，而 Client 則一直在接受，但是 Client 已經不會再發給 Server 數據了。
 
-到最后，Server 终于发出了 FIN 消息要关闭自己这一端的连接了，那么起初发送 FIN 消息的机器即 Client 会返回一个 ACK 进行确认。但是 Client 不能在发送完 ACK 立刻就进入 CLOSED 状态，因为它必须要等待 ACK 确确实实的已经发送到了对端，正常情况下这个过程很快，但是还是要考虑不正常情况可能造成的延迟。
+到最後，Server 終於發出了 FIN 消息要關閉自己這一端的連接了，那麼起初發送 FIN 消息的機器即 Client 會返回一個 ACK 進行確認。但是 Client 不能在發送完 ACK 立刻就進入 CLOSED 狀態，因為它必須要等待 ACK 確確實實的已經發送到了對端，正常情況下這個過程很快，但是還是要考慮不正常情況可能造成的延遲。
 
-从 TIME_WAIT 到 CLOSED 有一个 2*MSL 的超时设置 (RFC793 定义为 2min，而 Linux 设置为 30s)，这么作主要有两个原因：
+從 TIME_WAIT 到 CLOSED 有一個 2*MSL 的超時設置 (RFC793 定義為 2min，而 Linux 設置為 30s)，這麼作主要有兩個原因：
 
-* 要确保足够长的时间能让 ACK 到达连接对端，并且还有可能会要求重传，如果被动关闭的那方没有收到 ACK，就会触发被动端重发 FIN，一来一去正好 2 个 MSL。
+* 要確保足夠長的時間能讓 ACK 到達連接對端，並且還有可能會要求重傳，如果被動關閉的那方沒有收到 ACK，就會觸發被動端重發 FIN，一來一去正好 2 個 MSL。
 
 <!--
-这是因为：虽然双方都同意关闭连接了，而且握手的 4 个报文也都协调和发送完毕，按理可以直接回到 CLOSED 状态；但是因为我们必须要假想网络是不可靠的，你无法保证你最后发送的 ACK 报文会一定被对方收到，因此对方处于 LAST_ACK 状态下的 SOCKET 可能会因为超时未收到 ACK 报文，而重发 FIN 报文，所以这个 TIME_WAIT 状态的作用就是用来重发可能丢失的 ACK 报文，并保证于此。<br><br>
+這是因為：雖然雙方都同意關閉連接了，而且握手的 4 個報文也都協調和發送完畢，按理可以直接回到 CLOSED 狀態；但是因為我們必須要假想網絡是不可靠的，你無法保證你最後發送的 ACK 報文會一定被對方收到，因此對方處於 LAST_ACK 狀態下的 SOCKET 可能會因為超時未收到 ACK 報文，而重發 FIN 報文，所以這個 TIME_WAIT 狀態的作用就是用來重發可能丟失的 ACK 報文，並保證於此。<br><br>
 
-如果这时被动方会重新发 FIN ，如果这时主动方处于 CLOSED 状态，就会响应 RST 而不是 ACK，所以主动方要处于 TIME_WAIT 状态，而不能是 CLOSED 。
+如果這時被動方會重新發 FIN ，如果這時主動方處於 CLOSED 狀態，就會響應 RST 而不是 ACK，所以主動方要處於 TIME_WAIT 狀態，而不能是 CLOSED 。
 -->
 
-* 第二个原因就是需要为即将关闭的当前连接和后继的新连接之间提供一个 "缓冲间隔"，避免不同链接数据造成混乱的可能。主要防止上一次连接中的包，迷路后重新出现，影响新连接 (经过2MSL，上一次连接中所有的重复包都会消失)。
+* 第二個原因就是需要為即將關閉的當前連接和後繼的新連接之間提供一個 "緩衝間隔"，避免不同鏈接數據造成混亂的可能。主要防止上一次連接中的包，迷路後重新出現，影響新連接 (經過2MSL，上一次連接中所有的重複包都會消失)。
 
-TCP 标准规定 TIME-WAIT 时间是两倍的 MSL，在现在的网络中，这是一个常量，所以 TCP 层允许程序使用一个较小的值去代替，只要能保证工作正常即可。
+TCP 標準規定 TIME-WAIT 時間是兩倍的 MSL，在現在的網絡中，這是一個常量，所以 TCP 層允許程序使用一個較小的值去代替，只要能保證工作正常即可。
 
-MSL (最大分段生存期) 用以指明 TCP 报文在 Internet 上最长生存时间，每个具体的 TCP 实现都必须选择一个确定的 MSL 值。RFC1122 建议是 2 分钟，但 BSD 传统实现采用了 30 秒。
+MSL (最大分段生存期) 用以指明 TCP 報文在 Internet 上最長生存時間，每個具體的 TCP 實現都必須選擇一個確定的 MSL 值。RFC1122 建議是 2 分鐘，但 BSD 傳統實現採用了 30 秒。
 
-可以参考 [TIME_WAIT and its design implications for protocols and scalable client server systems](http://www.serverframework.com/asynchronousevents/2011/01/time-wait-and-its-design-implications-for-protocols-and-scalable-servers.html)，或者 [本地文档](/reference/linux/network/TIME_WAIT and its design implications for protocols and scalable client server systems - AsynchronousEvents.mht) 。
+可以參考 [TIME_WAIT and its design implications for protocols and scalable client server systems](http://www.serverframework.com/asynchronousevents/2011/01/time-wait-and-its-design-implications-for-protocols-and-scalable-servers.html)，或者 [本地文檔](/reference/linux/network/TIME_WAIT and its design implications for protocols and scalable client server systems - AsynchronousEvents.mht) 。
 
-## 滑动窗口
+## 滑動窗口
 
-TCP 需要保证数据传输的质量，会对发送的数据进行跟踪，解决可靠传输以及包乱续的问题。这种数据管理主要有以下两大关键功能：A) 可靠性，保证数据确实到达目的地，未到达，则能够发现并重传；B) 数据流控，管理数据的发送速率，以使接收设备不致于过载。
+TCP 需要保證數據傳輸的質量，會對發送的數據進行跟蹤，解決可靠傳輸以及包亂續的問題。這種數據管理主要有以下兩大關鍵功能：A) 可靠性，保證數據確實到達目的地，未到達，則能夠發現並重傳；B) 數據流控，管理數據的發送速率，以使接收設備不致於過載。
 
-要完成这些任务，整个协议围绕滑动窗口确认机制来进行。所以，TCP 必需要知道网络实际的数据处理带宽或是数据处理速度，这样才不会引起网络拥塞，导致丢包。所以，TCP 引入了一些技术来做网络流控，滑动窗口就是其中之一。
+要完成這些任務，整個協議圍繞滑動窗口確認機制來進行。所以，TCP 必需要知道網絡實際的數據處理帶寬或是數據處理速度，這樣才不會引起網絡擁塞，導致丟包。所以，TCP 引入了一些技術來做網絡流控，滑動窗口就是其中之一。
 
-TCP 头有一个字段 Window，用于接收端告诉发送端自己还有多少缓冲区可以接收数据，于是发送端就可以根据这个接收端的处理能力来发送数据，而不会导致接收端处理不过来。
+TCP 頭有一個字段 Window，用於接收端告訴發送端自己還有多少緩衝區可以接收數據，於是發送端就可以根據這個接收端的處理能力來發送數據，而不會導致接收端處理不過來。
 
 ![TCP/IP Slide Window]({{ site.url }}/images/network/tcpip-slide-window-struct.jpg "TCP/IP Slide Window"){: .pull-center width="70%" }
 
-上图是发送和接收端的相关数据结构，可以看到：
+上圖是發送和接收端的相關數據結構，可以看到：
 
-* 接收端 LastByteRead 指向了 TCP 缓冲区中读到的位置，NextByteExpected 指向的是收到的连续包的最后一个位置，LastByteRcved 指向的是收到的包的最后一个位置，我们可以看到中间有些数据还没有到达，所以有数据空白区。
-* 发送端的 LastByteAcked 指向了被接收端 Ack 过的位置（表示成功发送确认），LastByteSent 表示发出去了，但还没有收到成功确认的 Ack，LastByteWritten 指向的是上层应用正在写的地方。
+* 接收端 LastByteRead 指向了 TCP 緩衝區中讀到的位置，NextByteExpected 指向的是收到的連續包的最後一個位置，LastByteRcved 指向的是收到的包的最後一個位置，我們可以看到中間有些數據還沒有到達，所以有數據空白區。
+* 發送端的 LastByteAcked 指向了被接收端 Ack 過的位置（表示成功發送確認），LastByteSent 表示發出去了，但還沒有收到成功確認的 Ack，LastByteWritten 指向的是上層應用正在寫的地方。
 
-于是，接收端在给发送端回 ACK 中会汇报自己的 `AdvertisedWindow = MaxRcvBuffer - LastByteRcvd - 1`；而发送方会根据这个窗口来控制发送数据的大小，以保证接收方可以处理。
+於是，接收端在給發送端回 ACK 中會彙報自己的 `AdvertisedWindow = MaxRcvBuffer - LastByteRcvd - 1`；而發送方會根據這個窗口來控制發送數據的大小，以保證接收方可以處理。
 
 ![TCP/IP Slide Window]({{ site.url }}/images/network/tcpip-slide-window-send.png "TCP/IP Slide Window"){: .pull-center width="90%" }
 
-上图中的黑框就是滑动窗口，整个缓冲区被分成了四个部分：#1 已收到 ACK 确认的数据；#2 已经发送但还没收到 ACK；#3 在窗口但还没有发出，接收方还有空间；#4 窗口以外的数据，接收方没空间。
+上圖中的黑框就是滑動窗口，整個緩衝區被分成了四個部分：#1 已收到 ACK 確認的數據；#2 已經發送但還沒收到 ACK；#3 在窗口但還沒有發出，接收方還有空間；#4 窗口以外的數據，接收方沒空間。
 
 ### Zero Window
 
 ![TCP/IP Zero Window]({{ site.url }}/images/network/tcpip-tcpswflow.png "TCP/IP Zero Window"){: .pull-center width="70%" }
 
-上图是一个处理缓慢的 Server 把 Client 的 TCP Sliding Window 给降成 0 ，此时 Client 将不再发送数据，如果接收方一会儿 Window Size 可用了，怎么通知发送端呢？
+上圖是一個處理緩慢的 Server 把 Client 的 TCP Sliding Window 給降成 0 ，此時 Client 將不再發送數據，如果接收方一會兒 Window Size 可用了，怎麼通知發送端呢？
 
-TCP 使用 Zero Window Probe, ZWP 技术，也就是说，发送端在窗口变成 0 后，会发 ZWP 包让接收方响应它的 Window 大小，一般会重试 3 次，第次间隔约 30-60s，如果 3 次后仍为 0 ，有的协议实现就会发 RST 把链接断了。
+TCP 使用 Zero Window Probe, ZWP 技術，也就是說，發送端在窗口變成 0 後，會發 ZWP 包讓接收方響應它的 Window 大小，一般會重試 3 次，第次間隔約 30-60s，如果 3 次後仍為 0 ，有的協議實現就會發 RST 把鏈接斷了。
 
 <!--
-注意：只要有等待的地方都可能出现DDoS攻击，Zero Window也不例外，一些攻击者会在和HTTP建好链发完GET请求后，就把Window设置为0，然后服务端就只能等待进行ZWP，于是攻击者会并发大量的这样的请求，把服务器端的资源耗尽。（关于这方面的攻击，大家可以移步看一下Wikipedia的SockStress词条）
-另外，Wireshark中，你可以使用tcp.analysis.zero_window来过滤包，然后使用右键菜单里的follow TCP stream，你可以看到ZeroWindowProbe及ZeroWindowProbeAck的包。
+注意：只要有等待的地方都可能出現DDoS攻擊，Zero Window也不例外，一些攻擊者會在和HTTP建好鏈發完GET請求後，就把Window設置為0，然後服務端就只能等待進行ZWP，於是攻擊者會併發大量的這樣的請求，把服務器端的資源耗盡。（關於這方面的攻擊，大家可以移步看一下Wikipedia的SockStress詞條）
+另外，Wireshark中，你可以使用tcp.analysis.zero_window來過濾包，然後使用右鍵菜單裡的follow TCP stream，你可以看到ZeroWindowProbe及ZeroWindowProbeAck的包。
 -->
 
 ### Silly Window Syndrome
 
-如果接收方太忙了，来不及取走 Receive Windows 里的数据，那么，就会导致发送方越来越小；到最后，如果接收方只能腾出几个字节并告诉发送方现在有几个字节的 window，而发送方会义无反顾地发送这几个字节。
+如果接收方太忙了，來不及取走 Receive Windows 裡的數據，那麼，就會導致發送方越來越小；到最後，如果接收方只能騰出幾個字節並告訴發送方現在有幾個字節的 window，而發送方會義無反顧地發送這幾個字節。
 
 <!--
-要知道，我们的TCP+IP头有40个字节，为了几个字节，要达上这么大的开销，这太不经济了。
+要知道，我們的TCP+IP頭有40個字節，為了幾個字節，要達上這麼大的開銷，這太不經濟了。
 
-另外，你需要知道网络上有个MTU，对于以太网来说，MTU是1500字节，除去TCP+IP头的40个字节，真正的数据传输可以有1460，这就是所谓的MSS（Max Segment Size）注意，TCP的RFC定义这个MSS的默认值是536，这是因为 RFC 791里说了任何一个IP设备都得最少接收576尺寸的大小（实际上来说576是拨号的网络的MTU，而576减去IP头的20个字节就是536）。
+另外，你需要知道網絡上有個MTU，對於以太網來說，MTU是1500字節，除去TCP+IP頭的40個字節，真正的數據傳輸可以有1460，這就是所謂的MSS（Max Segment Size）注意，TCP的RFC定義這個MSS的默認值是536，這是因為 RFC 791裡說了任何一個IP設備都得最少接收576尺寸的大小（實際上來說576是撥號的網絡的MTU，而576減去IP頭的20個字節就是536）。
 
-如果你的网络包可以塞满MTU，那么你可以用满整个带宽，如果不能，那么你就会浪费带宽。（大于MTU的包有两种结局，一种是直接被丢了，另一种是会被重新分块打包发送） 你可以想像成一个MTU就相当于一个飞机的最多可以装的人，如果这飞机里满载的话，带宽最高，如果一个飞机只运一个人的话，无疑成本增加了，也而相当二。
+如果你的網絡包可以塞滿MTU，那麼你可以用滿整個帶寬，如果不能，那麼你就會浪費帶寬。（大於MTU的包有兩種結局，一種是直接被丟了，另一種是會被重新分塊打包發送） 你可以想像成一個MTU就相當於一個飛機的最多可以裝的人，如果這飛機裡滿載的話，帶寬最高，如果一個飛機只運一個人的話，無疑成本增加了，也而相當二。
 
-所以，Silly Windows Syndrome这个现像就像是你本来可以坐200人的飞机里只做了一两个人。 要解决这个问题也不难，就是避免对小的window size做出响应，直到有足够大的window size再响应，这个思路可以同时实现在sender和receiver两端。
+所以，Silly Windows Syndrome這個現像就像是你本來可以坐200人的飛機裡只做了一兩個人。 要解決這個問題也不難，就是避免對小的window size做出響應，直到有足夠大的window size再響應，這個思路可以同時實現在sender和receiver兩端。
 
-如果这个问题是由Receiver端引起的，那么就会使用 David D Clark’s 方案。在receiver端，如果收到的数据导致window size小于某个值，可以直接ack(0)回sender，这样就把window给关闭了，也阻止了sender再发数据过来，等到receiver端处理了一些数据后windows size 大于等于了MSS，或者，receiver buffer有一半为空，就可以把window打开让send 发送数据过来。
+如果這個問題是由Receiver端引起的，那麼就會使用 David D Clark’s 方案。在receiver端，如果收到的數據導致window size小於某個值，可以直接ack(0)回sender，這樣就把window給關閉了，也阻止了sender再發數據過來，等到receiver端處理了一些數據後windows size 大於等於了MSS，或者，receiver buffer有一半為空，就可以把window打開讓send 發送數據過來。
 
-如果这个问题是由Sender端引起的，那么就会使用著名的 Nagle’s algorithm。这个算法的思路也是延时处理，他有两个主要的条件：1）要等到 Window Size>=MSS 或是 Data Size >=MSS，2）收到之前发送数据的ack回包，他才会发数据，否则就是在攒数据。
+如果這個問題是由Sender端引起的，那麼就會使用著名的 Nagle’s algorithm。這個算法的思路也是延時處理，他有兩個主要的條件：1）要等到 Window Size>=MSS 或是 Data Size >=MSS，2）收到之前發送數據的ack回包，他才會發數據，否則就是在攢數據。
 
-另外，Nagle算法默认是打开的，所以，对于一些需要小包场景的程序——比如像telnet或ssh这样的交互性比较强的程序，你需要关闭这个算法。你可以在Socket设置TCP_NODELAY选项来关闭这个算法（关闭Nagle算法没有全局参数，需要根据每个应用自己的特点来关闭）
+另外，Nagle算法默認是打開的，所以，對於一些需要小包場景的程序——比如像telnet或ssh這樣的交互性比較強的程序，你需要關閉這個算法。你可以在Socket設置TCP_NODELAY選項來關閉這個算法（關閉Nagle算法沒有全局參數，需要根據每個應用自己的特點來關閉）
 1 setsockopt(sock_fd, IPPROTO_TCP, TCP_NODELAY, (char *)&value,sizeof(int));
 
-另外，网上有些文章说TCP_CORK的socket option是也关闭Nagle算法，这不对。TCP_CORK其实是更新激进的Nagle算汉，完全禁止小包发送，而Nagle算法没有禁止小包发送，只是禁止了大量的小包发送。最好不要两个选项都设置。
+另外，網上有些文章說TCP_CORK的socket option是也關閉Nagle算法，這不對。TCP_CORK其實是更新激進的Nagle算漢，完全禁止小包發送，而Nagle算法沒有禁止小包發送，只是禁止了大量的小包發送。最好不要兩個選項都設置。
 -->
 
-## 拥塞控制
+## 擁塞控制
 
-TCP 通过 Sliding Window 来做流控 (Flow Control)，但是这种方式依赖于连接的发送端和接收端，并不知道网络中间发生了什么。
+TCP 通過 Sliding Window 來做流控 (Flow Control)，但是這種方式依賴於連接的發送端和接收端，並不知道網絡中間發生了什麼。
 
 <!--
-TCP的设计者觉得，一个伟大而牛逼的协议仅仅做到流控并不够，因为流控只是网络模型4层以上的事，TCP的还应该更聪明地知道整个网络上的事。
+TCP的設計者覺得，一個偉大而牛逼的協議僅僅做到流控並不夠，因為流控只是網絡模型4層以上的事，TCP的還應該更聰明地知道整個網絡上的事。
 -->
 
-## 参考
+## 參考
 
-关于 TCP/IP 协议可以参考 《TCP/IP 详解 卷1：协议》，以及 RFC793 等一系列的标准，如下是一些比较经典的参考。
+關於 TCP/IP 協議可以參考 《TCP/IP 詳解 卷1：協議》，以及 RFC793 等一系列的標準，如下是一些比較經典的參考。
 
-* [IP_TCP_UDP_Header 本地文档](/reference/linux/network/IP_TCP_UDP_Header.pdf)，包括了 IP、TCP、UDP 头部信息，以及 TCP 状态转换，也就是比较经典的格式。
+* [IP_TCP_UDP_Header 本地文檔](/reference/linux/network/IP_TCP_UDP_Header.pdf)，包括了 IP、TCP、UDP 頭部信息，以及 TCP 狀態轉換，也就是比較經典的格式。
 
-* [网络基本功](http://blog.csdn.net/xiongyingzhuantu/article/details/38665549) 一系列网路基本知识的介绍，包括了整个链路；[TCP 的那些事儿](http://coolshell.cn/articles/11564.html) 在 CoolShell 中的关于 TCP 协议的介绍，包括上述的图片。
+* [網絡基本功](http://blog.csdn.net/xiongyingzhuantu/article/details/38665549) 一系列網路基本知識的介紹，包括了整個鏈路；[TCP 的那些事兒](http://coolshell.cn/articles/11564.html) 在 CoolShell 中的關於 TCP 協議的介紹，包括上述的圖片。
 
-* [The TCP/IP Guide](htp://www.tcpipguide.com/index.htm) 很好的介绍 TCP 概念的资料，可以参考 [本地文档](/reference/linux/The TCP-IP Guide - A Comprehensive Illustrated Internet Protocols Reference.pdf)，可以参考 TCP Fundamentals and General Operation 相关章节；[Nmap Network Scanning](http://nmap.org/book/tcpip-ref.html) 实际是 NMAP 的介绍，不过有很多相关协议的介绍。
+* [The TCP/IP Guide](htp://www.tcpipguide.com/index.htm) 很好的介紹 TCP 概念的資料，可以參考 [本地文檔](/reference/linux/The TCP-IP Guide - A Comprehensive Illustrated Internet Protocols Reference.pdf)，可以參考 TCP Fundamentals and General Operation 相關章節；[Nmap Network Scanning](http://nmap.org/book/tcpip-ref.html) 實際是 NMAP 的介紹，不過有很多相關協議的介紹。
 
-* [高性能网络编程](http://blog.csdn.net/column/details/high-perf-network.html) 包括了对网络协议的详细介绍。
+* [高性能網絡編程](http://blog.csdn.net/column/details/high-perf-network.html) 包括了對網絡協議的詳細介紹。
 
 <!--
 http://blog.csdn.net/hc260164797/article/details/7563228

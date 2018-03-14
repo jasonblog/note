@@ -1,72 +1,72 @@
 ---
-title: Linux 网络常见监控项以及报错
+title: Linux 網絡常見監控項以及報錯
 layout: post
 comments: true
 language: chinese
 category: [linux, network]
-keywords: 网络,监控,linux,network
-description: 本来是想将报错和监控拆开的，但是发现两者几乎是耦合的，通过监控项才能发现错误，定为错误的原因时也要依赖监控项，索性就将两者合并到了一起。 对于很多的报错，实际上你即使看到报错的信息也不清楚到底是那里报错了，或者模棱两可，甚至是误导。最好的方式是 "Show me the code" 。 在此，简单介绍一下与网络相关的调试、查看方法，当然也包括了报错相关的内容。
+keywords: 網絡,監控,linux,network
+description: 本來是想將報錯和監控拆開的，但是發現兩者幾乎是耦合的，通過監控項才能發現錯誤，定為錯誤的原因時也要依賴監控項，索性就將兩者合併到了一起。 對於很多的報錯，實際上你即使看到報錯的信息也不清楚到底是那裡報錯了，或者模稜兩可，甚至是誤導。最好的方式是 "Show me the code" 。 在此，簡單介紹一下與網絡相關的調試、查看方法，當然也包括了報錯相關的內容。
 ---
 
-本来是想将报错和监控拆开的，但是发现两者几乎是耦合的，通过监控项才能发现错误，定为错误的原因时也要依赖监控项，索性就将两者合并到了一起。
+本來是想將報錯和監控拆開的，但是發現兩者幾乎是耦合的，通過監控項才能發現錯誤，定為錯誤的原因時也要依賴監控項，索性就將兩者合併到了一起。
 
-对于很多的报错，实际上你即使看到报错的信息也不清楚到底是那里报错了，或者模棱两可，甚至是误导。最好的方式是 "Show me the code" 。
+對於很多的報錯，實際上你即使看到報錯的信息也不清楚到底是那裡報錯了，或者模稜兩可，甚至是誤導。最好的方式是 "Show me the code" 。
 
-在此，简单介绍一下与网络相关的调试、查看方法，当然也包括了报错相关的内容。
+在此，簡單介紹一下與網絡相關的調試、查看方法，當然也包括了報錯相關的內容。
 
 <!-- more -->
 
-## 简介
+## 簡介
 
-查看网络的状态有很多中方法，如之前介绍的 [网络状态查看命令 netstat VS. ss](/post/network-nettools-vs-iproute2.html)，也即使用 netlink 机制；还有 procfs 。相比来说，前者效率更高，但是后者查看会更加方便。
+查看網絡的狀態有很多中方法，如之前介紹的 [網絡狀態查看命令 netstat VS. ss](/post/network-nettools-vs-iproute2.html)，也即使用 netlink 機制；還有 procfs 。相比來說，前者效率更高，但是後者查看會更加方便。
 
-在此仅介绍 procfs 的相关实现，内核的相关实现在 net/core/net-procfs.c 中，所以如果对 /proc/net 下的文件内容不熟悉，可以直接查看内核中的统计项。
+在此僅介紹 procfs 的相關實現，內核的相關實現在 net/core/net-procfs.c 中，所以如果對 /proc/net 下的文件內容不熟悉，可以直接查看內核中的統計項。
 
 
-## 查看丢包
+## 查看丟包
 
-网络丢包会有多种可能，例如，交换机，上连和下连端口的流量跑满或链路有问题，那么数据包就有可能会被交换机丢掉；负载均衡设备，包括了硬件设备以及软件的负载均衡。
+網絡丟包會有多種可能，例如，交換機，上連和下連端口的流量跑滿或鏈路有問題，那麼數據包就有可能會被交換機丟掉；負載均衡設備，包括了硬件設備以及軟件的負載均衡。
 
-在此，我们仅查看本机可能导致的掉包。
+在此，我們僅查看本機可能導致的掉包。
 
-### 操作系统处理不过来，丢弃数据
+### 操作系統處理不過來，丟棄數據
 
-有两种情况，一是网卡发现操作系统处理不过来，丢数据包，可以读取下面的文件：
+有兩種情況，一是網卡發現操作系統處理不過來，丟數據包，可以讀取下面的文件：
 
 {% highlight text %}
 $ cat /proc/net/dev
 {% endhighlight %}
 
-每个网络接口一行统计数据，第 4 列（errs）是接收出错的数据包数量，第 5 列（drop）是接收不过来丢弃的数量。
+每個網絡接口一行統計數據，第 4 列（errs）是接收出錯的數據包數量，第 5 列（drop）是接收不過來丟棄的數量。
 
-第二部分是传统非 NAPI 接口实现的网卡驱动，每个 CPU 有一个队列，当在队列中缓存的数据包数量超过 net.core.netdev_max_backlog 时，网卡驱动程序会丢掉数据包，这个见下面的文件：
+第二部分是傳統非 NAPI 接口實現的網卡驅動，每個 CPU 有一個隊列，當在隊列中緩存的數據包數量超過 net.core.netdev_max_backlog 時，網卡驅動程序會丟掉數據包，這個見下面的文件：
 
 {% highlight text %}
 $ cat /proc/net/softnet_stat
 {% endhighlight %}
 
-每个 CPU 有一行统计数据，第二列是对应 CPU 丢弃的数据包数量。
+每個 CPU 有一行統計數據，第二列是對應 CPU 丟棄的數據包數量。
 
-### 应用程序处理不过来，操作系统丢弃
+### 應用程序處理不過來，操作系統丟棄
 
-内核中记录了两个计数器：
+內核中記錄了兩個計數器：
 
-* ListenOverflows：当 socket 的 listen queue 已满，当新增一个连接请求时，应用程序来不及处理；
+* ListenOverflows：當 socket 的 listen queue 已滿，當新增一個連接請求時，應用程序來不及處理；
 
-* ListenDrops：包含上面的情况，除此之外，当内存不够无法为新的连接分配 socket 相关的数据结构时，也会加 1，当然还有别的异常情况下会增加 1。
+* ListenDrops：包含上面的情況，除此之外，當內存不夠無法為新的連接分配 socket 相關的數據結構時，也會加 1，當然還有別的異常情況下會增加 1。
 
-分别对应下面文件中的第 21 列（ListenOverflows）和第 22 列（ListenDrops），可以通过如下命令查看：
+分別對應下面文件中的第 21 列（ListenOverflows）和第 22 列（ListenDrops），可以通過如下命令查看：
 
 {% highlight text %}
 $ cat /proc/net/netstat | awk '/TcpExt/ { print $21,$22 }'
 {% endhighlight %}
 
-如果使用 netstat 命令，有丢包时会看到 "times the listen queue of a socket overflowed" 以及 "SYNs to LISTEN sockets ignored" 对应行前面的数字；如果值为 0 则不会输出对应的行。
+如果使用 netstat 命令，有丟包時會看到 "times the listen queue of a socket overflowed" 以及 "SYNs to LISTEN sockets ignored" 對應行前面的數字；如果值為 0 則不會輸出對應的行。
 
 
 ## Out of memory
 
-直接看代码，在内核中，对应的代码如下。
+直接看代碼，在內核中，對應的代碼如下。
 
 {% highlight c %}
 bool tcp_check_oom(struct sock *sk, int shift)
@@ -114,26 +114,26 @@ static int tcp_out_of_resources(struct sock *sk, bool do_reset)
 }
 {% endhighlight %}
 
-如上所示，出现内存不足可能会有两种情况：
+如上所示，出現內存不足可能會有兩種情況：
 
-* 有太多的 orphan sockets，通常对于一些前端的服务器经常会出现这种情况。
+* 有太多的 orphan sockets，通常對於一些前端的服務器經常會出現這種情況。
 
-* 分配给 TCP 的内存确实较少，从而导致内存不足。
+* 分配給 TCP 的內存確實較少，從而導致內存不足。
 
-### 内存不足
+### 內存不足
 
-这个比较好排查，只需要查看一下实际分配给 TCP 多少内存，现在时用了多少内存即可。需要注意的是，通常的配置项使用的单位是 Bytes，在此用的是 Pages，通常为 4K 。
+這個比較好排查，只需要查看一下實際分配給 TCP 多少內存，現在時用了多少內存即可。需要注意的是，通常的配置項使用的單位是 Bytes，在此用的是 Pages，通常為 4K 。
 
-先查看下给 TCP 分配了多少内存。
+先查看下給 TCP 分配了多少內存。
 
 {% highlight text %}
 $ cat /proc/sys/net/ipv4/tcp_mem
 183474  244633  366948
 {% endhighlight %}
 
-简单来说，三个值分别表示进入 无压力、压力模式、内存上限的值，当到达最后一个值的时候就会报错。
+簡單來說，三個值分別表示進入 無壓力、壓力模式、內存上限的值，當到達最後一個值的時候就會報錯。
 
-接下来查看一下当前使用的内存。
+接下來查看一下當前使用的內存。
 
 {% highlight text %}
 $ cat /proc/net/sockstat
@@ -145,16 +145,16 @@ RAW: inuse 1
 FRAG: inuse 0 memory 0
 {% endhighlight %}
 
-其中的 mem 表示使用了多少 Pages，如果相比 tcp_mem 的配置来说还很小，那么就有可能是由于 orphan sockets 导致的。
+其中的 mem 表示使用了多少 Pages，如果相比 tcp_mem 的配置來說還很小，那麼就有可能是由於 orphan sockets 導致的。
 
 
 ### orphan sockets
 
-首先介绍一下什么是 orphan sockets，简单来说就是该 socket 不与任何一个文件描述符相关联。例如，当应用调用 close() 关闭一个链接时，此时该 socket 就成为了 orphan，但是该 sock 仍然会保留一段时间，直到最后根据 TCP 协议结束。
+首先介紹一下什麼是 orphan sockets，簡單來說就是該 socket 不與任何一個文件描述符相關聯。例如，當應用調用 close() 關閉一個鏈接時，此時該 socket 就成為了 orphan，但是該 sock 仍然會保留一段時間，直到最後根據 TCP 協議結束。
 
-实际上 orphan socket 对于应用来说是无用的，因此内核希望尽可能减小 orphan 的数量。对于像 http 这样的短请求来说，出现 orphan 的概率会比较大。
+實際上 orphan socket 對於應用來說是無用的，因此內核希望儘可能減小 orphan 的數量。對於像 http 這樣的短請求來說，出現 orphan 的概率會比較大。
 
-对于系统允许的最大 orphan 数量，以及当前的 orphan 数量可以通过如下方式查看：
+對於系統允許的最大 orphan 數量，以及當前的 orphan 數量可以通過如下方式查看：
 
 {% highlight text %}
 $ cat /proc/sys/net/ipv4/tcp_max_orphans
@@ -165,9 +165,9 @@ TCP: inuse 37 orphan 14 tw 8 alloc 39 mem 9
 ... ...
 {% endhighlight %}
 
-你可能会发现，sockstat 中的 orphan 数量要远小于 tcp_max_orphans 的数目。
+你可能會發現，sockstat 中的 orphan 數量要遠小於 tcp_max_orphans 的數目。
 
-实际上，可以从代码中看到，实际会有个偏移量 shift，该值范围为 [0, 2] 。
+實際上，可以從代碼中看到，實際會有個偏移量 shift，該值範圍為 [0, 2] 。
 
 {% highlight c %}
 static inline bool tcp_too_many_orphans(struct sock *sk, int shift)
@@ -184,18 +184,18 @@ static inline bool tcp_too_many_orphans(struct sock *sk, int shift)
 }
 {% endhighlight %}
 
-也就是说，在某些场景下会对 orphan 做些惩罚，将 orphan 的数量 2x 甚至 4x，这也就解释了上述的问题。
+也就是說，在某些場景下會對 orphan 做些懲罰，將 orphan 的數量 2x 甚至 4x，這也就解釋了上述的問題。
 
-如果是这样，那么就可以根据具体的情况，将 tcp_max_orphans 值适当调大。
+如果是這樣，那麼就可以根據具體的情況，將 tcp_max_orphans 值適當調大。
 
-### 总结
+### 總結
 
-除了可能真正出现内存不足的情况之外，还有可能是由于内核的惩罚措施，导致 orphan 的误报。
+除了可能真正出現內存不足的情況之外，還有可能是由於內核的懲罰措施，導致 orphan 的誤報。
 
 
-## Procfs 文件系统
+## Procfs 文件系統
 
-* /proc/net/tcp：记录 TCP 的状态信息。
+* /proc/net/tcp：記錄 TCP 的狀態信息。
 
 
 {% highlight text %}

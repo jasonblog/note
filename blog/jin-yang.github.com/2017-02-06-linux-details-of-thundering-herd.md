@@ -1,32 +1,32 @@
 ---
-title: Linux 惊群详解
+title: Linux 驚群詳解
 layout: post
 comments: true
 language: chinese
 category: [linux,program,misc]
-keywords: 惊群,accept,epoll,epoll_wait
-description: 简言之，惊群现象就是当多个进程或线程在同时阻塞等待同一个事件时，如果这个事件发生，会唤醒所有的进程，但最终只可能有一个进程/线程对该事件进行处理，其他进程/线程会在失败后重新休眠，这种性能浪费就是惊群。这里对 Linux 中的惊群现象进行简单介绍。
+keywords: 驚群,accept,epoll,epoll_wait
+description: 簡言之，驚群現象就是當多個進程或線程在同時阻塞等待同一個事件時，如果這個事件發生，會喚醒所有的進程，但最終只可能有一個進程/線程對該事件進行處理，其他進程/線程會在失敗後重新休眠，這種性能浪費就是驚群。這裡對 Linux 中的驚群現象進行簡單介紹。
 ---
 
-简言之，惊群现象就是当多个进程或线程在同时阻塞等待同一个事件时，如果这个事件发生，会唤醒所有的进程，但最终只可能有一个进程/线程对该事件进行处理，其他进程/线程会在失败后重新休眠，这种性能浪费就是惊群。
+簡言之，驚群現象就是當多個進程或線程在同時阻塞等待同一個事件時，如果這個事件發生，會喚醒所有的進程，但最終只可能有一個進程/線程對該事件進行處理，其他進程/線程會在失敗後重新休眠，這種性能浪費就是驚群。
 
-这里对 Linux 中的惊群现象进行简单介绍。
+這裡對 Linux 中的驚群現象進行簡單介紹。
 
 <!-- more -->
 
-## 惊群
+## 驚群
 
-关于惊群的解释可以查看 Wiki 的解释 [Thundering herd problem](https://en.wikipedia.org/wiki/Thundering_herd_problem) 。
+關於驚群的解釋可以查看 Wiki 的解釋 [Thundering herd problem](https://en.wikipedia.org/wiki/Thundering_herd_problem) 。
 
 ### accept()
 
-常见的场景如下。
+常見的場景如下。
 
-主进程执行 `socket()+bind()+listen()` 后，`fork()` 多个子进程，每个子进程都通过 `accept()` 循环处理这个 socket；此时，每个进程都阻塞在 `accpet()` 调用上，当一个新连接到来时，所有的进程都会被唤醒，但其中只有一个进程会 `accept()` 成功，其余皆失败，重新休眠。这就是 accept 惊群。
+主進程執行 `socket()+bind()+listen()` 後，`fork()` 多個子進程，每個子進程都通過 `accept()` 循環處理這個 socket；此時，每個進程都阻塞在 `accpet()` 調用上，當一個新連接到來時，所有的進程都會被喚醒，但其中只有一個進程會 `accept()` 成功，其餘皆失敗，重新休眠。這就是 accept 驚群。
 
-如果只用一个进程去 accept 新连接，并通过消息队列等同步方式使其他子进程处理这些新建的连接，那么将会造成效率低下；因为这个进程只能用来 accept 连接，该进程可能会造成瓶颈。
+如果只用一個進程去 accept 新連接，並通過消息隊列等同步方式使其他子進程處理這些新建的連接，那麼將會造成效率低下；因為這個進程只能用來 accept 連接，該進程可能會造成瓶頸。
 
-而实际上，对于 Linux 来说，这只是历史上的问题，现在的内核都解决该问题，也即只会唤醒一个进程。可以通过如下程序进行测试，只会激活一个进程。
+而實際上，對於 Linux 來說，這只是歷史上的問題，現在的內核都解決該問題，也即只會喚醒一個進程。可以通過如下程序進行測試，只會激活一個進程。
 
 {% highlight c %}
 #include <stdio.h>
@@ -69,15 +69,15 @@ int main()
 }
 {% endhighlight %}
 
-然后，通过 `telnet 127.1 1234` 或者 `nc 127.1 1234` 测试链接即可。
+然後，通過 `telnet 127.1 1234` 或者 `nc 127.1 1234` 測試鏈接即可。
 
 ### epoll()
 
-另外还有一个是关于 `epoll_wait()` 的，目前来仍然存在惊群现象。
+另外還有一個是關於 `epoll_wait()` 的，目前來仍然存在驚群現象。
 
-主进程仍执行 `socket()+bind()+listen()` 后，将该 socket 加入到 epoll 中，然后 fork 出多个子进程，每个进程都阻塞在 `epoll_wait()` 上，如果有事件到来，则判断该事件是否是该 socket 上的事件，如果是，说明有新的连接到来了，则进行 accept 操作。
+主進程仍執行 `socket()+bind()+listen()` 後，將該 socket 加入到 epoll 中，然後 fork 出多個子進程，每個進程都阻塞在 `epoll_wait()` 上，如果有事件到來，則判斷該事件是否是該 socket 上的事件，如果是，說明有新的連接到來了，則進行 accept 操作。
 
-为了简化处理，忽略后续的读写以及对 accept 返回的新的套接字的处理，直接断开连接。
+為了簡化處理，忽略後續的讀寫以及對 accept 返回的新的套接字的處理，直接斷開連接。
 
 {% highlight c %}
 #include <netdb.h>
@@ -183,43 +183,43 @@ int main (int argc, char *argv[])
 }
 {% endhighlight %}
 
-注意：上述的处理中添加了 `sleep()` 函数，实际上，如果很快处理完了这个 `accept()` 请求，那么其余进程可能还没有来得及被唤醒，内核队列上已经没有这个事件，无需唤醒其他进程。
+注意：上述的處理中添加了 `sleep()` 函數，實際上，如果很快處理完了這個 `accept()` 請求，那麼其餘進程可能還沒有來得及被喚醒，內核隊列上已經沒有這個事件，無需喚醒其他進程。
 
-那么，为什么只解决了 `accept()` 的惊群问题，而没有解决 `epoll()` 的？
+那麼，為什麼只解決了 `accept()` 的驚群問題，而沒有解決 `epoll()` 的？
 
-当接收到一个报文后，显然只能由一个进程处理 (accept)；而 `epoll()` 却不同，因为内核不知道对应的触发事件具体由哪些进程处理，那么只能是唤醒所有的进程，然后由不同的进程进行处理。
+當接收到一個報文後，顯然只能由一個進程處理 (accept)；而 `epoll()` 卻不同，因為內核不知道對應的觸發事件具體由哪些進程處理，那麼只能是喚醒所有的進程，然後由不同的進程進行處理。
 
-## Nginx 解决
+## Nginx 解決
 
-如上所述，如果采用 epoll，则仍然存在该问题，nginx 就是这种场景的一个典型，我们接下来看看其具体的处理方法。
+如上所述，如果採用 epoll，則仍然存在該問題，nginx 就是這種場景的一個典型，我們接下來看看其具體的處理方法。
 
-nginx 的每个 worker 进程都会在函数 `ngx_process_events_and_timers()` 中处理不同的事件，然后通过 `ngx_process_events()` 封装了不同的事件处理机制，在 Linux 上默认采用 `epoll_wait()`。
+nginx 的每個 worker 進程都會在函數 `ngx_process_events_and_timers()` 中處理不同的事件，然後通過 `ngx_process_events()` 封裝了不同的事件處理機制，在 Linux 上默認採用 `epoll_wait()`。
 
-主要在 `ngx_process_events_and_timers()` 函数中解决惊群现象。
+主要在 `ngx_process_events_and_timers()` 函數中解決驚群現象。
 
 {% highlight text %}
 void ngx_process_events_and_timers(ngx_cycle_t *cycle)
 {
     ... ...
-    // 是否通过对accept加锁来解决惊群问题，需要工作线程数>1且配置文件打开accetp_mutex
+    // 是否通過對accept加鎖來解決驚群問題，需要工作線程數>1且配置文件打開accetp_mutex
     if (ngx_use_accept_mutex) {
-        // 超过配置文件中最大连接数的7/8时，该值大于0，此时满负荷不会再处理新连接，简单负载均衡
+        // 超過配置文件中最大連接數的7/8時，該值大於0，此時滿負荷不會再處理新連接，簡單負載均衡
         if (ngx_accept_disabled > 0) {
             ngx_accept_disabled--;
         } else {
-            // 多个worker仅有一个可以得到这把锁。获取锁不会阻塞过程，而是立刻返回，获取成功的话
-            // ngx_accept_mutex_held被置为1。拿到锁意味着监听句柄被放到本进程的epoll中了，如果
-            // 没有拿到锁，则监听句柄会被从epoll中取出。
+            // 多個worker僅有一個可以得到這把鎖。獲取鎖不會阻塞過程，而是立刻返回，獲取成功的話
+            // ngx_accept_mutex_held被置為1。拿到鎖意味著監聽句柄被放到本進程的epoll中了，如果
+            // 沒有拿到鎖，則監聽句柄會被從epoll中取出。
             if (ngx_trylock_accept_mutex(cycle) == NGX_ERROR) {
                 return;
             }
             if (ngx_accept_mutex_held) {
-                // 此时意味着ngx_process_events()函数中，任何事件都将延后处理，会把accept事件放到
-                // ngx_posted_accept_events链表中，epollin|epollout事件都放到ngx_posted_events链表中
+                // 此時意味著ngx_process_events()函數中，任何事件都將延後處理，會把accept事件放到
+                // ngx_posted_accept_events鏈表中，epollin|epollout事件都放到ngx_posted_events鏈表中
                 flags |= NGX_POST_EVENTS;
             } else {
-                // 拿不到锁，也就不会处理监听的句柄，这个timer实际是传给epoll_wait的超时时间，修改
-                // 为最大ngx_accept_mutex_delay意味着epoll_wait更短的超时返回，以免新连接长时间没有得到处理
+                // 拿不到鎖，也就不會處理監聽的句柄，這個timer實際是傳給epoll_wait的超時時間，修改
+                // 為最大ngx_accept_mutex_delay意味著epoll_wait更短的超時返回，以免新連接長時間沒有得到處理
                 if (timer == NGX_TIMER_INFINITE || timer > ngx_accept_mutex_delay) {
                     timer = ngx_accept_mutex_delay;
                 }
@@ -227,13 +227,13 @@ void ngx_process_events_and_timers(ngx_cycle_t *cycle)
         }
     }
     ... ...
-    (void) ngx_process_events(cycle, timer, flags);   // 实际调用ngx_epoll_process_events函数开始处理
+    (void) ngx_process_events(cycle, timer, flags);   // 實際調用ngx_epoll_process_events函數開始處理
     ... ...
-    if (ngx_posted_accept_events) { //如果ngx_posted_accept_events链表有数据，就开始accept建立新连接
+    if (ngx_posted_accept_events) { //如果ngx_posted_accept_events鏈表有數據，就開始accept建立新連接
         ngx_event_process_posted(cycle, &ngx_posted_accept_events);
     }
 
-    if (ngx_accept_mutex_held) { //释放锁后再处理下面的EPOLLIN EPOLLOUT请求
+    if (ngx_accept_mutex_held) { //釋放鎖後再處理下面的EPOLLIN EPOLLOUT請求
         ngx_shmtx_unlock(&ngx_accept_mutex);
     }
 
@@ -242,39 +242,39 @@ void ngx_process_events_and_timers(ngx_cycle_t *cycle)
     }
 
     ngx_log_debug1(NGX_LOG_DEBUG_EVENT, cycle->log, 0, "posted events %p", ngx_posted_events);
-	// 然后再处理正常的数据读写请求。因为这些请求耗时久，所以在ngx_process_events里NGX_POST_EVENTS标
-    // 志将事件都放入ngx_posted_events链表中，延迟到锁释放了再处理。
+	// 然後再處理正常的數據讀寫請求。因為這些請求耗時久，所以在ngx_process_events裡NGX_POST_EVENTS標
+    // 志將事件都放入ngx_posted_events鏈表中，延遲到鎖釋放了再處理。
 }
 {% endhighlight %}
 
-关于 `ngx_use_accept_mutex`、`ngx_accept_disabled` 的修改可以直接 grep 查看。
+關於 `ngx_use_accept_mutex`、`ngx_accept_disabled` 的修改可以直接 grep 查看。
 
 ## SO_REUSEPORT
 
-Linux 内核的 3.9 版本带来了 `SO_REUSEPORT` 特性，该特性支持多个进程或者线程绑定到同一端口，提高服务器程序的性能，允许多个套接字 `bind()` 以及 `listen()` 同一个 TCP 或者 UDP 端口，并且在内核层面实现负载均衡。
+Linux 內核的 3.9 版本帶來了 `SO_REUSEPORT` 特性，該特性支持多個進程或者線程綁定到同一端口，提高服務器程序的性能，允許多個套接字 `bind()` 以及 `listen()` 同一個 TCP 或者 UDP 端口，並且在內核層面實現負載均衡。
 
-在未开启 `SO_REUSEPORT` 时，由一个监听 socket 将新接收的链接请求交给各个 worker 处理。
+在未開啟 `SO_REUSEPORT` 時，由一個監聽 socket 將新接收的鏈接請求交給各個 worker 處理。
 
 ![thunder reuseport]({{ site.url }}/images/network/thunder-reuseport-01.png "thunder reuseport"){: .pull-center width="60%" }
 
-在使用 `SO_REUSEPORT` 后，多个进程可以同时监听同一个 IP:Port ，然后由内核决定将新链接发送给那个进程，显然会降低各个 worker 接收新链接时锁竞争。
+在使用 `SO_REUSEPORT` 後，多個進程可以同時監聽同一個 IP:Port ，然後由內核決定將新鏈接發送給那個進程，顯然會降低各個 worker 接收新鏈接時鎖競爭。
 
 ![thunder reuseport]({{ site.url }}/images/network/thunder-reuseport-02.png "thunder reuseport"){: .pull-center width="60%" }
 
 <!--
-现在我们再来看一下程序执行的效果，拿出证据证明上述操作确实避免了惊群问题：
-我们启动一个程序，该程序会创建两个子进程并同时监听9001端口。然后利用telnet向9001进行连接，其中一个子进程唤醒了epool的监听，而另一个没有。
+現在我們再來看一下程序執行的效果，拿出證據證明上述操作確實避免了驚群問題：
+我們啟動一個程序，該程序會創建兩個子進程並同時監聽9001端口。然後利用telnet向9001進行連接，其中一個子進程喚醒了epool的監聽，而另一個沒有。
 http://www.verycto.com/code/cpp/15.html
 -->
 
-## 参考
+## 參考
 
-关于 Nginx 使用 `SO_REUSEPORT` 的介绍 [Socket Sharding in NGINX Release 1.9.1](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/) 。
+關於 Nginx 使用 `SO_REUSEPORT` 的介紹 [Socket Sharding in NGINX Release 1.9.1](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/) 。
 
 <!--
-epoll()惊群实例
+epoll()驚群實例
 http://blog.csdn.net/spch2008/article/details/18301357
-epoll()讨论
+epoll()討論
 https://www.zhihu.com/question/24169490
 http://blog.csdn.net/mumumuwudi/article/details/47051235
 http://blog.csdn.net/russell_tao/article/details/7204260

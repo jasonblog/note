@@ -1,71 +1,71 @@
 ---
-title: MySQL GTID 简介
+title: MySQL GTID 簡介
 layout: post
 comments: true
 language: chinese
 category: [mysql,database]
 keywords: mysql,gtid,uuid
-description: 全局事务 ID (Global Transaction ID, GTID) 是用来强化数据库在主备复制场景下，可以有效保证主备一致性、提高故障恢复、容错能力。接下来，看看 GTID 是如何实现的，以及如何使用。
+description: 全局事務 ID (Global Transaction ID, GTID) 是用來強化數據庫在主備複製場景下，可以有效保證主備一致性、提高故障恢復、容錯能力。接下來，看看 GTID 是如何實現的，以及如何使用。
 ---
 
-全局事务 ID (Global Transaction ID, GTID) 是用来强化数据库在主备复制场景下，可以有效保证主备一致性、提高故障恢复、容错能力。
+全局事務 ID (Global Transaction ID, GTID) 是用來強化數據庫在主備複製場景下，可以有效保證主備一致性、提高故障恢復、容錯能力。
 
-接下来，看看 GTID 是如何实现的，以及如何使用。
+接下來，看看 GTID 是如何實現的，以及如何使用。
 
 <!-- more -->
 
 ![gtid]({{ site.url }}/images/databases/mysql/gtid-logo.jpg "gtid"){: .pull-center }
 
-## 简介
+## 簡介
 
-GTID 是一个已提交事务的编号，并且是一个全局唯一的编号，在 MySQL 中，GTID 实际上是由 UUID+TID 组成的。其中 UUID 是一个 MySQL 实例的唯一标识；TID 代表了该实例上已经提交的事务数量，并且随着事务提交单调递增。
+GTID 是一個已提交事務的編號，並且是一個全局唯一的編號，在 MySQL 中，GTID 實際上是由 UUID+TID 組成的。其中 UUID 是一個 MySQL 實例的唯一標識；TID 代表了該實例上已經提交的事務數量，並且隨著事務提交單調遞增。
 
-使用 GTID 功能具体可以归纳为以下两点：
+使用 GTID 功能具體可以歸納為以下兩點：
 
-* 可以确认事务最初是在哪个实例上提交的；
+* 可以確認事務最初是在哪個實例上提交的；
 * 方便了 Replication 的 Failover 。
 
-第一条显而易见，对于第二点稍微介绍下。
+第一條顯而易見，對於第二點稍微介紹下。
 
-在 GTID 出现之前，在配置主备复制的时候，首先需要确认 event 在那个 binlog 文件，及其偏移量；假设有 A(Master)、B(Slave)、C(Slave) 三个实例，如果主库宕机后，需要通过 ```CHANGE MASTER TO MASTER_HOST='xxx', MASTER_LOG_FILE='xxx', MASTER_LOG_POS=nnnn``` 指向新库。
+在 GTID 出現之前，在配置主備複製的時候，首先需要確認 event 在那個 binlog 文件，及其偏移量；假設有 A(Master)、B(Slave)、C(Slave) 三個實例，如果主庫宕機後，需要通過 ```CHANGE MASTER TO MASTER_HOST='xxx', MASTER_LOG_FILE='xxx', MASTER_LOG_POS=nnnn``` 指向新庫。
 
-这里的难点在于，同一个事务在每台机器上所在的 binlog 文件名和偏移都不同，这也就意味着需要知道新主库的文件以及偏移量，对于有一个主库+多个备库的场景，如果主库宕机，那么需要手动从备库中选出最新的备库，升级为主，然后重新配置备库。
+這裡的難點在於，同一個事務在每臺機器上所在的 binlog 文件名和偏移都不同，這也就意味著需要知道新主庫的文件以及偏移量，對於有一個主庫+多個備庫的場景，如果主庫宕機，那麼需要手動從備庫中選出最新的備庫，升級為主，然後重新配置備庫。
 
-这就导致操作特别复杂，不方便实施，这也就是为什么需要 MHA、MMM 这样的管理工具。
+這就導致操作特別複雜，不方便實施，這也就是為什麼需要 MHA、MMM 這樣的管理工具。
 
-之所以会出现上述的问题，主要是由于各个实例 binlog 中的 event 以及 event 顺序是一致的，但是 binlog+position 是不同的；而通过 GTID 则提供了对于事物的全局一致 ID，主备复制时，只需要知道这个 ID 即可。
+之所以會出現上述的問題，主要是由於各個實例 binlog 中的 event 以及 event 順序是一致的，但是 binlog+position 是不同的；而通過 GTID 則提供了對於事物的全局一致 ID，主備複製時，只需要知道這個 ID 即可。
 
-另外，利用 GTID，MySQL 会记录那些事物已经执行，从而也就知道接下来要执行那些事务。当有了 GTID 之后，就显得非常的简单；因为同一事务的 GTID 在所有节点上的值一致，那么就可以直接根据 GTID 就可以完成 failover 操作。
+另外，利用 GTID，MySQL 會記錄那些事物已經執行，從而也就知道接下來要執行那些事務。當有了 GTID 之後，就顯得非常的簡單；因為同一事務的 GTID 在所有節點上的值一致，那麼就可以直接根據 GTID 就可以完成 failover 操作。
 
 
 ### UUID
 
-MySQL 5.6 用 128 位的 server_uuid 代替了原本的 32 位 server_id 的大部分功能；主要是担心手动设置配置文件中的 server_id 时，可能会产生冲突，通过 UUID(128bits) 避免冲突。
+MySQL 5.6 用 128 位的 server_uuid 代替了原本的 32 位 server_id 的大部分功能；主要是擔心手動設置配置文件中的 server_id 時，可能會產生衝突，通過 UUID(128bits) 避免衝突。
 
-首次启动时会调用 generate_server_uuid() 函数，自动生成一个 server_uuid，并保存到 auto.cnf 文件，目前该文件的唯一目的就是保存 server_uuid；下次启动时会自动读取 auto.cnf 文件，继续使用上次生成的 UUID 。
+首次啟動時會調用 generate_server_uuid() 函數，自動生成一個 server_uuid，並保存到 auto.cnf 文件，目前該文件的唯一目的就是保存 server_uuid；下次啟動時會自動讀取 auto.cnf 文件，繼續使用上次生成的 UUID 。
 
-可以通过如下命令查看当前服务器的 UUID 值。
+可以通過如下命令查看當前服務器的 UUID 值。
 
 {% highlight text %}
 mysql> SHOW GLOBAL VARIABLES LIKE 'server_uuid';
 c133fbac-e07b-11e6-a219-286ed488dd40
 {% endhighlight %}
 
-在 Slave 向 Master 申请 binlog 时，会先发送 Slave 自己的 server_uuid，Master 会使用该值作为 kill_zombie_dump_threads 的参数，来终止冲突或者僵死的 BINLOG_DUMP 线程。
+在 Slave 向 Master 申請 binlog 時，會先發送 Slave 自己的 server_uuid，Master 會使用該值作為 kill_zombie_dump_threads 的參數，來終止衝突或者僵死的 BINLOG_DUMP 線程。
 
 ### GTID
 
-MySQL 在 5.6 版本加入了 GTID 功能，GTID 也就是事务提交时创建分配的唯一标识符，所有事务均与 GTID 一一映射，其格式类似于：
+MySQL 在 5.6 版本加入了 GTID 功能，GTID 也就是事務提交時創建分配的唯一標識符，所有事務均與 GTID 一一映射，其格式類似於：
 
 {% highlight text %}
 5882bfb0-c936-11e4-a843-000c292dc103:1
 {% endhighlight %}
 
-这个字符串，用 ```:``` 分开，前面表示这个服务器的 server_uuid，后面是事务在该服务器上的序号。
+這個字符串，用 ```:``` 分開，前面表示這個服務器的 server_uuid，後面是事務在該服務器上的序號。
 
-GTID 模式实例和非 GTID 模式实例是不能进行复制的，要求非常严格；而且 gtid_mode 是只读的，要改变状态必须 1) 关闭实例、2) 修改配置文件、3) 重启实例。
+GTID 模式實例和非 GTID 模式實例是不能進行復制的，要求非常嚴格；而且 gtid_mode 是隻讀的，要改變狀態必須 1) 關閉實例、2) 修改配置文件、3) 重啟實例。
 
-与 GTID 相关的参数可以参考如下：
+與 GTID 相關的參數可以參考如下：
 
 {% highlight text %}
 mysql> SHOW GLOBAL VARIABLES LIKE '%gtid%';
@@ -74,11 +74,11 @@ mysql> SHOW GLOBAL VARIABLES LIKE '%gtid%';
 +----------------------------------+-------+
 | binlog_gtid_simple_recovery      | ON    |
 | enforce_gtid_consistency         | ON    |
-| gtid_executed                    |       |    已经在该实例上执行过的事务
+| gtid_executed                    |       |    已經在該實例上執行過的事務
 | gtid_executed_compression_period | 1000  |
 | gtid_mode                        | ON    |
-| gtid_owned                       |       |    正在执行的事务的gtid以及对应的线程ID
-| gtid_purged                      |       |    本机已经执行，且被PURGE BINARY LOG删除
+| gtid_owned                       |       |    正在執行的事務的gtid以及對應的線程ID
+| gtid_purged                      |       |    本機已經執行，且被PURGE BINARY LOG刪除
 | session_track_gtids              | OFF   |
 +----------------------------------+-------+
 8 rows in set (0.00 sec)
@@ -87,32 +87,32 @@ mysql> SHOW SESSION VARIABLES LIKE 'gtid_next';
 +---------------+-----------+
 | Variable_name | Value     |
 +---------------+-----------+
-| gtid_next     | AUTOMATIC |        session级别变量，表示下一个将被使用的gtid
+| gtid_next     | AUTOMATIC |        session級別變量，表示下一個將被使用的gtid
 +---------------+-----------+
 1 row in set (0.02 sec)
 
 {% endhighlight %}
 
-对于 gtid_executed 变量，执行 ```reset master``` 会将该变量置空；而且还可以通过设置 gtid_next 执行一个空事务，来影响 gtid_executed 。
+對於 gtid_executed 變量，執行 ```reset master``` 會將該變量置空；而且還可以通過設置 gtid_next 執行一個空事務，來影響 gtid_executed 。
 
 
-### 生命周期
+### 生命週期
 
-一个 GTID 的生命周期包括：
+一個 GTID 的生命週期包括：
 
-1. 事务在主库上执行并提交，此时会给事务分配一个 gtid，该值会被写入到 binlog 中；
-2. 备库读取 relaylog 中的 gtid，并设置 session 级别的 gtid_next 值，以告诉备库下一个事务必须使用这个值；
-3. 备库检查该 gtid 是否已经被使用并记录到他自己的 binlog 中；
-4. 由于 gtid_next 非空，备库不会生成一个新的 gtid，而是使用从主库获得的 gtid 。
+1. 事務在主庫上執行並提交，此時會給事務分配一個 gtid，該值會被寫入到 binlog 中；
+2. 備庫讀取 relaylog 中的 gtid，並設置 session 級別的 gtid_next 值，以告訴備庫下一個事務必須使用這個值；
+3. 備庫檢查該 gtid 是否已經被使用並記錄到他自己的 binlog 中；
+4. 由於 gtid_next 非空，備庫不會生成一個新的 gtid，而是使用從主庫獲得的 gtid 。
 
-由于 GTID 在全局唯一性，通过 GTID 可以在自动切换时对一些复杂的复制拓扑很方便的提升新主库及新备库。
+由於 GTID 在全局唯一性，通過 GTID 可以在自動切換時對一些複雜的複製拓撲很方便的提升新主庫及新備庫。
 
 
-### 通讯协议
+### 通訊協議
 
-开启 GTID 之后，除了将原有的 file+position 替换为 GTID 之外，实际上还实现了一套新的复制协议，简单来说，GTID 的目的就是保证所有节点执行了相同的事务。
+開啟 GTID 之後，除了將原有的 file+position 替換為 GTID 之外，實際上還實現了一套新的複製協議，簡單來說，GTID 的目的就是保證所有節點執行了相同的事務。
 
-老协议很简单，备库链接到主库时会带有 file+position 信息，用来确认从那个文件开始复制；而新协议则是在链接到主库时会发送当前备库已经执行的 GTID Sets，主库将所有缺失的事务发送给备库。
+老協議很簡單，備庫鏈接到主庫時會帶有 file+position 信息，用來確認從那個文件開始複製；而新協議則是在鏈接到主庫時會發送當前備庫已經執行的 GTID Sets，主庫將所有缺失的事務發送給備庫。
 
 <!--
 TODODO:
@@ -120,15 +120,15 @@ LINKKK: https://www.percona.com/blog/2014/05/09/gtids-in-mysql-5-6-new-replicati
 -->
 
 
-## 源码实现
+## 源碼實現
 
-在 binlog 中，与 GTID 相关的事件类型包括了：
+在 binlog 中，與 GTID 相關的事件類型包括了：
 
-* GTID_LOG_EVENT 随后事务的 GTID；
-* ANONYMOUS_GTID_LOG_EVENT 匿名 GTID 事件类型；
-* PREVIOUS_GTIDS_LOG_EVENT 当前 binlog 文件之前已经执行过的 GTID 集合，会记录在 binlog 文件头。
+* GTID_LOG_EVENT 隨後事務的 GTID；
+* ANONYMOUS_GTID_LOG_EVENT 匿名 GTID 事件類型；
+* PREVIOUS_GTIDS_LOG_EVENT 當前 binlog 文件之前已經執行過的 GTID 集合，會記錄在 binlog 文件頭。
 
-如下是一个示例：
+如下是一個示例：
 
 {% highlight text %}
 # at 120
@@ -137,20 +137,20 @@ LINKKK: https://www.percona.com/blog/2014/05/09/gtids-in-mysql-5-6-new-replicati
 # 7a07cd08-ac1b-11e2-9fcf-0010184e9e08:1-1129
 {% endhighlight %}
 
-除 gtid 之外，还有 gtid set 的概念，类似 ```7a07cd08-ac1b-11e2-9fcf-0010184e9e08:1-31```，其中变量 gtid_executed 和 gtid_purged 都是典型的 gtid set 类型变量；在一个复制拓扑结构中，gtid_executed 可能包含好几组数据。
+除 gtid 之外，還有 gtid set 的概念，類似 ```7a07cd08-ac1b-11e2-9fcf-0010184e9e08:1-31```，其中變量 gtid_executed 和 gtid_purged 都是典型的 gtid set 類型變量；在一個複製拓撲結構中，gtid_executed 可能包含好幾組數據。
 
 
-### 结构体
+### 結構體
 
-在内存中通过 ```Gtid_state *gtid_state``` 全局变量维护了三个集合。
+在內存中通過 ```Gtid_state *gtid_state``` 全局變量維護了三個集合。
 
 {% highlight cpp %}
 class Gtid_state
 {
 private:
-    Gtid_set lost_gtids;          // 对应gtid_purged
-    Gtid_set executed_gtids;      // 对应gtid_executed
-    Owned_gtids owned_gtids;      // 对应gtid_owned
+    Gtid_set lost_gtids;          // 對應gtid_purged
+    Gtid_set executed_gtids;      // 對應gtid_executed
+    Owned_gtids owned_gtids;      // 對應gtid_owned
 };
 
 Gtid_state *gtid_state= NULL;
@@ -159,9 +159,9 @@ Gtid_state *gtid_state= NULL;
 
 <!--
 
-在主库执行一个事务的过程中，关于Gtid主要涉及到以下几个部分：
+在主庫執行一個事務的過程中，關於Gtid主要涉及到以下幾個部分：
 
-事务开始，执行第一条SQL时，在写入第一个“BEGIN” 的QUERY EVENT 之前， 为binlog cache 的Group_cache中分配一个group(Group_cache::add_logged_group)，并写入一个Gtid_log_event，此时并未为其分配事务id,backtrace 如下：
+事務開始，執行第一條SQL時，在寫入第一個“BEGIN” 的QUERY EVENT 之前， 為binlog cache 的Group_cache中分配一個group(Group_cache::add_logged_group)，並寫入一個Gtid_log_event，此時並未為其分配事務id,backtrace 如下：
 
 {% highlight text %}
 handler::ha_write_row()
@@ -173,61 +173,61 @@ handler::ha_write_row()
            |-Group_cache::add_logged_group()
 {% endhighlight %}
 
-暂时还不清楚什么时候一个事务里会有多个gtid的group_cache.
+暫時還不清楚什麼時候一個事務裡會有多個gtid的group_cache.
 
 
 
 
-在 binlog group commit 的 flush 阶段：
+在 binlog group commit 的 flush 階段：
 
 
 
-第一步，调用Group_cache::generate_automatic_gno来为当前线程生成一个gtid，分配给thd->owned_gtid，并加入到owned_gtids中，backtrace如下：
+第一步，調用Group_cache::generate_automatic_gno來為當前線程生成一個gtid，分配給thd->owned_gtid，並加入到owned_gtids中，backtrace如下：
 
 {% highlight text %}
 MYSQL_BIN_LOG::process_flush_stage_queue()
   |-assign_automatic_gtids_to_flush_group()
-    |-Gtid_state::generate_automatic_gtid()     gtid_next为AUTOMATIC时，生成新的GTID
-      |-lock_sidno()                            为当前sidno加锁，分配过程互斥
+    |-Gtid_state::generate_automatic_gtid()     gtid_next為AUTOMATIC時，生成新的GTID
+      |-lock_sidno()                            為當前sidno加鎖，分配過程互斥
       |-get_server_sidno()
-      |-get_automatic_gno()                     获取事务ID
-      | |-get_server_sidno()                    初始化候选值
+      |-get_automatic_gno()                     獲取事務ID
+      | |-get_server_sidno()                    初始化候選值
       |-acquire_ownership()
       | |-Owned_gtids::add_gtid_owner()         添加到owned_gtids集合中
-      |-unlock_sidno()                          解锁
+      |-unlock_sidno()                          解鎖
 {% endhighlight %}
 
-也就是说，直到事务完成，准备把 binlog 刷到 binlog cache 时，才会去为其分配 gtid 。
+也就是說，直到事務完成，準備把 binlog 刷到 binlog cache 時，才會去為其分配 gtid 。
 
 
-当gtid_next的类型为AUTOMATIC时，调用generate_automatic_gno生成事务id(gno)，分配流程大概如下：
+當gtid_next的類型為AUTOMATIC時，調用generate_automatic_gno生成事務id(gno)，分配流程大概如下：
 
 2.gtid_state->get_automatic_gno(automatic_gtid.sidno);
-        |–>初始化候选(candidate)gno为1
-        |–>从logged_gtids[$sidno]中扫描，获取每个gno区间(iv)：
-               |–>当candidate < iv->start（或者MAX_GNO，如果iv为NULL）时，判断candidate是否有被占用，如果没有的话，则使用该candidate，从函数返回，否则candidate++，继续本步骤
-        |–>将candidate设置为iv->end，iv指向下一个区间，继续第2步
-        从该过程可以看出，这里兼顾了区间存在碎片的场景，有可能分配的gno并不是全局最大的gno. 不过在主库不手动设置gtid_next的情况下，我们可以认为主库上的gno总是递增的。
+        |–>初始化候選(candidate)gno為1
+        |–>從logged_gtids[$sidno]中掃描，獲取每個gno區間(iv)：
+               |–>當candidate < iv->start（或者MAX_GNO，如果iv為NULL）時，判斷candidate是否有被佔用，如果沒有的話，則使用該candidate，從函數返回，否則candidate++，繼續本步驟
+        |–>將candidate設置為iv->end，iv指向下一個區間，繼續第2步
+        從該過程可以看出，這裡兼顧了區間存在碎片的場景，有可能分配的gno並不是全局最大的gno. 不過在主庫不手動設置gtid_next的情況下，我們可以認為主庫上的gno總是遞增的。
 
 
 
-第二步， 调用Gtid_state::update_on_flush将当前事务的gtid加入到logged_gtids中,backtrace如下：
+第二步， 調用Gtid_state::update_on_flush將當前事務的gtid加入到logged_gtids中,backtrace如下：
 MYSQL_BIN_LOG::process_flush_stage_queue->MYSQL_BIN_LOG::flush_thread_caches->binlog_cache_mngr::flush->binlog_cache_data::flush->MYSQL_BIN_LOG::write_cache->Gtid_state::update_on_flush
-在bin log group commit的commit阶段
+在bin log group commit的commit階段
 
-调用Gtid_state::update_owned_gtids_impl 从owned_gtids中将当前事务的gtid移除,backtrace 如下：
+調用Gtid_state::update_owned_gtids_impl 從owned_gtids中將當前事務的gtid移除,backtrace 如下：
 MYSQL_BIN_LOG::ordered_commit->MYSQL_BIN_LOG::finish_commit->Gtid_state::update_owned_gtids_impl
 
-上述步骤涉及到的是对logged_gtids和owned_gtids的修改。而lost_gtids除了启动时维护外，就是在执行Purge操作时维护。
+上述步驟涉及到的是對logged_gtids和owned_gtids的修改。而lost_gtids除了啟動時維護外，就是在執行Purge操作時維護。
 
-例如，当我们执行purge binary logs to ‘mysql-bin.000205’ 时， mysql-bin.index先被更新掉，然后再根据index文件找到第一个binlog文件的PREVIOUS_GTIDS_LOG_EVENT事件，更新lost_gtids集合，backtrace如下：
+例如，當我們執行purge binary logs to ‘mysql-bin.000205’ 時， mysql-bin.index先被更新掉，然後再根據index文件找到第一個binlog文件的PREVIOUS_GTIDS_LOG_EVENT事件，更新lost_gtids集合，backtrace如下：
 purge_master_logs->MYSQL_BIN_LOG::purge_logs->MYSQL_BIN_LOG::init_gtid_sets->read_gtids_from_binlog->Previous_gtids_log_event::add_to_set->Gtid_set::add_gtid_encoding->Gtid_set::add_gno_interval
 
-关于binlog group commit，参见之前写的博客：http://mysqllover.com/?p=581
+關於binlog group commit，參見之前寫的博客：http://mysqllover.com/?p=581
 c.如何持久化GTID
-当重启MySQL后，我们看到GTID_EXECUTED和GTID_PURGED和重启前是一致的。
+當重啟MySQL後，我們看到GTID_EXECUTED和GTID_PURGED和重啟前是一致的。
 
-持久化GTID，是通过全局对象gtid_state来管理的。gtid_state在系统启动时调用函数gtid_server_init分配内存；如果打开了binlog，则会做进一步的初始化工作：
+持久化GTID，是通過全局對象gtid_state來管理的。gtid_state在系統啟動時調用函數gtid_server_init分配內存；如果打開了binlog，則會做進一步的初始化工作：
 
 quoted code:
 
@@ -238,44 +238,44 @@ quoted code:
 5423             true/*true=need lock*/))
 5424         unireg_abort(1);
 
-gtid_state 包含3个gtid集合：logged_gtids， lost_gtids， owned_gtids，前两个都是gtid_set类型, owned_gtids类型为Owned_gtids
+gtid_state 包含3個gtid集合：logged_gtids， lost_gtids， owned_gtids，前兩個都是gtid_set類型, owned_gtids類型為Owned_gtids
 
-MYSQL_BIN_LOG::init_gtid_sets 主要用于初始化logged_gtids和lost_gtids,该函数的逻辑简单描述下：
+MYSQL_BIN_LOG::init_gtid_sets 主要用於初始化logged_gtids和lost_gtids,該函數的邏輯簡單描述下：
 
-1.扫描mysql-index文件，搜集binlog文件名，并加入到filename_list中
-2.从最后一个文件开始往前读，依次调用函数read_gtids_from_binlog：
-      |–>打开binlog文件，如果读取到PREVIOUS_GTIDS_LOG_EVENT事件
-          (1)无论如何，将其加入到logged_gtids（prev_gtids_ev->add_to_set(all_gtids)）
-          (2)如果该文件是第一个binlog文件，将其加入到lost_gtids（prev_gtids_ev->add_to_set(prev_gtids)）中.
+1.掃描mysql-index文件，蒐集binlog文件名，並加入到filename_list中
+2.從最後一個文件開始往前讀，依次調用函數read_gtids_from_binlog：
+      |–>打開binlog文件，如果讀取到PREVIOUS_GTIDS_LOG_EVENT事件
+          (1)無論如何，將其加入到logged_gtids（prev_gtids_ev->add_to_set(all_gtids)）
+          (2)如果該文件是第一個binlog文件，將其加入到lost_gtids（prev_gtids_ev->add_to_set(prev_gtids)）中.
 
-      |–>获取GTID_LOG_EVENT事件
-          (1) 读取该事件对应的sidno，sidno= gtid_ev->get_sidno(false);
-               这是一个32位的整型，用sidno来代表一个server_uuid，从1开始计算，这主要处于节省内存的考虑。维护在全局对象global_sid_map中。
-               当sidno还没加入到map时，调用global_sid_map->add_sid(sid)，sidno从1开始递增。
+      |–>獲取GTID_LOG_EVENT事件
+          (1) 讀取該事件對應的sidno，sidno= gtid_ev->get_sidno(false);
+               這是一個32位的整型，用sidno來代表一個server_uuid，從1開始計算，這主要處於節省內存的考慮。維護在全局對象global_sid_map中。
+               當sidno還沒加入到map時，調用global_sid_map->add_sid(sid)，sidno從1開始遞增。
 
           (2) all_gtids->ensure_sidno(sidno)
-               all_gtids是gtid_set类型，可以理解为一个集合，ensure_sidno就是要确保这个集合至少可以容纳sidno个元素
+               all_gtids是gtid_set類型，可以理解為一個集合，ensure_sidno就是要確保這個集合至少可以容納sidno個元素
 
           (3) all_gtids->_add_gtid(sidno, gtid_ev->get_gno()
-               将该事件中记录的gtid加到all_gtids[sidno]中(最终调用Gtid_set::add_gno_interval，这里实际上是把(gno, gno+1)这样一个区间加入到其中，这里
-               面涉及到区间合并，交集等操作    )
-当第一个文件中既没有PREVIOUS_GTIDS_LOG_EVENT， 也没有GTID_LOG_EVENT时，就继续读上一个文件
-如果只存在PREVIOUS_GTIDS_LOG_EVENT事件，函数read_gtids_from_binlog返回GOT_PREVIOUS_GTIDS
-如果还存在GTID_LOG_EVENT事件，返回GOT_GTIDS
+               將該事件中記錄的gtid加到all_gtids[sidno]中(最終調用Gtid_set::add_gno_interval，這裡實際上是把(gno, gno+1)這樣一個區間加入到其中，這裡
+               面涉及到區間合併，交集等操作    )
+當第一個文件中既沒有PREVIOUS_GTIDS_LOG_EVENT， 也沒有GTID_LOG_EVENT時，就繼續讀上一個文件
+如果只存在PREVIOUS_GTIDS_LOG_EVENT事件，函數read_gtids_from_binlog返回GOT_PREVIOUS_GTIDS
+如果還存在GTID_LOG_EVENT事件，返回GOT_GTIDS
 
-这里很显然存在一个问题，即如果在重启前，我们并没有使用gtid_mode，并且产生了大量的binlog，在这次重启后，我们就可能需要扫描大量的binlog文件。这是一个非常明显的Bug， 后面再集中讨论。
+這裡很顯然存在一個問題，即如果在重啟前，我們並沒有使用gtid_mode，並且產生了大量的binlog，在這次重啟後，我們就可能需要掃描大量的binlog文件。這是一個非常明顯的Bug， 後面再集中討論。
 
-3.如果第二部扫描，没有到达第一个文件，那么就从第一个文件开始扫描，和第2步流程类似，读取到第一个PREVIOUS_GTIDS_LOG_EVENT事件，并加入到lost_gtids中。
+3.如果第二部掃描，沒有到達第一個文件，那麼就從第一個文件開始掃描，和第2步流程類似，讀取到第一個PREVIOUS_GTIDS_LOG_EVENT事件，並加入到lost_gtids中。
 
-简单的讲，如果我们一直打开的gtid_mode，那么只需要读取第一个binlog文件和最后一个binlog文件，就可以确定logged_gtids和lost_gtids这两个GTID SET了。
+簡單的講，如果我們一直打開的gtid_mode，那麼只需要讀取第一個binlog文件和最後一個binlog文件，就可以確定logged_gtids和lost_gtids這兩個GTID SET了。
 
-二、备库上的GTID
-a.如何保持主备GTID一致
-由于在binlog中记录了每个事务的GTID，因此备库的复制线程可以通过设置线程级别GTID_NEXT来保证主库和备库的GTID一致。
+二、備庫上的GTID
+a.如何保持主備GTID一致
+由於在binlog中記錄了每個事務的GTID，因此備庫的複製線程可以通過設置線程級別GTID_NEXT來保證主庫和備庫的GTID一致。
 
-默认情况下，主库上的thd->variables.gtid_next.type为AUTOMATIC_GROUP，而备库为GTID_GROUP
+默認情況下，主庫上的thd->variables.gtid_next.type為AUTOMATIC_GROUP，而備庫為GTID_GROUP
 
-备库SQL线程gtid_next输出：
+備庫SQL線程gtid_next輸出：
 (gdb) p thd->variables.gtid_next
 $2 = {
 type = GTID_GROUP,
@@ -287,41 +287,41 @@ static MAX_TEXT_LENGTH = 56
 static MAX_TEXT_LENGTH = 56
 }
 
-这些变量在执行Gtid_log_event时被赋值：Gtid_log_event::do_apply_event，大体流程为：
-1.rpl_sidno sidno= get_sidno(true);  获取sidno
-2.thd->variables.gtid_next.set(sidno, spec.gtid.gno);  设置gtid_next
+這些變量在執行Gtid_log_event時被賦值：Gtid_log_event::do_apply_event，大體流程為：
+1.rpl_sidno sidno= get_sidno(true);  獲取sidno
+2.thd->variables.gtid_next.set(sidno, spec.gtid.gno);  設置gtid_next
 3.gtid_acquire_ownership_single(thd);
 
-     |–>检查该gtid是否在logged_gtids集合中，如果在的话，则返回（gtid_pre_statement_checks会忽略该事务）
-     |–>如果该gtid已经被其他线程拥有，则等待(gtid_state->wait_for_gtid(thd, gtid_next))，否则将当前线程设置为owner(gtid_state->acquire_ownership(thd, gtid_next))
+     |–>檢查該gtid是否在logged_gtids集合中，如果在的話，則返回（gtid_pre_statement_checks會忽略該事務）
+     |–>如果該gtid已經被其他線程擁有，則等待(gtid_state->wait_for_gtid(thd, gtid_next))，否則將當前線程設置為owner(gtid_state->acquire_ownership(thd, gtid_next))
 
-在上面提到，有可能当前事务的GTID已经在logged_gtids中，因此在执行Rows_log_event::do_apply_event或者mysql_execute_command函数中，都会去调用函数gtid_pre_statement_checks
-该函数也会在每个SQL执行前，检查gtid是否合法，主要流程包括：
-1.当打开选项enforce_gtid_consistency时，检查DDL是否被允许执行（thd->is_ddl_gtid_compatible()），若不允许，返回GTID_STATEMENT_CANCEL
-2.检查当前SQL是否会产生隐式提交并且gtid_next被设置（gtid_next->type != AUTOMATIC_GROUP），如果是的话，则会抛出错误ER_CANT_DO_IMPLICIT_COMMIT_IN_TRX_WHEN_GTID_NEXT_IS_SET 并返回GTID_STATEMENT_CANCEL，注意这里会导致bug#69045
-3.对于BEGIN/COMMIT/ROLLBACK/(SET OPTION 或者 SELECT )且没有使用存储过程/ 这几种类型的SQL，总是允许执行，返回GTID_STATEMENT_EXECUTE
-4.gtid_next->type为UNDEFINED_GROUP，抛出错误ER_GTID_NEXT_TYPE_UNDEFINED_GROUP，返回GTID_STATEMENT_CANCEL
-5.gtid_next->type == GTID_GROUP且thd->owned_gtid.sidno == 0时， 返回GTID_STATEMENT_SKIP
+在上面提到，有可能當前事務的GTID已經在logged_gtids中，因此在執行Rows_log_event::do_apply_event或者mysql_execute_command函數中，都會去調用函數gtid_pre_statement_checks
+該函數也會在每個SQL執行前，檢查gtid是否合法，主要流程包括：
+1.當打開選項enforce_gtid_consistency時，檢查DDL是否被允許執行（thd->is_ddl_gtid_compatible()），若不允許，返回GTID_STATEMENT_CANCEL
+2.檢查當前SQL是否會產生隱式提交併且gtid_next被設置（gtid_next->type != AUTOMATIC_GROUP），如果是的話，則會拋出錯誤ER_CANT_DO_IMPLICIT_COMMIT_IN_TRX_WHEN_GTID_NEXT_IS_SET 並返回GTID_STATEMENT_CANCEL，注意這裡會導致bug#69045
+3.對於BEGIN/COMMIT/ROLLBACK/(SET OPTION 或者 SELECT )且沒有使用存儲過程/ 這幾種類型的SQL，總是允許執行，返回GTID_STATEMENT_EXECUTE
+4.gtid_next->type為UNDEFINED_GROUP，拋出錯誤ER_GTID_NEXT_TYPE_UNDEFINED_GROUP，返回GTID_STATEMENT_CANCEL
+5.gtid_next->type == GTID_GROUP且thd->owned_gtid.sidno == 0時， 返回GTID_STATEMENT_SKIP
 
-其中第五步中处理了函数gtid_acquire_ownership_single的特殊情况
+其中第五步中處理了函數gtid_acquire_ownership_single的特殊情況
 
-b.备库如何发起DUMP请求
+b.備庫如何發起DUMP請求
 
-引入GTID，最大的好处当然是我们可以随心所欲的切换主备拓扑结构了。在一个正常运行的复制结构中，我们可以在备库简单的执行如下SQL：
+引入GTID，最大的好處當然是我們可以隨心所欲的切換主備拓撲結構了。在一個正常運行的複製結構中，我們可以在備庫簡單的執行如下SQL：
 
 CHANGE MASTER TO MASTER_USER=’$USERNAME’, MASTER_HOST=’ ‘, MASTER_PORT=’ ‘, MASTER_AUTO_POSITION=1;
 
-打开GTID后，我们就无需指定binlog文件或者位置，MySQL会自动为我们做这些事情。这里的关键就是MASTER_AUTO_POSITION。IO线程连接主库，可以大概分为以下几步：
-1.IO线程在和主库建立TCP链接后，会去获取主库的uuid（get_master_uuid），然后在主库上设置一个用户变量@slave_uuid(io_thread_init_commands)
+打開GTID後，我們就無需指定binlog文件或者位置，MySQL會自動為我們做這些事情。這裡的關鍵就是MASTER_AUTO_POSITION。IO線程連接主庫，可以大概分為以下幾步：
+1.IO線程在和主庫建立TCP鏈接後，會去獲取主庫的uuid（get_master_uuid），然後在主庫上設置一個用戶變量@slave_uuid(io_thread_init_commands)
 
-2.之后，在主库上注册SLAVE（register_slave_on_master）
+2.之後，在主庫上註冊SLAVE（register_slave_on_master）
 
-在主库上调用register_slave来注册备库，将备库的host,user,password,port,server_id等信息记录到slave_list哈希中。
+在主庫上調用register_slave來註冊備庫，將備庫的host,user,password,port,server_id等信息記錄到slave_list哈希中。
 
-3.调用request_dump，开始向主库请求数据，这里分两种情况：
-MASTER_AUTO_POSITION=0时，向主库发送命令的类型为COM_BINLOG_DUMP，这是传统的请求BINLOG的模式
-MASTER_AUTO_POSITION=1时，命令类型为COM_BINLOG_DUMP_GTID，这是新的方式。
-这里我们只讨论第二种。第二种情况下，会先去读取备库已经执行的gtid集合
+3.調用request_dump，開始向主庫請求數據，這裡分兩種情況：
+MASTER_AUTO_POSITION=0時，向主庫發送命令的類型為COM_BINLOG_DUMP，這是傳統的請求BINLOG的模式
+MASTER_AUTO_POSITION=1時，命令類型為COM_BINLOG_DUMP_GTID，這是新的方式。
+這裡我們只討論第二種。第二種情況下，會先去讀取備庫已經執行的gtid集合
 quoted code in rpl_slave.cc :
 
 2974   if (command == COM_BINLOG_DUMP_GTID)
@@ -335,45 +335,45 @@ quoted code in rpl_slave.cc :
 2982         gtid_executed.add_gtid_set(gtid_state->get_logged_gtids()) !=
 
 2983         RETURN_STATUS_OK)
-构建完成发送包后，发送给主库。
+構建完成發送包後，發送給主庫。
 
-在主库上接受到命令后，调用入口函数com_binlog_dump_gtid，流程如下：
-1.slave_gtid_executed.add_gtid_encoding(packet_position, data_size) ;读取备库传来的GTID SET
-2.读取备库的uuid(get_slave_uuid)，被根据uuid来kill僵尸线程(kill_zombie_dump_threads)
-这也是之前SLAVE IO线程执行SET @SLAVE_UUID的用处。
-3.进入mysql_binlog_send函数：
-         |–>调用MYSQL_BIN_LOG::find_first_log_not_in_gtid_set，从最后一个Binlog开始扫描，获取文件头部的PREVIOUS_GTIDS_LOG_EVENT，如果它是slave_gtid_executed的子集，保存当前binlog文件名，否则继续向前扫描。
-         这一步的目的就是为了找出备库执行到的最后一个Binlog文件。
+在主庫上接受到命令後，調用入口函數com_binlog_dump_gtid，流程如下：
+1.slave_gtid_executed.add_gtid_encoding(packet_position, data_size) ;讀取備庫傳來的GTID SET
+2.讀取備庫的uuid(get_slave_uuid)，被根據uuid來kill殭屍線程(kill_zombie_dump_threads)
+這也是之前SLAVE IO線程執行SET @SLAVE_UUID的用處。
+3.進入mysql_binlog_send函數：
+         |–>調用MYSQL_BIN_LOG::find_first_log_not_in_gtid_set，從最後一個Binlog開始掃描，獲取文件頭部的PREVIOUS_GTIDS_LOG_EVENT，如果它是slave_gtid_executed的子集，保存當前binlog文件名，否則繼續向前掃描。
+         這一步的目的就是為了找出備庫執行到的最後一個Binlog文件。
 
-         |–>从这个文件头部开始扫描，遇到GTID_EVENT时，会去判断该GTID是否包含在slave_gtid_executed中：
+         |–>從這個文件頭部開始掃描，遇到GTID_EVENT時，會去判斷該GTID是否包含在slave_gtid_executed中：
                          Gtid_log_event gtid_ev(packet->ptr() + ev_offset,
                                  packet->length() – checksum_size,
                                  p_fdle);
                           skip_group= slave_gtid_executed->contains_gtid(gtid_ev.get_sidno(sid_map),
                                                      gtid_ev.get_gno());
-         主库通过GTID决定是否可以忽略事务，从而决定执行开始的位置
+         主庫通過GTID決定是否可以忽略事務，從而決定執行開始的位置
 
 
-注意，在使用MASTER_LOG_POSITION后，就不要指定binlog的位置，否则会报错。
-三、运维操作
-a.如何忽略复制错误
+注意，在使用MASTER_LOG_POSITION後，就不要指定binlog的位置，否則會報錯。
+三、運維操作
+a.如何忽略複製錯誤
 
-当备库复制出错时，传统的跳过错误的方法是设置sql_slave_skip_counter,然后再START SLAVE。
-但如果打开了GTID，就会设置失败：
+當備庫複製出錯時，傳統的跳過錯誤的方法是設置sql_slave_skip_counter,然後再START SLAVE。
+但如果打開了GTID，就會設置失敗：
 
 mysql> set global sql_slave_skip_counter = 1;
 
 ERROR 1858 (HY000): sql_slave_skip_counter can not be set when the server is running with @@GLOBAL.GTID_MODE = ON. Instead, for each transaction that you want to skip, generate an empty transaction with the same GTID as the transaction
 
-提示的错误信息告诉我们，可以通过生成一个空事务来跳过错误的事务。
+提示的錯誤信息告訴我們，可以通過生成一個空事務來跳過錯誤的事務。
 
-我们手动产生一个备库复制错误：
+我們手動產生一個備庫複製錯誤：
 
 Last_SQL_Error: Error ‘Unknown table ‘test.t1” on query. Default database: ‘test’. Query: ‘DROP TABLE `t1` /* generated by server */’
 
-查看binlog中，该DDL对应的GTID为7a07cd08-ac1b-11e2-9fcf-0010184e9e08:1131
+查看binlog中，該DDL對應的GTID為7a07cd08-ac1b-11e2-9fcf-0010184e9e08:1131
 
-在备库上执行：
+在備庫上執行：
 
 mysql> STOP SLAVE;
 Query OK, 0 rows affected (0.00 sec)
@@ -391,87 +391,87 @@ mysql> SET SESSION GTID_NEXT = AUTOMATIC;
 Query OK, 0 rows affected (0.00 sec)
 mysql> START SLAVE;
 
-再查看show slave status，就会发现错误事务已经被跳过了。这种方法的原理很简单，空事务产生的GTID加入到GTID_EXECUTED中，这相当于告诉备库，这个GTID对应的事务已经执行了。
-b.重指主库
+再查看show slave status，就會發現錯誤事務已經被跳過了。這種方法的原理很簡單，空事務產生的GTID加入到GTID_EXECUTED中，這相當於告訴備庫，這個GTID對應的事務已經執行了。
+b.重指主庫
 使用change master to …. , MASTER_AUTO_POSITION=1；
-注意在整个复制拓扑中，都需要打开gtid_mode
+注意在整個複製拓撲中，都需要打開gtid_mode
 
-c.新的until条件
-5.6提供了新的util condition，可以根据GTID来决定备库复制执行到的位置
-SQL_BEFORE_GTIDS：在指定的GTID之前停止复制
-SQL_AFTER_GTIDS ：在指定的GTID之后停止复制
+c.新的until條件
+5.6提供了新的util condition，可以根據GTID來決定備庫複製執行到的位置
+SQL_BEFORE_GTIDS：在指定的GTID之前停止複製
+SQL_AFTER_GTIDS ：在指定的GTID之後停止複製
 
-判断函数为Relay_log_info::is_until_satisfied
+判斷函數為Relay_log_info::is_until_satisfied
 
-详细文档见：http://dev.mysql.com/doc/refman/5.6/en/start-slave.html
+詳細文檔見：http://dev.mysql.com/doc/refman/5.6/en/start-slave.html
 
-d.适当减小binlog文件的大小
-如果开启GTID，理论上最好调小每个binlog文件的最大值，以缩小扫描文件的时间。
+d.適當減小binlog文件的大小
+如果開啟GTID，理論上最好調小每個binlog文件的最大值，以縮小掃描文件的時間。
 四、存在的bug
-bug#69097， 即使关闭了gtid_mode，也会在启动时去扫描binlog文件。
-当在重启前没有使用gtid_mode，重启后可能会去扫描所有的binlog文件，如果Binlog文件很多的话，这显然是不可接受的。
+bug#69097， 即使關閉了gtid_mode，也會在啟動時去掃描binlog文件。
+當在重啟前沒有使用gtid_mode，重啟後可能會去掃描所有的binlog文件，如果Binlog文件很多的話，這顯然是不可接受的。
 
-bug#69096，无法通过GTID_NEXT_LIST来跳过复制错误，因为默认编译下，GTID_NEXT_LIST未被编译进去。
-TODO:GTID_NEXT_LIST的逻辑上面均未提到，有空再看。
+bug#69096，無法通過GTID_NEXT_LIST來跳過複製錯誤，因為默認編譯下，GTID_NEXT_LIST未被編譯進去。
+TODO:GTID_NEXT_LIST的邏輯上面均未提到，有空再看。
 
-bug#69095，将备库的复制模式设置为STATEMENT/MIXED。 主库设置为ROW模式，执行DML 会导致备库复制中断
+bug#69095，將備庫的複製模式設置為STATEMENT/MIXED。 主庫設置為ROW模式，執行DML 會導致備庫複製中斷
 
 Last_SQL_Error: Error executing row event: ‘Cannot execute statement: impossible to write to binary log since statement is in row format and BINLOG_FORMAT = STATEMENT.’
 
-判断报错的backtrace：
+判斷報錯的backtrace：
 handle_slave_worker->slave_worker_exec_job->Rows_log_event::do_apply_event->open_and_lock_tables->open_and_lock_tables->lock_tables->THD::decide_logging_format
 
 
-解决办法：将备库的复制模式设置为’ROW’ ，保持主备一致
-该bug和GTID无关
+解決辦法：將備庫的複製模式設置為’ROW’ ，保持主備一致
+該bug和GTID無關
 
-bug#69045, 当主库执行类似 FLUSH PRIVILEGES这样的动作时，如果主库和备库都开启了gtid_mode，会导致复制中断
+bug#69045, 當主庫執行類似 FLUSH PRIVILEGES這樣的動作時，如果主庫和備庫都開啟了gtid_mode，會導致複製中斷
 Last_SQL_Error: Error ‘Cannot execute statements with implicit commit inside a transaction when @@SESSION.GTID_NEXT != AUTOMATIC or @@SESSION.GTID_NEXT_LIST != NULL.’ on query. Default database: ”. Query: ‘flush privileges’
 
-也是一个很低级的bug，在MySQL5.6.11版本中，如果有可能导致隐式提交的事务， 则gtid_next必须等于AUTOMATIC，对备库复制线程而言，很容易就中断了，判断逻辑在函数gtid_pre_statement_checks中
+也是一個很低級的bug，在MySQL5.6.11版本中，如果有可能導致隱式提交的事務， 則gtid_next必須等於AUTOMATIC，對備庫複製線程而言，很容易就中斷了，判斷邏輯在函數gtid_pre_statement_checks中
 
 
 
 
 
-对于 GTID 的实现，MySQL 和 MariaDB 的实现不同。
+對於 GTID 的實現，MySQL 和 MariaDB 的實現不同。
 
 
 
 
 
-Multi-threaded Slave 备库的并行复制， slave_parallel_workers > 1 。
+Multi-threaded Slave 備庫的並行複製， slave_parallel_workers > 1 。
 
 
-Crash-safe Slave 也就是说备库崩溃时，可以自动恢复，需要注意的是，只对 InnoDB 有效，而且需要设置 relay_log_info_repository=TABLE and relay_log_recovery=1 。
+Crash-safe Slave 也就是說備庫崩潰時，可以自動恢復，需要注意的是，只對 InnoDB 有效，而且需要設置 relay_log_info_repository=TABLE and relay_log_recovery=1 。
 
 
-组提交，包括了 binlog 以及 InnoDB 的组提交。
+組提交，包括了 binlog 以及 InnoDB 的組提交。
 
 
 
 
 
-???假设现在已经搭建了主备服务器，然后可以通过 mysqlreplicate 命令配置主从复制 (master slave rpl-user 参数必须) 。
+???假設現在已經搭建了主備服務器，然後可以通過 mysqlreplicate 命令配置主從複製 (master slave rpl-user 參數必須) 。
 ???mysqlreplicate --master=root:new-password@127.0.0.1:3307 --slave=root:new-password@127.0.0.1:3308 --rpl-user=mysync:kidding
 
 
-搭建配置完成之后可以通过 mysqlrplcheck 检查主备复制的状态。
+搭建配置完成之後可以通過 mysqlrplcheck 檢查主備複製的狀態。
 ???mysqlrplcheck --master=root:new-password@127.0.0.1:3307 --slave=root:new-password@127.0.0.1:3308
 
 
-mysqlrplshow 查看主从架构，备库信息通过 SHOW SLAVE HOSTS 命令获取。
+mysqlrplshow 查看主從架構，備庫信息通過 SHOW SLAVE HOSTS 命令獲取。
 ???mysqlrplshow --master=root:new-password@127.0.0.1:3307 --discover-slaves-login=root:new-password
 
 
-mysqlfailover 监视主从健康状态，需要保证配置文件中添加 gtid-mode=on+enforce-gtid-consistency=on 。
+mysqlfailover 監視主從健康狀態，需要保證配置文件中添加 gtid-mode=on+enforce-gtid-consistency=on 。
 ???mysqlfailover --master=root:new-password@127.0.0.1:3307 --discover-slaves-login=root:new-password
 
 
 
-1. 创建package.json文件，执行npm init -yes创建该初始文件。
+1. 創建package.json文件，執行npm init -yes創建該初始文件。
 
-2. 创建main.js文件，内容如下。
+2. 創建main.js文件，內容如下。
 var React = require('react');
 var ReactDOM = require('react-dom');
 ReactDOM.render(
@@ -479,17 +479,17 @@ ReactDOM.render(
   document.getElementById('example')
 );
 
-3. 安装browserify，并生成浏览器可用的javascript文件。
+3. 安裝browserify，並生成瀏覽器可用的javascript文件。
 npm install -g browserify
 npm install --save-dev react react-dom babelify babel-preset-react babel-preset-es2015
-其中babelify(Browserify的babel转换器)，babel-preset-react(针对React的babel转码规则包)。
+其中babelify(Browserify的babel轉換器)，babel-preset-react(針對React的babel轉碼規則包)。
 cat .babelrc
 {
   "presets": ["react", "es2015"]
 }
 
-4. 使用Browserify对main.js处理及打包。
-如下的只需要包含bundle.js即可，无需react.js+react-dom.js。
+4. 使用Browserify對main.js處理及打包。
+如下的只需要包含bundle.js即可，無需react.js+react-dom.js。
 browserify -t babelify --presets react,es2015 src/foobar.js -o bundle.js
 如下需要包含react.js+react-dom.js。
 babel --presets react src --watch --out-dir build/js
@@ -523,30 +523,30 @@ babel --presets react src --watch --out-dir build/js
     "start": "watchify ./index.js -v -t babelify -o bundle.js"
   }
 }
-阮一峰的blog关于Reactjs介绍。
+阮一峰的blog關於Reactjs介紹。
 http://www.ruanyifeng.com/blog/2015/03/react.html
 http://www.ruanyifeng.com/blog/2016/02/react-testing-tutorial.html
-官方关于react的教程。
+官方關於react的教程。
 https://github.com/reactjs/react-tutorial/
 
-1.C语言：PC-Lint、codedex
-2.Java：findbugs、PMD、checkstyle（不强制要求）
+1.C語言：PC-Lint、codedex
+2.Java：findbugs、PMD、checkstyle（不強制要求）
 3.python：flake8
 4.JavaScript：JSHint
 https://addons.mozilla.org/zh-CN/firefox/addon/react-devtools/
 
 
-JSX基本语法规则：
-    遇到以 < 开头的 HTML 标签，就用 HTML 规则解析；遇到以 { 开头的代码块，就用 JavaScript 规则解析。
-什么是JSX？
-把 HTML 模板直接嵌入到 JS 代码里面，从而做到模板和组件关联。但 JS 不支持这种包含 HTML 的语法，所以需要通过工具将 JSX 编译输出成 JS 代码才能使用。
-为了把 JSX 转成标准的 JavaScript，有如下两种转换方法：
-    1. 用 <script type="text/babel"> 标签，并引入 Babel 来完成在浏览器里的代码转换。
-    2. 在浏览器里打开这个html，你应该可以看到成功的消息！
-为什么要使用JSX？
-    JSX 执行更快，因为它在编译为 JavaScript 代码后进行了优化。
-    它是类型安全的，在编译过程中就能发现错误。
-    使用 JSX 编写模板更加简单快速。
+JSX基本語法規則：
+    遇到以 < 開頭的 HTML 標籤，就用 HTML 規則解析；遇到以 { 開頭的代碼塊，就用 JavaScript 規則解析。
+什麼是JSX？
+把 HTML 模板直接嵌入到 JS 代碼裡面，從而做到模板和組件關聯。但 JS 不支持這種包含 HTML 的語法，所以需要通過工具將 JSX 編譯輸出成 JS 代碼才能使用。
+為了把 JSX 轉成標準的 JavaScript，有如下兩種轉換方法：
+    1. 用 <script type="text/babel"> 標籤，並引入 Babel 來完成在瀏覽器裡的代碼轉換。
+    2. 在瀏覽器裡打開這個html，你應該可以看到成功的消息！
+為什麼要使用JSX？
+    JSX 執行更快，因為它在編譯為 JavaScript 代碼後進行了優化。
+    它是類型安全的，在編譯過程中就能發現錯誤。
+    使用 JSX 編寫模板更加簡單快速。
 
 -->
 
@@ -576,11 +576,11 @@ JSX基本语法规则：
 
 ## GTID 限制
 
-开启 GTID 之后，会由部分的限制，内容如下。
+開啟 GTID 之後，會由部分的限制，內容如下。
 
-### 更新非事务引擎表
+### 更新非事務引擎表
 
-GTID 同步复制是基于事务的，所以 MyISAM 存储引擎不支持，这可能导致多个 GTID 分配给同一个事务。
+GTID 同步複製是基於事務的，所以 MyISAM 存儲引擎不支持，這可能導致多個 GTID 分配給同一個事務。
 
 {% highlight text %}
 mysql> CREATE TABLE error (ID INT) ENGINE=MyISAM;
@@ -610,16 +610,16 @@ and never in the same statement as updates to transactional tables.
 
 ### CREATE TABLE ... SELECT
 
-上述的语句不支持，因为该语句会被拆分成 ```CREATE TABLE``` 和 ```INSERT ``` 两个事务，并且这个两个事务被分配了同一个 GTID，这会导致 ```INSERT``` 被备库忽略掉。
+上述的語句不支持，因為該語句會被拆分成 ```CREATE TABLE``` 和 ```INSERT ``` 兩個事務，並且這個兩個事務被分配了同一個 GTID，這會導致 ```INSERT``` 被備庫忽略掉。
 
 {% highlight text %}
 mysql> CREATE TABLE hello ENGINE=InnoDB AS SELECT * FROM hello;
 ERROR 1786 (HY000): Statement violates GTID consistency: CREATE TABLE ... SELECT.
 {% endhighlight %}
 
-### 临时表
+### 臨時表
 
-事务内部不能执行创建删除临时表语句，但可以在事务外执行，但必须设置 ```set autocommit=1``` 。
+事務內部不能執行創建刪除臨時表語句，但可以在事務外執行，但必須設置 ```set autocommit=1``` 。
 
 {% highlight text %}
 mysql> CREATE TEMPORARY TABLE test(id INT);
@@ -634,20 +634,20 @@ mysql> CREATE TEMPORARY TABLE test(id INT);
 Query OK, 0 rows affected (0.04 sec)
 {% endhighlight %}
 
-与临时表相关的包括了 ```CREATE/DROP TEMPORARY TABLE``` 临时表操作。
+與臨時表相關的包括了 ```CREATE/DROP TEMPORARY TABLE``` 臨時表操作。
 
 
-### 总结
+### 總結
 
-实际上，一般启动 GTID 时，可以启用 enforce-gtid-consistency 选项，从而在执行上述不支持的语句时，将会返回错误。
+實際上，一般啟動 GTID 時，可以啟用 enforce-gtid-consistency 選項，從而在執行上述不支持的語句時，將會返回錯誤。
 
 
 
-## 运维相关
+## 運維相關
 
-简单介绍一些常见的运维操作。
+簡單介紹一些常見的運維操作。
 
-当备库配置为 GTID 复制时，可以通过 ```SHOW SLAVE STATUS``` 命令查看其中的 ```Retrieved_Gtid_Set``` 和 ```Executed_Gtid_Set```，分别表示已经从主库获取，以及已经执行的事务。
+當備庫配置為 GTID 複製時，可以通過 ```SHOW SLAVE STATUS``` 命令查看其中的 ```Retrieved_Gtid_Set``` 和 ```Executed_Gtid_Set```，分別表示已經從主庫獲取，以及已經執行的事務。
 
 
 {% highlight text %}
@@ -660,8 +660,8 @@ mysql> SHOW SLAVE STATUS\G
                 Connect_Retry: 60
               Master_Log_File: mysqld-bin.000005
           Read_Master_Log_Pos: 879
-               Relay_Log_File: mysqld-relay-bin.000009      # 备库中的relaylog文件
-                Relay_Log_Pos: 736                          # 备库执行的偏移量
+               Relay_Log_File: mysqld-relay-bin.000009      # 備庫中的relaylog文件
+                Relay_Log_Pos: 736                          # 備庫執行的偏移量
         Relay_Master_Log_File: mysqld-bin.000005
              Slave_IO_Running: Yes
             Slave_SQL_Running: No
@@ -688,13 +688,13 @@ mysql> SHOW SLAVE STATUS\G
 1 row in set (0.00 sec)
 {% endhighlight %}
 
-一般来说是已经从主库复制过来，只是在执行的时候报错，可以从上述的状态中查看，然后通过命令 ```show relaylog events in 'mysqld-relay-bin.000009' from 736\G``` 确认。
+一般來說是已經從主庫複製過來，只是在執行的時候報錯，可以從上述的狀態中查看，然後通過命令 ```show relaylog events in 'mysqld-relay-bin.000009' from 736\G``` 確認。
 
-### 忽略复制错误
+### 忽略複製錯誤
 
-当备库复制出错时，如果仍采用传统的跳过错误方法，也就是设置 ```sql_slave_skip_counter```，然后再 ```START SLAVE```；但如果打开了 GTID，在设置上述参数时，就会报错。
+當備庫複製出錯時，如果仍採用傳統的跳過錯誤方法，也就是設置 ```sql_slave_skip_counter```，然後再 ```START SLAVE```；但如果打開了 GTID，在設置上述參數時，就會報錯。
 
-提示的错误信息告诉我们，可以通过生成一个空事务来跳过错误的事务，示例如下。
+提示的錯誤信息告訴我們，可以通過生成一個空事務來跳過錯誤的事務，示例如下。
 
 {% highlight text %}
 mysql> CREATE DATABASE test;
@@ -704,11 +704,11 @@ Database changed
 mysql> CREATE TABLE foobar(id INT PRIMARY KEY);
 Query OK, 0 rows affected (0.01 sec)
 
------ 备库执行如下SQL
+----- 備庫執行如下SQL
 mysql> INSERT INTO foobar VALUES(1),(2),(3);
 Query OK, 3 rows affected (0.00 sec)
 Records: 3  Duplicates: 0  Warnings: 0
------ 主库执行如下SQL
+----- 主庫執行如下SQL
 mysql> INSERT INTO foobar VALUES(1),(4),(5);
 Query OK, 3 rows affected (0.00 sec)
 Records: 3  Duplicates: 0  Warnings: 0
@@ -720,7 +720,7 @@ mysql> SHOW MASTER STATUS;
 +------------------+----------+--------------+------------------+------------------------------------------+
 1 row in set (0.00 sec)
 
------ 备库执行如下SQL
+----- 備庫執行如下SQL
 mysql> SHOW SLAVE STATUS \G
 *************************** 1. row ***************************
 ... ...
@@ -750,17 +750,17 @@ mysql> START SLAVE;
 Query OK, 0 rows affected (0.00 sec)
 {% endhighlight %}
 
-再查看 ```SHOW SLAVE STATUS``` 时，就会发现错误事务已经被跳过了；这种方法的原理很简单，空事务产生的 GTID 加入到 GTID_EXECUTED 中，相当于告诉备库，这个 GTID 对应的事务已经执行了。
+再查看 ```SHOW SLAVE STATUS``` 時，就會發現錯誤事務已經被跳過了；這種方法的原理很簡單，空事務產生的 GTID 加入到 GTID_EXECUTED 中，相當於告訴備庫，這個 GTID 對應的事務已經執行了。
 
-注意，此时主从会导致数据不一致，需要进行修复。
+注意，此時主從會導致數據不一致，需要進行修復。
 
 
-### 主库事件被清除
+### 主庫事件被清除
 
-变量 gtid_purged 记录了本机已经执行过，且已被 ```PURGE BINARY LOGS TO``` 命令清理的 gtid_set ；在此，看看如果主库上把某些备库还没有获取到的 gtid event 清理后会有什么样的结果。
+變量 gtid_purged 記錄了本機已經執行過，且已被 ```PURGE BINARY LOGS TO``` 命令清理的 gtid_set ；在此，看看如果主庫上把某些備庫還沒有獲取到的 gtid event 清理後會有什麼樣的結果。
 
 {% highlight text %}
------ 主库执行如下SQL
+----- 主庫執行如下SQL
 mysql> FLUSH LOGS; CREATE TABLE foobar1 (id INT) ENGINE=InnoDB;
 Query OK, 0 rows affected (0.01 sec)
 Query OK, 0 rows affected (0.02 sec)
@@ -799,7 +799,7 @@ mysql> SHOW GLOBAL VARIABLES LIKE 'gtid_%';
 +----------------------------------+------------------------------------------+
 5 rows in set (0.01 sec)
 
------ 在备库上执行如下SQL
+----- 在備庫上執行如下SQL
 mysql> START SLAVE;
 Query OK, 0 rows affected (0.01 sec)
 mysql> SHOW SLAVE STATUS\G
@@ -816,59 +816,59 @@ but the master has purged binary logs containing GTIDs that the slave requires.'
 1 row in set (0.00 sec)
 {% endhighlight %}
 
-接下来我们在备库忽略 purged 的部分，然后强行同步，在备库同样设置 gtid_purged 变量。
+接下來我們在備庫忽略 purged 的部分，然後強行同步，在備庫同樣設置 gtid_purged 變量。
 
 {% highlight text %}
------ 备库上清除gtid_executed，然后设置gtid_purged，忽略主库的事务
+----- 備庫上清除gtid_executed，然後設置gtid_purged，忽略主庫的事務
 mysql> RESET MASTER;
 Query OK, 0 rows affected (0.05 sec)
 mysql> SET GLOBAL gtid_purged = "91116597-016c-11e7-94db-ac2b6e8b4228:1-5";
 Query OK, 0 rows affected (0.05 sec)
 
------ 备库上执行上述的SQL，需要根据具体情况修复
+----- 備庫上執行上述的SQL，需要根據具體情況修復
 mysql> CREATE TABLE foobar1 (id INT) ENGINE=InnoDB;
 Query OK, 0 rows affected (0.01 sec)
 mysql> CREATE TABLE foobar2 (id INT) ENGINE=InnoDB;
 Query OK, 0 rows affected (0.02 sec)
 
------ 启动备库即可
+----- 啟動備庫即可
 mysql> START SLAVE;
 Query OK, 0 rows affected (0.02 sec)
 {% endhighlight %}
 
-实际生产应用中，当遇到上述的情况后，需要 DBA 人为保证该备库数据和主库一致；或者即使不一致，这些差异也不会导致今后的主从异常，例如，所有主库上只有 insert 没有 update 。
+實際生產應用中，當遇到上述的情況後，需要 DBA 人為保證該備庫數據和主庫一致；或者即使不一致，這些差異也不會導致今後的主從異常，例如，所有主庫上只有 insert 沒有 update 。
 
 ### Errant-Transaction
 
-简单来说，就是没有在主库执行，而是直接在备库执行的事务，通常可能是在修复备库的问题或者应用异常写入了备库导致。
+簡單來說，就是沒有在主庫執行，而是直接在備庫執行的事務，通常可能是在修復備庫的問題或者應用異常寫入了備庫導致。
 
-如果发生 ET 的备库被提升为主库，那么根据 GTID 协议，新主库就会发现备库没有执行 ET 中的事务，接下来就可能会发生如下两种情况：
+如果發生 ET 的備庫被提升為主庫，那麼根據 GTID 協議，新主庫就會發現備庫沒有執行 ET 中的事務，接下來就可能會發生如下兩種情況：
 
-1. 备库中 ET 对应的 binlog 仍然存在，那么会将相应的事件发送给新的备库，此时则会导致数据不一致或者发生其它异常；
-2. 备库中 ET 对应的 binlog 已经被删除，由于无法发送给备库，那么会导致复制异常。
+1. 備庫中 ET 對應的 binlog 仍然存在，那麼會將相應的事件發送給新的備庫，此時則會導致數據不一致或者發生其它異常；
+2. 備庫中 ET 對應的 binlog 已經被刪除，由於無法發送給備庫，那麼會導致複製異常。
 
-对于有些需要修复备库的任务可以通过 ``` SET sql_log_bin=0``` 命令，设置会话参数，防止生成 ET，当然，此时需要保证数据一致性。在修复时有两种方案：
+對於有些需要修復備庫的任務可以通過 ``` SET sql_log_bin=0``` 命令，設置會話參數，防止生成 ET，當然，此時需要保證數據一致性。在修復時有兩種方案：
 
-1. 在 GTID 的执行历史中删除 ET，这样即使备库被提升为主库，也不会发生异常；
-2. 在其它 MySQL 服务中执行空白的事务，使其它库认为已经执行了 ET，那么 Failover 之后也不会尝试获取相应的事件。
+1. 在 GTID 的執行歷史中刪除 ET，這樣即使備庫被提升為主庫，也不會發生異常；
+2. 在其它 MySQL 服務中執行空白的事務，使其它庫認為已經執行了 ET，那麼 Failover 之後也不會嘗試獲取相應的事件。
 
-接下来看个示例。
+接下來看個示例。
 
 {% highlight text %}
------ 在主库执行如下SQL，查看主库已执行事务对应的GTID Sets
+----- 在主庫執行如下SQL，查看主庫已執行事務對應的GTID Sets
 mysql> SHOW MASTER STATUS\G
 *************************** 1. row ***************************
 ... ...
 Executed_Gtid_Set: 8e349184-bc14-11e3-8d4c-0800272864ba:1-30,
 8e3648e4-bc14-11e3-8d4c-0800272864ba:1-7
 
------ 同上，在备库执行
+----- 同上，在備庫執行
 mysql> SHOW SLAVE STATUS\G
 ... ...
 Executed_Gtid_Set: 8e349184-bc14-11e3-8d4c-0800272864ba:1-29,
 8e3648e4-bc14-11e3-8d4c-0800272864ba:1-9
 
------ 比较两个GTID Sets
+----- 比較兩個GTID Sets
 mysql> SELECT gtid_subset('8e349184-bc14-11e3-8d4c-0800272864ba:1-29,
 8e3648e4-bc14-11e3-8d4c-0800272864ba:1-9','8e349184-bc14-11e3-8d4c-0800272864ba:1-30,
 8e3648e4-bc14-11e3-8d4c-0800272864ba:1-7') AS slave_is_subset;
@@ -879,7 +879,7 @@ mysql> SELECT gtid_subset('8e349184-bc14-11e3-8d4c-0800272864ba:1-29,
 +-----------------+
 1 row in set (0.00 sec)
 
------ 获取对应的差值
+----- 獲取對應的差值
 mysql> SELECT gtid_subtract('8e349184-bc14-11e3-8d4c-0800272864ba:1-29,
 8e3648e4-bc14-11e3-8d4c-0800272864ba:1-9','8e349184-bc14-11e3-8d4c-0800272864ba:1-30,
 8e3648e4-bc14-11e3-8d4c-0800272864ba:1-7') AS errant_transactions;
@@ -891,7 +891,7 @@ mysql> SELECT gtid_subtract('8e349184-bc14-11e3-8d4c-0800272864ba:1-29,
 1 row in set (0.00 sec)
 {% endhighlight %}
 
-接下来，看看如何修复，假设有 3 个服务，A (主库)、B (备库的异常 XXX:3) 以及 C (备库的异常 YYY:18-19)，那么，接下来可以在不同的服务器上写入空白事务。
+接下來，看看如何修復，假設有 3 個服務，A (主庫)、B (備庫的異常 XXX:3) 以及 C (備庫的異常 YYY:18-19)，那麼，接下來可以在不同的服務器上寫入空白事務。
 
 {% highlight text %}
 # A
@@ -905,7 +905,7 @@ mysql> SELECT gtid_subtract('8e349184-bc14-11e3-8d4c-0800272864ba:1-29,
 - Inject empty trx(XXX:3)
 {% endhighlight %}
 
-当然，也可以使用 MySQL-Utilities 中的 mysqlslavetrx 脚本写入空白事务。
+當然，也可以使用 MySQL-Utilities 中的 mysqlslavetrx 腳本寫入空白事務。
 
 {% highlight text %}
 $ mysqlslavetrx --gtid-set='457e7d57-1da2-11e7-9c71-286ed488dd40:5' --verbose \
@@ -915,11 +915,11 @@ $ mysqlslavetrx --gtid-set='457e7d57-1da2-11e7-9c71-286ed488dd40:5' --verbose \
 
 
 
-## 参考
+## 參考
 
 [MySQL Reference Manual - Replication with Global Transaction Identifiers](https://dev.mysql.com/doc/refman/en/replication-gtids.html) 。
 
-关于 GTID 的介绍可以参考 [MySQL Replication for High Availability - Tutorial](https://severalnines.com/resources/tutorials/mysql-replication-high-availability-tutorial) 中的内容，一篇不错的介绍，也可以直接参考 [本地](/reference/databases/mysql/MySQL_Replication_for_High_Availability.mht) 。
+關於 GTID 的介紹可以參考 [MySQL Replication for High Availability - Tutorial](https://severalnines.com/resources/tutorials/mysql-replication-high-availability-tutorial) 中的內容，一篇不錯的介紹，也可以直接參考 [本地](/reference/databases/mysql/MySQL_Replication_for_High_Availability.mht) 。
 
 <!--
 Database Daily Ops Series: GTID Replication
@@ -930,10 +930,10 @@ https://www.percona.com/blog/2016/12/01/database-daily-ops-series-gtid-replicati
 
 http://mysqllover.com/?p=594
 
-在使用GTID之前需要考虑的内容
+在使用GTID之前需要考慮的內容
 http://www.fromdual.ch/things-you-should-consider-before-using-gtid
 
-[MySQL 5.6] GTID内部实现、运维变化及存在的bug
+[MySQL 5.6] GTID內部實現、運維變化及存在的bug
 http://mysqllover.com/?p=594
 -->
 

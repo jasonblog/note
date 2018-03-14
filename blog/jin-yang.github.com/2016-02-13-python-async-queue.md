@@ -1,24 +1,24 @@
 ---
-title: Python 异步任务队列
+title: Python 異步任務隊列
 layout: post
 comments: true
 language: chinese
 category: [linux, network,python]
-keywords: python,异步任务队列,APScheduler,Redis Queue,Celery
-description: Python 中有很多的调度系统，这里简单介绍一下常用的，例如 APScheduler、Redis Queue、Celery 等。
+keywords: python,異步任務隊列,APScheduler,Redis Queue,Celery
+description: Python 中有很多的調度系統，這裡簡單介紹一下常用的，例如 APScheduler、Redis Queue、Celery 等。
 ---
 
-Python 中有很多的调度系统，这里简单介绍一下常用的，例如 APScheduler、Redis Queue、Celery 等。
+Python 中有很多的調度系統，這裡簡單介紹一下常用的，例如 APScheduler、Redis Queue、Celery 等。
 
 <!-- more -->
 
-## 简介
+## 簡介
 
-Python 中 [APScheduler](https://pypi.python.org/pypi/APScheduler/) 通常用于跨平台的 cron 操作，可以将任务保存在数据库中，不过比较适合嵌入的应用程序中执行，没有提供独立的执行进程。
+Python 中 [APScheduler](https://pypi.python.org/pypi/APScheduler/) 通常用於跨平臺的 cron 操作，可以將任務保存在數據庫中，不過比較適合嵌入的應用程序中執行，沒有提供獨立的執行進程。
 
 ## Redis Queue
 
-[Redis Queue, RQ](http://www.python-rq.org) 是一个比 Celery 更加简单的异步任务队列，当然他的功能没有 Celery 多，复杂程度也没有 Celery 大，但它足够简单，其 Broker 只能是 redis 。
+[Redis Queue, RQ](http://www.python-rq.org) 是一個比 Celery 更加簡單的異步任務隊列，當然他的功能沒有 Celery 多，複雜程度也沒有 Celery 大，但它足夠簡單，其 Broker 只能是 redis 。
 
 {% highlight text %}
 # pip install rq
@@ -52,14 +52,14 @@ hash
 ttl rq:job:88fc4ae9-a9c7-4532-98b7-e0c06ef01dbb
 
 
-lrange rq:queue:default 1 100              通过list类型存放该队列中所含有的任务
-smembers rq:queues                         通过set保存了所有队列的信息
+lrange rq:queue:default 1 100              通過list類型存放該隊列中所含有的任務
+smembers rq:queues                         通過set保存了所有隊列的信息
 {% endhighlight %}
 
-任务会在 job 执行后调用 cleanup() 函数，默认会设置为 result_ttl 值。
+任務會在 job 執行後調用 cleanup() 函數，默認會設置為 result_ttl 值。
 
 <!--
-### 任务下发
+### 任務下發
 
 enqueue_job()
 

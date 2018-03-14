@@ -1,33 +1,33 @@
 ---
-title: C 编译链接
+title: C 編譯鏈接
 layout: post
 comments: true
 language: chinese
 category: [program,misc]
-keywords: c,编译链接
-description: 详细介绍下与 C 语言相关的概念。
+keywords: c,編譯鏈接
+description: 詳細介紹下與 C 語言相關的概念。
 ---
 
-详细介绍下与 C 语言相关的概念。
+詳細介紹下與 C 語言相關的概念。
 
 <!-- more -->
 
-## 目标文件
+## 目標文件
 
-目标文件是编译器编译完后，还没有进行链接的文件，通常采用和可执行文件相同的存储格式，如 Windows 平台下的 `Portable Executable, PE`，Linux 平台下的 `Executable Linkale Format, ELF`，它们都是 `Common File Format, COFF` 的变种。
+目標文件是編譯器編譯完後，還沒有進行鏈接的文件，通常採用和可執行文件相同的存儲格式，如 Windows 平臺下的 `Portable Executable, PE`，Linux 平臺下的 `Executable Linkale Format, ELF`，它們都是 `Common File Format, COFF` 的變種。
 
-除可执行文件，动态链接库 `(Dynamic Linking Library)` 和静态链接库 `(Statci Linking Library)` 也是按照可执行文件进行存储。
+除可執行文件，動態鏈接庫 `(Dynamic Linking Library)` 和靜態鏈接庫 `(Statci Linking Library)` 也是按照可執行文件進行存儲。
 
-对于文件的类型可以通过 file 命令进行查看，常见的类型包括了：
+對於文件的類型可以通過 file 命令進行查看，常見的類型包括了：
 
-* 可重定位文件(Relocatable File)<br>主要包含了代码和数据，主要用来链接成可执行文件或共享目标文件，如 `.o` 文件。
-* 可执行文件(Executable File)<br>主要是可以直接执行的程序，如 `/bin/bash` 。
-* 共享目标文件(Shared Object File)<br>包含了代码和数据，常见的有动态和静态链接库，如 `/lib64/libc-2.17.so` 。
-* 核心转储文件(Core Dump File)<br>进程意外终止时，系统将该进程的地址空间的内容及终止时的一些其他信息转储到该文件中。
+* 可重定位文件(Relocatable File)<br>主要包含了代碼和數據，主要用來鏈接成可執行文件或共享目標文件，如 `.o` 文件。
+* 可執行文件(Executable File)<br>主要是可以直接執行的程序，如 `/bin/bash` 。
+* 共享目標文件(Shared Object File)<br>包含了代碼和數據，常見的有動態和靜態鏈接庫，如 `/lib64/libc-2.17.so` 。
+* 核心轉儲文件(Core Dump File)<br>進程意外終止時，系統將該進程的地址空間的內容及終止時的一些其他信息轉儲到該文件中。
 
 ### 示例程序
 
-目标文件通过段 (Segment) 进行存储，在 Windows 中可以通过 `Process Explorer` 查看进程相关信息，Linux 可以通过 `objdump` 查看。主要的段包括了 `.text` `.data` `.bss(Block Started by Symbol)`，当然还有一些其它段，如 `.rodata` `.comment` 等。
+目標文件通過段 (Segment) 進行存儲，在 Windows 中可以通過 `Process Explorer` 查看進程相關信息，Linux 可以通過 `objdump` 查看。主要的段包括了 `.text` `.data` `.bss(Block Started by Symbol)`，當然還有一些其它段，如 `.rodata` `.comment` 等。
 
 {% highlight c %}
 int printf(const char* format, ...);
@@ -54,26 +54,26 @@ int main(void)
 }
 {% endhighlight %}
 
-然后，可以通过 `gcc -c section.c` 编译，编译完上述的文件之后，可以通过 `objdump -h` 查看头部信息，也可以通过 `-x` 参数查看更详细的信息。
+然後，可以通過 `gcc -c section.c` 編譯，編譯完上述的文件之後，可以通過 `objdump -h` 查看頭部信息，也可以通過 `-x` 參數查看更詳細的信息。
 
-比较重要的是 `File off` 和 `Size` 信息，一般头部信息的大小为 `0x34` ，因此第一个段的地址就会从 `0x34` 开始 (地址从 0 开始计数)，另外，由于需要 4bytes 对齐，因此会从 `54(0x36)` 开始。也可以通过 size 查看，采用的是十进制，最后会用十进制和十六进制表示总的大小。
+比較重要的是 `File off` 和 `Size` 信息，一般頭部信息的大小為 `0x34` ，因此第一個段的地址就會從 `0x34` 開始 (地址從 0 開始計數)，另外，由於需要 4bytes 對齊，因此會從 `54(0x36)` 開始。也可以通過 size 查看，採用的是十進制，最後會用十進制和十六進制表示總的大小。
 
-数据段 `.data` 用来保存已经初始化了的全局变量和局部静态变量，如上述的 `global_init_var` 和 `static_var` 。
+數據段 `.data` 用來保存已經初始化了的全局變量和局部靜態變量，如上述的 `global_init_var` 和 `static_var` 。
 
-只读数据段 `.rodata` ，主要用于保存常量，如 `printf()` 中的字符串和 `const` 类型的变量，该段在加载时也会将其设置为只读。
+只讀數據段 `.rodata` ，主要用於保存常量，如 `printf()` 中的字符串和 `const` 類型的變量，該段在加載時也會將其設置為只讀。
 
-`BSS` 段保存了未初始化的全局变量和局部静态变量，如上述 `global_uninit_var` 和 `static_var2` 。
+`BSS` 段保存了未初始化的全局變量和局部靜態變量，如上述 `global_uninit_var` 和 `static_var2` 。
 
 <!--
-正常应该是 8 字节，但是查看时只有 4 字节，通过符号表(Symbol Table)可以看到，只有 static_var2 保存在 .bss 段，而 global_uninit_var 未存放在任何段，只是一个未定义的 COMMON 符号。这与不同的语言和编译器实现有关，有些编译器会将全局的为初始化变量存放在目标文件 .bss 段，有些则不存放，只是预留一个未定义的全局变量符号，等到最终链接成可执行文件时再在 .bss 段分配空间。
+正常應該是 8 字節，但是查看時只有 4 字節，通過符號表(Symbol Table)可以看到，只有 static_var2 保存在 .bss 段，而 global_uninit_var 未存放在任何段，只是一個未定義的 COMMON 符號。這與不同的語言和編譯器實現有關，有些編譯器會將全局的為初始化變量存放在目標文件 .bss 段，有些則不存放，只是預留一個未定義的全局變量符號，等到最終鏈接成可執行文件時再在 .bss 段分配空間。
 -->
 
-`.text` 为代码段，`.data` 保存含初始值的变量，`.bss` 只保存了变量的符号。
+`.text` 為代碼段，`.data` 保存含初始值的變量，`.bss` 只保存了變量的符號。
 
 
-### 添加一个段
+### 添加一個段
 
-将以个二进制文件，如图片、MP3 音乐等作为目标文件的一个段。如下所示，此时可以直接声明 `_binary_example_png_start` 和 `_binary_example_png_end` 并使用。
+將以個二進制文件，如圖片、MP3 音樂等作為目標文件的一個段。如下所示，此時可以直接聲明 `_binary_example_png_start` 和 `_binary_example_png_end` 並使用。
 
 {% highlight text %}
 $ objcopy -I binary -O elf32-i386 -B i386 example.png image.o
@@ -92,55 +92,55 @@ SYMBOL TABLE:
 000293d6 g       *ABS*	00000000 _binary_example_png_size
 {% endhighlight %}
 
-如果在编译时想将某个函数或者变量放置在一个段里，可以通过如下的方式进行。
+如果在編譯時想將某個函數或者變量放置在一個段裡，可以通過如下的方式進行。
 
 {% highlight c %}
 __attribute__((section("FOO"))) int global = 42;
 __attribute__((section("BAR"))) void foo() { }
 {% endhighlight %}
 
-### 运行库
+### 運行庫
 
-在 `main()` 运行之前通常会先执行一段代码，运行这些代码的函数称为 **入口函数** 或 **入口点** ，大致的步骤如下：
+在 `main()` 運行之前通常會先執行一段代碼，運行這些代碼的函數稱為 **入口函數** 或 **入口點** ，大致的步驟如下：
 
-* 操作系统创建进程后，把控制权交给程序入口，这个入口往往是运行库中的某个入口函数。
-* 入口函数对运行库和程序运行环境进行初始化，包括堆、I/O、线程、全局变量构造等。
-* 入口函数在完成初始化之后，调用 main 函数，正式开始执行程序主体部分。
-* `main()` 执行完后，返回到入口函数，入口函数进行清理工作，包括全局变量析构、堆销毁、关闭 IO 等，然后进行系统调用结束进程。
+* 操作系統創建進程後，把控制權交給程序入口，這個入口往往是運行庫中的某個入口函數。
+* 入口函數對運行庫和程序運行環境進行初始化，包括堆、I/O、線程、全局變量構造等。
+* 入口函數在完成初始化之後，調用 main 函數，正式開始執行程序主體部分。
+* `main()` 執行完後，返回到入口函數，入口函數進行清理工作，包括全局變量析構、堆銷燬、關閉 IO 等，然後進行系統調用結束進程。
 
-## 链接过程
+## 鏈接過程
 
-在程序由源码到可执行文件的编译过程实际有预处理 (Propressing)、编译 (Compilation)、汇编 (Assembly) 和链接 (Linking) 四步，在 `gcc` 中分别使用 `ccp`，`cc1`，`as`，`ld` 来完成。
+在程序由源碼到可執行文件的編譯過程實際有預處理 (Propressing)、編譯 (Compilation)、彙編 (Assembly) 和鏈接 (Linking) 四步，在 `gcc` 中分別使用 `ccp`，`cc1`，`as`，`ld` 來完成。
 
-关于链接方面可以直接从网上搜索 《linker and loader》。
+關於鏈接方面可以直接從網上搜索 《linker and loader》。
 
 ![compile link gcc details]({{ site.url }}/images/linux/compile-link-gcc-details.jpg "compile link gcc details"){: .pull-center }
 
-### 预编译
+### 預編譯
 
-将源代码和头文件通过预编译成一个 `.i` 文件，相当与如下命令。
+將源代碼和頭文件通過預編譯成一個 `.i` 文件，相當與如下命令。
 
 {% highlight text %}
 $ gcc -E main.c -o main.i          # C
 $ cpp main.c > main.i              # CPP
 {% endhighlight %}
 
-与编译主要是处理源码中以 `"#"` 开始的与编译指令，主要的处理规则是：
+與編譯主要是處理源碼中以 `"#"` 開始的與編譯指令，主要的處理規則是：
 
-* 删除所有的 `"#define"` ，并且展开所有的宏定义。
-* 处理所有条件预编译指令，比如 `"#if"`、`"#ifdef"`、`"#elif"`、`"#else"`、`"#endif"` 。
-* 处理 `"#include"` ，将被包含的文件插入到该预编译指令的位置，该过程是递归的。
-* 删除多有的注释 `"//"` 和 `"/* */"` 。
-* 添加行号和文件名标识，如 `#2 "main.c" 2` ，用于编译时产生调试用的行号以及在编译时产生错误或警告时显示行号。
-* 保留所有的 `"#pragma"` 编译器指令，因为编译器需要使用它们。
+* 刪除所有的 `"#define"` ，並且展開所有的宏定義。
+* 處理所有條件預編譯指令，比如 `"#if"`、`"#ifdef"`、`"#elif"`、`"#else"`、`"#endif"` 。
+* 處理 `"#include"` ，將被包含的文件插入到該預編譯指令的位置，該過程是遞歸的。
+* 刪除多有的註釋 `"//"` 和 `"/* */"` 。
+* 添加行號和文件名標識，如 `#2 "main.c" 2` ，用於編譯時產生調試用的行號以及在編譯時產生錯誤或警告時顯示行號。
+* 保留所有的 `"#pragma"` 編譯器指令，因為編譯器需要使用它們。
 
-经过预编译后的 `.i` 文件不包含任何宏定义，因为所有的宏已经被展开，并且包含的文件也已经被插入到 `.i` 文件中。所以，当无法判断宏定义是否正确或头文件包含是否正确时，可以查看该文件。
+經過預編譯後的 `.i` 文件不包含任何宏定義，因為所有的宏已經被展開，並且包含的文件也已經被插入到 `.i` 文件中。所以，當無法判斷宏定義是否正確或頭文件包含是否正確時，可以查看該文件。
 
-### 编译
+### 編譯
 
-编译过程就是把预处理后的文件进行一系列的词法分析、语法分析、语义分析以及优化后生成相应的汇编代码文件，这个是核心部分，也是最复杂的部分。
+編譯過程就是把預處理後的文件進行一系列的詞法分析、語法分析、語義分析以及優化後生成相應的彙編代碼文件，這個是核心部分，也是最複雜的部分。
 
-gcc 把预编译和编译合并成一个步骤，对于 C 语言使用的是 `cc1` ，C++ 使用的是 `cc1obj` 。
+gcc 把預編譯和編譯合併成一個步驟，對於 C 語言使用的是 `cc1` ，C++ 使用的是 `cc1obj` 。
 
 {% highlight text %}
 $ gcc -S hello.i -o hello.s
@@ -149,9 +149,9 @@ $ gcc -S main.c -o main.s
 
 <!-- $ /usr/lib/gcc/i386-linux-gnu/4.7/cc1 main.c -->
 
-### 汇编
+### 彙編
 
-汇编器是将汇编代码转化成机器码，每条汇编语句几乎都对应一条机器指令。汇编器不需要复杂的语法语义，也不用进行指令优化，只是根据汇编指令和机器指令的对照表一一翻译即可。
+彙編器是將彙編代碼轉化成機器碼，每條彙編語句幾乎都對應一條機器指令。彙編器不需要複雜的語法語義，也不用進行指令優化，只是根據彙編指令和機器指令的對照表一一翻譯即可。
 
 {% highlight text %}
 $ gcc -c hello.s -o hello.o
@@ -160,75 +160,75 @@ $ gcc -c main.s -o main.o
 $ gcc -c main.c -o main.o
 {% endhighlight %}
 
-### 链接
+### 鏈接
 
-可以通过 `gcc hello.c -o hello -v` 查看。
+可以通過 `gcc hello.c -o hello -v` 查看。
 
 {% highlight text %}
 $ gcc hello.o -o hello.exe
 {% endhighlight %}
 
-## 静态库和动态库
+## 靜態庫和動態庫
 
-库有动态与静态两种，Linux 中动态通常用 `.so` 为后缀，静态用 `.a` 为后缀，如：`libhello.so` `libhello.a`。为了在同一系统中使用不同版本的库，可以在库文件名后加上版本号为后缀，例如：`libhello.so.1.0`，然后，使用时通过符号链接指向不同版本。
+庫有動態與靜態兩種，Linux 中動態通常用 `.so` 為後綴，靜態用 `.a` 為後綴，如：`libhello.so` `libhello.a`。為了在同一系統中使用不同版本的庫，可以在庫文件名後加上版本號為後綴，例如：`libhello.so.1.0`，然後，使用時通過符號鏈接指向不同版本。
 
 {% highlight text %}
 # ln -s libhello.so.1.0 libhello.so.1
 # ln -s libhello.so.1 libhello.so
 {% endhighlight %}
 
-在动态链接的情况下，可执行文件中还有很多外部符号的引用还处于无效地址的状态，因此需要首先启一个 **动态链接器 (Dynamic Linker)**，该连接器的位置在程序的 `".interp"` (interpreter) 中指定，可以通过如下的命令查询。
+在動態鏈接的情況下，可執行文件中還有很多外部符號的引用還處於無效地址的狀態，因此需要首先啟一個 **動態鏈接器 (Dynamic Linker)**，該連接器的位置在程序的 `".interp"` (interpreter) 中指定，可以通過如下的命令查詢。
 
 {% highlight text %}
 $ readelf -l a.out | grep interpreter
 {% endhighlight %}
 
-### 共享库的更新
+### 共享庫的更新
 
-对于共享库更新时通常会有兼容更新和不兼容更新，此处所说的兼容是指二进制接口，即 `ABI (Application Binary Interface)`。
+對於共享庫更新時通常會有兼容更新和不兼容更新，此處所說的兼容是指二進制接口，即 `ABI (Application Binary Interface)`。
 
-为了保证共享库的兼容性， Linux 采用一套规则来命名系统中的共享库，简单来说，其规则如下 `libname.so.x.y.z`，name 为库的名称，x y z 的含义如下：
+為了保證共享庫的兼容性， Linux 採用一套規則來命名系統中的共享庫，簡單來說，其規則如下 `libname.so.x.y.z`，name 為庫的名稱，x y z 的含義如下：
 
-* x，主版本号(Major Version Number)，库的重大升级，不同的主版本号之间不兼容。
-* y，次版本号(Minor Version Number)，库的增量升级，增加了一些新的接口，且保持原来的符号不变。
-* z，发布版本号(Release Version Number)，库的一些错误的修正、性能的改进等，并不添加任何新的接口，也不对接口进行改进。
+* x，主版本號(Major Version Number)，庫的重大升級，不同的主版本號之間不兼容。
+* y，次版本號(Minor Version Number)，庫的增量升級，增加了一些新的接口，且保持原來的符號不變。
+* z，發佈版本號(Release Version Number)，庫的一些錯誤的修正、性能的改進等，並不添加任何新的接口，也不對接口進行改進。
 
-由于历史的原因最基本的 C 语言库 glibc 动态链接库不使用这种规则，如 `libc-x.y.z.so` 、`ld-x.y.z.so` 。
+由於歷史的原因最基本的 C 語言庫 glibc 動態鏈接庫不使用這種規則，如 `libc-x.y.z.so` 、`ld-x.y.z.so` 。
 
-下面这篇论文， Library Interface Versioning in Solaris and Linux ，对 Salaris 和 Linux 的共享库版本机制和符号版本机制做了非常详细的介绍。
+下面這篇論文， Library Interface Versioning in Solaris and Linux ，對 Salaris 和 Linux 的共享庫版本機制和符號版本機制做了非常詳細的介紹。
 
-在 Linux 中采用 SO-NAME 的命名机制，每个库会对应一个 SO-NAME ，这个 SO-NAME 只保留主版本号，也即 SO-NAME 规定了共享库的接口。
+在 Linux 中採用 SO-NAME 的命名機制，每個庫會對應一個 SO-NAME ，這個 SO-NAME 只保留主版本號，也即 SO-NAME 規定了共享庫的接口。
 
-### 路径问题
+### 路徑問題
 
-如果动态库不在搜索路径中，则会报 `cannot open shared object file: No such file or directory` 的错误。可以通过 `gcc --print-search-dirs` 命令查看默认的搜索路径。
+如果動態庫不在搜索路徑中，則會報 `cannot open shared object file: No such file or directory` 的錯誤。可以通過 `gcc --print-search-dirs` 命令查看默認的搜索路徑。
 
-查找顺序通常为：
+查找順序通常為：
 
-1. 查找程序编译指定的路径，保存在 `.dynstr` 段，其中包含了一个以冒号分割的目录搜索列表。
-2. 查找环境变量 `LD_LIBRARY_PATH`，以冒号分割的目录搜索列表。
+1. 查找程序編譯指定的路徑，保存在 `.dynstr` 段，其中包含了一個以冒號分割的目錄搜索列表。
+2. 查找環境變量 `LD_LIBRARY_PATH`，以冒號分割的目錄搜索列表。
 3. 查找 `/etc/ld.so.conf` 。
-4. 默认路径 `/lib` 和 `/usr/lib` 。
+4. 默認路徑 `/lib` 和 `/usr/lib` 。
 
-为了让执行程序顺利找到动态库，有三种方法：
+為了讓執行程序順利找到動態庫，有三種方法：
 
-##### 1. 复制到指定路径
+##### 1. 複製到指定路徑
 
-把库拷贝到查找路径下，通常为 `/usr/lib` 和 `/lib` 目录下，或者通过 `gcc --print-search-dirs` 查看动态库的搜索路径。
+把庫拷貝到查找路徑下，通常為 `/usr/lib` 和 `/lib` 目錄下，或者通過 `gcc --print-search-dirs` 查看動態庫的搜索路徑。
 
-##### 2. 添加链接选项
+##### 2. 添加鏈接選項
 
-编译时添加链接选项，指定链接库的目录，此时会将该路径保存在二进制文件中。
+編譯時添加鏈接選項，指定鏈接庫的目錄，此時會將該路徑保存在二進制文件中。
 
 {% highlight text %}
 $ gcc -o test test.o -L. -lhello -Wl,-rpath,/home/lib:.
 $ readelf -d test | grep RPATH
-$ objdump -s -j .dynstr test                     // 查看.dynstr段的内容
+$ objdump -s -j .dynstr test                     // 查看.dynstr段的內容
 {% endhighlight %}
 
-##### 3. 设置环境变量
+##### 3. 設置環境變量
 
-执行时在 `LD_LIBRARY_PATH` 环境变量中加上库所在路径，例如动态库 `libhello.so` 在 `/home/test/lib` 目录下。
+執行時在 `LD_LIBRARY_PATH` 環境變量中加上庫所在路徑，例如動態庫 `libhello.so` 在 `/home/test/lib` 目錄下。
 
 {% highlight text %}
 $ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/test/lib
@@ -236,24 +236,24 @@ $ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/test/lib
 
 ##### 4. 修改配置文件
 
-修改 `/etc/ld.so.conf` 文件，把库所在的路径加到文件中，并执行 `ldconfig` 刷新配置。动态链接库通常保存在 `/etc/ld.so.cache` 文件中，执行 `ldconfig` 可以对其进行刷新。
+修改 `/etc/ld.so.conf` 文件，把庫所在的路徑加到文件中，並執行 `ldconfig` 刷新配置。動態鏈接庫通常保存在 `/etc/ld.so.cache` 文件中，執行 `ldconfig` 可以對其進行刷新。
 
 
-### 静态连接库
+### 靜態連接庫
 
-当要使用静态的程序库时，连接器会找出程序所需的函数，然后将它们拷贝到执行文件，由于这种拷贝是完整的，所以一旦连接成功，静态程序库也就不再需要了，缺点是占用的空间比较大。通常，静态链接的程序要比共享函数库的程序运行速度上快一些，大概 1-5％ 。
+當要使用靜態的程序庫時，連接器會找出程序所需的函數，然後將它們拷貝到執行文件，由於這種拷貝是完整的，所以一旦連接成功，靜態程序庫也就不再需要了，缺點是佔用的空間比較大。通常，靜態鏈接的程序要比共享函數庫的程序運行速度上快一些，大概 1-5％ 。
 
 <!--
-动态库会在执行程序内留下一个标记指明当程序执行时，首先必须载入这个库。
+動態庫會在執行程序內留下一個標記指明當程序執行時，首先必須載入這個庫。
 -->
 
-注意，对于 CentOS 需要安装 `yum install glibc-static` 库。
+注意，對於 CentOS 需要安裝 `yum install glibc-static` 庫。
 
-Linux 下进行连接的缺省操作是首先连接动态库，也就是说，如果同时存在静态和动态库，不特别指定的话，将与动态库相连接。
+Linux 下進行連接的缺省操作是首先連接動態庫，也就是說，如果同時存在靜態和動態庫，不特別指定的話，將與動態庫相連接。
 
-现在假设有一个 hello 程序开发包，它提供一个静态库 `libhello.a`，一个动态库 `libhello.so`，一个头文件 `hello.h`，头文件中提供 `foobar()` 这个函数的声明。
+現在假設有一個 hello 程序開發包，它提供一個靜態庫 `libhello.a`，一個動態庫 `libhello.so`，一個頭文件 `hello.h`，頭文件中提供 `foobar()` 這個函數的聲明。
 
-下面这段程序 `main.c` 使用 hello 库中的 `foobar()` 函数。
+下面這段程序 `main.c` 使用 hello 庫中的 `foobar()` 函數。
 
 {% highlight c %}
 /* filename: foobar.c */
@@ -295,7 +295,7 @@ int main(int argc, char **argv)
 }
 {% endhighlight %}
 
-生成静态库，先对源文件进行编译；然后使用 `ar(archive)` 命令连接成静态库。
+生成靜態庫，先對源文件進行編譯；然後使用 `ar(archive)` 命令連接成靜態庫。
 
 {% highlight text %}
 $ gcc -c hello.c -o hello.o
@@ -304,7 +304,7 @@ $ ar crv libhello.a hello.o foobar.o
 $ ar -t libhello.a                              // 查看打包的文件
 {% endhighlight %}
 
-`ar` 实际是一个打包工具，可以用来打包常见文件，不过现在被 `tar` 替代，目前主要是用于生成静态库，详细格式可以参考 [ar(Unix) wiki](http://en.wikipedia.org/wiki/Ar_(Unix)) 。
+`ar` 實際是一個打包工具，可以用來打包常見文件，不過現在被 `tar` 替代，目前主要是用於生成靜態庫，詳細格式可以參考 [ar(Unix) wiki](http://en.wikipedia.org/wiki/Ar_(Unix)) 。
 
 {% highlight text %}
 $ echo "hello" > a.txt && echo "world" > b.txt
@@ -312,122 +312,122 @@ $ ar crv text.a a.txt b.txt
 $ cat text.a
 {% endhighlight %}
 
-与静态库连接麻烦一些，主要是参数问题。
+與靜態庫連接麻煩一些，主要是參數問題。
 
 {% highlight text %}
-$ gcc main.c -o test -lhello                    // 库在默认路径下，如/usr/lib
-$ gcc main.c -lhello -L. -static -o main        // 通过-L指定库的路径
+$ gcc main.c -o test -lhello                    // 庫在默認路徑下，如/usr/lib
+$ gcc main.c -lhello -L. -static -o main        // 通過-L指定庫的路徑
 
-$ gcc main.o -o main -WI,-Bstatic -lhello       // 报错，显示找不到-lgcc_s
+$ gcc main.o -o main -WI,-Bstatic -lhello       // 報錯，顯示找不到-lgcc_s
 {% endhighlight %}
 
-注意：这个特别的 `"-WI,-Bstatic"` 参数，实际上是传给了连接器 `ld`，指示它与静态库连接，如果系统中只有静态库可以不需要这个参数； 如果要和多个库相连接，而每个库的连接方式不一样，比如上面的程序既要和 `libhello` 进行静态连接，又要和 `libbye` 进行动态连接，其命令应为：
+注意：這個特別的 `"-WI,-Bstatic"` 參數，實際上是傳給了連接器 `ld`，指示它與靜態庫連接，如果系統中只有靜態庫可以不需要這個參數； 如果要和多個庫相連接，而每個庫的連接方式不一樣，比如上面的程序既要和 `libhello` 進行靜態連接，又要和 `libbye` 進行動態連接，其命令應為：
 
 {% highlight text %}
 $ gcc testlib.o -o test -WI,-Bstatic -lhello -WI,-Bdynamic -lbye
 {% endhighlight %}
 
-最好不要进行分别编译、链接，因为在生成可执行文件时往往需要很多的其他文件，可以通过 `-v` 选项进行查看，如果通过如下方式进行编译通常会出现错误。
+最好不要進行分別編譯、鏈接，因為在生成可執行文件時往往需要很多的其他文件，可以通過 `-v` 選項進行查看，如果通過如下方式進行編譯通常會出現錯誤。
 
 {% highlight text %}
 $ gcc -c main.c
 $ ld main.o -L. -lhello
 {% endhighlight %}
 
-### 动态库
+### 動態庫
 
-用 gcc 编绎该文件，在编绎时可以使用任何编绎参数，例如 `-g` 加入调试代码等；`-fPIC` 生成与位置无关的代码（可以在任何地址被连接和装载）。
+用 gcc 編繹該文件，在編繹時可以使用任何編繹參數，例如 `-g` 加入調試代碼等；`-fPIC` 生成與位置無關的代碼（可以在任何地址被連接和裝載）。
 
 {% highlight text %}
 $ gcc -c -fPIC hello.c -o hello.o
 
-$ gcc -shared -Wl,-soname,libhello.so.1 -o libhello.so.1.0 hello.o // 生成动态库，可能存在多个版本，通常指定版本号
+$ gcc -shared -Wl,-soname,libhello.so.1 -o libhello.so.1.0 hello.o // 生成動態庫，可能存在多個版本，通常指定版本號
 
-$ ln  -s  libhello.so.1.0  libhello.so.1                           // 另外再建立两个符号连接
+$ ln  -s  libhello.so.1.0  libhello.so.1                           // 另外再建立兩個符號連接
 $ ln  -s  libhello.so.1  libhello.so
 
-$ gcc -fPIC -shared -o libhello.so hello.c                         // 当然对于上述的步骤可以通过一步完成
+$ gcc -fPIC -shared -o libhello.so hello.c                         // 當然對於上述的步驟可以通過一步完成
 
-$ readelf -d libhello.so.1.0 | grep SONAME                         // 查看对应的soname
-$ nm -D libhello.so                                                // 查看符号
+$ readelf -d libhello.so.1.0 | grep SONAME                         // 查看對應的soname
+$ nm -D libhello.so                                                // 查看符號
 {% endhighlight %}
 
-最重要的是传 `-shared` 参数使其生成是动态库而不是普通执行程序； `-Wl` 表示后面的参数也就是 `-soname,libhello.so.1` 直接传给连接器 `ld` 进行处理。
+最重要的是傳 `-shared` 參數使其生成是動態庫而不是普通執行程序； `-Wl` 表示後面的參數也就是 `-soname,libhello.so.1` 直接傳給連接器 `ld` 進行處理。
 
-实际上，每一个库都有一个 `soname` ，当连接器发现它正在查找的程序库中有这样一个名称，连接器便会将 `soname` 嵌入连结中的二进制文件内，而不是它正在运行的实际文件名，在程序执行期间，程序会查找拥有 `soname` 名字的文件，而不是库的文件名，换句话说，`soname` 是库的区分标志。
+實際上，每一個庫都有一個 `soname` ，當連接器發現它正在查找的程序庫中有這樣一個名稱，連接器便會將 `soname` 嵌入連結中的二進制文件內，而不是它正在運行的實際文件名，在程序執行期間，程序會查找擁有 `soname` 名字的文件，而不是庫的文件名，換句話說，`soname` 是庫的區分標誌。
 
-其目的主要是允许系统中多个版本的库文件共存，习惯上在命名库文件的时候通常与 `soname` 相同 `libxxxx.so.major.minor` 其中，`xxxx` 是库的名字， `major` 是主版本号， `minor` 是次版本号。
+其目的主要是允許系統中多個版本的庫文件共存，習慣上在命名庫文件的時候通常與 `soname` 相同 `libxxxx.so.major.minor` 其中，`xxxx` 是庫的名字， `major` 是主版本號， `minor` 是次版本號。
 
-### 查看库中的符号
+### 查看庫中的符號
 
-有时候可能需要查看一个库中到底有哪些函数，`nm` 命令可以打印出库中的涉及到的所有符号，库既可以是静态的也可以是动态的。
+有時候可能需要查看一個庫中到底有哪些函數，`nm` 命令可以打印出庫中的涉及到的所有符號，庫既可以是靜態的也可以是動態的。
 
-`nm` 列出的符号有很多，常见的有三种：
+`nm` 列出的符號有很多，常見的有三種：
 
-* 在库中被调用，但并没有在库中定义(表明需要其他库支持)，用U表示；
-* 库中定义的函数，用T表示，这是最常见的；
-* 所谓的“弱态”符号，它们虽然在库中被定义，但是可能被其他库中的同名符号覆盖，用W表示。
+* 在庫中被調用，但並沒有在庫中定義(表明需要其他庫支持)，用U表示；
+* 庫中定義的函數，用T表示，這是最常見的；
+* 所謂的“弱態”符號，它們雖然在庫中被定義，但是可能被其他庫中的同名符號覆蓋，用W表示。
 
-例如，希望知道上文提到的 `hello` 库中是否定义了 `printf()` 。
+例如，希望知道上文提到的 `hello` 庫中是否定義了 `printf()` 。
 
 {% highlight text %}
 $ nm libhello.so
 {% endhighlight %}
 
-发现其中没有 `printf()` 的定义，取而代之的是 `puts()` 函数，而且为 `U` ，表示符号 `puts` 被引用，但是并没有在函数内定义，由此可以推断，要正常使用 `hello` 库，必须有其它库支持，再使用 `ldd` 命令查看 `hello` 依赖于哪些库：
+發現其中沒有 `printf()` 的定義，取而代之的是 `puts()` 函數，而且為 `U` ，表示符號 `puts` 被引用，但是並沒有在函數內定義，由此可以推斷，要正常使用 `hello` 庫，必須有其它庫支持，再使用 `ldd` 命令查看 `hello` 依賴於哪些庫：
 
 {% highlight text %}
 $ ldd -v hello
 $ readelf -d hello     直接使用readelf
 {% endhighlight %}
 
-每行 `=>` 前面的，为动态链接程序所需的动态链接库的名字；而 `=>` 后面的，则是运行时系统实际调用的动态链接库的名字。所需的动态链接库在系统中不存在时，`=>` 后面将显示 `"not found"`，括号所括的数字为虚拟的执行地址。
+每行 `=>` 前面的，為動態鏈接程序所需的動態鏈接庫的名字；而 `=>` 後面的，則是運行時系統實際調用的動態鏈接庫的名字。所需的動態鏈接庫在系統中不存在時，`=>` 後面將顯示 `"not found"`，括號所括的數字為虛擬的執行地址。
 
-常用的系统动态链接库有：
+常用的系統動態鏈接庫有：
 
 {% highlight text %}
-libc.so.x        基本C库
-ld-linux.so.2    动态装入库(用于动态链接库的装入及运行)
+libc.so.x        基本C庫
+ld-linux.so.2    動態裝入庫(用於動態鏈接庫的裝入及運行)
 {% endhighlight %}
 
 
-## 动态库加载API
+## 動態庫加載API
 
-对于 Linux 下的可执行文件 ELF 使用如下命令查看，可以发现其中有一个 `.interp` 段，它指明了将要被使用的动态链接器 (`/lib/ld-linux.so`)。
+對於 Linux 下的可執行文件 ELF 使用如下命令查看，可以發現其中有一個 `.interp` 段，它指明瞭將要被使用的動態鏈接器 (`/lib/ld-linux.so`)。
 
 {% highlight text %}
 $ readelf -l EXECUTABLE
 {% endhighlight %}
 
-对于动态加载的函数主要包括了下面的四个函数，需要 `dlfcn.h` 头文件，定义在 `libdl.so` 库中。
+對於動態加載的函數主要包括了下面的四個函數，需要 `dlfcn.h` 頭文件，定義在 `libdl.so` 庫中。
 
 {% highlight text %}
 void *dlopen( const char *file, int mode );
-  用来打开一个文件，使对象文件可被程序访问，同时还会自动解析共享库中的依赖项，这样，如果打开了一个
-    依赖于其他共享库的对象，它就会自动加载它们，该函数返回一个句柄，该句柄用于后续的 API 调用。
-  mode 参数通知动态链接器何时执行再定位，有两个可能的值：
-    A) RTLD_NOW，表明动态链接器将会在调用 dlopen 时完成所有必要的再定位；
-    B) RTLD_LAZY，只在需要时执行再定位。
+  用來打開一個文件，使對象文件可被程序訪問，同時還會自動解析共享庫中的依賴項，這樣，如果打開了一個
+    依賴於其他共享庫的對象，它就會自動加載它們，該函數返回一個句柄，該句柄用於後續的 API 調用。
+  mode 參數通知動態鏈接器何時執行再定位，有兩個可能的值：
+    A) RTLD_NOW，表明動態鏈接器將會在調用 dlopen 時完成所有必要的再定位；
+    B) RTLD_LAZY，只在需要時執行再定位。
 
 void *dlsym( void *restrict handle, const char *restrict name );
-  通过句柄和连接符名称获取函数名或者变量名。
+  通過句柄和連接符名稱獲取函數名或者變量名。
 
 char *dlerror();
-  返回一个可读的错误字符串，该函数没有参数，它会在发生前面的错误时返回一个字符串，在没有错误发生时返回NULL。
+  返回一個可讀的錯誤字符串，該函數沒有參數，它會在發生前面的錯誤時返回一個字符串，在沒有錯誤發生時返回NULL。
 
 char *dlclose( void *handle ); 
-  通知操作系统不再需要句柄和对象引用了。它完全是按引用来计数的，所以同一个共享对象的多个用户相互间
-    不会发生冲突（只要还有一个用户在使用它，它就会待在内存中）。
-    任何通过已关闭的对象的 dlsym 解析的符号都将不再可用。
+  通知操作系統不再需要句柄和對象引用了。它完全是按引用來計數的，所以同一個共享對象的多個用戶相互間
+    不會發生衝突（只要還有一個用戶在使用它，它就會待在內存中）。
+    任何通過已關閉的對象的 dlsym 解析的符號都將不再可用。
 {% endhighlight %}
 
-有了 ELF 对象的句柄，就可以通过调用 dlsym 来识别这个对象内的符号的地址了。该函数采用一个符号名称，如对象内的一个函数的名称，返回值为对象符号的解析地址。
+有了 ELF 對象的句柄，就可以通過調用 dlsym 來識別這個對象內的符號的地址了。該函數採用一個符號名稱，如對象內的一個函數的名稱，返回值為對象符號的解析地址。
 
-下面是一个动态加载的示例 [github libdl.c]({{ site.example_repository }}/c_cpp/c/libdl.c)，通过如下的命令进行编译，其中选项 `-rdynamic` 用来通知链接器将所有符号添加到动态符号表中（目的是能够通过使用 dlopen 来实现向后跟踪）。
+下面是一個動態加載的示例 [github libdl.c]({{ site.example_repository }}/c_cpp/c/libdl.c)，通過如下的命令進行編譯，其中選項 `-rdynamic` 用來通知鏈接器將所有符號添加到動態符號表中（目的是能夠通過使用 dlopen 來實現向後跟蹤）。
 
 {% highlight text %}
-$ gcc -rdynamic -o dl library_libdl.c -ldl        # 编译
-$ ./dl                                            # 测试
+$ gcc -rdynamic -o dl library_libdl.c -ldl        # 編譯
+$ ./dl                                            # 測試
 > libm.so cosf 0.0
    1.000000
 > libm.so sinf 0.0
@@ -437,44 +437,44 @@ $ ./dl                                            # 测试
 > bye
 {% endhighlight %}
 
-另外，可以通过如下方式简单使用。
+另外，可以通過如下方式簡單使用。
 
 {% highlight text %}
-$ cat caculate.c                                     # 查看动态库源码
+$ cat caculate.c                                     # 查看動態庫源碼
 int add(int a, int b) {
     return (a + b);
 }
 int sub(int a, int b) {
     return (a - b);
 }
-$ gcc -fPIC -shared caculate.c -o libcaculate.so     # 生成动态库
-$ cat foobar.c                                       # 测试源码
+$ gcc -fPIC -shared caculate.c -o libcaculate.so     # 生成動態庫
+$ cat foobar.c                                       # 測試源碼
 #include <stdio.h>
 #include <dlfcn.h>
 #include <stdlib.h>
 
-typedef int (*CAC_FUNC)(int, int);                           // 定义函数指针类型
+typedef int (*CAC_FUNC)(int, int);                           // 定義函數指針類型
 int main(int argc, char** argv) {
     void *handle;
     char *error;
     CAC_FUNC cac_func = NULL;
 
-    if ( !(handle=dlopen("./libcaculate.so", RTLD_LAZY)) ) { // 打开动态链接库
+    if ( !(handle=dlopen("./libcaculate.so", RTLD_LAZY)) ) { // 打開動態鏈接庫
         fprintf(stderr, "!!! %s\n", dlerror());
         exit(EXIT_FAILURE);
     }
 
-    cac_func = dlsym(handle, "add");                         // 获取一个函数
+    cac_func = dlsym(handle, "add");                         // 獲取一個函數
     if ((error = dlerror()) != NULL)  {
         fprintf(stderr, "!!! %s\n", error);
         exit(EXIT_FAILURE);
     }
     printf("add: %d\n", (cac_func)(2,7));
 
-    dlclose(handle);                                         // 关闭动态链接库
+    dlclose(handle);                                         // 關閉動態鏈接庫
     exit(EXIT_SUCCESS);
 }
-$ gcc -rdynamic -o foobar foobar.c -ldl              # 编译测试
+$ gcc -rdynamic -o foobar foobar.c -ldl              # 編譯測試
 {% endhighlight %}
 
 <!-- https://www.ibm.com/developerworks/cn/linux/l-elf/part1/index.html -->
@@ -483,60 +483,60 @@ $ gcc -rdynamic -o foobar foobar.c -ldl              # 编译测试
 
 ### objdump
 
-详细参考 `man objdump` 。
+詳細參考 `man objdump` 。
 
 {% highlight text %}
 -h, --section-headers, --headers
-  查看目标文件的头部信息。
+  查看目標文件的頭部信息。
 -x, --all-headers
-  显示所有的头部信息，包括了符号表和重定位表，等价于 -a -f -h -p -r -t 。
+  顯示所有的頭部信息，包括了符號表和重定位表，等價於 -a -f -h -p -r -t 。
 -s, --full-contents
-  显示所请求段的全部信息，通常用十六进制表示，默认只会显示非空段。
+  顯示所請求段的全部信息，通常用十六進制表示，默認只會顯示非空段。
 -d, --disassemble
-  反汇编，一般只反汇编含有指令的段。
+  反彙編，一般只反彙編含有指令的段。
 -t, --syms
-  显示符号表，与nm类似，只是显示的格式不同，当然显示与文件的格式相关，对于ELF如下所示。
+  顯示符號表，與nm類似，只是顯示的格式不同，當然顯示與文件的格式相關，對於ELF如下所示。
   00000000 l    d  .bss   00000000 .bss
   00000000 g       .text  00000000 fred
 {% endhighlight %}
 
 <!--
-第一列为符号的值，有时是地址；下一个是用字符表示的标志位；接着是与符号相关的段，*ABS* 表示段是绝对的（没和任何段相关联）， *UND* 表示未定义；对于普通符号(Common Symbols)表示对齐，其它的表示大小；最后是符号的名字。<br><br>
+第一列為符號的值，有時是地址；下一個是用字符表示的標誌位；接著是與符號相關的段，*ABS* 表示段是絕對的（沒和任何段相關聯）， *UND* 表示未定義；對於普通符號(Common Symbols)表示對齊，其它的表示大小；最後是符號的名字。<br><br>
 
-对于标志组的字符被分为如下的 7 组。
+對於標誌組的字符被分為如下的 7 組。
 <ol type="A"><li>
     "l(local)" "g(global)" "u(unique global)" " (neither global nor local)" "!(both global and local)"<br>
-    通常一个符号应该是 local 或 global ，但还有其他的一些原因，如用于调试、"!"表示一个bug、"u"是 ELF 的扩展，表示整个进程中只有一个同类型同名的变量。</li><br><li>
+    通常一個符號應該是 local 或 global ，但還有其他的一些原因，如用於調試、"!"表示一個bug、"u"是 ELF 的擴展，表示整個進程中只有一個同類型同名的變量。</li><br><li>
 
     "w(weak)" " (strong)"<br>
-    表示强或弱符号。</li><br><li>
+    表示強或弱符號。</li><br><li>
 
     "C(constructor)" " (ordinary)"<br>
-    为构造函数还是普通符号。</li><br><li>
+    為構造函數還是普通符號。</li><br><li>
 
     "W(warning)" " (normal symbol)"<br>
-    如果一个含有警告标志的符号被引用时，将会输出警告信息。</li><br><li>
+    如果一個含有警告標誌的符號被引用時，將會輸出警告信息。</li><br><li>
 
     "I"
    "i" The symbol is an indirect reference to another symbol (I), a function to be evaluated
        during reloc processing (i) or a normal symbol (a space).
 
    "d(debugging symbol)" "D(dynamic symbol)" " (normal symbol)"<br>
-    表示调试符号、动态符号还是普通的符号。</li><br><li>
+    表示調試符號、動態符號還是普通的符號。</li><br><li>
 
    "F(function)" "f(file)" "O(object)" " (normal)"<br>
-    表示函数、文件、对象或只是一个普通的符号。
+    表示函數、文件、對象或只是一個普通的符號。
 -->
 
 ### strip
 
-我们知道二进制的程序中包含了大量的符号表格(symbol table)，有一部分是用来 gdb 调试提供必要信息的，可以通过如下命令查看这些符号信息。
+我們知道二進制的程序中包含了大量的符號表格(symbol table)，有一部分是用來 gdb 調試提供必要信息的，可以通過如下命令查看這些符號信息。
 
 {% highlight text %}
 $ readelf -S hello
 {% endhighlight %}
 
-其中类似与 `.debug_xxxx` 的就是 gdb 调试用的。去掉它们不会影响程序的执行。
+其中類似與 `.debug_xxxx` 的就是 gdb 調試用的。去掉它們不會影響程序的執行。
 
 {% highlight text %}
 $ strip hello
@@ -544,24 +544,24 @@ $ strip hello
 
 ### objcopy
 
-用于转换目标文件。
+用於轉換目標文件。
 
 {% highlight text %}
-常用参数：
+常用參數：
   -S / --strip-all
-    不从源文件中拷贝重定位信息和符号信息到输出文件(目的文件)中去。
+    不從源文件中拷貝重定位信息和符號信息到輸出文件(目的文件)中去。
   -I bfdname/--input-target=bfdname
-    明确告诉程序源文件的格式是什么，bfdname是BFD库中描述的标准格式名。
+    明確告訴程序源文件的格式是什麼，bfdname是BFD庫中描述的標準格式名。
   -O bfdname/--output-target=bfdname
-    使用指定的格式来写输出文件(即目标文件)，bfdname是BFD库中描述的标准格式名，
+    使用指定的格式來寫輸出文件(即目標文件)，bfdname是BFD庫中描述的標準格式名，
     如binary(raw binary 格式)、srec(s-record 文件)。
   -R sectionname/--remove-section=sectionname
-    从输出文件中删掉所有名为section-name的段。
+    從輸出文件中刪掉所有名為section-name的段。
 {% endhighlight %}
 
-上一步的 strip 命令只能拿掉一般 symbol table，有些信息还是沒拿掉，而这些信息对于程序的最终执行没有影响，如: `.comment` `.note.ABI-tag` `.gnu.version` 就是完全可以去掉的。
+上一步的 strip 命令只能拿掉一般 symbol table，有些信息還是沒拿掉，而這些信息對於程序的最終執行沒有影響，如: `.comment` `.note.ABI-tag` `.gnu.version` 就是完全可以去掉的。
 
-所以说程序还有简化的余地，我们可以使用 objcopy 命令把它们抽取掉。
+所以說程序還有簡化的餘地，我們可以使用 objcopy 命令把它們抽取掉。
 
 {% highlight text %}
 $ objcopy -R .comment -R .note.ABI-tag -R .gnu.version hello hello1
@@ -569,25 +569,25 @@ $ objcopy -R .comment -R .note.ABI-tag -R .gnu.version hello hello1
 
 ### readelf
 
-用于读取 ELF 格式文件，包括可执行程序和动态库。
+用於讀取 ELF 格式文件，包括可執行程序和動態庫。
 
 {% highlight text %}
-常用参数：
+常用參數：
   -a --all
-    等价于-h -l -S -s -r -d -V -A -I
+    等價於-h -l -S -s -r -d -V -A -I
   -h --file-header
-    文件头信息；
+    文件頭信息；
   -l --program-headers
-    程序的头部信息；
+    程序的頭部信息；
   -S --section-headers
-    各个段的头部信息；
+    各個段的頭部信息；
   -e --headers
-    全部头信息，等价于-h -l -S；
+    全部頭信息，等價於-h -l -S；
 
 示例用法：
------ 读取dynstr段，包含了很多需要加载的符号，每个动态库后跟着需要加载函数
+----- 讀取dynstr段，包含了很多需要加載的符號，每個動態庫後跟著需要加載函數
 $ readelf -p .dynstr hello
------ 查看是否含有调试信息
+----- 查看是否含有調試信息
 $ readelf -S hello | grep debug
 {% endhighlight %}
 
@@ -597,21 +597,21 @@ readelf -d hello
 
   --sections
 An alias for –section-headers
--s –syms 符号表 Display the symbol table
+-s –syms 符號表 Display the symbol table
 --symbols
 An alias for –syms
--n –notes 内核注释 Display the core notes (if present)
+-n –notes 內核註釋 Display the core notes (if present)
 -r –relocs 重定位 Display the relocations (if present)
 -u –unwind Display the unwind info (if present)
 -d --dynamic
-  显示动态段的内容；
+  顯示動態段的內容；
 -V –version-info 版本 Display the version sections (if present)
--A –arch-specific CPU构架 Display architecture specific information (if any).
--D –use-dynamic 动态段 Use the dynamic section info when displaying symbols
--x –hex-dump=<number> 显示 段内内容Dump the contents of section <number>
+-A –arch-specific CPU構架 Display architecture specific information (if any).
+-D –use-dynamic 動態段 Use the dynamic section info when displaying symbols
+-x –hex-dump=<number> 顯示 段內內容Dump the contents of section <number>
 -w[liaprmfFso] or
 -I –histogram Display histogram of bucket list lengths
--W –wide 宽行输出 Allow output width to exceed 80 characters
+-W –wide 寬行輸出 Allow output width to exceed 80 characters
 -H –help Display this information
 -v –version Display the version number of readelf
 -->
@@ -619,9 +619,9 @@ An alias for –syms
 
 ## 其它
 
-#### 1. 静态库生成动态库
+#### 1. 靜態庫生成動態庫
 
-可以通过多个静态库生成动态库，而实际上静态库是一堆 `.o` 库的压缩集合，而生成动态库需要保证 `.o` 编译后是与地址无关的，也就是添加 `-fPIC` 参数。
+可以通過多個靜態庫生成動態庫，而實際上靜態庫是一堆 `.o` 庫的壓縮集合，而生成動態庫需要保證 `.o` 編譯後是與地址無關的，也就是添加 `-fPIC` 參數。
 
 
 {% highlight text %}

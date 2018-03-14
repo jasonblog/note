@@ -1,74 +1,74 @@
 ---
-title: MySQL 用户管理
+title: MySQL 用戶管理
 layout: post
 comments: true
 language: chinese
 category: [mysql,database]
-keywords: mysql,database,数据库,权限管理
-description: MySQL 权限管理系统的主要功能是证实连接到一台给定主机的用户，并且赋予该用户在数据库上的相关权限，在认证的时候是通过用户名+主机名定义。 此，简单介绍下 MySQL 的权限管理，以及设置相应的用户管理。
+keywords: mysql,database,數據庫,權限管理
+description: MySQL 權限管理系統的主要功能是證實連接到一臺給定主機的用戶，並且賦予該用戶在數據庫上的相關權限，在認證的時候是通過用戶名+主機名定義。 此，簡單介紹下 MySQL 的權限管理，以及設置相應的用戶管理。
 ---
 
-MySQL 权限管理系统的主要功能是证实连接到一台给定主机的用户，并且赋予该用户在数据库上的相关权限，在认证的时候是通过用户名+主机名定义。
+MySQL 權限管理系統的主要功能是證實連接到一臺給定主機的用戶，並且賦予該用戶在數據庫上的相關權限，在認證的時候是通過用戶名+主機名定義。
 
-在此，简单介绍下 MySQL 的权限管理，以及设置相应的用户管理。
+在此，簡單介紹下 MySQL 的權限管理，以及設置相應的用戶管理。
 
 <!-- more -->
 
 ![mysql]({{ site.url }}/images/databases/mysql/account-logo.png "mysql"){: .pull-center width="75%" }
 
-## 权限管理
+## 權限管理
 
-简单介绍一些用户管理的操作。
+簡單介紹一些用戶管理的操作。
 
 ### 常用操作
 
-在设置权限时可以使用通配符，其中 % 表示可以匹配任意长度字符， _ 表示可以匹配单字符，常见的操作列举如下：
+在設置權限時可以使用通配符，其中 % 表示可以匹配任意長度字符， _ 表示可以匹配單字符，常見的操作列舉如下：
 
 {% highlight text %}
------ 查看帮助
+----- 查看幫助
 mysql> help account management;
 mysql> help create user;
 
 ----- 常用操作
-mysql> SELECT current_user();                                        ← 查看当前用户
-mysql> SELECT user,host,password FROM mysql.user;                    ← 查看用户信息
-mysql> SHOW GRANTS;                                                  ← 当前用户权限，会生成SQL语句
-mysql> CREATE USER 'user'@'host' IDENTIFIED BY 'password';           ← 创建用户
-mysql> DROP USER 'user'@'host';                                      ← 删除用户
-mysql> RENAME USER 'user'@'host' TO 'fool'@'host';                   ← 修改用户名
+mysql> SELECT current_user();                                        ← 查看當前用戶
+mysql> SELECT user,host,password FROM mysql.user;                    ← 查看用戶信息
+mysql> SHOW GRANTS;                                                  ← 當前用戶權限，會生成SQL語句
+mysql> CREATE USER 'user'@'host' IDENTIFIED BY 'password';           ← 創建用戶
+mysql> DROP USER 'user'@'host';                                      ← 刪除用戶
+mysql> RENAME USER 'user'@'host' TO 'fool'@'host';                   ← 修改用戶名
 
------ 修改密码
-mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY 'new-password';   ← 修改密码(recommand)
-mysql> SET PASSWORD FOR 'root'@'localhost'=PASSWORD('new-password'); ← 修改密码
+----- 修改密碼
+mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY 'new-password';   ← 修改密碼(recommand)
+mysql> SET PASSWORD FOR 'root'@'localhost'=PASSWORD('new-password'); ← 修改密碼
 mysql> UPDATE mysql.user SET password=PASSWORD('new-password')
        WHERE USER='root' AND Host='127.0.0.1';
-mysql> UPDATE mysql.user SET password='' WHERE user='root';          ← 清除密码
+mysql> UPDATE mysql.user SET password='' WHERE user='root';          ← 清除密碼
 mysql> FLUSH PRIVILEGES;
-$ mysqladmin -uROOT -pOLD_PASSWD password NEW_PASSWD                 ← 通过mysqladmin修改
+$ mysqladmin -uROOT -pOLD_PASSWD password NEW_PASSWD                 ← 通過mysqladmin修改
 $ mysqladmin -uROOT -p flush-privileges
 
------ 权限管理
+----- 權限管理
 mysql> GRANT ALL ON *.* TO 'user'@'%' [IDENTIFIED BY 'password'];
 mysql> GRANT ALL PRIVILIGES ON [TABLE | DATABASE] student,course TO user1,user2;
 mysql> GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, CREATE TEMPORARY, ALTER,
        DROP, REFERENCES, INDEX, CREATE VIEW, SHOW VIEW, CREATE ROUTINE,
        ALTER ROUTINE, EXECUTE
        ON db.tbl TO 'user'@'host' [IDENTIFIED BY 'password'];
-mysql> GRANT ALL ON sampdb.* TO PUBLIC WITH GRANT OPTION;            ← 所有人，可以授权给其他人
-mysql> GRANT UPDATE(col),SELECT ON TABLE tbl TO user;                ← 针对列赋值
-mysql> SHOW GRANTS [FOR 'user'@'host'];                              ← 查看权限信息
-mysql> REVOKE ALL ON *.* FROM 'user'@'host';                         ← 撤销权限
+mysql> GRANT ALL ON sampdb.* TO PUBLIC WITH GRANT OPTION;            ← 所有人，可以授權給其他人
+mysql> GRANT UPDATE(col),SELECT ON TABLE tbl TO user;                ← 針對列賦值
+mysql> SHOW GRANTS [FOR 'user'@'host'];                              ← 查看權限信息
+mysql> REVOKE ALL ON *.* FROM 'user'@'host';                         ← 撤銷權限
 mysql> REVOKE SELECT(user, host), UPDATE(host) ON db.tbl FROM 'user'@'%';
 
------ 查看用户或者密码为空的用户
+----- 查看用戶或者密碼為空的用戶
 mysql> SELECT user, host, password FROM mysql.user
        WHERE (user IS NULL OR user='') OR (password IS NULL OR password='');
 
------ 重命名用户
+----- 重命名用戶
 mysql> RENAME USER 'user1'@'%' TO 'user2'@'%';
 {% endhighlight %}
 
-WITH GRANT OPTION 表示可以将被授予的权力再次授权给其他人；实际上，在上述操作中，如下的步骤是相同的。
+WITH GRANT OPTION 表示可以將被授予的權力再次授權給其他人；實際上，在上述操作中，如下的步驟是相同的。
 
 {% highlight text %}
 mysql> CREATE USER 'user' IDENTIFIED BY 'password';
@@ -79,35 +79,35 @@ mysql> GRANT privileges  TO 'user'@'host' IDENTIFIED BY 'password' [WITH GRANT O
 mysql> FLUSH PRIVILEGS;
 {% endhighlight %}
 
-也就是将创建用户和授权是否分开处理。
+也就是將創建用戶和授權是否分開處理。
 
 #### 取消GRNAT
 
-默认 root 是有 GRANT 权限，为了安全考虑可以手动取消其权限。
+默認 root 是有 GRANT 權限，為了安全考慮可以手動取消其權限。
 
 {% highlight text %}
 mysql> UPDATE mysql.user SET grant_priv='N' WHERE user='ROOT';
 mysql> FLUSH PRIVILEGES;
 {% endhighlight %}
 
-注意，修改权限后需要重新登录生效！
+注意，修改權限後需要重新登錄生效！
 
-### 用户设置
+### 用戶設置
 
 ![mysql]({{ site.url }}/images/databases/mysql/account-logo2.png "mysql"){: .pull-right width="18%" }
 
-为了最小化用户权限，通常可以设置四类：
+為了最小化用戶權限，通常可以設置四類：
 
-* monitor 对内部表的只读权限，用于监控系统采集监控数据；
-* readonly 业务表的只读权限，比如用于运营、开发排查问题等；
-* admin 基本是最高权限，一些运维人员使用的帐号，例如建表、帐号管理等操作；
-* foobar 业务帐号，也就是应用使用的帐号，业务业务表有增删改查的权限。
+* monitor 對內部表的只讀權限，用於監控系統採集監控數據；
+* readonly 業務表的只讀權限，比如用於運營、開發排查問題等；
+* admin 基本是最高權限，一些運維人員使用的帳號，例如建表、帳號管理等操作；
+* foobar 業務帳號，也就是應用使用的帳號，業務業務表有增刪改查的權限。
 
-接下来，我们看看如何管理这些帐号。
+接下來，我們看看如何管理這些帳號。
 
 #### monitor
 
-创建完用户之后，默认是有 information_schema 库的读权限的。
+創建完用戶之後，默認是有 information_schema 庫的讀權限的。
 
 {% highlight text %}
 mysql> CREATE USER 'monitor'@'%' IDENTIFIED BY 'password';
@@ -122,11 +122,11 @@ mysql> DROP USER 'monitor'@'%';
 
 #### readonly
 
-与 monitor 用户相同，不过是针对的业务数据库授权。
+與 monitor 用戶相同，不過是針對的業務數據庫授權。
 
 #### admin
 
-只针对管理平面的机器设置权限，也就是指定 IP 地址。
+只針對管理平面的機器設置權限，也就是指定 IP 地址。
 
 {% highlight text %}
 mysql> CREATE USER 'admin'@'IP' IDENTIFIED BY 'password';
@@ -138,35 +138,35 @@ mysql> DROP USER 'admin'@'IP';
 
 #### root
 
-保留只允许本地登陆的 root 用户，Always have a plan B 。
+保留只允許本地登陸的 root 用戶，Always have a plan B 。
 
 {% highlight text %}
 mysql> GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION;
 {% endhighlight %}
 
-Plan C 是免密码登陆。
+Plan C 是免密碼登陸。
 
 ## 加固插件
 
 
 
-### 密码复杂度检查
+### 密碼複雜度檢查
 
-提供了一个插件，可以用于密码的加固，可以采用如下的其中一个方式加载。
+提供了一個插件，可以用於密碼的加固，可以採用如下的其中一個方式加載。
 
-1. 参数启动时指定 ```--plugin-load='validate_password.so'``` ；
+1. 參數啟動時指定 ```--plugin-load='validate_password.so'``` ；
 
-2. 在配置文件 my.cnf 中的 mysqld 段添加 ```plugin-load=validate_password.so``` ，同时为了防止插件在 mysql 运行时的时候被卸载可以同时添加 ```validate-password=FORCE_PLUS_PERMANENT``` ；
+2. 在配置文件 my.cnf 中的 mysqld 段添加 ```plugin-load=validate_password.so``` ，同時為了防止插件在 mysql 運行時的時候被卸載可以同時添加 ```validate-password=FORCE_PLUS_PERMANENT``` ；
 
-3. 登陆 mysql，在命令行模式下直接安装/卸载插件插件 ```INSTALL PLUGIN validate_password SONAME 'validate_password.so';``` 以及 ```UNINSTALL PLUGIN validate_password;``` 。
+3. 登陸 mysql，在命令行模式下直接安裝/卸載插件插件 ```INSTALL PLUGIN validate_password SONAME 'validate_password.so';``` 以及 ```UNINSTALL PLUGIN validate_password;``` 。
 
-注意：安装和卸载语句是不记录 binlog 的如果是复制环境，需要在主备库分别进行操作才可。
+注意：安裝和卸載語句是不記錄 binlog 的如果是複製環境，需要在主備庫分別進行操作才可。
 
-#### 使用简介
+#### 使用簡介
 
-当修改 MySQL 的账号密码时，会检查当前的是密码策略如果不符合预定义的策略，不符合则返回 ```ER_NOT_VALID_PASSWORD``` 错误，相关的语句有 ```CREATE USER```、```GRANT```、```SET PASSWORD``` 。
+當修改 MySQL 的賬號密碼時，會檢查當前的是密碼策略如果不符合預定義的策略，不符合則返回 ```ER_NOT_VALID_PASSWORD``` 錯誤，相關的語句有 ```CREATE USER```、```GRANT```、```SET PASSWORD``` 。
 
-可以通过 ```VALIDATE_PASSWORD_STRENGTH()``` 函数对密码强度进行检查，从 0 到 100 依次表示从弱到强；当然，需要提前加载插件，否则只会返回 0 。
+可以通過 ```VALIDATE_PASSWORD_STRENGTH()``` 函數對密碼強度進行檢查，從 0 到 100 依次表示從弱到強；當然，需要提前加載插件，否則只會返回 0 。
 
 {% highlight text %}
 mysql> SELECT VALIDATE_PASSWORD_STRENGTH('123');
@@ -177,31 +177,31 @@ mysql> SHOW VARIABLES LIKE 'validate_password%';
 +--------------------------------------+--------+
 | Variable_name                        | Value  |
 +--------------------------------------+--------+
-| validate_password_dictionary_file    |        |  验证密码的目录路径
-| validate_password_length             | 8      |  密码的最小长度
-| validate_password_mixed_case_count   | 1      |  至少有一个大写和小写的字符
-| validate_password_number_count       | 1      |  至少要有一个数字字符
-| validate_password_policy             | MEDIUM |  密码安全策略LOW,MEDIUM,STRONG
-| validate_password_special_char_count | 1      |  至少包含一个特殊字符
+| validate_password_dictionary_file    |        |  驗證密碼的目錄路徑
+| validate_password_length             | 8      |  密碼的最小長度
+| validate_password_mixed_case_count   | 1      |  至少有一個大寫和小寫的字符
+| validate_password_number_count       | 1      |  至少要有一個數字字符
+| validate_password_policy             | MEDIUM |  密碼安全策略LOW,MEDIUM,STRONG
+| validate_password_special_char_count | 1      |  至少包含一個特殊字符
 +--------------------------------------+--------+
 6 rows in set (0.02 sec)
 {% endhighlight %}
 
-其中 LOW 表示只限制长度；MEDIUM 则为长度，字符，数字，大小写，特殊字符；STRONG 则在之前的基础上增加字典目录。
+其中 LOW 表示只限制長度；MEDIUM 則為長度，字符，數字，大小寫，特殊字符；STRONG 則在之前的基礎上增加字典目錄。
 
 
-### 使用密码插件登陆
+### 使用密碼插件登陸
 
-MySQL 提供了一个 ```mysql_config_editor``` 工具，用于加密用户密码，并提供了免密码登陆，适用于 ```mysql```、```mysqladmin```、```mysqldump``` 等。
+MySQL 提供了一個 ```mysql_config_editor``` 工具，用於加密用戶密碼，並提供了免密碼登陸，適用於 ```mysql```、```mysqladmin```、```mysqldump``` 等。
 
-该工具提供了 ```set```、```remove```、```print```、```reset```，如下简单介绍其使用方法：
+該工具提供了 ```set```、```remove```、```print```、```reset```，如下簡單介紹其使用方法：
 
 {% highlight text %}
------ 1. 创建MySQL测试账号密码
+----- 1. 創建MySQL測試賬號密碼
 mysql> CREATE USER 'mysqldba'@'localhost' IDENTIFIED BY 'NEW-123_password';
 mysql> DROP USER 'mysqldba'@'localhost';
 
------ 2. 创建/删除/查看加密文件，此时会生成一个~/.mylogin.cnf加密二进制文件
+----- 2. 創建/刪除/查看加密文件，此時會生成一個~/.mylogin.cnf加密二進制文件
 $ mysql_config_editor set --login-path=mysqldba --host=192.30.16.136 \
   --user=mysqldba --password='NEW-123_password'
 $ mysql_config_editor print --all
@@ -212,45 +212,45 @@ $ mysql --login-path=mysqldba
 {% endhighlight %}
 
 <!--
-可以参考如下内容，解密
+可以參考如下內容，解密
 http://www.kikikoo.com/uid-20708886-id-5599401.html
 -->
 
 
 ## 其它
 
-在此，主要列举一些常见的用户相关操作。
+在此，主要列舉一些常見的用戶相關操作。
 
-### 重置 root 用户密码
+### 重置 root 用戶密碼
 
-如果忘记了 root 用户，可以通过如下方法进行更改。
+如果忘記了 root 用戶，可以通過如下方法進行更改。
 
 {% highlight text %}
------ 1. 停止mysql服务器
+----- 1. 停止mysql服務器
 # systemctl stop mysqld
 # /opt/mysql-5.7/bin/mysqladmin -uroot -p'init-password' shutdown
 Shutting down MySQL..     done
 
------ 2. 获取跳过认证的启动参数
+----- 2. 獲取跳過認證的啟動參數
 # mysqld --help --verbose | grep 'skip-grant-tables' -A1
     --skip-grant-tables Start without grant tables. This gives all users FULL
                           ACCESS to all tables.
 
------ 3. 启动服务器，跳过认证
+----- 3. 啟動服務器，跳過認證
 # mysqld --skip-grant-tables --user=mysql &
 [1] 10209
 
------ 4. 取消密码
+----- 4. 取消密碼
 mysql> UPDATE mysql.user SET password='' WHERE user='root';
 Query OK, 2 rows affected (0.00 sec)
 Rows matched: 2  Changed: 2  Warnings: 0
 {% endhighlight %}
 
-然后正常重启即可，空密码登陆，再设置好密码。
+然後正常重啟即可，空密碼登陸，再設置好密碼。
 
-### 密码存储
+### 密碼存儲
 
-MySQL 把所有用户的用户名和密码的密文存放在 mysql.user 表中，而 5.7 将原有的 password 字段替换为了 authentication_string 字段，如果使用 mysql_native_password 插件，则结果相同。
+MySQL 把所有用戶的用戶名和密碼的密文存放在 mysql.user 表中，而 5.7 將原有的 password 字段替換為了 authentication_string 字段，如果使用 mysql_native_password 插件，則結果相同。
 
 {% highlight text %}
 mysql> SELECT user,plugin,authentication_string FROM mysql.user;
@@ -264,9 +264,9 @@ mysql> SELECT user,plugin,authentication_string FROM mysql.user;
 3 rows in set (0.00 sec)
 {% endhighlight %}
 
-一般来说密文是通过不可逆加密算法得到的，这样即使敏感信息泄漏，除了暴力破解是无法快速从密文直接得到明文的。
+一般來說密文是通過不可逆加密算法得到的，這樣即使敏感信息洩漏，除了暴力破解是無法快速從密文直接得到明文的。
 
-MySQL 使用了两次 SHA1，以及夹杂一次 unhex 的方式对用户密码进行了加密；算法的具体公式可以通过如下方式表示：```password_str = concat('*', sha1(unhex(sha1(password))))``` 。
+MySQL 使用了兩次 SHA1，以及夾雜一次 unhex 的方式對用戶密碼進行了加密；算法的具體公式可以通過如下方式表示：```password_str = concat('*', sha1(unhex(sha1(password))))``` 。
 
 {% highlight text %}
 mysql> SELECT PASSWORD('password'),UPPER(CONCAT('*',SHA1(UNHEX(SHA1('password')))));
@@ -278,18 +278,18 @@ mysql> SELECT PASSWORD('password'),UPPER(CONCAT('*',SHA1(UNHEX(SHA1('password'))
 1 row in set, 1 warning (0.00 sec)
 {% endhighlight %}
 
-其实 MySQL 在 5.6 以前，对安全性的重视度非常低，甚至可以从 binlog 中直接通过 mysqlbinlog 将密码解密出来；5.7 之后在 binlog 中对密码进行了加密处理。
+其實 MySQL 在 5.6 以前，對安全性的重視度非常低，甚至可以從 binlog 中直接通過 mysqlbinlog 將密碼解密出來；5.7 之後在 binlog 中對密碼進行了加密處理。
 
-不过 ```CHANGE MASTER TO``` 命令仍会将密码明文保存在 master.info 文件中。
+不過 ```CHANGE MASTER TO``` 命令仍會將密碼明文保存在 master.info 文件中。
 
 ### Tips
 
-1. 创建 MySQL 账号密码时，如果在配置文件中使用了 bind-address 选项，而且有多个 IP 地址，那么需要注意绑定的 IP 地址，否则会报 ```ERROR 2003 (HY000): Can't connect to MySQL server on 'IP' (111)``` 。
+1. 創建 MySQL 賬號密碼時，如果在配置文件中使用了 bind-address 選項，而且有多個 IP 地址，那麼需要注意綁定的 IP 地址，否則會報 ```ERROR 2003 (HY000): Can't connect to MySQL server on 'IP' (111)``` 。
 
 
-## 参考
+## 參考
 
-官方文档 [MySQL Reference Manual - Security](http://dev.mysql.com/doc/refman/en/security.html)，主要是与安全相关的内容，包括了用户管理。
+官方文檔 [MySQL Reference Manual - Security](http://dev.mysql.com/doc/refman/en/security.html)，主要是與安全相關的內容，包括了用戶管理。
 
 {% highlight text %}
 {% endhighlight %}

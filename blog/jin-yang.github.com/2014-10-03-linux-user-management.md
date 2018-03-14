@@ -1,56 +1,56 @@
 ---
-title: Linux 用户管理
+title: Linux 用戶管理
 layout: post
 comments: true
 language: chinese
 category: [linux,misc]
-keywords: linux,用户管理
-description: Linux 是多用户系统，可以允许多个用户登陆，这里简单介绍与用户管理相关的内容。
+keywords: linux,用戶管理
+description: Linux 是多用戶系統，可以允許多個用戶登陸，這裡簡單介紹與用戶管理相關的內容。
 ---
 
-Linux 是多用户系统，可以允许多个用户登陆，这里简单介绍与用户管理相关的内容。
+Linux 是多用戶系統，可以允許多個用戶登陸，這裡簡單介紹與用戶管理相關的內容。
 
 <!-- more -->
 
-## 用户管理
+## 用戶管理
 
-在 CentOS 中，useradd 和 adduser 是相同的；Ubuntu 上可能会有所区别，`/etc/login.defs` 定义了部分在创建用户时的默认配置选项。
+在 CentOS 中，useradd 和 adduser 是相同的；Ubuntu 上可能會有所區別，`/etc/login.defs` 定義了部分在創建用戶時的默認配置選項。
 
-useradd 的操作的一般步骤为：
+useradd 的操作的一般步驟為：
 
-1. 帐号信息添加到 `/etc/passwd`、`/etc/shadow`、`/etc/group`、`/etc/gshadow` 文件中。
-2. 创建 `/home/USERNAME` 目录。
-3. 将 `/etc/skel ` 目录下的内容复制到 `/home/USERNAME` 目录下，很多是隐藏文件。
-4. 在 `/var/mail` 目录下创建邮箱帐号。
+1. 帳號信息添加到 `/etc/passwd`、`/etc/shadow`、`/etc/group`、`/etc/gshadow` 文件中。
+2. 創建 `/home/USERNAME` 目錄。
+3. 將 `/etc/skel ` 目錄下的內容複製到 `/home/USERNAME` 目錄下，很多是隱藏文件。
+4. 在 `/var/mail` 目錄下創建郵箱帳號。
 
-其中第一步基本上所有的发行版本都会执行，而剩余的不同的发行版本会有不同的操作。最后还需要通过 `passwd USERNAME` 命令设置用户的密码，CentOS 在没有设置密码时无法登陆。
+其中第一步基本上所有的發行版本都會執行，而剩餘的不同的發行版本會有不同的操作。最後還需要通過 `passwd USERNAME` 命令設置用戶的密碼，CentOS 在沒有設置密碼時無法登陸。
 
-在通过 `userdel USERNAME` 删除用户时，会删除 `/etc/passwd`、`/etc/group` 中的内容，但是不会删除 `/home/user` 目录以及 `/var/mail` 目录下文件，可以使用 `-r` 删除这两项。
+在通過 `userdel USERNAME` 刪除用戶時，會刪除 `/etc/passwd`、`/etc/group` 中的內容，但是不會刪除 `/home/user` 目錄以及 `/var/mail` 目錄下文件，可以使用 `-r` 刪除這兩項。
 
-通过 `id user` 命令查看用户。
+通過 `id user` 命令查看用戶。
 
-### 常见操作
+### 常見操作
 
-新创建一个用户，并添加到一个已知的附加用户组里，如果用户组不存在则需要手动创建，也可以通过逗号分隔指定多个用户组。
+新創建一個用戶，並添加到一個已知的附加用戶組裡，如果用戶組不存在則需要手動創建，也可以通過逗號分隔指定多個用戶組。
 
 {% highlight text %}
 # useradd -G admins,ftp,www,developers foobar
 {% endhighlight %}
 
-注意，如上的方法会同时创建一个主用户组。
+注意，如上的方法會同時創建一個主用戶組。
 
-也可以通过 `-g` 参数将新增加的用户初始化为指定为登录组，也就是主要用户组。
+也可以通過 `-g` 參數將新增加的用戶初始化為指定為登錄組，也就是主要用戶組。
 
 {% highlight text %}
 # useradd -g developers foobar
 {% endhighlight %}
 
-其它常见操作可以参考如下：
+其它常見操作可以參考如下：
 
 {% highlight text %}
------ 修改主要用户组为apache
+----- 修改主要用戶組為apache
 # usermod -g apache foobar
------ 将已经存在的用户添加到一个组里面，此时会在/etc/group的apache分组最后一列增加
+----- 將已經存在的用戶添加到一個組裡面，此時會在/etc/group的apache分組最後一列增加
 # usermod -a -G apache foobar
 {% endhighlight %}
 
@@ -58,11 +58,11 @@ useradd 的操作的一般步骤为：
 
 ### UID VS. EUID
 
-Linux 系统中每个进程都有 2 个 ID，分别为用户 ID(uid) 和有效用户 ID(euid)；其中，前者一般表示进程的创建者 (表示通过那个用户创建)，而 EUID 表示进程对于文件和资源的访问权限 (表示拥有那个用户的权限)。
+Linux 系統中每個進程都有 2 個 ID，分別為用戶 ID(uid) 和有效用戶 ID(euid)；其中，前者一般表示進程的創建者 (表示通過那個用戶創建)，而 EUID 表示進程對於文件和資源的訪問權限 (表示擁有那個用戶的權限)。
 
-一般来说，UID 和 EUID 是相同的，如果用户设置了 setuid 权限，那么两者将会不同。
+一般來說，UID 和 EUID 是相同的，如果用戶設置了 setuid 權限，那麼兩者將會不同。
 
-命令行可以通过 `chmod u+s` 或 `chmod g+s` 来设置二进制的可执行文件的 euid，注意，只对可执行文件设置，一般来说 passwd 文件是具有该权限的。
+命令行可以通過 `chmod u+s` 或 `chmod g+s` 來設置二進制的可執行文件的 euid，注意，只對可執行文件設置，一般來說 passwd 文件是具有該權限的。
 
 {% highlight c %}
 #include <pwd.h>
@@ -78,7 +78,7 @@ int main(void)
 {
 	struct passwd * pw;
 
-	pw = getpwnam("monitor"); // 注意，入参不能为NULL
+	pw = getpwnam("monitor"); // 注意，入參不能為NULL
 	if (pw == NULL) {
 		printf("User is not exist\n");
 		return -1;
@@ -117,23 +117,23 @@ int main(void)
 }
 {% endhighlight %}
 
-### 过期设置
+### 過期設置
 
-通过如下方法设置过期条件。
+通過如下方法設置過期條件。
 
 {% highlight text %}
-# useradd USER -e 01/28/12               # 创建用户时指定过期条件
-# grep EXPIRE /etc/default/useradd       # 或者修改模板对应的默认参数
-# useradd -D -e 01/19/12                 # 修改默认新建帐户过期时间
+# useradd USER -e 01/28/12               # 創建用戶時指定過期條件
+# grep EXPIRE /etc/default/useradd       # 或者修改模板對應的默認參數
+# useradd -D -e 01/19/12                 # 修改默認新建帳戶過期時間
 # useradd -D | grep EXPIR                # 查看
-# chage -l USER                          # 查看用户的过期时间
-# usermod -e 01/28/12 USER               # 修改用户属性
-# chage -E 01/28/12 USER                 # 调整账户过期时间
+# chage -l USER                          # 查看用戶的過期時間
+# usermod -e 01/28/12 USER               # 修改用戶屬性
+# chage -E 01/28/12 USER                 # 調整賬戶過期時間
 {% endhighlight %}
 
 ### FAQ
 
-当排查系统用户是否有访问权限时，可以通过如下方法：
+當排查系統用戶是否有訪問權限時，可以通過如下方法：
 
 {% highlight text %}
 # su - monitor -s /bin/bash -c 'cat /tmp/mysql.test'
@@ -141,34 +141,34 @@ int main(void)
 {% endhighlight %}
 
 
-## 审计
+## 審計
 
-CentOS 系统上，用户登录历史存储在以下这些文件中：
+CentOS 系統上，用戶登錄歷史存儲在以下這些文件中：
 
-* `/var/run/utmp` 记录当前打开的会话，会被 who 和 w 记录当前有谁登录以及他们正在做什么。
-* `/var/log/wtmp` 存储系统连接历史记录，被 last 工具用来记录最后登录的用户的列表。
-* `/var/log/btmp` 失败的登录尝试，被 lastb 工具用来记录最后失败的登录尝试的列表。
+* `/var/run/utmp` 記錄當前打開的會話，會被 who 和 w 記錄當前有誰登錄以及他們正在做什麼。
+* `/var/log/wtmp` 存儲系統連接歷史記錄，被 last 工具用來記錄最後登錄的用戶的列表。
+* `/var/log/btmp` 失敗的登錄嘗試，被 lastb 工具用來記錄最後失敗的登錄嘗試的列表。
 
-实际上，可以直接通过 `utmpdump` 将上述文件中保存的数据 dump 出来，另外，默认的登陆日志保存在 `/var/log/secure` 。
+實際上，可以直接通過 `utmpdump` 將上述文件中保存的數據 dump 出來，另外，默認的登陸日誌保存在 `/var/log/secure` 。
 
 {% highlight text %}
------ 当前当登录的用户的信息
+----- 當前當登錄的用戶的信息
 # who
 huey     pts/1        2015-05-11 18:29 (192.168.1.105)
 sugar    pts/2        2015-05-11 18:29 (192.168.1.105)
 
------ 登录的用户及其当前执行的任务
+----- 登錄的用戶及其當前執行的任務
 # w
 18:30:51 up 3 min,  2 users,  load average: 0.10, 0.14, 0.06
 USER     TTY      FROM              LOGIN@   IDLE   JCPU   PCPU WHAT
 huey     pts/1    192.168.1.105    18:29    3.00s  0.52s  0.00s w
 sugar    pts/2    192.168.1.105    18:29    1:07   0.47s  0.47s -bash
 
------  当前当登录的用户的用户名
+-----  當前當登錄的用戶的用戶名
 # users
 huey sugar
 
------  当前与过去登录系统的用户的信息
+-----  當前與過去登錄系統的用戶的信息
 # last
 root     pts/3        192.168.1.105    Mon May 11 18:33 - 18:33  (00:00)
 sugar    pts/2        192.168.1.105    Mon May 11 18:32   still logged in
@@ -177,23 +177,23 @@ huey     pts/1        192.168.1.105    Mon May 11 18:29   still logged in
 reboot   system boot  3.5.0-43-generic Mon May 11 18:27 - 18:33  (00:05)
 huey     pts/1        192.168.1.105    Sat May  9 10:57 - 17:31  (06:33)
 
------ 所有登录系统失败的用户的信息
+----- 所有登錄系統失敗的用戶的信息
 # lastb
 btmp begins Sat May  9 09:48:59 2015
 
------ 用户最后一次登录的信息
+----- 用戶最後一次登錄的信息
 # lastlog
 root             pts/3    192.168.1.105    一  5月 11 18:36:43 +0800 2015
 huey             pts/1    192.168.1.105    一  5月 11 18:29:40 +0800 2015
-mysql                                      **从未登录过**
-sshd                                       **从未登录过**
+mysql                                      **從未登錄過**
+sshd                                       **從未登錄過**
 
------ 用户连接时间的统计数据
------   1. 每天的总的连接时间
+----- 用戶連接時間的統計數據
+-----   1. 每天的總的連接時間
 # ac -d
 May  9  total        6.55
 Today   total        0.54
------ 2. 每个用户的总的连接时间
+----- 2. 每個用戶的總的連接時間
 # ac -p
     huey                                 6.78
     sugar                                0.23
@@ -205,25 +205,25 @@ Today   total        0.54
 ## 安全加固
 
 
-centos限制登录失败次数并锁定设置
+centos限制登錄失敗次數並鎖定設置
 
 vim /etc/pam.d/login
 
 在#%PAM-1.0下面添加：
-auth required pam_tally2.so deny=5 unlock_time=180 #登录失败5次锁定180秒，不包含root
+auth required pam_tally2.so deny=5 unlock_time=180 #登錄失敗5次鎖定180秒，不包含root
 auth required pam_tally2.so deny=5 unlock_time=180 even_deny_root root_unlock_time=180 #包含root
 
-## 每次修改密码禁止使用前N次用过的密码
+## 每次修改密碼禁止使用前N次用過的密碼
 
-出于安全考虑，要求修改linux密码策略，每次修改密码时设置的新密码不能是前n次使用过的密码。配置如下：
+出於安全考慮，要求修改linux密碼策略，每次修改密碼時設置的新密碼不能是前n次使用過的密碼。配置如下：
 
 Debian / Ubuntu：修改文件 # vi /etc/pam.d/common-password
 CentOS / RHEL / RedHat / Fedora 修改文件 # vi /etc/pam.d/system-auth
 
 在 password sufficient pam_unix.so use_authtok md5 shadow remember=10
-在相应行的后面添加 remember=10，而不是添加一行！
+在相應行的後面添加 remember=10，而不是添加一行！
 
-SUSE比较恶心，找了半天才找到。man pw_check
+SUSE比較噁心，找了半天才找到。man pw_check
 在/etc/security/pam_pwcheck文件中添加remember=5
 passwd:     nullok use_cracklib remember=5
 
@@ -232,20 +232,20 @@ http://zhidao.baidu.com/link?url=xLcMH0cokvN585CPxKf3QVmmN1wDtgESTpAhl1_cxhPQZ0B
 -->
 
 
-## 杂项
+## 雜項
 
-简单记录常用的使用技巧。
+簡單記錄常用的使用技巧。
 
 ### wheel
 
-wheel 组是一特殊用户组，被一些 Unix 系统用来控制能否通过 su 命令来切换到 root 用户。
+wheel 組是一特殊用戶組，被一些 Unix 系統用來控制能否通過 su 命令來切換到 root 用戶。
 
 {% highlight text %}
 $ grep 'wheel' /etc/group
 wheel:x:10:foo,bar,foobar
 {% endhighlight %}
 
-可以配置成非 wheel 组的用户不能通过 su 命令切换到 root 用户。
+可以配置成非 wheel 組的用戶不能通過 su 命令切換到 root 用戶。
 
 {% highlight text %}
 $ grep 'pam_wheel' /etc/pam.d/su
@@ -255,43 +255,43 @@ $ grep 'WHEEL' /etc/login.defs
 SU_WHEEL_ONLY yes
 {% endhighlight %}
 
-这时非 wheel 组的成员用 su 命令切换到 root 时提示权限不够，而用 wheel 组的成员切换没任何问题。
+這時非 wheel 組的成員用 su 命令切換到 root 時提示權限不夠，而用 wheel 組的成員切換沒任何問題。
 
 
-### 忘记root密码
+### 忘記root密碼
 
-启动进入 Grub 时，通过 e 进入编辑方式，添加 single 参数 (也就是进入单用户模式)，登陆之后，通过 password 修改密码即可。
+啟動進入 Grub 時，通過 e 進入編輯方式，添加 single 參數 (也就是進入單用戶模式)，登陸之後，通過 password 修改密碼即可。
 
-### 登陆提示信息
+### 登陸提示信息
 
-涉及的有两个配置文件 `/etc/issue` 以及 `/etc/motd`，其中前者为登陆前的提示，后者为登陆后的提示信息。
+涉及的有兩個配置文件 `/etc/issue` 以及 `/etc/motd`，其中前者為登陸前的提示，後者為登陸後的提示信息。
 
-如果切换到终端登陆 (注意，是终端，通常为类似 `CTRL+ALT+F2`)，通常会显示提示信息，该信息是在 `/etc/issue` 中进行设置。
+如果切換到終端登陸 (注意，是終端，通常為類似 `CTRL+ALT+F2`)，通常會顯示提示信息，該信息是在 `/etc/issue` 中進行設置。
 
 {% highlight text %}
------ 提示信息为
+----- 提示信息為
 CentOS Linux 7 (Core)
 Kernel 3.10.0-327.el7.x86_64 on an X86_64
 
------ 其中/etc/issue配置为
+----- 其中/etc/issue配置為
 \S
 Kernel \r on an \m
 
------ 配置文件中各个选项的含义为：
-    \d 本地端时间的日期；
-    \l 显示第几个终端机接口；
-    \m 显示硬件的等级 (i386/i486/i586/i686)；
-    \n 显示主机的网络名称；
-    \o 显示 domain name；
-    \r 操作系统的版本 (相当于 uname -r)
-    \t 显示本地端时间的时间；
-    \s 操作系统的名称；
-    \v 操作系统的版本
+----- 配置文件中各個選項的含義為：
+    \d 本地端時間的日期；
+    \l 顯示第幾個終端機接口；
+    \m 顯示硬件的等級 (i386/i486/i586/i686)；
+    \n 顯示主機的網絡名稱；
+    \o 顯示 domain name；
+    \r 操作系統的版本 (相當於 uname -r)
+    \t 顯示本地端時間的時間；
+    \s 操作系統的名稱；
+    \v 操作系統的版本
 {% endhighlight %}
 
-其中 motd 为 `Message Of ToDay` 的简称，也就是布告栏信息，每次用户登陆的时候都会将该信息显示在终端，可以添加些维护信息之类的。不过缺点是，如果是图形界面，会看不到这些信息。
+其中 motd 為 `Message Of ToDay` 的簡稱，也就是布告欄信息，每次用戶登陸的時候都會將該信息顯示在終端，可以添加些維護信息之類的。不過缺點是，如果是圖形界面，會看不到這些信息。
 
-一个对于 ROOT 用户常见的提示如下：
+一個對於 ROOT 用戶常見的提示如下：
 
 {% highlight text %}
 We trust you have received the usual lecture from the local System Administrator.

@@ -1,50 +1,50 @@
 ---
-title: MySQL 存储引擎
+title: MySQL 存儲引擎
 layout: post
 comments: true
 language: chinese
 category: [mysql,database]
-keywords: mysql,plugin,插件,存储引擎
-description: 众所周知，在 MySQL 中很多功能是通过插件实现的，包括了其中的存储引擎。在此简单介绍一下与 MySQL 存储引擎相关的内容，包括了提供的接口，实现方法等。在 [MySQL 插件](/blog/mysql-plugin.html) 这篇文章中，已经讨论了与插件相关的内容，包括了编译、加载、使用方法等，同时也包括了存储引擎，详细使用方法可以参考这篇文章。在此，仅介绍下 MySQL 中，存储引擎的实现。
+keywords: mysql,plugin,插件,存儲引擎
+description: 眾所周知，在 MySQL 中很多功能是通過插件實現的，包括了其中的存儲引擎。在此簡單介紹一下與 MySQL 存儲引擎相關的內容，包括了提供的接口，實現方法等。在 [MySQL 插件](/blog/mysql-plugin.html) 這篇文章中，已經討論了與插件相關的內容，包括了編譯、加載、使用方法等，同時也包括了存儲引擎，詳細使用方法可以參考這篇文章。在此，僅介紹下 MySQL 中，存儲引擎的實現。
 ---
 
-众所周知，在 MySQL 中很多功能是通过插件实现的，包括了其中的存储引擎。在此简单介绍一下与 MySQL 存储引擎相关的内容，包括了提供的接口，实现方法等。
+眾所周知，在 MySQL 中很多功能是通過插件實現的，包括了其中的存儲引擎。在此簡單介紹一下與 MySQL 存儲引擎相關的內容，包括了提供的接口，實現方法等。
 
-在 [MySQL 插件](/blog/mysql-plugin.html) 这篇文章中，已经讨论了与插件相关的内容，包括了编译、加载、使用方法等，同时也包括了存储引擎，详细使用方法可以参考这篇文章。
+在 [MySQL 插件](/blog/mysql-plugin.html) 這篇文章中，已經討論了與插件相關的內容，包括了編譯、加載、使用方法等，同時也包括了存儲引擎，詳細使用方法可以參考這篇文章。
 
-在此，仅介绍下 MySQL 中，存储引擎的实现。
+在此，僅介紹下 MySQL 中，存儲引擎的實現。
 
 <!-- more -->
 
-## 简介
+## 簡介
 
-实际上，所为的存储引擎，是按照按照 MySQL 的接口定义，提供所需接口的实现而已；如插入一条记录时将调用 write_row()，通过索引检索时将调用 index_read() 和 index_next() 等。
+實際上，所為的存儲引擎，是按照按照 MySQL 的接口定義，提供所需接口的實現而已；如插入一條記錄時將調用 write_row()，通過索引檢索時將調用 index_read() 和 index_next() 等。
 
-抽象后的接口极大地加快了在 MySQL 中加入其它存储引擎的步伐，该接口在 v3.22 升级到 v3.23 时引入，在快速集成 InnoDB 存储引擎时起了很大的帮助。
+抽象後的接口極大地加快了在 MySQL 中加入其它存儲引擎的步伐，該接口在 v3.22 升級到 v3.23 時引入，在快速集成 InnoDB 存儲引擎時起了很大的幫助。
 
-接下来看看 MySQL 的存储引擎是如何实现的。
+接下來看看 MySQL 的存儲引擎是如何實現的。
 
-### 数据结构
+### 數據結構
 
-MySQL 与存储引擎之间的接口主要由 sql/handler.h 文件中的 class handler 和 struct handlerton。其中两者的主要区别是：struct handlerton 定义了事务操作接口；class handler 定义了表、索引及记录操作接口。
+MySQL 與存儲引擎之間的接口主要由 sql/handler.h 文件中的 class handler 和 struct handlerton。其中兩者的主要區別是：struct handlerton 定義了事務操作接口；class handler 定義了表、索引及記錄操作接口。
 
-实际上，最初版本只存在 handler ，从 5.0 版本开始，为了避免在初始化/事务提交/保存事务点/回滚操作时需要操作 one-table 实例，才引入了 handlerton 。
+實際上，最初版本只存在 handler ，從 5.0 版本開始，為了避免在初始化/事務提交/保存事務點/回滾操作時需要操作 one-table 實例，才引入了 handlerton 。
 
-也就是说，对不需要支持事务的存储引擎只需要创建一个 handler 的派生类，并重载该引擎需要支持的方法；而对于需要支持事务的存储引擎，还需要实现 handlerton 结构中相应的接口。
+也就是說，對不需要支持事務的存儲引擎只需要創建一個 handler 的派生類，並重載該引擎需要支持的方法；而對於需要支持事務的存儲引擎，還需要實現 handlerton 結構中相應的接口。
 
 #### class handler@sql/handler.h
 
-这个类定义了对表操作的常见接口，其只继承了 Sql_alloc 类，而 Sql_alloc 没有任何成员变量，纯粹重载了 new 和 delete 操作。
+這個類定義了對錶操作的常見接口，其只繼承了 Sql_alloc 類，而 Sql_alloc 沒有任何成員變量，純粹重載了 new 和 delete 操作。
 
-所以 handler 类分配内存是可以从连接相关的内存池来分配；而删除时不需要做任何事情，内存释放只会在 mysys/my_alloc.c 中的 free_root() 调用发生，无需显性去释放，在语句执行之后清理。
+所以 handler 類分配內存是可以從連接相關的內存池來分配；而刪除時不需要做任何事情，內存釋放只會在 mysys/my_alloc.c 中的 free_root() 調用發生，無需顯性去釋放，在語句執行之後清理。
 
 {% highlight cpp %}
 class handler :public Sql_alloc
 {
 public:
-    handlerton *ht;                  // 该handler的存储引擎
-    uchar *ref;                      // 当前行的指针
-    uint auto_inc_intervals_count;   // 自增值对应的内部变量
+    handlerton *ht;                  // 該handler的存儲引擎
+    uchar *ref;                      // 當前行的指針
+    uint auto_inc_intervals_count;   // 自增值對應的內部變量
 public:
     int ha_rnd_init(bool scan) __attribute__ ((warn_unused_result));
     int ha_rnd_end();
@@ -56,55 +56,55 @@ public:
     int ha_delete_row(const uchar * buf);
     void ha_release_auto_increment();
 
-    // 创建表
-    //   name: 创建表名；
-    //   from: 表类型的结构，要创建表的定义，跟tablename.frm文件内容是匹配的
-    //   info: 含客户端输入的CREATE TABLE语句的信息
+    // 創建表
+    //   name: 創建表名；
+    //   from: 表類型的結構，要創建表的定義，跟tablename.frm文件內容是匹配的
+    //   info: 含客戶端輸入的CREATE TABLE語句的信息
     int ha_create(const char *name, TABLE *form, HA_CREATE_INFO *info);
 
-    // 打开一个表
+    // 打開一個表
     int ha_open(TABLE *table, const char *name, int mode, uint test_if_locked);
 
-    // 关闭表
+    // 關閉表
     int ha_close(void);
 
-    // 当客户端调用LOCK TABLE时
+    // 當客戶端調用LOCK TABLE時
     virtual int external_lock(THD *thd __attribute__((unused)),
                               int lock_type __attribute__((unused)));
 
-    // 初始化全表扫描，后者会带有统计值
+    // 初始化全表掃描，後者會帶有統計值
     int rnd_init(bool scan) __attribute__ ((warn_unused_result));
     int ha_rnd_init(bool scan) __attribute__ ((warn_unused_result));
-    // 从表中读取下一行
+    // 從表中讀取下一行
     virtual int rnd_next(uchar *buf)=0;
     virtual int ha_rnd_next(uchar *buf);
 
-    // 使用索引前调用该方法
+    // 使用索引前調用該方法
     virtual int index_init(uint idx, bool sorted);
-    // 使用索引后调用该方法
+    // 使用索引後調用該方法
     virtual int index_end();
-    // 读取索引第一条内容
+    // 讀取索引第一條內容
     int ha_index_first(uchar * buf);
-    // 读取索引下一条内容
+    // 讀取索引下一條內容
     int ha_index_next(uchar * buf);
-    // 读取索引前一条内容
+    // 讀取索引前一條內容
     int ha_index_prev(uchar * buf);
-    // 读取索引最后一条内容
+    // 讀取索引最後一條內容
     int ha_index_last(uchar * buf);
-    // 给定一个key基于索引读取内容
+    // 給定一個key基於索引讀取內容
     virtual int index_read(uchar * buf, const uchar * key, uint key_len,
                          enum ha_rkey_function find_flag);
 
-    // 开始一个事务
+    // 開始一個事務
     virtual int start_stmt(THD *thd, thr_lock_type lock_type);
 };
 {% endhighlight %}
 
-对表接口的抽象类，提供了针对单个表的操作，如 open()、write_row() 等，大约 150 种方法。每一个 table 描述符对应一个 handler 实例，如果同一个 table 被打开多次，那么这时候会出现多个 handler 实例。
+對錶接口的抽象類，提供了針對單個表的操作，如 open()、write_row() 等，大約 150 種方法。每一個 table 描述符對應一個 handler 實例，如果同一個 table 被打開多次，那麼這時候會出現多個 handler 實例。
 
 #### struct handlerton@sql/handler.h
 
-每个存储引擎只有一个该结构，提供了会影响整个存储引擎的接口，负责存储引擎初始化，事务相关操作等，如 commit()、show_status() 等，大约有 30 多种。
+每個存儲引擎只有一個該結構，提供了會影響整個存儲引擎的接口，負責存儲引擎初始化，事務相關操作等，如 commit()、show_status() 等，大約有 30 多種。
 
 {% highlight cpp %}
 struct handlerton {
@@ -113,28 +113,28 @@ struct handlerton {
 
 
 
-    // 提交一个事务
+    // 提交一個事務
     int (*commit)(handlerton *hton, THD *thd, bool all);
-    // 回滚一个事务
+    // 回滾一個事務
     int  (*rollback)(handlerton *hton, THD *thd, bool all);
 };
 {% endhighlight %}
 
 
-在插件初始化的时候，会对 handlerton 对象进行初始化操作，而该对象中又包含了对 handler 的创建入口。
+在插件初始化的時候，會對 handlerton 對象進行初始化操作，而該對象中又包含了對 handler 的創建入口。
 
 
 
-### 添加三方存储引擎
+### 添加三方存儲引擎
 
-实际上，在 5.1 之后版本添加变得简单多，可以根据 "blackhole" 存储引擎的模式来改造；另外，还有 "example" 存储引擎可以参考。
+實際上，在 5.1 之後版本添加變得簡單多，可以根據 "blackhole" 存儲引擎的模式來改造；另外，還有 "example" 存儲引擎可以參考。
 
-可以参考 [MySQL 插件详解](/post/mysql-plugin.html) 中的介绍。
+可以參考 [MySQL 插件詳解](/post/mysql-plugin.html) 中的介紹。
 
 <!--
-1、创建目录 storage/xx-csv,实际文件ha_csv.h(cc)移至该目录
+1、創建目錄 storage/xx-csv,實際文件ha_csv.h(cc)移至該目錄
 2、Makefile.am 放入storage/xx-csv
-3、configure.in 改写MYSQL_STORAGE_ENGINE宏
+3、configure.in 改寫MYSQL_STORAGE_ENGINE宏
 4、autoconf & automake & ./configure --prefix=/usr --with-plugins=xx-csv & make
 -->
 
@@ -145,31 +145,31 @@ struct handlerton {
 <!--
 ## Step By Step
 
-下面从头开始创建一个存储引擎。
+下面從頭開始創建一個存儲引擎。
 
-<h3>只读存储引擎</h3><p><ol><li>
-定义变量<br>
-提供了两个变量来控制存储引擎的行为，变量通过MYSQL_SYSVAR_XXX宏来定义，定义的变量可以在启动时通过--xxx设置。注意：在通过MYSQL_SYSVAR设置时，会自动添加存储引擎的前缀。</li><br><li>
+<h3>只讀存儲引擎</h3><p><ol><li>
+定義變量<br>
+提供了兩個變量來控制存儲引擎的行為，變量通過MYSQL_SYSVAR_XXX宏來定義，定義的變量可以在啟動時通過--xxx設置。注意：在通過MYSQL_SYSVAR設置時，會自動添加存儲引擎的前綴。</li><br><li>
 
-定义插件<br>
-插件通过mysql_declare_plugin宏来定义，其中包括了一个初始化函数，主要用来设置handlerton结构体。在此，只设置handlerton.create函数变量，该函数用来创建继承自class handler的类实例。</li><br><li>
+定義插件<br>
+插件通過mysql_declare_plugin宏來定義，其中包括了一個初始化函數，主要用來設置handlerton結構體。在此，只設置handlerton.create函數變量，該函數用來創建繼承自class handler的類實例。</li><br><li>
 
-定义class handler子类<br>
-handler中定义了大量的接口函数，不过只有部分是纯虚函数，也就是必须要实现的。
+定義class handler子類<br>
+handler中定義了大量的接口函數，不過只有部分是純虛函數，也就是必須要實現的。
 </li></ol>
-表中通常会存在两种锁，一种是针对每个表的；另一种是针对handler实例的。通常来说handler实例会有多个，如self-join、多个连接同时读取一个表，此时每个实例都需要有一个锁，对此的实现是在类中添加一个变量。<br><br>
+表中通常會存在兩種鎖，一種是針對每個表的；另一種是針對handler實例的。通常來說handler實例會有多個，如self-join、多個連接同時讀取一個表，此時每個實例都需要有一個鎖，對此的實現是在類中添加一個變量。<br><br>
 
-对于第一种，通常可以维护一个针对表明的hash表，并使用mutex对其进行保护，在此我们采用了其它的方法。因为在传入表名的同时，会传入一个TABLE对象，该对象是和handler一一对应的。同时TABLE对象维护了一个TABLE_SHARE对象，也是每个表都有一个TABLE_SHARE对象。如table是一个指向TABLE的指针，table->s就对应TABLE_SHARE，table->s->ha_data是一个void*指针，可以用于其它目的。<br><br>
+對於第一種，通常可以維護一個針對表明的hash表，並使用mutex對其進行保護，在此我們採用了其它的方法。因為在傳入表名的同時，會傳入一個TABLE對象，該對象是和handler一一對應的。同時TABLE對象維護了一個TABLE_SHARE對象，也是每個表都有一個TABLE_SHARE對象。如table是一個指向TABLE的指針，table->s就對應TABLE_SHARE，table->s->ha_data是一個void*指針，可以用於其它目的。<br><br>
 
-如果没有分区的话，我们可以直接返回table->s->ha_data即可。对于分区来说，所有的分区有同一个TABLE对象和TABLE_SHARE对象，但是分区从存储引擎的角度来说是不同的，而且只能通过table-name区分，通常是表明+序号。为此，每个表都维护了一个struct STATIC_SHARE的单向链表。<br><br>
+如果沒有分區的話，我們可以直接返回table->s->ha_data即可。對於分區來說，所有的分區有同一個TABLE對象和TABLE_SHARE對象，但是分區從存儲引擎的角度來說是不同的，而且只能通過table-name區分，通常是表明+序號。為此，每個表都維護了一個struct STATIC_SHARE的單向鏈表。<br><br>
 
 
-下面详细介绍class handler定义的接口。<ul><li>
+下面詳細介紹class handler定義的接口。<ul><li>
 create()<br>
-在存储引擎中创建一个表。</li><br><li>
+在存儲引擎中創建一個表。</li><br><li>
 
 open()<br>
-打开一个表。</li><br><li>
+打開一個表。</li><br><li>
 
 
 <pre style="font-size:0.8em; face:arial;">
@@ -183,43 +183,43 @@ mysql> select * from t1;
 mysql> select * from t1 where a > 3 order by a desc;
 </pre>
 
-<h3>功能详解</h3><p>
-接口通过抽象类 handler 来实现，handler类提供如打开/关闭table,扫表,查询Key数据,写记录跟删除记录等基础操作方法。每一个存储引擎通过继承handler类，实现以上提到的方法，在方法里面实现对底层存储引擎的读写接口的转调。从5.0版本开始，为了避免在初始化/事务提交/保存事务点/回滚操作时需要操作one-table实例，引入了handlerton结构让存储引擎提供了发生上面提到操作时的钩子操作。
-MySQL提供了访问不同的存储引擎数据表的虚拟层API。过去,这些接口被称之为"table handler".现在有了新的介绍——storage engine.目前我们所提到的storage engine,往往是与存储/读取数据的相关代码，而table handler指的是storage engine与MySQL优化器的接口.
+<h3>功能詳解</h3><p>
+接口通過抽象類 handler 來實現，handler類提供如打開/關閉table,掃表,查詢Key數據,寫記錄跟刪除記錄等基礎操作方法。每一個存儲引擎通過繼承handler類，實現以上提到的方法，在方法裡面實現對底層存儲引擎的讀寫接口的轉調。從5.0版本開始，為了避免在初始化/事務提交/保存事務點/回滾操作時需要操作one-table實例，引入了handlerton結構讓存儲引擎提供了發生上面提到操作時的鉤子操作。
+MySQL提供了訪問不同的存儲引擎數據表的虛擬層API。過去,這些接口被稱之為"table handler".現在有了新的介紹——storage engine.目前我們所提到的storage engine,往往是與存儲/讀取數據的相關代碼，而table handler指的是storage engine與MySQL優化器的接口.
 
 
-下面主要讲handler类和handlerton结构体，并提供一个实例，读取逗号分隔符格式文件的简单存储引擎。
+下面主要講handler類和handlerton結構體，並提供一個實例，讀取逗號分隔符格式文件的簡單存儲引擎。
 
-handler类
-定义于sql/handler.h、sql/handler.cc
-handler类从Sql_alloc继承，Sql_alloc没有任何成员变量，纯粹重载了new和delete操作。所以handler类分配内存是可以从连接相关的内存池来分配。而delete操作时不做任何事情。内存的释放只会在mysys/my_alloc.c的free_root()调用发生。无需显性去释放，在语句执行之后清理。
+handler類
+定義於sql/handler.h、sql/handler.cc
+handler類從Sql_alloc繼承，Sql_alloc沒有任何成員變量，純粹重載了new和delete操作。所以handler類分配內存是可以從連接相關的內存池來分配。而delete操作時不做任何事情。內存的釋放只會在mysys/my_alloc.c的free_root()調用發生。無需顯性去釋放，在語句執行之後清理。
 
-每一个table描述符对应一个handler的实例。注意针对同一个table可能会被打开多次的情况，这时候会出现多个handler实例。5.0版本引入index_merge方法后导致了一些有趣的方式，以前多个handler实例只会在table cache中拷贝描述符产生，引入Index_merge之后，handler实例可能会在优化阶段被创建。
+每一個table描述符對應一個handler的實例。注意針對同一個table可能會被打開多次的情況，這時候會出現多個handler實例。5.0版本引入index_merge方法後導致了一些有趣的方式，以前多個handler實例只會在table cache中拷貝描述符產生，引入Index_merge之後，handler實例可能會在優化階段被創建。
 
-handler类成员变量
-st_table*: 与handler实例相关的table描述符.
-byte* ref: 保存当前记录。存储引擎类型不同，这个字段表示的意义不同。
-     MyISAM: 在data-file里面的offset InnoDB:primary key MEMORY:Point
+handler類成員變量
+st_table*: 與handler實例相關的table描述符.
+byte* ref: 保存當前記錄。存儲引擎類型不同，這個字段表示的意義不同。
+     MyISAM: 在data-file裡面的offset InnoDB:primary key MEMORY:Point
 ulonglong auto_increment_value;
-ulong mean_rec_length; 记录平均长度，SHOW TABLE STATUS
+ulong mean_rec_length; 記錄平均長度，SHOW TABLE STATUS
 等
-handler类成员函数(暂略)
+handler類成員函數(暫略)
 
 handlerton
-4.1之前的版本，从handler类继承是唯一一个存储引擎可以与核心结构交互的途径。
-当优化器需要针对存储引擎做一些事情的时候，只可能调用当前table相关的handler实例的接口方法。但是随着集成多种存储引擎的发展，尽是靠handler方法来交互的形式是不太够的，因此，handlerton概念诞生。
+4.1之前的版本，從handler類繼承是唯一一個存儲引擎可以與核心結構交互的途徑。
+當優化器需要針對存儲引擎做一些事情的時候，只可能調用當前table相關的handler實例的接口方法。但是隨著集成多種存儲引擎的發展，盡是靠handler方法來交互的形式是不太夠的，因此，handlerton概念誕生。
 
-handlerton是一个几乎全是回掉方法指针的C结构体。定义在sql/handler.h
-回调函数在某一事件发生时针对具体的存储引擎被调用(事务提交/保存事务点/连接关闭等)
+handlerton是一個幾乎全是回掉方法指針的C結構體。定義在sql/handler.h
+回調函數在某一事件發生時針對具體的存儲引擎被調用(事務提交/保存事務點/連接關閉等)
 
-每个链接都会有一个 handler 实例来处理 SQL 请求。
+每個鏈接都會有一個 handler 實例來處理 SQL 請求。
 -->
 
-## 源码解析
+## 源碼解析
 
-在此简单介绍 MySQL 中，存储引擎的接口调用过程。
+在此簡單介紹 MySQL 中，存儲引擎的接口調用過程。
 
-在此，以二级索引读取为例，其入口函数实际为 ha_index_next()@sql/handler.cc，而最终是通过 MYSQL_TABLE_IO_WAIT() 宏调用，如未开启 PSI 接口，则直接调用 index_next(buf) 函数。
+在此，以二級索引讀取為例，其入口函數實際為 ha_index_next()@sql/handler.cc，而最終是通過 MYSQL_TABLE_IO_WAIT() 宏調用，如未開啟 PSI 接口，則直接調用 index_next(buf) 函數。
 
 {% highlight cpp %}
 int handler::ha_index_next(uchar * buf)
@@ -245,7 +245,7 @@ int handler::ha_index_next(uchar * buf)
 }
 {% endhighlight %}
 
-对应不同的存储引擎，实际是通过类似 int index_next(uchar * buf) 函数读取的，如下是 handler 的定义，不同的存储引擎会定义不同接口函数。
+對應不同的存儲引擎，實際是通過類似 int index_next(uchar * buf) 函數讀取的，如下是 handler 的定義，不同的存儲引擎會定義不同接口函數。
 
 {% highlight cpp %}
 class handler :public Sql_alloc
@@ -256,11 +256,11 @@ class handler :public Sql_alloc
 }
 {% endhighlight %}
 
-那么，对于不同的接口，会有不同的调用，视情况而定。
+那麼，對於不同的接口，會有不同的調用，視情況而定。
 
 ## InnoDB
 
-实际上，在 handler/ha_innodb.cc 文件中，除了定义 innodb 存储引擎之外，还包括了一些其它插件，如 trx、locks 等，可以通过 SHOW PLUGINS 查看。如下是源码中的部分内容：
+實際上，在 handler/ha_innodb.cc 文件中，除了定義 innodb 存儲引擎之外，還包括了一些其它插件，如 trx、locks 等，可以通過 SHOW PLUGINS 查看。如下是源碼中的部分內容：
 
 {% highlight cpp %}
 mysql_declare_plugin(innobase)

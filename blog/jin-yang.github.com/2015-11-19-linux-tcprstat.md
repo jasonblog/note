@@ -1,74 +1,74 @@
 ---
-title: 通过 tcprstat 工具统计应答时间
+title: 通過 tcprstat 工具統計應答時間
 layout: post
 comments: true
 category: [linux, database, mysql]
 language: chinese
-keywords: tcprstat,mysql,linux,响应时间
-description: 一个不错的工具，由 Percona 开发，可以用来统计服务端的数据处理时间，包括了最大最小值等统计信息。只要是使用 TCP 协议，采用服务器-客户端的模式，都可以支持，如 MySQL 。
+keywords: tcprstat,mysql,linux,響應時間
+description: 一個不錯的工具，由 Percona 開發，可以用來統計服務端的數據處理時間，包括了最大最小值等統計信息。只要是使用 TCP 協議，採用服務器-客戶端的模式，都可以支持，如 MySQL 。
 ---
 
-一个不错的工具，可以用来统计服务端的数据处理时间，包括了最大最小值等统计信息。
+一個不錯的工具，可以用來統計服務端的數據處理時間，包括了最大最小值等統計信息。
 
-本文简单介绍该工具的使用方法及其实现原理。
+本文簡單介紹該工具的使用方法及其實現原理。
 
 <!-- more -->
 
 ![tcprstat logo]({{ site.url }}/images/databases/mysql/tcprstat-logo.jpg "tcprstat logo"){: .pull-center width="600px" }
 
-## 简介
+## 簡介
 
-该工具是 Percona 提供的一个工具，通常用来监测 MySQL 响应时间的，或者说是请求在服务器端的处理时间，其输出结果包括了响应的很多统计值，用来诊断服务器端。
+該工具是 Percona 提供的一個工具，通常用來監測 MySQL 響應時間的，或者說是請求在服務器端的處理時間，其輸出結果包括了響應的很多統計值，用來診斷服務器端。
 
-tcprstat 是一个基于 libpcap 的工具，通过提取 TCP libpcap 的捕获时间 (struct pcap_pkthd.ts) 用来计算统计值。也就是通过测量 TCP 的 request 和 response 所需的时间间隔，适用于一问一答式协议类型的处理。
+tcprstat 是一個基於 libpcap 的工具，通過提取 TCP libpcap 的捕獲時間 (struct pcap_pkthd.ts) 用來計算統計值。也就是通過測量 TCP 的 request 和 response 所需的時間間隔，適用於一問一答式協議類型的處理。
 
-这也就意味着，该工具不仅适用于 MySQL 协议，对于 HTTP 也同样适用。
+這也就意味著，該工具不僅適用於 MySQL 協議，對於 HTTP 也同樣適用。
 
-### 源码安装
+### 源碼安裝
 
-这个工具有点老了，从 [launchpad.net][source-code] 看，最近的一次更新是在 2010-09-01 :-( 不过还好，这个工具本身源码较少，我们直接通过源码进行安装。
+這個工具有點老了，從 [launchpad.net][source-code] 看，最近的一次更新是在 2010-09-01 :-( 不過還好，這個工具本身源碼較少，我們直接通過源碼進行安裝。
 
-首先从 [launchpad.net][source-code] 上下载源码，或者直接通过如下命令下载。
-
-{% highlight text %}
-$ bzr branch lp:tcprstat                       # 下载源码
-{% endhighlight %}
-
-在编译的时候，会生成两个程序，分别为 tcprstat、tcprstat-static ，其中后者为静态链接生成。这也就意味着，会依赖于 glibc-static 包；否则，编译静态文件时会报 ld: cannot find -lpthread 链接错误。
-
-对于 CentOS，直接安装 glibc 静态库，然后通过如下方式下载编译。
+首先從 [launchpad.net][source-code] 上下載源碼，或者直接通過如下命令下載。
 
 {% highlight text %}
-$ yum install glibc-static                     # 直接通过yum安装所需的静态库
-$ bash bootstrap && bash configure && make     # 编译
+$ bzr branch lp:tcprstat                       # 下載源碼
 {% endhighlight %}
 
-在源码中包括了一份 libpcap 的源码，不过是比较老的版本。编译完成后，会在 src 目录下生成 tcprstat 及其静态版本 tcprstat-static。对于后者，该版本不会依赖其它库，可以直接复制到其它机器运行。
+在編譯的時候，會生成兩個程序，分別為 tcprstat、tcprstat-static ，其中後者為靜態鏈接生成。這也就意味著，會依賴於 glibc-static 包；否則，編譯靜態文件時會報 ld: cannot find -lpthread 鏈接錯誤。
+
+對於 CentOS，直接安裝 glibc 靜態庫，然後通過如下方式下載編譯。
+
+{% highlight text %}
+$ yum install glibc-static                     # 直接通過yum安裝所需的靜態庫
+$ bash bootstrap && bash configure && make     # 編譯
+{% endhighlight %}
+
+在源碼中包括了一份 libpcap 的源碼，不過是比較老的版本。編譯完成後，會在 src 目錄下生成 tcprstat 及其靜態版本 tcprstat-static。對於後者，該版本不會依賴其它庫，可以直接複製到其它機器運行。
 
 
 ### 使用
 
-该工具的使用也非常简单，其帮助文档可以参考 Percona 中的 [The tcprstat User Manual][offical-manual]。详细的使用参数可以通过 tcprstat -h 查看，其中常见的参数有：
+該工具的使用也非常簡單，其幫助文檔可以參考 Percona 中的 [The tcprstat User Manual][offical-manual]。詳細的使用參數可以通過 tcprstat -h 查看，其中常見的參數有：
 
 * \-\-port PORT, -p PORT
-    指定监听的端口号。
+    指定監聽的端口號。
 
 * \-\-format FORMAT, -f FORMAT
-    指定输出信息的格式。
+    指定輸出信息的格式。
 
 * \-\-interval Nseconds, -t Nseconds
-    指定监听的时间间隔，默认是 10s 。
+    指定監聽的時間間隔，默認是 10s 。
 
 * \-\-iterations Ntimes, -n Ntimes
-    指定循环的次数，默认是 1 次，0 表示永远循环。
+    指定循環的次數，默認是 1 次，0 表示永遠循環。
 
 * \-\-read FILE, -r FILE
-    如果是离线分析，通过该参数指定具体文件，网络包可以通过 tcpdump -w FILE 获得。
+    如果是離線分析，通過該參數指定具體文件，網絡包可以通過 tcpdump -w FILE 獲得。
 
-其输出结果包括了时间戳，以及响应时间的最大值、均值、方差等信息，输出信息可以通过 -f 参数进行定制，其中响应时间的单位为微妙。
+其輸出結果包括了時間戳，以及響應時間的最大值、均值、方差等信息，輸出信息可以通過 -f 參數進行定製，其中響應時間的單位為微妙。
 
 {% highlight text %}
-# tcprstat -p 3306 -t 1 -n 5                      # 监听3306端口，每1秒输出一次，共输出5次
+# tcprstat -p 3306 -t 1 -n 5                      # 監聽3306端口，每1秒輸出一次，共輸出5次
 timestamp   count   max     min  avg  med  stddev  95_max  95_avg  95_std  99_max  99_avg  99_std
 1283261499  1870    559009  39   883  153  13306   1267    201     150     6792    323     685
 1283261500  1865    25704   29   578  142  2755    889     175     107     23630   333     1331
@@ -76,26 +76,26 @@ timestamp   count   max     min  avg  med  stddev  95_max  95_avg  95_std  99_ma
 1283261502  2015    304965  35   624  151  7204    564     171     79      8615    237     507
 1283261503  1650    289087  35   462  146  7133    834     184     120     3565    244     358
 
-# tcprstat -l 192.168.52.129 -p 3306 -t 1 -n 0    # 设置本地地址为192.168.52.129，一直输出
+# tcprstat -l 192.168.52.129 -p 3306 -t 1 -n 0    # 設置本地地址為192.168.52.129，一直輸出
 {% endhighlight %}
 
-对于 bonding 的网卡，会报如下的错误 pcap: SIOCGIFFLAGS: bonding_masters: No such device ，此时可以使用如下方式启动。
+對於 bonding 的網卡，會報如下的錯誤 pcap: SIOCGIFFLAGS: bonding_masters: No such device ，此時可以使用如下方式啟動。
 
 {% highlight text %}
 # tcprstat -p 3306 -t 1 -n 0 -l \
     `/sbin/ifconfig | grep 'addr:[^ ]\+' -o | cut -f 2 -d : | xargs echo | sed -e 's/ /,/g'`
 {% endhighlight %}
 
-也就是用 IP 地址方式，而不是通过网络接口方式指定。
+也就是用 IP 地址方式，而不是通過網絡接口方式指定。
 
 
 
 
-## 源码解析
+## 源碼解析
 
-与 tcpdump 一样，tcprstat 也使用 libpcap 库进行抓包，然后再通过程序对抓取的 tcp 包进行分析。估计之前很多发行版本不包括 libpcap ，所以在源码包中同时包含了一份 libpcap 的源码。
+與 tcpdump 一樣，tcprstat 也使用 libpcap 庫進行抓包，然後再通過程序對抓取的 tcp 包進行分析。估計之前很多發行版本不包括 libpcap ，所以在源碼包中同時包含了一份 libpcap 的源碼。
 
-另外，需要注意的是，该命令会打开所有的设备，而且没有提供命令行参数指定监听的设备；可以通过修改如下源码指定只监听特定的设备。
+另外，需要注意的是，該命令會打開所有的設備，而且沒有提供命令行參數指定監聽的設備；可以通過修改如下源碼指定只監聽特定的設備。
 
 {% highlight c %}
 void * capture(void *arg) {
@@ -106,55 +106,55 @@ void * capture(void *arg) {
 }
 {% endhighlight %}
 
-代码的实现也非常简单，包括了在线和离线两种方式，在此只介绍前者。
+代碼的實現也非常簡單，包括了在線和離線兩種方式，在此只介紹前者。
 
-如果没有使用 -r file 参数，也即使用在线分析，则会新建两个线程 output_thread() 和 capture()；其中前者用于显示统计信息值，后者为主要的抓包以及处理函数。
+如果沒有使用 -r file 參數，也即使用在線分析，則會新建兩個線程 output_thread() 和 capture()；其中前者用於顯示統計信息值，後者為主要的抓包以及處理函數。
 
-在 capture() 中会打开设备、设置过滤条件，做初始化操作；然后通过 libcap 进行抓包，而每次捕获的网络报文，会调用 process_packet() 函数处理。
+在 capture() 中會打開設備、設置過濾條件，做初始化操作；然後通過 libcap 進行抓包，而每次捕獲的網絡報文，會調用 process_packet() 函數處理。
 
 ![prcodess_ip_func]{: .pull-center width='650'}
 
-如下为函数的调用逻辑。
+如下為函數的調用邏輯。
 
 {% highlight text %}
-capture()                            # 捕获网络报文的函数
- |-pcap_loop()                       # libcap的循环处理函数
-   |-process_packet()                # 主要处理函数
-     |-process_ip()                  # 根据IP进行判断
-       |-is_local_address()          # 通过该函数判断报文的近出
-       |-inbound()                   # 判断是进来的数据包处理
-       |-outbound()                  # 出去的数据包
+capture()                            # 捕獲網絡報文的函數
+ |-pcap_loop()                       # libcap的循環處理函數
+   |-process_packet()                # 主要處理函數
+     |-process_ip()                  # 根據IP進行判斷
+       |-is_local_address()          # 通過該函數判斷報文的近出
+       |-inbound()                   # 判斷是進來的數據包處理
+       |-outbound()                  # 出去的數據包
 
-output_thread()                      # 统计信息的输出线程
+output_thread()                      # 統計信息的輸出線程
 {% endhighlight %}
 
-如上所述，process_packet() 是主要处理函数，在此再大致介绍下其处理流程如下：
+如上所述，process_packet() 是主要處理函數，在此再大致介紹下其處理流程如下：
 
-1. 分析来源 IP 和目标 IP，看那个 IP 是本地的，来判断是进来的包（请求包）还是出去的包（响应包）。
+1. 分析來源 IP 和目標 IP，看那個 IP 是本地的，來判斷是進來的包（請求包）還是出去的包（響應包）。
 
-2. 如果包的数据大小为 0，那么就跳过，不再处理。数据大小为 0 的视为 TCP 控制包。
+2. 如果包的數據大小為 0，那麼就跳過，不再處理。數據大小為 0 的視為 TCP 控制包。
 
-3. 如果数据包为进来的包（请求包），则插入一条记录到哈希表。
+3. 如果數據包為進來的包（請求包），則插入一條記錄到哈希表。
 
-4. 如果数据包为出去的包（响应包），则用现在的包和之前插入哈希表中的响应包做时间差计算，并把之前的包在哈希表中删除。
+4. 如果數據包為出去的包（響應包），則用現在的包和之前插入哈希表中的響應包做時間差計算，並把之前的包在哈希表中刪除。
 
 
-### 本地报文(无效)
+### 本地報文(無效)
 
-需要注意的是，如果是在本地通过 MySQL 客户端登陆，则该工具实际是无效的。
+需要注意的是，如果是在本地通過 MySQL 客戶端登陸，則該工具實際是無效的。
 
-问题出在 is_local_address() 函数中，无法判断是响应包还是请求包，因为报文的 IP 均为 127.0.0.1 。可以在 process_ip() 中添加如下内容查看。
+問題出在 is_local_address() 函數中，無法判斷是響應包還是請求包，因為報文的 IP 均為 127.0.0.1 。可以在 process_ip() 中添加如下內容查看。
 
 {% highlight c %}
 int process_ip(pcap_t *dev, const struct ip *ip, struct timeval tv) {
-    ... ...   // 查看每个报文的源和目的地址
+    ... ...   // 查看每個報文的源和目的地址
     printf("src adddress %s\n", inet_ntoa(ip->ip_src));
     printf("dst adddress %s\n", inet_ntoa(ip->ip_dst));
     ... ...
 }
 {% endhighlight %}
 
-而获取本地地址，有两种方式，分别为通过 get_address() 函数自动获取；或者通过 -l 参数指定。对于前者的值，可以通过在函数末尾添加如下内容查看。
+而獲取本地地址，有兩種方式，分別為通過 get_address() 函數自動獲取；或者通過 -l 參數指定。對於前者的值，可以通過在函數末尾添加如下內容查看。
 
 {% highlight c %}
 int get_addresses(void) {
@@ -167,15 +167,15 @@ int get_addresses(void) {
 }
 {% endhighlight %}
 
-不过对于本地的链接，即使通过 -l 127.1 设置了 IP，在进行判断时都会被判断为 income，从而也是无效的。
+不過對於本地的鏈接，即使通過 -l 127.1 設置了 IP，在進行判斷時都會被判斷為 income，從而也是無效的。
 
-对于这种情况，可以通过 ifconfig 设置浮动 IP 地址 (一般在127.0.0.1/8网段)，然后服务监听该 IP 地址，启动 tcprstat 时，使用 -l 参数指定本地 IP 地址。
+對於這種情況，可以通過 ifconfig 設置浮動 IP 地址 (一般在127.0.0.1/8網段)，然後服務監聽該 IP 地址，啟動 tcprstat 時，使用 -l 參數指定本地 IP 地址。
 
 
-## 参考
+## 參考
 
-tcprstat 的官方文档 [The tcprstat User's Manual][offical-manual]，介绍了该工具的使用方法；也可以从 [本地](/reference/mysql/tcprstat.tar.bz2) 下载。
+tcprstat 的官方文檔 [The tcprstat User's Manual][offical-manual]，介紹了該工具的使用方法；也可以從 [本地](/reference/mysql/tcprstat.tar.bz2) 下載。
 
-[source-code]:        https://launchpad.net/tcprstat                     "保存在launchpad上的源码"
+[source-code]:        https://launchpad.net/tcprstat                     "保存在launchpad上的源碼"
 [offical-manual]:     https://www.percona.com/docs/wiki/tcprstat:start   "The tcprstat User's Manual"
-[prcodess_ip_func]:   /images/linux/tcprstat_process_ip.png              "process_ip()函数的处理流程"
+[prcodess_ip_func]:   /images/linux/tcprstat_process_ip.png              "process_ip()函數的處理流程"

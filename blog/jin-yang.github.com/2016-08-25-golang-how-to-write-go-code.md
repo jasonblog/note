@@ -1,66 +1,66 @@
 ---
-title: Golang 如何编码？
+title: Golang 如何編碼？
 layout: post
 comments: true
 source: https://golang.org/doc/code.html
 language: chinese
 category: [program,golang,linux]
 keywords: golang,go
-description: 这篇文章实际上是 golang 官网 [How to Write Go Code](https://golang.org/doc/code.html) 的大致翻译，主要介绍了在 golang 环境中，如何进行编写代码，其中包括了搭建一个简单 go 包，以及如何使用 go tool 等等。
+description: 這篇文章實際上是 golang 官網 [How to Write Go Code](https://golang.org/doc/code.html) 的大致翻譯，主要介紹了在 golang 環境中，如何進行編寫代碼，其中包括了搭建一個簡單 go 包，以及如何使用 go tool 等等。
 ---
 
-这篇文章实际上是 golang 官网 [How to Write Go Code](https://golang.org/doc/code.html) 的大致翻译，主要介绍了在 golang 环境中，如何进行编写代码，其中包括了搭建一个简单 go 包，以及如何使用 go tool 等等。
+這篇文章實際上是 golang 官網 [How to Write Go Code](https://golang.org/doc/code.html) 的大致翻譯，主要介紹了在 golang 環境中，如何進行編寫代碼，其中包括了搭建一個簡單 go 包，以及如何使用 go tool 等等。
 
 <!-- more -->
 
 ![a logo]({{ site.url }}/images/go/code-logo.jpg "a logo"){: .pull-center width="70%" }
 
-## 简介
+## 簡介
 
-这篇文章中，将介绍如何构建一个简单的 go 包，以及如何使用 go tool，其中包含了典型的使用场景，也就是获取包、编译、安装 go 包以及命令。
+這篇文章中，將介紹如何構建一個簡單的 go 包，以及如何使用 go tool，其中包含了典型的使用場景，也就是獲取包、編譯、安裝 go 包以及命令。
 
-使用 go tool 时，对于代码在那些目录下存放都有特定的要求，本文中，将会简单介绍。
+使用 go tool 時，對於代碼在那些目錄下存放都有特定的要求，本文中，將會簡單介紹。
 
-## 代码组织
+## 代碼組織
 
 ### 概述
 
-* 使用 go 语言编程时，通常将所有的 go 代码保存在一个工作目录 (workspace) 中；
-* 一个工作目录中包含了多个版本管理库 (repositories)，例如通过 git、svn 管理的；
-* 每个版本库中可以包含一个或者多个包 (packages)；
-* 每个包在同一个目录下包含了一个或者多个源码文件；
-* 指向包的目录路径为通过 import 导入时的路径。
+* 使用 go 語言編程時，通常將所有的 go 代碼保存在一個工作目錄 (workspace) 中；
+* 一個工作目錄中包含了多個版本管理庫 (repositories)，例如通過 git、svn 管理的；
+* 每個版本庫中可以包含一個或者多個包 (packages)；
+* 每個包在同一個目錄下包含了一個或者多個源碼文件；
+* 指向包的目錄路徑為通過 import 導入時的路徑。
 
-注意，很多语言都是每个工程 (project) 都有特定的工作目录，而工作目录中又通常是和版本管理库相关的。显然，go 语言与之是有明显区别的。
+注意，很多語言都是每個工程 (project) 都有特定的工作目錄，而工作目錄中又通常是和版本管理庫相關的。顯然，go 語言與之是有明顯區別的。
 
 ### Workspace
 
-在工作目录下，包括了如下的三个子目录：
+在工作目錄下，包括瞭如下的三個子目錄：
 
-* *src* 包括了 go 的源码文件；
-* *pkg* 包括了包对象；
-* *bin* 包含了可执行二进制命令。
+* *src* 包括了 go 的源碼文件；
+* *pkg* 包括了包對象；
+* *bin* 包含了可執行二進制命令。
 
-通过 go tool 可以将 src 目录下的源码编译安装到 pkg 以及 bin 目录下。
+通過 go tool 可以將 src 目錄下的源碼編譯安裝到 pkg 以及 bin 目錄下。
 
-src 子目录下通常包含了多个版本控制库，如 git 和 mercurial 。如下是一个简单的示例：
+src 子目錄下通常包含了多個版本控制庫，如 git 和 mercurial 。如下是一個簡單的示例：
 
 {% highlight text %}
 bin/
-    hello                           # 二进制可执行文件
+    hello                           # 二進制可執行文件
     outyet
 pkg/
-    linux_amd64/                    # 当前OS类型及其架构
+    linux_amd64/                    # 當前OS類型及其架構
         github.com/golang/example/
-            stringutil.a            # 包对象
+            stringutil.a            # 包對象
 src/
     github.com/golang/example/
-        .git/                       # git仓库元数据
+        .git/                       # git倉庫元數據
         hello/
-            hello.go                # 源码
+            hello.go                # 源碼
         outyet/
-            main.go                 # 源码
-            main_test.go            # 测试源码
+            main.go                 # 源碼
+            main_test.go            # 測試源碼
         stringutil/
             reverse.go
             reverse_test.go
@@ -69,61 +69,61 @@ src/
         bmp/
             reader.go
             writer.go
-    ...                             # 其它包仓库
+    ...                             # 其它包倉庫
 {% endhighlight %}
 
-如上的示例中，在工作目录中包含了两个版本库 example 以及 image 。其中 example 版本库中包含了两个命令 (hello 和 outyet) 以及一个库 (stringutl.a)。而 image 版本库中则包含了 bmp 包。
+如上的示例中，在工作目錄中包含了兩個版本庫 example 以及 image 。其中 example 版本庫中包含了兩個命令 (hello 和 outyet) 以及一個庫 (stringutl.a)。而 image 版本庫中則包含了 bmp 包。
 
-通常，每个工作目录下包含了多个源码库，而且每个源码库通常包含了多个包以及命令。而且，大多数 go 程序员会将所有的源码及其依赖保存在同一个工作目录下。
+通常，每個工作目錄下包含了多個源碼庫，而且每個源碼庫通常包含了多個包以及命令。而且，大多數 go 程序員會將所有的源碼及其依賴保存在同一個工作目錄下。
 
-命令以及库是从不同类型的源码包中编译的，这个后面详述。
+命令以及庫是從不同類型的源碼包中編譯的，這個後面詳述。
 
-### GOPATH 环境变量
+### GOPATH 環境變量
 
-GOPATH 环境变量指定了工作目录的位置，大概这是通过 go 编码时需要唯一设置的环境变量。
+GOPATH 環境變量指定了工作目錄的位置，大概這是通過 go 編碼時需要唯一設置的環境變量。
 
-开始，需要设置一个工作目录，并相应的设置 GOPATH 环境变量。目录可以在任何目录，在此以 $HOME/work 为例。注意，工作目录不一定与 go 安装目录相同。
+開始，需要設置一個工作目錄，並相應的設置 GOPATH 環境變量。目錄可以在任何目錄，在此以 $HOME/work 為例。注意，工作目錄不一定與 go 安裝目錄相同。
 
 {% highlight text %}
 $ make $HOME/work
 $ export GOPATH=$HOME/work
 {% endhighlight %}
 
-为了方便，通常要将工作目录下的 *bin* 子目录添加到 PATH 环境变量中。
+為了方便，通常要將工作目錄下的 *bin* 子目錄添加到 PATH 環境變量中。
 
 {% highlight text %}
 $ export PATH=$PATH:$GOPATH/bin
 {% endhighlight %}
 
-更多与 GOPATH 环境变量相关的内容可以查看 go help gopath 。
+更多與 GOPATH 環境變量相關的內容可以查看 go help gopath 。
 
 
-### 导入目录
+### 導入目錄
 
-导入目录 (*import path*) 字符串唯一定义了一个包 (package)。而导入目录对应了工作目录中的路径或者是远端的版本库 (后面详述) 。
+導入目錄 (*import path*) 字符串唯一定義了一個包 (package)。而導入目錄對應了工作目錄中的路徑或者是遠端的版本庫 (後面詳述) 。
 
-标准库中的包，路径都比较短比如 "fmt" 和 "net/http" 。对于自己的库，必须要选择一个现在甚至将来，都不会与标准库或者三方库冲突的路径。
+標準庫中的包，路徑都比較短比如 "fmt" 和 "net/http" 。對於自己的庫，必須要選擇一個現在甚至將來，都不會與標準庫或者三方庫衝突的路徑。
 
-如果将代码保存在某个版本库中，那么就需要将版本库作为根路径。例如代码保存在 Github 中，相应的帐号为 github.com/user ，这将作为基目录 (base path)。
+如果將代碼保存在某個版本庫中，那麼就需要將版本庫作為根路徑。例如代碼保存在 Github 中，相應的帳號為 github.com/user ，這將作為基目錄 (base path)。
 
-注意，在你编译之前，你不需要将你的代码推送到远端，通常这么部署是一个很好的习惯，方便后面发布到远端。实际上，你可以选择任意的目录，只要对标准库以及三方库唯一即可。
+注意，在你編譯之前，你不需要將你的代碼推送到遠端，通常這麼部署是一個很好的習慣，方便後面發佈到遠端。實際上，你可以選擇任意的目錄，只要對標準庫以及三方庫唯一即可。
 
-假设使用 github.com/user 作为基目录，可以通过如下的目录保存你的源码。
+假設使用 github.com/user 作為基目錄，可以通過如下的目錄保存你的源碼。
 
 {% highlight text %}
 $ mkdir -p $GOPATH/src/github.com/user
 {% endhighlight %}
 
 
-### 你的第一个程序
+### 你的第一個程序
 
-为了编译并运行一个简单程序，首选选择一个包路径 (假设使用 github.com/user/hello) 并在工作目录中创建相应的目录。
+為了編譯並運行一個簡單程序，首選選擇一個包路徑 (假設使用 github.com/user/hello) 並在工作目錄中創建相應的目錄。
 
 {% highlight text %}
 $ mkdir -p $GOPATH/src/github.com/user/hello
 {% endhighlight %}
 
-结下来，在上面的目录下创建一个 hello.go 文件，包含如下的内容。
+結下來，在上面的目錄下創建一個 hello.go 文件，包含如下的內容。
 
 {% highlight go %}
 package main
@@ -133,40 +133,40 @@ func main() {
 }
 {% endhighlight %}
 
-接下来，可以通过如下方式安装。
+接下來，可以通過如下方式安裝。
 
 {% highlight text %}
 $ go install github.com/user/hello
 {% endhighlight %}
 
-上述的命令可以在任何目录下执行，go tool 会通过 GOPATH 环境变量自动找到工作目录下的包。
+上述的命令可以在任何目錄下執行，go tool 會通過 GOPATH 環境變量自動找到工作目錄下的包。
 
-当然，如果在相应的包目录下，可以直接忽略包的路径。
+當然，如果在相應的包目錄下，可以直接忽略包的路徑。
 
 {% highlight text %}
 $ cd $GOPATH/src/github.com/user/hello
 $ go install
 {% endhighlight %}
 
-上述的命令将编译生成 hello 命令，然后将其添加到工作目录的 bin 子目录下，在我们的示例中就是 $GOPATH/bin/hello，也就是 $HOME/work/bin/hello 。
+上述的命令將編譯生成 hello 命令，然後將其添加到工作目錄的 bin 子目錄下，在我們的示例中就是 $GOPATH/bin/hello，也就是 $HOME/work/bin/hello 。
 
-go tool 只有在有异常的时候才会输出相应的内容，如若没有任何内容输出，也就意味着已经执行成功。
+go tool 只有在有異常的時候才會輸出相應的內容，如若沒有任何內容輸出，也就意味著已經執行成功。
 
-然后，可以通过如下命令执行。
+然後，可以通過如下命令執行。
 
 {% highlight text %}
 $ $GOPATH/bin/hello
 Hello World
 {% endhighlight %}
 
-如果已经将 $GOPATH/bin 目录添加到了 PATH 环境变量中，那可以直接输入二进制文件名即可。
+如果已經將 $GOPATH/bin 目錄添加到了 PATH 環境變量中，那可以直接輸入二進制文件名即可。
 
 {% highlight text %}
 $ hello
 Hello World
 {% endhighlight %}
 
-如果在使用版本控制系统，现在就可以初始化一个版本库，添加文件，然后提交第一次的修改。当然，这一步是可选的，编写 go 代码时是非必须的。
+如果在使用版本控制系統，現在就可以初始化一個版本庫，添加文件，然後提交第一次的修改。當然，這一步是可選的，編寫 go 代碼時是非必須的。
 
 {% highlight text %}
 $ cd $GOPATH/src/github.com/user/hello
@@ -179,19 +179,19 @@ $ git commit -m "initial commit"
    create mode 100644 hello.go
 {% endhighlight %}
 
-接下来也可以将其推送到远端的仓库。
+接下來也可以將其推送到遠端的倉庫。
 
-### 第一个库
+### 第一個庫
 
-接下来，我们编写一个库，然后在 hello 程序中使用它。
+接下來，我們編寫一個庫，然後在 hello 程序中使用它。
 
-同上面一样，首先选择一个包的路径 (在此使用 github.com/user/stringutil) 并创建之。
+同上面一樣，首先選擇一個包的路徑 (在此使用 github.com/user/stringutil) 並創建之。
 
 {% highlight text %}
 $ mkdir -p $GOPATH/src/github.com/user/stringutil
 {% endhighlight %}
 
-接下来在上述的目录下新建一个 reverse.go 文件，内容如下。
+接下來在上述的目錄下新建一個 reverse.go 文件，內容如下。
 
 {% highlight go %}
 // Package stringutil contains utility functions for working with strings.
@@ -207,21 +207,21 @@ func Reverse(s string) string {
 }
 {% endhighlight %}
 
-然后通过 go build 命令进行编译。
+然後通過 go build 命令進行編譯。
 
 {% highlight text %}
 $ go build github.com/user/stringutil
 {% endhighlight %}
 
-如果在包的源码目录下，可以直接执行如下命令。
+如果在包的源碼目錄下，可以直接執行如下命令。
 
 {% highlight text %}
 $ go build
 {% endhighlight %}
 
-上述的命令并不会生成文件。为了生成文件，必须要执行 go install 才可以，此时会将包对象保存在工作目录下的 pkg 目录下。
+上述的命令並不會生成文件。為了生成文件，必須要執行 go install 才可以，此時會將包對象保存在工作目錄下的 pkg 目錄下。
 
-假设，已经生成了 stringutil 包，修改上面的 hello.go 文件。
+假設，已經生成了 stringutil 包，修改上面的 hello.go 文件。
 
 
 {% highlight go %}
@@ -235,67 +235,67 @@ func main() {
 }
 {% endhighlight %}
 
-无论 go tool 安装一个包还是命令，它将会自动安装其所依赖的包。所以，当你安装 hello 程序时。
+無論 go tool 安裝一個包還是命令，它將會自動安裝其所依賴的包。所以，當你安裝 hello 程序時。
 
 {% highlight text %}
 $ go install github.com/user/hello
 {% endhighlight %}
 
-其中的 stringutil 包会自动安装。
+其中的 stringutil 包會自動安裝。
 
-执行新的命令，你将会看到一个反向的信息。
+執行新的命令，你將會看到一個反向的信息。
 
 {% highlight text %}
 $ hello
 Hello, Go!
 {% endhighlight %}
 
-执行完上述命令之后，其工作目录类似如下。
+執行完上述命令之後，其工作目錄類似如下。
 
 {% highlight text %}
 bin/
-    hello                           # 二进制可执行文件
+    hello                           # 二進制可執行文件
 pkg/
-    linux_amd64/                    # 当前OS类型及其架构
+    linux_amd64/                    # 當前OS類型及其架構
         github.com/user/
-            stringutil.a            # 包对象
+            stringutil.a            # 包對象
 src/
     github.com/user/
-        .git/                       # git仓库元数据
+        .git/                       # git倉庫元數據
         hello/
-            hello.go                # 源码
+            hello.go                # 源碼
         stringutil/
             reverse.go
 {% endhighlight %}
 
-注意，go install 命令会将 stringutil.a 存放到 pkg/linux_amd64 与源码目录相同的镜像路径中。在使用其它的 go tool 工具时，可以直接查看相应的目录，从而避免重复编译。其中 linux_amd64 用于交叉编译，包括了当前环境的 OS 以及架构信息。
+注意，go install 命令會將 stringutil.a 存放到 pkg/linux_amd64 與源碼目錄相同的鏡像路徑中。在使用其它的 go tool 工具時，可以直接查看相應的目錄，從而避免重複編譯。其中 linux_amd64 用於交叉編譯，包括了當前環境的 OS 以及架構信息。
 
-go 语言采用静态编译，当执行 go 程序的时候，不再需要包对象。
+go 語言採用靜態編譯，當執行 go 程序的時候，不再需要包對象。
 
-### 包名称
+### 包名稱
 
-在 go 源码中的第一条语句必须如下：
+在 go 源碼中的第一條語句必須如下：
 
 {% highlight go %}
 package name
 {% endhighlight %}
 
-其中 *name* 是用于包导入时的默认名称，一个包中的文件必须要使用相同的 *name* 。
+其中 *name* 是用於包導入時的默認名稱，一個包中的文件必須要使用相同的 *name* 。
 
-go 语言中的约定是，import 路径的最后一个名称作为包的名称，例如，假设包的 import 路径为 "crypto/rot13"，那么包名称为 rot13 。
+go 語言中的約定是，import 路徑的最後一個名稱作為包的名稱，例如，假設包的 import 路徑為 "crypto/rot13"，那麼包名稱為 rot13 。
 
-可执行的命令必须使用 package.main 。
+可執行的命令必須使用 package.main 。
 
-当然，没有必要要求所有的包名称唯一，只要保证其导入的路径唯一即可。
+當然，沒有必要要求所有的包名稱唯一，只要保證其導入的路徑唯一即可。
 
 
-## 测试
+## 測試
 
-go 包含了一个轻量级的测试框架，需要使用 go test 命令以及 testing 包。
+go 包含了一個輕量級的測試框架，需要使用 go test 命令以及 testing 包。
 
-其中文件名以 *\_test.go* 方式命名，其中包含了测试函数 TestXXX，函数格式为 func (t *testing. T)。测试框架将会执行每个函数，如果测试函数调用了 t.Error 或者 t.Fail，则认为测试用例失败。
+其中文件名以 *\_test.go* 方式命名，其中包含了測試函數 TestXXX，函數格式為 func (t *testing. T)。測試框架將會執行每個函數，如果測試函數調用了 t.Error 或者 t.Fail，則認為測試用例失敗。
 
-对于上面的 stringutil 包创建一个文件 $GOPATH/src/github.com/user/stringutil/reverse_test.go，其内容如下。
+對於上面的 stringutil 包創建一個文件 $GOPATH/src/github.com/user/stringutil/reverse_test.go，其內容如下。
 
 {% highlight go %}
 package stringutil
@@ -316,14 +316,14 @@ func TestReverse(t *testing. T) {
     }
 {% endhighlight %}
 
-然后，通过 go test 执行测试。
+然後，通過 go test 執行測試。
 
 {% highlight text %}
 $ go test github.com/user/stringutil
 ok       github.com/user/stringutil 0.165s
 {% endhighlight %}
 
-与往常一样，如果在包路径下，可以直接忽略包路径，直接执行如下命令即可。
+與往常一樣，如果在包路徑下，可以直接忽略包路徑，直接執行如下命令即可。
 
 {% highlight text %}
 $ cd $GOPATH/src/github.com/user/stringutil
@@ -331,11 +331,11 @@ $ go test
 ok       github.com/user/stringutil 0.165s
 {% endhighlight %}
 
-可以通过 go help test 命令查看相关的帮助。
+可以通過 go help test 命令查看相關的幫助。
 
-## 远程包
+## 遠程包
 
-导入路径 (import path) 可以用于通过版本管理软件 (如 git 或者Mercurial) 获取源码包。而 go tool 可以通过该特性直接获取远端仓库。例如，上述的示例保存在 Github 中的 [github.com/golang/example](https://github.com/golang/example) 仓库中。如果在导入路径中包含了上述的仓库，则 go get 将会自动 fetch、build、install 。
+導入路徑 (import path) 可以用於通過版本管理軟件 (如 git 或者Mercurial) 獲取源碼包。而 go tool 可以通過該特性直接獲取遠端倉庫。例如，上述的示例保存在 Github 中的 [github.com/golang/example](https://github.com/golang/example) 倉庫中。如果在導入路徑中包含了上述的倉庫，則 go get 將會自動 fetch、build、install 。
 
 {% highlight text %}
 $ go get github.com/golang/example/hello
@@ -343,42 +343,42 @@ $ $GOPATH/bin/hello
 Hello, Go examples!
 {% endhighlight %}
 
-如果包在工作路径中不存在，那么 go get 将会将其存放在 GOPATH 指定的第一个工作空间中。当已经存在时，go get 将忽略下载，而与 go install 操作相同。
+如果包在工作路徑中不存在，那麼 go get 將會將其存放在 GOPATH 指定的第一個工作空間中。當已經存在時，go get 將忽略下載，而與 go install 操作相同。
 
-执行了上述的 go get 命令之后，工作目录的内容如下。
+執行了上述的 go get 命令之後，工作目錄的內容如下。
 
 {% highlight text %}
 bin/
-    hello                           # 二进制可执行文件
+    hello                           # 二進制可執行文件
 pkg/
-    linux_amd64/                    # 当前OS类型及其架构
+    linux_amd64/                    # 當前OS類型及其架構
         github.com/golang/example/
-            stringutil.a            # 包对象
+            stringutil.a            # 包對象
         github.com/user/
-            stringutil.a            # 包对象
+            stringutil.a            # 包對象
 src/
     github.com/golang/example/
-        .git/                       # git仓库元数据
+        .git/                       # git倉庫元數據
         hello/
-            hello.go                # 源码
+            hello.go                # 源碼
         stringutil/
             reverse.go
             reverse_test.go
     github.com/user/
         hello/
-            hello.go                # 源码
+            hello.go                # 源碼
         stringutil/
             reverse.go
             reverse_test.go
 {% endhighlight %}
 
-其中保存在 Github 中的 hello 命令，依赖于相同目录下的 stringutil 包，所以，go get 命令会自动定位到相关的包，并下载。
+其中保存在 Github 中的 hello 命令，依賴於相同目錄下的 stringutil 包，所以，go get 命令會自動定位到相關的包，並下載。
 
 {% highlight go %}
 import "github.com/golang/example/stringutil"
 {% endhighlight %}
 
-这种方式可以很方便的提供给其他用户使用，相关帮助可以查看 go help importpath 。
+這種方式可以很方便的提供給其他用戶使用，相關幫助可以查看 go help importpath 。
 
 
 

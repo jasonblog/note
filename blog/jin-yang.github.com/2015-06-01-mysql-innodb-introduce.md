@@ -1,89 +1,89 @@
 ---
-title: InnoDB 简单介绍
+title: InnoDB 簡單介紹
 layout: post
 comments: true
 language: chinese
 category: [mysql,database]
-keywords: innodb,mysql,简介
-description: 我们知道，在 MySQL 中，存储引擎是通过插件实现的，从而使得添加存储引擎时相对来说比较简单，而且目前支持多种类型的存储引擎。InnoDB 目前基本上已经是实时上的没人存储引擎了，现在可以支持外键、行锁、MVCC、支持标准的 4 种隔离级别等等。实际上，这也就意味着 InnoDB 是相当复杂的一个存储引擎。
+keywords: innodb,mysql,簡介
+description: 我們知道，在 MySQL 中，存儲引擎是通過插件實現的，從而使得添加存儲引擎時相對來說比較簡單，而且目前支持多種類型的存儲引擎。InnoDB 目前基本上已經是實時上的沒人存儲引擎了，現在可以支持外鍵、行鎖、MVCC、支持標準的 4 種隔離級別等等。實際上，這也就意味著 InnoDB 是相當複雜的一個存儲引擎。
 ---
 
-我们知道，在 MySQL 中，存储引擎是通过插件实现的，从而使得添加存储引擎时相对来说比较简单，而且目前支持多种类型的存储引擎。
+我們知道，在 MySQL 中，存儲引擎是通過插件實現的，從而使得添加存儲引擎時相對來說比較簡單，而且目前支持多種類型的存儲引擎。
 
-InnoDB 目前基本上已经是实时上的没人存储引擎了，现在可以支持外键、行锁、MVCC、支持标准的 4 种隔离级别等等。实际上，这也就意味着 InnoDB 是相当复杂的一个存储引擎。
+InnoDB 目前基本上已經是實時上的沒人存儲引擎了，現在可以支持外鍵、行鎖、MVCC、支持標準的 4 種隔離級別等等。實際上，這也就意味著 InnoDB 是相當複雜的一個存儲引擎。
 
-在此，仅简单介绍下。
+在此，僅簡單介紹下。
 
 <!-- more -->
 
-## 简介
+## 簡介
 
-在 MySQL 中，现仍然使用 InnoDB，而在 MariaDB 中，使用 XtraDB 替换了 InnoDB，但是仍然显示为 InnoDB，可以通过 show engines 查看，不知道后面会不会给换掉。
+在 MySQL 中，現仍然使用 InnoDB，而在 MariaDB 中，使用 XtraDB 替換了 InnoDB，但是仍然顯示為 InnoDB，可以通過 show engines 查看，不知道後面會不會給換掉。
 
-另一个比较不错的存储引擎是 Percona 开发的 TokuDB，还没有仔细研究过，暂时标记下。
+另一個比較不錯的存儲引擎是 Percona 開發的 TokuDB，還沒有仔細研究過，暫時標記下。
 
 ### InnoDB 特性
 
-InnoDB 采用的 **索引组织表**，也就是采用唯一且非空的主键进行组织，主健可以为多个字段；如果没有定义主键，则会选择第一个非空的唯一索引；如果没有符合条件的索引则会使用一个隐含的 6-bytes 递增字段。
+InnoDB 採用的 **索引組織表**，也就是採用唯一且非空的主鍵進行組織，主健可以為多個字段；如果沒有定義主鍵，則會選擇第一個非空的唯一索引；如果沒有符合條件的索引則會使用一個隱含的 6-bytes 遞增字段。
 
-> 堆组织表(Heap Organized Table, HOT)，数据会以堆的方式进行管理，插入数据时，会使用第一个能放下此数据的空闲空间。索引组织表(Index Organized Table, IOT)，数据按主键进行存储和排序。
+> 堆組織表(Heap Organized Table, HOT)，數據會以堆的方式進行管理，插入數據時，會使用第一個能放下此數據的空閒空間。索引組織表(Index Organized Table, IOT)，數據按主鍵進行存儲和排序。
 >
-> Oracle 支持堆表以及索引组织表；PostgreSQL 只支持堆表；InnoDB 只支持索引组织表。
+> Oracle 支持堆表以及索引組織表；PostgreSQL 只支持堆表；InnoDB 只支持索引組織表。
 
-上述的索引 (主健) 称为聚集索引 (Clustered Index)，除了聚集索引之外的其它索引都被称为二级索引 (Secondary Index)，二级索引还会保存对应的聚集索引，因此通常来说聚集索引不要太长。
+上述的索引 (主健) 稱為聚集索引 (Clustered Index)，除了聚集索引之外的其它索引都被稱為二級索引 (Secondary Index)，二級索引還會保存對應的聚集索引，因此通常來說聚集索引不要太長。
 
-索引是以 B+Tree 组织，对磁盘读取的最小单位为页 (Page)，默认大小是 16KB。页的大小可以在创建实例时通过 innodb_page_size 参数设置，创建之后不能修改，不同页大小之间的实例不兼容。
+索引是以 B+Tree 組織，對磁盤讀取的最小單位為頁 (Page)，默認大小是 16KB。頁的大小可以在創建實例時通過 innodb_page_size 參數設置，創建之後不能修改，不同頁大小之間的實例不兼容。
 
-当新记录插入时，会预留 1KB 为以后插入时使用。如果是顺序插入(升序或者降序)，则一般会占用 15/16，对于随机插入则会在 1/2~15/16 之间，小于 1/2 则尝试合并删除。
+當新記錄插入時，會預留 1KB 為以後插入時使用。如果是順序插入(升序或者降序)，則一般會佔用 15/16，對於隨機插入則會在 1/2~15/16 之間，小於 1/2 則嘗試合併刪除。
 
 ### 常用操作
 
-InnoDB 相关的操作。
+InnoDB 相關的操作。
 
 {% highlight text %}
-mysql> SHOW ENGINES;                                         ← 查看现在支持的存储引擎。
+mysql> SHOW ENGINES;                                         ← 查看現在支持的存儲引擎。
 mysql> SELECT * FROM information_schema.engines;             ← 功能同上
 mysql> SHOW VARIABLES LIKE 'innodb_version';                 ← innodb的版本
-mysql> SHOW VARIABLES LIKE 'innodb_%_io_threads';            ← io线程
-mysql> SHOW VARIABLES LIKE 'innodb_purge_threads';           ← purge线程
-mysql> SHOW VARIABLES LIKE 'innodb_buffer_pool_size';        ← 缓冲池大小
-mysql> SHOW VARIABLES LIKE 'innodb_buffer_pool_instances';   ← 缓冲池实例数目
-mysql> SHOW ENGINE INNODB STATUS\G                           ← 详细状态
+mysql> SHOW VARIABLES LIKE 'innodb_%_io_threads';            ← io線程
+mysql> SHOW VARIABLES LIKE 'innodb_purge_threads';           ← purge線程
+mysql> SHOW VARIABLES LIKE 'innodb_buffer_pool_size';        ← 緩衝池大小
+mysql> SHOW VARIABLES LIKE 'innodb_buffer_pool_instances';   ← 緩衝池實例數目
+mysql> SHOW ENGINE INNODB STATUS\G                           ← 詳細狀態
 {% endhighlight %}
 
 
 ## 文件管理
 
-MySQL 的各种数据保存在 datadir 变量指定的目录下，使用 OS 的文件系统；其中，表结构保存在数据库的目录下，文件为 *.frm，但是 InnoDB 同时会在表空间中保存表的元数据，显然不能通过删除 *.frm 来删除表，暂没有尝试过对其它的存储引擎直接删除 *.frm 。
+MySQL 的各種數據保存在 datadir 變量指定的目錄下，使用 OS 的文件系統；其中，表結構保存在數據庫的目錄下，文件為 *.frm，但是 InnoDB 同時會在表空間中保存表的元數據，顯然不能通過刪除 *.frm 來刪除表，暫沒有嘗試過對其它的存儲引擎直接刪除 *.frm 。
 
 ![innodb files](/images/databases/mysql/innodb-files.png){: .pull-center }
 
-各个文件的详细介绍如下：
+各個文件的詳細介紹如下：
 
-* ibdata1，系统表空间<br>包括了 Undo log、Double Write Buffer、Insert Buffer 等，可以通过 innodb_data_file_path 变量查看文件名称和大小。
+* ibdata1，系統表空間<br>包括了 Undo log、Double Write Buffer、Insert Buffer 等，可以通過 innodb_data_file_path 變量查看文件名稱和大小。
 
-* ib_logfile0/1，redo-log日志<br>InnoDB 的 redo-log ，顺序写入，循环利用。
+* ib_logfile0/1，redo-log日誌<br>InnoDB 的 redo-log ，順序寫入，循環利用。
 
-* db-name/，与数据库名称相同的目录<br>除了 information_schema 之外，每个数据库都有一个相同名称的目录，而 information_schema 实际上是一个视图，提供了访问元数据的一个接口，因此没有保存与之相关的文件。
+* db-name/，與數據庫名稱相同的目錄<br>除了 information_schema 之外，每個數據庫都有一個相同名稱的目錄，而 information_schema 實際上是一個視圖，提供了訪問元數據的一個接口，因此沒有保存與之相關的文件。
 
-* db-name/db.opt，文本文件<br>每个目录下都会保存一个 db.opt 文本文件，用来保存该库的默认字符集编码和字符集排序规则。在创建表时，如果没有指定字符集和排序规则，那么该新建的表将采用 db.opt 文件中指定的属性。
+* db-name/db.opt，文本文件<br>每個目錄下都會保存一個 db.opt 文本文件，用來保存該庫的默認字符集編碼和字符集排序規則。在創建表時，如果沒有指定字符集和排序規則，那麼該新建的表將採用 db.opt 文件中指定的屬性。
 
-* db-name/table-name.frm，MySQL 表的元数据，与 InnoDB 无关<br>同时每个数据库对应的目录下都会保存一个 table-name.frm，与存储引擎无关，用来保存表的元数据。
+* db-name/table-name.frm，MySQL 表的元數據，與 InnoDB 無關<br>同時每個數據庫對應的目錄下都會保存一個 table-name.frm，與存儲引擎無關，用來保存表的元數據。
 
-* db-name/table-name.idb<br>对于 innodb，如果采用共享表空间，则索引、数据等信息会保存在 ibdataN 中；如果采用独立表空间则会保存在目录下 table-name.idb。
+* db-name/table-name.idb<br>對於 innodb，如果採用共享表空間，則索引、數據等信息會保存在 ibdataN 中；如果採用獨立表空間則會保存在目錄下 table-name.idb。
 
-* db-name/{table-name.MYD,table-name.MYI}<br>.MYD 文件用来存储 MyISAM 的数据，.MYI 用来存储索引相关的信息。
+* db-name/{table-name.MYD,table-name.MYI}<br>.MYD 文件用來存儲 MyISAM 的數據，.MYI 用來存儲索引相關的信息。
 
-对于表的存储格式，实际上 Google 的 [Jeremy Cole](https://blog.jcole.us) 对此介绍的已经很详细，可以直接参考其 blog，后面也会有对这方面的解析，仅记录个人对此的理解。
+對於表的存儲格式，實際上 Google 的 [Jeremy Cole](https://blog.jcole.us) 對此介紹的已經很詳細，可以直接參考其 blog，後面也會有對這方面的解析，僅記錄個人對此的理解。
 
 
-## 状态查看
+## 狀態查看
 
-对于 InnoDB 状态的查看，有如下两种方法。
+對於 InnoDB 狀態的查看，有如下兩種方法。
 
 ### show engine
 
-通过如下命令可以查看当前 InnoDB 的状态。
+通過如下命令可以查看當前 InnoDB 的狀態。
 
 {% highlight text %}
 mysql> SHOW ENGINE INNODB STATUS\G
@@ -256,8 +256,8 @@ Internal hash tables (constant factor + variable factor)
     Lock system         333624  (332872 + 752)
     Recovery system     0       (0 + 0)
 Dictionary memory allocated 63551
-Buffer pool size        8191                 # 总页数
-Buffer pool size, bytes 134201344            # 总字节数=总页数*页大小
+Buffer pool size        8191                 # 總頁數
+Buffer pool size, bytes 134201344            # 總字節數=總頁數*頁大小
 Free buffers            7856
 Database pages          334
 Old database pages      0
@@ -276,15 +276,15 @@ LRU len: 334, unzip_LRU len: 0
 I/O sum[0]:cur[0], unzip sum[0]:cur[0]
 {% endhighlight %}
 
-对于 ibdata1 文件各个文件所占 page 数量，可以通过 innodb_page_info.py ibdata1 查看。
+對於 ibdata1 文件各個文件所佔 page 數量，可以通過 innodb_page_info.py ibdata1 查看。
 -->
 
-#### 源码实现
+#### 源碼實現
 
-上述命令会调用存储引擎中定义的 show_status() 接口，对于 InnoDB 来说，调用逻辑如下。
+上述命令會調用存儲引擎中定義的 show_status() 接口，對於 InnoDB 來說，調用邏輯如下。
 
 {% highlight cpp %}
-// 初始化为相应的函数
+// 初始化為相應的函數
 static int innobase_init(void *p)
 {
     ... ...
@@ -293,30 +293,30 @@ static int innobase_init(void *p)
 }
 {% endhighlight %}
 
-然后，其调用流程如下，也就是最终调用的是 srv_printf_innodb_monitor() 函数。
+然後，其調用流程如下，也就是最終調用的是 srv_printf_innodb_monitor() 函數。
 
 {% highlight text %}
 innobase_show_status()               ← handler/ha_innodb.cc
   |-innodb_show_status()
-    |-srv_printf_innodb_monitor()    ← 实际打印函数入口，srv/srv0srv.cc
-      |-lock_print_info_summary()    ← 打印锁相关信息
-      |-log_print()                  ← LOG，redo日志相关
+    |-srv_printf_innodb_monitor()    ← 實際打印函數入口，srv/srv0srv.cc
+      |-lock_print_info_summary()    ← 打印鎖相關信息
+      |-log_print()                  ← LOG，redo日誌相關
 {% endhighlight %}
 
 
 
 ### innodb_metrics
 
-从 MySQL 5.6 开始，引入了 ```information_schema.innodb_metrics``` 表，包含了比 ```show global status``` 更详细的内容，而且相比 ```performance_schema``` 更轻量级。
+從 MySQL 5.6 開始，引入了 ```information_schema.innodb_metrics``` 表，包含了比 ```show global status``` 更詳細的內容，而且相比 ```performance_schema``` 更輕量級。
 
-八卦下，据说 ```innodb_metrics``` 表是在 Oracle-Sun 谈判的时候，所以就只实现了这一个表 ^_^
+八卦下，據說 ```innodb_metrics``` 表是在 Oracle-Sun 談判的時候，所以就只實現了這一個表 ^_^
 
-该表中包括了，页的分裂和合并、Purge 的性能、Adaptive Hash Index 活动、页的刷新、日志刷新、Index Condition Pushdown(ICP) 等等；监控那些指标可以分别控制。
+該表中包括了，頁的分裂和合並、Purge 的性能、Adaptive Hash Index 活動、頁的刷新、日誌刷新、Index Condition Pushdown(ICP) 等等；監控那些指標可以分別控制。
 
-InnoDB 中提供了如下的变量，可以对表内的参数进行设置。
+InnoDB 中提供瞭如下的變量，可以對錶內的參數進行設置。
 
 {% highlight text %}
------ 查看可以使用的变量
+----- 查看可以使用的變量
 mysql> SHOW GLOBAL VARIABLES LIKE 'innodb_monitor_%';
 +--------------------------+-------+
 | Variable_name            | Value |
@@ -328,26 +328,26 @@ mysql> SHOW GLOBAL VARIABLES LIKE 'innodb_monitor_%';
 +--------------------------+-------+
 4 rows in set (0.00 sec)
 
------ 查看当前的监控指标
+----- 查看當前的監控指標
 mysql> SELECT name,subsystem,status,type,comment FROM information_schema.innodb_metrics;
 
------ 开启一个指标项
+----- 開啟一個指標項
 mysql> SET GLOBAL innodb_monitor_enable='buffer_pool_reads';
------ 关闭一个指标项
+----- 關閉一個指標項
 mysql> SET GLOBAL innodb_monitor_disable='buffer_pool_reads';
------ 重置参数，只重置XXX_RESET列参数
+----- 重置參數，只重置XXX_RESET列參數
 mysql> SET GLOBAL innodb_monitor_reset='buffer_pool_reads';
------ 重置所有参数，会重置所有参数
+----- 重置所有參數，會重置所有參數
 mysql> SET GLOBAL innodb_monitor_reset_all='buffer_pool_reads';
 ----- 也可以使用通配符
 mysql> SET GLOBAL innodb_monitor_enable='buffer_pool_%';
 {% endhighlight %}
 
-可以参考 [Reference Manual](https://dev.mysql.com/doc/refman/en/innodb-metrics-table.html) 以及 [Get started with InnoDB Metrics Table](https://blogs.oracle.com/mysqlinnodb/entry/get_started_with_innodb_metrics) 。
+可以參考 [Reference Manual](https://dev.mysql.com/doc/refman/en/innodb-metrics-table.html) 以及 [Get started with InnoDB Metrics Table](https://blogs.oracle.com/mysqlinnodb/entry/get_started_with_innodb_metrics) 。
 
-#### 源码解析
+#### 源碼解析
 
-监控的源码实现在 ```storage/innobase/srv/srv0mon.cc``` 文件中，通过如下变量进行统计。
+監控的源碼實現在 ```storage/innobase/srv/srv0mon.cc``` 文件中，通過如下變量進行統計。
 
 {% highlight cpp %}
 static monitor_info_t   innodb_counter_info[] =
@@ -367,12 +367,12 @@ static monitor_info_t   innodb_counter_info[] =
 };
 {% endhighlight %}
 
-计数器在那里增加，可以通过最后的一个宏定义查看，如上述 ```MONITOR_FLUSH_BACKGROUND_PAGES``` 。
+計數器在那裡增加，可以通過最後的一個宏定義查看，如上述 ```MONITOR_FLUSH_BACKGROUND_PAGES``` 。
 
 
 ### 其它
 
-在 MySQL 中设置与 InnoDB 相关的变量时，实际对应到源码后是将变量中的 innodb 替换为了 srv ，例如 innodb_read_ahead_threshold 对应到源码中是 srv_read_ahead_threshold 。
+在 MySQL 中設置與 InnoDB 相關的變量時，實際對應到源碼後是將變量中的 innodb 替換為了 srv ，例如 innodb_read_ahead_threshold 對應到源碼中是 srv_read_ahead_threshold 。
 
 
 

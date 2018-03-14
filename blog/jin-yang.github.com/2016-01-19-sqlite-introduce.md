@@ -1,47 +1,47 @@
 ---
-title: SQLite 使用简介
+title: SQLite 使用簡介
 layout: post
 comments: true
 language: chinese
 category: [misc]
 keywords: sqlite,c language,sample
-description: 简单记录一下一些与 Markdown 相关的内容，包括了一些使用模版。
+description: 簡單記錄一下一些與 Markdown 相關的內容，包括了一些使用模版。
 ---
 
 
 <!-- more -->
 
-## 简介
+## 簡介
 
-### 安装
+### 安裝
 
-在 CentOS 中可以可以直接通过如下方式安装。
+在 CentOS 中可以可以直接通過如下方式安裝。
 
 {% highlight text %}
 # yum install sqlite
 {% endhighlight %}
 
-### 常见命令
+### 常見命令
 
 {% highlight text %}
------ 直接新建一个文件名为foobar.db的数据库
+----- 直接新建一個文件名為foobar.db的數據庫
 $ sqlite foobar.db
 
------ 新建一个表
+----- 新建一個表
 sqlite> create table foobar(id integer primary key, value text);
 
------ 直接插入部分数据
+----- 直接插入部分數據
 sqlite> insert into foobar(id, value) values(1, 'Micheal'), (2, 'Jenny'), (3, 'Francis');
 
------ 查看数据
+----- 查看數據
 sqlite> select * from foobar;
 1|Micheal
 2|Jenny
 3|Francis
 
------ 设置查询返回的结果
-sqlite> .mode column;                         # 按照列格式显示
-sqlite> .header on;                           # 显示列名称
+----- 設置查詢返回的結果
+sqlite> .mode column;                         # 按照列格式顯示
+sqlite> .header on;                           # 顯示列名稱
 sqlite> select * from foobar;
 id          value
 ----------- -------------
@@ -52,38 +52,38 @@ id          value
 ----- 添加列
 sqlite> alter table foobar add column email text not null '' collate nocase;
 
------ 创建视图
+----- 創建視圖
 sqlite> create view nameview as select value from foobar;
 sqlite> select * from nameview;
 
------ 创建索引
+----- 創建索引
 sqlite> create index idx_value on foobar(value);
 
------ 查看帮助
+----- 查看幫助
 sqlite> .help
 
------ 查看所有表，包括视图
+----- 查看所有表，包括視圖
 sqlite> .tables
 
------ 显示表结构
+----- 顯示錶結構
 sqlite> .schema [table|view]
 
------ 获取指定表的索引列表
+----- 獲取指定表的索引列表
 sqlite > .indices [table]
 idx_value
 
------ 导出数据库到SQL文件
+----- 導出數據庫到SQL文件
 sqlite > .output [filename ]
 sqlite > .dump
 sqlite > .output stdout
 
------ 备份、恢复数据库
+----- 備份、恢復數據庫
 $ sqlite foobar.db .dump > backup.sql
 $ cat backup.sql | sqlite3 foobar-restore.db
 $ sqlite3 foobar-restore.db < backup.sql
 {% endhighlight %}
 
-## C 编程
+## C 編程
 
 {% highlight c %}
 #include <stdio.h>
@@ -237,7 +237,7 @@ int main(void)
 }
 {% endhighlight %}
 
-## 参考
+## 參考
 
 [SQLite C tutorial](http://zetcode.com/db/sqlitec)
 

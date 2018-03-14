@@ -1,20 +1,20 @@
 ---
-title: Linux 内核模块
+title: Linux 內核模塊
 layout: post
 comments: true
 language: chinese
 category: [linux]
-keywords: linux,内核模块,kernel,module
-description: 简单介绍下 Linux 中的内核模块编写，包括了内核签名机制的配置。
+keywords: linux,內核模塊,kernel,module
+description: 簡單介紹下 Linux 中的內核模塊編寫，包括了內核簽名機制的配置。
 ---
 
-简单介绍下 Linux 中的内核模块编写，包括了内核签名机制的配置。
+簡單介紹下 Linux 中的內核模塊編寫，包括了內核簽名機制的配置。
 
 <!-- more -->
 
-## 简单示例
+## 簡單示例
 
-一个很简单的 helloworld 程序，可以参考 [github LKM helloworld]({{ site.example_repository }}/linux/LKM) 。
+一個很簡單的 helloworld 程序，可以參考 [github LKM helloworld]({{ site.example_repository }}/linux/LKM) 。
 
 如下是 Makefile 文件。
 
@@ -34,7 +34,7 @@ clean:
 .PHONY:clean
 {% endhighlight %}
 
-下面是驱动的测试程序。
+下面是驅動的測試程序。
 
 {% highlight c %}
 /* FILE: hello.c */
@@ -61,7 +61,7 @@ MODULE_DESCRIPTION("A simple Hello World Module");
 MODULE_ALIAS("the simplest module");
 {% endhighlight %}
 
-然后可以通过如的方式进行测试。
+然後可以通過如的方式進行測試。
 
 {% highlight text %}
 # insmod hello.ko
@@ -74,26 +74,26 @@ hello                  12496  0
 
 
 
-## 内核签名机制
+## 內核簽名機制
 
-在插入到内核模块时，可能会报如下错误。
+在插入到內核模塊時，可能會報如下錯誤。
 
 {% highlight text %}
 # insmod hello.ko
 insmod: ERROR: could not insert module hello.ko: Required key not available
 {% endhighlight %}
 
-原因是内核启用了 [Module signature verification](https://lwn.net/Articles/222162/) ，可以通过如下命令检测内核配置项。
+原因是內核啟用了 [Module signature verification](https://lwn.net/Articles/222162/) ，可以通過如下命令檢測內核配置項。
 
 {% highlight text %}
------ 查看内核的配置项
+----- 查看內核的配置項
 $ grep "CONFIG_MODULE_SIG" /boot/config-`uname -r`
 
------ 查看当前系统key
+----- 查看當前系統key
 # keyctl list %:.system_keyring
 {% endhighlight %}
 
-内核启动时，会有类似如下的输出。
+內核啟動時，會有類似如下的輸出。
 
 {% highlight text %}
 Loaded X.509 cert 'CentOS Linux kpatch signing key: xxxx'
@@ -103,18 +103,18 @@ EFI: Loaded cert 'Lenovo Ltd.: ThinkPad Product CA 2012: xxxx' linked to '.syste
 EFI: Loaded cert 'Lenovo UEFI CA 2014: xxxx' linked to '.system_keyring'
 {% endhighlight %}
 
-主要是由于目前 BIOS 支持 EFI，如果支持 UEFI Secure Boot 启动，那么内核所有模块都必须使用 UEFI Secure key 签名；当然，如果 BIOS 支持关闭 UEFI Secure Boot，那么可以在 BIOS 的 boot 项中关闭 UEFI Secure Boot 。
+主要是由於目前 BIOS 支持 EFI，如果支持 UEFI Secure Boot 啟動，那麼內核所有模塊都必須使用 UEFI Secure key 簽名；當然，如果 BIOS 支持關閉 UEFI Secure Boot，那麼可以在 BIOS 的 boot 項中關閉 UEFI Secure Boot 。
 
-否则只能为自己制作一个。
+否則只能為自己製作一個。
 
-接下来看看如何使用，主要包括了如下工具：
+接下來看看如何使用，主要包括瞭如下工具：
 
-* openssl，生成X509公私秘钥对。
-* sign-file，对内核模块使用X509公私秘钥对签名。
-* mokutil，手动注册公钥到系统。
-* keyctl，手动取消注册公钥到系统。
+* openssl，生成X509公私祕鑰對。
+* sign-file，對內核模塊使用X509公私祕鑰對簽名。
+* mokutil，手動註冊公鑰到系統。
+* keyctl，手動取消註冊公鑰到系統。
 
-下面看看如何设置。
+下面看看如何設置。
 
 ### 配置示例
 
@@ -142,9 +142,9 @@ authorityKeyIdentifier=keyid
 EOF
 {% endhighlight %}
 
-#### 2. 生成秘钥
+#### 2. 生成祕鑰
 
-一般会把公私钥放在 ``` /usr/src/kernels/`uname -r` ``` 文件夹中，不过还是建议方法 HOME 目录下。
+一般會把公私鑰放在 ``` /usr/src/kernels/`uname -r` ``` 文件夾中，不過還是建議方法 HOME 目錄下。
 
 {% highlight text %}
 $ openssl req -x509 -new -nodes -utf8 -sha256 -days 36500 \
@@ -152,38 +152,38 @@ $ openssl req -x509 -new -nodes -utf8 -sha256 -days 36500 \
   -out public_key.der -keyout private_key.priv
 {% endhighlight %}
 
-#### 3. 导入到 mok 列表
+#### 3. 導入到 mok 列表
 
-上步生成了一对公私钥，接下来将其添加到 mok 列表中，此时会需要输入密码，该密码会在确认 MOK 请求的时候输入。
+上步生成了一對公私鑰，接下來將其添加到 mok 列表中，此時會需要輸入密碼，該密碼會在確認 MOK 請求的時候輸入。
 
 {% highlight text %}
 # mokutil --import public_key.der
 {% endhighlight %}
 
-#### 4. 重启系统
+#### 4. 重啟系統
 
 {% highlight text %}
 # shutdown -r now
 {% endhighlight %}
 
-在启动时，shim.efi 会发现新添加的 KEY，并会启动 MokManager.efi 模块，此时需要选择 Eroll Key 选项，然后输入上面的密码。
+在啟動時，shim.efi 會發現新添加的 KEY，並會啟動 MokManager.efi 模塊，此時需要選擇 Eroll Key 選項，然後輸入上面的密碼。
 
 #### 5. 查看 key ring
 
-接着 key ring 会添加到内核中，其中描述是配置文件中指定的 req_distinguished_name.O 中。
+接著 key ring 會添加到內核中，其中描述是配置文件中指定的 req_distinguished_name.O 中。
 
 {% highlight text %}
 # keyctl list %:.system_keyring | grep "Organization"
 # cat /proc/keys
 {% endhighlight %}
 
-同样，也可以查看系统的启动日志。
+同樣，也可以查看系統的啟動日誌。
 
 {% highlight text %}
 # dmesg | grep 'EFI: Loaded cert'
 {% endhighlight %}
 
-#### 6. 添加到模块中
+#### 6. 添加到模塊中
 
 {% highlight text %}
 /usr/src/kernels/$(uname -r)/scripts/sign-file sha256 private_key.priv public_key.der hello.ko
@@ -191,7 +191,7 @@ $ openssl req -x509 -new -nodes -utf8 -sha256 -days 36500 \
 
 #### 7. 添加 hello.ko
 
-仍然同上，直接插入模块即可。
+仍然同上，直接插入模塊即可。
 
 {% highlight text %}
 # insmod hello.ko
@@ -209,50 +209,50 @@ done
         I expect VirtualBox to break everytime an update for VirtualBox is released. In that case, you will have to repeat step 7. I am not sure what the effect of a shim update will be.
 -->
 
-## PROC 文件系统
+## PROC 文件系統
 
-最初 proc 文件系统是为提供一种内核及其模块向进程 (process) 发送信息的机制，这就是 proc 名字的由来。通过 proc 可以和内核内部数据结构进行交互，获取对于进程的有用信息，并可在运行时改变设置内核参数。
+最初 proc 文件系統是為提供一種內核及其模塊向進程 (process) 發送信息的機制，這就是 proc 名字的由來。通過 proc 可以和內核內部數據結構進行交互，獲取對於進程的有用信息，並可在運行時改變設置內核參數。
 
-后来，这个系统的使用有些混乱和失控，于是在新内核中建议使用 sysfs 实现内核信息向用户空间的导出，例如，模块参数。
+後來，這個系統的使用有些混亂和失控，於是在新內核中建議使用 sysfs 實現內核信息向用戶空間的導出，例如，模塊參數。
 
 
 {% highlight text %}
-$ ls /sys/module/hid/parameters               # 查看HID(Human Interface Devices)的参数
+$ ls /sys/module/hid/parameters               # 查看HID(Human Interface Devices)的參數
 {% endhighlight %}
 
-Linux 内核和用户空间的通信可通过 /proc 目录下的文件实现，编译时需要 ```CONFIG_PROC_FS``` 配置，通常来说，可写的配置项一般保存在 /proc/sys 目录下。其它介绍如下：
+Linux 內核和用戶空間的通信可通過 /proc 目錄下的文件實現，編譯時需要 ```CONFIG_PROC_FS``` 配置，通常來說，可寫的配置項一般保存在 /proc/sys 目錄下。其它介紹如下：
 
-#### 1. 进程相关的目录
+#### 1. 進程相關的目錄
 
-proc 目录下以 PID 作为目录，存储了进程相关信息，可以通过 cat 查看。
+proc 目錄下以 PID 作為目錄，存儲了進程相關信息，可以通過 cat 查看。
 
 {% highlight text %}
-$ cat /proc/1/cmdline              # 查看init命令启动参数
+$ cat /proc/1/cmdline              # 查看init命令啟動參數
 {% endhighlight %}
 
-#### 2. 通用系统信息
+#### 2. 通用系統信息
 
-包括了内存、文件系统、设备驱动、系统总线、电源等管理，如 devices、diskstats、meminfo、modules 等。
+包括了內存、文件系統、設備驅動、系統總線、電源等管理，如 devices、diskstats、meminfo、modules 等。
 
-#### 3. 系统控制信息
+#### 3. 系統控制信息
 
-用来检测修改系统的运行参数，存在于 ```/proc/sys``` 目录下，可以使用 cat、echo 来查看或修改系统的运行参数。不过此处修改只是临时，如果要持久化需要修改 ```/etc/sysctl.conf``` 中的配置。
+用來檢測修改系統的運行參數，存在於 ```/proc/sys``` 目錄下，可以使用 cat、echo 來查看或修改系統的運行參數。不過此處修改只是臨時，如果要持久化需要修改 ```/etc/sysctl.conf``` 中的配置。
 
-接下来看看内核中的实现。
+接下來看看內核中的實現。
 
-### 内核实现
+### 內核實現
 
-相关的 API 实现在 ```fs/proc/generic.c``` 文件中，常见的 ```/proc/meminfo```、```/proc/stat``` 等统计项的源码在 fs/proc 目录下，具体的实现可以查看这里的源码。
+相關的 API 實現在 ```fs/proc/generic.c``` 文件中，常見的 ```/proc/meminfo```、```/proc/stat``` 等統計項的源碼在 fs/proc 目錄下，具體的實現可以查看這裡的源碼。
 
-很多简单的示例可以参考源码中的 loadavg.c 实现。
+很多簡單的示例可以參考源碼中的 loadavg.c 實現。
 
 
 
-## 参考
+## 參考
 
-关于 Signed Kernel Modules 可以参考 Gentoo 中的文档 [Signed kernel module support](https://wiki.gentoo.org/wiki/Signed_kernel_module_support)，或者 [本地保存的文档](/reference/linux/Signed kernel module support.mht) 。
+關於 Signed Kernel Modules 可以參考 Gentoo 中的文檔 [Signed kernel module support](https://wiki.gentoo.org/wiki/Signed_kernel_module_support)，或者 [本地保存的文檔](/reference/linux/Signed kernel module support.mht) 。
 
-关于 proc 的文档，可参考源码 Documentation/filesystems 目录下的 [seq_file.txt]({{ site.kernel_docs_url }}/Documentation/filesystems/seq_file.txt) 以及 [proc.txt]({{ site.kernel_docs_url }}/Documentation/filesystems/proc.txt) 。
+關於 proc 的文檔，可參考源碼 Documentation/filesystems 目錄下的 [seq_file.txt]({{ site.kernel_docs_url }}/Documentation/filesystems/seq_file.txt) 以及 [proc.txt]({{ site.kernel_docs_url }}/Documentation/filesystems/proc.txt) 。
 
 
 {% highlight text %}

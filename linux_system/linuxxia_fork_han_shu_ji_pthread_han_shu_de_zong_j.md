@@ -62,3 +62,55 @@ int main(void)
 }
 ```
 
+## 输出结果为：
+
+```sh
+Parent: parent_pid:3084 pid:3087 child_pid:3088
+count: 1
+Child: parent_pid:3087 pid:3088 child_pid:0
+count: 1
+```
+
+可以看到父进程的中创建的子进程的pid:3088刚好是子进程当前的pid，两个进程输出的count都是1，也就是只进行了一次累加
+套用上面关于二叉树方法分析的情况，执行一次fork，即2^1=2两个进程
+
+##通过循环执行多个fork-1
+不看输出的话考虑输出结果是什么，会输出多少次
+
+```c
+#include <iostream>
+#include <unistd.h>
+int main(void)
+{
+    int count = 0;
+
+    for (int i = 1; i < 4; ++i) {  //通过for循环执行3次fork
+        fork();
+    }
+
+    std::cout << ++count << std::endl;
+    return 0;
+}
+```
+
+输出结果为：
+
+```sh
+1
+1
+1
+1
+1
+1
+1
+1
+```
+
+执行第一个fork时，由原来的1个进程变成2个进程，第二次fork时，由2个变成4个，第三次fork时，由4个变成8个。所以最终共有8个进程。
+
+二叉树法分析：
+
+一共8个1，for循环中执行了3次fork，共创建了2^3=8个子进程，所以共有8个1输出。如下二叉树图中叶子结点所示：
+
+![](./images/20170727121657086.jpg)
+

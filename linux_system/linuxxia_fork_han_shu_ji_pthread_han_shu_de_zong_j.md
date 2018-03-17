@@ -28,3 +28,37 @@ Linux多进程编程中的可以使用fork函数来创建子进程。`fork函数
 - getpid()返回当前进程ID
 
 `这两个函数都在头文件unistd.h中，不接受参数，返回值类型为pid_t`
+网上关于fork函数创建多少个子进程的分析有很多，这里说一个简单分析方法，其实fork就是为父进程创建子进程，也就是说一个进程，执行fork之后就会变成2个进程，仅此而已。当执行多次fork函数时与二叉树很像，从根结点往叶子节点，每次一个变2个，可以很好地用二叉树来分析创建的子进程树，以及涉及到循环时，循环执行的次数。首先说一下结论：假定根结点为二叉树的第0层（为了方便后面分析），每执行一次fork，就增加一层，如果使用循环执行n个fork，则共有n层，相应满二叉树的叶子结点数2^n即为总共创建的子进程数（根为第0层），满二叉树除了根结点之外的总结点数2^(n+1)-2就是循环执行的总次数。也就是说 `执行n次fork函数，创建的子进程数为2^n个，用循环创建的fork时，循环执行的总次数为2^(n+1)-2次`
+下面使用几个实例分析根据fork的原理和二叉树方法（其实也是根据原理）来分析：
+
+
+## fork()用法
+
+```cpp
+#include <iostream>
+#include <unistd.h>
+int main(void)
+{
+    pid_t fpid; //创建一个临时变量用于存放fork的返回值
+    int count = 0;
+    fpid = fork();  //创建子进程，父进程与子进程将分别执行此后的代码
+
+    if (fpid < 0) { //创建子进程失败时将返回负值
+        std::cout << "Error in fork!" << std::endl;
+    } else if (fpid ==
+               0) { //子进程中fork的返回值为0，所以将由子进程执行该分支
+        std::cout << "Child: parent_pid:" << getppid() << " pid:" << getpid() <<
+                  " child_pid:" << fpid << std::endl;
+        count++;  //子进程复制来的count值为0，++之后将为1
+    } else { //父进程中fork的返回值为子进程的pid，所以将由父进程执行该分支
+        std::cout << "Parent: parent_pid:" << getppid() << " pid:" << getpid() <<
+                  " child_pid:" << fpid << std::endl;
+        count++;  //父进程中count为0，父子进程中的变量等数据是完全独立的
+    }
+
+    std::cout << "count: " << count <<
+              std::endl;  //最后输出count的当前值，显示该句父子进程都要执行
+    return 0;
+}
+```
+

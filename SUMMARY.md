@@ -459,7 +459,7 @@
        * [put variables in a regsiter](linux_system/put_variables_in_a_regsiter.md)
        * [Userspace I/O scheduling for multi-file operations](linux_system/userspace_io_scheduling_for_multi-file_operations.md)
        * [Manual FIle Locking](linux_system/manual_file_locking.md)
-   * Linux下fork函数及pthread函数的总结
+   * [Linux下fork函数及pthread函数的总结](linux_system/linuxxia_fork_han_shu_ji_pthread_han_shu_de_zong_j.md)
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

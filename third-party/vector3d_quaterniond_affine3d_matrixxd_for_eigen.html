@@ -55,7 +55,7 @@
         data-chapter-title="Vector3d   Quaterniond  Affine3d  MatrixXd for Eigen"
         data-filepath="third-party/vector3d_quaterniond_affine3d_matrixxd_for_eigen.md"
         data-basepath=".."
-        data-revision="Wed Mar 21 2018 23:31:02 GMT+0800 (CST)"
+        data-revision="Wed Mar 21 2018 23:56:45 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -21373,6 +21373,70 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="vector3d---quaterniond--affine3d--matrixxd-for-eigen">Vector3d   Quaterniond  Affine3d  MatrixXd for Eigen</h1>
+<h2 id="&#x56DB;&#x5143;&#x7D20;&#x76F8;&#x4E58;--&#x4F7F;&#x7528;-inverse-&#x56DE;&#x63A8;">&#x56DB;&#x5143;&#x7D20;&#x76F8;&#x4E58; &amp; &#x4F7F;&#x7528; inverse &#x56DE;&#x63A8;</h2>
+<pre><code class="lang-cpp"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-comment">//using namespace std;</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;Eigen/Core&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;Eigen/Dense&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;Eigen/Geometry&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;Eigen/LU&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;Eigen/SVD&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> Eigen;
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    Eigen::Quaterniond q1;
+    Eigen::Quaterniond q2;
+
+    q1.w() = <span class="hljs-number">0.96103</span>;
+    q1.x() = -<span class="hljs-number">0.02726</span>;
+    q1.y() = -<span class="hljs-number">0.01015</span>;
+    q1.z() = -<span class="hljs-number">0.27489</span>;
+
+    q2.w() = <span class="hljs-number">0.68673</span>;
+    q2.x() = -<span class="hljs-number">0.67238</span>;
+    q2.y() = -<span class="hljs-number">0.21366</span>;
+    q2.z() = -<span class="hljs-number">0.17510</span>;
+
+    Eigen::Quaterniond q = q1 * q2;
+
+    <span class="hljs-built_in">cout</span> &lt;&lt; q.w() &lt;&lt; endl;
+    <span class="hljs-built_in">cout</span> &lt;&lt; q.x() &lt;&lt; endl;
+    <span class="hljs-built_in">cout</span> &lt;&lt; q.y() &lt;&lt; endl;
+    <span class="hljs-built_in">cout</span> &lt;&lt; q.z() &lt;&lt; endl;
+
+    <span class="hljs-comment">// inverse &#x6C42;&#x51FA; q2</span>
+    q = q.inverse() * q1;
+
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;\n\n&quot;</span>;
+    <span class="hljs-built_in">cout</span> &lt;&lt; q.w() &lt;&lt; endl;
+    <span class="hljs-built_in">cout</span> &lt;&lt; q.x() &lt;&lt; endl;
+    <span class="hljs-built_in">cout</span> &lt;&lt; q.y() &lt;&lt; endl;
+    <span class="hljs-built_in">cout</span> &lt;&lt; q.z() &lt;&lt; endl;
+
+    <span class="hljs-comment">/*
+     * Determine the inverse of q = [1 0 1 0]: 
+     * qinv = quatinv([1 0 1 0]) 
+     * qinv = 0.5000  0   -0.5000  0
+     */</span>
+
+    Eigen::Quaterniond q3;
+    q3.w() = <span class="hljs-number">1</span>; 
+    q3.x() = <span class="hljs-number">0</span>;
+    q3.y() = <span class="hljs-number">1</span>;
+    q3.z() = <span class="hljs-number">0</span>;
+
+    q3 = q3.inverse();
+    <span class="hljs-built_in">cout</span> &lt;&lt; q3.w() &lt;&lt; endl;
+    <span class="hljs-built_in">cout</span> &lt;&lt; q3.x() &lt;&lt; endl;
+    <span class="hljs-built_in">cout</span> &lt;&lt; q3.y() &lt;&lt; endl;
+    <span class="hljs-built_in">cout</span> &lt;&lt; q3.z() &lt;&lt; endl;
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
 <h2 id="eigenvector3d">Eigen::Vector3d()</h2>
 <pre><code class="lang-cpp">Eigen::Vector3d pos;
 pos &lt;&lt; <span class="hljs-number">0.0</span>,-<span class="hljs-number">2.0</span>,<span class="hljs-number">1.0</span>;

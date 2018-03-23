@@ -57,7 +57,7 @@
         data-chapter-title="fork + pthread_create 記憶體空間差異"
         data-filepath="linux_system/fork_+_pthreadcreate_ji_yi_ti_kong_jian_cha_yi.md"
         data-basepath=".."
-        data-revision="Fri Mar 23 2018 22:03:31 GMT+0800 (CST)"
+        data-revision="Fri Mar 23 2018 22:35:03 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -21390,15 +21390,7 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="fork--pthreadcreate-&#x8A18;&#x61B6;&#x9AD4;&#x7A7A;&#x9593;&#x5DEE;&#x7570;">fork + pthread_create &#x8A18;&#x61B6;&#x9AD4;&#x7A7A;&#x9593;&#x5DEE;&#x7570;</h1>
-<pre><code class="lang-c"><span class="hljs-comment">/**************************************
- * fork-pthread.c
- *
- * pthread_join&#x4E00;&#x822C;&#x662F;&#x4E3B;&#x7EBF;&#x7A0B;&#x6765;&#x8C03;&#x7528;&#xFF0C;&#x7528;&#x6765;&#x7B49;&#x5F85;&#x5B50;&#x7EBF;&#x7A0B;&#x9000;&#x51FA;&#xFF0C;&#x56E0;&#x4E3A;&#x662F;&#x7B49;&#x5F85;&#xFF0C;&#x6240;&#x4EE5;&#x662F;&#x963B;&#x585E;&#x7684;&#xFF0C;&#x4E00;&#x822C;&#x4E3B;&#x7EBF;&#x7A0B;&#x4F1A;&#x4F9D;&#x6B21;join&#x6240;&#x6709;&#x5B83;&#x521B;&#x5EFA;&#x7684;&#x5B50;&#x7EBF;&#x7A0B;&#x3002;
- * pthread_exit&#x4E00;&#x822C;&#x662F;&#x5B50;&#x7EBF;&#x7A0B;&#x8C03;&#x7528;&#xFF0C;&#x7528;&#x6765;&#x7ED3;&#x675F;&#x5F53;&#x524D;&#x7EBF;&#x7A0B;&#x3002;
- *
- *************************************/</span>
-
-<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> _GNU_SOURCE</span>
+<pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> _GNU_SOURCE</span>
 <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
 <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
 <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;pthread.h&gt;</span></span>
@@ -21406,6 +21398,17 @@
 <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/wait.h&gt;</span></span>
 <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span>
 <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/syscall.h&gt;</span></span>
+
+<span class="hljs-comment">/**************************************
+ * fork-pthread.c
+ *
+ * pthread_join&#x4E00;&#x822C;&#x662F;&#x4E3B;&#x7EBF;&#x7A0B;&#x6765;&#x8C03;&#x7528;&#xFF0C;&#x7528;&#x6765;&#x7B49;&#x5F85;&#x5B50;&#x7EBF;&#x7A0B;&#x9000;&#x51FA;&#xFF0C;&#x56E0;&#x4E3A;&#x662F;&#x7B49;&#x5F85;&#xFF0C;&#x6240;&#x4EE5;&#x662F;&#x963B;&#x585E;&#x7684;&#xFF0C;&#x4E00;&#x822C;&#x4E3B;&#x7EBF;&#x7A0B;&#x4F1A;&#x4F9D;&#x6B21;join&#x6240;&#x6709;&#x5B83;&#x521B;&#x5EFA;&#x7684;&#x5B50;&#x7EBF;&#x7A0B;&#x3002;
+ * pthread_exit&#x4E00;&#x822C;&#x662F;&#x5B50;&#x7EBF;&#x7A0B;&#x8C03;&#x7528;&#xFF0C;&#x7528;&#x6765;&#x7ED3;&#x675F;&#x5F53;&#x524D;&#x7EBF;&#x7A0B;&#x3002;
+ * &#x4E00;&#x4E2A;&#x7EBF;&#x7A0B;&#x5BF9;&#x5E94;&#x4E00;&#x4E2A;pthread_join()&#x8C03;&#x7528;&#xFF0C;&#x5BF9;&#x540C;&#x4E00;&#x4E2A;&#x7EBF;&#x7A0B;&#x8FDB;&#x884C;&#x591A;&#x6B21;pthread_join()&#x8C03;&#x7528;&#x662F;&#x903B;&#x8F91;&#x9519;&#x8BEF;&#x3002; 
+ * -1: fork() &#x767C;&#x751F;&#x932F;&#x8AA4;, &#x7121; child process &#x7522;&#x751F;.  
+ *  0: &#x5728;child process&#x88E1; 
+ * &gt;0: &#x5728;parent process&#x88E1;, fork() &#x56DE;&#x50B3;&#x503C;, &#x5373;&#x662F; child process &#x7684; PID
+ *************************************/</span>
 
 <span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> DELAY <span class="hljs-number">10</span></span>
 
@@ -21418,12 +21421,29 @@
     <span class="hljs-keyword">return</span> tid;
 }
 
+<span class="hljs-keyword">class</span> B
+{
+<span class="hljs-keyword">private</span>:
+    <span class="hljs-keyword">int</span> a;
+
+<span class="hljs-keyword">public</span> :
+    B()
+    {
+        a = <span class="hljs-number">100</span>;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">print</span><span class="hljs-params">()</span> </span>{}
+};
+
+
 <span class="hljs-function"><span class="hljs-keyword">void</span>* <span class="hljs-title">func</span><span class="hljs-params">(<span class="hljs-keyword">void</span>* param)</span>
 </span>{
     <span class="hljs-keyword">int</span> slept = DELAY;
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;thread pid=%d, tid=%d, g=%d, g address=%p[+]\n&quot;</span>, getpid(), gettid(), g, (<span class="hljs-keyword">void</span>*)&amp;g);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;thread pid=%d, tid=%d, g=%d, g address=%p[+]\n&quot;</span>, getpid(), gettid(), g,
+           (<span class="hljs-keyword">void</span>*)&amp;g);
     g = <span class="hljs-number">88</span>;
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;thread pid=%d, tid=%d, g=%d, g address=%p[-]\n&quot;</span>, getpid(), gettid(), g, (<span class="hljs-keyword">void</span>*)&amp;g);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;thread pid=%d, tid=%d, g=%d, g address=%p[-]\n&quot;</span>, getpid(), gettid(), g,
+           (<span class="hljs-keyword">void</span>*)&amp;g);
     fflush(<span class="hljs-built_in">stdout</span>);
 
     <span class="hljs-keyword">while</span> ((slept = sleep(slept)) != <span class="hljs-number">0</span>) ;
@@ -21452,9 +21472,11 @@
 
     <span class="hljs-keyword">if</span> (pid == <span class="hljs-number">0</span>) {
         <span class="hljs-comment">// fils</span>
-        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;child pid=%d tid=%d, g=%d, g address=%p[+]\n&quot;</span>, getpid(), gettid(), g, (<span class="hljs-keyword">void</span>*)&amp;g);
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;child pid=%d tid=%d, g=%d, g address=%p[+]\n&quot;</span>, getpid(), gettid(), g,
+               (<span class="hljs-keyword">void</span>*)&amp;g);
         g = <span class="hljs-number">50</span>;
-        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;child pid=%d tid=%d, g=%d, g address=%p[-]\n&quot;</span>, getpid(), gettid(), g, (<span class="hljs-keyword">void</span>*)&amp;g);
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;child pid=%d tid=%d, g=%d, g address=%p[-]\n&quot;</span>, getpid(), gettid(), g,
+               (<span class="hljs-keyword">void</span>*)&amp;g);
 
         fflush(<span class="hljs-built_in">stdout</span>);
 
@@ -21470,15 +21492,22 @@
             <span class="hljs-built_in">exit</span>(EXIT_FAILURE);
         }
 
-        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;parent pid=%d tid=%d, g=%d, g address=%p[+]\n&quot;</span>, getpid(), gettid(), g, (<span class="hljs-keyword">void</span>*)&amp;g);
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;parent pid=%d tid=%d, g=%d, g address=%p[+]\n&quot;</span>, getpid(), gettid(), g,
+               (<span class="hljs-keyword">void</span>*)&amp;g);
+
+        <span class="hljs-comment">// &#x4E3B;thread&#x7B49;&#x5230;&#x5B50;thread&#x7D50;&#x675F;</span>
         err = pthread_join(thread, <span class="hljs-literal">NULL</span>);
-        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;parent pid=%d tid=%d, g=%d, g address=%p[-]\n&quot;</span>, getpid(), gettid(), g, (<span class="hljs-keyword">void</span>*)&amp;g);
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;parent pid=%d tid=%d, g=%d, g address=%p[-]\n&quot;</span>, getpid(), gettid(), g,
+               (<span class="hljs-keyword">void</span>*)&amp;g);
 
         <span class="hljs-keyword">if</span> (err != <span class="hljs-number">0</span>) {
             perror(<span class="hljs-string">&quot;pthread_join&quot;</span>);
             <span class="hljs-built_in">exit</span>(EXIT_FAILURE);
         }
 
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;waitpid=%d\n&quot;</span>,pid);
+
+        <span class="hljs-comment">// &#x7236;&#x884C;&#x7A0B;&#x7B49;&#x5B50;&#x884C;&#x7A0B;&#x7D50;&#x675F;</span>
         <span class="hljs-keyword">int</span> fils = waitpid(pid, &amp;status, <span class="hljs-number">0</span>);
 
         <span class="hljs-keyword">if</span> (fils == -<span class="hljs-number">1</span>) {

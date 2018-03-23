@@ -16,9 +16,9 @@
  *
  * pthread_join一般是主线程来调用，用来等待子线程退出，因为是等待，所以是阻塞的，一般主线程会依次join所有它创建的子线程。
  * pthread_exit一般是子线程调用，用来结束当前线程。
- * 一个线程对应一个pthread_join()调用，对同一个线程进行多次pthread_join()调用是逻辑错误。 
- * -1: fork() 發生錯誤, 無 child process 產生.  
- *  0: 在child process裡 
+ * 一个线程对应一个pthread_join()调用，对同一个线程进行多次pthread_join()调用是逻辑错误。
+ * -1: fork() 發生錯誤, 無 child process 產生.
+ *  0: 在child process裡
  * >0: 在parent process裡, fork() 回傳值, 即是 child process 的 PID
  *************************************/
 
@@ -35,28 +35,64 @@ pid_t gettid()
 
 class B
 {
-private:
+public :
     int a;
 
-public :
     B()
     {
         a = 100;
     }
 
-    void print() {}
+    static void* print(void* __this)
+    {
+        B * _this =(B *)__this;
+        while (1) {
+            printf("print pid=%d, tid=%d, a=%d\n", getpid(), gettid(), _this->a);
+            sleep(1);
+        }
+
+        pthread_exit(NULL);
+    }
+
+    static void* add(void* __this)
+    {
+        B * _this =(B *)__this;
+        while (1) {
+            _this->a += 1;
+            printf("add pid=%d, tid=%d, a=%d\n", getpid(), gettid(), _this->a);
+            sleep(2);
+        }
+
+        pthread_exit(NULL);
+    }
+
+    void start_thread()
+    {
+        int err;
+        pthread_t thread_add, thread_print;
+        err = pthread_create(&(thread_print), NULL, print, (void*)this);
+        err = pthread_create(&(thread_add), NULL, add, (void*)this);
+    }
 };
 
 
 void* func(void* param)
 {
     int slept = DELAY;
+
+    B b;
+    b.start_thread();
+
+    printf("-------------------------------------------------------------------\n");
+    printf("func pid=%d, tid=%d, a=%d\n", getpid(), gettid(), b.a);
+
     printf("thread pid=%d, tid=%d, g=%d, g address=%p[+]\n", getpid(), gettid(), g,
            (void*)&g);
     g = 88;
     printf("thread pid=%d, tid=%d, g=%d, g address=%p[-]\n", getpid(), gettid(), g,
            (void*)&g);
     fflush(stdout);
+
 
     while ((slept = sleep(slept)) != 0) ;
 
@@ -116,8 +152,8 @@ int main(int argc, char* argv[])
             perror("pthread_join");
             exit(EXIT_FAILURE);
         }
-		
-		printf("waitpid=%d\n",pid);
+
+        printf("waitpid=%d\n", pid);
 
         // 父行程等子行程結束
         int fils = waitpid(pid, &status, 0);

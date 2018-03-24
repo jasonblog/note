@@ -5,8 +5,15 @@ public class SimpleThread
     public static void main(String[] args)
     {
         ChirpControllerDevice mC0 = null;
+        ChirpControllerDevice mC1 = null;
 
         Thread thread = new Thread(new Runnable() {
+            public long getPID() {
+                String processName =
+                    java.lang.management.ManagementFactory.getRuntimeMXBean().getName();
+                return Long.parseLong(processName.split("@")[0]);
+            }
+
             public void run() {
                 while (true) {
                     try {
@@ -15,15 +22,17 @@ public class SimpleThread
                         System.out.println(e);
                     }
 
-                    System.out.println("T");
+                    System.out.println("T" + ", PID:" + getPID() + ", TID:"+ Thread.currentThread().getId());
                 }
 
             }
         });
         thread.start();
 
-        mC0 = new ChirpControllerDevice();
+        mC0 = new ChirpControllerDevice(88);
         mC0.init();
+        mC1 = new ChirpControllerDevice(66);
+        mC1.init();
 
         /*
         while (true) {

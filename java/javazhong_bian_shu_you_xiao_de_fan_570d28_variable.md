@@ -19,7 +19,7 @@ Java支援四種不同存取範圍的變數：
 class A{
     int a; //instance
     static int b; // class
-    void method(){
+    void method() {
         int x; //local
         for(int i=0; i < 10; i++)  //i為y block
         }

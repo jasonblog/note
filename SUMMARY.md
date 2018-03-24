@@ -1325,6 +1325,7 @@
    * [打印函數 / call stack](java/da_yin_han_shu__call_stack.md)
    * [Ubuntu 16.04 安裝 Eclipse](java/ubuntu_1604_an_zhuang_eclipse.md)
    * [java命令行編譯運行多個java文件](java/javaming_ling_xing_bian_yi_yun_xing_duo_ge_java_we.md)
+   *  Java中變數有效的範圍(Variable Scope)
 * [Linear Algebra](linear_algebra/linear_algebra.md)
    * [理解矩陣](linear_algebra/li_jie_ju_zhen.md)
    * [旋轉矩陣與四元數](linear_algebra/xuanzhuan_ju_zhen_yu_si_yuan_shu_md.md)

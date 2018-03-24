@@ -11,8 +11,15 @@ public class SimpleThread
     public static void main(String[] args)
     {
         ChirpControllerDevice mC0 = null;
+        ChirpControllerDevice mC1 = null;
 
         Thread thread = new Thread(new Runnable() {
+            public long getPID() {
+                String processName =
+                    java.lang.management.ManagementFactory.getRuntimeMXBean().getName();
+                return Long.parseLong(processName.split("@")[0]);
+            }
+
             public void run() {
                 while (true) {
                     try {
@@ -21,15 +28,17 @@ public class SimpleThread
                         System.out.println(e);
                     }
 
-                    System.out.println("T");
+                    System.out.println("T" + ", PID:" + getPID() + ", TID:"+ Thread.currentThread().getId());
                 }
 
             }
         });
         thread.start();
 
-        mC0 = new ChirpControllerDevice();
+        mC0 = new ChirpControllerDevice(88);
         mC0.init();
+        mC1 = new ChirpControllerDevice(66);
+        mC1.init();
 
         /*
         while (true) {
@@ -46,7 +55,6 @@ public class SimpleThread
         // 現在主執行緒執行到這邊了，工作應該結束了
     }
 }
-
 ```
 
 - ChirpControllerDevice.java
@@ -65,10 +73,11 @@ public class ChirpControllerDevice
     private boolean DEBUG = true;
     private Object mSimulatorlocker = new Object();
     private Thread mPollingThread;
-    private int a;
+    private int mData;
 
-    public ChirpControllerDevice()
+    public ChirpControllerDevice(int data)
     {
+        mData = data;
     }
 
     public void init()
@@ -83,6 +92,13 @@ public class ChirpControllerDevice
         {
         }
 
+        public long getPID()
+        {
+            String processName =
+                java.lang.management.ManagementFactory.getRuntimeMXBean().getName();
+            return Long.parseLong(processName.split("@")[0]);
+        }
+
         @Override
         public void run()
         {
@@ -93,14 +109,54 @@ public class ChirpControllerDevice
                     System.out.println(e);
                 }
 
-                System.out.println("a" + a);
+                System.out.println("data:" + mData + ", address:" + this + ", PID:" +getPID() + ", TID:"+ Thread.currentThread().getId());
 
+                /*
+                System.out.println(Thread.currentThread().getStackTrace()[2].getClassName() +
+                                   "[" + Thread.currentThread().getStackTrace()[2].getMethodName() + " | " +
+                                   Thread.currentThread().getStackTrace()[2].getFileName() + ":" +
+                                   Thread.currentThread().getStackTrace()[2].getLineNumber() + "]");
+                                   */
             }
         }
     }
 }
 ```
 
+- Makefile
+
+```sh
+JFLAGS = -g -cp ./classes/ -d ./classes
+JC = javac
+JVM= java
+CLASSESDIR = classes
+RM = rm -rf 
+SIMPLETHREAD = SimpleThread
+
+.SUFFIXES: .java .class
+.java.class:
+	$(JC) $(JFLAGS) $*.java
+
+CLASSES = \
+	ChirpControllerDevice.java \
+	SimpleThread.java \
+
+default: dir classes
+
+dir:
+	mkdir -p $(CLASSESDIR)
+
+
+classes: $(CLASSES:.java=.class)
+	@- echo "Done Compiling!!"
+
+run:
+	$(JVM) -cp classes $(SIMPLETHREAD)
+
+
+clean:
+	$(RM) *.class classes
+```
 
 ```sh
 javac -d . ChirpControllerDevice.java SimpleThread.java

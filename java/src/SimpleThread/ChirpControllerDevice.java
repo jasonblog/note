@@ -11,10 +11,11 @@ public class ChirpControllerDevice
     private boolean DEBUG = true;
     private Object mSimulatorlocker = new Object();
     private Thread mPollingThread;
-    private int a;
+    private int mData;
 
-    public ChirpControllerDevice()
+    public ChirpControllerDevice(int data)
     {
+        mData = data;
     }
 
     public void init()
@@ -29,6 +30,13 @@ public class ChirpControllerDevice
         {
         }
 
+        public long getPID()
+        {
+            String processName =
+                java.lang.management.ManagementFactory.getRuntimeMXBean().getName();
+            return Long.parseLong(processName.split("@")[0]);
+        }
+
         @Override
         public void run()
         {
@@ -39,8 +47,14 @@ public class ChirpControllerDevice
                     System.out.println(e);
                 }
 
-                System.out.println("a" + a);
+                System.out.println("data:" + mData + ", address:" + this + ", PID:" +getPID() + ", TID:"+ Thread.currentThread().getId());
 
+                /*
+                System.out.println(Thread.currentThread().getStackTrace()[2].getClassName() +
+                                   "[" + Thread.currentThread().getStackTrace()[2].getMethodName() + " | " +
+                                   Thread.currentThread().getStackTrace()[2].getFileName() + ":" +
+                                   Thread.currentThread().getStackTrace()[2].getLineNumber() + "]");
+                                   */
             }
         }
     }

@@ -57,7 +57,7 @@
         data-chapter-title="Java Thread 之間 記憶體空間分析"
         data-filepath="java/java_thread_zhi_jian_ji_yi_ti_kong_jian_fen_xi.md"
         data-basepath=".."
-        data-revision="Sun Mar 25 2018 00:51:09 GMT+0800 (CST)"
+        data-revision="Sun Mar 25 2018 01:55:47 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -21541,8 +21541,15 @@
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span>
     </span>{
         ChirpControllerDevice mC0 = <span class="hljs-keyword">null</span>;
+        ChirpControllerDevice mC1 = <span class="hljs-keyword">null</span>;
 
         Thread thread = <span class="hljs-keyword">new</span> Thread(<span class="hljs-keyword">new</span> Runnable() {
+            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">long</span> <span class="hljs-title">getPID</span><span class="hljs-params">()</span> </span>{
+                String processName =
+                    java.lang.management.ManagementFactory.getRuntimeMXBean().getName();
+                <span class="hljs-keyword">return</span> Long.parseLong(processName.split(<span class="hljs-string">&quot;@&quot;</span>)[<span class="hljs-number">0</span>]);
+            }
+
             <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>{
                 <span class="hljs-keyword">while</span> (<span class="hljs-keyword">true</span>) {
                     <span class="hljs-keyword">try</span> {
@@ -21551,15 +21558,17 @@
                         System.out.println(e);
                     }
 
-                    System.out.println(<span class="hljs-string">&quot;T&quot;</span>);
+                    System.out.println(<span class="hljs-string">&quot;T&quot;</span> + <span class="hljs-string">&quot;, PID:&quot;</span> + getPID() + <span class="hljs-string">&quot;, TID:&quot;</span>+ Thread.currentThread().getId());
                 }
 
             }
         });
         thread.start();
 
-        mC0 = <span class="hljs-keyword">new</span> ChirpControllerDevice();
+        mC0 = <span class="hljs-keyword">new</span> ChirpControllerDevice(<span class="hljs-number">88</span>);
         mC0.init();
+        mC1 = <span class="hljs-keyword">new</span> ChirpControllerDevice(<span class="hljs-number">66</span>);
+        mC1.init();
 
         <span class="hljs-comment">/*
         while (true) {
@@ -21593,10 +21602,11 @@
     <span class="hljs-keyword">private</span> <span class="hljs-keyword">boolean</span> DEBUG = <span class="hljs-keyword">true</span>;
     <span class="hljs-keyword">private</span> Object mSimulatorlocker = <span class="hljs-keyword">new</span> Object();
     <span class="hljs-keyword">private</span> Thread mPollingThread;
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> a;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> mData;
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ChirpControllerDevice</span><span class="hljs-params">()</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ChirpControllerDevice</span><span class="hljs-params">(<span class="hljs-keyword">int</span> data)</span>
     </span>{
+        mData = data;
     }
 
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">init</span><span class="hljs-params">()</span>
@@ -21611,6 +21621,13 @@
         </span>{
         }
 
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">long</span> <span class="hljs-title">getPID</span><span class="hljs-params">()</span>
+        </span>{
+            String processName =
+                java.lang.management.ManagementFactory.getRuntimeMXBean().getName();
+            <span class="hljs-keyword">return</span> Long.parseLong(processName.split(<span class="hljs-string">&quot;@&quot;</span>)[<span class="hljs-number">0</span>]);
+        }
+
         <span class="hljs-annotation">@Override</span>
         <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span>
         </span>{
@@ -21621,12 +21638,52 @@
                     System.out.println(e);
                 }
 
-                System.out.println(<span class="hljs-string">&quot;a&quot;</span> + a);
+                System.out.println(<span class="hljs-string">&quot;data:&quot;</span> + mData + <span class="hljs-string">&quot;, address:&quot;</span> + <span class="hljs-keyword">this</span> + <span class="hljs-string">&quot;, PID:&quot;</span> +getPID() + <span class="hljs-string">&quot;, TID:&quot;</span>+ Thread.currentThread().getId());
 
+                <span class="hljs-comment">/*
+                System.out.println(Thread.currentThread().getStackTrace()[2].getClassName() +
+                                   &quot;[&quot; + Thread.currentThread().getStackTrace()[2].getMethodName() + &quot; | &quot; +
+                                   Thread.currentThread().getStackTrace()[2].getFileName() + &quot;:&quot; +
+                                   Thread.currentThread().getStackTrace()[2].getLineNumber() + &quot;]&quot;);
+                                   */</span>
             }
         }
     }
 }
+</code></pre>
+<ul>
+<li>Makefile</li>
+</ul>
+<pre><code class="lang-sh">JFLAGS = -g -cp ./classes/ <span class="hljs-operator">-d</span> ./classes
+JC = javac
+JVM= java
+CLASSESDIR = classes
+RM = rm -rf 
+SIMPLETHREAD = SimpleThread
+
+.SUFFIXES: .java .class
+.java.class:
+    $(JC) $(JFLAGS) $*.java
+
+CLASSES = \
+    ChirpControllerDevice.java \
+    SimpleThread.java \
+
+default: dir classes
+
+dir:
+    mkdir -p $(CLASSESDIR)
+
+
+classes: $(CLASSES:.java=.class)
+    @- <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Done Compiling!!&quot;</span>
+
+run:
+    $(JVM) -cp classes $(SIMPLETHREAD)
+
+
+clean:
+    $(RM) *.class classes
 </code></pre>
 <pre><code class="lang-sh">javac <span class="hljs-operator">-d</span> . ChirpControllerDevice.java SimpleThread.java
 java SimpleThread

@@ -1326,7 +1326,7 @@
    * [Ubuntu 16.04 安裝 Eclipse](java/ubuntu_1604_an_zhuang_eclipse.md)
    * [java命令行編譯運行多個java文件](java/javaming_ling_xing_bian_yi_yun_xing_duo_ge_java_we.md)
    * [Java中變數有效的範圍(Variable Scope)](java/javazhong_bian_shu_you_xiao_de_fan_570d28_variable.md)
-   * Java Thread 之間 記憶體空間分析
+   * [Java Thread 之間 記憶體空間分析](java/java_thread_zhi_jian_ji_yi_ti_kong_jian_fen_xi.md)
 * [Linear Algebra](linear_algebra/linear_algebra.md)
    * [理解矩陣](linear_algebra/li_jie_ju_zhen.md)
    * [旋轉矩陣與四元數](linear_algebra/xuanzhuan_ju_zhen_yu_si_yuan_shu_md.md)

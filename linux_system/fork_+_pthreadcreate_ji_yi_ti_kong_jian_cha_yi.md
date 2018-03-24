@@ -176,7 +176,7 @@ int main(int argc, char* argv[])
 }
 ```
 
-## 
+## 函数模版不单可以替换类型本身，还能替换类型的成员函数。
 ```cpp
 #define _GNU_SOURCE
 #include <stdio.h>

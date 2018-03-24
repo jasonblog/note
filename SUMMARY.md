@@ -463,6 +463,7 @@
    * [fork + pthread_create 記憶體空間差異](linux_system/fork_+_pthreadcreate_ji_yi_ti_kong_jian_cha_yi.md)
    * [C++ 在類裡面使用多線程技術](linux_system/c++_zai_lei_li_mian_shi_yong_duo_xian_cheng_ji_shu.md)
    * [深入 Linux 多線程編程](linux_system/shen_rulinux_duo_xian_cheng_bian_cheng.md)
+   * C/C++每線程（thread-local）變量的使用
 * [Assembly](assembly/README.md)
    * [myAssembly](assembly/160.md)
    * [Linux 平臺學X86組合語言](assembly/161.md)

@@ -38,6 +38,7 @@ template <typename TYPE, void (TYPE::*_RunThread)() >
 void* _thread_t(void* param)
 {
     TYPE* This = (TYPE*)param;
+    // 多 wrapper 一層讓_RunThread 不需要是static 函數
     This->_RunThread();
     return NULL;
 }

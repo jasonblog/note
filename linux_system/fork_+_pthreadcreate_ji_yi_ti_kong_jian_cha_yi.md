@@ -4,6 +4,174 @@
 
 為數據封裝的需要，我常常把線程函數封裝在一個類的內部，定義一個類的`私有靜態成員函數`來作為pthread的線程函數，通常如下：
 
+
+##  pthread_create(xx,xxx,xxx,帶入main thread stack value or this class 的 instace); 
+
+因此在子thread 可以存取共享 main thread 的 變數 or this instace
+
+```cpp
+#define _GNU_SOURCE
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <unistd.h>
+#include <sys/wait.h>
+#include <sys/types.h>
+#include <sys/syscall.h>
+
+#define GetProcessInfo(s) do { sprintf(s, "%d %d  %s:%d %s", getpid(), gettid(), __FILE__, __LINE__, __func__);} while (0)
+
+pid_t gettid()
+{
+    pid_t tid;
+    tid = syscall(SYS_gettid);
+    return tid;
+}
+
+class B
+{
+public :
+    int data;
+
+    B()
+    {
+        data = 100;
+    }
+
+    static void* print(void* __this)
+    {
+        B* _this = (B*)__this;
+        char s[100];
+
+        while (1) {
+            GetProcessInfo(s);
+            printf("%s, %p %d\n", s, _this,  _this->data);
+            sleep(1);
+        }
+
+        pthread_exit(NULL);
+    }
+
+    static void* add(void* __this)
+    {
+        B* _this = (B*)__this;
+        char s[100];
+
+        while (1) {
+            _this->data += 1;
+            GetProcessInfo(s);
+            printf("%s, %p %d\n", s, _this,  _this->data);
+            sleep(2);
+        }
+
+        pthread_exit(NULL);
+    }
+
+    void start_thread()
+    {
+        pthread_t thread_add, thread_print;
+        // 帶入 this 可以讓子thread 存取 main thread B class 的 b instace
+        pthread_create(&(thread_print), NULL, print, (void*)this);
+        pthread_create(&(thread_add), NULL, add, (void*)this);
+    }
+};
+
+int main(int argc, char* argv[])
+{
+    char s[100];
+    B b;
+    b.start_thread();
+
+    while (1) {
+        GetProcessInfo(s);
+        printf("%s,%d\n", s,  b.data);
+        sleep(3);
+    }
+
+
+
+
+    return 0;
+}
+
+```
+
+
+```c
+## #define _GNU_SOURCE
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <unistd.h>
+#include <sys/wait.h>
+#include <sys/types.h>
+#include <sys/syscall.h>
+
+#define GetProcessInfo(s) do { sprintf(s, "%d %d  %s:%d %s", getpid(), gettid(), __FILE__, __LINE__, __func__);} while (0)
+
+pid_t gettid()
+{
+    pid_t tid;
+    tid = syscall(SYS_gettid);
+    return tid;
+}
+
+void* incrementA(void* value)
+{
+    int* val = (int*) value;
+	char s[100];
+	GetProcessInfo(s);
+	printf("%s, val=%d\n", s, *val);	
+	*val += 100;
+    sleep(5);
+	*val += 100;
+	GetProcessInfo(s);
+	printf("%s, val=%d\n", s, *val);	
+    return 0;
+}
+
+void* incrementB(void* value)
+{
+    int* val = (int*) value;
+	char s[100];
+    sleep(1);
+	GetProcessInfo(s);
+	printf("%s, val=%d\n", s, *val);	
+    sleep(10);
+	*val += 10;
+	GetProcessInfo(s);
+	printf("%s, val=%d\n", s, *val);	
+    return 0;
+}
+
+int main(int argc, char** argv)
+{
+
+    int stackvar = 0;
+
+    pthread_t thread1, thread2;
+    int iret1, iret2;
+
+    // 帶入 stackvar 可以讓子thread 存取 main thread 資料
+    iret1 = pthread_create(&thread1, NULL, incrementA, (void*) &stackvar);
+    iret2 = pthread_create(&thread2, NULL, incrementB, (void*) &stackvar);
+
+    pthread_join(thread1, NULL);
+    pthread_join(thread2, NULL);
+
+	char s[100];
+	GetProcessInfo(s);
+
+    printf("%s, %d\n",s, stackvar);
+
+    return 0;
+}
+```
+
+
+
+---
+
 ```c
 #define _GNU_SOURCE
 #include <stdio.h>

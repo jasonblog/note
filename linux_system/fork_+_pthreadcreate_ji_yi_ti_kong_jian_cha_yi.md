@@ -1,8 +1,8 @@
 # fork + pthread_create 記憶體空間差異
 
-大家知道，pthread_create()函数的线程函数必须是`静态的函数`，`以标准的__cdecl的方式调用`的，而`C++的成员函数是以__thiscall的方式调用`的，`相当于一个普通函数有一个默认的const ClassType* this参数`。
+大家知道，pthread_create()函數的線程函數必須是`靜態的函數`，`以標準的__cdecl的方式調用`的，而`C++的成員函數是以__thiscall的方式調用`的，`相當於一個普通函數有一個默認的const ClassType* this參數`。
 
-为数据封装的需要，我常常把线程函数封装在一个类的内部，定义一个类的`私有静态成员函数`来作为pthread的线程函数，通常如下：
+為數據封裝的需要，我常常把線程函數封裝在一個類的內部，定義一個類的`私有靜態成員函數`來作為pthread的線程函數，通常如下：
 
 ```c
 #define _GNU_SOURCE
@@ -176,7 +176,7 @@ int main(int argc, char* argv[])
 }
 ```
 
-## 函数模版不单可以替换类型本身，还能替换类型的成员函数。
+## 函數模版不單可以替換類型本身，還能替換類型的成員函數。
 ```cpp
 #define _GNU_SOURCE
 #include <stdio.h>

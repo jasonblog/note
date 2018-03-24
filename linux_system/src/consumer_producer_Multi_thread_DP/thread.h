@@ -22,12 +22,16 @@
 
 #ifndef __thread_h__
 #define __thread_h__
-
 #include <pthread.h>
+
+#define FRIEND 
 
 class Thread
 {
 public:
+#ifdef FRIEND 
+    friend void* runThread(void* arg);
+#endif
     Thread();
     virtual ~Thread();
 

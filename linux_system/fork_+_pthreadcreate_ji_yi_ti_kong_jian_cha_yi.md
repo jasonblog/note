@@ -357,7 +357,7 @@ int main(int argc, char* argv[])
 
 using namespace std;
 
-#define GetProcessInfo(ss) do { sprintf(ss, "%d %d  %p  %s:%d %s \n", getpid(), gettid(),(void*)this, __FILE__, __LINE__, __func__);} while (0)
+#define GetProcessInfo(ss) do { sprintf(ss, "%d %d  %p  %s:%d %s", getpid(), gettid(),(void*)this, __FILE__, __LINE__, __func__);} while (0)
 
 pid_t gettid()
 {
@@ -380,9 +380,10 @@ class MyClass
 public:
     MyClass()
     {
+        data = 66;
         char s[100];
         GetProcessInfo(s);
-        printf("%s", s);
+        printf("%s, data=%d\n", s, data);
         pthread_create(&tid, NULL, _thread_t<MyClass, &MyClass::_RunThread>, this);
     }
 
@@ -390,7 +391,7 @@ public:
     {
         char s[100];
         GetProcessInfo(s);
-        printf("%s", s);
+        printf("%s, data=%d\n", s, data);
 
         pthread_cancel(tid);
         pthread_join(tid, NULL);
@@ -400,19 +401,34 @@ public:
     {
         char s[100];
         GetProcessInfo(s);
-        printf("%s", s);
-        //this->DoSomeThing();
-        //...
+
+        while (1) {
+            printf("%s, data=%d\n", s, data);
+            data+= 3;
+            sleep(1);
+            //this->DoSomeThing();
+            //...
+        }
     }
+
+    int data;
+
 private:
     pthread_t tid;
-
 };
 
 int main(int argc, char* argv[])
 {
     MyClass a;
 
+    while (1) {
+        printf("main data=%d\n", a.data);
+        sleep(2);
+        //this->DoSomeThing();
+        //...
+    }
+
+    return 0;
 }
 ```
 

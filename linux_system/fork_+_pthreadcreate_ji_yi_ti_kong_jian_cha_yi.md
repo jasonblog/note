@@ -173,6 +173,77 @@ int main(int argc, char* argv[])
 }
 ```
 
+## 
+```cpp
+#define _GNU_SOURCE
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <unistd.h>
+#include <sys/wait.h>
+#include <sys/types.h>
+#include <sys/syscall.h>
+
+using namespace std;
+
+#define GetProcessInfo(ss) do { sprintf(ss, "%d %d  %p  %s:%d %s \n", getpid(), gettid(),(void*)this, __FILE__, __LINE__, __func__);} while (0)
+
+pid_t gettid()
+{
+    pid_t tid;
+    tid = syscall(SYS_gettid);
+    return tid;
+}
+
+template <typename TYPE, void (TYPE::*_RunThread)() >
+void* _thread_t(void* param)
+{
+    TYPE* This = (TYPE*)param;
+    This->_RunThread();
+    return NULL;
+}
+
+class MyClass
+{
+public:
+    MyClass()
+    {
+        char s[100];
+        GetProcessInfo(s);
+        printf("%s", s);
+        pthread_create(&tid, NULL, _thread_t<MyClass, &MyClass::_RunThread>, this);
+    }
+
+    ~MyClass()
+    {
+        char s[100];
+        GetProcessInfo(s);
+        printf("%s", s);
+
+        pthread_cancel(tid);
+        pthread_join(tid, NULL);
+    }
+
+    void _RunThread()
+    {
+        char s[100];
+        GetProcessInfo(s);
+        printf("%s", s);
+        //this->DoSomeThing();
+        //...
+    }
+private:
+    pthread_t tid;
+
+};
+
+int main(int argc, char* argv[])
+{
+    MyClass a;
+
+}
+```
+
 ## C++ 建構解構都由產生 instance 的pid 解構
 
 ```cpp

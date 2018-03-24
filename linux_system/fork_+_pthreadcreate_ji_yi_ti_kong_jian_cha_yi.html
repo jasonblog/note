@@ -57,7 +57,7 @@
         data-chapter-title="fork + pthread_create 記憶體空間差異"
         data-filepath="linux_system/fork_+_pthreadcreate_ji_yi_ti_kong_jian_cha_yi.md"
         data-basepath=".."
-        data-revision="Sat Mar 24 2018 20:11:22 GMT+0800 (CST)"
+        data-revision="Sat Mar 24 2018 20:56:04 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -21482,6 +21482,162 @@
                         <h1 id="fork--pthreadcreate-&#x8A18;&#x61B6;&#x9AD4;&#x7A7A;&#x9593;&#x5DEE;&#x7570;">fork + pthread_create &#x8A18;&#x61B6;&#x9AD4;&#x7A7A;&#x9593;&#x5DEE;&#x7570;</h1>
 <p>&#x5927;&#x5BB6;&#x77E5;&#x9053;&#xFF0C;pthread_create()&#x51FD;&#x6578;&#x7684;&#x7DDA;&#x7A0B;&#x51FD;&#x6578;&#x5FC5;&#x9808;&#x662F;<code>&#x975C;&#x614B;&#x7684;&#x51FD;&#x6578;</code>&#xFF0C;<code>&#x4EE5;&#x6A19;&#x6E96;&#x7684;__cdecl&#x7684;&#x65B9;&#x5F0F;&#x8ABF;&#x7528;</code>&#x7684;&#xFF0C;&#x800C;<code>C++&#x7684;&#x6210;&#x54E1;&#x51FD;&#x6578;&#x662F;&#x4EE5;__thiscall&#x7684;&#x65B9;&#x5F0F;&#x8ABF;&#x7528;</code>&#x7684;&#xFF0C;<code>&#x76F8;&#x7576;&#x65BC;&#x4E00;&#x500B;&#x666E;&#x901A;&#x51FD;&#x6578;&#x6709;&#x4E00;&#x500B;&#x9ED8;&#x8A8D;&#x7684;const ClassType* this&#x53C3;&#x6578;</code>&#x3002;</p>
 <p>&#x70BA;&#x6578;&#x64DA;&#x5C01;&#x88DD;&#x7684;&#x9700;&#x8981;&#xFF0C;&#x6211;&#x5E38;&#x5E38;&#x628A;&#x7DDA;&#x7A0B;&#x51FD;&#x6578;&#x5C01;&#x88DD;&#x5728;&#x4E00;&#x500B;&#x985E;&#x7684;&#x5167;&#x90E8;&#xFF0C;&#x5B9A;&#x7FA9;&#x4E00;&#x500B;&#x985E;&#x7684;<code>&#x79C1;&#x6709;&#x975C;&#x614B;&#x6210;&#x54E1;&#x51FD;&#x6578;</code>&#x4F86;&#x4F5C;&#x70BA;pthread&#x7684;&#x7DDA;&#x7A0B;&#x51FD;&#x6578;&#xFF0C;&#x901A;&#x5E38;&#x5982;&#x4E0B;&#xFF1A;</p>
+<h2 id="pthreadcreatexxxxxxxx&#x5E36;&#x5165;main-thread-stack-value-or-this-class-&#x7684;-instace">pthread_create(xx,xxx,xxx,&#x5E36;&#x5165;main thread stack value or this class &#x7684; instace);</h2>
+<p>&#x56E0;&#x6B64;&#x5728;&#x5B50;thread &#x53EF;&#x4EE5;&#x5B58;&#x53D6;&#x5171;&#x4EAB; main thread &#x7684; &#x8B8A;&#x6578; or this instace</p>
+<pre><code class="lang-cpp"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> _GNU_SOURCE</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;pthread.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/wait.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/syscall.h&gt;</span></span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> GetProcessInfo(s) do { sprintf(s, <span class="hljs-string">&quot;%d %d  %s:%d %s&quot;</span>, getpid(), gettid(), __FILE__, __LINE__, __func__);} while (<span class="hljs-number">0</span>)</span>
+
+<span class="hljs-keyword">pid_t</span> gettid()
+{
+    <span class="hljs-keyword">pid_t</span> tid;
+    tid = syscall(SYS_gettid);
+    <span class="hljs-keyword">return</span> tid;
+}
+
+<span class="hljs-keyword">class</span> B
+{
+<span class="hljs-keyword">public</span> :
+    <span class="hljs-keyword">int</span> data;
+
+    B()
+    {
+        data = <span class="hljs-number">100</span>;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span>* <span class="hljs-title">print</span><span class="hljs-params">(<span class="hljs-keyword">void</span>* __this)</span>
+    </span>{
+        B* _this = (B*)__this;
+        <span class="hljs-keyword">char</span> s[<span class="hljs-number">100</span>];
+
+        <span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>) {
+            GetProcessInfo(s);
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s, %p %d\n&quot;</span>, s, _this,  _this-&gt;data);
+            sleep(<span class="hljs-number">1</span>);
+        }
+
+        pthread_exit(<span class="hljs-literal">NULL</span>);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span>* <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-keyword">void</span>* __this)</span>
+    </span>{
+        B* _this = (B*)__this;
+        <span class="hljs-keyword">char</span> s[<span class="hljs-number">100</span>];
+
+        <span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>) {
+            _this-&gt;data += <span class="hljs-number">1</span>;
+            GetProcessInfo(s);
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s, %p %d\n&quot;</span>, s, _this,  _this-&gt;data);
+            sleep(<span class="hljs-number">2</span>);
+        }
+
+        pthread_exit(<span class="hljs-literal">NULL</span>);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">start_thread</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-keyword">pthread_t</span> thread_add, thread_print;
+        <span class="hljs-comment">// &#x5E36;&#x5165; this &#x53EF;&#x4EE5;&#x8B93;&#x5B50;thread &#x5B58;&#x53D6; main thread B class &#x7684; b instace</span>
+        pthread_create(&amp;(thread_print), <span class="hljs-literal">NULL</span>, print, (<span class="hljs-keyword">void</span>*)<span class="hljs-keyword">this</span>);
+        pthread_create(&amp;(thread_add), <span class="hljs-literal">NULL</span>, add, (<span class="hljs-keyword">void</span>*)<span class="hljs-keyword">this</span>);
+    }
+};
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>* argv[])</span>
+</span>{
+    <span class="hljs-keyword">char</span> s[<span class="hljs-number">100</span>];
+    B b;
+    b.start_thread();
+
+    <span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>) {
+        GetProcessInfo(s);
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s,%d\n&quot;</span>, s,  b.data);
+        sleep(<span class="hljs-number">3</span>);
+    }
+
+
+
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<pre><code class="lang-c"><span class="hljs-preprocessor">## #<span class="hljs-keyword">define</span> _GNU_SOURCE</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;pthread.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/wait.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/syscall.h&gt;</span></span>
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> GetProcessInfo(s) do { sprintf(s, <span class="hljs-string">&quot;%d %d  %s:%d %s&quot;</span>, getpid(), gettid(), __FILE__, __LINE__, __func__);} while (<span class="hljs-number">0</span>)</span>
+
+<span class="hljs-keyword">pid_t</span> gettid()
+{
+    <span class="hljs-keyword">pid_t</span> tid;
+    tid = syscall(SYS_gettid);
+    <span class="hljs-keyword">return</span> tid;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span>* <span class="hljs-title">incrementA</span><span class="hljs-params">(<span class="hljs-keyword">void</span>* value)</span>
+</span>{
+    <span class="hljs-keyword">int</span>* val = (<span class="hljs-keyword">int</span>*) value;
+    <span class="hljs-keyword">char</span> s[<span class="hljs-number">100</span>];
+    GetProcessInfo(s);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s, val=%d\n&quot;</span>, s, *val);    
+    *val += <span class="hljs-number">100</span>;
+    sleep(<span class="hljs-number">5</span>);
+    *val += <span class="hljs-number">100</span>;
+    GetProcessInfo(s);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s, val=%d\n&quot;</span>, s, *val);    
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span>* <span class="hljs-title">incrementB</span><span class="hljs-params">(<span class="hljs-keyword">void</span>* value)</span>
+</span>{
+    <span class="hljs-keyword">int</span>* val = (<span class="hljs-keyword">int</span>*) value;
+    <span class="hljs-keyword">char</span> s[<span class="hljs-number">100</span>];
+    sleep(<span class="hljs-number">1</span>);
+    GetProcessInfo(s);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s, val=%d\n&quot;</span>, s, *val);    
+    sleep(<span class="hljs-number">10</span>);
+    *val += <span class="hljs-number">10</span>;
+    GetProcessInfo(s);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s, val=%d\n&quot;</span>, s, *val);    
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>** argv)</span>
+</span>{
+
+    <span class="hljs-keyword">int</span> stackvar = <span class="hljs-number">0</span>;
+
+    <span class="hljs-keyword">pthread_t</span> thread1, thread2;
+    <span class="hljs-keyword">int</span> iret1, iret2;
+
+    <span class="hljs-comment">// &#x5E36;&#x5165; stackvar &#x53EF;&#x4EE5;&#x8B93;&#x5B50;thread &#x5B58;&#x53D6; main thread &#x8CC7;&#x6599;</span>
+    iret1 = pthread_create(&amp;thread1, <span class="hljs-literal">NULL</span>, incrementA, (<span class="hljs-keyword">void</span>*) &amp;stackvar);
+    iret2 = pthread_create(&amp;thread2, <span class="hljs-literal">NULL</span>, incrementB, (<span class="hljs-keyword">void</span>*) &amp;stackvar);
+
+    pthread_join(thread1, <span class="hljs-literal">NULL</span>);
+    pthread_join(thread2, <span class="hljs-literal">NULL</span>);
+
+    <span class="hljs-keyword">char</span> s[<span class="hljs-number">100</span>];
+    GetProcessInfo(s);
+
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s, %d\n&quot;</span>,s, stackvar);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<hr>
 <pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> _GNU_SOURCE</span>
 <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
 <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>

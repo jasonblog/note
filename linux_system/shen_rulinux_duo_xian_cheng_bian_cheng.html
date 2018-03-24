@@ -5,7 +5,7 @@
         <!-- head:start -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>深入 Linux 多线程编程 | Jason note</title>
+        <title>深入 Linux 多線程編程 | Jason note</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.6.7">
@@ -54,10 +54,10 @@
         
     <div class="book"
         data-level="13.63"
-        data-chapter-title="深入 Linux 多线程编程"
+        data-chapter-title="深入 Linux 多線程編程"
         data-filepath="linux_system/shen_rulinux_duo_xian_cheng_bian_cheng.md"
         data-basepath=".."
-        data-revision="Sat Mar 24 2018 08:34:12 GMT+0800 (CST)"
+        data-revision="Sat Mar 24 2018 09:15:22 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -7249,7 +7249,7 @@
                         
                             <b>13.63.</b>
                         
-                        深入 Linux 多线程编程
+                        深入 Linux 多線程編程
                     </a>
             
             
@@ -20757,7 +20757,7 @@
                         
                             <b>63.7.</b>
                         
-                        java命令行编译运行多个java文件
+                        java命令行編譯運行多個java文件
                     </a>
             
             
@@ -21419,33 +21419,33 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="&#x6DF1;&#x5165;-linux-&#x591A;&#x7EBF;&#x7A0B;&#x7F16;&#x7A0B;">&#x6DF1;&#x5165; Linux &#x591A;&#x7EBF;&#x7A0B;&#x7F16;&#x7A0B;</h1>
-<p>NPTL &#x7EBF;&#x7A0B;&#x6A21;&#x578B;</p>
-<p>NPTL&#xFF0C;&#x4E5F;&#x5373; Native POSIX Thread Library&#xFF0C;&#x662F; Linux 2.6 &#x5F15;&#x5165;&#x7684;&#x65B0;&#x7684;&#x7EBF;&#x7A0B;&#x5E93;&#x5B9E;&#x73B0;&#xFF0C;&#x7528;&#x6765;&#x66FF;&#x4EE3;&#x65E7;&#x7684; LinuxThreads &#x7EBF;&#x7A0B;&#x5E93;&#x3002;&#x5728; NPTL &#x5B9E;&#x73B0;&#x4E2D;&#xFF0C;&#x7528;&#x6237;&#x521B;&#x5EFA;&#x7684;&#x6BCF;&#x4E2A;&#x7EBF;&#x7A0B;&#x90FD;&#x5BF9;&#x5E94;&#x7740;&#x4E00;&#x4E2A;&#x5185;&#x6838;&#x6001;&#x7684;&#x7EBF;&#x7A0B;&#xFF0C;&#x5185;&#x6838;&#x6001;&#x7EBF;&#x7A0B;&#x4E5F;&#x662F; Linux &#x7684;&#x6700;&#x5C0F;&#x8C03;&#x5EA6;&#x5355;&#x5143;&#x3002;</p>
-<p>&#x5728; NPTL &#x5B9E;&#x73B0;&#x4E2D;&#xFF0C;&#x7EBF;&#x7A0B;&#x7684;&#x521B;&#x5EFA;&#x76F8;&#x5F53;&#x4E8E;&#x8C03;&#x7528;clone()&#xFF0C;&#x5E76;&#x6307;&#x5B9A;&#x4E0B;&#x9762;&#x7684;&#x53C2;&#x6570;&#xFF1A;</p>
+                        <h1 id="&#x6DF1;&#x5165;-linux-&#x591A;&#x7DDA;&#x7A0B;&#x7DE8;&#x7A0B;">&#x6DF1;&#x5165; Linux &#x591A;&#x7DDA;&#x7A0B;&#x7DE8;&#x7A0B;</h1>
+<p>NPTL &#x7DDA;&#x7A0B;&#x6A21;&#x578B;</p>
+<p>NPTL&#xFF0C;&#x4E5F;&#x5373; Native POSIX Thread Library&#xFF0C;&#x662F; Linux 2.6 &#x5F15;&#x5165;&#x7684;&#x65B0;&#x7684;&#x7DDA;&#x7A0B;&#x5EAB;&#x5BE6;&#x73FE;&#xFF0C;&#x7528;&#x4F86;&#x66FF;&#x4EE3;&#x820A;&#x7684; LinuxThreads &#x7DDA;&#x7A0B;&#x5EAB;&#x3002;&#x5728; NPTL &#x5BE6;&#x73FE;&#x4E2D;&#xFF0C;&#x7528;&#x6236;&#x5275;&#x5EFA;&#x7684;&#x6BCF;&#x500B;&#x7DDA;&#x7A0B;&#x90FD;&#x5C0D;&#x61C9;&#x8457;&#x4E00;&#x500B;&#x5167;&#x6838;&#x614B;&#x7684;&#x7DDA;&#x7A0B;&#xFF0C;&#x5167;&#x6838;&#x614B;&#x7DDA;&#x7A0B;&#x4E5F;&#x662F; Linux &#x7684;&#x6700;&#x5C0F;&#x8ABF;&#x5EA6;&#x55AE;&#x5143;&#x3002;</p>
+<p>&#x5728; NPTL &#x5BE6;&#x73FE;&#x4E2D;&#xFF0C;&#x7DDA;&#x7A0B;&#x7684;&#x5275;&#x5EFA;&#x76F8;&#x7576;&#x65BC;&#x8ABF;&#x7528;clone()&#xFF0C;&#x4E26;&#x6307;&#x5B9A;&#x4E0B;&#x9762;&#x7684;&#x53C3;&#x6578;&#xFF1A;</p>
 <pre><code class="lang-sh">CLONE_VM | CLONE_FILES | CLONE_FS | CLONE_SIGHAND | CLONE_THREAD | CLONE_SETTLS | 
 CLONE_PARENT_SETTID | CLONE_CHILD_CLEARTID | CLONE_SYSVSEM
 </code></pre>
-<p>&#x4E0B;&#x9762;&#x89E3;&#x91CA;&#x4E00;&#x4E0B;&#x8FD9;&#x4E9B;&#x53C2;&#x6570;&#x7684;&#x542B;&#x4E49;&#xFF1A;</p>
+<p>&#x4E0B;&#x9762;&#x89E3;&#x91CB;&#x4E00;&#x4E0B;&#x9019;&#x4E9B;&#x53C3;&#x6578;&#x7684;&#x542B;&#x7FA9;&#xFF1A;</p>
 <ul>
-<li>CLONE_VM &#x6240;&#x6709;&#x7EBF;&#x7A0B;&#x90FD;&#x5171;&#x4EAB;&#x540C;&#x4E00;&#x4E2A;&#x8FDB;&#x7A0B;&#x5730;&#x5740;&#x7A7A;&#x95F4;&#x3002;</li>
-<li>CLONE_FILES &#x6240;&#x6709;&#x7EBF;&#x7A0B;&#x90FD;&#x5171;&#x4EAB;&#x8FDB;&#x7A0B;&#x7684;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;&#x5217;&#x8868; (file descriptor table)&#x3002;</li>
-<li>CLONE_FS &#x6240;&#x6709;&#x7EBF;&#x7A0B;&#x90FD;&#x5171;&#x4EAB;&#x540C;&#x4E00;&#x4E2A;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x7684;&#x4FE1;&#x606F;&#x3002;</li>
-<li>CLONE_SIGHAND &#x6240;&#x6709;&#x7EBF;&#x7A0B;&#x90FD;&#x5171;&#x4EAB;&#x540C;&#x4E00;&#x4E2A;&#x4FE1;&#x53F7; handler &#x5217;&#x8868;&#x3002;</li>
-<li>CLONE_THREAD &#x6240;&#x6709;&#x7EBF;&#x7A0B;&#x90FD;&#x5171;&#x4EAB;&#x540C;&#x4E00;&#x4E2A;&#x8FDB;&#x7A0B; ID &#x4EE5;&#x53CA; &#x7236;&#x8FDB;&#x7A0B; ID&#x3002;</li>
+<li>CLONE_VM &#x6240;&#x6709;&#x7DDA;&#x7A0B;&#x90FD;&#x5171;&#x4EAB;&#x540C;&#x4E00;&#x500B;&#x9032;&#x7A0B;&#x5730;&#x5740;&#x7A7A;&#x9593;&#x3002;</li>
+<li>CLONE_FILES &#x6240;&#x6709;&#x7DDA;&#x7A0B;&#x90FD;&#x5171;&#x4EAB;&#x9032;&#x7A0B;&#x7684;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;&#x5217;&#x8868; (file descriptor table)&#x3002;</li>
+<li>CLONE_FS &#x6240;&#x6709;&#x7DDA;&#x7A0B;&#x90FD;&#x5171;&#x4EAB;&#x540C;&#x4E00;&#x500B;&#x6587;&#x4EF6;&#x7CFB;&#x7D71;&#x7684;&#x4FE1;&#x606F;&#x3002;</li>
+<li>CLONE_SIGHAND &#x6240;&#x6709;&#x7DDA;&#x7A0B;&#x90FD;&#x5171;&#x4EAB;&#x540C;&#x4E00;&#x500B;&#x4FE1;&#x865F; handler &#x5217;&#x8868;&#x3002;</li>
+<li>CLONE_THREAD &#x6240;&#x6709;&#x7DDA;&#x7A0B;&#x90FD;&#x5171;&#x4EAB;&#x540C;&#x4E00;&#x500B;&#x9032;&#x7A0B; ID &#x4EE5;&#x53CA; &#x7236;&#x9032;&#x7A0B; ID&#x3002;</li>
 </ul>
-<p>&#x5728; Linux &#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x4E0B;&#x9762;&#x547D;&#x4EE4;&#x67E5;&#x770B;&#x7EBF;&#x7A0B;&#x5E93;&#x7684;&#x5B9E;&#x73B0;&#x65B9;&#x5F0F;&#xFF1A;</p>
+<p>&#x5728; Linux &#x53EF;&#x4EE5;&#x901A;&#x904E;&#x4E0B;&#x9762;&#x547D;&#x4EE4;&#x67E5;&#x770B;&#x7DDA;&#x7A0B;&#x5EAB;&#x7684;&#x5BE6;&#x73FE;&#x65B9;&#x5F0F;&#xFF1A;</p>
 <pre><code class="lang-sh">$ getconf GNU_LIBPTHREAD_VERSION
 NPTL <span class="hljs-number">2.23</span>
 </code></pre>
-<h2 id="&#x7EBF;&#x7A0B;&#x7684;&#x6808;">&#x7EBF;&#x7A0B;&#x7684;&#x6808;</h2>
-<p>&#x5728; Linux &#x4E2D;&#xFF0C;&#x4E00;&#x4E2A;&#x8FDB;&#x7A0B;&#x53EF;&#x4EE5;&#x5305;&#x542B;&#x591A;&#x4E2A;&#x7EBF;&#x7A0B;&#xFF0C;&#x8FD9;&#x4E9B;&#x7EBF;&#x7A0B;&#x5C06;&#x5171;&#x4EAB;&#x8FDB;&#x7A0B;&#x7684;&#x5168;&#x5C40;&#x53D8;&#x91CF;&#xFF0C;&#x4EE5;&#x53CA;&#x8FDB;&#x7A0B;&#x7684;&#x5806;&#xFF0C;&#x4F46;&#x6BCF;&#x4E2A;&#x7EBF;&#x7A0B;&#x90FD;&#x62E5;&#x6709;&#x5B83;&#x81EA;&#x5DF1;&#x7684;&#x6808;&#x3002;&#x6B63;&#x5982;&#x4E0B;&#x56FE;&#x6240;&#x793A;&#xFF1A;</p>
+<h2 id="&#x7DDA;&#x7A0B;&#x7684;&#x68E7;">&#x7DDA;&#x7A0B;&#x7684;&#x68E7;</h2>
+<p>&#x5728; Linux &#x4E2D;&#xFF0C;&#x4E00;&#x500B;&#x9032;&#x7A0B;&#x53EF;&#x4EE5;&#x5305;&#x542B;&#x591A;&#x500B;&#x7DDA;&#x7A0B;&#xFF0C;&#x9019;&#x4E9B;&#x7DDA;&#x7A0B;&#x5C07;&#x5171;&#x4EAB;&#x9032;&#x7A0B;&#x7684;&#x5168;&#x5C40;&#x8B8A;&#x91CF;&#xFF0C;&#x4EE5;&#x53CA;&#x9032;&#x7A0B;&#x7684;&#x5806;&#xFF0C;&#x4F46;&#x6BCF;&#x500B;&#x7DDA;&#x7A0B;&#x90FD;&#x64C1;&#x6709;&#x5B83;&#x81EA;&#x5DF1;&#x7684;&#x68E7;&#x3002;&#x6B63;&#x5982;&#x4E0B;&#x5716;&#x6240;&#x793A;&#xFF1A;</p>
 <p><img src="images/thread-stack.png" alt=""></p>
-<p>&#x5728; 64 &#x4F4D;&#x7CFB;&#x7EDF;&#x4E2D;&#xFF0C;&#x9664;&#x4E86;&#x4E3B;&#x7EBF;&#x7A0B;&#x4E4B;&#x5916;&#xFF0C;&#x5176;&#x5B83;&#x7EBF;&#x7A0B;&#x7684;&#x6808;&#x9ED8;&#x8BA4;&#x5927;&#x5C0F;&#x4E3A; 8M&#xFF0C;&#x800C;&#x4E3B;&#x7EBF;&#x7A0B;&#x7684;&#x6808;&#x5219;&#x6CA1;&#x6709;&#x8FD9;&#x4E2A;&#x9650;&#x5236;&#xFF0C;&#x56E0;&#x4E3A;&#x4E3B;&#x7EBF;&#x7A0B;&#x7684;&#x6808;&#x53EF;&#x4EE5;&#x52A8;&#x6001;&#x589E;&#x957F;&#x3002;&#x53EF;&#x4EE5;&#x7528;&#x4E0B;&#x9762;&#x7684;&#x547D;&#x4EE4;&#x67E5;&#x770B;&#x7EBF;&#x7A0B;&#x6808;&#x7684;&#x5927;&#x5C0F;&#xFF1A;</p>
+<p>&#x5728; 64 &#x4F4D;&#x7CFB;&#x7D71;&#x4E2D;&#xFF0C;&#x9664;&#x4E86;&#x4E3B;&#x7DDA;&#x7A0B;&#x4E4B;&#x5916;&#xFF0C;&#x5176;&#x5B83;&#x7DDA;&#x7A0B;&#x7684;&#x68E7;&#x9ED8;&#x8A8D;&#x5927;&#x5C0F;&#x70BA; 8M&#xFF0C;&#x800C;&#x4E3B;&#x7DDA;&#x7A0B;&#x7684;&#x68E7;&#x5247;&#x6C92;&#x6709;&#x9019;&#x500B;&#x9650;&#x5236;&#xFF0C;&#x56E0;&#x70BA;&#x4E3B;&#x7DDA;&#x7A0B;&#x7684;&#x68E7;&#x53EF;&#x4EE5;&#x52D5;&#x614B;&#x589E;&#x9577;&#x3002;&#x53EF;&#x4EE5;&#x7528;&#x4E0B;&#x9762;&#x7684;&#x547D;&#x4EE4;&#x67E5;&#x770B;&#x7DDA;&#x7A0B;&#x68E7;&#x7684;&#x5927;&#x5C0F;&#xFF1A;</p>
 <pre><code class="lang-sh">$ <span class="hljs-built_in">ulimit</span> <span class="hljs-operator">-s</span>
 <span class="hljs-number">8192</span>
 </code></pre>
-<p>&#x901A;&#x5E38;&#x6765;&#x8BF4;&#xFF0C;&#x9ED8;&#x8BA4;&#x7684;&#x7EBF;&#x7A0B;&#x6808;&#x5927;&#x5C0F;&#x53EF;&#x4EE5;&#x6EE1;&#x8DB3;&#x5927;&#x90E8;&#x5206;&#x7A0B;&#x5E8F;&#x7684;&#x9700;&#x6C42;&#xFF0C;&#x7136;&#x800C;&#x5728;&#x4E00;&#x4E9B;&#x7279;&#x6B8A;&#x7684;&#x573A;&#x666F;&#x4E0B;&#xFF0C;&#x8B6C;&#x5982;&#x8BF4;&#xFF0C;&#x5B50;&#x7EBF;&#x7A0B;&#x9700;&#x8981;&#x5728;&#x6808;&#x4E0A;&#x5206;&#x914D;&#x5927;&#x91CF;&#x7684;&#x53D8;&#x91CF;&#xFF0C;&#x6216;&#x8005;&#x6267;&#x884C;&#x6DF1;&#x5EA6;&#x6BD4;&#x8F83;&#x5927;&#x7684;&#x9012;&#x5F52;&#x8C03;&#x7528;&#xFF0C;&#x8FD9;&#x65F6;&#x5019;&#x5C31;&#x9700;&#x8981;&#x6539;&#x53D8;&#x7EBF;&#x7A0B;&#x6808;&#x7684;&#x5927;&#x5C0F;&#x4E86;&#x3002;&#x4E0B;&#x9762;&#x7684;&#x4EE3;&#x7801;&#x5C55;&#x793A;&#x4E86;&#x5982;&#x4F55;&#x4FEE;&#x6539;&#x7EBF;&#x7A0B;&#x6808;&#x7684;&#x5927;&#x5C0F;&#xFF1A;</p>
+<p>&#x901A;&#x5E38;&#x4F86;&#x8AAA;&#xFF0C;&#x9ED8;&#x8A8D;&#x7684;&#x7DDA;&#x7A0B;&#x68E7;&#x5927;&#x5C0F;&#x53EF;&#x4EE5;&#x6EFF;&#x8DB3;&#x5927;&#x90E8;&#x5206;&#x7A0B;&#x5E8F;&#x7684;&#x9700;&#x6C42;&#xFF0C;&#x7136;&#x800C;&#x5728;&#x4E00;&#x4E9B;&#x7279;&#x6B8A;&#x7684;&#x5834;&#x666F;&#x4E0B;&#xFF0C;&#x8B6C;&#x5982;&#x8AAA;&#xFF0C;&#x5B50;&#x7DDA;&#x7A0B;&#x9700;&#x8981;&#x5728;&#x68E7;&#x4E0A;&#x5206;&#x914D;&#x5927;&#x91CF;&#x7684;&#x8B8A;&#x91CF;&#xFF0C;&#x6216;&#x8005;&#x57F7;&#x884C;&#x6DF1;&#x5EA6;&#x6BD4;&#x8F03;&#x5927;&#x7684;&#x905E;&#x6B78;&#x8ABF;&#x7528;&#xFF0C;&#x9019;&#x6642;&#x5019;&#x5C31;&#x9700;&#x8981;&#x6539;&#x8B8A;&#x7DDA;&#x7A0B;&#x68E7;&#x7684;&#x5927;&#x5C0F;&#x4E86;&#x3002;&#x4E0B;&#x9762;&#x7684;&#x4EE3;&#x78BC;&#x5C55;&#x793A;&#x77AD;&#x5982;&#x4F55;&#x4FEE;&#x6539;&#x7DDA;&#x7A0B;&#x68E7;&#x7684;&#x5927;&#x5C0F;&#xFF1A;</p>
 <pre><code class="lang-c"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;pthread.h&gt;</span></span>
 <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
 <span class="hljs-function"><span class="hljs-keyword">void</span> *<span class="hljs-title">thread_func</span><span class="hljs-params">(<span class="hljs-keyword">void</span> *)</span> </span>{  <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;  }
@@ -21467,19 +21467,19 @@ NPTL <span class="hljs-number">2.23</span>
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
 </code></pre>
-<p>&#x8FD0;&#x884C;&#x7A0B;&#x5E8F;&#x5C06;&#x8F93;&#x51FA;&#x4E0B;&#x9762;&#x7684;&#x7ED3;&#x679C;&#xFF1A;</p>
-<pre><code class="lang-sh">Default stack size = <span class="hljs-number">8388608</span>    <span class="hljs-comment"># &#x9ED8;&#x8BA4;&#x4E3A; 8M</span>
+<p>&#x904B;&#x884C;&#x7A0B;&#x5E8F;&#x5C07;&#x8F38;&#x51FA;&#x4E0B;&#x9762;&#x7684;&#x7D50;&#x679C;&#xFF1A;</p>
+<pre><code class="lang-sh">Default stack size = <span class="hljs-number">8388608</span>    <span class="hljs-comment"># &#x9ED8;&#x8A8D;&#x70BA; 8M</span>
 New stack size = <span class="hljs-number">33554432</span>       <span class="hljs-comment"># &#x6539;&#x6210;&#x4E86; 32 M</span>
 </code></pre>
-<h2 id="&#x7EBF;&#x7A0B;&#x5C40;&#x90E8;&#x5B58;&#x50A8;">&#x7EBF;&#x7A0B;&#x5C40;&#x90E8;&#x5B58;&#x50A8;</h2>
-<p>Linux &#x63D0;&#x4F9B;&#x4E86;<strong>thread&#x5173;&#x952E;&#x5B57;&#xFF0C;&#x7528;&#x6765;&#x8868;&#x793A;&#x7EBF;&#x7A0B;&#x5C40;&#x90E8;&#x5B58;&#x50A8;&#x3002;&#x4E0B;&#x9762;&#x662F;</strong>thread&#x7684;&#x4F7F;&#x7528;&#x89C4;&#x5219;&#xFF1A;</p>
+<h2 id="&#x7DDA;&#x7A0B;&#x5C40;&#x90E8;&#x5B58;&#x5132;">&#x7DDA;&#x7A0B;&#x5C40;&#x90E8;&#x5B58;&#x5132;</h2>
+<p>Linux &#x63D0;&#x4F9B;&#x4E86;<strong>thread&#x95DC;&#x9375;&#x5B57;&#xFF0C;&#x7528;&#x4F86;&#x8868;&#x793A;&#x7DDA;&#x7A0B;&#x5C40;&#x90E8;&#x5B58;&#x5132;&#x3002;&#x4E0B;&#x9762;&#x662F;</strong>thread&#x7684;&#x4F7F;&#x7528;&#x898F;&#x5247;&#xFF1A;</p>
 <ul>
-<li>__thread&#x53EF;&#x4EE5;&#x7528;&#x6765;&#x4FEE;&#x9970;&#x5168;&#x5C40;&#x53D8;&#x91CF;&#xFF0C;&#x4EE5;&#x53CA;&#x51FD;&#x6570;&#x5185;&#x7684; static &#x53D8;&#x91CF;&#x3002;</li>
-<li>&#x521D;&#x59CB;&#x5316;__thread&#x53D8;&#x91CF;&#x65F6;&#xFF0C;&#x53EA;&#x80FD;&#x4F7F;&#x7528;&#x7F16;&#x8BD1;&#x671F;&#x5E38;&#x91CF;&#x3002;</li>
-<li>&#x5728; C++ &#x4E2D;&#xFF0C;__thread&#x53EA;&#x80FD;&#x7528;&#x4E8E;&#x4FEE;&#x9970; POD &#x7C7B;&#x578B;&#xFF0C;&#x800C;&#x4E0D;&#x80FD;&#x7528;&#x4E8E;&#x4FEE;&#x9970; class &#x7C7B;&#x578B;&#x3002;</li>
+<li>__thread&#x53EF;&#x4EE5;&#x7528;&#x4F86;&#x4FEE;&#x98FE;&#x5168;&#x5C40;&#x8B8A;&#x91CF;&#xFF0C;&#x4EE5;&#x53CA;&#x51FD;&#x6578;&#x5167;&#x7684; static &#x8B8A;&#x91CF;&#x3002;</li>
+<li>&#x521D;&#x59CB;&#x5316;__thread&#x8B8A;&#x91CF;&#x6642;&#xFF0C;&#x53EA;&#x80FD;&#x4F7F;&#x7528;&#x7DE8;&#x8B6F;&#x671F;&#x5E38;&#x91CF;&#x3002;</li>
+<li>&#x5728; C++ &#x4E2D;&#xFF0C;__thread&#x53EA;&#x80FD;&#x7528;&#x65BC;&#x4FEE;&#x98FE; POD &#x985E;&#x578B;&#xFF0C;&#x800C;&#x4E0D;&#x80FD;&#x7528;&#x65BC;&#x4FEE;&#x98FE; class &#x985E;&#x578B;&#x3002;</li>
 </ul>
-<p>&#x5F53;&#x5B9A;&#x4E49;&#x4E86;&#x4E00;&#x4E2A;<strong>thread&#x53D8;&#x91CF;&#x4E4B;&#x540E;&#xFF0C;&#x6BCF;&#x4E2A;&#x7EBF;&#x7A0B;&#x90FD;&#x62E5;&#x6709;&#x4E86;&#x8FD9;&#x4E2A;&#x53D8;&#x91CF;&#x7684;&#x4E00;&#x4EFD;&#x526F;&#x672C;&#x3002;&#x7531;&#x4E8E;&#x6BCF;&#x4E2A;&#x7EBF;&#x7A0B;&#x90FD;&#x62E5;&#x6709;&#x4E00;&#x4EFD;&#x526F;&#x672C;&#xFF0C;&#x6240;&#x4EE5;&#x5728;&#x591A;&#x7EBF;&#x7A0B;&#x4E2D;&#x5E76;&#x53D1;&#x5730;&#x8BBF;&#x95EE;</strong>thread&#x53D8;&#x91CF;&#x662F;&#x5B89;&#x5168;&#x7684;&#x3002;</p>
-<p><strong>thread&#x53EF;&#x4EE5;&#x5E2E;&#x52A9;&#x6211;&#x4EEC;&#x5C06;&#x4E0D;&#x662F;&#x7EBF;&#x7A0B;&#x5B89;&#x5168;&#x7684;&#x51FD;&#x6570;&#xFF0C;&#x6539;&#x9020;&#x6210;&#x7EBF;&#x7A0B;&#x5B89;&#x5168;&#x7684;&#x3002;&#x8B6C;&#x5982;&#x8BF4;&#xFF0C;&#x6807;&#x51C6;&#x5E93;&#x7684;strerror()&#x51FD;&#x6570;&#x4F1A;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x6307;&#x9488;&#xFF0C;&#x6307;&#x5411;&#x4E00;&#x4E2A;&#x5168;&#x5C40;&#x53D8;&#x91CF;&#xFF0C;&#x6240;&#x4EE5;&#x5B83;&#x4E0D;&#x662F;&#x7EBF;&#x7A0B;&#x5B89;&#x5168;&#x7684;&#x3002;&#x5229;&#x7528;</strong>thread&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x5B9E;&#x73B0;&#x4E00;&#x4E2A;&#x7EBF;&#x7A0B;&#x5B89;&#x5168;&#x7684;strerror()&#x51FD;&#x6570;&#xFF1A;</p>
+<p>&#x7576;&#x5B9A;&#x7FA9;&#x4E86;&#x4E00;&#x500B;<strong>thread&#x8B8A;&#x91CF;&#x4E4B;&#x5F8C;&#xFF0C;&#x6BCF;&#x500B;&#x7DDA;&#x7A0B;&#x90FD;&#x64C1;&#x6709;&#x4E86;&#x9019;&#x500B;&#x8B8A;&#x91CF;&#x7684;&#x4E00;&#x4EFD;&#x526F;&#x672C;&#x3002;&#x7531;&#x65BC;&#x6BCF;&#x500B;&#x7DDA;&#x7A0B;&#x90FD;&#x64C1;&#x6709;&#x4E00;&#x4EFD;&#x526F;&#x672C;&#xFF0C;&#x6240;&#x4EE5;&#x5728;&#x591A;&#x7DDA;&#x7A0B;&#x4E2D;&#x4F75;&#x767C;&#x5730;&#x8A2A;&#x554F;</strong>thread&#x8B8A;&#x91CF;&#x662F;&#x5B89;&#x5168;&#x7684;&#x3002;</p>
+<p><strong>thread&#x53EF;&#x4EE5;&#x5E6B;&#x52A9;&#x6211;&#x5011;&#x5C07;&#x4E0D;&#x662F;&#x7DDA;&#x7A0B;&#x5B89;&#x5168;&#x7684;&#x51FD;&#x6578;&#xFF0C;&#x6539;&#x9020;&#x6210;&#x7DDA;&#x7A0B;&#x5B89;&#x5168;&#x7684;&#x3002;&#x8B6C;&#x5982;&#x8AAA;&#xFF0C;&#x6A19;&#x6E96;&#x5EAB;&#x7684;strerror()&#x51FD;&#x6578;&#x6703;&#x8FD4;&#x56DE;&#x4E00;&#x500B;&#x6307;&#x91DD;&#xFF0C;&#x6307;&#x5411;&#x4E00;&#x500B;&#x5168;&#x5C40;&#x8B8A;&#x91CF;&#xFF0C;&#x6240;&#x4EE5;&#x5B83;&#x4E0D;&#x662F;&#x7DDA;&#x7A0B;&#x5B89;&#x5168;&#x7684;&#x3002;&#x5229;&#x7528;</strong>thread&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x5BE6;&#x73FE;&#x4E00;&#x500B;&#x7DDA;&#x7A0B;&#x5B89;&#x5168;&#x7684;strerror()&#x51FD;&#x6578;&#xFF1A;</p>
 <pre><code class="lang-cpp">#define _GNU_SOURCE
 #include &lt;stdio.h&gt;  // Get &apos;_sys_nerr&apos; and &apos;_sys_errlist&apos; declarations 
 #define MAX_ERROR_LEN 256
@@ -21496,12 +21496,12 @@ char *my_strerror_r( int err )
     return buf;
 }
 </code></pre>
-<p>&#x524D;&#x9762;&#x6211;&#x4EEC;&#x8BF4;&#x5230;&#xFF0C;__thread&#x4E0D;&#x80FD;&#x7528;&#x4E8E;&#x4FEE;&#x9970; C++ &#x4E2D;&#x7684; class &#x7C7B;&#x578B;&#xFF0C;&#x4E0D;&#x8FC7; C++11 &#x63D0;&#x4F9B;&#x4E86;thread_local&#xFF0C;&#x9664;&#x4E86;&#x53EF;&#x4EE5;&#x4FEE;&#x9970; POD &#x7C7B;&#x578B;&#x5916;&#xFF0C;&#x8FD8;&#x53EF;&#x4EE5;&#x4FEE;&#x9970; class &#x7C7B;&#x578B;&#xFF1A;</p>
-<pre><code class="lang-cpp">__thread <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> s1 = <span class="hljs-string">&quot;Hello&quot;</span>;        <span class="hljs-comment">// &#x9519;&#x8BEF;&#xFF0C;__thread &#x4E0D;&#x80FD;&#x4FEE;&#x9970; class &#x7C7B;&#x578B;</span>
-<span class="hljs-keyword">thread_local</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> s2 = <span class="hljs-string">&quot;Hello&quot;</span>;    <span class="hljs-comment">// &#x6B63;&#x786E;</span>
+<p>&#x524D;&#x9762;&#x6211;&#x5011;&#x8AAA;&#x5230;&#xFF0C;__thread&#x4E0D;&#x80FD;&#x7528;&#x65BC;&#x4FEE;&#x98FE; C++ &#x4E2D;&#x7684; class &#x985E;&#x578B;&#xFF0C;&#x4E0D;&#x904E; C++11 &#x63D0;&#x4F9B;&#x4E86;thread_local&#xFF0C;&#x9664;&#x4E86;&#x53EF;&#x4EE5;&#x4FEE;&#x98FE; POD &#x985E;&#x578B;&#x5916;&#xFF0C;&#x9084;&#x53EF;&#x4EE5;&#x4FEE;&#x98FE; class &#x985E;&#x578B;&#xFF1A;</p>
+<pre><code class="lang-cpp">__thread <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> s1 = <span class="hljs-string">&quot;Hello&quot;</span>;        <span class="hljs-comment">// &#x932F;&#x8AA4;&#xFF0C;__thread &#x4E0D;&#x80FD;&#x4FEE;&#x98FE; class &#x985E;&#x578B;</span>
+<span class="hljs-keyword">thread_local</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> s2 = <span class="hljs-string">&quot;Hello&quot;</span>;    <span class="hljs-comment">// &#x6B63;&#x78BA;</span>
 </code></pre>
-<h2 id="&#x5355;&#x4F8B;&#x6A21;&#x5F0F;">&#x5355;&#x4F8B;&#x6A21;&#x5F0F;</h2>
-<p>&#x5728;&#x591A;&#x7EBF;&#x7A0B;&#x7F16;&#x7A0B;&#x4E2D;&#xFF0C;&#x6709;&#x65F6;&#x5019;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x4FDD;&#x8BC1;&#xFF0C;&#x65E0;&#x8BBA;&#x7A0B;&#x5E8F;&#x521B;&#x5EFA;&#x4E86;&#x591A;&#x5C11;&#x4E2A;&#x7EBF;&#x7A0B;&#xFF0C;&#x67D0;&#x4E9B;&#x64CD;&#x4F5C;&#x53EA;&#x6267;&#x884C;&#x4E86;&#x4E00;&#x6B21;&#x3002;Linux &#x63D0;&#x4F9B;&#x4E86;pthread_once()&#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x501F;&#x52A9;pthread_once()&#x5B9E;&#x73B0;&#x5355;&#x4F8B;&#x6A21;&#x5F0F;&#xFF1A;</p>
+<h2 id="&#x55AE;&#x4F8B;&#x6A21;&#x5F0F;">&#x55AE;&#x4F8B;&#x6A21;&#x5F0F;</h2>
+<p>&#x5728;&#x591A;&#x7DDA;&#x7A0B;&#x7DE8;&#x7A0B;&#x4E2D;&#xFF0C;&#x6709;&#x6642;&#x5019;&#x6211;&#x5011;&#x9700;&#x8981;&#x4FDD;&#x8B49;&#xFF0C;&#x7121;&#x8AD6;&#x7A0B;&#x5E8F;&#x5275;&#x5EFA;&#x4E86;&#x591A;&#x5C11;&#x500B;&#x7DDA;&#x7A0B;&#xFF0C;&#x67D0;&#x4E9B;&#x64CD;&#x4F5C;&#x53EA;&#x57F7;&#x884C;&#x4E86;&#x4E00;&#x6B21;&#x3002;Linux &#x63D0;&#x4F9B;&#x4E86;pthread_once()&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x85C9;&#x52A9;pthread_once()&#x5BE6;&#x73FE;&#x55AE;&#x4F8B;&#x6A21;&#x5F0F;&#xFF1A;</p>
 <pre><code class="lang-cpp"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;pthread.h&gt;</span></span>
 <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
 <span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;
@@ -21537,13 +21537,13 @@ char *my_strerror_r( int err )
 <span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;
 T *Singleton&lt;T&gt;::value_ = <span class="hljs-literal">nullptr</span>;
 </code></pre>
-<h2 id="&#x53C2;&#x8003;&#x8D44;&#x6599;">&#x53C2;&#x8003;&#x8D44;&#x6599;</h2>
+<h2 id="&#x53C3;&#x8003;&#x8CC7;&#x6599;">&#x53C3;&#x8003;&#x8CC7;&#x6599;</h2>
 <ul>
 <li>The Native POSIX Thread Library for Linux</li>
 <li>Linux threading models compared: LinuxThreads and NPTL</li>
 <li>POSIX Threads Programming</li>
 <li>The Linux Programming Interface: A Linux and UNIX System Programming Handbook</li>
-<li>Linux&#x591A;&#x7EBF;&#x7A0B;&#x670D;&#x52A1;&#x7AEF;&#x7F16;&#x7A0B; - &#x4F7F;&#x7528;muduo C++&#x7F51;&#x7EDC;&#x5E93;</li>
+<li>Linux&#x591A;&#x7DDA;&#x7A0B;&#x670D;&#x52D9;&#x7AEF;&#x7DE8;&#x7A0B; - &#x4F7F;&#x7528;muduo C++&#x7DB2;&#x7D61;&#x5EAB;</li>
 </ul>
 
                     

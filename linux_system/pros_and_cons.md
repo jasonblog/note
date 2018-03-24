@@ -96,9 +96,15 @@ int main()
 
 #include <pthread.h>
 
+#define FRIEND
+
 class Thread
 {
 public:
+#ifdef FRIEND 
+    friend void* runThread(void* arg);
+#endif
+
     Thread();
     virtual ~Thread();
 
@@ -122,7 +128,11 @@ private:
 ```cpp
 #include "thread.h"
 
+#ifdef FRIEND
+void* runThread(void* arg)
+#else
 static void* runThread(void* arg)
+#endif
 {
     ((Thread*)arg)->run();
     return NULL;

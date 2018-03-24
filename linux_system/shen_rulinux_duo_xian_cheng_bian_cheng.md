@@ -1,50 +1,50 @@
-# 深入 Linux 多线程编程
+# 深入 Linux 多線程編程
 
 
-NPTL 线程模型
+NPTL 線程模型
 
-NPTL，也即 Native POSIX Thread Library，是 Linux 2.6 引入的新的线程库实现，用来替代旧的 LinuxThreads 线程库。在 NPTL 实现中，用户创建的每个线程都对应着一个内核态的线程，内核态线程也是 Linux 的最小调度单元。
+NPTL，也即 Native POSIX Thread Library，是 Linux 2.6 引入的新的線程庫實現，用來替代舊的 LinuxThreads 線程庫。在 NPTL 實現中，用戶創建的每個線程都對應著一個內核態的線程，內核態線程也是 Linux 的最小調度單元。
 
-在 NPTL 实现中，线程的创建相当于调用clone()，并指定下面的参数：
+在 NPTL 實現中，線程的創建相當於調用clone()，並指定下面的參數：
 
 ```sh
 CLONE_VM | CLONE_FILES | CLONE_FS | CLONE_SIGHAND | CLONE_THREAD | CLONE_SETTLS | 
 CLONE_PARENT_SETTID | CLONE_CHILD_CLEARTID | CLONE_SYSVSEM
 ```
 
-下面解释一下这些参数的含义：
+下面解釋一下這些參數的含義：
 
 
-- CLONE_VM 所有线程都共享同一个进程地址空间。
-- CLONE_FILES 所有线程都共享进程的文件描述符列表 (file descriptor table)。
-- CLONE_FS 所有线程都共享同一个文件系统的信息。
-- CLONE_SIGHAND 所有线程都共享同一个信号 handler 列表。
-- CLONE_THREAD 所有线程都共享同一个进程 ID 以及 父进程 ID。
+- CLONE_VM 所有線程都共享同一個進程地址空間。
+- CLONE_FILES 所有線程都共享進程的文件描述符列表 (file descriptor table)。
+- CLONE_FS 所有線程都共享同一個文件系統的信息。
+- CLONE_SIGHAND 所有線程都共享同一個信號 handler 列表。
+- CLONE_THREAD 所有線程都共享同一個進程 ID 以及 父進程 ID。
 
 
-在 Linux 可以通过下面命令查看线程库的实现方式：
+在 Linux 可以通過下面命令查看線程庫的實現方式：
 
 ```sh
 $ getconf GNU_LIBPTHREAD_VERSION
 NPTL 2.23
 ```
 
-##线程的栈
+##線程的棧
 
-在 Linux 中，一个进程可以包含多个线程，这些线程将共享进程的全局变量，以及进程的堆，但每个线程都拥有它自己的栈。正如下图所示：
+在 Linux 中，一個進程可以包含多個線程，這些線程將共享進程的全局變量，以及進程的堆，但每個線程都擁有它自己的棧。正如下圖所示：
 
 
 ![](images/thread-stack.png)
 
 
-在 64 位系统中，除了主线程之外，其它线程的栈默认大小为 8M，而主线程的栈则没有这个限制，因为主线程的栈可以动态增长。可以用下面的命令查看线程栈的大小：
+在 64 位系統中，除了主線程之外，其它線程的棧默認大小為 8M，而主線程的棧則沒有這個限制，因為主線程的棧可以動態增長。可以用下面的命令查看線程棧的大小：
 
 ```sh
 $ ulimit -s
 8192
 ```
 
-通常来说，默认的线程栈大小可以满足大部分程序的需求，然而在一些特殊的场景下，譬如说，子线程需要在栈上分配大量的变量，或者执行深度比较大的递归调用，这时候就需要改变线程栈的大小了。下面的代码展示了如何修改线程栈的大小：
+通常來說，默認的線程棧大小可以滿足大部分程序的需求，然而在一些特殊的場景下，譬如說，子線程需要在棧上分配大量的變量，或者執行深度比較大的遞歸調用，這時候就需要改變線程棧的大小了。下面的代碼展示瞭如何修改線程棧的大小：
 
 
 ```c
@@ -70,27 +70,27 @@ int main(int argc, char *argv[])
 }
 ```
 
-运行程序将输出下面的结果：
+運行程序將輸出下面的結果：
 
 
 ```sh
-Default stack size = 8388608    # 默认为 8M
+Default stack size = 8388608    # 默認為 8M
 New stack size = 33554432       # 改成了 32 M
 ```
 
-## 线程局部存储
+## 線程局部存儲
 
 
-Linux 提供了__thread关键字，用来表示线程局部存储。下面是__thread的使用规则：
+Linux 提供了__thread關鍵字，用來表示線程局部存儲。下面是__thread的使用規則：
 
-- __thread可以用来修饰全局变量，以及函数内的 static 变量。
-- 初始化__thread变量时，只能使用编译期常量。
-- 在 C++ 中，__thread只能用于修饰 POD 类型，而不能用于修饰 class 类型。
+- __thread可以用來修飾全局變量，以及函數內的 static 變量。
+- 初始化__thread變量時，只能使用編譯期常量。
+- 在 C++ 中，__thread只能用於修飾 POD 類型，而不能用於修飾 class 類型。
 
 
-当定义了一个__thread变量之后，每个线程都拥有了这个变量的一份副本。由于每个线程都拥有一份副本，所以在多线程中并发地访问__thread变量是安全的。
+當定義了一個__thread變量之後，每個線程都擁有了這個變量的一份副本。由於每個線程都擁有一份副本，所以在多線程中併發地訪問__thread變量是安全的。
 
-__thread可以帮助我们将不是线程安全的函数，改造成线程安全的。譬如说，标准库的strerror()函数会返回一个指针，指向一个全局变量，所以它不是线程安全的。利用__thread，我们可以实现一个线程安全的strerror()函数：
+__thread可以幫助我們將不是線程安全的函數，改造成線程安全的。譬如說，標準庫的strerror()函數會返回一個指針，指向一個全局變量，所以它不是線程安全的。利用__thread，我們可以實現一個線程安全的strerror()函數：
 
 
 ```cpp
@@ -111,16 +111,16 @@ char *my_strerror_r( int err )
 }
 ```
 
-前面我们说到，__thread不能用于修饰 C++ 中的 class 类型，不过 C++11 提供了thread_local，除了可以修饰 POD 类型外，还可以修饰 class 类型：
+前面我們說到，__thread不能用於修飾 C++ 中的 class 類型，不過 C++11 提供了thread_local，除了可以修飾 POD 類型外，還可以修飾 class 類型：
 
 ```cpp
-__thread std::string s1 = "Hello";        // 错误，__thread 不能修饰 class 类型
-thread_local std::string s2 = "Hello";    // 正确
+__thread std::string s1 = "Hello";        // 錯誤，__thread 不能修飾 class 類型
+thread_local std::string s2 = "Hello";    // 正確
 ```
 
-## 单例模式
+## 單例模式
 
-在多线程编程中，有时候我们需要保证，无论程序创建了多少个线程，某些操作只执行了一次。Linux 提供了pthread_once()系统调用，我们可以借助pthread_once()实现单例模式：
+在多線程編程中，有時候我們需要保證，無論程序創建了多少個線程，某些操作只執行了一次。Linux 提供了pthread_once()系統調用，我們可以藉助pthread_once()實現單例模式：
 
 
 ```cpp
@@ -160,12 +160,12 @@ template<typename T>
 T *Singleton<T>::value_ = nullptr;
 ```
 
-##参考资料
+##參考資料
 
 - The Native POSIX Thread Library for Linux
 - Linux threading models compared: LinuxThreads and NPTL
 - POSIX Threads Programming
 - The Linux Programming Interface: A Linux and UNIX System Programming Handbook
-- Linux多线程服务端编程 - 使用muduo C++网络库
+- Linux多線程服務端編程 - 使用muduo C++網絡庫
 
 

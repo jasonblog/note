@@ -14,9 +14,9 @@
 /**************************************
  * fork-pthread.c
  *
- * pthread_join一般是主线程来调用，用来等待子线程退出，因为是等待，所以是阻塞的，一般主线程会依次join所有它创建的子线程。
- * pthread_exit一般是子线程调用，用来结束当前线程。
- * 一个线程对应一个pthread_join()调用，对同一个线程进行多次pthread_join()调用是逻辑错误。
+ * pthread_join一般是主線程來調用，用來等待子線程退出，因為是等待，所以是阻塞的，一般主線程會依次join所有它創建的子線程。
+ * pthread_exit一般是子線程調用，用來結束當前線程。
+ * 一個線程對應一個pthread_join()調用，對同一個線程進行多次pthread_join()調用是邏輯錯誤。
  * -1: fork() 發生錯誤, 無 child process 產生.
  *  0: 在child process裡
  * >0: 在parent process裡, fork() 回傳值, 即是 child process 的 PID

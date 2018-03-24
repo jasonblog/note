@@ -1,13 +1,13 @@
-# java命令行编译运行多个java文件
+# java命令行編譯運行多個java文件
 
 
-##一.环境：
+##一.環境：
 
 1. linux
 
-2. 有两个java类，A.java和B.java，都在同一个目录下
+2. 有兩個java類，A.java和B.java，都在同一個目錄下
 
-##  源码：
+##  源碼：
 
 
 - A.java
@@ -33,15 +33,15 @@ public class B {
 }
 ```
 
-## 三.编译运行
+## 三.編譯運行
 
 ```sh
-#编译  
+#編譯  
 javac -d . A.java B.java  
   
-#运行  
+#運行  
 java B  
   
-#输出  
+#輸出  
 A:test()  
 ```

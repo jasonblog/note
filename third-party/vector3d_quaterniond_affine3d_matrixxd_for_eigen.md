@@ -281,56 +281,56 @@ using namespace std;
 
 int main()
 {
-    // Eigen/Geometry 模块提供了各种旋转和平移的表示
-    // 3D 旋转矩阵直接使用 Matrix3d 或 Matrix3f
+    // Eigen/Geometry 模塊提供了各種旋轉和平移的表示
+    // 3D 旋轉矩陣直接使用 Matrix3d 或 Matrix3f
     Eigen::Matrix3d rotation_matrix = Eigen::Matrix3d::Identity();
-    // 旋转向量使用 AngleAxis, 它底层不直接是Matrix，但运算可以当作矩阵（因为重载了运算符）
+    // 旋轉向量使用 AngleAxis, 它底層不直接是Matrix，但運算可以當作矩陣（因為重載了運算符）
     Eigen::AngleAxisd rotation_vector(M_PI / 4, Eigen::Vector3d(0, 0,
-                                      1));       //沿 Z 轴旋转 45 度
+                                      1));       //沿 Z 軸旋轉 45 度
     cout .precision(3);
     cout << "rotation matrix =\n" << rotation_vector.matrix() <<
-         endl;                //用matrix()转换成矩阵
-    // 也可以直接赋值
+         endl;                //用matrix()轉換成矩陣
+    // 也可以直接賦值
 
     rotation_matrix = rotation_vector.toRotationMatrix();
-    // 用 AngleAxis 可以进行坐标变换
+    // 用 AngleAxis 可以進行座標變換
     Eigen::Vector3d v(1, 0, 0);
     Eigen::Vector3d v_rotated = rotation_vector * v;
     cout << "(1,0,0) after rotation = " << v_rotated.transpose() << endl;
-    // 或者用旋转矩阵
+    // 或者用旋轉矩陣
     v_rotated = rotation_matrix * v;
     cout << "(1,0,0) after rotation = " << v_rotated.transpose() << endl;
 
-    // 欧拉角: 可以将旋转矩阵直接转换成欧拉角
+    // 歐拉角: 可以將旋轉矩陣直接轉換成歐拉角
     Eigen::Vector3d euler_angles = rotation_matrix.eulerAngles(2, 1,
-                                   0);  // ZYX顺序，即roll pitch yaw顺序
+                                   0);  // ZYX順序，即roll pitch yaw順序
     cout << "yaw pitch roll = " << euler_angles.transpose() << endl;
 
-    // 欧氏变换矩阵使用 Eigen::Isometry
+    // 歐氏變換矩陣使用 Eigen::Isometry
     Eigen::Isometry3d T =
-        Eigen::Isometry3d::Identity(); // 虽然称为3d，实质上是4＊4的矩阵
-    T.rotate(rotation_vector); // 按照rotation_vector进行旋转
-    T.pretranslate(Eigen::Vector3d(1, 3, 4));  // 把平移向量设成(1,3,4)
+        Eigen::Isometry3d::Identity(); // 雖然稱為3d，實質上是4＊4的矩陣
+    T.rotate(rotation_vector); // 按照rotation_vector進行旋轉
+    T.pretranslate(Eigen::Vector3d(1, 3, 4));  // 把平移向量設成(1,3,4)
     cout << "Transform matrix = \n" << T.matrix() << endl;
 
-    // 用变换矩阵进行坐标变换
-    Eigen::Vector3d v_transformed = T * v;  // 相当于R*v+t
+    // 用變換矩陣進行座標變換
+    Eigen::Vector3d v_transformed = T * v;  // 相當於R*v+t
     cout << "v tranformed = " << v_transformed.transpose() << endl;
 
-    // 对于仿射和射影变换，使用 Eigen::Affine3d 和 Eigen::Projective3d 即可，略
+    // 對於仿射和射影變換，使用 Eigen::Affine3d 和 Eigen::Projective3d 即可，略
 
-    // 四元数
-    // 可以直接把AngleAxis赋值给四元数，反之亦然
+    // 四元數
+    // 可以直接把AngleAxis賦值給四元數，反之亦然
     Eigen::Quaterniond q = Eigen::Quaterniond(rotation_vector);
 
     cout << "quaternion = \n" << q.coeffs() <<
-         endl; // 请注意coeffs的顺序是(x,y,z,w),w为实部，前三者为虚部
+         endl; // 請注意coeffs的順序是(x,y,z,w),w為實部，前三者為虛部
 
-    // 也可以把旋转矩阵赋给它
+    // 也可以把旋轉矩陣賦給它
     q = Eigen::Quaterniond(rotation_matrix);
     cout << "quaternion = \n" << q.coeffs() << endl;
-    // 使用四元数旋转一个向量，使用重载的乘法即可
-    v_rotated = q * v; // 注意数学上是qvq^{-1}
+    // 使用四元數旋轉一個向量，使用重載的乘法即可
+    v_rotated = q * v; // 注意數學上是qvq^{-1}
     cout << "(1,0,0) after rotation = " << v_rotated.transpose() << endl;
 
 }

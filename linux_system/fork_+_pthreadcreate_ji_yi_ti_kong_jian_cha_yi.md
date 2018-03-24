@@ -173,3 +173,81 @@ int main(int argc, char* argv[])
 }
 ```
 
+## C++ 建構解構都由產生 instance 的pid 解構
+
+```cpp
+#define _GNU_SOURCE
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <unistd.h>
+#include <sys/wait.h>
+#include <sys/types.h>
+#include <sys/syscall.h>
+
+pid_t gettid()
+{
+    pid_t tid;
+    tid = syscall(SYS_gettid);
+    return tid;
+}
+
+void get_pid_tid(char s[]) {
+	sprintf(s, "pid=%d, tid=%d\n", getpid(), gettid());
+}
+
+class testClass
+{
+public:
+    testClass();
+    ~testClass();
+private:
+    static void* thread_func(void*);
+    pthread_t thrid;
+};
+
+testClass::testClass()
+{
+	char s[50];
+	get_pid_tid(s);
+    printf("[%s:%d,%s,%s]\n", __FILE__, __LINE__, __func__, s);
+    pthread_create(&thrid, NULL, thread_func, this);
+}
+
+testClass::~testClass()
+{
+	char s[50];
+	get_pid_tid(s);
+    printf("[%s:%d,%s,%s]\n", __FILE__, __LINE__, __func__, s);
+    pthread_cancel(thrid);
+    pthread_join(thrid, NULL);
+}
+
+void* testClass::thread_func(void* param)
+{
+    int i = 0;
+    testClass* self = (testClass*)param;
+	char s[50];
+	get_pid_tid(s);
+
+    printf("[%s:%d,%s,%s]thread start\n", __FILE__, __LINE__, __func__,s);
+
+    while (1) {
+        printf("[%s:%d,%s]%d,%s\n", __FILE__, __LINE__, __func__, i++,s);
+        sleep(1);
+    }
+
+    printf("[%s:%d,%s,%s]thread stop\n", __FILE__, __LINE__, __func__,s);
+    return (void*)0;
+}
+
+int main(int argc, char** argv)
+{
+    testClass* test;
+    test = new testClass();
+    sleep(10);
+    delete test;
+    return 0;
+}
+```
+

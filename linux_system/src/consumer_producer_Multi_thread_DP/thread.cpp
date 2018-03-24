@@ -22,7 +22,11 @@
 
 #include "thread.h"
 
+#ifdef FRIEND
+void* runThread(void* arg)
+#else
 static void* runThread(void* arg)
+#endif
 {
     ((Thread*)arg)->run();
     return NULL;

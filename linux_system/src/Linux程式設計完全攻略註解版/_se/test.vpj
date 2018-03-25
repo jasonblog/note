@@ -1,0 +1,557 @@
+<!DOCTYPE Project SYSTEM "http://www.slickedit.com/dtd/vse/10.0/vpj.dtd">
+<Project
+	Version="10.0"
+	VendorName="SlickEdit"
+	TemplateName="GNU C/C++"
+	WorkingDir="."
+	BuildSystem="vsbuild">
+	<Config
+		Name="Debug"
+		Type="gnuc"
+		DebugCallbackName="gdb"
+		Version="1"
+		OutputFile="%bdtest"
+		CompilerConfigName="Latest Version">
+		<Menu>
+			<Target
+				Name="Compile"
+				MenuCaption="&amp;Compile"
+				Dialog="_gnuc_options_form Compile"
+				CaptureOutputWith="ProcessBuffer"
+				Deletable="0"
+				OutputExts="*.o"
+				SaveOption="SaveCurrent"
+				RunFromDir="%rw">
+				<Exec CmdLine='g++ -c %xup  %defd -g -o "%bd%n%oe" %i "%f"'/>
+			</Target>
+			<Target
+				Name="Link"
+				MenuCaption="&amp;Link"
+				ShowOnMenu="Never"
+				Dialog="_gnuc_options_form Link"
+				CaptureOutputWith="ProcessBuffer"
+				Deletable="0"
+				SaveOption="SaveCurrent"
+				RunFromDir="%rw">
+				<Exec CmdLine='g++ %xup -g -o "%o" %f %libs'/>
+			</Target>
+			<Target
+				Name="Build"
+				MenuCaption="&amp;Build"
+				Dialog="_gnuc_options_form Compile"
+				CaptureOutputWith="ProcessBuffer"
+				Deletable="0"
+				SaveOption="SaveWorkspaceFiles"
+				RunFromDir="%rw">
+				<Exec CmdLine='"%(VSLICKBIN1)vsbuild" "%w" "%r" -t build'/>
+			</Target>
+			<Target
+				Name="Rebuild"
+				MenuCaption="&amp;Rebuild"
+				Dialog="_gnuc_options_form Compile"
+				CaptureOutputWith="ProcessBuffer"
+				Deletable="0"
+				SaveOption="SaveWorkspaceFiles"
+				RunFromDir="%rw">
+				<Exec CmdLine='"%(VSLICKBIN1)vsbuild" "%w" "%r" -t rebuild'/>
+			</Target>
+			<Target
+				Name="Debug"
+				MenuCaption="&amp;Debug"
+				Dialog="_gnuc_options_form Run/Debug"
+				BuildFirst="1"
+				CaptureOutputWith="ProcessBuffer"
+				Deletable="0"
+				SaveOption="SaveNone"
+				RunFromDir="%rw">
+				<Exec CmdLine='vsdebugio -prog "%o"'/>
+			</Target>
+			<Target
+				Name="Execute"
+				MenuCaption="E&amp;xecute"
+				Dialog="_gnuc_options_form Run/Debug"
+				BuildFirst="1"
+				CaptureOutputWith="ProcessBuffer"
+				Deletable="0"
+				SaveOption="SaveWorkspaceFiles"
+				RunFromDir="%rw">
+				<Exec CmdLine='"%o"'/>
+			</Target>
+			<Target
+				Name="dash"
+				MenuCaption="-"
+				Deletable="0">
+				<Exec/>
+			</Target>
+			<Target
+				Name="GNU C Options"
+				MenuCaption="GNU C &amp;Options..."
+				ShowOnMenu="HideIfNoCmdLine"
+				Deletable="0"
+				SaveOption="SaveNone">
+				<Exec
+					CmdLine="gnucoptions"
+					Type="Slick-C"/>
+			</Target>
+		</Menu>
+		<Rules Name="Compile">
+			<Rule
+				InputExts="*.ada"
+				OutputExts="*.o"
+				LinkObject="1">
+				<Exec CmdLine='gnat -g -c -o "%bd%n.o" "%f"'/>
+			</Rule>
+			<Rule
+				InputExts="*.adb"
+				OutputExts="*.o"
+				LinkObject="1">
+				<Exec CmdLine='gnat -g -c -o "%bd%n.o" "%f"'/>
+			</Rule>
+			<Rule
+				InputExts="*.f"
+				OutputExts="*.o"
+				LinkObject="1">
+				<Exec CmdLine='gfortran -c -g -o "%bd%n.o" "%f"'/>
+			</Rule>
+			<Rule
+				InputExts="*.f90"
+				OutputExts="*.o"
+				LinkObject="1">
+				<Exec CmdLine='gfortran -c -g -o "%bd%n.o" "%f"'/>
+			</Rule>
+			<Rule
+				InputExts="*.d"
+				OutputExts="*.o"
+				LinkObject="1">
+				<Exec CmdLine='gdc -c -g -o "%bd%n.o" "%f"'/>
+			</Rule>
+		</Rules>
+		<List Name="GNUC Options">
+			<Item
+				Name="LinkerOutputType"
+				Value="Executable"/>
+		</List>
+	</Config>
+	<Config
+		Name="Release"
+		Type="gnuc"
+		DebugCallbackName="gdb"
+		Version="1"
+		OutputFile="%bdtest"
+		CompilerConfigName="Latest Version">
+		<Menu>
+			<Target
+				Name="Compile"
+				MenuCaption="&amp;Compile"
+				Dialog="_gnuc_options_form Compile"
+				CaptureOutputWith="ProcessBuffer"
+				Deletable="0"
+				OutputExts="*.o"
+				SaveOption="SaveCurrent"
+				RunFromDir="%rw">
+				<Exec CmdLine='g++ -c %xup %defd -o "%bd%n%oe" %i "%f"'/>
+			</Target>
+			<Target
+				Name="Link"
+				MenuCaption="&amp;Link"
+				ShowOnMenu="Never"
+				Dialog="_gnuc_options_form Link"
+				CaptureOutputWith="ProcessBuffer"
+				Deletable="0"
+				SaveOption="SaveCurrent"
+				RunFromDir="%rw">
+				<Exec CmdLine='g++ %xup -o "%o" %f %libs'/>
+			</Target>
+			<Target
+				Name="Build"
+				MenuCaption="&amp;Build"
+				Dialog="_gnuc_options_form Compile"
+				CaptureOutputWith="ProcessBuffer"
+				Deletable="0"
+				SaveOption="SaveWorkspaceFiles"
+				RunFromDir="%rw">
+				<Exec CmdLine='"%(VSLICKBIN1)vsbuild" "%w" "%r" -t build'/>
+			</Target>
+			<Target
+				Name="Rebuild"
+				MenuCaption="&amp;Rebuild"
+				Dialog="_gnuc_options_form Compile"
+				CaptureOutputWith="ProcessBuffer"
+				Deletable="0"
+				SaveOption="SaveWorkspaceFiles"
+				RunFromDir="%rw">
+				<Exec CmdLine='"%(VSLICKBIN1)vsbuild" "%w" "%r" -t rebuild'/>
+			</Target>
+			<Target
+				Name="Debug"
+				MenuCaption="&amp;Debug"
+				Dialog="_gnuc_options_form Run/Debug"
+				BuildFirst="1"
+				CaptureOutputWith="ProcessBuffer"
+				Deletable="0"
+				SaveOption="SaveNone"
+				RunFromDir="%rw">
+				<Exec CmdLine='vsdebugio -prog "%o"'/>
+			</Target>
+			<Target
+				Name="Execute"
+				MenuCaption="E&amp;xecute"
+				Dialog="_gnuc_options_form Run/Debug"
+				BuildFirst="1"
+				CaptureOutputWith="ProcessBuffer"
+				Deletable="0"
+				SaveOption="SaveWorkspaceFiles"
+				RunFromDir="%rw">
+				<Exec CmdLine='"%o"'/>
+			</Target>
+			<Target
+				Name="dash"
+				MenuCaption="-"
+				Deletable="0">
+				<Exec/>
+			</Target>
+			<Target
+				Name="GNU C Options"
+				MenuCaption="GNU C &amp;Options..."
+				ShowOnMenu="HideIfNoCmdLine"
+				Deletable="0"
+				SaveOption="SaveNone">
+				<Exec
+					CmdLine="gnucoptions"
+					Type="Slick-C"/>
+			</Target>
+		</Menu>
+		<Rules Name="Compile">
+			<Rule
+				InputExts="*.ada"
+				OutputExts="*.o"
+				LinkObject="1">
+				<Exec CmdLine='gnat -O -c -o "%bd%n.o" "%f"'/>
+			</Rule>
+			<Rule
+				InputExts="*.adb"
+				OutputExts="*.o"
+				LinkObject="1">
+				<Exec CmdLine='gnat -O -c -o "%bd%n.o" "%f"'/>
+			</Rule>
+			<Rule
+				InputExts="*.f"
+				OutputExts="*.o"
+				LinkObject="1">
+				<Exec CmdLine='gfortran -O -g -o "%bd%n.o" "%f"'/>
+			</Rule>
+			<Rule
+				InputExts="*.f90"
+				OutputExts="*.o"
+				LinkObject="1">
+				<Exec CmdLine='gfortran -O -g -o "%bd%n.o" "%f"'/>
+			</Rule>
+			<Rule
+				InputExts="*.d"
+				OutputExts="*.o"
+				LinkObject="1">
+				<Exec CmdLine='gdc -c -g -o "%bd%n.o" "%f"'/>
+			</Rule>
+		</Rules>
+		<List Name="GNUC Options">
+			<Item
+				Name="LinkerOutputType"
+				Value="Executable"/>
+		</List>
+	</Config>
+	<CustomFolders>
+		<Folder
+			Name="Source Files"
+			Filters="*.c;*.C;*.cc;*.cpp;*.cp;*.cxx;*.c++;*.prg;*.pas;*.dpr;*.asm;*.s;*.bas;*.java;*.cs;*.sc;*.scala;*.e;*.cob;*.html;*.rc;*.tcl;*.py;*.pl;*.d;*.m;*.mm;*.go;*.groovy;*.gsh"
+			GUID="{E7A756ED-8FD9-4913-A7E6-E185C1DA06EB}"></Folder>
+		<Folder
+			Name="Header Files"
+			Filters="*.h;*.H;*.hh;*.hpp;*.hxx;*.h++;*.inc;*.sh;*.cpy;*.if"
+			GUID="{0DF08B5F-41A9-4DA1-A880-A4BC0902C17D}"></Folder>
+		<Folder
+			Name="Resource Files"
+			Filters="*.ico;*.cur;*.dlg"
+			GUID="{34DBF6FC-060E-402E-A1DE-0FECF8C6F7F9}"/>
+		<Folder
+			Name="Bitmaps"
+			Filters="*.bmp"
+			GUID="{64E256DF-0607-4FEE-A86D-379AD5FDE13A}"/>
+		<Folder
+			Name="Other Files"
+			Filters=""
+			GUID="{015F93FB-5112-4E46-A97A-A7CAEEF76FAC}"/>
+	</CustomFolders>
+	<Files AutoFolders="DirectoryView">
+		<Folder Name="../ch02">
+			<F N="../ch02/bug.c"/>
+			<F N="../ch02/factorial.c"/>
+			<F N="../ch02/main.c"/>
+		</Folder>
+		<Folder Name="../ch03">
+			<F N="../ch03/adder_example.c"/>
+			<F N="../ch03/file.c"/>
+			<F N="../ch03/file2.c"/>
+			<F N="../ch03/getopt.c"/>
+			<F N="../ch03/getopt_exp.c"/>
+			<F N="../ch03/getopt_long_exp.c"/>
+			<F N="../ch03/MALLOC_CHECK_Example.c"/>
+			<F N="../ch03/malloc_example.c"/>
+			<F N="../ch03/mem_add.c"/>
+			<F N="../ch03/no_init_test.c"/>
+			<F N="../ch03/realloc_example.c"/>
+			<F N="../ch03/test.c"/>
+			<F N="../ch03/test.h"/>
+			<F N="../ch03/test2.c"/>
+			<F N="../ch03/testConst.c"/>
+			<F N="../ch03/testConst1.c"/>
+			<F N="../ch03/testFile.c"/>
+			<F N="../ch03/testInit.c"/>
+			<F N="../ch03/testStatic.c"/>
+			<F N="../ch03/time_exp.c"/>
+			<F N="../ch03/valgrind_example01.c"/>
+			<F N="../ch03/valgrind_example02.c"/>
+		</Folder>
+		<Folder Name="../ch04">
+			<F N="../ch04/block_example.c"/>
+			<F N="../ch04/block_example.c.c"/>
+			<F N="../ch04/buff_type_test.c"/>
+			<F N="../ch04/char_example.c"/>
+			<F N="../ch04/cp_example.c"/>
+			<F N="../ch04/feof_example.c"/>
+			<F N="../ch04/fopen_example.c"/>
+			<F N="../ch04/fopen_example.c.c"/>
+			<F N="../ch04/format_example.c"/>
+			<F N="../ch04/fseek_example.c"/>
+			<F N="../ch04/length_example.c"/>
+			<F N="../ch04/ptr_struct_file.c"/>
+			<F N="../ch04/setbuf_example.c"/>
+			<F N="../ch04/sscanf_example.c"/>
+			<F N="../ch04/string_example.c"/>
+			<F N="../ch04/testPrintf.c"/>
+			<F N="../ch04/testScanf.c"/>
+		</Folder>
+		<Folder Name="../ch05">
+			<Folder Name="fcntl_lock">
+				<F N="../ch05/fcntl_lock/lock_one.c"/>
+				<F N="../ch05/fcntl_lock/lock_two.c"/>
+			</Folder>
+			<F N="../ch05/cp_dir.c"/>
+			<F N="../ch05/create_no_writefile.c"/>
+			<F N="../ch05/current_dir.c"/>
+			<F N="../ch05/fcntl_dup_fd.c"/>
+			<F N="../ch05/fcntl_example.c"/>
+			<F N="../ch05/fdopen_example.c"/>
+			<F N="../ch05/fileno_example.c"/>
+			<F N="../ch05/lseek_example.c"/>
+			<F N="../ch05/mmap_file_and_insert.c"/>
+			<F N="../ch05/open_example.c"/>
+			<F N="../ch05/posix_cp_example.c"/>
+			<F N="../ch05/readdir_exp.c"/>
+			<F N="../ch05/readdir_r_exp.c"/>
+		</Folder>
+		<Folder Name="../ch06">
+			<F N="../ch06/chmod_example.c"/>
+			<F N="../ch06/file_time_att.c"/>
+			<F N="../ch06/hardlink_exp.c"/>
+			<F N="../ch06/lstat_example.c"/>
+			<F N="../ch06/my_tree.c"/>
+			<F N="../ch06/sort_ls.c"/>
+			<F N="../ch06/stat_example.c"/>
+			<F N="../ch06/symlink_exp.c"/>
+			<F N="../ch06/umask_example.c"/>
+			<F N="../ch06/user_id.c"/>
+		</Folder>
+		<Folder Name="../ch07">
+			<F N="../ch07/coler_flash.c"/>
+			<F N="../ch07/read_write_serial.c"/>
+			<F N="../ch07/set_location.c"/>
+			<F N="../ch07/set_option_term.c"/>
+			<F N="../ch07/term_passwd.c"/>
+		</Folder>
+		<Folder Name="../ch08">
+			<Folder Name="fcntl_exec">
+				<F N="../ch08/fcntl_exec/fcntl_example.c"/>
+				<F N="../ch08/fcntl_exec/newcode.c"/>
+			</Folder>
+			<F N="../ch08/_exit_example.c"/>
+			<F N="../ch08/access_example.c"/>
+			<F N="../ch08/Daemon_exp.c"/>
+			<F N="../ch08/dead_p.c"/>
+			<F N="../ch08/fork_basic.c"/>
+			<F N="../ch08/fork_child_parent.c"/>
+			<F N="../ch08/fork_descriptor.c"/>
+			<F N="../ch08/getid_example.c"/>
+			<F N="../ch08/getpgid_example.c"/>
+			<F N="../ch08/getpid_example.c"/>
+			<F N="../ch08/getppid_example.c"/>
+			<F N="../ch08/on_exit_example.c"/>
+			<F N="../ch08/orphan_p.c"/>
+			<F N="../ch08/pg_test.c"/>
+			<F N="../ch08/setuid_exp.c"/>
+			<F N="../ch08/setuid_root.c"/>
+			<F N="../ch08/stream_fork.c"/>
+			<F N="../ch08/system_example.c"/>
+			<F N="../ch08/test.c"/>
+			<F N="../ch08/vfork_fork_cmp.c"/>
+			<F N="../ch08/vfork_fork_cmpnew.c"/>
+			<F N="../ch08/vfork_return.c"/>
+			<F N="../ch08/wait_example.c"/>
+		</Folder>
+		<Folder Name="../ch09">
+			<F N="../ch09/fifo_read.c"/>
+			<F N="../ch09/fifo_write.c"/>
+			<F N="../ch09/pipe_read_data.c"/>
+			<F N="../ch09/pipe_read_no_data_block.c"/>
+			<F N="../ch09/pipe_recv_SIGPIPE.c"/>
+			<F N="../ch09/pipe_write_full_block.c"/>
+			<F N="../ch09/popen_example.c"/>
+			<F N="../ch09/redirect_who_sort_exp.c"/>
+		</Folder>
+		<Folder Name="../ch10">
+			<F N="../ch10/alarm_test.c"/>
+			<F N="../ch10/cmp_sigaction_signal.c"/>
+			<F N="../ch10/kill_example.c"/>
+			<F N="../ch10/setitimer_alarm.c"/>
+			<F N="../ch10/setitimer_example.c"/>
+			<F N="../ch10/sig_set_member.c"/>
+			<F N="../ch10/sigaction_example.c"/>
+			<F N="../ch10/sigaction_sa_sigaction.c"/>
+			<F N="../ch10/sigaction_sigset.c"/>
+			<F N="../ch10/sigmask_example.c"/>
+			<F N="../ch10/signal_copy.c"/>
+			<F N="../ch10/sigsuspend_test.c"/>
+			<F N="../ch10/ualarm_exp.c"/>
+		</Folder>
+		<Folder Name="../ch11">
+			<Folder Name="msg_snd_recv">
+				<F N="../ch11/msg_snd_recv/msg_receiver_example.c"/>
+				<F N="../ch11/msg_snd_recv/msg_sender_example.c"/>
+			</Folder>
+			<Folder Name="sem_proc_consume">
+				<F N="../ch11/sem_proc_consume/sem_customer.c"/>
+				<F N="../ch11/sem_proc_consume/sem_productor.c"/>
+			</Folder>
+			<Folder Name="shm_sem_example">
+				<F N="../ch11/shm_sem_example/shm_sem_example_recv.c"/>
+				<F N="../ch11/shm_sem_example/shm_sem_example_send.c"/>
+			</Folder>
+			<F N="../ch11/ftok_exp.c"/>
+			<F N="../ch11/msg_ipc_info.c"/>
+			<F N="../ch11/sem_create_exampel.c"/>
+			<F N="../ch11/sem_get_value.c"/>
+			<F N="../ch11/semop_undo_test.c"/>
+			<F N="../ch11/shmat_rd_flag_regular.c"/>
+		</Folder>
+		<Folder Name="../ch12">
+			<Folder Name="pthread_key">
+				<F N="../ch12/pthread_key/pthread_glob_test.c"/>
+				<F N="../ch12/pthread_key/pthread_key_test.c"/>
+			</Folder>
+			<F N="../ch12/mutex_example.c"/>
+			<F N="../ch12/pthread_cancle_example.c"/>
+			<F N="../ch12/pthread_cond_example.c"/>
+			<F N="../ch12/pthread_create_exp.c"/>
+			<F N="../ch12/pthread_create_id.c"/>
+			<F N="../ch12/pthread_exit_test.c"/>
+			<F N="../ch12/pthread_pop_push.c"/>
+			<F N="../ch12/pthread_rwlock_example.c"/>
+			<F N="../ch12/pthread_signal.c"/>
+		</Folder>
+		<Folder Name="../ch13">
+			<Folder Name="sock_tcp_p_p_chat">
+				<F N="../ch13/sock_tcp_p_p_chat/tcp_p_p_chat_client.c"/>
+				<F N="../ch13/sock_tcp_p_p_chat/tcp_p_p_chat_server.c"/>
+			</Folder>
+			<F N="../ch13/big_little_endian.c"/>
+			<F N="../ch13/socket_opt.c"/>
+			<F N="../ch13/test.c"/>
+			<F N="../ch13/test_add.c"/>
+			<F N="../ch13/test_inet_pton.c"/>
+		</Folder>
+		<Folder Name="../ch14">
+			<Folder Name="01_tcp_unblock">
+				<F N="../ch14/01_tcp_unblock/tcp_unblock_client.c"/>
+				<F N="../ch14/01_tcp_unblock/tcp_unblock_server.c"/>
+			</Folder>
+			<Folder Name="02_select_IO">
+				<F N="../ch14/02_select_IO/tcp_sy_chat_client.c"/>
+				<F N="../ch14/02_select_IO/tcp_sy_chat_server.c"/>
+			</Folder>
+			<F N="../ch14/get_port_mac.c"/>
+			<F N="../ch14/ioctl_getaddr.c"/>
+			<F N="../ch14/socket_opt.c"/>
+		</Folder>
+		<Folder Name="../ch15">
+			<Folder Name="sigiio_exp">
+				<F N="../ch15/sigiio_exp/sigio_client.c"/>
+				<F N="../ch15/sigiio_exp/sigio_server.c"/>
+			</Folder>
+			<Folder Name="sock_data_package">
+				<F N="../ch15/sock_data_package/udp_simple_rcv.c"/>
+				<F N="../ch15/sock_data_package/udp_simple_send.c"/>
+			</Folder>
+			<Folder Name="udp_brodcast">
+				<F N="../ch15/udp_brodcast/udp_brodcast_rcv.c"/>
+				<F N="../ch15/udp_brodcast/udp_brodcast_send.c"/>
+			</Folder>
+			<Folder Name="udp_group">
+				<F N="../ch15/udp_group/udp_group_brodcast_rcv.c"/>
+				<F N="../ch15/udp_group/udp_group_brodcast_send.c"/>
+			</Folder>
+			<F N="../ch15/getaddrinfo_exp.c"/>
+			<F N="../ch15/gethostbyaddr.c"/>
+			<F N="../ch15/gethostbyname.c"/>
+			<F N="../ch15/udp_rcv.c"/>
+			<F N="../ch15/udp_send.c"/>
+		</Folder>
+		<Folder Name="../ch16">
+			<Folder Name="pthread_pool">
+				<F N="../ch16/pthread_pool/base.c"/>
+				<F N="../ch16/pthread_pool/client.c"/>
+				<F N="../ch16/pthread_pool/pthread_pool.c"/>
+				<F N="../ch16/pthread_pool/pthread_pool.h"/>
+			</Folder>
+			<Folder Name="sock_sigpipe">
+				<F N="../ch16/sock_sigpipe/sigpipe_client.c"/>
+				<F N="../ch16/sock_sigpipe/sigpipe_server.c"/>
+			</Folder>
+			<Folder Name="test_httpd-src">
+				<F N="../ch16/test_httpd-src/test_httpd.c"/>
+				<F N="../ch16/test_httpd-src/test_httpd.h"/>
+			</Folder>
+			<F N="../ch16/daytime_inetd.c"/>
+		</Folder>
+		<Folder Name="../ch17">
+			<Folder Name="send_fd">
+				<F N="../ch17/send_fd/client.c"/>
+				<F N="../ch17/send_fd/server.c"/>
+			</Folder>
+			<Folder Name="sock_local_comm">
+				<F N="../ch17/sock_local_comm/socket_local_client.c"/>
+				<F N="../ch17/sock_local_comm/socket_local_server.c"/>
+			</Folder>
+			<F N="../ch17/icmp_ping.c"/>
+			<F N="../ch17/socket_raw-exp.c"/>
+		</Folder>
+		<Folder Name="../ch18">
+			<Folder Name="alsa_parameters">
+				<F N="../ch18/alsa_parameters/pcm_type.c"/>
+				<F N="../ch18/alsa_parameters/set_get_parameters.c"/>
+			</Folder>
+			<Folder Name="alsa_play">
+				<F N="../ch18/alsa_play/alsa_play.c"/>
+				<F N="../ch18/alsa_play/sndwav_common.c"/>
+				<F N="../ch18/alsa_play/sndwav_common.h"/>
+				<F N="../ch18/alsa_play/wav_parser.c"/>
+				<F N="../ch18/alsa_play/wav_parser.h"/>
+			</Folder>
+			<Folder Name="get_wav_format">
+				<F N="../ch18/get_wav_format/get_wav_format.c"/>
+				<F N="../ch18/get_wav_format/wav.h"/>
+			</Folder>
+			<Folder Name="oss_play_wav">
+				<F N="../ch18/oss_play_wav/oss_dsp_wav.c"/>
+			</Folder>
+		</Folder>
+	</Files>
+</Project>

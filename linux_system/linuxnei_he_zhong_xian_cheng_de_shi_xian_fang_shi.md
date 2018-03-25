@@ -1,52 +1,52 @@
-# Linux内核中线程的实现方式
+# Linux內核中線程的實現方式
 
 
-本文通过对Linux内核源码的研究和两个C/C++程序，探讨了 Linux内核对线程的支持。并得出了一个结论：Linux内核的线程实现是货真价实的。因此，Linux上的多线程实现是真正的多线程实现。所谓Linux内核其实并不支持线程的说法是错误的。
+本文通過對Linux內核源碼的研究和兩個C/C++程序，探討了 Linux內核對線程的支持。並得出了一個結論：Linux內核的線程實現是貨真價實的。因此，Linux上的多線程實現是真正的多線程實現。所謂Linux內核其實並不支持線程的說法是錯誤的。
 
 ##1.    前言
-关于Linux 内核中线程的实现方式，有一种说法认为：Linux内核其实并不支持线程，因此，Linux上的多线程实现其实是“伪多线程”。
+關於Linux 內核中線程的實現方式，有一種說法認為：Linux內核其實並不支持線程，因此，Linux上的多線程實現其實是“偽多線程”。
 
-这种说法到底正确吗？Linux内核到底是否支持多线程？本文作者通过对Linux内核源码的研究和一些C/C++程序来回答这一问题。
+這種說法到底正確嗎？Linux內核到底是否支持多線程？本文作者通過對Linux內核源碼的研究和一些C/C++程序來回答這一問題。
 
-##2.    进程与线程
-按照操作系统教科书中的定义。进程与线程有以下特点：
+##2.    進程與線程
+按照操作系統教科書中的定義。進程與線程有以下特點：
 
-1） 进程是程序的执行。<br>
-2） 在一个进程中，可以有一到多个线程。<br>
-3） 这些线程共享同一个地址空间。<br>
-4） 但是每个线程有自己独立的运行栈。<br>
-5） 每个线程可以被操作系统独立地调度。<br>
+1） 進程是程序的執行。<br>
+2） 在一個進程中，可以有一到多個線程。<br>
+3） 這些線程共享同一個地址空間。<br>
+4） 但是每個線程有自己獨立的運行棧。<br>
+5） 每個線程可以被操作系統獨立地調度。<br>
 
-##3.    描述线程的数据结构
-根据http://en.wikipedia.org/wiki/Multithreading_(computer_architecture),多线程编程模式兴起于90年代末。因此，当Linus Torvalds于1991年实现Linux的第一个版本是，他根本没有考虑对线程的支持。
+##3.    描述線程的數據結構
+根據http://en.wikipedia.org/wiki/Multithreading_(computer_architecture),多線程編程模式興起於90年代末。因此，當Linus Torvalds於1991年實現Linux的第一個版本是，他根本沒有考慮對線程的支持。
 
-在早期的Linux版本中，Linux只支持进程，不支持线程。在早期的Linux的版本中，描述进程的数据结构式struct task_struct，这也就是操作系统教科书中所说的PCB（Process Control Block）。
+在早期的Linux版本中，Linux只支持進程，不支持線程。在早期的Linux的版本中，描述進程的數據結構式struct task_struct，這也就是操作系統教科書中所說的PCB（Process Control Block）。
 
-为了支持线程，当代Linux采用的方式是用struct task_struct既描述进程，也描述线程。图1给出了2.6.32.27内核中描述进程/线程关系的数据结构。
+為了支持線程，當代Linux採用的方式是用struct task_struct既描述進程，也描述線程。圖1給出了2.6.32.27內核中描述進程/線程關係的數據結構。
 
 ![](images/20141118140939250.png)
 
 
-图1：描述进程/线程关系的数据结构
+圖1：描述進程/線程關係的數據結構
 
-从上图我们可以看出：
+從上圖我們可以看出：
 
-1） 每个线程都用一个独立的task_struct来描述。<br>
-2） 同一个进程的多个线程通过task_struct的thread_group指针字段链接成一个双向循环链表。为了清晰起见，上图只是画出了一个方向的链接。<br>
-3） 同一个进程的多个线程共享同一个内存地址空间，因为它们task_struct的mm指针字段都指向了同一个mm_struct结构。<br>
-4） 对于每个信号，同一个进程的多个线程共享同一个信号处理程序。因为它们task_struct的sighand字段都指向了同一个sighand_struct结构。<br>
-5） 同一个进程的多个线程共享同一个文件描述表。因此，一个线程打开的文件，对其它线程也是可见的。<br>
+1） 每個線程都用一個獨立的task_struct來描述。<br>
+2） 同一個進程的多個線程通過task_struct的thread_group指針字段鏈接成一個雙向循環鏈表。為了清晰起見，上圖只是畫出了一個方向的鏈接。<br>
+3） 同一個進程的多個線程共享同一個內存地址空間，因為它們task_struct的mm指針字段都指向了同一個mm_struct結構。<br>
+4） 對於每個信號，同一個進程的多個線程共享同一個信號處理程序。因為它們task_struct的sighand字段都指向了同一個sighand_struct結構。<br>
+5） 同一個進程的多個線程共享同一個文件描述表。因此，一個線程打開的文件，對其它線程也是可見的。<br>
 
 
-为了验证上面的结论，我们下面通过一个用户态的多线程程序和一个内核态的模块来进行验证。本文的实验环境如下：
+為了驗證上面的結論，我們下面通過一個用戶態的多線程程序和一個內核態的模塊來進行驗證。本文的實驗環境如下：
 
 1） Cent OS 版本: 6.5<br>
-2） Linux内核2.6.32<br>
+2） Linux內核2.6.32<br>
 3） GCC版本：4.4.7<br>
 
-##4.    一个用户态的多线程程序
+##4.    一個用戶態的多線程程序
 
-下面是该用户态程序的源码：
+下面是該用戶態程序的源碼：
 
 ```c
 #include <stdio.h>
@@ -104,7 +104,7 @@ int main(void)
 }
 ```
 
-下面是编译该程序的Makefile：
+下面是編譯該程序的Makefile：
 
 ```sh
 TARGET = pthread_test
@@ -129,14 +129,14 @@ clean:
 ```
 
 
-该用户态程序在主线程中通过POSIX Thread库创建了两个线程。在每个线程中：
+該用戶態程序在主線程中通過POSIX Thread庫創建了兩個線程。在每個線程中：
 
-1） 调用dup(0)复制一个新的标准输入的描述符。<br>
-2） 设置了SIGINT信号的处理程序。<br>
-3） 睡眠一个小时。<br>
+1） 調用dup(0)複製一個新的標準輸入的描述符。<br>
+2） 設置了SIGINT信號的處理程序。<br>
+3） 睡眠一個小時。<br>
 
-##5.    一个内核态的模块
-该内核态模块的源码：
+##5.    一個內核態的模塊
+該內核態模塊的源碼：
 
 
 ```c
@@ -224,7 +224,7 @@ void cleanup_module(void)
 }
 ```
 
-下面是编译该模块的Makefile：
+下面是編譯該模塊的Makefile：
 
 ```sh
 obj-m += enum_processes.o
@@ -234,19 +234,19 @@ clean:
 	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
 ```
 
-在内核加载该内核态模块时，该模块：
+在內核加載該內核態模塊時，該模塊：
 
-1） 枚举出系统中的每一个进程。<br>
-2） 对于每个进程，枚举出其每一个线程。<br>
-3） 对于每个线程，打印其task_struct的mm指针字段。<br>
-4） 对于每个线程，打印其文件描述符表。<br>
-5） 对于每个线程，打印其每个信号的处理程序。<br>
+1） 枚舉出系統中的每一個進程。<br>
+2） 對於每個進程，枚舉出其每一個線程。<br>
+3） 對於每個線程，打印其task_struct的mm指針字段。<br>
+4） 對於每個線程，打印其文件描述符表。<br>
+5） 對於每個線程，打印其每個信號的處理程序。<br>
 
-##6.    实验
+##6.    實驗
 
 
-###6.1  运行用户态程序pthread_test
-我们运行pthread_test，然后按CTRL+C。
+###6.1  運行用戶態程序pthread_test
+我們運行pthread_test，然後按CTRL+C。
 
 ```sh
 [liqingxu@localhost posix_thread]$ ./pthread_test
@@ -257,19 +257,19 @@ fd = 4
 ^CCTRL+C captured
 ```
 
-通过上面的输出，我们可以看到：
+通過上面的輸出，我們可以看到：
 
-1） 线程成功的设置了SIGINT信号的处理程序。<br>
-2） 第一个线程的dup(0)调用返回的文件描述符为3。<br>
-3） 第二个线程的dup(0)调用返回的文件描述符为4。<br>
+1） 線程成功的設置了SIGINT信號的處理程序。<br>
+2） 第一個線程的dup(0)調用返回的文件描述符為3。<br>
+3） 第二個線程的dup(0)調用返回的文件描述符為4。<br>
 
-下面是该模块注册时打印的一部分信息。通过下面highlight出的信息，我们可以看出：
+下面是該模塊註冊時打印的一部分信息。通過下面highlight出的信息，我們可以看出：
 
-1） 每个线程都共享同一个地址空间，因为其task_struct 的mm字段指向了同样的mm_struct结构。<br>
-2） 每个线程都共享同一个信号处理程序。因为它们task_struct的sighand字段都指向了同一个sighand_struct结构。<br>
-3） 每个线程都共享同一个文件描述表。<br>
+1） 每個線程都共享同一個地址空間，因為其task_struct 的mm字段指向了同樣的mm_struct結構。<br>
+2） 每個線程都共享同一個信號處理程序。因為它們task_struct的sighand字段都指向了同一個sighand_struct結構。<br>
+3） 每個線程都共享同一個文件描述表。<br>
 
-这验证了我们前面讨论描述线程的数据结构时得到的结论。<br>
+這驗證了我們前面討論描述線程的數據結構時得到的結論。<br>
 
 ```sh
 Nov 10 03:43:30 localhost kernel: pid=5703, comm='pthread_test', files=0x4f12b200
@@ -313,23 +313,23 @@ Nov 10 03:43:30 localhost kernel: SIG 2: SIG_DFL
 Nov 10 03:43:30 localhost kernel: Thread count in proc(pid=5703):3
 ```
 
-##7.    PThread线程库是如何创建线程的
-###7.1  Glibc源程序RPM包的下载
-Pthread library的实现在glibc中。
+##7.    PThread線程庫是如何創建線程的
+###7.1  Glibc源程序RPM包的下載
+Pthread library的實現在glibc中。
 
 wget http://vault.centos.org/6.5/os/Source/SPackages/glibc-2.12-1.132.el6.src.rpm
 
-###7.2  从RPM包中获取Glibc的源码
-1)      需要先安装rpm-build包 yum install rpm-build<br>
+###7.2  從RPM包中獲取Glibc的源碼
+1)      需要先安裝rpm-build包 yum install rpm-build<br>
 2)      mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}<br>
-3)      编译但编译完成后不删除源程序 rpmbuild --recompile glibc-2.12-1.132.el6.src.rpm<br>
-4)      编译完成后，Pthread的源程序在~/rpmbuild/BUILD/glibc-2.12-2-gc4ccff1/nptl目录下<br>
+3)      編譯但編譯完成後不刪除源程序 rpmbuild --recompile glibc-2.12-1.132.el6.src.rpm<br>
+4)      編譯完成後，Pthread的源程序在~/rpmbuild/BUILD/glibc-2.12-2-gc4ccff1/nptl目錄下<br>
 
-###7.3  pthread_create()的实现
+###7.3  pthread_create()的實現
 
-Linux内核提供了一个系统调用clone()可以创建线程。该系统调用的实现函数是sys_clone()。
+Linux內核提供了一個系統調用clone()可以創建線程。該系統調用的實現函數是sys_clone()。
 
-在文件nptl/sysdeps/pthread/createthread.c中，我们可以看到传递给clone()系统调用的flags参数如下：
+在文件nptl/sysdeps/pthread/createthread.c中，我們可以看到傳遞給clone()系統調用的flags參數如下：
 
 ```c
 int clone_flags = (CLONE_VM | CLONE_FS | CLONE_FILES | CLONE_SIGNAL
@@ -341,12 +341,12 @@ int clone_flags = (CLONE_VM | CLONE_FS | CLONE_FILES | CLONE_SIGNAL
                    | 0);
 ```
 
-我们可以看出，因为pthread_create()传递给sys_clone()的flags参数中包含了CLONE_VM |  CLONE_FILES | CLONE_SIGNAL标志，所以其创建出来的线程都共享一个地址空间、一套文件描述符表和一套信号处理程序表。
+我們可以看出，因為pthread_create()傳遞給sys_clone()的flags參數中包含了CLONE_VM |  CLONE_FILES | CLONE_SIGNAL標誌，所以其創建出來的線程都共享一個地址空間、一套文件描述符表和一套信號處理程序表。
 
-##8.    结论
-通过前面对Linux内核源码的分析和实验，我们可以得出来一个结论：Linux内核的线程实现是货真价实的。因此，Linux上的多线程实现是真正的多线程实现。
+##8.    結論
+通過前面對Linux內核源碼的分析和實驗，我們可以得出來一個結論：Linux內核的線程實現是貨真價實的。因此，Linux上的多線程實現是真正的多線程實現。
 
-##9.    参考资料
+##9.    參考資料
 - 1.       Daniel P. Bovet & Marco Cesati著.  Uderstanding the Linux Kernel. O’Reilly Media, Inc. 2006.
 
 - 2.       Michael KerrisK. The Linux Programming Interface. No Starch Press, Inc. 2010.

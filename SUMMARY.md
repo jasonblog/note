@@ -316,7 +316,7 @@
    * [Multi-pthread note](linux_system/multi-pthread_note.md)
        * [fork + pthread_create 記憶體空間差異](linux_system/fork_+_pthreadcreate_ji_yi_ti_kong_jian_cha_yi.md)
        * [Pros and Cons](linux_system/pros_and_cons.md)
-       * Linux内核中线程的实现方式
+       * [Linux内核中线程的实现方式](linux_system/linuxnei_he_zhong_xian_cheng_de_shi_xian_fang_shi.md)
    * [linux系統編程](linux_system/linuxxi_tong_bian_cheng.md)
        * [文件與IO（一）：文件描述符、open，close](linux_system/linuxxi_tong_bian_cheng_zhi_wen_jian_yu_io_ff08_yi.md)
        * [文件與IO（二）：系統調用read和write](linux_system/linuxxi_tong_bian_cheng_zhi_wen_jian_yu_io_ff08_er.md)

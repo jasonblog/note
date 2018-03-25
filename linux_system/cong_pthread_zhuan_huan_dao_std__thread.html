@@ -57,7 +57,7 @@
         data-chapter-title="從 pthread 轉換到 std::thread"
         data-filepath="linux_system/cong_pthread_zhuan_huan_dao_std__thread.md"
         data-basepath=".."
-        data-revision="Sun Mar 25 2018 12:42:17 GMT+0800 (CST)"
+        data-revision="Sun Mar 25 2018 12:57:49 GMT+0800 (CST)"
         data-innerlanguage="">
     
 
@@ -5008,7 +5008,7 @@
                         
                             <b>13.1.3.</b>
                         
-                        Linux内核中线程的实现方式
+                        Linux內核中線程的實現方式
                     </a>
             
             
@@ -21615,7 +21615,7 @@ producer:
 <h2 id="more">More</h2>
 <p>C++11&#x7684;&#x7DDA;&#x7A0B;&#x5EAB;&#x9084;&#x63D0;&#x4F9B;&#x4E86;&#x5176;&#x4ED6;&#x591A;&#x7DDA;&#x7A0B;&#x7DE8;&#x7A0B;&#x7684;&#x6982;&#x5FF5;&#xFF0C;&#x6BD4;&#x5982;future&#x548C;atomic&#x3002;</p>
 <h2 id="future">future</h2>
-<p>future&#x5305;&#x88DD;&#x4E86;&#x672A;&#x4F86;&#x67D0;&#x500B;&#x8A08;&#x7B97;&#x7D50;&#x679C;&#x7684;&#x671F;&#x8AFE;&#x3002;&#x7576;&#x4F60;&#x5C0D;&#x6240;&#x7372;&#x5F97;&#x7684;future&#x8ABF;&#x7528;get&#x6642;&#xFF0C;&#x7A0B;&#x5E8F;&#x6703;&#x4E00;&#x76F4;&#x963B;&#x585E;&#x76F4;&#x5230;future&#x7684;&#x503C;&#x88AB;&#x8A08;&#x7B97;&#x51FA;&#x4F86;&#x3002;&#xFF08;&#x5982;&#x679C;future&#x7684;&#x503C;&#x5DF2;&#x7D93;&#x8A08;&#x7B97;&#x51FA;&#x4F86;&#x4E86;&#xFF0C;get&#x8ABF;&#x7528;&#x6703;&#x7ACB;&#x523B;&#x7372;&#x5F97;&#x8FD4;&#x56DE;&#x503C;&#xFF09;&#x800C;&#x9019;&#x4E00;&#x5207;&#x90FD;&#x662F;&#x5728;&#x5F8C;&#x53F0;&#x57F7;&#x884C;&#x7684;&#x3002;</p>
+<p>future&#x5305;&#x88DD;&#x4E86;&#x672A;&#x4F86;&#x67D0;&#x500B;&#x8A08;&#x7B97;&#x7D50;&#x679C;&#x7684;&#x671F;&#x8AFE;&#x3002;&#x7576;&#x4F60;&#x5C0D;&#x6240;&#x7372;&#x5F97;&#x7684;future&#x8ABF;&#x7528;get&#x6642;&#xFF0C;&#x7A0B;&#x5E8F;&#x6703;&#x4E00;&#x76F4;&#x963B;&#x585E;&#x76F4;&#x5230;future&#x7684;&#x503C;&#x88AB;&#x8A08;&#x7B97;&#x51FA;&#x4F86;&#x3002;&#xFF08;&#x5982;&#x679C;future&#x7684;&#x503C;&#x5DF2;&#x7D93;&#x8A08;&#x7B97;&#x51FA;&#x4F86;&#x4E86;&#xFF0C;get&#x8ABF;&#x7528;&#x6703;&#x7ACB;&#x523B;&#x7372;&#x5F97;&#x8FD4;&#x56DE;&#x503C;&#xFF09;&#x800C;&#x9019;&#x4E00;&#x5207;&#x90FD;&#x662F;&#x5728;&#x5F8C;&#x81FA;&#x57F7;&#x884C;&#x7684;&#x3002;</p>
 <p>&#x8209;&#x500B;&#x4F8B;&#x5B50;&#xFF1A;&#xFF08;future&#x76F8;&#x95DC;&#x7684;&#x5167;&#x5BB9;&#x9700;&#x8981;<code>#include &lt;future&gt;</code>&#xFF09;</p>
 <pre><code class="lang-cpp"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;chrono&gt;</span></span>
 <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
@@ -21710,14 +21710,14 @@ atomic&lt;<span class="hljs-keyword">int</span>&gt; atomicTarget(<span class="hl
 &#x512A;&#x9EDE;&#xFF1A;</p>
 <ol>
 <li>&#x7C21;&#x55AE;&#xFF0C;&#x6613;&#x7528;</li>
-<li>&#x8DE8;&#x5E73;&#x53F0;&#xFF0C;pthread&#x53EA;&#x80FD;&#x7528;&#x5728;POSIX&#x7CFB;&#x7D71;&#x4E0A;&#xFF08;&#x5176;&#x4ED6;&#x7CFB;&#x7D71;&#x6709;&#x5176;&#x7368;&#x7ACB;&#x7684;thread&#x5BE6;&#x73FE;&#xFF09;</li>
+<li>&#x8DE8;&#x5E73;&#x81FA;&#xFF0C;pthread&#x53EA;&#x80FD;&#x7528;&#x5728;POSIX&#x7CFB;&#x7D71;&#x4E0A;&#xFF08;&#x5176;&#x4ED6;&#x7CFB;&#x7D71;&#x6709;&#x5176;&#x7368;&#x7ACB;&#x7684;thread&#x5BE6;&#x73FE;&#xFF09;</li>
 <li>&#x63D0;&#x4F9B;&#x4E86;&#x66F4;&#x591A;&#x9AD8;&#x7D1A;&#x529F;&#x80FD;&#xFF0C;&#x6BD4;&#x5982;future</li>
 <li>&#x66F4;&#x52A0;C++&#xFF08;&#x8DDF;&#x533F;&#x540D;&#x51FD;&#x6578;&#xFF0C;std::bind&#xFF0C;RAII&#x7B49;C++&#x7279;&#x6027;&#x66F4;&#x597D;&#x7684;&#x96C6;&#x6210;&#xFF09;</li>
 </ol>
 <p>&#x7F3A;&#x9EDE;&#xFF1A;</p>
 <ol>
 <li>&#x6C92;&#x6709;RWlock&#x3002;&#x6709;&#x4E00;&#x500B;&#x985E;&#x4F3C;&#x7684;shared_mutex&#xFF0C;&#x4E0D;&#x904E;&#x5B83;&#x5C6C;&#x65BC;C++14,&#x4F60;&#x7684;&#x7DE8;&#x8B6F;&#x5668;&#x5F88;&#x6709;&#x53EF;&#x80FD;&#x4E0D;&#x652F;&#x6301;&#x3002;</li>
-<li>&#x64CD;&#x4F5C;&#x7DDA;&#x7A0B;&#x548C;Mutex&#x7B49;&#x7684;API&#x8F03;&#x5C11;&#x3002;&#x7562;&#x7ADF;&#x70BA;&#x4E86;&#x8DE8;&#x5E73;&#x53F0;&#xFF0C;&#x53EA;&#x80FD;&#x9078;&#x53D6;&#x5404;&#x539F;&#x751F;&#x5BE6;&#x73FE;&#x7684;&#x5B50;&#x96C6;&#x3002;&#x5982;&#x679C;&#x4F60;&#x9700;&#x8981;&#x8A2D;&#x7F6E;&#x67D0;&#x4E9B;&#x5C6C;&#x6027;&#xFF0C;&#x9700;&#x8981;&#x901A;&#x904E;API&#x8ABF;&#x7528;&#x8FD4;&#x56DE;&#x539F;&#x751F;&#x5E73;&#x53F0;&#x4E0A;&#x7684;&#x5C0D;&#x61C9;&#x5C0D;&#x8C61;&#xFF0C;&#x518D;&#x5C0D;&#x8FD4;&#x56DE;&#x7684;&#x5C0D;&#x8C61;&#x9032;&#x884C;&#x64CD;&#x4F5C;&#x3002;</li>
+<li>&#x64CD;&#x4F5C;&#x7DDA;&#x7A0B;&#x548C;Mutex&#x7B49;&#x7684;API&#x8F03;&#x5C11;&#x3002;&#x7562;&#x7ADF;&#x70BA;&#x4E86;&#x8DE8;&#x5E73;&#x81FA;&#xFF0C;&#x53EA;&#x80FD;&#x9078;&#x53D6;&#x5404;&#x539F;&#x751F;&#x5BE6;&#x73FE;&#x7684;&#x5B50;&#x96C6;&#x3002;&#x5982;&#x679C;&#x4F60;&#x9700;&#x8981;&#x8A2D;&#x7F6E;&#x67D0;&#x4E9B;&#x5C6C;&#x6027;&#xFF0C;&#x9700;&#x8981;&#x901A;&#x904E;API&#x8ABF;&#x7528;&#x8FD4;&#x56DE;&#x539F;&#x751F;&#x5E73;&#x81FA;&#x4E0A;&#x7684;&#x5C0D;&#x61C9;&#x5C0D;&#x8C61;&#xFF0C;&#x518D;&#x5C0D;&#x8FD4;&#x56DE;&#x7684;&#x5C0D;&#x8C61;&#x9032;&#x884C;&#x64CD;&#x4F5C;&#x3002;</li>
 </ol>
 <p>&#x9644;&#x4E0A;&#x6211;&#x81EA;&#x5DF1;&#x5BEB;&#x7684;&#xFF0C;&#x5206;&#x5225;&#x7528;std::thread&#x548C;pthread&#x5BE6;&#x73FE;&#x7684;&#x591A;&#x751F;&#x7522;&#x8005;&#x591A;&#x6D88;&#x8CBB;&#x8005;&#x7A0B;&#x5E8F;&#x3002;&#x6CE8;&#x610F;&#x884C;&#x6578;&#x4E0A;&#x7684;&#x5DEE;&#x8DDD;&#x3002;</p>
 <p>pthread&#x7248;&#x672C;</p>

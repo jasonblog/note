@@ -1,5 +1,11 @@
 # 基礎範例
 
+
+
+`開發時`，設置LIBRARY_PATH，以便gcc能夠找到`編譯時`需要的動態鏈接庫。
+
+`發佈時`，設置LD_LIBRARY_PATH，以便`程序加載運行時`能夠自動找到需要的動態鏈接庫。
+
 [linux下運行時連結庫的路徑順序](http://jasonblog.github.io/note/linked_and_loader/linuxxia_yun_xing_shi_lian_jie_ku_de_lu_jing_shun_.html)
 
 

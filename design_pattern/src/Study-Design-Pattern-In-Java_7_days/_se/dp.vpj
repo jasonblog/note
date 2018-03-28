@@ -1,0 +1,669 @@
+<!DOCTYPE Project SYSTEM "http://www.slickedit.com/dtd/vse/10.0/vpj.dtd">
+<Project
+	Version="10.0"
+	VendorName="SlickEdit"
+	TemplateName="Java - Empty Project"
+	WorkingDir=".">
+	<Config
+		Name="Release"
+		Type="java"
+		AppTypeList="application,applet,custom"
+		DebugCallbackName="jdwp"
+		ObjectDir="classes"
+		AppType="application"
+		Version="8"
+		OutputFile=""
+		CompilerConfigName="Latest Version">
+		<Menu>
+			<Target
+				Name="Compile"
+				MenuCaption="&amp;Compile"
+				Dialog="_java_options_form Compiler"
+				EnableBuildFirst="0"
+				CaptureOutputWith="ProcessBuffer"
+				Deletable="0"
+				SaveOption="SaveCurrent"
+				RunFromDir="%rw">
+				<Exec CmdLine='javac %jbd %cp "%f"'/>
+			</Target>
+			<Target
+				Name="Build"
+				MenuCaption="&amp;Build"
+				Dialog="_java_options_form Compiler"
+				CaptureOutputWith="ProcessBuffer"
+				Deletable="0"
+				SaveOption="SaveWorkspaceFiles"
+				RunFromDir="%rw">
+				<Exec CmdLine="javamake"/>
+			</Target>
+			<Target
+				Name="Rebuild"
+				MenuCaption="&amp;Rebuild"
+				Dialog="_java_options_form Compiler"
+				CaptureOutputWith="ProcessBuffer"
+				Deletable="0"
+				SaveOption="SaveWorkspaceFiles"
+				RunFromDir="%rw">
+				<Exec CmdLine="javarebuild"/>
+			</Target>
+			<Target
+				Name="Debug"
+				MenuCaption="&amp;Debug"
+				Dialog="_java_options_form Debugger"
+				BuildFirst="1"
+				Deletable="0"
+				CaptureOutputWith="ProcessBuffer"
+				RunFromDir="%rw">
+				<Exec CmdLine="java -Xdebug -Xnoagent -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8000 %cp ."/>
+			</Target>
+			<Target
+				Name="Execute"
+				MenuCaption="E&amp;xecute"
+				Dialog="_java_options_form Interpreter"
+				BuildFirst="1"
+				Deletable="0"
+				CaptureOutputWith="ProcessBuffer"
+				RunFromDir="%rw">
+				<Exec CmdLine="java %cp"/>
+			</Target>
+			<Target
+				Name="UnitTest"
+				MenuCaption="Unit Test"
+				ShowOnMenu="Never"
+				Dialog=""
+				BuildFirst="1"
+				Deletable="0"
+				CaptureOutputWith="ProcessBuffer"
+				PreMacro="unittest_pre_build"
+				PostMacro="unittest_post_build"
+				RunFromDir="%rw">
+				<Exec CmdLine="java %cp org.junit.runner.JUnitCore"/>
+			</Target>
+			<Target
+				Name="dash"
+				MenuCaption="-">
+				<Exec/>
+			</Target>
+			<Target
+				Name="View Javadoc"
+				MenuCaption="&amp;View Javadoc"
+				ShowOnMenu="HideIfNoCmdLine"
+				Dialog="_java_options_form javadoc"
+				Deletable="0"
+				SaveOption="SaveCurrent"
+				RunFromDir="%rw">
+				<Exec
+					CmdLine="javaviewdoc"
+					Type="Slick-C"/>
+			</Target>
+			<Target
+				Name="Javadoc All"
+				MenuCaption="Javadoc All"
+				ShowOnMenu="HideIfNoCmdLine"
+				Dialog="_java_options_form javadoc"
+				CaptureOutputWith="ProcessBuffer"
+				Deletable="0"
+				SaveOption="SaveWorkspaceFiles"
+				RunFromDir="%rw">
+				<Exec CmdLine="javamakedoc javadoc -d docs %cp %{*.java}"/>
+			</Target>
+			<Target
+				Name="dash2"
+				MenuCaption="-">
+				<Exec/>
+			</Target>
+			<Target
+				Name="Make Jar"
+				MenuCaption="Make &amp;Jar"
+				ShowOnMenu="HideIfNoCmdLine"
+				Dialog="_java_options_form jar"
+				CaptureOutputWith="ProcessBuffer"
+				BuildFirst="1"
+				Deletable="0"
+				SaveOption="SaveWorkspaceFiles"
+				RunFromDir="%rw">
+				<Exec CmdLine='javamakejar jar cvf ".jar" %{*}'/>
+			</Target>
+			<Target
+				Name="Java Options"
+				MenuCaption="Java &amp;Options"
+				ShowOnMenu="HideIfNoCmdLine"
+				Deletable="0">
+				<Exec
+					CmdLine="javaoptions"
+					Type="Slick-C"/>
+			</Target>
+		</Menu>
+		<AppTypeTargets Name="Debug">
+			<AppTypeTarget
+				MenuCaption="&amp;Debug"
+				Dialog="_java_options_form Appletviewer"
+				BuildFirst="1"
+				Deletable="0"
+				AppType="applet"
+				RunFromDir="%rw">
+				<Exec CmdLine="appletviewer -J-Xdebug -J-Xnoagent -J-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8000 %h"/>
+			</AppTypeTarget>
+			<AppTypeTarget
+				MenuCaption="&amp;Debug"
+				BuildFirst="1"
+				Deletable="0"
+				AppType="custom"
+				RunFromDir="%rw">
+				<Exec CmdLine="jdb %cp %&lt;e"/>
+			</AppTypeTarget>
+		</AppTypeTargets>
+		<AppTypeTargets Name="Execute">
+			<AppTypeTarget
+				MenuCaption="E&amp;xecute"
+				Dialog="_java_options_form Appletviewer"
+				BuildFirst="1"
+				CaptureOutputWith="ProcessBuffer"
+				SaveOption="SaveWorkspaceFiles"
+				AppletClass=""
+				Deletable="0"
+				AppType="applet"
+				RunFromDir="%rw">
+				<Exec CmdLine="appletviewer %h"/>
+			</AppTypeTarget>
+			<AppTypeTarget
+				MenuCaption="E&amp;xecute"
+				BuildFirst="1"
+				CaptureOutputWith="ProcessBuffer"
+				SaveOption="SaveWorkspaceFiles"
+				Deletable="0"
+				AppType="custom"
+				RunFromDir="%rw">
+				<Exec CmdLine="java %cp %&lt;e"/>
+			</AppTypeTarget>
+		</AppTypeTargets>
+	</Config>
+	<CustomFolders>
+		<Folder
+			Name="Source Files"
+			Filters="*.java;*.c;*.cpp;*.cxx;*.hxx;*.prg;*.pas;*.dpr;*.asm;*.bas;*.sc;*.e"/>
+		<Folder
+			Name="Bitmaps"
+			Filters="*.jpg;*.gif;*.bmp"/>
+		<Folder
+			Name="Other Files"
+			Filters=""/>
+	</CustomFolders>
+	<Files AutoFolders="DirectoryView">
+		<Folder Name="../src">
+			<Folder Name="a">
+				<Folder Name="uml">
+					<F N="../src/a/uml/ClassA.java"/>
+					<F N="../src/a/uml/ClassB.java"/>
+					<F N="../src/a/uml/ClassC.java"/>
+					<F N="../src/a/uml/ClassD.java"/>
+					<F N="../src/a/uml/介面.java"/>
+					<F N="../src/a/uml/子類別.java"/>
+					<F N="../src/a/uml/父類別.java"/>
+				</Folder>
+			</Folder>
+			<Folder Name="b">
+				<Folder Name="solid">
+					<Folder Name="ISP">
+						<F N="../src/b/solid/ISP/可以上路的車.java"/>
+						<F N="../src/b/solid/ISP/樂高車.java"/>
+						<F N="../src/b/solid/ISP/超級跑車.java"/>
+						<F N="../src/b/solid/ISP/阿文的車.java"/>
+					</Folder>
+					<Folder Name="LSP">
+						<F N="../src/b/solid/LSP/樂高車.java"/>
+						<F N="../src/b/solid/LSP/超級跑車.java"/>
+						<F N="../src/b/solid/LSP/車.java"/>
+						<F N="../src/b/solid/LSP/露營車.java"/>
+					</Folder>
+				</Folder>
+			</Folder>
+			<Folder Name="c0">
+				<Folder Name="singleton">
+					<F N="../src/c0/singleton/Singleton.java"/>
+					<F N="../src/c0/singleton/SingletonGreed.java"/>
+				</Folder>
+			</Folder>
+			<Folder Name="c01">
+				<Folder Name="simpleFactory">
+					<Folder Name="village">
+						<F N="../src/c01/simpleFactory/village/Adventurer.java"/>
+						<F N="../src/c01/simpleFactory/village/Archer.java"/>
+						<F N="../src/c01/simpleFactory/village/Product.java"/>
+						<F N="../src/c01/simpleFactory/village/ProductA.java"/>
+						<F N="../src/c01/simpleFactory/village/ProductB.java"/>
+						<F N="../src/c01/simpleFactory/village/SimpleFactory.java"/>
+						<F N="../src/c01/simpleFactory/village/TrainingCamp.java"/>
+						<F N="../src/c01/simpleFactory/village/Warrior.java"/>
+					</Folder>
+				</Folder>
+			</Folder>
+			<Folder Name="c02">
+				<Folder Name="factory">
+					<Folder Name="village">
+						<F N="../src/c02/factory/village/Adventurer.java"/>
+						<F N="../src/c02/factory/village/Archer.java"/>
+						<F N="../src/c02/factory/village/ArcherTrainingCamp.java"/>
+						<F N="../src/c02/factory/village/TrainingCamp.java"/>
+						<F N="../src/c02/factory/village/Warrior.java"/>
+						<F N="../src/c02/factory/village/WarriorTrainingCamp.java"/>
+					</Folder>
+				</Folder>
+			</Folder>
+			<Folder Name="c03">
+				<Folder Name="abstractfactory">
+					<Folder Name="factory">
+						<F N="../src/c03/abstractfactory/factory/ArcherEquipFactory.java"/>
+						<F N="../src/c03/abstractfactory/factory/Armor.java"/>
+						<F N="../src/c03/abstractfactory/factory/Bow.java"/>
+						<F N="../src/c03/abstractfactory/factory/Clothes.java"/>
+						<F N="../src/c03/abstractfactory/factory/EquipFactory.java"/>
+						<F N="../src/c03/abstractfactory/factory/Leather.java"/>
+						<F N="../src/c03/abstractfactory/factory/LongSword.java"/>
+						<F N="../src/c03/abstractfactory/factory/WarriorEquipFactory.java"/>
+						<F N="../src/c03/abstractfactory/factory/Weapon.java"/>
+					</Folder>
+					<Folder Name="village">
+						<F N="../src/c03/abstractfactory/village/Adventurer.java"/>
+						<F N="../src/c03/abstractfactory/village/Archer.java"/>
+						<F N="../src/c03/abstractfactory/village/ArcherTrainingCamp.java"/>
+						<F N="../src/c03/abstractfactory/village/TrainingCamp.java"/>
+						<F N="../src/c03/abstractfactory/village/Warrior.java"/>
+						<F N="../src/c03/abstractfactory/village/WarriorTrainingCamp.java"/>
+					</Folder>
+				</Folder>
+			</Folder>
+			<Folder Name="c04">
+				<Folder Name="strategy">
+					<Folder Name="example">
+						<F N="../src/c04/strategy/example/SortVillageByArea.java"/>
+						<F N="../src/c04/strategy/example/SortVillageById.java"/>
+						<F N="../src/c04/strategy/example/SortVillageByName.java"/>
+						<F N="../src/c04/strategy/example/SortVillageByPopulation.java"/>
+						<F N="../src/c04/strategy/example/Village.java"/>
+					</Folder>
+					<Folder Name="flight">
+						<F N="../src/c04/strategy/flight/Adventurer.java"/>
+						<F N="../src/c04/strategy/flight/FlightStrategy.java"/>
+						<F N="../src/c04/strategy/flight/NormalAttack.java"/>
+						<F N="../src/c04/strategy/flight/UseItem.java"/>
+						<F N="../src/c04/strategy/flight/UseSkill.java"/>
+					</Folder>
+				</Folder>
+			</Folder>
+			<Folder Name="c05">
+				<Folder Name="decorator">
+					<Folder Name="javaIO">
+						<F N="../src/c05/decorator/javaIO/ReverseReader.java"/>
+						<F N="../src/c05/decorator/javaIO/UpperCaseInputStream.java"/>
+					</Folder>
+					<Folder Name="title">
+						<F N="../src/c05/decorator/title/Adventurer.java"/>
+						<F N="../src/c05/decorator/title/Lancer.java"/>
+						<F N="../src/c05/decorator/title/Title.java"/>
+						<F N="../src/c05/decorator/title/TitleAgile.java"/>
+						<F N="../src/c05/decorator/title/TitleInFire.java"/>
+						<F N="../src/c05/decorator/title/TitleStrong.java"/>
+					</Folder>
+				</Folder>
+			</Folder>
+			<Folder Name="c06">
+				<Folder Name="observer">
+					<Folder Name="association">
+						<F N="../src/c06/observer/association/Adventurer.java"/>
+						<F N="../src/c06/observer/association/Association.java"/>
+						<F N="../src/c06/observer/association/Bard.java"/>
+						<F N="../src/c06/observer/association/Gunman.java"/>
+						<F N="../src/c06/observer/association/Lancer.java"/>
+						<F N="../src/c06/observer/association/Subject.java"/>
+					</Folder>
+				</Folder>
+			</Folder>
+			<Folder Name="c07">
+				<Folder Name="command">
+					<Folder Name="coffeShop">
+						<F N="../src/c07/command/coffeShop/Barkeep.java"/>
+						<F N="../src/c07/command/coffeShop/Chef.java"/>
+						<F N="../src/c07/command/coffeShop/DrinkOrder.java"/>
+						<F N="../src/c07/command/coffeShop/KitchenWorker.java"/>
+						<F N="../src/c07/command/coffeShop/Order.java"/>
+						<F N="../src/c07/command/coffeShop/SnackOrder.java"/>
+						<F N="../src/c07/command/coffeShop/Waitress.java"/>
+					</Folder>
+				</Folder>
+			</Folder>
+			<Folder Name="c08">
+				<Folder Name="adapter">
+					<F N="../src/c08/adapter/Adapter.java"/>
+					<F N="../src/c08/adapter/Archer.java"/>
+					<F N="../src/c08/adapter/NormalArcher.java"/>
+					<F N="../src/c08/adapter/Wizard.java"/>
+				</Folder>
+			</Folder>
+			<Folder Name="c09">
+				<Folder Name="facade">
+					<Folder Name="mvc">
+						<F N="../src/c09/facade/mvc/UserController.java"/>
+						<F N="../src/c09/facade/mvc/UserService.java"/>
+					</Folder>
+					<F N="../src/c09/facade/Electronics.java"/>
+					<F N="../src/c09/facade/KTVsystem.java"/>
+					<F N="../src/c09/facade/PlayStation3.java"/>
+					<F N="../src/c09/facade/Stereo.java"/>
+					<F N="../src/c09/facade/Television.java"/>
+					<F N="../src/c09/facade/VedioRoomFacade.java"/>
+				</Folder>
+			</Folder>
+			<Folder Name="c10">
+				<Folder Name="template">
+					<Folder Name="adventurer">
+						<F N="../src/c10/template/adventurer/Adventurer.java"/>
+						<F N="../src/c10/template/adventurer/GundamJustice.java"/>
+						<F N="../src/c10/template/adventurer/Sabar.java"/>
+					</Folder>
+					<Folder Name="maze">
+						<F N="../src/c10/template/maze/DifficultMaze.java"/>
+						<F N="../src/c10/template/maze/EazyMaze.java"/>
+						<F N="../src/c10/template/maze/MazeTemplate.java"/>
+					</Folder>
+				</Folder>
+			</Folder>
+			<Folder Name="c11">
+				<Folder Name="composite">
+					<Folder Name="organizationTree">
+						<F N="../src/c11/composite/organizationTree/AbstractAssociation.java"/>
+						<F N="../src/c11/composite/organizationTree/Association.java"/>
+						<F N="../src/c11/composite/organizationTree/Department.java"/>
+						<F N="../src/c11/composite/organizationTree/HumanResouce.java"/>
+						<F N="../src/c11/composite/organizationTree/ServiceDepartment.java"/>
+					</Folder>
+				</Folder>
+			</Folder>
+			<Folder Name="c12">
+				<Folder Name="state">
+					<Folder Name="warrior">
+						<F N="../src/c12/state/warrior/DesperateState.java"/>
+						<F N="../src/c12/state/warrior/FuryState.java"/>
+						<F N="../src/c12/state/warrior/NormalState.java"/>
+						<F N="../src/c12/state/warrior/State.java"/>
+						<F N="../src/c12/state/warrior/UnableState.java"/>
+						<F N="../src/c12/state/warrior/Warrior.java"/>
+						<F N="../src/c12/state/warrior/WarriorPlain.java"/>
+					</Folder>
+				</Folder>
+			</Folder>
+			<Folder Name="c13">
+				<Folder Name="proxy">
+					<Folder Name="aop">
+						<F N="../src/c13/proxy/aop/FightManager.java"/>
+						<F N="../src/c13/proxy/aop/ProxyFightManager.java"/>
+					</Folder>
+					<Folder Name="game">
+						<F N="../src/c13/proxy/game/GameDisplay.java"/>
+						<F N="../src/c13/proxy/game/ProxyGameDisplay.java"/>
+						<F N="../src/c13/proxy/game/RealGameDisplay.java"/>
+					</Folder>
+					<Folder Name="protect">
+						<F N="../src/c13/proxy/protect/Person.java"/>
+						<F N="../src/c13/proxy/protect/PersonBean.java"/>
+						<F N="../src/c13/proxy/protect/ProxyPersonBean.java"/>
+					</Folder>
+				</Folder>
+			</Folder>
+			<Folder Name="c14">
+				<Folder Name="iterator">
+					<Folder Name="simpleList">
+						<F N="../src/c14/iterator/simpleList/SimpleList.java"/>
+						<F N="../src/c14/iterator/simpleList/SimpleListInterface.java"/>
+					</Folder>
+				</Folder>
+			</Folder>
+			<Folder Name="c15">
+				<Folder Name="builder">
+					<Folder Name="robotBuilder">
+						<F N="../src/c15/builder/robotBuilder/Director.java"/>
+						<F N="../src/c15/builder/robotBuilder/Form.java"/>
+						<F N="../src/c15/builder/robotBuilder/Gundam.java"/>
+						<F N="../src/c15/builder/robotBuilder/GundamBuilder.java"/>
+						<F N="../src/c15/builder/robotBuilder/IRobot.java"/>
+						<F N="../src/c15/builder/robotBuilder/Power.java"/>
+						<F N="../src/c15/builder/robotBuilder/RobotBuilder.java"/>
+						<F N="../src/c15/builder/robotBuilder/Weapon.java"/>
+					</Folder>
+				</Folder>
+			</Folder>
+			<Folder Name="c16">
+				<Folder Name="chainOfResponsibility">
+					<Folder Name="applyInCompany">
+						<F N="../src/c16/chainOfResponsibility/applyInCompany/ApplyRequest.java"/>
+						<F N="../src/c16/chainOfResponsibility/applyInCompany/CommonManager.java"/>
+						<F N="../src/c16/chainOfResponsibility/applyInCompany/GeneralManager.java"/>
+						<F N="../src/c16/chainOfResponsibility/applyInCompany/Majordomo.java"/>
+						<F N="../src/c16/chainOfResponsibility/applyInCompany/Manager.java"/>
+					</Folder>
+				</Folder>
+			</Folder>
+			<Folder Name="c17">
+				<Folder Name="interpreter">
+					<Folder Name="numberInterpreter">
+						<F N="../src/c17/interpreter/numberInterpreter/Context.java"/>
+						<F N="../src/c17/interpreter/numberInterpreter/DownExpression.java"/>
+						<F N="../src/c17/interpreter/numberInterpreter/Expression.java"/>
+						<F N="../src/c17/interpreter/numberInterpreter/UpExpression.java"/>
+					</Folder>
+				</Folder>
+			</Folder>
+			<Folder Name="c18">
+				<Folder Name="mediator">
+					<Folder Name="Chatroom">
+						<F N="../src/c18/mediator/Chatroom/CommonUser.java"/>
+						<F N="../src/c18/mediator/Chatroom/Mediator.java"/>
+						<F N="../src/c18/mediator/Chatroom/MessageMediator.java"/>
+						<F N="../src/c18/mediator/Chatroom/Messager.java"/>
+						<F N="../src/c18/mediator/Chatroom/VIPUser.java"/>
+					</Folder>
+				</Folder>
+			</Folder>
+			<Folder Name="c20">
+				<Folder Name="prototype">
+					<F N="../src/c20/prototype/AdventureExperience.java"/>
+					<F N="../src/c20/prototype/Resume.java"/>
+				</Folder>
+			</Folder>
+			<Folder Name="c21">
+				<Folder Name="bridge">
+					<Folder Name="descript">
+						<Folder Name="a">
+							<F N="../src/c21/bridge/descript/a/信件.java"/>
+							<F N="../src/c21/bridge/descript/a/掛號普通信.java"/>
+							<F N="../src/c21/bridge/descript/a/掛號限時信.java"/>
+							<F N="../src/c21/bridge/descript/a/普通信件.java"/>
+							<F N="../src/c21/bridge/descript/a/限時信件.java"/>
+							<F N="../src/c21/bridge/descript/a/雙掛號普通信.java"/>
+							<F N="../src/c21/bridge/descript/a/雙掛號限時信.java"/>
+							<F N="../src/c21/bridge/descript/a/非掛號普通信.java"/>
+							<F N="../src/c21/bridge/descript/a/非掛號限時信.java"/>
+						</Folder>
+						<Folder Name="b">
+							<F N="../src/c21/bridge/descript/b/信件.java"/>
+							<F N="../src/c21/bridge/descript/b/寄信.java"/>
+							<F N="../src/c21/bridge/descript/b/掛號信.java"/>
+							<F N="../src/c21/bridge/descript/b/普通信件.java"/>
+							<F N="../src/c21/bridge/descript/b/限時信.java"/>
+							<F N="../src/c21/bridge/descript/b/非掛號信.java"/>
+						</Folder>
+					</Folder>
+					<Folder Name="mail">
+						<F N="../src/c21/bridge/mail/Mail.java"/>
+						<F N="../src/c21/bridge/mail/MailSender.java"/>
+						<F N="../src/c21/bridge/mail/NoRegisterMail.java"/>
+						<F N="../src/c21/bridge/mail/NormalMail.java"/>
+						<F N="../src/c21/bridge/mail/PromptMail.java"/>
+						<F N="../src/c21/bridge/mail/RegisterMail.java"/>
+					</Folder>
+				</Folder>
+			</Folder>
+			<Folder Name="c22">
+				<Folder Name="memento">
+					<F N="../src/c22/memento/GameRole.java"/>
+					<F N="../src/c22/memento/RoleStateCareTaker.java"/>
+					<F N="../src/c22/memento/RoleStateMemo.java"/>
+				</Folder>
+			</Folder>
+			<Folder Name="c23">
+				<Folder Name="flyweight">
+					<F N="../src/c23/flyweight/Tree.java"/>
+					<F N="../src/c23/flyweight/TreeManager.java"/>
+				</Folder>
+			</Folder>
+			<Folder Name="c24">
+				<Folder Name="visitor">
+					<Folder Name="description">
+						<F N="../src/c24/visitor/description/Chef.java"/>
+						<F N="../src/c24/visitor/description/ChefGroup.java"/>
+						<F N="../src/c24/visitor/description/DarkChef.java"/>
+						<F N="../src/c24/visitor/description/SuperChef.java"/>
+						<F N="../src/c24/visitor/description/SuperNoodleChef.java"/>
+						<F N="../src/c24/visitor/description/Topic.java"/>
+						<F N="../src/c24/visitor/description/Topic_saoMai.java"/>
+						<F N="../src/c24/visitor/description/Topic_tofu.java"/>
+					</Folder>
+					<F N="../src/c24/visitor/Chef.java"/>
+					<F N="../src/c24/visitor/ChefGroup.java"/>
+					<F N="../src/c24/visitor/DarkChef.java"/>
+					<F N="../src/c24/visitor/SuperChef.java"/>
+					<F N="../src/c24/visitor/SuperNoodleChef.java"/>
+					<F N="../src/c24/visitor/Visitor.java"/>
+					<F N="../src/c24/visitor/Visitor_saoMai.java"/>
+					<F N="../src/c24/visitor/Visitor_tofu.java"/>
+				</Folder>
+			</Folder>
+		</Folder>
+		<Folder Name="../test">
+			<Folder Name="c0">
+				<Folder Name="singleton">
+					<F N="../test/c0/singleton/SingletonTest.java"/>
+				</Folder>
+			</Folder>
+			<Folder Name="c01">
+				<Folder Name="simpleFactory">
+					<F N="../test/c01/simpleFactory/TrainingCampTest.java"/>
+				</Folder>
+			</Folder>
+			<Folder Name="c02">
+				<Folder Name="factory">
+					<F N="../test/c02/factory/TrainingCampTest.java"/>
+				</Folder>
+			</Folder>
+			<Folder Name="c03">
+				<Folder Name="abstractfactory">
+					<F N="../test/c03/abstractfactory/EquipFactoryTest.java"/>
+				</Folder>
+			</Folder>
+			<Folder Name="c04">
+				<Folder Name="strategy">
+					<F N="../test/c04/strategy/FlightTest.java"/>
+					<F N="../test/c04/strategy/StrategyExample.java"/>
+				</Folder>
+			</Folder>
+			<Folder Name="c05">
+				<Folder Name="decorator">
+					<F N="../test/c05/decorator/JavaIOTest.java"/>
+					<F N="../test/c05/decorator/TitleTest.java"/>
+				</Folder>
+			</Folder>
+			<Folder Name="c06">
+				<Folder Name="observer">
+					<F N="../test/c06/observer/AssociationTest.java"/>
+				</Folder>
+			</Folder>
+			<Folder Name="c07">
+				<Folder Name="command">
+					<F N="../test/c07/command/CoffeShopClient.java"/>
+				</Folder>
+			</Folder>
+			<Folder Name="c08">
+				<Folder Name="adapter">
+					<F N="../test/c08/adapter/AdapterClient.java"/>
+				</Folder>
+			</Folder>
+			<Folder Name="c09">
+				<Folder Name="facade">
+					<F N="../test/c09/facade/VedioRoomFacadeClient.java"/>
+				</Folder>
+			</Folder>
+			<Folder Name="c10">
+				<Folder Name="template">
+					<F N="../test/c10/template/MazeTest.java"/>
+				</Folder>
+			</Folder>
+			<Folder Name="c11">
+				<Folder Name="composite">
+					<F N="../test/c11/composite/BranchOrganizationTest.java"/>
+				</Folder>
+			</Folder>
+			<Folder Name="c12">
+				<Folder Name="state">
+					<F N="../test/c12/state/WarriorTest.java"/>
+				</Folder>
+			</Folder>
+			<Folder Name="c13">
+				<Folder Name="proxy">
+					<F N="../test/c13/proxy/AOPtest.java"/>
+					<F N="../test/c13/proxy/GameLoaderTest.java"/>
+					<F N="../test/c13/proxy/PersonTest.java"/>
+				</Folder>
+			</Folder>
+			<Folder Name="c14">
+				<Folder Name="iterator">
+					<F N="../test/c14/iterator/SimpleListTest.java"/>
+				</Folder>
+			</Folder>
+			<Folder Name="c15">
+				<Folder Name="builder">
+					<F N="../test/c15/builder/RobotBuilderTest.java"/>
+				</Folder>
+			</Folder>
+			<Folder Name="c16">
+				<Folder Name="chainOfResponsibility">
+					<F N="../test/c16/chainOfResponsibility/ManagerClient.java"/>
+				</Folder>
+			</Folder>
+			<Folder Name="c17">
+				<Folder Name="interpreter">
+					<F N="../test/c17/interpreter/InterpreterTest.java"/>
+				</Folder>
+			</Folder>
+			<Folder Name="c18">
+				<Folder Name="mediator">
+					<F N="../test/c18/mediator/MediatorTest.java"/>
+				</Folder>
+			</Folder>
+			<Folder Name="c20">
+				<Folder Name="prototype">
+					<F N="../test/c20/prototype/ResumeTest.java"/>
+				</Folder>
+			</Folder>
+			<Folder Name="c21">
+				<Folder Name="bridge">
+					<F N="../test/c21/bridge/MailTest.java"/>
+				</Folder>
+			</Folder>
+			<Folder Name="c22">
+				<Folder Name="memento">
+					<F N="../test/c22/memento/GameRoleTest.java"/>
+				</Folder>
+			</Folder>
+			<Folder Name="c23">
+				<Folder Name="flyweight">
+					<F N="../test/c23/flyweight/TreeTest.java"/>
+				</Folder>
+			</Folder>
+			<Folder Name="c24">
+				<Folder Name="visitor">
+					<F N="../test/c24/visitor/ChefTest.java"/>
+				</Folder>
+			</Folder>
+		</Folder>
+	</Files>
+</Project>

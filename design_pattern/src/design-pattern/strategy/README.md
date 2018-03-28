@@ -2,105 +2,105 @@
 
 ## 一. 概念
 
-### 1. 什么是策略模式
+### 1. 什麼是策略模式
 
-- 从一系列里抽象出不变的部分
-- 策略模式是将可变的部分从程序中抽象分离成算法接口，在该接口下分别封装一系列算法实现，并使他们可以相互替换，从而导致客户端程序独立于算法的改变。
+- 從一系列裡抽象出不變的部分
+- 策略模式是將可變的部分從程序中抽象分離成算法接口，在該接口下分別封裝一系列算法實現，並使他們可以相互替換，從而導致客戶端程序獨立於算法的改變。
 
-### 2. 策略模式如何实现
+### 2. 策略模式如何實現
 
-**1.继承-在父类中提供实现方法，子类通过继承获得父类中的行为**
+**1.繼承-在父類中提供實現方法，子類通過繼承獲得父類中的行為**
 
-- 优点：简单易用，已有的类可以快速添加父类的方法
-- 缺点：不具有灵活性，对未来的变更支持差，需要覆写子类的方法来提供新的行为
+- 優點：簡單易用，已有的類可以快速添加父類的方法
+- 缺點：不具有靈活性，對未來的變更支持差，需要覆寫子類的方法來提供新的行為
 
-**2.抽象方法-在父类中提供抽象方法，强迫子类实现自己的行为**
+**2.抽象方法-在父類中提供抽象方法，強迫子類實現自己的行為**
 
-- 优点：足够灵活。
-- 缺点：每个子类都要实现一遍代码，即使相同的行为也不例外，代码重复，没有复用的代码。
+- 優點：足夠靈活。
+- 缺點：每個子類都要實現一遍代碼，即使相同的行為也不例外，代碼重複，沒有複用的代碼。
 
-**3.组合-策略模式核心**
+**3.組合-策略模式核心**
 
-- 解释：在类中增加一个私有域，引用另一个已有的类的实例，通过调用引用实例的方法从而获得新的功能，这种设计称作组合（复合）。
-将行为抽象为接口，在父类中持有该接口，并由该接口代替接口飞行行为
-- 优点：
-    - 足够灵活，复用代码，更易于维护
-    - 使用了组合，使架构更加灵活
-    - 富有弹性，可以较好的应对变化（开--闭原则）
-    - 正好的代码复用型（相对于继承）
-    - 消除大量的条件语句
-- 缺点：
-    - 客户代码需要了解每个策略实现的细节
-    - 增加了对象的数目（维护困难）
+- 解釋：在類中增加一個私有域，引用另一個已有的類的實例，通過調用引用實例的方法從而獲得新的功能，這種設計稱作組合（複合）。
+將行為抽象為接口，在父類中持有該接口，並由該接口代替接口飛行行為
+- 優點：
+    - 足夠靈活，複用代碼，更易於維護
+    - 使用了組合，使架構更加靈活
+    - 富有彈性，可以較好的應對變化（開--閉原則）
+    - 正好的代碼複用型（相對於繼承）
+    - 消除大量的條件語句
+- 缺點：
+    - 客戶代碼需要了解每個策略實現的細節
+    - 增加了對象的數目（維護困難）
 
 **4.注意**
-- 继承是重用代码的利器，但继承并不是最好的工具。
-- Favor composition over inheritance.(复合优于继承)
+- 繼承是重用代碼的利器，但繼承並不是最好的工具。
+- Favor composition over inheritance.(複合優於繼承)
 
 
 
 
-### 3. 策略模式的实现
+### 3. 策略模式的實現
 
-1. 通过分离变化得出的策略接口Strategy
-2. Strategy的实现类
-3. 客户程序中有一个Strategy
-4. 在客户程序中选择/组装正确的Strategy实现
+1. 通過分離變化得出的策略接口Strategy
+2. Strategy的實現類
+3. 客戶程序中有一個Strategy
+4. 在客戶程序中選擇/組裝正確的Strategy實現
 
-![策略模式UML类图](images/Strategy.png)
-
-
-### 4. 策略模式总结篇
-1. 将一些方法抽象成接口
-2. 在基类中实例化接口
-3. 设置接口的私有成员变量
-4. 在积累中调用接口的同样方法
-5. 这样实现了代码的复用
-6. 面向接口编程,而不是面向实现编程,多用组合
+![策略模式UML類圖](images/Strategy.png)
 
 
-### 5. 适用场景
-1. 许多相关的类仅仅是行为差异
-2. 运行时选取不同的算法遍体
-3. 通过条件语句在多个分支中选取一
+### 4. 策略模式總結篇
+1. 將一些方法抽象成接口
+2. 在基類中實例化接口
+3. 設置接口的私有成員變量
+4. 在積累中調用接口的同樣方法
+5. 這樣實現了代碼的複用
+6. 面向接口編程,而不是面向實現編程,多用組合
 
-## 二.实例Demo
 
-### 1.使用策略模式实现超市促销
+### 5. 適用場景
+1. 許多相關的類僅僅是行為差異
+2. 運行時選取不同的算法遍體
+3. 通過條件語句在多個分支中選取一
+
+## 二.實例Demo
+
+### 1.使用策略模式實現超市促銷
 
 1. 需求
 
-    - 原价返回
+    - 原價返回
     - 打折
-    - 满减
-![促销UML类图](images/Promotion.png)
+    - 滿減
+![促銷UML類圖](images/Promotion.png)
     
-2. 策略类(IPromotionStrategy)定义
+2. 策略類(IPromotionStrategy)定義
 
 ```
     /**
-     * 促销策略类
+     * 促銷策略類
      */
     public interface IPromotionStrategy {
     
         /**
-         * 计算逻辑
+         * 計算邏輯
          */
         BigDecimal promotionAlgorithm();
     
         /**
-         * 存入价钱
+         * 存入價錢
          * @param price
          */
         void setPrice(BigDecimal price);
     }
 ```
 
-3. 根据不同情况实现策略类
+3. 根據不同情況實現策略類
 
 ```
     /**
-     * 原价
+     * 原價
      */
     public class CashNormal implements IPromotionStrategy{
     
@@ -108,7 +108,7 @@
     
         @Override
         public BigDecimal promotionAlgorithm() {
-            //原价返回
+            //原價返回
             return this.price;
         }
     
@@ -133,7 +133,7 @@
     
         @Override
         public BigDecimal promotionAlgorithm() {
-            //TODO 打折逻辑实现
+            //TODO 打折邏輯實現
         }
     
         public void setPrice(BigDecimal price) {
@@ -143,7 +143,7 @@
     
     
     /**
-     * 满减
+     * 滿減
      */
     public class CashReturn implements IPromotionStrategy {
     
@@ -160,7 +160,7 @@
     
         @Override
         public BigDecimal promotionAlgorithm() {
-            //TODO 满减逻辑实现
+            //TODO 滿減邏輯實現
         }
     
         public void setPrice(BigDecimal price) {
@@ -170,23 +170,23 @@
 
 ```
 
-4. 创建打折上下文(PromotionContext), 维护使用促销模式
+4. 創建打折上下文(PromotionContext), 維護使用促銷模式
 
 ```
     public class PromotionContext {
     
         /**
-         * 策略实现类包
+         * 策略實現類包
          */
         private static final String PACKAGE_NAME = "org.ko.strategy.promotion";
     
         /**
-         * 组合策略类
+         * 組合策略類
          */
         private IPromotionStrategy promotionStrategy;
     
         /**
-         * 获取促销后价钱
+         * 獲取促銷後價錢
          * @return
          */
         public BigDecimal getPrice () {
@@ -194,15 +194,15 @@
         }
     
         /**
-         * 创建促销手段
-         * @param code 对应促销模式编码
-         * @param args 对应促销参数
+         * 創建促銷手段
+         * @param code 對應促銷模式編碼
+         * @param args 對應促銷參數
          */
         public void newPromotion (Integer code, Object... args) {
-            //根据促销模式编码获取促销模式对应类名称
+            //根據促銷模式編碼獲取促銷模式對應類名稱
             String clazz = PromotionType.findClazz(code);
             try {
-                //通过反射获取促销模式的对象
+                //通過反射獲取促銷模式的對象
                 this.promotionStrategy = (IPromotionStrategy)Class.forName(PACKAGE_NAME + "." + clazz)
                         .getDeclaredConstructor(getClasses(args)).newInstance(args);
             } catch (InstantiationException e) {
@@ -219,7 +219,7 @@
         }
     
         /**
-         * 设置打折前的价格
+         * 設置打折前的價格
          * @param price
          */
         public void setPrice (BigDecimal price) {
@@ -227,7 +227,7 @@
         }
     
         /**
-         * 获取Class
+         * 獲取Class
          * @param args
          * @return
          */
@@ -241,19 +241,19 @@
     
     }
 ```
-    - 这里使用反射维护实例对象, 相关知识这里不再介绍.
+    - 這裡使用反射維護實例對象, 相關知識這裡不再介紹.
 
-5. 创建枚举维护促销样例
+5. 創建枚舉維護促銷樣例
 
 ```
     /**
-     * 促销手段样例
+     * 促銷手段樣例
      */
     public enum PromotionType {
     
-        CashNormal(1, "CashNormal", "原价"),
+        CashNormal(1, "CashNormal", "原價"),
         CashRebate(2, "CashRebate", "打折"),
-        CashReturn(3, "CashReturn", "满减");
+        CashReturn(3, "CashReturn", "滿減");
     
         private Integer code;
     
@@ -268,8 +268,8 @@
         }
     
         /**
-         * 通过编码获取促销手段
-         * @param code 促销手段编码
+         * 通過編碼獲取促銷手段
+         * @param code 促銷手段編碼
          * @return
          */
         public static String findClazz(Integer code) {
@@ -284,26 +284,26 @@
 
 ```
 
-6. 测试
+6. 測試
 
 ```
     public static void main(String[] args) {
         //初始化上下文
         PromotionContext context = new PromotionContext();
 
-        //测试无促销
+        //測試無促銷
         context.newPromotion(1);
         context.setPrice(new BigDecimal("200"));
         BigDecimal price = context.getPrice();
         System.out.println(price);
 
-        //测试打折
+        //測試打折
         context.newPromotion(2, new BigDecimal("0.8"));
         context.setPrice(new BigDecimal("200"));
         price = context.getPrice();
         System.out.println(price);
 
-        //测试满减
+        //測試滿減
         context.newPromotion(3, new BigDecimal("300"), new BigDecimal("100"));
         context.setPrice(new BigDecimal("200"));
         price = context.getPrice();

@@ -1,36 +1,36 @@
-# 简单工厂模式
+# 簡單工廠模式
 
 ### 1.概念
-- 实例化对象，用工厂方法代替new操作
-- 工厂模式包括工厂方法模式和抽象工厂模式
-- 抽象工厂模式是工厂方法模式的扩展
+- 實例化對象，用工廠方法代替new操作
+- 工廠模式包括工廠方法模式和抽象工廠模式
+- 抽象工廠模式是工廠方法模式的擴展
 
-### 2.意图
-- 定义一个接口来创建对象，但是让子类来决定那些类需要被实例化
-- 工厂方法把实例化的工作推迟到子类中去实现
+### 2.意圖
+- 定義一個接口來創建對象，但是讓子類來決定那些類需要被實例化
+- 工廠方法把實例化的工作推遲到子類中去實現
 
-### 3.什么情况适合工厂模式
-- 有一组类似的对象需要创建
-- 在编码时不能预见需要创建那种类的实例
-- 系统需要考虑扩展性，不应依赖于产品类实例如何被创建、组合和表达的细节
+### 3.什麼情況適合工廠模式
+- 有一組類似的對象需要創建
+- 在編碼時不能預見需要創建那種類的實例
+- 系統需要考慮擴展性，不應依賴於產品類實例如何被創建、組合和表達的細節
 
-### 4.项目中的现状：
-- 在软件系统中经常面临着“对象”创建的工作，由于需求的变化，这个对象可能随之也会发生变化，但它却拥有比较稳定的接口
-- 我们需要提供一种封装机制来隔离出这个易变对象的变化，从而保持系统中其他依赖，该对象的对象不随着需求的变化而变化
+### 4.項目中的現狀：
+- 在軟件系統中經常面臨著“對象”創建的工作，由於需求的變化，這個對象可能隨之也會發生變化，但它卻擁有比較穩定的接口
+- 我們需要提供一種封裝機制來隔離出這個易變對象的變化，從而保持系統中其他依賴，該對象的對象不隨著需求的變化而變化
 
-### 5.基于项目现状将代码进行如下设计：
-- 尽量松耦合，一个对象的依赖对象的变化与本身无关
-- 具体产品与客户端剥离，责任分割
+### 5.基於項目現狀將代碼進行如下設計：
+- 儘量鬆耦合，一個對象的依賴對象的變化與本身無關
+- 具體產品與客戶端剝離，責任分割
 
 ### 6.案例
-**1.calculator: 使用简单工厂模式, 创建控制台计算器**
+**1.calculator: 使用簡單工廠模式, 創建控制檯計算器**
 
-![UML类图](uml/calculator.png)
+![UML類圖](uml/calculator.png)
 
-- 创建Calculator抽象类, 添加计算抽象方法, 添加数值属性, get set方法
+- 創建Calculator抽象類, 添加計算抽象方法, 添加數值屬性, get set方法
 ```
     /**
-     * 计算器计算基类
+     * 計算器計算基類
      */
     public abstract class OperationAbstract {
     
@@ -39,18 +39,18 @@
         private BigDecimal number2;
     
         /**
-         * 由子类实现运算规则
+         * 由子類實現運算規則
          * @return
          */
         public abstract BigDecimal calculate();
     }
 ```
 
-- 创建加减乘除实现类
+- 創建加減乘除實現類
 
 ```
     /**
-     * 加法运算
+     * 加法運算
      */
     public class Add extends OperationAbstract{
     
@@ -61,7 +61,7 @@
     }
     
     /**
-     * 减法运算
+     * 減法運算
      */
     public class Subtract extends OperationAbstract {
     
@@ -72,7 +72,7 @@
     }
     
     /**
-     * 乘法运算
+     * 乘法運算
      */
     public class Multiply extends OperationAbstract {
     
@@ -83,7 +83,7 @@
     }
     
     /**
-     * 除法运算
+     * 除法運算
      */
     public class Divide extends OperationAbstract {
     
@@ -94,16 +94,16 @@
     }
 ```
 
-- 创建工厂类
+- 創建工廠類
 
 ```
     /**
-     * 计算机静态工厂类
+     * 計算機靜態工廠類
      */
     public final class OperationFactory {
     
         /**
-         * 获取计算
+         * 獲取計算
          * @param symbol
          * @return
          */
@@ -118,7 +118,7 @@
                 case SymbolConstants.DIVIDE:
                     return new Divide();
                 default:
-                    throw new RuntimeException("暂不支持");
+                    throw new RuntimeException("暫不支持");
             }
         }
     
@@ -126,28 +126,28 @@
     }
 ```
 
-- 测试
+- 測試
 
 ```
     public static void main(String[] args) {
     
         do {
-            //控制台输入
+            //控制檯輸入
             Scanner scanner = new Scanner(System.in);
 
-            //输入3次
+            //輸入3次
             BigDecimal number1 = scanner.nextBigDecimal();
             String symbol = scanner.next();
             BigDecimal number2 = scanner.nextBigDecimal();
 
-            //通过静态工厂获取实例
+            //通過靜態工廠獲取實例
             OperationAbstract operation = OperationFactory.createOperation(symbol);
 
-            //放入计算数据
+            //放入計算數據
             operation.setNumber1(number1);
             operation.setNumber2(number2);
 
-            //获取返回
+            //獲取返回
             BigDecimal result = operation.calculate();
 
             System.out.println(result);

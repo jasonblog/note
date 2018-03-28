@@ -1,7 +1,7 @@
-# java中如何给Runnable线程传递参数？
+# java中如何給Runnable線程傳遞參數？
 
-向线程中传递数据的三种方法：
-##一、通过构造函数传递参数
+向線程中傳遞數據的三種方法：
+##一、通過構造函數傳遞參數
 
 ```java
 public class MyThread1 extends Thread
@@ -23,7 +23,7 @@ public class MyThread1 extends Thread
 }
 ```
 
-## 二、通过变量和方法传递数据
+## 二、通過變量和方法傳遞數據
 
 ```java
 public class MyThread2 implements Runnable
@@ -47,7 +47,7 @@ public class MyThread2 implements Runnable
 }
 ```
 
-##三、通过回调函数传递数据
+##三、通過回調函數傳遞數據
 
 ```java
 class Data
@@ -79,7 +79,7 @@ public class MyThread3 extends Thread
         int n1 = random.nextInt(1000);
         int n2 = random.nextInt(2000);
         int n3 = random.nextInt(3000);
-        work.process(data, n1, n2, n3);   // 使用回调函数
+        work.process(data, n1, n2, n3);   // 使用回調函數
         System.out.println(String.valueOf(n1) + "+" + String.valueOf(n2) + "+"
                 + String.valueOf(n3) + "=" + data.value);
     }

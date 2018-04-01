@@ -44,7 +44,7 @@ model.compile(loss='categorical_crossentropy', optimizer='Adamax', metrics=['acc
 model.summary()
 
 print("Reading training data...")
-train_data = np.stack([np.array(Image.open("./data/train_set/" + str(index) + ".jpg"))/255.0 for index in range(1, 25001, 1)])
+train_data = np.stack([np.array(Image.open("./data/train_set/" + str(index) + ".jpg"))/255.0 for index in range(1, 5001, 1)])
 traincsv = open('./data/train_set/train.csv', 'r', encoding = 'utf8')
 read_label = [toonehot(row[1]) for row in csv.reader(traincsv)]
 train_label = [[] for _ in range(6)]
@@ -55,7 +55,7 @@ train_label = [arr for arr in np.asarray(train_label)]
 print("Shape of train data:", train_data.shape)
 
 print("Reading validation data...")
-vali_data = np.stack([np.array(Image.open("./data/real_set/" + str(index) + ".jpg"))/255.0 for index in range(1, 74, 1)])
+vali_data = np.stack([np.array(Image.open("./data/real_set/" + str(index) + ".jpg"))/255.0 for index in range(1, 2501, 1)])
 valicsv = open('./data/real_set/vali.csv', 'r', encoding = 'utf8')
 read_label = [toonehot(row[1]) for row in csv.reader(valicsv)]
 vali_label = [[] for _ in range(6)]

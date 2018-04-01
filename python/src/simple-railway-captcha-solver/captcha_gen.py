@@ -74,7 +74,7 @@ class captchatext:
 outputcsv = open('./data/train_set/train.csv', 'w', encoding = 'utf8', newline = '')
 numberlist = []
 status = 1
-for index in range(1, 25001, 1):
+for index in range(1, 5001, 1):
     numberstr = ""
     bgcolor = [randint(180, 250) for _ in range(3)]
     captcha = Image.new('RGBA', (200, 60), (bgcolor[0], bgcolor[1], bgcolor[2], 255))
@@ -95,7 +95,7 @@ for index in range(1, 25001, 1):
 
     captcha.convert("RGB").save("./data/train_set/" + str(index) + ".jpg", "JPEG")
 
-    if (index / 25000) >= (status * 0.01):
+    if (index / 5000) >= (status * 0.01):
         print("...." + str(status) + "%")
         status += 1
 

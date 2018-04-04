@@ -58,17 +58,66 @@ mHandlerThread.removeCallbackAndMessages(null);
 - Termination(終止):
 
 ```java
-  public void stopHandlerThread(HandlerThread handlerThread){
-       handlerThread.quit();
-       handlerThread.interrupt();
-   }
-   //或者直接在handler上面
+public void stopHandlerThread(HandlerThread handlerThread){
+   handlerThread.quit();
+   handlerThread.interrupt();
+}
+//或者直接在handler上面
 
-   handler.post(new Runnable(){
-       public void run(){
-           Looper.myLooper.quit();
-       }
-   }); 
-   ```
+handler.post(new Runnable(){
+   public void run(){
+       Looper.myLooper.quit();
+   }
+}); 
+```
+
+
+HandlerThread確保是循序且執行緒安全的, 有人會覺得既然如此, Thread也可以達成這樣的需求,
+是沒錯, 不過這樣變成你必須在程式碼內同時寫在同一個Thread內。
+
+
+```java
+new Thread(new Runnable(){
+   public void run(){
+       //task 1
+
+       //task 2
+
+       //task 3
+
+   }
+});
+```
+也許有人會反駁, 那麼我可以寫在另外一個Thread內啊!
+也沒錯, 但是相對的你就必須開多個Thread, 這樣一來就沒有確保執行緒安全了!
+
+```java
+new Thread(new Runnable(){
+   public void run(){
+       //task 1
+
+   }
+});
+new Thread(new Runnable(){
+   public void run(){
+       //task 2
+
+   }
+});
+new Thread(new Runnable(){
+   public void run(){
+       //task 3
+
+   }
+});
+```
+
+如上述例子 task1,task2,task3有存取到共同的資料結構, 則可能會產生concurrent的問題。
+那也許會有人說(還真多人XD), 只要確保資料結構是同步的即可。
+還是對的! 但是那個資料結構就必須使用Concurrent系列的, 或者自行實作synchronized,
+效能相對會下降, 程式碼也會變得比較複雜。
+不過使用方法必須對應到使用情境, 也不一定就是HandlerThread是萬用解藥,
+畢竟它只有一個Thread, 要達到多核心必須使用多執行緒才能效能最大化,
+之後可以參考`如何使用ThreadPool跟如何使用AsyncTask`
 
 

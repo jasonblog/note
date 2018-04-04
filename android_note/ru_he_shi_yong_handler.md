@@ -88,7 +88,7 @@ new Thread(new Runnable(){
 });
 ```
 
-第一種寫法是實作Runnable介面讓Main Thread的Handler進行callback(請參考android的消息处理机制)
+第一種寫法是實作Runnable介面讓Main Thread的Handler進行callback(請參考android的消息處理機制)
 一般是用來處理大量數據或者長時間運算,
 最後再利用Activity內建的方法runOnUiThread呼叫main thread handler幫忙處理UI部分。
 第二種寫法是自己定義一個Message物件透過Hanlder去進行處理。
@@ -192,5 +192,5 @@ callback   Runnable    實作Runnable的callback
 
 ##參考:
 Android 中的 MessageQueue 機制
-android的消息处理机制
+android的消息處理機制
 

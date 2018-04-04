@@ -39,7 +39,7 @@ new Hanlder(handlerThread.getLooper()).post(new Runnable(){
 透過Looper循序message發送, 因此確保是執行緒安全的,
 但是相對缺點就是效率會下降。
 
-HandlerThread也有生命周期
+HandlerThread也有生命週期
 
 - Creation(建立): HandlerThread建構子有名稱, 或者名稱跟優先權
 

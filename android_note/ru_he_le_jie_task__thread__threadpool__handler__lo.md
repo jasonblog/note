@@ -1,4 +1,4 @@
-# 如何了解Task、Thread、ThreadPool、Handler、Looper、Message、MessageQueue、AsyncTask
+# 如何瞭解Task、Thread、ThreadPool、Handler、Looper、Message、MessageQueue、AsyncTask
 
 
 Task、Thread、ThreadPool、Handler、Looper、Message、MessageQueue、AsyncTask

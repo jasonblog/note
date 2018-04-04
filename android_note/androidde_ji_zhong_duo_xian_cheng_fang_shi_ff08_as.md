@@ -1,75 +1,75 @@
-# Android的几种多线程方式（AsyncTask,HandlerThread,IntentService,ThreadPool），使用场景以及注意事项
+# Android的幾種多線程方式（AsyncTask,HandlerThread,IntentService,ThreadPool），使用場景以及注意事項
 
 
-在程序开发的实践当中，为了让程序表现得更加流畅，我们肯定会需要使用到多线程来提升程序的并发执行性能。但是编写多线程并发的代码一直以来都是一个相对棘手的问题，所以想要获得更佳的程序性能，我们非常有必要掌握多线程并发编程的基础技能。
+在程序開發的實踐當中，為了讓程序表現得更加流暢，我們肯定會需要使用到多線程來提升程序的併發執行性能。但是編寫多線程併發的代碼一直以來都是一個相對棘手的問題，所以想要獲得更佳的程序性能，我們非常有必要掌握多線程併發編程的基礎技能。
 
-###引入多线程而可能伴随而来的内存问题
+###引入多線程而可能伴隨而來的內存問題
 
-虽然使用多线程可以提高程序的并发量，但是我们需要特别注意因为引入多线程而可能伴随而来的内存问题。例如：在 Activity 内部定义的一个 AsyncTask，它属于一个内部类，该类本身和外面的 Activity 是有引用关系的，如果 Activity 要销毁的时候，AsyncTask 还仍然在运行，这会导致 Activity 没有办法完全释放，从而引发内存泄漏。所以说，多线程是提升程序性能的有效手段之一，但是使用多线程却需要十分谨慎小心，如果不了解背后的执行机制以及使用的注意事项，很可能引起严重的问题。
+雖然使用多線程可以提高程序的併發量，但是我們需要特別注意因為引入多線程而可能伴隨而來的內存問題。例如：在 Activity 內部定義的一個 AsyncTask，它屬於一個內部類，該類本身和外面的 Activity 是有引用關係的，如果 Activity 要銷燬的時候，AsyncTask 還仍然在運行，這會導致 Activity 沒有辦法完全釋放，從而引發內存洩漏。所以說，多線程是提升程序性能的有效手段之一，但是使用多線程卻需要十分謹慎小心，如果不瞭解背後的執行機制以及使用的注意事項，很可能引起嚴重的問題。
 
-下面我们来一个一个分析下系统为我们提供的几种多线程方式，包括：AsyncTask,HandlerThread,IntentService,ThreadPool
+下面我們來一個一個分析下系統為我們提供的幾種多線程方式，包括：AsyncTask,HandlerThread,IntentService,ThreadPool
 
 ## 1. AsyncTask
 
-###使用场景：
-为 UI 线程与工作线程之间进行快速的切换提供一种简单便捷的机制。适用于当下立即需要启动，但是异步执行的生命周期短暂的使用场景。
+###使用場景：
+為 UI 線程與工作線程之間進行快速的切換提供一種簡單便捷的機制。適用於當下立即需要啟動，但是異步執行的生命週期短暫的使用場景。
 
 ###基本使用
-AsyncTask是一个抽象方法，如果想使用它，需要先创建一个子类来继承他，还需要为其指定三个泛型参数：
+AsyncTask是一個抽象方法，如果想使用它，需要先創建一個子類來繼承他，還需要為其指定三個泛型參數：
 
 
-AsyncTask是一个抽象方法，如果想使用它，需要先创建一个子类来继承他，还需要为其指定三个泛型参数：
+AsyncTask是一個抽象方法，如果想使用它，需要先創建一個子類來繼承他，還需要為其指定三個泛型參數：
 
 - Params
-在执行AsyncTask时需要传入的参数，可用于在后台任务中使用。
+在執行AsyncTask時需要傳入的參數，可用於在後臺任務中使用。
 - Progress
-后台任务执行时，如果需要在界面上显示当前的进度，则使用这里指定的泛型作为进度单位。
+後臺任務執行時，如果需要在界面上顯示當前的進度，則使用這裡指定的泛型作為進度單位。
 - Result
-当任务执行完毕后，如果需要对结果进行返回，则使用这里指定的泛型作为返回值类型。
+當任務執行完畢後，如果需要對結果進行返回，則使用這裡指定的泛型作為返回值類型。
 
 
-### 经常需要去重写的方法有以下四个：
+### 經常需要去重寫的方法有以下四個：
 
 - onPreExecute()
-这个方法会在后台任务开始执行之间调用，用于进行一些界面上的初始化操作，比如显示一个进度条对话框等。
+這個方法會在後臺任務開始執行之間調用，用於進行一些界面上的初始化操作，比如顯示一個進度條對話框等。
 
 - doInBackground(Params...)
-这个方法中的所有代码都会在子线程中运行，我们应该在这里去处理所有的耗时任务。任务一旦完成就可以通过return语句来将任务的执行结果进行返回，如果AsyncTask的第三个泛型参数指定的是Void，就可以不返回任务执行结果。注意，在这个方法中是不可以进行UI操作的，如果需要更新UI元素，比如说反馈当前任务的执行进度，可以调用publishProgress(Progress...)方法来完成。
+這個方法中的所有代碼都會在子線程中運行，我們應該在這裡去處理所有的耗時任務。任務一旦完成就可以通過return語句來將任務的執行結果進行返回，如果AsyncTask的第三個泛型參數指定的是Void，就可以不返回任務執行結果。注意，在這個方法中是不可以進行UI操作的，如果需要更新UI元素，比如說反饋當前任務的執行進度，可以調用publishProgress(Progress...)方法來完成。
 
 - onProgressUpdate(Progress...)
-当在后台任务中调用了publishProgress(Progress...)方法后，这个方法就很快会被调用，方法中携带的参数就是在后台任务中传递过来的。在这个方法中可以对UI进行操作，利用参数中的数值就可以对界面元素进行相应的更新。
+當在後臺任務中調用了publishProgress(Progress...)方法後，這個方法就很快會被調用，方法中攜帶的參數就是在後臺任務中傳遞過來的。在這個方法中可以對UI進行操作，利用參數中的數值就可以對界面元素進行相應的更新。
 
 - onPostExecute(Result)
-当后台任务执行完毕并通过return语句进行返回时，这个方法就很快会被调用。返回的数据会作为参数传递到此方法中，可以利用返回的数据来进行一些UI操作，比如说提醒任务执行的结果，以及关闭掉进度条对话框等。
-最后在需要的地方调用方法 new MyAsyncTask().execute(); 就可以运行了。
+當後臺任務執行完畢並通過return語句進行返回時，這個方法就很快會被調用。返回的數據會作為參數傳遞到此方法中，可以利用返回的數據來進行一些UI操作，比如說提醒任務執行的結果，以及關閉掉進度條對話框等。
+最後在需要的地方調用方法 new MyAsyncTask().execute(); 就可以運行了。
 
 
-最后在需要的地方调用方法 new MyAsyncTask().execute(); 就可以运行了。
+最後在需要的地方調用方法 new MyAsyncTask().execute(); 就可以運行了。
 
-###注意事项：
+###注意事項：
 
-- 首先，默认情况下，所有的 AsyncTask 任务都是被线性调度执行的，他们处在同一个任务队列当中，按顺序逐个执行。假设你按照顺序启动20个 AsyncTask，一旦其中的某个 AsyncTask 执行时间过长，队列中的其他剩余 AsyncTask 都处于阻塞状态，必须等到该任务执行完毕之后才能够有机会执行下一个任务。`为了解决上面提到的线性队列等待的问题，我们可以使用 AsyncTask.executeOnExecutor()强制指定 AsyncTask 使用线程池并发调度任务。`
+- 首先，默認情況下，所有的 AsyncTask 任務都是被線性調度執行的，他們處在同一個任務隊列當中，按順序逐個執行。假設你按照順序啟動20個 AsyncTask，一旦其中的某個 AsyncTask 執行時間過長，隊列中的其他剩餘 AsyncTask 都處於阻塞狀態，必須等到該任務執行完畢之後才能夠有機會執行下一個任務。`為了解決上面提到的線性隊列等待的問題，我們可以使用 AsyncTask.executeOnExecutor()強制指定 AsyncTask 使用線程池併發調度任務。`
 
-- 其次，如何才能够真正的取消一个 AsyncTask 的执行呢？我们知道 AsyncTaks 有提供 cancel()的方法，但是这个方法实际上做了什么事情呢？线程本身并不具备中止正在执行的代码的能力，为了能够让一个线程更早的被销毁，我们需要在 doInBackground()的代码中不断的添加程序是否被中止的判断逻辑。一旦任务被成功中止，AsyncTask 就不会继续调用 onPostExecute()，而是通过调用 onCancelled()的回调方法反馈任务执行取消的结果。我们可以根据任务回调到哪个方法（是 onPostExecute 还是 onCancelled）来决定是对 UI 进行正常的更新还是把对应的任务所占用的内存进行销毁等。
+- 其次，如何才能夠真正的取消一個 AsyncTask 的執行呢？我們知道 AsyncTaks 有提供 cancel()的方法，但是這個方法實際上做了什麼事情呢？線程本身並不具備中止正在執行的代碼的能力，為了能夠讓一個線程更早的被銷燬，我們需要在 doInBackground()的代碼中不斷的添加程序是否被中止的判斷邏輯。一旦任務被成功中止，AsyncTask 就不會繼續調用 onPostExecute()，而是通過調用 onCancelled()的回調方法反饋任務執行取消的結果。我們可以根據任務回調到哪個方法（是 onPostExecute 還是 onCancelled）來決定是對 UI 進行正常的更新還是把對應的任務所佔用的內存進行銷燬等。
 
-- 最后，使用 AsyncTask 很容易导致内存泄漏，一旦把 AsyncTask 写成 Activity 的内部类的形式就很容易因为 AsyncTask 生命周期的不确定而导致 Activity 发生泄漏。
+- 最後，使用 AsyncTask 很容易導致內存洩漏，一旦把 AsyncTask 寫成 Activity 的內部類的形式就很容易因為 AsyncTask 生命週期的不確定而導致 Activity 發生洩漏。
 
 
-综上所述，AsyncTask 虽然提供了一种简单便捷的异步机制，但是我们还是很有必要特别关注到他的缺点，避免出现因为使用错误而导致的严重系统性能问题。
+綜上所述，AsyncTask 雖然提供了一種簡單便捷的異步機制，但是我們還是很有必要特別關注到他的缺點，避免出現因為使用錯誤而導致的嚴重系統性能問題。
 
 
 ## 2. HandlerThread
 
-###使用场景：
-为某些回调方法或者等待某些任务的执行设置一个专属的线程，并提供线程任务的调度机制。
+###使用場景：
+為某些回調方法或者等待某些任務的執行設置一個專屬的線程，並提供線程任務的調度機制。
 
-大多数情况下，AsyncTask 都能够满足多线程并发的场景需要（在工作线程执行任务并返回结果到主线程），但是它并不是万能的。例如打开相机之后的预览帧数据是通过 onPreviewFrame()的方法进行回调的，onPreviewFrame()和 open()相机的方法是执行在同一个线程的。如果使用 AsyncTask，会因为 AsyncTask 默认的线性执行的特性(即使换成并发执行)会导致因为无法把任务及时传递给工作线程而导致任务在主线程中被延迟，直到工作线程空闲，才可以把任务切换到工作线程中进行执行。所以我们需要的是一个执行在工作线程，同时又能够处理队列中的复杂任务的功能，而 HandlerThread 的出现就是为了实现这个功能的，它组合了 Handler，MessageQueue，Looper 实现了一个长时间运行的线程，不断的从队列中获取任务进行执行的功能。
+大多數情況下，AsyncTask 都能夠滿足多線程併發的場景需要（在工作線程執行任務並返回結果到主線程），但是它並不是萬能的。例如打開相機之後的預覽幀數據是通過 onPreviewFrame()的方法進行回調的，onPreviewFrame()和 open()相機的方法是執行在同一個線程的。如果使用 AsyncTask，會因為 AsyncTask 默認的線性執行的特性(即使換成併發執行)會導致因為無法把任務及時傳遞給工作線程而導致任務在主線程中被延遲，直到工作線程空閒，才可以把任務切換到工作線程中進行執行。所以我們需要的是一個執行在工作線程，同時又能夠處理隊列中的複雜任務的功能，而 HandlerThread 的出現就是為了實現這個功能的，它組合了 Handler，MessageQueue，Looper 實現了一個長時間運行的線程，不斷的從隊列中獲取任務進行執行的功能。
 
 ### 基本用法：
-HandlerThread 继承于 Thread,它本质上是一个线程，只不过是 Android 为我们封装好了 Looper 和 MessageQueue的线程，简化了操作。使用方法很简单：
+HandlerThread 繼承於 Thread,它本質上是一個線程，只不過是 Android 為我們封裝好了 Looper 和 MessageQueue的線程，簡化了操作。使用方法很簡單：
 
 ```java
-// 创建一个线程，线程名字 : handlerThreadTest
+// 創建一個線程，線程名字 : handlerThreadTest
 mHandlerThread = new HandlerThread("handlerThreadTest");
 mHandlerThread.start();
 
@@ -82,52 +82,52 @@ final Handler mHandler = new Handler(mHandlerThread.getLooper()) {
     }
 };
 mTextView = (TextView) findViewById(R.id.text_view);
-// 主线程发出消息
+// 主線程發出消息
 mTextView.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
         Message msg = new Message();
-        msg.obj = "第一条信息";
+        msg.obj = "第一條信息";
         mHandler.sendMessage(msg);
-        Log.e("Test", "发出 " + msg.obj.toString() + " 在 "
+        Log.e("Test", "發出 " + msg.obj.toString() + " 在 "
               + Thread.currentThread().getName());
     }
 });
-// 子线程发出消息
+// 子線程發出消息
 new Thread(new Runnable() {
     @Override
     public void run() {
         Message msg = new Message();
-        msg.obj = "第二条信息";
+        msg.obj = "第二條信息";
         mHandler.sendMessage(msg);
-        Log.e("Test", "发出 " + msg.obj.toString() + " 在 "
+        Log.e("Test", "發出 " + msg.obj.toString() + " 在 "
               + Thread.currentThread().getName());
     }
 }).start()；
 ```
 
-最后在不需要的时候记得调用quit();
+最後在不需要的時候記得調用quit();
 
 ```java
 @Override
 protected void onDestroy() {
     super.onDestroy();
-    //停止消息循环
+    //停止消息循環
     mHandlerThread.quit();
 }
 ```
 
-###注意事项：
-HandlerThread 比较合适处理那些在工作线程执行，需要花费时间偏长的任务。我们只需要把任务发送给 HandlerThread，然后就只需要等待任务执行结束的时候通知返回到主线程就好了。
-另外很重要的一点是，一旦我们使用了 HandlerThread，需要特别注意给 HandlerThread 设置不同的线程优先级，CPU 会根据设置的不同线程优先级对所有的线程进行调度优化。
+###注意事項：
+HandlerThread 比較合適處理那些在工作線程執行，需要花費時間偏長的任務。我們只需要把任務發送給 HandlerThread，然後就只需要等待任務執行結束的時候通知返回到主線程就好了。
+另外很重要的一點是，一旦我們使用了 HandlerThread，需要特別注意給 HandlerThread 設置不同的線程優先級，CPU 會根據設置的不同線程優先級對所有的線程進行調度優化。
 
 
 ##3. IntentSerice
 
-默认的 Service 是执行在主线程的，可是通常情况下，这很容易影响到程序的绘制性能(抢占了主线程的资源)。除了前面介绍过的 AsyncTask 与 HandlerThread，我们还可以选择使用 IntentService 来实现异步操作。IntentService 继承自普通 Service 同时又在内部创建了一个 HandlerThread，在 onHandlerIntent()的回调里面处理扔到 IntentService 的任务，`在执行完任务后会自动停止。所以 IntentService 就不仅仅具备了异步线程的特性，还同时保留了 Service 不受主页面生命周期影响，优先级比较高，适合执行高优先级的后台任务,不容易被杀死的特点。`
+默認的 Service 是執行在主線程的，可是通常情況下，這很容易影響到程序的繪製性能(搶佔了主線程的資源)。除了前面介紹過的 AsyncTask 與 HandlerThread，我們還可以選擇使用 IntentService 來實現異步操作。IntentService 繼承自普通 Service 同時又在內部創建了一個 HandlerThread，在 onHandlerIntent()的回調裡面處理扔到 IntentService 的任務，`在執行完任務後會自動停止。所以 IntentService 就不僅僅具備了異步線程的特性，還同時保留了 Service 不受主頁面生命週期影響，優先級比較高，適合執行高優先級的後臺任務,不容易被殺死的特點。`
 
-###使用场景：
-适合于执行由 UI 触发的后台 Service 任务，并可以把后台任务执行的情况通过一定的机制反馈给 UI。
+###使用場景：
+適合於執行由 UI 觸發的後臺 Service 任務，並可以把後臺任務執行的情況通過一定的機制反饋給 UI。
 
 ### 基本用法：
 
@@ -155,10 +155,10 @@ public class MyIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        // 执行耗时操作
+        // 執行耗時操作
         Message msg1 = new Message();
-        msg1.obj ="我是耗时操作";
-        // 调用回调 （也可以通过广播机制完成）
+        msg1.obj ="我是耗時操作";
+        // 調用回調 （也可以通過廣播機制完成）
         if(updateUI != null) {
             updateUI.updateUI(msg1);
         }
@@ -166,29 +166,29 @@ public class MyIntentService extends IntentService {
 }
 ```
 
-最后 Activity 通过 Handler 获取数据并刷新UI。
+最後 Activity 通過 Handler 獲取數據並刷新UI。
 
-###注意事项：
-使用 IntentService 需要特别留意以下几点：
-首先，因为 IntentService 内置的是 HandlerThread 作为异步线程，所以每一个交给 IntentService 的任务都将以队列的方式逐个被执行到，一旦队列中有某个任务执行时间过长，那么就会导致后续的任务都会被延迟处理。
+###注意事項：
+使用 IntentService 需要特別留意以下幾點：
+首先，因為 IntentService 內置的是 HandlerThread 作為異步線程，所以每一個交給 IntentService 的任務都將以隊列的方式逐個被執行到，一旦隊列中有某個任務執行時間過長，那麼就會導致後續的任務都會被延遲處理。
 
-其次，通常使用到 IntentService 的时候，我们会结合使用 BroadcastReceiver 把工作线程的任务执行结果返回给主 UI 线程。使用广播容易引起性能问题，我们可以使用 LocalBroadcastManager 来发送只在程序内部传递的广播，从而提升广播的性能。我们也可以使用 runOnUiThread() 快速回调到主 UI 线程。
+其次，通常使用到 IntentService 的時候，我們會結合使用 BroadcastReceiver 把工作線程的任務執行結果返回給主 UI 線程。使用廣播容易引起性能問題，我們可以使用 LocalBroadcastManager 來發送只在程序內部傳遞的廣播，從而提升廣播的性能。我們也可以使用 runOnUiThread() 快速回調到主 UI 線程。
 
-最后，包含正在运行的 IntentService 的程序相比起纯粹的后台程序更不容易被系统杀死，该程序的优先级是介于前台程序与纯后台程序之间的。
+最後，包含正在運行的 IntentService 的程序相比起純粹的後臺程序更不容易被系統殺死，該程序的優先級是介於前臺程序與純後臺程序之間的。
 
 ## 4. ThreadPool
 
-系统为我们提供了 ThreadPoolExecutor 来实现多线程并发执行任务。
+系統為我們提供了 ThreadPoolExecutor 來實現多線程併發執行任務。
 
-###使用场景：
-把任务分解成不同的单元，分发到各个不同的线程上，进行同时并发处理。
+###使用場景：
+把任務分解成不同的單元，分發到各個不同的線程上，進行同時併發處理。
 
 ###基本用法：
-线程池有四个构造方法，这四个构造方法咋一看，前面三个都是调用第四个构造方法实现的，每一个构造方法都特别复杂，参数很多，使用起来比较麻烦。
+線程池有四個構造方法，這四個構造方法咋一看，前面三個都是調用第四個構造方法實現的，每一個構造方法都特別複雜，參數很多，使用起來比較麻煩。
 
-下面列出是四种构造方法，从简单到复杂：
+下面列出是四種構造方法，從簡單到複雜：
 
-- 第一种
+- 第一種
 
 
 ```java
@@ -201,7 +201,7 @@ BlockingQueue<Runnable> workQueue
 );
 ```
 
-- 第二种
+- 第二種
 
 ```java
 ThreadPoolExecutor(
@@ -214,7 +214,7 @@ RejectedExecutionHandler handler
 );
 ```
 
-- 第三种
+- 第三種
 
 ```java
 ThreadPoolExecutor(
@@ -227,7 +227,7 @@ ThreadFactory threadFactory
 );
 ```
 
-- 第四种
+- 第四種
 
 ```java
 ThreadPoolExecutor(
@@ -241,29 +241,29 @@ RejectedExecutionHandler handler
 );
 ```
 
-###参数作用：
+###參數作用：
 - corePoolSize:
-池中所保存的线程数，包括空闲线程。
+池中所保存的線程數，包括空閒線程。
 
 - maximumPoolSize:
-池中允许的最大线程数。
+池中允許的最大線程數。
 
 - keepAliveTime:
-当线程数大于核心时，此为终止前多余的空闲线程等待新任务的最长时间。
+當線程數大於核心時，此為終止前多餘的空閒線程等待新任務的最長時間。
 
 - unit:
-keepAliveTime参数的时间单位
+keepAliveTime參數的時間單位
 
 - workQueue:
-执行前用于保持任务的队列。此队列仅保持由 execute 方法提交的 Runnable 任务。
+執行前用於保持任務的隊列。此隊列僅保持由 execute 方法提交的 Runnable 任務。
 
 - threadFactory
-执行程序创建新线程时使用的工厂。
+執行程序創建新線程時使用的工廠。
 
 - **handler **
-由于超出线程范围和队列容量而使执行被阻塞时所使用的处理程序。
+由於超出線程範圍和隊列容量而使執行被阻塞時所使用的處理程序。
 
-这里用复杂的一个构造方法说明如何手动创建一个线程池。
+這裡用複雜的一個構造方法說明如何手動創建一個線程池。
 
 
 ```java
@@ -289,34 +289,34 @@ public class ThreadPoolTest {
 
     public static void main(String args[]) {
         executor = new ThreadPoolExecutor(
-            CORE_POOL_SIZE,// 核心线程数 最小
-            MAX_POOL_SIZE,// 最大执行线程数
-            ALIVE_POOL_SIZE,// 空闲线程超时
-            TimeUnit.SECONDS,// 超时时间单位
-            // 当线程池达到corePoolSize时，新提交任务将被放入workQueue中，
-            // 等待线程池中任务调度执行
-            new ArrayBlockingQueue<Runnable>(BLOCK_POOL_SIZE),// 阻塞队列大小
-            // 线程工厂，为线程池提供创建新线程的功能，它是一个接口，
-            // 只有一个方法：Thread newThread(Runnable r)
+            CORE_POOL_SIZE,// 核心線程數 最小
+            MAX_POOL_SIZE,// 最大執行線程數
+            ALIVE_POOL_SIZE,// 空閒線程超時
+            TimeUnit.SECONDS,// 超時時間單位
+            // 當線程池達到corePoolSize時，新提交任務將被放入workQueue中，
+            // 等待線程池中任務調度執行
+            new ArrayBlockingQueue<Runnable>(BLOCK_POOL_SIZE),// 阻塞隊列大小
+            // 線程工廠，為線程池提供創建新線程的功能，它是一個接口，
+            // 只有一個方法：Thread newThread(Runnable r)
             Executors.defaultThreadFactory(),
-            // 线程池对拒绝任务的处理策略。一般是队列已满或者无法成功执行任务，
-            // 这时ThreadPoolExecutor会调用handler的rejectedExecution
-            // 方法来通知调用者
+            // 線程池對拒絕任務的處理策略。一般是隊列已滿或者無法成功執行任務，
+            // 這時ThreadPoolExecutor會調用handler的rejectedExecution
+            // 方法來通知調用者
             new ThreadPoolExecutor.AbortPolicy()
         );
         executor.allowCoreThreadTimeOut(true);
         /*
-         * ThreadPoolExecutor默认有四个拒绝策略：
+         * ThreadPoolExecutor默認有四個拒絕策略：
          *
-         * 1、ThreadPoolExecutor.AbortPolicy()   直接抛出异常RejectedExecutionException
-         * 2、ThreadPoolExecutor.CallerRunsPolicy()    直接调用run方法并且阻塞执行
-         * 3、ThreadPoolExecutor.DiscardPolicy()   直接丢弃后来的任务
-         * 4、ThreadPoolExecutor.DiscardOldestPolicy()  丢弃在队列中队首的任务
+         * 1、ThreadPoolExecutor.AbortPolicy()   直接拋出異常RejectedExecutionException
+         * 2、ThreadPoolExecutor.CallerRunsPolicy()    直接調用run方法並且阻塞執行
+         * 3、ThreadPoolExecutor.DiscardPolicy()   直接丟棄後來的任務
+         * 4、ThreadPoolExecutor.DiscardOldestPolicy()  丟棄在隊列中隊首的任務
          */
 
         for (int i = 0; i < 10; i++) {
             try {
-                executor.execute(new WorkerThread("线程 --> " + i));
+                executor.execute(new WorkerThread("線程 --> " + i));
                 LOG();
             } catch (Exception e) {
                 System.out.println("AbortPolicy...");
@@ -324,13 +324,13 @@ public class ThreadPoolTest {
         }
         executor.shutdown();
 
-        // 所有任务执行完毕后再次打印日志
+        // 所有任務執行完畢後再次打印日誌
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     Thread.sleep(1000);
-                    System.out.println("\n\n---------执行完毕---------\n");
+                    System.out.println("\n\n---------執行完畢---------\n");
                     LOG();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -343,17 +343,17 @@ public class ThreadPoolTest {
      * 打印 Log 信息
      */
     private static void LOG() {
-        System.out.println(" ==============线程池===============\n"
-                           + "   线程池中线程数 : " + executor.getPoolSize()
-                           + "   等待执行线程数 : " + executor.getQueue().size()
-                           + "   所有的任务数 : " + executor.getTaskCount()
-                           + "   执行任务的线程数 : " + executor.getActiveCount()
-                           + "   执行完毕的任务数 : " + executor.getCompletedTaskCount()
+        System.out.println(" ==============線程池===============\n"
+                           + "   線程池中線程數 : " + executor.getPoolSize()
+                           + "   等待執行線程數 : " + executor.getQueue().size()
+                           + "   所有的任務數 : " + executor.getTaskCount()
+                           + "   執行任務的線程數 : " + executor.getActiveCount()
+                           + "   執行完畢的任務數 : " + executor.getCompletedTaskCount()
 
                           );
     }
 
-    // 模拟线程任务
+    // 模擬線程任務
     public static class WorkerThread implements Runnable {
         private String threadName;
 
@@ -384,9 +384,9 @@ public class ThreadPoolTest {
 }
 ```
 
-###注意事项：
-- 使用线程池需要特别注意同时并发线程数量的控制，理论上来说，我们可以设置任意你想要的并发数量，但是这样做非常的不好。因为 CPU 只能同时执行固定数量的线程数，一旦同时并发的线程数量超过 CPU 能够同时执行的阈值，CPU 就需要花费精力来判断到底哪些线程的优先级比较高，需要在不同的线程之间进行调度切换。一旦同时并发的线程数量达到一定的量级，这个时候 CPU 在不同线程之间进行调度的时间就可能过长，反而导致性能严重下降。
+###注意事項：
+- 使用線程池需要特別注意同時併發線程數量的控制，理論上來說，我們可以設置任意你想要的併發數量，但是這樣做非常的不好。因為 CPU 只能同時執行固定數量的線程數，一旦同時併發的線程數量超過 CPU 能夠同時執行的閾值，CPU 就需要花費精力來判斷到底哪些線程的優先級比較高，需要在不同的線程之間進行調度切換。一旦同時併發的線程數量達到一定的量級，這個時候 CPU 在不同線程之間進行調度的時間就可能過長，反而導致性能嚴重下降。
 
-- 另外需要关注的一点是，每开一个新的线程，都会耗费至少 64K+ 的内存。为了能够方便的对线程数量进行控制，ThreadPoolExecutor 为我们提供了初始化的并发线程数量，以及最大的并发数量进行设置。
+- 另外需要關注的一點是，每開一個新的線程，都會耗費至少 64K+ 的內存。為了能夠方便的對線程數量進行控制，ThreadPoolExecutor 為我們提供了初始化的併發線程數量，以及最大的併發數量進行設置。
 
-- 另外需要关注的一个问题是：Runtime.getRuntime().availableProcesser()方法并不可靠，他返回的值并不是真实的 CPU 核心数，因为 CPU 会在某些情况下选择对部分核心进行睡眠处理，在这种情况下，返回的数量就只能是激活的 CPU 核心数。
+- 另外需要關注的一個問題是：Runtime.getRuntime().availableProcesser()方法並不可靠，他返回的值並不是真實的 CPU 核心數，因為 CPU 會在某些情況下選擇對部分核心進行睡眠處理，在這種情況下，返回的數量就只能是激活的 CPU 核心數。

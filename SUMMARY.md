@@ -129,6 +129,7 @@
        * [如何使用Thread和Handler](android_note/ru_he_shi_yong_thread_he_handler.md)
        * [如何使用Service](android_note/ru_he_shiyong_service.md)
        * [如何使用IntentService](android_note/ru_he_shi_yong_intentservice.md)
+       * 如何了解Task、Thread、ThreadPool、Handler、Looper、Message、MessageQueue、AsyncTask
 * [Ubuntu](ubuntu/README.md)
    * [Ubuntu installer](ubuntu/ubuntu_installer.md)
    * [Windows與Ubuntu雙系統，開機時偵測不到彼此的解決方法](ubuntu/windowsyuubuntu_shuang_xi_tong_ff0c_kai_ji_shi_zhe.md)
